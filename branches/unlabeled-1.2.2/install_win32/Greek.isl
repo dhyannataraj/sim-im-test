@@ -1,4 +1,4 @@
-; *** Inno Setup version 4.0.2+ Greek messages ***
+; *** Inno Setup version 4.1.4+ Greek messages ***
 ;
 ; Note: When translating this text, do not add periods (.) to the end of
 ; messages that didn't have them already, because on those messages Inno
@@ -91,6 +91,9 @@ ButtonNo=Ο&χι
 ButtonNoToAll=Οχι &σε ολα
 ButtonFinish=&Τέλος
 ButtonBrowse=&Αναζήτηση...
+;4.1.3
+ButtonWizardBrowse=&Ευρεση...
+ButtonNewFolder=&Δημιουργία νέου φακέλου
 
 ; *** "Select Language" dialog messages
 ; 4.0.x
@@ -102,7 +105,12 @@ SelectLanguageLabel=Επιλογή της γλώσσας για χρήση κατα την διάρκεια της εγκατάστ
 ClickNext=Πατήστε Επόμενο για να συνεχίσετε η Ακυρο για να τερματίσετε την εγκατάσταση.
 ; 2.0.x
 ;ClickNextModern=Πατήστε Επόμενο για να συνεχίσετε η Ακυρο για να τερματίσετε την εγκατάσταση.
-BeveledLabel=
+;;; - anasto -
+BeveledLabel=anasto
+;4.1.3
+BrowseDialogTitle=Ευρεση φακέλου
+BrowseDialogLabel=Επέλεξε φάκελο στην λίστα και μετά πατα OK.
+NewFolderName=Νέος φάκελος
 
 ; *** "Welcome" wizard page
 WelcomeLabel1=Καλωσορίσατε στην εγκατάσταση του [name].
@@ -141,10 +149,11 @@ UserInfoOrg=&Εταιρεία:
 UserInfoSerial=&Σειριακό Αριθμό:
 UserInfoNameRequired=Πρέπει να δώσετε όνομα.
 
-; *** "Select Destination Directory" wizard page
+; *** "Select Destination Location" wizard page
+; 4.0.x
 WizardSelectDir=Επιλέξτε τον κατάλογο που θα εγκατασταθεί το πρόγραμμα.
 SelectDirDesc=Που θα εγκατασταθεί το [name];
-SelectDirLabel=Επιλέξτε τον κατάλογο που θα εγκατασταθεί το πρόγραμμα. Πατήστε Επόμενο για να συνεχίσετε.
+;SelectDirLabel=Επιλέξτε τον κατάλογο που θα εγκατασταθεί το πρόγραμμα. Πατήστε Επόμενο για να συνεχίσετε.
 DiskSpaceMBLabel=Αυτό το πρόγραμμα χρειάζεται [mb] MB χώρο στον δίσκο.
 ToUNCPathname=Η εγκατάσταση δεν μπορεί να γίνει σε δίσκο δικτύου. Αν θέλετε να γίνει η εγκατάσταση σε δίσκο δικτύου πρέπει να ορίσετε αυτόν το δίσκο.
 InvalidPath=Δώστε την πλήρη διαδρομή.%nπαράδειγμα:%n%nC:\APP
@@ -156,6 +165,10 @@ DirExistsTitle=Ο κατάλογος υπάρχει.
 DirExists=Ο κατάλογος:%n%n%1%n%nυπάρχει ήδη. Θέλετε να γίνει η εγκατάσταση σε αυτόν τον κατάλογο;
 DirDoesntExistTitle=Ο κατάλογος δεν υπάρχει.
 DirDoesntExist=Ο κατάλογος:%n%n%1%n%nδεν υπάρχει. Θέλετε να δημιουργηθεί;
+;4.1.3
+InvalidDirName=Λάθος όνομα φακέλου.
+;4.1.5
+DirNameTooLong=Το όνομα του φακέλου ειναι πολύ μεγάλο.
 
 ; *** "Select Components" wizard page
 WizardSelectComponents=Επιλογή Συστατικών
@@ -181,11 +194,16 @@ SelectTasksLabel2=Επιλέξτε τις επιπλέον ενέργειες που θέλετε να γίνουν κατά την 
 ;ReadyMemoTasks=Επιπλέον Ενέργειες:
 WizardSelectProgramGroup=Επιλογή Καταλόγου Στο Μενού Εκκίνηση.
 SelectStartMenuFolderDesc=Που θα τοποθετηθούν οι συντομεύσεις του προγράμματος;
-SelectStartMenuFolderLabel=Επιλέξτε τον κατάλογο στο μενού εκκίνηση στον οποίο θέλετε δημιουργηθούν οι συντομεύσεις του προγράμματος και πατήστε Επόμενο.
+; 4.0.x
+;SelectStartMenuFolderLabel=Επιλέξτε τον κατάλογο στο μενού εκκίνηση στον οποίο θέλετε δημιουργηθούν οι συντομεύσεις του προγράμματος και πατήστε Επόμενο.
 NoIconsCheck=&Χωρίς δημιουργία εικονιδίων
 MustEnterGroupName=Πρέπει να δώσετε το όνομα ενός καταλόγου.
 BadGroupName=Ονόματα καταλόγων δεν μπορούν να περιέχουν κάποιον απο τους παρακάτω χαρακτήρες:%n%n%1
 NoProgramGroupCheck2=&Χωρίς δημιουργία καταλόγου στο μενού εκκίνηση.
+;4.1.3
+InvalidGroupName=Το όνομα του group δεν είναι σωστό.
+;4.1.4+
+GroupNameTooLong=Το όνομα του group ειναι πολύ μεγάλο.
 
 ; *** "Ready to Install" wizard page
 WizardReady=Ετοιμος για εγκατάσταση
@@ -228,7 +246,8 @@ RunEntryShellExec=Να εκτελεστεί το %1
 
 ; *** "Setup Needs the Next Disk" stuff
 ChangeDiskTitle=Τοποθετήστε την επόμενη δισκέττα
-SelectDirectory=Επιλέξτε κατάλογο
+; 4.0.x
+;SelectDirectory=Επιλέξτε κατάλογο
 SelectDiskLabel2=Τοποθετήστε την δισκέττα %1 και πατήστε Εντάξει.
 PathLabel=&Διαδρομή
 FileNotInDir2=Το αρχείο "%1" δεν βρίσκεται στο "%2". Τοποθετήστε τη σωστή δισκέττα.
@@ -316,13 +335,5 @@ SharedFileNameLabel=Ονομα Αρχείου:
 SharedFileLocationLabel=Τοποθεσία:
 WizardUninstalling=Πρόοδος Απεγκατάστασης:
 StatusUninstalling=Απεγκατάσταση του %1...
-
-
-;κάποιο πρόβλημα.
-SharedFileNameLabel=Ονομα Αρχείου:
-SharedFileLocationLabel=Τοποθεσία:
-WizardUninstalling=Πρόοδος Απεγκατάστασης:
-StatusUninstalling=Απεγκατάσταση του %1...
-
 
 

@@ -407,7 +407,7 @@ void packBitmap(QString &out, HBITMAP hBmp)
     BITMAP		bmp;
     BITMAPINFO	*pbmi;
     WORD    cClrBits;
-    if (!GetObject(hBmp, sizeof(BITMAP), (LPSTR)&bmp))
+    if (!GetObjectA(hBmp, sizeof(BITMAP), (LPSTR)&bmp))
         return;
 
     cClrBits = (WORD)(bmp.bmPlanes * bmp.bmBitsPixel);

@@ -1,4 +1,4 @@
-; *** Inno Setup version 4.0.5+ German messages  ***
+; *** Inno Setup version 4.1.8+ German messages  ***
 ; *** Translated by Michael Reitz / Roland Ruder ***
 ; *** innosetup@assimilate.de / info@rr4u.de     ***
 ;
@@ -10,20 +10,19 @@
 ; Setup adds the periods automatically (appending a period would result in
 ; two periods being displayed).
 ;
-; $jrsoftware: issrc/Files/Default.isl,v 1.32 2003/06/18 19:24:07 jr Exp $
+; $jrsoftware: issrc/Files/Default.isl,v 1.53 2004/02/25 01:55:24 jr Exp $
 
 [LangOptions]
 LanguageName=Deutsch
 LanguageID=$0407
 ; If the language you are translating to requires special font faces or
 ; sizes, uncomment any of the following entries and change them accordingly.
-;DialogFontName=MS Shell Dlg
+;DialogFontName=
 ;DialogFontSize=8
-;DialogFontStandardHeight=13
-;TitleFontName=Arial
-;TitleFontSize=29
 ;WelcomeFontName=Verdana
 ;WelcomeFontSize=12
+;TitleFontName=Arial
+;TitleFontSize=29
 ;CopyrightFontName=Arial
 ;CopyrightFontSize=8
 
@@ -41,7 +40,7 @@ ConfirmTitle=Bestätigen
 ErrorTitle=Fehler
 
 ; *** SetupLdr messages
-SetupLdrStartupMessage=%1 wird jetzt installiert. Wollen Sie fortfahren?
+SetupLdrStartupMessage=%1 wird jetzt installiert. Möchten Sie fortfahren?
 LdrCannotCreateTemp=Es konnte keine temporäre Datei erstellt werden. Setup abgebrochen
 LdrCannotExecTemp=Die Datei konnte nicht im temporären Ordner ausgeführt werden. Setup abgebrochen
 
@@ -83,6 +82,8 @@ ButtonNo=&Nein
 ButtonNoToAll=N&ein für Alle
 ButtonFinish=&Fertigstellen
 ButtonBrowse=&Durchsuchen ...
+ButtonWizardBrowse=Du&rchsuchen ...
+ButtonNewFolder=&Neuen Ordner anlegen
 
 ; *** "Select Language" dialog messages
 SelectLanguageTitle=Setup-Sprache auswählen
@@ -91,6 +92,9 @@ SelectLanguageLabel=Wählen Sie die Sprache aus, die während der Installation ben
 ; *** Common wizard text
 ClickNext="Weiter" zum Fortfahren, "Abbrechen" zum Verlassen.
 BeveledLabel=
+BrowseDialogTitle=Ordner suchen
+BrowseDialogLabel=Wählen Sie einen Ordner aus, und klicken Sie danach auf "OK".
+NewFolderName=Neuer Ordner
 
 ; *** "Welcome" wizard page
 WelcomeLabel1=Willkommen zum [name] Setup-Assistenten
@@ -126,19 +130,22 @@ UserInfoOrg=&Organisation:
 UserInfoSerial=&Seriennummer:
 UserInfoNameRequired=Sie müssen einen Namen eintragen.
 
-; *** "Select Destination Directory" wizard page
+; *** "Select Destination Location" wizard page
 WizardSelectDir=Ziel-Ordner wählen
 SelectDirDesc=Wohin soll [name] installiert werden?
-SelectDirLabel=Bitte geben Sie an, in welchen Ordner Sie [name] installieren wollen, und klicken Sie danach auf "Weiter".
-DiskSpaceMBLabel=Erforderlicher Speicherplatz: min. [mb] MB
-ToUNCPathname=Das Setup kann nicht in einen UNC-Pfad installieren. Wenn Sie auf ein Netzlaufwerk installieren wollen, müssen Sie dem Netzwerkpfad einen Laufwerksbuchstaben zuordnen.
+SelectDirLabel3=Das Setup wird [name] in den folgenden Ordner installieren.
+SelectDirBrowseLabel=Klicken Sie auf "Weiter", um fortzufahren. Klicken Sie auf "Durchsuchen", falls Sie einen anderen Ordner auswählen möchten.
+DiskSpaceMBLabel=Mindestens [mb] MB freier Speicherplatz ist erforderlich.
+ToUNCPathname=Das Setup kann nicht in einen UNC-Pfad installieren. Wenn Sie auf ein Netzlaufwerk installieren möchten, müssen Sie dem Netzwerkpfad einen Laufwerksbuchstaben zuordnen.
 InvalidPath=Sie müssen einen vollständigen Pfad mit einem Laufwerksbuchstaben angeben; z.B.:%n%nC:\Beispiel%n%noder einen UNC-Pfad in der Form:%n%n\\Server\Freigabe
 InvalidDrive=Das angegebene Laufwerk bzw. der UNC-Pfad existiert nicht oder es kann nicht darauf zugegriffen werden. Wählen Sie bitte einen anderen Ordner.
 DiskSpaceWarningTitle=Nicht genug freier Speicherplatz
-DiskSpaceWarning=Das Setup benötigt mindestens %1 KB freien Speicherplatz zum Installieren, aber auf dem ausgewählten Laufwerk sind nur %2 KB verfügbar.%n%nWollen Sie trotzdem fortfahren?
+DiskSpaceWarning=Das Setup benötigt mindestens %1 KB freien Speicherplatz zum Installieren, aber auf dem ausgewählten Laufwerk sind nur %2 KB verfügbar.%n%nMöchten Sie trotzdem fortfahren?
+DirNameTooLong=Der Ordnername/Pfad ist zu lang.
+InvalidDirName=Der Ordnername ist nicht gültig.
 BadDirName32=Ordnernamen dürfen keine der folgenden Zeichen enthalten:%n%n%1
 DirExistsTitle=Ordner existiert bereits
-DirExists=Der Ordner:%n%n%1%n%n existiert bereits. Wollen Sie trotzdem in diesen Ordner installieren?
+DirExists=Der Ordner:%n%n%1%n%n existiert bereits. Möchten Sie trotzdem in diesen Ordner installieren?
 DirDoesntExistTitle=Ordner ist nicht vorhanden
 DirDoesntExist=Der Ordner:%n%n%1%n%nist nicht vorhanden. Soll der Ordner erstellt werden?
 
@@ -151,7 +158,7 @@ FullInstallation=Vollständige Installation
 CompactInstallation=Kompakte Installation
 CustomInstallation=Benutzerdefinierte Installation
 NoUninstallWarningTitle=Komponenten vorhanden
-NoUninstallWarning=Das Setup hat festgestellt, dass die folgenden Komponenten bereits auf Ihrem Computer installiert sind:%n%n%1%n%nDiese nicht mehr ausgewählten Komponenten werden nicht vom Computer entfernt.%n%nWollen Sie trotzdem fortfahren?
+NoUninstallWarning=Das Setup hat festgestellt, dass die folgenden Komponenten bereits auf Ihrem Computer installiert sind:%n%n%1%n%nDiese nicht mehr ausgewählten Komponenten werden nicht vom Computer entfernt.%n%nMöchten Sie trotzdem fortfahren?
 ComponentSize1=%1 KB
 ComponentSize2=%1 MB
 ComponentsDiskSpaceMBLabel=Die aktuelle Auswahl erfordert min. [mb] MB Speicherplatz.
@@ -164,9 +171,12 @@ SelectTasksLabel2=Wählen Sie die zusätzlichen Aufgaben aus, die das Setup währen
 ; *** "Select Start Menu Folder" wizard page
 WizardSelectProgramGroup=Startmenü-Ordner auswählen
 SelectStartMenuFolderDesc=Wo soll das Setup die Programm-Verknüpfungen anlegen?
-SelectStartMenuFolderLabel=Wählen Sie den Startmenü-Ordner, in dem das Setup die Programm-Verknüpfungen anlegen soll, und klicken Sie danach auf "Weiter".
+SelectStartMenuFolderLabel3=Das Setup wird die Programm-Verknüpfungen im folgenden Startmenü-Ordner anlegen.
+SelectStartMenuFolderBrowseLabel=Klicken Sie auf "Weiter", um fortzufahren. Klicken Sie auf "Durchsuchen", falls Sie einen anderen Ordner auswählen möchten.
 NoIconsCheck=Keine Programm-Verknüpfungen erzeugen
 MustEnterGroupName=Sie müssen einen Ordnernamen eingeben.
+GroupNameTooLong=Der Ordnername/Pfad ist zu lang.
+InvalidGroupName=Der Ordnername ist nicht gültig.
 BadGroupName=Der Ordnername darf keine der folgenden Zeichen enthalten:%n%n%1
 NoProgramGroupCheck2=&Keinen Ordner im Startmenü erstellen
 
@@ -197,8 +207,8 @@ FinishedHeadingLabel=Beenden des [name] Setup-Assistenten
 FinishedLabelNoIcons=Setup hat die Installation von [name] auf Ihren Computer abgeschlossen.
 FinishedLabel=Setup hat die Installation von [name] auf Ihren Computer abgeschlossen. Die Anwendung kann über die installierten Programm-Verknüpfungen gestartet werden.
 ClickFinish=Klicken Sie auf "Fertigstellen", um das Setup zu beenden.
-FinishedRestartLabel=Um die Installation von [name] abzuschließen, muss das Setup Ihren Computer neu starten. Wollen Sie jetzt neu starten?
-FinishedRestartMessage=Um die Installation von [name] abzuschließen, muss das Setup Ihren Computer neu starten.%n%nWollen Sie jetzt neu starten?
+FinishedRestartLabel=Um die Installation von [name] abzuschließen, muss das Setup Ihren Computer neu starten. Möchten Sie jetzt neu starten?
+FinishedRestartMessage=Um die Installation von [name] abzuschließen, muss das Setup Ihren Computer neu starten.%n%nMöchten Sie jetzt neu starten?
 ShowReadmeCheck=Ja, ich möchte die LIESMICH-Datei sehen
 YesRadio=&Ja, Computer jetzt neu starten
 NoRadio=&Nein, ich werde den Computer später neu starten
@@ -209,7 +219,6 @@ RunEntryShellExec=%1 anzeigen
 
 ; *** "Setup Needs the Next Disk" stuff
 ChangeDiskTitle=Nächste Diskette einlegen
-SelectDirectory=Ordner auswählen
 SelectDiskLabel2=Legen Sie bitte Diskette %1 ein, und klicken Sie auf "OK".%n%nWenn sich die Dateien von dieser Diskette in einem anderen als dem angezeigten Ordner befinden, dann geben Sie bitte den korrekten Pfad ein oder klicken auf "Durchsuchen".
 PathLabel=&Pfad:
 FileNotInDir2=Die Datei "%1" befindet sich nicht in "%2". Bitte Ordner ändern oder richtige Diskette einlegen.
@@ -253,7 +262,7 @@ SourceDoesntExist=Die Quelldatei "%1" existiert nicht
 ExistingFileReadOnly=Die vorhandene Datei ist schreibgeschützt.%n%nKlicken Sie auf "Wiederholen", um den Schreibschutz zu entfernen, "Ignorieren", um die Datei zu überspringen, oder "Abbrechen", um die Installation abzubrechen.
 ErrorReadingExistingDest=Lesefehler in Datei:
 FileExists=Die Datei ist bereits vorhanden.%n%nSoll sie überschrieben werden?
-ExistingFileNewer=Die vorhandene Datei ist neuer als die Datei, die installiert werden soll. Es wird empfohlen die vorhandene Datei beizubehalten.%n%n Wollen Sie die vorhandene Datei beibehalten?
+ExistingFileNewer=Die vorhandene Datei ist neuer als die Datei, die installiert werden soll. Es wird empfohlen die vorhandene Datei beizubehalten.%n%n Möchten Sie die vorhandene Datei beibehalten?
 ErrorChangingAttr=Fehler beim Ändern der Datei-Attribute:
 ErrorCreatingTemp=Fehler beim Erstellen einer Datei im Ziel-Ordner:
 ErrorReadingSource=Fehler beim Lesen der Quelldatei:
@@ -274,17 +283,17 @@ UninstallNotFound=Die Datei "%1" existiert nicht. Entfernen der Anwendung fehlge
 UninstallOpenError=Die Datei "%1" konnte nicht geöffnet werden. Entfernen der Anwendung fehlgeschlagen.
 UninstallUnsupportedVer=Das Format der Deinstallations-Datei "%1" konnte nicht erkannt werden. Entfernen der Anwendung fehlgeschlagen
 UninstallUnknownEntry=In der Deinstallations-Datei wurde ein unbekannter Eintrag (%1) gefunden
-ConfirmUninstall=Sind Sie sicher, dass Sie %1 und alle zugehörigen Komponenten entfernen wollen?
+ConfirmUninstall=Sind Sie sicher, dass Sie %1 und alle zugehörigen Komponenten entfernen möchten?
 OnlyAdminCanUninstall=Diese Installation kann nur von einem Benutzer mit Administrator-Rechten entfernt werden.
 UninstallStatusLabel=Warten Sie bitte während %1 von Ihrem Computer entfernt wird.
 UninstalledAll=%1 wurde erfolgreich von Ihrem Computer entfernt.
 UninstalledMost=Entfernen von %1 beendet.%n%nEinige Komponenten konnten nicht entfernt werden. Diese können von Ihnen gelöscht werden.
-UninstalledAndNeedsRestart=Um die Deinstallation von %1 abzuschließen, muss Ihr Computer neu gestartet werden.%n%nWollen Sie jetzt neu starten?
+UninstalledAndNeedsRestart=Um die Deinstallation von %1 abzuschließen, muss Ihr Computer neu gestartet werden.%n%nMöchten Sie jetzt neu starten?
 UninstallDataCorrupted="%1"-Datei ist beschädigt. Entfernen der Anwendung fehlgeschlagen.
 
 ; *** Uninstallation phase messages
 ConfirmDeleteSharedFileTitle=Gemeinsame Datei entfernen?
-ConfirmDeleteSharedFile2=Das System zeigt an, dass die folgende gemeinsame Datei von keinem anderen Programm mehr benutzt wird. Wollen Sie diese Datei entfernen lassen?%n%nSollte es doch noch Programme geben, die diese Datei benutzen, und die Datei ist entfernt worden, dann werden diese Programme wahrscheinlich nicht mehr einwandfrei funktionieren. Wenn Sie sich nicht sicher sind, sollten Sie "Nein" wählen. Es schadet Ihrem System nicht, wenn Sie die Datei behalten.
+ConfirmDeleteSharedFile2=Das System zeigt an, dass die folgende gemeinsame Datei von keinem anderen Programm mehr benutzt wird. Möchten Sie diese Datei entfernen lassen?%n%nSollte es doch noch Programme geben, die diese Datei benutzen, und die Datei ist entfernt worden, dann werden diese Programme wahrscheinlich nicht mehr einwandfrei funktionieren. Wenn Sie sich nicht sicher sind, sollten Sie "Nein" wählen. Es schadet Ihrem System nicht, wenn Sie die Datei behalten.
 SharedFileNameLabel=Dateiname:
 SharedFileLocationLabel=Ordner:
 WizardUninstalling=Entfernen (Status)

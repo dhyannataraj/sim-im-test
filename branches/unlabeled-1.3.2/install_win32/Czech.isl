@@ -1,7 +1,4 @@
-[LangOptions]
-
-; *** Inno Setup version 4.0.5+ English messages ***
-; Translated by Ing. Ivo Bauer (ivo.bauer@tiscali.cz)
+; *** Inno Setup version 4.1.8+ Czech messages ***
 ;
 ; To download user-contributed translations of this file, go to:
 ;   http://www.jrsoftware.org/is3rdparty.php
@@ -11,23 +8,34 @@
 ; Setup adds the periods automatically (appending a period would result in
 ; two periods being displayed).
 ;
-; $jrsoftware: issrc/Files/Default.isl,v 1.32 2003/06/18 19:24:07 jr Exp $
+; $jrsoftware: issrc/Files/Default.isl,v 1.53 2004/02/25 01:55:24 jr Exp $
+;
+; {***********************************************}
+; {                                               }
+; { Translated by Ing. Ivo Bauer                  }
+; {                                               }
+; { Web site: http://www.ozm.cz/ivobauer/         }
+; { E-mail:   ivo.bauer@tiscali.cz | bauer@ozm.cz }
+; {                                               }
+; {***********************************************}
+;
 
+[LangOptions]
 LanguageName=Èeština
 LanguageID=$0405
-[Messages]
-
 ; If the language you are translating to requires special font faces or
 ; sizes, uncomment any of the following entries and change them accordingly.
-;DialogFontName=MS Shell Dlg
+;DialogFontName=
 ;DialogFontSize=8
-;DialogFontStandardHeight=13
-;TitleFontName=Arial
-;TitleFontSize=29
 ;WelcomeFontName=Verdana
 ;WelcomeFontSize=12
+;TitleFontName=Arial
+;TitleFontSize=29
 ;CopyrightFontName=Arial
 ;CopyrightFontSize=8
+
+[Messages]
+
 ; *** Application titles
 SetupAppTitle=Prùvodce instalací
 SetupWindowTitle=Prùvodce instalací - %1
@@ -82,12 +90,19 @@ ButtonNo=&Ne
 ButtonNoToAll=N&e všem
 ButtonFinish=&Dokonèit
 ButtonBrowse=&Procházet...
+ButtonWizardBrowse=&Procházet...
+ButtonNewFolder=&Vytvoøit novou sloku
 
-; *** Common wizard text
+; *** "Select Language" dialog messages
 SelectLanguageTitle=Zvolit jazyk prùvodce instalací
 SelectLanguageLabel=Zvolte jazyk, kterı se má pouít pøi instalaci:
+
+; *** Common wizard text
 ClickNext=Klepnìte na Další pro pokraèování nebo na Storno pro ukonèení prùvodce instalací.
 BeveledLabel=
+BrowseDialogTitle=Vyhledat sloku
+BrowseDialogLabel=Z níe uvedeného seznamu vyberte sloku a klepnìte na OK.
+NewFolderName=Nová sloka
 
 ; *** "Welcome" wizard page
 WelcomeLabel1=Vítá Vás prùvodce instalací produktu [name].
@@ -119,20 +134,23 @@ InfoAfterClickLabel=Klepnìte na Další pro pokraèování instalaèního procesu.
 WizardUserInfo=Informace o uivateli
 UserInfoDesc=Prosím, zadejte poadované informace.
 UserInfoName=&Uivatelské jméno:
-UserInfoOrg=&Organizace:
-UserInfoSerial=&Sériové èíslo:
+UserInfoOrg=&Spoleènost:
+UserInfoSerial=Sé&riové èíslo:
 UserInfoNameRequired=Uivatelské jméno musí bıt zadáno.
 
-; *** "Select Destination Directory" wizard page
-WizardSelectDir=Zvolte cílovou sloku
+; *** "Select Destination Location" wizard page
+WizardSelectDir=Zvolte cílové umístìní
 SelectDirDesc=Kam má bıt [name] nainstalován?
-SelectDirLabel=Zvolte sloku, do které má bıt [name] nainstalován a klepnìte na Další.
-DiskSpaceMBLabel=Tento produkt vyaduje nejménì [mb] MB místa na disku.
+SelectDirLabel3=[name] bude nainstalován do následující sloky.
+SelectDirBrowseLabel=Klepnìte na Další pro pokraèování. Chcete-li zvolit jinou sloku, klepnìte na Procházet.
+DiskSpaceMBLabel=Je vyadováno nejménì [mb] MB volného místa na disku.
 ToUNCPathname=Prùvodce instalací nemùe instalovat do cesty UNC. Pokud se pokoušíte instalovat po síti, musíte pouít nìkterou z dostupnıch síovıch jednotek.
 InvalidPath=Musíte zadat úplnou cestu vèetnì písmene jednotky; napøíklad:%n%nC:\Aplikace%n%nnebo cestu UNC ve tvaru:%n%n\\server\sdílená sloka
 InvalidDrive=Vámi zvolená jednotka nebo cesta UNC neexistuje nebo není dostupná. Prosím, zvolte jiné umístìní.
 DiskSpaceWarningTitle=Nedostatek místa na disku
 DiskSpaceWarning=Prùvodce instalací vyaduje nejménì %1 KB volného místa pro instalaci produktu, ale na zvolené jednotce je dostupnıch pouze %2 KB.%n%nPøejete si pøesto pokraèovat?
+DirNameTooLong=Název sloky nebo cesty je pøíliš dlouhı.
+InvalidDirName=Toto není platnı název sloky.
 BadDirName32=Názvy sloek nemohou obsahovat ádnı z následujících znakù:%n%n%1
 DirExistsTitle=Sloka existuje
 DirExists=Sloka:%n%n%1%n%nji existuje. Má se pøesto instalovat do této sloky?
@@ -144,7 +162,6 @@ WizardSelectComponents=Vyberte souèásti
 SelectComponentsDesc=Jaké souèásti mají bıt nainstalovány?
 SelectComponentsLabel2=Zaškrtnìte souèásti, které mají bıt nainstalovány; souèásti, které se nemají instalovat, ponechte nezaškrtnuté. Klepnìte na Další pro pokraèování.
 FullInstallation=Úplná instalace
-
 ; if possible don't translate 'Compact' as 'Minimal' (I mean 'Minimal' in your language)
 CompactInstallation=Kompaktní instalace
 CustomInstallation=Volitelná instalace
@@ -162,9 +179,12 @@ SelectTasksLabel2=Zvolte další úlohy, které mají bıt vykonány v prùbìhu instalac
 ; *** "Select Start Menu Folder" wizard page
 WizardSelectProgramGroup=Vyberte sloku v nabídce Start
 SelectStartMenuFolderDesc=Kam mají bıt prùvodcem instalace umístìni zástupci aplikace?
-SelectStartMenuFolderLabel=Vyberte sloku v nabídce Start, do které mají bıt prùvodcem instalace umístìni zástupci aplikace a pokraèujte klepnutím na Další.
+SelectStartMenuFolderLabel3=Zástupci aplikace budou vytvoøeny v následující sloce nabídky Start.
+SelectStartMenuFolderBrowseLabel=Klepnìte na Další pro pokraèování. Chcete-li zvolit jinou sloku, klepnìte na Procházet.
 NoIconsCheck=&Nevytváøet ádné ikony
 MustEnterGroupName=Musíte zadat název sloky.
+GroupNameTooLong=Název sloky nebo cesty je pøíliš dlouhı.
+InvalidGroupName=Toto není platnı název sloky.
 BadGroupName=Název sloky nemùe obsahovat ádnı z následujících znakù:%n%n%1
 NoProgramGroupCheck2=&Nevytváøet sloku v nabídce Start
 
@@ -174,7 +194,7 @@ ReadyLabel1=Prùvodce instalací je nyní pøipraven nainstalovat [name] na Váš poèí
 ReadyLabel2a=Klepnìte na Instalovat pro pokraèování instalaèního procesu nebo klepnìte na Zpìt, pokud si pøejete zmìnit nìkterá nastavení instalace.
 ReadyLabel2b=Klepnìte na Instalovat pro pokraèování instalaèního procesu.
 ReadyMemoUserInfo=Informace o uivateli:
-ReadyMemoDir=Cílová sloka:
+ReadyMemoDir=Cílové umístìní:
 ReadyMemoType=Typ instalace:
 ReadyMemoComponents=Vybrané souèásti:
 ReadyMemoGroup=Sloka v nabídce Start:
@@ -200,16 +220,13 @@ FinishedRestartMessage=Pro dokonèení instalace produktu [name] je nezbytné, aby 
 ShowReadmeCheck=Ano, chci zobrazit dokument "ÈTIMNE"
 YesRadio=&Ano, chci nyní restartovat poèítaè
 NoRadio=&Ne, poèítaè restartuji pozdìji
-
 ; used for example as 'Run MyProg.exe'
 RunEntryExec=Spustit %1
-
 ; used for example as 'View Readme.txt'
 RunEntryShellExec=Zobrazit %1
 
 ; *** "Setup Needs the Next Disk" stuff
 ChangeDiskTitle=Prùvodce instalací vyaduje další disk
-SelectDirectory=Vyberte sloku
 SelectDiskLabel2=Prosím, vlote disk %1 a klepnìte na OK.%n%nPokud se soubory na tomto disku nacházejí v jiné sloce, ne v té, která je zobrazena níe, pak zadejte správnou cestu nebo klepnìte na Procházet.
 PathLabel=&Cesta:
 FileNotInDir2=Soubor "%1" nelze najít v "%2". Prosím vlote správnı disk nebo zvolte jinou sloku.
@@ -289,4 +306,3 @@ SharedFileNameLabel=Název souboru:
 SharedFileLocationLabel=Umístìní:
 WizardUninstalling=Stav odinstalace
 StatusUninstalling=Odinstalovávám %1...
-

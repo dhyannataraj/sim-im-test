@@ -1,24 +1,18 @@
-[LangOptions]
-; To download user-contributed translations of this file, go to:
-;   http://www.jrsoftware.org/is3rdparty.php
-;
-; Note: When translating this text, do not add periods (.) to the end of
-; messages that didn't have them already, because on those messages Inno
-; Setup adds the periods automatically (appending a period would result in
-; two periods being displayed).
+; *** Inno Setup - version 4.0.5+ SLOVAK messages ***
 ;
 ;  TRANSLATION TO SLOVAK:
-;  (c) Juraj Petrik, jpetrik@i-servis.net - 4.0.8 - 2003-03-14
+;  (c) Arpad Toth, ekosoft@signalsoft.sk - 3.0.2
+;  (c) Juraj Petrik, jpetrik@i-servis.net - 3.0.6 - 2003-03-14
+;  (c) Branislav Kopun, kopun@centrum.sk - 4.0.5 - 2003-07-29
 ;
 ;  Pokia¾ by niekto upravoval tuto verziu, pošlite prosím, 
 ;  emailom upravenú verziu na vyssie uvedene adresy, dakujeme.
 ;  
-;  2.10.2003 - oprava Triblax
+;
 
+[LangOptions]
 LanguageName=Slovak
 LanguageID=$041B
-[Messages]
-
 ; If the language you are translating to requires special font faces or
 ; sizes, uncomment any of the following entries and change them accordingly.
 ;DialogFontName=MS Shell Dlg
@@ -31,6 +25,7 @@ LanguageID=$041B
 ;CopyrightFontName=Arial
 ;CopyrightFontSize=8
 
+[Messages]
 
 ; *** Application titles
 SetupAppTitle=Inštalácia
@@ -88,8 +83,8 @@ ButtonFinish=&Dokonèi
 ButtonBrowse=&Nalistova...
 
 ; *** "Select Language" dialog messages
-SelectLanguageTitle=Zvo¾te jazyk sprievodcu inštaláciou
-SelectLanguageLabel=Zvo¾te jazyk, ktorı se má poui pri inštalácii:
+SelectLanguageTitle=Vıber jazyka inštalácie
+SelectLanguageLabel=Vıber sprievodného jazyka poèas inštalácie:
 
 ; *** Common wizard text
 ClickNext="Pokraèuj" pre pokraèovanie, "Storno" ukonèí inštaláciu.
@@ -132,7 +127,6 @@ UserInfoNameRequired=Musíte zada meno uívate¾a.
 ; *** "Select Destination Directory" wizard page
 WizardSelectDir=Zvo¾te cie¾ovı adresár
 SelectDirDesc=Kde má by aplikácia "[name]" nainštalovaná?
-SelectDirLabel=Zvo¾te si adresár kde chcete aplikáciu "[name]" nainštalova, a pokraèujte kliknutím na "Pokraèuj".
 DiskSpaceMBLabel=Aplikácia vyaduje najmenej [mb] MB miesta na disku.
 ToUNCPathname=Nie je moné inštalova do cesty UNC. Pokia¾ sa pokúšate inštalova do siete, musíte si najkôr namapova sieovı disk.
 InvalidPath=Musíte zada celú cestu aj s písmenom disku, napríklad:%nC:\APP
@@ -167,7 +161,6 @@ SelectTasksLabel2=Zvo¾te, ktoré prídavné úlohy sa majú uskutoèni pri inštalácii
 ; *** "Select Start Menu Folder" wizard page
 WizardSelectProgramGroup=Zvo¾te si programovú skupinu
 SelectStartMenuFolderDesc=Kde má inštalátor umiestni ú skupinu?
-SelectStartMenuFolderLabel=Zvo¾te si adresár v Štart Menu, do ktorého sa vytvorí programová skupina a pokraèujte kliknutím na "Pokraèuj".
 NoIconsCheck=&Nevytvára iadne ikony
 MustEnterGroupName=Musíte zada názov programovej skupiny.
 BadGroupName=Názov skupiny nemôe obsahova iaden z nasledujúcich znakov:%n%n%1
@@ -212,7 +205,6 @@ RunEntryShellExec=Zobrazi %1
 
 ; *** "Setup Needs the Next Disk" stuff
 ChangeDiskTitle=Inštalácia vyaduje ïalšiu disketu
-SelectDirectory=Zvo¾te si adresár
 SelectDiskLabel2=Prosím, vlote Disk %1 a kliknite OK.%n%nPokia¾ môu by súbory na tomto disku ale v inom %2 ako niššie uvedenom, zadajte správnu cestu alebo kliknite na Nalistova.
 PathLabel=&Cesta:
 FileNotInDir2=Súbor "%1" sa nenachádza v "%2". Prosím vlote správny disk alebo si vyberte inı %3.
@@ -274,7 +266,6 @@ ErrorRestartingComputer=Inštalátor nemohol reštartova poèítaè. Prosím, reštartu
 
 ; *** Uninstaller messages
 UninstallNotFound=Súbor "%1" neexistuje. Nemôem ho odinštalova.
-UninstallOpenError=Soubor "%1" nelze otevoít. Produkt nelze odinstalovat.
 UninstallUnsupportedVer=Táto verzia odinštalátora nevie rozpozna odinštalaènı log súbor "%1". Nemôem odinštalova.
 UninstallUnknownEntry=Neznámy vstup (%1) odinštalaèného log súboru - je neoèíslovanı alebo chybnı.
 ConfirmUninstall=Ste si istı, e chcete odstráni aplikáciu "%1" vrátane všetkıch nainštalovanıch súèastí?
@@ -284,7 +275,6 @@ UninstalledAll=Aplikácia "%1" bola úspešne odstránená z Vášho poèítaèa.
 UninstalledMost=Odinštalovanie aplikácie "%1" je dokonèené.%n%nNiektoré èasti nebolo moné odstráni. Môete ich odstráni manuálne.
 UninstalledAndNeedsRestart=Pre dokonèenie odinštalácie aplikácie "%1" je potrebnı reštart poèítaèa.%n%nPrajete si vykona re¾štart teraz?
 UninstallDataCorrupted=Súbor "%1" je porušenı. Odinštalovanie nie je moné uskutoèni.
-ConfirmUninstall=Jste si opravdu jist(a), e chcete odinstalovat %1 a všechny jeho soueásti?
 
 ; *** Uninstallation phase messages
 ConfirmDeleteSharedFileTitle=Odstráni zdie¾anı súbor?

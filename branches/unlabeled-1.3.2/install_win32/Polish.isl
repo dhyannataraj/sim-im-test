@@ -1,4 +1,4 @@
-; *** Inno Setup version 4.0.0+ Polish messages ***
+; *** Inno Setup version 4.1.8+ Polish messages ***
 ; S³awomir Adamski <sadam@wa.onet.pl>
 ;
 ; To download user-contributed translations of this file, go to:
@@ -9,7 +9,7 @@
 ; Setup adds the periods automatically (appending a period would result in
 ; two periods being displayed).
 ;
-; $jrsoftware: issrc/Files/Default.isl,v 1.31 2003/04/14 18:53:12 jr Exp $
+; $jrsoftware: issrc/Files/Default.isl,v 1.53 2004/02/25 01:55:24 jr Exp $
 
 
 [LangOptions]
@@ -19,11 +19,10 @@ LanguageID=$0415
 ; sizes, uncomment any of the following entries and change them accordingly.
 ;DialogFontName=MS Shell Dlg
 ;DialogFontSize=8
-;DialogFontStandardHeight=13
-;TitleFontName=Arial
-;TitleFontSize=29
 ;WelcomeFontName=Verdana
 ;WelcomeFontSize=12
+;TitleFontName=Arial
+;TitleFontSize=29
 ;CopyrightFontName=Arial
 ;CopyrightFontSize=8
 
@@ -83,6 +82,8 @@ ButtonNo=&Nie
 ButtonNoToAll=N&ie na wszystkie
 ButtonFinish=&Zakoñcz
 ButtonBrowse=&Przegl¹daj...
+ButtonWizardBrowse=P&rzegl¹daj...
+ButtonNewFolder=&Stwórz nowy folder
 
 ; *** "Select Language" dialog messages
 SelectLanguageTitle=Wybierz jêzyk instalacji
@@ -91,6 +92,9 @@ SelectLanguageLabel=Wybierz jêzyk u¿ywany w czasie instalacji:
 ; *** Common wizard text
 ClickNext=Wybierz przycisk Dalej, aby kontynuowaæ, lub Anuluj, aby zakoñczyæ instalacjê.
 BeveledLabel=
+BrowseDialogTitle=Wska¿ folder
+BrowseDialogLabel=Wybierz folder z poni¿szej listy, a potem wybierz przycisk OK.
+NewFolderName=Nowy folder
 
 ; *** "Welcome" wizard page
 WelcomeLabel1=Witamy w Kreatorze instalacji programu [name].
@@ -126,16 +130,19 @@ UserInfoOrg=&Organizacja:
 UserInfoSerial=Numer &seryjny:
 UserInfoNameRequired=Musisz podaæ nazwisko.
 
-; *** "Select Destination Directory" wizard page
-WizardSelectDir=Wybierz folder docelowy
+; *** "Select Destination Location" wizard page
+WizardSelectDir=Wybierz docelow¹ lokalizacjê
 SelectDirDesc=Gdzie ma byæ zainstalowany program [name]?
-SelectDirLabel=Wybierz folder, w którym chcesz zainstalowaæ program [name], potem wybierz przycisk Dalej, aby kontynuowaæ.
-DiskSpaceMBLabel=Ten program wymaga co najmniej [mb] MB wolnego miejsca na dysku.
+SelectDirLabel3=Instalator zainstaluje  [name] do poni¿szego folderu.
+SelectDirBrowseLabel=Wybierz przycisk Nastêpny, aby kontynuowaæ. Jeœli chcesz okreœliæ iny folder, wybierz przycisk Przegl¹daj.
+DiskSpaceMBLabel=Potrzeba przynajmniej [mb] MB wolnego miejsca na dysku.
 ToUNCPathname=Instalator nie mo¿e instalowaæ do œcie¿ki UNC. Jeœli próbujesz instalowaæ program na dysku sieciowym, najpierw zmapuj ten dysk.
 InvalidPath=Musisz wprowadziæ pe³n¹ œcie¿kê wraz z liter¹ dysku, np.:%nC:\PROGRAM
 InvalidDrive=Wybrany dysk nie istnieje. Proszê wybraæ inny.
 DiskSpaceWarningTitle=Niewystarczaj¹ca iloœæ wolnego miejsca na dysku
 DiskSpaceWarning=Instalator wymaga co najmniej %1 KB wolnego miejsca na dysku. Wybrany dysk posiada tylko %2 KB dostêpnego miejsca.%n%nCzy mimo to chcesz kontynuowaæ?
+DirNameTooLong=Nazwa folderu lub œcie¿ki jest za d³uga.
+InvalidDirName=Niepoprawna nazwa folderu.
 BadDirName32=Nazwa folderu nie mo¿e zawieraæ ¿adnego z nastêpuj¹cych znaków po dwukropku:%n%n%1
 DirExistsTitle=Ten folder ju¿ istnieje
 DirExists=Folder%n%n%1%n%nju¿ istnieje. Czy chcesz zainstalowaæ program w tym folderze?
@@ -164,9 +171,12 @@ SelectTasksLabel2=Zaznacz dodatkowe zadania, które Instalator ma wykonaæ podczas
 ; *** "Select Start Menu Folder" wizard page
 WizardSelectProgramGroup=Wybierz folder Menu Start
 SelectStartMenuFolderDesc=Gdzie maj¹ byæ umieszczone skróty do programu?
-SelectStartMenuFolderLabel=Wybierz folder Menu Start, w którym Instalator utworzy skróty do programu, potem wybierz przycisk Dalej, aby kontynuowaæ.
+SelectStartMenuFolderLabel3=Instalator stworzy skróty do programu w poni¿szym folderze Menu Start.
+SelectStartMenuFolderBrowseLabel=Wybierz przycisk Nastêpny, aby kontynuowaæ. Jeœli chcesz okreœliæ iny folder, wybierz przycisk Przegl¹daj.
 NoIconsCheck=&Nie twórz ¿adnych skrótów
 MustEnterGroupName=Musisz wprowadziæ nazwê folderu.
+GroupNameTooLong=Nazwa folderu lub œcie¿ki jest za d³uga.
+InvalidGroupName=Niepoprawna nazwa folderu.
 BadGroupName=Nazwa folderu nie mo¿e zawieraæ ¿adnego z nastêpuj¹cych znaków:%n%n%1
 NoProgramGroupCheck2=&Nie twórz folderu w Menu Start
 
@@ -176,7 +186,7 @@ ReadyLabel1=Instalator jest ju¿ gotowy do rozpoczêcia instalacji programu [name]
 ReadyLabel2a=Wybierz przycisk Instaluj, aby rozpocz¹æ instalacjê lub Wstecz, jeœli chcesz przejrzeæ lub zmieniæ ustawienia.
 ReadyLabel2b=Wybierz przycisk Instaluj, aby kontynuowaæ instalacjê.
 ReadyMemoUserInfo=Informacje u¿ytkownika:
-ReadyMemoDir=Folder docelowy:
+ReadyMemoDir=Lokalizacja docelowa:
 ReadyMemoType=Rodzaj instalacji:
 ReadyMemoComponents=Wybrane sk³adniki:
 ReadyMemoGroup=Folder w Menu Start:
@@ -210,7 +220,6 @@ RunEntryShellExec=Poka¿ %1
 
 ; *** "Setup Needs the Next Disk" stuff
 ChangeDiskTitle=Instalator potrzebuje nastêpnej dyskietki
-SelectDirectory=Wybierz folder
 SelectDiskLabel2=Proszê w³o¿yæ dyskietkê %1 i wybraæ przycisk OK.%n%nJeœli pokazany poni¿ej folder nie okreœla po³o¿enia plików z tej dyskietki, wprowadŸ poprawn¹ œcie¿kê lub wybierz przycisk Przegl¹daj.
 PathLabel=Œ&cie¿ka:
 FileNotInDir2=Plik "%1" nie zosta³ znaleziony na dyskietce "%2". Proszê w³o¿yæ w³aœciw¹ dyskietkê lub wybraæ inny folder.
@@ -223,7 +232,7 @@ EntryAbortRetryIgnore=Mo¿esz ponowiæ nieudan¹ czynnoœæ, zignorowaæ j¹ (nie zalec
 ; *** Installation status messages
 StatusCreateDirs=Tworzenie folderów...
 StatusExtractFiles=Dekompresja plików...
-StatusCreateIcons=Tworzenie skrótów...
+StatusCreateIcons=Tworzenie ikon aplikacji...
 StatusCreateIniEntries=Tworzenie zapisów w plikach INI...
 StatusCreateRegistryEntries=Tworzenie zapisów w rejestrze...
 StatusRegisterFiles=Rejestrowanie plików...
@@ -290,5 +299,4 @@ SharedFileNameLabel=Nazwa pliku:
 SharedFileLocationLabel=Po³o¿enie:
 WizardUninstalling=Stan odinstalowywania
 StatusUninstalling=Odinstalowywanie %1...
-
 

@@ -108,6 +108,7 @@ public:
     void remove(ServerSocket*);
     void setActive(bool);
     bool isActive();
+    virtual void checkState() {}
 protected slots:
     void idle();
 protected:

@@ -4,7 +4,7 @@
 [Setup]
 AppName=Simple Instant Messenger
 AppVerName=SIM 0.9.3
-AppPublisher=shutoff@mail.ru
+AppPublisher=vovan@shutoff.ru
 AppPublisherURL=http://sim-icq.sourceforge.net/
 AppSupportURL=http://sim-icq.sourceforge.net/
 AppUpdatesURL=http://sim-icq.sourceforge.net/
@@ -12,12 +12,13 @@ DefaultDirName={pf}\SIM
 DisableProgramGroupPage=yes
 DisableReadyPage=yes
 LicenseFile=..\COPYING
-Compression=bzip/9
+Compression=lzma/ultra
 AppId=SIM
 AppMutex=SIM_Mutex
-AppCopyright=Copyright © 2002-2003, Vladimir Shutoff
+AppCopyright=Copyright © 2002-2004, Vladimir Shutoff
 ShowLanguageDialog=no
 ChangesAssociations=yes
+VersionInfoVersion=0.9.3.0
 
 [Tasks]
 Name: startup; Description: "Launch SIM on &startup"; GroupDescription: "Startup:"
@@ -38,19 +39,11 @@ Name: "{app}\plugins\styles"
 
 [Languages]
 Name: "en"; MessagesFile: "compiler:Default.isl"
-Name: "ru"; MessagesFile: "Russian.isl"
 Name: "it"; MessagesFile: "Italian.isl"
 Name: "de"; MessagesFile: "German.isl"
-Name: "pt"; MessagesFile: "BrazilianPortuguese.isl"
-Name: "bg"; MessagesFile: "Bulgarian.isl"
 Name: "cs"; MessagesFile: "Czech.isl"
-Name: "ca"; MessagesFile: "Catalan.isl"
-Name: "hu"; MessagesFile: "Hungarian.isl"
 Name: "fr"; MessagesFile: "French.isl"
 Name: "po"; MessagesFile: "Polish.isl"
-Name: "sk"; MessagesFile: "Slovak.isl"
-Name: "uk"; MessagesFile: "Ukrainian.isl"
-Name: "el"; MessagesFile: "Greek.isl"
 
 [Files]
 Source: "..\Release\sim.exe"; DestDir: "{app}"; Flags: ignoreversion
