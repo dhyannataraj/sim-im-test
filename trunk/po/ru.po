@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2002-08-11 04:02+0400\n"
+"POT-Creation-Date: 2002-08-11 20:42+0400\n"
 "PO-Revision-Date: 2002-08-11 04:05GMT+3\n"
 "Last-Translator: Vladimir Shutoff <shutoff@mail.ru>\n"
 "Language-Team: Русский <ru@li.org>\n"
@@ -1719,19 +1719,19 @@ msgstr "Файл"
 msgid "URL"
 msgstr "URL"
 
-#: client.cpp:399 msgview.cpp:138
+#: client.cpp:399 msgview.cpp:142
 msgid "Authorization request"
 msgstr "Запрос авторизации"
 
-#: client.cpp:401 msgview.cpp:147
+#: client.cpp:401 msgview.cpp:151
 msgid "Authorization refused"
 msgstr "Запрос на авторизацию отклонен"
 
-#: client.cpp:403 msgview.cpp:155
+#: client.cpp:403 msgview.cpp:159
 msgid "Authorization granted"
 msgstr "Запрос авторизации принят"
 
-#: client.cpp:405 msgview.cpp:158
+#: client.cpp:405 msgview.cpp:162
 msgid "Added to contact list"
 msgstr "Добавление в список контактов"
 
@@ -1767,11 +1767,11 @@ msgstr "Доставка SMS"
 msgid "Email"
 msgstr "Email"
 
-#: client.cpp:459 userview.cpp:890
+#: client.cpp:459 userview.cpp:891
 msgid "Offline"
 msgstr "Отключен"
 
-#: client.cpp:462 client.cpp:474 cuser.cpp:216 userview.cpp:887
+#: client.cpp:462 client.cpp:474 cuser.cpp:216 userview.cpp:888
 msgid "Online"
 msgstr "В сети"
 
@@ -1812,7 +1812,7 @@ msgstr "%n непрочитанное сообщение"
 msgid "Connecting"
 msgstr "Соединение"
 
-#: editspell.cpp:243 msgedit.cpp:176 ui/setupdlg.cpp:105
+#: editspell.cpp:264 msgedit.cpp:176 ui/setupdlg.cpp:105
 msgid "Spell check"
 msgstr "Проверка орфографии"
 
@@ -1915,11 +1915,11 @@ msgstr ""
 msgid "User %1 is online"
 msgstr "Пользователь %1 в сети"
 
-#: mainwin.cpp:1291 mainwin.cpp:1550 msgview.cpp:298
+#: mainwin.cpp:1291 mainwin.cpp:1550 msgview.cpp:302
 msgid "&Yes"
 msgstr "&Да"
 
-#: mainwin.cpp:1292 mainwin.cpp:1551 msgview.cpp:299
+#: mainwin.cpp:1292 mainwin.cpp:1551 msgview.cpp:303
 msgid "&No"
 msgstr "&Нет"
 
@@ -1986,7 +1986,7 @@ msgstr "Пользователи"
 msgid "Delete user %1?"
 msgstr "Удалить пользователя \"%1\"?"
 
-#: mainwin.cpp:1619 msgedit.cpp:772
+#: mainwin.cpp:1619 msgedit.cpp:773
 msgid "New"
 msgstr "Новое"
 
@@ -2175,67 +2175,67 @@ msgstr "Передача файла начата"
 msgid "Chat started"
 msgstr "Чат начат"
 
-#: msgedit.cpp:481
+#: msgedit.cpp:482
 msgid "Message sent"
 msgstr "Сообщение отправлено"
 
-#: msgedit.cpp:484
+#: msgedit.cpp:485
 msgid "Send failed"
 msgstr "Отправлено неудачно"
 
-#: msgedit.cpp:769
+#: msgedit.cpp:770
 msgid "Next"
 msgstr "Следующее"
 
-#: msgedit.cpp:810
+#: msgedit.cpp:811
 msgid "%1 (ICQ# %2) wrote:<br>\n"
 msgstr "%1 (ICQ# %2) пишет:<br>\n"
 
-#: msgedit.cpp:1364
+#: msgedit.cpp:1365
 msgid "Size: %1 / Max. size: %2"
 msgstr "Длина: %1 / Максимальная: %2"
 
-#: msgedit.cpp:1368
+#: msgedit.cpp:1369
 msgid "Message will be split"
 msgstr "Сообщение будет раздено на части"
 
-#: msgedit.cpp:1540
+#: msgedit.cpp:1541
 msgid "Decline reason"
 msgstr "Причина отказа"
 
-#: msgedit.cpp:1540
+#: msgedit.cpp:1541
 msgid "Please, input decline reason:"
 msgstr "Введите причину отказа:"
 
-#: msgview.cpp:162
+#: msgview.cpp:166
 msgid "Contact request"
 msgstr "Запрос списка контактов"
 
-#: msgview.cpp:171
+#: msgview.cpp:175
 msgid "File: "
 msgstr "Файл:"
 
-#: msgview.cpp:176
+#: msgview.cpp:180
 msgid "bytes"
 msgstr "байт"
 
-#: msgview.cpp:189
+#: msgview.cpp:193
 msgid "Contact list received"
 msgstr "Список контактов получен"
 
-#: msgview.cpp:189
+#: msgview.cpp:193
 msgid "Contact list sent"
 msgstr "Список контактов отправлен"
 
-#: msgview.cpp:259 ui/finddlgbase.cpp:62
+#: msgview.cpp:263 ui/finddlgbase.cpp:62
 msgid "&Find"
 msgstr "&Поиск"
 
-#: msgview.cpp:260
+#: msgview.cpp:264
 msgid "Find &next"
 msgstr "Найти &следующее"
 
-#: msgview.cpp:313
+#: msgview.cpp:317
 msgid ""
 "End of document reached.\n"
 "Continue from the beginning?"
@@ -2243,7 +2243,7 @@ msgstr ""
 "Достигнут конец.\n"
 "Начать поиск с начала?"
 
-#: msgview.cpp:314
+#: msgview.cpp:318
 msgid ""
 "Beginning of document reached.\n"
 "Continue from the end?"
@@ -2323,7 +2323,7 @@ msgstr "Добавить всех"
 msgid "Add to group"
 msgstr "Добавить в группу"
 
-#: userview.cpp:371 userview.cpp:893
+#: userview.cpp:371 userview.cpp:894
 msgid "Not in list"
 msgstr "Не в списке"
 
@@ -2343,7 +2343,7 @@ msgstr "Вверх"
 msgid "Down"
 msgstr "Вниз"
 
-#: userview.cpp:581 userview.cpp:594
+#: userview.cpp:582 userview.cpp:595
 msgid "New group"
 msgstr "Создать группу"
 
@@ -3255,6 +3255,54 @@ msgstr "Установить статус \"Не активный\" через"
 msgid "Set \"Away\" status after"
 msgstr "Установить статус \"Отошел\" через"
 
+#: ui/maininfobase.cpp:66
+msgid "Form5"
+msgstr "Основная информация"
+
+#: ui/maininfobase.cpp:95 ui/searchbase.cpp:210
+msgid "Last Name:"
+msgstr "Фамилия:"
+
+#: ui/maininfobase.cpp:112
+msgid "Uin:"
+msgstr "Uin:"
+
+#: ui/maininfobase.cpp:118
+msgid "Nick:"
+msgstr "Псевдоним:"
+
+#: ui/maininfobase.cpp:203
+msgid "Display:"
+msgstr "Показывать:"
+
+#: ui/maininfobase.cpp:209 ui/searchbase.cpp:216
+msgid "First name:"
+msgstr "Имя:"
+
+#: ui/maininfobase.cpp:221
+msgid "Email addresses:"
+msgstr "Почтовые адреса:"
+
+#: ui/maininfobase.cpp:232
+msgid "Add"
+msgstr "Добавить"
+
+#: ui/maininfobase.cpp:236
+msgid "Edit"
+msgstr "Редактировать"
+
+#: ui/maininfobase.cpp:240
+msgid "Remove"
+msgstr "Удалить"
+
+#: ui/maininfobase.cpp:244
+msgid "Set as default"
+msgstr "По умолчанию"
+
+#: ui/maininfobase.cpp:256
+msgid "Notes"
+msgstr "Заметки"
+
 #: ui/homeinfobase.cpp:153
 msgid "Time zone:"
 msgstr "Часовой пояс:"
@@ -3331,54 +3379,6 @@ msgstr ""
 "Отвергать сообщения от неизвестных "
 "пользователей, которые содержут слова "
 "или фразы:"
-
-#: ui/maininfobase.cpp:66
-msgid "Form5"
-msgstr "Основная информация"
-
-#: ui/maininfobase.cpp:95 ui/searchbase.cpp:210
-msgid "Last Name:"
-msgstr "Фамилия:"
-
-#: ui/maininfobase.cpp:112
-msgid "Uin:"
-msgstr "Uin:"
-
-#: ui/maininfobase.cpp:118
-msgid "Nick:"
-msgstr "Псевдоним:"
-
-#: ui/maininfobase.cpp:203
-msgid "Display:"
-msgstr "Показывать:"
-
-#: ui/maininfobase.cpp:209 ui/searchbase.cpp:216
-msgid "First name:"
-msgstr "Имя:"
-
-#: ui/maininfobase.cpp:221
-msgid "Email addresses:"
-msgstr "Почтовые адреса:"
-
-#: ui/maininfobase.cpp:232
-msgid "Add"
-msgstr "Добавить"
-
-#: ui/maininfobase.cpp:236
-msgid "Edit"
-msgstr "Редактировать"
-
-#: ui/maininfobase.cpp:240
-msgid "Remove"
-msgstr "Удалить"
-
-#: ui/maininfobase.cpp:244
-msgid "Set as default"
-msgstr "По умолчанию"
-
-#: ui/maininfobase.cpp:256
-msgid "Notes"
-msgstr "Заметки"
 
 #: ui/aboutinfobase.cpp:62
 msgid "Form4"

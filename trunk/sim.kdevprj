@@ -35,7 +35,7 @@ project_type=normal_kde2
 sub_dir=sim/
 version=0.1
 version_control=CVS
-workspace=117442047
+workspace=767
 
 [INSTALL]
 dist=true
@@ -99,7 +99,7 @@ install_location=
 type=DATA
 
 [po/Makefile.am]
-files=po/ru.po,po/de.po,po/zh_TW.po
+files=po/ru.po,po/de.po,po/zh_TW.po,po/tr.po,po/it.po
 sub_dirs=
 type=po
 
@@ -109,7 +109,19 @@ install=false
 install_location=
 type=PO
 
+[po/it.po]
+dist=false
+install=false
+install_location=
+type=PO
+
 [po/ru.po]
+dist=false
+install=false
+install_location=
+type=PO
+
+[po/tr.po]
 dist=false
 install=false
 install_location=
@@ -308,7 +320,7 @@ type=DATA
 
 [sim/libicq/Makefile.am]
 dist=true
-files=sim/libicq/bos.cpp,sim/libicq/buddy.cpp,sim/libicq/buffer.cpp,sim/libicq/buffer.h,sim/libicq/cfg.cpp,sim/libicq/cfg.h,sim/libicq/contactlist.cpp,sim/libicq/icmb.cpp,sim/libicq/icqclient.cpp,sim/libicq/icqclient.h,sim/libicq/lists.cpp,sim/libicq/location.cpp,sim/libicq/log.cpp,sim/libicq/log.h,sim/libicq/login.cpp,sim/libicq/Makefile.am,sim/libicq/message.cpp,sim/libicq/ping.cpp,sim/libicq/service.cpp,sim/libicq/socket.cpp,sim/libicq/socket.h,sim/libicq/translator.cpp,sim/libicq/various.cpp,sim/libicq/xml.cpp,sim/libicq/xml.h,sim/libicq/rtf.ll,sim/libicq/country.cpp,sim/libicq/country.h,sim/libicq/clearhtml.ll,sim/libicq/genrtf.ll,sim/libicq/direct.cpp
+files=sim/libicq/bos.cpp,sim/libicq/buddy.cpp,sim/libicq/buffer.cpp,sim/libicq/buffer.h,sim/libicq/cfg.cpp,sim/libicq/cfg.h,sim/libicq/contactlist.cpp,sim/libicq/icmb.cpp,sim/libicq/icqclient.cpp,sim/libicq/icqclient.h,sim/libicq/lists.cpp,sim/libicq/location.cpp,sim/libicq/log.cpp,sim/libicq/log.h,sim/libicq/login.cpp,sim/libicq/Makefile.am,sim/libicq/message.cpp,sim/libicq/ping.cpp,sim/libicq/service.cpp,sim/libicq/socket.cpp,sim/libicq/socket.h,sim/libicq/translator.cpp,sim/libicq/various.cpp,sim/libicq/xml.cpp,sim/libicq/xml.h,sim/libicq/rtf.ll,sim/libicq/country.cpp,sim/libicq/country.h,sim/libicq/clearhtml.ll,sim/libicq/genrtf.ll,sim/libicq/direct.cpp,sim/libicq/icqssl.cpp,sim/libicq/icqssl.h
 install=false
 install_location=
 sharedlib_LDFLAGS=-version-info 0:0:1
@@ -401,6 +413,18 @@ install_location=
 type=SOURCE
 
 [sim/libicq/icqclient.h]
+dist=true
+install=false
+install_location=
+type=HEADER
+
+[sim/libicq/icqssl.cpp]
+dist=true
+install=false
+install_location=
+type=SOURCE
+
+[sim/libicq/icqssl.h]
 dist=true
 install=false
 install_location=

@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2002-08-11 04:02+0400\n"
+"POT-Creation-Date: 2002-08-11 20:42+0400\n"
 "PO-Revision-Date: 2002-07-24 12:05+0800\n"
 "Last-Translator: 劉盛光 <stacker_liew_200@yahoo.com.tw>\n"
 "Language-Team: zh_TW.Big5 <zh@li.org>\n"
@@ -1761,19 +1761,19 @@ msgstr "檔案："
 msgid "URL"
 msgstr "URL"
 
-#: client.cpp:399 msgview.cpp:138
+#: client.cpp:399 msgview.cpp:142
 msgid "Authorization request"
 msgstr "請求授權"
 
-#: client.cpp:401 msgview.cpp:147
+#: client.cpp:401 msgview.cpp:151
 msgid "Authorization refused"
 msgstr "拒絕授權"
 
-#: client.cpp:403 msgview.cpp:155
+#: client.cpp:403 msgview.cpp:159
 msgid "Authorization granted"
 msgstr "接受授權"
 
-#: client.cpp:405 msgview.cpp:158
+#: client.cpp:405 msgview.cpp:162
 msgid "Added to contact list"
 msgstr "新增至連絡名單"
 
@@ -1809,11 +1809,11 @@ msgstr "SMS收據"
 msgid "Email"
 msgstr "Email"
 
-#: client.cpp:459 userview.cpp:890
+#: client.cpp:459 userview.cpp:891
 msgid "Offline"
 msgstr "離線"
 
-#: client.cpp:462 client.cpp:474 cuser.cpp:216 userview.cpp:887
+#: client.cpp:462 client.cpp:474 cuser.cpp:216 userview.cpp:888
 msgid "Online"
 msgstr "上線"
 
@@ -1854,7 +1854,7 @@ msgstr "自動回應訊息"
 msgid "Connecting"
 msgstr "正在連線"
 
-#: editspell.cpp:243 msgedit.cpp:176 ui/setupdlg.cpp:105
+#: editspell.cpp:264 msgedit.cpp:176 ui/setupdlg.cpp:105
 msgid "Spell check"
 msgstr "拼字檢查"
 
@@ -1958,11 +1958,11 @@ msgstr "您的UIN使用自別的所在"
 msgid "User %1 is online"
 msgstr "使用者已上線"
 
-#: mainwin.cpp:1291 mainwin.cpp:1550 msgview.cpp:298
+#: mainwin.cpp:1291 mainwin.cpp:1550 msgview.cpp:302
 msgid "&Yes"
 msgstr "確定(&Y)"
 
-#: mainwin.cpp:1292 mainwin.cpp:1551 msgview.cpp:299
+#: mainwin.cpp:1292 mainwin.cpp:1551 msgview.cpp:303
 msgid "&No"
 msgstr "否定(&N)"
 
@@ -2029,7 +2029,7 @@ msgstr "使用者"
 msgid "Delete user %1?"
 msgstr "刪除使用者 %1嗎﹖"
 
-#: mainwin.cpp:1619 msgedit.cpp:772
+#: mainwin.cpp:1619 msgedit.cpp:773
 msgid "New"
 msgstr "新增"
 
@@ -2214,75 +2214,75 @@ msgstr "已開始傳送"
 msgid "Chat started"
 msgstr "已開始聊天"
 
-#: msgedit.cpp:481
+#: msgedit.cpp:482
 msgid "Message sent"
 msgstr "訊息已送出"
 
-#: msgedit.cpp:484
+#: msgedit.cpp:485
 msgid "Send failed"
 msgstr "傳送失敗"
 
-#: msgedit.cpp:769
+#: msgedit.cpp:770
 msgid "Next"
 msgstr "下一個"
 
-#: msgedit.cpp:810
+#: msgedit.cpp:811
 msgid "%1 (ICQ# %2) wrote:<br>\n"
 msgstr ""
 
-#: msgedit.cpp:1364
+#: msgedit.cpp:1365
 msgid "Size: %1 / Max. size: %2"
 msgstr ""
 
-#: msgedit.cpp:1368
+#: msgedit.cpp:1369
 #, fuzzy
 msgid "Message will be split"
 msgstr "訊息已送出"
 
-#: msgedit.cpp:1540
+#: msgedit.cpp:1541
 msgid "Decline reason"
 msgstr "拒絕理由"
 
-#: msgedit.cpp:1540
+#: msgedit.cpp:1541
 msgid "Please, input decline reason:"
 msgstr "請輸入拒絕理由："
 
-#: msgview.cpp:162
+#: msgview.cpp:166
 msgid "Contact request"
 msgstr "請求連絡"
 
-#: msgview.cpp:171
+#: msgview.cpp:175
 msgid "File: "
 msgstr "檔案："
 
-#: msgview.cpp:176
+#: msgview.cpp:180
 msgid "bytes"
 msgstr "位元組"
 
-#: msgview.cpp:189
+#: msgview.cpp:193
 msgid "Contact list received"
 msgstr "已接收連絡名單"
 
-#: msgview.cpp:189
+#: msgview.cpp:193
 msgid "Contact list sent"
 msgstr "已傳送連絡名單"
 
-#: msgview.cpp:259 ui/finddlgbase.cpp:62
+#: msgview.cpp:263 ui/finddlgbase.cpp:62
 msgid "&Find"
 msgstr ""
 
-#: msgview.cpp:260
+#: msgview.cpp:264
 #, fuzzy
 msgid "Find &next"
 msgstr "尋找使用者"
 
-#: msgview.cpp:313
+#: msgview.cpp:317
 msgid ""
 "End of document reached.\n"
 "Continue from the beginning?"
 msgstr ""
 
-#: msgview.cpp:314
+#: msgview.cpp:318
 msgid ""
 "Beginning of document reached.\n"
 "Continue from the end?"
@@ -2365,7 +2365,7 @@ msgstr "新增所有"
 msgid "Add to group"
 msgstr "新增群組"
 
-#: userview.cpp:371 userview.cpp:893
+#: userview.cpp:371 userview.cpp:894
 msgid "Not in list"
 msgstr "不在名單中"
 
@@ -2385,7 +2385,7 @@ msgstr "向上"
 msgid "Down"
 msgstr "向下"
 
-#: userview.cpp:581 userview.cpp:594
+#: userview.cpp:582 userview.cpp:595
 msgid "New group"
 msgstr "新群組"
 
@@ -3307,6 +3307,56 @@ msgstr "設定\"N/A\"狀態於"
 msgid "Set \"Away\" status after"
 msgstr "設定\"離開\"狀態於"
 
+#: ui/maininfobase.cpp:66
+msgid "Form5"
+msgstr "表格5"
+
+#: ui/maininfobase.cpp:95 ui/searchbase.cpp:210
+msgid "Last Name:"
+msgstr "姓氏："
+
+#: ui/maininfobase.cpp:112
+msgid "Uin:"
+msgstr "Uin:"
+
+#: ui/maininfobase.cpp:118
+msgid "Nick:"
+msgstr "暱稱："
+
+#: ui/maininfobase.cpp:203
+msgid "Display:"
+msgstr "顯示："
+
+#: ui/maininfobase.cpp:209 ui/searchbase.cpp:216
+msgid "First name:"
+msgstr "姓名："
+
+#: ui/maininfobase.cpp:221
+msgid "Email addresses:"
+msgstr "電郵位址："
+
+#: ui/maininfobase.cpp:232
+#, fuzzy
+msgid "Add"
+msgstr "新增(&A)"
+
+#: ui/maininfobase.cpp:236
+msgid "Edit"
+msgstr ""
+
+#: ui/maininfobase.cpp:240
+#, fuzzy
+msgid "Remove"
+msgstr "更名"
+
+#: ui/maininfobase.cpp:244
+msgid "Set as default"
+msgstr "設定成為預設"
+
+#: ui/maininfobase.cpp:256
+msgid "Notes"
+msgstr "筆記"
+
 #: ui/homeinfobase.cpp:153
 msgid "Time zone:"
 msgstr "時區："
@@ -3372,56 +3422,6 @@ msgstr ""
 #: ui/generalsecbase.cpp:185
 msgid "Reject messages from unknown users contains this words or phrases:"
 msgstr ""
-
-#: ui/maininfobase.cpp:66
-msgid "Form5"
-msgstr "表格5"
-
-#: ui/maininfobase.cpp:95 ui/searchbase.cpp:210
-msgid "Last Name:"
-msgstr "姓氏："
-
-#: ui/maininfobase.cpp:112
-msgid "Uin:"
-msgstr "Uin:"
-
-#: ui/maininfobase.cpp:118
-msgid "Nick:"
-msgstr "暱稱："
-
-#: ui/maininfobase.cpp:203
-msgid "Display:"
-msgstr "顯示："
-
-#: ui/maininfobase.cpp:209 ui/searchbase.cpp:216
-msgid "First name:"
-msgstr "姓名："
-
-#: ui/maininfobase.cpp:221
-msgid "Email addresses:"
-msgstr "電郵位址："
-
-#: ui/maininfobase.cpp:232
-#, fuzzy
-msgid "Add"
-msgstr "新增(&A)"
-
-#: ui/maininfobase.cpp:236
-msgid "Edit"
-msgstr ""
-
-#: ui/maininfobase.cpp:240
-#, fuzzy
-msgid "Remove"
-msgstr "更名"
-
-#: ui/maininfobase.cpp:244
-msgid "Set as default"
-msgstr "設定成為預設"
-
-#: ui/maininfobase.cpp:256
-msgid "Notes"
-msgstr "筆記"
 
 #: ui/aboutinfobase.cpp:62
 msgid "Form4"

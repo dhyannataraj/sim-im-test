@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-08-11 04:02+0400\n"
+"POT-Creation-Date: 2002-08-11 20:42+0400\n"
 "PO-Revision-Date: 2002-08-09 23:51GMT\n"
 "Last-Translator: Crissi <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -1712,19 +1712,19 @@ msgstr "Datei"
 msgid "URL"
 msgstr "URL"
 
-#: client.cpp:399 msgview.cpp:138
+#: client.cpp:399 msgview.cpp:142
 msgid "Authorization request"
 msgstr "Authorisierungsanfrage"
 
-#: client.cpp:401 msgview.cpp:147
+#: client.cpp:401 msgview.cpp:151
 msgid "Authorization refused"
 msgstr "Authorisierung abgelehnt"
 
-#: client.cpp:403 msgview.cpp:155
+#: client.cpp:403 msgview.cpp:159
 msgid "Authorization granted"
 msgstr "Authorisierung gewährt"
 
-#: client.cpp:405 msgview.cpp:158
+#: client.cpp:405 msgview.cpp:162
 msgid "Added to contact list"
 msgstr "Zur Kontaktliste hinzugefügt"
 
@@ -1760,11 +1760,11 @@ msgstr "SMS Empfänger"
 msgid "Email"
 msgstr "E-Mail"
 
-#: client.cpp:459 userview.cpp:890
+#: client.cpp:459 userview.cpp:891
 msgid "Offline"
 msgstr "Offline"
 
-#: client.cpp:462 client.cpp:474 cuser.cpp:216 userview.cpp:887
+#: client.cpp:462 client.cpp:474 cuser.cpp:216 userview.cpp:888
 msgid "Online"
 msgstr "Online"
 
@@ -1805,7 +1805,7 @@ msgstr "%n ungelesene Nachricht"
 msgid "Connecting"
 msgstr "Verbindungsaufbau"
 
-#: editspell.cpp:243 msgedit.cpp:176 ui/setupdlg.cpp:105
+#: editspell.cpp:264 msgedit.cpp:176 ui/setupdlg.cpp:105
 msgid "Spell check"
 msgstr "Rechtschreibprüfung"
 
@@ -1907,11 +1907,11 @@ msgstr "Ihre UIN wird von einem anderem Ort benutzt"
 msgid "User %1 is online"
 msgstr "Benutzer %1 ist online"
 
-#: mainwin.cpp:1291 mainwin.cpp:1550 msgview.cpp:298
+#: mainwin.cpp:1291 mainwin.cpp:1550 msgview.cpp:302
 msgid "&Yes"
 msgstr "&Ja"
 
-#: mainwin.cpp:1292 mainwin.cpp:1551 msgview.cpp:299
+#: mainwin.cpp:1292 mainwin.cpp:1551 msgview.cpp:303
 msgid "&No"
 msgstr "&Nein"
 
@@ -1978,7 +1978,7 @@ msgstr "Benutzer"
 msgid "Delete user %1?"
 msgstr "Benutzer %1 löschen?"
 
-#: mainwin.cpp:1619 msgedit.cpp:772
+#: mainwin.cpp:1619 msgedit.cpp:773
 msgid "New"
 msgstr "Neu"
 
@@ -2165,67 +2165,67 @@ msgstr "Übertragung gestartet"
 msgid "Chat started"
 msgstr "Chat gestartet"
 
-#: msgedit.cpp:481
+#: msgedit.cpp:482
 msgid "Message sent"
 msgstr "Nachricht gesendet"
 
-#: msgedit.cpp:484
+#: msgedit.cpp:485
 msgid "Send failed"
 msgstr "Senden fehlgeschlagen"
 
-#: msgedit.cpp:769
+#: msgedit.cpp:770
 msgid "Next"
 msgstr "Weiter"
 
-#: msgedit.cpp:810
+#: msgedit.cpp:811
 msgid "%1 (ICQ# %2) wrote:<br>\n"
 msgstr "%1 (ICQ# %2) schrieb:<br>\n"
 
-#: msgedit.cpp:1364
+#: msgedit.cpp:1365
 msgid "Size: %1 / Max. size: %2"
 msgstr "Größe: %1 / Max. Größe: %2"
 
-#: msgedit.cpp:1368
+#: msgedit.cpp:1369
 msgid "Message will be split"
 msgstr "Nachricht wird aufgeteilt"
 
-#: msgedit.cpp:1540
+#: msgedit.cpp:1541
 msgid "Decline reason"
 msgstr "Ablehnungsgrund"
 
-#: msgedit.cpp:1540
+#: msgedit.cpp:1541
 msgid "Please, input decline reason:"
 msgstr "Bitte geben Sie einen Ablehnungsgrund ein:"
 
-#: msgview.cpp:162
+#: msgview.cpp:166
 msgid "Contact request"
 msgstr "Kontaktanfrage"
 
-#: msgview.cpp:171
+#: msgview.cpp:175
 msgid "File: "
 msgstr "Datei:"
 
-#: msgview.cpp:176
+#: msgview.cpp:180
 msgid "bytes"
 msgstr "Byte"
 
-#: msgview.cpp:189
+#: msgview.cpp:193
 msgid "Contact list received"
 msgstr "Kontakliste empfangen"
 
-#: msgview.cpp:189
+#: msgview.cpp:193
 msgid "Contact list sent"
 msgstr "Kontaktliste wird gesendet"
 
-#: msgview.cpp:259 ui/finddlgbase.cpp:62
+#: msgview.cpp:263 ui/finddlgbase.cpp:62
 msgid "&Find"
 msgstr "&Suchen"
 
-#: msgview.cpp:260
+#: msgview.cpp:264
 msgid "Find &next"
 msgstr "&Nächsten suchen"
 
-#: msgview.cpp:313
+#: msgview.cpp:317
 msgid ""
 "End of document reached.\n"
 "Continue from the beginning?"
@@ -2233,7 +2233,7 @@ msgstr ""
 "Das Ende des Dokuments wurde erreicht.\n"
 "Am Anfang fortsetzen?"
 
-#: msgview.cpp:314
+#: msgview.cpp:318
 msgid ""
 "Beginning of document reached.\n"
 "Continue from the end?"
@@ -2313,7 +2313,7 @@ msgstr "Alle hinzufügen"
 msgid "Add to group"
 msgstr "Zu Gruppe hinzufügen"
 
-#: userview.cpp:371 userview.cpp:893
+#: userview.cpp:371 userview.cpp:894
 msgid "Not in list"
 msgstr "Nicht in Liste"
 
@@ -2333,7 +2333,7 @@ msgstr "Nach oben"
 msgid "Down"
 msgstr "Abwärts"
 
-#: userview.cpp:581 userview.cpp:594
+#: userview.cpp:582 userview.cpp:595
 msgid "New group"
 msgstr "Neue Gruppe"
 
@@ -3237,6 +3237,54 @@ msgstr "\"N/A\"-Status setzen wenn"
 msgid "Set \"Away\" status after"
 msgstr "\"Weg\"-Status setzen wenn"
 
+#: ui/maininfobase.cpp:66
+msgid "Form5"
+msgstr "Form5"
+
+#: ui/maininfobase.cpp:95 ui/searchbase.cpp:210
+msgid "Last Name:"
+msgstr "Nachname:"
+
+#: ui/maininfobase.cpp:112
+msgid "Uin:"
+msgstr "UIN:"
+
+#: ui/maininfobase.cpp:118
+msgid "Nick:"
+msgstr "Nickname:"
+
+#: ui/maininfobase.cpp:203
+msgid "Display:"
+msgstr "Anzeige:"
+
+#: ui/maininfobase.cpp:209 ui/searchbase.cpp:216
+msgid "First name:"
+msgstr "Vorname:"
+
+#: ui/maininfobase.cpp:221
+msgid "Email addresses:"
+msgstr "E-Mail-Adressen:"
+
+#: ui/maininfobase.cpp:232
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: ui/maininfobase.cpp:236
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: ui/maininfobase.cpp:240
+msgid "Remove"
+msgstr "Entfernen"
+
+#: ui/maininfobase.cpp:244
+msgid "Set as default"
+msgstr "Als Standard festlegen"
+
+#: ui/maininfobase.cpp:256
+msgid "Notes"
+msgstr "Bemerkungen"
+
 #: ui/homeinfobase.cpp:153
 msgid "Time zone:"
 msgstr "Zeitzone:"
@@ -3299,54 +3347,6 @@ msgstr "&Andere Nachrichten ablehnen"
 msgid "Reject messages from unknown users contains this words or phrases:"
 msgstr ""
 "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
-
-#: ui/maininfobase.cpp:66
-msgid "Form5"
-msgstr "Form5"
-
-#: ui/maininfobase.cpp:95 ui/searchbase.cpp:210
-msgid "Last Name:"
-msgstr "Nachname:"
-
-#: ui/maininfobase.cpp:112
-msgid "Uin:"
-msgstr "UIN:"
-
-#: ui/maininfobase.cpp:118
-msgid "Nick:"
-msgstr "Nickname:"
-
-#: ui/maininfobase.cpp:203
-msgid "Display:"
-msgstr "Anzeige:"
-
-#: ui/maininfobase.cpp:209 ui/searchbase.cpp:216
-msgid "First name:"
-msgstr "Vorname:"
-
-#: ui/maininfobase.cpp:221
-msgid "Email addresses:"
-msgstr "E-Mail-Adressen:"
-
-#: ui/maininfobase.cpp:232
-msgid "Add"
-msgstr "Hinzufügen"
-
-#: ui/maininfobase.cpp:236
-msgid "Edit"
-msgstr "Bearbeiten"
-
-#: ui/maininfobase.cpp:240
-msgid "Remove"
-msgstr "Entfernen"
-
-#: ui/maininfobase.cpp:244
-msgid "Set as default"
-msgstr "Als Standard festlegen"
-
-#: ui/maininfobase.cpp:256
-msgid "Notes"
-msgstr "Bemerkungen"
 
 #: ui/aboutinfobase.cpp:62
 msgid "Form4"

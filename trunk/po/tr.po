@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-08-11 04:02+0400\n"
+"POT-Creation-Date: 2002-08-11 20:42+0400\n"
 "PO-Revision-Date: 2002-08-11 10:20+0300\n"
 "Last-Translator: ismail donmez <voidcartman@yahoo.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
@@ -1712,19 +1712,19 @@ msgstr "Dosya"
 msgid "URL"
 msgstr "URL"
 
-#: client.cpp:399 msgview.cpp:138
+#: client.cpp:399 msgview.cpp:142
 msgid "Authorization request"
 msgstr "İzin İsteği"
 
-#: client.cpp:401 msgview.cpp:147
+#: client.cpp:401 msgview.cpp:151
 msgid "Authorization refused"
 msgstr "İzin reddedildi"
 
-#: client.cpp:403 msgview.cpp:155
+#: client.cpp:403 msgview.cpp:159
 msgid "Authorization granted"
 msgstr "İzin kabul edildi"
 
-#: client.cpp:405 msgview.cpp:158
+#: client.cpp:405 msgview.cpp:162
 msgid "Added to contact list"
 msgstr "Kontak listesine eklendi"
 
@@ -1760,11 +1760,11 @@ msgstr "SMS alıcısı"
 msgid "Email"
 msgstr "E-Mail"
 
-#: client.cpp:459 userview.cpp:890
+#: client.cpp:459 userview.cpp:891
 msgid "Offline"
 msgstr "Bağlı değil"
 
-#: client.cpp:462 client.cpp:474 cuser.cpp:216 userview.cpp:887
+#: client.cpp:462 client.cpp:474 cuser.cpp:216 userview.cpp:888
 msgid "Online"
 msgstr "Bağlı"
 
@@ -1805,7 +1805,7 @@ msgstr "%n okunmamış mesaj"
 msgid "Connecting"
 msgstr "Bağlanıyor"
 
-#: editspell.cpp:243 msgedit.cpp:176 ui/setupdlg.cpp:105
+#: editspell.cpp:264 msgedit.cpp:176 ui/setupdlg.cpp:105
 msgid "Spell check"
 msgstr "Yazım Kontrolü"
 
@@ -1907,11 +1907,11 @@ msgstr "UIN'niz başka bi yerden kullanıldı"
 msgid "User %1 is online"
 msgstr "Kullanıcı %1  bağlı"
 
-#: mainwin.cpp:1291 mainwin.cpp:1550 msgview.cpp:298
+#: mainwin.cpp:1291 mainwin.cpp:1550 msgview.cpp:302
 msgid "&Yes"
 msgstr "&Evet"
 
-#: mainwin.cpp:1292 mainwin.cpp:1551 msgview.cpp:299
+#: mainwin.cpp:1292 mainwin.cpp:1551 msgview.cpp:303
 msgid "&No"
 msgstr "&Hayır"
 
@@ -1978,7 +1978,7 @@ msgstr "Kullanıcılar"
 msgid "Delete user %1?"
 msgstr " %1 i sil?"
 
-#: mainwin.cpp:1619 msgedit.cpp:772
+#: mainwin.cpp:1619 msgedit.cpp:773
 msgid "New"
 msgstr "Yeni"
 
@@ -2163,67 +2163,67 @@ msgstr "Transfer Başladı"
 msgid "Chat started"
 msgstr "Chat başladı"
 
-#: msgedit.cpp:481
+#: msgedit.cpp:482
 msgid "Message sent"
 msgstr "Mesaj Gönderildi"
 
-#: msgedit.cpp:484
+#: msgedit.cpp:485
 msgid "Send failed"
 msgstr "Gönderme başarısız"
 
-#: msgedit.cpp:769
+#: msgedit.cpp:770
 msgid "Next"
 msgstr "Sonraki"
 
-#: msgedit.cpp:810
+#: msgedit.cpp:811
 msgid "%1 (ICQ# %2) wrote:<br>\n"
 msgstr "%1 (ICQ# %2) yazdı:<br>\n"
 
-#: msgedit.cpp:1364
+#: msgedit.cpp:1365
 msgid "Size: %1 / Max. size: %2"
 msgstr "Büyüklük: %1 / Max. büyüklük: %2"
 
-#: msgedit.cpp:1368
+#: msgedit.cpp:1369
 msgid "Message will be split"
 msgstr "Mesaj parçalara bölünecek"
 
-#: msgedit.cpp:1540
+#: msgedit.cpp:1541
 msgid "Decline reason"
 msgstr "Reddetme nedeni"
 
-#: msgedit.cpp:1540
+#: msgedit.cpp:1541
 msgid "Please, input decline reason:"
 msgstr "Lütfen , reddetme sebebini girin:"
 
-#: msgview.cpp:162
+#: msgview.cpp:166
 msgid "Contact request"
 msgstr "Kontak İsteği"
 
-#: msgview.cpp:171
+#: msgview.cpp:175
 msgid "File: "
 msgstr "Dosya:"
 
-#: msgview.cpp:176
+#: msgview.cpp:180
 msgid "bytes"
 msgstr "Byte"
 
-#: msgview.cpp:189
+#: msgview.cpp:193
 msgid "Contact list received"
 msgstr "Kontak listesi alındı"
 
-#: msgview.cpp:189
+#: msgview.cpp:193
 msgid "Contact list sent"
 msgstr "Kontak listesi gönderildi"
 
-#: msgview.cpp:259 ui/finddlgbase.cpp:62
+#: msgview.cpp:263 ui/finddlgbase.cpp:62
 msgid "&Find"
 msgstr "&Bul"
 
-#: msgview.cpp:260
+#: msgview.cpp:264
 msgid "Find &next"
 msgstr "&Sonrakini bul"
 
-#: msgview.cpp:313
+#: msgview.cpp:317
 msgid ""
 "End of document reached.\n"
 "Continue from the beginning?"
@@ -2231,7 +2231,7 @@ msgstr ""
 "Dokümanın sonu geldi\n"
 "Dökümanın başından devam et?"
 
-#: msgview.cpp:314
+#: msgview.cpp:318
 msgid ""
 "Beginning of document reached.\n"
 "Continue from the end?"
@@ -2311,7 +2311,7 @@ msgstr "Tümünü ekle"
 msgid "Add to group"
 msgstr "Gruba ekle"
 
-#: userview.cpp:371 userview.cpp:893
+#: userview.cpp:371 userview.cpp:894
 msgid "Not in list"
 msgstr "Listede kayıtlı değil"
 
@@ -2331,7 +2331,7 @@ msgstr "Üst"
 msgid "Down"
 msgstr "Alt"
 
-#: userview.cpp:581 userview.cpp:594
+#: userview.cpp:582 userview.cpp:595
 msgid "New group"
 msgstr "Yeni grup"
 
@@ -2920,7 +2920,8 @@ msgstr "Global alarm ayarlarının üzerine yaz"
 
 #: ui/alertdialogbase.cpp:95
 msgid "Activate online alert when user returns from Away or NA"
-msgstr "Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
+msgstr ""
+"Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
 
 #: ui/alertdialogbase.cpp:99
 msgid "Online alert options"
@@ -3210,7 +3211,8 @@ msgid "Spoken languages:"
 msgstr "Bildiği Diller:"
 
 #: ui/statussetupbase.cpp:95
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "\"Uzakta\", \"N/A\", \"DND\" ve \"Meşgul\"-Listelerinde bağlı alamını "
 "iptal et "
@@ -3231,13 +3233,62 @@ msgstr "\"N/A\"-Statusüne geç"
 msgid "Set \"Away\" status after"
 msgstr "\"Uzakta\"-Statüsüne geç"
 
+#: ui/maininfobase.cpp:66
+msgid "Form5"
+msgstr "Form5"
+
+#: ui/maininfobase.cpp:95 ui/searchbase.cpp:210
+msgid "Last Name:"
+msgstr "Soyadı:"
+
+#: ui/maininfobase.cpp:112
+msgid "Uin:"
+msgstr "UIN:"
+
+#: ui/maininfobase.cpp:118
+msgid "Nick:"
+msgstr "Nick:"
+
+#: ui/maininfobase.cpp:203
+msgid "Display:"
+msgstr "Gösteriş Şekli:"
+
+#: ui/maininfobase.cpp:209 ui/searchbase.cpp:216
+msgid "First name:"
+msgstr "Adı :"
+
+#: ui/maininfobase.cpp:221
+msgid "Email addresses:"
+msgstr "E-Mail-Adresi:"
+
+#: ui/maininfobase.cpp:232
+msgid "Add"
+msgstr "Ekle"
+
+#: ui/maininfobase.cpp:236
+msgid "Edit"
+msgstr "Değiştir"
+
+#: ui/maininfobase.cpp:240
+msgid "Remove"
+msgstr "Sil"
+
+#: ui/maininfobase.cpp:244
+msgid "Set as default"
+msgstr "Öntanımlı olarak ayarla"
+
+#: ui/maininfobase.cpp:256
+msgid "Notes"
+msgstr "Notlar"
+
 #: ui/homeinfobase.cpp:153
 msgid "Time zone:"
 msgstr "Zaman Dilimi:"
 
 #: ui/generalsecbase.cpp:124
 msgid "My &authorization is required before users add me to Contact List"
-msgstr "Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
+msgstr ""
+"Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
 
 #: ui/generalsecbase.cpp:128
 msgid "Allow others to view my &status from the Web"
@@ -3292,54 +3343,6 @@ msgid "Reject messages from unknown users contains this words or phrases:"
 msgstr ""
 "Bilinmeyen kullanıcılardan gelen mesajlar şu kelimeleri ya da cümleleri "
 "taşıyosa reddet : "
-
-#: ui/maininfobase.cpp:66
-msgid "Form5"
-msgstr "Form5"
-
-#: ui/maininfobase.cpp:95 ui/searchbase.cpp:210
-msgid "Last Name:"
-msgstr "Soyadı:"
-
-#: ui/maininfobase.cpp:112
-msgid "Uin:"
-msgstr "UIN:"
-
-#: ui/maininfobase.cpp:118
-msgid "Nick:"
-msgstr "Nick:"
-
-#: ui/maininfobase.cpp:203
-msgid "Display:"
-msgstr "Gösteriş Şekli:"
-
-#: ui/maininfobase.cpp:209 ui/searchbase.cpp:216
-msgid "First name:"
-msgstr "Adı :"
-
-#: ui/maininfobase.cpp:221
-msgid "Email addresses:"
-msgstr "E-Mail-Adresi:"
-
-#: ui/maininfobase.cpp:232
-msgid "Add"
-msgstr "Ekle"
-
-#: ui/maininfobase.cpp:236
-msgid "Edit"
-msgstr "Değiştir"
-
-#: ui/maininfobase.cpp:240
-msgid "Remove"
-msgstr "Sil"
-
-#: ui/maininfobase.cpp:244
-msgid "Set as default"
-msgstr "Öntanımlı olarak ayarla"
-
-#: ui/maininfobase.cpp:256
-msgid "Notes"
-msgstr "Notlar"
 
 #: ui/aboutinfobase.cpp:62
 msgid "Form4"
@@ -3453,4 +3456,3 @@ msgstr "Bu program GPL v2 lisansı altında dağıtılmaktadır."
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
-

@@ -228,8 +228,8 @@ x_libraries = @x_libraries@
 
 #>- POFILES = AUTO
 #>+ 2
-POFILES = de.po zh_TW.po ru.po tr.po
-GMOFILES = de.gmo zh_TW.gmo ru.gmo tr.gmo
+POFILES = de.po zh_TW.po ru.po tr.po it.po
+GMOFILES = de.gmo zh_TW.gmo ru.gmo tr.gmo it.gmo
 subdir = po
 mkinstalldirs = $(SHELL) $(top_srcdir)/admin/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
@@ -268,7 +268,7 @@ TAGS:
 
 #>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 #>+ 4
-KDE_DIST=tr.po ru.po de.po tr.gmo ru.gmo zh_TW.po de.gmo sim.pot zh_TW.gmo 
+KDE_DIST=sim.pot ru.po de.gmo it.po tr.po de.po tr.gmo ru.gmo zh_TW.po zh_TW.gmo 
 
 #>- DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
 #>+ 1
@@ -382,7 +382,7 @@ uninstall-am: uninstall-info-am
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
 
-#>+ 13
+#>+ 16
 de.gmo: de.po
 	rm -f de.gmo; $(GMSGFMT) -o de.gmo $(srcdir)/de.po
 	test ! -f de.gmo || touch de.gmo
@@ -395,26 +395,30 @@ ru.gmo: ru.po
 tr.gmo: tr.po
 	rm -f tr.gmo; $(GMSGFMT) -o tr.gmo $(srcdir)/tr.po
 	test ! -f tr.gmo || touch tr.gmo
+it.gmo: it.po
+	rm -f it.gmo; $(GMSGFMT) -o it.gmo $(srcdir)/it.po
+	test ! -f it.gmo || touch it.gmo
 
 #>+ 3
 clean-nls:
-	-rm -f  de.gmo zh_TW.gmo ru.gmo tr.gmo
+	-rm -f  de.gmo zh_TW.gmo ru.gmo tr.gmo it.gmo
 
 #>+ 8
 install-nls:
-	@for base in de zh_TW ru tr ; do \
+	@for base in de zh_TW ru tr it ; do \
 	  echo $(INSTALL_DATA) $$base.gmo $(DESTDIR)$(kde_locale)/$$base/LC_MESSAGES/$(PACKAGE).mo ;\
 	  $(mkinstalldirs) $(DESTDIR)$(kde_locale)/$$base/LC_MESSAGES ; \
 	  test ! -f $$base.gmo || $(INSTALL_DATA) $$base.gmo $(DESTDIR)$(kde_locale)/$$base/LC_MESSAGES/$(PACKAGE).mo ;\
 	done
 
 
-#>+ 6
+#>+ 7
 uninstall-nls:
 	rm -f $(DESTDIR)$(kde_locale)/de/LC_MESSAGES/$(PACKAGE).mo
 	rm -f $(DESTDIR)$(kde_locale)/zh_TW/LC_MESSAGES/$(PACKAGE).mo
 	rm -f $(DESTDIR)$(kde_locale)/ru/LC_MESSAGES/$(PACKAGE).mo
 	rm -f $(DESTDIR)$(kde_locale)/tr/LC_MESSAGES/$(PACKAGE).mo
+	rm -f $(DESTDIR)$(kde_locale)/it/LC_MESSAGES/$(PACKAGE).mo
 
 #>+ 2
 all-nls: $(GMOFILES)

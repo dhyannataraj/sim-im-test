@@ -32,12 +32,12 @@ case "$AUTOCONF_VERSION" in
   Autoconf*2.5* | autoconf*2.5* ) : ;;
   "" )
     echo "*** AUTOCONF NOT FOUND!."
-    echo "*** KDE requires autoconf 2.52 or 2.53"
+    echo "*** SIM requires autoconf 2.52 or 2.53"
     exit 1
     ;;
   * )
     echo "*** YOU'RE USING $AUTOCONF_VERSION."
-    echo "*** KDE requires autoconf 2.52 or 2.53"
+    echo "*** SIM requires autoconf 2.52 or 2.53"
     exit 1
     ;;
 esac
@@ -47,12 +47,12 @@ case "$AUTOHEADER_VERSION" in
   Autoconf*2.5* | autoheader*2.5* ) : ;;
   "" )
     echo "*** AUTOHEADER NOT FOUND!."
-    echo "*** KDE requires autoheader 2.52 or 2.53 (part of autoconf)"
+    echo "*** SIM requires autoheader 2.52 or 2.53 (part of autoconf)"
     exit 1
     ;;
   * )
     echo "*** YOU'RE USING $AUTOHEADER_VERSION."
-    echo "*** KDE requires autoheader 2.52 or 2.53 (part of autoconf)"
+    echo "*** SIM requires autoheader 2.52 or 2.53 (part of autoconf)"
     exit 1
     ;;
 esac
@@ -61,13 +61,13 @@ AUTOMAKE_STRING=`$AUTOMAKE --version | head -1`
 case "$AUTOMAKE_STRING" in
   automake*1.5d* )
     echo "*** YOU'RE USING $AUTOMAKE_STRING."
-    echo "*** KDE requires automake 1.5"
+    echo "*** SIM requires automake 1.5"
     exit 1
     ;;
-  automake*1.5* | automake*1.5-* | automake*1.6.1 ) : ;;
+  automake*1.5* | automake*1.5-* | automake*1.6* ) : ;;
   "" )
     echo "*** AUTOMAKE NOT FOUND!."
-    echo "*** KDE requires automake 1.5"
+    echo "*** SIM requires automake 1.5 or 1.6"
     exit 1
     ;;
   unsermake* ) :
@@ -76,7 +76,7 @@ case "$AUTOMAKE_STRING" in
     ;;
   * )
     echo "*** YOU'RE USING $AUTOMAKE_STRING."
-    echo "*** KDE requires automake 1.5"
+    echo "*** SIM requires automake 1.5 or 1.6"
     exit 1
     ;;
 esac

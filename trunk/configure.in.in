@@ -43,5 +43,13 @@ AC_DEFINE(USE_SPELL,1,[Use speller])
 fi
 fi
 AC_DEFINE_UNQUOTED(PREFIX, "$prefix", [Install prefix])
-
+if test "$WITH_OPENSSL" = "no"; then
+  echo ""
+  echo "OpenSSL support is not available.  SIM will not be able to"
+  echo "establish secure communication channels. This is not required"
+  echo "for proper function (i.e. it is optional). If you really desire this"
+  echo "functionality then install OpenSSL (libraries and headers) and"
+  echo "rebuild SIM.  OpenSSL can be found at http://www.openssl.org"
+  echo "or as RPM from your local distribution site."
+fi
 
