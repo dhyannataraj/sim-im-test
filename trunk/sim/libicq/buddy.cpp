@@ -230,7 +230,7 @@ void ICQClientPrivate::sendContactList()
 
 void ICQClientPrivate::addToContacts(unsigned long uin)
 {
-    if (client->isLogged()) return;
+    if (!client->isLogged()) return;
     if (uin >= UIN_SPECIAL) return;
     snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_ADDxTOxLIST);
     sock->writeBuffer.packUin(uin);
