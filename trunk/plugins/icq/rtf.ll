@@ -213,10 +213,17 @@ protected:
 
 // Paragraph members
 
-    // True if the paragraph was opened explicitly.
-    bool bExplicitParagraph;
     // The paragraph's HTML buffer.
     QString sParagraph;
+    // True if the paragraph was opened explicitly.
+    bool bExplicitParagraph;
+    // Whether we have an empty paragraph which we haven't flushed yet.
+    // We do not haste with flushing it, since it might be the last
+    // (empty) paragraph in the RTF message, which we want to discard.
+    // This last paragraph is not appended by the user, but by the
+    // client itself, to keep the official ICQ client's sanity,
+    // and there's no reason our users should see it.
+    bool bPendingEmptyParagraph;
     // Defines the paragraph's formatting.
     ParStyle parStyle;
     // Tags which weren't yet printed out.
@@ -246,6 +253,7 @@ RTF2HTML::RTF2HTML()
 {
     rtf_ptr = NULL;
     bExplicitParagraph = false;
+    bPendingEmptyParagraph = false;
 }
 
 OutTag* RTF2HTML::getTopOutTag(TagEnum tagType)
@@ -467,19 +475,34 @@ void RTF2HTML::PrintQuoted(const QString &str)
 
 void RTF2HTML::FlushParagraph()
 {
-    if (!bExplicitParagraph || sParagraph.isEmpty())
-       return;
+    if (bPendingEmptyParagraph)
+    {
+       s += "<p><br></p>";
+       bPendingEmptyParagraph = false;
+    }
 
-    s += "<p dir=\"";
-    // Note: Lower-case 'ltr' and 'rtl' are important for Qt.
-    s += (parStyle.dir == ParStyle::DirRTL ? "rtl" : "ltr");
-    s += "\">";
-    s += sParagraph;
-    s += "</p>";
-
+    if (!sParagraph.isEmpty())
+    {
+       s += "<p dir=\"";
+       // Note: Lower-case 'ltr' and 'rtl' are important for Qt.
+       s += (parStyle.dir == ParStyle::DirRTL ? "rtl" : "ltr");
+       s += "\">";
+       s += sParagraph;
+       s += "</p>";
+    }
+    else
+    {
+       if (bExplicitParagraph)
+          // Delay the empty paragraph for later appending.
+          // If this empty paragraph happens to be the last one
+          // in the message, we'll end up discarding it -- which
+          // is a good thing (since it's just a compatibility hack
+          // for the official ICQ client).
+          bPendingEmptyParagraph = true;
+    }
+    
     // Clear up the paragraph members
     sParagraph = "";
-    bExplicitParagraph = false;
 }
 
 void Level::setFont(unsigned nFont)
