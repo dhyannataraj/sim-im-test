@@ -1248,6 +1248,7 @@ typedef struct ClientData
     unsigned	CommonStatus;
     char		*Password;
     unsigned	SavePassword;
+	char		*PreviousPassword;
     unsigned	Invisible;
 } ClientData;
 
@@ -1293,6 +1294,7 @@ public:
     PROP_BOOL(CommonStatus)
     PROP_UTF8(Password)
     PROP_BOOL(SavePassword)
+	PROP_UTF8(PreviousPassword)
     bool getInvisible() { return data.Invisible; }
     virtual void setInvisible(bool bInvisible) { data.Invisible = bInvisible; }
 protected:

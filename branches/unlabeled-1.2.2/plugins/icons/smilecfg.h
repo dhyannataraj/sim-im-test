@@ -30,7 +30,6 @@ public:
     SmileCfg(QWidget *parent, IconsPlugin *plugin);
 public slots:
     void apply();
-    void goSmiles();
 protected:
     IconsPlugin *m_plugin;
 };

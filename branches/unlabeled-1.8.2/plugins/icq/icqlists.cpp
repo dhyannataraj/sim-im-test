@@ -402,6 +402,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             if (!m_bAIM)
                 sendLogonStatus();
             setState(Connected);
+			setPreviousPassword(NULL);
             Event e(EventClientChanged, this);
             e.process();
             sendClientReady();

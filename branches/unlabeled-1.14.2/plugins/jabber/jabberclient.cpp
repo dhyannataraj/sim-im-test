@@ -737,6 +737,7 @@ void JabberClient::auth_ok()
         return;
     }
     setState(Connected);
+	setPreviousPassword(NULL);
     rosters_request();
     info_request(NULL);
     setStatus(m_logonStatus);

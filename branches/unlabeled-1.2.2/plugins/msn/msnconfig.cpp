@@ -41,7 +41,7 @@ MSNConfig::MSNConfig(QWidget *parent, MSNClient *client, bool bConfig)
     connect(edtServer, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(edtPort, SIGNAL(valueChanged(const QString&)), this, SLOT(changed(const QString&)));
     lnkReg->setText(i18n("Register in .NET Passport"));
-    connect(lnkReg, SIGNAL(click()), this, SLOT(regClick()));
+    lnkReg->setUrl(i18n("https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"));
 }
 
 void MSNConfig::apply(Client*, void*)
@@ -69,14 +69,6 @@ void MSNConfig::changed()
                    !edtPassword->text().isEmpty() &&
                    !edtServer->text().isEmpty() &&
                    atol(edtPort->text()));
-}
-
-void MSNConfig::regClick()
-{
-    string url;
-    url = i18n("https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1").latin1();
-    Event e(EventGoURL, (void*)url.c_str());
-    e.process();
 }
 
 #ifndef WIN32

@@ -43,7 +43,7 @@ AIMConfig::AIMConfig(QWidget *parent, ICQClient *client, bool bConfig)
         connect(edtScreen, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
         connect(edtPasswd, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
         lnkReg->setText(i18n("Register new ScreenName"));
-        connect(lnkReg, SIGNAL(click()), this, SLOT(regClick()));
+        lnkReg->setUrl("http://my.screenname.aol.com/_cqr/login/login.psp?siteId=aimregistrationPROD&authLev=1&mcState=initialized&createSn=1&triedAimAuth=y");
     }else{
         tabConfig->removePage(tabAIM);
     }
@@ -80,14 +80,6 @@ void AIMConfig::changed()
            !edtServer->text().isEmpty() &&
            atol(edtPort->text());
     emit okEnabled(bOK);
-}
-
-void AIMConfig::regClick()
-{
-    string url;
-    url = "http://my.screenname.aol.com/_cqr/login/login.psp?siteId=aimregistrationPROD&authLev=1&mcState=initialized&createSn=1&triedAimAuth=y";
-    Event e(EventGoURL, (void*)url.c_str());
-    e.process();
 }
 
 #ifndef WIN32

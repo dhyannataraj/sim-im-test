@@ -119,7 +119,7 @@ SmileCfg::SmileCfg(QWidget *parent, IconsPlugin *plugin)
         : SmileCfgBase(parent)
 {
     m_plugin = plugin;
-    connect(lblMore, SIGNAL(click()), this, SLOT(goSmiles()));
+    lblMore->setUrl("http://miranda-im.org/download/index.php?action=display&id=41");
 #ifdef WIN32
     edtSmiles->setStartDir(QFile::decodeName(app_file("smiles/").c_str()));
 #else
@@ -157,12 +157,6 @@ void SmileCfg::apply()
         delete m_plugin->smiles;
     m_plugin->smiles = smiles;
     m_plugin->setSmiles(file);
-}
-
-void SmileCfg::goSmiles()
-{
-    Event e(EventGoURL, (void*)"http://miranda-im.org/download/index.php?action=display&id=41");
-    e.process();
 }
 
 #ifndef WIN32

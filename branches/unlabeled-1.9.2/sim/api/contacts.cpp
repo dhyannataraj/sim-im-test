@@ -983,10 +983,11 @@ PacketType *ContactList::getPacketType(unsigned id)
 typedef struct ClientData
 {
     unsigned	ManualStatus;
-    bool		CommonStatus;
-	char		*Password;
-	bool		SavePassword;
-	bool		Invisible;
+    unsigned	CommonStatus;
+    char		*Password;
+    unsigned	SavePassword;
+	char		*PreviousPassword;
+    unsigned	Invisible;
 } ClientData;
 */
 
@@ -995,7 +996,8 @@ static DataDef clientData[] =
         { "ManualStatus", DATA_LONG, 1, STATUS_OFFLINE },
         { "CommonStatus", DATA_BOOL, 1, 1 },
         { "Password", DATA_UTF, 1, 0 },
-        { "", DATA_BOOL, 1, 1 },
+        { "", DATA_BOOL, 1, 1 },		// SavePassword
+        { "", DATA_UTF, 1, 0 },			// PreviousPassword
         { "Invisible", DATA_BOOL, 1, 0 },
         { NULL, 0, 0, 0 }
     };
@@ -1093,9 +1095,12 @@ string Client::getConfig()
         setPassword(new_passwd);
     }
 
-    if (!getSavePassword()){
+	QString prev = getPreviousPassword();
+	if (!prev.isEmpty())
+		setPassword(prev);
+
+    if (!getSavePassword())
         setPassword(NULL);
-    }
 
     string res = save_data(clientData, &data);
 

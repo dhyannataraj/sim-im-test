@@ -30,10 +30,19 @@ LinkLabel::LinkLabel(QWidget *parent, const char *name)
     setFont(f);
 }
 
+void LinkLabel::setUrl(const QString &url)
+{
+	m_url = url;
+}
+
 void LinkLabel::mouseReleaseEvent(QMouseEvent * e)
 {
-    if (e->button() == LeftButton)
-        emit click();
+    if ((e->button() == LeftButton) && !m_url.isEmpty()){
+		string url;
+		url = m_url.latin1();
+		Event e(EventGoURL, (void*)(url.c_str()));
+		e.process();
+	}
 }
 
 TipLabel::TipLabel(const QString &text)

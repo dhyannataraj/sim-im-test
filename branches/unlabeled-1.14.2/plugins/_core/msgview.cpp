@@ -705,6 +705,7 @@ ViewParser::ViewParser(bool bIgnoreColors, bool bUseSmiles)
                     }
                     if (*p == 0)
                         break;
+					str = "";
                     continue;
                 }
                 if (*p == '\\'){

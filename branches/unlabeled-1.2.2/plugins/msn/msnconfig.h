@@ -36,7 +36,6 @@ public slots:
 protected slots:
     void changed();
     void changed(const QString&);
-    void regClick();
 protected:
     bool m_bConfig;
     MSNClient *m_client;

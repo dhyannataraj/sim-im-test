@@ -26,28 +26,29 @@ using namespace std;
 
 class QLabel;
 class QLineEdit;
+class LinkLabel;
 
 class LoginDialog : public LoginDialogBase, public EventReceiver
 {
     Q_OBJECT
 public:
-    LoginDialog(bool bInit, Client *client, const QString &msg);
+    LoginDialog(bool bInit, Client *client, const QString &msg, const char *loginProfile);
+	~LoginDialog();
     bool isChanged() { return m_bProfileChanged; }
     Client *client() { return m_client; }
 protected slots:
-    void apply();
     void saveToggled(bool);
     void profileChanged(int);
     void pswdChanged(const QString&);
     void profileDelete();
     void loginComplete();
-    void clickHelp();
 protected:
     virtual void *processEvent(Event*);
     virtual void closeEvent(QCloseEvent *e);
     virtual void accept();
     virtual void reject();
     string m_profile;
+	string m_loginProfile;
     void clearInputs();
     void fill();
     void startLogin();
@@ -55,9 +56,11 @@ protected:
     bool m_bLogin;
     bool m_bInit;
     bool m_bProfileChanged;
+	void makeInputs(unsigned &row, Client *client, bool bQuick);
     vector<QLabel*>		picts;
     vector<QLabel*>		texts;
     vector<QLineEdit*>	passwords;
+	vector<LinkLabel*>	links;
     Client	   *m_client;
 };
 

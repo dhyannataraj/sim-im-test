@@ -572,6 +572,7 @@ void MSNClient::authOk()
     setStatus(m_logonStatus);
     QTimer::singleShot(TYPING_TIME * 1000, this, SLOT(ping()));
     setState(Connected);
+	setPreviousPassword(NULL);
     MSNPacket *packet = new SynPacket(this);
     packet->send();
     setStatus(m_logonStatus);
