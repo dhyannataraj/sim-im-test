@@ -26,11 +26,9 @@
 #include <qpixmap.h>
 #include <qmultilineedit.h>
 
-static void set(QMultiLineEdit *edit, const string &s)
+static void set(QMultiLineEdit *edit, const string &s, ICQUser *u)
 {
-    QString str;
-    set(str, s);
-    edit->setText(str);
+    edit->setText(pClient->from8Bit(u->Uin, s.c_str()));
 }
 
 MsgDialog::MsgDialog(QWidget *p, unsigned long _status, bool bReadOnly)
@@ -45,23 +43,23 @@ MsgDialog::MsgDialog(QWidget *p, unsigned long _status, bool bReadOnly)
     }
     switch (status){
     case ICQ_STATUS_AWAY:
-        set(edtMessage, pClient->owner->AutoResponseAway);
+        set(edtMessage, pClient->owner->AutoResponseAway, pClient->owner);
         chkNoShow->setChecked(pMain->NoShowAway);
         break;
     case ICQ_STATUS_NA:
-        set(edtMessage, pClient->owner->AutoResponseNA);
+        set(edtMessage, pClient->owner->AutoResponseNA, pClient->owner);
         chkNoShow->setChecked(pMain->NoShowNA);
         break;
     case ICQ_STATUS_DND:
-        set(edtMessage, pClient->owner->AutoResponseDND);
+        set(edtMessage, pClient->owner->AutoResponseDND, pClient->owner);
         chkNoShow->setChecked(pMain->NoShowDND);
         break;
     case ICQ_STATUS_OCCUPIED:
-        set(edtMessage, pClient->owner->AutoResponseOccupied);
+        set(edtMessage, pClient->owner->AutoResponseOccupied, pClient->owner);
         chkNoShow->setChecked(pMain->NoShowOccupied);
         break;
     case ICQ_STATUS_FREEFORCHAT:
-        set(edtMessage, pClient->owner->AutoResponseFFC);
+        set(edtMessage, pClient->owner->AutoResponseFFC, pClient->owner);
         chkNoShow->setChecked(pMain->NoShowFFC);
         break;
     }
@@ -71,14 +69,17 @@ MsgDialog::MsgDialog(QWidget *p, unsigned long _status, bool bReadOnly)
 void MsgDialog::setup(ICQUser *u, const string &str1, const string &str2)
 {
     string str;
+    ICQUser *user;
     if (*(str1.c_str()) == 0){
         chkOverride->setChecked(false);
         str = str2;
+	user = pClient->owner;
     }else{
         chkOverride->setChecked(true);
         str = str1;
+	user = u;
     }
-    set(edtMessage, str);
+    set(edtMessage, str, user);
 }
 
 void MsgDialog::load(ICQUser *u)

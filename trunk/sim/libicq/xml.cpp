@@ -19,15 +19,19 @@
  *
  */
 
+#ifdef WIN32
 #if _MSC_VER > 1020
 #pragma warning(disable:4530)
+#endif
 #endif
 
 #include "xml.h"
 
+#ifdef WIN32
 #if _MSC_VER > 1020
 using namespace std;
 #pragma warning(disable:4786)
+#endif
 #endif
 
 // ---------- XmlNode ---------------------------

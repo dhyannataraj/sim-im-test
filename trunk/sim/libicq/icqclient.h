@@ -999,6 +999,9 @@ public:
     void setStatus(unsigned short status);
     void setInvisible(bool bInvisible);
 
+    unsigned short      MinTCPPort;
+    unsigned short      MaxTCPPort;
+
     string			ServerHost;
     unsigned short	ServerPort;
 

@@ -33,6 +33,8 @@ ICQClient::ICQClient()
         : contacts(this)
 {
     owner = new ICQUser;
+    MinTCPPort = 1024;
+    MaxTCPPort = 0xFFFF;
     ServerHost = "login.icq.com";
     ServerPort = 5190;
     WebAware = false;

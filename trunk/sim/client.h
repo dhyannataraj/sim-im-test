@@ -115,8 +115,6 @@ class Client : public QObject, public ICQClient
 public:
     Client(QObject *parent = NULL, const char *name = NULL);
     ~Client();
-    unsigned short	MinTCPPort;
-    unsigned short	MaxTCPPort;
     void save(ostream &s);
     bool load(istream &s, string &nextPart);
     QString getName(bool bUserUIN=true);

@@ -431,7 +431,12 @@ void DirectClient::secureListen()
 #endif
 }
 
-void DirectClient::secureStop(bool bShutdown)
+void DirectClient::secureStop(
+#ifdef USE_OPENSSL
+	bool bShutdown)
+#else
+	bool)
+#endif
 {
 #ifdef USE_OPENSSL
     if (ssl){
