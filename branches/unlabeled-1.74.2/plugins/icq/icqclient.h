@@ -281,9 +281,9 @@ class ICQClient;
 
 typedef struct SearchResult
 {
-    ICQUserData        data;
+    ICQUserData       data;
     unsigned short    id;
-    ICQClient        *client;
+    ICQClient         *client;
 } SearchResult;
 
 class QTimer;

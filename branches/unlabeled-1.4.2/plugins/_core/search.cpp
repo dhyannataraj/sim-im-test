@@ -56,7 +56,6 @@ SearchDialog::SearchDialog()
     connect(m_search->wndCondition, SIGNAL(aboutToShow(QWidget*)), this, SLOT(aboutToShow(QWidget*)));
     connect(m_search->wndResult, SIGNAL(aboutToShow(QWidget*)), this, SLOT(resultShow(QWidget*)));
     fillClients();
-    clientActivated(0);
     connect(m_search->cmbClients, SIGNAL(activated(int)), this, SLOT(clientActivated(int)));
     m_result = new ListView(m_search->wndResult);
     m_result->addColumn(i18n("Results"));
@@ -208,6 +207,7 @@ void SearchDialog::fillClients()
 	if (current == -1)
 		current = 0;
 	m_search->cmbClients->setCurrentItem(current);
+	clientActivated(current);
 }
 
 void SearchDialog::clientActivated(int n)
@@ -391,6 +391,7 @@ void SearchDialog::searchClick()
 	connect(m_active, SIGNAL(setColumns(const QStringList&, int)), this, SLOT(setColumns(const QStringList&, int)));
 	connect(m_active, SIGNAL(addItem(const QStringList&)), this, SLOT(addItem(const QStringList&)));
 	connect(m_active, SIGNAL(searchDone()), this, SLOT(searchDone()));
+	emit search();
 }
 
 void SearchDialog::addGroup(int n)
@@ -429,12 +430,12 @@ void SearchDialog::searchDone()
 	if (m_active == NULL)
 		return;
 	m_status->message("");
-	m_active = NULL;
-	setAddButton();
     disconnect(this, SIGNAL(search()), m_active, SLOT(search()));
 	disconnect(m_active, SIGNAL(setColumns(const QStringList&, int)), this, SLOT(setColumns(const QStringList&, int)));
 	disconnect(m_active, SIGNAL(addItem(const QStringList&)), this, SLOT(addItem(const QStringList&)));
 	disconnect(m_active, SIGNAL(searchDone()), this, SLOT(searchDone()));
+	m_active = NULL;
+	setAddButton();
 }
 
 void SearchDialog::setColumns(const QStringList &columns, int n)
@@ -451,8 +452,9 @@ void SearchDialog::setColumns(const QStringList &columns, int n)
 void SearchDialog::addItem(const QStringList &values)
 {
 	QListViewItem *item = new QListViewItem(m_result);
-	for (int i = 0; (unsigned)i < values.count(); i++)
+	for (int i = 1; (unsigned)i < values.count(); i++)
 		item->setText(i, values[i]);
+	item->setPixmap(0, Pict(values[0].latin1()));
 }
 
 #ifndef WIN32

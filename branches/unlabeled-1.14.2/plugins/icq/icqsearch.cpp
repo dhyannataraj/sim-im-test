@@ -30,6 +30,8 @@ ICQSearch::ICQSearch(ICQClient *client, QWidget *parent)
 {
     m_client = client;
     m_bAdv	 = false;
+	m_id1   = 0;
+	m_id2	= 0;
     connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
     connect(this, SIGNAL(addResult(QWidget*)), topLevelWidget(), SLOT(addResult(QWidget*)));
     connect(this, SIGNAL(showResult(QWidget*)), topLevelWidget(), SLOT(showResult(QWidget*)));
@@ -165,6 +167,80 @@ void ICQSearch::add(const QString &screen, unsigned grp_id)
 		return;
 	}
 	m_client->findContact(screen.utf8(), screen.utf8(), true, contact, getContacts()->group(grp_id), false);
+}
+
+void ICQSearch::search()
+{
+	m_id1 = m_id2 = 0;
+	if (m_btnUin && m_btnUin->isChecked() && !edtUIN->text().isEmpty()){
+		m_id1 = m_client->findByUin(atol(edtUIN->text().latin1()));
+	}else if (m_btnMail && m_btnMail->isChecked() && !edtMail->text().isEmpty()){
+		m_id1 = m_client->findWP(NULL, NULL, NULL, 
+			getContacts()->fromUnicode(0, edtMail->text()).c_str(), 
+			0, 0, 0, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, 
+			0, NULL, 0, NULL, 0);
+	    m_id2 = m_client->aimEMailSearch(edtMail->text().utf8());
+	}else if (m_btnName && m_btnName->isChecked() && 
+		(!edtFirst->text().isEmpty() || !edtLast->text().isEmpty() || !edtNick->text().isEmpty())){
+		m_id1 = m_client->findWP(getContacts()->fromUnicode(0, edtFirst->text()).c_str(), 
+			getContacts()->fromUnicode(0, edtLast->text()).c_str(), 
+			getContacts()->fromUnicode(0, edtNick->text()).c_str(), 
+			NULL, 0, 0, 0, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, 
+			0, NULL, 0, NULL, 0);
+		m_id2 = m_client->aimInfoSearch(edtFirst->text().utf8(), edtLast->text().utf8(), NULL, NULL,
+			NULL, NULL, NULL, edtNick->text().utf8(), NULL, NULL);
+	}
+	if ((m_id1 == 0) && (m_id2 == 0))
+		return;
+	QStringList columns;
+	columns.append("");
+	columns.append(i18n("Nick"));
+	columns.append(i18n("First name"));
+	columns.append(i18n("Last name"));
+	columns.append(i18n("E-Mail"));
+	emit setColumns(columns, 3);
+}
+
+void *ICQSearch::processEvent(Event *e)
+{
+	if ((e->type() == EventSearch) || (e->type() == EventSearchDone)){
+		SearchResult *res = (SearchResult*)(e->param());
+		if ((res->id != m_id1) && (res->id != m_id2) && (res->client != m_client))
+			return NULL;
+		if (e->type() == EventSearchDone){
+			if (res->id == m_id1)
+				m_id1 = 0;
+			if (res->id == m_id2)
+				m_id2 = 0;
+			if ((m_id1 == 0) && (m_id2 == 0))
+				emit searchDone();
+			return NULL;
+		}
+		QString icon;
+		if (res->data.Uin.value){
+			icon = "ICQ_";
+			switch (res->data.Status.value){
+			case STATUS_ONLINE:
+				icon += "online";
+				break;
+			case STATUS_OFFLINE:
+				icon += "offline";
+				break;
+			default:
+				icon += "inactive";
+			}
+		}else{
+			icon = "AIM";
+		}
+		QStringList l;
+		l.append(m_client->screen(&res->data).c_str());;
+		l.append(getContacts()->toUnicode(NULL, res->data.Nick.ptr));
+		l.append(getContacts()->toUnicode(NULL, res->data.FirstName.ptr));
+		l.append(getContacts()->toUnicode(NULL, res->data.LastName.ptr));
+		l.append(getContacts()->toUnicode(NULL, res->data.EMail.ptr));
+		emit addItem(l);
+	}
+	return NULL;
 }
 
 #ifndef WIN32

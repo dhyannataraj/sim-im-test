@@ -26,7 +26,7 @@ class AdvSearch;
 class AIMSearch;
 class GroupRadioButton;
 
-class ICQSearch : public ICQSearchBase
+class ICQSearch : public ICQSearchBase, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -37,12 +37,17 @@ signals:
     void addResult(QWidget*);
     void showResult(QWidget*);
 	void showError(const QString&);
+	void setColumns(const QStringList&, int);
+	void addItem(const QStringList&);
+	void searchDone();
 protected slots:
     void advDestroyed();
     void radioToggled(bool);
     void advClick();
     void add(unsigned grp_id);
+	void search();
 protected:
+	void *processEvent(Event*);
     void showEvent(QShowEvent*);
     void setAdv(bool);
 	void add(const QString &screen, unsigned grp_id);
@@ -55,6 +60,8 @@ protected:
     GroupRadioButton	*m_btnScreen;
     GroupRadioButton	*m_btnAOL_UIN;
     bool				m_bAdv;
+	unsigned short		m_id1;
+	unsigned short		m_id2;
 };
 
 #endif
