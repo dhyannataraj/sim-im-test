@@ -264,7 +264,7 @@ QString CUser::toolTip()
             r += "Licq " + LicqVersionToString(u->PhoneStatusTime() & 0xFFFF) + "/SSL";
         }else if((u->PhoneStatusTime() & 0xFFFF0000) == LICQ_WITHOUTSSL){
             r += "Licq " + LicqVersionToString(u->PhoneStatusTime() & 0xFFFF);
-        }else if (u->Version() == 5){
+        }else if (u->Version() == 6){
             r += "ICQ 99";
         }else if (u->Version() == 7){
             r += "ICQ 2000";

@@ -1580,7 +1580,7 @@ QString MsgEdit::trim(const QString &s)
 
 QString MsgEdit::chunk(const QString &s, int len)
 {
-    if (s.length() < len) return s;
+    if ((int)s.length() < len) return s;
     QString res = s.left(len+1);
     int n = res.length() - 1;
     for (n = res.length() - 1; n >= 0; n--)

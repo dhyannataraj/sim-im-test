@@ -19,23 +19,13 @@
 #include "log.h"
 
 #include <time.h>
+#include <stdio.h>
 
 const unsigned short ICQ_SNACxBDY_REQUESTxRIGHTS   = 0x0002;
 const unsigned short ICQ_SNACxBDY_RIGHTSxGRANTED   = 0x0003;
 const unsigned short ICQ_SNACxBDY_ADDxTOxLIST      = 0x0004;
 const unsigned short ICQ_SNACxBDY_USERONLINE	   = 0x000B;
 const unsigned short ICQ_SNACxBDY_USEROFFLINE	   = 0x000C;
-
-static cap_print(const char *d, const capability &c)
-{
-    string s;
-    char b[12];
-    for (unsigned i = 0; i < sizeof(c); i++){
-        snprintf(b, sizeof(b), "%02X ", c[i] & 0xFF);
-        s += b;
-    }
-    log(L_DEBUG, "%s: %s", d, s.c_str());
-}
 
 void ICQClient::snac_buddy(unsigned short type, unsigned short)
 {
@@ -148,11 +138,6 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                     for (; info.readPos() < info.size(); ){
                         capability cap;
                         info.unpack((char*)cap, sizeof(capability));
-                        cap_print("C:", cap);
-                        cap_print("1:", capabilities[1]);
-                        cap_print("3:", capabilities[3]);
-                        cap_print("5:", capabilities[5]);
-                        cap_print("4:", capabilities[4]);
                         if (!memcmp(cap, capabilities[1], sizeof(capability))){
                             user->GetRTF = true;
                             if (!user->CanPlugin){
