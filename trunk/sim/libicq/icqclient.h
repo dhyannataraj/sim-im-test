@@ -972,7 +972,7 @@ class ContactList : public list<Contact*>
 {
 public:
     ContactList() {}
-    virtual ~ContactList();
+    ~ContactList();
 };
 
 class ICQContacts : public ICQMessage
