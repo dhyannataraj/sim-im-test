@@ -21,6 +21,7 @@
 # translation of uk.po to
 # translation of uk.po to
 # translation of uk.po to
+# translation of uk.po to
 # translation of uk2.po to
 # translation of uk.po to
 # translation of uk.po to Ukrainian
@@ -32,7 +33,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2003-11-27 09:56+0300\n"
-"PO-Revision-Date: 2003-11-24 07:49+0200\n"
+"PO-Revision-Date: 2003-11-27 22:40+0200\n"
 "Last-Translator: Ivan Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team:  <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -48,8 +49,7 @@ msgstr "..."
 
 #: sim/api/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Ця програма поширюється під ліцензією GPL v2"
+msgstr "Ця програма поширюється під ліцензією GPL v2"
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
@@ -1769,13 +1769,11 @@ msgstr "&Сховати"
 
 #: sim/ui/qt3/i18n.cpp:271
 msgid "Line Up Toolbars (compact)"
-msgstr ""
-"Вирівняти панелі інструментів (компактно)"
+msgstr "Вирівняти панелі інструментів (компактно)"
 
 #: sim/ui/qt3/i18n.cpp:273
 msgid "Line Up Toolbars (normal)"
-msgstr ""
-"Вирівняти панелі інструментів (звичайно)"
+msgstr "Вирівняти панелі інструментів (звичайно)"
 
 #: sim/ui/qt3/i18n.cpp:275
 msgid "Paste special..."
@@ -2125,13 +2123,11 @@ msgstr "Невірний заголовок"
 
 #: plugins/icq/icqclient.cpp:693
 msgid "Server rate limit exceeded"
-msgstr ""
-"Перевищений ліміт повідомлень на сервері"
+msgstr "Перевищений ліміт повідомлень на сервері"
 
 #: plugins/icq/icqclient.cpp:694
 msgid "Client rate limit exceeded"
-msgstr ""
-"Перевищено ліміт повідомлень на клієнті"
+msgstr "Перевищено ліміт повідомлень на клієнті"
 
 #: plugins/icq/icqclient.cpp:695
 msgid "Recipient is not logged in"
@@ -2315,8 +2311,7 @@ msgstr "Не можу встановити пряме з'єднання"
 
 #: plugins/icq/icqdirect.cpp:829
 msgid "Other side does not support the secure connection"
-msgstr ""
-"Контакт не підтримує безпечне з'єднання"
+msgstr "Контакт не підтримує безпечне з'єднання"
 
 #: plugins/icq/icqdirect.cpp:842 plugins/icq/icqdirect.cpp:1043
 msgid "Send message fail"
@@ -3968,8 +3963,7 @@ msgstr ""
 
 #: plugins/icq/encodingdlgbase.cc:83
 msgid "Choose default encoding"
-msgstr ""
-"Виберіть кодову сторінку по-змовчуванню"
+msgstr "Виберіть кодову сторінку по-змовчуванню"
 
 #: plugins/icq/encodingdlgbase.cc:84
 msgid ""
@@ -3984,8 +3978,7 @@ msgstr ""
 
 #: plugins/icq/encodingdlgbase.cc:85
 msgid "You will choose the coding by default which want to use:"
-msgstr ""
-"Виберіть кодову сторінку по-змовчуванню:"
+msgstr "Виберіть кодову сторінку по-змовчуванню:"
 
 #: plugins/__homedir/homedir.cpp:47
 msgid "Home directory"
@@ -4787,8 +4780,7 @@ msgstr ""
 
 #: plugins/_core/msgedit.cpp:956
 msgid "No such client for send message"
-msgstr ""
-"Нема клієнта для відсилання повідомлення"
+msgstr "Нема клієнта для відсилання повідомлення"
 
 #: plugins/_core/msgedit.cpp:1544 plugins/netmonitor/monitor.cpp:64
 msgid "&File"
@@ -4816,8 +4808,7 @@ msgstr "Розмір: %1 / Максимальний: %2"
 
 #: plugins/_core/msgsms.cpp:168
 msgid "Message will be split"
-msgstr ""
-"Повідомлення буде розділено на частини"
+msgstr "Повідомлення буде розділено на частини"
 
 #: plugins/_core/msgsms.cpp:299
 msgid "Save phone in contact list"
@@ -4954,23 +4945,21 @@ msgstr "Номер:"
 
 #: plugins/_core/historycfgbase.cpp:229
 #: plugins/_core/userhistorycfgbase.cpp:123
-#, fuzzy
 msgid "Mb"
-msgstr "Mb/s"
+msgstr "Mb"
 
 #: plugins/_core/historycfgbase.cpp:227
 #: plugins/_core/userhistorycfgbase.cpp:125
 msgid "Max history file size"
-msgstr ""
+msgstr "Максимальний розмір файлу історії"
 
 #: plugins/_core/historycfgbase.cpp:232
 #: plugins/_core/userhistorycfgbase.cpp:126
 msgid "days"
-msgstr ""
+msgstr "днів"
 
 #: plugins/_core/historycfgbase.cpp:231
 #: plugins/_core/userhistorycfgbase.cpp:127
-#, fuzzy
 msgid "Keep history "
 msgstr "Зберегти історію"
 
@@ -5053,8 +5042,7 @@ msgstr "Режим &чату"
 
 #: plugins/_core/interfacecfgbase.cpp:151
 msgid "&Using last selected font"
-msgstr ""
-"&Використовувати останній вибраний шрифт"
+msgstr "&Використовувати останній вибраний шрифт"
 
 #: plugins/_core/interfacecfgbase.cpp:152
 msgid "Container mode"
@@ -5211,8 +5199,7 @@ msgstr "Групи"
 
 #: plugins/_core/historycfgbase.cpp:225
 msgid "Use &own colors and fonts settings"
-msgstr ""
-"Використовувати &власні кольори і шрифти"
+msgstr "Використовувати &власні кольори і шрифти"
 
 #: plugins/_core/historycfgbase.cpp:226
 msgid "Use emotional &icons"
@@ -5463,8 +5450,7 @@ msgstr "Встановити статус \"Не активний\" через"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:125
 #: plugins/sound/soundconfigbase.cpp:166
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Заборонити попередження в стані "
 "\"Відійшов\", \"Не активний\", \"Зайнятий\""
@@ -5475,8 +5461,7 @@ msgstr "Фон"
 
 #: plugins/background/background.cpp:35
 msgid "Plugin provides background pictures for user list"
-msgstr ""
-"Плагін забезпечує фон списку контактів"
+msgstr "Плагін забезпечує фон списку контактів"
 
 #: plugins/background/bkgndcfg.cpp:45
 msgid "Select background picture"
@@ -5992,8 +5977,7 @@ msgstr "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 
 #: plugins/msn/msnresult.cpp:59
 msgid "Contact %1 added to list"
-msgstr ""
-"Контакт %1 добавлений в список контактів"
+msgstr "Контакт %1 добавлений в список контактів"
 
 #: plugins/msn/msnresult.cpp:63
 #, c-format
@@ -6021,8 +6005,7 @@ msgid "Navigate"
 msgstr "Навігація"
 
 #: plugins/navigate/navigate.cpp:199
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Плагін забезпечує навігацію по "
 "гіперзсилках"
@@ -6116,8 +6099,7 @@ msgstr "Завжди зверху"
 
 #: plugins/ontop/ontopcfgbase.cpp:89
 msgid "Show &main window in task manager"
-msgstr ""
-"Показувати &основне вікно в панелі задач"
+msgstr "Показувати &основне вікно в панелі задач"
 
 #: plugins/ontop/ontopcfgbase.cpp:90
 msgid "&Container always on top"
@@ -6157,13 +6139,11 @@ msgstr "Посередині"
 
 #: plugins/osd/osdconfigbase.cpp:92
 msgid "Enable &messages notification"
-msgstr ""
-"Увімкнути &попередження про повідомлення"
+msgstr "Увімкнути &попередження про повідомлення"
 
 #: plugins/osd/osdconfigbase.cpp:93
 msgid "Enable &status notification"
-msgstr ""
-"Увімкнути попередження про зміну &статусу"
+msgstr "Увімкнути попередження про зміну &статусу"
 
 #: plugins/jabber/jabberconfigbase.cpp:312 plugins/osd/osdconfigbase.cpp:94
 msgid "Enable &typing notification"
@@ -6174,8 +6154,7 @@ msgid "OSD"
 msgstr "Екран"
 
 #: plugins/osd/osd.cpp:48
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Плагін забезпечує вивід попереджень про "
 "прихід повідомлень або зміну статусу на "
@@ -6289,8 +6268,7 @@ msgstr "Віддалене керування"
 
 #: plugins/remote/remote.cpp:31
 msgid "Plugin provides remote control"
-msgstr ""
-"Плагін забезпечує віддалене керування"
+msgstr "Плагін забезпечує віддалене керування"
 
 #: plugins/remote/remotecfgbase.cpp:125
 msgid "Use &UNIX socket"
@@ -6406,8 +6384,7 @@ msgstr "Звук при старті:"
 
 #: plugins/sound/sound.cpp:46
 msgid "Plugin provides sounds on any events"
-msgstr ""
-"Плагін забезпечує звуки для різних подій"
+msgstr "Плагін забезпечує звуки для різних подій"
 
 #: plugins/sound/sound.cpp:127
 msgid "&Sound"
@@ -6568,23 +6545,20 @@ msgid "Username"
 msgstr "Ім'я користувача"
 
 #: plugins/jabber/jabbersearch.cpp:95
-#, fuzzy
 msgid "Age min"
-msgstr "Аргентина"
+msgstr "Мінімальний вік"
 
 #: plugins/jabber/jabbersearch.cpp:96
 msgid "Age max"
-msgstr ""
+msgstr "Максимальний вік"
 
 #: plugins/jabber/jabbersearch.cpp:97
-#, fuzzy
 msgid "City"
-msgstr "Місто:"
+msgstr "Місто"
 
 #: plugins/jabber/jabbersearch.cpp:146
-#, fuzzy
 msgid "Gender"
-msgstr "Стать:"
+msgstr "Стать"
 
 #: plugins/jabber/jabbersearch.cpp:204
 msgid "First (Given)"
@@ -6650,8 +6624,7 @@ msgstr ""
 
 #: plugins/jabber/jabbersearch.cpp:220
 msgid "Enter your AIM screenname or ICQ UIN and the password for that account"
-msgstr ""
-"Введіть Ваш AIM логін або номер ICQ і пароль."
+msgstr "Введіть Ваш AIM логін або номер ICQ і пароль."
 
 #: plugins/jabber/jabbersearch.cpp:221
 msgid "Enter your YAHOO! Messenger Username and Password."
@@ -6759,8 +6732,7 @@ msgstr ""
 
 #: plugins/jabber/jabberconfigbase.cpp:314
 msgid "Send &rich text messages if possible"
-msgstr ""
-"Відправити повідомлення з &форматуванням"
+msgstr "Відправити повідомлення з &форматуванням"
 
 #: plugins/jabber/jabberworkinfobase.cpp:131
 msgid "Role:"
@@ -8066,3 +8038,4 @@ msgstr "&Агенти"
 
 #~ msgid "exist"
 #~ msgstr "существует"
+
