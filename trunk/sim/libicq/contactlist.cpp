@@ -521,7 +521,7 @@ void ICQUser::adjustPhones()
 
 bool ICQUser::canRTF()
 {
-	return (Version >= 8) && (uStatus != ICQ_STATUS_OFFLINE) && hasCap(CAP_RTF);
+    return (Version >= 8) && (uStatus != ICQ_STATUS_OFFLINE) && hasCap(CAP_RTF);
 }
 
 bool ICQUser::canUTF()

@@ -385,13 +385,13 @@ void ICQClientPrivate::setStatus(unsigned short status)
         }
         return;
     }
-	list<ICQEvent*>::iterator it;
-	for (it = varEvents.begin(); it != varEvents.end(); ++it)
-		delete *it;
-	varEvents.clear();
-	for (it = listEvents.begin(); it != listEvents.end(); ++it)
-		delete *it;
-	listEvents.clear();
+    list<ICQEvent*>::iterator it;
+    for (it = varEvents.begin(); it != varEvents.end(); ++it)
+        delete *it;
+    varEvents.clear();
+    for (it = listEvents.begin(); it != listEvents.end(); ++it)
+        delete *it;
+    listEvents.clear();
     if (sock == NULL){
         cookie.init(0);
         create_socket();

@@ -562,13 +562,9 @@ SIMClient::SIMClient(QObject *parent, const char *name)
     QTimer *timer = new QTimer(this);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(timer()));
     timer->start(1000);
-#if defined(HAVE_GETHOSTBYADDR_R) && defined(QT_THREAD_SUPPORT)
-    resolver_working = false;
-#else
     resolver = new QDns;
     resolver->setRecordType(QDns::Ptr);
     QObject::connect(resolver, SIGNAL(resultsReady()), this, SLOT(resolve_ready()));
-#endif
     init();
 }
 
@@ -585,11 +581,7 @@ SIMClient::~SIMClient()
         delete (*it);
     }
     close();
-#if !defined(HAVE_GETHOSTBYADDR_R) || !defined(QT_THREAD_SUPPORT)
     delete resolver;
-#endif
-    ::free(&notInListSettings, UserSettings_Params);
-    ::free(this, Client_Params);
 }
 
 class Encoding
@@ -992,39 +984,15 @@ QString SMSmessage::trim(const QString &s)
     return res;
 }
 
-#if defined(HAVE_GETHOSTBYADDR_R) && defined(QT_THREAD_SUPPORT)
-
-void *SIMClient::resolve_thread(void *p)
-{
-    SIMClient *client = (SIMClient*)p;
-    struct hostent hent;
-    struct hostent *res = NULL;
-    int herrno;
-    client->m_host = "";
-    char buf[4096];
-    gethostbyaddr_r((const char*)(&client->m_addr), sizeof(client->m_addr), AF_INET,
-                    &hent, buf, sizeof(buf), &res, &herrno);
-    if (res) client->m_host = res->h_name;
-    QTimer::singleShot(0, client, SLOT(resolve_ready()));
-    return NULL;
-}
-
-#endif
-
 void SIMClient::resolve_ready()
 {
-#if defined(HAVE_GETHOSTBYADDR_R) && defined(QT_THREAD_SUPPORT)
-    resolver_working = false;
-#endif
     if (resolveQueue.empty()) return;
     resolveAddr &a = *resolveQueue.begin();
     ICQUser *u = getUser(a.uin);
     if (u){
-#if !defined(HAVE_GETHOSTBYADDR_R) || !defined(QT_THREAD_SUPPORT)
         string m_host;
         if (resolver->hostNames().count())
             m_host = resolver->hostNames().first().latin1();
-#endif
         if (a.bReal){
             u->RealHostName = m_host;
         }else{
@@ -1039,11 +1007,7 @@ void SIMClient::resolve_ready()
 
 void SIMClient::start_resolve()
 {
-#if defined(HAVE_GETHOSTBYADDR_R) && defined(QT_THREAD_SUPPORT)
-    if (resolver_working) return;
-#else
     if (resolver->isWorking()) return;
-#endif
     for (; !resolveQueue.empty();){
         resolveAddr &a = *resolveQueue.begin();
         ICQUser *u = getUser(a.uin);
@@ -1061,23 +1025,12 @@ void SIMClient::start_resolve()
             resolveQueue.erase(resolveQueue.begin());
             continue;
         }
-#if defined(HAVE_GETHOSTBYADDR_R) && defined(QT_THREAD_SUPPORT)
-        m_host = "";
-        m_addr = htonl(ip);
-        pthread_t h_thread;
-        resolver_working = true;
-        if (pthread_create(&h_thread, NULL, resolve_thread, this)){
-            log(L_DEBUG, "Can't create thread: %s", strerror(errno));
-            QTimer::singleShot(0, this, SLOT(resolveReady()));
-        }
-#else
 #if QT_VERSION >= 300
         delete resolver;
         resolver = new QDns(QHostAddress(htonl(ip)), QDns::Ptr);
-        connect(resolver, SLOT(resultsReady()), this, SLOT(resolve_ready()));
+        connect(resolver, SIGNAL(resultsReady()), this, SLOT(resolve_ready()));
 #else
         resolver->setLabel(QHostAddress(htonl(ip)));
-#endif
 #endif
         return;
     }

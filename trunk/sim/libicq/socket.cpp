@@ -277,8 +277,9 @@ void SocketFactory::idle()
         errSockets.remove(s);
         it = errSockets.begin();
     }
-    for (list<Socket*>::iterator its = removedSockets.begin(); its != removedSockets.end(); ++its)
+    for (list<Socket*>::iterator its = removedSockets.begin(); its != removedSockets.end(); ++its){
         delete *its;
+    }
     removedSockets.clear();
 }
 

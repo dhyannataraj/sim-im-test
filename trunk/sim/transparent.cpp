@@ -142,7 +142,7 @@ TransparentTop::TransparentTop(QWidget *parent,
         useTransparent(_useTransparent),
         transparent(_transparent)
 {
-	m_bUseTransparent = false;
+    m_bUseTransparent = false;
 #if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
     rootpixmap = new KRootPixmap(parent);
 #endif
@@ -200,26 +200,26 @@ void TransparentTop::transparentChanged()
 {
 #ifdef WIN32
     if (bCanTransparent){
-		QWidget *p = static_cast<QWidget*>(parent());
-		if (*useTransparent){
-			if (!m_bUseTransparent){
-				SetWindowLongW(p->winId(), GWL_EXSTYLE, GetWindowLongW(p->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
-				SetLayeredWindowAttributes(p->winId(), p->colorGroup().background().rgb(), 255, LWA_ALPHA);
-				if (p->isVisible())
-					RedrawWindow(p->winId(), NULL, NULL, RDW_UPDATENOW);
-				p->installEventFilter(this);
-				m_bUseTransparent = true;
-			}
-		}else{
-			if (m_bUseTransparent){
-				SetWindowLongW(p->winId(), GWL_EXSTYLE, GetWindowLongW(p->winId(), GWL_EXSTYLE) & ~WS_EX_LAYERED);
-				p->removeEventFilter(this);
-				m_bUseTransparent = false;
-			}
-		}
-	}
+        QWidget *p = static_cast<QWidget*>(parent());
+        if (*useTransparent){
+            if (!m_bUseTransparent){
+                SetWindowLongW(p->winId(), GWL_EXSTYLE, GetWindowLongW(p->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
+                SetLayeredWindowAttributes(p->winId(), p->colorGroup().background().rgb(), 255, LWA_ALPHA);
+                if (p->isVisible())
+                    RedrawWindow(p->winId(), NULL, NULL, RDW_UPDATENOW);
+                p->installEventFilter(this);
+                m_bUseTransparent = true;
+            }
+        }else{
+            if (m_bUseTransparent){
+                SetWindowLongW(p->winId(), GWL_EXSTYLE, GetWindowLongW(p->winId(), GWL_EXSTYLE) & ~WS_EX_LAYERED);
+                p->removeEventFilter(this);
+                m_bUseTransparent = false;
+            }
+        }
+    }
 #endif
-	setTransparent();
+    setTransparent();
 }
 
 void TransparentTop::setTransparent()
@@ -282,18 +282,18 @@ void TransparentTop::setTransparent(
 #else
     QWidget*, bool, unsigned long, bool
 #endif
-)
+    )
 {
 #ifdef WIN32
     if (!bCanTransparent) return;
     if (set){
-		if (isTransparent){
-			BYTE d = QMIN(transparency * 256 / 100, 255);
-			SetLayeredWindowAttributes(w->winId(), w->colorGroup().background().rgb(), d, LWA_ALPHA);
-		}else{
-			SetLayeredWindowAttributes(w->winId(), w->colorGroup().background().rgb(), 255, LWA_ALPHA);
-		}
-	}
+        if (isTransparent){
+            BYTE d = QMIN(transparency * 256 / 100, 255);
+            SetLayeredWindowAttributes(w->winId(), w->colorGroup().background().rgb(), d, LWA_ALPHA);
+        }else{
+            SetLayeredWindowAttributes(w->winId(), w->colorGroup().background().rgb(), 255, LWA_ALPHA);
+        }
+    }
 #endif
 }
 

@@ -307,23 +307,23 @@ void ICQClientPrivate::snac_message(unsigned short type, unsigned short)
                     m->Received = true;
                     char *m_data = (*m_tlv);
                     string packet;
-					bool isUTF = false;
+                    bool isUTF = false;
                     if (m_tlv->Size() > 4){
-						unsigned short encoding = (m_data[0] << 8) + m_data[1];
-						m_data += 4;
-						if (encoding == 2){
-							for (unsigned i = 0; i < m_tlv->Size() - 5; i += 2){
-								unsigned char r1 = *(m_data++);
-								unsigned char r2 = *(m_data++);
-								unsigned short c = (r1 << 8) + r2;
-								utf16to8(c, packet);
-							}
-							isUTF = true;
-							m->Charset = "utf-8";
-						}else{
-							packet.append(m_tlv->Size() - 4, '\x00');
-							memcpy((char*)(packet.c_str()), m_data, m_tlv->Size() - 4);
-						}
+                        unsigned short encoding = (m_data[0] << 8) + m_data[1];
+                        m_data += 4;
+                        if (encoding == 2){
+                            for (unsigned i = 0; i < m_tlv->Size() - 5; i += 2){
+                                unsigned char r1 = *(m_data++);
+                                unsigned char r2 = *(m_data++);
+                                unsigned short c = (r1 << 8) + r2;
+                                utf16to8(c, packet);
+                            }
+                            isUTF = true;
+                            m->Charset = "utf-8";
+                        }else{
+                            packet.append(m_tlv->Size() - 4, '\x00');
+                            memcpy((char*)(packet.c_str()), m_data, m_tlv->Size() - 4);
+                        }
                     }
                     parseMessageText(packet, m->Message, u, false, isUTF);
                     messageReceived(m);
@@ -1031,10 +1031,10 @@ void ICQClientPrivate::packMessage(Buffer &mb, ICQMessage *m, const char *msg,
                     packColor(mb, 0x00FFFFFFL);
                 }
                 ICQUser *u = client->getUser(msg->getUin());
-				if (u && (u->canRTF() || u->canUTF())){
-                        mb << 0x26000000L;
-                        packCap(mb, capabilities[u->canRTF() ? CAP_RTF : CAP_UTF]);
-				}
+                if (u && (u->canRTF() || u->canUTF())){
+                    mb << 0x26000000L;
+                    packCap(mb, capabilities[u->canRTF() ? CAP_RTF : CAP_UTF]);
+                }
                 break;
             }
         case ICQ_MSGxURL:
@@ -1166,13 +1166,13 @@ void ICQClientPrivate::processMsgQueueThruServer()
                         msgBuf.pack(advCounter);
                         msgBuf.pack((unsigned short)0x0E);
                         msgBuf.pack(advCounter);
-						msgBuf
+                        msgBuf
                         << 0x00000000L << 0x00000000L << 0x00000000L
                         << (char)0x01
                         << (char)0
                         << (unsigned short)0
                         << (unsigned short)0x2100;
-						unsigned short size = strlen(message.c_str()) + 1;
+                        unsigned short size = strlen(message.c_str()) + 1;
                         msgBuf.pack(size);
                         msgBuf.pack(message.c_str(), size);
                         if (msg->BackColor == msg->ForeColor){

@@ -50,56 +50,22 @@ SIMSockets::~SIMSockets()
 {
 }
 
-#if defined(HAVE_GETHOSTBYNAME_R) && defined(QT_THREAD_SUPPORT)
-
-void *SIMResolver::resolve_thread(void *p)
-{
-    SIMResolver *r = (SIMResolver*)p;
-    log(L_DEBUG, "Resolve thread start");
-    struct hostent he;
-    struct hostent *res = NULL;
-    char buff[4096];
-    int herrno;
-    gethostbyname_r(r->m_host.c_str(), &he, buff, sizeof(buff), &res, &herrno);
-    if (res) r->m_addr = *((unsigned long*) res->h_addr);
-    log(L_DEBUG, "Resolve done %u", r->m_addr);
-    r->bDone = true;
-    if (res == NULL) r->bTimeout = false;
-    QTimer::singleShot(0, r->parent(), SLOT(resultsReady()));
-    return NULL;
-}
-
-#endif
-
 SIMResolver::SIMResolver(QObject *parent, const char *host)
         : QObject(parent)
 {
     bDone = false;
     bTimeout = false;
-#if defined(HAVE_GETHOSTBYNAME_R) && defined(QT_THREAD_SUPPORT)
-    m_host = host;
-    m_addr = INADDR_NONE;
-    pthread_t h_thread;
-    if (pthread_create(&h_thread, NULL, resolve_thread, this)){
-        log(L_WARN, "Can't create thread: %s", strerror(errno));
-        resolve_thread(this);
-        return;
-    }
-#else
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(resolveTimeout()));
     timer->start(20000);
     dns = new QDns(host, QDns::A);
     connect(dns, SIGNAL(resultsReady()), this, SLOT(resolveReady()));
-#endif
 }
 
 SIMResolver::~SIMResolver()
 {
-#if !defined(HAVE_GETHOSTBYNAME_R) || !defined(QT_THREAD_SUPPORT)
     delete dns;
     delete timer;
-#endif
 }
 
 void SIMResolver::resolveTimeout()
@@ -117,22 +83,14 @@ void SIMResolver::resolveReady()
 
 unsigned long SIMResolver::addr()
 {
-#if defined(HAVE_GETHOSTBYNAME_R) && defined(QT_THREAD_SUPPORT)
-    return m_addr;
-#else
     if (dns->addresses().isEmpty())
         return INADDR_NONE;
     return htonl(dns->addresses().first().ip4Addr());
-#endif
 }
 
 string SIMResolver::host()
 {
-#if defined(HAVE_GETHOSTBYNAME_R) && defined(QT_THREAD_SUPPORT)
-    return m_host.c_str();
-#else
     return dns->label().latin1();
-#endif
 }
 
 void SIMSockets::resolve(const char *host)

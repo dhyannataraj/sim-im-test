@@ -564,7 +564,6 @@ int main(int argc, char *argv[])
     if (args->isSet("s"))
         ctrlSock = strdup(args->getOption("s"));
 #else
-    bool bFork = true;
     for (int i = 0; i < argc; i++){
         if (!strcmp(argv[i], "-b") && argv[i+1])
             homeDir = argv[++i];
@@ -572,8 +571,6 @@ int main(int argc, char *argv[])
             log_level = atoi(argv[++i]);
         if (!strcmp(argv[i], "-s") && argv[i+1])
             ctrlSock = argv[++i];
-        if (!strcmp(argv[i], "--nofork"))
-            bFork = false;
         if (!strcmp(argv[i], "--nodock"))
             bNoDock = true;
     }
@@ -592,17 +589,6 @@ int main(int argc, char *argv[])
         if (ctrlSock.length())
             return 1;
     }
-#if !defined(USE_KDE) && !defined(WIN32)
-    if (bFork){
-        pid_t child = fork();
-        if (child == -1){
-            fprintf(stderr, "Can't fork: %s\n", strerror(errno));
-            exit(1);
-        }
-        if (child)
-            exit(0);
-    }
-#endif
     scanUIN();
     unsigned startUIN = pSplash->getLastUIN();
     if (!pSplash->isSavePassword()) startUIN = 0;

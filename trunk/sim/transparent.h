@@ -63,12 +63,12 @@ signals:
     void backgroundUpdated();
 protected slots:
     void transparentChanged();
-	void setTransparent();
+    void setTransparent();
 protected:
     bool			eventFilter(QObject *obj, QEvent *e);
     bool			*useTransparent;
     unsigned long	*transparent;
-	bool			m_bUseTransparent;
+    bool			m_bUseTransparent;
 };
 
 #endif

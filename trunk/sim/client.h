@@ -190,14 +190,7 @@ protected:
     void sendSMS(SMSmessage *sms);
     list<SMSmessage*> smsQueue;
     list<resolveAddr> resolveQueue;
-#if defined(HAVE_GETHOSTBYADDR_R) && defined(QT_THREAD_SUPPORT)
-    static void *resolve_thread(void*);
-    string m_host;
-    unsigned long m_addr;
-    bool resolver_working;
-#else
     QDns *resolver;
-#endif
 signals:
     void event(ICQEvent*);
     void messageReceived(ICQMessage *msg);
