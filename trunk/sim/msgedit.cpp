@@ -371,7 +371,8 @@ static char smiles[] =
 void SmilePopup::labelClicked(int id)
 {
     QString str;
-    for (char *p = smiles; id > 0; id--){
+    char *p;
+    for (p = smiles; id > 0; id--){
         if (*p == 0) break;
         p += strlen(p) + 1;
     }

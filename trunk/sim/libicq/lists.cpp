@@ -410,7 +410,7 @@ void ICQClient::processListQueue()
         if (*alias.c_str() == 0) alias = u->FirstName;
         if (*alias.c_str() == 0){
             char b[13];
-            snprintf(b, sizeof(b), "%ul", u->Uin);
+            snprintf(b, sizeof(b), "%lu", u->Uin);
             alias = b;
         }
         ICQSetListEvent *e = new ICQSetListEvent(u->Uin, lr.list_type, lr.bSet);

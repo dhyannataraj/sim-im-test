@@ -38,6 +38,7 @@ SoundSetup::SoundSetup(QWidget *p, bool bUser)
         lblFileDone->hide();
         edtStartup->hide();
         lblStartup->hide();
+	chkDisable->hide();
         connect(chkOverride, SIGNAL(toggled(bool)), this, SLOT(overrideToggled(bool)));
     }else{
         chkOverride->hide();

@@ -45,7 +45,7 @@ FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
         : FileTransferBase(p, "filetransfer", false, WDestructiveClose | WStyle_Minimize)
 {
     SET_WNDPROC
-    nCurFile = -1;
+    nCurFile = (unsigned)(-1);
     nProgress = -1;
     bStarted = false;
     file = _file;

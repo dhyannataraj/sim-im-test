@@ -43,7 +43,7 @@ protected slots:
     void closeToggled(bool);
 protected:
     int  nProgress;
-    int  nCurFile;
+    unsigned nCurFile;
     QString title;
     void closeEvent(QCloseEvent*);
     void setProgress();
