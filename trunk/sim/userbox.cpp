@@ -114,7 +114,9 @@ UserBox::UserBox(unsigned long grpId)
     frmUser = new QFrame(splitter);
     layUser = new QVBoxLayout(frmUser);
     tabSplitter = new Splitter(frm);
+    tabSplitter->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
     tabs = new UserTabBar(tabSplitter);
+    tabs->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
     status = new QStatusBar(tabSplitter);
     tabSplitter->setResizeMode(status, QSplitter::KeepSize);
     lay->addWidget(tabSplitter);
@@ -293,13 +295,17 @@ void UserBox::toggleInfo(bool bShow)
     if (bShow){
         if (curWnd == NULL) return;
         setUpdatesEnabled(false);
+        if (users){
+            delete users;
+            users = NULL;
+        }
         btnHistory->setOn(false);
         disconnect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), btnType, SLOT(setState(const QString&, const QString&)));
         btnType->setState("info", i18n("User info"));
         if (infoWnd == NULL){
             infoWnd = new UserInfo(frm, curWnd->Uin);
             connect(infoWnd, SIGNAL(saveInfo(ICQUser*)), this, SLOT(saveInfo(ICQUser*)));
-            splitter->hide();
+            vSplitter->hide();
             lay->insertWidget(0, infoWnd);
             infoWnd->show();
         }
@@ -311,7 +317,7 @@ void UserBox::toggleInfo(bool bShow)
         setUpdatesEnabled(false);
         delete infoWnd;
         infoWnd = NULL;
-        splitter->show();
+        vSplitter->show();
         if (curWnd){
             connect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), btnType, SLOT(setState(const QString&, const QString&)));
             curWnd->action(mnuAction);
@@ -343,16 +349,16 @@ void UserBox::toggleHistory(bool bShow)
         if (historyWnd == NULL){
             historyWnd = new HistoryView(frm, curWnd->Uin);
             connect(historyWnd, SIGNAL(goMessage(unsigned long, unsigned long)), this, SLOT(showMessage(unsigned long, unsigned long)));
-            splitter->hide();
-	    historyWnd->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+            historyWnd->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
             lay->insertWidget(0, historyWnd);
             historyWnd->show();
+	    vSplitter->hide();
         }
     }else if (historyWnd){
         setUpdatesEnabled(false);
         delete historyWnd;
         historyWnd = NULL;
-        splitter->show();
+        vSplitter->show();
         if (curWnd){
             connect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), btnType, SLOT(setState(const QString&, const QString&)));
             curWnd->action(mnuAction);
@@ -377,8 +383,7 @@ void UserBox::quit()
     btnInfo->setOn(false);
     btnHistory->setOn(false);
     MsgEdit *wnd = getWnd(tabs->currentTab());
-    if (wnd == NULL) return;
-    wnd->close();
+    closeUser(wnd->Uin());
 }
 
 void UserBox::removeChilds()
@@ -747,6 +752,7 @@ void UserBox::setGroupButtons()
         btnIgnore->setEnabled(true);
         btnGroup->setEnabled(true);
     }
+    if ((tabs->count() > 1) && !tabs->isVisible() && isVisible()) tabs->show();
 }
 
 void UserBox::statusChanged(unsigned long uin)
@@ -774,7 +780,7 @@ void UserBox::selectedUser(int id)
     if (tabs->count() <= 1){
         if (tabs->isVisible()) tabs->hide();
     }else{
-        if (!tabs->isVisible()) tabs->show();
+        if (!tabs->isVisible() && isVisible()) tabs->show();
     }
     MsgEdit *wnd = getWnd(id);
     if (wnd == NULL){

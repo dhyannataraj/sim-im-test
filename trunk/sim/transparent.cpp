@@ -160,8 +160,8 @@ void TransparentTop::transparentChanged()
     }else{
         rootpixmap->stop();
         saveBG = QPixmap();
-	genBG = QPixmap();
-	genFade = 0;
+        genBG = QPixmap();
+        genFade = 0;
         emit backgroundUpdated();
     }
 #endif
@@ -240,14 +240,14 @@ const QPixmap *TransparentTop::background(QColor c)
 {
 #if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
     if (useTransparent() && !saveBG.isNull()){
-	if ((c.rgb() == genColor.rgb()) && (transparent() == genFade))
-		return &genBG;
-	QImage img = saveBG.convertToImage();
-	fade(img, transparent() / 100., c);
-	genBG.convertFromImage(img);
-	genFade = transparent();
-	genColor = c;
-	return &genBG;
+        if ((c.rgb() == genColor.rgb()) && (transparent() == genFade))
+            return &genBG;
+        QImage img = saveBG.convertToImage();
+        fade(img, transparent() / 100., c);
+        genBG.convertFromImage(img);
+        genFade = transparent();
+        genColor = c;
+        return &genBG;
     }
 #endif
     return NULL;

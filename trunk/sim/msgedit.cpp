@@ -517,7 +517,6 @@ void MsgEdit::markAsRead()
         ICQUser *u = pClient->getUser(Uin());
         if (u){
             History h(Uin());
-            pClient->startMark();
             for (;;){
                 bool bExit = true;
                 for (list<unsigned long>::iterator it = u->unreadMsgs.begin(); it != u->unreadMsgs.end(); it++){
@@ -532,7 +531,6 @@ void MsgEdit::markAsRead()
                 }
                 if (bExit) break;
             }
-            pClient->endMark();
         }
     }
     setupNext();

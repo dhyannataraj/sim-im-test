@@ -36,30 +36,6 @@ void ICQClient::snac_bos(unsigned short type, unsigned short)
     }
 }
 
-void ICQClient::sendVisibleList()
-{
-    snac(ICQ_SNACxFAM_BOS, ICQ_SNACxBOS_ADDxVISIBLExLIST);
-    list<ICQUser*>::iterator it;
-    for (it = contacts.users.begin(); it != contacts.users.end(); it++){
-        if (((*it)->Uin() < UIN_SPECIAL) && (*it)->inVisible()){
-            writeBuffer.packUin((*it)->Uin());
-        }
-    }
-    sendPacket();
-}
-
-void ICQClient::sendInvisibleList()
-{
-    snac(ICQ_SNACxFAM_BOS, ICQ_SNACxBOS_ADDxINVISIBLExLIST);
-    list<ICQUser*>::iterator it;
-    for (it = contacts.users.begin(); it != contacts.users.end(); it++){
-        if (((*it)->Uin() < UIN_SPECIAL) && (*it)->inInvisible()){
-            writeBuffer.packUin((*it)->Uin());
-        }
-    }
-    sendPacket();
-}
-
 void ICQClient::addToVisibleList(unsigned long uin)
 {
     if (uin >= UIN_SPECIAL) return;

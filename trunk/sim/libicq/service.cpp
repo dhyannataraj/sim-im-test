@@ -124,8 +124,8 @@ void ICQClient::sendLogonStatus()
     	IP = inet_addr(host);
 
     log(L_DEBUG, "Logon status");
+    if (inInvisible()) sendVisibleList();
     sendContactList();
-    if (Invisible) sendVisibleList();
 
     unsigned long now;
     time((time_t*)&now);
@@ -154,7 +154,7 @@ void ICQClient::sendLogonStatus()
 
     sendPacket();
 
-    if (!Invisible) sendInvisibleList();
+    if (!inInvisible()) sendInvisibleList();
     m_state = Logged;
     OnlineTime = now;
 
@@ -171,14 +171,14 @@ void ICQClient::sendLogonStatus()
 
 void ICQClient::setInvisible(bool bInvisible)
 {
-    if (Invisible == bInvisible) return;
-    Invisible = bInvisible;
+    if (inInvisible() == bInvisible) return;
+    inInvisible = bInvisible;
     if (m_state != Logged) return;
-    if (Invisible) sendVisibleList();
+    if (inInvisible()) sendVisibleList();
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
     writeBuffer.tlv(0x0006, fullStatus(uStatus));
     sendPacket();
-    if (!Invisible) sendInvisibleList();
+    if (!inInvisible()) sendInvisibleList();
     ICQEvent e(EVENT_STATUS_CHANGED, Uin);
     process_event(&e);
 }

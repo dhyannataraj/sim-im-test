@@ -359,9 +359,8 @@ bool ConfigArray::load(std::istream &sin, string &s)
             s = "";
             return true;
         }
-        char buf[1024];
-        sin.getline(buf, sizeof(buf));
-        string line(buf);
+	string line;
+        getline(sin, line);
         for (;line[0] == '[';){
             string name = line.c_str() + 1;
             char *p = strchr((char*)(name.c_str()), ']');
@@ -381,8 +380,7 @@ bool ConfigArray::load(std::istream &sin, string &s)
                             s = "";
                             return true;
                         }
-                        sin.getline(buf, sizeof(buf));
-                        line = buf;
+			getline(sin, line);
                     }
                     continue;
                 }

@@ -222,21 +222,26 @@ bool History::iterator::operator ++()
         delete msg;
         msg = NULL;
     }
-    if (!f.is_open()){
-        if (!h.open(false, f))
-            return false;
-        for (;;){
-            getline(f, type);
-            if (f.eof()) return false;
-            if (*type.c_str()) break;
+    for (;;){
+        if (!f.is_open()){
+            if (!h.open(false, f))
+                return false;
+            for (;;){
+                getline(f, type);
+                if (f.eof()) return false;
+                if (*type.c_str() == '[') break;
+            }
         }
-    }
-    unsigned long msgId = (unsigned long)f.tellg() - type.length();
+        unsigned long msgId = (unsigned long)f.tellg() - type.length();
 #ifdef WIN32
-    msgId -= 2;
+        msgId -= 2;
 #else
-    msgId--;
+        msgId--;
 #endif
-    msg = h.loadMessage(f, type, msgId);
-    return (msg != NULL);
+        msg = h.loadMessage(f, type, msgId);
+        if (msg) break;
+	getline(f, type);
+	if (f.eof()) return false;
+    }
+    return true;
 }

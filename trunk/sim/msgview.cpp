@@ -43,6 +43,7 @@
 #include <qpainter.h>
 #include <qregexp.h>
 #include <qobjectlist.h>
+#include <qvaluelist.h>
 
 #ifdef WIN32
 #if _MSC_VER > 1020
@@ -222,6 +223,9 @@ QString TextShow::makeMessageText(ICQMessage *msg)
         log(L_WARN, "Unknown message type %u", msg->Type());
         s += "???";
     }
+
+    string txt;
+    txt = s.local8Bit();
     return s;
 }
 
@@ -242,9 +246,7 @@ MsgView::MsgView(QWidget *p)
         : TextShow(p)
 {
     bBack = false;
-    bDirty = false;
     connect(pClient, SIGNAL(messageRead(ICQMessage*)), this, SLOT(messageRead(ICQMessage*)));
-    connect(pClient, SIGNAL(markFinished()), this, SLOT(markFinished()));
     connect(pMain, SIGNAL(colorsChanged()), this, SLOT(colorsChanged()));
     oldSendColor = pMain->ColorSend();
     oldReceiveColor = pMain->ColorReceive();
@@ -355,14 +357,14 @@ void TextShow::keyPressEvent( QKeyEvent *e )
 #ifdef USE_KDE
 #if QT_VERSION < 300
     if ( KStdAccel::isEqual( e, KStdAccel::find()) ) {
-       search();  
-       e->accept();
-       return;
+        search();
+        e->accept();
+        return;
     }
     else if ( KStdAccel::isEqual( e, KStdAccel::findNext()) ) {
-       repeatSearch(); 
-       e->accept();
-       return;
+        repeatSearch();
+        e->accept();
+        return;
     }
 #else
     KKey key( e );
@@ -416,61 +418,43 @@ void MsgView::colorsChanged()
 void MsgView::messageRead(ICQMessage *msg)
 {
     QString pat;
-    pat.sprintf("<p><a name=\"%lu.%lu\"></a>", msg->getUin(), msg->Id);
-    if (!bDirty){
-        bDirty = true;
-        newText = text();
+    pat.sprintf("<a href=\"msg://%lu.%lu", msg->getUin(), msg->Id);
+    for (int i = 0; i < paragraphs();){
+        if (text(i).find(pat) < 0){
+            for (i++; i < paragraphs(); i++)
+                if (text(i).find("<a href=\"msg://") >= 0) break;
+            continue;
+        }
+        int paraFrom, indexFrom;
+        int paraTo, indexTo;
+        getSelection(&paraFrom, &indexFrom, &paraTo, &indexTo);
+        setSelection(i, 0, i, 0xFFFF);
+        setBold(false);
+        if ((paraFrom == -1) && (paraTo == -1)){
+            removeSelection();
+            scrollToBottom();
+        }else{
+            setSelection(paraFrom, indexFrom, paraTo, indexTo);
+        }
+        break;
     }
-    int pos = newText.find(pat);
-    if (pos < 0) return;
-    QString res;
-    res = newText.left(pos);
-    if (msg){
-        bool bSaveBack = bBack;
-        bBack = false;
-        res += makeMessage(msg, false);
-        bBack = bSaveBack;
-    }
-    newText = newText.mid(pos+1);
-    pos = newText.find("<p><a name=");
-    if (pos >= 0) res += newText.mid(pos);
-    newText = res;
-    curAnchor = QString::number(msg->getUin()) + "." + QString::number(msg->Id);
-    if (!pClient->bMarkMode)
-        markFinished();
-}
-
-void MsgView::markFinished()
-{
-    if (!bDirty) return;
-    setText(newText, curAnchor);
-    scrollToAnchor(curAnchor);
-    bDirty = false;
 }
 
 void MsgView::deleteUser(unsigned long uin)
 {
     QString pat;
-    pat.sprintf("<p><a name=\"%lu.", uin);
-    QString res;
-    QString t = text();
-    for (;;){
-        int pos = t.find(pat);
-        if (pos < 0){
-            res += t;
-            break;
+    pat.sprintf("<a href=\"msg://%lu.", uin);
+    for (int i = 0; i < paragraphs();){
+        if (text(i).find(pat) < 0){
+            for (i++; i < paragraphs(); i++)
+                if (text(i).find("<a href=\"msg://") >= 0) break;
+            continue;
         }
-        res += t.left(pos);
-        t = t.mid(pos+1);
-        pos = t.find("<p><a name=");
-        if (pos >= 0){
-            t = t.mid(pos);
-        }else{
-            t = "";
+        for (; i < paragraphs(); ){
+            if (text(i).find("<a href=\"msg://") >= 0) break;
+            removeParagraph(i);
         }
     }
-    setText(res, curAnchor);
-    scrollToAnchor(curAnchor);
 }
 
 void MsgView::setMessage(unsigned long uin, unsigned long msgId)
@@ -485,9 +469,8 @@ void MsgView::setMessage(unsigned long uin, unsigned long msgId)
 QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
 {
     QString s;
-    s.sprintf("<p><a name=\"%lu.%lu\"></a>"
-              "<table width=100%%><tr>"
-              "<td><a href=\"msg://%lu.%lu\"><img src=\"icon:%s\"></a>&nbsp;",
+    s.sprintf("<p><nobr><a name=\"%lu.%lu\"></a>"
+              "<a href=\"msg://%lu.%lu\"><img src=\"icon:%s\"></a>&nbsp;",
               msg->getUin(), msg->Id, msg->getUin(), msg->Id, Client::getMessageIcon(msg->Type()));
     if (bUnread) s += "<b>";
     QString color;
@@ -500,19 +483,18 @@ QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
         CUser u(pClient);
         s += u.name(true);
     }
-    s += "</font>";
-    if (bUnread) s += "</b>";
-    s += "</td><td align=right>";
-    if (bUnread) s += "<b>";
+    s += "</font>&nbsp;&nbsp;";
     QDateTime time;
     time.setTime_t(msg->Time);
+    s += "<font size=-1>";
 #if USE_KDE
     s += KGlobal::locale()->formatDateTime(time);
 #else
     s += time.toString();
 #endif
+    s += "</font>";
     if (bUnread) s += "</b>";
-    s += "</td></tr></table>";
+    s += "</nobr></p>";
     unsigned long foreColor = 0;
     unsigned long backColor = 0;
     if (msg->Type() == ICQ_MSGxMSG){
@@ -520,37 +502,14 @@ QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
         foreColor = m->ForeColor();
         backColor = m->BackColor();
     }
-    /*
-        s += "<table width=100%";
-        if (foreColor != backColor){
-            QString bg;
-            bg.sprintf(" bgcolor=#%06lX", backColor);
-            s += bg;
-        }
-        s += "><tr><td>";
-        if (foreColor != backColor){
-            QString fg;
-            fg.sprintf("<font color=#%06lX>", foreColor);
-            s += fg;
-        }
-        s += makeMessageText(msg);
-        if (foreColor != backColor) s += "</font>";
-        s += "</td></tr></table></p>";
-    */
-    s += "<qt";
-    if (foreColor != backColor){
-        QString bg;
-        bg.sprintf(" bgcolor=#%06lX", backColor);
-        s += bg;
-    }
-    s += ">";
+    s += "<p>";
     if (foreColor != backColor){
         QString fg;
         fg.sprintf("<font color=#%06lX>", foreColor);
         s += fg;
     }
     s += makeMessageText(msg);
-    if (foreColor != backColor) s += "</font></qt>";
+    if (foreColor != backColor) s += "</font></p>";
     return s;
 }
 
@@ -561,16 +520,45 @@ void MsgView::addMessage(ICQMessage *msg, bool bUnread, bool bSet)
     int y = contentsY();
     QString s(makeMessage(msg, bUnread));
     if (bSet) curAnchor = QString::number(msg->getUin()) + "." + QString::number(msg->Id);
+    unsigned long foreColor = 0;
+    unsigned long backColor = 0;
+    if (msg->Type() == ICQ_MSGxMSG){
+        ICQMsg *m = static_cast<ICQMsg*>(msg);
+        foreColor = m->ForeColor();
+        backColor = m->BackColor();
+    }
     if (bBack){
         setText(s + text(), curAnchor);
+        if (foreColor != backColor)
+            setMsgBgColor(msg->getUin(), msg->Id, backColor, 0);
     }else{
-        setText(text() + s, curAnchor);
+        int n = paragraphs();
+        append(s);
+        if (foreColor != backColor)
+            setMsgBgColor(msg->getUin(), msg->Id, backColor, n);
     }
     if (bSet){
         scrollToBottom();
     }else{
         setContentsPos(x, y);
     }
+}
+
+int MsgView::setMsgBgColor(unsigned long uin, unsigned long id, unsigned long rgb, int start)
+{
+    QString pat;
+    pat.sprintf("<a href=\"msg://%lu.%lu", uin, id);
+    for (int n = start; n < paragraphs(); n++){
+        if (text(n).find(pat) < 0) continue;
+        pat = "<a href=\"msg://";
+        for (n++; n < paragraphs(); n++){
+            if (text(n).find(pat) >= 0) break;
+            setParagraphBackgroundColor(n, QColor(rgb));
+        }
+        return n;
+    }
+    log(L_WARN, "Message bg color not found");
+    return paragraphs();
 }
 
 void MsgView::addUnread(unsigned long uin)
@@ -585,6 +573,12 @@ void MsgView::addUnread(unsigned long uin)
     }
 }
 
+typedef struct MsgBgColor
+{
+    unsigned long id;
+    unsigned long rgb;
+} MsgBgColor;
+
 HistoryView::HistoryView(QWidget *p, unsigned long uin)
         : MsgView(p), m_nUin(uin)
 {
@@ -594,13 +588,32 @@ HistoryView::HistoryView(QWidget *p, unsigned long uin)
     History h(uin);
     History::iterator &it = h.messages();
     list<unsigned long>::iterator unreadIt;
+    QValueList<MsgBgColor> colors;
     QString t;
     for (++it; *it; ++it){
         for (unreadIt = u->unreadMsgs.begin(); unreadIt != u->unreadMsgs.end(); unreadIt++)
             if ((*unreadIt) == (*it)->Id) break;
         t = makeMessage(*it, unreadIt != u->unreadMsgs.end()) + t;
+        unsigned long foreColor = 0;
+        unsigned long backColor = 0;
+        if ((*it)->Type() == ICQ_MSGxMSG){
+            ICQMsg *m = static_cast<ICQMsg*>(*it);
+            foreColor = m->ForeColor();
+            backColor = m->BackColor();
+        }
+        if (foreColor != backColor){
+            MsgBgColor pc;
+            pc.id = (*it)->Id;
+            pc.rgb = backColor;
+            colors.prepend(pc);
+        }
     }
     setText(t);
+    int n = 0;
+    for (QValueList<MsgBgColor>::Iterator itCol = colors.begin(); itCol != colors.end(); ++itCol){
+        MsgBgColor pc = *itCol;
+        n = setMsgBgColor(uin, pc.id, pc.rgb, n);
+    }
     connect(pClient, SIGNAL(messageReceived(ICQMessage*)), this, SLOT(messageReceived(ICQMessage*)));
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
 }

@@ -23,7 +23,10 @@
 #include <stdio.h>
 
 ICQContactList::ICQContactList(ICQClient *_client)
-        : Len(this, "Length"), Time(this, "Time"), Expand(this, "Expand", true)
+        : Len(this, "Length"),
+        Invisible(this, "Invsible"),
+        Time(this, "Time"),
+        Expand(this, "Expand", true)
 {
     client = _client;
 }

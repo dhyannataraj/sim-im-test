@@ -17,24 +17,33 @@
      ***************************************************************************/
 
 #include "defs.h"
+#include <string>
+#include <stack>
+using namespace std;
 #include <qstring.h>
 
-#define TEXT	1
-#define URL	2
-#define SMILE	3
+#define TEXT	 1
+#define URL	 2
+#define SMILE	 3
+#define BR	 4
+#define TAG	 5
+#define TAG_END  6
 
 %}
 
 %option prefix="parse"
 %option nounput
 
-%x tag
+%x x_tag
 %%
 
-(http|https|ftp)"://"[A-Za-z0-9/\.\?\&\-_\+\%=]+		{ return URL; }
-"<"							{ BEGIN(tag); return TEXT; }
-<tag>">"						{ BEGIN(INITIAL); return TEXT; }
-<tag>.							{ return TEXT; }
+(http|https|ftp)"://"[A-Za-z0-9/\.\?\&\-_\+\%=]+	{ return URL; }
+"<br>"							{ return BR; }
+"<p>"							{ }
+"</p>"							{ return BR; }
+"<"							{ BEGIN(x_tag); return TAG; }
+<x_tag>">"						{ BEGIN(INITIAL); return TAG_END; }
+<x_tag>.						{ return TAG; }
 :\-?\)+							{ return SMILE; }
 :\-[O0]							{ return SMILE+0x1; }
 :\-[|!]							{ return SMILE+0x2; }
@@ -54,22 +63,89 @@
 .							{ return TEXT; }
 %%
 
+
 #ifdef WIN32
 #define vsnprintf _vsnprintf
 #endif
 
 int yywrap() { return 1; }
 
+typedef struct tag_def
+{
+    const char *name;
+    int pair;
+} tag_def;
+
+static const tag_def defs[] =
+    {
+        { "i", 1 },
+        { "b", 1 },
+        { "u", 1 },
+        { "a", 1 },
+        { "font", 1 },
+        { "img", 0 },
+        { "hr", 0 },
+        { "", 0 }
+    };
+
 QString ParseText(const char *text)
 {
     yy_current_buffer = yy_scan_string(text);
     QString res;
+    string tag;
+    stack<tag_def> tags;
     for (;;){
         int r = yylex();
         if (!r) break;
         switch (r){
         case TEXT:
             res += QString::fromLocal8Bit(yytext);
+            break;
+        case TAG:
+            tag += yytext;
+            break;
+        case TAG_END:
+            tag += yytext;
+            if (tag.length() > 2){
+                bool bClosed = false;
+                const char *p = tag.c_str() + 1;
+                if (*p == '/'){
+                    p++;
+                    bClosed = true;
+                }
+                string name;
+                char *end = strchr(p, ' ');
+                if (end){
+                    name.assign(p, (end - p));
+                }else{
+                    name.assign(p, strlen(p) - 1);
+                }
+                const tag_def *d = defs;
+                for (; *d->name; d++)
+                    if (!strcasecmp(d->name, name.c_str())) break;
+                if (*d->name){
+                    if (bClosed){
+                        for (; !tags.empty(); tags.pop()){
+                            if (strcasecmp(d->name, tags.top().name)){
+                                res += "</";
+                                res += tags.top().name;
+                                res += ">";
+                                continue;
+                            }
+                            res += QString::fromLocal8Bit(tag.c_str());
+                            tags.pop();
+                            break;
+                        }
+                    }else{
+                        res += QString::fromLocal8Bit(tag.c_str());
+                        tags.push(*d);
+                    }
+                }
+            }
+            tag = "";
+            break;
+        case BR:
+            res += "<br/>";
             break;
         case URL:
             res += "<a href=\"";
@@ -89,8 +165,15 @@ QString ParseText(const char *text)
             res += "\">";
         }
     }
+    for (; !tags.empty(); tags.pop()){
+        res += "</";
+        res += tags.top().name;
+        res += ">";
+    }
+
     yy_delete_buffer(yy_current_buffer);
     yy_current_buffer = NULL;
     return res;
 }
+
 

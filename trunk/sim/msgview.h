@@ -91,12 +91,10 @@ public slots:
     void setMessage(unsigned long uin, unsigned long msgId);
 protected slots:
     void messageRead(ICQMessage *msg);
-    void markFinished();
     void colorsChanged();
 protected:
+    int setMsgBgColor(unsigned long uin, unsigned long msgId, unsigned long rgb, int start);
     bool bBack;
-    bool bDirty;
-    QString newText;
     unsigned long oldSendColor;
     unsigned long oldReceiveColor;
 };

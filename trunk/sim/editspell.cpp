@@ -142,7 +142,7 @@ void EditSpell::misspelling (const QString& original, const QStringList&, unsign
     }
     setCursorPosition(nPara, nIndex);
     for (unsigned i = 0; i < original.length(); i++)
-    	moveCursor(MoveForward, true);
+        moveCursor(MoveForward, true);
     ensureCursorVisible();
     QRect rc = paragraphRect(nPara);
     QPoint p1 = QPoint(rc.left(), rc.top());
@@ -180,16 +180,16 @@ void EditSpell::corrected_old(QString original, QString newword, unsigned pos)
 void EditSpell::corrected(const QString & original, const QString & newword, unsigned int)
 {
     if (!find(original, true, true, true, &nPara, &nIndex)){
-	string oldWord;
+        string oldWord;
         string newWord;
-	oldWord = original.local8Bit();
-	newWord = newword.local8Bit();
-	log(L_DEBUG, "%s -> %s not found", oldWord.c_str(), newWord.c_str());
-	return;
+        oldWord = original.local8Bit();
+        newWord = newword.local8Bit();
+        log(L_DEBUG, "%s -> %s not found", oldWord.c_str(), newWord.c_str());
+        return;
     }
     setCursorPosition(nPara, nIndex);
     for (unsigned i = 0; i < original.length(); i++)
-    	moveCursor(MoveForward, true);
+        moveCursor(MoveForward, true);
     insert(newword, FALSE, TRUE, TRUE);
 #else
 void EditSpell::corrected(const QString&, const QString&, unsigned int)
@@ -219,8 +219,8 @@ void EditSpell::spell()
         pSpell = new KSpell(this, i18n("Spell check"), this, SLOT(spell_check(KSpell *)), NULL, true, true);
     string t;
     if (text().isEmpty()){
-	emit spellDone(true);
-	return;
+        emit spellDone(true);
+        return;
     }
     t = text().local8Bit();
     t = pClient->clearHTML(t.c_str());

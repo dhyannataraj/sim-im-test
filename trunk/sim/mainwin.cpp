@@ -694,7 +694,7 @@ bool MainWindow::init()
         }
         break;
     }
-    menuStatus->setItemChecked(ICQ_STATUS_FxPRIVATE, pClient->Invisible);
+    menuStatus->setItemChecked(ICQ_STATUS_FxPRIVATE, pClient->inInvisible());
 
     if ((pClient->Uin == 0) || (*pClient->EncryptedPassword.c_str() == 0)){
         bInLogin = true;
@@ -1195,8 +1195,8 @@ void MainWindow::autoAway()
 void MainWindow::setStatus(int status)
 {
     if ((unsigned long)status == ICQ_STATUS_FxPRIVATE){
-        pClient->setInvisible(!pClient->Invisible);
-        menuStatus->setItemChecked(ICQ_STATUS_FxPRIVATE, pClient->Invisible);
+        pClient->setInvisible(!pClient->inInvisible());
+        menuStatus->setItemChecked(ICQ_STATUS_FxPRIVATE, pClient->inInvisible());
         return;
     }
     AutoReplyDlg *autoDlg = NULL;
@@ -1656,7 +1656,7 @@ void MainWindow::exec(const char *prg, const char *arg)
     arglist[i] = NULL;
     if(!fork()) {
         if (execvp(arglist[0], arglist))
-		log(L_DEBUG, "can't execute %s: %s", arglist[0], strerror(errno));
+            log(L_DEBUG, "can't execute %s: %s", arglist[0], strerror(errno));
         _exit(-1);
     }
     for (char **p = arglist; *p != NULL; p++)
