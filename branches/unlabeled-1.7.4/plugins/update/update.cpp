@@ -133,13 +133,11 @@ void *UpdatePlugin::processEvent(Event *e)
             return NULL;
         string h = getHeader("Location", data->headers);
         if (h.empty()){
-            if (data->result == 200){
-                time_t now;
-                time(&now);
-                setTime(now);
-                Event e(EventSaveState);
-                e.process();
-            }
+            time_t now;
+            time(&now);
+            setTime(now);
+            Event e(EventSaveState);
+            e.process();
         }else{
             QWidget *main = getMainWindow();
             if (main == NULL)

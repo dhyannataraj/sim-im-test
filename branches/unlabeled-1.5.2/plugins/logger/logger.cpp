@@ -156,7 +156,7 @@ void *LoggerPlugin::processEvent(Event *e)
     if (e->type() == EventLog){
         LogInfo *li = (LogInfo*)e->param();
         if (((li->packet_id == 0) && (li->log_level & getLogLevel())) ||
-                (li->packet_id && isLogType(li->packet_id))){
+                (li->packet_id && ((getLogLevel() & L_PACKETS) || isLogType(li->packet_id)))){
             string s;
             s = make_packet_string(li);
             if (m_file){

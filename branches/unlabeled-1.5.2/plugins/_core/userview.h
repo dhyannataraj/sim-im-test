@@ -61,6 +61,7 @@ protected slots:
     void unreadBlink();
     void doDrop();
     void doClick();
+	void dragScroll();
 protected:
     virtual void fill();
     virtual void drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin);

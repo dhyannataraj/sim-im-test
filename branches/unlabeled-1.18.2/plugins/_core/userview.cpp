@@ -1266,7 +1266,11 @@ QDragObject *UserView::dragObject()
     Contact *contact = getContacts()->contact(item->id());
     if (contact == NULL)
         return NULL;
-    return new ContactDragObject(this, contact);
+    QDragObject *drag = new ContactDragObject(this, contact);
+	QTimer *dragTimer = new QTimer(drag);
+	connect(dragTimer, SIGNAL(timeout()), this, SLOT(dragScroll()));
+	dragTimer->start(500);
+	return drag;
 }
 
 void UserView::contentsDragEnterEvent(QDragEnterEvent *e)
@@ -1466,6 +1470,31 @@ void UserView::search(QListViewItem *item, list<QListViewItem*> &items)
     QString name = item->text(CONTACT_TEXT);
     if (name.left(m_search.length()).upper() == m_search.upper())
         items.push_back(item);
+}
+
+void UserView::dragScroll()
+{
+	QPoint pos = QCursor::pos();
+	log(L_DEBUG, "Drag %u %u", pos.x(), pos.y());
+	pos = viewport()->mapFromGlobal(pos);
+	if ((pos.x() < 0) || (pos.x() > viewport()->width()))
+		return;
+	QListViewItem *item = NULL;
+	if (pos.y() < 0){
+		log(L_DEBUG, "Scroll up");
+		pos = QPoint(pos.x(), -1);
+		item = itemAt(pos);
+	}else if (pos.y() < 0){
+		log(L_DEBUG, "Scroll down");
+		pos = QPoint(pos.x(), viewport()->height() - 1);
+		item = itemAt(pos);
+		if (item){
+			pos = QPoint(pos.x(), viewport()->height() - 1 + item->height());
+			item = itemAt(pos);
+		}
+	}
+	if (item)
+		ensureItemVisible(item);
 }
 
 #ifndef WIN32

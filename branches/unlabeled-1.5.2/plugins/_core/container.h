@@ -92,6 +92,7 @@ public slots:
     void wndClosed();
 protected:
     virtual void resizeEvent(QResizeEvent*);
+    virtual void moveEvent(QMoveEvent*);
     virtual bool event(QEvent*);
     void *processEvent(Event*);
     void showBar();
