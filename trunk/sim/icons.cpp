@@ -985,7 +985,7 @@ QPixmap IconsDLL::getIcon(int id)
             memcpy(line, data, lineBytes);
             unsigned char *to = (unsigned char*)data;
             unsigned char *from = line;
-            unsigned char curByte;
+            unsigned char curByte = 0;
             for (int x = 0; x < w; x++){
                 if ((x & 3) == 0) curByte = *(from++);
                 *(to++) = (curByte >> 6) & 3;
@@ -997,7 +997,7 @@ QPixmap IconsDLL::getIcon(int id)
             memcpy(line, data, lineBytes);
             unsigned char *to = (unsigned char*)data;
             unsigned char *from = line;
-            unsigned char curByte;
+            unsigned char curByte = 0;
             for (int x = 0; x < w; x++){
                 if ((x & 1) == 0) curByte = *(from++);
                 *(to++) = (curByte >> 4) & 0x0F;
@@ -1017,14 +1017,21 @@ QPixmap IconsDLL::getIcon(int id)
     if (!img.hasAlphaBuffer()){
         QBitmap mask(w, h);
         QPainter pMask(&mask);
-        pMask.fillRect(0, 0, w, h, QColor(0, 0, 0));
-        pMask.setPen(QColor(255, 255, 255));
+#ifdef WIN32
+        QColor bg = QColor(0, 0, 0);
+        QColor fg = QColor(255, 255, 255);
+#else
+        QColor bg = QColor(255, 255, 255);
+        QColor fg = QColor(0, 0, 0);
+#endif
+        pMask.fillRect(0, 0, w, h, bg);
+        pMask.setPen(fg);
         unsigned fileBytes = ((w + 31) >> 3) & (~3);
         unsigned char *line = new unsigned char[fileBytes];
         for (int y = 0; y < h; y++){
             f.readBlock((char*)line, fileBytes);
             unsigned char *b = line;
-            unsigned char curByte;
+            unsigned char curByte = 0;
             for (int x = 0; x < w; x++){
                 if ((x & 7) == 0) curByte = *(b++);
                 if (curByte & 0x80) pMask.drawPoint(x, h - y - 1);

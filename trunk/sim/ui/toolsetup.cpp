@@ -226,7 +226,7 @@ void ToolBarSetup::removeClick()
     (*active)--;
     unsigned n = *active;
     unsigned long *p = active + (i + 1);
-    if (i < n)
+    if (i < (int)n)
         memmove(p, p + 1, (n - i) * sizeof(unsigned long));
     lstActive->removeItem(i);
     setButtons();

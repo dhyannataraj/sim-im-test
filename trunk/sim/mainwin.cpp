@@ -1435,7 +1435,7 @@ void MainWindow::saveState()
     }
     setOnTop(testWFlags(WStyle_StaysOnTop));
 #ifdef USE_KDE
-    OnTop = KWin::info(winId()).state & NET::StaysOnTop;
+    setOnTop(KWin::info(winId()).state & NET::StaysOnTop);
 #endif
     setUseStyle("");
     if (themes->getTheme().length()) setUseStyle(themes->getTheme().local8Bit());
@@ -2513,7 +2513,7 @@ void MainWindow::goURL(const char *url)
 #ifdef WIN32
     ShellExecuteA(winId(), NULL, url, NULL, NULL, SW_SHOWNORMAL);
 #else
-    exec(UrlViewer.c_str(), url);
+    exec(getUrlViewer(), url);
 #endif
 }
 
@@ -2542,7 +2542,7 @@ void MainWindow::sendMail(const char *mail)
     s += mail;
     ShellExecuteA(winId(), NULL, s.c_str(), NULL, NULL, SW_SHOWNORMAL);
 #else
-    exec(MailClient.c_str(), mail);
+    exec(getMailClient(), mail);
 #endif
 }
 
@@ -2622,7 +2622,7 @@ void MainWindow::sendSMS()
 void MainWindow::setFonts()
 {
 #ifdef USE_KDE
-    if (UseSystemFonts) return;
+    if (isUseSystemFonts()) return;
 #endif
     QPopupMenu p;
     qApp->setFont(str2font(getFont(), font()), true);

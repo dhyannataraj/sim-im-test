@@ -231,7 +231,7 @@ void KabcSync::processUser(SIMUser& u)
 
 void KabcSync::processEvent(ICQEvent* e)
 {
-    if ((e->type()==EVENT_INFO_CHANGED)&&(pMain->AutoSync))
+    if ((e->type()==EVENT_INFO_CHANGED)&&(pMain->isAutoSync()))
     {
         SIMUser* pU=static_cast<SIMUser*>(pClient->getUser(e->Uin()));
         if (pU!=NULL)

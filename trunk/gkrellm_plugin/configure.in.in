@@ -1,0 +1,51 @@
+compile_plugin="no"
+
+AC_ARG_WITH(
+ gkrellm_plugin,
+ [  --with-gkrellm[=plugins_path] path for GKrellm plugin],
+ WITH_GKRELLM="$enableval", WITH_GKRELLM="/usr/lib/gkrellm2/plugins")
+
+if test "x$WITH_GKRELLM" != "xno"; then
+dnl Check for pkg-config
+AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
+
+dnl Check for Glib-2.0
+# GLIB_CFLAGS:  cflags for compiling glib dependant sources
+# GLIB_LIBADD:  glib libraries (-l options)
+# GLIB_LDFLAGS: flags containing path to glib libraries (-L options)
+
+GLIB_PACKAGES="gtk+-2.0 gthread-2.0"
+GLIB_VERSION="1.3.3"
+AC_MSG_CHECKING(for GLib-2.0 (at least $GLIB_VERSION))
+
+if test "x$PKG_CONFIG" != "xno"; then
+  if $PKG_CONFIG --atleast-version $GLIB_VERSION $GLIB_PACKAGES >/dev/null 2>&1 ; then
+    GLIB_CFLAGS="`$PKG_CONFIG --cflags $GLIB_PACKAGES`"
+    GLIB_LIBADD="`$PKG_CONFIG --libs-only-l $GLIB_PACKAGES`"
+    GLIB_LDFLAGS="`$PKG_CONFIG --libs-only-L $GLIB_PACKAGES`"
+    AC_MSG_RESULT(yes)
+    AC_LANG_SAVE
+    gkrell_safe_cppflags=$CPPFLAGS
+    AC_LANG_CPLUSPLUS
+    CPPFLAGS="$GLIB_CFLAGS $all_includes"
+    AC_CHECK_HEADER(gkrellm2/gkrellm.h, [
+      compile_plugin="yes"
+      gkrellm_plugindir=$WITH_GKRELLM
+      AC_SUBST(gkrellm_plugindir)
+      AC_SUBST(GLIB_CFLAGS)
+      AC_SUBST(GLIB_LIBADD)
+      AC_SUBST(GLIB_LDFLAGS)
+    ])
+    CPPFLAGS=$gkrell_safe_cppflags
+    AC_LANG_RESTORE
+  fi
+fi
+if test -z "$GLIB_LIBADD"; then
+  AC_MSG_RESULT(not installed)
+fi
+fi
+
+if test "x$compile_plugin" = "xno"; then
+  DO_NOT_COMPILE="$DO_NOT_COMPILE gkrellm_plugin"
+fi
+

@@ -270,7 +270,7 @@ const QPixmap *TransparentTop::background(QColor)
 {
 #if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
     if (*useTransparent && !saveBG.isNull()){
-        if ((c.rgb() == genColor.rgb()) && (*transparent == *genFade))
+        if ((c.rgb() == genColor.rgb()) && (*transparent == genFade))
             return &genBG;
         QImage img = saveBG.convertToImage();
         fade(img, *transparent / 100., c);

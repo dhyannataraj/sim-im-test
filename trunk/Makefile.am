@@ -1,13 +1,13 @@
 ####### kdevelop will overwrite this part!!! (begin)##########
 
-SUBDIRS = sim po sounds pict 
+SUBDIRS = $(TOPSUBDIRS)
 
 EXTRA_DIST = admin AUTHORS COPYING ChangeLog INSTALL README TODO icq.ico resource.h configure.in.in 
 
 ####### kdevelop will overwrite this part!!! (end)############
 # not a GNU package. You can remove this line, if 
 # have all needed files, that a GNU package needs
-AUTOMAKE_OPTIONS = foreign 
+AUTOMAKE_OPTIONS = foreign 1.5
 
 $(top_srcdir)/configure.in: configure.in.in $(top_srcdir)/subdirs
 	cd $(top_srcdir) && $(MAKE) -f admin/Makefile.common configure.in ;

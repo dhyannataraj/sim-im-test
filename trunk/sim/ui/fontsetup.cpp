@@ -38,7 +38,7 @@ FontSetup::FontSetup(QWidget *p)
     QPopupMenu popup(this);
     edtFontMenu->setWinFont(qApp->font(&popup));
 #ifdef USE_KDE
-    chkSystem->setChecked(pMain->UseSystemFonts);
+    chkSystem->setChecked(pMain->isUseSystemFonts());
     systemToggled(chkSystem->isChecked());
     connect(chkSystem, SIGNAL(toggled(bool)), this, SLOT(systemToggled(bool)));
 #else

@@ -587,7 +587,7 @@ DockWnd::DockWnd(QWidget *main)
         bInit = true;
         resize(48, 48);
         setFocusPolicy(NoFocus);
-        move(pMain->DockX, pMain->DockY);
+        move(pMain->getDockX(), pMain->getDockY());
         reset();
         MWMHints mwm;
         mwm.flags = MWM_HINTS_DECORATIONS;
@@ -758,7 +758,7 @@ bool DockWnd::x11Event(XEvent *e)
         if (!inTray){
             bInit = true;
             setFocusPolicy(NoFocus);
-            move(pMain->DockX, pMain->DockY);
+            move(pMain->getDockX(), pMain->getDockY());
             reset();
         }
     }
@@ -1006,9 +1006,9 @@ void DockWnd::mouseReleaseEvent( QMouseEvent *e)
         if (!mousePos.isNull()){
             move(e->globalPos().x() - mousePos.x(),  e->globalPos().y() - mousePos.y());
             mousePos = QPoint();
-            QPoint p(pMain->DockX - x(), pMain->DockY - y());
-            pMain->DockX = x();
-            pMain->DockY = y();
+            QPoint p(pMain->getDockX() - x(), pMain->getDockY() - y());
+            pMain->setDockX(x());
+            pMain->setDockY(y());
             if (p.manhattanLength() > 6)
                 return;
         }
