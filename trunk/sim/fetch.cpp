@@ -128,6 +128,8 @@ static BOOL (WINAPI *_InternetQueryOption)(HINTERNET hInternet, DWORD dwOption,
         LPVOID lpBuffer, LPDWORD lpdwBufferLength);
 static BOOL (WINAPI *_HttpEndRequest)(HINTERNET hRequest, LPINTERNET_BUFFERS lpBuffersOut,
                                       DWORD dwFlags, DWORD dwContext);
+static DWORD (WINAPI *_InternetErrorDlg)(HWND hWnd, HINTERNET hRequest, DWORD dwError,
+        DWORD dwFlags, LPVOID * lppvData);
 
 static HINTERNET hInet = NULL;
 
@@ -243,62 +245,78 @@ void FetchThread::run()
     b.packetStart();
     b << verb << " " << uri.c_str() << " HTTP/1.0\r\n" << headers.c_str() << "\r\n";
     log_packet(b, true, HTTPPacket);
-    if (postSize != NO_POSTSIZE){
-        INTERNET_BUFFERSA BufferIn;
-        memset(&BufferIn, 0, sizeof(BufferIn));
-        BufferIn.dwStructSize    = sizeof(INTERNET_BUFFERSA);
-        BufferIn.lpcszHeader     = headers.c_str();
-        BufferIn.dwHeadersLength = headers.length();
-        BufferIn.dwHeadersTotal  = headers.length();
-        BufferIn.dwBufferTotal   = (postSize != NO_POSTSIZE) ? postSize : 0;
-        if (!_HttpSendRequestEx(hReq, &BufferIn, NULL, HSR_INITIATE | HSR_SYNC, 0)){
-            error("HttpSendRequestEx");
-            return;
-        }
-        while (postSize){
-            char buff[4096];
-            unsigned tail = postSize;
-            if (tail > sizeof(buff))
-                tail = sizeof(buff);
-            const char *data = m_client->m_client->read_data(buff, tail);
-            if (data == NULL){
-                error("ReadStreamError");
+    for (;;){
+        if (postSize != NO_POSTSIZE){
+            INTERNET_BUFFERSA BufferIn;
+            memset(&BufferIn, 0, sizeof(BufferIn));
+            BufferIn.dwStructSize    = sizeof(INTERNET_BUFFERSA);
+            BufferIn.lpcszHeader     = headers.c_str();
+            BufferIn.dwHeadersLength = headers.length();
+            BufferIn.dwHeadersTotal  = headers.length();
+            BufferIn.dwBufferTotal   = (postSize != NO_POSTSIZE) ? postSize : 0;
+            if (!_HttpSendRequestEx(hReq, &BufferIn, NULL, HSR_INITIATE | HSR_SYNC, 0)){
+                error("HttpSendRequestEx");
                 return;
             }
-            DWORD res;
-            if (m_bClose)
-                return;
-            if (!_InternetWriteFile(hReq, (void*)data, tail, &res)){
-                error("InternetWriteFile");
-                return;
-            }
-            if (m_client->m_speed){
-                m_client->m_sendSize += tail;
-                time_t now;
-                time(&now);
-                if ((unsigned)now != m_client->m_sendTime){
-                    m_client->m_sendTime = now;
-                    m_client->m_sendSize = 0;
-                }
-                if (m_client->m_sendSize > (m_client->m_speed << 18)){
-                    Sleep(1000);
+            unsigned size = postSize;
+            while (size){
+                char buff[4096];
+                unsigned tail = size;
+                if (tail > sizeof(buff))
+                    tail = sizeof(buff);
+                const char *data = m_client->m_client->read_data(buff, tail);
+                if (data == NULL){
+                    error("ReadStreamError");
                     return;
                 }
+                DWORD res;
+                if (m_bClose)
+                    return;
+                if (!_InternetWriteFile(hReq, (void*)data, tail, &res)){
+                    error("InternetWriteFile");
+                    return;
+                }
+                if (m_client->m_speed){
+                    m_client->m_sendSize += tail;
+                    time_t now;
+                    time(&now);
+                    if ((unsigned)now != m_client->m_sendTime){
+                        m_client->m_sendTime = now;
+                        m_client->m_sendSize = 0;
+                    }
+                    if (m_client->m_sendSize > (m_client->m_speed << 18)){
+                        Sleep(1000);
+                        return;
+                    }
+                }
+                size -= tail;
             }
-            postSize -= tail;
+            if (m_bClose)
+                return;
+            if(!_HttpEndRequest(hReq, NULL, 0, 0)){
+                error("HttpEndRequest");
+                return;
+            }
+        }else{
+            if (!_HttpSendRequest(hReq, headers.c_str(), headers.length(), NULL, 0)){
+                error("HttpSendRequest");
+                return;
+            }
         }
-        if (m_bClose)
-            return;
-        if(!_HttpEndRequest(hReq, NULL, 0, 0)){
-            error("HttpEndRequest");
-            return;
-        }
-    }else{
-        if (!_HttpSendRequest(hReq, headers.c_str(), headers.length(), NULL, 0)){
-            error("HttpSendRequest");
-            return;
-        }
+        DWORD dwCode;
+        DWORD dwSize = sizeof(dwCode);
+        _HttpQueryInfo (hReq, HTTP_QUERY_STATUS_CODE | HTTP_QUERY_FLAG_NUMBER, &dwCode, &dwSize, NULL);
+        if (dwCode != HTTP_STATUS_PROXY_AUTH_REQ)
+            break;
+        DWORD res = _InternetErrorDlg (GetDesktopWindow(),
+                                       hReq, ERROR_INTERNET_INCORRECT_PASSWORD,
+                                       FLAGS_ERROR_UI_FILTER_FOR_ERRORS |
+                                       FLAGS_ERROR_UI_FLAGS_GENERATE_DATA |
+                                       FLAGS_ERROR_UI_FLAGS_CHANGE_OPTIONS, NULL);
+        if (res != ERROR_INTERNET_FORCE_RETRY)
+            break;
     }
+
     DWORD size = 0;
     DWORD err  = 0;
     _HttpQueryInfo(hReq, HTTP_QUERY_RAW_HEADERS_CRLF, NULL, &size, 0);
@@ -488,6 +506,7 @@ FetchManager::FetchManager()
         (DWORD&)_InternetReadFile = (DWORD)GetProcAddress(hLib, "InternetReadFile");
         (DWORD&)_InternetWriteFile = (DWORD)GetProcAddress(hLib, "InternetWriteFile");
         (DWORD&)_InternetQueryOption = (DWORD)GetProcAddress(hLib, "InternetQueryOptionA");
+        (DWORD&)_InternetErrorDlg = (DWORD)GetProcAddress(hLib, "InternetErrorDlg");
     }
     if (_InternetOpen && _HttpSendRequestEx){
         hInet = _InternetOpen(user_agent.c_str(), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);

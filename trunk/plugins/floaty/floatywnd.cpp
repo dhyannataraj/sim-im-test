@@ -134,6 +134,7 @@ void FloatyWnd::paintEvent(QPaintEvent*)
     }else{
         switch (m_status){
         case STATUS_ONLINE:
+            p.setPen(m_plugin->core->getColorOnline());
             break;
         case STATUS_AWAY:
             p.setPen(m_plugin->core->getColorAway());
