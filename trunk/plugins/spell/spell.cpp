@@ -224,21 +224,62 @@ void SpellPlugin::add(const QString &word)
     }
 }
 
+typedef struct WordWeight
+{
+    QString		word;
+    unsigned	weight;
+    bool		operator < (const struct WordWeight &w) { return weight > w.weight; }
+} WordWeight;
+
+static unsigned weight(const QString &s1, const QString &s2)
+{
+    QString s = s2;
+    unsigned res = 0;
+    for (int i = 0; i < (int)(s1.length()); i++){
+        for (int j = 0; j < (int)(s.length()); j++){
+            if (s1[i] == s[j]){
+                s = s.left(j) + s.mid(j + 1);
+                res++;
+                break;
+            }
+        }
+    }
+    return res;
+}
+
 QStringList SpellPlugin::suggestions(const QString &word)
 {
     QStringList res;
     for (list<Speller*>::iterator it = m_spellers.begin(); it != m_spellers.end(); ++it){
         QStringList wl = (*it)->suggestions(word.utf8());
         for (QStringList::Iterator it = wl.begin(); it != wl.end(); ++it){
+            QString wrd = (*it);
             QStringList::Iterator itr;
             for (itr = res.begin(); itr != res.end(); ++itr){
-                if ((*itr) == (*it))
+                if ((*itr) == wrd)
                     break;
             }
             if (itr == res.end())
-                res.append(*it);
+                res.append(wrd);
         }
     }
+    vector<WordWeight> words;
+    for (QStringList::Iterator itw = res.begin(); itw != res.end(); ++itw){
+        unsigned w = weight(word, *itw);
+        if (w == 0)
+            continue;
+        WordWeight ww;
+        ww.word   = *itw;
+        ww.weight = w;
+        words.push_back(ww);
+    }
+    sort(words.begin(), words.end());
+    unsigned size = words.size();
+    if (size > 15)
+        size = 15;
+    res.clear();
+    for (unsigned i = 0; i < size; i++)
+        res.append(words[i].word);
     return res;
 }
 
