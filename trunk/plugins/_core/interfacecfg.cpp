@@ -32,6 +32,14 @@
 #include <qlabel.h>
 #include <qdir.h>
 
+#ifdef WIN32
+#include <windows.h>
+
+static char key_name[]   = "Software\\Microsoft\\Windows\\CurrentVersion\\Run";
+static char value_name[] = "SIM";
+
+#endif
+
 #ifndef USE_KDE
 
 typedef struct language
@@ -111,7 +119,7 @@ InterfaceConfig::InterfaceConfig(QWidget *parent)
     }
     cmbLang->setCurrentItem(nCurrent);
 #else
-cmbLang->hide();
+    cmbLang->hide();
 #endif
     connect(grpMode, SIGNAL(clicked(int)), this, SLOT(modeChanged(int)));
     if (CorePlugin::m_plugin->getContainerMode()){
@@ -133,6 +141,19 @@ cmbLang->hide();
     lblCopy1->setText(copy1);
     lblCopy2->setText(copy2);
     spnCopy->setValue(CorePlugin::m_plugin->getCopyMessages());
+#ifdef WIN32
+    HKEY subKey;
+    if (RegOpenKeyExA(HKEY_CURRENT_USER, key_name, 0,
+                      KEY_READ | KEY_QUERY_VALUE, &subKey) == ERROR_SUCCESS){
+        DWORD vType = REG_SZ;
+        DWORD vCount = 0;
+        if (RegQueryValueExA(subKey, value_name, NULL, &vType, NULL, &vCount) == ERROR_SUCCESS)
+            chkStart->setChecked(true);
+        RegCloseKey(subKey);
+    }
+#else
+    chkStart->hide();
+#endif
 }
 
 InterfaceConfig::~InterfaceConfig()
@@ -215,11 +236,27 @@ void InterfaceConfig::apply()
         }
     }
 #ifndef USE_KDE
-    if (!strcmp(lang, CorePlugin::m_plugin->getLang()))
-        return;
-    CorePlugin::m_plugin->removeTranslator();
-    CorePlugin::m_plugin->setLang(lang);
-    CorePlugin::m_plugin->installTranslator();
+    if (strcmp(lang, CorePlugin::m_plugin->getLang())){
+        CorePlugin::m_plugin->removeTranslator();
+        CorePlugin::m_plugin->setLang(lang);
+        CorePlugin::m_plugin->installTranslator();
+    }
+#endif
+#ifdef WIN32
+    HKEY subKey;
+    if (RegOpenKeyExA(HKEY_CURRENT_USER, key_name, 0,
+                      KEY_WRITE | KEY_QUERY_VALUE, &subKey) == ERROR_SUCCESS){
+        if (chkStart->isChecked()){
+            string path = app_file("sim.exe");
+            DWORD res = RegSetValueExA(subKey, value_name, 0, REG_SZ, (unsigned char*)path.c_str(), path.length());
+            if (res != ERROR_SUCCESS)
+                log(L_WARN, "RegSetValue fail %u", res);
+        }else{
+            DWORD res = RegDeleteKeyA(subKey, value_name);
+            if (res!= ERROR_SUCCESS)
+                log(L_WARN, "RegSetValue fail %u", res);
+        }
+    }
 #endif
 }
 

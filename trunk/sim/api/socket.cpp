@@ -187,16 +187,18 @@ void ClientSocket::pause(unsigned n)
     m_sock->pause(n);
 }
 
-void ClientSocket::setSocket(Socket *s)
+void ClientSocket::setSocket(Socket *s, bool bClearError)
 {
     if (m_sock){
         if (m_sock->notify == this)
             m_sock->setNotify(NULL);
-        list<ClientSocket*>::iterator it;
-        for (it = getSocketFactory()->p->errSockets.begin(); it != getSocketFactory()->p->errSockets.end(); ++it){
-            if ((*it) == this){
-                getSocketFactory()->p->errSockets.erase(it);
-                break;
+        if (bClearError){
+            list<ClientSocket*>::iterator it;
+            for (it = getSocketFactory()->p->errSockets.begin(); it != getSocketFactory()->p->errSockets.end(); ++it){
+                if ((*it) == this){
+                    getSocketFactory()->p->errSockets.erase(it);
+                    break;
+                }
             }
         }
     }

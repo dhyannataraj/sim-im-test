@@ -344,7 +344,12 @@ void JabberClient::packet_ready()
         return;
     JabberPlugin *plugin = static_cast<JabberPlugin*>(protocol()->plugin());
     log_packet(m_socket->readBuffer, false, plugin->JabberPacket);
-    if (xmlParseChunk(m_context, m_socket->readBuffer.data(), m_socket->readBuffer.writePos(), 0))
+#if LIBXML_VERSION > 20604
+    // libxml2 parser sux since 2.6.5
+    if (m_socket->readBuffer.data()[m_socket->readBuffer.size() - 1] == '>')
+        m_socket->readBuffer << "<a/>";
+#endif
+    if (xmlParseChunk(m_context, m_socket->readBuffer.data(), m_socket->readBuffer.size(), 0))
         m_socket->error_state("XML parse error");
     m_socket->readBuffer.init(0);
     m_socket->readBuffer.packetStart();
@@ -894,7 +899,7 @@ void JabberClient::element_start(const char *el, const char **attr)
             }else if (element == "message"){
                 m_curRequest = new MessageRequest(this);
                 m_curRequest->element_start(element.c_str(), attr);
-            }else{
+            }else if (element != "a"){
                 log(L_DEBUG, "Bad tag %s", element.c_str());
             }
         }
@@ -908,6 +913,7 @@ void JabberClient::element_start(const char *el, const char **attr)
                 }
             }
         }
+        log(L_DEBUG, "Handshake %s (%s)", id, element.c_str());
         handshake(id);
     }
     m_depth++;
@@ -1099,7 +1105,7 @@ void JabberClient::handshake(const char *id)
             auth_digest();
         }
 #else
-auth_plain();
+        auth_plain();
 #endif
     }
 }

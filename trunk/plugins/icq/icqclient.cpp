@@ -2011,726 +2011,729 @@ static CommandDef icqConfigWnd[] =
             "home",
             NULL,
             NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
-        {
-            WORK_INFO,
-            I18N_NOOP("Work info"),
-            "work",
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
-        {
-            MORE_INFO,
-            I18N_NOOP("More info"),
-            "more",
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
-        {
-            ABOUT_INFO,
-            I18N_NOOP("About info"),
-            "info",
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
-        {
-            INTERESTS_INFO,
-            I18N_NOOP("Interests"),
-            "interest",
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
-        {
-            PAST_INFO,
-            I18N_NOOP("Group/Past"),
-            "past",
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
-        {
-            PICTURE_INFO,
-            I18N_NOOP("Picture"),
-            "pict",
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
-        {
-            NETWORK,
-            I18N_NOOP("Network"),
-            "network",
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
-        {
-            SECURITY,
-            I18N_NOOP("Security"),
-            "security",
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
-    };
-
-static CommandDef aimConfigWnd[] =
-    {
-        {
-            MAIN_INFO,
-            "",
-            "AIM_online",
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
-        {
-            ABOUT_INFO,
-            I18N_NOOP("About info"),
-            "info",
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
-        {
-            NETWORK,
-            I18N_NOOP("Network"),
-            "network",
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
-    };
-
-CommandDef *ICQClient::infoWindows(Contact*, void *_data)
-{
-    ICQUserData *data = (ICQUserData*)_data;
-    CommandDef *def = data->Uin.value ? icqWnd : aimWnd;
-    QString name = i18n(protocol()->description()->text);
-    name += " ";
-    if (data->Uin.value){
-        name += QString::number(data->Uin.value);
-    }else{
-        name += data->Screen.ptr;
-    }
-    def->text_wrk = strdup(name.utf8());
-    return def;
-}
-
-CommandDef *ICQClient::configWindows()
-{
-    CommandDef *def = icqConfigWnd;
-    QString name = i18n(protocol()->description()->text);
-    name += " ";
-    if (m_bAIM){
-        name += QString::fromUtf8(data.owner.Screen.ptr);
-        def = aimConfigWnd;
-    }else{
-        name += QString::number(data.owner.Uin.value);
-    }
-    def->text_wrk = strdup(name.utf8());
-    return def;
-}
-
-QWidget *ICQClient::infoWindow(QWidget *parent, Contact*, void *_data, unsigned id)
-{
-    ICQUserData *data = (ICQUserData*)_data;
-    switch (id){
-    case MAIN_INFO:
-        if (data->Uin.value)
-            return new ICQInfo(parent, data, this);
-        return new AIMInfo(parent, data, this);
-    case HOME_INFO:
-        return new HomeInfo(parent, data, this);
-    case WORK_INFO:
-        return new WorkInfo(parent, data, this);
-    case MORE_INFO:
-        return new MoreInfo(parent, data, this);
-    case ABOUT_INFO:
-        return new AboutInfo(parent, data, this);
-    case INTERESTS_INFO:
-        return new InterestsInfo(parent, data, this);
-    case PAST_INFO:
-        return new PastInfo(parent, data, this);
-    case PICTURE_INFO:
-        return new ICQPicture(parent, data, this);
-    }
-    return NULL;
-}
-
-QWidget *ICQClient::configWindow(QWidget *parent, unsigned id)
-{
-    switch (id){
-    case MAIN_INFO:
-        if (m_bAIM)
-            return new AIMInfo(parent, NULL, this);
-        return new ICQInfo(parent, NULL, this);
-    case HOME_INFO:
-        return new HomeInfo(parent, NULL, this);
-    case WORK_INFO:
-        return new WorkInfo(parent, NULL, this);
-    case MORE_INFO:
-        return new MoreInfo(parent, NULL, this);
-    case ABOUT_INFO:
-        return new AboutInfo(parent, NULL, this);
-    case INTERESTS_INFO:
-        return new InterestsInfo(parent, NULL, this);
-    case PAST_INFO:
-        return new PastInfo(parent, NULL, this);
-    case PICTURE_INFO:
-        return new ICQPicture(parent, NULL, this);
-    case NETWORK:
-        if (m_bAIM)
-            return new AIMConfig(parent, this, false);
-        return new ICQConfig(parent, this, false);
-    case SECURITY:
-        return new ICQSecure(parent, this);
-    }
-    return NULL;
-}
-
-QWidget *ICQClient::searchWindow()
-{
-    if (m_bAIM)
-        return new AIMSearch(this);
-    return new ICQSearch(this);
-}
-
-void ICQClient::updateInfo(Contact *contact, void *_data)
-{
-    ICQUserData *data = (ICQUserData*)_data;
-    if (getState() != Connected){
-        Client::updateInfo(contact, _data);
+              ar.status   = status;
+            Event eAR(EventARRequest, &ar);
+            eAR.process();
+            Event e(EventClientChanged, this);
+            e.process();
+        }
         return;
     }
-    if (data == NULL)
-        data = &this->data.owner;
-    if (data->Uin.value){
-        addFullInfoRequest(data->Uin.value, false);
-        addPluginInfoRequest(data->Uin.value, PLUGIN_QUERYxINFO);
-        addPluginInfoRequest(data->Uin.value, PLUGIN_QUERYxSTATUS);
-        addPluginInfoRequest(data->Uin.value, PLUGIN_AR);
-    }else{
-        fetchProfile(data);
+    if (status != m_status){
+        m_status = status;
+        sendStatus();
+        Event e(EventClientChanged, this);
+        e.process();
     }
 }
 
-void *ICQClient::processEvent(Event *e)
+ClientSocket *ICQClient::socket()
 {
-    TCPClient::processEvent(e);
-    if (e->type() == EventAddContact){
-        addContact *ac = (addContact*)(e->param());
-        if (ac->proto && !strcmp(protocol()->description()->text, ac->proto)){
-            Group *grp = getContacts()->group(ac->group);
-            Contact *contact;
-            findContact(ac->addr, ac->nick, true, contact, grp);
-            return contact;
-        }
-        return NULL;
+    return m_socket;
+}
+
+void ICQClient::setInvisible(bool bState)
+{
+    if (bState != getInvisible()){
+        TCPClient::setInvisible(bState);
+        if (getState() == Connected)
+            setInvisible();
+        Event e(EventClientChanged, this);
+        e.process();
     }
-    if (e->type() == EventDeleteContact){
-        char *addr = (char*)(e->param());
-        ContactList::ContactIterator it;
-        Contact *contact;
-        while ((contact = ++it) != NULL){
-            ICQUserData *data;
-            ClientDataIterator itc(contact->clientData, this);
-            while ((data = (ICQUserData*)(++itc)) != NULL){
-                if (!strcmp(data->Screen.ptr, addr)){
-                    contact->clientData.freeData(data);
-                    ClientDataIterator itc(contact->clientData);
-                    if (++itc == NULL)
-                        delete contact;
-                    return e->param();
-                }
-            }
-        }
-        return NULL;
-    }
-    if (e->type() == EventGetContactIP){
-        Contact *contact = (Contact*)(e->param());
+}
+
+void ICQClient::disconnected()
+{
+    m_infoTimer->stop();
+    m_sendTimer->stop();
+    clearServerRequests();
+    clearListServerRequest();
+    clearSMSQueue();
+    clearMsgQueue();
+    buddies.clear();
+    Contact *contact;
+    ContactList::ContactIterator it;
+    arRequests.clear();
+    while ((contact = ++it) != NULL){
         ICQUserData *data;
         ClientDataIterator it(contact->clientData, this);
         while ((data = (ICQUserData*)(++it)) != NULL){
-            if (data->RealIP.ptr)
-                return (void*)(data->RealIP.ptr);
-            if (data->IP.ptr)
-                return (void*)(data->IP.ptr);
-        }
-        return NULL;
-    }
-    if (e->type() == EventMessageAccept){
-        messageAccept *ma = (messageAccept*)(e->param());
-        for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
-            if ((*it)->id() == ma->msg->id()){
-                Message *msg = *it;
-                m_acceptMsg.erase(it);
-                accept(msg, ma->dir, ma->overwrite);
-                return msg;
+            if ((data->Status.value != ICQ_STATUS_OFFLINE) || data->bInvisible.value){
+                setOffline(data);
+                StatusMessage m;
+                m.setContact(contact->id());
+                m.setClient(dataName(data).c_str());
+                m.setStatus(STATUS_OFFLINE);
+                m.setFlags(MESSAGE_RECEIVED);
+                Event e(EventMessageReceived, &m);
+                e.process();
             }
         }
-        return NULL;
     }
-    if (e->type() == EventMessageDecline){
-        messageDecline *md = (messageDecline*)(e->param());
-        for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
-            if ((*it)->id() == md->msg->id()){
-                Message *msg = *it;
-                m_acceptMsg.erase(it);
-                decline(msg, md->reason);
-                return msg;
+    for (list<Message*>::iterator itm = m_acceptMsg.begin(); itm != m_acceptMsg.end(); ++itm){
+        Event e(EventMessageDeleted, *itm);
+        e.process();
+        delete *itm;
+    }
+    m_acceptMsg.clear();
+    m_bRosters = false;
+    m_nMsgSequence = 0;
+    m_bIdleTime = false;
+    m_cookie.init(0);
+    m_advCounter = 0;
+    m_nUpdates = 0;
+    m_nSendTimeout = 1;
+    m_info_req.clear();
+    while (!m_services.empty()){
+        ServiceSocket *s = m_services.front();
+        delete s;
+    }
+
+    if (m_listener){
+
+        delete m_listener;
+
+        m_listener = NULL;
+
+    }
+}
+
+const char *icq_error_codes[] = {I18N_NOOP("Unknown error"),
+                                 I18N_NOOP("Invalid SNAC header"),
+                                 I18N_NOOP("Server rate limit exceeded"),
+                                 I18N_NOOP("Client rate limit exceeded"),
+                                 I18N_NOOP("Recipient is not logged in"),
+                                 I18N_NOOP("Requested service unavailable"),
+                                 I18N_NOOP("Requested service not defined"),
+                                 I18N_NOOP("We sent an obsolete SNAC"),
+                                 I18N_NOOP("Not supported by server"),
+                                 I18N_NOOP("Not supported by client"),
+                                 I18N_NOOP("Refused by client"),
+                                 I18N_NOOP("Reply too big"),
+                                 I18N_NOOP("Responses lost"),
+                                 I18N_NOOP("Request denied"),
+                                 I18N_NOOP("Incorrect SNAC format"),
+                                 I18N_NOOP("Insufficient rights"),
+                                 I18N_NOOP("Recipient blocked"),
+                                 I18N_NOOP("Sender too evil"),
+                                 I18N_NOOP("Receiver too evil"),
+                                 I18N_NOOP("User temporarily unavailable"),
+                                 I18N_NOOP("No match"),
+                                 I18N_NOOP("List overflow"),
+                                 I18N_NOOP("Request ambiguous"),
+                                 I18N_NOOP("Server queue full"),
+                                 I18N_NOOP("Not while on AOL")};
+
+const char* ICQClient::error_message(unsigned short error)
+{
+    if ((error < 1) || (error > 18)) {
+        error = 0;
+    }
+    return icq_error_codes[error];
+}
+
+void OscarSocket::packet_ready()
+{
+    if (m_bHeader){
+        char c;
+        socket()->readBuffer >> c;
+        if (c != 0x2A){
+            log(L_ERROR, "Server send bad packet start code: %02X", c);
+            socket()->error_state(I18N_NOOP("Protocol error"));
+            return;
+        }
+        socket()->readBuffer >> m_nChannel;
+        unsigned short sequence, size;
+        socket()->readBuffer >> sequence >> size;
+        m_bHeader = false;
+        if (size){
+            socket()->readBuffer.add(size);
+            return;
+        }
+    }
+    packet();
+}
+
+void ICQClient::packet_ready()
+{
+    OscarSocket::packet_ready();
+}
+
+void ICQClient::write_ready()
+{
+    OscarSocket::write_ready();
+}
+
+void ICQClient::packet()
+{
+    ICQPlugin *plugin = static_cast<ICQPlugin*>(protocol()->plugin());
+    log_packet(m_socket->readBuffer, false, plugin->OscarPacket);
+    switch (m_nChannel){
+    case ICQ_CHNxNEW:
+        chn_login();
+        break;
+    case ICQ_CHNxCLOSE:
+        chn_close();
+        break;
+    case ICQ_CHNxDATA:{
+            unsigned short fam, type;
+            unsigned short flags, seq, cmd;
+            m_socket->readBuffer >> fam >> type >> flags >> seq >> cmd;
+            if ((flags & 0x8000)) {	// some unknown data before real snac data
+                // just read the length and forget it ;-)
+                unsigned short unknown_length = 0;
+                m_socket->readBuffer >> unknown_length;
+                m_socket->readBuffer.incReadPos(unknown_length);
             }
-        }
-        return NULL;
-    }
-    if (e->type() == EventMessageRetry){
-        MsgSend *m = (MsgSend*)(e->param());
-        QStringList btns;
-        if (m->msg->getRetryCode() == static_cast<ICQPlugin*>(protocol()->plugin())->RetrySendOccupied){
-            btns.append(i18n("Send &urgent"));
-        }else if (m->msg->getRetryCode() != static_cast<ICQPlugin*>(protocol()->plugin())->RetrySendDND){
-            return NULL;
-        }
-        btns.append(i18n("Send to &list"));
-        btns.append(i18n("&Cancel"));
-        QString err;
-        const char *err_str = m->msg->getError();
-        if (err_str && *err_str)
-            err = i18n(err_str);
-        Command cmd;
-        cmd->id		= CmdSend;
-        cmd->param	= m->edit;
-        Event eWidget(EventCommandWidget, cmd);
-        QWidget *msgWidget = (QWidget*)(eWidget.process());
-        if (msgWidget == NULL)
-            msgWidget = m->edit;
-        BalloonMsg *msg = new BalloonMsg(m, err, btns, msgWidget, NULL, false);
-        connect(msg, SIGNAL(action(int, void*)), this, SLOT(retry(int, void*)));
-        msg->show();
-        return e->param();
-    }
-    if (e->type() == EventTemplateExpanded){
-        TemplateExpand *t = (TemplateExpand*)(e->param());
-        list<ar_request>::iterator it;
-        for (it = arRequests.begin(); it != arRequests.end(); ++it)
-            if (&(*it) == t->param)
+            // now just take a look at the type because 0x0001 == error
+            // in all families
+            if (type == 0x0001) {
+                unsigned short err_code;
+                m_socket->readBuffer >> err_code;
+                log(L_DEBUG,"Error! family: %u reason: %s",fam,error_message(err_code));
+                // now decrease for icqicmb & icqvarious
+                m_socket->readBuffer.decReadPos(sizeof(unsigned short));
+            }
+            switch (fam){
+            case ICQ_SNACxFAM_SERVICE:
+                snac_service(type, seq);
                 break;
-        if (it == arRequests.end())
-            return NULL;
-        if (m_bAIM){
-            if ((getState() == Connected) && (m_status == STATUS_AWAY)){
-                if ((*it).bDirect){
-                    setAwayMessage(t->tmpl.utf8());
-                }else{
-                    sendCapability(t->tmpl.utf8());
-                    sendICMB(1, 11);
-                    sendICMB(0, 11);
-                    processListRequest();
-                    fetchProfiles();
-                }
+            case ICQ_SNACxFAM_LOCATION:
+                snac_location(type, seq);
+                break;
+            case ICQ_SNACxFAM_BUDDY:
+                snac_buddy(type, seq);
+                break;
+            case ICQ_SNACxFAM_MESSAGE:
+                snac_icmb(type, seq);
+                break;
+            case ICQ_SNACxFAM_BOS:
+                snac_bos(type, seq);
+                break;
+            case ICQ_SNACxFAM_PING:
+                snac_ping(type, seq);
+                break;
+            case ICQ_SNACxFAM_LISTS:
+                snac_lists(type, seq);
+                break;
+            case ICQ_SNACxFAM_VARIOUS:
+                snac_various(type, seq);
+                break;
+            case ICQ_SNACxFAM_LOGIN:
+                snac_login(type, seq);
+                break;
+            default:
+                log(L_WARN, "Unknown family %02X", fam);
             }
-            return e->param();
+            break;
         }
-        ar_request ar = (*it);
-        if (ar.bDirect){
-            Contact *contact;
-            ICQUserData *data = findContact(ar.screen.c_str(), NULL, false, contact);
-            if (data && data->Direct.ptr){
-                QString answer;
-                if (data->Version.value >= 10){
-                    answer = t->tmpl.utf8();
-                }else{
-                    answer = fromUnicode(t->tmpl, data).c_str();
-                }
-                ((DirectClient*)(data->Direct.ptr))->sendAck((unsigned short)(ar.id.id_l), ar.type, ar.flags, answer);
-            }
-        }else{
-            Buffer copy;
-            string response;
-            response = t->tmpl.utf8();
-            sendAutoReply(ar.screen.c_str(), ar.id, plugins[PLUGIN_NULL],
-                          ar.id1, ar.id2, ar.type, (char)(ar.ack), 0, response.c_str(), 0, copy);
-        }
-        arRequests.erase(it);
-        return e->param();
+    default:
+        log(L_ERROR, "Unknown channel %u", m_nChannel & 0xFF);
     }
-    if (e->type() == EventContactChanged){
-        Contact *contact = (Contact*)(e->param());
-        if (getState() == Connected){
-            if (!m_bAIM)
-                addBuddy(contact);
-            if (contact == getContacts()->owner()){
+    m_socket->readBuffer.init(6);
+    m_socket->readBuffer.packetStart();
+    m_bHeader = true;
+}
+
+void OscarSocket::flap(char channel)
+{
+    m_nSequence++;
+    socket()->writeBuffer.packetStart();
+    socket()->writeBuffer
+    << (char)0x2A
+    << channel
+    << m_nSequence
+    << 0;
+}
+
+void OscarSocket::snac(unsigned short fam, unsigned short type, bool msgId, bool bType)
+{
+    flap(ICQ_CHNxDATA);
+    socket()->writeBuffer
+    << fam
+    << type
+    << 0x0000
+    << (msgId ? ++m_nMsgSequence : 0x0000)
+    << (bType ? type : (unsigned short)0);
+}
+
+const unsigned RATE_PAUSE = 3;
+const unsigned RATE_LIMIT = 5;
+
+void OscarSocket::sendPacket()
+{
+    Buffer &writeBuffer = socket()->writeBuffer;
+    char *packet = writeBuffer.data(writeBuffer.packetStartPos());
+    unsigned size = writeBuffer.size() - writeBuffer.packetStartPos() - 6;
+    packet[4] = (char)((size >> 8) & 0xFF);
+    packet[5] = (char)(size & 0xFF);
+    log_packet(socket()->writeBuffer, true, ICQPlugin::icq_plugin->OscarPacket);
+    time_t now;
+    time(&now);
+    if ((unsigned)now > m_time + RATE_PAUSE){
+        m_packets = 0;
+        m_time = now;
+    }
+    if ((m_packets > RATE_LIMIT) || (delayed.readPos() != delayed.writePos())){
+        delayed.pack(writeBuffer.data(writeBuffer.packetStartPos()), writeBuffer.size() - writeBuffer.packetStartPos());
+        writeBuffer.setSize(writeBuffer.packetStartPos());
+        log(L_DEBUG, "> delay %u %i", delayed.readPos(), delayed.writePos());
+        socket()->pause(RATE_PAUSE);
+        return;
+    }
+    m_packets++;
+    socket()->write();
+}
+
+void OscarSocket::write_ready()
+{
+    if (delayed.readPos() == delayed.writePos())
+        return;
+    time_t now;
+    time(&now);
+    if ((unsigned)now > m_time + RATE_PAUSE){
+        m_packets = 0;
+        m_time = now;
+    }
+    if (m_packets > RATE_LIMIT){
+        socket()->pause(RATE_PAUSE);
+        return;
+    }
+    while (m_packets <= RATE_LIMIT){
+        m_packets++;
+        unsigned char *packet = (unsigned char*)(delayed.data(delayed.readPos()));
+        unsigned size = (packet[4] << 8) + packet[5] + 6;
+        socket()->writeBuffer.pack(delayed.data(delayed.readPos()), size);
+        delayed.incReadPos(size);
+        log(L_DEBUG, "< delay %u %i", delayed.readPos(), delayed.writePos());
+        if (delayed.readPos() == delayed.writePos())
+            break;
+    }
+    socket()->write();
+    if (delayed.readPos() == delayed.writePos()){
+        delayed.init(0);
+        log(L_DEBUG, "Delay init");
+    }else{
+        socket()->pause(RATE_PAUSE);
+    }
+}
+
+string ICQClient::cryptPassword()
+{
+    string pswd = fromUnicode(getPassword(), &data.owner);
+    const char *p = pswd.c_str();
+    string res;
+    unsigned char xor_table[] =
+        {
+            0xf3, 0x26, 0x81, 0xc4, 0x39, 0x86, 0xdb, 0x92,
+            0x71, 0xa3, 0xb9, 0xe6, 0x53, 0x7a, 0x95, 0x7c
+        };
+    int j;
+    for (j = 0; j < 8; j++){
+        if (p[j] == 0) break;
+        char c = (char)(p[j] ^ xor_table[j]);
+        res += c;
+    }
+    return res;
+}
+
+unsigned ICQClient::getStatus()
+{
+    return m_status;
+}
+
+unsigned long ICQClient::fullStatus(unsigned s)
+{
+    unsigned long status = 0;
+    switch (s){
+    case STATUS_ONLINE:
+        status = ICQ_STATUS_ONLINE;
+        break;
+    case STATUS_AWAY:
+        status = ICQ_STATUS_AWAY;
+        break;
+    case STATUS_NA:
+        status = ICQ_STATUS_NA | ICQ_STATUS_AWAY;
+        break;
+    case STATUS_OCCUPIED:
+        status = ICQ_STATUS_OCCUPIED | ICQ_STATUS_AWAY;
+        break;
+    case STATUS_DND:
+        status = ICQ_STATUS_DND | ICQ_STATUS_OCCUPIED | ICQ_STATUS_AWAY;
+        break;
+    case STATUS_FFC:
+        status = ICQ_STATUS_FFC;
+        break;
+    }
+    if (data.owner.WebAware.bValue)
+        status |= ICQ_STATUS_FxWEBxPRESENCE;
+    if (getHideIP()){
+        status |= ICQ_STATUS_FxHIDExIP | ICQ_STATUS_FxDIRECTxAUTH;
+    }else{
+        switch (getDirectMode()){
+        case 1:
+            status |= ICQ_STATUS_FxDIRECTxLISTED;
+            break;
+        case 2:
+            status |= ICQ_STATUS_FxDIRECTxAUTH;
+            break;
+        }
+    }
+    if (m_bBirthday)
+        status |= ICQ_STATUS_FxBIRTHDAY;
+    if (getInvisible())
+        status |= ICQ_STATUS_FxPRIVATE;
+    return status;
+}
+
+ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool bCreate, Contact *&contact, Group *grp, bool bJoin)
+{
+    string s;
+    for (const char *p = screen; *p; p++)
+        s += (char)tolower(*p);
+
+    ContactList::ContactIterator it;
+    ICQUserData *data;
+    unsigned long uin = atol(screen);
+
+    while ((contact = ++it) != NULL){
+        ClientDataIterator it(contact->clientData, this);
+        while ((data = (ICQUserData*)(++it)) != NULL){
+            if (uin && (data->Uin.value != uin))
+                continue;
+            if ((uin == 0) &&
+                    ((data->Screen.ptr == NULL) || (s != data->Screen.ptr)))
+                continue;
+            bool bChanged = false;
+            if (alias){
+                if (*alias){
+                    QString name = QString::fromUtf8(alias);
+                    bChanged = contact->setName(name);
+                }
+                set_str(&data->Alias.ptr, alias);
+            }
+            if (grp){
+                if (contact->getGroup() != grp->id()){
+                    contact->setGroup(grp->id());
+                    bChanged = true;
+                }
+            }
+            if (bChanged){
+                Event e(EventContactChanged, contact);
+                e.process();
+            }
+            return data;
+        }
+    }
+    if (!bCreate)
+        return NULL;
+    if (bJoin){
+        for (unsigned i = 0; i < getContacts()->nClients(); i++){
+            Client *client = getContacts()->getClient(i);
+            if (client == this)
+                continue;
+            if (client->protocol() != protocol())
+                continue;
+            ICQClient *c = static_cast<ICQClient*>(client);
+            it.reset();
+            while ((contact = ++it) != NULL){
+                ClientDataIterator it(contact->clientData, c);
+                while ((data = (ICQUserData*)(++it)) != NULL){
+                    if (uin && (data->Uin.value != uin))
+                        continue;
+                    if ((uin == 0) &&
+                            ((data->Screen.ptr == NULL) || (s != data->Screen.ptr)))
+                        continue;
+                    data = (ICQUserData*)(contact->clientData.createData(this));
+                    data->Uin.value = uin;
+                    if (uin == 0)
+                        set_str(&data->Screen.ptr, s.c_str());
+                    bool bChanged = false;
+                    if (alias){
+                        if (*alias){
+                            QString name = QString::fromUtf8(alias);
+                            bChanged = contact->setName(name);
+                        }
+                        set_str(&data->Alias.ptr, alias);
+                    }
+                    if (grp){
+                        if (grp->id() != contact->getGroup()){
+                            contact->setGroup(grp->id());
+                            bChanged = true;
+                        }
+                    }
+                    if (bChanged){
+                        Event e(EventContactChanged, contact);
+                        e.process();
+                    }
+                    return data;
+                }
+            }
+        }
+        if (alias && *alias){
+            QString name = QString::fromUtf8(alias).lower();
+            it.reset();
+            while ((contact = ++it) != NULL){
+                if (contact->getName().lower() == name){
+                    ICQUserData *data = (ICQUserData*)(contact->clientData.createData(this));
+                    data->Uin.value = uin;
+                    if (uin == 0)
+                        set_str(&data->Screen.ptr, screen);
+                    set_str(&data->Alias.ptr, alias);
+                    Event e(EventContactChanged, contact);
+                    e.process();
+                    m_bJoin = true;
+                    return data;
+                }
+            }
+        }
+    }
+    contact = getContacts()->contact(0, true);
+    data = (ICQUserData*)(contact->clientData.createData(this));
+    data->Uin.value = uin;
+    if (uin == 0)
+        set_str(&data->Screen.ptr, s.c_str());
+    QString name;
+    if (alias && *alias){
+        name = QString::fromUtf8(alias);
+    }else if (uin){
+        name = QString::number(uin);
+    }else{
+        name = screen;
+    }
+    set_str(&data->Alias.ptr, alias);
+    contact->setName(name);
+    if (grp)
+        contact->setGroup(grp->id());
+    Event e(EventContactChanged, contact);
+    e.process();
+    return data;
+}
+
+ICQUserData *ICQClient::findGroup(unsigned id, const char *alias, Group *&grp)
+{
+    ContactList::GroupIterator it;
+    ICQUserData *data;
+    while ((grp = ++it) != NULL){
+        data = (ICQUserData*)(grp->clientData.getData(this));
+        if (data && (data->IcqID.value == id)){
+            if (alias)
+                set_str(&data->Alias.ptr, alias);
+            return data;
+        }
+    }
+    if (alias == NULL)
+        return NULL;
+    it.reset();
+    QString name = QString::fromUtf8(alias);
+    while ((grp = ++it) != NULL){
+        if (grp->getName() == name){
+            data = (ICQUserData*)(grp->clientData.createData(this));
+            data->IcqID.value = id;
+            set_str(&data->Alias.ptr, alias);
+            return data;
+        }
+    }
+    grp = getContacts()->group(0, true);
+    grp->setName(QString::fromUtf8(alias));
+    data = (ICQUserData*)(grp->clientData.createData(this));
+    data->IcqID.value = id;
+    set_str(&data->Alias.ptr, alias);
+    Event e(EventGroupChanged, grp);
+    e.process();
+    return data;
+}
+
+void ICQClient::setOffline(ICQUserData *data)
+{
+    string name = dataName(data);
+    for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ){
+        Message *msg = *it;
+        if (msg->client() && (name == msg->client())){
+            Event e(EventMessageDeleted, msg);
+            e.process();
+            delete msg;
+            m_acceptMsg.erase(it);
+            it = m_acceptMsg.begin();
+        }
+        ++it;
+    }
+    if (data->Direct.ptr){
+        delete (QObject*)data->Direct.ptr;
+        data->Direct.ptr = NULL;
+    }
+    if (data->DirectPluginInfo.ptr){
+        delete (QObject*)data->DirectPluginInfo.ptr;
+        data->DirectPluginInfo.ptr = NULL;
+    }
+    if (data->DirectPluginStatus.ptr){
+        delete (QObject*)data->DirectPluginStatus.ptr;
+        data->DirectPluginStatus.ptr = NULL;
+    }
+    data->bNoDirect.bValue = false;
+    data->Status.value = ICQ_STATUS_OFFLINE;
+    data->Class.value  = 0;
+    data->bTyping.bValue = false;
+    data->bBadClient.bValue = false;
+    data->bInvisible.bValue = false;
+    time_t now;
+    time(&now);
+    data->StatusTime.value  = now;
+    set_str(&data->AutoReply.ptr, NULL);
+}
+
+static void addIcon(string *s, const char *icon, const char *statusIcon)
+{
+    if (s == NULL)
+        return;
+
+    if (statusIcon && !strcmp(statusIcon, icon))
+
+        return;
+    string str = *s;
+    while (!str.empty()){
+        string item = getToken(str, ',');
+        if (item == icon)
+            return;
+    }
+    if (!s->empty())
+        *s += ',';
+    *s += icon;
+}
+
+void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &style, const char *&statusIcon, string *icons)
+{
+    ICQUserData *data = (ICQUserData*)(_data);
+    unsigned status = STATUS_ONLINE;
+    unsigned s = data->Status.value;
+    if (s == ICQ_STATUS_OFFLINE){
+        status = STATUS_OFFLINE;
+    }else if (s & ICQ_STATUS_DND){
+        status = STATUS_DND;
+    }else if (s & ICQ_STATUS_OCCUPIED){
+        status = STATUS_OCCUPIED;
+    }else if (s & ICQ_STATUS_NA){
+        status = STATUS_NA;
+    }else if (s & ICQ_STATUS_AWAY){
+        status = STATUS_AWAY;
+    }else if (s & ICQ_STATUS_FFC){
+        status = STATUS_FFC;
+    }
+    unsigned iconStatus = status;
+    const char *dicon = NULL;
+    if (data->Uin.value){
+        if ((iconStatus == STATUS_ONLINE) && (s & ICQ_STATUS_FxPRIVATE)){
+            dicon = "ICQ_invisible";
+        }else{
+            const CommandDef *def = ICQProtocol::_statusList();
+            for (; def->text; def++){
+                if (def->id == iconStatus){
+                    dicon = def->icon;
+                    break;
+                }
+            }
+        }
+    }else{
+        if (status == STATUS_OFFLINE){
+            dicon = "AIM_offline";
+        }else{
+            status = STATUS_ONLINE;
+            dicon = "AIM_online";
+            if (data->Class.value & CLASS_AWAY){
+                status = STATUS_AWAY;
+                dicon = "AIM_away";
+            }
+        }
+    }
+    if (dicon == NULL)
+        return;
+    if (status == STATUS_OCCUPIED)
+        status = STATUS_DND;
+    if (status == STATUS_FFC)
+        status = STATUS_ONLINE;
+    if (status > curStatus){
+        curStatus = status;
+        if (statusIcon && icons){
+            string iconSave = *icons;
+            *icons = statusIcon;
+            if (iconSave.length())
+                addIcon(icons, iconSave.c_str(), statusIcon);
+        }
+        statusIcon = dicon;
+    }else{
+        if (statusIcon){
+            addIcon(icons, dicon, statusIcon);
+        }else{
+            statusIcon = dicon;
+        }
+    }
+    if ((status == STATUS_OFFLINE) && data->bInvisible.bValue){
+        status = STATUS_INVISIBLE;
+        if (status > curStatus)
+            curStatus = status;
+    }
+    if (icons){
+        if ((iconStatus != STATUS_ONLINE) && (iconStatus != STATUS_OFFLINE) && (s & ICQ_STATUS_FxPRIVATE))
+            addIcon(icons, "ICQ_invisible", statusIcon);
+        if (data->bInvisible.bValue)
+            addIcon(icons, "ICQ_invisible", statusIcon);
+        if (data->Status.value & ICQ_STATUS_FxBIRTHDAY)
+            addIcon(icons, "birthday", statusIcon);
+        if (data->FollowMe.value == 1)
+            addIcon(icons, "phone", statusIcon);
+        if (data->FollowMe.value == 2)
+            addIcon(icons, "nophone", statusIcon);
+        if (status != STATUS_OFFLINE){
+            if (data->SharedFiles.bValue)
+                addIcon(icons, "sharedfiles", statusIcon);
+            if (data->ICQPhone.value == 1)
+                addIcon(icons, "icqphone", statusIcon);
+            if (data->ICQPhone.value == 2)
+                addIcon(icons, "icqphonebusy", statusIcon);
+        }
+        if (data->bTyping.bValue)
+            addIcon(icons, "typing", statusIcon);
+        if (data->Direct.ptr && ((DirectClient*)(data->Direct.ptr))->isSecure())
+            addIcon(icons, "encrypted", statusIcon);
+    }
+    if (data->InvisibleId.value)
+        style |= CONTACT_STRIKEOUT;
+    if (data->VisibleId.value)
+        style |= CONTACT_ITALIC;
+    if (data->WaitAuth.bValue)
+        style |= CONTACT_UNDERLINE;
+}
+
+void ICQClient::ping()
+{
+    if (getState() == Connected){
+        bool bBirthday = false;
+        if (!m_bAIM){
+            int year  = data.owner.BirthYear.value;
+            int month = data.owner.BirthMonth.value;
+            int day   = data.owner.BirthDay.value;
+            if (day && month && year){
                 time_t now;
                 time(&now);
-                if (getContacts()->owner()->getPhones() != QString::fromUtf8(data.owner.PhoneBook.ptr)){
-                    set_str(&data.owner.PhoneBook.ptr, getContacts()->owner()->getPhones().utf8());
-                    data.owner.PluginInfoTime.value = now;
-                    sendPluginInfoUpdate(PLUGIN_PHONEBOOK);
-                }
-                if (getPicture() != QString::fromUtf8(data.owner.Picture.ptr)){
-                    set_str(&data.owner.Picture.ptr, getPicture().utf8());
-                    data.owner.PluginInfoTime.value = now;
-                    sendPluginInfoUpdate(PLUGIN_PICTURE);
-                }
-                if (getContacts()->owner()->getPhoneStatus() != data.owner.FollowMe.value){
-                    data.owner.FollowMe.value = getContacts()->owner()->getPhoneStatus();
-                    data.owner.PluginStatusTime.value = now;
-                    sendPluginStatusUpdate(PLUGIN_FOLLOWME, data.owner.FollowMe.value);
-                }
-                return NULL;
-            }
-            ICQUserData *data;
-            ClientDataIterator it(contact->clientData, this);
-            while ((data = (ICQUserData*)(++it)) != NULL){
-                if (data->Uin.value || data->ProfileFetch.bValue)
-                    continue;
-                fetchProfile(data);
+                struct tm *tm = localtime(&now);
+                // removed +1 on tm_day because the notification was one
+                // day before the real birthday
+                if (((tm->tm_mon + 1) == month) && ((tm->tm_mday) == day))
+                    bBirthday = true;
             }
         }
-        addContactRequest(contact);
-    }
-    if (e->type() == EventContactDeleted){
-        Contact *contact =(Contact*)(e->param());
-        ICQUserData *data;
-        ClientDataIterator it(contact->clientData, this);
-        while ((data = (ICQUserData*)(++it)) != NULL){
-            if (data->IcqID.value == 0)
-                continue;
-            list<ListRequest>::iterator it;
-            for (it = listRequests.begin(); it != listRequests.end(); it++){
-                if ((*it).type != LIST_USER_CHANGED)
-                    continue;
-                if ((*it).screen == screen(data))
-                    break;
-            }
-            if (it != listRequests.end())
-                listRequests.erase(it);
-            ListRequest lr;
-            lr.type = LIST_USER_DELETED;
-            lr.screen = screen(data);
-            lr.icq_id = (unsigned short)(data->IcqID.value);
-            lr.grp_id = (unsigned short)(data->GrpId.value);
-            lr.visible_id   = (unsigned short)(data->ContactVisibleId.value);
-            lr.invisible_id = (unsigned short)(data->ContactInvisibleId.value);
-            lr.ignore_id    = (unsigned short)(data->IgnoreId.value);
-            listRequests.push_back(lr);
-            processListRequest();
+        if (bBirthday != m_bBirthday){
+            m_bBirthday = bBirthday;
+            setStatus(m_status);
+        }else if (getKeepAlive() || m_bHTTP){
+            flap(ICQ_CHNxPING);
+            sendPacket();
         }
-    }
-    if (e->type() == EventGroupChanged){
-        Group *group = (Group*)(e->param());
-        if (group->id())
-            addGroupRequest(group);
-    }
-    if (e->type() == EventGroupDeleted){
-        Group *group =(Group*)(e->param());
-        if (group->id()){
-            ICQUserData *data = (ICQUserData*)(group->clientData.getData(this));
-            if (data){
-                ListRequest lr;
-                lr.type   = LIST_GROUP_DELETED;
-                lr.icq_id = (unsigned short)(data->IcqID.value);
-                listRequests.push_back(lr);
-                processListRequest();
-            }
-        }
-    }
-    if (e->type() == EventMessageCancel){
-        Message *msg = (Message*)(e->param());
-        list<Message*>::iterator it;
-        for (it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
-            if (*it == msg)
-                break;
-        if (it != m_processMsg.end()){
-            m_processMsg.erase(it);
-            delete msg;
-            return msg;
-        }
-        if (msg->type() == MessageSMS){
-            for (list<SendMsg>::iterator it = smsQueue.begin(); it != smsQueue.end(); ++it){
-                if ((*it).msg == msg){
-                    if (it == smsQueue.begin()){
-                        (*it).text = "";
-                    }else{
-                        smsQueue.erase(it);
-                    }
-                    return msg;
-                }
-            }
-        }else{
-            Contact *contact = getContacts()->contact(msg->contact());
-            if (contact){
-                ICQUserData *data;
-                ClientDataIterator it(contact->clientData, this);
-                while ((data = (ICQUserData*)(++it)) != NULL){
-                    if (data->Direct.ptr && ((DirectClient*)(data->Direct.ptr))->cancelMessage(msg))
-                        return msg;
-                }
-            }
-            if (m_send.msg == msg){
-                m_send.msg = NULL;
-                m_send.screen = "";
-                send(true);
-                return msg;
-            }
-            list<SendMsg>::iterator it;
-            for (it = sendQueue.begin(); it != sendQueue.end(); ++it){
-                if ((*it).msg == msg){
-                    sendQueue.erase(it);
-                    delete msg;
-                    return msg;
-                }
-            }
-            for (it = replyQueue.begin(); it != replyQueue.end(); ++it){
-                if ((*it).msg == msg){
-                    replyQueue.erase(it);
-                    delete msg;
-                    return msg;
-                }
-            }
-        }
-    }
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
-        if (cmd->menu_id == MenuEncoding){
-            if (cmd->id == CmdChangeEncoding){
-                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
-                if (contact == NULL)
-                    return NULL;
-                ClientDataIterator itClient(contact->clientData, this);
-                ICQUserData *data = (ICQUserData*)(++itClient);
-                if (data == NULL)
-                    return NULL;
-                unsigned nEncoding = 3;
-                QStringList main;
-                QStringList nomain;
-                QStringList::Iterator it;
-                const ENCODING *enc;
-                for (enc = ICQPlugin::core->encodings; enc->language; enc++){
-                    if (enc->bMain){
-                        main.append(i18n(enc->language) + " (" + enc->codec + ")");
-                        nEncoding++;
-                        continue;
-                    }
-                    if (!ICQPlugin::core->getShowAllEncodings())
-                        continue;
-                    nomain.append(i18n(enc->language) + " (" + enc->codec + ")");
-                    nEncoding++;
-                }
-                CommandDef *cmds = new CommandDef[nEncoding];
-                memset(cmds, 0, sizeof(CommandDef) * nEncoding);
-                cmd->param = cmds;
-                cmd->flags |= COMMAND_RECURSIVE;
-                nEncoding = 0;
-                cmds[nEncoding].id = 1;
-                cmds[nEncoding].text = I18N_NOOP("System");
-                if (data->Encoding.ptr == NULL)
-                    cmds[nEncoding].flags = COMMAND_CHECKED;
-                nEncoding++;
-                main.sort();
-                for (it = main.begin(); it != main.end(); ++it){
-                    QString str = *it;
-                    int n = str.find('(');
-                    str = str.mid(n + 1);
-                    n = str.find(')');
-                    str = str.left(n);
-                    if (data->Encoding.ptr && !strcmp(data->Encoding.ptr, str.latin1()))
-                        cmds[nEncoding].flags = COMMAND_CHECKED;
-                    cmds[nEncoding].id = nEncoding + 1;
-                    cmds[nEncoding].text = "_";
-                    cmds[nEncoding].text_wrk = strdup((*it).utf8());
-                    nEncoding++;
-                }
-                if (!ICQPlugin::core->getShowAllEncodings())
-                    return e->param();
-                cmds[nEncoding++].text = "_";
-                nomain.sort();
-                for (it = nomain.begin(); it != nomain.end(); ++it){
-                    QString str = *it;
-                    int n = str.find('(');
-                    str = str.mid(n + 1);
-                    n = str.find(')');
-                    str = str.left(n);
-                    if (data->Encoding.ptr && !strcmp(data->Encoding.ptr, str.latin1()))
-                        cmds[nEncoding].flags = COMMAND_CHECKED;
-                    cmds[nEncoding].id = nEncoding;
-                    cmds[nEncoding].text = "_";
-                    cmds[nEncoding].text_wrk = strdup((*it).utf8());
-                    nEncoding++;
-                }
-                return e->param();
-            }
-            if (cmd->id == CmdAllEncodings){
-                cmd->flags &= ~COMMAND_CHECKED;
-                if (ICQPlugin::core->getShowAllEncodings())
-                    cmd->flags |= COMMAND_CHECKED;
-                return e->param();
-            }
-        }
-        if (cmd->id == CmdCheckInvisibleAll){
-            cmd->flags &= ~COMMAND_CHECKED;
-            if ((getState() != Connected) || m_bAIM)
-                return NULL;
-            Contact *contact;
-            ContactList::ContactIterator it;
-            bool bICQ = false;
-            while ((contact = ++it) != NULL){
-                ICQUserData *data;
-                ClientDataIterator itc(contact->clientData, this);
-                while ((data = (ICQUserData*)(++itc)) != NULL){
-                    if (data->Uin.value == 0)
-                        continue;
-                    if (data->Status.value != ICQ_STATUS_OFFLINE)
-                        continue;
-                    bICQ = true;
-                    if (data->bInvisible.bValue){
-                        cmd->popup_id = MenuCheckInvisible;
-                        return e->param();
-                    }
-                }
-            }
-            if (bICQ){
-                cmd->popup_id = 0;
-                return e->param();
-            }
-        }
-        if ((cmd->bar_id == ToolBarContainer) || (cmd->bar_id == BarHistory)){
-            if (cmd->id == CmdChangeEncoding){
-                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
-                if (contact == NULL){
-                    cmd->flags |= BTN_HIDE;
-                    return e->param();
-                }
-                for (unsigned i = 0; i < getContacts()->nClients(); i++){
-                    Client *client = getContacts()->getClient(i);
-                    if (client == this){
-                        cmd->flags |= BTN_HIDE;
-                        break;
-                    }
-                    if (client->protocol() == protocol())
-                        break;
-                }
-                ClientDataIterator it(contact->clientData, this);
-                if ((++it) != NULL){
+        m_nSendTimeout = m_nSendTimeout / 2;
+        if (m_nSendTimeout < 1)
+            m_nSendTimeout = 1;
+        checkLis!= NULL){
                     cmd->flags &= ~BTN_HIDE;
                     return e->param();
                 }
@@ -2940,6 +2943,8 @@ void *ICQClient::processEvent(Event *e)
         }
     }
     if (e->type() == EventOpenMessage){
+        if (getState() != Connected)
+            return NULL;
         Message **msg = (Message**)(e->param());
         if (((*msg)->type() != MessageOpenSecure) &&
                 ((*msg)->type() != MessageCloseSecure) &&
@@ -3051,7 +3056,9 @@ bool ICQClient::send(Message *msg, void *_data)
     case MessageFile:
         if (data && ((data->Status.value & 0xFFFF) != ICQ_STATUS_OFFLINE)){
             if (data->Uin.value){
-                if (data->Direct.ptr == NULL){
+                if ((data->Direct.ptr == NULL)){
+                    if (data->bNoDirect.bValue)
+                        return sendThruServer(msg, data);
                     data->Direct.ptr = (char*)(new DirectClient(data, this, PLUGIN_NULL));
                     ((DirectClient*)(data->Direct.ptr))->connect();
                 }
@@ -3162,7 +3169,7 @@ bool ICQClient::canSend(unsigned type, void *_data)
                ((data->Status.value & 0xFFFF) != ICQ_STATUS_OFFLINE) &&
                (data->Uin.value || hasCap(data, CAP_AIM_SENDFILE));
     case MessageWarning:
-        return data && (m_bAIM || (data->Uin.value == 0));
+        return data && (data->Uin.value == 0);
 #ifdef USE_OPENSSL
     case MessageOpenSecure:
         if ((data == NULL) || ((data->Status.value & 0xFFFF) == ICQ_STATUS_OFFLINE))

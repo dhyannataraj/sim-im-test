@@ -47,6 +47,7 @@
 #include <qdatetime.h>
 #include <qcombobox.h>
 #include <qlineedit.h>
+#include <qmultilineedit.h>
 #include <qregexp.h>
 
 #if COMPAT_QT_VERSION >= 0x030000
@@ -618,7 +619,13 @@ EXPORT void disableWidget(QWidget *w)
     QPalette pal = w->palette();
     pal.setDisabled(pal.active());
     w->setPalette(pal);
-    w->setEnabled(false);
+    if (w->inherits("QLineEdit")){
+        static_cast<QLineEdit*>(w)->setReadOnly(true);
+    }else if (w->inherits("QMulitLineEdit")){
+        static_cast<QMultiLineEdit*>(w)->setReadOnly(true);
+    }else{
+        w->setEnabled(false);
+    }
 }
 
 const unsigned char NOP = 172;

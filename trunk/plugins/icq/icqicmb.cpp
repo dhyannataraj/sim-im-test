@@ -210,6 +210,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                     bAck = true;
             }
             if (bAck){
+                log(L_DEBUG, "Ack: %u %u (%s)", m_send.id.id_h, m_send.id.id_l, m_send.screen.c_str());
                 if (m_send.msg){
                     if (m_send.msg->type() == MessageCheckInvisible){
                         Contact *contact;
@@ -223,7 +224,8 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                     }else{
                         Contact *contact;
                         ICQUserData *data = findContact(screen.c_str(), NULL, false, contact);
-                        if ((data == NULL) || (data->Status.value == ICQ_STATUS_OFFLINE) || (getAckMode() == 1)){
+                        if (((data == NULL) || (data->Status.value == ICQ_STATUS_OFFLINE) || (getAckMode() == 1)) &&
+                                (m_send.msg->type() != MessageFile)){
                             ackMessage(m_send);
                         }else{
                             replyQueue.push_back(m_send);
@@ -349,8 +351,10 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         log(L_WARN, "generic message tlv 0101 not found");
                         break;
                     }
-                    if (m_tlv->Size() <= 4)
+                    if (m_tlv->Size() <= 4){
+                        log(L_WARN, "Bad tlv 0101 size");
                         break;
+                    }
                     char *m_data = (*m_tlv);
                     unsigned short encoding = (unsigned short)((m_data[0] << 8) + m_data[1]);
                     m_data += 4;
@@ -1143,9 +1147,17 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
         if (msg.size() || (msgType == ICQ_MSGxEXT)){
             Message *m = parseMessage(msgType, screen, msg, adv, id, cookie1 | (cookie2 << 16));
             if (m){
+                if ((m_send.id == id) && (m_send.screen == screen)){
+                    replyQueue.push_back(m_send);
+                    m_send.msg    = NULL;
+                    m_send.screen = "";
+                    m_sendTimer->stop();
+                    send(true);
+                }
                 list<SendMsg>::iterator it;
                 for (it = replyQueue.begin(); it != replyQueue.end(); ++it){
                     SendMsg &s = *it;
+                    log(L_DEBUG, "%u %u (%s) - %u %u (%s)", s.id.id_h, s.id.id_l, s.screen.c_str(), id.id_h, id.id_l, screen);
                     if ((s.id == id) && (s.screen == screen))
                         break;
                 }
@@ -1213,6 +1225,13 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
                         if ((m->type() != MessageICQFile) || (data == NULL)){
                             log(L_WARN, "Bad answer type");
                             msg->setError(I18N_NOOP("Send fail"));
+                            Event e(EventMessageSent, msg);
+                            e.process();
+                            delete msg;
+                            return;
+                        }
+                        if (m_state == 1){
+                            msg->setError(I18N_NOOP("Message declined"));
                             Event e(EventMessageSent, msg);
                             e.process();
                             delete msg;

@@ -774,6 +774,7 @@ public:
 protected slots:
     void timeout();
 protected:
+    virtual void login_timeout();
     virtual void processPacket() = 0;
     void init();
     void sendInit();
@@ -878,6 +879,7 @@ protected:
     virtual void bind_ready(unsigned short port);
     virtual bool accept(Socket *s, unsigned long ip);
     virtual bool error(const char *err);
+    virtual void login_timeout();
 
     void sendInit();
     void startPacket(char cmd);
