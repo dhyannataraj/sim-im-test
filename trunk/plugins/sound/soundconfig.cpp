@@ -40,11 +40,9 @@ SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin)
     chkArts->hide();
 #endif
     if (bSound){
-        lblPlayer->hide();
-        edtPlayer->hide();
-    }else{
-        edtPlayer->setText(QString::fromLocal8Bit(plugin->getPlayer()));
+        lblPlayer->setText(i18n("Qt provides sound output so you just need to set a player if you don't like Qt's sound."));
     }
+    edtPlayer->setText(QString::fromLocal8Bit(plugin->getPlayer()));
     string s;
     s = plugin->fullName(plugin->getStartUp());
     edtStartup->setText(QFile::decodeName(s.c_str()));
@@ -77,12 +75,15 @@ void SoundConfig::apply()
         void *data = getContacts()->getUserData(m_plugin->user_data_id);
         user_cfg->apply(data);
     }
-    bool bSound = QSound::available();
+    /* If there is an external player selected, don't use Qt */
+    bool bSound = QSound::available() && edtPlayer->text().isEmpty();
 #ifdef USE_KDE
     m_plugin->setUseArts(chkArts->isChecked());
     bSound = false;
 #endif
-    if (!bSound)
+    if (bSound)
+        m_plugin->setPlayer("");
+    else
         m_plugin->setPlayer(edtPlayer->text().local8Bit());
     m_plugin->setStartUp(QFile::encodeName(sound(edtStartup->text(), "startup.wav")));
     m_plugin->setFileDone(QFile::encodeName(sound(edtFileDone->text(), "startup.wav")));

@@ -329,7 +329,8 @@ void SoundPlugin::playSound(const char *s)
     // check whether file is available
     if (!QFile::exists(QString(sound.c_str())))
         return;
-    bool bSound = QSound::available();
+    /* If there is an external player selected, don't use Qt */
+    bool bSound = QSound::available() && !getPlayer();
 #ifdef USE_KDE
     if (getUseArts()){
         KAudioPlayer::play(sound.c_str());
