@@ -21,6 +21,8 @@
 #include "simapi.h"
 #include "core.h"
 
+
+#include <qfile.h>
 #ifdef WIN32
 #include <windows.h>
 #include <mmsystem.h>
@@ -271,6 +273,9 @@ void SoundPlugin::playSound(const char *s)
     if ((s == NULL) || (*s == 0))
         return;
     string sound = fullName(s);
+    // check whether file is available 
+    if (!QFile::exists(QString(sound.c_str())))
+	return;
 #ifdef WIN32
     sndPlaySoundA(sound.c_str(), SND_ASYNC | SND_NODEFAULT);
 #else
