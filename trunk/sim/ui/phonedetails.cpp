@@ -153,7 +153,7 @@ void PhoneDetails::fillInfo(PhoneInfo *info)
         break;
     }
 
-    if (edtExtension->isVisible()){
+    if (edtExtension->isVisible() && !edtExtension->text().isEmpty()){
         info->Extension = edtExtension->text().local8Bit();
     }else{
         info->Extension = "";
