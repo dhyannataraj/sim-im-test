@@ -288,7 +288,7 @@
                         </property>
                         <property>
                             <name>text</name>
-                            <string>Note: For HTTP-polling using proxy setings for HTTP</string>
+                            <string>Note: For HTTP-polling using proxy settings for HTTP</string>
                         </property>
                         <property>
                             <name>alignment</name>
@@ -306,7 +306,7 @@
                         </property>
                         <property>
                             <name>text</name>
-                            <string>&amp;Automatically use HTTP pooling if proxy required</string>
+                            <string>&amp;Automatically use HTTP polling if proxy required</string>
                         </property>
                     </widget>
                     <widget row="5"  column="0"  rowspan="1"  colspan="2" >
