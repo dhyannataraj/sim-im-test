@@ -577,6 +577,10 @@ int main(int argc, char *argv[])
             bNoDock = true;
     }
 #endif
+#if QT_VERSION >= 300
+    log(L_DEBUG, "Add library path %s", app_file("styles"));
+    qApp->addLibraryPath(QString::fromLocal8Bit(app_file("styles")));
+#endif
     pSplash = new Splash;
     initIcons("");
     pMain = new MainWindow;

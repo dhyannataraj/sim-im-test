@@ -576,6 +576,7 @@ DockWnd::DockWnd(QWidget *main)
     Shell_NotifyIconA(NIM_ADD, &notifyIconData);
 #else
     setMinimumSize(22, 22);
+    resize(22, 22);
     bInit = false;
     inTray = false;
     inNetTray = false;

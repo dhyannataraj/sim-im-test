@@ -44,56 +44,125 @@
 
 SIMSockets::SIMSockets()
 {
-    resolver = new QDns();
-    timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(resolveTimeout()));
-    connect(resolver, SIGNAL(resultsReady()), this, SLOT(resultsReady()));
 }
 
 SIMSockets::~SIMSockets()
 {
-    delete resolver;
 }
 
-void SIMSockets::resolveTimeout()
+#ifdef HAVE_GETHOSTBYNAME_R
+
+void *SIMResolver::resolve_thread(void *p)
 {
-    timer->stop();
-    emit resolveReady(NULL);
-    isActive = false;
+	SIMResolver *r = (SIMResolver*)p;
+	log(L_DEBUG, "Resolve thread start");
+	struct hostent he;
+	struct hostent *res = NULL;
+	char buff[4096];
+	int herrno;
+	gethostbyname_r(r->m_host.c_str(), &he, buff, sizeof(buff), &res, &herrno);
+	if (res) r->m_addr = *((unsigned long*) res->h_addr);
+	log(L_DEBUG, "Resolve done %u", r->m_addr);
+	r->bDone = true;
+	if (res == NULL) r->bTimeout = false;
+	QTimer::singleShot(0, r->parent(), SLOT(resultsReady()));
+	return NULL;
 }
 
-void SIMSockets::resultsReady()
+#endif
+
+SIMResolver::SIMResolver(QObject *parent, const char *host)
+	: QObject(parent)
 {
-    log(L_DEBUG, "Results ready");
-    timer->stop();
-    if (resolver->addresses().isEmpty()){
-        emit resolveReady(NULL);
-        return;
-    }
-    isActive = true;
-    QString s = resolver->addresses().first().toString();
-    emit resolveReady(s.latin1());
+	bDone = false;
+	bTimeout = false;
+#ifdef HAVE_GETHOSTBYNAME_R
+	m_host = host;
+	m_addr = INADDR_NONE;
+	pthread_t h_thread;
+	if (pthread_create(&h_thread, NULL, resolve_thread, this)){
+		log(L_WARN, "Can't create thread: %s", strerror(errno));
+		bDone = true;
+		QTimer::singleShot(0, parent, SLOT(resultsReady()));
+		return;
+	}
+#else
+	timer = new QTimer(this);
+	connect(timer, SIGNAL(timeout()), this, SLOT(resolveTimeout()));
+	timer->start(40000);
+	dns = new QDns(QString(host) + ".", QDns::A);
+	connect(dns, SIGNAL(resultsReady()), this, SLOT(resolveReady()));
+#endif
+}
+
+SIMResolver::~SIMResolver()
+{
+#ifndef HAVE_GETHOSTBYNAME_R
+	delete dns;
+	delete timer;
+#endif
+}
+
+void SIMResolver::resolveTimeout()
+{
+	bDone = true;
+	bTimeout = true;
+	QTimer::singleShot(0, parent(), SLOT(resultsReady()));
+}
+
+void SIMResolver::resolveReady()
+{
+	bDone = true;
+	QTimer::singleShot(0, parent(), SLOT(resultsReady()));
+}
+
+unsigned long SIMResolver::addr()
+{
+#ifdef HAVE_GETHOSTBYNAME_R
+    return m_addr;
+#else
+    if (dns->addresses().isEmpty())
+	    return INADDR_NONE;
+    return dns->addresses().first().ip4Addr();
+#endif
+}
+
+string SIMResolver::host()
+{
+#ifdef HAVE_GETHOSTBYNAME_R
+    return m_host.c_str();
+#else
+    string res;
+    res = dns->label().latin1();
+    return res;
+#endif
 }
 
 void SIMSockets::resolve(const char *host)
 {
-    log(L_DEBUG, "Resolve set label %s", host);
-#if QT_VERSION >= 300
-    /* Workaround for Qt QDns error - no set timer for next query */
-    delete resolver;
-    resolver = new QDns(QString(host) + ".", QDns::A);
-    connect(resolver, SIGNAL(resultsReady()), this, SLOT(resultsReady()));
-#else
-    if (resolver->isWorking()){
-        delete resolver;
-        resolver = new QDns(QString(host) + ".", QDns::A);
-        connect(resolver, SIGNAL(resultsReady()), this, SLOT(resultsReady()));
-    }else{
-        resolver->setLabel(QString(host) + ".");
-        resolver->setRecordType(QDns::A);
+    SIMResolver *resolver = new SIMResolver(this, host);
+    resolvers.push_back(resolver);
+}
+
+void SIMSockets::resultsReady()
+{
+    list<SIMResolver*>::iterator it;
+    for (it = resolvers.begin(); it != resolvers.end();){
+	SIMResolver *r = *it;
+        if (!r->bDone){
+		++it;
+		continue;
+	}
+        if (r->bTimeout){
+		isActive = false;
+	}else{
+		isActive = true;
+	}
+	emit resolveReady(r->addr(), r->host().c_str());
+	resolvers.remove(r);
+	delete r;
+	it = resolvers.begin();
     }
-#endif
-    timer->start(45000);
 }
 
 Socket *SIMSockets::createSocket()
@@ -201,21 +270,22 @@ void ICQClientSocket::write(const char *buf, unsigned int size)
         QTimer::singleShot(0, this, SLOT(slotBytesWritten()));
 }
 
-void ICQClientSocket::connect(const char *host, int _port)
+void ICQClientSocket::connect(const char *_host, int _port)
 {
     port = _port;
-    log(L_DEBUG, "Connect to %s:%u", host, port);
-    if (inet_addr(host) == INADDR_NONE){
-        log(L_DEBUG, "Start resolve %s", host);
+    host = _host;
+    log(L_DEBUG, "Connect to %s:%u", host.c_str(), port);
+    if (inet_addr(host.c_str()) == INADDR_NONE){
+        log(L_DEBUG, "Start resolve %s", host.c_str());
         SIMSockets *s = static_cast<SIMSockets*>(getFactory());
-        QObject::connect(s, SIGNAL(resolveReady(const char*)), this, SLOT(resolveReady(const char*)));
-        s->resolve(host);
+        QObject::connect(s, SIGNAL(resolveReady(unsigned long, const char*)), this, SLOT(resolveReady(unsigned long, const char*)));
+        s->resolve(host.c_str());
         return;
     }
-    resolveReady(host);
+    resolveReady(inet_addr(host.c_str()), host.c_str());
 }
 
-void ICQClientSocket::resolveReady(const char *host)
+void ICQClientSocket::resolveReady(unsigned long addr, const char *_host)
 {
 #ifdef HAVE_KEXTSOCK_H
     sock->open();
@@ -234,13 +304,17 @@ void ICQClientSocket::resolveReady(const char *host)
         if (notify) notify->error_state(ErrorConnect);
     }
 #else
-    if (host == NULL){
+    if (strcmp(_host, host.c_str())) return;
+    if (addr == INADDR_NONE){
         log(L_WARN, "Can't resolve");
         if (notify) notify->error_state(ErrorConnect);
         return;
     }
-    log(L_DEBUG, "Resolve ready %s", host);
-    sock->connectToHost(host, port);
+    in_addr a;
+    a.s_addr = addr;
+    host = inet_ntoa(a);
+    log(L_DEBUG, "Resolve ready %s", host.c_str());
+    sock->connectToHost(host.c_str(), port);
 #endif
 }
 

@@ -1414,7 +1414,8 @@ LIB_QT="$kde_int_qt $LIBJPEG_QT "'$(LIBPNG) -lXext $(LIB_X11) $(LIBSM)'
 else
 LIB_QT="$kde_int_qt $LIBJPEG_QT "'$(LIBPNG)'
 fi
-test -z "$KDE_MT_LIBS" || LIB_QT="$LIB_QT $KDE_MT_LIBS"
+dnl Disable threads
+dnl test -z "$KDE_MT_LIBS" || LIB_QT="$LIB_QT $KDE_MT_LIBS"
 
 AC_SUBST(LIB_QT)
 AC_SUBST(LIB_QPE)

@@ -59,9 +59,10 @@ protected slots:
     void slotBytesWritten();
     void slotError(int);
     void slotLookupFinished(int);
-    void resolveReady(const char *host);
+    void resolveReady(unsigned long addr, const char *host);
 protected:
     unsigned short port;
+    string host;
 #ifdef HAVE_KEXTSOCK_H
     KExtendedSocket *sock;
 #else
@@ -91,6 +92,29 @@ protected:
     unsigned short m_nPort;
 };
 
+class SIMResolver : public QObject
+{
+    Q_OBJECT
+public:
+    SIMResolver(QObject *parent, const char *host);
+    ~SIMResolver();
+#ifdef HAVE_GETHOSTBYNAME_R
+    string m_host;
+    unsigned long m_addr;
+    static void *resolve_thread(void*); 
+#else
+    QTimer *timer;
+    QDns   *dns;
+#endif
+    bool   bDone;
+    bool   bTimeout;
+    unsigned long addr();
+    string host();
+protected slots:
+    void   resolveTimeout();
+    void   resolveReady();
+};
+
 class SIMSockets : public QObject, public SocketFactory
 {
     Q_OBJECT
@@ -101,13 +125,11 @@ public:
     virtual ServerSocket *createServerSocket();
     void resolve(const char *host);
 signals:
-    void resolveReady(const char*);
-protected slots:
-    void resolveTimeout();
+    void resolveReady(unsigned long res, const char*);
+public slots:
     void resultsReady();
 protected:
-    QDns   *resolver;
-    QTimer *timer;
+    list<SIMResolver*> resolvers;
 };
 
 SocketFactory *getFactory();

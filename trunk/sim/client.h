@@ -171,7 +171,14 @@ protected:
     void sendSMS(SMSmessage *sms);
     list<SMSmessage*> smsQueue;
     list<resolveAddr> resolveQueue;
+#ifdef HAVE_GETHOSTBYADDR_R
+    static void *resolve_thread(void*);
+    string m_host;
+    unsigned long m_addr;
+    bool resolver_working;
+#else
     QDns *resolver;
+#endif
 signals:
     void event(ICQEvent*);
     void messageReceived(ICQMessage *msg);

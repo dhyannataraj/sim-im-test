@@ -13,6 +13,8 @@ if "$CYGWIN" = "yes"; then
 fi
 AC_CHECK_HEADERS(inttypes.h stdint.h unistd.h ctype.h)
 AC_CHECK_FUNC(umask,[AC_DEFINE(HAVE_UMASK,1,[Have umask])])
+AC_CHECK_FUNC(gethostbyname_r,[AC_DEFINE(HAVE_GETHOSTBYNAME_R,1,[Have gethostbyname_r])]) 
+AC_CHECK_FUNC(gethostbyaddr_r,[AC_DEFINE(HAVE_GETHOSTBYADDR_R,1,[Have gethostbyaddr_r])])
 AC_CHECK_OPENSSL
 AC_TM_GMTOFF
 EXTRA_LIBS=""
