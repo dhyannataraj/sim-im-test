@@ -1172,6 +1172,7 @@ void MainWindow::setDock()
 
 void MainWindow::dockDblClicked()
 {
+    if (menuFunction && menuFunction->isVisible()) return;
     for (list<UserBox*>::iterator itBox = containers.begin(); itBox != containers.end(); ++itBox){
         if ((*itBox)->bHistory || (*itBox)->bUserInfo) continue;
         if (!(*itBox)->isActiveWindow()) continue;

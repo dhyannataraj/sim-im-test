@@ -681,6 +681,7 @@ void MsgViewConv::setUin(unsigned long uin)
     if (pMain->CopyMessages){
         ICQUser *u = pClient->getUser(m_nUin);
         if (u == NULL) return;
+		bBack = true;
         History h(uin);
         History::iterator &it = h.messages();
         for (unsigned n = 0; (n < pMain->CopyMessages) && ++it; n++){
@@ -689,6 +690,7 @@ void MsgViewConv::setUin(unsigned long uin)
                 if ((*unreadIt) == (*it)->Id) break;
             addMessage(*it, unreadIt != u->unreadMsgs.end(), false);
         }
+		bBack = false;
         scrollToBottom();
     }
 }

@@ -47,9 +47,9 @@ Source: "C:\sim\sounds\sms.wav"; DestDir: "{app}\sounds"; CopyMode: alwaysoverwr
 Source: "C:\sim\sounds\startup.wav"; DestDir: "{app}\sounds"; CopyMode: alwaysoverwrite
 Source: "C:\sim\pict\splash.png"; DestDir: "{app}\pict"; CopyMode: alwaysoverwrite
 Source: "C:\qt\bin\qt-mt230nc.dll"; DestDir: "{app}"
-Source: "D:\Windows\libeay32.dll"; DestDir: "{app}"; CopyMode: alwaysoverwrite
-Source: "D:\Windows\ssleay32.dll"; DestDir: "{app}"; CopyMode: alwaysoverwrite
-
+Source: "C:\openssl\bin\libeay32.dll"; DestDir: "{app}"; CopyMode: alwaysoverwrite
+Source: "C:\openssl\bin\ssleay32.dll"; DestDir: "{app}"; CopyMode: alwaysoverwrite
+Source: "C:\windows\system32\msvcrt.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall
 
 [Icons]
 Name: "{commonprograms}\SIM"; Filename: "{app}\sim.exe"
