@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2002-12-14 20:59+0300\n"
-"PO-Revision-Date: 2002-12-13 08:02+0200\n"
+"PO-Revision-Date: 2002-12-14 22:31+0200\n"
 "Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1753,8 +1753,7 @@ msgstr "%1 від %2"
 
 #: mainwin.cpp:1245 ui/logindlg.cpp:222
 msgid "Can't connect to proxy server"
-msgstr ""
-"Неможливо з'єднатися з проксі-сервером"
+msgstr "Неможливо з'єднатися з проксі-сервером"
 
 #: mainwin.cpp:1252 ui/logindlg.cpp:229
 msgid "Proxy server require authorization"
@@ -1786,8 +1785,7 @@ msgstr "&Ні"
 
 #: mainwin.cpp:1936
 msgid "Add %1 to ignore list ?"
-msgstr ""
-"Додати \"%1\" в список тих що ігноруються?"
+msgstr "Додати \"%1\" в список тих що ігноруються?"
 
 #: mainwin.cpp:2000
 msgid "In visible list"
@@ -2186,8 +2184,7 @@ msgstr "Розмір: %1 / Максимальний: %2"
 
 #: msgedit.cpp:1563
 msgid "Message will be split"
-msgstr ""
-"Повідомлення буде розділено на частини"
+msgstr "Повідомлення буде розділено на частини"
 
 #: msgedit.cpp:1738
 msgid "Decline reason"
@@ -2813,8 +2810,7 @@ msgstr "Вікно - розтягнути"
 
 #: ui/themesetup.cpp:204
 msgid "Need restart SIM for change language"
-msgstr ""
-"Потрібно перестартувати SIM для зміни мови"
+msgstr "Потрібно перестартувати SIM для зміни мови"
 
 #: ui/themesetup.cpp:214
 msgid "Default icons"
@@ -3014,9 +3010,8 @@ msgid "Login"
 msgstr "Авторизація"
 
 #: ui/logindlgbase.cpp:124
-#, fuzzy
 msgid "&Do not show this window"
-msgstr "Більше не показувати це повідомлення"
+msgstr "&Не показувати це вікно"
 
 #: ui/logindlgbase.cpp:125 ui/phonebookbase.cpp:132
 msgid "&Delete"
@@ -3185,8 +3180,7 @@ msgstr "Закрити після відправки"
 # #
 #: ui/acceptbase.cpp:173 ui/msgbase.cpp:94
 msgid "Automaitcaly open window"
-msgstr ""
-"Автоматично відкривати вікно повідомлень"
+msgstr "Автоматично відкривати вікно повідомлень"
 
 #: ui/acceptbase.cpp:174 ui/acceptbase.cpp:177 ui/msgbase.cpp:90
 msgid "Override global settings"
@@ -3718,8 +3712,7 @@ msgstr "&Прозорість"
 
 #: ui/themesetupbase.cpp:316
 msgid "Show main window in task manager"
-msgstr ""
-"Показувати основне вікно в панелі задач"
+msgstr "Показувати основне вікно в панелі задач"
 
 #: ui/themesetupbase.cpp:317
 msgid "Show user window in task manager"
@@ -3754,8 +3747,7 @@ msgid "Hide main window after"
 msgstr "Сховати головне вікно"
 
 #: ui/statussetupbase.cpp:110
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Заборонити попередження в стані "
 "\"Відійшов\", \"Не активний\", \"Зайнятий\""
@@ -3946,8 +3938,7 @@ msgstr ""
 
 #: ui/generalsecbase.cpp:222
 msgid "Reject &URL from unknown users"
-msgstr ""
-"Відкидати &URL від невідомих користувачів"
+msgstr "Відкидати &URL від невідомих користувачів"
 
 #: ui/generalsecbase.cpp:223
 msgid "Reject &World Wide pager messages"
@@ -4007,9 +3998,8 @@ msgid "S&ave password"
 msgstr "З&берегти пароль"
 
 #: ui/generalsecbase.cpp:238
-#, fuzzy
 msgid "&Do not show login dialog at start"
-msgstr "Більше не показувати це повідомлення"
+msgstr "&Не показувати діалог авторизації при запуску"
 
 #: ui/generalsecbase.cpp:239
 msgid "&Password"
@@ -4096,9 +4086,9 @@ msgid "Rate limit"
 msgstr "Вичерпано кількість спроб"
 
 #: ui/logindlg.cpp:290
-#, fuzzy, c-format
+#, c-format
 msgid "Delete history and incoming files for %u?"
-msgstr "Каталог для прийому файлів"
+msgstr "Витерти історію і вхідні файли для %u?"
 
 #: ui/securedlg.cpp:61
 msgid "[Failed]"
@@ -4126,8 +4116,7 @@ msgstr "..."
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Ця програма поширюється під ліцензією GPL v2"
+msgstr "Ця програма поширюється під ліцензією GPL v2"
 
 #: editspell.cpp:316
 msgid "Spell check"
@@ -4829,3 +4818,4 @@ msgstr "Не можу створити файл %1"
 
 #~ msgid "Spell"
 #~ msgstr "Проверка орфографии"
+
