@@ -88,14 +88,20 @@ void SmilePreview::setSmiles()
     unsigned i = 0;
     if (smiles){
         unsigned nSmile = 0;
-        for (i = 0; (i < smiles->count()) && (i < 20); ){
-            const QIconSet *icon = smiles->get(nSmile++);
+        for (i = 0; (nSmile < smiles->m_smiles.size()) && (i < 20); ){
+            const QIconSet *icon = smiles->m_smiles[nSmile++].icon;
             if (icon == NULL){
                 if (nSmile < 16)
                     continue;
                 break;
             }
-            labels[i]->setPixmap(icon->pixmap(QIconSet::Automatic, QIconSet::Normal));
+            QPixmap pict;
+            if (!icon->isGenerated(QIconSet::Large, QIconSet::Normal)){
+                pict = icon->pixmap(QIconSet::Large, QIconSet::Normal);
+            }else{
+                pict = icon->pixmap(QIconSet::Small, QIconSet::Normal);
+            }
+            labels[i]->setPixmap(pict);
             i++;
         }
     }
@@ -115,9 +121,9 @@ SmileCfg::SmileCfg(QWidget *parent, IconsPlugin *plugin)
     m_plugin = plugin;
     connect(lblMore, SIGNAL(click()), this, SLOT(goSmiles()));
 #ifdef WIN32
-        edtSmiles->setStartDir(QFile::decodeName(app_file("smiles/").c_str()));
+    edtSmiles->setStartDir(QFile::decodeName(app_file("smiles/").c_str()));
 #else
-        edtSmiles->setStartDir(QFile::decodeName(user_file("smiles/").c_str()));
+    edtSmiles->setStartDir(QFile::decodeName(user_file("smiles/").c_str()));
 #endif
     edtSmiles->setTitle(i18n("Select smiles"));
     edtSmiles->setFilePreview(createPreview);

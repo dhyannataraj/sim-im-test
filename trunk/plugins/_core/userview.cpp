@@ -710,8 +710,12 @@ void UserView::deleteGroup(void *p)
 void UserView::deleteContact(void *p)
 {
     Contact *contact = getContacts()->contact((unsigned)p);
-    if (contact)
-        delete contact;
+    if (contact == NULL)
+        return;
+    ContactItem *item = findContactItem(contact->id());
+    if (item)
+        setCurrentItem(item);
+    delete contact;
 }
 
 void UserView::renameGroup()
@@ -828,11 +832,8 @@ void UserView::contentsMouseReleaseEvent(QMouseEvent *e)
     if (item){
         if (!CorePlugin::m_plugin->getUseDblClick()){
             m_current = item;
-
-            QTimer::singleShot(50, this, SLOT(doClick()));
-
+            QTimer::singleShot(0, this, SLOT(doClick()));
         }
-
     }
 }
 
@@ -845,26 +846,23 @@ void UserView::contentsMouseDoubleClickEvent(QMouseEvent *e)
 
 void UserView::doClick()
 {
-    if (m_current && (static_cast<UserViewItemBase*>(m_current)->type() == USR_ITEM)){
+    if (m_current == NULL)
+        return;
+    if (m_current->isExpandable() && !CorePlugin::m_plugin->getUseDblClick()){
+        m_current->setOpen(!m_current->isOpen());
+    }else if (static_cast<UserViewItemBase*>(m_current)->type() == USR_ITEM){
         ContactItem *item = static_cast<ContactItem*>(m_current);
         Event e(EventDefaultAction, (void*)(item->id()));
         e.process();
-
-        viewport()->releaseMouse();
-
     }
     m_current = NULL;
 }
 
 void UserView::keyPressEvent(QKeyEvent *e)
 {
-
     if (CorePlugin::m_plugin->getUseDblClick()){
-
         switch (e->key()){
-
         case Key_Return:
-
         case Key_Enter:
             m_current = currentItem();
             QTimer::singleShot(0, this, SLOT(doClick()));

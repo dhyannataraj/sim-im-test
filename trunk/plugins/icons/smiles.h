@@ -23,13 +23,15 @@
 
 #include <qiconset.h>
 #include <vector>
+#include <list>
 using namespace std;
 
 typedef struct SmileDef
 {
+    string	exp;
+    string	paste;
+    string	title;
     const QIconSet *icon;
-    QString	pattern;
-    QString tip;
 } SmileDef;
 
 class Smiles
@@ -38,14 +40,11 @@ public:
     Smiles();
     ~Smiles();
     bool load(const QString &file);
-    unsigned count();
-    const QIconSet *get(unsigned id);
-    QString pattern(unsigned id);
-    QString tip(unsigned id);
     void clear();
     string name;
     ICONS_MAP icons;
-    vector<SmileDef> defs;
+    vector<SmileDef> m_smiles;
+    list<QIconSet*> m_icons;
 };
 
 #endif

@@ -159,7 +159,7 @@ void EditFile::showFiles()
             // under KDE 3.1x / QT 3.1x sim crashes when preview is deleted...
             //            delete preview;
 #ifdef WIN32
-                delete preview;
+            delete preview;
 #endif
             delete dlg;
         }else{

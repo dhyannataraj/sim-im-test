@@ -141,6 +141,7 @@ namespace SIM
 class PluginManagerPrivate;
 class ContactList;
 class SocketFactory;
+class Client;
 
 class EXPORT PluginManager
 {
@@ -668,6 +669,15 @@ typedef struct fetchData
     Buffer		*data;
     const char	*headers;
 } fetchData;
+
+const unsigned EventClientError		= 0x1301;
+
+typedef struct clientErrorData
+{
+    Client		*client;
+    const char	*err_str;
+    unsigned	code;
+} clientErrorData;
 
 const unsigned EventUser			= 0x10000;
 
@@ -1491,9 +1501,16 @@ EXPORT bool isLatin(const QString&);
 EXPORT QString getPart(QString&, unsigned size);
 EXPORT QString getRichTextPart(QString&, unsigned size);
 
-EXPORT const char *smiles(unsigned n);
-EXPORT const char *defaultSmiles(unsigned n);
-EXPORT void setSmiles(const char *smiles);
+typedef struct smile
+{
+    const char	*exp;
+    const char	*paste;
+    const char	*title;
+} smile;
+
+EXPORT const smile *smiles(unsigned n);
+EXPORT const smile *defaultSmiles(unsigned n);
+EXPORT void setSmiles(const char *smiles_str);
 
 EXPORT unsigned screens();
 EXPORT QRect screenGeometry(unsigned nScreen);

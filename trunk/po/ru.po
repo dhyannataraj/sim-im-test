@@ -12,8 +12,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2003-09-08 12:41+0400\n"
-"PO-Revision-Date: 2003-09-08 12:45+0400\n"
+"POT-Creation-Date: 2003-09-11 10:10+0400\n"
+"PO-Revision-Date: 2003-09-11 10:16+0400\n"
 "Last-Translator: Vladimir Shutoff <vovan@shutoff.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -98,6 +98,16 @@ msgstr "Конвертация конфигурации"
 #: plugins/_core/autoreply.cpp:47
 msgid "Autoreply message"
 msgstr "Автоответ"
+
+#: plugins/_core/autoreply.cpp:92
+#, c-format
+msgid ""
+"_n: Close after %n second\n"
+"Close after %n seconds"
+msgstr ""
+"Закрыть через %n секунду\n"
+"Закрыть через %n секунды\n"
+"Закрыть через %n секунд"
 
 # ui/userinfo.cpp:73 userbox.cpp:399 usertbl.cpp:405
 #: plugins/_core/cfgdlg.cpp:275 plugins/_core/usercfg.cpp:195
@@ -318,7 +328,7 @@ msgid "Receive"
 msgstr "Полученные сообщения"
 
 # msgedit.cpp:225
-#: plugins/_core/core.cpp:587 plugins/_core/msgedit.cpp:1119
+#: plugins/_core/core.cpp:587 plugins/_core/msgedit.cpp:1121
 msgid "&Next"
 msgstr "&Следующее"
 
@@ -405,7 +415,7 @@ msgid "&Messages"
 msgstr "&Сообщения"
 
 # ui/setupdlg.cpp:148 ui/soundsetupbase.cpp:140
-#: plugins/_core/core.cpp:756 plugins/_core/msgedit.cpp:1275
+#: plugins/_core/core.cpp:756 plugins/_core/msgedit.cpp:1290
 msgid "&SMS"
 msgstr "&SMS"
 
@@ -790,7 +800,7 @@ msgid "System"
 msgstr "Системный"
 
 # ui/fontsetupbase.cpp:149
-#: plugins/_core/interfacecfg.cpp:122
+#: plugins/_core/interfacecfg.cpp:123
 msgid "Copy %1 messages from history"
 msgstr ""
 "Копировать %1 последних сообщений из "
@@ -1033,28 +1043,28 @@ msgstr "Отправить в &список"
 
 # ui/msgbase.cpp:78 ui/msgdialogbase.cpp:78 ui/setupdlg.cpp:146
 # ui/userinfo.cpp:91
-#: plugins/_core/msgedit.cpp:1256 plugins/icq/icq.cpp:454
+#: plugins/_core/msgedit.cpp:1271 plugins/icq/icq.cpp:454
 #: plugins/jabber/jabber.cpp:258
 msgid "&Message"
 msgstr "&Сообщение"
 
 # monitor.cpp:68
-#: plugins/_core/msgedit.cpp:1266 plugins/netmonitor/monitor.cpp:64
+#: plugins/_core/msgedit.cpp:1281 plugins/netmonitor/monitor.cpp:64
 msgid "&File"
 msgstr "&Файл"
 
 # msgview.cpp:159
-#: plugins/_core/msgedit.cpp:1284
+#: plugins/_core/msgedit.cpp:1299
 msgid "&Authorization request"
 msgstr "Запрос &авторизации"
 
 # ui/generalsecbase.cpp:136
-#: plugins/_core/msgedit.cpp:1293
+#: plugins/_core/msgedit.cpp:1308
 msgid "&Grant autorization"
 msgstr "&Авторизовать"
 
 # ui/generalsecbase.cpp:136
-#: plugins/_core/msgedit.cpp:1302
+#: plugins/_core/msgedit.cpp:1317
 msgid "&Refuse autorization"
 msgstr "&Отменить авторизацию"
 
@@ -1192,7 +1202,7 @@ msgid "New contact"
 msgstr "Новый контакт"
 
 # userview.cpp:406 userview.cpp:1000
-#: plugins/_core/usercfg.cpp:288 plugins/_core/userlist.cpp:930
+#: plugins/_core/usercfg.cpp:288 plugins/_core/userlist.cpp:935
 #: plugins/_core/userview.cpp:172 plugins/_core/userview.cpp:645
 #: plugins/_core/userview.cpp:683 plugins/icq/icqsearch.cpp:150
 #: plugins/icq/searchresult.cpp:240 plugins/jabber/addresult.cpp:135
@@ -1218,8 +1228,8 @@ msgstr "Установки"
 #: plugins/_core/userlist.cpp:553 plugins/icq/icq.cpp:111
 #: plugins/icq/icqclient.cpp:1258 plugins/icq/icqclient.cpp:1285
 #: plugins/jabber/jabber.cpp:92 plugins/jabber/jabberclient.cpp:941
-#: plugins/jabber/services.cpp:226 plugins/msn/msn.cpp:89
-#: plugins/msn/msnclient.cpp:1420
+#: plugins/jabber/services.cpp:228 plugins/msn/msn.cpp:89
+#: plugins/msn/msnclient.cpp:1416
 msgid "Online"
 msgstr "В сети"
 
@@ -1227,7 +1237,7 @@ msgstr "В сети"
 #: plugins/_core/userlist.cpp:556 plugins/_core/userviewcfgbase.cc:183
 #: plugins/_core/userviewcfgbase.cpp:186 plugins/icq/icq.cpp:201
 #: plugins/icq/icqclient.cpp:1255 plugins/jabber/jabber.cpp:167
-#: plugins/jabber/services.cpp:223 plugins/msn/msn.cpp:194
+#: plugins/jabber/services.cpp:225 plugins/msn/msn.cpp:194
 msgid "Offline"
 msgstr "Отключен"
 
@@ -1237,16 +1247,16 @@ msgid "Delete \"%1\"?"
 msgstr "Удалить \"%1\"?"
 
 # userview.cpp:684 userview.cpp:697
-#: plugins/_core/userview.cpp:734
+#: plugins/_core/userview.cpp:738
 msgid "New group"
 msgstr "Создать группу"
 
 # mainwin.cpp:1693 mainwin.cpp:2368
-#: plugins/_core/userview.cpp:773
+#: plugins/_core/userview.cpp:777
 msgid "&Groups"
 msgstr "&Группы"
 
-#: plugins/_core/userview.cpp:1240
+#: plugins/_core/userview.cpp:1238
 msgid "Join \"%1\" and \"%2\"?"
 msgstr "Объединить \"%1\" и \"%2\"?"
 
@@ -1893,9 +1903,12 @@ msgstr "Сообщения об ошибках"
 #: plugins/about/aboutdlg.cpp:48
 msgid "Note: This is english mailing list"
 msgstr ""
-"Внимание: Это англоязычный список рассылки, просьба писать только по-английски<br> "
-"По-русски об ошибках сообщайте сюда:<br> "
-"<a href=\"mailto:sim-icq-russian@lists.sourceforge.net\">sim-icq-russian@lists.sourceforge.net</a>"
+"Внимание: Это англоязычный список "
+"рассылки, просьба писать только "
+"по-английски<br> По-русски об ошибках "
+"сообщайте сюда:<br> <a "
+"href=\"mailto:sim-icq-russian@lists.sourceforge.net\">sim-icq-russian@lists.s"
+"ourceforge.net</a>"
 
 # ui/aboutdlgbase.cpp:67
 #: plugins/about/aboutdlgbase.cpp:149
@@ -2197,24 +2210,24 @@ msgstr ""
 "иконок и смайликов от Miranda"
 
 # ui/themesetupbase.cpp:93
-#: plugins/icons/iconcfg.cpp:173
+#: plugins/icons/iconcfg.cpp:169
 msgid "Select icons DLL"
 msgstr "Веберете тему иконок"
 
-#: plugins/icons/iconcfg.cpp:176
+#: plugins/icons/iconcfg.cpp:172
 msgid "*.dll|Icons themes"
 msgstr "*.dll|Иконки"
 
-#: plugins/icons/iconcfg.cpp:178
+#: plugins/icons/iconcfg.cpp:174
 msgid "Icons themes (*.dll)"
 msgstr "Иконки (*.dll)"
 
-#: plugins/icons/iconcfg.cpp:180
+#: plugins/icons/iconcfg.cpp:176
 msgid "Get more icons themes"
 msgstr "Другие темы"
 
 # libicq/country.cpp:350
-#: plugins/icons/iconcfg.cpp:187
+#: plugins/icons/iconcfg.cpp:183
 msgid "Smiles"
 msgstr "Смайлики"
 
@@ -2223,27 +2236,27 @@ msgid "Icons for protocol:"
 msgstr "Иконки для протокола:"
 
 # ui/themesetupbase.cpp:93
-#: plugins/icons/smilecfg.cpp:126
+#: plugins/icons/smilecfg.cpp:128
 msgid "Select smiles"
 msgstr "Выберите смайлики"
 
-#: plugins/icons/smilecfg.cpp:130
+#: plugins/icons/smilecfg.cpp:132
 msgid "*.msl *.xep|Smiles"
 msgstr "*.msl *.xep|Смайлики"
 
-#: plugins/icons/smilecfg.cpp:132
+#: plugins/icons/smilecfg.cpp:134
 msgid "*.msl|Smiles"
 msgstr "*.msl|Смайлики"
 
-#: plugins/icons/smilecfg.cpp:136
+#: plugins/icons/smilecfg.cpp:138
 msgid "Smiles (*.msl *.xep)"
 msgstr "Смайлики (*.msl *.xep)"
 
-#: plugins/icons/smilecfg.cpp:138
+#: plugins/icons/smilecfg.cpp:140
 msgid "Smiles (*.msl)"
 msgstr "Смайлики (*.msl)"
 
-#: plugins/icons/smilecfg.cpp:142
+#: plugins/icons/smilecfg.cpp:144
 msgid "Get more smiles"
 msgstr "Другие смайлики"
 
@@ -2553,7 +2566,7 @@ msgstr "Невидимый"
 # cuser.cpp:207
 #: plugins/icq/icqclient.cpp:1278 plugins/icq/icqinfo.cpp:229
 #: plugins/jabber/jabberclient.cpp:934 plugins/jabber/jabberinfo.cpp:103
-#: plugins/msn/msnclient.cpp:1413 plugins/msn/msninfo.cpp:88
+#: plugins/msn/msnclient.cpp:1409 plugins/msn/msninfo.cpp:88
 msgid "Last online"
 msgstr "Последний раз в сети"
 
@@ -4387,14 +4400,18 @@ msgid "Enter your YAHOO! Messenger Username and Password."
 msgstr "Введите ваш YAHOO! логин и пароль."
 
 #: plugins/jabber/jabbersearch.cpp:190
+msgid "Please enter your UIN and password"
+msgstr "Введите ваш UIN и пароль"
+
+#: plugins/jabber/jabbersearch.cpp:191
 msgid "You need a x:data capable client to register."
 msgstr "Требуется клиент с поддержкой x:data."
 
-#: plugins/jabber/jabbersearch.cpp:191
+#: plugins/jabber/jabbersearch.cpp:192
 msgid "Enter nick you want to register."
 msgstr "Введите псевдоним для регистрации."
 
-#: plugins/jabber/jabbersearch.cpp:192
+#: plugins/jabber/jabbersearch.cpp:193
 msgid ""
 "Complete the form to submit your searchable attributes in the Jabber User "
 "Directory"
@@ -4402,11 +4419,11 @@ msgstr ""
 "Полностью заполните форму для поиска вас "
 "в каталоге Jabber"
 
-#: plugins/jabber/jabbersearch.cpp:193
+#: plugins/jabber/jabbersearch.cpp:194
 msgid "Fill in all of the fields to add yourself to the JUD."
 msgstr "Заполните все поля"
 
-#: plugins/jabber/jabbersearch.cpp:194
+#: plugins/jabber/jabbersearch.cpp:195
 msgid ""
 "Fill in a field to search for any matching Jabber User (POSIX regular "
 "expressions allowed)"
@@ -4414,11 +4431,17 @@ msgstr ""
 "Заполните поля для поиска (возможно "
 "использование регулярных выражений)"
 
-#: plugins/jabber/jabbersearch.cpp:195
+#: plugins/jabber/jabbersearch.cpp:196
 msgid "Fill in a field to search for any matching Jabber users."
 msgstr ""
 "Заполните поля для поиска пользователей "
 "Jabber."
+
+#: plugins/jabber/jabbersearch.cpp:197
+msgid ""
+"To register, please fill out the following form.  Be as accurate as possible "
+"to make it easier for people to search for you."
+msgstr "Для регистрации заполните форму. Будбте аккуратными, чтобы другие люди могли вас найти"
 
 #: plugins/jabber/servicesbase.cpp:167 plugins/jabber/servicesbase.cpp:173
 msgid "Jabber agents are available online after login"
@@ -4595,12 +4618,12 @@ msgstr ""
 "Ваш аккаунт используется с другого "
 "компьютера"
 
-#: plugins/msn/msnclient.cpp:1470
+#: plugins/msn/msnclient.cpp:1466
 msgid "Contact go offline"
 msgstr "Контакт ушел из сети"
 
 # control.cpp:190
-#: plugins/msn/msnclient.cpp:1656
+#: plugins/msn/msnclient.cpp:1652
 msgid "Send message failed"
 msgstr "Сообщение отправлено неудачно"
 
@@ -6396,75 +6419,75 @@ msgstr "&Да"
 msgid "&No"
 msgstr "&Нет"
 
-#: sim/api/simapi.cpp:582
+#: sim/api/simapi.cpp:580
 msgid "Smile"
 msgstr "Улыбка"
 
-#: sim/api/simapi.cpp:583
+#: sim/api/simapi.cpp:581
 msgid "Surprised"
 msgstr "Удивлен"
 
 # libicq/country.cpp:341
-#: sim/api/simapi.cpp:584
+#: sim/api/simapi.cpp:582
 msgid "Indifferent"
 msgstr "Безразлично"
 
-#: sim/api/simapi.cpp:585
+#: sim/api/simapi.cpp:583
 msgid "Skeptical"
 msgstr "Скептик"
 
 # ui/keysetup.cpp:43
-#: sim/api/simapi.cpp:586
+#: sim/api/simapi.cpp:584
 msgid "Sad"
 msgstr "Грустный"
 
-#: sim/api/simapi.cpp:587
+#: sim/api/simapi.cpp:585
 msgid "Kiss"
 msgstr "Поцелуй"
 
-#: sim/api/simapi.cpp:588
+#: sim/api/simapi.cpp:586
 msgid "Annoyed"
 msgstr "Раздраженный"
 
-#: sim/api/simapi.cpp:589
+#: sim/api/simapi.cpp:587
 msgid "Crying"
 msgstr "Плачущий"
 
-#: sim/api/simapi.cpp:590
+#: sim/api/simapi.cpp:588
 msgid "Wink"
 msgstr "Мигнуть"
 
 # libicq/country.cpp:166
-#: sim/api/simapi.cpp:591
+#: sim/api/simapi.cpp:589
 msgid "Angry"
 msgstr "Сердитый"
 
 # usertbl.cpp:392
-#: sim/api/simapi.cpp:592
+#: sim/api/simapi.cpp:590
 msgid "Embarrassed"
 msgstr "Обеспокоенный"
 
 # mainwin.cpp:2625
-#: sim/api/simapi.cpp:593
+#: sim/api/simapi.cpp:591
 msgid "Uptight"
 msgstr "Встревоженный"
 
 # ui/soundsetupbase.cpp:168
-#: sim/api/simapi.cpp:594
+#: sim/api/simapi.cpp:592
 msgid "Teaser"
 msgstr "Задира"
 
 # libicq/country.cpp:120
-#: sim/api/simapi.cpp:595
+#: sim/api/simapi.cpp:593
 msgid "Cool"
 msgstr "Круто"
 
 # libicq/country.cpp:76
-#: sim/api/simapi.cpp:596
+#: sim/api/simapi.cpp:594
 msgid "Angel"
 msgstr "Ангел"
 
-#: sim/api/simapi.cpp:597
+#: sim/api/simapi.cpp:595
 msgid "Grin"
 msgstr "Усмешка"
 
@@ -6946,8 +6969,8 @@ msgid ""
 "%2"
 msgstr ""
 "Не могк переименовать\n"
-"%1\n "
-"в\n"
+"%1\n"
+" в\n"
 "%2"
 
 #: sim/ui/qt3/i18n.cpp:216
@@ -7133,16 +7156,16 @@ msgid "&Ok"
 msgstr "&Ok"
 
 # ui/editfile.cpp:99
-#: sim/ui/editfile.cpp:195
+#: sim/ui/editfile.cpp:192
 msgid "*.wav|Sounds"
 msgstr "*.wav|Звуки"
 
-#: sim/ui/editfile.cpp:197
+#: sim/ui/editfile.cpp:194
 msgid "Sounds(*.wav)"
 msgstr "Звуки(*.wav)"
 
 # ui/themesetupbase.cpp:93
-#: sim/ui/editfile.cpp:200
+#: sim/ui/editfile.cpp:197
 msgid "Select sound"
 msgstr "Выбор звука"
 

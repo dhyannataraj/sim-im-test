@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
-"POT-Creation-Date: 2003-09-08 12:41+0400\n"
+"POT-Creation-Date: 2003-09-11 10:10+0400\n"
 "PO-Revision-Date: 2003-03-06 19:24--100\n"
 "Last-Translator: Tom�Ol� <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
@@ -371,7 +371,7 @@ msgid "Receive"
 msgstr ""
 
 # msgedit.cpp:133
-#: plugins/_core/core.cpp:587 plugins/_core/msgedit.cpp:1119
+#: plugins/_core/core.cpp:587 plugins/_core/msgedit.cpp:1121
 msgid "&Next"
 msgstr "&Ďalší"
 
@@ -471,7 +471,7 @@ msgid "&Messages"
 msgstr "&Správa"
 
 # ui/setupdlg.cpp:134
-#: plugins/_core/core.cpp:756 plugins/_core/msgedit.cpp:1275
+#: plugins/_core/core.cpp:756 plugins/_core/msgedit.cpp:1290
 #, fuzzy
 msgid "&SMS"
 msgstr "SMS"
@@ -941,7 +941,7 @@ msgid "System"
 msgstr "Systém"
 
 # ui/fontsetupbase.cpp:226
-#: plugins/_core/interfacecfg.cpp:122
+#: plugins/_core/interfacecfg.cpp:123
 #, fuzzy
 msgid "Copy %1 messages from history"
 msgstr "posledné správy z histórie do konverzácie"
@@ -1184,32 +1184,32 @@ msgid "Send to &list"
 msgstr "Prečiar&knuté"
 
 # ui/acceptbase.cpp:176
-#: plugins/_core/msgedit.cpp:1256 plugins/icq/icq.cpp:454
+#: plugins/_core/msgedit.cpp:1271 plugins/icq/icq.cpp:454
 #: plugins/jabber/jabber.cpp:258
 msgid "&Message"
 msgstr "&Správa"
 
 # monitor.cpp:70
 # ui/acceptbase.cpp:184
-#: plugins/_core/msgedit.cpp:1266 plugins/netmonitor/monitor.cpp:64
+#: plugins/_core/msgedit.cpp:1281 plugins/netmonitor/monitor.cpp:64
 msgid "&File"
 msgstr "S&úbor"
 
 # msgview.cpp:164
 # msgview.cpp:1204
-#: plugins/_core/msgedit.cpp:1284
+#: plugins/_core/msgedit.cpp:1299
 #, fuzzy
 msgid "&Authorization request"
 msgstr "Je požadovaná autorizácia"
 
 # ui/generalsecbase.cpp:215
-#: plugins/_core/msgedit.cpp:1293
+#: plugins/_core/msgedit.cpp:1308
 #, fuzzy
 msgid "&Grant autorization"
 msgstr "I&gnorovať užívateľovu autorizáciu"
 
 # ui/generalsecbase.cpp:215
-#: plugins/_core/msgedit.cpp:1302
+#: plugins/_core/msgedit.cpp:1317
 #, fuzzy
 msgid "&Refuse autorization"
 msgstr "I&gnorovať užívateľovu autorizáciu"
@@ -1390,7 +1390,7 @@ msgstr "Pridať kontakt (ne-ICQ)"
 # ui/userinfo.cpp:155
 # userview.cpp:537
 # userview.cpp:1336
-#: plugins/_core/usercfg.cpp:288 plugins/_core/userlist.cpp:930
+#: plugins/_core/usercfg.cpp:288 plugins/_core/userlist.cpp:935
 #: plugins/_core/userview.cpp:172 plugins/_core/userview.cpp:645
 #: plugins/_core/userview.cpp:683 plugins/icq/icqsearch.cpp:150
 #: plugins/icq/searchresult.cpp:240 plugins/jabber/addresult.cpp:135
@@ -1423,8 +1423,8 @@ msgstr "Odosielanie"
 #: plugins/_core/userlist.cpp:553 plugins/icq/icq.cpp:111
 #: plugins/icq/icqclient.cpp:1258 plugins/icq/icqclient.cpp:1285
 #: plugins/jabber/jabber.cpp:92 plugins/jabber/jabberclient.cpp:941
-#: plugins/jabber/services.cpp:226 plugins/msn/msn.cpp:89
-#: plugins/msn/msnclient.cpp:1420
+#: plugins/jabber/services.cpp:228 plugins/msn/msn.cpp:89
+#: plugins/msn/msnclient.cpp:1416
 msgid "Online"
 msgstr "Pripojený"
 
@@ -1433,7 +1433,7 @@ msgstr "Pripojený"
 #: plugins/_core/userlist.cpp:556 plugins/_core/userviewcfgbase.cc:183
 #: plugins/_core/userviewcfgbase.cpp:186 plugins/icq/icq.cpp:201
 #: plugins/icq/icqclient.cpp:1255 plugins/jabber/jabber.cpp:167
-#: plugins/jabber/services.cpp:223 plugins/msn/msn.cpp:194
+#: plugins/jabber/services.cpp:225 plugins/msn/msn.cpp:194
 msgid "Offline"
 msgstr "Nepripojený"
 
@@ -1445,18 +1445,18 @@ msgstr "Vymazať %1 ?"
 
 # userview.cpp:889
 # userview.cpp:905
-#: plugins/_core/userview.cpp:734
+#: plugins/_core/userview.cpp:738
 msgid "New group"
 msgstr "Nová skupina"
 
 # mainwin.cpp:2059
 # mainwin.cpp:2734
-#: plugins/_core/userview.cpp:773
+#: plugins/_core/userview.cpp:777
 #, fuzzy
 msgid "&Groups"
 msgstr "Skupiny"
 
-#: plugins/_core/userview.cpp:1240
+#: plugins/_core/userview.cpp:1238
 msgid "Join \"%1\" and \"%2\"?"
 msgstr ""
 
@@ -2474,25 +2474,25 @@ msgid "Plugin provides Miranda icons themes and emoticons"
 msgstr ""
 
 # qt3/i18n.cpp:172
-#: plugins/icons/iconcfg.cpp:173
+#: plugins/icons/iconcfg.cpp:169
 #, fuzzy
 msgid "Select icons DLL"
 msgstr "Vybrať štýl"
 
-#: plugins/icons/iconcfg.cpp:176
+#: plugins/icons/iconcfg.cpp:172
 msgid "*.dll|Icons themes"
 msgstr ""
 
-#: plugins/icons/iconcfg.cpp:178
+#: plugins/icons/iconcfg.cpp:174
 msgid "Icons themes (*.dll)"
 msgstr ""
 
-#: plugins/icons/iconcfg.cpp:180
+#: plugins/icons/iconcfg.cpp:176
 msgid "Get more icons themes"
 msgstr ""
 
 # libicq/country.cpp:350
-#: plugins/icons/iconcfg.cpp:187
+#: plugins/icons/iconcfg.cpp:183
 #, fuzzy
 msgid "Smiles"
 msgstr "Zručnosti"
@@ -2502,28 +2502,28 @@ msgid "Icons for protocol:"
 msgstr ""
 
 # qt3/i18n.cpp:257
-#: plugins/icons/smilecfg.cpp:126
+#: plugins/icons/smilecfg.cpp:128
 #, fuzzy
 msgid "Select smiles"
 msgstr "Vybrať všetko"
 
-#: plugins/icons/smilecfg.cpp:130
+#: plugins/icons/smilecfg.cpp:132
 msgid "*.msl *.xep|Smiles"
 msgstr ""
 
-#: plugins/icons/smilecfg.cpp:132
+#: plugins/icons/smilecfg.cpp:134
 msgid "*.msl|Smiles"
 msgstr ""
 
-#: plugins/icons/smilecfg.cpp:136
+#: plugins/icons/smilecfg.cpp:138
 msgid "Smiles (*.msl *.xep)"
 msgstr ""
 
-#: plugins/icons/smilecfg.cpp:138
+#: plugins/icons/smilecfg.cpp:140
 msgid "Smiles (*.msl)"
 msgstr ""
 
-#: plugins/icons/smilecfg.cpp:142
+#: plugins/icons/smilecfg.cpp:144
 msgid "Get more smiles"
 msgstr ""
 
@@ -2892,7 +2892,7 @@ msgstr "Neviditeľný"
 # ui/maininfo.cpp:144
 #: plugins/icq/icqclient.cpp:1278 plugins/icq/icqinfo.cpp:229
 #: plugins/jabber/jabberclient.cpp:934 plugins/jabber/jabberinfo.cpp:103
-#: plugins/msn/msnclient.cpp:1413 plugins/msn/msninfo.cpp:88
+#: plugins/msn/msnclient.cpp:1409 plugins/msn/msninfo.cpp:88
 msgid "Last online"
 msgstr "Naposledy pripojený"
 
@@ -4852,31 +4852,41 @@ msgid "Enter your YAHOO! Messenger Username and Password."
 msgstr ""
 
 #: plugins/jabber/jabbersearch.cpp:190
-msgid "You need a x:data capable client to register."
+msgid "Please enter your UIN and password"
 msgstr ""
 
 #: plugins/jabber/jabbersearch.cpp:191
-msgid "Enter nick you want to register."
+msgid "You need a x:data capable client to register."
 msgstr ""
 
 #: plugins/jabber/jabbersearch.cpp:192
+msgid "Enter nick you want to register."
+msgstr ""
+
+#: plugins/jabber/jabbersearch.cpp:193
 msgid ""
 "Complete the form to submit your searchable attributes in the Jabber User "
 "Directory"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:193
+#: plugins/jabber/jabbersearch.cpp:194
 msgid "Fill in all of the fields to add yourself to the JUD."
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:194
+#: plugins/jabber/jabbersearch.cpp:195
 msgid ""
 "Fill in a field to search for any matching Jabber User (POSIX regular "
 "expressions allowed)"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:195
+#: plugins/jabber/jabbersearch.cpp:196
 msgid "Fill in a field to search for any matching Jabber users."
+msgstr ""
+
+#: plugins/jabber/jabbersearch.cpp:197
+msgid ""
+"To register, please fill out the following form.  Be as accurate as possible "
+"to make it easier for people to search for you."
 msgstr ""
 
 #: plugins/jabber/servicesbase.cpp:167 plugins/jabber/servicesbase.cpp:173
@@ -5065,13 +5075,13 @@ msgid "Youur account is being used from another location"
 msgstr "Vaše UIN je používané z iného místa"
 
 # ui/themesetup.cpp:139
-#: plugins/msn/msnclient.cpp:1470
+#: plugins/msn/msnclient.cpp:1466
 #, fuzzy
 msgid "Contact go offline"
 msgstr "Kontakt - vľavo"
 
 # ui/randomchatbase.cpp:287
-#: plugins/msn/msnclient.cpp:1656
+#: plugins/msn/msnclient.cpp:1652
 #, fuzzy
 msgid "Send message failed"
 msgstr "Po&slať správu"
@@ -6931,86 +6941,86 @@ msgid "&No"
 msgstr "&Nie"
 
 # qt3/i18n.cpp:164
-#: sim/api/simapi.cpp:582
+#: sim/api/simapi.cpp:580
 #, fuzzy
 msgid "Smile"
 msgstr "Príklad"
 
-#: sim/api/simapi.cpp:583
+#: sim/api/simapi.cpp:581
 msgid "Surprised"
 msgstr ""
 
 # libicq/country.cpp:341
-#: sim/api/simapi.cpp:584
+#: sim/api/simapi.cpp:582
 #, fuzzy
 msgid "Indifferent"
 msgstr "Internet"
 
 # qt3/i18n.cpp:87
-#: sim/api/simapi.cpp:585
+#: sim/api/simapi.cpp:583
 #, fuzzy
 msgid "Skeptical"
 msgstr "Špeciálny"
 
 # ui/alertdialogbase.cpp:248
-#: sim/api/simapi.cpp:586
+#: sim/api/simapi.cpp:584
 #, fuzzy
 msgid "Sad"
 msgstr "Tieň"
 
-#: sim/api/simapi.cpp:587
+#: sim/api/simapi.cpp:585
 msgid "Kiss"
 msgstr ""
 
-#: sim/api/simapi.cpp:588
+#: sim/api/simapi.cpp:586
 msgid "Annoyed"
 msgstr ""
 
-#: sim/api/simapi.cpp:589
+#: sim/api/simapi.cpp:587
 msgid "Crying"
 msgstr ""
 
-#: sim/api/simapi.cpp:590
+#: sim/api/simapi.cpp:588
 msgid "Wink"
 msgstr ""
 
 # libicq/country.cpp:166
-#: sim/api/simapi.cpp:591
+#: sim/api/simapi.cpp:589
 #, fuzzy
 msgid "Angry"
 msgstr "Maďarsko"
 
 # usertbl.cpp:392
-#: sim/api/simapi.cpp:592
+#: sim/api/simapi.cpp:590
 #, fuzzy
 msgid "Embarrassed"
 msgstr "Odobrať"
 
 # mainwin.cpp:3105
-#: sim/api/simapi.cpp:593
+#: sim/api/simapi.cpp:591
 #, fuzzy
 msgid "Uptight"
 msgstr "svetlé"
 
 # ui/filetransfer.cpp:177
-#: sim/api/simapi.cpp:594
+#: sim/api/simapi.cpp:592
 #, fuzzy
 msgid "Teaser"
 msgstr "Prenos súboru dokončený"
 
 # libicq/country.cpp:120
-#: sim/api/simapi.cpp:595
+#: sim/api/simapi.cpp:593
 #, fuzzy
 msgid "Cool"
 msgstr "Kongo"
 
 # libicq/country.cpp:76
-#: sim/api/simapi.cpp:596
+#: sim/api/simapi.cpp:594
 #, fuzzy
 msgid "Angel"
 msgstr "Angola"
 
-#: sim/api/simapi.cpp:597
+#: sim/api/simapi.cpp:595
 msgid "Grin"
 msgstr ""
 
@@ -7791,17 +7801,17 @@ msgid "&Ok"
 msgstr "&Ok"
 
 # ui/editfile.cpp:123
-#: sim/ui/editfile.cpp:195
+#: sim/ui/editfile.cpp:192
 msgid "*.wav|Sounds"
 msgstr "*.wav|(Zvuky)"
 
 # ui/editfile.cpp:125
-#: sim/ui/editfile.cpp:197
+#: sim/ui/editfile.cpp:194
 msgid "Sounds(*.wav)"
 msgstr "Zvuky(*.wav)"
 
 # qt3/i18n.cpp:172
-#: sim/ui/editfile.cpp:200
+#: sim/ui/editfile.cpp:197
 #, fuzzy
 msgid "Select sound"
 msgstr "Vybrať štýl"

@@ -211,23 +211,19 @@ void RTFGenParser::text(const QString &text)
         }
         QString s;
         s += c;
-
-		if (m_codec){
-        string plain;
-        plain = m_codec->fromUnicode(s.utf8());
-        if ((plain.length() == 1) && (m_codec->toUnicode(plain.c_str()) == s)){
-            char b[5];
-            snprintf(b, sizeof(b), "\\\'%02x", plain[0] & 0xFF);
-            res += b;
-            m_bSpace = false;
-            continue;
+        if (m_codec){
+            string plain;
+            plain = m_codec->fromUnicode(s);
+            if ((plain.length() == 1) && (m_codec->toUnicode(plain.c_str()) == s)){
+                char b[5];
+                snprintf(b, sizeof(b), "\\\'%02x", plain[0] & 0xFF);
+                res += b;
+                m_bSpace = false;
+                continue;
+            }
         }
-
-		}
-
-		res += "\\u";
-
-		res += number(s[0].unicode());
+        res += "\\u";
+        res += number(s[0].unicode());
         res += "?";
         m_bSpace = false;
     }
@@ -268,10 +264,10 @@ void RTFGenParser::tag_start(const QString &tag, const list<QString> &options)
         }
         if (src.left(10) != "icon:smile")
             return;
-		bool bOK;
+        bool bOK;
         unsigned nSmile = src.mid(10).toUInt(&bOK, 16);
-		if (!bOK)
-			return;
+        if (!bOK)
+            return;
         if (nSmile < 16){
             res += "<##icqimage000";
             if (nSmile < 10){
@@ -282,9 +278,9 @@ void RTFGenParser::tag_start(const QString &tag, const list<QString> &options)
             res += ">";
             return;
         }
-        const char *p = smiles(nSmile);
+        const smile *p = smiles(nSmile);
         if (p)
-            res += p;
+            res += p->paste;
         return;
     }
     if (tag == "font"){
@@ -480,14 +476,14 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &options)
         }
         if (src.left(10) != "icon:smile")
             return;
-		bool bOK;
+        bool bOK;
         unsigned nIcon = src.mid(10).toUInt(&bOK, 16);
-		if (!bOK)
-			return;
+        if (!bOK)
+            return;
         if (nIcon >= m_maxSmile){
-            const char *p = smiles(nIcon);
+            const smile *p = smiles(nIcon);
             if (p){
-                res += p;
+                res += p->paste;
                 return;
             }
         }

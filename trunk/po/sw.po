@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: swabian\n"
-"POT-Creation-Date: 2003-09-08 12:41+0400\n"
+"POT-Creation-Date: 2003-09-11 10:10+0400\n"
 "PO-Revision-Date: 2003-08-19 10:35GMT\n"
 "Last-Translator: Robert Scheck <sim@robert-scheck.de>\n"
 "Language-Team: schwäbisch <swabian@li.org>\n"
@@ -277,7 +277,7 @@ msgstr "Oigabe"
 msgid "Receive"
 msgstr "Embfang"
 
-#: plugins/_core/core.cpp:587 plugins/_core/msgedit.cpp:1119
+#: plugins/_core/core.cpp:587 plugins/_core/msgedit.cpp:1121
 msgid "&Next"
 msgstr "&Nächschdr"
 
@@ -348,7 +348,7 @@ msgstr "Alles auswähla"
 msgid "&Messages"
 msgstr "Nachrichda"
 
-#: plugins/_core/core.cpp:756 plugins/_core/msgedit.cpp:1275
+#: plugins/_core/core.cpp:756 plugins/_core/msgedit.cpp:1290
 msgid "&SMS"
 msgstr "SMS"
 
@@ -667,7 +667,7 @@ msgstr "SMS"
 msgid "System"
 msgstr "Syschdem"
 
-#: plugins/_core/interfacecfg.cpp:122
+#: plugins/_core/interfacecfg.cpp:123
 msgid "Copy %1 messages from history"
 msgstr "%1 Nachrichda vom Vrlauf kobiera"
 
@@ -866,24 +866,24 @@ msgstr "&Dringnd senda"
 msgid "Send to &list"
 msgstr "Sendr zu bese :-("
 
-#: plugins/_core/msgedit.cpp:1256 plugins/icq/icq.cpp:454
+#: plugins/_core/msgedit.cpp:1271 plugins/icq/icq.cpp:454
 #: plugins/jabber/jabber.cpp:258
 msgid "&Message"
 msgstr "Nachrichd"
 
-#: plugins/_core/msgedit.cpp:1266 plugins/netmonitor/monitor.cpp:64
+#: plugins/_core/msgedit.cpp:1281 plugins/netmonitor/monitor.cpp:64
 msgid "&File"
 msgstr "Dadei"
 
-#: plugins/_core/msgedit.cpp:1284
+#: plugins/_core/msgedit.cpp:1299
 msgid "&Authorization request"
 msgstr "&Audhorisierongsanfroge"
 
-#: plugins/_core/msgedit.cpp:1293
+#: plugins/_core/msgedit.cpp:1308
 msgid "&Grant autorization"
 msgstr "Audhorisierong &gewähra"
 
-#: plugins/_core/msgedit.cpp:1302
+#: plugins/_core/msgedit.cpp:1317
 msgid "&Refuse autorization"
 msgstr "Benudzeraudhorisierong &ablehna"
 
@@ -998,7 +998,7 @@ msgstr "Benudzerinformazion - '%1'"
 msgid "New contact"
 msgstr "Neir Kondakd"
 
-#: plugins/_core/usercfg.cpp:288 plugins/_core/userlist.cpp:930
+#: plugins/_core/usercfg.cpp:288 plugins/_core/userlist.cpp:935
 #: plugins/_core/userview.cpp:172 plugins/_core/userview.cpp:645
 #: plugins/_core/userview.cpp:683 plugins/icq/icqsearch.cpp:150
 #: plugins/icq/searchresult.cpp:240 plugins/jabber/addresult.cpp:135
@@ -1021,15 +1021,15 @@ msgstr "Oischdellonga"
 #: plugins/_core/userlist.cpp:553 plugins/icq/icq.cpp:111
 #: plugins/icq/icqclient.cpp:1258 plugins/icq/icqclient.cpp:1285
 #: plugins/jabber/jabber.cpp:92 plugins/jabber/jabberclient.cpp:941
-#: plugins/jabber/services.cpp:226 plugins/msn/msn.cpp:89
-#: plugins/msn/msnclient.cpp:1420
+#: plugins/jabber/services.cpp:228 plugins/msn/msn.cpp:89
+#: plugins/msn/msnclient.cpp:1416
 msgid "Online"
 msgstr "Online"
 
 #: plugins/_core/userlist.cpp:556 plugins/_core/userviewcfgbase.cc:183
 #: plugins/_core/userviewcfgbase.cpp:186 plugins/icq/icq.cpp:201
 #: plugins/icq/icqclient.cpp:1255 plugins/jabber/jabber.cpp:167
-#: plugins/jabber/services.cpp:223 plugins/msn/msn.cpp:194
+#: plugins/jabber/services.cpp:225 plugins/msn/msn.cpp:194
 msgid "Offline"
 msgstr "Offline"
 
@@ -1037,15 +1037,15 @@ msgstr "Offline"
 msgid "Delete \"%1\"?"
 msgstr "\"%1\" lescha, ha?"
 
-#: plugins/_core/userview.cpp:734
+#: plugins/_core/userview.cpp:738
 msgid "New group"
 msgstr "Neie Grubbe"
 
-#: plugins/_core/userview.cpp:773
+#: plugins/_core/userview.cpp:777
 msgid "&Groups"
 msgstr "Grubbe"
 
-#: plugins/_core/userview.cpp:1240
+#: plugins/_core/userview.cpp:1238
 msgid "Join \"%1\" and \"%2\"?"
 msgstr "Kondakde \"%1\" ond \"%2\" zu oim Kondakd zamma, ha?"
 
@@ -1828,24 +1828,24 @@ msgstr "Icons"
 msgid "Plugin provides Miranda icons themes and emoticons"
 msgstr "Des Blugin onderschdidzd Miranda-Icon-Dhema"
 
-#: plugins/icons/iconcfg.cpp:173
+#: plugins/icons/iconcfg.cpp:169
 msgid "Select icons DLL"
 msgstr "Icons Bibliodhek auswähla"
 
-#: plugins/icons/iconcfg.cpp:176
+#: plugins/icons/iconcfg.cpp:172
 msgid "*.dll|Icons themes"
 msgstr "*.dll|Icon Dhema"
 
-#: plugins/icons/iconcfg.cpp:178
+#: plugins/icons/iconcfg.cpp:174
 #, fuzzy
 msgid "Icons themes (*.dll)"
 msgstr "Icon Dhema(*.dll)"
 
-#: plugins/icons/iconcfg.cpp:180
+#: plugins/icons/iconcfg.cpp:176
 msgid "Get more icons themes"
 msgstr "mehr Icon-Dhema downloada"
 
-#: plugins/icons/iconcfg.cpp:187
+#: plugins/icons/iconcfg.cpp:183
 msgid "Smiles"
 msgstr "Smilies"
 
@@ -1853,30 +1853,30 @@ msgstr "Smilies"
 msgid "Icons for protocol:"
 msgstr "Icons fir des jeweilige Brodokoll:"
 
-#: plugins/icons/smilecfg.cpp:126
+#: plugins/icons/smilecfg.cpp:128
 msgid "Select smiles"
 msgstr "Smilies auswähla"
 
-#: plugins/icons/smilecfg.cpp:130
+#: plugins/icons/smilecfg.cpp:132
 #, fuzzy
 msgid "*.msl *.xep|Smiles"
 msgstr "*.msl|Smilies"
 
-#: plugins/icons/smilecfg.cpp:132
+#: plugins/icons/smilecfg.cpp:134
 msgid "*.msl|Smiles"
 msgstr "*.msl|Smilies"
 
-#: plugins/icons/smilecfg.cpp:136
+#: plugins/icons/smilecfg.cpp:138
 #, fuzzy
 msgid "Smiles (*.msl *.xep)"
 msgstr "Smilies(*.msl)"
 
-#: plugins/icons/smilecfg.cpp:138
+#: plugins/icons/smilecfg.cpp:140
 #, fuzzy
 msgid "Smiles (*.msl)"
 msgstr "Smilies(*.msl)"
 
-#: plugins/icons/smilecfg.cpp:142
+#: plugins/icons/smilecfg.cpp:144
 msgid "Get more smiles"
 msgstr "Mehr Smilies ralada"
 
@@ -2150,7 +2150,7 @@ msgstr "&Onsichdbar"
 
 #: plugins/icq/icqclient.cpp:1278 plugins/icq/icqinfo.cpp:229
 #: plugins/jabber/jabberclient.cpp:934 plugins/jabber/jabberinfo.cpp:103
-#: plugins/msn/msnclient.cpp:1413 plugins/msn/msninfo.cpp:88
+#: plugins/msn/msnclient.cpp:1409 plugins/msn/msninfo.cpp:88
 msgid "Last online"
 msgstr "Zuledzd online"
 
@@ -3671,14 +3671,18 @@ msgid "Enter your YAHOO! Messenger Username and Password."
 msgstr "Bidde YAHOO!-Messengr-Benudzername ond Bassword oigeba."
 
 #: plugins/jabber/jabbersearch.cpp:190
+msgid "Please enter your UIN and password"
+msgstr ""
+
+#: plugins/jabber/jabbersearch.cpp:191
 msgid "You need a x:data capable client to register."
 msgstr "S wird oi x:dada-fägigr Cliend zom Regischdriera benedigd"
 
-#: plugins/jabber/jabbersearch.cpp:191
+#: plugins/jabber/jabbersearch.cpp:192
 msgid "Enter nick you want to register."
 msgstr "Niggname zom Regischdriera oigeba"
 
-#: plugins/jabber/jabbersearch.cpp:192
+#: plugins/jabber/jabbersearch.cpp:193
 msgid ""
 "Complete the form to submit your searchable attributes in the Jabber User "
 "Directory"
@@ -3686,13 +3690,13 @@ msgstr ""
 "Formular ausfilla, om d durchsuchbara Addribude em Jabber-Benudzervrzeichnis "
 "abzusenda"
 
-#: plugins/jabber/jabbersearch.cpp:193
+#: plugins/jabber/jabbersearch.cpp:194
 msgid "Fill in all of the fields to add yourself to the JUD."
 msgstr ""
 "Alle Feldr ausfilla, om sich selbschd zom Jabber-Benudzervrzeichnis "
 "hinzuzufügen"
 
-#: plugins/jabber/jabbersearch.cpp:194
+#: plugins/jabber/jabbersearch.cpp:195
 msgid ""
 "Fill in a field to search for any matching Jabber User (POSIX regular "
 "expressions allowed)"
@@ -3700,9 +3704,15 @@ msgstr ""
 "Oi Feld zom Sucha nach bassenda Jabber-Benudzr ausfilla (POSIX reguläre "
 "Ausdrigge send erlaubd)"
 
-#: plugins/jabber/jabbersearch.cpp:195
+#: plugins/jabber/jabbersearch.cpp:196
 msgid "Fill in a field to search for any matching Jabber users."
 msgstr "Oi Feld zom Sucha nach bassenda Jabber-Benudzern ausfilla."
+
+#: plugins/jabber/jabbersearch.cpp:197
+msgid ""
+"To register, please fill out the following form.  Be as accurate as possible "
+"to make it easier for people to search for you."
+msgstr ""
 
 #: plugins/jabber/servicesbase.cpp:167 plugins/jabber/servicesbase.cpp:173
 msgid "Jabber agents are available online after login"
@@ -3858,11 +3868,11 @@ msgstr "MSN-Brodokoll-Fehlr"
 msgid "Youur account is being used from another location"
 msgstr "Ihre UIN wird grade von oim andera Ord aus benudzd"
 
-#: plugins/msn/msnclient.cpp:1470
+#: plugins/msn/msnclient.cpp:1466
 msgid "Contact go offline"
 msgstr "Benudzr hodd sich abgmelded"
 
-#: plugins/msn/msnclient.cpp:1656
+#: plugins/msn/msnclient.cpp:1652
 msgid "Send message failed"
 msgstr "Senda dr Nachrichd fehlgschlaga"
 
@@ -5331,67 +5341,67 @@ msgstr "&Jo"
 msgid "&No"
 msgstr "&Noi"
 
-#: sim/api/simapi.cpp:582
+#: sim/api/simapi.cpp:580
 msgid "Smile"
 msgstr "Lächeln"
 
-#: sim/api/simapi.cpp:583
+#: sim/api/simapi.cpp:581
 msgid "Surprised"
 msgstr "Iberraschd"
 
-#: sim/api/simapi.cpp:584
+#: sim/api/simapi.cpp:582
 msgid "Indifferent"
 msgstr "Skebdisch"
 
-#: sim/api/simapi.cpp:585
+#: sim/api/simapi.cpp:583
 msgid "Skeptical"
 msgstr "Skebdisch"
 
-#: sim/api/simapi.cpp:586
+#: sim/api/simapi.cpp:584
 msgid "Sad"
 msgstr "Draurig"
 
-#: sim/api/simapi.cpp:587
+#: sim/api/simapi.cpp:585
 msgid "Kiss"
 msgstr "Kuss"
 
-#: sim/api/simapi.cpp:588
+#: sim/api/simapi.cpp:586
 msgid "Annoyed"
 msgstr "Vrärgrd"
 
-#: sim/api/simapi.cpp:589
+#: sim/api/simapi.cpp:587
 msgid "Crying"
 msgstr "Schreiend"
 
-#: sim/api/simapi.cpp:590
+#: sim/api/simapi.cpp:588
 msgid "Wink"
 msgstr "Zwinkern"
 
-#: sim/api/simapi.cpp:591
+#: sim/api/simapi.cpp:589
 msgid "Angry"
 msgstr "Zornig"
 
-#: sim/api/simapi.cpp:592
+#: sim/api/simapi.cpp:590
 msgid "Embarrassed"
 msgstr "Beschämd"
 
-#: sim/api/simapi.cpp:593
+#: sim/api/simapi.cpp:591
 msgid "Uptight"
 msgstr "Hell"
 
-#: sim/api/simapi.cpp:594
+#: sim/api/simapi.cpp:592
 msgid "Teaser"
 msgstr "Neggnd"
 
-#: sim/api/simapi.cpp:595
+#: sim/api/simapi.cpp:593
 msgid "Cool"
 msgstr "Cool"
 
-#: sim/api/simapi.cpp:596
+#: sim/api/simapi.cpp:594
 msgid "Angel"
 msgstr "Engl"
 
-#: sim/api/simapi.cpp:597
+#: sim/api/simapi.cpp:595
 msgid "Grin"
 msgstr "Grinsa"
 
@@ -5992,15 +6002,15 @@ msgstr "Nach onda rolla"
 msgid "&Ok"
 msgstr "&Ok"
 
-#: sim/ui/editfile.cpp:195
+#: sim/ui/editfile.cpp:192
 msgid "*.wav|Sounds"
 msgstr "*.wav|Klänge"
 
-#: sim/ui/editfile.cpp:197
+#: sim/ui/editfile.cpp:194
 msgid "Sounds(*.wav)"
 msgstr "Klänge (*.wav)"
 
-#: sim/ui/editfile.cpp:200
+#: sim/ui/editfile.cpp:197
 msgid "Select sound"
 msgstr "Klang auswähla"
 

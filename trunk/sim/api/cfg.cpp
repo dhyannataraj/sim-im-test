@@ -285,12 +285,12 @@ EXPORT QString getToken(QString &from, char c, bool bUnEscape)
     for (i = 0; i < (int)from.length(); i++){
         if (from[i] == c)
             break;
-        if (bUnEscape && (from[i] == '\\')){
+        if (from[i] == '\\'){
             i++;
             if (i >= (int)from.length())
                 break;
-            res += from[i];
-            continue;
+            if (!bUnEscape)
+                res += "\\";
         }
         res += from[i];
     }

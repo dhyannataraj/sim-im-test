@@ -730,7 +730,6 @@ PluginManager::PluginManager(int argc, char **argv)
     p = new PluginManagerPrivate(argc, argv);
 }
 
-void destroySmiles();
 void deleteResolver();
 
 PluginManager::~PluginManager()
@@ -744,7 +743,7 @@ PluginManager::~PluginManager()
     delete contacts;
     delete factory;
     EventReceiver::destroyList();
-    destroySmiles();
+    setSmiles(NULL);
     deleteResolver();
 }
 

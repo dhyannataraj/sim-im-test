@@ -117,7 +117,7 @@ TransparentPlugin::TransparentPlugin(unsigned base, const char *config)
     setState();
 }
 
-void TransparentPlugin::topDestroyed() 
+void TransparentPlugin::topDestroyed()
 {
 #ifndef WIN32
     top = NULL;

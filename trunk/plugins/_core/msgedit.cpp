@@ -1059,7 +1059,9 @@ void MsgEdit::editLostFocus()
 void MsgEdit::insertSmile(int id)
 {
     if (m_edit->textFormat() == QTextEdit::PlainText){
-        m_edit->insert(smiles(id), false, true, true);
+        const smile *s = smiles(id);
+        if (s)
+            m_edit->insert(s->paste, false, true, true);
         return;
     }
     QString img_src = QString("<img src=icon:smile%1>").arg(QString::number(id, 16).upper());
@@ -1177,7 +1179,16 @@ SmileLabel::SmileLabel(int _id, const char *tip, QWidget *parent)
     id = _id;
     char b[20];
     sprintf(b, "smile%X", id);
-    setPixmap(Pict(b));
+    const QIconSet *icon = Icon(b);
+    QPixmap pict;
+    if (icon){
+        if (!icon->isGenerated(QIconSet::Large, QIconSet::Normal)){
+            pict = icon->pixmap(QIconSet::Large, QIconSet::Normal);
+        }else{
+            pict = icon->pixmap(QIconSet::Small, QIconSet::Normal);
+        }
+    }
+    setPixmap(pict);
     if (tip && *tip)
         QToolTip::add(this, i18n(tip));
 }
@@ -1196,26 +1207,32 @@ SmilePopup::SmilePopup(QWidget *popup)
     unsigned nSmiles = 0;
     unsigned i;
     for (i = 0; ; i++){
-        const char *p = smiles(i);
+        const smile *p = smiles(i);
         if (p == NULL)
             break;
-        if (*p == 0)
+        if (*p->exp == 0)
             continue;
-		char b[20];
-		sprintf(b, "smile%X", i);
+        char b[20];
+        sprintf(b, "smile%X", i);
         const QIconSet *is = Icon(b);
         if (is == NULL)
             continue;
-        const QPixmap &pict  = is->pixmap(QIconSet::Small, QIconSet::Normal);
+        QPixmap pict;
+        if (!is->isGenerated(QIconSet::Large, QIconSet::Normal)){
+            pict = is->pixmap(QIconSet::Large, QIconSet::Normal);
+        }else{
+            pict = is->pixmap(QIconSet::Small, QIconSet::Normal);
+        }
         s = QSize(QMAX(s.width(), pict.width()), QMAX(s.height(), pict.height()));
         nSmiles++;
     }
-	unsigned rows = 4;
+
+    unsigned rows = 4;
     unsigned cols = (nSmiles + 3) / 4;
-	if (cols > 8){
-		cols = 8;
-		rows = (nSmiles + 7) / cols;
-	}
+    if (cols > 8){
+        cols = 8;
+        rows = (nSmiles + 7) / cols;
+    }
 
     QGridLayout *lay = new QGridLayout(this, rows, cols);
     lay->setMargin(4);
@@ -1223,14 +1240,12 @@ SmilePopup::SmilePopup(QWidget *popup)
     i = 0;
     unsigned j = 0;
     for (unsigned id = 0; ; id++){
-        const char *p = smiles(id);
+        const smile *p = smiles(id);
         if (p == NULL)
             break;
-        if (*p == 0)
+        if (*p->exp == 0)
             continue;
-        for (; *p; p += strlen(p) + 1);
-        p++;
-        QWidget *w = new SmileLabel(id, p, this);
+        QWidget *w = new SmileLabel(id, p->title, this);
         w->setMinimumSize(s);
         connect(w, SIGNAL(clicked(int)), this, SLOT(labelClicked(int)));
         lay->addWidget(w, i, j);
