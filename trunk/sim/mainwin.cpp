@@ -2977,17 +2977,36 @@ void MainWindow::initTranslator()
 #endif
     }
     if (lang.size() == 0) return;
-    string s = "po";
 #ifdef WIN32
+    string s = "po";
     s += "\\";
-#else
-    s += "/";
-#endif
     for (const char *p = lang.c_str(); *p; p++)
         s += tolower(*p);
     s += ".qm";
-    QFile f(QString::fromLocal8Bit(app_file(s.c_str())));
+    s = app_file(s.c_str());
+    QFile f(QString::fromLocal8Bit(s.c_str()));
     if (!f.exists()) return;
+#else
+    string s = PREFIX "/share/locale/";
+    char *p = (char*)(lang.c_str());
+    char *r = strchr(p, '.');
+    if (r) *r = 0;
+    s += lang.c_str();
+    s += "/LC_MESSAGES/sim.mo";
+    log(L_DEBUG, "Load translate %s", s.c_str());
+    QFile f(QString::fromLocal8Bit(s.c_str()));
+    if (!f.exists()){
+	    r = strchr(p, '_');
+	    if (r) *r = 0;
+	    s = PREFIX "/share/locale/";
+	    s += lang.c_str();
+	    s += "/LC_MESSAGES/sim.mo";
+	    f.setName(QString::fromLocal8Bit(s.c_str()));
+	    log(L_DEBUG, "Load translate %s", s.c_str());
+	    if (!f.exists()) return;
+    }
+#endif
+    log(L_DEBUG, "Load translator");
     translator = new QTranslator(this);
     translator->load(f.name());
     qApp->installTranslator(translator);

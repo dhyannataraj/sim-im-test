@@ -436,6 +436,7 @@ void update_simkrell_plugin(void)
     int i;
     static gint w;
     char *new_icon = icon1;
+    int n = GK.timer_ticks >> 3;
     check_connection();
     if (w == 0)
         w = gkrellm_chart_width();
@@ -444,20 +445,21 @@ void update_simkrell_plugin(void)
     decal_status->x_off = 0;
     gkrellm_draw_decal_text(panel, decal_msg, msg_str, *msg_str ? (w - x_scroll) : 2 * w);
     gkrellm_draw_decal_text(panel, decal_status, status_str, cnt_status);
-    if (icon3){
-        if (GK.timer_ticks & 1){
-            new_icon = icon3;
-        }else if ((GK.timer_ticks & 3) == 2){
-            new_icon = icon2;
+    if ((GK.timer_ticks & 7) == 0){
+        if (icon3){
+            if (n & 1){
+                new_icon = icon3;
+            }else if ((n & 3) == 2){
+                new_icon = icon2;
+            }
+        }else if (icon2){
+            if (n & 1)
+                new_icon = icon2;
         }
-    }else if (icon2){
-        if (GK.timer_ticks & 1)
-            new_icon = icon2;
-    }
-    if (new_icon != current_icon){
-        current_icon = new_icon;
-        change_icon = 1;
-    }
+        if (new_icon != current_icon){
+            current_icon = new_icon;
+            change_icon = 1;
+        }}
 
     if (change_icon){
 #ifdef SIM_KRELL
