@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-02-06 13:35+0300\n"
-"PO-Revision-Date: 2004-01-26 17:13GMT\n"
+"PO-Revision-Date: 2004-02-06 19:10GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1175,13 +1175,11 @@ msgstr "SSL-Fehler bei der SSL- Initialisierung"
 
 #: sim/api/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
-msgstr ""
-"Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
+msgstr "Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
 
 #: sim/api/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
 
 #: sim/api/message.cpp:465
 msgid "%1 Mbytes"
@@ -2660,7 +2658,6 @@ msgid "&Edit"
 msgstr "&Bearbeiten"
 
 #: plugins/_core/core.cpp:1501
-#, fuzzy
 msgid ""
 "&IP; - ip-address\n"
 "&Mail; - e-mail\n"
@@ -2679,6 +2676,8 @@ msgstr ""
 "&Nick; - Spitzname\n"
 "&Unread; - Anzahl der ungelesenen Nachrichten des Kontakts\n"
 "&Status; - Kontaktstatus\n"
+"&TimeStatus; - Zeit zu der der Status gesetzt wurde\n"
+"&IntervalStatus; - Zeit (in Sekunden) von Setzen des Status\n"
 "\n"
 "`<kommando>` - ruft <kommando> auf und ersetzt Kommandozeilenausgabe\n"
 
@@ -2976,14 +2975,12 @@ msgid "Authorization refused"
 msgstr "Authorisierung abgelehnt"
 
 #: plugins/_core/msgedit.cpp:767
-#, fuzzy
 msgid "Add to contacts"
-msgstr "Kontakt &hinzufügen"
+msgstr "Zu Kontakten hinzufügen"
 
 #: plugins/_core/msgedit.cpp:788
-#, fuzzy
 msgid "Removed from contacts"
-msgstr "Vom Journal &löschen"
+msgstr "Vom Kontakten löschen"
 
 #: plugins/_core/msgedit.cpp:809 plugins/action/actioncfg.cpp:53
 msgid "Status changed"
@@ -3794,8 +3791,7 @@ msgstr "\"Offline\"-Status setzen nach"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:109
 #: plugins/sound/soundconfigbase.cpp:107
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -3952,8 +3948,7 @@ msgstr "Nachrichten nur von &Benutzern der Kontaktliste empfangen"
 
 #: plugins/filter/filtercfgbase.cpp:67
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: plugins/filter/filtercfgbase.cpp:68
 msgid ""
@@ -3975,8 +3970,7 @@ msgstr "Floatings"
 
 #: plugins/floaty/floaty.cpp:44
 msgid "Plugin provides floating windows for contacts"
-msgstr ""
-"Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
+msgstr "Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
 
 #: plugins/floaty/floaty.cpp:88 plugins/floaty/floaty.cpp:162
 msgid "Floating on"
@@ -3988,8 +3982,7 @@ msgstr "Floating aus"
 
 #: plugins/forward/forwardcfgbase.cpp:71
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-"Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
 
 #: plugins/forward/forwardcfgbase.cpp:72
 msgid ""
@@ -4139,9 +4132,9 @@ msgid "Encrypt failed"
 msgstr "Verschlüsseln fehlgeschlagen"
 
 #: plugins/gpg/gpg.cpp:558
-#, fuzzy, c-format
+#, c-format
 msgid "%n GPG key"
-msgstr "GPG-Schlüssel"
+msgstr "%n GPG-Schlüssel"
 
 #: plugins/gpg/gpg.cpp:607
 msgid "GPG key"
@@ -4691,9 +4684,9 @@ msgid "Directory"
 msgstr "Verzeichnis"
 
 #: plugins/icq/icqicmb.cpp:939 plugins/icq/icqicmb.cpp:945
-#, fuzzy, c-format
+#, c-format
 msgid "%n file"
-msgstr "die Datei"
+msgstr "%n Datei"
 
 #: plugins/icq/icqicmb.cpp:1217 plugins/icq/warndlg.cpp:66
 msgid "Send fail"
@@ -4762,7 +4755,7 @@ msgstr "Registriert in einem nicht registrierten Zustand"
 
 #: plugins/icq/icqlogin.cpp:196
 msgid "This client is outdated"
-msgstr ""
+msgstr "Der Client ist veraltet"
 
 #: plugins/icq/icqlogin.cpp:201
 msgid "Too many clients from same IP"
@@ -4782,29 +4775,27 @@ msgstr "Nicht-existierende UIN"
 
 #: plugins/icq/icqlogin.cpp:223
 msgid "Bad login procedure"
-msgstr ""
+msgstr "Falsche Loginprozedur"
 
 #: plugins/icq/icqlogin.cpp:234
-#, fuzzy
 msgid "Service temporarly unavailable"
-msgstr "Benutzer ist temporär nicht verfügbar"
+msgstr "Dienst ist temporär nicht verfügbar"
 
 #: plugins/icq/icqlogin.cpp:238
-#, fuzzy
 msgid "Invalid SecureID"
-msgstr "Ungültiger Benutzername"
+msgstr "Ungültige SicherheitsID"
 
 #: plugins/icq/icqlogin.cpp:242
 msgid "Too young!"
-msgstr ""
+msgstr "Zu jung!"
 
 #: plugins/icq/icqlogin.cpp:246
 msgid "UIN was suspended"
-msgstr ""
+msgstr "UIN wurde ausgesetzt"
 
 #: plugins/icq/icqlogin.cpp:250
 msgid "Can't login to ICQ network - Please try again later"
-msgstr ""
+msgstr "Es kann nicht ins ICQ-Netzwerk eingeloggt werden - Bitte später erneut versuchen"
 
 #: plugins/icq/icqlogin.cpp:271
 msgid "Youur UIN is being used from another location"
@@ -4819,9 +4810,8 @@ msgid "Bad host address"
 msgstr "Fehlerhafte Hostadresse"
 
 #: plugins/icq/icqmessage.cpp:672
-#, fuzzy
 msgid "File message"
-msgstr "Neue Nachricht"
+msgstr "Dateinachricht"
 
 #: plugins/icq/icqmessage.cpp:688
 msgid "WWW-panel message"
@@ -6069,8 +6059,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:48
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Plugin stellt Bildschirmbenachrichtigungen über Nachrichten und "
 "Kontaktstatus bereit"
@@ -6093,8 +6082,7 @@ msgstr "Bei Nachrichteneingang informieren (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:62
 msgid "Enable &status notification"
-msgstr ""
-"Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
+msgstr "Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:63 plugins/jabber/jabberconfigbase.cpp:266
 msgid "Enable &typing notification"
@@ -6134,8 +6122,7 @@ msgstr "&Proxy"
 
 #: plugins/proxy/proxycfg.cpp:140
 msgid "<b>Note !</b><br>HTTP-proxy support only ICQ-protocol"
-msgstr ""
-"<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
+msgstr "<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
 
 #: plugins/proxy/proxycfg.cpp:209
 msgid "Default"
@@ -6179,8 +6166,7 @@ msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1539
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS and HTTP)"
-msgstr ""
-"Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
+msgstr "Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
 
 #: plugins/proxy/proxyerrorbase.cpp:78
 msgid "Proxy error"
@@ -6346,8 +6332,7 @@ msgstr "Aktualisieren"
 
 #: plugins/update/update.cpp:40
 msgid "Plugin provides notifications about update SIM software"
-msgstr ""
-"Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
+msgstr "Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
 
 #: plugins/update/update.cpp:153
 msgid "Show details"
@@ -6855,7 +6840,7 @@ msgstr "&Status"
 #: plugins/jabber/discoinfo.cpp:246
 #, c-format
 msgid "%n day"
-msgstr ""
+msgstr "%n Tag"
 
 #: plugins/jabber/jabberclient.cpp:1586 plugins/jabber/jabberclient.cpp:1695
 msgid "Photo"
@@ -6946,9 +6931,8 @@ msgid "Community %1 already in list"
 msgstr "Gemeinschaft %1 ist bereits in der Liste vorhanden"
 
 #: plugins/livejournal/livejournal.cpp:108
-#, fuzzy
 msgid "LiveJournal post"
-msgstr "LiveJournal-&Beitrag"
+msgstr "LiveJournal-Beitrag"
 
 #: plugins/livejournal/livejournal.cpp:109
 #: plugins/livejournal/livejournal.cpp:250
@@ -7633,8 +7617,7 @@ msgstr "Aktion"
 
 #: plugins/action/action.cpp:34
 msgid "Plugin execute external programs on event or from contact menu"
-msgstr ""
-"Plugin führt externe Programme bei einem Ereignis oder von Kontaktmenü aus"
+msgstr "Plugin führt externe Programme bei einem Ereignis oder von Kontaktmenü aus"
 
 #: plugins/action/action.cpp:84
 msgid "&Action"
@@ -7657,8 +7640,7 @@ msgid "Navigate"
 msgstr "Navigation"
 
 #: plugins/navigate/navigate.cpp:199
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Plugin stellt Navigation von Hyperlinks bereit und ruft externe Browser- "
 "oder Mailprogramme auf"
@@ -7677,35 +7659,35 @@ msgstr "Mailer:"
 
 #: plugins/yahoo/yahoo.cpp:74
 msgid "Yahoo!"
-msgstr ""
+msgstr "Yahoo!"
 
 #: plugins/yahoo/yahoo.cpp:77
 msgid ""
 "http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger."
 "yahoo.com/&.redir_from=MESSENGER"
 msgstr ""
+"http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger."
+"yahoo.com/&.redir_from=MESSENGER"
 
 #: plugins/yahoo/yahoocfg.cpp:43
 msgid "Get a Yahoo! ID"
-msgstr ""
+msgstr "Eine Yahoo!-ID bekommen"
 
 #: plugins/yahoo/yahooclient.cpp:223
 msgid "Yahoo! login lock"
-msgstr ""
+msgstr "Yahoo! Loginsperre"
 
 #: plugins/yahoo/yahooclient.cpp:246
 msgid "Your account has been locked"
-msgstr ""
+msgstr "Der Zugang ist gesperrt"
 
 #: plugins/yahoo/yahooclient.cpp:250 plugins/yahoo/yahooclient.cpp:263
-#, fuzzy
 msgid "Your account is being used from another location"
-msgstr "Ihre UIN wird gerade von einem anderen Ort aus benutzt"
+msgstr "Ihr Zugang wird gerade von einem anderen Ort aus benutzt"
 
 #: plugins/yahoo/yahoocfgbase.cpp:120
-#, fuzzy
 msgid "&Yahoo!"
-msgstr "&Foto"
+msgstr "&Yahoo!"
 
 #~ msgid ""
 #~ "_n: %n file\n"
@@ -9042,3 +9024,4 @@ msgstr "&Foto"
 
 #~ msgid "Transfer completed"
 #~ msgstr "Übertragung abgeschlossen"
+
