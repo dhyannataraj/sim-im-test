@@ -357,7 +357,7 @@ void HTTPS_Proxy::connect_ready()
         s += ":";
         s += m_passwd.c_str();
         s = tobase64(s.c_str());
-        bOut << "Proxy-Auth: basic ";
+        bOut << "Proxy-Authorization: basic ";
         bOut << s.c_str();
         bOut << "\r\n";
         bOut << "Auth: basic ";
