@@ -299,45 +299,29 @@ SmilePopup::SmilePopup(QWidget *popup)
     resize(minimumSizeHint());
 }
 
-static char smiles[] =
-    ":-)\x00"
-    ":-O\x00"
-    ":-|\x00"
-    ":-/\x00"
-    ":-(\x00"
-    ":-{}\x00"
-    ":*)\x00"
-    ":'-(\x00"
-    ";-)\x00"
-    ":-@\x00"
-    ":-\")\x00"
-    ":-X\x00"
-    ":-P\x00"
-    "8-)\x00"
-    "O-)\x00"
-    ":-D\x00"
-    "\x00";
-
 void SmilePopup::labelClicked(int id)
 {
-    QString str;
-    char *p;
-    for (p = smiles; id > 0; id--){
-        if (*p == 0) break;
-        p += strlen(p) + 1;
-    }
-    str = p;
-    insert(p, false, true, true);
+    insert(id);
     close();
 }
 
 void MsgEdit::insertSmile()
 {
     SmilePopup *smile = new SmilePopup(this);
-    connect(smile, SIGNAL(insert(const QString&, bool, bool, bool)), edit, SLOT(insert(const QString&, bool, bool, bool)));
+    connect(smile, SIGNAL(insert(int)), this, SLOT(insertSmile(int)));
     QPoint p = toolbar->popupPos(btnSmile, smile);
     smile->move(p);
     smile->show();
+}
+
+void MsgEdit::insertSmile(int id)
+{
+    QFont f = edit->font();
+    QColor fgColor = edit->foreground();
+    edit->append(QString("<img src=icon:smile") + (char)(id < 10 ? '0' + id : 'A' + id - 10) + ">");
+    edit->moveCursor(QTextEdit::MoveEnd, false);
+    edit->setFont(f);
+    edit->setForeground(fgColor);
 }
 
 History *MsgEdit::history()

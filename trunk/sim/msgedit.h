@@ -70,7 +70,7 @@ class SmilePopup : public QFrame
 public:
     SmilePopup(QWidget *parent);
 signals:
-    void insert(const QString &text, bool indent, bool checkNewLine, bool removeSelected);
+    void insert(int id);
 protected slots:
     void labelClicked(int id);
 };
@@ -155,6 +155,7 @@ protected slots:
     void topReady(Tmpl*, const QString &res);
     void bottomReady(Tmpl*, const QString &res);
     void heightChanged(int);
+    void insertSmile(int);
 protected:
     Tmpl *tmpl;
     MsgViewConv *msgView;
