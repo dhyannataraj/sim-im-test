@@ -1009,7 +1009,7 @@ void UserBox::slotMessageReceived(ICQMessage *msg)
 {
     if (msg->Type() == ICQ_MSGxSTATUS) return;
     if (qApp->activeWindow() != this){
-        if (haveUser(msg->getUin()))
+        if (haveUser(msg->getUin())){
             emit messageReceived(msg);
 #ifdef WIN32
         if (!initFlash){
@@ -1026,6 +1026,7 @@ void UserBox::slotMessageReceived(ICQMessage *msg)
         fInfo.uCount = 0;
         FlashWindowEx(&fInfo);
 #endif
+		}
         return;
     }
     if (curWnd && (msg->getUin() == curWnd->Uin) &&
@@ -1033,7 +1034,7 @@ void UserBox::slotMessageReceived(ICQMessage *msg)
             ((msg->Type() == ICQ_MSGxMSG) || (msg->Type() == ICQ_MSGxURL) ||
              (msg->Type() == ICQ_MSGxSMS))){
         pClient->markAsRead(msg);
-        emit messageReceived(msg);
+	    emit messageReceived(msg);
         return;
     }
     if (!haveUser(msg->getUin())) return;
