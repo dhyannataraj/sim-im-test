@@ -40,6 +40,7 @@ LoginDialog::LoginDialog(bool bInit, Client *client)
     m_bProfileChanged = false;
     m_profile = CorePlugin::m_plugin->getProfile();
     m_client = client;
+    m_bLogin = false;
     SET_WNDPROC("login")
     setIcon(Pict("licq"));
     setButtonsPict(this);
@@ -99,6 +100,7 @@ void LoginDialog::apply()
         client->setPassword(passwords[i]->text());
         client->setSavePassword(chkSave->isChecked());
     }
+    m_bLogin = false;
 }
 
 void LoginDialog::closeEvent(QCloseEvent *e)
@@ -120,7 +122,7 @@ void LoginDialog::accept()
             startLogin();
             m_client->setPassword(passwords[0]->text());
             unsigned status = m_client->getStatus();
-            if (status  == STATUS_OFFLINE)
+            if (status == STATUS_OFFLINE)
                 status = STATUS_ONLINE;
             m_client->setStatus(status, m_client->getCommonStatus());
         }
@@ -324,6 +326,8 @@ void LoginDialog::profileDelete()
     CorePlugin::m_plugin->setProfile(NULL);
     CorePlugin::m_plugin->m_profiles.clear();
     CorePlugin::m_plugin->loadDir();
+    clearInputs();
+    btnDelete->setEnabled(false);
     fill();
 }
 
