@@ -42,6 +42,11 @@ using namespace std;
 #define SYMBOL		7
 #define BR		8
 
+#define YY_STACK_USED   0
+#define YY_NEVER_INTERACTIVE    1
+#define YY_ALWAYS_INTERACTIVE   0
+#define YY_MAIN         0
+
 %}
 
 %option prefix="genrtf"

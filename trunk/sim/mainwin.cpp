@@ -74,8 +74,9 @@
 #include <qobjectlist.h>
 #include <qtranslator.h>
 #include <qregexp.h>
+#include <qpopupmenu.h>
 
-#if USE_KDE
+#ifdef USE_KDE
 #include <kwin.h>
 #include <kwinmodule.h>
 #include <kpopupmenu.h>
@@ -86,15 +87,6 @@
 #include <kipc.h>
 #include <kaboutapplication.h>
 #include <kaboutkde.h>
-#if HAVE_KROOTPIXMAP_H
-#if KDE_VERSION >= 300
-#include <krootpixmap.h>
-#else
-#undef HAVE_KROOTPIXMAP_H
-#endif
-#endif
-#else
-#include <qpopupmenu.h>
 #endif
 
 #ifdef USE_SCRNSAVER
@@ -119,7 +111,7 @@ const char *app_file(const char *f)
     if (app_file_name.length() && (app_file_name[app_file_name.length()-1] != '\\'))
         app_file_name += "\\";
 #else
-#if USE_KDE
+#ifdef USE_KDE
     QStringList lst = KGlobal::dirs()->findDirs("data", "sim");
     for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
         QFile f(*it + f);
@@ -180,14 +172,14 @@ MainWindow::MainWindow(const char *name)
         OnlineAlert(this, "OnlineAlert", sound("alert.wav")),
         BirthdayReminder(this, "BirthdayReminder", sound("birthday.wav")),
         UrlViewer(this, "URLViewer",
-#if USE_KDE
+#ifdef USE_KDE
                   "konqueror"
 #else
                   "netscape"
 #endif
                  ),
         MailClient(this, "MailClient",
-#if USE_KDE
+#ifdef USE_KDE
                    "kmail"
 #else
                    "netscape mailto:%s"
@@ -390,7 +382,7 @@ void MainWindow::setOnTop()
     SetWindowPos(winId(), (HWND)(OnTop() ? HWND_TOPMOST : HWND_NOTOPMOST),
                  0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 #else
-#if USE_KDE
+#ifdef USE_KDE
     if (OnTop()){
         KWin::setState(winId(), NET::StaysOnTop);
     }else{
@@ -681,9 +673,9 @@ bool MainWindow::init()
             }
             floating.push_back(uFloat);
             uFloat->show();
-#if USE_KDE
+#ifdef USE_KDE
             KWin::setOnAllDesktops(uFloat->winId(), true);
-            KWin::setState(uFloat->winId(), NET::SkipTaskbar | NET::StaysOnTop | NET::Sticky);
+            KWin::setState(uFloat->winId(),  NET::SkipTaskbar | NET::StaysOnTop);
 #endif
             continue;
         }
@@ -946,6 +938,7 @@ void MainWindow::saveContacts()
 
 void MainWindow::setDock(bool bUseDock)
 {
+    log(L_DEBUG, "Set dock %u", bUseDock);
     if (bUseDock){
         if (dock == NULL){
             dock = new DockWnd(this);
@@ -1039,6 +1032,7 @@ void MainWindow::showUser(unsigned long uin, int function, unsigned long param)
 
 void MainWindow::setShow(bool bShow)
 {
+    log(L_DEBUG, "Set show %u", bShow);
     if (!bShow){
         hide();
         return;
@@ -1409,12 +1403,12 @@ void MainWindow::ignoreUser(int n)
 
 void MainWindow::currentDesktopChanged(int)
 {
-#if USE_KDE
+#ifdef USE_KDE
     list<UserFloat*>::iterator it;
     for (it = floating.begin(); it != floating.end(); it++){
         KWin::setOnAllDesktops((*it)->winId(), true);
         KWin::setState((*it)->winId(),
-                       NET::SkipTaskbar | NET::StaysOnTop | NET::Sticky);
+                       /* NET::SkipTaskbar | */ NET::StaysOnTop);
     }
 #endif
 }
@@ -1919,7 +1913,7 @@ void MainWindow::initTranslator()
 #endif
     if (lang.size() == 0) return;
     string s = "po";
-#if WIN32
+#ifdef WIN32
     s += "\\";
 #else
     s += "/";

@@ -15,8 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifdef WIN32
 #if _MSC_VER > 1020
 #pragma warning(disable:4530)
+#endif
 #endif
 
 #include "socket.h"
@@ -710,7 +712,7 @@ void ClientSocket::read_ready()
         log(L_DEBUG, "Connect %s:%u", inet_ntoa(remote_addr.sin_addr), port);
         if (::connect(m_fd, (struct sockaddr*)&remote_addr, sizeof(remote_addr)))
         {
-#if WIN32
+#ifdef WIN32
             int err = h_errno;
             if (h_errno != WSAEWOULDBLOCK){
 #else

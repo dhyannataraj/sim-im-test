@@ -66,6 +66,7 @@ if "$CYGWIN" = "yes"; then
  LDFLAGS="$LDFLAGS --enable-auto-import"
 fi
 AC_CHECK_HEADERS(inttypes.h stdint.h unistd.h)
+AC_CHECK_FUNC(umask,[AC_DEFINE(HAVE_UMASK,1,[Have umask])])
 AC_TM_GMTOFF
 XSS_LIBS="no"
 ac_save_CPPFLAGS="$CPPFLAGS"
