@@ -522,6 +522,7 @@ QString TextShow::plainText(int paraFrom, int paraTo, int indexFrom, int indexTo
     QString res;
     if ((paraFrom > paraTo) || ((paraFrom == paraTo) && (indexFrom >= indexTo)))
         return res;
+	log(L_DEBUG, "PLain text %u %u %u %u", paraFrom, paraTo, indexFrom, indexTo);
     for (int i = paraFrom; i <= paraTo; i++){
         if (i >= paragraphs())
             break;
@@ -534,8 +535,11 @@ QString TextShow::plainText(int paraFrom, int paraTo, int indexFrom, int indexTo
 
 QString TextShow::unquoteString(const QString &s, int from, int to)
 {
+	string ss;
+	ss = s.local8Bit();
     unsigned startPos = textPosition(s, from);
     unsigned endPos = textPosition(s, to);
+	log(L_DEBUG, "%s: %u %u %u %u", ss.c_str(), from, to, startPos, endPos);
     return SIM::unquoteText(s.mid(startPos, endPos - startPos));
 }
 
