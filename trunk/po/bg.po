@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bg\n"
 "POT-Creation-Date: 2004-07-24 22:15+0200\n"
-"PO-Revision-Date: 2004-06-21 18:15+0300\n"
+"PO-Revision-Date: 2004-07-25 22:35+0300\n"
 "Last-Translator: Атанас Мавров <bugar@developer.bg>\n"
 "Language-Team: Bulgarian <dict@linux.zonebg.com>\n"
 "MIME-Version: 1.0\n"
@@ -1497,7 +1497,6 @@ msgid "&Source"
 msgstr "&Изходен код"
 
 #: plugins/_core/maininfobase.cpp:246 plugins/_core/nonimbase.cpp:126 plugins/icq/aiminfobase.cc:287 plugins/icq/icqinfobase.cc:343 plugins/jabber/discoinfobase.cpp:314 plugins/jabber/jabberinfobase.cpp:299 plugins/yahoo/yahooinfobase.cpp:186
-#, fuzzy
 msgid "First Name:"
 msgstr "Име:"
 
@@ -2902,12 +2901,10 @@ msgid "Nick"
 msgstr "Прякор"
 
 #: plugins/icq/icqsearch.cpp:299 plugins/jabber/jabberadd.cpp:279 plugins/jabber/jabbersearch.cpp:104 plugins/jabber/jabbersearch.cpp:304
-#, fuzzy
 msgid "First Name"
 msgstr "Име:"
 
 #: plugins/icq/icqsearch.cpp:301 plugins/jabber/jabberadd.cpp:280 plugins/jabber/jabbersearch.cpp:105 plugins/jabber/jabbersearch.cpp:305
-#, fuzzy
 msgid "Last Name"
 msgstr "Фамилия:"
 
@@ -3669,9 +3666,8 @@ msgid "Disable answer on phonebook and &picture requests"
 msgstr "Забраняване на отговори за адресната книга и &снимка"
 
 #: plugins/icq/icqconfigbase.cc:318
-#, fuzzy
 msgid "Disable automatically &request autoreply on change status"
-msgstr "Забраняване на искане за автоматичен отговор при смяна на състоянието"
+msgstr "Забранява искане за автоматичен отговор при смяна на състоянието"
 
 #: plugins/icq/icqconfigbase.cc:319
 msgid "Disable automatically &update user info"
@@ -4378,12 +4374,10 @@ msgid "Use protocol &icons for agents contacts"
 msgstr "Използва &иконки за протокол"
 
 #: plugins/jabber/jabberconfigbase.cpp:374
-#, fuzzy
 msgid "Automatically send &subscribe request"
 msgstr "Автоматично изпраща заявка за &удостоверяване"
 
 #: plugins/jabber/jabberconfigbase.cpp:375
-#, fuzzy
 msgid "Automatically &accept subscribe requests"
 msgstr "Автоматично приема заявка за &удостоверяване"
 
@@ -5596,7 +5590,6 @@ msgid "Use &TCP socket"
 msgstr "Използва &TCP сокет"
 
 #: plugins/remote/remotecfgbase.cpp:140
-#, fuzzy
 msgid "Enable IE context menu extension"
 msgstr "Разрешаване на IE контекстно меню"
 
@@ -6522,9 +6515,10 @@ msgid "Zodiak"
 msgstr "Зодиак"
 
 #: plugins/zodiak/zodiak.cpp:51
-#, fuzzy
 msgid "Plugin provides show zodiak pictures for date edit"
-msgstr "Приставка осигурява картинка за фон на потребителския списък"
+msgstr ""
+"Приставката осигурява картинка на "
+"зодията при въведена дата"
 
 #: plugins/zodiak/zodiak.cpp:158
 msgid "View horoscope"
@@ -8396,8 +8390,3 @@ msgstr "Пада"
 msgid "Windows XP style"
 msgstr "Уиндоус XP стил"
 
-#~ msgid "Last name"
-#~ msgstr "Фамилия:"
-
-#~ msgid "Last name:"
-#~ msgstr "Фамилия:"
