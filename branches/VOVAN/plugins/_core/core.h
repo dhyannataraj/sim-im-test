@@ -123,14 +123,16 @@ const unsigned char SORT_ACTIVE	= 2;
 const unsigned char SORT_NAME	= 3;
 
 const unsigned NEW_MSG_NOOPEN	= 0;
-const unsigned NEW_MSG_MINIMIZE	= 1;
-const unsigned NEW_MSG_RAISE	= 2;
+const unsigned NEW_MSG_RAISE	= 1;
+#ifdef WIN32
+const unsigned NEW_MSG_MINIMIZE	= 2;
+#endif
 
 typedef struct CoreUserData
 {
     Data	LogStatus;
     Data	LogMessage;
-    Data	OpenNewMessage;
+    Data	OpenNew;
     Data	OpenOnOnline;
     Data	IncomingPath;
     Data	AcceptMode;

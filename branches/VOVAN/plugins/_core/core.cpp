@@ -342,7 +342,11 @@ static DataDef coreUserData[] =
     {
         { "LogStatus", DATA_BOOL, 1, 0 },
         { "LogMessage", DATA_BOOL, 1, DATA(1) },
-        { "OpenNewMessage", DATA_ULONG, 1, DATA(1) },
+#ifdef WIN32
+        { "OpenNew", DATA_ULONG, 1, DATA(NEW_MSG_MINIMIZE) },
+#else
+        { "OpenNew", DATA_ULONG, 1, DATA(NEW_MSG_NOOPEN) },
+#endif
         { "OpenOnOnline", DATA_BOOL, 1, 0 },
         { "IncomingPath", DATA_UTF, 1, "Incoming Files" },
         { "AcceptMode", DATA_ULONG, 1, 0 },
@@ -2082,9 +2086,11 @@ if (fname[0] != '/')
                     }
                     if (contact){
                         CoreUserData *data = (CoreUserData*)(contact->getUserData(user_data_id));
-                        if (data->OpenNewMessage.value){
-                            if (data->OpenNewMessage.value == NEW_MSG_MINIMIZE)
+                        if (data->OpenNew.value){
+#ifdef WIN32
+                            if (data->OpenNew.value == NEW_MSG_MINIMIZE)
                                 msg->setFlags(msg->getFlags() | MESSAGE_NORAISE);
+#endif
                             Event e(EventOpenMessage, &msg);
                             e.process();
                         }
