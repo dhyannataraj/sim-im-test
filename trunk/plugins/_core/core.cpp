@@ -624,7 +624,7 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     cmd->id			= CmdFont;
     cmd->text		= I18N_NOOP("Select &font");
     cmd->icon		= "text";
-    cmd->icon_on	= "text";
+    cmd->icon_on	= NULL;
     cmd->bar_grp	= 0x1005;
     eCmd.process();
 
@@ -769,49 +769,30 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     cmd->menu_grp	= 0x1002;
 
     cmd->bar_id		= 0;
-
     cmd->bar_grp	= 0;
     cmd->flags		= COMMAND_CHECK_STATE;
     eCmd.process();
 
-
-
     cmd->id			= CmdMsgQuote + CmdReceived;
-
     cmd->bar_id		= ToolBarMsgEdit;
-
     cmd->bar_grp	= 0x1041;
-
     cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
-
     eCmd.process();
-
-
 
     cmd->id			= CmdMsgForward;
     cmd->text		= I18N_NOOP("&Forward");
     cmd->menu_id	= MenuMsgCommand;
-
     cmd->menu_grp	= 0x1003;
     cmd->bar_id		= 0;
-
     cmd->bar_grp	= 0;
-
     cmd->flags		= COMMAND_CHECK_STATE;
-
     eCmd.process();
-
 
     cmd->id			= CmdMsgForward + CmdReceived;
-
     cmd->bar_id		= ToolBarMsgEdit;
-
     cmd->bar_grp	= 0x1042;
-
     cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
-
     eCmd.process();
-
 
     cmd->id			= CmdMsgAnswer;
     cmd->text		= I18N_NOOP("&Answer");
@@ -1934,14 +1915,14 @@ void *CorePlugin::processEvent(Event *e)
                 CommandDef *c;
                 while ((c = ++it) != NULL){
                     if (!cc.client->canSend(c->id, cc.data)){
-						CheckSend cs;
-						cs.id     = c->id;
-						cs.data   = cc.data;
-						cs.client = cc.client;
-						Event e(EventCheckSend, &cs);
-						if (!e.process())
-							continue;
-					}
+                        CheckSend cs;
+                        cs.id     = c->id;
+                        cs.data   = cc.data;
+                        cs.client = cc.client;
+                        Event e(EventCheckSend, &cs);
+                        if (!e.process())
+                            continue;
+                    }
                     cmds[nCmds] = *c;
                     cmds[nCmds].id      = c->id;
                     cmds[nCmds].flags	= COMMAND_DEFAULT;

@@ -39,7 +39,7 @@ MsgReceived::MsgReceived(MsgEdit *parent, Message *msg, bool bOpen)
     m_edit    = parent;
     m_bOpen	  = bOpen;
     m_msg	  = msg;
-    m_type	  = msg->type();
+    m_type	  = msg->baseType();
 
     if (m_bOpen){
         m_edit->m_edit->setReadOnly(true);

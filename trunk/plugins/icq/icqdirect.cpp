@@ -281,7 +281,7 @@ void DirectSocket::packet_ready()
             unsigned short s1, s2;
             m_socket->readBuffer.unpack(s1);
             m_socket->readBuffer.unpack(s2);
-            if ((s1 != 1) || (s2 != 0)){
+            if (s2 != 0){
                 m_socket->error_state("Bad ack");
                 return;
             }
@@ -1302,16 +1302,16 @@ void DirectClient::processMsgQueue()
                     sm.type = CAP_RTF;
                 }else if (m_client->hasCap(m_data, CAP_UTF) &&
                           (m_client->getSendFormat() <= 1) &&
-						  ((sm.msg->getFlags() & MESSAGE_SECURE) == 0)){
+                          ((sm.msg->getFlags() & MESSAGE_SECURE) == 0)){
                     message = ICQClient::addCRLF(sm.msg->getPlainText()).utf8();
                     sm.type = CAP_UTF;
                 }else{
                     message = m_client->fromUnicode(ICQClient::addCRLF(sm.msg->getPlainText()), m_data);
-					messageSend ms;
-					ms.msg  = sm.msg;
-					ms.text = &message;
-					Event e(EventSend, &ms);
-					e.process();
+                    messageSend ms;
+                    ms.msg  = sm.msg;
+                    ms.text = &message;
+                    Event e(EventSend, &ms);
+                    e.process();
                 }
                 mb << message;
                 if (sm.msg->getBackground() == sm.msg->getForeground()){
@@ -1438,7 +1438,7 @@ void DirectClient::addPluginInfoRequest(unsigned plugin_index)
 class ICQ_SSLClient : public SSLClient
 {
 public:
-    ICQ_SSLClient(Socket *s) : SSLClient(s) {}
+ICQ_SSLClient(Socket *s) : SSLClient(s) {}
     virtual bool initSSL();
 };
 
@@ -1793,14 +1793,12 @@ void ICQFileTransfer::connect_ready()
         DirectSocket::connect_ready();
         return;
     }
-    if (m_state == Listen){
+    if (m_state == WaitReverse){
         m_bIncoming = false;
         m_state = WaitReverseLogin;
         DirectSocket::connect_ready();
         return;
     }
-    if (m_state == WaitReverse)
-        m_bIncoming = false;
     if (m_state == WaitReverseLogin)
         m_bIncoming = true;
     m_file = 0;

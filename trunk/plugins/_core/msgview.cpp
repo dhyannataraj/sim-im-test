@@ -40,6 +40,7 @@ MsgViewBase::MsgViewBase(QWidget *parent, unsigned id)
     setStyleSheet(style);
 
     setColors();
+    setFont(CorePlugin::m_plugin->editFont);
 }
 
 MsgViewBase::~MsgViewBase()
@@ -436,9 +437,8 @@ void *MsgViewBase::processEvent(Event *e)
             ensureCursorVisible();
         }
     }
-    if (e->type() == EventHistoryColors){
+    if (e->type() == EventHistoryColors)
         setColors();
-    }
     if (e->type() == EventCheckState){
         CommandDef *cmd = (CommandDef*)(e->param());
         if ((cmd->param != this) || (cmd->menu_id != MenuMsgView))
@@ -457,10 +457,10 @@ void *MsgViewBase::processEvent(Event *e)
                 delete msg;
                 CommandDef *def = CorePlugin::m_plugin->messageTypes.find(type);
                 if (def == NULL)
-                        return NULL;
-                    cmd->icon = def->icon;
-                    cmd->flags &= ~COMMAND_CHECKED;
-                    return e->param();
+                    return NULL;
+                cmd->icon = def->icon;
+                cmd->flags &= ~COMMAND_CHECKED;
+                return e->param();
             }
             return NULL;
         case CmdMsgSpecial:
@@ -474,8 +474,8 @@ void *MsgViewBase::processEvent(Event *e)
                 if (msg->getFlags() & MESSAGE_RECEIVED){
                     unsigned type = msg->baseType();
                     CommandDef *msgCmd = CorePlugin::m_plugin->messageTypes.find(type);
-                        if (msgCmd )
-	                        mdef = (MessageDef*)(msgCmd->param);
+                    if (msgCmd )
+                        mdef = (MessageDef*)(msgCmd->param);
                 }
                 if (mdef && mdef->cmd){
                     for (const CommandDef *d = mdef->cmd; d->text; d++)
@@ -546,9 +546,9 @@ void *MsgViewBase::processEvent(Event *e)
                 if (cmd->id >= CmdMsgSpecial){
                     MessageDef *mdef = NULL;
                     unsigned type = msg->baseType();
-                        CommandDef *msgCmd = CorePlugin::m_plugin->messageTypes.find(type);
-                        if (msgCmd)
-	                        mdef = (MessageDef*)(msgCmd->param);
+                    CommandDef *msgCmd = CorePlugin::m_plugin->messageTypes.find(type);
+                    if (msgCmd)
+                        mdef = (MessageDef*)(msgCmd->param);
                     if (mdef && mdef->cmd){
                         unsigned n = cmd->id - CmdMsgSpecial;
                         for (const CommandDef *d = mdef->cmd; d->text; d++){

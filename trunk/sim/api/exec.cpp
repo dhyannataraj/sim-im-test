@@ -394,7 +394,6 @@ void Exec::inReady(int)
 #ifndef WIN32
     if (hIn == -1) return;
     unsigned tail = bIn.size() - bIn.readPos();
-    log(L_WARN, "In ready %u", tail);
     if (tail){
         if (tail > 2048) tail = 2048;
         int writen = write(hIn, bIn.data(bIn.readPos()), tail);

@@ -1674,15 +1674,15 @@ string ICQClient::clientName(ICQUserData *data)
     if (hasCap(data, CAP_TYPING))
     {
         switch (data->Version){
-	case 10:
-		res += "ICQ 2003b";
-		break;
+        case 10:
+            res += "ICQ 2003b";
+            break;
         case 9:
-		res += "ICQ Lite";
-		break;
-	default:
-		res += "ICQ2go";
-	}
+            res += "ICQ Lite";
+            break;
+        default:
+            res += "ICQ2go";
+        }
         return res;
     }
     if (hasCap(data, CAP_MACICQ)){
@@ -3107,7 +3107,9 @@ bool ICQClient::canSend(unsigned type, void *_data)
     case MessageCheckInvisible:
         return data && data->Uin && !m_bAIM && ((data->Status & 0xFFFF) == ICQ_STATUS_OFFLINE);
     case MessageFile:
-        return data && ((data->Status & 0xFFFF) != ICQ_STATUS_OFFLINE) && ((data->Uin == 0) || hasCap(data, CAP_AIM_SENDFILE));
+        return data &&
+               ((data->Status & 0xFFFF) != ICQ_STATUS_OFFLINE) &&
+               (data->Uin || hasCap(data, CAP_AIM_SENDFILE));
     case MessageWarning:
         return data && (m_bAIM || (data->Uin == 0));
 #ifdef USE_OPENSSL

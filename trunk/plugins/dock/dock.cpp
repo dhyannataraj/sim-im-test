@@ -274,7 +274,7 @@ void *DockPlugin::processEvent(Event *e)
                 main->hide();
             }else{
                 setShowMain(true);
-                main->show();
+                raiseWindow(main);
             }
             return e->param();
         }

@@ -274,7 +274,8 @@ const unsigned	EventSortChanged		= (CmdBase + 13);
 const unsigned	EventActiveContact		= (CmdBase + 14);
 const unsigned	EventMessageRetry		= (CmdBase + 15);
 const unsigned	EventHistoryColors		= (CmdBase + 16);
-const unsigned  EventCheckSend			= (CmdBase + 17);
+const unsigned	EventHistoryFont		= (CmdBase + 17);
+const unsigned  EventCheckSend			= (CmdBase + 18);
 
 const unsigned	BarHistory				= (CmdBase + 1);
 
@@ -283,9 +284,9 @@ class Tmpl;
 
 typedef struct CheckSend
 {
-	unsigned	id;
-	Client		*client;
-	void		*data;
+    unsigned	id;
+    Client		*client;
+    void		*data;
 } CheckSend;
 
 typedef struct MessageID

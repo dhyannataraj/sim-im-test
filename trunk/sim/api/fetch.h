@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #ifndef _FETCH_H
-#define _FECTH_H
+#define _FETCH_H
 
 #include "simapi.h"
 #include "buffer.h"

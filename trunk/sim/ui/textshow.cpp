@@ -71,6 +71,8 @@ TextEdit::TextEdit(QWidget *p, const char *name)
     m_bBold  = false;
     m_bItalic = false;
     m_bUnderline = false;
+    m_bSelected  = false;
+    m_bNoSelected = false;
     setReadOnly(false);
     curFG = colorGroup().color(QColorGroup::Text);
     m_bCtrlMode = true;
@@ -82,10 +84,20 @@ TextEdit::TextEdit(QWidget *p, const char *name)
     connect(this, SIGNAL(currentColorChanged(const QColor&)), this, SLOT(slotColorChanged(const QColor&)));
     connect(this, SIGNAL(textChanged()), this, SLOT(slotTextChanged()));
     viewport()->installEventFilter(this);
+    fontChanged(font());
 }
 
 TextEdit::~TextEdit()
 {
+}
+
+void TextEdit::setFont(const QFont &f)
+{
+    TextShow::setFont(f);
+    m_bNoSelected = true;
+    fontChanged(f);
+    m_bNoSelected = false;
+    m_bSelected   = false;
 }
 
 void TextEdit::slotTextChanged()
@@ -147,6 +159,11 @@ void TextEdit::changeText()
 
 void TextEdit::fontChanged(const QFont &f)
 {
+    if (m_bSelected){
+        if (!m_bNoSelected)
+            emit fontSelected(f);
+        m_bSelected = false;
+    }
     if (m_param == NULL)
         return;
     if (f.bold() != m_bBold){
@@ -273,12 +290,15 @@ void *TextEdit::processEvent(Event *e)
                 return e->param();
             }
         case CmdBold:
+            m_bSelected = true;
             setBold((cmd->flags & COMMAND_CHECKED) != 0);
             return e->param();
         case CmdItalic:
+            m_bSelected = true;
             setItalic((cmd->flags & COMMAND_CHECKED) != 0);
             return e->param();
         case CmdUnderline:
+            m_bSelected = true;
             setUnderline((cmd->flags & COMMAND_CHECKED) != 0);
             return e->param();
         case CmdFont:{
@@ -292,6 +312,7 @@ void *TextEdit::processEvent(Event *e)
                 if (!ok)
                     break;
 #endif
+                m_bSelected = true;
                 setCurrentFont(f);
                 break;
             }
