@@ -138,6 +138,11 @@ void SpellHighlighter::flush()
 {
     if (m_curWord.isEmpty())
         return;
+	string ss;
+	if (!m_curWord.isEmpty())
+		ss = m_curWord.local8Bit();
+	log(L_DEBUG, ">> %s [%u %u %u]", ss.c_str(), m_index, m_curStart, m_pos);
+
     if ((m_index >= m_curStart) && (m_index <= m_pos)){
         if (m_bCheck){
             m_word       = m_curWord;

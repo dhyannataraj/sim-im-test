@@ -805,6 +805,8 @@ JabberClient::ServerRequest::ServerRequest(JabberClient *client, const char *typ
     }else{
         m_id  = m_client->get_unique_id();
     }
+	if (m_client->m_socket == NULL)
+		return;
     m_client->m_socket->writeBuffer.packetStart();
     m_client->m_socket->writeBuffer
     << "<iq type=\'" << type << "\' id=\'"
