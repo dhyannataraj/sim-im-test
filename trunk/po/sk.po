@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
 "POT-Creation-Date: 2004-02-23 13:58+0300\n"
-"PO-Revision-Date: 2004-02-10 10:25+0100\n"
+"PO-Revision-Date: 2004-02-25 20:18+0100\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1033,7 +1033,7 @@ msgstr "Sv. Vincent a Grenadines"
 # libicq/country.cpp:274
 #: sim/api/country.cpp:228
 msgid "Sudan"
-msgstr "Súdán"
+msgstr "Sudán"
 
 # libicq/country.cpp:275
 #: sim/api/country.cpp:229
@@ -1073,7 +1073,7 @@ msgstr "Tad¾ikistán"
 # libicq/country.cpp:282
 #: sim/api/country.cpp:236
 msgid "Tanzania"
-msgstr "Tanzánie"
+msgstr "Tanzánia"
 
 # libicq/country.cpp:283
 #: sim/api/country.cpp:237
@@ -1153,17 +1153,17 @@ msgstr "Spojené arabské emiráty"
 # libicq/country.cpp:298
 #: sim/api/country.cpp:252
 msgid "United Kingdom"
-msgstr "Velká Británia"
+msgstr "Veµká Británia"
 
 # libicq/country.cpp:299
 #: sim/api/country.cpp:253
 msgid "United States Virgin Islands"
-msgstr "Spojené ¹táty - Panenské ostrovy"
+msgstr "Spojené ¹táty Panenské ostrovy"
 
 # libicq/country.cpp:300
 #: sim/api/country.cpp:254
 msgid "Uruguay"
-msgstr "Uruguay"
+msgstr "Uruguaj"
 
 # libicq/country.cpp:301
 #: sim/api/country.cpp:255
@@ -1193,7 +1193,7 @@ msgstr "Vietnam"
 # libicq/country.cpp:306
 #: sim/api/country.cpp:260
 msgid "Wallis and Futuna Islands"
-msgstr "Wallis and Futuna Islands"
+msgstr "Wallis a Futuna Islands"
 
 # libicq/country.cpp:307
 #: sim/api/country.cpp:261
@@ -1218,7 +1218,7 @@ msgstr "Zair"
 # libicq/country.cpp:311
 #: sim/api/country.cpp:265
 msgid "Zambia"
-msgstr "Zambie"
+msgstr "Zambia"
 
 # libicq/country.cpp:312
 #: sim/api/country.cpp:266
@@ -1420,7 +1420,7 @@ msgstr "Ú¹krnok"
 # ui/setupdlg.cpp:127
 #: sim/api/sockfactory.cpp:189
 msgid "Connect error"
-msgstr "Chyba pripojenia"
+msgstr "Chyba spojenia"
 
 # chatwnd.cpp:342
 # msgview.cpp:1139
@@ -1589,7 +1589,7 @@ msgstr "&Prida» do vlasních farieb"
 # qt3/i18n.cpp:27
 #: sim/ui/qt3/i18n.cpp:27
 msgid "Select color"
-msgstr "Vybra» farvu"
+msgstr "Vybra» farbu"
 
 # qt3/i18n.cpp:29
 #: sim/ui/qt3/i18n.cpp:29
@@ -1606,7 +1606,7 @@ msgstr "Èíta»: %1"
 #: sim/ui/qt3/i18n.cpp:33
 #, c-format
 msgid "Write: %1"
-msgstr "Písa»: %1"
+msgstr "Zapísa»: %1"
 
 # qt3/i18n.cpp:37
 #: sim/ui/qt3/i18n.cpp:37
@@ -1715,17 +1715,17 @@ msgstr "Neprístupný"
 # qt3/i18n.cpp:77
 #: sim/ui/qt3/i18n.cpp:77
 msgid "Symlink to File"
-msgstr "Symlink na súbor"
+msgstr "Linka na súbor"
 
 # qt3/i18n.cpp:79
 #: sim/ui/qt3/i18n.cpp:79
 msgid "Symlink to Directory"
-msgstr "Symlink na adresár"
+msgstr "Linka na adresár"
 
 # qt3/i18n.cpp:81
 #: sim/ui/qt3/i18n.cpp:81
 msgid "Symlink to Special"
-msgstr "Symlink na zvlá¹tny súbor"
+msgstr "Linka na zvlá¹tny súbor"
 
 # msgedit.cpp:200
 # msgedit.cpp:1369
@@ -1735,7 +1735,7 @@ msgstr "Symlink na zvlá¹tny súbor"
 #: plugins/_core/msgcfg.cpp:38 plugins/sound/sounduser.cpp:38
 #: sim/ui/qt3/i18n.cpp:83
 msgid "File"
-msgstr "súbor"
+msgstr "Súbor"
 
 # qt3/i18n.cpp:85
 #: sim/ui/qt3/i18n.cpp:85
@@ -1756,7 +1756,7 @@ msgstr "Otvori»"
 # qt3/i18n.cpp:91
 #: sim/ui/qt3/i18n.cpp:91
 msgid "Save as"
-msgstr "Ulo¾i» jako"
+msgstr "Ulo¾i» ako"
 
 # qt3/i18n.cpp:93
 #: sim/ui/qt3/i18n.cpp:93
@@ -1835,7 +1835,7 @@ msgstr "adresár"
 # qt3/i18n.cpp:119
 #: sim/ui/qt3/i18n.cpp:119
 msgid "the symlink"
-msgstr "symlink"
+msgstr "linka"
 
 # qt3/i18n.cpp:121
 #: sim/ui/qt3/i18n.cpp:121
@@ -1942,7 +1942,7 @@ msgstr "Podèiarkn&uté"
 # qt3/i18n.cpp:162
 #: sim/ui/qt3/i18n.cpp:162
 msgid "&Color"
-msgstr "&Farva"
+msgstr "&Farba"
 
 # qt3/i18n.cpp:164
 #: sim/ui/qt3/i18n.cpp:164
@@ -2004,7 +2004,7 @@ msgstr "< Spä»"
 # qt3/i18n.cpp:189
 #: sim/ui/qt3/i18n.cpp:189
 msgid "Next >"
-msgstr "Ïal¹í >"
+msgstr "Ïalej >"
 
 # qt3/i18n.cpp:191
 #: sim/ui/qt3/i18n.cpp:191
@@ -2130,7 +2130,7 @@ msgstr "Chyba pri prihlasovaní"
 #: sim/ui/qt3/i18n.cpp:241
 #, c-format
 msgid "Col %1"
-msgstr "Såpec %1"
+msgstr "Ståpec %1"
 
 # qt3/i18n.cpp:243
 #: sim/ui/qt3/i18n.cpp:243
@@ -2146,7 +2146,7 @@ msgstr "Vrá» spä»"
 # qt3/i18n.cpp:247
 #: sim/ui/qt3/i18n.cpp:247
 msgid "Redo"
-msgstr "Urob znovu"
+msgstr "Urobi» znovu"
 
 # qt3/i18n.cpp:249
 #: sim/ui/qt3/i18n.cpp:249
@@ -2184,7 +2184,7 @@ msgstr "V&µavo"
 # qt3/i18n.cpp:261
 #: sim/ui/qt3/i18n.cpp:261
 msgid "&Right"
-msgstr "&Vp&ravo"
+msgstr "Vp&ravo"
 
 # qt3/i18n.cpp:263
 #: sim/ui/qt3/i18n.cpp:263
@@ -2259,7 +2259,7 @@ msgstr "Minimalizova»"
 # qt3/i18n.cpp:293
 #: sim/ui/qt3/i18n.cpp:293
 msgid "Restore Down"
-msgstr "Zrolova»"
+msgstr "Vyrolova»"
 
 # qt3/i18n.cpp:295
 #: sim/ui/qt3/i18n.cpp:295
@@ -2383,7 +2383,7 @@ msgstr "Júl"
 # ui/moreinfo.cpp:80
 #: sim/ui/datepicker.cpp:229
 msgid "August"
-msgstr "Srpen"
+msgstr "August"
 
 # ui/moreinfo.cpp:81
 #: sim/ui/datepicker.cpp:230
@@ -2426,7 +2426,7 @@ msgstr "©tv"
 # libicq/country.cpp:21
 #: sim/ui/datepicker.cpp:242
 msgid "Fri"
-msgstr "Str"
+msgstr "Pia"
 
 # qt3/i18n.cpp:3
 #: sim/ui/datepicker.cpp:243
@@ -2480,7 +2480,7 @@ msgstr "SIM"
 
 #: sim/sim.cpp:184
 msgid "Multiprotcol instant messenger"
-msgstr "Multiprotokolový instatný messenger"
+msgstr "Multiprotokolový instantný messenger"
 
 # sim.cpp:534
 #: sim/sim.cpp:190
@@ -2623,7 +2623,7 @@ msgstr "Form 2"
 #: plugins/msn/msnconfigbase.cpp:141 plugins/yahoo/yahoocfgbase.cpp:142
 #: plugins/yahoo/yahooinfobase.cpp:149
 msgid "Login:"
-msgstr "Prihlasovacie meno"
+msgstr "Prihlasovacie meno:"
 
 # ui/logindlgbase.cpp:129
 #: plugins/_core/logindlg.cpp:282 plugins/icq/aimconfigbase.cc:119
@@ -2816,7 +2816,7 @@ msgstr "Nedostupný (N/A)"
 #: plugins/_core/maininfo.cpp:81 plugins/msn/msn.cpp:131
 #: plugins/yahoo/yahoo.cpp:142
 msgid "Busy"
-msgstr "Zanepráznený"
+msgstr "Zaneprázdnený"
 
 #: plugins/msn/msn.cpp:146 plugins/yahoo/yahooclient.cpp:1194
 msgid "Be right back"
@@ -2876,13 +2876,12 @@ msgstr "Nastavi» domovský adresár"
 
 #: plugins/__homedir/homedircfgbase.cpp:63
 msgid "Use &default path"
-msgstr ""
+msgstr "Pou¾i» stan&dardnú cestu"
 
 # ui/acceptbase.cpp:178
 #: plugins/__homedir/homedircfgbase.cpp:64
-#, fuzzy
 msgid "Path for config files:"
-msgstr "Cesta pre prichádzajúce súbory:"
+msgstr "Cesta pre konfiguraèné súbory:"
 
 # libicq/country.cpp:40
 #: plugins/styles/wood/wood.cpp:1269
@@ -3024,7 +3023,7 @@ msgstr "Aktualizova» informácie o u¾ívateµovi"
 
 #: plugins/_core/cmenu.cpp:78
 msgid "More..."
-msgstr ""
+msgstr "Viac..."
 
 # mainwin.cpp:2721
 # toolbtn.cpp:705
@@ -3225,7 +3224,7 @@ msgstr "Nepreèítane správy"
 # mainwin.cpp:2759
 #: plugins/_core/core.cpp:550
 msgid "Quit"
-msgstr "Ukonèit"
+msgstr "Ukonèi»"
 
 # mainwin.cpp:625
 #: plugins/_core/core.cpp:559
@@ -3396,9 +3395,8 @@ msgid "&Answer"
 msgstr "Odpoved&a»"
 
 #: plugins/_core/core.cpp:1000
-#, fuzzy
 msgid "Enable spell check"
-msgstr "Kontrola pravopisu"
+msgstr "Povoli» kontrolu pravopisu"
 
 #: plugins/_core/core.cpp:1006 plugins/spell/spell.cpp:61
 msgid "Spell check"
@@ -3439,9 +3437,8 @@ msgstr "Mód skupiny 2"
 # userview.cpp:889
 # userview.cpp:905
 #: plugins/_core/core.cpp:1077
-#, fuzzy
 msgid "Show &empty groups"
-msgstr "®iad&ne zobrazené skupiny"
+msgstr "Zobrazi» prázdn&e skupiny"
 
 # mainwin.cpp:2716
 # userview.cpp:1831
@@ -3513,8 +3510,7 @@ msgstr "Odmietnu» súbor bez príèiny"
 
 #: plugins/_core/core.cpp:1306 plugins/_core/core.cpp:2904
 msgid "Sorry, I'm busy right now, and can not respond to your request"
-msgstr ""
-"Prepáète, ale momentálne som zaneprázdnený a nemô¾em odpoveda» na po¾iadavku"
+msgstr "Prepáète, ale momentálne som zaneprázdnený a nemô¾em odpoveda» na po¾iadavku"
 
 #: plugins/_core/core.cpp:1311 plugins/_core/core.cpp:2913
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
@@ -3539,12 +3535,13 @@ msgid ""
 "If it is wrong, you can separate them. For this purpose in contact menu "
 "choose the necessary name and choose a command \"Separate\"."
 msgstr ""
+"Pri nahrávaní zoznamu kontaktov kontakty s rovnakými menami sú automaticky spojené do jedného.\n"
+"Ak to nie je správne, mô¾ete ich rozdeli» oznaèením kontaktu a z menu vybra» príkaz \"Rozdeli»\""
 
 # ui/autoreplybase.cpp:75
 #: plugins/_core/core.cpp:1584
-#, fuzzy
 msgid "Don't show this message in next time"
-msgstr "Nezobrazova» tento dialog"
+msgstr "Nabudúce nezobrazova» túto správu"
 
 #: plugins/_core/core.cpp:1604
 msgid ""
@@ -3599,7 +3596,7 @@ msgstr "Nedostupný"
 #: plugins/_core/core.cpp:2461 plugins/dock/dockwnd.cpp:1185
 #: plugins/osd/osd.cpp:444
 msgid "%1 from %2"
-msgstr "%1 od u¾ívateµa %2"
+msgstr "%1 od %2"
 
 #: plugins/_core/core.cpp:2602
 msgid "%1 wrote:"
@@ -5038,10 +5035,8 @@ msgstr "Nastavi» \"Offline\" status po"
 
 # ui/statussetupbase.cpp:142
 #: plugins/autoaway/autoawaycfgbase.cpp:109
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
-msgstr ""
-"Zakáza» online výstrahu pre \"Away\", \"N/A\", \"DND\" a \"Occupied\" zoznam"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgstr "Zakáza» online výstrahu pre \"Away\", \"N/A\", \"DND\" a \"Occupied\" zoznam"
 
 # client.cpp:1235
 #: plugins/autoaway/autoaway.cpp:66
@@ -5225,8 +5220,7 @@ msgstr "P&rijíma» správy len zo zoznamu kontaktov"
 # ui/generalsecbase.cpp:227
 #: plugins/filter/filtercfgbase.cpp:67
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Odmietnu» správy od neznámych u¾ívateµov obsahujíce tieto slová alebo výrazy:"
+msgstr "Odmietnu» správy od neznámych u¾ívateµov obsahujíce tieto slová alebo výrazy:"
 
 # ui/generalsecbase.cpp:228
 #: plugins/filter/filtercfgbase.cpp:68
@@ -5465,8 +5459,7 @@ msgstr "Ikony"
 
 #: plugins/icons/icon.cpp:33
 msgid "Plugin provides Miranda icons themes and emoticons"
-msgstr ""
-"Zásuvny modul umo¾òuje pou¾íva» témy ikon a emotikony z programu Miranda"
+msgstr "Zásuvny modul umo¾òuje pou¾íva» témy ikon a emotikony z programu Miranda"
 
 # qt3/i18n.cpp:172
 #: plugins/icons/iconcfg.cpp:169
@@ -7273,23 +7266,20 @@ msgstr "Automaticky po¾iada» o automatickú &odpoveï pri zmene statusu"
 
 # ui/randomchatbase.cpp:287
 #: plugins/icq/icqconfigbase.cc:216
-#, fuzzy
 msgid "Send message:"
-msgstr "Po&sla» správu"
+msgstr "Posla» správu:"
 
 #: plugins/icq/icqconfigbase.cc:218
-#, fuzzy
 msgid "No wait ack"
-msgstr "®iadna zhoda"
+msgstr "®iadne èakajúce potvrdenie"
 
 #: plugins/icq/icqconfigbase.cc:219
-#, fuzzy
 msgid "Wait ack from server"
-msgstr "Uzatvorený paket zo strany servera"
+msgstr "Èakajúce potvrdenie zo servera"
 
 #: plugins/icq/icqconfigbase.cc:220
 msgid "Wait ack from client"
-msgstr ""
+msgstr "Èakajúce potvrdenie z klienta"
 
 # ui/workinfobase.cpp:220
 #: plugins/icq/icqconfigbase.cc:221 plugins/jabber/jabberconfigbase.cpp:271
@@ -7760,8 +7750,7 @@ msgstr "Navrchu"
 
 #: plugins/ontop/ontop.cpp:46
 msgid "Plugin provides main window and containers always on top"
-msgstr ""
-"Zásuvny modul umo¾òuje udr¾iava» hlavné okno a kontajnerov v¾dy navrchu"
+msgstr "Zásuvny modul umo¾òuje udr¾iava» hlavné okno a kontajnerov v¾dy navrchu"
 
 # mainwin.cpp:2741
 #: plugins/ontop/ontop.cpp:81
@@ -7823,8 +7812,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:68
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Zásuvny modul umo¾òuje zobrazova» notifikácie o správach a stave kontaktov "
 "na obrazovke (OSD)"
@@ -7835,19 +7823,17 @@ msgstr "&OSD"
 
 # mainwin.cpp:1380
 #: plugins/osd/osd.cpp:400
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is online"
-msgstr "U¾ívateµ %1 je pripojený"
+msgstr "%1 je pripojený"
 
 # mainwin.cpp:1380
 #: plugins/osd/osd.cpp:401
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is online"
-msgstr "U¾ívateµ %1 je pripojený"
+msgstr "%1 je pripojená"
 
 # ui/alertdialogbase.cpp:237
 #: plugins/osd/osdconfigbase.cpp:61
@@ -8485,8 +8471,7 @@ msgstr "Vlo¾te va¹u prezývku, ktorú chcete registrova»."
 msgid ""
 "Complete the form to submit your searchable attributes in the Jabber User "
 "Directory"
-msgstr ""
-"Vyplni» formulár s atribútmi pre vyhµadávanie v u¾ívateµskom adresáry Jabber."
+msgstr "Vyplni» formulár s atribútmi pre vyhµadávanie v u¾ívateµskom adresáry Jabber."
 
 #: plugins/jabber/jabbersearch.cpp:325
 msgid "Fill in all of the fields to add yourself to the JUD."
@@ -8864,17 +8849,16 @@ msgstr "Nálada:"
 
 #: plugins/livejournal/msgjournalbase.cpp:91
 msgid "Enable comments"
-msgstr ""
+msgstr "Povoli» komentáre"
 
 #: plugins/livejournal/msgjournalbase.cpp:92
 msgid "No email comments"
-msgstr ""
+msgstr "®iadne komentáre elektronickej po¹ty"
 
 # ui/soundsetupbase.cpp:229
 #: plugins/livejournal/msgjournalbase.cpp:93
-#, fuzzy
 msgid "Disable comments"
-msgstr "&Zakáza» v¹etky zvuky"
+msgstr "Zakáza» komentáre"
 
 # ui/homeinfobase.cpp:166
 # ui/phonebase.cpp:159
@@ -9736,8 +9720,7 @@ msgid "Navigate"
 msgstr "Navigácia"
 
 #: plugins/navigate/navigate.cpp:199
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Zásuvny modul umo¾òuje navigáciu po odkazoch, spú¹»a» externý prehliadaè a "
 "po¹tový klient"
@@ -9821,15 +9804,13 @@ msgstr "&Yahoo!"
 
 # ui/soundsetupbase.cpp:236
 #: plugins/yahoo/yahoocfgbase.cpp:147
-#, fuzzy
 msgid "File transfer server:"
-msgstr "Prenos súboru dokonèený:"
+msgstr "Server prenos súboru:"
 
 # ui/soundsetupbase.cpp:236
 #: plugins/yahoo/yahoocfgbase.cpp:148
-#, fuzzy
 msgid "File transfer port:"
-msgstr "Prenos súboru dokonèený:"
+msgstr "Port prenos súboru:"
 
 #: plugins/yahoo/yahoosearchbase.cpp:79
 msgid "Yahoo ID:"
@@ -9846,42 +9827,21 @@ msgstr "Kontakt %1 bol pridaný do skupiny %2"
 
 # qt3/i18n.cpp:97
 #: plugins/replace/replace.cpp:33
-#, fuzzy
 msgid "Replace text"
-msgstr "&Premiestni»"
+msgstr "Zmeni» text"
 
 #: plugins/replace/replace.cpp:34
-#, fuzzy
 msgid "Plugin provides text replacing in message edit window"
-msgstr "Zásuvny modul umo¾òuje filtrova» správy"
+msgstr "Zásuvny modul umo¾òuje meni» text v okne editácie správy"
 
 # ui/networkbase.cpp:231
 # ui/proxydlgbase.cpp:176
 #: plugins/replace/replacecfg.cpp:31
-#, fuzzy
 msgid "You type"
-msgstr "Typ proxy:"
+msgstr "Pí¹e¹"
 
 # ui/themesetupbase.cpp:294
 #: plugins/replace/replacecfg.cpp:32
-#, fuzzy
 msgid "You send"
-msgstr "popletený"
+msgstr "Odosiela¹"
 
-#, fuzzy
-#~ msgid ""
-#~ "_: %1 typed\n"
-#~ "female"
-#~ msgstr "%1 pí¹e"
-
-# mainwin.cpp:1380
-#, fuzzy
-#~ msgid ""
-#~ "_: %1 is online\n"
-#~ "female"
-#~ msgstr "U¾ívateµ %1 je pripojený"
-
-# msgview.cpp:231
-# msgview.cpp:1273
-#~ msgid "Contact typed message"
-#~ msgstr "U¾ívatel pí¹e správu"
