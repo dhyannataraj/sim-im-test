@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "POT-Creation-Date: 2003-01-08 02:26+0300\n"
-"PO-Revision-Date: 2003-01-03 20:41+0200\n"
+"PO-Revision-Date: 2003-01-09 11:24+0200\n"
 "Last-Translator: ismail donmez <voidcartman@yahoo.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1825,11 +1825,11 @@ msgid ""
 msgstr "Kontak isteği"
 
 #: client.cpp:1095
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: External unknown message\n"
 "%n unknown messages"
-msgstr "Bilinmeyen mesaj"
+msgstr "%n Bilinmeyen mesaj"
 
 #: client.cpp:1097
 #, c-format
@@ -1874,11 +1874,10 @@ msgid ""
 msgstr "Bilinmeyen mesaj"
 
 #: client.cpp:1116
-#, fuzzy
 msgid ""
 "_: Ctrl+N\n"
 "new"
-msgstr "Ctrl+L"
+msgstr "Ctrl+N"
 
 #: client.cpp:1118
 msgid ""
@@ -1887,14 +1886,12 @@ msgid ""
 msgstr "Ctrl+B"
 
 #: client.cpp:1120
-#, fuzzy
 msgid ""
 "_: Ctrl+F\n"
 "File"
-msgstr "Ctrl+E"
+msgstr "Ctrl+F"
 
 #: client.cpp:1122
-#, fuzzy
 msgid ""
 "_: Ctrl+L\n"
 "URL"
@@ -1913,7 +1910,6 @@ msgid ""
 msgstr "Ctrl+T"
 
 #: client.cpp:1128
-#, fuzzy
 msgid ""
 "_: Ctrl+S\n"
 "SMS"
@@ -2811,50 +2807,47 @@ msgstr "Alt"
 
 #: qt3/i18n.cpp:1
 msgid "Hu&e:"
-msgstr ""
+msgstr "&Gamma:"
 
 #: qt3/i18n.cpp:3
-#, fuzzy
 msgid "&Sat:"
-msgstr "Bölge:"
+msgstr "&Doygunluk:"
 
 #: qt3/i18n.cpp:5
 msgid "&Val:"
-msgstr ""
+msgstr "&Değer:"
 
 #: qt3/i18n.cpp:7
 msgid "&Red:"
-msgstr ""
+msgstr "&Kırmızı:"
 
 #: qt3/i18n.cpp:9
-#, fuzzy
 msgid "&Green:"
-msgstr "Yunanca"
+msgstr "&Yeşil:"
 
 #: qt3/i18n.cpp:11
 msgid "Bl&ue:"
-msgstr ""
+msgstr "&Mavi"
 
 #: qt3/i18n.cpp:13
 msgid "A&lpha channel:"
-msgstr ""
+msgstr "Al&fa kanalı:"
 
 #: qt3/i18n.cpp:15
 msgid "&Basic colors"
-msgstr ""
+msgstr "&Temel renkler"
 
 #: qt3/i18n.cpp:17
-#, fuzzy
 msgid "&Custom colors"
-msgstr "&Sistem renklerini kullan"
+msgstr "&Özel renkler"
 
 #: qt3/i18n.cpp:19
 msgid "&Define Custom Colors >>"
-msgstr ""
+msgstr "Özel Renkler &Belirle >>"
 
 #: qt3/i18n.cpp:21
 msgid "OK"
-msgstr ""
+msgstr "Tamam"
 
 #: qt3/i18n.cpp:23 ui/logindlg.cpp:151 ui/searchdlg.cpp:107
 msgid "Cancel"
@@ -2862,34 +2855,33 @@ msgstr "İptal"
 
 #: qt3/i18n.cpp:25
 msgid "&Add To Custom Colors"
-msgstr ""
+msgstr "&Özel Renklere Ekle"
 
 #: qt3/i18n.cpp:27
-#, fuzzy
 msgid "Select color"
-msgstr "Yazı Rengi"
+msgstr "Renk seç"
 
 #: qt3/i18n.cpp:29
 msgid "Copy or Move a File"
-msgstr ""
+msgstr "Dosyayı kopyala ya da taşı"
 
 #: qt3/i18n.cpp:31
-#, fuzzy, c-format
+#, c-format
 msgid "Read: %1"
-msgstr "%1 mesajı oku"
+msgstr "%1 i oku"
 
 #: qt3/i18n.cpp:33
 #, c-format
 msgid "Write: %1"
-msgstr ""
+msgstr "Yaz : %1"
 
 #: qt3/i18n.cpp:37
 msgid "All files (*)"
-msgstr ""
+msgstr "Tüm Dosyalar (*)"
 
 #: qt3/i18n.cpp:41
 msgid "Size"
-msgstr ""
+msgstr "Büyüklük"
 
 #: qt3/i18n.cpp:43 ui/phonebook.cpp:78
 msgid "Type"
@@ -2897,111 +2889,103 @@ msgstr "Tür"
 
 #: qt3/i18n.cpp:45
 msgid "Date"
-msgstr ""
+msgstr "Tarih"
 
 #: qt3/i18n.cpp:47
 msgid "Attributes"
-msgstr ""
+msgstr "Özellikler"
 
 #: qt3/i18n.cpp:49
 msgid "Look &in:"
-msgstr ""
+msgstr "İçine &Bak:"
 
 #: qt3/i18n.cpp:51
-#, fuzzy
 msgid "File &name:"
-msgstr "Adı :"
+msgstr "Dosya &adı :"
 
 #: qt3/i18n.cpp:53
 msgid "File &type:"
-msgstr ""
+msgstr "Dosya &türü:"
 
 #: qt3/i18n.cpp:55
-#, fuzzy
 msgid "Back"
-msgstr "siyah"
+msgstr "Geri"
 
 #: qt3/i18n.cpp:57
 msgid "One directory up"
-msgstr ""
+msgstr "Bir dizin yukarıya"
 
 #: qt3/i18n.cpp:59
 msgid "Create New Folder"
-msgstr ""
+msgstr "Yeni dizin yarat"
 
 #: qt3/i18n.cpp:61
 msgid "List View"
-msgstr ""
+msgstr "Liste Görünümü"
 
 #: qt3/i18n.cpp:63
-#, fuzzy
 msgid "Detail View"
-msgstr "&Ayrıntılar"
+msgstr "Ayrıntı Görünüm"
 
 #: qt3/i18n.cpp:65
 msgid "Preview File Info"
-msgstr ""
+msgstr "Dosya bilgisini göster"
 
 #: qt3/i18n.cpp:67
 msgid "Preview File Contents"
-msgstr ""
+msgstr "Dosya içeriğini göster"
 
 #: qt3/i18n.cpp:69
 msgid "Read-write"
-msgstr ""
+msgstr "Oku-yaz"
 
 #: qt3/i18n.cpp:71
 msgid "Read-only"
-msgstr ""
+msgstr "Sadece oku"
 
 #: qt3/i18n.cpp:73
 msgid "Write-only"
-msgstr ""
+msgstr "Sadece yaz"
 
 #: qt3/i18n.cpp:75
-#, fuzzy
 msgid "Inaccessible"
-msgstr "Görünmez"
+msgstr "Erişilemez"
 
 #: qt3/i18n.cpp:77
 msgid "Symlink to File"
-msgstr ""
+msgstr "Dosyaya sembolik bağ ile bağla"
 
 #: qt3/i18n.cpp:79
 msgid "Symlink to Directory"
-msgstr ""
+msgstr "Dizine sembolik bağ ile bağla"
 
 #: qt3/i18n.cpp:81
 msgid "Symlink to Special"
-msgstr ""
+msgstr "Özele sembolik bağ ile bağla"
 
 #: qt3/i18n.cpp:85
 msgid "Dir"
-msgstr ""
+msgstr "Dizin"
 
 #: qt3/i18n.cpp:87
-#, fuzzy
 msgid "Special"
-msgstr "Teknik"
+msgstr "Özel"
 
 #: qt3/i18n.cpp:89 ui/fontsetupbase.cpp:79
 msgid "Open"
 msgstr "Aç"
 
 #: qt3/i18n.cpp:91
-#, fuzzy
 msgid "Save as"
-msgstr "Kaydet"
+msgstr "Farklı kaydet"
 
 #: qt3/i18n.cpp:93
-#, fuzzy
 msgid "&Open"
-msgstr "Aç"
+msgstr "&Aç"
 
 #: qt3/i18n.cpp:97
-#, fuzzy
 msgid "&Rename"
-msgstr "Adını değiştir"
+msgstr "&Adını değiştir"
 
 #: qt3/i18n.cpp:99 ui/logindlgbase.cpp:45 ui/phonebookbase.cpp:73
 msgid "&Delete"
@@ -3009,77 +2993,73 @@ msgstr "&Sil"
 
 #: qt3/i18n.cpp:101
 msgid "R&eload"
-msgstr ""
+msgstr "&Tekrar yükle"
 
 #: qt3/i18n.cpp:103
 msgid "Sort by &Name"
-msgstr ""
+msgstr "&İsme göre sırala"
 
 #: qt3/i18n.cpp:105
 msgid "Sort by &Size"
-msgstr ""
+msgstr "&Büyüklüğe göre sırala"
 
 #: qt3/i18n.cpp:107
 msgid "Sort by &Date"
-msgstr ""
+msgstr "&Tarihe göre sırala"
 
 #: qt3/i18n.cpp:109
 msgid "&Unsorted"
-msgstr ""
+msgstr "&Sıralama"
 
 #: qt3/i18n.cpp:111
-#, fuzzy
 msgid "Sort"
-msgstr "Spor"
+msgstr "Sırala"
 
 #: qt3/i18n.cpp:113
 msgid "Show &hidden files"
-msgstr ""
+msgstr "&Gizli dosyaları göster"
 
 #: qt3/i18n.cpp:115
-#, fuzzy
 msgid "the file"
-msgstr "Dosyaları Paylaş"
+msgstr "dosya"
 
 #: qt3/i18n.cpp:117
 msgid "the directory"
-msgstr ""
+msgstr "dizin"
 
 #: qt3/i18n.cpp:119
 msgid "the symlink"
-msgstr ""
+msgstr "sembolik bağ"
 
 #: qt3/i18n.cpp:121
-#, fuzzy, c-format
+#, c-format
 msgid "Delete %1"
-msgstr " %1 i sil?"
+msgstr " %1 i sil"
 
 #: qt3/i18n.cpp:123
 msgid "<qt>Do you really want to delete %1 \"%2\"?</qt>"
-msgstr ""
+msgstr "<qt>%1 \"%2\" yi gerçekten silmek istiyor musunuz?</qt>"
 
 #: qt3/i18n.cpp:129
 msgid "New Folder 1"
-msgstr ""
+msgstr "Yeni Dizin 1"
 
 #: qt3/i18n.cpp:131
 msgid "New Folder"
-msgstr ""
+msgstr "Yeni Dizin"
 
 #: qt3/i18n.cpp:133
 #, c-format
 msgid "New Folder %1"
-msgstr ""
+msgstr "Yeni Dizin %1"
 
 #: qt3/i18n.cpp:135
-#, fuzzy
 msgid "Find Directory"
-msgstr "Kullanıcı Bul"
+msgstr "Dizin Bul"
 
 #: qt3/i18n.cpp:137
-#, fuzzy
 msgid "Directories"
-msgstr "Dosyaların tutulacağı yer"
+msgstr "Dizinler"
 
 #: qt3/i18n.cpp:144
 msgid ""
@@ -3087,51 +3067,49 @@ msgid ""
 "File not found.\n"
 "Check path and filename."
 msgstr ""
+"%1\n"
+"Dosya bulunamadı\n"
+"Dosya yolunu ve adını kontrol edin."
 
 #: qt3/i18n.cpp:148
 msgid "ERROR"
-msgstr ""
+msgstr "HATA"
 
 #: qt3/i18n.cpp:150
-#, fuzzy
 msgid "&Font"
-msgstr "Fontlar"
+msgstr "&Font"
 
 #: qt3/i18n.cpp:152
-#, fuzzy
 msgid "Font st&yle"
-msgstr "Fontlar"
+msgstr "Font &stili"
 
 #: qt3/i18n.cpp:154
 msgid "&Size"
-msgstr ""
+msgstr "&Büyüklük"
 
 #: qt3/i18n.cpp:156
 msgid "Effects"
-msgstr ""
+msgstr "Efektler"
 
 #: qt3/i18n.cpp:158
 msgid "Stri&keout"
-msgstr ""
+msgstr "Çı&kartma"
 
 #: qt3/i18n.cpp:162
-#, fuzzy
 msgid "&Color"
-msgstr "&Renkler"
+msgstr "&Renk"
 
 #: qt3/i18n.cpp:164
 msgid "Sample"
-msgstr ""
+msgstr "Örnek"
 
 #: qt3/i18n.cpp:166
-#, fuzzy
 msgid "Scr&ipt"
-msgstr "Güvenlik"
+msgstr "&Betik"
 
 #: qt3/i18n.cpp:168
-#, fuzzy
 msgid "Apply"
-msgstr "&Uygula"
+msgstr "Uygula"
 
 #: qt3/i18n.cpp:170 ui/logindlg.cpp:190 ui/searchbase.cpp:59
 #: ui/searchdlg.cpp:110
@@ -3139,12 +3117,10 @@ msgid "Close"
 msgstr "Kapat"
 
 #: qt3/i18n.cpp:172
-#, fuzzy
 msgid "Select Font"
-msgstr "Stil seç:"
+msgstr "Font Seç"
 
 #: qt3/i18n.cpp:174
-#, fuzzy
 msgid "&OK"
 msgstr "&Tamam"
 
@@ -3156,64 +3132,63 @@ msgid ""
 "X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more "
 "information.</p>"
 msgstr ""
+"<h3>Qt Hakkında</h3><p>Bu program Qt %1 versiyonunu kullanıyor.Qt bir C++ çapraz platform "
+" grafiksel arayüz geliştirme ortamıdır.Qt, Windows 95/98/NT4/2000,Linux, Solaris, HP-UX ve X11'e sahip diğer Unixler "
+"üzerinde geliştirme yapmaya olanak verir.</p><p>Daha fazla bilgi için <tt>http://www.trolltech.com/qt "
+"</tt> adresine bakabilirsiniz</p>"
 
 #: qt3/i18n.cpp:183
 msgid "Help"
-msgstr ""
+msgstr "Yardım"
 
 #: qt3/i18n.cpp:185
-#, fuzzy
 msgid "Defaults"
-msgstr "Varsayılan"
+msgstr "Varsayılanlar"
 
 #: qt3/i18n.cpp:187
 msgid "< Back"
-msgstr ""
+msgstr "Geri"
 
 #: qt3/i18n.cpp:189
-#, fuzzy
 msgid "Next >"
-msgstr "Sonraki"
+msgstr "İleri >"
 
 #: qt3/i18n.cpp:191
-#, fuzzy
 msgid "Finish"
-msgstr "Fince"
+msgstr "Bitir"
 
 #: qt3/i18n.cpp:193
 msgid "Ctrl"
-msgstr ""
+msgstr "Ctrl"
 
 #: qt3/i18n.cpp:195
 msgid "+"
-msgstr ""
+msgstr "+"
 
 #: qt3/i18n.cpp:197
-#, fuzzy
 msgid "Alt"
-msgstr "Alarm"
+msgstr "Alt"
 
 #: qt3/i18n.cpp:199
 msgid "Shift"
-msgstr ""
+msgstr "Shift"
 
 #: qt3/i18n.cpp:201
 #, c-format
 msgid "F%1"
-msgstr ""
+msgstr "F%1"
 
 #: qt3/i18n.cpp:203
 msgid "ctrl"
-msgstr ""
+msgstr "ctrl"
 
 #: qt3/i18n.cpp:205
 msgid "shift"
-msgstr ""
+msgstr "shift"
 
 #: qt3/i18n.cpp:207
-#, fuzzy
 msgid "alt"
-msgstr "Malta"
+msgstr "alt"
 
 #: qt3/i18n.cpp:210
 msgid ""
@@ -3221,196 +3196,180 @@ msgid ""
 "%1\n"
 "to\n"
 "%2"
-msgstr ""
+msgstr "%1 in adı %2 olarak değiştirilemedi"
 
 #: qt3/i18n.cpp:216
 #, c-format
 msgid ""
 "Could not open\n"
 "%1"
-msgstr ""
+msgstr "%1 açılamadı"
 
 #: qt3/i18n.cpp:220
 #, c-format
 msgid ""
 "Could not write\n"
 "%1"
-msgstr ""
+msgstr "%1 yazılamadı"
 
 #: qt3/i18n.cpp:223
 msgid "Operation stopped by the user"
-msgstr ""
+msgstr "İşlem kullanıcı tarafından durduruldu"
 
 #: qt3/i18n.cpp:225
-#, fuzzy
 msgid "(unknown)"
-msgstr "Bilinmeyen"
+msgstr "(bilinmeyen)"
 
 #: qt3/i18n.cpp:227
 msgid "Host %1 found"
-msgstr ""
+msgstr "Makine adı %1 bulunamadı"
 
 #: qt3/i18n.cpp:229
 msgid "Host found"
-msgstr ""
+msgstr "Makine adı bulundu"
 
 #: qt3/i18n.cpp:231
-#, fuzzy, c-format
+#, c-format
 msgid "Connected to host %1"
-msgstr "%1 e bağlan [%2]"
+msgstr "%1 e bağlanıldı"
 
 #: qt3/i18n.cpp:233
-#, fuzzy
 msgid "Connected to host"
-msgstr "%1 e bağlan [%2]"
+msgstr "Makineye bağlanıldı"
 
 #: qt3/i18n.cpp:235
-#, fuzzy
 msgid "Connection to %1 closed"
-msgstr "%1 e bağlan [%2]"
+msgstr "%1 e olan bağlantı kapatıldı"
 
 #: qt3/i18n.cpp:237
-#, fuzzy
 msgid "Connection closed"
-msgstr "Bağlantı"
+msgstr "Bağlantı kapatıldı"
 
 #: qt3/i18n.cpp:239
 msgid "Login Incorrect"
-msgstr ""
+msgstr "Giriş hatalı"
 
 #: qt3/i18n.cpp:241
-#, fuzzy, c-format
+#, c-format
 msgid "Col %1"
-msgstr "Sütun 1"
+msgstr "Sütun %1"
 
 #: qt3/i18n.cpp:243
 #, c-format
 msgid "Row %1"
-msgstr ""
+msgstr "Satır %1"
 
 #: qt3/i18n.cpp:245
-#, fuzzy
 msgid "Undo"
-msgstr "Birlik"
+msgstr "Geri al"
 
 #: qt3/i18n.cpp:247
 msgid "Redo"
-msgstr ""
+msgstr "Tekrarla"
 
 #: qt3/i18n.cpp:249
 msgid "Cut"
-msgstr ""
+msgstr "Kes"
 
 #: qt3/i18n.cpp:251 ui/fontsetupbase.cpp:64
 msgid "Copy"
 msgstr "Kopyala"
 
 #: qt3/i18n.cpp:253
-#, fuzzy
 msgid "Paste"
-msgstr "Partiler"
+msgstr "Yapıştır"
 
 #: qt3/i18n.cpp:255
-#, fuzzy
 msgid "Clear"
-msgstr "Arabalar"
+msgstr "Temizle"
 
 #: qt3/i18n.cpp:257
-#, fuzzy
 msgid "Select All"
-msgstr "Stil seç:"
+msgstr "Hepsini seç"
 
 #: qt3/i18n.cpp:259
-#, fuzzy
 msgid "&Left"
-msgstr "Sol üst köşe"
+msgstr "&Sol"
 
 #: qt3/i18n.cpp:261
-#, fuzzy
 msgid "&Right"
-msgstr "hafif"
+msgstr "&Sağ"
 
 #: qt3/i18n.cpp:263
-#, fuzzy
 msgid "&Top"
-msgstr "&Kopyala"
+msgstr "&Üst"
 
 #: qt3/i18n.cpp:265
 msgid "&Bottom"
-msgstr ""
+msgstr "&Alt"
 
 #: qt3/i18n.cpp:267
-#, fuzzy
 msgid "R&estore"
-msgstr "Alışveriş"
+msgstr "&Geri yükle"
 
 #: qt3/i18n.cpp:269
-#, fuzzy
 msgid "&Hide"
-msgstr "OtomatikGizle"
+msgstr "&Gizle"
 
 #: qt3/i18n.cpp:271
 msgid "Line Up Toolbars (compact)"
-msgstr ""
+msgstr "Araç çubuğunu diz (sıkışık)"
 
 #: qt3/i18n.cpp:273
 msgid "Line Up Toolbars (normal)"
-msgstr ""
+msgstr "Araç çubuğunu diz (normal)"
 
 #: qt3/i18n.cpp:275
 msgid "Paste special..."
-msgstr ""
+msgstr "Özel yapıştır..."
 
 #: qt3/i18n.cpp:277
 msgid "What's this?"
-msgstr ""
+msgstr "Bu nedir?"
 
 #: qt3/i18n.cpp:279
-#, fuzzy
 msgid "&Restore"
-msgstr "&Kaydet"
+msgstr "&Geri yükle"
 
 #: qt3/i18n.cpp:281
-#, fuzzy
 msgid "&Move"
-msgstr "Durum"
+msgstr "&Taşı"
 
 #: qt3/i18n.cpp:283
 msgid "Mi&nimize"
-msgstr ""
+msgstr "&Küçült"
 
 #: qt3/i18n.cpp:285
 msgid "Ma&ximize"
-msgstr ""
+msgstr "&Büyüt"
 
 #: qt3/i18n.cpp:289
 msgid "&Roll up"
-msgstr ""
+msgstr "&Yukarı yuvarla"
 
 #: qt3/i18n.cpp:291
 msgid "Minimize"
-msgstr ""
+msgstr "Küçült"
 
 #: qt3/i18n.cpp:293
 msgid "Restore Down"
-msgstr ""
+msgstr "Aşağı İndir"
 
 #: qt3/i18n.cpp:295
 msgid "Maximize"
-msgstr ""
+msgstr "Büyüt"
 
 #: qt3/i18n.cpp:297
 msgid "Roll up"
-msgstr ""
+msgstr "Yukarı yuvarla"
 
 #: qt3/i18n.cpp:299
-#, fuzzy
 msgid "Restore Up"
-msgstr "Alışveriş"
+msgstr "Yukarı Çıkar"
 
 #: qt3/i18n.cpp:301
 msgid "Roll down"
-msgstr ""
+msgstr "Aşağı yuvarla"
 
 #: ui/aboutdlg.cpp:41
 msgid "%1 Version: %2"
@@ -4406,8 +4365,7 @@ msgstr "Global alarm ayarlarının üzerine yaz"
 
 #: ui/alertdialogbase.cpp:50
 msgid "Activate online alert when user returns from Away or NA"
-msgstr ""
-"Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
+msgstr "Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
 
 #: ui/alertdialogbase.cpp:55
 msgid "Online alert options"
@@ -4752,8 +4710,7 @@ msgid "Hide main window after"
 msgstr "Ana menüyü sakla"
 
 #: ui/statussetupbase.cpp:57
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "\"Uzakta\", \"N/A\", \"DND\" ve \"Meşgul\"-Listelerinde bağlı alamını "
 "iptal et "
@@ -4896,8 +4853,7 @@ msgstr "&Ev bilgisi"
 
 #: ui/generalsecbase.cpp:46
 msgid "My &authorization is required before users add me to Contact List"
-msgstr ""
-"Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
+msgstr "Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
 
 #: ui/generalsecbase.cpp:50
 msgid "Don't show my &IP-address"
@@ -5023,106 +4979,3 @@ msgstr "Notlarım:"
 msgid "&Notes"
 msgstr "&Notlar"
 
-#, fuzzy
-#~ msgid "Chat request"
-#~ msgstr "Chat İsteği:"
-
-#, fuzzy
-#~ msgid "URL"
-#~ msgstr "URL:"
-
-#, fuzzy
-#~ msgid "WWW-panel message"
-#~ msgstr "mesaj gönder"
-
-#, fuzzy
-#~ msgid "Email pager message"
-#~ msgstr "E-Mail-Adresi:"
-
-#, fuzzy
-#~ msgid "Contact list"
-#~ msgstr "Kontak listesi gönderildi"
-
-#, fuzzy
-#~ msgid "Contacts request"
-#~ msgstr "Kontak İsteği"
-
-#, fuzzy
-#~ msgid "External unknown message"
-#~ msgstr "Bilinmeyen mesaj"
-
-#, fuzzy
-#~ msgid "Unknown message"
-#~ msgstr "&Yeni Mesaj"
-
-#, fuzzy
-#~ msgid "Ctrl+N"
-#~ msgstr "Ctrl+N"
-
-#, fuzzy
-#~ msgid "Ctrl+F"
-#~ msgstr "Ctrl+F"
-
-#, fuzzy
-#~ msgid "Ctrl+L"
-#~ msgstr "Ctrl+L"
-
-#, fuzzy
-#~ msgid "Ctrl+R"
-#~ msgstr "Ctrl+L"
-
-#, fuzzy
-#~ msgid "Ctrl+S"
-#~ msgstr "Ctrl+S"
-
-#, fuzzy
-#~ msgid "Del"
-#~ msgstr "Sil"
-
-#, fuzzy
-#~ msgid "Ctrl+U"
-#~ msgstr "Ctrl+L"
-
-#, fuzzy
-#~ msgid "Receive %2 from %1"
-#~ msgstr "%3'den %2 dosyanın %1'i alınıyor"
-
-#, fuzzy
-#~ msgid "Printer settings"
-#~ msgstr "Vekil sunucu ayarları"
-
-#, fuzzy
-#~ msgid "Print to printer:"
-#~ msgstr "Geçmişe yaz"
-
-#, fuzzy
-#~ msgid "Printer"
-#~ msgstr "Servis Sağlayıcı:"
-
-#, fuzzy
-#~ msgid "Host"
-#~ msgstr "Sunucu:"
-
-#, fuzzy
-#~ msgid "Comment"
-#~ msgstr "Kadınlar"
-
-#, fuzzy
-#~ msgid "Options"
-#~ msgstr "Hareketler:"
-
-#, fuzzy
-#~ msgid "From page:"
-#~ msgstr "Web Adresi:"
-
-#, fuzzy
-#~ msgid "To page:"
-#~ msgstr "Web Adresi:"
-
-#, fuzzy
-#~ msgid "Number of copies:"
-#~ msgstr "Numara ayrıntıları:"
-
-#, fuzzy
-#~ msgid "Portrait"
-#~ msgstr "Portekiz"
