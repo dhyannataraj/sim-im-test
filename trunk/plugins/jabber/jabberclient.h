@@ -81,7 +81,10 @@ typedef struct JabberClientData
     char			*ListRequest;
     char			*VHost;
     unsigned		Typing;
+    unsigned		RichText;
     unsigned		ProtocolIcons;
+    unsigned		MinPort;
+    unsigned		MaxPort;
     JabberUserData	owner;
 } JabberClientData;
 
@@ -161,7 +164,13 @@ class IqRequest : public ServerRequest
         ~IqRequest();
     public:
         virtual void	element_start(const char *el, const char **attr);
-        string m_query;
+        virtual void	element_end(const char *el);
+        virtual	void	char_data(const char *str, int len);
+        string	*m_data;
+        string  m_url;
+        string	m_descr;
+        string  m_query;
+        string	m_from;
     };
 
 class PresenceRequest : public ServerRequest
@@ -223,7 +232,10 @@ class MessageRequest : public ServerRequest
     PROP_ULONG(Priority);
     PROP_UTF8(ListRequest);
     PROP_BOOL(Typing);
+    PROP_BOOL(RichText);
     PROP_BOOL(ProtocolIcons);
+    PROP_USHORT(MinPort);
+    PROP_USHORT(MaxPort);
 
     string		buildId(JabberUserData *data);
     JabberUserData	*findContact(const char *jid, const char *name, bool bCreate, Contact *&contact);
@@ -248,6 +260,10 @@ class MessageRequest : public ServerRequest
     bool isAgent(const char *jid);
     virtual bool send(Message*, void*);
     void    listRequest(JabberUserData *data, const char *name, const char *grp, bool bDelete);
+    void	sendFileRequest(FileMessage *msg, unsigned short port, JabberUserData *data);
+
+    list<Message*>  m_ackMsg;
+    list<Message*>	m_waitMsg;
 
 protected slots:
     void	ping();
@@ -318,6 +334,32 @@ protected:
     friend class ServerRequest;
     friend class RostersRequest;
     friend class PresenceRequest;
+};
+
+class JabberFileTransfer : public FileTransfer, public ClientSocketNotify, public ServerSocketNotify
+{
+public:
+    JabberFileTransfer(FileMessage *msg, JabberUserData *data, JabberClient *client);
+    ~JabberFileTransfer();
+    void listen();
+protected:
+    JabberClient	*m_client;
+    JabberUserData	*m_data;
+    enum State
+    {
+        None,
+        Listen
+    };
+    State m_state;
+    virtual bool    error_state(const char *err, unsigned code);
+    virtual void	packet_ready();
+    virtual void	connect_ready();
+    virtual void	write_ready();
+    virtual void	startReceive(unsigned pos);
+    virtual void	bind_ready(unsigned short port);
+    virtual bool	error(const char *err);
+    virtual bool	accept(Socket *s, unsigned long ip);
+    ClientSocket	*m_socket;
 };
 
 class JabberSearch;

@@ -32,7 +32,7 @@
 #ifdef USE_KDE
 #ifdef HAVE_KTEXTEDIT_H
 #include <ktextedit.h>
-#define QTextBrowser KTextBrowser
+#define QTextEdit KTextEdit
 #endif
 #endif
 #endif
@@ -67,6 +67,7 @@ public:
     static QString unquoteString(const QString &s, int from, int to);
 signals:
     void showPopup(QPoint);
+	void finished();
 protected:
     void startDrag();
     void keyPressEvent(QKeyEvent *e);

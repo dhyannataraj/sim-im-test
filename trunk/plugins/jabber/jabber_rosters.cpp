@@ -22,6 +22,16 @@
 
 #include <time.h>
 
+#ifdef WIN32
+#include <winsock.h>
+#else
+#include <sys/socket.h>
+#include <sys/time.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <arpa/inet.h>
+#endif
+
 class RostersRequest : public JabberClient::ServerRequest
 {
 public:
@@ -745,47 +755,114 @@ void JabberClient::PresenceRequest::char_data(const char *str, int len)
 JabberClient::IqRequest::IqRequest(JabberClient *client)
         : ServerRequest(client, NULL, NULL, NULL)
 {
+    m_data = NULL;
 }
 
 JabberClient::IqRequest::~IqRequest()
 {
-}
+    if (m_query == "jabber:iq:oob"){
+        string proto = m_url.substr(0, 7);
+        if (proto != "http://"){
+            log(L_WARN, "Unknown protocol");
+            return;
+        }
+        m_url = m_url.substr(7);
+        int n = m_url.find(':');
+        if (n < 0){
+            log(L_WARN, "Port not found");
+            return;
+        }
+        string host = m_url.substr(0, n);
+        unsigned short port = (unsigned short)atol(m_url.c_str() + n + 1);
+        n = m_url.find('/');
+        if (n < 0){
+            log(L_WARN, "File not found");
+            return;
+        }
+        string file = m_url.substr(n + 1);
 
-void JabberClient::IqRequest::element_start(const char *el, const char **attr)
-{
-    if (!strcmp(el, "query"))
-        m_query = JabberClient::get_attr("xmlns", attr);
-    if (m_query == "jabber:iq:roster"){
-        if (!strcmp(el, "item")){
-            string jid = JabberClient::get_attr("jid", attr);
-            string subscription = JabberClient::get_attr("subscription", attr);
-            string name = JabberClient::get_attr("name", attr);
-            if (!subscription.empty()){
-                unsigned subscribe = SUBSCRIBE_NONE;
-                if (subscription == "none"){
-                    subscribe = SUBSCRIBE_NONE;
-                }else if (subscription == "to"){
-                    subscribe = SUBSCRIBE_TO;
-                }else if (subscription == "from"){
-                    subscribe = SUBSCRIBE_FROM;
-                }else if (subscription == "both"){
-                    subscribe = SUBSCRIBE_BOTH;
-                }else if (subscription == "remove"){
-                }else{
-                    log(L_DEBUG, "Unknown value subscription=%s", subscription.c_str());
-                }
-                Contact *contact;
-                JabberUserData *data = m_client->findContact(jid.c_str(), name.c_str(), false, contact);
-                if ((data == NULL) && (subscribe != SUBSCRIBE_NONE))
-                    data = m_client->findContact(jid.c_str(), name.c_str(), true, contact);
-                if (data && (data->Subscribe != subscribe)){
-                    data->Subscribe = subscribe;
-                    Event e(EventContactChanged, contact);
-                    e.process();
+        Contact *contact;
+        JabberUserData *data = m_client->findContact(m_from.c_str(), NULL, false, contact);
+        if (data == NULL){
+            data = m_client->findContact(m_from.c_str(), NULL, true, contact);
+            if (data == NULL)
+                return;
+            contact->setTemporary(CONTACT_TEMP);
+        }
+        JabberFileMessage *msg = new JabberFileMessage;
+        msg->setDescription(QString::fromUtf8(file.c_str()));
+        msg->setText(QString::fromUtf8(m_descr.c_str()));
+        msg->setHost(host.c_str());
+        msg->setPort(port);
+        msg->setFlags(MESSAGE_RECEIVED);
+        msg->setClient(m_client->dataName(data).c_str());
+        msg->setContact(contact->id());
+        m_client->m_ackMsg.push_back(msg);
+        Event e(EventMessageReceived, msg);
+        if (e.process()){
+            for (list<Message*>::iterator it = m_client->m_ackMsg.begin(); it != m_client->m_ackMsg.end(); ++it){
+                if ((*it) == msg){
+                    m_client->m_ackMsg.erase(it);
+                    break;
                 }
             }
         }
     }
+}
+
+void JabberClient::IqRequest::element_start(const char *el, const char **attr)
+{
+    if (!strcmp(el, "iq"))
+        m_from = JabberClient::get_attr("from", attr);
+    if (!strcmp(el, "query")){
+        m_query = JabberClient::get_attr("xmlns", attr);
+        if (m_query == "jabber:iq:roster"){
+            if (!strcmp(el, "item")){
+                string jid = JabberClient::get_attr("jid", attr);
+                string subscription = JabberClient::get_attr("subscription", attr);
+                string name = JabberClient::get_attr("name", attr);
+                if (!subscription.empty()){
+                    unsigned subscribe = SUBSCRIBE_NONE;
+                    if (subscription == "none"){
+                        subscribe = SUBSCRIBE_NONE;
+                    }else if (subscription == "to"){
+                        subscribe = SUBSCRIBE_TO;
+                    }else if (subscription == "from"){
+                        subscribe = SUBSCRIBE_FROM;
+                    }else if (subscription == "both"){
+                        subscribe = SUBSCRIBE_BOTH;
+                    }else if (subscription == "remove"){
+                    }else{
+                        log(L_DEBUG, "Unknown value subscription=%s", subscription.c_str());
+                    }
+                    Contact *contact;
+                    JabberUserData *data = m_client->findContact(jid.c_str(), name.c_str(), false, contact);
+                    if ((data == NULL) && (subscribe != SUBSCRIBE_NONE))
+                        data = m_client->findContact(jid.c_str(), name.c_str(), true, contact);
+                    if (data && (data->Subscribe != subscribe)){
+                        data->Subscribe = subscribe;
+                        Event e(EventContactChanged, contact);
+                        e.process();
+                    }
+                }
+            }
+        }
+    }
+    if (!strcmp(el, "url"))
+        m_data = &m_url;
+    if (!strcmp(el, "desc"))
+        m_data = &m_descr;
+}
+
+void JabberClient::IqRequest::element_end(const char*)
+{
+    m_data = NULL;
+}
+
+void JabberClient::IqRequest::char_data(const char *data, int len)
+{
+    if (m_data)
+        m_data->append(data, len);
 }
 
 class JabberBgParser : public HTMLParser
@@ -853,9 +930,9 @@ void JabberBgParser::tag_start(const QString &tag, const list<QString> &attrs)
             }
         }
         if (!value.isEmpty()){
-            res += "=\"";
+            res += "=\'";
             res += quoteString(value);
-            res += "\"";
+            res += "\'";
         }
     }
     res += ">";
@@ -971,9 +1048,9 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
             const char *val = *(p++);
             *m_data += " ";
             *m_data += key;
-            *m_data += "=\"";
+            *m_data += "=\'";
             *m_data += val;
-            *m_data += "\"";
+            *m_data += "\'";
         }
         *m_data += ">";
         return;
@@ -1457,4 +1534,40 @@ void JabberClient::processList()
     m_listRequests.clear();
 }
 
+class SendFileRequest : public JabberClient::ServerRequest
+{
+public:
+    SendFileRequest(JabberClient *client, const char *jid);
+};
+
+SendFileRequest::SendFileRequest(JabberClient *client, const char *jid)
+        : JabberClient::ServerRequest(client, _SET, NULL, jid)
+{
+}
+
+void JabberClient::sendFileRequest(FileMessage *msg, unsigned short port, JabberUserData *data)
+{
+    string jid = data->ID;
+    if (data->Resource){
+        jid += "/";
+        jid += data->Resource;
+    }
+    SendFileRequest *req = new SendFileRequest(this, jid.c_str());
+    req->start_element("query");
+    req->add_attribute("xmlns", "jabber:iq:oob");
+    string url  = "http://";
+    struct in_addr addr;
+    addr.s_addr = m_socket->localHost();
+    url += inet_ntoa(addr);
+    url += ":";
+    url += number(port);
+    url += "/";
+    url += msg->getDescription().utf8();
+    string desc;
+    desc = msg->getText().utf8();
+    req->text_tag("url", url.c_str());
+    req->text_tag("desc", desc.c_str());
+    req->send();
+    m_requests.push_back(req);
+}
 

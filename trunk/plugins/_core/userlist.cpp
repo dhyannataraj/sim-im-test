@@ -948,6 +948,7 @@ UserList::UserList(QWidget *parent)
 
 UserList::~UserList()
 {
+    emit finished();
 }
 
 void UserList::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin)

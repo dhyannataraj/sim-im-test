@@ -24,6 +24,167 @@
 
 #ifdef WIN32
 #include <windows.h>
+#include <ddeml.h>
+
+class DDEbase
+{
+public:
+    DDEbase();
+    ~DDEbase();
+    operator DWORD() { return m_idDDE; }
+    static DDEbase *base;
+protected:
+    DWORD m_idDDE;
+    static HDDEDATA CALLBACK DDECallback(UINT, UINT, HCONV, HSZ, HSZ, HDDEDATA, DWORD, DWORD);
+};
+
+DDEbase *DDEbase::base = NULL;
+
+DDEbase::DDEbase()
+{
+    m_idDDE = 0;
+    FARPROC lpDdeProc = MakeProcInstance((FARPROC) DDECallback, hInstance);
+    DdeInitializeA((LPDWORD) &m_idDDE, (PFNCALLBACK) lpDdeProc,	APPCMD_CLIENTONLY, 0L);
+    base = this;
+}
+
+DDEbase::~DDEbase()
+{
+    base = NULL;
+    if (m_idDDE)
+        DdeUninitialize(m_idDDE);
+}
+
+HDDEDATA CALLBACK DDEbase::DDECallback(UINT, UINT, HCONV, HSZ, HSZ, HDDEDATA, DWORD, DWORD)
+{
+    return NULL;
+}
+
+class DDEstring
+{
+public:
+    DDEstring(const char *name);
+    ~DDEstring();
+    operator HSZ() { return hSz; }
+protected:
+    HSZ hSz;
+};
+
+DDEstring::DDEstring(const char *name) : hSz(NULL)
+{
+    hSz = DdeCreateStringHandleA(*DDEbase::base, name, CP_WINANSI);
+}
+
+DDEstring::~DDEstring()
+{
+    if (hSz)
+        DdeFreeStringHandle(*DDEbase::base, hSz);
+}
+
+class DDEdataHandle
+{
+public:
+    DDEdataHandle(const char *text);
+    DDEdataHandle(HDDEDATA data);
+    ~DDEdataHandle();
+    operator HDDEDATA() { return hData; }
+    operator const char *();
+protected:
+    HDDEDATA hData;
+};
+
+DDEdataHandle::DDEdataHandle(const char *text)
+{
+    hData = DdeCreateDataHandle(*DDEbase::base, (unsigned char*)text, strlen(text) + 1, 0, NULL, CF_TEXT, 0);
+}
+
+DDEdataHandle::DDEdataHandle(HDDEDATA data)
+{
+    hData = data;
+}
+
+DDEdataHandle::~DDEdataHandle()
+{
+    if (hData) DdeFreeDataHandle(hData);
+}
+
+DDEdataHandle::operator const char*()
+{
+    if (hData == NULL)
+        return NULL;
+    return (const char*)DdeAccessData(hData, NULL);
+}
+
+class DDEconversation
+{
+protected:
+    HCONV hConv;
+public:
+    DDEconversation(const char *_server, const char *_topic);
+    ~DDEconversation();
+    operator HCONV() { return hConv; }
+    HDDEDATA Execute(const char *cmd);
+};
+
+DDEconversation::DDEconversation(const char *_server, const char *_topic)
+        : hConv(NULL)
+{
+    DDEstring server(_server);
+    DDEstring topic(_topic);
+    hConv = DdeConnect(*DDEbase::base, server, topic, NULL);
+}
+
+DDEconversation::~DDEconversation()
+{
+    if (hConv)
+        DdeDisconnect(hConv);
+}
+
+HDDEDATA DDEconversation::Execute(const char *cmd)
+{
+    DDEstring c(cmd);
+    DWORD res = NULL;
+    HDDEDATA hData = DdeClientTransaction(NULL, 0, hConv, c, CF_TEXT, XTYP_REQUEST, 30000, &res);
+    if (hData == NULL)
+        DdeGetLastError((DWORD)DDEbase::base);
+    return hData;
+}
+
+string getCurrentUrl()
+{
+    DWORD keyLen = 0;
+    HKEY hKeyOpen;
+    if (RegOpenKeyExA(HKEY_CLASSES_ROOT,
+                      "HTTP\\Shell\\open\\ddeexec\\application",
+                      0, KEY_READ | KEY_QUERY_VALUE, &hKeyOpen) != ERROR_SUCCESS)
+        return "";
+    if (RegQueryValueExA(hKeyOpen, "", 0, 0, 0, &keyLen) != ERROR_SUCCESS){
+        RegCloseKey(hKeyOpen);
+        return "";
+    }
+    string topic;
+    topic.append(keyLen, 0);
+
+    DWORD type;
+    if (RegQueryValueExA(hKeyOpen, "", 0, &type, (unsigned char*)(topic.c_str()), &keyLen) != ERROR_SUCCESS){
+        RegCloseKey(hKeyOpen);
+        return "";
+    }
+    RegCloseKey(hKeyOpen);
+
+    DDEbase b;
+    DDEconversation conv(topic.c_str(), "WWW_GetWindowInfo");
+    DDEdataHandle answer(conv.Execute("-1"));
+    const char *url = answer;
+    if (url == NULL)
+        return "";
+    url++;
+    char *end = strchr((char*)url, '\"');
+    if (end)
+        *end = 0;
+    return url;
+}
+
 #endif
 
 Plugin *createNavigatePlugin(unsigned base, bool, const char *config)
@@ -119,6 +280,13 @@ NavigatePlugin::~NavigatePlugin()
 
 void *NavigatePlugin::processEvent(Event *e)
 {
+#ifdef WIN32
+    if (e->type() == EventGetURL){
+        string *url = (string*)(e->param());
+        *url = getCurrentUrl();
+        return e->param();
+    }
+#endif
     if (e->type() == EventGoURL){
         string url = (const char*)(e->param());
         string proto;

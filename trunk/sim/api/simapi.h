@@ -570,17 +570,23 @@ const unsigned EventHomeDir		= 0x0601;
 
 const unsigned EventGoURL		= 0x0602;
 
+/* Event get URL
+   return char *url
+*/
+
+const unsigned EventGetURL		= 0x0603;
+
 /* Event play sound
    param is char *wav
 */
 
-const unsigned EventPlaySound	= 0x0603;
+const unsigned EventPlaySound	= 0x0604;
 
 /* Event raise window
    param is QWidget *
 */
 
-const unsigned EventRaiseWindow = 0x0604;
+const unsigned EventRaiseWindow = 0x0605;
 
 
 /* Event - draw user list background
@@ -879,6 +885,10 @@ EXPORT bool set_ip(void **ip, unsigned long value);
 	QString get##A() { return data.A ? QString::fromUtf8(data.A) : QString(""); } const \
 	bool set##A(const QString &r) { return set_str(&data.A, r.utf8()); }
 
+#define VPROP_UTF8(A) \
+	virtual QString get##A() { return data.A ? QString::fromUtf8(data.A) : QString(""); } const \
+	bool set##A(const QString &r) { return set_str(&data.A, r.utf8()); }
+
 #define PROP_LONG(A) \
 	unsigned long get##A() { return data.A; } const \
 	void set##A(unsigned long r) { data.A = r; }
@@ -925,6 +935,8 @@ const unsigned MessageRemoved		= 8;
 const unsigned MessageStatus		= 9;
 const unsigned MessageTypingStart	= 10;
 const unsigned MessageTypingStop	= 11;
+const unsigned MessageUrl			= 12;
+const unsigned MessageContacts		= 13;
 
 // Message flags:
 
@@ -968,11 +980,10 @@ public:
     void setId(unsigned id) { m_id = id; }
     unsigned contact() { return m_contact; }
     void setContact(unsigned contact) { m_contact = contact; }
-    virtual QString getText() { return data.Text ? QString::fromUtf8(data.Text) : QString(""); }
-    bool setText(const QString &r) { return set_str(&data.Text, r.utf8()); }
     virtual string save();
     QString getPlainText();
     QString getRichText();
+    VPROP_UTF8(Text)
     PROP_ULONG(Flags)
     PROP_ULONG(Background)
     PROP_ULONG(Foreground)
@@ -1104,7 +1115,7 @@ public:
     virtual	string save();
     virtual QString presentation();
     virtual QString getDescription();
-    void	setDescription(const QString&);
+    bool    setDescription(const QString&);
     void	addFile(const QString&);
     void	addFile(const QString&, unsigned size);
     class EXPORT Iterator
@@ -1134,6 +1145,40 @@ public:
     AuthMessage(unsigned type, const char *cfg=NULL)
             : Message(type, cfg) {}
     virtual QString presentation();
+};
+
+typedef struct MessageUrlData
+{
+    char	*Url;
+} MessageUrlData;
+
+class EXPORT UrlMessage : public Message
+{
+public:
+    UrlMessage(unsigned type=MessageUrl, const char *cfg=NULL);
+    ~UrlMessage();
+    virtual string  save();
+    virtual QString presentation();
+    VPROP_UTF8(Url)
+protected:
+    MessageUrlData data;
+};
+
+typedef struct MessageContactsData
+{
+    char	*Contacts;
+} MessageContactsData;
+
+class EXPORT ContactsMessage : public Message
+{
+public:
+    ContactsMessage(unsigned type=MessageContacts, const char *cfg=NULL);
+    ~ContactsMessage();
+    virtual string  save();
+    virtual QString presentation();
+    VPROP_UTF8(Contacts);
+protected:
+    MessageContactsData data;
 };
 
 typedef struct MessageStatusData

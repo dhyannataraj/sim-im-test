@@ -791,6 +791,7 @@ bool MSNClient::canSend(unsigned type, void *_data)
     switch (type){
     case MessageGeneric:
     case MessageFile:
+    case MessageUrl:
         return true;
     }
     return false;
@@ -804,6 +805,7 @@ bool MSNClient::send(Message *msg, void *_data)
     switch (msg->type()){
     case MessageGeneric:
     case MessageFile:
+    case MessageUrl:
         if (data->sb == NULL){
             Contact *contact;
             findContact(data->EMail, contact);
@@ -2239,6 +2241,13 @@ void SBSocket::process(bool bTyping)
     if (m_msgText.isEmpty() && !m_queue.empty()){
         Message *msg = m_queue.front();
         m_msgText = msg->getPlainText();
+        if (msg->type() == MessageUrl){
+            UrlMessage *m = static_cast<UrlMessage*>(msg);
+            QString msgText = m->getUrl();
+            msgText += "\r\n";
+            msgText += m_msgText;
+            m_msgText = msgText;
+        }
         if ((msg->type() == MessageFile) && static_cast<FileMessage*>(msg)->m_transfer)
             m_msgText = "";
         if (m_msgText.isEmpty()){

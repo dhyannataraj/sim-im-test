@@ -24,8 +24,8 @@
 #include <qtoolbutton.h>
 
 const unsigned MessageICQ				= 0x100;
-const unsigned MessageURL				= 0x101;
-const unsigned MessageContact			= 0x102;
+const unsigned MessageICQUrl			= 0x101;
+const unsigned MessageICQContacts		= 0x102;
 const unsigned MessageContactRequest	= 0x103;
 const unsigned MessageICQAuthRequest	= 0x104;
 const unsigned MessageICQAuthGranted	= 0x105;
@@ -57,47 +57,41 @@ protected:
     ICQMessageData data;
 };
 
-typedef struct UrlMessageData
+typedef struct IcqUrlMessageData
 {
-    char	*Url;
     char	*ServerUrl;
     char	*ServerText;
 } UrlMessageData;
 
-class URLMessage : public Message
+class IcqUrlMessage : public UrlMessage
 {
 public:
-    URLMessage(const char *cfg=NULL);
-    ~URLMessage();
-    QString getUrl();
-    bool setUrl(const QString &url);
+    IcqUrlMessage(const char *cfg=NULL);
+    ~IcqUrlMessage();
     PROP_STR(ServerUrl);
     PROP_STR(ServerText);
+    virtual QString getUrl();
     virtual QString getText();
     virtual string  save();
-    virtual QString presentation();
 protected:
-    UrlMessageData data;
+    IcqUrlMessageData data;
 };
 
-typedef struct ContactMessageData
+typedef struct IcqContactsMessageData
 {
-    char	*Contacts;
     char	*ServerText;
-} ContactMessageData;
+} IcqContactsMessageData;
 
-class ContactMessage : public Message
+class IcqContactsMessage : public ContactsMessage
 {
 public:
-    ContactMessage(const char *cfg=NULL);
-    ~ContactMessage();
+    IcqContactsMessage(const char *cfg=NULL);
+    ~IcqContactsMessage();
     QString getContacts();
-    bool setContacts(const QString&);
     PROP_STR(ServerText);
     virtual string save();
-    virtual QString presentation();
 protected:
-    ContactMessageData data;
+    IcqContactsMessageData data;
 };
 
 typedef struct ICQAuthMessageData
@@ -169,46 +163,6 @@ public:
     QString presentation();
 protected:
     MessageWarningData data;
-};
-
-class MsgEdit;
-class QListViewItem;
-
-class MsgUrl : public QObject, public EventReceiver
-{
-    Q_OBJECT
-public:
-    MsgUrl(MsgEdit *btn, Message *msg);
-protected slots:
-    void init();
-    void urlChanged(const QString&);
-protected:
-    virtual void *processEvent(Event*);
-    MsgEdit		*m_edit;
-    string		m_client;
-};
-
-class MsgContacts : public QObject, public EventReceiver
-{
-    Q_OBJECT
-public:
-    MsgContacts(MsgEdit *btn, Message *msg, Protocol*);
-    ~MsgContacts();
-protected slots:
-    void init();
-    void contactsDestroyed();
-    void contactsDragEnter(QMimeSource*);
-    void contactsDrop(QMimeSource*);
-    void deleteItem(QListViewItem*);
-protected:
-    virtual void *processEvent(Event*);
-    void  changed();
-    Protocol	*m_protocol;
-    ListView	*m_contacts;
-    MsgEdit		*m_edit;
-    Message		*m_msg;
-    QToolButton	*btnSend;
-    string		m_client;
 };
 
 #endif

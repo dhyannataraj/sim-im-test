@@ -149,6 +149,92 @@ QString SMSMessage::presentation()
     return res;
 }
 
+static DataDef messageUrlData[] =
+    {
+        { "Url", DATA_UTF, 1, 0 },
+        { NULL, 0, 0, 0 }
+    };
+
+UrlMessage::UrlMessage(unsigned type, const char *cfg)
+        : Message(type, cfg)
+{
+    load_data(messageUrlData, &data, cfg);
+}
+
+UrlMessage::~UrlMessage()
+{
+    free_data(messageUrlData, &data);
+}
+
+string UrlMessage::save()
+{
+    string s = Message::save();
+    string s1 = save_data(messageUrlData, &data);
+    if (!s1.empty()){
+        if (!s.empty())
+            s += '\n';
+        s += s1;
+    }
+    return s;
+}
+
+QString UrlMessage::presentation()
+{
+    QString url = quoteString(getUrl());
+    QString res = "<p><a href=\"";
+    res += url;
+    res += "\">";
+    res += url;
+    res += "</a></p><p>";
+    res += getRichText();
+    res += "</p>";
+    return res;
+}
+
+static DataDef messageContactsData[] =
+    {
+        { "Contacts", DATA_UTF, 1, 0 },
+        { NULL, 0, 0, 0 }
+    };
+
+ContactsMessage::ContactsMessage(unsigned type, const char *cfg)
+        : Message(type, cfg)
+{
+    load_data(messageContactsData, &data, cfg);
+}
+
+ContactsMessage::~ContactsMessage()
+{
+    free_data(messageContactsData, &data);
+}
+
+string ContactsMessage::save()
+{
+    string s = Message::save();
+    string s1 = save_data(messageContactsData, &data);
+    if (!s1.empty()){
+        if (!s.empty())
+            s += '\n';
+        s += s1;
+    }
+    return s;
+}
+
+QString ContactsMessage::presentation()
+{
+    QString res;
+    QString contacts = getContacts();
+    while (contacts.length()){
+        QString contact = getToken(contacts, ';');
+        QString url = getToken(contact, ',');
+        contact = quoteString(contact);
+        res += QString("<p><a href=\"%1\">%2</a></p>")
+               .arg(url)
+               .arg(contact);
+    }
+    return res;
+}
+
 typedef struct fileItem
 {
     QString		name;
@@ -347,9 +433,9 @@ QString FileMessage::getDescription()
     return QString("%1 files") .arg(it.count());
 }
 
-void FileMessage::setDescription(const QString &str)
+bool FileMessage::setDescription(const QString &str)
 {
-    set_str(&data.Description, str.utf8());
+    return set_str(&data.Description, str.utf8());
 }
 
 string FileMessage::save()
@@ -367,14 +453,19 @@ string FileMessage::save()
 QString FileMessage::presentation()
 {
     QString res = getDescription();
-    res += " ";
     unsigned size = getSize();
-    if (size >= 1024 * 1024){
-        res += i18n("%1 Mbytes") .arg(size / (1024 * 1024));
-    }else if (size >= 1024){
-        res += i18n("%1 kbytes") .arg(size / 1024);
-    }else{
-        res += i18n("%1 bytes") .arg(size);
+
+    if (size){
+        res += " ";
+
+        if (size >= 1024 * 1024){
+            res += i18n("%1 Mbytes") .arg(size / (1024 * 1024));
+        }else if (size >= 1024){
+            res += i18n("%1 kbytes") .arg(size / 1024);
+        }else{
+            res += i18n("%1 bytes") .arg(size);
+        }
+
     }
     QString text = getText();
     if (text.length()){

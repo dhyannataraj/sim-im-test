@@ -364,6 +364,7 @@ TextShow::TextShow(QWidget *p, const char *name)
 
 TextShow::~TextShow()
 {
+    emit finished();
 }
 
 void TextShow::emitLinkClicked(const QString &name)

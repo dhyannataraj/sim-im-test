@@ -341,11 +341,6 @@ SOURCE=.\moc_icqinfobase.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc_icqmessage.cpp
-# ADD CPP /W3
-# End Source File
-# Begin Source File
-
 SOURCE=.\moc_icqpicture.cpp
 # ADD CPP /W3
 # End Source File
@@ -990,35 +985,7 @@ InputName=icqinfobase
 # Begin Source File
 
 SOURCE=.\icqmessage.h
-
-!IF  "$(CFG)" == "icq - Win32 Release"
-
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build
-InputDir=.
-InputPath=.\icqmessage.h
-InputName=icqmessage
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "icq - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\icqmessage.h
-InputName=icqmessage
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 

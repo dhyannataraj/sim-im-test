@@ -58,6 +58,8 @@ _core_la_SOURCES = \
  msgfile.cpp \
  msgview.cpp \
  msgauth.cpp \
+ msgurl.cpp \
+ msgcontacts.cpp \
  msgrecv.cpp \
  history.cpp \
  historywnd.cpp \

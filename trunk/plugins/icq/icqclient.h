@@ -296,10 +296,11 @@ const unsigned CAP_AIM_CHAT     = 12;
 const unsigned CAP_AIM_BUDDYCON = 13;
 const unsigned CAP_AIM_IMIMAGE  = 14;
 const unsigned CAP_AIM_SENDFILE = 15;
-const unsigned CAP_MICQ         = 16;
-const unsigned CAP_LICQ         = 17;
-const unsigned CAP_SIMOLD       = 18;
-const unsigned CAP_NULL         = 19;
+const unsigned CAP_AIM_BUDDYLIST = 16;
+const unsigned CAP_MICQ         = 17;
+const unsigned CAP_LICQ         = 18;
+const unsigned CAP_SIMOLD       = 19;
+const unsigned CAP_NULL         = 20;
 
 const unsigned PLUGIN_PHONEBOOK            = 0;
 const unsigned PLUGIN_PICTURE            = 1;
@@ -432,6 +433,15 @@ protected:
     unsigned short m_nSequence;
     unsigned short m_nMsgSequence;
 };
+
+class my_string : public string
+{
+public:
+    my_string(const char *str) : string(str) {}
+    bool operator < (const my_string &str) const;
+};
+
+typedef map<my_string, string> CONTACTS_MAP;
 
 class ICQClient : public TCPClient, public EventReceiver, public OscarSocket
 {
@@ -640,6 +650,7 @@ protected:
     void setProfile(ICQUserData *data);
     bool isOwnData(const char *screen);
     void packInfoList(char *str);
+    CONTACTS_MAP packContacts(ContactsMessage *msg, ICQUserData *data);
     string createRTF(const QString &text, unsigned long foreColor, const char *encoding);
     QString removeImages(const QString &text, unsigned maxSmile);
     void ackMessage(SendMsg &s);

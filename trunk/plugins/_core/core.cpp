@@ -768,32 +768,51 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     cmd->icon		= "empty";
     cmd->menu_id	= MenuMsgCommand;
     cmd->menu_grp	= 0x1002;
-	cmd->bar_id		= 0;
-	cmd->bar_grp	= 0;
+
+    cmd->bar_id		= 0;
+
+    cmd->bar_grp	= 0;
     cmd->flags		= COMMAND_CHECK_STATE;
     eCmd.process();
 
+
+
     cmd->id			= CmdMsgQuote + CmdReceived;
+
     cmd->bar_id		= ToolBarMsgEdit;
+
     cmd->bar_grp	= 0x1041;
+
     cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
+
     eCmd.process();
+
 
 
     cmd->id			= CmdMsgForward;
     cmd->text		= I18N_NOOP("&Forward");
     cmd->menu_id	= MenuMsgCommand;
+
     cmd->menu_grp	= 0x1003;
-	cmd->bar_id		= 0;
-	cmd->bar_grp	= 0;
+    cmd->bar_id		= 0;
+
+    cmd->bar_grp	= 0;
+
     cmd->flags		= COMMAND_CHECK_STATE;
+
     eCmd.process();
 
+
     cmd->id			= CmdMsgForward + CmdReceived;
+
     cmd->bar_id		= ToolBarMsgEdit;
+
     cmd->bar_grp	= 0x1042;
+
     cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
+
     eCmd.process();
+
 
     cmd->id			= CmdMsgAnswer;
     cmd->text		= I18N_NOOP("&Answer");
@@ -1521,7 +1540,8 @@ void *CorePlugin::processEvent(Event *e)
                         CommandDef cmd = *c;
                         if (cmd.icon == NULL)
                             cmd.icon = "empty";
-						cmd.id += CmdReceived;
+
+                        cmd.id += CmdReceived;
                         cmd.menu_id  = 0;
                         cmd.menu_grp = 0;
                         cmd.flags	 = BTN_PICT | COMMAND_CHECK_STATE;
@@ -2693,21 +2713,34 @@ void *CorePlugin::processEvent(Event *e)
         if (n < 0)
             return NULL;
         proto = url.substr(0, n);
-        if (proto != "sms")
+        if (proto == "sms"){
+            url = url.substr(proto.length() + 1);
+            while (url[0] == '/')
+                url = url.substr(1);
+            Contact *contact = getContacts()->contactByPhone(url.c_str());
+            if (contact){
+                Command cmd;
+                cmd->id		 = MessageSMS;
+                cmd->menu_id = MenuMessage;
+                cmd->param	 = (void*)(contact->id());
+                Event eCmd(EventCommandExec, cmd);
+                eCmd.process();
+            }
+            return e->param();
+        }
+        if (proto != "sim")
             return NULL;
         url = url.substr(proto.length() + 1);
-        while (url[0] == '/')
-            url = url.substr(1);
-        Contact *contact = getContacts()->contactByPhone(url.c_str());
+        unsigned contact_id = atol(url.c_str());
+        Contact *contact = getContacts()->contact(contact_id);
         if (contact){
             Command cmd;
-            cmd->id		 = MessageSMS;
+            cmd->id		 = MessageGeneric;
             cmd->menu_id = MenuMessage;
-            cmd->param	 = (void*)(contact->id());
+            cmd->param	 = (void*)contact_id;
             Event eCmd(EventCommandExec, cmd);
             eCmd.process();
         }
-        return e->param();
     }
     return NULL;
 }

@@ -238,6 +238,7 @@ const unsigned	CmdHistoryFind			= (CmdBase + 85);
 const unsigned	CmdFileName				= (CmdBase + 86);
 const unsigned	CmdPhoneNumber			= (CmdBase + 87);
 const unsigned	CmdTranslit				= (CmdBase + 88);
+const unsigned  CmdUrlInput				= (CmdBase + 89);
 
 const unsigned	CmdContactGroup			= (CmdBase + 0x100);
 const unsigned	CmdUnread				= (CmdBase + 0x200);

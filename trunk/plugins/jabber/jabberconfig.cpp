@@ -59,8 +59,11 @@ JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig)
     chkSSL->hide();
     chkPlain->hide();
 #endif
+    edtMinPort->setValue(m_client->getMinPort());
+    edtMaxPort->setValue(m_client->getMaxPort());
     chkVHost->setChecked(m_client->getUseVHost());
     chkTyping->setChecked(m_client->getTyping());
+    chkRichText->setChecked(m_client->getRichText());
     chkIcons->setChecked(m_client->getProtocolIcons());
     lnkPublic->setText(i18n("List of public servers"));
     lnkPublic->setUrl("http://www.jabber.org/user/publicservers.php");
@@ -107,8 +110,11 @@ void JabberConfig::apply()
     m_client->setUseSSL(chkSSL->isChecked());
     m_client->setUsePlain(chkPlain->isChecked());
 #endif
+    m_client->setMinPort((unsigned short)atol(edtMinPort->text().latin1()));
+    m_client->setMaxPort((unsigned short)atol(edtMaxPort->text().latin1()));
     m_client->setUseVHost(chkVHost->isChecked());
     m_client->setTyping(chkTyping->isChecked());
+    m_client->setRichText(chkRichText->isChecked());
     if (m_client->getProtocolIcons() != chkIcons->isChecked()){
         m_client->setProtocolIcons(chkIcons->isChecked());
         Event e(EventRepaintView);
