@@ -14,6 +14,6 @@ AppMutex=SIM_Mutex
 OutputBaseFilename=msvcrt
 
 [Files]
-Source: "msvcrt.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall
-Source: "msvcp60.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall
+Source: "msvcrt.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall  restartreplace
+Source: "msvcp60.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall   restartreplace
 

@@ -430,6 +430,7 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     m_search	 = NULL;
     m_view		 = NULL;
     m_manager	 = NULL;
+	m_focus		 = NULL;
     m_bInit		 = false;
     m_nClients	 = 0;
     m_nClientsMenu = 0;
@@ -1886,7 +1887,9 @@ void *CorePlugin::processEvent(Event *e)
             if (msg->getFlags() & MESSAGE_NOVIEW)
                 return NULL;
             Contact *contact = getContacts()->contact(msg->contact());
-            QWidget *focusWidget = qApp->focusWidget();
+            m_focus = qApp->focusWidget();
+			if (m_focus)
+				m_focus->installEventFilter(this);
             if (contact == NULL)
                 return NULL;
             UserWnd		*userWnd	= NULL;
@@ -1981,12 +1984,15 @@ void *CorePlugin::processEvent(Event *e)
             if (msg->getFlags() & MESSAGE_NORAISE){
                 if (bNew)
                     container->showMinimized();
-                if (focusWidget)
-                    focusWidget->setFocus();
+                if (m_focus)
+                    m_focus->setFocus();
             }else{
                 container->show();
                 raiseWindow(container);
             }
+			if (m_focus)
+				m_focus->removeEventFilter(this);
+			m_focus = NULL;
             return e->param();
         }
     case EventContactOnline:{
@@ -3732,6 +3738,14 @@ void CorePlugin::setManualStatus(unsigned long status)
     time(&now);
     setStatusTime(now);
     data.ManualStatus.value = status;
+}
+
+bool CorePlugin::eventFilter (QObject *watched, QEvent *e)
+{
+	if ((watched == m_focus) && 
+		((e->type() == QEvent::Destroy) || (e->type() == QEvent::ChildRemoved)))
+		m_focus = NULL;
+	return QObject::eventFilter(watched, e);
 }
 
 #ifdef WIN32
