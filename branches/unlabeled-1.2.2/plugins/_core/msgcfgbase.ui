@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>403</width>
+            <width>399</width>
             <height>312</height>
         </rect>
     </property>
@@ -58,7 +58,7 @@
             </property>
             <property>
                 <name>text</name>
-                <string>Open window if user go oonline</string>
+                <string>Open window if user go online</string>
             </property>
         </widget>
         <widget>
