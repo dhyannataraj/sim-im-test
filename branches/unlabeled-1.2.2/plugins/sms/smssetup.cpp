@@ -34,6 +34,11 @@ SMSSetup::SMSSetup(QWidget *parent, SMSClient *client)
     QStringList res = SerialPort::devices();
     unsigned n = 0;
     unsigned cur = 0;
+	if (m_client->getState() == Client::Connected){
+		cmbPort->insertItem(m_client->getDevice());
+		cur = 0;
+		n++;
+	}
     for (QStringList::Iterator it = res.begin(); it != res.end(); ++it, n++){
         if ((*it) == m_client->getDevice())
             cur = cmbPort->count();
