@@ -85,7 +85,7 @@ PictPreview::PictPreview(QWidget *parent)
     label->setMinimumSize(QSize(70, 70));
     QVBoxLayout *lay = new QVBoxLayout(this);
     lay->addWidget(label);
-};
+}
 
 void PictPreview::showPreview(const char *file)
 {
