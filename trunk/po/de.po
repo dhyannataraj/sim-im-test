@@ -416,7 +416,7 @@ msgstr "Einrichten"
 
 #: mainwin.cpp:1838
 msgid "Phone \"Follow Me\""
-msgstr "\"Telefonweiterleitungen\""
+msgstr "Telefonweiterleitungen"
 
 #: mainwin.cpp:1841
 msgid "Always on top"
