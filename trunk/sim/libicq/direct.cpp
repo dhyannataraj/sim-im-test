@@ -71,9 +71,10 @@ const unsigned short ICQ_TCPxACK_OCCUPIEDxCAR      = 0x000B;
 const unsigned short ICQ_TCPxACK_NA                = 0x000E;
 const unsigned short ICQ_TCPxACK_DNDxCAR           = 0x000F;
 
-DirectSocket::DirectSocket(int fd, ICQClient *_client)
+DirectSocket::DirectSocket(Socket *s, ICQClient *_client)
 {
-    sock = new ClientSocket(this, _client, fd);
+    sock = new ClientSocket(this, _client);
+    sock->setSocket(s);
     m_bIncoming = true;
     client = _client;
     state = WaitInit;
@@ -331,7 +332,8 @@ void DirectSocket::connect_ready()
 
 ICQListener::ICQListener(ICQClient *_client)
 {
-    sock = _client->createServerSocket(this);
+    sock = _client->createServerSocket();
+    sock->setNotify(this);
     client = _client;
 }
 
@@ -340,9 +342,9 @@ ICQListener::~ICQListener()
     if (sock) delete sock;
 }
 
-void ICQListener::accept(int fd)
+void ICQListener::accept(Socket *s)
 {
-    new DirectClient(fd, client);
+    new DirectClient(s, client);
 }
 
 unsigned short ICQListener::port()
@@ -364,8 +366,8 @@ static unsigned char client_check_data[] =
         "ICQ Service and Information may\0"
     };
 
-DirectClient::DirectClient(int fd, ICQClient *client)
-        : DirectSocket(fd, client)
+DirectClient::DirectClient(Socket *s, ICQClient *client)
+        : DirectSocket(s, client)
 {
     u = NULL;
     state = WaitLogin;
@@ -965,15 +967,16 @@ unsigned short DirectClient::sendMessage(ICQMessage *msg)
 
 FileTransferListener::FileTransferListener(ICQFile *_file, ICQClient *_client)
 {
-    sock = _client->createServerSocket(this);
+    sock = _client->createServerSocket();
+    sock->setNotify(this);
     file = _file;
     client = _client;
 }
 
-void FileTransferListener::accept(int fd)
+void FileTransferListener::accept(Socket *s)
 {
     file->listener = NULL;
-    file->ft = new FileTransfer(fd, client, file);
+    file->ft = new FileTransfer(s, client, file);
     delete this;
 }
 
@@ -983,8 +986,8 @@ unsigned short FileTransferListener::port()
     return 0;
 }
 
-FileTransfer::FileTransfer(int fd, ICQClient *client, ICQFile *_file)
-        : DirectSocket(fd, client)
+FileTransfer::FileTransfer(Socket *s, ICQClient *client, ICQFile *_file)
+        : DirectSocket(s, client)
 {
     state = WaitLogin;
     file = _file;
@@ -1299,15 +1302,16 @@ void FileTransfer::sendPacket(bool dump)
 
 ChatListener::ChatListener(ICQChat *_chat, ICQClient *_client)
 {
-    sock = _client->createServerSocket(this);
+    sock = _client->createServerSocket();
+    sock->setNotify(this);
     chat = _chat;
     client = _client;
 }
 
-void ChatListener::accept(int fd)
+void ChatListener::accept(Socket *s)
 {
     chat->listener = NULL;
-    chat->chat = new ChatSocket(fd, client, chat);
+    chat->chat = new ChatSocket(s, client, chat);
     delete this;
 }
 
@@ -1317,8 +1321,8 @@ unsigned short ChatListener::port()
     return 0;
 }
 
-ChatSocket::ChatSocket(int fd, ICQClient *client, ICQChat *_chat)
-        : DirectSocket(fd, client)
+ChatSocket::ChatSocket(Socket *s, ICQClient *client, ICQChat *_chat)
+        : DirectSocket(s, client)
 {
     chat = _chat;
     state = WaitLogin;

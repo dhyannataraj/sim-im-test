@@ -65,7 +65,7 @@ public:
 class Socket
 {
 public:
-    Socket(SocketNotify*);
+    Socket();
     virtual ~Socket() {}
     virtual int read(char *buf, unsigned int size) = 0;
     virtual void write(const char *buf, unsigned int size) = 0;
@@ -84,15 +84,16 @@ class ServerSocketNotify
 public:
     ServerSocketNotify() {}
     virtual ~ServerSocketNotify() {}
-    virtual void accept(int fd) = 0;
+    virtual void accept(Socket*) = 0;
 };
 
 class ServerSocket
 {
 public:
-    ServerSocket(ServerSocketNotify*);
+    ServerSocket();
     virtual ~ServerSocket() {}
     virtual unsigned short port() = 0;
+    void setNotify(ServerSocketNotify *n) { notify = n; }
 protected:
     ServerSocketNotify *notify;
 };
@@ -102,8 +103,8 @@ class SocketFactory
 public:
     SocketFactory() {}
     virtual ~SocketFactory() {}
-    virtual Socket *createSocket(SocketNotify*, int fd=-1) = 0;
-    virtual ServerSocket *createServerSocket(ServerSocketNotify*) = 0;
+    virtual Socket *createSocket() = 0;
+    virtual ServerSocket *createServerSocket() = 0;
     void removeSocket(Socket*);
     void idle();
     list<SocketNotify*> removedNotifies;
@@ -125,7 +126,7 @@ class Proxy;
 class ClientSocket : public SocketNotify
 {
 public:
-    ClientSocket(ClientSocketNotify*, SocketFactory*, int fd=-1);
+    ClientSocket(ClientSocketNotify*, SocketFactory*);
     ~ClientSocket();
     Buffer readBuffer;
     Buffer writeBuffer;

@@ -25,22 +25,23 @@
 #include "proxy.h"
 #include "log.h"
 
-Socket::Socket(SocketNotify *n)
+Socket::Socket()
 {
-    notify = n;
+    notify = NULL;
 }
 
-ServerSocket::ServerSocket(ServerSocketNotify *n)
+ServerSocket::ServerSocket()
 {
-    notify = n;
+    notify = NULL;
 }
 
-ClientSocket::ClientSocket(ClientSocketNotify *n, SocketFactory *f, int fd)
+ClientSocket::ClientSocket(ClientSocketNotify *n, SocketFactory *f)
 {
     notify = n;
     factory = f;
     bRawMode = false;
-    m_sock = f->createSocket(this, fd);
+    m_sock = f->createSocket();
+    m_sock->setNotify(this);
     m_proxy = NULL;
 }
 
@@ -140,7 +141,6 @@ void ClientSocket::read_ready()
         for (;;){
             char b[2048];
             int readn = m_sock->read(b, sizeof(b));
-            log(L_DEBUG, "Read ready %X %u", this, readn);
             if (readn == 0) break;
             readBuffer.setWritePos(readBuffer.writePos() + readn);
             if (readn < sizeof(b)) break;
@@ -151,7 +151,6 @@ void ClientSocket::read_ready()
     for (;;){
         int readn = m_sock->read(readBuffer.Data(readBuffer.writePos()),
                                  readBuffer.size() - readBuffer.writePos());
-        log(L_DEBUG, "Read ready %X %u", this, readn);
         if (readn < 0){
             notify->error_state(ErrorRead);
             return;

@@ -340,7 +340,7 @@ public:
         WaitAck,
         Logged
     };
-    DirectSocket(int fd, ICQClient*);
+    DirectSocket(Socket *s, ICQClient*);
     DirectSocket(unsigned long real_ip, unsigned long ip, unsigned short port, ICQUser*, ICQClient*);
     ~DirectSocket();
     virtual void packet_ready();
@@ -378,7 +378,7 @@ public:
     bool created() { return (sock != NULL); }
     unsigned short port();
 protected:
-    virtual void accept(int fd);
+    virtual void accept(Socket *s);
     ServerSocket *sock;
     ICQClient    *client;
 };
@@ -388,7 +388,7 @@ class SSLClient;
 class DirectClient : public DirectSocket
 {
 public:
-    DirectClient(int fd, ICQClient *client);
+    DirectClient(Socket *s, ICQClient *client);
     DirectClient(unsigned long ip, unsigned long real_ip, unsigned short port, ICQUser *u, ICQClient *client);
     ~DirectClient();
     unsigned short sendMessage(ICQMessage*);
@@ -429,7 +429,7 @@ public:
     FileTransferListener(ICQFile *file, ICQClient *client);
     unsigned short port();
 protected:
-    virtual void accept(int fd);
+    virtual void accept(Socket *s);
     ServerSocket *sock;
     ICQClient *client;
     ICQFile *file;
@@ -438,7 +438,7 @@ protected:
 class FileTransfer : public DirectSocket
 {
 public:
-    FileTransfer(int fd, ICQClient *client, ICQFile *file);
+    FileTransfer(Socket *s, ICQClient *client, ICQFile *file);
     FileTransfer(unsigned long ip, unsigned long real_ip, unsigned short port, ICQUser *u, ICQClient *client, ICQFile *file);
     void resume(int mode);
     int  speed() { return m_nSpeed; }
@@ -493,7 +493,7 @@ public:
     ChatListener(ICQChat *chat, ICQClient *client);
     unsigned short port();
 protected:
-    virtual void accept(int fd);
+    virtual void accept(Socket *s);
     ServerSocket *sock;
     ICQClient *client;
     ICQChat *chat;
@@ -530,7 +530,7 @@ public:
 class ChatSocket : public DirectSocket
 {
 public:
-    ChatSocket(int fd, ICQClient *client, ICQChat *file);
+    ChatSocket(Socket *s, ICQClient *client, ICQChat *file);
     ChatSocket(unsigned long ip, unsigned long real_ip, unsigned short port, ICQUser *u, ICQClient *client, ICQChat *chat);
 
     void sendLine(const char *str);

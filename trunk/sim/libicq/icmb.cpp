@@ -628,13 +628,11 @@ void ICQClient::acceptMessage(ICQMessage *m)
         Buffer msgBuf;
         packMessage(msgBuf, m, NULL, 0, 0, 4, false, true);
 
-        unsigned long remote_ip = 0;
-        unsigned long local_ip = 0;
+        unsigned long local_ip = RealIP();
         ICQUser *u = getUser(m->getUin());
         if (u){
-            remote_ip = u->IP();
-            if (remote_ip && ((remote_ip & 0xFFFFFF00) != (IP() & 0xFFFFFF00)))
-                remote_ip = u->RealIP();
+            if ((u->IP() & 0xFFFFFF) != (IP() & 0xFFFFFF))
+                local_ip = IP();
         }
         local_ip = RealIP();
         msg_id id;
@@ -647,7 +645,7 @@ void ICQClient::acceptMessage(ICQMessage *m)
         << 0x09461349L << 0x4C7F11D1L << 0x82224445L << 0x53540000L;
         b.tlv(0x0A, (unsigned short)0x02);
         b.tlv(0x0F);
-        b.tlv(0x03, (unsigned long)local_ip);
+        b.tlv(0x03, (unsigned long)htonl(local_ip));
         b.tlv(0x05, (unsigned short)listener->port());
         b.tlv(0x2711, msgBuf);
         sendThroughServer(m->getUin(), 2, b, &id);

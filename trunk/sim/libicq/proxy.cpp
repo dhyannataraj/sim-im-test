@@ -33,7 +33,7 @@
 #include <netdb.h>
 #endif
 
-Proxy::Proxy() : Socket(NULL)
+Proxy::Proxy()
 {
 }
 

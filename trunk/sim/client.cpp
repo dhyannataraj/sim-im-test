@@ -139,14 +139,14 @@ void Client::timer()
     idle();
 }
 
-Socket *Client::createSocket(SocketNotify *notify, int fd)
+Socket *Client::createSocket()
 {
-    return new QClientSocket(notify, fd);
+    return new QClientSocket;
 }
 
-ServerSocket *Client::createServerSocket(ServerSocketNotify *notify)
+ServerSocket *Client::createServerSocket()
 {
-    return new QServerSocket(notify, MinTCPPort(), MaxTCPPort());
+    return new QServerSocket(MinTCPPort(), MaxTCPPort());
 }
 
 void Client::markAsRead(ICQMessage *msg)
@@ -815,22 +815,22 @@ int Client::userEncoding(unsigned long uin)
 
 Client *pClient = NULL;
 
-QClientSocket::QClientSocket(SocketNotify *n, int fd)
-        : Socket(n)
+QClientSocket::QClientSocket(QSocket *s)
 {
-    sock = new QSocket(this);
+    sock = s;
+    if (sock == NULL) sock = new QSocket(this);
     QObject::connect(sock, SIGNAL(connected()), this, SLOT(slotConnected()));
     QObject::connect(sock, SIGNAL(connectionClosed()), this, SLOT(slotConnectionClosed()));
     QObject::connect(sock, SIGNAL(readyRead()), this, SLOT(slotReadReady()));
     QObject::connect(sock, SIGNAL(bytesWritten(int)), this, SLOT(slotBytesWritten(int)));
     QObject::connect(sock, SIGNAL(error(int)), this, SLOT(slotError(int)));
-    if (fd != -1) sock->setSocket(fd);
     bInWrite = false;
 }
 
 QClientSocket::~QClientSocket()
 {
     close();
+    delete sock;
 }
 
 void QClientSocket::close()
@@ -842,7 +842,7 @@ int QClientSocket::read(char *buf, unsigned int size)
 {
     int res = sock->readBlock(buf, size);
     if (res < 0){
-        notify->error_state(ErrorRead);
+        if (notify) notify->error_state(ErrorRead);
         res = 0;
     }
     return res;
@@ -854,7 +854,7 @@ void QClientSocket::write(const char *buf, unsigned int size)
     int res = sock->writeBlock(buf, size);
     bInWrite = false;
     if (res != (int)size){
-        notify->error_state(ErrorWrite);
+        if (notify) notify->error_state(ErrorWrite);
         return;
     }
     if (sock->bytesToWrite() == 0)
@@ -870,18 +870,18 @@ void QClientSocket::connect(const char *host, int port)
 void QClientSocket::slotConnected()
 {
     log(L_DEBUG, "Connected");
-    notify->connect_ready();
+    if (notify) notify->connect_ready();
 }
 
 void QClientSocket::slotConnectionClosed()
 {
     log(L_WARN, "Connection closed");
-    notify->error_state(ErrorConnectionClosed);
+    if (notify) notify->error_state(ErrorConnectionClosed);
 }
 
 void QClientSocket::slotReadReady()
 {
-    notify->read_ready();
+    if (notify) notify->read_ready();
 }
 
 void QClientSocket::slotBytesWritten(int)
@@ -903,7 +903,7 @@ unsigned long QClientSocket::localHost()
 void QClientSocket::slotError(int err)
 {
     log(L_DEBUG, "Error %u", err);
-    notify->error_state(ErrorSocket);
+    if (notify) notify->error_state(ErrorSocket);
 }
 
 void QClientSocket::pause(unsigned t)
@@ -911,8 +911,7 @@ void QClientSocket::pause(unsigned t)
     QTimer::singleShot(t * 1000, this, SLOT(slotBytesWritten()));
 }
 
-QServerSocket::QServerSocket(ServerSocketNotify *n, unsigned short minPort, unsigned short maxPort)
-        : ServerSocket(n)
+QServerSocket::QServerSocket(unsigned short minPort, unsigned short maxPort)
 {
     sock = new QSocketDevice;
     sock->setBlocking(false);
@@ -920,13 +919,13 @@ QServerSocket::QServerSocket(ServerSocketNotify *n, unsigned short minPort, unsi
         if (sock->bind(QHostAddress(), m_nPort))
             break;
     }
+    sn = new QSocketNotifier(sock->socket(), QSocketNotifier::Read, this);
+    connect(sn, SIGNAL(activated(int)), this, SLOT(activated(int)));
     if ((m_nPort > maxPort) || !sock->listen(50)){
         delete sock;
         sock = NULL;
         return;
     }
-    sn = new QSocketNotifier(sock->socket(), QSocketNotifier::Read, this);
-    connect(sn, SIGNAL(activated(int)), this, SLOT(activated(int)));
 }
 
 QServerSocket::~QServerSocket()
@@ -937,8 +936,19 @@ QServerSocket::~QServerSocket()
 void QServerSocket::activated(int)
 {
     int fd = sock->accept();
-    if (fd >= 0)
-        notify->accept(fd);
+    if (fd >= 0){
+        if (notify){
+            QSocket *s = new QSocket;
+            s->setSocket(fd);
+            notify->accept(new QClientSocket(s));
+        }else{
+#ifdef WIN32
+            ::closesocket(fd);
+#else
+            ::close(fd);
+#endif
+        }
+    }
 }
 
 #ifndef _WINDOWS

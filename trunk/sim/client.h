@@ -52,7 +52,7 @@ class QClientSocket : public QObject, public Socket
 {
     Q_OBJECT
 public:
-    QClientSocket(SocketNotify *n, int fd);
+    QClientSocket(QSocket *s=NULL);
     virtual ~QClientSocket();
     virtual int read(char *buf, unsigned int size);
     virtual void write(const char *buf, unsigned int size);
@@ -76,7 +76,7 @@ class QServerSocket : public QObject, public ServerSocket
 {
     Q_OBJECT
 public:
-    QServerSocket(ServerSocketNotify *n, unsigned short minPort, unsigned short maxPort);
+    QServerSocket(unsigned short minPort, unsigned short maxPort);
     ~QServerSocket();
     virtual unsigned short port() { return m_nPort; }
     bool created() { return (sock != NULL); }
@@ -132,8 +132,8 @@ protected slots:
     void resolve_ready();
     void timer();
 protected:
-    virtual Socket *createSocket(SocketNotify*, int fd);
-    virtual ServerSocket *createServerSocket(ServerSocketNotify*);
+    virtual Socket *createSocket();
+    virtual ServerSocket *createServerSocket();
 
     void start_resolve();
 

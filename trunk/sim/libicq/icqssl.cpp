@@ -123,7 +123,6 @@ static void initLib()
 }
 
 SSLClient::SSLClient(Socket *_sock)
-        : Socket(NULL)
 {
     sock = _sock;
     sock->setNotify(this);

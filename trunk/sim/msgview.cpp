@@ -115,14 +115,17 @@ void TextShow::setForeground(const QColor& c)
 
 void TextShow::setSource(const QString &href)
 {
-    QString l = href.left(6);
-    if (l == "msg://"){
+    if (href.left(6) == "msg://"){
         QString id = href.mid(6);
         int p = id.find('/');
         if (p >= 0) id = id.left(p);
         QStringList s = QStringList::split('.', id);
         if (s.count() >= 2)
             emit goMessage(s[0].toULong(), s[1].toULong());
+        return;
+    }
+    if (href.left(6) == "mailto:"){
+        pMain->sendMail(href.mid(6));
         return;
     }
     pMain->goURL(href);
@@ -530,7 +533,7 @@ void MsgView::setMessage(unsigned long uin, unsigned long msgId)
 QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
 {
     QString s;
-    s.sprintf("<p><nobr><a name=\"%lu.%lu\"></a>"
+    s.sprintf("<nobr><a name=\"%lu.%lu\"></a>"
               "<a href=\"msg://%lu.%lu\"><img src=\"icon:%s\"></a>&nbsp;",
               msg->getUin(), msg->Id, msg->getUin(), msg->Id, Client::getMessageIcon(msg->Type()));
     if (bUnread) s += "<b>";
@@ -570,7 +573,8 @@ QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
         s += fg;
     }
     s += makeMessageText(msg, pMain->UseOwnColors());
-    if (foreColor != backColor) s += "</font></p>";
+    if (foreColor != backColor) s += "</font>";
+    s += "</p><p>";
     return s;
 }
 
@@ -595,7 +599,6 @@ void MsgView::addMessage(ICQMessage *msg, bool bUnread, bool bSet)
     }else{
         int n = paragraphs();
         if (n > 0) n--;
-        insertParagraph("", -1);
         append(s);
         if (foreColor != backColor)
             setMsgBgColor(msg->getUin(), msg->Id, backColor, n);

@@ -26,6 +26,7 @@
 #define BR		 4
 #define TAG		 5
 #define TAG_END  6
+#define MAIL	 7
 
 #define YY_STACK_USED   0
 #define YY_NEVER_INTERACTIVE    1
@@ -41,6 +42,7 @@
 %%
 
 (http|https|ftp)"://"[A-Za-z0-9/\,\.\?\&\;\(\)\-_\+\%=~]+	{ return URL; }
+(mailto:)?[A-Za-z0-9\-_]\@([A-Za-z0-9\-]+\.)+[A-Za-z]+		{ return MAIL; }
 "&quot;"						{ return TXT; }
 "&amp;"							{ return TXT; }
 "&lt;"							{ return TXT; }
@@ -165,6 +167,18 @@ QString MainWindow::ParseText(const UTFstring &text, bool bIgnoreColors)
         case URL:{
 			string url = ICQClient::unquoteText(yytext);
 			string text = yytext;
+            res += "<a href=\"";
+            res += url.c_str();
+            res += "\">";
+            res += url.c_str();
+            res += "</a>";
+            break;
+		}
+		case MAIL:{
+			string url = ICQClient::unquoteText(yytext);
+			string text = yytext;
+			if (url.substr(0, 7) != "mailto:") 
+				url = string("mailto:") + url;
             res += "<a href=\"";
             res += url.c_str();
             res += "\">";

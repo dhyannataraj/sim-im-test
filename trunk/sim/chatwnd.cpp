@@ -386,7 +386,7 @@ void ChatWindow::setFgColor()
     QColor c = edtChat->color();
     if (KColorDialog::getColor(c, this) != KColorDialog::Accepted) return;
 #else
-    QColor c = QColorDialog::getColor(edtChat->color(), this);
+QColor c = QColorDialog::getColor(edtChat->color(), this);
     if (!c.isValid()) return;
 #endif
     edtChat->setColor(c);
