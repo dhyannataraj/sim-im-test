@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: 0.8.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-11-17 18:12+0000\n"
-"PO-Revision-Date: 2004-11-29 10:14+0100\n"
+"PO-Revision-Date: 2004-12-09 18:15+0100\n"
 "Last-Translator: \n"
 "Language-Team: Français <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1090,7 +1090,7 @@ msgstr "Le fichier %1 existe déjà."
 # ui/maininfobase.cpp:237
 #: plugins/_core/filetransfer.cpp:210
 msgid "Receive file from %1"
-msgstr "Recevoir le fichier de %&"
+msgstr "Recevoir le fichier de %1"
 
 # msgedit.cpp:586
 #: plugins/_core/filetransfer.cpp:211
