@@ -149,7 +149,8 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                             if (!memcmp(cap, capabilities[i], size)){
                                 if (i == CAP_SIM){
 				    unsigned char build = cap[sizeof(capability)-1];
-				    if ((build == 0x92) && (build < (1 << 6))) continue;
+				    log(L_DEBUG, "Build: %X %u", build, build);
+				    if ((build == 0x92) || (build < (1 << 6))) continue;
                                     user->Build = build;
 				}
                                 user->Caps |= (1 << i);

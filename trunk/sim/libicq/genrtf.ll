@@ -182,6 +182,7 @@ rtf_cp rtf_cps[] =
 
 string ICQClient::createRTF(const string &text, unsigned long foreColor, const char *encoding)
 {
+	log(L_DEBUG, ">> %s", text.c_str());
 	int charset = 0;
 	for (const rtf_charset *c = rtf_charsets; c->rtf_code; c++){
 		if (!strcasecmp(c->name, encoding)){
@@ -231,6 +232,7 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
     string res;
     string t;
     bool bSpace = false;
+    bool bConvert;
     const char *p;
     ptr = text.c_str();
     for (;;){
@@ -253,18 +255,28 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
             break;
 		case WIDECHAR:
 			t = yytext;
-			if (send_encoding && fromUTF(t, send_encoding)){
-				for (p = t.c_str(); *p; p++){
-					if ((*p & 0x80) || (*p == '\\') || (*p == '{') || (*p == '}')){
-						char b[5];
-						snprintf(b, sizeof(b), "\\\'%02x", *p & 0xFF);
-						res += b;
-						continue;
-					}
-					res += *p;
-					bSpace = false;					
+			log(L_DEBUG, "Wide %s %s", t.c_str(), send_encoding);
+			bConvert = false;
+			if (send_encoding){
+				string utf = t;
+				if (fromUTF(t, send_encoding)){ 
+					string b = t;
+					if (toUTF(b, send_encoding) && !strcmp(utf.c_str(), b.c_str())){
+						for (p = t.c_str(); *p; p++){
+							if ((*p & 0x80) || (*p == '\\') || (*p == '{') || (*p == '}')){
+								char b[5];
+								snprintf(b, sizeof(b), "\\\'%02x", *p & 0xFF);
+								res += b;
+								continue;
+							}
+							res += *p;
+							bSpace = false;	
+						}
+						bConvert = true;
+					}				
 				}
-			}else{
+			}
+			if (!bConvert){
 				unsigned char *p = (unsigned char*)yytext;
 				unsigned c = 0;
 				unsigned b = *p++;

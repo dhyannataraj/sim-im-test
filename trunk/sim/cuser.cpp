@@ -253,6 +253,10 @@ QString CUser::client()
         res = "SIM";
         v1 = (u->Build >> 6) - 1;
         v2 = u->Build & 0x1F;
+        if (v1 == 0xFF){
+		res = "Kopete";
+		v1 = v2 = 0;
+        }
     }
     else if (u->hasCap(CAP_STR_2002) && u->hasCap(CAP_IS_2002))
         res = "ICQ 2002";

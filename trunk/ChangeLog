@@ -1,4 +1,5 @@
 Version 0.8
+Add recognize various clients
 Fix dock window and keyboard shortcuts for QT-only version
 Add loging change status
 Add smiles popup
