@@ -577,10 +577,10 @@ void Icons::addIcon(const char *name, const char **xpm, const char **bigXpm, boo
                     bigPictActive = bigIcon.pixmap(QIconSet::Large, QIconSet::Active);
                 }
 #ifndef WIN32
-	        if (bEnlightenment){
-		    bigPict = scalePict(bigPict, 40, 40);
-		    bigPictActive = scalePict(bigPictActive, 40, 40);
-		}
+                if (bEnlightenment){
+                    bigPict = scalePict(bigPict, 40, 40);
+                    bigPictActive = scalePict(bigPictActive, 40, 40);
+                }
 #endif
                 pict.setPixmap(bigPict, QIconSet::Large);
                 pict.setPixmap(bigPictActive, QIconSet::Large, QIconSet::Active);
@@ -605,11 +605,13 @@ void Icons::addIcon(const char *name, const char **xpm, const char **bigXpm, boo
         if (!isSystem){
             pict = QPixmap(xpm);
             if (bigXpm){
-		QPixmap big = QPixmap(bigXpm);
-		if (bEnlightenment)
-			big = scalePict(big, 40, 40);
+                QPixmap big = QPixmap(bigXpm);
+#ifndef WIN32
+                if (bEnlightenment)
+                    big = scalePict(big, 40, 40);
+#endif
                 pict.setPixmap(big, QIconSet::Large);
-	    }
+            }
         }
     }
     setIcon(name, pict);

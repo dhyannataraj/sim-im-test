@@ -459,7 +459,7 @@ unsigned long ICQClientPrivate::fullStatus(unsigned long s)
         s |= ICQ_STATUS_FxHIDExIP;
     if (m_bBirthday)
         s |= ICQ_STATUS_FxBIRTHDAY;
-    if (client->owner->inInvisible)
+    if (client->owner->InvisibleId)
         s |= ICQ_STATUS_FxPRIVATE;
     switch (client->DirectMode){
     case 1:
@@ -518,8 +518,8 @@ void ICQClient::addResponseRequest(unsigned long uin, bool bPriority)
     if (u->uStatus == ICQ_STATUS_OFFLINE) return;
     if ((u->Version <= 6) || u->hasCap(CAP_TRILLIAN) || (u->direct && u->direct->isLogged())){
         if (!bPriority){
-            if (owner->inInvisible && !u->inVisible) return;
-            if (!owner->inInvisible && u->inInvisible) return;
+            if (owner->InvisibleId && (u->VisibleId == 0)) return;
+            if ((owner->InvisibleId == 0) && u->InvisibleId) return;
         }
         ICQMessage *msg = new ICQAutoResponse;
         msg->setType(ICQ_READxAWAYxMSG);

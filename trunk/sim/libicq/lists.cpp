@@ -41,12 +41,6 @@ const unsigned short ICQ_SNACxLISTS_AUTHxSEND	   = 0x001A;
 const unsigned short ICQ_SNACxLISTS_AUTH           = 0x001B;
 const unsigned short ICQ_SNACxLISTS_ADDED          = 0x001C;
 
-const unsigned short ICQ_GROUPS					= 0x0001;
-const unsigned short ICQ_VISIBLE_LIST			= 0x0002;
-const unsigned short ICQ_INVISIBLE_LIST			= 0x0003;
-const unsigned short ICQ_INVISIBLE_STATE		= 0x0004;
-const unsigned short ICQ_IGNORE_LIST			= 0x000E;
-
 void ICQClientPrivate::snac_lists(unsigned short type, unsigned short seq)
 {
     bool bFull = false;
@@ -74,9 +68,9 @@ void ICQClientPrivate::snac_lists(unsigned short type, unsigned short seq)
                     if ((*it_usr)->Type != USER_TYPE_ICQ) continue;
                     (*it_usr)->Id = 0;
                     (*it_usr)->GrpId = 0;
-                    (*it_usr)->inIgnore = false;
-                    (*it_usr)->inVisible = false;
-                    (*it_usr)->inInvisible = false;
+                    (*it_usr)->IgnoreId = 0;
+                    (*it_usr)->VisibleId = 0;
+                    (*it_usr)->InvisibleId = 0;
                 }
             }
             sock->readBuffer >> list_len;
@@ -134,19 +128,19 @@ void ICQClientPrivate::snac_lists(unsigned short type, unsigned short seq)
                 case ICQ_VISIBLE_LIST:{
                         unsigned long uin = atol(str.c_str());
                         if (uin)
-                            client->getUser(atol(str.c_str()), true)->inVisible = true;
+                            client->getUser(atol(str.c_str()), true)->VisibleId = id;
                         break;
                     }
                 case ICQ_INVISIBLE_LIST:{
                         unsigned long uin = atol(str.c_str());
                         if (uin)
-                            client->getUser(atol(str.c_str()), true)->inInvisible = true;
+                            client->getUser(atol(str.c_str()), true)->InvisibleId = id;
                         break;
                     }
                 case ICQ_IGNORE_LIST:{
                         unsigned long uin = atol(str.c_str());
                         if (uin)
-                            client->getUser(atol(str.c_str()), true)->inIgnore = true;
+                            client->getUser(atol(str.c_str()), true)->IgnoreId = id;
                         break;
                     }
                 case ICQ_INVISIBLE_STATE:
@@ -211,7 +205,7 @@ void ICQClientPrivate::snac_lists(unsigned short type, unsigned short seq)
             }
             list<ICQUser*>::iterator it;
             for (it = client->contacts.users.begin(); it != client->contacts.users.end(); it++){
-                if ((*it)->inIgnore) continue;
+                if ((*it)->IgnoreId) continue;
                 if (!bFull && (*it)->Nick.size()) continue;
                 client->addInfoRequest((*it)->Uin);
             }
@@ -342,150 +336,79 @@ bool ICQListEvent::processAnswer(ICQClientPrivate *client, Buffer&, unsigned sho
 class ICQSetListEvent : public ICQListEvent
 {
 public:
-    ICQSetListEvent(unsigned long uin, unsigned type, bool bSet)
+    ICQSetListEvent(unsigned long uin, unsigned type, bool bSet, unsigned short id)
             : ICQListEvent(EVENT_INFO_CHANGED, uin),
-    m_type(type), m_bSet(bSet) {}
+    m_type(type), m_id(id), m_bSet(bSet) {}
     bool process(ICQClientPrivate*, unsigned short result);
 protected:
     unsigned m_type;
+    unsigned short m_id;
     bool m_bSet;
 };
 
-bool operator == (const list_req &r1, const list_req &r2)
-{
-    return (r1.uin == r2.uin) && (r1.list_type == r2.list_type) && (r1.bSet == r2.bSet);
-}
-
 bool ICQSetListEvent::process(ICQClientPrivate *icq, unsigned short result)
 {
-    if (result == 2) result = 0;
     if (result != 0){
         log(L_DEBUG, "ICQSetListEvent failed %04X", result);
-        icq->listQueue.remove(*icq->listQueue.begin());
-        icq->processListQueue();
         return false;
     }
-    if (m_nUin < UIN_SPECIAL){
-        ICQUser *u = icq->client->getUser(m_nUin);
-        if (u){
-            switch (m_type){
-            case ICQ_VISIBLE_LIST:
-                if (m_bSet){
-                    icq->addToVisibleList(m_nUin);
-                }else{
-                    icq->removeFromVisibleList(m_nUin);
-                }
-                u->inVisible = m_bSet;
-                break;
-            case ICQ_INVISIBLE_LIST:
-                if (m_bSet){
-                    icq->addToInvisibleList(m_nUin);
-                }else{
-                    icq->removeFromInvisibleList(m_nUin);
-                }
-                u->inInvisible = m_bSet;
-                break;
-            case ICQ_IGNORE_LIST:
-                u->inIgnore = m_bSet;
-                if (!m_bSet && (u->GrpId == 0)){
-                    ICQUser *u = icq->client->getUser(m_nUin);
-                    if (u == NULL)
-                        icq->client->contacts.users.remove(u);
-                    ICQEvent e(EVENT_USER_DELETED, m_nUin);
-                    icq->client->process_event(&e);
-                }
-                break;
-            default:
-                log(L_WARN, "Unknown ICQSetListEvent type");
-                return false;
+    ICQUser *u = icq->client->getUser(m_nUin);
+    if (u){
+        switch (m_type){
+        case ICQ_VISIBLE_LIST:
+            u->VisibleId = m_id;
+            break;
+        case ICQ_INVISIBLE_LIST:
+            u->InvisibleId = m_id;
+            break;
+        case ICQ_IGNORE_LIST:
+            u->IgnoreId = m_id;
+            if ((u->IgnoreId == 0) && (u->GrpId == 0)){
+                m_nType = EVENT_USER_DELETED;
+                icq->client->contacts.users.remove(u);
+                delete u;
             }
+            break;
+        default:
+            log(L_WARN, "Unknown ICQSetListEvent type");
+            return false;
         }
     }
-    icq->listQueue.remove(*icq->listQueue.begin());
-    icq->processListQueue();
     return true;
 }
 
-void ICQClientPrivate::processListQueue()
+void ICQClientPrivate::setInList(ICQUser *u, bool bSet, unsigned short list_type)
 {
-    for (;;){
-        if ((sock == NULL) || (sock->isError())) return;
-        if (listQueue.size() == 0) return;
-        list_req lr = *listQueue.begin();
-        ICQUser *u = client->getUser(lr.uin);
-        if (u == NULL){
-            listQueue.remove(lr);
-            continue;
-        }
-        unsigned short userId = client->contacts.getUserId(u);
-        string alias = u->Alias;
-        if (*alias.c_str() == 0) alias = u->FirstName;
-        if (*alias.c_str() == 0){
-            char b[13];
-            snprintf(b, sizeof(b), "%lu", u->Uin);
-            alias = b;
-        }
-        ICQSetListEvent *e = new ICQSetListEvent(u->Uin, lr.list_type, lr.bSet);
-        sendRoster(e,
-                   lr.bSet ? ICQ_SNACxLISTS_CREATE : ICQ_SNACxLISTS_DELETE,
-                   u->Uin, 0, userId, lr.list_type,
-                   (lr.list_type == ICQ_IGNORE_LIST) ? "" : alias.c_str());
-        return;
-    }
+    if ((sock == NULL) || (sock->isError())) return;
+    unsigned short userId = client->contacts.getUserId(u, list_type, true);
+    ICQSetListEvent *e = new ICQSetListEvent(u->Uin, list_type, bSet, bSet ? userId : 0);
+    sendRoster(e, bSet ? ICQ_SNACxLISTS_CREATE : ICQ_SNACxLISTS_DELETE,
+               u->Uin, 0, userId, list_type, "");
 }
 
 void ICQClient::setInVisible(ICQUser *u, bool bSet)
 {
-    if (u->inVisible == bSet) return;
-    if (u->Uin >= UIN_SPECIAL){
-        ICQSetListEvent *e = new ICQSetListEvent(u->Uin, ICQ_VISIBLE_LIST, bSet);
-        if (e->process(p, 0)) process_event(e);
-        delete e;
-        return;
-    }
-    list_req lr;
-    lr.uin = u->Uin;
-    lr.list_type = ICQ_VISIBLE_LIST;
-    lr.bSet = bSet;
-    p->listQueue.push_back(lr);
-    if (p->listQueue.size() <= 1)
-        p->processListQueue();
+    if ((u->VisibleId != 0) == bSet) return;
+    if (u->Uin >= UIN_SPECIAL) return;
+    p->setInList(u, bSet, ICQ_VISIBLE_LIST);
 }
 
 void ICQClient::setInInvisible(ICQUser *u, bool bSet)
 {
-    if (u->inInvisible == bSet) return;
-    if (u->Uin >= UIN_SPECIAL){
-        ICQSetListEvent *e = new ICQSetListEvent(u->Uin, ICQ_INVISIBLE_LIST, bSet);
-        if (e->process(p, 0)) process_event(e);
-        delete e;
-        return;
-    }
-    list_req lr;
-    lr.uin = u->Uin;
-    lr.list_type = ICQ_INVISIBLE_LIST;
-    lr.bSet = bSet;
-    p->listQueue.push_back(lr);
-    if (p->listQueue.size() <= 1)
-        p->processListQueue();
+    if ((u->InvisibleId != 0) == bSet) return;
+    if (u->Uin >= UIN_SPECIAL) return;
+    p->setInList(u, bSet, ICQ_INVISIBLE_LIST);
 }
 
 void ICQClient::setInIgnore(ICQUser *u, bool bSet)
 {
-    if (u->inIgnore == bSet) return;
+    if ((u->IgnoreId != 0) == bSet) return;
     if (u->Uin >= UIN_SPECIAL){
-        ICQSetListEvent *e = new ICQSetListEvent(u->Uin, ICQ_IGNORE_LIST, bSet);
-        if (e->process(p, 0)) process_event(e);
-        delete e;
-        return;
+        ICQSetListEvent e(u->Uin, ICQ_IGNORE_LIST, bSet, bSet ? 0xFFFF : 0);
+        e.process(p, 0);
+        process_event(&e);
     }
-    list_req lr;
-    lr.uin = u->Uin;
-    lr.list_type = ICQ_IGNORE_LIST;
-    lr.bSet = bSet;
-    p->listQueue.push_back(lr);
-    if (p->listQueue.size() <= 1)
-        p->processListQueue();
+    p->setInList(u, bSet, ICQ_IGNORE_LIST);
 }
 
 class MoveUserEvent : public ICQListEvent
@@ -600,7 +523,7 @@ void ICQClient::moveUser(ICQUser *u, ICQGroup *g)
 void ICQClientPrivate::moveUser(ICQUser *u, ICQGroup *g)
 {
     if (m_state != Logged) return;
-    unsigned short id = client->contacts.getUserId(u);
+    unsigned short id = client->contacts.getUserId(u, 0, false);
     MoveUserEvent *e = new MoveUserEvent(u->Uin, g->Id);
     if (!u->GrpId){
         snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_CREATE_USER);
@@ -676,9 +599,9 @@ bool DeleteUserEvent::process(ICQClientPrivate *icq, unsigned short result)
 
 void ICQClient::deleteUser(ICQUser *u)
 {
-    if (u->inIgnore) setInIgnore(u, false);
-    if (u->inInvisible) setInInvisible(u, false);
-    if (u->inVisible) setInVisible(u, false);
+    if (u->IgnoreId) setInIgnore(u, false);
+    if (u->InvisibleId) setInInvisible(u, false);
+    if (u->VisibleId) setInVisible(u, false);
     if ((u->GrpId == 0) || (u->Uin >= UIN_SPECIAL)){
         contacts.users.remove(u);
         ICQEvent e(EVENT_USER_DELETED, u->Uin);
@@ -947,58 +870,6 @@ void ICQClientPrivate::processMsgQueueAuth()
         client->process_event(e);
         it = msgQueue.begin();
     }
-}
-
-void ICQClientPrivate::addToVisibleList(unsigned long uin)
-{
-    if (uin >= UIN_SPECIAL) return;
-    ICQUser *u = client->getUser(uin);
-    snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_CREATE);
-    sock->writeBuffer.packUin(uin);
-    sock->writeBuffer<<(unsigned short) 0;
-    sock->writeBuffer<<u->Id;
-    sock->writeBuffer<<(unsigned short) 3;
-    sock->writeBuffer<<(unsigned short) 0;
-    sendPacket();
-}
-
-void ICQClientPrivate::addToInvisibleList(unsigned long uin)
-{
-    if (uin >= UIN_SPECIAL) return;
-    ICQUser *u = client->getUser(uin);
-    snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_CREATE);
-    sock->writeBuffer.packUin(uin);
-    sock->writeBuffer<<(unsigned short) 0;
-    sock->writeBuffer<<u->Id;
-    sock->writeBuffer<<(unsigned short) 2;
-    sock->writeBuffer<<(unsigned short) 0;
-    sendPacket();
-}
-
-void ICQClientPrivate::removeFromVisibleList(unsigned long uin)
-{
-    if (uin >= UIN_SPECIAL) return;
-    ICQUser *u = client->getUser(uin);
-    snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_DELETE);
-    sock->writeBuffer.packUin(uin);
-    sock->writeBuffer<<(unsigned short) 0;
-    sock->writeBuffer<<u->Id;
-    sock->writeBuffer<<(unsigned short) 3;
-    sock->writeBuffer<<(unsigned short) 0;
-    sendPacket();
-}
-
-void ICQClientPrivate::removeFromInvisibleList(unsigned long uin)
-{
-    if (uin >= UIN_SPECIAL) return;
-    ICQUser *u = client->getUser(uin);
-    snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_DELETE);
-    sock->writeBuffer.packUin(uin);
-    sock->writeBuffer<<(unsigned short) 0;
-    sock->writeBuffer<<u->Id;
-    sock->writeBuffer<<(unsigned short) 2;
-    sock->writeBuffer<<(unsigned short) 0;
-    sendPacket();
 }
 
 void ICQClientPrivate::sendVisibleList()

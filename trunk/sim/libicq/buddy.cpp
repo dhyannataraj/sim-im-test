@@ -215,13 +215,13 @@ void ICQClientPrivate::sendContactList()
     int nBuddies = 0;
     list<ICQUser*>::iterator it;
     for (it = client->contacts.users.begin(); it != client->contacts.users.end(); it++){
-        if (((*it)->Uin < UIN_SPECIAL) && !(*it)->inIgnore &&
+        if (((*it)->Uin < UIN_SPECIAL) && ((*it)->IgnoreId == 0) &&
                 ((*it)->WaitAuth || ((*it)->GrpId == 0))) nBuddies++;
     }
     if (nBuddies == 0) return;
     snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_ADDxTOxLIST);
     for (it = client->contacts.users.begin(); it != client->contacts.users.end(); it++){
-        if (((*it)->Uin < UIN_SPECIAL) && !(*it)->inIgnore &&
+        if (((*it)->Uin < UIN_SPECIAL) && ((*it)->IgnoreId == 0) &&
                 ((*it)->WaitAuth || ((*it)->GrpId == 0)))
             sock->writeBuffer.packUin((*it)->Uin);
     }

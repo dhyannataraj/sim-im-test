@@ -522,13 +522,13 @@ set_background_properties(QWidget *w)
 {
     QPixmap bg = getClassPixmap((char*)"EPPLET_BACKGROUND_VERTICAL", (char*)"normal", w);
     if (!bg.isNull()){
-	int border = 2;
-        QPixmap img = getClassPixmap((char*)"EPPLET_DRAWINGAREA", (char*)"normal", w, 
-		w->width() - border * 2, w->height() - border * 2); 
-	if (!img.isNull()){
-		QPainter p(&bg);
-		p.drawPixmap(border, border, img);
-	}
+        int border = 2;
+        QPixmap img = getClassPixmap((char*)"EPPLET_DRAWINGAREA", (char*)"normal", w,
+                                     w->width() - border * 2, w->height() - border * 2);
+        if (!img.isNull()){
+            QPainter p(&bg);
+            p.drawPixmap(border, border, img);
+        }
         w->setBackgroundPixmap(bg);
         if (bg.mask()){
             w->setMask(*bg.mask());
@@ -585,7 +585,7 @@ DockWnd::DockWnd(QWidget *main)
     if (bEnlightenment){
         wharfIcon = NULL;
         bInit = true;
-	resize(48, 48);
+        resize(48, 48);
         setFocusPolicy(NoFocus);
         move(pMain->DockX, pMain->DockY);
         reset();
@@ -891,7 +891,7 @@ void DockWnd::timer()
     const QIconSet &icons = Icon(icon);
     QPixmap nvis(icons.pixmap(QIconSet::Large, QIconSet::Normal));
     if (!bEnlightenment){
-	resize(nvis.width(), nvis.height());
+        resize(nvis.width(), nvis.height());
         if (msg){
             QPixmap msgPict = Pict(msg);
             QRegion *rgn = NULL;

@@ -426,9 +426,9 @@ void UserViewItem::update(ICQUser *u, bool bFirst)
             if (u->PhoneState == 1) m_bPhone = true;
         }
     }
-    m_bItalic = u->inVisible;
+    m_bItalic = (u->VisibleId != 0);
     m_bUnderline = !pClient->BypassAuth && u->WaitAuth;
-    m_bStrikeOut = u->inInvisible;
+    m_bStrikeOut = (u->InvisibleId != 0);
     if (bFirst){
         if (parent() && (u->uStatus != ICQ_STATUS_OFFLINE))
             static_cast<GroupViewItem*>(parent())->changeCounter(true);
@@ -958,15 +958,15 @@ void UserView::doubleClick(QListViewItem *item)
     if (bList) return;
     UserViewItemBase *item_base = static_cast<UserViewItemBase*>(item);
     switch (item_base->type()){
-	case 1:{
-		UserViewItem *ui = static_cast<UserViewItem*>(item);
-		pMain->userFunction(ui->m_uin, mnuAction);
-		break;
-		   }
-	case 2:
-		item->setOpen(!item->isOpen());
-		break;
-	}
+    case 1:{
+            UserViewItem *ui = static_cast<UserViewItem*>(item);
+            pMain->userFunction(ui->m_uin, mnuAction);
+            break;
+        }
+    case 2:
+        item->setOpen(!item->isOpen());
+        break;
+    }
 }
 
 void UserView::paintEmptyArea(QPainter *p, const QRect &r)
@@ -1145,7 +1145,7 @@ void UserView::setOpen(bool bOpen)
 bool UserView::isUserShow(ICQUser *u)
 {
     if (u == NULL) return false;
-    if (u->inIgnore || u->bIsTemp) return false;
+    if (u->IgnoreId || u->bIsTemp) return false;
     if (u->Uin == pClient->owner->Uin) return false;
     if (m_bShowOffline) return true;
     if (u->Type != USER_TYPE_ICQ) return true;
@@ -1188,7 +1188,7 @@ void UserView::setShowOffline(bool bShowOffline)
         }
     }else{
         for (it = contacts.users.begin(); it != contacts.users.end(); it++){
-			if (isUserShow(*it)) continue;
+            if (isUserShow(*it)) continue;
             UserViewItem *item = findUserItem((*it)->Uin);
             if (item) delete item;
         }
@@ -1206,7 +1206,7 @@ void UserView::updateUser(unsigned long uin, bool bFull)
     if (bFloaty){
         if (item == NULL) return;
     }else{
-        if ((u == NULL) || u->inIgnore){
+        if ((u == NULL) || u->IgnoreId){
             if (item) delete item;
             return;
         }
@@ -1478,7 +1478,7 @@ void UserView::itemClicked(QListViewItem *list_item)
 
 void UserView::contentsMouseDoubleClickEvent(QMouseEvent *e)
 {
-	if (!pMain->UseDoubleClick) return;
+    if (!pMain->UseDoubleClick) return;
     QListViewItem *list_item = itemAt(contentsToViewport(e->pos()));
     if (list_item) doubleClick(list_item);
 }
@@ -1749,7 +1749,7 @@ bool UserFloat::setUin(unsigned long uin)
     if (!it.current()) return false;
     QSize s;
     s.setWidth(it.current()->width(QFontMetrics(QFont()), this, 0) + 10);
-    s.setHeight(it.current()->totalHeight() + 2);
+    s.setHeight(it.current()->totalHeight() + 6);
     resize(s);
     Uin = uin;
     return true;
@@ -1780,7 +1780,7 @@ void UserFloat::userChanged()
     if (!it.current()) return;
     QSize s;
     s.setWidth(it.current()->width(QFontMetrics(QFont()), this, 0) + 10);
-    s.setHeight(it.current()->totalHeight() + 2);
+    s.setHeight(it.current()->totalHeight() + 6);
     resize(s);
 }
 
@@ -1791,7 +1791,7 @@ void UserFloat::contentsMouseDoubleClickEvent(QMouseEvent *e)
         viewport()->releaseMouse();
     }
     mousePos = QPoint();
-	UserView::contentsMouseDoubleClickEvent(e);
+    UserView::contentsMouseDoubleClickEvent(e);
 }
 
 void UserFloat::contentsMousePressEvent(QMouseEvent *e)

@@ -46,13 +46,6 @@ typedef struct msg_id
     unsigned long l;
 } msg_id;
 
-typedef struct list_req
-{
-    unsigned long uin;
-    int list_type;
-    bool bSet;
-} list_req;
-
 typedef struct rtf_charset
 {
     const char *name;
@@ -65,8 +58,6 @@ typedef struct info_request
     bool		  bAuto;
     bool operator == (const info_request &r) { return (r.uin == uin); }
 } info_request;
-
-bool operator == (const list_req &r1, const list_req &r2);
 
 typedef unsigned char capability[0x10];
 
@@ -140,9 +131,6 @@ public:
     unsigned long lastInfoRequestTime;
     unsigned long lastPhoneRequestTime;
     unsigned long lastResponseRequestTime;
-
-    list<list_req>  listQueue;
-    void processListQueue();
 
     list<ICQEvent*> msgQueue;
     void processMsgQueue();
@@ -224,11 +212,6 @@ public:
     void dropPacket();
 
     void addToContacts(unsigned long uin);
-    void addToVisibleList(unsigned long uin);
-    void addToInvisibleList(unsigned long uin);
-    void removeFromVisibleList(unsigned long uin);
-    void removeFromInvisibleList(unsigned long uin);
-
     void sendRoster(ICQEvent *e, unsigned short cmd, const char *name, unsigned short grp_id,
                     unsigned short usr_id, unsigned short subCmd, const char *alias=NULL, bool waitAuth=false);
     void sendRoster(ICQEvent *e, unsigned short cmd, unsigned long uin, unsigned short grp_id,
@@ -271,6 +254,7 @@ public:
 
     void sendVisibleList();
     void sendInvisibleList();
+    void setInList(ICQUser *u, bool bSet, unsigned short list_type);
 
     bool utf16to8(unsigned short c, string &s);
 

@@ -5644,6 +5644,8 @@ OutDir=.\Release
 InputPath=.\po\cs.po
 
 "$(OutDir)\po\cs.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
 	move tr.qm $(OutDir)\po\cs.qm 
 	
@@ -5656,6 +5658,8 @@ OutDir=.\Debug
 InputPath=.\po\cs.po
 
 "$(OutDir)\po\cs.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
 	move tr.qm $(OutDir)\po\cs.qm 
 	
@@ -5675,6 +5679,8 @@ OutDir=.\Release
 InputPath=.\po\de.po
 
 "$(OutDir)\po\de.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
 	move tr.qm $(OutDir)\po\de.qm 
 	
@@ -5687,6 +5693,8 @@ OutDir=.\Debug
 InputPath=.\po\de.po
 
 "$(OutDir)\po\de.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
 	move tr.qm $(OutDir)\po\de.qm 
 	
@@ -5706,6 +5714,8 @@ OutDir=.\Release
 InputPath=.\po\es.po
 
 "$(OutDir)\po\es.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
 	move tr.qm $(OutDir)\po\es.qm 
 	
@@ -5718,6 +5728,8 @@ OutDir=.\Debug
 InputPath=.\po\es.po
 
 "$(OutDir)\po\es.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
 	move tr.qm $(OutDir)\po\es.qm 
 	
@@ -5737,6 +5749,8 @@ OutDir=.\Release
 InputPath=.\po\it.po
 
 "$(OutDir)\po\it.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
 	move tr.qm $(OutDir)\po\it.qm 
 	
@@ -5749,6 +5763,8 @@ OutDir=.\Debug
 InputPath=.\po\it.po
 
 "$(OutDir)\po\it.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
 	move tr.qm $(OutDir)\po\it.qm 
 	
@@ -5768,6 +5784,8 @@ OutDir=.\Release
 InputPath=.\po\nl.po
 
 "$(OutDir)\po\nl.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
 	move tr.qm $(OutDir)\po\nl.qm 
 	
@@ -5780,6 +5798,8 @@ OutDir=.\Debug
 InputPath=.\po\nl.po
 
 "$(OutDir)\po\nl.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
 	move tr.qm $(OutDir)\po\nl.qm 
 	
@@ -5799,6 +5819,8 @@ OutDir=.\Release
 InputPath=.\po\pl.po
 
 "$(OutDir)\po\pl.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
 	move tr.qm $(OutDir)\po\pl.qm 
 	
@@ -5811,6 +5833,8 @@ OutDir=.\Debug
 InputPath=.\po\pl.po
 
 "$(OutDir)\po\pl.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
 	move tr.qm $(OutDir)\po\pl.qm 
 	
@@ -5830,6 +5854,8 @@ OutDir=.\Release
 InputPath=.\po\ru.po
 
 "$(OutDir)\po\ru.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
 	move tr.qm $(OutDir)\po\ru.qm 
 	
@@ -5842,6 +5868,8 @@ OutDir=.\Debug
 InputPath=.\po\ru.po
 
 "$(OutDir)\po\ru.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
 	move tr.qm $(OutDir)\po\ru.qm 
 	
@@ -5861,6 +5889,8 @@ OutDir=.\Release
 InputPath=.\po\tr.po
 
 "$(OutDir)\po\tr.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
 	move tr.qm $(OutDir)\po\tr.qm 
 	
@@ -5873,6 +5903,8 @@ OutDir=.\Debug
 InputPath=.\po\tr.po
 
 "$(OutDir)\po\tr.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
 	move tr.qm $(OutDir)\po\tr.qm 
 	
@@ -5892,6 +5924,8 @@ OutDir=.\Release
 InputPath=.\po\uk.po
 
 "$(OutDir)\po\uk.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
 	move tr.qm $(OutDir)\po\uk.qm 
 	
@@ -5904,6 +5938,8 @@ OutDir=.\Debug
 InputPath=.\po\uk.po
 
 "$(OutDir)\po\uk.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
 	move tr.qm $(OutDir)\po\uk.qm 
 	
@@ -5923,6 +5959,8 @@ OutDir=.\Release
 InputPath=.\po\zh_TW.po
 
 "$(OutDir)\po\zh_TW.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
 	move tr.qm $(OutDir)\po\zh_TW.qm 
 	
@@ -5935,6 +5973,8 @@ OutDir=.\Debug
 InputPath=.\po\zh_TW.po
 
 "$(OutDir)\po\zh_TW.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
 	$(QTDIR)\bin\msg2qm $(InputPath) 
 	move tr.qm $(OutDir)\po\zh_TW.qm 
 	

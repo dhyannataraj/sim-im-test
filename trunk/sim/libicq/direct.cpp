@@ -208,7 +208,7 @@ void DirectSocket::packet_ready()
             sock->readBuffer.unpack(p_uin);
             if (m_bIncoming){
                 ICQUser *user = client->client->getUser(p_uin, true, true);
-                if ((user == NULL) || user->inIgnore){
+                if ((user == NULL) || user->IgnoreId){
                     log(L_WARN, "User %lu not found", p_uin);
                     sock->error_state(ErrorProtocol);
                     return;
@@ -703,7 +703,7 @@ void DirectClient::connect_ready()
     }
     if (m_bIncoming){
         u = client->client->getUser(uin);
-        if ((u == NULL) || u->inIgnore){
+        if ((u == NULL) || u->IgnoreId){
             log(L_WARN, "Connection from unknown user");
             sock->error_state(ErrorProtocol);
             return;

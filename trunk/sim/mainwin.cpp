@@ -277,7 +277,7 @@ cfgParam MainWindow_Params[] =
         { "ForwardPhone", OFFSET_OF(MainWindow, ForwardPhone), PARAM_STRING, 0 },
         { "SendEnter", OFFSET_OF(MainWindow, SendEnter), PARAM_BOOL, 0 },
         { "AlphabetSort", OFFSET_OF(MainWindow, AlphabetSort), PARAM_BOOL, 0 },
-		{ "UseDoubleClick", OFFSET_OF(MainWindow, UseDoubleClick), PARAM_BOOL, 0 },
+        { "UseDoubleClick", OFFSET_OF(MainWindow, UseDoubleClick), PARAM_BOOL, 0 },
         { "UseDock", OFFSET_OF(MainWindow, UseDock), PARAM_BOOL, 1 },
         { "DockX", OFFSET_OF(MainWindow, DockX), PARAM_SHORT, 0 },
         { "DockY", OFFSET_OF(MainWindow, DockY), PARAM_SHORT, 0 },
@@ -362,6 +362,8 @@ static bool bInMoving = false;
 static bool bFullScreen = false;
 static bool bOnTop = false;
 static bool bAutoHideVisible = false;
+static int  lastHeight = 0;
+static int  lastTop = 0;
 
 void getBarRect(UINT state, QRect &rc, RECT *rcWnd = NULL)
 {
@@ -383,6 +385,35 @@ void getBarRect(UINT state, QRect &rc, RECT *rcWnd = NULL)
         rc.setLeft(rc.right() - w);
         break;
     }
+}
+
+void getNeedBarRect(UINT state, QRect &rc)
+{
+    getBarRect(state, rc);
+    if (pMain->BarAutoHide && !bAutoHideVisible){
+        int w = 4 * GetSystemMetrics(SM_CXBORDER);
+        if (pMain->BarState == ABE_LEFT){
+            rc.setRight(rc.left() + w);
+        }else{
+            rc.setLeft(rc.right() - w);
+        }
+    }
+}
+
+bool bInBar = true;
+
+void setInBar(bool bState)
+{
+    if (bState == bInBar) return;
+    bInBar = bState;
+    bool bVisible = pMain->isVisible();
+    if (bVisible) pMain->hide();
+    if (bState){
+        SetWindowLongW(pMain->winId(), GWL_EXSTYLE, (GetWindowLongW(pMain->winId(), GWL_EXSTYLE) | WS_EX_APPWINDOW) & (~WS_EX_TOOLWINDOW));
+    }else{
+        SetWindowLongW(pMain->winId(), GWL_EXSTYLE, (GetWindowLongW(pMain->winId(), GWL_EXSTYLE) & ~(WS_EX_APPWINDOW)) | WS_EX_TOOLWINDOW);
+    }
+    if (bVisible) pMain->show();
 }
 
 const int SLIDE_INTERVAL = 400;
@@ -436,6 +467,7 @@ void slideWindow (const QRect &rcEnd, bool bAnimate)
             UpdateWindow(pMain->winId());
         }
     }
+    setInBar(pMain->MainWindowInTaskManager && (pMain->BarState == ABE_FLOAT));
     SetWindowPos(pMain->winId(), NULL,
                  rcEnd.left(), rcEnd.top(), rcEnd.width(), rcEnd.height(),
                  SWP_NOZORDER | SWP_NOACTIVATE | SWP_DRAWFRAME);
@@ -465,7 +497,8 @@ void setBarState(bool bAnimate = false)
                 rcAutoHide.setLeft(rcAutoHide.right() - w);
             }
             appBarMessage(ABM_SETPOS, pMain->BarState, FALSE, &rcAutoHide);
-            if (!bAutoHideVisible) rc = rcAutoHide;
+            if (!bAutoHideVisible)
+                rc = rcAutoHide;
         }else{
             appBarMessage(ABM_SETPOS, pMain->BarState, FALSE, &rc);
         }
@@ -490,10 +523,10 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     unsigned type;
     RECT  *prc;
     RECT rcWnd;
-    QRect rc;
     LRESULT res;
-    MINMAXINFO *info;
-
+    WINDOWPOS *wPos;
+    QRect rc;
+    int sLastHeight;
     if (msg == WM_APPBAR){
         switch (wParam){
         case ABN_FULLSCREENAPP:
@@ -508,6 +541,13 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         return 0;
     }
     switch (msg){
+    case WM_ACTIVATE:
+        if ((wParam == WA_INACTIVE) && pMain->BarAutoHide && bAutoHideVisible){
+            bAutoHideVisible = false;
+            setBarState();
+        }
+        appBarMessage(ABM_ACTIVATE);
+        break;
     case WM_ENTERSIZEMOVE:
         bInMoving = true;
         pMain->mWidth = pMain->size().width();
@@ -517,23 +557,59 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         pMain->mLeft = pMain->pos().x();
         pMain->mTop = pMain->pos().y();
         pMain->mHeight = pMain->size().height();
-        break;
+        return DefWindowProc(hWnd, msg, wParam, lParam);
     case WM_EXITSIZEMOVE:
+        sLastHeight = lastHeight;
+        res = DefWindowProc(hWnd, msg, wParam, lParam);
         bInMoving = false;
         GetWindowRect(pMain->winId(), &rcWnd);
         pMain->mWidth = rcWnd.right - rcWnd.left - GetSystemMetrics(SM_CXBORDER) * 2;
         pMain->BarState = getEdge();
         setBarState(true);
-        break;
+        lastHeight = sLastHeight;
+        return res;
     case WM_NCMOUSEMOVE:
         if ((pMain->BarState != ABE_FLOAT) && pMain->BarAutoHide && !bAutoHideVisible){
             bAutoHideVisible = true;
             setBarState(true);
         }
-        break;
-    case WM_GETMINMAXINFO:
-        info = (MINMAXINFO*)lParam;
+        return WndProc(hWnd, msg, wParam, lParam);
+    case WM_WINDOWPOSCHANGING:
+        wPos = (WINDOWPOS*)lParam;
+        if (bInMoving || ((wPos->flags & SWP_NOMOVE) && (wPos->flags & SWP_NOSIZE))) break;
+        switch (pMain->BarState){
+        case ABE_LEFT:
+            getNeedBarRect(pMain->BarState, rc);
+            if (rc.left() != wPos->x){
+                wPos->x = rc.left();
+                wPos->y = rc.top();
+                wPos->cx = rc.width();
+                wPos->cy = rc.height();
+                break;
+            }
+            break;
+        case ABE_RIGHT:
+            getNeedBarRect(pMain->BarState, rc);
+            if (rc.right() != wPos->x + wPos->cx + GetSystemMetrics(SM_CXBORDER)){
+                wPos->x = rc.left();
+                wPos->y = rc.top();
+                wPos->cx = rc.width();
+                wPos->cy = rc.height();
+                break;
+            }
+            break;
+        case ABE_FLOAT:
+            if (lastHeight && (wPos->cy != lastHeight)){
+                wPos->y = lastTop;
+                wPos->cy = lastHeight;
+            }
+            break;
+        }
+        lastHeight = 0;
+        return WndProc(hWnd, msg, wParam, lParam);
+    case WM_WINDOWPOSCHANGED:
         res = WndProc(hWnd, msg, wParam, lParam);
+        appBarMessage(ABM_WINDOWPOSCHANGED);
         return res;
     case WM_MOVING:
     case WM_SIZING:
@@ -553,6 +629,8 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             prc->bottom = rc.bottom();
             bSizing = true;
         }
+        lastTop    = prc->top;
+        lastHeight = prc->bottom - prc->top;
         return 1;
     }
     return WndProc(hWnd, msg, wParam, lParam);
@@ -1132,7 +1210,7 @@ bool MainWindow::init()
         }
         break;
     }
-    menuStatus->setItemChecked(ICQ_STATUS_FxPRIVATE, pClient->owner->inInvisible);
+    menuStatus->setItemChecked(ICQ_STATUS_FxPRIVATE, pClient->owner->InvisibleId);
     changeWm();
 
     bool bNeedSetup = false;
@@ -1348,9 +1426,10 @@ void MainWindow::processEvent(ICQEvent *e)
             if (_u == NULL) return;
             SIMUser *u = static_cast<SIMUser*>(_u);
             SIMUser *o = static_cast<SIMUser*>(pClient->owner);
-            if (!u->inIgnore && ((NoAlertAway == 0) ||
-                                 ((u->uStatus & 0xFF) == ICQ_STATUS_ONLINE) ||
-                                 ((u->uStatus & 0xFF) == ICQ_STATUS_FREEFORCHAT)) &&
+            if ((u->IgnoreId == 0) &&
+                    ((NoAlertAway == 0) ||
+                     ((u->uStatus & 0xFF) == ICQ_STATUS_ONLINE) ||
+                     ((u->uStatus & 0xFF) == ICQ_STATUS_FREEFORCHAT)) &&
                     ((u->prevStatus & 0xFF) != ICQ_STATUS_ONLINE) &&
                     ((u->prevStatus & 0xFF) != ICQ_STATUS_FREEFORCHAT) &&
                     (((pClient->owner->uStatus & 0xFF) == ICQ_STATUS_ONLINE) ||
@@ -1749,7 +1828,7 @@ void MainWindow::setup()
 void MainWindow::setupClosed()
 {
     if (setupDlg)
-		delete setupDlg;
+        delete setupDlg;
     setupDlg = NULL;
 }
 
@@ -1923,8 +2002,8 @@ void MainWindow::autoAway()
 void MainWindow::setStatus(int status)
 {
     if ((unsigned long)status == ICQ_STATUS_FxPRIVATE){
-        pClient->setInvisible(!pClient->owner->inInvisible);
-        menuStatus->setItemChecked(ICQ_STATUS_FxPRIVATE, pClient->owner->inInvisible);
+        pClient->setInvisible(pClient->owner->InvisibleId == 0);
+        menuStatus->setItemChecked(ICQ_STATUS_FxPRIVATE, pClient->owner->InvisibleId != 0);
         return;
     }
     AutoReplyDlg *autoDlg = NULL;
@@ -1970,15 +2049,15 @@ void MainWindow::moveUser(int grp)
     switch (grp){
     case mnuGroupVisible:
         if (u == NULL) break;
-        pClient->setInVisible(u, !u->inVisible);
+        pClient->setInVisible(u, u->VisibleId == 0);
         break;
     case mnuGroupInvisible:
         if (u == NULL) break;
-        pClient->setInInvisible(u, !u->inInvisible);
+        pClient->setInInvisible(u, u->InvisibleId == 0);
         break;
     case mnuGroupIgnore:
         if (u == NULL) break;
-        if (!u->inIgnore){
+        if (u->IgnoreId == 0){
             CUser user(u);
             QStringList btns;
             btns.append(i18n("&Yes"));
@@ -1989,7 +2068,7 @@ void MainWindow::moveUser(int grp)
             msg->show();
             break;
         }
-        pClient->setInIgnore(u, !u->inIgnore);
+        pClient->setInIgnore(u, u->IgnoreId == 0);
         break;
     default:
         if (u == NULL) u = pClient->getUser(m_uin, true);
@@ -2048,12 +2127,12 @@ void MainWindow::adjustGroupMenu(QPopupMenu *menuGroup, unsigned long uin)
         menuGroup->insertSeparator();
         if (u->Type == USER_TYPE_ICQ){
             menuGroup->insertItem(i18n("In visible list"), mnuGroupVisible);
-            menuGroup->setItemChecked(mnuGroupVisible, u->inVisible);
+            menuGroup->setItemChecked(mnuGroupVisible, u->VisibleId != 0);
             menuGroup->insertItem(i18n("In invisible list"), mnuGroupInvisible);
-            menuGroup->setItemChecked(mnuGroupInvisible, u->inInvisible);
+            menuGroup->setItemChecked(mnuGroupInvisible, u->InvisibleId != 0);
         }
         menuGroup->insertItem(i18n("In ignore list"), mnuGroupIgnore);
-        menuGroup->setItemChecked(mnuGroupIgnore, u->inIgnore);
+        menuGroup->setItemChecked(mnuGroupIgnore, u->IgnoreId != 0);
     }
 }
 
@@ -2786,14 +2865,7 @@ void MainWindow::changeWm()
     }
 #endif
 #ifdef WIN32
-    bool bVisible = isVisible();
-    if (bVisible) hide();
-    if (MainWindowInTaskManager){
-        SetWindowLongW(winId(), GWL_EXSTYLE, (GetWindowLongW(winId(), GWL_EXSTYLE) | WS_EX_APPWINDOW) & (~WS_EX_TOOLWINDOW));
-    }else{
-        SetWindowLongW(winId(), GWL_EXSTYLE, (GetWindowLongW(winId(), GWL_EXSTYLE) & ~(WS_EX_APPWINDOW)) | WS_EX_TOOLWINDOW);
-    }
-    if (bVisible) show();
+    setInBar(MainWindowInTaskManager && (BarState == ABE_FLOAT));
 #endif
     emit wmChanged();
 }

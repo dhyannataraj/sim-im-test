@@ -58,8 +58,8 @@ protected slots:
     void read_ready(int);
     void processEvent(ICQEvent*);
 protected:
-	int  s;
-	bool bEscape;
+    int  s;
+    bool bEscape;
     string read_line;
     void write(const char*);
     ICQEvent *sendEvent;

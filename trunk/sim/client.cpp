@@ -184,9 +184,9 @@ cfgParam ICQUser_Params[] =
         { "Id", OFFSET_OF(ICQUser, Id), PARAM_USHORT, 0 },
         { "GrpId", OFFSET_OF(ICQUser, GrpId), PARAM_USHORT, 0 },
         { "UIN", OFFSET_OF(ICQUser, Uin), PARAM_ULONG, 0 },
-        { "Ignore", OFFSET_OF(ICQUser, inIgnore), PARAM_BOOL, 0 },
-        { "Visible", OFFSET_OF(ICQUser, inVisible), PARAM_BOOL, 0 },
-        { "Invisible", OFFSET_OF(ICQUser, inInvisible), PARAM_BOOL, 0 },
+        { "IgnoreId", OFFSET_OF(ICQUser, IgnoreId), PARAM_USHORT, 0 },
+        { "VisibleId", OFFSET_OF(ICQUser, VisibleId), PARAM_USHORT, 0 },
+        { "InvisibleId", OFFSET_OF(ICQUser, InvisibleId), PARAM_USHORT, 0 },
         { "WaitAuth", OFFSET_OF(ICQUser, WaitAuth), PARAM_BOOL, 0 },
         { "AutoResponseAway", OFFSET_OF(ICQUser, AutoResponseAway), PARAM_STRING, 0 },
         { "AutoResponseNA", OFFSET_OF(ICQUser, AutoResponseNA), PARAM_STRING, 0 },
@@ -621,7 +621,7 @@ void SIMClient::process_event(ICQEvent *e)
         break;
     case EVENT_INFO_CHANGED:{
             ICQUser *u = getUser(e->Uin());
-            if (u && u->inIgnore){
+            if (u && u->IgnoreId){
                 History h(e->Uin());
                 h.remove();
             }
@@ -1082,14 +1082,14 @@ QString SIMClient::getStatusText(unsigned long status)
 
 const char *SIMClient::getStatusIcon()
 {
-    if (((owner->uStatus && 0xFF) == ICQ_STATUS_ONLINE) && owner->inInvisible)
+    if (((owner->uStatus && 0xFF) == ICQ_STATUS_ONLINE) && owner->InvisibleId)
         return "invisible";
     return getStatusIcon(owner->uStatus);
 }
 
 QString SIMClient::getStatusText()
 {
-    if (((owner->uStatus && 0xFF) == ICQ_STATUS_ONLINE) && owner->inInvisible)
+    if (((owner->uStatus && 0xFF) == ICQ_STATUS_ONLINE) && owner->InvisibleId)
         return i18n("Invisible");
     return getStatusText(owner->uStatus);
 }
@@ -1425,7 +1425,7 @@ QString SIMClient::encodingName(int mib)
 
 void SIMClient::createGroup(const char *name)
 {
-	ICQClient::createGroup(name);
+    ICQClient::createGroup(name);
 }
 
 SIMClient *pClient = NULL;

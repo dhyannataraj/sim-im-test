@@ -1012,7 +1012,7 @@ void ICQClientPrivate::messageReceived(ICQMessage *msg)
         bAddUser = !client->RejectOther;
     }
     if (u == NULL) u = client->getUser(msg->getUin(), bAddUser, true);
-    if ((u== NULL) || u->inIgnore){
+    if ((u== NULL) || u->IgnoreId){
         delete msg;
         return;
     }
@@ -1102,8 +1102,8 @@ string ICQClientPrivate::makeMessageText(ICQMsg *msg, ICQUser *u)
         msg_text = msg->Message.c_str();
     }
     if (u && u->canRTF() &&
-            ((client->owner->inInvisible && u->inVisible) ||
-             (!client->owner->inInvisible && !u->inInvisible)))
+            ((client->owner->InvisibleId && u->VisibleId) ||
+             ((client->owner->InvisibleId) && (u->InvisibleId == 0))))
         return createRTF(msg_text, msg->ForeColor, encoding);
     string message = client->clearHTML(msg_text);
     client->fromUTF(message, encoding);

@@ -121,15 +121,15 @@ void ICQClientPrivate::snac_message(unsigned short type, unsigned short)
                     log(L_WARN, "Request info no my user %lu", uin);
                     return;
                 }
-                if (u->inIgnore){
+                if (u->IgnoreId){
                     log(L_WARN, "Request info ignore user %lu", uin);
                     return;
                 }
-                if (client->owner->inInvisible && !u->inVisible){
+                if (client->owner->InvisibleId && (u->VisibleId == 0)){
                     log(L_WARN, "Request info in invisible from user %lu", uin);
                     return;
                 }
-                if (!client->owner->inInvisible && u->inInvisible){
+                if ((client->owner->InvisibleId == 0) && u->InvisibleId){
                     log(L_WARN, "Request info from invisible user %lu", uin);
                     return;
                 }
@@ -553,7 +553,7 @@ void ICQClientPrivate::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool
                 needAck = false;
             }
         }else{
-            if (u && !u->inIgnore){
+            if (u && (u->IgnoreId == 0)){
                 char b[16];
                 payload.unpack(b, sizeof(b));
                 if (!memcmp(b, PLUGINS_SIGN, sizeof(b))){
@@ -832,8 +832,8 @@ bool ICQClientPrivate::requestAutoResponse(unsigned long uin, bool bAuto)
     unsigned long status = user->uStatus & 0xFF;
     if (status == 0) return false;
     if (!bAuto){
-        if (client->owner->inInvisible && !user->inVisible) return false;
-        if (!client->owner->inInvisible && user->inInvisible) return false;
+        if (client->owner->InvisibleId && (user->VisibleId == 0)) return false;
+        if ((client->owner->InvisibleId == 0) && user->InvisibleId) return false;
     }
 
     responseRequestSeq = --advCounter;
@@ -1049,8 +1049,8 @@ void ICQClientPrivate::processMsgQueueThruServer()
                     ICQUser *u = client->getUser(*itUin);
                     message = makeMessageText(msg, u);
                     if (u && u->canRTF() &&
-                            ((client->owner->inInvisible && u->inVisible) ||
-                             (!client->owner->inInvisible && !u->inInvisible))){
+                            ((client->owner->InvisibleId && u->VisibleId) ||
+                             ((client->owner->InvisibleId == 0) && (u->InvisibleId == 0)))){
                         advCounter--;
                         msgBuf
                         << (unsigned short)0x1B00
@@ -1226,8 +1226,8 @@ bool ICQClientPrivate::requestPhoneBook(unsigned long uin, bool)
     log(L_DEBUG, "Send request phones %lu", uin);
     ICQUser *user = client->getUser(uin, false);
     if (user == NULL) return false;
-    if (client->owner->inInvisible && !user->inVisible) return false;
-    if (!client->owner->inInvisible && user->inInvisible) return false;
+    if (client->owner->InvisibleId && (user->VisibleId == 0)) return false;
+    if ((client->owner->InvisibleId == 0) && user->InvisibleId) return false;
 
     phoneRequestSeq = --advCounter;
     Buffer msgBuf;

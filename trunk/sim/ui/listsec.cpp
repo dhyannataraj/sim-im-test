@@ -97,7 +97,7 @@ VisibleListSetup::VisibleListSetup(QWidget *parent)
 
 bool VisibleListSetup::checkUser(ICQUser *u)
 {
-    return u->inVisible;
+    return u->VisibleId != 0;
 }
 
 void VisibleListSetup::changeUser(ICQUser *u, bool bSet)
@@ -115,7 +115,7 @@ InvisibleListSetup::InvisibleListSetup(QWidget *parent)
 
 bool InvisibleListSetup::checkUser(ICQUser *u)
 {
-    return u->inInvisible;
+    return u->InvisibleId != 0;
 }
 
 void InvisibleListSetup::changeUser(ICQUser *u, bool bSet)
@@ -133,7 +133,7 @@ IgnoreListSetup::IgnoreListSetup(QWidget *parent)
 
 bool IgnoreListSetup::checkUser(ICQUser *u)
 {
-    return u->inIgnore;
+    return u->IgnoreId != 0;
 }
 
 void IgnoreListSetup::changeUser(ICQUser *u, bool bSet)

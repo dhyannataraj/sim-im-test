@@ -111,6 +111,12 @@ const unsigned long  UIN_SPECIAL    = 0xF0000000L;
 const unsigned short USER_TYPE_ICQ	= 0;
 const unsigned short USER_TYPE_EXT  = 1;
 
+const unsigned short ICQ_GROUPS					= 0x0001;
+const unsigned short ICQ_VISIBLE_LIST			= 0x0002;
+const unsigned short ICQ_INVISIBLE_LIST			= 0x0003;
+const unsigned short ICQ_INVISIBLE_STATE		= 0x0004;
+const unsigned short ICQ_IGNORE_LIST			= 0x000E;
+
 class ICQGroup
 {
 public:
@@ -305,11 +311,11 @@ public:
     unsigned short	Type;
     string			Alias;
     unsigned short	Id;
+    unsigned short	VisibleId;
+    unsigned short	InvisibleId;
+    unsigned short	IgnoreId;
     unsigned short	GrpId;
     unsigned long	Uin;
-    bool			inIgnore;
-    bool			inVisible;
-    bool			inInvisible;
     bool			WaitAuth;
 
     string			AutoResponseAway;
@@ -445,7 +451,7 @@ public:
     bool			Expand;
     list<ICQUser*>  users;
     vector<ICQGroup*> groups;
-    unsigned short getUserId(ICQUser *u);
+    unsigned short getUserId(ICQUser *u, unsigned short grp, bool bNoSet);
     unsigned short getGroupId(ICQGroup *g);
     unsigned long findByEmail(const string &name, const string &email);
     unsigned long findByPhone(const string &number);

@@ -520,7 +520,7 @@ void MsgEdit::processEvent(ICQEvent *e)
         if (e->Uin() != Uin) break;
         fillPhones();
         u = pClient->getUser(Uin);
-        if (!bInIgnore && u && u->inIgnore)
+        if (!bInIgnore && u && u->IgnoreId)
             QTimer::singleShot(10, this, SLOT(close()));
         break;
     case EVENT_USER_DELETED:
@@ -630,7 +630,7 @@ void MsgEdit::setUin(unsigned long uin)
     Uin = uin;
     ICQUser *u = pClient->getUser(uin);
     if (u == NULL) return;
-    bInIgnore = u->inIgnore;
+    bInIgnore = (u->IgnoreId != 0);
     fillPhones();
     view->setUin(uin);
     if (msgView) msgView->setUin(uin);

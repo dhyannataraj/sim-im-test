@@ -178,8 +178,8 @@ void ControlListener::finished()
 ControlSocket::ControlSocket(int _s, QObject *parent)
         : QObject(parent)
 {
-	s = _s;
-	bEscape = false;
+    s = _s;
+    bEscape = false;
     QSocketNotifier *notify = new QSocketNotifier(s, QSocketNotifier::Read, this);
     QObject::connect(notify, SIGNAL(activated(int)), this, SLOT(read_ready(int)));
     QObject::connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
@@ -245,189 +245,189 @@ static statusDef statusDefs[] =
 
 void ControlSocket::read_ready(int)
 {
-	char ch;
-	int readn = recv(s, &ch, 1, 0);
-	if (readn <= 0){
-		emit finished(this);
-		return;
-	}
-	if (bEscape){
-		read_line += ch;
-		bEscape = false;
-		return;
-	}
-	if (ch == '\r') return;
-	if (ch == '\\'){
-		bEscape = true;
-		return;
-	}
-	if (ch != '\n'){
-		read_line += ch;
-		return;
-	}
-	QString line = QString::fromLocal8Bit(read_line.c_str());
+    char ch;
+    int readn = recv(s, &ch, 1, 0);
+    if (readn <= 0){
+        emit finished(this);
+        return;
+    }
+    if (bEscape){
+        read_line += ch;
+        bEscape = false;
+        return;
+    }
+    if (ch == '\r') return;
+    if (ch == '\\'){
+        bEscape = true;
+        return;
+    }
+    if (ch != '\n'){
+        read_line += ch;
+        return;
+    }
+    QString line = QString::fromLocal8Bit(read_line.c_str());
     log(L_DEBUG, "Control line: %s", (const char*)(line.local8Bit()));
-        QStringList args;
-        QString arg;
-        unsigned n;
-        for (n = 0; n < line.length(); n++){
-            arg = "";
-            QChar c = line[(int)n];
-            if (c == ' ') continue;
-            if ((c == '\r') || (c == '\n')) break;
-            if (c == '\"'){
-                for (n++; n < line.length(); n++){
-                    c = line[(int)n];
-                    if (c == '\"') break;
-                    if (c == '\\'){
-                        if (n >= line.length()) break;
-                    }
-                    arg += c;
-                }
-                args.append(arg);
-                continue;
-            }
-            for (; n < line.length(); n++){
+    QStringList args;
+    QString arg;
+    unsigned n;
+    for (n = 0; n < line.length(); n++){
+        arg = "";
+        QChar c = line[(int)n];
+        if (c == ' ') continue;
+        if ((c == '\r') || (c == '\n')) break;
+        if (c == '\"'){
+            for (n++; n < line.length(); n++){
                 c = line[(int)n];
-                if ((c == '\r') || (c == '\n') || (c == ' ')) break;
+                if (c == '\"') break;
                 if (c == '\\'){
-                    n++;
                     if (n >= line.length()) break;
-                    c = line[(int)n];
                 }
                 arg += c;
             }
             args.append(arg);
+            continue;
         }
-        if (args.count() == 0) return;
-        arg = args[0].upper();
-        for (n = 0; n < sizeof(cmds) / sizeof(cmdDef); n++)
-            if (arg == cmds[n].cmd) break;
-        if (n >= sizeof(cmds) / sizeof(cmdDef)){
-            QString msg = i18n("? Unknown command %1") .arg(arg);
-            write(msg.local8Bit());
-            write("\n>");
-            return;
-        }
-        cmdDef *c = cmds + n;
-        int nArgs = args.count() - 1;
-        if ((nArgs < c->minArgs) || (nArgs > c->maxArgs)){
-            QString msg = i18n("? Bad arguments number. Try help %1") .arg(arg);
-            write(msg.local8Bit());
-            write("\n>");
-            return;
-        }
-        QString msg;
-        switch (n){
-        case CMD_MESSAGE:{
-                if (sendEvent)
-                    pClient->cancelMessage(sendEvent->message());
-                unsigned long uin = atol((const char*)(args[1].local8Bit()));
-                if (uin){
-                    ICQMsg *msg = new ICQMsg;
-                    msg->Uin.push_back(uin);
-                    msg->Message = args[2].local8Bit();
-                    sendEvent = pClient->sendMessage(msg);
-                    if (sendEvent) return;
-                    break;
-                }
-                write("> ?Bad UIN");
-                break;
+        for (; n < line.length(); n++){
+            c = line[(int)n];
+            if ((c == '\r') || (c == '\n') || (c == ' ')) break;
+            if (c == '\\'){
+                n++;
+                if (n >= line.length()) break;
+                c = line[(int)n];
             }
-        case CMD_SMS:{
-                if (sendEvent)
-                    pClient->cancelMessage(sendEvent->message());
-                ICQSMS *sms = new ICQSMS;
-                sms->Uin.push_back(pClient->owner->Uin);
-                sms->Phone = args[1].local8Bit();
-                sms->Message = args[2].local8Bit();
-                sendEvent = pClient->sendMessage(sms);
+            arg += c;
+        }
+        args.append(arg);
+    }
+    if (args.count() == 0) return;
+    arg = args[0].upper();
+    for (n = 0; n < sizeof(cmds) / sizeof(cmdDef); n++)
+        if (arg == cmds[n].cmd) break;
+    if (n >= sizeof(cmds) / sizeof(cmdDef)){
+        QString msg = i18n("? Unknown command %1") .arg(arg);
+        write(msg.local8Bit());
+        write("\n>");
+        return;
+    }
+    cmdDef *c = cmds + n;
+    int nArgs = args.count() - 1;
+    if ((nArgs < c->minArgs) || (nArgs > c->maxArgs)){
+        QString msg = i18n("? Bad arguments number. Try help %1") .arg(arg);
+        write(msg.local8Bit());
+        write("\n>");
+        return;
+    }
+    QString msg;
+    switch (n){
+    case CMD_MESSAGE:{
+            if (sendEvent)
+                pClient->cancelMessage(sendEvent->message());
+            unsigned long uin = atol((const char*)(args[1].local8Bit()));
+            if (uin){
+                ICQMsg *msg = new ICQMsg;
+                msg->Uin.push_back(uin);
+                msg->Message = args[2].local8Bit();
+                sendEvent = pClient->sendMessage(msg);
                 if (sendEvent) return;
                 break;
             }
-        case CMD_STATUS:
-            if (pClient){
-                unsigned long prevStatus = pClient->owner->uStatus;
-                if (nArgs){
-                    arg = args[1].upper();
-                    for (n = 0; n < sizeof(statusDefs) / sizeof(statusDef); n++)
-                        if (arg == statusDefs[n].name) break;
-                    if (n >= sizeof(statusDefs) / sizeof(statusDef)){
-                        msg = i18n("? Unknown status %1"). arg(arg);
-                        break;
-                    }
-                    pClient->setStatus(statusDefs[n].status);
-                }
-                arg = pClient->getStatusIcon(prevStatus);
-                msg = QString("STATUS %1") .arg(arg.upper());
-                write(msg.local8Bit());
-            }
-            break;
-        case CMD_INVISIBLE:
-            if (pClient){
-                bool bInvisible = pClient->owner->inInvisible;
-                if (nArgs){
-                    arg = args[1].upper();
-                    pClient->setInvisible((arg != "OFF") && (arg != "0"));
-                }
-                write("INVISIBLE ");
-                write(bInvisible ? "on" : "off");
-            }
-            break;
-        case CMD_MAINWND:
-            if (pMain){
-                if (nArgs){
-                    arg = args[1].upper();
-                    pMain->setShow((arg != "OFF") && (arg != "0"));
-                }
-                write("MAINWINDOW ");
-                write(pMain->isShow() ? "on" : "off");
-            }
-            break;
-        case CMD_SEARCHWND:
-            if (pMain){
-                if (nArgs){
-                    arg = args[1].upper();
-                    pMain->showSearch((arg != "OFF") && (arg != "0"));
-                }
-                write("SEARCHWINDOW ");
-                write(pMain->isSearch() ? "on" : "off");
-            }
-            break;
-        case CMD_QUIT:
-            if (pMain) pMain->quit();
-            break;
-        case CMD_CLOSE:
-            emit finished(this);
-            break;
-        case CMD_HELP:
-            if (nArgs == 0){
-                for (n = 0; n < sizeof(cmds) / sizeof(cmdDef); n++){
-                    msg = QString("%1\t%2\n")
-                          .arg(cmds[n].cmd)
-                          .arg(i18n(cmds[n].shortDescr));
-                    write(msg.local8Bit());
-                }
-            }else{
-                arg = args[1].upper();
-                for (n = 0; n < sizeof(cmds) / sizeof(cmdDef); n++)
-                    if (arg == cmds[n].cmd) break;
-                if (n >= sizeof(cmds) / sizeof(cmdDef)){
-                    msg = QString("? Unknown command %1") .arg(arg);
-                    write(msg.local8Bit());
-                    write("\n>");
-                    return;
-                }
-                arg = i18n(cmds[n].shortDescr);
-                arg = arg.left(1).upper() + arg.mid(1);
-                msg = QString("%1\n%2\n")
-                      .arg(cmds[n].longDescr)
-                      .arg(arg);
-                write(msg.local8Bit());
-            }
+            write("> ?Bad UIN");
             break;
         }
-        write("\n>");
+    case CMD_SMS:{
+            if (sendEvent)
+                pClient->cancelMessage(sendEvent->message());
+            ICQSMS *sms = new ICQSMS;
+            sms->Uin.push_back(pClient->owner->Uin);
+            sms->Phone = args[1].local8Bit();
+            sms->Message = args[2].local8Bit();
+            sendEvent = pClient->sendMessage(sms);
+            if (sendEvent) return;
+            break;
+        }
+    case CMD_STATUS:
+        if (pClient){
+            unsigned long prevStatus = pClient->owner->uStatus;
+            if (nArgs){
+                arg = args[1].upper();
+                for (n = 0; n < sizeof(statusDefs) / sizeof(statusDef); n++)
+                    if (arg == statusDefs[n].name) break;
+                if (n >= sizeof(statusDefs) / sizeof(statusDef)){
+                    msg = i18n("? Unknown status %1"). arg(arg);
+                    break;
+                }
+                pClient->setStatus(statusDefs[n].status);
+            }
+            arg = pClient->getStatusIcon(prevStatus);
+            msg = QString("STATUS %1") .arg(arg.upper());
+            write(msg.local8Bit());
+        }
+        break;
+    case CMD_INVISIBLE:
+        if (pClient){
+            bool bInvisible = (pClient->owner->InvisibleId != 0);
+            if (nArgs){
+                arg = args[1].upper();
+                pClient->setInvisible((arg != "OFF") && (arg != "0"));
+            }
+            write("INVISIBLE ");
+            write(bInvisible ? "on" : "off");
+        }
+        break;
+    case CMD_MAINWND:
+        if (pMain){
+            if (nArgs){
+                arg = args[1].upper();
+                pMain->setShow((arg != "OFF") && (arg != "0"));
+            }
+            write("MAINWINDOW ");
+            write(pMain->isShow() ? "on" : "off");
+        }
+        break;
+    case CMD_SEARCHWND:
+        if (pMain){
+            if (nArgs){
+                arg = args[1].upper();
+                pMain->showSearch((arg != "OFF") && (arg != "0"));
+            }
+            write("SEARCHWINDOW ");
+            write(pMain->isSearch() ? "on" : "off");
+        }
+        break;
+    case CMD_QUIT:
+        if (pMain) pMain->quit();
+        break;
+    case CMD_CLOSE:
+        emit finished(this);
+        break;
+    case CMD_HELP:
+        if (nArgs == 0){
+            for (n = 0; n < sizeof(cmds) / sizeof(cmdDef); n++){
+                msg = QString("%1\t%2\n")
+                      .arg(cmds[n].cmd)
+                      .arg(i18n(cmds[n].shortDescr));
+                write(msg.local8Bit());
+            }
+        }else{
+            arg = args[1].upper();
+            for (n = 0; n < sizeof(cmds) / sizeof(cmdDef); n++)
+                if (arg == cmds[n].cmd) break;
+            if (n >= sizeof(cmds) / sizeof(cmdDef)){
+                msg = QString("? Unknown command %1") .arg(arg);
+                write(msg.local8Bit());
+                write("\n>");
+                return;
+            }
+            arg = i18n(cmds[n].shortDescr);
+            arg = arg.left(1).upper() + arg.mid(1);
+            msg = QString("%1\n%2\n")
+                  .arg(cmds[n].longDescr)
+                  .arg(arg);
+            write(msg.local8Bit());
+        }
+        break;
+    }
+    write("\n>");
 }
 
 void ControlSocket::write(const char *l)

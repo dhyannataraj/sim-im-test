@@ -139,7 +139,7 @@ public:
     string			BirthdayReminder;
     string			FileDone;
     ICQUser			*createUser();
-	ICQGroup		*createGroup();
+    ICQGroup		*createGroup();
     void save(QFile &s);
     bool load(QFile &s, string &nextPart);
     QString getName(bool bUserUIN=true);

@@ -255,7 +255,7 @@ public:
     string			ForwardPhone;
     bool			SendEnter;
     bool			AlphabetSort;
-	bool			UseDoubleClick;
+    bool			UseDoubleClick;
 
     bool			UseDock;
     short			DockX;

@@ -550,11 +550,11 @@ void History::iterator::loadBlock()
                 msg = NULL;
             }
             if (msg){
-		if (bDirection){
-                	msgs.push_back(msgId);
-		}else{
-			msgs.push_front(msgId);
-		}
+                if (bDirection){
+                    msgs.push_back(msgId);
+                }else{
+                    msgs.push_front(msgId);
+                }
                 delete msg;
                 msg = NULL;
             }

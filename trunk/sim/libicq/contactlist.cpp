@@ -103,18 +103,47 @@ ICQContactList::ICQContactList(ICQClient *_client)
     client = _client;
 }
 
-unsigned short ICQContactList::getUserId(ICQUser *u)
+unsigned short ICQContactList::getUserId(ICQUser *u, unsigned short grpId, bool bNoStore)
 {
-    if (u->Id) return u->Id;
+    switch (grpId){
+    case ICQ_VISIBLE_LIST:
+        if (u->VisibleId) return u->VisibleId;
+        break;
+    case ICQ_INVISIBLE_LIST:
+        if (u->InvisibleId) return u->InvisibleId;
+        break;
+    case ICQ_IGNORE_LIST:
+        if (u->IgnoreId) return u->IgnoreId;
+        break;
+    default:
+        if (u->Id) return u->Id;
+    }
     time_t now;
     time(&now);
     for (unsigned short id = now & 0x7FFF;;id++){
         id &= 0x7FFF;
         if (id == 0) continue;
         list<ICQUser*>::iterator it;
-        for (it = users.begin(); it != users.end(); it++)
+        for (it = users.begin(); it != users.end(); it++){
             if ((*it)->Id == id) break;
+            if ((*it)->VisibleId == id) break;
+            if ((*it)->InvisibleId == id) break;
+            if ((*it)->IgnoreId == id) break;
+        }
         if (it == users.end()){
+            if (!bNoStore){
+                switch (grpId){
+                case ICQ_VISIBLE_LIST:
+                    u->VisibleId = id;
+                    break;
+                case ICQ_INVISIBLE_LIST:
+                    u->InvisibleId = id;
+                    break;
+                case ICQ_IGNORE_LIST:
+                    u->IgnoreId = id;
+                    break;
+                }
+            }
             u->Id = id;
             return id;
         }
@@ -201,7 +230,7 @@ ICQUser *ICQClient::getUser(unsigned long id, bool create, bool bIsTemp)
     u->bIsTemp = bIsTemp;
     ICQEvent e(EVENT_INFO_CHANGED, id);
     process_event(&e);
-    if (!u->inIgnore)
+    if (u->IgnoreId == 0)
         p->addToContacts(id);
     addInfoRequest(id, true);
     return u;
@@ -211,11 +240,11 @@ ICQUser::ICQUser()
 {
     Type = 0;
     Id = 0;
+    VisibleId = 0;
+    InvisibleId = 0;
+    IgnoreId = 0;
     GrpId = 0;
     Uin = 0;
-    inIgnore = false;
-    inVisible = false;
-    inInvisible = false;
     WaitAuth = false;
     uStatus = ICQ_STATUS_OFFLINE;
     prevStatus = ICQ_STATUS_OFFLINE;
