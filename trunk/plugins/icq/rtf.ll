@@ -90,6 +90,7 @@ enum TagEnum
 class ParStyle
 {
 public:
+    ParStyle() { dir = DirLTR; }	
     void clearFormatting();
 
 public:
