@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2002-09-28 03:45+0400\n"
-"PO-Revision-Date: 2002-09-30 01:35GMT\n"
+"PO-Revision-Date: 2002-09-30 01:38GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-15\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "<<<<<<< de.po<<<<<<< de.poPOT-Creation-Date: 2002-08-13 06:12+0400\n"
 "=======POT-Creation-Date: 2002-08-14 02:50+0400\n"
@@ -60,11 +60,11 @@ msgstr "Tschechisch"
 
 #: libicq/country.cpp:16
 msgid "Danish"
-msgstr "Dänisch"
+msgstr "DÃ¤nisch"
 
 #: libicq/country.cpp:17
 msgid "Dutch"
-msgstr "Holländisch"
+msgstr "HollÃ¤ndisch"
 
 #: libicq/country.cpp:18
 msgid "English"
@@ -76,7 +76,7 @@ msgstr "Esperanto"
 
 #: libicq/country.cpp:20
 msgid "Estonian"
-msgstr "Estlädisch"
+msgstr "EstlÃ¤disch"
 
 #: libicq/country.cpp:21
 msgid "Farsi"
@@ -88,7 +88,7 @@ msgstr "Finnisch"
 
 #: libicq/country.cpp:23
 msgid "French"
-msgstr "Französisch"
+msgstr "FranzÃ¶sisch"
 
 #: libicq/country.cpp:24
 msgid "Gaelic"
@@ -104,7 +104,7 @@ msgstr "Griechisch"
 
 #: client.cpp:83 libicq/country.cpp:27
 msgid "Hebrew"
-msgstr "Häbräisch"
+msgstr "HÃ¤brÃ¤isch"
 
 #: libicq/country.cpp:28
 msgid "Hindi"
@@ -116,7 +116,7 @@ msgstr "Ungarisch"
 
 #: libicq/country.cpp:30
 msgid "Icelandic"
-msgstr "Islandändisch"
+msgstr "IslandÃ¤ndisch"
 
 #: libicq/country.cpp:31
 msgid "Indonesian"
@@ -144,7 +144,7 @@ msgstr "Lao"
 
 #: libicq/country.cpp:37
 msgid "Latvian"
-msgstr "Lettländisch"
+msgstr "LettlÃ¤ndisch"
 
 #: libicq/country.cpp:38
 msgid "Lithuanian"
@@ -168,7 +168,7 @@ msgstr "Portugiesisch"
 
 #: libicq/country.cpp:43
 msgid "Romanian"
-msgstr "Romänisch"
+msgstr "RomÃ¤nisch"
 
 #: libicq/country.cpp:44
 msgid "Russian"
@@ -216,7 +216,7 @@ msgstr "Thai"
 
 #: client.cpp:87 client.cpp:88 libicq/country.cpp:55
 msgid "Turkish"
-msgstr "Türkisch"
+msgstr "TÃ¼rkisch"
 
 #: libicq/country.cpp:56
 msgid "Ukrainian"
@@ -316,7 +316,7 @@ msgstr "Australisches Antarktisches Territorium"
 
 #: libicq/country.cpp:85
 msgid "Austria"
-msgstr "Östereich"
+msgstr "Ã–stereich"
 
 #: libicq/country.cpp:86
 msgid "Azerbaijan"
@@ -344,7 +344,7 @@ msgstr "Barbuda"
 
 #: libicq/country.cpp:92
 msgid "Belarus"
-msgstr "Weißrussland"
+msgstr "WeiÃŸrussland"
 
 #: libicq/country.cpp:93
 msgid "Belgium"
@@ -484,7 +484,7 @@ msgstr "Tschechische Republik"
 
 #: libicq/country.cpp:127
 msgid "Denmark"
-msgstr "Dänemark"
+msgstr "DÃ¤nemark"
 
 #: libicq/country.cpp:128
 msgid "Diego Garcia"
@@ -508,7 +508,7 @@ msgstr "Equador"
 
 #: libicq/country.cpp:133
 msgid "Egypt"
-msgstr "Ägypten"
+msgstr "Ã„gypten"
 
 #: libicq/country.cpp:134
 msgid "El Salvador"
@@ -516,7 +516,7 @@ msgstr "El Salvador"
 
 #: libicq/country.cpp:135
 msgid "Equatorial Guinea"
-msgstr "Äquatorialguinea"
+msgstr "Ã„quatorialguinea"
 
 #: libicq/country.cpp:136
 msgid "Eritrea"
@@ -528,7 +528,7 @@ msgstr "Estland"
 
 #: libicq/country.cpp:138
 msgid "Ethiopia"
-msgstr "Äthiopien"
+msgstr "Ã„thiopien"
 
 #: libicq/country.cpp:139
 msgid "Faeroe Islands"
@@ -552,15 +552,15 @@ msgstr "Frankreich"
 
 #: libicq/country.cpp:144
 msgid "French Antilles"
-msgstr "Französische Antillen"
+msgstr "FranzÃ¶sische Antillen"
 
 #: libicq/country.cpp:145
 msgid "French Guiana"
-msgstr "Französisch-Guayana"
+msgstr "FranzÃ¶sisch-Guayana"
 
 #: libicq/country.cpp:146
 msgid "French Polynesia"
-msgstr "Französisch-Polynesien"
+msgstr "FranzÃ¶sisch-Polynesien"
 
 #: libicq/country.cpp:147
 msgid "Gabon"
@@ -592,7 +592,7 @@ msgstr "Griechenland"
 
 #: libicq/country.cpp:154
 msgid "Greenland"
-msgstr "Grönland"
+msgstr "GrÃ¶nland"
 
 #: libicq/country.cpp:155
 msgid "Grenada"
@@ -700,7 +700,7 @@ msgstr "Italien"
 
 #: libicq/country.cpp:181
 msgid "Ivory Coast"
-msgstr "Elfenbeinküste"
+msgstr "ElfenbeinkÃ¼ste"
 
 #: libicq/country.cpp:182
 msgid "Jamaica"
@@ -876,7 +876,7 @@ msgstr "Nepal"
 
 #: libicq/country.cpp:225
 msgid "Netherlands Antilles"
-msgstr "Niederländische Antillen"
+msgstr "NiederlÃ¤ndische Antillen"
 
 #: libicq/country.cpp:226
 msgid "Netherlands"
@@ -976,7 +976,7 @@ msgstr "Wiedersehensinsel"
 
 #: libicq/country.cpp:250
 msgid "Romania"
-msgstr "Rumänien"
+msgstr "RumÃ¤nien"
 
 #: libicq/country.cpp:251
 msgid "Rota Island"
@@ -984,7 +984,7 @@ msgstr "Rotainsel"
 
 #: libicq/country.cpp:252
 msgid "Russia"
-msgstr "Rußland"
+msgstr "RuÃŸland"
 
 #: libicq/country.cpp:253
 msgid "Rwanda"
@@ -1044,7 +1044,7 @@ msgstr "Somalia"
 
 #: libicq/country.cpp:267
 msgid "South Africa"
-msgstr "Südafrika"
+msgstr "SÃ¼dafrika"
 
 #: libicq/country.cpp:268
 msgid "Spain"
@@ -1136,7 +1136,7 @@ msgstr "Tunesien"
 
 #: libicq/country.cpp:290
 msgid "Turkey"
-msgstr "Türkei"
+msgstr "TÃ¼rkei"
 
 #: libicq/country.cpp:291
 msgid "Turkmenistan"
@@ -1168,7 +1168,7 @@ msgstr "Vereinigte Arabische Emirate"
 
 #: libicq/country.cpp:298
 msgid "United Kingdom"
-msgstr "Vereinigtes Königreich"
+msgstr "Vereinigtes KÃ¶nigreich"
 
 #: libicq/country.cpp:299
 msgid "United States Virgin Islands"
@@ -1236,7 +1236,7 @@ msgstr "Autos"
 
 #: libicq/country.cpp:333
 msgid "Celebrity Fans"
-msgstr "Berühmte Fans"
+msgstr "BerÃ¼hmte Fans"
 
 #: libicq/country.cpp:334
 msgid "Collections"
@@ -1264,7 +1264,7 @@ msgstr "Hobbies"
 
 #: libicq/country.cpp:340 libicq/country.cpp:424
 msgid "ICQ - Providing Help"
-msgstr "ICQ - unterstützende Hilfe"
+msgstr "ICQ - unterstÃ¼tzende Hilfe"
 
 #: libicq/country.cpp:341
 msgid "Internet"
@@ -1284,7 +1284,7 @@ msgstr "Musik"
 
 #: libicq/country.cpp:345
 msgid "Outdoor Activities"
-msgstr "Außenaktivitäten"
+msgstr "AuÃŸenaktivitÃ¤ten"
 
 #: libicq/country.cpp:346
 msgid "Parenting"
@@ -1304,7 +1304,7 @@ msgstr "Wissenschaft/Technik"
 
 #: libicq/country.cpp:350
 msgid "Skills"
-msgstr "Fähigkeiten"
+msgstr "FÃ¤higkeiten"
 
 #: libicq/country.cpp:351 libicq/country.cpp:436
 msgid "Sports"
@@ -1328,7 +1328,7 @@ msgstr "Regierung"
 
 #: libicq/country.cpp:356
 msgid "Business & Economy"
-msgstr "Geschäft & Wirtschaft"
+msgstr "GeschÃ¤ft & Wirtschaft"
 
 #: libicq/country.cpp:357
 msgid "Mystics"
@@ -1392,11 +1392,11 @@ msgstr "Verbraucherelektronik"
 
 #: libicq/country.cpp:372
 msgid "Retail stores"
-msgstr "Einzelhandelläden"
+msgstr "EinzelhandellÃ¤den"
 
 #: libicq/country.cpp:373
 msgid "Health and beauty"
-msgstr "Gesundheit und Schönheit"
+msgstr "Gesundheit und SchÃ¶nheit"
 
 #: libicq/country.cpp:374
 msgid "Media"
@@ -1412,7 +1412,7 @@ msgstr "Mailauftragskatalog"
 
 #: libicq/country.cpp:377
 msgid "Business services"
-msgstr "Geschäftsdienste"
+msgstr "GeschÃ¤ftsdienste"
 
 #: libicq/country.cpp:378
 msgid "Audio and visual"
@@ -1436,7 +1436,7 @@ msgstr "Alumni-Org."
 
 #: libicq/country.cpp:388
 msgid "Charity Org."
-msgstr "Nächstenlieben-Org."
+msgstr "NÃ¤chstenlieben-Org."
 
 #: libicq/country.cpp:389
 msgid "Club/Social Org."
@@ -1484,7 +1484,7 @@ msgstr "Selbstverbesserungsorg."
 
 #: libicq/country.cpp:400
 msgid "Spiritual/Religious Org."
-msgstr "Spiriruell/Religöse Org."
+msgstr "Spiriruell/ReligÃ¶se Org."
 
 #: libicq/country.cpp:401
 msgid "Sports Org."
@@ -1492,11 +1492,11 @@ msgstr "Sportorg."
 
 #: libicq/country.cpp:402
 msgid "Support Org."
-msgstr "Unterstützungsorg."
+msgstr "UnterstÃ¼tzungsorg."
 
 #: libicq/country.cpp:403
 msgid "Trade and Business Org."
-msgstr "Handel und Geschäftsorg."
+msgstr "Handel und GeschÃ¤ftsorg."
 
 #: libicq/country.cpp:404
 msgid "Union"
@@ -1556,7 +1556,7 @@ msgstr "Recht"
 
 #: libicq/country.cpp:426
 msgid "Managerial"
-msgstr "Geschäftsführer"
+msgstr "GeschÃ¤ftsfÃ¼hrer"
 
 #: libicq/country.cpp:427
 msgid "Manufacturing"
@@ -1568,7 +1568,7 @@ msgstr "Medizin/Gesundheit"
 
 #: libicq/country.cpp:429 libicq/country.cpp:449
 msgid "Military"
-msgstr "Militär"
+msgstr "MilitÃ¤r"
 
 #: libicq/country.cpp:430
 msgid "Non-Goverment Organisation"
@@ -1584,11 +1584,11 @@ msgstr "Profi"
 
 #: libicq/country.cpp:433
 msgid "Retail"
-msgstr "Einzelhandelsverkäufer"
+msgstr "EinzelhandelsverkÃ¤ufer"
 
 #: libicq/country.cpp:434
 msgid "Retired"
-msgstr "Pensionär"
+msgstr "PensionÃ¤r"
 
 #: libicq/country.cpp:435
 msgid "Science & Research"
@@ -1600,7 +1600,7 @@ msgstr "Techniker"
 
 #: libicq/country.cpp:438
 msgid "University student"
-msgstr "Universitätsstudent"
+msgstr "UniversitÃ¤tsstudent"
 
 #: libicq/country.cpp:439
 msgid "Web building"
@@ -1620,7 +1620,7 @@ msgstr "Hochschule"
 
 #: libicq/country.cpp:448
 msgid "University"
-msgstr "Universität"
+msgstr "UniversitÃ¤t"
 
 #: libicq/country.cpp:450
 msgid "Past Work Place"
@@ -1636,7 +1636,7 @@ msgstr "Weiblich"
 
 #: libicq/country.cpp:459
 msgid "Male"
-msgstr "Männlich"
+msgstr "MÃ¤nnlich"
 
 #: chatwnd.cpp:75 ui/userinfobase.cpp:110
 msgid "Save"
@@ -1685,7 +1685,7 @@ msgstr "Verbindungsaufbau"
 
 #: editspell.cpp:257 msgedit.cpp:191 ui/setupdlg.cpp:113
 msgid "Spell check"
-msgstr "Rechtschreibprüfung"
+msgstr "RechtschreibprÃ¼fung"
 
 #: mainwin.cpp:336
 msgid "Current location"
@@ -1697,7 +1697,7 @@ msgstr "Telefonstatus"
 
 #: mainwin.cpp:339
 msgid "Phone Book"
-msgstr "Adreßbuch"
+msgstr "AdreÃŸbuch"
 
 #: mainwin.cpp:356
 msgid "Show offline"
@@ -1709,7 +1709,7 @@ msgstr "Gruppenmodus"
 
 #: mainwin.cpp:372
 msgid "Menu"
-msgstr "Menü"
+msgstr "MenÃ¼"
 
 #: mainwin.cpp:834
 msgid "%1 from %2 received"
@@ -1725,7 +1725,7 @@ msgstr "Benutzerauthentisierung ignorieren"
 
 #: mainwin.cpp:909 ui/logindlg.cpp:144
 msgid "Invalid password for proxy"
-msgstr "Ungültiges Paßwort für Proxyserver"
+msgstr "UngÃ¼ltiges PaÃŸwort fÃ¼r Proxyserver"
 
 #: mainwin.cpp:926
 msgid "Your UIN used from another location"
@@ -1745,7 +1745,7 @@ msgstr "&Nein"
 
 #: mainwin.cpp:1474
 msgid "Add user %1 to ignore list ?"
-msgstr "Benutzer %1 zur Ignorierenliste hinzufügen?"
+msgstr "Benutzer %1 zur Ignorierenliste hinzufÃ¼gen?"
 
 #: mainwin.cpp:1541
 msgid "In visible list"
@@ -1765,7 +1765,7 @@ msgstr "Gruppen"
 
 #: mainwin.cpp:1563 usertbl.cpp:391 userview.cpp:503
 msgid "Delete"
-msgstr "Löschen"
+msgstr "LÃ¶schen"
 
 #: mainwin.cpp:1567 ui/userinfo.cpp:55 userbox.cpp:174 userbox.cpp:365
 #: usertbl.cpp:405
@@ -1788,7 +1788,7 @@ msgstr "Akzeptieren-Modus"
 #: mainwin.cpp:1572 ui/setupdlg.cpp:103 ui/soundsetupbase.cpp:106
 #: ui/userinfo.cpp:74
 msgid "Sound"
-msgstr "Persönliche Einstellungen"
+msgstr "PersÃ¶nliche Einstellungen"
 
 #: mainwin.cpp:1575
 msgid "Floating off"
@@ -1810,7 +1810,7 @@ msgstr "Abbrechen"
 
 #: mainwin.cpp:1732
 msgid "Delete user %1?"
-msgstr "Benutzer %1 löschen?"
+msgstr "Benutzer %1 lÃ¶schen?"
 
 #: mainwin.cpp:1833 msgedit.cpp:865
 msgid "New"
@@ -1834,11 +1834,11 @@ msgstr "Nicht anzeigen"
 
 #: mainwin.cpp:2068
 msgid "Available"
-msgstr "Verfügbar"
+msgstr "VerfÃ¼gbar"
 
 #: mainwin.cpp:2069
 msgid "Busy"
-msgstr "Beschäftigt"
+msgstr "BeschÃ¤ftigt"
 
 #: mainwin.cpp:2072 userview.cpp:504
 msgid "Create group"
@@ -1862,7 +1862,7 @@ msgstr "Benutzer suchen"
 
 #: mainwin.cpp:2081
 msgid "Add Non-IM contact"
-msgstr "Nicht-ICQ-Kontakt hinzufügen"
+msgstr "Nicht-ICQ-Kontakt hinzufÃ¼gen"
 
 #: mainwin.cpp:2082
 msgid "Send SMS"
@@ -1886,15 +1886,15 @@ msgstr "Immer oben"
 
 #: mainwin.cpp:2094
 msgid "&Bug report"
-msgstr "Be&richten Sie Probleme oder Wünsche"
+msgstr "Be&richten Sie Probleme oder WÃ¼nsche"
 
 #: mainwin.cpp:2095
 msgid "&About SIM"
-msgstr "&Über SIM"
+msgstr "&Ãœber SIM"
 
 #: mainwin.cpp:2097
 msgid "About &KDE"
-msgstr "Über &KDE"
+msgstr "Ãœber &KDE"
 
 #: mainwin.cpp:2100
 msgid "Quit"
@@ -1939,12 +1939,12 @@ msgstr "Ohne Grund abgelehnt"
 #: msgedit.cpp:77
 msgid "Sorry, I'm busy right now, and can not respond to your request"
 msgstr ""
-"Entschuldigung, bin gerade beschäftigt und kann nicht auf die Anfrage "
+"Entschuldigung, bin gerade beschÃ¤ftigt und kann nicht auf die Anfrage "
 "antworten."
 
 #: msgedit.cpp:79
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
-msgstr "Entschuldigung, bin gerade beschäftigt, werde aber später antworten."
+msgstr "Entschuldigung, bin gerade beschÃ¤ftigt, werde aber spÃ¤ter antworten."
 
 #: msgedit.cpp:81
 msgid "Enter a decline reason"
@@ -1984,11 +1984,11 @@ msgstr "&Zitieren"
 
 #: msgedit.cpp:186
 msgid "&Forward"
-msgstr "&Vorwärts"
+msgstr "&VorwÃ¤rts"
 
 #: msgedit.cpp:198
 msgid "C&lose after send"
-msgstr "Nach beendeter Übertragung &schließen"
+msgstr "Nach beendeter Ãœbertragung &schlieÃŸen"
 
 #: msgedit.cpp:207 msgedit.cpp:334
 msgid "&Send"
@@ -1996,7 +1996,7 @@ msgstr "&Senden"
 
 #: msgedit.cpp:212
 msgid "&Next"
-msgstr "&Nächster"
+msgstr "&NÃ¤chster"
 
 #: msgedit.cpp:218
 msgid "Multiply send"
@@ -2029,11 +2029,11 @@ msgstr "A&bbrechen"
 
 #: msgedit.cpp:462
 msgid "No files for transfer"
-msgstr "Keine Dateien zum Übertragen"
+msgstr "Keine Dateien zum Ãœbertragen"
 
 #: msgedit.cpp:480
 msgid "Transfer started"
-msgstr "Übertragung gestartet"
+msgstr "Ãœbertragung gestartet"
 
 #: msgedit.cpp:483
 msgid "Chat started"
@@ -2061,7 +2061,7 @@ msgstr "Speichern nach"
 
 #: msgedit.cpp:1489
 msgid "Size: %1 / Max. size: %2"
-msgstr "Größe: %1 / Max. Größe: %2"
+msgstr "GrÃ¶ÃŸe: %1 / Max. GrÃ¶ÃŸe: %2"
 
 #: msgedit.cpp:1493
 msgid "Message will be split"
@@ -2085,11 +2085,11 @@ msgstr "Authorisierung abgelehnt"
 
 #: msgview.cpp:187
 msgid "Authorization granted"
-msgstr "Authorisierung gewährt"
+msgstr "Authorisierung gewÃ¤hrt"
 
 #: msgview.cpp:190
 msgid "Added to contact list"
-msgstr "Zur Kontaktliste hinzugefügt"
+msgstr "Zur Kontaktliste hinzugefÃ¼gt"
 
 #: msgview.cpp:194
 msgid "Contact request"
@@ -2122,7 +2122,7 @@ msgstr "&Suchen"
 
 #: msgview.cpp:323
 msgid "Find &next"
-msgstr "&Nächsten suchen"
+msgstr "&NÃ¤chsten suchen"
 
 #: msgview.cpp:376
 msgid ""
@@ -2142,7 +2142,7 @@ msgstr ""
 
 #: passwddlg.cpp:34 ui/logindlgbase.cpp:55
 msgid "Password:"
-msgstr "Paßwort:"
+msgstr "PaÃŸwort:"
 
 #: passwddlg.cpp:48
 msgid "Login"
@@ -2150,7 +2150,7 @@ msgstr "Benutzer"
 
 #: passwddlg.cpp:53 ui/logindlg.cpp:131
 msgid "Invalid password"
-msgstr "Ungültiges Paßwort"
+msgstr "UngÃ¼ltiges PaÃŸwort"
 
 #: passwddlg.cpp:68 ui/logindlg.cpp:69 ui/searchdlg.cpp:107
 msgid "Cancel"
@@ -2179,7 +2179,7 @@ msgstr "Betreuer"
 
 #: sim.cpp:280
 msgid "Directory for files"
-msgstr "Verzeichnis für Dateien"
+msgstr "Verzeichnis fÃ¼r Dateien"
 
 #: sim.cpp:281
 msgid "Loglevel"
@@ -2191,7 +2191,7 @@ msgstr "Standard Icons"
 
 #: userbox.cpp:161
 msgid "Add to ignore list"
-msgstr "Zur Ignorieren-Liste hinzufügen"
+msgstr "Zur Ignorieren-Liste hinzufÃ¼gen"
 
 #: userbox.cpp:168
 msgid "Move to group"
@@ -2231,15 +2231,15 @@ msgstr "Radieren"
 
 #: usertbl.cpp:394
 msgid "Add group"
-msgstr "Gruppe hinzufügen"
+msgstr "Gruppe hinzufÃ¼gen"
 
 #: usertbl.cpp:395
 msgid "Add all"
-msgstr "Alle hinzufügen"
+msgstr "Alle hinzufÃ¼gen"
 
 #: usertbl.cpp:411
 msgid "Add to group"
-msgstr "Zu Gruppe hinzufügen"
+msgstr "Zu Gruppe hinzufÃ¼gen"
 
 #: userview.cpp:396 userview.cpp:935
 msgid "Not in list"
@@ -2259,7 +2259,7 @@ msgstr "Nach oben"
 
 #: userview.cpp:507
 msgid "Down"
-msgstr "Abwärts"
+msgstr "AbwÃ¤rts"
 
 #: userview.cpp:605 userview.cpp:618
 msgid "New group"
@@ -2312,11 +2312,11 @@ msgstr " ist online"
 
 #: ui/alertmsg.cpp:49
 msgid "Close [%1 sec]"
-msgstr "Schließen [%1 Sek]"
+msgstr "SchlieÃŸen [%1 Sek]"
 
 #: ui/autoreply.cpp:82
 msgid "Close in %1 sec"
-msgstr "Schließt in %1 Sek"
+msgstr "SchlieÃŸt in %1 Sek"
 
 #: ui/ballonmsg.cpp:187
 msgid "&Ok"
@@ -2324,15 +2324,15 @@ msgstr "&OK"
 
 #: ui/changepasswd.cpp:36
 msgid "Confirm password does not match"
-msgstr "Paßwörter stimmen nicht überein"
+msgstr "PaÃŸwÃ¶rter stimmen nicht Ã¼berein"
 
 #: ui/editfile.cpp:72
 msgid "Directory for incoming files"
-msgstr "Verzeichnis für ankommende Dateien"
+msgstr "Verzeichnis fÃ¼r ankommende Dateien"
 
 #: ui/editfile.cpp:98
 msgid "*.wav(Sounds)"
-msgstr "*.wav (Klänge)"
+msgstr "*.wav (KlÃ¤nge)"
 
 #: ui/filetransfer.cpp:74
 #, c-format
@@ -2355,7 +2355,7 @@ msgstr "[fehlgeschlagen]"
 #: ui/aboutdlgbase.cpp:131 ui/filetransfer.cpp:158 ui/finddlgbase.cpp:66
 #: ui/logindlgbase.cpp:83 ui/proxydlgbase.cpp:123 ui/userautoreply.cpp:76
 msgid "&Close"
-msgstr "&Schließen"
+msgstr "&SchlieÃŸen"
 
 #: ui/filetransfer.cpp:227 ui/filetransfer.cpp:246
 msgid "&New"
@@ -2371,7 +2371,7 @@ msgstr "&Fortsetzen"
 
 #: ui/filetransfer.cpp:247
 msgid "&Skip"
-msgstr "Über&springen"
+msgstr "Ãœber&springen"
 
 #: ui/filetransfer.cpp:251
 msgid "File %1 exist"
@@ -2385,9 +2385,9 @@ msgid ""
 "* - any amount of symbols (or is empty)\n"
 "? - any symbol\n"
 msgstr ""
-"Wörter getrennt durch Zeichen (Leerzeichen, Komma o.ä.)\n"
-"Phrase (Folge von Wörtern) bestehend aus Regeln\n"
-"Wörter können Platzhalter enthalten:\n"
+"WÃ¶rter getrennt durch Zeichen (Leerzeichen, Komma o.Ã¤.)\n"
+"Phrase (Folge von WÃ¶rtern) bestehend aus Regeln\n"
+"WÃ¶rter kÃ¶nnen Platzhalter enthalten:\n"
 "* - eine Menge von Zeichen (oder leer)\n"
 "? - irgendein Zeichen\n"
 
@@ -2417,7 +2417,7 @@ msgstr "Februar"
 
 #: ui/moreinfo.cpp:68
 msgid "March"
-msgstr "März"
+msgstr "MÃ¤rz"
 
 #: ui/moreinfo.cpp:69
 msgid "April"
@@ -2457,7 +2457,7 @@ msgstr "Dezember"
 
 #: ui/msgdialog.cpp:40
 msgid "Autoreply message for status \"%1\""
-msgstr "Autoantwort für Status \"%1\""
+msgstr "Autoantwort fÃ¼r Status \"%1\""
 
 #: ui/network.cpp:45 ui/proxydlg.cpp:40
 msgid "No proxy"
@@ -2521,7 +2521,7 @@ msgstr "Zusatz-Info"
 
 #: ui/aboutinfobase.cpp:77 ui/setupdlg.cpp:90 ui/userinfo.cpp:63
 msgid "About info"
-msgstr "Über-Info"
+msgstr "Ãœber-Info"
 
 #: ui/interestsinfobase.cpp:78 ui/setupdlg.cpp:91 ui/userinfo.cpp:64
 msgid "Interests"
@@ -2557,7 +2557,7 @@ msgstr "Schnittstelle"
 
 #: ui/setupdlg.cpp:102
 msgid "Key shortcuts"
-msgstr "Tastaturkürzel"
+msgstr "TastaturkÃ¼rzel"
 
 #: ui/alertdialogbase.cpp:115 ui/setupdlg.cpp:104
 msgid "On Screen notification"
@@ -2621,7 +2621,7 @@ msgstr "%1 Version: %2"
 
 #: ui/aboutdlg.cpp:47
 msgid "Bug report"
-msgstr "Berichten Sie Probleme oder Wünsche"
+msgstr "Berichten Sie Probleme oder WÃ¼nsche"
 
 #: ui/searchbase.cpp:69 ui/searchbase.cpp:82
 msgid "Search"
@@ -2714,7 +2714,7 @@ msgstr "Proxy-Host:"
 
 #: ui/networkbase.cpp:193 ui/proxydlgbase.cpp:72
 msgid "Proxy password:"
-msgstr "Proxy-Paßwort:"
+msgstr "Proxy-PaÃŸwort:"
 
 #: ui/networkbase.cpp:179 ui/proxydlgbase.cpp:86
 msgid "Proxy user:"
@@ -2760,7 +2760,7 @@ msgstr "Form1"
 
 #: ui/keysetupbase.cpp:109
 msgid "Keyboard shortcuts"
-msgstr "Tastaturkürzel"
+msgstr "TastaturkÃ¼rzel"
 
 #: ui/keysetupbase.cpp:121
 msgid "Actions:"
@@ -2782,11 +2782,11 @@ msgstr "&Aktivieren"
 
 #: ui/aboutdlgbase.cpp:67
 msgid "About SIM"
-msgstr "Über SIM"
+msgstr "Ãœber SIM"
 
 #: ui/aboutdlgbase.cpp:94
 msgid "About"
-msgstr "Über"
+msgstr "Ãœber"
 
 #: ui/aboutdlgbase.cpp:102
 msgid "Authors"
@@ -2794,7 +2794,7 @@ msgstr "Autoren"
 
 #: ui/aboutdlgbase.cpp:109
 msgid "Translation"
-msgstr "Übersetzung"
+msgstr "Ãœbersetzung"
 
 #: ui/aboutdlgbase.cpp:116
 msgid "License"
@@ -2810,11 +2810,11 @@ msgstr "Suchen:"
 
 #: ui/finddlgbase.cpp:51
 msgid "Case &sensitivy"
-msgstr "Groß-/kleinschreibung &beachten"
+msgstr "GroÃŸ-/kleinschreibung &beachten"
 
 #: ui/finddlgbase.cpp:55
 msgid "Find &backwards"
-msgstr "&Rückwärts suchen"
+msgstr "&RÃ¼ckwÃ¤rts suchen"
 
 #: ui/xosdbase.cpp:109
 msgid "Notify On Screen"
@@ -2874,7 +2874,7 @@ msgstr "Rechner:"
 
 #: ui/networkbase.cpp:207
 msgid "Use the following TCP listen ports:"
-msgstr "Folgende hörende TCP-Ports verwenden:"
+msgstr "Folgende hÃ¶rende TCP-Ports verwenden:"
 
 #: ui/networkbase.cpp:213
 msgid "From:"
@@ -2898,7 +2898,7 @@ msgstr "Nachrichtenmodus (&Ein-Fenster-Modus)"
 
 #: ui/fontsetupbase.cpp:140
 msgid "Open user window"
-msgstr "Benutzerfenster öffnen"
+msgstr "Benutzerfenster Ã¶ffnen"
 
 #: ui/fontsetupbase.cpp:148
 msgid "&Each user in new container"
@@ -2906,7 +2906,7 @@ msgstr "&Jeder Benutzer in einem neuem Container"
 
 #: ui/fontsetupbase.cpp:152
 msgid "&New container for group"
-msgstr "&Neuer Container für Gruppe"
+msgstr "&Neuer Container fÃ¼r Gruppe"
 
 #: ui/fontsetupbase.cpp:157
 msgid "&All users in one container"
@@ -2926,7 +2926,7 @@ msgstr "Basisschriftart"
 
 #: ui/fontsetupbase.cpp:181
 msgid "Menu font"
-msgstr "Menüschriftart"
+msgstr "MenÃ¼schriftart"
 
 #: ui/fontsetupbase.cpp:189
 msgid "Colors"
@@ -2938,11 +2938,11 @@ msgstr "&Eigene Farben im Verlauf benutzen"
 
 #: ui/fontsetupbase.cpp:207
 msgid "Received messages color"
-msgstr "Farbe für emfangene Nachricht"
+msgstr "Farbe fÃ¼r emfangene Nachricht"
 
 #: ui/fontsetupbase.cpp:218
 msgid "Sending messages color"
-msgstr "Farbe für gesendete Nachricht"
+msgstr "Farbe fÃ¼r gesendete Nachricht"
 
 #: ui/fontsetupbase.cpp:226
 msgid "User window stays on &top"
@@ -2958,15 +2958,15 @@ msgstr "Emotionelle &Icons benutzen"
 
 #: ui/acceptbase.cpp:122
 msgid "Override global settings"
-msgstr "Globale Einstellungen überschreiben"
+msgstr "Globale Einstellungen Ã¼berschreiben"
 
 #: ui/acceptbase.cpp:126
 msgid "Automatically open all messages"
-msgstr "Automatisch alle Nachrichten öffnen"
+msgstr "Automatisch alle Nachrichten Ã¶ffnen"
 
 #: ui/acceptbase.cpp:130
 msgid "Path for incoming files:"
-msgstr "Pfad für eingehende Dateien:"
+msgstr "Pfad fÃ¼r eingehende Dateien:"
 
 #: ui/acceptbase.cpp:145
 msgid "Show response"
@@ -2978,7 +2978,7 @@ msgstr "Automatisch akzeptieren"
 
 #: ui/acceptbase.cpp:153
 msgid "Overwrite files"
-msgstr "Dateien überschreiben"
+msgstr "Dateien Ã¼berschreiben"
 
 #: ui/acceptbase.cpp:157
 msgid "Auto decline"
@@ -2986,7 +2986,7 @@ msgstr "Automatisch ablehnen"
 
 #: ui/filetransferbase.cpp:37
 msgid "File transfer"
-msgstr "Dateiübertragung"
+msgstr "DateiÃ¼bertragung"
 
 #: ui/filetransferbase.cpp:43
 msgid "File:"
@@ -3010,7 +3010,7 @@ msgstr "Geschwindigkeit:"
 
 #: ui/filetransferbase.cpp:111
 msgid "Close after send"
-msgstr "Nach dem Senden schließen"
+msgstr "Nach dem Senden schlieÃŸen"
 
 #: ui/phonebase.cpp:71
 msgid "Area code:"
@@ -3034,7 +3034,7 @@ msgstr "In globalem Verzeichnis publizieren"
 
 #: ui/phonebase.cpp:138
 msgid "SMS service available"
-msgstr "SMS Dienst verfügbar"
+msgstr "SMS Dienst verfÃ¼gbar"
 
 #: ui/emaileditbase.cpp:36
 msgid "Edit Email"
@@ -3046,11 +3046,11 @@ msgstr "Email-Adressen eingeben:"
 
 #: ui/emaileditbase.cpp:47
 msgid "Don't publish my Email address"
-msgstr "Meine Email-Adresse nicht veröffentlichen"
+msgstr "Meine Email-Adresse nicht verÃ¶ffentlichen"
 
 #: ui/pastinfobase.cpp:89
 msgid "Organization, Affiliation, Group:"
-msgstr "Organisation, Zugehörigkeit, Gruppe:"
+msgstr "Organisation, ZugehÃ¶rigkeit, Gruppe:"
 
 #: ui/pastinfobase.cpp:131
 msgid "Past background:"
@@ -3062,7 +3062,7 @@ msgstr "Automatische Nachricht"
 
 #: ui/autoreplybase.cpp:41
 msgid "Close after ...."
-msgstr "Schließen nach..."
+msgstr "SchlieÃŸen nach..."
 
 #: ui/autoreplybase.cpp:45
 msgid "Don't show this dialog"
@@ -3103,13 +3103,13 @@ msgstr "Form 3"
 
 #: ui/alertdialogbase.cpp:91
 msgid "Override global alert"
-msgstr "Globalen Online-Alarm überschreiben"
+msgstr "Globalen Online-Alarm Ã¼berschreiben"
 
 #: ui/alertdialogbase.cpp:95
 msgid "Activate online alert when user returns from Away or NA"
 msgstr ""
 "Online-Alarm aktivieren, wenn der Benutzer von \"NA\" oder \"Weg\" "
-"zurückkehrt"
+"zurÃ¼ckkehrt"
 
 #: ui/alertdialogbase.cpp:99
 msgid "Online alert options"
@@ -3129,11 +3129,11 @@ msgstr "Onlinedialog anzeigen"
 
 #: ui/alertdialogbase.cpp:123
 msgid "Open user window when online"
-msgstr "Wenn online, Benutzerfenster öffnen"
+msgstr "Wenn online, Benutzerfenster Ã¶ffnen"
 
 #: ui/addphonebase.cpp:68
 msgid "Add phone"
-msgstr "Telefon hinzufügen"
+msgstr "Telefon hinzufÃ¼gen"
 
 #: ui/addphonebase.cpp:72
 msgid "Number details:"
@@ -3153,7 +3153,7 @@ msgstr "Emailprogramm:"
 
 #: ui/soundsetupbase.cpp:118
 msgid "&Override sounds"
-msgstr "&Klänge überschreiben"
+msgstr "&KlÃ¤nge Ã¼berschreiben"
 
 #: ui/soundsetupbase.cpp:122
 msgid "Message:"
@@ -3181,7 +3181,7 @@ msgstr "Ankommende Datei"
 
 #: ui/soundsetupbase.cpp:164
 msgid "File transfer done"
-msgstr "Dateiübertragung beendet"
+msgstr "DateiÃ¼bertragung beendet"
 
 #: ui/soundsetupbase.cpp:171
 msgid "ChatRequest"
@@ -3205,7 +3205,7 @@ msgstr "Der Benutzer ist aktuell bei:"
 
 #: ui/phonebookbase.cpp:111
 msgid "&Add"
-msgstr "&Hinzufügen"
+msgstr "&HinzufÃ¼gen"
 
 #: ui/phonebookbase.cpp:115
 msgid "&Edit"
@@ -3213,15 +3213,15 @@ msgstr "&Bearbeiten"
 
 #: ui/phonebookbase.cpp:119
 msgid "&Delete"
-msgstr "&Löschen"
+msgstr "&LÃ¶schen"
 
 #: ui/spellsetupbase.cpp:78
 msgid "Spell checking"
-msgstr "Rechtschreibprüfung"
+msgstr "RechtschreibprÃ¼fung"
 
 #: ui/spellsetupbase.cpp:95
 msgid "Check all messages on send"
-msgstr "Nachrichten beim Versenden prüfen"
+msgstr "Nachrichten beim Versenden prÃ¼fen"
 
 #: ui/setupdlgbase.cpp:85 ui/userinfobase.cpp:115
 msgid "Update"
@@ -3233,7 +3233,7 @@ msgstr "Anwenden"
 
 #: ui/workinfobase.cpp:97
 msgid "Occupation:"
-msgstr "Beschäftigung:"
+msgstr "BeschÃ¤ftigung:"
 
 #: ui/workinfobase.cpp:111
 msgid "Div / dept:"
@@ -3257,7 +3257,7 @@ msgstr "Postleitzahl:"
 
 #: ui/themesetupbase.cpp:93
 msgid "Select style:"
-msgstr "Stil auswählen:"
+msgstr "Stil auswÃ¤hlen:"
 
 #: ui/themesetupbase.cpp:105
 msgid "Icons:"
@@ -3265,7 +3265,7 @@ msgstr "Icons:"
 
 #: ui/themesetupbase.cpp:117
 msgid "Add icons"
-msgstr "Icons hinzufügen"
+msgstr "Icons hinzufÃ¼gen"
 
 #: ui/themesetupbase.cpp:122
 msgid "Transparent main window"
@@ -3298,7 +3298,7 @@ msgstr "Hauptfenster anzeigen/verstecken nach"
 #: ui/statussetupbase.cpp:107
 msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
-"Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
+"Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"BeschÃ¤ftigt\"-Liste "
 "deaktivieren"
 
 #: ui/statussetupbase.cpp:112
@@ -3315,7 +3315,7 @@ msgstr "Minuten \"Weg\"-Status"
 
 #: ui/statussetupbase.cpp:131
 msgid "seconds inactive"
-msgstr "Sekunden Inaktivität"
+msgstr "Sekunden InaktivitÃ¤t"
 
 #: ui/statussetupbase.cpp:140
 msgid "Set \"N/A\" status after"
@@ -3367,7 +3367,7 @@ msgstr "E-Mail-Adressen:"
 
 #: ui/maininfobase.cpp:232
 msgid "Add"
-msgstr "Hinzufügen"
+msgstr "HinzufÃ¼gen"
 
 #: ui/maininfobase.cpp:236
 msgid "Edit"
@@ -3397,7 +3397,7 @@ msgstr "Zeitzone:"
 msgid "My &authorization is required before users add me to Contact List"
 msgstr ""
 "&Meine Authorisierung ist erforderlich, bevor Benutzer mich zu Ihrer "
-"Kontaktliste hinzufügen können"
+"Kontaktliste hinzufÃ¼gen kÃ¶nnen"
 
 #: ui/generalsecbase.cpp:128
 msgid "Don't show my &IP-address"
@@ -3461,19 +3461,19 @@ msgstr "Form 4"
 
 #: ui/aboutinfobase.cpp:87
 msgid "Additional information about user:"
-msgstr "Zusätzliche Information über den Benutzer:"
+msgstr "ZusÃ¤tzliche Information Ã¼ber den Benutzer:"
 
 #: ui/changepasswdbase.cpp:77
 msgid "Change password"
-msgstr "Passwort ändern"
+msgstr "Passwort Ã¤ndern"
 
 #: ui/changepasswdbase.cpp:90
 msgid "Retype new password:"
-msgstr "Paßwort wiederholen:"
+msgstr "PaÃŸwort wiederholen:"
 
 #: ui/changepasswdbase.cpp:97
 msgid "New password:"
-msgstr "Neues Paßwort:"
+msgstr "Neues PaÃŸwort:"
 
 #: ui/keysetup.cpp:33
 msgid "Action"
@@ -3505,11 +3505,11 @@ msgstr "Rate begrenzen"
 
 #: ui/userautoreply.cpp:51
 msgid "%1 autoresponse for %2"
-msgstr "Autoantwort von %1 für %2"
+msgstr "Autoantwort von %1 fÃ¼r %2"
 
 #: ui/userautoreply.cpp:90
 msgid "&Check again"
-msgstr "&Erneut prüfen"
+msgstr "&Erneut prÃ¼fen"
 
 #: about.cpp:280
 msgid "replace this with information about your translation team"
@@ -3525,7 +3525,7 @@ msgstr "Unicode"
 
 #: client.cpp:65 client.cpp:66 client.cpp:67
 msgid "Western European"
-msgstr "Westeuropäisch"
+msgstr "WesteuropÃ¤isch"
 
 #: client.cpp:68 client.cpp:69
 msgid "Central European"
@@ -3581,7 +3581,7 @@ msgstr ""
 
 #: client.cpp:272
 msgid "Please do not disturb me now. Disturb me later.\n"
-msgstr "Bitte nicht stören. Versuchen Sie es bitte später.\n"
+msgstr "Bitte nicht stÃ¶ren. Versuchen Sie es bitte spÃ¤ter.\n"
 
 #: client.cpp:275
 msgid ""
@@ -3589,12 +3589,12 @@ msgid ""
 "Disturb me later.\n"
 "Only urgent messages, please!\n"
 msgstr ""
-"Bitte nicht stören. Versuchen Sie es bitte später.\n"
+"Bitte nicht stÃ¶ren. Versuchen Sie es bitte spÃ¤ter.\n"
 "Bitte nur dringende Nachrichten!\n"
 
 #: client.cpp:279
 msgid "We'd love to hear what you have to say. Join our chat.\n"
-msgstr "Ich möchte gern chatten.\n"
+msgstr "Ich mÃ¶chte gern chatten.\n"
 
 #: client.cpp:691
 #, c-format
@@ -3656,8 +3656,8 @@ msgid ""
 "_n: Added to contact list\n"
 "%n times added to contact list"
 msgstr ""
-"Hinzugefügt zur Kontaktliste\n"
-"%n Mal hinzugefügt zur Kontaktliste"
+"HinzugefÃ¼gt zur Kontaktliste\n"
+"%n Mal hinzugefÃ¼gt zur Kontaktliste"
 
 #: client.cpp:707
 #, c-format
@@ -3746,8 +3746,8 @@ msgid ""
 "_n: Close secure channel\n"
 "%n times close sequre channel"
 msgstr ""
-"Sicheren Kanal schließen\n"
-"%n Mal sicheren Kanal schließen"
+"Sicheren Kanal schlieÃŸen\n"
+"%n Mal sicheren Kanal schlieÃŸen"
 
 #: client.cpp:729
 #, c-format
@@ -3760,11 +3760,11 @@ msgstr ""
 
 #: client.cpp:755
 msgid "Do not disturb"
-msgstr "Nicht stören"
+msgstr "Nicht stÃ¶ren"
 
 #: client.cpp:756
 msgid "Occupied"
-msgstr "Beschäftigt"
+msgstr "BeschÃ¤ftigt"
 
 #: client.cpp:757
 msgid "N/A"
@@ -3772,7 +3772,7 @@ msgstr "N/A"
 
 #: client.cpp:758
 msgid "Free for chat"
-msgstr "Frei für Chat"
+msgstr "Frei fÃ¼r Chat"
 
 #: client.cpp:759
 msgid "Away"
@@ -3812,20 +3812,20 @@ msgstr "Weg"
 #~ msgstr "Kontaktanfrage"
 
 #~ msgid "SMS receipt"
-#~ msgstr "SMS Empfänger"
+#~ msgstr "SMS EmpfÃ¤nger"
 
 #~ msgid "Request secure channel"
 #~ msgstr "Sicheren Kanal anfordern"
 
 #~ msgid "Close secure channel"
-#~ msgstr "Sicheren Kanal schließen"
+#~ msgstr "Sicheren Kanal schlieÃŸen"
 
 #~ msgid "&Simple mode"
 #~ msgstr "&Einfacher Modus"
 
 #~ msgid "Transfer completed"
-#~ msgstr "Übertragung abgeschlossen"
+#~ msgstr "Ãœbertragung abgeschlossen"
 
 #~ msgid "Transfer failed"
-#~ msgstr "Übertragung fehlgeschlagen"
+#~ msgstr "Ãœbertragung fehlgeschlagen"
 
