@@ -45,6 +45,7 @@ ListView::ListView(QWidget *parent, const char *name)
         Event eCmd(EventCommandCreate, cmd);
         eCmd.process();
     }
+    setAllColumnsShowFocus(true);
     m_bAcceptDrop = false;
     viewport()->setAcceptDrops(true);
     m_pressedItem = NULL;

@@ -19,13 +19,16 @@
 #define _EDITFILE_H
 
 #include "simapi.h"
+
 #include <qframe.h>
 #include <qlineedit.h>
+#include <qmultilineedit.h>
 #include <qfiledialog.h>
 
 class QHBoxLayout;
 class EditFile;
 class FilePreview;
+class QPopupMenu;
 
 class UI_EXPORT FileLineEdit : public QLineEdit
 {
@@ -82,6 +85,32 @@ public:
     ~EditSound();
 protected slots:
     void play();
+};
+
+class UI_EXPORT LineEdit : public QLineEdit
+{
+    Q_OBJECT
+public:
+    LineEdit(QWidget *parent, const char *name = NULL);
+    const char **helpList;
+protected slots:
+    void menuActivated(int);
+protected:
+    void mousePressEvent(QMouseEvent *e);
+    QPopupMenu *createPopupMenu();
+};
+
+class UI_EXPORT MultiLineEdit : public QMultiLineEdit
+{
+    Q_OBJECT
+public:
+    MultiLineEdit(QWidget *parent, const char *name = NULL);
+    const char **helpList;
+protected slots:
+    void menuActivated(int);
+protected:
+    void mousePressEvent(QMouseEvent *e);
+    QPopupMenu *createPopupMenu();
 };
 
 #endif

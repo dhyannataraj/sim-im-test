@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>430</width>
+            <width>422</width>
             <height>314</height>
         </rect>
     </property>
@@ -80,6 +80,13 @@
                 <name>text</name>
                 <string></string>
             </property>
+            <property>
+                <name>alignment</name>
+                <set>AlignVCenter|AlignLeft</set>
+            </property>
+            <property>
+                <name>wordwrap</name>
+            </property>
         </widget>
         <widget>
             <class>LinkLabel</class>
@@ -93,6 +100,13 @@
             <property stdset="1">
                 <name>name</name>
                 <cstring>TextLabel1_2</cstring>
+            </property>
+            <property>
+                <name>sizePolicy</name>
+                <sizepolicy>
+                    <hsizetype>5</hsizetype>
+                    <vsizetype>5</vsizetype>
+                </sizepolicy>
             </property>
             <property>
                 <name>text</name>
@@ -110,7 +124,7 @@
             <class>QLayoutWidget</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>Layout2</cstring>
+                <cstring>Layout7</cstring>
             </property>
             <hbox>
                 <property>
@@ -133,7 +147,7 @@
                     </property>
                 </widget>
                 <widget>
-                    <class>QLineEdit</class>
+                    <class>LineEdit</class>
                     <property stdset="1">
                         <name>name</name>
                         <cstring>edtText</cstring>
@@ -153,11 +167,60 @@
             </property>
         </widget>
         <widget>
-            <class>QMultiLineEdit</class>
+            <class>MultiLineEdit</class>
             <property stdset="1">
                 <name>name</name>
                 <cstring>edtTip</cstring>
             </property>
+        </widget>
+        <widget>
+            <class>QLayoutWidget</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>Layout8</cstring>
+            </property>
+            <hbox>
+                <property>
+                    <name>margin</name>
+                    <number>0</number>
+                </property>
+                <property>
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
+                <widget>
+                    <class>QPushButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>btnHelp</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>&amp;Help</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property>
+                        <name>name</name>
+                        <cstring>Spacer6</cstring>
+                    </property>
+                    <property>
+                        <name>orientation</name>
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property>
+                        <name>sizeType</name>
+                        <enum>Expanding</enum>
+                    </property>
+                    <property>
+                        <name>sizeHint</name>
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
         </widget>
     </vbox>
 </widget>
@@ -191,6 +254,34 @@
         </sizepolicy>
         <pixmap>image1</pixmap>
         <property type="String">text</property>
+    </customwidget>
+    <customwidget>
+        <class>LineEdit</class>
+        <header location="local">editfile.h</header>
+        <sizehint>
+            <width>-1</width>
+            <height>-1</height>
+        </sizehint>
+        <container>0</container>
+        <sizepolicy>
+            <hordata>5</hordata>
+            <verdata>7</verdata>
+        </sizepolicy>
+        <pixmap>image1</pixmap>
+    </customwidget>
+    <customwidget>
+        <class>MultiLineEdit</class>
+        <header location="local">editfile.h</header>
+        <sizehint>
+            <width>-1</width>
+            <height>-1</height>
+        </sizehint>
+        <container>0</container>
+        <sizepolicy>
+            <hordata>7</hordata>
+            <verdata>7</verdata>
+        </sizepolicy>
+        <pixmap>image1</pixmap>
     </customwidget>
 </customwidgets>
 <images>

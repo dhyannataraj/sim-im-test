@@ -1415,7 +1415,7 @@ QString CorePlugin::poFile(const char *lang)
     QFile f(QFile::decodeName(s.c_str()));
     if (!f.exists()) return "";
 #else
-string s = PREFIX "/share/locale/";
+    string s = PREFIX "/share/locale/";
     string l;
     if (lang)
         l = lang;
@@ -1456,7 +1456,7 @@ void CorePlugin::installTranslator()
 #ifdef USE_KDE
         return;
 #else
-char *p = getenv("LANG");
+        char *p = getenv("LANG");
         if (p){
             for (; *p; p++){
                 if (*p == '.') break;
@@ -1564,6 +1564,27 @@ void CorePlugin::getWays(vector<clientContact> &ways, Contact *contact)
     }
 }
 
+static const char *helpList[] =
+    {
+        "&IP;",
+        I18N_NOOP("ip-address"),
+        "&Mail;",
+        I18N_NOOP("e-mail"),
+        "&Phone;",
+        I18N_NOOP("phone"),
+        "&Nick;",
+        I18N_NOOP("contact nick"),
+        "&Unread;",
+        I18N_NOOP("number of unread messages from this contact"),
+        "&Status;",
+        I18N_NOOP("contact status"),
+        "&TimeStatus;",
+        I18N_NOOP("time of set status"),
+        "&IntervalStatus;",
+        I18N_NOOP("time from set status"),
+        NULL,
+    };
+
 void *CorePlugin::processEvent(Event *e)
 {
     switch (e->type()){
@@ -1602,17 +1623,18 @@ void *CorePlugin::processEvent(Event *e)
         }
     case EventTmplHelp:{
             QString *str = (QString*)(e->param());
-            *str += i18n("&IP; - ip-address\n"
-                         "&Mail; - e-mail\n"
-                         "&Phone; - phone\n"
-                         "&Nick; - contact nick\n"
-                         "&Unread; - number of unread messages from this contact\n"
-                         "&Status; - contact status\n"
-                         "&TimeStatus; - time of set status\n"
-                         "&IntervalStatus; - time (in seconds) from set status\n\n"
-                         "`<command>` - call <command> and substitute command output\n");
+            for (const char **p = helpList; *p;){
+                *str += *(p++);
+                *str += " - ";
+                *str += i18n(*(p++));
+                *str += "\n";
+            }
+            *str += "\n";
+            *str += i18n("`<command>` - call <command> and substitute command output\n");
             return e->param();
         }
+    case EventTmplHelpList:
+        return helpList;
     case EventARRequest:{
             ARRequest *r = (ARRequest*)(e->param());
             ARUserData *ar;

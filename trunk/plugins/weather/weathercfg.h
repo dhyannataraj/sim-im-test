@@ -30,6 +30,7 @@ public:
     WeatherCfg(QWidget *parent, WeatherPlugin*);
 public slots:
     void apply();
+    void help();
 protected:
     void *processEvent(Event*);
     void fill();

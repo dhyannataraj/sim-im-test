@@ -167,7 +167,7 @@ protected:
 
 void WeatherPlugin::timeout()
 {
-    if (!getSocketFactory()->isActive() || m_fetch_id || (*getLocation() == 0))
+    if (!getSocketFactory()->isActive() || m_fetch_id || (*getURL() == 0))
         return;
     time_t now;
     time(&now);
@@ -273,13 +273,21 @@ void *WeatherPlugin::processEvent(Event *e)
 {
     if (e->type() == EventInit)
         showBar();
+    if (e->type() == EventCommandExec){
+        CommandDef *cmd = (CommandDef*)(e->param());
+        if ((cmd->id == CmdWeather) && *getURL()){
+            Event eGo(EventGoURL, (void*)getURL());
+            eGo.process();
+            return e->param();
+        }
+    }
     if (e->type() == EventFetchDone){
         fetchData *d = (fetchData*)(e->param());
         if (d->req_id != m_fetch_id)
             return NULL;
+        m_fetch_id = 0;
         if (d->result != 200)
             return NULL;
-        m_fetch_id = 0;
         WeatherParser p(*d->data);
         setStr(p.m_updated.c_str(), data.Updated);
         setStr(p.m_location.c_str(), data.Location);
@@ -298,6 +306,8 @@ void *WeatherPlugin::processEvent(Event *e)
         condition = condition.lower();
         if (condition.find("fog") >= 0)
             condition = "Fog";
+        if (condition.find("overcast") >= 0)
+            condition = "Overcast";
         if (condition.find("mist") >= 0)
             condition = "Fog";
         if (condition.find("storm") >= 0)

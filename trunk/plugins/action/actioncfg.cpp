@@ -21,8 +21,8 @@
 #include "action.h"
 #include "core.h"
 #include "ballonmsg.h"
+#include "editfile.h"
 
-#include <qlineedit.h>
 #include <qtabwidget.h>
 #include <qpainter.h>
 #include <qpushbutton.h>
@@ -132,7 +132,9 @@ void ActionConfig::selectionChanged(QListViewItem *item)
     if (item == NULL)
         return;
     m_editItem = item;
-    m_edit = new QLineEdit(lstEvent->viewport());
+    m_edit = new LineEdit(lstEvent->viewport());
+    Event e(EventTmplHelpList);
+    m_edit->helpList = (const char**)e.process();
     QRect rc = lstEvent->itemRect(m_editItem);
     rc.setLeft(rc.left() + lstEvent->columnWidth(0) + 2);
     m_edit->setGeometry(rc);

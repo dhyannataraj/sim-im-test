@@ -19,9 +19,9 @@
 #include "listview.h"
 #include "action.h"
 #include "additem.h"
+#include "editfile.h"
 
 #include <qpushbutton.h>
-#include <qlineedit.h>
 
 MenuConfig::MenuConfig(QWidget *parent, struct ActionUserData *data)
         : MenuConfigBase(parent)

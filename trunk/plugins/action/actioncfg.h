@@ -22,7 +22,7 @@
 #include "simapi.h"
 
 class ActionPlugin;
-class QLineEdit;
+class LineEdit;
 class QListViewItem;
 class MenuConfig;
 
@@ -38,7 +38,7 @@ public slots:
     void selectionChanged(QListViewItem*);
     void help();
 protected:
-    QLineEdit		*m_edit;
+    LineEdit		*m_edit;
     QListViewItem	*m_editItem;
     MenuConfig		*m_menu;
     void resizeEvent(QResizeEvent *e);

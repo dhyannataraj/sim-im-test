@@ -18,10 +18,10 @@
 #include "additem.h"
 #include "ballonmsg.h"
 #include "core.h"
+#include "editfile.h"
 
 #include <qpixmap.h>
 #include <qtimer.h>
-#include <qlineedit.h>
 #include <qpushbutton.h>
 
 AddItem::AddItem(QWidget *parent)
@@ -35,6 +35,8 @@ AddItem::AddItem(QWidget *parent)
     connect(edtItem, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(edtPrg, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(buttonHelp, SIGNAL(clicked()), this, SLOT(help()));
+    Event e(EventTmplHelpList);
+    edtPrg->helpList = (const char**)e.process();
 }
 
 void AddItem::changed()
