@@ -186,10 +186,8 @@ void *HistoryWindow::processEvent(Event *e)
             return e->param();
         }
         if (cmd->id == CmdHistorySave){
-            QCString str = QCString(QFileDialog::getSaveFileName(QString::null, i18n("Textfile (*.txt)"), this));
-            
-			if (str && !str.isEmpty()){
-				string s = (string) str;
+            QString str = QFileDialog::getSaveFileName(QString::null, i18n("Textfile (*.txt)"), this);
+            if (str && !str.isEmpty()){
                 bool res = true;
                 if (QFile::exists(str)){
                     QMessageBox mb(i18n("Error"), i18n("File already exists. Overwrite?"), 
@@ -204,13 +202,13 @@ void *HistoryWindow::processEvent(Event *e)
                         res = History::save(m_id, str, false);
                         break;
                     case QMessageBox::No:
-                        res = History::save(m_id, s.c_str(), true);
+                        res = History::save(m_id, str, true);
                         break;
                     case QMessageBox::Cancel:
                         break;
                     }
                 }else
-                    res = History::save(m_id, s.c_str());
+                    res = History::save(m_id, str);
                 if (!res)
                     QMessageBox::critical(this, i18n("Error"), i18n("Save failed"), QMessageBox::Ok, QMessageBox::NoButton, QMessageBox::NoButton);
             }

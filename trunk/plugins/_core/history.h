@@ -47,7 +47,7 @@ public:
     static void cut(Message*, unsigned contact_id, unsigned date);
     static void del(unsigned msg_id);
     static void remove(Contact *contact);
-    static bool save(unsigned id, const char *file_name, bool bAppend = false);
+    static bool save(unsigned id, const QString& file_name, bool bAppend = false);
     static Message *load(unsigned id, const char *client, unsigned contact);
 protected:
     static void del(const char *name, unsigned contact, unsigned id, bool bCopy, Message *msg=NULL);

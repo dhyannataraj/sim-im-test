@@ -833,7 +833,7 @@ void History::remove(Contact *contact)
     }
 }
 
-bool History::save(unsigned id, const char *file_name, bool bAppend)
+bool History::save(unsigned id, const QString& file_name, bool bAppend)
 {
     QFile f(file_name);
     int mode = IO_WriteOnly | IO_Translate;
@@ -841,7 +841,6 @@ bool History::save(unsigned id, const char *file_name, bool bAppend)
         mode |= IO_Append;
     if (f.open(mode)){
         QTextStream stream(&f);
-		stream.setEncoding(QTextStream::UnicodeUTF8);
         HistoryIterator it(id);
         it.begin();
         const QString owner = getContacts()->owner()->getName(),
