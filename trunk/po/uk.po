@@ -5,6 +5,7 @@
 # translation of uk.po to
 # translation of uk.po to
 # translation of uk.po to
+# translation of uk.po to
 # translation of uk.po to Ukrainian
 # translation of uk.po to Український
 # Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
@@ -14,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2004-04-26 04:39+0400\n"
-"PO-Revision-Date: 2004-04-26 04:39+0400\n"
+"PO-Revision-Date: 2004-04-26 08:59+0300\n"
 "Last-Translator: Ivan Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team:  <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2384,12 +2385,11 @@ msgstr "Робити нічого - приєднуюсь до чату.\n"
 
 #: plugins/_core/core.cpp:444
 msgid "I'm here.\n"
-msgstr ""
+msgstr "Я на місці.\n"
 
 #: plugins/_core/core.cpp:447
-#, fuzzy
 msgid "I'm offline.\n"
-msgstr "Показувати користувачів не в &мережі"
+msgstr "Я вимкнутий з мережі.\n"
 
 #: plugins/_core/core.cpp:541
 msgid "Unread messages"
@@ -2640,7 +2640,6 @@ msgid "Change &encoding"
 msgstr "Змінити &кодування"
 
 #: plugins/_core/core.cpp:1386
-#, fuzzy
 msgid "Add to &group"
 msgstr "Додати в &групу"
 
@@ -2685,14 +2684,12 @@ msgid "time from set status"
 msgstr "Час від установки статусу"
 
 #: plugins/_core/core.cpp:1664
-#, fuzzy
 msgid ""
 "_: %1 wrote:\n"
 "male"
 msgstr "%1 написав:"
 
 #: plugins/_core/core.cpp:1665
-#, fuzzy
 msgid ""
 "_: %1 wrote:\n"
 "female"
@@ -3239,14 +3236,12 @@ msgid "Form4"
 msgstr "Про себе"
 
 #: plugins/_core/searchallbase.cpp:84 plugins/icq/icqsearchbase.cc:128 plugins/jabber/jabberaddbase.cpp:95
-#, fuzzy
 msgid "&E-Mail"
 msgstr "&E-Mail"
 
 #: plugins/_core/searchallbase.cpp:85 plugins/icq/icqsearchbase.cc:129 plugins/jabber/jabberaddbase.cpp:96 plugins/yahoo/yahoosearchbase.cpp:99
-#, fuzzy
 msgid "&Name"
-msgstr "&Імена"
+msgstr "&Ім'я"
 
 #: plugins/_core/searchallbase.cpp:86 plugins/icq/aimsearchbase.cc:163 plugins/icq/icqsearchbase.cc:130 plugins/jabber/jabberaddbase.cpp:97
 msgid "First:"
@@ -6011,9 +6006,8 @@ msgid "&ICQ"
 msgstr "&ICQ"
 
 #: plugins/icq/icqconfigbase.cc:276
-#, fuzzy
 msgid "Automatically check &invisible"
-msgstr "Перевірка &невидимості"
+msgstr "Автоматична перевірка &невидимості"
 
 #: plugins/icq/icqconfigbase.cc:277
 msgid "Send format:"
@@ -6045,31 +6039,27 @@ msgstr "Приймати в режимі \"&Не турбувати\""
 
 #: plugins/icq/icqconfigbase.cc:285
 msgid "For decrease traffic you can:"
-msgstr ""
+msgstr "Для зменшення трафіка Ви можете:"
 
 #: plugins/icq/icqconfigbase.cc:286
 msgid "Disable answer on phonebook and &picture requests"
-msgstr ""
+msgstr "Заборонити відповідати на запити картинок і телефонної книги"
 
 #: plugins/icq/icqconfigbase.cc:287
-#, fuzzy
 msgid "Disable automaticaly &request autoreply on change status"
-msgstr "Автоматично запитувати &автовідповідь при зміні статусу"
+msgstr "Заборонити запитувати &автовідповідь при зміні статусу"
 
 #: plugins/icq/icqconfigbase.cc:288
-#, fuzzy
 msgid "Disable automatically &update user info"
-msgstr "&Автоматично поновляти інформацію про користувача"
+msgstr "&Заборонити автоматично поновляти інформацію про користувача"
 
 #: plugins/icq/icqconfigbase.cc:289
-#, fuzzy
 msgid "Disable &typing notification"
-msgstr "Увімкнути попередження про &друк"
+msgstr "Вимкнути попередження про &друк"
 
 #: plugins/icq/icqconfigbase.cc:290
-#, fuzzy
 msgid "Check invisible every"
-msgstr "Перевірка невидимості"
+msgstr "Перевіряти невидимість кожні"
 
 #: plugins/icq/icqconfigbase.cc:291 plugins/livejournal/livejournalcfgbase.cpp:157
 msgid "minutes"
@@ -7940,12 +7930,10 @@ msgid "&Yahoo!"
 msgstr "&Yahoo!"
 
 #: plugins/yahoo/yahoosearchbase.cpp:98
-#, fuzzy
 msgid "Yahoo! &ID"
-msgstr "Yahoo &ID:"
+msgstr "Yahoo! &ID"
 
 #: plugins/yahoo/yahoosearchbase.cpp:100
-#, fuzzy
 msgid "&Keyword"
 msgstr "&Ключеві слова"
 
