@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
 "POT-Creation-Date: 2004-04-06 04:30+0400\n"
-"PO-Revision-Date: 2004-04-05 17:14+0200\n"
+"PO-Revision-Date: 2004-04-06 07:48+0200\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2595,11 +2595,11 @@ msgstr "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 msgid ""
 "_n: You have %n unread message\n"
 "You have %n unread messages"
-msgstr ""
+msgstr "Máte neprečítané správy (počet %n)"
 
 #: plugins/msn/msnpacket.cpp:491
 msgid "You have new mail"
-msgstr ""
+msgstr "Máte novú poštu"
 
 # control.cpp:577
 # dock.cpp:944
@@ -2915,8 +2915,7 @@ msgstr "Domovský adresár"
 
 #: plugins/__homedir/homedir.cpp:49
 msgid "Plugin provides select directory for store config files"
-msgstr ""
-"Zásuvný modul umožňuje vybrať miesto uloženia konfiguračných súborov"
+msgstr "Zásuvný modul umožňuje vybrať miesto uloženia konfiguračných súborov"
 
 # qt3/i18n.cpp:117
 #: plugins/__homedir/homedir.cpp:92
@@ -2993,8 +2992,7 @@ msgstr "Migrácia"
 
 #: plugins/__migrate/migrate.cpp:36
 msgid "Plugin provides convert configuration and history from SIM 0.8"
-msgstr ""
-"Zásuvný modul umožňuje konverziu konfigurácie a histórie z SIM v0.8"
+msgstr "Zásuvný modul umožňuje konverziu konfigurácie a histórie z SIM v0.8"
 
 #: plugins/__migrate/migratedlg.cpp:77
 msgid "Cancel convert?"
@@ -3564,8 +3562,7 @@ msgstr ""
 
 #: plugins/_core/core.cpp:1346 plugins/_core/core.cpp:3145
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
-msgstr ""
-"Prepáčte, momentálne som zaneprázdnený, ale môžem odpovedať neskôr"
+msgstr "Prepáčte, momentálne som zaneprázdnený, ale môžem odpovedať neskôr"
 
 #: plugins/_core/core.cpp:1351
 msgid "Enter a decline reason"
@@ -5139,8 +5136,7 @@ msgstr "Nastaviť \"Offline\" status po"
 
 # ui/statussetupbase.cpp:142
 #: plugins/autoaway/autoawaycfgbase.cpp:109
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Zakázať online výstrahu pre \"Away\", \"N/A\", \"DND\" a \"Occupied\" "
 "zoznam"
@@ -5245,8 +5241,7 @@ msgstr "Systray"
 
 #: plugins/dock/dock.cpp:50
 msgid "Plugin provides dock main window in system tray"
-msgstr ""
-"Zásuvný modul umožňuje umiestniť (dokovať) hlavné okno v systrayi"
+msgstr "Zásuvný modul umožňuje umiestniť (dokovať) hlavné okno v systrayi"
 
 #: plugins/dock/dock.cpp:52 plugins/windock/windock.cpp:43
 msgid "Dock"
@@ -5490,15 +5485,13 @@ msgstr "Meno:"
 
 # ui/logindlgbase.cpp:129
 #: plugins/gpg/gpggenbase.cpp:137
-#, fuzzy
 msgid "Passphrase:"
-msgstr "Heslá:"
+msgstr "Heslová fráza:"
 
 # ui/generalsecbase.cpp:234
 #: plugins/gpg/gpggenbase.cpp:138
-#, fuzzy
 msgid "Retype passphrase:"
-msgstr "Nové heslo (znovu):"
+msgstr "Napíšte znovu heslovú frázu:"
 
 # ui/keysetup.cpp:34
 #: plugins/gpg/gpguserbase.cpp:68
@@ -5511,8 +5504,7 @@ msgstr "GPG"
 
 #: plugins/gpg/gpg.cpp:54
 msgid "Plugin adds GnuPG encryption/decryption support for messages"
-msgstr ""
-"Zásuvný modul pridáva podporu GnuPG šifrovania a dešifrovania správ"
+msgstr "Zásuvný modul pridáva podporu GnuPG šifrovania a dešifrovania správ"
 
 #: plugins/gpg/gpg.cpp:78
 msgid ""
@@ -5587,21 +5579,20 @@ msgstr "Deifrova:"
 #: plugins/gpg/passphrase.cpp:37
 #, c-format
 msgid "Input passphrase for key %1"
-msgstr ""
+msgstr "Vložiť heslovú frázu pre kľúč %1"
 
 #: plugins/gpg/passphrase.cpp:62
 msgid "Bad passphrase"
-msgstr ""
+msgstr "Zlá heslová fráza"
 
 #: plugins/gpg/passphrasebase.cpp:82
 msgid "Input passphrase"
-msgstr ""
+msgstr "Vložiť heslovú frázu"
 
 # ui/logindlgbase.cpp:128
 #: plugins/gpg/passphrasebase.cpp:84
-#, fuzzy
 msgid "&Save passphrase"
-msgstr "Uložiť he&slo"
+msgstr "Uložiť he&slovú frázu"
 
 # ui/themesetupbase.cpp:294
 #: plugins/icons/icon.cpp:32
@@ -7439,8 +7430,7 @@ msgstr "P&ovolanie:"
 # ui/generalsecbase.cpp:212
 #: plugins/icq/icqsecurebase.cc:154
 msgid "My &authorization is required before users add me to Contact List"
-msgstr ""
-"Je vyžadovaná moja &autorizácia pred pridaním mňa do zoznamu kontaktov"
+msgstr "Je vyžadovaná moja &autorizácia pred pridaním mňa do zoznamu kontaktov"
 
 # ui/generalsecbase.cpp:213
 #: plugins/icq/icqsecurebase.cc:155
@@ -7470,8 +7460,7 @@ msgstr "Povoliť &priame pripojenie pre všetkých užívateľov"
 # ui/generalsecbase.cpp:218
 #: plugins/icq/icqsecurebase.cc:161
 msgid "Allow direct connection from user listed in &contact list"
-msgstr ""
-"Povoliť priame pripojenie pre užívateľov z mojho zoznamu &kontaktov"
+msgstr "Povoliť priame pripojenie pre užívateľov z mojho zoznamu &kontaktov"
 
 # ui/generalsecbase.cpp:219
 #: plugins/icq/icqsecurebase.cc:162
@@ -8044,8 +8033,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:68
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Zásuvný modul umožňuje zobrazova notifikácie o správach a stave "
 "kontaktov na obrazovke (OSD)"
@@ -8733,8 +8721,7 @@ msgstr ""
 
 #: plugins/jabber/jabbersearch.cpp:326
 msgid "Fill in all of the fields to add yourself to the JUD."
-msgstr ""
-"Vyplňte všetky polia pre pridanie do užívateľského adresára Jabber."
+msgstr "Vyplňte všetky polia pre pridanie do užívateľského adresára Jabber."
 
 #: plugins/jabber/jabbersearch.cpp:327
 msgid ""
@@ -8981,7 +8968,7 @@ msgstr "Nahrať jednu úroveň"
 # qt3/i18n.cpp:37
 #: plugins/jabber/jabber.cpp:343
 msgid "Load all levels"
-msgstr "Nahra vetky rovne"
+msgstr "Nahrať všetky úrovne"
 
 #: plugins/jabber/servicesbase.cpp:108 plugins/jabber/servicesbase.cpp:114
 msgid "Jabber agents are available online after login"
@@ -8990,7 +8977,7 @@ msgstr "Agenti Jabber budú dostupní po prihlásení"
 # ui/enable.cpp:134
 #: plugins/jabber/servicesbase.cpp:109
 msgid "Registered agents:"
-msgstr "Registrovan agenti:"
+msgstr "Registrovaní agenti:"
 
 # ui/logindlgbase.cpp:123
 #: plugins/jabber/servicesbase.cpp:110
@@ -9009,7 +8996,7 @@ msgstr "Zr&ušiť registráciu"
 # ui/enable.cpp:134
 #: plugins/jabber/servicesbase.cpp:113
 msgid "&Registered agents"
-msgstr "&Registrovan agenti"
+msgstr "&Registrovaní agenti"
 
 # qt3/i18n.cpp:156
 #: plugins/jabber/servicesbase.cpp:116
@@ -9054,7 +9041,7 @@ msgstr "Posledná aktivita, odpoveď nečinnosti:"
 # ui/statussetupbase.cpp:148
 #: plugins/jabber/discoinfobase.cpp:279
 msgid "&Statistic"
-msgstr "tatis&tika"
+msgstr "Štatis&tika"
 
 # msgedit.cpp:184
 #: plugins/jabber/discoinfobase.cpp:286
@@ -9074,14 +9061,13 @@ msgid "Jabber ID"
 msgstr "Jabber ID"
 
 #: plugins/jabber/jabberaddbase.cpp:111
-#, fuzzy
 msgid "Jabber &browser"
-msgstr "Prehliadač Jabber"
+msgstr "Prehliadač Ja&bber"
 
 # ui/proxydlgbase.cpp:181
 #: plugins/jabber/jabberaddbase.cpp:112
 msgid "Service:"
-msgstr "Sluba:"
+msgstr "Služba:"
 
 # ui/enable.cpp:134
 #: plugins/livejournal/livejournalcfg.cpp:36
@@ -9142,9 +9128,8 @@ msgid "Invalid username"
 msgstr "Neplatné užívateľské meno"
 
 #: plugins/livejournal/livejournal.cpp:1358
-#, fuzzy
 msgid "aggravated"
-msgstr "zven"
+msgstr "rozčúlený"
 
 # libicq/country.cpp:166
 #: plugins/livejournal/livejournal.cpp:1359
@@ -9156,9 +9141,8 @@ msgid "annoyed"
 msgstr "zlostný"
 
 #: plugins/livejournal/livejournal.cpp:1361
-#, fuzzy
 msgid "anxious"
-msgstr "zkostlivý"
+msgstr "úzkostlivý"
 
 # mainwin.cpp:3113
 #: plugins/livejournal/livejournal.cpp:1362
@@ -9260,9 +9244,8 @@ msgstr "spokojný"
 
 # qt3/i18n.cpp:267
 #: plugins/livejournal/livejournal.cpp:1384
-#, fuzzy
 msgid "sore"
-msgstr "boav"
+msgstr "boľavý"
 
 #: plugins/livejournal/livejournal.cpp:1385
 msgid "stressed"
@@ -9311,9 +9294,8 @@ msgid "morose"
 msgstr "mrzutý"
 
 #: plugins/livejournal/livejournal.cpp:1395
-#, fuzzy
 msgid "gloomy"
-msgstr "sk�n"
+msgstr "skľúčený"
 
 #: plugins/livejournal/livejournal.cpp:1396
 msgid "melancholy"
@@ -9333,9 +9315,8 @@ msgid "relieved"
 msgstr "ukľudnený"
 
 #: plugins/livejournal/livejournal.cpp:1400
-#, fuzzy
 msgid "hopeful"
-msgstr "n�ejn"
+msgstr "nádejný"
 
 # qt3/i18n.cpp:253
 #: plugins/livejournal/livejournal.cpp:1401
@@ -9358,9 +9339,8 @@ msgid "frustrated"
 msgstr "frustrovaný"
 
 #: plugins/livejournal/livejournal.cpp:1405
-#, fuzzy
 msgid "indescribable"
-msgstr "nepop�aten"
+msgstr "nepopísateľný"
 
 #: plugins/livejournal/livejournal.cpp:1406
 msgid "sleepy"
@@ -9484,7 +9464,6 @@ msgid "listless"
 msgstr "apatický"
 
 #: plugins/livejournal/livejournal.cpp:1433
-#, fuzzy
 msgid "recumbent"
 msgstr "ležiaci"
 
@@ -9499,14 +9478,12 @@ msgstr "rozpačitý"
 
 # libicq/country.cpp:227
 #: plugins/livejournal/livejournal.cpp:1436
-#, fuzzy
 msgid "envious"
-msgstr "z�istliv"
+msgstr "závistlivý"
 
 #: plugins/livejournal/livejournal.cpp:1437
-#, fuzzy
 msgid "sympathetic"
-msgstr "solid�ny"
+msgstr "solidárny"
 
 # ui/maininfobase.cpp:317
 #: plugins/livejournal/livejournal.cpp:1438
@@ -9588,9 +9565,8 @@ msgid "rushed"
 msgstr "splašený"
 
 #: plugins/livejournal/livejournal.cpp:1456
-#, fuzzy
 msgid "contemplative"
-msgstr "h�av"
+msgstr "rozjímavý"
 
 #: plugins/livejournal/livejournal.cpp:1457
 #, fuzzy
@@ -9723,15 +9699,13 @@ msgid "devious"
 msgstr "krivoľaký"
 
 #: plugins/livejournal/livejournal.cpp:1486
-#, fuzzy
 msgid "thankful"
-msgstr "v��"
+msgstr "vďačný"
 
 # libicq/country.cpp:231
 #: plugins/livejournal/livejournal.cpp:1487
-#, fuzzy
 msgid "grateful"
-msgstr "v��"
+msgstr "vďačný"
 
 #: plugins/livejournal/livejournal.cpp:1488
 msgid "jealous"
@@ -10003,8 +9977,7 @@ msgid "Navigate"
 msgstr "Navigácia"
 
 #: plugins/navigate/navigate.cpp:220
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Zásuvný modul umožňuje navigáciu po odkazoch, spúštenie externého "
 "prehliadača, poštového klienta"
@@ -10099,16 +10072,14 @@ msgstr "Výsledky Yahoo! hľadania"
 
 # ui/themesetup.cpp:140
 #: plugins/yahoo/yahoosearch.cpp:129
-#, fuzzy
 msgid "Contact %1 added to group %2"
 msgstr "Kontakt %1 bol pridaný do skupiny %2"
 
 # msgview.cpp:231
 # msgview.cpp:1273
 #: plugins/yahoo/yahoosearch.cpp:131
-#, fuzzy
 msgid "Contact %1 already in list"
-msgstr "Kontakt %1 je u v zozname"
+msgstr "Kontakt %1 je už v zozname"
 
 # qt3/i18n.cpp:97
 #: plugins/replace/replace.cpp:33
@@ -10679,7 +10650,3 @@ msgstr "Tip tlačítka:"
 msgid "Forecast tip:"
 msgstr "Predpoveď:"
 
-# ui/networkbase.cpp:234
-# ui/proxydlgbase.cpp:178
-#~ msgid "Browser: %1"
-#~ msgstr "Prehliadač: %1"
