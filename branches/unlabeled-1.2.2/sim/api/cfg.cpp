@@ -121,7 +121,7 @@ EXPORT string app_file(const char *f)
         for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
             QFile fi(*it + f);
             if (fi.exists()){
-                app_file_name = (const char*)fi.name().local8Bit();
+                app_file_name = (const char*)QFile::encodeName(fi.name());
                 return app_file_name;
             }
         }

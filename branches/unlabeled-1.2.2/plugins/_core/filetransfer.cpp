@@ -26,6 +26,7 @@
 #include <qprogressbar.h>
 #include <qpushbutton.h>
 #include <qcheckbox.h>
+#include <qfile.h>
 
 #include <time.h>
 
@@ -154,7 +155,7 @@ void FileTransferDlg::process()
 #endif
                 if (p)
                     n = p + 1;
-                status += QString::fromLocal8Bit(n);
+                status += QFile::decodeName(n);
                 status += QString(" %1/%2")
                           .arg(m_file + 1)
                           .arg(m_msg->m_transfer->files());

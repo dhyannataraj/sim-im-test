@@ -468,7 +468,7 @@ void History::remove(Contact *contact)
     string f_name = HISTORY_PATH;
     f_name += name;
     name = user_file(f_name.c_str());
-    QFile f(QString::fromLocal8Bit(name.c_str()));
+    QFile f(QFile::decodeName(name.c_str()));
     f.remove();
     void *data;
     ClientDataIterator it(contact->clientData);

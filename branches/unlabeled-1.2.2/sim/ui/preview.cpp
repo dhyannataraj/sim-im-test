@@ -52,7 +52,7 @@ void FilePreview::showPreview(const KURL &url)
     if (!fileName.isEmpty() && (fileName[fileName.length() - 1] != '/'))
         fileName += '/';
     fileName += url.fileName(false);
-    showPreview((const char*)fileName.local8Bit());
+    showPreview(QFile::encodeName(fileName));
 }
 
 void FilePreview::clearPreview()
@@ -69,7 +69,7 @@ void FilePreview::previewUrl(const QUrl &url)
         return;
     }
     QString fileName = url.toString(false, false);
-    showPreview(fileName.local8Bit());
+    showPreview(QFile::encodeName(fileName));
 }
 
 #endif
@@ -92,7 +92,7 @@ void PictPreview::showPreview(const char *file)
         label->setPixmap(QPixmap());
         return;
     }
-    QImage img(QString::fromLocal8Bit(file));
+    QImage img(QFile::decodeName(file));
     if ((img.width() > label->width()) || (img.height() > label->height())){
         bool bOk = false;
         if (img.width() > label->width()){

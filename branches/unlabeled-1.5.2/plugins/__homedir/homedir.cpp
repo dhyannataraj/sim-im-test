@@ -51,7 +51,7 @@ static PluginInfo info =
 #endif
         VERSION,
         createHomeDirPlugin,
-        PLUGIN_NO_CONFIG_PATH
+        PLUGIN_NO_CONFIG_PATH | PLUGIN_NODISABLE
     };
 
 EXPORT_PROC PluginInfo* GetPluginInfo()
@@ -97,17 +97,19 @@ HomeDirPlugin::HomeDirPlugin(unsigned base)
     }
     if (m_homeDir.empty())
         m_homeDir = defaultPath();
-    QDir dir(m_homeDir.c_str());
-    if (dir.exists()) {
+	QString d = QFile::decodeName(m_homeDir.c_str());
 #ifdef WIN32
-        QString directory = dir.path();
-        directory.replace(QRegExp("/"),"\\");
-        m_homeDir = directory.latin1();
+	d = d.replace(QRegExp("/"), "\\");
+	if (d.length() && (d[(int)(d.length() - 1)] == '\\'))
+		d = d.left(d.length() - 1);
 #else
-        m_homeDir = QString(dir.path()+"/").latin1();
+	if (d.length() && (d[(int)(d.length() - 1)] == '/'))
+		d = d.left(d.length() - 1);
 #endif
-    } else {
-        m_homeDir = defaultPath();
+	QDir dir(d);
+    if (!dir.exists()) {
+        m_homeDir  = defaultPath();
+		m_bDefault = true;
 #ifdef WIN32
         m_bSave   = false;
 #endif
@@ -124,7 +126,8 @@ string HomeDirPlugin::defaultPath()
     }else{
         log(L_ERROR, "Can't get pwd");
     }
-    if (s[s.size() - 1] != '/') s += '/';
+    if (s[s.size() - 1] != '/')
+		s += '/';
 #ifdef USE_KDE
     char *kdehome = getenv("KDEHOME");
     if (kdehome){
@@ -134,9 +137,9 @@ string HomeDirPlugin::defaultPath()
     }
     if (s.length() == 0) s += '/';
     if (s[s.length()-1] != '/') s += '/';
-    s += "share/apps/sim/";
+    s += "share/apps/sim";
 #else
-    s += ".sim/";
+    s += ".sim";
 #endif
 #else
     char szPath[512];
@@ -147,15 +150,10 @@ string HomeDirPlugin::defaultPath()
         s = szPath;
         if (s.length()  == 0) s = "c:\\";
         if (s[s.length() - 1] != '\\') s += '\\';
-        s += "sim\\";
+        s += "sim";
     }else{
         s = app_file("");
     }
-#endif
-#ifndef _WINDOWS
-    if (s[s.length() - 1] != '/') s += '/';
-#else
-    if (s[s.length() - 1] != '\\') s += '\\';
 #endif
     return s;
 }
@@ -189,13 +187,17 @@ string HomeDirPlugin::getConfig()
 
 string HomeDirPlugin::buildFileName(const char *name)
 {
-    string s = m_homeDir;
+    QString s = QFile::decodeName(m_homeDir.c_str());
 #ifdef WIN32
-    if (s[s.size() - 1] != '/') s += '/';
+	s += '\\';
+#else
+	s += '/';
 #endif
-    s += name;
-    makedir((char*)s.c_str());
-    return s;
+    s += QFile::decodeName(name);
+	string res;
+	res = QFile::encodeName(s);
+    makedir((char*)(res.c_str()));
+    return res;
 }
 
 void *HomeDirPlugin::processEvent(Event *e)

@@ -173,9 +173,9 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
         pluginInfo info;
         info.plugin		 = NULL;
 #ifdef WIN32
-        info.name		 = strdup(f.lower().local8Bit());
+        info.name		 = strdup(QFile::encodeName(f.lower()));
 #else
-        info.name		 = strdup(f.local8Bit());
+        info.name		 = strdup(QFile::encodeName(f());
 #endif
         info.config		 = NULL;
         info.bDisabled	 = false;
@@ -512,7 +512,7 @@ void PluginManagerPrivate::saveState()
         return;
     getContacts()->save();
     string cfgName = user_file(PLUGINS_CONF);
-    QFile f(QString::fromLocal8Bit(cfgName.c_str()));
+    QFile f(QFile::decodeName(cfgName.c_str()));
     if (!f.open(IO_WriteOnly | IO_Truncate)){
         log(L_ERROR, "Can't create %s", cfgName.c_str());
         return;
@@ -557,7 +557,7 @@ void PluginManagerPrivate::loadState()
         return;
     m_bLoaded = true;
     string cfgName = user_file(PLUGINS_CONF);
-    QFile f(QString::fromLocal8Bit(cfgName.c_str()));
+    QFile f(QFile::decodeName(cfgName.c_str()));
     if (!f.open(IO_ReadOnly)){
         log(L_ERROR, "Can't create %s", cfgName.c_str());
         return;

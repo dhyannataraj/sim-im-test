@@ -32,7 +32,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
     SoundUserData *user_data = (SoundUserData*)data;
     string s;
     s = plugin->fullName(user_data->Alert);
-    edtAlert->setText(QString::fromLocal8Bit(s.c_str()));
+    edtAlert->setText(QFile::decodeName(s.c_str()));
     QGridLayout *lay = static_cast<QGridLayout*>(layout());
     if (lay == NULL)
         return;
@@ -48,7 +48,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
         lbl->setText(i18n(def->singular, def->plural, 1) + ":");
         lay->addWidget(lbl, n, 0);
         EditSound *snd = new EditSound(this);
-        snd->setText(QString::fromLocal8Bit(m_plugin->messageSound(cmd->id, user_data).c_str()));
+        snd->setText(QFile::decodeName(m_plugin->messageSound(cmd->id, user_data).c_str()));
         lay->addWidget(snd, n, 1);
         m_sounds.insert(MAP_SOUND::value_type(cmd->id, snd));
         n++;
@@ -60,7 +60,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
 void SoundUserConfig::apply(void *data)
 {
     SoundUserData *user_data = (SoundUserData*)data;
-    set_str(&user_data->Alert, edtAlert->text().local8Bit());
+    set_str(&user_data->Alert, QFile::encodeName(edtAlert->text()));
     CommandDef *cmd;
     CommandsMapIterator it(m_plugin->core->messageTypes);
     while ((cmd = ++it) != NULL){
@@ -74,7 +74,7 @@ void SoundUserConfig::apply(void *data)
         QString text = snd->text();
         if (text.isEmpty())
             text = "-";
-        set_str(&user_data->Receive, cmd->id, text.local8Bit());
+        set_str(&user_data->Receive, cmd->id, QFile::encodeName(text));
     }
 }
 

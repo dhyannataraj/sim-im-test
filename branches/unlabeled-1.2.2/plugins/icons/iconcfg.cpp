@@ -137,7 +137,7 @@ IconCfg::IconCfg(QWidget *parent, IconsPlugin *plugin)
     cmbProtocol->setCurrentItem(0);
     protocolChanged(0);
     connect(lblMore, SIGNAL(click()), this, SLOT(goIcons()));
-    edtIcon->setStartDir(QString::fromLocal8Bit(app_file("icons/").c_str()));
+    edtIcon->setStartDir(QFile::decodeName(app_file("icons/").c_str()));
     edtIcon->setTitle(i18n("Select icons DLL"));
     edtIcon->setFilePreview(createPreview);
 #ifdef USE_KDE
@@ -165,7 +165,7 @@ void IconCfg::textChanged(const QString &t)
 {
     string text;
     if (!t.isEmpty())
-        text = (const char*)t.local8Bit();
+        text = QFile::encodeName(t);
     for (list<IconsDef>::iterator it = defs.begin(); it != defs.end(); ++it){
         if ((*it).index == cmbProtocol->currentItem()){
             (*it).icon = text;

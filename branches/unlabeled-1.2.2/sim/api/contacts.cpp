@@ -1517,7 +1517,7 @@ static char _OWNER[] = "[Owner]";
 void ContactList::save()
 {
     string cfgName = user_file(CONTACTS_CONF);
-    QFile f(QString::fromLocal8Bit(cfgName.c_str()));
+    QFile f(QFile::decodeName(cfgName.c_str()));
     if (!f.open(IO_WriteOnly | IO_Truncate)){
         log(L_ERROR, "Can't create %s", cfgName.c_str());
         return;
@@ -1592,7 +1592,7 @@ void ContactList::load()
 {
     clear();
     string cfgName = user_file(CONTACTS_CONF);
-    QFile f(QString::fromLocal8Bit(cfgName.c_str()));
+    QFile f(QFile::decodeName(cfgName.c_str()));
     if (!f.open(IO_ReadOnly)){
         log(L_ERROR, "Can't open %s", cfgName.c_str());
         return;

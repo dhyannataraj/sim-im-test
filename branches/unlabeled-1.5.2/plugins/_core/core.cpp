@@ -123,7 +123,7 @@ SIMTranslator::~SIMTranslator()
 
 void SIMTranslator::load ( const QString & filename)
 {
-    fName = filename.local8Bit();
+    fName = QFile::encodeName(filename);
     domain.filename = (char*)(fName.c_str());
     k_nl_load_domain(&domain);
 }
@@ -1082,7 +1082,7 @@ void CorePlugin::installTranslator()
         s += tolower(*pp);
     s += ".qm";
     s = app_file(s.c_str());
-    QFile f(QString::fromLocal8Bit(s.c_str()));
+    QFile f(QFile::decodeName(s.c_str()));
     if (!f.exists()) return;
 #else
     string s = PREFIX "/share/locale/";
@@ -1091,14 +1091,14 @@ void CorePlugin::installTranslator()
     if (r) *r = 0;
     s += lang.c_str();
     s += "/LC_MESSAGES/sim.mo";
-    QFile f(QString::fromLocal8Bit(s.c_str()));
+    QFile f(QFile::decodeName(s.c_str()));
     if (!f.exists()){
         r = strchr(p, '_');
         if (r) *r = 0;
         s = PREFIX "/share/locale/";
         s += lang.c_str();
         s += "/LC_MESSAGES/sim.mo";
-        f.setName(QString::fromLocal8Bit(s.c_str()));
+        f.setName(QFile::decodeName(s.c_str()));
         if (!f.exists()) return;
     }
 #endif
@@ -2413,20 +2413,22 @@ bool CorePlugin::init(bool bInit)
         Client *client = getContacts()->getClient(i);
         client->setStatus(client->getManualStatus(), client->getCommonStatus());
     }
+	if (m_main)
+		return true;
+
     loadUnread();
 
-    m_main = new MainWindow;
-    m_view = new UserView;
-
+	m_main = new MainWindow;
+	m_view = new UserView;
     if ((data.geometry[WIDTH] == 0) || (data.geometry[HEIGHT] == 0)){
         data.geometry[HEIGHT] = QApplication::desktop()->height() * 2 / 3;
         data.geometry[WIDTH]  = data.geometry[HEIGHT] / 3;
         if ((data.geometry[LEFT] == 0) && (data.geometry[TOP] == 0)){
             data.geometry[LEFT] = QApplication::desktop()->width() - 25 - data.geometry[WIDTH];
-            data.geometry[TOP] = 5;
-        }
-    }
-    restoreGeometry(m_main, data.geometry);
+			data.geometry[TOP] = 5;
+		}
+	}
+	restoreGeometry(m_main, data.geometry);
 
     string containers = getContainers();
     while (!containers.empty()){
@@ -2497,7 +2499,7 @@ void CorePlugin::loadDir()
     string saveProfile = getProfile();
     setProfile(NULL);
     bool bOK = false;
-    QString baseName = QString::fromLocal8Bit(user_file("").c_str());
+    QString baseName = QFile::decodeName(user_file("").c_str());
     QDir dir(baseName);
     dir.setFilter(QDir::Dirs);
     QStringList list = dir.entryList();
@@ -2519,8 +2521,8 @@ void CorePlugin::loadDir()
         fname += CLIENTS_CONF;
         QFile f(fname);
         if (f.exists()){
-            m_profiles.push_back((const char*)(entry.local8Bit()));
-            if (!strcmp(entry.local8Bit(), saveProfile.c_str()))
+            m_profiles.push_back((const char*)QFile::encodeName(entry));
+            if (QFile::encodeName(entry) == saveProfile.c_str())
                 bOK = true;
         }
     }
@@ -2591,7 +2593,7 @@ string CorePlugin::getConfig()
     string saveProfile = getProfile();
     setProfile(NULL);
     string cfgName = user_file("plugins.conf");
-    QFile fCFG(QString::fromLocal8Bit(cfgName.c_str()));
+    QFile fCFG(QFile::decodeName(cfgName.c_str()));
     if (!fCFG.open(IO_WriteOnly | IO_Truncate)){
         log(L_ERROR, "Can't create %s", cfgName.c_str());
     }else{
@@ -2605,7 +2607,7 @@ string CorePlugin::getConfig()
     fCFG.close();
     setProfile(saveProfile.c_str());
     cfgName = user_file(CLIENTS_CONF);
-    QFile f(QString::fromLocal8Bit(cfgName.c_str()));
+    QFile f(QFile::decodeName(cfgName.c_str()));
     if (!f.open(IO_WriteOnly | IO_Truncate)){
         log(L_ERROR, "Can't create %s", cfgName.c_str());
     }else{
@@ -2701,7 +2703,7 @@ Message *CorePlugin::createMessage(const char *type, const char *cfg)
 void CorePlugin::loadClients(ClientList &clients)
 {
     string cfgName = user_file(CLIENTS_CONF);
-    QFile f(QString::fromLocal8Bit(cfgName.c_str()));
+    QFile f(QFile::decodeName(cfgName.c_str()));
     if (!f.open(IO_ReadOnly)){
         log(L_ERROR, "Can't open %s", cfgName.c_str());
         return;

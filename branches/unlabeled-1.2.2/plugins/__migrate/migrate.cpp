@@ -50,7 +50,7 @@ MigratePlugin::MigratePlugin(unsigned base)
 bool MigratePlugin::init()
 {
     string path = user_file("");
-    QString dir = QString::fromLocal8Bit(path.c_str());
+    QString dir = QFile::decodeName(path.c_str());
     QDir d(dir);
     if (!d.exists())
         return false;
