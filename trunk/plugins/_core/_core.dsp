@@ -4071,6 +4071,14 @@ SOURCE=.\xpm\1uparrow.xpm
 # End Source File
 # Begin Source File
 
+SOURCE=.\xpm\aim.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\away.xpm
+# End Source File
+# Begin Source File
+
 SOURCE=.\xpm\button_cancel.xpm
 # End Source File
 # Begin Source File
@@ -4088,6 +4096,10 @@ SOURCE=.\xpm\collapsed.xpm
 # Begin Source File
 
 SOURCE=.\xpm\configure.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\dnd.xpm
 # End Source File
 # Begin Source File
 
@@ -4116,6 +4128,10 @@ SOURCE=.\xpm\expanded.xpm
 # Begin Source File
 
 SOURCE=.\xpm\fax.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\ffc.xpm
 # End Source File
 # Begin Source File
 
@@ -4163,15 +4179,15 @@ SOURCE=.\xpm\help.xpm
 # End Source File
 # Begin Source File
 
+SOURCE=.\xpm\icq.xpm
+# End Source File
+# Begin Source File
+
 SOURCE=.\xpm\info.xpm
 # End Source File
 # Begin Source File
 
-SOURCE=.\xpm\licq.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\licq_big.xpm
+SOURCE=.\xpm\invisible.xpm
 # End Source File
 # Begin Source File
 
@@ -4187,7 +4203,19 @@ SOURCE=.\xpm\more.xpm
 # End Source File
 # Begin Source File
 
+SOURCE=.\xpm\msn.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\na.xpm
+# End Source File
+# Begin Source File
+
 SOURCE=.\xpm\nonim.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\occupied.xpm
 # End Source File
 # Begin Source File
 
@@ -4312,6 +4340,10 @@ SOURCE=.\xpm\url.xpm
 # Begin Source File
 
 SOURCE=.\xpm\webpress.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\yahoo.xpm
 # End Source File
 # End Group
 # Begin Group "po"

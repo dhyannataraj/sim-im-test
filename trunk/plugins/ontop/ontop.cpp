@@ -25,6 +25,7 @@
 #ifdef WIN32
 #include <windows.h>
 #else
+#include <kdeversion.h>
 #include <kwin.h>
 #endif
 
@@ -205,7 +206,11 @@ void OnTopPlugin::getState()
 #ifdef USE_KDE
     QWidget *main = getMainWindow();
     if (main == NULL) return;
+#if KDE_IS_VERSION(3,2,0)
+    setOnTop(KWin::windowInfo(main->winId()).state() & NET::StaysOnTop);
+#else
     setOnTop(KWin::info(main->winId()).state & NET::StaysOnTop);
+#endif
 #endif
 }
 

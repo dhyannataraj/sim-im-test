@@ -47,6 +47,12 @@
 #include <qtabwidget.h>
 #include <qspinbox.h>
 
+#ifdef USE_KDE
+#include <qapplication.h>
+#include <kglobal.h>
+#include <kstddirs.h>
+#endif
+
 #ifdef WIN32
 static char STYLES[] = "styles\\";
 #else
@@ -56,7 +62,7 @@ static char EXT[]    = ".xsl";
 
 #undef QTextEdit
 
-#if (QT_VERSION >= 0x300) && defined(HAVE_QSYNTAXHIGHLIGHTER_H)
+#if (QT_VERSION < 0x300) || ((QT_VERSION >= 0x300) && defined(HAVE_QSYNTAXHIGHLIGHTER_H))
 
 class XmlHighlighter : public QSyntaxHighlighter
 {
@@ -203,12 +209,22 @@ HistoryConfig::HistoryConfig(QWidget *parent)
     lblPage2->setText(str2);
     edtStyle->setWordWrap(QTextEdit::NoWrap);
     edtStyle->setTextFormat(QTextEdit::RichText);
-#if (QT_VERSION >= 0x300) && defined(HAVE_QSYNTAXHIGHLIGHTER_H)
+#if (QT_VERSION < 0x300) || ((QT_VERSION >= 0x300) && defined(HAVE_QSYNTAXHIGHLIGHTER_H))
     new XmlHighlighter(edtStyle);
 #endif
     QStringList styles;
     addStyles(user_file(STYLES).c_str(), true);
+#ifdef USE_KDE
+    QStringList lst = KGlobal::dirs()->findDirs("data", "sim");
+    for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
+        QFile fi(*it + STYLES);
+        if (!fi.exists())
+            continue;
+        addStyles(QFile::encodeName(fi.name()), false);
+    }
+#else
     addStyles(app_file(STYLES).c_str(), false);
+#endif
     fillCombo(CorePlugin::m_plugin->getHistoryStyle());
     connect(cmbStyle, SIGNAL(activated(int)), this, SLOT(styleSelected(int)));
     connect(btnCopy, SIGNAL(clicked()), this, SLOT(copy()));

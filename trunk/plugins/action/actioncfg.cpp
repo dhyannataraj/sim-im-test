@@ -46,13 +46,13 @@ ActionConfig::ActionConfig(QWidget *parent, struct ActionUserData *data, ActionP
 
     QListViewItem *item = new QListViewItem(lstEvent, i18n("Contact online"));
     item->setText(2, QString::number(CONTACT_ONLINE));
-    item->setPixmap(0, makePixmap("licq"));
+    item->setPixmap(0, makePixmap("ICQ"));
     if (data->OnLine.ptr)
         item->setText(1, QString::fromUtf8(data->OnLine.ptr));
 
     item = new QListViewItem(lstEvent, i18n("Status changed"));
     item->setText(2, QString::number(CONTACT_STATUS));
-    item->setPixmap(0, makePixmap("licq"));
+    item->setPixmap(0, makePixmap("ICQ"));
     if (data->Status.ptr)
         item->setText(1, QString::fromUtf8(data->Status.ptr));
 

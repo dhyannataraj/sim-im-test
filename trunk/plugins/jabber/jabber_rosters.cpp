@@ -1243,14 +1243,16 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
     if (m_bRichText){
         *m_data += "<";
         *m_data += el;
-        for (const char **p = attr; *p; ){
-            const char *key = *(p++);
-            const char *val = *(p++);
-            *m_data += " ";
-            *m_data += key;
-            *m_data += "=\'";
-            *m_data += val;
-            *m_data += "\'";
+        if (attr){
+            for (const char **p = attr; *p; ){
+                const char *key = *(p++);
+                const char *val = *(p++);
+                *m_data += " ";
+                *m_data += key;
+                *m_data += "=\'";
+                *m_data += val;
+                *m_data += "\'";
+            }
         }
         *m_data += ">";
         return;

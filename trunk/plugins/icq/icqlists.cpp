@@ -217,13 +217,13 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                                         bChanged = true;
                                     }
                                 } else
-								/* if not TLV(WAIT_AUTH) we are authorized ... */
-                                if (inf && !(*inf)(TLV_WAIT_AUTH)) {
-                                    if (data->WaitAuth.bValue){
-                                        data->WaitAuth.bValue = false;
-                                        bChanged = true;
+                                    /* if not TLV(WAIT_AUTH) we are authorized ... */
+                                    if (inf && !(*inf)(TLV_WAIT_AUTH)) {
+                                        if (data->WaitAuth.bValue){
+                                            data->WaitAuth.bValue = false;
+                                            bChanged = true;
+                                        }
                                     }
-                                }
                                 data->IcqID.value = id;
                                 data->GrpId.value = grp_id;
                                 Tlv *tlv_phone = NULL;

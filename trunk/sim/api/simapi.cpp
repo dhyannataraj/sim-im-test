@@ -56,6 +56,7 @@
 #ifdef USE_KDE
 #include <kwin.h>
 #include <kglobal.h>
+#include <kdeversion.h>
 #endif
 
 #include "stl.h"
@@ -405,19 +406,23 @@ bool raiseWindow(QWidget *w, unsigned)
     /* info.currentDesktop is 0 when iconified :(
     also onAllDesktops is 0 when Objekt isn't
     shown already */
+#if KDE_IS_VERSION(3,1,94)
+    KWin::WindowInfo info = KWin::windowInfo(w->winId());
+    if ((!info.onAllDesktops()) || (desk == 0)) {
+        if (desk == 0) desk = KWin::currentDesktop();
+        KWin::setOnDesktop(w->winId(), desk);
+    }
+#else
     KWin::Info info = KWin::info(w->winId());
     if ((!info.onAllDesktops) || (desk == 0)) {
         if (desk == 0) desk = KWin::currentDesktop();
         KWin::setOnDesktop(w->winId(), desk);
     }
 #endif
+#endif
     w->show();
     w->showNormal();
-    w->setActiveWindow();
     w->raise();
-#ifdef USE_KDE
-    KWin::setActiveWindow(w->winId());
-#endif
 #ifdef WIN32
     AttachThreadInput(GetWindowThreadProcessId(GetForegroundWindow(),NULL), GetCurrentThreadId(), TRUE);
     SetForegroundWindow(w->winId());
@@ -462,12 +467,6 @@ const QIconSet *Icon(const char *name)
     if ((unsigned)res == (unsigned)(-1))
         res = NULL;
     return res;
-}
-
-const QIconSet *BigIcon(const char *name)
-{
-    Event e(EventGetBigIcon, (void*)name);
-    return (const QIconSet*)e.process();
 }
 
 QPixmap Pict(const char *name)

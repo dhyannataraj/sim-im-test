@@ -45,6 +45,10 @@
 
 #include <time.h>
 
+#ifdef USE_KDE
+#include <kdeversion.h>
+#endif
+
 const unsigned NO_TYPE = (unsigned)(-1);
 
 MsgTextEdit::MsgTextEdit(MsgEdit *edit, QWidget *parent)
@@ -53,6 +57,9 @@ MsgTextEdit::MsgTextEdit(MsgEdit *edit, QWidget *parent)
     m_edit = edit;
     setBackground(CorePlugin::m_plugin->getEditBackground());
     setForeground(CorePlugin::m_plugin->getEditForeground(), true);
+#if defined(USE_KDE) && KDE_IS_VERSION(3,2,90)
+    setCheckSpellingEnabled(true);
+#endif
 }
 
 QPopupMenu *MsgTextEdit::createPopupMenu(const QPoint &pos)

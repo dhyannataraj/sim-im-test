@@ -498,31 +498,15 @@ SOURCE=.\msn.rc
 # PROP Default_Filter "xpm"
 # Begin Source File
 
-SOURCE=.\xpm\msn.xpm
+SOURCE=.\xpm\lunch.xpm
 # End Source File
 # Begin Source File
 
-SOURCE=.\xpm\msn_away.xpm
+SOURCE=.\xpm\onback.xpm
 # End Source File
 # Begin Source File
 
-SOURCE=.\xpm\msn_dnd.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\msn_invisible.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\msn_na.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\msn_offline.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\msn_online.xpm
+SOURCE=.\xpm\onphone.xpm
 # End Source File
 # End Group
 # Begin Group "Interfaces"

@@ -55,7 +55,7 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const 
         setIcon(Pict(m_client->protocol()->description()->icon));
     }else{
         setCaption(i18n("Select profile"));
-        setIcon(Pict("licq"));
+        setIcon(Pict("ICQ"));
     }
     if (m_client){
         chkSave->hide();
@@ -249,7 +249,7 @@ static void rmDir(const QString &path)
 #ifdef WIN32
         p += "\\";
 #else
-        p += "/";
+p += "/";
 #endif
         p += *it;
         rmDir(p);

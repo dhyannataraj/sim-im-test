@@ -407,17 +407,19 @@ void PictButton::paintEvent(QPaintEvent*)
     QRect rc(4, 4, width() - 4, height() - 4);
     if (m_def.icon && strcmp(m_def.icon, "empty")){
         const QIconSet *icons = Icon(m_def.icon);
-        const QPixmap &pict = icons->pixmap(QIconSet::Small, isEnabled() ? QIconSet::Active : QIconSet::Disabled);
-        QToolBar *bar = static_cast<QToolBar*>(parent());
-        if (bar->orientation() == Vertical){
-            p.drawPixmap((width() - pict.width()) / 2, 4, pict);
-            QWMatrix m;
-            m.rotate(90);
-            p.setWorldMatrix(m);
-            rc = QRect(8 + pict.height(), -4, height() - 4, 4 - width());
-        }else{
-            p.drawPixmap(4, (height()  - pict.height()) / 2, pict);
-            rc = QRect(8 + pict.width(), 4, width() - 4, height() - 4);
+        if (icons){
+            const QPixmap &pict = icons->pixmap(QIconSet::Small, isEnabled() ? QIconSet::Active : QIconSet::Disabled);
+            QToolBar *bar = static_cast<QToolBar*>(parent());
+            if (bar->orientation() == Vertical){
+                p.drawPixmap((width() - pict.width()) / 2, 4, pict);
+                QWMatrix m;
+                m.rotate(90);
+                p.setWorldMatrix(m);
+                rc = QRect(8 + pict.height(), -4, height() - 4, 4 - width());
+            }else{
+                p.drawPixmap(4, (height()  - pict.height()) / 2, pict);
+                rc = QRect(8 + pict.width(), 4, width() - 4, height() - 4);
+            }
         }
     }
     const QColorGroup &cg = isEnabled() ? palette().active() : palette().disabled();

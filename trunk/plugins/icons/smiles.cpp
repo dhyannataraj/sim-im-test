@@ -159,6 +159,8 @@ void XepParser::element_start(const char *el, const char **attrs)
     if (!strcmp(el, "record")){
         m_data = NULL;
         m_bRec = false;
+        if (attrs == NULL)
+            return;
         for (const char **p = attrs; *p;){
             const char *attr = *(p++);
             const char *val  = *(p++);

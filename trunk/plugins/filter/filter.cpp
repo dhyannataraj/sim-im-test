@@ -88,7 +88,6 @@ FilterPlugin::FilterPlugin(unsigned base, const char *cfg)
     IconDef icon;
     icon.name = "ignorelist";
     icon.xpm  = ignorelist;
-    icon.isSystem = false;
 
     Event eIcon(EventAddIcon, &icon);
     eIcon.process();

@@ -364,14 +364,6 @@ SOURCE=.\livejournal.rc
 
 SOURCE=.\xpm\livejournal.xpm
 # End Source File
-# Begin Source File
-
-SOURCE=.\xpm\livejournal_off.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\livejournal_upd.xpm
-# End Source File
 # End Group
 # Begin Group "Interfaces"
 

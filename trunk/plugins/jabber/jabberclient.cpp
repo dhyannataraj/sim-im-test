@@ -836,6 +836,8 @@ void JabberClient::p_char_data(void *data, const xmlChar *str, int len)
 
 string JabberClient::get_attr(const char *name, const char **attr)
 {
+    if (attr == NULL)
+        return "";
     for (const char **p = attr; *p; ){
         string tag = to_lower(*(p++));
         if (tag == name){
@@ -884,7 +886,7 @@ void JabberClient::element_start(const char *el, const char **attr)
             }
         }
     }else{
-        if (element == "stream:stream"){
+        if (element == "stream:stream" && attr){
             for (const char **p = attr; *p; ){
                 string tag = to_lower(*(p++));
                 if (tag == "id"){
@@ -1288,22 +1290,22 @@ void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &
             }else if (strcmp(h.c_str(), "yahoo") == 0){
                 switch (data->Status.value){
                 case STATUS_ONLINE:
-                    dicon = "Yahoo_online";
+                    dicon = "Yahoo!_online";
                     break;
                 case STATUS_OFFLINE:
-                    dicon = "Yahoo_offline";
+                    dicon = "Yahoo!_offline";
                     break;
                 case STATUS_AWAY:
-                    dicon = "Yahoo_away";
+                    dicon = "Yahoo!_away";
                     break;
                 case STATUS_NA:
-                    dicon = "Yahoo_na";
+                    dicon = "Yahoo!_na";
                     break;
                 case STATUS_DND:
-                    dicon = "Yahoo_dnd";
+                    dicon = "Yahoo!_dnd";
                     break;
                 case STATUS_FFC:
-                    dicon = "Yahoo_ffc";
+                    dicon = "Yahoo!_ffc";
                     break;
                 }
             }

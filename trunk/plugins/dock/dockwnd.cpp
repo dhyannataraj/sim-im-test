@@ -128,7 +128,7 @@ WharfIcon::WharfIcon(DockWnd *parent)
     p_width  = 64;
     p_height = 64;
     setMouseTracking(true);
-    const QIconSet *icon = BigIcon("inactive");
+    const QIconSet *icon = Icon("inactive");
     if (icon){
         const QPixmap &pict = icon->pixmap(QIconSet::Large, QIconSet::Normal);
         setIcon(pict);
@@ -923,8 +923,8 @@ void DockWnd::setIcon(const char *icon)
 #ifndef WIN32
 #ifndef QT_MACOSX_VERSION
     if (!inTray){
-	repaint();
-	return;
+        repaint();
+        return;
     }
 #endif
 #endif

@@ -1,9 +1,9 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Developer Studio generated include file.
 // Used by sim.rc
-//
-#define IDI_ICON1                       1
+#include <winnt.h>
 
+#define IDI_ICON1                       1
 #define IDS_PROJNAME                    100
 #define IDR_SIMCTRL                     101
 #define IDR_SIMCONTROL                  102

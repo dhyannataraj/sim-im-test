@@ -119,7 +119,6 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, const char *config)
     IconDef icon;
     icon.name = "sound";
     icon.xpm = sound;
-    icon.isSystem = false;
 
     Event eIcon(EventAddIcon, &icon);
     eIcon.process();

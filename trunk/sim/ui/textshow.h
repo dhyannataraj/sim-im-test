@@ -63,6 +63,8 @@ public:
     const QColor &foreground() const;
     void setForeground(const QColor&);
     void setBackground(const QColor&);
+    static void setFactory(QMimeSourceFactory*);
+    static QMimeSourceFactory *factory();
 signals:
     void finished();
 protected slots:

@@ -29,6 +29,7 @@ namespace SIM
 
 const unsigned RECONNECT_TIME		= 5;
 const unsigned RECONNECT_IFINACTIVE = 60;
+const unsigned LOGIN_TIMEOUT		= 120;
 
 class SocketFactoryPrivate
 {
@@ -262,14 +263,17 @@ TCPClient::TCPClient(Protocol *protocol, const char *cfg)
 {
     m_socket = NULL;
     m_timer  = new QTimer(this);
+    m_loginTimer = new QTimer(this);
     m_reconnect = RECONNECT_TIME;
     m_bWaitReconnect = false;
     connect(m_timer, SIGNAL(timeout()), this, SLOT(reconnect()));
+    connect(m_loginTimer, SIGNAL(timeout()), this, SLOT(loginTimeout()));
 }
 
 bool TCPClient::error_state(const char *err, unsigned code)
 {
     log(L_DEBUG, "Socket error %s (%u)", err, code);
+    m_loginTimer->stop();
     if (m_reconnect == NO_RECONNECT){
         m_timer->stop();
         setStatus(STATUS_OFFLINE, getCommonStatus());
@@ -308,6 +312,15 @@ void TCPClient::connect_ready()
 {
     m_timer->stop();
     m_bWaitReconnect = false;
+    m_loginTimer->stop();
+    m_loginTimer->start(LOGIN_TIMEOUT * 1000, true);
+}
+
+void TCPClient::loginTimeout()
+{
+    m_loginTimer->stop();
+    if ((m_state != Connected) && m_socket)
+        m_socket->error_state("Login timeout");
 }
 
 void TCPClient::socketConnect()
@@ -339,6 +352,7 @@ void TCPClient::setClientStatus(unsigned status)
     }
     m_bWaitReconnect = false;
     m_timer->stop();
+    m_loginTimer->stop();
     if (m_socket)
         setStatus(STATUS_OFFLINE);
     m_status = STATUS_OFFLINE;

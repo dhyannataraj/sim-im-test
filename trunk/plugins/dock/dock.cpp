@@ -109,7 +109,7 @@ DockPlugin::DockPlugin(unsigned base, const char *config)
     Command cmd;
     cmd->id          = CmdTitle;
     cmd->text        = I18N_NOOP("SIM");
-    cmd->icon        = "licq";
+    cmd->icon        = "ICQ";
     cmd->menu_id     = DockMenu;
     cmd->menu_grp    = 0x1000;
     cmd->flags       = COMMAND_TITLE;
