@@ -202,7 +202,6 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             sendLogonStatus();
             sendClientReady();
             sendMessageRequest();
-            sendPhoneInit();
             sendPhoneStatus();
             if (bFull || (owner->Nick.size() == 0)){
                 addInfoRequest(owner->Uin);

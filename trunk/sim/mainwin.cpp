@@ -466,7 +466,9 @@ void MainWindow::adjustFucntionMenu()
 {
     int n;
     int oldItems = menuMsgs.size();
+#ifdef DEBUG
     menuFunction->setItemChecked(mnuShare, pClient->ShareOn);
+#endif
     fillUnread(menuMsgs);
     int index = menuFunction->indexOf(mnuPopupStatus);
     for (n = 0; n < oldItems; n++)
@@ -2087,7 +2089,9 @@ void MainWindow::loadMenu()
     menuFunction->insertItem(Icon("configure"), i18n("Setup"), this, SLOT(setup()));
     menuFunction->insertItem(Icon("grp_on"), i18n("Groups"), menuGroups);
     menuFunction->insertItem(Icon("phone"), i18n("Phone \"Follow Me\""), menuPhone);
+#ifdef DEBUG
     menuFunction->insertItem(i18n("Shared files"), this, SLOT(sharedFiles()), 0, mnuShare);
+#endif
 #ifdef WIN32
     menuFunction->insertSeparator();
     menuFunction->insertItem(i18n("Always on top"), this, SLOT(toggleOnTop()), 0, mnuOnTop);

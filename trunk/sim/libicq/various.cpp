@@ -61,7 +61,6 @@ const unsigned short ICQ_SRVxREQ_MODIFY_INTERESTS  = 0x1004;
 const unsigned short ICQ_SRVxREQ_MODIFY_BACKGROUND = 0x1A04;
 const unsigned short ICQ_SRVxREQ_MODIFY_MAIL	   = 0x0B04;
 
-const unsigned short ICQ_SRVxREQ_PHONE_INIT		   = 0x5807;
 const unsigned short ICQ_SRVxREQ_PHONE_UPDATE	   = 0x5406;
 
 void ICQClient::snac_various(unsigned short type, unsigned short)
@@ -1206,17 +1205,6 @@ void ICQClient::setInfo(ICQUser *u)
         if (updatePhoneBook()) bChange = true;
     }
     if (bChange) sendInfoUpdate();
-}
-
-void ICQClient::sendPhoneInit()
-{
-    serverRequest(ICQ_SRVxREQ_MORE);
-    sock->writeBuffer << (unsigned short)ICQ_SRVxREQ_PHONE_INIT;
-    sock->writeBuffer
-    << 0x01000000L << 0x03200000L << 0x00000000L << 0x00000000L
-    << 0x00000408L << 0x00000000L << 0x00000050L << 0x00000003L
-    << (char)0 << (unsigned short)0;
-    sendServerRequest();
 }
 
 void ICQClient::sendPhoneStatus()

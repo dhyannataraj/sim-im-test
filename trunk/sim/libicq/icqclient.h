@@ -1233,7 +1233,6 @@ protected:
 
     void sendThroughServer(unsigned long uin, unsigned short type, Buffer &b, msg_id *id=NULL, bool addTlv=true);
     void cancelSendFile(ICQFile*);
-    void sendPhoneInit();
 
     void messageReceived(ICQMessage *msg);
 

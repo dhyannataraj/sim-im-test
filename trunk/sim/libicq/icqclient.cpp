@@ -64,6 +64,7 @@ ICQClient::ICQClient()
     lastResponseRequestTime = 0;
     needPhonebookUpdate = false;
     needPhoneStatusUpdate = false;
+    needShareUpdate = false;
     unsigned long now;
     time((time_t*)&now);
     owner->PhoneBookTime = now;
