@@ -1032,7 +1032,7 @@ void UserBox::slotMessageReceived(ICQMessage *msg)
             ((msg->Type() == ICQ_MSGxMSG) || (msg->Type() == ICQ_MSGxURL) ||
              (msg->Type() == ICQ_MSGxSMS))){
         pClient->markAsRead(msg);
-	emit messageReceibed(msg);
+	emit messageReceived(msg);
         return;
     }
     if (!haveUser(msg->getUin())) return;
