@@ -113,22 +113,27 @@ QWidget *AutoAwayPlugin::createConfigWindow(QWidget *parent)
 void AutoAwayPlugin::timeout()
 {
     unsigned long newStatus = core->getManualStatus();
-    unsigned idle_time = getIdleTime() * 60;
-    if ((bAway && getEnableAway() && (idle_time < getAwayTime() * 60000)) ||
-            (bNA && getEnableNA() && (idle_time < getNATime() * 60000)) ||
-            (bOff && getEnableOff() && (idle_time < getOffTime() * 60000))){
+    unsigned idle_time = getIdleTime();
+	unsigned awayTime = getAwayTime() * 60000;  /* 60 -> sek, 1000 -> min*/
+	unsigned naTime   = getNATime() * 60000;    /* 60 -> sek, 1000 -> min*/
+	unsigned offTime  = getOffTime() * 60000;   /* 60 -> sek, 1000 -> min*/
+	/* msec is best. otherwise we would make mistakes because of rounding
+	   this wouldn't matter with seconds, but within minutes ...*/
+    if ((bAway && getEnableAway() && (idle_time < awayTime)) ||
+            (bNA && getEnableNA() && (idle_time < naTime)) ||
+            (bOff && getEnableOff() && (idle_time < offTime))){
         bAway = false;
         bNA   = false;
         bOff  = false;
         newStatus = oldStatus;
-    }else if (!bAway && !bNA && !bOff && getEnableAway() && (idle_time > getAwayTime() * 60000)){
+    }else if (!bAway && !bNA && !bOff && getEnableAway() && (idle_time > awayTime)){
         unsigned long status = core->getManualStatus();
         if ((status == STATUS_AWAY) || (status == STATUS_NA) || (status == STATUS_OFFLINE))
             return;
         oldStatus = status;
         newStatus = STATUS_AWAY;
         bAway = true;
-    }else  if (!bNA && !bOff && getEnableNA() && (idle_time > getNATime() * 60000)){
+    }else  if (!bNA && !bOff && getEnableNA() && (idle_time > naTime)){
         unsigned long status = core->getManualStatus();
         if ((status == STATUS_NA) || (status == STATUS_OFFLINE))
             return;
@@ -136,7 +141,7 @@ void AutoAwayPlugin::timeout()
             oldStatus = status;
         bNA = true;
         newStatus = STATUS_NA;
-    }else if (!bOff && getEnableOff() && (idle_time > getOffTime() * 60000)){
+    }else if (!bOff && getEnableOff() && (idle_time > offTime)){
         unsigned long status = core->getManualStatus();
         if (status == STATUS_OFFLINE)
             return;
@@ -189,6 +194,7 @@ static time_t lastTime = 0;
 
 #endif
 
+/* returns idle time in milliseconds */
 unsigned AutoAwayPlugin::getIdleTime()
 {
 #ifdef WIN32
@@ -208,7 +214,7 @@ unsigned AutoAwayPlugin::getIdleTime()
     ZeroMemory(&lii,sizeof(lii));
     lii.cbSize=sizeof(lii);
     _GetLastInputInfo(&lii);
-    return (GetTickCount()-lii.dwTime) / 1000;
+    return (GetTickCount()-lii.dwTime);
 #else
 QWidgetList *list = QApplication::topLevelWidgets();
     QWidgetListIt it(*list);
@@ -234,7 +240,7 @@ QWidgetList *list = QApplication::topLevelWidgets();
         m_timer->stop();
         return 0;
     }
-    return (mit_info->idle / 1000);
+    return (mit_info->idle);
 #endif
 }
 
