@@ -1719,7 +1719,7 @@ string ICQClient::clientName(ICQUserData *data)
         return res;
     case 0xFFFFFF7FL:
         res += "&RQ";
-        res += verString(data->PluginInfoTime.value & 0xFFFF);
+        res += verString(data->PluginInfoTime.value & 0xFFFFFF);
         return res;
     case 0xFFFFFFABL:
         res += "YSM";
