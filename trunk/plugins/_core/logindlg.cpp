@@ -223,7 +223,7 @@ void LoginDialog::profileChanged(int)
         if (nClients == 1){
             makeInputs(row, clients[0], true);
         }else{
-            for (i = 0; i < clients.size(); i++){
+            for (unsigned i = 0; i < clients.size(); i++){
                 if (clients[i]->protocol()->description()->flags & PROTOCOL_NO_AUTH)
                     continue;
                 makeInputs(row, clients[i], false);
