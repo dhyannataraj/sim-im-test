@@ -137,24 +137,24 @@ void WharfIcon::set(const char *icon, const char *msg)
     const QIconSet &icons = Icon(icon);
     QPixmap *nvis = new QPixmap(icons.pixmap(QIconSet::Large, QIconSet::Normal));
     QPixmap *nvish = new QPixmap(icons.pixmap(QIconSet::Large, QIconSet::Active));
-    log(L_DEBUG, "Nvis [%s %s] %u %u", icon, msg ? msg : "NULL", nvis->width(), nvis->height());
+    resize(nvis->width(), nvis->height());
     if (msg){
         QPixmap msgPict = Pict(msg);
         QRegion *rgn = NULL;
         if (nvis->mask() && msgPict.mask()){
             rgn = new QRegion(*msgPict.mask());
-            rgn->translate(nvis->width() - msgPict.width() - 2, 
-			nvis->height() - msgPict.height() - 2);
+            rgn->translate(nvis->width() - msgPict.width() - 2,
+                           nvis->height() - msgPict.height() - 2);
             *rgn += *nvis->mask();
         }
         QPainter p;
         p.begin(nvis);
-        p.drawPixmap(nvis->width() - msgPict.width() - 2, 
-		nvis->height() - msgPict.height() - 2, msgPict);
+        p.drawPixmap(nvis->width() - msgPict.width() - 2,
+                     nvis->height() - msgPict.height() - 2, msgPict);
         p.end();
         p.begin(nvish);
-        p.drawPixmap(nvish->width() - msgPict.width() - 2, 
-		nvish->height() - msgPict.height() - 2, msgPict);
+        p.drawPixmap(nvish->width() - msgPict.width() - 2,
+                     nvish->height() - msgPict.height() - 2, msgPict);
         p.end();
         if (rgn){
             setMask(*rgn);
@@ -162,8 +162,6 @@ void WharfIcon::set(const char *icon, const char *msg)
         }
     }else{
         const QBitmap *mask = nvis->mask();
-	log(L_DEBUG, "Mask %u", (unsigned)mask);
-        if (mask) setMask(*mask);
     }
     if (vis) delete vis;
     vis = nvis;
@@ -434,7 +432,6 @@ void DockWnd::timer()
         break;
     }
 #ifndef WIN32
-    log(L_DEBUG, "Set wharf");
     if (wharfIcon == NULL) return;
     const char *msg = NULL;
     if (msgType) msg = Client::getMessageIcon(msgType);
@@ -500,7 +497,6 @@ void DockWnd::reset()
             s = i18n("Connecting");
         }
     }
-    log(L_DEBUG, "Set tip %s", (const char*)(s.local8Bit()));
     setTip(s);
     showIcon = Unknown;
     timer();

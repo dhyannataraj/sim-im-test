@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-07-12 03:42+0400\n"
-"PO-Revision-Date: 2002-07-05 14:24GMT\n"
+"POT-Creation-Date: 2002-07-11 20:20+0200\n"
+"PO-Revision-Date: 2002-07-11 20:39GMT\n"
 "Last-Translator: Crissi <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 
 #: libicq/translator.cpp:123
 msgid "UTF-8"
-msgstr ""
+msgstr "UTF-8"
 
 #: chatwnd.cpp:80 msgedit.cpp:136
 msgid "Bold"
@@ -31,7 +31,7 @@ msgid "Enter to chat"
 msgstr "Chat betreten"
 
 #: chatwnd.cpp:316
-#, c-format
+#, c-format, ycp-format
 msgid "Can't create %1"
 msgstr "Konnte %1 nicht erstellen"
 
@@ -47,19 +47,19 @@ msgstr "Chatanfrage"
 msgid "URL"
 msgstr "URL"
 
-#: client.cpp:399 msgview.cpp:144
+#: client.cpp:399 msgview.cpp:146
 msgid "Authorization request"
 msgstr "Authorisierungsanfrage"
 
-#: client.cpp:401 msgview.cpp:153
+#: client.cpp:401 msgview.cpp:155
 msgid "Authorization refused"
 msgstr "Authorisierung abgelehnt"
 
-#: client.cpp:403 msgview.cpp:161
+#: client.cpp:403 msgview.cpp:163
 msgid "Authorization granted"
 msgstr "Authorisierung gewährt"
 
-#: client.cpp:405 msgview.cpp:164
+#: client.cpp:405 msgview.cpp:166
 msgid "Added to contact list"
 msgstr "Zur Kontaktliste hinzugefügt"
 
@@ -127,12 +127,12 @@ msgstr "N/A"
 msgid "Last online"
 msgstr "Zuletzt online"
 
-#: dock.cpp:495
+#: dock.cpp:486
 #, c-format
 msgid "%n unread message"
 msgstr "%n ungelesene Nachricht"
 
-#: dock.cpp:500 mainwin.cpp:1176
+#: dock.cpp:491 mainwin.cpp:1176
 msgid "Connecting"
 msgstr "Verbindungsaufbau"
 
@@ -217,17 +217,18 @@ msgid "Menu"
 msgstr "Menü"
 
 #: mainwin.cpp:649
+#, ycp-format
 msgid "%1 from %2 received"
-msgstr ""
+msgstr "%1 von %2 empfangen"
 
 #: mainwin.cpp:711
 msgid "Your UIN used from another location"
 msgstr "Ihre UIN wird von einem anderem Ort benutzt"
 
 #: mainwin.cpp:756
-#, fuzzy
+#, ycp-format
 msgid "User %1 is online"
-msgstr "Benutzer ist online"
+msgstr "Benutzer %1 ist online"
 
 #: mainwin.cpp:1151 mainwin.cpp:1360
 msgid "&Yes"
@@ -238,6 +239,7 @@ msgid "&No"
 msgstr "&Nein"
 
 #: mainwin.cpp:1153
+#, ycp-format
 msgid "Add user %1 to ignore list ?"
 msgstr "Benutzer %1 zur Ignorierenliste hinzufügen?"
 
@@ -278,16 +280,17 @@ msgid "Users"
 msgstr "Benutzer"
 
 #: mainwin.cpp:1362
+#, ycp-format
 msgid "Delete user %1?"
 msgstr "Benutzer %1 löschen?"
 
-#: mainwin.cpp:1429 msgedit.cpp:717
+#: mainwin.cpp:1429 msgedit.cpp:719
 msgid "New"
 msgstr "Neu"
 
 #: mainwin.cpp:1432
 msgid "To container"
-msgstr "In Kontainer"
+msgstr "In Container"
 
 #: mainwin.cpp:1624
 msgid "Invisible"
@@ -405,7 +408,7 @@ msgstr "&Ablehnen"
 
 #: msgedit.cpp:143
 msgid "&Forward"
-msgstr ""
+msgstr "&Vorwärts"
 
 #: msgedit.cpp:164
 msgid "Text font"
@@ -429,7 +432,7 @@ msgstr "Datei:"
 
 #: msgedit.cpp:219
 msgid "Multiply send"
-msgstr ""
+msgstr "An mehrere senden"
 
 #: msgedit.cpp:224
 msgid "Drag users here"
@@ -459,39 +462,40 @@ msgstr "Nachricht gesendet"
 msgid "Send failed"
 msgstr "Senden fehlgeschlagen"
 
-#: msgedit.cpp:714
+#: msgedit.cpp:716
 msgid "Next"
 msgstr "Weiter"
 
-#: msgedit.cpp:755
+#: msgedit.cpp:757
+#, ycp-format
 msgid "%1 (ICQ# %2) wrote:<br>\n"
-msgstr ""
+msgstr "%1 (ICQ# %2) schrieb:<br>\n"
 
-#: msgedit.cpp:1448
+#: msgedit.cpp:1450
 msgid "Decline reason"
 msgstr "Ablehnungsgrund"
 
-#: msgedit.cpp:1448
+#: msgedit.cpp:1450
 msgid "Please, input decline reason:"
 msgstr "Bitte geben Sie einen Ablehnungsgrund ein:"
 
-#: msgview.cpp:168
+#: msgview.cpp:170
 msgid "Contact request"
 msgstr "Kontaktanfrage"
 
-#: msgview.cpp:177
+#: msgview.cpp:179
 msgid "File: "
 msgstr "Datei:"
 
-#: msgview.cpp:182
+#: msgview.cpp:184
 msgid "bytes"
 msgstr "Byte"
 
-#: msgview.cpp:195
+#: msgview.cpp:197
 msgid "Contact list received"
 msgstr "Kontakliste empfangen"
 
-#: msgview.cpp:195
+#: msgview.cpp:197
 msgid "Contact list sent"
 msgstr "Kontaktliste gesendet"
 
@@ -516,7 +520,6 @@ msgid "Loglevel"
 msgstr "Protokollierungstufe"
 
 #: themes.cpp:88 themes.cpp:97
-#, fuzzy
 msgid "Default style"
 msgstr "Standard Icons"
 
@@ -530,7 +533,7 @@ msgstr "Zu Gruppe verschieben"
 
 #: userbox.cpp:232
 msgid "All users"
-msgstr ""
+msgstr "Alle Benutzer"
 
 #: ui/searchbase.cpp:185 usertbl.cpp:109
 msgid "UIN"
@@ -582,17 +585,19 @@ msgstr "Neue Gruppe"
 
 #: ui/alertmsg.cpp:39
 msgid "User "
-msgstr "Benutzer"
+msgstr "Benutzer "
 
 #: ui/alertmsg.cpp:39
 msgid " is online"
-msgstr " it online"
+msgstr " ist online"
 
 #: ui/alertmsg.cpp:49
+#, ycp-format
 msgid "Close [%1 sec]"
 msgstr "Schließen [%1 Sek]"
 
 #: ui/autoreply.cpp:81
+#, ycp-format
 msgid "Close in %1 sec"
 msgstr "Schließt in %1 Sek"
 
@@ -633,6 +638,7 @@ msgid "Transfer failed"
 msgstr "Übertragung fehlgeschlagen"
 
 #: ui/filetransfer.cpp:171
+#, ycp-format
 msgid "File %1 exist"
 msgstr "Datei %1 existiert"
 
@@ -697,6 +703,7 @@ msgid "December"
 msgstr "Dezember"
 
 #: ui/msgdialog.cpp:32
+#, ycp-format
 msgid "Autoreply message for status \"%1\""
 msgstr "Autoantwort für Status \"%\""
 
@@ -785,9 +792,8 @@ msgid "Style"
 msgstr "Stil"
 
 #: ui/fontsetupbase.cpp:110 ui/setupdlg.cpp:92
-#, fuzzy
 msgid "Interface"
-msgstr "Interessen"
+msgstr "Schnittstelle"
 
 #: ui/setupdlg.cpp:93 ui/soundsetupbase.cpp:105
 msgid "Sound"
@@ -795,7 +801,7 @@ msgstr "Persönliche Einstellungen"
 
 #: ui/alertdialogbase.cpp:115 ui/setupdlg.cpp:94
 msgid "On Screen notification"
-msgstr ""
+msgstr "Bildschirm-Benachrichtigung"
 
 #: ui/alertdialogbase.cpp:79 ui/setupdlg.cpp:96 ui/userinfo.cpp:72
 msgid "Alert"
@@ -828,6 +834,30 @@ msgstr "Passwort"
 #: ui/themesetup.cpp:88
 msgid "Default icons"
 msgstr "Standard Icons"
+
+#: ui/xosdsetup.cpp:44
+msgid "Left-bottom"
+msgstr "Links-unten"
+
+#: ui/xosdsetup.cpp:45
+msgid "Left-top"
+msgstr "Links-oben"
+
+#: ui/xosdsetup.cpp:46
+msgid "Right-bottom"
+msgstr "Rechts-unten"
+
+#: ui/xosdsetup.cpp:47
+msgid "Right-top"
+msgstr "Rechts-oben"
+
+#: ui/xosdsetup.cpp:48
+msgid "Center-bottom"
+msgstr "Mitte-unten"
+
+#: ui/xosdsetup.cpp:49
+msgid "Center-top"
+msgstr "Gruppe erstellen"
 
 #: ui/searchbase.cpp:68 ui/searchbase.cpp:191
 msgid "Search"
@@ -886,6 +916,34 @@ msgstr "Neue Suche"
 #: ui/themesetupbase.cpp:64 ui/userinfobase.cpp:92 ui/xosdbase.cpp:94
 msgid "Form1"
 msgstr "Form1"
+
+#: ui/xosdbase.cpp:109
+msgid "Notify On Screen"
+msgstr "Benachrichtigung auf Bildschirm"
+
+#: ui/xosdbase.cpp:121
+msgid "Enable notify on screen"
+msgstr "Benachrichtigung auf Bildschirm aktivieren"
+
+#: ui/xosdbase.cpp:141
+msgid "Show time:"
+msgstr "Offline anzeigen"
+
+#: ui/workinfobase.cpp:196 ui/xosdbase.cpp:153
+msgid "Position:"
+msgstr "Position:"
+
+#: ui/xosdbase.cpp:159
+msgid "Font:"
+msgstr "Schriftart:"
+
+#: ui/xosdbase.cpp:167
+msgid "Offset:"
+msgstr "Verschiebung:"
+
+#: ui/xosdbase.cpp:177
+msgid "Color:"
+msgstr "Farbe:"
 
 #: ui/networkbase.cpp:80
 msgid "Network"
@@ -953,7 +1011,7 @@ msgstr "100000"
 
 #: ui/filetransferbase.cpp:86
 msgid "Speed:"
-msgstr ""
+msgstr "Geschwindigkeit:"
 
 #: ui/filetransferbase.cpp:107
 msgid "Close after send"
@@ -988,21 +1046,20 @@ msgid "Auto decline"
 msgstr "Automatisch ablehnen"
 
 #: ui/fontsetupbase.cpp:122
-#, fuzzy
 msgid "Open user window"
-msgstr "Öffnet Benutzerfenster, wenn online"
+msgstr "Benutzerfenster öffnen"
 
 #: ui/fontsetupbase.cpp:130
 msgid "Each user in new container"
-msgstr ""
+msgstr "Jeden Benutzer in einem neuem Container"
 
 #: ui/fontsetupbase.cpp:134
 msgid "New container for group"
-msgstr ""
+msgstr "Neuer Container für Gruppe"
 
 #: ui/fontsetupbase.cpp:139
 msgid "All users in one container"
-msgstr ""
+msgstr "Alle Benutzer in einen Container"
 
 #: ui/fontsetupbase.cpp:144
 msgid "Use systems fonts"
@@ -1079,8 +1136,7 @@ msgstr "Globalen Online-Alarm überschreiben"
 
 #: ui/alertdialogbase.cpp:95
 msgid "Activate online alert when user returns from Away or NA"
-msgstr ""
-"Online-Alarm aktivieren, wenn der Benutzer von NA oder Weg zurückkehrt"
+msgstr "Online-Alarm aktivieren, wenn der Benutzer von NA oder Weg zurückkehrt"
 
 #: ui/alertdialogbase.cpp:99
 msgid "Online alert options"
@@ -1100,7 +1156,7 @@ msgstr "Onlinedialog anzeigen"
 
 #: ui/alertdialogbase.cpp:123
 msgid "Open user window when online"
-msgstr "Öffnet Benutzerfenster, wenn online"
+msgstr "Wenn online, Benutzerfenster öffnen"
 
 #: ui/phonebase.cpp:71
 msgid "Area code:"
@@ -1243,10 +1299,6 @@ msgstr "Postleitzahl:"
 msgid "State:"
 msgstr "Staat:"
 
-#: ui/workinfobase.cpp:196 ui/xosdbase.cpp:153
-msgid "Position:"
-msgstr "Position:"
-
 #: ui/themesetupbase.cpp:92
 msgid "Select style:"
 msgstr "Stil auswählen:"
@@ -1272,11 +1324,8 @@ msgid "Show user window in task manager"
 msgstr "Benutzerfenster in Prozeßliste anzeigen"
 
 #: ui/statussetupbase.cpp:95
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
-msgstr ""
-"Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
-"deaktivieren"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgstr "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste deaktivieren"
 
 #: ui/statussetupbase.cpp:102
 msgid "minutes not using computer"
@@ -1356,9 +1405,7 @@ msgstr "Zeitzone:"
 
 #: ui/generalsecbase.cpp:96
 msgid "My authorization is required before users add me to Contact List"
-msgstr ""
-"Meine Authorisierung ist erforderlich, bevor Benutzer mich zu Ihrer "
-"Kontaktliste hinzufügen können"
+msgstr "Meine Authorisierung ist erforderlich, bevor Benutzer mich zu Ihrer Kontaktliste hinzufügen können"
 
 #: ui/generalsecbase.cpp:109
 msgid "Allow others to view my status from the Web"
@@ -1388,98 +1435,16 @@ msgstr "Form 4"
 msgid "Additional information about user:"
 msgstr "Zusätzliche Information über den Benutzer:"
 
-#: ui/xosdsetup.cpp:44
-msgid "Left-bottom"
-msgstr ""
-
-#: ui/xosdsetup.cpp:45
-msgid "Left-top"
-msgstr ""
-
-#: ui/xosdsetup.cpp:46
-msgid "Right-bottom"
-msgstr ""
-
-#: ui/xosdsetup.cpp:47
-msgid "Right-top"
-msgstr ""
-
-#: ui/xosdsetup.cpp:48
-msgid "Center-bottom"
-msgstr ""
-
-#: ui/xosdsetup.cpp:49
-#, fuzzy
-msgid "Center-top"
-msgstr "Gruppe erstellen"
-
-#: ui/xosdbase.cpp:109
-msgid "Notify On Screen"
-msgstr ""
-
-#: ui/xosdbase.cpp:121
-msgid "Enable notify on screen"
-msgstr ""
-
-#: ui/xosdbase.cpp:141
-#, fuzzy
-msgid "Show time:"
-msgstr "Offline anzeigen"
-
-#: ui/xosdbase.cpp:159
-#, fuzzy
-msgid "Font:"
-msgstr "Monat:"
-
-#: ui/xosdbase.cpp:167
-msgid "Offset:"
-msgstr ""
-
-#: ui/xosdbase.cpp:177
-msgid "Color:"
-msgstr ""
-
-#: _translatorinfo.cpp:1
+#:  translatorinfo.cpp:1
 msgid ""
-"_: NAME OF TRANSLATORS\n"
+" : NAME OF TRANSLATORS\n"
 "Your names"
-msgstr ""
+msgstr "Crissi"
 
-#: _translatorinfo.cpp:3
+#:  translatorinfo.cpp:3
 msgid ""
-"_: EMAIL OF TRANSLATORS\n"
+" : EMAIL OF TRANSLATORS\n"
 "Your emails"
-msgstr ""
+msgstr "crissi99@gmx.de"
 
-#~ msgid "Platinum"
-#~ msgstr "Platin"
 
-#~ msgid "Windows"
-#~ msgstr "Windows"
-
-#~ msgid "CDE"
-#~ msgstr "CDE"
-
-#~ msgid "Motif"
-#~ msgstr "Motif"
-
-#~ msgid "Motif +"
-#~ msgstr "Motif +"
-
-#~ msgid "Norwegian wood"
-#~ msgstr "Norwegisches Holz"
-
-#~ msgid "Metal"
-#~ msgstr "Metall"
-
-#~ msgid ".Net"
-#~ msgstr ".Net"
-
-#~ msgid "Liquid"
-#~ msgstr "Liquid"
-
-#~ msgid "MegaGradient"
-#~ msgstr "MegaGradient"
-
-#~ msgid "Web"
-#~ msgstr "Web"

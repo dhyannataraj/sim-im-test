@@ -237,6 +237,8 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     connect(users, SIGNAL(changed()), this, SLOT(textChanged()));
     connect(pClient, SIGNAL(messageReceived(ICQMessage*)), this, SLOT(messageReceived(ICQMessage*)));
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
+    connect(pMain, SIGNAL(chatChanged()), this, SLOT(chatChanged()));
+    connect(pMain, SIGNAL(ftChanged()), this, SLOT(ftChanged()));
     setState();
     setUin(uin);
 }
@@ -304,6 +306,11 @@ void MsgEdit::showMessage(unsigned long msgId)
 }
 
 void MsgEdit::action(int type)
+{
+    action(type, false);
+}
+
+void MsgEdit::action(int type, bool bSaveEdit)
 {
     if (type == mnuMail){
         pMain->sendMail(Uin);
@@ -374,7 +381,7 @@ void MsgEdit::action(int type)
     default:
         log(L_WARN, "Unknown message type: %u", type);
     }
-    setMessage(editMsg);
+    setMessage(editMsg, false, false, bSaveEdit);
     setState();
 }
 
@@ -844,7 +851,7 @@ void MsgEdit::refuseClick()
     setMessage(msg);
 }
 
-void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop)
+void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEdit)
 {
     setUpdatesEnabled(false);
     if (msg != _msg){
@@ -955,6 +962,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop)
                         name += QString::fromLocal8Bit(f->Name.c_str());
                         fileEdit->setText(name);
                         fileEdit->setSaveMode(true);
+                        ftChanged();
                     }else{
                         btnAccept->hide();
                         btnDecline->hide();
@@ -982,9 +990,13 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop)
                     btnDecline->hide();
                     users->hide();
                     view->hide();
+                    edit->setTextFormat(RichText);
+                    edit->setText("");
                     edit->show();
+                    edit->resetColors();
                     textChanged();
                     setUpdatesEnabled(true);
+                    edit->setFocus();
                     repaint();
                     return;
                 }
@@ -1007,6 +1019,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop)
                 if (msg->Id >= MSG_PROCESS_ID){
                     btnAccept->show();
                     btnDecline->show();
+                    chatChanged();
                 }
                 break;
             default:
@@ -1049,7 +1062,6 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop)
                 phone->hide();
                 url->hide();
                 edit->show();
-                edit->setTextFormat(RichText);
                 users->hide();
                 view->hide();
                 file->hide();
@@ -1064,15 +1076,18 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop)
 #ifdef USE_SPELL
                 btnSpell->show();
 #endif
-                ICQMsg *m = static_cast<ICQMsg*>(msg);
-                edit->setText(QString::fromLocal8Bit(m->Message.c_str()));
-                if (m->BackColor() != m->ForeColor()){
-                    edit->setBackground(QColor(m->BackColor));
-                    edit->setForeground(QColor(m->ForeColor));
-                }else{
-                    edit->resetColors();
+                if (!bSaveEdit){
+                    edit->setTextFormat(RichText);
+                    ICQMsg *m = static_cast<ICQMsg*>(msg);
+                    edit->setText(QString::fromLocal8Bit(m->Message.c_str()));
+                    if (m->BackColor() != m->ForeColor()){
+                        edit->setBackground(QColor(m->BackColor));
+                        edit->setForeground(QColor(m->ForeColor));
+                    }else{
+                        edit->resetColors();
+                    }
+                    edit->setFocus();
                 }
-                edit->setFocus();
                 break;
             }
         case ICQ_MSGxURL:{
@@ -1286,13 +1301,8 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop)
 
 void MsgEdit::editTextChanged()
 {
-    if (msg && msg->Received()){
-        QString t = edit->text(0);
-	t = t.left(1);
-        action(mnuMessage);
-        edit->setText(t);
-        edit->moveCursor(QTextEdit::MoveEnd, false);
-    }
+    if (msg && msg->Received())
+        action(mnuMessage, true);
     textChanged();
 }
 
@@ -1457,6 +1467,23 @@ void MsgEdit::declineMessage(int action)
         reason = reason_string(action);
     }
     pClient->declineMessage(msg, reason.local8Bit());
+}
+
+void MsgEdit::chatChanged()
+{
+    if (msg && (msg->Type() == ICQ_MSGxCHAT) && msg->Received()){
+        QWidget *chat = pMain->chatWindow(Uin());
+        btnAccept->setEnabled(chat != NULL);
+    }
+}
+
+void MsgEdit::ftChanged()
+{
+    if (msg && (msg->Type() == ICQ_MSGxFILE) && msg->Received()){
+        ICQFile *f = static_cast<ICQFile*>(msg);
+        QWidget *file = pMain->ftWindow(Uin(), f->shortName());
+        btnAccept->setEnabled(file != NULL);
+    }
 }
 
 #ifndef _WINDOWS

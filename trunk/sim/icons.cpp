@@ -451,7 +451,6 @@ protected:
 
 static QPixmap swapRG(const QPixmap &p)
 {
-    const QBitmap *mask = p.mask();
     QImage image = p.convertToImage();
     unsigned int *data = (image.depth() > 8) ? (unsigned int *)image.bits() :
                          (unsigned int *)image.colorTable();
@@ -466,7 +465,6 @@ static QPixmap swapRG(const QPixmap &p)
     }
     QPixmap pict;
     pict.convertFromImage(image);
-    if (mask) pict.setMask(*mask);
     return pict;
 }
 
@@ -520,21 +518,21 @@ void Icons::addIcon(const char *name, const char **xpm, const char **bigXpm, boo
 #endif
         if (isSystem){
             pict = SmallIconSet(name);
-	    if (bigXpm){
-		KIconLoader iconLoader;
-		QStringList l = iconLoader.queryIcons(-32);
-		QStringList::Iterator it;
-		for (it = l.begin(); it != l.end(); ++it)
-			if (*it == name) break;
-	    	QPixmap bigPict = QPixmap(bigXpm);
-		QPixmap bigPictActive = QPixmap(bigXpm);
-		if (it == l.end()){
-			QIconSet bigIcon = DesktopIconSet(name);
-			bigPict = bigIcon.pixmap(QIconSet::Large, QIconSet::Normal);
-			bigPictActive = bigIcon.pixmap(QIconSet::Large, QIconSet::Active);
-		}
-            	pict.setPixmap(bigPict, QIconSet::Large);
-            	pict.setPixmap(bigPictActive, QIconSet::Large, QIconSet::Active);
+            if (bigXpm){
+                KIconLoader iconLoader;
+                QStringList l = iconLoader.queryIcons(-32);
+                QStringList::Iterator it;
+                for (it = l.begin(); it != l.end(); ++it)
+                    if (*it == name) break;
+                QPixmap bigPict = QPixmap(bigXpm);
+                QPixmap bigPictActive = QPixmap(bigXpm);
+                if (it == l.end()){
+                    QIconSet bigIcon = DesktopIconSet(name);
+                    bigPict = bigIcon.pixmap(QIconSet::Large, QIconSet::Normal);
+                    bigPictActive = bigIcon.pixmap(QIconSet::Large, QIconSet::Active);
+                }
+                pict.setPixmap(bigPict, QIconSet::Large);
+                pict.setPixmap(bigPictActive, QIconSet::Large, QIconSet::Active);
             }
         }
 #else

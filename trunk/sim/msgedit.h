@@ -51,7 +51,7 @@ public:
     MsgEdit(QWidget *parent, unsigned long Uin=0);
     ~MsgEdit();
     void setUin(unsigned long uin);
-    void setMessage(ICQMessage *m=NULL, bool bMark=false, bool bInTop=false);
+    void setMessage(ICQMessage *m=NULL, bool bMark=false, bool bInTop=false, bool bSaveEdit=false);
     ICQMessage *message() { return msg; }
     void markAsRead();
     bool canSpell();
@@ -74,6 +74,7 @@ public slots:
     void setParam(unsigned long);
     void setState();
     void action(int);
+    void action(int, bool bSaveEdit);
     void showMessage(unsigned long msgId);
 signals:
     void addMessage(ICQMessage*, bool, bool);
@@ -105,6 +106,8 @@ protected slots:
     void declineMessage(int);
     void closeToggle(bool);
     void toggleMultiply();
+    void chatChanged();
+    void ftChanged();
 protected:
     virtual void closeEvent(QCloseEvent *e);
     void fillPhones();

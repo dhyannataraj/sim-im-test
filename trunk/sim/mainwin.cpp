@@ -38,6 +38,8 @@
 #include "ui/autoreply.h"
 #include "ui/alertmsg.h"
 #include "ui/ballonmsg.h"
+#include "ui/filetransfer.h"
+#include "chatwnd.h"
 
 #ifndef _WINDOWS
 #include <pwd.h>
@@ -66,6 +68,8 @@
 #include <qapplication.h>
 #include <qdns.h>
 #include <qstyle.h>
+#include <qwidgetlist.h>
+#include <qobjectlist.h>
 
 #if USE_KDE
 #include <kwin.h>
@@ -1339,12 +1343,29 @@ void MainWindow::userFunction(unsigned long uin, int function, unsigned long par
             showUser(uin, mnuAction, param);
             return;
         }
+    case mnuChat:{
+            QWidget *chat = chatWindow(uin);
+            if (chat){
+                chat->show();
+                chat->showNormal();
+#if USE_KDE
+                KWin::setOnDesktop(chat->winId(), KWin::currentDesktop());
+#endif
+                chat->setActiveWindow();
+                chat->raise();
+#if USE_KDE
+                KWin::setActiveWindow(chat->winId());
+#endif
+                return;
+            }
+            showUser(uin, function, param);
+            return;
+        }
     case mnuMessage:
     case mnuURL:
     case mnuSMS:
     case mnuFile:
     case mnuAuth:
-    case mnuChat:
     case mnuContacts:
     case mnuHistory:
     case mnuInfo:
@@ -1663,6 +1684,74 @@ void MainWindow::loadMenu()
 void MainWindow::changeWm()
 {
     emit wmChanged();
+}
+
+QWidget *MainWindow::chatWindow(unsigned long uin)
+{
+    QWidget *res = NULL;
+    QWidgetList *list = QApplication::topLevelWidgets();
+    QWidgetListIt it(*list);
+    QWidget *w;
+    while ( (w=it.current()) != NULL) {
+        ++it;
+        if (w->inherits("ChatWindow")){
+            ChatWindow *chat = static_cast<ChatWindow*>(w);
+            if (chat->chat && (chat->chat->getUin() == uin))
+                res = chat;
+        }else{
+            QObjectList *l = w->queryList("ChatWindow");
+            QObjectListIt it(*l);
+            QObject *obj;
+            while ((obj=it.current()) != NULL){
+                ++it;
+                ChatWindow *chat = static_cast<ChatWindow*>(obj);
+                if (chat->chat && (chat->chat->getUin() == uin))
+                    res = chat;
+            }
+            delete l;
+        }
+    }
+    delete list;
+    return res;
+}
+
+void MainWindow::chatClose()
+{
+    emit chatChanged();
+}
+
+QWidget *MainWindow::ftWindow(unsigned long uin, const string &fileName)
+{
+    QWidget *res = NULL;
+    QWidgetList *list = QApplication::topLevelWidgets();
+    QWidgetListIt it(*list);
+    QWidget *w;
+    while ( (w=it.current()) != NULL) {
+        ++it;
+        if (w->inherits("FileTransfer")){
+            FileTransferDlg *ft = static_cast<FileTransferDlg*>(w);
+            if (ft->file && (ft->file->getUin() == uin) && (ft->file->shortName() == fileName))
+                res = ft;
+        }else{
+            QObjectList *l = w->queryList("ChatWindow");
+            QObjectListIt it(*l);
+            QObject *obj;
+            while ((obj=it.current()) != NULL){
+                ++it;
+                FileTransferDlg *ft = static_cast<FileTransferDlg*>(obj);
+                if (ft->file && (ft->file->getUin() == uin) && (ft->file->shortName() == fileName))
+                    res = ft;
+            }
+            delete l;
+        }
+    }
+    delete list;
+    return res;
+}
+
+void MainWindow::ftClose()
+{
+    emit ftChanged();
 }
 
 #ifndef _WINDOWS

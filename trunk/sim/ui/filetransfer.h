@@ -29,6 +29,8 @@ class FileTransferDlg : public FileTransferBase
     Q_OBJECT
 public:
     FileTransferDlg(QWidget *p, ICQFile *file);
+    ~FileTransferDlg();
+    ICQFile *file;
 protected slots:
     void fileExist(ICQFile *f, bool canResume);
     void processed(ICQFile*);
@@ -39,7 +41,6 @@ protected slots:
 protected:
     void closeEvent(QCloseEvent*);
     void setProgress();
-    ICQFile *file;
     bool bDirty;
     bool bSending;
     bool bCanResume;

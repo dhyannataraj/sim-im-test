@@ -37,6 +37,7 @@ class ChatWindow : public QMainWindow
 public:
     ChatWindow(ICQChat *chatMsg);
     ~ChatWindow();
+    ICQChat *chat;
 protected slots:
     void processEvent(ICQEvent*);
     void sendLine();
@@ -52,7 +53,6 @@ protected:
     QListBox *lstUsers;
     QTextEdit *edtChat;
     TextShow *txtChat;
-    ICQChat *chat;
     QToolButton *btnSave;
     QToolButton *btnBold;
     QToolButton *btnItalic;

@@ -27,7 +27,6 @@
 
 bool ICQClient::translate(const char *to, const char *from, string &str)
 {
-    log(L_DEBUG, "Translate(iconv) %s->%s", from, to);
     string res(str.size() * 4, '\x00');
     iconv_t cnv = iconv_open(to, from);
     if (cnv == (iconv_t)(-1)){
@@ -78,7 +77,6 @@ bool ICQClient::translate(const char *to, const char *from, string &str)
         return true;
     if (!strcasecmp(from, to))
         return true;
-    log(L_DEBUG, "Translate(qt) %s->%s", from, to);
     QTextCodec *fromCodec = codecForName(from);
     QTextCodec *toCodec = codecForName(to);
     if ((fromCodec == NULL) && (toCodec == NULL)){
@@ -137,13 +135,14 @@ const char *ICQClient::localCharset()
 {
     char *p = getenv("LANG");
     if (p) {
-	log(L_DEBUG, "Lang: %s", p);
         p = strchr(p, '.');
         if (p) p++;
     }
     if (p){
-	log(L_DEBUG, "localCharset [%s]", p);
-	return p;
+        if (strcasecmp(p, "koi8r")) return "KOI8-R";
+        if (strcasecmp(p, "koi8u")) return "KOI8-U";
+        if (strcasecmp(p, "iso88595")) return "ISO8859-5";
+        return p;
     }
     return "ascii";
 }
@@ -151,7 +150,9 @@ const char *ICQClient::localCharset()
 const char *ICQClient::serverCharset()
 {
     const char *p = localCharset();
-    if (!strcmp(p, "KOI8-R")) return "CP1251";
+    if (!strcasecmp(p, "KOI8-R")) return "CP1251";
+    if (!strcasecmp(p, "KOI8-U")) return "CP1251";
+    if (!strcasecmp(p, "ISO8859-5")) return "CP1251";
     return p;
 }
 

@@ -76,12 +76,13 @@ void DirectSocket::init()
     writeBuffer.init(0);
     readBuffer.init(2);
     m_bHeader = true;
+    m_bUseInternalIP = true;
 }
 
 void DirectSocket::error_state()
 {
     ClientSocket::error_state();
-    if ((state == ConnectIP) || (state == ConnectRealIP)){
+    if ((state == ConnectIP1) || (state == ConnectIP2)){
         connect();
     }else{
         remove();
@@ -98,7 +99,10 @@ void DirectSocket::connect()
         return;
     }
     if (state == NotConnected){
-        state = ConnectRealIP;
+        m_bUseInternalIP = true;
+        if ((real_ip != 0) && ((real_ip & 0xFFFFFF) != (client->RealIP() & 0xFFFFFF)))
+            m_bUseInternalIP = false;
+        state = ConnectIP1;
         if (real_ip != 0){
             struct in_addr addr;
             addr.s_addr = real_ip;
@@ -106,8 +110,8 @@ void DirectSocket::connect()
             return;
         }
     }
-    if (state == ConnectRealIP){
-        state = ConnectIP;
+    if (state == ConnectIP1){
+        state = ConnectIP2;
         if (ip != 0){
             struct in_addr addr;
             addr.s_addr = ip;
