@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bg\n"
 "POT-Creation-Date: 2004-04-25 05:51+0400\n"
-"PO-Revision-Date: 2004-04-21 12:22+0300\n"
+"PO-Revision-Date: 2004-04-25 17:02+0300\n"
 "Last-Translator: Атанас Мавров <bugar@developer.bg>\n"
 "Language-Team: Bulgarian <dict@linux.zonebg.com>\n"
 "MIME-Version: 1.0\n"
@@ -6176,98 +6176,76 @@ msgstr ""
 "%1 е включена"
 
 #: plugins/osd/osd.cpp:417
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is away"
-msgstr "%1 пише"
+msgstr "%1 не е пред компютъра"
 
 #: plugins/osd/osd.cpp:418
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is away"
-msgstr "%1 пише"
+msgstr "%1 не е пред компютъра"
 
 #: plugins/osd/osd.cpp:419
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is not available"
-msgstr ""
-"Мъж\n"
-"%1 е включен"
+msgstr "%1 го няма"
 
 #: plugins/osd/osd.cpp:420
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is not available"
-msgstr ""
-"Жена\n"
-"%1 е включена"
+msgstr "%1 я няма"
 
 #: plugins/osd/osd.cpp:421
 msgid ""
 "_: male\n"
 "%1 doesn't want to be disturbed"
-msgstr ""
+msgstr "%1 не желае да го безпокоят"
 
 #: plugins/osd/osd.cpp:422
 msgid ""
 "_: female\n"
 "%1 doesn't want to be disturbed"
-msgstr ""
+msgstr "%1 не желае да я безпокоят"
 
 #: plugins/osd/osd.cpp:423
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is occupied"
-msgstr ""
-"Мъж\n"
-"%1 е включен"
+msgstr "%1 е зает"
 
 #: plugins/osd/osd.cpp:424
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is occupied"
-msgstr ""
-"Жена\n"
-"%1 е включена"
+msgstr "%1 е заета"
 
 #: plugins/osd/osd.cpp:425
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is free for chat"
-msgstr "%1 пише"
+msgstr "%1 е свободен за приказка"
 
 #: plugins/osd/osd.cpp:426
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is free for chat"
-msgstr "%1 пише"
+msgstr "%1 е свободна за приказка"
 
 #: plugins/osd/osd.cpp:427
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is offline"
-msgstr ""
-"Мъж\n"
-"%1 е включен"
+msgstr "%1 е изключен"
 
 #: plugins/osd/osd.cpp:428
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is offline"
-msgstr ""
-"Жена\n"
-"%1 е включена"
+msgstr "%1 е изключена"
 
 #: plugins/osd/osdconfigbase.cpp:109
 msgid "Enable &messages notification"
@@ -6282,9 +6260,8 @@ msgid "Enable &typing notification"
 msgstr "&Уведомяване за въвеждане на текст"
 
 #: plugins/osd/osdconfigbase.cpp:119
-#, fuzzy
 msgid "Show message &content"
-msgstr "Показване на текста на съобщението"
+msgstr "Показване на &съдържанието на съобщението"
 
 #: plugins/osd/osdconfigbase.cpp:120
 msgid "Show lines of content:"
@@ -7039,44 +7016,36 @@ msgid "To register, please fill out the following form.  Be as accurate as possi
 msgstr "За регистрация попълнете формата. Бъдете точни за да може другите хора да ви намират."
 
 #: plugins/jabber/jidsearch.cpp:165
-#, fuzzy
 msgid "User"
-msgstr "Потребител:"
+msgstr "Потребител"
 
 #: plugins/jabber/jidsearch.cpp:166
-#, fuzzy
 msgid "Full Name"
 msgstr "Пълно име"
 
 #: plugins/jabber/jidsearch.cpp:167
-#, fuzzy
 msgid "Middle Name"
-msgstr "Презиме:"
+msgstr "Презиме"
 
 #: plugins/jabber/jidsearch.cpp:168
-#, fuzzy
 msgid "Family Name"
-msgstr "Име на &файл:"
+msgstr "Фамилия"
 
 #: plugins/jabber/jidsearch.cpp:169
-#, fuzzy
 msgid "email"
 msgstr "Електронна поща"
 
 #: plugins/jabber/jidsearch.cpp:170
-#, fuzzy
 msgid "Birthday"
-msgstr "Рождена дата:"
+msgstr "Рождена дата"
 
 #: plugins/jabber/jidsearch.cpp:171
-#, fuzzy
 msgid "Organization Name"
-msgstr "Бивши организации"
+msgstr "Организация"
 
 #: plugins/jabber/jidsearch.cpp:172
-#, fuzzy
 msgid "Organization Unit"
-msgstr "Бивши организации"
+msgstr "Отдел"
 
 #: plugins/livejournal/livejournalcfg.cpp:36
 msgid "Register new user"
@@ -8444,8 +8413,3 @@ msgstr "Прогнозирани дни:"
 msgid "Units:"
 msgstr "Система:"
 
-#~ msgid "%1 Search"
-#~ msgstr "%1 търсене"
-
-#~ msgid "Youur account is being used from another location"
-#~ msgstr "Твоят номер се използва от друг потребител"
