@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2002-10-30 10:59+0300\n"
-"PO-Revision-Date: 2002-10-21 15:42GMT\n"
+"PO-Revision-Date: 2002-10-30 14:06GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1944,9 +1944,8 @@ msgid "Always on top"
 msgstr "Immer oben"
 
 #: mainwin.cpp:2317 monitor.cpp:57
-#, fuzzy
 msgid "Network monitor"
-msgstr "Netzwerk"
+msgstr "Netzwerkmonitor"
 
 #: mainwin.cpp:2318
 msgid "&Bug report"
@@ -2941,8 +2940,7 @@ msgstr "Automatisches weiterleiten"
 
 #: ui/forwardsetupbase.cpp:89
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-"Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
 
 #: ui/forwardsetupbase.cpp:97
 msgid ""
@@ -3528,8 +3526,7 @@ msgid "Hide main window after"
 msgstr "Hauptfenster anzeigen/verstecken nach"
 
 #: ui/statussetupbase.cpp:107
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -3686,8 +3683,7 @@ msgstr "&Andere Nachrichten ablehnen"
 
 #: ui/generalsecbase.cpp:189
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: ui/changepasswdbase.cpp:77
 msgid "Change password"
@@ -3731,8 +3727,7 @@ msgstr ";-)"
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #: client.cpp:52
 msgid "Unicode"
@@ -4042,60 +4037,53 @@ msgid "Away"
 msgstr "Weg"
 
 #: monitor.cpp:65
-#, fuzzy
 msgid "&Save"
-msgstr "Speichern"
+msgstr "&Speichern"
 
 #: monitor.cpp:67
-#, fuzzy
 msgid "E&xit"
-msgstr "Bearbeiten"
+msgstr "Be&enden"
 
 #: monitor.cpp:68
-#, fuzzy
 msgid "&File"
-msgstr "Datei"
+msgstr "&Datei"
 
 #: monitor.cpp:71
-#, fuzzy
 msgid "&Copy"
-msgstr "Firma:"
+msgstr "&Kopieren"
 
 #: monitor.cpp:72
-#, fuzzy
 msgid "&Erase"
-msgstr "Radieren"
+msgstr "&Löschen"
 
 #: monitor.cpp:77
 msgid "&Packets"
-msgstr ""
+msgstr "&Pakete"
 
 #: monitor.cpp:78
 msgid "&Debug"
-msgstr ""
+msgstr "&Debug"
 
 #: monitor.cpp:79
-#, fuzzy
 msgid "&Warnings"
-msgstr "Elternsein"
+msgstr "&Warnungen"
 
 #: monitor.cpp:80
 msgid "&Error"
-msgstr ""
+msgstr "&Fehler"
 
 #: monitor.cpp:81
-#, fuzzy
 msgid "&Log"
-msgstr "Benutzer"
+msgstr "&Log"
 
 #: monitor.cpp:108
 msgid "Error"
-msgstr ""
+msgstr "Fehler"
 
 #: monitor.cpp:108
-#, fuzzy, c-format
+#, c-format
 msgid "Can't create file %1"
-msgstr "Konnte %1 nicht erstellen"
+msgstr "Datei %1 konnte nicht erstellt werden"
 
 #~ msgid "Group"
 #~ msgstr "Gruppe"
@@ -4175,3 +4163,4 @@ msgstr "Konnte %1 nicht erstellen"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
