@@ -313,8 +313,8 @@ void HistoryConfig::apply()
     if (bChanged){
         Event e(EventHistoryConfig);
         e.process();
-        fillPreview();
     }
+    fillPreview();
     HistoryUserData *data = (HistoryUserData*)(getContacts()->getUserData(CorePlugin::m_plugin->history_data_id));
     data->CutDays.bValue = chkDays->isChecked();
     data->CutSize.bValue = chkSize->isChecked();
