@@ -20,6 +20,9 @@ Copyright (C) 2003  Tarkvara Design Inc.
 
 */
 
+// This is required to use Xlibint (which isn't very clean itself)
+#define QT_CLEAN_NAMESPACE
+
 #include "autoaway.h"
 #include "autoawaycfg.h"
 #include "simapi.h"
@@ -49,6 +52,7 @@ static HMODULE hLibUI = NULL;
 #else
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include <X11/Xlibint.h>
 #include <X11/extensions/scrnsaver.h>
 #endif
 #endif
@@ -211,9 +215,42 @@ AutoAwayPlugin::~AutoAwayPlugin()
     _IdleUIGetLastInputTime = NULL;
     if (hLibUI)
         FreeLibrary(hLibUI);
-#endif
+#else
 #ifdef HAVE_CARBON_CARBNON_H
     RemoveEventLoopTimer(mTimerRef);
+#else
+    // We load static Xss in our autoaway.so's process space, but the bastard
+    // registers for shutdown in the XDisplay variable, so after autoaway.so
+    // unloads, its code will still be called (as part of the XCloseDisplay).
+    // As Xss offers no function to unregister itself, we'll have to be a little
+    // messy here:
+    QWidgetList *list = QApplication::topLevelWidgets();
+    QWidgetListIt it(*list);
+    QWidget *w = it.current();
+    delete list;
+    if (w != NULL)
+    {
+       Display* dpy = w->x11Display();
+       LockDisplay(dpy);
+       // Original code from Xlib's ClDisplay.c
+       _XExtension *ext, *prev_ext = NULL;
+       for (ext = dpy->ext_procs; ext; prev_ext = ext, ext = ext->next)
+       {
+           if (ext->name && (strcmp(ext->name, ScreenSaverName) == 0))
+           {
+               if (ext->close_display)
+                  (*ext->close_display)(dpy, &ext->codes);
+               if (prev_ext)
+                   prev_ext->next = ext->next;
+               else
+                   dpy->ext_procs = ext->next;
+               Xfree((char*)ext);
+               break;
+           }
+       }
+       UnlockDisplay(dpy);
+    }
+#endif
 #endif
     free_data(autoAwayData, &data);
 }
