@@ -180,7 +180,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                                 continue;
                             }
                             log(L_DEBUG, "User %s", str.c_str());
-                            // check for own uin in contact lsit
+                            // check for own uin in contact list
                             if (!m_bAIM && ((unsigned)atol(str.c_str()) == getUin())) {
                                 log(L_DEBUG, "Own Uin in contact list - removing!");
                                 seq = sendRoster(ICQ_SNACxLISTS_DELETE, "", grp_id, id);
@@ -214,6 +214,13 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                                 if (inf && (*inf)(TLV_WAIT_AUTH)){
                                     if (!data->WaitAuth.bValue){
                                         data->WaitAuth.bValue = true;
+                                        bChanged = true;
+                                    }
+                                } else
+								/* if not TLV(WAIT_AUTH) we are authorized ... */
+                                if (inf && !(*inf)(TLV_WAIT_AUTH)) {
+                                    if (data->WaitAuth.bValue){
+                                        data->WaitAuth.bValue = false;
                                         bChanged = true;
                                     }
                                 }
