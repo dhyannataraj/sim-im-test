@@ -5090,9 +5090,8 @@ OutDir=.\Debug
 InputPath=.\po\de.po
 
 "$(OutDir)\po\de.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	\qt\bin\msg2qm $(InputPath) 
-	copy tr.qm $(OutDir)\po\de.qm 
-	del tr.qm 
+	$(QTDIR)\bin\msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\de.qm 
 	
 # End Custom Build
 
@@ -5112,9 +5111,8 @@ OutDir=.\Debug
 InputPath=.\po\it.po
 
 "$(OutDir)\po\it.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	\qt\bin\msg2qm $(InputPath) 
-	copy tr.qm $(OutDir)\po\it.qm 
-	del tr.qm 
+	$(QTDIR)\bin\msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\it.qm 
 	
 # End Custom Build
 
@@ -5134,9 +5132,8 @@ OutDir=.\Debug
 InputPath=.\po\ru.po
 
 "$(OutDir)\po\ru.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	\qt\bin\msg2qm $(InputPath) 
-	copy tr.qm $(OutDir)\po\ru.qm 
-	del tr.qm 
+	$(QTDIR)\bin\msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\ru.qm 
 	
 # End Custom Build
 
@@ -5156,9 +5153,8 @@ OutDir=.\Debug
 InputPath=.\po\tr.po
 
 "$(OutDir)\po\tr.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	\qt\bin\msg2qm $(InputPath) 
-	copy tr.qm $(OutDir)\po\tr.qm 
-	del tr.qm 
+	$(QTDIR)\bin\msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\tr.qm 
 	
 # End Custom Build
 
@@ -5178,9 +5174,8 @@ OutDir=.\Debug
 InputPath=.\po\zh_TW.po
 
 "$(OutDir)\po\zh_TW.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	\qt\bin\msg2qm $(InputPath) 
-	copy tr.qm $(OutDir)\po\zh_TW.qm 
-	del tr.qm 
+	$(QTDIR)\bin\msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\zh_TW.qm 
 	
 # End Custom Build
 
