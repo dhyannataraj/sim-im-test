@@ -126,7 +126,7 @@ void EditFile::showFiles()
             s = startDir;
             if (!s.isEmpty()){
                 string d;
-                d = s.local8Bit();
+                d = QFile::encodeName(s);
                 makedir((char*)d.c_str());
             }
         }
@@ -188,7 +188,7 @@ EditSound::EditSound(QWidget *p, const char *name)
 #else
     filter = i18n("Sounds(*.wav)");
 #endif
-    startDir = QString::fromLocal8Bit(app_file("sound").c_str());
+    startDir = QFile::decodeName(app_file("sound").c_str());
     title = i18n("Select sound");
 }
 
@@ -198,7 +198,7 @@ EditSound::~EditSound()
 
 void EditSound::play()
 {
-    QCString s = edtFile->text().local8Bit();
+    QCString s = QFile::encodeName(edtFile->text());
     Event e(EventPlaySound, (void*)(const char*)s);
     e.process();
 }

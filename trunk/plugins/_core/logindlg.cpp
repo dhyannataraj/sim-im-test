@@ -325,7 +325,7 @@ void LoginDialog::profileDelete()
         return;
     string curProfile = CorePlugin::m_plugin->m_profiles[n];
     CorePlugin::m_plugin->setProfile(curProfile.c_str());
-    rmDir(QString::fromLocal8Bit(user_file("").c_str()));
+    rmDir(QFile::decodeName(user_file("").c_str()));
     CorePlugin::m_plugin->setProfile(NULL);
     CorePlugin::m_plugin->m_profiles.clear();
     CorePlugin::m_plugin->loadDir();

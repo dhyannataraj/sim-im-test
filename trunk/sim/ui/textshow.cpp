@@ -143,7 +143,6 @@ void TextEdit::setForeground(const QColor& c)
     QPalette pal = palette();
     pal.setColor(QPalette::Active, QColorGroup::Text, c);
     setPalette(pal);
-    setColor(c);
 }
 
 const QColor &TextEdit::background() const

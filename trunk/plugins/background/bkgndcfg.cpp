@@ -40,8 +40,8 @@ BkgndCfg::BkgndCfg(QWidget *parent, BackgroundPlugin *plugin)
         : BkgndCfgBase(parent)
 {
     m_plugin = plugin;
-    edtPicture->setText(QString::fromLocal8Bit(plugin->getBackground()));
-    edtPicture->setStartDir(QString::fromLocal8Bit(app_file("pict/").c_str()));
+    edtPicture->setText(QFile::decodeName(plugin->getBackground()));
+    edtPicture->setStartDir(QFile::decodeName(app_file("pict/").c_str()));
     edtPicture->setTitle(i18n("Select background picture"));
     QStrList formats = QImageIO::inputFormats();
     QString format;
@@ -79,7 +79,7 @@ void BkgndCfg::apply()
 {
     if (cmbPosition->currentItem() >= 0)
         m_plugin->setPosition(cmbPosition->currentItem());
-    m_plugin->setBackground(edtPicture->text().local8Bit());
+    m_plugin->setBackground(QFile::encodeName(edtPicture->text()));
     m_plugin->setMargin(atol(spnMargin->text().latin1()));
     m_plugin->redraw();
 }

@@ -21,6 +21,7 @@
 #include "bkgndcfg.h"
 
 #include <qpainter.h>
+#include <qfile.h>
 
 Plugin *createBackgroundPlugin(unsigned base, bool, const char *config)
 {
@@ -140,7 +141,7 @@ void BackgroundPlugin::redraw()
     bgScale = QPixmap();
     if (*getBackground() == 0)
         return;
-    bgImage = QImage(QString::fromLocal8Bit(getBackground()));
+    bgImage = QImage(QFile::decodeName(getBackground()));
     Event e(EventRepaintView);
     e.process();
 }

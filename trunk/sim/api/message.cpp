@@ -174,7 +174,7 @@ void FileMessageIteratorPrivate::add(const QString &str)
     if (!f.exists())
         return;
     if (!f.isDir()){
-        push_back(string(str.local8Bit()));
+        push_back(string(QFile::encodeName(str)));
         return;
     }
     QDir d(str);
@@ -256,7 +256,7 @@ unsigned FileMessage::getSize()
     Iterator it(*this);
     const char *name;
     while ((name = ++it) != NULL){
-        QFile f(QString::fromLocal8Bit(name));
+        QFile f(QFile::decodeName(name));
         if (!f.exists())
             continue;
         data.Size += f.size();
@@ -289,7 +289,7 @@ QString FileMessage::getDescription()
         }else{
             short_name = name;
         }
-        return QString::fromLocal8Bit(short_name);
+        return QFile::decodeName(short_name);
     }
     return QString("%1 files") .arg(it.count());
 }

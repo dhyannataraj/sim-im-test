@@ -104,7 +104,7 @@ void MigrateDialog::pageSelected(const QString&)
     for (it = m_boxes.begin(); it != m_boxes.end(); ++it){
         if (!(*it)->isChecked())
             continue;
-        QString path = QString::fromLocal8Bit(user_file((*it)->text().local8Bit()).c_str());
+        QString path = QFile::decodeName(user_file(QFile::encodeName((*it)->text())).c_str());
 #ifdef WIN32
         path += "\\";
 #else
@@ -185,7 +185,7 @@ void MigrateDialog::process()
     for (list<QCheckBox*>::iterator it = m_boxes.begin(); it != m_boxes.end(); ++it){
         if (!(*it)->isChecked())
             continue;
-        QString path = QString::fromLocal8Bit(user_file((*it)->text().local8Bit()).c_str());
+        QString path = QFile::decodeName(user_file(QFile::encodeName((*it)->text())).c_str());
 #ifdef WIN32
         path += "\\";
 #else

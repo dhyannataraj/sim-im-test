@@ -46,11 +46,11 @@ SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin)
     chkAlert->setChecked(plugin->getDisableAlert());
     string s;
     s = plugin->fullName(plugin->getStartUp());
-    edtStartup->setText(QString::fromLocal8Bit(s.c_str()));
+    edtStartup->setText(QFile::decodeName(s.c_str()));
     s = plugin->fullName(plugin->getFileDone());
-    edtFileDone->setText(QString::fromLocal8Bit(s.c_str()));
+    edtFileDone->setText(QFile::decodeName(s.c_str()));
     s = plugin->fullName(plugin->getMessageSent());
-    edtSent->setText(QString::fromLocal8Bit(s.c_str()));
+    edtSent->setText(QFile::decodeName(s.c_str()));
 
     for (QObject *p = parent; p != NULL; p = p->parent()){
         if (!p->inherits("QTabWidget"))
@@ -82,17 +82,17 @@ void SoundConfig::apply()
 #endif
     m_plugin->setPlayer(edtPlayer->text().local8Bit());
 #endif
-    m_plugin->setStartUp(sound(edtStartup->text(), "startup.wav").local8Bit());
-    m_plugin->setFileDone(sound(edtFileDone->text(), "startup.wav").local8Bit());
-    m_plugin->setMessageSent(sound(edtSent->text(), "startup.wav").local8Bit());
+    m_plugin->setStartUp(QFile::encodeName(sound(edtStartup->text(), "startup.wav")));
+    m_plugin->setFileDone(QFile::encodeName(sound(edtFileDone->text(), "startup.wav")));
+    m_plugin->setMessageSent(QFile::encodeName(sound(edtSent->text(), "startup.wav")));
     m_plugin->setDisableAlert(chkAlert->isChecked());
 }
 
 QString SoundConfig::sound(QString text, const char *def)
 {
-    QString defFile = QString::fromLocal8Bit(m_plugin->fullName(def).c_str());
+    QString defFile = QFile::decodeName(m_plugin->fullName(def).c_str());
     if (defFile == text)
-        text = QString::fromLocal8Bit(def);
+        text = QFile::decodeName(def);
     return text;
 }
 

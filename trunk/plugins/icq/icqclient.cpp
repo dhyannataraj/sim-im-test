@@ -42,6 +42,7 @@
 #include <qpixmap.h>
 #include <qapplication.h>
 #include <qwidgetlist.h>
+#include <qfile.h>
 
 #include <time.h>
 
@@ -2694,7 +2695,7 @@ QString ICQClient::pictureFile(ICQUserData *data)
     f += "icq.";
     f += number(data->Uin);
     f = user_file(f.c_str());
-    return QString::fromLocal8Bit(f.c_str());
+    return QFile::decodeName(f.c_str());
 }
 
 #ifndef WIN32

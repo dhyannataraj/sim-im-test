@@ -31,6 +31,8 @@
 #include <qspinbox.h>
 #include <qlabel.h>
 
+#ifndef USE_KDE
+
 typedef struct language
 {
     const char *code;
@@ -56,6 +58,7 @@ static language langs[] =
         { "zh_TW", I18N_NOOP("Chinese") },
         { NULL, NULL }
     };
+#endif
 
 InterfaceConfig::InterfaceConfig(QWidget *parent)
         : InterfaceConfigBase(parent)
@@ -79,7 +82,7 @@ InterfaceConfig::InterfaceConfig(QWidget *parent)
     const char *cur = CorePlugin::m_plugin->getLang();
     if (*cur == 0)
         cur = NULL;
-#ifdef WIN32
+#ifndef USE_KDE
     cmbLang->insertItem(i18n("System"));
 
     QStringList items;
@@ -104,9 +107,7 @@ InterfaceConfig::InterfaceConfig(QWidget *parent)
         cmbLang->setCurrentItem(0);
     }
 #else
-#ifdef USE_KDE
     cmbLang->hide();
-#endif
 #endif
     connect(grpMode, SIGNAL(clicked(int)), this, SLOT(modeChanged(int)));
     if (CorePlugin::m_plugin->getContainerMode()){
@@ -155,7 +156,7 @@ void InterfaceConfig::apply()
     msg_cfg->apply(data);
     data = getContacts()->getUserData(CorePlugin::m_plugin->sms_data_id);
     sms_cfg->apply(data);
-#ifdef WIN32
+#ifndef USE_KDE
     int res = cmbLang->currentItem();
     const char *lang = "";
     if (res > 0){
@@ -183,7 +184,7 @@ void InterfaceConfig::apply()
             CorePlugin::m_plugin->setSendOnEnter(false);
         }
     }
-#ifdef WIN32
+#ifndef USE_KDE
     if (!strcmp(lang, CorePlugin::m_plugin->getLang()))
         return;
     CorePlugin::m_plugin->removeTranslator();

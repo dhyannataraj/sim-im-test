@@ -21,6 +21,7 @@
 #include <qwidget.h>
 #include <qpixmap.h>
 #include <qapplication.h>
+#include <qfile.h>
 
 Plugin *createSplashPlugin(unsigned base, bool bStart, const char*)
 {
@@ -49,7 +50,7 @@ SplashPlugin::SplashPlugin(unsigned base, bool bStart)
     m_bStart = bStart;
     if (m_bStart){
         string pictPath = app_file("pict/splash.png");
-        QPixmap pict(QString::fromLocal8Bit(pictPath.c_str()));
+        QPixmap pict(QFile::decodeName(pictPath.c_str()));
         if (!pict.isNull()){
             splash = new QWidget(NULL, "splash",
                                  QWidget::WType_TopLevel | QWidget::WStyle_Customize |

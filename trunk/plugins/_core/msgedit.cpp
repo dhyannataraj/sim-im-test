@@ -65,6 +65,9 @@ MsgTextEdit::MsgTextEdit(MsgEdit *edit, QWidget *parent)
         : TextEdit(parent)
 {
     m_edit = edit;
+    setFont(CorePlugin::m_plugin->editFont);
+    setBackground(CorePlugin::m_plugin->getEditBackground());
+    setForeground(CorePlugin::m_plugin->getEditForeground());
 }
 
 QPopupMenu *MsgTextEdit::createPopupMenu(const QPoint&)
@@ -1020,6 +1023,7 @@ void *MsgEdit::processEvent(Event *e)
                     m_edit->setText("");
                     m_edit->setFont(CorePlugin::m_plugin->editFont);
                     m_edit->setForeground(CorePlugin::m_plugin->getEditForeground());
+		    m_edit->setBackground(CorePlugin::m_plugin->getEditBackground());
                 }
             }
             return NULL;
@@ -1058,30 +1062,20 @@ void MsgEdit::insertSmile(int id)
     QString id_str  = QString("%1").arg(id,0,16);
     id_str = id_str.upper();
     QString img_src = QString("<img src=icon:smile%1>").arg(id_str);
-#if QT_VERSION < 300
-    // determine the current position of the cursor
-    m_edit->insert("\255",true,true,true);
-    // RTF doesn't like '<' and '>'
-    QString txt = m_edit->text();
-    int pos = txt.find('\255');
-    if (pos != -1) {
-        txt.replace(pos,1,img_src);
-    } else {
-        txt.append(img_src);
-    }
-    m_edit->setText(txt);
-#else
     int para;
     int index;
-    m_edit->getCursorPosition(&para,&index);
+    QFont saveFont = m_edit->font();
+    QColor saveColor = m_edit->color();
     // determine the current position of the cursor
-    m_edit->insert("\255");
+    m_edit->insert("\255", false, true, true);
+    m_edit->getCursorPosition(&para,&index);
     // RTF doesn't like '<' and '>'
     QString txt = m_edit->text();
     txt.replace(QRegExp("\255"),img_src);
     m_edit->setText(txt);
-    m_edit->setCursorPosition(para,index+1);
-#endif
+    m_edit->setCursorPosition(para, index);
+    m_edit->setCurrentFont(saveFont);
+    m_edit->setColor(saveColor);
 }
 
 void MsgEdit::goNext()

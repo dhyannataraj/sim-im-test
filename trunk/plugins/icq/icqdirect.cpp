@@ -1590,7 +1590,7 @@ void ICQFileTransfer::processPacket()
                     return;
                 }
                 if (curFile != m_file){
-                    m_f->setName(QString::fromLocal8Bit(it[curFile]));
+                    m_f->setName(QFile::decodeName(it[curFile]));
                     if (!m_f->open(IO_ReadOnly)){
                         m_socket->error_state("Can't open file");
                         return;
@@ -1779,7 +1779,7 @@ void ICQFileTransfer::sendFileInfo()
     startPacket(FT_FILEINFO);
     m_socket->writeBuffer.pack((char)0);
     FileMessage::Iterator it(*m_msg);
-    QString curFile = QString::fromLocal8Bit(it[m_file]);
+    QString curFile = QFile::decodeName(it[m_file]);
     m_f->setName(curFile);
     if (!m_f->open(IO_ReadOnly)){
         m_socket->error_state(I18N_NOOP("Can't open file"));

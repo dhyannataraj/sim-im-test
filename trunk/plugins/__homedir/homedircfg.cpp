@@ -30,7 +30,7 @@ HomeDirConfig::HomeDirConfig(QWidget *parent, HomeDirPlugin *plugin)
     chkDefault->setChecked(plugin->m_bDefault);
     connect(chkDefault, SIGNAL(toggled(bool)), this, SLOT(defaultToggled(bool)));
     defaultToggled(chkDefault->isChecked());
-    edtPath->setText(QString::fromLocal8Bit(plugin->m_homeDir.c_str()));
+    edtPath->setText(QFile::decodeName(plugin->m_homeDir.c_str()));
     edtPath->setDirMode(true);
     chkDefault->setChecked(m_plugin->m_bDefault);
 }
@@ -38,34 +38,42 @@ HomeDirConfig::HomeDirConfig(QWidget *parent, HomeDirPlugin *plugin)
 void HomeDirConfig::apply()
 {
     bool bDefault;
-    QString homeDir;
-    QString defPath = QString(m_plugin->defaultPath().c_str());
+    QString d;
+    QString defPath = QFile::decodeName(m_plugin->defaultPath().c_str());
 
     if (chkDefault->isChecked()){
         bDefault = true;
-        homeDir = defPath;
+        d = defPath;
     }else{
         bDefault = false;
-        homeDir = edtPath->text();
+        d = edtPath->text();
     }
-    if (homeDir.isEmpty()) {
-        homeDir = defPath;
+    if (d.isEmpty()) {
+        d = defPath;
     }
-    QDir dir(homeDir);
+    QDir dir(d);
     if (!dir.exists()) {
-        homeDir = defPath;
+        d = defPath;
         bDefault = true;
     }
-    edtPath->setText(homeDir);
+    edtPath->setText(d);
     m_plugin->m_bDefault = bDefault;
-    m_plugin->m_homeDir  = homeDir.local8Bit();
+#ifdef WIN32
+    d = d.replace(QRegExp("/"), "\\");
+    if (d.length() && (d[(int)(d.length() - 1)] == '\\'))
+        d = d.left(d.length() - 1);
+#else
+    if (d.length() && (d[(int)(d.length() - 1)] == '/'))
+        d = d.left(d.length() - 1);
+#endif
+    m_plugin->m_homeDir  = QFile::encodeName(d);
 }
 
 void HomeDirConfig::defaultToggled(bool bState)
 {
     edtPath->setEnabled(!bState);
     if (bState)
-        edtPath->setText(QString::fromLocal8Bit(m_plugin->defaultPath().c_str()));
+        edtPath->setText(QFile::decodeName(m_plugin->defaultPath().c_str()));
 }
 
 
