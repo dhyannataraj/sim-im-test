@@ -1661,8 +1661,8 @@ static const char *helpList[] =
     };
 
 #if 0
-I18N_NOOP("%1 wrote:", "male")
-I18N_NOOP("%1 wrote:", "female")
+I18N_NOOP("male", "%1 wrote:" )
+I18N_NOOP("female", "%1 wrote:" )
 #endif
 
 void *CorePlugin::processEvent(Event *e)
