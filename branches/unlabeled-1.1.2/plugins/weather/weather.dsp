@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 ..\..\Release\simapi.lib ..\..\Release\simui.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\qt-mt230nc.lib /nologo /dll /pdb:none /machine:I386 /out:"../../Release/plugins/weather.dll"
+# ADD LINK32 ..\..\Release\simapi.lib ..\..\Release\simui.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\qt-mt230nc.lib $(QTDIR)\lib\libxml2.lib /nologo /dll /pdb:none /machine:I386 /out:"../../Release/plugins/weather.dll"
 
 !ELSEIF  "$(CFG)" == "weather - Win32 Debug"
 
@@ -79,7 +79,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 ..\..\Debug\simapi.lib ..\..\Debug\simui.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\qt-mt230nc.lib /nologo /dll /debug /machine:I386 /out:"../../Debug/plugins/weather.dll" /pdbtype:sept
+# ADD LINK32 ..\..\Debug\simapi.lib ..\..\Debug\simui.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\qt-mt230nc.lib $(QTDIR)\lib\libxml2.lib /nologo /dll /debug /machine:I386 /out:"../../Debug/plugins/weather.dll" /pdbtype:sept
 
 !ENDIF 
 
@@ -203,43 +203,199 @@ SOURCE=.\weather.rc
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=.\xpm\cloudy.xpm
+SOURCE=.\xpm\0.xpm
 # End Source File
 # Begin Source File
 
-SOURCE=.\xpm\day.xpm
+SOURCE=.\xpm\1.xpm
 # End Source File
 # Begin Source File
 
-SOURCE=.\xpm\day_cloudy.xpm
+SOURCE=.\xpm\10.xpm
 # End Source File
 # Begin Source File
 
-SOURCE=.\xpm\fog.xpm
+SOURCE=.\xpm\11.xpm
 # End Source File
 # Begin Source File
 
-SOURCE=.\xpm\night.xpm
+SOURCE=.\xpm\12.xpm
 # End Source File
 # Begin Source File
 
-SOURCE=.\xpm\night_cloudy.xpm
+SOURCE=.\xpm\13.xpm
 # End Source File
 # Begin Source File
 
-SOURCE=.\xpm\overcast.xpm
+SOURCE=.\xpm\14.xpm
 # End Source File
 # Begin Source File
 
-SOURCE=.\xpm\rain.xpm
+SOURCE=.\xpm\15.xpm
 # End Source File
 # Begin Source File
 
-SOURCE=.\xpm\snow.xpm
+SOURCE=.\xpm\16.xpm
 # End Source File
 # Begin Source File
 
-SOURCE=.\xpm\storm.xpm
+SOURCE=.\xpm\17.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\18.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\19.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\2.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\20.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\21.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\22.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\23.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\24.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\25.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\26.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\27.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\28.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\29.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\3.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\30.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\31.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\32.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\33.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\34.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\35.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\36.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\37.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\38.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\39.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\4.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\40.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\41.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\42.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\43.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\44.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\45.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\46.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\47.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\5.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\6.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\7.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\8.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\9.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\na.xpm
 # End Source File
 # End Group
 # Begin Group "Interfaces"

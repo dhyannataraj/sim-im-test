@@ -19,19 +19,57 @@
 #include "weathercfg.h"
 #include "buffer.h"
 #include "fetch.h"
-#include "html.h"
 #include "toolbtn.h"
 
-#include "xpm/overcast.xpm"
-#include "xpm/fog.xpm"
-#include "xpm/storm.xpm"
-#include "xpm/rain.xpm"
-#include "xpm/snow.xpm"
-#include "xpm/cloudy.xpm"
-#include "xpm/day.xpm"
-#include "xpm/night.xpm"
-#include "xpm/day_cloudy.xpm"
-#include "xpm/night_cloudy.xpm"
+#include "xpm/0.xpm"
+#include "xpm/1.xpm"
+#include "xpm/2.xpm"
+#include "xpm/3.xpm"
+#include "xpm/4.xpm"
+#include "xpm/5.xpm"
+#include "xpm/6.xpm"
+#include "xpm/7.xpm"
+#include "xpm/8.xpm"
+#include "xpm/9.xpm"
+#include "xpm/10.xpm"
+#include "xpm/11.xpm"
+#include "xpm/12.xpm"
+#include "xpm/13.xpm"
+#include "xpm/14.xpm"
+#include "xpm/15.xpm"
+#include "xpm/16.xpm"
+#include "xpm/17.xpm"
+#include "xpm/18.xpm"
+#include "xpm/19.xpm"
+#include "xpm/20.xpm"
+#include "xpm/21.xpm"
+#include "xpm/22.xpm"
+#include "xpm/23.xpm"
+#include "xpm/24.xpm"
+#include "xpm/25.xpm"
+#include "xpm/26.xpm"
+#include "xpm/27.xpm"
+#include "xpm/28.xpm"
+#include "xpm/29.xpm"
+#include "xpm/30.xpm"
+#include "xpm/31.xpm"
+#include "xpm/32.xpm"
+#include "xpm/33.xpm"
+#include "xpm/34.xpm"
+#include "xpm/35.xpm"
+#include "xpm/36.xpm"
+#include "xpm/37.xpm"
+#include "xpm/38.xpm"
+#include "xpm/39.xpm"
+#include "xpm/40.xpm"
+#include "xpm/41.xpm"
+#include "xpm/42.xpm"
+#include "xpm/43.xpm"
+#include "xpm/44.xpm"
+#include "xpm/45.xpm"
+#include "xpm/46.xpm"
+#include "xpm/47.xpm"
+#include "xpm/na.xpm"
 
 #include <time.h>
 
@@ -68,24 +106,26 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 
 static DataDef weatherData[] =
     {
-        { "URL", DATA_STRING, 1, 0 },
+        { "ID", DATA_STRING, 1, 0 },
+		{ "Location", DATA_STRING, 1, 0 },
         { "Time", DATA_LONG, 1, 0 },
         { "Text", DATA_UTF, 1, 0 },
         { "Tip", DATA_UTF, 1, 0 },
+		{ "Units", DATA_BOOL, 1, 0 },
         { "Bar", DATA_LONG, 7, DATA(QMainWindow::Bottom) },
         { "Updated", DATA_STRING, 1, 0 },
-        { "Location", DATA_STRING, 1, 0 },
-        { "Temperature_F", DATA_LONG, 1, 0 },
-        { "Temperature_C", DATA_LONG, 1, 0 },
+        { "Temperature", DATA_LONG, 1, 0 },
         { "Humidity", DATA_LONG, 1, 0 },
-        { "Pressure_In", DATA_LONG, 1, 0 },
-        { "Pressure_hPa", DATA_LONG, 1, 0 },
+        { "Pressure", DATA_LONG, 1, 0 },
         { "Conditions", DATA_STRING, 1, 0 },
         { "Wind", DATA_STRING, 1, 0 },
-        { "Wind_speed_mph", DATA_LONG, 1, 0 },
-        { "Wind_speed_km", DATA_LONG, 1, 0 },
+        { "Wind_speed", DATA_LONG, 1, 0 },
         { "Sun_raise", DATA_STRING, 1, 0 },
         { "Sun_set", DATA_STRING, 1, 0 },
+		{ "Icon", DATA_LONG, 1, 0 },
+		{ "UT", DATA_STRING, 1, 0 },
+		{ "US", DATA_STRING, 1, 0 },
+		{ "UP", DATA_STRING, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -93,6 +133,10 @@ WeatherPlugin::WeatherPlugin(unsigned base, bool bInit, const char *config)
         : Plugin(base)
 {
     load_data(weatherData, &data, config);
+    memset(&m_handler, 0, sizeof(m_handler));
+    m_handler.startElement = p_element_start;
+    m_handler.endElement   = p_element_end;
+    m_handler.characters   = p_char_data;
     BarWeather = registerType();
     CmdWeather = registerType();
     EventWeather = registerType();
@@ -100,7 +144,7 @@ WeatherPlugin::WeatherPlugin(unsigned base, bool bInit, const char *config)
     eBar.process();
     IconDef icon;
     icon.name = "weather";
-    icon.xpm  = overcast;
+    icon.xpm  = na;
     Event eIcon(EventAddIcon, &icon);
     eIcon.process();
     Command cmd;
@@ -137,136 +181,19 @@ string WeatherPlugin::getConfig()
     return save_data(weatherData, &data);
 }
 
-class WeatherParser : public HTMLParser
-{
-public:
-    WeatherParser(Buffer &buf);
-    string m_updated;
-    string m_location;
-    string m_temperature_f;
-    string m_temperature_c;
-    string m_humidity;
-    string m_pressure_in;
-    string m_pressure_hpa;
-    string m_conditions;
-    string m_wind;
-    string m_wind_speed_mph;
-    string m_wind_speed_km;
-    string m_sun_raise;
-    string m_sun_set;
-protected:
-    bool m_bWind;
-    bool m_bWind1;
-    bool m_bTemperature;
-    bool m_bPressure;
-    string *m_data;
-    virtual void text(const QString &text);
-    virtual void tag_start(const QString &tag, const list<QString> &options);
-    virtual void tag_end(const QString &tag);
-};
-
 void WeatherPlugin::timeout()
 {
-    if (!getSocketFactory()->isActive() || m_fetch_id || (*getURL() == 0))
+    if (!getSocketFactory()->isActive() || m_fetch_id || (*getID() == 0))
         return;
     time_t now;
     time(&now);
     if ((unsigned)now < getTime() + CHECK_INTERVAL)
         return;
-    m_fetch_id = fetch(getURL());
-}
-
-WeatherParser::WeatherParser(Buffer &buf)
-{
-    m_data = NULL;
-    m_bWind			= false;
-    m_bWind1		= false;
-    m_bTemperature	= false;
-    m_bPressure		= false;
-    parse(buf);
-}
-
-void WeatherParser::text(const QString &text)
-{
-    if (m_data)
-        *m_data += text.latin1();
-    if (text.find("Updated:") >= 0)
-        m_data = &m_updated;
-    if (text.find("Observed at") >= 0)
-        m_data = &m_location;
-    if (text == "Temperature")
-        m_data = &m_temperature_f;
-    if (text == "Humidity")
-        m_data = &m_humidity;
-    if (text == "Pressure")
-        m_data = &m_pressure_in;
-    if (text == "Wind")
-        m_data = &m_wind;
-    if ((text == "Conditions") && m_conditions.empty()){
-        m_bPressure = false;
-        m_data = &m_conditions;
-    }
-    if (text == "Actual Time")
-        m_data = &m_sun_raise;
-}
-
-void WeatherParser::tag_start(const QString &tag, const list<QString>&)
-{
-    if (tag == "b"){
-        if (m_bTemperature){
-            m_data = &m_temperature_c;
-            m_bWind = false;
-        }
-        if (m_bPressure){
-            m_data = &m_pressure_hpa;
-            m_bWind = false;
-        }
-        if (m_bWind){
-            m_data = &m_wind_speed_mph;
-            m_bWind = false;
-        }
-        if (m_bWind1){
-            m_data = &m_wind_speed_km;
-            m_bWind = false;
-        }
-    }
-    if (tag == "br")
-        m_data = NULL;
-}
-
-void WeatherParser::tag_end(const QString &tag)
-{
-    if (tag == "b"){
-        m_bWind = (m_data == &m_wind);
-        m_bWind1 = (m_data == &m_wind_speed_mph);
-        m_bTemperature = (m_data == &m_temperature_f);
-        m_bPressure = (m_data == &m_pressure_in);
-        if (m_data == &m_sun_raise){
-            m_data = &m_sun_set;
-        }else{
-            m_data = NULL;
-        }
-    }
-}
-
-static void setLong(const char *str, Data &d)
-{
-    for (; *str; str++){
-        if (((*str >= '0') && (*str <= '9')) || (*str == '-')){
-            d.value = atol(str);
-            break;
-        }
-    }
-}
-
-static void setStr(const char *str, Data &d)
-{
-    for (; *str; str++){
-        if (*str != ' '){
-            set_str(&d.ptr, str);
-            break;
-        }
-    }
+	string url = "http://xoap.weather.com/weather/local/";
+	url += getID();
+	url += "?cc=*&prod=xoap&par=1004517364&key=a29796f587f206b2&unit=";
+	url += getUnits() ? "s" : "m";
+    m_fetch_id = fetch(url.c_str());
 }
 
 void *WeatherPlugin::processEvent(Event *e)
@@ -277,8 +204,10 @@ void *WeatherPlugin::processEvent(Event *e)
         showBar();
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
-        if ((cmd->id == CmdWeather) && *getURL()){
-            Event eGo(EventGoURL, (void*)getURL());
+        if ((cmd->id == CmdWeather) && *getID()){
+			string url = "http://www.weather.com/outlook/travel/pastweather/";
+			url += getID();
+            Event eGo(EventGoURL, (void*)url.c_str());
             eGo.process();
             return e->param();
         }
@@ -290,46 +219,17 @@ void *WeatherPlugin::processEvent(Event *e)
         m_fetch_id = 0;
         if (d->result != 200)
             return NULL;
-        WeatherParser p(*d->data);
-        setStr(p.m_updated.c_str(), data.Updated);
-        setStr(p.m_location.c_str(), data.Location);
-        setLong(p.m_temperature_f.c_str(), data.Temperature_f);
-        setLong(p.m_temperature_c.c_str(), data.Temperature_c);
-        setLong(p.m_humidity.c_str(), data.Humidity);
-        setLong(p.m_pressure_in.c_str(), data.Pressure_in);
-        setLong(p.m_pressure_hpa.c_str(), data.Pressure_hpa);
-        setStr(p.m_conditions.c_str(), data.Conditions);
-        setStr(p.m_wind.c_str(), data.Wind);
-        setLong(p.m_wind_speed_mph.c_str(), data.Wind_speed_mph);
-        setLong(p.m_wind_speed_km.c_str(), data.Wind_speed_km);
-        setStr(p.m_sun_raise.c_str(), data.Sun_raise);
-        setStr(p.m_sun_set.c_str(), data.Sun_set);
-        QString condition = getConditions();
-        condition = condition.lower();
-        if (condition.find("fog") >= 0)
-            condition = "Fog";
-        if (condition.find("overcast") >= 0)
-            condition = "Overcast";
-        if (condition.find("mist") >= 0)
-            condition = "Fog";
-        if (condition.find("storm") >= 0)
-            condition = "Storm";
-        if (condition.find("rain") >= 0)
-            condition = "Rain";
-        if (condition.find("snow") >= 0)
-            condition = "Snow";
-        if (condition.find("clear") >= 0)
-            condition = "Clear";
-        if (condition.find("cloudy") >= 0){
-            if (condition.find("part") >= 0){
-                condition = "Partial cloudy";
-            }else{
-                condition = "Cloudy";
-            }
-        }
-        if (condition.find("clouds") >= 0)
-            condition = "Partial cloudy";
-        setConditions(condition.latin1());
+		m_data  = "";
+		m_bBar  = false;
+		m_bWind = false;
+		m_bUv	= false;
+	    m_context = xmlCreatePushParserCtxt(&m_handler, this, "", 0, "");
+		if (xmlParseChunk(m_context, d->data->data(), d->data->size(), 0)){
+		    log(L_WARN, "XML parse error");
+		    xmlFreeParserCtxt(m_context);
+			return NULL;
+		}
+	    xmlFreeParserCtxt(m_context);
         time_t now;
         time(&now);
         setTime(now);
@@ -383,7 +283,7 @@ bool WeatherPlugin::isDay()
 
 void WeatherPlugin::showBar()
 {
-    if (m_bar || (*getURL() == 0))
+    if (m_bar || (*getID() == 0))
         return;
     QWidgetList  *list = QApplication::topLevelWidgets();
     QWidgetListIt it( *list );
@@ -410,29 +310,63 @@ void WeatherPlugin::showBar()
     updateButton();
 }
 
+static const char **xpms[] = 
+{
+	xpm_0,
+	xpm_1,
+	xpm_2,
+	xpm_3,
+	xpm_4,
+	xpm_5,
+	xpm_6,
+	xpm_7,
+	xpm_8,
+	xpm_9,
+	xpm_10,
+	xpm_11,
+	xpm_12,
+	xpm_13,
+	xpm_14,
+	xpm_15,
+	xpm_16,
+	xpm_17,
+	xpm_18,
+	xpm_19,
+	xpm_20,
+	xpm_21,
+	xpm_22,
+	xpm_23,
+	xpm_24,
+	xpm_25,
+	xpm_26,
+	xpm_27,
+	xpm_28,
+	xpm_29,
+	xpm_30,
+	xpm_31,
+	xpm_32,
+	xpm_33,
+	xpm_34,
+	xpm_35,
+	xpm_36,
+	xpm_37,
+	xpm_38,
+	xpm_39,
+	xpm_40,
+	xpm_41,
+	xpm_42,
+	xpm_43,
+	xpm_44,
+	xpm_45,
+	xpm_46,
+	xpm_47
+};
+
 void WeatherPlugin::updateButton()
 {
     if ((getTime() == 0) || (m_bar == NULL))
         return;
-    const char **xpm = NULL;
-    QString conditions(getConditions());
-    if (conditions == "Overcast"){
-        xpm = overcast;
-    }else if (conditions == "Fog"){
-        xpm = fog;
-    }else if (conditions == "Storm"){
-        xpm = storm;
-    }else if (conditions == "Rain"){
-        xpm = rain;
-    }else if (conditions == "Snow"){
-        xpm = snow;
-    }else if (conditions == "Cloudy"){
-        xpm = snow;
-    }else if (conditions == "Clear"){
-        xpm = isDay() ? day : night;
-    }else if (conditions == "Partial cloudy"){
-        xpm = isDay() ? day_cloudy : night_cloudy;
-    }
+    const char **xpm = xpms[getIcon()];
     if (xpm){
         IconDef icon;
         icon.name = "weather";
@@ -468,22 +402,27 @@ i18n("weather", "Overcast")
 i18n("weather", "Fog")
 i18n("weather", "Storm")
 i18n("weather", "Rain")
-i18n("weather", "Snow")
+i18n("weather", "Light Rain")
+i18n("weather", "Few Snow Showers")
+i18n("weather", "Scattered Snow Showers")
+i18n("weather", "Snow Shower")
 i18n("weather", "Clear")
+i18n("weather", "Showers")
+i18n("weather", "Mostly Clear")
+i18n("weather", "Sunny")
+i18n("weather", "Fair")
 i18n("weather", "Cloudy")
-i18n("weather", "Partial cloudy")
+i18n("weather", "Mostly Cloudy")
+i18n("weather", "Partly Cloudy")
 #endif
 
 QString WeatherPlugin::replace(const QString &text)
 {
     QString res = text;
-    res = res.replace(QRegExp("\\%f"), number(getTemperature_f()));
-    res = res.replace(QRegExp("\\%s"), number(getTemperature_c()));
-    res = res.replace(QRegExp("\\%h"), number(getHumidity()));
-    res = res.replace(QRegExp("\\%w"), number(getWind_speed_mph()));
-    res = res.replace(QRegExp("\\%x"), number(getWind_speed_km()));
-    res = res.replace(QRegExp("\\%i"), number(getPressure_in()));
-    res = res.replace(QRegExp("\\%a"), number(getPressure_hpa()));
+    res = res.replace(QRegExp("\\%t"), number(getTemperature()) + QChar((unsigned short)176) + getUT());
+    res = res.replace(QRegExp("\\%h"), number(getHumidity()) + "%");
+    res = res.replace(QRegExp("\\%w"), number(getWind_speed()) + " " + getUS());
+    res = res.replace(QRegExp("\\%i"), number(getPressure()) + " " + getUP());
     res = res.replace(QRegExp("\\%l"), getLocation());
     res = res.replace(QRegExp("\\%r"), getWind());
     res = res.replace(QRegExp("\\%u"), getUpdated());
@@ -497,7 +436,7 @@ QString WeatherPlugin::getButtonText()
 {
     QString str = getText();
     if (str.isEmpty())
-        str = i18n("%f &deg;F/ %s &deg;C");
+        str = i18n("%t %c");
     return str;
 }
 
@@ -508,20 +447,174 @@ QString WeatherPlugin::getTipText()
     if (str.isEmpty())
         str = i18n("%l<br><br>\n"
                    "<img src=\"icon:weather\"> %c<br>\n"
-                   "Temperature: <b>%f &deg;F</b> (<b>%s &deg;C</b>)<br>\n"
-                   "Humidity: <b>%h%</b><br>\n"
-                   "Pressure: <b>%i</b> in (<b>%a</a> hPa)<br>\n"
-                   "Wind: <b>%r</b> <b>%w</b> mph (<b>%x</b> km/h)<br>\n"
+                   "Temperature: <b>%t</b><br>\n"
+                   "Humidity: <b>%h</b><br>\n"
+                   "Pressure: <b>%i</b><br>\n"
+                   "Wind: <b>%r</b> <b>%w</b><br>\n"
                    "Sunrise: %p<br>\n"
                    "Sunset: %q<br>\n"
                    "<br>\n"
-                   "Updated: %u");
+                   "Updated: %u<br>\n"
+				   "Weather data provided by weather.com") + QChar((unsigned short)176);
     return str;
 }
 
 QWidget *WeatherPlugin::createConfigWindow(QWidget *parent)
 {
     return new WeatherCfg(parent, this);
+}
+
+static const char *tags[] = 
+{
+	"obst",
+	"lsup",
+	"sunr",
+	"suns",
+	"tmp",
+	"hmid",
+	"t",
+	"icon",
+	"r",
+	"s",
+	"ut",
+	"us",
+	"up",
+	NULL,
+};
+
+void WeatherPlugin::element_start(const char *el, const char**)
+{
+	m_bData = false;
+	if (!strcmp(el, "bar")){
+		m_bBar = true;
+		return;
+	}
+	if (!strcmp(el, "wind")){
+		m_bWind = true;
+		return;
+	}
+	if (!strcmp(el, "uv")){
+		m_bUv = true;
+		return;
+	}
+	for (const char **p = tags; *p; p++){
+		if (!strcmp(*p, el)){
+			m_bData = true;
+			m_data  = "";
+			return;
+		}
+	}
+}
+
+void WeatherPlugin::element_end(const char *el)
+{
+	if (!strcmp(el, "obst")){
+		setLocation(m_data.c_str());
+		m_data = "";
+		return;
+	}
+	if (!strcmp(el, "lsup")){
+		setUpdated(m_data.c_str());
+		m_data = "";
+		return;
+	}
+	if (!strcmp(el, "sunr")){
+		setSun_raise(m_data.c_str());
+		m_data = "";
+		return;
+	}
+	if (!strcmp(el, "suns")){
+		setSun_set(m_data.c_str());
+		m_data = "";
+		return;
+	}
+	if (!strcmp(el, "tmp")){
+		setTemperature(atol(m_data.c_str()));
+		m_data = "";
+		return;
+	}
+	if (!strcmp(el, "hmid")){
+		setHumidity(atol(m_data.c_str()));
+		m_data = "";
+		return;
+	}
+	if (!strcmp(el, "t")){
+		if (!m_bBar && !m_bWind && !m_bUv)
+			setConditions(m_data.c_str());
+		if (m_bWind)
+			setWind(m_data.c_str());
+		m_data = "";
+		return;
+	}
+	if (!strcmp(el, "icon")){
+		setIcon(atol(m_data.c_str()));
+		m_data = "";
+		return;
+	}
+	if (!strcmp(el, "ut")){
+		setUT(m_data.c_str());
+		m_data = "";
+		return;
+	}
+	if (!strcmp(el, "up")){
+		setUP(m_data.c_str());
+		m_data = "";
+		return;
+	}
+	if (!strcmp(el, "us")){
+		setUS(m_data.c_str());
+		m_data = "";
+		return;
+	}
+	if (!strcmp(el, "bar")){
+		m_bBar = false;
+		return;
+	}
+	if (!strcmp(el, "r") && m_bBar){
+		unsigned long v = 0;
+		for (const char *p = m_data.c_str(); *p; p++){
+			if (*p == '.')
+				break;
+			if (*p == ',')
+				continue;
+			v = (v * 10) + (*p - '0');
+		}
+		setPressure(v);
+		return;
+	}
+	if (!strcmp(el, "wind")){
+		m_bWind = false;
+		return;
+	}
+	if (!strcmp(el, "s") && m_bWind){
+		setWind_speed(atol(m_data.c_str()));
+		return;
+	}
+	if (!strcmp(el, "uv")){
+		m_bUv = false;
+		return;
+	}
+}
+
+void WeatherPlugin::char_data(const char *str, int len)
+{
+	if (m_bData)
+		m_data.append(str, len);
+}
+
+void WeatherPlugin::p_element_start(void *data, const xmlChar *el, const xmlChar **attr)
+{
+    ((WeatherPlugin*)data)->element_start((char*)el, (const char**)attr);
+}
+
+void WeatherPlugin::p_element_end(void *data, const xmlChar *el)
+{
+    ((WeatherPlugin*)data)->element_end((char*)el);
+}
+
+void WeatherPlugin::p_char_data(void *data, const xmlChar *str, int len)
+{
+    ((WeatherPlugin*)data)->char_data((char*)str, len);
 }
 
 #ifdef WIN32

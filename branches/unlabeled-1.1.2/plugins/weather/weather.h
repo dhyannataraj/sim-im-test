@@ -19,29 +19,32 @@
 #define _WEATHER_H
 
 #include "simapi.h"
+#include <libxml/parser.h>
 
 class QToolBar;
 
 typedef struct WeatherData
 {
-    Data	URL;
+    Data	ID;
+	Data	Location;
     Data	Time;
     Data	Text;
     Data	Tip;
+	Data	Units;
     Data	bar[7];
     Data	Updated;
-    Data	Location;
-    Data	Temperature_f;
-    Data	Temperature_c;
+    Data	Temperature;
     Data	Humidity;
-    Data	Pressure_in;
-    Data	Pressure_hpa;
+    Data	Pressure;
     Data	Conditions;
     Data	Wind;
-    Data	Wind_speed_mph;
-    Data	Wind_speed_km;
+    Data	Wind_speed;
     Data	Sun_raise;
     Data	Sun_set;
+	Data	Icon;
+	Data	UT;
+	Data	UP;
+	Data	US;
 } WeatherData;
 
 class WeatherPlugin : public QObject, public Plugin, public EventReceiver
@@ -50,23 +53,25 @@ class WeatherPlugin : public QObject, public Plugin, public EventReceiver
 public:
     WeatherPlugin(unsigned, bool, const char*);
     virtual ~WeatherPlugin();
-    PROP_STR(URL);
+    PROP_STR(ID);
+	PROP_STR(Location);
     PROP_ULONG(Time);
     PROP_UTF8(Text);
     PROP_UTF8(Tip);
+	PROP_BOOL(Units);
     PROP_STR(Updated);
-    PROP_STR(Location);
-    PROP_LONG(Temperature_f);
-    PROP_LONG(Temperature_c);
+    PROP_LONG(Temperature);
     PROP_LONG(Humidity);
-    PROP_LONG(Pressure_in);
-    PROP_LONG(Pressure_hpa);
+    PROP_LONG(Pressure);
     PROP_STR(Conditions);
     PROP_STR(Wind);
-    PROP_LONG(Wind_speed_mph);
-    PROP_LONG(Wind_speed_km);
+    PROP_LONG(Wind_speed);
     PROP_STR(Sun_raise);
     PROP_STR(Sun_set);
+	PROP_ULONG(Icon);
+	PROP_STR(UT);
+	PROP_STR(US);
+	PROP_STR(UP);
     QString getButtonText();
     QString getTipText();
     void updateButton();
@@ -82,12 +87,25 @@ protected:
     unsigned BarWeather;
     unsigned CmdWeather;
     unsigned m_fetch_id;
+	string m_data;
+	bool   m_bData;
+	bool   m_bBar;
+	bool   m_bWind;
+	bool   m_bUv;
     string getConfig();
     bool isDay();
     bool parseTime(const char *str, int &h, int &m);
     virtual QWidget *createConfigWindow(QWidget *parent);
     void *processEvent(Event*);
     WeatherData data;
+    xmlSAXHandler		m_handler;
+    xmlParserCtxtPtr	m_context;
+    void		element_start(const char *el, const char **attr);
+    void		element_end(const char *el);
+    void		char_data(const char *str, int len);
+    static void p_element_start(void *data, const xmlChar *el, const xmlChar **attr);
+    static void p_element_end(void *data, const xmlChar *el);
+    static void p_char_data(void *data, const xmlChar *str, int len);
 };
 
 #endif
