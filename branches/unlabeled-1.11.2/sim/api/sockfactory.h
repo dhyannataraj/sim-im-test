@@ -118,6 +118,7 @@ signals:
 public slots:
     void resultsReady();
     void idle();
+	void checkState();
 protected:
     list<SIMResolver*> resolvers;
 };

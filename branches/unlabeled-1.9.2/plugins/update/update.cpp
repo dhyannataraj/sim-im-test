@@ -118,10 +118,7 @@ void UpdatePlugin::timeout()
                 url += (char)c;
             }
         }
-        TCPClient *client = NULL;
-        if (getContacts()->nClients())
-            client = static_cast<TCPClient*>(getContacts()->getClient(0));
-        m_fetch_id = fetch(NULL, url.c_str());
+        m_fetch_id = fetch(url.c_str(), NULL, NULL, false);
     }
 }
 

@@ -17,6 +17,7 @@
 
 #include "icqconfig.h"
 #include "icq.h"
+#include "fetch.h"
 
 #include <qtimer.h>
 #include <qlineedit.h>
@@ -63,6 +64,19 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
     chkTyping->setChecked(client->getTypingNotification());
     chkDND->setChecked(client->getAcceptInDND());
     chkOccupied->setChecked(client->getAcceptInOccupied());
+	chkHTTP->setChecked(client->getUseHTTP());
+	bool bState;
+	if (get_connection_state(bState)){
+		connect(chkAuto, SIGNAL(toggled(bool)), this, SLOT(autoToggled(bool)));
+		chkAuto->setChecked(client->getAutoHTTP());
+	}else{
+		chkAuto->hide();
+	}
+}
+
+void ICQConfig::autoToggled(bool bState)
+{
+	chkHTTP->setEnabled(!bState);
 }
 
 void ICQConfig::apply(Client*, void*)
@@ -85,6 +99,10 @@ void ICQConfig::apply()
     m_client->setTypingNotification(chkTyping->isChecked());
     m_client->setAcceptInDND(chkDND->isChecked());
     m_client->setAcceptInOccupied(chkOccupied->isChecked());
+	m_client->setUseHTTP(chkHTTP->isChecked());
+	bool bState;
+	if (get_connection_state(bState))
+		m_client->setAutoHTTP(chkAuto->isChecked());
 }
 
 void ICQConfig::changed(const QString&)

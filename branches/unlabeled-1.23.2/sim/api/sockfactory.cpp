@@ -17,9 +17,11 @@
 
 #include "simapi.h"
 #include "sockfactory.h"
+#include "fetch.h"
 
 #ifdef WIN32
 #include <winsock.h>
+#include <wininet.h>
 #else
 #include <sys/socket.h>
 #include <sys/time.h>
@@ -57,6 +59,15 @@ SIMSockets::~SIMSockets()
 {
 }
 
+void SIMSockets::checkState()
+{
+#ifdef WIN32
+	bool state;
+	if (get_connection_state(state))
+		setActive(state);
+#endif
+}
+
 void SIMSockets::idle()
 {
     SocketFactory::idle();
@@ -67,6 +78,13 @@ SIMResolver::SIMResolver(QObject *parent, const char *host)
 {
     bDone = false;
     bTimeout = false;
+#ifdef WIN32
+	bool bState;
+	if (get_connection_state(bState) && !bState){
+		QTimer::singleShot(0, this, SLOT(resolveTimeout()));
+		return;
+	}
+#endif
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(resolveTimeout()));
     timer->start(20000);
@@ -129,6 +147,11 @@ void SIMSockets::resultsReady()
         }
         if (r->addr() == INADDR_NONE)
             isActive = false;
+#ifdef WIN32
+		bool bState;
+		if (get_connection_state(bState))
+			isActive = bState;
+#endif
         setActive(isActive);
         emit resolveReady(r->addr(), r->host().c_str());
         resolvers.remove(r);
@@ -224,6 +247,13 @@ void SIMClientSocket::connect(const char *_host, unsigned short _port)
 {
     port = _port;
     host = _host;
+#ifdef WIN32
+	bool bState;
+	if (get_connection_state(bState) && !bState){
+		QTimer::singleShot(0, this, SLOT(slotConnectionClosed()));
+		return;
+	}
+#endif
     log(L_DEBUG, "Connect to %s:%u", host.c_str(), port);
     if (inet_addr(host.c_str()) == INADDR_NONE){
         log(L_DEBUG, "Start resolve %s", host.c_str());
@@ -268,6 +298,11 @@ void SIMClientSocket::slotConnectionClosed()
     log(L_WARN, "Connection closed");
     timerStop();
     if (notify) notify->error_state(I18N_NOOP("Connection closed"));
+#ifdef WIN32
+	bool bState;
+	if (get_connection_state(bState) && !bState)
+	    getSocketFactory()->setActive(false);
+#endif
 }
 
 void SIMClientSocket::timeout()

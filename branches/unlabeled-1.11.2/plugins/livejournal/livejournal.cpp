@@ -301,7 +301,7 @@ static CommandDef livejournal_descr =
         0,
         0,
         0,
-        PROTOCOL_NOSMS | PROTOCOL_SEARCH,
+        PROTOCOL_NOSMS | PROTOCOL_SEARCH | PROTOCOL_NOPROXY,
         NULL,
         NULL
     };
@@ -1040,6 +1040,7 @@ QWidget *LiveJournalClient::searchWindow()
 
 void *LiveJournalClient::processEvent(Event *e)
 {
+	TCPClient::processEvent(e);
     if (e->type() == EventOpenMessage){
         Message **msg = (Message**)(e->param());
         if ((*msg)->type() != MessageUpdated)
@@ -1193,7 +1194,7 @@ void LiveJournalClient::send()
     headers += number(m_request->m_buffer.size());
     if (getFastServer())
         headers += "\r\nCookie: ljfastserver=1";
-    m_fetchId = fetch(this, url.c_str(), &m_request->m_buffer);
+    m_fetchId = fetch(url.c_str(), &m_request->m_buffer);
 }
 
 bool LiveJournalClient::error_state(const char *err, unsigned code)

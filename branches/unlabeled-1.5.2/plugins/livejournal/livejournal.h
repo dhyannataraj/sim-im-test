@@ -131,7 +131,7 @@ protected:
 
 class QTimer;
 
-class LiveJournalClient : public TCPClient, public EventReceiver
+class LiveJournalClient : public TCPClient
 {
     Q_OBJECT
 public:

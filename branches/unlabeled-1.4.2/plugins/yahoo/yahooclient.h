@@ -126,7 +126,7 @@ typedef struct YahooClientData
 
 typedef pair<unsigned, string> PARAM;
 
-class YahooClient : public TCPClient, public EventReceiver
+class YahooClient : public TCPClient
 {
     Q_OBJECT
 public:

@@ -1067,6 +1067,7 @@ void MSNClient::auth_message(Contact *contact, unsigned type, MSNUserData *data)
 
 void *MSNClient::processEvent(Event *e)
 {
+	TCPClient::processEvent(e);
     if (e->type() == EventAddContact){
         addContact *ac = (addContact*)(e->param());
         if (ac->proto && !strcmp(protocol()->description()->text, ac->proto)){
@@ -1227,11 +1228,6 @@ void *MSNClient::processEvent(Event *e)
         string h;
         switch (m_state){
         case LoginHost:
-            h = getHeader("Location", data->headers);
-            if (!h.empty()){
-                requestLoginHost(h.c_str());
-                break;
-            }
             if (data->result == 200){
                 h = getHeader("PassportURLs", data->headers);
                 if (h.empty()){
@@ -1251,11 +1247,6 @@ void *MSNClient::processEvent(Event *e)
             }
             break;
         case TWN:
-            h = getHeader("Location", data->headers);
-            if (!h.empty()){
-                requestTWN(h.c_str());
-                break;
-            }
             if (data->result == 200){
                 h = getHeader("Authentication-Info", data->headers);
                 if (h.empty()){
@@ -1285,7 +1276,7 @@ void *MSNClient::processEvent(Event *e)
 
 void MSNClient::requestLoginHost(const char *url)
 {
-    m_fetchId = fetch(this, url);
+    m_fetchId = fetch(url);
     if (m_fetchId == 0){
         authFailed();
         return;
@@ -1304,7 +1295,7 @@ void MSNClient::requestTWN(const char *url)
     auth += '\x00';
     auth += '\x00';
     m_state = TWN;
-    m_fetchId = fetch(this, url, NULL, auth.c_str());
+    m_fetchId = fetch(url, NULL, auth.c_str());
 }
 
 string MSNClient::getValue(const char *key, const char *str)

@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>335</width>
+            <width>331</width>
             <height>267</height>
         </rect>
     </property>
@@ -243,28 +243,6 @@
                 </size>
             </property>
         </spacer>
-        <widget row="8"  column="0"  rowspan="1"  colspan="3" >
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>lblNote</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string></string>
-            </property>
-            <property>
-                <name>textFormat</name>
-                <enum>RichText</enum>
-            </property>
-            <property>
-                <name>alignment</name>
-                <set>WordBreak|AlignVCenter|AlignLeft</set>
-            </property>
-            <property>
-                <name>wordwrap</name>
-            </property>
-        </widget>
         <widget row="7"  column="0"  rowspan="1"  colspan="3" >
             <class>QCheckBox</class>
             <property stdset="1">

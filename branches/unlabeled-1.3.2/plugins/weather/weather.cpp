@@ -173,7 +173,7 @@ void WeatherPlugin::timeout()
     time(&now);
     if ((unsigned)now < getTime() + CHECK_INTERVAL)
         return;
-    m_fetch_id = fetch(NULL, getURL());
+    m_fetch_id = fetch(getURL());
 }
 
 WeatherParser::WeatherParser(Buffer &buf)

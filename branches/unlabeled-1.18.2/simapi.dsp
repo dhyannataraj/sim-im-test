@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMAPI_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MD /W4 /O1 /I "$(QTDIR)\include" /I "sim" /I "c:\openssl\include" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMAPI_EXPORTS" /D "QT_DLL" /D "UNICODE" /D "USE_OPENSSL" /D LTDL_SHLIB_EXT=\".dll\" /D LTDL_OBJDIR=\"\" /D "HAVE_STDIO_H" /D "HAVE_STRING_H" /D "HAVE_MALLOC_H" /YX /FD /c
+# ADD CPP /nologo /MD /W4 /O1 /I "$(QTDIR)\include" /I "sim" /I "c:\openssl\include" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMAPI_EXPORTS" /D "QT_DLL" /D "UNICODE" /D "USE_OPENSSL" /D LTDL_SHLIB_EXT=\".dll\" /D LTDL_OBJDIR=\"\" /D "HAVE_STDIO_H" /D "HAVE_STRING_H" /D "HAVE_MALLOC_H" /D VERSION=\"0.9.3\" /D PACKAGE=\"SIM\" /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "NDEBUG"
@@ -69,7 +69,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMAPI_EXPORTS" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W4 /WX /Gm /ZI /Od /I "$(QTDIR)\include" /I "sim" /I "c:\openssl\include" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMAPI_EXPORTS" /D "QT_DLL" /D "UNICODE" /D "USE_OPENSSL" /D LTDL_SHLIB_EXT=\".dll\" /D LTDL_OBJDIR=\"\" /D "HAVE_STDIO_H" /D "HAVE_STRING_H" /D "HAVE_MALLOC_H" /FR /Fp"..\Debug/simapi.pch" /YX /Fo"..\Debug/" /Fd"..\Debug/" /FD /GZ /c
+# ADD CPP /nologo /MDd /W4 /WX /Gm /ZI /Od /I "$(QTDIR)\include" /I "sim" /I "c:\openssl\include" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMAPI_EXPORTS" /D "QT_DLL" /D "UNICODE" /D "USE_OPENSSL" /D LTDL_SHLIB_EXT=\".dll\" /D LTDL_OBJDIR=\"\" /D "HAVE_STDIO_H" /D "HAVE_STRING_H" /D "HAVE_MALLOC_H" /D VERSION=\"0.9.3\" /D PACKAGE=\"SIM\" /FR /Fp"..\Debug/simapi.pch" /YX /Fo"..\Debug/" /Fd"..\Debug/" /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "_DEBUG"
@@ -188,6 +188,10 @@ SOURCE=.\sim\api\moc_exec.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\api\moc_fetch.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\api\moc_socket.cpp
 
 !IF  "$(CFG)" == "simapi - Win32 Release"
@@ -303,7 +307,35 @@ InputName=exec
 # Begin Source File
 
 SOURCE=.\sim\api\fetch.h
+
+!IF  "$(CFG)" == "simapi - Win32 Release"
+
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\api
+InputPath=.\sim\api\fetch.h
+InputName=fetch
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\api
+InputPath=.\sim\api\fetch.h
+InputName=fetch
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 

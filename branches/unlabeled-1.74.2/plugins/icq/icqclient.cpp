@@ -272,12 +272,14 @@ static DataDef icqClientData[] =
         { "MaxPort", DATA_ULONG, 1, DATA(0xFFFE) },
         { "WarnAnonimously", DATA_BOOL, 1, 0 },
         { "ACKMode", DATA_ULONG, 1, DATA(1) },
+		{ "UseHTTP", DATA_BOOL, 1, DATA(0) },
+		{ "AutoHTTP", DATA_BOOL, 1, DATA(1) },
         { "", DATA_STRUCT, sizeof(ICQUserData) / sizeof(Data), DATA(_icqUserData) },
         { NULL, 0, 0, 0 }
     };
 
 ICQClient::ICQClient(Protocol *protocol, const char *cfg, bool bAIM)
-        : TCPClient(protocol, cfg), EventReceiver(HighPriority - 1)
+        : TCPClient(protocol, cfg, HighPriority - 1)
 {
     m_bAIM = bAIM;
 
@@ -2276,6 +2278,7 @@ void ICQClient::updateInfo(Contact *contact, void *_data)
 
 void *ICQClient::processEvent(Event *e)
 {
+	TCPClient::processEvent(e);
     if (e->type() == EventAddContact){
         addContact *ac = (addContact*)(e->param());
         if (ac->proto && !strcmp(protocol()->description()->text, ac->proto)){

@@ -459,6 +459,10 @@ SOURCE=.\pastinfobase.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\polling.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\rtf.cpp
 # ADD CPP /W3
 # End Source File

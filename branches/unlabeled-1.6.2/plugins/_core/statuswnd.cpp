@@ -19,6 +19,7 @@
 #include "core.h"
 #include "ballonmsg.h"
 #include "toolbtn.h"
+#include "socket.h"
 
 #include <qpopupmenu.h>
 #include <qlabel.h>
@@ -41,9 +42,10 @@ StatusLabel::StatusLabel(QWidget *parent, Client *client, unsigned id)
 
 void StatusLabel::setPict()
 {
-    const char *icon;
+    string icon;
     const char *text;
     if (m_client->getState() == Client::Connecting){
+		if (getSocketFactory()->isActive()){
         if (m_timer == NULL){
             m_timer = new QTimer(this);
             connect(m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
@@ -68,6 +70,21 @@ void StatusLabel::setPict()
                 }
             }
         }
+		}else{
+        if (m_timer){
+            delete m_timer;
+            m_timer = NULL;
+        }
+
+            Protocol *protocol = m_client->protocol();
+            const CommandDef *cmd = protocol->description();
+            icon = cmd->icon;
+			int n = icon.find('_');
+			if (n > 0)
+				icon = icon.substr(0, n);
+			icon += "_inactive";
+            text = I18N_NOOP("Inactive");
+		}
     }else{
         if (m_timer){
             delete m_timer;
@@ -90,7 +107,7 @@ void StatusLabel::setPict()
             }
         }
     }
-    QPixmap pict = Pict(icon);
+    QPixmap pict = Pict(icon.c_str());
     QString tip = CorePlugin::m_plugin->clientName(m_client);
     tip += "\n";
     tip += i18n(text);

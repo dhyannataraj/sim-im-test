@@ -1659,6 +1659,7 @@ void YahooClient::moveBuddy(YahooUserData *data, const char *grp)
 
 void *YahooClient::processEvent(Event *e)
 {
+	TCPClient::processEvent(e);
     if (e->type() == EventContactChanged){
         Contact *contact = (Contact*)(e->param());
         string grpName;

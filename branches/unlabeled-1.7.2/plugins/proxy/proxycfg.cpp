@@ -17,6 +17,7 @@
 
 #include "proxycfg.h"
 #include "proxy.h"
+#include "fetch.h"
 
 #include <qcombobox.h>
 #include <qlineedit.h>
@@ -37,7 +38,6 @@ ProxyConfig::ProxyConfig(QWidget *parent, ProxyPlugin *plugin, QTabWidget *tab, 
     cmbType->insertItem("SOCKS4");
     cmbType->insertItem("SOCKS5");
     cmbType->insertItem("HTTPS");
-    cmbType->insertItem("HTTP");
     if (tab){
         tab->addTab(this, i18n("&Proxy"));
         for (QWidget *p = this; p; p = p->parentWidget()){
@@ -57,7 +57,7 @@ ProxyConfig::ProxyConfig(QWidget *parent, ProxyPlugin *plugin, QTabWidget *tab, 
         lblClient->hide();
         cmbClient->hide();
         ProxyData data;
-        plugin->clientData(m_client, data);
+        plugin->clientData(static_cast<TCPClient*>(m_client), data);
         fill(&data);
     }else{
         fillClients();
@@ -78,7 +78,7 @@ void ProxyConfig::apply()
             return;
         }
         ProxyData d;
-        m_plugin->clientData(m_client, d);
+        m_plugin->clientData(static_cast<TCPClient*>(m_client), d);
         m_data.clear();
         if (d.Default.bValue){
             d = nd;
@@ -93,7 +93,7 @@ void ProxyConfig::apply()
                 m_data.push_back(nd);
             }else{
                 ProxyData d;
-                m_plugin->clientData(client, d);
+                m_plugin->clientData(static_cast<TCPClient*>(client), d);
                 m_data.push_back(d);
             }
         }
@@ -135,11 +135,6 @@ void ProxyConfig::typeChanged(int type)
         edtPswd->hide();
         lblUser->hide();
         lblPswd->hide();
-    }
-    if ((unsigned)type == PROXY_HTTP){
-        lblNote->setText(i18n("<b>Note !</b><br>HTTP-proxy support only ICQ-protocol"));
-    }else{
-        lblNote->setText("");
     }
     authToggled(chkAuth->isChecked());
 }
@@ -220,9 +215,16 @@ void ProxyConfig::fillClients()
             name = name.replace(pos, 1, " ");
         cmbClient->insertItem(Pict(client->protocol()->description()->icon), name);
         ProxyData d;
-        m_plugin->clientData(client, d);
+        m_plugin->clientData(static_cast<TCPClient*>(client), d);
         m_data.push_back(d);
     }
+	bool bState;
+	if (!get_connection_state(bState)){
+        cmbClient->insertItem(i18n("HTTP requests"));;
+        ProxyData d;
+        m_plugin->clientData((TCPClient*)(-1), d);
+        m_data.push_back(d);
+	}
     clientChanged(0);
 }
 

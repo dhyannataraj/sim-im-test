@@ -155,7 +155,7 @@ typedef struct JabberDiscoItem
     string			node;
 } JabberDiscoItem;
 
-class JabberClient : public TCPClient, public EventReceiver
+class JabberClient : public TCPClient
 {
     Q_OBJECT
 public:

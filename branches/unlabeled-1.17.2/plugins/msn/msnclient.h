@@ -155,7 +155,7 @@ typedef struct MSNListRequest
 class MSNPacket;
 class MSNServerMessage;
 
-class MSNClient : public TCPClient, public EventReceiver
+class MSNClient : public TCPClient
 {
     Q_OBJECT
 public:
