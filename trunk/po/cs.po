@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "POT-Creation-Date: 2004-05-09 19:41+0200\n"
-"PO-Revision-Date: 2004-05-04 10:40+0100\n"
+"PO-Revision-Date: 2004-05-11 14:31+0100\n"
 "Last-Translator: Jiří Jureček <jjure@users.sourceforge.net>\n"
 "Language-Team:  <C@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -29,8 +29,70 @@ msgstr "Plugin umožňuje vybrat adresář pro uložení konfiguračních soubor
 msgid "Set home directory"
 msgstr "Nastavit domovský adresář"
 
-#: plugins/__homedir/homedircfgbase.cpp:121 plugins/_core/arcfgbase.cpp:137 plugins/_core/filecfgbase.cpp:145 plugins/_core/historycfgbase.cpp:225 plugins/_core/interfacecfgbase.cpp:153 plugins/_core/maininfobase.cpp:245 plugins/_core/msgcfgbase.cpp:114 plugins/_core/phonebase.cpp:144 plugins/_core/plugincfgbase.cpp:101 plugins/_core/prefcfgbase.cpp:96 plugins/_core/smscfgbase.cpp:95 plugins/_core/userhistorycfgbase.cpp:122 plugins/action/actioncfgbase.cpp:120 plugins/action/menucfgbase.cpp:126 plugins/autoaway/autoawaycfgbase.cpp:133 plugins/background/bkgndcfgbase.cpp:172 plugins/dock/dockcfgbase.cpp:122 plugins/filter/filtercfgbase.cpp:96 plugins/forward/forwardcfgbase.cpp:101 plugins/gpg/gpgadvbase.cpp:155 plugins/gpg/gpgcfgbase.cpp:160 plugins/gpg/gpguserbase.cpp:98 plugins/icons/iconcfgbase.cpp:135 plugins/icons/smilecfgbase.cpp:121 plugins/icq/advsearchbase.cc:276 plugins/icq/aimconfigbase.cc:174 plugins/icq/aiminfobase.cc:286 plugins/icq/aimsearchbase.cc:192 plugins/icq/homeinfobase.cc:174 plugins/icq/icqconfigbase.cc:293 plugins/icq/icqpicturebase.cc:133 plugins/icq/icqsearchbase.cc:184 plugins/icq/icqsecurebase.cc:165 plugins/icq/pastinfobase.cc:169 plugins/jabber/infoproxybase.cpp:86 plugins/jabber/jabberconfigbase.cpp:352 plugins/jabber/jabberinfobase.cpp:297 plugins/jabber/jabberpicturebase.cpp:133 plugins/jabber/jabberworkinfobase.cpp:119 plugins/jabber/jidadvsearchbase.cpp:94 plugins/jabber/jidsearchbase.cpp:133 plugins/livejournal/journalsearchbase.cpp:95 plugins/livejournal/livejournalcfgbase.cpp:207 plugins/livejournal/msgjournalbase.cpp:112 plugins/logger/logconfigbase.cpp:126 plugins/msn/msninfobase.cpp:160 plugins/msn/msnsearchbase.cpp:130 plugins/navigate/navcfgbase.cc:99 plugins/ontop/ontopcfgbase.cpp:88 plugins/osd/osdconfigbase.cpp:139 plugins/proxy/proxycfgbase.cpp:161 plugins/remote/remotecfgbase.cpp:134 plugins/replace/replacecfgbase.cpp:111 plugins/shortcuts/mousecfgbase.cpp:108 plugins/shortcuts/shortcutcfgbase.cpp:138 plugins/sound/soundconfigbase.cpp:155
-#: plugins/sound/sounduserbase.cpp:121 plugins/styles/fontconfigbase.cpp:158 plugins/styles/stylescfgbase.cpp:83 plugins/transparent/transparentcfgbase.cpp:101 plugins/weather/weathercfgbase.cpp:168 plugins/weather/wifacecfgbase.cpp:139 plugins/yahoo/yahooinfobase.cpp:178 plugins/yahoo/yahoosearchbase.cpp:156
+#: plugins/__homedir/homedircfgbase.cpp:121
+#: plugins/_core/arcfgbase.cpp:137
+#: plugins/_core/filecfgbase.cpp:145
+#: plugins/_core/historycfgbase.cpp:225
+#: plugins/_core/interfacecfgbase.cpp:153
+#: plugins/_core/maininfobase.cpp:245
+#: plugins/_core/msgcfgbase.cpp:114
+#: plugins/_core/phonebase.cpp:144
+#: plugins/_core/plugincfgbase.cpp:101
+#: plugins/_core/prefcfgbase.cpp:96
+#: plugins/_core/smscfgbase.cpp:95
+#: plugins/_core/userhistorycfgbase.cpp:122
+#: plugins/action/actioncfgbase.cpp:120
+#: plugins/action/menucfgbase.cpp:126
+#: plugins/autoaway/autoawaycfgbase.cpp:133
+#: plugins/background/bkgndcfgbase.cpp:172
+#: plugins/dock/dockcfgbase.cpp:122
+#: plugins/filter/filtercfgbase.cpp:96
+#: plugins/forward/forwardcfgbase.cpp:101
+#: plugins/gpg/gpgadvbase.cpp:155
+#: plugins/gpg/gpgcfgbase.cpp:160
+#: plugins/gpg/gpguserbase.cpp:98
+#: plugins/icons/iconcfgbase.cpp:135
+#: plugins/icons/smilecfgbase.cpp:121
+#: plugins/icq/advsearchbase.cc:276
+#: plugins/icq/aimconfigbase.cc:174
+#: plugins/icq/aiminfobase.cc:286
+#: plugins/icq/aimsearchbase.cc:192
+#: plugins/icq/homeinfobase.cc:174
+#: plugins/icq/icqconfigbase.cc:293
+#: plugins/icq/icqpicturebase.cc:133
+#: plugins/icq/icqsearchbase.cc:184
+#: plugins/icq/icqsecurebase.cc:165
+#: plugins/icq/pastinfobase.cc:169
+#: plugins/jabber/infoproxybase.cpp:86
+#: plugins/jabber/jabberconfigbase.cpp:352
+#: plugins/jabber/jabberinfobase.cpp:297
+#: plugins/jabber/jabberpicturebase.cpp:133
+#: plugins/jabber/jabberworkinfobase.cpp:119
+#: plugins/jabber/jidadvsearchbase.cpp:94
+#: plugins/jabber/jidsearchbase.cpp:133
+#: plugins/livejournal/journalsearchbase.cpp:95
+#: plugins/livejournal/livejournalcfgbase.cpp:207
+#: plugins/livejournal/msgjournalbase.cpp:112
+#: plugins/logger/logconfigbase.cpp:126
+#: plugins/msn/msninfobase.cpp:160
+#: plugins/msn/msnsearchbase.cpp:130
+#: plugins/navigate/navcfgbase.cc:99
+#: plugins/ontop/ontopcfgbase.cpp:88
+#: plugins/osd/osdconfigbase.cpp:139
+#: plugins/proxy/proxycfgbase.cpp:161
+#: plugins/remote/remotecfgbase.cpp:134
+#: plugins/replace/replacecfgbase.cpp:111
+#: plugins/shortcuts/mousecfgbase.cpp:108
+#: plugins/shortcuts/shortcutcfgbase.cpp:138
+#: plugins/sound/soundconfigbase.cpp:155
+#: plugins/sound/sounduserbase.cpp:121
+#: plugins/styles/fontconfigbase.cpp:158
+#: plugins/styles/stylescfgbase.cpp:83
+#: plugins/transparent/transparentcfgbase.cpp:101
+#: plugins/weather/weathercfgbase.cpp:168
+#: plugins/weather/wifacecfgbase.cpp:139
+#: plugins/yahoo/yahooinfobase.cpp:178
+#: plugins/yahoo/yahoosearchbase.cpp:156
 msgid "Form1"
 msgstr "Form1"
 
@@ -54,7 +116,12 @@ msgstr "Plugin umožňuje převést konfiguraci a historii ze SIMu 0.8"
 msgid "Cancel convert?"
 msgstr "Zrušit převod?"
 
-#: plugins/__migrate/migratedlg.cpp:161 plugins/__migrate/migratedlg.cpp:165 plugins/__migrate/migratedlg.cpp:169 plugins/__migrate/migratedlg.cpp:234 plugins/__migrate/migratedlg.cpp:238 sim/api/message.cpp:601
+#: plugins/__migrate/migratedlg.cpp:161
+#: plugins/__migrate/migratedlg.cpp:165
+#: plugins/__migrate/migratedlg.cpp:169
+#: plugins/__migrate/migratedlg.cpp:234
+#: plugins/__migrate/migratedlg.cpp:238
+#: sim/api/message.cpp:601
 #, c-format
 msgid "Can't open %1"
 msgstr "Nemohu otevřít %1"
@@ -87,7 +154,9 @@ msgstr "Vybrat adresář pro převod"
 msgid "Convert configuration"
 msgstr "Převést konfiguraci"
 
-#: plugins/_core/arcfg.cpp:96 plugins/_core/autoreply.cpp:111 plugins/weather/wifacecfg.cpp:113
+#: plugins/_core/arcfg.cpp:96
+#: plugins/_core/autoreply.cpp:111
+#: plugins/weather/wifacecfg.cpp:113
 msgid "In text you can use:"
 msgstr "V textu můžete použít:"
 
@@ -95,16 +164,19 @@ msgstr "V textu můžete použít:"
 msgid "Autoreply message"
 msgstr "Zpráva automatické odpovědi"
 
-#: plugins/_core/autoreply.cpp:51 plugins/_core/autoreply.cpp:97
+#: plugins/_core/autoreply.cpp:51
+#: plugins/_core/autoreply.cpp:97
 #, fuzzy, c-format
 msgid "Close after %n second"
-msgstr "Po odeslání &zavřít"
+msgstr "Zavřít za %n sekund"
 
-#: plugins/_core/cfgdlg.cpp:274 plugins/_core/usercfg.cpp:195
+#: plugins/_core/cfgdlg.cpp:274
+#: plugins/_core/usercfg.cpp:195
 msgid "User info"
 msgstr "Informace o uživateli"
 
-#: plugins/_core/cfgdlg.cpp:363 plugins/_core/usercfg.cpp:341
+#: plugins/_core/cfgdlg.cpp:363
+#: plugins/_core/usercfg.cpp:341
 msgid "Autoreply"
 msgstr "Automatická odpověď"
 
@@ -112,23 +184,69 @@ msgstr "Automatická odpověď"
 msgid "Plugins"
 msgstr "Pluginy"
 
-#: plugins/_core/cfgdlg.cpp:499 plugins/_core/cfgdlgbase.cpp:125 plugins/_core/toolsetupbase.cpp:134 plugins/jabber/discoinfobase.cpp:319 sim/api/simapi.cpp:468
+#: plugins/_core/cfgdlg.cpp:499
+#: plugins/_core/cfgdlgbase.cpp:125
+#: plugins/_core/toolsetupbase.cpp:134
+#: plugins/jabber/discoinfobase.cpp:319
+#: sim/api/simapi.cpp:468
 msgid "&Apply"
 msgstr "&Použít"
 
-#: plugins/_core/autoreplybase.cpp:122 plugins/_core/cfgdlg.cpp:500 plugins/_core/cfgdlgbase.cpp:126 plugins/_core/connectionsettingsbase.cpp:106 plugins/_core/declinedlgbase.cpp:82 plugins/_core/editmailbase.cpp:97 plugins/_core/editphonebase.cpp:143 plugins/_core/logindlgbase.cpp:132 plugins/_core/toolsetupbase.cpp:135 plugins/action/additembase.cpp:126 plugins/gpg/gpggenbase.cpp:140 plugins/gpg/passphrasebase.cpp:85 plugins/icq/encodingdlgbase.cc:86 plugins/icq/warndlgbase.cc:88 plugins/jabber/discoinfobase.cpp:320 plugins/proxy/proxyerrorbase.cpp:80 sim/api/simapi.cpp:467 sim/ui/qt3/i18n.cpp:174
+#: plugins/_core/autoreplybase.cpp:122
+#: plugins/_core/cfgdlg.cpp:500
+#: plugins/_core/cfgdlgbase.cpp:126
+#: plugins/_core/connectionsettingsbase.cpp:106
+#: plugins/_core/declinedlgbase.cpp:82
+#: plugins/_core/editmailbase.cpp:97
+#: plugins/_core/editphonebase.cpp:143
+#: plugins/_core/logindlgbase.cpp:132
+#: plugins/_core/toolsetupbase.cpp:135
+#: plugins/action/additembase.cpp:126
+#: plugins/gpg/gpggenbase.cpp:140
+#: plugins/gpg/passphrasebase.cpp:85
+#: plugins/icq/encodingdlgbase.cc:86
+#: plugins/icq/warndlgbase.cc:88
+#: plugins/jabber/discoinfobase.cpp:320
+#: plugins/proxy/proxyerrorbase.cpp:80
+#: sim/api/simapi.cpp:467
+#: sim/ui/qt3/i18n.cpp:174
 msgid "&OK"
 msgstr "&OK"
 
-#: plugins/_core/autoreplybase.cpp:123 plugins/_core/cfgdlg.cpp:501 plugins/_core/cfgdlgbase.cpp:127 plugins/_core/connectionsettingsbase.cpp:107 plugins/_core/declinedlgbase.cpp:83 plugins/_core/editmailbase.cpp:98 plugins/_core/editphonebase.cpp:144 plugins/_core/filetransferbase.cpp:138 plugins/_core/logindlgbase.cpp:133 plugins/_core/search.cpp:131 plugins/action/additembase.cpp:127 plugins/gpg/gpggenbase.cpp:141 plugins/gpg/passphrasebase.cpp:86 plugins/icq/encodingdlgbase.cc:87 plugins/icq/icqclient.cpp:2399 plugins/icq/securedlgbase.cc:78 plugins/icq/warndlgbase.cc:89 plugins/proxy/proxyerrorbase.cpp:81 plugins/weather/weathercfg.cpp:80 sim/api/simapi.cpp:470 sim/ui/qt3/i18n.cpp:35
+#: plugins/_core/autoreplybase.cpp:123
+#: plugins/_core/cfgdlg.cpp:501
+#: plugins/_core/cfgdlgbase.cpp:127
+#: plugins/_core/connectionsettingsbase.cpp:107
+#: plugins/_core/declinedlgbase.cpp:83
+#: plugins/_core/editmailbase.cpp:98
+#: plugins/_core/editphonebase.cpp:144
+#: plugins/_core/filetransferbase.cpp:138
+#: plugins/_core/logindlgbase.cpp:133
+#: plugins/_core/search.cpp:131
+#: plugins/action/additembase.cpp:127
+#: plugins/gpg/gpggenbase.cpp:141
+#: plugins/gpg/passphrasebase.cpp:86
+#: plugins/icq/encodingdlgbase.cc:87
+#: plugins/icq/icqclient.cpp:2399
+#: plugins/icq/securedlgbase.cc:78
+#: plugins/icq/warndlgbase.cc:89
+#: plugins/proxy/proxyerrorbase.cpp:81
+#: plugins/weather/weathercfg.cpp:80
+#: sim/api/simapi.cpp:470
+#: sim/ui/qt3/i18n.cpp:35
 msgid "&Cancel"
 msgstr "&Storno"
 
-#: plugins/_core/cfgdlg.cpp:502 plugins/_core/cfgdlgbase.cpp:122 plugins/_core/core.cpp:531 plugins/_core/core.cpp:1131 plugins/_core/core.cpp:1213
+#: plugins/_core/cfgdlg.cpp:502
+#: plugins/_core/cfgdlgbase.cpp:122
+#: plugins/_core/core.cpp:531
+#: plugins/_core/core.cpp:1131
+#: plugins/_core/core.cpp:1213
 msgid "Setup"
 msgstr "Nastavení"
 
-#: plugins/_core/cfgdlg.cpp:547 plugins/jabber/jabber.cpp:330
+#: plugins/_core/cfgdlg.cpp:547
+#: plugins/jabber/jabber.cpp:330
 msgid "Configure"
 msgstr "Konfigurace"
 
@@ -140,7 +258,8 @@ msgstr "Obnovit informace"
 msgid "More..."
 msgstr "Více ..."
 
-#: plugins/_core/commands.cpp:234 plugins/_core/toolbarcfg.cpp:40
+#: plugins/_core/commands.cpp:234
+#: plugins/_core/toolbarcfg.cpp:40
 msgid "Customize toolbar..."
 msgstr "Vlastní ..."
 
@@ -149,7 +268,8 @@ msgstr "Vlastní ..."
 msgid "Configure %1 client"
 msgstr "Konfigurovat %1 účet"
 
-#: plugins/_core/connectwnd.cpp:79 plugins/_core/logindlg.cpp:311
+#: plugins/_core/connectwnd.cpp:79
+#: plugins/_core/logindlg.cpp:311
 msgid "Forgot password?"
 msgstr "Zapomenul jsi heslo?"
 
@@ -157,15 +277,36 @@ msgstr "Zapomenul jsi heslo?"
 msgid "Container"
 msgstr "Kontejner"
 
-#: plugins/_core/container.cpp:588 plugins/osd/osd.cpp:415 plugins/osd/osd.cpp:417 plugins/osd/osd.cpp:419 plugins/osd/osd.cpp:421 plugins/osd/osd.cpp:423 plugins/osd/osd.cpp:425 plugins/osd/osd.cpp:427 plugins/osd/osd.cpp:429 plugins/yahoo/yahoosearch.cpp:44 sim/api/contacts.cpp:2074
+#: plugins/_core/container.cpp:588
+#: plugins/osd/osd.cpp:415
+#: plugins/osd/osd.cpp:417
+#: plugins/osd/osd.cpp:419
+#: plugins/osd/osd.cpp:421
+#: plugins/osd/osd.cpp:423
+#: plugins/osd/osd.cpp:425
+#: plugins/osd/osd.cpp:427
+#: plugins/osd/osd.cpp:429
+#: plugins/yahoo/yahoosearch.cpp:44
+#: sim/api/contacts.cpp:2074
 msgid "male"
 msgstr "muž"
 
-#: plugins/_core/container.cpp:589 plugins/osd/osd.cpp:416 plugins/osd/osd.cpp:418 plugins/osd/osd.cpp:420 plugins/osd/osd.cpp:422 plugins/osd/osd.cpp:424 plugins/osd/osd.cpp:426 plugins/osd/osd.cpp:428 plugins/osd/osd.cpp:430 plugins/yahoo/yahoosearch.cpp:45 sim/api/contacts.cpp:2077
+#: plugins/_core/container.cpp:589
+#: plugins/osd/osd.cpp:416
+#: plugins/osd/osd.cpp:418
+#: plugins/osd/osd.cpp:420
+#: plugins/osd/osd.cpp:422
+#: plugins/osd/osd.cpp:424
+#: plugins/osd/osd.cpp:426
+#: plugins/osd/osd.cpp:428
+#: plugins/osd/osd.cpp:430
+#: plugins/yahoo/yahoosearch.cpp:45
+#: sim/api/contacts.cpp:2077
 msgid "female"
 msgstr "žena"
 
-#: plugins/_core/core.cpp:108 plugins/weather/weathercfg.cpp:53
+#: plugins/_core/core.cpp:108
+#: plugins/weather/weathercfg.cpp:53
 msgid "Interface"
 msgstr "Rozhraní"
 
@@ -231,31 +372,49 @@ msgstr "Poslat &SMS"
 msgid "&Phone service"
 msgstr "&Telefoní služby"
 
-#: plugins/_core/core.cpp:596 plugins/_core/msgedit.cpp:430 plugins/update/update.cpp:106
+#: plugins/_core/core.cpp:596
+#: plugins/_core/msgedit.cpp:430
+#: plugins/update/update.cpp:106
 msgid "Message"
 msgstr "Zpráva"
 
-#: plugins/_core/core.cpp:607 plugins/filter/ignorelist.cpp:26
+#: plugins/_core/core.cpp:607
+#: plugins/filter/ignorelist.cpp:26
 msgid "Contact"
 msgstr "Kontakt"
 
-#: plugins/_core/core.cpp:614 plugins/_core/core.cpp:1165
+#: plugins/_core/core.cpp:614
+#: plugins/_core/core.cpp:1165
 msgid "Group"
 msgstr "Skupina"
 
-#: plugins/_core/core.cpp:622 plugins/_core/core.cpp:1198 plugins/icq/icq.cpp:446 plugins/jabber/jabber.cpp:257
+#: plugins/_core/core.cpp:622
+#: plugins/_core/core.cpp:1198
+#: plugins/icq/icq.cpp:446
+#: plugins/jabber/jabber.cpp:257
 msgid "User &info"
 msgstr "&Informace o uživateli"
 
-#: plugins/_core/core.cpp:629 plugins/_core/core.cpp:1031 plugins/_core/core.cpp:1206
+#: plugins/_core/core.cpp:629
+#: plugins/_core/core.cpp:1031
+#: plugins/_core/core.cpp:1206
 msgid "&History"
 msgstr "&Historie"
 
-#: plugins/_core/core.cpp:636 plugins/_core/filetransfer.cpp:346 plugins/_core/managerbase.cpp:110 plugins/_core/toolsetupbase.cpp:136 plugins/about/aboutdlgbase.cpp:153 plugins/icq/securedlg.cpp:92 plugins/jabber/discoinfobase.cpp:321 sim/api/simapi.cpp:470 sim/ui/qt3/i18n.cpp:287
+#: plugins/_core/core.cpp:636
+#: plugins/_core/filetransfer.cpp:346
+#: plugins/_core/managerbase.cpp:110
+#: plugins/_core/toolsetupbase.cpp:136
+#: plugins/about/aboutdlgbase.cpp:153
+#: plugins/icq/securedlg.cpp:92
+#: plugins/jabber/discoinfobase.cpp:321
+#: sim/api/simapi.cpp:470
+#: sim/ui/qt3/i18n.cpp:287
 msgid "&Close"
 msgstr "&Zavřít"
 
-#: plugins/_core/core.cpp:670 plugins/_core/msgedit.cpp:1017
+#: plugins/_core/core.cpp:670
+#: plugins/_core/msgedit.cpp:1017
 msgid "&Send"
 msgstr "Po&slat"
 
@@ -263,39 +422,49 @@ msgstr "Po&slat"
 msgid "&Insert smile"
 msgstr "Vložit sma&jlíka"
 
-#: plugins/_core/core.cpp:687 plugins/forward/forwardcfgbase.cpp:106
+#: plugins/_core/core.cpp:687
+#: plugins/forward/forwardcfgbase.cpp:106
 msgid "Send in &translit"
 msgstr "Posla&t překódované"
 
-#: plugins/_core/core.cpp:695 plugins/_core/msgedit.cpp:251
+#: plugins/_core/core.cpp:695
+#: plugins/_core/msgedit.cpp:251
 msgid "C&lose after send"
 msgstr "Po odeslání &zavřít"
 
-#: plugins/_core/core.cpp:703 plugins/_core/msgedit.cpp:1006
+#: plugins/_core/core.cpp:703
+#: plugins/_core/msgedit.cpp:1006
 msgid "&Multiply send"
 msgstr "Poslat &několika"
 
-#: plugins/_core/core.cpp:711 plugins/_core/core.cpp:807
+#: plugins/_core/core.cpp:711
+#: plugins/_core/core.cpp:807
 msgid "Back&ground color"
 msgstr "Barva &pozadí"
 
-#: plugins/_core/core.cpp:719 plugins/_core/core.cpp:816
+#: plugins/_core/core.cpp:719
+#: plugins/_core/core.cpp:816
 msgid "&Foreground color"
 msgstr "Barva &popředí"
 
-#: plugins/_core/core.cpp:725 plugins/_core/core.cpp:822
+#: plugins/_core/core.cpp:725
+#: plugins/_core/core.cpp:822
 msgid "&Bold"
 msgstr "&Tučné"
 
-#: plugins/_core/core.cpp:732 plugins/_core/core.cpp:829
+#: plugins/_core/core.cpp:732
+#: plugins/_core/core.cpp:829
 msgid "&Italic"
 msgstr "&Kurziva"
 
-#: plugins/_core/core.cpp:739 plugins/_core/core.cpp:836 sim/ui/qt3/i18n.cpp:160
+#: plugins/_core/core.cpp:739
+#: plugins/_core/core.cpp:836
+#: sim/ui/qt3/i18n.cpp:160
 msgid "&Underline"
 msgstr "Podt&ržené"
 
-#: plugins/_core/core.cpp:746 plugins/_core/core.cpp:843
+#: plugins/_core/core.cpp:746
+#: plugins/_core/core.cpp:843
 msgid "Select &font"
 msgstr "Vybrat &písmo"
 
@@ -307,7 +476,9 @@ msgstr "Vybrat &soubor"
 msgid "&Phone number"
 msgstr "&Telefonní číslo"
 
-#: plugins/_core/core.cpp:769 plugins/_core/msgedit.cpp:1527 plugins/jabber/jabber.cpp:286
+#: plugins/_core/core.cpp:769
+#: plugins/_core/msgedit.cpp:1527
+#: plugins/jabber/jabber.cpp:286
 msgid "&Next"
 msgstr "&Další"
 
@@ -315,7 +486,8 @@ msgstr "&Další"
 msgid "&Direction"
 msgstr "S&měr"
 
-#: plugins/_core/core.cpp:785 plugins/filter/filter.cpp:129
+#: plugins/_core/core.cpp:785
+#: plugins/filter/filter.cpp:129
 msgid "&Filter"
 msgstr "&Filtr"
 
@@ -331,7 +503,11 @@ msgstr "&Další stránka"
 msgid "&Open message"
 msgstr "&Otevřít zprávu"
 
-#: plugins/_core/core.cpp:882 plugins/_core/core.cpp:971 plugins/_core/historycfgbase.cpp:234 plugins/netmonitor/monitor.cpp:67 sim/ui/qt3/qtextedit.cpp:4238
+#: plugins/_core/core.cpp:882
+#: plugins/_core/core.cpp:971
+#: plugins/_core/historycfgbase.cpp:234
+#: plugins/netmonitor/monitor.cpp:67
+#: sim/ui/qt3/qtextedit.cpp:4238
 msgid "&Copy"
 msgstr "&Kopírovat"
 
@@ -347,7 +523,8 @@ msgstr "Odeb&rat v historii"
 msgid "&Quote"
 msgstr "&Citace"
 
-#: plugins/_core/core.cpp:916 plugins/forward/forward.cpp:65
+#: plugins/_core/core.cpp:916
+#: plugins/forward/forward.cpp:65
 msgid "&Forward"
 msgstr "Přepos&lat"
 
@@ -355,27 +532,38 @@ msgstr "Přepos&lat"
 msgid "&Answer"
 msgstr "O&dpověď"
 
-#: plugins/_core/core.cpp:946 sim/ui/qt3/qtextedit.cpp:4231
+#: plugins/_core/core.cpp:946
+#: sim/ui/qt3/qtextedit.cpp:4231
 msgid "&Undo"
 msgstr "&Undo"
 
-#: plugins/_core/core.cpp:957 sim/ui/qt3/qtextedit.cpp:4232
+#: plugins/_core/core.cpp:957
+#: sim/ui/qt3/qtextedit.cpp:4232
 msgid "&Redo"
 msgstr "&Redo"
 
-#: plugins/_core/core.cpp:964 sim/ui/qt3/qtextedit.cpp:4237
+#: plugins/_core/core.cpp:964
+#: sim/ui/qt3/qtextedit.cpp:4237
 msgid "Cu&t"
 msgstr "Vybra&t"
 
-#: plugins/_core/core.cpp:978 sim/ui/qt3/qtextedit.cpp:4240
+#: plugins/_core/core.cpp:978
+#: sim/ui/qt3/qtextedit.cpp:4240
 msgid "&Paste"
 msgstr "&Vložit"
 
-#: plugins/_core/core.cpp:985 sim/ui/editfile.cpp:315 sim/ui/editfile.cpp:398 sim/ui/qt3/i18n.cpp:255 sim/ui/qt3/qtextedit.cpp:4243
+#: plugins/_core/core.cpp:985
+#: sim/ui/editfile.cpp:315
+#: sim/ui/editfile.cpp:398
+#: sim/ui/qt3/i18n.cpp:255
+#: sim/ui/qt3/qtextedit.cpp:4243
 msgid "Clear"
 msgstr "Vyčistit"
 
-#: plugins/_core/core.cpp:992 sim/ui/qt3/i18n.cpp:257 sim/ui/qt3/qtextedit.cpp:4247 sim/ui/qt3/qtextedit.cpp:4249
+#: plugins/_core/core.cpp:992
+#: sim/ui/qt3/i18n.cpp:257
+#: sim/ui/qt3/qtextedit.cpp:4247
+#: sim/ui/qt3/qtextedit.cpp:4249
 msgid "Select All"
 msgstr "Vybrat vše"
 
@@ -383,7 +571,8 @@ msgstr "Vybrat vše"
 msgid "Enable spell check"
 msgstr "Povolit kontrolu pravopisu"
 
-#: plugins/_core/core.cpp:1006 plugins/spell/spell.cpp:61
+#: plugins/_core/core.cpp:1006
+#: plugins/spell/spell.cpp:61
 msgid "Spell check"
 msgstr "Kontrola pravopisu"
 
@@ -391,11 +580,14 @@ msgstr "Kontrola pravopisu"
 msgid "&Messages"
 msgstr "&Zprávy"
 
-#: plugins/_core/core.cpp:1023 plugins/_core/msgedit.cpp:1678 plugins/sms/smssetupbase.cpp:184
+#: plugins/_core/core.cpp:1023
+#: plugins/_core/msgedit.cpp:1678
+#: plugins/sms/smssetupbase.cpp:184
 msgid "&SMS"
 msgstr "&SMS"
 
-#: plugins/_core/core.cpp:1039 plugins/_core/core.cpp:1070
+#: plugins/_core/core.cpp:1039
+#: plugins/_core/core.cpp:1070
 msgid "Show &offline"
 msgstr "Ukázat &Offline"
 
@@ -435,11 +627,22 @@ msgstr "Nahoru"
 msgid "Down"
 msgstr "Dolů"
 
-#: plugins/_core/core.cpp:1173 plugins/_core/historycfgbase.cpp:235 sim/ui/qt3/i18n.cpp:97
+#: plugins/_core/core.cpp:1173
+#: plugins/_core/historycfgbase.cpp:235
+#: sim/ui/qt3/i18n.cpp:97
 msgid "&Rename"
 msgstr "&Přejmenovat"
 
-#: plugins/_core/core.cpp:1182 plugins/_core/core.cpp:1329 plugins/_core/core.cpp:1342 plugins/_core/historycfgbase.cpp:236 plugins/_core/logindlgbase.cpp:129 plugins/_core/maininfobase.cpp:254 plugins/_core/maininfobase.cpp:264 plugins/action/menucfgbase.cpp:129 sim/ui/listview.cpp:38 sim/ui/qt3/i18n.cpp:99
+#: plugins/_core/core.cpp:1182
+#: plugins/_core/core.cpp:1329
+#: plugins/_core/core.cpp:1342
+#: plugins/_core/historycfgbase.cpp:236
+#: plugins/_core/logindlgbase.cpp:129
+#: plugins/_core/maininfobase.cpp:254
+#: plugins/_core/maininfobase.cpp:264
+#: plugins/action/menucfgbase.cpp:129
+#: sim/ui/listview.cpp:38
+#: sim/ui/qt3/i18n.cpp:99
 msgid "&Delete"
 msgstr "&Smazat"
 
@@ -455,7 +658,12 @@ msgstr "Do kontejneru"
 msgid "&Location"
 msgstr "U&místění"
 
-#: plugins/_core/core.cpp:1253 plugins/icq/aiminfobase.cc:305 plugins/icq/icqinfobase.cc:352 plugins/jabber/jabberinfobase.cpp:309 plugins/msn/msninfobase.cpp:167 plugins/yahoo/yahooinfobase.cpp:187
+#: plugins/_core/core.cpp:1253
+#: plugins/icq/aiminfobase.cc:305
+#: plugins/icq/icqinfobase.cc:352
+#: plugins/jabber/jabberinfobase.cpp:309
+#: plugins/msn/msninfobase.cpp:167
+#: plugins/yahoo/yahooinfobase.cpp:187
 msgid "&Status"
 msgstr "&Stav"
 
@@ -479,11 +687,13 @@ msgstr "Zaneprázdněný"
 msgid "Decline file without reason"
 msgstr "Odmítnout soubor bez odůvodnění"
 
-#: plugins/_core/core.cpp:1306 plugins/_core/core.cpp:3328
+#: plugins/_core/core.cpp:1306
+#: plugins/_core/core.cpp:3328
 msgid "Sorry, I'm busy right now, and can not respond to your request"
 msgstr "Teď jsem zaneprázdněn a nemohu reagovat na Vaši zprávu"
 
-#: plugins/_core/core.cpp:1311 plugins/_core/core.cpp:3337
+#: plugins/_core/core.cpp:1311
+#: plugins/_core/core.cpp:3337
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
 msgstr "Teď jsem zaneprázdněný, ale odpovím později"
 
@@ -491,7 +701,12 @@ msgstr "Teď jsem zaneprázdněný, ale odpovím později"
 msgid "Enter a decline reason"
 msgstr "Jiný důvod odmítnutí"
 
-#: plugins/_core/core.cpp:1321 plugins/_core/core.cpp:1335 plugins/_core/maininfobase.cpp:253 plugins/_core/maininfobase.cpp:263 plugins/action/menucfgbase.cpp:128 plugins/netmonitor/monitor.cpp:69
+#: plugins/_core/core.cpp:1321
+#: plugins/_core/core.cpp:1335
+#: plugins/_core/maininfobase.cpp:253
+#: plugins/_core/maininfobase.cpp:263
+#: plugins/action/menucfgbase.cpp:128
+#: plugins/netmonitor/monitor.cpp:69
 msgid "&Edit"
 msgstr "&Upravit"
 
@@ -499,7 +714,8 @@ msgstr "&Upravit"
 msgid "&Show all encodings"
 msgstr "Uká&zat všechna kódování"
 
-#: plugins/_core/core.cpp:1366 plugins/_core/core.cpp:1376
+#: plugins/_core/core.cpp:1366
+#: plugins/_core/core.cpp:1376
 msgid "Change &encoding"
 msgstr "Změnit &kódování"
 
@@ -508,7 +724,11 @@ msgstr "Změnit &kódování"
 msgid "Add to &group"
 msgstr "Přid&at do skupiny"
 
-#: plugins/_core/core.cpp:1406 plugins/_core/maininfobase.cpp:250 plugins/jabber/discoinfo.cpp:179 plugins/jabber/discoinfobase.cpp:301 plugins/jabber/discoinfobase.cpp:318
+#: plugins/_core/core.cpp:1406
+#: plugins/_core/maininfobase.cpp:250
+#: plugins/jabber/discoinfo.cpp:179
+#: plugins/jabber/discoinfobase.cpp:301
+#: plugins/jabber/discoinfobase.cpp:318
 msgid "&Info"
 msgstr "&Informace"
 
@@ -548,12 +768,15 @@ msgstr "čas nastavení stavu"
 msgid "time from set status"
 msgstr "čas od nastavení stavu"
 
-#: plugins/_core/core.cpp:1664 plugins/_core/core.cpp:1665
+#: plugins/_core/core.cpp:1664
+#: plugins/_core/core.cpp:1665
 #, fuzzy
 msgid "%1 wrote:"
 msgstr "%1 napsal:"
 
-#: plugins/_core/core.cpp:1681 plugins/_core/status.cpp:321 sim/ui/qt3/i18n.cpp:21
+#: plugins/_core/core.cpp:1681
+#: plugins/_core/status.cpp:321
+#: sim/ui/qt3/i18n.cpp:21
 msgid "OK"
 msgstr "OK"
 
@@ -574,7 +797,8 @@ msgstr "Tento dialog příště nezobrazovat"
 msgid "`<command>` - call <command> and substitute command output\n"
 msgstr "`<příkaz>` - spustí <příkaz> a vrátí jeho výstup\n"
 
-#: plugins/_core/core.cpp:2266 plugins/_core/interfacecfg.cpp:101
+#: plugins/_core/core.cpp:2266
+#: plugins/_core/interfacecfg.cpp:101
 msgid "System"
 msgstr "Systém"
 
@@ -582,7 +806,8 @@ msgstr "Systém"
 msgid "&Separate"
 msgstr "O&ddělit"
 
-#: plugins/_core/core.cpp:2441 plugins/_core/userwnd.cpp:134
+#: plugins/_core/core.cpp:2441
+#: plugins/_core/userwnd.cpp:134
 #, c-format
 msgid "from %1"
 msgstr "z %1"
@@ -595,7 +820,10 @@ msgstr "&Nový"
 msgid "Not available"
 msgstr "Nedostupný"
 
-#: plugins/_core/core.cpp:2808 plugins/dock/dockwnd.cpp:1361 plugins/msn/msnpacket.cpp:493 plugins/osd/osd.cpp:559
+#: plugins/_core/core.cpp:2808
+#: plugins/dock/dockwnd.cpp:1361
+#: plugins/msn/msnpacket.cpp:493
+#: plugins/osd/osd.cpp:559
 msgid "%1 from %2"
 msgstr "%1 od %2"
 
@@ -603,7 +831,9 @@ msgstr "%1 od %2"
 msgid "Send SMS"
 msgstr "Poslat SMS"
 
-#: plugins/_core/core.cpp:4137 plugins/_core/core.cpp:4159 plugins/_core/managerbase.cpp:103
+#: plugins/_core/core.cpp:4137
+#: plugins/_core/core.cpp:4159
+#: plugins/_core/managerbase.cpp:103
 msgid "Connection manager"
 msgstr "Manažer účtů"
 
@@ -627,7 +857,9 @@ msgstr "Společný stav"
 msgid "Configure client"
 msgstr "Konfigurovat klienta"
 
-#: plugins/_core/core.cpp:4226 plugins/_core/status.cpp:153 plugins/_core/status.cpp:223
+#: plugins/_core/core.cpp:4226
+#: plugins/_core/status.cpp:153
+#: plugins/_core/status.cpp:223
 msgid "&Invisible"
 msgstr "Nev&iditelný"
 
@@ -652,7 +884,8 @@ msgstr "Změnit telefonní číslo"
 msgid "Bad path: %1"
 msgstr "Chybná cesta %1"
 
-#: plugins/_core/filetransfer.cpp:101 plugins/_core/filetransfer.cpp:161
+#: plugins/_core/filetransfer.cpp:101
+#: plugins/_core/filetransfer.cpp:161
 #, c-format
 msgid "Can't create: %1"
 msgstr "Nemohu vytvořit: %1"
@@ -751,7 +984,8 @@ msgstr "Ahoj!"
 msgid "<b><font color=\"#FF0000\">C</font><font color=\"#FFFF00\">olored</font></b> message"
 msgstr "<b><font color=\"#FF0000\">C</font><font color=\"#FFFF00\">olored</font></b> zpráva"
 
-#: plugins/_core/historycfg.cpp:675 plugins/_core/msgcfgbase.cpp:117
+#: plugins/_core/historycfg.cpp:675
+#: plugins/_core/msgcfgbase.cpp:117
 msgid "New message"
 msgstr "Nová zpráva"
 
@@ -759,71 +993,92 @@ msgstr "Nová zpráva"
 msgid "Loading"
 msgstr "Načítám"
 
-#: plugins/_core/historywnd.cpp:119 plugins/_core/interfacecfg.cpp:88
+#: plugins/_core/historywnd.cpp:119
+#: plugins/_core/interfacecfg.cpp:88
 msgid "History"
 msgstr "Historie"
 
-#: plugins/_core/interfacecfg.cpp:53 plugins/icq/moreinfo.cpp:99
+#: plugins/_core/interfacecfg.cpp:53
+#: plugins/icq/moreinfo.cpp:99
 msgid "English"
 msgstr "Anglicky"
 
-#: plugins/_core/interfacecfg.cpp:54 plugins/icq/moreinfo.cpp:90
+#: plugins/_core/interfacecfg.cpp:54
+#: plugins/icq/moreinfo.cpp:90
 msgid "Bulgarian"
 msgstr "Bulharsky"
 
-#: plugins/_core/interfacecfg.cpp:55 plugins/icq/moreinfo.cpp:93
+#: plugins/_core/interfacecfg.cpp:55
+#: plugins/icq/moreinfo.cpp:93
 msgid "Catalan"
 msgstr "Katalánsky"
 
-#: plugins/_core/interfacecfg.cpp:56 plugins/icq/moreinfo.cpp:96
+#: plugins/_core/interfacecfg.cpp:56
+#: plugins/icq/moreinfo.cpp:96
 msgid "Czech"
 msgstr "Česky"
 
-#: plugins/_core/interfacecfg.cpp:57 plugins/icq/moreinfo.cpp:106
+#: plugins/_core/interfacecfg.cpp:57
+#: plugins/icq/moreinfo.cpp:106
 msgid "German"
 msgstr "Německy"
 
-#: plugins/_core/interfacecfg.cpp:58 plugins/icq/moreinfo.cpp:107 sim/api/contacts.cpp:1983 sim/api/contacts.cpp:1984
+#: plugins/_core/interfacecfg.cpp:58
+#: plugins/icq/moreinfo.cpp:107
+#: sim/api/contacts.cpp:1983
+#: sim/api/contacts.cpp:1984
 msgid "Greek"
 msgstr "Řecky"
 
-#: plugins/_core/interfacecfg.cpp:59 plugins/icq/moreinfo.cpp:130
+#: plugins/_core/interfacecfg.cpp:59
+#: plugins/icq/moreinfo.cpp:130
 msgid "Spanish"
 msgstr "Španělsky"
 
-#: plugins/_core/interfacecfg.cpp:60 plugins/icq/moreinfo.cpp:104
+#: plugins/_core/interfacecfg.cpp:60
+#: plugins/icq/moreinfo.cpp:104
 msgid "French"
 msgstr "Francouzsky"
 
-#: plugins/_core/interfacecfg.cpp:61 plugins/icq/moreinfo.cpp:108 sim/api/contacts.cpp:1986 sim/api/contacts.cpp:1987
+#: plugins/_core/interfacecfg.cpp:61
+#: plugins/icq/moreinfo.cpp:108
+#: sim/api/contacts.cpp:1986
+#: sim/api/contacts.cpp:1987
 msgid "Hebrew"
 msgstr "Hebrejsky"
 
-#: plugins/_core/interfacecfg.cpp:62 plugins/icq/moreinfo.cpp:110
+#: plugins/_core/interfacecfg.cpp:62
+#: plugins/icq/moreinfo.cpp:110
 msgid "Hungarian"
 msgstr "Maďarsky"
 
-#: plugins/_core/interfacecfg.cpp:63 plugins/icq/moreinfo.cpp:113
+#: plugins/_core/interfacecfg.cpp:63
+#: plugins/icq/moreinfo.cpp:113
 msgid "Italian"
 msgstr "Italsky"
 
-#: plugins/_core/interfacecfg.cpp:64 plugins/icq/moreinfo.cpp:98
+#: plugins/_core/interfacecfg.cpp:64
+#: plugins/icq/moreinfo.cpp:98
 msgid "Dutch"
 msgstr "Holandsky"
 
-#: plugins/_core/interfacecfg.cpp:65 plugins/icq/moreinfo.cpp:122
+#: plugins/_core/interfacecfg.cpp:65
+#: plugins/icq/moreinfo.cpp:122
 msgid "Polish"
 msgstr "Polsky"
 
-#: plugins/_core/interfacecfg.cpp:66 plugins/icq/moreinfo.cpp:123
+#: plugins/_core/interfacecfg.cpp:66
+#: plugins/icq/moreinfo.cpp:123
 msgid "Portuguese"
 msgstr "Portugalsky"
 
-#: plugins/_core/interfacecfg.cpp:67 plugins/icq/moreinfo.cpp:125
+#: plugins/_core/interfacecfg.cpp:67
+#: plugins/icq/moreinfo.cpp:125
 msgid "Russian"
 msgstr "Rusky"
 
-#: plugins/_core/interfacecfg.cpp:68 plugins/icq/moreinfo.cpp:127
+#: plugins/_core/interfacecfg.cpp:68
+#: plugins/icq/moreinfo.cpp:127
 msgid "Slovak"
 msgstr "Slovensky"
 
@@ -831,23 +1086,32 @@ msgstr "Slovensky"
 msgid "Swabian"
 msgstr "Svazijsky"
 
-#: plugins/_core/interfacecfg.cpp:70 plugins/icq/moreinfo.cpp:135 sim/api/contacts.cpp:2001
+#: plugins/_core/interfacecfg.cpp:70
+#: plugins/icq/moreinfo.cpp:135
+#: sim/api/contacts.cpp:2001
 msgid "Thai"
 msgstr "Thaisky"
 
-#: plugins/_core/interfacecfg.cpp:71 plugins/icq/moreinfo.cpp:136 sim/api/contacts.cpp:2003 sim/api/contacts.cpp:2004
+#: plugins/_core/interfacecfg.cpp:71
+#: plugins/icq/moreinfo.cpp:136
+#: sim/api/contacts.cpp:2003
+#: sim/api/contacts.cpp:2004
 msgid "Turkish"
 msgstr "Turecky"
 
-#: plugins/_core/interfacecfg.cpp:72 plugins/icq/moreinfo.cpp:137 sim/api/contacts.cpp:1980
+#: plugins/_core/interfacecfg.cpp:72
+#: plugins/icq/moreinfo.cpp:137
+#: sim/api/contacts.cpp:1980
 msgid "Ukrainian"
 msgstr "Ukrajinsky"
 
-#: plugins/_core/interfacecfg.cpp:73 plugins/icq/moreinfo.cpp:94
+#: plugins/_core/interfacecfg.cpp:73
+#: plugins/icq/moreinfo.cpp:94
 msgid "Chinese"
 msgstr "Čínsky"
 
-#: plugins/_core/interfacecfg.cpp:86 plugins/_core/msgedit.cpp:535
+#: plugins/_core/interfacecfg.cpp:86
+#: plugins/_core/msgedit.cpp:535
 msgid "Contact list"
 msgstr "Kontakt list"
 
@@ -855,7 +1119,9 @@ msgstr "Kontakt list"
 msgid "Messages"
 msgstr "Zprávy"
 
-#: plugins/_core/interfacecfg.cpp:94 plugins/_core/msgedit.cpp:456 plugins/sms/sms.cpp:206
+#: plugins/_core/interfacecfg.cpp:94
+#: plugins/_core/msgedit.cpp:456
+#: plugins/sms/sms.cpp:206
 msgid "SMS"
 msgstr "SMS"
 
@@ -871,7 +1137,14 @@ msgstr "Zvol si profil"
 msgid "Other instance of SIM use this profile"
 msgstr "Jiná instance SIMu používá tento profil"
 
-#: plugins/_core/logindlg.cpp:295 plugins/icq/aimconfigbase.cc:176 plugins/icq/icqconfigbase.cc:294 plugins/jabber/jabberconfigbase.cpp:353 plugins/livejournal/livejournalcfgbase.cpp:209 plugins/msn/msnconfigbase.cpp:229 plugins/proxy/proxycfgbase.cpp:166 plugins/yahoo/yahoocfgbase.cpp:235
+#: plugins/_core/logindlg.cpp:295
+#: plugins/icq/aimconfigbase.cc:176
+#: plugins/icq/icqconfigbase.cc:294
+#: plugins/jabber/jabberconfigbase.cpp:353
+#: plugins/livejournal/livejournalcfgbase.cpp:209
+#: plugins/msn/msnconfigbase.cpp:229
+#: plugins/proxy/proxycfgbase.cpp:166
+#: plugins/yahoo/yahoocfgbase.cpp:235
 msgid "Password:"
 msgstr "Heslo:"
 
@@ -879,7 +1152,12 @@ msgstr "Heslo:"
 msgid "New profile"
 msgstr "Nový profil"
 
-#: plugins/_core/logindlg.cpp:477 plugins/jabber/jabberclient.cpp:981 plugins/livejournal/livejournal.cpp:937 plugins/msn/msnclient.cpp:827 plugins/yahoo/yahooclient.cpp:357 plugins/yahoo/yahooclient.cpp:368
+#: plugins/_core/logindlg.cpp:477
+#: plugins/jabber/jabberclient.cpp:981
+#: plugins/livejournal/livejournal.cpp:937
+#: plugins/msn/msnclient.cpp:827
+#: plugins/yahoo/yahooclient.cpp:357
+#: plugins/yahoo/yahooclient.cpp:368
 msgid "Login failed"
 msgstr "Chyba při přihlašování"
 
@@ -907,11 +1185,16 @@ msgstr "Soukromý mobil"
 msgid "Wireless Pager"
 msgstr "Pager"
 
-#: plugins/_core/maininfo.cpp:71 plugins/filter/ignorelist.cpp:28 plugins/icq/icqsecure.cpp:93 plugins/jabber/jabbersearch.cpp:103 plugins/msn/msninfobase.cpp:161
+#: plugins/_core/maininfo.cpp:71
+#: plugins/filter/ignorelist.cpp:28
+#: plugins/icq/icqsecure.cpp:93
+#: plugins/jabber/jabbersearch.cpp:103
+#: plugins/msn/msninfobase.cpp:161
 msgid "EMail"
 msgstr "Email"
 
-#: plugins/_core/maininfo.cpp:72 sim/ui/qt3/i18n.cpp:43
+#: plugins/_core/maininfo.cpp:72
+#: sim/ui/qt3/i18n.cpp:43
 msgid "Type"
 msgstr "Typ"
 
@@ -919,7 +1202,8 @@ msgstr "Typ"
 msgid "Phone"
 msgstr "Číslo"
 
-#: plugins/_core/maininfo.cpp:77 plugins/_core/maininfo.cpp:78
+#: plugins/_core/maininfo.cpp:77
+#: plugins/_core/maininfo.cpp:78
 msgid "Publish"
 msgstr "Veřejný"
 
@@ -935,7 +1219,9 @@ msgstr "Neukazovat"
 msgid "Available"
 msgstr "Dostupný"
 
-#: plugins/_core/maininfo.cpp:82 plugins/msn/msn.cpp:131 plugins/yahoo/yahoo.cpp:149
+#: plugins/_core/maininfo.cpp:82
+#: plugins/msn/msn.cpp:131
+#: plugins/yahoo/yahoo.cpp:149
 msgid "Busy"
 msgstr "Zaneprázdněn"
 
@@ -943,18 +1229,24 @@ msgstr "Zaneprázdněn"
 msgid "User is crrently available at:"
 msgstr "Uživatel je právě k zastižení na:"
 
-#: plugins/_core/maininfo.cpp:226 plugins/_core/maininfo.cpp:345 plugins/_core/maininfo.cpp:369 plugins/_core/maininfo.cpp:468
+#: plugins/_core/maininfo.cpp:226
+#: plugins/_core/maininfo.cpp:345
+#: plugins/_core/maininfo.cpp:369
+#: plugins/_core/maininfo.cpp:468
 msgid "Yes"
 msgstr "Ano"
 
-#: plugins/_core/msgcfg.cpp:38 plugins/_core/msgedit.cpp:582 plugins/icq/icqmessage.cpp:536 plugins/sound/sounduser.cpp:38 sim/ui/qt3/i18n.cpp:83
+#: plugins/_core/msgcfg.cpp:38
+#: plugins/_core/msgedit.cpp:582
+#: plugins/icq/icqmessage.cpp:536
+#: plugins/sound/sounduser.cpp:38
+#: sim/ui/qt3/i18n.cpp:83
 msgid "File"
 msgstr "Soubor"
 
 #: plugins/_core/msgedit.cpp:472
-#, fuzzy
 msgid "URL"
-msgstr "URL:"
+msgstr "URL"
 
 #: plugins/_core/msgedit.cpp:589
 msgid "&Accept"
@@ -967,7 +1259,7 @@ msgstr "Za&mítnout"
 #: plugins/_core/msgedit.cpp:657
 #, fuzzy
 msgid "Authorize request"
-msgstr "Požádat o &autorizaci"
+msgstr "Požádat o autorizaci"
 
 #: plugins/_core/msgedit.cpp:664
 msgid "&Grant"
@@ -980,28 +1272,30 @@ msgstr "Za&mítnout"
 #: plugins/_core/msgedit.cpp:727
 #, fuzzy
 msgid "Authorization granted"
-msgstr "Požádat o &autorizaci"
+msgstr "Autorizace udělena"
 
 #: plugins/_core/msgedit.cpp:748
 #, fuzzy
 msgid "Authorization refused"
-msgstr "Požádat o &autorizaci"
+msgstr "Autorizace odmítnuta"
 
 #: plugins/_core/msgedit.cpp:769
 #, fuzzy
 msgid "Add to contacts"
-msgstr "Není kontakt"
+msgstr "Přidat do kontaktů"
 
 #: plugins/_core/msgedit.cpp:790
 #, fuzzy
 msgid "Removed from contacts"
-msgstr "Odeb&rat ze žurnálu"
+msgstr "Odebrán z kontaktů"
 
-#: plugins/_core/msgedit.cpp:811 plugins/action/actioncfg.cpp:53
+#: plugins/_core/msgedit.cpp:811
+#: plugins/action/actioncfg.cpp:53
 msgid "Status changed"
 msgstr "Změna stavu"
 
-#: plugins/_core/msgedit.cpp:926 sim/ui/qt3/i18n.cpp:23
+#: plugins/_core/msgedit.cpp:926
+#: sim/ui/qt3/i18n.cpp:23
 msgid "Cancel"
 msgstr "Storno"
 
@@ -1009,15 +1303,19 @@ msgstr "Storno"
 msgid "No such client for send message"
 msgstr "Nenalezen klient pro odeslání zprávy"
 
-#: plugins/_core/msgedit.cpp:1650 plugins/icq/icq.cpp:436 plugins/jabber/jabber.cpp:248
+#: plugins/_core/msgedit.cpp:1650
+#: plugins/icq/icq.cpp:436
+#: plugins/jabber/jabber.cpp:248
 msgid "&Message"
 msgstr "&Zpráva"
 
-#: plugins/_core/msgedit.cpp:1660 plugins/netmonitor/monitor.cpp:64
+#: plugins/_core/msgedit.cpp:1660
+#: plugins/netmonitor/monitor.cpp:64
 msgid "&File"
 msgstr "S&oubor"
 
-#: plugins/_core/msgedit.cpp:1669 plugins/icq/icqmessage.cpp:878
+#: plugins/_core/msgedit.cpp:1669
+#: plugins/icq/icqmessage.cpp:878
 msgid "&URL"
 msgstr "&URL"
 
@@ -1040,14 +1338,16 @@ msgstr "Za&mítnout uživatelovu autorizaci"
 #: plugins/_core/msgedit.cpp:1722
 #, fuzzy
 msgid "Added"
-msgstr "Přidat"
+msgstr "Přidán"
 
 #: plugins/_core/msgedit.cpp:1730
 #, fuzzy
 msgid "Removed"
-msgstr "Odeb&rat"
+msgstr "Odebrat"
 
-#: plugins/_core/msgedit.cpp:1738 plugins/_core/status.cpp:48 plugins/_core/userviewcfg.cpp:161
+#: plugins/_core/msgedit.cpp:1738
+#: plugins/_core/status.cpp:48
+#: plugins/_core/userviewcfg.cpp:161
 msgid "Status"
 msgstr "Stav"
 
@@ -1063,19 +1363,30 @@ msgstr "Zpráva bude rozdělena"
 msgid "Save phone in contact list"
 msgstr "Uložit telefonní číslo v kontaktlistu"
 
-#: plugins/_core/search.cpp:47 plugins/_core/search.cpp:293 plugins/_core/search.cpp:628 plugins/_core/searchbase.cpp:154
+#: plugins/_core/search.cpp:47
+#: plugins/_core/search.cpp:293
+#: plugins/_core/search.cpp:628
+#: plugins/_core/searchbase.cpp:154
 msgid "Search"
 msgstr "Hledání"
 
-#: plugins/_core/search.cpp:69 plugins/_core/search.cpp:812
+#: plugins/_core/search.cpp:69
+#: plugins/_core/search.cpp:812
 msgid "Results"
 msgstr "Výsledky"
 
-#: plugins/_core/maininfobase.cpp:252 plugins/_core/maininfobase.cpp:262 plugins/_core/search.cpp:134 plugins/action/menucfgbase.cpp:127
+#: plugins/_core/maininfobase.cpp:252
+#: plugins/_core/maininfobase.cpp:262
+#: plugins/_core/search.cpp:134
+#: plugins/action/menucfgbase.cpp:127
 msgid "&Add"
 msgstr "&Přidat"
 
-#: plugins/_core/search.cpp:137 plugins/jabber/jabber.cpp:305 plugins/weather/weathercfg.cpp:74 plugins/weather/weathercfg.cpp:96 plugins/weather/weathercfgbase.cpp:170
+#: plugins/_core/search.cpp:137
+#: plugins/jabber/jabber.cpp:305
+#: plugins/weather/weathercfg.cpp:74
+#: plugins/weather/weathercfg.cpp:96
+#: plugins/weather/weathercfgbase.cpp:170
 msgid "&Search"
 msgstr "&Hledání"
 
@@ -1083,7 +1394,8 @@ msgstr "&Hledání"
 msgid "All networks"
 msgstr "Všechny sítě"
 
-#: plugins/_core/nonimbase.cpp:125 plugins/_core/search.cpp:215
+#: plugins/_core/nonimbase.cpp:125
+#: plugins/_core/search.cpp:215
 msgid "Non-IM contact"
 msgstr "Přidat jiný kontakt"
 
@@ -1095,24 +1407,42 @@ msgstr "Přidat"
 msgid "%1 already in contact list"
 msgstr "%1 již v kontaktlistu je"
 
-#: plugins/_core/search.cpp:430 plugins/_core/usercfg.cpp:288 plugins/_core/userlist.cpp:1040 plugins/_core/userview.cpp:177 plugins/_core/userview.cpp:687 plugins/_core/userview.cpp:725 plugins/remote/remote.cpp:569
+#: plugins/_core/search.cpp:430
+#: plugins/_core/usercfg.cpp:288
+#: plugins/_core/userlist.cpp:1040
+#: plugins/_core/userview.cpp:177
+#: plugins/_core/userview.cpp:687
+#: plugins/_core/userview.cpp:725
+#: plugins/remote/remote.cpp:569
 msgid "Not in list"
 msgstr "Neuložené v kontaktlistu"
 
 #: plugins/_core/search.cpp:631
 #, fuzzy, c-format
 msgid "%n contact found"
-msgstr "Žádný kontakt pro odeslání"
+msgstr "%n kontakt nalezen"
 
-#: plugins/_core/status.cpp:72 plugins/_core/statuswnd.cpp:86 plugins/dock/dock.cpp:183
+#: plugins/_core/status.cpp:72
+#: plugins/_core/statuswnd.cpp:86
+#: plugins/dock/dock.cpp:183
 msgid "Inactive"
 msgstr "Neaktivní"
 
-#: plugins/_core/connectwndbase.cpp:158 plugins/_core/status.cpp:99 plugins/_core/statuswnd.cpp:56
+#: plugins/_core/connectwndbase.cpp:158
+#: plugins/_core/status.cpp:99
+#: plugins/_core/statuswnd.cpp:56
 msgid "Connecting"
 msgstr "Připojuji se"
 
-#: plugins/_core/status.cpp:139 plugins/_core/statuswnd.cpp:95 plugins/jabber/jabbermessage.cpp:109 plugins/jabber/jabbermessage.cpp:133 plugins/jabber/jabbermessage.cpp:228 plugins/logger/logconfig.cpp:92 plugins/netmonitor/monitor.cpp:89 plugins/windock/windock.cpp:180 sim/ui/qt3/i18n.cpp:141
+#: plugins/_core/status.cpp:139
+#: plugins/_core/statuswnd.cpp:95
+#: plugins/jabber/jabbermessage.cpp:109
+#: plugins/jabber/jabbermessage.cpp:133
+#: plugins/jabber/jabbermessage.cpp:228
+#: plugins/logger/logconfig.cpp:92
+#: plugins/netmonitor/monitor.cpp:89
+#: plugins/windock/windock.cpp:180
+#: sim/ui/qt3/i18n.cpp:141
 msgid "Error"
 msgstr "Chyba"
 
@@ -1124,7 +1454,8 @@ msgstr "ano"
 msgid "no"
 msgstr "ne"
 
-#: plugins/_core/toolsetup.cpp:31 plugins/dock/dock.cpp:121
+#: plugins/_core/toolsetup.cpp:31
+#: plugins/dock/dock.cpp:121
 msgid "Customize menu"
 msgstr "Přizpůsobit menu"
 
@@ -1156,15 +1487,40 @@ msgstr "[Aktualizovat informace]"
 msgid "Settings"
 msgstr "Nastavení"
 
-#: plugins/_core/userlist.cpp:633 plugins/icq/icq.cpp:95 plugins/icq/icq.cpp:265 plugins/icq/icqclient.cpp:1450 plugins/icq/icqclient.cpp:1484 plugins/jabber/jabber.cpp:86 plugins/jabber/jabberclient.cpp:1313 plugins/livejournal/livejournal.cpp:319 plugins/msn/msn.cpp:86 plugins/msn/msnclient.cpp:1849 plugins/osd/osdconfigbase.cpp:142 plugins/sms/sms.cpp:229 plugins/yahoo/yahoo.cpp:104 plugins/yahoo/yahooclient.cpp:1387
+#: plugins/_core/userlist.cpp:633
+#: plugins/icq/icq.cpp:95
+#: plugins/icq/icq.cpp:265
+#: plugins/icq/icqclient.cpp:1450
+#: plugins/icq/icqclient.cpp:1484
+#: plugins/jabber/jabber.cpp:86
+#: plugins/jabber/jabberclient.cpp:1313
+#: plugins/livejournal/livejournal.cpp:319
+#: plugins/msn/msn.cpp:86
+#: plugins/msn/msnclient.cpp:1849
+#: plugins/osd/osdconfigbase.cpp:142
+#: plugins/sms/sms.cpp:229
+#: plugins/yahoo/yahoo.cpp:104
+#: plugins/yahoo/yahooclient.cpp:1387
 msgid "Online"
 msgstr "Online"
 
-#: plugins/_core/userlist.cpp:636 plugins/_core/userviewcfgbase.cpp:325 plugins/icq/icq.cpp:185 plugins/icq/icq.cpp:295 plugins/icq/icqclient.cpp:1447 plugins/jabber/jabber.cpp:161 plugins/jabber/jabberclient.cpp:1268 plugins/livejournal/livejournal.cpp:334 plugins/msn/msn.cpp:191 plugins/osd/osdconfigbase.cpp:148 plugins/sms/sms.cpp:244 plugins/yahoo/yahoo.cpp:164
+#: plugins/_core/userlist.cpp:636
+#: plugins/_core/userviewcfgbase.cpp:325
+#: plugins/icq/icq.cpp:185
+#: plugins/icq/icq.cpp:295
+#: plugins/icq/icqclient.cpp:1447
+#: plugins/jabber/jabber.cpp:161
+#: plugins/jabber/jabberclient.cpp:1268
+#: plugins/livejournal/livejournal.cpp:334
+#: plugins/msn/msn.cpp:191
+#: plugins/osd/osdconfigbase.cpp:148
+#: plugins/sms/sms.cpp:244
+#: plugins/yahoo/yahoo.cpp:164
 msgid "Offline"
 msgstr "Offline"
 
-#: plugins/_core/userview.cpp:373 plugins/_core/userview.cpp:563
+#: plugins/_core/userview.cpp:373
+#: plugins/_core/userview.cpp:563
 msgid "Delete \"%1\"?"
 msgstr "Smazat \"%1\" ?"
 
@@ -1210,7 +1566,8 @@ msgstr "Akt&ualizace"
 msgid "Plugin &enabled"
 msgstr "Povolit plugin"
 
-#: plugins/_core/arcfgbase.cpp:138 plugins/_core/prefcfgbase.cpp:97
+#: plugins/_core/arcfgbase.cpp:138
+#: plugins/_core/prefcfgbase.cpp:97
 msgid "&Override global settings"
 msgstr "&Potlačit globální nastavení"
 
@@ -1222,7 +1579,8 @@ msgstr "Nastavení nástrojových lišt"
 msgid "All buttons:"
 msgstr "Všechna tlačítka"
 
-#: plugins/_core/toolsetupbase.cpp:126 plugins/_core/toolsetupbase.cpp:131
+#: plugins/_core/toolsetupbase.cpp:126
+#: plugins/_core/toolsetupbase.cpp:131
 msgid "New Item"
 msgstr "Nová položka"
 
@@ -1238,15 +1596,18 @@ msgstr "<- Odeb&rat"
 msgid "Active:"
 msgstr "Aktivní:"
 
-#: plugins/_core/managerbase.cpp:105 plugins/_core/toolsetupbase.cpp:132
+#: plugins/_core/managerbase.cpp:105
+#: plugins/_core/toolsetupbase.cpp:132
 msgid "&Up"
 msgstr "Nahor&u"
 
-#: plugins/_core/managerbase.cpp:107 plugins/_core/toolsetupbase.cpp:133
+#: plugins/_core/managerbase.cpp:107
+#: plugins/_core/toolsetupbase.cpp:133
 msgid "&Down"
 msgstr "&Dolů"
 
-#: plugins/_core/interfacecfgbase.cpp:154 plugins/icq/advsearchbase.cc:278
+#: plugins/_core/interfacecfgbase.cpp:154
+#: plugins/icq/advsearchbase.cc:278
 msgid "Language:"
 msgstr "Jazyk:"
 
@@ -1290,7 +1651,16 @@ msgstr "Použít \"&Enter\" k odeslání zprávy"
 msgid "Start SIM on every &windows startup"
 msgstr "Spustět SIM při spuštění windows"
 
-#: plugins/_core/nonimbase.cpp:124 plugins/_core/pagerbase.cpp:118 plugins/_core/userviewcfgbase.cpp:306 plugins/filter/ignorelistbase.cpp:113 plugins/icq/interestsinfobase.cc:139 plugins/icq/workinfobase.cc:209 plugins/jabber/jabberhomeinfobase.cpp:135 plugins/msn/msnconfigbase.cpp:227 plugins/osd/osdifacebase.cpp:187 plugins/yahoo/yahoocfgbase.cpp:233
+#: plugins/_core/nonimbase.cpp:124
+#: plugins/_core/pagerbase.cpp:118
+#: plugins/_core/userviewcfgbase.cpp:306
+#: plugins/filter/ignorelistbase.cpp:113
+#: plugins/icq/interestsinfobase.cc:139
+#: plugins/icq/workinfobase.cc:209
+#: plugins/jabber/jabberhomeinfobase.cpp:135
+#: plugins/msn/msnconfigbase.cpp:227
+#: plugins/osd/osdifacebase.cpp:187
+#: plugins/yahoo/yahoocfgbase.cpp:233
 msgid "Form2"
 msgstr "Form2"
 
@@ -1319,7 +1689,8 @@ msgstr "Čekám na autorizaci"
 msgid "Visible"
 msgstr "Viditelný"
 
-#: plugins/_core/userviewcfgbase.cpp:322 plugins/icq/icqclient.cpp:1434
+#: plugins/_core/userviewcfgbase.cpp:322
+#: plugins/icq/icqclient.cpp:1434
 msgid "Invisible"
 msgstr "Neviditelný"
 
@@ -1331,15 +1702,32 @@ msgstr "Skupiny"
 msgid "Do not distrub"
 msgstr "Nevyrušovat (DND) "
 
-#: plugins/_core/userviewcfgbase.cpp:326 plugins/icq/aiminfobase.cc:299 plugins/icq/icqinfobase.cc:347 plugins/jabber/jabberinfobase.cpp:307 plugins/msn/msninfobase.cpp:165 plugins/yahoo/yahooinfobase.cpp:185
+#: plugins/_core/userviewcfgbase.cpp:326
+#: plugins/icq/aiminfobase.cc:299
+#: plugins/icq/icqinfobase.cc:347
+#: plugins/jabber/jabberinfobase.cpp:307
+#: plugins/msn/msninfobase.cpp:165
+#: plugins/yahoo/yahooinfobase.cpp:185
 msgid "Online:"
 msgstr "Online:"
 
-#: plugins/_core/userviewcfgbase.cpp:327 plugins/icq/icq.cpp:110 plugins/icq/icq.cpp:280 plugins/icq/icqclient.cpp:1453 plugins/jabber/jabber.cpp:101 plugins/msn/msn.cpp:101 plugins/osd/osdconfigbase.cpp:143 plugins/yahoo/yahoo.cpp:119
+#: plugins/_core/userviewcfgbase.cpp:327
+#: plugins/icq/icq.cpp:110
+#: plugins/icq/icq.cpp:280
+#: plugins/icq/icqclient.cpp:1453
+#: plugins/jabber/jabber.cpp:101
+#: plugins/msn/msn.cpp:101
+#: plugins/osd/osdconfigbase.cpp:143
+#: plugins/yahoo/yahoo.cpp:119
 msgid "Away"
 msgstr "Pryč (Away)"
 
-#: plugins/_core/userviewcfgbase.cpp:328 plugins/icq/icq.cpp:125 plugins/jabber/jabber.cpp:116 plugins/msn/msn.cpp:116 plugins/osd/osdconfigbase.cpp:144 plugins/yahoo/yahoo.cpp:134
+#: plugins/_core/userviewcfgbase.cpp:328
+#: plugins/icq/icq.cpp:125
+#: plugins/jabber/jabber.cpp:116
+#: plugins/msn/msn.cpp:116
+#: plugins/osd/osdconfigbase.cpp:144
+#: plugins/yahoo/yahoo.cpp:134
 msgid "N/A"
 msgstr "Nedostupný (N/A)"
 
@@ -1351,7 +1739,8 @@ msgstr "Barvy:"
 msgid "Use &double click"
 msgstr "Použít &dvojklik"
 
-#: plugins/_core/userviewcfgbase.cpp:331 plugins/styles/fontconfigbase.cpp:163
+#: plugins/_core/userviewcfgbase.cpp:331
+#: plugins/styles/fontconfigbase.cpp:163
 msgid "Use system &colors"
 msgstr "Použít &systémové barvy"
 
@@ -1371,19 +1760,23 @@ msgstr "P&oužít vlastní barvy a nastavení písem"
 msgid "Use emotional &icons"
 msgstr "Používat emocionální &ikony (smajlíky)"
 
-#: plugins/_core/historycfgbase.cpp:228 plugins/_core/userhistorycfgbase.cpp:125
+#: plugins/_core/historycfgbase.cpp:228
+#: plugins/_core/userhistorycfgbase.cpp:125
 msgid "Max history file size"
 msgstr "Maximální velikost souboru s historií"
 
-#: plugins/_core/historycfgbase.cpp:230 plugins/_core/userhistorycfgbase.cpp:123
+#: plugins/_core/historycfgbase.cpp:230
+#: plugins/_core/userhistorycfgbase.cpp:123
 msgid "Mb"
 msgstr "Mb"
 
-#: plugins/_core/historycfgbase.cpp:232 plugins/_core/userhistorycfgbase.cpp:127
+#: plugins/_core/historycfgbase.cpp:232
+#: plugins/_core/userhistorycfgbase.cpp:127
 msgid "Keep history "
 msgstr "Uložit historii "
 
-#: plugins/_core/historycfgbase.cpp:233 plugins/_core/userhistorycfgbase.cpp:126
+#: plugins/_core/historycfgbase.cpp:233
+#: plugins/_core/userhistorycfgbase.cpp:126
 msgid "days"
 msgstr "dny/dnů"
 
@@ -1407,11 +1800,20 @@ msgstr "&Náhled"
 msgid "&Source"
 msgstr "&Zdroj"
 
-#: plugins/_core/maininfobase.cpp:246 plugins/_core/nonimbase.cpp:126 plugins/icq/aiminfobase.cc:287 plugins/icq/icqinfobase.cc:343 plugins/jabber/discoinfobase.cpp:314 plugins/jabber/jabberinfobase.cpp:299 plugins/yahoo/yahooinfobase.cpp:181
+#: plugins/_core/maininfobase.cpp:246
+#: plugins/_core/nonimbase.cpp:126
+#: plugins/icq/aiminfobase.cc:287
+#: plugins/icq/icqinfobase.cc:343
+#: plugins/jabber/discoinfobase.cpp:314
+#: plugins/jabber/jabberinfobase.cpp:299
+#: plugins/yahoo/yahooinfobase.cpp:181
 msgid "First name:"
 msgstr "Jméno:"
 
-#: plugins/_core/maininfobase.cpp:247 plugins/_core/nonimbase.cpp:127 plugins/icq/aiminfobase.cc:288 plugins/yahoo/yahooinfobase.cpp:182
+#: plugins/_core/maininfobase.cpp:247
+#: plugins/_core/nonimbase.cpp:127
+#: plugins/icq/aiminfobase.cc:288
+#: plugins/yahoo/yahooinfobase.cpp:182
 msgid "Last name:"
 msgstr "Příjmení:"
 
@@ -1476,7 +1878,8 @@ msgstr "Upravit Email"
 msgid "Enter Email address:"
 msgstr "Vložit Emailovou adresu"
 
-#: plugins/_core/editmailbase.cpp:96 plugins/_core/editphonebase.cpp:142
+#: plugins/_core/editmailbase.cpp:96
+#: plugins/_core/editphonebase.cpp:142
 msgid "&Publish"
 msgstr "&Veřejný"
 
@@ -1488,7 +1891,8 @@ msgstr "Upravit telefon"
 msgid "Number details:"
 msgstr "Detail čísla:"
 
-#: plugins/_core/editphonebase.cpp:141 plugins/jabber/discoinfobase.cpp:299
+#: plugins/_core/editphonebase.cpp:141
+#: plugins/jabber/discoinfobase.cpp:299
 msgid "Type:"
 msgstr "Typ:"
 
@@ -1500,15 +1904,28 @@ msgstr "Směrové číslo:"
 msgid "Extension:"
 msgstr "Rozšíření:"
 
-#: plugins/_core/phonebase.cpp:147 plugins/_core/phonebase.cpp:149 plugins/_core/phonebase.cpp:151 plugins/icq/icqconfigbase.cc:303 plugins/jabber/jabberconfigbase.cpp:362 plugins/msn/msnconfigbase.cpp:234 plugins/yahoo/yahoocfgbase.cpp:242
+#: plugins/_core/phonebase.cpp:147
+#: plugins/_core/phonebase.cpp:149
+#: plugins/_core/phonebase.cpp:151
+#: plugins/icq/icqconfigbase.cc:303
+#: plugins/jabber/jabberconfigbase.cpp:362
+#: plugins/msn/msnconfigbase.cpp:234
+#: plugins/yahoo/yahoocfgbase.cpp:242
 msgid "-"
 msgstr "-"
 
-#: plugins/_core/pagerbase.cpp:121 plugins/_core/phonebase.cpp:148
+#: plugins/_core/pagerbase.cpp:121
+#: plugins/_core/phonebase.cpp:148
 msgid "Number:"
 msgstr "Číslo:"
 
-#: plugins/_core/phonebase.cpp:150 plugins/icq/advsearchbase.cc:281 plugins/icq/aiminfobase.cc:296 plugins/icq/aimsearchbase.cc:200 plugins/icq/homeinfobase.cc:177 plugins/icq/workinfobase.cc:214 plugins/jabber/jabberhomeinfobase.cpp:138
+#: plugins/_core/phonebase.cpp:150
+#: plugins/icq/advsearchbase.cc:281
+#: plugins/icq/aiminfobase.cc:296
+#: plugins/icq/aimsearchbase.cc:200
+#: plugins/icq/homeinfobase.cc:177
+#: plugins/icq/workinfobase.cc:214
+#: plugins/jabber/jabberhomeinfobase.cpp:138
 msgid "Country:"
 msgstr "Země:"
 
@@ -1533,31 +1950,53 @@ msgstr "Další možnosti"
 msgid "&New search"
 msgstr "&Nové hledání"
 
-#: plugins/_core/searchallbase.cpp:142 plugins/icq/aboutinfobase.cc:124 plugins/jabber/jabberaboutinfobase.cpp:87
+#: plugins/_core/searchallbase.cpp:142
+#: plugins/icq/aboutinfobase.cc:124
+#: plugins/jabber/jabberaboutinfobase.cpp:87
 msgid "Form4"
 msgstr "Form 4"
 
-#: plugins/_core/searchallbase.cpp:143 plugins/icq/icqsearchbase.cc:187 plugins/jabber/jabberaddbase.cpp:154
+#: plugins/_core/searchallbase.cpp:143
+#: plugins/icq/icqsearchbase.cc:187
+#: plugins/jabber/jabberaddbase.cpp:154
 msgid "&E-Mail"
 msgstr "E-Mail"
 
-#: plugins/_core/searchallbase.cpp:144 plugins/icq/icqsearchbase.cc:188 plugins/jabber/jabberaddbase.cpp:155 plugins/yahoo/yahoosearchbase.cpp:158
+#: plugins/_core/searchallbase.cpp:144
+#: plugins/icq/icqsearchbase.cc:188
+#: plugins/jabber/jabberaddbase.cpp:155
+#: plugins/yahoo/yahoosearchbase.cpp:158
 msgid "&Name"
 msgstr "&Jméno"
 
-#: plugins/_core/searchallbase.cpp:145 plugins/icq/aimsearchbase.cc:194 plugins/icq/icqsearchbase.cc:189 plugins/jabber/jabberaddbase.cpp:156
+#: plugins/_core/searchallbase.cpp:145
+#: plugins/icq/aimsearchbase.cc:194
+#: plugins/icq/icqsearchbase.cc:189
+#: plugins/jabber/jabberaddbase.cpp:156
 msgid "First:"
 msgstr "Jméno:"
 
-#: plugins/_core/searchallbase.cpp:146 plugins/icq/aimsearchbase.cc:195 plugins/icq/icqsearchbase.cc:190 plugins/jabber/jabberaddbase.cpp:157
+#: plugins/_core/searchallbase.cpp:146
+#: plugins/icq/aimsearchbase.cc:195
+#: plugins/icq/icqsearchbase.cc:190
+#: plugins/jabber/jabberaddbase.cpp:157
 msgid "Last:"
 msgstr "Příjmení:"
 
-#: plugins/_core/searchallbase.cpp:147 plugins/icq/aiminfobase.cc:291 plugins/icq/aimsearchbase.cc:198 plugins/icq/icqinfobase.cc:342 plugins/icq/icqsearchbase.cc:191 plugins/jabber/discoinfobase.cpp:311 plugins/jabber/jabberinfobase.cpp:300 plugins/msn/msninfobase.cpp:162 plugins/yahoo/yahooinfobase.cpp:179
+#: plugins/_core/searchallbase.cpp:147
+#: plugins/icq/aiminfobase.cc:291
+#: plugins/icq/aimsearchbase.cc:198
+#: plugins/icq/icqinfobase.cc:342
+#: plugins/icq/icqsearchbase.cc:191
+#: plugins/jabber/discoinfobase.cpp:311
+#: plugins/jabber/jabberinfobase.cpp:300
+#: plugins/msn/msninfobase.cpp:162
+#: plugins/yahoo/yahooinfobase.cpp:179
 msgid "Nick:"
 msgstr "Přezdívka:"
 
-#: plugins/_core/nonimbase.cpp:128 plugins/jabber/jabberaddbase.cpp:158
+#: plugins/_core/nonimbase.cpp:128
+#: plugins/jabber/jabberaddbase.cpp:158
 msgid "Nickname:"
 msgstr "Přezdívka:"
 
@@ -1565,15 +2004,18 @@ msgstr "Přezdívka:"
 msgid "E-Mail address:"
 msgstr "Emailová adresa:"
 
-#: plugins/_core/nonimbase.cpp:130 plugins/jabber/discoinfobase.cpp:317
+#: plugins/_core/nonimbase.cpp:130
+#: plugins/jabber/discoinfobase.cpp:317
 msgid "Phone:"
 msgstr "Telefon:"
 
-#: plugins/_core/autoreplybase.cpp:118 plugins/_core/connectionsettingsbase.cpp:105
+#: plugins/_core/autoreplybase.cpp:118
+#: plugins/_core/connectionsettingsbase.cpp:105
 msgid "MyDialog"
 msgstr "MůjDialog"
 
-#: plugins/_core/connectwndbase.cpp:157 plugins/icq/moreinfobase.cc:211
+#: plugins/_core/connectwndbase.cpp:157
+#: plugins/icq/moreinfobase.cc:211
 msgid "Form3"
 msgstr "Form3"
 
@@ -1609,7 +2051,8 @@ msgstr "Uložit he&slo"
 msgid "&Do not show this window on startup"
 msgstr "Nezobrazovat toto okno &při startu"
 
-#: plugins/_core/managerbase.cpp:46 plugins/_core/managerbase.cpp:106
+#: plugins/_core/managerbase.cpp:46
+#: plugins/_core/managerbase.cpp:106
 msgid "Connection"
 msgstr "Připojení"
 
@@ -1641,7 +2084,12 @@ msgstr "Vybrat protokol"
 msgid "Don't show this dialog"
 msgstr "Nezobrazovat tento dialog"
 
-#: plugins/_core/arcfgbase.cpp:139 plugins/_core/autoreplybase.cpp:120 plugins/action/actioncfgbase.cpp:121 plugins/action/additembase.cpp:125 plugins/weather/wifacecfgbase.cpp:143 sim/api/simapi.cpp:473
+#: plugins/_core/arcfgbase.cpp:139
+#: plugins/_core/autoreplybase.cpp:120
+#: plugins/action/actioncfgbase.cpp:121
+#: plugins/action/additembase.cpp:125
+#: plugins/weather/wifacecfgbase.cpp:143
+#: sim/api/simapi.cpp:473
 msgid "&Help"
 msgstr "&Nápověda"
 
@@ -1733,7 +2181,8 @@ msgstr "Důvod odmítnutí"
 msgid "Enter decline reason:"
 msgstr "Vložte důvod odmítnutí:"
 
-#: plugins/about/about.cpp:38 plugins/about/aboutdlgbase.cpp:149
+#: plugins/about/about.cpp:38
+#: plugins/about/aboutdlgbase.cpp:149
 msgid "About"
 msgstr "O aplikaci ..."
 
@@ -1809,7 +2258,8 @@ msgstr "&Akce"
 msgid "Event"
 msgstr "Událost"
 
-#: plugins/action/actioncfg.cpp:42 plugins/action/menucfg.cpp:32
+#: plugins/action/actioncfg.cpp:42
+#: plugins/action/menucfg.cpp:32
 msgid "Program"
 msgstr "Program"
 
@@ -1821,7 +2271,8 @@ msgstr "Protějšek je online"
 msgid "Menu"
 msgstr "Menu"
 
-#: plugins/action/actioncfg.cpp:179 plugins/action/additem.cpp:54
+#: plugins/action/actioncfg.cpp:179
+#: plugins/action/additem.cpp:54
 msgid "In command line you can use:"
 msgstr "V příkazovém řádku můžete použít:"
 
@@ -1901,11 +2352,15 @@ msgstr "Plugin poskytuje obrázky na pozadí seznamu uživatelů"
 msgid "Select background picture"
 msgstr "Vybrat obrázek na pozadí"
 
-#: plugins/background/bkgndcfg.cpp:60 plugins/icq/icqpicture.cpp:51 plugins/jabber/jabberpicture.cpp:54
+#: plugins/background/bkgndcfg.cpp:60
+#: plugins/icq/icqpicture.cpp:51
+#: plugins/jabber/jabberpicture.cpp:54
 msgid "%1|Graphics"
 msgstr "%1|Grafika"
 
-#: plugins/background/bkgndcfg.cpp:62 plugins/icq/icqpicture.cpp:53 plugins/jabber/jabberpicture.cpp:56
+#: plugins/background/bkgndcfg.cpp:62
+#: plugins/icq/icqpicture.cpp:53
+#: plugins/jabber/jabberpicture.cpp:56
 msgid "Graphics(%1)"
 msgstr "Grafika(%1)"
 
@@ -1949,7 +2404,8 @@ msgstr "Okraj kontaktu:"
 msgid "Main window background:"
 msgstr "Pozadí okna:"
 
-#: plugins/background/bkgndcfgbase.cpp:176 plugins/osd/osdifacebase.cpp:195
+#: plugins/background/bkgndcfgbase.cpp:176
+#: plugins/osd/osdifacebase.cpp:195
 msgid "Place:"
 msgstr "Umístění:"
 
@@ -1961,7 +2417,8 @@ msgstr "Systémová lišta"
 msgid "Plugin provides dock main window in system tray"
 msgstr "Plugin poskytuje možnost dokovat hlavní okno v systémové liště"
 
-#: plugins/dock/dock.cpp:52 plugins/windock/windock.cpp:43
+#: plugins/dock/dock.cpp:52
+#: plugins/windock/windock.cpp:43
 msgid "Dock"
 msgstr "Dokovat"
 
@@ -1969,7 +2426,8 @@ msgstr "Dokovat"
 msgid "Plugin provides dock icon"
 msgstr "Plugin poskytuje dokovací ikonu"
 
-#: plugins/dock/dock.cpp:111 sim/sim.cpp:183
+#: plugins/dock/dock.cpp:111
+#: sim/sim.cpp:183
 msgid "SIM"
 msgstr "SIM"
 
@@ -2013,7 +2471,8 @@ msgstr "Filtr"
 msgid "Plugin provides message filter"
 msgstr "Plugin poskytuje filtr zpráv"
 
-#: plugins/filter/filter.cpp:97 plugins/filter/filtercfg.cpp:40
+#: plugins/filter/filter.cpp:97
+#: plugins/filter/filtercfg.cpp:40
 msgid "Ignore list"
 msgstr "Seznam ignorovaných"
 
@@ -2029,7 +2488,11 @@ msgstr "Ignorovat tuto frázi"
 msgid "Add %1 to ignore list?"
 msgstr "Přidat %1 mezi ignorované?"
 
-#: plugins/filter/ignorelist.cpp:27 plugins/icq/icqsecure.cpp:92 plugins/jabber/discoinfo.cpp:63 plugins/jabber/jabberbrowser.cpp:113 sim/ui/qt3/i18n.cpp:39
+#: plugins/filter/ignorelist.cpp:27
+#: plugins/icq/icqsecure.cpp:92
+#: plugins/jabber/discoinfo.cpp:63
+#: plugins/jabber/jabberbrowser.cpp:113
+#: sim/ui/qt3/i18n.cpp:39
 msgid "Name"
 msgstr "Jméno"
 
@@ -2062,7 +2525,8 @@ msgstr "Plovoucí"
 msgid "Plugin provides floating windows for contacts"
 msgstr "Plugin poskytuje plovoucí okna pro kontakty"
 
-#: plugins/floaty/floaty.cpp:91 plugins/floaty/floaty.cpp:165
+#: plugins/floaty/floaty.cpp:91
+#: plugins/floaty/floaty.cpp:165
 msgid "Floating on"
 msgstr "Plovoucí kontakt zapnout"
 
@@ -2110,14 +2574,15 @@ msgstr ""
 "Plugin přidává podporu GnuPG šifrování/dešifrování pro zpráv\n"
 "GPG nenalezeno v PATH"
 
-#: plugins/gpg/gpg.cpp:505 plugins/gpg/gpg.cpp:514
+#: plugins/gpg/gpg.cpp:505
+#: plugins/gpg/gpg.cpp:514
 msgid "Encrypt failed"
 msgstr "Šifrování nebylo úspěšné"
 
 #: plugins/gpg/gpg.cpp:700
 #, fuzzy, c-format
 msgid "%n GPG key"
-msgstr "GPG klíč"
+msgstr "%n GPG klíč"
 
 #: plugins/gpg/gpg.cpp:749
 msgid "GPG key"
@@ -2143,11 +2608,14 @@ msgstr "Vybrat domovský adresář"
 msgid "Download GPG"
 msgstr "Stáhnout GPG"
 
-#: plugins/gpg/gpgcfg.cpp:62 plugins/jabber/jidsearchbase.cpp:135
+#: plugins/gpg/gpgcfg.cpp:62
+#: plugins/jabber/jidsearchbase.cpp:135
 msgid "&Advanced"
 msgstr "&Rozšířené"
 
-#: plugins/gpg/gpgcfg.cpp:141 plugins/gpg/gpguser.cpp:83 plugins/proxy/proxycfg.cpp:38
+#: plugins/gpg/gpgcfg.cpp:141
+#: plugins/gpg/gpguser.cpp:83
+#: plugins/proxy/proxycfg.cpp:38
 msgid "None"
 msgstr "Žádný"
 
@@ -2188,7 +2656,8 @@ msgstr "&Hledat"
 msgid "Your key:"
 msgstr "Váš klíč:"
 
-#: plugins/gpg/gpgcfgbase.cpp:165 plugins/gpg/gpguserbase.cpp:100
+#: plugins/gpg/gpgcfgbase.cpp:165
+#: plugins/gpg/gpguserbase.cpp:100
 msgid "&Refresh"
 msgstr "Obno&vit"
 
@@ -2228,7 +2697,8 @@ msgstr "Dešifrovat:"
 msgid "Generate key"
 msgstr "Generovat klíč:"
 
-#: plugins/gpg/gpggenbase.cpp:134 plugins/jabber/discoinfobase.cpp:316
+#: plugins/gpg/gpggenbase.cpp:134
+#: plugins/jabber/discoinfobase.cpp:316
 msgid "EMail:"
 msgstr "Email:"
 
@@ -2236,7 +2706,10 @@ msgstr "Email:"
 msgid "Comment:"
 msgstr "Komentář:"
 
-#: plugins/gpg/gpggenbase.cpp:136 plugins/icq/workinfobase.cc:215 plugins/jabber/discoinfobase.cpp:300 plugins/jabber/discoinfobase.cpp:302
+#: plugins/gpg/gpggenbase.cpp:136
+#: plugins/icq/workinfobase.cc:215
+#: plugins/jabber/discoinfobase.cpp:300
+#: plugins/jabber/discoinfobase.cpp:302
 msgid "Name:"
 msgstr "Jméno:"
 
@@ -2267,7 +2740,7 @@ msgstr "Ikony"
 #: plugins/icons/icon.cpp:33
 #, fuzzy
 msgid "Plugin provides Miranda icons themes and emoticons"
-msgstr "Plugin poskytuje témata ikon Mirandy"
+msgstr "Plugin umožňuje používat témata ikon Mirandy"
 
 #: plugins/icons/iconcfg.cpp:169
 msgid "Select icons DLL"
@@ -2317,7 +2790,15 @@ msgstr "Smajlíci:"
 msgid "Register new ScreenName"
 msgstr "Registrace nového jména v AIM"
 
-#: plugins/icq/aiminfo.cpp:177 plugins/icq/icqclient.cpp:1477 plugins/icq/icqinfo.cpp:220 plugins/jabber/jabberclient.cpp:1279 plugins/jabber/jabberinfo.cpp:129 plugins/msn/msnclient.cpp:1842 plugins/msn/msninfo.cpp:88 plugins/yahoo/yahooclient.cpp:1380 plugins/yahoo/yahooinfo.cpp:109
+#: plugins/icq/aiminfo.cpp:177
+#: plugins/icq/icqclient.cpp:1477
+#: plugins/icq/icqinfo.cpp:220
+#: plugins/jabber/jabberclient.cpp:1279
+#: plugins/jabber/jabberinfo.cpp:129
+#: plugins/msn/msnclient.cpp:1842
+#: plugins/msn/msninfo.cpp:88
+#: plugins/yahoo/yahooclient.cpp:1380
+#: plugins/yahoo/yahooinfo.cpp:109
 msgid "Last online"
 msgstr "Naposledy online"
 
@@ -2325,15 +2806,20 @@ msgstr "Naposledy online"
 msgid "ICQ"
 msgstr "ICQ"
 
-#: plugins/icq/icq.cpp:140 plugins/jabber/jabber.cpp:131 plugins/osd/osdconfigbase.cpp:145
+#: plugins/icq/icq.cpp:140
+#: plugins/jabber/jabber.cpp:131
+#: plugins/osd/osdconfigbase.cpp:145
 msgid "Do not Disturb"
 msgstr "Nevyrušovat (DND)"
 
-#: plugins/icq/icq.cpp:155 plugins/osd/osdconfigbase.cpp:146
+#: plugins/icq/icq.cpp:155
+#: plugins/osd/osdconfigbase.cpp:146
 msgid "Occupied"
 msgstr "Zaneprázdněný (Occupied)"
 
-#: plugins/icq/icq.cpp:170 plugins/jabber/jabber.cpp:146 plugins/osd/osdconfigbase.cpp:147
+#: plugins/icq/icq.cpp:170
+#: plugins/jabber/jabber.cpp:146
+#: plugins/osd/osdconfigbase.cpp:147
 msgid "Free for chat"
 msgstr "Chci chatovat (FFC)"
 
@@ -2349,7 +2835,8 @@ msgstr "Seznam viditelných"
 msgid "Invisible list"
 msgstr "Seznam neviditelných"
 
-#: plugins/icq/icq.cpp:452 plugins/jabber/jabber.cpp:263
+#: plugins/icq/icq.cpp:452
+#: plugins/jabber/jabber.cpp:263
 msgid "&Add to group"
 msgstr "Přid&at do skupiny"
 
@@ -2373,7 +2860,9 @@ msgstr "ISO8859-2"
 msgid "Process message failed"
 msgstr "Chyba při zpracování zprávy"
 
-#: plugins/icq/icqclient.cpp:689 plugins/icq/icqicmb.cpp:92 plugins/icq/icqicmb.cpp:199
+#: plugins/icq/icqclient.cpp:689
+#: plugins/icq/icqicmb.cpp:92
+#: plugins/icq/icqicmb.cpp:199
 msgid "Unknown error"
 msgstr "Neznámá chyba"
 
@@ -2409,7 +2898,8 @@ msgstr "Poslali jsme obstarožní SNAC"
 msgid "Not supported by server"
 msgstr "Není podporováno serverem"
 
-#: plugins/icq/icqclient.cpp:698 plugins/icq/icqicmb.cpp:94
+#: plugins/icq/icqclient.cpp:698
+#: plugins/icq/icqicmb.cpp:94
 msgid "Not supported by client"
 msgstr "Není podporováno klientem"
 
@@ -2441,7 +2931,8 @@ msgstr "Nedostatečná práva"
 msgid "Recipient blocked"
 msgstr "Adresát blokován"
 
-#: plugins/icq/icqclient.cpp:706 plugins/icq/icqicmb.cpp:193
+#: plugins/icq/icqclient.cpp:706
+#: plugins/icq/icqicmb.cpp:193
 msgid "Sender too evil"
 msgstr "Odesílatel je neslušný"
 
@@ -2477,7 +2968,8 @@ msgstr "Není na AOL"
 msgid "Protocol error"
 msgstr "Chyba protokolu"
 
-#: plugins/icq/icqclient.cpp:1427 plugins/icq/icqinfo.cpp:205
+#: plugins/icq/icqclient.cpp:1427
+#: plugins/icq/icqinfo.cpp:205
 msgid "Possibly invisible"
 msgstr "Možná neviditelný"
 
@@ -2485,35 +2977,62 @@ msgstr "Možná neviditelný"
 msgid "Warning level"
 msgstr "Úroveň varování"
 
-#: plugins/icq/icqclient.cpp:1807 plugins/icq/icqclient.cpp:1995 plugins/jabber/jabberclient.cpp:1438 plugins/jabber/jabberclient.cpp:1547 plugins/jabber/jabberclient.cpp:1679 plugins/jabber/jabberclient.cpp:1698
+#: plugins/icq/icqclient.cpp:1807
+#: plugins/icq/icqclient.cpp:1995
+#: plugins/jabber/jabberclient.cpp:1438
+#: plugins/jabber/jabberclient.cpp:1547
+#: plugins/jabber/jabberclient.cpp:1679
+#: plugins/jabber/jabberclient.cpp:1698
 msgid "Home info"
 msgstr "Domov"
 
-#: plugins/icq/icqclient.cpp:1822 plugins/icq/icqclient.cpp:2010 plugins/jabber/jabberclient.cpp:1453 plugins/jabber/jabberclient.cpp:1562 plugins/jabber/jabberclient.cpp:1681 plugins/jabber/jabberclient.cpp:1700
+#: plugins/icq/icqclient.cpp:1822
+#: plugins/icq/icqclient.cpp:2010
+#: plugins/jabber/jabberclient.cpp:1453
+#: plugins/jabber/jabberclient.cpp:1562
+#: plugins/jabber/jabberclient.cpp:1681
+#: plugins/jabber/jabberclient.cpp:1700
 msgid "Work info"
 msgstr "Práce"
 
-#: plugins/icq/icqclient.cpp:1837 plugins/icq/icqclient.cpp:2025
+#: plugins/icq/icqclient.cpp:1837
+#: plugins/icq/icqclient.cpp:2025
 msgid "More info"
 msgstr "Ostatní"
 
-#: plugins/icq/icqclient.cpp:1852 plugins/icq/icqclient.cpp:1946 plugins/icq/icqclient.cpp:2040 plugins/icq/icqclient.cpp:2164 plugins/jabber/discoinfo.cpp:194 plugins/jabber/jabberclient.cpp:1468 plugins/jabber/jabberclient.cpp:1577 plugins/jabber/jabberclient.cpp:1683 plugins/jabber/jabberclient.cpp:1702
+#: plugins/icq/icqclient.cpp:1852
+#: plugins/icq/icqclient.cpp:1946
+#: plugins/icq/icqclient.cpp:2040
+#: plugins/icq/icqclient.cpp:2164
+#: plugins/jabber/discoinfo.cpp:194
+#: plugins/jabber/jabberclient.cpp:1468
+#: plugins/jabber/jabberclient.cpp:1577
+#: plugins/jabber/jabberclient.cpp:1683
+#: plugins/jabber/jabberclient.cpp:1702
 msgid "About info"
 msgstr "O ..."
 
-#: plugins/icq/advsearchbase.cc:289 plugins/icq/icqclient.cpp:1867 plugins/icq/icqclient.cpp:2055
+#: plugins/icq/advsearchbase.cc:289
+#: plugins/icq/icqclient.cpp:1867
+#: plugins/icq/icqclient.cpp:2055
 msgid "Interests"
 msgstr "Zájmy"
 
-#: plugins/icq/icqclient.cpp:1882 plugins/icq/icqclient.cpp:2070
+#: plugins/icq/icqclient.cpp:1882
+#: plugins/icq/icqclient.cpp:2070
 msgid "Group/Past"
 msgstr "Spolky/Minulost"
 
-#: plugins/icq/icqclient.cpp:1897 plugins/icq/icqclient.cpp:2085
+#: plugins/icq/icqclient.cpp:1897
+#: plugins/icq/icqclient.cpp:2085
 msgid "Picture"
 msgstr "Obrázek"
 
-#: plugins/icq/icqclient.cpp:2100 plugins/icq/icqclient.cpp:2179 plugins/jabber/jabberclient.cpp:1622 plugins/msn/msnclient.cpp:926 plugins/yahoo/yahooclient.cpp:1491
+#: plugins/icq/icqclient.cpp:2100
+#: plugins/icq/icqclient.cpp:2179
+#: plugins/jabber/jabberclient.cpp:1622
+#: plugins/msn/msnclient.cpp:926
+#: plugins/yahoo/yahooclient.cpp:1491
 msgid "Network"
 msgstr "Síť"
 
@@ -2545,7 +3064,8 @@ msgstr "Prostý text"
 msgid "Connect to unknown port"
 msgstr "Připojení na neznámý port"
 
-#: plugins/icq/icqdirect.cpp:230 plugins/msn/msnclient.cpp:2731
+#: plugins/icq/icqdirect.cpp:230
+#: plugins/msn/msnclient.cpp:2731
 msgid "Can't established direct connection"
 msgstr "Nelze navázat přímé spojení"
 
@@ -2553,7 +3073,8 @@ msgstr "Nelze navázat přímé spojení"
 msgid "Other side does not support the secure connection"
 msgstr "Druhá strana nepodporuje zabezpečenou konexi"
 
-#: plugins/icq/icqdirect.cpp:846 plugins/icq/icqdirect.cpp:1047
+#: plugins/icq/icqdirect.cpp:846
+#: plugins/icq/icqdirect.cpp:1047
 msgid "Send message fail"
 msgstr "Chyba při zasílání zprávy"
 
@@ -2581,15 +3102,25 @@ msgstr "Čítač zprávy byl přeplněn"
 msgid "We are to evil :("
 msgstr "Jsme neslušní"
 
-#: plugins/icq/icqicmb.cpp:681 plugins/jabber/jabber_rosters.cpp:2198
+#: plugins/icq/icqicmb.cpp:681
+#: plugins/jabber/jabber_rosters.cpp:2198
 msgid "File transfer declined"
 msgstr "Přenos souboru odložen"
 
-#: plugins/icq/icqicmb.cpp:741 plugins/icq/icqicmb.cpp:1279 plugins/msn/msnclient.cpp:2416 plugins/yahoo/yahooclient.cpp:446 plugins/yahoo/yahooclient.cpp:449
+#: plugins/icq/icqicmb.cpp:741
+#: plugins/icq/icqicmb.cpp:1279
+#: plugins/msn/msnclient.cpp:2416
+#: plugins/yahoo/yahooclient.cpp:446
+#: plugins/yahoo/yahooclient.cpp:449
 msgid "Message declined"
 msgstr "Zpráva odložena"
 
-#: plugins/icq/icqicmb.cpp:821 plugins/icq/icqicmb.cpp:835 plugins/icq/icqicmb.cpp:843 plugins/icq/icqvarious.cpp:1693 plugins/jabber/jabberclient.cpp:664 plugins/yahoo/yahooclient.cpp:1051
+#: plugins/icq/icqicmb.cpp:821
+#: plugins/icq/icqicmb.cpp:835
+#: plugins/icq/icqicmb.cpp:843
+#: plugins/icq/icqvarious.cpp:1693
+#: plugins/jabber/jabberclient.cpp:664
+#: plugins/yahoo/yahooclient.cpp:1051
 msgid "Client go offline"
 msgstr "Klient přechází do offline"
 
@@ -2597,12 +3128,14 @@ msgstr "Klient přechází do offline"
 msgid "Directory"
 msgstr "Adresář"
 
-#: plugins/icq/icqicmb.cpp:985 plugins/icq/icqicmb.cpp:991
+#: plugins/icq/icqicmb.cpp:985
+#: plugins/icq/icqicmb.cpp:991
 #, fuzzy, c-format
 msgid "%n file"
-msgstr "Poslat soubor"
+msgstr "%n soubor"
 
-#: plugins/icq/icqicmb.cpp:1272 plugins/icq/warndlg.cpp:66
+#: plugins/icq/icqicmb.cpp:1272
+#: plugins/icq/warndlg.cpp:66
 msgid "Send fail"
 msgstr "Chyba při zasílání"
 
@@ -2614,7 +3147,9 @@ msgstr "Timeout při odesílání"
 msgid "No contact"
 msgstr "Není kontakt"
 
-#: plugins/icq/icqicmb.cpp:1661 plugins/icq/icqmessage.cpp:1053 plugins/jabber/jabberclient.cpp:2258
+#: plugins/icq/icqicmb.cpp:1661
+#: plugins/icq/icqmessage.cpp:1053
+#: plugins/jabber/jabberclient.cpp:2258
 msgid "No contacts for send"
 msgstr "Žádný kontakt pro odeslání"
 
@@ -2626,7 +3161,8 @@ msgstr "Obecný chat"
 msgid "Romance"
 msgstr "Romantika"
 
-#: plugins/icq/icqinfo.cpp:36 plugins/icq/interestsinfo.cpp:98
+#: plugins/icq/icqinfo.cpp:36
+#: plugins/icq/interestsinfo.cpp:98
 msgid "Games"
 msgstr "Hry"
 
@@ -2658,15 +3194,18 @@ msgstr "Hledám ženu"
 msgid "Seeking Men"
 msgstr "Hledám muže"
 
-#: plugins/icq/icqinfo.cpp:85 plugins/jabber/jabberinfo.cpp:66
+#: plugins/icq/icqinfo.cpp:85
+#: plugins/jabber/jabberinfo.cpp:66
 msgid "Input current password"
 msgstr "Vložte aktuální heslo"
 
-#: plugins/icq/icqinfo.cpp:88 plugins/jabber/jabberinfo.cpp:69
+#: plugins/icq/icqinfo.cpp:88
+#: plugins/jabber/jabberinfo.cpp:69
 msgid "Confirm password does not match"
 msgstr "Potvrzené heslo neodpovídá"
 
-#: plugins/icq/icqinfo.cpp:91 plugins/jabber/jabberinfo.cpp:72
+#: plugins/icq/icqinfo.cpp:91
+#: plugins/jabber/jabberinfo.cpp:72
 msgid "Invalid password"
 msgstr "Chybné heslo"
 
@@ -2738,26 +3277,31 @@ msgstr "Chybná adresa hostitele"
 #: plugins/icq/icqmessage.cpp:552
 #, fuzzy
 msgid "WWW-panel message"
-msgstr "&Otevřít zprávu"
+msgstr "WWW-panel message"
 
 #: plugins/icq/icqmessage.cpp:573
 #, fuzzy
 msgid "Email pager message"
 msgstr "Email Pager"
 
-#: plugins/icq/icqmessage.cpp:594 plugins/icq/icqmessage.cpp:850
+#: plugins/icq/icqmessage.cpp:594
+#: plugins/icq/icqmessage.cpp:850
 msgid "Request secure channel"
 msgstr "Požadavek zabezpečeného kanálu"
 
-#: plugins/icq/icqmessage.cpp:615 plugins/icq/icqmessage.cpp:857
+#: plugins/icq/icqmessage.cpp:615
+#: plugins/icq/icqmessage.cpp:857
 msgid "Close secure channel"
 msgstr "Uzavřít zabezpečený kanál"
 
-#: plugins/icq/icqmessage.cpp:636 plugins/icq/icqmessage.cpp:864
+#: plugins/icq/icqmessage.cpp:636
+#: plugins/icq/icqmessage.cpp:864
 msgid "Check invisible"
 msgstr "Kontrolovat neviditelnost"
 
-#: plugins/icq/icqmessage.cpp:657 plugins/icq/icqmessage.cpp:871 plugins/logger/logconfig.cpp:93
+#: plugins/icq/icqmessage.cpp:657
+#: plugins/icq/icqmessage.cpp:871
+#: plugins/logger/logconfig.cpp:93
 msgid "Warning"
 msgstr "Varování"
 
@@ -2783,54 +3327,73 @@ msgstr "Email Pager"
 msgid "Picture can not be more than 7 kbytes"
 msgstr "Obrázek nesmí být větší než 7 kB"
 
-#: plugins/icq/icqpicture.cpp:136 plugins/jabber/jabberpicture.cpp:138
+#: plugins/icq/icqpicture.cpp:136
+#: plugins/jabber/jabberpicture.cpp:138
 msgid "Picture is not available"
 msgstr "Obrázek není dostupný"
 
-#: plugins/icq/icqsearch.cpp:285 plugins/icq/icqsecure.cpp:91 plugins/jabber/jabberadd.cpp:281 plugins/jabber/jabbersearch.cpp:102
+#: plugins/icq/icqsearch.cpp:285
+#: plugins/icq/icqsecure.cpp:91
+#: plugins/jabber/jabberadd.cpp:281
+#: plugins/jabber/jabbersearch.cpp:102
 msgid "Nick"
 msgstr "Přezdívka"
 
-#: plugins/icq/icqsearch.cpp:287 plugins/jabber/jabberadd.cpp:279 plugins/jabber/jabbersearch.cpp:104 plugins/jabber/jabbersearch.cpp:304
+#: plugins/icq/icqsearch.cpp:287
+#: plugins/jabber/jabberadd.cpp:279
+#: plugins/jabber/jabbersearch.cpp:104
+#: plugins/jabber/jabbersearch.cpp:304
 msgid "First name"
 msgstr "Jméno"
 
-#: plugins/icq/icqsearch.cpp:289 plugins/jabber/jabberadd.cpp:280 plugins/jabber/jabbersearch.cpp:105 plugins/jabber/jabbersearch.cpp:305
+#: plugins/icq/icqsearch.cpp:289
+#: plugins/jabber/jabberadd.cpp:280
+#: plugins/jabber/jabbersearch.cpp:105
+#: plugins/jabber/jabbersearch.cpp:305
 msgid "Last name"
 msgstr "Příjmení"
 
-#: plugins/icq/icqsearch.cpp:292 plugins/jabber/jabbersearch.cpp:108
+#: plugins/icq/icqsearch.cpp:292
+#: plugins/jabber/jabbersearch.cpp:108
 msgid "City"
 msgstr "Město"
 
 #: plugins/icq/icqsearch.cpp:294
-#, fuzzy
 msgid "State"
 msgstr "Stát"
 
 #: plugins/icq/icqsearch.cpp:296
-#, fuzzy
 msgid "Country"
 msgstr "Země"
 
-#: plugins/icq/icqsearch.cpp:299 plugins/jabber/jabbersearch.cpp:217 plugins/yahoo/yahoosearch.cpp:130
+#: plugins/icq/icqsearch.cpp:299
+#: plugins/jabber/jabbersearch.cpp:217
+#: plugins/yahoo/yahoosearch.cpp:130
 msgid "Gender"
 msgstr "Pohlaví"
 
-#: plugins/icq/icqsearch.cpp:301 plugins/yahoo/yahoosearch.cpp:132
-#, fuzzy
+#: plugins/icq/icqsearch.cpp:301
+#: plugins/yahoo/yahoosearch.cpp:132
 msgid "Age"
 msgstr "Věk"
 
-#: plugins/icq/icqsearch.cpp:303 plugins/jabber/jabberadd.cpp:282 plugins/msn/msnsearchbase.cpp:131
+#: plugins/icq/icqsearch.cpp:303
+#: plugins/jabber/jabberadd.cpp:282
+#: plugins/msn/msnsearchbase.cpp:131
 msgid "E-Mail"
 msgstr "E-Mail"
 
-#: plugins/icq/icqsearch.cpp:391 plugins/icq/moreinfo.cpp:79 plugins/jabber/jabbersearch.cpp:216 plugins/yahoo/yahoosearch.cpp:39
+#: plugins/icq/icqsearch.cpp:391
+#: plugins/icq/moreinfo.cpp:79
+#: plugins/jabber/jabbersearch.cpp:216
+#: plugins/yahoo/yahoosearch.cpp:39
 msgid "Female"
 msgstr "Žena"
 
-#: plugins/icq/icqsearch.cpp:394 plugins/icq/moreinfo.cpp:80 plugins/jabber/jabbersearch.cpp:215 plugins/yahoo/yahoosearch.cpp:38
+#: plugins/icq/icqsearch.cpp:394
+#: plugins/icq/moreinfo.cpp:80
+#: plugins/jabber/jabbersearch.cpp:215
+#: plugins/yahoo/yahoosearch.cpp:38
 msgid "Male"
 msgstr "Muž"
 
@@ -2863,7 +3426,8 @@ msgstr "CHYBNÉ ČÍSLO"
 msgid "RATE LIMIT"
 msgstr "LIMIT RYCHLOSTI"
 
-#: plugins/icq/icqvarious.cpp:1524 plugins/icq/icqvarious.cpp:1583
+#: plugins/icq/icqvarious.cpp:1524
+#: plugins/icq/icqvarious.cpp:1583
 msgid "SMS send fail"
 msgstr "Chyba při zasílání SMS"
 
@@ -2883,7 +3447,8 @@ msgstr "Březen"
 msgid "Apr"
 msgstr "Duben"
 
-#: plugins/icq/icqvarious.cpp:1612 sim/ui/datepicker.cpp:226
+#: plugins/icq/icqvarious.cpp:1612
+#: sim/ui/datepicker.cpp:226
 msgid "May"
 msgstr "Květen"
 
@@ -2931,7 +3496,8 @@ msgstr "Celebrity"
 msgid "Collections"
 msgstr "Sbírky"
 
-#: plugins/icq/interestsinfo.cpp:95 plugins/icq/workinfo.cpp:77
+#: plugins/icq/interestsinfo.cpp:95
+#: plugins/icq/workinfo.cpp:77
 msgid "Computers"
 msgstr "Počítače"
 
@@ -2947,7 +3513,8 @@ msgstr "Fitness"
 msgid "Hobbies"
 msgstr "Koníčky"
 
-#: plugins/icq/interestsinfo.cpp:100 plugins/icq/workinfo.cpp:85
+#: plugins/icq/interestsinfo.cpp:100
+#: plugins/icq/workinfo.cpp:85
 msgid "ICQ - Providing Help"
 msgstr "ICQ - Poskytování pomoci"
 
@@ -2991,7 +3558,8 @@ msgstr "Věda a Technika"
 msgid "Skills"
 msgstr "Dovednosti"
 
-#: plugins/icq/interestsinfo.cpp:111 plugins/icq/workinfo.cpp:97
+#: plugins/icq/interestsinfo.cpp:111
+#: plugins/icq/workinfo.cpp:97
 msgid "Sports"
 msgstr "Sporty"
 
@@ -3007,7 +3575,8 @@ msgstr "Příroda a prostředí"
 msgid "News & Media"
 msgstr "Novinky a Média"
 
-#: plugins/icq/interestsinfo.cpp:115 plugins/icq/workinfo.cpp:82
+#: plugins/icq/interestsinfo.cpp:115
+#: plugins/icq/workinfo.cpp:82
 msgid "Government"
 msgstr "Vláda"
 
@@ -3115,7 +3684,9 @@ msgstr "Publikování"
 msgid "Home automation"
 msgstr "Automatizace v domácnosti"
 
-#: plugins/icq/moreinfo.cpp:88 sim/api/contacts.cpp:1964 sim/api/contacts.cpp:1965
+#: plugins/icq/moreinfo.cpp:88
+#: sim/api/contacts.cpp:1964
+#: sim/api/contacts.cpp:1965
 msgid "Arabic"
 msgstr "Arabský"
 
@@ -3139,7 +3710,8 @@ msgstr "Chorvatsky"
 msgid "Danish"
 msgstr "Dánsky"
 
-#: plugins/icq/moreinfo.cpp:100 sim/api/contacts.cpp:1971
+#: plugins/icq/moreinfo.cpp:100
+#: sim/api/contacts.cpp:1971
 msgid "Esperanto"
 msgstr "Esperanto"
 
@@ -3171,7 +3743,10 @@ msgstr "Islandsky"
 msgid "Indonesian"
 msgstr "Indonésky"
 
-#: plugins/icq/moreinfo.cpp:114 sim/api/contacts.cpp:1989 sim/api/contacts.cpp:1990 sim/api/contacts.cpp:1991
+#: plugins/icq/moreinfo.cpp:114
+#: sim/api/contacts.cpp:1989
+#: sim/api/contacts.cpp:1990
+#: sim/api/contacts.cpp:1991
 msgid "Japanese"
 msgstr "Japonsky"
 
@@ -3179,7 +3754,8 @@ msgstr "Japonsky"
 msgid "Khmer"
 msgstr "Khmérsky"
 
-#: plugins/icq/moreinfo.cpp:116 sim/api/contacts.cpp:1993
+#: plugins/icq/moreinfo.cpp:116
+#: sim/api/contacts.cpp:1993
 msgid "Korean"
 msgstr "Korejsky"
 
@@ -3287,7 +3863,8 @@ msgstr "Vysoká škola"
 msgid "University"
 msgstr "Univerzita"
 
-#: plugins/icq/pastinfo.cpp:80 plugins/icq/workinfo.cpp:90
+#: plugins/icq/pastinfo.cpp:80
+#: plugins/icq/workinfo.cpp:90
 msgid "Military"
 msgstr "Vojenctví"
 
@@ -3299,7 +3876,8 @@ msgstr "Po práci"
 msgid "Past Organization"
 msgstr "Minulá společnost"
 
-#: plugins/icq/pastinfo.cpp:83 plugins/icq/pastinfo.cpp:110
+#: plugins/icq/pastinfo.cpp:83
+#: plugins/icq/pastinfo.cpp:110
 msgid "Other"
 msgstr "Ostatní"
 
@@ -3487,35 +4065,69 @@ msgstr "UIN:"
 msgid "&ICQ"
 msgstr "&ICQ"
 
-#: plugins/icq/aimconfigbase.cc:181 plugins/icq/icqconfigbase.cc:298 plugins/yahoo/yahoocfgbase.cpp:240
+#: plugins/icq/aimconfigbase.cc:181
+#: plugins/icq/icqconfigbase.cc:298
+#: plugins/yahoo/yahoocfgbase.cpp:240
 msgid "&Automaticaly use HTTP pooling if proxy required"
 msgstr "&Automatidky pužít HTTP pooling, pokud jej proxy vyžaduje"
 
-#: plugins/icq/aimconfigbase.cc:180 plugins/icq/icqconfigbase.cc:299 plugins/jabber/jabberconfigbase.cpp:366 plugins/msn/msnconfigbase.cpp:235 plugins/yahoo/yahoocfgbase.cpp:241
+#: plugins/icq/aimconfigbase.cc:180
+#: plugins/icq/icqconfigbase.cc:299
+#: plugins/jabber/jabberconfigbase.cpp:366
+#: plugins/msn/msnconfigbase.cpp:235
+#: plugins/yahoo/yahoocfgbase.cpp:241
 msgid "Use &HTTP polling"
 msgstr "Použít &HTTP poolling"
 
-#: plugins/icq/aimconfigbase.cc:179 plugins/icq/icqconfigbase.cc:300 plugins/jabber/jabberconfigbase.cpp:356 plugins/jabber/jabberconfigbase.cpp:360 plugins/livejournal/livejournalcfgbase.cpp:211 plugins/msn/msnconfigbase.cpp:231 plugins/yahoo/yahoocfgbase.cpp:237
+#: plugins/icq/aimconfigbase.cc:179
+#: plugins/icq/icqconfigbase.cc:300
+#: plugins/jabber/jabberconfigbase.cpp:356
+#: plugins/jabber/jabberconfigbase.cpp:360
+#: plugins/livejournal/livejournalcfgbase.cpp:211
+#: plugins/msn/msnconfigbase.cpp:231
+#: plugins/yahoo/yahoocfgbase.cpp:237
 msgid "Server:"
 msgstr "Server:"
 
-#: plugins/icq/aimconfigbase.cc:178 plugins/icq/icqconfigbase.cc:301 plugins/jabber/jabberconfigbase.cpp:357 plugins/jabber/jabberconfigbase.cpp:361 plugins/livejournal/livejournalcfgbase.cpp:213 plugins/msn/msnconfigbase.cpp:232 plugins/proxy/proxycfgbase.cpp:163 plugins/remote/remotecfgbase.cpp:137 plugins/sms/smssetupbase.cpp:171 plugins/yahoo/yahoocfgbase.cpp:238
+#: plugins/icq/aimconfigbase.cc:178
+#: plugins/icq/icqconfigbase.cc:301
+#: plugins/jabber/jabberconfigbase.cpp:357
+#: plugins/jabber/jabberconfigbase.cpp:361
+#: plugins/livejournal/livejournalcfgbase.cpp:213
+#: plugins/msn/msnconfigbase.cpp:232
+#: plugins/proxy/proxycfgbase.cpp:163
+#: plugins/remote/remotecfgbase.cpp:137
+#: plugins/sms/smssetupbase.cpp:171
+#: plugins/yahoo/yahoocfgbase.cpp:238
 msgid "Port:"
 msgstr "Port:"
 
-#: plugins/icq/icqconfigbase.cc:302 plugins/jabber/jabberconfigbase.cpp:363 plugins/msn/msnconfigbase.cpp:233 plugins/yahoo/yahoocfgbase.cpp:243
+#: plugins/icq/icqconfigbase.cc:302
+#: plugins/jabber/jabberconfigbase.cpp:363
+#: plugins/msn/msnconfigbase.cpp:233
+#: plugins/yahoo/yahoocfgbase.cpp:243
 msgid "Port range for direct connections:"
 msgstr "Rozsah portů pro přímé spojení:"
 
-#: plugins/icq/aimconfigbase.cc:182 plugins/icq/icqconfigbase.cc:304 plugins/jabber/jabberconfigbase.cpp:367 plugins/msn/msnconfigbase.cpp:237 plugins/yahoo/yahoocfgbase.cpp:239
+#: plugins/icq/aimconfigbase.cc:182
+#: plugins/icq/icqconfigbase.cc:304
+#: plugins/jabber/jabberconfigbase.cpp:367
+#: plugins/msn/msnconfigbase.cpp:237
+#: plugins/yahoo/yahoocfgbase.cpp:239
 msgid "Note: For HTTP-pooling using proxy setings for HTTP"
 msgstr "Poznámka: Pro HTTP pooling se použje nastavení HTTP proxy"
 
-#: plugins/icq/aimconfigbase.cc:183 plugins/icq/icqconfigbase.cc:305
+#: plugins/icq/aimconfigbase.cc:183
+#: plugins/icq/icqconfigbase.cc:305
 msgid "&Keep-alive connection"
 msgstr "Udržovat spojení"
 
-#: plugins/icq/aimconfigbase.cc:184 plugins/icq/icqconfigbase.cc:306 plugins/jabber/jabberconfigbase.cpp:369 plugins/livejournal/livejournalcfgbase.cpp:214 plugins/msn/msnconfigbase.cpp:239 plugins/yahoo/yahoocfgbase.cpp:244
+#: plugins/icq/aimconfigbase.cc:184
+#: plugins/icq/icqconfigbase.cc:306
+#: plugins/jabber/jabberconfigbase.cpp:369
+#: plugins/livejournal/livejournalcfgbase.cpp:214
+#: plugins/msn/msnconfigbase.cpp:239
+#: plugins/yahoo/yahoocfgbase.cpp:244
 msgid "&Network"
 msgstr "&Síť"
 
@@ -3568,7 +4180,7 @@ msgstr "Zakázat automatický požadavek na autoreply při změně stavu"
 #: plugins/icq/icqconfigbase.cc:319
 #, fuzzy
 msgid "Disable automatically &update user info"
-msgstr "Zakázat automaticky obnovit informací o uživateli"
+msgstr "Zakázat automatické obnovování informací o uživateli"
 
 #: plugins/icq/icqconfigbase.cc:320
 #, fuzzy
@@ -3580,12 +4192,15 @@ msgstr "Zakázat oznamování o psaní"
 msgid "Check invisible every"
 msgstr "Kontrolovat neviditelnost"
 
-#: plugins/icq/icqconfigbase.cc:322 plugins/livejournal/livejournalcfgbase.cpp:216
+#: plugins/icq/icqconfigbase.cc:322
+#: plugins/livejournal/livejournalcfgbase.cpp:216
 #, fuzzy
 msgid "minutes"
 msgstr "minuty"
 
-#: plugins/icq/icqconfigbase.cc:323 plugins/jabber/jabberconfigbase.cpp:378 plugins/livejournal/livejournalcfgbase.cpp:218
+#: plugins/icq/icqconfigbase.cc:323
+#: plugins/jabber/jabberconfigbase.cpp:378
+#: plugins/livejournal/livejournalcfgbase.cpp:218
 msgid "&Options"
 msgstr "&Volby"
 
@@ -3605,55 +4220,84 @@ msgstr "UIN:"
 msgid "Random chat group:"
 msgstr "Náhodná chatovací skupina:"
 
-#: plugins/icq/icqinfobase.cc:345 plugins/jabber/jabberinfobase.cpp:304 plugins/msn/msninfobase.cpp:163 plugins/yahoo/yahooinfobase.cpp:183
+#: plugins/icq/icqinfobase.cc:345
+#: plugins/jabber/jabberinfobase.cpp:304
+#: plugins/msn/msninfobase.cpp:163
+#: plugins/yahoo/yahooinfobase.cpp:183
 msgid "&Names"
 msgstr "&Jména"
 
-#: plugins/icq/aiminfobase.cc:302 plugins/icq/icqinfobase.cc:346 plugins/jabber/jabberinfobase.cpp:305 plugins/msn/msninfobase.cpp:164 plugins/yahoo/yahooinfobase.cpp:184
+#: plugins/icq/aiminfobase.cc:302
+#: plugins/icq/icqinfobase.cc:346
+#: plugins/jabber/jabberinfobase.cpp:305
+#: plugins/msn/msninfobase.cpp:164
+#: plugins/yahoo/yahooinfobase.cpp:184
 msgid "Status:"
 msgstr "Stav:"
 
-#: plugins/icq/aiminfobase.cc:300 plugins/icq/icqinfobase.cc:349
+#: plugins/icq/aiminfobase.cc:300
+#: plugins/icq/icqinfobase.cc:349
 msgid "External IP:"
 msgstr "Externí IP:"
 
-#: plugins/icq/aiminfobase.cc:304 plugins/icq/icqinfobase.cc:350
+#: plugins/icq/aiminfobase.cc:304
+#: plugins/icq/icqinfobase.cc:350
 msgid "Internal IP:"
 msgstr "Interní IP:"
 
-#: plugins/icq/aiminfobase.cc:301 plugins/icq/icqinfobase.cc:351 plugins/proxy/proxycfgbase.cpp:168
+#: plugins/icq/aiminfobase.cc:301
+#: plugins/icq/icqinfobase.cc:351
+#: plugins/proxy/proxycfgbase.cpp:168
 msgid "Client:"
 msgstr "Klient:"
 
-#: plugins/icq/icqinfobase.cc:353 plugins/jabber/jabberinfobase.cpp:310
+#: plugins/icq/icqinfobase.cc:353
+#: plugins/jabber/jabberinfobase.cpp:310
 msgid "New password:"
 msgstr "Nové heslo:"
 
-#: plugins/icq/icqinfobase.cc:354 plugins/jabber/jabberinfobase.cpp:311
+#: plugins/icq/icqinfobase.cc:354
+#: plugins/jabber/jabberinfobase.cpp:311
 msgid "Retype new password:"
 msgstr "Nové heslo (znovu):"
 
-#: plugins/icq/icqinfobase.cc:355 plugins/jabber/jabberinfobase.cpp:312
+#: plugins/icq/icqinfobase.cc:355
+#: plugins/jabber/jabberinfobase.cpp:312
 msgid "Current password:"
 msgstr "Aktuální heslo:"
 
-#: plugins/icq/icqinfobase.cc:356 plugins/jabber/jabberinfobase.cpp:313
+#: plugins/icq/icqinfobase.cc:356
+#: plugins/jabber/jabberinfobase.cpp:313
 msgid "&Password"
 msgstr "&Heslo"
 
-#: plugins/icq/advsearchbase.cc:280 plugins/icq/aiminfobase.cc:294 plugins/icq/aimsearchbase.cc:201 plugins/icq/homeinfobase.cc:175 plugins/icq/workinfobase.cc:212 plugins/jabber/jabberhomeinfobase.cpp:139
+#: plugins/icq/advsearchbase.cc:280
+#: plugins/icq/aiminfobase.cc:294
+#: plugins/icq/aimsearchbase.cc:201
+#: plugins/icq/homeinfobase.cc:175
+#: plugins/icq/workinfobase.cc:212
+#: plugins/jabber/jabberhomeinfobase.cpp:139
 msgid "State:"
 msgstr "Stav:"
 
-#: plugins/icq/homeinfobase.cc:176 plugins/icq/workinfobase.cc:210 plugins/jabber/jabberhomeinfobase.cpp:140
+#: plugins/icq/homeinfobase.cc:176
+#: plugins/icq/workinfobase.cc:210
+#: plugins/jabber/jabberhomeinfobase.cpp:140
 msgid "Address:"
 msgstr "Adresa:"
 
-#: plugins/icq/advsearchbase.cc:279 plugins/icq/aiminfobase.cc:293 plugins/icq/aimsearchbase.cc:202 plugins/icq/homeinfobase.cc:178 plugins/icq/workinfobase.cc:211 plugins/jabber/jabberhomeinfobase.cpp:136
+#: plugins/icq/advsearchbase.cc:279
+#: plugins/icq/aiminfobase.cc:293
+#: plugins/icq/aimsearchbase.cc:202
+#: plugins/icq/homeinfobase.cc:178
+#: plugins/icq/workinfobase.cc:211
+#: plugins/jabber/jabberhomeinfobase.cpp:136
 msgid "City:"
 msgstr "Město:"
 
-#: plugins/icq/homeinfobase.cc:179 plugins/icq/workinfobase.cc:213 plugins/jabber/jabberhomeinfobase.cpp:137
+#: plugins/icq/homeinfobase.cc:179
+#: plugins/icq/workinfobase.cc:213
+#: plugins/jabber/jabberhomeinfobase.cpp:137
 msgid "Zip code:"
 msgstr "PSČ:"
 
@@ -3665,19 +4309,27 @@ msgstr "Časová zóna:"
 msgid "&Home info"
 msgstr "&Domov"
 
-#: plugins/icq/advsearchbase.cc:282 plugins/icq/moreinfobase.cc:212 plugins/yahoo/yahoosearchbase.cpp:162
+#: plugins/icq/advsearchbase.cc:282
+#: plugins/icq/moreinfobase.cc:212
+#: plugins/yahoo/yahoosearchbase.cpp:162
 msgid "Age:"
 msgstr "Stáří:"
 
-#: plugins/icq/moreinfobase.cc:213 plugins/jabber/discoinfobase.cpp:312 plugins/jabber/jabberinfobase.cpp:302
+#: plugins/icq/moreinfobase.cc:213
+#: plugins/jabber/discoinfobase.cpp:312
+#: plugins/jabber/jabberinfobase.cpp:302
 msgid "Homepage:"
 msgstr "Domovská stránka:"
 
-#: plugins/icq/advsearchbase.cc:283 plugins/icq/moreinfobase.cc:215 plugins/yahoo/yahoosearchbase.cpp:161
+#: plugins/icq/advsearchbase.cc:283
+#: plugins/icq/moreinfobase.cc:215
+#: plugins/yahoo/yahoosearchbase.cpp:161
 msgid "Gender:"
 msgstr "Pohlaví:"
 
-#: plugins/icq/moreinfobase.cc:216 plugins/jabber/discoinfobase.cpp:313 plugins/jabber/jabberinfobase.cpp:301
+#: plugins/icq/moreinfobase.cc:216
+#: plugins/jabber/discoinfobase.cpp:313
+#: plugins/jabber/jabberinfobase.cpp:301
 msgid "Birth date:"
 msgstr "Datum narození:"
 
@@ -3701,7 +4353,8 @@ msgstr "Web:"
 msgid "&Company"
 msgstr "&Firma:"
 
-#: plugins/icq/advsearchbase.cc:285 plugins/icq/workinfobase.cc:219
+#: plugins/icq/advsearchbase.cc:285
+#: plugins/icq/workinfobase.cc:219
 msgid "Occupation:"
 msgstr "Povolání:"
 
@@ -3709,7 +4362,9 @@ msgstr "Povolání:"
 msgid "Div / dept:"
 msgstr "Oddělení/Divize:"
 
-#: plugins/icq/advsearchbase.cc:288 plugins/icq/workinfobase.cc:221 plugins/jabber/jabberworkinfobase.cpp:123
+#: plugins/icq/advsearchbase.cc:288
+#: plugins/icq/workinfobase.cc:221
+#: plugins/jabber/jabberworkinfobase.cpp:123
 msgid "Position:"
 msgstr "Pozice:"
 
@@ -3809,7 +4464,8 @@ msgstr "ICQ UIN"
 msgid "Advanced"
 msgstr "Rozšířené"
 
-#: plugins/icq/advsearchbase.cc:277 plugins/jabber/jabber.cpp:322
+#: plugins/icq/advsearchbase.cc:277
+#: plugins/jabber/jabber.cpp:322
 msgid "Info"
 msgstr "Informace"
 
@@ -3817,11 +4473,13 @@ msgstr "Informace"
 msgid "Work"
 msgstr "Práce"
 
-#: plugins/icq/advsearchbase.cc:286 plugins/jabber/jabberworkinfobase.cpp:121
+#: plugins/icq/advsearchbase.cc:286
+#: plugins/jabber/jabberworkinfobase.cpp:121
 msgid "Company:"
 msgstr "Firma:"
 
-#: plugins/icq/advsearchbase.cc:287 plugins/jabber/jabberworkinfobase.cpp:120
+#: plugins/icq/advsearchbase.cc:287
+#: plugins/jabber/jabberworkinfobase.cpp:120
 msgid "Department:"
 msgstr "Oddělení:"
 
@@ -3842,7 +4500,9 @@ msgstr "Klíčová slova"
 msgid "Search &online users only"
 msgstr "Hledat pouze uživatel, kteří jsou online"
 
-#: plugins/icq/icqpicturebase.cc:135 plugins/jabber/jabberpicturebase.cpp:135 plugins/shortcuts/shortcutcfgbase.cpp:143
+#: plugins/icq/icqpicturebase.cc:135
+#: plugins/jabber/jabberpicturebase.cpp:135
+#: plugins/shortcuts/shortcutcfgbase.cpp:143
 msgid "&Clear"
 msgstr "V&yčistit"
 
@@ -3864,7 +4524,8 @@ msgstr ""
 "\n"
 "Funguje pouze s ostatními SIM a Licq klienty"
 
-#: plugins/icq/aimconfigbase.cc:175 plugins/icq/aiminfobase.cc:297
+#: plugins/icq/aimconfigbase.cc:175
+#: plugins/icq/aiminfobase.cc:297
 msgid "ScreenName:"
 msgstr "Uživatelské jméno:"
 
@@ -3872,19 +4533,23 @@ msgstr "Uživatelské jméno:"
 msgid "&AIM"
 msgstr "&AIM"
 
-#: plugins/icq/aiminfobase.cc:289 plugins/icq/aimsearchbase.cc:196
+#: plugins/icq/aiminfobase.cc:289
+#: plugins/icq/aimsearchbase.cc:196
 msgid "Middle:"
 msgstr "Střední:"
 
-#: plugins/icq/aiminfobase.cc:290 plugins/icq/aimsearchbase.cc:197
+#: plugins/icq/aiminfobase.cc:290
+#: plugins/icq/aimsearchbase.cc:197
 msgid "Maiden:"
 msgstr "Za svobodna:"
 
-#: plugins/icq/aiminfobase.cc:292 plugins/icq/aimsearchbase.cc:204
+#: plugins/icq/aiminfobase.cc:292
+#: plugins/icq/aimsearchbase.cc:204
 msgid "Street:"
 msgstr "Ulice:"
 
-#: plugins/icq/aiminfobase.cc:295 plugins/icq/aimsearchbase.cc:203
+#: plugins/icq/aiminfobase.cc:295
+#: plugins/icq/aimsearchbase.cc:203
 msgid "Zip:"
 msgstr "PSČ:"
 
@@ -3896,7 +4561,9 @@ msgstr "&Profil"
 msgid "Names"
 msgstr "Jména"
 
-#: plugins/icq/aimsearchbase.cc:199 plugins/weather/wifacecfg.cpp:51 plugins/yahoo/yahoosearch.cpp:134
+#: plugins/icq/aimsearchbase.cc:199
+#: plugins/weather/wifacecfg.cpp:51
+#: plugins/yahoo/yahoosearch.cpp:134
 msgid "Location"
 msgstr "Místo"
 
@@ -3940,11 +4607,13 @@ msgstr "Jednotek"
 msgid "Value"
 msgstr "Hodnota"
 
-#: plugins/jabber/discoinfo.cpp:126 plugins/jabber/discoinfobase.cpp:305
+#: plugins/jabber/discoinfo.cpp:126
+#: plugins/jabber/discoinfobase.cpp:305
 msgid "&Version"
 msgstr "&Verze"
 
-#: plugins/jabber/discoinfo.cpp:141 plugins/jabber/discoinfobase.cpp:308
+#: plugins/jabber/discoinfo.cpp:141
+#: plugins/jabber/discoinfobase.cpp:308
 msgid "&Time"
 msgstr "&Čas"
 
@@ -3955,7 +4624,7 @@ msgstr "&Stat"
 #: plugins/jabber/discoinfo.cpp:251
 #, fuzzy, c-format
 msgid "%n day"
-msgstr "Neděle"
+msgstr "%n den"
 
 #: plugins/jabber/jabber.cpp:63
 msgid "Jabber"
@@ -3965,15 +4634,22 @@ msgstr "Jabber"
 msgid "&Back"
 msgstr "&Zpět"
 
-#: plugins/jabber/jabber.cpp:292 plugins/jabber/jabberadd.cpp:278 plugins/jabber/jabberadd.cpp:354 plugins/jabber/jabberbrowser.cpp:114 plugins/jabber/jabberbrowser.cpp:788 plugins/jabber/jidsearch.cpp:121
+#: plugins/jabber/jabber.cpp:292
+#: plugins/jabber/jabberadd.cpp:278
+#: plugins/jabber/jabberadd.cpp:354
+#: plugins/jabber/jabberbrowser.cpp:114
+#: plugins/jabber/jabberbrowser.cpp:788
+#: plugins/jabber/jidsearch.cpp:121
 msgid "JID"
 msgstr "JID"
 
-#: plugins/jabber/jabber.cpp:299 plugins/jabber/jabberbrowser.cpp:115
+#: plugins/jabber/jabber.cpp:299
+#: plugins/jabber/jabberbrowser.cpp:115
 msgid "Node"
 msgstr "Uzel"
 
-#: plugins/jabber/jabber.cpp:314 sim/api/simapi.cpp:468
+#: plugins/jabber/jabber.cpp:314
+#: sim/api/simapi.cpp:468
 msgid "&Register"
 msgstr "&Registrace"
 
@@ -4005,7 +4681,12 @@ msgstr "cz"
 msgid "Process"
 msgstr "Průběh"
 
-#: plugins/jabber/jabberbrowser.cpp:82 plugins/jabber/jabberbrowser.cpp:291 plugins/jabber/jabberbrowser.cpp:322 plugins/jabber/jabberbrowser.cpp:351 plugins/jabber/jabberbrowser.cpp:559 plugins/jabber/jabberbrowser.cpp:629
+#: plugins/jabber/jabberbrowser.cpp:82
+#: plugins/jabber/jabberbrowser.cpp:291
+#: plugins/jabber/jabberbrowser.cpp:322
+#: plugins/jabber/jabberbrowser.cpp:351
+#: plugins/jabber/jabberbrowser.cpp:559
+#: plugins/jabber/jabberbrowser.cpp:629
 #, c-format
 msgid "Error %1"
 msgstr "Chyba %1"
@@ -4034,19 +4715,26 @@ msgstr "%1 Konfigurace"
 msgid "Choose a user and password to register with the server"
 msgstr "Zadejte uživatelské jméno a heslo potřebné pro registraci"
 
-#: plugins/jabber/jabberclient.cpp:1483 plugins/jabber/jabberclient.cpp:1592
+#: plugins/jabber/jabberclient.cpp:1483
+#: plugins/jabber/jabberclient.cpp:1592
 msgid "Photo"
 msgstr "Fotografie"
 
-#: plugins/jabber/jabberclient.cpp:1498 plugins/jabber/jabberclient.cpp:1607
+#: plugins/jabber/jabberclient.cpp:1498
+#: plugins/jabber/jabberclient.cpp:1607
 msgid "Logo"
 msgstr "Logo"
 
-#: plugins/jabber/jabberclient.cpp:2787 plugins/jabber/jabberclient.cpp:2828 plugins/msn/msnclient.cpp:2943 plugins/yahoo/yahooclient.cpp:2379 plugins/yahoo/yahooclient.cpp:2421
+#: plugins/jabber/jabberclient.cpp:2787
+#: plugins/jabber/jabberclient.cpp:2828
+#: plugins/msn/msnclient.cpp:2943
+#: plugins/yahoo/yahooclient.cpp:2379
+#: plugins/yahoo/yahooclient.cpp:2421
 msgid "File transfer failed"
 msgstr "Chyba přenosu souboru"
 
-#: plugins/jabber/jabberclient.cpp:2926 plugins/yahoo/yahooclient.cpp:2519
+#: plugins/jabber/jabberclient.cpp:2926
+#: plugins/yahoo/yahooclient.cpp:2519
 msgid "File transfer fail"
 msgstr "Chyba přenosu souboru"
 
@@ -4058,7 +4746,8 @@ msgstr "jabber.org"
 msgid "List of public servers"
 msgstr "Seznam veřejných (public) serverů"
 
-#: plugins/jabber/jabbermessage.cpp:53 plugins/livejournal/livejournal.cpp:104
+#: plugins/jabber/jabbermessage.cpp:53
+#: plugins/livejournal/livejournal.cpp:104
 msgid "<p>Subject: %1</p>"
 msgstr "<p>Subjekt: %1</p>"
 
@@ -4066,15 +4755,18 @@ msgstr "<p>Subjekt: %1</p>"
 msgid "Original message:"
 msgstr "Původní zpráva:"
 
-#: plugins/jabber/jabbermessage.cpp:158 plugins/jabber/jabbermessage.cpp:214
+#: plugins/jabber/jabbermessage.cpp:158
+#: plugins/jabber/jabbermessage.cpp:214
 msgid "Log On"
 msgstr "Přihlásit se"
 
-#: plugins/jabber/jabbermessage.cpp:175 plugins/jabber/jabbermessage.cpp:222
+#: plugins/jabber/jabbermessage.cpp:175
+#: plugins/jabber/jabbermessage.cpp:222
 msgid "Log Off"
 msgstr "Odhlásit se"
 
-#: plugins/jabber/jabberpicture.cpp:47 plugins/jabber/jabberpicturebase.cpp:136
+#: plugins/jabber/jabberpicture.cpp:47
+#: plugins/jabber/jabberpicturebase.cpp:136
 msgid "&Photo"
 msgstr "&Fotografie"
 
@@ -4082,7 +4774,8 @@ msgstr "&Fotografie"
 msgid "&Logo"
 msgstr "&Logo"
 
-#: plugins/jabber/jabbersearch.cpp:101 plugins/jabber/jabbersearch.cpp:308
+#: plugins/jabber/jabbersearch.cpp:101
+#: plugins/jabber/jabbersearch.cpp:308
 msgid "Username"
 msgstr "Uživatelské jméno"
 
@@ -4225,7 +4918,8 @@ msgstr "Název společnosti"
 msgid "Organization Unit"
 msgstr "Oddělení"
 
-#: plugins/jabber/jabberconfigbase.cpp:354 plugins/livejournal/livejournalcfgbase.cpp:208
+#: plugins/jabber/jabberconfigbase.cpp:354
+#: plugins/livejournal/livejournalcfgbase.cpp:208
 msgid "Username:"
 msgstr "Uživatelské jméno:"
 
@@ -4233,7 +4927,8 @@ msgstr "Uživatelské jméno:"
 msgid "&Register new account"
 msgstr "&Registrovat nové konto"
 
-#: plugins/jabber/jabberconfigbase.cpp:358 plugins/jabber/jabberconfigbase.cpp:365
+#: plugins/jabber/jabberconfigbase.cpp:358
+#: plugins/jabber/jabberconfigbase.cpp:365
 msgid "Use &SSL"
 msgstr "Použít &SSL"
 
@@ -4249,7 +4944,8 @@ msgstr "Použít &prostý text"
 msgid "URL:"
 msgstr "URL:"
 
-#: plugins/jabber/jabberconfigbase.cpp:370 plugins/jabber/jabberinfobase.cpp:308
+#: plugins/jabber/jabberconfigbase.cpp:370
+#: plugins/jabber/jabberinfobase.cpp:308
 msgid "Resource:"
 msgstr "Zdroj:"
 
@@ -4277,7 +4973,8 @@ msgstr "Požadavky na podpis &akceptovat automaticky"
 msgid "Send &rich text messages if possible"
 msgstr "Pokud je to možné, posílat text v &rich text format (RTF)"
 
-#: plugins/jabber/jabberconfigbase.cpp:377 plugins/osd/osdconfigbase.cpp:149
+#: plugins/jabber/jabberconfigbase.cpp:377
+#: plugins/osd/osdconfigbase.cpp:149
 #, fuzzy
 msgid "Enable &typing notification"
 msgstr "Povolit oznamování psaní"
@@ -4298,7 +4995,8 @@ msgstr "Doplňující informace:"
 msgid "&JID"
 msgstr "JID"
 
-#: plugins/jabber/jabberaddbase.cpp:159 plugins/jabber/jidsearchbase.cpp:136
+#: plugins/jabber/jabberaddbase.cpp:159
+#: plugins/jabber/jidsearchbase.cpp:136
 msgid "Jabber &browser"
 msgstr "Prohlížeč Jabberu"
 
@@ -4338,9 +5036,10 @@ msgstr "&Statistika"
 #: plugins/livejournal/livejournal.cpp:110
 #, fuzzy
 msgid "LiveJournal post"
-msgstr "LiveJournal &post"
+msgstr "Poslat záznam"
 
-#: plugins/livejournal/livejournal.cpp:111 plugins/livejournal/livejournal.cpp:252
+#: plugins/livejournal/livejournal.cpp:111
+#: plugins/livejournal/livejournal.cpp:252
 #, fuzzy
 msgid "Friends updated"
 msgstr "Přátelé obnoveni"
@@ -4903,8 +5602,9 @@ msgid "Recent Entries"
 msgstr "Poslední záznamy"
 
 #: plugins/livejournal/livejournal.cpp:1512
+#, fuzzy
 msgid "Calendar View"
-msgstr "Calendar View"
+msgstr "Kalendář se záznamy"
 
 #: plugins/livejournal/livejournal.cpp:1513
 #, fuzzy
@@ -5012,7 +5712,8 @@ msgstr "Ladění (debug)"
 msgid "Packets"
 msgstr "Paketů"
 
-#: plugins/logger/logconfig.cpp:96 plugins/sound/soundconfig.cpp:68
+#: plugins/logger/logconfig.cpp:96
+#: plugins/sound/soundconfig.cpp:68
 msgid "Events"
 msgstr "Události"
 
@@ -5052,11 +5753,13 @@ msgstr "MSN"
 msgid "http://help.microsoft.com/!data/en_us/data/messengerv47_xp.its51/$content$/xptroublesignin.htm"
 msgstr "http://help.microsoft.com/!data/en_us/data/messengerv47_xp.its51/$content$/xptroublesignin.htm"
 
-#: plugins/msn/msn.cpp:146 plugins/yahoo/yahooclient.cpp:1399
+#: plugins/msn/msn.cpp:146
+#: plugins/yahoo/yahooclient.cpp:1399
 msgid "Be right back"
 msgstr "Jsem hned zpátky"
 
-#: plugins/msn/msn.cpp:161 plugins/yahoo/yahooclient.cpp:1411
+#: plugins/msn/msn.cpp:161
+#: plugins/yahoo/yahooclient.cpp:1411
 msgid "On the phone"
 msgstr "Na telefonu"
 
@@ -5064,15 +5767,19 @@ msgstr "Na telefonu"
 msgid "On the lunch"
 msgstr "Na obědě"
 
-#: plugins/msn/msnclient.cpp:522 plugins/msn/msnclient.cpp:539
+#: plugins/msn/msnclient.cpp:522
+#: plugins/msn/msnclient.cpp:539
 msgid "MSN protocol error"
 msgstr "Chyba MSN protokolu"
 
-#: plugins/msn/msnclient.cpp:707 plugins/yahoo/yahooclient.cpp:365 plugins/yahoo/yahooclient.cpp:378
+#: plugins/msn/msnclient.cpp:707
+#: plugins/yahoo/yahooclient.cpp:365
+#: plugins/yahoo/yahooclient.cpp:378
 msgid "Your account is being used from another location"
 msgstr "Vaš účet je používán z jiného místa"
 
-#: plugins/msn/msnclient.cpp:1912 plugins/msn/msnclient.cpp:1920
+#: plugins/msn/msnclient.cpp:1912
+#: plugins/msn/msnclient.cpp:1920
 msgid "Contact go offline"
 msgstr "Kontakt do offline"
 
@@ -5095,13 +5802,15 @@ msgstr "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 #: plugins/msn/msnpacket.cpp:471
 #, fuzzy, c-format
 msgid "You have %n unread message"
-msgstr "Máte novou zprávu"
+msgstr "Máte %n nepřečtenou zprávu"
 
 #: plugins/msn/msnpacket.cpp:491
 msgid "You have new mail"
 msgstr "Máte novou zprávu"
 
-#: plugins/msn/msnconfigbase.cpp:228 plugins/yahoo/yahoocfgbase.cpp:234 plugins/yahoo/yahooinfobase.cpp:180
+#: plugins/msn/msnconfigbase.cpp:228
+#: plugins/yahoo/yahoocfgbase.cpp:234
+#: plugins/yahoo/yahooinfobase.cpp:180
 msgid "Login:"
 msgstr "Uživatelské jméno:"
 
@@ -5147,15 +5856,19 @@ msgstr "Poštovní klient:"
 msgid "Open links in &new window"
 msgstr "Otevřít odkaz v novém okně"
 
-#: plugins/netmonitor/monitor.cpp:51 plugins/netmonitor/netmonitor.cpp:35 plugins/netmonitor/netmonitor.cpp:91
+#: plugins/netmonitor/monitor.cpp:51
+#: plugins/netmonitor/netmonitor.cpp:35
+#: plugins/netmonitor/netmonitor.cpp:91
 msgid "Network monitor"
 msgstr "Síťový monitor"
 
-#: plugins/netmonitor/monitor.cpp:60 sim/ui/qt3/i18n.cpp:95
+#: plugins/netmonitor/monitor.cpp:60
+#: sim/ui/qt3/i18n.cpp:95
 msgid "&Save"
 msgstr "U&ložit"
 
-#: plugins/netmonitor/monitor.cpp:61 plugins/netmonitor/monitor.cpp:112
+#: plugins/netmonitor/monitor.cpp:61
+#: plugins/netmonitor/monitor.cpp:112
 msgid "&Pause"
 msgstr "&Pauza"
 
@@ -5317,7 +6030,8 @@ msgstr "Zobrazit &stín"
 msgid "Show &background"
 msgstr "Zobrazit &pozadí"
 
-#: plugins/osd/osdifacebase.cpp:194 plugins/styles/fontconfigbase.cpp:161
+#: plugins/osd/osdifacebase.cpp:194
+#: plugins/styles/fontconfigbase.cpp:161
 msgid "Background color:"
 msgstr "Barva pozadí:"
 
@@ -5394,7 +6108,8 @@ msgstr "Plugin poskytuje dálkové ovládání"
 msgid "Use &UNIX socket"
 msgstr "Použít &UNIX soket"
 
-#: plugins/remote/remotecfgbase.cpp:138 plugins/remote/remotecfgbase.cpp:139
+#: plugins/remote/remotecfgbase.cpp:138
+#: plugins/remote/remotecfgbase.cpp:139
 msgid "Use &TCP socket"
 msgstr "Použít &TCP soket"
 
@@ -5446,7 +6161,11 @@ msgstr "dvojklik uprostřed"
 msgid "Mouse"
 msgstr "Myš"
 
-#: plugins/shortcuts/shortcutcfg.cpp:90 plugins/shortcuts/shortcutcfg.cpp:223 plugins/shortcuts/shortcutcfgbase.cpp:99 plugins/shortcuts/shortcutcfgbase.cpp:141 plugins/shortcuts/shortcutcfgbase.cpp:144
+#: plugins/shortcuts/shortcutcfg.cpp:90
+#: plugins/shortcuts/shortcutcfg.cpp:223
+#: plugins/shortcuts/shortcutcfgbase.cpp:99
+#: plugins/shortcuts/shortcutcfgbase.cpp:141
+#: plugins/shortcuts/shortcutcfgbase.cpp:144
 msgid "Global"
 msgstr "Obecné"
 
@@ -5458,31 +6177,40 @@ msgstr "Klávesové zkratky"
 msgid "Plugin provides keyboards shortcuts and global mouse functions"
 msgstr "Plugin poskytuje použití klávesových zkratek a různých funkcí myši"
 
-#: plugins/shortcuts/mousecfgbase.cpp:67 plugins/shortcuts/mousecfgbase.cpp:109 plugins/shortcuts/shortcutcfgbase.cpp:96 plugins/shortcuts/shortcutcfgbase.cpp:139
+#: plugins/shortcuts/mousecfgbase.cpp:67
+#: plugins/shortcuts/mousecfgbase.cpp:109
+#: plugins/shortcuts/shortcutcfgbase.cpp:96
+#: plugins/shortcuts/shortcutcfgbase.cpp:139
 msgid "Command"
 msgstr "Příkaz"
 
-#: plugins/shortcuts/shortcutcfgbase.cpp:97 plugins/shortcuts/shortcutcfgbase.cpp:140
+#: plugins/shortcuts/shortcutcfgbase.cpp:97
+#: plugins/shortcuts/shortcutcfgbase.cpp:140
 msgid "Key"
 msgstr "Klávesa"
 
-#: plugins/shortcuts/mousecfgbase.cpp:68 plugins/shortcuts/mousecfgbase.cpp:110
+#: plugins/shortcuts/mousecfgbase.cpp:68
+#: plugins/shortcuts/mousecfgbase.cpp:110
 msgid "Button"
 msgstr "Tlačítko"
 
-#: plugins/shortcuts/mousecfgbase.cpp:112 sim/ui/qt3/i18n.cpp:197
+#: plugins/shortcuts/mousecfgbase.cpp:112
+#: sim/ui/qt3/i18n.cpp:197
 msgid "Alt"
 msgstr "Alt"
 
-#: plugins/shortcuts/mousecfgbase.cpp:113 sim/ui/qt3/i18n.cpp:193
+#: plugins/shortcuts/mousecfgbase.cpp:113
+#: sim/ui/qt3/i18n.cpp:193
 msgid "Ctrl"
 msgstr "Ctrl"
 
-#: plugins/shortcuts/mousecfgbase.cpp:114 sim/ui/qt3/i18n.cpp:199
+#: plugins/shortcuts/mousecfgbase.cpp:114
+#: sim/ui/qt3/i18n.cpp:199
 msgid "Shift"
 msgstr "Shift"
 
-#: plugins/sms/sms.cpp:87 plugins/sms/sms.cpp:108
+#: plugins/sms/sms.cpp:87
+#: plugins/sms/sms.cpp:108
 #, fuzzy
 msgid "Phone call"
 msgstr "Telefonní hovor"
@@ -5565,7 +6293,8 @@ msgstr "Operátor:"
 msgid "&Phone"
 msgstr "&Telefon"
 
-#: plugins/sound/sound.cpp:46 plugins/sound/sounduser.cpp:37
+#: plugins/sound/sound.cpp:46
+#: plugins/sound/sounduser.cpp:37
 msgid "Sound"
 msgstr "Zvuk"
 
@@ -5573,7 +6302,8 @@ msgstr "Zvuk"
 msgid "Plugin provides sounds on any events"
 msgstr "Plugin umožňuje přehrát zvuky při událostech"
 
-#: plugins/sound/sound.cpp:129 plugins/sound/sound.cpp:137
+#: plugins/sound/sound.cpp:129
+#: plugins/sound/sound.cpp:137
 msgid "&Sound"
 msgstr "&Zvuk"
 
@@ -5762,7 +6492,58 @@ msgstr "Sobota"
 msgid "Sunday"
 msgstr "Neděle"
 
-#: plugins/weather/weather.cpp:461 plugins/weather/weather.cpp:462 plugins/weather/weather.cpp:463 plugins/weather/weather.cpp:464 plugins/weather/weather.cpp:465 plugins/weather/weather.cpp:466 plugins/weather/weather.cpp:467 plugins/weather/weather.cpp:468 plugins/weather/weather.cpp:469 plugins/weather/weather.cpp:470 plugins/weather/weather.cpp:471 plugins/weather/weather.cpp:472 plugins/weather/weather.cpp:473 plugins/weather/weather.cpp:474 plugins/weather/weather.cpp:475 plugins/weather/weather.cpp:476 plugins/weather/weather.cpp:477 plugins/weather/weather.cpp:478 plugins/weather/weather.cpp:479 plugins/weather/weather.cpp:480 plugins/weather/weather.cpp:481 plugins/weather/weather.cpp:482 plugins/weather/weather.cpp:483 plugins/weather/weather.cpp:484 plugins/weather/weather.cpp:485 plugins/weather/weather.cpp:486 plugins/weather/weather.cpp:487 plugins/weather/weather.cpp:488 plugins/weather/weather.cpp:489 plugins/weather/weather.cpp:490 plugins/weather/weather.cpp:491 plugins/weather/weather.cpp:492 plugins/weather/weather.cpp:493 plugins/weather/weather.cpp:494 plugins/weather/weather.cpp:495 plugins/weather/weather.cpp:496 plugins/weather/weather.cpp:497 plugins/weather/weather.cpp:498 plugins/weather/weather.cpp:499 plugins/weather/weather.cpp:500 plugins/weather/weather.cpp:501 plugins/weather/weather.cpp:502 plugins/weather/weather.cpp:503 plugins/weather/weather.cpp:504 plugins/weather/weather.cpp:505 plugins/weather/weather.cpp:506 plugins/weather/weather.cpp:523 plugins/weather/weather.cpp:526 plugins/weather/weather.cpp:530 plugins/weather/weather.cpp:546 plugins/weather/weather.cpp:548 plugins/weather/weather.cpp:553
+#: plugins/weather/weather.cpp:461
+#: plugins/weather/weather.cpp:462
+#: plugins/weather/weather.cpp:463
+#: plugins/weather/weather.cpp:464
+#: plugins/weather/weather.cpp:465
+#: plugins/weather/weather.cpp:466
+#: plugins/weather/weather.cpp:467
+#: plugins/weather/weather.cpp:468
+#: plugins/weather/weather.cpp:469
+#: plugins/weather/weather.cpp:470
+#: plugins/weather/weather.cpp:471
+#: plugins/weather/weather.cpp:472
+#: plugins/weather/weather.cpp:473
+#: plugins/weather/weather.cpp:474
+#: plugins/weather/weather.cpp:475
+#: plugins/weather/weather.cpp:476
+#: plugins/weather/weather.cpp:477
+#: plugins/weather/weather.cpp:478
+#: plugins/weather/weather.cpp:479
+#: plugins/weather/weather.cpp:480
+#: plugins/weather/weather.cpp:481
+#: plugins/weather/weather.cpp:482
+#: plugins/weather/weather.cpp:483
+#: plugins/weather/weather.cpp:484
+#: plugins/weather/weather.cpp:485
+#: plugins/weather/weather.cpp:486
+#: plugins/weather/weather.cpp:487
+#: plugins/weather/weather.cpp:488
+#: plugins/weather/weather.cpp:489
+#: plugins/weather/weather.cpp:490
+#: plugins/weather/weather.cpp:491
+#: plugins/weather/weather.cpp:492
+#: plugins/weather/weather.cpp:493
+#: plugins/weather/weather.cpp:494
+#: plugins/weather/weather.cpp:495
+#: plugins/weather/weather.cpp:496
+#: plugins/weather/weather.cpp:497
+#: plugins/weather/weather.cpp:498
+#: plugins/weather/weather.cpp:499
+#: plugins/weather/weather.cpp:500
+#: plugins/weather/weather.cpp:501
+#: plugins/weather/weather.cpp:502
+#: plugins/weather/weather.cpp:503
+#: plugins/weather/weather.cpp:504
+#: plugins/weather/weather.cpp:505
+#: plugins/weather/weather.cpp:506
+#: plugins/weather/weather.cpp:523
+#: plugins/weather/weather.cpp:526
+#: plugins/weather/weather.cpp:530
+#: plugins/weather/weather.cpp:546
+#: plugins/weather/weather.cpp:548
+#: plugins/weather/weather.cpp:553
 #, fuzzy
 msgid "weather"
 msgstr "Počasí"
@@ -5779,11 +6560,13 @@ msgstr "km/h"
 msgid "and"
 msgstr "a"
 
-#: plugins/weather/weather.cpp:541 plugins/weather/weather.cpp:543
+#: plugins/weather/weather.cpp:541
+#: plugins/weather/weather.cpp:543
 msgid "m/s"
 msgstr "m/s"
 
-#: plugins/weather/weather.cpp:542 plugins/weather/weather.cpp:543
+#: plugins/weather/weather.cpp:542
+#: plugins/weather/weather.cpp:543
 msgid "gust "
 msgstr "v nárazech "
 
@@ -5835,7 +6618,8 @@ msgstr ""
 msgid "Location %1 not found"
 msgstr "Místo %1 nenalezeno"
 
-#: plugins/weather/wifacecfg.cpp:27 plugins/weather/wifacecfg.cpp:66
+#: plugins/weather/wifacecfg.cpp:27
+#: plugins/weather/wifacecfg.cpp:66
 msgid "Temperature"
 msgstr "Teplota"
 
@@ -5895,7 +6679,9 @@ msgstr "Slunce vychází v"
 msgid "Sunset"
 msgstr "Slunce zapadá v"
 
-#: plugins/weather/wifacecfg.cpp:59 plugins/weather/wifacecfg.cpp:74 plugins/yahoo/yahoosearchbase.cpp:160
+#: plugins/weather/wifacecfg.cpp:59
+#: plugins/weather/wifacecfg.cpp:74
+#: plugins/yahoo/yahoosearchbase.cpp:160
 msgid "Conditions"
 msgstr "Stav počasí"
 
@@ -5907,7 +6693,8 @@ msgstr "Číslo"
 msgid "Day of week"
 msgstr "Den v týdnu"
 
-#: plugins/weather/wifacecfg.cpp:72 sim/ui/qt3/i18n.cpp:45
+#: plugins/weather/wifacecfg.cpp:72
+#: sim/ui/qt3/i18n.cpp:45
 msgid "Date"
 msgstr "Datum"
 
@@ -6023,9 +6810,8 @@ msgid "Yahoo! &ID"
 msgstr "Yahoo! ID:"
 
 #: plugins/yahoo/yahoosearchbase.cpp:159
-#, fuzzy
 msgid "&Keyword"
-msgstr "&Klíčová slova"
+msgstr "Klíčové slovo"
 
 #: plugins/zodiak/zodiak.cpp:50
 msgid "Zodiak"
@@ -6108,11 +6894,13 @@ msgstr "Tento program je šířen pod GPL v2."
 msgid "Unicode"
 msgstr "Unikód (Unicode)"
 
-#: sim/api/contacts.cpp:1967 sim/api/contacts.cpp:1968
+#: sim/api/contacts.cpp:1967
+#: sim/api/contacts.cpp:1968
 msgid "Baltic"
 msgstr "Baltský"
 
-#: sim/api/contacts.cpp:1970 sim/api/contacts.cpp:1972
+#: sim/api/contacts.cpp:1970
+#: sim/api/contacts.cpp:1972
 msgid "Central European"
 msgstr "Středoevropský"
 
@@ -6128,11 +6916,15 @@ msgstr "Čínský (zjednodušený)"
 msgid "Chinese Traditional"
 msgstr "Čínský (tradiční)"
 
-#: sim/api/contacts.cpp:1978 sim/api/contacts.cpp:1979 sim/api/contacts.cpp:1981
+#: sim/api/contacts.cpp:1978
+#: sim/api/contacts.cpp:1979
+#: sim/api/contacts.cpp:1981
 msgid "Cyrillic"
 msgstr "Cyrilika"
 
-#: sim/api/contacts.cpp:1995 sim/api/contacts.cpp:1996 sim/api/contacts.cpp:1997
+#: sim/api/contacts.cpp:1995
+#: sim/api/contacts.cpp:1996
+#: sim/api/contacts.cpp:1997
 msgid "Western European"
 msgstr "Západoevropský"
 
@@ -7135,11 +7927,15 @@ msgid ""
 "Definition of PluralForm - to be set by the translator of kdelibs.po"
 msgstr "NoPlural"
 
-#: sim/api/simapi.cpp:467 sim/ui/ballonmsg.cpp:359 sim/ui/qt3/i18n.cpp:125
+#: sim/api/simapi.cpp:467
+#: sim/ui/ballonmsg.cpp:359
+#: sim/ui/qt3/i18n.cpp:125
 msgid "&Yes"
 msgstr "&Ano"
 
-#: sim/api/simapi.cpp:471 sim/ui/ballonmsg.cpp:360 sim/ui/qt3/i18n.cpp:127
+#: sim/api/simapi.cpp:471
+#: sim/ui/ballonmsg.cpp:360
+#: sim/ui/qt3/i18n.cpp:127
 msgid "&No"
 msgstr "&Ne"
 
@@ -7207,7 +8003,8 @@ msgstr "Andílek"
 msgid "Grin"
 msgstr "Křenící se"
 
-#: sim/api/socket.cpp:145 sim/api/socket.cpp:163
+#: sim/api/socket.cpp:145
+#: sim/api/socket.cpp:163
 msgid "Read socket error"
 msgstr "Chyba v čtení ze soketu"
 
@@ -7219,7 +8016,8 @@ msgstr "Chyba spojení"
 msgid "Can't resolve host"
 msgstr "Chyba v resolvování jména hostitele"
 
-#: sim/api/sockfactory.cpp:303 sim/ui/qt3/i18n.cpp:237
+#: sim/api/sockfactory.cpp:303
+#: sim/ui/qt3/i18n.cpp:237
 msgid "Connection closed"
 msgstr "Spojení uzavřeno"
 
@@ -7231,11 +8029,15 @@ msgstr "Chyba soketu"
 msgid "Can't allocate port"
 msgstr "Nemohu alokovat port"
 
-#: sim/api/sslclient.cpp:127 sim/api/sslclient.cpp:298 sim/api/sslclient.cpp:302
+#: sim/api/sslclient.cpp:127
+#: sim/api/sslclient.cpp:298
+#: sim/api/sslclient.cpp:302
 msgid "SSL write error"
 msgstr "Chyba zápisu v SSL"
 
-#: sim/api/sslclient.cpp:136 sim/api/sslclient.cpp:157 sim/api/sslclient.cpp:165
+#: sim/api/sslclient.cpp:136
+#: sim/api/sslclient.cpp:157
+#: sim/api/sslclient.cpp:165
 msgid "SSL connect error"
 msgstr "Chyba spojení v SSL"
 
@@ -7243,15 +8045,21 @@ msgstr "Chyba spojení v SSL"
 msgid "SSL shutdown error"
 msgstr "Chyba odpojení v SSL"
 
-#: sim/api/sslclient.cpp:193 sim/api/sslclient.cpp:201
+#: sim/api/sslclient.cpp:193
+#: sim/api/sslclient.cpp:201
 msgid "SSL shuwdown error"
 msgstr "Chyba odpojení v SSL"
 
-#: sim/api/sslclient.cpp:208 sim/api/sslclient.cpp:229 sim/api/sslclient.cpp:237
+#: sim/api/sslclient.cpp:208
+#: sim/api/sslclient.cpp:229
+#: sim/api/sslclient.cpp:237
 msgid "SSL accept error"
 msgstr "Chyba ve spojení SSL"
 
-#: sim/api/sslclient.cpp:259 sim/api/sslclient.cpp:263 sim/api/sslclient.cpp:350 sim/api/sslclient.cpp:356
+#: sim/api/sslclient.cpp:259
+#: sim/api/sslclient.cpp:263
+#: sim/api/sslclient.cpp:350
+#: sim/api/sslclient.cpp:356
 msgid "SSL read error"
 msgstr "Chyba čtení v SSL"
 
@@ -7421,7 +8229,8 @@ msgstr "Adresář"
 msgid "Special"
 msgstr "Speciální"
 
-#: sim/ui/editfile.cpp:143 sim/ui/qt3/i18n.cpp:89
+#: sim/ui/editfile.cpp:143
+#: sim/ui/qt3/i18n.cpp:89
 msgid "Open"
 msgstr "Otevřít"
 
@@ -7691,15 +8500,21 @@ msgstr "Předchozí akce"
 msgid "Redo"
 msgstr "Následující akce"
 
-#: sim/ui/editfile.cpp:311 sim/ui/editfile.cpp:394 sim/ui/qt3/i18n.cpp:249
+#: sim/ui/editfile.cpp:311
+#: sim/ui/editfile.cpp:394
+#: sim/ui/qt3/i18n.cpp:249
 msgid "Cut"
 msgstr "Vyjmout"
 
-#: sim/ui/editfile.cpp:312 sim/ui/editfile.cpp:395 sim/ui/qt3/i18n.cpp:251
+#: sim/ui/editfile.cpp:312
+#: sim/ui/editfile.cpp:395
+#: sim/ui/qt3/i18n.cpp:251
 msgid "Copy"
 msgstr "Kopírovat"
 
-#: sim/ui/editfile.cpp:313 sim/ui/editfile.cpp:396 sim/ui/qt3/i18n.cpp:253
+#: sim/ui/editfile.cpp:313
+#: sim/ui/editfile.cpp:396
+#: sim/ui/qt3/i18n.cpp:253
 msgid "Paste"
 msgstr "Vložit"
 
@@ -7911,506 +8726,3 @@ msgstr "Vlastní"
 msgid "Windows XP style"
 msgstr "Styl Windows XP"
 
-#~ msgid ""
-#~ "_n: You have %n unread message\n"
-#~ "You have %n unread messages"
-#~ msgstr "Máte %n nepřečtených zpráv"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is typing"
-#~ msgstr "%1 píše"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is typing"
-#~ msgstr "%1 píše"
-
-#~ msgid ""
-#~ "_: %1 wrote:\n"
-#~ "female"
-#~ msgstr "%1 napsala:"
-
-#, fuzzy
-#~ msgid ""
-#~ "_n: %n contact found\n"
-#~ "%n contacts found"
-#~ msgstr ""
-#~ "_n: %n kontakt nalezen\n"
-#~ "%n kontakty nalezeny"
-
-#~ msgid ""
-#~ "_n: Close after %n second\n"
-#~ "Close after %n seconds"
-#~ msgstr "Zavřít po %n sekundách"
-
-#~ msgid ""
-#~ "_n: Message\n"
-#~ "%n messages"
-#~ msgstr "%n zpráva"
-
-#~ msgid ""
-#~ "_n: SMS\n"
-#~ "%n SMSs"
-#~ msgstr "%n SMS"
-
-#~ msgid ""
-#~ "_n: URL\n"
-#~ "%n URLs"
-#~ msgstr "%n URL"
-
-#~ msgid ""
-#~ "_n: Contact list\n"
-#~ "%n contact lists"
-#~ msgstr "%n kontakt listů"
-
-#~ msgid ""
-#~ "_n: File\n"
-#~ "%n files"
-#~ msgstr "%n souborů"
-
-#~ msgid ""
-#~ "_n: Authorize request\n"
-#~ "%n authorize requests"
-#~ msgstr "%n žádá o autorizaci"
-
-#~ msgid ""
-#~ "_n: Authorization granted\n"
-#~ "%n authorization granted"
-#~ msgstr "%n udělil autorizaci"
-
-#~ msgid ""
-#~ "_n: Authorization refused\n"
-#~ "%n authorization refused"
-#~ msgstr "%n autorizaci zamítnul"
-
-#~ msgid ""
-#~ "_n: Add to contacts\n"
-#~ "%n add to contacts"
-#~ msgstr "%n přidán do kontaktů"
-
-#~ msgid ""
-#~ "_n: Removed from contacts\n"
-#~ "%n removed from contacts"
-#~ msgstr "%n odebrán z kontaktů"
-
-#~ msgid ""
-#~ "_n: Status changed\n"
-#~ "%n times status changed"
-#~ msgstr "%n  změnil stav"
-
-#~ msgid ""
-#~ "_n: %n GPG key\n"
-#~ "%n GPG keys"
-#~ msgstr "%n GPG klíč (e/ů)"
-
-#~ msgid ""
-#~ "_n: WWW-panel message\n"
-#~ "%n WWW-panel messages"
-#~ msgstr "WWW-zpráva (%n)"
-
-#~ msgid ""
-#~ "_n: Email pager message\n"
-#~ "%n Email pager messages"
-#~ msgstr "Email-Pager-zpráva (%n)"
-
-#~ msgid ""
-#~ "_n: Request secure channel\n"
-#~ "%n requests secure channel"
-#~ msgstr "Požadavek na zabezpečný kanál (%n)"
-
-#~ msgid ""
-#~ "_n: Close secure channel\n"
-#~ "%n times close secure channel"
-#~ msgstr "Uzavření bezpečného kanálu (%n)"
-
-#~ msgid ""
-#~ "_n: Check invisible\n"
-#~ "%n times check invisible"
-#~ msgstr "Kontrola neviditelnosti (%n)"
-
-#~ msgid ""
-#~ "_n: Warning\n"
-#~ "%n warnings"
-#~ msgstr "%n varování"
-
-#~ msgid ""
-#~ "_n: Contact request\n"
-#~ "%n contact requests"
-#~ msgstr "Požadavek na kontakty (%n)"
-
-#~ msgid ""
-#~ "_n: %n file\n"
-#~ "%n files"
-#~ msgstr "%n soubor (y/ů)"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is online"
-#~ msgstr "%1 je online"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is online"
-#~ msgstr "%1 je online"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is away"
-#~ msgstr "%1 je pryč (away)"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is away"
-#~ msgstr "%1 je pryč (away)"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is not available"
-#~ msgstr "%1 je nedostupný (away)"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is not available"
-#~ msgstr "%1 je nedostupná (away)"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 doesn't want to be disturbed"
-#~ msgstr "%1 si nepřeje být vyrušován"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 doesn't want to be disturbed"
-#~ msgstr "%1 si nepřeje být byrušována"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is occupied"
-#~ msgstr "%1 je zaneprázdněný (occupied)"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is occupied"
-#~ msgstr "%1 je zaneprázdněná (occupied)"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is free for chat"
-#~ msgstr "%1 je v módu chci chatovat (FFC)"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is free for chat"
-#~ msgstr "%1 je v módu chci chatovat (FFC)"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is offline"
-#~ msgstr "%1 je offline"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is offline"
-#~ msgstr "%1 je offline"
-
-#, fuzzy
-#~ msgid ""
-#~ "_n: Phone call\n"
-#~ "%n phone calls"
-#~ msgstr ""
-#~ "_n: Telefonní hovor\n"
-#~ "%n telefonních hovorů"
-
-#~ msgid ""
-#~ "_n: Error\n"
-#~ "%n errors"
-#~ msgstr "%n chyb (a/y)"
-
-#~ msgid ""
-#~ "_n: %n day\n"
-#~ "%n days"
-#~ msgstr ""
-#~ "_n: %n den\n"
-#~ "%n dnů"
-
-#~ msgid "Jabber agents are available online after login"
-#~ msgstr "Jabber agenti jsou dostupní online po přihlášení"
-
-#~ msgid "Registered agents:"
-#~ msgstr "Registrovaní agenti:"
-
-#~ msgid "Log &On"
-#~ msgstr "Přih&lášení"
-
-#~ msgid "Log O&ff"
-#~ msgstr "Odhlási&t"
-
-#~ msgid "&Unregister"
-#~ msgstr "&Odregistrovat"
-
-#~ msgid "&Registered agents"
-#~ msgstr "&Registrovaní agenti"
-
-#~ msgid "&Agents"
-#~ msgstr "&Agenti"
-
-#~ msgid ""
-#~ "_n: LiveJournal post\n"
-#~ "%n LiveJournal posts"
-#~ msgstr ""
-#~ "_n: LiveJournal příspěvek\n"
-#~ "%n LiveJournal příspěvky"
-
-#~ msgid ""
-#~ "_n: Friends updated\n"
-#~ "Friends updated %n"
-#~ msgstr "Přátelé obnoveni %n"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Overcast"
-#~ msgstr "Zamračeno"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Fog"
-#~ msgstr "Mlha"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Haze"
-#~ msgstr "Lehká mlha"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Storm"
-#~ msgstr "Bouřka"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Rain"
-#~ msgstr "Déšť"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Snow"
-#~ msgstr "Sněžení"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Light Rain"
-#~ msgstr "Lehký déšť"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Light Snow"
-#~ msgstr "Lehké sněžení"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Few Snow"
-#~ msgstr "Občasné sněžení"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Scattered Snow"
-#~ msgstr "Jemné sněžení"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Clear"
-#~ msgstr "Jasno"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Showers"
-#~ msgstr "Přeháňky"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Mostly Clear"
-#~ msgstr "Převážně jasno"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Sunny"
-#~ msgstr "Slunečno"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Fair"
-#~ msgstr "Jasno"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Cloudy"
-#~ msgstr "Oblačno"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Mostly Cloudy"
-#~ msgstr "Skoro zataženo"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Partly Cloudy"
-#~ msgstr "Polojasno"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Wind"
-#~ msgstr "Vítr"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Windy"
-#~ msgstr "Větrno"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Drizzle"
-#~ msgstr "Mrholení"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Light Drizzle"
-#~ msgstr "Jemné mrholení"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Drifting Snow"
-#~ msgstr "Lehké sněžení"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Scattered"
-#~ msgstr "Jemné sněžení"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Smoke"
-#~ msgstr "Kouřmo"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "steady"
-#~ msgstr "setrvalý"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "rising"
-#~ msgstr "klesající"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "falling"
-#~ msgstr "rostoucí"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Unlimited"
-#~ msgstr "Neomezená"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "N"
-#~ msgstr "S"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "NNW"
-#~ msgstr "SSZ"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "NW"
-#~ msgstr "SZ"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "WNW"
-#~ msgstr "SZ"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "W"
-#~ msgstr "Z"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "WSW"
-#~ msgstr "JZ"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "SW"
-#~ msgstr "JZ"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "SSW"
-#~ msgstr "JJZ"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "S"
-#~ msgstr "J"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "SSE"
-#~ msgstr "JJV"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "SE"
-#~ msgstr "JV"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "ESE"
-#~ msgstr "JV"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "E"
-#~ msgstr "V"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "ENE"
-#~ msgstr "SV"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "NE"
-#~ msgstr "SV"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "NNE"
-#~ msgstr "SSV"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "VAR"
-#~ msgstr "Proměnlivý"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Early"
-#~ msgstr "Dopoledne"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Late"
-#~ msgstr "Odpoledne"
