@@ -130,4 +130,10 @@
         <slot>reject()</slot>
     </connection>
 </connections>
+<tabstops>
+    <tabstop>edtPass</tabstop>
+    <tabstop>chkSave</tabstop>
+    <tabstop>btnOk</tabstop>
+    <tabstop>btnCancel</tabstop>
+</tabstops>
 </UI>

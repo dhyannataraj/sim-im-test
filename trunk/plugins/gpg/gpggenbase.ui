@@ -282,6 +282,8 @@
     <tabstop>edtName</tabstop>
     <tabstop>cmbMail</tabstop>
     <tabstop>edtComment</tabstop>
+    <tabstop>edtPass1</tabstop>
+    <tabstop>edtPass2</tabstop>
     <tabstop>buttonOk</tabstop>
     <tabstop>buttonCancel</tabstop>
 </tabstops>
