@@ -1,24 +1,24 @@
 # Microsoft Developer Studio Project File - Name="simui" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
-# ** DO NOT EDIT **
+# ** NICHT BEARBEITEN **
 
 # TARGTYPE "Win32 (x86) Dynamic-Link Library" 0x0102
 
 CFG=simui - Win32 Debug
-!MESSAGE This is not a valid makefile. To build this project using NMAKE,
-!MESSAGE use the Export Makefile command and run
+!MESSAGE Dies ist kein gültiges Makefile. Zum Erstellen dieses Projekts mit NMAKE
+!MESSAGE verwenden Sie den Befehl "Makefile exportieren" und führen Sie den Befehl
 !MESSAGE 
 !MESSAGE NMAKE /f "simui.mak".
 !MESSAGE 
-!MESSAGE You can specify a configuration when running NMAKE
-!MESSAGE by defining the macro CFG on the command line. For example:
+!MESSAGE Sie können beim Ausführen von NMAKE eine Konfiguration angeben
+!MESSAGE durch Definieren des Makros CFG in der Befehlszeile. Zum Beispiel:
 !MESSAGE 
 !MESSAGE NMAKE /f "simui.mak" CFG="simui - Win32 Debug"
 !MESSAGE 
-!MESSAGE Possible choices for configuration are:
+!MESSAGE Für die Konfiguration stehen zur Auswahl:
 !MESSAGE 
-!MESSAGE "simui - Win32 Release" (based on "Win32 (x86) Dynamic-Link Library")
-!MESSAGE "simui - Win32 Debug" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "simui - Win32 Release" (basierend auf  "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "simui - Win32 Debug" (basierend auf  "Win32 (x86) Dynamic-Link Library")
 !MESSAGE 
 
 # Begin Project
@@ -40,10 +40,10 @@ RSC=rc.exe
 # PROP Use_Debug_Libraries 0
 # PROP Output_Dir "..\..\Release"
 # PROP Intermediate_Dir "..\..\Release_Wrk"
-# PROP Ignore_Export_Lib 0
+# PROP Ignore_Export_Lib 1
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMUI_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MD /W4 /WX /O1 /I "$(QTDIR)\include" /I "..\api" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMUI_EXPORTS" /D "QT_DLL" /D "UNICODE" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /WX /Gi /GX /O2 /Ob2 /I "$(QTDIR)\include" /I "..\api" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /D "SIMUI_EXPORTS" /D "QT_DLL" /D "UNICODE" /D "WIN32" /D "_MBCS" /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "NDEBUG"
@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib $(QTDIR)\lib\qt-mt230nc.lib $(QTDIR)\lib\qtmain.lib ..\..\Release\simapi.lib /nologo /dll /machine:I386
+# ADD LINK32 $(QTDIR)\lib\qtmain.lib ..\..\Release\simapi.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib $(QTDIR)\lib\$(QT_LIB) /nologo /dll /machine:I386
 
 !ELSEIF  "$(CFG)" == "simui - Win32 Debug"
 
@@ -66,10 +66,10 @@ LINK32=link.exe
 # PROP Use_Debug_Libraries 1
 # PROP Output_Dir "..\..\Debug"
 # PROP Intermediate_Dir "..\..\Debug_Wrk"
-# PROP Ignore_Export_Lib 0
+# PROP Ignore_Export_Lib 1
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMUI_EXPORTS" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W4 /WX /Gm /ZI /Od /I "$(QTDIR)\include" /I "..\api" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMUI_EXPORTS" /D "QT_DLL" /D "UNICODE" /FR /Fp"..\Debug/simui.pch" /YX /Fo"..\Debug/" /Fd"..\Debug/" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "$(QTDIR)\include" /I "..\api" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMUI_EXPORTS" /D "QT_DLL" /D "UNICODE" /D COMPAT_QT_VERSION=0x030201 /Fp"..\Debug/simui.pch" /YX /Fo"..\Debug/" /Fd"..\Debug/" /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "_DEBUG"
@@ -79,7 +79,8 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib $(QTDIR)\lib\qt-mt230nc.lib ..\..\Debug\simapi.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib $(QTDIR)\lib\$(QT_LIB) ..\..\Debug\simapi.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
+# SUBTRACT LINK32 /pdb:none
 
 !ENDIF 
 
@@ -155,32 +156,14 @@ SOURCE=.\moc_listview.cpp
 # Begin Source File
 
 SOURCE=.\moc_qchildwidget.cpp
-# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_qcolorbutton.cpp
-# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_qkeybutton.cpp
-# ADD CPP /W3
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\moc_qrichtext_p.cpp
-# ADD CPP /W3
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\moc_qstylesheet.cpp
-# ADD CPP /W3
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\moc_qtextedit.cpp
-# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -206,54 +189,7 @@ SOURCE=.\qcolorbutton.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\qt3\qcomplextext.cpp
-
-!IF  "$(CFG)" == "simui - Win32 Release"
-
-# ADD CPP /W3
-
-!ELSEIF  "$(CFG)" == "simui - Win32 Debug"
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
 SOURCE=.\qkeybutton.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qkeysequence.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qregexp.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qrichtext.cpp
-# ADD CPP /W3
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qrichtext_p.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qsimplerichtext.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qstylesheet.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qsyntaxhighlighter.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qtextedit.cpp
-# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -274,7 +210,7 @@ SOURCE=.\ballonmsg.h
 !IF  "$(CFG)" == "simui - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build
+# Begin Custom Build - Moc'ing $(InputName).h ...
 InputDir=.
 InputPath=.\ballonmsg.h
 InputName=ballonmsg
@@ -340,7 +276,7 @@ SOURCE=.\editfile.h
 !IF  "$(CFG)" == "simui - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build
+# Begin Custom Build - Moc'ing $(InputName).h ...
 InputDir=.
 InputPath=.\editfile.h
 InputName=editfile
@@ -373,7 +309,7 @@ SOURCE=.\fontedit.h
 !IF  "$(CFG)" == "simui - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build
+# Begin Custom Build - Moc'ing $(InputName).h ...
 InputDir=.
 InputPath=.\fontedit.h
 InputName=fontedit
@@ -439,7 +375,7 @@ SOURCE=.\linklabel.h
 !IF  "$(CFG)" == "simui - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build
+# Begin Custom Build - Moc'ing $(InputName).h ...
 InputDir=.
 InputPath=.\linklabel.h
 InputName=linklabel
@@ -472,7 +408,7 @@ SOURCE=.\listview.h
 !IF  "$(CFG)" == "simui - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build
+# Begin Custom Build - Moc'ing $(InputName).h ...
 InputDir=.
 InputPath=.\listview.h
 InputName=listview
@@ -508,7 +444,6 @@ SOURCE=.\qchildwidget.h
 
 !IF  "$(CFG)" == "simui - Win32 Release"
 
-# PROP Ignore_Default_Tool 1
 # Begin Custom Build - Moc'ing $(InputName).h ...
 InputDir=.
 InputPath=.\qchildwidget.h
@@ -521,7 +456,6 @@ InputName=qchildwidget
 
 !ELSEIF  "$(CFG)" == "simui - Win32 Debug"
 
-# PROP Ignore_Default_Tool 1
 # Begin Custom Build - Moc'ing $(InputName).h ...
 InputDir=.
 InputPath=.\qchildwidget.h
@@ -534,10 +468,6 @@ InputName=qchildwidget
 
 !ENDIF 
 
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qcleanuphandler.h
 # End Source File
 # Begin Source File
 
@@ -545,8 +475,7 @@ SOURCE=.\qcolorbutton.h
 
 !IF  "$(CFG)" == "simui - Win32 Release"
 
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build
+# Begin Custom Build - Moc'ing $(InputName).h ...
 InputDir=.
 InputPath=.\qcolorbutton.h
 InputName=qcolorbutton
@@ -558,7 +487,6 @@ InputName=qcolorbutton
 
 !ELSEIF  "$(CFG)" == "simui - Win32 Debug"
 
-# PROP Ignore_Default_Tool 1
 # Begin Custom Build - Moc'ing $(InputName).h ...
 InputDir=.
 InputPath=.\qcolorbutton.h
@@ -571,10 +499,6 @@ InputName=qcolorbutton
 
 !ENDIF 
 
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qcomplextext_p.h
 # End Source File
 # Begin Source File
 
@@ -582,20 +506,6 @@ SOURCE=.\qkeybutton.h
 
 !IF  "$(CFG)" == "simui - Win32 Release"
 
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build
-InputDir=.
-InputPath=.\qkeybutton.h
-InputName=qkeybutton
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "simui - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
 # Begin Custom Build - Moc'ing $(InputName).h ...
 InputDir=.
 InputPath=.\qkeybutton.h
@@ -606,41 +516,12 @@ InputName=qkeybutton
 
 # End Custom Build
 
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qkeysequence.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qregexp.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qrichtext_p.h
-
-!IF  "$(CFG)" == "simui - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build
-InputDir=.\qt3
-InputPath=.\qt3\qrichtext_p.h
-InputName=qrichtext_p
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
 !ELSEIF  "$(CFG)" == "simui - Win32 Debug"
 
-# PROP Ignore_Default_Tool 1
 # Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\qt3
-InputPath=.\qt3\qrichtext_p.h
-InputName=qrichtext_p
+InputDir=.
+InputPath=.\qkeybutton.h
+InputName=qkeybutton
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
@@ -649,88 +530,6 @@ InputName=qrichtext_p
 
 !ENDIF 
 
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qsimplerichtext.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qstylesheet.h
-
-!IF  "$(CFG)" == "simui - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build
-InputDir=.\qt3
-InputPath=.\qt3\qstylesheet.h
-InputName=qstylesheet
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "simui - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\qt3
-InputPath=.\qt3\qstylesheet.h
-InputName=qstylesheet
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qsyntaxhighlighter.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qt3stuff.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qtextedit.h
-
-!IF  "$(CFG)" == "simui - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build
-InputDir=.\qt3
-InputPath=.\qt3\qtextedit.h
-InputName=qtextedit
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "simui - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\qt3
-InputPath=.\qt3\qtextedit.h
-InputName=qtextedit
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\qt3\qtextengine_p.h
 # End Source File
 # Begin Source File
 
@@ -739,7 +538,7 @@ SOURCE=.\textshow.h
 !IF  "$(CFG)" == "simui - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build
+# Begin Custom Build - Moc'ing $(InputName).h ...
 InputDir=.
 InputPath=.\textshow.h
 InputName=textshow
@@ -772,7 +571,7 @@ SOURCE=.\toolbtn.h
 !IF  "$(CFG)" == "simui - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build
+# Begin Custom Build - Moc'ing $(InputName).h ...
 InputDir=.
 InputPath=.\toolbtn.h
 InputName=toolbtn
@@ -805,3 +604,4 @@ InputName=toolbtn
 # End Group
 # End Target
 # End Project
+

@@ -1,5 +1,5 @@
 Microsoft Developer Studio Workspace File, Format Version 6.00
-# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+# WARNUNG: DIESE ARBEITSBEREICHSDATEI DARF NICHT BEARBEITET ODER GELÖSCHT WERDEN!
 
 ###############################################################################
 
@@ -525,7 +525,25 @@ Package=<4>
     Project_Dep_Name _core
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name icq
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name windock
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name qjpegio
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simui
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name about
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name action
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name autoaway
@@ -546,13 +564,19 @@ Package=<4>
     Project_Dep_Name forward
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name gpg
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name icons
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name icq
+    Project_Dep_Name idleui
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name jabber
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name livejournal
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name loger
@@ -576,13 +600,34 @@ Package=<4>
     Project_Dep_Name proxy
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name remote
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name replace
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name shortcuts
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name simapi
+    Project_Dep_Name simctrl
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simext
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simipc
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simremote
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name sms
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name sound
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name spell
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name splash
@@ -591,46 +636,16 @@ Package=<4>
     Project_Dep_Name transparent
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name windock
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name xpstyle
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name update
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name gpg
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name styles
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name spell
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name action
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name zodiak
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name livejournal
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name yahoo
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name replace
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name sms
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name weather
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name remote
+    Project_Dep_Name yahoo
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name zodiak
     End Project Dependency
 }}}
 
@@ -795,13 +810,13 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simapi
+    Project_Dep_Name metal
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name wood
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name metal
+    Project_Dep_Name xpstyle
     End Project Dependency
 }}}
 
