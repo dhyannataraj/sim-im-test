@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-03-30 03:46+0400\n"
-"PO-Revision-Date: 2004-03-31 22:13+0100\n"
+"PO-Revision-Date: 2004-04-01 18:53+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2615,7 +2615,7 @@ msgstr "Client %1 konfigurieren"
 
 #: plugins/_core/container.cpp:284
 msgid "Container"
-msgstr "Container"
+msgstr "Nachrichtenfenster"
 
 #: plugins/_core/container.cpp:545
 msgid ""
@@ -4223,19 +4223,19 @@ msgstr "Zuletzt benutzte Schriftart &benutzen"
 
 #: plugins/_core/interfacecfgbase.cpp:128
 msgid "Container mode"
-msgstr "Containermodus"
+msgstr "Fenstermodus"
 
 #: plugins/_core/interfacecfgbase.cpp:129
 msgid "Open each contact in &new container"
-msgstr "&Jeden Benutzer in einem neuem Container öffnen"
+msgstr "Für jeden &Benutzer ein neues Nachrichtenfenster öffnen"
 
 #: plugins/_core/interfacecfgbase.cpp:130
 msgid "Open one container for &group"
-msgstr "Neuer Container für &Gruppe öffnen"
+msgstr "Für jede &Gruppe ein neues Nachrichtenfenster öffnen"
 
 #: plugins/_core/interfacecfgbase.cpp:131
 msgid "Open all contacts in &one container"
-msgstr "A&lle Benutzer in einem Container öffnen"
+msgstr "&Alle Benutzer dem gleichen Nachrichtenfenster hinzufügen"
 
 #: plugins/_core/interfacecfgbase.cpp:132
 msgid "Use \"&Enter\" for send message"
@@ -6694,7 +6694,7 @@ msgstr "Im Vordergrund"
 
 #: plugins/ontop/ontop.cpp:46
 msgid "Plugin provides main window and containers always on top"
-msgstr "Plugin stellt die kontinuierliche Anzeige von Hauptfenster und Container im Vordergrund bereit"
+msgstr "Plugin stellt die kontinuierliche Anzeige von Hauptfenster und Nachrichtenfenstern im Vordergrund bereit"
 
 #: plugins/ontop/ontop.cpp:81
 msgid "Always on top"
@@ -6706,7 +6706,7 @@ msgstr "&Hauptfenster in Fensterleiste anzeigen"
 
 #: plugins/ontop/ontopcfgbase.cpp:59
 msgid "&Container always on top"
-msgstr "&Container immer im Vordergrund"
+msgstr "&Nachrichtenfenster immer im Vordergrund anzeigen"
 
 #: plugins/osd/osdconfig.cpp:45
 msgid "&Interface"
