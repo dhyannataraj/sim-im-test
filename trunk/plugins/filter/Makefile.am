@@ -7,7 +7,7 @@ filter_la_SOURCES = \
  ignorelist.cpp \
  ignorelistbase.ui
 
-INCLUDES=-I../../sim/api -I../../sim/ui $(all_includes)
+INCLUDES=-I../../sim/api -I../../sim/ui -I../_core $(all_includes)
 
 filter_la_METASOURCES = AUTO
 filter_la_LIBADD = ../../sim/api/libsimapi.la $(LIBUI) $(LIB_QT) $(EXTRA_LIBS)
