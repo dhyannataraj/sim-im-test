@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2002-11-15 03:03+0300\n"
-"PO-Revision-Date: 2002-11-10 17:33+0200\n"
+"PO-Revision-Date: 2002-11-15 13:36+0200\n"
 "Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1720,8 +1720,7 @@ msgstr "%1 від %2"
 
 #: mainwin.cpp:965 ui/logindlg.cpp:138
 msgid "Can't connect to proxy server"
-msgstr ""
-"Неможливо з'єднатися з проксі-сервером"
+msgstr "Неможливо з'єднатися з проксі-сервером"
 
 #: mainwin.cpp:971 ui/logindlg.cpp:145
 msgid "Proxy server require authorization"
@@ -1753,8 +1752,7 @@ msgstr "&Ні"
 
 #: mainwin.cpp:1618
 msgid "Add %1 to ignore list ?"
-msgstr ""
-"Додати \"%1\" в список тих що ігноруються?"
+msgstr "Додати \"%1\" в список тих що ігноруються?"
 
 #: mainwin.cpp:1682
 msgid "In visible list"
@@ -2165,8 +2163,7 @@ msgstr "Розмір: %1 / Максимальний: %2"
 
 #: msgedit.cpp:1552
 msgid "Message will be split"
-msgstr ""
-"Повідомлення буде розділено на частини"
+msgstr "Повідомлення буде розділено на частини"
 
 #: msgedit.cpp:1727
 msgid "Decline reason"
@@ -2302,9 +2299,8 @@ msgid "Message"
 msgstr "Повідомлення"
 
 #: userbox.cpp:108
-#, fuzzy
 msgid "User"
-msgstr "Користувачі"
+msgstr "Користувач"
 
 #: userbox.cpp:110
 msgid "Add to ignore &list"
@@ -2331,9 +2327,8 @@ msgid "Close user &window"
 msgstr "З&акрити вікно користувача"
 
 #: userbox.cpp:257
-#, fuzzy
 msgid "All encodings"
-msgstr "&Кодова сторінка"
+msgstr "Усі кодові сторінки"
 
 #: userbox.cpp:349
 msgid "All users"
@@ -3554,8 +3549,7 @@ msgstr "Прозорі вікна тільки якщо неактивні"
 
 #: ui/themesetupbase.cpp:154
 msgid "Show main window in task manager"
-msgstr ""
-"Показувати основне вікно в панелі задач"
+msgstr "Показувати основне вікно в панелі задач"
 
 #: ui/themesetupbase.cpp:158
 msgid "Show user window in task manager"
@@ -3574,8 +3568,7 @@ msgid "Hide main window after"
 msgstr "Сховати головне вікно"
 
 #: ui/statussetupbase.cpp:107
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Заборонити попередження в стані "
 "\"Відійшов\", \"Не активний\", \"Зайнятий\""
@@ -3726,8 +3719,7 @@ msgstr ""
 
 #: ui/generalsecbase.cpp:173
 msgid "Reject &URL from unknown users"
-msgstr ""
-"Відкидати &URL від невідомих користувачів"
+msgstr "Відкидати &URL від невідомих користувачів"
 
 #: ui/generalsecbase.cpp:177
 msgid "Reject &World Wide pager messages"
@@ -3788,8 +3780,7 @@ msgstr ""
 # #
 #: ui/msgbase.cpp:94
 msgid "Automaitcaly open window"
-msgstr ""
-"Автоматично відкривати вікно повідомлень"
+msgstr "Автоматично відкривати вікно повідомлень"
 
 #: ui/msgbase.cpp:98
 msgid "Run external program"
@@ -3801,8 +3792,7 @@ msgstr "..."
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Ця програма поширюється під ліцензією GPL v2"
+msgstr "Ця програма поширюється під ліцензією GPL v2"
 
 #: client.cpp:54
 msgid "Unicode"
@@ -3817,7 +3807,6 @@ msgid "Central European"
 msgstr "Центральна Європа"
 
 #: client.cpp:65
-#, fuzzy
 msgid "Chinese "
 msgstr "Китайська"
 
@@ -3831,7 +3820,7 @@ msgstr "Традиційна китайська"
 
 #: client.cpp:69 client.cpp:70 client.cpp:71
 msgid "Cyrillic"
-msgstr "Російська"
+msgstr "Кирилиця"
 
 #: client.cpp:87 client.cpp:88 client.cpp:89
 msgid "Western European"
@@ -4093,7 +4082,6 @@ msgid ""
 msgstr "Ctrl+T"
 
 #: client.cpp:1019
-#, fuzzy
 msgid ""
 "_: Ctrl+S\n"
 "SMS"
@@ -4184,36 +4172,35 @@ msgstr "встановити невидимий режим"
 
 #: control.cpp:190
 msgid "send message"
-msgstr "Відправити повідомлення"
+msgstr "відправити повідомлення"
 
 #: control.cpp:191
-#, fuzzy
 msgid "send SMS"
-msgstr "Відправити SMS"
+msgstr "відправити SMS"
 
 #: control.cpp:192
 msgid "show/hide main window"
-msgstr "Показати/сховати головне вікно"
+msgstr "показати/сховати головне вікно"
 
 #: control.cpp:193
 msgid "show/hide search window"
-msgstr "Показати/сховати вікно пошуку"
+msgstr "показати/сховати вікно пошуку"
 
 #: control.cpp:194
 msgid "show/hide dock"
-msgstr "Використовувати док"
+msgstr "використовувати док"
 
 #: control.cpp:195
 msgid "quit SIM"
-msgstr "Закрити SIM"
+msgstr "закрити SIM"
 
 #: control.cpp:196
 msgid "close session"
-msgstr "Закрити сеанс"
+msgstr "закрити сеанс"
 
 #: control.cpp:197
 msgid "command help information"
-msgstr "Інформація про команду"
+msgstr "інформація про команду"
 
 #: control.cpp:258
 #, c-format
@@ -4423,3 +4410,4 @@ msgstr "? Невідомий статус %1"
 
 #~ msgid "Spell"
 #~ msgstr "Проверка орфографии"
+
