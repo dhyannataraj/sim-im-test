@@ -77,7 +77,7 @@ protected:
     QSound			*m_sound;
     QTimer			*m_checkTimer;
 #ifndef WIN32
-    unsigned		m_player;
+    int             m_player;
 #endif
     SoundData	data;
     CorePlugin	*core;

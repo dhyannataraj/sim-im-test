@@ -40,6 +40,7 @@ const char b64t[64] =
 #define MIN(A, B)	((A < B) ? A : B)
 #define MAX(A, B)	((A > B) ? A : B)
 
+char *yahoo_crypt(const char *key, const char *salt);
 char *yahoo_crypt(const char *key, const char *salt)
 {
     static char *buffer = NULL;

@@ -667,7 +667,7 @@ void *OSDPlugin::processEvent(Event *e)
                 osd.type = OSD_NONE;
                 return NULL;
             default:
-                log(L_DEBUG,"OSD: Unknown status %d",smsg->getStatus());
+                log(L_DEBUG,"OSD: Unknown status %ld",smsg->getStatus());
                 osd.type = OSD_NONE;
                 return NULL;
             }

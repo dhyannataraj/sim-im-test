@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: metal.h,v 1.2 2004-05-11 18:43:33 chehrlic Exp $
+** $Id: metal.h,v 1.3 2004-05-28 15:09:25 chehrlic Exp $
 **
 ** Definition of the Metal Style for the themes example
 **

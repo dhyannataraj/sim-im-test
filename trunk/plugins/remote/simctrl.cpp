@@ -183,7 +183,7 @@ Processor *createTCPProcessor(const char *addr_str)
         }else{
             port = atol(addr.c_str());
         }
-        int ip = INADDR_NONE;
+        in_addr_t ip = INADDR_NONE;
         if (port){
             if (!host.empty()){
                 ip = inet_addr(host.c_str());
@@ -389,7 +389,7 @@ static void usage(char *s)
            );
 }
 
-int main(int argc, char **argv)
+int main(int, char **argv)
 {
     list<string> uins;
     const char *cmd  = NULL;

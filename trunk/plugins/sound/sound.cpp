@@ -370,7 +370,7 @@ void SoundPlugin::processQueue()
     }
     bool bSound = false;
 #elif WIN32
-bool bSound = true;
+    bool bSound = true;
 #else
     /* If there is an external player selected, don't use Qt
     Check first for getPlayer() since QSound::available()
@@ -403,7 +403,7 @@ bool bSound = true;
     p.arg = sound.c_str();
     Event e(EventExec, &p);
     m_player = (int)e.process();
-    if (m_player == NULL){
+    if (m_player == 0){
         log(L_WARN, "Can't execute player");
         m_queue.clear();
     }

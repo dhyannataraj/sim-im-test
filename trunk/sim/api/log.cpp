@@ -41,6 +41,16 @@ static const char *level_name(unsigned short n)
 #define vsnprintf _vsnprintf
 #endif
 
+#if defined __GNUC__
+void vformat(string &s, const char *fmt, va_list ap)
+       __attribute__ ((__format__ (printf, 2, 0)));
+void format(string &s, const char *fmt, ...)
+       __attribute__ ((__format__ (printf, 2, 3)));
+#else
+void vformat(string &s, const char *fmt, va_list ap);
+void format(string &s, const char *fmt, ...);
+#endif
+     
 void vformat(string &s, const char *fmt, va_list ap)
 {
     char msg[1024];

@@ -93,7 +93,7 @@ bool YahooHttpPool::done(unsigned code, Buffer &data, const char*)
     }
     unsigned long packet_id;
     data >> packet_id;
-    log(L_DEBUG, "Packet ID: %u %X");
+    log(L_DEBUG, "Packet ID: %lu %lX", packet_id, packet_id);
     readData.pack(data.data(data.readPos()), data.writePos() - data.readPos());
     if (notify)
         notify->read_ready();
