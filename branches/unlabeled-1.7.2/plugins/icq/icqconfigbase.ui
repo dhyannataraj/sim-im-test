@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>434</width>
-            <height>248</height>
+            <width>456</width>
+            <height>285</height>
         </rect>
     </property>
     <property>
@@ -175,24 +175,6 @@
                             <number>1</number>
                         </property>
                     </widget>
-                    <widget row="4"  column="0"  rowspan="1"  colspan="3" >
-                        <class>QLabel</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>TextLabel1_4</cstring>
-                        </property>
-                        <property>
-                            <name>text</name>
-                            <string>Note: For HTTP-pooling using proxy setings for HTTP</string>
-                        </property>
-                        <property>
-                            <name>alignment</name>
-                            <set>WordBreak|AlignVCenter|AlignLeft</set>
-                        </property>
-                        <property>
-                            <name>wordwrap</name>
-                        </property>
-                    </widget>
                     <widget row="3"  column="0"  rowspan="1"  colspan="3" >
                         <class>QCheckBox</class>
                         <property stdset="1">
@@ -215,7 +197,7 @@
                             <string>Use &amp;HTTP polling</string>
                         </property>
                     </widget>
-                    <widget row="5"  column="0"  rowspan="1"  colspan="3" >
+                    <widget row="6"  column="0"  rowspan="1"  colspan="3" >
                         <class>Line</class>
                         <property stdset="1">
                             <name>name</name>
@@ -302,7 +284,7 @@
                             </size>
                         </property>
                     </spacer>
-                    <spacer row="8"  column="0" >
+                    <spacer row="9"  column="0" >
                         <property>
                             <name>name</name>
                             <cstring>Spacer4</cstring>
@@ -323,7 +305,7 @@
                             </size>
                         </property>
                     </spacer>
-                    <widget row="6"  column="0"  rowspan="1"  colspan="3" >
+                    <widget row="7"  column="0"  rowspan="1"  colspan="3" >
                         <class>QLabel</class>
                         <property stdset="1">
                             <name>name</name>
@@ -334,7 +316,7 @@
                             <string>Port range for direct connections:</string>
                         </property>
                     </widget>
-                    <widget row="7"  column="0"  rowspan="1"  colspan="3" >
+                    <widget row="8"  column="0"  rowspan="1"  colspan="3" >
                         <class>QLayoutWidget</class>
                         <property stdset="1">
                             <name>name</name>
@@ -412,6 +394,42 @@
                                 </property>
                             </spacer>
                         </hbox>
+                    </widget>
+                    <widget row="4"  column="0"  rowspan="1"  colspan="3" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>TextLabel1_4</cstring>
+                        </property>
+                        <property>
+                            <name>sizePolicy</name>
+                            <sizepolicy>
+                                <hsizetype>5</hsizetype>
+                                <vsizetype>1</vsizetype>
+                            </sizepolicy>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Note: For HTTP-pooling using proxy setings for HTTP</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignLeft</set>
+                        </property>
+                        <property>
+                            <name>wordwrap</name>
+                        </property>
+                    </widget>
+                    <widget row="5"  column="0"  rowspan="1"  colspan="3" >
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkKeepAlive</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>&amp;Keep-alive connection</string>
+                        </property>
                     </widget>
                 </grid>
             </widget>

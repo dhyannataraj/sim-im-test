@@ -267,6 +267,7 @@ typedef struct ICQClientData
     Data		AckMode;
     Data		UseHTTP;
     Data		AutoHTTP;
+	Data		KeepAlive;
     ICQUserData	owner;
 } ICQClientData;
 
@@ -478,6 +479,7 @@ public:
     PROP_USHORT(AckMode);
     PROP_BOOL(UseHTTP);
     PROP_BOOL(AutoHTTP);
+    PROP_BOOL(KeepAlive);
     ICQClientData    data;
     QString toUnicode(const char *str, ICQUserData *client_data);
     string fromUnicode(const QString &str, ICQUserData *client_data);
@@ -529,7 +531,10 @@ public:
     string screen(ICQUserData*);
     static unsigned warnLevel(unsigned short);
     static QString addCRLF(const QString &str);
+    static unsigned clearTags(QString &text);
     bool m_bAIM;
+	void fillEncoding(QComboBox *cmb, ICQUserData *data);
+	void getEncoding(QComboBox *cmb, ICQUserData *data, bool bDefault);
 protected slots:
     void ping();
     void infoRequest();
@@ -688,12 +693,13 @@ protected:
     void encodeString(const char *_str, unsigned short nTlv, bool bWide);
     ICQUserData *findInfoRequest(unsigned short seq, Contact *&contact);
     INFO_REQ_MAP m_info_req;
-    unsigned clearTags(QString &text);
     unsigned short msgStatus();
     unsigned short m_advCounter;
     unsigned m_nUpdates;
     unsigned m_nSendTimeout;
     bool     m_bJoin;
+	bool	 m_bFirstTry;
+	bool	 m_bHTTP;
     SendMsg  m_send;
     list<Message*>     	m_processMsg;
     list<DirectSocket*>	m_sockets;

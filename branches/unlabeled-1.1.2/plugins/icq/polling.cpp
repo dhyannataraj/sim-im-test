@@ -425,13 +425,13 @@ void HttpPool::request()
 
 Socket *ICQClient::createSocket()
 {
-    bool useHTTP = getUseHTTP();
-#ifdef WIN32
-    bool bState;
-    if (getAutoHTTP() && get_connection_state(bState))
-        useHTTP = get_connection_proxy();
-#endif
-    if (useHTTP)
+    m_bHTTP = getUseHTTP();
+    if (getAutoHTTP()){
+        m_bHTTP = m_bFirstTry;
+		if (!m_bFirstTry)
+			m_bFirstTry = true;
+	}
+    if (m_bHTTP)
         return new HttpPool();
     return NULL;
 }

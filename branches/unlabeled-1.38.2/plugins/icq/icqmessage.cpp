@@ -69,7 +69,10 @@ QString ICQMessage::getText() const
     const char *serverText = getServerText();
     if ((serverText == NULL) || (*serverText == 0))
         return Message::getText();
-    return ICQClient::toUnicode(serverText, client(), contact());
+    QString res = ICQClient::toUnicode(serverText, client(), contact());
+	if ((getFlags() & MESSAGE_RICHTEXT) && (res.left(6) == "<HTML>"))
+		ICQClient::clearTags(res);
+	return res;
 }
 
 static DataDef aimFileMessageData[] =

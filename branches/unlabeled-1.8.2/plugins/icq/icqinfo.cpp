@@ -76,60 +76,7 @@ void ICQInfo::apply()
         data = &m_client->data.owner;
         m_client->setRandomChatGroup(getComboValue(cmbRandom, chat_groups));
     }
-
-    string encoding;
-    int n = cmbEncoding->currentItem();
-    QString t = cmbEncoding->currentText();
-    if (n){
-        n--;
-        QStringList l;
-        const ENCODING *e;
-        QStringList main;
-        for (e = ICQPlugin::core->encodings; e->language; e++){
-            if (!e->bMain)
-                continue;
-            main.append(i18n(e->language) + " (" + e->codec + ")");
-        }
-        main.sort();
-        QStringList::Iterator it;
-        for (it = main.begin(); it != main.end(); ++it){
-            l.append(*it);
-        }
-        QStringList noMain;
-        for (e = ICQPlugin::core->encodings; e->language; e++){
-            if (e->bMain)
-                continue;
-            noMain.append(i18n(e->language) + " (" + e->codec + ")");
-        }
-        noMain.sort();
-        for (it = noMain.begin(); it != noMain.end(); ++it){
-            l.append(*it);
-        }
-        for (it = l.begin(); it != l.end(); ++it){
-            if (n-- == 0){
-                QString str = *it;
-                int n = str.find('(');
-                str = str.mid(n + 1);
-                n = str.find(')');
-                str = str.left(n);
-                encoding = str.latin1();
-                break;
-            }
-        }
-    }
-    if (m_data == NULL)
-        ICQPlugin::core->setDefaultEncoding(encoding.c_str());
-    if (!set_str(&data->Encoding.ptr, encoding.c_str()))
-        return;
-    Contact *contact;
-    if (data->Uin.value ?
-            m_client->findContact(number(data->Uin.value).c_str(), NULL, false, contact) :
-            m_client->findContact(data->Screen.ptr, NULL, false, contact)){
-        Event e(EventContactChanged, contact);
-        e.process();
-        Event eh(EventHistoryConfig, (void*)(contact->id()));
-        eh.process();
-    }
+	m_client->getEncoding(cmbEncoding, data, m_data == NULL);
 }
 
 void ICQInfo::apply(Client *client, void *_data)
@@ -278,7 +225,12 @@ void ICQInfo::fill()
     if (m_bInit)
         return;
     m_bInit = true;
-    current = 0;
+	m_client->fillEncoding(cmbEncoding, data);
+}
+
+void ICQClient::fillEncoding(QComboBox *cmbEncoding, ICQUserData *data)
+{
+    int current = 0;
     int n_item = 1;
     cmbEncoding->clear();
     cmbEncoding->insertItem("Default");
@@ -320,6 +272,63 @@ void ICQInfo::fill()
         cmbEncoding->insertItem(*it);
     }
     cmbEncoding->setCurrentItem(current);
+}
+
+void ICQClient::getEncoding(QComboBox *cmbEncoding, ICQUserData *data, bool bDefault)
+{
+    string encoding;
+    int n = cmbEncoding->currentItem();
+    QString t = cmbEncoding->currentText();
+    if (n){
+        n--;
+        QStringList l;
+        const ENCODING *e;
+        QStringList main;
+        for (e = ICQPlugin::core->encodings; e->language; e++){
+            if (!e->bMain)
+                continue;
+            main.append(i18n(e->language) + " (" + e->codec + ")");
+        }
+        main.sort();
+        QStringList::Iterator it;
+        for (it = main.begin(); it != main.end(); ++it){
+            l.append(*it);
+        }
+        QStringList noMain;
+        for (e = ICQPlugin::core->encodings; e->language; e++){
+            if (e->bMain)
+                continue;
+            noMain.append(i18n(e->language) + " (" + e->codec + ")");
+        }
+        noMain.sort();
+        for (it = noMain.begin(); it != noMain.end(); ++it){
+            l.append(*it);
+        }
+        for (it = l.begin(); it != l.end(); ++it){
+            if (n-- == 0){
+                QString str = *it;
+                int n = str.find('(');
+                str = str.mid(n + 1);
+                n = str.find(')');
+                str = str.left(n);
+                encoding = str.latin1();
+                break;
+            }
+        }
+    }
+    if (bDefault)
+        ICQPlugin::core->setDefaultEncoding(encoding.c_str());
+    if (!set_str(&data->Encoding.ptr, encoding.c_str()))
+        return;
+    Contact *contact;
+    if (data->Uin.value ?
+            findContact(number(data->Uin.value).c_str(), NULL, false, contact) :
+            findContact(data->Screen.ptr, NULL, false, contact)){
+        Event e(EventContactChanged, contact);
+        e.process();
+        Event eh(EventHistoryConfig, (void*)(contact->id()));
+        eh.process();
+    }
 }
 
 #ifndef WIN32

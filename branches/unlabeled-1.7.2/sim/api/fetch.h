@@ -89,7 +89,6 @@ protected:
 
 EXPORT string basic_auth(const char *user, const char *pass);
 EXPORT bool get_connection_state(bool &state);
-EXPORT bool get_connection_proxy();
 
 #endif
 

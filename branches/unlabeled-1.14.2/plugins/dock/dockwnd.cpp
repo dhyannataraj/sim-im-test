@@ -88,6 +88,8 @@ void DockWnd::showPopup()
 {
     POINT pos;
     GetCursorPos(&pos);
+	if (qApp->activeWindow() == NULL)
+		setFocus();
     emit showPopup(QPoint(pos.x, pos.y));
 }
 
