@@ -120,7 +120,8 @@ InterfaceConfig::InterfaceConfig(QWidget *parent)
     }
     cmbLang->setCurrentItem(nCurrent);
 #else
-cmbLang->hide();
+    TextLabel1_2->hide();
+    cmbLang->hide();
 #endif
     connect(grpMode, SIGNAL(clicked(int)), this, SLOT(modeChanged(int)));
     if (CorePlugin::m_plugin->getContainerMode()){
@@ -185,9 +186,14 @@ QStringList InterfaceConfig::getLangItems()
 
 void InterfaceConfig::modeChanged(int mode)
 {
+    if (mode == 2) //chkSaveFont
+        return;
     if (mode){
-        grpContainer->setEnabled(true);
-        grpContainer->setButton(2);
+        if (!grpContainer->isEnabled())
+        {
+            grpContainer->setEnabled(true);
+            grpContainer->setButton(2);
+        }
     }else{
         QButton *btn = grpContainer->selected();
         if (btn)
@@ -221,20 +227,18 @@ void InterfaceConfig::apply()
         }
     }
 #endif
-    if (grpMode->selected()){
-        if (grpMode->id(grpMode->selected())){
-            int mode = 0;
-            if (btnGroup->isOn())
-                mode = 1;
-            if (btnOne->isOn())
-                mode = 2;
-            CorePlugin::m_plugin->setContainerMode(mode + 1);
-            CorePlugin::m_plugin->setSendOnEnter(chkEnter->isChecked());
-            CorePlugin::m_plugin->setCopyMessages(atol(spnCopy->text().latin1()));
-        }else{
-            CorePlugin::m_plugin->setContainerMode(0);
-            CorePlugin::m_plugin->setSendOnEnter(false);
-        }
+    if (grpMode->find(1)->isOn()){
+        int mode = 0;
+        if (btnGroup->isOn())
+            mode = 1;
+        if (btnOne->isOn())
+            mode = 2;
+        CorePlugin::m_plugin->setContainerMode(mode + 1);
+        CorePlugin::m_plugin->setSendOnEnter(chkEnter->isChecked());
+        CorePlugin::m_plugin->setCopyMessages(atol(spnCopy->text().latin1()));
+    }else{
+        CorePlugin::m_plugin->setContainerMode(0);
+        CorePlugin::m_plugin->setSendOnEnter(false);
     }
 #ifndef USE_KDE
     if (strcmp(lang, CorePlugin::m_plugin->getLang())){
