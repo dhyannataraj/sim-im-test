@@ -936,7 +936,7 @@ public:
     bool cancelMessage(ICQMessage*, bool bSendCancel=true);
 
     ICQEvent *sendMessage(ICQMessage *msg);
-    ICQEvent *searchByName(const char *first, const char *last, const char *nick);
+    ICQEvent *searchByName(const char *first, const char *last, const char *nick, bool bOnlineOnly);
     ICQEvent *searchByUin(unsigned long uin);
     ICQEvent *searchWP(const char *first, const char *last, const char *nick,
                        const char *email, char age, char nGender,

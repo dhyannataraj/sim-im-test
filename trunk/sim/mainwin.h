@@ -73,6 +73,7 @@ const int mnuGrpUp = 26;
 const int mnuGrpDown = 27;
 const int mnuAbout = 30;
 const int mnuAboutKDE = 31;
+const int mnuBugSend = 32;
 const int mnuGrpTitle = 0x10000;
 
 const unsigned long mnuGroupVisible = 0x10001;
@@ -278,6 +279,7 @@ protected slots:
     void ignoreUser(int);
     void about();
     void about_kde();
+    void bug_report();
     void dialogFinished();
     void timerExpired();
     void currentDesktopChanged(int);

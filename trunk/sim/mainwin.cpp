@@ -608,6 +608,7 @@ bool MainWindow::init()
     }
 #endif
     buildFileName(file, "lock");
+    log(L_DEBUG, ".. %s", file.c_str());
     if ((lockFile = ::open(file.c_str(), O_RDWR | O_CREAT, 0600)) == -1){
         log(L_ERROR, "Can't open %s: %s", file.c_str(), strerror(errno));
         return false;
@@ -944,7 +945,6 @@ void MainWindow::dockDblClicked()
     for (list<UserBox*>::iterator itBox = containers.begin(); itBox != containers.end(); ++itBox){
         if (!(*itBox)->isActiveWindow()) continue;
         ICQUser *u = pClient->getUser((*itBox)->currentUser());
-        log(L_DEBUG, "It1 %u %u", u->Uin(), u->unreadMsgs.size());
         if (u && u->unreadMsgs.size()){
             (*itBox)->showUser(u->Uin, mnuAction, 0);
             return;
@@ -1624,6 +1624,7 @@ void MainWindow::exec(const char *prg, const char *arg)
     if (p.find("%s") >= 0){
         p.replace(QRegExp("%s"), arg);
     }else{
+	p += " ";
         p += QString::fromLocal8Bit(arg);
     }
     QStringList s = QStringList::split(" ", p);
@@ -1636,7 +1637,8 @@ void MainWindow::exec(const char *prg, const char *arg)
     }
     arglist[i] = NULL;
     if(!fork()) {
-        execvp(arglist[0], arglist);
+        if (execvp(arglist[0], arglist))
+		log(L_DEBUG, "can't execute %s: %s", arglist[0], strerror(errno));
         _exit(-1);
     }
     for (char **p = arglist; *p != NULL; p++)
@@ -1678,10 +1680,12 @@ void MainWindow::setFonts()
 #ifdef USE_KDE
     if (UseSystemFonts()) return;
 #endif
+    if (FontSize() > 128) FontSize = 0;
     if (FontSize()){
         QFont fontWnd(FontFamily.c_str(), FontSize(), FontWeight(), FontItalic());
         qApp->setFont(fontWnd, true);
     }
+    if (FontMenuSize() > 128) FontMenuSize = 0;
     if (FontMenuSize()){
         QFont fontMenu(FontMenuFamily.c_str(), FontMenuSize(), FontMenuWeight(), FontMenuItalic());
         qApp->setFont(fontMenu, true, "QPopupMenu");
@@ -1689,6 +1693,11 @@ void MainWindow::setFonts()
 }
 
 extern KAboutData *appAboutData;
+
+void MainWindow::bug_report()
+{
+    goURL("http://sourceforge.net/tracker/?group_id=56866");
+}
 
 void MainWindow::about()
 {
@@ -1782,6 +1791,7 @@ void MainWindow::loadMenu()
     menuFunction->insertItem(i18n("Always on top"), this, SLOT(toggleOnTop()), 0, mnuOnTop);
 #endif
     menuFunction->insertSeparator();
+    menuFunction->insertItem(i18n("&Bug report"), this, SLOT(bug_report()));
     menuFunction->insertItem(Icon("licq"), i18n("&About SIM"), this, SLOT(about()));
 #ifdef USE_KDE
     menuFunction->insertItem(Icon("about_kde"), i18n("About &KDE"), this, SLOT(about_kde()));
