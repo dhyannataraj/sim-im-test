@@ -125,6 +125,7 @@ void free(void *_obj, const cfgParam *params)
             free(obj + p->offs, (cfgParam*)(p->defValue));
             break;
         case PARAM_CHARS:
+        case PARAM_I18N:
             set_str((char**)(obj + p->offs), NULL);
             break;
         case PARAM_LIST:
@@ -382,10 +383,10 @@ bool loadParam(void *_obj, const cfgParam *params, const char *name, const char 
                         *((short*)(obj + p->offs)) = atoi(value);
                         return true;
                     case PARAM_CHARS:
+                    case PARAM_I18N:
                         set_str((char**)(obj + p->offs), value);
                         return true;
                     case PARAM_STRING:
-                    case PARAM_I18N:
                         s = (string*)(obj + p->offs);
                         *s = value;
                         return true;

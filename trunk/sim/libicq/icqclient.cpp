@@ -47,6 +47,12 @@ ICQClient::ICQClient(SocketFactory *factory)
     RejectOther = false;
     DirectMode = 0;
     BypassAuth = false;
+    ChatAvailable = false;
+    ChatGroup = 0;
+    ChatAge = 0;
+    ChatGender = 0;
+    ChatLanguage = 0;
+    ChatCountry = 0;
     owner = NULL;
     p = new ICQClientPrivate(this, factory);
 }
@@ -551,7 +557,7 @@ void ICQClient::addResponseRequest(unsigned long uin, bool bPriority)
         return;
     }
     p->addRequest(uin, bPriority, p->responseRequestQueue);
-	p->processResponseRequestQueue(0);
+    p->processResponseRequestQueue(0);
 }
 
 void ICQClientPrivate::processInfoRequestQueue()
@@ -646,3 +652,23 @@ ICQMessage *ICQClient::getProcessMessage(unsigned long offs)
     }
     return NULL;
 }
+
+void ICQClient::setChatGroup(bool bAvailable, unsigned short chatGroup,
+                             const char *topic, const char *name, unsigned short age,
+                             char gender, unsigned short language,
+                             unsigned short country, const char *homepage)
+{
+    ChatAvailable = bAvailable;
+    ChatGroup = chatGroup;
+    ChatTopic = topic ? topic : "";
+    ChatName = name ? name : "";
+    ChatAge = age;
+    ChatGender = gender;
+    ChatLanguage = language;
+    ChatCountry = country;
+    ChatHomepage = homepage ? homepage : "";
+    if (isLogged()) p->setChatGroup();
+}
+
+
+

@@ -21,6 +21,7 @@ extern const ext_info *occupations;
 extern const ext_info *pasts;
 extern const ext_info *genders;
 extern const ext_info *ages;
+extern const ext_info *chat_groups;
 
 extern const pager_provider *providers;
 

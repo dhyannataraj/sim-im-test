@@ -13,7 +13,7 @@ class QComboBox;
 
 void disableWidget(QWidget *);
 
-void initCombo(QComboBox *cmb, unsigned short code, const ext_info *tbl);
+void initCombo(QComboBox *cmb, unsigned short code, const ext_info *tbl, bool bAddEmpty = true);
 void initTZCombo(QComboBox *cmb, char tz);
 
 unsigned short getComboValue(QComboBox *cmb, const ext_info *tbl);

@@ -63,6 +63,8 @@ const unsigned short ICQ_SRVxREQ_MODIFY_BACKGROUND = 0x1A04;
 const unsigned short ICQ_SRVxREQ_MODIFY_MAIL	   = 0x0B04;
 
 const unsigned short ICQ_SRVxREQ_PHONE_UPDATE	   = 0x5406;
+const unsigned short ICQ_SRVxREQ_SET_CHAT_GROUP	   = 0x5807;
+const unsigned short ICQ_SRVxREQ_RANDOM_CHAT	   = 0x4E07;
 
 void ICQClientPrivate::snac_various(unsigned short type, unsigned short)
 {
@@ -83,6 +85,7 @@ void ICQClientPrivate::snac_various(unsigned short type, unsigned short)
                 log(L_DEBUG, "End offline messages");
                 serverRequest(ICQ_SRVxREQ_ACK_OFFLINE_MSG);
                 sendServerRequest();
+                setChatGroup();
                 break;
             case ICQ_SRVxOFFLINE_MSG:{
                     log(L_DEBUG, "Offline message");
@@ -1270,3 +1273,67 @@ void ICQClientPrivate::sendShareUpdate()
     sock->writeBuffer.pack((unsigned long)(client->ShareOn ? 1 : 0));
     sendServerRequest();
 }
+
+void ICQClientPrivate::setChatGroup()
+{
+    serverRequest(ICQ_SRVxREQ_MORE);
+    sock->writeBuffer << (unsigned short)ICQ_SRVxREQ_SET_CHAT_GROUP;
+    if (client->ChatAvailable){
+        sock->writeBuffer.pack(client->ChatGroup);
+        sock->writeBuffer
+        << 0x00000310L
+        << 0x00000000L
+        << 0x00000000L
+        << 0x00000000L
+        << (char)4
+        << (char)ICQ_TCP_VERSION
+        << 0x00000000L
+        << 0x00000050L
+        << 0x00000003L
+        << (unsigned short)0
+        << (char)0;
+    }else{
+        sock->writeBuffer << (unsigned short)0;
+    }
+    sendServerRequest();
+}
+
+class RandomChatEvent : public ICQEvent
+{
+public:
+    RandomChatEvent(unsigned short id);
+protected:
+    bool processAnswer(ICQClientPrivate*, Buffer&, unsigned short nSubtype);
+};
+
+RandomChatEvent::RandomChatEvent(unsigned short id)
+        : ICQEvent(EVENT_RANDOM_CHAT, 0, EVENT_SUBTYPE_FULLINFO)
+{
+    m_nId = id;
+}
+
+bool RandomChatEvent::processAnswer(ICQClientPrivate *client, Buffer &b, unsigned short)
+{
+    unsigned long uin;
+    b.unpack(uin);
+    m_nUin = uin;
+    client->client->process_event(this);
+    return true;
+}
+
+void ICQClient::searchChat(unsigned short group)
+{
+    p->searchChat(group);
+}
+
+void ICQClientPrivate::searchChat(unsigned short group)
+{
+    serverRequest(ICQ_SRVxREQ_MORE);
+    sock->writeBuffer << (unsigned short)ICQ_SRVxREQ_RANDOM_CHAT;
+    sock->writeBuffer.pack(group);
+    sendServerRequest();
+    RandomChatEvent *e = new RandomChatEvent(m_nMsgSequence);
+    varEvents.push_back(e);
+}
+
+

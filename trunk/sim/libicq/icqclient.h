@@ -100,6 +100,8 @@ const unsigned short ICQ_MSGxSTATUS			   = 0x00E4;
 const unsigned short ICQ_MSGxSECURExCLOSE	= 0x00EE;
 const unsigned short ICQ_MSGxSECURExOPEN	= 0x00EF;
 
+const unsigned short ICQ_MSGxCHATxINFO		= 0x00F0;
+
 const unsigned short ICQ_READxAWAYxMSG		= 0x03E8;
 const unsigned short ICQ_READxOCCUPIEDxMSG	= 0x03E9;
 const unsigned short ICQ_READxNAxMSG		= 0x03EA;
@@ -237,6 +239,7 @@ const int EVENT_CHAT				= 17;
 const int EVENT_PROXY_ERROR			= 18;
 const int EVENT_PROXY_BAD_AUTH		= 19;
 const int EVENT_FILETRANSFER		= 20;
+const int EVENT_RANDOM_CHAT			= 21;
 
 const int EVENT_SUBTYPE_FULLINFO	= 1;
 const int EVENT_SUBTYPE_AUTOREPLY	= 2;
@@ -586,6 +589,19 @@ public:
     unsigned long status;
 };
 
+class ICQChatInfo : public ICQMessage
+{
+public:
+    ICQChatInfo();
+    string name;
+    string topic;
+    string homepage;
+    unsigned short age;
+    char gender;
+    unsigned short country;
+    unsigned short language;
+};
+
 const unsigned long ICQ_ACCEPTED = 0;
 const unsigned long ICQ_DECLINED = (unsigned long)-1;
 
@@ -775,6 +791,16 @@ public:
     string			ShareDir;
     bool		    ShareOn;
 
+    bool			ChatAvailable;
+    unsigned short	ChatGroup;
+    string			ChatTopic;
+    string			ChatName;
+    unsigned short  ChatAge;
+    char			ChatGender;
+    unsigned short	ChatLanguage;
+    unsigned short	ChatCountry;
+    string			ChatHomepage;
+
     virtual ICQUser		*createUser();
     virtual ICQGroup	*createGroup();
 
@@ -807,6 +833,11 @@ public:
                        unsigned short nAffiliation, const char *szAffiliation,
                        unsigned short nHomePoge, const char *szHomePage,
                        bool bOnlineOnly);
+    void setChatGroup(bool bAvaliable, unsigned short chatGroup,
+                      const char *topic, const char *name, unsigned short age,
+                      char gender, unsigned short language,
+                      unsigned short country, const char *homepage);
+    void searchChat(unsigned short chatGroup);
 
     void setInVisible(ICQUser*, bool);
     void setInInvisible(ICQUser*, bool);

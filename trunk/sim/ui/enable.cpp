@@ -26,10 +26,11 @@ void disableWidget(QWidget *w)
     w->setEnabled(false);
 }
 
-void initCombo(QComboBox *cmb, unsigned short code, const ext_info *tbl)
+void initCombo(QComboBox *cmb, unsigned short code, const ext_info *tbl, bool bAddEmpty)
 {
     if (cmb->isEnabled()){
-        cmb->insertItem("");
+        if (bAddEmpty)
+            cmb->insertItem("");
         QStringList items;
         QString current;
         for (const ext_info *i = tbl; i->nCode; i++){
@@ -38,7 +39,7 @@ void initCombo(QComboBox *cmb, unsigned short code, const ext_info *tbl)
         }
         items.sort();
         cmb->insertStringList(items);
-        unsigned n = 1;
+        unsigned n = bAddEmpty ? 1 : 0;
         if (!current.isEmpty()){
             for (QStringList::Iterator it = items.begin(); it != items.end(); ++it, n++){
                 if ((*it) == current){
@@ -66,7 +67,8 @@ unsigned short getComboValue(QComboBox *cmb, const ext_info *tbl)
     for (i = tbl; i->nCode; i++)
         items.append(i18n(i->szName));
     items.sort();
-    QString current = items[res-1];
+    if (cmb->text(0).isEmpty()) res--;
+    QString current = items[res];
     for (i = tbl; i->nCode; i++)
         if (i18n(i->szName) == current) return i->nCode;
     return 0;

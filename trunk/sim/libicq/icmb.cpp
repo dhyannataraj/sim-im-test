@@ -66,9 +66,11 @@ void ICQClientPrivate::snac_message(unsigned short type, unsigned short)
                 if ((e->message() == NULL) || (e->state != ICQEvent::Send)) continue;
                 ICQMessage *m = e->message();
                 if ((m->timestamp1 != timestamp1) != (m->timestamp2 != timestamp2)) continue;
-                e->state = ICQEvent::Success;
-                msgQueue.remove(e);
-                client->process_event(e);
+                if (m->Type() != ICQ_MSGxCHATxINFO){
+                    e->state = ICQEvent::Success;
+                    msgQueue.remove(e);
+                    client->process_event(e);
+                }
                 break;
             }
             break;
@@ -81,6 +83,36 @@ void ICQClientPrivate::snac_message(unsigned short type, unsigned short)
             sock->readBuffer.incReadPos(6);
             unsigned long t1, t2;
             sock->readBuffer >> t1 >> t2;
+            if ((t1 == 0x60F1A83DL) && (t2 == 0x9149D311L)){
+                for (list<ICQEvent*>::iterator it = msgQueue.begin(); it != msgQueue.end();){
+                    ICQEvent *e = *it;
+                    if ((e->message() == NULL) || (e->state != ICQEvent::Send)) continue;
+                    ICQMessage *m = e->message();
+                    if ((m->timestamp1 != timestamp1) != (m->timestamp2 != timestamp2)) continue;
+                    if (m->Type() == ICQ_MSGxCHATxINFO){
+                        ICQChatInfo *chatInfo = static_cast<ICQChatInfo*>(m);
+                        e->state = ICQEvent::Success;
+                        sock->readBuffer.incReadPos(0x32);
+                        sock->readBuffer.unpack(chatInfo->name);
+                        client->fromServer(chatInfo->name, client->owner);
+                        sock->readBuffer.unpack(chatInfo->topic);
+                        client->fromServer(chatInfo->topic, client->owner);
+                        sock->readBuffer.unpack(chatInfo->age);
+                        sock->readBuffer.unpack(chatInfo->gender);
+                        sock->readBuffer.unpack(chatInfo->language);
+                        sock->readBuffer.unpack(chatInfo->country);
+                        sock->readBuffer.unpack(chatInfo->homepage);
+                        client->fromServer(chatInfo->homepage, client->owner);
+                        msgQueue.remove(e);
+                        m->bDelete = true;
+                        client->process_event(e);
+                        if (m->bDelete) delete m;
+                        delete e;
+                    }
+                    break;
+                }
+                return;
+            }
             unsigned short seq;
             sock->readBuffer.incReadPos(0x0F);
             sock->readBuffer >> seq;
@@ -1204,6 +1236,34 @@ void ICQClientPrivate::processMsgQueueThruServer()
                 (*it)->state = ICQEvent::Success;
                 break;
             }
+        case ICQ_MSGxCHATxINFO:{
+                ICQChatInfo *chatInfo = static_cast<ICQChatInfo*>(e->message());
+                e->state = ICQEvent::Send;
+                msg_id id;
+                id.h = rand();
+                id.l = rand();
+                chatInfo->timestamp1 = id.l;
+                chatInfo->timestamp2 = id.h;
+                Buffer msg;
+                msg << 0x1B00 << ICQ_TCP_VERSION << (char)0
+                << 0x60F1A83DL << 0x9149D311L
+                << 0x8DBE0010L << 0x4B06462EL
+                << (unsigned short)0 << (char)3
+                << (unsigned long) 0
+                << advCounter << 0x1200 << advCounter
+                << 0x00000000L << 0x00000000L << 0x00000000L
+                << (char)0x01 << (char)0;
+                msg.pack((unsigned short)(client->owner->uStatus & 0xFFFF));
+                msg << 0x0100 << 0x0000 << (char)0;
+                Buffer buf;
+                buf << 0x0000 << 0x00000000L << 0x00000000L
+                << 0x09461349L << 0x4C7F11D1L << 0x82224445L << 0x53540000L
+                << 0x000A << 0x0002 << 0x0001
+                << 0x000F << 0x0000;
+                buf.tlv(0x2711, msg);
+                sendThroughServer(chatInfo->getUin(), 2, buf, &id);
+                break;
+            }
         default:
             break;
         }
@@ -1212,7 +1272,6 @@ void ICQClientPrivate::processMsgQueueThruServer()
             it++;
             continue;
         }
-        msgQueue.remove(e);
         client->process_event(e);
         it = msgQueue.begin();
     }

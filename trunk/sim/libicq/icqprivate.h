@@ -187,6 +187,9 @@ public:
     void sendServerRequest();
     unsigned long fullStatus(unsigned long status);
 
+    void setChatGroup();
+    void searchChat(unsigned short group);
+
     bool requestAutoResponse(unsigned long uin, bool bAuto);
     bool requestInfo(unsigned long uin, bool bAuto);
     bool requestPhoneBook(unsigned long uin, bool bAuto);

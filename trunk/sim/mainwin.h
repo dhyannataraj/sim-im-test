@@ -47,6 +47,7 @@ class SetupDialog;
 class TransparentTop;
 class QTranslator;
 class QTextCodec;
+class RandomChat;
 
 class ICQMessage;
 class ICQUser;
@@ -93,6 +94,7 @@ const int mnuGo = 43;
 const int mnuMonitor = 44;
 const int mnuToolBar = 45;
 const int mnuAutoHide = 46;
+const int mnuRandomChat = 47;
 const int mnuGrpAlert = 50;
 const int mnuGrpAccept = 51;
 const int mnuGrpSound = 52;
@@ -289,6 +291,8 @@ typedef struct MainWindow_Data
     bool			BarAutoHide;
 #endif
 
+    unsigned short	ChatGroup;
+
 } MainWindow_Data;
 
 class MainWindow : public QMainWindow
@@ -432,6 +436,8 @@ public:
     PROP_USHORT(BarState)
     PROP_BOOL(BarAutoHide)
 #endif
+
+    PROP_USHORT(ChatGroup)
 
     bool 	     init(bool bNoApply = false);
 
@@ -578,6 +584,8 @@ protected slots:
     void clearUserMenu();
     void networkMonitor();
     void monitorFinished();
+    void randomChat();
+    void randomChatFinished();
     void autoHide();
     void changeUIN();
 protected:
@@ -620,6 +628,7 @@ protected:
     SearchDialog *searchDlg;
     SetupDialog *setupDlg;
     MonitorWindow *mNetMonitor;
+    RandomChat *mRandomChat;
     unsigned inactiveTime;
 
     bool bLocked;

@@ -471,6 +471,20 @@ const ext_info Ages[] =
         { "", 0 }
     };
 
+const ext_info ChatGroups[] =
+    {
+        { I18N_NOOP("General chat"), 1 },
+        { I18N_NOOP("Romance"), 2 },
+        { I18N_NOOP("Games"), 3 },
+        { I18N_NOOP("Students"), 4 },
+        { I18N_NOOP("20 Something"), 5 },
+        { I18N_NOOP("30 Something"), 6 },
+        { I18N_NOOP("40 Something"), 7 },
+        { I18N_NOOP("50 Plus"), 8 },
+        { I18N_NOOP("Seeking Women"), 9 },
+        { I18N_NOOP("Seeking Men"), 10 },
+        { "", 0 }
+    };
 
 const ext_info *languages = Languages;
 const ext_info *countries = Countries;
@@ -481,6 +495,7 @@ const ext_info *pasts = Pasts;
 const ext_info *affilations = Affilations;
 const ext_info *genders = Genders;
 const ext_info *ages = Ages;
+const ext_info *chat_groups = ChatGroups;
 
 const char *smiles[] =
     {

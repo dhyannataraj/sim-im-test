@@ -43,6 +43,7 @@
 #include "ui/filetransfer.h"
 #include "ui/userinfo.h"
 #include "ui/securedlg.h"
+#include "ui/randomchat.h"
 
 #include "ui/enable.h"
 #include "chatwnd.h"
@@ -264,6 +265,7 @@ cfgParam MainWindow_Params[] =
 #ifdef USE_KDE
         { "AutoSync", offsetof(MainWindow_Data, AutoSync), PARAM_BOOL, 0 },
 #endif
+        { "ChatGroup", offsetof(MainWindow_Data, ChatGroup), PARAM_USHORT, 1 },
         { "", 0, 0, 0 }
     };
 
@@ -610,7 +612,8 @@ const int btnFind			= 5;
 const int btnNoIM			= 6;
 const int btnSMS			= 7;
 const int btnConfigure		= 8;
-const int btnMonitor		= 9;
+const int btnRandomChat		= 9;
+const int btnMonitor		= 10;
 
 ToolBarDef mainWndToolBar[] =
     {
@@ -624,6 +627,7 @@ ToolBarDef mainWndToolBar[] =
         { btnNoIM, "nonim", NULL, I18N_NOOP("Add Non-IM contact"), 0, SLOT(addNonIM()), NULL },
         { btnSMS, "sms", NULL, I18N_NOOP("Send SMS"), 0, SLOT(sendSMS()), NULL },
         { btnConfigure, "configure", NULL, I18N_NOOP("Setup"), 0, SLOT(setup()), NULL },
+        { btnRandomChat, "randomchat", NULL, I18N_NOOP("Random chat"), 0, SLOT(randomChat()), NULL },
         { btnMonitor, "network", NULL, I18N_NOOP("Network monitor"), 0, SLOT(networkMonitor()), NULL },
         END_DEF
     };
@@ -648,6 +652,7 @@ MainWindow::MainWindow(const char *name)
     time(&now);
     inactiveTime = now;
     mNetMonitor = NULL;
+    mRandomChat = NULL;
 
 #ifdef HAVE_UMASK
     umask(0077);
@@ -2592,6 +2597,21 @@ void MainWindow::monitorFinished()
     mNetMonitor = NULL;
 }
 
+void MainWindow::randomChat()
+{
+    if (mRandomChat == NULL)
+    {
+        mRandomChat = new RandomChat();
+        connect(mRandomChat, SIGNAL(finished()), this, SLOT(randomChatFinished()));
+    }
+    raiseWindow(mRandomChat);
+}
+
+void MainWindow::randomChatFinished()
+{
+    mRandomChat = NULL;
+}
+
 void MainWindow::about()
 {
     if( mAboutApp == 0 )
@@ -2674,6 +2694,7 @@ void MainWindow::loadMenu()
     menuFunction->insertItem(Icon("find"), i18n("Find User"), this, SLOT(search()));
     menuFunction->insertItem(Icon("nonim"), i18n("Add Non-IM contact"), this, SLOT(addNonIM()));
     menuFunction->insertItem(Icon("sms"), i18n("Send SMS"), this, SLOT(sendSMS()));
+    menuFunction->insertItem(Icon("randomchat"), i18n("Random chat"), this, SLOT(randomChat()));
     menuFunction->insertSeparator();
     menuFunction->insertItem(i18n("Status"), menuStatus, mnuPopupStatus);
     menuFunction->insertSeparator();

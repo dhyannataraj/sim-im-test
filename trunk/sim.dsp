@@ -731,6 +731,14 @@ SOURCE=.\sim\qt3\moc_qtooltip.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\ui\moc_randomchat.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\moc_randomchatbase.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\ui\moc_searchbase.cpp
 # End Source File
 # Begin Source File
@@ -1010,6 +1018,14 @@ SOURCE=.\sim\qt3\qtextedit.cpp
 # Begin Source File
 
 SOURCE=.\sim\qt3\qtooltip.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\randomchat.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\randomchatbase.cpp
 # End Source File
 # Begin Source File
 
@@ -2900,6 +2916,43 @@ InputName=qtooltip
 
 !ENDIF 
 
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\randomchat.h
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\randomchat.h
+InputName=randomchat
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\randomchat.h
+InputName=randomchat
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\randomchatbase.h
 # End Source File
 # Begin Source File
 
@@ -4972,6 +5025,61 @@ BuildCmds= \
 InputDir=.\sim\ui
 InputPath=.\sim\ui\proxydlgbase.ui
 InputName=proxydlgbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\randomchatbase.ui
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Uic'ing $(InputName).ui ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\randomchatbase.ui
+InputName=randomchatbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Uic'ing $(InputName).ui ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\randomchatbase.ui
+InputName=randomchatbase
 
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \

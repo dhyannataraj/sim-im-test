@@ -295,6 +295,15 @@ ICQStatus::ICQStatus()
     status = ICQ_STATUS_OFFLINE;
 }
 
+ICQChatInfo::ICQChatInfo()
+        : ICQMessage(ICQ_MSGxCHATxINFO)
+{
+    age = 0;
+    gender = 0;
+    country = 0;
+    language = 0;
+}
+
 ICQMessage *ICQClientPrivate::parseMessage(unsigned short type, unsigned long uin, string &p, Buffer &packet,
         unsigned short cookie1, unsigned short cookie2,
         unsigned long timestamp1, unsigned long timestamp2)
