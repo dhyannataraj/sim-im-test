@@ -916,7 +916,7 @@ protected:
 BgParser::BgParser()
 {
     bgColor = 0xFFFFFF;
-    m_bBody = false;
+    m_bBody = true;
 }
 
 QString BgParser::parse(const QString &text)
@@ -937,6 +937,7 @@ void BgParser::tag_start(const QString &tag, const list<QString> &attrs)
 {
     if (tag == "body"){
         m_bBody = true;
+		res = "";
         for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
             QString name = *it;
             ++it;

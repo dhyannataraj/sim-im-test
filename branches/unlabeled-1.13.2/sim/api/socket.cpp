@@ -63,7 +63,12 @@ ClientSocket::~ClientSocket()
 {
     if (m_sock)
         delete m_sock;
-    getSocketFactory()->p->errSockets.remove(this);
+	for (list<ClientSocket*>::iterator it = getSocketFactory()->p->errSockets.begin(); it != getSocketFactory()->p->errSockets.end(); ++it){
+		if ((*it) == this){
+			getSocketFactory()->p->errSockets.erase(it);
+			break;
+		}
+	}
 }
 
 void ClientSocket::close()
@@ -241,11 +246,11 @@ void SocketFactory::remove(ServerSocket *s)
 
 void SocketFactory::idle()
 {
-    for (list<ClientSocket*>::iterator it = p->errSockets.begin(); it != p->errSockets.end();){
+	list<ClientSocket*> err = p->errSockets;
+	p->errSockets.clear();
+    for (list<ClientSocket*>::iterator it = err.begin(); it != err.end(); ++it){
         ClientSocket *s = *it;
         ClientSocketNotify *n = s->m_notify;
-        p->errSockets.remove(s);
-        it = p->errSockets.begin();
         if (n){
             string errString;
             if (s->errorString())

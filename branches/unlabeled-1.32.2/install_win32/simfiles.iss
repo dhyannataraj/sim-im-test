@@ -96,6 +96,7 @@ Source: "..\Release\plugins\spell.dll"; DestDir: "{app}\plugins"; Flags: ignorev
 Source: "..\Release\plugins\styles.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\transparent.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\update.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
+Source: "..\Release\plugins\weather.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\windock.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\yahoo.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\zodiak.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion

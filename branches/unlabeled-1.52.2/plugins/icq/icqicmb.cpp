@@ -19,6 +19,7 @@
 #include "icqmessage.h"
 #include "icq.h"
 #include "core.h"
+#include "html.h"
 
 #include <stdio.h>
 #ifdef WIN32
@@ -1288,6 +1289,115 @@ void ICQClient::sendMTN(const char *screen, unsigned short type)
     sendPacket();
 }
 
+class AIMParser : public HTMLParser
+{
+public:
+	AIMParser() {}
+	QString parse(const QString &str);
+protected:
+	QString res;
+    virtual void text(const QString &text);
+    virtual void tag_start(const QString &tag, const list<QString> &options);
+    virtual void tag_end(const QString &tag);
+};
+
+QString AIMParser::parse(const QString &str)
+{
+	HTMLParser::parse(str);
+	return res;
+}
+
+void AIMParser::text(const QString &text)
+{
+	res += text;
+}
+
+void AIMParser::tag_start(const QString &tag, const list<QString> &options)
+{
+	QString otag;
+	QString add;
+	if ((tag == "font") || (tag == "b") || (tag == "u") || (tag == "i"))
+		otag = tag.upper();
+	if (tag == "span")
+		otag = "FONT";
+	if (otag.isEmpty())
+		return;
+	res += "<";
+	res += otag;
+	for (list<QString>::const_iterator it = options.begin(); it != options.end(); ++it){
+		QString key = *it;
+		++it;
+		QString value = *it;
+		if (key.lower() == "style"){
+		    list<QString> styles = parseStyle(value);
+			for (list<QString>::const_iterator its = styles.begin(); its != styles.end(); ++its){
+				QString key = *its;
+				++its;
+				QString value = *its;
+                if (key == "font-family")
+                {
+					res += " FACE=\"";
+					res += value;
+					res += "\"";
+                }
+                else if (key == "font-size")
+                {
+                    if (value == "smaller")
+                    {
+						res += " SIZE=2";
+                    }
+                    else if (value == "larger")
+                    {
+						res += " SIZE=4";
+                    }
+                }
+                else if (key == "font-style")
+                {
+                    if (value.lower() == "italic")
+						add = "<i>";
+                }
+                else if (key == "font-weight")
+                {
+                    if (value.toInt() >= 600)
+						add = "<b>";
+                }
+                else if (key == "text-decoration")
+                {
+                    if (value.lower() == "underline")
+						add = "u";
+                }
+                else if (key == "color")
+                {
+					res += " COLOR=\"";
+					res += value;
+					res += "\"";
+                }
+			}
+			continue;
+		}
+		res += " ";
+		res += key.upper();
+		res += "=\"";
+		res += value;
+		res += "\"";
+	}
+	res += ">";
+}
+
+void AIMParser::tag_end(const QString &tag)
+{
+	QString otag;
+	if ((tag == "font") || (tag == "b") || (tag == "u") || (tag == "i"))
+		otag = tag.upper();
+	if (tag == "span")
+		otag = "FONT";
+	if (otag.isEmpty())
+		return;
+	res += "</";
+	res += otag;
+	res += ">";
+}
+
 void ICQClient::processSendQueue()
 {
     m_sendTimer->stop();
@@ -1488,7 +1598,8 @@ void ICQClient::processSendQueue()
                     t += b;
                     t += "\">";
                     if ((m_send.flags & SEND_MASK) == SEND_HTML){
-                        t += m_send.part;
+						AIMParser p;
+                        t += p.parse(m_send.part);
                     }else{
                         string s;
                         s = m_send.part.utf8();
