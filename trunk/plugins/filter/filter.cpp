@@ -123,25 +123,25 @@ void *FilterPlugin::processEvent(Event *e)
         FilterUserData *data = NULL;
         if (!contact) {
             delete msg;
-            return NULL;
+            return msg;
         }
         // check if we accept only from users on the list
         if (getFromList() && contact->getTemporary()){
             delete msg;
             delete contact;
-            return NULL;
+            return msg;
         }
         // check if the user is a ignored user
         if (contact->getIgnore()){
             delete msg;
-            return NULL;
+            return msg;
         }
         // get filter-data
         data = (FilterUserData*)(contact->getUserData(user_data_id));
         if (data && data->SpamList && *data->SpamList){
             if (checkSpam(msg->getPlainText(), QString::fromUtf8(data->SpamList))){
                 delete msg;
-                return NULL;
+                return msg;
             }
         }
         return NULL;

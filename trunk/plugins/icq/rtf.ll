@@ -712,9 +712,16 @@ QString RTF2HTML::Parse(const char *rtf, const char *_encoding)
     return s;
 }
 
-QString ICQClient::parseRTF(const char *rtf, const char *encoding)
+bool ICQClient::parseRTF(const char *rtf, const char *encoding, QString &res)
 {
-    RTF2HTML p;
-    return p.Parse(rtf, encoding);
+	char _RTF[] = "{\\rtf";
+	if ((strlen(rtf) > strlen(_RTF)) && !memcmp(rtf, _RTF, strlen(_RTF))){
+		RTF2HTML p;
+		res = p.Parse(rtf, encoding);
+		return true;
+	}
+	QTextCodec *codec = ICQClient::_getCodec(encoding);
+	res = codec->toUnicode(rtf, strlen(rtf));
+	return false;
 }
 

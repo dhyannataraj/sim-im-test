@@ -170,16 +170,26 @@ void OnTopPlugin::setState()
             SetWindowLongW(main->winId(), GWL_EXSTYLE,
                            (GetWindowLongW(main->winId(), GWL_EXSTYLE) | WS_EX_APPWINDOW) & (~WS_EX_TOOLWINDOW));
         }else{
-            SetWindowLongW(main->winId(), GWL_EXSTYLE,
-                           (GetWindowLongW(main->winId(), GWL_EXSTYLE) & ~WS_EX_APPWINDOW) | WS_EX_TOOLWINDOW);
+			DWORD exStyle = GetWindowLongW(main->winId(), GWL_EXSTYLE);
+			if ((exStyle & WS_EX_TOOLWINDOW) == 0){
+				SetWindowLongW(main->winId(), GWL_EXSTYLE, (exStyle  & ~WS_EX_APPWINDOW) | WS_EX_TOOLWINDOW);
+				QSize s = main->size();
+				main->resize(s.width() + 1, s.height());
+				main->resize(s.width(), s.height());
+			}
         }
     }else{
         if (getInTask()){
             SetWindowLongA(main->winId(), GWL_EXSTYLE,
                            (GetWindowLongA(main->winId(), GWL_EXSTYLE) | WS_EX_APPWINDOW) & (~WS_EX_TOOLWINDOW));
         }else{
-            SetWindowLongA(main->winId(), GWL_EXSTYLE,
-                           (GetWindowLongA(main->winId(), GWL_EXSTYLE) & ~WS_EX_APPWINDOW) | WS_EX_TOOLWINDOW);
+			DWORD exStyle = GetWindowLongA(main->winId(), GWL_EXSTYLE);
+			if ((exStyle & WS_EX_TOOLWINDOW) == 0){
+				SetWindowLongA(main->winId(), GWL_EXSTYLE, (exStyle  & ~WS_EX_APPWINDOW) | WS_EX_TOOLWINDOW);
+				QSize s = main->size();
+				main->resize(s.width() + 1, s.height());
+				main->resize(s.width(), s.height());
+			}
         }
     }
 #else

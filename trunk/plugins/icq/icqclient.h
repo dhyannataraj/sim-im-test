@@ -451,7 +451,7 @@ public:
     QTextCodec *getCodec(const char *encoding);
     static QTextCodec *_getCodec(const char *encoding);
     static QString toUnicode(const char *serverText, const char *clientName, unsigned contactId);
-    static QString parseRTF(const char *str, const char *encoding);
+    static bool parseRTF(const char *str, const char *encoding, QString &result);
     static QString pictureFile(ICQUserData *data);
     static const capability *capabilities;
     static const plugin *plugins;

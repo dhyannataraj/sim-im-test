@@ -507,8 +507,10 @@ static Message *parseTextMessage(const char *str, const char *pp, const char *en
             const char *unpack_cap = cap.c_str();
             if (!memcmp(unpack_cap, ICQClient::capabilities[CAP_RTF], sizeof(capability))){
                 Message *msg = new Message(MessageGeneric);
-                msg->setText(ICQClient::parseRTF(str, encoding));
-                msg->setFlags(MESSAGE_RICHTEXT);
+				QString text;
+                if (ICQClient::parseRTF(str, encoding, text))
+					msg->setFlags(MESSAGE_RICHTEXT);
+				msg->setText(text);
                 return msg;
             }
             if (!memcmp(unpack_cap, ICQClient::capabilities[CAP_UTF], sizeof(capability))){

@@ -30,9 +30,6 @@ using namespace std;
 #endif
 #endif
 
-namespace SIM
-{
-
 class Buffer;
 
 class EXPORT Tlv
@@ -149,8 +146,6 @@ protected:
 };
 
 EXPORT void log_packet(Buffer &buf, bool bOut, unsigned packet_id, const char *add_info=NULL);
-
-};
 
 #endif
 
