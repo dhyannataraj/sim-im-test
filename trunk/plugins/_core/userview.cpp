@@ -33,6 +33,7 @@
 #include <qstyle.h>
 #include <qapplication.h>
 #include <qwidgetlist.h>
+#include <qcursor.h>
 
 #ifdef WIN32
 #include <windows.h>
