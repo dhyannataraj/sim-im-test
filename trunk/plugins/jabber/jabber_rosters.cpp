@@ -1219,7 +1219,6 @@ JabberClient::MessageRequest::~MessageRequest()
             msg->setText(p.parse(QString::fromUtf8(m_richText.c_str())));
             msg->setFlags(MESSAGE_RICHTEXT);
             msg->setBackground(p.bgColor);
-            <<<<<<< jabber_rosters.cpp
         }
         if (m_targets.size()){
             if ((msg->getFlags() & MESSAGE_RICHTEXT) == 0){
@@ -1235,23 +1234,6 @@ JabberClient::MessageRequest::~MessageRequest()
                 text += "</a>";
             }
         }
-        =======
-        }
-        if (m_targets.size()){
-            if ((msg->getFlags() & MESSAGE_RICHTEXT) == 0){
-                msg->setText(quoteString(msg->getText()));
-                msg->setFlags(MESSAGE_RICHTEXT);
-            }
-            QString text = msg->getText();
-            for (unsigned i = 0; i < m_targets.size(); i++){
-                text += "<br><a href=\"";
-                text += quoteString(QString::fromUtf8(m_targets[i].c_str()));
-                text += "\">";
-                text += quoteString(QString::fromUtf8(m_descs[i].c_str()));
-                text += "</a>";
-            }
-        }
-        >>>>>>> 1.26.2.1
     }else{
         msg->setText(QString::fromUtf8(m_body.c_str()));
     }
