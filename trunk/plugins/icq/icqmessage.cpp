@@ -656,8 +656,8 @@ static MessageDef defIcq =
         NULL,
         NULL,
         MESSAGE_DEFAULT,
-        NULL,
-        NULL,
+        "Message",
+        "%n messages",
         createIcq,
         NULL,
         NULL
@@ -668,13 +668,17 @@ static Message *createIcqFile(const char *cfg)
     return new ICQFileMessage(cfg);
 }
 
+#if 0
+i18n("File message", "%n File messages", 1);
+#endif
+
 static MessageDef defIcqFile =
     {
         NULL,
         NULL,
         MESSAGE_DEFAULT,
-        NULL,
-        NULL,
+        "File message",
+        "%n File messages",
         createIcqFile,
         NULL,
         NULL
