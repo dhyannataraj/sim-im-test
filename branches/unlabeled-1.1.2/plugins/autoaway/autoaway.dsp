@@ -125,6 +125,15 @@ SOURCE=.\autoaway.h
 !IF  "$(CFG)" == "autoaway - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\autoaway.h
+InputName=autoaway
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "autoaway - Win32 Debug"
 
@@ -149,6 +158,15 @@ SOURCE=.\autoawaycfg.h
 !IF  "$(CFG)" == "autoaway - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\autoawaycfg.h
+InputName=autoawaycfg
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "autoaway - Win32 Debug"
 
@@ -171,6 +189,16 @@ InputName=autoawaycfg
 SOURCE=.\autoawaycfgbase.h
 
 !IF  "$(CFG)" == "autoaway - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\autoawaycfgbase.h
+InputName=autoawaycfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "autoaway - Win32 Debug"
 
@@ -202,6 +230,22 @@ SOURCE=.\autoawaycfgbase.ui
 !IF  "$(CFG)" == "autoaway - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\autoawaycfgbase.ui
+InputName=autoawaycfgbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "autoaway - Win32 Debug"
 

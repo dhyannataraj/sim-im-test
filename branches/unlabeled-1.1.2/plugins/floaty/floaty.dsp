@@ -117,6 +117,15 @@ SOURCE=.\floaty.h
 !IF  "$(CFG)" == "floaty - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\floaty.h
+InputName=floaty
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "floaty - Win32 Debug"
 
@@ -141,6 +150,15 @@ SOURCE=.\floatywnd.h
 !IF  "$(CFG)" == "floaty - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\floatywnd.h
+InputName=floatywnd
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "floaty - Win32 Debug"
 

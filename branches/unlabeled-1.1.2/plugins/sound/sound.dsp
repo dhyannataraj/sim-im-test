@@ -141,6 +141,15 @@ SOURCE=.\soundconfig.h
 !IF  "$(CFG)" == "sound - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\soundconfig.h
+InputName=soundconfig
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "sound - Win32 Debug"
 
@@ -164,6 +173,16 @@ SOURCE=.\soundconfigbase.h
 
 !IF  "$(CFG)" == "sound - Win32 Release"
 
+# Begin Custom Build
+InputDir=.
+InputPath=.\soundconfigbase.h
+InputName=soundconfigbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
 !ELSEIF  "$(CFG)" == "sound - Win32 Debug"
 
 # Begin Custom Build
@@ -186,6 +205,15 @@ SOURCE=.\sounduser.h
 !IF  "$(CFG)" == "sound - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\sounduser.h
+InputName=sounduser
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "sound - Win32 Debug"
 
@@ -208,6 +236,16 @@ InputName=sounduser
 SOURCE=.\sounduserbase.h
 
 !IF  "$(CFG)" == "sound - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\sounduserbase.h
+InputName=sounduserbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "sound - Win32 Debug"
 
@@ -239,6 +277,22 @@ SOURCE=.\soundconfigbase.ui
 !IF  "$(CFG)" == "sound - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\soundconfigbase.ui
+InputName=soundconfigbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "sound - Win32 Debug"
 
@@ -270,6 +324,22 @@ SOURCE=.\sounduserbase.ui
 !IF  "$(CFG)" == "sound - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\sounduserbase.ui
+InputName=sounduserbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "sound - Win32 Debug"
 

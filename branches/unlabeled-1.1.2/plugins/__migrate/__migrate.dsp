@@ -125,6 +125,15 @@ SOURCE=.\migratedlg.h
 !IF  "$(CFG)" == "__migrate - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\migratedlg.h
+InputName=migratedlg
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "__migrate - Win32 Debug"
 
@@ -147,6 +156,16 @@ InputName=migratedlg
 SOURCE=.\migratedlgbase.h
 
 !IF  "$(CFG)" == "__migrate - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\migratedlgbase.h
+InputName=migratedlgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "__migrate - Win32 Debug"
 
@@ -178,6 +197,22 @@ SOURCE=.\migratedlgbase.ui
 !IF  "$(CFG)" == "__migrate - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\migratedlgbase.ui
+InputName=migratedlgbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "__migrate - Win32 Debug"
 

@@ -125,6 +125,15 @@ SOURCE=.\about.h
 !IF  "$(CFG)" == "about - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\about.h
+InputName=about
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "about - Win32 Debug"
 
@@ -149,6 +158,15 @@ SOURCE=.\aboutdlg.h
 !IF  "$(CFG)" == "about - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\aboutdlg.h
+InputName=aboutdlg
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "about - Win32 Debug"
 
@@ -171,6 +189,16 @@ InputName=aboutdlg
 SOURCE=.\aboutdlgbase.h
 
 !IF  "$(CFG)" == "about - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\aboutdlgbase.h
+InputName=aboutdlgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "about - Win32 Debug"
 
@@ -202,6 +230,22 @@ SOURCE=.\aboutdlgbase.ui
 !IF  "$(CFG)" == "about - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\aboutdlgbase.ui
+InputName=aboutdlgbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "about - Win32 Debug"
 

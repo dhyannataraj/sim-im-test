@@ -125,6 +125,15 @@ SOURCE=.\ontop.h
 !IF  "$(CFG)" == "ontop - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\ontop.h
+InputName=ontop
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "ontop - Win32 Debug"
 
@@ -149,6 +158,15 @@ SOURCE=.\ontopcfg.h
 !IF  "$(CFG)" == "ontop - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\ontopcfg.h
+InputName=ontopcfg
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "ontop - Win32 Debug"
 
@@ -171,6 +189,16 @@ InputName=ontopcfg
 SOURCE=.\ontopcfgbase.h
 
 !IF  "$(CFG)" == "ontop - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\ontopcfgbase.h
+InputName=ontopcfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "ontop - Win32 Debug"
 
@@ -202,6 +230,22 @@ SOURCE=.\ontopcfgbase.ui
 !IF  "$(CFG)" == "ontop - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\ontopcfgbase.ui
+InputName=ontopcfgbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "ontop - Win32 Debug"
 

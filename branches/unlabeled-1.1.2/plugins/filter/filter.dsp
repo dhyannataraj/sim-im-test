@@ -141,6 +141,15 @@ SOURCE=.\filtercfg.h
 !IF  "$(CFG)" == "filter - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\filtercfg.h
+InputName=filtercfg
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "filter - Win32 Debug"
 
@@ -164,6 +173,16 @@ SOURCE=.\filtercfgbase.h
 
 !IF  "$(CFG)" == "filter - Win32 Release"
 
+# Begin Custom Build
+InputDir=.
+InputPath=.\filtercfgbase.h
+InputName=filtercfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
 !ELSEIF  "$(CFG)" == "filter - Win32 Debug"
 
 # Begin Custom Build
@@ -186,6 +205,15 @@ SOURCE=.\ignorelist.h
 !IF  "$(CFG)" == "filter - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\ignorelist.h
+InputName=ignorelist
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "filter - Win32 Debug"
 
@@ -208,6 +236,16 @@ InputName=ignorelist
 SOURCE=.\ignorelistbase.h
 
 !IF  "$(CFG)" == "filter - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\ignorelistbase.h
+InputName=ignorelistbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "filter - Win32 Debug"
 
@@ -239,6 +277,22 @@ SOURCE=.\filtercfgbase.ui
 !IF  "$(CFG)" == "filter - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\filtercfgbase.ui
+InputName=filtercfgbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "filter - Win32 Debug"
 
@@ -270,6 +324,22 @@ SOURCE=.\ignorelistbase.ui
 !IF  "$(CFG)" == "filter - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\ignorelistbase.ui
+InputName=ignorelistbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "filter - Win32 Debug"
 

@@ -125,6 +125,15 @@ SOURCE=.\transparent.h
 !IF  "$(CFG)" == "transparent - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\transparent.h
+InputName=transparent
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "transparent - Win32 Debug"
 
@@ -149,6 +158,15 @@ SOURCE=.\transparentcfg.h
 !IF  "$(CFG)" == "transparent - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\transparentcfg.h
+InputName=transparentcfg
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "transparent - Win32 Debug"
 
@@ -171,6 +189,16 @@ InputName=transparentcfg
 SOURCE=.\transparentcfgbase.h
 
 !IF  "$(CFG)" == "transparent - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\transparentcfgbase.h
+InputName=transparentcfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "transparent - Win32 Debug"
 
@@ -202,6 +230,22 @@ SOURCE=.\transparentcfgbase.ui
 !IF  "$(CFG)" == "transparent - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\transparentcfgbase.ui
+InputName=transparentcfgbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "transparent - Win32 Debug"
 

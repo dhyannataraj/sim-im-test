@@ -133,6 +133,15 @@ SOURCE=.\dock.h
 !IF  "$(CFG)" == "dock - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\dock.h
+InputName=dock
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "dock - Win32 Debug"
 
@@ -157,6 +166,15 @@ SOURCE=.\dockcfg.h
 !IF  "$(CFG)" == "dock - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\dockcfg.h
+InputName=dockcfg
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "dock - Win32 Debug"
 
@@ -180,6 +198,16 @@ SOURCE=.\dockcfgbase.h
 
 !IF  "$(CFG)" == "dock - Win32 Release"
 
+# Begin Custom Build
+InputDir=.
+InputPath=.\dockcfgbase.h
+InputName=dockcfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
 !ELSEIF  "$(CFG)" == "dock - Win32 Debug"
 
 # Begin Custom Build
@@ -202,6 +230,15 @@ SOURCE=.\dockwnd.h
 !IF  "$(CFG)" == "dock - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\dockwnd.h
+InputName=dockwnd
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "dock - Win32 Debug"
 
@@ -234,6 +271,22 @@ SOURCE=.\dockcfgbase.ui
 !IF  "$(CFG)" == "dock - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\dockcfgbase.ui
+InputName=dockcfgbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "dock - Win32 Debug"
 

@@ -141,6 +141,15 @@ SOURCE=.\mousecfg.h
 !IF  "$(CFG)" == "shortcuts - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\mousecfg.h
+InputName=mousecfg
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "shortcuts - Win32 Debug"
 
@@ -164,6 +173,16 @@ SOURCE=.\mousecfgbase.h
 
 !IF  "$(CFG)" == "shortcuts - Win32 Release"
 
+# Begin Custom Build
+InputDir=.
+InputPath=.\mousecfgbase.h
+InputName=mousecfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
 !ELSEIF  "$(CFG)" == "shortcuts - Win32 Debug"
 
 # Begin Custom Build
@@ -186,6 +205,15 @@ SOURCE=.\shortcutcfg.h
 !IF  "$(CFG)" == "shortcuts - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\shortcutcfg.h
+InputName=shortcutcfg
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "shortcuts - Win32 Debug"
 
@@ -209,6 +237,16 @@ SOURCE=.\shortcutcfgbase.h
 
 !IF  "$(CFG)" == "shortcuts - Win32 Release"
 
+# Begin Custom Build
+InputDir=.
+InputPath=.\shortcutcfgbase.h
+InputName=shortcutcfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
 !ELSEIF  "$(CFG)" == "shortcuts - Win32 Debug"
 
 # Begin Custom Build
@@ -231,6 +269,15 @@ SOURCE=.\shortcuts.h
 !IF  "$(CFG)" == "shortcuts - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\shortcuts.h
+InputName=shortcuts
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "shortcuts - Win32 Debug"
 
@@ -263,6 +310,22 @@ SOURCE=.\mousecfgbase.ui
 !IF  "$(CFG)" == "shortcuts - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\mousecfgbase.ui
+InputName=mousecfgbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "shortcuts - Win32 Debug"
 
@@ -294,6 +357,22 @@ SOURCE=.\shortcutcfgbase.ui
 !IF  "$(CFG)" == "shortcuts - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\shortcutcfgbase.ui
+InputName=shortcutcfgbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "shortcuts - Win32 Debug"
 

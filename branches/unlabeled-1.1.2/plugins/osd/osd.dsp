@@ -141,6 +141,15 @@ SOURCE=.\osd.h
 !IF  "$(CFG)" == "osd - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\osd.h
+InputName=osd
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "osd - Win32 Debug"
 
@@ -165,6 +174,15 @@ SOURCE=.\osdconfig.h
 !IF  "$(CFG)" == "osd - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\osdconfig.h
+InputName=osdconfig
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "osd - Win32 Debug"
 
@@ -188,6 +206,16 @@ SOURCE=.\osdconfigbase.h
 
 !IF  "$(CFG)" == "osd - Win32 Release"
 
+# Begin Custom Build
+InputDir=.
+InputPath=.\osdconfigbase.h
+InputName=osdconfigbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
 !ELSEIF  "$(CFG)" == "osd - Win32 Debug"
 
 # Begin Custom Build
@@ -210,6 +238,15 @@ SOURCE=.\osdiface.h
 !IF  "$(CFG)" == "osd - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\osdiface.h
+InputName=osdiface
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "osd - Win32 Debug"
 
@@ -232,6 +269,16 @@ InputName=osdiface
 SOURCE=.\osdifacebase.h
 
 !IF  "$(CFG)" == "osd - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\osdifacebase.h
+InputName=osdifacebase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "osd - Win32 Debug"
 
@@ -263,6 +310,22 @@ SOURCE=.\osdconfigbase.ui
 !IF  "$(CFG)" == "osd - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\osdconfigbase.ui
+InputName=osdconfigbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "osd - Win32 Debug"
 
@@ -294,6 +357,22 @@ SOURCE=.\osdifacebase.ui
 !IF  "$(CFG)" == "osd - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\osdifacebase.ui
+InputName=osdifacebase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "osd - Win32 Debug"
 

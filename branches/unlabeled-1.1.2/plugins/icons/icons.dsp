@@ -129,6 +129,15 @@ SOURCE=.\iconcfg.h
 !IF  "$(CFG)" == "icons - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\iconcfg.h
+InputName=iconcfg
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "icons - Win32 Debug"
 
@@ -151,6 +160,16 @@ InputName=iconcfg
 SOURCE=.\iconcfgbase.h
 
 !IF  "$(CFG)" == "icons - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\iconcfgbase.h
+InputName=iconcfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "icons - Win32 Debug"
 
@@ -186,6 +205,22 @@ SOURCE=.\iconcfgbase.ui
 !IF  "$(CFG)" == "icons - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\iconcfgbase.ui
+InputName=iconcfgbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "icons - Win32 Debug"
 

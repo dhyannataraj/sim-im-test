@@ -125,6 +125,15 @@ SOURCE=.\proxycfg.h
 !IF  "$(CFG)" == "proxy - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\proxycfg.h
+InputName=proxycfg
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "proxy - Win32 Debug"
 
@@ -147,6 +156,16 @@ InputName=proxycfg
 SOURCE=.\proxycfgbase.h
 
 !IF  "$(CFG)" == "proxy - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\proxycfgbase.h
+InputName=proxycfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "proxy - Win32 Debug"
 
@@ -178,6 +197,22 @@ SOURCE=.\proxycfgbase.ui
 !IF  "$(CFG)" == "proxy - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\proxycfgbase.ui
+InputName=proxycfgbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "proxy - Win32 Debug"
 
