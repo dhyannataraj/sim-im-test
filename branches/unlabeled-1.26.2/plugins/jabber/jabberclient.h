@@ -269,7 +269,7 @@ class MessageRequest : public ServerRequest
 
     string		buildId(JabberUserData *data);
     JabberUserData	*findContact(const char *jid, const char *name, bool bCreate, Contact *&contact);
-    bool		add_contact(const char *id);
+    bool		add_contact(const char *id, unsigned grp);
     void		get_agents();
     string		get_agent_info(const char *jid, const char *node, const char *type);
     void		auth_request(const char *jid, unsigned type, const char *text, bool bCreate);

@@ -71,7 +71,7 @@ Source: "..\Release\plugins\netmonitor.dll"; DestDir: "{app}\plugins"; Flags: ig
 Source: "..\Release\plugins\ontop.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\osd.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\proxy.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
-Source: "..\Release\plugins\remote.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion regserver
+Source: "..\Release\plugins\remote.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\shortcuts.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\splash.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\sound.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
@@ -83,6 +83,7 @@ Source: "..\Release\plugins\windock.dll"; DestDir: "{app}\plugins"; Flags: ignor
 Source: "..\Release\plugins\styles\metal.dll"; DestDir: "{app}\plugins\styles"; Flags: ignoreversion
 Source: "..\Release\plugins\styles\wood.dll"; DestDir: "{app}\plugins\styles"; Flags: ignoreversion
 Source: "..\Release\plugins\styles\xpstyle.dll"; DestDir: "{app}\plugins\styles"; Flags: ignoreversion
+Source: "..\Release\simremote.dll"; DestDir: "{app}"; Flags: ignoreversion regserver
 Source: "..\Release\sounds\startup.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
 Source: "..\Release\sounds\filedone.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
 Source: "..\Release\sounds\message.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion

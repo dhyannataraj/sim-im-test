@@ -179,7 +179,6 @@ void JabberAdd::startSearch()
         return;
     if (tabAdd->currentPageIndex() == 0){
         QString jid = edtID->text();
-        if (client->add_contact(jid.utf8())){
             unsigned grp_id = 0;
             ContactList::GroupIterator it;
             Group *grp;
@@ -192,16 +191,13 @@ void JabberAdd::startSearch()
                     break;
                 }
             }
-            Contact *contact;
-            JabberUserData *data = client->findContact(jid.utf8(), NULL, false, contact);
-            if (data && (contact->getGroup() != grp_id)){
-                contact->setGroup(grp_id);
-                Event e(EventContactChanged, contact);
-                e.process();
-            }
-        }else{
-            m_result->setText(i18n("%1 already in contact list") .arg(jid));
-        }
+			if (client->add_contact(jid.utf8(), grp_id)){
+				m_result->setText(i18n("%1 added to contact list") .arg(jid));
+			}else{
+				m_result->setText(i18n("%1 is already in contact list") .arg(jid));
+			}
+	    if (m_wizard)
+		    m_wizard->setFinishEnabled(m_result, true);
     }else if (tabAdd->currentPage()->inherits("JabberSearch")){
         JabberSearch *search = static_cast<JabberSearch*>(tabAdd->currentPage());
         QString condition = search->condition();

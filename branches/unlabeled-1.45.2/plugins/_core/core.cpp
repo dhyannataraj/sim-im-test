@@ -1852,9 +1852,10 @@ void *CorePlugin::processEvent(Event *e)
                     if (getContainerMode() == 0)
                         container->setReceived(msg->getFlags() & MESSAGE_RECEIVED);
                 }
-                container->addUserWnd(userWnd);
+                container->addUserWnd(userWnd, (msg->getFlags() & MESSAGE_NORAISE) == 0);
             }else{
-                container->raiseUserWnd(userWnd);
+	            if ((msg->getFlags() & MESSAGE_NORAISE) == 0)
+					container->raiseUserWnd(userWnd);
             }
             container->setNoSwitch();
             userWnd->setMessage(msg);
