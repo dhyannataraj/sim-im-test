@@ -1394,7 +1394,9 @@ void AIMParser::text(const QString &text)
 
 void AIMParser::tag_start(const QString &tag, const list<QString> &options)
 {
-    QString otag;
+	QString dummytag=tag; //remove this cramp later
+	list<QString>::const_iterator dummyoptions = options.begin();//remove this cramp later
+    /*QString otag;
     QString add;
     if (tag == "br")
         otag = "BR";
@@ -1468,12 +1470,13 @@ void AIMParser::tag_start(const QString &tag, const list<QString> &options)
         res += value;
         res += "\"";
     }
-    res += ">";
+    res += ">";*/
 }
 
 void AIMParser::tag_end(const QString &tag)
 {
-    QString otag;
+    QString dummytag=tag; //remove this cramp later
+    /*QString otag;
     if ((tag == "font") || (tag == "b") || (tag == "u") || (tag == "i"))
         otag = tag.upper();
     if (tag == "span")
@@ -1482,7 +1485,7 @@ void AIMParser::tag_end(const QString &tag)
         return;
     res += "</";
     res += otag;
-    res += ">";
+    res += ">";*/
 }
 
 void ICQClient::sendTimeout()
@@ -1804,11 +1807,11 @@ bool ICQClient::processMsg()
                     }
                 }
                 m_send.part = getPart(m_send.text, max_size);
-                char b[15];
-                sprintf(b, "%06X", (unsigned)(m_send.msg->getBackground() & 0xFFFFFF));
-                t += "<HTML><BODY BGCOLOR=\"#";
-                t += b;
-                t += "\">";
+                //char b[15];
+                //sprintf(b, "%06X", (unsigned)(m_send.msg->getBackground() & 0xFFFFFF));
+                //t += "<HTML><BODY BGCOLOR=\"#";
+                //t += b;
+                //t += "\">";
                 if ((m_send.flags & SEND_MASK) == SEND_HTML){
                     AIMParser p;
                     t += p.parse(m_send.part);
@@ -1822,7 +1825,7 @@ bool ICQClient::processMsg()
                     e.process();
                     t += quoteString(QString::fromUtf8(s.c_str()));
                 }
-                t += "</BODY></HTML>";
+                //t += "</BODY></HTML>";
                 bool bWide = false;
                 for (i = 0; i < (int)(t.length()); i++){
                     if (t[i].unicode() > 0x7F){
