@@ -4363,11 +4363,11 @@ msgstr "AIM"
 
 #: plugins/icq/icq.cpp:449
 msgid "Visible list"
-msgstr "Sichtbarkeit-Liste"
+msgstr "Sichtbarkeits-Liste"
 
 #: plugins/icq/icq.cpp:458
 msgid "Invisible list"
-msgstr "Unsichbarkeit-Liste"
+msgstr "Unsichtbarkeits-Liste"
 
 #: plugins/icq/icq.cpp:469
 msgid "&Show all encodings"
