@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bg\n"
 "POT-Creation-Date: 2004-07-06 21:37+0200\n"
-"PO-Revision-Date: 2004-07-04 12:09+0300\n"
+"PO-Revision-Date: 2004-07-07 10:55+0300\n"
 "Last-Translator: Атанас Мавров <bugar@developer.bg>\n"
 "Language-Team: Bulgarian <dict@linux.zonebg.com>\n"
 "MIME-Version: 1.0\n"
@@ -61,11 +61,13 @@ msgid "Autoreply message"
 msgstr "Автоматичен отговор"
 
 #: plugins/_core/autoreply.cpp:51 plugins/_core/autoreply.cpp:97
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Close after %n second\n"
 "Close after %n seconds"
-msgstr "Затваряне след %n секунди"
+msgstr ""
+"Затваряне след %n секундa\n"
+"Затваряне след %n секунди"
 
 #: plugins/_core/cfgdlg.cpp:274 plugins/_core/usercfg.cpp:195
 msgid "User info"
@@ -130,13 +132,13 @@ msgstr "Прозорец"
 msgid ""
 "_: male\n"
 "%1 is typing"
-msgstr ""
+msgstr "%1 пише"
 
 #: plugins/_core/container.cpp:591 plugins/osd/osd.cpp:422
 msgid ""
 "_: female\n"
 "%1 is typing"
-msgstr ""
+msgstr "%1 пише"
 
 #: plugins/_core/core.cpp:108 plugins/weather/weathercfg.cpp:49
 msgid "Interface"
@@ -522,8 +524,7 @@ msgstr "Прякор"
 
 #: plugins/_core/core.cpp:1664
 msgid "number of unread messages from this contact"
-msgstr ""
-"количество на непрочетените съобщения"
+msgstr "количество на непрочетените съобщения"
 
 #: plugins/_core/core.cpp:1666
 msgid "contact status"
@@ -541,13 +542,13 @@ msgstr "време от установяване на състояние"
 msgid ""
 "_: male\n"
 "%1 wrote:"
-msgstr ""
+msgstr "%1 написа:"
 
 #: plugins/_core/core.cpp:1676
 msgid ""
 "_: female\n"
 "%1 wrote:"
-msgstr ""
+msgstr "%1 написа:"
 
 #: plugins/_core/core.cpp:1713 plugins/_core/status.cpp:321
 #: sim/qt3/i18n.cpp:21
@@ -571,8 +572,7 @@ msgstr ""
 
 #: plugins/_core/core.cpp:1719
 msgid "Don't show this message in next time"
-msgstr ""
-"Не показвай това съобщение следващия път"
+msgstr "Не показвай това съобщение следващия път"
 
 #: plugins/_core/core.cpp:1746
 msgid "`<command>` - call <command> and substitute command output\n"
@@ -962,8 +962,7 @@ msgstr "Зает"
 
 #: plugins/_core/maininfo.cpp:85
 msgid "User is crrently available at:"
-msgstr ""
-"Потребителят в момента е на разположение: "
+msgstr "Потребителят в момента е на разположение: "
 
 #: plugins/_core/maininfo.cpp:226 plugins/_core/maininfo.cpp:345
 #: plugins/_core/maininfo.cpp:369 plugins/_core/maininfo.cpp:468
@@ -976,11 +975,13 @@ msgid "File"
 msgstr "Файл"
 
 #: plugins/_core/msgedit.cpp:431 plugins/update/update.cpp:106
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Message\n"
 "%n messages"
-msgstr "Непрочетено съобщение"
+msgstr ""
+"Съобщения\n"
+"%n съобщения"
 
 #: plugins/_core/msgedit.cpp:457
 #, c-format
@@ -988,6 +989,8 @@ msgid ""
 "_n: SMS\n"
 "%n SMSs"
 msgstr ""
+"SMS "
+"%n SMS"
 
 #: plugins/_core/msgedit.cpp:473
 #, c-format
@@ -995,15 +998,17 @@ msgid ""
 "_n: URL\n"
 "%n URLs"
 msgstr ""
+"УРЛ\n"
+"%n УРЛ"
 
 #: plugins/_core/msgedit.cpp:536
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Contact list\n"
 "%n contact lists"
 msgstr ""
-"Запазване на телефон в списъка на "
-"потребители"
+"списък с потребители\n"
+"%n списъци с потребители"
 
 #: plugins/_core/msgedit.cpp:583 plugins/icq/icqmessage.cpp:536
 #, c-format
@@ -1011,6 +1016,8 @@ msgid ""
 "_n: File\n"
 "%n files"
 msgstr ""
+"Файл\n"
+"%n файла"
 
 #: plugins/_core/msgedit.cpp:590
 msgid "&Accept"
@@ -1026,6 +1033,8 @@ msgid ""
 "_n: Authorize request\n"
 "%n authorize requests"
 msgstr ""
+"Искане за удостоверяване\n"
+"%n искания за удостоверяване"
 
 #: plugins/_core/msgedit.cpp:665
 msgid "&Grant"
@@ -1041,6 +1050,8 @@ msgid ""
 "_n: Authorization granted\n"
 "%n authorization granted"
 msgstr ""
+"Удостоверяването е дадено\n"
+"%n удостоверявания са дадени"
 
 #: plugins/_core/msgedit.cpp:749
 #, c-format
@@ -1048,6 +1059,8 @@ msgid ""
 "_n: Authorization refused\n"
 "%n authorization refused"
 msgstr ""
+"Удостоверяването е отказано\n"
+"%n удостоверявания са отказани"
 
 #: plugins/_core/msgedit.cpp:770
 #, c-format
@@ -1055,6 +1068,8 @@ msgid ""
 "_n: Add to contacts\n"
 "%n add to contacts"
 msgstr ""
+"Добавя към списъка\n"
+"%n добавяния към списъка"
 
 #: plugins/_core/msgedit.cpp:791
 #, c-format
@@ -1062,6 +1077,8 @@ msgid ""
 "_n: Removed from contacts\n"
 "%n removed from contacts"
 msgstr ""
+"Изтрива от списъка\n"
+"%n изтривания от списъка"
 
 #: plugins/_core/msgedit.cpp:812
 #, c-format
@@ -1069,6 +1086,8 @@ msgid ""
 "_n: Status changed\n"
 "%n times status changed"
 msgstr ""
+"Състоянието е променено\n"
+"%n пъти състоянието е променяно"
 
 #: plugins/_core/msgedit.cpp:927 sim/qt3/i18n.cpp:23
 msgid "Cancel"
@@ -1183,6 +1202,8 @@ msgid ""
 "_n: %n contact found\n"
 "%n contacts found"
 msgstr ""
+"%n потребител е намерен\n"
+"%n потребителя са намерени"
 
 #: plugins/_core/status.cpp:72 plugins/_core/statuswnd.cpp:88
 #: plugins/dock/dock.cpp:183
@@ -1380,8 +1401,7 @@ msgstr "Меню"
 
 #: plugins/action/actioncfg.cpp:179 plugins/action/additem.cpp:54
 msgid "In command line you can use:"
-msgstr ""
-"В командния ред вие може да използвате:"
+msgstr "В командния ред вие може да използвате:"
 
 #: plugins/action/actioncfg.cpp:184
 msgid ""
@@ -1498,8 +1518,7 @@ msgstr "SIM"
 
 #: plugins/dock/dock.cpp:148
 msgid "Toggle main window"
-msgstr ""
-"Скриване/показване на главния прозорец"
+msgstr "Скриване/показване на главния прозорец"
 
 #: plugins/dock/dock.cpp:269
 msgid "Hide main window"
@@ -1600,6 +1619,8 @@ msgid ""
 "_n: %n GPG key\n"
 "%n GPG keys"
 msgstr ""
+"%n GPG ключ\n"
+"%n GPG ключа"
 
 #: plugins/gpg/gpg.cpp:749
 msgid "GPG key"
@@ -1724,8 +1745,7 @@ msgstr "AIM"
 
 #: plugins/icq/icq.cpp:352
 msgid "Visible list"
-msgstr ""
-"Списък на потребители, за които съм видим"
+msgstr "Списък на потребители, за които съм видим"
 
 #: plugins/icq/icq.cpp:361
 msgid "Invisible list"
@@ -2008,6 +2028,8 @@ msgid ""
 "_n: %n file\n"
 "%n files"
 msgstr ""
+"%n файл\n"
+"%n файла"
 
 #: plugins/icq/icqicmb.cpp:1286 plugins/icq/warndlg.cpp:66
 msgid "Send failed"
@@ -2092,8 +2114,7 @@ msgstr "Този клиент е остарял"
 
 #: plugins/icq/icqlogin.cpp:189
 msgid "Too many clients from same IP"
-msgstr ""
-"Твърде много потребители ползващи едно IP"
+msgstr "Твърде много потребители ползващи едно IP"
 
 #: plugins/icq/icqlogin.cpp:194
 msgid "Rate limit"
@@ -2137,8 +2158,7 @@ msgstr ""
 
 #: plugins/icq/icqlogin.cpp:259
 msgid "Your UIN is being used from another location"
-msgstr ""
-"Твоят номер се използва от друг компютър"
+msgstr "Твоят номер се използва от друг компютър"
 
 #: plugins/icq/icqlogin.cpp:279
 msgid "Close packet from server"
@@ -2154,6 +2174,8 @@ msgid ""
 "_n: WWW-panel message\n"
 "%n WWW-panel messages"
 msgstr ""
+"WWW-съобщение\n"
+"%n WWW-съобщения"
 
 #: plugins/icq/icqmessage.cpp:573
 #, c-format
@@ -2161,13 +2183,17 @@ msgid ""
 "_n: Email pager message\n"
 "%n Email pager messages"
 msgstr ""
+"Имате поща\n"
+"%n Имате поща"
 
 #: plugins/icq/icqmessage.cpp:594
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Request secure channel\n"
 "%n requests secure channel"
-msgstr "Искането за шифрован канал пропадна"
+msgstr ""
+"Искане за защитен канал\n"
+"%nИскане за защитен канал"
 
 #: plugins/icq/icqmessage.cpp:615
 #, c-format
@@ -2175,6 +2201,8 @@ msgid ""
 "_n: Close secure channel\n"
 "%n times close secure channel"
 msgstr ""
+"Затваря защитен канал\n"
+"%n пъти затваря защитен канал"
 
 #: plugins/icq/icqmessage.cpp:636
 #, c-format
@@ -2182,6 +2210,8 @@ msgid ""
 "_n: Check invisible\n"
 "%n times check invisible"
 msgstr ""
+"Проверява за невидими\n"
+"%n пъти проверява за невидими"
 
 #: plugins/icq/icqmessage.cpp:657
 #, c-format
@@ -2189,6 +2219,8 @@ msgid ""
 "_n: Warning\n"
 "%n warnings"
 msgstr ""
+"Внимание\n"
+"%n внимание"
 
 #: plugins/icq/icqmessage.cpp:763
 #, c-format
@@ -2196,6 +2228,8 @@ msgid ""
 "_n: Contact request\n"
 "%n contact requests"
 msgstr ""
+"Искане на списъка с потребители\n"
+"%n искане списъците с потребители"
 
 #: plugins/icq/icqmessage.cpp:813
 msgid "Contact Request"
@@ -2227,8 +2261,7 @@ msgstr "Предупреждения"
 
 #: plugins/icq/icqpicture.cpp:126
 msgid "Picture can not be more than 7 kbytes"
-msgstr ""
-"Не може картинката да е по - голяма от 7 Кб"
+msgstr "Не може картинката да е по - голяма от 7 Кб"
 
 #: plugins/icq/icqpicture.cpp:136 plugins/jabber/jabberpicture.cpp:138
 msgid "Picture is not available"
@@ -2957,6 +2990,8 @@ msgid ""
 "_n: %n day\n"
 "%n days"
 msgstr ""
+"%n ден\n"
+"%n дни"
 
 #: plugins/jabber/jabber.cpp:59
 msgid "Jabber"
@@ -3085,6 +3120,8 @@ msgid ""
 "_n: Error\n"
 "%n errors"
 msgstr ""
+"Грешка\n"
+"%n грешки"
 
 #: plugins/jabber/jabbermessage.cpp:158 plugins/jabber/jabbermessage.cpp:214
 msgid "Log On"
@@ -3288,6 +3325,8 @@ msgid ""
 "_n: LiveJournal post\n"
 "%n LiveJournal posts"
 msgstr ""
+"Запис в журнала\n"
+"%n записа в журнала"
 
 #: plugins/livejournal/livejournal.cpp:103
 #, c-format
@@ -3295,6 +3334,8 @@ msgid ""
 "_n: Friends updated\n"
 "Friends updated %n"
 msgstr ""
+"Обновени приятели\n"
+"Обновени приятели %n"
 
 #: plugins/livejournal/livejournal.cpp:120
 msgid "&Remove from journal"
@@ -3990,11 +4031,13 @@ msgid "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 msgstr "https://register.passport.net/reg.srf?lc=1049&langid=1049&sl=1"
 
 #: plugins/msn/msnpacket.cpp:468
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: You have %n unread message\n"
 "You have %n unread messages"
-msgstr "Имате %n непрочетени съобщения"
+msgstr ""
+"Имате %n непрочетено съобщение\n"
+"Имате %n непрочетени съобщения"
 
 #: plugins/msn/msnpacket.cpp:488
 msgid "You have new mail"
@@ -4005,8 +4048,7 @@ msgid "Navigate"
 msgstr "Препратки към външни програми"
 
 #: plugins/navigate/navigate.cpp:215
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Приставката осигурява управление на "
 "препратките - свързва се с външен "
@@ -4104,8 +4146,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:69
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Приставката поддържа известяване на "
 "състоянието на съобщенията и "
@@ -4119,88 +4160,85 @@ msgstr "&OSD"
 msgid ""
 "_: male\n"
 "%1 is online"
-msgstr ""
+msgstr "%1 е включен"
 
 #: plugins/osd/osd.cpp:408
 msgid ""
 "_: female\n"
 "%1 is online"
-msgstr ""
+msgstr "%1 е включена"
 
 #: plugins/osd/osd.cpp:409
 msgid ""
 "_: male\n"
 "%1 is away"
-msgstr ""
+msgstr "%1 не е пред компютъра"
 
 #: plugins/osd/osd.cpp:410
 msgid ""
 "_: female\n"
 "%1 is away"
-msgstr ""
+msgstr "%1 не е пред компютъра"
 
 #: plugins/osd/osd.cpp:411
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is not available"
-msgstr "Картинката не е налична"
+msgstr "%1 го няма"
 
 #: plugins/osd/osd.cpp:412
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is not available"
-msgstr "Картинката не е налична"
+msgstr "%1 я няма"
 
 #: plugins/osd/osd.cpp:413
 msgid ""
 "_: male\n"
 "%1 doesn't want to be disturbed"
-msgstr ""
+msgstr "%1 не желае да го безпокоят"
 
 #: plugins/osd/osd.cpp:414
 msgid ""
 "_: female\n"
 "%1 doesn't want to be disturbed"
-msgstr ""
+msgstr "%1 не желае да я безпокоят"
 
 #: plugins/osd/osd.cpp:415
 msgid ""
 "_: male\n"
 "%1 is occupied"
-msgstr ""
+msgstr "%1 е зает"
 
 #: plugins/osd/osd.cpp:416
 msgid ""
 "_: female\n"
 "%1 is occupied"
-msgstr ""
+msgstr "%1 е заета"
 
 #: plugins/osd/osd.cpp:417
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is free for chat"
-msgstr "Свободен за приказка"
+msgstr "%1 е свободен за бърборене"
 
 #: plugins/osd/osd.cpp:418
 msgid ""
 "_: female\n"
 "%1 is free for chat"
-msgstr ""
+msgstr "%1 е свободна за бърборене"
 
 #: plugins/osd/osd.cpp:419
 msgid ""
 "_: male\n"
 "%1 is offline"
-msgstr ""
+msgstr "%1 е изключен"
 
 #: plugins/osd/osd.cpp:420
 msgid ""
 "_: female\n"
 "%1 is offline"
-msgstr ""
+msgstr "%1 е изключена"
 
 #: plugins/osd/osdconfig.cpp:52
 msgid "&Interface"
@@ -4278,8 +4316,7 @@ msgstr "Отдалечено управление"
 
 #: plugins/remote/remote.cpp:43
 msgid "Plugin provides remote control"
-msgstr ""
-"Приставката осигурява отдалечен контрол"
+msgstr "Приставката осигурява отдалечен контрол"
 
 #: plugins/replace/replace.cpp:33
 msgid "Replace text"
@@ -4347,6 +4384,8 @@ msgid ""
 "_n: Phone call\n"
 "%n phone calls"
 msgstr ""
+"Телефонно повикване\n"
+"%n телефонни повиквания"
 
 #: plugins/sms/sms.cpp:95
 msgid "Phone call"
@@ -4393,8 +4432,7 @@ msgstr "Сигнализира при включване"
 
 #: plugins/spell/spell.cpp:62
 msgid "Plugin provides check spelling"
-msgstr ""
-"Приставка осигурява правописна проверка"
+msgstr "Приставка осигурява правописна проверка"
 
 #: plugins/spell/spellcfg.cpp:46
 msgid "ASpell(aspell.exe)"
@@ -4432,8 +4470,7 @@ msgstr "Стилове"
 
 #: plugins/styles/styles.cpp:52
 msgid "Plugin provides styles"
-msgstr ""
-"Приставката осигурява изменение на стила"
+msgstr "Приставката осигурява изменение на стила"
 
 #: plugins/styles/stylescfg.cpp:57
 msgid "Fonts and colors"
@@ -4491,8 +4528,7 @@ msgstr "Време"
 
 #: plugins/weather/weather.cpp:48
 msgid "Plugin provides show weather"
-msgstr ""
-"Приставката осигурява преглед на времето"
+msgstr "Приставката осигурява преглед на времето"
 
 #: plugins/weather/weather.cpp:111 plugins/weather/weather.cpp:318
 msgid "Not connected"
@@ -4530,305 +4566,277 @@ msgstr "Неделя"
 msgid ""
 "_: weather\n"
 "Overcast"
-msgstr ""
+msgstr "Облачно"
 
 #: plugins/weather/weather.cpp:376
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Fog"
-msgstr "време"
+msgstr "Мъгла"
 
 #: plugins/weather/weather.cpp:377
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Haze"
-msgstr "време"
+msgstr "Лека мъгла"
 
 #: plugins/weather/weather.cpp:378
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Storm"
-msgstr "време"
+msgstr "Буря"
 
 #: plugins/weather/weather.cpp:379
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Rain"
-msgstr "време"
+msgstr "Дъжд"
 
 #: plugins/weather/weather.cpp:380
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Snow"
-msgstr "време"
+msgstr "Сняг"
 
 #: plugins/weather/weather.cpp:381
 msgid ""
 "_: weather\n"
 "Light Rain"
-msgstr ""
+msgstr "Слаб дъжд"
 
 #: plugins/weather/weather.cpp:382
 msgid ""
 "_: weather\n"
 "Light Snow"
-msgstr ""
+msgstr "Лек сняг"
 
 #: plugins/weather/weather.cpp:383
 msgid ""
 "_: weather\n"
 "Few Snow"
-msgstr ""
+msgstr "Слаб снеговалеж"
 
 #: plugins/weather/weather.cpp:384
 msgid ""
 "_: weather\n"
 "Scattered Snow"
-msgstr ""
+msgstr "Слаб сняг"
 
 #: plugins/weather/weather.cpp:385
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Clear"
-msgstr "време"
+msgstr "Ясно"
 
 #: plugins/weather/weather.cpp:386
 msgid ""
 "_: weather\n"
 "Showers"
-msgstr ""
+msgstr "Преваляване"
 
 #: plugins/weather/weather.cpp:387
 msgid ""
 "_: weather\n"
 "Mostly Clear"
-msgstr ""
+msgstr "Предимно ясно"
 
 #: plugins/weather/weather.cpp:388
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Sunny"
-msgstr "време"
+msgstr "Слънчево"
 
 #: plugins/weather/weather.cpp:389
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Fair"
-msgstr "време"
+msgstr "Ясно"
 
 #: plugins/weather/weather.cpp:390
 msgid ""
 "_: weather\n"
 "Cloudy"
-msgstr ""
+msgstr "Облачно"
 
 #: plugins/weather/weather.cpp:391
 msgid ""
 "_: weather\n"
 "Mostly Cloudy"
-msgstr ""
+msgstr "Предимно облачно"
 
 #: plugins/weather/weather.cpp:392
 msgid ""
 "_: weather\n"
 "Partly Cloudy"
-msgstr ""
+msgstr "Променлива облачност"
 
 #: plugins/weather/weather.cpp:393
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Wind"
-msgstr "време"
+msgstr "Ветровито"
 
 #: plugins/weather/weather.cpp:394
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Windy"
-msgstr "време"
+msgstr "Ветровито"
 
 #: plugins/weather/weather.cpp:395
 msgid ""
 "_: weather\n"
 "Drizzle"
-msgstr ""
+msgstr "Ръмене"
 
 #: plugins/weather/weather.cpp:396
 msgid ""
 "_: weather\n"
 "Light Drizzle"
-msgstr ""
+msgstr "Слабо ръмене"
 
 #: plugins/weather/weather.cpp:397
 msgid ""
 "_: weather\n"
 "Drifting Snow"
-msgstr ""
+msgstr "Сняг"
 
 #: plugins/weather/weather.cpp:398
 msgid ""
 "_: weather\n"
 "Scattered"
-msgstr ""
+msgstr "разкъсана облачност"
 
 #: plugins/weather/weather.cpp:399
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Smoke"
-msgstr "време"
+msgstr "Смог"
 
 #: plugins/weather/weather.cpp:400
 msgid ""
 "_: weather\n"
 "steady"
-msgstr ""
+msgstr "без изменение"
 
 #: plugins/weather/weather.cpp:401
 msgid ""
 "_: weather\n"
 "rising"
-msgstr ""
+msgstr "нараства"
 
 #: plugins/weather/weather.cpp:402
 msgid ""
 "_: weather\n"
 "falling"
-msgstr ""
+msgstr "намалява"
 
 #: plugins/weather/weather.cpp:403
 msgid ""
 "_: weather\n"
 "Unlimited"
-msgstr ""
+msgstr "Неограничен"
 
 #: plugins/weather/weather.cpp:404
-#, fuzzy
 msgid ""
 "_: weather\n"
 "N"
-msgstr "време"
+msgstr "Северен"
 
 #: plugins/weather/weather.cpp:405
-#, fuzzy
 msgid ""
 "_: weather\n"
 "NNW"
-msgstr "време"
+msgstr "Северен северозападен"
 
 #: plugins/weather/weather.cpp:406
-#, fuzzy
 msgid ""
 "_: weather\n"
 "NW"
-msgstr "време"
+msgstr "Северозападен"
 
 #: plugins/weather/weather.cpp:407
-#, fuzzy
 msgid ""
 "_: weather\n"
 "WNW"
-msgstr "време"
+msgstr "Западен северозападен"
 
 #: plugins/weather/weather.cpp:408
-#, fuzzy
 msgid ""
 "_: weather\n"
 "W"
-msgstr "време"
+msgstr "Западен"
 
 #: plugins/weather/weather.cpp:409
-#, fuzzy
 msgid ""
 "_: weather\n"
 "WSW"
-msgstr "време"
+msgstr "Южен югозападен"
 
 #: plugins/weather/weather.cpp:410
-#, fuzzy
 msgid ""
 "_: weather\n"
 "SW"
-msgstr "време"
+msgstr "Югозападен"
 
 #: plugins/weather/weather.cpp:411
-#, fuzzy
 msgid ""
 "_: weather\n"
 "SSW"
-msgstr "време"
+msgstr "Южен югозападен"
 
 #: plugins/weather/weather.cpp:412
-#, fuzzy
 msgid ""
 "_: weather\n"
 "S"
-msgstr "време"
+msgstr "Южен"
 
 #: plugins/weather/weather.cpp:413
-#, fuzzy
 msgid ""
 "_: weather\n"
 "SSE"
-msgstr "време"
+msgstr "Южен югоизточен"
 
 #: plugins/weather/weather.cpp:414
-#, fuzzy
 msgid ""
 "_: weather\n"
 "SE"
-msgstr "време"
+msgstr "Югоизточен"
 
 #: plugins/weather/weather.cpp:415
-#, fuzzy
 msgid ""
 "_: weather\n"
 "ESE"
-msgstr "време"
+msgstr "Източен югоизточен"
 
 #: plugins/weather/weather.cpp:416
-#, fuzzy
 msgid ""
 "_: weather\n"
 "E"
-msgstr "време"
+msgstr "Източен"
 
 #: plugins/weather/weather.cpp:417
-#, fuzzy
 msgid ""
 "_: weather\n"
 "ENE"
-msgstr "време"
+msgstr "Източен североизточен"
 
 #: plugins/weather/weather.cpp:418
-#, fuzzy
 msgid ""
 "_: weather\n"
 "NE"
-msgstr "време"
+msgstr "Североизточен"
 
 #: plugins/weather/weather.cpp:419
-#, fuzzy
 msgid ""
 "_: weather\n"
 "NNE"
-msgstr "време"
+msgstr "Северен североизточен"
 
 #: plugins/weather/weather.cpp:420
-#, fuzzy
 msgid ""
 "_: weather\n"
 "VAR"
-msgstr "време"
+msgstr "Променливо"
 
 #: plugins/weather/weather.cpp:421
 msgid "km"
@@ -4843,18 +4851,16 @@ msgid "and"
 msgstr "и"
 
 #: plugins/weather/weather.cpp:437
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Early"
-msgstr "време"
+msgstr "Сутрин"
 
 #: plugins/weather/weather.cpp:440
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Late"
-msgstr "време"
+msgstr "Вечер"
 
 #: plugins/weather/weather.cpp:479 plugins/weather/weather.cpp:481
 msgid "m/s"
@@ -5155,8 +5161,7 @@ msgstr "Разработчик"
 
 #: sim/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
-msgstr ""
-"Атанас Мавров <bugar@developer.bg>; Варна-България;"
+msgstr "Атанас Мавров <bugar@developer.bg>; Варна-България;"
 
 #: sim/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."
@@ -6991,1450 +6996,3 @@ msgstr "Пада"
 msgid "Windows XP style"
 msgstr "Уиндоус XP стил"
 
-#~ msgid "Form1"
-#~ msgstr "Форма 1"
-
-#~ msgid "Use &default path"
-#~ msgstr "Използване на &път по подразбиране"
-
-#~ msgid "Path for config files:"
-#~ msgstr "Път за конфигурационните файлове:"
-
-#~ msgid "Convert configuration from old version"
-#~ msgstr ""
-#~ "Преобразуване на конфигурацията от "
-#~ "старите версии"
-
-#~ msgid "Directories for convert:"
-#~ msgstr "Директории за преобразуване"
-
-#~ msgid "&Remove old files"
-#~ msgstr "&Изтриване на старите файлове"
-
-#~ msgid ""
-#~ "Note!\n"
-#~ "If you select an option \" Remove old files \", you can not use the old "
-#~ "version"
-#~ msgstr ""
-#~ "Внимание!\n"
-#~ "Ако изберете възможността \"Изтриване на "
-#~ "старите файлове\", вие няма да може да "
-#~ "използвате стари версии"
-
-#~ msgid "Select directories for convert"
-#~ msgstr ""
-#~ "Избиране на директории за преобразуване"
-
-#~ msgid "Convert configuration"
-#~ msgstr "Преобразуване на конфигурацията"
-
-#~ msgid "URL"
-#~ msgstr "УРЛ"
-
-#~ msgid "Authorize request"
-#~ msgstr "Искане за удостоверяване"
-
-#~ msgid "Authorization granted"
-#~ msgstr "Удостоверяването е дадено"
-
-#~ msgid "Authorization refused"
-#~ msgstr "Удостоверяването е отказано"
-
-#~ msgid "Add to contacts"
-#~ msgstr "Добавяне към потребителите"
-
-#~ msgid "Removed from contacts"
-#~ msgstr "Премахване от потребителите"
-
-#~ msgid "%n contact found"
-#~ msgstr "%n открити потребители"
-
-#~ msgid "&Update"
-#~ msgstr "&Обновяване"
-
-#~ msgid "Plugin &enabled"
-#~ msgstr "Приставката е &разрешена"
-
-#~ msgid "&Override global settings"
-#~ msgstr "&Заменяне на всеобщите настройки"
-
-#~ msgid "Toolbar setup"
-#~ msgstr "Настройка на панела с инструменти"
-
-#~ msgid "All buttons:"
-#~ msgstr "Всички бутони:"
-
-#~ msgid "New Item"
-#~ msgstr "Нов елемент"
-
-#~ msgid "&Add ->"
-#~ msgstr "&Добавяне ->"
-
-#~ msgid "<- &Remove"
-#~ msgstr "<-&Премахване"
-
-#~ msgid "Active:"
-#~ msgstr "Действащо:"
-
-#~ msgid "&Up"
-#~ msgstr "&Горе"
-
-#~ msgid "&Down"
-#~ msgstr "&Долу"
-
-#~ msgid "Language:"
-#~ msgstr "Език:"
-
-#~ msgid "Message window"
-#~ msgstr "Прозорец на съобщение"
-
-#~ msgid "&Simple mode"
-#~ msgstr "&Прост режим"
-
-#~ msgid "&Chat mode"
-#~ msgstr "&Режим на бърборене"
-
-#~ msgid "&Using last selected font"
-#~ msgstr ""
-#~ "&Използване на последния избран шрифт"
-
-#~ msgid "Container mode"
-#~ msgstr "Режим на показване"
-
-#~ msgid "Open each contact in &new container"
-#~ msgstr ""
-#~ "&Отваряне на всяко съобщение в нов "
-#~ "прозорец"
-
-#~ msgid "Open one container for &group"
-#~ msgstr "&Отваряне на нов прозорец за група"
-
-#~ msgid "Open all contacts in &one container"
-#~ msgstr "&Всички потребители в един прозорец"
-
-#~ msgid "Use \"&Enter\" for send message"
-#~ msgstr ""
-#~ "Използване на \"&Enter\"за изпращане на "
-#~ "съобщение"
-
-#~ msgid "Start SIM on every &windows startup"
-#~ msgstr ""
-#~ "Стартиране на SIM при всяко пускане на "
-#~ "&уиндоус"
-
-#~ msgid "Form2"
-#~ msgstr "Форма 2"
-
-#~ msgid "Groups"
-#~ msgstr "Групи"
-
-#~ msgid "Do not distrub"
-#~ msgstr "Не ме безпокойте"
-
-#~ msgid "Online:"
-#~ msgstr "Свързан:"
-
-#~ msgid "Colors:"
-#~ msgstr "Цветове:"
-
-#~ msgid "Use &double click"
-#~ msgstr "Използване на двойно щ&ракване"
-
-#~ msgid "Use system &colors"
-#~ msgstr "Използване на системни &цветове"
-
-#~ msgid "Use small &font for group"
-#~ msgstr "Използва малък шрифт за &група"
-
-#~ msgid "Show group &separator"
-#~ msgstr "Показване на разделител на &група"
-
-#~ msgid "Sorting"
-#~ msgstr "Подреден"
-
-#~ msgid "1st:"
-#~ msgstr "Първи:"
-
-#~ msgid "2nd:"
-#~ msgstr "Втори:"
-
-#~ msgid "3rd:"
-#~ msgstr "Трети:"
-
-#~ msgid "Visible"
-#~ msgstr "Видим"
-
-#~ msgid "Awaiting authorization"
-#~ msgstr "Очакване на удостоверяване"
-
-#~ msgid "No show scroller"
-#~ msgstr "Скролера не се показва"
-
-#~ msgid "Use &own colors and fonts settings"
-#~ msgstr ""
-#~ "Използване на &собствени цветови и "
-#~ "шрифтови настройки"
-
-#~ msgid "Use emotional &icons"
-#~ msgstr "Използване на емоционални &икони"
-
-#~ msgid "Max history file size"
-#~ msgstr ""
-#~ "Максимален размер на файла с историята"
-
-#~ msgid "Mb"
-#~ msgstr "Мб"
-
-#~ msgid "Keep history "
-#~ msgstr "Запазване на историята"
-
-#~ msgid "days"
-#~ msgstr "дни"
-
-#~ msgid "100"
-#~ msgstr "100"
-
-#~ msgid "50"
-#~ msgstr "50"
-
-#~ msgid "20"
-#~ msgstr "20"
-
-#~ msgid "&Preview"
-#~ msgstr "&Предварителен преглед"
-
-#~ msgid "&Source"
-#~ msgstr "&Изходен код"
-
-#~ msgid "First name:"
-#~ msgstr "Име:"
-
-#~ msgid "Last name:"
-#~ msgstr "Фамилия:"
-
-#~ msgid "Display:"
-#~ msgstr "Изглед:"
-
-#~ msgid "Encoding:"
-#~ msgstr "Кодова таблица:"
-
-#~ msgid "Email addresses:"
-#~ msgstr "Електронни адреси:"
-
-#~ msgid ""
-#~ "Note:\n"
-#~ "You can change only those addresses which have entered.\n"
-#~ "It is impossible to change addresses which were received from the user."
-#~ msgstr ""
-#~ "Забележка: \n"
-#~ "Вие можете да променяте само тези адреси "
-#~ "които сте въвели.\n"
-#~ "Адресите, които са получени от "
-#~ "потребителя е невъзможно да се променят."
-
-#~ msgid "&Mails"
-#~ msgstr "Електронна &поща"
-
-#~ msgid "Phones:"
-#~ msgstr "Телефони:"
-
-#~ msgid "Phone Status:"
-#~ msgstr "Състояние на телефона:"
-
-#~ msgid ""
-#~ "Note:\n"
-#~ "You can change only those numbers which have entered.\n"
-#~ "It is impossible to change numbers which were received from the user."
-#~ msgstr ""
-#~ "Забележка: \n"
-#~ "Вие можете да променяте само тези номера "
-#~ "които сте въвели.\n"
-#~ "Номерата, които са получени от "
-#~ "потребителя е невъзможно да се променят."
-
-#~ msgid "&Phones"
-#~ msgstr "&Телефони"
-
-#~ msgid "&Notes"
-#~ msgstr "Бележ&ки:"
-
-#~ msgid "EditMail"
-#~ msgstr "Редактиране на електронна поща"
-
-#~ msgid "Enter Email address:"
-#~ msgstr ""
-#~ "Въвеждане на адрес на електронна поща:"
-
-#~ msgid "&Publish"
-#~ msgstr "&Общодостъпен"
-
-#~ msgid "EditPhone"
-#~ msgstr "Редактиране на телефон:"
-
-#~ msgid "Number details:"
-#~ msgstr "Номерира детайли:"
-
-#~ msgid "Type:"
-#~ msgstr "Вид:"
-
-#~ msgid "Area code:"
-#~ msgstr "Код на окръга:"
-
-#~ msgid "Extension:"
-#~ msgstr "Разширение:"
-
-#~ msgid "-"
-#~ msgstr "-"
-
-#~ msgid "Number:"
-#~ msgstr "Номер:"
-
-#~ msgid "Country:"
-#~ msgstr "Страна:"
-
-#~ msgid "Provider:"
-#~ msgstr "Доставчик:"
-
-#~ msgid "Email gateway:"
-#~ msgstr ""
-#~ "Сървър за електронна поща:Сървър за "
-#~ "електронна поща:"
-
-#~ msgid "&Add to list"
-#~ msgstr "&Добавяне към списъка"
-
-#~ msgid "More &options"
-#~ msgstr "Още &възможности"
-
-#~ msgid "&New search"
-#~ msgstr "&Ново търсене"
-
-#~ msgid "Form4"
-#~ msgstr "Форма4"
-
-#~ msgid "&E-Mail"
-#~ msgstr "&Електронна поща"
-
-#~ msgid "&Name"
-#~ msgstr "&Име"
-
-#~ msgid "First:"
-#~ msgstr "Име:"
-
-#~ msgid "Last:"
-#~ msgstr "Фамилия:"
-
-#~ msgid "Nick:"
-#~ msgstr "Прякор:"
-
-#~ msgid "Nickname:"
-#~ msgstr "Прякор:"
-
-#~ msgid "E-Mail address:"
-#~ msgstr "Електронната поща:"
-
-#~ msgid "Phone:"
-#~ msgstr "Телефон:"
-
-#~ msgid "MyDialog"
-#~ msgstr "MyDialog"
-
-#~ msgid "Form3"
-#~ msgstr "Форма3"
-
-#~ msgid "Complete"
-#~ msgstr "Завършено"
-
-#~ msgid ""
-#~ "If you want to add connection press button \" Next\".\n"
-#~ "You can add connection later using connection manager"
-#~ msgstr ""
-#~ "Ако желаете да добавите връзка натиснете "
-#~ "бутон \"Продължи\".Вие може да добавите "
-#~ "връзка по-късно използвайки управлението "
-#~ "на връзките"
-
-#~ msgid "Login"
-#~ msgstr "Влизане"
-
-#~ msgid "Passwords:"
-#~ msgstr "Парола:"
-
-#~ msgid "Profile:"
-#~ msgstr "Профил:"
-
-#~ msgid "&Save password"
-#~ msgstr "&Запазване на паролата"
-
-#~ msgid "&Do not show this window on startup"
-#~ msgstr ""
-#~ "&Да не се показва този прозорец при "
-#~ "стартиране"
-
-#~ msgid "Connection"
-#~ msgstr "Връзка"
-
-#~ msgid "&Configure"
-#~ msgstr "&Настройване"
-
-#~ msgid "&Remove"
-#~ msgstr "&Премахнат"
-
-#~ msgid "&New connection"
-#~ msgstr "&Нова връзка"
-
-#~ msgid "New connection"
-#~ msgstr "Нова връзка"
-
-#~ msgid "Protocol:"
-#~ msgstr "Протокол:"
-
-#~ msgid "Select protocol"
-#~ msgstr "Избиране на протокол"
-
-#~ msgid "Don't show this dialog"
-#~ msgstr "Не показва това съобщение"
-
-#~ msgid "Save &status changes to history"
-#~ msgstr ""
-#~ "Запазване промяната на &състоянието в "
-#~ "историята"
-
-#~ msgid "Open window if user go online"
-#~ msgstr ""
-#~ "Отваряне на прозорец на потребител "
-#~ "когато се включи"
-
-#~ msgid "&No open"
-#~ msgstr "&Не отваря"
-
-#~ msgid "Open and &minimize"
-#~ msgstr "Отваряне и &минимизиране"
-
-#~ msgid "Open and &raise"
-#~ msgstr "Отваряне и &показване"
-
-#~ msgid "Path for incoming files:"
-#~ msgstr "Път за приемане на файлове:"
-
-#~ msgid "Accept mode"
-#~ msgstr "Режим на приемане"
-
-#~ msgid "Show response"
-#~ msgstr "Показване на отговора"
-
-#~ msgid "Auto accept"
-#~ msgstr "Автоматично приемане"
-
-#~ msgid "Overwrite files"
-#~ msgstr "Презаписване на файл"
-
-#~ msgid "Auto decline"
-#~ msgstr "Автоматично отказване"
-
-#~ msgid "Text before cursor:"
-#~ msgstr "Текст преди курсора:"
-
-#~ msgid "Text after cursor:"
-#~ msgstr "Текст след курсора:"
-
-#~ msgid "Don't show autoreply dialog"
-#~ msgstr ""
-#~ "Не се показва съобщението за автоматичен "
-#~ "отговор"
-
-#~ msgid "File transfer"
-#~ msgstr "Прехвърляне на файлове"
-
-#~ msgid "Time:"
-#~ msgstr "Време:"
-
-#~ msgid "Estimated time:"
-#~ msgstr "Оставащо време:"
-
-#~ msgid "Speed:"
-#~ msgstr "Скорост"
-
-#~ msgid "&Go to dir"
-#~ msgstr "&Отиване в директория"
-
-#~ msgid "Close after &transfer"
-#~ msgstr "Затваряне след &прехвърляне"
-
-#~ msgid "Decline reason"
-#~ msgstr "Причина за отказ"
-
-#~ msgid "Enter decline reason:"
-#~ msgstr "Въвеждане на причина за отказ:"
-
-#~ msgid "About SIM"
-#~ msgstr "Относно SIM"
-
-#~ msgid "Authors"
-#~ msgstr "Автори"
-
-#~ msgid "Translation"
-#~ msgstr "Превод"
-
-#~ msgid "License"
-#~ msgstr "Лицензия"
-
-#~ msgid "Add Item"
-#~ msgstr "Добавяне на елемент на меню"
-
-#~ msgid "Item:"
-#~ msgstr "Елемент на меню:"
-
-#~ msgid "Program:"
-#~ msgstr "Програма:"
-
-#~ msgid "Set \"Away\" status after"
-#~ msgstr ""
-#~ "Включване на \"Не съм пред компютъра\" след"
-
-#~ msgid "minutes not using computer"
-#~ msgstr "минути на неизползван компютър"
-
-#~ msgid "minutes of \"Away\""
-#~ msgstr "минути в \"Не съм пред компютъра\""
-
-#~ msgid "minutes of \"N/A\""
-#~ msgstr "минути в \"Няма ме\""
-
-#~ msgid "Set \"N/A\" status after"
-#~ msgstr "Включване на \"Няма ме\" след"
-
-#~ msgid "Set \"Offline\" status after"
-#~ msgstr "Превключване в \"Изключен\" след"
-
-#~ msgid ""
-#~ "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
-#~ msgstr ""
-#~ "Изключва известяване при \"Не съм пред "
-#~ "компютъра\", \"Няма ме\", \"Моля не ме "
-#~ "безпокойте\" и \"Зает съм\""
-
-#~ msgid "Group margin:"
-#~ msgstr "Отместване за група:"
-
-#~ msgid "Contact margin:"
-#~ msgstr "Отместване за потребител:"
-
-#~ msgid "Main window background:"
-#~ msgstr "Фон на основният прозорец:"
-
-#~ msgid "Place:"
-#~ msgstr "Положение:"
-
-#~ msgid "Hide main window after"
-#~ msgstr "Скриване на главния прозорец след"
-
-#~ msgid "seconds inactive"
-#~ msgstr "секунди престой"
-
-#~ msgid "Show Mainwin on desktop"
-#~ msgstr "Показване на главния прозорец"
-
-#~ msgid "current"
-#~ msgstr "текущ"
-
-#~ msgid "&Customize dock menu"
-#~ msgstr "Настройка на &меню"
-
-#~ msgid "&Receive message only from contacts from list"
-#~ msgstr ""
-#~ "&Приема съобщения само от потребители в "
-#~ "списъка"
-
-#~ msgid "Reject messages from unknown users contains this words or phrases:"
-#~ msgstr ""
-#~ "Отхвърля съобщения от неизвестен "
-#~ "потребител, съдържащи думи или фрази като:"
-
-#~ msgid ""
-#~ "Words are divided by any separators (space, comma, i.e.)\n"
-#~ "A phrase can be specified using quotation marks\n"
-#~ "Words can contain wildcards:\n"
-#~ "* - any amount of symbols (or is empty)\n"
-#~ "? - any symbol"
-#~ msgstr ""
-#~ "Думите са разделени с каквито и да е "
-#~ "разделители ( клавиша за интервал, "
-#~ "запетаи и др.). Фразите се поставят в "
-#~ "кавички.\n"
-#~ "Думите могат да съдържат следните маски: * "
-#~ "- всяка последователност от символи (или "
-#~ "нищо)\n"
-#~ "? - всякакъв символ"
-
-#~ msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-#~ msgstr ""
-#~ "Изпращане на всички съобщения получени в "
-#~ "режим \"Не съм пред компютъра\" и \"Няма ме\"  "
-#~ "на мобилен телефон:"
-
-#~ msgid ""
-#~ "For the answer or sending of the new message you can answer on SMS having "
-#~ "specified in the beginning of the message a line:\n"
-#~ "<UIN>:"
-#~ msgstr ""
-#~ "За отговор или изпращане на ново "
-#~ "съобщение вие може да използвате SMS "
-#~ "номера на който е в началото на "
-#~ "съобщението:\n"
-#~ "<номер>:"
-
-#~ msgid "Send only &one message (don't split)"
-#~ msgstr ""
-#~ "Изпращане само на едно &съобщение (не "
-#~ "обединява)"
-
-#~ msgid "%n GPG key"
-#~ msgstr "%n GPG ключ"
-
-#~ msgid "Executable:"
-#~ msgstr "Програма:"
-
-#~ msgid "Home directory:"
-#~ msgstr "Домашна директория:"
-
-#~ msgid "&Find"
-#~ msgstr "&Търсене"
-
-#~ msgid "Your key:"
-#~ msgstr "Вашия ключ:"
-
-#~ msgid "&Refresh"
-#~ msgstr "&Обновяване"
-
-#~ msgid "Command arguments"
-#~ msgstr "Аргументи към командата"
-
-#~ msgid "Generate key:"
-#~ msgstr "Създаване на ключ:"
-
-#~ msgid "List public keys:"
-#~ msgstr "Списък с публични ключове:"
-
-#~ msgid "List secret keys:"
-#~ msgstr "Списък със секретни ключове:"
-
-#~ msgid "Import public:"
-#~ msgstr "Вмъкване на публичен ключ:"
-
-#~ msgid "Export public:"
-#~ msgstr "Изнасяне на публичен ключ:"
-
-#~ msgid "Encrypt:"
-#~ msgstr "Шифроване:"
-
-#~ msgid "Decrypt:"
-#~ msgstr "Дешифриране:"
-
-#~ msgid "Generate key"
-#~ msgstr "Създаване на ключ"
-
-#~ msgid "EMail:"
-#~ msgstr "Електронна поща:"
-
-#~ msgid "Comment:"
-#~ msgstr "Коментар:"
-
-#~ msgid "Name:"
-#~ msgstr "Име:"
-
-#~ msgid "Passphrase:"
-#~ msgstr "Парола:"
-
-#~ msgid "Retype passphrase:"
-#~ msgstr "Повтаряне на паролата:"
-
-#~ msgid "Key:"
-#~ msgstr "Ключ:"
-
-#~ msgid "Input passphrase"
-#~ msgstr "Въвеждане на парола"
-
-#~ msgid "&Save passphrase"
-#~ msgstr "&Запазване на паролата"
-
-#~ msgid "%n file"
-#~ msgstr "%n файл"
-
-#~ msgid "WWW-panel message"
-#~ msgstr "WWW - панел за съобщение"
-
-#~ msgid "Email pager message"
-#~ msgstr "Уведомител за електронна поща"
-
-#~ msgid "Contact request"
-#~ msgstr "Искане не потребител"
-
-#~ msgid "&Register new UIN"
-#~ msgstr "&Регистриране на нов номер"
-
-#~ msgid "UIN:"
-#~ msgstr "Номер:"
-
-#~ msgid "&ICQ"
-#~ msgstr "&ICQ"
-
-#~ msgid "&Automatically use HTTP polling if proxy required"
-#~ msgstr ""
-#~ "&Автоматично използва запитване на HTTP ако "
-#~ "прокси сървъра го изисква"
-
-#~ msgid "Use &HTTP polling"
-#~ msgstr "Използване на &HTTP запитване"
-
-#~ msgid "Server:"
-#~ msgstr "Сървър:"
-
-#~ msgid "Port:"
-#~ msgstr "Порт:"
-
-#~ msgid "Port range for direct connections:"
-#~ msgstr "Портове за директна връзка:"
-
-#~ msgid "Note: For HTTP-polling using proxy settings for HTTP"
-#~ msgstr ""
-#~ "Забележка: за HTTP запитване се използват "
-#~ "настройките на проксито за HTTP"
-
-#~ msgid "&Keep-alive connection"
-#~ msgstr "&Устойчива връзка"
-
-#~ msgid "&Network"
-#~ msgstr "&Мрежа"
-
-#~ msgid "Automatically check &invisible"
-#~ msgstr "Автоматична проверка за &невидими"
-
-#~ msgid "Send format:"
-#~ msgstr "Формат на съобщението:"
-
-#~ msgid "Send message:"
-#~ msgstr "Изпращане на съобщение:"
-
-#~ msgid "No wait ack"
-#~ msgstr "Не чака потвърждение"
-
-#~ msgid "Wait ack from server"
-#~ msgstr "Чакане на потвърждение от сървъра"
-
-#~ msgid "Wait ack from client"
-#~ msgstr "Чакане на потвърждение от клиента"
-
-#~ msgid "Accept in &occupied mode"
-#~ msgstr ""
-#~ "Приемане на файлове в режим \"&Зает съм\""
-
-#~ msgid "Accept in &DND mode"
-#~ msgstr ""
-#~ "Приемане на файлове във режим \"&Моля не ме "
-#~ "безпокойте\""
-
-#~ msgid "For decrease traffic you can:"
-#~ msgstr "За намаляване на трафика вие можете:"
-
-#~ msgid "Disable answer on phonebook and &picture requests"
-#~ msgstr ""
-#~ "Забраняване на отговори за адресната "
-#~ "книга и &снимка"
-
-#~ msgid "Disable automatically &request autoreply on change status"
-#~ msgstr ""
-#~ "Забраняване на &искане за автоматичен "
-#~ "отговор при смяна на състоянието"
-
-#~ msgid "Disable automatically &update user info"
-#~ msgstr ""
-#~ "Забраняване на автоматично &обновяване "
-#~ "на информацията за потребител"
-
-#~ msgid "Disable &typing notification"
-#~ msgstr ""
-#~ "Забраняване на  &известяване при "
-#~ "въвеждане на съобщение"
-
-#~ msgid "Check invisible every"
-#~ msgstr ""
-#~ "Проверка за невидими потребители на всеки"
-
-#~ msgid "minutes"
-#~ msgstr "минути"
-
-#~ msgid "&Options"
-#~ msgstr "&Възможности"
-
-#~ msgid "ScreenName:"
-#~ msgstr "Име:"
-
-#~ msgid "&AIM"
-#~ msgstr "&AIM"
-
-#~ msgid "Form5"
-#~ msgstr "Форма5"
-
-#~ msgid "Last Name:"
-#~ msgstr "Фамилия:"
-
-#~ msgid "Uin:"
-#~ msgstr "Номер:"
-
-#~ msgid "Random chat group:"
-#~ msgstr "Случайна група за бърборене:"
-
-#~ msgid "&Names"
-#~ msgstr "&Имена"
-
-#~ msgid "Status:"
-#~ msgstr "Състояние:"
-
-#~ msgid "External IP:"
-#~ msgstr "Външен IP адрес:"
-
-#~ msgid "Internal IP:"
-#~ msgstr "Вътрешен IP адрес:"
-
-#~ msgid "Client:"
-#~ msgstr "Клиент:"
-
-#~ msgid "New password:"
-#~ msgstr "Нова парола:"
-
-#~ msgid "Retype new password:"
-#~ msgstr "Повтаряне на новата парола:"
-
-#~ msgid "Current password:"
-#~ msgstr "Настояща парола:"
-
-#~ msgid "&Password"
-#~ msgstr "&Парола"
-
-#~ msgid "State:"
-#~ msgstr "Окръг:"
-
-#~ msgid "Address:"
-#~ msgstr "Адрес:"
-
-#~ msgid "City:"
-#~ msgstr "Град:"
-
-#~ msgid "Zip code:"
-#~ msgstr "Пощенски код:"
-
-#~ msgid "Time zone:"
-#~ msgstr "Часова зона:"
-
-#~ msgid "&Home info"
-#~ msgstr "Лична инфор&мация"
-
-#~ msgid "Age:"
-#~ msgstr "Години:"
-
-#~ msgid "Homepage:"
-#~ msgstr "Лична страница:"
-
-#~ msgid "Gender:"
-#~ msgstr "Пол:"
-
-#~ msgid "Birth date:"
-#~ msgstr "Рождена дата:"
-
-#~ msgid "&More info"
-#~ msgstr "&Допълнителна информация"
-
-#~ msgid "Spoken languages:"
-#~ msgstr "Говорими езици:"
-
-#~ msgid "&Languages"
-#~ msgstr "Ези&ци"
-
-#~ msgid "Web site:"
-#~ msgstr "Интернет страница:"
-
-#~ msgid "&Company"
-#~ msgstr "&Предприятие"
-
-#~ msgid "Occupation:"
-#~ msgstr "Професия:"
-
-#~ msgid "Div / dept:"
-#~ msgstr "Отдел:"
-
-#~ msgid "Position:"
-#~ msgstr "Длъжност:"
-
-#~ msgid "&Occupation"
-#~ msgstr "Про&фесия"
-
-#~ msgid "Additional information about user:"
-#~ msgstr ""
-#~ "Допълнителна информация за потребителя:"
-
-#~ msgid "A&bout"
-#~ msgstr "Относн&о"
-
-#~ msgid "&Interests"
-#~ msgstr "&Интереси"
-
-#~ msgid "Organization, Affiliation, Group:"
-#~ msgstr "Организации, Сдружения, Групи:"
-
-#~ msgid "A&ffilation"
-#~ msgstr "С&дружение"
-
-#~ msgid "Past background:"
-#~ msgstr "Образование:"
-
-#~ msgid "&Background"
-#~ msgstr "О&бразование"
-
-#~ msgid "My &authorization is required before users add me to Contact List"
-#~ msgstr ""
-#~ "Изискване на удостоверяване &преди да ме "
-#~ "добавят в списък с потребители"
-
-#~ msgid "Don't show my &IP-address"
-#~ msgstr "Не показва моят IP &адрес"
-
-#~ msgid "Allow other to view my &status from the Web"
-#~ msgstr ""
-#~ "Позволяване на всички да разглеждат моят "
-#~ "статус в м&режата"
-
-#~ msgid "I&gnore user authorization"
-#~ msgstr ""
-#~ "Отхвърляне на потребителското "
-#~ "&удостоверяване"
-
-#~ msgid "Direct connections"
-#~ msgstr "Директна връзка "
-
-#~ msgid "Allow &direct connection from any user"
-#~ msgstr ""
-#~ "Позволяване на директна връзка с всички "
-#~ "пот&требители"
-
-#~ msgid "Allow direct connection from user listed in &contact list"
-#~ msgstr ""
-#~ "Позволяване на директна връзка с вс&ички "
-#~ "потребители от моя списък"
-
-#~ msgid "Allow direct connection from user &upon authorization"
-#~ msgstr ""
-#~ "Позволяване на директна връзка на всички "
-#~ "удостоверени по&требители"
-
-#~ msgid "&Security"
-#~ msgstr "Сигур&ност"
-
-#~ msgid "&Visible list"
-#~ msgstr ""
-#~ "&Списък на потребители, за които съм видим"
-
-#~ msgid "&Invisible list"
-#~ msgstr ""
-#~ "&Списък на потребители, за които съм "
-#~ "невидим"
-
-#~ msgid "&UIN"
-#~ msgstr "&Номер"
-
-#~ msgid "&Screenname"
-#~ msgstr "&Прякор"
-
-#~ msgid "AOL s&creenname"
-#~ msgstr "AOL&прякор"
-
-#~ msgid "ICQ &UIN"
-#~ msgstr "ICQ &номер"
-
-#~ msgid "Advanced"
-#~ msgstr "Още възможности"
-
-#~ msgid "Work"
-#~ msgstr "Работа"
-
-#~ msgid "Company:"
-#~ msgstr "Компания:"
-
-#~ msgid "Department:"
-#~ msgstr "Област:"
-
-#~ msgid "Past"
-#~ msgstr "Минало"
-
-#~ msgid "Affilations"
-#~ msgstr "Сдружения"
-
-#~ msgid "Keywords"
-#~ msgstr "Ключова дума"
-
-#~ msgid "Search &online users only"
-#~ msgstr ""
-#~ "Търсене само на &свързаните потребители"
-
-#~ msgid "&Clear"
-#~ msgstr "&Изчистване"
-
-#~ msgid "&Picture"
-#~ msgstr "&Картинка"
-
-#~ msgid "Secure chanel request"
-#~ msgstr "Искане за кодирана връзка"
-
-#~ msgid ""
-#~ "Secure channel is established using SSL with Diffie-Hellman key exchange and "
-#~ " the TLS version 1 protocol.\n"
-#~ "\n"
-#~ "This only works with other SIM and Licq clients"
-#~ msgstr ""
-#~ "Кодираната връзка се осъществява "
-#~ "посредством SSL с обмяната на ключове по "
-#~ "метода на Диффе-Хелман и протокол TLS "
-#~ "версия 1. \n"
-#~ "Тази връзка е валидна само за SIM и Licq "
-#~ "клиенти"
-
-#~ msgid "Middle:"
-#~ msgstr "Презиме:"
-
-#~ msgid "Maiden:"
-#~ msgstr "Моминско име:"
-
-#~ msgid "Street:"
-#~ msgstr "Улица:"
-
-#~ msgid "Zip:"
-#~ msgstr "Пощенски код:"
-
-#~ msgid "&Profile"
-#~ msgstr "&Профил"
-
-#~ msgid "Names"
-#~ msgstr "Имена"
-
-#~ msgid "Send warning"
-#~ msgstr "Изпращане на предупреждение"
-
-#~ msgid ""
-#~ "Click OK to send warning to %1. This will raise %1's warning and limit his "
-#~ "or her activity. Do this only if %1 has done something to merit a warning."
-#~ msgstr ""
-#~ "Натиснете Да за да изпратите "
-#~ "предупреждение на %1. Това ще увеличи "
-#~ "нивото на предупреждение за потребителя "
-#~ "и ще намали неговата активност.Направете "
-#~ "това ако %1 е направил нещо което "
-#~ "заслужава предупреждение."
-
-#~ msgid "Warn &anonymously"
-#~ msgstr "Анонимно &предупреждение"
-
-#~ msgid ""
-#~ "Check this if you don't want your screen name revealed.\n"
-#~ "Anonymous warinings are less severe."
-#~ msgstr ""
-#~ "Изберете това ако не искате да разкриете "
-#~ "името си в предупрежденията.\n"
-#~ "Анонимните предупреждения оказват "
-#~ "значително по - малко влияние."
-
-#~ msgid "Choose default encoding"
-#~ msgstr ""
-#~ "Избиране на кодировка по подразбиране"
-
-#~ msgid ""
-#~ "Your current system encoding (UTF-8) may cause problems saving your personal "
-#~ "information and reading offline messages from other users."
-#~ msgstr ""
-#~ "Вашата текуща системна кодировка (UTF-8) "
-#~ "може да доведе до проблеми при запазване "
-#~ "на личната ви информация и четенето на "
-#~ "съобщения когато не сте свързани в "
-#~ "мрежата от останалите потребители."
-
-#~ msgid "You will choose the coding by default which want to use:"
-#~ msgstr ""
-#~ "Избиране на кодировка по подразбиране:"
-
-#~ msgid "%n day"
-#~ msgstr "%n дена"
-
-#~ msgid "Username:"
-#~ msgstr "Потребителско име:"
-
-#~ msgid "&Register new account"
-#~ msgstr "&Регистриране на нов номер"
-
-#~ msgid "Use &SSL"
-#~ msgstr "Използване на &SSL"
-
-#~ msgid "&Jabber"
-#~ msgstr "&Jabber"
-
-#~ msgid "Use &plain text login"
-#~ msgstr ""
-#~ "Използване на нормален &текст за "
-#~ "свързване"
-
-#~ msgid "URL:"
-#~ msgstr "УРЛ:"
-
-#~ msgid "Resource:"
-#~ msgstr "Ресурс:"
-
-#~ msgid "Priority:"
-#~ msgstr "Приоритет:"
-
-#~ msgid "Manualy specify Jabber host:"
-#~ msgstr "Указване на Jabber сървъра:"
-
-#~ msgid "Use protocol &icons for agents contacts"
-#~ msgstr "Използва &иконки за протокол"
-
-#~ msgid "Automatically send &subscribe request"
-#~ msgstr ""
-#~ "Автоматично изпраща заявка за "
-#~ "&присъединяване"
-
-#~ msgid "Automatically &accept subscribe requests"
-#~ msgstr ""
-#~ "Автоматично приемприсъединяванеза "
-#~ "заявка за &присъединяване"
-
-#~ msgid "Send &rich text messages if possible"
-#~ msgstr ""
-#~ "Изпраща съобщение с форматиран &текст ако "
-#~ "е възможно"
-
-#~ msgid "Enable &typing notification"
-#~ msgstr "&Уведомяване за въвеждане на текст"
-
-#~ msgid "ID:"
-#~ msgstr "ID:"
-
-#~ msgid "Role:"
-#~ msgstr "Роля:"
-
-#~ msgid "Additional information:"
-#~ msgstr ""
-#~ "Допълнителна информация за потребителя:"
-
-#~ msgid "&JID"
-#~ msgstr "&JID"
-
-#~ msgid "Jabber &browser"
-#~ msgstr "Jabber &четец"
-
-#~ msgid "DiscoInfo"
-#~ msgstr "Информация"
-
-#~ msgid "Namespaces:"
-#~ msgstr "Област с имена:"
-
-#~ msgid "Category:"
-#~ msgstr "Категория:"
-
-#~ msgid "Version:"
-#~ msgstr "Версия:"
-
-#~ msgid "System:"
-#~ msgstr "Система:"
-
-#~ msgid "UTC client time:"
-#~ msgstr "UTC потребителско време:"
-
-#~ msgid "Last activity, idle response:"
-#~ msgstr "Последно активен"
-
-#~ msgid "&Statistic"
-#~ msgstr "&Статистика"
-
-#~ msgid "LiveJournal post"
-#~ msgstr "Запис в журнала"
-
-#~ msgid "&LiveJournal"
-#~ msgstr "&Журнал"
-
-#~ msgid "Path:"
-#~ msgstr "Път:"
-
-#~ msgid "Check interval:"
-#~ msgstr "Интервал на проверка:"
-
-#~ msgid "Use &fast server - only for paying customers"
-#~ msgstr ""
-#~ "Използване на &бърз сървър - само за "
-#~ "платени потребители"
-
-#~ msgid "Subject:"
-#~ msgstr "Тема:"
-
-#~ msgid "Security:"
-#~ msgstr "Сигурност:"
-
-#~ msgid "Public"
-#~ msgstr "Общодостъпен"
-
-#~ msgid "Friends-Only"
-#~ msgstr "Само за приятели"
-
-#~ msgid "Private"
-#~ msgstr "Личен"
-
-#~ msgid "Mood:"
-#~ msgstr "Настроение:"
-
-#~ msgid "Enable comments"
-#~ msgstr "Разрешаване на коментари"
-
-#~ msgid "No email comments"
-#~ msgstr "Не се изпращат коментари по е-поща"
-
-#~ msgid "Disable comments"
-#~ msgstr "Изключване на коментари"
-
-#~ msgid "Add community"
-#~ msgstr "Добавяне на общество"
-
-#~ msgid "File:"
-#~ msgstr "Файл:"
-
-#~ msgid "Log level:"
-#~ msgstr "Ниво на отчета:"
-
-#~ msgid "Login:"
-#~ msgstr "Влизане:"
-
-#~ msgid "&MSN"
-#~ msgstr "&MSN"
-
-#~ msgid "&Automatically add contacts in accept list"
-#~ msgstr ""
-#~ "&Автоматично добавяне на потребител в "
-#~ "списъка с удостоверени"
-
-#~ msgid "Browser:"
-#~ msgstr "Интернет четец:е"
-
-#~ msgid "Mailer:"
-#~ msgstr "Програма за електронна поща:"
-
-#~ msgid "Open links in &new window"
-#~ msgstr "Отваряне на връзката в &нов прозорец"
-
-#~ msgid "Show &main window in task manager"
-#~ msgstr ""
-#~ "&Показва главният прозорец в панела със "
-#~ "задачи"
-
-#~ msgid "&Container always on top"
-#~ msgstr "&Прозореца е винаги отгоре"
-
-#~ msgid "Enable &messages notification"
-#~ msgstr "&Уведомяване за съобщения"
-
-#~ msgid "Enable &status notification"
-#~ msgstr "&Уведомяване за статуса"
-
-#~ msgid "Show message &content"
-#~ msgstr "Показване на текста на &съобщението"
-
-#~ msgid "Show lines of content:"
-#~ msgstr "Брой редове в съдържанието:"
-
-#~ msgid "All"
-#~ msgstr "Всички"
-
-#~ msgid "Offset:"
-#~ msgstr "Изместване:"
-
-#~ msgid "Show time:"
-#~ msgstr "Времетраене на надписа:"
-
-#~ msgid "Color:"
-#~ msgstr "Цвят:"
-
-#~ msgid "Font:"
-#~ msgstr "Шрифт:"
-
-#~ msgid "Show sha&dow"
-#~ msgstr "Рисуване на &сянка"
-
-#~ msgid "Show &background"
-#~ msgstr "Рисуване на &фон"
-
-#~ msgid "Background color:"
-#~ msgstr "Цвят на фона:"
-
-#~ msgid "Shown on screen:"
-#~ msgstr "Показване върху монитора:"
-
-#~ msgid "Host:"
-#~ msgstr "Машина:"
-
-#~ msgid "Proxy require &authorization"
-#~ msgstr ""
-#~ "&Прокси сървъра изисква удостоверяване"
-
-#~ msgid "User:"
-#~ msgstr "Потребител:"
-
-#~ msgid "Proxy type:"
-#~ msgstr "Вид прокси:"
-
-#~ msgid "Do not show error dialog (automatically reconnect)"
-#~ msgstr ""
-#~ "Не показва диалог за грешки (автоматично "
-#~ "се свързва отново)"
-
-#~ msgid "Proxy error"
-#~ msgstr "Грешка при прокси"
-
-#~ msgid "Use &UNIX socket"
-#~ msgstr "Използва &UNIX сокет"
-
-#~ msgid "Use &TCP socket"
-#~ msgstr "Използва &TCP сокет"
-
-#~ msgid "Enable IE context emnu extension"
-#~ msgstr "Разрешаване на IE контекстно меню"
-
-#~ msgid "Command"
-#~ msgstr "Команда"
-
-#~ msgid "Key"
-#~ msgstr "Клавиш"
-
-#~ msgid "Button"
-#~ msgstr "Бутон"
-
-#~ msgid "SMSSetup"
-#~ msgstr "Настройки на SMS"
-
-#~ msgid "Baudrate:"
-#~ msgstr "Скорост:"
-
-#~ msgid "115200"
-#~ msgstr "115200"
-
-#~ msgid "38400"
-#~ msgstr "38400"
-
-#~ msgid "19200"
-#~ msgstr "19200"
-
-#~ msgid "9600"
-#~ msgstr "9600"
-
-#~ msgid "4800"
-#~ msgstr "4800"
-
-#~ msgid "2400"
-#~ msgstr "2400"
-
-#~ msgid "1200"
-#~ msgstr "1200"
-
-#~ msgid "600"
-#~ msgstr "600"
-
-#~ msgid "300"
-#~ msgstr "300"
-
-#~ msgid "Software handshake"
-#~ msgstr "Програмно управление на потока"
-
-#~ msgid "Model:"
-#~ msgstr "Модел:"
-
-#~ msgid "Signal quality:"
-#~ msgstr "Качество на сигнала:"
-
-#~ msgid "Operator:"
-#~ msgstr "Оператор:"
-
-#~ msgid "&Phone"
-#~ msgstr "&Телефон"
-
-#~ msgid "&Use artsd"
-#~ msgstr "&Използване на artsd"
-
-#~ msgid "Player:"
-#~ msgstr "Възпроизводител:"
-
-#~ msgid "File transfer done:"
-#~ msgstr "Файловата обмяна приключи:"
-
-#~ msgid "Message sent:"
-#~ msgstr "Съобщението е изпратено:"
-
-#~ msgid "Sound on startup:"
-#~ msgstr "Звук при стартиране:"
-
-#~ msgid "&Disable all sounds"
-#~ msgstr "&Изключване на всички звуци"
-
-#~ msgid "No sound if windows has &focus"
-#~ msgstr ""
-#~ "Звукът е изключен ако прозореца е на "
-#~ "&фокус"
-
-#~ msgid "Use &system fonts"
-#~ msgstr "Използване на &системни шрифтове"
-
-#~ msgid "Base font:"
-#~ msgstr "Основен шрифт:"
-
-#~ msgid "Button color:"
-#~ msgstr "Цвят на бутоните:"
-
-#~ msgid "Menu font:"
-#~ msgstr "Шрифт на менюто:"
-
-#~ msgid "Transparency of main window:"
-#~ msgstr "Прозрачност на главния прозорец"
-
-#~ msgid "Transparent only if inactive"
-#~ msgstr "Прозрачен само при неактивен"
-
-#~ msgid "Location ID:"
-#~ msgstr "ID на местоположение:"
-
-#~ msgid "You can enter ID as part URL for your location on weather.com"
-#~ msgstr ""
-#~ "Вие може да въведете ID като част от УРЛ за "
-#~ "вашето метонахождеие на weather.com"
-
-#~ msgid "Metric"
-#~ msgstr "Метрична"
-
-#~ msgid "Standart"
-#~ msgstr "Стандартен"
-
-#~ msgid "Forecast days:"
-#~ msgstr "Прогнозирани дни:"
-
-#~ msgid "Units:"
-#~ msgstr "Система:"
-
-#~ msgid "Button text:"
-#~ msgstr "Текст върху бутона"
-
-#~ msgid "Button tip:"
-#~ msgstr "Подсказка:"
-
-#~ msgid "Forecast tip:"
-#~ msgstr "Прогноза:"
-
-#~ msgid "&Yahoo!"
-#~ msgstr "&Yahoo!"
-
-#~ msgid "Yahoo! &ID"
-#~ msgstr "Yahoo! &ID"
-
-#~ msgid "&Keyword"
-#~ msgstr "&Ключова дума"
