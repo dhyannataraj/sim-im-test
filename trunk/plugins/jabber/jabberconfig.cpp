@@ -131,7 +131,7 @@ void JabberConfig::changed()
 
 void JabberConfig::showPublic()
 {
-    Event e(EventGoURL, "http://www.jabber.org/user/publicservers.php");
+    Event e(EventGoURL, (void*)"http://www.jabber.org/user/publicservers.php");
     e.process();
 }
 
