@@ -635,8 +635,24 @@ JabberClient::PresenceRequest::PresenceRequest(JabberClient *client)
 JabberClient::PresenceRequest::~PresenceRequest()
 {
     unsigned status = STATUS_UNKNOWN;
+    /*
+        m_type - flags after draft-ietf-xmpp-core-16 / 8.4.1
+    */
     if (m_type == "unavailable"){
         status = STATUS_OFFLINE;
+    }else if (m_type == "subscribe"){
+        m_client->auth_request(m_from.c_str(), MessageAuthRequest, m_status.c_str(), true);
+    }else if (m_type == "subscribed"){
+        m_client->auth_request(m_from.c_str(), MessageAuthGranted, m_status.c_str(), true);
+    }else if (m_type == "unsubscribe"){
+        m_client->auth_request(m_from.c_str(), MessageRemoved, m_status.c_str(), true);
+    }else if (m_type == "unsubscribed"){
+        m_client->auth_request(m_from.c_str(), MessageAuthRefused, m_status.c_str(), true);
+    }else if (m_type == "probe"){
+        // server want's to know if we're living
+        m_client->ping();
+    }else if (m_type == "error"){
+        log(L_DEBUG, "An error has occurred regarding processing or delivery of a previously-sent presence stanza");
     }else if (m_type.length() == 0){
         status = STATUS_ONLINE;
         if (m_show == "away"){
@@ -647,15 +663,7 @@ JabberClient::PresenceRequest::~PresenceRequest()
             status = STATUS_DND;
         }
     }else{
-        if (m_type == "subscribe"){
-            m_client->auth_request(m_from.c_str(), MessageAuthRequest, m_status.c_str(), true);
-        }else if (m_type == "subscribed"){
-            m_client->auth_request(m_from.c_str(), MessageAuthGranted, m_status.c_str(), true);
-        }else if (m_type == "unsubscribed"){
-            m_client->auth_request(m_from.c_str(), MessageRemoved, m_status.c_str(), true);
-        }else{
-            log(L_DEBUG, "Unsupported presence type %s", m_type.c_str());
-        }
+        log(L_DEBUG, "Unsupported presence type %s", m_type.c_str());
     }
     if (status != STATUS_UNKNOWN){
         Contact *contact;
