@@ -544,8 +544,8 @@ void DirectClient::SSLconnect()
         log(L_DEBUG, "SSL: SSL_connect error %d, SSL_%d", i, j);
         error(ErrorProtocol);
     }
-#endif
 }
+#endif
 
 #ifdef USE_OPENSSL
 void DirectClient::SSLshutdown()
@@ -591,8 +591,8 @@ void DirectClient::SSLshutdown()
         log(L_DEBUG, "SSL: SSL_shutdown error %d, SSL_%d", i, j);
         error(ErrorProtocol);
     }
-#endif
 }
+#endif
 
 void DirectClient::secureListen()
 {
