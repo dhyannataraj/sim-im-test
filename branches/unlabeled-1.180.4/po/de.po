@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2003-07-28 16:26+0400\n"
-"PO-Revision-Date: 2003-07-28 15:22GMT\n"
+"PO-Revision-Date: 2003-07-28 16:12GMT\n"
 "Last-Translator: Crissi <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -692,7 +692,7 @@ msgstr "Datei auswählen"
 
 #: plugins/_core/msgfile.cpp:57
 msgid "File:"
-msgstr "ankommende Datei:"
+msgstr "Datei:"
 
 #: plugins/_core/msggen.cpp:87
 msgid "Bac&kground color"
@@ -3768,7 +3768,7 @@ msgstr "Das Plugin für das Startbild von SIM"
 
 #: plugins/transparent/transparent.cpp:64
 msgid "Transparent"
-msgstr "Transpararenz"
+msgstr "Transparenz"
 
 #: plugins/transparent/transparent.cpp:66
 msgid ""
