@@ -209,7 +209,7 @@ void ICQClientPrivate::chn_close()
         sock->setSocket(factory->createSocket());
         sock->setProxy(factory->getProxy());
         sock->connect(host, atol(port));
-//        delete s;
+        delete s;
     }
     cookie.init(0);
     cookie.pack(*tlv_cookie, tlv_cookie->Size());

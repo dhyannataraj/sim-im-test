@@ -25,6 +25,7 @@
 #include <sys/time.h>
 #include <netinet/in.h>
 #include <netdb.h>
+#include <arpa/inet.h>
 #endif
 
 #include <errno.h>
@@ -39,7 +40,6 @@
 #ifdef HAVE_KEXTSOCK_H
 #include <kextsock.h>
 #include <ksockaddr.h>
-#include <arpa/inet.h>
 #endif
 
 SIMSockets::SIMSockets()
@@ -67,10 +67,10 @@ ICQClientSocket::ICQClientSocket(QSocket *s)
 #ifdef HAVE_KEXTSOCK_H
         sock = new KExtendedSocket;
     sock->setSocketFlags(KExtendedSocket::bufferedSocket | KExtendedSocket::inetSocket | KExtendedSocket::noResolve | KExtendedSocket::streamSocket);
-    resolver = NULL;
 #else
         sock = new QSocket(this);
 #endif
+    resolver = NULL;
     timer = NULL;
     bConnected = false;
 #ifdef HAVE_KEXTSOCK_H
@@ -101,13 +101,13 @@ void ICQClientSocket::close()
 {
 #ifdef HAVE_KEXTSOCK_H
     sock->closeNow();
+#else
+    sock->close();
+#endif
     if (resolver){
         delete resolver;
         resolver = NULL;
     }
-#else
-    sock->close();
-#endif
     if (timer){
         delete timer;
         timer = NULL;
@@ -128,11 +128,11 @@ int ICQClientSocket::read(char *buf, unsigned int size)
 #ifdef HAVE_KEXTSOCK_H
     int avail = sock->bytesAvailable();
     if (avail < 0){
-	if (notify) notify->error_state(ErrorRead);
-	return -1;
+        if (notify) notify->error_state(ErrorRead);
+        return -1;
     }
     if (avail == 0)
-	return 0;
+        return 0;
     if (size > (unsigned)avail) size = avail;
 #endif
     int res = sock->readBlock(buf, size);
@@ -166,7 +166,7 @@ void ICQClientSocket::resolveReady()
 {
     log(L_DEBUG, "Resolve ready");
     if ((resolver == NULL) || (resolver->addresses().size() == 0)){
-        if (resolver == NULL){
+        if (resolver){
             delete resolver;
             resolver = NULL;
         }
@@ -184,7 +184,6 @@ void ICQClientSocket::connect(const char *host, int _port)
 {
     port = _port;
     log(L_DEBUG, "Connect to %s:%u", host, port);
-#ifdef HAVE_KEXTSOCK_H
     if (inet_addr(host) == INADDR_NONE){
         if (resolver) delete resolver;
         resolver = new QDns(host, QDns::A);
@@ -192,13 +191,6 @@ void ICQClientSocket::connect(const char *host, int _port)
         return;
     }
     doConnect(host);
-#else
-    bConnected = false;
-    timer = new QTimer(this);
-    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(resolveTimeout()));
-    timer->start(15000);
-    sock->connectToHost(host, port);
-#endif
 }
 
 void ICQClientSocket::doConnect(const char *host)
@@ -219,10 +211,13 @@ void ICQClientSocket::doConnect(const char *host)
         log(L_WARN, "Can't connect");
         if (notify) notify->error_state(ErrorConnect);
     }
+#endif
     bConnected = false;
     timer = new QTimer(this);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(resolveTimeout()));
     timer->start(15000);
+#ifndef HAVE_KEXTSOCK_H
+    sock->connectToHost(host, port);
 #endif
 }
 
@@ -245,7 +240,7 @@ void ICQClientSocket::slotConnected()
 #else
     if (notify) notify->connect_ready();
 #endif
-    if (timer == NULL){
+    if (timer){
         delete timer;
         timer = NULL;
     }
@@ -333,7 +328,7 @@ ICQServerSocket::ICQServerSocket(unsigned short minPort, unsigned short maxPort)
     for (m_nPort = minPort; m_nPort <= maxPort; m_nPort++){
         sock = new KExtendedSocket(QString::null, m_nPort, KExtendedSocket::passiveSocket  | KExtendedSocket::inetSocket);
         sock->setBlockingMode(false);
-	if (sock->listen() == 0)
+        if (sock->listen() == 0)
             break;
         delete sock;
         sock = NULL;
