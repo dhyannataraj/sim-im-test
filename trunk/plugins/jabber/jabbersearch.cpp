@@ -84,6 +84,7 @@ JabberSearch::JabberSearch(QWidget *receiver, JabberClient *client, const char *
     lay->setSpacing(4);
     vlay->addStretch();
     m_bDirty = false;
+
 }
 
 typedef struct defFlds

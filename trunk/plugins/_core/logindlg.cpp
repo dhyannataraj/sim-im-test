@@ -254,7 +254,7 @@ static void rmDir(const QString &path)
 #ifdef WIN32
         p += "\\";
 #else
-p += "/";
+        p += "/";
 #endif
         p += *it;
         rmDir(p);
@@ -461,8 +461,10 @@ void *LoginDialog::processEvent(Event *e)
             QString msg;
             if (d->err_str && *d->err_str){
                 msg = i18n(d->err_str);
-                if (d->args)
+                if (d->args){
                     msg = msg.arg(QString::fromUtf8(d->args));
+                    free(d->args);
+                }
             }else{
                 msg = i18n("Login failed");
             }

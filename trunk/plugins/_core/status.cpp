@@ -293,9 +293,27 @@ void *CommonStatus::processEvent(Event *e)
             BalloonItem item;
             item.id     = data->id;
             item.client = data->client;
-            item.text = i18n(data->err_str);
-            if ((item.text.find("%1") >= 0) && data->args)
-                item.text = item.text.arg(QString::fromUtf8(data->args));
+            item.text   = i18n(data->err_str);
+            if (data->args){
+                if (item.text.find("%1") >= 0)
+                    item.text = item.text.arg(QString::fromUtf8(data->args));
+                free(data->args);
+            }
+            QString title = "SIM";
+            if (getContacts()->nClients() > 1){
+                for (unsigned i = 0; i < getContacts()->nClients(); i++){
+                    if (getContacts()->getClient(i) == data->client){
+                        title = data->client->name().c_str();
+                        int n = title.find(".");
+                        if (n > 0)
+                            title = title.left(n) + " " + title.mid(n + 1);
+                        break;
+                    }
+                }
+            }
+            item.text	= QString("<img src=\"icon:%1\">&nbsp;<b><nobr>%2</nobr></b><br><center>")
+                        .arg((data->flags & ERR_INFO) ? "info" : "error")
+                        .arg(title) + quoteString(item.text) + "</center>";
             if (data->options){
                 for (const char *p = data->options; *p; p += strlen(p) + 1)
                     item.buttons.append(i18n(p));
@@ -309,13 +327,13 @@ void *CommonStatus::processEvent(Event *e)
         }
     case EventClientError:{
             clientErrorData *data = (clientErrorData*)(e->param());
-            QString msg;
-            if (data->err_str && *data->err_str){
-                msg = i18n(data->err_str);
-                if (data->args)
-                    msg = msg.arg(QString::fromUtf8(data->args));
-            }
             if (data->code == AuthError){
+                QString msg;
+                if (data->err_str && *data->err_str){
+                    msg = i18n(data->err_str);
+                    if (data->args)
+                        msg = msg.arg(QString::fromUtf8(data->args));
+                }
                 LoginDialog *loginDlg = new LoginDialog(false, data->client, msg, NULL);
                 raiseWindow(loginDlg);
             }else{
@@ -466,6 +484,8 @@ void CommonStatus::yes_action(void*)
 void CommonStatus::finished()
 {
     m_balloon = NULL;
+    if (!m_queue.empty())
+        m_queue.erase(m_queue.begin());
     QTimer::singleShot(1000, this, SLOT(showBalloon()));
 }
 

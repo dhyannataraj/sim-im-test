@@ -38,6 +38,7 @@ signals:
 protected slots:
     void currentChanged(QWidget*);
     void textChanged(const QString&);
+    void clientActivated(int);
     void search();
     void startSearch();
     void addResultFinished();

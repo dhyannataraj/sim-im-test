@@ -423,8 +423,11 @@ MSNServerMessage::MSNServerMessage(MSNClient *client, unsigned size)
     m_size   = size;
 }
 
+typedef map<QString, QString> KEY_MAP;
+
 MSNServerMessage::~MSNServerMessage()
 {
+    KEY_MAP values;
     QString msg = QString::fromUtf8(m_msg.c_str());
     for (;!msg.isEmpty();){
         QString line;
@@ -439,10 +442,66 @@ MSNServerMessage::~MSNServerMessage()
         n = line.find(":");
         if (n < 0)
             continue;
-        QString key = line.left(n);
-        QString value = trim(line.mid(n + 1));
-        if (key == "ClientIP")
-            set_ip(&m_client->data.owner.IP, inet_addr(value.latin1()));
+        values.insert(KEY_MAP::value_type(line.left(n), trim(line.mid(n + 1))));
+    }
+    KEY_MAP::iterator it = values.find("ClientIP");
+    if (it != values.end())
+        set_ip(&m_client->data.owner.IP, inet_addr((*it).second.latin1()));
+    it = values.find("Content-Type");
+    if (it != values.end()){
+        QString content_type = (*it).second;
+        content_type = getToken(content_type, ';');
+        if (content_type == "text/x-msmsgsinitialemailnotification"){
+            m_client->m_init_mail = "";
+            it = values.find("Post-URL");
+            if (it != values.end())
+                m_client->m_init_mail = (*it).second.latin1();
+            it = values.find("Inbox-URL");
+            if (it != values.end())
+                m_client->m_init_mail += (*it).second.latin1();
+            it = values.find("Inbox-Unread");
+            if (it == values.end())
+                return;
+            unsigned nUnread = (*it).second.toUInt();
+            if (nUnread){
+                clientErrorData data;
+                data.client		= m_client;
+                data.err_str	= "%1";
+                data.options	= NULL;
+                data.args		= strdup(i18n("You have %n unread message", "You have %n unread messages", nUnread).utf8());
+                data.code		= 0;
+                data.flags		= ERR_INFO;
+                data.id			= static_cast<MSNPlugin*>(m_client->protocol()->plugin())->MSNInitMail;
+                Event e(EventShowError, &data);
+                e.process();
+            }
+        }
+        if (content_type == "text/x-msmsgsemailnotification"){
+            m_client->m_new_mail = "";
+            it = values.find("Post-URL");
+            if (it != values.end())
+                m_client->m_new_mail = (*it).second.latin1();
+            it = values.find("Message-URL");
+            if (it != values.end())
+                m_client->m_new_mail += (*it).second.latin1();
+            QString from;
+            it = values.find("From-Addr");
+            if (it != values.end())
+                from = (*it).second;
+            QString msg = i18n("You have new mail");
+            if (!from.isEmpty())
+                msg = i18n("%1 from %2") .arg(msg) .arg(from);
+            clientErrorData data;
+            data.client		= m_client;
+            data.err_str	= "%1";
+            data.options	= NULL;
+            data.args		= strdup(msg.utf8());
+            data.code		= 0;
+            data.flags		= ERR_INFO;
+            data.id			= static_cast<MSNPlugin*>(m_client->protocol()->plugin())->MSNNewMail;
+            Event e(EventShowError, &data);
+            e.process();
+        }
     }
 }
 

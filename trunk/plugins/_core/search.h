@@ -40,6 +40,8 @@ protected slots:
 protected:
     virtual void *processEvent(Event*);
     virtual void closeEvent(QCloseEvent*);
+    virtual void moveEvent(QMoveEvent*);
+    virtual void resizeEvent(QResizeEvent*);
     vector<Client*> clients;
     void reject();
     void accept();

@@ -19,7 +19,9 @@
 #include "jabber.h"
 #include "jabberclient.h"
 #include "jabbersearch.h"
+#include "jabberbrowser.h"
 #include "addresult.h"
+#include "listview.h"
 
 #include <qtabwidget.h>
 #include <qwizard.h>
@@ -76,6 +78,7 @@ JabberAdd::JabberAdd(JabberClient *client)
     connect(tabAdd, SIGNAL(currentChanged(QWidget*)), this, SLOT(currentChanged(QWidget*)));
     connect(edtID, SIGNAL(returnPressed()), this, SLOT(search()));
     connect(edtID, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
+    connect(m_browser, SIGNAL(currentChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     QStringList services;
     for (unsigned i = 0; i < getContacts()->nClients(); i++){
         Client *c = getContacts()->getClient(i);
@@ -94,6 +97,8 @@ JabberAdd::JabberAdd(JabberClient *client)
     }
     cmbServices->insertStringList(services);
     fillGroup();
+    clientActivated(0);
+    connect(cmbServices, SIGNAL(activated(int)), this, SLOT(clientActivated(int)));
 }
 
 JabberAdd::~JabberAdd()
@@ -113,6 +118,11 @@ void JabberAdd::fillGroup()
         cmbGroup->insertItem(grp->getName());
     }
     cmbGroup->insertItem(i18n("Not in list"));
+}
+
+void JabberAdd::clientActivated(int)
+{
+    m_browser->setClient(findClient(cmbServices->currentText()));
 }
 
 void JabberAdd::currentChanged(QWidget*)
@@ -140,8 +150,8 @@ void JabberAdd::textChanged(const QString&)
             if (!m_idValidator->validate(text, pos))
                 bSearch = false;
         }
-    }else if (tabAdd->currentPage()->inherits("JabberSearch")){
-        bSearch = static_cast<JabberSearch*>(tabAdd->currentPage())->canSearch();
+    }else if (m_browser->m_list->currentItem()){
+        bSearch = true;
     }
     if (m_wizard)
         m_wizard->setNextEnabled(this, bSearch);
@@ -175,9 +185,10 @@ void JabberAdd::startSearch()
     JabberClient *client = findClient(cmbServices->currentText().latin1());
     if (client == NULL)
         return;
+    QString jid;
+    unsigned grp_id = 0;
     if (tabAdd->currentPageIndex() == 0){
-        QString jid = edtID->text();
-        unsigned grp_id = 0;
+        jid = edtID->text();
         ContactList::GroupIterator it;
         Group *grp;
         unsigned nGrp = cmbGroup->currentItem();
@@ -189,20 +200,18 @@ void JabberAdd::startSearch()
                 break;
             }
         }
-        if (client->add_contact(jid.utf8(), grp_id)){
-            m_result->setText(i18n("%1 added to contact list") .arg(jid));
-        }else{
-            m_result->setText(i18n("%1 is already in contact list") .arg(jid));
-        }
-        if (m_wizard)
-            m_wizard->setFinishEnabled(m_result, true);
-    }else if (tabAdd->currentPage()->inherits("JabberSearch")){
-        JabberSearch *search = static_cast<JabberSearch*>(tabAdd->currentPage());
-        bool bXSearch;
-        QString condition = search->condition(bXSearch);
-        string search_id = client->search(search->id(), NULL, condition.utf8());
-        m_result->setSearch(client, search_id.c_str(), bXSearch);
+    }else if (m_browser->m_list->currentItem()){
+        jid = m_browser->m_list->currentItem()->text(COL_JID);
     }
+    if (jid.isEmpty())
+        return;
+    if (client->add_contact(jid.utf8(), grp_id)){
+        m_result->setText(i18n("%1 added to contact list") .arg(jid));
+    }else{
+        m_result->setText(i18n("%1 is already in contact list") .arg(jid));
+    }
+    if (m_wizard)
+        m_wizard->setFinishEnabled(m_result, true);
 }
 
 JabberClient *JabberAdd::findClient(const char *host)

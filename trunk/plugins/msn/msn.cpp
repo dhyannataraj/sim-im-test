@@ -229,6 +229,8 @@ MSNPlugin::MSNPlugin(unsigned base)
     MSNPacket = registerType();
     EventAddOk   = registerType();
     EventAddFail = registerType();
+    MSNInitMail  = registerType();
+    MSNNewMail   = registerType();
 
     getContacts()->addPacketType(MSNPacket, msn_descr.text, true);
 

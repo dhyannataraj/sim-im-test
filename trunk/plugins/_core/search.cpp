@@ -39,6 +39,19 @@ SearchDialog::SearchDialog()
 
 SearchDialog::~SearchDialog()
 {
+    saveGeometry(this, CorePlugin::m_plugin->data.SearchGeo);
+}
+
+void SearchDialog::moveEvent(QMoveEvent *e)
+{
+    SearchBase::moveEvent(e);
+    saveGeometry(this, CorePlugin::m_plugin->data.SearchGeo);
+}
+
+void SearchDialog::resizeEvent(QResizeEvent *e)
+{
+    SearchBase::resizeEvent(e);
+    saveGeometry(this, CorePlugin::m_plugin->data.SearchGeo);
 }
 
 void SearchDialog::goNext()

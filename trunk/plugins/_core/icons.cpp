@@ -131,6 +131,7 @@ using namespace std;
 #include "xpm/yahoo_offline.xpm"
 #include "xpm/yahoo_away.xpm"
 #include "xpm/yahoo_dnd.xpm"
+#include "xpm/chat.xpm"
 
 #define KICON(A)    addIcon(#A, p_##A, #A, 0);
 #define ICON(A)		addIcon(#A, A, NULL, 0);
@@ -280,6 +281,7 @@ Icons::Icons()
     ICON(urgentmsg)
     KICON(help)
     ICON(btn_more);
+    ICON(chat);
 }
 
 Icons::~Icons()

@@ -69,11 +69,15 @@ class JabberBrowser : public QMainWindow, public EventReceiver
 {
     Q_OBJECT
 public:
-    JabberBrowser(JabberClient *client);
+    JabberBrowser(QWidget *parent, const char *name);
     ~JabberBrowser();
     void goUrl(const QString &url, const QString &node);
     void save();
+    void setClient(JabberClient *client);
     DiscoInfo *m_info;
+    ListView  *m_list;
+signals:
+    void currentChanged(const QString&);
 protected slots:
     void currentChanged(QListViewItem*);
     void dragStart();
@@ -82,7 +86,6 @@ protected slots:
     void showConfig();
 protected:
     void *processEvent(Event*);
-    void setTitle();
     void setNavigation();
     void stop(const QString &err);
     void go(const QString &url, const QString &node);
@@ -101,8 +104,6 @@ protected:
     void changeMode(QListViewItem *item);
     bool		 m_bInProcess;
     JabberClient *m_client;
-    ListView	 *m_list;
-    QStatusBar	 *m_status;
     CToolBar	 *m_bar;
     vector<string>	m_history;
     vector<string>	m_nodes;

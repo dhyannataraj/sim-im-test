@@ -2433,7 +2433,7 @@ void *ICQClient::processEvent(Event *e)
         QWidget *msgWidget = (QWidget*)(eWidget.process());
         if (msgWidget == NULL)
             msgWidget = m->edit;
-        BalloonMsg *msg = new BalloonMsg(m, err, btns, msgWidget, NULL, false);
+        BalloonMsg *msg = new BalloonMsg(m, quoteString(err), btns, msgWidget, NULL, false);
         connect(msg, SIGNAL(action(int, void*)), this, SLOT(retry(int, void*)));
         msg->show();
         return e->param();

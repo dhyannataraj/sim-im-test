@@ -29,6 +29,18 @@
 #include <qframe.h>
 #include <qcheckbox.h>
 
+#if COMPAT_QT_VERSION < 0x030000
+#include "qt3/qsimplerichtext.h"
+#include "qt3/qstylesheet.h"
+#else
+#include <qsimplerichtext.h>
+#endif
+
+#if COMPAT_QT_VERSION < 0x030000
+#define QSimpleRichText Qt3::QSimpleRichText
+#define QStyleSheet		Qt3::QStyleSheet
+#endif
+
 #define BALLOON_R			10
 #define BALLOON_TAIL		20
 #define BALLOON_TAIL_WIDTH	12
@@ -150,12 +162,15 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     }
     if (rc.width() > txtWidth) txtWidth = rc.width();
 
-    QPainter p(this);
-    QRect rcText = p.boundingRect(0, 0, QMAX(wndWidth, txtWidth), 1000, AlignLeft | AlignTop | WordBreak, _text);
-    if (rcText.width() < wndWidth) rcText.setWidth(wndWidth);
-    resize(rcText.width() + BALLOON_R * 2 + BALLOON_SHADOW,
-           rcText.height() + BALLOON_R * 2 + BALLOON_TAIL + BALLOON_SHADOW + hButton + BALLOON_MARGIN);
-    p.end();
+    QSimpleRichText richText(_text, font(), "", QStyleSheet::defaultSheet(), QMimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
+    richText.setWidth(wndWidth);
+    richText.adjustSize();
+    QSize s(richText.widthUsed(), richText.height());
+    QSize sMin = frm->minimumSizeHint();
+    if (s.width() < sMin.width())
+        s.setWidth(sMin.width());
+    resize(s.width() + BALLOON_R * 2 + BALLOON_SHADOW,
+           s.height() + BALLOON_R * 2 + BALLOON_TAIL + BALLOON_SHADOW + hButton + BALLOON_MARGIN);
     mask = QBitmap(width(), height());
     int w = width() - BALLOON_SHADOW;
     int tailX = w / 2;
@@ -180,8 +195,9 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     int h = height() - BALLOON_SHADOW - BALLOON_TAIL;
     if (!bTailDown) pos += BALLOON_TAIL;
     textRect.setRect(BALLOON_R, pos + BALLOON_R, w - BALLOON_R * 2, h);
-    frm->resize(rcText.width(), hButton);
+    frm->resize(s.width(), hButton);
     frm->move(BALLOON_R, pos + h - BALLOON_R - hButton);
+    QPainter p;
     p.begin(&mask);
 #ifdef WIN32
     QColor bg(255, 255, 255);
@@ -280,7 +296,10 @@ bool BalloonMsg::eventFilter(QObject *o, QEvent *e)
 void BalloonMsg::paintEvent(QPaintEvent*)
 {
     QPainter p(this);
-    p.drawText(textRect, ((m_bAutoHide && (m_width == 150)) ? AlignHCenter : AlignLeft) | AlignTop | WordBreak, text);
+    QSimpleRichText richText(text, font(), "", QStyleSheet::defaultSheet(), QMimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
+    richText.setWidth(m_width);
+    richText.adjustSize();
+    richText.draw(&p, (width() - textRect.width()) / 2, textRect.y(), QRect(0, 0, width(), height()), QToolTip::palette().active());
     p.end();
 }
 
@@ -310,7 +329,7 @@ void BalloonMsg::message(const QString &text, QWidget *parent, bool bModal, unsi
 {
     QStringList btns;
     btns.append(i18n("&Ok"));
-    BalloonMsg *msg = new BalloonMsg(NULL, text, btns, parent, NULL, bModal, true, width);
+    BalloonMsg *msg = new BalloonMsg(NULL, QString("<center>") + quoteString(text) + "</center>", btns, parent, NULL, bModal, true, width);
     if (bModal){
         msg->exec();
     }else{
@@ -326,7 +345,7 @@ void BalloonMsg::ask(void *param, const QString &text, QWidget *parent,
     QStringList btns;
     btns.append(i18n("&Yes"));
     btns.append(i18n("&No"));
-    BalloonMsg *msg = new BalloonMsg(param, text, btns, parent, rc, false, true, 150, checkText, bCheck);
+    BalloonMsg *msg = new BalloonMsg(param, QString("<center>") + quoteString(text) + "</center>", btns, parent, rc, false, true, 300, checkText, bCheck);
     if (receiver == NULL)
         receiver = parent;
     if (slotYes)

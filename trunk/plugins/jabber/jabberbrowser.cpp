@@ -26,7 +26,6 @@
 
 #include <qpixmap.h>
 #include <qtoolbar.h>
-#include <qstatusbar.h>
 #include <qtimer.h>
 
 const unsigned BROWSE_INFO	= 8;
@@ -107,16 +106,12 @@ void JabberWizard::initTitle()
     setTitle(m_search, m_search->m_title);
 }
 
-JabberBrowser::JabberBrowser(JabberClient *client)
-        : QMainWindow(NULL, NULL, WDestructiveClose)
+JabberBrowser::JabberBrowser(QWidget *parent, const char *name)
+        : QMainWindow(parent, name, WDestructiveClose)
 {
-    m_client = client;
+    m_client = NULL;
     m_info   = NULL;
 
-    SET_WNDPROC("jbrowser")
-    setIcon(Pict("Jabber_online"));
-    setTitle();
-    m_status = statusBar();
     m_list = new ListView(this);
     m_list->addColumn(i18n("Name"));
     m_list->addColumn(i18n("JID"));
@@ -132,7 +127,7 @@ JabberBrowser::JabberBrowser(JabberClient *client)
     Event e(EventShowBar, &b);
     m_bar = (CToolBar*)e.process();
     m_bar->setParam(this);
-    restoreToolbar(m_bar, m_client->data.browser_bar);
+    restoreToolbar(m_bar, JabberPlugin::plugin->data.browser_bar);
     m_bar->show();
     setCentralWidget(m_list);
     m_historyPos = -1;
@@ -143,7 +138,7 @@ JabberBrowser::JabberBrowser(JabberClient *client)
     Event eWidget(EventCommandWidget, cmd);
     CToolCombo *cmbUrl = (CToolCombo*)(eWidget.process());
     if (cmbUrl){
-        QString h = m_client->getBrowserHistory();
+        QString h = JabberPlugin::plugin->getBrowserHistory();
         while (h.length())
             cmbUrl->insertItem(getToken(h, ';'));
         cmbUrl->setText(QString::null);
@@ -160,15 +155,19 @@ JabberBrowser::~JabberBrowser()
     if (m_info)
         delete m_info;
     save();
-    m_client->m_browser = NULL;
 }
 
-void JabberBrowser::setTitle()
+void JabberBrowser::setClient(JabberClient *client)
 {
+    if (m_client == client)
+        return;
+    m_client = client;
     QString url;
-    if ((m_historyPos >= 0) && (m_historyPos < (int)(m_history.size())))
-        url = QString::fromUtf8(m_history[m_historyPos].c_str());
-    setCaption(i18n("Browser: %1") .arg(url));
+    if (m_client->getUseVHost())
+        url = QString::fromUtf8(m_client->getVHost());
+    if (url.isEmpty())
+        url = QString::fromUtf8(m_client->getServer());
+    goUrl(url, "");
 }
 
 void JabberBrowser::goUrl(const QString &url, const QString &node)
@@ -196,7 +195,6 @@ void JabberBrowser::go(const QString &url, const QString &node)
 {
     setNavigation();
     Command cmd;
-    setTitle();
     m_list->clear();
     cmd->id		= CmdBrowseInfo;
     cmd->flags	= COMMAND_DISABLED;
@@ -222,12 +220,12 @@ void JabberBrowser::go(const QString &url, const QString &node)
     item->setText(COL_NODE, node);
     m_bError = false;
     unsigned mode = 0;
-    if (m_client->getBrowseType() & BROWSE_DISCO){
+    if (JabberPlugin::plugin->getBrowseType() & BROWSE_DISCO){
         item->setText(COL_ID_DISCO_ITEMS, m_client->discoItems(url.utf8(), node.utf8()).c_str());
         item->setText(COL_ID_DISCO_INFO, m_client->discoInfo(url.utf8(), node.utf8()).c_str());
         mode = BROWSE_DISCO | BROWSE_INFO;
     }
-    if (m_client->getBrowseType() & BROWSE_BROWSE){
+    if (JabberPlugin::plugin->getBrowseType() & BROWSE_BROWSE){
         if (node.isEmpty()){
             item->setText(COL_ID_BROWSE, m_client->browse(url.utf8()).c_str());
             mode |= BROWSE_BROWSE;
@@ -261,13 +259,11 @@ void JabberBrowser::startProcess()
     cmd->param		 = this;
     Event e(EventCommandChange, cmd);
     e.process();
-    m_status->message(i18n("Process"));
 }
 
 void JabberBrowser::save()
 {
-    saveToolbar(m_bar, m_client->data.browser_bar);
-    saveGeometry(this, m_client->data.browser_geo);
+    saveToolbar(m_bar, JabberPlugin::plugin->data.browser_bar);
 }
 
 void *JabberBrowser::processEvent(Event *e)
@@ -371,23 +367,23 @@ void *JabberBrowser::processEvent(Event *e)
         cmd->flags &= ~COMMAND_CHECKED;
         switch (cmd->id){
         case CmdOneLevel:
-            if (!m_client->getAllLevels())
+            if (!JabberPlugin::plugin->getAllLevels())
                 cmd->flags |= COMMAND_CHECKED;
             return e->param();
         case CmdAllLevels:
-            if (m_client->getAllLevels())
+            if (JabberPlugin::plugin->getAllLevels())
                 cmd->flags |= COMMAND_CHECKED;
             return e->param();
         case CmdModeDisco:
-            if (m_client->getBrowseType() & BROWSE_DISCO)
+            if (JabberPlugin::plugin->getBrowseType() & BROWSE_DISCO)
                 cmd->flags |= COMMAND_CHECKED;
             return e->param();
         case CmdModeBrowse:
-            if (m_client->getBrowseType() & BROWSE_BROWSE)
+            if (JabberPlugin::plugin->getBrowseType() & BROWSE_BROWSE)
                 cmd->flags |= COMMAND_CHECKED;
             return e->param();
         case CmdModeAgents:
-            if (m_client->getBrowseType() & BROWSE_AGENTS)
+            if (JabberPlugin::plugin->getBrowseType() & BROWSE_AGENTS)
                 cmd->flags |= COMMAND_CHECKED;
             return e->param();
         }
@@ -399,29 +395,29 @@ void *JabberBrowser::processEvent(Event *e)
         QListViewItem *item = m_list->currentItem();
         if (cmd->menu_id == MenuBrowser){
             cmd->flags &= ~COMMAND_CHECKED;
-            unsigned mode = m_client->getBrowseType();
+            unsigned mode = JabberPlugin::plugin->getBrowseType();
             switch (cmd->id){
             case CmdOneLevel:
-                m_client->setAllLevels(false);
+                JabberPlugin::plugin->setAllLevels(false);
                 changeMode();
                 return e->param();
             case CmdAllLevels:
-                m_client->setAllLevels(true);
+                JabberPlugin::plugin->setAllLevels(true);
                 changeMode();
                 return e->param();
             case CmdModeDisco:
                 mode ^= BROWSE_DISCO;
-                m_client->setBrowseType(mode);
+                JabberPlugin::plugin->setBrowseType(mode);
                 changeMode();
                 return e->param();
             case CmdModeBrowse:
                 mode ^= BROWSE_BROWSE;
-                m_client->setBrowseType(mode);
+                JabberPlugin::plugin->setBrowseType(mode);
                 changeMode();
                 return e->param();
             case CmdModeAgents:
                 mode ^= BROWSE_AGENTS;
-                m_client->setBrowseType(mode);
+                JabberPlugin::plugin->setBrowseType(mode);
                 changeMode();
                 return e->param();
             }
@@ -547,12 +543,12 @@ void *JabberBrowser::processEvent(Event *e)
             i->setText(COL_NAME, item->name.empty() ? QString::fromUtf8(item->jid.c_str()) : QString::fromUtf8(item->name.c_str()));
             i->setText(COL_NODE, QString::fromUtf8(item->node.c_str()));
             int mode = 0;
-            if (m_client->getBrowseType() & BROWSE_DISCO){
+            if (JabberPlugin::plugin->getBrowseType() & BROWSE_DISCO){
                 i->setText(COL_ID_DISCO_INFO, m_client->discoInfo(item->jid.c_str(), item->node.c_str()).c_str());
                 mode |= BROWSE_INFO;
             }
             i->setText(COL_MODE, QString::number(mode));
-            if (m_client->getAllLevels())
+            if (JabberPlugin::plugin->getAllLevels())
                 loadItem(i);
             return e->param();
         }
@@ -569,7 +565,7 @@ void *JabberBrowser::processEvent(Event *e)
             it->setText(COL_CATEGORY, QString::fromUtf8(item->category.c_str()));
             it->setText(COL_TYPE, QString::fromUtf8(item->type.c_str()));
             it->setText(COL_FEATURES, QString::fromUtf8(item->features.c_str()));
-            if ((m_client->getAllLevels()) || (it == m_list->currentItem()))
+            if ((JabberPlugin::plugin->getAllLevels()) || (it == m_list->currentItem()))
                 loadItem(it);
             setItemPict(it);
             if (it == m_list->currentItem())
@@ -618,7 +614,7 @@ void *JabberBrowser::processEvent(Event *e)
                     }
                     it = new QListViewItem(it);
                     it->setText(COL_JID, QString::fromUtf8(item->jid.c_str()));
-                    if (m_client->getAllLevels())
+                    if (JabberPlugin::plugin->getAllLevels())
                         loadItem(it);
                 }
             }
@@ -627,7 +623,7 @@ void *JabberBrowser::processEvent(Event *e)
             it->setText(COL_CATEGORY, QString::fromUtf8(item->category.c_str()));
             it->setText(COL_TYPE, QString::fromUtf8(item->type.c_str()));
             it->setText(COL_FEATURES, QString::fromUtf8(item->features.c_str()));
-            if (m_client->getAllLevels() || (it == m_list->currentItem()))
+            if (JabberPlugin::plugin->getAllLevels() || (it == m_list->currentItem()))
                 loadItem(it);
             setItemPict(it);
             return e->param();
@@ -671,13 +667,14 @@ void JabberBrowser::currentChanged(QListViewItem*)
     if (item == NULL)
         return;
     loadItem(item);
+    emit currentChanged("");
 }
 
 void JabberBrowser::loadItem(QListViewItem *item)
 {
     bool bProcess = false;
     unsigned mode = atol(item->text(COL_MODE).latin1());
-    if (m_client->getBrowseType() & BROWSE_DISCO){
+    if (JabberPlugin::plugin->getBrowseType() & BROWSE_DISCO){
         if (((mode & BROWSE_DISCO) == 0) && item->text(COL_ID_DISCO_ITEMS).isEmpty()){
             item->setText(COL_ID_DISCO_ITEMS, m_client->discoItems(item->text(COL_JID).utf8(), item->text(COL_NODE).utf8()).c_str());
             mode |= BROWSE_DISCO;
@@ -689,7 +686,7 @@ void JabberBrowser::loadItem(QListViewItem *item)
             bProcess = true;
         }
     }
-    if (m_client->getBrowseType() & BROWSE_BROWSE){
+    if (JabberPlugin::plugin->getBrowseType() & BROWSE_BROWSE){
         if (((mode & BROWSE_BROWSE) == 0) && item->text(COL_ID_BROWSE).isEmpty() && haveFeature("iq:id:browse", item->text(COL_FEATURES))){
             item->setText(COL_ID_BROWSE, m_client->browse(item->text(COL_JID).utf8()).c_str());
             mode |= BROWSE_BROWSE;
@@ -705,7 +702,7 @@ void JabberBrowser::loadItem(QListViewItem *item)
 
 void JabberBrowser::changeMode()
 {
-    if (m_client->getAllLevels()){
+    if (JabberPlugin::plugin->getAllLevels()){
         if (m_list->firstChild())
             changeMode(m_list->firstChild());
     }else{
@@ -763,7 +760,6 @@ void JabberBrowser::stop(const QString &err)
             parent = this;
         BalloonMsg::message(err, parent);
     }
-    m_status->message(err);
 }
 
 const unsigned MAX_HISTORY = 10;
@@ -771,7 +767,7 @@ const unsigned MAX_HISTORY = 10;
 void JabberBrowser::addHistory(const QString &str)
 {
     QStringList l;
-    QString h = m_client->getBrowserHistory();
+    QString h = JabberPlugin::plugin->getBrowserHistory();
     while (h.length()){
         l.append(getToken(h, ';'));
     }
@@ -800,7 +796,7 @@ void JabberBrowser::addHistory(const QString &str)
         cmbUrl->insertItem(*it);
         res += quoteChars(*it, ";");
     }
-    m_client->setBrowserHistory(res);
+    JabberPlugin::plugin->setBrowserHistory(res);
 }
 
 bool JabberBrowser::haveFeature(const char *feature)
@@ -899,8 +895,9 @@ bool JabberBrowser::checkDone(QListViewItem *item)
 void JabberBrowser::setItemPict(QListViewItem *item)
 {
     const char *name = "Jabber";
-    if (item->text(COL_CATEGORY) == "gateway"){
-        QString type = item->text(COL_TYPE);
+    QString category = item->text(COL_CATEGORY);
+    QString type     = item->text(COL_TYPE);
+    if (category == "gateway"){
         if (type == "icq"){
             name = "ICQ";
         }else if (type == "aim"){
@@ -910,6 +907,16 @@ void JabberBrowser::setItemPict(QListViewItem *item)
         }else if (type == "yahoo"){
             name = "Yahoo!";
         }
+    }else if (category == "service"){
+        if (type == "jud"){
+            name = "find";
+        }
+    }else if (category == "headline"){
+        name = "info";
+    }else if (category == "directory"){
+        name = "find";
+    }else if (category == "conference"){
+        name = "chat";
     }
     item->setPixmap(COL_NAME, Pict(name));
 }

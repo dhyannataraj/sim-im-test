@@ -537,7 +537,7 @@ void SOCKS4_Listener::read_ready()
         }
         break;
     default:
-    	break;
+        break;
     }
 }
 
@@ -1271,8 +1271,10 @@ void *ProxyPlugin::processEvent(Event *e)
         if (data->code == ProxyErr){
             QString msg = i18n(data->err_str);
             if (data->err_str && *data->err_str){
-                if (data->args)
+                if (data->args){
                     msg = msg.arg(QString::fromUtf8(data->args));
+                    free(data->args);
+                }
             }
             ProxyError *err = new ProxyError(this, static_cast<TCPClient*>(data->client), msg);
             raiseWindow(err);

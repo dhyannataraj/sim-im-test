@@ -32,29 +32,30 @@ const unsigned EventVCard			= JabberCmdBase + 7;
 
 const unsigned CmdJabberMessage		= JabberCmdBase + 1;
 const unsigned CmdGroups			= JabberCmdBase + 2;
-const unsigned CmdBrowser			= JabberCmdBase + 3;
-const unsigned CmdBack				= JabberCmdBase + 4;
-const unsigned CmdForward			= JabberCmdBase + 5;
-const unsigned CmdUrl				= JabberCmdBase + 6;
-const unsigned CmdBrowseInfo		= JabberCmdBase + 7;
-const unsigned CmdBrowseSearch		= JabberCmdBase + 8;
-const unsigned CmdRegister			= JabberCmdBase + 9;
-const unsigned CmdNode				= JabberCmdBase + 10;
-const unsigned CmdBrowseMode		= JabberCmdBase + 11;
-const unsigned CmdBrowseConfigure	= JabberCmdBase + 12;
-const unsigned CmdOneLevel			= JabberCmdBase + 13;
-const unsigned CmdAllLevels			= JabberCmdBase + 14;
-const unsigned CmdModeDisco			= JabberCmdBase + 15;
-const unsigned CmdModeBrowse		= JabberCmdBase + 16;
-const unsigned CmdModeAgents		= JabberCmdBase + 17;
+const unsigned CmdBack				= JabberCmdBase + 3;
+const unsigned CmdForward			= JabberCmdBase + 4;
+const unsigned CmdUrl				= JabberCmdBase + 5;
+const unsigned CmdBrowseInfo		= JabberCmdBase + 6;
+const unsigned CmdBrowseSearch		= JabberCmdBase + 7;
+const unsigned CmdRegister			= JabberCmdBase + 8;
+const unsigned CmdNode				= JabberCmdBase + 9;
+const unsigned CmdBrowseMode		= JabberCmdBase + 10;
+const unsigned CmdBrowseConfigure	= JabberCmdBase + 11;
+const unsigned CmdOneLevel			= JabberCmdBase + 12;
+const unsigned CmdAllLevels			= JabberCmdBase + 13;
+const unsigned CmdModeDisco			= JabberCmdBase + 14;
+const unsigned CmdModeBrowse		= JabberCmdBase + 15;
+const unsigned CmdModeAgents		= JabberCmdBase + 16;
 
 const unsigned MenuSearchResult		= JabberCmdBase + 1;
 const unsigned MenuJabberGroups		= JabberCmdBase + 2;
-const unsigned MenuClients			= JabberCmdBase + 3;
-const unsigned MenuBrowser			= JabberCmdBase + 4;
+const unsigned MenuBrowser			= JabberCmdBase + 3;
 
 const unsigned BarBrowser			= JabberCmdBase + 1;
 
+const unsigned BROWSE_DISCO		= 1;
+const unsigned BROWSE_BROWSE	= 2;
+const unsigned BROWSE_AGENTS	= 4;
 
 class JabberProtocol : public Protocol
 {
@@ -67,15 +68,29 @@ public:
     virtual const DataDef *userDataDef();
 };
 
+typedef struct JabberData
+{
+    Data		browser_bar[7];
+    Data		BrowserHistory;
+    Data		AllLevels;
+    Data		BrowseType;
+} JabberData;
+
 class JabberPlugin : public Plugin
 {
 public:
-    JabberPlugin(unsigned base);
+    JabberPlugin(unsigned base, const char *cfg);
     virtual ~JabberPlugin();
     unsigned JabberPacket;
     void registerMessages();
     void unregisterMessages();
+    JabberData	data;
+    PROP_UTF8(BrowserHistory);
+    PROP_BOOL(AllLevels);
+    PROP_ULONG(BrowseType);
+    static JabberPlugin *plugin;
 protected:
+    virtual string getConfig();
     Protocol *m_protocol;
 };
 
