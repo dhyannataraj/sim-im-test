@@ -158,7 +158,7 @@ void ControlSocket::error_state()
     emit finished(this);
 }
 
-void ControlSocket::error_state(int err)
+void ControlSocket::error_state(int)
 {
     error_state();
 }
