@@ -119,9 +119,9 @@ EXPORT string app_file(const char *f)
     if (qApp){
         QStringList lst = KGlobal::dirs()->findDirs("data", "sim");
         for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
-            QFile f(*it + f);
-            if (f.exists()){
-                app_file_name = (const char*)f.name().local8Bit();
+            QFile fi(*it + f);
+            if (fi.exists()){
+                app_file_name = (const char*)fi.name().local8Bit();
                 return app_file_name;
             }
         }
@@ -142,7 +142,12 @@ EXPORT string app_file(const char *f)
 
 EXPORT string user_file(const char *f)
 {
-    string res = f;
+	string res;
+	if (f) {
+		res = f;
+	} else {
+		res = "";
+	}
     Event e(EventHomeDir, &res);
     if (e.process())
         return res;

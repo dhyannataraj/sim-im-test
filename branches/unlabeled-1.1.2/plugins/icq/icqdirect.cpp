@@ -1231,6 +1231,7 @@ void DirectClient::secureStop(bool bShutdown)
         }
     }
 }
+#endif
 
 const char *DirectClient::name()
 {
@@ -1256,6 +1257,5 @@ const char *DirectClient::name()
     return m_name.c_str();
 }
 
-#endif
 
 

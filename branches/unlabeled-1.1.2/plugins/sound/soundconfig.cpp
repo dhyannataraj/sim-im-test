@@ -59,6 +59,7 @@ SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin)
         void *data = getContacts()->getUserData(plugin->user_data_id);
         user_cfg = new SoundUserConfig(tab, data, plugin);
         tab->addTab(user_cfg, i18n("Events"));
+	tab->adjustSize();
         break;
     }
 }

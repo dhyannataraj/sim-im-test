@@ -32,7 +32,7 @@ MessageConfig::MessageConfig(QWidget *parent, void *_data)
     chkOnline->setChecked(data->OpenOnOnline);
     chkStatus->setChecked(data->LogStatus);
     edtPath->setDirMode(true);
-    edtPath->setText(QString::fromUtf8(user_file(data->IncomingPath).c_str()));
+    edtPath->setText(QString::fromUtf8(data->IncomingPath));
     connect(grpAccept, SIGNAL(clicked(int)), this, SLOT(acceptClicked(int)));
     grpAccept->setButton(data->AcceptMode);
     chkOverwrite->setChecked(data->OverwriteFiles);
@@ -47,13 +47,14 @@ void MessageConfig::apply(void *_data)
     data->OpenOnReceive = chkWindow->isChecked();
     data->OpenOnOnline  = chkWindow->isChecked();
     data->LogStatus     = chkStatus->isChecked();
-    const char *defPath = "Incoming Files";
-    QString def = QString::fromUtf8(user_file(defPath).c_str());
-    if (def == edtPath->text()){
-        set_str(&data->IncomingPath, defPath);
-    }else{
-        set_str(&data->IncomingPath, edtPath->text().utf8());
-    }
+	QString def;
+	if (edtPath->text().isEmpty()) {
+		const char *defPath = "Incoming Files";
+		def = QString::fromUtf8(user_file(defPath).c_str());
+	} else {
+		def = edtPath->text();
+	}
+    set_str(&data->IncomingPath, def.utf8());
     data->AcceptMode = grpAccept->id(grpAccept->selected());
     if (data->AcceptMode == 1)
         data->OverwriteFiles = chkOverwrite->isChecked();
