@@ -4880,7 +4880,7 @@ msgstr "รหัสผ่าน"
 
 #: plugins/jabber/jabbersearch.cpp:310
 msgid "Enter your MSN Messenger account and password. Example: user@hotmail.com.  Nickname is optional."
-msgstr "พิมพ์ชื่ออีเมลและรหัสผ่าน��ี่สามารถใช้งาน .NET Pasport ของคุณ. เช่น someone@hotmail.com.  ส่วนชื่อเล่นนั้นไม่จำเป็น"
+msgstr "พิมพ์ชื่ออีเมลและรหัสผ่านที่สามารถใช้งาน .NET Pasport ของคุณ ส่วนชื่อเล่นนั้นไม่จำเป็น"
 
 #: plugins/jabber/jabbersearch.cpp:311
 msgid "Enter your AIM screenname or ICQ UIN and the password for that account"
@@ -4888,11 +4888,11 @@ msgstr "พิมพ์ screenname ของ AIM และรหัสผ่า�
 
 #: plugins/jabber/jabbersearch.cpp:312
 msgid "Enter your YAHOO! Messenger Username and Password."
-msgstr "พิมพ์ชื่อผู้ใช้และรหัสผ่า��ของคุณเพื่อเป็นใช้งาน YAHOO! Messenger"
+msgstr "พิมพ์ชื่อผู้ใช้และรหัสผ่าน YAHOO! Messenger ของคุณ"
 
 #: plugins/jabber/jabbersearch.cpp:313
 msgid "Please enter your UIN and password"
-msgstr "กรุณาพิมพ์ UIN และรหัสผ่านของ ICQ ให้ถูกต้อง"
+msgstr "กรุณาพิมพ์ UIN และรหัสผ่านของ"
 
 #: plugins/jabber/jabbersearch.cpp:314
 msgid "You need a x:data capable client to register."
@@ -4952,7 +4952,7 @@ msgstr "ชื่อองค์กร"
 
 #: plugins/jabber/jidsearch.cpp:182
 msgid "Organization Unit"
-msgstr ""
+msgstr "แผนก"
 
 #: plugins/jabber/jabberconfigbase.cpp:295
 #: plugins/livejournal/livejournalcfgbase.cpp:149
@@ -4974,7 +4974,7 @@ msgstr "&Jabber"
 
 #: plugins/jabber/jabberconfigbase.cpp:305
 msgid "Use &plain text login"
-msgstr "ใช้ข้อความธรรมดาในการเข้า��ู่ระบบ"
+msgstr "ใช้แบบข้อความ&ธรรมดาในการเข้าสู่ระบบ"
 
 #: plugins/jabber/jabberconfigbase.cpp:309
 msgid "URL:"
@@ -4991,7 +4991,7 @@ msgstr "ระดับความสำคัญ:"
 
 #: plugins/jabber/jabberconfigbase.cpp:313
 msgid "Manualy specify Jabber host:"
-msgstr "ระบุโฮสต์ Jabber เอง:"
+msgstr "ระบุโฮสต์ Jabber:"
 
 #: plugins/jabber/jabberconfigbase.cpp:314
 msgid "Use protocol &icons for agents contacts"
@@ -5016,7 +5016,7 @@ msgstr "เปิดการใช้งานการแจ้งเตือ
 
 #: plugins/jabber/jabberinfobase.cpp:239
 msgid "ID:"
-msgstr ""
+msgstr "หมายเลขประจำตัว:"
 
 #: plugins/jabber/jabberaddbase.cpp:94
 msgid "&JID"
@@ -5057,7 +5057,7 @@ msgstr "ระบบ:"
 
 #: plugins/jabber/discoinfobase.cpp:275
 msgid "UTC client time:"
-msgstr ""
+msgstr "เวลา UTC ของผู้ใช้:"
 
 #: plugins/jabber/discoinfobase.cpp:276
 msgid "Last activity, idle response:"
@@ -6149,7 +6149,7 @@ msgstr "แสดงบนหน้าจอ:"
 
 #: plugins/proxy/proxy.cpp:42
 msgid "Can't connect to proxy"
-msgstr "ไม่สามารถเชื่อมต่อไปยังพร��อกซี"
+msgstr "ไม่สามารถเชื่อมต่อไปยังพร็อกซี"
 
 #: plugins/proxy/proxy.cpp:43
 msgid "Bad proxy answer"
@@ -6157,7 +6157,7 @@ msgstr "มีการตอบรับที่ไม่ดีจากพร
 
 #: plugins/proxy/proxy.cpp:44
 msgid "Proxy authorization failed"
-msgstr "การขออนุญาตใช้พร็อกซีล้มเ��ลว"
+msgstr "การขออนุญาตใช้พร็อกซีล้มเหลว"
 
 #: plugins/proxy/proxy.cpp:1152
 msgid "Proxy"
@@ -6278,7 +6278,7 @@ msgstr ""
 
 #: plugins/shortcuts/shortcuts.cpp:50
 msgid "Shortcuts"
-msgstr ""
+msgstr "คีย์ลัด"
 
 #: plugins/shortcuts/shortcuts.cpp:51
 msgid "Plugin provides keyboards shortcuts and global mouse functions"
@@ -9076,4 +9076,3 @@ msgstr "ปรับแต่งเอง"
 #: xpstyle/xpstyle.cpp:63
 msgid "Windows XP style"
 msgstr "ลักษณะแบบ Windows XP"
-
