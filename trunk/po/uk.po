@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2003-01-13 05:24+0300\n"
-"PO-Revision-Date: 2003-01-12 18:45+0200\n"
+"PO-Revision-Date: 2003-01-14 16:52+0200\n"
 "Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1634,43 +1634,40 @@ msgid "Male"
 msgstr "Чоловік"
 
 #: libicq/country.cpp:476
-#, fuzzy
 msgid "General chat"
-msgstr "Основна"
+msgstr "Основна група"
 
 #: libicq/country.cpp:477
-#, fuzzy
 msgid "Romance"
-msgstr "Румунія"
+msgstr "Румантика"
 
 #: libicq/country.cpp:479
-#, fuzzy
 msgid "Students"
-msgstr "Судан"
+msgstr "Студенти"
 
 #: libicq/country.cpp:480
 msgid "20 Something"
-msgstr ""
+msgstr "20-ти ліття"
 
 #: libicq/country.cpp:481
 msgid "30 Something"
-msgstr ""
+msgstr "30-ти ліття"
 
 #: libicq/country.cpp:482
 msgid "40 Something"
-msgstr ""
+msgstr "40-ти ліття"
 
 #: libicq/country.cpp:483
 msgid "50 Plus"
-msgstr ""
+msgstr "50 і старші"
 
 #: libicq/country.cpp:484
 msgid "Seeking Women"
-msgstr ""
+msgstr "Шукаю жінку"
 
 #: libicq/country.cpp:485
 msgid "Seeking Men"
-msgstr ""
+msgstr "Шукаю мужчину"
 
 #: about.cpp:280
 msgid "replace this with information about your translation team"
@@ -1678,8 +1675,7 @@ msgstr "..."
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Ця програма поширюється під ліцензією GPL v2"
+msgstr "Ця програма поширюється під ліцензією GPL v2"
 
 #: chatwnd.cpp:75 qt3/i18n.cpp:139
 msgid "Save"
@@ -2199,7 +2195,7 @@ msgstr "Налагодження"
 
 #: mainwin.cpp:630 mainwin.cpp:2697 ui/randomchatbase.cpp:278
 msgid "Random chat"
-msgstr ""
+msgstr "Випадковий співрозмовник"
 
 #: mainwin.cpp:631 mainwin.cpp:2712 monitor.cpp:59
 msgid "Network monitor"
@@ -2227,8 +2223,7 @@ msgstr "%1 від %2"
 
 #: mainwin.cpp:1277 ui/logindlg.cpp:239
 msgid "Can't connect to proxy server"
-msgstr ""
-"Неможливо з'єднатися з проксі-сервером"
+msgstr "Неможливо з'єднатися з проксі-сервером"
 
 #: mainwin.cpp:1285 ui/logindlg.cpp:246
 msgid "Proxy server require authorization"
@@ -2262,8 +2257,7 @@ msgstr "&Ні"
 
 #: mainwin.cpp:1946
 msgid "Add %1 to ignore list ?"
-msgstr ""
-"Додати \"%1\" в список тих що ігноруються?"
+msgstr "Додати \"%1\" в список тих що ігноруються?"
 
 #: mainwin.cpp:2010
 msgid "In visible list"
@@ -2704,8 +2698,7 @@ msgstr "Розмір: %1 / Максимальний: %2"
 
 #: msgedit.cpp:1569
 msgid "Message will be split"
-msgstr ""
-"Повідомлення буде розділено на частини"
+msgstr "Повідомлення буде розділено на частини"
 
 #: msgedit.cpp:1744
 msgid "Decline reason"
@@ -3444,13 +3437,11 @@ msgstr "&Сховати"
 
 #: qt3/i18n.cpp:271
 msgid "Line Up Toolbars (compact)"
-msgstr ""
-"Вирівняти панелі інструментів (компактно)"
+msgstr "Вирівняти панелі інструментів (компактно)"
 
 #: qt3/i18n.cpp:273
 msgid "Line Up Toolbars (normal)"
-msgstr ""
-"Вирівняти панелі інструментів (звичайно)"
+msgstr "Вирівняти панелі інструментів (звичайно)"
 
 #: qt3/i18n.cpp:275
 msgid "Paste special..."
@@ -3953,8 +3944,7 @@ msgstr "Вікно - розтягнути"
 
 #: ui/themesetup.cpp:205
 msgid "Need restart SIM for change language"
-msgstr ""
-"Потрібно перестартувати SIM для зміни мови"
+msgstr "Потрібно перестартувати SIM для зміни мови"
 
 #: ui/themesetup.cpp:215
 msgid "Default icons"
@@ -4338,8 +4328,7 @@ msgstr "Режим користувача для прийому файлів"
 # #
 #: ui/acceptbase.cpp:174
 msgid "Automaitcaly open window"
-msgstr ""
-"Автоматично відкривати вікно повідомлень"
+msgstr "Автоматично відкривати вікно повідомлень"
 
 #: ui/acceptbase.cpp:175
 msgid "Run external program"
@@ -4850,8 +4839,7 @@ msgstr "&Прозорість"
 
 #: ui/themesetupbase.cpp:312
 msgid "Show main window in task manager"
-msgstr ""
-"Показувати основне вікно в панелі задач"
+msgstr "Показувати основне вікно в панелі задач"
 
 #: ui/themesetupbase.cpp:313
 msgid "Show user window in task manager"
@@ -4882,8 +4870,7 @@ msgid "Hide main window after"
 msgstr "Сховати головне вікно"
 
 #: ui/statussetupbase.cpp:142
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Заборонити попередження в стані "
 "\"Відійшов\", \"Не активний\", \"Зайнятий\""
@@ -5078,8 +5065,7 @@ msgstr ""
 
 #: ui/generalsecbase.cpp:222
 msgid "Reject &URL from unknown users"
-msgstr ""
-"Відкидати &URL від невідомих користувачів"
+msgstr "Відкидати &URL від невідомих користувачів"
 
 #: ui/generalsecbase.cpp:223
 msgid "Reject &World Wide pager messages"
@@ -5169,65 +5155,56 @@ msgid "&Notes"
 msgstr "&Нотатки"
 
 #: ui/randomchat.cpp:166
-#, fuzzy
 msgid "&Stop search"
-msgstr "&Пошук"
+msgstr "&Зупинити пошук"
 
 #: ui/randomchat.cpp:167
 msgid "Find an &Online Chat Friend"
-msgstr ""
+msgstr "&Найти випадкового співрозмовника в мережі"
 
 #: ui/randomchat.cpp:195
 msgid "Request UIN"
-msgstr ""
+msgstr "Запит UIN"
 
 #: ui/randomchat.cpp:216
-#, fuzzy
 msgid "Request user info"
-msgstr "Запрос шифрования"
+msgstr "Запит інформації про користувача"
 
 #: ui/randomchat.cpp:229
-#, fuzzy
 msgid "Ready"
-msgstr "Тільки для читання"
+msgstr "Готово"
 
 #: ui/randomchatbase.cpp:285
-#, fuzzy
 msgid "Chat Topic/Interests:"
-msgstr "Інтереси:"
+msgstr "Тема / Інтереси:"
 
 #: ui/randomchatbase.cpp:286
-#, fuzzy
 msgid "&Request chat"
-msgstr "Запрос шифрования"
+msgstr "Запит &чату"
 
 #: ui/randomchatbase.cpp:287
-#, fuzzy
 msgid "Send &message"
-msgstr "відправити повідомлення"
+msgstr "Відправити &повідомлення"
 
 #: ui/randomchatbase.cpp:288
 msgid "Send &URL"
-msgstr ""
+msgstr "Відправити &URL"
 
 #: ui/randomchatbase.cpp:289 ui/randomchatbase.cpp:295
-#, fuzzy
 msgid "Group:"
-msgstr "Группа"
+msgstr "Группа:"
 
 #: ui/randomchatbase.cpp:293
-#, fuzzy
 msgid "&Finding"
 msgstr "&Пошук"
 
 #: ui/randomchatbase.cpp:294
 msgid "I want to be available to chat with a friend"
-msgstr ""
+msgstr "Я хочу бути доступним для випадкової розмови"
 
 #: ui/randomchatbase.cpp:296
-#, fuzzy
 msgid "Chat topic/Interests:"
-msgstr "Інтереси:"
+msgstr "Тема / Інтереси:"
 
 #, fuzzy
 #~ msgid "UTF-8"
@@ -5550,3 +5527,4 @@ msgstr "Інтереси:"
 
 #~ msgid "exist"
 #~ msgstr "существует"
+
