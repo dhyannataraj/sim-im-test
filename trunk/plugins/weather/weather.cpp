@@ -15,8 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qdatetime.h>
-
 #include "weather.h"
 #include "weathercfg.h"
 #include "buffer.h"
@@ -285,24 +283,32 @@ bool WeatherPlugin::parseTime(const char *str, int &h, int &m)
     string s = str;
     h = atol(getToken(s, ':').c_str());
     m = atol(getToken(s, ' ').c_str());
-    /* 12:20 PM is 12:20 and not 24:20 ... */
     if ((getToken(s, ' ') == "PM") && (h < 12))
         h += 12;
+    if (h == 24)
+        h = 0;
     return true;
 }
 
 bool WeatherPlugin::parseDateTime(const char *str, QDateTime &dt)
 {
     int h, m, D, M, Y;
+    string daytime;
     
     string s = str;
-    D = atol(getToken(s, '/').c_str());
+    /* MM/DD/YY/ hh:mm */
     M = atol(getToken(s, '/').c_str());
+    D = atol(getToken(s, '/').c_str());
     Y = atol(getToken(s, ' ').c_str());
     h = atol(getToken(s, ':').c_str());
     m = atol(getToken(s, ' ').c_str());
-    if ((getToken(s, ' ') == "PM") && (h < 12))
+    
+    if (getToken(s, ' ') == "PM")
         h += 12;
+    /* 12:20 PM is 00:20 and 12:30 AM is 12:20
+       but what date is 12:20 pm 4/7/04? */
+    if (h == 24)
+        h = 0;
     if (Y < 70)
         Y += 2000;    
     dt.setDate(QDate(Y,M,D));
