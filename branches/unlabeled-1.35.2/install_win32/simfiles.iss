@@ -22,8 +22,6 @@ VersionInfoVersion=0.9.3.0
 
 [Tasks]
 Name: startup; Description: "Launch SIM on &startup"; GroupDescription: "Startup:"
-Name: startup\common; Description: "For all users"; GroupDescription: "Startup:"; Flags: exclusive
-Name: startup\user; Description: "For the current user only"; GroupDescription: "Startup:"; Flags: exclusive unchecked
 Name: desktopicon; Description: "Create a &desktop icon"; GroupDescription: "Additional icons:"
 Name: desktopicon\common; Description: "For all users"; GroupDescription: "Additional icons:"; Flags: exclusive
 Name: desktopicon\user; Description: "For the current user only"; GroupDescription: "Additional icons:"; Flags: exclusive unchecked
@@ -152,9 +150,7 @@ Source: "..\Release\po\zh_TW.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 [Icons]
 Name: "{commonprograms}\SIM"; Filename: "{app}\sim.exe"
 Name: "{userdesktop}\Simple Instant Messenger"; Filename: "{app}\sim.exe"; Tasks: desktopicon/user
-Name: "{userstartup}\SIM"; Filename: "{app}\sim.exe"; Tasks: startup/user
 Name: "{commondesktop}\Simple Instant Messenger"; Filename: "{app}\sim.exe"; Tasks: desktopicon/common
-Name: "{commonstartup}\SIM"; Filename: "{app}\sim.exe"; Tasks: startup/common
 
 [Run]
 Filename: "{app}\sim.exe"; Description: "Launch Simple Instant Messenger"; Flags: nowait postinstall skipifsilent
@@ -173,6 +169,8 @@ Root: HKLM; Subkey: "SOFTWARE\Clients\IM\SIM\InstallInfo"; ValueType: string; Va
 Root: HKLM; Subkey: "SOFTWARE\Clients\IM\SIM\InstallInfo"; ValueType: dword; ValueName: "IconsVisible"; ValueData: "1"; Flags: uninsdeletevalue
 Root: HKLM; Subkey: "SOFTWARE\Clients\IM\SIM\InstallInfo"; ValueType: string; ValueName: "ReinstallCommand"; ValueData: """{app}\sim.exe"" /reinstall"; Flags: uninsdeletevalue
 Root: HKLM; Subkey: "SOFTWARE\Clients\IM\SIM\InstallInfo"; ValueType: string; ValueName: "ShowIconsCommand"; ValueData: """{app}\sim.exe"" /showicons"; Flags: uninsdeletevalue
+Root: HKCU; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "SIM"; ValueData: """{app}\sim.exe"""; Flags: uninsdeletevalue; Tasks: startup
+
 
 
 
