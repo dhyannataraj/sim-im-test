@@ -84,7 +84,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
                 m_socket->readBuffer.incReadPos(n);
                 screen = m_socket->readBuffer.unpackScreen();
             }
-            if ((unsigned)atol(screen.c_str()) != data.owner.Uin){
+            if ((unsigned)atol(screen.c_str()) != data.owner.Uin.value){
                 log(L_WARN, "No my name info (%s)", screen.c_str());
                 break;
             }
@@ -171,7 +171,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             unsigned short level;
             m_socket->readBuffer.unpack(level);
             string from = m_socket->readBuffer.unpackScreen();
-            data.owner.WarningLevel = level;
+            data.owner.WarningLevel.value = level;
             QString f;
             f = from.c_str();
             if (f.isEmpty())
@@ -218,24 +218,24 @@ void ICQClient::sendLogonStatus()
 
     unsigned long now;
     time((time_t*)&now);
-    if (data.owner.PluginInfoTime == 0)
-        data.owner.PluginInfoTime = now;
-    if (data.owner.PluginStatusTime == 0)
-        data.owner.PluginStatusTime = now;
-    if (data.owner.InfoUpdateTime == 0)
-        data.owner.InfoUpdateTime = now;
-    data.owner.OnlineTime = now;
-    if (getContacts()->owner()->getPhones() != QString::fromUtf8(data.owner.PhoneBook)){
-        set_str(&data.owner.PhoneBook, getContacts()->owner()->getPhones().utf8());
-        data.owner.PluginInfoTime = now;
+    if (data.owner.PluginInfoTime.value == 0)
+        data.owner.PluginInfoTime.value = now;
+    if (data.owner.PluginStatusTime.value == 0)
+        data.owner.PluginStatusTime.value = now;
+    if (data.owner.InfoUpdateTime.value == 0)
+        data.owner.InfoUpdateTime.value = now;
+    data.owner.OnlineTime.value = now;
+    if (getContacts()->owner()->getPhones() != QString::fromUtf8(data.owner.PhoneBook.ptr)){
+        set_str(&data.owner.PhoneBook.ptr, getContacts()->owner()->getPhones().utf8());
+        data.owner.PluginInfoTime.value = now;
     }
-    if (getPicture() != QString::fromUtf8(data.owner.Picture)){
-        set_str(&data.owner.Picture, getPicture().utf8());
-        data.owner.PluginInfoTime = now;
+    if (getPicture() != QString::fromUtf8(data.owner.Picture.ptr)){
+        set_str(&data.owner.Picture.ptr, getPicture().utf8());
+        data.owner.PluginInfoTime.value = now;
     }
-    if (getContacts()->owner()->getPhoneStatus() != data.owner.FollowMe){
-        data.owner.FollowMe = getContacts()->owner()->getPhoneStatus();
-        data.owner.PluginStatusTime = now;
+    if (getContacts()->owner()->getPhoneStatus() != data.owner.FollowMe.value){
+        data.owner.FollowMe.value = getContacts()->owner()->getPhoneStatus();
+        data.owner.PluginStatusTime.value = now;
     }
 
     Buffer directInfo(25);
@@ -279,12 +279,12 @@ void ICQClient::sendPluginInfoUpdate(unsigned plugin_id)
     m_socket->writeBuffer.tlv(0x000C, directInfo);
     Buffer b;
     b << (char)2;
-    b.pack(data.owner.PluginInfoTime);
+    b.pack(data.owner.PluginInfoTime.value);
     b.pack((unsigned short)2);
     b.pack((unsigned short)1);
     b.pack((unsigned short)2);
     b.pack((char*)plugins[plugin_id], sizeof(plugin));
-    b.pack(data.owner.PluginInfoTime);
+    b.pack(data.owner.PluginInfoTime.value);
     b << (char)0;
     m_socket->writeBuffer.tlv(0x0011, b);
     m_socket->writeBuffer.tlv(0x0012, (unsigned short)0);
@@ -300,14 +300,14 @@ void ICQClient::sendPluginStatusUpdate(unsigned plugin_id, unsigned long status)
     m_socket->writeBuffer.tlv(0x000C, directInfo);
     Buffer b;
     b << (char)3;
-    b.pack(data.owner.PluginStatusTime);
+    b.pack(data.owner.PluginStatusTime.value);
     b.pack((unsigned short)0);
     b.pack((unsigned short)1);
     b.pack((unsigned short)1);
     b.pack((char*)plugins[plugin_id], sizeof(plugin));
     b << (char)1;
     b.pack(status);
-    b.pack(data.owner.PluginStatusTime);
+    b.pack(data.owner.PluginStatusTime.value);
     b.pack((unsigned short)0);
     b.pack((unsigned short)0);
     b.pack((unsigned short)1);
@@ -324,7 +324,7 @@ void ICQClient::sendUpdate()
         return;
     time_t now;
     time(&now);
-    data.owner.InfoUpdateTime = now;
+    data.owner.InfoUpdateTime.value = now;
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
     m_socket->writeBuffer.tlv(0x0006, fullStatus(m_status));
     Buffer directInfo(25);
@@ -344,7 +344,7 @@ void ICQClient::fillDirectInfo(Buffer &directInfo)
         directInfo
         << (unsigned long)htonl(get_ip(data.owner.RealIP))
         << (unsigned short)0
-        << (unsigned short)data.owner.Port;
+        << (unsigned short)data.owner.Port.value;
     }
 
     char mode = DIRECT_MODE_DIRECT;
@@ -368,12 +368,12 @@ void ICQClient::fillDirectInfo(Buffer &directInfo)
     << (char)ICQ_TCP_VERSION;
 
     directInfo
-    << data.owner.DCcookie
+    << data.owner.DCcookie.value
     << 0x00000050L
     << 0x00000003L
-    << data.owner.InfoUpdateTime
-    << data.owner.PluginInfoTime
-    << data.owner.PluginStatusTime
+    << data.owner.InfoUpdateTime.value
+    << data.owner.PluginInfoTime.value
+    << data.owner.PluginStatusTime.value
     << (unsigned short) 0x0000;
 }
 

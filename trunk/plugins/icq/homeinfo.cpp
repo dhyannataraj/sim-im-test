@@ -48,11 +48,11 @@ void HomeInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    set_str(&data->Address, m_client->fromUnicode(edtAddress->text(), NULL).c_str());
-    set_str(&data->City, m_client->fromUnicode(edtCity->text(), NULL).c_str());
-    set_str(&data->State, m_client->fromUnicode(edtState->text(), NULL).c_str());
-    set_str(&data->Zip, m_client->fromUnicode(edtZip->text(), NULL).c_str());
-    data->Country = getComboValue(cmbCountry, getCountries());
+    set_str(&data->Address.ptr, m_client->fromUnicode(edtAddress->text(), NULL).c_str());
+    set_str(&data->City.ptr, m_client->fromUnicode(edtCity->text(), NULL).c_str());
+    set_str(&data->State.ptr, m_client->fromUnicode(edtState->text(), NULL).c_str());
+    set_str(&data->Zip.ptr, m_client->fromUnicode(edtZip->text(), NULL).c_str());
+    data->Country.value = getComboValue(cmbCountry, getCountries());
 }
 
 void *HomeInfo::processEvent(Event *e)
@@ -98,12 +98,12 @@ void HomeInfo::fill()
 {
     ICQUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
-    edtAddress->setText(m_client->toUnicode(data->Address, data));
-    edtCity->setText(m_client->toUnicode(data->City, data));
-    edtState->setText(m_client->toUnicode(data->State, data));
-    edtZip->setText(m_client->toUnicode(data->Zip, data));
-    initCombo(cmbCountry, (unsigned short)(data->Country), getCountries());
-    initTZCombo(cmbZone, (char)(data->TimeZone));
+    edtAddress->setText(m_client->toUnicode(data->Address.ptr, data));
+    edtCity->setText(m_client->toUnicode(data->City.ptr, data));
+    edtState->setText(m_client->toUnicode(data->State.ptr, data));
+    edtZip->setText(m_client->toUnicode(data->Zip.ptr, data));
+    initCombo(cmbCountry, (unsigned short)(data->Country.value), getCountries());
+    initTZCombo(cmbZone, (char)(data->TimeZone.value));
 }
 
 #ifndef WIN32

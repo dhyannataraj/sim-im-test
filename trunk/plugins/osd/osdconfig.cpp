@@ -32,9 +32,9 @@ OSDConfig::OSDConfig(QWidget *parent, void *d, OSDPlugin *plugin)
 {
     m_plugin = plugin;
     OSDUserData *data = (OSDUserData*)d;
-    chkMessage->setChecked(data->EnableMessage != 0);
-    chkStatus->setChecked(data->EnableAlert != 0);
-    chkTyping->setChecked(data->EnableTyping != 0);
+    chkMessage->setChecked(data->EnableMessage.bValue);
+    chkStatus->setChecked(data->EnableAlert.bValue);
+    chkTyping->setChecked(data->EnableTyping.bValue);
     for (QObject *p = parent; p != NULL; p = p->parent()){
         if (!p->inherits("QTabWidget"))
             continue;
@@ -54,9 +54,9 @@ void OSDConfig::apply()
 void OSDConfig::apply(void *d)
 {
     OSDUserData *data = (OSDUserData*)d;
-    data->EnableMessage = chkMessage->isChecked();
-    data->EnableAlert = chkStatus->isChecked();
-    data->EnableTyping = chkTyping->isChecked();
+    data->EnableMessage.bValue = chkMessage->isChecked();
+    data->EnableAlert.bValue = chkStatus->isChecked();
+    data->EnableTyping.bValue = chkTyping->isChecked();
     m_iface->apply(d);
 }
 

@@ -239,29 +239,29 @@ void *JabberAdd::processEvent(Event *e)
 {
     if (e->type() == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentFound){
         JabberAgentsInfo *data = (JabberAgentsInfo*)(e->param());
-        if ((data->Client == m_client) && data->Search){
-            AGENTS_MAP::iterator it = m_agents.find(data->ID);
+        if ((data->Client == m_client) && data->Search.value){
+            AGENTS_MAP::iterator it = m_agents.find(data->ID.ptr);
             if (it == m_agents.end()){
                 agentInfo info;
                 info.search = NULL;
-                info.name   = data->Name;
-                m_agents.insert(AGENTS_MAP::value_type(data->ID, info));
-                m_client->get_agent_info(data->ID, NULL, "search");
+                info.name   = data->Name.ptr;
+                m_agents.insert(AGENTS_MAP::value_type(data->ID.ptr, info));
+                m_client->get_agent_info(data->ID.ptr, NULL, "search");
             }
         }
         return NULL;
     }
     if (e->type() == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentInfo){
         JabberAgentInfo *data = (JabberAgentInfo*)(e->param());
-        if (data->ID == NULL)
+        if (data->ID.ptr == NULL)
             return NULL;
-        AGENTS_MAP::iterator it = m_agents.find(data->ID);
+        AGENTS_MAP::iterator it = m_agents.find(data->ID.ptr);
         if (it != m_agents.end()){
             agentInfo &info = (*it).second;
             if (info.search == NULL){
-                if (data->Type == NULL)
+                if (data->Type.ptr == NULL)
                     return NULL;
-                info.search = new JabberSearch(this, m_client, data->ID, NULL, QString::fromUtf8(info.name.c_str()), false);
+                info.search = new JabberSearch(this, m_client, data->ID.ptr, NULL, QString::fromUtf8(info.name.c_str()), false);
                 tabAdd->addTab(info.search, QString::fromUtf8(info.name.c_str()));
             }
             info.search->addWidget(data);

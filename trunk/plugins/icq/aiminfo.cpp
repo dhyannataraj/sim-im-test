@@ -66,15 +66,15 @@ void AIMInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    set_str(&data->FirstName, edtFirst->text().utf8());
-    set_str(&data->LastName, edtLast->text().utf8());
-    set_str(&data->MiddleName, edtMiddle->text().utf8());
-    set_str(&data->Maiden, edtMaiden->text().utf8());
-    set_str(&data->Nick, edtNick->text().utf8());
-    set_str(&data->Address, edtStreet->text().utf8());
-    set_str(&data->City, edtCity->text().utf8());
-    set_str(&data->State, edtState->text().utf8());
-    set_str(&data->Zip, edtZip->text().utf8());
+    set_str(&data->FirstName.ptr, edtFirst->text().utf8());
+    set_str(&data->LastName.ptr, edtLast->text().utf8());
+    set_str(&data->MiddleName.ptr, edtMiddle->text().utf8());
+    set_str(&data->Maiden.ptr, edtMaiden->text().utf8());
+    set_str(&data->Nick.ptr, edtNick->text().utf8());
+    set_str(&data->Address.ptr, edtStreet->text().utf8());
+    set_str(&data->City.ptr, edtCity->text().utf8());
+    set_str(&data->State.ptr, edtState->text().utf8());
+    set_str(&data->Zip.ptr, edtZip->text().utf8());
 }
 
 void *AIMInfo::processEvent(Event *e)
@@ -111,17 +111,17 @@ void AIMInfo::fill()
     ICQUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
 
-    setText(edtScreen, data->Screen);
-    setText(edtFirst, data->FirstName);
-    setText(edtLast, data->LastName);
-    setText(edtMiddle, data->MiddleName);
-    setText(edtMaiden, data->Maiden);
-    setText(edtNick, data->Nick);
-    setText(edtStreet, data->Address);
-    setText(edtCity, data->City);
-    setText(edtState, data->State);
-    setText(edtZip, data->Zip);
-    initCombo(cmbCountry, (unsigned short)(data->Country), getCountries(), true, getCountryCodes());
+    setText(edtScreen, data->Screen.ptr);
+    setText(edtFirst, data->FirstName.ptr);
+    setText(edtLast, data->LastName.ptr);
+    setText(edtMiddle, data->MiddleName.ptr);
+    setText(edtMaiden, data->Maiden.ptr);
+    setText(edtNick, data->Nick.ptr);
+    setText(edtStreet, data->Address.ptr);
+    setText(edtCity, data->City.ptr);
+    setText(edtState, data->State.ptr);
+    setText(edtZip, data->Zip.ptr);
+    initCombo(cmbCountry, (unsigned short)(data->Country.value), getCountries(), true, getCountryCodes());
 
     if (m_data == NULL){
         if (edtFirst->text().isEmpty())
@@ -133,7 +133,7 @@ void AIMInfo::fill()
     cmbStatus->clear();
     unsigned status = STATUS_ONLINE;
     if (m_data){
-        unsigned s = m_data->Status;
+        unsigned s = m_data->Status.value;
         if (s == ICQ_STATUS_OFFLINE){
             status = STATUS_OFFLINE;
         }else if (s & ICQ_STATUS_AWAY){
@@ -143,7 +143,7 @@ void AIMInfo::fill()
         status = m_client->getStatus();
     }
     if ((status != STATUS_ONLINE) && (status != STATUS_OFFLINE) && m_data){
-        edtAutoReply->setText(m_client->toUnicode(m_data->AutoReply, m_data));
+        edtAutoReply->setText(m_client->toUnicode(m_data->AutoReply.ptr, m_data));
     }else{
         edtAutoReply->hide();
     }
@@ -164,12 +164,12 @@ void AIMInfo::fill()
     disableWidget(cmbStatus);
     if (status == STATUS_OFFLINE){
         lblOnline->setText(i18n("Last online") + ":");
-        edtOnline->setText(formatDateTime(data->StatusTime));
+        edtOnline->setText(formatDateTime(data->StatusTime.value));
         lblNA->hide();
         edtNA->hide();
     }else{
-        if (data->OnlineTime){
-            edtOnline->setText(formatDateTime(data->OnlineTime));
+        if (data->OnlineTime.value){
+            edtOnline->setText(formatDateTime(data->OnlineTime.value));
         }else{
             lblOnline->hide();
             edtOnline->hide();
@@ -179,17 +179,17 @@ void AIMInfo::fill()
             edtNA->hide();
         }else{
             lblNA->setText(i18n(text));
-            edtNA->setText(formatDateTime(data->StatusTime));
+            edtNA->setText(formatDateTime(data->StatusTime.value));
         }
     }
-    if (data->IP){
-        edtExtIP->setText(formatAddr(data->IP, data->Port));
+    if (data->IP.ptr){
+        edtExtIP->setText(formatAddr(data->IP, data->Port.value));
     }else{
         lblExtIP->hide();
         edtExtIP->hide();
     }
-    if ((data->RealIP) && ((data->IP == NULL) || (get_ip(data->IP) != get_ip(data->RealIP)))){
-        edtIntIP->setText(formatAddr(data->RealIP, data->Port));
+    if (data->RealIP.ptr && ((data->IP.ptr == NULL) || (get_ip(data->IP) != get_ip(data->RealIP)))){
+        edtIntIP->setText(formatAddr(data->RealIP, data->Port.value));
     }else{
         lblIntIP->hide();
         edtIntIP->hide();

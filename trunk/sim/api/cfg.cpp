@@ -46,6 +46,7 @@
 #include <kglobal.h>
 #include <kstddirs.h>
 #include <kwin.h>
+#include <kdeversion.h>
 #endif
 
 #ifdef WIN32
@@ -366,9 +367,9 @@ EXPORT bool getLine(QFile &f, string &s)
 
 // _______________________________________________________________________________________
 
-bool set_ip(void **p, unsigned long value)
+bool set_ip(Data *p, unsigned long value, const char *host)
 {
-    IP **ip = (IP**)p;
+    IP **ip = (IP**)(&p->ptr);
     if (value == 0){
         if (*ip == NULL)
             return false;
@@ -379,24 +380,25 @@ bool set_ip(void **p, unsigned long value)
     if (*ip == NULL)
         *ip = new IP;
     if ((*ip)->ip() == value){
-        (*ip)->resolve();
+        if (host == NULL)
+            (*ip)->resolve();
         return false;
     }
-    (*ip)->set(value);
+    (*ip)->set(value, host);
     return true;
 }
 
-unsigned long get_ip(void *p)
+unsigned long get_ip(Data &p)
 {
-    IP *ip = (IP*)p;
+    IP *ip = (IP*)p.ptr;
     if (ip)
         return ip->ip();
     return 0;
 }
 
-const char *get_host(void *p)
+const char *get_host(Data &p)
 {
-    IP *ip = (IP*)p;
+    IP *ip = (IP*)p.ptr;
     if (ip && ip->host())
         return ip->host();
     return "";
@@ -406,44 +408,43 @@ const char *get_host(void *p)
 
 typedef map<unsigned, string> STRING_MAP;
 
-EXPORT void clear_list(void **strlist)
+EXPORT void clear_list(Data *d)
 {
-    if (strlist == NULL)
+    STRING_MAP **strlist = (STRING_MAP**)(&d->ptr);
+    if (*strlist == NULL)
         return;
-    STRING_MAP *s_list = static_cast<STRING_MAP*>(*strlist);
-    delete s_list;
+    delete *strlist;
     *strlist = NULL;
 }
 
-EXPORT const char *get_str(void *strlist, unsigned index)
+EXPORT const char *get_str(const Data &d, unsigned index)
 {
+    STRING_MAP *strlist = (STRING_MAP*)(d.ptr);
     if (strlist == NULL)
         return "";
-    STRING_MAP *s_list = static_cast<STRING_MAP*>(strlist);
-    STRING_MAP::iterator it = s_list->find(index);
-    if (it == s_list->end())
+    STRING_MAP::iterator it = strlist->find(index);
+    if (it == strlist->end())
         return "";
     return (*it).second.c_str();
 }
 
-EXPORT void set_str(void **strlist, unsigned index, const char *value)
+EXPORT void set_str(Data *d, unsigned index, const char *value)
 {
+    STRING_MAP **strlist = (STRING_MAP**)(&d->ptr);
     if ((value == NULL) || (*value == 0)){
         if (*strlist == NULL)
             return;
-        STRING_MAP *s_list = static_cast<STRING_MAP*>(*strlist);
-        STRING_MAP::iterator it = s_list->find(index);
-        if (it == s_list->end())
+        STRING_MAP::iterator it = (*strlist)->find(index);
+        if (it == (*strlist)->end())
             return;
-        s_list->erase(it);
+        (*strlist)->erase(it);
         return;
     }
     if (*strlist == NULL)
         *strlist = new STRING_MAP;
-    STRING_MAP *s_list = static_cast<STRING_MAP*>(*strlist);
-    STRING_MAP::iterator it = s_list->find(index);
-    if (it == s_list->end()){
-        s_list->insert(STRING_MAP::value_type(index, value));
+    STRING_MAP::iterator it = (*strlist)->find(index);
+    if (it == (*strlist)->end()){
+        (*strlist)->insert(STRING_MAP::value_type(index, value));
         return;
     }
     (*it).second = value;
@@ -468,35 +469,40 @@ EXPORT bool set_str(char **str, const char *value)
     return true;
 }
 
-EXPORT void free_data(const DataDef *def, void *data)
+EXPORT void free_data(const DataDef *def, void *d)
 {
-    unsigned offs = 0;
+    Data *data = (Data*)d;
     for (; def->name; def++){
         unsigned type = def->type;
-        if ((type == DATA_STRING) || (type == DATA_UTF)){
-            char **p = (char**)(((char*)data) + offs);
-            for (unsigned i = 0; i < def->n_values; i++, p++)
-                set_str(p, NULL);
-        }
-        if ((type == DATA_STRLIST) || (type == DATA_UTFLIST)){
-            clear_list((void**)(((char*)data) + offs));
-        }
-        if (type == DATA_OBJECT){
-            QObject **p = (QObject**)(((char*)data) + offs);
-            if (*p){
-                delete *p;
-                *p = NULL;
+        for (unsigned i = 0; i < def->n_values; i++, data++){
+            switch (type){
+            case DATA_STRING:
+            case DATA_UTF:
+                set_str(&data->ptr, NULL);
+                break;
+            case DATA_STRLIST:
+            case DATA_UTFLIST:
+                clear_list(data);
+                break;
+            case DATA_OBJECT:
+                if (data->ptr){
+                    delete (QObject*)(data->ptr);
+                    data->ptr = NULL;
+                }
+                break;
+            case DATA_IP:
+                if (data->ptr){
+                    delete (IP*)(data->ptr);
+                    data->ptr = NULL;
+                }
+                break;
+            case DATA_STRUCT:
+                free_data((DataDef*)(def->def_value), data);
+                i    += (def->n_values - 1);
+                data += (def->n_values - 1);
+                break;
             }
         }
-        if (type == DATA_IP){
-            IP **p = (IP**)(((char*)data) + offs);
-            if (*p)
-                delete *p;
-        }
-        if (type == DATA_STRUCT){
-            free_data((DataDef*)(def->def_value), ((char*)data) + offs);
-        }
-        offs += sizeof(void*) * def->n_values;
     }
 }
 
@@ -543,71 +549,36 @@ string unquoteString(const char *p)
     return unquoted;
 }
 
-void init_data(const DataDef *d, void *data)
+void init_data(const DataDef *d, Data *data)
 {
-    unsigned offs = 0;
     for (const DataDef *def = d; def->name; def++){
-        unsigned i;
-        switch (def->type){
-        case DATA_IP:{
-                IP **p = (IP**)(((char*)data) + offs);
-                *p = NULL;
+        for (unsigned i = 0; i < def->n_values; i++, data++){
+            data->ptr = NULL;
+            switch (def->type){
+            case DATA_STRING:
+                set_str(&data->ptr, def->def_value);
                 break;
-            }
-        case DATA_UTFLIST:
-        case DATA_STRLIST:{
-                STRING_MAP **p = (STRING_MAP**)(((char*)data) + offs);
-                *p = NULL;
-                break;
-            }
-        case DATA_OBJECT:{
-                QObject **p = (QObject**)(((char*)data) + offs);
-                *p = NULL;
-                break;
-            }
-        case DATA_STRING:{
-                char **p = (char**)(((char*)data) + offs);
-                for (i = 0; i < def->n_values; i++, p++){
-                    *p = NULL;
-                    set_str(p, (char*)(def->def_value));
-                }
-                break;
-            }
-        case DATA_UTF:{
-                char **p = (char**)(((char*)data) + offs);
-                for (i = 0; i < def->n_values; i++, p++)
-                    *p = NULL;
+            case DATA_UTF:
                 if (def->def_value){
-                    QString  value = i18n((const char*)(def->def_value));
+                    QString  value = i18n(def->def_value);
                     QCString v = value.utf8();
-                    p = (char**)(((char*)data) + offs);
-                    for (i = 0; i < def->n_values; i++, p++)
-                        set_str(p, v);
+                    set_str(&data->ptr, v);
                 }
                 break;
-            }
-        case DATA_LONG:{
-                long *p = (long*)(((char*)data) + offs);
-                for (i = 0; i < def->n_values; i++, p++)
-                    *p = def->def_value;
+            case DATA_ULONG:
+            case DATA_LONG:
+                data->value = (unsigned)(def->def_value);
+                break;
+            case DATA_BOOL:
+                data->bValue = (def->def_value != NULL);
+                break;
+            case DATA_STRUCT:
+                init_data((DataDef*)(def->def_value), data);
+                data += (def->n_values - 1);
+                i += (def->n_values - 1);
                 break;
             }
-        case DATA_ULONG:{
-                unsigned long *p = (unsigned long*)(((char*)data) + offs);
-                for (i = 0; i < def->n_values; i++, p++)
-                    *p = def->def_value;
-                break;
-            }
-        case DATA_BOOL:{
-                unsigned long *p = (unsigned long*)(((char*)data) + offs);
-                for (i = 0; i < def->n_values; i++, p++)
-                    *p = (def->def_value != 0) ? -1 : 0;
-                break;
-            }
-        case DATA_STRUCT:
-            init_data((DataDef*)(def->def_value), ((char*)data) + offs);
         }
-        offs += sizeof(void*) * def->n_values;
     }
 }
 
@@ -623,13 +594,14 @@ const DataDef *find_key(const DataDef *def, const char *name, unsigned &offs)
                 return res;
             offs = save_offs;
         }
-        offs += sizeof(void*) * def->n_values;
+        offs += def->n_values;
     }
     return NULL;
 }
 
-EXPORT void load_data(const DataDef *d, void *data, const char *config)
+EXPORT void load_data(const DataDef *d, void *_data, const char *config)
 {
+    Data *data = (Data*)_data;
     init_data(d, data);
     if (config == NULL)
         return;
@@ -642,140 +614,125 @@ EXPORT void load_data(const DataDef *d, void *data, const char *config)
         if (def == NULL)
             continue;
         unsigned i;
+        string v;
+        Data *ld = data + offs;
         switch (def->type){
-        case DATA_IP:{
-                string b = getToken(line, ',');
-                IP **p = (IP**)(((char*)data) + offs);
-                if (*p == NULL)
-                    *p = new IP;
-                (*p)->set(inet_addr(b.c_str()), line.c_str());
-                break;
+        case DATA_IP:
+            v = getToken(line, ',');
+            set_ip(ld, inet_addr(v.c_str()), line.c_str());
+            break;
+        case DATA_STRLIST:
+            v = getToken(line, ',');
+            i = strtoul(v.c_str(), NULL, 10);
+            if (i){
+                getToken(line, '\"');
+                v = getToken(line, '\"');
+                set_str(ld, i, v.c_str());
             }
-        case DATA_STRLIST:{
-                string v = getToken(line, ',');
-                unsigned index = strtoul(v.c_str(), NULL, 10);
-                if (index){
-                    getToken(line, '\"');
-                    v = getToken(line, '\"');
-                    set_str((void**)(((char*)data) + offs), index, v.c_str());
+            break;
+        case DATA_UTFLIST:
+            v = getToken(line, ',');
+            i = strtoul(v.c_str(), NULL, 10);
+            if (i){
+                getToken(line, '\"');
+                v = getToken(line, '\"', false);
+                v = unquoteString(v.c_str());
+                if (line.length() && (line[0] == 'u')){
+                    set_str(ld, i, v.c_str());
+                }else{
+                    QString s = QString::fromLocal8Bit(v.c_str());
+                    set_str(ld, i, s.utf8());
                 }
-                break;
             }
-        case DATA_UTFLIST:{
-                string v = getToken(line, ',');
-                unsigned index = strtoul(v.c_str(), NULL, 10);
-                if (index){
-                    getToken(line, '\"');
-                    v = getToken(line, '\"', false);
-                    v = unquoteString(v.c_str());
-                    if (line.length() && (line[0] == 'u')){
-                        set_str((void**)(((char*)data) + offs), index, v.c_str());
-                    }else{
-                        QString s = QString::fromLocal8Bit(v.c_str());
-                        set_str((void**)(((char*)data) + offs), index, s.utf8());
+            break;
+        case DATA_UTF:
+            for (i = 0; i < def->n_values; i++, ld++){
+                getToken(line, '\"');
+                if (line.length() == 0)
+                    break;
+                v = getToken(line, '\"', false);
+                v = unquoteString(v.c_str());
+                if (line.length() && (line[0] == 'u')){
+                    set_str(&ld->ptr, v.c_str());
+                }else{
+                    QString s = QString::fromLocal8Bit(v.c_str());
+                    set_str(&ld->ptr, s.utf8());
+                }
+                getToken(line, ',');
+            }
+            if (i < def->n_values)
+                set_str(&ld->ptr, NULL);
+            break;
+        case DATA_STRING:
+            for (i = 0; i < def->n_values; i++, ld++){
+                unsigned n;
+                for (n = 0; n < line.length(); n++)
+                    if (line[n] != ' ') break;
+                if (n >= line.length())
+                    break;
+                line = line.substr(n);
+                if (line[n] == '\"'){
+                    for (n = 1; n < line.length(); n++){
+                        if (line[n] == '\"')
+                            break;
+                        if (line[n] == '\\')
+                            n++;
                     }
-                }
-                break;
-            }
-        case DATA_UTF:{
-                char **p = (char**)(((char*)data) + offs);
-                for (i = 0; i < def->n_values; i++, p++){
-                    getToken(line, '\"');
-                    if (line.length() == 0)
-                        break;
-                    string v = getToken(line, '\"', false);
-                    v = unquoteString(v.c_str());
-                    if (line.length() && (line[0] == 'u')){
-                        set_str(p, v.c_str());
-                    }else{
-                        QString s = QString::fromLocal8Bit(v.c_str());
-                        set_str(p, s.utf8());
-                    }
-                    getToken(line, ',');
-                }
-                if (i < def->n_values)
-                    set_str(p, NULL);
-                break;
-            }
-        case DATA_STRING:{
-                char **p = (char**)(((char*)data) + offs);
-                for (i = 0; i < def->n_values; i++, p++){
-                    unsigned n;
-                    for (n = 0; n < line.length(); n++)
-                        if (line[n] != ' ') break;
-                    if (n >= line.length())
-                        break;
+                    v = line.substr(1, n - 1);
                     line = line.substr(n);
-                    string v;
-                    if (line[n] == '\"'){
-                        for (n = 1; n < line.length(); n++){
-                            if (line[n] == '\"')
-                                break;
-                            if (line[n] == '\\')
-                                n++;
-                        }
-                        v = line.substr(1, n - 1);
-                        line = line.substr(n);
-                    }else{
-                        for (n = 0; n < line.length(); n++){
-                            if ((line[n] == ',') && (i + 1 < def->n_values))
-                                break;
-                            if (line[n] == '\\')
-                                n++;
-                        }
-                        v = line.substr(0, n - 1);
-                        line = line.substr(n);
+                }else{
+                    for (n = 0; n < line.length(); n++){
+                        if ((line[n] == ',') && (i + 1 < def->n_values))
+                            break;
+                        if (line[n] == '\\')
+                            n++;
                     }
-                    if (v.length()){
-                        v = unquoteString(v.c_str());
-                        set_str(p, v.c_str());
-                    }else{
-                        set_str(p, NULL);
-                    }
-                    for (n = 0; n < line.length(); n++)
-                        if (line[n] == ',') break;
+                    v = line.substr(0, n - 1);
                     line = line.substr(n);
                 }
-                if (i < def->n_values)
-                    set_str(p, NULL);
-                break;
-            }
-        case DATA_LONG:{
-                long *p = (long*)(((char*)data) + offs);
-                for (i = 0; i < def->n_values; i++, p++){
-                    if (line.length() == 0)
-                        break;
-                    string v = getToken(line, ',');
-                    *p = atol(v.c_str());
+                if (v.length()){
+                    v = unquoteString(v.c_str());
+                    set_str(&ld->ptr, v.c_str());
+                }else{
+                    set_str(&ld->ptr, NULL);
                 }
-                break;
+                for (n = 0; n < line.length(); n++)
+                    if (line[n] == ',') break;
+                line = line.substr(n);
             }
-        case DATA_ULONG:{
-                unsigned long *p = (unsigned long*)(((char*)data) + offs);
-                for (i = 0; i < def->n_values; i++, p++){
-                    if (line.length() == 0)
-                        break;
-                    string v = getToken(line, ',');
-                    *p = strtoul(v.c_str(), NULL, 10);
-                }
-                break;
+            if (i < def->n_values)
+                set_str(&ld->ptr, NULL);
+            break;
+        case DATA_LONG:
+            for (i = 0; i < def->n_values; i++, ld++){
+                if (line.length() == 0)
+                    break;
+                v = getToken(line, ',');
+                ld->value = atol(v.c_str());
             }
-        case DATA_BOOL:{
-                unsigned long *p = (unsigned long*)(((char*)data) + offs);
-                for (i = 0; i < def->n_values; i++, p++){
-                    if (line.length() == 0)
-                        break;
-                    string v = getToken(line, ',');
-                    if (v.length()){
-                        if (!strcasecmp(v.c_str(), "false") || !strcmp(v.c_str(), "0")){
-                            *p = 0;
-                        }else{
-                            *p = (unsigned)(-1);
-                        }
+            break;
+        case DATA_ULONG:
+            for (i = 0; i < def->n_values; i++, ld++){
+                if (line.length() == 0)
+                    break;
+                v = getToken(line, ',');
+                ld->value = strtoul(v.c_str(), NULL, 10);
+            }
+            break;
+        case DATA_BOOL:
+            for (i = 0; i < def->n_values; i++, ld++){
+                if (line.length() == 0)
+                    break;
+                v = getToken(line, ',');
+                if (v.length()){
+                    if (!strcasecmp(v.c_str(), "false") || !strcmp(v.c_str(), "0")){
+                        ld->bValue = false;
+                    }else{
+                        ld->bValue = true;
                     }
                 }
-                break;
             }
+            break;
         }
     }
 }
@@ -999,64 +956,71 @@ EXPORT string save_data(const DataDef *def, void *data)
 #endif
 #endif
 
-EXPORT void saveGeometry(QWidget *w, long geo[5])
+EXPORT void saveGeometry(QWidget *w, Data geo[5])
 {
     if (w == NULL)
         return;
     QPoint pos = w->pos();
     QSize size = w->size();
-    geo[0] = pos.x();
-    geo[1] = pos.y();
-    geo[2] = size.width();
-    geo[3] = size.height();
+    geo[0].value = pos.x();
+    geo[1].value = pos.y();
+    geo[2].value = size.width();
+    geo[3].value = size.height();
 #ifdef WIN32
     if (GetWindowLongA(w->winId(), GWL_EXSTYLE) & WS_EX_TOOLWINDOW){
         int dc = GetSystemMetrics(SM_CYCAPTION);
         int ds = GetSystemMetrics(SM_CYSMCAPTION);
-        geo[1] += dc - ds;
-        geo[3] -= (dc - ds) * 2;
+        geo[1].value += dc - ds;
+        geo[3].value -= (dc - ds) * 2;
     }
 #endif
 #ifdef USE_KDE
+#if KDE_IS_VERSION(3,1,94)
+    KWin::WindowInfo info = KWin::windowInfo(w->winId());
+    geo[4].value = info.desktop();
+    if (info.onAllDesktops())
+        geo[4].value = (unsigned)(-1);
+#else
     KWin::Info info = KWin::info(w->winId());
-    geo[4] = info.desktop;
+    geo[4].value = info.desktop;
     if (info.onAllDesktops)
-        geo[4] = -1;
+        geo[4].value = (unsigned)(-1);
+#endif
 #endif
 }
 
-EXPORT void restoreGeometry(QWidget *w, long geo[5], bool bPos, bool bSize)
+EXPORT void restoreGeometry(QWidget *w, Data geo[5], bool bPos, bool bSize)
 {
     if (w == NULL)
         return;
     QRect rc = screenGeometry();
-    if (geo[WIDTH] > rc.width())
-        geo[WIDTH] = rc.width();
-    if (geo[HEIGHT] > rc.height())
-        geo[HEIGHT] = rc.height();
-    if (geo[LEFT] + geo[WIDTH] > rc.width())
-        geo[LEFT] = rc.width() - geo[WIDTH];
-    if (geo[TOP] + geo[HEIGHT] > rc.height())
-        geo[TOP] = rc.height() - geo[HEIGHT];
-    if (geo[LEFT] < 0)
-        geo[LEFT] = 0;
-    if (geo[TOP] < 0)
-        geo[TOP] = 0;
+    if ((int)geo[WIDTH].value > rc.width())
+        geo[WIDTH].value = rc.width();
+    if ((int)geo[HEIGHT].value > rc.height())
+        geo[HEIGHT].value = rc.height();
+    if ((int)geo[LEFT].value + (int)geo[WIDTH].value > rc.width())
+        geo[LEFT].value = rc.width() - geo[WIDTH].value;
+    if ((int)geo[TOP].value + (int)geo[HEIGHT].value > rc.height())
+        geo[TOP].value = rc.height() - geo[HEIGHT].value;
+    if ((int)geo[LEFT].value < 0)
+        geo[LEFT].value = 0;
+    if ((int)geo[TOP].value < 0)
+        geo[TOP].value = 0;
     if (bPos)
-        w->move(geo[LEFT], geo[TOP]);
+        w->move(geo[LEFT].value, geo[TOP].value);
     if (bSize)
-        w->resize(geo[WIDTH], geo[HEIGHT]);
+        w->resize(geo[WIDTH].value, geo[HEIGHT].value);
 #ifdef USE_KDE
-    if (geo[4] == -1){
+    if (geo[4].value == (unsigned)(-1)){
         KWin::setOnAllDesktops(w->winId(), true);
     }else{
         KWin::setOnAllDesktops(w->winId(), false);
-        KWin::setOnDesktop(w->winId(), geo[4]);
+        KWin::setOnDesktop(w->winId(), geo[4].value);
     }
 #endif
 }
 
-EXPORT void saveToolbar(QToolBar *bar, long state[7])
+EXPORT void saveToolbar(QToolBar *bar, Data state[7])
 {
     memset(state, 0, sizeof(state));
     if (bar == NULL)
@@ -1075,23 +1039,23 @@ EXPORT void saveToolbar(QToolBar *bar, long state[7])
     bool nl;
     int  extraOffset;
     main->getLocation(bar, dock, index, nl, extraOffset);
-    state[0] = 1;
-    state[1] = (long)dock;
-    state[2] = index;
-    state[3] = nl ? 1 : 0;
-    state[4] = extraOffset;
+    state[0].value = 1;
+    state[1].value = (long)dock;
+    state[2].value = index;
+    state[3].value = nl ? 1 : 0;
+    state[4].value = extraOffset;
     if (dock == QMainWindow::TornOff){
         QPoint pos = bar->geometry().topLeft();
-        state[5] = pos.x();
-        state[6] = pos.y();
+        state[5].value = pos.x();
+        state[6].value = pos.y();
     }
 }
 
-EXPORT void restoreToolbar(QToolBar *bar, long state[7])
+EXPORT void restoreToolbar(QToolBar *bar, Data state[7])
 {
     if (bar == NULL)
         return;
-    if (state[0] == 0)
+    if (state[0].value == 0)
         return;
     QMainWindow *main = NULL;
     for (QWidget *w = bar->parentWidget(); w; w = w->parentWidget()){
@@ -1102,10 +1066,10 @@ EXPORT void restoreToolbar(QToolBar *bar, long state[7])
     }
     if (main == NULL)
         return;
-    QMainWindow::ToolBarDock dock = (QMainWindow::ToolBarDock)state[1];
-    main->moveToolBar(bar, dock, state[2] != 0, state[3] != 0, state[4]);
+    QMainWindow::ToolBarDock dock = (QMainWindow::ToolBarDock)state[1].value;
+    main->moveToolBar(bar, dock, state[2].value != 0, state[3].value != 0, state[4].value);
     if (dock == QMainWindow::TornOff)
-        bar->move(state[5], state[6]);
+        bar->move(state[5].value, state[6].value);
 }
 
 EXPORT bool cmp(char *s1, char *s2)

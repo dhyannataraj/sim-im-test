@@ -38,34 +38,34 @@ class SBSocket;
 typedef struct MSNUserData
 {
     clientData	base;
-    char		*EMail;
-    char		*ScreenName;
-    unsigned	Status;
-    unsigned	StatusTime;
-    unsigned	OnlineTime;
-    char		*PhoneHome;
-    char		*PhoneWork;
-    char		*PhoneMobile;
-    unsigned	Mobile;
-    unsigned	Group;
-    unsigned	Flags;
-    unsigned	sFlags;
-    unsigned	typing_time;
-    void		*IP;
-    void		*RealIP;
-    unsigned	Port;
-    SBSocket	*sb;
+    Data	EMail;
+    Data	ScreenName;
+    Data	Status;
+    Data	StatusTime;
+    Data	OnlineTime;
+    Data	PhoneHome;
+    Data	PhoneWork;
+    Data	PhoneMobile;
+    Data	Mobile;
+    Data	Group;
+    Data	Flags;
+    Data	sFlags;
+    Data	typing_time;
+    Data	IP;
+    Data	RealIP;
+    Data	Port;
+    Data	sb;
 } MSNUserData;
 
 typedef struct MSNClientData
 {
-    char		*Server;
-    unsigned	Port;
-    unsigned	ListVer;
-    char		*ListRequests;
-    char		*Version;
-    unsigned	MinPort;
-    unsigned	MaxPort;
+    Data	Server;
+    Data	Port;
+    Data	ListVer;
+    Data	ListRequests;
+    Data	Version;
+    Data	MinPort;
+    Data	MaxPort;
     MSNUserData	owner;
 } MSNClientData;
 

@@ -177,8 +177,8 @@ void *FilterPlugin::processEvent(Event *e)
         }
         // get filter-data
         data = (FilterUserData*)(contact->getUserData(user_data_id));
-        if (data && data->SpamList && *data->SpamList){
-            if (checkSpam(msg->getPlainText(), QString::fromUtf8(data->SpamList))){
+        if (data && data->SpamList.ptr && *data->SpamList.ptr){
+            if (checkSpam(msg->getPlainText(), QString::fromUtf8(data->SpamList.ptr))){
                 delete msg;
                 return msg;
             }
@@ -266,7 +266,7 @@ void *FilterPlugin::processEvent(Event *e)
                 data = (FilterUserData*)(getContacts()->getUserData(user_data_id));
             }
             QString s;
-            s = QString::fromUtf8(data->SpamList);
+            s = QString::fromUtf8(data->SpamList.ptr);
             while (!text.isEmpty()){
                 QString line = getToken(text, '\n');
                 line = line.replace(QRegExp("\r"), "");
@@ -284,7 +284,7 @@ void *FilterPlugin::processEvent(Event *e)
                     s += " ";
                 s += line;
             }
-            set_str(&data->SpamList, s.utf8());
+            set_str(&data->SpamList.ptr, s.utf8());
             return NULL;
         }
         if (cmd->menu_id == MenuContactGroup){

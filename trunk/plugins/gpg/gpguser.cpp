@@ -27,8 +27,8 @@
 GpgUser::GpgUser(QWidget *parent, GpgUserData *data)
         : GpgUserBase(parent)
 {
-    if (data && data->Key)
-        m_key = data->Key;
+    if (data && data->Key.ptr)
+        m_key = data->Key.ptr;
     m_exec = NULL;
     connect(btnRefresh, SIGNAL(clicked()), this, SLOT(refresh()));
     refresh();
@@ -48,9 +48,9 @@ void GpgUser::apply(void *_data)
         string k = cmbPublic->currentText().latin1();
         key = getToken(k, ' ');
     }
-    set_str(&data->Key, key.c_str());
+    set_str(&data->Key.ptr, key.c_str());
     if (key.empty())
-        data->Use = 0;
+        data->Use.bValue = false;
 }
 
 void GpgUser::refresh()

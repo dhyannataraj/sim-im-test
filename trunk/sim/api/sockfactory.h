@@ -127,7 +127,6 @@ class IP
 public:
     IP();
     ~IP();
-    void set(unsigned long ip);
     void set(unsigned long ip, const char *host);
     void resolve();
     unsigned long ip() { return m_ip; }

@@ -22,13 +22,13 @@
 
 typedef struct AutoAwayData
 {
-    unsigned long	AwayTime;
-    unsigned		EnableAway;
-    unsigned long	NATime;
-    unsigned		EnableNA;
-    unsigned long	OffTime;
-    unsigned		EnableOff;
-    unsigned		DisableAlert;
+    Data	AwayTime;
+    Data	EnableAway;
+    Data	NATime;
+    Data	EnableNA;
+    Data	OffTime;
+    Data	EnableOff;
+    Data	DisableAlert;
 } AutoAwayData;
 
 class QTimer;

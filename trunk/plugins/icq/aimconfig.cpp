@@ -36,8 +36,8 @@ AIMConfig::AIMConfig(QWidget *parent, ICQClient *client, bool bConfig)
     m_bConfig = bConfig;
     if (m_bConfig){
         QTimer::singleShot(0, this, SLOT(changed()));
-        if (m_client->data.owner.Screen)
-            edtScreen->setText(m_client->data.owner.Screen);
+        if (m_client->data.owner.Screen.ptr)
+            edtScreen->setText(m_client->data.owner.Screen.ptr);
         edtScreen->setValidator(new AIMValidator(edtScreen));
         edtPasswd->setText(m_client->getPassword());
         edtScreen->setValidator(new AIMValidator(edtScreen));

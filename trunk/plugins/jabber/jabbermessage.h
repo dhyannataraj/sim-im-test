@@ -27,7 +27,7 @@ const unsigned MessageJabberError	= 0x204;
 
 typedef struct JabberMessageData
 {
-    char	*Subject;
+    Data	Subject;
 } JabberMessageData;
 
 class JabberMessage : public Message
@@ -45,8 +45,8 @@ protected:
 
 typedef struct JabberMessageErrorData
 {
-    char		*Error;
-    unsigned	Code;
+    Data	Error;
+    Data	Code;
 } JabberMessageErrorData;
 
 class JabberMessageError : public Message
@@ -64,10 +64,10 @@ protected:
 
 typedef struct JabberMessageFileData
 {
-    char		*ID;
-    char		*From;
-    char		*Host;
-    unsigned	Port;
+    Data	ID;
+    Data	From;
+    Data	Host;
+    Data	Port;
 } JabberMessageFileData;
 
 class JabberFileMessage : public FileMessage

@@ -500,10 +500,10 @@ EXPORT QString formatDate(unsigned long t)
 #endif
 }
 
-EXPORT QString formatAddr(void *ip, unsigned port)
+EXPORT QString formatAddr(Data &ip, unsigned port)
 {
     QString res;
-    if (ip == NULL)
+    if (ip.ptr == NULL)
         return res;
     struct in_addr inaddr;
     inaddr.s_addr = get_ip(ip);

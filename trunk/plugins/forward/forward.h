@@ -22,9 +22,9 @@
 
 typedef struct ForwardUserData
 {
-    char		*Phone;
-    unsigned	Send1st;
-    unsigned	Translit;
+    Data	Phone;
+    Data	Send1st;
+    Data	Translit;
 } ForwardUserData;
 
 class CorePlugin;

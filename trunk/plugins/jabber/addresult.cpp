@@ -151,17 +151,17 @@ void *AddResult::processEvent(Event *e)
     }
     if (e->type() == EventSearch){
         JabberSearchData *data = (JabberSearchData*)(e->param());
-        if (m_searchId == data->ID){
+        if (m_searchId == data->ID.ptr){
             if (m_bXSearch){
-                if (data->JID){
+                if (data->JID.ptr){
                     m_nFound++;
                     lblStatus->setText(i18n("Search") + foundStatus());
                     QListViewItem *item = new QListViewItem(tblUser);
-                    item->setText(0, QString::fromUtf8(data->JID));
-                    for (unsigned col = 0; col < data->nFields; col++)
+                    item->setText(0, QString::fromUtf8(data->JID.ptr));
+                    for (unsigned col = 0; col < data->nFields.value; col++)
                         item->setText(col + 1, QString::fromUtf8(get_str(data->Fields, col)));
                 }else{
-                    for (unsigned col = 0; col < data->nFields; col++)
+                    for (unsigned col = 0; col < data->nFields.value; col++)
                         tblUser->addColumn(QString::fromUtf8(get_str(data->Fields, col)));
                     tblUser->adjustColumn();
                 }
@@ -169,16 +169,16 @@ void *AddResult::processEvent(Event *e)
                 m_nFound++;
                 lblStatus->setText(i18n("Search") + foundStatus());
                 QListViewItem *item = new QListViewItem(tblUser);
-                if (data->JID)
-                    item->setText(0, QString::fromUtf8(data->JID));
-                if (data->Nick)
-                    item->setText(1, QString::fromUtf8(data->Nick));
-                if (data->First)
-                    item->setText(2, QString::fromUtf8(data->First));
-                if (data->Last)
-                    item->setText(3, QString::fromUtf8(data->Last));
-                if (data->EMail)
-                    item->setText(4, QString::fromUtf8(data->EMail));
+                if (data->JID.ptr)
+                    item->setText(0, QString::fromUtf8(data->JID.ptr));
+                if (data->Nick.ptr)
+                    item->setText(1, QString::fromUtf8(data->Nick.ptr));
+                if (data->First.ptr)
+                    item->setText(2, QString::fromUtf8(data->First.ptr));
+                if (data->Last.ptr)
+                    item->setText(3, QString::fromUtf8(data->Last.ptr));
+                if (data->EMail.ptr)
+                    item->setText(4, QString::fromUtf8(data->EMail.ptr));
             }
         }
     }

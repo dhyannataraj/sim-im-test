@@ -25,9 +25,9 @@
 
 typedef struct BackgroundData
 {
-    char			*Background;
-    unsigned long	Position;
-    unsigned long	Margin;
+    Data	Background;
+    Data	Position;
+    Data	Margin;
 } BackgroundData;
 
 const unsigned ContactLeft  = 0;

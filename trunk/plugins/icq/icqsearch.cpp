@@ -367,13 +367,13 @@ void *ICQSearch::processEvent(Event *e)
     }
     if (e->type() == EventRandomChatInfo){
         ICQUserData *data = (ICQUserData*)(e->param());
-        if (data->Uin != m_randomUin)
+        if (data->Uin.value != m_randomUin)
             return NULL;
         edtStatus->setText("");
-        m_name  = QString::fromUtf8(data->Alias);
+        m_name  = QString::fromUtf8(data->Alias.ptr);
         QString name  = quoteString(m_name);
-        QString topic = quoteString(QString::fromUtf8(data->About));
-        QString page  = QString::fromUtf8(data->Homepage);
+        QString topic = quoteString(QString::fromUtf8(data->About.ptr));
+        QString page  = QString::fromUtf8(data->Homepage.ptr);
         QString pageLink = page;
         if (pageLink.left(5) != "http:"){
             pageLink  = "http://";
@@ -384,10 +384,10 @@ void *ICQSearch::processEvent(Event *e)
         QString text = i18n("<p><b>%1</b></p>") .arg(name);
         if (!topic.isEmpty())
             text += i18n("%1<br>") .arg(topic);
-        text += i18n("<p>Age: <b>%1</b></p>") .arg(data->Age);
+        text += i18n("<p>Age: <b>%1</b></p>") .arg(data->Age.value);
         QString gender;
         for (e = p_genders; e->nCode; e++){
-            if (e->nCode == data->Gender){
+            if (e->nCode == data->Gender.value){
                 gender = i18n(e->szName);
                 break;
             }
@@ -397,7 +397,7 @@ void *ICQSearch::processEvent(Event *e)
                     .arg(gender);
         QString country;
         for (e = getCountries(); e->nCode; e++){
-            if (e->nCode == data->Country){
+            if (e->nCode == data->Country.value){
                 country = i18n(e->szName);
                 break;
             }
@@ -407,7 +407,7 @@ void *ICQSearch::processEvent(Event *e)
                     .arg(country);
         QString lang;
         for (e = p_languages; e->nCode; e++){
-            if (e->nCode == data->Language){
+            if (e->nCode == data->Language.value){
                 lang = i18n(e->szName);
                 break;
             }

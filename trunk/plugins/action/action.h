@@ -26,11 +26,11 @@ class Exec;
 
 typedef struct ActionUserData
 {
-    char		*OnLine;
-    char		*Status;
-    void		*Message;
-    void		*Menu;
-    unsigned	NMenu;
+    Data	OnLine;
+    Data	Status;
+    Data	Message;
+    Data	Menu;
+    Data	NMenu;
 } ActionUserData;
 
 class ActionPlugin : public QObject, public Plugin, public EventReceiver

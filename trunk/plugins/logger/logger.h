@@ -25,9 +25,9 @@ const unsigned short L_PACKETS = 0x08;
 
 typedef struct LoggerData
 {
-    unsigned LogLevel;
-    char	 *LogPackets;
-    char	 *File;
+    Data LogLevel;
+    Data LogPackets;
+    Data File;
 } LoggerData;
 
 class QFile;

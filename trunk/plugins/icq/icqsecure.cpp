@@ -92,14 +92,14 @@ void ICQSecure::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    data->WaitAuth = chkAuth->isChecked();
-    data->WebAware = chkWeb->isChecked();
+    data->WaitAuth.bValue = chkAuth->isChecked();
+    data->WebAware.bValue = chkWeb->isChecked();
 }
 
 void ICQSecure::fill()
 {
-    chkAuth->setChecked(m_client->data.owner.WaitAuth != 0);
-    chkWeb->setChecked(m_client->data.owner.WebAware != 0);
+    chkAuth->setChecked(m_client->data.owner.WaitAuth.bValue);
+    chkWeb->setChecked(m_client->data.owner.WebAware.bValue);
     chkHideIP->setChecked(m_client->getHideIP());
     chkIgnoreAuth->setChecked(m_client->getIgnoreAuth());
     grpDirect->setButton(m_client->getDirectMode());
@@ -180,7 +180,7 @@ void ICQSecure::fillListView(ListView *lst, unsigned offs)
                         mails += ", ";
                     mails += mailItem;
                 }
-                QListViewItem *item = new ListViewItem(lst, QString::number(data->Uin), contact->getName(), firstName, mails);
+                QListViewItem *item = new ListViewItem(lst, QString::number(data->Uin.value), contact->getName(), firstName, mails);
                 unsigned long status = STATUS_UNKNOWN;
                 unsigned style  = 0;
                 const char *statusIcon;

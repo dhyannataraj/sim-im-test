@@ -25,18 +25,18 @@
 
 typedef struct OSDUserData
 {
-    unsigned	EnableMessage;
-    unsigned	EnableAlert;
-    unsigned	EnableTyping;
-    unsigned	Position;
-    unsigned	Offset;
-    unsigned	Color;
-    char		*Font;
-    unsigned	Timeout;
-    unsigned	Shadow;
-    unsigned	Background;
-    unsigned	BgColor;
-    unsigned	Screen;
+    Data	EnableMessage;
+    Data	EnableAlert;
+    Data	EnableTyping;
+    Data	Position;
+    Data	Offset;
+    Data	Color;
+    Data	Font;
+    Data	Timeout;
+    Data	Shadow;
+    Data	Background;
+    Data	BgColor;
+    Data	Screen;
 } OSDUserData;
 
 const unsigned OSD_ALERT	= (unsigned)(-1);

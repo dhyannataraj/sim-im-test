@@ -29,9 +29,9 @@ const unsigned EventOnTop		  = 0x00030001;
 
 typedef struct OnTopData
 {
-    unsigned long	OnTop;
-    unsigned long	InTask;
-    unsigned long	ContainerOnTop;
+    Data	OnTop;
+    Data	InTask;
+    Data	ContainerOnTop;
 } OnTopData;
 
 class OnTopPlugin : public QObject, public Plugin, public EventReceiver

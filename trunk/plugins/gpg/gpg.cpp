@@ -89,14 +89,14 @@ static char def_home[] = "keys/";
 static DataDef gpgData[] =
     {
         { "GPG", DATA_STRING, 1, 0 },
-        { "Home", DATA_STRING, 1, (unsigned)def_home },
-        { "GenKey", DATA_STRING, 1, (unsigned)"--gen-key --batch" },
-        { "PublicList", DATA_STRING, 1, (unsigned)"--with-colon --list-public-keys" },
-        { "SecretList", DATA_STRING, 1, (unsigned)"--with-colon --list-secret-keys" },
-        { "Import", DATA_STRING, 1, (unsigned)"--import \"%keyfile%\"" },
-        { "Export", DATA_STRING, 1, (unsigned)"--batch --yes --armor --comment \"\" --no-version --export \"%userid%\"" },
-        { "Encrypt", DATA_STRING, 1, (unsigned)"--batch --yes --armor --comment \"\" --no-version --recipient \"%userid%\" --trusted-key \"%userid%\" --output \"%cipherfile%\" --encrypt \"%plainfile%\"" },
-        { "Decrypt", DATA_STRING, 1, (unsigned)"--yes --passphrase-fd 0 --output \"%plainfile%\" --decrypt \"%cipherfile%\"" },
+        { "Home", DATA_STRING, 1, def_home },
+        { "GenKey", DATA_STRING, 1, "--gen-key --batch" },
+        { "PublicList", DATA_STRING, 1, "--with-colon --list-public-keys" },
+        { "SecretList", DATA_STRING, 1, "--with-colon --list-secret-keys" },
+        { "Import", DATA_STRING, 1, "--import \"%keyfile%\"" },
+        { "Export", DATA_STRING, 1, "--batch --yes --armor --comment \"\" --no-version --export \"%userid%\"" },
+        { "Encrypt", DATA_STRING, 1, "--batch --yes --armor --comment \"\" --no-version --recipient \"%userid%\" --trusted-key \"%userid%\" --output \"%cipherfile%\" --encrypt \"%plainfile%\"" },
+        { "Decrypt", DATA_STRING, 1, "--yes --passphrase-fd 0 --output \"%plainfile%\" --decrypt \"%cipherfile%\"" },
         { "Key", DATA_STRING, 1, 0 },
         { NULL, 0, 0, 0 }
     };
@@ -293,9 +293,9 @@ void *GpgPlugin::processEvent(Event *e)
                     if (contact == NULL)
                         return NULL;
                     GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
-                    if ((data == NULL) || (data->Key == NULL))
+                    if ((data == NULL) || (data->Key.ptr == NULL))
                         return NULL;
-                    if (data->Use)
+                    if (data->Use.bValue)
                         cmd->flags |= COMMAND_CHECKED;
                     return e->param();
                 }
@@ -309,8 +309,8 @@ void *GpgPlugin::processEvent(Event *e)
                 if (contact == NULL)
                     return NULL;
                 GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
-                if (data && data->Key)
-                    data->Use = (cmd->flags & COMMAND_CHECKED) != 0;
+                if (data && data->Key.ptr)
+                    data->Use.bValue = (cmd->flags & COMMAND_CHECKED) != 0;
                 return e->param();
             }
             return NULL;
@@ -345,7 +345,7 @@ void *GpgPlugin::processEvent(Event *e)
                 Contact *contact = getContacts()->contact(msg->contact());
                 if (contact){
                     GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
-                    if (data && data->Key && data->Use){
+                    if (data && data->Key.ptr && data->Use.bValue){
                         msg->setFlags(msg->getFlags() | MESSAGE_SECURE);
                         if (msg->getFlags() & MESSAGE_RICHTEXT){
                             QString text = msg->getPlainText();
@@ -364,7 +364,7 @@ void *GpgPlugin::processEvent(Event *e)
                 Contact *contact = getContacts()->contact(ms->msg->contact());
                 if (contact){
                     GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
-                    if (data && data->Key && data->Use){
+                    if (data && data->Key.ptr && data->Use.bValue){
                         QString output = QFile::decodeName(user_file("m.").c_str());
                         output += QString::number((unsigned)ms->msg);
                         QString input = output + ".in";
@@ -389,7 +389,7 @@ void *GpgPlugin::processEvent(Event *e)
                         gpg += getEncrypt();
                         gpg = gpg.replace(QRegExp("\\%plainfile\\%"), input);
                         gpg = gpg.replace(QRegExp("\\%cipherfile\\%"), output);
-                        gpg = gpg.replace(QRegExp("\\%userid\\%"), data->Key);
+                        gpg = gpg.replace(QRegExp("\\%userid\\%"), data->Key.ptr);
                         Exec exec;
                         exec.execute(gpg.local8Bit(), "\n", true);
                         if (exec.result){
@@ -522,7 +522,7 @@ void GpgPlugin::publicReady(Exec *exec, int res, const char*)
                             Contact *contact = getContacts()->contact((*it).contact);
                             if (contact){
                                 GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, true));
-                                set_str(&data->Key, sign.c_str());
+                                set_str(&data->Key.ptr, sign.c_str());
                             }
                             break;
                         }

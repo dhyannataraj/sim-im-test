@@ -95,9 +95,9 @@ typedef struct TransparentData
 */
 static DataDef transparentData[] =
     {
-        { "Transparency", DATA_ULONG, 1, 60 },
+        { "Transparency", DATA_ULONG, 1, DATA(60) },
 #ifdef WIN32
-        { "IfInactive", DATA_BOOL, 1, 1 },
+        { "IfInactive", DATA_BOOL, 1, DATA(1) },
 #endif
         { NULL, 0, 0, 0 }
     };

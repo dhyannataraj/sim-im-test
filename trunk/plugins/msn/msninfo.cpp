@@ -68,11 +68,11 @@ void MSNInfo::fill()
 {
     MSNUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
-    edtEMail->setText(QString::fromUtf8(data->EMail));
-    edtNick->setText(data->ScreenName ? QString::fromUtf8(data->ScreenName) : edtEMail->text());
+    edtEMail->setText(QString::fromUtf8(data->EMail.ptr));
+    edtNick->setText(data->ScreenName.ptr ? QString::fromUtf8(data->ScreenName.ptr) : edtEMail->text());
     int current = 0;
     const char *text = NULL;
-    unsigned status = m_data ? m_data->Status : m_client->getStatus();
+    unsigned status = m_data ? m_data->Status.value : m_client->getStatus();
     for (const CommandDef *cmd = m_client->protocol()->statusList(); cmd->id; cmd++){
         if (cmd->flags & COMMAND_CHECK_STATE)
             continue;
@@ -86,12 +86,12 @@ void MSNInfo::fill()
     disableWidget(cmbStatus);
     if (status == STATUS_OFFLINE){
         lblOnline->setText(i18n("Last online") + ":");
-        edtOnline->setText(formatDateTime(data->StatusTime));
+        edtOnline->setText(formatDateTime(data->StatusTime.value));
         lblNA->hide();
         edtNA->hide();
     }else{
-        if (data->OnlineTime){
-            edtOnline->setText(formatDateTime(data->OnlineTime));
+        if (data->OnlineTime.value){
+            edtOnline->setText(formatDateTime(data->OnlineTime.value));
         }else{
             lblOnline->hide();
             edtOnline->hide();
@@ -101,7 +101,7 @@ void MSNInfo::fill()
             edtNA->hide();
         }else{
             lblNA->setText(i18n(text));
-            edtNA->setText(formatDateTime(data->StatusTime));
+            edtNA->setText(formatDateTime(data->StatusTime.value));
         }
     }
 }
@@ -114,7 +114,7 @@ void MSNInfo::apply(Client *client, void *_data)
     if (nick == edtEMail->text())
         nick = "";
     MSNUserData *data = (MSNUserData*)_data;
-    set_str(&data->ScreenName, nick.utf8());
+    set_str(&data->ScreenName.ptr, nick.utf8());
 }
 
 #ifndef WIN32

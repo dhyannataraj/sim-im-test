@@ -67,8 +67,8 @@ MH_ERROR xsl_error(void*, SablotHandle, MH_ERROR code, MH_LEVEL level, char **fi
         break;
     case MH_LEVEL_DEBUG:
     case MH_LEVEL_INFO:
-    	log_level = L_DEBUG;
-	break;
+        log_level = L_DEBUG;
+        break;
     }
     string flds;
     for (; *fields; fields++){

@@ -223,59 +223,59 @@ typedef struct CoreData
 static DataDef coreData[] =
     {
         { "Profile", DATA_STRING, 1, 0 },
-        { "SavePasswd", DATA_BOOL, 1, 1 },
+        { "SavePasswd", DATA_BOOL, 1, DATA(1) },
         { "NoShow", DATA_BOOL, 1, 0 },
-        { "ShowPanel", DATA_BOOL, 1, 1 },
-        { "ManualStatus", DATA_ULONG, 1, STATUS_ONLINE },
+        { "ShowPanel", DATA_BOOL, 1, DATA(1) },
+        { "ManualStatus", DATA_ULONG, 1, DATA(1) },
         { "", DATA_ULONG, 1, 0 },		// StatusTime
         { "Invisible", DATA_BOOL, 1, 0 },
-        { "Geometry", DATA_LONG, 5, (unsigned)(-1) },
+        { "Geometry", DATA_LONG, 5, DATA(-1) },
         { "ToolBar", DATA_LONG, 7, 0 },
         { "Buttons", DATA_STRLIST, 1, 0 },
         { "Menues", DATA_STRLIST, 1, 0 },
         { "ShowOnLine", DATA_BOOL, 1, 0 },
-        { "GroupMode", DATA_ULONG, 1, 1 },
+        { "GroupMode", DATA_ULONG, 1, DATA(1) },
         { "UseDblClick", DATA_BOOL, 1, 0 },
-        { "UseSysColors", DATA_BOOL, 1, 1 },
+        { "UseSysColors", DATA_BOOL, 1, DATA(1) },
         { "ColorOnline", DATA_ULONG, 1, 0 },
         { "ColorOffline", DATA_ULONG, 1, 0 },
         { "ColorAway", DATA_ULONG, 1, 0 },
         { "ColorNA", DATA_ULONG, 1, 0 },
         { "ColorDND", DATA_ULONG, 1, 0 },
         { "ColorGroup", DATA_ULONG, 1, 0 },
-        { "GroupSeparator", DATA_BOOL, 1, 1 },
+        { "GroupSeparator", DATA_BOOL, 1, DATA(1) },
         { "Lang", DATA_STRING, 1, 0 },
-        { "ContainerMode", DATA_ULONG, 1, CONTAINER_GROUP },
+        { "ContainerMode", DATA_ULONG, 1, DATA(2) },
         { "SendOnEnter", DATA_BOOL, 1, 0 },
-        { "ContainerGeometry", DATA_ULONG, 5, (unsigned)(-1) },
+        { "ContainerGeometry", DATA_ULONG, 5, DATA(-1) },
         { "ContainerBar", DATA_ULONG, 7, 0 },
         { "ContainerStatusSize", DATA_ULONG, 1, 0 },
         { "Containers", DATA_STRING, 1, 0 },
         { "Container", DATA_STRLIST, 1, 0 },
-        { "CopyMessages", DATA_ULONG, 1, 3 },
-        { "EditHeight", DATA_ULONG, 1, 100 },
+        { "CopyMessages", DATA_ULONG, 1, DATA(3) },
+        { "EditHeight", DATA_ULONG, 1, DATA(100) },
         { "EditBar", DATA_ULONG, 7, 0 },
-        { "EditForeground", DATA_ULONG, 1, 0xffffff },
-        { "EditBackground", DATA_ULONG, 1, 0x000000 },
+        { "EditForeground", DATA_ULONG, 1, DATA(0xffffff) },
+        { "EditBackground", DATA_ULONG, 1, DATA(0x000000) },
         { "EditFont", DATA_STRING, 1, 0 },
         { "EditSaveFont", DATA_BOOL, 1, 0 },
         { "OwnColors", DATA_BOOL, 1, 0 },
-        { "UseSmiles", DATA_BOOL, 1, 1 },
+        { "UseSmiles", DATA_BOOL, 1, DATA(1) },
         { "CloseSend", DATA_BOOL, 1, 0 },
-        { "HistoryPage", DATA_ULONG, 1, 100 },
+        { "HistoryPage", DATA_ULONG, 1, DATA(100) },
         { "HistoryDirection", DATA_BOOL, 1, 0 },
         { "HistorySize", DATA_ULONG, 2, 0 },
         { "HistoryBar", DATA_ULONG, 7, 0 },
         { "HistorySearch", DATA_UTF, 1, 0 },
         { "Unread", DATA_STRING, 1, 0 },
         { "NoShowAutoReply", DATA_STRLIST, 1, 0 },
-        { "SortMode", DATA_ULONG, 1, 0x00030201 },
+        { "SortMode", DATA_ULONG, 1, DATA(0x00030201) },
         { "CloseTransfer", DATA_BOOL, 1, 0 },
-        { "HistoryStyle", DATA_STRING, 1, (unsigned)"SIM" },
-        { "AuthStyle", DATA_ULONG, 1, STYLE_UNDER },
-        { "VisibleStyle", DATA_ULONG, 1, STYLE_ITALIC },
-        { "InvisibleStyle", DATA_ULONG, 1, STYLE_STRIKE },
-        { "SmallGroupFont", DATA_BOOL, 1, 1 },
+        { "HistoryStyle", DATA_STRING, 1, "SIM" },
+        { "AuthStyle", DATA_ULONG, 1, DATA(1) },
+        { "VisibleStyle", DATA_ULONG, 1, DATA(2) },
+        { "InvisibleStyle", DATA_ULONG, 1, DATA(4) },
+        { "SmallGroupFont", DATA_BOOL, 1, DATA(1) },
         { NULL, 0, 0, 0 }
     };
 
@@ -299,10 +299,10 @@ typedef struct CoreUserData
 static DataDef coreUserData[] =
     {
         { "LogStatus", DATA_BOOL, 1, 0 },
-        { "LogMessage", DATA_BOOL, 1, 1 },
-        { "OpenNewMessage", DATA_ULONG, 1, NEW_MSG_MINIMIZE },
+        { "LogMessage", DATA_BOOL, 1, DATA(1) },
+        { "OpenNewMessage", DATA_ULONG, 1, DATA(1) },
         { "OpenOnOnline", DATA_BOOL, 1, 0 },
-        { "IncomingPath", DATA_UTF, 1, (unsigned)"Incoming Files" },
+        { "IncomingPath", DATA_UTF, 1, "Incoming Files" },
         { "AcceptMode", DATA_ULONG, 1, 0 },
         { "OverwriteFiles", DATA_BOOL, 1, 0 },
         { "DeclineMessage", DATA_UTF, 1, 0 },
@@ -312,7 +312,7 @@ static DataDef coreUserData[] =
 static DataDef smsUserData[] =
     {
         { "SMSSignatureBefore", DATA_UTF, 1, 0 },
-        { "SMSSignatureAfter", DATA_UTF, 1, (unsigned)"\n&MyName;" },
+        { "SMSSignatureAfter", DATA_UTF, 1, "\n&MyName;" },
         { NULL, 0, 0, 0 }
     };
 
@@ -333,8 +333,8 @@ typedef struct ListUserData
 
 static DataDef listUserData[] =
     {
-        { "OfflineOpen", DATA_BOOL, 1, 1 },
-        { "OnlineOpen", DATA_BOOL, 1, 1 },
+        { "OfflineOpen", DATA_BOOL, 1, DATA(1) },
+        { "OnlineOpen", DATA_BOOL, 1, DATA(1) },
         { "ShowAlways", DATA_BOOL, 1, 0 },
         { NULL, 0, 0, 0 }
     };
@@ -355,9 +355,9 @@ static DataDef translitUserData[] =
 static DataDef historyUserData[] =
     {
         { "CutSize", DATA_BOOL, 1, 0 },
-        { "MaxSize", DATA_ULONG, 1, 2 },
+        { "MaxSize", DATA_ULONG, 1, DATA(2) },
         { "CutDays", DATA_BOOL, 1, 0 },
-        { "Days", DATA_ULONG, 1, 90 },
+        { "Days", DATA_ULONG, 1, DATA(90) },
         { NULL, 0, 0, 0 }
     };
 
@@ -408,6 +408,7 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
 {
     m_plugin = this;
     historyXSL = NULL;
+    m_bIgnoreEvents = false;
 
     load_data(coreData, &data, config);
     time_t now;
@@ -1329,7 +1330,7 @@ QString CorePlugin::poFile(const char *lang)
     QFile f(QFile::decodeName(s.c_str()));
     if (!f.exists()) return "";
 #else
-    string s = PREFIX "/share/locale/";
+string s = PREFIX "/share/locale/";
     string l;
     if (lang)
         l = lang;
@@ -1370,7 +1371,7 @@ void CorePlugin::installTranslator()
 #ifdef USE_KDE
         return;
 #else
-        char *p = getenv("LANG");
+char *p = getenv("LANG");
         if (p){
             for (; *p; p++){
                 if (*p == '.') break;
@@ -1445,7 +1446,7 @@ void CorePlugin::getWays(vector<clientContact> &ways, Contact *contact)
         while ((data1 = ++it1) != NULL){
             if (data1 == data)
                 break;
-            if (data->Sign != data1->Sign)
+            if (data->Sign.value != data1->Sign.value)
                 continue;
             if (it.client()->compareData(data, data1)){
                 bOK = false;
@@ -1481,6 +1482,10 @@ void CorePlugin::getWays(vector<clientContact> &ways, Contact *contact)
 void *CorePlugin::processEvent(Event *e)
 {
     switch (e->type()){
+    case EventGroupChanged:
+        if (m_bIgnoreEvents)
+            return e->param();
+        break;
     case EventDeleteMessage:{
             Message *msg = (Message*)(e->param());
             History::del(msg);
@@ -1695,6 +1700,23 @@ void *CorePlugin::processEvent(Event *e)
         }
     case EventRemoveMessageType:{
             unsigned id = (unsigned)(e->param());
+            CommandDef *def;
+            def = CorePlugin::m_plugin->messageTypes.find(id);
+            if (def){
+                MessageDef *mdef = (MessageDef*)(def->param);
+                if (mdef->cmdReceived){
+                    for (const CommandDef *c = mdef->cmdReceived; c->text; c++){
+                        Event eCmd(EventCommandRemove, (void*)(c->id + CmdReceived));
+                        eCmd.process();
+                    }
+                }
+                if (mdef->cmdSent){
+                    for (const CommandDef *c = mdef->cmdSent; c->text; c++){
+                        Event eCmd(EventCommandRemove, (void*)(c->id + CmdReceived));
+                        eCmd.process();
+                    }
+                }
+            }
             for (MAP_TYPES::iterator itt = types.begin(); itt != types.end(); ++itt){
                 if ((*itt).second == id){
                     types.erase(itt);
@@ -1713,6 +1735,8 @@ void *CorePlugin::processEvent(Event *e)
             return NULL;
         }
     case EventContactChanged:{
+            if (m_bIgnoreEvents)
+                return e->param();
             Contact *contact = (Contact*)(e->param());
             if (contact->getIgnore())
                 clearUnread(contact->id());
@@ -1745,15 +1769,15 @@ void *CorePlugin::processEvent(Event *e)
                 unsigned type = msg->baseType();
                 if (type == MessageStatus){
                     CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
-                    if ((data == NULL) || (data->LogStatus == 0))
+                    if ((data == NULL) || !data->LogStatus.bValue)
                         return NULL;
                 }else if (type == MessageFile){
                     CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
                     if (data){
-                        if (data->AcceptMode == 1){
+                        if (data->AcceptMode.value == 1){
                             string dir;
-                            if (data && data->IncomingPath)
-                                dir = data->IncomingPath;
+                            if (data && data->IncomingPath.ptr)
+                                dir = data->IncomingPath.ptr;
 #ifdef WIN32
                             if (!dir.empty() && (dir[dir.length() - 1] != '\\'))
                                 dir += '\\';
@@ -1765,15 +1789,15 @@ void *CorePlugin::processEvent(Event *e)
                             messageAccept ma;
                             ma.msg	     = msg;
                             ma.dir 		 = dir.c_str();
-                            ma.overwrite = data->OverwriteFiles ? Replace : Skip;
+                            ma.overwrite = data->OverwriteFiles.bValue ? Replace : Skip;
                             Event e(EventMessageAccept, &ma);
                             e.process();
                             return msg;
                         }
-                        if (data->AcceptMode == 2){
+                        if (data->AcceptMode.value == 2){
                             string reason;
-                            if (data->DeclineMessage)
-                                reason = data->DeclineMessage;
+                            if (data->DeclineMessage.ptr)
+                                reason = data->DeclineMessage.ptr;
                             messageDecline md;
                             md.msg    = msg;
                             md.reason = reason.c_str();
@@ -1813,8 +1837,8 @@ void *CorePlugin::processEvent(Event *e)
                     }
                     if (contact){
                         CoreUserData *data = (CoreUserData*)(contact->getUserData(user_data_id));
-                        if (data->OpenNewMessage){
-                            if (data->OpenNewMessage == NEW_MSG_MINIMIZE)
+                        if (data->OpenNewMessage.value){
+                            if (data->OpenNewMessage.value == NEW_MSG_MINIMIZE)
                                 msg->setFlags(msg->getFlags() | MESSAGE_NORAISE);
                             Event e(EventOpenMessage, msg);
                             e.process();
@@ -1969,7 +1993,7 @@ void *CorePlugin::processEvent(Event *e)
             Contact *contact = getContacts()->contact((unsigned)(e->param()));
             if (contact){
                 CoreUserData *data = (CoreUserData*)(contact->getUserData(user_data_id));
-                if (data->OpenOnOnline){
+                if (data->OpenOnOnline.bValue){
                     Message msg(MessageGeneric);
                     Event e(EventOpenMessage, &msg);
                     e.process();
@@ -2565,8 +2589,8 @@ void *CorePlugin::processEvent(Event *e)
                 delete list;
                 if (wnd == NULL){
                     wnd = new HistoryWindow(id);
-                    if (data.historySize[0] && data.historySize[1])
-                        wnd->resize(data.historySize[0], data.historySize[1]);
+                    if (data.historySize[0].value && data.historySize[1].value)
+                        wnd->resize(data.historySize[0].value, data.historySize[1].value);
                 }
                 raiseWindow(wnd);
                 return e->param();
@@ -2724,8 +2748,8 @@ void *CorePlugin::processEvent(Event *e)
                 Contact *contact = getContacts()->contact(msg->contact());
                 CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
                 string dir;
-                if (data && data->IncomingPath)
-                    dir = data->IncomingPath;
+                if (data && data->IncomingPath.ptr)
+                    dir = data->IncomingPath.ptr;
 #ifdef WIN32
                 if (!dir.empty() && (dir[dir.length() - 1] != '\\'))
                     dir += '\\';
@@ -3059,13 +3083,13 @@ bool CorePlugin::init(bool bInit)
 
     m_main = new MainWindow;
     m_view = new UserView;
-    if ((data.geometry[WIDTH] == -1) && (data.geometry[HEIGHT] == -1)){
-        data.geometry[HEIGHT] = QApplication::desktop()->height() * 2 / 3;
-        data.geometry[WIDTH]  = data.geometry[HEIGHT] / 3;
+    if ((data.geometry[WIDTH].value == -1) && (data.geometry[HEIGHT].value == -1)){
+        data.geometry[HEIGHT].value = QApplication::desktop()->height() * 2 / 3;
+        data.geometry[WIDTH].value  = data.geometry[HEIGHT].value / 3;
     }
-    if ((data.geometry[LEFT] == -1) && (data.geometry[TOP] == -1)){
-        data.geometry[LEFT] = QApplication::desktop()->width() - 25 - data.geometry[WIDTH];
-        data.geometry[TOP] = 5;
+    if ((data.geometry[LEFT].value == -1) && (data.geometry[TOP].value == -1)){
+        data.geometry[LEFT].value = QApplication::desktop()->width() - 25 - data.geometry[WIDTH].value;
+        data.geometry[TOP].value = 5;
     }
     restoreGeometry(m_main, data.geometry, true, true);
 
@@ -3641,8 +3665,10 @@ ClientList::ClientList()
 
 ClientList::~ClientList()
 {
+    CorePlugin::m_plugin->m_bIgnoreEvents = true;
     for (ClientList::iterator it = begin(); it != end(); ++it)
         delete *it;
+    CorePlugin::m_plugin->m_bIgnoreEvents = false;
 }
 
 void ClientList::addToContacts()
@@ -3654,14 +3680,14 @@ void ClientList::addToContacts()
 
 unsigned CorePlugin::getContainerMode()
 {
-    return data.ContainerMode;
+    return data.ContainerMode.value;
 }
 
 void CorePlugin::setContainerMode(unsigned value)
 {
-    if (value == data.ContainerMode)
+    if (value == data.ContainerMode.value)
         return;
-    data.ContainerMode = value;
+    data.ContainerMode.value = value;
     emit modeChanged();
 }
 
@@ -3680,11 +3706,11 @@ void CorePlugin::checkHistory()
     ContactList::ContactIterator it;
     while ((contact = ++it) != NULL){
         HistoryUserData *data = (HistoryUserData*)(contact->getUserData(history_data_id));
-        if ((data == NULL) || (data->CutDays == 0))
+        if ((data == NULL) || !data->CutDays.bValue)
             continue;
         time_t now;
         time(&now);
-        now -= data->Days * 24 * 60 * 60;
+        now -= data->Days.value * 24 * 60 * 60;
         History::cut(NULL, contact->id(), now);
     }
     QTimer::singleShot(24 * 60 * 60 * 1000, this, SLOT(checkHistory()));
@@ -3697,7 +3723,7 @@ void CorePlugin::setManualStatus(unsigned long status)
     time_t now;
     time(&now);
     setStatusTime(now);
-    data.ManualStatus = status;
+    data.ManualStatus.value = status;
 }
 
 #ifdef WIN32

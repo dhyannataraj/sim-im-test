@@ -36,7 +36,7 @@ const unsigned COL_TYPE	= 3;
 
 static DataDef _smsUserData[] =
     {
-        { "", DATA_ULONG, 1, SMS_SIGN },	// Sign
+        { "", DATA_ULONG, 1, DATA(6) },	// Sign
         { "", DATA_ULONG, 1, 0 },			// LastSend
         { "", DATA_UTF, 1, 0 },				// Name
         { "", DATA_UTF, 1, 0 },
@@ -291,12 +291,12 @@ const DataDef *SMSProtocol::userDataDef()
 static DataDef smsClientData[] =
     {
 #ifdef WIN32
-        { "Port", DATA_STRING, 1, (unsigned)"COM1" },
+        { "Port", DATA_STRING, 1, "COM1" },
 #else
-        { "Port", DATA_STRING, 1, (unsigned)"cuaa0" },
+        { "Port", DATA_STRING, 1, "cuaa0" },
 #endif
-        { "InitString", DATA_STRING, 1, (unsigned)"E0" },
-        { "BaudRate", DATA_ULONG, 1, 19200 },
+        { "InitString", DATA_STRING, 1, "E0" },
+        { "BaudRate", DATA_ULONG, 1, DATA(19200) },
         { "XonXoff", DATA_BOOL, 1, 0 },
         { "", DATA_ULONG, 1, 0 },		// Charge
         { "", DATA_BOOL, 1, 0 },		// Charging
@@ -493,7 +493,7 @@ void SMSClient::phonebookEntry(int index, int type, const QString &phone, const 
         smsUserData *data;
         ClientDataIterator itd(contact->clientData);
         while ((data = (smsUserData*)(++itd)) != NULL){
-            if (name == QString::fromUtf8(data->Name))
+            if (name == QString::fromUtf8(data->Name.ptr))
                 break;
         }
         if (data)
@@ -524,22 +524,22 @@ void SMSClient::phonebookEntry(int index, int type, const QString &phone, const 
         contact->setPhones(phones + phone + ",,2/-");
     }
     smsUserData *data = (smsUserData*)contact->clientData.createData(this);
-    set_str(&data->Phone, phone.utf8());
-    set_str(&data->Name, name.utf8());
-    data->Index = index;
-    data->Type  = type;
+    set_str(&data->Phone.ptr, phone.utf8());
+    set_str(&data->Name.ptr, name.utf8());
+    data->Index.value = index;
+    data->Type.value  = type;
     if (bNew){
         Event e(EventContactChanged, contact);
         e.process();
     }
 }
 
-const char *SMSClient::getServer()
+const char *SMSClient::getServer() const
 {
     return NULL;
 }
 
-unsigned short SMSClient::getPort()
+unsigned short SMSClient::getPort() const
 {
     return 0;
 }

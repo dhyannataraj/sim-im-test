@@ -78,7 +78,7 @@ void ICQPicture::apply(Client *client, void *_data)
         m_client->setPicture(pict);
         time_t now;
         time(&now);
-        data->PluginInfoTime = now;
+        data->PluginInfoTime.value = now;
     }
 }
 
@@ -96,7 +96,7 @@ void ICQPicture::fill()
 {
     if (m_data == NULL)
         return;
-    if (m_data->PictureHeight && m_data->PictureWidth){
+    if (m_data->PictureHeight.value && m_data->PictureWidth.value){
         QImage img(m_client->pictureFile(m_data));
         setPict(img);
         return;

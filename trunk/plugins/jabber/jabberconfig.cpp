@@ -38,10 +38,10 @@ JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig)
     edtServer->setText(QString::fromLocal8Bit(m_client->getServer()));
     edtPort->setValue(m_client->getPort());
     edtPriority->setValue(m_client->getPriority());
-    if (m_client->data.owner.Resource)
-        edtResource->setText(QString::fromUtf8(m_client->data.owner.Resource));
-    if (m_client->data.VHost)
-        edtVHost->setText(QString::fromUtf8(m_client->data.VHost));
+    if (m_client->data.owner.Resource.ptr)
+        edtResource->setText(QString::fromUtf8(m_client->data.owner.Resource.ptr));
+    if (m_client->data.VHost.ptr)
+        edtVHost->setText(QString::fromUtf8(m_client->data.VHost.ptr));
     if (m_bConfig){
         tabCfg->removePage(tabJabber);
     }else{
@@ -94,10 +94,15 @@ void JabberConfig::apply()
         m_client->setServer(edtServer1->text().local8Bit());
         m_client->setPort((unsigned short)atol(edtPort1->text()));
     }
-    if (chkVHost->isChecked())
-        set_str(&m_client->data.VHost, edtVHost->text().utf8());
+    m_client->setUseVHost(false);
+    if (chkVHost->isChecked()){
+        set_str(&m_client->data.VHost.ptr, edtVHost->text().utf8());
+        if (!edtVHost->text().isEmpty())
+            m_client->setUseVHost(true);
+    }
     QString jid = edtID->text();
-    if (jid.find('@') < 0){
+    int n = jid.find('@');
+    if (n < 0){
         QString host;
         if (chkVHost->isChecked() && !edtVHost->text().isEmpty()){
             host = edtVHost->text();
@@ -109,8 +114,9 @@ void JabberConfig::apply()
             jid += host;
         }
     }else{
-        QString host = jid.mid(jid.find('@') + 1);
-        set_str(&m_client->data.VHost, host.utf8());
+        QString host = jid.mid(n + 1);
+        set_str(&m_client->data.VHost.ptr, host.utf8());
+        m_client->setUseVHost(true);
     }
     if (!m_bConfig){
         m_client->setID(jid);
@@ -127,7 +133,6 @@ void JabberConfig::apply()
 #endif
     m_client->setMinPort((unsigned short)atol(edtMinPort->text().latin1()));
     m_client->setMaxPort((unsigned short)atol(edtMaxPort->text().latin1()));
-    m_client->setUseVHost(chkVHost->isChecked());
     m_client->setTyping(chkTyping->isChecked());
     m_client->setRichText(chkRichText->isChecked());
     m_client->setAutoSubscribe(chkSubscribe->isChecked());
@@ -137,7 +142,7 @@ void JabberConfig::apply()
         Event e(EventRepaintView);
         e.process();
     }
-    set_str(&m_client->data.owner.Resource, edtResource->text().utf8());
+    set_str(&m_client->data.owner.Resource.ptr, edtResource->text().utf8());
     m_client->setPriority(atol(edtPriority->text().latin1()));
 }
 

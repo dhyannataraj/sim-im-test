@@ -67,7 +67,7 @@ void InterestsInfo::apply(Client *client, void *_data)
             res += ";";
         res += info[i];
     }
-    set_str(&data->Interests, m_client->fromUnicode(res, NULL).c_str());
+    set_str(&data->Interests.ptr, m_client->fromUnicode(res, NULL).c_str());
 }
 
 void *InterestsInfo::processEvent(Event *e)
@@ -146,7 +146,7 @@ void InterestsInfo::fill()
     ICQUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
     unsigned i = 0;
-    QString str = m_client->toUnicode(data->Interests, data);
+    QString str = m_client->toUnicode(data->Interests.ptr, data);
     while (str.length()){
         QString info = getToken(str, ';', false);
         QString n = getToken(info, ',');

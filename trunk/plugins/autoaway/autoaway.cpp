@@ -65,13 +65,13 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 
 static DataDef autoAwayData[] =
     {
-        { "AwayTime", DATA_ULONG, 1, 3 },
-        { "EnableAway", DATA_BOOL, 1, 1 },
-        { "NATime", DATA_ULONG, 1, 10 },
-        { "EnableNA", DATA_BOOL, 1, 1 },
-        { "OffTime", DATA_ULONG, 1, 10 },
-        { "EnableOff", DATA_BOOL, 1, 1 },
-        { "DisableAlert", DATA_BOOL, 1, 1 },
+        { "AwayTime", DATA_ULONG, 1, DATA(3) },
+        { "EnableAway", DATA_BOOL, 1, DATA(1) },
+        { "NATime", DATA_ULONG, 1, DATA(10) },
+        { "EnableNA", DATA_BOOL, 1, DATA(1) },
+        { "OffTime", DATA_ULONG, 1, DATA(10) },
+        { "EnableOff", DATA_BOOL, 1, 0 },
+        { "DisableAlert", DATA_BOOL, 1, DATA(1) },
         { NULL, 0, 0, 0 }
     };
 
@@ -157,8 +157,8 @@ void AutoAwayPlugin::timeout()
         return;
     time_t now;
     time(&now);
-    core->data.StatusTime = now;
-    core->data.ManualStatus = newStatus;
+    core->data.StatusTime.value = now;
+    core->data.ManualStatus.value = newStatus;
     Event e(EventClientStatus);
     e.process();
 }
@@ -210,7 +210,7 @@ unsigned AutoAwayPlugin::getIdleTime()
     _GetLastInputInfo(&lii);
     return (GetTickCount()-lii.dwTime) / 1000;
 #else
-    QWidgetList *list = QApplication::topLevelWidgets();
+QWidgetList *list = QApplication::topLevelWidgets();
     QWidgetListIt it(*list);
     QWidget *w = it.current();
     delete list;

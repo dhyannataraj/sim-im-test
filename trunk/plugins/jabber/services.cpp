@@ -60,27 +60,27 @@ void *Services::processEvent(Event *e)
 {
     if (e->type() == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentFound){
         JabberAgentsInfo *data = (JabberAgentsInfo*)(e->param());
-        if ((data->Client == m_client) && data->Register){
-            AGENTS_MAP::iterator it = m_agents.find(data->ID);
+        if ((data->Client == m_client) && data->Register.bValue){
+            AGENTS_MAP::iterator it = m_agents.find(data->ID.ptr);
             if (it == m_agents.end()){
                 agentInfo info;
                 info.search = NULL;
-                info.name   = data->Name;
-                m_agents.insert(AGENTS_MAP::value_type(data->ID, info));
-                m_client->get_agent_info(data->ID, NULL, "register");
+                info.name   = data->Name.ptr;
+                m_agents.insert(AGENTS_MAP::value_type(data->ID.ptr, info));
+                m_client->get_agent_info(data->ID.ptr, NULL, "register");
             }
         }
         return NULL;
     }
     if (e->type() == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentInfo){
         JabberAgentInfo *data = (JabberAgentInfo*)(e->param());
-        if (data->ID == NULL)
+        if (data->ID.ptr == NULL)
             return NULL;
-        AGENTS_MAP::iterator it = m_agents.find(data->ID);
+        AGENTS_MAP::iterator it = m_agents.find(data->ID.ptr);
         if (it != m_agents.end()){
             agentInfo &info = (*it).second;
             if (info.search == NULL){
-                info.search = new JabberSearch(this, m_client, data->ID, NULL, QString::fromUtf8(info.name.c_str()), true);
+                info.search = new JabberSearch(this, m_client, data->ID.ptr, NULL, QString::fromUtf8(info.name.c_str()), true);
                 unsigned id = cmbAgents->count();
                 wndInfo->addWidget(info.search, id + 1);
                 cmbAgents->insertItem(QString::fromUtf8(info.name.c_str()));
@@ -119,11 +119,11 @@ void *Services::processEvent(Event *e)
             ClientDataIterator it(contact->clientData, m_client);
             JabberUserData *data;
             while ((data = ((JabberUserData*)(++it))) != NULL){
-                if (!m_client->isAgent(data->ID))
+                if (!m_client->isAgent(data->ID.ptr))
                     continue;
                 QListViewItem *item;
                 for (item = lstAgents->firstChild(); item; item = item->nextSibling())
-                    if ((item->text(COL_JID) + "/registered") == QString::fromUtf8(data->ID))
+                    if ((item->text(COL_JID) + "/registered") == QString::fromUtf8(data->ID.ptr))
                         break;
                 if (item == NULL)
                     makeAgentItem(data, contact->id());
@@ -140,11 +140,11 @@ void *Services::processEvent(Event *e)
             ClientDataIterator it(contact->clientData, m_client);
             JabberUserData *data;
             while ((data = ((JabberUserData*)(++it))) != NULL){
-                if (!m_client->isAgent(data->ID))
+                if (!m_client->isAgent(data->ID.ptr))
                     continue;
                 QListViewItem *item;
                 for (item = lstAgents->firstChild(); item; item = item->nextSibling())
-                    if ((item->text(COL_JID) + "/registered") == QString::fromUtf8(data->ID))
+                    if ((item->text(COL_JID) + "/registered") == QString::fromUtf8(data->ID.ptr))
                         break;
                 if (item)
                     setAgentStatus(data, item);
@@ -189,7 +189,7 @@ void Services::statusChanged()
             ClientDataIterator itd(contact->clientData, m_client);
             JabberUserData *data;
             while ((data = ((JabberUserData*)(++itd))) != NULL){
-                if (!m_client->isAgent(data->ID))
+                if (!m_client->isAgent(data->ID.ptr))
                     continue;
                 makeAgentItem(data, contact->id());
             }
@@ -219,7 +219,7 @@ void Services::statusChanged()
 
 void Services::makeAgentItem(JabberUserData *data, unsigned contact_id)
 {
-    QString jid = QString::fromUtf8(data->ID);
+    QString jid = QString::fromUtf8(data->ID.ptr);
     jid = jid.left(jid.length() - 11);
     QListViewItem *item = new QListViewItem(lstAgents, jid);
     item->setText(COL_ID, QString::number(contact_id));
@@ -228,7 +228,7 @@ void Services::makeAgentItem(JabberUserData *data, unsigned contact_id)
 
 void Services::setAgentStatus(JabberUserData *data, QListViewItem *item)
 {
-    if (data->Status == STATUS_OFFLINE){
+    if (data->Status.value == STATUS_OFFLINE){
         item->setText(COL_STATUS, i18n("Offline"));
         item->setText(COL_STATE, "");
     }else{

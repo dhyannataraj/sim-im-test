@@ -47,14 +47,14 @@ ActionConfig::ActionConfig(QWidget *parent, struct ActionUserData *data, ActionP
     QListViewItem *item = new QListViewItem(lstEvent, i18n("Contact online"));
     item->setText(2, QString::number(CONTACT_ONLINE));
     item->setPixmap(0, makePixmap("licq"));
-    if (data->OnLine)
-        item->setText(1, QString::fromUtf8(data->OnLine));
+    if (data->OnLine.ptr)
+        item->setText(1, QString::fromUtf8(data->OnLine.ptr));
 
     item = new QListViewItem(lstEvent, i18n("Status changed"));
     item->setText(2, QString::number(CONTACT_STATUS));
     item->setPixmap(0, makePixmap("licq"));
-    if (data->Status)
-        item->setText(1, QString::fromUtf8(data->Status));
+    if (data->Status.ptr)
+        item->setText(1, QString::fromUtf8(data->Status.ptr));
 
     CommandDef *cmd;
     CommandsMapIterator it(m_plugin->core->messageTypes);
@@ -156,9 +156,9 @@ void ActionConfig::apply(void *_data)
         unsigned id = item->text(2).toUInt();
         QString text = item->text(1);
         if (id == CONTACT_ONLINE){
-            set_str(&data->OnLine, text.utf8());
+            set_str(&data->OnLine.ptr, text.utf8());
         }else if (id == CONTACT_STATUS){
-            set_str(&data->Status, text.utf8());
+            set_str(&data->Status.ptr, text.utf8());
         }else{
             set_str(&data->Message, id, text.utf8());
         }

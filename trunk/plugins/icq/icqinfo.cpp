@@ -119,12 +119,12 @@ void ICQInfo::apply()
     }
     if (m_data == NULL)
         static_cast<ICQPlugin*>(m_client->protocol()->plugin())->setDefaultEncoding(encoding.c_str());
-    if (!set_str(&data->Encoding, encoding.c_str()))
+    if (!set_str(&data->Encoding.ptr, encoding.c_str()))
         return;
     Contact *contact;
-    if (data->Uin ?
-            m_client->findContact(number(data->Uin).c_str(), NULL, false, contact) :
-            m_client->findContact(data->Screen, NULL, false, contact)){
+    if (data->Uin.value ?
+            m_client->findContact(number(data->Uin.value).c_str(), NULL, false, contact) :
+            m_client->findContact(data->Screen.ptr, NULL, false, contact)){
         Event e(EventContactChanged, contact);
         e.process();
         Event eh(EventHistoryConfig, (void*)(contact->id()));
@@ -137,9 +137,9 @@ void ICQInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    set_str(&data->FirstName, m_client->fromUnicode(edtFirst->text(), NULL).c_str());
-    set_str(&data->LastName, m_client->fromUnicode(edtLast->text(), NULL).c_str());
-    set_str(&data->Nick, m_client->fromUnicode(edtNick->text(), NULL).c_str());
+    set_str(&data->FirstName.ptr, m_client->fromUnicode(edtFirst->text(), NULL).c_str());
+    set_str(&data->LastName.ptr, m_client->fromUnicode(edtLast->text(), NULL).c_str());
+    set_str(&data->Nick.ptr, m_client->fromUnicode(edtNick->text(), NULL).c_str());
 }
 
 void *ICQInfo::processEvent(Event *e)
@@ -169,10 +169,10 @@ void ICQInfo::fill()
     ICQUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
 
-    edtUin->setText(QString::number(data->Uin));
-    edtFirst->setText(m_client->toUnicode(data->FirstName, data));
-    edtLast->setText(m_client->toUnicode(data->LastName, data));
-    edtNick->setText(m_client->toUnicode(data->Nick, data));
+    edtUin->setText(QString::number(data->Uin.value));
+    edtFirst->setText(m_client->toUnicode(data->FirstName.ptr, data));
+    edtLast->setText(m_client->toUnicode(data->LastName.ptr, data));
+    edtNick->setText(m_client->toUnicode(data->Nick.ptr, data));
 
     if (m_data == NULL){
         if (edtFirst->text().isEmpty())
@@ -184,7 +184,7 @@ void ICQInfo::fill()
     cmbStatus->clear();
     unsigned status = STATUS_ONLINE;
     if (m_data){
-        unsigned s = m_data->Status;
+        unsigned s = m_data->Status.value;
         if (s == ICQ_STATUS_OFFLINE){
             status = STATUS_OFFLINE;
         }else if (s & ICQ_STATUS_DND){
@@ -203,14 +203,14 @@ void ICQInfo::fill()
         initCombo(cmbRandom, m_client->getRandomChatGroup(), chat_groups);
     }
     if ((status != STATUS_ONLINE) && (status != STATUS_OFFLINE) && m_data){
-        edtAutoReply->setText(m_client->toUnicode(m_data->AutoReply, m_data));
+        edtAutoReply->setText(m_client->toUnicode(m_data->AutoReply.ptr, m_data));
     }else{
         edtAutoReply->hide();
     }
 
     int current = 0;
     const char *text = NULL;
-    if (m_data && (status == STATUS_OFFLINE) && m_data->bInvisible){
+    if (m_data && (status == STATUS_OFFLINE) && m_data->bInvisible.bValue){
         cmbStatus->insertItem(Pict("ICQ_invisible"), i18n("Possibly invisible"));
     }else{
         for (const CommandDef *cmd = m_client->protocol()->statusList(); cmd->id; cmd++){
@@ -227,12 +227,12 @@ void ICQInfo::fill()
     disableWidget(cmbStatus);
     if (status == STATUS_OFFLINE){
         lblOnline->setText(i18n("Last online") + ":");
-        edtOnline->setText(formatDateTime(data->StatusTime));
+        edtOnline->setText(formatDateTime(data->StatusTime.value));
         lblNA->hide();
         edtNA->hide();
     }else{
-        if (data->OnlineTime){
-            edtOnline->setText(formatDateTime(data->OnlineTime));
+        if (data->OnlineTime.value){
+            edtOnline->setText(formatDateTime(data->OnlineTime.value));
         }else{
             lblOnline->hide();
             edtOnline->hide();
@@ -242,17 +242,17 @@ void ICQInfo::fill()
             edtNA->hide();
         }else{
             lblNA->setText(i18n(text));
-            edtNA->setText(formatDateTime(data->StatusTime));
+            edtNA->setText(formatDateTime(data->StatusTime.value));
         }
     }
-    if (data->IP){
-        edtExtIP->setText(formatAddr(data->IP, data->Port));
+    if (data->IP.ptr){
+        edtExtIP->setText(formatAddr(data->IP, data->Port.value));
     }else{
         lblExtIP->hide();
         edtExtIP->hide();
     }
-    if ((data->RealIP) && ((data->IP == NULL) || (get_ip(data->IP) != get_ip(data->RealIP)))){
-        edtIntIP->setText(formatAddr(data->RealIP, data->Port));
+    if ((data->RealIP.ptr) && ((data->IP.ptr == NULL) || (get_ip(data->IP) != get_ip(data->RealIP)))){
+        edtIntIP->setText(formatAddr(data->RealIP, data->Port.value));
     }else{
         lblIntIP->hide();
         edtIntIP->hide();
@@ -298,7 +298,7 @@ void ICQInfo::fill()
         str = str.mid(n + 1);
         n = str.find(')');
         str = str.left(n);
-        if (data->Encoding && !strcmp(data->Encoding, str.latin1()))
+        if (data->Encoding.ptr && !strcmp(data->Encoding.ptr, str.latin1()))
             current = n_item;
         cmbEncoding->insertItem(*it);
     }
@@ -315,7 +315,7 @@ void ICQInfo::fill()
         str = str.mid(n + 1);
         n = str.find(')');
         str = str.left(n);
-        if (data->Encoding && !strcmp(data->Encoding, str.latin1()))
+        if (data->Encoding.ptr && !strcmp(data->Encoding.ptr, str.latin1()))
             current = n_item;
         cmbEncoding->insertItem(*it);
     }

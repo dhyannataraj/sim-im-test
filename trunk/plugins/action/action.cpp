@@ -137,12 +137,12 @@ void *ActionPlugin::processEvent(Event *e)
             if (contact == NULL)
                 return NULL;
             ActionUserData *data = (ActionUserData*)(contact->getUserData(action_data_id));
-            if ((data == NULL) || (data->NMenu == 0))
+            if ((data == NULL) || (data->NMenu.value == 0))
                 return NULL;
-            CommandDef *cmds = new CommandDef[data->NMenu + 1];
-            memset(cmds, 0, sizeof(CommandDef) * (data->NMenu + 1));
+            CommandDef *cmds = new CommandDef[data->NMenu.value + 1];
+            memset(cmds, 0, sizeof(CommandDef) * (data->NMenu.value + 1));
             unsigned n = 0;
-            for (unsigned i = 0; i < data->NMenu; i++){
+            for (unsigned i = 0; i < data->NMenu.value; i++){
                 QString str = get_str(data->Menu, i + 1);
                 QString item = getToken(str, ';');
                 int pos = item.find("&IP;");
@@ -184,7 +184,7 @@ void *ActionPlugin::processEvent(Event *e)
             if (contact == NULL)
                 return NULL;
             ActionUserData *data = (ActionUserData*)(contact->getUserData(action_data_id));
-            if ((data == NULL) || (n >= data->NMenu))
+            if ((data == NULL) || (n >= data->NMenu.value))
                 return NULL;
             QString str = get_str(data->Menu, n + 1);
             getToken(str, ';');
@@ -204,10 +204,10 @@ void *ActionPlugin::processEvent(Event *e)
         if (contact == NULL)
             return NULL;
         ActionUserData *data = (ActionUserData*)(contact->getUserData(action_data_id));
-        if ((data == NULL) || (data->OnLine == NULL))
+        if ((data == NULL) || (data->OnLine.ptr == NULL))
             return NULL;
         TemplateExpand t;
-        t.tmpl     = QString::fromUtf8(data->OnLine);
+        t.tmpl     = QString::fromUtf8(data->OnLine.ptr);
         t.contact  = contact;
         t.receiver = this;
         t.param    = NULL;
@@ -224,10 +224,10 @@ void *ActionPlugin::processEvent(Event *e)
         if (data == NULL)
             return NULL;
         if (msg->type() == MessageStatus){
-            if (data->Status == NULL)
+            if (data->Status.ptr == NULL)
                 return NULL;
             TemplateExpand t;
-            t.tmpl     = QString::fromUtf8(data->Status);
+            t.tmpl     = QString::fromUtf8(data->Status.ptr);
             t.contact  = contact;
             t.receiver = this;
             t.param    = NULL;

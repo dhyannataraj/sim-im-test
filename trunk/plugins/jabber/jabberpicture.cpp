@@ -99,13 +99,13 @@ void JabberPicture::fill()
     if (m_data == NULL)
         return;
     if (m_bPhoto){
-        if (m_data->PhotoHeight && m_data->PhotoWidth){
+        if (m_data->PhotoHeight.value && m_data->PhotoWidth.value){
             QImage img(m_client->photoFile(m_data));
             setPict(img);
             return;
         }
     }else{
-        if (m_data->LogoHeight && m_data->LogoWidth){
+        if (m_data->LogoHeight.value && m_data->LogoWidth.value){
             QImage img(m_client->logoFile(m_data));
             setPict(img);
             return;

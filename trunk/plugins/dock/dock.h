@@ -22,14 +22,14 @@
 
 typedef struct DockData
 {
-    unsigned		AutoHide;
-    unsigned		AutoHideInterval;
-    unsigned		ShowMain;
+    Data		AutoHide;
+    Data		AutoHideInterval;
+    Data		ShowMain;
 #ifndef WIN32 
-    unsigned		DockX;
-    unsigned		DockY;
+    Data		DockX;
+    Data		DockY;
 #endif
-    unsigned		Desktop;
+    Data		Desktop;
 } DockData;
 
 class DockWnd;

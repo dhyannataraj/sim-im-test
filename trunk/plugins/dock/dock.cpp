@@ -76,9 +76,9 @@ typedef struct DockData
 */
 static DataDef dockData[] =
     {
-        { "AutoHide", DATA_BOOL, 1, 1 },
-        { "AutoHideInterval", DATA_ULONG, 1, 60 },
-        { "ShowMain", DATA_BOOL, 1, 1 },
+        { "AutoHide", DATA_BOOL, 1, DATA(1) },
+        { "AutoHideInterval", DATA_ULONG, 1, DATA(60) },
+        { "ShowMain", DATA_BOOL, 1, DATA(1) },
 #ifndef WIN32
         { "DockPos", DATA_ULONG, 2, 0 },
 #endif

@@ -219,11 +219,11 @@ typedef struct NavigateData
 static DataDef navigateData[] =
     {
 #ifdef USE_KDE
-        { "Browser", DATA_STRING, 1, (unsigned)"konqueror" },
-        { "Mailer", DATA_STRING, 1, (unsigned)"kmail" },
+        { "Browser", DATA_STRING, 1, "konqueror" },
+        { "Mailer", DATA_STRING, 1, "kmail" },
 #else
-{ "Browser", DATA_STRING, 1, (unsigned)"netscape" },
-        { "Mailer", DATA_STRING, 1, (unsigned)"netscape mailto:%s" },
+{ "Browser", DATA_STRING, 1, "netscape" },
+        { "Mailer", DATA_STRING, 1, "netscape mailto:%s" },
 #endif
         { NULL, 0, 0, 0 }
     };

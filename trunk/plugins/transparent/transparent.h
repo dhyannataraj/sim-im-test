@@ -22,9 +22,9 @@
 
 typedef struct TransparentData
 {
-    unsigned long	Transparency;
+    Data	Transparency;
 #ifdef WIN32
-    unsigned long	IfInactive;
+    Data	IfInactive;
 #endif
 } TransparentData;
 

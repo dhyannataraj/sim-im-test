@@ -23,8 +23,8 @@
 
 typedef struct IconsData
 {
-    void	*IconDLLs;
-    char	*Smiles;
+    Data	IconDLLs;
+    Data	Smiles;
 } IconsData;
 
 class IconDLL;

@@ -23,9 +23,9 @@
 
 typedef struct ShortcutsData
 {
-    void	*Key;
-    void	*Global;
-    void	*Mouse;
+    Data	Key;
+    Data	Global;
+    Data	Mouse;
 } ShortcutsData;
 
 typedef map<unsigned, const char*>	MAP_STR;
@@ -59,7 +59,7 @@ protected:
 #ifdef USE_KDE
     KGlobalAccel *accel;
 #else
-    unsigned m_key;
+unsigned m_key;
     unsigned m_state;
 #endif
 #endif

@@ -46,7 +46,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
     case ICQ_SNACxBDY_USEROFFLINE:
         screen = m_socket->readBuffer.unpackScreen();
         data = findContact(screen.c_str(), NULL, false, contact);
-        if (data && (data->Status != ICQ_STATUS_OFFLINE)){
+        if (data && (data->Status.value != ICQ_STATUS_OFFLINE)){
             setOffline(data);
             StatusMessage m;
             m.setContact(contact->id());
@@ -66,30 +66,30 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
 
             bool bChanged     = false;
             bool bAwayChanged = false;
-            unsigned long prevStatus = data->Status;
+            unsigned long prevStatus = data->Status.value;
 
             unsigned short level, len;
             m_socket->readBuffer >> level >> len;
-            data->WarningLevel = level;
+            data->WarningLevel.value = level;
 
             TlvList tlv(m_socket->readBuffer);
 
             Tlv *tlvClass = tlv(0x0001);
             if (tlvClass){
                 unsigned short userClass = *tlvClass;
-                if (userClass != data->Class){
-                    if ((userClass & CLASS_AWAY) != (data->Class & CLASS_AWAY)){
-                        data->StatusTime = (unsigned long)now;
+                if (userClass != data->Class.value){
+                    if ((userClass & CLASS_AWAY) != (data->Class.value & CLASS_AWAY)){
+                        data->StatusTime.value = (unsigned long)now;
                         bAwayChanged = true;
                     }
-                    data->Class = userClass;
+                    data->Class.value = userClass;
                     bChanged = true;
                 }
-                if (data->Uin == 0){
+                if (data->Uin.value == 0){
                     if (userClass & CLASS_AWAY){
                         fetchAwayMessage(data);
                     }else{
-                        set_str(&data->AutoReply, NULL);
+                        set_str(&data->AutoReply.ptr, NULL);
                     }
                 }
             }
@@ -98,23 +98,23 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             Tlv *tlvStatus = tlv(0x0006);
             if (tlvStatus){
                 unsigned long status = *tlvStatus;
-                if (status != data->Status){
-                    data->Status = status;
+                if (status != data->Status.value){
+                    data->Status.value = status;
                     if ((status & 0xFF) == 0)
-                        set_str(&data->AutoReply, NULL);
-                    data->StatusTime = (unsigned long)now;
+                        set_str(&data->AutoReply.ptr, NULL);
+                    data->StatusTime.value = (unsigned long)now;
                 }
-            }else if (data->Status == ICQ_STATUS_OFFLINE){
-                data->Status = ICQ_STATUS_ONLINE;
-                data->StatusTime = (unsigned long)now;
+            }else if (data->Status.value == ICQ_STATUS_OFFLINE){
+                data->Status.value = ICQ_STATUS_ONLINE;
+                data->StatusTime.value = (unsigned long)now;
             }
 
             // Online time TLV
             Tlv *tlvOnlineTime = tlv(0x0003);
             if (tlvOnlineTime){
                 unsigned long OnlineTime = *tlvOnlineTime;
-                if (OnlineTime != data->OnlineTime){
-                    data->OnlineTime = OnlineTime;
+                if (OnlineTime != data->OnlineTime.value){
+                    data->OnlineTime.value = OnlineTime;
                     bChanged = true;
                 }
             }
@@ -122,8 +122,8 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             if (tlvNATime){
                 unsigned short na_time = *tlvNATime;
                 unsigned long StatusTime = (unsigned long)now - na_time * 60;
-                if (StatusTime != data->StatusTime){
-                    data->StatusTime = StatusTime;
+                if (StatusTime != data->StatusTime.value){
+                    data->StatusTime.value = StatusTime;
                     bChanged = true;
                 }
             }
@@ -135,7 +135,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
 
             Tlv *tlvCapability = tlv(0x000D);
             if (tlvCapability){
-                data->Caps = 0;
+                data->Caps.value = 0;
                 Buffer info(*tlvCapability);
                 for (; info.readPos() < info.size(); ){
                     capability cap;
@@ -149,14 +149,14 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                             if (i == CAP_SIMOLD){
                                 unsigned char build = cap[sizeof(capability)-1];
                                 if (build && ((build == 0x92) || (build < (1 << 6)))) continue;
-                                data->Build = build;
+                                data->Build.value = build;
                             }
                             if ((i == CAP_MICQ) || (i == CAP_LICQ) || (i == CAP_SIM)){
                                 unsigned char *p = (unsigned char*)cap;
                                 p += 12;
-                                data->Build = (p[0] << 24) + (p[1] << 16) + (p[2] << 8) + p[3];
+                                data->Build.value = (p[0] << 24) + (p[1] << 16) + (p[2] << 8) + p[3];
                             }
-                            data->Caps |= (1 << i);
+                            data->Caps.value |= (1 << i);
                             break;
                         }
                     }
@@ -180,10 +180,10 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 if (realIP == 0x7F000001)
                     realIP = 0;
                 bChanged |= set_ip(&data->RealIP, htonl(realIP));
-                data->Port = port;
+                data->Port.value = port;
                 unsigned long DCcookie;
                 info >> mode >> junk >> version >> DCcookie;
-                data->DCcookie = DCcookie;
+                data->DCcookie.value = DCcookie;
                 info.incReadPos(8);
                 info
                 >> infoUpdateTime
@@ -192,12 +192,12 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 if (mode == MODE_DENIED) mode = MODE_INDIRECT;
                 if ((mode != MODE_DIRECT) && (mode != MODE_INDIRECT))
                     mode = MODE_INDIRECT;
-                data->Mode    = mode;
-                data->Version = version;
+                data->Mode.value    = mode;
+                data->Version.value = version;
             }
 
             Tlv *tlvPlugin = tlv(0x0011);
-            if (tlvPlugin && data->Uin){
+            if (tlvPlugin && data->Uin.value){
                 Buffer info(*tlvPlugin);
                 char type;
                 unsigned long time;
@@ -208,27 +208,27 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 unsigned long plugin_status;
                 switch (type){
                 case 1:
-                    addFullInfoRequest(data->Uin);
+                    addFullInfoRequest(data->Uin.value);
                     break;
                 case 2:
                     info.incReadPos(6);
                     info.unpack((char*)p, sizeof(p));
-                    data->PluginInfoTime = time;
+                    data->PluginInfoTime.value = time;
                     for (plugin_index = 0; plugin_index < PLUGIN_NULL; plugin_index++)
                         if (!memcmp(p, plugins[plugin_index], sizeof(p)))
                             break;
                     switch (plugin_index){
                     case PLUGIN_PHONEBOOK:
                         log(L_DEBUG, "Updated phonebook");
-                        addPluginInfoRequest(data->Uin, plugin_index);
+                        addPluginInfoRequest(data->Uin.value, plugin_index);
                         break;
                     case PLUGIN_PICTURE:
                         log(L_DEBUG, "Updated picture");
-                        addPluginInfoRequest(data->Uin, plugin_index);
+                        addPluginInfoRequest(data->Uin.value, plugin_index);
                         break;
                     case PLUGIN_QUERYxINFO:
                         log(L_DEBUG, "Updated info plugin list");
-                        addPluginInfoRequest(data->Uin, plugin_index);
+                        addPluginInfoRequest(data->Uin.value, plugin_index);
                         break;
                     default:
                         if (plugin_index >= PLUGIN_NULL)
@@ -240,27 +240,27 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                     info.unpack((char*)p, sizeof(p));
                     info.incReadPos(1);
                     info.unpack(plugin_status);
-                    data->PluginStatusTime = time;
+                    data->PluginStatusTime.value = time;
                     for (plugin_index = 0; plugin_index < PLUGIN_NULL; plugin_index++)
                         if (!memcmp(p, plugins[plugin_index], sizeof(p)))
                             break;
                     switch (plugin_index){
                     case PLUGIN_FOLLOWME:
-                        if (data->FollowMe == plugin_status)
+                        if (data->FollowMe.value == plugin_status)
                             break;
-                        data->FollowMe = plugin_status;
+                        data->FollowMe.value = plugin_status;
                         bChanged = true;
                         break;
                     case PLUGIN_FILESERVER:
-                        if ((data->SharedFiles != 0) == (plugin_status != 0))
+                        if ((data->SharedFiles.value != 0) == (plugin_status != 0))
                             break;
-                        data->SharedFiles = (plugin_status != 0);
+                        data->SharedFiles.value = (plugin_status != 0);
                         bChanged = true;
                         break;
                     case PLUGIN_ICQPHONE:
-                        if (data->ICQPhone == plugin_status)
+                        if (data->ICQPhone.value == plugin_status)
                             break;
-                        data->ICQPhone = plugin_status;
+                        data->ICQPhone.value = plugin_status;
                         bChanged = true;
                         break;
                     default:
@@ -271,62 +271,62 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
 
                 }
             }else{
-                data->InfoUpdateTime   = infoUpdateTime;
-                data->PluginInfoTime   = pluginInfoTime;
-                data->PluginStatusTime = pluginStatusTime;
+                data->InfoUpdateTime.value   = infoUpdateTime;
+                data->PluginInfoTime.value   = pluginInfoTime;
+                data->PluginStatusTime.value = pluginStatusTime;
                 if (getAutoUpdate()){
                     if (infoUpdateTime == 0)
                         infoUpdateTime = 1;
-                    if (infoUpdateTime != data->InfoFetchTime)
-                        addFullInfoRequest(data->Uin);
-                    if ((data->PluginInfoTime != data->PluginInfoFetchTime)){
-                        if (data->PluginInfoTime)
-                            addPluginInfoRequest(data->Uin, PLUGIN_QUERYxINFO);
+                    if (infoUpdateTime != data->InfoFetchTime.value)
+                        addFullInfoRequest(data->Uin.value);
+                    if ((data->PluginInfoTime.value != data->PluginInfoFetchTime.value)){
+                        if (data->PluginInfoTime.value)
+                            addPluginInfoRequest(data->Uin.value, PLUGIN_QUERYxINFO);
                     }
-                    if ((data->PluginInfoTime != data->PluginInfoFetchTime) ||
-                            (data->PluginStatusTime != data->PluginStatusFetchTime)){
-                        if (data->SharedFiles != 0){
-                            data->SharedFiles = 0;
+                    if ((data->PluginInfoTime.value != data->PluginInfoFetchTime.value) ||
+                            (data->PluginStatusTime.value != data->PluginStatusFetchTime.value)){
+                        if (data->SharedFiles.bValue){
+                            data->SharedFiles.bValue = false;
                             bChanged = true;
                         }
-                        if (data->FollowMe != 0){
-                            data->FollowMe = 0;
+                        if (data->FollowMe.value){
+                            data->FollowMe.value = 0;
                             bChanged = true;
                         }
-                        if (data->ICQPhone != 0){
-                            data->ICQPhone = 0;
+                        if (data->ICQPhone.bValue){
+                            data->ICQPhone.bValue = false;
                             bChanged = true;
                         }
-                        if (data->PluginStatusTime)
-                            addPluginInfoRequest(data->Uin, PLUGIN_QUERYxSTATUS);
+                        if (data->PluginStatusTime.value)
+                            addPluginInfoRequest(data->Uin.value, PLUGIN_QUERYxSTATUS);
                     }
                 }
             }
-            if (data->bInvisible){
-                data->bInvisible = false;
+            if (data->bInvisible.bValue){
+                data->bInvisible.bValue = false;
                 bChanged = true;
             }
             if (bChanged){
                 Event e(EventContactChanged, contact);
                 e.process();
             }
-            if ((data->Status != prevStatus) || bAwayChanged){
+            if ((data->Status.value != prevStatus) || bAwayChanged){
                 unsigned status = STATUS_OFFLINE;
-                if ((data->Status & 0xFFFF) != ICQ_STATUS_OFFLINE){
+                if ((data->Status.value & 0xFFFF) != ICQ_STATUS_OFFLINE){
                     status = STATUS_ONLINE;
-                    if (data->Status & ICQ_STATUS_DND){
+                    if (data->Status.value & ICQ_STATUS_DND){
                         status = STATUS_DND;
-                    }else if (data->Status & ICQ_STATUS_OCCUPIED){
+                    }else if (data->Status.value & ICQ_STATUS_OCCUPIED){
                         status = STATUS_OCCUPIED;
-                    }else if (data->Status & ICQ_STATUS_NA){
+                    }else if (data->Status.value & ICQ_STATUS_NA){
                         status = STATUS_NA;
-                    }else if (data->Status & ICQ_STATUS_AWAY){
+                    }else if (data->Status.value & ICQ_STATUS_AWAY){
                         status = STATUS_AWAY;
-                    }else if (data->Status & ICQ_STATUS_FFC){
+                    }else if (data->Status.value & ICQ_STATUS_FFC){
                         status = STATUS_FFC;
                     }
                 }
-                if ((status == STATUS_ONLINE) && (data->Class & CLASS_AWAY))
+                if ((status == STATUS_ONLINE) && (data->Class.value & CLASS_AWAY))
                     status = STATUS_AWAY;
                 StatusMessage m;
                 m.setContact(contact->id());
@@ -336,18 +336,18 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 Event e(EventMessageReceived, &m);
                 e.process();
                 if (!contact->getIgnore() &&
-                        ((data->Class & CLASS_AWAY) == 0) &&
-                        (((data->Status & 0xFF) == ICQ_STATUS_ONLINE) &&
+                        ((data->Class.value & CLASS_AWAY) == 0) &&
+                        (((data->Status.value & 0xFF) == ICQ_STATUS_ONLINE) &&
                          (((prevStatus & 0xFF) != ICQ_STATUS_ONLINE)) || bAwayChanged) &&
                         (((prevStatus & 0xFFFF) != ICQ_STATUS_OFFLINE) ||
-                         (data->OnlineTime > this->data.owner.OnlineTime))){
+                         (data->OnlineTime.value > this->data.owner.OnlineTime.value))){
                     Event e(EventContactOnline, contact);
                     e.process();
                 }
-                if (getAutoReplyUpdate() && ((data->Status & 0xFF) != ICQ_STATUS_ONLINE)){
-                    if ((getInvisible() && data->VisibleId) ||
-                            (!getInvisible() && (data->InvisibleId == 0)))
-                        addPluginInfoRequest(data->Uin, PLUGIN_AR);
+                if (getAutoReplyUpdate() && ((data->Status.value & 0xFF) != ICQ_STATUS_ONLINE)){
+                    if ((getInvisible() && data->VisibleId.value) ||
+                            (!getInvisible() && (data->InvisibleId.value == 0)))
+                        addPluginInfoRequest(data->Uin.value, PLUGIN_AR);
                 }
             }
         }
@@ -372,8 +372,7 @@ void ICQClient::sendContactList()
         ClientDataIterator it_data(contact->clientData, this);
         ICQUserData *data;
         while ((data = (ICQUserData*)(++it_data)) != NULL){
-            //            if ((data->IgnoreId == 0)  && (data->WaitAuth || (data->GrpId == 0)))
-            if (data->IgnoreId == 0)
+            if (data->IgnoreId.value == 0)
                 buddies.push_back(screen(data));
         }
     }
@@ -384,8 +383,7 @@ void ICQClient::sendContactList()
         ClientDataIterator it_data(contact->clientData, this);
         ICQUserData *data;
         while ((data = (ICQUserData*)(++it_data)) != NULL){
-            //            if ((data->IgnoreId == 0)  && (data->WaitAuth || (data->GrpId == 0)))
-            if (data->IgnoreId == 0)
+            if (data->IgnoreId.value == 0)
                 m_socket->writeBuffer.packScreen(screen(data).c_str());
         }
     }
@@ -408,7 +406,7 @@ void ICQClient::addBuddy(Contact *contact)
         }
         if (it != buddies.end())
             continue;
-        if ((data->IgnoreId == 0)  && (data->WaitAuth || (data->GrpId == 0))){
+        if ((data->IgnoreId.value == 0)  && (data->WaitAuth.bValue || (data->GrpId.value == 0))){
             snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_ADDxTOxLIST);
             m_socket->writeBuffer.packScreen(screen(data).c_str());
             sendPacket();

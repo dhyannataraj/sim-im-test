@@ -45,60 +45,60 @@ class Icons;
 
 typedef struct CoreData
 {
-    char		*Profile;
-    unsigned	SavePasswd;
-    unsigned	NoShow;
-    unsigned	ShowPanel;
-    unsigned	ManualStatus;
-    unsigned	StatusTime;
-    unsigned	Invisible;
-    long		geometry[5];
-    long		toolBarState[7];
-    void		*Buttons;
-    void		*Menues;
-    unsigned	ShowOnLine;
-    unsigned	GroupMode;
-    unsigned	UseDblClick;
-    unsigned	UseSysColors;
-    unsigned	ColorOnline;
-    unsigned	ColorOffline;
-    unsigned	ColorAway;
-    unsigned	ColorNA;
-    unsigned	ColorDND;
-    unsigned	ColorGroup;
-    unsigned	GroupSeparator;
-    char		*Lang;
-    unsigned	ContainerMode;
-    unsigned	SendOnEnter;
-    unsigned	containerGeo[5];
-    unsigned	containerBar[7];
-    unsigned	ContainerStatusSize;
-    char		*Containers;
-    void		*Container;
-    unsigned	CopyMessages;
-    unsigned	EditHeight;
-    unsigned	editBar[7];
-    unsigned	EditBackground;
-    unsigned	EditForeground;
-    char		*EditFont;
-    unsigned	EditSaveFont;
-    unsigned	OwnColors;
-    unsigned	UseSmiles;
-    unsigned	CloseSend;
-    unsigned	HistoryPage;
-    unsigned	HistoryDirection;
-    unsigned	historySize[2];
-    long		historyBar[7];
-    char		*HistorySearch;
-    char		*Unread;
-    void		*NoShowAutoReply;
-    unsigned	SortMode;
-    unsigned	CloseTransfer;
-    char		*HistoryStyle;
-    unsigned	AuthStyle;
-    unsigned	VisibleStyle;
-    unsigned	InvisibleStyle;
-    unsigned	SmallGroupFont;
+    Data	Profile;
+    Data	SavePasswd;
+    Data	NoShow;
+    Data	ShowPanel;
+    Data	ManualStatus;
+    Data	StatusTime;
+    Data	Invisible;
+    Data	geometry[5];
+    Data	toolBarState[7];
+    Data	Buttons;
+    Data	Menues;
+    Data	ShowOnLine;
+    Data	GroupMode;
+    Data	UseDblClick;
+    Data	UseSysColors;
+    Data	ColorOnline;
+    Data	ColorOffline;
+    Data	ColorAway;
+    Data	ColorNA;
+    Data	ColorDND;
+    Data	ColorGroup;
+    Data	GroupSeparator;
+    Data	Lang;
+    Data	ContainerMode;
+    Data	SendOnEnter;
+    Data	containerGeo[5];
+    Data	containerBar[7];
+    Data	ContainerStatusSize;
+    Data	Containers;
+    Data	Container;
+    Data	CopyMessages;
+    Data	EditHeight;
+    Data	editBar[7];
+    Data	EditBackground;
+    Data	EditForeground;
+    Data	EditFont;
+    Data	EditSaveFont;
+    Data	OwnColors;
+    Data	UseSmiles;
+    Data	CloseSend;
+    Data	HistoryPage;
+    Data	HistoryDirection;
+    Data	historySize[2];
+    Data	historyBar[7];
+    Data	HistorySearch;
+    Data	Unread;
+    Data	NoShowAutoReply;
+    Data	SortMode;
+    Data	CloseTransfer;
+    Data	HistoryStyle;
+    Data	AuthStyle;
+    Data	VisibleStyle;
+    Data	InvisibleStyle;
+    Data	SmallGroupFont;
 } CoreData;
 
 const unsigned CONTAINER_SIMPLE	= 0;
@@ -119,45 +119,45 @@ const unsigned NEW_MSG_RAISE	= 2;
 
 typedef struct CoreUserData
 {
-    unsigned	LogStatus;
-    unsigned	LogMessage;
-    unsigned	OpenNewMessage;
-    unsigned	OpenOnOnline;
-    char		*IncomingPath;
-    unsigned	AcceptMode;
-    unsigned	OverwriteFiles;
-    char		*DeclineMessage;
+    Data	LogStatus;
+    Data	LogMessage;
+    Data	OpenNewMessage;
+    Data	OpenOnOnline;
+    Data	IncomingPath;
+    Data	AcceptMode;
+    Data	OverwriteFiles;
+    Data	DeclineMessage;
 } CoreUserData;
 
 typedef struct SMSUserData
 {
-    char		*SMSSignatureBefore;
-    char		*SMSSignatureAfter;
+    Data	SMSSignatureBefore;
+    Data	SMSSignatureAfter;
 } SMSUserData;
 
 typedef struct ARUserData
 {
-    void		*AutoReply;
+    Data	AutoReply;
 } ARUserData;
 
 typedef struct ListUserData
 {
-    unsigned	OfflineOpen;
-    unsigned	OnlineOpen;
-    unsigned	ShowAlways;
+    Data	OfflineOpen;
+    Data	OnlineOpen;
+    Data	ShowAlways;
 } ListUserData;
 
 typedef struct TranslitUserData
 {
-    unsigned	Translit;
+    Data	Translit;
 } TranslitUserData;
 
 typedef struct HistoryUserData
 {
-    unsigned	CutSize;
-    unsigned	MaxSize;
-    unsigned	CutDays;
-    unsigned	Days;
+    Data	CutSize;
+    Data	MaxSize;
+    Data	CutDays;
+    Data	Days;
 } HistoryUserData;
 
 class ClientList : public vector<Client*>
@@ -387,7 +387,7 @@ public:
     PROP_BOOL(NoShow)
     PROP_BOOL(ShowPanel)
     void setManualStatus(unsigned long status);
-    unsigned long getManualStatus() { return data.ManualStatus; }
+    unsigned long getManualStatus() { return data.ManualStatus.value; }
     PROP_ULONG(StatusTime)
     PROP_BOOL(Invisible)
     PROP_STRLIST(Buttons)
@@ -453,6 +453,8 @@ public:
 
     XSL	*historyXSL;
     CoreData	data;
+
+    bool m_bIgnoreEvents;
 
 signals:
     void modeChanged();

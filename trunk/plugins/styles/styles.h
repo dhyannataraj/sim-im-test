@@ -22,14 +22,14 @@
 
 typedef struct StylesData
 {
-    char	*Style;
-    unsigned	SystemFonts;
-    char		*BaseFont;
-    char		*MenuFont;
-    char		*MessageFont;
-    unsigned	SystemColors;
-    unsigned	BtnColor;
-    unsigned	BgColor;
+    Data	Style;
+    Data	SystemFonts;
+    Data	BaseFont;
+    Data	MenuFont;
+    Data	MessageFont;
+    Data	SystemColors;
+    Data	BtnColor;
+    Data	BgColor;
 } StylesData;
 
 class StylesPlugin : public Plugin

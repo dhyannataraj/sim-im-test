@@ -27,8 +27,8 @@ ForwardConfig::ForwardConfig(QWidget *parent, void *_data, ForwardPlugin *plugin
 {
     m_plugin = plugin;
     ForwardUserData *data = (ForwardUserData*)_data;
-    chkFirst->setChecked(data->Send1st != 0);
-    chkTranslit->setChecked(data->Translit != 0);
+    chkFirst->setChecked(data->Send1st.bValue);
+    chkTranslit->setChecked(data->Translit.bValue);
     cmbPhone->setEditable(true);
     QString phones = getContacts()->owner()->getPhones();
     while (!phones.isEmpty()){
@@ -38,16 +38,16 @@ ForwardConfig::ForwardConfig(QWidget *parent, void *_data, ForwardPlugin *plugin
         if ((unsigned)atol(item.latin1()) == CELLULAR)
             cmbPhone->insertItem(number);
     }
-    if (data->Phone)
-        cmbPhone->lineEdit()->setText(QString::fromUtf8(data->Phone));
+    if (data->Phone.ptr)
+        cmbPhone->lineEdit()->setText(QString::fromUtf8(data->Phone.ptr));
 }
 
 void ForwardConfig::apply(void *_data)
 {
     ForwardUserData *data = (ForwardUserData*)_data;
-    data->Send1st = chkFirst->isChecked();
-    data->Translit = chkTranslit->isChecked();
-    set_str(&data->Phone, cmbPhone->lineEdit()->text().utf8());
+    data->Send1st.bValue = chkFirst->isChecked();
+    data->Translit.bValue = chkTranslit->isChecked();
+    set_str(&data->Phone.ptr, cmbPhone->lineEdit()->text().utf8());
 }
 
 void ForwardConfig::apply()

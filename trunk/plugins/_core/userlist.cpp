@@ -111,7 +111,7 @@ void UserViewItemBase::drawSeparator(QPainter *p, int x, int width, const QColor
         QRect rcSep(x, height()/2, width - 6 - x, 1);
         listView()->style().drawPrimitive(QStyle::PE_Separator, p, rcSep, cg);
 #else
-        listView()->style().drawSeparator(p, x, height() / 2, width - 6, height() / 2, cg);
+listView()->style().drawSeparator(p, x, height() / 2, width - 6, height() / 2, cg);
 #endif
     }
 }
@@ -153,9 +153,9 @@ void GroupItem::init(Group *grp)
         setOpen(true);
     }else{
         if (m_bOffline){
-            setOpen((data->OfflineOpen) != 0);
+            setOpen(data->OfflineOpen.bValue);
         }else{
-            setOpen((data->OnlineOpen) != 0);
+            setOpen(data->OnlineOpen.bValue);
         }
     }
     update(grp, true);
@@ -192,9 +192,9 @@ void GroupItem::setOpen(bool bOpen)
         ListUserData *data = (ListUserData*)(grp->getUserData(CorePlugin::m_plugin->list_data_id, !bOpen));
         if (data){
             if (m_bOffline){
-                data->OfflineOpen = bOpen;
+                data->OfflineOpen.bValue = bOpen;
             }else{
-                data->OnlineOpen = bOpen;
+                data->OnlineOpen.bValue  = bOpen;
             }
         }
     }
@@ -352,7 +352,7 @@ void UserListBase::drawUpdates()
         unsigned unread = getUnread(contact->id());
         bool bShow = false;
         ListUserData *data = (ListUserData*)(contact->getUserData(CorePlugin::m_plugin->list_data_id));
-        if (data && data->ShowAlways)
+        if (data && data->ShowAlways.bValue)
             bShow = true;
         switch (m_groupMode){
         case 0:
@@ -637,7 +637,7 @@ void UserListBase::fill()
             unsigned unread = getUnread(contact->id());
             bool bShow = false;
             ListUserData *data = (ListUserData*)contact->getUserData(CorePlugin::m_plugin->list_data_id);
-            if (data && data->ShowAlways)
+            if (data && data->ShowAlways.bValue)
                 bShow = true;
             if ((unread == 0) && !bShow && (status <= STATUS_OFFLINE) && m_bShowOnline)
                 continue;
@@ -671,7 +671,7 @@ void UserListBase::fill()
             unsigned unread = getUnread(contact->id());
             bool bShow = false;
             ListUserData *data = (ListUserData*)contact->getUserData(CorePlugin::m_plugin->list_data_id);
-            if (data && data->ShowAlways)
+            if (data && data->ShowAlways.bValue)
                 bShow = true;
             if ((status <= STATUS_OFFLINE) && !bShow && (unread == 0) && m_bShowOnline)
                 continue;
@@ -721,7 +721,7 @@ void UserListBase::fill()
             unsigned unread = getUnread(contact->id());
             bool bShow = false;
             ListUserData *data = (ListUserData*)contact->getUserData(CorePlugin::m_plugin->list_data_id);
-            if (data && data->ShowAlways)
+            if (data && data->ShowAlways.bValue)
                 bShow = true;
             if ((unread == 0) && !bShow && (status <= STATUS_OFFLINE) && m_bShowOnline)
                 continue;

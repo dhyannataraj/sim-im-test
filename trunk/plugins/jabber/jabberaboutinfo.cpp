@@ -52,7 +52,7 @@ void *JabberAboutInfo::processEvent(Event *e)
     }
     if (m_data && (e->type() == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventVCard)){
         JabberUserData *data = (JabberUserData*)(e->param());
-        if (!str_cmp(m_data->ID, data->ID) && !str_cmp(m_data->Node, data->Node))
+        if (!str_cmp(m_data->ID.ptr, data->ID.ptr) && !str_cmp(m_data->Node.ptr, data->Node.ptr))
             fill(data);
     }
     return NULL;
@@ -61,7 +61,7 @@ void *JabberAboutInfo::processEvent(Event *e)
 void JabberAboutInfo::fill(JabberUserData *data)
 {
     if (data == NULL) data = &m_client->data.owner;
-    edtAbout->setText(data->Desc ? QString::fromUtf8(data->Desc) : QString(""));
+    edtAbout->setText(data->Desc.ptr ? QString::fromUtf8(data->Desc.ptr) : QString(""));
 }
 
 void JabberAboutInfo::apply(Client *client, void *_data)
@@ -69,7 +69,7 @@ void JabberAboutInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     JabberUserData *data = (JabberUserData*)_data;
-    set_str(&data->Desc, edtAbout->text().utf8());
+    set_str(&data->Desc.ptr, edtAbout->text().utf8());
 }
 
 #ifndef WIN32

@@ -52,9 +52,9 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 static DataDef remoteData[] =
     {
 #ifdef WIN32
-        { "Path", DATA_STRING, 1, (unsigned)"auto:" },
+        { "Path", DATA_STRING, 1, "auto:" },
 #else
-        { "Path", DATA_STRING, 1, (unsigned)"/tmp/sim.%user%" },
+{ "Path", DATA_STRING, 1, "/tmp/sim.%user%" },
 #endif
         { NULL, 0, 0, 0 }
     };
@@ -532,10 +532,10 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             }
             if (core->getManualStatus() == status)
                 return true;
-            core->data.ManualStatus  = status;
+            core->data.ManualStatus.value  = status;
             time_t now;
             time(&now);
-            core->data.StatusTime = now;
+            core->data.StatusTime.value = now;
             Event e(EventClientStatus);
             e.process();
             return true;

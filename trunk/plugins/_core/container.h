@@ -38,13 +38,13 @@ class QAccel;
 
 typedef struct ContainerData
 {
-    unsigned	Id;
-    char		*Windows;
-    unsigned	ActiveWindow;
-    long		geometry[5];
-    long		barState[7];
-    long		StatusSize;
-    void		*WndConfig;
+    Data	Id;
+    Data	Windows;
+    Data	ActiveWindow;
+    Data	geometry[5];
+    Data	barState[7];
+    Data	StatusSize;
+    Data	WndConfig;
 } ContainerData;
 
 class ContainerStatus : public QStatusBar

@@ -22,12 +22,12 @@
 
 typedef struct FilterData
 {
-    unsigned	FromList;
+    Data	FromList;
 } FilterData;
 
 typedef struct FilterUserData
 {
-    char		*SpamList;
+    Data	SpamList;
 } FilterUserData;
 
 class QStringList;

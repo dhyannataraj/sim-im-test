@@ -35,8 +35,8 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
     if (m_bConfig){
         QTimer::singleShot(0, this, SLOT(changed()));
         connect(chkNew, SIGNAL(toggled(bool)), this, SLOT(newToggled(bool)));
-        if (m_client->data.owner.Uin){
-            edtUin->setText(QString::number(m_client->data.owner.Uin));
+        if (m_client->data.owner.Uin.value){
+            edtUin->setText(QString::number(m_client->data.owner.Uin.value));
             chkNew->setChecked(false);
         }else{
             chkNew->setChecked(true);

@@ -104,16 +104,16 @@ void WorkInfo::fill()
 {
     ICQUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
-    edtAddress->setText(m_client->toUnicode(data->WorkAddress, data));
-    edtCity->setText(m_client->toUnicode(data->WorkCity, data));
-    edtState->setText(m_client->toUnicode(data->WorkState, data));
-    edtZip->setText(m_client->toUnicode(data->WorkZip, data));
-    initCombo(cmbCountry, (unsigned short)(data->WorkCountry), getCountries());
-    initCombo(cmbOccupation, (unsigned short)(data->Occupation), occupations);
-    edtName->setText(m_client->toUnicode(data->WorkName, data));
-    edtDept->setText(m_client->toUnicode(data->WorkDepartment, data));
-    edtPosition->setText(m_client->toUnicode(data->WorkPosition, data));
-    edtSite->setText(m_client->toUnicode(data->WorkHomepage, data));
+    edtAddress->setText(m_client->toUnicode(data->WorkAddress.ptr, data));
+    edtCity->setText(m_client->toUnicode(data->WorkCity.ptr, data));
+    edtState->setText(m_client->toUnicode(data->WorkState.ptr, data));
+    edtZip->setText(m_client->toUnicode(data->WorkZip.ptr, data));
+    initCombo(cmbCountry, (unsigned short)(data->WorkCountry.value), getCountries());
+    initCombo(cmbOccupation, (unsigned short)(data->Occupation.value), occupations);
+    edtName->setText(m_client->toUnicode(data->WorkName.ptr, data));
+    edtDept->setText(m_client->toUnicode(data->WorkDepartment.ptr, data));
+    edtPosition->setText(m_client->toUnicode(data->WorkPosition.ptr, data));
+    edtSite->setText(m_client->toUnicode(data->WorkHomepage.ptr, data));
     urlChanged(edtSite->text());
 }
 
@@ -136,16 +136,16 @@ void WorkInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    set_str(&data->WorkAddress, m_client->fromUnicode(edtAddress->text(), NULL).c_str());
-    set_str(&data->WorkCity, m_client->fromUnicode(edtCity->text(), NULL).c_str());
-    set_str(&data->WorkState, m_client->fromUnicode(edtState->text(), NULL).c_str());
-    set_str(&data->WorkZip, m_client->fromUnicode(edtZip->text(), NULL).c_str());
-    data->WorkCountry = getComboValue(cmbCountry, getCountries());
-    data->Occupation = getComboValue(cmbOccupation, occupations);
-    set_str(&data->WorkName, m_client->fromUnicode(edtName->text(), NULL).c_str());
-    set_str(&data->WorkDepartment, m_client->fromUnicode(edtDept->text(), NULL).c_str());
-    set_str(&data->WorkPosition, m_client->fromUnicode(edtPosition->text(), NULL).c_str());
-    set_str(&data->WorkHomepage, m_client->fromUnicode(edtSite->text(), NULL).c_str());
+    set_str(&data->WorkAddress.ptr, m_client->fromUnicode(edtAddress->text(), NULL).c_str());
+    set_str(&data->WorkCity.ptr, m_client->fromUnicode(edtCity->text(), NULL).c_str());
+    set_str(&data->WorkState.ptr, m_client->fromUnicode(edtState->text(), NULL).c_str());
+    set_str(&data->WorkZip.ptr, m_client->fromUnicode(edtZip->text(), NULL).c_str());
+    data->WorkCountry.value = getComboValue(cmbCountry, getCountries());
+    data->Occupation.value = getComboValue(cmbOccupation, occupations);
+    set_str(&data->WorkName.ptr, m_client->fromUnicode(edtName->text(), NULL).c_str());
+    set_str(&data->WorkDepartment.ptr, m_client->fromUnicode(edtDept->text(), NULL).c_str());
+    set_str(&data->WorkPosition.ptr, m_client->fromUnicode(edtPosition->text(), NULL).c_str());
+    set_str(&data->WorkHomepage.ptr, m_client->fromUnicode(edtSite->text(), NULL).c_str());
 }
 
 #ifndef WIN32

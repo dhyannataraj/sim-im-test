@@ -175,7 +175,7 @@ void ZodiakWnd::paintEvent(QPaintEvent *e)
     QFrame::paintEvent(e);
 }
 
-static char *signes[] =
+static const char *signes[] =
     {
         I18N_NOOP("Aries"),
         I18N_NOOP("Taurus"),

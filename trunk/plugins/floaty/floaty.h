@@ -22,9 +22,8 @@
 
 typedef struct FloatyUserData
 {
-    unsigned	Floaty;
-    unsigned	X;
-    unsigned	Y;
+    Data	X;
+    Data	Y;
 } FloatyUserData;
 
 class FloatyWnd;

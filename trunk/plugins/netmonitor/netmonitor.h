@@ -23,10 +23,10 @@
 
 typedef struct NetMonitorData
 {
-    unsigned long	LogLevel;
-    char			*LogPackets;
-    long			geometry[5];
-    unsigned long	Show;
+    Data	LogLevel;
+    Data	LogPackets;
+    Data	geometry[5];
+    Data	Show;
 } NetMonitorData;
 
 class MonitorWindow;
