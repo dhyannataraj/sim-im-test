@@ -182,7 +182,6 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
         id += ",";
         id += QString::number(m_cut.size());
     }
-    log(L_DEBUG, "Add %s", id.latin1());
     info += "<id>";
     info += id;
     info += "</id>";
@@ -411,8 +410,76 @@ typedef struct Msg_Id
     string		client;
 } Msg_Id;
 
+void MsgViewBase::reload()
+{
+    QString t;
+    vector<Msg_Id> msgs;
+    unsigned i;
+    for (i = 0; i < (unsigned)paragraphs(); i++){
+        QString s = text(i);
+        int n = s.find(MSG_ANCHOR);
+        if (n < 0)
+            continue;
+        s = s.mid(n + strlen(MSG_ANCHOR));
+        n = s.find("\"");
+        if (n < 0)
+            continue;
+        string client;
+        Msg_Id id;
+        id.id = messageId(s.left(n), client);
+        id.client = client;
+        msgs.push_back(id);
+    }
+    for (i = 0; i < msgs.size(); i++){
+        Message *msg = History::load(msgs[i].id, msgs[i].client.c_str(), m_id);
+        if (msg == NULL)
+            continue;
+        t += messageText(msg, false);
+        delete msg;
+    }
+    QPoint p = QPoint(0, height());
+    p = mapToGlobal(p);
+    p = viewport()->mapFromGlobal(p);
+    int x, y;
+    viewportToContents(p.x(), p.y(), x, y);
+    int para;
+    int pos = charAt(QPoint(x, y), &para);
+    setText(t);
+    if (!CorePlugin::m_plugin->getOwnColors())
+        setBackground(0);
+    if (pos == -1){
+        scrollToBottom();
+    }else{
+        setCursorPosition(para, pos);
+        ensureCursorVisible();
+    }
+}
+
 void *MsgViewBase::processEvent(Event *e)
 {
+    if (e->type() == EventRewriteMessage){
+        Message *msg = (Message*)(e->param());
+        if (msg->contact() != m_id)
+            return NULL;
+        unsigned i;
+        for (i = 0; i < (unsigned)paragraphs(); i++){
+            QString s = text(i);
+            int n = s.find(MSG_ANCHOR);
+            if (n < 0)
+                continue;
+            s = s.mid(n + strlen(MSG_ANCHOR));
+            n = s.find("\"");
+            if (n < 0)
+                continue;
+            string client;
+            if ((messageId(s.left(n), client) == msg->id()) && (client == msg->client()))
+                break;
+        }
+        if (i >= (unsigned)paragraphs())
+            return NULL;
+        reload();
+        return NULL;
+    }
     if (e->type() == EventCutHistory){
         CutHistory *ch = (CutHistory*)(e->param());
         if (ch->contact != m_id)
@@ -555,47 +622,7 @@ void *MsgViewBase::processEvent(Event *e)
         unsigned id = (unsigned)(e->param());
         if (id && (id != m_id))
             return NULL;
-        QString t;
-        vector<Msg_Id> msgs;
-        unsigned i;
-        for (i = 0; i < (unsigned)paragraphs(); i++){
-            QString s = text(i);
-            int n = s.find(MSG_ANCHOR);
-            if (n < 0)
-                continue;
-            s = s.mid(n + strlen(MSG_ANCHOR));
-            n = s.find("\"");
-            if (n < 0)
-                continue;
-            string client;
-            Msg_Id id;
-            id.id = messageId(s.left(n), client);
-            id.client = client;
-            msgs.push_back(id);
-        }
-        for (i = 0; i < msgs.size(); i++){
-            Message *msg = History::load(msgs[i].id, msgs[i].client.c_str(), m_id);
-            if (msg == NULL)
-                continue;
-            t += messageText(msg, false);
-            delete msg;
-        }
-        QPoint p = QPoint(0, height());
-        p = mapToGlobal(p);
-        p = viewport()->mapFromGlobal(p);
-        int x, y;
-        viewportToContents(p.x(), p.y(), x, y);
-        int para;
-        int pos = charAt(QPoint(x, y), &para);
-        setText(t);
-        if (!CorePlugin::m_plugin->getOwnColors())
-            setBackground(0);
-        if (pos == -1){
-            scrollToBottom();
-        }else{
-            setCursorPosition(para, pos);
-            ensureCursorVisible();
-        }
+        reload();
     }
     if (e->type() == EventHistoryColors)
         setColors();
@@ -857,6 +884,8 @@ void *MsgView::processEvent(Event *e)
     if ((e->type() == EventSent) || (e->type() == EventMessageReceived)){
         Message *msg = (Message*)(e->param());
         if (msg->contact() != m_id)
+            return NULL;
+        if (msg->getFlags() & MESSAGE_NOVIEW)
             return NULL;
         bool bAdd = true;
         if (msg->type() == MessageStatus){

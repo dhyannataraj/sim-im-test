@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qcomplextext.cpp,v 1.5 2003-11-23 13:33:48 shutoff Exp $
+** $Id: qcomplextext.cpp,v 1.6 2004-01-06 01:51:47 shutoff Exp $
 **
 ** Implementation of some internal classes
 **
@@ -35,6 +35,11 @@
 **
 **********************************************************************/
 
+
+#include <qt.h>
+
+#if QT_VERSION < 300
+
 #ifdef WIN32
 #if _MSC_VER > 1020
 #include <yvals.h>              
@@ -42,9 +47,8 @@
 #endif
 #endif
 
-#include "qcomplextext_p.h"
 
-#if QT_VERSION < 300
+#include "qcomplextext_p.h"
 #ifndef QT_NO_COMPLEXTEXT
 #include "qrichtext_p.h"
 #include "qfontmetrics.h"

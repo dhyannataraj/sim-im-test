@@ -60,7 +60,7 @@ BEGIN
         BEGIN
             VALUE "Comments", "\0"
             VALUE "CompanyName", "Vladimir Shutoff\0"
-            VALUE "FileDescription", "Windocl plugin\0"
+            VALUE "FileDescription", "Update check plugin\0"
             VALUE "FileVersion", "0, 9, 3, 0\0"
             VALUE "InternalName", "update\0"
             VALUE "LegalCopyright", "Copyright © 2002-2003\0"

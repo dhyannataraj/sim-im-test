@@ -46,6 +46,7 @@ protected slots:
     void showPopup();
     void textChanged(const QString&);
 protected:
+    void setEnabled(bool);
     void paintEvent(QPaintEvent*);
     QLineEdit	*m_edit;
     QPushButton	*m_button;

@@ -222,14 +222,14 @@ const CommandDef *JabberProtocol::statusList()
     return jabber_status_list;
 }
 
-#ifdef WIN32
+#if defined(WIN32) && (QT_VERSION < 300)
 void qInitJpeg();
 #endif
 
 JabberPlugin::JabberPlugin(unsigned base)
         : Plugin(base)
 {
-#ifdef WIN32
+#if defined(WIN32) && (QT_VERSION < 300)
     qInitJpeg();
 #endif
 

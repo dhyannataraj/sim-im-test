@@ -356,7 +356,7 @@ void UserListBase::drawUpdates()
             bShow = true;
         switch (m_groupMode){
         case 0:
-            if (status == STATUS_OFFLINE){
+            if (status <= STATUS_OFFLINE){
                 if (itemOnline){
                     contactItem = findContactItem(contact->id(), itemOnline);
                     if (contactItem){
@@ -422,7 +422,7 @@ void UserListBase::drawUpdates()
             grpItem = NULL;
             if (contactItem){
                 grpItem = static_cast<GroupItem*>(contactItem->parent());
-                if (((status == STATUS_OFFLINE) && (unread == 0) && !bShow && m_bShowOnline) ||
+                if (((status <= STATUS_OFFLINE) && (unread == 0) && !bShow && m_bShowOnline) ||
                         (contact->getGroup() != grpItem->id())){
                     grpItem->m_nContacts--;
                     if (contactItem->m_bOnline)
@@ -433,17 +433,24 @@ void UserListBase::drawUpdates()
                     grpItem = NULL;
                 }
             }
-            if ((status != STATUS_OFFLINE) || unread || bShow || !m_bShowOnline){
-                if (grpItem == NULL)
+            if ((status > STATUS_OFFLINE) || unread || bShow || !m_bShowOnline){
+                if (grpItem == NULL){
                     grpItem = findGroupItem(contact->getGroup());
+                    if ((grpItem == NULL) && (contact->getGroup() == 0)){
+                        Group *grp = getContacts()->group(0);
+                        if (grp)
+                            grpItem = new GroupItem(this, grp, true);
+                    }
+                    grpItem = findGroupItem(0);
+                }
                 if (grpItem){
                     if (contactItem){
                         if (contactItem->update(contact, status, style, icons.c_str(), unread))
                             addSortItem(grpItem);
                         repaintItem(contactItem);
                         if (!m_bShowOnline &&
-                                (contactItem->m_bOnline != (status != STATUS_OFFLINE))){
-                            if (status == STATUS_OFFLINE){
+                                (contactItem->m_bOnline != (status > STATUS_OFFLINE))){
+                            if (status <= STATUS_OFFLINE){
                                 grpItem->m_nContactsOnline--;
                                 contactItem->m_bOnline = false;
                             }else{
@@ -455,7 +462,7 @@ void UserListBase::drawUpdates()
                     }else{
                         contactItem = new ContactItem(grpItem, contact, status, style, icons.c_str(), unread);
                         grpItem->m_nContacts++;
-                        if (!m_bShowOnline && (status != STATUS_OFFLINE)){
+                        if (!m_bShowOnline && (status > STATUS_OFFLINE)){
                             grpItem->m_nContactsOnline++;
                             contactItem->m_bOnline = true;
                         }
@@ -469,7 +476,7 @@ void UserListBase::drawUpdates()
             grpItem = NULL;
             if (contactItem){
                 grpItem = static_cast<GroupItem*>(contactItem->parent());
-                if ((status == STATUS_OFFLINE) || (grpItem->id() != contact->getGroup())){
+                if ((status <= STATUS_OFFLINE) || (grpItem->id() != contact->getGroup())){
                     grpItem->m_nContacts--;
                     addGroupForUpdate(grpItem->id());
                     deleteItem(contactItem);
@@ -481,7 +488,7 @@ void UserListBase::drawUpdates()
                 grpItem = NULL;
                 if (contactItem){
                     grpItem = static_cast<GroupItem*>(contactItem->parent());
-                    if ((status != STATUS_OFFLINE) || (grpItem->id() != contact->getGroup())){
+                    if ((status > STATUS_OFFLINE) || (grpItem->id() != contact->getGroup())){
                         grpItem->m_nContacts--;
                         addGroupForUpdate(grpItem->id());
                         deleteItem(contactItem);
@@ -497,10 +504,10 @@ void UserListBase::drawUpdates()
                     }
                 }
             }
-            if ((unread == 0) && !bShow && (status == STATUS_OFFLINE) && m_bShowOnline)
+            if ((unread == 0) && !bShow && (status <= STATUS_OFFLINE) && m_bShowOnline)
                 break;
             DivItem *divItem;
-            if (status == STATUS_OFFLINE){
+            if (status <= STATUS_OFFLINE){
                 if (itemOffline == NULL){
                     itemOffline = new DivItem(this, DIV_OFFLINE);
                     setOpen(itemOffline, true);
@@ -632,11 +639,11 @@ void UserListBase::fill()
             ListUserData *data = (ListUserData*)contact->getUserData(CorePlugin::m_plugin->list_data_id);
             if (data && data->ShowAlways)
                 bShow = true;
-            if ((unread == 0) && !bShow && (status == STATUS_OFFLINE) && m_bShowOnline)
+            if ((unread == 0) && !bShow && (status <= STATUS_OFFLINE) && m_bShowOnline)
                 continue;
-            divItem = (status == STATUS_OFFLINE) ? divItemOffline : divItemOnline;
+            divItem = (status <= STATUS_OFFLINE) ? divItemOffline : divItemOnline;
             if (divItem == NULL){
-                if (status == STATUS_OFFLINE){
+                if (status <= STATUS_OFFLINE){
                     divItemOffline = new DivItem(this, DIV_OFFLINE);
                     setOpen(divItemOffline, true);
                     divItem = divItemOffline;
@@ -655,10 +662,6 @@ void UserListBase::fill()
                 continue;
             grpItem = new GroupItem(this, grp, true);
         }
-        grp = list->group(0);
-        if (grp){
-            grpItem = new GroupItem(this, grp, true);
-        }
         while ((contact = ++contact_it) != NULL){
             if (contact->getIgnore() || contact->getTemporary())
                 continue;
@@ -670,14 +673,22 @@ void UserListBase::fill()
             ListUserData *data = (ListUserData*)contact->getUserData(CorePlugin::m_plugin->list_data_id);
             if (data && data->ShowAlways)
                 bShow = true;
-            if ((status == STATUS_OFFLINE) && !bShow && (unread == 0) && m_bShowOnline)
+            if ((status <= STATUS_OFFLINE) && !bShow && (unread == 0) && m_bShowOnline)
                 continue;
             grpItem = findGroupItem(contact->getGroup());
-            if (grpItem == NULL)
-                continue;
+            if (grpItem == NULL){
+                if (contact->getGroup() == 0){
+                    grp = list->group(0);
+                    if (grp)
+                        grpItem = new GroupItem(this, grp, true);
+                }
+                grpItem = findGroupItem(0);
+                if (grpItem == NULL)
+                    continue;
+            }
             contactItem = new ContactItem(grpItem, contact, status, style, icons.c_str(), unread);
             grpItem->m_nContacts++;
-            if ((status != STATUS_OFFLINE) && !m_bShowOnline){
+            if ((status > STATUS_OFFLINE) && !m_bShowOnline){
                 grpItem->m_nContactsOnline++;
                 contactItem->m_bOnline = true;
             }
@@ -691,10 +702,6 @@ void UserListBase::fill()
                 continue;
             grpItem = new GroupItem(divItemOnline, grp, false);
         }
-        grp = list->group(0);
-        if (grp){
-            grpItem = new GroupItem(divItemOnline, grp, false);
-        }
         if (!m_bShowOnline){
             divItemOffline = new DivItem(this, DIV_OFFLINE);
             setOpen(divItemOffline, true);
@@ -702,10 +709,6 @@ void UserListBase::fill()
             while ((grp = ++grp_it) != NULL){
                 if (grp->id() == 0)
                     continue;
-                grpItem = new GroupItem(divItemOffline, grp, true);
-            }
-            grp = list->group(0);
-            if (grp){
                 grpItem = new GroupItem(divItemOffline, grp, true);
             }
         }
@@ -720,9 +723,9 @@ void UserListBase::fill()
             ListUserData *data = (ListUserData*)contact->getUserData(CorePlugin::m_plugin->list_data_id);
             if (data && data->ShowAlways)
                 bShow = true;
-            if ((unread == 0) && !bShow && (status == STATUS_OFFLINE) && m_bShowOnline)
+            if ((unread == 0) && !bShow && (status <= STATUS_OFFLINE) && m_bShowOnline)
                 continue;
-            if (status == STATUS_OFFLINE){
+            if (status <= STATUS_OFFLINE){
                 if (divItemOffline == NULL){
                     divItemOffline = new DivItem(this, DIV_OFFLINE);
                     setOpen(divItemOffline, true);

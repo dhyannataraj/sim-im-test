@@ -24,6 +24,7 @@
 #include <qlayout.h>
 #include <qstringlist.h>
 #include <qapplication.h>
+#include <qregexp.h>
 #ifdef USE_KDE
 #include <kfiledialog.h>
 #define QFileDialog	KFileDialog

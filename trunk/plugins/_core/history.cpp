@@ -593,6 +593,14 @@ void History::del(Message *msg)
     del(name.c_str(), msg->contact(), msg->id(), true);
 }
 
+void History::rewrite(Message *msg)
+{
+    string name = msg->client();
+    if (name.empty())
+        name = number(msg->contact());
+    del(name.c_str(), msg->contact(), msg->id(), true, msg);
+}
+
 typedef map<my_string, unsigned> CLIENTS_MAP;
 
 void History::cut(Message *msg, unsigned contact_id, unsigned date)
@@ -621,7 +629,7 @@ void History::cut(Message *msg, unsigned contact_id, unsigned date)
         del((*it).first.c_str(), msg ? msg->contact() : contact_id, (*it).second + 1, false);
 }
 
-void History::del(const char *name, unsigned contact, unsigned id, bool bCopy)
+void History::del(const char *name, unsigned contact, unsigned id, bool bCopy, Message *msg)
 {
     string f_name = HISTORY_PATH;
     f_name += name;
@@ -670,6 +678,7 @@ void History::del(const char *name, unsigned contact, unsigned id, bool bCopy)
     }
     unsigned skip_size;
     for (;;){
+        string line;
         skip_size = f.at();
         if (!getLine(f, line))
             break;
@@ -678,6 +687,19 @@ void History::del(const char *name, unsigned contact, unsigned id, bool bCopy)
     }
     f.at(skip_size);
     skip_size = skip_size - id;
+    if (bCopy && msg){
+        line += "\n";
+        line += msg->save();
+        line += "\n";
+        int size = line.length();
+        int writen = t.writeBlock(line.c_str(), size);
+        if (writen != size){
+            log(L_DEBUG, "Write history error");
+            return;
+        }
+        id++;
+        skip_size -= line.length();
+    }
     tail = f.size() - f.at();
     for (; tail > 0; ){
         char b[2048];

@@ -561,6 +561,8 @@ void *Container::processEvent(Event *e)
                 contactChanged(contact);
             return NULL;
         }
+        if (msg->getFlags() & MESSAGE_NOVIEW)
+            return NULL;
         if (CorePlugin::m_plugin->getContainerMode()){
             if (isActiveWindow()){
                 userWnd = m_tabBar->currentWnd();

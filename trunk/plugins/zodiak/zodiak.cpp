@@ -215,11 +215,11 @@ void ZodiakWnd::changed()
         int n = getSign(day, month);
         m_picture->setPixmap(QPixmap(xpms[n]));
         m_name->setText(i18n(signes[n]));
-        m_button->setEnabled(true);
+        m_button->show();
     }else{
         m_picture->setPixmap(QPixmap());
         m_name->setText("");
-        m_button->setEnabled(false);
+        m_button->hide();
     }
 }
 

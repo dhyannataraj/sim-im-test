@@ -24,6 +24,7 @@
 
 #include <qtimer.h>
 #include <qtoolbutton.h>
+#include <qregexp.h>
 
 #ifdef USE_KDE
 #include <kfiledialog.h>

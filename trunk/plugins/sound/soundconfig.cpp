@@ -39,7 +39,7 @@ SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin)
     connect(chkArts, SIGNAL(toggled(bool)), this, SLOT(artsToggled(bool)));
     chkArts->setChecked(plugin->getUseArts());
 #else
-    chkArts->hide();
+chkArts->hide();
 #endif
     edtPlayer->setText(QString::fromLocal8Bit(plugin->getPlayer()));
 #endif

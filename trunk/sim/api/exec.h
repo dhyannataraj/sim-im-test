@@ -24,6 +24,7 @@
 
 class ExecManager;
 class QSocketNotifier;
+class QTimer;
 
 class EXPORT Exec : public QObject
 {
@@ -36,6 +37,11 @@ public:
     Buffer bOut;
     Buffer bErr;
     string prog;
+#ifdef WIN32
+    void	*hThread;
+    void	*hOutThread;
+    void	*hErrThread;
+#endif
 public slots:
     void execute(const char *prog, const char *input, bool bSync = false);
     void finished();
@@ -67,6 +73,7 @@ public:
     static ExecManager *manager;
 #ifndef WIN32
     struct sigaction *oldChildAct;
+    QTimer *m_timer;
 #endif
 signals:
     void childExited(int, int);

@@ -134,6 +134,12 @@ DatePicker::~DatePicker()
 {
 }
 
+void DatePicker::setEnabled(bool state)
+{
+    m_edit->setReadOnly(!state);
+    m_button->setEnabled(state);
+}
+
 void DatePicker::setText(const QString &s)
 {
     int day, month, year;

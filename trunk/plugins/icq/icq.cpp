@@ -93,7 +93,7 @@ static CommandDef icq_descr =
         0,
         0,
         0,
-        PROTOCOL_INFO | PROTOCOL_SEARCH_ONLINE | PROTOCOL_INVISIBLE | PROTOCOL_AR_USER | PROTOCOL_FOLLOWME | PROTOCOL_ANY_PORT,
+        PROTOCOL_INFO | PROTOCOL_SEARCH_ONLINE | PROTOCOL_INVISIBLE | PROTOCOL_AR_USER | PROTOCOL_FOLLOWME | PROTOCOL_ANY_PORT | PROTOCOL_NODATA,
         NULL,
         NULL
     };
@@ -358,7 +358,7 @@ static DataDef icqData[] =
 Protocol *ICQPlugin::m_icq = NULL;
 Protocol *ICQPlugin::m_aim = NULL;
 
-#ifdef WIN32
+#if defined(WIN32) && (QT_VERSION < 300)
 void qInitJpeg();
 #endif
 
@@ -367,7 +367,7 @@ ICQPlugin *ICQPlugin::icq_plugin = NULL;
 ICQPlugin::ICQPlugin(unsigned base, const char *cfg)
         : Plugin(base)
 {
-#ifdef WIN32
+#if defined(WIN32) && (QT_VERSION < 300)
     qInitJpeg();
 #endif
     icq_plugin = this;

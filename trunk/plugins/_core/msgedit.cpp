@@ -1010,7 +1010,7 @@ void MsgEdit::modeChanged()
 
 void *MsgEdit::processEvent(Event *e)
 {
-    if (e->type() == EventContactChanged){
+    if ((e->type() == EventContactChanged) && !m_bReceived){
         Command cmd;
         cmd->id = m_type;
         cmd->menu_id = MenuMessage;
@@ -1018,7 +1018,6 @@ void *MsgEdit::processEvent(Event *e)
         Event e(EventCheckState, cmd);
         if (e.process())
             return NULL;
-
         Event eMenu(EventGetMenuDef, (void*)MenuMessage);
         CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());
         CommandsList itc(*cmdsMsg, true);
@@ -1026,16 +1025,30 @@ void *MsgEdit::processEvent(Event *e)
         while ((c = ++itc) != NULL){
             c->param = (void*)(m_userWnd->m_id);
             Event eCheck(EventCheckState, c);
-            if (eCheck.process()){
-                Event eCmd(EventCommandExec, c);
-                eCmd.process();
-                return NULL;
-            }
+            if (!eCheck.process())
+                continue;
+            CommandDef *def;
+            def = CorePlugin::m_plugin->messageTypes.find(c->id);
+            if (def == NULL)
+                continue;
+            MessageDef *mdef = (MessageDef*)(def->param);
+            if (mdef->flags & MESSAGE_SILENT)
+                continue;
+            if (mdef->create == NULL)
+                continue;
+            Message *msg = mdef->create(NULL);
+            if (msg == NULL)
+                continue;
+            setMessage(msg, false);
+            delete msg;
+            break;
         }
         return NULL;
     }
     if (e->type() == EventMessageReceived){
         Message *msg = (Message*)(e->param());
+        if (msg->getFlags() & MESSAGE_NOVIEW)
+            return NULL;
         if ((msg->contact() == m_userWnd->id()) && (msg->type() != MessageStatus)){
             if (CorePlugin::m_plugin->getContainerMode()){
                 bool bSetFocus = false;

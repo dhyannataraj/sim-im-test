@@ -20,7 +20,9 @@
 #if QT_VERSION < 0x030000
 #include "qt3/qsyntaxhighlighter.h"
 #else
+#ifdef HAVE_QSYNTAXHIGHLIGHTER_H
 #include <qsyntaxhighlighter.h>
+#endif
 #endif
 
 #include "historycfg.h"
@@ -53,6 +55,8 @@ static char STYLES[] = "styles/";
 static char EXT[]    = ".xsl";
 
 #undef QTextEdit
+
+#if (QT_VERSION >= 0x300) && defined(HAVE_QSYNTAXHIGHLIGHTER_H)
 
 class XmlHighlighter : public QSyntaxHighlighter
 {
@@ -173,6 +177,8 @@ int XmlHighlighter::highlightParagraph(const QString &s, int state)
     return state;
 }
 
+#endif
+
 HistoryConfig::HistoryConfig(QWidget *parent)
         : HistoryConfigBase(parent)
 {
@@ -197,7 +203,9 @@ HistoryConfig::HistoryConfig(QWidget *parent)
     lblPage2->setText(str2);
     edtStyle->setWordWrap(QTextEdit::NoWrap);
     edtStyle->setTextFormat(QTextEdit::RichText);
+#if (QT_VERSION >= 0x300) && defined(HAVE_QSYNTAXHIGHLIGHTER_H)
     new XmlHighlighter(edtStyle);
+#endif
     QStringList styles;
     addStyles(user_file(STYLES).c_str(), true);
     addStyles(app_file(STYLES).c_str(), false);
@@ -272,11 +280,11 @@ void HistoryConfig::apply()
     }
     int cur = cmbStyle->currentItem();
     if ((cur >= 0) &&
-		(m_styles.size()) &&
-		(m_styles[cur].name != QFile::decodeName(CorePlugin::m_plugin->getHistoryStyle()))){
+            (m_styles.size()) &&
+            (m_styles[cur].name != QFile::decodeName(CorePlugin::m_plugin->getHistoryStyle()))){
         CorePlugin::m_plugin->setHistoryStyle(QFile::encodeName(m_styles[cur].name));
         bChanged = true;
-	    delete CorePlugin::m_plugin->historyXSL;
+        delete CorePlugin::m_plugin->historyXSL;
         CorePlugin::m_plugin->historyXSL = new XSL(m_styles[cur].name);
     }
 

@@ -89,10 +89,20 @@ typedef unsigned char _Bool;
 #define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
 #endif
 
+#ifdef USE_OPENSSL
+#include <openssl/ssl.h>
+#include <openssl/err.h>
+#include <openssl/bio.h>
+#include <openssl/rand.h>
+#endif
+
 #include <string>
 using namespace std;
 
 #include <qwidget.h>
+#if QT_VERSION >= 300
+#include <qdockwindow.h>
+#endif
 
 #ifdef WIN32
 #if _MSC_VER > 1020
@@ -1005,6 +1015,7 @@ const unsigned	MESSAGE_RICHTEXT	= 0x00000002;
 const unsigned	MESSAGE_SECURE		= 0x00000004;
 const unsigned	MESSAGE_URGENT		= 0x00000008;
 const unsigned	MESSAGE_LIST		= 0x00000010;
+const unsigned	MESSAGE_NOVIEW		= 0x00000020;
 
 const unsigned	MESSAGE_SAVEMASK	= 0x0000FFFF;
 
@@ -1429,14 +1440,18 @@ const unsigned CONTACT_UNDERLINE	= 0x0001;
 const unsigned CONTACT_ITALIC		= 0x0002;
 const unsigned CONTACT_STRIKEOUT	= 0x0004;
 
-const unsigned PROTOCOL_INFO			= 0x010000;
-const unsigned PROTOCOL_SEARCH			= 0x020000;
-const unsigned PROTOCOL_SEARCH_ONLINE	= 0x040000;
-const unsigned PROTOCOL_INVISIBLE		= 0x080000;
-const unsigned PROTOCOL_AR				= 0x100000;
-const unsigned PROTOCOL_AR_USER			= 0x200000;
-const unsigned PROTOCOL_FOLLOWME		= 0x400000;
-const unsigned PROTOCOL_ANY_PORT		= 0x800000;
+const unsigned PROTOCOL_INFO			= 0x00010000;
+const unsigned PROTOCOL_SEARCH			= 0x00020000;
+const unsigned PROTOCOL_SEARCH_ONLINE	= 0x00040000;
+const unsigned PROTOCOL_INVISIBLE		= 0x00080000;
+const unsigned PROTOCOL_AR				= 0x00100000;
+const unsigned PROTOCOL_AR_USER			= 0x00200000;
+const unsigned PROTOCOL_FOLLOWME		= 0x00400000;
+const unsigned PROTOCOL_ANY_PORT		= 0x00800000;
+const unsigned PROTOCOL_NOSMS			= 0x01000000;
+const unsigned PROTOCOL_NOPROXY			= 0x02000000;
+const unsigned PROTOCOL_TEMP_DATA		= 0x04000000;
+const unsigned PROTOCOL_NODATA			= 0x08000000;
 
 class ContactList;
 class Client;
@@ -1463,6 +1478,7 @@ typedef struct ClientData
     unsigned	SavePassword;
     char		*PreviousPassword;
     unsigned	Invisible;
+    void		*LastSend;
 } ClientData;
 
 const unsigned AuthError = 1;
@@ -1510,6 +1526,7 @@ public:
     PROP_UTF8(Password)
     PROP_BOOL(SavePassword)
     PROP_UTF8(PreviousPassword)
+    PROP_STRLIST(LastSend)
     bool getInvisible() { return data.Invisible != 0; }
     virtual void setInvisible(bool bInvisible) { data.Invisible = bInvisible; }
 protected:

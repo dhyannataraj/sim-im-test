@@ -185,7 +185,7 @@ int main(int argc, char *argv[])
                          _VERSION,
                          I18N_NOOP("Multiprotcol instant messenger"),
                          KAboutData::License_GPL,
-                         "Copyright (C) 2002-2003, Vladimir Shutoff",
+                         "Copyright (C) 2002-2004, Vladimir Shutoff",
                          0,
                          "http://sim-icq.sourceforge.net/",
                          "sim-icq-main@lists.sourceforge.net");

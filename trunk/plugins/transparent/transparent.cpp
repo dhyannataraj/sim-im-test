@@ -27,6 +27,7 @@
 #include <qwidgetlist.h>
 #include <qtimer.h>
 #include <qpainter.h>
+#include <qcursor.h>
 
 #ifdef WIN32
 #include <windows.h>

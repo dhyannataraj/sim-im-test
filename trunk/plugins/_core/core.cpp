@@ -84,7 +84,7 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-#if !defined(WIN32) && !defined(USE_KDE)
+#if !defined(WIN32) && !defined(USE_KDE) && (QT_VERSION >= 300)
 
 struct loaded_domain;
 
@@ -1347,14 +1347,14 @@ char *p = getenv("LANG");
     QString po = poFile(lang.c_str());
     if (po.isEmpty())
         return;
-#if !defined(USE_KDE) && (QT_VERSION >= 300)
+#if !defined(WIN32) && !defined(USE_KDE) && (QT_VERSION >= 300)
     m_translator = new SIMTranslator(NULL, po);
 #else
     m_translator = new QTranslator(NULL);
     m_translator->load(po);
 #endif
     qApp->installTranslator(m_translator);
-#if !defined(USE_KDE) || (QT_VERSION < 300)
+#if !defined(WIN32) && !defined(USE_KDE) && (QT_VERSION >= 300)
     resetPlural();
 #endif
     Event e(EventLanguageChanged, m_translator);
@@ -1367,7 +1367,7 @@ void CorePlugin::removeTranslator()
         qApp->removeTranslator(m_translator);
         delete m_translator;
         m_translator = NULL;
-#if !defined(USE_KDE) || (QT_VERSION < 300)
+#if !defined(WIN32) && !defined(USE_KDE) && (QT_VERSION >= 300)
         resetPlural();
 #endif
         Event e(EventLanguageChanged, NULL);
@@ -1445,6 +1445,16 @@ void CorePlugin::getWays(vector<clientContact> &ways, Contact *contact)
 void *CorePlugin::processEvent(Event *e)
 {
     switch (e->type()){
+    case EventDeleteMessage:{
+            Message *msg = (Message*)(e->param());
+            History::del(msg);
+            return e->param();
+        }
+    case EventRewriteMessage:{
+            Message *msg = (Message*)(e->param());
+            History::rewrite(msg);
+            return NULL;
+        }
     case EventTmplHelp:{
             QString *str = (QString*)(e->param());
             *str += i18n("&IP; - ip-address\n"
@@ -1604,13 +1614,14 @@ void *CorePlugin::processEvent(Event *e)
                 if (mdef->cmdReceived){
                     for (const CommandDef *c = mdef->cmdReceived; c->text; c++){
                         CommandDef cmd = *c;
-                        if (cmd.icon == NULL)
-                            cmd.icon = "empty";
-
+                        if (cmd.icon == NULL){
+                            cmd.icon   = "empty";
+                            cmd.flags |= BTN_PICT;
+                        }
                         cmd.id += CmdReceived;
                         cmd.menu_id  = 0;
                         cmd.menu_grp = 0;
-                        cmd.flags	 = BTN_PICT | COMMAND_CHECK_STATE;
+                        cmd.flags	|= COMMAND_CHECK_STATE;
                         Event eCmd(EventCommandCreate, &cmd);
                         eCmd.process();
                     }
@@ -1618,13 +1629,14 @@ void *CorePlugin::processEvent(Event *e)
                 if (mdef->cmdSent){
                     for (const CommandDef *c = mdef->cmdSent; c->text; c++){
                         CommandDef cmd = *c;
-                        if (cmd.icon == NULL)
+                        if (cmd.icon == NULL){
                             cmd.icon = "empty";
-
+                            cmd.flags |= BTN_PICT;
+                        }
                         cmd.id += CmdReceived;
                         cmd.menu_id  = 0;
                         cmd.menu_grp = 0;
-                        cmd.flags	 = BTN_PICT | COMMAND_CHECK_STATE;
+                        cmd.flags	|= COMMAND_CHECK_STATE;
                         Event eCmd(EventCommandCreate, &cmd);
                         eCmd.process();
                     }
@@ -1750,6 +1762,8 @@ void *CorePlugin::processEvent(Event *e)
                     m.client = msg->client();
                     m.type = msg->type();
                     unread.push_back(m);
+                    if (msg->getFlags() & MESSAGE_NOVIEW)
+                        return NULL;
                     Contact *contact = getContacts()->contact(msg->contact());
                     if (contact && contact->getTemporary()){
                         contact->setTemporary(0);
@@ -1804,6 +1818,8 @@ void *CorePlugin::processEvent(Event *e)
         }
     case EventOpenMessage:{
             Message *msg = (Message*)(e->param());
+            if (msg->getFlags() & MESSAGE_NOVIEW)
+                return NULL;
             Contact *contact = getContacts()->contact(msg->contact());
             QWidget *focusWidget = qApp->focusWidget();
             if (contact == NULL)
@@ -2032,6 +2048,8 @@ void *CorePlugin::processEvent(Event *e)
                 CommandsList it(*cmdsMsg, true);
                 CommandDef *c;
                 while ((c = ++it) != NULL){
+                    if ((c->id == MessageSMS) && (cc.client->protocol()->description()->flags & PROTOCOL_NOSMS))
+                        continue;
                     if (!cc.client->canSend(c->id, cc.data)){
                         CheckSend cs;
                         cs.id     = c->id;
@@ -2099,15 +2117,25 @@ void *CorePlugin::processEvent(Event *e)
                     vector<clientContact> ways;
                     getWays(ways, contact);
                     for (vector<clientContact>::iterator it = ways.begin(); it != ways.end(); ++it){
+                        if ((cmd->id == MessageSMS) && ((*it).client->protocol()->description()->flags & PROTOCOL_NOSMS))
+                            return NULL;
                         if ((*it).client->canSend(cmd->id, (*it).data)){
                             return e->param();
                         }
                     }
+                    if ((cmd->id == MessageSMS) && !ways.empty()){
+                        vector<clientContact>::iterator it;
+                        for (it = ways.begin(); it != ways.end(); ++it){
+                            if (((*it).client->protocol()->description()->flags & PROTOCOL_NOSMS) == 0)
+                                break;
+                        }
+                        if (it == ways.end())
+                            return NULL;
+                    }
                 }
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
-                    if (getContacts()->getClient(i)->canSend(cmd->id, NULL)){
+                    if (getContacts()->getClient(i)->canSend(cmd->id, NULL))
                         return e->param();
-                    }
                 }
                 return NULL;
             }
@@ -2329,6 +2357,8 @@ void *CorePlugin::processEvent(Event *e)
                 if (def == NULL)
                     return NULL;
                 MessageDef *mdef = (MessageDef*)(def->param);
+                if (mdef->create == NULL)
+                    return NULL;
                 msg = mdef->create(NULL);
                 msg->setContact((unsigned)(cmd->param));
                 if (mdef->flags & MESSAGE_SILENT){
