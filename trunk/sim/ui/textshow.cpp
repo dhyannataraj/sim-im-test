@@ -211,7 +211,7 @@ bool TextEdit::isEmpty()
         QString t = text(0);
         if (textFormat() == QTextEdit::RichText)
             t = unquoteText(t);
-        return t.isEmpty();
+        return t.isEmpty() || (t == " ");
     }
     return false;
 }

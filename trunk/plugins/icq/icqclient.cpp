@@ -1683,20 +1683,6 @@ string ICQClient::clientName(ICQUserData *data)
             res += "/SSL";
         return res;
     }
-    if (hasCap(data, CAP_TYPING))
-    {
-        switch (data->Version.value){
-        case 10:
-            res += "ICQ 2003b";
-            break;
-        case 9:
-            res += "ICQ Lite";
-            break;
-        default:
-            res += "ICQ2go";
-        }
-        return res;
-    }
     if (hasCap(data, CAP_MACICQ)){
         res += "ICQ for Mac";
         return res;
@@ -1760,6 +1746,20 @@ string ICQClient::clientName(ICQUserData *data)
         break;
     }
 
+    if (hasCap(data, CAP_TYPING))
+    {
+        switch (data->Version.value){
+        case 10:
+            res += "ICQ 2003b";
+            break;
+        case 9:
+            res += "ICQ Lite";
+            break;
+        default:
+            res += "ICQ2go";
+        }
+        return res;
+    }
     if (data->InfoUpdateTime.value &&
             (data->InfoUpdateTime.value == data->PluginStatusTime.value) &&
             (data->PluginStatusTime.value == data->PluginInfoTime.value) && (data->Caps.value == 0)){

@@ -1187,9 +1187,9 @@ void LiveJournalClient::send()
         url += number(getPort());
     }
     url += getURL();
-    string headers = "Content-Type: application/x-www-form-urlencoded\n";
+    string headers = "Content-Type: application/x-www-form-urlencoded";
     if (getFastServer())
-        headers += "\r\nCookie: ljfastserver=1";
+        headers += "\nCookie: ljfastserver=1";
     fetch(url.c_str(), headers.c_str(), m_request->m_buffer);
     m_request->m_buffer = NULL;
 }

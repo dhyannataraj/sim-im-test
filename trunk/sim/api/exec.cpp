@@ -62,16 +62,20 @@ Exec::Exec()
 Exec::~Exec()
 {
 #ifdef WIN32
+    log(L_DEBUG, "~Exec");
     if (errThread){
         errThread->wait(2000);
+        log(L_DEBUG, "Delete errThread");
         delete errThread;
     }
     if (outThread){
         outThread->wait(2000);
+        log(L_DEBUG, "Delete outThread");
         delete outThread;
     }
     if (thread){
         thread->wait(2000);
+        log(L_DEBUG, "Delete thread");
         delete thread;
     }
 #endif
@@ -290,10 +294,10 @@ void Exec::execute(const char *prg, const char *input, bool bSync)
     if (input)
         bIn.pack(input, strlen(input));
 #ifdef WIN32
-    ExecThread thread(this);
-    thread.start();
+    thread = new ExecThread(this);
+    thread->start();
     if (bSync)
-        thread.wait();
+        thread->wait();
 #else
     int inPipe[2] = { -1, - 1};
     int outPipe[2] = { -1, -1 };
