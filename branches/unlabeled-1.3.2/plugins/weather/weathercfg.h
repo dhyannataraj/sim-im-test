@@ -25,6 +25,7 @@
 #include "stl.h"
 
 class WeatherPlugin;
+class WIfaceCfg;
 
 class WeatherCfg : public WeatherCfgBase, public EventReceiver
 {
@@ -34,13 +35,14 @@ public:
     ~WeatherCfg();
 public slots:
     void apply();
-    void help();
     void search();
+	void activated(int index);
     void textChanged(const QString&);
 protected:
     void *processEvent(Event*);
     void fill();
     WeatherPlugin *m_plugin;
+	WIfaceCfg	  *m_iface;
     unsigned m_fetch_id;
     string   m_id;
     string	 m_data;

@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>440</width>
-            <height>301</height>
+            <width>337</width>
+            <height>196</height>
         </rect>
     </property>
     <property>
@@ -32,7 +32,7 @@
             <class>QLayoutWidget</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>Layout7</cstring>
+                <cstring>Layout10</cstring>
             </property>
             <hbox>
                 <property>
@@ -51,7 +51,7 @@
                     </property>
                     <property>
                         <name>text</name>
-                        <string>Location:</string>
+                        <string>Location ID:</string>
                     </property>
                     <property>
                         <name>alignment</name>
@@ -61,6 +61,58 @@
                         <name>hAlign</name>
                     </property>
                 </widget>
+                <widget>
+                    <class>QLineEdit</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>edtID</cstring>
+                    </property>
+                    <property>
+                        <name>sizePolicy</name>
+                        <sizepolicy>
+                            <hsizetype>1</hsizetype>
+                            <vsizetype>0</vsizetype>
+                        </sizepolicy>
+                    </property>
+                </widget>
+                <spacer>
+                    <property>
+                        <name>name</name>
+                        <cstring>Spacer5</cstring>
+                    </property>
+                    <property>
+                        <name>orientation</name>
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property>
+                        <name>sizeType</name>
+                        <enum>Expanding</enum>
+                    </property>
+                    <property>
+                        <name>sizeHint</name>
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
+        </widget>
+        <widget>
+            <class>QLayoutWidget</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>Layout9</cstring>
+            </property>
+            <hbox>
+                <property>
+                    <name>margin</name>
+                    <number>0</number>
+                </property>
+                <property>
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
                 <widget>
                     <class>QComboBox</class>
                     <property stdset="1">
@@ -93,6 +145,17 @@
             </hbox>
         </widget>
         <widget>
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>TextLabel1_4</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>You can enter ID as part URL for your location on weather.com</string>
+            </property>
+        </widget>
+        <widget>
             <class>LinkLabel</class>
             <property stdset="1">
                 <name>name</name>
@@ -103,9 +166,9 @@
             <class>QLayoutWidget</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>Layout6</cstring>
+                <cstring>Layout8</cstring>
             </property>
-            <hbox>
+            <grid>
                 <property>
                     <name>margin</name>
                     <number>0</number>
@@ -114,25 +177,7 @@
                     <name>spacing</name>
                     <number>6</number>
                 </property>
-                <widget>
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>TextLabel1_2</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>Units:</string>
-                    </property>
-                    <property>
-                        <name>alignment</name>
-                        <set>AlignVCenter|AlignRight</set>
-                    </property>
-                    <property>
-                        <name>hAlign</name>
-                    </property>
-                </widget>
-                <widget>
+                <widget row="0"  column="1" >
                     <class>QComboBox</class>
                     <item>
                         <property>
@@ -151,29 +196,7 @@
                         <cstring>cmbUnits</cstring>
                     </property>
                 </widget>
-                <widget>
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>TextLabel1_3</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>Forecast days:</string>
-                    </property>
-                </widget>
-                <widget>
-                    <class>QSpinBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>edtDays</cstring>
-                    </property>
-                    <property>
-                        <name>maxValue</name>
-                        <number>10</number>
-                    </property>
-                </widget>
-                <spacer>
+                <spacer row="0"  column="2" >
                     <property>
                         <name>name</name>
                         <cstring>Spacer2</cstring>
@@ -194,128 +217,69 @@
                         </size>
                     </property>
                 </spacer>
-            </hbox>
-        </widget>
-        <widget>
-            <class>QLayoutWidget</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>Layout7</cstring>
-            </property>
-            <hbox>
-                <property>
-                    <name>margin</name>
-                    <number>0</number>
-                </property>
-                <property>
-                    <name>spacing</name>
-                    <number>6</number>
-                </property>
-                <widget>
+                <widget row="1"  column="1" >
+                    <class>QSpinBox</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>edtDays</cstring>
+                    </property>
+                    <property>
+                        <name>maxValue</name>
+                        <number>10</number>
+                    </property>
+                </widget>
+                <widget row="1"  column="0" >
                     <class>QLabel</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>TextLabel2</cstring>
+                        <cstring>TextLabel1_3</cstring>
                     </property>
                     <property>
                         <name>text</name>
-                        <string>Button text:</string>
+                        <string>Forecast days:</string>
                     </property>
                 </widget>
-                <widget>
-                    <class>LineEdit</class>
+                <widget row="0"  column="0" >
+                    <class>QLabel</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>edtText</cstring>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel3</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Button tip:</string>
-            </property>
-        </widget>
-        <widget>
-            <class>MultiLineEdit</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>edtTip</cstring>
-            </property>
-        </widget>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel3_2</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Forecast tip:</string>
-            </property>
-        </widget>
-        <widget>
-            <class>MultiLineEdit</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>edtForecastTip</cstring>
-            </property>
-        </widget>
-        <widget>
-            <class>QLayoutWidget</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>Layout8</cstring>
-            </property>
-            <hbox>
-                <property>
-                    <name>margin</name>
-                    <number>0</number>
-                </property>
-                <property>
-                    <name>spacing</name>
-                    <number>6</number>
-                </property>
-                <widget>
-                    <class>QPushButton</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>btnHelp</cstring>
+                        <cstring>TextLabel1_2</cstring>
                     </property>
                     <property>
                         <name>text</name>
-                        <string>&amp;Help</string>
+                        <string>Units:</string>
+                    </property>
+                    <property>
+                        <name>alignment</name>
+                        <set>AlignVCenter|AlignRight</set>
+                    </property>
+                    <property>
+                        <name>hAlign</name>
                     </property>
                 </widget>
-                <spacer>
-                    <property>
-                        <name>name</name>
-                        <cstring>Spacer6</cstring>
-                    </property>
-                    <property>
-                        <name>orientation</name>
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property>
-                        <name>sizeType</name>
-                        <enum>Expanding</enum>
-                    </property>
-                    <property>
-                        <name>sizeHint</name>
-                        <size>
-                            <width>20</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-            </hbox>
+            </grid>
         </widget>
+        <spacer>
+            <property>
+                <name>name</name>
+                <cstring>Spacer4</cstring>
+            </property>
+            <property>
+                <name>orientation</name>
+                <enum>Vertical</enum>
+            </property>
+            <property>
+                <name>sizeType</name>
+                <enum>Expanding</enum>
+            </property>
+            <property>
+                <name>sizeHint</name>
+                <size>
+                    <width>20</width>
+                    <height>20</height>
+                </size>
+            </property>
+        </spacer>
     </vbox>
 </widget>
 <customwidgets>
@@ -348,34 +312,6 @@
         </sizepolicy>
         <pixmap>image1</pixmap>
         <property type="String">text</property>
-    </customwidget>
-    <customwidget>
-        <class>LineEdit</class>
-        <header location="local">editfile.h</header>
-        <sizehint>
-            <width>-1</width>
-            <height>-1</height>
-        </sizehint>
-        <container>0</container>
-        <sizepolicy>
-            <hordata>5</hordata>
-            <verdata>7</verdata>
-        </sizepolicy>
-        <pixmap>image1</pixmap>
-    </customwidget>
-    <customwidget>
-        <class>MultiLineEdit</class>
-        <header location="local">editfile.h</header>
-        <sizehint>
-            <width>-1</width>
-            <height>-1</height>
-        </sizehint>
-        <container>0</container>
-        <sizepolicy>
-            <hordata>7</hordata>
-            <verdata>7</verdata>
-        </sizepolicy>
-        <pixmap>image1</pixmap>
     </customwidget>
 </customwidgets>
 <images>

@@ -135,6 +135,7 @@ static DataDef weatherData[] =
         { "UT", DATA_STRING, 1, 0 },
         { "US", DATA_STRING, 1, 0 },
         { "UP", DATA_STRING, 1, 0 },
+        { "UD", DATA_STRING, 1, 0 },
         { "Day", DATA_STRLIST, 1, 0 },
         { "WDay", DATA_STRLIST, 1, 0 },
         { "MinT", DATA_STRLIST, 1, 0 },
@@ -459,6 +460,7 @@ i18n("Sunday")
 
 i18n("weather", "Overcast")
 i18n("weather", "Fog")
+i18n("weather", "Haze")
 i18n("weather", "Storm")
 i18n("weather", "Rain")
 i18n("weather", "Snow Showers")
@@ -490,9 +492,9 @@ static QString i18n_conditions(const QString &str)
     n = str.find(" Early");
     if (n >= 0)
         return i18n_conditions(str.left(n)) + " " + i18n("weather", "Early");
-    n = str.find(" Later");
+    n = str.find(" Late");
     if (n >= 0)
-        return i18n_conditions(str.left(n)) + " " + i18n("weather", "Later");
+        return i18n_conditions(str.left(n)) + " " + i18n("weather", "Late");
     return i18n("weather", str);
 }
 
@@ -505,15 +507,16 @@ QString WeatherPlugin::replace(const QString &text)
     res = res.replace(QRegExp("\\%h"), number(getHumidity()) + "%");
     res = res.replace(QRegExp("\\%w"), number(getWind_speed()) + " " + getUS());
     res = res.replace(QRegExp("\\%g"), getWindGust() ? QString("<") + i18n("gust ") + number(getWindGust()) + ")" : "");
-    res = res.replace(QRegExp("\\%p"), number(getPressure()) + " " + getUP() + " (" + i18n("weather", getPressureD()) + ")");
+    res = res.replace(QRegExp("\\%p"), number(getPressure()) + " " + getUP());
     res = res.replace(QRegExp("\\%a"), number(getPressure() * 75 / 100));
+    res = res.replace(QRegExp("\\%q"), i18n("weather", getPressureD()));
     res = res.replace(QRegExp("\\%l"), getLocation());
     res = res.replace(QRegExp("\\%b"), getWind());
     res = res.replace(QRegExp("\\%u"), getUpdated());
     res = res.replace(QRegExp("\\%r"), getSun_raise());
     res = res.replace(QRegExp("\\%s"), getSun_set());
     res = res.replace(QRegExp("\\%c"), i18n_conditions(getConditions()));
-    res = res.replace(QRegExp("\\%v"), i18n("weather", getVisibility()));
+    res = res.replace(QRegExp("\\%v"), i18n("weather", getVisibility()) + (atol(getVisibility()) ? QString(" ") + getUD() : ""));
     return res;
 }
 
@@ -578,7 +581,7 @@ QString WeatherPlugin::getTipText()
                    "<img src=\"icon:weather\"> %c<br>\n"
                    "Temperature: <b>%t</b> (feels like: <b>%f</b>)<br>\n"
                    "Humidity: <b>%h</b><br>\n"
-                   "Pressure: <b>%p</b><br>\n"
+                   "Pressure: <b>%p</b> (%q)<br>\n"
                    "Wind: <b>%b</b> <b>%w %g</b><br>\n"
                    "Visibility: <b>%v</b><br>\n"
                    "Dew Point: <b>%d</b><br>\n"
@@ -594,9 +597,9 @@ QString WeatherPlugin::getForecastText()
     QString str = getForecastTip();
     if (str.isEmpty())
         str = i18n("<br>\n"
-                   "<b>%d %w</b><br>\n"
+                   "<nobr><b>%d %w</b></nobr><br>\n"
                    "<img src=\"icon:weather%n\"> %c<br>\n"
-                   "Temperature: <b>%t</b><br>\n");
+                   " Temperature: <b>%t</b><br>\n");
     return str;
 }
 
@@ -622,6 +625,7 @@ static const char *tags[] =
         "ut",
         "us",
         "up",
+		"ud",
         "gust",
         "vis",
         "devp",
@@ -777,6 +781,11 @@ void WeatherPlugin::element_end(const char *el)
     }
     if (!strcmp(el, "us")){
         setUS(m_data.c_str());
+        m_data = "";
+        return;
+    }
+    if (!strcmp(el, "ud")){
+        setUD(m_data.c_str());
         m_data = "";
         return;
     }

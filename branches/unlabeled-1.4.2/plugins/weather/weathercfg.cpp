@@ -17,6 +17,7 @@
 
 #include "weather.h"
 #include "weathercfg.h"
+#include "wifacecfg.h"
 #include "linklabel.h"
 #include "editfile.h"
 #include "ballonmsg.h"
@@ -27,100 +28,44 @@
 #include <qpushbutton.h>
 #include <qcombobox.h>
 #include <qspinbox.h>
-
-static const char *helpList[] =
-    {
-        "%t",
-        I18N_NOOP("Temperature"),
-        "%f",
-        I18N_NOOP("Feels like"),
-        "%h",
-        I18N_NOOP("Humidity"),
-        "%b",
-        I18N_NOOP("Wind direction"),
-        "%w",
-        I18N_NOOP("Wind speed"),
-        "%g",
-        I18N_NOOP("Wind gust"),
-        "%p",
-        I18N_NOOP("Pressure"),
-        "%v",
-        I18N_NOOP("Visibility"),
-        "%d",
-        I18N_NOOP("Dew Point"),
-        "%l",
-        I18N_NOOP("Location"),
-        "%u",
-        I18N_NOOP("Updated"),
-        "%r",
-        I18N_NOOP("Sunraise"),
-        "%s",
-        I18N_NOOP("Sunset"),
-        "%c",
-        I18N_NOOP("Conditions"),
-        NULL
-    };
-
-static const char *helpForecastList[] =
-    {
-        "%t",
-        I18N_NOOP("Temperature"),
-        "%n",
-        I18N_NOOP("Number"),
-        "%w",
-        I18N_NOOP("Day of week"),
-        "%d",
-        I18N_NOOP("Date"),
-        "%c",
-        I18N_NOOP("Conditions"),
-        NULL
-    };
+#include <qtabwidget.h>
 
 WeatherCfg::WeatherCfg(QWidget *parent, WeatherPlugin *plugin)
         : WeatherCfgBase(parent)
 {
     m_plugin = plugin;
     m_fetch_id = 0;
-    setButtonsPict(this);
-    edtText->setText(unquoteText(m_plugin->getButtonText()));
-    edtTip->setText(m_plugin->getTipText());
-    edtForecastTip->setText(m_plugin->getForecastText());
-    edtText->helpList = helpList;
-    edtTip->helpList = helpList;
-    edtForecastTip->helpList = helpForecastList;
     lblLnk->setUrl("http://www.weather.com/?prod=xoap&par=1004517364");
     lblLnk->setText(QString("Weather data provided by weather.com") + QChar((unsigned short)174));
-    connect(btnHelp, SIGNAL(clicked()), this, SLOT(help()));
     connect(btnSearch, SIGNAL(clicked()), this, SLOT(search()));
     connect(cmbLocation->lineEdit(), SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
+    connect(cmbLocation, SIGNAL(activated(int)), this, SLOT(activated(int)));
     textChanged("");
     fill();
     memset(&m_handler, 0, sizeof(m_handler));
     m_handler.startElement = p_element_start;
     m_handler.endElement   = p_element_end;
     m_handler.characters   = p_char_data;
+    for (QObject *p = parent; p != NULL; p = p->parent()){
+        if (!p->inherits("QTabWidget"))
+            continue;
+        QTabWidget *tab = static_cast<QTabWidget*>(p);
+        m_iface = new WIfaceCfg(tab, plugin);
+        tab->addTab(m_iface, i18n("Interface"));
+        tab->adjustSize();
+        break;
+    }
 }
 
 WeatherCfg::~WeatherCfg()
 {
+    if (m_iface)
+        delete m_iface;
 }
 
 void WeatherCfg::textChanged(const QString &text)
 {
     btnSearch->setEnabled(!text.isEmpty() && (m_fetch_id == 0));
-}
-
-void WeatherCfg::help()
-{
-    QString str = i18n("In text you can use:");
-    str += "\n\n";
-    for (const char **p = helpList; *p;){
-        str += *(p++);
-        str += " - ";
-        str += unquoteText(i18n(*(p++)));
-        str += "\n";
-    }
-    BalloonMsg::message(str, btnHelp, false, 400);
 }
 
 void WeatherCfg::search()
@@ -167,6 +112,7 @@ void *WeatherCfg::processEvent(Event *e)
             for (vector<string>::iterator it = m_names.begin(); it != m_names.end(); ++it)
                 cmbLocation->insertItem(QString::fromUtf8((*it).c_str()));
             cmbLocation->setCurrentItem(0);
+			activated(0);
         }
         textChanged(cmbLocation->lineEdit()->text());
         return e->param();
@@ -176,34 +122,26 @@ void *WeatherCfg::processEvent(Event *e)
 
 void WeatherCfg::fill()
 {
+	edtID->setText(m_plugin->getID());
     cmbUnits->setCurrentItem(m_plugin->getUnits() ? 1 : 0);
     cmbLocation->lineEdit()->setText(m_plugin->getLocation());
     edtDays->setValue(m_plugin->getForecast());
+}
+
+void WeatherCfg::activated(int n)
+{
+	if ((unsigned)n >= m_ids.size())
+		return;
+	edtID->setText(m_ids[n].c_str());
 }
 
 void WeatherCfg::apply()
 {
     m_plugin->setUnits(cmbUnits->currentItem() != 0);
     m_plugin->setForecast(atol(edtDays->text().latin1()));
-    if (edtText->text() == unquoteText(m_plugin->getButtonText())){
-        m_plugin->setText("");
-    }else{
-        m_plugin->setText(edtText->text());
-    }
-    if (edtTip->text() == m_plugin->getTipText()){
-        m_plugin->setTip("");
-    }else{
-        m_plugin->setTip(edtTip->text());
-    }
-    if (edtForecastTip->text() == m_plugin->getForecastText()){
-        m_plugin->setForecastTip("");
-    }else{
-        m_plugin->setForecastTip(edtForecastTip->text());
-    }
-    if (!m_ids.empty()){
-        m_plugin->setID(m_ids[cmbLocation->currentItem()].c_str());
-        m_plugin->setLocation(m_names[cmbLocation->currentItem()].c_str());
-    }
+    m_plugin->setID(edtID->text());
+    m_plugin->setLocation(cmbLocation->lineEdit()->text());
+	m_iface->apply();
     if (*m_plugin->getID()){
         m_plugin->showBar();
         m_plugin->updateButton();
