@@ -34,6 +34,7 @@
 #include "ui/ballonmsg.h"
 #include "ui/wndcancel.h"
 
+#include <stdio.h>
 #include <qlayout.h>
 #include <qvgroupbox.h>
 #include <qhgroupbox.h>
