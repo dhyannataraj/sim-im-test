@@ -5,7 +5,7 @@ remote_la_SOURCES = \
  remotecfg.cpp \
  remote.cpp
 
-INCLUDES=-I../../sim/api $(all_includes)
+INCLUDES=-I../../sim/api -I../_core $(all_includes)
 
 remote_la_METASOURCES = AUTO
 remote_la_LIBADD = ../../sim/api/libsimapi.la $(LIB_QT) $(EXTRA_LIBS) $(XSS_LIBS)

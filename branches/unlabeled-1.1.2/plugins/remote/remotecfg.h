@@ -30,7 +30,7 @@ public:
     RemoteConfig(QWidget *parent, RemotePlugin*);
 public slots:
     void apply();
-    void selected(int);
+	void selected(int);
 protected:
     RemotePlugin *m_plugin;
 };

@@ -30,59 +30,59 @@ RemoteConfig::RemoteConfig(QWidget *parent, RemotePlugin *plugin)
         : RemoteConfigBase(parent)
 {
     m_plugin = plugin;
-    const char *path = m_plugin->getPath();
-    edtPort->setValue(3000);
+	const char *path = m_plugin->getPath();
+	edtPort->setValue(3000);
 #ifdef WIN32
-    edtPort->setValue(atol(path + strlen(TCP)));
-    btnUNIX->hide();
-    btnTCP->hide();
-    edtPath->hide();
+	edtPort->setValue(atol(path + strlen(TCP)));
+	btnUNIX->hide();
+	btnTCP->hide();
+	edtPath->hide();
 #else
-    edtPath->setText("/tmp/sim.%user%");
-    if ((strlen(path) > strlen(TCP)) && !memcmp(path, TCP, strlen(TCP))){
-        grpRemote->setButton(2);
-        edtPort->setValue(atol(path + strlen(TCP)));
-        edtPath->setEnabled(false);
-    }else{
-        grpRemote->setButton(1);
-        edtPath->setText(QFile::decodeName(path));
-        edtPort->setEnabled(false);
-    }
-    connect(grpRemote, SIGNAL(clicked(int)), this, SLOT(selected(int)));
+	edtPath->setText("/tmp/sim.%user%");
+	if ((strlen(path) > strlen(TCP)) && !memcmp(path, TCP, strlen(TCP))){
+		grpRemote->setButton(2);
+		edtPort->setValue(atol(path + strlen(TCP)));
+		edtPath->setEnabled(false);
+	}else{
+		grpRemote->setButton(1);
+		edtPath->setText(QFile::decodeName(path));
+		edtPort->setEnabled(false);
+	}
+	connect(grpRemote, SIGNAL(clicked(int)), this, SLOT(selected(int)));
 #endif
 }
 
 void RemoteConfig::apply()
 {
-    string path;
+	string path;
 #ifndef WIN32
-    if (grpRemote->id(grpRemote->selected()) == 2){
+	if (grpRemote->id(grpRemote->selected()) == 2){
 #endif
-        path  = TCP;
-        path += edtPort->text().latin1();
+		path  = TCP;
+		path += edtPort->text().latin1();
 #ifndef WIN32
-    }else{
-        path  = QFile::encodeName(edtPath->text());
-    }
+	}else{
+		path  = QFile::encodeName(edtPath->text());
+	}
 #endif
-    if (path != m_plugin->getPath()){
-        m_plugin->setPath(path.c_str());
-        m_plugin->bind();
-    }
+	if (path != m_plugin->getPath()){
+		m_plugin->setPath(path.c_str());
+		m_plugin->bind();
+	}
 }
 
 void RemoteConfig::selected(int id)
 {
-    switch (id){
-    case 1:
-        edtPath->setEnabled(true);
-        edtPort->setEnabled(false);
-        break;
-    case 2:
-        edtPath->setEnabled(false);
-        edtPort->setEnabled(true);
-        break;
-    }
+	switch (id){
+	case 1:
+		edtPath->setEnabled(true);
+		edtPort->setEnabled(false);
+		break;
+	case 2:
+		edtPath->setEnabled(false);
+		edtPort->setEnabled(true);
+		break;
+	}
 }
 
 #ifndef WIN32

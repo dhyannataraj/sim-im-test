@@ -44,7 +44,7 @@ static DataDef remoteData[] =
 #ifdef WIN32
         { "Path", DATA_STRING, 1, (unsigned)"tcp:3000" },
 #else
-        { "Path", DATA_STRING, 1, (unsigned)"/tcp/sim.%user%" },
+		{ "Path", DATA_STRING, 1, (unsigned)"/tcp/sim.%user%" },
 #endif
         { NULL, 0, 0, 0 }
     };
@@ -80,22 +80,22 @@ static char TCP[] = "tcp:";
 
 void RemotePlugin::bind()
 {
-    const char *path = getPath();
-    if ((strlen(path) > strlen(TCP)) && !memcmp(path, TCP, strlen(TCP))){
-        unsigned short port = (unsigned short)atol(path + strlen(TCP));
-        ServerSocketNotify::bind(port, port, NULL);
+	const char *path = getPath();
+	if ((strlen(path) > strlen(TCP)) && !memcmp(path, TCP, strlen(TCP))){
+		unsigned short port = (unsigned short)atol(path + strlen(TCP));
+		ServerSocketNotify::bind(port, port, NULL);
 #ifndef WIN32
-    }else{
-        ServerSocketNotify::bind(path);
+	}else{
+		ServerSocketNotify::bind(path);
 #endif
-    }
+	}
 }
 
 bool RemotePlugin::accept(Socket *s, unsigned long)
 {
-    log(L_DEBUG, "Accept remote control");
-    delete s;
-    return false;
+	log(L_DEBUG, "Accept remote control");
+	delete s;
+	return false;
 }
 
 void RemotePlugin::bind_ready(unsigned short)
@@ -104,8 +104,8 @@ void RemotePlugin::bind_ready(unsigned short)
 
 bool RemotePlugin::error(const char *err)
 {
-    log(L_DEBUG, "Remote: %s", err);
-    return false;
+	log(L_DEBUG, "Remote: %s", err);
+	return false;
 }
 
 #ifdef WIN32

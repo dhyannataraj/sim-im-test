@@ -23,16 +23,17 @@
 
 typedef struct RemoteData
 {
-    char *Path;
+	char *Path;
 } RemoteData;
 
 class RemotePlugin : public Plugin, public EventReceiver, public ServerSocketNotify
 {
+    Q_OBJECT
 public:
     RemotePlugin(unsigned, const char*);
     ~RemotePlugin();
-    PROP_STR(Path);
-    void bind();
+	PROP_STR(Path);
+	void bind();
 protected:
     virtual bool accept(Socket*, unsigned long ip);
     virtual void bind_ready(unsigned short port);
