@@ -18,6 +18,16 @@
 #include "simapi.h"
 
 #include <time.h>
+#include <qfile.h>
+#include <qfileinfo.h>
+#include <qdir.h>
+
+#include <list>
+
+namespace SIM
+{
+
+using namespace std;
 
 static DataDef	messageData[] =
     {
@@ -138,9 +148,79 @@ QString SMSMessage::presentation()
     return res;
 }
 
+class FileMessageIteratorPrivate : public list<string>
+{
+public:
+	FileMessageIteratorPrivate(const FileMessage &msg);
+	list<string>::iterator it;
+	void add(const QString&);
+};
+
+FileMessageIteratorPrivate::FileMessageIteratorPrivate(const FileMessage &msg)
+{
+	QString files = ((FileMessage&)msg).getFile();
+	while (!files.isEmpty()){
+		getToken(files, '\"');
+		add(getToken(files, '\"'));
+	}
+}
+
+void FileMessageIteratorPrivate::add(const QString &str)
+{
+	QFileInfo f(str);
+	if (!f.exists())
+		return;
+	if (!f.isDir()){
+		push_back(string(str.local8Bit()));
+		return;
+	}
+	QDir d(str);
+	QStringList l = d.entryList();
+	for (QStringList::Iterator it = l.begin(); it != l.end(); ++it){
+		QString p = str;
+#ifdef WIN32
+		p += "\\";
+#else
+		p += "/";
+#endif
+		p += *it;
+		add(p);
+	}
+}
+
+FileMessage::Iterator::Iterator(const FileMessage &m)
+{
+	p = new FileMessageIteratorPrivate(m);
+}
+	
+FileMessage::Iterator::~Iterator()
+{
+	delete p;
+}
+
+const char *FileMessage::Iterator::operator++()
+{
+	if (p->it == p->end())
+		return NULL;
+	const char *res = (*(p->it)).c_str();
+	++(p->it);
+	return res;
+}
+
+void FileMessage::Iterator::reset()
+{
+	p->it = p->begin();
+}
+
+unsigned FileMessage::Iterator::count()
+{
+	return p->size();
+}
+
 static DataDef messageFileData[] =
     {
         { "File", DATA_UTF, 1, 0 },
+		{ "Size", DATA_ULONG, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -153,6 +233,49 @@ FileMessage::FileMessage(const char *cfg)
 FileMessage::~FileMessage()
 {
     free_data(messageFileData, &data);
+}
+
+unsigned FileMessage::getSize()
+{
+	if (data.Size)
+		return data.Size;
+	Iterator it(*this);
+	const char *name;
+	while ((name = ++it) != NULL){
+		QFile f(QString::fromLocal8Bit(name));
+		if (!f.exists())
+			continue;
+		data.Size += f.size();
+	}
+	return data.Size;
+}
+
+void FileMessage::setSize(unsigned size)
+{
+	data.Size = size;
+}
+
+QString FileMessage::description()
+{
+	Iterator it(*this);
+	if (it.count() < 1){
+		const char *name = ++it;
+		if (name == NULL)
+			return NULL;
+		const char *short_name;
+#ifdef WIN32
+		short_name = strrchr(name, '\\');
+#else
+		short_name = strchr(name, '/');
+#endif
+		if (short_name){
+			short_name++;
+		}else{
+			short_name = name;
+		}
+		return QString::fromLocal8Bit(short_name);
+	}
+	return i18n("%n file", "%n files", it.count());
 }
 
 string FileMessage::save()
@@ -206,4 +329,5 @@ QString StatusMessage::presentation()
     return "";
 }
 
+};
 

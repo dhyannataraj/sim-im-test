@@ -2370,6 +2370,15 @@ bool ICQClient::send(Message *msg, void *_data)
         return data &&
                ((data->Status & 0xFFFF) == ICQ_STATUS_OFFLINE) &&
                sendThruServer(msg, data);
+    case MessageFile:
+        if (data && ((data->Status & 0xFFFF) != ICQ_STATUS_OFFLINE)){
+			if (data->Direct == NULL){
+				data->Direct = new DirectClient(data, this, PLUGIN_NULL);
+				data->Direct->connect();
+			}
+			return data->Direct->sendMessage(msg);
+		}
+		return false;
 #ifdef USE_OPENSSL
     case MessageOpenSecure:
         if (data == NULL)
@@ -2434,6 +2443,8 @@ bool ICQClient::canSend(unsigned type, void *_data)
         return data && (data->WantAuth);
     case MessageCheckInvisible:
         return data && ((data->Status & 0xFFFF) == ICQ_STATUS_OFFLINE);
+    case MessageFile:
+        return data && ((data->Status & 0xFFFF) != ICQ_STATUS_OFFLINE);
 #ifdef USE_OPENSSL
     case MessageOpenSecure:
         if ((data == NULL) || ((data->Status & 0xFFFF) == ICQ_STATUS_OFFLINE))

@@ -19,6 +19,7 @@
 #include "toolbtn.h"
 #include "msgedit.h"
 #include "textshow.h"
+#include "userwnd.h"
 #include "core.h"
 
 #include <qtimer.h>
@@ -103,6 +104,7 @@ void *MsgFile::processEvent(Event *e)
                 FileMessage *msg = new FileMessage;
                 msg->setText(msgText);
                 msg->setFile(file);
+				msg->setContact(m_edit->m_userWnd->id());
                 msg->setClient(m_client.c_str());
                 m_edit->sendMessage(msg);
             }

@@ -976,6 +976,7 @@ void DirectClient::processMsgQueue()
                 sm.seq = m_nSequence;
                 sm.icq_type = ICQ_MSGxMSG;
                 break;
+			case MessageFile:
             case MessageURL:
             case MessageContact:
             case MessageOpenSecure:

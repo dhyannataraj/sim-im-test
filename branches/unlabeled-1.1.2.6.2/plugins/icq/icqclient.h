@@ -324,8 +324,9 @@ const unsigned SEND_PLAIN	= 0x0001;
 const unsigned SEND_UTF		= 0x0002;
 const unsigned SEND_RTF		= 0x0003;
 const unsigned SEND_RAW		= 0x0004;
-const unsigned SEND_MASK	= 0x0007;
-const unsigned SEND_1STPART	= 0x0008;
+const unsigned SEND_2GO		= 0x0005;
+const unsigned SEND_MASK	= 0x000F;
+const unsigned SEND_1STPART	= 0x0010;
 
 typedef struct rtf_charset
 {

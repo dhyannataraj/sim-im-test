@@ -640,6 +640,7 @@ const unsigned EventMessageCancel	= 0x1102;
 const unsigned EventSent			= 0x1103;
 const unsigned EventOpenMessage		= 0x1104;
 const unsigned EventMessageRead		= 0x1105;
+const unsigned EventMessageAcked	= 0x1106;
 
 const unsigned EventStartTyping		= 0x1200;
 const unsigned EventStopTyping		= 0x1201;
@@ -765,36 +766,36 @@ EXPORT const char *get_host(void *ip);
 EXPORT bool set_ip(void **ip, unsigned long value);
 
 #define PROP_STRLIST(A)	\
-	const char *get##A(unsigned index) { return get_str(data.A, index); }	\
+	const char *get##A(unsigned index) { return get_str(data.A, index); } const	\
 	void set##A(unsigned index, const char *value) { set_str(&data.A, index, value); } \
 	void clear##A()	{ clear_list(&data.A); }
 
 #define PROP_STR(A) \
-	const char *get##A() { return data.A ? data.A : ""; } \
+	const char *get##A() { return data.A ? data.A : ""; } const \
 	bool set##A(const char *r) { return set_str(&data.A, r); }
 
 #define PROP_UTF8(A) \
-	QString get##A() { return data.A ? QString::fromUtf8(data.A) : QString(""); } \
+	QString get##A() { return data.A ? QString::fromUtf8(data.A) : QString(""); } const \
 	bool set##A(const QString &r) { return set_str(&data.A, r.utf8()); }
 
 #define PROP_LONG(A) \
-	unsigned long get##A() { return data.A; } \
+	unsigned long get##A() { return data.A; } const \
 	void set##A(unsigned long r) { data.A = r; }
 
 #define PROP_ULONG(A) \
-	unsigned long get##A() { return data.A; } \
+	unsigned long get##A() { return data.A; } const \
 	void set##A(unsigned long r) { data.A = r; }
 
 #define PROP_USHORT(A) \
-	unsigned short get##A() { return data.A; } \
+	unsigned short get##A() { return data.A; } const \
 	void set##A(unsigned short r) { data.A = r; }
 
 #define PROP_BOOL(A) \
-	bool get##A() { return data.A != 0; } \
+	bool get##A() { return data.A != 0; } const \
 	void set##A(bool r) { data.A = r ? -1 : 0; }
 
 #define PROP_IP(A)	\
-	unsigned long get##A()	{ return get_ip(data.A); }	\
+	unsigned long get##A()	{ return get_ip(data.A); } const \
 	const char *host##A() { return get_host(data.A); } \
 	void set##A(unsigned long r) { set_ip(&data.A, r); }
 
@@ -901,8 +902,11 @@ protected:
 
 typedef struct MessageFileData
 {
-    char	*File;
+    char		*File;
+	unsigned	Size;
 } MessageFileData;
+
+class FileMessageIteratorPrivate;
 
 class EXPORT FileMessage : public Message
 {
@@ -910,8 +914,22 @@ public:
     FileMessage(const char *cfg=NULL);
     ~FileMessage();
     PROP_UTF8(File);
+	unsigned getSize();
+	void     setSize(unsigned);
     virtual string save();
     virtual QString presentation();
+	QString description();
+	class EXPORT Iterator
+	{
+	public:
+		Iterator(const FileMessage&);
+		~Iterator();
+		const char *operator++();
+		void reset();
+		unsigned count();
+	protected:
+		FileMessageIteratorPrivate *p;
+	};
 protected:
     MessageFileData	data;
 };

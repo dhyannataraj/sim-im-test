@@ -387,9 +387,9 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
             return true;
         }
         if ((data->Status != ICQ_STATUS_OFFLINE) &&
-                hasCap(data, CAP_UTF) &&
-                !data->bBadClient){
-            s.flags  = SEND_UTF;
+			hasCap(data, CAP_UTF) &&
+			(data->Version >= 8) && !data->bBadClient){
+			s.flags  = SEND_UTF;
             s.msg    = msg;
             s.text   = msg->getPlainText();
             s.uin    = data->Uin;
@@ -847,12 +847,25 @@ void ICQClient::processSendQueue()
                 break;
             default:
                 m_send.part = getPart(m_send.text, MAX_MESSAGE_SIZE);
-                QTextCodec *codec = getCodec(encoding.c_str());
-                string msg_text;
-                msg_text = codec->fromUnicode(m_send.part);
-                Buffer msgBuf;
-                msgBuf << 0x0000L;
-                msgBuf << msg_text.c_str();
+				Buffer msgBuf;
+				if ((m_send.flags & SEND_MASK) == SEND_2GO){
+					string msg_text;
+					for (int i = 0; i < (int)m_send.part.length(); i++){
+						unsigned short c = m_send.part[i].unicode();
+						char c1 = (c >> 8) & 0xFF;
+						char c2 = c & 0xFF;
+						msg_text += c1;
+						msg_text += c2;
+					}
+					msgBuf << 0x00020000L;
+					msgBuf.pack(msg_text.c_str(), msg_text.length());
+				}else{
+					QTextCodec *codec = getCodec(encoding.c_str());
+					string msg_text;
+					msg_text = codec->fromUnicode(m_send.part);
+					msgBuf << 0x0000L;
+					msgBuf << msg_text.c_str();
+				}
                 Buffer b;
                 b.tlv(0x0501, "\x01", 1);
                 b.tlv(0x0101, msgBuf);
@@ -974,6 +987,9 @@ string ICQClient::packMessage(Message *msg, ICQUserData *data, unsigned short &t
             type = ICQ_MSGxCONTACTxLIST;
             break;
         }
+	case MessageFile:
+		type = ICQ_MSGxFILE;
+		break;
     case MessageOpenSecure:
         type = ICQ_MSGxSECURExOPEN;
         break;
