@@ -20,6 +20,7 @@ AppMutex=SIM_Mutex
 AppCopyright=Copyright © 2002, Vladimir Shutoff
 
 [Tasks]
+Name: "startup"; Description: "Launch SIM on &startup"
 Name: "desktopicon"; Description: "Create a &desktop icon"; GroupDescription: "Additional icons:"
 
 [Dirs]
@@ -55,6 +56,7 @@ Source: "C:\sim\pict\splash.png"; DestDir: "{app}\pict"; CopyMode: alwaysoverwri
 [Icons]
 Name: "{commonprograms}\SIM"; Filename: "{app}\sim.exe"
 Name: "{userdesktop}\Simple Instant Messenger"; Filename: "{app}\sim.exe"; Tasks: desktopicon
+Name: "{userstartup}\SIM"; Filename: "{app}\sim.exe"
 
 [Run]
 Filename: "{app}\sim.exe"; Description: "Launch Simple Instant Messenger"; Flags: nowait postinstall skipifsilent
@@ -88,6 +90,10 @@ begin
       bDownload := true;
     end;
     sFileName := ExpandConstant('{sys}\msvcrt.dll');
+    if not FileExists(sFileName) then begin
+      bDownload := true;
+    end;
+    sFileName := ExpandConstant('{sys}\msvcp60.dll');
     if not FileExists(sFileName) then begin
       bDownload := true;
     end;

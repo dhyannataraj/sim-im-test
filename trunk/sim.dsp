@@ -309,10 +309,6 @@ InputPath=.\sim\libicq\genrtf.ll
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\ui\helpedit.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\sim\history.cpp
 # End Source File
 # Begin Source File
@@ -546,10 +542,6 @@ SOURCE=.\sim\ui\moc_generalsec.cpp
 # Begin Source File
 
 SOURCE=.\sim\ui\moc_generalsecbase.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\ui\moc_helpedit.cpp
 # End Source File
 # Begin Source File
 
@@ -1888,39 +1880,6 @@ InputName=generalsec
 # Begin Source File
 
 SOURCE=.\sim\ui\generalsecbase.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\ui\helpedit.h
-
-!IF  "$(CFG)" == "sim - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\sim\ui
-InputPath=.\sim\ui\helpedit.h
-InputName=helpedit
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\sim\ui
-InputPath=.\sim\ui\helpedit.h
-InputName=helpedit
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
