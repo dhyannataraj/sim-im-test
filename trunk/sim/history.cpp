@@ -32,6 +32,7 @@
 
 #include <stdio.h>
 #include <qfileinfo.h>
+#include <qregexp.h>
 
 #ifdef WIN32
 #if _MSC_VER > 1020
