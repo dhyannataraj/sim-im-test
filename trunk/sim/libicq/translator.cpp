@@ -19,7 +19,7 @@
 #include "config.h"
 #endif
 
-#ifdef USE_QT
+#ifndef NOUSE_QT
 #include <qtextcodec.h>
 #include <qstringlist.h>
 #endif
@@ -34,7 +34,7 @@
 int strcasecmp(const char *a, const char *b);
 #endif
 
-#ifdef USE_QT
+#ifndef NOUSE_QT
 
 static QTextCodec *codecForName(const char *name)
 {
@@ -160,7 +160,7 @@ const char *ICQClient::serverCharset(const char *p)
     return p;
 }
 
-#ifdef USE_QT
+#ifndef NOUSE_QT
 
 class WordIterator
 {
