@@ -114,7 +114,7 @@ void LoggerPlugin::openFile()
     if ((fname == NULL) || (*fname == 0))
         return;
     m_file = new QFile(QFile::decodeName(fname));
-    if (!m_file->open(IO_Append)){
+    if (!m_file->open(IO_Append | IO_ReadWrite)){
         delete m_file;
         m_file = NULL;
         log(L_WARN, "Can't open %s", fname);
@@ -192,7 +192,6 @@ void *LoggerPlugin::processEvent(Event *e)
             }
 #else
             fprintf(stderr, "%s", s.c_str());
-            fprintf(stderr, "\n");
 #endif
         }
     }

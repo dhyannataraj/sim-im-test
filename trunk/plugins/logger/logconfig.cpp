@@ -27,6 +27,7 @@
 #include <qbitmap.h>
 #include <qpainter.h>
 #include <qbutton.h>
+#include <qfileinfo.h>
 
 const unsigned COL_NAME		= 0;
 const unsigned COL_CHECK	= 1;
@@ -38,7 +39,7 @@ LogConfig::LogConfig(QWidget *parent, LoggerPlugin *plugin)
         : LogConfigBase(parent)
 {
     m_plugin = plugin;
-    edtFile->setText(plugin->getFile());
+    edtFile->setText(m_plugin->getFile());
     lstLevel->addColumn("");
     lstLevel->addColumn("");
     lstLevel->setExpandingColumn(0);
@@ -56,6 +57,17 @@ void LogConfig::resizeEvent(QResizeEvent *e)
 void LogConfig::apply()
 {
     unsigned log_level = 0;
+	/* test if file exist */
+	QFile file(edtFile->text());
+	if (!file.open(IO_Append | IO_ReadWrite)) {
+		log(L_DEBUG,"Logfile %s isn't a valid file - discarded!",edtFile->text().latin1());
+		edtFile->setText("");
+	} else {
+		file.close();
+	}
+	m_plugin->setFile(edtFile->text().latin1());
+	
+	/* check selected protocols */
     for (QListViewItem *item = lstLevel->firstChild(); item; item = item->nextSibling()){
         unsigned level = item->text(COL_LEVEL).toUInt();
         if (!item->text(COL_CHECKED).isEmpty()){
@@ -70,6 +82,7 @@ void LogConfig::apply()
         }
     }
     m_plugin->setLogLevel(log_level);
+	m_plugin->openFile();
 }
 
 void LogConfig::fill()
@@ -128,7 +141,7 @@ void LogConfig::setCheck(QListViewItem *item)
     pInd.end();
     pixInd.setMask(mInd);
 #else
-int w = style().pixelMetric(QStyle::PM_IndicatorWidth);
+	int w = style().pixelMetric(QStyle::PM_IndicatorWidth);
     int h = style().pixelMetric(QStyle::PM_IndicatorHeight);
     QPixmap pixInd(w, h);
     QPainter pInd(&pixInd);
