@@ -974,3 +974,55 @@ void ICQClientPrivate::processMsgQueueAuth()
         it = msgQueue.begin();
     }
 }
+
+void ICQClientPrivate::addToVisibleList(unsigned long uin)
+{
+    if (uin >= UIN_SPECIAL) return;
+    ICQUser *u = client->getUser(uin);
+    snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_CREATE);
+    sock->writeBuffer.packUin(uin);
+    sock->writeBuffer<<(unsigned short) 0;
+    sock->writeBuffer<<u->Id;
+    sock->writeBuffer<<(unsigned short) 3;
+    sock->writeBuffer<<(unsigned short) 0;
+    sendPacket();
+}
+
+void ICQClientPrivate::addToInvisibleList(unsigned long uin)
+{
+    if (uin >= UIN_SPECIAL) return;
+    ICQUser *u = client->getUser(uin);
+    snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_CREATE);
+    sock->writeBuffer.packUin(uin);
+    sock->writeBuffer<<(unsigned short) 0;
+    sock->writeBuffer<<u->Id;
+    sock->writeBuffer<<(unsigned short) 2;
+    sock->writeBuffer<<(unsigned short) 0;
+    sendPacket();
+}
+
+void ICQClientPrivate::removeFromVisibleList(unsigned long uin)
+{
+    if (uin >= UIN_SPECIAL) return;
+    ICQUser *u = client->getUser(uin);
+    snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_DELETE);
+    sock->writeBuffer.packUin(uin);
+    sock->writeBuffer<<(unsigned short) 0;
+    sock->writeBuffer<<u->Id;
+    sock->writeBuffer<<(unsigned short) 3;
+    sock->writeBuffer<<(unsigned short) 0;
+    sendPacket();
+}
+
+void ICQClientPrivate::removeFromInvisibleList(unsigned long uin)
+{
+    if (uin >= UIN_SPECIAL) return;
+    ICQUser *u = client->getUser(uin);
+    snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_DELETE);
+    sock->writeBuffer.packUin(uin);
+    sock->writeBuffer<<(unsigned short) 0;
+    sock->writeBuffer<<u->Id;
+    sock->writeBuffer<<(unsigned short) 2;
+    sock->writeBuffer<<(unsigned short) 0;
+    sendPacket();
+}
