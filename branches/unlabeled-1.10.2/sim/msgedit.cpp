@@ -57,6 +57,9 @@
 #define DECLINE_REASON_BUSY	3
 #define DECLINE_REASON_LATER	4
 
+#define MAX_SMS_LEN_LATIN1	160
+#define MAX_SMS_LEN_UNICODE	70
+
 static QString reason_string(int i)
 {
     switch (i){
@@ -445,6 +448,20 @@ void MsgEdit::processEvent(ICQEvent *e)
         if (e->type() == EVENT_MESSAGE_SEND){
             if (e->state == ICQEvent::Success){
                 history()->addMessage(message());
+                if (!msgTail.isEmpty()){
+                    emit addMessage(message(), false, true);
+                    emit showMessage(Uin(), message()->Id);
+                    if (e->message()->Type() == ICQ_MSGxSMS){
+                        ICQSMS *m = new ICQSMS;
+                        m->Uin.push_back(Uin);
+                        m->Message = smsChunk();
+                        m->Phone = phoneEdit->lineEdit()->text().local8Bit();
+                        msg = m;
+                        sendEvent = pClient->sendMessage(msg);
+                        return;
+                    }
+                    log(L_WARN, "Bad type for chunked message");
+                }
                 if (bCloseSend){
                     close();
                 }else{
@@ -874,6 +891,7 @@ void MsgEdit::refuseClick()
 
 void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEdit)
 {
+    msgTail = "";
     setUpdatesEnabled(false);
     if (msg != _msg){
         if (msg && (msg->Id < MSG_PROCESS_ID)) delete msg;
@@ -1322,8 +1340,30 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
 
 void MsgEdit::editTextChanged()
 {
-    if (msg && msg->Received())
-        action(mnuMessage, true);
+    if (msg){
+        if (msg->Received()){
+            action(mnuMessage, true);
+        }else if (msg->Type() == ICQ_MSGxSMS){
+            if (edit->text().isEmpty()){
+                emit setStatus("");
+            }else{
+                string s;
+                s = edit->text().local8Bit();
+                s = pClient->clearHTML(s.c_str());
+                QString t = trim(QString::fromLocal8Bit(s.c_str()));
+                int size = t.length();
+                int max_size = MAX_SMS_LEN_LATIN1;
+                if (!isLatin1(edit->text())) max_size = MAX_SMS_LEN_UNICODE;
+                QString status = i18n("Size: %1 / Max. size: %2")
+                                 .arg(size) .arg(max_size);
+                if (size > max_size){
+                    status += " ! ";
+                    status += i18n("Message will be split");
+                }
+                emit setStatus(status);
+            }
+        }
+    }
     textChanged();
 }
 
@@ -1379,7 +1419,10 @@ void MsgEdit::makeMessage()
         }
     case ICQ_MSGxSMS:{
             ICQSMS *m = static_cast<ICQSMS*>(msg);
-            m->Message = edit->text().local8Bit();
+            string s = edit->text().local8Bit();
+            s = pClient->clearHTML(s.c_str());
+            msgTail = trim(QString::fromLocal8Bit(s.c_str()));
+            m->Message = smsChunk();
             m->Phone = phoneEdit->lineEdit()->text().local8Bit();
             break;
         }
@@ -1507,6 +1550,74 @@ void MsgEdit::ftChanged()
         QWidget *file = pMain->ftWindow(Uin(), f->shortName());
         btnAccept->setEnabled(file == NULL);
     }
+}
+
+QString MsgEdit::trim(const QString &s)
+{
+    QString res = s;
+    int n;
+    for (n = 0; n < res.length(); n++)
+        if (!res[n].isSpace()) break;
+    if (n) res = res.mid(n);
+    if (res.isEmpty()) return res;
+    for (n = res.length() - 1; n >= 0; n--)
+        if (!res[n].isSpace()) break;
+    if (n < res.length() - 1) res = res.left(n + 1);
+    return res;
+}
+
+QString MsgEdit::chunk(const QString &s, int len)
+{
+    int n;
+    QString res = s.left(len+1);
+    for (n = res.length() - 1; n >= 0; n--)
+        if (res[n].isSpace()) break;
+    for (; n >= 0; n--)
+        if (!res[n].isSpace()) break;
+    if (n < 0){
+        res = s.left(len);
+        return res;
+    }
+    res = s.left(n + 1);
+    return res;
+}
+
+bool MsgEdit::isLatin1(const QString &s)
+{
+    for (int n = 0; n < s.length(); n++)
+        if (!s[n].latin1()) return false;
+    return true;
+}
+
+string MsgEdit::smsChunk()
+{
+    string res;
+    if (msgTail.isEmpty()) return res;
+    QString part = chunk(msgTail, MAX_SMS_LEN_LATIN1);
+    if (!isLatin1(part))
+        part = chunk(msgTail, MAX_SMS_LEN_UNICODE);
+    msgTail = trim(msgTail.mid(part.length()));
+    string s = part.local8Bit();
+    for (unsigned i = 0; i < s.length(); i++){
+        char c = s[i];
+        switch (c){
+        case '<':
+            res += "&lt;";
+            break;
+        case '>':
+            res += "&gt;";
+            break;
+        case '&':
+            res += "&amp;";
+            break;
+        case '\"':
+            res += "&quot;";
+            break;
+        default:
+            res += c;
+        }
+    }
+    return res;
 }
 
 #ifndef _WINDOWS

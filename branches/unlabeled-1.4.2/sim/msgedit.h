@@ -110,6 +110,10 @@ protected slots:
     void ftChanged();
 protected:
     virtual void closeEvent(QCloseEvent *e);
+    string smsChunk();
+    QString trim(const QString&);
+    QString chunk(const QString &s, int len);
+    bool isLatin1(const QString &s);
     void fillPhones();
     void setupNext();
     History *mHistory;
@@ -149,6 +153,7 @@ protected:
     EditSpell *edit;
     ICQEvent *sendEvent;
     bool bCloseSend;
+    QString msgTail;
 };
 
 #endif
