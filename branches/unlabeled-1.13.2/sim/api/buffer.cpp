@@ -119,6 +119,17 @@ void Buffer::incReadPos(int n)
     if (m_posRead > m_posWrite) m_posRead = m_posWrite;
 }
 
+void Buffer::setSize(unsigned size)
+{
+	if (size >= m_size)
+		return;
+	m_size = size;
+	if (m_posWrite > m_size)
+		m_posWrite = m_size;
+	if (m_posRead > m_size)
+		m_posRead = m_size;
+}
+
 void Buffer::setWritePos(unsigned n)
 {
     m_posWrite = n;

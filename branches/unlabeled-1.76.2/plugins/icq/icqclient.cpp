@@ -484,6 +484,8 @@ OscarSocket::OscarSocket()
 {
     m_nSequence    = (unsigned short)(rand() & 0x7FFF);
     m_nMsgSequence = 0;
+	m_time	       = 0;
+	m_packets	   = 0;
 }
 
 OscarSocket::~OscarSocket()
@@ -495,6 +497,9 @@ void OscarSocket::connect_ready()
     socket()->readBuffer.init(6);
     socket()->readBuffer.packetStart();
     m_bHeader = true;
+	m_time	       = 0;
+	m_packets	   = 0;
+	delayed.init(0);
 }
 
 void ICQClient::connect_ready()
@@ -701,6 +706,11 @@ void ICQClient::packet_ready()
     OscarSocket::packet_ready();
 }
 
+void ICQClient::write_ready()
+{
+    OscarSocket::write_ready();
+}
+
 void ICQClient::packet()
 {
     ICQPlugin *plugin = static_cast<ICQPlugin*>(protocol()->plugin());
@@ -794,6 +804,9 @@ void OscarSocket::snac(unsigned short fam, unsigned short type, bool msgId, bool
     << (bType ? type : (unsigned short)0);
 }
 
+const unsigned RATE_PAUSE = 3;
+const unsigned RATE_LIMIT = 5;
+
 void OscarSocket::sendPacket()
 {
     Buffer &writeBuffer = socket()->writeBuffer;
@@ -802,7 +815,54 @@ void OscarSocket::sendPacket()
     packet[4] = (char)((size >> 8) & 0xFF);
     packet[5] = (char)(size & 0xFF);
     log_packet(socket()->writeBuffer, true, ICQPlugin::icq_plugin->OscarPacket);
+	time_t now;
+	time(&now);
+	if ((unsigned)now > m_time + RATE_PAUSE){
+		m_packets = 0;
+		m_time = now;
+	}
+	if ((m_packets > RATE_LIMIT) || (delayed.readPos() != delayed.writePos())){
+		delayed.pack(writeBuffer.data(writeBuffer.packetStartPos()), writeBuffer.size() - writeBuffer.packetStartPos());
+		writeBuffer.setSize(writeBuffer.packetStartPos());
+		log(L_DEBUG, "> delay %u %i", delayed.readPos(), delayed.writePos());
+		socket()->pause(RATE_PAUSE);
+		return;
+	}
+	m_packets++;
     socket()->write();
+}
+
+void OscarSocket::write_ready()
+{
+	if (delayed.readPos() == delayed.writePos())
+		return;
+	time_t now;
+	time(&now);
+	if ((unsigned)now > m_time + RATE_PAUSE){
+		m_packets = 0;
+		m_time = now;
+	}
+	if (m_packets > RATE_LIMIT){
+		socket()->pause(RATE_PAUSE);
+		return;
+	}
+	while (m_packets <= RATE_LIMIT){
+		m_packets++;
+	    unsigned char *packet = (unsigned char*)(delayed.data(delayed.readPos()));
+		unsigned size = (packet[4] << 8) + packet[5] + 6;
+		socket()->writeBuffer.pack(delayed.data(delayed.readPos()), size);
+		delayed.incReadPos(size);
+		log(L_DEBUG, "< delay %u %i", delayed.readPos(), delayed.writePos());
+		if (delayed.readPos() == delayed.writePos())
+			break;
+	}
+	socket()->write();
+	if (delayed.readPos() == delayed.writePos()){
+		delayed.init(0);
+		log(L_DEBUG, "Delay init");
+	}else{
+		socket()->pause(RATE_PAUSE);
+	}
 }
 
 string ICQClient::cryptPassword()

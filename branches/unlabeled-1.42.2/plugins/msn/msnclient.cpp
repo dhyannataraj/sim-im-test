@@ -231,6 +231,7 @@ void MSNClient::setInvisible(bool bState)
 
 void MSNClient::disconnected()
 {
+	stop();
     Contact *contact;
     ContactList::ContactIterator it;
     time_t now;
@@ -1277,12 +1278,16 @@ void *MSNClient::processEvent(Event *e)
 
 void MSNClient::requestLoginHost(const char *url)
 {
-    fetch(url);
+	if (!isDone())
+		return;
     m_state = LoginHost;
+    fetch(url);
 }
 
 void MSNClient::requestTWN(const char *url)
 {
+	if (!isDone())
+		return;
     string auth = "Authorization: Passport1.4 OrgVerb=GET,OrgURL=http%%3A%%2F%%2Fmessenger%%2Emsn%%2Ecom,sign-in=";
     auth += quote(getLogin()).utf8();
     auth += ",pwd=";

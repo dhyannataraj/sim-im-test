@@ -450,16 +450,22 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name simctrl
+    Project_Dep_Name simapi
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name simremote
+    Project_Dep_Name simctrl
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name simext
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name simipc
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simremote
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simui
     End Project Dependency
 }}}
 
@@ -597,9 +603,6 @@ Package=<4>
     Project_Dep_Name gpg
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name remote
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name styles
     End Project Dependency
     Begin Project Dependency
@@ -625,6 +628,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name weather
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name remote
     End Project Dependency
 }}}
 
