@@ -477,7 +477,7 @@ unsigned long Contact::contactInfo(unsigned &style, const char *&statusIcon, str
         }
         if (statusIcon == NULL)
             statusIcon = "nonim";
-        return STATUS_NA;
+        return STATUS_UNKNOWN;
     }
     if (statusIcon == NULL)
         statusIcon = "empty";
@@ -1027,6 +1027,7 @@ static DataDef _clientData[] =
         { "", DATA_BOOL, 1, 1 },		// SavePassword
         { "", DATA_UTF, 1, 0 },			// PreviousPassword
         { "Invisible", DATA_BOOL, 1, 0 },
+		{ "LastSend", DATA_STRLIST, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -1275,6 +1276,8 @@ string ClientUserData::save()
     string res;
     for (ClientUserDataPrivate::iterator it = p->begin(); it != p->end(); ++it){
         _ClientUserData &d = *it;
+		if (d.client->protocol()->description()->flags & PROTOCOL_TEMP_DATA)
+			continue;
         string cfg = save_data(d.client->protocol()->userDataDef(), d.data);
         if (cfg.length()){
             if (res.length())
@@ -1860,7 +1863,7 @@ Contact *ContactList::contactByPhone(const char *_phone)
         QString phones = c->getPhones();
         while (!phones.isEmpty()){
             QString phoneItem = getToken(phones, ';', false);
-            if (cmpPhone(phoneItem.utf8(), _phone))
+            if (cmpPhone(getToken(phoneItem, ',').utf8(), _phone))
                 return c;
         }
     }

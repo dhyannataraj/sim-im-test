@@ -40,7 +40,6 @@ protected:
     QLabel		*m_name;
     QPushButton	*m_button;
     DatePicker  *m_picker;
-	void setEnabled(bool);
     void paintEvent(QPaintEvent *e);
     int	getSign(int day, int month);
 };

@@ -2123,11 +2123,19 @@ void *CorePlugin::processEvent(Event *e)
                             return e->param();
                         }
                     }
+					if ((cmd->id == MessageSMS) && !ways.empty()){
+						vector<clientContact>::iterator it;
+	                    for (it = ways.begin(); it != ways.end(); ++it){
+							if (((*it).client->protocol()->description()->flags & PROTOCOL_NOSMS) == 0)
+								break;
+						}
+						if (it == ways.end())
+							return NULL;
+					}
                 }
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
-                    if (getContacts()->getClient(i)->canSend(cmd->id, NULL)){
+                    if (getContacts()->getClient(i)->canSend(cmd->id, NULL))
                         return e->param();
-                    }
                 }
                 return NULL;
             }
@@ -2349,6 +2357,8 @@ void *CorePlugin::processEvent(Event *e)
                 if (def == NULL)
                     return NULL;
                 MessageDef *mdef = (MessageDef*)(def->param);
+				if (mdef->create == NULL)
+					return NULL;
                 msg = mdef->create(NULL);
                 msg->setContact((unsigned)(cmd->param));
                 if (mdef->flags & MESSAGE_SILENT){

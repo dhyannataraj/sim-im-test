@@ -32,14 +32,14 @@
 const unsigned PHONE_TYPE		= 0;
 const unsigned PHONE_NUMBER		= 1;
 const unsigned PHONE_PUBLISH	= 2;
-const unsigned PHONE_ICON		= 3;
-const unsigned PHONE_PROTO		= 4;
-const unsigned PHONE_TYPE_ASIS	= 5;
-const unsigned PHONE_ACTIVE		= 6;
+const unsigned PHONE_ICON		= 0x10;
+const unsigned PHONE_PROTO		= 0x11;
+const unsigned PHONE_TYPE_ASIS	= 0x12;
+const unsigned PHONE_ACTIVE		= 0x13;
 
 const unsigned MAIL_ADDRESS		= 0;
 const unsigned MAIL_PUBLISH		= 1;
-const unsigned MAIL_PROTO		= 2;
+const unsigned MAIL_PROTO		= 0x10;
 
 const char *phoneTypeNames[] =
     {
@@ -370,11 +370,10 @@ void MainInfo::fillPhoneItem(QListViewItem *item, const QString &number, const Q
     item->setText(PHONE_PROTO, proto);
     item->setText(PHONE_NUMBER, number);
     item->setText(PHONE_TYPE_ASIS, type);
-    if (type.isEmpty())
-        return;
-    QCString t = type.latin1();
-    const char **p;
-    for (p = phoneTypeNames; *p; p++){
+    if (!type.isEmpty()){
+		QCString t = type.latin1();
+		const char **p;
+	for	(p = phoneTypeNames; *p; p++){
         if (!strcmp(*p, t))
             break;
     }
@@ -383,6 +382,7 @@ void MainInfo::fillPhoneItem(QListViewItem *item, const QString &number, const Q
     }else{
         item->setText(PHONE_TYPE, type);
     }
+	}
     item->setText(PHONE_ICON, QString::number(icon));
     for (const ext_info *info = phoneIcons; info->szName; info++){
         if (info->nCode == icon){

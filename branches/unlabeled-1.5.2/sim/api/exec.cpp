@@ -61,12 +61,22 @@ Exec::Exec()
 Exec::~Exec()
 {
 #ifdef WIN32
-	if (hErrThread)
+    HANDLE h[4];
+	unsigned n = 0;
+	if (hErrThread){
+		h[n++] = hErrThread;
 		TerminateThread((HANDLE)hErrThread, 1);
-	if (hOutThread)
+	}
+	if (hOutThread){
+		h[n++] = hOutThread;
 		TerminateThread((HANDLE)hOutThread, 1);
-	if (hThread)
+	}
+	if (hThread){
+		h[n++] = hThread;
 		TerminateThread((HANDLE)hThread, 1);
+	}
+	if (n)
+		WaitForMultipleObjects(n, h, TRUE, INFINITE);
 #endif
 }
 

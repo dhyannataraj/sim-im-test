@@ -1449,6 +1449,9 @@ const unsigned PROTOCOL_AR_USER			= 0x00200000;
 const unsigned PROTOCOL_FOLLOWME		= 0x00400000;
 const unsigned PROTOCOL_ANY_PORT		= 0x00800000;
 const unsigned PROTOCOL_NOSMS			= 0x01000000;
+const unsigned PROTOCOL_NOPROXY			= 0x02000000;
+const unsigned PROTOCOL_TEMP_DATA		= 0x04000000;
+const unsigned PROTOCOL_NODATA			= 0x08000000;
 
 class ContactList;
 class Client;
@@ -1475,6 +1478,7 @@ typedef struct ClientData
     unsigned	SavePassword;
     char		*PreviousPassword;
     unsigned	Invisible;
+	void		*LastSend;
 } ClientData;
 
 const unsigned AuthError = 1;
@@ -1522,6 +1526,7 @@ public:
     PROP_UTF8(Password)
     PROP_BOOL(SavePassword)
     PROP_UTF8(PreviousPassword)
+	PROP_STRLIST(LastSend)
     bool getInvisible() { return data.Invisible != 0; }
     virtual void setInvisible(bool bInvisible) { data.Invisible = bInvisible; }
 protected:

@@ -212,6 +212,8 @@ void ProxyConfig::fillClients()
     m_data.push_back(d);
     for (unsigned i = 0; i < getContacts()->nClients(); i++){
         Client *client = getContacts()->getClient(i);
+		if (client->protocol()->description()->flags & PROTOCOL_NOPROXY)
+			continue;
         QString name = client->name().c_str();
         int pos = name.find(".");
         if (pos > 0)

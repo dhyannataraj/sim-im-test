@@ -182,7 +182,6 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
         id += ",";
         id += QString::number(m_cut.size());
     }
-    log(L_DEBUG, "Add %s", id.latin1());
     info += "<id>";
     info += id;
     info += "</id>";

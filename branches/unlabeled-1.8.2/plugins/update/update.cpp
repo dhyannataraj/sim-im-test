@@ -155,7 +155,7 @@ void *UpdatePlugin::processEvent(Event *e)
             raiseWindow(main);
             BalloonMsg *msg = new BalloonMsg(NULL, i18n("New version SIM is released"), l, statusWidget);
             connect(msg, SIGNAL(action(int, void*)), this, SLOT(showDetails(int, void*)));
-            connect(msg, SIGNAL(destroyed()), this, SLOT(msgDestroyed()));
+            connect(msg, SIGNAL(finished()), this, SLOT(msgDestroyed()));
             msg->show();
             return NULL;
         }

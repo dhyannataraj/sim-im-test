@@ -1335,12 +1335,15 @@ void *ProxyPlugin::processEvent(Event *e)
         QWidget *w = (QWidget*)(e->param());
         if (!w->inherits("NewProtocol"))
             return NULL;
+		NewProtocol *p = static_cast<NewProtocol*>(w);
+		if (p->m_client->protocol()->description()->flags & PROTOCOL_NOPROXY)
+			return NULL;
         ProxyConfig *cfg = static_cast<ProxyConfig*>(findObject(w, "ProxyConfig"));
         if (cfg)
             return NULL;
         QTabWidget *tab  = static_cast<QTabWidget*>(findObject(w, "QTabWidget"));
         if (tab){
-            cfg = new ProxyConfig(tab, this, tab, static_cast<NewProtocol*>(w)->m_client);
+            cfg = new ProxyConfig(tab, this, tab, p->m_client);
             QObject::connect(tab->topLevelWidget(), SIGNAL(apply()), cfg, SLOT(apply()));
         }
     }
