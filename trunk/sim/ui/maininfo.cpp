@@ -194,7 +194,7 @@ void MainInfo::apply(ICQUser *u)
     if (mails.begin() != mails.end()){
         for (EMailPtrList::iterator it = mails.begin(); it != mails.end(); ++it){
             EMailInfo *info = static_cast<EMailInfo*>(*it);
-            info->MyInfo = false;
+            info->MyInfo = info->Hide();
         }
         mailInfo = static_cast<EMailInfo*>(*mails.begin());
     }

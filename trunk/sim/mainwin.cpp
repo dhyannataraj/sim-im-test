@@ -166,6 +166,7 @@ MainWindow::MainWindow(const char *name)
         mTop(this, "Top"),
         mWidth(this, "Width"),
         mHeight(this, "Height"),
+
         UseStyle(this, "Style"),
         AutoAwayTime(this, "AutoAwayTime", 300),
         AutoNATime(this, "AutoNATime", 900),
