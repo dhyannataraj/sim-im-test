@@ -205,8 +205,10 @@ void GpgPlugin::decryptReady(Exec *exec, int res, const char*)
             QFile::remove((*it).infile);
             QFile::remove((*it).outfile);
             QTimer::singleShot(0, this, SLOT(clear()));
-            Event e(EventMessageReceived, msg);
-            if (!processEvent(&e) && !e.process(this))
+			Event e(EventMessageReceived, msg);
+			if ((res == 0) && processEvent(&e))
+				return;
+			if (!e.process(this))
                 delete msg;
             return;
         }

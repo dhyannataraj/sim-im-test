@@ -225,7 +225,10 @@ void TextEdit::slotColorChanged(const QColor &c)
 {
     if (c == curFG)
         return;
-    if (isEmpty()){
+	int parag;
+	int index;
+	getCursorPosition(&parag, &index);
+    if (QTextEdit::text(parag).isEmpty()){
         setColor(curFG);
         return;
     }
