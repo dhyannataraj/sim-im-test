@@ -346,16 +346,13 @@ void OSDPlugin::processQueue()
 void OSDPlugin::dblClick()
 {
     Message *msg = NULL;
-    Contact *contact;
     switch (m_request.type){
     case OSD_ALERT:
-    case OSD_TYPING:
-        contact = getContacts()->contact(m_request.contact);
-        if (contact){
-            Event e(EventDefaultAction, contact);
-            e.process();
-        }
+    case OSD_TYPING:{
+        Event e(EventDefaultAction, (void*)(m_request.contact));
+		e.process();
         break;
+					}
     default:
         MessageID m;
         m.id      = m_request.msg_id;
