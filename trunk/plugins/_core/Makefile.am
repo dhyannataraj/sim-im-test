@@ -85,7 +85,7 @@ _core_la_SOURCES = \
  xsl.cpp \
  xsl.h
 
-SUBDIRS=pict styles jisp smiles
+SUBDIRS=pict styles jisp smiles icqlite
 
 INCLUDES=-I../../sim/api -I../../sim/ui $(all_includes)
 

@@ -5667,5 +5667,164 @@ SOURCE=.\smiles\Uptight.png
 SOURCE=.\smiles\Wink.png
 # End Source File
 # End Group
+# Begin Group "icqlite"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\icqlite\0.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\1.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\10.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\11.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\12.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\13.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\14.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\15.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\16.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\17.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\18.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\19.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\2.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\20.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\21.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\22.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\23.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\24.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\25.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\26.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\27.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\3.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\4.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\5.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\6.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\7.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\8.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\9.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\icqlite\icondef.xml
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build - Make icqlite.jisp
+InputDir=.\icqlite
+IntDir=.\..\..\Release_Wrk
+OutDir=.\..\..\Release
+InputPath=.\icqlite\icondef.xml
+
+"$(OutDir)\icons\icqlite.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	mkdir $(IntDir)\jisp 
+	copy $(InputDir)\*.png $(IntDir)\jisp 
+	copy $(InputDir)\icondef.xml $(IntDir)\jisp 
+	jar -cMf $(OutDir)\icons\icqlite.jisp -C $(IntDir)\jisp . 
+	del /Q $(IntDir)\jisp\*.* 
+	rmdir /Q $(IntDir)\jisp 
+	
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build - Make icqlite.jisp
+InputDir=.\icqlite
+IntDir=.\..\..\Debug_Wrk
+OutDir=.\..\..\Debug
+InputPath=.\icqlite\icondef.xml
+
+"$(OutDir)\icons\icqlite.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	mkdir $(IntDir)\jisp 
+	copy $(InputDir)\*.png $(IntDir)\jisp 
+	copy $(InputDir)\icondef.xml $(IntDir)\jisp 
+	jar -cMf $(OutDir)\icons\icqlite.jisp -C $(IntDir)\jisp . 
+	del /Q $(IntDir)\jisp\*.* 
+	rmdir /Q $(IntDir)\jisp 
+	
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# End Group
 # End Target
 # End Project

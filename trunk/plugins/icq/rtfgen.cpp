@@ -525,8 +525,18 @@ static const char *def_smiles[] =
         ":-X",
         ":-P",
         "8-)",
-        "8-)",
-        ":-D"
+        "O:-)",
+        ":-D",
+        "*ANNOYED*",
+        "*DISGUSTED*",
+        "*DROOLING*",
+        "*GIGGLING*",
+        "*JOKINGLY*",
+        "*SHOCKED*",
+        "*WHINING*",
+        "*SURPRISED*",
+        "*SURPRISED*",
+        "*IN LOVE*"
     };
 
 void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
@@ -642,18 +652,23 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
                 break;
             }
         }
-        list<string> smiles = getIcons()->getSmile(src.latin1());
-        for (list<string>::iterator its = smiles.begin(); its != smiles.end(); ++its){
-            for (unsigned nSmile = 0; nSmile < 16; nSmile++){
-                if ((*its) != def_smiles[nSmile])
-                    continue;
-                res += "<##icqimage000";
-                if (nSmile < 10){
-                    res += (char)(nSmile + '0');
-                }else{
-                    res += (char)(nSmile - 10 + 'A');
+        if (src.left(5) == "icon:"){
+            list<string> smiles = getIcons()->getSmile(src.mid(5).latin1());
+            for (list<string>::iterator its = smiles.begin(); its != smiles.end(); ++its){
+                string s = *its;
+                for (unsigned nSmile = 0; nSmile < 26; nSmile++){
+                    if (s != def_smiles[nSmile])
+                        continue;
+                    res += "<##icqimage00";
+                    char buf[4];
+                    sprintf(buf, "%02X", nSmile);
+                    res += buf;
+                    res += ">";
+                    return;
                 }
-                res += ">";
+            }
+            if (!smiles.empty()){
+                text(QString::fromUtf8(smiles.front().c_str()));
                 return;
             }
         }
@@ -932,22 +947,24 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &attrs)
                 break;
             }
         }
-        list<string> smiles = getIcons()->getSmile(src.latin1());
+        if (src.left(5) != "icon:"){
+            text(alt);
+            return;
+        }
+        list<string> smiles = getIcons()->getSmile(src.mid(5).latin1());
         if (smiles.empty()){
             text(alt);
             return;
         }
         if (m_bIcq){
             for (list<string>::iterator its = smiles.begin(); its != smiles.end(); ++its){
-                for (unsigned nSmile = 0; nSmile < 16; nSmile++){
+                for (unsigned nSmile = 0; nSmile < 26; nSmile++){
                     if ((*its) != def_smiles[nSmile])
                         continue;
-                    res += "<img src=\"smile";
-                    if (nSmile < 10){
-                        res += (char)(nSmile + '0');
-                    }else{
-                        res += (char)(nSmile - 10 + 'A');
-                    }
+                    res += "<img src=\"icon:smile";
+                    char b[4];
+                    sprintf(b, "%X", nSmile);
+                    res += b;
                     res += "\">";
                     return;
                 }

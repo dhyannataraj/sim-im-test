@@ -1569,9 +1569,12 @@ SmileLabel::SmileLabel(const char *_id, QWidget *parent)
     setPixmap(pict);
     list<string> smiles = getIcons()->getSmile(_id);
     QString tip = QString::fromUtf8(smiles.front().c_str());
-    tip += " ";
     string name = getIcons()->getSmileName(_id);
-    tip += i18n(name.c_str());
+    char c = name[0];
+    if ((c < '0') || (c > '9')){
+        tip += " ";
+        tip += i18n(name.c_str());
+    }
     QToolTip::add(this, tip);
 }
 

@@ -223,9 +223,8 @@ IconSet *Icons::addIconSet(const char *name, bool bDefault)
     if (bDefault){
         m_defSets.push_front(is);
     }else{
-        m_customSets.push_front(is);
+        m_customSets.push_back(is);
     }
-    iconChanged(0);
     return is;
 }
 
