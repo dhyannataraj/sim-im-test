@@ -132,7 +132,7 @@ static void initPlural()
 
 void resetPlural()
 {
-    nPlural = -1;
+    bPluralInit = false;
     initPlural();
 }
 
