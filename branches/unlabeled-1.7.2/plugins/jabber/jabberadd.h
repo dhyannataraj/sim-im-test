@@ -57,7 +57,7 @@ signals:
     void addResult(QWidget*);
     void showResult(QWidget*);
     void showError(const QString&);
-    void setColumns(const QStringList&, int);
+    void setColumns(const QStringList&, int, QWidget*);
     void addItem(const QStringList&, QWidget*);
     void searchDone(QWidget*);
 protected slots:
@@ -67,6 +67,8 @@ protected slots:
     void add(unsigned);
     void search();
 	void searchStop();
+	void searchMail(const QString&);
+	void searchName(const QString&, const QString&, const QString&);
 protected:
     void *processEvent(Event*);
     void setBrowser(bool bBrowser);

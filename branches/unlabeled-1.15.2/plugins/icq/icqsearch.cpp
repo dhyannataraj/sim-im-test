@@ -286,6 +286,11 @@ void ICQSearch::search()
     }
     if ((m_id_icq == 0) && (m_id_aim == 0))
         return;
+	addColumns();
+}
+
+void ICQSearch::addColumns()
+{
     QStringList columns;
     columns.append("");
 	columns.append("");
@@ -310,7 +315,31 @@ void ICQSearch::search()
 		columns.append("email");
         columns.append(i18n("E-Mail"));
     }
-    emit setColumns(columns, 6);
+    emit setColumns(columns, 6, this);
+}
+
+void ICQSearch::searchMail(const QString &mail)
+{
+        if (!m_client->m_bAIM){
+            m_type = Mail;
+            m_mail = mail;
+            icq_search();
+        }
+        m_id_aim = m_client->aimEMailSearch(mail);
+		addColumns();
+}
+
+void ICQSearch::searchName(const QString &first, const QString &last, const QString &nick)
+{
+        if (!m_client->m_bAIM){
+            m_type = Name;
+            m_first		= first;
+            m_last		= last;
+            m_nick		= nick;
+            icq_search();
+        }
+        m_id_aim = m_client->aimInfoSearch(first, last, NULL, NULL, NULL, NULL, NULL, nick, NULL, NULL);
+		addColumns();
 }
 
 void ICQSearch::searchStop()

@@ -36,7 +36,8 @@
 #include <qstatusbar.h>
 #include <qtimer.h>
 
-const unsigned COL_SEARCH_WND	= 0x100;
+const unsigned COL_KEY			= 0x100;
+const unsigned COL_SEARCH_WND	= 0x101;
 
 SearchDialog::SearchDialog()
 {
@@ -140,7 +141,8 @@ void SearchDialog::fillClients()
     m_widgets.clear();
     m_search->cmbClients->clear();
     unsigned nClients = 0;
-    int current = -1;
+    int current    = -1;
+	int defCurrent = -1;
     for (unsigned i = 0; i < getContacts()->nClients(); i++){
         Client *client = getContacts()->getClient(i);
         QWidget *search = client->searchWindow(m_search->wndCondition);
@@ -164,7 +166,10 @@ void SearchDialog::fillClients()
         m_widgets.push_back(cw);
         if (search == m_current)
             current = m_widgets.size() - 1;
-        nClients++;
+		if (client->protocol()->description()->flags & PROTOCOL_SEARCH)
+			nClients++;
+		if (client->name() == CorePlugin::m_plugin->getSearchClient())
+			defCurrent = m_widgets.size() - 1;
     }
     if (nClients > 1){
         unsigned n;
@@ -232,6 +237,8 @@ void SearchDialog::fillClients()
         }
     }
     if (current == -1)
+		current = defCurrent;
+	if (current == -1)
         current = 0;
     m_search->cmbClients->setCurrentItem(current);
     clientActivated(current);
@@ -247,6 +254,11 @@ void SearchDialog::clientActivated(int n)
     if (m_widgets[n].widget != m_current)
         showResult(NULL);
     m_search->wndCondition->raiseWidget(m_widgets[n].widget);
+	Client *client = m_widgets[n].client;
+	string name;
+	if ((client != NULL) && (client != (Client*)(-1)))
+		name = client->name().c_str();
+	CorePlugin::m_plugin->setSearchClient(name.c_str());
 }
 
 void SearchDialog::toggled(bool)
@@ -437,10 +449,11 @@ void SearchDialog::searchClick()
     m_bColumns = false;
     connect(this, SIGNAL(search()), m_active, SLOT(search()));
     connect(this, SIGNAL(searchStop()), m_active, SLOT(searchStop()));
-    connect(m_active, SIGNAL(setColumns(const QStringList&, int)), this, SLOT(setColumns(const QStringList&, int)));
+    connect(m_active, SIGNAL(setColumns(const QStringList&, int, QWidget*)), this, SLOT(setColumns(const QStringList&, int, QWidget*)));
     connect(m_active, SIGNAL(addItem(const QStringList&,QWidget*)), this, SLOT(addItem(const QStringList&,QWidget*)));
     connect(m_active, SIGNAL(searchDone(QWidget*)), this, SLOT(searchDone(QWidget*)));
     emit search();
+	m_result->setFocus();
 }
 
 void SearchDialog::addGroup(int n)
@@ -483,7 +496,7 @@ void SearchDialog::searchDone(QWidget*)
     m_status->message("");
     disconnect(this, SIGNAL(search()), m_active, SLOT(search()));
     disconnect(this, SIGNAL(searchStop()), m_active, SLOT(searchStop()));
-    disconnect(m_active, SIGNAL(setColumns(const QStringList&, int)), this, SLOT(setColumns(const QStringList&, int)));
+    disconnect(m_active, SIGNAL(setColumns(const QStringList&, int, QWidget*)), this, SLOT(setColumns(const QStringList&, int, QWidget*)));
     disconnect(m_active, SIGNAL(addItem(const QStringList&,QWidget*)), this, SLOT(addItem(const QStringList&,QWidget*)));
     disconnect(m_active, SIGNAL(searchDone(QWidget*)), this, SLOT(searchDone(QWidget*)));
     m_active = NULL;
@@ -491,7 +504,7 @@ void SearchDialog::searchDone(QWidget*)
     setAddButton();
 }
 
-void SearchDialog::setColumns(const QStringList &columns, int n)
+void SearchDialog::setColumns(const QStringList &columns, int n, QWidget*)
 {
     int i;
     if (!m_bColumns){
@@ -516,7 +529,7 @@ QString SearchViewItem::key(int column, bool ascending) const
 {
     if (column)
         return QListViewItem::key(column, ascending);
-    QString res = text(listView()->columns());
+    QString res = text(COL_KEY);
     return res;
 }
 
@@ -524,7 +537,7 @@ void SearchDialog::addItem(const QStringList &values, QWidget *wnd)
 {
     QListViewItem *item;
 	for (item = m_result->firstChild(); item; item = item->nextSibling()){
-		if (item->text(m_result->columns()) == values[values.count() + 2])
+		if (item->text(COL_KEY) == values[1])
 			break;
 	}
 	if (item){
@@ -546,7 +559,7 @@ void SearchDialog::addItem(const QStringList &values, QWidget *wnd)
     }
 	item = new SearchViewItem(m_result);
     item->setPixmap(0, Pict(values[0].latin1()));
-    item->setText(values.count() - 2, values[1]);
+    item->setText(COL_KEY, values[1]);
     for (int i = 2; (unsigned)i < values.count(); i++)
         item->setText(i - 2, values[i]);
 	item->setText(COL_SEARCH_WND, QString::number((unsigned)wnd));

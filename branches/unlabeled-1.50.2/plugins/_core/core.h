@@ -106,6 +106,7 @@ typedef struct CoreData
     Data	EnableSpell;
     Data	RemoveHistory;
     Data	SearchGeo[5];
+	Data	SearchClient;
 } CoreData;
 
 const unsigned CONTAINER_SIMPLE	= 0;
@@ -457,6 +458,7 @@ public:
     PROP_BOOL(NoJoinAlert);
     PROP_BOOL(EnableSpell);
     PROP_BOOL(RemoveHistory);
+	PROP_STR(SearchClient);
 
     unsigned user_data_id;
     unsigned sms_data_id;

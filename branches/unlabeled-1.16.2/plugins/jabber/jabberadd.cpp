@@ -65,7 +65,8 @@ void JabberAdd::browserDestroyed()
 void JabberAdd::radioToggled(bool)
 {
     setBrowser(false);
-    emit setAdd(grpJID->isChecked());
+	if (isVisible())
+		emit setAdd(grpJID->isChecked());
 }
 
 void JabberAdd::showEvent(QShowEvent *e)
@@ -137,20 +138,28 @@ void JabberAdd::search()
 {
     if (m_bBrowser)
         return;
-    if (grpName->isChecked()){
-        m_first = edtFirst->text();
-        m_last  = edtLast->text();
-        m_nick	= edtNick->text();
-        m_mail	= "";
-        startSearch();
-    }
-    if (grpMail->isChecked()){
-        m_mail	= edtMail->text();
+    if (grpName->isChecked())
+        searchName(edtFirst->text(), edtLast->text(), edtNick->text());
+    if (grpMail->isChecked())
+        searchMail(edtMail->text());
+}
+
+void JabberAdd::searchMail(const QString &mail)
+{
+        m_mail	= mail;
         m_first	= "";
         m_last	= "";
         m_nick	= "";
         startSearch();
-    }
+}
+
+void JabberAdd::searchName(const QString &first, const QString &last, const QString &nick)
+{
+        m_first = first;
+        m_last  = last;
+        m_nick	= nick;
+        m_mail	= "";
+        startSearch();
 }
 
 void JabberAdd::startSearch()
@@ -199,7 +208,7 @@ void JabberAdd::addAttrs()
 		attrs.append(m_fields[m_nFields].c_str());
         attrs.append(m_labels[m_nFields]);
 	}
-    emit setColumns(attrs, 0);
+    emit setColumns(attrs, 0, this);
 }
 
 void *JabberAdd::processEvent(Event *e)
@@ -271,7 +280,7 @@ void *JabberAdd::processEvent(Event *e)
             }
             (*it).id_search = m_client->search((*it).jid.c_str(), (*it).node.c_str(), (*it).condition.utf8());
             if ((*it).condition.left(6) != "x:data"){
-                addAttr("jid", i18n("JID"));
+                addAttr("", i18n("JID"));
                 addAttr("first", i18n("First name"));
                 addAttr("last", i18n("Last name"));
                 addAttr("nick", i18n("Nick"));
@@ -347,7 +356,7 @@ void *JabberAdd::processEvent(Event *e)
         if (it == m_agents.end())
             return NULL;
         if (data->JID.ptr == NULL){
-            addAttr("jid", i18n("JID"));
+            addAttr("", i18n("JID"));
             for (unsigned i = 0; i < data->nFields.value; i++){
                 addAttr(get_str(data->Fields, i * 2), get_str(data->Fields, i * 2 + 1));
                 (*it).fields.push_back(get_str(data->Fields, i * 2));
@@ -377,7 +386,7 @@ void *JabberAdd::processEvent(Event *e)
         l.append(QString::fromUtf8(data->JID.ptr));
         for (unsigned i = 0; i < m_fields.size(); i++){
             QString v;
-            if (m_fields[i] == "jid"){
+            if (m_fields[i] == ""){
                 v = QString::fromUtf8(data->JID.ptr);
             }else if ((m_fields[i] == "first") && data->First.ptr){
                 v = QString::fromUtf8(data->First.ptr);

@@ -33,7 +33,6 @@ signals:
     void setAdd(bool);
     void showError(const QString&);
 protected slots:
-    void radioToggled(bool);
     void add(unsigned grp);
 protected:
     MSNClient *m_client;

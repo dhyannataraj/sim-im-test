@@ -31,28 +31,19 @@ MSNSearch::MSNSearch(MSNClient *client, QWidget *parent)
     m_client = client;
     connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
     edtMail->setValidator(new EMailValidator(edtMail));
-    initCombo(cmbCountry, 0, getCountries(), true, getCountryCodes());
-    connect(grpInfo, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
-    connect(grpMail, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
-}
-
-void MSNSearch::radioToggled(bool)
-{
-    emit setAdd(grpMail->isChecked());
 }
 
 void MSNSearch::showEvent(QShowEvent *e)
 {
     MSNSearchBase::showEvent(e);
-    emit setAdd(grpMail->isChecked());
+    emit setAdd(true);
 }
 
 void MSNSearch::add(unsigned grp)
 {
     QString mail = edtMail->text();
     int pos = 0;
-    if (!grpMail->isChecked() ||
-            (edtMail->validator()->validate(mail, pos) != QValidator::Acceptable))
+    if ((edtMail->validator()->validate(mail, pos) != QValidator::Acceptable))
         return;
     Contact *contact;
     if (m_client->findContact(mail.utf8(), contact)){

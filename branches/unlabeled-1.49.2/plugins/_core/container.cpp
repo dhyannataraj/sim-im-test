@@ -851,6 +851,11 @@ void Container::contactChanged(Contact *contact)
     }
 }
 
+void Container::setReadMode()
+{
+	m_bNoRead = false;
+}
+
 UserTabBar::UserTabBar(QWidget *parent) : QTabBar(parent)
 {
     setShape(QTabBar::TriangularBelow);

@@ -60,7 +60,7 @@ signals:
 protected slots:
     void searchClick();
     void addGroup(int);
-    void setColumns(const QStringList&, int);
+    void setColumns(const QStringList&, int, QWidget*);
     void addItem(const QStringList&, QWidget *search);
     void searchDone(QWidget*);
     void update();
@@ -90,6 +90,7 @@ protected:
     SearchBase	*m_search;
     QStatusBar	*m_status;
     QTimer		*m_update;
+	friend class SearchAll;
 };
 
 #endif

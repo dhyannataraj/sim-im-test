@@ -315,6 +315,7 @@ static DataDef coreData[] =
         { "EnableSpell", DATA_BOOL, 1, 0 },
         { "RemoveHistory", DATA_BOOL, 1, DATA(1) },
         { "SearchGeometry", DATA_ULONG, 5, DATA(0) },
+		{ "SearchClient", DATA_STRING, 1, DATA(0) },
         { NULL, 0, 0, 0 }
     };
 
@@ -2145,7 +2146,7 @@ if (fname[0] != '/')
                     container->init();
                     container->showMinimized();
 #endif
-                    container->m_bNoRead = false;
+					QTimer::singleShot(100, container, SLOT(setReadMode()));
                 }
                 if (m_focus)
                     m_focus->setFocus();

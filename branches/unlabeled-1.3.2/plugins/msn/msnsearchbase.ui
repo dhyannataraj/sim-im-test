@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>149</width>
-            <height>309</height>
+            <width>141</width>
+            <height>293</height>
         </rect>
     </property>
     <property>
@@ -29,14 +29,14 @@
             <number>6</number>
         </property>
         <widget>
-            <class>RadioGroup</class>
+            <class>QGroupBox</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>grpMail</cstring>
+                <cstring>GroupBox1</cstring>
             </property>
             <property>
                 <name>title</name>
-                <string>&amp;E-Mail</string>
+                <string>E-Mail</string>
             </property>
             <vbox>
                 <property>
@@ -57,79 +57,18 @@
             </vbox>
         </widget>
         <widget>
-            <class>RadioGroup</class>
+            <class>LinkLabel</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>grpInfo</cstring>
+                <cstring>lblFind</cstring>
             </property>
-            <property>
-                <name>title</name>
-                <string>&amp;Name</string>
+        </widget>
+        <widget>
+            <class>LinkLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>lblInterests</cstring>
             </property>
-            <vbox>
-                <property>
-                    <name>margin</name>
-                    <number>11</number>
-                </property>
-                <property>
-                    <name>spacing</name>
-                    <number>6</number>
-                </property>
-                <widget>
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>TextLabel1</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>First name:</string>
-                    </property>
-                </widget>
-                <widget>
-                    <class>QLineEdit</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>edtFirst</cstring>
-                    </property>
-                </widget>
-                <widget>
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>TextLabel2</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>Last name:</string>
-                    </property>
-                </widget>
-                <widget>
-                    <class>QLineEdit</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>edtLast</cstring>
-                    </property>
-                </widget>
-                <widget>
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>lblCountry</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>Country:</string>
-                    </property>
-                </widget>
-                <widget>
-                    <class>QComboBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>cmbCountry</cstring>
-                    </property>
-                </widget>
-            </vbox>
         </widget>
         <spacer>
             <property>
@@ -171,19 +110,19 @@
         <property type="String">text</property>
     </customwidget>
     <customwidget>
-        <class>RadioGroup</class>
-        <header location="local">intedit.h</header>
+        <class>LinkLabel</class>
+        <header location="local">linklabel.h</header>
         <sizehint>
             <width>-1</width>
             <height>-1</height>
         </sizehint>
-        <container>1</container>
+        <container>0</container>
         <sizepolicy>
-            <hordata>5</hordata>
-            <verdata>5</verdata>
+            <hordata>1</hordata>
+            <verdata>1</verdata>
         </sizepolicy>
         <pixmap>image1</pixmap>
-        <property type="String">title</property>
+        <property type="String">text</property>
     </customwidget>
 </customwidgets>
 <images>

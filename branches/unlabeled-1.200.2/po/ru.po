@@ -3878,16 +3878,6 @@ msgstr "Внешний контакт"
 msgid "Not in list"
 msgstr "Не в списке"
 
-# client.cpp:909
-#: plugins/_core/search.cpp:440
-#, c-format
-msgid ""
-"_n: %n contact found\n"
-"%n contacts found"
-msgstr ""
-"Найден %n контакт\n"
-"Найдено %n контакта\n"
-"Нфйдено %n контактов"
 
 # ui/keysetupbase.cpp:125
 #: plugins/_core/status.cpp:72 plugins/_core/statuswnd.cpp:86
