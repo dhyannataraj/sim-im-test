@@ -138,6 +138,7 @@ using namespace std;
 #include "xpm/network.xpm"
 #include "xpm/save_all.xpm"
 #include "xpm/about_kde.xpm"
+#include "xpm/screen.xpm"
 
 class str
 {
@@ -658,6 +659,7 @@ void Icons::init(const char *name)
     ICON(network, 10074)
     KICON(save_all, 10075)
     KICON(about_kde, 10076)
+    ICON(screen, 10078)
 
     QIconSet pict = getIcon("licq");
     QPixmap dllPict = dll.getIcon(104);
