@@ -131,6 +131,7 @@ Container::Container(unsigned id, const char *cfg)
     m_bBarChanged = false;
     m_bReceived = false;
     m_bNoSwitch = false;
+	m_bNoRead   = false;
 
     SET_WNDPROC("container")
     setWFlags(WDestructiveClose);
@@ -549,6 +550,11 @@ typedef struct FLASHWINFO
     unsigned long dwTimeout;
 } FLASHWINFO;
 
+#ifndef FLASHW_TRAY
+#define FLASHW_TRAY         0x00000002
+#define FLASHW_TIMERNOFG    0x0000000C
+#endif
+
 static BOOL (WINAPI *FlashWindowEx)(FLASHWINFO*) = NULL;
 static bool initFlash = false;
 #endif
@@ -557,6 +563,33 @@ static bool initFlash = false;
 i18n("male", "%1 typed")
 i18n("female", "%1 typed")
 #endif
+
+void Container::flash()
+{
+#ifdef WIN32
+                    if (!initFlash){
+                        HINSTANCE hLib = GetModuleHandleA("user32");
+                        if (hLib != NULL)
+                            (DWORD&)FlashWindowEx = (DWORD)GetProcAddress(hLib,"FlashWindowEx");
+                        initFlash = true;
+                    }
+                    if (FlashWindowEx){
+                        FLASHWINFO fInfo;
+                        fInfo.cbSize  = sizeof(fInfo);
+                        fInfo.dwFlags = FLASHW_TRAY | FLASHW_TIMERNOFG;
+                        fInfo.hwnd = winId();
+                        fInfo.uCount = 0;
+						fInfo.dwTimeout = 1000;
+                        FlashWindowEx(&fInfo);
+                    }
+#else
+#if defined(USE_KDE)
+#if KDE_IS_VERSION(3,2,0)
+                KWin::demandAttention(winId(), true);
+#endif	/* KDE_IS_VERSION(3,2,0) */
+#endif	/* USE_KDE */
+#endif	/* ndef WIN32 */
+}
 
 void *Container::processEvent(Event *e)
 {
@@ -576,45 +609,18 @@ void *Container::processEvent(Event *e)
         if (msg->getFlags() & MESSAGE_NOVIEW)
             return NULL;
         if (CorePlugin::m_plugin->getContainerMode()){
-            if (isActiveWindow()){
+            if (isActiveWindow() && !isMinimized()){
                 userWnd = m_tabBar->currentWnd();
                 if (userWnd && (userWnd->id() == msg->contact()))
                     userWnd->markAsRead();
-            }
-#ifdef WIN32
-            if (!isActiveWindow()){
+            }else{
                 msg = (Message*)(e->param());
                 userWnd = wnd(msg->contact());
-                if (userWnd){
-                    if (!initFlash){
-                        HINSTANCE hLib = GetModuleHandleA("user32");
-                        if (hLib != NULL)
-                            (DWORD&)FlashWindowEx = (DWORD)GetProcAddress(hLib,"FlashWindowEx");
-                        initFlash = true;
-                    }
-                    if (FlashWindowEx){
-                        FLASHWINFO fInfo;
-                        fInfo.cbSize = sizeof(fInfo);
-                        fInfo.dwFlags = 0x0E;
-                        fInfo.hwnd = winId();
-                        fInfo.uCount = 0;
-                        FlashWindowEx(&fInfo);
-                    }
-                }
-            }
-#else
-#if defined(USE_KDE)
-#if KDE_IS_VERSION(3,2,0)
-if (!isActiveWindow()){
-            msg = (Message*)(e->param());
-            userWnd = wnd(msg->contact());
-            if (userWnd)
-                KWin::demandAttention(winId(), true);
-        }
-#endif	/* KDE_IS_VERSION(3,2,0) */
-#endif	/* USE_KDE */
-#endif	/* ndef WIN32 */
-        }
+                if (userWnd)
+					QTimer::singleShot(0, this, SLOT(flash()));
+			}
+		}
+		break;
     case EventMessageRead:
         msg = (Message*)(e->param());
         userWnd = wnd(msg->contact());
@@ -770,7 +776,7 @@ bool Container::event(QEvent *e)
 {
     if (e->type() == QEvent::WindowActivate){
         UserWnd *userWnd = m_tabBar->currentWnd();
-        if (userWnd)
+        if (userWnd && !m_bNoRead)
             userWnd->markAsRead();
         if (m_bNoSwitch){
             m_bNoSwitch = false;

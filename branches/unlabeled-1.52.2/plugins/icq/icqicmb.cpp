@@ -1295,6 +1295,7 @@ public:
 	AIMParser() {}
 	QString parse(const QString &str);
 protected:
+	bool bPara;
 	QString res;
     virtual void text(const QString &text);
     virtual void tag_start(const QString &tag, const list<QString> &options);
@@ -1303,12 +1304,16 @@ protected:
 
 QString AIMParser::parse(const QString &str)
 {
+	bPara = false;
 	HTMLParser::parse(str);
 	return res;
 }
 
 void AIMParser::text(const QString &text)
 {
+	if (text.isEmpty())
+		return;
+	bPara = true;
 	res += text;
 }
 
@@ -1316,6 +1321,13 @@ void AIMParser::tag_start(const QString &tag, const list<QString> &options)
 {
 	QString otag;
 	QString add;
+	if (tag == "br")
+		otag = "BR";
+	if (tag == "p"){
+		if (!bPara)
+			return;
+		otag = "BR";
+	}
 	if ((tag == "font") || (tag == "b") || (tag == "u") || (tag == "i"))
 		otag = tag.upper();
 	if (tag == "span")

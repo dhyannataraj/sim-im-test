@@ -79,6 +79,7 @@ public:
     PROP_ULONG(ActiveWindow);
     PROP_ULONG(StatusSize);
     PROP_STRLIST(WndConfig);
+    bool m_bNoRead;
 public slots:
     void addUserWnd(UserWnd*, bool bRaise);
     void removeUserWnd(UserWnd*);
@@ -90,6 +91,7 @@ public slots:
     void statusChanged(UserWnd*);
     void modeChanged();
     void wndClosed();
+	void flash();
 protected:
     virtual void resizeEvent(QResizeEvent*);
     virtual void moveEvent(QMoveEvent*);
