@@ -358,7 +358,7 @@ void *OSDPlugin::processEvent(Event *e)
     switch (e->type()){
     case EventContactOnline:
         contact = (Contact*)(e->param());
-        if (contact->getIgnore()) return;
+        if (contact->getIgnore()) break;
         osd.contact = contact->id();
         osd.type    = OSD_ALERT;
         queue.push_back(osd);
@@ -366,7 +366,6 @@ void *OSDPlugin::processEvent(Event *e)
         break;
     case EventMessageReceived:
         msg = (Message*)(e->param());
-        if (contact->getIgnore()) return;
         if (msg->type() == MessageStatus)
             break;
         osd.contact = msg->contact();
