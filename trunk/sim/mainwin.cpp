@@ -730,6 +730,7 @@ bool MainWindow::init()
     menuStatus->setItemChecked(ICQ_STATUS_FxPRIVATE, pClient->inInvisible());
     changeWm();
 
+    bool bNeedSetup = false;
     if ((pClient->Uin == 0) || (*pClient->EncryptedPassword.c_str() == 0)){
         pSplash->hide();
         bInLogin = true;
@@ -737,6 +738,7 @@ bool MainWindow::init()
         dlg.exec();
         bInLogin = false;
         ManualStatus = ICQ_STATUS_ONLINE;
+	bNeedSetup = true;
     }
     if (pClient->Uin == 0)
         return false;
@@ -772,6 +774,7 @@ bool MainWindow::init()
     keys->regKeys();
 
     realSetStatus();
+    if (bNeedSetup) setup();
     return true;
 }
 
