@@ -402,8 +402,8 @@ CToolBar::CToolBar(const ToolBarDef *def, QMainWindow *parent, QWidget *receiver
                 btn->setIconSet(offIcon);
                 btn->setOnIconSet(Icon(s.c_str()));
 #else
-                offIcon.setPixmap(Pict(s.c_str(), QIconSet::Small, QIconSet::Normal, QIconSet::On);
-                                  btn->setIconSet(icon);
+                offIcon.setPixmap(Pict(s.c_str()), QIconSet::Small, QIconSet::Normal, QIconSet::On);
+                btn->setIconSet(offIcon);
 #endif
             }else{
                 btn->setIconSet(Icon(def->icon));

@@ -23,7 +23,7 @@ ldadd=\s$(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE)\s
 ldflags=\s
 
 [General]
-AMChanged=true
+AMChanged=false
 author=Vladimir Shutoff
 configure_args=
 email=shutoff@mail.ru

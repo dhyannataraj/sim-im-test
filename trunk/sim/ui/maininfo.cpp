@@ -59,7 +59,7 @@ MainInfo::MainInfo(QWidget *p, bool readOnly)
 
 void MainInfo::setCurrentEncoding(int mib)
 {
-    QString &name = pClient->encodingName(mib);
+    QString name = pClient->encodingName(mib);
     for (int i = 0; i < cmbEncoding->count(); i++){
         if (cmbEncoding->text(i) == name){
             cmbEncoding->setCurrentItem(i);
