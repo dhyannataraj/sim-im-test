@@ -59,7 +59,7 @@ public:
     Buffer(Tlv&);
     ~Buffer();
     void add(unsigned size);
-unsigned size() const { return m_size; }
+    unsigned size() const { return m_size; }
     void setSize(unsigned size);
     unsigned readPos() const { return m_posRead; }
     void incReadPos(int size);

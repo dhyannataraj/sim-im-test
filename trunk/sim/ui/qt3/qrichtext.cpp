@@ -1,5 +1,5 @@
 #/****************************************************************************
-** $Id: qrichtext.cpp,v 1.14 2004-02-22 16:16:17 shutoff Exp $
+** $Id: qrichtext.cpp,v 1.15 2004-03-16 16:15:30 shutoff Exp $
 **
 ** Implementation of the internal Qt classes dealing with rich text
 **
@@ -3361,6 +3361,28 @@ int direction : 5;
                  sizeof( QTextStringChar ) * ( data.size() - index - len ) );
         data.resize( data.size() - len );
         textChanged = TRUE;
+    }
+
+    void QTextFormat::addRef()
+    {
+        ref++;
+#ifdef DEBUG_COLLECTION
+        qDebug( "add ref of '%s' to %d (%p)", k.latin1(), ref, this );
+#endif
+    }
+
+    void QTextFormat::removeRef()
+    {
+        ref--;
+        if ( !collection )
+            return;
+        if ( this == collection->defFormat )
+            return;
+#ifdef DEBUG_COLLECTION
+        qDebug( "remove ref of '%s' to %d (%p)", k.latin1(), ref, this );
+#endif
+        if ( ref == 0 )
+            collection->remove( this );
     }
 
     void QTextString::clear()

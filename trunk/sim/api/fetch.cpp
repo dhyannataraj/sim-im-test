@@ -99,6 +99,8 @@ static HINTERNET (WINAPI *_InternetConnect)(HINTERNET hInternet, LPCSTR lpszServ
 static HINTERNET (WINAPI *_HttpOpenRequest)(HINTERNET hConnect, LPCSTR lpszVerb,
         LPCSTR lpszObjectName, LPCSTR lpszVersion, LPCSTR lpszReferrer,
         LPCSTR *lplpszAcceptTypes, DWORD dwFlags, DWORD dwContext);
+static BOOL (WINAPI *_HttpSendRequest)(HINTERNET hRequest, LPCSTR lpszHeaders,
+                                       DWORD dwHeadersLength, LPVOID lpOptional, DWORD dwOptionalLength);
 static BOOL (WINAPI *_HttpSendRequestEx)(HINTERNET hRequest,
         LPINTERNET_BUFFERSA lpBuffersIn, LPINTERNET_BUFFERSA lpBuffersOut,
         DWORD dwFlags, DWORD dwContext);
@@ -224,18 +226,18 @@ void FetchThread::run()
         error("HttpOpenRequest error");
         return;
     }
-    INTERNET_BUFFERSA BufferIn;
-    memset(&BufferIn, 0, sizeof(BufferIn));
-    BufferIn.dwStructSize    = sizeof(INTERNET_BUFFERSA);
-    BufferIn.lpcszHeader     = headers.c_str();
-    BufferIn.dwHeadersLength = headers.length();
-    BufferIn.dwHeadersTotal  = headers.length();
-    BufferIn.dwBufferTotal   = (postSize != NO_POSTSIZE) ? postSize : 0;
-    if (!_HttpSendRequestEx(hReq, &BufferIn, NULL, HSR_INITIATE | HSR_SYNC, 0)){
-        error("HttpSendRequestEx");
-        return;
-    }
     if (postSize != NO_POSTSIZE){
+        INTERNET_BUFFERSA BufferIn;
+        memset(&BufferIn, 0, sizeof(BufferIn));
+        BufferIn.dwStructSize    = sizeof(INTERNET_BUFFERSA);
+        BufferIn.lpcszHeader     = headers.c_str();
+        BufferIn.dwHeadersLength = headers.length();
+        BufferIn.dwHeadersTotal  = headers.length();
+        BufferIn.dwBufferTotal   = (postSize != NO_POSTSIZE) ? postSize : 0;
+        if (!_HttpSendRequestEx(hReq, &BufferIn, NULL, HSR_INITIATE | HSR_SYNC, 0)){
+            error("HttpSendRequestEx");
+            return;
+        }
         while (postSize){
             char buff[4096];
             unsigned tail = postSize;
@@ -255,12 +257,17 @@ void FetchThread::run()
             }
             postSize -= tail;
         }
-    }
-    if (m_bClose)
-        return;
-    if(!_HttpEndRequest(hReq, NULL, 0, 0)){
-        error("HttpEndRequest");
-        return;
+        if (m_bClose)
+            return;
+        if(!_HttpEndRequest(hReq, NULL, 0, 0)){
+            error("HttpEndRequest");
+            return;
+        }
+    }else{
+        if (!_HttpSendRequest(hReq, headers.c_str(), headers.length(), NULL, 0)){
+            error("HttpSendRequest");
+            return;
+        }
     }
     DWORD size = 0;
     DWORD err  = 0;
@@ -442,6 +449,7 @@ FetchManager::FetchManager()
         (DWORD&)_InternetCrackUrl = (DWORD)GetProcAddress(hLib, "InternetCrackUrlA");
         (DWORD&)_InternetConnect = (DWORD)GetProcAddress(hLib, "InternetConnectA");
         (DWORD&)_HttpOpenRequest = (DWORD)GetProcAddress(hLib, "HttpOpenRequestA");
+        (DWORD&)_HttpSendRequest = (DWORD)GetProcAddress(hLib, "HttpSendRequestA");
         (DWORD&)_HttpSendRequestEx = (DWORD)GetProcAddress(hLib, "HttpSendRequestExA");
         (DWORD&)_HttpQueryInfo = (DWORD)GetProcAddress(hLib, "HttpQueryInfoA");
         (DWORD&)_HttpEndRequest = (DWORD)GetProcAddress(hLib, "HttpEndRequestA");

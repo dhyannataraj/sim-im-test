@@ -336,7 +336,7 @@ const unsigned LIST_GROUP_DELETED    = 3;
 class ListRequest
 {
 public:
-    ListRequest() : type(0),icq_id(0),grp_id(0),visible_id(0),invisible_id(0),ignore_id(0) {}
+ListRequest() : type(0),icq_id(0),grp_id(0),visible_id(0),invisible_id(0),ignore_id(0) {}
 
 public:
     unsigned        type;

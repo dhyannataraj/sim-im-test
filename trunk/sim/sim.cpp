@@ -100,8 +100,8 @@ void SimApp::saveState(QSessionManager &sm)
 
 void simMessageOutput( QtMsgType, const char *msg )
 {
-	if (logEnabled())
-		log(L_DEBUG, "QT: %s", msg);
+    if (logEnabled())
+        log(L_DEBUG, "QT: %s", msg);
 }
 
 #ifndef WIN32

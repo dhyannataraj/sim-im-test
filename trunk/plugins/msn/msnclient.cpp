@@ -213,9 +213,20 @@ void MSNClient::setStatus(unsigned status)
         }
         return;
     }
+    if (m_state != Connected){
+        m_logonStatus = status;
+        return;
+    }
     m_status = status;
     MSNPacket *packet = new ChgPacket(this);
     packet->send();
+}
+
+void MSNClient::connected()
+{
+    setState(Client::Connected);
+    setStatus(m_logonStatus);
+    processRequests();
 }
 
 void MSNClient::setInvisible(bool bState)

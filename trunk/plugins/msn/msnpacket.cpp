@@ -220,7 +220,7 @@ SynPacket::SynPacket(MSNClient *client)
 {
     bDone	= false;
     m_data	= NULL;
-    client->data.ListVer.value = 0;
+    client->data.ListVer.value = 1;
     client->m_bJoin = false;
     addArg(number(client->data.ListVer.value).c_str());
 }
@@ -285,10 +285,8 @@ SynPacket::~SynPacket()
             e.process();
         }
     }
-    if (m_client->getState() == Client::Connecting){
-        m_client->setState(Client::Connected);
-        m_client->processRequests();
-    }
+    if (m_client->getState() == Client::Connecting)
+        m_client->connected();
 }
 
 bool SynPacket::answer(const char *_cmd, vector<string> &args)

@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qrichtext_p.h,v 1.9 2004-02-18 18:52:47 chehrlic Exp $
+** $Id: qrichtext_p.h,v 1.10 2004-03-16 16:15:30 shutoff Exp $
 **
 ** Definition of internal rich text classes
 **
@@ -1818,28 +1818,6 @@ inline bool QTextFormat::operator==( const QTextFormat &f ) const
 inline QTextFormatCollection *QTextFormat::parent() const
 {
     return collection;
-}
-
-inline void QTextFormat::addRef()
-{
-    ref++;
-#ifdef DEBUG_COLLECTION
-    qDebug( "add ref of '%s' to %d (%p)", k.latin1(), ref, this );
-#endif
-}
-
-inline void QTextFormat::removeRef()
-{
-    ref--;
-    if ( !collection )
-        return;
-    if ( this == collection->defFormat )
-        return;
-#ifdef DEBUG_COLLECTION
-    qDebug( "remove ref of '%s' to %d (%p)", k.latin1(), ref, this );
-#endif
-    if ( ref == 0 )
-        collection->remove( this );
 }
 
 inline QString QTextFormat::key() const

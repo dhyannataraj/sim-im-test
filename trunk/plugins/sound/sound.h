@@ -22,12 +22,10 @@
 
 typedef struct SoundData
 {
-#ifndef WIN32
 #ifdef USE_KDE
     Data	UseArts;
 #endif
     Data	Player;
-#endif
     Data	StartUp;
     Data	FileDone;
     Data	MessageSent;
@@ -48,12 +46,10 @@ class SoundPlugin : public Plugin, public EventReceiver
 public:
     SoundPlugin(unsigned, bool, const char*);
     virtual ~SoundPlugin();
-#ifndef WIN32
 #ifdef USE_KDE
     PROP_BOOL(UseArts);
 #endif
     PROP_STR(Player);
-#endif
     PROP_STR(StartUp);
     PROP_STR(FileDone);
     PROP_STR(MessageSent);

@@ -1655,7 +1655,7 @@ m4_ifndef([AC_PROG_EGREP], [AC_DEFUN([AC_PROG_EGREP],
     else ac_cv_prog_egrep='egrep'
     fi])
  EGREP="$ac_cv_prog_egrep"
- AC_SUBST([EGREP])
+ AC_SUBST(EGREP)
 ])])
 
 # AC_PATH_TOOL_PREFIX
