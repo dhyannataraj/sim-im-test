@@ -372,6 +372,9 @@ void JabberClient::setStatus(unsigned status, const char *ar)
         case STATUS_DND:
             show = "dnd";
             break;
+        case STATUS_FFC:
+            show = "chat";
+            break;
         case STATUS_OFFLINE:
             priority = NULL;
             type = "unavailable";

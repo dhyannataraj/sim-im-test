@@ -26,6 +26,8 @@
 #include <stack>
 #include <map>
 
+const unsigned STATUS_FFC		= 0x11;
+
 using namespace std;
 
 class JabberProtocol;

@@ -25,6 +25,7 @@
 #include "xpm/jabber_away.xpm"
 #include "xpm/jabber_na.xpm"
 #include "xpm/jabber_dnd.xpm"
+#include "xpm/jabber_ffc.xpm"
 
 Plugin *createJabberPlugin(unsigned base, bool, const char*)
 {
@@ -145,7 +146,21 @@ static CommandDef jabber_status_list[] =
             NULL,
             NULL
         },
-
+        {
+            STATUS_FFC,
+            I18N_NOOP("Free for chat"),
+            "Jabber_ffc",
+            NULL,
+            NULL,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            NULL,
+            NULL
+        },
         {
             STATUS_OFFLINE,
             I18N_NOOP("Offline"),
@@ -221,6 +236,10 @@ JabberPlugin::JabberPlugin(unsigned base)
 
     icon.name = "Jabber_dnd";
     icon.xpm = jabber_dnd;
+    eIcon.process();
+
+    icon.name = "Jabber_ffc";
+    icon.xpm = jabber_ffc;
     eIcon.process();
 
     Event eMenuSearch(EventMenuCreate, (void*)MenuSearchResult);
