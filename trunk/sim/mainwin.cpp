@@ -644,7 +644,7 @@ MainWindow::MainWindow(const char *name)
     bLocked = false;
     pMain = this;
     bQuit = false;
-	bDirty = false;
+    bDirty = false;
     dock = NULL;
     noToggle = false;
     lockFile = -1;
@@ -1329,10 +1329,10 @@ void MainWindow::processEvent(ICQEvent *e)
         BalloonMsg::message(i18n("Your UIN used from another location"), toolbar->getWidget(btnStatus));
         break;
     case EVENT_INFO_CHANGED:
-		if (!bDirty){
-			QTimer::singleShot(10000, this, SLOT(saveContacts()));
-			bDirty = true;
-		}
+        if (!bDirty){
+            QTimer::singleShot(10000, this, SLOT(saveContacts()));
+            bDirty = true;
+        }
         if ((e->Uin() == pClient->owner->Uin) || (e->Uin() == 0)){
             if ((realTZ != pClient->owner->TimeZone) && (e->subType() == EVENT_SUBTYPE_FULLINFO)){
                 ICQUser u;
@@ -1497,7 +1497,7 @@ void MainWindow::saveState()
 
 void MainWindow::saveContacts()
 {
-	bDirty = false;
+    bDirty = false;
     if (pClient->owner->Uin == 0) return;
     string file = getFullPath(ICQ_CONF);
 #ifndef WIN32

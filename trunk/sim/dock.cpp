@@ -485,7 +485,7 @@ MyPixmap::MyPixmap(Pixmap pp, int w, int h)
     x11SetScreen(scr);
     GC gc = qt_xget_temp_gc( scr, FALSE );
 #else
-    GC gc = qt_xget_temp_gc( FALSE );
+GC gc = qt_xget_temp_gc( FALSE );
 #endif
     XSetSubwindowMode( dd, gc, IncludeInferiors );
     XCopyArea( dd, pp, handle(), gc, 0, 0, w, h, 0, 0 );

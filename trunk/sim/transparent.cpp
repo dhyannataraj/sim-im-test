@@ -155,13 +155,13 @@ TransparentTop::TransparentTop(QWidget *parent,
     }
     connect(pMain, SIGNAL(transparentChanged()), this, SLOT(transparentChanged()));
 #ifdef WIN32
-	if (bCanTransparent){
-		SetWindowLongW(parent->winId(), GWL_EXSTYLE, GetWindowLongW(parent->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
-		SetLayeredWindowAttributes(parent->winId(), parent->colorGroup().background().rgb(), 255, LWA_ALPHA);
-		if (parent->isVisible()){
-			RedrawWindow(parent->winId(), NULL, NULL, RDW_UPDATENOW);
-			QTimer::singleShot(500, this, SLOT(transparentChanged()));
-		}
+    if (bCanTransparent){
+        SetWindowLongW(parent->winId(), GWL_EXSTYLE, GetWindowLongW(parent->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
+        SetLayeredWindowAttributes(parent->winId(), parent->colorGroup().background().rgb(), 255, LWA_ALPHA);
+        if (parent->isVisible()){
+            RedrawWindow(parent->winId(), NULL, NULL, RDW_UPDATENOW);
+            QTimer::singleShot(500, this, SLOT(transparentChanged()));
+        }
     }
     parent->installEventFilter(this);
 #endif
@@ -175,15 +175,15 @@ bool TransparentTop::eventFilter(QObject *o, QEvent *e)
     case QEvent::WindowDeactivate:
         transparentChanged();
         break;
-	case QEvent::Show:
+    case QEvent::Show:
 #ifdef WIN32
-		if (bCanTransparent){
-			QWidget *w = static_cast<QWidget*>(o);
-			SetLayeredWindowAttributes(w->winId(), w->colorGroup().background().rgb(), 255, LWA_ALPHA);
-			QTimer::singleShot(0, this, SLOT(transparentChanged()));
-		}
+        if (bCanTransparent){
+            QWidget *w = static_cast<QWidget*>(o);
+            SetLayeredWindowAttributes(w->winId(), w->colorGroup().background().rgb(), 255, LWA_ALPHA);
+            QTimer::singleShot(0, this, SLOT(transparentChanged()));
+        }
 #endif
-		break;
+        break;
     default:
         break;
     }

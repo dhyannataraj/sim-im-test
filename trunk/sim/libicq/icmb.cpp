@@ -1082,36 +1082,36 @@ void ICQClientPrivate::packMessage(Buffer &mb, ICQMessage *m, const char *msg,
 
 static char c2h(char c)
 {
-	c = c & 0xF;
-	if (c < 10)
-		return '0' + c;
-	return 'A' + c - 10;
+    c = c & 0xF;
+    if (c < 10)
+        return '0' + c;
+    return 'A' + c - 10;
 }
 
 static void b2h(char *&p, char c)
 {
-	*(p++) = c2h(c >> 4);
-	*(p++) = c2h(c);
+    *(p++) = c2h(c >> 4);
+    *(p++) = c2h(c);
 }
 
 static void packCap(Buffer &b, const capability &c)
 {
-	char pack_cap[0x27];
-	char *p = pack_cap;
-	*(p++) = '{';
-	b2h(p, c[0]); b2h(p, c[1]); b2h(p, c[2]); b2h(p, c[3]); 
-	*(p++) = '-';
-	b2h(p, c[4]); b2h(p, c[5]); 
-	*(p++) = '-';
-	b2h(p, c[6]); b2h(p, c[7]); 
-	*(p++) = '-';
-	b2h(p, c[8]); b2h(p, c[9]); 
-	*(p++) = '-';
-	b2h(p, c[10]); b2h(p, c[11]); 
-	b2h(p, c[12]); b2h(p, c[13]); b2h(p, c[14]); b2h(p, c[15]); 
-	*(p++) = '}';
-	*p = 0;
-	b << pack_cap;
+    char pack_cap[0x27];
+    char *p = pack_cap;
+    *(p++) = '{';
+    b2h(p, c[0]); b2h(p, c[1]); b2h(p, c[2]); b2h(p, c[3]);
+    *(p++) = '-';
+    b2h(p, c[4]); b2h(p, c[5]);
+    *(p++) = '-';
+    b2h(p, c[6]); b2h(p, c[7]);
+    *(p++) = '-';
+    b2h(p, c[8]); b2h(p, c[9]);
+    *(p++) = '-';
+    b2h(p, c[10]); b2h(p, c[11]);
+    b2h(p, c[12]); b2h(p, c[13]); b2h(p, c[14]); b2h(p, c[15]);
+    *(p++) = '}';
+    *p = 0;
+    b << pack_cap;
 }
 
 void ICQClientPrivate::processMsgQueueThruServer()
@@ -1136,8 +1136,8 @@ void ICQClientPrivate::processMsgQueueThruServer()
                 e->state = ICQEvent::Send;
                 for (list<unsigned long>::iterator itUin = msg->Uin.begin(); itUin != msg->Uin.end(); ++itUin){
                     ICQUser *u = client->getUser(*itUin);
-					if (u && u->canUTF())
-						msg->Charset = "utf-8";
+                    if (u && u->canUTF())
+                        msg->Charset = "utf-8";
                     message = makeMessageText(msg, u);
                     if (u && (u->canRTF() || u->canUTF()) &&
                             ((client->owner->InvisibleId && u->VisibleId) ||
@@ -1162,8 +1162,8 @@ void ICQClientPrivate::processMsgQueueThruServer()
                         }else{
                             msgBuf << (msg->ForeColor << 8) << (msg->BackColor << 8);
                         }
-						msgBuf << 0x26000000L;
-						packCap(msgBuf, capabilities[u->canRTF() ? CAP_RTF : CAP_UTF]);
+                        msgBuf << 0x26000000L;
+                        packCap(msgBuf, capabilities[u->canRTF() ? CAP_RTF : CAP_UTF]);
                         Buffer b;
                         msg_id id;
                         id.h = rand();

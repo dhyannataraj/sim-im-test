@@ -657,7 +657,7 @@ protected:
 #endif
     QTranslator	 *translator;
     void initTranslator();
-	bool bDirty;
+    bool bDirty;
 };
 
 extern MainWindow *pMain;

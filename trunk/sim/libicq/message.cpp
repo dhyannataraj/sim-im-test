@@ -310,27 +310,27 @@ ICQChatInfo::ICQChatInfo()
 
 static bool h2b(const char *&p, char &r)
 {
-	char c = *(p++);
-	if ((c >= '0') && (c <= '9')){
-		r = c - '0';
-		return true;
-	}
-	if ((c >= 'A') && (c <= 'F')){
-		r = c - 'A' + 10;
-		return true;
-	}
-	return false;
+    char c = *(p++);
+    if ((c >= '0') && (c <= '9')){
+        r = c - '0';
+        return true;
+    }
+    if ((c >= 'A') && (c <= 'F')){
+        r = c - 'A' + 10;
+        return true;
+    }
+    return false;
 }
 
 static bool h2b(const char *&p, string &cap)
 {
-	char r1, r2;
-	if (h2b(p, r1) && h2b(p, r2)){
-		cap += (char)((r1 << 4) + r2);
-		const char *b = cap.c_str();
-		return true;
-	}
-	return false;
+    char r1, r2;
+    if (h2b(p, r1) && h2b(p, r2)){
+        cap += (char)((r1 << 4) + r2);
+        const char *b = cap.c_str();
+        return true;
+    }
+    return false;
 }
 
 ICQMessage *ICQClientPrivate::parseMessage(unsigned short type, unsigned long uin, string &p, Buffer &packet,
@@ -350,36 +350,36 @@ ICQMessage *ICQClientPrivate::parseMessage(unsigned short type, unsigned long ui
             msg->Uin.push_back(uin);
             unsigned long forecolor, backcolor;
             packet >> forecolor >> backcolor;
-			string cap_str;
-			packet.unpackStr32(cap_str);
-			bool isRTF = false;
-			bool isUTF = false;
-			if (cap_str.length() == 38){
-				string cap;
-				const char *p = cap_str.c_str();
-				if ((*(p++) == '{') &&
-					h2b(p, cap) && h2b(p, cap) && h2b(p, cap) && h2b(p, cap) &&
-					(*(p++) == '-') &&
-					h2b(p, cap) && h2b(p, cap) &&
-					(*(p++) == '-') &&
-					h2b(p, cap) && h2b(p, cap) &&
-					(*(p++) == '-') &&
-					h2b(p, cap) && h2b(p, cap) &&
-					(*(p++) == '-') &&
-					h2b(p, cap) && h2b(p, cap) && h2b(p, cap) && h2b(p, cap) &&
-					h2b(p, cap) && h2b(p, cap) &&
-					(*(p++) == '}')){
-					const char *unpack_cap = cap.c_str();
-					if (!memcmp(unpack_cap, capabilities[CAP_RTF], sizeof(capability))){
-						isRTF = true;
-						msg->Charset = "utf-8";
-					}
-					if (!memcmp(unpack_cap, capabilities[CAP_UTF], sizeof(capability))){
-						isUTF = true;
-						msg->Charset = "utf-8";
-					}
-				}
-			}
+            string cap_str;
+            packet.unpackStr32(cap_str);
+            bool isRTF = false;
+            bool isUTF = false;
+            if (cap_str.length() == 38){
+                string cap;
+                const char *p = cap_str.c_str();
+                if ((*(p++) == '{') &&
+                        h2b(p, cap) && h2b(p, cap) && h2b(p, cap) && h2b(p, cap) &&
+                        (*(p++) == '-') &&
+                        h2b(p, cap) && h2b(p, cap) &&
+                        (*(p++) == '-') &&
+                        h2b(p, cap) && h2b(p, cap) &&
+                        (*(p++) == '-') &&
+                        h2b(p, cap) && h2b(p, cap) &&
+                        (*(p++) == '-') &&
+                        h2b(p, cap) && h2b(p, cap) && h2b(p, cap) && h2b(p, cap) &&
+                        h2b(p, cap) && h2b(p, cap) &&
+                        (*(p++) == '}')){
+                    const char *unpack_cap = cap.c_str();
+                    if (!memcmp(unpack_cap, capabilities[CAP_RTF], sizeof(capability))){
+                        isRTF = true;
+                        msg->Charset = "utf-8";
+                    }
+                    if (!memcmp(unpack_cap, capabilities[CAP_UTF], sizeof(capability))){
+                        isUTF = true;
+                        msg->Charset = "utf-8";
+                    }
+                }
+            }
             parseMessageText(p.c_str(), msg->Message, u, isRTF, isUTF);
             if (forecolor != backcolor){
                 msg->ForeColor = forecolor >> 8;
@@ -739,8 +739,8 @@ void ICQClientPrivate::parseMessageText(const string &p, string &s, ICQUser *u, 
         return;
     }
     s = ICQClient::quoteText(p.c_str());
-	if (!isUTF)
-		client->fromServer(s, u);
+    if (!isUTF)
+        client->fromServer(s, u);
 }
 
 static string replace_all(const string& s, const string& r1, const string& r2) {
@@ -1204,8 +1204,8 @@ string ICQClientPrivate::makeMessageText(ICQMsg *msg, ICQUser *u)
              ((client->owner->InvisibleId == 0) && (u->InvisibleId == 0))))
         return createRTF(msg_text, msg->ForeColor, encoding);
     string message = client->clearHTML(msg_text);
-	if (u->canUTF())
-		return message;
+    if (u->canUTF())
+        return message;
     client->fromUTF(message, encoding);
     client->toServer(message, encoding);
     string m;
