@@ -44,13 +44,14 @@ ClientSocket::ClientSocket(ClientSocketNotify *n, SocketFactory *f)
     m_sock = f->createSocket();
     m_sock->setNotify(this);
     m_proxy = NULL;
+    mError = ErrorNone;
 }
 
 ClientSocket::~ClientSocket()
 {
     setProxy(NULL);
     if (m_sock) delete m_sock;
-    if (err == ErrorNone) return;
+    if (mError == ErrorNone) return;
     factory->errSockets.remove(this);
 }
 
@@ -75,14 +76,19 @@ void ClientSocket::setProxy(Proxy *p)
     }
 }
 
+bool ClientSocket::isError()
+{
+    return (mError != ErrorNone);
+}
+
 void ClientSocket::setProxyConnected()
 {
     setProxy(NULL);
 }
 
-void ClientSocket::error_state(SocketError _err)
+void ClientSocket::error_state(SocketError err)
 {
-    switch (_err){
+    switch (err){
     case ErrorSocket:
         log(L_WARN, "Socket error");
         break;
@@ -112,7 +118,7 @@ void ClientSocket::error_state(SocketError _err)
     case ErrorNone:
         return;
     }
-    err = _err; 
+    mError = err; 
     list<ClientSocket*>::iterator it;
     for (it = factory->errSockets.begin(); it != factory->errSockets.end(); ++it)
 	if ((*it) == this) return; 
@@ -139,6 +145,7 @@ bool ClientSocket::created()
 void ClientSocket::connect_ready()
 {
     notify->connect_ready();
+    bClosed = false;
 }
 
 void ClientSocket::setRaw(bool mode)
@@ -158,7 +165,7 @@ void ClientSocket::read_ready()
             readBuffer.setWritePos(readBuffer.writePos() + readn);
             if (readn < (int)sizeof(b)) break;
         }
-        processPacket();
+        if (notify) notify->packet_ready();
         return;
     }
     for (;;){
@@ -172,7 +179,7 @@ void ClientSocket::read_ready()
         if (readn == 0) break;
         readBuffer.setWritePos(readBuffer.writePos() + readn);
         if (readBuffer.writePos() < readBuffer.size()) break;
-        processPacket();
+        if (notify) notify->packet_ready();
     }
 }
 
@@ -203,8 +210,8 @@ void SocketFactory::idle()
        ClientSocket *s = *it;
        ClientSocketNotify *n = s->notify;
        if (n){
-   	  SocketError err = s->err;
-          s->err = ErrorNone;
+   	  SocketError err = s->mError;
+          s->mError = ErrorNone;
           if (n->error_state(err))
 		delete n;
        }else{

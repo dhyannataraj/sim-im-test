@@ -151,11 +151,9 @@ public:
     void setProxy(Proxy *proxy);
     void setProxyConnected();
 
-    bool isError() { return err != ErrorNone; }
+    bool isError();
 
 protected:
-    void processPacket();
-
     virtual void connect_ready();
     virtual void write_ready();
 
@@ -167,7 +165,7 @@ protected:
     bool bRawMode;
     bool bClosed;
 
-    SocketError err;
+    SocketError mError;
     friend class SocketFactory;
 };
 

@@ -332,6 +332,7 @@ void ICQClient::dropPacket()
 
 void ICQClient::idle()
 {
+    log(L_DEBUG, "process idle");
     SocketFactory::idle();
     time_t now;
     time(&now);

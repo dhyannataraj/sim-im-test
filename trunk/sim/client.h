@@ -56,7 +56,7 @@ class QClientSocket : public QObject, public Socket
 {
     Q_OBJECT
 public:
-#ifdef USE_KDE
+#ifdef HAVE_KEXTSOCK_H
     QClientSocket(KExtendedSocket *s=NULL);
 #else
     QClientSocket(QSocket *s=NULL);
@@ -76,7 +76,7 @@ protected slots:
     void slotBytesWritten();
     void slotError(int);
 protected:
-#ifdef USE_KDE
+#ifdef HAVE_KEXTSOCK_H
     KExtendedSocket *sock;
 #else
     QSocket *sock;
@@ -96,7 +96,7 @@ protected slots:
     void activated(int);
     void activated();
 protected:
-#ifdef USE_KDE
+#ifdef HAVE_KEXTSOCK_H
     KExtendedSocket *sock;
 #else
     QSocketDevice   *sock;

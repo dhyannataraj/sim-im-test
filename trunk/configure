@@ -21742,6 +21742,68 @@ ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
+   kde_safe_cppflags=$CPPFLAGS
+   CPPFLAGS="$CPPFLAGS $all_includes"
+    ac_ext=cc
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+ac_link='rm -rf SunWS_cache; ${CXX-g++} -o conftest${ac_exeext} $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
+
+   echo "$as_me:21755: checking for kextsock.h" >&5
+echo $ECHO_N "checking for kextsock.h... $ECHO_C" >&6
+if test "${ac_cv_header_kextsock_h+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  cat >conftest.$ac_ext <<_ACEOF
+#line 21761 "configure"
+#include "confdefs.h"
+#include <kextsock.h>
+_ACEOF
+if { (eval echo "$as_me:21765: \"$ac_cpp conftest.$ac_ext\"") >&5
+  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
+  ac_status=$?
+  egrep -v '^ *\+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:21771: \$? = $ac_status" >&5
+  (exit $ac_status); } >/dev/null; then
+  if test -s conftest.err; then
+    ac_cpp_err=$ac_cxx_preproc_warn_flag
+  else
+    ac_cpp_err=
+  fi
+else
+  ac_cpp_err=yes
+fi
+if test -z "$ac_cpp_err"; then
+  ac_cv_header_kextsock_h=yes
+else
+  echo "$as_me: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  ac_cv_header_kextsock_h=no
+fi
+rm -f conftest.err conftest.$ac_ext
+fi
+echo "$as_me:21790: result: $ac_cv_header_kextsock_h" >&5
+echo "${ECHO_T}$ac_cv_header_kextsock_h" >&6
+if test $ac_cv_header_kextsock_h = yes; then
+
+cat >>confdefs.h <<\EOF
+#define HAVE_KEXTSOCK_H 1
+EOF
+
+fi
+
+   CPPFLAGS=$kde_safe_cppflags
+   ac_ext=cc
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
 # Check whether --enable-kde or --disable-kde was given.
 if test "${enable_kde+set}" = set; then
   enableval="$enable_kde"
@@ -21791,7 +21853,7 @@ else
 fi
 
 for i in $ac_topsubdirs; do
-  echo "$as_me:21794: checking if $i should be compiled" >&5
+  echo "$as_me:21856: checking if $i should be compiled" >&5
 echo $ECHO_N "checking if $i should be compiled... $ECHO_C" >&6
   if test -d $srcdir/$i; then
     install_it="yes"
@@ -21803,7 +21865,7 @@ echo $ECHO_N "checking if $i should be compiled... $ECHO_C" >&6
   else
     install_it="no"
   fi
-  echo "$as_me:21806: result: $install_it" >&5
+  echo "$as_me:21868: result: $install_it" >&5
 echo "${ECHO_T}$install_it" >&6
   if test $install_it = "yes"; then
     TOPSUBDIRS="$TOPSUBDIRS $i"
@@ -21907,7 +21969,7 @@ DEFS=-DHAVE_CONFIG_H
 : ${CONFIG_STATUS=./config.status}
 ac_clean_files_save=$ac_clean_files
 ac_clean_files="$ac_clean_files $CONFIG_STATUS"
-{ echo "$as_me:21910: creating $CONFIG_STATUS" >&5
+{ echo "$as_me:21972: creating $CONFIG_STATUS" >&5
 echo "$as_me: creating $CONFIG_STATUS" >&6;}
 cat >$CONFIG_STATUS <<_ACEOF
 #! $SHELL
@@ -22083,7 +22145,7 @@ cat >>$CONFIG_STATUS <<\EOF
     echo "$ac_cs_version"; exit 0 ;;
   --he | --h)
     # Conflict between --help and --header
-    { { echo "$as_me:22086: error: ambiguous option: $1
+    { { echo "$as_me:22148: error: ambiguous option: $1
 Try \`$0 --help' for more information." >&5
 echo "$as_me: error: ambiguous option: $1
 Try \`$0 --help' for more information." >&2;}
@@ -22102,7 +22164,7 @@ Try \`$0 --help' for more information." >&2;}
     ac_need_defaults=false;;
 
   # This is an error.
-  -*) { { echo "$as_me:22105: error: unrecognized option: $1
+  -*) { { echo "$as_me:22167: error: unrecognized option: $1
 Try \`$0 --help' for more information." >&5
 echo "$as_me: error: unrecognized option: $1
 Try \`$0 --help' for more information." >&2;}
@@ -22158,7 +22220,7 @@ do
   "sounds/Makefile" ) CONFIG_FILES="$CONFIG_FILES sounds/Makefile" ;;
   "default-1" ) CONFIG_COMMANDS="$CONFIG_COMMANDS default-1" ;;
   "config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
-  *) { { echo "$as_me:22161: error: invalid argument: $ac_config_target" >&5
+  *) { { echo "$as_me:22223: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}
    { (exit 1); exit 1; }; };;
   esac
@@ -22512,7 +22574,7 @@ done; }
   esac
 
   if test x"$ac_file" != x-; then
-    { echo "$as_me:22515: creating $ac_file" >&5
+    { echo "$as_me:22577: creating $ac_file" >&5
 echo "$as_me: creating $ac_file" >&6;}
     rm -f "$ac_file"
   fi
@@ -22530,7 +22592,7 @@ echo "$as_me: creating $ac_file" >&6;}
       -) echo $tmp/stdin ;;
       [\\/$]*)
          # Absolute (can't be DOS-style, as IFS=:)
-         test -f "$f" || { { echo "$as_me:22533: error: cannot find input file: $f" >&5
+         test -f "$f" || { { echo "$as_me:22595: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          echo $f;;
@@ -22543,7 +22605,7 @@ echo "$as_me: error: cannot find input file: $f" >&2;}
            echo $srcdir/$f
          else
            # /dev/null tree
-           { { echo "$as_me:22546: error: cannot find input file: $f" >&5
+           { { echo "$as_me:22608: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          fi;;
@@ -22604,7 +22666,7 @@ for ac_file in : $CONFIG_HEADERS; do test "x$ac_file" = x: && continue
   * )   ac_file_in=$ac_file.in ;;
   esac
 
-  test x"$ac_file" != x- && { echo "$as_me:22607: creating $ac_file" >&5
+  test x"$ac_file" != x- && { echo "$as_me:22669: creating $ac_file" >&5
 echo "$as_me: creating $ac_file" >&6;}
 
   # First look for the input files in the build tree, otherwise in the
@@ -22615,7 +22677,7 @@ echo "$as_me: creating $ac_file" >&6;}
       -) echo $tmp/stdin ;;
       [\\/$]*)
          # Absolute (can't be DOS-style, as IFS=:)
-         test -f "$f" || { { echo "$as_me:22618: error: cannot find input file: $f" >&5
+         test -f "$f" || { { echo "$as_me:22680: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          echo $f;;
@@ -22628,7 +22690,7 @@ echo "$as_me: error: cannot find input file: $f" >&2;}
            echo $srcdir/$f
          else
            # /dev/null tree
-           { { echo "$as_me:22631: error: cannot find input file: $f" >&5
+           { { echo "$as_me:22693: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          fi;;
@@ -22745,7 +22807,7 @@ cat >>$CONFIG_STATUS <<\EOF
   rm -f $tmp/in
   if test x"$ac_file" != x-; then
     if cmp -s $ac_file $tmp/config.h 2>/dev/null; then
-      { echo "$as_me:22748: $ac_file is unchanged" >&5
+      { echo "$as_me:22810: $ac_file is unchanged" >&5
 echo "$as_me: $ac_file is unchanged" >&6;}
     else
       ac_dir=`$as_expr X"$ac_file" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \

@@ -318,7 +318,11 @@ void MsgEdit::setState()
         msgType = message()->Type();
         emit setMessageType(Client::getMessageIcon(msgType), Client::getMessageText(msgType, 1));
     }
-    btnSend->setText(sendEvent ? i18n("&Cancel") : i18n("&Send"));
+    if (sendEvent){
+	btnSend->setState("cancel", i18n("&Cancel"));
+    }else{
+        btnSend->setState("mail_send", i18n("&Send"));
+    }
     btnCloseSend->setEnabled(sendEvent == NULL);
     phone->setEnabled(sendEvent == NULL);
     url->setEnabled(sendEvent == NULL);
