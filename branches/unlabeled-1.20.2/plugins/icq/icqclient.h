@@ -237,6 +237,8 @@ typedef struct ICQClientData
     unsigned    TypingNotification;
     unsigned    AcceptInDND;
     unsigned    AcceptInOccupied;
+	unsigned	MinPort;
+	unsigned	MaxPort;
     ICQUserData    owner;
 } ICQClientData;
 
@@ -418,6 +420,8 @@ public:
     PROP_BOOL(TypingNotification);
     PROP_BOOL(AcceptInDND);
     PROP_BOOL(AcceptInOccupied);
+	PROP_ULONG(MinPort);
+	PROP_ULONG(MaxPort);
     ICQClientData    data;
     QString toUnicode(const char *str, ICQUserData *client_data);
     string fromUnicode(const QString &str, ICQUserData *client_data);

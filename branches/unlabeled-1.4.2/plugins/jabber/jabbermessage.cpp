@@ -82,7 +82,7 @@ static Message *createJabberOnlineMessage(const char *cfg)
 static MessageDef defJabberOnline =
     {
         NULL,
-        MESSAGE_SILENT,
+        MESSAGE_SILENT | MESSAGE_SENDONLY,
         0,
         I18N_NOOP("Log On"),
         NULL,
@@ -100,7 +100,7 @@ static Message *createJabberOfflineMessage(const char *cfg)
 static MessageDef defJabberOffline =
     {
         NULL,
-        MESSAGE_SILENT,
+        MESSAGE_SILENT | MESSAGE_SENDONLY,
         0,
         I18N_NOOP("Log Off"),
         NULL,

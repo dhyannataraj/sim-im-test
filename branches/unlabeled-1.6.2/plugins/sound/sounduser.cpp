@@ -17,6 +17,7 @@
 
 #include "sounduser.h"
 #include "sound.h"
+#include "listview.h"
 #include "editfile.h"
 #include "core.h"
 
@@ -24,69 +25,110 @@
 #include <qlabel.h>
 #include <qlineedit.h>
 #include <qlayout.h>
+#include <qregexp.h>
+
+unsigned ONLINE_ALERT = 0x10000;
 
 SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugin)
         : SoundUserConfigBase(parent)
 {
     m_plugin = plugin;
+	lstSound->addColumn(i18n("Sound"));
+	lstSound->addColumn(i18n("File"));
+	lstSound->setExpandingColumn(1);
+
     SoundUserData *user_data = (SoundUserData*)data;
     string s;
     s = plugin->fullName(user_data->Alert);
-    edtAlert->setText(QFile::decodeName(s.c_str()));
-    QGridLayout *lay = SndLayout;
-    if (lay == NULL)
-        return;
-    unsigned n = 1;
+	QListViewItem *item = new QListViewItem(lstSound, i18n("Online alert"), QFile::decodeName(s.c_str()));
+	item->setText(2, QString::number(ONLINE_ALERT));
+	item->setPixmap(0, makePixmap("licq"));
+
     CommandDef *cmd;
     CommandsMapIterator it(m_plugin->core->messageTypes);
     while ((cmd = ++it) != NULL){
         MessageDef *def = (MessageDef*)(cmd->param);
-        if ((def == NULL) || (def->base_type) || (cmd->icon == NULL) || (def->flags & MESSAGE_HIDDEN))
+        if ((def == NULL) || (def->base_type) || (cmd->icon == NULL) || 
+			(def->flags & (MESSAGE_HIDDEN | MESSAGE_SENDONLY)))
             continue;
-        QLabel *lbl = new QLabel(this);
-        lbl->setAlignment(AlignRight);
-        lbl->setText(i18n(def->singular, def->plural, 1) + ":");
-        lay->addWidget(lbl, n, 0);
-        EditSound *snd = new EditSound(this);
-        snd->setText(QFile::decodeName(m_plugin->messageSound(cmd->id, user_data).c_str()));
-        lay->addWidget(snd, n, 1);
-        m_sounds.insert(MAP_SOUND::value_type(cmd->id, snd));
-        n++;
+		QString type = i18n(def->singular, def->plural, 1);
+		type = type.replace(QRegExp("1 "), "");
+		type = type.left(1).upper() + type.mid(1);
+        item = new QListViewItem(lstSound, type,
+			QFile::decodeName(m_plugin->messageSound(cmd->id, user_data).c_str()));
+		item->setText(2, QString::number(cmd->id));
+		item->setPixmap(0, makePixmap(cmd->icon));
     }
-    lay->addItem(new QSpacerItem(n, 1, QSizePolicy::Minimum, QSizePolicy::Expanding));
+	lstSound->adjustColumn();
     chkActive->setChecked(user_data->NoSoundIfActive);
     chkDisable->setChecked(user_data->Disable);
     connect(chkDisable, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
     toggled(user_data->Disable);
+	m_edit = NULL;
+	m_editItem = NULL;
+	connect(lstSound, SIGNAL(selectionChanged(QListViewItem*)), this, SLOT(selectionChanged(QListViewItem*)));
+}
+
+QPixmap SoundUserConfig::makePixmap(const char *src)
+{
+	const QPixmap &source = Pict(src);
+	int w = source.width();
+	int h = QMAX(source.height(), 22);
+	QPixmap pict(w, h);
+	QPainter p(&pict);
+	p.eraseRect(0, 0, w, h);
+	p.drawPixmap(0, (h - source.height()) / 2, source);
+	p.end();
+	return pict;
 }
 
 void SoundUserConfig::apply(void *data)
 {
     SoundUserData *user_data = (SoundUserData*)data;
-    set_str(&user_data->Alert, QFile::encodeName(edtAlert->text()));
-    CommandDef *cmd;
-    CommandsMapIterator it(m_plugin->core->messageTypes);
-    while ((cmd = ++it) != NULL){
-        MessageDef *def = (MessageDef*)(cmd->param);
-        if (def->base_type)
-            continue;
-        MAP_SOUND::iterator it = m_sounds.find(cmd->id);
-        if (it == m_sounds.end())
-            continue;
-        EditSound *snd = (*it).second;
-        QString text = snd->text();
+	for (QListViewItem *item = lstSound->firstChild(); item; item = item->nextSibling()){
+		unsigned id = item->text(2).toUInt();
+        QString text = item->text(1);
         if (text.isEmpty())
             text = "-";
-        set_str(&user_data->Receive, cmd->id, QFile::encodeName(text));
-    }
+		if (id == ONLINE_ALERT){
+		    set_str(&user_data->Alert, QFile::encodeName(text));
+		}else{
+	        set_str(&user_data->Receive, id, QFile::encodeName(text));
+		}
+	}
     user_data->NoSoundIfActive = chkActive->isChecked();
     user_data->Disable = chkDisable->isChecked();
 }
 
+void SoundUserConfig::resizeEvent(QResizeEvent *e)
+{
+	SoundUserConfigBase::resizeEvent(e);
+	lstSound->adjustColumn();
+}
+
 void SoundUserConfig::toggled(bool bState)
 {
-    for (MAP_SOUND::iterator it = m_sounds.begin(); it != m_sounds.end(); ++it)
-        (*it).second->setEnabled(!bState);
+	lstSound->setEnabled(!bState);
+}
+
+void SoundUserConfig::selectionChanged(QListViewItem *item)
+{
+	if (m_editItem){
+		m_editItem->setText(1, m_edit->text());
+		delete m_edit;
+		m_editItem = NULL;
+		m_edit     = NULL;
+	}
+	if (item == NULL)
+		return;
+	m_editItem = item;
+	m_edit = new EditSound(lstSound->viewport());
+    QRect rc = lstSound->itemRect(m_editItem);
+	rc.setLeft(rc.left() + lstSound->columnWidth(0) + 2);
+    m_edit->setGeometry(rc);
+    m_edit->setText(m_editItem->text(1));
+    m_edit->show();
+    m_edit->setFocus();
 }
 
 #ifndef WIN32

@@ -22,11 +22,8 @@
 #include "sounduserbase.h"
 
 class SoundPlugin;
-
-#include <map>
-using namespace std;
-
-typedef map<unsigned, EditSound*>	MAP_SOUND;
+class EditSound;
+class QListViewItem;
 
 class SoundUserConfig : public SoundUserConfigBase
 {
@@ -36,8 +33,12 @@ public:
 public slots:
     void apply(void *data);
     void toggled(bool);
+	void selectionChanged(QListViewItem*);
 protected:
-    MAP_SOUND		m_sounds;
+	EditSound		*m_edit;
+	QListViewItem	*m_editItem;
+	void resizeEvent(QResizeEvent*);
+	QPixmap makePixmap(const char *source);
     SoundPlugin *m_plugin;
 };
 

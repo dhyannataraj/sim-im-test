@@ -102,7 +102,7 @@ public:
     SIMSockets();
     ~SIMSockets();
     virtual Socket *createSocket();
-    virtual ServerSocket *createServerSocket();
+    virtual ServerSocket *createServerSocket(unsigned minPort, unsigned maxPort);
     void resolve(const char *host);
 signals:
     void resolveReady(unsigned long res, const char*);

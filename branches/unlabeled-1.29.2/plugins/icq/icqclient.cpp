@@ -255,6 +255,8 @@ static DataDef icqClientData[] =
         { "TypingNotification", DATA_BOOL, 1, 1 },
         { "AcceptInDND", DATA_BOOL, 1, 0 },
         { "AcceptInOccupied", DATA_BOOL, 1, 0 },
+		{ "MinPort", DATA_ULONG, 1, 1024 },
+		{ "MaxPort", DATA_ULONG, 1, 0xFFFE },
         { "", DATA_STRUCT, sizeof(ICQUserData) / sizeof(unsigned), (unsigned)_icqUserData },
         { NULL, 0, 0, 0 }
     };
@@ -1217,8 +1219,6 @@ QTextCodec *ICQClient::_getCodec(const char *encoding)
             if (!strcmp(codec->name(), e->codec))
                 break;
         }
-
-        log(L_DEBUG, "C: %s", codec->name());
         if (e->language && !e->bMain){
             for (e++; e->language; e++){
                 if (e->bMain){

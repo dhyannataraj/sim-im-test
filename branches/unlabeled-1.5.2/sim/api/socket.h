@@ -88,12 +88,10 @@ public:
     SocketFactory();
     virtual ~SocketFactory();
     virtual Socket *createSocket() = 0;
-    virtual ServerSocket *createServerSocket() = 0;
+    virtual ServerSocket *createServerSocket(unsigned minPort, unsigned maxPort) = 0;
     void remove(Socket*);
     void setActive(bool);
     bool isActive();
-    unsigned short      MinTCPPort;
-    unsigned short      MaxTCPPort;
 protected slots:
     void idle();
 protected:
