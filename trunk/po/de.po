@@ -8,12 +8,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-04-16 04:18+0400\n"
-"PO-Revision-Date: 2004-04-12 17:24+0100\n"
-"Last-Translator: Tobias Franz <noragen@gmx.net>\n"
+"PO-Revision-Date: 2004-04-16 09:37+0200\n"
+"Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.3.1\n"
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
@@ -1106,13 +1107,11 @@ msgstr "SSL-Fehler bei der SSL- Initialisierung"
 
 #: sim/api/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
-msgstr ""
-"Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
+msgstr "Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
 
 #: sim/api/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
 
 #: sim/api/socket.cpp:145 sim/api/socket.cpp:163
 msgid "Read socket error"
@@ -2196,14 +2195,12 @@ msgstr "Offline"
 #: plugins/_core/searchall.cpp:26 plugins/icq/icqsearch.cpp:68
 #: plugins/jabber/jabberadd.cpp:40 plugins/msn/msnsearch.cpp:35
 #: plugins/yahoo/yahoosearch.cpp:53
-#, fuzzy
 msgid "&E-Mail address"
-msgstr "E-Mail-Adressen:"
+msgstr "&E-Mail-Adresse"
 
 #: plugins/msn/msnsearch.cpp:36
-#, fuzzy
 msgid "&Hotmail directory"
-msgstr "Persönliches Verzeichnis"
+msgstr "&Hotmail-Verzeichnis"
 
 #: plugins/_core/nonimbase.cpp:87 plugins/_core/pagerbase.cpp:87
 #: plugins/_core/userviewcfgbase.cpp:247 plugins/filter/ignorelistbase.cpp:54
@@ -2277,8 +2274,7 @@ msgstr "&Automatisch HTTP-Polling benutzen, wenn Proxy benötigt wird"
 #: plugins/jabber/jabberconfigbase.cpp:292 plugins/msn/msnconfigbase.cpp:178
 #: plugins/yahoo/yahoocfgbase.cpp:180
 msgid "Note: For HTTP-pooling using proxy setings for HTTP"
-msgstr ""
-"Bemerkung: Für HTTP-Polling, das Proxy-Einstellungen für HTTP benutzt"
+msgstr "Bemerkung: Für HTTP-Polling, das Proxy-Einstellungen für HTTP benutzt"
 
 #: plugins/msn/msnconfigbase.cpp:179
 msgid "&Automaticaly add contacts in accept list"
@@ -3257,9 +3253,8 @@ msgid "&Search"
 msgstr "&Suchen"
 
 #: plugins/_core/search.cpp:156
-#, fuzzy
 msgid "All networks"
-msgstr "Netzwerk"
+msgstr "Alle Netzwerke"
 
 #: plugins/_core/nonimbase.cpp:88 plugins/_core/search.cpp:175
 msgid "Non-IM contact"
@@ -3359,14 +3354,12 @@ msgid "Search"
 msgstr "Suchen"
 
 #: plugins/_core/searchbase.cpp:88
-#, fuzzy
 msgid "&Add to list"
-msgstr "An Liste senden"
+msgstr "Zu Liste &hinzufügen"
 
 #: plugins/_core/searchbase.cpp:90
-#, fuzzy
 msgid "More &options"
-msgstr "&Optionen"
+msgstr "Mehr &Optionen"
 
 #: plugins/_core/newprotocolbase.cpp:67
 msgid "New connection"
@@ -3452,15 +3445,13 @@ msgstr "Form 4"
 
 #: plugins/_core/searchallbase.cpp:94 plugins/icq/aimsearchbase.cc:163
 #: plugins/icq/icqsearchbase.cc:148 plugins/jabber/jabberaddbase.cpp:109
-#, fuzzy
 msgid "First:"
 msgstr "Vorname:"
 
 #: plugins/_core/searchallbase.cpp:95 plugins/icq/aimsearchbase.cc:164
 #: plugins/icq/icqsearchbase.cc:149 plugins/jabber/jabberaddbase.cpp:110
-#, fuzzy
 msgid "Last:"
-msgstr "Laos"
+msgstr "Nachname:"
 
 #: plugins/_core/arcfgbase.cpp:79 plugins/_core/prefcfgbase.cpp:66
 msgid "&Override global settings"
@@ -4026,9 +4017,8 @@ msgid "&Notes"
 msgstr "Bemerku&ngen"
 
 #: plugins/_core/nonimbase.cpp:91
-#, fuzzy
 msgid "E-Mail address:"
-msgstr "E-Mail-Adressen:"
+msgstr "E-Mail-Adresse:"
 
 #: plugins/_core/nonimbase.cpp:92 plugins/jabber/discoinfobase.cpp:286
 msgid "Phone:"
@@ -4060,9 +4050,8 @@ msgstr "Aktiv:"
 
 #: plugins/_core/searchall.cpp:27 plugins/icq/icqsearch.cpp:58
 #: plugins/jabber/jabberadd.cpp:41 plugins/yahoo/yahoosearch.cpp:54
-#, fuzzy
 msgid "&Name"
-msgstr "&Namen"
+msgstr "&Name"
 
 #: plugins/about/aboutdlg.cpp:44
 msgid "%1 Version: %2"
@@ -4149,8 +4138,7 @@ msgid "Set \"Offline\" status after"
 msgstr "\"Offline\"-Status setzen nach"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:109
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Abwesend\", \"Nicht erreichbar\", \"DND\" und "
 "\"Beschäftigt\"-Liste deaktivieren"
@@ -4311,8 +4299,7 @@ msgstr "Nachrichten nur von &Benutzern der Kontaktliste empfangen"
 
 #: plugins/filter/filtercfgbase.cpp:67
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: plugins/filter/filtercfgbase.cpp:68
 msgid ""
@@ -4908,7 +4895,6 @@ msgstr ""
 "versuchen"
 
 #: plugins/icq/icqlogin.cpp:271
-#, fuzzy
 msgid "Your UIN is being used from another location"
 msgstr "Ihre UIN wird gerade von einem anderen Ort aus benutzt"
 
@@ -5021,14 +5007,12 @@ msgid "Picture is not available"
 msgstr "Das Bild ist nicht verfügbar"
 
 #: plugins/icq/icqsearch.cpp:41 plugins/icq/icqsearch.cpp:57
-#, fuzzy
 msgid "AIM s&creenname"
-msgstr "AIM-Screenname:"
+msgstr "AIM-S&creenname"
 
 #: plugins/icq/icqsearch.cpp:42 plugins/icq/icqsearch.cpp:56
-#, fuzzy
 msgid "&UIN"
-msgstr "UIN"
+msgstr "&UIN"
 
 #: plugins/icq/icqsecure.cpp:46
 msgid "Input current password"
@@ -5801,9 +5785,8 @@ msgid "No contact"
 msgstr "Kein Kontakt"
 
 #: plugins/icq/icqsearchbase.cc:153
-#, fuzzy
 msgid "Advanced"
-msgstr "&Erweitert"
+msgstr "Erweitert"
 
 #: plugins/icq/advsearchbase.cc:262 plugins/jabber/jabber.cpp:313
 msgid "Info"
@@ -5820,9 +5803,8 @@ msgid "Gender:"
 msgstr "Geschlecht:"
 
 #: plugins/icq/advsearchbase.cc:269
-#, fuzzy
 msgid "Work"
-msgstr "Fax auf der Arbeit"
+msgstr "Arbeit"
 
 #: plugins/icq/advsearchbase.cc:270 plugins/icq/workinfobase.cc:188
 msgid "Occupation:"
@@ -5843,7 +5825,7 @@ msgstr "Position:"
 
 #: plugins/icq/advsearchbase.cc:274
 msgid "Search &online users only"
-msgstr ""
+msgstr "Nur Benutzer suchen, die &online sind"
 
 #: plugins/icq/advsearchbase.cc:275 plugins/icq/icqclient.cpp:1857
 #: plugins/icq/icqclient.cpp:2045
@@ -5851,23 +5833,20 @@ msgid "Interests"
 msgstr "Interessen"
 
 #: plugins/icq/advsearchbase.cc:276
-#, fuzzy
 msgid "Past"
-msgstr "Einfügen"
+msgstr "Vergangenheit"
 
 #: plugins/icq/advsearchbase.cc:278
-#, fuzzy
 msgid "Affilations"
-msgstr "&Zugehörigkeit"
+msgstr "Mitgliedschaften"
 
 #: plugins/icq/advsearchbase.cc:279
-#, fuzzy
 msgid "Homepage"
-msgstr "Homepage:"
+msgstr "Homepage"
 
 #: plugins/icq/advsearchbase.cc:280
 msgid "Keywords"
-msgstr ""
+msgstr "Schlüsselwörter"
 
 #: plugins/icq/aimconfig.cpp:43
 msgid "Register new ScreenName"
@@ -6433,8 +6412,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:69
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Plugin stellt Bildschirmbenachrichtigungen über Nachrichten und "
 "Kontaktstatus bereit"
@@ -6473,8 +6451,7 @@ msgstr "Bei Nachrichteneingang informieren (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:82
 msgid "Enable &status notification"
-msgstr ""
-"Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
+msgstr "Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
 
 #: plugins/jabber/jabberconfigbase.cpp:298 plugins/osd/osdconfigbase.cpp:83
 msgid "Enable &typing notification"
@@ -6570,8 +6547,7 @@ msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1153
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS/HTTP)"
-msgstr ""
-"Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
+msgstr "Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
 
 #: plugins/proxy/proxyerrorbase.cpp:78
 msgid "Proxy error"
@@ -6745,8 +6721,7 @@ msgstr "Aktualisieren"
 
 #: plugins/update/update.cpp:40
 msgid "Plugin provides notifications about update SIM software"
-msgstr ""
-"Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
+msgstr "Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
 
 #: plugins/update/update.cpp:126
 msgid "Show details"
@@ -6862,9 +6837,8 @@ msgid "Please translate this to short language name (ru, de)"
 msgstr "Bitte dies zu kurzem Namen für Sprache übersetzen (ru, de)"
 
 #: plugins/jabber/jabberadd.cpp:39
-#, fuzzy
 msgid "&JID"
-msgstr "JID"
+msgstr "&JID"
 
 #: plugins/jabber/jabberconfig.cpp:53
 msgid "jabber.org"
@@ -7965,9 +7939,8 @@ msgid "Disable comments"
 msgstr "Kommentare deaktivieren"
 
 #: plugins/livejournal/journalsearchbase.cpp:65
-#, fuzzy
 msgid "Add community"
-msgstr "Gemeinschaft &hinzufügen"
+msgstr "Gemeinschaft hinzufügen"
 
 #: plugins/spell/spellcfg.cpp:46
 msgid "ASpell(aspell.exe)"
@@ -8039,8 +8012,7 @@ msgstr "Aktion"
 
 #: plugins/action/action.cpp:34
 msgid "Plugin execute external programs on event or from contact menu"
-msgstr ""
-"Plugin führt externe Programme bei einem Ereignis oder von Kontaktmenü aus"
+msgstr "Plugin führt externe Programme bei einem Ereignis oder von Kontaktmenü aus"
 
 #: plugins/action/action.cpp:84
 msgid "&Action"
@@ -8063,8 +8035,7 @@ msgid "Navigate"
 msgstr "Navigation"
 
 #: plugins/navigate/navigate.cpp:214
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Plugin stellt Navigation von Hyperlinks bereit und ruft externe Browser- "
 "oder Mailprogramme auf"
@@ -8147,13 +8118,12 @@ msgid "Conditions"
 msgstr "Bedingungen"
 
 #: plugins/yahoo/yahoosearch.cpp:52
-#, fuzzy
 msgid "&Yahoo! ID"
-msgstr "Yahoo!-ID:"
+msgstr "&Yahoo!-ID"
 
 #: plugins/yahoo/yahoosearch.cpp:55
 msgid "&Keywords"
-msgstr ""
+msgstr "&Schlüsselwörter"
 
 #: plugins/replace/replace.cpp:33
 msgid "Replace text"
@@ -8161,8 +8131,7 @@ msgstr "Text ersetzen"
 
 #: plugins/replace/replace.cpp:34
 msgid "Plugin provides text replacing in message edit window"
-msgstr ""
-"Dieses Plugin stellt Textersetzung im Nachrichtbearbeitung-Fenster bereit"
+msgstr "Dieses Plugin stellt Textersetzung im Nachrichtbearbeitung-Fenster bereit"
 
 #: plugins/replace/replacecfg.cpp:31
 msgid "You type"
@@ -8327,11 +8296,10 @@ msgid ""
 msgstr "Wind"
 
 #: plugins/weather/weather.cpp:480
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Windy"
-msgstr "Wind"
+msgstr "Windig"
 
 #: plugins/weather/weather.cpp:481
 msgid ""
@@ -8649,8 +8617,7 @@ msgstr "Ort-ID:"
 
 #: plugins/weather/weathercfgbase.cpp:112
 msgid "You can enter ID as part URL for your location on weather.com"
-msgstr ""
-"Die ID kann als Teil der URL für den Ort von weather.com eingegeben werden"
+msgstr "Die ID kann als Teil der URL für den Ort von weather.com eingegeben werden"
 
 #: plugins/weather/weathercfgbase.cpp:114
 msgid "Metric"
@@ -8668,171 +8635,3 @@ msgstr "Vorhersage für Tage:"
 msgid "Units:"
 msgstr "Einheiten:"
 
-#, fuzzy
-#~ msgid "JabberAdd"
-#~ msgstr "Jabber"
-
-#~ msgid "Contact %1 added to list"
-#~ msgstr "Der Kontakt %1 wurde zur Liste hinzugefügt."
-
-#~ msgid "Invalid address: %1"
-#~ msgstr "Ungültige Adresse: %1"
-
-#~ msgid "MSN search results"
-#~ msgstr "MSN-Suchergebnisse"
-
-#~ msgid "Contact %1 allready in list"
-#~ msgstr "Der Kontakt %1 ist bereits in der Liste vorhanden"
-
-#~ msgid "Add to group:"
-#~ msgstr "Zu Gruppe hinzufügen:"
-
-#~ msgid "&Add contact"
-#~ msgstr "Kontakt &hinzufügen"
-
-#~ msgid "Search %1"
-#~ msgstr "%1 suchen"
-
-#~ msgid "Choose type of contact which you want to find or add:"
-#~ msgstr ""
-#~ "Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
-
-#~ msgid "Contact type:"
-#~ msgstr "Kontaktart:"
-
-#~ msgid "Choose contact type"
-#~ msgstr "Kontaktart auswählen"
-
-#~ msgid "AIM search results"
-#~ msgstr "AIM-Suchergebnisse"
-
-#~ msgid "%1 already in contact list"
-#~ msgstr "%1 bereits in Kontaktliste"
-
-#~ msgid "%1 added to contact list"
-#~ msgstr "%1 zur Kontaktliste hinzugefügt"
-
-#~ msgid "ICQ search results"
-#~ msgstr "ICQ-Suchergebnisse"
-
-#~ msgid "&Stop search"
-#~ msgstr "&Suche anhalten"
-
-#~ msgid "Find an &Online Chat Friend"
-#~ msgstr "Einen Chatfreund &online finden"
-
-#~ msgid "Request UIN"
-#~ msgstr "UIN anfragen"
-
-#~ msgid "Search fail"
-#~ msgstr "Suchen fehlgeschlagen"
-
-#~ msgid "Request user info"
-#~ msgstr "Benutzerinformation anfordern"
-
-#~ msgid "<p>UIN: <b><a href=\"icq://%1\"><u>%2</u></a></b></p>"
-#~ msgstr "<p>UIN: <b><a href=\"icq://%1\"><u>%2</u></a></b></p>"
-
-#~ msgid "<p><b>%1</b></p>"
-#~ msgstr "<p><b>%1</b></p>"
-
-#~ msgid "%1<br>"
-#~ msgstr "%1<br>"
-
-#~ msgid "<p>Age: <b>%1</b></p>"
-#~ msgstr "<p>Alter: <b>%1</b></p>"
-
-#~ msgid "<p>Gender: <b>%1</b></p>"
-#~ msgstr "<p>Geschlecht: <b>%1</b></p>"
-
-#~ msgid "<p>Country: <b>%1</b></p>"
-#~ msgstr "<p>Land: <b>%1</b></p>"
-
-#~ msgid "<p>Language: <b>%1</b></p>"
-#~ msgstr "<p>Sprache: <b>%1</b></p>"
-
-#~ msgid "<p>Homepage: <a href=\"%1\"><u>%2</u></a></p>"
-#~ msgstr "<p>Homepage: <a href=\"%1\"><u>%2</u></a></p>"
-
-#~ msgid "Alias"
-#~ msgstr "Alias"
-
-#~ msgid "Search done"
-#~ msgstr "Suche beendet"
-
-#~ msgid ""
-#~ "_n: Found 1 contact\n"
-#~ "Found %n contacts"
-#~ msgstr ""
-#~ "Ein Kontakt gefunden\n"
-#~ "%n Kontakte gefunden"
-
-#~ msgid "Email:"
-#~ msgstr "E-Mail:"
-
-#~ msgid "Interests:"
-#~ msgstr "Interessen:"
-
-#~ msgid "Email/Info"
-#~ msgstr "E-Mail/Info"
-
-#~ msgid "Group:"
-#~ msgstr "Gruppe:"
-
-#~ msgid "Send &message"
-#~ msgstr "Nachricht &senden"
-
-#~ msgid "Random chat"
-#~ msgstr "Zufälliger Chat"
-
-#~ msgid "AIM user"
-#~ msgstr "AIM-Benutzer"
-
-#~ msgid "&Email"
-#~ msgstr "&E-Mail"
-
-#~ msgid ""
-#~ "The first or last name nust be present. All other fields are optional, but "
-#~ "will help narrow your search."
-#~ msgstr ""
-#~ "Der Vorname oder Nachname muss angegeben werden. Alle anderen Felder sind "
-#~ "optional, helfen aber ein besseres Suchergebis zu erreichen."
-
-#~ msgid "Add Jabber contact"
-#~ msgstr "Jabber-Kontakt hinzufügen"
-
-#~ msgid "%1 is already in contact list"
-#~ msgstr "%1 bereits in der Kontaktliste"
-
-#~ msgid "ID"
-#~ msgstr "ID"
-
-#~ msgid "Jabber ID:"
-#~ msgstr "Jabber-ID:"
-
-#~ msgid "Jabber ID"
-#~ msgstr "Jabber-ID"
-
-#~ msgid "Service:"
-#~ msgstr "Dienst:"
-
-#~ msgid "Add community results"
-#~ msgstr "Gemeinschaft-Ergebnisse hinzufügen"
-
-#~ msgid "Community %1 added to list"
-#~ msgstr "Gemeinschaft %1 wurde zur Liste hinzugefügt."
-
-#~ msgid "Community %1 already in list"
-#~ msgstr "Gemeinschaft %1 ist bereits in der Liste vorhanden"
-
-#~ msgid "Community:"
-#~ msgstr "Gemeinschaft:"
-
-#~ msgid "Yahoo! search results"
-#~ msgstr "Yahoo!-Suchergebnisse"
-
-#~ msgid "Contact %1 added to group %2"
-#~ msgstr "Kontakt %1 wurde zu Gruppe %2 hinzugefügt"
-
-#~ msgid "Contact %1 already in list"
-#~ msgstr "Kontakt %1 ist bereits in Liste"
