@@ -17,6 +17,7 @@
 
 #include "simapi.h"
 #include "sockfactory.h"
+#include "fetch.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -725,6 +726,7 @@ PluginManager::PluginManager(int argc, char **argv)
     EventReceiver::initList();
     factory = new SIMSockets;
     contacts = new ContactList;
+	FetchManager::manager = new FetchManager;
     p = new PluginManagerPrivate(argc, argv);
 }
 
@@ -738,6 +740,7 @@ PluginManager::~PluginManager()
     e.process();
     contacts->clearClients();
     delete p;
+	delete FetchManager::manager;
     delete contacts;
     delete factory;
     EventReceiver::destroyList();

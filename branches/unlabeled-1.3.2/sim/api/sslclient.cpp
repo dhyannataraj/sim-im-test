@@ -32,6 +32,8 @@
 
 #include "socket.h"
 
+#ifdef _DEBUG
+
 static void ssl_info_callback(const SSL *s, int where, int ret)
 {
     const char *str;
@@ -83,6 +85,8 @@ static void ssl_info_callback(const SSL *s, int where, int ret)
         }
     }
 }
+
+#endif
 
 static bool bInit = false;
 
@@ -146,10 +150,12 @@ bool SSLClient::init()
     initLib();
     if (!initSSL())
         return false;
+#ifdef _DEBUG
 #if OPENSSL_VERSION_NUMBER < 0x00907000L        
     SSL_CTX_set_info_callback(pCTX, (void (*)())ssl_info_callback);
 #else
     SSL_CTX_set_info_callback(pCTX, ssl_info_callback);
+#endif
 #endif
     return initBIO();
 }

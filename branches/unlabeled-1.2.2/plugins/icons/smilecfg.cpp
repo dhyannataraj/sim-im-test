@@ -120,7 +120,7 @@ SmileCfg::SmileCfg(QWidget *parent, IconsPlugin *plugin)
 #ifdef USE_KDE
     edtSmiles->setFilter(i18n("*.msl|Smiles"));
 #else
-    edtSmiles->setFilter(i18n("Smiles(*.msl)"));
+    edtSmiles->setFilter(i18n("Smiles (*.msl)"));
 #endif
     edtSmiles->setText(m_plugin->getSmiles());
     lblMore->setText(i18n("Get more smiles"));

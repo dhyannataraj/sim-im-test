@@ -116,6 +116,10 @@ SOURCE=.\sim\api\country.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\api\fetch.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\api\html.cpp
 # End Source File
 # Begin Source File
@@ -208,6 +212,11 @@ SOURCE=.\sim\api\buffer.h
 # Begin Source File
 
 SOURCE=.\sim\api\cjk_variants.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\api\fetch.h
+# PROP Ignore_Default_Tool 1
 # End Source File
 # Begin Source File
 

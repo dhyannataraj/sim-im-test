@@ -666,6 +666,7 @@ typedef struct fetchData
     unsigned	req_id;
     unsigned	result;
     Buffer		*data;
+	const char	*headers;
 } fetchData;
 
 const unsigned EventUser			= 0x10000;
