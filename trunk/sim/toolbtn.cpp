@@ -87,6 +87,7 @@ void CToolButton::btnClicked()
 {
     if (popup == NULL) return;
     QPoint pos = popupPos(popup);
+    popup->resize(popup->sizeHint());
     popup->popup(pos);
 }
 

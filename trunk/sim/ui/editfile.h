@@ -47,6 +47,7 @@ public:
 signals:
     void textChanged(const QString&);
 protected slots:
+    void realShowFiles();
     void showFiles();
     void editTextChanged(const QString&);
 protected:
