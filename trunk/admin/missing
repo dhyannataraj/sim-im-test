@@ -1,6 +1,6 @@
 #! /bin/sh
 # Common stub for a few missing GNU programs while installing.
-# Copyright 1996, 1997, 1999, 2000 Free Software Foundation, Inc.
+# Copyright (C) 1996, 1997, 1999, 2000, 2002 Free Software Foundation, Inc.
 # Originally by Fran,cois Pinard <pinard@iro.umontreal.ca>, 1996.
 
 # This program is free software; you can redistribute it and/or modify
@@ -28,6 +28,8 @@ if test $# -eq 0; then
   exit 1
 fi
 
+run=:
+
 # In the cases where this matters, `missing' is being run in the
 # srcdir already.
 if test -f configure.ac; then
@@ -41,80 +43,7 @@ case "$1" in
   # Try to run requested program, and just exit if it succeeds.
   run=
   shift
-  exec="$@"
-
-  ## KEEP IN SYNC WITH cvs.sh!!
-  ### Handle special autoconf cases first.
-  autoconf_2_53=`type -p autoconf-2.53`
-  autoconf_2_52=`type -p autoconf-2.52`
-  autoconf_2_50=`type -p autoconf2.50`
-  if test -x "$autoconf_2_53" ; then
-     AUTOCONF="$autoconf_2_53"
-  elif test -x "$autoconf_2_52" ; then
-     AUTOCONF="$autoconf_2_52"
-  elif test -x "$autoconf_2_50" ; then
-     AUTOCONF="$autoconf_2_50"
-  else
-     AUTOCONF="autoconf"
-  fi
-  export AUTOCONF
-
-  autoheader_2_53=`type -p autoheader-2.53`
-  autom4te_2_53=`type -p autom4te-2.53`
-  autoheader_2_52=`type -p autoheader-2.52`
-  autoheader_2_50=`type -p autoheader2.50`
-  if test -x "$autoheader_2_53" ; then
-     AUTOHEADER="$autoheader_2_53"
-     AUTOM4TE="$autom4te_2_53"
-  elif test -x "$autoheader_2_52" ; then
-     AUTOHEADER="$autoheader_2_52"
-  elif test -x "$autoheader_2_50" ; then
-     AUTOHEADER="$autoheader_2_50"
-  else
-     AUTOHEADER="autoheader"
-     AUTOM4TE="autom4te"
-  fi
-  export AUTOM4TE
-  export AUTOHEADER
-
-  automake_1_5=`type -p automake-1.5`
-  aclocal_1_5=`type -p aclocal-1.5`
-  automake_1_6=`type -p automake-1.6`
-  aclocal_1_6=`type -p aclocal-1.6`
-  if test -z "$UNSERMAKE"; then
-    if test -x "$automake_1_5" ; then
-       AUTOMAKE="$automake_1_5"
-       ACLOCAL="$aclocal_1_5"
-    elif test -x "$automake_1_6" ; then
-       AUTOMAKE="$automake_1_6"
-       ACLOCAL="$aclocal_1_6"
-    else
-       AUTOMAKE="automake"
-       ACLOCAL="aclocal"
-    fi
-  else
-     AUTOMAKE="$UNSERMAKE"
-     ACLOCAL="aclocal"
-  fi
-
-  export AUTOMAKE
-  export ACLOCAL
-
-  case "$1" in
-  aclocal)
-    exec="`echo $exec|sed -e \"s^aclocal^$ACLOCAL^\"`"
-    ;;
-  autoheader)
-    exec="`echo $exec|sed -e \"s^autoheader^$AUTOHEADER^\"`"
-    ;; 
-  autoconf)
-    exec="`echo $exec|sed -e \"s^autoconf^$AUTOCONF^\"`"
-    ;;
-  automake)
-    exec="`echo $exec|sed -e \"s^automake^$AUTOMAKE^\"`"
-    ;;
-  esac
-  $exec && exit 0
+  "$@" && exit 0
   ;;
 esac
 
@@ -149,7 +78,7 @@ Supported PROGRAM values:
     ;;
 
   -v|--v|--ve|--ver|--vers|--versi|--versio|--version)
-    echo "missing 0.3 - GNU automake"
+    echo "missing 0.4 - GNU automake"
     ;;
 
   -*)
@@ -158,7 +87,12 @@ Supported PROGRAM values:
     exit 1
     ;;
 
-  aclocal)
+  aclocal*)
+    if test -z "$run" && ($1 --version) > /dev/null 2>&1; then
+       # We have it, but it failed.
+       exit 1
+    fi
+
     echo 1>&2 "\
 WARNING: \`$1' is missing on your system.  You should only need it if
          you modified \`acinclude.m4' or \`${configure_ac}'.  You might want
@@ -168,6 +102,11 @@ WARNING: \`$1' is missing on your system.  You should only need it if
     ;;
 
   autoconf)
+    if test -z "$run" && ($1 --version) > /dev/null 2>&1; then
+       # We have it, but it failed.
+       exit 1
+    fi
+
     echo 1>&2 "\
 WARNING: \`$1' is missing on your system.  You should only need it if
          you modified \`${configure_ac}'.  You might want to install the
@@ -177,6 +116,11 @@ WARNING: \`$1' is missing on your system.  You should only need it if
     ;;
 
   autoheader)
+    if test -z "$run" && ($1 --version) > /dev/null 2>&1; then
+       # We have it, but it failed.
+       exit 1
+    fi
+
     echo 1>&2 "\
 WARNING: \`$1' is missing on your system.  You should only need it if
          you modified \`acconfig.h' or \`${configure_ac}'.  You might want
@@ -195,7 +139,12 @@ WARNING: \`$1' is missing on your system.  You should only need it if
     touch $touch_files
     ;;
 
-  automake)
+  automake*)
+    if test -z "$run" && ($1 --version) > /dev/null 2>&1; then
+       # We have it, but it failed.
+       exit 1
+    fi
+
     echo 1>&2 "\
 WARNING: \`$1' is missing on your system.  You should only need it if
          you modified \`Makefile.am', \`acinclude.m4' or \`${configure_ac}'.
@@ -204,6 +153,34 @@ WARNING: \`$1' is missing on your system.  You should only need it if
     find . -type f -name Makefile.am -print |
 	   sed 's/\.am$/.in/' |
 	   while read f; do touch "$f"; done
+    ;;
+
+  autom4te)
+    if test -z "$run" && ($1 --version) > /dev/null 2>&1; then
+       # We have it, but it failed.
+       exit 1
+    fi
+
+    echo 1>&2 "\
+WARNING: \`$1' is needed, and you do not seem to have it handy on your
+         system.  You might have modified some files without having the
+         proper tools for further handling them.
+         You can get \`$1Help2man' as part of \`Autoconf' from any GNU
+         archive site."
+
+    file=`echo "$*" | sed -n 's/.*--output[ =]*\([^ ]*\).*/\1/p'`
+    test -z "$file" && file=`echo "$*" | sed -n 's/.*-o[ ]*\([^ ]*\).*/\1/p'`
+    if test -f "$file"; then
+	touch $file
+    else
+	test -z "$file" || exec >$file
+	echo "#! /bin/sh"
+	echo "# Created by GNU Automake missing as a replacement of"
+	echo "#  $ $@"
+	echo "exit 0"
+	chmod +x $file
+	exit 1
+    fi
     ;;
 
   bison|yacc)
@@ -260,6 +237,11 @@ WARNING: \`$1' is missing on your system.  You should only need it if
     ;;
 
   help2man)
+    if test -z "$run" && ($1 --version) > /dev/null 2>&1; then
+       # We have it, but it failed.
+       exit 1
+    fi
+
     echo 1>&2 "\
 WARNING: \`$1' is missing on your system.  You should only need it if
 	 you modified a dependency of a manual page.  You may need the
@@ -311,23 +293,23 @@ WARNING: \`$1' is missing on your system.  You should only need it if
     # Look for gnutar/gtar before invocation to avoid ugly error
     # messages.
     if (gnutar --version > /dev/null 2>&1); then
-       gnutar ${1+"$@"} && exit 0
+       gnutar "$@" && exit 0
     fi
     if (gtar --version > /dev/null 2>&1); then
-       gtar ${1+"$@"} && exit 0
+       gtar "$@" && exit 0
     fi
     firstarg="$1"
     if shift; then
 	case "$firstarg" in
 	*o*)
 	    firstarg=`echo "$firstarg" | sed s/o//`
-	    tar "$firstarg" ${1+"$@"} && exit 0
+	    tar "$firstarg" "$@" && exit 0
 	    ;;
 	esac
 	case "$firstarg" in
 	*h*)
 	    firstarg=`echo "$firstarg" | sed s/h//`
-	    tar "$firstarg" ${1+"$@"} && exit 0
+	    tar "$firstarg" "$@" && exit 0
 	    ;;
 	esac
     fi

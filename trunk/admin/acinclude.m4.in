@@ -2631,7 +2631,7 @@ AC_DEFUN(AC_CHECK_COMPILERS,
 
   if test "$GCC" = "yes"; then
     if test "$kde_use_debug_code" = "yes"; then
-      CFLAGS="-g -O2 $CFLAGS"
+      CFLAGS="-g $CFLAGS"
       case $host in
         *-*-linux-gnu)	
           CFLAGS="-ansi -W -Wall -pedantic -Wshadow -Wpointer-arith -Wmissing-prototypes -Wwrite-strings -D_XOPEN_SOURCE=500 -D_BSD_SOURCE $CFLAGS"
@@ -2661,11 +2661,10 @@ AC_DEFUN(AC_CHECK_COMPILERS,
 
   if test "$GXX" = "yes"; then
     if test "$kde_use_debug_code" = "yes"; then
-      CXXFLAGS="-g -O2 -Wall -pedantic -W -Wpointer-arith -Wmissing-prototypes -Wwrite-strings $CXXFLAGS"
+      CXXFLAGS="-g -Wall -pedantic -W -Wpointer-arith -Wmissing-prototypes -Wwrite-strings $CXXFLAGS"
 
       KDE_CHECK_COMPILER_FLAG(Wno-long-long,[CXXFLAGS="-Wno-long-long $CXXFLAGS"])
       KDE_CHECK_COMPILER_FLAG(Wnon-virtual-dtor,[CXXFLAGS="-Wnon-virtual-dtor $CXXFLAGS"])
-      KDE_CHECK_COMPILER_FLAG(fno-builtin,[CXXFLAGS="-fno-builtin $CXXFLAGS"])
 
       case $host in  dnl
       *-*-linux-gnu)
