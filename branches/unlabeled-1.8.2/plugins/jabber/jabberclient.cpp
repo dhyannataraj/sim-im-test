@@ -278,7 +278,7 @@ void *JabberClient::processEvent(Event *e)
 {
     if (e->type() == EventTemplateExpanded){
         TemplateExpand *t = (TemplateExpand*)(e->param());
-        setStatus((unsigned)(t->param), quoteString(t->tmpl).utf8());
+        setStatus((unsigned)(t->param), quoteString(t->tmpl, false).utf8());
     }
     if (e->type() == EventContactChanged){
         Contact *contact = (Contact*)(e->param());
@@ -740,7 +740,7 @@ string JabberClient::to_lower(const char *s)
 
 QCString JabberClient::encodeXML(const QString &str)
 {
-    return quoteString(str).utf8();
+    return quoteString(str, false).utf8();
 }
 
 JabberUserData *JabberClient::findContact(const char *alias, const char *host, const char *name, bool bCreate, Contact *&contact)
@@ -1270,7 +1270,7 @@ bool JabberClient::send(Message *msg, void *_data)
                 }
                 m_socket->writeBuffer
                 << "\" type=\"unsubscribed\"><status>"
-                << (const char*)(quoteString(msg->getPlainText()).utf8())
+                << (const char*)(quoteString(msg->getPlainText(), false).utf8())
                 << "</status></presence>";
                 sendPacket();
                 if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
@@ -1324,7 +1324,7 @@ bool JabberClient::send(Message *msg, void *_data)
             }
             m_socket->writeBuffer
             << "\" type=\"subscribe\"><status>"
-            << (const char*)(quoteString(msg->getPlainText()).utf8())
+            << (const char*)(quoteString(msg->getPlainText(), false).utf8())
             << "</status></presence>";
             sendPacket();
             if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){

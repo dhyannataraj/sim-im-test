@@ -435,18 +435,6 @@ QPixmap Pict(const char *name)
     return icons->pixmap(QIconSet::Automatic, QIconSet::Normal);
 }
 
-EXPORT QString  quoteString(const QString &_str)
-{
-    QString str = _str;
-    str.replace(QRegExp("&"), "&amp;");
-    str.replace(QRegExp("<"), "&lt;");
-    str.replace(QRegExp(">"), "&gt;");
-    str.replace(QRegExp("\""), "&quot;");
-    str.replace(QRegExp("\r"), "");
-    str.replace(QRegExp("\n"), "<br/>\n");
-    return str;
-}
-
 EXPORT QString formatTime(unsigned long t)
 {
     if (t == 0) return "";
@@ -637,6 +625,7 @@ EXPORT const char *defaultSmiles(unsigned n)
 			}
 			s += '\x00';
 			pDefaultSmiles.push_back(s);
+			p++;
 		}
 	}
 	return getSmiles(n, pDefaultSmiles);
@@ -671,6 +660,7 @@ EXPORT void setSmiles(const char *p)
 		}else{
 			pSmiles.push_back(s);
 		}
+		p++;
 	}
 }
 

@@ -572,41 +572,6 @@ SOURCE=.\pagerdetails.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\parse.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\parse.ll
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# Begin Custom Build - Flex $(InputPath)
-InputDir=.
-InputPath=.\parse.ll
-InputName=parse
-
-"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	flex -o$(InputDir)\$(InputName).cpp $(InputPath)
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-# Begin Custom Build - Flex $(InputPath)
-InputDir=.
-InputPath=.\parse.ll
-InputName=parse
-
-"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	flex -o$(InputDir)\$(InputName).cpp $(InputPath)
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
 SOURCE=.\phonebase.cpp
 # End Source File
 # Begin Source File

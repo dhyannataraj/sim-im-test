@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>365</width>
+            <width>357</width>
             <height>166</height>
         </rect>
     </property>
@@ -47,36 +47,28 @@
                     <name>spacing</name>
                     <number>6</number>
                 </property>
-                <widget row="0"  column="1" >
-                    <class>QLabel</class>
-                    <property stdset="1">
+                <spacer row="1"  column="2" >
+                    <property>
                         <name>name</name>
-                        <cstring>lblProfile</cstring>
+                        <cstring>Spacer3</cstring>
                     </property>
                     <property>
-                        <name>text</name>
-                        <string>Profile:</string>
+                        <name>orientation</name>
+                        <enum>Horizontal</enum>
                     </property>
                     <property>
-                        <name>alignment</name>
-                        <set>AlignVCenter|AlignRight</set>
+                        <name>sizeType</name>
+                        <enum>Expanding</enum>
                     </property>
                     <property>
-                        <name>hAlign</name>
+                        <name>sizeHint</name>
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
                     </property>
-                </widget>
-                <widget row="0"  column="0" >
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>TextLabel1</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string></string>
-                    </property>
-                </widget>
-                <widget row="1"  column="2"  rowspan="1"  colspan="2" >
+                </spacer>
+                <widget row="1"  column="1" >
                     <class>QLabel</class>
                     <property stdset="1">
                         <name>name</name>
@@ -94,30 +86,76 @@
                         <name>hAlign</name>
                     </property>
                 </widget>
-                <widget row="0"  column="3" >
-                    <class>QPushButton</class>
+                <widget row="0"  column="0" >
+                    <class>QLabel</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>btnDelete</cstring>
+                        <cstring>TextLabel1</cstring>
                     </property>
                     <property>
                         <name>text</name>
-                        <string>&amp;Delete</string>
+                        <string></string>
                     </property>
                 </widget>
-                <widget row="0"  column="2" >
-                    <class>QComboBox</class>
+                <widget row="0"  column="1"  rowspan="1"  colspan="2" >
+                    <class>QLayoutWidget</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>cmbProfile</cstring>
+                        <cstring>Layout6</cstring>
                     </property>
-                    <property>
-                        <name>sizePolicy</name>
-                        <sizepolicy>
-                            <hsizetype>7</hsizetype>
-                            <vsizetype>0</vsizetype>
-                        </sizepolicy>
-                    </property>
+                    <hbox>
+                        <property>
+                            <name>margin</name>
+                            <number>0</number>
+                        </property>
+                        <property>
+                            <name>spacing</name>
+                            <number>6</number>
+                        </property>
+                        <widget>
+                            <class>QLabel</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>lblProfile</cstring>
+                            </property>
+                            <property>
+                                <name>text</name>
+                                <string>Profile:</string>
+                            </property>
+                            <property>
+                                <name>alignment</name>
+                                <set>AlignVCenter|AlignRight</set>
+                            </property>
+                            <property>
+                                <name>hAlign</name>
+                            </property>
+                        </widget>
+                        <widget>
+                            <class>QComboBox</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>cmbProfile</cstring>
+                            </property>
+                            <property>
+                                <name>sizePolicy</name>
+                                <sizepolicy>
+                                    <hsizetype>7</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                </sizepolicy>
+                            </property>
+                        </widget>
+                        <widget>
+                            <class>QPushButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>btnDelete</cstring>
+                            </property>
+                            <property>
+                                <name>text</name>
+                                <string>&amp;Delete</string>
+                            </property>
+                        </widget>
+                    </hbox>
                 </widget>
             </grid>
         </widget>

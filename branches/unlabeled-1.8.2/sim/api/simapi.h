@@ -1408,7 +1408,7 @@ EXPORT ContactList *getContacts();
 
 EXPORT QString	unquoteText(const QString &text);
 
-EXPORT QString  quoteString(const QString &str);
+EXPORT QString  quoteString(const QString &str, bool bHTML = true);
 EXPORT QString	unquoteString(const QString &str);
 
 // ____________________________________________________________________________________

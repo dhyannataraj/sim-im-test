@@ -48,6 +48,7 @@ class Icons : public QObject, public EventReceiver
     Q_OBJECT
 public:
     Icons();
+	~Icons();
 protected slots:
     void iconChanged(int);
 protected:

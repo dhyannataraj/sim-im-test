@@ -19,6 +19,7 @@
 #include "commands.h"
 
 #include <qaccel.h>
+#include <qtimer.h>
 
 CMenu::CMenu(CommandsDef *def)
         : KPopupMenu(NULL)
@@ -149,6 +150,11 @@ void CMenu::showMenu()
 }
 
 void CMenu::hideMenu()
+{
+    QTimer::singleShot(0, this, SLOT(clearMenu()));
+}
+
+void CMenu::clearMenu()
 {
     clear();
 }

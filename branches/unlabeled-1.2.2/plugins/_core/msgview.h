@@ -32,6 +32,7 @@ public:
     void		addMessage(Message *msg);
     bool		findMessage(Message *msg);
     void		setSelect(const QString &str);
+	static QString parseText(const QString &text, bool bIgnoreColors, bool bUseSmiles);
 protected:
     virtual		QPopupMenu *createPopupMenu( const QPoint& pos );
     void		*processEvent(Event*);

@@ -17,6 +17,7 @@
 
 #include "msgrecv.h"
 #include "msgedit.h"
+#include "msgview.h"
 #include "toolbtn.h"
 #include "history.h"
 #include "core.h"
@@ -27,8 +28,6 @@
 #include <qpainter.h>
 #include <qtimer.h>
 #include <qlayout.h>
-
-QString parseText(const char *text, bool bIgnoreColors, bool bUseSmiles);
 
 MsgReceived::MsgReceived(CToolCustom *parent, Message *msg)
         : QObject(parent)
@@ -96,7 +95,7 @@ MsgReceived::MsgReceived(CToolCustom *parent, Message *msg)
             p = msg->getRichText();
         Event e(EventEncodeText, &p);
         e.process();
-        p = parseText(p.utf8(), CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
+        p = MsgViewBase::parseText(p, CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
         m_edit->m_edit->setText(p);
         if ((msg->getBackground() != msg->getForeground()) && !CorePlugin::m_plugin->getOwnColors()){
             m_edit->m_edit->setBackground(msg->getBackground());

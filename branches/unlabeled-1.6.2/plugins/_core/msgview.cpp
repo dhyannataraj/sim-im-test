@@ -18,6 +18,7 @@
 #include "msgview.h"
 #include "core.h"
 #include "history.h"
+#include "html.h"
 
 #include <qstringlist.h>
 
@@ -32,8 +33,6 @@ MsgViewBase::MsgViewBase(QWidget *parent, unsigned id)
 MsgViewBase::~MsgViewBase()
 {
 }
-
-QString parseText(const char *text, bool bIgnoreColors, bool bUseSmiles);
 
 void MsgViewBase::setSelect(const QString &str)
 {
@@ -182,7 +181,7 @@ QString MsgViewBase::messageText(Message *msg)
         }
         Event e(EventEncodeText, &msgText);
         e.process();
-        s += parseText(msgText.utf8(), false, CorePlugin::m_plugin->getUseSmiles());
+        s += parseText(msgText, false, CorePlugin::m_plugin->getUseSmiles());
     }
     return s;
 }
@@ -657,6 +656,150 @@ void *MsgView::processEvent(Event *e)
         }
     }
     return MsgViewBase::processEvent(e);
+}
+
+class ViewParser : public HTMLParser
+{
+public:
+	ViewParser(bool bIgnoreColors, bool bUseSmiles);
+	QString parse(const QString &str);
+protected:
+	QString res;
+	bool m_bIgnoreColors;
+	bool m_bUseSmiles;
+	virtual void text(const QString &text);
+	virtual void tag_start(const QString &tag, const list<QString> &options);
+	virtual void tag_end(const QString &tag);
+};
+
+ViewParser::ViewParser(bool bIgnoreColors, bool bUseSmiles)
+{
+	m_bIgnoreColors = bIgnoreColors;
+	m_bUseSmiles    = bUseSmiles;
+}
+
+QString ViewParser::parse(const QString &str)
+{
+	res = "";
+	HTMLParser::parse(str);
+	return res;
+}
+
+typedef struct Smile
+{
+	unsigned nSmile;
+	int		 pos;
+	string	 smile;
+} Smile;
+
+void ViewParser::text(const QString &text)
+{
+	if (!m_bUseSmiles)
+		res += text;
+	QString str = text;
+	list<Smile> s;
+	for (unsigned i = 0;; i++){
+		const char *p = smiles(i);
+		if (p == 0)
+			break;
+		for (; *p; p += strlen(p) + 1){
+			Smile sm;
+			sm.nSmile = i;
+			sm.smile  = p;
+			sm.pos    = str.find(p);
+			s.push_back(sm);
+		}
+	}
+	for (;;){
+		unsigned pos = (unsigned)(-1);
+		Smile *curSmile = NULL;
+		list<Smile>::iterator it;
+		for (it = s.begin(); it != s.end(); ++it){
+			if ((*it).pos < 0)
+				continue;
+			if ((*it).pos < pos){
+				pos = (*it).pos;
+				curSmile = &(*it);
+			}
+		}
+		if (curSmile == NULL)
+			break;
+		if (pos)
+			res += quoteString(str.left(pos));
+		res += "<img src=\"icon:smile";
+		res += QString::number(curSmile->nSmile, 16).upper();
+		res += "\">";
+		int len = pos + curSmile->smile.size();
+		str = str.mid(len);
+		for (it = s.begin(); it != s.end(); ++it){
+			if ((*it).pos < 0)
+				continue;
+			(*it).pos -= len;
+			if ((*it).pos < 0)
+				(*it).pos = str.find((*it).smile.c_str());
+		}
+	}
+	res += quoteString(str);
+}
+
+static const char *formatTags[] = 
+{
+	"b",
+	"i",
+	"u",
+	"br",
+	"p",
+	NULL
+};
+
+void ViewParser::tag_start(const QString &tag, const list<QString> &options)
+{
+	if (m_bIgnoreColors){
+		const char **p;
+		for (p = formatTags; *p; p++)
+			if (tag == *p)
+				break;
+		if (*p == NULL)
+			return;
+	}
+	res += "<";
+	res += tag;
+	if (!m_bIgnoreColors){
+		for (list<QString>::const_iterator it = options.begin(); it != options.end(); ++it){
+			QString opt = *it;
+			++it;
+			QString val = *it;
+			res += " ";
+			res += opt;
+			if (!val.isEmpty()){
+				res += "=\"";
+				res += quoteString(val);
+				res += "\"";
+			}
+		}
+	}
+	res += ">";
+}
+
+void ViewParser::tag_end(const QString &tag)
+{
+	if (m_bIgnoreColors){
+		const char **p;
+		for (p = formatTags; *p; p++)
+			if (tag == *p)
+				break;
+		if (*p == NULL)
+			return;
+	}
+	res += "</";
+	res += tag;
+	res += ">";
+}
+
+QString MsgViewBase::parseText(const QString &text, bool bIgnoreColors, bool bUseSmiles)
+{
+	ViewParser parser(bIgnoreColors, bUseSmiles);
+	return parser.parse(text);
 }
 
 #ifndef WIN32

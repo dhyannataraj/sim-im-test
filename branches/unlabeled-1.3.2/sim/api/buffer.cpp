@@ -400,7 +400,23 @@ unsigned long Buffer::packetStartPos()
     return m_packetStartPos;
 }
 
-typedef list<Tlv*> listTlv;
+class listTlv : public list<Tlv*>
+{
+public:
+	listTlv();
+	~listTlv();
+};
+
+listTlv::listTlv()
+{
+}
+
+listTlv::~listTlv()
+{
+    list<Tlv*>::iterator it;
+    for (it = begin(); it != end(); it++)
+        delete *it;
+}
 
 TlvList::TlvList()
 {
@@ -420,9 +436,7 @@ TlvList::TlvList(Buffer &b)
 
 TlvList::~TlvList()
 {
-    list<Tlv*>::iterator it;
-    for (it = static_cast<listTlv*>(m_tlv)->begin(); it != static_cast<listTlv*>(m_tlv)->end(); it++)
-        delete *it;
+	delete static_cast<listTlv*>(m_tlv);
 }
 
 TlvList &TlvList::operator +(Tlv *tlv)

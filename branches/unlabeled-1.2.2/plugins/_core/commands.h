@@ -43,6 +43,7 @@ public:
     Commands();
     ~Commands();
     void set(CommandsDef*, const char *str);
+	void clear();
 protected slots:
     void popupActivated();
 protected:
@@ -58,7 +59,6 @@ protected:
     CMenu *processMenu(unsigned id, void *param, int key);
     void customize(CommandsDef *def);
     void customizeMenu(unsigned id);
-    void clear();
     unsigned cur_id;
     CMDS_MAP bars;
     MENU_MAP menues;

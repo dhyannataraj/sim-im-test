@@ -1235,6 +1235,7 @@ void *CorePlugin::processEvent(Event *e)
         return NULL;
 	case EventQuit:
 		destroy();
+		m_cmds->clear();
 		return NULL;
     case EventHomeDir:{
             string *cfg = (string*)(e->param());
