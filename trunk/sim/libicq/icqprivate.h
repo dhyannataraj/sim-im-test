@@ -267,6 +267,8 @@ public:
 
     unsigned long m_nProcessId;
 
+    void checkBirthDay();
+
     void sendVisibleList();
     void sendInvisibleList();
 
@@ -283,6 +285,8 @@ public:
         ErrorState
     };
     LoginState m_state;
+
+    unsigned check_time;
 
     static const capability *capabilities;
 

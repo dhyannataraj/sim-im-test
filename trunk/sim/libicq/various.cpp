@@ -967,6 +967,7 @@ bool SetMoreInfo::processAnswer(ICQClientPrivate *client, Buffer&, unsigned shor
     SET(Language1);
     SET(Language2);
     SET(Language3);
+    client->checkBirthDay();
     return true;
 }
 

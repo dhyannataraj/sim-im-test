@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>307</width>
+            <width>303</width>
             <height>275</height>
         </rect>
     </property>
@@ -32,7 +32,7 @@
             <class>QTabWidget</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>TabWidget2</cstring>
+                <cstring>tabWnd</cstring>
             </property>
             <widget>
                 <class>QWidget</class>

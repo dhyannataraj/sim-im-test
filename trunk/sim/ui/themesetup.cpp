@@ -33,6 +33,7 @@
 #include <qstringlist.h>
 #include <qpushbutton.h>
 #include <qcombobox.h>
+#include <qtabwidget.h>
 
 #ifdef WIN32
 
@@ -91,12 +92,9 @@ ThemeSetup::ThemeSetup(QWidget *parent)
         connect(chkTransparentContainer, SIGNAL(toggled(bool)), this, SLOT(checkedTransparent(bool)));
         checkedTransparent(pMain->UseTransparent);
     }else{
-        chkTransparent->hide();
-        lblTransparent->hide();
-        sldTransparent->hide();
-        chkTransparentContainer->hide();
-        lblTransparentContainer->hide();
-        sldTransparentContainer->hide();
+        tabWnd->setCurrentPage(2);
+        tabWnd->removePage(tabWnd->currentPage());
+        tabWnd->setCurrentPage(0);
     }
     int h = lstThemes->itemHeight();
     lstThemes->setMinimumSize(QSize(0, h * 3));
@@ -198,7 +196,7 @@ void ThemeSetup::apply(ICQUser*)
         }
         pMain->changeIcons(0);
     }
-    if (!TransparentTop::bCanTransparent){
+    if (TransparentTop::bCanTransparent){
 #ifdef WIN32
         pMain->TransparentIfInactive = chkInactive->isChecked();
 #endif

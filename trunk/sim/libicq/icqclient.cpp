@@ -92,6 +92,8 @@ ICQClientPrivate::ICQClientPrivate(ICQClient *_client, SocketFactory *_factory)
     needPhoneStatusUpdate = false;
     needShareUpdate = false;
     m_bRosters = false;
+    check_time = now;
+    checkBirthDay();
 }
 
 ICQClient::~ICQClient()
@@ -103,6 +105,25 @@ ICQClient::~ICQClient()
 
 ICQClientPrivate::~ICQClientPrivate()
 {
+}
+
+void ICQClientPrivate::checkBirthDay()
+{
+    bool oldValue = m_bBirthday;
+    if (!client->owner) return;
+    int year = client->owner->BirthYear;
+    int month = client->owner->BirthMonth;
+    int day = client->owner->BirthDay;
+    m_bBirthday = false;
+    if (day && month && year){
+        time_t now;
+        time(&now);
+        struct tm *tm = localtime(&now);
+        if (((tm->tm_mon + 1) == month) && ((tm->tm_mday + 1) == day))
+            m_bBirthday = true;
+    }
+    if ((m_bBirthday != oldValue) && (m_state == Logged))
+        sendStatus(fullStatus(client->owner->uStatus));
 }
 
 void ICQClient::storePassword(const char *p)
@@ -400,11 +421,17 @@ void ICQClientPrivate::dropPacket()
     sock->writeBuffer.setWritePos(m_nPacketStart);
 }
 
+#define CHECK_INTERVAL	300
+
 void ICQClientPrivate::idle()
 {
     factory->idle();
     time_t now;
     time(&now);
+    if (now >= check_time + CHECK_INTERVAL){
+        checkBirthDay();
+        check_time = now;
+    }
     if (m_state == Logged){
         processInfoRequestQueue();
         processPhoneRequestQueue(0);

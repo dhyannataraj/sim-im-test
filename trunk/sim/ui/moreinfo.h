@@ -34,6 +34,7 @@ public slots:
     void load(ICQUser *u);
     void save(ICQUser *u);
 protected slots:
+    void birthDayChanged(int);
     void setLang(int);
     void goUrl();
 };

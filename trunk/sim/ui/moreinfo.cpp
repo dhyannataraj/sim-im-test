@@ -28,24 +28,33 @@
 #include <qcombobox.h>
 #include <qspinbox.h>
 #include <qlabel.h>
+#include <qdatetime.h>
 
 MoreInfo::MoreInfo(QWidget *p, bool readOnly)
         : MoreInfoBase(p)
 {
     btnHomePage->setPixmap(Pict("home"));
     connect(btnHomePage, SIGNAL(clicked()), this, SLOT(goUrl()));
-    spnDay->setMaxValue(31);
-    spnYear->setMaxValue(2000);
+    QDate now = QDate::currentDate();
+    spnAge->setSpecialValueText(" ");
+    spnAge->setRange(0, 100);
+    spnDay->setSpecialValueText(" ");
+    spnDay->setRange(0, 31);
+    spnYear->setSpecialValueText(" ");
+    spnYear->setRange(now.year() - 100, now.year());
     connect(cmbLang1, SIGNAL(activated(int)), this, SLOT(setLang(int)));
     connect(cmbLang2, SIGNAL(activated(int)), this, SLOT(setLang(int)));
     connect(cmbLang3, SIGNAL(activated(int)), this, SLOT(setLang(int)));
+    connect(cmbMonth, SIGNAL(activated(int)), this, SLOT(birthDayChanged(int)));
+    connect(spnDay, SIGNAL(valueChanged(int)), this, SLOT(birthDayChanged(int)));
+    connect(spnYear, SIGNAL(valueChanged(int)), this, SLOT(birthDayChanged(int)));
+    disableWidget(spnAge);
     if (!readOnly) {
         load(pClient->owner);
         return;
     }
     edtHomePage->setReadOnly(true);
     disableWidget(cmbGender);
-    disableWidget(spnAge);
     disableWidget(cmbMonth);
     disableWidget(spnDay);
     disableWidget(spnYear);
@@ -59,7 +68,6 @@ void MoreInfo::load(ICQUser *u)
     edtHomePage->setText(QString::fromLocal8Bit(u->Homepage.c_str()));
     btnHomePage->setEnabled(*(u->Homepage.c_str()));
     initCombo(cmbGender, u->Gender, genders);
-    spnAge->setValue(u->Age);
     if (spnAge->text() == "0") spnAge->setSpecialValueText("");
     cmbMonth->insertItem("");
     cmbMonth->insertItem(i18n("January"));
@@ -76,13 +84,38 @@ void MoreInfo::load(ICQUser *u)
     cmbMonth->insertItem(i18n("December"));
     cmbMonth->setCurrentItem(u->BirthMonth);
     spnDay->setValue(u->BirthDay);
-    if (spnDay->text() == "0") spnAge->setSpecialValueText("");
     spnYear->setValue(u->BirthYear);
-    if (spnYear->text() == "0") spnYear->setSpecialValueText("");
+    birthDayChanged(0);
     initCombo(cmbLang1, u->Language1, languages);
     initCombo(cmbLang2, u->Language2, languages);
     initCombo(cmbLang3, u->Language3, languages);
     setLang(0);
+}
+
+void MoreInfo::birthDayChanged(int)
+{
+    int maxDay = 31;
+    int days[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+    int year = atol(spnYear->text().latin1());
+    int month = cmbMonth->currentItem();
+    int day = atol(spnDay->text().latin1());
+    if (month){
+        maxDay = days[month - 1];
+        if ((month == 3) && ((year & 3) == 0)) maxDay = 29;
+    }
+    spnDay->setRange(0, maxDay);
+    if (year && month && day){
+        QDate now = QDate::currentDate();
+        int age = now.year() - year;
+        if ((now.month() < month) || ((now.month() == month) && (now.day() < day))) age--;
+        if (age < 100){
+            spnAge->setValue(age);
+        }else{
+            spnAge->setValue(0);
+        }
+    }else{
+        spnAge->setValue(0);
+    }
 }
 
 void MoreInfo::goUrl()

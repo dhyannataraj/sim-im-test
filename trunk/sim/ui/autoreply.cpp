@@ -26,6 +26,7 @@
 #include <qcheckbox.h>
 #include <qlabel.h>
 #include <qtimer.h>
+#include <qaccel.h>
 
 AutoReplyDlg::AutoReplyDlg(QWidget *p, unsigned long _status)
         : AutoreplyBase(p, "autoreply", false, WDestructiveClose), status(_status)
@@ -58,6 +59,9 @@ AutoReplyDlg::AutoReplyDlg(QWidget *p, unsigned long _status)
     }
     connect(edtMessage, SIGNAL(textChanged()), this, SLOT(textChanged()));
     connect(chkNoShow, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
+    QAccel *accel = new QAccel(this);
+    accel->connectItem(accel->insertItem(QAccel::stringToKey("Ctrl+Enter")), this, SLOT(apply()));
+    accel->connectItem(accel->insertItem(QAccel::stringToKey("Ctrl+Return")), this, SLOT(apply()));
 }
 
 void AutoReplyDlg::toggled(bool)

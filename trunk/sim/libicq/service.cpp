@@ -124,6 +124,8 @@ void ICQClientPrivate::snac_service(unsigned short type, unsigned short)
 
 void ICQClientPrivate::sendLogonStatus()
 {
+    checkBirthDay();
+
     client->owner->IP = 0;
     client->owner->RealIP = htonl(sock->localHost());
     log(L_DEBUG, "RealIP: %X", client->owner->RealIP);
