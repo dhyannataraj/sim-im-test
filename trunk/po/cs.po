@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "POT-Creation-Date: 2003-02-05 13:49+0300\n"
-"PO-Revision-Date: 2003-02-08 18:59+0100\n"
+"PO-Revision-Date: 2003-02-08 23:40+0100\n"
 "Last-Translator: Pavel Rousar <p.rousar@sh.cvut.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2777,7 +2777,7 @@ msgstr "Přidat mezi &ignorované"
 
 #: userbox.cpp:110
 msgid "Move to &group"
-msgstr "Přesunout do &skupiny"
+msgstr "Přesunout do s&kupiny"
 
 #: userbox.cpp:112
 msgid "User &info"
