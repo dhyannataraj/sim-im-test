@@ -20,13 +20,15 @@
 #include "client.h"
 #include <stack>
 
-#define TXT		 1
-#define URL		 2
-#define SMILE	 3
-#define BR		 4
-#define TAG		 5
-#define TAG_END  6
-#define MAIL	 7
+#define TXT			1
+#define URL			2
+#define SMILE		3
+#define BR			4
+#define TAG			5
+#define TAG_END		6
+#define MAIL		7
+#define TAB			8
+#define LONGSPACE	9
 
 #define YY_STACK_USED   0
 #define YY_NEVER_INTERACTIVE    1
@@ -47,6 +49,8 @@
 "&amp;"							{ return TXT; }
 "&lt;"							{ return TXT; }
 "&gt;"							{ return TXT; }
+"\t"							{ return TAB; }
+" "[ ]+							{ return LONGSPACE; }
 "<br>"							{ return BR; }
 "<p>"							{ }
 "</p>"							{ return BR; }
@@ -105,6 +109,7 @@ QString MainWindow::ParseText(const UTFstring &text, bool bIgnoreColors)
 {
 	if (text.size() == 0) return "";
     yy_current_buffer = yy_scan_string(text.c_str());
+	char *p;
     string res;
     string tag;
     stack<tag_def> tags;
@@ -161,6 +166,14 @@ QString MainWindow::ParseText(const UTFstring &text, bool bIgnoreColors)
             }
             tag = "";
             break;
+		case TAB:
+			res += " &nbsp;&nbsp;&nbsp;";
+			break;
+		case LONGSPACE:
+			res += " ";
+			for (p = yytext + 1; *p; p++)
+				res += "&nbsp;";
+			break;
         case BR:
             res += "<br/>";
             break;
