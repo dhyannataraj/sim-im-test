@@ -1747,6 +1747,7 @@ bool ICQClient::processMsg()
         case MessageCheckInvisible:{
                 Buffer b;
                 sendThroughServer(m_send.screen.c_str(), 2, b, m_send.id, true, false);
+                sendThroughServer(m_send.screen.c_str(), 2, b, m_send.id, true, false);
                 return true;
             }
         case MessageWarning:{

@@ -265,6 +265,14 @@ EXPORT string quoteChars(const char *from, const char *chars)
     return res;
 }
 
+char fromHex(char c)
+{
+    if ((c >= '0') && (c <= '9')) return (char)(c - '0');
+    if ((c >= 'A') && (c <= 'F')) return (char)(c + 10 - 'A');
+    if ((c >= 'a') && (c <= 'f')) return (char)(c + 10 - 'a');
+    return (char)0;
+}
+
 EXPORT string getToken(char const *&p, char c, bool bUnEscape)
 {
     string res;
@@ -279,7 +287,7 @@ EXPORT string getToken(char const *&p, char c, bool bUnEscape)
             if (!bUnEscape)
                 continue;
             char c = *p;
-			char c1;
+			int d = 0;
             switch (c){
             case 'n':
                 c = '\n';
@@ -291,30 +299,11 @@ EXPORT string getToken(char const *&p, char c, bool bUnEscape)
                 c = '\t';
                 break;
 			case 'x':
-				c = *(++p);
-				if ((c >= '0') && (c <= '9')){
-					c -= '0';
-				}else if ((c >= 'a') && (c <= 'f')){
-					c -= ('a' - 10);
-				}else if ((c >= 'A') && (c <= 'F')){
-					c -= ('A' - 10);
-				}else{
-					--p;
-					break;
+				if (p[1] && p[2]){
+					c = fromHex(p[1]) << fromHex(p[2]);
+					d = 2;
 				}
-				c = c << 4;
-				c1 = *(++p);
-				if ((c >= '0') && (c <= '9')){
-					c += c1 - '0';
-				}else if ((c >= 'a') && (c <= 'f')){
-					c += c1 - ('a' - 10);
-				}else if ((c >= 'A') && (c <= 'F')){
-					c += c1 - ('A' - 10);
-				}else{
-					c = 'x';
-					p -= 2;
-					break;
-				}
+				break;
             }
             if (start != p - 1){
                 string part;
@@ -322,7 +311,7 @@ EXPORT string getToken(char const *&p, char c, bool bUnEscape)
                 res += part;
             }
             res += c;
-            start = p + 1;
+            start = p + 1 + d;
             continue;
         }
     }
@@ -524,14 +513,6 @@ EXPORT void free_data(const DataDef *def, void *d)
             }
         }
     }
-}
-
-char fromHex(char c)
-{
-    if ((c >= '0') && (c <= '9')) return (char)(c - '0');
-    if ((c >= 'A') && (c <= 'F')) return (char)(c + 10 - 'A');
-    if ((c >= 'a') && (c <= 'f')) return (char)(c + 10 - 'a');
-    return (char)0;
 }
 
 string unquoteString(const char *p)
@@ -780,6 +761,8 @@ static string quoteString(const char *str)
             case '\\':
                 quoted += "\\\\";
                 break;
+			case '\r':
+				break;
             case '\n':
                 quoted += "\\n";
                 break;

@@ -52,17 +52,6 @@ BSC32=bscmake.exe
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /debug /machine:I386 /pdbtype:sept
 # ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /debug /machine:I386 /pdbtype:sept
-# Begin Custom Build - Performing registration
-OutDir=.\../../Debug
-TargetPath=\sim.new\sim\Debug\simremote.dll
-InputPath=\sim.new\sim\Debug\simremote.dll
-SOURCE="$(InputPath)"
-
-"$(OutDir)\regsvr32.trg" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	regsvr32 /s /c "$(TargetPath)" 
-	echo regsvr32 exec. time > "$(OutDir)\regsvr32.trg" 
-	
-# End Custom Build
 
 !ELSEIF  "$(CFG)" == "simremote - Win32 Release"
 

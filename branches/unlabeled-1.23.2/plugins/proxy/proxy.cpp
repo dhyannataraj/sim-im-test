@@ -84,11 +84,15 @@ ProxyData::ProxyData(const ProxyData &d)
 
 ProxyData::ProxyData(const char *cfg)
 {
-    Buffer config;
-    config << "[Title]\n" << cfg;
-    config.setWritePos(0);
-    config.getSection();
-    load_data(_proxyData, this, &config);
+	if (cfg){
+		Buffer config;
+		config << "[Title]\n" << cfg;
+		config.setWritePos(0);
+		config.getSection();
+		load_data(_proxyData, this, &config);
+	}else{
+		load_data(_proxyData, this, NULL);
+	}
     bInit = true;
 }
 

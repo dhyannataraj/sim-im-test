@@ -2051,7 +2051,7 @@ QString ContactList::toUnicode(Contact *contact, const char *str)
 {
     if (str && *str){
         QString res = getCodec(contact)->toUnicode(str, strlen(str));
-        return res.replace(QRegExp("\\r"), "");
+        return res.replace(QRegExp("\r"), "");
     }
     return "";
 }
@@ -2061,7 +2061,7 @@ string ContactList::fromUnicode(Contact *contact, const QString &str)
     if (str.isEmpty())
         return "";
     QString s = str;
-    s = s.replace(QRegExp("\\r?\\n"), "\\r\\n");
+    s = s.replace(QRegExp("\r?\n"), "\r\n");
     QCString res = getCodec(contact)->fromUnicode(str);
     return (const char*)res;
 }

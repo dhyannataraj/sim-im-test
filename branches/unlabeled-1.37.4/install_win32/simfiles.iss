@@ -37,11 +37,6 @@ Name: "{app}\plugins\styles"
 
 [Languages]
 Name: "en"; MessagesFile: "compiler:Default.isl"
-Name: "it"; MessagesFile: "Italian.isl"
-Name: "de"; MessagesFile: "German.isl"
-Name: "cs"; MessagesFile: "Czech.isl"
-Name: "fr"; MessagesFile: "French.isl"
-Name: "po"; MessagesFile: "Polish.isl"
 
 [Files]
 Source: "..\Release\sim.exe"; DestDir: "{app}"; Flags: ignoreversion

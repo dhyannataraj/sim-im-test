@@ -118,10 +118,12 @@ protected:
     GroupItem *findGroupItem(unsigned id, QListViewItem *p = NULL);
     ContactItem *findContactItem(unsigned id, QListViewItem *p = NULL);
     void addSortItem(QListViewItem *item);
+    void addUpdatedItem(QListViewItem *item);
     void addGroupForUpdate(unsigned long id);
     void addContactForUpdate(unsigned long id);
     virtual void deleteItem(QListViewItem *item);
     list<QListViewItem*> sortItems;
+    list<QListViewItem*> updatedItems;
     list<unsigned long>	updGroups;
     list<unsigned long>	updContacts;
     bool m_bDirty;
