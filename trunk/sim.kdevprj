@@ -99,7 +99,7 @@ install_location=
 type=DATA
 
 [po/Makefile.am]
-files=po/ru.po,po/de.po,po/zh_TW.po,po/tr.po,po/it.po
+files=po/ru.po,po/de.po,po/zh_TW.po,po/tr.po,po/it.po,po/uk.po
 sub_dirs=
 type=po
 
@@ -122,6 +122,12 @@ install_location=
 type=PO
 
 [po/tr.po]
+dist=false
+install=false
+install_location=
+type=PO
+
+[po/uk.po]
 dist=false
 install=false
 install_location=

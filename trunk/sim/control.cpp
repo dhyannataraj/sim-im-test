@@ -185,16 +185,16 @@ typedef struct cmdDef
 
 static cmdDef cmds[] =
     {
-        { "STATUS", I18N_NOOP("set status"), I18N_NOOP("STATUS [offline|online|away|na|dnd|occupied|ffc]"), 0, 1 },
-        { "INVISIBLE", I18N_NOOP("set invisible mode"), I18N_NOOP("INVISIBLE [on|off]"), 0, 1 },
-        { "MESSAGE", I18N_NOOP("send message"), I18N_NOOP("MESSAGE <UIN|Name> <message>"), 2, 2 },
-        { "SMS", I18N_NOOP("send SMS"), I18N_NOOP("SMS <phone> <message>"), 2, 2 },
-        { "MAINWINDOW", I18N_NOOP("show/hide main window"), I18N_NOOP("MAINWINDOW [on|off]"), 0, 1 },
-        { "SEARCHWINDOW", I18N_NOOP("show/hide search window"), I18N_NOOP("SEARCHWINDOW [on|off]"), 0, 1 },
-        { "DOCK", I18N_NOOP("show/hide dock"), I18N_NOOP("DOCK [on|off]"), 0, 1 },
-        { "QUIT", I18N_NOOP("quit SIM"), I18N_NOOP("QUIT"), 0, 0 },
-        { "CLOSE", I18N_NOOP("close session"), I18N_NOOP("CLOSE"), 0, 0 },
-        { "HELP", I18N_NOOP("command help information"), I18N_NOOP("HELP [<cmd>]"), 0, 1 }
+        { "STATUS", I18N_NOOP("set status"), "STATUS [offline|online|away|na|dnd|occupied|ffc]", 0, 1 },
+        { "INVISIBLE", I18N_NOOP("set invisible mode"), "INVISIBLE [on|off]", 0, 1 },
+        { "MESSAGE", I18N_NOOP("send message"), "MESSAGE <UIN|Name> <message>", 2, 2 },
+        { "SMS", I18N_NOOP("send SMS"), "SMS <phone> <message>", 2, 2 },
+        { "MAINWINDOW", I18N_NOOP("show/hide main window"), "MAINWINDOW [on|off]", 0, 1 },
+        { "SEARCHWINDOW", I18N_NOOP("show/hide search window"), "SEARCHWINDOW [on|off]", 0, 1 },
+        { "DOCK", I18N_NOOP("show/hide dock"), "DOCK [on|off]", 0, 1 },
+        { "QUIT", I18N_NOOP("quit SIM"), "QUIT", 0, 0 },
+        { "CLOSE", I18N_NOOP("close session"), "CLOSE", 0, 0 },
+        { "HELP", I18N_NOOP("command help information"), "HELP [<cmd>]", 0, 1 }
     };
 
 typedef struct statusDef
@@ -344,7 +344,7 @@ void ControlSocket::read_ready()
             for (n = 0; n < sizeof(cmds) / sizeof(cmdDef); n++){
                 msg = QString("%1\t%2\n")
                       .arg(cmds[n].cmd)
-                      .arg(cmds[n].shortDescr);
+                      .arg(i18n(cmds[n].shortDescr));
                 write(msg.local8Bit());
             }
         }else{
@@ -357,7 +357,11 @@ void ControlSocket::read_ready()
                 write("\n>");
                 return;
             }
-            msg = i18n(cmds[n].longDescr) + "\n";
+	    arg = i18n(cmds[n].shortDescr);
+	    arg = arg.left(1).upper() + arg.mid(1);
+            msg = QString("%1\n%2\n")
+		.arg(cmds[n].longDescr)
+		.arg(arg); 
             write(msg.local8Bit());
         }
         break;
