@@ -1,71 +1,66 @@
+# translation of uk2.po to 
+# translation of uk.po to 
 # translation of uk.po to Ukrainian
 # translation of uk.po to Український
-# Copyright (C) 2002 Free Software Foundation, Inc.
-# Ivan Krutyholova <ivan@city.gov.te.ua>, 2002
+# Copyright (C) 2002, 2003 Free Software Foundation, Inc.
+# Ivan Krutyholova <ivan@city.gov.te.ua>, 2002, 2003.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: uk\n"
+"Project-Id-Version: uk2\n"
 "POT-Creation-Date: 2003-09-15 10:52+0400\n"
-"PO-Revision-Date: 2003-01-20 18:24+0200\n"
-"Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
-"Language-Team: Ukrainian <uk@li.org>\n"
+"PO-Revision-Date: 2003-09-15 15:36+0300\n"
+"Last-Translator: Ivan Krutyholova <ivan@city.gov.te.ua>\n"
+"Language-Team:  <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 0.9.6\n"
+"X-Generator: KBabel 1.0.2\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 :n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
 
 #: plugins/__homedir/homedir.cpp:46
-#, fuzzy
 msgid "Home directory"
-msgstr "каталог"
+msgstr "Домашній каталог"
 
 #: plugins/__homedir/homedir.cpp:47
 msgid "Plugin provides select directory for store config files"
-msgstr ""
+msgstr "Плагін вказує каталог, в якому будуть зберігатись конфігураційні файли"
 
 #: plugins/__homedir/homedir.cpp:90
-#, fuzzy
 msgid "Set home directory"
-msgstr "каталог"
+msgstr "Встановити домашній каталог"
 
 #: plugins/__migrate/migrate.cpp:35
-#, fuzzy
 msgid "Migrate"
-msgstr "Нігер"
+msgstr "Поновлення версії"
 
 #: plugins/__migrate/migrate.cpp:36
 msgid "Plugin provides convert configuration and history from SIM 0.8"
-msgstr ""
+msgstr "Плагін забезпечує перенесення конфігурації і історії з SIM 0.8"
 
 #: plugins/__migrate/migratedlg.cpp:77
 msgid "Cancel convert?"
-msgstr ""
+msgstr "Відмінити конвертацію?"
 
 #: plugins/__migrate/migratedlg.cpp:202 plugins/__migrate/migratedlg.cpp:206
 #: plugins/__migrate/migratedlg.cpp:210 plugins/__migrate/migratedlg.cpp:270
 #: plugins/__migrate/migratedlg.cpp:274
-#, fuzzy, c-format
+#, c-format
 msgid "Can't open %1"
-msgstr ""
-"Неможливо відкрити\n"
-"%1"
+msgstr "Неможливо відкрити %1"
 
 #: plugins/__migrate/migratedlgbase.cpp:89
 msgid "Convert configuration from old version"
-msgstr ""
+msgstr "Перетворення конфінурації із старої версії"
 
 #: plugins/__migrate/migratedlgbase.cpp:90
-#, fuzzy
 msgid "Directories for convert:"
-msgstr "Каталог для прийому файлів"
+msgstr "Каталог для конвертації:"
 
 #: plugins/__migrate/migratedlgbase.cpp:91
-#, fuzzy
 msgid "&Remove old files"
-msgstr "Удаленный файл:"
+msgstr "&Знищити старі файли"
 
 #: plugins/__migrate/migratedlgbase.cpp:92
 msgid ""
@@ -73,26 +68,29 @@ msgid ""
 "If you select an option \" Remove old files \", you can not use the old "
 "version"
 msgstr ""
+"Увага!\n"
+"Якщо ви ввімкнете опції \"Знищити старі файли\", ви не зможете використовувати стару версію SIM"
 
 #: plugins/__migrate/migratedlgbase.cpp:94
 msgid "Select directories for convert"
-msgstr ""
+msgstr "Вибір каталогів для конвертування"
 
 #: plugins/__migrate/migratedlgbase.cpp:96
-#, fuzzy
 msgid "Convert configuration"
-msgstr "Клієнт ICQ"
+msgstr "Конвертація конфігурації"
 
 #: plugins/_core/autoreply.cpp:47
 msgid "Autoreply message"
 msgstr "Автовідповідь"
 
 #: plugins/_core/autoreply.cpp:92
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Close after %n second\n"
 "Close after %n seconds"
-msgstr "Закрити після відправки"
+msgstr ""
+"Закрити через %n секунду\n"
+"Закрити через %n секунд"
 
 #: plugins/_core/cfgdlg.cpp:275 plugins/_core/usercfg.cpp:195
 msgid "User info"
@@ -104,9 +102,8 @@ msgid "Autoreply"
 msgstr "Автовідповідь"
 
 #: plugins/_core/cfgdlg.cpp:382
-#, fuzzy
 msgid "Plugins"
-msgstr "Польська"
+msgstr "Плагіни"
 
 #: plugins/_core/cfgdlg.cpp:470 plugins/_core/cfgdlgbase.cc:125
 #: plugins/_core/cfgdlgbase.cpp:125 plugins/_core/toolsetupbase.cc:134
@@ -150,42 +147,36 @@ msgid "Setup"
 msgstr "Налагодження"
 
 #: plugins/_core/cfgdlg.cpp:518
-#, fuzzy
 msgid "Configure"
-msgstr "Клієнт ICQ"
+msgstr "Конфігурація"
 
 #: plugins/_core/cfgdlg.cpp:521
-#, fuzzy
 msgid "Update info"
-msgstr "Інформація про користувача"
+msgstr "Поновлення інформації"
 
 #: plugins/_core/commands.cpp:234 plugins/_core/toolbarcfg.cpp:40
 msgid "Customize toolbar..."
 msgstr "Налаштування панелі інструментів"
 
 #: plugins/_core/connectionsettings.cpp:32
-#, fuzzy
 msgid "Cofigure %1 client"
-msgstr "Клієнт ICQ"
+msgstr "Конфігурація клієнта %1"
 
 #: plugins/_core/container.cpp:245
-#, fuzzy
 msgid "Container"
-msgstr "В контейнер"
+msgstr "Контейнер"
 
 #: plugins/_core/container.cpp:589
-#, fuzzy
 msgid "Contact typed message"
-msgstr "Список контактов"
+msgstr "Користувач пише повідомлення"
 
 #: plugins/_core/core.cpp:74
 msgid "Interface"
 msgstr "Інтерфейс"
 
 #: plugins/_core/core.cpp:75
-#, fuzzy
 msgid "System interface"
-msgstr "Система"
+msgstr "Системний інтерфейс"
 
 #: plugins/_core/core.cpp:323
 msgid ""
@@ -213,9 +204,8 @@ msgid "We'd love to hear what you have to say. Join our chat.\n"
 msgstr "Робити нічого - приєднуюсь до чату.\n"
 
 #: plugins/_core/core.cpp:402
-#, fuzzy
 msgid "Unread messages"
-msgstr "відкрити непрочитане повідомлення"
+msgstr "Непрочитані повідомлення"
 
 #: plugins/_core/core.cpp:410
 msgid "Quit"
@@ -228,31 +218,27 @@ msgstr "&Меню"
 #: plugins/_core/core.cpp:429 plugins/_core/searchbase.cc:73
 #: plugins/_core/searchbase.cpp:73
 msgid "Search / Add contact"
-msgstr ""
+msgstr "Пошук/додавання контактів"
 
 #: plugins/_core/core.cpp:440
-#, fuzzy
 msgid "&Send SMS"
-msgstr "Відправити SMS"
+msgstr "&Відправити SMS"
 
 #: plugins/_core/core.cpp:447
-#, fuzzy
 msgid "&Phone service"
-msgstr "Інші служби"
+msgstr "&Телефони"
 
 #: plugins/_core/core.cpp:457
 msgid "Message"
 msgstr "Повідомлення"
 
 #: plugins/_core/core.cpp:468 plugins/filter/ignorelist.cpp:26
-#, fuzzy
 msgid "Contact"
-msgstr "Список контактов"
+msgstr "Контакт"
 
 #: plugins/_core/core.cpp:475 plugins/_core/core.cpp:881
-#, fuzzy
 msgid "Group"
-msgstr "Група:"
+msgstr "Група"
 
 #: plugins/_core/core.cpp:483 plugins/_core/core.cpp:914
 #: plugins/icq/icq.cpp:573 plugins/jabber/jabber.cpp:267
@@ -276,7 +262,6 @@ msgid "&Send"
 msgstr "&Відіслати"
 
 #: plugins/_core/core.cpp:541
-#, fuzzy
 msgid "&Insert smile"
 msgstr "&Вставити смайлик"
 
@@ -291,30 +276,27 @@ msgstr "Відіслати &кільком адресатам"
 
 #: plugins/_core/core.cpp:566
 msgid "Input"
-msgstr ""
+msgstr "Ввід"
 
 #: plugins/_core/core.cpp:574 plugins/_core/filetransfer.cpp:131
 msgid "Receive"
-msgstr ""
+msgstr "Отримані повідомлення"
 
 #: plugins/_core/core.cpp:585 plugins/_core/msgedit.cpp:1117
 msgid "&Next"
 msgstr "&Наступне"
 
 #: plugins/_core/core.cpp:592
-#, fuzzy
 msgid "&Answer"
-msgstr "&Передати"
+msgstr "&Відповісти"
 
 #: plugins/_core/core.cpp:599
-#, fuzzy
 msgid "&Direction"
-msgstr "Каталоги"
+msgstr "&Напрям"
 
 #: plugins/_core/core.cpp:610
-#, fuzzy
 msgid "Search:"
-msgstr "Пошук"
+msgstr "Пошук:"
 
 #: plugins/_core/core.cpp:618
 msgid "&Previous page"
@@ -325,9 +307,8 @@ msgid "&Next page"
 msgstr "&Наступна сторінка"
 
 #: plugins/_core/core.cpp:647
-#, fuzzy
 msgid "&Open message"
-msgstr "відправити повідомлення"
+msgstr "&Відкрити повідомлення"
 
 #: plugins/_core/core.cpp:663 plugins/_core/core.cpp:714
 #: plugins/netmonitor/monitor.cpp:67 sim/ui/qt3/qtextedit.cpp:3993
@@ -343,24 +324,20 @@ msgid "&Forward"
 msgstr "&Переслати"
 
 #: plugins/_core/core.cpp:690 sim/ui/qt3/qtextedit.cpp:3986
-#, fuzzy
 msgid "&Undo"
-msgstr "Відмінити"
+msgstr "&Відмінити"
 
 #: plugins/_core/core.cpp:698 sim/ui/qt3/qtextedit.cpp:3987
-#, fuzzy
 msgid "&Redo"
-msgstr "Повторити"
+msgstr "&Повторити"
 
 #: plugins/_core/core.cpp:706 sim/ui/qt3/qtextedit.cpp:3992
-#, fuzzy
 msgid "Cu&t"
-msgstr "Вирізати"
+msgstr "&Вирізати"
 
 #: plugins/_core/core.cpp:722 sim/ui/qt3/qtextedit.cpp:3995
-#, fuzzy
 msgid "&Paste"
-msgstr "Вставити"
+msgstr "&Вставити"
 
 #: plugins/_core/core.cpp:730 sim/ui/qt3/i18n.cpp:255
 #: sim/ui/qt3/qtextedit.cpp:3998
@@ -378,43 +355,36 @@ msgid "&Messages"
 msgstr "&Повідомлення"
 
 #: plugins/_core/core.cpp:754 plugins/_core/msgedit.cpp:1267
-#, fuzzy
 msgid "&SMS"
-msgstr "SMS"
+msgstr "&SMS"
 
 #: plugins/_core/core.cpp:762 plugins/_core/core.cpp:793
 msgid "Show &offline"
 msgstr "Показувати користувачів не в &мережі"
 
 #: plugins/_core/core.cpp:774
-#, fuzzy
 msgid "&No show groups"
-msgstr "Створити групу"
+msgstr "&Не показувати групи"
 
 #: plugins/_core/core.cpp:784
-#, fuzzy
 msgid "Group mode 1"
-msgstr "Показувати &групи"
+msgstr "Режим групи 1"
 
 #: plugins/_core/core.cpp:789
-#, fuzzy
 msgid "Group mode 2"
-msgstr "Показувати &групи"
+msgstr "Режим групи 2"
 
 #: plugins/_core/core.cpp:800
-#, fuzzy
 msgid "&Create group"
-msgstr "Створити групу"
+msgstr "&Створити групу"
 
 #: plugins/_core/core.cpp:811
-#, fuzzy
 msgid "&Rename group"
-msgstr "Створити групу"
+msgstr "&Перейменувати групу"
 
 #: plugins/_core/core.cpp:818
-#, fuzzy
 msgid "&Delete group"
-msgstr "Створити групу"
+msgstr "&Знищити групу"
 
 #: plugins/_core/core.cpp:825
 msgid "Up"
@@ -438,16 +408,15 @@ msgstr "&Знищити"
 
 #: plugins/_core/core.cpp:906
 msgid "Show &allways"
-msgstr ""
+msgstr "Показувати &завжди"
 
 #: plugins/_core/core.cpp:936
 msgid "To container"
 msgstr "В контейнер"
 
 #: plugins/_core/core.cpp:961
-#, fuzzy
 msgid "&Location"
-msgstr "&Діяльність:"
+msgstr "&Місцезнаходження"
 
 #: plugins/_core/core.cpp:969 plugins/icq/icqinfobase.cc:319
 #: plugins/jabber/jabberinfobase.cpp:219 plugins/msn/msninfobase.cpp:167
@@ -455,38 +424,32 @@ msgid "&Status"
 msgstr "&Статус"
 
 #: plugins/_core/core.cpp:976
-#, fuzzy
 msgid "&Phone book"
-msgstr "Телефонна книжка"
+msgstr "&Телефонна книжка"
 
 #: plugins/_core/core.cpp:983
-#, fuzzy
 msgid "&No show"
-msgstr "Створити групу"
+msgstr "&Не показувати"
 
 #: plugins/_core/core.cpp:990
-#, fuzzy
 msgid "&Available"
-msgstr "Доступний"
+msgstr "&Доступний"
 
 #: plugins/_core/core.cpp:998
-#, fuzzy
 msgid "&Busy"
-msgstr "Зайнятий"
+msgstr "&Зайнятий"
 
 #: plugins/_core/core.cpp:1571
-#, fuzzy
 msgid "&Separate"
-msgstr "Розділювач"
+msgstr "&Відділити"
 
 #: plugins/_core/core.cpp:1671
 msgid "&New"
 msgstr "&Новий"
 
 #: plugins/_core/core.cpp:1726
-#, fuzzy
 msgid "Not available"
-msgstr "Доступний"
+msgstr "Нема"
 
 #: plugins/_core/core.cpp:1825 plugins/dock/dockwnd.cpp:1124
 #: plugins/osd/osd.cpp:324
@@ -495,7 +458,7 @@ msgstr "%1 від %2"
 
 #: plugins/_core/core.cpp:1996
 msgid "%1 wrote:"
-msgstr ""
+msgstr "%1 пише:"
 
 #: plugins/_core/core.cpp:2032
 msgid "Send SMS"
@@ -503,14 +466,12 @@ msgstr "Відправити SMS"
 
 #: plugins/_core/core.cpp:2859 plugins/_core/core.cpp:2881
 #: plugins/_core/managerbase.cc:103 plugins/_core/managerbase.cpp:103
-#, fuzzy
 msgid "Connection manager"
-msgstr "З'єднання"
+msgstr "Менеджер з'єднань"
 
 #: plugins/_core/core.cpp:2867
-#, fuzzy
 msgid "Show status panel"
-msgstr "Телефон"
+msgstr "Показати панель статуса"
 
 #: plugins/_core/core.cpp:2874
 #, fuzzy
@@ -518,35 +479,29 @@ msgid "Connections"
 msgstr "З'єднання"
 
 #: plugins/_core/core.cpp:2889
-#, fuzzy
 msgid "Change profile"
-msgstr "файл"
+msgstr "Змінити профіль"
 
 #: plugins/_core/core.cpp:2918
-#, fuzzy
 msgid "Common status"
-msgstr "встановити статус"
+msgstr "Загальний статус"
 
 #: plugins/_core/core.cpp:2924
-#, fuzzy
 msgid "Configure client"
-msgstr "Клієнт ICQ"
+msgstr "Конфігурація клієнта"
 
 #: plugins/_core/core.cpp:2948 plugins/_core/status.cpp:152
 #: plugins/_core/status.cpp:220
-#, fuzzy
 msgid "&Invisible"
-msgstr "Невидимий"
+msgstr "&Невидимий"
 
 #: plugins/_core/editmail.cpp:31
-#, fuzzy
 msgid "Add mail address"
-msgstr "Поштові адреси:"
+msgstr "Додати поштову адресу"
 
 #: plugins/_core/editmail.cpp:31
-#, fuzzy
 msgid "Edit mail address"
-msgstr "Введіть email:"
+msgstr "Редагувати поштову адресу"
 
 #: plugins/_core/editphone.cpp:38
 #, fuzzy
@@ -554,80 +509,68 @@ msgid "Add phone number"
 msgstr "Додати телефон"
 
 #: plugins/_core/editphone.cpp:38
-#, fuzzy
 msgid "Edit phone number"
-msgstr "Додати телефон"
+msgstr "Редагувати телефон"
 
 #: plugins/_core/filetransfer.cpp:74
-#, fuzzy
 msgid "Receive file"
-msgstr "Удаленный файл:"
+msgstr "Прийом файла"
 
 #: plugins/_core/filetransfer.cpp:74
-#, fuzzy
 msgid "Send file"
-msgstr "Помилка відправки"
+msgstr "Передача файла"
 
 #: plugins/_core/filetransfer.cpp:122
-#, fuzzy
 msgid "Listen"
-msgstr "Стиль життя"
+msgstr "Чекаєм з'єднання"
 
 #: plugins/_core/filetransfer.cpp:125
-#, fuzzy
 msgid "Connect"
 msgstr "З'єднання"
 
 #: plugins/_core/filetransfer.cpp:128
-#, fuzzy
 msgid "Negotiation"
-msgstr "Реєстрація"
+msgstr "Ініціалізація"
 
 #: plugins/_core/filetransfer.cpp:135
-#, fuzzy
 msgid "Send"
-msgstr "&Відіслати"
+msgstr "Передача"
 
 #: plugins/_core/filetransfer.cpp:139
-#, fuzzy
 msgid "Transfer done"
-msgstr "Передача файла завершена:"
+msgstr "Передача завершена"
 
 #: plugins/_core/filetransfer.cpp:208
-#, fuzzy
 msgid "Transfer failed"
-msgstr "Відправка файлу почалась"
+msgstr "Відправка закінчилась з помилкою"
 
 #: plugins/_core/filetransfer.cpp:277
-#, fuzzy
 msgid "Stalled"
-msgstr "Стиль"
+msgstr "Призупинено"
 
 #: plugins/_core/filetransfer.cpp:289
 msgid "Mb/s"
-msgstr ""
+msgstr "Mb/s"
 
 #: plugins/_core/filetransfer.cpp:292
 msgid "kb/s"
-msgstr ""
+msgstr "kb/s"
 
 #: plugins/_core/filetransfer.cpp:295
 msgid "b/s"
-msgstr ""
+msgstr "b/s"
 
 #: plugins/_core/historycfg.cpp:45
 msgid "Show %1 messages per page"
-msgstr ""
+msgstr "Показувати %1 повідомлень на сторінці"
 
 #: plugins/_core/historywnd.cpp:49
-#, fuzzy
 msgid "Loading"
-msgstr "Авторизація"
+msgstr "Завантаження"
 
 #: plugins/_core/historywnd.cpp:97 plugins/filter/filter.cpp:30
-#, fuzzy
 msgid "Filter"
-msgstr "&Фільтр"
+msgstr "Фільтр"
 
 #: plugins/_core/historywnd.cpp:130 plugins/_core/interfacecfg.cpp:76
 msgid "History"
@@ -687,9 +630,8 @@ msgid "Slovak"
 msgstr "Словацька"
 
 #: plugins/_core/interfacecfg.cpp:58
-#, fuzzy
 msgid "Swabian"
-msgstr "Свазіленд"
+msgstr "Австрійська"
 
 #: plugins/_core/interfacecfg.cpp:59 plugins/icq/icqclient.cpp:304
 #: plugins/icq/icqclient.cpp:305 plugins/icq/moreinfo.cpp:142
@@ -707,7 +649,7 @@ msgstr "Китайська"
 
 #: plugins/_core/interfacecfg.cpp:74
 msgid "Contact list"
-msgstr "Список контактов"
+msgstr "Список контактів"
 
 #: plugins/_core/interfacecfg.cpp:79
 #, fuzzy
@@ -724,14 +666,12 @@ msgid "System"
 msgstr "Система"
 
 #: plugins/_core/interfacecfg.cpp:123
-#, fuzzy
 msgid "Copy %1 messages from history"
-msgstr "останніх повідомлень із історії"
+msgstr "Копіювати %1 останніх повідомлень із історії"
 
 #: plugins/_core/logindlg.cpp:52
-#, fuzzy
 msgid "Select profile"
-msgstr "Виділити все"
+msgstr "Виберіть профіль"
 
 #: plugins/_core/logindlg.cpp:176 plugins/icq/aimconfigbase.cc:150
 #: plugins/icq/icqconfigbase.cc:189 plugins/jabber/jabberconfigbase.cpp:183
@@ -740,20 +680,17 @@ msgid "Password:"
 msgstr "Пароль:"
 
 #: plugins/_core/logindlg.cpp:269
-#, fuzzy
 msgid "Forgot password?"
-msgstr "Пароль:"
+msgstr "Забули пароль?"
 
 #: plugins/_core/logindlg.cpp:293
-#, fuzzy
 msgid "New profile"
-msgstr "Нова папка"
+msgstr "Новий профіль"
 
 #: plugins/_core/logindlg.cpp:414 plugins/jabber/jabberclient.cpp:749
 #: plugins/msn/msnclient.cpp:562
-#, fuzzy
 msgid "Login failed"
-msgstr "Прийом файлу:"
+msgstr "Авторизація невдалась"
 
 #: plugins/_core/maininfo.cpp:46
 msgid "Home Phone"
@@ -781,27 +718,24 @@ msgstr "Пейджер"
 
 #: plugins/_core/maininfo.cpp:69 plugins/filter/ignorelist.cpp:28
 #: plugins/icq/icqsecure.cpp:127 plugins/msn/msninfobase.cpp:161
-#, fuzzy
 msgid "EMail"
-msgstr "&Пошта"
+msgstr "Пошта"
 
 #: plugins/_core/maininfo.cpp:70 sim/ui/qt3/i18n.cpp:43
 msgid "Type"
 msgstr "Тип"
 
 #: plugins/_core/maininfo.cpp:71
-#, fuzzy
 msgid "Phone"
-msgstr "Телефон:"
+msgstr "Телефон"
 
 #: plugins/_core/maininfo.cpp:73 plugins/_core/maininfo.cpp:74
 msgid "Publish"
 msgstr "Публічний"
 
 #: plugins/_core/maininfo.cpp:75
-#, fuzzy
 msgid "I'm currently available at:"
-msgstr "Користувач зараз доступний по:"
+msgstr "Я зараз доступний по:"
 
 #: plugins/_core/maininfo.cpp:76
 msgid "Don't show"
@@ -816,7 +750,6 @@ msgid "Busy"
 msgstr "Зайнятий"
 
 #: plugins/_core/maininfo.cpp:81
-#, fuzzy
 msgid "User is crrently available at:"
 msgstr "Користувач зараз доступний по:"
 
@@ -828,7 +761,7 @@ msgstr "Так"
 #: plugins/_core/msgauth.cpp:39 plugins/_core/msggen.cpp:70
 #: plugins/_core/msgrecv.cpp:47
 msgid " "
-msgstr ""
+msgstr " "
 
 #: plugins/_core/msgedit.cpp:377
 #, c-format
@@ -909,24 +842,24 @@ msgstr ""
 "Додав в список контактів %n раз"
 
 #: plugins/_core/msgedit.cpp:626
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Removed from contacts\n"
 "%n removed from contacts"
 msgstr ""
-"Додав в список контактів\n"
-"Додав в список контактів %n рази\n"
-"Додав в список контактів %n раз"
+"Знищив сок котуактів\n"
+"ДодавЗнищив в спискуактів %n рази\n"
+"ДодавЗнищив в списку ктів %n раз"
 
 #: plugins/_core/msgedit.cpp:648
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Status changed\n"
 "%n times status changed"
 msgstr ""
-"Розрив захищеного з'єднання\n"
-"%n розриви захищеного з'єднання\n"
-"%n розривів захищених з'єднань"
+"Статус змінено\n"
+"Статус змінено %n рази\n"
+"Статус змінено %n раз"
 
 #: plugins/_core/msgedit.cpp:709 sim/ui/qt3/i18n.cpp:23
 msgid "Cancel"
@@ -934,7 +867,7 @@ msgstr "Відмінити"
 
 #: plugins/_core/msgedit.cpp:788
 msgid "No such client for send message"
-msgstr ""
+msgstr "Нема клієнта для відправки повідомлення"
 
 #: plugins/_core/msgedit.cpp:1248 plugins/icq/icq.cpp:563
 #: plugins/jabber/jabber.cpp:258
@@ -946,24 +879,20 @@ msgid "&File"
 msgstr "&Файл"
 
 #: plugins/_core/msgedit.cpp:1276
-#, fuzzy
 msgid "&Authorization request"
-msgstr "Запит авторизації"
+msgstr "Запит &авторизації"
 
 #: plugins/_core/msgedit.cpp:1285
-#, fuzzy
 msgid "&Grant autorization"
-msgstr "І&гнорувати вимоги авторизації"
+msgstr "&Авторизувати"
 
 #: plugins/_core/msgedit.cpp:1294
-#, fuzzy
 msgid "&Refuse autorization"
-msgstr "І&гнорувати вимоги авторизації"
+msgstr "&Відмовити авторизацію"
 
 #: plugins/_core/msgfile.cpp:54
-#, fuzzy
 msgid "Select file"
-msgstr "Виділити все"
+msgstr "Вибір файлу"
 
 #: plugins/_core/msgfile.cpp:58
 #, fuzzy
@@ -995,16 +924,14 @@ msgid "Text &font"
 msgstr "&Шрифт"
 
 #: plugins/_core/msggen.cpp:310
-#, fuzzy
 msgid "Custom"
-msgstr "Вирізати"
+msgstr "Власний"
 
 #: plugins/_core/msgsms.cpp:55
 msgid "Send in translit"
-msgstr ""
+msgstr "Відправити в трансліті"
 
 #: plugins/_core/msgsms.cpp:59
-#, fuzzy
 msgid "Phone:"
 msgstr "Телефон:"
 
@@ -1014,23 +941,20 @@ msgstr "Розмір: %1 / Максимальний: %2"
 
 #: plugins/_core/msgsms.cpp:163
 msgid "Message will be split"
-msgstr ""
-"Повідомлення буде розділено на частини"
+msgstr "Повідомлення буде розділено на частини"
 
 #: plugins/_core/msgsms.cpp:264
-#, fuzzy
 msgid "Save phone in contact list"
 msgstr "Доданий в список контактів"
 
 #: plugins/_core/search.cpp:88
-#, fuzzy
 msgid "Non-IM contact"
 msgstr "Додати зовнішній контакт"
 
 #: plugins/_core/search.cpp:147
-#, fuzzy, c-format
+#, c-format
 msgid "Search %1"
-msgstr "Пошук"
+msgstr "Пошук %1"
 
 #: plugins/_core/status.cpp:47 plugins/_core/userviewcfg.cpp:107
 #: plugins/jabber/services.cpp:46
@@ -1043,7 +967,6 @@ msgstr "Неактивно"
 
 #: plugins/_core/connectwndbase.cc:122 plugins/_core/connectwndbase.cpp:122
 #: plugins/_core/status.cpp:97 plugins/_core/statuswnd.cpp:52
-#, fuzzy
 msgid "Connecting"
 msgstr "З'єднання"
 
@@ -1053,22 +976,18 @@ msgid "Error"
 msgstr "Помилка"
 
 #: plugins/_core/tmpl.cpp:156
-#, fuzzy
 msgid "yes"
-msgstr "байт"
+msgstr "так"
 
 #: plugins/_core/tmpl.cpp:158
-#, fuzzy
 msgid "no"
-msgstr "Відмінити"
+msgstr "ні"
 
 #: plugins/_core/toolsetup.cpp:35 plugins/dock/dock.cpp:117
-#, fuzzy
 msgid "Customize menu"
-msgstr "Спеціальне повідомлення"
+msgstr "Налаштування меню"
 
 #: plugins/_core/toolsetup.cpp:36
-#, fuzzy
 msgid "Customize toolbar"
 msgstr "Налаштування панелі інструментів"
 
@@ -1082,9 +1001,8 @@ msgid "User info '%1'"
 msgstr "Інформація про користувача - '%1'"
 
 #: plugins/_core/usercfg.cpp:281
-#, fuzzy
 msgid "New contact"
-msgstr "Додати зовнішній контакт"
+msgstr "Новий контакт"
 
 #: plugins/_core/usercfg.cpp:288 plugins/_core/userlist.cpp:967
 #: plugins/_core/userview.cpp:172 plugins/_core/userview.cpp:646
@@ -1616,8 +1534,7 @@ msgstr ""
 #: plugins/_core/msgcfgbase.cc:163 plugins/_core/msgcfgbase.cpp:163
 #, fuzzy
 msgid "Automaitcaly open window on receive message"
-msgstr ""
-"Автоматично відкривати вікно повідомлень"
+msgstr "Автоматично відкривати вікно повідомлень"
 
 #: plugins/_core/msgcfgbase.cc:164 plugins/_core/msgcfgbase.cpp:164
 #, fuzzy
@@ -1798,8 +1715,7 @@ msgstr "Встановити статус \"Не активний\" через"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:125
 #: plugins/sound/soundconfigbase.cpp:166
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Заборонити попередження в стані "
 "\"Відійшов\", \"Не активний\", \"Зайнятий\""
@@ -4272,8 +4188,7 @@ msgid "Navigate"
 msgstr "Нігер"
 
 #: plugins/navigate/navigate.cpp:38
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 
 #: plugins/navigate/navigate.cpp:87
@@ -4353,8 +4268,7 @@ msgstr "Завжди зверху"
 #: plugins/ontop/ontopcfgbase.cpp:89
 #, fuzzy
 msgid "Show &main window in task manager"
-msgstr ""
-"Показувати основне вікно в панелі задач"
+msgstr "Показувати основне вікно в панелі задач"
 
 #: plugins/ontop/ontopcfgbase.cpp:90
 #, fuzzy
@@ -4366,8 +4280,7 @@ msgid "OSD"
 msgstr ""
 
 #: plugins/osd/osd.cpp:48
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 
 #: plugins/osd/osd.cpp:116
@@ -4486,8 +4399,7 @@ msgstr "По-замовчуванню"
 #: plugins/proxy/proxy.cpp:41
 #, fuzzy
 msgid "Can't connect to proxy"
-msgstr ""
-"Неможливо з'єднатися з проксі-сервером"
+msgstr "Неможливо з'єднатися з проксі-сервером"
 
 #: plugins/proxy/proxy.cpp:42
 msgid "Bad proxy answer"
@@ -4715,8 +4627,7 @@ msgstr "..."
 
 #: sim/api/aboutdata.cpp:290
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Ця програма поширюється під ліцензією GPL v2"
+msgstr "Ця програма поширюється під ліцензією GPL v2"
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
@@ -6355,13 +6266,11 @@ msgstr "&Сховати"
 
 #: sim/ui/qt3/i18n.cpp:271
 msgid "Line Up Toolbars (compact)"
-msgstr ""
-"Вирівняти панелі інструментів (компактно)"
+msgstr "Вирівняти панелі інструментів (компактно)"
 
 #: sim/ui/qt3/i18n.cpp:273
 msgid "Line Up Toolbars (normal)"
-msgstr ""
-"Вирівняти панелі інструментів (звичайно)"
+msgstr "Вирівняти панелі інструментів (звичайно)"
 
 #: sim/ui/qt3/i18n.cpp:275
 msgid "Paste special..."
@@ -7772,3 +7681,4 @@ msgstr "Підкреслений"
 
 #~ msgid "exist"
 #~ msgstr "существует"
+
