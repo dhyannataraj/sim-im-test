@@ -153,17 +153,21 @@ void *MsgReceived::processEvent(Event *e)
                 if (mdef && mdef->cmd){
                     for (const CommandDef *d = mdef->cmd; d->text; d++){
                         if (d->id + CmdReceived == cmd->id){
-                            Message *msg = m_msg;
-                            if (msg == NULL)
-                                msg = History::load(m_id, m_client.c_str(), m_contact);
-                            if (msg){
-                                CommandDef c = *d;
-                                c.param = msg;
-                                Event e(EventCheckState, &c);
-                                if (e.process())
-                                    cmd->flags &= ~BTN_HIDE;
-                                if (m_msg == NULL)
-                                    delete msg;
+                            if (d->flags & COMMAND_CHECK_STATE){
+                                Message *msg = m_msg;
+                                if (msg == NULL)
+                                    msg = History::load(m_id, m_client.c_str(), m_contact);
+                                if (msg){
+                                    CommandDef c = *d;
+                                    c.param = msg;
+                                    Event e(EventCheckState, &c);
+                                    if (e.process())
+                                        cmd->flags &= ~BTN_HIDE;
+                                    if (m_msg == NULL)
+                                        delete msg;
+                                }
+                            }else{
+                                cmd->flags &= ~BTN_HIDE;
                             }
                             return e->param();
                         }

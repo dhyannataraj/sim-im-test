@@ -482,10 +482,18 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 m_socket->readBuffer.unpackStr(charset);
             }
             log(L_DEBUG, "Auth request %s", screen.c_str());
-            ICQAuthMessage *msg = new ICQAuthMessage(MessageICQAuthRequest);
-            msg->setServerText(message.c_str());
-            msg->setCharset(charset.c_str());
-            messageReceived(msg, screen.c_str());
+            Message *m = NULL;
+            if (charset.empty()){
+                AuthMessage *msg = new ICQAuthMessage(MessageAuthRequest);
+                msg->setText(QString::fromUtf8(message.c_str()));
+                m = msg;
+            }else{
+                ICQAuthMessage *msg = new ICQAuthMessage(MessageICQAuthRequest);
+                msg->setServerText(message.c_str());
+                msg->setCharset(charset.c_str());
+                m = msg;
+            }
+            messageReceived(m, screen.c_str());
             Contact *contact;
             ICQUserData *data = findContact(screen.c_str(), NULL, false, contact);
             if (data)
@@ -506,10 +514,18 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 m_socket->readBuffer.unpackStr(charset);
             }
             log(L_DEBUG, "Auth %u %s", auth_ok, screen.c_str());
-            ICQAuthMessage *msg = new ICQAuthMessage(auth_ok ? MessageICQAuthGranted : MessageICQAuthRefused);
-            msg->setServerText(message.c_str());
-            msg->setCharset(charset.c_str());
-            messageReceived(msg, screen.c_str());
+            Message *m = NULL;
+            if (charset.empty()){
+                AuthMessage *msg = new ICQAuthMessage(auth_ok ? MessageAuthGranted : MessageAuthRefused);
+                msg->setText(QString::fromUtf8(message.c_str()));
+                m = msg;
+            }else{
+                ICQAuthMessage *msg = new ICQAuthMessage(auth_ok ? MessageICQAuthGranted : MessageICQAuthRefused);
+                msg->setServerText(message.c_str());
+                msg->setCharset(charset.c_str());
+                m = msg;
+            }
+            messageReceived(m, screen.c_str());
             if (auth_ok){
                 Contact *contact;
                 ICQUserData *data = findContact(screen.c_str(), NULL, false, contact);

@@ -953,7 +953,7 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
             }
             style = makeStyle(new_opt);
         }
-        if (style.isEmpty())
+        if (!style.isEmpty())
             tagText += " style=\"" + style + "\"";
     }
     tagText += ">";

@@ -326,6 +326,7 @@ typedef struct ENCODING
     const char *codec;
     int         mib;
     int			rtf_code;
+    int			cp_code;
     bool        bMain;
 } ENCODING;
 
@@ -673,8 +674,7 @@ protected:
     void encodeString(const char *_str, unsigned short nTlv, bool bWide);
     ICQUserData *findInfoRequest(unsigned short seq, Contact *&contact);
     INFO_REQ_MAP m_info_req;
-    QString clearTags(const QString &text);
-    string clearTags(const char *text);
+    unsigned clearTags(QString &text);
     unsigned short msgStatus();
     unsigned short m_advCounter;
     unsigned m_nUpdates;

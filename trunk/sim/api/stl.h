@@ -32,6 +32,7 @@
 #include <vector>
 #include <stack>
 #include <map>
+#include <memory>
 using namespace std;
 
 #ifdef WIN32
