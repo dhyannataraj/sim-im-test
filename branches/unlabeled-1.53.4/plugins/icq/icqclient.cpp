@@ -1674,16 +1674,16 @@ string ICQClient::clientName(ICQUserData *data)
     }
     if (hasCap(data, CAP_TYPING))
     {
-        switch (data->Version){
-        case 10:
-            res += "ICQ 2003b";
-            break;
-        case 9:
-            res += "ICQ Lite";
-            break;
-        default:
-            res += "ICQ2go";
-        }
+		switch (data->Version){
+		case 10:
+			res += "ICQ 2003b";
+			break;
+		case 9:
+			res += "ICQ Lite";
+			break;
+		default:
+			res += "ICQ2go";
+		}
         return res;
     }
     if (hasCap(data, CAP_MACICQ)){

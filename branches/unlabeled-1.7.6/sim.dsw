@@ -378,6 +378,21 @@ Package=<4>
 
 ###############################################################################
 
+Project: "remote"=.\plugins\remote\remote.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+}}}
+
+###############################################################################
+
 Project: "shortcuts"=.\plugins\shortcuts\shortcuts.dsp - Package Owner=<4>
 
 Package=<5>
@@ -490,6 +505,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name gpg
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name remote
     End Project Dependency
 }}}
 
