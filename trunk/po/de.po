@@ -2732,7 +2732,7 @@ msgstr "Nach oben"
 
 #: plugins/_core/core.cpp:1117
 msgid "Down"
-msgstr "Abwärts"
+msgstr "Nach unten"
 
 #: plugins/_core/core.cpp:1191
 msgid "Show &always"
