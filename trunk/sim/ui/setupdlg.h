@@ -46,7 +46,6 @@ const unsigned SETUP_ALERT			= 207;
 const unsigned SETUP_ACCEPT			= 208;
 const unsigned SETUP_SMS		    = 209;
 const unsigned SETUP_MISC			= 210;
-const unsigned SETUP_SPELL			= 211;
 
 const unsigned SETUP_AUTOREPLY		= 300;
 const unsigned SETUP_AR_AWAY		= 301;

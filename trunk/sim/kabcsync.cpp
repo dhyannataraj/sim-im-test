@@ -16,11 +16,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kabc/stdaddressbook.h>
-#include <iostream>
-
 #include "kabcsync.h"
 #include "country.h"
+
+#include <kabc/stdaddressbook.h>
+#include <iostream>
 
 KabcSync* pSyncher;
  
@@ -208,3 +208,4 @@ void KabcSync::processEvent(ICQEvent* e)
 }
 
 #include "kabcsync.moc"
+

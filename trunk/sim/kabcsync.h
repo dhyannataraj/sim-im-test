@@ -17,7 +17,11 @@
  ***************************************************************************/
  
 #ifndef _KABCSYNC_H
-#define _KABCSYNC_H
+#define _KABCSYNC_H 	1
+
+#include "defs.h"
+
+#ifdef USE_KDE
 
 #include <qobject.h>
 #include <qstring.h>
@@ -51,3 +55,5 @@ public slots:
 extern KabcSync* pSyncher;
 
 #endif
+#endif
+

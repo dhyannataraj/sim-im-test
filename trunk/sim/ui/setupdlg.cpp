@@ -49,10 +49,6 @@
 #include "ui/miscsetup.h"
 #endif
 
-#ifdef USE_SPELL
-#include "spellsetup.h"
-#endif
-
 #include <qlistview.h>
 #include <qwidgetstack.h>
 #include <qpushbutton.h>
@@ -80,9 +76,6 @@ PAGE(AcceptDialog)
 PAGE(SMSSetup)
 #ifndef WIN32
 PAGE(MiscSetup)
-#endif
-#ifdef USE_SPELL
-PAGE(SpellSetup)
 #endif
 PAGE(GeneralSecurity)
 PAGE(IgnoreListSetup)
@@ -139,10 +132,6 @@ SetupDialog::SetupDialog(QWidget*, int nWin)
 
 #ifndef WIN32
     addPage(p_MiscSetup, SETUP_MISC, i18n("Miscellaneous"), "misc");
-#endif
-
-#ifdef USE_SPELL
-    addPage(p_SpellSetup, SETUP_SPELL, i18n("Spell check"), "spellcheck");
 #endif
 
     itemMain = new QListViewItem(lstBars, i18n("Auto reply"), QString::number(SETUP_AUTOREPLY));
