@@ -55,7 +55,6 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 /*
 typedef struct FloatyUserData
 {
-	unsigned	Floaty;
 	unsigned	X;
 	unsigned	Y;
 } FloatyUserData;
@@ -63,7 +62,6 @@ typedef struct FloatyUserData
 
 static DataDef floatyUserData[] =
     {
-        { "Floaty", DATA_BOOL, 1, 0 },
         { "FloatyPosition", DATA_ULONG, 2, 0 },
         { NULL, 0, 0, 0 }
     };

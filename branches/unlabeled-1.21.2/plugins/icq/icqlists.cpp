@@ -915,7 +915,7 @@ void ICQClient::processListRequest()
                         seq = sendRoster(ICQ_SNACxLISTS_DELETE, screen(data).c_str(), 0, (unsigned short)(data->ContactVisibleId.value), ICQ_VISIBLE_LIST);
                     }
                     m_listRequest = new SetListRequest(seq, screen(data).c_str(), (unsigned short)(data->VisibleId.value), ICQ_VISIBLE_LIST);
-                    time_t((time_t*)&m_listRequestTime);
+                    time((time_t*)&m_listRequestTime);
                     break;
                 }
                 data->VisibleId.value = data->ContactVisibleId.value;
