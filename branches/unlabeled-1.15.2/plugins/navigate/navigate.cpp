@@ -171,6 +171,8 @@ string getCurrentUrl()
     DDEconversation conv(topic.c_str(), "WWW_GetWindowInfo");
     DDEdataHandle answer(conv.Execute("-1"));
     const char *url = answer;
+	if (url == NULL)
+		url = "";
     return url;
 }
 

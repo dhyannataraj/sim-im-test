@@ -1662,6 +1662,10 @@ string ICQClient::clientName(ICQUserData *data)
         res += ver;
         return res;
     }
+    if (hasCap(data, CAP_XTRAZ)){
+		res += "ICQ 4.0 Lite";
+		return res;
+	}
     if (hasCap(data, CAP_MACICQ)){
         res += "ICQ for Mac";
         return res;

@@ -276,6 +276,9 @@ const capability arrCapabilities[] =
         // CAP_KOPETE
         { 'K', 'o', 'p', 'e', 't', 'e', ' ', 'I',
           'C', 'Q', ' ', ' ',   0,   0,   0,  0 },
+		// CAP_XTRAZ
+		{ 0x1A, 0x09, 0x3C, 0x6C, 0xD7, 0xFD, 0x4E, 0xC5,
+		  0x9D, 0x51, 0xA6, 0x47, 0x4E, 0x34, 0xF5, 0xA0  },
         // CAP_NULL
         { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
           0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },
@@ -386,6 +389,7 @@ os_ver = 0;
     }else{
         cap.pack((char*)capabilities[CAP_DIRECT], sizeof(capability));
         cap.pack((char*)capabilities[CAP_SRV_RELAY], sizeof(capability));
+        cap.pack((char*)capabilities[CAP_XTRAZ], sizeof(capability));
         if (getSendFormat() <= 1)
             cap.pack((char*)capabilities[CAP_UTF], sizeof(capability));
         if (getSendFormat() == 0)
