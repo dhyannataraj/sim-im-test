@@ -250,10 +250,6 @@ DockWnd::DockWnd(QWidget *main, bool _bWM)
     QTimer *t = new QTimer(this);
     connect(t, SIGNAL(timeout()), this, SLOT(timer()));
     t->start(800);
-#ifdef USE_KDE
-    if (!bWM)
-        KWin::setSystemTrayWindowFor( winId(), main->topLevelWidget()->winId());
-#endif
     needToggle = false;
 #ifdef WIN32
     QWidget::hide();
@@ -275,9 +271,12 @@ DockWnd::DockWnd(QWidget *main, bool _bWM)
     bool bWharf = true;
     if (!bWM){
         setBackgroundMode(X11ParentRelative);
-        setIcon(Pict(pClient->getStatusIcon()));
+	const QPixmap &pict = Pict(pClient->getStatusIcon());
+        setIcon(pict);
 #ifdef USE_KDE
         bWharf = false;
+	resize(pict.width(), pict.height());
+	KWin::setSystemTrayWindowFor( winId(), main->topLevelWidget()->winId());
         show();
 #endif
     }
