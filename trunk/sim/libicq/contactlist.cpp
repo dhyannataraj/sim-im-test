@@ -214,6 +214,7 @@ ICQUser::ICQUser()
         PhoneState(this, "PhoneState"),
         PhoneBookTime(this, "PhoneBookTime"),
         PhoneStatusTime(this, "PhoneStatusTime"),
+        TimeStamp(this, "TimeStamp"),
         AlertOverride(this, "AlertOverride"),
         AlertAway(this, "AlertAway", true),
         AlertBlink(this, "AlertBlink", true),

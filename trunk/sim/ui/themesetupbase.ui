@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>572</width>
+            <width>568</width>
             <height>512</height>
         </rect>
     </property>
@@ -245,6 +245,17 @@
             <property>
                 <name>orientation</name>
                 <enum>Horizontal</enum>
+            </property>
+        </widget>
+        <widget>
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkMainWnd</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Show main window in task manager</string>
             </property>
         </widget>
         <widget>

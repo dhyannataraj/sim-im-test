@@ -267,13 +267,15 @@ public:
     {
         Unknown,
         Success,
-        Fail
+        Fail,
+        Send
     };
     ICQEvent(int type, unsigned long uin = 0, unsigned long subbtype = 0, ICQMessage *msg = NULL);
     virtual int type() { return m_nType; }
     int subType() { return m_nSubType; }
     virtual ~ICQEvent() {}
     ICQMessage *message() { return msg; }
+    void setMessage(ICQMessage *m) { msg = m; }
     unsigned long Uin() { return m_nUin; }
     State state;
     void setType(int type) { m_nType = type; }
@@ -366,7 +368,9 @@ class DirectClient : public DirectSocket
 {
 public:
     DirectClient(int fd, const char *host, unsigned short port, ICQClient *client);
+    DirectClient(unsigned long ip, unsigned long real_ip, unsigned short port, ICQUser *u, ICQClient *client);
     ~DirectClient();
+    unsigned short sendMessage(ICQMessage*);
     void acceptMessage(ICQMessage*);
     void declineMessage(ICQMessage*, const char *reason);
 protected:
@@ -377,12 +381,15 @@ protected:
     };
     void processPacket();
     void connected();
+    void error_state();
     State state;
     ICQUser *u;
     void sendInit2();
     void startPacket(unsigned short cms, unsigned short seq);
+    void startMsgPacket(unsigned short msgType, const string &s);
     void sendPacket();
     void sendAck(unsigned short);
+    friend class ICQUser;
 };
 
 class FileTransferListener : public ServerSocket
@@ -632,7 +639,7 @@ public:
     ConfigChar	 PhoneState;
     ConfigULong	 PhoneBookTime;
     ConfigULong  PhoneStatusTime;
-
+    ConfigULong	 TimeStamp;
     bool bMyInfo;
 
     // Alert mode
@@ -664,6 +671,10 @@ public:
     bool bIsTemp;
     bool isOnline();
     bool bPhoneChanged;
+
+    ICQEvent *addMessage(ICQMessage*, ICQClient*);
+    list<ICQEvent*> msgQueue;
+    void processMsgQueue(ICQClient*);
 };
 
 class ICQClient;
@@ -1178,6 +1189,7 @@ protected:
     static const unsigned char PLUGINS_SIGN[16];
     static const unsigned char PICTURE_SIGN[16];
 
+    friend class ICQUser;
     friend class ICQEvent;
     friend class ICQSetListEvent;
     friend class MoveUserEvent;

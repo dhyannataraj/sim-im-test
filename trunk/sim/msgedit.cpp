@@ -481,7 +481,7 @@ void MsgEdit::processEvent(ICQEvent *e)
                 emit setStatus(i18n("Send failed"), 2000);
                 if (e->message() && *(e->message()->DeclineReason.c_str()))
                     BalloonMsg::message(QString::fromLocal8Bit(msg->DeclineReason.c_str()),
-                                        btnNext);
+                                        btnSend);
             }
             bCloseSend = false;
             sendEvent = NULL;

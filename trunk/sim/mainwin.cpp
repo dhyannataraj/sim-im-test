@@ -220,6 +220,7 @@ MainWindow::MainWindow(const char *name)
         UserBoxFontWeight(this, "UserBoxFontWeight"),
         UserBoxFontItalic(this, "UserBoxFontItalic"),
         CloseAfterSend(this, "CloseAfterSend"),
+        MainWindowInTaskManager(this, "MainWindowInTaskManager"),
         UserWindowInTaskManager(this, "UserWindowInTaskManager", true),
         Icons(this, "Icons"),
         XOSD_on(this, "XOSD_on", true),
@@ -703,6 +704,7 @@ bool MainWindow::init()
         break;
     }
     menuStatus->setItemChecked(ICQ_STATUS_FxPRIVATE, pClient->inInvisible());
+    changeWm();
 
     if ((pClient->Uin == 0) || (*pClient->EncryptedPassword.c_str() == 0)){
         bInLogin = true;
@@ -1835,6 +1837,13 @@ void MainWindow::loadMenu()
 
 void MainWindow::changeWm()
 {
+#ifdef USE_KDE
+    if (pMain->MainWindowInTaskManager()){
+        KWin::clearState(winId(), NET::SkipTaskbar);
+    }else{
+        KWin::setState(winId(), NET::SkipTaskbar);
+    }
+#endif
     emit wmChanged();
 }
 

@@ -258,13 +258,13 @@ QString CUser::toolTip()
     if (u->Version()){
         r += "<br>_____________<br>";
         r += "v" + QString::number(u->Version) + " ";
-        if (u->PhoneStatusTime() == 0xFFFFFFFF){
+        if (u->TimeStamp() == 0xFFFFFFFF){
             r += "MIRANDA";
-        }else if((u->PhoneStatusTime() & 0xFFFF0000) == LICQ_WITHSSL){
-            r += "Licq " + LicqVersionToString(u->PhoneStatusTime() & 0xFFFF) + "/SSL";
-        }else if((u->PhoneStatusTime() & 0xFFFF0000) == LICQ_WITHOUTSSL){
-            r += "Licq " + LicqVersionToString(u->PhoneStatusTime() & 0xFFFF);
-        }else if (u->Version() == 6){
+        }else if((u->TimeStamp() & 0xFFFF0000) == LICQ_WITHSSL){
+            r += "Licq " + LicqVersionToString(u->TimeStamp() & 0xFFFF) + "/SSL";
+        }else if((u->TimeStamp() & 0xFFFF0000) == LICQ_WITHOUTSSL){
+            r += "Licq " + LicqVersionToString(u->TimeStamp() & 0xFFFF);
+        }else if (u->Version() == 5){
             r += "ICQ 99";
         }else if (u->Version() == 7){
             r += "ICQ 2000";

@@ -740,29 +740,60 @@ void ICQClient::packMessage(Buffer &mb, ICQMessage *m, const char *msg,
                             unsigned short msgType, unsigned short msgFlags,
                             char oper, bool bShort)
 {
-    if (!m->isExt){
-        switch (m->Type()){
-        case ICQ_MSGxFILE:
-            ICQFile *file = static_cast<ICQFile*>(m);
-            mb
-            << (unsigned long)(htonl(file->id1))
-            << string("")
-            << (unsigned long)(file->Size())
-            << (unsigned long)(file->id1);
-            break;
-        }
-        return;
-    }
     string message;
     if (msg) message = msg;
     toServer(message);
+
+    if (!bShort){
+        mb  << (unsigned short)0x1B00 << 0x08000000L
+        << 0x0L << 0x0L << 0x0L << 0x0L
+        << 0x03000000L << (char)oper
+        << m->cookie1 << m->cookie2 << m->cookie1
+        << 0x00000000L << 0x00000000L << 0x00000000L;
+    }
+
+    mb.pack(m->isExt ? (unsigned short)0x1A : m->Type());		// type
+    mb.pack(msgType);
+    mb.pack(msgFlags);
+
+    mb << message;
+
+    if (!m->isExt){
+        switch (m->Type()){
+        case ICQ_MSGxFILE:{
+                ICQFile *file = static_cast<ICQFile*>(m);
+                string fileName = file->shortName();
+                toServer(fileName);
+                mb
+                << (unsigned short)file->id1
+                << (unsigned short)0
+                << string(fileName)
+                << (unsigned long)htonl(file->Size())
+                << (unsigned short)htons(file->id1)
+                << (unsigned short)0;
+                break;
+            }
+        case ICQ_MSGxCHAT:{
+                ICQChat *chat = static_cast<ICQChat*>(m);
+                string n = name();
+                toServer(n);
+                mb << n
+                << (unsigned short)chat->id1
+                << (unsigned short)0
+                << (unsigned short)htons(chat->id1)
+                << (unsigned short)0;
+                break;
+            }
+        default:
+            log(L_WARN, "Unknow type %u in pack message", m->Type());
+        }
+        return;
+    }
 
     Buffer msgBuf;
     switch (m->Type()){
     case ICQ_MSGxFILE:{
             ICQFile *file = static_cast<ICQFile*>(m);
-            if (file->Size() == 0)
-                file->Size = getFileSize(file->Name.c_str());
             string fileDescr = file->Description;
             string fileName = file->shortName();
             toServer(fileDescr);
@@ -789,19 +820,6 @@ void ICQClient::packMessage(Buffer &mb, ICQMessage *m, const char *msg,
         return;
     }
 
-    if (!bShort){
-        mb  << (unsigned short)0x1B00 << 0x08000000L
-        << 0x0L << 0x0L << 0x0L << 0x0L
-        << 0x03000000L << (char)oper
-        << m->cookie1 << m->cookie2 << m->cookie1
-        << 0x00000000L << 0x00000000L << 0x00000000L;
-    }
-
-    mb.pack((unsigned short)0x1A);		// type
-    mb.pack(msgType);
-    mb.pack(msgFlags);
-
-    mb << message;
     switch (m->Type()){
     case ICQ_MSGxFILE:
         mb << 0x2900F02DL << 0x12D93091L << 0xD3118DD7L
@@ -895,7 +913,7 @@ void ICQClient::processMsgQueueThruServer()
                 advCounter--;
                 file->cookie1 = advCounter;
                 file->cookie2 = 0x0E00;
-
+                file->isExt = true;
                 packMessage(mb, file, NULL, 0, 1, 0);
                 Buffer b;
                 msg_id id;
@@ -924,6 +942,7 @@ void ICQClient::processMsgQueueThruServer()
                 advCounter--;
                 chat->cookie1 = advCounter;
                 chat->cookie2 = 0x0E00;
+                chat->isExt = true;
 
                 packMessage(mb, chat, NULL, 0, 1, 0);
                 Buffer b;

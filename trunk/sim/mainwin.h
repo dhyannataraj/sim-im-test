@@ -181,6 +181,7 @@ public:
     ConfigBool   UserBoxFontItalic;
 
     ConfigBool	 CloseAfterSend;
+    ConfigBool	 MainWindowInTaskManager;
     ConfigBool	 UserWindowInTaskManager;
 
     ConfigString Icons;

@@ -305,15 +305,33 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
         }
         return msg;
     }
+    if (type == ICQ_MSGxCHAT){
+        unsigned short port;
+        unsigned short junk;
+        string name;
+        packet
+        >> name
+        >> port >> junk
+        >> junk >> junk;
+        fromServer(p);
+        ICQChat *msg = new ICQChat();
+        msg->Uin.push_back(uin);
+        msg->Reason = p;
+        msg->id1 = port;
+        msg->timestamp1 = timestamp1;
+        return msg;
+    }
     if (type == ICQ_MSGxFILE){
-        unsigned long unk;
+        unsigned short port;
+        unsigned short junk;
         unsigned long fileSize;
         string fileName;
         packet
-        >> unk
+        >> port
+        >> junk
         >> fileName
         >> fileSize
-        >> unk;
+        >> junk >> junk;
         fromServer(p);
         fromServer(fileName);
         const char *shortName = strrchr(fileName.c_str(), '\\');
@@ -326,7 +344,9 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
         msg->Uin.push_back(uin);
         msg->Name = shortName;
         msg->Description = p;
-        msg->Size = fileSize;
+        msg->Size = htonl(fileSize);
+        msg->id1 = port;
+        msg->timestamp1 = timestamp1;
         return msg;
     }
     if (type == ICQ_MSGxEXT){
@@ -344,7 +364,7 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
         Buffer b(info.size());
         b.pack(info.c_str(), info.size());
         log(L_DEBUG, "Extended message %s [%04X] %u", msgType.c_str(), msg_type, info.size());
-        if (!strcmp(msgType.c_str(), "File")){
+        if (strstr(msgType.c_str(), "File")){
             string fileDescr;
             b.unpackStr32(fileDescr);
             unsigned short id1, id2;
@@ -370,7 +390,7 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
             msg->timestamp2 = timestamp2;
             return msg;
         }
-        if (!strcmp(msgType.c_str(), "Web Page Address (URL)")){
+        if (strstr(msgType.c_str(), "Web Page Address (URL)")){
             string info;
             b.unpackStr32(info);
             vector<string> l;
@@ -655,6 +675,11 @@ bool SMSSendEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short)
 
 ICQEvent *ICQClient::sendMessage(ICQMessage *msg)
 {
+    if (msg->Type() == ICQ_MSGxFILE){
+        ICQFile *f = static_cast<ICQFile*>(msg);
+        if (f->Size() == 0)
+            f->Size = getFileSize(f->Name.c_str());
+    }
     for (ConfigULongs::iterator itUin = msg->Uin.begin(); itUin != msg->Uin.end(); ++itUin){
         ICQUser *u = getUser(*itUin);
         if (u){
@@ -665,9 +690,18 @@ ICQEvent *ICQClient::sendMessage(ICQMessage *msg)
             process_event(&e);
         }
     }
+
+    if ((msg->Type() == ICQ_MSGxCHAT) || (msg->Type() == ICQ_MSGxFILE)){
+        ICQUser *u = getUser(msg->getUin(), false);
+        if (u && (u->uStatus != ICQ_STATUS_OFFLINE) &&
+                (u->direct || (Port() && (IP() || RealIP()))))
+            return u->addMessage(msg, this);
+    }
+
+
     list<ICQEvent*>::iterator it;
     for (it = msgQueue.begin(); it != msgQueue.end(); it++){
-        if ((*it)->msg == msg) return false;
+        if ((*it)->msg == msg) return NULL;
     }
     ICQEvent *e;
     if (msg->Type() == ICQ_MSGxSMS){
@@ -713,6 +747,20 @@ bool ICQClient::cancelMessage(ICQMessage *m, bool bSendCancel)
             if (bSendCancel && (m->Type() == ICQ_MSGxFILE))
                 cancelSendFile(static_cast<ICQFile*>(m));
             processQueue.remove(e);
+            e->state = ICQEvent::Fail;
+            m->bDelete = true;
+            process_event(e);
+            if (m->bDelete) delete m;
+            delete e;
+            return true;
+        }
+    }
+    ICQUser *u = getUser(m->getUin());
+    if (u == NULL) return false;
+    for (it = u->msgQueue.begin(); it != u->msgQueue.end(); it++){
+        if ((*it)->message() == m){
+            ICQEvent *e = *it;
+            u->msgQueue.remove(e);
             e->state = ICQEvent::Fail;
             m->bDelete = true;
             process_event(e);

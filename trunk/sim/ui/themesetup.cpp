@@ -73,8 +73,10 @@ ThemeSetup::ThemeSetup(QWidget *parent)
     connect(pMain, SIGNAL(setupInit()), this, SLOT(setupInit()));
 #ifdef USE_KDE
     chkUserWnd->setChecked(pMain->UserWindowInTaskManager());
+    chkMainWnd->setChecked(pMain->MainWindowInTaskManager());
 #else
     chkUserWnd->hide();
+    chkMainWnd->hide();
 #endif
     setupInit();
 }
@@ -124,10 +126,16 @@ void ThemeSetup::apply(ICQUser*)
     pMain->TransparentContainer = sldTransparentContainer->value();
     pMain->changeTransparent();
 #ifdef USE_KDE
+    bool bChange = false;
     if (pMain->UserWindowInTaskManager() != chkUserWnd->isChecked()){
         pMain->UserWindowInTaskManager = chkUserWnd->isChecked();
-        pMain->changeWm();
+        bChange = true;
     }
+    if (pMain->MainWindowInTaskManager() != chkMainWnd->isChecked()){
+        pMain->MainWindowInTaskManager = chkMainWnd->isChecked();
+        bChange = true;
+    }
+    if (bChange) pMain->changeWm();
 #endif
 }
 
