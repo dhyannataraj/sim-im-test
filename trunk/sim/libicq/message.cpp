@@ -761,7 +761,7 @@ class SMSSendEvent : public ICQEvent
 public:
     SMSSendEvent() : ICQEvent(EVENT_MESSAGE_SEND) {}
 protected:
-    bool processAnswer(ICQClient *client, Buffer &b, unsigned short nSubtype);
+    bool processAnswer(ICQClientPrivate *client, Buffer &b, unsigned short nSubtype);
     bool parseResponse(string &xml);
 };
 
@@ -803,7 +803,7 @@ bool SMSSendEvent::parseResponse(string &xmlstring)
     return res;
 }
 
-bool SMSSendEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short)
+bool SMSSendEvent::processAnswer(ICQClientPrivate *client, Buffer &b, unsigned short)
 {
     log(L_DEBUG, "Process SMS response");
     char c;
@@ -824,7 +824,7 @@ bool SMSSendEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short)
         b.unpackStr(xmlstring);
         state = parseResponse(xmlstring) ? Success : Fail;
     }
-    client->process_event(this);
+    client->client->process_event(this);
     return true;
 }
 
@@ -913,6 +913,11 @@ ICQEvent *ICQClient::sendMessage(ICQMessage *msg)
             return e;
         }
     for (it = p->processQueue.begin(); it != p->processQueue.end(); it++)
+        if ((*it) == e){
+            if (e->message()) e->message()->Id = p->m_nProcessId++;
+            return e;
+        }
+    for (it = p->varEvents.begin(); it != p->varEvents.end(); it++)
         if ((*it) == e){
             if (e->message()) e->message()->Id = p->m_nProcessId++;
             return e;
