@@ -206,6 +206,16 @@ void MsgEdit::setMessage(Message *msg, bool bSetFocus)
             wReceive->hide();
         }
     }
+    if (msg->client()){
+        m_client = msg->client();
+    }else{
+        m_client = "";
+    }
+    Contact *contact = getContacts()->contact(m_userWnd->id());
+    if (contact){
+        Event e(EventContactClient, contact);
+        e.process();
+    }
 
     cmd->id			= CmdMultiply;
     cmd->text		= I18N_NOOP("&Multiply send");
@@ -224,6 +234,25 @@ void MsgEdit::setMessage(Message *msg, bool bSetFocus)
         emit init();
         disconnect(this, SIGNAL(init()), initObj, SLOT(init()));
     }
+}
+
+Client *MsgEdit::client(void *&data)
+{
+    data = NULL;
+    if (m_client.empty())
+        return NULL;
+    Contact *contact = getContacts()->contact(m_userWnd->id());
+    if (contact == NULL)
+        return NULL;
+    void *d;
+    ClientDataIterator it(contact->clientData);
+    while ((d = ++it) != NULL){
+        if (m_client == it.client()->dataName(d)){
+            data = d;
+            return it.client();
+        }
+    }
+    return NULL;
 }
 
 void MsgEdit::setInput()
@@ -746,6 +775,7 @@ void *MsgEdit::processEvent(Event *e)
             case CmdMsgAnswer:{
                     Message msg(MessageGeneric);
                     msg.setContact(m_userWnd->id());
+                    msg.setClient(m_client.c_str());
                     Event e(EventOpenMessage, &msg);
                     e.process();
                 }
@@ -895,7 +925,9 @@ void MsgEdit::insertSmile(int id)
     m_edit->removeSelectedText();
     QFont f = m_edit->font();
     QColor fgColor = m_edit->foreground();
-    m_edit->append(QString("<img src=icon:smile") + number(id).c_str() + ">");
+    char b[10];
+    sprintf(b, "%X", id);
+    m_edit->append(QString("<img src=icon:smile") + b + ">");
     m_edit->append(tail);
     m_edit->setCursorPosition(paraPos, idxPos);
     m_edit->setFont(f);
@@ -917,6 +949,9 @@ void MsgEdit::goNext()
         delete msg;
         return;
     }
+    if (CorePlugin::m_plugin->getContainerMode())
+        return;
+    QTimer::singleShot(0, m_userWnd, SLOT(close()));
 }
 
 void MsgEdit::setupNext()

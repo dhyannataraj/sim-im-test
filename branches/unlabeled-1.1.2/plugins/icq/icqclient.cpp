@@ -2178,10 +2178,11 @@ void *ICQClient::processEvent(Event *e)
     return NULL;
 }
 
-bool ICQClient::send(Message *msg, void *data)
+bool ICQClient::send(Message *msg, void *_data)
 {
     if (getState() != Connected)
         return false;
+    ICQUserData *data = (ICQUserData*)_data;
     SendMsg s;
     switch (msg->type()){
     case MessageSMS:
@@ -2194,11 +2195,17 @@ bool ICQClient::send(Message *msg, void *data)
         processSMSQueue();
         return true;
     case MessageAuthRequest:
-        return sendAuthRequest(msg, data);
+        if (data && data->WaitAuth)
+            return sendAuthRequest(msg, data);
+        break;
     case MessageAuthGranted:
-        return sendAuthGranted(msg, data);
+        if (data && data->WantAuth)
+            return sendAuthGranted(msg, data);
+        break;
     case MessageAuthRefused:
-        return sendAuthRefused(msg, data);
+        if (data && data->WantAuth)
+            return sendAuthRefused(msg, data);
+        break;
     }
     if (sendThruServer(msg, data))
         return true;

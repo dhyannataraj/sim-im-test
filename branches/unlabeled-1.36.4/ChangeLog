@@ -1,3 +1,10 @@
+Version 0.9
+Rewrite code, make plugin-based structure
+Add MSN & Jabber protocols
+Add metacontact support
+Add ICQ typing notofocation
+Add support ICQ picture
+
 Version 0.8.2
 Add Bulgarian translation
 Add Hebrew translation

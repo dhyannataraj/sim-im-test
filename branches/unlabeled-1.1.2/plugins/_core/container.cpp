@@ -351,17 +351,16 @@ void Container::contactSelected(int)
     m_wnds->raiseWidget(userWnd);
     m_bar->setParam((void*)userWnd->id());
     QString name = userWnd->getName();
-    const char *icon = userWnd->getIcon();
     Command cmd;
     cmd->id = CmdContainerContact;
     cmd->text_wrk = strdup(name.utf8());
-    cmd->icon  = icon;
+    cmd->icon  = userWnd->getIcon();
     cmd->param = (void*)(userWnd->id());
     cmd->popup_id = MenuContainerContact;
     cmd->flags = BTN_PICT;
     Event e(EventCommandChange, cmd);
     m_bar->processEvent(&e);
-    setIcon(Pict(icon));
+    setIcon(Pict(cmd->icon));
     setCaption(name);
     m_bar->checkState();
     m_status->message(userWnd->status());
@@ -582,20 +581,21 @@ void *Container::processEvent(Event *e)
                     m_status->message(userWnd->status());
             }
         }
+    case EventContactClient:
+        contact = (Contact*)(e->param());
         userWnd = m_tabBar->currentWnd();
         if (userWnd && (contact->id() == userWnd->id())){
             QString name = userWnd->getName();
-            const char *icon = userWnd->getIcon();
             Command cmd;
             cmd->id = CmdContainerContact;
             cmd->text_wrk = strdup(name.utf8());
-            cmd->icon  = icon;
+            cmd->icon  = userWnd->getIcon();
             cmd->param = (void*)(contact->id());
             cmd->popup_id = MenuContainerContact;
             cmd->flags = BTN_PICT;
             Event e(EventCommandChange, cmd);
             m_bar->processEvent(&e);
-            setIcon(Pict(icon));
+            setIcon(Pict(cmd->icon));
             setCaption(name);
         }
         break;
