@@ -529,6 +529,17 @@ void SIMClient::process_event(ICQEvent *e)
                 return;
             }
             unsigned long uin = msg->getUin();
+            switch (msg->Type()){
+            case ICQ_READxAWAYxMSG:
+            case ICQ_READxOCCUPIEDxMSG:
+            case ICQ_READxNAxMSG:
+            case ICQ_READxDNDxMSG:
+            case ICQ_READxFFCxMSG:
+                string response;
+                getAutoResponse(msg->getUin(), response);
+                sendAutoResponse(msg, response);
+                return;
+            }
             if (uin == owner->Uin) uin = 0;
             if (e->state == ICQEvent::Fail){
                 ICQUser *u = getUser(e->Uin());
@@ -1507,6 +1518,39 @@ void ICQServerSocket::activated()
         delete s;
     }
 #endif
+}
+
+void SIMClient::getAutoResponse(unsigned long uin, string &res)
+{
+    res = "";
+    ICQUser *u = getUser(uin);
+    unsigned long status = owner->uStatus;
+    if (status & ICQ_STATUS_DND){
+        if (u)
+            res = u->AutoResponseDND;
+        if (*res.c_str() == 0)
+            res = owner->AutoResponseDND;
+    }else if (status & ICQ_STATUS_OCCUPIED){
+        if (u)
+            res = u->AutoResponseOccupied;
+        if (*res.c_str() == 0)
+            res = owner->AutoResponseOccupied;
+    }else if (status & ICQ_STATUS_NA){
+        if (u)
+            res = u->AutoResponseNA;
+        if (*res.c_str() == 0)
+            res = owner->AutoResponseNA;
+    }else if (status & ICQ_STATUS_FREEFORCHAT){
+        if (u)
+            res = u->AutoResponseFFC;
+        if (*res.c_str() == 0)
+            res = owner->AutoResponseFFC;
+    }else{
+        if (u)
+            res = u->AutoResponseAway;
+        if (*res.c_str() == 0)
+            res = owner->AutoResponseAway;
+    }
 }
 
 #ifndef _WINDOWS

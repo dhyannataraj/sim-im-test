@@ -179,6 +179,8 @@ protected:
     virtual unsigned long getFileSize(const char *name, int *nSrcFiles, vector<fileName> &files);
     unsigned long getFileSize(QString name, QString base, vector<fileName> &file);
     unsigned long getFileSize(QString name, vector<fileName> &file);
+
+    void getAutoResponse(unsigned long uin, string &response);
 };
 
 extern SIMClient *pClient;

@@ -584,31 +584,8 @@ void DirectClient::processPacket()
         case ICQ_READxNAxMSG:
         case ICQ_READxDNDxMSG:
         case ICQ_READxFFCxMSG:{
-                startPacket(TCP_ACK, seq);
-                sock->writeBuffer.pack(m->Type());
-                unsigned short status = 0;
-                switch (client->owner->uStatus & 0xFF){
-                case ICQ_STATUS_AWAY:
-                    status = ICQ_TCPxACK_AWAY;
-                    break;
-                case ICQ_STATUS_OCCUPIED:
-                    status = ICQ_TCPxACK_OCCUPIEDxCAR;
-                    break;
-                case ICQ_STATUS_DND:
-                    status = ICQ_TCPxACK_DNDxCAR;
-                    break;
-                default:
-                    status = ICQ_TCPxACK_NA;
-                }
-                sock->writeBuffer.pack(status);
-                sock->writeBuffer.pack((unsigned short)0);
-                string response;
-                client->getAutoResponse(u->Uin, response);
-                client->toServer(response, u);
-                sock->writeBuffer << response;
-                sock->writeBuffer << 0x00000000L << 0x00000000L;
-                sendPacket();
-                delete m;
+                m->id1 = seq;
+                client->messageReceived(m);
                 break;
             }
         default:
@@ -724,6 +701,32 @@ void DirectClient::processPacket()
         log(L_WARN, "Unknown TCP command %X", command);
         sock->error_state(ErrorProtocol);
     }
+}
+
+void DirectClient::sendAutoResponse(ICQMessage *msg, string response)
+{
+    startPacket(TCP_ACK, msg->id1);
+    sock->writeBuffer.pack(msg->Type());
+    unsigned short status = 0;
+    switch (client->owner->uStatus & 0xFF){
+    case ICQ_STATUS_AWAY:
+        status = ICQ_TCPxACK_AWAY;
+        break;
+    case ICQ_STATUS_OCCUPIED:
+        status = ICQ_TCPxACK_OCCUPIEDxCAR;
+        break;
+    case ICQ_STATUS_DND:
+        status = ICQ_TCPxACK_DNDxCAR;
+        break;
+    default:
+        status = ICQ_TCPxACK_NA;
+    }
+    sock->writeBuffer.pack(status);
+    sock->writeBuffer.pack((unsigned short)0);
+    client->toServer(response, u);
+    sock->writeBuffer << response;
+    sock->writeBuffer << 0x00000000L << 0x00000000L;
+    sendPacket();
 }
 
 void DirectClient::connect_ready()

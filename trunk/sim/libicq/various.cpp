@@ -383,15 +383,16 @@ void ICQClient::requestKey(const char *key)
     sendServerRequest();
 }
 
-void ICQClient::requestInfo(unsigned long uin)
+bool ICQClient::requestInfo(unsigned long uin, bool)
 {
-    if (uin >= UIN_SPECIAL) return;
+    if (uin >= UIN_SPECIAL) return false;
     log(L_DEBUG, "Request info about %lu", uin);
     serverRequest(ICQ_SRVxREQ_MORE);
     sock->writeBuffer << ICQ_SRVxREQ_FULL_INFO;
     sock->writeBuffer.pack(uin);
     sendServerRequest();
     varEvents.push_back(new FullInfoEvent(m_nMsgSequence, uin));
+    return true;
 }
 
 ICQEvent *ICQClient::findVarEvent(unsigned short id)

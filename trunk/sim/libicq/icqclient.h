@@ -374,6 +374,7 @@ public:
     DirectClient(unsigned long ip, unsigned long real_ip, unsigned short port, ICQUser *u, ICQClient *client);
     ~DirectClient();
     unsigned short sendMessage(ICQMessage*);
+    void sendAutoResponse(ICQMessage*, string string);
     void acceptMessage(ICQMessage*);
     void declineMessage(ICQMessage*, const char *reason);
     bool isLogged() { return (state != None) && (state != WaitInit2); }
@@ -1008,6 +1009,13 @@ typedef struct rtf_charset
     int			rtf_code;
 } charset;
 
+typedef struct info_request
+{
+    unsigned long uin;
+    bool		  bAuto;
+    bool operator == (const info_request &r) { return (r.uin == uin); }
+} info_request;
+
 bool operator == (const list_req &r1, const list_req &r2);
 
 typedef unsigned char capability[0x10];
@@ -1107,6 +1115,7 @@ public:
 
     void declineMessage(ICQMessage *f, const char *reason);
     void acceptMessage(ICQMessage *f);
+    void sendAutoResponse(ICQMessage *m, string response);
 
     virtual void process_event(ICQEvent*);
 
@@ -1185,9 +1194,10 @@ protected:
     bool m_bBirthday;
     bool m_bRosters;
 
-    list<unsigned long> infoRequestQueue;
-    list<unsigned long> phoneRequestQueue;
-    list<unsigned long> responseRequestQueue;
+    list<info_request> infoRequestQueue;
+    list<info_request> phoneRequestQueue;
+    list<info_request> responseRequestQueue;
+    bool addRequest(unsigned long uin, bool bPriority, list<info_request> &queue);
 
     void processInfoRequestQueue();
     void processPhoneRequestQueue(unsigned short seq);
@@ -1252,11 +1262,9 @@ protected:
     void sendServerRequest();
     unsigned long fullStatus(unsigned long status);
 
-    void getAutoResponse(unsigned long uin, string &s);
-
-    void requestAutoResponse(unsigned long uin);
-    void requestInfo(unsigned long uin);
-    void requestPhoneBook(unsigned long uin);
+    bool requestAutoResponse(unsigned long uin, bool bAuto);
+    bool requestInfo(unsigned long uin, bool bAuto);
+    bool requestPhoneBook(unsigned long uin, bool bAuto);
 
     void sendThroughServer(unsigned long uin, unsigned short type, Buffer &b, msg_id *id=NULL, bool addTlv=true);
     void cancelSendFile(ICQFile*);
@@ -1300,6 +1308,10 @@ protected:
     void sendInfoUpdate();
     void sendPhoneStatus();
     void sendShareUpdate();
+    void sendAutoReply(unsigned long uin, unsigned long timestamp1, unsigned long timestamp2,
+                       char info[18], unsigned short cookie1, unsigned short cookie2,
+                       unsigned char msgType, unsigned char msgFlags, unsigned long msgState,
+                       string response, unsigned short response_type, Buffer &copy);
 
     static const char *serverCharset(const char *l=NULL);
 

@@ -376,39 +376,6 @@ unsigned long ICQClient::fullStatus(unsigned long s)
     return s;
 }
 
-void ICQClient::getAutoResponse(unsigned long uin, string &res)
-{
-    res = "";
-    ICQUser *u = getUser(uin);
-    unsigned long status = owner->uStatus;
-    if (status & ICQ_STATUS_DND){
-        if (u)
-            res = u->AutoResponseDND;
-        if (*res.c_str() == 0)
-            res = owner->AutoResponseDND;
-    }else if (status & ICQ_STATUS_OCCUPIED){
-        if (u)
-            res = u->AutoResponseOccupied;
-        if (*res.c_str() == 0)
-            res = owner->AutoResponseOccupied;
-    }else if (status & ICQ_STATUS_NA){
-        if (u)
-            res = u->AutoResponseNA;
-        if (*res.c_str() == 0)
-            res = owner->AutoResponseNA;
-    }else if (status & ICQ_STATUS_FREEFORCHAT){
-        if (u)
-            res = u->AutoResponseFFC;
-        if (*res.c_str() == 0)
-            res = owner->AutoResponseFFC;
-    }else{
-        if (u)
-            res = u->AutoResponseAway;
-        if (*res.c_str() == 0)
-            res = owner->AutoResponseAway;
-    }
-}
-
 void ICQClient::connect_ready()
 {
     sock->setProxyConnected();
@@ -423,33 +390,34 @@ void ICQClient::connect_ready()
     }
 }
 
-void ICQClient::addInfoRequest(unsigned long uin, bool bPriority)
+bool ICQClient::addRequest(unsigned long uin, bool bPriority, list<info_request> &queue)
 {
-    if (uin >= UIN_SPECIAL) return;
-    for (list<unsigned long>::iterator it = infoRequestQueue.begin(); it != infoRequestQueue.end(); it++){
-        if ((*it) != uin) continue;
-        if (!bPriority) return;
-        infoRequestQueue.remove(uin);
+    if (uin >= UIN_SPECIAL) return false;
+    for (list<info_request>::iterator it = queue.begin(); it != queue.end(); it++){
+        if (it->uin != uin) continue;
+        if (!bPriority) return false;
+        queue.remove(*it);
         break;
     }
+    info_request ri;
+    ri.uin = uin;
+    ri.bAuto = !bPriority;
     if (bPriority){
-        infoRequestQueue.push_front(uin);
+        queue.push_front(ri);
     }else{
-        infoRequestQueue.push_back(uin);
+        queue.push_back(ri);
     }
+    return true;
+}
+
+void ICQClient::addInfoRequest(unsigned long uin, bool bPriority)
+{
+    addRequest(uin, bPriority, infoRequestQueue);
 }
 
 void ICQClient::addPhoneRequest(unsigned long uin, bool bPriority)
 {
-    if (uin >= UIN_SPECIAL) return;
-    for (list<unsigned long>::iterator it = phoneRequestQueue.begin(); it != phoneRequestQueue.end(); it++){
-        if ((*it) == uin) return;
-    }
-    if (bPriority){
-        phoneRequestQueue.push_front(uin);
-    }else{
-        phoneRequestQueue.push_back(uin);
-    }
+    addRequest(uin, bPriority, phoneRequestQueue);
 }
 
 void ICQClient::addResponseRequest(unsigned long uin, bool bPriority)
@@ -460,6 +428,10 @@ void ICQClient::addResponseRequest(unsigned long uin, bool bPriority)
     if (u == NULL) return;
     if (u->uStatus == ICQ_STATUS_OFFLINE) return;
     if ((u->Version <= 6) || u->hasCap(CAP_TRILLIAN) || (u->direct && u->direct->isLogged())){
+        if (!bPriority){
+            if (owner->inInvisible && !u->inVisible) return;
+            if (!owner->inVisible && u->inInvisible) return;
+        }
         ICQMessage *msg = new ICQAutoResponse;
         msg->setType(ICQ_READxAWAYxMSG);
         if (u->uStatus & ICQ_STATUS_DND){
@@ -474,17 +446,7 @@ void ICQClient::addResponseRequest(unsigned long uin, bool bPriority)
         u->addMessage(msg, this);
         return;
     }
-    for (list<unsigned long>::iterator it = responseRequestQueue.begin(); it != responseRequestQueue.end(); it++){
-        if ((*it) != uin) continue;
-        if (!bPriority) return;
-        responseRequestQueue.remove(uin);
-        break;
-    }
-    if (bPriority){
-        responseRequestQueue.push_front(uin);
-    }else{
-        responseRequestQueue.push_back(uin);
-    }
+    addRequest(uin, bPriority, responseRequestQueue);
 }
 
 void ICQClient::processInfoRequestQueue()
@@ -494,10 +456,13 @@ void ICQClient::processInfoRequestQueue()
     time_t now;
     time(&now);
     if (((unsigned long)now < lastInfoRequestTime + 10)) return;
-    unsigned long uin = infoRequestQueue.front();
-    requestInfo(uin);
-    infoRequestQueue.remove(uin);
-    lastInfoRequestTime = now;
+    for (;;){
+        if (infoRequestQueue.size() == 0) return;
+        info_request ri = infoRequestQueue.front();
+        infoRequestQueue.remove(ri);
+        lastInfoRequestTime = now;
+        if (requestInfo(ri.uin, ri.bAuto)) return;
+    }
 }
 
 void ICQClient::processPhoneRequestQueue(unsigned short seq)
@@ -507,12 +472,13 @@ void ICQClient::processPhoneRequestQueue(unsigned short seq)
     time_t now;
     time(&now);
     if ((seq != phoneRequestSeq) && (((unsigned long)now < lastPhoneRequestTime + 120))) return;
-    unsigned long uin = phoneRequestQueue.front();
-    requestPhoneBook(uin);
-    phoneRequestQueue.remove(uin);
-    lastPhoneRequestTime = now;
-    phoneRequestSeq = advCounter;
-    log(L_DEBUG, "Request phones %X", advCounter);
+    for (;;){
+        if (phoneRequestQueue.size() == 0) return;
+        info_request ri = phoneRequestQueue.front();
+        phoneRequestQueue.remove(ri);
+        lastPhoneRequestTime = now;
+        if (requestPhoneBook(ri.uin, ri.bAuto)) return;
+    }
 }
 
 void ICQClient::processResponseRequestQueue(unsigned short seq)
@@ -522,12 +488,13 @@ void ICQClient::processResponseRequestQueue(unsigned short seq)
     time_t now;
     time(&now);
     if ((seq != responseRequestSeq) && (((unsigned long)now < lastResponseRequestTime + 20))) return;
-    unsigned long uin = responseRequestQueue.front();
-    requestAutoResponse(uin);
-    responseRequestQueue.remove(uin);
-    lastResponseRequestTime = now;
-    responseRequestSeq = advCounter;
-    log(L_DEBUG, "Request response %X", advCounter);
+    for (;;){
+        if (responseRequestQueue.size() == 0) return;
+        info_request ri = responseRequestQueue.front();
+        responseRequestQueue.remove(ri);
+        lastResponseRequestTime = now;
+        if (requestAutoResponse(ri.uin, ri.bAuto)) return;
+    }
 }
 
 unsigned long ICQClient::getFileSize(const char*, int *nSrcFiles, vector<fileName>&)

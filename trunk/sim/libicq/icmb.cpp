@@ -111,6 +111,14 @@ void ICQClient::snac_message(unsigned short type, unsigned short)
                     log(L_WARN, "Request info ignore user %lu", uin);
                     return;
                 }
+                if (owner->inInvisible && !u->inVisible){
+                    log(L_WARN, "Request info in invisible from user %lu", uin);
+                    return;
+                }
+                if (!owner->inInvisible && u->inInvisible){
+                    log(L_WARN, "Request info from invisible user %lu", uin);
+                    return;
+                }
 
                 sock->readBuffer.incReadPos(0x1D);
                 unsigned long cookie;
@@ -375,9 +383,29 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
     case 0xEA:
     case 0xEB:
     case 0xEC:{
-            getAutoResponse(uin, response);
-            log(L_DEBUG, "Request autoreply %s", response.c_str());
-            break;
+            ICQMessage *msg = new ICQAutoResponse;
+            msg->setType(ICQ_READxAWAYxMSG);
+            msg->Uin.push_back(uin);
+            switch (msgType){
+            case 0xE9:
+                msg->setType(ICQ_READxOCCUPIEDxMSG);
+                break;
+            case 0xEA:
+                msg->setType(ICQ_READxNAxMSG);
+                break;
+            case 0xEB:
+                msg->setType(ICQ_READxDNDxMSG);
+                break;
+            case 0xEC:
+                msg->setType(ICQ_READxFFCxMSG);
+                break;
+            }
+            msg->timestamp1 = timestamp1;
+            msg->timestamp2 = timestamp2;
+            msg->id1 = cookie1;
+            msg->id2 = cookie2;
+            messageReceived(msg);
+            return;
         }
     default:
         string msg;
@@ -561,12 +589,60 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
         }
     }
     if (!needAck) return;
+    sendAutoReply(uin, timestamp1, timestamp2, info, cookie1, cookie2,
+                  msgType, 0, 0, response, 0, copy);
+}
+
+void ICQClient::sendAutoResponse(ICQMessage *m, string response)
+{
+    switch (m->Type()){
+    case ICQ_READxAWAYxMSG:
+    case ICQ_READxOCCUPIEDxMSG:
+    case ICQ_READxNAxMSG:
+    case ICQ_READxDNDxMSG:
+    case ICQ_READxFFCxMSG:
+        if (m->Direct){
+            ICQUser *u = getUser(m->getUin());
+            if (u && u->direct && u->direct->isLogged())
+                u->direct->sendAutoResponse(m, response);
+            return;
+        }
+        unsigned char msgType = 0xE8;
+        switch (m->Type()){
+        case ICQ_READxOCCUPIEDxMSG:
+            msgType = 0xE9;
+            break;
+        case ICQ_READxNAxMSG:
+            msgType = 0xEA;
+            break;
+        case ICQ_READxDNDxMSG:
+            msgType = 0xEB;
+            break;
+        case ICQ_READxFFCxMSG:
+            msgType = 0xEC;
+            break;
+        }
+        char info[18];
+        memset(info, 0, sizeof(info));
+        Buffer copy;
+        sendAutoReply(m->getUin(), m->timestamp1, m->timestamp2, info,
+                      m->id1, m->id2, msgType, 3, 256, response, 0, copy);
+    }
+}
+
+void ICQClient::sendAutoReply(unsigned long uin, unsigned long timestamp1, unsigned long timestamp2,
+                              char info[18], unsigned short cookie1, unsigned short cookie2,
+                              unsigned char msgType, unsigned char msgFlags, unsigned long msgState,
+                              string response, unsigned short response_type, Buffer &copy)
+{
+    ICQUser *u = getUser(uin);
+    if (u == NULL) return;
 
     snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_AUTOREPLY);
     sock->writeBuffer << timestamp1 << timestamp2 << 0x0002;
     sock->writeBuffer.packUin(uin);
     sock->writeBuffer << 0x0003 << 0x1B00 << 0x0800;
-    sock->writeBuffer.pack(info, sizeof(info));
+    sock->writeBuffer.pack(info, 18);
     sock->writeBuffer
     << 0x03000000L << (char)0;
     sock->writeBuffer.pack(cookie1);
@@ -688,15 +764,17 @@ void ICQClient::sendICMB()
     sendPacket();
 }
 
-void ICQClient::requestAutoResponse(unsigned long uin)
+bool ICQClient::requestAutoResponse(unsigned long uin, bool bAuto)
 {
     log(L_DEBUG, "Request auto response %lu", uin);
     ICQUser *user = getUser(uin, false);
-    if (user == NULL) return;
+    if (user == NULL) return false;
     unsigned long status = user->uStatus & 0xFF;
-    if (status == 0) return;
+    if (status == 0) return false;
+    if (owner->inInvisible && !user->inVisible) return false;
+    if (!owner->inInvisible && user->inInvisible) return false;
 
-    advCounter--;
+    responseRequestSeq = --advCounter;
     unsigned char type = 0xE8;
     if (status & ICQ_STATUS_DND){
         type = 0xEB;
@@ -725,6 +803,8 @@ void ICQClient::requestAutoResponse(unsigned long uin)
     << 0x000F << 0x0000;
     buf.tlv(0x2711, msg);
     sendThroughServer(uin, 2, buf);
+
+    return true;
 }
 
 void ICQClient::sendThroughServer(unsigned long uin, unsigned short type, Buffer &b, msg_id *id, bool addTlv)
@@ -1074,10 +1154,15 @@ void ICQClient::processMsgQueueThruServer()
     }
 }
 
-void ICQClient::requestPhoneBook(unsigned long uin)
+bool ICQClient::requestPhoneBook(unsigned long uin, bool bAuto)
 {
     log(L_DEBUG, "Send request phones %lu", uin);
-    advCounter--;
+    ICQUser *user = getUser(uin, false);
+    if (user == NULL) return false;
+    if (owner->inInvisible && !user->inVisible) return false;
+    if (!owner->inInvisible && user->inInvisible) return false;
+
+    phoneRequestSeq = --advCounter;
     Buffer msgBuf;
     msg_id id;
     id.h = rand();
@@ -1112,6 +1197,7 @@ void ICQClient::requestPhoneBook(unsigned long uin)
     b.tlv(0x0F);
     b.tlv(0x2711, msgBuf);
     sendThroughServer(uin, 2, b, &id);
+    return true;
 }
 
 void ICQClient::cancelSendFile(ICQFile *file)

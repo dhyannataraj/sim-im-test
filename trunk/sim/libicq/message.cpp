@@ -878,6 +878,17 @@ void ICQClient::messageReceived(ICQMessage *msg)
     bool bAddUser;
     ICQUser *u = NULL;
     switch (msg->Type()){
+    case ICQ_READxAWAYxMSG:
+    case ICQ_READxOCCUPIEDxMSG:
+    case ICQ_READxNAxMSG:
+    case ICQ_READxDNDxMSG:
+    case ICQ_READxFFCxMSG:{
+            ICQEvent e(EVENT_MESSAGE_RECEIVED, msg->getUin());
+            e.msg = msg;
+            process_event(&e);
+            delete msg;
+            return;
+        }
     case ICQ_MSGxMSG:
         bAddUser = !RejectMessage;
         break;

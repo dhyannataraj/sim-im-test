@@ -363,32 +363,35 @@ bool ICQSetListEvent::process(ICQClient *icq, unsigned short result)
         icq->processListQueue();
         return false;
     }
-    ICQUser *u = icq->getUser(m_nUin);
-    switch (m_type){
-    case ICQ_VISIBLE_LIST:
-        if (m_bSet){
-            icq->addToVisibleList(m_nUin);
-        }else{
-            icq->removeFromVisibleList(m_nUin);
+    if (m_nUin < UIN_SPECIAL){
+        ICQUser *u = icq->getUser(m_nUin);
+        if (u){
+            switch (m_type){
+            case ICQ_VISIBLE_LIST:
+                if (m_bSet){
+                    icq->addToVisibleList(m_nUin);
+                }else{
+                    icq->removeFromVisibleList(m_nUin);
+                }
+                u->inVisible = m_bSet;
+                break;
+            case ICQ_INVISIBLE_LIST:
+                if (m_bSet){
+                    icq->addToInvisibleList(m_nUin);
+                }else{
+                    icq->removeFromInvisibleList(m_nUin);
+                }
+                u->inInvisible = m_bSet;
+                break;
+            case ICQ_IGNORE_LIST:
+                u->inIgnore = m_bSet;
+                break;
+            default:
+                log(L_WARN, "Unknown ICQSetListEvent type");
+                return false;
+            }
         }
-        u->inVisible = m_bSet;
-        break;
-    case ICQ_INVISIBLE_LIST:
-        if (m_bSet){
-            icq->addToInvisibleList(m_nUin);
-        }else{
-            icq->removeFromInvisibleList(m_nUin);
-        }
-        u->inInvisible = m_bSet;
-        break;
-    case ICQ_IGNORE_LIST:
-        u->inIgnore = m_bSet;
-        break;
-    default:
-        log(L_WARN, "Unknown ICQSetListEvent type");
-        return false;
     }
-    if (m_nUin >= UIN_SPECIAL) return true;
     icq->listQueue.remove(*icq->listQueue.begin());
     icq->processListQueue();
     return true;
