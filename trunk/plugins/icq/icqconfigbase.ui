@@ -183,7 +183,7 @@
                         </property>
                         <property>
                             <name>text</name>
-                            <string>&amp;Automaticaly use HTTP pooling if proxy required</string>
+                            <string>&amp;Automaticaly use HTTP polling if proxy required</string>
                         </property>
                     </widget>
                     <widget row="2"  column="0"  rowspan="1"  colspan="3" >
@@ -410,7 +410,7 @@
                         </property>
                         <property>
                             <name>text</name>
-                            <string>Note: For HTTP-pooling using proxy setings for HTTP</string>
+                            <string>Note: For HTTP-polling using proxy setings for HTTP</string>
                         </property>
                         <property>
                             <name>alignment</name>
