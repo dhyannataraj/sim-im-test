@@ -532,8 +532,6 @@ void *UserView::processEvent(Event *e)
         }
     case EventCheckState:{
             CommandDef *cmd = (CommandDef*)(e->param());
-            if (cmd->id == CmdGrpCreate)
-                return CorePlugin::m_plugin->getGroupMode() ? e->param() : NULL;
             if (cmd->menu_id == MenuGroups){
                 cmd->flags = cmd->flags & (~COMMAND_CHECKED);
                 if (((cmd->id == CmdGrpOff) && (CorePlugin::m_plugin->getGroupMode() == 0)) ||
@@ -687,6 +685,8 @@ void *UserView::processEvent(Event *e)
                     }
                 }
             }
+            if (cmd->id == CmdGrpCreate)
+                return CorePlugin::m_plugin->getGroupMode() ? e->param() : NULL;
             break;
         }
     case EventIconChanged:

@@ -1249,7 +1249,7 @@ void CorePlugin::installTranslator()
 #ifdef USE_KDE
         return;
 #else
-char *p = getenv("LANG");
+        char *p = getenv("LANG");
         if (p){
             for (; *p; p++){
                 if (*p == '.') break;
@@ -1971,13 +1971,15 @@ void *CorePlugin::processEvent(Event *e)
                     vector<clientContact> ways;
                     getWays(ways, contact);
                     for (vector<clientContact>::iterator it = ways.begin(); it != ways.end(); ++it){
-                        if ((*it).client->canSend(cmd->id, (*it).data))
+                        if ((*it).client->canSend(cmd->id, (*it).data)){
                             return e->param();
+                        }
                     }
                 }
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
-                    if (getContacts()->getClient(i)->canSend(cmd->id, NULL))
+                    if (getContacts()->getClient(i)->canSend(cmd->id, NULL)){
                         return e->param();
+                    }
                 }
                 return NULL;
             }
