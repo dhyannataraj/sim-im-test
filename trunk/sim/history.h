@@ -22,7 +22,7 @@
 #include "icqclient.h"
 
 #include <string>
-#include <stack>
+#include <list>
 
 #ifdef WIN32
 #if _MSC_VER > 1020
@@ -75,7 +75,7 @@ protected:
         QFile f;
         unsigned long start_block;
         void loadBlock();
-        stack<unsigned long> msgs;
+        list<unsigned long> msgs;
         string type;
         ICQMessage *msg;
         Grep *grepFilter;

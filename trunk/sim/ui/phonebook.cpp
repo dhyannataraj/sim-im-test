@@ -184,6 +184,8 @@ void PhoneBookDlg::load(ICQUser *u)
     unsigned i = 0;
     for (PhoneBook::iterator it = u->Phones.begin(); it != u->Phones.end(); it++, i++){
         PhoneInfo *phone = static_cast<PhoneInfo*>(*it);
+	if (u == pClient->owner)
+		phone->MyInfo = true;
         new PhoneItem(tblPhone, phone);
     }
     fillPhones();

@@ -19,7 +19,7 @@
 #define _CONTROL_H
 
 #include "defs.h"
-#include <qsocket.h>
+#include <qsocketdevice.h>
 
 #include <list>
 using namespace std;
@@ -46,7 +46,7 @@ protected:
     int s;
 };
 
-class ControlSocket : public QSocket
+class ControlSocket : public QObject, public QSocketDevice
 {
     Q_OBJECT
 public:
@@ -55,11 +55,10 @@ public:
 signals:
     void finished(ControlSocket*);
 protected slots:
-    void error_state();
-    void error_state(int);
-    void read_ready();
+    void read_ready(int);
     void processEvent(ICQEvent*);
 protected:
+    QString read_line;
     void write(const char*);
     ICQEvent *sendEvent;
 };

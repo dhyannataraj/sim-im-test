@@ -1,5 +1,5 @@
 /***************************************************************************
-                          logindlg.cpp  -  description
+                          history.cpp  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -396,8 +396,7 @@ QString History::iterator::quote(const QString &s)
 void History::iterator::setOffs(unsigned long offs)
 {
     start_block = offs;
-    while (!msgs.empty())
-        msgs.pop();
+    msgs.clear();
 }
 
 bool History::iterator::operator ++()
@@ -419,8 +418,8 @@ bool History::iterator::operator ++()
             }
         }
         if (msgs.size()){
-            unsigned long msgId = msgs.top();
-            msgs.pop();
+            unsigned long msgId = msgs.back();
+            msgs.pop_back();
             if (!f.at(msgId)) return false;
             if (!getLine(f, type)) return false;
             msg = h.loadMessage(f, type, msgId);
@@ -551,7 +550,11 @@ void History::iterator::loadBlock()
                 msg = NULL;
             }
             if (msg){
-                msgs.push(msgId);
+		if (bDirection){
+                	msgs.push_back(msgId);
+		}else{
+			msgs.push_front(msgId);
+		}
                 delete msg;
                 msg = NULL;
             }
@@ -572,7 +575,7 @@ int History::iterator::progress()
     if (f_size == 0) return 100;
     unsigned long p;
     if (msgs.size()){
-        p = msgs.top();
+        p = msgs.back();
     }else{
         p = start_block;
     }

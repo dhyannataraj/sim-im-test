@@ -399,6 +399,7 @@ public slots:
     void checkChilds();
     void changeToolBar(const ToolBarDef *def);
     void setDock();
+    void setupClosed();
 protected slots:
     void toggleWindow();
     void realSetStatus();
@@ -427,7 +428,6 @@ protected slots:
     void adjustFucntionMenu();
     void sharedFiles();
     void badPassword();
-    void setupClosed();
     void clearUserMenu();
     void networkMonitor();
     void monitorFinished();

@@ -73,7 +73,6 @@ public:
 signals:
     void applyChanges(ICQUser*);
     void backgroundUpdated();
-    void closed();
 protected slots:
     void selectionChanged();
     void update();
@@ -81,6 +80,7 @@ protected slots:
     void ok();
     void iconChanged();
 protected:
+    void closeEvent(QCloseEvent*);
     void raiseWidget(int id);
     bool raiseWidget(QListViewItem *i, unsigned id);
     void iconChanged(QListViewItem*);

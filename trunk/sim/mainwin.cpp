@@ -1733,7 +1733,6 @@ void MainWindow::setup()
 {
     if (setupDlg == NULL){
         setupDlg = new SetupDialog(this, 0);
-        connect(setupDlg, SIGNAL(closed()), this, SLOT(setupClosed()));
     }
     emit setupInit();
     setupDlg->show();
@@ -1748,6 +1747,8 @@ void MainWindow::setup()
 
 void MainWindow::setupClosed()
 {
+    if (setupDlg)
+	delete setupDlg;
     setupDlg = NULL;
 }
 

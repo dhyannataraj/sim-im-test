@@ -159,8 +159,13 @@ SetupDialog::SetupDialog(QWidget*, int nWin)
 
 SetupDialog::~SetupDialog()
 {
-    emit closed();
     transparent = NULL;
+}
+
+void SetupDialog::closeEvent(QCloseEvent *e)
+{
+    SetupDialogBase::closeEvent(e);
+    QTimer::singleShot(0, pMain, SLOT(setupClosed()));
 }
 
 void SetupDialog::showPage(int nWin)

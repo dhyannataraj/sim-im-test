@@ -221,6 +221,18 @@ void WharfIcon::paintEvent( QPaintEvent * )
     painter.end();
 }
 
+#define MWM_HINTS_DECORATIONS         (1L << 1)
+
+typedef struct _mwmhints
+{
+    unsigned long       flags;
+    unsigned long       functions;
+    unsigned long       decorations;
+    long                inputMode;
+    unsigned long       status;
+}
+MWMHints;
+
 static XErrorHandler old_handler = 0;
 static int dock_xerror = 0;
 static int dock_xerrhandler(Display* dpy, XErrorEvent* err)
@@ -311,9 +323,78 @@ DockWnd::DockWnd(QWidget *main)
     inTray = false;
     inNetTray = false;
 
-    wharfIcon = new WharfIcon(this);
     Display *dsp = x11Display();
     WId win = winId();
+
+    Atom enlightenment_desktop = XInternAtom(dsp, "ENLIGHTENMENT_DESKTOP", false);
+    bool bEnlightenment = false;
+    WId w = pMain->winId();
+    WId p, r;
+    WId *c;
+    unsigned int nc;
+    while (XQueryTree(dsp, w, &r, &p, &c, &nc)){
+        if (c && nc > 0)
+            XFree(c);
+        if (! p) {
+            log(L_WARN, "No parent");
+            break;
+        }
+        unsigned char *data_ret = NULL;
+        Atom type_ret;
+        int i_unused;
+        unsigned long l_unused;
+        if ((XGetWindowProperty(dsp, p, enlightenment_desktop, 0, 1, False, XA_CARDINAL,
+                                &type_ret, &i_unused, &l_unused, &l_unused,
+                                &data_ret) == Success) && (type_ret == XA_CARDINAL)) {
+            if (data_ret)
+                XFree(data_ret);
+            bEnlightenment = true;
+            log(L_DEBUG, "Detect Enlightenment");
+            break;
+        }
+        if (p == r) break;
+        w = p;
+    }
+
+    if (bEnlightenment){
+        wharfIcon = NULL;
+        bInit = true;
+        setFocusPolicy(NoFocus);
+        move(pMain->DockX, pMain->DockY);
+        reset();
+        MWMHints mwm;
+        mwm.flags = MWM_HINTS_DECORATIONS;
+        mwm.functions = 0;
+        mwm.decorations = 0;
+        mwm.inputMode = 0;
+        mwm.status = 0;
+        Atom a = XInternAtom(dsp, "_MOTIF_WM_HINTS", False);
+        XChangeProperty(dsp, win, a, a, 32, PropModeReplace,
+                        (unsigned char *)&mwm, sizeof(MWMHints) / 4);
+        XStoreName(dsp, win, "SIM");
+        XClassHint *xch = XAllocClassHint();
+        xch->res_name  = (char*)"SIM";
+        xch->res_class = (char*)"Epplet";
+        XSetClassHint(dsp, win, xch);
+        XFree(xch);
+        XSetIconName(dsp, win, "SIM");
+        unsigned long val = (1 << 0) /* | (1 << 9) */ ;
+        a = XInternAtom(dsp, "_WIN_STATE", False);
+        XChangeProperty(dsp, win, a, XA_CARDINAL, 32, PropModeReplace,
+                        (unsigned char *)&val, 1);
+        val = 2;
+        a = XInternAtom(dsp, "_WIN_LAYER", False);
+        XChangeProperty(dsp, win, a, XA_CARDINAL, 32, PropModeReplace,
+                        (unsigned char *)&val, 1);
+        val = (1 << 0) | (1 << 1) | (1 << 2) | (1 << 5);
+        a = XInternAtom(dsp, "_WIN_HINTS", False);
+        XChangeProperty(dsp, win, a, XA_CARDINAL, 32, PropModeReplace,
+                        (unsigned char *)&val, 1);
+        show();
+        return;
+    }
+
+    wharfIcon = new WharfIcon(this);
 
     setBackgroundMode(X11ParentRelative);
     const QPixmap &pict = Pict(pClient->getStatusIcon());
