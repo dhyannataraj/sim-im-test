@@ -556,10 +556,6 @@ void ClientSocket::setOpt()
 #endif
     int one = 1;
     setsockopt(m_fd, SOL_SOCKET, SO_REUSEADDR, (char*)&one, sizeof(int));
-    struct linger linger;
-    linger.l_onoff  = 1;
-    linger.l_linger = 60;
-    setsockopt(m_fd, SOL_SOCKET, SO_LINGER, (char *)&linger, sizeof(linger));
 }
 
 void ServerSocket::read_ready()
