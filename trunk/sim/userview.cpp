@@ -489,6 +489,7 @@ UserView::UserView (QWidget *parent, bool _bList, bool bFill, WFlags f)
     setHScrollBarMode(AlwaysOff);
     setTreeStepSize(0);
     if (bFill) fill();
+    connect(this, SIGNAL(returnPressed(QListViewItem*)), this, SLOT(doubleClick(QListViewItem*)));
     connect(this, SIGNAL(doubleClicked(QListViewItem*)), this, SLOT(doubleClick(QListViewItem*)));
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     connect(pClient, SIGNAL(messageRead(ICQMessage*)), this, SLOT(messageRead(ICQMessage*)));

@@ -396,7 +396,7 @@ HotKeys::HotKeys(QWidget *parent, const char *name)
         oldKeysProc = (WNDPROC)SetWindowLongA(wnd->winId(), GWL_WNDPROC, (LONG)KeysWindowProc);
 #else
 #ifdef USE_KDE
-    accel = new KGlobalAccel(this);
+    accel = NULL;
 #endif
 #endif
     regKeys();
@@ -431,6 +431,7 @@ void HotKeys::regKeys()
     }
 #else
 #ifdef USE_KDE
+    accel = new KGlobalAccel(this);
     int keys;
     keys = str2key(pMain->KeyWindow.c_str());
     if (keys)
@@ -470,10 +471,10 @@ void HotKeys::unregKeys()
     }
 #else
 #ifdef USE_KDE
-    accel->remove("sim_window");
-    accel->remove("sim_dblclick");
-    accel->remove("sim_search");
-    accel->updateConnections();
+    if (accel){
+	delete accel;
+	accel = NULL;
+    }
 #endif
 #endif
 }
