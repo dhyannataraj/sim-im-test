@@ -112,18 +112,20 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
             log(L_DEBUG, "ICMB error %u (%s)", error, err_str);
             if (m_send.msg){
                 if (m_send.msg->type() == MessageCheckInvisible){
-                    bool bInvisible = (error == 0x000E);
-                    Contact *contact;
-                    ICQUserData *data = findContact(m_send.uin, NULL, false, contact);
-                    if (data && ((bool)(data->bInvisible) != bInvisible)){
-                        data->bInvisible = bInvisible;
-                        Event e(EventContactStatus, contact);
-                        e.process();
+                    if (error == 0x0004) {
+                        Contact *contact;
+                        ICQUserData *data = findContact(m_send.uin, NULL, false, contact);
+                        if (data && (bool)(data->bInvisible)) {
+                            data->bInvisible = false;
+                            Event e(EventContactStatus, contact);
+                            e.process();
+                        }
                     }
+                } else {
+                    m_send.msg->setError(err_str);
+                    Event e(EventMessageSent, m_send.msg);
+                    e.process();
                 }
-                m_send.msg->setError(err_str);
-                Event e(EventMessageSent, m_send.msg);
-                e.process();
                 delete m_send.msg;
             }
             m_send.msg = NULL;
@@ -169,7 +171,18 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
             if ((m_send.uin != uin) || !(m_send.id == id))
                 log(L_WARN, "Bad ack sequence");
             if (m_send.msg){
-                ackMessage();
+                if (m_send.msg->type() == MessageCheckInvisible){
+                    Contact *contact;
+                    ICQUserData *data = findContact(m_send.uin, NULL, false, contact);
+                    if (data && !(bool)(data->bInvisible)) {
+                        data->bInvisible = true;
+                        Event e(EventContactStatus, contact);
+                        e.process();
+                    }
+                    delete m_send.msg;
+                } else {
+                    ackMessage();
+                }
             }else{
                 replyQueue.push_back(m_send);
             }
