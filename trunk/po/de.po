@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-04-19 13:06+0400\n"
-"PO-Revision-Date: 2004-04-18 19:49+0200\n"
+"PO-Revision-Date: 2004-04-19 13:01+0200\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1108,13 +1108,11 @@ msgstr "SSL-Fehler bei der SSL- Initialisierung"
 
 #: sim/api/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
-msgstr ""
-"Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
+msgstr "Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
 
 #: sim/api/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
 
 #: sim/api/socket.cpp:145 sim/api/socket.cpp:163
 msgid "Read socket error"
@@ -2209,9 +2207,8 @@ msgstr "&Hotmail-Verzeichnis"
 #: plugins/icq/icqsearch.cpp:173 plugins/jabber/jabberadd.cpp:126
 #: plugins/livejournal/journalsearch.cpp:42 plugins/msn/msnsearch.cpp:61
 #: plugins/yahoo/yahoosearch.cpp:84
-#, fuzzy
 msgid "%1 already in contact list"
-msgstr "Telefon in Kontaktliste speichern"
+msgstr "%1 bereits inKontaktliste"
 
 #: plugins/_core/nonimbase.cpp:93 plugins/_core/pagerbase.cpp:87
 #: plugins/_core/userviewcfgbase.cpp:247 plugins/filter/ignorelistbase.cpp:54
@@ -2285,8 +2282,7 @@ msgstr "&Automatisch HTTP-Polling benutzen, wenn Proxy benötigt wird"
 #: plugins/jabber/jabberconfigbase.cpp:292 plugins/msn/msnconfigbase.cpp:178
 #: plugins/yahoo/yahoocfgbase.cpp:180
 msgid "Note: For HTTP-pooling using proxy setings for HTTP"
-msgstr ""
-"Bemerkung: Für HTTP-Polling, das Proxy-Einstellungen für HTTP benutzt"
+msgstr "Bemerkung: Für HTTP-Polling, das Proxy-Einstellungen für HTTP benutzt"
 
 #: plugins/msn/msnconfigbase.cpp:179
 msgid "&Automaticaly add contacts in accept list"
@@ -3240,9 +3236,8 @@ msgid "Search"
 msgstr "Suchen"
 
 #: plugins/_core/search.cpp:62
-#, fuzzy
 msgid "Results"
-msgstr "Voreinstellungen"
+msgstr "Ergebnisse"
 
 #: plugins/_core/maininfobase.cpp:193 plugins/_core/maininfobase.cpp:203
 #: plugins/_core/search.cpp:118 plugins/action/menucfgbase.cpp:68
@@ -3271,13 +3266,13 @@ msgid "Not in list"
 msgstr "Nicht in Liste"
 
 #: plugins/_core/search.cpp:440
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: %n contact found\n"
 "%n contacts found"
 msgstr ""
-"Kontaktanfrage\n"
-"%n Kontaktanfragen"
+"Ein Kontakt gefunden\n"
+"%n Kontakte gefunden"
 
 #: plugins/_core/status.cpp:72 plugins/_core/statuswnd.cpp:86
 #: plugins/dock/dock.cpp:183
@@ -4150,8 +4145,7 @@ msgid "Set \"Offline\" status after"
 msgstr "\"Offline\"-Status setzen nach"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:109
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Abwesend\", \"Nicht erreichbar\", \"DND\" und "
 "\"Beschäftigt\"-Liste deaktivieren"
@@ -4312,8 +4306,7 @@ msgstr "Nachrichten nur von &Benutzern der Kontaktliste empfangen"
 
 #: plugins/filter/filtercfgbase.cpp:67
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: plugins/filter/filtercfgbase.cpp:68
 msgid ""
@@ -5050,26 +5043,22 @@ msgid "City"
 msgstr "Stadt"
 
 #: plugins/icq/icqsearch.cpp:302
-#, fuzzy
 msgid "State"
-msgstr "Bundesstaat:"
+msgstr "Bundesstaat"
 
 #: plugins/icq/icqsearch.cpp:303
-#, fuzzy
 msgid "Country"
-msgstr "Land:"
+msgstr "Land"
 
 #: plugins/icq/icqsearch.cpp:305 plugins/jabber/jabbersearch.cpp:216
 msgid "Gender"
 msgstr "Geschlecht"
 
 #: plugins/icq/icqsearch.cpp:306
-#, fuzzy
 msgid "Age"
-msgstr "Alter:"
+msgstr "Alter"
 
 #: plugins/icq/icqsearch.cpp:307 plugins/jabber/jabberadd.cpp:260
-#, fuzzy
 msgid "E-Mail"
 msgstr "E-Mail"
 
@@ -6467,8 +6456,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:71
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Plugin stellt Bildschirmbenachrichtigungen über Nachrichten und "
 "Kontaktstatus bereit"
@@ -6507,8 +6495,7 @@ msgstr "Bei Nachrichteneingang informieren (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:82
 msgid "Enable &status notification"
-msgstr ""
-"Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
+msgstr "Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
 
 #: plugins/jabber/jabberconfigbase.cpp:298 plugins/osd/osdconfigbase.cpp:83
 msgid "Enable &typing notification"
@@ -6604,8 +6591,7 @@ msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1153
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS/HTTP)"
-msgstr ""
-"Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
+msgstr "Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
 
 #: plugins/proxy/proxyerrorbase.cpp:78
 msgid "Proxy error"
@@ -6779,8 +6765,7 @@ msgstr "Aktualisieren"
 
 #: plugins/update/update.cpp:40
 msgid "Plugin provides notifications about update SIM software"
-msgstr ""
-"Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
+msgstr "Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
 
 #: plugins/update/update.cpp:126
 msgid "Show details"
@@ -8064,8 +8049,7 @@ msgstr "Aktion"
 
 #: plugins/action/action.cpp:34
 msgid "Plugin execute external programs on event or from contact menu"
-msgstr ""
-"Plugin führt externe Programme bei einem Ereignis oder von Kontaktmenü aus"
+msgstr "Plugin führt externe Programme bei einem Ereignis oder von Kontaktmenü aus"
 
 #: plugins/action/action.cpp:84
 msgid "&Action"
@@ -8088,8 +8072,7 @@ msgid "Navigate"
 msgstr "Navigation"
 
 #: plugins/navigate/navigate.cpp:214
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Plugin stellt Navigation von Hyperlinks bereit und ruft externe Browser- "
 "oder Mailprogramme auf"
@@ -8185,8 +8168,7 @@ msgstr "Text ersetzen"
 
 #: plugins/replace/replace.cpp:34
 msgid "Plugin provides text replacing in message edit window"
-msgstr ""
-"Dieses Plugin stellt Textersetzung im Nachrichtbearbeitung-Fenster bereit"
+msgstr "Dieses Plugin stellt Textersetzung im Nachrichtbearbeitung-Fenster bereit"
 
 #: plugins/replace/replacecfg.cpp:31
 msgid "You type"
@@ -8672,8 +8654,7 @@ msgstr "Ort-ID:"
 
 #: plugins/weather/weathercfgbase.cpp:112
 msgid "You can enter ID as part URL for your location on weather.com"
-msgstr ""
-"Die ID kann als Teil der URL für den Ort von weather.com eingegeben werden"
+msgstr "Die ID kann als Teil der URL für den Ort von weather.com eingegeben werden"
 
 #: plugins/weather/weathercfgbase.cpp:114
 msgid "Metric"
@@ -8691,5 +8672,3 @@ msgstr "Vorhersage für Tage:"
 msgid "Units:"
 msgstr "Einheiten:"
 
-#~ msgid "Homepage"
-#~ msgstr "Homepage"
