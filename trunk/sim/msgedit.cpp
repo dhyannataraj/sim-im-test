@@ -1716,6 +1716,8 @@ void MsgEdit::acceptMessage()
             f->localName = (const char*)(fileEdit->text().local8Bit());
     }
     pClient->acceptMessage(msg);
+	if (pMain->SimpleMode)
+		QTimer::singleShot(50, this, SLOT(close()));
 }
 
 void MsgEdit::declineMessage(int action)
@@ -1736,6 +1738,8 @@ void MsgEdit::declineMessage(int action)
     }
     string declineStr = pClient->to8Bit(Uin, reason);
     pClient->declineMessage(msg, declineStr.c_str());
+	if (pMain->SimpleMode)
+		QTimer::singleShot(50, this, SLOT(close()));
 }
 
 void MsgEdit::chatChanged()
