@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: newww\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-04-26 11:31+0400\n"
-"PO-Revision-Date: 2004-05-05 09:15+0700\n"
+"PO-Revision-Date: 2004-05-05 09:29+0700\n"
 "Last-Translator: Narachai Sakorn <narachai@opentle.org>\n"
 "Language-Team: Thai <th@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -4485,15 +4485,15 @@ msgstr ""
 
 #: plugins/gpg/gpgadvbase.cpp:126
 msgid "Generate key:"
-msgstr ""
+msgstr "สร้างรหัส:"
 
 #: plugins/gpg/gpgadvbase.cpp:127
 msgid "List public keys:"
-msgstr ""
+msgstr "แสดงรหัสสาธารณะ:"
 
 #: plugins/gpg/gpgadvbase.cpp:128
 msgid "List secret keys:"
-msgstr ""
+msgstr "แสดงรหัสลับ:"
 
 #: plugins/gpg/gpgadvbase.cpp:129
 msgid "Import public:"
@@ -4517,23 +4517,23 @@ msgstr "ไอคอน"
 
 #: plugins/icons/icon.cpp:33
 msgid "Plugin provides Miranda icons themes and emoticons"
-msgstr ""
+msgstr "ปลั๊กอินนี้จะรวบรวบไอคอนแสดงอารมณ์และรูปลักษณะของ Miranda"
 
 #: plugins/icons/iconcfg.cpp:169
 msgid "Select icons DLL"
-msgstr ""
+msgstr "เลือกไอคอน DLL"
 
 #: plugins/icons/iconcfg.cpp:172
 msgid "*.dll|Icons themes"
-msgstr ""
+msgstr "*.dll|รูปแบบไอคอน"
 
 #: plugins/icons/iconcfg.cpp:174
 msgid "Icons themes (*.dll)"
-msgstr ""
+msgstr "รูปแบบไอคอน(*.dll)"
 
 #: plugins/icons/iconcfg.cpp:176
 msgid "Get more icons themes"
-msgstr ""
+msgstr "ดาวน์โหลดรูปแบบไอคอนเพิ่มเติม"
 
 #: plugins/icons/iconcfg.cpp:183
 msgid "Smiles"
@@ -4628,7 +4628,7 @@ msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:159
 msgid "View horoscope"
-msgstr ""
+msgstr "ดูโชคชะตา"
 
 #: plugins/zodiak/zodiak.cpp:180
 msgid "Aries"
@@ -4711,15 +4711,15 @@ msgstr "รายชื่อคู่สนทนาที่มองเห็
 
 #: plugins/icq/icq.cpp:431
 msgid "Invisible list"
-msgstr "รายชื่อคู่สนทนาที่มองไม่เ��็น"
+msgstr "รายชื่อคู่สนทนาที่มองไม่เห็น"
 
 #: plugins/icq/icq.cpp:452 plugins/jabber/jabber.cpp:263
 msgid "&Add to group"
-msgstr "เ&พิ่มเข้ากลุ่ม"
+msgstr "เพิ่มเข้า&กลุ่ม"
 
 #: plugins/icq/icq.cpp:465
 msgid "Check &invisible"
-msgstr "ตรวจสอบคู่สนทนาที่&มองไม่เ���็น"
+msgstr "ตรวจสอบคู่สนทนาที่&มองไม่เห็น"
 
 #: plugins/icq/icq.cpp:474
 msgid "&All"
@@ -4727,7 +4727,7 @@ msgstr "&ทั้งหมด"
 
 #: plugins/icq/icq.cpp:483
 msgid "&Only invisible"
-msgstr ""
+msgstr "เ&ฉพาะมองไม่เห็นเท่านั้น"
 
 #: plugins/icq/icqconfig.cpp:57
 msgid "RTF"
@@ -4743,7 +4743,7 @@ msgstr "ข้อความธรรมดา"
 
 #: plugins/icq/icqdirect.cpp:202
 msgid "Connect to unknown port"
-msgstr ""
+msgstr "เชื่อมต่อไปยังพอร์ตที่ไม่ทราบค่า"
 
 #: plugins/icq/icqdirect.cpp:833
 msgid "Other side does not support the secure connection"
@@ -4751,7 +4751,7 @@ msgstr ""
 
 #: plugins/icq/icqdirect.cpp:846 plugins/icq/icqdirect.cpp:1047
 msgid "Send message fail"
-msgstr ""
+msgstr "การส่งข้อความล้มเหลว"
 
 #: plugins/icq/icqdirect.cpp:1347
 msgid "Unknown message type"
@@ -4763,7 +4763,7 @@ msgstr "ไม่มีแฟ้มที่จะรับ-ส่ง"
 
 #: plugins/icq/icqinfo.cpp:34
 msgid "General chat"
-msgstr ""
+msgstr "สนทนาแบบธรรมดา"
 
 #: plugins/icq/icqinfo.cpp:35
 msgid "Romance"
@@ -4819,16 +4819,16 @@ msgstr ""
 
 #: plugins/icq/icqclient.cpp:297
 msgid "Dear translator! type this default encdoing for your language"
-msgstr ""
+msgstr "TIS-620"
 
 #: plugins/icq/icqclient.cpp:348
 msgid "Process message failed"
-msgstr ""
+msgstr "การประมวลผลข้อความล้มเหลว"
 
 #: plugins/icq/icqclient.cpp:689 plugins/icq/icqicmb.cpp:92
 #: plugins/icq/icqicmb.cpp:199
 msgid "Unknown error"
-msgstr ""
+msgstr "ผิดพลาดโดยไม่ทราบสาเหตุ"
 
 #: plugins/icq/icqclient.cpp:690
 msgid "Invalid SNAC header"
@@ -4864,11 +4864,11 @@ msgstr "ไม่ถูกสนับสนุนโดยเซิร์ฟเ
 
 #: plugins/icq/icqclient.cpp:698 plugins/icq/icqicmb.cpp:94
 msgid "Not supported by client"
-msgstr ""
+msgstr "ไม่ถูกสนับสนุนโดยไคลเอ็นต์"
 
 #: plugins/icq/icqclient.cpp:699
 msgid "Refused by client"
-msgstr ""
+msgstr "ถุกปฏิเสธโดยไคลเอ็นต"
 
 #: plugins/icq/icqclient.cpp:700
 msgid "Reply too big"
@@ -4880,11 +4880,11 @@ msgstr ""
 
 #: plugins/icq/icqclient.cpp:702
 msgid "Request denied"
-msgstr ""
+msgstr "การร้องขอถูกปฏิเสธ"
 
 #: plugins/icq/icqclient.cpp:703
 msgid "Incorrect SNAC format"
-msgstr ""
+msgstr "รูปแบบของ SNAC ไม่ถูกต้อง"
 
 #: plugins/icq/icqclient.cpp:704
 msgid "Insufficient rights"
@@ -4985,7 +4985,7 @@ msgstr "ส่งไปให้&รายชื่อ"
 
 #: plugins/icq/icqlogin.cpp:70
 msgid "Login error"
-msgstr "เกิดการผิดพลาดในการเข้าระ��บ"
+msgstr "เกิดการผิดพลาดในการเข้าระบบ"
 
 #: plugins/icq/icqlogin.cpp:74
 msgid "Registered in no register state"
@@ -5033,7 +5033,7 @@ msgstr "UIN นี้ถูกยกเลิก"
 
 #: plugins/icq/icqlogin.cpp:250
 msgid "Can't login to ICQ network - Please try again later"
-msgstr ""
+msgstr "ไม่สามารถเชื่อต่อไปยังเครือข่ายของ ICQ - กรุณาลองใหม่ภายหลัง"
 
 #: plugins/icq/icqlogin.cpp:271
 msgid "Your UIN is being used from another location"
