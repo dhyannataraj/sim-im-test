@@ -522,7 +522,8 @@ QString WeatherPlugin::forecastReplace(const QString &text)
     temp += QChar((unsigned short)176);
     temp += getUT();
     if ((strcmp(getMaxT(m_day), "N/A")) && (maxT != -255)) {
-        temp += QString::number(maxT);
+        temp += "-";
+		temp += QString::number(maxT);
         temp += QChar((unsigned short)176);
         temp += getUT();
     }
