@@ -423,6 +423,7 @@ void DockWnd::timer()
         break;
     }
 #ifndef WIN32
+    if (inTray) return;
     const char *icon = pClient->getStatusIcon();
     const char *msg  = NULL;
     const char *bmsg = NULL;
@@ -440,38 +441,35 @@ void DockWnd::timer()
     }
     if (wharfIcon){
         wharfIcon->set(icon, msg);
-    }else if (!inTray){
-        const QIconSet &icons = Icon(icon);
-        QPixmap nvis(icons.pixmap(QIconSet::Large, QIconSet::Normal));
-        resize(nvis.width(), nvis.height());
-        if (msg){
-            QPixmap msgPict = Pict(msg);
-            QRegion *rgn = NULL;
-            if (nvis.mask() && msgPict.mask()){
-                rgn = new QRegion(*msgPict.mask());
-                rgn->translate(nvis.width() - msgPict.width() - SMALL_PICT_OFFS,
-                               nvis.height() - msgPict.height() - SMALL_PICT_OFFS);
-                *rgn += *nvis.mask();
-            }
-            QPainter p;
-            p.begin(&nvis);
-            p.drawPixmap(nvis.width() - msgPict.width() - SMALL_PICT_OFFS,
-                         nvis.height() - msgPict.height() - SMALL_PICT_OFFS, msgPict);
-            p.end();
-            if (rgn){
-                setMask(*rgn);
-                delete rgn;
-            }
-        }else{
-            const QBitmap *mask = nvis.mask();
-            if (mask) setMask(*mask);
-        }
-        drawIcon = nvis;
-        repaint();
-    }else{
-        drawIcon = Pict(icon);
-        repaint();
+        return;
     }
+    const QIconSet &icons = Icon(icon);
+    QPixmap nvis(icons.pixmap(QIconSet::Large, QIconSet::Normal));
+    resize(nvis.width(), nvis.height());
+    if (msg){
+        QPixmap msgPict = Pict(msg);
+        QRegion *rgn = NULL;
+        if (nvis.mask() && msgPict.mask()){
+            rgn = new QRegion(*msgPict.mask());
+            rgn->translate(nvis.width() - msgPict.width() - SMALL_PICT_OFFS,
+                           nvis.height() - msgPict.height() - SMALL_PICT_OFFS);
+            *rgn += *nvis.mask();
+        }
+        QPainter p;
+        p.begin(&nvis);
+        p.drawPixmap(nvis.width() - msgPict.width() - SMALL_PICT_OFFS,
+                     nvis.height() - msgPict.height() - SMALL_PICT_OFFS, msgPict);
+        p.end();
+        if (rgn){
+            setMask(*rgn);
+            delete rgn;
+        }
+    }else{
+        const QBitmap *mask = nvis.mask();
+        if (mask) setMask(*mask);
+    }
+    drawIcon = nvis;
+    repaint();
 #endif
 }
 

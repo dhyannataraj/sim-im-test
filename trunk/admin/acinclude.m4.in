@@ -1853,7 +1853,7 @@ elif test $kde_qtver = 2; then
    AC_SUBST(LIB_SMB)
    LIB_KFILE='-lkfile'
    AC_SUBST(LIB_KFILE)
-   LIB_KAB='-lkabc'
+   LIB_KAB=''
    AC_SUBST(LIB_KAB)
    LIB_KHTML='-lkhtml'
    AC_SUBST(LIB_KHTML)
