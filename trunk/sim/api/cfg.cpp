@@ -775,25 +775,26 @@ static string quoteString(const char *str)
     return quoted;
 }
 
-EXPORT string save_data(const DataDef *def, void *data)
+EXPORT string save_data(const DataDef *def, void *_data)
 {
+    Data *data = (Data*)_data;
     string res;
-    unsigned offs = 0;
     for (; def->name; def++){
         string value;
         bool bSave = false;
         unsigned i;
         if (def->type == DATA_STRUCT){
-            string s = save_data((DataDef*)(def->def_value), ((char*)data) + offs);
+            string s = save_data((DataDef*)(def->def_value), data);
             if (s.length()){
                 if (res.length())
                     res += "\n";
                 res += s;
             }
         }else  if (*def->name){
+            Data *d = data;
             switch (def->type){
             case DATA_IP:{
-                    IP *p = *((IP**)(((char*)data) + offs));
+                    IP *p = (IP*)(d->ptr);
                     if (p && p->ip()){
                         struct in_addr inaddr;
                         inaddr.s_addr = p->ip();
@@ -808,7 +809,7 @@ EXPORT string save_data(const DataDef *def, void *data)
                     break;
                 }
             case DATA_STRLIST:{
-                    STRING_MAP *p = *((STRING_MAP**)(((char*)data) + offs));
+                    STRING_MAP *p = (STRING_MAP*)(d->ptr);
                     if (p){
                         for (STRING_MAP::iterator it = p->begin(); it != p->end(); ++it){
                             if (res.length())
@@ -823,7 +824,7 @@ EXPORT string save_data(const DataDef *def, void *data)
                     break;
                 }
             case DATA_UTFLIST:{
-                    STRING_MAP *p = *((STRING_MAP**)(((char*)data) + offs));
+                    STRING_MAP *p = (STRING_MAP*)(d->ptr);
                     if (p){
                         for (STRING_MAP::iterator it = p->begin(); it != p->end(); ++it){
                             if (res.length())
@@ -845,18 +846,18 @@ EXPORT string save_data(const DataDef *def, void *data)
                     break;
                 }
             case DATA_STRING:{
-                    char **p = (char**)(((char*)data) + offs);
-                    for (i = 0; i < def->n_values; i++, p++){
+                    for (i = 0; i < def->n_values; i++, d++){
+                        char *p = d->ptr;
                         if (value.length())
                             value += ",";
                         if (def->def_value){
-                            if ((*p == NULL) || strcmp(*p, (char*)(def->def_value))){
-                                value += quoteString(*p);
+                            if ((p == NULL) || strcmp(p, def->def_value)){
+                                value += quoteString(p);
                                 bSave = true;
                             }
                         }else{
-                            if ((*p != NULL) && **p){
-                                value += quoteString(*p);
+                            if ((p != NULL) && *p){
+                                value += quoteString(p);
                                 bSave = true;
                             }
                         }
@@ -864,15 +865,15 @@ EXPORT string save_data(const DataDef *def, void *data)
                     break;
                 }
             case DATA_UTF:{
-                    char **p = (char**)(((char*)data) + offs);
-                    for (i = 0; i < def->n_values; i++, p++){
+                    for (i = 0; i < def->n_values; i++, d++){
+                        char *p = d->ptr;
                         if (value.length())
                             value += ",";
                         QString s;
-                        if (*p != NULL)
-                            s = QString::fromUtf8(*p);
+                        if (p != NULL)
+                            s = QString::fromUtf8(p);
                         if (def->def_value){
-                            if (s != i18n((const char*)(def->def_value)))
+                            if (s != i18n(def->def_value))
                                 bSave = true;
                         }else{
                             if (s.length())
@@ -891,12 +892,12 @@ EXPORT string save_data(const DataDef *def, void *data)
                     break;
                 }
             case DATA_BOOL:{
-                    unsigned long *p = (unsigned long*)(((char*)data) + offs);
-                    for (i = 0; i < def->n_values; i++, p++){
+                    for (i = 0; i < def->n_values; i++, d++){
+                        bool p = d->bValue;
                         if (value.length())
                             value += ",";
-                        if ((*p != 0) != (def->def_value != 0)){
-                            if (*p){
+                        if (p != (def->def_value != 0)){
+                            if (p){
                                 value += "true";
                             }else{
                                 value += "false";
@@ -907,13 +908,13 @@ EXPORT string save_data(const DataDef *def, void *data)
                     break;
                 }
             case DATA_LONG:{
-                    long *p = (long*)(((char*)data) + offs);
-                    for (i = 0; i < def->n_values; i++, p++){
+                    for (i = 0; i < def->n_values; i++, d++){
+                        long p = d->value;
                         if (value.length())
                             value += ",";
-                        if (*p != (long)(def->def_value)){
+                        if (p != (long)(def->def_value)){
                             char b[32];
-                            snprintf(b, sizeof(b), "%li", *p);
+                            snprintf(b, sizeof(b), "%li", p);
                             value += b;
                             bSave = true;
                         }
@@ -921,13 +922,13 @@ EXPORT string save_data(const DataDef *def, void *data)
                     break;
                 }
             case DATA_ULONG:{
-                    unsigned long *p = (unsigned long*)(((char*)data) + offs);
-                    for (i = 0; i < def->n_values; i++, p++){
+                    for (i = 0; i < def->n_values; i++, d++){
+                        unsigned long p = d->value;
                         if (value.length())
                             value += ",";
-                        if (*p != (unsigned long)(def->def_value)){
+                        if (p != (unsigned long)(def->def_value)){
                             char b[32];
-                            snprintf(b, sizeof(b), "%lu", *p);
+                            snprintf(b, sizeof(b), "%lu", p);
                             value += b;
                             bSave = true;
                         }
@@ -943,7 +944,7 @@ EXPORT string save_data(const DataDef *def, void *data)
                 res += value;
             }
         }
-        offs += sizeof(void*) * def->n_values;
+        data += def->n_values;
     }
     return res;
 }
