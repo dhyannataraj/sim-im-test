@@ -140,7 +140,7 @@ typedef struct _DATA_DIRECTORY
 class PEOptHdr
 {
 public:
-    PEOptHdr() : DataDirectory(NULL) {}
+PEOptHdr() : DataDirectory(NULL) {}
     ~PEOptHdr() { if (DataDirectory) delete[] DataDirectory; }
     /*
         Standard fields.

@@ -114,7 +114,7 @@ class Tag
 {
 public:
     Tag()
-            : pCharStyle(NULL)
+: pCharStyle(NULL)
     {
     }
 

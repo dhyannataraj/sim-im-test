@@ -69,6 +69,9 @@ public:
     virtual void bind_ready(unsigned short port) = 0;
     virtual bool error(const char *err) = 0;
     virtual void bind(unsigned short mixPort, unsigned short maxPort, TCPClient *client);
+#ifndef WIN32
+    virtual void bind(const char *path);
+#endif
     ServerSocket *m_listener;
 };
 
@@ -79,6 +82,9 @@ public:
     virtual ~ServerSocket() {}
     void setNotify(ServerSocketNotify *n) { notify = n; }
     virtual void bind(unsigned short mixPort, unsigned short maxPort, TCPClient *client) = 0;
+#ifndef WIN32
+    virtual void bind(const char *path) = 0;
+#endif
     virtual void close() = 0;
 protected:
     ServerSocketNotify *notify;

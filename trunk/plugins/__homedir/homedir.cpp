@@ -47,7 +47,7 @@ static PluginInfo info =
         I18N_NOOP("Home directory"),
         I18N_NOOP("Plugin provides select directory for store config files"),
 #else
-        NULL,
+NULL,
         NULL,
 #endif
         VERSION,
@@ -165,7 +165,7 @@ string HomeDirPlugin::defaultPath()
         defPath += "sim";
         string ss;
         ss = QFile::encodeName(defPath);
-		ss += "\\";
+        ss += "\\";
         makedir((char*)(ss.c_str()));
         QString lockTest = defPath + "\\.lock";
         QFile f(lockTest);

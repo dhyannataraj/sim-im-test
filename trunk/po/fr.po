@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.1\n"
-"POT-Creation-Date: 2003-11-10 11:32+0300\n"
+"POT-Creation-Date: 2003-11-10 12:06+0300\n"
 "PO-Revision-Date: 2003-03-01 10:24+0100\n"
 "Last-Translator: Roméo VIU-BERGES <apostledemencia@free.fr>\n"
 "Language-Team: Français <fr@li.org>\n"
@@ -1771,36 +1771,6 @@ msgstr "Groupes"
 msgid "Show group &separator"
 msgstr ""
 
-# ui/fontsetupbase.cpp:189
-#: plugins/_core/historycfgbase.cpp:95
-msgid "Use &own colors and fonts settings"
-msgstr "Utiliser vos pr&opres couleurs et polices"
-
-# ui/fontsetupbase.cpp:210
-#: plugins/_core/historycfgbase.cpp:101
-msgid "Sending messages color"
-msgstr "Couluer des messages envoyés"
-
-# ui/fontsetupbase.cpp:199
-#: plugins/_core/historycfgbase.cpp:111
-msgid "Received messages color"
-msgstr "Couleur des messages reçus"
-
-# msgedit.cpp:114
-#: plugins/_core/historycfgbase.cpp:121
-#, fuzzy
-msgid "Others color"
-msgstr "Couleur de &texte"
-
-#: plugins/_core/historycfgbase.cpp:131
-msgid "Own color"
-msgstr ""
-
-# ui/themesetupbase.cpp:273
-#: plugins/_core/historycfgbase.cpp:141
-msgid "Use emotional &icons"
-msgstr "utiliser les emoticons"
-
 # ui/maininfobase.cpp:194
 # ui/searchbase.cpp:185
 #: plugins/_core/maininfobase.cpp:103 plugins/icq/aiminfobase.cc:74
@@ -2197,6 +2167,36 @@ msgstr "Raison"
 #, fuzzy
 msgid "Enter decline reason:"
 msgstr "Entrer une raison de refus"
+
+# ui/fontsetupbase.cpp:189
+#: plugins/_core/historycfgbase.cpp:95
+msgid "Use &own colors and fonts settings"
+msgstr "Utiliser vos pr&opres couleurs et polices"
+
+# ui/fontsetupbase.cpp:210
+#: plugins/_core/historycfgbase.cpp:101
+msgid "Sending messages color"
+msgstr "Couluer des messages envoyés"
+
+# ui/fontsetupbase.cpp:199
+#: plugins/_core/historycfgbase.cpp:111
+msgid "Received messages color"
+msgstr "Couleur des messages reçus"
+
+# msgedit.cpp:114
+#: plugins/_core/historycfgbase.cpp:121
+#, fuzzy
+msgid "Others color"
+msgstr "Couleur de &texte"
+
+#: plugins/_core/historycfgbase.cpp:131
+msgid "Own color"
+msgstr ""
+
+# ui/themesetupbase.cpp:273
+#: plugins/_core/historycfgbase.cpp:141
+msgid "Use emotional &icons"
+msgstr "utiliser les emoticons"
 
 # ui/aboutdlgbase.cpp:94
 #: plugins/about/about.cpp:38 plugins/about/aboutdlgbase.cpp:94
@@ -3383,16 +3383,6 @@ msgstr "Invisible"
 #, fuzzy
 msgid "Warning"
 msgstr "&Warnings"
-
-#: plugins/icq/icqpicture.cpp:126
-msgid "Picture can not be more than 7 kbytes"
-msgstr ""
-
-# ui/phonebookbase.cpp:76
-#: plugins/icq/icqpicture.cpp:136 plugins/jabber/jabberpicture.cpp:138
-#, fuzzy
-msgid "Picture is not available"
-msgstr "cet utilisateur est actuellement disponible sur :"
 
 #: plugins/icq/icqsearch.cpp:162
 msgid "ICQ search results"
@@ -4916,6 +4906,16 @@ msgstr ""
 msgid "You will choose the coding by default which want to use:"
 msgstr ""
 
+#: plugins/icq/icqpicture.cpp:126
+msgid "Picture can not be more than 7 kbytes"
+msgstr ""
+
+# ui/phonebookbase.cpp:76
+#: plugins/icq/icqpicture.cpp:136 plugins/jabber/jabberpicture.cpp:138
+#, fuzzy
+msgid "Picture is not available"
+msgstr "cet utilisateur est actuellement disponible sur :"
+
 # ui/maininfobase.cpp:194
 # ui/searchbase.cpp:185
 #: plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:181
@@ -4937,10 +4937,6 @@ msgstr "Email"
 
 #: plugins/jabber/addresult.cpp:34
 msgid "ID"
-msgstr ""
-
-#: plugins/jabber/jabber.cpp:85
-msgid "Jabber"
 msgstr ""
 
 # ui/generalsec.cpp:83
@@ -5294,6 +5290,10 @@ msgstr "Insc&ription"
 #, fuzzy
 msgid "&Agents"
 msgstr "Effets"
+
+#: plugins/jabber/jabber.cpp:85
+msgid "Jabber"
+msgstr ""
 
 # monitor.cpp:80
 #: plugins/logger/logconfig.cpp:80
@@ -7580,29 +7580,29 @@ msgid "Read socket error"
 msgstr ""
 
 # ui/setupdlg.cpp:124
-#: sim/api/sockfactory.cpp:188
+#: sim/api/sockfactory.cpp:189
 #, fuzzy
 msgid "Connect error"
 msgstr "Connexion"
 
 # chatwnd.cpp:350
 # ui/filetransfer.cpp:250
-#: sim/api/sockfactory.cpp:241
+#: sim/api/sockfactory.cpp:242
 #, fuzzy
 msgid "Can't resolve host"
 msgstr "Impossible de créer %1"
 
 # ui/setupdlg.cpp:124
-#: sim/api/sockfactory.cpp:267 sim/ui/qt3/i18n.cpp:237
+#: sim/api/sockfactory.cpp:268 sim/ui/qt3/i18n.cpp:237
 msgid "Connection closed"
 msgstr "Connexion fermée"
 
-#: sim/api/sockfactory.cpp:320
+#: sim/api/sockfactory.cpp:321
 msgid "Socket error"
 msgstr ""
 
 # monitor.cpp:133
-#: sim/api/sockfactory.cpp:369
+#: sim/api/sockfactory.cpp:370
 #, fuzzy
 msgid "Can't allocate port"
 msgstr "Impossible de créer le fichier %1"

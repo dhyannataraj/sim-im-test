@@ -313,12 +313,12 @@ void OSDPlugin::processQueue()
                     if (cmd){
                         MessageDef *def = (MessageDef*)(cmd->param);
                         text = i18n(def->singular, def->plural, 1);
-			int pos = text.find("1 ");
-			if (pos > 0){
-				text = text.left(pos);
-			}else if (pos == 0){
-				text = text.mid(2);
-			}
+                        int pos = text.find("1 ");
+                        if (pos > 0){
+                            text = text.left(pos);
+                        }else if (pos == 0){
+                            text = text.mid(2);
+                        }
                         text = text.left(1).upper() + text.mid(1);
                         text = i18n("%1 from %2")
                                .arg(text)

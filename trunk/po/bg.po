@@ -17,7 +17,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bg\n"
-"POT-Creation-Date: 2003-11-10 11:32+0300\n"
+"POT-Creation-Date: 2003-11-10 12:06+0300\n"
 "PO-Revision-Date: 2003-09-18 18:44+0300\n"
 "Last-Translator: Атанас Мавров <bugar@mail.bg>\n"
 "Language-Team:  <bg@li.org>\n"
@@ -1338,32 +1338,6 @@ msgstr "Групи"
 msgid "Show group &separator"
 msgstr "Покзване разделителите на &групи"
 
-#: plugins/_core/historycfgbase.cpp:95
-msgid "Use &own colors and fonts settings"
-msgstr ""
-"Използване на &собствени цветови и "
-"шрифтови настройки"
-
-#: plugins/_core/historycfgbase.cpp:101
-msgid "Sending messages color"
-msgstr "Цвят на изпращаните съобщения"
-
-#: plugins/_core/historycfgbase.cpp:111
-msgid "Received messages color"
-msgstr "Цвят на получените съобщения"
-
-#: plugins/_core/historycfgbase.cpp:121
-msgid "Others color"
-msgstr "Друг цвят"
-
-#: plugins/_core/historycfgbase.cpp:131
-msgid "Own color"
-msgstr "Собствен цвят"
-
-#: plugins/_core/historycfgbase.cpp:141
-msgid "Use emotional &icons"
-msgstr "Използване на емоционални икон&и"
-
 #: plugins/_core/maininfobase.cpp:103 plugins/icq/aiminfobase.cc:74
 #: plugins/icq/aimsearchbase.cc:222 plugins/icq/icqinfobase.cc:179
 #: plugins/icq/icqsearchbase.cc:193 plugins/jabber/jabberinfobase.cpp:99
@@ -1678,6 +1652,32 @@ msgstr "Причина за отказа"
 #, fuzzy
 msgid "Enter decline reason:"
 msgstr "Въвеждане на причина за отказ"
+
+#: plugins/_core/historycfgbase.cpp:95
+msgid "Use &own colors and fonts settings"
+msgstr ""
+"Използване на &собствени цветови и "
+"шрифтови настройки"
+
+#: plugins/_core/historycfgbase.cpp:101
+msgid "Sending messages color"
+msgstr "Цвят на изпращаните съобщения"
+
+#: plugins/_core/historycfgbase.cpp:111
+msgid "Received messages color"
+msgstr "Цвят на получените съобщения"
+
+#: plugins/_core/historycfgbase.cpp:121
+msgid "Others color"
+msgstr "Друг цвят"
+
+#: plugins/_core/historycfgbase.cpp:131
+msgid "Own color"
+msgstr "Собствен цвят"
+
+#: plugins/_core/historycfgbase.cpp:141
+msgid "Use emotional &icons"
+msgstr "Използване на емоционални икон&и"
 
 #: plugins/about/about.cpp:38 plugins/about/aboutdlgbase.cpp:94
 msgid "About"
@@ -2664,15 +2664,6 @@ msgstr "Невидима проверка "
 #, fuzzy
 msgid "Warning"
 msgstr "&Предупреждения"
-
-#: plugins/icq/icqpicture.cpp:126
-msgid "Picture can not be more than 7 kbytes"
-msgstr ""
-"Не може картинката да е по - голяма от 7 Кб"
-
-#: plugins/icq/icqpicture.cpp:136 plugins/jabber/jabberpicture.cpp:138
-msgid "Picture is not available"
-msgstr "Картинката не е налична"
 
 #: plugins/icq/icqsearch.cpp:162
 msgid "ICQ search results"
@@ -3897,6 +3888,15 @@ msgstr ""
 msgid "You will choose the coding by default which want to use:"
 msgstr ""
 
+#: plugins/icq/icqpicture.cpp:126
+msgid "Picture can not be more than 7 kbytes"
+msgstr ""
+"Не може картинката да е по - голяма от 7 Кб"
+
+#: plugins/icq/icqpicture.cpp:136 plugins/jabber/jabberpicture.cpp:138
+msgid "Picture is not available"
+msgstr "Картинката не е налична"
+
 #: plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:181
 msgid "First name"
 msgstr "Име: "
@@ -3912,10 +3912,6 @@ msgstr "Електронна поща"
 #: plugins/jabber/addresult.cpp:34
 msgid "ID"
 msgstr "ID"
-
-#: plugins/jabber/jabber.cpp:85
-msgid "Jabber"
-msgstr "Jabber"
 
 #: plugins/jabber/jabber_rosters.cpp:1612
 #, fuzzy
@@ -4239,6 +4235,10 @@ msgstr "&Регистрация"
 #: plugins/jabber/servicesbase.cpp:153
 msgid "&Agents"
 msgstr "&Агенти"
+
+#: plugins/jabber/jabber.cpp:85
+msgid "Jabber"
+msgstr "Jabber"
 
 #: plugins/logger/logconfig.cpp:80
 #, fuzzy
@@ -6104,23 +6104,23 @@ msgstr "Ухилен"
 msgid "Read socket error"
 msgstr "Грешка при четене на сокет"
 
-#: sim/api/sockfactory.cpp:188
+#: sim/api/sockfactory.cpp:189
 msgid "Connect error"
 msgstr "Грешка при свързване"
 
-#: sim/api/sockfactory.cpp:241
+#: sim/api/sockfactory.cpp:242
 msgid "Can't resolve host"
 msgstr "Не може да намери хост"
 
-#: sim/api/sockfactory.cpp:267 sim/ui/qt3/i18n.cpp:237
+#: sim/api/sockfactory.cpp:268 sim/ui/qt3/i18n.cpp:237
 msgid "Connection closed"
 msgstr "Връзката е прекратена"
 
-#: sim/api/sockfactory.cpp:320
+#: sim/api/sockfactory.cpp:321
 msgid "Socket error"
 msgstr "Грешка при сокет"
 
-#: sim/api/sockfactory.cpp:369
+#: sim/api/sockfactory.cpp:370
 #, fuzzy
 msgid "Can't allocate port"
 msgstr "Невъзможно е създаването на файл %1"

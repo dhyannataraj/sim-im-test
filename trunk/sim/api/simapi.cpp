@@ -323,23 +323,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             return 0;
         return DefWindowProc(hWnd, msg, wParam, lParam);
     }
-	if ((msg >= WM_KEYFIRST) && (msg <= WM_KEYLAST)){
-		m.hwnd = hWnd;
-		m.message = msg;
-		m.wParam = wParam;
-		m.lParam = lParam;
-	}
-	return oldWndProc(hWnd, msg, wParam, lParam);
+    if ((msg >= WM_KEYFIRST) && (msg <= WM_KEYLAST)){
+        m.hwnd = hWnd;
+        m.message = msg;
+        m.wParam = wParam;
+        m.lParam = lParam;
+    }
+    return oldWndProc(hWnd, msg, wParam, lParam);
 }
 
 void translate()
 {
-	TranslateMessage(&m);
+    TranslateMessage(&m);
 }
 
 unsigned wndMessage()
 {
-	return m.message;
+    return m.message;
 }
 
 void setWndProc(QWidget *w)

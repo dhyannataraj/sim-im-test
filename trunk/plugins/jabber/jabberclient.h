@@ -67,7 +67,7 @@ typedef struct JabberUserData
     char		*TypingId;
     unsigned	composeId;
     unsigned	richText;
-	unsigned	invisible;
+    unsigned	invisible;
     unsigned long    PhotoWidth;
     unsigned long    PhotoHeight;
     unsigned long    LogoWidth;
@@ -90,8 +90,8 @@ typedef struct JabberClientData
     unsigned		ProtocolIcons;
     unsigned		MinPort;
     unsigned		MaxPort;
-	char			*Photo;
-	char			*Logo;
+    char			*Photo;
+    char			*Logo;
     JabberUserData	owner;
 } JabberClientData;
 
@@ -150,7 +150,7 @@ public:
         void	end_element(bool bNewLevel = false);
         void	add_attribute(const char *name, const char *value);
         void	add_condition(const char *cond);
-		void	add_text(const char *text);
+        void	add_text(const char *text);
         void	text_tag(const char *name, const char *value);
         static const char *_GET;
         static const char *_SET;
@@ -179,7 +179,7 @@ class IqRequest : public ServerRequest
         string	m_descr;
         string  m_query;
         string	m_from;
-		string  m_id;
+        string  m_id;
     };
 
 class PresenceRequest : public ServerRequest
@@ -213,9 +213,9 @@ class MessageRequest : public ServerRequest
         string m_richText;
         string m_subj;
         string m_error;
-		string m_contacts;
+        string m_contacts;
         bool   m_bBody;
-		bool   m_bRosters;
+        bool   m_bRosters;
         string m_id;
         bool   m_bCompose;
         bool   m_bEvent;
@@ -247,8 +247,8 @@ class MessageRequest : public ServerRequest
     PROP_BOOL(ProtocolIcons);
     PROP_USHORT(MinPort);
     PROP_USHORT(MaxPort);
-	PROP_UTF8(Photo);
-	PROP_UTF8(Logo);
+    PROP_UTF8(Photo);
+    PROP_UTF8(Logo);
 
     string		buildId(JabberUserData *data);
     JabberUserData	*findContact(const char *jid, const char *name, bool bCreate, Contact *&contact);
@@ -278,8 +278,8 @@ class MessageRequest : public ServerRequest
     list<Message*>  m_ackMsg;
     list<Message*>	m_waitMsg;
 
-	QString photoFile(JabberUserData*);
-	QString logoFile(JabberUserData*);
+    QString photoFile(JabberUserData*);
+    QString logoFile(JabberUserData*);
 
 protected slots:
     void	ping();
@@ -358,7 +358,7 @@ public:
     JabberFileTransfer(FileMessage *msg, JabberUserData *data, JabberClient *client);
     ~JabberFileTransfer();
     void listen();
-	void connect();
+    void connect();
 protected:
     JabberClient	*m_client;
     JabberUserData	*m_data;
@@ -366,13 +366,13 @@ protected:
     {
         None,
         Listen,
-		ListenWait,
-		Header,
-		Send,
-		Wait,
-		Connect,
-		ReadHeader,
-		Receive
+        ListenWait,
+        Header,
+        Send,
+        Wait,
+        Connect,
+        ReadHeader,
+        Receive
     };
     State m_state;
     virtual bool    error_state(const char *err, unsigned code);
@@ -383,12 +383,12 @@ protected:
     virtual void	bind_ready(unsigned short port);
     virtual bool	error(const char *err);
     virtual bool	accept(Socket *s, unsigned long ip);
-	bool get_line(const char *str);
-	void send_line(const char *str);
-	unsigned m_startPos;
-	unsigned m_endPos;
-	unsigned m_answer;
-	string   m_url;
+    bool get_line(const char *str);
+    void send_line(const char *str);
+    unsigned m_startPos;
+    unsigned m_endPos;
+    unsigned m_answer;
+    string   m_url;
     ClientSocket	*m_socket;
 };
 
@@ -410,7 +410,7 @@ typedef struct agentRegisterInfo
 class my_string : public string
 {
 public:
-    my_string(const char *str) : string(str) {}
+my_string(const char *str) : string(str) {}
     bool operator < (const my_string &str) const;
 };
 

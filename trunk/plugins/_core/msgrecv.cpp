@@ -77,7 +77,7 @@ void *MsgReceived::processEvent(Event *e)
         CommandDef *cmd = (CommandDef*)(e->param());
         unsigned id = cmd->bar_grp;
         if (cmd->param == m_edit){
-			MessageDef *mdef = NULL;
+            MessageDef *mdef = NULL;
             CommandDef *msgCmd = CorePlugin::m_plugin->messageTypes.find(m_type);
             if (msgCmd)
                 mdef = (MessageDef*)(msgCmd->param);
@@ -133,9 +133,9 @@ void *MsgReceived::processEvent(Event *e)
                     }
                 }
                 MessageDef *mdef = NULL;
-                    CommandDef *msgCmd = CorePlugin::m_plugin->messageTypes.find(m_type);
-                    if (msgCmd)
-	                    mdef = (MessageDef*)(msgCmd->param);
+                CommandDef *msgCmd = CorePlugin::m_plugin->messageTypes.find(m_type);
+                if (msgCmd)
+                    mdef = (MessageDef*)(msgCmd->param);
                 if (mdef && mdef->cmd){
                     for (const CommandDef *d = mdef->cmd; d->text; d++){
                         if (d->id + CmdReceived == cmd->id){

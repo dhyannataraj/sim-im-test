@@ -41,7 +41,7 @@ Plugin *createGpgPlugin(unsigned base, bool, const char *cfg)
 {
 #ifndef WIN32
     if (GPGpath.empty())
-	return NULL;
+        return NULL;
 #endif
     Plugin *plugin = new GpgPlugin(base, cfg);
     return plugin;
@@ -62,20 +62,20 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     string path;
     const char *p = getenv("PATH");
     if (p)
-	path = p;
+        path = p;
     while (!path.empty()){
-	string p = getToken(path, ':');
-	p += "/gpg";
-	QFile f(p.c_str());
-	QFileInfo fi(f);
+        string p = getToken(path, ':');
+        p += "/gpg";
+        QFile f(p.c_str());
+        QFileInfo fi(f);
         if (fi.isExecutable()){
-		GPGpath = p;
-		break;
-        } 
+            GPGpath = p;
+            break;
+        }
     }
     if (GPGpath.empty())
-	info.description = I18N_NOOP("Plugin adds GnuPG encryption/decryption support for messages\n"
-		"GPG not found in PATH");
+        info.description = I18N_NOOP("Plugin adds GnuPG encryption/decryption support for messages\n"
+                                     "GPG not found in PATH");
 #endif
     return &info;
 }

@@ -71,14 +71,20 @@ public:
     virtual unsigned short port() { return m_nPort; }
     bool created() { return (sock != NULL); }
     void bind(unsigned short mixPort, unsigned short maxPort, TCPClient *client);
+#ifndef WIN32
+    void bind(const char *path);
+#endif
     void close();
 protected slots:
     void activated(int);
     void activated();
 protected:
+    void listen(TCPClient*);
+    void error(const char *err);
     QSocketDevice   *sock;
     QSocketNotifier *sn;
-    unsigned short m_nPort;
+    QString			m_name;
+    unsigned short  m_nPort;
 };
 
 class SIMResolver : public QObject
@@ -124,7 +130,7 @@ public:
     void set(unsigned long ip);
     void set(unsigned long ip, const char *host);
     void resolve();
-unsigned long ip() { return m_ip; }
+    unsigned long ip() { return m_ip; }
     const char *host() { return m_host; }
 protected:
     unsigned long m_ip;

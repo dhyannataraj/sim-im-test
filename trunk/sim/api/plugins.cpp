@@ -169,7 +169,7 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
 #ifdef WIN32
         info.name		 = strdup(QFile::encodeName(f.lower()));
 #else
-info.name		 = strdup(QFile::encodeName(f));
+        info.name		 = strdup(QFile::encodeName(f));
 #endif
         info.config		 = NULL;
         info.bDisabled	 = false;

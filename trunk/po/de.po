@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
-"POT-Creation-Date: 2003-11-10 11:32+0300\n"
+"POT-Creation-Date: 2003-11-10 12:06+0300\n"
 "PO-Revision-Date: 2003-11-09 03:56GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -1294,30 +1294,6 @@ msgstr "Gruppen"
 msgid "Show group &separator"
 msgstr "Gruppen&trenner anzeigen"
 
-#: plugins/_core/historycfgbase.cpp:95
-msgid "Use &own colors and fonts settings"
-msgstr "Eigene &Farben und Schriften benutzen"
-
-#: plugins/_core/historycfgbase.cpp:101
-msgid "Sending messages color"
-msgstr "Farbe für gesendete Nachrichten"
-
-#: plugins/_core/historycfgbase.cpp:111
-msgid "Received messages color"
-msgstr "Farbe für emfangene Nachrichten"
-
-#: plugins/_core/historycfgbase.cpp:121
-msgid "Others color"
-msgstr "Farbe des anderen Chatpartners"
-
-#: plugins/_core/historycfgbase.cpp:131
-msgid "Own color"
-msgstr "Farbe der eigenen Nachrichten"
-
-#: plugins/_core/historycfgbase.cpp:141
-msgid "Use emotional &icons"
-msgstr "Emot&icons benutzen"
-
 #: plugins/_core/maininfobase.cpp:103 plugins/icq/aiminfobase.cc:74
 #: plugins/icq/aimsearchbase.cc:222 plugins/icq/icqinfobase.cc:179
 #: plugins/icq/icqsearchbase.cc:193 plugins/jabber/jabberinfobase.cpp:99
@@ -1618,6 +1594,30 @@ msgstr "Ablehnungsgrund"
 #: plugins/_core/declinedlgbase.cpp:38
 msgid "Enter decline reason:"
 msgstr "Ablehungsgrund eingeben:"
+
+#: plugins/_core/historycfgbase.cpp:95
+msgid "Use &own colors and fonts settings"
+msgstr "Eigene &Farben und Schriften benutzen"
+
+#: plugins/_core/historycfgbase.cpp:101
+msgid "Sending messages color"
+msgstr "Farbe für gesendete Nachrichten"
+
+#: plugins/_core/historycfgbase.cpp:111
+msgid "Received messages color"
+msgstr "Farbe für emfangene Nachrichten"
+
+#: plugins/_core/historycfgbase.cpp:121
+msgid "Others color"
+msgstr "Farbe des anderen Chatpartners"
+
+#: plugins/_core/historycfgbase.cpp:131
+msgid "Own color"
+msgstr "Farbe der eigenen Nachrichten"
+
+#: plugins/_core/historycfgbase.cpp:141
+msgid "Use emotional &icons"
+msgstr "Emot&icons benutzen"
 
 #: plugins/about/about.cpp:38 plugins/about/aboutdlgbase.cpp:94
 msgid "About"
@@ -2549,14 +2549,6 @@ msgstr "Unsichtbar überprüfen"
 #: plugins/icq/icqmessage.cpp:991 plugins/logger/logconfig.cpp:79
 msgid "Warning"
 msgstr "Warnung"
-
-#: plugins/icq/icqpicture.cpp:126
-msgid "Picture can not be more than 7 kbytes"
-msgstr "Das Bild darf nicht größer als 7 KByte sein."
-
-#: plugins/icq/icqpicture.cpp:136 plugins/jabber/jabberpicture.cpp:138
-msgid "Picture is not available"
-msgstr "Das Bild ist nicht verfügbar"
 
 #: plugins/icq/icqsearch.cpp:162
 msgid "ICQ search results"
@@ -3753,6 +3745,14 @@ msgstr ""
 msgid "You will choose the coding by default which want to use:"
 msgstr "Bitte Kodierung auswählen, die benutzt werden soll:"
 
+#: plugins/icq/icqpicture.cpp:126
+msgid "Picture can not be more than 7 kbytes"
+msgstr "Das Bild darf nicht größer als 7 KByte sein."
+
+#: plugins/icq/icqpicture.cpp:136 plugins/jabber/jabberpicture.cpp:138
+msgid "Picture is not available"
+msgstr "Das Bild ist nicht verfügbar"
+
 #: plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:181
 msgid "First name"
 msgstr "Vorname:"
@@ -3768,10 +3768,6 @@ msgstr "E-Mail"
 #: plugins/jabber/addresult.cpp:34
 msgid "ID"
 msgstr "ID"
-
-#: plugins/jabber/jabber.cpp:85
-msgid "Jabber"
-msgstr "Jabber"
 
 #: plugins/jabber/jabber_rosters.cpp:1612
 msgid "Password does not match"
@@ -4070,6 +4066,10 @@ msgstr "&Registrieren"
 #: plugins/jabber/servicesbase.cpp:153
 msgid "&Agents"
 msgstr "&Agenten"
+
+#: plugins/jabber/jabber.cpp:85
+msgid "Jabber"
+msgstr "Jabber"
 
 #: plugins/logger/logconfig.cpp:80
 msgid "Debug"
@@ -5878,23 +5878,23 @@ msgstr "Grinsen"
 msgid "Read socket error"
 msgstr "Fehler beim Lesen eines Sockets"
 
-#: sim/api/sockfactory.cpp:188
+#: sim/api/sockfactory.cpp:189
 msgid "Connect error"
 msgstr "Fehler beim Verbinden"
 
-#: sim/api/sockfactory.cpp:241
+#: sim/api/sockfactory.cpp:242
 msgid "Can't resolve host"
 msgstr "Konnte den Host %1 nicht auflösen"
 
-#: sim/api/sockfactory.cpp:267 sim/ui/qt3/i18n.cpp:237
+#: sim/api/sockfactory.cpp:268 sim/ui/qt3/i18n.cpp:237
 msgid "Connection closed"
 msgstr "Verbindung beendet"
 
-#: sim/api/sockfactory.cpp:320
+#: sim/api/sockfactory.cpp:321
 msgid "Socket error"
 msgstr "Socketfehler"
 
-#: sim/api/sockfactory.cpp:369
+#: sim/api/sockfactory.cpp:370
 msgid "Can't allocate port"
 msgstr "Port kann nicht angefordert werden"
 

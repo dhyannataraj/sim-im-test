@@ -399,7 +399,7 @@ class CommandsMapIteratorPrivate
 {
     COPY_RESTRICTED(CommandsMapIteratorPrivate)
 public:
-    CommandsMapIteratorPrivate(CommandsMapPrivate &_map) : map(_map)
+CommandsMapIteratorPrivate(CommandsMapPrivate &_map) : map(_map)
     { it = map.begin(); }
     CommandsMapPrivate::iterator it;
     CommandsMapPrivate &map;

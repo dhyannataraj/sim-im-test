@@ -1458,7 +1458,7 @@ void ClientUserData::sort()
 class UserDataIteratorPrivate : public list<UserDataDef>::iterator
 {
 public:
-    UserDataIteratorPrivate(const list<UserDataDef>::iterator &it) :
+UserDataIteratorPrivate(const list<UserDataDef>::iterator &it) :
     list<UserDataDef>::iterator(it) {}
 };
 

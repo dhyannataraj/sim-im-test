@@ -76,7 +76,7 @@ protected:
 class Splitter : public QSplitter
 {
 public:
-    Splitter(QWidget *p) : QSplitter(p) {}
+Splitter(QWidget *p) : QSplitter(p) {}
 protected:
     virtual QSizePolicy sizePolicy() const;
 };
@@ -376,7 +376,7 @@ void Container::setMessageType(unsigned type)
     CommandDef *def;
     def = CorePlugin::m_plugin->messageTypes.find(type);
     if (def == NULL)
-            return;
+        return;
     Command cmd;
     cmd->id			 = CmdMessageType;
     cmd->text		 = def->text;

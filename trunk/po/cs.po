@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
-"POT-Creation-Date: 2003-11-10 11:32+0300\n"
+"POT-Creation-Date: 2003-11-10 12:06+0300\n"
 "PO-Revision-Date: 2003-08-04 20:48+0200\n"
 "Last-Translator: Pavel Rousar <p.rousar@sh.cvut.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -1294,30 +1294,6 @@ msgstr "S&kupiny"
 msgid "Show group &separator"
 msgstr ""
 
-#: plugins/_core/historycfgbase.cpp:95
-msgid "Use &own colors and fonts settings"
-msgstr "P&oužít vlastní barvy"
-
-#: plugins/_core/historycfgbase.cpp:101
-msgid "Sending messages color"
-msgstr "Barva zasílaných zpráv"
-
-#: plugins/_core/historycfgbase.cpp:111
-msgid "Received messages color"
-msgstr "Barva přijatých zpráv"
-
-#: plugins/_core/historycfgbase.cpp:121
-msgid "Others color"
-msgstr "Ostatní barvy"
-
-#: plugins/_core/historycfgbase.cpp:131
-msgid "Own color"
-msgstr "Vlastní barva"
-
-#: plugins/_core/historycfgbase.cpp:141
-msgid "Use emotional &icons"
-msgstr "Použít emocionální &ikony (smajlíky)"
-
 #: plugins/_core/maininfobase.cpp:103 plugins/icq/aiminfobase.cc:74
 #: plugins/icq/aimsearchbase.cc:222 plugins/icq/icqinfobase.cc:179
 #: plugins/icq/icqsearchbase.cc:193 plugins/jabber/jabberinfobase.cpp:99
@@ -1624,6 +1600,30 @@ msgstr "Odmítnout důvod"
 #, fuzzy
 msgid "Enter decline reason:"
 msgstr "Vložte důvod odmítnutí"
+
+#: plugins/_core/historycfgbase.cpp:95
+msgid "Use &own colors and fonts settings"
+msgstr "P&oužít vlastní barvy"
+
+#: plugins/_core/historycfgbase.cpp:101
+msgid "Sending messages color"
+msgstr "Barva zasílaných zpráv"
+
+#: plugins/_core/historycfgbase.cpp:111
+msgid "Received messages color"
+msgstr "Barva přijatých zpráv"
+
+#: plugins/_core/historycfgbase.cpp:121
+msgid "Others color"
+msgstr "Ostatní barvy"
+
+#: plugins/_core/historycfgbase.cpp:131
+msgid "Own color"
+msgstr "Vlastní barva"
+
+#: plugins/_core/historycfgbase.cpp:141
+msgid "Use emotional &icons"
+msgstr "Použít emocionální &ikony (smajlíky)"
 
 #: plugins/about/about.cpp:38 plugins/about/aboutdlgbase.cpp:94
 msgid "About"
@@ -2579,14 +2579,6 @@ msgstr "Kontrolovat neviditelnost"
 #, fuzzy
 msgid "Warning"
 msgstr "&Varování"
-
-#: plugins/icq/icqpicture.cpp:126
-msgid "Picture can not be more than 7 kbytes"
-msgstr "Obrázek nesmí být větší než 7 kB"
-
-#: plugins/icq/icqpicture.cpp:136 plugins/jabber/jabberpicture.cpp:138
-msgid "Picture is not available"
-msgstr "Obrázek není dostupný"
 
 #: plugins/icq/icqsearch.cpp:162
 msgid "ICQ search results"
@@ -3786,6 +3778,14 @@ msgstr ""
 msgid "You will choose the coding by default which want to use:"
 msgstr ""
 
+#: plugins/icq/icqpicture.cpp:126
+msgid "Picture can not be more than 7 kbytes"
+msgstr "Obrázek nesmí být větší než 7 kB"
+
+#: plugins/icq/icqpicture.cpp:136 plugins/jabber/jabberpicture.cpp:138
+msgid "Picture is not available"
+msgstr "Obrázek není dostupný"
+
 #: plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:181
 msgid "First name"
 msgstr "Jméno"
@@ -3801,10 +3801,6 @@ msgstr "Email"
 #: plugins/jabber/addresult.cpp:34
 msgid "ID"
 msgstr "ID"
-
-#: plugins/jabber/jabber.cpp:85
-msgid "Jabber"
-msgstr "Jabber"
 
 #: plugins/jabber/jabber_rosters.cpp:1612
 #, fuzzy
@@ -4118,6 +4114,10 @@ msgstr "&Registrace"
 #, fuzzy
 msgid "&Agents"
 msgstr "Události"
+
+#: plugins/jabber/jabber.cpp:85
+msgid "Jabber"
+msgstr "Jabber"
 
 #: plugins/logger/logconfig.cpp:80
 #, fuzzy
@@ -5958,23 +5958,23 @@ msgstr ""
 msgid "Read socket error"
 msgstr "Chyba v čtení ze soketu"
 
-#: sim/api/sockfactory.cpp:188
+#: sim/api/sockfactory.cpp:189
 msgid "Connect error"
 msgstr "Chyba spojení"
 
-#: sim/api/sockfactory.cpp:241
+#: sim/api/sockfactory.cpp:242
 msgid "Can't resolve host"
 msgstr "Chyba v resolvování jména hostitele"
 
-#: sim/api/sockfactory.cpp:267 sim/ui/qt3/i18n.cpp:237
+#: sim/api/sockfactory.cpp:268 sim/ui/qt3/i18n.cpp:237
 msgid "Connection closed"
 msgstr "Spojení uzavřeno"
 
-#: sim/api/sockfactory.cpp:320
+#: sim/api/sockfactory.cpp:321
 msgid "Socket error"
 msgstr "Chyba soketu"
 
-#: sim/api/sockfactory.cpp:369
+#: sim/api/sockfactory.cpp:370
 #, fuzzy
 msgid "Can't allocate port"
 msgstr "Nemohu vytvořit soubor %1"

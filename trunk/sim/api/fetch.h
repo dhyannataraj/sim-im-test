@@ -26,7 +26,7 @@
 class my_string : public string
 {
 public:
-    my_string(const char *str) : string(str) {}
+my_string(const char *str) : string(str) {}
     bool operator < (const my_string &str) const;
 };
 

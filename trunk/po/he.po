@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
-"POT-Creation-Date: 2003-11-10 11:32+0300\n"
+"POT-Creation-Date: 2003-11-10 12:06+0300\n"
 "PO-Revision-Date: 2003-02-04 03:03+0200\n"
 "Last-Translator: Amir Tal <tal@whatsup.org.il>\n"
 "Language-Team: Hebrew <kde-il@yahoogroups.com>\n"
@@ -1408,31 +1408,6 @@ msgstr "קבוצות"
 msgid "Show group &separator"
 msgstr ""
 
-#: plugins/_core/historycfgbase.cpp:95
-msgid "Use &own colors and fonts settings"
-msgstr "השתמש בהגדרות &עצמיות של גופנים וצבעים"
-
-#: plugins/_core/historycfgbase.cpp:101
-msgid "Sending messages color"
-msgstr "צבע שליחת הודעה"
-
-#: plugins/_core/historycfgbase.cpp:111
-msgid "Received messages color"
-msgstr "צבע קבלת הודעה"
-
-#: plugins/_core/historycfgbase.cpp:121
-#, fuzzy
-msgid "Others color"
-msgstr "צבע &טקסט"
-
-#: plugins/_core/historycfgbase.cpp:131
-msgid "Own color"
-msgstr ""
-
-#: plugins/_core/historycfgbase.cpp:141
-msgid "Use emotional &icons"
-msgstr "השתמש ב&אייקונים של רגשות"
-
 #: plugins/_core/maininfobase.cpp:103 plugins/icq/aiminfobase.cc:74
 #: plugins/icq/aimsearchbase.cc:222 plugins/icq/icqinfobase.cc:179
 #: plugins/icq/icqsearchbase.cc:193 plugins/jabber/jabberinfobase.cpp:99
@@ -1761,6 +1736,31 @@ msgstr "סיבת דחייה"
 #, fuzzy
 msgid "Enter decline reason:"
 msgstr "הכנס סיבת דחייה"
+
+#: plugins/_core/historycfgbase.cpp:95
+msgid "Use &own colors and fonts settings"
+msgstr "השתמש בהגדרות &עצמיות של גופנים וצבעים"
+
+#: plugins/_core/historycfgbase.cpp:101
+msgid "Sending messages color"
+msgstr "צבע שליחת הודעה"
+
+#: plugins/_core/historycfgbase.cpp:111
+msgid "Received messages color"
+msgstr "צבע קבלת הודעה"
+
+#: plugins/_core/historycfgbase.cpp:121
+#, fuzzy
+msgid "Others color"
+msgstr "צבע &טקסט"
+
+#: plugins/_core/historycfgbase.cpp:131
+msgid "Own color"
+msgstr ""
+
+#: plugins/_core/historycfgbase.cpp:141
+msgid "Use emotional &icons"
+msgstr "השתמש ב&אייקונים של רגשות"
 
 #: plugins/about/about.cpp:38 plugins/about/aboutdlgbase.cpp:94
 msgid "About"
@@ -2750,15 +2750,6 @@ msgstr "לא נראה"
 #, fuzzy
 msgid "Warning"
 msgstr "&אזהרות"
-
-#: plugins/icq/icqpicture.cpp:126
-msgid "Picture can not be more than 7 kbytes"
-msgstr ""
-
-#: plugins/icq/icqpicture.cpp:136 plugins/jabber/jabberpicture.cpp:138
-#, fuzzy
-msgid "Picture is not available"
-msgstr "המשתמש זמין כרגע ב:"
 
 #: plugins/icq/icqsearch.cpp:162
 msgid "ICQ search results"
@@ -3987,6 +3978,15 @@ msgstr ""
 msgid "You will choose the coding by default which want to use:"
 msgstr ""
 
+#: plugins/icq/icqpicture.cpp:126
+msgid "Picture can not be more than 7 kbytes"
+msgstr ""
+
+#: plugins/icq/icqpicture.cpp:136 plugins/jabber/jabberpicture.cpp:138
+#, fuzzy
+msgid "Picture is not available"
+msgstr "המשתמש זמין כרגע ב:"
+
 #: plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:181
 #, fuzzy
 msgid "First name"
@@ -4003,10 +4003,6 @@ msgstr "דוא\"ל"
 
 #: plugins/jabber/addresult.cpp:34
 msgid "ID"
-msgstr ""
-
-#: plugins/jabber/jabber.cpp:85
-msgid "Jabber"
 msgstr ""
 
 #: plugins/jabber/jabber_rosters.cpp:1612
@@ -4324,6 +4320,10 @@ msgstr "&הירשם"
 #, fuzzy
 msgid "&Agents"
 msgstr "אפקטים"
+
+#: plugins/jabber/jabber.cpp:85
+msgid "Jabber"
+msgstr ""
 
 #: plugins/logger/logconfig.cpp:80
 #, fuzzy
@@ -6190,26 +6190,26 @@ msgstr ""
 msgid "Read socket error"
 msgstr ""
 
-#: sim/api/sockfactory.cpp:188
+#: sim/api/sockfactory.cpp:189
 #, fuzzy
 msgid "Connect error"
 msgstr "חיבור"
 
-#: sim/api/sockfactory.cpp:241
+#: sim/api/sockfactory.cpp:242
 #, fuzzy
 msgid "Can't resolve host"
 msgstr "לא הייתה אפשרות ליצור %1"
 
-#: sim/api/sockfactory.cpp:267 sim/ui/qt3/i18n.cpp:237
+#: sim/api/sockfactory.cpp:268 sim/ui/qt3/i18n.cpp:237
 msgid "Connection closed"
 msgstr "החיבור נסגר."
 
-#: sim/api/sockfactory.cpp:320
+#: sim/api/sockfactory.cpp:321
 #, fuzzy
 msgid "Socket error"
 msgstr "חיבור"
 
-#: sim/api/sockfactory.cpp:369
+#: sim/api/sockfactory.cpp:370
 #, fuzzy
 msgid "Can't allocate port"
 msgstr "אירעה שגיאה ביצירת הקובץ %1"
