@@ -60,6 +60,8 @@ protected:
     HttpRequest *post;
     SocketFactory *factory;
 
+    unsigned long nSock;
+
     friend class HttpRequest;
     friend class HelloRequest;
     friend class MonitorRequest;

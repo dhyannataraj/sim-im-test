@@ -49,20 +49,22 @@ const unsigned short HTTP_PROXY_UNK2       = 7;
 class HttpPacket
 {
 public:
-    HttpPacket(const char *data, unsigned short size, unsigned short type);
+    HttpPacket(const char *data, unsigned short size, unsigned short type, unsigned long nSock);
     ~HttpPacket();
     char *data;
     unsigned short size;
     unsigned short type;
+    unsigned long  nSock;
 private:
     HttpPacket(HttpPacket&);
     void operator = (HttpPacket&);
 };
 
-HttpPacket::HttpPacket(const char *_data, unsigned short _size, unsigned short _type)
+HttpPacket::HttpPacket(const char *_data, unsigned short _size, unsigned short _type, unsigned long _nSock)
 {
     size = _size;
     type = _type;
+    nSock = _nSock;
     data = NULL;
     if (size){
         data = new char[size];
@@ -187,7 +189,7 @@ void HttpRequest::connect_ready()
         << HTTP_PROXY_VERSION
         << p->type
         << 0x00000000L
-        << 0x00000001L;
+        << p->nSock;
         if (p->size)
             bOut.pack(p->data, p->size);
         m_proxy->queue.remove(p);
@@ -208,13 +210,16 @@ bool HttpRequest::readLine(string &s)
             return false;
         }
         if (n == 0) return false;
-        if (c == '\r') continue;
-        if (c == '\n') break;
         bIn << c;
+        if (c == '\n') break;
     }
-    dumpPacket(bIn, 0, "Proxy read");
-    s.assign(bIn.Data(0), bIn.size());
-    bIn.init(0);
+    s = "";
+    for (; bIn.readPos() < bIn.writePos(); ){
+        char c;
+        bIn.unpack(&c, 1);
+        if ((c == '\r') || (c == '\n')) continue;
+        s += c;
+    }
     return true;
 }
 
@@ -238,14 +243,17 @@ void HttpRequest::read_ready()
         r++;
         int code = atoi(r);
         if (code == 401){
+            dumpPacket(bIn, 0, "Proxy read");
             error_state(ErrorProxyAuth);
             return;
         }
         if (code == 502){
+            dumpPacket(bIn, 0, "Proxy read");
             error_state(ErrorRead);
             return;
         }
         if (code != 200){
+            dumpPacket(bIn, 0, "Proxy read");
             error_state(ErrorProxyConnect);
             return;
         }
@@ -278,6 +286,7 @@ void HttpRequest::read_ready()
             if (tail > sizeof(b)) tail = sizeof(b);
             int n = m_sock->read(b, tail);
             if (n < 0){
+                dumpPacket(bIn, 0, "Proxy read");
                 error_state(ErrorProxyConnect);
                 return;
             }
@@ -287,6 +296,7 @@ void HttpRequest::read_ready()
         }
         if (data_size == 0){
             state = None;
+            dumpPacket(bIn, 0, "Proxy read");
             data_ready();
         }
     }
@@ -381,7 +391,6 @@ const char *MonitorRequest::uri()
 
 void MonitorRequest::data_ready()
 {
-    dumpPacket(bIn, 0, "Proxy read");
     m_proxy->readn = 0;
     while (bIn.readPos() < bIn.size()){
         unsigned short len, ver, type;
@@ -464,8 +473,6 @@ const char *PostRequest::uri()
 
 void PostRequest::data_ready()
 {
-    if (bIn.size())
-        log(L_WARN, "Bad answer size for post data");
     m_proxy->request();
 }
 
@@ -484,6 +491,7 @@ ICQ_HTTP_Proxy::ICQ_HTTP_Proxy(SocketFactory *_factory, const char *host, unsign
     state = None;
     seq = 0;
     readn = 0;
+    nSock = 0;
 }
 
 ICQ_HTTP_Proxy::~ICQ_HTTP_Proxy()
@@ -516,7 +524,7 @@ int ICQ_HTTP_Proxy::read(char *buf, unsigned int size)
 
 void ICQ_HTTP_Proxy::write(const char *buf, unsigned int size)
 {
-    queue.push_back(new HttpPacket(buf, size, HTTP_PROXY_FLAP));
+    queue.push_back(new HttpPacket(buf, size, HTTP_PROXY_FLAP, nSock));
     request();
 }
 
@@ -525,11 +533,12 @@ void ICQ_HTTP_Proxy::connect(const char *host, int port)
     Buffer b;
     unsigned short len = strlen(host);
     b << len << host << port;
-    queue.push_back(new HttpPacket(b.Data(0), b.size(), HTTP_PROXY_LOGIN));
+    nSock++;
+    queue.push_back(new HttpPacket(b.Data(0), b.size(), HTTP_PROXY_LOGIN, nSock));
     if (sid.length()){
         unsigned char close_packet[] = { 0x2A, 0x04, 0x14, 0xAB, 0x00, 0x00 };
-        queue.push_back(new HttpPacket((char*)close_packet, sizeof(close_packet), HTTP_PROXY_FLAP));
-        queue.push_back(new HttpPacket(NULL, 0, HTTP_PROXY_CONNECT));
+        queue.push_back(new HttpPacket((char*)close_packet, sizeof(close_packet), HTTP_PROXY_FLAP, 1));
+        queue.push_back(new HttpPacket(NULL, 0, HTTP_PROXY_CONNECT, 1));
     }
     request();
 }

@@ -258,7 +258,6 @@ void SSLClient::process(bool bInRead)
 
 void SSLClient::connect()
 {
-    log(L_DEBUG, "SSL connect");
     if (pSSL == NULL){
         notify->error_state(ErrorConnect);
         return;
@@ -267,7 +266,6 @@ void SSLClient::connect()
     int j = SSL_get_error(pSSL, i);
     if (j == SSL_ERROR_NONE)
     {
-        log(L_DEBUG, "SSL OK");
         m_bSecure = true;
         state = SSLConnected;
         notify->connect_ready();
@@ -296,7 +294,6 @@ void SSLClient::connect()
 
 void SSLClient::shutdown()
 {
-    log(L_DEBUG, "SSL shutdown");
     if (pSSL == NULL){
         notify->error_state(ErrorConnect);
         return;
@@ -305,7 +302,6 @@ void SSLClient::shutdown()
     int j = SSL_get_error(pSSL, i);
     if (j == SSL_ERROR_NONE)
     {
-        log(L_DEBUG, "SSL OK");
         SSL_free(pSSL);
         mpSSL = NULL;
         m_bSecure = false;
@@ -334,7 +330,6 @@ void SSLClient::shutdown()
 
 void SSLClient::accept()
 {
-    log(L_DEBUG, "SSL accept");
     if (pSSL == NULL){
         notify->error_state(ErrorConnect);
         return;
@@ -343,7 +338,6 @@ void SSLClient::accept()
     int j = SSL_get_error(pSSL, i);
     if (j == SSL_ERROR_NONE)
     {
-        log(L_DEBUG, "SSL OK");
         m_bSecure = true;
         notify->connect_ready();
         state = SSLConnected;

@@ -64,10 +64,10 @@ case "$AUTOMAKE_STRING" in
     echo "*** SIM requires automake 1.5"
     exit 1
     ;;
-  automake*1.5* | automake*1.5-* | automake*1.6* ) : ;;
+  automake*1.5* | automake*1.5-* | automake*1.6* | automake*1.7* ) : ;;
   "" )
     echo "*** AUTOMAKE NOT FOUND!."
-    echo "*** SIM requires automake 1.5 or 1.6"
+    echo "*** SIM requires automake 1.5, 1.6 or 1.7"
     exit 1
     ;;
   unsermake* ) :
@@ -76,7 +76,7 @@ case "$AUTOMAKE_STRING" in
     ;;
   * )
     echo "*** YOU'RE USING $AUTOMAKE_STRING."
-    echo "*** SIM requires automake 1.5 or 1.6"
+    echo "*** SIM requires automake 1.5, 1.6 or 1.7"
     exit 1
     ;;
 esac

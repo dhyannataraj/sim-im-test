@@ -93,11 +93,8 @@ static cfgParam UserBox_Params[] =
 UserBox::UserBox(unsigned long grpId)
         : QMainWindow(NULL, NULL,
                       (WType_TopLevel | WStyle_Customize | WStyle_NormalBorder |
-                       WStyle_Title | WStyle_SysMenu |
+                       WStyle_Title | WStyle_SysMenu | WStyle_Minimize |
                        (pMain->UserWndOnTop ? WStyle_StaysOnTop : 0))
-#ifdef USE_KDE
-                      | (pMain->UserWindowInTaskManager ? WStyle_Minimize : 0)
-#endif
                      )
 {
 
