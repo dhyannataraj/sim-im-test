@@ -77,7 +77,7 @@ static QString reason_string(int i)
 }
 
 MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
-        : QFrame(p),
+        : QSplitter(Vertical, p),
         Uin(this, "Uin")
 {
     Uin = uin;
@@ -86,10 +86,12 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     tab = NULL;
     sendEvent = NULL;
     mHistory = NULL;
+    msgView = NULL;
     bMultiply = false;
     setWFlags(WDestructiveClose);
-    QVBoxLayout *lay = new QVBoxLayout(this);
-    boxSend = new QVGroupBox(this);
+    frmEdit = new QFrame(this);
+    QVBoxLayout *lay = new QVBoxLayout(frmEdit);
+    boxSend = new QVGroupBox(frmEdit);
     lay->addWidget(boxSend);
     QFrame *frmHead = new QFrame(boxSend);
     QHBoxLayout *hLay = new QHBoxLayout(frmHead);
@@ -226,13 +228,13 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     hLay->addSpacing(2);
     hLay->addWidget(btnMultiply);
     lblUsers = new QLabel(i18n("Drag users here"), boxSend);
-    edit  = new EditSpell(this);
+    edit  = new EditSpell(frmEdit);
     edit->hide();
     lay->addWidget(edit);
-    users = new UserTbl(this);
+    users = new UserTbl(frmEdit);
     users->hide();
     lay->addWidget(users);
-    view  = new TextShow(this);
+    view  = new TextShow(frmEdit);
     view->hide();
     lay->addWidget(view);
     connect(edit, SIGNAL(textChanged()), this, SLOT(editTextChanged()));
@@ -245,6 +247,8 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     connect(pMain, SIGNAL(ftChanged()), this, SLOT(ftChanged()));
     setState();
     setUin(uin);
+    connect(pMain, SIGNAL(modeChanged(bool)), this, SLOT(modeChanged(bool)));
+    modeChanged(pMain->SimpleMode());
 }
 
 MsgEdit::~MsgEdit()
@@ -456,8 +460,10 @@ void MsgEdit::processEvent(ICQEvent *e)
             if (e->state == ICQEvent::Success){
                 history()->addMessage(message());
                 if (!msgTail.isEmpty()){
-                    emit addMessage(message(), false, true);
-                    emit showMessage(Uin(), message()->Id);
+                    if (msgView){
+                        msgView->addMessage(message(), false, true);
+                        msgView->setMessage(Uin(), message()->Id);
+                    }
                     if (e->message()->Type() == ICQ_MSGxSMS){
                         ICQSMS *m = new ICQSMS;
                         m->Uin.push_back(Uin);
@@ -474,8 +480,10 @@ void MsgEdit::processEvent(ICQEvent *e)
                     close();
                     return;
                 }
-                emit addMessage(message(), false, true);
-                emit showMessage(Uin(), message()->Id);
+                if (msgView){
+                    msgView->addMessage(message(), false, true);
+                    msgView->setMessage(Uin(), message()->Id);
+                }
                 setMessage();
                 sendEvent = NULL;
                 action(mnuAction);
@@ -567,6 +575,19 @@ void MsgEdit::markAsRead()
 void MsgEdit::messageReceived(ICQMessage *m)
 {
     if (m->getUin() != Uin()) return;
+    if (msgView){
+        bool bUnread = false;
+        ICQUser *u = pClient->getUser(m->getUin());
+        if (u){
+            for (list<unsigned long>::iterator it = u->unreadMsgs.begin(); it != u->unreadMsgs.end(); it++){
+                if ((*it) == m->Id){
+                    bUnread = true;
+                    break;
+                }
+            }
+            msgView->addMessage(m, bUnread, true);
+        }
+    }
     setupNext();
     if (msg && msg->Received && (static_cast<UserBox*>(topLevelWidget())->currentUser() == Uin)) return;
     if (canSend()) return;
@@ -945,7 +966,8 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
         repaint();
         return;
     }
-    emit showMessage(Uin, msg->Id);
+    if (msgView)
+        msgView->setMessage(Uin, msg->Id);
     if (msg->Received()){
         if (bMark) pClient->markAsRead(msg);
         phone->hide();
@@ -1636,6 +1658,24 @@ string MsgEdit::smsChunk()
         }
     }
     return res;
+}
+
+void MsgEdit::modeChanged(bool bSimple)
+{
+    if (bSimple){
+        if (msgView){
+            delete msgView;
+            msgView = NULL;
+        }
+        return;
+    }
+    if (msgView) return;
+    msgView = new MsgView(this);
+    moveToFirst(msgView);
+    connect(msgView, SIGNAL(goMessage(unsigned long, unsigned long)), topLevelWidget(), SLOT(showMessage(unsigned long, unsigned long)));
+    if (isVisible())
+        msgView->show();
+    setResizeMode(msgView, QSplitter::KeepSize);
 }
 
 #ifndef _WINDOWS

@@ -27,6 +27,8 @@
 #include <qtimer.h>
 #include <qstring.h>
 #include <qfileinfo.h>
+#include <qstringlist.h>
+#include <qtextcodec.h>
 
 #include <string>
 
@@ -86,6 +88,39 @@ void Client::setHaveData(Socket *s)
         ((SocketNotifier*)(s->intData))->setHaveData(s->have_data());
 }
 
+#ifndef USE_KDE
+
+typedef struct encoding
+{
+    const char *language;
+    const char *codec;
+} encoding;
+
+encoding encodingTbl[] =
+    {
+        { I18N_NOOP("Unicode"), "UTF-8" },
+        { I18N_NOOP("Western European"), "ISO 8859-1" },
+        { I18N_NOOP("Western European"), "ISO 8859-15" },
+        { I18N_NOOP("Western European"), "CP 1252" },
+        { I18N_NOOP("Central European"), "CP 1250" },
+        { I18N_NOOP("Central European"), "ISO 8859-2" },
+        { I18N_NOOP("Esperanto"), "ISO 8859-3" },
+        { I18N_NOOP("Baltic"), "ISO 8859-13" },
+        { I18N_NOOP("Baltic"), "CP 1257" },
+        { I18N_NOOP("Cyrillic"), "KOI8-R" },
+        { I18N_NOOP("Ukrainan"), "KOI8-U" },
+        { I18N_NOOP("Arabic"), "ISO 8859-6-I" },
+        { I18N_NOOP("Greek"), "ISO 8859-7" },
+        { I18N_NOOP("Hebrew"), "ISO 8859-8-I" },
+        { I18N_NOOP("Chinese Traditional"), "Big5" },
+        { I18N_NOOP("Chinese Simplified"), "gbk" },
+        { I18N_NOOP("Chinese Simplified"), "gbk2312" },
+        { I18N_NOOP("Turkish"), "ISO 8859-9" },
+        { I18N_NOOP("Turkish"), "CP 1254" },
+    };
+
+#endif
+
 Client::Client(QObject *parent, const char *name)
         : QObject(parent, name)
 {
@@ -96,11 +131,20 @@ Client::Client(QObject *parent, const char *name)
     ptrResolver.setRecordType(QDns::Ptr);
     QObject::connect(&resolver, SIGNAL(resultsReady()), this, SLOT(resolve_ready()));
     QObject::connect(&ptrResolver, SIGNAL(resultsReady()), this, SLOT(ptr_resolve_ready()));
+    encodings = new QStringList;
+#ifdef USE_KDE
+    *encodings = KGlobal::charsets()->descriptiveEncodingNames();
+#else
+    for (uint i=0; i< (sizeof(encodingTbl) / sizeof(encoding)); i++) {
+        (*encodings).append(i18n(encodingTbl[i].language) + " ( " + encodingTbl[i].codec + " )");
+    }
+#endif
 }
 
 Client::~Client()
 {
     close();
+    delete encodings;
 }
 
 void Client::markAsRead(ICQMessage *msg)
@@ -578,6 +622,66 @@ void Client::closeFile(ICQFile *f)
 {
     if (f->p) delete (QFile*)(f->p);
     f->p = 0;
+}
+
+QTextCodec *Client::codecForUser(unsigned long uin)
+{
+    ICQUser *u = getUser(uin);
+    if (u){
+        if (u->Encoding.c_str()){
+            QTextCodec *res = QTextCodec::codecForName(u->Encoding.c_str());
+            if (res) return res;
+        }
+    }
+    return QTextCodec::codecForLocale();
+}
+
+string Client::to8Bit(unsigned long uin, const QString &str)
+{
+    QTextCodec *codec = codecForUser(uin);
+    int lenOut;
+    return string(codec->makeEncoder()->fromUnicode(str, lenOut));
+}
+
+QString Client::from8Bit(unsigned long uin, const string &str)
+{
+    QTextCodec *codec = codecForUser(uin);
+    return codec->makeDecoder()->toUnicode(str.c_str(), str.size());
+}
+
+void Client::setUserEncoding(unsigned long uin, int i)
+{
+    if (userEncoding(uin) == i) return;
+    ICQUser *u = getUser(uin);
+    if (u == NULL) return;
+    QString name;
+    if (i > 0){
+        name = (*encodings)[i-1];
+        int left = name.find(" ( ");
+        if (left >= 0) name = name.mid(left + 3);
+        int right = name.find(" )");
+        if (right >= 0) name = name.left(right);
+        u->Encoding = name.latin1();
+    }
+    emit encodingChanged(uin);
+    ICQEvent e(EVENT_INFO_CHANGED, uin);
+    process_event(&e);
+}
+
+int Client::userEncoding(unsigned long uin)
+{
+    QTextCodec *codec = codecForUser(uin);
+    int n = 1;
+    for (QStringList::Iterator it = encodings->begin(); it != encodings->end(); ++it, n++){
+        QString name = *it;
+        int left = name.find(" ( ");
+        if (left >= 0) name = name.mid(left + 3);
+        int right = name.find(" )");
+        if (right >= 0) name = name.left(right);
+        if (name == codec->name())
+            return n;
+    }
+    return 0;
 }
 
 Client *pClient = NULL;

@@ -26,10 +26,6 @@
 #define BR		 4
 #define TAG		 5
 #define TAG_END  6
-#define AMP		 7
-#define QUOT	 8
-#define GT		 9
-#define LT		 10
 
 #define YY_STACK_USED   0
 #define YY_NEVER_INTERACTIVE    1
@@ -45,6 +41,10 @@
 %%
 
 (http|https|ftp)"://"[A-Za-z0-9/\,\.\?\&\;\-_\+\%=~]+	{ return URL; }
+"&quot;"						{ return TXT; }
+"&amp;"							{ return TXT; }
+"&lt;"							{ return TXT; }
+"&gt;"							{ return TXT; }
 "<br>"							{ return BR; }
 "<p>"							{ }
 "</p>"							{ return BR; }

@@ -22,7 +22,7 @@
 
 #include "cfg.h"
 
-#include <qframe.h>
+#include <qsplitter.h>
 
 class QCheckBox;
 class QVGroupBox;
@@ -43,8 +43,9 @@ class PictPushButton;
 class EditFile;
 class UserTab;
 class History;
+class MsgView;
 
-class MsgEdit : public QFrame, public ConfigArray
+class MsgEdit : public QSplitter, public ConfigArray
 {
     Q_OBJECT
 public:
@@ -77,8 +78,6 @@ public slots:
     void action(int, bool bSaveEdit);
     void showMessage(unsigned long msgId);
 signals:
-    void addMessage(ICQMessage*, bool, bool);
-    void showMessage(unsigned long uin, unsigned long id);
     void setSendState(bool);
     void setStatus(const QString&);
     void setStatus(const QString&, int);
@@ -108,7 +107,10 @@ protected slots:
     void toggleMultiply();
     void chatChanged();
     void ftChanged();
+    void modeChanged(bool);
 protected:
+    MsgView *msgView;
+    QFrame  *frmEdit;
     virtual void closeEvent(QCloseEvent *e);
     string smsChunk();
     QString trim(const QString&);

@@ -66,7 +66,7 @@ const QString CUser::name(bool quoted)
         s.setNum(mUIN);
         return s;
     }
-    return QString::fromLocal8Bit(n.c_str());
+    return pClient->from8Bit(u ? u->Uin() : mUIN, n.c_str());
 }
 
 const QString CUser::firstName(bool quoted)
@@ -74,7 +74,7 @@ const QString CUser::firstName(bool quoted)
     if (u == NULL) return "";
     string n = u->FirstName;
     if (quoted) n = XmlNode::quote(n);
-    return QString::fromLocal8Bit(n.c_str());
+    return pClient->from8Bit(u->Uin(), n.c_str());
 }
 
 const QString CUser::lastName(bool quoted)
@@ -82,7 +82,7 @@ const QString CUser::lastName(bool quoted)
     if (u == NULL) return "";
     string n = u->LastName;
     if (quoted) n = XmlNode::quote(n);
-    return QString::fromLocal8Bit(n.c_str());
+    return pClient->from8Bit(u->Uin(), n.c_str());
 }
 
 const QString CUser::email(bool quoted)
@@ -96,7 +96,7 @@ const QString CUser::email(bool quoted)
         if (quoted) n = XmlNode::quote(n);
         res += n;
     }
-    return QString::fromLocal8Bit(res.c_str());
+    return pClient->from8Bit(u->Uin(), res.c_str());
 }
 
 const QString CUser::autoReply(bool quoted)
@@ -104,7 +104,7 @@ const QString CUser::autoReply(bool quoted)
     if (u == NULL) return "";
     string n = u->AutoReply;
     if (quoted) n = XmlNode::quote(n);
-    QString res = QString::fromLocal8Bit(n.c_str());
+    QString res = pClient->from8Bit(u->Uin(), n.c_str());
     if (quoted) res.replace(QRegExp("\n"), "<br>");
     return res;
 }
@@ -238,7 +238,7 @@ QString CUser::toolTip()
             isDiv = true;
         }
         r += "<br><img src=\"icon:cell\">";
-        r += QString::fromLocal8Bit(phone->getNumber().c_str());
+        r += pClient->from8Bit(u->Uin(), phone->getNumber().c_str());
     }
     for (it = u->Phones.begin(); it != u->Phones.end(); it++){
         PhoneInfo *phone = static_cast<PhoneInfo*>(*it);
@@ -248,7 +248,7 @@ QString CUser::toolTip()
             isDiv = true;
         }
         r += "<br><img src=\"icon:phone\">";
-        r += QString::fromLocal8Bit(phone->getNumber().c_str());
+        r += pClient->from8Bit(u->Uin(), phone->getNumber().c_str());
     }
     QString sAutoReply = autoReply(true);
     if (sAutoReply.length()){

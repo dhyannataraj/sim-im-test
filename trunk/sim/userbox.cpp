@@ -44,6 +44,7 @@
 #include <qstyle.h>
 #include <qwidgetlist.h>
 #include <qprogressbar.h>
+#include <qstringlist.h>
 
 #ifdef USE_KDE
 #include <kwin.h>
@@ -95,7 +96,6 @@ UserBox::UserBox(unsigned long grpId)
     ToolbarY = pMain->UserBoxToolbarY();
     users = NULL;
     GrpId = grpId;
-    msgView = NULL;
     progress = NULL;
     infoPage = 0;
     setWFlags(WDestructiveClose);
@@ -112,9 +112,7 @@ UserBox::UserBox(unsigned long grpId)
     vSplitter = new QSplitter(Horizontal, frm);
     vSplitter->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
     lay->addWidget(vSplitter);
-    splitter = new QSplitter(Vertical, vSplitter);
-    modeChanged(pMain->SimpleMode());
-    frmUser = new QFrame(splitter);
+    frmUser = new QFrame(vSplitter);
     layUser = new QVBoxLayout(frmUser);
     tabSplitter = new Splitter(frm);
     tabSplitter->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
@@ -169,15 +167,26 @@ UserBox::UserBox(unsigned long grpId)
     btnHistory->setTextLabel(i18n("History"));
     btnHistory->setToggleButton(true);
     connect(btnHistory, SIGNAL(toggled(bool)), this, SLOT(toggleHistory(bool)));
-    btnEncoding = new QToolButton(Icon("encoding"), i18n("Encoding"), "", this, SLOT(showEncodingPopup()), toolbar);
+    menuEncoding = new QPopupMenu(this);
+    menuEncoding->setCheckable(true);
+    int index = 0;
+    for (QStringList::Iterator it = pClient->encodings->begin(); it != pClient->encodings->end(); ++it){
+        menuEncoding->insertItem(*it, ++index);
+    }
+    connect(menuEncoding, SIGNAL(activated(int)), this, SLOT(setUserEncoding(int)));
+    connect(menuEncoding, SIGNAL(aboutToShow()), this, SLOT(showEncodingPopup()));
+    btnEncoding = new CToolButton(toolbar);
+    btnEncoding->setIconSet(Icon("encoding"));
+    btnEncoding->setTextLabel(i18n("Encoding"));
+    btnEncoding->setPopup(menuEncoding);
+    btnEncoding->setPopupDelay(0);
     btnQuit = new QToolButton(Icon("exit"), i18n("Close"), "", this, SLOT(quit()), toolbar);
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     connect(pClient, SIGNAL(messageRead(ICQMessage*)), this, SLOT(messageRead(ICQMessage*)));
-    connect(pClient, SIGNAL(messageReceived(ICQMessage*)), this, SLOT(messageReceived(ICQMessage*)));
     connect(pMain, SIGNAL(iconChanged()), this, SLOT(iconChanged()));
     connect(pMain, SIGNAL(wmChanged()), this, SLOT(wmChanged()));
-    connect(pMain, SIGNAL(modeChanged(bool)), this, SLOT(modeChanged(bool)));
     connect(this, SIGNAL(toolBarPositionChanged(QToolBar*)), this, SLOT(toolBarChanged(QToolBar*)));
+    connect(pClient, SIGNAL(messageReceived(ICQMessage*)), this, SLOT(messageReceived(ICQMessage*)));
     setGroupButtons();
     wmChanged();
     adjustPos();
@@ -207,6 +216,19 @@ void UserBox::wmChanged()
 
 void UserBox::showEncodingPopup()
 {
+    for (int i = 0; i < menuEncoding->count(); i++)
+        menuEncoding->setItemChecked(menuEncoding->idAt(i), false);
+    if (curWnd){
+        int encoding = pClient->userEncoding(curWnd->Uin());
+        if (encoding)
+            menuEncoding->setItemChecked(encoding, true);
+    }
+}
+
+void UserBox::setUserEncoding(int n)
+{
+    if (curWnd)
+        pClient->setUserEncoding(curWnd->Uin(), n);
 }
 
 void UserBox::showUsers(bool bShow, unsigned long uin)
@@ -475,7 +497,6 @@ MsgEdit *UserBox::getChild(unsigned long uin, bool bCreate)
     wnd->hide();
     wnds.push_back(wnd);
     connect(wnd, SIGNAL(destroyChild(int)), this, SLOT(destroyChild(int)));
-    if (msgView) msgView->addUnread(uin);
     return wnd;
 }
 
@@ -676,30 +697,6 @@ void UserBox::toIgnore()
     pMain->moveUser(mnuGroupIgnore);
 }
 
-void UserBox::messageReceived(ICQMessage *msg)
-{
-    if (msgView == NULL) return;
-    if (getChild(msg->getUin(), false) == NULL) return;
-    bool bUnread = false;
-    ICQUser *u = pClient->getUser(msg->getUin());
-    if (u){
-        for (list<unsigned long>::iterator it = u->unreadMsgs.begin(); it != u->unreadMsgs.end(); it++){
-            if ((*it) == msg->Id){
-                bUnread = true;
-                break;
-            }
-        }
-        if (curWnd && (msg->getUin() == curWnd->Uin()) &&
-                (qApp->activeWindow() == this) &&
-                ((msg->Type() == ICQ_MSGxMSG) || (msg->Type() == ICQ_MSGxURL) ||
-                 (msg->Type() == ICQ_MSGxSMS))){
-            bUnread = false;
-            pClient->markAsRead(msg);
-        }
-        msgView->addMessage(msg, bUnread, true);
-    }
-}
-
 void UserBox::processEvent(ICQEvent *e)
 {
     switch (e->type()){
@@ -830,10 +827,6 @@ void UserBox::selectedUser(int id)
         disconnect(curWnd, SIGNAL(setSendState(bool)), btnType, SLOT(setEnabled(bool)));
         disconnect(curWnd, SIGNAL(setSendState(bool)), btnQuit, SLOT(setEnabled(bool)));
         disconnect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), btnType, SLOT(setState(const QString&, const QString&)));
-        if (msgView){
-            disconnect(curWnd, SIGNAL(showMessage(unsigned long, unsigned long)), msgView, SLOT(setMessage(unsigned long, unsigned long)));
-            disconnect(curWnd, SIGNAL(addMessage(ICQMessage*, bool, bool)), msgView, SLOT(addMessage(ICQMessage*, bool, bool)));
-        }
         showUsers(false, 0);
     }
     status->message("");
@@ -844,10 +837,6 @@ void UserBox::selectedUser(int id)
     connect(curWnd, SIGNAL(setSendState(bool)), btnType, SLOT(setEnabled(bool)));
     connect(curWnd, SIGNAL(setSendState(bool)), btnQuit, SLOT(setEnabled(bool)));
     connect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), btnType, SLOT(setState(const QString&, const QString&)));
-    if (msgView){
-        connect(curWnd, SIGNAL(showMessage(unsigned long, unsigned long)), msgView, SLOT(setMessage(unsigned long, unsigned long)));
-        connect(curWnd, SIGNAL(addMessage(ICQMessage*, bool, bool)), msgView, SLOT(addMessage(ICQMessage*, bool, bool)));
-    }
     connect(curWnd, SIGNAL(showUsers(bool, unsigned long)), this, SLOT(showUsers(bool, unsigned long)));
     curWnd->markAsRead();
     curWnd->show();
@@ -881,7 +870,6 @@ bool UserBox::closeUser(unsigned long uin)
     MsgEdit *wnd = getChild(uin, false);
     if (wnd == NULL) return false;
     wnd->close();
-    if (msgView) msgView->deleteUser(uin);
     return true;
 }
 
@@ -970,28 +958,6 @@ void UserBox::showGrpMenu()
     pMain->adjustGroupMenu(menuGroup, curWnd->Uin);
 }
 
-void UserBox::modeChanged(bool bSimple)
-{
-    if (bSimple){
-        if (msgView){
-            delete msgView;
-            msgView = NULL;
-        }
-        return;
-    }
-    if (msgView) return;
-    msgView = new MsgView(splitter);
-    splitter->moveToFirst(msgView);
-    connect(msgView, SIGNAL(goMessage(unsigned long, unsigned long)), this, SLOT(showMessage(unsigned long, unsigned long)));
-    if (curWnd && msgView){
-        connect(curWnd, SIGNAL(showMessage(unsigned long, unsigned long)), msgView, SLOT(setMessage(unsigned long, unsigned long)));
-        connect(curWnd, SIGNAL(addMessage(ICQMessage*, bool, bool)), msgView, SLOT(addMessage(ICQMessage*, bool, bool)));
-    }
-    if (splitter->isVisible())
-        msgView->show();
-    splitter->setResizeMode(msgView, QSplitter::KeepSize);
-}
-
 void UserBox::showProgress(int n)
 {
     if (n > 100){
@@ -1010,6 +976,16 @@ void UserBox::showProgress(int n)
         status->message(i18n("History loading"));
     }
     progress->setProgress(n);
+}
+
+void UserBox::messageReceived(ICQMessage *msg)
+{
+    if (curWnd && (msg->getUin() == curWnd->Uin()) &&
+            (qApp->activeWindow() == this) &&
+            ((msg->Type() == ICQ_MSGxMSG) || (msg->Type() == ICQ_MSGxURL) ||
+             (msg->Type() == ICQ_MSGxSMS))){
+        pClient->markAsRead(msg);
+    }
 }
 
 UserTabBar::UserTabBar(QWidget *parent) : QTabBar(parent)

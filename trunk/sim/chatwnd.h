@@ -64,6 +64,7 @@ protected:
     QFile *logFile;
     QColor chatColor(unsigned long c);
     bool bInit;
+    unsigned long uin;
     TransparentTop *transparent;
 };
 

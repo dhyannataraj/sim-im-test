@@ -62,6 +62,7 @@ ChatWindow::ChatWindow(ICQChat *_chat)
 {
     logFile = NULL;
     bConnected = false;
+    uin = 0;
 
     setWFlags(WDestructiveClose);
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
@@ -229,6 +230,7 @@ void ChatWindow::processEvent(ICQEvent *e)
     case CHAT_CONNECT:{
             CUser u(e->Uin());
             new ChatUserItem(lstUsers, u.name(), e->Uin());
+            uin = e->Uin();
             QString line = chatHeader(e->Uin()) +
                            txtChat->quoteText(i18n("Enter to chat").local8Bit()) + "<br>\n";
             txtChat->insertParagraph(line, -1);
@@ -264,7 +266,7 @@ void ChatWindow::processEvent(ICQEvent *e)
             txtChat->setColor(chatColor(chat->chat->fgColor));
             bClientMode = true;
         }
-        txtChat->insert(QString::fromLocal8Bit(e->text.c_str()), false, false);
+        txtChat->insert(pClient->from8Bit(uin, e->text.c_str()), false, false);
         break;
     case CHAT_BACKSPACE:
         if (bClientMode)

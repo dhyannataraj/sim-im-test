@@ -25,6 +25,8 @@
 
 class QDns;
 class QSocketNotifier;
+class QStringList;
+class QTextCodec;
 
 typedef struct resolveAddr
 {
@@ -64,6 +66,12 @@ public:
     virtual void createSocket(Socket*);
     virtual void closeSocket(Socket*);
     virtual void setHaveData(Socket*);
+    QStringList *encodings;
+    void setUserEncoding(unsigned long uin, int i);
+    int userEncoding(unsigned long uin);
+    QTextCodec *codecForUser(unsigned long uin);
+    string to8Bit(unsigned long uin, const QString&);
+    QString from8Bit(unsigned long uin, const string&);
 protected:
     QDns resolver;
     list<resolveAddr> resolveQueue;
@@ -75,6 +83,7 @@ signals:
     void messageRead(ICQMessage *msg);
     void fileProcess(ICQFile*);
     void fileExist(ICQFile*, bool canResume);
+    void encodingChanged(unsigned long uin);
 protected slots:
     void ptr_resolve_ready();
     void resolve_ready();

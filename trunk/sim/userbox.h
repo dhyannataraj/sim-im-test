@@ -42,7 +42,6 @@ class QProgressBar;
 class CToolButton;
 class UserBox;
 class UserInfo;
-class MsgView;
 class MsgEdit;
 class HistoryView;
 class PictButton;
@@ -107,7 +106,6 @@ public slots:
     void showUser(unsigned long uin, int function, unsigned long param=0);
     void showUserPopup(int id, QPoint p);
     void messageRead(ICQMessage*);
-    void messageReceived(ICQMessage *msg);
     void setGroupButtons();
     void showUsers(bool, unsigned long);
     void showProgress(int n);
@@ -124,8 +122,9 @@ protected slots:
     void moveUser(int);
     void iconChanged();
     void wmChanged();
-    void modeChanged(bool bSimple);
     void showEncodingPopup();
+    void setUserEncoding(int);
+    void messageReceived(ICQMessage*);
 protected:
     void getToolbarPosition();
     void showEvent(QShowEvent *e);
@@ -137,18 +136,17 @@ protected:
     QToolButton *btnQuit;
     QToolButton *btnHistory;
     QToolButton *btnInfo;
-    QToolButton *btnEncoding;
+    CToolButton *btnEncoding;
     PictButton  *btnType;
     PictButton  *btnUser;
     QToolButton	*btnIgnore;
     CToolButton	*btnGroup;
     QSplitter	*vSplitter;
-    QSplitter   *splitter;
-    MsgView     *msgView;
     QSplitter  *tabSplitter;
     QStatusBar *status;
     QPopupMenu *menuUser;
     QPopupMenu *menuType;
+    QPopupMenu *menuEncoding;
     QVBoxLayout *lay;
     QFrame		*frm;
     QFrame		*frmUser;
