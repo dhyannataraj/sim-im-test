@@ -215,6 +215,9 @@ static QString addStrings(const QString &old_value, const QString &values, const
         QString str = getToken(str_item, '/');
         while (str_item.length()){
             QString proto = getToken(str_item, ',');
+            /* remove '-/' */
+            if (proto.startsWith("-/"))
+              proto = proto.right(proto.length()-2);
             if (client && (proto == client))
                 continue;
             add_str(str_list, str, proto.latin1());
