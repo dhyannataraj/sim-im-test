@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "POT-Creation-Date: 2003-11-01 17:39+0300\n"
-"PO-Revision-Date: 2003-10-28 16:15-0200\n"
+"PO-Revision-Date: 2003-11-03 14:12-0200\n"
 "Last-Translator: Carlos Tadeu Panato Jr. <ctpj@terra.com.br>\n"
 "Language-Team: Brazilian Portuguese\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: plugins/__homedir/homedir.cpp:47
 msgid "Home directory"
-msgstr "diretório home"
+msgstr "Diretório home"
 
 #: plugins/__homedir/homedir.cpp:48
 msgid "Plugin provides select directory for store config files"
@@ -87,11 +87,13 @@ msgid "Autoreply message"
 msgstr "Mensagem de resposta automática"
 
 #: plugins/_core/autoreply.cpp:92
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Close after %n second\n"
 "Close after %n seconds"
-msgstr "Fechar depois de %n segundos"
+msgstr ""
+"Fechar depois de %n segundos\n"
+"Fechar depois de %n segundos"
 
 #: plugins/_core/cfgdlg.cpp:271 plugins/_core/usercfg.cpp:195
 msgid "User info"
@@ -170,7 +172,7 @@ msgstr "Recipiente"
 
 #: plugins/_core/container.cpp:596
 msgid "Contact typed message"
-msgstr "Tipo de mensagem do contato"
+msgstr "Contato está digitando mensagem"
 
 #: plugins/_core/core.cpp:73
 msgid "Interface"
@@ -202,8 +204,7 @@ msgstr "Por favor, não perturbe agora, mais tarde ok?.\n"
 
 #: plugins/_core/core.cpp:348
 msgid "We'd love to hear what you have to say. Join our chat.\n"
-msgstr ""
-"Estou querendo saber o que você tem para dizer. Entre em nosso chat.\n"
+msgstr "Estou querendo saber o que você tem para dizer. Entre em nosso chat.\n"
 
 #: plugins/_core/core.cpp:421
 msgid "Unread messages"
@@ -245,7 +246,7 @@ msgstr "Grupo:"
 #: plugins/_core/core.cpp:502 plugins/_core/core.cpp:1060
 #: plugins/icq/icq.cpp:562 plugins/jabber/jabber.cpp:355
 msgid "User &info"
-msgstr "&Informação do usuário"
+msgstr "In&formação do usuário"
 
 #: plugins/_core/core.cpp:509 plugins/_core/core.cpp:1068
 msgid "&History"
@@ -265,7 +266,7 @@ msgstr "&Enviar"
 
 #: plugins/_core/core.cpp:560
 msgid "&Insert smile"
-msgstr "&Inserir smile"
+msgstr "Inseri&r smile"
 
 #: plugins/_core/core.cpp:567 plugins/_core/smscfgbase.cc:102
 #: plugins/forward/forwardcfgbase.cpp:106
@@ -290,11 +291,11 @@ msgstr "Cor de Pr&imeiro Plano"
 
 #: plugins/_core/core.cpp:605 plugins/_core/core.cpp:702
 msgid "&Bold"
-msgstr "N&egrito"
+msgstr "&Negrito"
 
 #: plugins/_core/core.cpp:612 plugins/_core/core.cpp:709
 msgid "&Italic"
-msgstr "&Itálico"
+msgstr "Itá&lico"
 
 #: plugins/_core/core.cpp:619 plugins/_core/core.cpp:716
 #: sim/ui/qt3/i18n.cpp:160
@@ -476,13 +477,11 @@ msgstr "Recusar arquivo sem razão"
 
 #: plugins/_core/core.cpp:1168 plugins/_core/core.cpp:2611
 msgid "Sorry, I'm busy right now, and can not respond to your request"
-msgstr ""
-"Desculpe, estou muito ocupado agora, não poderei responder sua mensagem"
+msgstr "Desculpe, estou muito ocupado agora, não poderei responder sua mensagem"
 
 #: plugins/_core/core.cpp:1173 plugins/_core/core.cpp:2620
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
-msgstr ""
-"Desculpe, estou muito ocupado agora, mas responderei mais tarde sua mensagem"
+msgstr "Desculpe, estou muito ocupado agora, mas responderei mais tarde sua mensagem"
 
 #: plugins/_core/core.cpp:1178
 msgid "Enter a decline reason"
@@ -1729,8 +1728,7 @@ msgstr "Ausente"
 
 #: plugins/autoaway/autoaway.cpp:55
 msgid "Plugin provides set away and N/A status after some idle time"
-msgstr ""
-"Este plugin fornece o status de ausente e N/A depois de um tempo de inativo"
+msgstr "Este plugin fornece o status de ausente e N/A depois de um tempo de inativo"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:121
 msgid "Set \"Away\" status after"
@@ -1750,8 +1748,7 @@ msgstr "Estabelecer estado \"N/A\" depois de"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:125
 #: plugins/sound/soundconfigbase.cpp:166
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Desativar alertas online em \"Ausente\", \"N/A\", \"Năo perturbar\" e "
 "\"Ocupado\""
@@ -1824,8 +1821,7 @@ msgstr "Bandeja do sistema"
 
 #: plugins/dock/dock.cpp:45
 msgid "Plugin provides dock main window in system tray"
-msgstr ""
-"Este plugin fornece um \"dock\" para a janela principal na bandeja do sistema"
+msgstr "Este plugin fornece um \"dock\" para a janela principal na bandeja do sistema"
 
 #: plugins/dock/dock.cpp:47 plugins/windock/windock.cpp:43
 msgid "Dock"
@@ -2127,7 +2123,7 @@ msgstr "Mo&strar todas as codificações"
 
 #: plugins/icq/icq.cpp:532 plugins/icq/icq.cpp:542
 msgid "Change &encoding"
-msgstr "Alt&erar a codificação"
+msgstr "Alterar a co&dificação"
 
 #: plugins/icq/icq.cpp:568 plugins/jabber/jabber.cpp:361
 msgid "&Add to group"
@@ -3312,8 +3308,7 @@ msgstr "Permitir &conexões diretas com qualquer usuário"
 
 #: plugins/icq/icqsecurebase.cc:220
 msgid "Allow direct connection from user listed in &contact list"
-msgstr ""
-"Permitir conexões diretas com usuários listados na lista de &contatos"
+msgstr "Permitir conexões diretas com usuários listados na lista de &contatos"
 
 #: plugins/icq/icqsecurebase.cc:221
 msgid "Allow direct connection from user &upon authorization"
@@ -3589,8 +3584,7 @@ msgstr ""
 
 #: plugins/icq/encodingdlgbase.cc:85
 msgid "You will choose the coding by default which want to use:"
-msgstr ""
-"Você pode escolher a codificação por padrão as quais quer utilizar:"
+msgstr "Você pode escolher a codificação por padrão as quais quer utilizar:"
 
 #: plugins/icq/aimconfig.cpp:45
 msgid "Register new ScreenName"
@@ -4226,8 +4220,7 @@ msgid "Navigate"
 msgstr "Navegar"
 
 #: plugins/navigate/navigate.cpp:199
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Este plugin fornece navegação em hiperlinks, e chama um navegador e leitor "
 "de e-mail externo"
@@ -4306,8 +4299,7 @@ msgstr "Sempre Visível"
 
 #: plugins/ontop/ontop.cpp:44
 msgid "Plugin provides main window and containers always on top"
-msgstr ""
-"Este plugin fornece que a janela principal e containers fique sempre visível"
+msgstr "Este plugin fornece que a janela principal e containers fique sempre visível"
 
 #: plugins/ontop/ontop.cpp:79
 msgid "Always on top"
@@ -4326,8 +4318,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:48
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Este plugin fornece notificação na tela sobre as mensagens e status dos "
 "contatos"
@@ -4426,8 +4417,7 @@ msgstr "&Proxy"
 
 #: plugins/proxy/proxycfg.cpp:140
 msgid "<b>Note !</b><br>HTTP-proxy support only ICQ-protocol"
-msgstr ""
-"<b>Nota !</b><br> Suporte para HTTP-proxy apenas para o protocolo do ICQ"
+msgstr "<b>Nota !</b><br> Suporte para HTTP-proxy apenas para o protocolo do ICQ"
 
 #: plugins/proxy/proxycfg.cpp:209
 msgid "Default"
@@ -4519,8 +4509,7 @@ msgstr "Atalhos"
 
 #: plugins/shortcuts/shortcuts.cpp:50
 msgid "Plugin provides keyboards shortcuts and global mouse functions"
-msgstr ""
-"Este plugin fornece atalhos para o teclado e funções glovais para o mouse"
+msgstr "Este plugin fornece atalhos para o teclado e funções glovais para o mouse"
 
 #: plugins/shortcuts/mousecfgbase.cpp:67
 #: plugins/shortcuts/mousecfgbase.cpp:109
@@ -4975,11 +4964,11 @@ msgstr ""
 
 #: sim/api/country.cpp:99
 msgid "French Guiana"
-msgstr ""
+msgstr "Guiana Francesa"
 
 #: sim/api/country.cpp:100
 msgid "French Polynesia"
-msgstr ""
+msgstr "Polinésia Francesa"
 
 #: sim/api/country.cpp:101
 msgid "Gabon"
@@ -5709,7 +5698,7 @@ msgstr "Beijo"
 
 #: sim/api/simapi.cpp:625
 msgid "Annoyed"
-msgstr ""
+msgstr "Irritado"
 
 #: sim/api/simapi.cpp:626
 msgid "Crying"
@@ -5717,7 +5706,7 @@ msgstr "Chorando"
 
 #: sim/api/simapi.cpp:627
 msgid "Wink"
-msgstr ""
+msgstr "Pisca"
 
 #: sim/api/simapi.cpp:628
 msgid "Angry"
@@ -5745,7 +5734,7 @@ msgstr "Anjo"
 
 #: sim/api/simapi.cpp:634
 msgid "Grin"
-msgstr ""
+msgstr "Sorrir forçadamente"
 
 #: sim/api/socket.cpp:139
 msgid "Read socket error"
@@ -5963,7 +5952,7 @@ msgstr "Ligação Simbólica para o diretório"
 
 #: sim/ui/qt3/i18n.cpp:81
 msgid "Symlink to Special"
-msgstr ""
+msgstr "Ligação Simbólica especial"
 
 #: sim/ui/qt3/i18n.cpp:85
 msgid "Dir"
@@ -6023,7 +6012,7 @@ msgstr "o diretório"
 
 #: sim/ui/qt3/i18n.cpp:119
 msgid "the symlink"
-msgstr ""
+msgstr "a ligação simbólica"
 
 #: sim/ui/qt3/i18n.cpp:121
 #, c-format
@@ -7148,3 +7137,4 @@ msgstr "Personalizado"
 
 #~ msgid "Reject messages"
 #~ msgstr "Rejeitar Mensagem"
+
