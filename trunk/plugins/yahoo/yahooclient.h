@@ -172,7 +172,7 @@ protected:
     bool createData(clientData*&, Contact*);
     void setupContact(Contact*, void *data);
     bool send(Message*, void *data);
-    bool canSend(unsigned type, void *data);
+    bool canSend(unsigned type, void *data, string&);
     CommandDef *infoWindows(Contact*, void *_data);
     CommandDef *configWindows();
     QWidget *infoWindow(QWidget *parent, Contact*, void *_data, unsigned id);

@@ -21,7 +21,7 @@
 #include "msn.h"
 #include "msninfo.h"
 #include "msnsearch.h"
-#include "simapi.h"
+#include "core.h"
 
 #ifdef WIN32
 #include <winsock.h>
@@ -112,6 +112,8 @@ static DataDef msnClientData[] =
         { "MaxPort", DATA_ULONG, 1, DATA(0xFFFF) },
         { "UseHTTP", DATA_ULONG, 1, 0 },
         { "AutoHTTP", DATA_ULONG, 1, DATA(1) },
+        { "Deleted", DATA_STRLIST, 1, 0 },
+        { "NDeleted", DATA_ULONG, 1, 0 },
         { "", DATA_STRUCT, sizeof(MSNUserData) / sizeof(Data), DATA(msnUserData) },
         { NULL, 0, 0, 0 }
     };
@@ -213,7 +215,7 @@ void MSNClient::setStatus(unsigned status)
         }
         return;
     }
-    if (m_state != Connected){
+    if (Client::m_state != Connected){
         m_logonStatus = status;
         return;
     }
@@ -342,6 +344,155 @@ static unsigned str2status(const char *str)
     return STATUS_OFFLINE;
 }
 
+void MSNClient::processLSG(unsigned id, const char *name)
+{
+    if (id == 0)
+        return;
+    Group *grp;
+    MSNListRequest *lr = findRequest(id, LR_GROUPxREMOVED);
+    if (lr)
+        return;
+    MSNUserData *data = findGroup(id, NULL, grp);
+    if (data){
+        lr = findRequest(grp->id(), LR_GROUPxCHANGED);
+        if (lr){
+            data->sFlags.value |= MSN_CHECKED;
+            return;
+        }
+    }
+    data = findGroup(id, name, grp);
+    data->sFlags.value |= MSN_CHECKED;
+}
+
+void MSNClient::processLST(const char *mail, const char *name, unsigned state, unsigned grp)
+{
+    if ((state & MSN_FORWARD) == 0){
+        for (unsigned i = 1; i <= getNDeleted(); i++){
+            if (!strcmp(getDeleted(i), mail))
+                return;
+        }
+    }
+
+    m_curBuddy = mail;
+    Contact *contact;
+    MSNListRequest *lr = findRequest(mail, LR_CONTACTxREMOVED);
+    if (lr)
+        return;
+    bool bNew = false;
+    MSNUserData *data = findContact(mail, contact);
+    if (data == NULL){
+        data = findContact(mail, name, contact);
+        bNew = true;
+    }else{
+        set_str(&data->EMail.ptr, mail);
+        set_str(&data->ScreenName.ptr, name);
+        if (name != (const char*)(contact->getName().utf8()))
+            contact->setName(QString::fromUtf8(name));
+    }
+    data->sFlags.value |= MSN_CHECKED;
+    data->Flags.value = state;
+    if (state & MSN_BLOCKED)
+        contact->setIgnore(true);
+
+    lr = findRequest(mail, LR_CONTACTxCHANGED);
+    data->Group.value = grp;
+    set_str(&data->PhoneHome.ptr, NULL);
+    set_str(&data->PhoneWork.ptr, NULL);
+    set_str(&data->PhoneMobile.ptr, NULL);
+    data->Mobile.bValue = false;
+    Group *group = NULL;
+    if ((grp == 0) || (grp == NO_GROUP)){
+        group = getContacts()->group(0);
+    }else{
+        findGroup(grp, NULL, group);
+    }
+    if (lr == NULL){
+        bool bChanged = ((data->Flags.value & MSN_FLAGS) != (data->sFlags.value & MSN_FLAGS));
+        if ((data->Flags.value & MSN_FORWARD) && (data->Flags.value & MSN_ACCEPT == 0) && (data->Flags.value & MSN_BLOCKED == 0))
+            bChanged = true;
+        unsigned grp = 0;
+        if (group)
+            grp = group->id();
+        if (grp != contact->getGroup())
+            bChanged = true;
+        if (bChanged){
+            MSNListRequest lr;
+            lr.Type = LR_CONTACTxCHANGED;
+            lr.Name = data->EMail.ptr;
+            m_requests.push_back(lr);
+        }
+        if (data->Flags.value & MSN_FORWARD)
+            contact->setGroup(grp);
+    }
+}
+
+void MSNClient::checkEndSync()
+{
+    if (m_nBuddies || m_nGroups)
+        return;
+    ContactList::GroupIterator itg;
+    Group *grp;
+    list<Group*>	grpRemove;
+    list<Contact*>	contactRemove;
+    while ((grp = ++itg) != NULL){
+        ClientDataIterator it(grp->clientData, this);
+        MSNUserData *data = (MSNUserData*)(++it);
+        if (grp->id() && (data == NULL)){
+            MSNListRequest lr;
+            lr.Type = LR_GROUPxCHANGED;
+            lr.Name = number(grp->id());
+            m_requests.push_back(lr);
+            continue;
+        }
+        if (data == NULL)
+            continue;
+        if ((data->sFlags.value & MSN_CHECKED) == 0)
+            grpRemove.push_back(grp);
+    }
+    Contact *contact;
+    ContactList::ContactIterator itc;
+    while ((contact = ++itc) != NULL){
+        MSNUserData *data;
+        ClientDataIterator it(contact->clientData, this);
+        list<void*> forRemove;
+        while ((data = (MSNUserData*)(++it)) != NULL){
+            if (data->sFlags.value & MSN_CHECKED){
+                if ((data->sFlags.value & MSN_REVERSE) && ((data->Flags.value & MSN_REVERSE) == 0))
+                    auth_message(contact, MessageRemoved, data);
+                if (((data->sFlags.value & MSN_REVERSE) == 0) && (data->Flags.value & MSN_REVERSE))
+                    auth_message(contact, MessageAdded, data);
+                setupContact(contact, data);
+                Event e(EventContactChanged, contact);
+                e.process();
+            }else{
+                forRemove.push_back(data);
+            }
+        }
+        if (forRemove.empty())
+            continue;
+        for (list<void*>::iterator itr = forRemove.begin(); itr != forRemove.end(); ++itr)
+            contact->clientData.freeData(*itr);
+        if (contact->clientData.size() == 0)
+            contactRemove.push_back(contact);
+    }
+    for (list<Contact*>::iterator rc = contactRemove.begin(); rc != contactRemove.end(); ++rc)
+        delete *rc;
+    for (list<Group*>::iterator rg = grpRemove.begin(); rg != grpRemove.end(); ++rg)
+        delete *rg;
+    if (m_bJoin){
+        Event e(EventJoinAlert, this);
+        e.process();
+    }
+    connected();
+}
+
+static unsigned toInt(const QString &str)
+{
+    if (str.isEmpty())
+        return 0;
+    return atol(str.latin1());
+}
+
 void MSNClient::getLine(const char *line)
 {
     QString l = QString::fromUtf8(line);
@@ -349,20 +500,6 @@ void MSNClient::getLine(const char *line)
     QCString ll = l.local8Bit();
     log(L_DEBUG, "Get: %s", (const char*)ll);
     QString cmd = getToken(l, ' ');
-    if (!m_packets.empty()){
-        MSNPacket *packet = m_packets.front();
-        if (packet->m_bAnswer){
-            QString save_l = l;
-            vector<string> args;
-            while (l.length())
-                args.push_back(string(getToken(l, ' ', false).utf8()));
-            if (packet->answer(cmd.latin1(), args))
-                return;
-            l = save_l;
-            m_packets.erase(m_packets.begin());
-            delete packet;
-        }
-    }
     if (cmd == "XFR"){
         QString id   = getToken(l, ' ');	// ID
         QString type = getToken(l, ' ');	// NS
@@ -556,6 +693,59 @@ void MSNClient::getLine(const char *line)
         m_socket->error_state(I18N_NOOP("Youur account is being used from another location"));
         return;
     }
+    if (cmd == "GTC")
+        return;
+    if (cmd == "BLP")
+        return;
+    if (cmd == "LSG"){
+        unsigned id = toInt(getToken(l, ' '));
+        processLSG(id, unquote(getToken(l, ' ')).utf8());
+        m_nGroups--;
+        checkEndSync();
+        return;
+    }
+    if (cmd == "LST"){
+        string mail;
+        mail = unquote(getToken(l, ' ')).utf8();
+        string name;
+        name = unquote(getToken(l, ' ')).utf8();
+        unsigned state = toInt(getToken(l, ' '));
+        unsigned grp   = toInt(getToken(l, ' '));
+        processLST(mail.c_str(), name.c_str(), state, grp);
+        m_nBuddies--;
+        checkEndSync();
+        return;
+    }
+    if (cmd == "PRP"){
+        QString cmd = getToken(l, ' ');
+        if (cmd == "PHH")
+            set_str(&data.owner.PhoneHome.ptr, unquote(getToken(l, ' ')).utf8());
+        if (cmd == "PHW")
+            set_str(&data.owner.PhoneWork.ptr, unquote(getToken(l, ' ')).utf8());
+        if (cmd == "PHM")
+            set_str(&data.owner.PhoneMobile.ptr, unquote(getToken(l, ' ')).utf8());
+        if (cmd == "MBE")
+            data.owner.Mobile.bValue = (getToken(l, ' ') == "Y");
+        return;
+    }
+    if (cmd == "BPR"){
+        Contact *contact;
+        MSNUserData *data = findContact(m_curBuddy.c_str(), contact);
+        if (data == NULL)
+            return;
+        Event e(EventContactChanged, contact);
+        e.process();
+        QString cmd = getToken(l, ' ');
+        if (cmd == "PHH")
+            set_str(&data->PhoneHome.ptr, unquote(getToken(l, ' ')).utf8());
+        if (cmd == "PHW")
+            set_str(&data->PhoneWork.ptr, unquote(getToken(l, ' ')).utf8());
+        if (cmd == "PHM")
+            set_str(&data->PhoneMobile.ptr, unquote(getToken(l, ' ')).utf8());
+        if (cmd == "MBE")
+            data->Mobile.bValue = (getToken(l, ' ') == "Y");
+        return;
+    }
     unsigned code = cmd.toUInt();
     if (code){
         MSNPacket *packet = NULL;
@@ -600,10 +790,7 @@ void MSNClient::getLine(const char *line)
     vector<string> args;
     while (l.length())
         args.push_back(string(getToken(l, ' ', false).utf8()));
-    if (packet->answer(cmd.latin1(), args)){
-        packet->m_bAnswer = true;
-        return;
-    }
+    packet->answer(args);
     m_packets.erase(it);
     delete packet;
 }
@@ -633,12 +820,10 @@ void MSNClient::authOk()
     time_t now;
     time(&now);
     m_pingTime = now;
-    setStatus(m_logonStatus);
     QTimer::singleShot(TYPING_TIME * 1000, this, SLOT(ping()));
     setPreviousPassword(NULL);
     MSNPacket *packet = new SynPacket(this);
     packet->send();
-    setStatus(m_logonStatus);
 }
 
 void MSNClient::ping()
@@ -794,7 +979,7 @@ QWidget *MSNClient::configWindow(QWidget *parent, unsigned id)
     return NULL;
 }
 
-bool MSNClient::canSend(unsigned type, void *_data)
+bool MSNClient::canSend(unsigned type, void *_data, string&)
 {
     if ((_data == NULL) || (((clientData*)_data)->Sign.value != MSN_SIGN))
         return false;
@@ -974,6 +1159,24 @@ QString MSNClient::contactName(void *clientData)
 
 MSNUserData *MSNClient::findContact(const char *mail, const char *name, Contact *&contact)
 {
+    unsigned i;
+    for (i = 1; i <= getNDeleted(); i++){
+        if (!strcmp(getDeleted(i), mail))
+            break;
+    }
+    if (i <= getNDeleted()){
+        list<string> deleted;
+        for (i = 1; i <= getNDeleted(); i++){
+            if (!strcmp(getDeleted(i), mail))
+                continue;
+            deleted.push_back(getDeleted(i));
+        }
+        setNDeleted(0);
+        for (list<string>::iterator it = deleted.begin(); it != deleted.end(); ++it){
+            setNDeleted(getNDeleted() + 1);
+            setDeleted(getNDeleted(), (*it).c_str());
+        }
+    }
     QString name_str = unquote(QString::fromUtf8(name));
     MSNUserData *data = findContact(mail, contact);
     if (data){
@@ -1384,12 +1587,26 @@ void MSNClient::processRequests()
                 bool bBlock = (data->Flags.value & MSN_BLOCKED) != 0;
                 if (contact->getIgnore() != bBlock){
                     if (contact->getIgnore()){
+                        if (data->Flags.value & MSN_FORWARD)
+                            packet = new RemPacket(this, "FL", (*it).Name.c_str());
+                        if (data->Flags.value & MSN_ACCEPT){
+                            if (packet)
+                                packet->send();
+                            packet = new RemPacket(this, "AL", (*it).Name.c_str());
+                        }
+                        data->Flags.value &= ~(MSN_FORWARD | MSN_ACCEPT);
+                        if (packet)
+                            packet->send();
                         packet = new AddPacket(this, "BL", data->EMail.ptr, quote(contact->getName()).utf8());
                         set_str(&data->ScreenName.ptr, contact->getName().utf8());
+                        data->Flags.value |= MSN_BLOCKED;
                     }else{
                         packet = new RemPacket(this, "BL", data->EMail.ptr);
+                        data->Flags.value &= ~MSN_BLOCKED;
                     }
                 }
+                if (data->Flags.value & MSN_BLOCKED)
+                    break;
                 unsigned grp_id = 0;
                 if (contact->getGroup()){
                     Group *grp = getContacts()->group(contact->getGroup());
@@ -1404,6 +1621,13 @@ void MSNClient::processRequests()
                     packet = new AddPacket(this, "FL", data->EMail.ptr, quote(QString::fromUtf8(data->ScreenName.ptr)).utf8(), grp_id);
                     data->Group.value = grp_id;
                     data->Flags.value |= MSN_FORWARD;
+                }
+                if ((data->Flags.value & MSN_FORWARD) && ((data->Flags.value & MSN_ACCEPT) == 0) && ((data->Flags.value & MSN_BLOCKED) == 0)){
+                    if (packet)
+                        packet->send();
+                    packet = new AddPacket(this, "AL", data->EMail.ptr, quote(QString::fromUtf8(data->ScreenName.ptr)).utf8(), 0);
+                    data->Group.value = grp_id;
+                    data->Flags.value |= MSN_ACCEPT;
                 }
                 if (data->Group.value != grp_id){
                     if (packet)
@@ -1424,6 +1648,10 @@ void MSNClient::processRequests()
             break;
         case LR_CONTACTxREMOVED:
             packet = new RemPacket(this, "FL", (*it).Name.c_str());
+            packet->send();
+            packet = new RemPacket(this, "AL", (*it).Name.c_str());
+            setNDeleted(getNDeleted() + 1);
+            setDeleted(getNDeleted(), (*it).Name.c_str());
             break;
         case LR_CONTACTxREMOVED_BL:
             packet = new RemPacket(this, "BL", (*it).Name.c_str());

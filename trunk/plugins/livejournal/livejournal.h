@@ -168,7 +168,7 @@ protected:
     virtual bool createData(clientData*&, Contact*);
     virtual void setupContact(Contact*, void *data);
     virtual bool send(Message*, void *data);
-    virtual bool canSend(unsigned type, void *data);
+    virtual bool canSend(unsigned type, void *data, string&);
     virtual void setStatus(unsigned status);
     virtual void socketConnect();
     virtual void disconnected();

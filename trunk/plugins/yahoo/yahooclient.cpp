@@ -161,7 +161,7 @@ bool YahooClient::send(Message *msg, void *_data)
     return false;
 }
 
-bool YahooClient::canSend(unsigned type, void *_data)
+bool YahooClient::canSend(unsigned type, void *_data, string&)
 {
     if ((_data == NULL) || (((clientData*)_data)->Sign.value != YAHOO_SIGN))
         return false;

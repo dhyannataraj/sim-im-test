@@ -374,7 +374,7 @@ bool SMSClient::send(Message*, void*)
     return false;
 }
 
-bool SMSClient::canSend(unsigned type, void *data)
+bool SMSClient::canSend(unsigned type, void *data, string&)
 {
     if ((data == NULL) && (type == MessageSMS))
         return true;
