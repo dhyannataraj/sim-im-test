@@ -4,6 +4,7 @@
 # translation of uk.po to
 # translation of uk.po to
 # translation of uk.po to
+# translation of uk.po to
 # translation of uk.po to Ukrainian
 # translation of uk.po to Український
 # Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
@@ -12,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
-"POT-Creation-Date: 2004-04-26 03:39+0400\n"
-"PO-Revision-Date: 2004-03-30 18:00+0300\n"
+"POT-Creation-Date: 2004-04-26 04:39+0400\n"
+"PO-Revision-Date: 2004-04-26 04:39+0400\n"
 "Last-Translator: Ivan Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team:  <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2051,18 +2052,18 @@ msgid "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 msgstr "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 
 #: plugins/msn/msnpacket.cpp:471
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: You have %n unread message\n"
 "You have %n unread messages"
 msgstr ""
-"%n непрочитанное сообщение\n"
-"%n непрочитанных сообщения\n"
-"%n непрочитанных сообщений"
+"У Вас %n непрочитане повідомлення\n"
+"У Вас %n непрочитаних повідомлення\n"
+"У Вас %n непрочитаних повідомлень"
 
 #: plugins/msn/msnpacket.cpp:491
 msgid "You have new mail"
-msgstr ""
+msgstr "Вам прийшла нова пошта"
 
 #: plugins/_core/core.cpp:2808 plugins/dock/dockwnd.cpp:1361 plugins/msn/msnpacket.cpp:493 plugins/osd/osd.cpp:559
 msgid "%1 from %2"
@@ -2186,9 +2187,8 @@ msgid "&Status"
 msgstr "&Статус"
 
 #: plugins/icq/icqsearch.cpp:303 plugins/jabber/jabberadd.cpp:282 plugins/msn/msnsearchbase.cpp:72
-#, fuzzy
 msgid "E-Mail"
-msgstr "EMail"
+msgstr "E-mail"
 
 #: plugins/__homedir/homedir.cpp:48
 msgid "Home directory"
@@ -2689,14 +2689,14 @@ msgstr "Час від установки статусу"
 msgid ""
 "_: %1 wrote:\n"
 "male"
-msgstr "%1 пише"
+msgstr "%1 написав:"
 
 #: plugins/_core/core.cpp:1665
 #, fuzzy
 msgid ""
 "_: %1 wrote:\n"
 "female"
-msgstr "%1 пише"
+msgstr "%1 написала:"
 
 #: plugins/_core/core.cpp:1684
 msgid ""
@@ -3024,9 +3024,8 @@ msgid "Search"
 msgstr "Пошук"
 
 #: plugins/_core/search.cpp:69 plugins/_core/search.cpp:810
-#, fuzzy
 msgid "Results"
-msgstr "По змовчуванню"
+msgstr "Результати"
 
 #: plugins/_core/maininfobase.cpp:193 plugins/_core/maininfobase.cpp:203 plugins/_core/search.cpp:133 plugins/action/menucfgbase.cpp:68
 msgid "&Add"
@@ -3037,9 +3036,8 @@ msgid "&Search"
 msgstr "&Пошук"
 
 #: plugins/_core/search.cpp:193
-#, fuzzy
 msgid "All networks"
-msgstr "Мережа"
+msgstr "Всі з'єднання"
 
 #: plugins/_core/nonimbase.cpp:94 plugins/_core/search.cpp:214
 msgid "Non-IM contact"
@@ -3058,14 +3056,14 @@ msgid "Not in list"
 msgstr "Не в списку"
 
 #: plugins/_core/search.cpp:630
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: %n contact found\n"
 "%n contacts found"
 msgstr ""
-"Знайдено %n контакт\n"
-"Знайдено %n контакти\n"
-"Знайдено %n контактів"
+"%n контакт знайдено\n"
+"%n контакта знайдено\n"
+"%n контактів знайдено"
 
 #: plugins/_core/status.cpp:72 plugins/_core/statuswnd.cpp:86 plugins/dock/dock.cpp:183
 msgid "Inactive"
@@ -3116,9 +3114,8 @@ msgid "Delete \"%1\"?"
 msgstr "Видалити \"%1\"?"
 
 #: plugins/_core/userview.cpp:375
-#, fuzzy
 msgid "Remove history"
-msgstr "Зберегти історію"
+msgstr "Знищити історію"
 
 #: plugins/_core/userview.cpp:787
 msgid "New group"
@@ -3150,19 +3147,16 @@ msgid "Contact name"
 msgstr "Ім'я контакту"
 
 #: plugins/_core/searchbase.cpp:96
-#, fuzzy
 msgid "&Add to list"
-msgstr "Відправити в &список"
+msgstr "&Додати в список"
 
 #: plugins/_core/searchbase.cpp:98
-#, fuzzy
 msgid "More &options"
-msgstr "&Параметри"
+msgstr "&Додатково"
 
 #: plugins/_core/searchbase.cpp:99
-#, fuzzy
 msgid "&New search"
-msgstr "Новий пошук"
+msgstr "&Новий пошук"
 
 #: plugins/_core/newprotocolbase.cpp:67
 msgid "New connection"
@@ -3247,7 +3241,7 @@ msgstr "Про себе"
 #: plugins/_core/searchallbase.cpp:84 plugins/icq/icqsearchbase.cc:128 plugins/jabber/jabberaddbase.cpp:95
 #, fuzzy
 msgid "&E-Mail"
-msgstr "EMail"
+msgstr "&E-Mail"
 
 #: plugins/_core/searchallbase.cpp:85 plugins/icq/icqsearchbase.cc:129 plugins/jabber/jabberaddbase.cpp:96 plugins/yahoo/yahoosearchbase.cpp:99
 #, fuzzy
@@ -3255,14 +3249,12 @@ msgid "&Name"
 msgstr "&Імена"
 
 #: plugins/_core/searchallbase.cpp:86 plugins/icq/aimsearchbase.cc:163 plugins/icq/icqsearchbase.cc:130 plugins/jabber/jabberaddbase.cpp:97
-#, fuzzy
 msgid "First:"
 msgstr "Ім'я:"
 
 #: plugins/_core/searchallbase.cpp:87 plugins/icq/aimsearchbase.cc:164 plugins/icq/icqsearchbase.cc:131 plugins/jabber/jabberaddbase.cpp:98
-#, fuzzy
 msgid "Last:"
-msgstr "Лаос"
+msgstr "Прізвище:"
 
 #: plugins/_core/arcfgbase.cpp:79 plugins/_core/prefcfgbase.cpp:66
 msgid "&Override global settings"
@@ -3421,19 +3413,16 @@ msgid "days"
 msgstr "днів"
 
 #: plugins/_core/historycfgbase.cpp:180
-#, fuzzy
 msgid "100"
-msgstr "1200"
+msgstr "100"
 
 #: plugins/_core/historycfgbase.cpp:181
-#, fuzzy
 msgid "50"
-msgstr "50-і"
+msgstr "50"
 
 #: plugins/_core/historycfgbase.cpp:182
-#, fuzzy
 msgid "20"
-msgstr "2400"
+msgstr "20"
 
 #: plugins/_core/historycfgbase.cpp:184
 msgid "&Preview"
@@ -3845,9 +3834,8 @@ msgid "Nickname:"
 msgstr "Псевдонім:"
 
 #: plugins/_core/nonimbase.cpp:98
-#, fuzzy
 msgid "E-Mail address:"
-msgstr "Email адреси:"
+msgstr "Поштова адреса:"
 
 #: plugins/_core/nonimbase.cpp:99 plugins/jabber/discoinfobase.cpp:286
 msgid "Phone:"
@@ -4220,14 +4208,12 @@ msgid "Name:"
 msgstr "Ім'я:"
 
 #: plugins/gpg/gpggenbase.cpp:137
-#, fuzzy
 msgid "Passphrase:"
-msgstr "Паролі:"
+msgstr "Секретна фраза:"
 
 #: plugins/gpg/gpggenbase.cpp:138
-#, fuzzy
 msgid "Retype passphrase:"
-msgstr "Повторіть новий пароль:"
+msgstr "Повторіть секретну фразу:"
 
 #: plugins/gpg/gpguserbase.cpp:68
 msgid "Key:"
@@ -4239,12 +4225,11 @@ msgstr "&Обновити"
 
 #: plugins/gpg/passphrasebase.cpp:82
 msgid "Input passphrase"
-msgstr ""
+msgstr "Введіть секретну фразу"
 
 #: plugins/gpg/passphrasebase.cpp:84
-#, fuzzy
 msgid "&Save passphrase"
-msgstr "&Зберегти пароль"
+msgstr "&Зберегти секретну фразу"
 
 #: plugins/gpg/gpg.cpp:53
 msgid "GPG"
@@ -4290,15 +4275,15 @@ msgstr "&GPG ключ"
 #: plugins/gpg/passphrase.cpp:37
 #, c-format
 msgid "Input passphrase for key %1"
-msgstr ""
+msgstr "Введіть секретну фразу для ключа %1"
 
 #: plugins/gpg/passphrase.cpp:62
 msgid "Bad passphrase"
-msgstr ""
+msgstr "Погана секретна фраза"
 
 #: plugins/gpg/gpgcfgbase.cpp:102
 msgid "Executable:"
-msgstr "Виконувати:"
+msgstr "Програма:"
 
 #: plugins/gpg/gpgcfgbase.cpp:103
 msgid "Home directory:"
@@ -4859,7 +4844,6 @@ msgid "Can't login to ICQ network - Please try again later"
 msgstr "Неможливо ввійти в мережу ICQ - Будь-ласка спробуйте пізніше"
 
 #: plugins/icq/icqlogin.cpp:271
-#, fuzzy
 msgid "Your UIN is being used from another location"
 msgstr "Ваш UIN використовується з іншого місця"
 
@@ -4994,23 +4978,20 @@ msgid "City"
 msgstr "Місто"
 
 #: plugins/icq/icqsearch.cpp:294
-#, fuzzy
 msgid "State"
-msgstr "Штат:"
+msgstr "Штат"
 
 #: plugins/icq/icqsearch.cpp:296
-#, fuzzy
 msgid "Country"
-msgstr "Країна:"
+msgstr "Країна"
 
 #: plugins/icq/icqsearch.cpp:299 plugins/jabber/jabbersearch.cpp:217
 msgid "Gender"
 msgstr "Стать"
 
 #: plugins/icq/icqsearch.cpp:301
-#, fuzzy
 msgid "Age"
-msgstr "Вік:"
+msgstr "Вік"
 
 #: plugins/icq/icqsearch.cpp:391 plugins/icq/moreinfo.cpp:79 plugins/jabber/jabbersearch.cpp:216 plugins/yahoo/yahoosearch.cpp:38
 msgid "Female"
@@ -5772,9 +5753,8 @@ msgid "Gender:"
 msgstr "Стать:"
 
 #: plugins/icq/advsearchbase.cc:253
-#, fuzzy
 msgid "Work"
-msgstr "Робочий факс"
+msgstr "Робота"
 
 #: plugins/icq/advsearchbase.cc:254 plugins/icq/workinfobase.cc:188
 msgid "Occupation:"
@@ -5793,22 +5773,20 @@ msgid "Position:"
 msgstr "Посада:"
 
 #: plugins/icq/advsearchbase.cc:259
-#, fuzzy
 msgid "Past"
-msgstr "Вставити"
+msgstr "Минуле"
 
 #: plugins/icq/advsearchbase.cc:261
-#, fuzzy
 msgid "Affilations"
-msgstr "&Об'єднання"
+msgstr "Об'єднання"
 
 #: plugins/icq/advsearchbase.cc:262
 msgid "Keywords"
-msgstr ""
+msgstr "Ключеві слова"
 
 #: plugins/icq/advsearchbase.cc:263
 msgid "Search &online users only"
-msgstr ""
+msgstr "Шукати тільки контакти в &мережі"
 
 #: plugins/icq/aimconfig.cpp:43
 msgid "Register new ScreenName"
@@ -6102,29 +6080,24 @@ msgid "&Options"
 msgstr "&Параметри"
 
 #: plugins/icq/icqsearchbase.cc:126
-#, fuzzy
 msgid "&UIN"
-msgstr "UIN"
+msgstr "&UIN"
 
 #: plugins/icq/icqsearchbase.cc:127
-#, fuzzy
 msgid "&Screenname"
-msgstr "Ім'я:"
+msgstr "&Акаунт"
 
 #: plugins/icq/icqsearchbase.cc:133
-#, fuzzy
 msgid "AOL s&creenname"
-msgstr "Ім'я користувача:"
+msgstr "AOL а&каунт"
 
 #: plugins/icq/icqsearchbase.cc:134
-#, fuzzy
 msgid "ICQ &UIN"
-msgstr "UIN"
+msgstr "ICQ &UIN"
 
 #: plugins/icq/icqsearchbase.cc:135
-#, fuzzy
 msgid "Advanced"
-msgstr "&Розвинути"
+msgstr "&Додатково"
 
 #: plugins/netmonitor/monitor.cpp:51 plugins/netmonitor/netmonitor.cpp:35 plugins/netmonitor/netmonitor.cpp:91
 msgid "Network monitor"
@@ -6260,82 +6233,72 @@ msgid ""
 msgstr "%1 в мережі"
 
 #: plugins/osd/osd.cpp:417
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is away"
-msgstr "%1 пише"
+msgstr "%1 відійшов"
 
 #: plugins/osd/osd.cpp:418
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is away"
-msgstr "%1 пише"
+msgstr "%1 відійшла"
 
 #: plugins/osd/osd.cpp:419
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is not available"
-msgstr "%1 в мережі"
+msgstr "%1 неактивний"
 
 #: plugins/osd/osd.cpp:420
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is not available"
-msgstr "%1 в мережі"
+msgstr "%1 неактивна"
 
 #: plugins/osd/osd.cpp:421
 msgid ""
 "_: male\n"
 "%1 doesn't want to be disturbed"
-msgstr ""
+msgstr "%1 просить не турбувати"
 
 #: plugins/osd/osd.cpp:422
 msgid ""
 "_: female\n"
 "%1 doesn't want to be disturbed"
-msgstr ""
+msgstr "%1 просить не турбувати"
 
 #: plugins/osd/osd.cpp:423
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is occupied"
-msgstr "%1 в мережі"
+msgstr "%1 зайтнятий"
 
 #: plugins/osd/osd.cpp:424
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is occupied"
-msgstr "%1 в мережі"
+msgstr "%1 зайнята"
 
 #: plugins/osd/osd.cpp:425
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is free for chat"
-msgstr "%1 пише"
+msgstr "%1 вільний для розмови"
 
 #: plugins/osd/osd.cpp:426
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is free for chat"
-msgstr "%1 пише"
+msgstr "%1 вільна для розмови"
 
 #: plugins/osd/osd.cpp:427
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is offline"
 msgstr "%1 в мережі"
 
 #: plugins/osd/osd.cpp:428
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is offline"
@@ -6354,9 +6317,8 @@ msgid "Enable &typing notification"
 msgstr "Увімкнути попередження про &друк"
 
 #: plugins/osd/osdconfigbase.cpp:119
-#, fuzzy
 msgid "Show message &content"
-msgstr "Переглядати зміст повідомлення"
+msgstr "Переглядати &зміст повідомлення"
 
 #: plugins/osd/osdconfigbase.cpp:120
 msgid "Show lines of content:"
@@ -6548,7 +6510,7 @@ msgstr "Не грати звук, якщо вікно клієнта має &ф�
 
 #: plugins/sound/soundconfig.cpp:50
 msgid "Qt provides sound output so you just need to set a player if you don't like Qt's sound."
-msgstr ""
+msgstr "Qt підтримує звук, тому Вам потрібно вказати плеєр, щоб заборонити використання звуку Qt."
 
 #: plugins/sound/soundconfigbase.cpp:97
 msgid "&Use artsd"
@@ -6938,24 +6900,20 @@ msgid "&Back"
 msgstr "&Назад"
 
 #: plugins/jabber/jabber.cpp:338
-#, fuzzy
 msgid "Browser mode"
-msgstr "Браузер:"
+msgstr "Режим перегляду"
 
 #: plugins/jabber/jabber.cpp:348
-#, fuzzy
 msgid "Load one level"
-msgstr "Рівень відладки:"
+msgstr "Загружати один рівень"
 
 #: plugins/jabber/jabber.cpp:359
-#, fuzzy
 msgid "Load all levels"
-msgstr "Для всіх файлів"
+msgstr "Загружати всі рівні"
 
 #: plugins/jabber/jabberaddbase.cpp:100 plugins/jabber/jidsearchbase.cpp:77
-#, fuzzy
 msgid "Jabber &browser"
-msgstr "Jabber броузер"
+msgstr "Jabber &навігатор"
 
 #: plugins/jabber/servicesbase.cpp:108 plugins/jabber/servicesbase.cpp:114
 msgid "Jabber agents are available online after login"
@@ -6990,9 +6948,8 @@ msgid "Additional information:"
 msgstr "Додаткова інформація:"
 
 #: plugins/jabber/jabberaddbase.cpp:94
-#, fuzzy
 msgid "&JID"
-msgstr "JID"
+msgstr "&JID"
 
 #: plugins/jabber/jabberclient.cpp:1483 plugins/jabber/jabberclient.cpp:1592
 msgid "Photo"
@@ -7115,44 +7072,36 @@ msgid "To register, please fill out the following form.  Be as accurate as possi
 msgstr "Для реєстрації заповніть форму. Будьте уважними, щоб інші люди могли Вас знайти"
 
 #: plugins/jabber/jidsearch.cpp:165
-#, fuzzy
 msgid "User"
-msgstr "Користувач:"
+msgstr "Користувач"
 
 #: plugins/jabber/jidsearch.cpp:166
-#, fuzzy
 msgid "Full Name"
 msgstr "Повне ім'я"
 
 #: plugins/jabber/jidsearch.cpp:167
-#, fuzzy
 msgid "Middle Name"
-msgstr "По-батькові:"
+msgstr "По-батькові"
 
 #: plugins/jabber/jidsearch.cpp:168
-#, fuzzy
 msgid "Family Name"
-msgstr "&Ім'я файлу:"
+msgstr "Прізвище"
 
 #: plugins/jabber/jidsearch.cpp:169
-#, fuzzy
 msgid "email"
-msgstr "e-mail"
+msgstr "Поштова адреса"
 
 #: plugins/jabber/jidsearch.cpp:170
-#, fuzzy
 msgid "Birthday"
-msgstr "Дата народження:"
+msgstr "Дата народження"
 
 #: plugins/jabber/jidsearch.cpp:171
-#, fuzzy
 msgid "Organization Name"
-msgstr "Минула організація"
+msgstr "Організація"
 
 #: plugins/jabber/jidsearch.cpp:172
-#, fuzzy
 msgid "Organization Unit"
-msgstr "Минула організація"
+msgstr "Відділ"
 
 #: plugins/livejournal/livejournalcfg.cpp:36
 msgid "Register new user"
@@ -7191,9 +7140,8 @@ msgid "Public"
 msgstr "Публічний"
 
 #: plugins/livejournal/msgjournalbase.cpp:86
-#, fuzzy
 msgid "Friends-Only"
-msgstr "Тільки для запису"
+msgstr "Тільки для друзів"
 
 #: plugins/livejournal/msgjournalbase.cpp:87
 msgid "Private"
@@ -7828,9 +7776,8 @@ msgid "Journal Settings"
 msgstr "Установки Журнала"
 
 #: plugins/livejournal/journalsearchbase.cpp:65
-#, fuzzy
 msgid "Add community"
-msgstr "&Додати товариство"
+msgstr "Додати товариство"
 
 #: plugins/spell/spellcfg.cpp:46
 msgid "ASpell(aspell.exe)"
@@ -7941,9 +7888,8 @@ msgid "Send mail"
 msgstr "Відправити пошту"
 
 #: plugins/navigate/navigate.cpp:281
-#, fuzzy
 msgid "Copy &location"
-msgstr "&Місцеперебування"
+msgstr "Скопіювати &посилання"
 
 #: plugins/yahoo/yahoo.cpp:81
 msgid "Yahoo!"
@@ -7996,16 +7942,16 @@ msgstr "&Yahoo!"
 #: plugins/yahoo/yahoosearchbase.cpp:98
 #, fuzzy
 msgid "Yahoo! &ID"
-msgstr "Yahoo ID:"
+msgstr "Yahoo &ID:"
 
 #: plugins/yahoo/yahoosearchbase.cpp:100
 #, fuzzy
 msgid "&Keyword"
-msgstr "&Кнопки"
+msgstr "&Ключеві слова"
 
 #: plugins/weather/wifacecfg.cpp:59 plugins/weather/wifacecfg.cpp:74 plugins/yahoo/yahoosearchbase.cpp:101
 msgid "Conditions"
-msgstr "Умови"
+msgstr "Стан"
 
 #: plugins/replace/replace.cpp:33
 msgid "Replace text"
@@ -8178,11 +8124,10 @@ msgid ""
 msgstr "Вітер"
 
 #: plugins/weather/weather.cpp:480
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Windy"
-msgstr "Вітер"
+msgstr "Вітряно"
 
 #: plugins/weather/weather.cpp:481
 msgid ""
@@ -8197,25 +8142,22 @@ msgid ""
 msgstr "Дрібний дощ"
 
 #: plugins/weather/weather.cpp:483
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Drifting Snow"
-msgstr "Слабкий сніг"
+msgstr "Сніг"
 
 #: plugins/weather/weather.cpp:484
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Scattered"
-msgstr "Слабкий сніг"
+msgstr "Розсіяний"
 
 #: plugins/weather/weather.cpp:485
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Smoke"
-msgstr "Південний"
+msgstr "Смог"
 
 #: plugins/weather/weather.cpp:486
 msgid ""
@@ -8338,11 +8280,10 @@ msgid ""
 msgstr "Північно-північно-східний"
 
 #: plugins/weather/weather.cpp:506
-#, fuzzy
 msgid ""
 "_: weather\n"
 "VAR"
-msgstr "Північний"
+msgstr "Змінний"
 
 #: plugins/weather/weather.cpp:507
 msgid "km"
@@ -9976,3 +9917,4 @@ msgstr "Система одиниць:"
 
 #~ msgid " seconds"
 #~ msgstr " секунд"
+
