@@ -24,6 +24,7 @@ class MigratePlugin : public Plugin
 {
 public:
     MigratePlugin(unsigned);
+	~MigratePlugin();
     bool init();
 };
 

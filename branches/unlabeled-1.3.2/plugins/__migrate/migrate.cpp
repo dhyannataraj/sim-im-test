@@ -23,8 +23,10 @@
 Plugin *createMigratePlugin(unsigned base, bool, const char*)
 {
     MigratePlugin *plugin = new MigratePlugin(base);
-    if (!plugin->init())
+    if (!plugin->init()){
+		delete plugin;
         return NULL;
+	}
     return plugin;
 }
 
@@ -44,6 +46,10 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 
 MigratePlugin::MigratePlugin(unsigned base)
         : Plugin(base)
+{
+}
+
+MigratePlugin::~MigratePlugin()
 {
 }
 

@@ -572,7 +572,8 @@ void ShortcutsPlugin::releaseKeys()
         for (it = globalKeys->begin(); it != globalKeys->end(); ++it){
             delete *it;
         }
-        globalKeys->clear();
+		delete globalKeys;
+		globalKeys = NULL;
     }
     mouseCmds.clear();
     qApp->removeEventFilter(this);
