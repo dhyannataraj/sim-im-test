@@ -1112,6 +1112,7 @@ void DirectClient::sendAck(unsigned short seq, unsigned short type, unsigned sho
         ar_request req;
         req.uin     = m_data->Uin;
         req.type    = type;
+        req.ack		= 0;
         req.flags   = flags;
         req.id.id_l = seq;
         req.id1     = 0;
@@ -1131,7 +1132,6 @@ void DirectClient::sendAck(unsigned short seq, unsigned short type, unsigned sho
         }else if (m_data->Status & ICQ_STATUS_FFC){
             req_status = STATUS_FFC;
         }
-
 
         Contact *contact = NULL;
         m_client->findContact(m_data->Uin, NULL, false, contact);

@@ -124,9 +124,9 @@ QString MsgViewBase::messageText(Message *msg)
     if (msg->getFlags() & MESSAGE_SECURE)
         icons += "<img src=\"icon:encrypted\">";
     if (msg->getFlags() & MESSAGE_URGENT)
-        icons += "<img src=\"icon:urgent\">";
+        icons += "<img src=\"icon:urgentmsg\">";
     if (msg->getFlags() & MESSAGE_LIST)
-        icons += "<img src=\"icon:list\">";
+        icons += "<img src=\"icon:listmsg\">";
 
     QString s = QString("<p><nobr>"
                         "<a href=\"msg://%1\"><img src=\"icon:%2\"></a>%3"

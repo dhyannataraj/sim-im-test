@@ -110,8 +110,8 @@ using namespace std;
 #include "xpm/smileD.xpm"
 #include "xpm/smileE.xpm"
 #include "xpm/smileF.xpm"
-#include "xpm/list.xpm"
-#include "xpm/urgent.xpm"
+#include "xpm/listmsg.xpm"
+#include "xpm/urgentmsg.xpm"
 
 bool my_string::operator < (const my_string &a) const
 {
@@ -205,8 +205,8 @@ Icons::Icons()
     ICON(smileD)
     ICON(smileE)
     ICON(smileF)
-    ICON(list)
-    ICON(urgent)
+    ICON(listmsg)
+    ICON(urgentmsg)
 }
 
 void *Icons::processEvent(Event *e)

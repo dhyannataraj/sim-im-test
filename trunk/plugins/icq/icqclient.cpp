@@ -243,6 +243,7 @@ static DataDef icqClientData[] =
         { "", DATA_ULONG, 1, 0 },			// RandomChatGroupCurrent
         { "SendFormat", DATA_ULONG, 1, 0 },
         { "AutoUpdate", DATA_BOOL, 1, 1 },
+        { "AutoReplyUpdate", DATA_BOOL, 1, 1 },
         { "TypingNotification", DATA_BOOL, 1, 1 },
         { "AcceptInDND", DATA_BOOL, 1, 0 },
         { "AcceptInOccupied", DATA_BOOL, 1, 0 },
@@ -991,8 +992,8 @@ void ICQClient::ping()
             time_t now;
             time(&now);
             struct tm *tm = localtime(&now);
-	    // removed +1 on tm_day because the notification was one
-	    // day before the real birthday
+            // removed +1 on tm_day because the notification was one
+            // day before the real birthday
             if (((tm->tm_mon + 1) == month) && ((tm->tm_mday) == day))
                 bBirthday = true;
         }
@@ -1874,7 +1875,7 @@ void *ICQClient::processEvent(Event *e)
             string response;
             response = t->tmpl.utf8();
             sendAutoReply(ar.uin, ar.id, plugins[PLUGIN_NULL],
-                          ar.id1, ar.id2, ar.type, 3, 256, response.c_str(), 0, copy);
+                          ar.id1, ar.id2, ar.type, ar.ack, 0, response.c_str(), 0, copy);
         }
         arRequests.erase(it);
         return e->param();
