@@ -28,7 +28,7 @@ typedef map<my_string, string> HEADERS_MAP;
 
 class FetchThread;
 
-class FetchClientPrivate : public ClientSocketNotify
+class FetchClientPrivate : public ClientSocketNotify, public QObject
 {
 public:
     FetchClientPrivate(FetchClient*);
@@ -51,6 +51,7 @@ protected:
     FetchThread	*m_thread;
     string		m_err;
     unsigned	m_errCode;
+    void customEvent(QCustomEvent* event);
 #endif
     virtual bool error_state(const char *err, unsigned code);
     virtual void connect_ready();
@@ -339,9 +340,12 @@ void FetchThread::run()
             return;
         }
     }
-    m_client->m_state = FetchClientPrivate::Done;
+    /* Signals / Slots aren't thread-safe - need to use an event */
     close();
-    FetchManager::manager->done(m_client->m_client);
+    QCustomEvent* ce = new QCustomEvent(Q_EVENT_SIM_FETCH_DONE);
+    ce->setData(m_client->m_client);
+    postEvent(m_client, ce);
+	log(L_DEBUG,"EventPosted!");
 }
 
 #endif
@@ -500,7 +504,8 @@ void FetchManager::done(FetchClient *client)
 
 void FetchManager::timeout()
 {
-    list<FetchClientPrivate*> done = *m_done;
+	log(L_DEBUG,"timeout!");
+	list<FetchClientPrivate*> done = *m_done;
     m_done->clear();
     for (list<FetchClientPrivate*>::iterator it = done.begin(); it != done.end(); ++it){
         if ((*it)->error_state("", 0))
@@ -510,7 +515,7 @@ void FetchManager::timeout()
 
 FetchClient::FetchClient()
 {
-    p = new FetchClientPrivate(this);
+	p = new FetchClientPrivate(this);
 }
 
 FetchClient::~FetchClient()
@@ -557,6 +562,17 @@ FetchClientPrivate::FetchClientPrivate(FetchClient *client)
     m_thread	= NULL;
 #endif
 }
+
+#ifdef WIN32
+void FetchClientPrivate::customEvent(QCustomEvent* event)
+{
+    if (event->type() == Q_EVENT_SIM_FETCH_DONE) {
+		log(L_DEBUG,"customEvent!");
+		FetchClient *client = (FetchClient*)event->data();
+		FetchManager::manager->done(client);
+    }
+}
+#endif
 
 void FetchClientPrivate::fetch(const char *url, const char *headers, Buffer *postData, bool bRedirect)
 {

@@ -20,11 +20,16 @@
 
 #include "simapi.h"
 
+#ifdef WIN32
+    #define Q_EVENT_SIM_FETCH_DONE (QEvent::User+1)
+#endif
+
 class Buffer;
 
 const unsigned NO_POSTSIZE	= (unsigned)(-1);
 
 class FetchClientPrivate;
+class FetchManager;
 
 class EXPORT FetchClient
 {
