@@ -101,6 +101,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             int clear_level;
             int alert_level;
             int limit_level;
+            int discon_level;
             int current_level;
             int max_level;
             int last_level;
@@ -111,6 +112,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             m_socket->readBuffer >> clear_level;
             m_socket->readBuffer >> alert_level;
             m_socket->readBuffer >> limit_level;
+            m_socket->readBuffer >> discon_level;
             m_socket->readBuffer >> current_level;
             m_socket->readBuffer >> max_level;
             m_socket->readBuffer >> last_level;
@@ -132,9 +134,9 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
                     msg_text = "Unknown";
             }
             log(L_DEBUG, msg_text);
-            log(L_DEBUG, "window_size: %x,clear_level %x,alert_level %x,\
-limit_level %x,current_level %x,max_level %x,last_level %x,current_state %c",
-					window_size,clear_level,alert_level,limit_level,
+            log(L_DEBUG, "window_size: %04X, clear_level %04X, alert_level %04X, \
+limit_level %04X, disconnect_level: %04X, current_level %04X, max_level %04X, last_level %04X, current_state %c",
+					window_size,clear_level,alert_level,limit_level,discon_level,
 					current_level,max_level,last_level,current_state);
             if (m_nSendTimeout < 200){
                 m_nSendTimeout = m_nSendTimeout + 2;
@@ -144,6 +146,8 @@ limit_level %x,current_level %x,max_level %x,last_level %x,current_state %c",
                 }
             }
             snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_RATExACK);
+            m_socket->writeBuffer << class_id;
+            sendPacket();
             break;
         }
     case ICQ_SNACxSRV_RATExINFO:
