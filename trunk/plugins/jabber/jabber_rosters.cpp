@@ -1292,7 +1292,7 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
     if (!strcmp(el, "id")){
         m_data = &m_id;
         return;
-        <<<<<<< jabber_rosters.cpp
+        //<<<<<<< jabber_rosters.cpp
     }
     if (!strcmp(el, "url-data")){
         m_target = JabberClient::get_attr("target", attr);
@@ -1302,8 +1302,8 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
         m_data = &m_desc;
         return;
     }
-    =======
-    }
+    //=======
+    //}
     if (!strcmp(el, "url-data")){
         m_target = JabberClient::get_attr("target", attr);
         m_desc = "";
@@ -1312,7 +1312,7 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
         m_data = &m_desc;
         return;
     }
-    >>>>>>> 1.26.2.1
+    //>>>>>>> 1.26.2.1
     if (m_bRosters && !strcmp(el, "item")){
         string jid  = JabberClient::get_attr("jid", attr);
         string name = JabberClient::get_attr("name", attr);
@@ -1361,15 +1361,15 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
                 m_data = NULL;
                 return;
             }
-            <<<<<<< jabber_rosters.cpp
-            <<<<<<< jabber_rosters.cpp
+            /*<<<<<<< jabber_rosters.cpp
+            <<<<<<< jabber_rosters.cpp*/
             *m_data += "</";
             *m_data += el;
             *m_data += ">";
             return;
         }
         if (!strcmp(el, "x"))
-            <<<<<<< jabber_rosters.cpp
+            //<<<<<<< jabber_rosters.cpp
             m_bRosters = false;
         if (!strcmp(el, "url-data")){
             if (!m_target.empty()){
@@ -1377,7 +1377,7 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
                     m_desc = m_target;
                 m_targets.push_back(m_target);
                 m_descs.push_back(m_desc);
-                =======
+                //=======
                     if (!strcmp(el, "x"))
                         m_bRosters = false;
                 if (!strcmp(el, "url-data")){
@@ -1389,8 +1389,8 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
                     }
                     m_target = "";
                     m_desc = "";
-                    >>>>>>> 1.29
-                    =======
+                    //>>>>>>> 1.29
+                    //=======
                         *m_data += "</";
                     *m_data += el;
                     *m_data += ">";
@@ -1404,14 +1404,14 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
                             m_desc = m_target;
                         m_targets.push_back(m_target);
                         m_descs.push_back(m_desc);
-                        >>>>>>> 1.30
+                        //>>>>>>> 1.30
                     }
                     m_target = "";
                     m_desc = "";
                 }
+                /*<<<<<<< jabber_rosters.cpp
                 <<<<<<< jabber_rosters.cpp
-                <<<<<<< jabber_rosters.cpp
-                =======
+                =======*/
                     m_bRosters = false;
                 if (!strcmp(el, "url-data")){
                     if (!m_target.empty()){
@@ -1423,12 +1423,12 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
                     m_target = "";
                     m_desc = "";
                 }
-                >>>>>>> 1.26.2.1
+                //>>>>>>> 1.26.2.1
                 m_data = NULL;
             }
-            =======
+            /*=======
                 >>>>>>> 1.29
-                =======
+                =======*/
                     m_data = NULL;
         }
 
