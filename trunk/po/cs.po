@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "POT-Creation-Date: 2004-08-05 15:33+0200\n"
-"PO-Revision-Date: 2004-08-30 18:11+0600\n"
+"PO-Revision-Date: 2004-08-31 12:43+0100\n"
 "Last-Translator: Jiri Sedlak <jiri_sedlak@users.sourceforge.net>\n"
 "Language-Team:  <C@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -483,9 +483,10 @@ msgstr "&Předchozí stránka"
 msgid "&Next page"
 msgstr "&Další stránka"
 
-#: plugins/_core/core.cpp:820
+#: core.cpp:820
+#, fuzzy
 msgid "&Save as text"
-msgstr ""
+msgstr "Uložit jako text"
 
 #: plugins/_core/core.cpp:878
 msgid "&Open message"
@@ -996,20 +997,24 @@ msgid "History"
 msgstr "Historie"
 
 #: plugins/_core/historywnd.cpp:191
+#, fuzzy
 msgid "File already exists. Overwrite?"
-msgstr ""
+msgstr "Soubor již existuje. Přepsat?"
 
 #: plugins/_core/historywnd.cpp:196
+#, fuzzy
 msgid "&Overwrite"
-msgstr ""
+msgstr "Přepsat"
 
 #: plugins/_core/historywnd.cpp:197
+#, fuzzy
 msgid "&Append"
-msgstr ""
+msgstr "Připojit"
 
 #: plugins/_core/historywnd.cpp:211
+#, fuzzy
 msgid "Save failed"
-msgstr ""
+msgstr "Uložení selhalo"
 
 #: plugins/_core/interfacecfg.cpp:53
 #: plugins/icq/moreinfo.cpp:98
@@ -9212,6 +9217,8 @@ msgid "SSL connect error"
 msgstr "Chyba spojení v SSL"
 
 #: sim/sslclient.cpp:177
+#: sim/sslclient.cpp:198
+#: sim/sslclient.cpp:206
 msgid "SSL shutdown error"
 msgstr "Chyba odpojení v SSL"
 
