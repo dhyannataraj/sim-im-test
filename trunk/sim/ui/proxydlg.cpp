@@ -64,7 +64,6 @@ void ProxyDialog::apply()
     pClient->ProxyUser = edtProxyUser->text().local8Bit();
     pClient->ProxyPasswd = edtProxyPasswd->text().local8Bit();
     pClient->ProxyAuth = chkProxyAuth->isChecked();
-    pClient->setupProxy();
 }
 
 void ProxyDialog::proxyChanged(bool)

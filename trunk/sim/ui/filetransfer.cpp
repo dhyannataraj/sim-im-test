@@ -119,7 +119,6 @@ void FileTransferDlg::processEvent(ICQEvent *e)
     if (e->state == ICQEvent::Success){
         if (e->type() != EVENT_DONE) return;
         file->state = file->Size();
-        setProgress();
         setCaption(caption() + " " + i18n("[done]"));
         pMain->playSound(pClient->FileDone.c_str());
     }else if (e->state == ICQEvent::Fail){
@@ -133,6 +132,7 @@ void FileTransferDlg::processEvent(ICQEvent *e)
         close();
         return;
     }
+    setProgress();
     file = NULL;
     pMain->ftClose();
     lblSldSpeed->hide();
@@ -149,6 +149,8 @@ void FileTransferDlg::setProgress()
         lblSize->repaint();
         barSend->setTotalSteps(100);
         barSend->setProgress(bStarted ? 100 : 0);
+        barBatch->setTotalSteps(100);
+        barBatch->setProgress(bStarted ? 100 : 0);
         return;
     }
     bStarted = true;

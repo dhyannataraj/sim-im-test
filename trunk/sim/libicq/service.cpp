@@ -46,7 +46,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
     case ICQ_SNACxSRV_RATExINFO:
         log(L_DEBUG, "Rate info");
         snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_RATExACK);
-        writeBuffer << 0x00010002L << 0x00030004L << 0x0005;
+        sock->writeBuffer << 0x00010002L << 0x00030004L << 0x0005;
         sendPacket();
         snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_GETxUSERxINFO);
         sendPacket();
@@ -65,19 +65,19 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
         log(L_DEBUG, "Ack im icq");
         break;
     case ICQ_SNACxSRV_NAMExINFO:{
-            unsigned long uin = readBuffer.unpackUin();
+            unsigned long uin = sock->readBuffer.unpackUin();
             if (uin == 0){
                 char n;
-                readBuffer >> n;
-                readBuffer.incReadPos(n);
-                uin = readBuffer.unpackUin();
+                sock->readBuffer >> n;
+                sock->readBuffer.incReadPos(n);
+                uin = sock->readBuffer.unpackUin();
             }
             if (uin != Uin()){
                 log(L_WARN, "No my name info (%lu)", uin);
                 break;
             }
-            readBuffer.incReadPos(4);
-            TlvList tlv(readBuffer);
+            sock->readBuffer.incReadPos(4);
+            TlvList tlv(sock->readBuffer);
             Tlv *tlvIP = tlv(0x000A);
             if (tlvIP)
                 IP = htonl((unsigned long)(*tlvIP));
@@ -98,16 +98,17 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
     case ICQ_SNACxSRV_READYxSERVER:
         log(L_DEBUG, "Server ready");
         snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_IMxICQ);
-        writeBuffer << 0x00010003L;
-        writeBuffer << 0x00130002L;
-        writeBuffer << 0x00020001L;
-        writeBuffer << 0x00030001L;
-        writeBuffer << 0x00150001L;
-        writeBuffer << 0x00040001L;
-        writeBuffer << 0x00060001L;
-        writeBuffer << 0x00090001L;
-        writeBuffer << 0x000a0001L;
-        writeBuffer << 0x000b0001L;
+        sock->writeBuffer
+        << 0x00010003L
+        << 0x00130002L
+        << 0x00020001L
+        << 0x00030001L
+        << 0x00150001L
+        << 0x00040001L
+        << 0x00060001L
+        << 0x00090001L
+        << 0x000a0001L
+        << 0x000b0001L;
         sendPacket();
         break;
     default:
@@ -118,10 +119,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
 void ICQClient::sendLogonStatus()
 {
     IP = 0;
-    char *host;
-    unsigned short port;
-    if (getLocalAddr(host, port))
-        RealIP = inet_addr(host);
+    RealIP = htonl(sock->localHost());
 
     log(L_DEBUG, "Logon status");
     if (inInvisible()) sendVisibleList();
@@ -134,9 +132,9 @@ void ICQClient::sendLogonStatus()
     fillDirectInfo(directInfo, PhoneBookTime(), PhoneStatusTime(), PhoneBookTime());
 
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
-    writeBuffer.tlv(0x0006, fullStatus(m_nLogonStatus));
-    writeBuffer.tlv(0x0008, 0);
-    writeBuffer.tlv(0x000C, directInfo);
+    sock->writeBuffer.tlv(0x0006, fullStatus(m_nLogonStatus));
+    sock->writeBuffer.tlv(0x0008, 0);
+    sock->writeBuffer.tlv(0x000C, directInfo);
 
     sendPacket();
 
@@ -162,7 +160,7 @@ void ICQClient::setInvisible(bool bInvisible)
     if (m_state != Logged) return;
     if (inInvisible()) sendVisibleList();
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
-    writeBuffer.tlv(0x0006, fullStatus(uStatus));
+    sock->writeBuffer.tlv(0x0006, fullStatus(uStatus));
     sendPacket();
     if (!inInvisible()) sendInvisibleList();
     ICQEvent e(EVENT_STATUS_CHANGED, Uin);
@@ -172,7 +170,7 @@ void ICQClient::setInvisible(bool bInvisible)
 void ICQClient::sendStatus(unsigned long status)
 {
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
-    writeBuffer.tlv(0x0006, fullStatus(status));
+    sock->writeBuffer.tlv(0x0006, fullStatus(status));
     sendPacket();
     uStatus = status & 0xFF;
     ICQEvent e(EVENT_STATUS_CHANGED, Uin);
@@ -182,7 +180,7 @@ void ICQClient::sendStatus(unsigned long status)
 void ICQClient::sendClientReady()
 {
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_READYxCLIENT);
-    writeBuffer
+    sock->writeBuffer
     << 0x00010003L << 0x0110047BL
     << 0x00130002L << 0x0110047BL
     << 0x00020001L << 0x0101047BL
@@ -224,11 +222,11 @@ void ICQClient::sendUpdate(Buffer &b, unsigned long t1, unsigned long t2, unsign
     fillDirectInfo(directInfo, t1, t2, t3);
 
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
-    writeBuffer.tlv(0x0006, fullStatus(uStatus));
-    writeBuffer.tlv(0x000C, directInfo);
+    sock->writeBuffer.tlv(0x0006, fullStatus(uStatus));
+    sock->writeBuffer.tlv(0x000C, directInfo);
 
-    writeBuffer.tlv(0x11, b);
-    writeBuffer.tlv(0x12, (unsigned short)0x0000);
+    sock->writeBuffer.tlv(0x11, b);
+    sock->writeBuffer.tlv(0x12, (unsigned short)0x0000);
     sendPacket();
 }
 
@@ -279,4 +277,3 @@ bool ICQClient::updatePhoneStatus()
     process_event(&e);
     return true;
 }
-

@@ -39,146 +39,99 @@
 
 #include "buffer.h"
 
-class Socket;
-
-#define PROXY_NONE		0
-#define PROXY_SOCKS4	1
-#define PROXY_SOCKS5	2
-#define PROXY_HTTP		3
-
-class Sockets
+class SocketNotify
 {
 public:
-    Sockets();
-    virtual ~Sockets();
-    virtual void createSocket(Socket*);
-    virtual void closeSocket(Socket*);
-    virtual void setHaveData(Socket*);
-    void addSocket(Socket*);
-    void delSocket(Socket*);
-    static unsigned short proxyType;
-    static string proxyHost;
-    static unsigned short proxyPort;
-    static bool proxyAuth;
-    static string proxyUser;
-    static string proxyPasswd;
-protected:
-    void process(unsigned timeout);
-    list<Socket*> socket_list;
+    SocketNotify() {}
+    virtual ~SocketNotify() {}
+    virtual void connect_ready() = 0;
+    virtual void read_ready() = 0;
+    virtual void write_ready() = 0;
+    virtual void error_state() = 0;
 };
 
 class Socket
 {
 public:
-    enum SocketError {
-        ErrorNone,
-        ErrorConnected,
-        ErrorCreate,
-        ErrorBind,
-        ErrorResolve,
-        ErrorConnect,
-        ErrorAccept,
-        ErrorListen,
-        ErrorDisconnect,
-        ErrorRead,
-        ErrorWrite,
-        ErrorProtocol
-    };
-
-    enum ResolveState {
-        None,
-        Resolving,
-        Done
-    };
-
-    enum ConnectState {
-        NoConnect,
-        Connected,
-        ProxyResolve,
-        HostResolve,
-        Connecting,
-        Socks4_Wait,
-        Socks5_Wait,
-        Socks5_WaitAuth,
-        Socks5_WaitConnect,
-        Http_Wait
-    };
-
-    Socket(int m_fd, const char *host, unsigned short port);
-    virtual ~Socket();
-    virtual void close();
-
-    SocketError error() { return m_err; }
-    const char *errorText();
-
-    const char *host() { return m_szHost; }
-    unsigned short port() { return m_nPort; }
-
-    void remove();
-    void setHost(const char*);
-
-    bool getLocalAddr(char *&host, unsigned short &port, unsigned long remote_ip=0);
-    bool connected() { return (m_fd != -1); }
-
-    void dumpPacket(Buffer &b, unsigned start, const char *oper);
-    void *intData;
-    int m_fd;
-    virtual bool have_data() { return false; }
+    Socket(SocketNotify*);
+    virtual ~Socket() {}
+    virtual int read(char *buf, unsigned int size) = 0;
+    virtual void write(const char *buf, unsigned int size) = 0;
+    virtual void connect(const char *host, int port) = 0;
+    virtual void close() = 0;
+    virtual unsigned long localHost() = 0;
+    virtual void pause(unsigned) = 0;
+    void error(int);
 protected:
-    virtual void idle() {}
-    virtual void error_state();
-    virtual void read_ready() = 0;
-    virtual void write_ready() = 0;
-    virtual void proxy_connect_ready();
-    virtual void connect_ready();
-
-    void error(SocketError err);
-
-    char *m_szHost;
-    char *m_szResolveHost;
-    unsigned short m_nPort;
-    SocketError m_err;
-    bool m_delete;
-
-    ResolveState m_resolving;
-    ConnectState m_connecting;
-
-    friend class Sockets;
+    SocketNotify *notify;
 };
 
-class ServerSocket : public Socket
+class ServerSocketNotify
 {
 public:
-    ServerSocket();
-    bool listen(int minPort, int maxPort=0, const char *host=NULL);
-protected:
-    virtual void read_ready();
-    virtual void write_ready();
-    virtual void accept(int fd, const char *host, unsigned short port) = 0;
+    ServerSocketNotify() {}
+    virtual ~ServerSocketNotify() {}
+    virtual void accept(int fd) = 0;
 };
 
-class ClientSocket : public Socket
+class ServerSocket
 {
 public:
-    ClientSocket(int fd, const char *host, unsigned short port);
+    ServerSocket(ServerSocketNotify*);
+    virtual ~ServerSocket() {}
+    virtual unsigned short port() = 0;
+protected:
+    ServerSocketNotify *notify;
+};
+
+class SocketFactory
+{
+public:
+    SocketFactory() {}
+    virtual ~SocketFactory() {}
+    virtual Socket *createSocket(SocketNotify*, int fd=-1) = 0;
+    virtual ServerSocket *createServerSocket(ServerSocketNotify*) = 0;
+    void removeSocket(Socket*);
+    void idle();
+    list<SocketNotify*> removedNotifies;
+};
+
+class ClientSocketNotify
+{
+public:
+    ClientSocketNotify() {}
+    virtual ~ClientSocketNotify() {}
+    virtual void error_state() = 0;
+    virtual void connect_ready() = 0;
+    virtual void packet_ready() = 0;
+    virtual void write_ready() {}
+};
+
+class ClientSocket : public SocketNotify
+{
+public:
+    ClientSocket(ClientSocketNotify*, SocketFactory*, int fd=-1);
     ~ClientSocket();
-    virtual void close();
-    void connect(const char *host, unsigned short port);
-protected:
-    unsigned long m_remoteAddr;
-    unsigned long m_proxyAddr;
-    void proxy_connect_ready();
-    virtual void resolve();
-    virtual void create_socket();
     Buffer readBuffer;
     Buffer writeBuffer;
-    Buffer connectBuffer;
-    virtual void packet_ready() = 0;
+    void error();
+    void connect(const char *host, int port);
+    void write();
+    void pause(unsigned);
+    unsigned long localHost();
+    bool created();
     virtual void read_ready();
+    void remove();
+    void setRaw(bool mode);
+protected:
+    virtual void connect_ready();
     virtual void write_ready();
-    virtual bool have_data();
-    void setOpt();
-    void s5connect();
+    virtual void error_state();
+
+    Socket *sock;
+    ClientSocketNotify *notify;
+    SocketFactory *factory;
+    bool bRawMode;
 };
 
 #endif

@@ -41,11 +41,12 @@ class QToolBar;
 class Themes;
 class SearchDialog;
 class SetupDialog;
-class ICQMessage;
-class ICQUser;
 class TransparentTop;
 class QTranslator;
 class QTextCodec;
+
+class ICQMessage;
+class ICQUser;
 
 const int mnuAction = 0;
 const int mnuMessage = 1;

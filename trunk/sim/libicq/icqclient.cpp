@@ -26,15 +26,12 @@
 #include <sys/time.h>
 #endif
 
-#define RECONNECT_TIMEOUT	60
+#define RECONNECT_TIMEOUT	5
 #define PING_TIMEOUT		60
 
 ICQClient::ICQClient()
-        : ClientSocket(-1, NULL, 0),
-        ServerHost(this, "ServerHost", "login.icq.com"),
+        : ServerHost(this, "ServerHost", "login.icq.com"),
         ServerPort(this, "ServerPort", 5190),
-        MinTCPPort(this, "MinTCPPort", 1024),
-        MaxTCPPort(this, "MaxTCPPort", 0xFFFF),
         DecryptedPassword(this, "Password"),
         EncryptedPassword(this, "EncryptPassword"),
         WebAware(this, "WebAware"),
@@ -46,12 +43,6 @@ ICQClient::ICQClient()
         RejectEmail(this, "RejectEmail"),
         RejectOther(this, "RejectOther"),
         RejectFilter(this, "RejectFilter"),
-        ProxyType(this, "ProxyType"),
-        ProxyHost(this, "ProxyHost", "proxy"),
-        ProxyPort(this, "ProxyPort", 1080),
-        ProxyAuth(this, "ProxyAuth"),
-        ProxyUser(this, "ProxyUser"),
-        ProxyPasswd(this, "ProxyPasswd"),
         DirectMode(this, "DirectMode"),
         BirthdayReminder(this, "BirthdayReminder", "birthday.wav"),
         FileDone(this, "FileDone", "filedone.wav"),
@@ -59,6 +50,7 @@ ICQClient::ICQClient()
         contacts(this),
         m_bHeader(true), m_bBirthday(false)
 {
+    sock = NULL;
     listener = NULL;
     m_nProcessId = MSG_PROCESS_ID;
     advCounter = 0;
@@ -106,11 +98,10 @@ void ICQClient::process_event(ICQEvent *e)
 
 void ICQClient::create_socket()
 {
-    ClientSocket::create_socket();
+    sock = new ClientSocket(this, this);
     listener = new ICQListener(this);
-    if (!listener->listen(MinTCPPort(), MaxTCPPort())){
-        log(L_WARN, "Can't find port for listener");
-        setStatus(ICQ_STATUS_OFFLINE);
+    if (!listener->created() || !sock->created()){
+        close();
         return;
     }
     Port = listener->port();
@@ -119,16 +110,17 @@ void ICQClient::create_socket()
 void ICQClient::close()
 {
     if (listener){
-        listener->remove();
+        delete listener;
         listener = NULL;
     }
-    if (m_fd != -1){
+    if (sock){
         if (m_state == Logged){
             flap(ICQ_CHNxCLOSE);
             sendPacket();
         }
+        sock->remove();
+        sock = NULL;
     }
-    ClientSocket::close();
 }
 
 void ICQClient::packet_ready()
@@ -136,22 +128,22 @@ void ICQClient::packet_ready()
     time(&m_lastTime);
     if (m_bHeader){
         char c;
-        readBuffer >> c;
+        sock->readBuffer >> c;
         if (c != 0x2A){
             log(L_ERROR, "Server send bad packet start code: %02X", c);
-            error(ErrorProtocol);
+            sock->error();
             return;
         }
-        readBuffer >> m_nChannel;
+        sock->readBuffer >> m_nChannel;
         unsigned short sequence, size;
-        readBuffer >> sequence >> size;
+        sock->readBuffer >> sequence >> size;
         if (size){
-            readBuffer.add(size);
+            sock->readBuffer.add(size);
             m_bHeader = false;
             return;
         }
     }
-    dumpPacket(readBuffer, 0,"Read");
+    dumpPacket(sock->readBuffer, 0,"Read");
     switch (m_nChannel){
     case ICQ_CHNxNEW:
         chn_login();
@@ -162,7 +154,7 @@ void ICQClient::packet_ready()
     case ICQ_CHNxDATA:{
             unsigned short fam, type;
             unsigned short flags, seq, cmd;
-            readBuffer >> fam >> type >> flags >> seq >> cmd;
+            sock->readBuffer >> fam >> type >> flags >> seq >> cmd;
             switch (fam){
             case ICQ_SNACxFAM_SERVICE:
                 snac_service(type, seq);
@@ -202,7 +194,7 @@ void ICQClient::packet_ready()
     processInfoRequestQueue();
     processPhoneRequestQueue(0);
     processResponseRequestQueue(0);
-    readBuffer.init(6);
+    sock->readBuffer.init(6);
     m_bHeader = true;
 }
 
@@ -213,8 +205,6 @@ void ICQClient::error_state()
     }else{
         m_state = ForceReconnect;
     }
-    Socket::error_state();
-    m_err = ErrorNone;
     setStatus(ICQ_STATUS_OFFLINE);
 }
 
@@ -257,7 +247,9 @@ void ICQClient::setStatus(unsigned short status)
         }
         return;
     }
-    if (m_fd == -1){
+    if (sock == NULL){
+        create_socket();
+        if (sock == NULL) return;
         m_bRosters = false;
         m_nSequence = rand() & 0x7FFFF;
         m_nMsgSequence = 1;
@@ -265,7 +257,7 @@ void ICQClient::setStatus(unsigned short status)
         m_state = Uin ? Connect : Register;
         ICQEvent e(EVENT_STATUS_CHANGED, Uin);
         process_event(&e);
-        connect(ServerHost.c_str(), ServerPort());
+        sock->connect(ServerHost.c_str(), ServerPort());
     }
     if (m_state != Logged){
         m_nLogonStatus = status;
@@ -277,49 +269,46 @@ void ICQClient::setStatus(unsigned short status)
 void ICQClient::flap(char channel)
 {
     m_nSequence++;
-    m_nPacketStart = writeBuffer.writePos();
-    writeBuffer << (char)0x2A;
-    writeBuffer << channel;
-    writeBuffer << m_nSequence;
-    writeBuffer << 0;
+    m_nPacketStart = sock->writeBuffer.writePos();
+    sock->writeBuffer
+    << (char)0x2A
+    << channel
+    << m_nSequence
+    << 0;
 }
 
 void ICQClient::snac(unsigned short fam, unsigned short type, bool msgId)
 {
     flap(ICQ_CHNxDATA);
-    writeBuffer << fam;
-    writeBuffer << type;
-    writeBuffer << 0x0000;
-    writeBuffer << (msgId ? m_nMsgSequence++ : 0x0000);
-    writeBuffer << type;
+    sock->writeBuffer
+    << fam
+    << type
+    << 0x0000
+    << (msgId ? m_nMsgSequence++ : 0x0000)
+    << type;
 }
 
 void ICQClient::sendPacket()
 {
-    char *packet = writeBuffer.Data(m_nPacketStart);
-    *((unsigned short*)(packet + 4)) = htons(writeBuffer.size() - m_nPacketStart - 6);
-    dumpPacket(writeBuffer, m_nPacketStart, "Write");
+    char *packet = sock->writeBuffer.Data(m_nPacketStart);
+    *((unsigned short*)(packet + 4)) = htons(sock->writeBuffer.size() - m_nPacketStart - 6);
+    dumpPacket(sock->writeBuffer, m_nPacketStart, "Write");
     time(&m_lastTime);
-    if ((m_fd == -1) || (m_connecting != Connected)) return;
-    fd_set wf;
-    FD_ZERO(&wf);
-    FD_SET(m_fd, &wf);
-    struct timeval tv;
-    tv.tv_sec = 0;
-    tv.tv_usec = 0;
-    int res = select(m_fd + 1, NULL, &wf, NULL, &tv);
-    if (res <= 0) return;
-    if (!FD_ISSET(m_fd, &wf)) return;
-    write_ready();
+    sock->write();
 }
 
 void ICQClient::dropPacket()
 {
-    writeBuffer.setWritePos(m_nPacketStart);
+    sock->writeBuffer.setWritePos(m_nPacketStart);
 }
 
 void ICQClient::idle()
 {
+    SocketFactory::idle();
+    for (list<DirectSocket*>::iterator it = removedSockets.begin(); it != removedSockets.end(); ++it){
+        delete (*it);
+    }
+    removedSockets.clear();
     time_t now;
     time(&now);
     if (m_state == Logged){
@@ -442,26 +431,14 @@ bool ICQClient::load(istream &s, string &nextPart)
     }
     if (*EncryptedPassword.c_str() == 0)
         storePassword(DecryptedPassword.c_str());
-    setupProxy();
     ICQEvent e(EVENT_INFO_CHANGED);
     process_event(&e);
     return true;
 }
 
-void ICQClient::setupProxy()
-{
-    Sockets::proxyType = ProxyType();
-    Sockets::proxyHost = ProxyHost;
-    Sockets::proxyPort = ProxyPort();
-    Sockets::proxyAuth = ProxyAuth();
-    Sockets::proxyUser = ProxyUser;
-    Sockets::proxyPasswd = ProxyPasswd;
-}
-
 void ICQClient::connect_ready()
 {
-    ClientSocket::connect_ready();
-    readBuffer.init(6);
+    sock->readBuffer.init(6);
     m_bHeader = true;
 }
 
@@ -535,7 +512,7 @@ void ICQClient::processInfoRequestQueue()
     if (infoRequestQueue.size() == 0) return;
     time_t now;
     time(&now);
-    if (((unsigned long)now < lastInfoRequestTime + 10) || writeBuffer.size()) return;
+    if (((unsigned long)now < lastInfoRequestTime + 10)) return;
     unsigned long uin = infoRequestQueue.front();
     requestInfo(uin);
     infoRequestQueue.remove(uin);
@@ -548,7 +525,7 @@ void ICQClient::processPhoneRequestQueue(unsigned short seq)
     if (phoneRequestQueue.size() == 0) return;
     time_t now;
     time(&now);
-    if ((seq != phoneRequestSeq) && (((unsigned long)now < lastPhoneRequestTime + 120) || writeBuffer.size())) return;
+    if ((seq != phoneRequestSeq) && (((unsigned long)now < lastPhoneRequestTime + 120))) return;
     unsigned long uin = phoneRequestQueue.front();
     requestPhoneBook(uin);
     phoneRequestQueue.remove(uin);
@@ -563,7 +540,7 @@ void ICQClient::processResponseRequestQueue(unsigned short seq)
     if (responseRequestQueue.size() == 0) return;
     time_t now;
     time(&now);
-    if ((seq != responseRequestSeq) && (((unsigned long)now < lastResponseRequestTime + 20) || writeBuffer.size())) return;
+    if ((seq != responseRequestSeq) && (((unsigned long)now < lastResponseRequestTime + 20))) return;
     unsigned long uin = responseRequestQueue.front();
     requestAutoResponse(uin);
     responseRequestQueue.remove(uin);
@@ -616,4 +593,37 @@ UTFstring::UTFstring(const char *p)
     if (p) *((string*)this) = p;
 }
 
+void ICQClient::dumpPacket(Buffer &b, unsigned long start, const char *operation)
+{
+    if ((log_level & L_PACKET) == 0) return;
+    string res;
+    log(L_PACKET, "%s %u bytes", operation, b.size() - start);
+    char line[81];
+    char *p1 = line;
+    char *p2 = line;
+    unsigned n = 20;
+    unsigned offs = 0;
+    for (unsigned i = start; i < b.size(); i++, n++){
+        char buf[32];
+        if (n == 16)
+            log(L_PACKET | L_SILENT, "%s", line);
+        if (n >= 16){
+            memset(line, ' ', 80);
+            line[80] = 0;
+            snprintf(buf, sizeof(buf), "     %04X: ", offs);
+            memcpy(line, buf, strlen(buf));
+            p1 = line + strlen(buf);
+            p2 = p1 + 52;
+            n = 0;
+            offs += 0x10;
+        }
+        if (n == 8) p1++;
+        unsigned char c = (unsigned char)*(b.Data(i));
+        *(p2++) = ((c >= ' ') && (c != 0x7F)) ? c : '.';
+        snprintf(buf, sizeof(buf), "%02X ", c);
+        memcpy(p1, buf, 3);
+        p1 += 3;
+    }
+    if (n <= 16) log(L_PACKET | L_SILENT, "%s", line);
+}
 

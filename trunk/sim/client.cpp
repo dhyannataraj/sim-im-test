@@ -22,6 +22,8 @@
 #include "log.h"
 #include "ui/filetransfer.h"
 
+#include <qsocket.h>
+#include <qsocketdevice.h>
 #include <qsocketnotifier.h>
 #include <qdns.h>
 #include <qtimer.h>
@@ -38,62 +40,6 @@
 #include <kglobal.h>
 #include <kcharsets.h>
 #endif
-
-class SocketNotifier
-{
-public:
-    SocketNotifier(int fd, Client *client);
-    ~SocketNotifier();
-    void setHaveData(bool bHaveData);
-protected:
-    QSocketNotifier *readNotifier;
-    QSocketNotifier *writeNotifier;
-    QSocketNotifier *errorNotifier;
-};
-
-SocketNotifier::SocketNotifier(int fd, Client *client)
-{
-    readNotifier = new QSocketNotifier(fd, QSocketNotifier::Read, client);
-    writeNotifier = new QSocketNotifier(fd, QSocketNotifier::Write, client);
-    errorNotifier = new QSocketNotifier(fd, QSocketNotifier::Exception, client);
-    writeNotifier->setEnabled(false);
-    QObject::connect(readNotifier, SIGNAL(activated(int)), client, SLOT(data_ready(int)));
-    QObject::connect(writeNotifier, SIGNAL(activated(int)), client, SLOT(data_ready(int)));
-    QObject::connect(errorNotifier, SIGNAL(activated(int)), client, SLOT(data_ready(int)));
-}
-
-SocketNotifier::~SocketNotifier()
-{
-    delete readNotifier;
-    delete writeNotifier;
-    delete errorNotifier;
-}
-
-void SocketNotifier::setHaveData(bool bHaveData)
-{
-    writeNotifier->setEnabled(bHaveData);
-}
-
-void Client::createSocket(Socket *s)
-{
-    s->intData = new SocketNotifier(s->m_fd, this);
-    Sockets::createSocket(s);
-}
-
-void Client::closeSocket(Socket *s)
-{
-    if (s->intData){
-        delete (SocketNotifier*)(s->intData);
-        s->intData = NULL;
-    }
-    Sockets::closeSocket(s);
-}
-
-void Client::setHaveData(Socket *s)
-{
-    if (s->intData)
-        ((SocketNotifier*)(s->intData))->setHaveData(s->have_data());
-}
 
 #ifndef USE_KDE
 
@@ -142,15 +88,22 @@ encoding encodingTbl[] =
 #endif
 
 Client::Client(QObject *parent, const char *name)
-        : QObject(parent, name)
+        : QObject(parent, name),
+        ProxyType(this, "ProxyType"),
+        ProxyHost(this, "ProxyHost", "proxy"),
+        ProxyPort(this, "ProxyPort", 1080),
+        ProxyAuth(this, "ProxyAuth"),
+        ProxyUser(this, "ProxyUser"),
+        ProxyPasswd(this, "ProxyPasswd"),
+        MinTCPPort(this, "MinTCPPort", 1024),
+        MaxTCPPort(this, "MaxTCPPort", 0xFFFF)
 {
     QTimer *timer = new QTimer(this);
-    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(data_ready()));
+    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(timer()));
     timer->start(1000);
-    resolver.setRecordType(QDns::A);
-    ptrResolver.setRecordType(QDns::Ptr);
-    QObject::connect(&resolver, SIGNAL(resultsReady()), this, SLOT(resolve_ready()));
-    QObject::connect(&ptrResolver, SIGNAL(resultsReady()), this, SLOT(ptr_resolve_ready()));
+    resolver = new QDns;
+    resolver->setRecordType(QDns::Ptr);
+    QObject::connect(resolver, SIGNAL(resultsReady()), this, SLOT(resolve_ready()));
     encodings = new QStringList;
 #ifdef USE_KDE
     *encodings = KGlobal::charsets()->descriptiveEncodingNames();
@@ -184,6 +137,22 @@ Client::~Client()
 {
     close();
     delete encodings;
+    delete resolver;
+}
+
+void Client::timer()
+{
+    idle();
+}
+
+Socket *Client::createSocket(SocketNotify *notify, int fd)
+{
+    return new QClientSocket(notify, fd);
+}
+
+ServerSocket *Client::createServerSocket(ServerSocketNotify *notify)
+{
+    return new QServerSocket(notify, MinTCPPort(), MaxTCPPort());
 }
 
 void Client::markAsRead(ICQMessage *msg)
@@ -355,21 +324,16 @@ void Client::process_event(ICQEvent *e)
     emit event(e);
 }
 
-void Client::resolve()
-{
-    resolver.setLabel(m_szResolveHost);
-}
-
-void Client::ptr_resolve_ready()
+void Client::resolve_ready()
 {
     if (resolveQueue.empty()) return;
     resolveAddr &a = *resolveQueue.begin();
     ICQUser *u = getUser(a.uin);
-    if (u && ptrResolver.hostNames().count()){
+    if (u && resolver->hostNames().count()){
         if (a.bReal){
-            u->RealHostName = ptrResolver.hostNames().first().latin1();
+            u->RealHostName = resolver->hostNames().first().latin1();
         }else{
-            u->HostName = ptrResolver.hostNames().first().latin1();
+            u->HostName = resolver->hostNames().first().latin1();
         }
         ICQEvent e(EVENT_STATUS_CHANGED, a.uin);
         emit event(&e);
@@ -380,7 +344,7 @@ void Client::ptr_resolve_ready()
 
 void Client::start_resolve()
 {
-    if (ptrResolver.isWorking()) return;
+    if (resolver->isWorking()) return;
     for (; !resolveQueue.empty();){
         resolveAddr &a = *resolveQueue.begin();
         ICQUser *u = getUser(a.uin);
@@ -398,31 +362,9 @@ void Client::start_resolve()
             resolveQueue.erase(resolveQueue.begin());
             continue;
         }
-        ptrResolver.setLabel(QHostAddress(htonl(ip)));
+        resolver->setLabel(QHostAddress(htonl(ip)));
         return;
     }
-}
-
-void Client::resolve_ready()
-{
-    if (m_resolving != Resolving) return;
-    free(m_szResolveHost);
-    m_szResolveHost = NULL;
-    m_remoteAddr = (unsigned long)(-1);
-    m_resolving = Done;
-    const QValueList<QHostAddress> &hosts = resolver.addresses();
-    if (hosts.isEmpty()) return;
-    m_remoteAddr = htonl(hosts.first().ip4Addr());
-}
-
-void Client::data_ready()
-{
-    process(0);
-}
-
-void Client::data_ready(int)
-{
-    data_ready();
 }
 
 QString Client::getName(bool bUseUin)
@@ -878,6 +820,139 @@ int Client::userEncoding(unsigned long uin)
 }
 
 Client *pClient = NULL;
+
+QClientSocket::QClientSocket(SocketNotify *n, int fd)
+        : Socket(n)
+{
+    sock = new QSocket(this);
+    QObject::connect(sock, SIGNAL(connected()), this, SLOT(slotConnected()));
+    QObject::connect(sock, SIGNAL(connectionClosed()), this, SLOT(slotConnectionClosed()));
+    QObject::connect(sock, SIGNAL(readyRead()), this, SLOT(slotReadReady()));
+    QObject::connect(sock, SIGNAL(bytesWritten(int)), this, SLOT(slotBytesWritten(int)));
+    QObject::connect(sock, SIGNAL(error(int)), this, SLOT(slotError(int)));
+    if (fd != -1) sock->setSocket(fd);
+    bInWrite = false;
+}
+
+QClientSocket::~QClientSocket()
+{
+    close();
+}
+
+void QClientSocket::close()
+{
+    QObject::disconnect(sock, SIGNAL(connected()), this, SLOT(slotConnected()));
+    QObject::disconnect(sock, SIGNAL(connectionClosed()), this, SLOT(slotConnectionClosed()));
+    QObject::disconnect(sock, SIGNAL(readyRead()), this, SLOT(slotReadReady()));
+    QObject::disconnect(sock, SIGNAL(bytesWritten(int)), this, SLOT(slotBytesWritten(int)));
+    QObject::disconnect(sock, SIGNAL(error(int)), this, SLOT(slotError(int)));
+    sock->close();
+}
+
+int QClientSocket::read(char *buf, unsigned int size)
+{
+    int res = sock->readBlock(buf, size);
+    if (res < 0){
+        notify->error_state();
+        res = 0;
+    }
+    return res;
+}
+
+void QClientSocket::write(const char *buf, unsigned int size)
+{
+    bInWrite = true;
+    int res = sock->writeBlock(buf, size);
+    bInWrite = false;
+    if (res != size){
+        log(L_WARN, "Write error");
+        notify->error_state();
+        return;
+    }
+    if (sock->bytesToWrite() == 0)
+        QTimer::singleShot(0, this, SLOT(slotBytesWritten()));
+}
+
+void QClientSocket::connect(const char *host, int port)
+{
+    log(L_DEBUG, "Connect to %s:%u", host, port);
+    sock->connectToHost(host, port);
+}
+
+void QClientSocket::slotConnected()
+{
+    log(L_DEBUG, "Connected");
+    notify->connect_ready();
+}
+
+void QClientSocket::slotConnectionClosed()
+{
+    log(L_WARN, "Connection closed");
+    if (sock->bytesToWrite() == 0) notify->write_ready();
+    notify->error_state();
+}
+
+void QClientSocket::slotReadReady()
+{
+    notify->read_ready();
+}
+
+void QClientSocket::slotBytesWritten(int)
+{
+    slotBytesWritten();
+}
+
+void QClientSocket::slotBytesWritten()
+{
+    if (bInWrite) return;
+    if (sock->bytesToWrite() == 0) notify->write_ready();
+}
+
+unsigned long QClientSocket::localHost()
+{
+    return sock->address().ip4Addr();
+}
+
+void QClientSocket::slotError(int err)
+{
+    log(L_DEBUG, "Error %u", err);
+    notify->error_state();
+}
+
+void QClientSocket::pause(unsigned t)
+{
+    QTimer::singleShot(t * 1000, this, SLOT(slotBytesWritten()));
+}
+
+QServerSocket::QServerSocket(ServerSocketNotify *n, unsigned short minPort, unsigned short maxPort)
+        : ServerSocket(n)
+{
+    sock = new QSocketDevice;
+    sock->setBlocking(false);
+    for (m_nPort = minPort; m_nPort <= maxPort; m_nPort++){
+        if (sock->bind(QHostAddress(), m_nPort))
+            break;
+    }
+    if ((m_nPort > maxPort) || !sock->listen(50)){
+        delete sock;
+        sock = NULL;
+        return;
+    }
+    sn = new QSocketNotifier(sock->socket(), QSocketNotifier::Read, this);
+    connect(sn, SIGNAL(activated(int)), this, SLOT(activated(int)));
+}
+
+QServerSocket::~QServerSocket()
+{
+    if (sock) delete sock;
+}
+
+void QServerSocket::activated(int)
+{
+    int fd = sock->accept();
+    if (fd >= 0)
+        notify->accept(fd);
+}
 
 #ifndef _WINDOWS
 #include "client.moc"

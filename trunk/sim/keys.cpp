@@ -390,6 +390,9 @@ HotKeys::HotKeys(QWidget *parent, const char *name)
         : QObject(parent, name)
 {
 #ifdef WIN32
+    keyWindow = 0;
+    keyDblClick = 0;
+    keySearch = 0;
     wnd = new QWidget(NULL);
     wnd->hide();
     hotKeys = this;
@@ -494,12 +497,12 @@ void HotKeys::unregKeys()
     if (keyDblClick){
         UnregisterHotKey(wnd->winId(), keyDblClick);
         DeleteAtom(keyDblClick);
-        keyWindow = 0;
+        keyDblClick = 0;
     }
     if (keySearch){
         UnregisterHotKey(wnd->winId(), keySearch);
         DeleteAtom(keySearch);
-        keyWindow = 0;
+        keySearch = 0;
     }
 #else
 #ifdef USE_KDE

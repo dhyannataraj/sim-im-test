@@ -74,7 +74,6 @@ void NetworkSetup::apply(ICQUser*)
     pClient->ProxyUser = edtProxyUser->text().local8Bit();
     pClient->ProxyPasswd = edtProxyPasswd->text().local8Bit();
     pClient->ProxyAuth = chkProxyAuth->isChecked();
-    pClient->setupProxy();
 }
 
 void NetworkSetup::proxyChanged(bool)

@@ -34,7 +34,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
         log(L_DEBUG, "Buddy rights granted");
         break;
     case ICQ_SNACxBDY_USEROFFLINE:{
-            unsigned long uin = readBuffer.unpackUin();
+            unsigned long uin = sock->readBuffer.unpackUin();
             ICQUser *user = getUser(uin);
             if (user && (user->uStatus != ICQ_STATUS_OFFLINE)){
                 log(L_DEBUG, "User %lu [%s] offline", uin, user->Alias.c_str());
@@ -45,7 +45,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             break;
         }
     case ICQ_SNACxBDY_USERONLINE:{
-            unsigned long uin = readBuffer.unpackUin();
+            unsigned long uin = sock->readBuffer.unpackUin();
             if (uin == Uin()) break;
             ICQUser *user = getUser(uin);
             if (user){
@@ -56,8 +56,8 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 unsigned long cookie1, cookie2, cookie3;
                 cookie1 = cookie2 = cookie3 = 0;
                 unsigned short level, len;
-                readBuffer >> level >> len;
-                TlvList tlv(readBuffer);
+                sock->readBuffer >> level >> len;
+                TlvList tlv(sock->readBuffer);
 
                 // Status TLV
                 Tlv *tlvStatus = tlv(0x0006);
@@ -221,7 +221,7 @@ void ICQClient::sendContactList()
     for (it = contacts.users.begin(); it != contacts.users.end(); it++){
         if (((*it)->Uin() < UIN_SPECIAL) && !(*it)->inIgnore() &&
                 ((*it)->WaitAuth() || ((*it)->GrpId() == 0)))
-            writeBuffer.packUin((*it)->Uin());
+            sock->writeBuffer.packUin((*it)->Uin());
     }
     sendPacket();
 }
@@ -231,8 +231,7 @@ void ICQClient::addToContacts(unsigned long uin)
     if (m_state != Logged) return;
     if (uin >= UIN_SPECIAL) return;
     snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_ADDxTOxLIST);
-    writeBuffer.packUin(uin);
+    sock->writeBuffer.packUin(uin);
     sendPacket();
 }
-
 

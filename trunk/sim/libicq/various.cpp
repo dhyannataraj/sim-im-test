@@ -68,7 +68,7 @@ void ICQClient::snac_various(unsigned short type, unsigned short)
 {
     switch (type){
     case ICQ_SNACxVAR_DATA:{
-            TlvList tlv(readBuffer);
+            TlvList tlv(sock->readBuffer);
             if (tlv(0x0001) == NULL){
                 log(L_WARN, "Bad server response");
                 break;
@@ -155,17 +155,17 @@ void ICQClient::snac_various(unsigned short type, unsigned short)
 void ICQClient::serverRequest(unsigned short cmd, unsigned short seq)
 {
     snac(ICQ_SNACxFAM_VARIOUS, ICQ_SNACxVAR_REQxSRV, true);
-    writeBuffer.tlv(0x0001, 0);
-    writeBuffer.pack((char*)&Uin(), 4);
-    writeBuffer << cmd;
-    writeBuffer << htons(seq ? seq : m_nMsgSequence);
+    sock->writeBuffer.tlv(0x0001, 0);
+    sock->writeBuffer.pack((char*)&Uin(), 4);
+    sock->writeBuffer << cmd;
+    sock->writeBuffer << htons(seq ? seq : m_nMsgSequence);
 }
 
 void ICQClient::sendServerRequest()
 {
-    char *packet = writeBuffer.Data(m_nPacketStart);
-    *((unsigned short*)(packet + 0x12)) = htons(writeBuffer.size() - m_nPacketStart - 0x14);
-    *((unsigned short*)(packet + 0x14)) = writeBuffer.size() - m_nPacketStart - 0x16;
+    char *packet = sock->writeBuffer.Data(m_nPacketStart);
+    *((unsigned short*)(packet + 0x12)) = htons(sock->writeBuffer.size() - m_nPacketStart - 0x14);
+    *((unsigned short*)(packet + 0x14)) = sock->writeBuffer.size() - m_nPacketStart - 0x16;
     sendPacket();
 }
 
@@ -372,11 +372,11 @@ bool FullInfoEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short n
 void ICQClient::requestKey(const char *key)
 {
     serverRequest(ICQ_SRVxREQ_MORE);
-    writeBuffer << ICQ_SRVxREQ_XML_KEY;
+    sock->writeBuffer << ICQ_SRVxREQ_XML_KEY;
     string s = "<key>";
     s += key;
     s += "</key>";
-    writeBuffer << s;
+    sock->writeBuffer << s;
     sendServerRequest();
 }
 
@@ -385,8 +385,8 @@ void ICQClient::requestInfo(unsigned long uin)
     if (uin >= UIN_SPECIAL) return;
     log(L_DEBUG, "Request info about %lu", uin);
     serverRequest(ICQ_SRVxREQ_MORE);
-    writeBuffer << ICQ_SRVxREQ_FULL_INFO;
-    writeBuffer << (unsigned long)htonl(uin);
+    sock->writeBuffer << ICQ_SRVxREQ_FULL_INFO;
+    sock->writeBuffer << (unsigned long)htonl(uin);
     sendServerRequest();
     varEvents.push_back(new FullInfoEvent(m_nMsgSequence, uin));
 }
@@ -444,10 +444,10 @@ void ICQClient::processMsgQueueSMS()
         string xmlstr = xmltree.toString(0);
 
         serverRequest(ICQ_SRVxREQ_MORE);
-        writeBuffer << ICQ_SRVxREQ_SEND_SMS
+        sock->writeBuffer << ICQ_SRVxREQ_SEND_SMS
         << 0x00010016L << 0x00000000L << 0x00000000L
         << 0x00000000L << 0x00000000L << (unsigned long)(xmlstr.size());
-        writeBuffer << xmlstr.c_str();
+        sock->writeBuffer << xmlstr.c_str();
         sendServerRequest();
         msgQueue.remove(e);
         e->m_nId = m_nMsgSequence;
@@ -506,7 +506,7 @@ ICQEvent *ICQClient::searchWP(const char *szFirst, const char *szLast, const cha
 {
     if (m_state != Logged) return 0;
     serverRequest(ICQ_SRVxREQ_MORE);
-    writeBuffer << ICQ_SRVxREQ_WP_FULL;
+    sock->writeBuffer << ICQ_SRVxREQ_WP_FULL;
     string sFirst = szFirst ? szFirst : "";
     string sLast = szLast ? szLast : "";
     string sNick = szNick ? szNick : "";
@@ -564,7 +564,7 @@ ICQEvent *ICQClient::searchWP(const char *szFirst, const char *szLast, const cha
         break;
     }
 
-    writeBuffer
+    sock->writeBuffer
     << sFirst
     << sLast
     << sNick
@@ -591,7 +591,7 @@ ICQEvent *ICQClient::searchWP(const char *szFirst, const char *szLast, const cha
     << sHomePage;
 
     char c = bOnlineOnly ? 1 : 0;
-    writeBuffer << c;
+    sock->writeBuffer << c;
 
     sendServerRequest();
 
@@ -604,7 +604,7 @@ ICQEvent *ICQClient::searchByName(const char *first, const char *last, const cha
 {
     if (m_state != Logged) return 0;
     serverRequest(ICQ_SRVxREQ_MORE);
-    writeBuffer << ICQ_SRVxREQ_WP_SHORT;
+    sock->writeBuffer << ICQ_SRVxREQ_WP_SHORT;
     string sFirst = first ? first : "";
     string sLast = last ? last : "";
     string sNick = nick ? nick : "";
@@ -612,12 +612,13 @@ ICQEvent *ICQClient::searchByName(const char *first, const char *last, const cha
     toServer(sFirst, this);
     toServer(sLast, this);
     toServer(sNick, this);
-    writeBuffer
+    sock->writeBuffer
     << sNick
     << sFirst
     << sNick;
     if (bOnline){
-        writeBuffer << 0x30020100L
+        sock->writeBuffer
+        << 0x30020100L
         << (char)0x01;
     }
     sendServerRequest();
@@ -630,7 +631,8 @@ ICQEvent *ICQClient::searchByUin(unsigned long uin)
 {
     if (m_state != Logged) return 0;
     serverRequest(ICQ_SRVxREQ_MORE);
-    writeBuffer << ICQ_SRVxREQ_WP_INFO_UIN
+    sock->writeBuffer
+    << ICQ_SRVxREQ_WP_INFO_UIN
     << 0x36010400L
     << (unsigned long)htonl(uin);
     sendServerRequest();
@@ -664,10 +666,10 @@ void ICQClient::setPassword(const char *passwd)
 {
     if (m_state != Logged) return;
     serverRequest(ICQ_SRVxREQ_MORE);
-    writeBuffer << ICQ_SRVxREQ_CHANGE_PASSWD;
+    sock->writeBuffer << ICQ_SRVxREQ_CHANGE_PASSWD;
     string p = passwd;
     toServer(p, this);
-    writeBuffer << p;
+    sock->writeBuffer << p;
     sendServerRequest();
     SetPasswordEvent *e = new SetPasswordEvent(m_nMsgSequence, passwd);
     varEvents.push_back(e);
@@ -699,7 +701,8 @@ void ICQClient::setSecurityInfo(bool bAuthorize, bool bWebAware)
 {
     if (m_state != Logged) return;
     serverRequest(ICQ_SRVxREQ_MORE);
-    writeBuffer << ICQ_SRVxREQ_PERMISSIONS
+    sock->writeBuffer
+    << ICQ_SRVxREQ_PERMISSIONS
     << (char)(bAuthorize ? 0 : 0x01)
     << (char)(bWebAware ? 0x01 : 0)
     << (char)0x02
@@ -799,7 +802,7 @@ bool ICQClient::setMainInfo(ICQUser *u)
     // if (!bChange) return false;
 
     serverRequest(ICQ_SRVxREQ_MORE);
-    writeBuffer << ICQ_SRVxREQ_MODIFY_MAIN
+    sock->writeBuffer << ICQ_SRVxREQ_MODIFY_MAIN
     << s_Nick
     << s_FirstName
     << s_LastName
@@ -894,7 +897,8 @@ bool ICQClient::setWorkInfo(ICQUser *u)
     // if (!bChange) return false;
 
     serverRequest(ICQ_SRVxREQ_MORE);
-    writeBuffer << ICQ_SRVxREQ_MODIFY_WORK
+    sock->writeBuffer
+    << ICQ_SRVxREQ_MODIFY_WORK
     << s_WorkCity
     << s_WorkState
     << s_WorkPhone
@@ -975,7 +979,7 @@ bool ICQClient::setMoreInfo(ICQUser *u)
     // if (!bChange) return false;
 
     serverRequest(ICQ_SRVxREQ_MORE);
-    writeBuffer << ICQ_SRVxREQ_MODIFY_MORE
+    sock->writeBuffer << ICQ_SRVxREQ_MODIFY_MORE
     << u->Age()
     << (char)0
     << u->Gender()
@@ -1022,7 +1026,8 @@ bool ICQClient::setAboutInfo(ICQUser *u)
     // if (!bChange) return false;
 
     serverRequest(ICQ_SRVxREQ_MORE);
-    writeBuffer << ICQ_SRVxREQ_MODIFY_ABOUT
+    sock->writeBuffer
+    << ICQ_SRVxREQ_MODIFY_ABOUT
     << s_About;
     sendServerRequest();
     SetAboutInfo *e = new SetAboutInfo(m_nMsgSequence, u);
@@ -1047,12 +1052,12 @@ protected:
 void ICQClient::packInfoList(const ExtInfoList &infoList)
 {
     char n = infoList.size();
-    writeBuffer << n;
+    sock->writeBuffer << n;
     for (ConfigPtrList::const_iterator it = infoList.begin(); it != infoList.end(); ++it){
         ExtInfo *info = static_cast<ExtInfo*>(*it);
         string spec = info->Specific;
         toServer(spec, this);
-        writeBuffer << htons(info->Category()) << spec;
+        sock->writeBuffer << htons(info->Category()) << spec;
     }
 }
 
@@ -1070,7 +1075,7 @@ bool ICQClient::setInterestsInfo(ICQUser *u)
     NPARAM(Interests);
 
     serverRequest(ICQ_SRVxREQ_MORE);
-    writeBuffer << ICQ_SRVxREQ_MODIFY_INTERESTS;
+    sock->writeBuffer << ICQ_SRVxREQ_MODIFY_INTERESTS;
     packInfoList(u->Interests);
     sendServerRequest();
     SetInterestsInfo *e = new SetInterestsInfo(m_nMsgSequence, u);
@@ -1112,7 +1117,7 @@ bool ICQClient::setBackgroundInfo(ICQUser *u)
     // if (!bChange) return false;
 
     serverRequest(ICQ_SRVxREQ_MORE);
-    writeBuffer << ICQ_SRVxREQ_MODIFY_BACKGROUND;
+    sock->writeBuffer << ICQ_SRVxREQ_MODIFY_BACKGROUND;
     packInfoList(u->Backgrounds);
     packInfoList(u->Affilations);
     sendServerRequest();
@@ -1150,12 +1155,12 @@ bool ICQClient::setMailInfo(ICQUser *u)
     NPARAM(EMails);
 
     serverRequest(ICQ_SRVxREQ_MORE);
-    writeBuffer << ICQ_SRVxREQ_MODIFY_MAIL;
+    sock->writeBuffer << ICQ_SRVxREQ_MODIFY_MAIL;
 
     char c = u->EMails.size();
     c--;
     if (c < 0) c = 0;
-    writeBuffer << c;
+    sock->writeBuffer << c;
 
     bool bFirst = true;
     for (EMailList::iterator it = u->EMails.begin(); it != u->EMails.end(); ++it){
@@ -1168,7 +1173,7 @@ bool ICQClient::setMailInfo(ICQUser *u)
         if (info->Email) s = info->Email;
         toServer(s, this);
         char hide = info->Hide ? 1 : 0;
-        writeBuffer << hide << s;
+        sock->writeBuffer << hide << s;
     }
 
     sendServerRequest();
@@ -1199,8 +1204,8 @@ void ICQClient::setInfo(ICQUser *u)
 void ICQClient::sendPhoneInit()
 {
     serverRequest(ICQ_SRVxREQ_MORE);
-    writeBuffer << (unsigned short)ICQ_SRVxREQ_PHONE_INIT;
-    writeBuffer
+    sock->writeBuffer << (unsigned short)ICQ_SRVxREQ_PHONE_INIT;
+    sock->writeBuffer
     << 0x01000000L << 0x03200000L << 0x00000000L << 0x00000000L
     << 0x00000408L << 0x00000000L << 0x00000050L << 0x00000003L
     << (char)0 << (unsigned short)0;
@@ -1210,9 +1215,9 @@ void ICQClient::sendPhoneInit()
 void ICQClient::sendPhoneStatus()
 {
     serverRequest(ICQ_SRVxREQ_MORE);
-    writeBuffer << (unsigned short)ICQ_SRVxREQ_PHONE_UPDATE;
-    writeBuffer.pack((char*)PHONEBOOK_SIGN, 0x10);
-    writeBuffer
+    sock->writeBuffer << (unsigned short)ICQ_SRVxREQ_PHONE_UPDATE;
+    sock->writeBuffer.pack((char*)PHONEBOOK_SIGN, 0x10);
+    sock->writeBuffer
     << (unsigned short)0x0200
     << PhoneState
     << (char)0

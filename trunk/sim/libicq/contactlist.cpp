@@ -263,7 +263,7 @@ ICQUser::~ICQUser()
 void ICQUser::setOffline()
 {
     if (direct){
-        direct->remove();
+        delete direct;
         direct = NULL;
     }
     uStatus = ICQ_STATUS_OFFLINE;
@@ -671,4 +671,3 @@ bool ICQUser::isOnline()
     }
     return false;
 }
-

@@ -48,20 +48,20 @@ void ICQClient::snac_message(unsigned short type, unsigned short)
         break;
     case ICQ_SNACxMSG_AUTOREPLY:{
             unsigned long timestamp1, timestamp2;
-            readBuffer >> timestamp1 >> timestamp2;
-            readBuffer.incReadPos(2);
-            unsigned long uin = readBuffer.unpackUin();
-            readBuffer.incReadPos(6);
+            sock->readBuffer >> timestamp1 >> timestamp2;
+            sock->readBuffer.incReadPos(2);
+            unsigned long uin = sock->readBuffer.unpackUin();
+            sock->readBuffer.incReadPos(6);
             unsigned long t1, t2;
-            readBuffer >> t1 >> t2;
+            sock->readBuffer >> t1 >> t2;
             unsigned short seq;
-            readBuffer.incReadPos(0x0F);
-            readBuffer >> seq;
+            sock->readBuffer.incReadPos(0x0F);
+            sock->readBuffer >> seq;
             ICQUser *u = getUser(uin);
             if ((t1 == 0) && (t2 == 0)){
-                readBuffer.incReadPos(0x16);
+                sock->readBuffer.incReadPos(0x16);
                 string answer;
-                readBuffer >> answer;
+                sock->readBuffer >> answer;
                 fromServer(answer, u);
                 if (timestamp1 || timestamp2){
                     log(L_DEBUG, "Message declined %s", answer.c_str());
@@ -99,11 +99,11 @@ void ICQClient::snac_message(unsigned short type, unsigned short)
                     return;
                 }
 
-                readBuffer.incReadPos(0x1D);
+                sock->readBuffer.incReadPos(0x1D);
                 unsigned long cookie;
-                readBuffer >> cookie;
-                readBuffer.incReadPos(4);
-                readBuffer.unpack(t1);
+                sock->readBuffer >> cookie;
+                sock->readBuffer.incReadPos(4);
+                sock->readBuffer.unpack(t1);
                 if (t1 == 3){
                     u->PhoneBookTime = (unsigned long)htonl(cookie);
                     u->bPhoneChanged = false;
@@ -119,29 +119,29 @@ void ICQClient::snac_message(unsigned short type, unsigned short)
                     }
                     u->Phones.clear();
                     unsigned long nPhones;
-                    readBuffer.unpack(nPhones);
+                    sock->readBuffer.unpack(nPhones);
                     for (unsigned i = 0; i < nPhones; i++){
                         PhoneInfo *phone = new PhoneInfo;
                         u->Phones.push_back(phone);
-                        readBuffer.unpackStr32(phone->Name);
-                        readBuffer.unpackStr32(phone->AreaCode);
-                        readBuffer.unpackStr32(phone->Number);
-                        readBuffer.unpackStr32(phone->Extension);
-                        readBuffer.unpackStr32(phone->Country);
+                        sock->readBuffer.unpackStr32(phone->Name);
+                        sock->readBuffer.unpackStr32(phone->AreaCode);
+                        sock->readBuffer.unpackStr32(phone->Number);
+                        sock->readBuffer.unpackStr32(phone->Extension);
+                        sock->readBuffer.unpackStr32(phone->Country);
                         unsigned long type;
-                        readBuffer.unpack(type);
+                        sock->readBuffer.unpack(type);
                         if (type) phone->Active = true;
-                        if (readBuffer.readPos() >= readBuffer.size()) break;
+                        if (sock->readBuffer.readPos() >= sock->readBuffer.size()) break;
                     }
                     for (it = u->Phones.begin(); it != u->Phones.end(); it++){
                         PhoneInfo *phone = static_cast<PhoneInfo*>(*it);
                         string prop;
-                        readBuffer.unpackStr32(prop);
+                        sock->readBuffer.unpackStr32(prop);
                         Buffer b;
                         b.pack(prop.c_str(), prop.length());
                         b.unpack(phone->Type);
                         b.unpackStr32(phone->Provider);
-                        if (readBuffer.readPos() >= readBuffer.size()) break;
+                        if (sock->readBuffer.readPos() >= sock->readBuffer.size()) break;
                     }
                     for (;;){
                         for (it = u->Phones.begin(); it != u->Phones.end(); it++){
@@ -172,15 +172,15 @@ void ICQClient::snac_message(unsigned short type, unsigned short)
         }
     case ICQ_SNACxMSG_SERVERxMESSAGE:{
             unsigned long timestamp1, timestamp2;
-            readBuffer >> timestamp1 >> timestamp2;
+            sock->readBuffer >> timestamp1 >> timestamp2;
             unsigned short mFormat;
-            readBuffer >> mFormat;
-            unsigned long uin = readBuffer.unpackUin();
+            sock->readBuffer >> mFormat;
+            unsigned long uin = sock->readBuffer.unpackUin();
             log(L_DEBUG, "Message from %u [%04X]", uin, mFormat);
             if (uin == 0xA){
-                readBuffer.incReadPos(14);
+                sock->readBuffer.incReadPos(14);
                 string message;
-                readBuffer >> message;
+                sock->readBuffer >> message;
                 vector<string> l;
                 if (!parseFE(message.c_str(), l, 6)){
                     log(L_WARN, "Parse error web panel message");
@@ -211,10 +211,10 @@ void ICQClient::snac_message(unsigned short type, unsigned short)
             if (uin == 1002)
                 log(L_DEBUG, "Incoming SMS");
             unsigned short level, nTLV;
-            readBuffer >> level >> nTLV;
+            sock->readBuffer >> level >> nTLV;
             switch (mFormat){
             case 0x0001:{
-                    TlvList tlv(readBuffer);
+                    TlvList tlv(sock->readBuffer);
                     if (!tlv(2)){
                         log(L_WARN, "No found generic message tlv");
                         break;
@@ -234,7 +234,7 @@ void ICQClient::snac_message(unsigned short type, unsigned short)
                     break;
                 }
             case 0x0002:{
-                    TlvList tlv(readBuffer);
+                    TlvList tlv(sock->readBuffer);
                     if (!tlv(5)){
                         log(L_WARN, "No found ICMB message tlv");
                         break;
@@ -273,7 +273,7 @@ void ICQClient::snac_message(unsigned short type, unsigned short)
                     break;
                 }
             case 0x0004:{
-                    TlvList tlv(readBuffer);
+                    TlvList tlv(sock->readBuffer);
                     if (!tlv(5)){
                         log(L_WARN, "No found advanced message tlv");
                         break;
@@ -548,27 +548,27 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
     if (!needAck) return;
 
     snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_AUTOREPLY);
-    writeBuffer << timestamp1 << timestamp2 << 0x0002;
-    writeBuffer.packUin(uin);
-    writeBuffer << 0x0003 << 0x1B00 << 0x0800;
-    writeBuffer.pack(info, sizeof(info));
-    writeBuffer
+    sock->writeBuffer << timestamp1 << timestamp2 << 0x0002;
+    sock->writeBuffer.packUin(uin);
+    sock->writeBuffer << 0x0003 << 0x1B00 << 0x0800;
+    sock->writeBuffer.pack(info, sizeof(info));
+    sock->writeBuffer
     << 0x03000000L << (char)0
     << cookie1 << cookie2 << cookie1
     << 0x00000000L << 0x00000000L << 0x00000000L
     << (char)msgType << (char)msgFlags << msgState;
     if (response.size()){
         toServer(response, u);
-        writeBuffer << (unsigned short)htons(response.size() + 1);
-        writeBuffer << response.c_str();
-        writeBuffer << (char)0;
+        sock->writeBuffer << (unsigned short)htons(response.size() + 1);
+        sock->writeBuffer << response.c_str();
+        sock->writeBuffer << (char)0;
     }else{
-        writeBuffer << (char)0x01 << response_type;
+        sock->writeBuffer << (char)0x01 << response_type;
         if (response_type != 3){
             if (copy.size()){
-                writeBuffer.pack(copy.Data(0), copy.writePos());
+                sock->writeBuffer.pack(copy.Data(0), copy.writePos());
             }else{
-                writeBuffer << 0x00000000L << 0xFFFFFF00L;
+                sock->writeBuffer << 0x00000000L << 0xFFFFFF00L;
             }
         }
     }
@@ -584,10 +584,10 @@ void ICQClient::declineMessage(ICQMessage *m, const char *reason)
             u->direct->declineMessage(m, reason);
     }else{
         snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_AUTOREPLY);
-        writeBuffer << m->timestamp1 << m->timestamp2 << 0x0002;
-        writeBuffer.packUin(m->getUin());
-        writeBuffer << (unsigned short)0x03;
-        packMessage(writeBuffer, m, reason, 1, 0, 0, false, true);
+        sock->writeBuffer << m->timestamp1 << m->timestamp2 << 0x0002;
+        sock->writeBuffer.packUin(m->getUin());
+        sock->writeBuffer << (unsigned short)0x03;
+        packMessage(sock->writeBuffer, m, reason, 1, 0, 0, false, true);
         sendPacket();
     }
     cancelMessage(m, false);
@@ -599,7 +599,6 @@ void ICQClient::acceptMessage(ICQMessage *m)
     case ICQ_MSGxFILE:{
             ICQFile *file = static_cast<ICQFile*>(m);
             file->listener = new FileTransferListener(file, this);
-            file->listener->listen(MinTCPPort(), MaxTCPPort());
             file->id1 = file->listener->port();
             file->id2 = 0;
             break;
@@ -607,7 +606,6 @@ void ICQClient::acceptMessage(ICQMessage *m)
     case ICQ_MSGxCHAT:{
             ICQChat *chat = static_cast<ICQChat*>(m);
             chat->listener = new ChatListener(chat, this);
-            chat->listener->listen(MinTCPPort(), MaxTCPPort());
             chat->id1 = chat->listener->port();
             chat->id2 = 0;
             break;
@@ -630,8 +628,6 @@ void ICQClient::acceptMessage(ICQMessage *m)
         Buffer msgBuf;
         packMessage(msgBuf, m, NULL, 0, 0, 4, false, true);
 
-        char *host;
-        unsigned short port;
         unsigned long remote_ip = 0;
         unsigned long local_ip = 0;
         ICQUser *u = getUser(m->getUin());
@@ -640,8 +636,7 @@ void ICQClient::acceptMessage(ICQMessage *m)
             if (remote_ip && ((remote_ip & 0xFFFFFF00) != (IP() & 0xFFFFFF00)))
                 remote_ip = u->RealIP();
         }
-        if (getLocalAddr(host, port, remote_ip))
-            local_ip = inet_addr(host);
+        local_ip = RealIP();
         msg_id id;
         id.l = m->timestamp1;
         id.h = m->timestamp2;
@@ -652,7 +647,7 @@ void ICQClient::acceptMessage(ICQMessage *m)
         << 0x09461349L << 0x4C7F11D1L << 0x82224445L << 0x53540000L;
         b.tlv(0x0A, (unsigned short)0x02);
         b.tlv(0x0F);
-        b.tlv(0x03, (unsigned long)htonl(local_ip));
+        b.tlv(0x03, (unsigned long)local_ip);
         b.tlv(0x05, (unsigned short)listener->port());
         b.tlv(0x2711, msgBuf);
         sendThroughServer(m->getUin(), 2, b, &id);
@@ -671,7 +666,7 @@ void ICQClient::messageRequest()
 void ICQClient::sendICMB()
 {
     snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_SETxICQxMODE);
-    writeBuffer
+    sock->writeBuffer
     << 0x00000000L << 0x00031F40L
     << 0x03E703E7L << 0x00000000L;
     sendPacket();
@@ -720,14 +715,14 @@ void ICQClient::sendThroughServer(unsigned long uin, unsigned short type, Buffer
 {
     snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_SENDxSERVER);
     if (id){
-        writeBuffer << id->l << id->h;
+        sock->writeBuffer << id->l << id->h;
     }else{
-        writeBuffer << 0x00000000L << 0x00000000L;
+        sock->writeBuffer << 0x00000000L << 0x00000000L;
     }
-    writeBuffer << type;
-    writeBuffer.packUin(uin);
-    writeBuffer.tlv((type == 1) ? 2 : 5, b);
-    if (addTlv && ((id == NULL) || (type == 2))) writeBuffer.tlv((type == 2) ? 3 : 6);
+    sock->writeBuffer << type;
+    sock->writeBuffer.packUin(uin);
+    sock->writeBuffer.tlv((type == 1) ? 2 : 5, b);
+    if (addTlv && ((id == NULL) || (type == 2))) sock->writeBuffer.tlv((type == 2) ? 3 : 6);
     sendPacket();
 }
 
@@ -1111,3 +1106,4 @@ void ICQClient::cancelSendFile(ICQFile *file)
     << 0x000B0002L << (unsigned short)0x0001;
     sendThroughServer(file->getUin(), 2, b, &id);
 }
+

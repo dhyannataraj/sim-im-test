@@ -327,7 +327,7 @@ protected:
 class ICQFile;
 class ICQChat;
 
-class DirectSocket : public ClientSocket
+class DirectSocket : public ClientSocketNotify
 {
 public:
     enum SocketState{
@@ -338,16 +338,19 @@ public:
         WaitAck,
         Logged
     };
-    DirectSocket(int fd, const char *host, unsigned short port, ICQClient*);
+    DirectSocket(int fd, ICQClient*);
     DirectSocket(unsigned long real_ip, unsigned long ip, unsigned short port, ICQUser*, ICQClient*);
+    ~DirectSocket();
     virtual void packet_ready();
     SocketState state;
     void connect();
+    void remove();
     virtual void error_state();
     virtual void connect_ready();
 protected:
     virtual void processPacket() = 0;
     virtual void connected() = 0;
+    ClientSocket *sock;
     void init();
     void sendInit();
     void sendInitAck();
@@ -366,19 +369,23 @@ protected:
     unsigned long DCcookie;
 };
 
-class ICQListener : public ServerSocket
+class ICQListener : public ServerSocketNotify
 {
 public:
     ICQListener(ICQClient *client);
-    virtual void accept(int fd, const char *host, unsigned short port);
+    ~ICQListener();
+    bool created() { return (sock != NULL); }
+    unsigned short port();
 protected:
-    ICQClient *client;
+    virtual void accept(int fd);
+    ServerSocket *sock;
+    ICQClient    *client;
 };
 
 class DirectClient : public DirectSocket
 {
 public:
-    DirectClient(int fd, const char *host, unsigned short port, ICQClient *client);
+    DirectClient(int fd, ICQClient *client);
     DirectClient(unsigned long ip, unsigned long real_ip, unsigned short port, ICQUser *u, ICQClient *client);
     ~DirectClient();
     unsigned short sendMessage(ICQMessage*);
@@ -394,10 +401,6 @@ public:
 #endif
     }
 protected:
-    virtual void idle();
-    virtual void read_ready();
-    virtual void write_ready();
-    virtual bool have_data();
     enum State{
         None,
         WaitInit2,
@@ -430,17 +433,23 @@ protected:
     void SSLshutdown();
     bool m_bSecure;
     void *mpSSL;
+    void *mrBIO;
+    void *mwBIO;
 #define pSSL	((SSL*)mpSSL)
+#define rBIO	((BIO*)mrBIO)
+#define wBIO	((BIO*)mwBIO)
 #endif
     friend class ICQUser;
 };
 
-class FileTransferListener : public ServerSocket
+class FileTransferListener : public ServerSocketNotify
 {
 public:
     FileTransferListener(ICQFile *file, ICQClient *client);
-    virtual void accept(int fd, const char *host, unsigned short port);
+    unsigned short port();
 protected:
+    virtual void accept(int fd);
+    ServerSocket *sock;
     ICQClient *client;
     ICQFile *file;
 };
@@ -448,7 +457,7 @@ protected:
 class FileTransfer : public DirectSocket
 {
 public:
-    FileTransfer(int fd, const char *host, unsigned short port, ICQClient *client, ICQFile *file);
+    FileTransfer(int fd, ICQClient *client, ICQFile *file);
     FileTransfer(unsigned long ip, unsigned long real_ip, unsigned short port, ICQUser *u, ICQClient *client, ICQFile *file);
     void resume(int mode);
     int  speed() { return m_nSpeed; }
@@ -476,9 +485,8 @@ protected:
     void processPacket();
     void connected();
     void error_state();
-    void write_ready();
-    bool have_data();
 
+    void write_ready();
     void init();
     void startPacket(char cmd);
     void sendPacket(bool dump=true);
@@ -497,12 +505,14 @@ protected:
     unsigned long m_sendSize;
 };
 
-class ChatListener : public ServerSocket
+class ChatListener : public ServerSocketNotify
 {
 public:
     ChatListener(ICQChat *chat, ICQClient *client);
-    virtual void accept(int fd, const char *host, unsigned short port);
+    unsigned short port();
 protected:
+    virtual void accept(int fd);
+    ServerSocket *sock;
     ICQClient *client;
     ICQChat *chat;
 };
@@ -538,7 +548,7 @@ public:
 class ChatSocket : public DirectSocket
 {
 public:
-    ChatSocket(int fd, const char *host, unsigned short port, ICQClient *client, ICQChat *file);
+    ChatSocket(int fd, ICQClient *client, ICQChat *file);
     ChatSocket(unsigned long ip, unsigned long real_ip, unsigned short port, ICQUser *u, ICQClient *client, ICQChat *chat);
 
     void sendLine(const char *str);
@@ -572,7 +582,9 @@ protected:
     void error_state();
     void startPacket();
     void sendPacket();
-    void read_ready();
+    void write_ready();
+    void packet_ready();
+    void connect_ready();
 
     void putText(string &s);
 
@@ -1018,7 +1030,7 @@ bool operator == (const list_req &r1, const list_req &r2);
 
 typedef unsigned char capability[0x10];
 
-class ICQClient : public ClientSocket, public ICQUser
+class ICQClient : public ClientSocketNotify, public ICQUser, public SocketFactory
 {
 public:
     ICQClient();
@@ -1029,9 +1041,6 @@ public:
 
     ConfigString ServerHost;
     ConfigUShort ServerPort;
-
-    ConfigUShort MinTCPPort;
-    ConfigUShort MaxTCPPort;
 
     ConfigString DecryptedPassword;
     ConfigString EncryptedPassword;
@@ -1044,13 +1053,6 @@ public:
     ConfigBool	 RejectEmail;
     ConfigBool	 RejectOther;
     ConfigString RejectFilter;
-
-    ConfigShort		ProxyType;
-    ConfigString	ProxyHost;
-    ConfigShort		ProxyPort;
-    ConfigBool		ProxyAuth;
-    ConfigString	ProxyUser;
-    ConfigString	ProxyPasswd;
 
     ConfigUShort	DirectMode;
 
@@ -1140,7 +1142,6 @@ public:
     static string quoteText(const char *text);
     static string unquoteText(const char *text);
 
-    void setupProxy();
     void storePassword(const char*);
 
     void setRejectFilter(const char*);
@@ -1149,7 +1150,13 @@ public:
     static bool toUTF(string &s, const char *encoding);
 
 protected:
-    ICQListener *listener;
+    list<DirectSocket*> removedSockets;
+
+    void close();
+    void create_socket();
+
+    ClientSocket	*sock;
+    ICQListener		*listener;
 
     virtual bool createFile(ICQFile *f, int mode);
     virtual bool openFile(ICQFile *f);
@@ -1165,9 +1172,9 @@ protected:
     bool m_bHeader;
     unsigned short m_nSequence;
     unsigned short m_nMsgSequence;
+
     virtual void packet_ready();
     virtual void error_state();
-    virtual void create_socket();
     virtual void connect_ready();
     virtual void idle();
 
@@ -1299,7 +1306,6 @@ protected:
 
     string makeMessageText(ICQMsg *msg, ICQUser *u);
 
-    void close();
     unsigned short advCounter;
 
     void packInfoList(const ExtInfoList &info);
@@ -1308,6 +1314,8 @@ protected:
                      unsigned short msgState, char oper, bool bShort, bool bConvert);
 
     unsigned long m_nProcessId;
+
+    void dumpPacket(Buffer &b, unsigned long start, const char *info);
 
     static const capability *capabilities;
 

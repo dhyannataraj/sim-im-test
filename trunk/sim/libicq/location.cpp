@@ -91,7 +91,7 @@ void ICQClient::sendCapability()
     cap.pack((char*)capabilities[3], sizeof(capability));
     cap.pack((char*)c, sizeof(c));
     snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_SETxUSERxINFO);
-    writeBuffer.tlv(0x0005, cap);
+    sock->writeBuffer.tlv(0x0005, cap);
     sendPacket();
 }
 

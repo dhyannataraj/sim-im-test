@@ -40,7 +40,7 @@ void ICQClient::addToVisibleList(unsigned long uin)
 {
     if (uin >= UIN_SPECIAL) return;
     snac(ICQ_SNACxFAM_BOS, ICQ_SNACxBOS_ADDxVISIBLExLIST);
-    writeBuffer.packUin(uin);
+    sock->writeBuffer.packUin(uin);
     sendPacket();
 }
 
@@ -48,7 +48,7 @@ void ICQClient::addToInvisibleList(unsigned long uin)
 {
     if (uin >= UIN_SPECIAL) return;
     snac(ICQ_SNACxFAM_BOS, ICQ_SNACxBOS_ADDxINVISIBLExLIST);
-    writeBuffer.packUin(uin);
+    sock->writeBuffer.packUin(uin);
     sendPacket();
 }
 
@@ -56,7 +56,7 @@ void ICQClient::removeFromVisibleList(unsigned long uin)
 {
     if (uin >= UIN_SPECIAL) return;
     snac(ICQ_SNACxFAM_BOS, ICQ_SNACxBOS_REMxVISIBLExLIST);
-    writeBuffer.packUin(uin);
+    sock->writeBuffer.packUin(uin);
     sendPacket();
 }
 
@@ -64,7 +64,7 @@ void ICQClient::removeFromInvisibleList(unsigned long uin)
 {
     if (uin >= UIN_SPECIAL) return;
     snac(ICQ_SNACxFAM_BOS, ICQ_SNACxBOS_REMxINVISIBLExLIST);
-    writeBuffer.packUin(uin);
+    sock->writeBuffer.packUin(uin);
     sendPacket();
 }
 
@@ -73,5 +73,3 @@ void ICQClient::bosRequest()
     snac(ICQ_SNACxFAM_BOS, ICQ_SNACxBOS_REQUESTxRIGHTS);
     sendPacket();
 }
-
-

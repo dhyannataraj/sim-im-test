@@ -61,7 +61,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 log(L_DEBUG, "Rosters part 2");
                 break;
             }
-            readBuffer >> c;
+            sock->readBuffer >> c;
             if (c){
                 log(L_WARN, "Bad first roster byte %02X", c);
                 break;
@@ -78,17 +78,17 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 (*it_usr)->inVisible = false;
                 (*it_usr)->inInvisible = false;
             }
-            readBuffer >> list_len;
+            sock->readBuffer >> list_len;
             for (unsigned i = 0; i < list_len; i++){
                 string str;
                 unsigned short id, grp_id, type, len;
-                readBuffer.unpackStr(str);
-                readBuffer >> grp_id >> id >> type >> len;
+                sock->readBuffer.unpackStr(str);
+                sock->readBuffer >> grp_id >> id >> type >> len;
                 TlvList *inf = NULL;
                 if (len){
                     Buffer b(len);
-                    b.pack(readBuffer.Data(readBuffer.readPos()), len);
-                    readBuffer.incReadPos(len);
+                    b.pack(sock->readBuffer.Data(sock->readBuffer.readPos()), len);
+                    sock->readBuffer.incReadPos(len);
                     inf = new TlvList(b);
                 }
                 switch (type){
@@ -153,7 +153,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 if (inf) delete inf;
             }
             unsigned long time;
-            readBuffer >> time;
+            sock->readBuffer >> time;
             contacts.Time = time;
             for (;;){
                 bool ok = true;
@@ -212,25 +212,25 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             break;
         }
     case ICQ_SNACxLISTS_ADDED:{
-            readBuffer.incReadPos(8);
-            unsigned long uin = readBuffer.unpackUin();
+            sock->readBuffer.incReadPos(8);
+            unsigned long uin = sock->readBuffer.unpackUin();
             ICQAddedToList *m = new ICQAddedToList;
             m->Uin.push_back(uin);
             messageReceived(m);
             break;
         }
     case ICQ_SNACxLISTS_AUTHxREQUEST:{
-            readBuffer.incReadPos(8);
-            unsigned long uin = readBuffer.unpackUin();
+            sock->readBuffer.incReadPos(8);
+            unsigned long uin = sock->readBuffer.unpackUin();
             ICQUser *u = getUser(uin);
             string message;
             string charset;
             unsigned short have_charset;
-            readBuffer.unpackStr(message);
-            readBuffer >> have_charset;
+            sock->readBuffer.unpackStr(message);
+            sock->readBuffer >> have_charset;
             if (have_charset){
-                readBuffer.incReadPos(2);
-                readBuffer.unpackStr(charset);
+                sock->readBuffer.incReadPos(2);
+                sock->readBuffer.unpackStr(charset);
             }
             if (charset.size()){
                 translate(localCharset(u), charset.c_str(), message);
@@ -246,17 +246,18 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             break;
         }
     case ICQ_SNACxLISTS_AUTH:{
-            readBuffer.incReadPos(8);
-            unsigned long uin = readBuffer.unpackUin();
-            char auth_ok; readBuffer >> auth_ok;
+            sock->readBuffer.incReadPos(8);
+            unsigned long uin = sock->readBuffer.unpackUin();
+            char auth_ok;
+            sock->readBuffer >> auth_ok;
             string message;
             string charset;
             unsigned short have_charset;
-            readBuffer.unpackStr(message);
-            readBuffer >> have_charset;
+            sock->readBuffer.unpackStr(message);
+            sock->readBuffer >> have_charset;
             if (have_charset){
-                readBuffer.incReadPos(2);
-                readBuffer.unpackStr(charset);
+                sock->readBuffer.incReadPos(2);
+                sock->readBuffer.unpackStr(charset);
             }
             ICQUser *u = getUser(uin);
             if (charset.size()){
@@ -286,10 +287,10 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
     case ICQ_SNACxLISTS_DONE:{
             ICQEvent *e = findListEvent(seq);
             if (e == NULL) break;
-            readBuffer.incReadPos(8);
+            sock->readBuffer.incReadPos(8);
             unsigned short res;
-            readBuffer >> res;
-            e->processAnswer(this, readBuffer, res);
+            sock->readBuffer >> res;
+            e->processAnswer(this, sock->readBuffer, res);
             delete e;
             break;
         }
@@ -308,7 +309,7 @@ void ICQClient::listsRequest()
         contacts.Len = 0;
     }
     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_REQxROSTER);
-    writeBuffer << contacts.Time() << contacts.Len();
+    sock->writeBuffer << contacts.Time() << contacts.Len();
     sendPacket();
 }
 
@@ -530,7 +531,7 @@ void ICQClient::sendVisibleList()
 {
     if (contacts.Invisible() == 0) contacts.Invisible = rand() & 0x7FFF;
     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_RENAME, true);
-    writeBuffer
+    sock->writeBuffer
     << 0x00000000L << contacts.Invisible()
     << (unsigned short)0x0004
     << (unsigned short)0x0005
@@ -543,7 +544,7 @@ void ICQClient::sendInvisibleList()
 {
     if (contacts.Invisible() == 0) contacts.Invisible = rand() & 0x7FFF;
     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_RENAME, true);
-    writeBuffer
+    sock->writeBuffer
     << 0x00000000L << contacts.Invisible()
     << (unsigned short)0x0004
     << (unsigned short)0x0005
@@ -557,18 +558,18 @@ void ICQClient::sendRosterGrp(const char *name, unsigned short grpId, unsigned s
     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_RENAME, true);
     string sName = name;
     toUTF(sName, Encoding.c_str());
-    writeBuffer.pack(sName);
-    writeBuffer
+    sock->writeBuffer.pack(sName);
+    sock->writeBuffer
     << grpId
     << (unsigned long) ICQ_GROUPS;
     if (usrId){
-        writeBuffer
+        sock->writeBuffer
         << (unsigned short) 6
         << (unsigned short) 0xC8
         << (unsigned short) 2
         << (unsigned short) usrId;
     }else{
-        writeBuffer
+        sock->writeBuffer
         << (unsigned short) 4
         << (unsigned short) 0xC8
         << (unsigned short) 0;
@@ -592,8 +593,8 @@ void ICQClient::moveUser(ICQUser *u, ICQGroup *g)
     if (m_state != Logged) return;
     if (!u->GrpId()){
         snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_CREATE_USER);
-        writeBuffer.packUin(u->Uin);
-        writeBuffer << 0x00000000L;
+        sock->writeBuffer.packUin(u->Uin);
+        sock->writeBuffer << 0x00000000L;
         sendPacket();
     }
     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_EDIT);
@@ -813,8 +814,8 @@ void ICQClient::sendRoster(ICQEvent *e,
     string sName;
     if (name) sName = name;
     toUTF(sName, Encoding.c_str());
-    writeBuffer.pack(sName);
-    writeBuffer
+    sock->writeBuffer.pack(sName);
+    sock->writeBuffer
     << grp_id
     << usr_id
     << subCmd;
@@ -822,17 +823,17 @@ void ICQClient::sendRoster(ICQEvent *e,
         string sAlias = alias;
         toUTF(sAlias, Encoding.c_str());
         unsigned short size = sAlias.length() + 4 + (waitAuth ? 4 : 0);
-        writeBuffer
+        sock->writeBuffer
         << size
         << (unsigned short)0x0131;
-        writeBuffer.pack(sAlias);
+        sock->writeBuffer.pack(sAlias);
         if (waitAuth){
-            writeBuffer
+            sock->writeBuffer
             << (unsigned short)0x66
             << (unsigned short)0;
         }
     }else{
-        writeBuffer << (unsigned short)0;
+        sock->writeBuffer << (unsigned short)0;
     }
     sendPacket();
     e->m_nId = m_nMsgSequence - 1;
@@ -856,12 +857,12 @@ void ICQClient::processMsgQueueAuth()
                 ICQAuthRequest *msg = static_cast<ICQAuthRequest*>(e->message());
                 snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_REQUEST_AUTH);
                 ICQUser *u = getUser(msg->getUin());
-                writeBuffer.packUin(msg->getUin());
+                sock->writeBuffer.packUin(msg->getUin());
                 string message = clearHTML(msg->Message.c_str());
                 toServer(message, u);
-                writeBuffer << (unsigned short)(message.length());
-                writeBuffer << message.c_str();
-                writeBuffer << (unsigned short)0;
+                sock->writeBuffer << (unsigned short)(message.length());
+                sock->writeBuffer << message.c_str();
+                sock->writeBuffer << (unsigned short)0;
                 sendPacket();
                 (*it)->state = ICQEvent::Success;
                 break;
@@ -869,8 +870,8 @@ void ICQClient::processMsgQueueAuth()
         case ICQ_MSGxAUTHxGRANTED:{
                 ICQAuthRequest *msg = static_cast<ICQAuthRequest*>(e->message());
                 snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_AUTHxSEND);
-                writeBuffer.packUin(msg->getUin());
-                writeBuffer
+                sock->writeBuffer.packUin(msg->getUin());
+                sock->writeBuffer
                 << (char)0x01
                 << (unsigned long)0;
                 sendPacket();
@@ -881,21 +882,21 @@ void ICQClient::processMsgQueueAuth()
                 ICQAuthRequest *msg = static_cast<ICQAuthRequest*>(e->message());
                 snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_REQUEST_AUTH);
                 ICQUser *u = getUser(msg->getUin());
-                writeBuffer.packUin(msg->getUin());
+                sock->writeBuffer.packUin(msg->getUin());
                 string message = clearHTML(msg->Message.c_str());
                 string original = message;
                 toServer(message, u);
-                writeBuffer
+                sock->writeBuffer
                 << (char) 0
                 << message
                 << (unsigned long)0x00010001;
                 if (message == original){
-                    writeBuffer << (unsigned char)0;
+                    sock->writeBuffer << (unsigned char)0;
                 }else{
                     string charset = "utf-8";
-                    writeBuffer << charset;
+                    sock->writeBuffer << charset;
                 }
-                writeBuffer << (unsigned short)0;
+                sock->writeBuffer << (unsigned short)0;
                 sendPacket();
                 (*it)->state = ICQEvent::Success;
                 break;
@@ -910,4 +911,3 @@ void ICQClient::processMsgQueueAuth()
         it = msgQueue.begin();
     }
 }
-

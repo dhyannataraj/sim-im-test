@@ -20,11 +20,13 @@
 
 #include "defs.h"
 
-#include <qdns.h>
 #include "icqclient.h"
 
 class QDns;
+class QSocket;
+class QSocketDevice;
 class QSocketNotifier;
+
 class QStringList;
 class QTextCodec;
 
@@ -46,12 +48,62 @@ typedef struct searchResult
     bool auth;
 } searchResult;
 
-class Client : public QObject, public Sockets, public ICQClient
+class QClientSocket : public QObject, public Socket
+{
+    Q_OBJECT
+public:
+    QClientSocket(SocketNotify *n, int fd);
+    virtual ~QClientSocket();
+    virtual int read(char *buf, unsigned int size);
+    virtual void write(const char *buf, unsigned int size);
+    virtual void connect(const char *host, int port);
+    virtual unsigned long localHost();
+    virtual void pause(unsigned);
+    virtual void close();
+protected slots:
+    void slotConnected();
+    void slotConnectionClosed();
+    void slotReadReady();
+    void slotBytesWritten(int);
+    void slotBytesWritten();
+    void slotError(int);
+protected:
+    QSocket *sock;
+    bool bInWrite;
+};
+
+class QServerSocket : public QObject, public ServerSocket
+{
+    Q_OBJECT
+public:
+    QServerSocket(ServerSocketNotify *n, unsigned short minPort, unsigned short maxPort);
+    ~QServerSocket();
+    virtual unsigned short port() { return m_nPort; }
+    bool created() { return (sock != NULL); }
+protected slots:
+    void activated(int);
+protected:
+    QSocketDevice   *sock;
+    QSocketNotifier *sn;
+    unsigned short m_nPort;
+};
+
+class Client : public QObject, public ICQClient
 {
     Q_OBJECT
 public:
     Client(QObject *parent = NULL, const char *name = NULL);
     ~Client();
+
+    ConfigShort		ProxyType;
+    ConfigString	ProxyHost;
+    ConfigShort		ProxyPort;
+    ConfigBool		ProxyAuth;
+    ConfigString	ProxyUser;
+    ConfigString	ProxyPasswd;
+    ConfigUShort	MinTCPPort;
+    ConfigUShort	MaxTCPPort;
+
     QString getName(bool bUserUIN=true);
     const char *getStatusIcon();
     QString getStatusText();
@@ -63,9 +115,6 @@ public:
     static QString getMessageText(int type, int n);
     void markAsRead(ICQMessage *msg);
     virtual void process_event(ICQEvent *e);
-    virtual void createSocket(Socket*);
-    virtual void closeSocket(Socket*);
-    virtual void setHaveData(Socket*);
     QStringList *encodings;
     void setUserEncoding(unsigned long uin, int i);
     int userEncoding(unsigned long uin);
@@ -75,10 +124,8 @@ public:
     static string to8Bit(QTextCodec*, const QString&);
     static QString from8Bit(QTextCodec*, const string&, const char *srcCharset=NULL);
 protected:
-    QDns resolver;
     list<resolveAddr> resolveQueue;
-    QDns ptrResolver;
-    void resolve(unsigned long ip);
+    QDns *resolver;
 signals:
     void event(ICQEvent*);
     void messageReceived(ICQMessage *msg);
@@ -88,11 +135,14 @@ signals:
     void fileNoCreate(ICQFile*, const QString&);
     void encodingChanged(unsigned long uin);
 protected slots:
-    void ptr_resolve_ready();
     void resolve_ready();
-    void data_ready();
-    void data_ready(int);
+    void timer();
 protected:
+    virtual Socket *createSocket(SocketNotify*, int fd);
+    virtual ServerSocket *createServerSocket(ServerSocketNotify*);
+
+    void start_resolve();
+
     virtual bool createFile(ICQFile *f, int mode);
     virtual bool openFile(ICQFile *f);
     virtual bool seekFile(ICQFile *f, unsigned long pos);
@@ -100,8 +150,6 @@ protected:
     virtual bool writeFile(ICQFile *f, Buffer &b);
     virtual void closeFile(ICQFile *f);
 
-    void start_resolve();
-    virtual void resolve();
     virtual unsigned long getFileSize(const char *name, int *nSrcFiles, vector<fileName> &files);
     unsigned long getFileSize(QString name, QString base, vector<fileName> &file);
     unsigned long getFileSize(QString name, vector<fileName> &file);

@@ -141,8 +141,8 @@ ICQFile::ICQFile()
 
 ICQFile::~ICQFile()
 {
-    if (listener) listener->remove();
-    if (ft) ft->remove();
+    if (listener) delete listener;
+    if (ft) delete ft;
 }
 
 void ICQFile::resume(int mode)
@@ -174,8 +174,8 @@ ICQChat::ICQChat()
 
 ICQChat::~ICQChat()
 {
-    if (listener) listener->remove();
-    if (chat) chat->remove();
+    if (listener) delete listener;
+    if (chat) delete chat;
 }
 
 ICQWebPanel::ICQWebPanel()

@@ -33,23 +33,23 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
     case ICQ_SNACxLOGIN_ERROR:
         m_reconnectTime = (time_t)(-1);
         log(L_WARN, "Login error");
-        error(ErrorProtocol);
+        sock->error();
         break;
     case ICQ_SNACxLOGIN_REGISTER:{
             if (m_state != Register){
                 log(L_WARN, "Registered in no register state");
                 break;
             }
-            readBuffer.incReadPos(0x2E);
+            sock->readBuffer.incReadPos(0x2E);
             unsigned long newUin;
-            readBuffer >> newUin;
+            sock->readBuffer >> newUin;
             newUin = (unsigned long)htonl(newUin);
             log(L_DEBUG, "Register %u %08lX", newUin, newUin);
             Uin = newUin;
             ICQEvent e(EVENT_INFO_CHANGED);
             process_event(&e);
             m_state = Connect;
-            connect(ServerHost.c_str(), ServerPort());
+            sock->connect(ServerHost.c_str(), ServerPort());
             break;
         }
     default:
@@ -66,25 +66,25 @@ void ICQClient::chn_login()
             sprintf(uin, "%lu", Uin());
 
             flap(ICQ_CHNxNEW);
-            writeBuffer << 0x00000001L;
-            writeBuffer.tlv(0x0001, uin);
-            writeBuffer.tlv(0x0002, EncryptedPassword.c_str());
-            writeBuffer.tlv(0x0003, "ICQ Inc. - Product of ICQ (TM).2001b.5.17.1.3642.85");
-            writeBuffer.tlv(0x0016, 0x010A);
-            writeBuffer.tlv(0x0017, 0x0005);
-            writeBuffer.tlv(0x0018, 0x0011);
-            writeBuffer.tlv(0x0019, 0x0001);
-            writeBuffer.tlv(0x001A, 0x0E3A);
-            writeBuffer.tlv(0x0014, 0x00000055L);
-            writeBuffer.tlv(0x000e, "us");
-            writeBuffer.tlv(0x000f, "en");
+            sock->writeBuffer << 0x00000001L;
+            sock->writeBuffer.tlv(0x0001, uin);
+            sock->writeBuffer.tlv(0x0002, EncryptedPassword.c_str());
+            sock->writeBuffer.tlv(0x0003, "ICQ Inc. - Product of ICQ (TM).2001b.5.17.1.3642.85");
+            sock->writeBuffer.tlv(0x0016, 0x010A);
+            sock->writeBuffer.tlv(0x0017, 0x0005);
+            sock->writeBuffer.tlv(0x0018, 0x0011);
+            sock->writeBuffer.tlv(0x0019, 0x0001);
+            sock->writeBuffer.tlv(0x001A, 0x0E3A);
+            sock->writeBuffer.tlv(0x0014, 0x00000055L);
+            sock->writeBuffer.tlv(0x000e, "us");
+            sock->writeBuffer.tlv(0x000f, "en");
             sendPacket();
             break;
         }
     case Register:
         {
             flap(ICQ_CHNxNEW);
-            writeBuffer << 0x00000001L;
+            sock->writeBuffer << 0x00000001L;
             sendPacket();
             snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_REGISTERxREQ);
             Buffer msg;
@@ -97,7 +97,7 @@ void ICQClient::chn_login()
             msg << htons(len);
             msg.pack(DecryptedPassword.c_str(), len);
             msg << 0x94680000L << 0x00000602L;
-            writeBuffer.tlv(0x0001, msg);
+            sock->writeBuffer.tlv(0x0001, msg);
             sendPacket();
             break;
         }
@@ -108,7 +108,7 @@ void ICQClient::chn_login()
 
 void ICQClient::chn_close()
 {
-    TlvList tlv(readBuffer);
+    TlvList tlv(sock->readBuffer);
     Tlv *tlv_error = tlv(8);
     if (tlv_error){
         unsigned short err = *tlv_error;
@@ -136,7 +136,7 @@ void ICQClient::chn_close()
             log(L_WARN, "Unknown error %04X", err);
         }
         if (err){
-            error(ErrorProtocol);
+            sock->error();
             return;
         }
     }
@@ -157,7 +157,7 @@ void ICQClient::chn_close()
             log(L_WARN, "Unknown run-time error %04X", err);
         }
         if (err){
-            error(ErrorProtocol);
+            sock->error();
             return;
         }
     }
@@ -166,26 +166,24 @@ void ICQClient::chn_close()
     Tlv *tlv_cookie = tlv(6);
     if ((tlv_host == NULL) || (tlv_cookie == NULL)){
         log(L_ERROR, "Close packet");
-        error(ErrorProtocol);
+        sock->error();
         return;
     }
     char *host = *tlv_host;
     char *port = strchr(host, ':');
     if (port == NULL){
         log(L_ERROR, "Bad host address %s", host);
-        error(ErrorProtocol);
+        sock->error();
         return;
     }
 
     *port = 0;
     port++;
     m_state = Login;
-    connect(host, atol(port));
+    sock->connect(host, atol(port));
 
     flap(ICQ_CHNxNEW);
-    writeBuffer << 0x00000001L;
-    writeBuffer.tlv(6, *tlv_cookie, tlv_cookie->Size());
+    sock->writeBuffer << 0x00000001L;
+    sock->writeBuffer.tlv(6, *tlv_cookie, tlv_cookie->Size());
     sendPacket();
 }
-
-
