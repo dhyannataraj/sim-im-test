@@ -794,7 +794,6 @@ static MessageDef defCloseSecure =
         NULL
     };
 
-
 static Message *createIcqAuthRequest(const char *cfg)
 {
     return new ICQAuthMessage(MessageICQAuthRequest, cfg);
@@ -803,7 +802,7 @@ static Message *createIcqAuthRequest(const char *cfg)
 static MessageDef defIcqAuthRequest =
     {
         NULL,
-        MESSAGE_HIDDEN,
+        MESSAGE_DEFAULT,
         MessageAuthRequest,
         NULL,
         NULL,

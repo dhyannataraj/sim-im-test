@@ -24,6 +24,15 @@
 #include <openssl/rand.h>
 #endif
 
+#include "simapi.h"
+
+#ifdef USE_OPENSSL
+#include <openssl/ssl.h>
+#include <openssl/err.h>
+#include <openssl/bio.h>
+#include <openssl/rand.h>
+#endif
+
 #include "icqclient.h"
 #include "icqmessage.h"
 
@@ -706,6 +715,25 @@ void DirectClient::connect_ready()
     if (m_state == None){
         m_state = WaitLogin;
         DirectSocket::connect_ready();
+        return;
+    }
+    if (m_state == SSLconnect){
+		for (list<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
+			SendDirectMsg &sm = *it;
+			if ((sm.msg == NULL) || (sm.msg->type() != MessageOpenSecure))
+				continue;
+			Event e(EventMessageSent, sm.msg);
+			e.process();
+			delete sm.msg;
+			m_queue.erase(it);
+			break;
+		}
+        m_state = Logged;
+		Contact *contact;
+		if (m_client->findContact(m_data->Uin, NULL, false, contact)){
+			Event e(EventContactStatus, contact);
+			e.process();
+		}
         return;
     }
     if (m_state == SSLconnect){
