@@ -150,6 +150,7 @@ using namespace std;
 #include "xpm/encrypted.xpm"
 #include "xpm/key_bindings.xpm"
 #include "xpm/encoding.xpm"
+#include "xpm/fileclose.xpm"
 
 class str
 {
@@ -690,6 +691,7 @@ void Icons::init(const char *name)
     KICON(mail_send, 10084)
     KICON(apply, 10085)
     KICON(cancel, 10086)
+    KICON(fileclose, 10087)
 
     QIconSet pict = getIcon("licq");
     QPixmap dllPict = dll.getIcon(104);

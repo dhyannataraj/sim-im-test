@@ -364,7 +364,9 @@ DirectClient::DirectClient(Socket *s, ICQClient *client)
 {
     u = NULL;
     state = WaitLogin;
+#ifdef USE_OPENSSL
     ssl = NULL;
+#endif
 }
 
 DirectClient::DirectClient(unsigned long ip, unsigned long real_ip, unsigned short port, ICQUser *_u, ICQClient *client)
@@ -372,7 +374,9 @@ DirectClient::DirectClient(unsigned long ip, unsigned long real_ip, unsigned sho
 {
     u = _u;
     state = None;
+#ifdef USE_OPENSSL
     ssl = NULL;
+#endif
 }
 
 DirectClient::~DirectClient()

@@ -36,6 +36,9 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
+#ifdef HAVE_CTYPE_H
+#include <ctype.h>
+#endif
 
 #ifdef WIN32
 #if _MSC_VER > 1020

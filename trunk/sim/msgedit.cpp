@@ -196,7 +196,7 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
 
     btnCloseSend = new QToolButton(t);
     btnCloseSend->setTextLabel(i18n("C&lose after send"));
-    btnCloseSend->setIconSet(Icon("close"));
+    btnCloseSend->setIconSet(Icon("fileclose"));
     btnCloseSend->setToggleButton(true);
     btnCloseSend->setOn(pMain->CloseAfterSend);
     connect(btnCloseSend, SIGNAL(toggled(bool)), this, SLOT(closeToggle(bool)));

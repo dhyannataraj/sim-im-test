@@ -59,6 +59,7 @@ AC_PATH_KDE
 AC_LANG_CPLUSPLUS
 dnl PACKAGE set before
 AC_STDC_HEADERS
+AC_C_BIGENDIAN
 AM_PROG_LEX
 LFLAGS="-o${LEX_OUTPUT_ROOT}.c"
 AC_SUBST(LFLAGS)
@@ -66,7 +67,7 @@ AC_CYGWIN
 if "$CYGWIN" = "yes"; then
  LDFLAGS="$LDFLAGS --enable-auto-import"
 fi
-AC_CHECK_HEADERS(inttypes.h stdint.h unistd.h)
+AC_CHECK_HEADERS(inttypes.h stdint.h unistd.h ctype.h)
 AC_CHECK_FUNC(umask,[AC_DEFINE(HAVE_UMASK,1,[Have umask])])
 AC_CHECK_OPENSSL
 AC_TM_GMTOFF
