@@ -3763,13 +3763,9 @@ bool CorePlugin::init(bool bInit)
     m_bInit = true;
     loadMenu();
     if (!bRes){
-        Event eInit(EventInit);
-        if (eInit.process() != (void*)ABORT_LOADING)
-        {
-            Event eSave(EventSaveState);
-            eSave.process();
-            return true;
-        }
+        Event eSave(EventSaveState);
+        eSave.process();
+        return true;
     }
     return bRes || bNew;
 }
