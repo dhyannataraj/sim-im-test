@@ -122,6 +122,7 @@ protected slots:
     void wmChanged();
 protected:
     void showEvent(QShowEvent *e);
+    void resizeEvent(QResizeEvent *e);
     unsigned long msgShowId;
     list<MsgEdit*> wnds;
     QToolBar	*toolbar;
@@ -150,6 +151,7 @@ protected:
     virtual bool event(QEvent *e);
     void adjustUserMenu(bool rescan);
     void statusChanged(unsigned long uin);
+    void adjustPos();
     UserTabBar  *tabs;
     MsgEdit     *curWnd;
     UserInfo	*infoWnd;

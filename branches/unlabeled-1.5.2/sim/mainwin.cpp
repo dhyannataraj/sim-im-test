@@ -67,12 +67,14 @@
 #include <qtoolbar.h>
 #include <qapplication.h>
 #include <qdns.h>
+#include <qfile.h>
 #include <qstyle.h>
 #include <qwidgetlist.h>
 #include <qobjectlist.h>
 
 #if USE_KDE
 #include <kwin.h>
+#include <kwinmodule.h>
 #include <kpopupmenu.h>
 #include <kaudioplayer.h>
 #include <kglobal.h>
@@ -120,8 +122,15 @@ const char *app_file(const char *f)
 #else
 #if USE_KDE
     QStringList lst = KGlobal::dirs()->findDirs("data", "sim");
+    for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
+	QFile f(*it + f);
+	if (f.exists()){
+		app_file_name = (const char*)f.name().local8Bit();
+		return app_file_name.c_str();
+	}
+    }
     if (lst.size()){
-        app_file_name = (const char*)lst[0];
+        app_file_name = (const char*)lst[0].local8Bit();
     }
 #else
     app_file_name = PREFIX "/share/apps/sim/";
@@ -196,6 +205,8 @@ MainWindow::MainWindow(const char *name)
         ColorReceive(this, "ColorReceive", 0xB00000),
         ChatWidth(this, "ChatWidth"),
         ChatHeight(this, "Chatheight"),
+        UserBoxWidth(this, "UserBoxWidth"),
+        UserBoxHeight(this, "UserBoxHeight"),
         CloseAfterSend(this, "CloseAfterSend"),
         UserWindowInTaskManager(this, "UserWindowInTaskManager", true),
         Icons(this, "Icons"),
@@ -351,6 +362,9 @@ void MainWindow::setOnTop()
     }else{
         KWin::clearState(winId(), NET::StaysOnTop);
     }
+    KWinModule *kwin = new KWinModule(this);
+    connect(kwin, SIGNAL(currentDesktopChanged(int)),
+            this, SLOT(currentDesktopChanged(int)));
 #endif
 #endif
 }
@@ -500,7 +514,7 @@ void MainWindow::setShowOffline(bool bState)
     users->setShowOffline(bState);
 }
 
-void MainWindow::buildFileName(string &s, const char *name)
+void MainWindow::buildFileName(string &s, const char *name, bool bUseKDE, bool bCreate)
 {
     s = homeDir;
     if (s.length() == 0){
@@ -512,7 +526,22 @@ void MainWindow::buildFileName(string &s, const char *name)
             log(L_ERROR, "Can't get pwd");
         }
         if (s[s.size() - 1] != '/') s += '/';
-        s += ".sim/";
+#ifndef USE_KDE
+        bUseKDE = false;
+#endif
+        if (bUseKDE){
+            char *kdehome = getenv("KDEHOME");
+            if (kdehome){
+                s = kdehome;
+            }else{
+                s += ".kde/";
+            }
+            if (s.length() == 0) s += '/';
+            if (s[s.length()-1] != '/') s += '/';
+            s += "share/apps/sim/";
+        }else{
+            s += ".sim/";
+        }
 #else
         char szPath[MAX_PATH];
         if (SHGetSpecialFolderPathA(NULL, szPath, CSIDL_APPDATA, true)){
@@ -532,15 +561,31 @@ void MainWindow::buildFileName(string &s, const char *name)
 #endif
     s += name;
     s += '\x00';
-    makedir((char*)s.c_str());
+    if (bCreate) makedir((char*)s.c_str());
 }
 
 bool MainWindow::init()
 {
     string file;
 #ifndef WIN32
+#ifdef USE_KDE
+    string kdeDir;
+    buildFileName(kdeDir, "", true, false);
+    if (kdeDir.length()) kdeDir = kdeDir.substr(0, kdeDir.length()-1);
+    struct stat st;
+    if (stat(kdeDir.c_str(), &st) < 0){
+        string mainDir;
+        buildFileName(mainDir, "", false, false);
+        if (mainDir.length()) mainDir = mainDir.substr(0, mainDir.length()-1);
+        if (stat(mainDir.c_str(), &st) >= 0){
+            if (rename(mainDir.c_str(), kdeDir.c_str()) < 0)
+                log(L_WARN, "Rename error %s %s [%s]", mainDir.c_str(),
+                    kdeDir.c_str(), strerror(errno));
+        }
+    }
+#endif
     buildFileName(file, "lock");
-    if ((lockFile = ::open(file.c_str(), O_RDWR | O_CREAT, 0644)) == -1){
+    if ((lockFile = ::open(file.c_str(), O_RDWR | O_CREAT, 0600)) == -1){
         log(L_ERROR, "Can't open %s: %s", file.c_str(), strerror(errno));
         return false;
     }
@@ -558,7 +603,7 @@ bool MainWindow::init()
 
     string part;
     buildFileName(file, SIM_CONF);
-    std::ifstream ifs(file.c_str());
+    std::ifstream ifs(file.c_str(), ios::in, 0600);
     load(ifs, part);
 
     setDock(true);
@@ -577,7 +622,7 @@ bool MainWindow::init()
     {
         string file, part;
         buildFileName(file, ICQ_CONF);
-        ifstream ifs(file.c_str());
+        ifstream ifs(file.c_str(), ios::in, 0600);
         pClient->load(ifs, part);
     }
     for (;;){
@@ -590,6 +635,10 @@ bool MainWindow::init()
             }
             floating.push_back(uFloat);
             uFloat->show();
+#if USE_KDE
+            KWin::setOnAllDesktops(uFloat->winId(), true);
+            KWin::setState(uFloat->winId(), NET::SkipTaskbar | NET::StaysOnTop | NET::Sticky);
+#endif
             continue;
         }
         if (part == string("[UserBox]")){
@@ -774,7 +823,6 @@ void MainWindow::processEvent(ICQEvent *e)
 
 void MainWindow::saveState()
 {
-    log(L_DEBUG, "Save state");
     if (m_bAutoAway || m_bAutoNA) ManualStatus = (unsigned long)m_autoStatus;
     ShowOffline = btnShowOffline->isOn();
     GroupMode = btnGroupMode->isOn();
@@ -817,7 +865,12 @@ void MainWindow::saveState()
     UseStyle = themes->getTheme().local8Bit();
     string file;
     buildFileName(file, SIM_CONF);
-    std::ofstream ofs(file.data());
+#ifndef WIN32
+    struct stat st;
+    if ((stat(file.c_str(), &st) >= 0) && (st.st_mode != 0600))
+        unlink(file.c_str());
+#endif
+    std::ofstream ofs(file.c_str(), ios::out, 0600);
     save(ofs);
     for (list<UserFloat*>::iterator itFloat = floating.begin(); itFloat != floating.end(); itFloat++){
         ofs << "[Floaty]\n";
@@ -835,7 +888,12 @@ void MainWindow::saveContacts()
     if (pClient->Uin() == 0) return;
     string file;
     buildFileName(file, ICQ_CONF);
-    ofstream ofs(file.data());
+#ifndef WIN32
+    struct stat st;
+    if ((stat(file.c_str(), &st) >= 0) && (st.st_mode != 0600))
+        unlink(file.c_str());
+#endif
+    ofstream ofs(file.c_str(), ios::out, 0600);
     pClient->save(ofs);
     ofs.close();
 }
@@ -1304,6 +1362,18 @@ void MainWindow::ignoreUser(int n)
     if (u) pClient->setInIgnore(u, true);
 }
 
+void MainWindow::currentDesktopChanged(int)
+{
+#if USE_KDE
+    list<UserFloat*>::iterator it;
+    for (it = floating.begin(); it != floating.end(); it++){
+        KWin::setOnAllDesktops((*it)->winId(), true);
+        KWin::setState((*it)->winId(),
+                       NET::SkipTaskbar | NET::StaysOnTop | NET::Sticky);
+    }
+#endif
+}
+
 void MainWindow::userFunction(unsigned long uin, int function, unsigned long param)
 {
     switch (function){
@@ -1320,6 +1390,11 @@ void MainWindow::userFunction(unsigned long uin, int function, unsigned long par
                 }
                 floating.push_back(uFloat);
                 uFloat->show();
+#if USE_KDE
+                KWin::setOnAllDesktops(uFloat->winId(), true);
+                KWin::setState(uFloat->winId(),
+                               NET::SkipTaskbar | NET::StaysOnTop | NET::Sticky);
+#endif
             }
             return;
         }

@@ -138,6 +138,6 @@ fi
 
 # Remove the directory.
 cd ..
-#rm -rf $dirname
+rm -rf $dirname
 
 exit $status

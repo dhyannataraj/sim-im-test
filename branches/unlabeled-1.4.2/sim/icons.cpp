@@ -451,7 +451,6 @@ protected:
 
 static QPixmap swapRG(const QPixmap &p)
 {
-    const QBitmap *mask = p.mask();
     QImage image = p.convertToImage();
     unsigned int *data = (image.depth() > 8) ? (unsigned int *)image.bits() :
                          (unsigned int *)image.colorTable();
@@ -466,7 +465,6 @@ static QPixmap swapRG(const QPixmap &p)
     }
     QPixmap pict;
     pict.convertFromImage(image);
-    if (mask) pict.setMask(*mask);
     return pict;
 }
 

@@ -29,7 +29,7 @@ configure_args=
 email=shutoff@mail.ru
 kdevprj_version=1.3
 lfv_open_groups=
-makefiles=Makefile.am,sim/Makefile.am,doc/Makefile.am,doc/en/Makefile.am,po/Makefile.am,sim/libicq/Makefile.am,sim/ui/Makefile.am,sim/xpm/Makefile.am,sounds/Makefile.am,sim/qt3/Makefile.am
+makefiles=Makefile.am,sim/Makefile.am,po/Makefile.am,sim/libicq/Makefile.am,sim/ui/Makefile.am,sim/xpm/Makefile.am,sounds/Makefile.am,sim/qt3/Makefile.am
 project_name=Sim
 project_type=normal_kde2
 sub_dir=sim/
@@ -81,14 +81,6 @@ install=false
 install_location=
 type=DATA
 
-[doc/Makefile.am]
-sub_dirs=
-type=normal
-
-[doc/en/Makefile.am]
-sub_dirs=
-type=normal
-
 [icq.ico]
 dist=true
 install=false
@@ -131,7 +123,7 @@ install_location=
 type=DATA
 
 [sim/Makefile.am]
-files=sim/sim.desktop,sim/lo32-app-sim.png,sim/lo16-app-sim.png,sim/client.cpp,sim/client.h,sim/cuser.cpp,sim/cuser.h,sim/defs.h,sim/dock.cpp,sim/dock.h,sim/editspell.cpp,sim/editspell.h,sim/history.cpp,sim/history.h,sim/icons.cpp,sim/icons.h,sim/logindlg.cpp,sim/logindlg.h,sim/mainwin.cpp,sim/mainwin.h,sim/msgedit.cpp,sim/msgedit.h,sim/msgview.cpp,sim/msgview.h,sim/passwddlg.cpp,sim/passwddlg.h,sim/sim.cpp,sim/sim.h,sim/themes.cpp,sim/themes.h,sim/toolbtn.cpp,sim/toolbtn.h,sim/userbox.cpp,sim/userbox.h,sim/usertbl.cpp,sim/usertbl.h,sim/userview.cpp,sim/userview.h,sim/intedit.cpp,sim/intedit.h,sim/parse.ll,sim/transparent.cpp,sim/transparent.h,sim/fontedit.cpp,sim/fontedit.h,sim/chatwnd.cpp,sim/chatwnd.h,sim/xosd.cpp,sim/xosd.h
+files=sim/sim.desktop,sim/lo32-app-sim.png,sim/lo16-app-sim.png,sim/client.cpp,sim/client.h,sim/cuser.cpp,sim/cuser.h,sim/defs.h,sim/dock.cpp,sim/dock.h,sim/editspell.cpp,sim/editspell.h,sim/history.cpp,sim/history.h,sim/icons.cpp,sim/icons.h,sim/logindlg.cpp,sim/logindlg.h,sim/mainwin.cpp,sim/mainwin.h,sim/msgedit.cpp,sim/msgedit.h,sim/msgview.cpp,sim/msgview.h,sim/passwddlg.cpp,sim/passwddlg.h,sim/sim.cpp,sim/sim.h,sim/themes.cpp,sim/themes.h,sim/toolbtn.cpp,sim/toolbtn.h,sim/userbox.cpp,sim/userbox.h,sim/usertbl.cpp,sim/usertbl.h,sim/userview.cpp,sim/userview.h,sim/intedit.cpp,sim/intedit.h,sim/parse.ll,sim/transparent.cpp,sim/transparent.h,sim/fontedit.cpp,sim/fontedit.h,sim/chatwnd.cpp,sim/chatwnd.h,sim/xosd.cpp,sim/xosd.h,sim/hi16-app-sim.png,sim/hi32-app-sim.png
 sub_dirs=libicq,ui,xpm,qt3
 type=prog_main
 
@@ -212,6 +204,18 @@ dist=true
 install=false
 install_location=
 type=HEADER
+
+[sim/hi16-app-sim.png]
+dist=true
+install=true
+install_location=$$(kde_icondir)/hicolor/16x16/apps/sim.png
+type=DATA
+
+[sim/hi32-app-sim.png]
+dist=true
+install=true
+install_location=$$(kde_icondir)/hicolor/32x32/apps/sim.png
+type=DATA
 
 [sim/history.cpp]
 dist=true

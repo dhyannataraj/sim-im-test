@@ -162,8 +162,11 @@ public:
     ConfigULong	 ColorSend;
     ConfigULong	 ColorReceive;
 
-    ConfigShort	 ChatWidth;
-    ConfigShort  ChatHeight;
+    ConfigUShort ChatWidth;
+    ConfigUShort ChatHeight;
+
+    ConfigUShort UserBoxWidth;
+    ConfigUShort UserBoxHeight;
 
     ConfigBool	 CloseAfterSend;
     ConfigBool	 UserWindowInTaskManager;
@@ -204,7 +207,7 @@ public:
 
     void setShow(bool bState);
     bool isShow();
-    void buildFileName(string &s, const char *name);
+    void buildFileName(string &s, const char *name, bool bSystem=true, bool bCreate=true);
     void playSound(const char *wav);
 
     string homeDir;
@@ -272,6 +275,7 @@ protected slots:
     void about_kde();
     void dialogFinished();
     void timerExpired();
+    void currentDesktopChanged(int);
 protected:
     char realTZ;
 

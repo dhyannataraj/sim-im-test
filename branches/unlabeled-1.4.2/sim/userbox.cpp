@@ -162,6 +162,7 @@ UserBox::UserBox(unsigned long grpId)
     connect(pMain, SIGNAL(wmChanged()), this, SLOT(wmChanged()));
     setGroupButtons();
     wmChanged();
+    adjustPos();
 }
 
 void UserBox::wmChanged()
@@ -224,6 +225,14 @@ void UserBox::showEvent(QShowEvent *e)
 {
     QMainWindow::showEvent(e);
     QTimer::singleShot(50, this, SLOT(setGroupButtons()));
+}
+
+void UserBox::resizeEvent(QResizeEvent *e)
+{
+    QMainWindow::resizeEvent(e);
+    pMain->UserBoxWidth = size().width();
+    pMain->UserBoxHeight = size().height();
+    log(L_DEBUG, "Save size %u %u", size().width(), size().height());
 }
 
 QString UserBox::containerName()
@@ -480,14 +489,7 @@ bool UserBox::load(std::istream &s, string &part)
     adjustUserMenu(true);
     lay->invalidate();
     if (tabs->count() == 0) return false;
-    if (mLeft < 5) mLeft = 5;
-    if (mTop < 5) mTop = 5;
-    if (mLeft > QApplication::desktop()->width() - 5) mLeft = QApplication::desktop()->width() - 5;
-    if (mTop > QApplication::desktop()->height() - 5) mTop = QApplication::desktop()->height() - 5;
-    if (mWidth > QApplication::desktop()->width() - 5) mWidth = QApplication::desktop()->width() - 5;
-    if (mHeight > QApplication::desktop()->height() - 5) mHeight = QApplication::desktop()->height() - 5;
-    move(mLeft, mTop);
-    if (mWidth() && mHeight()) resize(mWidth, mHeight);
+    adjustPos();
     if (curTab != -1) selectedUser(curTab);
     ToolBarDock tDock = Top;
     if (ToolbarDock == "Minimized"){
@@ -508,6 +510,32 @@ bool UserBox::load(std::istream &s, string &part)
     }
     setShow();
     return true;
+}
+
+void UserBox::adjustPos()
+{
+    if ((mLeft() == 0) && (mTop() == 0)){
+	mLeft = pos().x();
+	mTop  = pos().y();
+    }
+    if ((mWidth() == 0) || (mHeight() == 0)){
+	mWidth  = pMain->UserBoxWidth();
+        mHeight = pMain->UserBoxHeight();
+    }
+    if (mLeft() < 5) mLeft = 5;
+    if (mTop() < 5) mTop = 5;
+    if (mLeft > QApplication::desktop()->width() - 5) mLeft = QApplication::desktop()->width() - 5;
+    if (mTop > QApplication::desktop()->height() - 5) mTop = QApplication::desktop()->height() - 5;
+    if (mWidth > QApplication::desktop()->width() - 5) mWidth = QApplication::desktop()->width() - 5;
+    if (mHeight > QApplication::desktop()->height() - 5) mHeight = QApplication::desktop()->height() - 5;
+    if (mLeft() && mTop()) move(mLeft, mTop);
+    if (mWidth() && mHeight()){
+	int saveWidth = pMain->UserBoxWidth();
+        int saveHeight = pMain->UserBoxHeight();
+	resize(mWidth, mHeight);
+        pMain->UserBoxWidth = saveWidth;
+        pMain->UserBoxHeight = saveHeight;
+    }
 }
 
 void UserBox::messageRead(ICQMessage *msg)

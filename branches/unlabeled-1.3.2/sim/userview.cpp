@@ -100,15 +100,6 @@ void UserViewItemBase::paint(QPainter *p, const QString s, const QColorGroup &c,
         pos = listView()->mapToGlobal(pos);
         pos = listView()->topLevelWidget()->mapFromGlobal(pos);
         p->drawTiledPixmap(0, 0, width, h, *pix, pos.x(), pos.y());
-        if (isSelected() && !userView->bFloaty){
-            cg.setBrush(QColorGroup::Base, cg.brush(QColorGroup::Highlight));
-            p->setPen(cg.color(QColorGroup::HighlightedText));
-            pix = NULL;
-        }else if (bEnabled){
-            p->setPen(cg.color(QColorGroup::Text));
-        }else{
-            p->setPen(cg.color(QColorGroup::Dark));
-        }
     }else{
         p->fillRect( 0, 0, width, height(), cg.base());
     }
@@ -130,6 +121,15 @@ void UserViewItemBase::paint(QPainter *p, const QString s, const QColorGroup &c,
         listView()->style().drawPrimitive(QStyle::PE_Indicator, p, rc, cg, text(3).toInt());
         x += w + 5;
 #endif
+        if (isSelected() && !userView->bFloaty){
+            cg.setBrush(QColorGroup::Base, cg.brush(QColorGroup::Highlight));
+            p->setPen(cg.color(QColorGroup::HighlightedText));
+            pix = NULL;
+        }else if (bEnabled){
+            p->setPen(cg.color(QColorGroup::Text));
+        }else{
+            p->setPen(cg.color(QColorGroup::Dark));
+        }
     }else{
         QString pict = text(2);
         if (pict.length()){
@@ -1198,16 +1198,12 @@ void UserView::maybeTip ( const QPoint &p )
 UserFloat::UserFloat()
         : UserView(NULL, false, false,
                    QObject::WType_TopLevel | QObject::WStyle_Customize | QObject::WStyle_NoBorder |
-                   QObject::WStyle_Tool | QObject::WStyle_StaysOnTop | QObject::WX11BypassWM),
+                   QObject::WStyle_Tool | QObject::WStyle_StaysOnTop),
         Uin(this, "Uin", 0),
         Left(this, "Left", 0),
         Top(this, "Top", 0)
 {
     bFloaty = true;
-#if USE_KDE
-    KWin::setOnAllDesktops(winId(), true);
-    KWin::setState(winId(), NET::SkipTaskbar);
-#endif
     transparent = new TransparentTop(this, pMain->UseTransparent, pMain->Transparent);
     m_nOnline++;
     m_nOffline++;

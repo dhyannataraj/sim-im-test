@@ -1473,7 +1473,7 @@ void MsgEdit::chatChanged()
 {
     if (msg && (msg->Type() == ICQ_MSGxCHAT) && msg->Received()){
         QWidget *chat = pMain->chatWindow(Uin());
-        btnAccept->setEnabled(chat != NULL);
+        btnAccept->setEnabled(chat == NULL);
     }
 }
 
@@ -1482,7 +1482,7 @@ void MsgEdit::ftChanged()
     if (msg && (msg->Type() == ICQ_MSGxFILE) && msg->Received()){
         ICQFile *f = static_cast<ICQFile*>(msg);
         QWidget *file = pMain->ftWindow(Uin(), f->shortName());
-        btnAccept->setEnabled(file != NULL);
+        btnAccept->setEnabled(file == NULL);
     }
 }
 
