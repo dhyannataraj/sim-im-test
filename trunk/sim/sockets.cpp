@@ -82,8 +82,7 @@ SIMResolver::SIMResolver(QObject *parent, const char *host)
     pthread_t h_thread;
     if (pthread_create(&h_thread, NULL, resolve_thread, this)){
         log(L_WARN, "Can't create thread: %s", strerror(errno));
-        bDone = true;
-        QTimer::singleShot(0, parent, SLOT(resultsReady()));
+        resolve_thread(this);
         return;
     }
 #else

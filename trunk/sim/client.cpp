@@ -38,6 +38,7 @@
 #include <qpopupmenu.h>
 
 #ifndef WIN32
+#include <errno.h>
 #include <netinet/in.h>
 #include <netdb.h>
 #include <arpa/inet.h>
