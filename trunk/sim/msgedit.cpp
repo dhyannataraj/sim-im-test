@@ -252,10 +252,10 @@ MsgEdit::~MsgEdit()
     if (msg && (msg->Id < MSG_PROCESS_ID))
         delete msg;
     if (mHistory) delete mHistory;
-	Uin = 0;
-	ICQUser *u = pClient->getUser(Uin());
-	if (u && u->bIsTemp)
-		pClient->deleteUser(u);
+    Uin = 0;
+    ICQUser *u = pClient->getUser(Uin());
+    if (u && u->bIsTemp)
+        pClient->deleteUser(u);
     emit destroyChild(tabId);
 }
 
@@ -467,9 +467,9 @@ void MsgEdit::processEvent(ICQEvent *e)
                     log(L_WARN, "Bad type for chunked message");
                 }
                 if (bCloseSend){
-					sendEvent = NULL;
+                    sendEvent = NULL;
                     close();
-					return;
+                    return;
                 }
                 emit addMessage(message(), false, true);
                 emit showMessage(Uin(), message()->Id);
@@ -969,7 +969,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
             btnGrant->hide();
             btnRefuse->hide();
             users->show();
-			users->sender = false;
+            users->sender = false;
             view->hide();
             btnForward->show();
             ICQContacts *m = static_cast<ICQContacts*>(msg);
@@ -1256,7 +1256,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
 #ifdef USE_SPELL
                 btnSpell->hide();
 #endif
-				users->sender = true;
+                users->sender = true;
                 ICQContacts *m = static_cast<ICQContacts*>(msg);
                 for (ContactList::iterator it = m->Contacts.begin(); it != m->Contacts.end(); it++){
                     Contact *contact = static_cast<Contact*>(*it);

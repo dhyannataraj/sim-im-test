@@ -86,8 +86,8 @@ void ICQClient::storePassword(const char *p)
 {
     char pswd[16];
     unsigned char xor_table[] = {
-        0xf3, 0x26, 0x81, 0xc4, 0x39, 0x86, 0xdb, 0x92,
-        0x71, 0xa3, 0xb9, 0xe6, 0x53, 0x7a, 0x95, 0x7c};
+                                    0xf3, 0x26, 0x81, 0xc4, 0x39, 0x86, 0xdb, 0x92,
+                                    0x71, 0xa3, 0xb9, 0xe6, 0x53, 0x7a, 0x95, 0x7c};
     int j;
     for (j = 0; j < 16; j++){
         if (p[j] == 0) break;
@@ -394,7 +394,7 @@ void ICQClient::save(ostream &s)
         (*it_grp)->save(s);
     }
     for (list<ICQUser*>::iterator it = contacts.users.begin(); it != contacts.users.end(); it++){
-		if ((*it)->bIsTemp) continue;
+        if ((*it)->bIsTemp) continue;
         s << "[User]\n";
         (*it)->save(s);
     }

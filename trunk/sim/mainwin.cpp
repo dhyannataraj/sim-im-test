@@ -1242,15 +1242,15 @@ void MainWindow::moveUser(int grp)
     ICQUser *u = pClient->getUser(m_uin);
     switch (grp){
     case mnuGroupVisible:
-		if (u == NULL) break;
+        if (u == NULL) break;
         pClient->setInVisible(u, !u->inVisible());
         break;
     case mnuGroupInvisible:
-		if (u == NULL) break;
+        if (u == NULL) break;
         pClient->setInInvisible(u, !u->inInvisible());
         break;
     case mnuGroupIgnore:
-		if (u == NULL) break;
+        if (u == NULL) break;
         if (!u->inIgnore()){
             CUser user(u);
             QStringList btns;
@@ -1265,8 +1265,8 @@ void MainWindow::moveUser(int grp)
         pClient->setInIgnore(u, !u->inIgnore());
         break;
     default:
-		if (u == NULL) u = pClient->getUser(m_uin, true);
-		if (u == NULL) return;
+        if (u == NULL) u = pClient->getUser(m_uin, true);
+        if (u == NULL) return;
         ICQGroup *g = pClient->getGroup(grp);
         if (grp) pClient->moveUser(u, g);
     }
@@ -1321,17 +1321,17 @@ void MainWindow::adjustGroupMenu(QPopupMenu *menuGroup, unsigned long uin)
         menuGroup->insertItem(grp.name(), (*it)->Id);
         if (u && ((*it)->Id == u->GrpId)) menuGroup->setItemChecked((*it)->Id, true);
     }
-	if (u){
-    menuGroup->insertSeparator();
-    if (u->Type == USER_TYPE_ICQ){
-        menuGroup->insertItem(i18n("In visible list"), mnuGroupVisible);
-        menuGroup->setItemChecked(mnuGroupVisible, u->inVisible());
-        menuGroup->insertItem(i18n("In invisible list"), mnuGroupInvisible);
-        menuGroup->setItemChecked(mnuGroupInvisible, u->inInvisible());
+    if (u){
+        menuGroup->insertSeparator();
+        if (u->Type == USER_TYPE_ICQ){
+            menuGroup->insertItem(i18n("In visible list"), mnuGroupVisible);
+            menuGroup->setItemChecked(mnuGroupVisible, u->inVisible());
+            menuGroup->insertItem(i18n("In invisible list"), mnuGroupInvisible);
+            menuGroup->setItemChecked(mnuGroupInvisible, u->inInvisible());
+        }
+        menuGroup->insertItem(i18n("In ignore list"), mnuGroupIgnore);
+        menuGroup->setItemChecked(mnuGroupIgnore, u->inIgnore());
     }
-    menuGroup->insertItem(i18n("In ignore list"), mnuGroupIgnore);
-    menuGroup->setItemChecked(mnuGroupIgnore, u->inIgnore());
-	}
 }
 
 void MainWindow::showUserPopup(unsigned long uin, QPoint p, QPopupMenu *popup, const QRect &rc)

@@ -231,8 +231,8 @@ bool FullInfoEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short n
             client->fromServer(u->HomeFax);
             client->fromServer(u->PrivateCellular);
             u->adjustEMails(u->EMails);
-			if (*u->Alias.c_str() == 0)
-				client->renameUser(u, u->Nick);
+            if (*u->Alias.c_str() == 0)
+                client->renameUser(u, u->Nick);
             break;
         }
     case ICQ_SRVxMORE_INFO:{

@@ -798,7 +798,7 @@ void UserView::setShowOffline(bool bShowOffline)
 void UserView::updateUser(unsigned long uin, bool bFull)
 {
     ICQUser *u = pClient->getUser(uin);
-	if (u && u->bIsTemp) return;
+    if (u && u->bIsTemp) return;
     UserViewItem *item = findUserItem(uin);
     if (bFloaty){
         if (item == NULL) return;
@@ -852,13 +852,13 @@ void UserView::processEvent(ICQEvent *e)
     case EVENT_USERGROUP_CHANGED:
     case EVENT_STATUS_CHANGED:
     case EVENT_INFO_CHANGED:{
-        if (bList){
-			ICQUser *u = pClient->getUser(e->Uin());
-            if ((u == NULL) || (u->Type() != USER_TYPE_ICQ)) break;
+            if (bList){
+                ICQUser *u = pClient->getUser(e->Uin());
+                if ((u == NULL) || (u->Type() != USER_TYPE_ICQ)) break;
+            }
+            updateUser(e->Uin(), e->type() == EVENT_USERGROUP_CHANGED);
+            break;
         }
-        updateUser(e->Uin(), e->type() == EVENT_USERGROUP_CHANGED);
-        break;
-	}
     }
 }
 

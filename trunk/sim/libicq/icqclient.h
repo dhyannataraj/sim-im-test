@@ -230,7 +230,7 @@ public:
     ConfigArray *create() { return new PhoneInfo; }
     void add(const char *number, const char *name, unsigned long type, bool bMyInfo);
     void add(const PhonePtrList &l);
-    bool operator == (const PhoneBook &b) const { return ConfigList::operator == (b); }
+bool operator == (const PhoneBook &b) const { return ConfigList::operator == (b); }
     bool operator != (const PhoneBook &b) const { return ConfigList::operator != (b); }
 };
 
@@ -659,7 +659,7 @@ public:
 
     DirectClient *direct;
 
-	bool bIsTemp;
+    bool bIsTemp;
     bool isOnline();
     bool bPhoneChanged;
 };

@@ -293,12 +293,12 @@ void UserTbl::contentsDropEvent(QDropEvent *e)
 void UserTbl::action(int id)
 {
     switch (id){
-	case mnuInfo:
-		if (actionItem){
-			ICQUser *u = pClient->getUser(static_cast<UserTblItem*>(currentItem())->mUin, true, true);
-			if (u) pMain->userFunction(u->Uin(), mnuInfo, 0);
-		}
-		break;
+    case mnuInfo:
+        if (actionItem){
+            ICQUser *u = pClient->getUser(static_cast<UserTblItem*>(currentItem())->mUin, true, true);
+            if (u) pMain->userFunction(u->Uin(), mnuInfo, 0);
+        }
+        break;
     case mnuTblDelete:
         if (actionItem){
             delete actionItem;
@@ -385,23 +385,23 @@ void UserTbl::viewportContextMenuEvent(QContextMenuEvent *e)
     p = viewport()->mapFromGlobal(p);
     QListViewItem *item = itemAt(p);
     actionItem = item;
-	menuTable->clear();
-	if (sender){
-		menuTable->insertItem(Pict("remove"), i18n("Delete"), mnuTblDelete);
-		menuTable->insertItem(Pict("editclear"), i18n("Erase"), mnuTblErase);
-		menuTable->insertSeparator();
-		menuTable->insertItem(i18n("Add group"), mnuTblAddGrp);
-		menuTable->insertItem(i18n("Add all"), mnuTblAddAll);
-		menuTable->setItemEnabled(mnuTblDelete, actionItem != NULL);
-		menuTable->setItemEnabled(mnuTblErase, !isEmpty());
-		menuTable->setItemEnabled(mnuTblAddGrp, actionGroup() != 0);
-	}else{
-		if (actionItem == NULL) return;
-		menuTable->insertItem(Icon("info"), i18n("User info"), mnuInfo);
-		pMain->m_uin = static_cast<UserTblItem*>(currentItem())->mUin;
-		pMain->adjustGroupMenu(pMain->menuGroup, pMain->m_uin);
-	    menuTable->insertItem(i18n("Add to group"), pMain->menuGroup, mnuGroups);
-	}
+    menuTable->clear();
+    if (sender){
+        menuTable->insertItem(Pict("remove"), i18n("Delete"), mnuTblDelete);
+        menuTable->insertItem(Pict("editclear"), i18n("Erase"), mnuTblErase);
+        menuTable->insertSeparator();
+        menuTable->insertItem(i18n("Add group"), mnuTblAddGrp);
+        menuTable->insertItem(i18n("Add all"), mnuTblAddAll);
+        menuTable->setItemEnabled(mnuTblDelete, actionItem != NULL);
+        menuTable->setItemEnabled(mnuTblErase, !isEmpty());
+        menuTable->setItemEnabled(mnuTblAddGrp, actionGroup() != 0);
+    }else{
+        if (actionItem == NULL) return;
+        menuTable->insertItem(Icon("info"), i18n("User info"), mnuInfo);
+        pMain->m_uin = static_cast<UserTblItem*>(currentItem())->mUin;
+        pMain->adjustGroupMenu(pMain->menuGroup, pMain->m_uin);
+        menuTable->insertItem(i18n("Add to group"), pMain->menuGroup, mnuGroups);
+    }
     menuTable->popup(e->globalPos());
     return;
 }

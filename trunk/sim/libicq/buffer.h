@@ -90,7 +90,7 @@ public:
     Buffer(Tlv&);
     ~Buffer();
     void add(unsigned size);
-    unsigned size() const { return m_size; }
+unsigned size() const { return m_size; }
     unsigned readPos() const { return m_posRead; }
     char *Data(unsigned pos) { return m_data + pos; }
     const char *Data(unsigned pos) const { return m_data + pos; }

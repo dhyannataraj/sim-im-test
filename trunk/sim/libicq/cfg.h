@@ -85,7 +85,7 @@ public:
     char operator[] (int n) { return string::operator [] (n); }
     string &operator = (string s) { string::operator = (s); return *this; }
     string &operator () () { return *this; }
-    const char *operator = (const char *s) { string::operator = (s ? s : ""); return s; }
+const char *operator = (const char *s) { string::operator = (s ? s : ""); return s; }
     const ConfigString& operator = (const ConfigString &v) {  string::operator = (v.c_str()); return v; }
     const ConfigValue &operator = (const ConfigValue &v) { return (*this) = static_cast<const ConfigString&>(v); }
     virtual bool save(string &s);

@@ -319,7 +319,7 @@ void UserBox::toggleInfo(bool bShow)
             vSplitter->hide();
             lay->insertWidget(0, infoWnd);
             infoWnd->show();
-			pClient->addInfoRequest(curWnd->Uin, true);
+            pClient->addInfoRequest(curWnd->Uin, true);
         }
     }else if (infoWnd){
         if (curWnd && (curWnd->Uin() == 0)){
@@ -490,7 +490,7 @@ void UserBox::getToolbarPosition()
     ToolbarOffset = (short)extraOffset;
     switch (tDock){
     case Minimized:
-        ToolbarDock = "Minimized";
+            ToolbarDock = "Minimized";
         break;
     case Bottom:
         ToolbarDock = "Bottom";
