@@ -133,12 +133,12 @@ ThemeSetup::ThemeSetup(QWidget *parent)
     edtBg->setStartDir(app_file("pict"));
     edtBg->setText(QString::fromLocal8Bit(pMain->BackgroundFile.c_str()));
     cmbPos->clear();
-    cmbPos->insertItem("Contact - left");
-    cmbPos->insertItem("Contact - scale");
-    cmbPos->insertItem("Window - left top");
-    cmbPos->insertItem("Window - left bottom");
-    cmbPos->insertItem("Window - left center");
-    cmbPos->insertItem("Window - scale");
+    cmbPos->insertItem(i18n("Contact - left"));
+    cmbPos->insertItem(i18n("Contact - scale"));
+    cmbPos->insertItem(i18n("Window - left top"));
+    cmbPos->insertItem(i18n("Window - left bottom"));
+    cmbPos->insertItem(i18n("Window - left center"));
+    cmbPos->insertItem(i18n("Window - scale"));
     cmbPos->setCurrentItem(pMain->BackgroundMode);
     spnMargin->setMaxValue(20);
     spnMargin->setValue(pMain->IconMargin);
