@@ -458,7 +458,7 @@ void IPResolver::start_resolve()
     log(L_DEBUG, "start resolve %s", inet_ntoa(inaddr));
 #if QT_VERSION >= 300
     delete resolver;
-    resolver = new QDns(QHostAddress(m_addr), QDns::Ptr);
+    resolver = new QDns(QHostAddress(htonl(m_addr)), QDns::Ptr);
     connect(resolver, SIGNAL(resultsReady()), this, SLOT(resolve_ready()));
 #else
     resolver->setLabel(QHostAddress(m_addr));
