@@ -27,7 +27,6 @@
 #include "jabberpicture.h"
 #include "jabbermessage.h"
 #include "jabberbrowser.h"
-#include "services.h"
 #include "infoproxy.h"
 #include "html.h"
 
@@ -1554,8 +1553,7 @@ const unsigned WORK_INFO  = 3;
 const unsigned ABOUT_INFO = 4;
 const unsigned PHOTO_INFO = 5;
 const unsigned LOGO_INFO  = 6;
-const unsigned SERVICES	  = 7;
-const unsigned NETWORK	  = 8;
+const unsigned NETWORK	  = 7;
 
 static CommandDef jabberWnd[] =
     {
@@ -1759,21 +1757,6 @@ static CommandDef cfgJabberWnd[] =
             NULL
         },
         {
-            SERVICES,
-            I18N_NOOP("Agents"),
-            "configure",
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
-        {
             NETWORK,
             I18N_NOOP("Network"),
             "network",
@@ -1862,8 +1845,6 @@ QWidget *JabberClient::configWindow(QWidget *parent, unsigned id)
         return new JabberPicture(parent, NULL, this, false);
     case NETWORK:
         return new JabberConfig(parent, this, true);
-    case SERVICES:
-        return new Services(parent, this);
     }
     return NULL;
 }
