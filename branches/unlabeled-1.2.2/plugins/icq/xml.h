@@ -23,12 +23,10 @@
 #ifndef XML_H
 #define XML_H
 
-#include <string>
-#include <list>
-#include <memory>
-#include <ctype.h>
+#include "simapi.h"
+#include "stl.h"
 
-using namespace std;
+#include <ctype.h>
 
 class XmlNode {
 private:

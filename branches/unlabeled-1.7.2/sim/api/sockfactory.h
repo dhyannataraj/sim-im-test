@@ -19,6 +19,7 @@
 #define SOCKFACTORY_H	1
 
 #include "simapi.h"
+#include "stl.h"
 #include "socket.h"
 
 class QDns;
@@ -38,7 +39,7 @@ public:
     virtual ~SIMClientSocket();
     virtual int read(char *buf, unsigned int size);
     virtual void write(const char *buf, unsigned int size);
-    virtual void connect(const char *host, int port);
+    virtual void connect(const char *host, unsigned short port);
     virtual unsigned long localHost();
     virtual void pause(unsigned);
     virtual void close();
@@ -69,7 +70,7 @@ public:
     ~SIMServerSocket();
     virtual unsigned short port() { return m_nPort; }
     bool created() { return (sock != NULL); }
-    void bind(unsigned mixPort, unsigned maxPort, TCPClient *client);
+    void bind(unsigned short mixPort, unsigned short maxPort, TCPClient *client);
     void close();
 protected slots:
     void activated(int);

@@ -19,10 +19,8 @@
 #define _USERLIST_H
 
 #include "simapi.h"
+#include "stl.h"
 #include "listview.h"
-
-#include <list>
-using namespace std;
 
 class UserListBase;
 class QTimer;

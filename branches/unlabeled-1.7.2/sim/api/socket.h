@@ -42,7 +42,7 @@ public:
     virtual ~Socket() {}
     virtual int read(char *buf, unsigned int size) = 0;
     virtual void write(const char *buf, unsigned int size) = 0;
-    virtual void connect(const char *host, int port) = 0;
+    virtual void connect(const char *host, unsigned short port) = 0;
     virtual void close() = 0;
     virtual unsigned long localHost() = 0;
     virtual void pause(unsigned) = 0;
@@ -66,9 +66,9 @@ public:
     ServerSocketNotify();
     virtual ~ServerSocketNotify();
     virtual bool accept(Socket*, unsigned long ip) = 0;
-    virtual void bind_ready(unsigned port) = 0;
+    virtual void bind_ready(unsigned short port) = 0;
     virtual bool error(const char *err) = 0;
-    virtual void bind(unsigned mixPort, unsigned maxPort, TCPClient *client);
+    virtual void bind(unsigned short mixPort, unsigned short maxPort, TCPClient *client);
     ServerSocket *m_listener;
 };
 
@@ -78,7 +78,7 @@ public:
     ServerSocket();
     virtual ~ServerSocket() {}
     void setNotify(ServerSocketNotify *n) { notify = n; }
-    virtual void bind(unsigned mixPort, unsigned maxPort, TCPClient *client) = 0;
+    virtual void bind(unsigned short mixPort, unsigned short maxPort, TCPClient *client) = 0;
     virtual void close() = 0;
 protected:
     ServerSocketNotify *notify;
@@ -131,7 +131,7 @@ public:
     Buffer readBuffer;
     Buffer writeBuffer;
     virtual void error_state(const char *err, unsigned code = 0);
-    void connect(const char *host, int port, TCPClient *client);
+    void connect(const char *host, unsigned short port, TCPClient *client);
     void write();
     void pause(unsigned);
     unsigned long localHost();
@@ -165,7 +165,7 @@ class EXPORT TCPClient : public QObject, public Client, public ClientSocketNotif
 public:
     TCPClient(Protocol *protocol, const char *cfg);
     virtual const char		*getServer() = 0;
-    virtual unsigned long	getPort() = 0;
+    virtual unsigned short	getPort() = 0;
     unsigned		m_reconnect;
     virtual void	setStatus(unsigned status, bool bCommon);
 protected slots:
@@ -192,7 +192,7 @@ public:
     ~SSLClient();
     virtual int read(char *buf, unsigned int size);
     virtual void write(const char *buf, unsigned int size);
-    virtual void connect(const char *host, int port);
+    virtual void connect(const char *host, unsigned short port);
     virtual void close();
     virtual unsigned long localHost();
     virtual void pause(unsigned);

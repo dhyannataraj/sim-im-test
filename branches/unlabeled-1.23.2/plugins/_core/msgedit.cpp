@@ -43,9 +43,7 @@
 
 #include <time.h>
 
-#include <vector>
 #include <algorithm>
-using namespace std;
 
 const unsigned NO_TYPE = (unsigned)(-1);
 
@@ -157,7 +155,7 @@ void MsgTextEdit::contentsDragMoveEvent(QDragMoveEvent *e)
     TextEdit::contentsDragMoveEvent(e);
 }
 
-MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd, bool bReceived)
+MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd)
         : QMainWindow(parent, NULL, 0)
 {
     m_userWnd	= userWnd;
@@ -167,6 +165,8 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd, bool bReceived)
     m_flags		= 0;
     m_retry.msg = NULL;
     m_bReceived = false;
+	m_processor = NULL;
+	m_recvProcessor = NULL;
 
     connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
 
@@ -192,13 +192,14 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd, bool bReceived)
     connect(m_edit, SIGNAL(lostFocus()), this, SLOT(editLostFocus()));
     connect(m_edit, SIGNAL(textChanged()), this, SLOT(editTextChanged()));
     connect(m_edit, SIGNAL(ctrlEnterPressed()), this, SLOT(editEnterPressed()));
+	connect(m_edit, SIGNAL(colorsChanged()), this, SLOT(colorsChanged()));
 
     QFontMetrics fm(m_edit->font());
     m_edit->setMinimumSize(QSize(fm.maxWidth(), fm.height() + 10));
     m_layout->addWidget(m_edit);
 
     BarShow b;
-    b.bar_id = bReceived ? BarReceived : ToolBarEdit;
+    b.bar_id = ToolBarMsgEdit;
     b.parent = this;
     Event e(EventShowBar, &b);
     m_bar = (CToolBar*)(e.process());
@@ -215,13 +216,6 @@ MsgEdit::~MsgEdit()
 {
     typingStop();
     editLostFocus();
-    Command cmd;
-    cmd->id = CmdCustomInput;
-    cmd->param = this;
-    Event e(EventCommandWidget, cmd);
-    CToolCustom *w = (CToolCustom*)(e.process());
-    if (w)
-        w->removeWidgets();
     if (m_retry.msg)
         delete m_retry.msg;
 }
@@ -248,68 +242,51 @@ void MsgEdit::resizeEvent(QResizeEvent *e)
     emit heightChanged(height());
 }
 
-bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
+bool MsgEdit::setMessage(Message *msg, bool bSetFocus, bool bOpen)
 {
     m_type = msg->type();
     unsigned type = m_type;
     m_bReceived = msg->getFlags() & MESSAGE_RECEIVED;
-    QObject *(*create)(QWidget *custom, Message *msg) = NULL;
-    for (;;){
-        CommandDef *cmd = CorePlugin::m_plugin->messageTypes.find(type);
-        if (cmd == NULL)
-            return false;
-        MessageDef *def = (MessageDef*)(cmd->param);
-        if (def == NULL)
-            return false;
-        if (m_bReceived){
-            create = def->show;
-        }else{
+	QObject *processor = NULL;
+	if (m_bReceived){
+		if (bOpen){
+			processor = new MsgReceived(this, msg, true);
+		}else{
+			if (m_recvProcessor == NULL)
+				m_recvProcessor = new MsgReceived(this, msg, false);
+		}
+	}else{
+		QObject *(*create)(MsgEdit *custom, Message *msg) = NULL;
+		for (;;){
+			CommandDef *cmd = CorePlugin::m_plugin->messageTypes.find(type);
+			if (cmd == NULL)
+				return false;
+			MessageDef *def = (MessageDef*)(cmd->param);
+			if (def == NULL)
+				return false;
             create = def->generate;
-        }
-        if (create)
-            break;
-        if (def->base_type == 0){
-            if (m_bReceived)
-                break;
-            return false;
-        }
-        type = def->base_type;
-    }
-
-    Command cmd;
-    cmd->id = CmdCustomInput;
-    cmd->param = this;
-    Event e(EventCommandWidget, cmd);
-    CToolCustom *wInput = (CToolCustom*)(e.process());
-    cmd->id = CmdCustomReceive;
-    CToolCustom *wReceive = (CToolCustom*)(e.process());
-    m_userWnd->setStatus("");
-
-    QObject *initObj = NULL;
-    if (wInput){
-        if (m_bReceived){
-            wInput->hide();
-            if (m_type == NO_TYPE){
-                wInput->removeWidgets();
-                m_type = MessageGeneric;
-                Message msg(MessageGeneric);
-                initObj = new MsgGen(wInput, &msg);
-            }
-        }else{
-            wInput->removeWidgets();
-            initObj = create(wInput, msg);
-            wInput->show();
-        }
-    }
-    if (wReceive){
-        if (m_bReceived){
-            wReceive->removeWidgets();
-            initObj = new MsgReceived(wReceive, msg);
-            wReceive->show();
-        }else{
-            wReceive->hide();
-        }
-    }
+	        if (create)
+		        break;
+			if (def->base_type == 0)
+	            return false;
+			type = def->base_type;
+		}
+		if (create){
+			m_userWnd->setStatus("");
+			processor = create(this, msg);
+		}
+	}
+    if (processor){
+		if (m_recvProcessor){
+			delete m_recvProcessor;
+			m_recvProcessor = NULL;
+		}
+		if (m_processor){
+			delete m_processor;
+			m_processor = NULL;
+		}
+		m_processor = processor;
+	}
     if (msg->client()){
         m_client = msg->client();
     }else{
@@ -321,23 +298,20 @@ bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
         e.process();
     }
 
+	m_bar->checkState();
+	Command cmd;
     cmd->id			= CmdMultiply;
-    cmd->text		= I18N_NOOP("&Multiply send");
-    cmd->icon		= "1rightarrow";
-    cmd->icon_on	= "1leftarrow";
     cmd->flags		= COMMAND_DEFAULT;
+	cmd->param		= this;
     if (msg->getFlags() & MESSAGE_FORWARD){
         cmd->flags = COMMAND_CHECKED;
         m_userWnd->showListView(true);
     }
-    Event eChange(EventCommandChange, cmd);
+    Event eChange(EventCommandChecked, cmd);
     eChange.process();
 
-    if (initObj && bSetFocus){
-        connect(this, SIGNAL(init()), initObj, SLOT(init()));
-        emit init();
-        disconnect(this, SIGNAL(init()), initObj, SLOT(init()));
-    }
+    if (m_processor && bSetFocus)
+		QTimer::singleShot(0, m_processor, SLOT(init()));
     return true;
 }
 
@@ -402,22 +376,11 @@ Client *MsgEdit::client(void *&data, bool bCreate, bool bTyping, unsigned contac
 
 void MsgEdit::setInput()
 {
-    Command cmd;
-    cmd->id = CmdCustomInput;
-    cmd->param = this;
-    Event e(EventCommandWidget, cmd);
-    CToolCustom *wInput = (CToolCustom*)(e.process());
-    cmd->id = CmdCustomReceive;
-    CToolCustom *wReceive = (CToolCustom*)(e.process());
-    m_userWnd->setStatus("");
-
-    if (wInput){
-        wInput->show();
-    }
-    if (wReceive){
-        wReceive->removeWidgets();
-        wReceive->hide();
-    }
+	if (m_recvProcessor){
+		delete m_recvProcessor;
+		m_recvProcessor = NULL;
+		m_bar->checkState();
+	}
 }
 
 static Message *createGeneric(const char *cfg)
@@ -425,9 +388,9 @@ static Message *createGeneric(const char *cfg)
     return new Message(MessageGeneric, cfg);
 }
 
-static QObject *generateGeneric(QWidget *w, Message *msg)
+static QObject *generateGeneric(MsgEdit *w, Message *msg)
 {
-    return new MsgGen(static_cast<CToolCustom*>(w), msg);
+    return new MsgGen(w, msg);
 }
 
 #if 0
@@ -442,7 +405,6 @@ static MessageDef defGeneric =
         "Message",
         "%n messages",
         createGeneric,
-        NULL,
         generateGeneric,
         NULL
     };
@@ -452,9 +414,9 @@ static Message *createSMS(const char *cfg)
     return new SMSMessage(cfg);
 }
 
-static QObject* generateSMS(QWidget *w, Message *msg)
+static QObject* generateSMS(MsgEdit *w, Message *msg)
 {
-    return new MsgSMS(static_cast<CToolCustom*>(w), msg);
+    return new MsgSMS(w, msg);
 }
 
 #if 0
@@ -469,7 +431,6 @@ static MessageDef defSMS =
         "SMS",
         "SMSs",
         createSMS,
-        NULL,
         generateSMS,
         NULL
     };
@@ -479,9 +440,9 @@ static Message *createFile(const char *cfg)
     return new FileMessage(MessageFile, cfg);
 }
 
-static QObject* generateFile(QWidget *w, Message *msg)
+static QObject* generateFile(MsgEdit *w, Message *msg)
 {
-    return new MsgFile(static_cast<CToolCustom*>(w), msg);
+    return new MsgFile(w, msg);
 }
 
 Message *dropFile(QMimeSource *src)
@@ -517,8 +478,8 @@ static CommandDef fileCommands[] =
             NULL,
             NULL,
             NULL,
-            0,
-            0,
+            ToolBarMsgEdit,
+            0x1090,
             MenuMessage,
             0,
             0,
@@ -532,8 +493,8 @@ static CommandDef fileCommands[] =
             NULL,
             NULL,
             NULL,
-            0,
-            0,
+            ToolBarMsgEdit,
+            0x1091,
             MenuMessage,
             0,
             MenuFileDecline,
@@ -566,7 +527,6 @@ static MessageDef defFile =
         "File",
         "%n files",
         createFile,
-        NULL,
         generateFile,
         dropFile
     };
@@ -576,9 +536,9 @@ static Message *createAuthRequest(const char *cfg)
     return new AuthMessage(MessageAuthRequest, cfg);
 }
 
-static QObject* generateAuthRequest(QWidget *w, Message *msg)
+static QObject* generateAuth(MsgEdit *w, Message *msg)
 {
-    return new MsgAuth(static_cast<CToolCustom*>(w), msg);
+    return new MsgAuth(w, msg);
 }
 
 #if 0
@@ -593,8 +553,8 @@ static CommandDef authRequestCommands[] =
             NULL,
             NULL,
             NULL,
-            0,
-            0,
+            ToolBarMsgEdit,
+            0x1080,
             MenuMessage,
             0,
             0,
@@ -608,8 +568,8 @@ static CommandDef authRequestCommands[] =
             NULL,
             NULL,
             NULL,
-            0,
-            0,
+            ToolBarMsgEdit,
+            0x1081,
             MenuMessage,
             0,
             0,
@@ -642,19 +602,13 @@ static MessageDef defAuthRequest =
         "Authorize request",
         "%n authorize requests",
         createAuthRequest,
-        NULL,
-        generateAuthRequest,
+        generateAuth,
         NULL
     };
 
 static Message *createAuthGranted(const char *cfg)
 {
     return new AuthMessage(MessageAuthGranted, cfg);
-}
-
-static QObject* generateAuthGranted(QWidget *w, Message *msg)
-{
-    return new MsgAuth(static_cast<CToolCustom*>(w), msg);
 }
 
 #if 0
@@ -669,19 +623,13 @@ static MessageDef defAuthGranted =
         "Authorization granted",
         "%n authorization granted",
         createAuthGranted,
-        NULL,
-        generateAuthGranted,
+        generateAuth,
         NULL
     };
 
 static Message *createAuthRefused(const char *cfg)
 {
     return new AuthMessage(MessageAuthRefused, cfg);
-}
-
-static QObject* generateAuthRefused(QWidget *w, Message *msg)
-{
-    return new MsgAuth(static_cast<CToolCustom*>(w), msg);
 }
 
 #if 0
@@ -696,8 +644,7 @@ static MessageDef defAuthRefused =
         "Authorization refused",
         "%n authorization refused",
         createAuthRefused,
-        NULL,
-        generateAuthRefused,
+        generateAuth,
         NULL
     };
 
@@ -718,7 +665,6 @@ static MessageDef defAdded =
         "Add to contacts",
         "%n add to contacts",
         createAdded,
-        NULL,
         NULL,
         NULL
     };
@@ -741,7 +687,6 @@ static MessageDef defRemoved =
         "%n removed from contacts",
         createRemoved,
         NULL,
-        NULL,
         NULL
     };
 
@@ -762,7 +707,6 @@ static MessageDef defStatus =
         "Status changed",
         "%n times status changed",
         createStatus,
-        NULL,
         NULL,
         NULL
     };
@@ -807,7 +751,6 @@ bool MsgEdit::sendMessage(Message *msg)
         delete m_retry.msg;
         m_retry.msg = NULL;
     }
-
     if (m_msg){
         delete msg;
         Event e(EventMessageCancel, m_msg);
@@ -828,6 +771,13 @@ bool MsgEdit::sendMessage(Message *msg)
             bClose = btnClose->isOn();
     }
     CorePlugin::m_plugin->setCloseSend(bClose);
+
+	Contact *contact = getContacts()->contact(m_userWnd->id());
+	if (contact){
+		TranslitUserData *data = (TranslitUserData*)(contact->getUserData(CorePlugin::m_plugin->translit_data_id));
+		if (data && data->Translit)
+			msg->setFlags(msg->getFlags() | MESSAGE_TRANSLIT);
+	}
 
     msg->setFlags(msg->getFlags() | m_flags);
     m_flags = 0;
@@ -934,10 +884,10 @@ void MsgEdit::stopSend(bool bCheck)
     }
     multiply.clear();
     Command cmd;
-    cmd->id		= CmdSend;
-    cmd->text	= I18N_NOOP("&Send");
-    cmd->icon	= "mail_generic";
-    cmd->bar_id		= ToolBarEdit;
+    cmd->id		    = CmdSend;
+    cmd->text	    = I18N_NOOP("&Send");
+    cmd->icon	    = "mail_generic";
+    cmd->bar_id		= ToolBarMsgEdit;
     cmd->bar_grp	= 0x8000;
     cmd->flags		= BTN_PICT;
     cmd->param		= this;
@@ -967,7 +917,7 @@ void *MsgEdit::processEvent(Event *e)
                     if (container->wnd() == m_userWnd)
                         bSetFocus = true;
                 }
-                setMessage(msg, bSetFocus);
+                setMessage(msg, bSetFocus, false);
             }else{
                 if (m_edit->isReadOnly())
                     QTimer::singleShot(0, this, SLOT(setupNext()));
@@ -983,6 +933,18 @@ void *MsgEdit::processEvent(Event *e)
     }
     if (e->type() == EventCheckState){
         CommandDef *cmd = (CommandDef*)(e->param());
+		if ((cmd->param == this) && (cmd->id == CmdTranslit)){
+			Contact *contact = getContacts()->contact(m_userWnd->id());
+			if (contact){
+				TranslitUserData *data = (TranslitUserData*)(contact->getUserData(CorePlugin::m_plugin->translit_data_id));
+				if (data){
+					cmd->flags &= ~COMMAND_CHECKED;
+					if (data->Translit)
+						cmd->flags |= COMMAND_CHECKED;
+				}
+			}
+			return NULL;
+		}
         if ((cmd->menu_id != MenuTextEdit) || (cmd->param != this))
             return NULL;
         cmd->flags &= ~(COMMAND_CHECKED | COMMAND_DISABLED);
@@ -1038,11 +1000,19 @@ void *MsgEdit::processEvent(Event *e)
             }
             return e->param();
         }
+		if ((cmd->param == this) && (cmd->id == CmdTranslit)){
+			Contact *contact = getContacts()->contact(m_userWnd->id());
+			if (contact){
+				TranslitUserData *data = (TranslitUserData*)(contact->getUserData(CorePlugin::m_plugin->translit_data_id, true));
+				data->Translit = ((cmd->flags & COMMAND_CHECKED) != 0);
+			}
+			return e->param();;
+		}
         if ((cmd->id == CmdMultiply) && (cmd->param == this)){
-            m_userWnd->showListView(cmd->flags & COMMAND_CHECKED);
+            m_userWnd->showListView((cmd->flags & COMMAND_CHECKED) != 0);
             return e->param();
         }
-        if ((cmd->bar_id == BarReceived) && m_edit->isReadOnly() && (cmd->param == this)){
+        if ((cmd->bar_id == ToolBarMsgEdit) && m_edit->isReadOnly() && (cmd->param == this)){
             switch (cmd->id){
             case CmdMsgAnswer:{
                     Message msg(MessageGeneric);
@@ -1237,6 +1207,14 @@ void MsgEdit::editLostFocus()
         return;
     typingStop();
     m_bTyping = false;
+}
+
+void MsgEdit::colorsChanged()
+{
+    CorePlugin::m_plugin->setEditBackground(m_edit->background().rgb());
+    CorePlugin::m_plugin->setEditForeground(m_edit->foreground().rgb());
+	Event e(EventHistoryColors);
+	e.process();
 }
 
 void MsgEdit::insertSmile(int id)

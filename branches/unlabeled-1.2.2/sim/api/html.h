@@ -19,10 +19,7 @@
 #define _HTML_H	1
 
 #include "simapi.h"
-
-#include <list>
-
-using namespace std;
+#include "stl.h"
 
 namespace SIM
 {

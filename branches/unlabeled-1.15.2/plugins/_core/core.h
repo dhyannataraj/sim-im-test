@@ -19,12 +19,7 @@
 #define _CORE_H
 
 #include "simapi.h"
-#include "qobject.h"
-
-#include <map>
-#include <list>
-#include <vector>
-using namespace std;
+#include "stl.h"
 
 typedef map<string, unsigned>				MAP_TYPES;
 
@@ -133,7 +128,6 @@ typedef struct CoreUserData
 
 typedef struct SMSUserData
 {
-    unsigned	SMSTranslit;
     char		*SMSSignatureBefore;
     char		*SMSSignatureAfter;
 } SMSUserData;
@@ -149,6 +143,11 @@ typedef struct ListUserData
     unsigned	OnlineOpen;
     unsigned	ShowAlways;
 } ListUserData;
+
+typedef struct TranslitUserData
+{
+	unsigned	Translit;
+} TranslitUserData;
 
 class ClientList : public vector<Client*>
 {
@@ -176,7 +175,6 @@ const unsigned	CmdContainerContact		= (CmdBase + 15);
 const unsigned	CmdContainerContacts	= (CmdBase + 16);
 const unsigned	CmdSendMessage			= (CmdBase + 17);
 const unsigned	CmdSend					= (CmdBase + 18);
-const unsigned	CmdCustomInput			= (CmdBase + 19);
 const unsigned	CmdStatusMenu			= (CmdBase + 20);
 const unsigned	CmdStatusBar			= (CmdBase + 21);
 const unsigned	CmdQuit					= (CmdBase + 23);
@@ -207,7 +205,6 @@ const unsigned	CmdHistorySave			= (CmdBase + 46);
 const unsigned	CmdHistoryDirection		= (CmdBase + 47);
 const unsigned	CmdHistoryNext			= (CmdBase + 48);
 const unsigned	CmdHistoryPrev			= (CmdBase + 49);
-const unsigned	CmdHistoryFind			= (CmdBase + 50);
 const unsigned	CmdMsgOpen				= (CmdBase + 51);
 const unsigned	CmdMsgQuote				= (CmdBase + 53);
 const unsigned	CmdMsgAnswer			= (CmdBase + 54);
@@ -220,7 +217,6 @@ const unsigned	CmdUndo					= (CmdBase + 60);
 const unsigned	CmdRedo					= (CmdBase + 61);
 const unsigned	CmdClear				= (CmdBase + 62);
 const unsigned	CmdSeparate				= (CmdBase + 63);
-const unsigned	CmdCustomReceive		= (CmdBase + 64);
 const unsigned	CmdNextMessage			= (CmdBase + 65);
 const unsigned	CmdGrantAuth			= (CmdBase + 66);
 const unsigned	CmdRefuseAuth			= (CmdBase + 67);
@@ -238,6 +234,10 @@ const unsigned	CmdDeclineWithoutReason	= (CmdBase + 81);
 const unsigned	CmdDeclineReasonInput	= (CmdBase + 82);
 const unsigned	CmdDeclineReasonBusy	= (CmdBase + 83);
 const unsigned	CmdDeclineReasonLater	= (CmdBase + 84);
+const unsigned	CmdHistoryFind			= (CmdBase + 85);
+const unsigned	CmdFileName				= (CmdBase + 86);
+const unsigned	CmdPhoneNumber			= (CmdBase + 87);
+const unsigned	CmdTranslit				= (CmdBase + 88);
 
 const unsigned	CmdContactGroup			= (CmdBase + 0x100);
 const unsigned	CmdUnread				= (CmdBase + 0x200);
@@ -275,7 +275,6 @@ const unsigned	EventMessageRetry		= (CmdBase + 15);
 const unsigned	EventHistoryColors		= (CmdBase + 16);
 
 const unsigned	BarHistory				= (CmdBase + 1);
-const unsigned	BarReceived				= (CmdBase + 2);
 
 class MsgEdit;
 class Tmpl;
@@ -314,6 +313,9 @@ const unsigned	MESSAGE_SILENT	 = 0x0001;
 const unsigned	MESSAGE_HIDDEN	 = 0x0002;
 const unsigned	MESSAGE_SENDONLY = 0x0004;
 
+const unsigned  MIN_INPUT_BAR_ID = 0x1010;
+const unsigned  MAX_INPUT_BAR_ID = 0x1100;
+
 typedef struct MessageDef
 {
     const CommandDef	*cmd;
@@ -322,8 +324,7 @@ typedef struct MessageDef
     const char			*singular;
     const char			*plural;
     Message*			(*create)(const char *cfg);
-    QObject*			(*show)(QWidget *custom, Message *msg);
-    QObject*			(*generate)(QWidget *custom, Message *msg);
+    QObject*			(*generate)(MsgEdit *edit, Message *msg);
     Message*			(*drag)(QMimeSource*);
 } MessageDef;
 
@@ -395,6 +396,7 @@ public:
     unsigned sms_data_id;
     unsigned ar_data_id;
     unsigned list_data_id;
+	unsigned translit_data_id;
 
     CommandsMap	preferences;
     CommandsMap	messageTypes;

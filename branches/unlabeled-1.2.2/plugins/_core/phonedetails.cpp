@@ -46,7 +46,7 @@ PhoneDetails::PhoneDetails(QWidget *p, const QString &oldNumber)
         number = number.mid(0, pos);
     }
     number = trim(number);
-    initCombo(cmbCountry, countryCode, getCountries());
+    initCombo(cmbCountry, (unsigned short)countryCode, getCountries());
 
     QFontMetrics fm(font());
     unsigned wChar = fm.width("0");

@@ -76,6 +76,7 @@ HistoryWindow::HistoryWindow(unsigned id)
     b.parent = this;
     Event e(EventShowBar, &b);
     m_bar = (CToolBar*)e.process();
+	m_bar->setParam((void*)m_id);
     restoreToolbar(m_bar, CorePlugin::m_plugin->data.historyBar);
     connect(this, SIGNAL(toolBarPositionChanged(QToolBar*)), this, SLOT(toolbarChanged(QToolBar*)));
     m_status = statusBar();
@@ -84,30 +85,16 @@ HistoryWindow::HistoryWindow(unsigned id)
 
     Command cmd;
     cmd->id		= CmdHistoryFind;
-    cmd->param	= m_bar;
+    cmd->param	= (void*)m_id;
     Event eWidget(EventCommandWidget, cmd);
-    m_find = (CToolCustom*)(eWidget.process());
-    if (m_find){
-        m_input = new QComboBox(m_find);
-        m_input->setEditable(true);
-        m_input->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
-        connect(m_input, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
-        m_find->addWidget(m_input);
-        m_btnFilter = new QToolButton(m_find);
-        m_btnFilter->setTextLabel(i18n("Filter"));
-        m_btnFilter->setIconSet(*Icon("filter"));
-        m_btnFilter->setToggleButton(true);
-        connect(m_btnFilter, SIGNAL(toggled(bool)), this, SLOT(filter(bool)));
-        m_find->addWidget(m_btnFilter);
-        m_btnFilter->show();
+    CToolCombo *cmbFind = (CToolCombo*)(eWidget.process());
+    if (cmbFind){
         QString history = CorePlugin::m_plugin->getHistorySearch();
         while (history.length()){
-            m_input->insertItem(getToken(history, ';'));
+            cmbFind->insertItem(getToken(history, ';'));
         }
-        m_input->lineEdit()->setText(QString::null);
-        textChanged("");
+        cmbFind->setText(QString::null);
     }
-    m_bar->setParam((void*)m_id);
     m_it	= NULL;
     m_bDirection = CorePlugin::m_plugin->getHistoryDirection();
     m_bar->checkState();
@@ -142,37 +129,68 @@ void *HistoryWindow::processEvent(Event *e)
         if (contact->id() == m_id)
             setName();
     }
+	if (e->type() == EventCheckState){
+        CommandDef *cmd = (CommandDef*)(e->param());
+        if ((unsigned)(cmd->param) != m_id)
+            return NULL;
+        if (cmd->id == CmdHistoryDirection){
+			cmd->flags &= ~COMMAND_CHECKED;
+			if (m_bDirection)
+				cmd->flags |= COMMAND_CHECKED;
+			return e->param();
+		}
+		return NULL;
+	}
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
+        if ((unsigned)(cmd->param) != m_id)
+            return NULL;
         if (cmd->id == CmdHistoryDirection){
-            if ((unsigned)(cmd->param) == m_id){
-                bool bDirection = cmd->flags & COMMAND_CHECKED;
-                if (bDirection != m_bDirection){
-                    m_bDirection = bDirection;
-                    m_page = 0;
-                    m_states.clear();
-                    fill();
-                }
-                return e->param();
+            bool bDirection = ((cmd->flags & COMMAND_CHECKED) != 0);
+			CorePlugin::m_plugin->setHistoryDirection(bDirection);
+            if (bDirection != m_bDirection){
+                m_bDirection = bDirection;
+                m_page = 0;
+                m_states.clear();
+                fill();
             }
+            return e->param();
         }
         if (cmd->id == CmdHistoryNext){
-            if ((unsigned)(cmd->param) == m_id){
-                if (m_page + 1 < m_states.size()){
-                    m_page++;
-                    fill();
-                }
-                return e->param();
+            if (m_page + 1 < m_states.size()){
+                m_page++;
+                fill();
             }
+            return e->param();
         }
         if (cmd->id == CmdHistoryPrev){
-            if ((unsigned)(cmd->param) == m_id){
-                if (m_page > 0){
-                    m_page--;
-                    fill();
-                }
-                return e->param();
+            if (m_page > 0){
+                m_page--;
+                fill();
             }
+            return e->param();
+        }
+        if (cmd->id == CmdHistoryFind){
+            m_filter = "";
+            if (cmd->flags & COMMAND_CHECKED){
+			    Command cmd;
+				cmd->id		= CmdHistoryFind;
+				cmd->param	= (void*)m_id;
+				Event eWidget(EventCommandWidget, cmd);
+				CToolCombo *cmbFind = (CToolCombo*)(eWidget.process());
+				if (cmbFind){
+					QString text = cmbFind->lineEdit()->text();
+					if (!text.isEmpty()){
+		                addHistory(text);
+				        m_filter = text;
+					}
+				}
+            }
+            m_page = 0;
+            m_states.clear();
+            m_view->setSelect(m_filter);
+			fill();
+            return e->param();
         }
     }
     return NULL;
@@ -188,28 +206,6 @@ void HistoryWindow::resizeEvent(QResizeEvent *e)
 void HistoryWindow::toolbarChanged(QToolBar*)
 {
     saveToolbar(m_bar, CorePlugin::m_plugin->data.historyBar);
-}
-
-void HistoryWindow::textChanged(const QString &str)
-{
-    m_btnFilter->setEnabled(!str.isEmpty());
-}
-
-void HistoryWindow::filter(bool bState)
-{
-    if (bState){
-        QString text = m_input->lineEdit()->text();
-        if (text.isEmpty())
-            return;
-        addHistory(text);
-        m_filter = text;
-    }else{
-        m_filter = "";
-    }
-    m_page = 0;
-    m_states.clear();
-    m_view->setSelect(m_filter);
-    fill();
 }
 
 void HistoryWindow::fill()
@@ -239,15 +235,14 @@ void HistoryWindow::fill()
     QTimer::singleShot(0, this, SLOT(next()));
     Command cmd;
     cmd->id		= CmdHistoryNext;
+	cmd->flags	= COMMAND_DISABLED;
     cmd->param	= (void*)m_id;
-    Event eWidget(EventCommandWidget, cmd);
-    QToolButton *btnNext = (QToolButton*)(eWidget.process());
-    if (btnNext)
-        btnNext->setEnabled(false);
+    Event eNext(EventCommandDisabled, cmd);
+    eNext.process();
     cmd->id		= CmdHistoryPrev;
-    QToolButton *btnPrev = (QToolButton*)(eWidget.process());
-    if (btnPrev)
-        btnPrev->setEnabled(m_page > 0);
+	cmd->flags  = (m_page > 0) ? 0 : COMMAND_DISABLED;
+    Event ePrev(EventCommandDisabled, cmd);
+    ePrev.process();
 }
 
 void HistoryWindow::next()
@@ -265,11 +260,10 @@ void HistoryWindow::next()
         if (msg){
             Command cmd;
             cmd->id		= CmdHistoryNext;
+			cmd->flags  = 0;
             cmd->param	= (void*)m_id;
-            Event eWidget(EventCommandWidget, cmd);
-            QToolButton *btnNext = (QToolButton*)(eWidget.process());
-            if (btnNext)
-                btnNext->setEnabled(true);
+            Event eNext(EventCommandDisabled, cmd);
+			eNext.process();
             msg = NULL;
             m_states.push_back(state);
         }

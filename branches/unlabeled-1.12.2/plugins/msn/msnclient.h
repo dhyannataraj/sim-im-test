@@ -19,10 +19,8 @@
 #define _MSNCLIENT_H
 
 #include "simapi.h"
+#include "stl.h"
 #include "socket.h"
-
-#include <list>
-using namespace std;
 
 const unsigned MSN_SIGN			= 0x0003;
 
@@ -165,12 +163,12 @@ public:
     virtual QWidget	*setupWnd();
     virtual string getConfig();
     PROP_STR(Server);
-    PROP_ULONG(Port);
+    PROP_USHORT(Port);
     PROP_ULONG(ListVer);
     PROP_UTF8(ListRequests);
     PROP_STR(Version);
-    PROP_ULONG(MinPort);
-    PROP_ULONG(MaxPort);
+    PROP_USHORT(MinPort);
+    PROP_USHORT(MaxPort);
     QString getLogin();
     QString unquote(const QString&);
     QString quote(const QString&);
@@ -251,8 +249,8 @@ public:
     void setSocket(Socket *s);
     unsigned ip1;
     unsigned ip2;
-    unsigned port1;
-    unsigned port2;
+    unsigned short port1;
+    unsigned short port2;
     unsigned auth_cookie;
 
 protected slots:
@@ -281,7 +279,7 @@ protected:
     void			send(const char *line);
     void			getLine(const char *line);
     bool			m_bHeader;
-    int				m_size;
+    unsigned		m_size;
     Buffer			m_readBuffer;
     State			m_state;
     ClientSocket    *m_socket;

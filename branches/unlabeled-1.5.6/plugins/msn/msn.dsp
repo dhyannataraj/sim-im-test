@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 1
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "MSN_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /O1 /I "$(QTDIR)\include" /I "..\..\sim\api" /I "..\..\sim\ui" /I "C:\openssl\include" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "QT_DLL" /D "UNICODE" /D "QT_THREAD_SUPPORT" /D VERSION=\"0.9\" /D PACKAGE=\"SIM\" /D USE_QT=1 /D "USE_OPENSSL" /FR"Debug/" /Fo"Debug/" /Fd"Debug/" /FD /c
+# ADD CPP /nologo /MD /W4 /WX /O1 /I "$(QTDIR)\include" /I "..\..\sim\api" /I "..\..\sim\ui" /I "C:\openssl\include" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "QT_DLL" /D "UNICODE" /D "QT_THREAD_SUPPORT" /D VERSION=\"0.9\" /D PACKAGE=\"SIM\" /D USE_QT=1 /D "USE_OPENSSL" /FR"Debug/" /Fo"Debug/" /Fd"Debug/" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "NDEBUG"
@@ -69,7 +69,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 1
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "MSN_EXPORTS" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /ZI /Od /I "$(QTDIR)\include" /I "..\..\sim\api" /I "..\..\sim\ui" /I "C:\openssl\include" /D "_DEBUG" /D "DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "QT_DLL" /D "UNICODE" /D "QT_THREAD_SUPPORT" /D VERSION=\"0.9\" /D PACKAGE=\"SIM\" /D USE_QT=1 /D USE_OPENSSL=1 /FR /FD /GZ /c
+# ADD CPP /nologo /MDd /W4 /WX /Gm /ZI /Od /I "$(QTDIR)\include" /I "..\..\sim\api" /I "..\..\sim\ui" /I "C:\openssl\include" /D "_DEBUG" /D "DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "QT_DLL" /D "UNICODE" /D "QT_THREAD_SUPPORT" /D VERSION=\"0.9\" /D PACKAGE=\"SIM\" /D USE_QT=1 /D USE_OPENSSL=1 /FR /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "_DEBUG"
@@ -93,38 +93,47 @@ LINK32=link.exe
 # Begin Source File
 
 SOURCE=.\moc_msnclient.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_msnconfig.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_msnconfigbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_msninfo.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_msninfobase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_msnresult.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_msnresultbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_msnsearch.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_msnsearchbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -141,6 +150,7 @@ SOURCE=.\msnconfig.cpp
 # Begin Source File
 
 SOURCE=.\msnconfigbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -149,6 +159,7 @@ SOURCE=.\msninfo.cpp
 # Begin Source File
 
 SOURCE=.\msninfobase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -161,6 +172,7 @@ SOURCE=.\msnresult.cpp
 # Begin Source File
 
 SOURCE=.\msnresultbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -169,6 +181,7 @@ SOURCE=.\msnsearch.cpp
 # Begin Source File
 
 SOURCE=.\msnsearchbase.cpp
+# ADD CPP /W3
 # End Source File
 # End Group
 # Begin Group "Header Files"

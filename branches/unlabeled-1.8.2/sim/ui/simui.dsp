@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMUI_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /O1 /I "$(QTDIR)\include" /I "..\api" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMUI_EXPORTS" /D "QT_DLL" /D "UNICODE" /YX /FD /c
+# ADD CPP /nologo /MD /W4 /O1 /I "$(QTDIR)\include" /I "..\api" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMUI_EXPORTS" /D "QT_DLL" /D "UNICODE" /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "NDEBUG"
@@ -69,7 +69,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMUI_EXPORTS" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /ZI /Od /I "$(QTDIR)\include" /I "..\api" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMUI_EXPORTS" /D "QT_DLL" /D "UNICODE" /Fp"..\Debug/simui.pch" /YX /Fo"..\Debug/" /Fd"..\Debug/" /FD /GZ /c
+# ADD CPP /nologo /MDd /W4 /WX /Gm /ZI /Od /I "$(QTDIR)\include" /I "..\api" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMUI_EXPORTS" /D "QT_DLL" /D "UNICODE" /Fp"..\Debug/simui.pch" /YX /Fo"..\Debug/" /Fd"..\Debug/" /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "_DEBUG"
@@ -113,54 +113,67 @@ SOURCE=.\listview.cpp
 # Begin Source File
 
 SOURCE=.\moc_ballonmsg.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_editfile.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_fontedit.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_linklabel.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_listview.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_qchildwidget.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_qcolorbutton.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_qkeybutton.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\qt3\moc_qrichtext_p.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\qt3\moc_qstylesheet.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\qt3\moc_qtextedit.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_textshow.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_toolbtn.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 

@@ -19,10 +19,7 @@
 #define _HISTORY_H
 
 #include "simapi.h"
-
-#include <list>
-#include <map>
-using namespace std;
+#include "stl.h"
 
 class CorePlugin;
 class QFile;

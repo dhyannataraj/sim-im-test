@@ -137,48 +137,6 @@ void MigrateDialog::error(const QString &str)
     m_bProcess = false;
 }
 
-static char fromHex(char c)
-{
-    if ((c >= '0') && (c <= '9'))
-        return c - '0';
-    if ((c >= 'A') && (c <= 'F'))
-        return c - 'A';
-    if ((c >= 'a') && (c <= 'f'))
-        return c - 'a';
-    return 0;
-}
-
-static string unquote(const char *str)
-{
-    string res;
-    for (; *str; str++){
-        if (*str == '\\'){
-            char c = 0;
-            switch (*(++str)){
-            case 0:
-                str--;
-                break;
-            case 'n':
-                c = '\n';
-                break;
-            case 'r':
-                c = '\r';
-                break;
-            case 't':
-                c = '\t';
-                break;
-            case 'x':
-                c = (fromHex(*(str++)) << 4) + fromHex(*(str++));
-                break;
-            default:
-                c = *str;
-            }
-        }
-        res += *str;
-    }
-    return res;
-}
-
 void MigrateDialog::process()
 {
     unsigned size = 0;
@@ -333,7 +291,7 @@ void MigrateDialog::flush()
         output += number(m_uin);
         output += "\n";
         if (!m_passwd.empty()){
-            m_passwd = unquote(m_passwd.c_str());
+            m_passwd = unquoteString(m_passwd.c_str());
             unsigned char xor_table[] =
                 {
                     0xf3, 0x26, 0x81, 0xc4, 0x39, 0x86, 0xdb, 0x92,
@@ -341,7 +299,7 @@ void MigrateDialog::flush()
                 };
             unsigned i;
             for (i = 0; i < m_passwd.length(); i++)
-                m_passwd[i] = m_passwd[i] ^ xor_table[i];
+                m_passwd[i] = (char)(m_passwd[i] ^ xor_table[i]);
             string new_passwd;
             unsigned short temp = 0x4345;
             for (i = 0; i < m_passwd.length(); i++) {

@@ -108,8 +108,8 @@ void WorkInfo::fill()
     edtCity->setText(m_client->toUnicode(data->WorkCity, data));
     edtState->setText(m_client->toUnicode(data->WorkState, data));
     edtZip->setText(m_client->toUnicode(data->WorkZip, data));
-    initCombo(cmbCountry, data->WorkCountry, getCountries());
-    initCombo(cmbOccupation, data->Occupation, occupations);
+    initCombo(cmbCountry, (unsigned short)(data->WorkCountry), getCountries());
+    initCombo(cmbOccupation, (unsigned short)(data->Occupation), occupations);
     edtName->setText(m_client->toUnicode(data->WorkName, data));
     edtDept->setText(m_client->toUnicode(data->WorkDepartment, data));
     edtPosition->setText(m_client->toUnicode(data->WorkPosition, data));

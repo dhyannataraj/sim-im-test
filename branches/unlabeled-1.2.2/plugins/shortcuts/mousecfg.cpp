@@ -115,9 +115,9 @@ void MouseConfig::selectionChanged()
     lblCmd->setText(item->text(0));
     int n = ShortcutsPlugin::stringToButton(item->text(1).latin1());
     if (n == 0)
-        chkAlt->setChecked(n & AltButton);
-    chkCtrl->setChecked(n & ControlButton);
-    chkShift->setChecked(n & ShiftButton);
+        chkAlt->setChecked((n & AltButton) != 0);
+    chkCtrl->setChecked((n & ControlButton) != 0);
+    chkShift->setChecked((n & ShiftButton) != 0);
     cmbButton->setEnabled(true);
     cmbButton->setCurrentItem(n);
     buttonChanged(0);

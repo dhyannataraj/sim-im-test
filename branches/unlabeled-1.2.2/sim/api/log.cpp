@@ -104,7 +104,7 @@ EXPORT string make_packet_string(LogInfo *l)
                name.c_str(),
                (l->log_level & L_PACKET_IN) ? "Read" : "Write",
                b->size() - start);
-        if (type->flags() & PACKET_TEXT){
+        if (type->isText()){
             m.append(b->data(start), b->size() - start);
         }else{
             char line[81];

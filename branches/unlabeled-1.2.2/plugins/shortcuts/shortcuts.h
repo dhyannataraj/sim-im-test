@@ -19,6 +19,7 @@
 #define _SHORTCUTS_H
 
 #include "simapi.h"
+#include "stl.h"
 
 typedef struct ShortcutsData
 {
@@ -26,10 +27,6 @@ typedef struct ShortcutsData
     void	*Global;
     void	*Mouse;
 } ShortcutsData;
-
-#include <map>
-
-using namespace std;
 
 typedef map<unsigned, const char*>	MAP_STR;
 typedef map<unsigned, bool>			MAP_BOOL;

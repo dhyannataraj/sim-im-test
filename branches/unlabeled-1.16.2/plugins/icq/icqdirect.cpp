@@ -78,7 +78,7 @@ bool ICQListener::accept(Socket *s, unsigned long ip)
     return false;
 }
 
-void ICQListener::bind_ready(unsigned port)
+void ICQListener::bind_ready(unsigned short port)
 {
     m_client->data.owner.Port = port;
 }
@@ -112,7 +112,7 @@ DirectSocket::DirectSocket(ICQUserData *data, ICQClient *client)
 {
     m_socket    = new ClientSocket(this);
     m_bIncoming = false;
-    m_version   = data->Version;
+    m_version   = (char)(data->Version);
     m_client    = client;
     m_state     = NotConnected;
     m_data		= data;
@@ -378,7 +378,7 @@ void DirectSocket::sendInit()
 
     m_socket->writeBuffer.packetStart();
     m_socket->writeBuffer.pack((unsigned short)((m_version >= 7) ? 0x0030 : 0x002c));
-    m_socket->writeBuffer.pack((char)0xFF);
+    m_socket->writeBuffer.pack('\xFF');
     m_socket->writeBuffer.pack((unsigned short)m_version);
     m_socket->writeBuffer.pack((unsigned short)((m_version >= 7) ? 0x002b : 0x0027));
     m_socket->writeBuffer.pack(m_data->Uin);
@@ -458,7 +458,7 @@ DirectClient::DirectClient(ICQUserData *data, ICQClient *client, unsigned channe
 {
     m_state   = None;
     m_channel = channel;
-    m_port    = data->Port;
+    m_port    = (unsigned short)(data->Port);
 #ifdef USE_OPENSSL
     m_ssl = NULL;
 #endif
@@ -611,15 +611,15 @@ void DirectClient::processPacket()
         return;
     }
 
-    X1 = p[M1] ^ 0xFF;
+    X1 = (unsigned char)(p[M1] ^ 0xFF);
     if(((B1 >> 16) & 0xFF) != X1){
         m_socket->error_state("Decrypt packet failed");
         return;
     }
 
-    X2 = ((B1 >> 8) & 0xFF);
+    X2 = (unsigned char)((B1 >> 8) & 0xFF);
     if(X2 < 220) {
-        X3 = client_check_data[X2] ^ 0xFF;
+        X3 = (unsigned char)(client_check_data[X2] ^ 0xFF);
         if((B1 & 0xFF) != X3){
             m_socket->error_state("Decrypt packet failed");
             return;
@@ -1187,7 +1187,8 @@ void DirectClient::sendPacket()
 {
     unsigned size = m_socket->writeBuffer.size() - m_socket->writeBuffer.packetStartPos() - 2;
     unsigned char *p = (unsigned char*)(m_socket->writeBuffer.data(m_socket->writeBuffer.packetStartPos()));
-    *((unsigned short*)p) = size;
+    p[0] = (unsigned char)(size & 0xFF);
+	p[1] = (unsigned char)((size >> 8) & 0xFF);
 
     ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
     log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, name());
@@ -1204,9 +1205,9 @@ void DirectClient::sendPacket()
 
     // calculate verification data
     M1 = (rand() % ((size < 255 ? size : 255)-10))+10;
-    X1 = p[M1] ^ 0xFF;
-    X2 = rand() % 220;
-    X3 = client_check_data[X2] ^ 0xFF;
+    X1 = (unsigned char)(p[M1] ^ 0xFF);
+    X2 = (unsigned char)(rand() % 220);
+    X3 = (unsigned char)(client_check_data[X2] ^ 0xFF);
 
     B1 = (p[4] << 24) | (p[6]<<16) | (p[4]<<8) | (p[6]);
 
@@ -1231,10 +1232,10 @@ void DirectClient::sendPacket()
 
 void DirectClient::acceptMessage(Message *msg)
 {
-    unsigned seq = 0;
+    unsigned short seq = 0;
     switch (msg->type()){
     case MessageICQFile:
-        seq = static_cast<ICQFileMessage*>(msg)->getID_L();
+        seq = (unsigned short)(static_cast<ICQFileMessage*>(msg)->getID_L());
         sendAck(seq, static_cast<ICQFileMessage*>(msg)->getExtended() ? ICQ_MSGxEXT : ICQ_MSGxFILE, 0, NULL, ICQ_TCPxACK_ACCEPT, msg);
         break;
     default:
@@ -1246,10 +1247,10 @@ void DirectClient::declineMessage(Message *msg, const char *reason)
 {
     string r;
     r = m_client->fromUnicode(QString::fromUtf8(reason), m_data);
-    unsigned seq = 0;
+    unsigned short seq = 0;
     switch (msg->type()){
     case MessageICQFile:
-        seq = static_cast<ICQFileMessage*>(msg)->getID_L();
+        seq = (unsigned short)(static_cast<ICQFileMessage*>(msg)->getID_L());
         sendAck(seq, static_cast<ICQFileMessage*>(msg)->getExtended() ? ICQ_MSGxEXT : ICQ_MSGxFILE, 0, r.c_str(), ICQ_TCPxACK_REFUSE, msg);
         break;
     default:
@@ -1690,7 +1691,7 @@ void ICQFileTransfer::processPacket()
                 m_socket->error_state("Bad data command");
                 return;
             }
-            unsigned short size = m_socket->readBuffer.size() - m_socket->readBuffer.readPos();
+            unsigned short size = (unsigned short)(m_socket->readBuffer.size() - m_socket->readBuffer.readPos());
             m_bytes      += size;
             m_totalBytes += size;
             if (size){
@@ -1729,7 +1730,7 @@ bool ICQFileTransfer::error(const char *err)
     return error_state(err, 0);
 }
 
-bool ICQFileTransfer::accept(Socket *s, unsigned long ip)
+bool ICQFileTransfer::accept(Socket *s, unsigned long)
 {
     log(L_DEBUG, "Accept file transfer");
     if (m_state == WaitReverse){
@@ -1743,7 +1744,7 @@ bool ICQFileTransfer::accept(Socket *s, unsigned long ip)
     return true;
 }
 
-void ICQFileTransfer::bind_ready(unsigned port)
+void ICQFileTransfer::bind_ready(unsigned short port)
 {
     if (m_state == WaitReverse){
         m_localPort = port;
@@ -1828,7 +1829,8 @@ void ICQFileTransfer::sendPacket(bool dump)
     unsigned long start_pos = m_socket->writeBuffer.packetStartPos();
     unsigned size = m_socket->writeBuffer.size() - start_pos - 2;
     unsigned char *p = (unsigned char*)(m_socket->writeBuffer.data(start_pos));
-    *((unsigned short*)p) = size;
+	p[0] = (unsigned char)(size & 0xFF);
+	p[1] = (unsigned char)((size >> 8) & 0xFF);
     if (dump){
         ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
         string name = "FileTranfer";

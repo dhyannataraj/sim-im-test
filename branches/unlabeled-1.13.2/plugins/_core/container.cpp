@@ -34,9 +34,6 @@
 #include <qaccel.h>
 #include <qpainter.h>
 
-#include <list>
-using namespace std;
-
 #ifdef WIN32
 #include <windows.h>
 #endif

@@ -19,12 +19,10 @@
 #define _CONTAINER_H
 
 #include "simapi.h"
+#include "stl.h"
 
 #include <qmainwindow.h>
 #include <qstatusbar.h>
-
-#include <list>
-using namespace std;
 
 const unsigned NEW_CONTAINER	= (unsigned)(-1);
 const unsigned GRP_CONTAINER	= 0x80000000;

@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qrichtext_p.cpp,v 1.2 2003-08-02 19:22:05 shutoff Exp $
+** $Id: qrichtext_p.cpp,v 1.2.2.1 2003-10-20 07:56:56 shutoff Exp $
 **
 ** Implementation of the internal Qt classes dealing with rich text
 **
@@ -34,6 +34,14 @@
 ** not clear to you.
 **
 **********************************************************************/
+
+#ifdef WIN32
+#if _MSC_VER > 1020
+#include <yvals.h>              
+#pragma warning(disable: 4244)
+#pragma warning(disable: 4310)
+#endif
+#endif
 
 #include "qrichtext_p.h"
 

@@ -35,6 +35,13 @@
 **
 **********************************************************************/
 
+#ifdef WIN32
+#if _MSC_VER > 1020
+#include <yvals.h>              
+#pragma warning(disable: 4244)
+#endif
+#endif
+
 #include "qstylesheet.h"
 
 #ifndef QT_NO_RICHTEXT

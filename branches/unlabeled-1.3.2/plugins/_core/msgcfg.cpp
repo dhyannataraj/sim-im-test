@@ -29,9 +29,9 @@ MessageConfig::MessageConfig(QWidget *parent, void *_data)
         : MessageConfigBase(parent)
 {
     CoreUserData *data = (CoreUserData*)_data;
-    chkWindow->setChecked(data->OpenOnReceive);
-    chkOnline->setChecked(data->OpenOnOnline);
-    chkStatus->setChecked(data->LogStatus);
+    chkWindow->setChecked((data->OpenOnReceive) != 0);
+    chkOnline->setChecked((data->OpenOnOnline) != 0);
+    chkStatus->setChecked((data->LogStatus) != 0);
     edtPath->setDirMode(true);
     QString incoming = QFile::encodeName(data->IncomingPath ? user_file(data->IncomingPath).c_str() : "");
     edtPath->setText(incoming);
@@ -47,7 +47,7 @@ MessageConfig::MessageConfig(QWidget *parent, void *_data)
         btnDecline->setChecked(true);
         break;
     }
-    chkOverwrite->setChecked(data->OverwriteFiles);
+    chkOverwrite->setChecked((data->OverwriteFiles) != 0);
     if (data->DeclineMessage)
         edtDecline->setText(QString::fromUtf8(data->DeclineMessage));
     acceptClicked(data->AcceptMode);

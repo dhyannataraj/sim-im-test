@@ -98,8 +98,8 @@ void ICQSecure::apply(Client *client, void *_data)
 
 void ICQSecure::fill()
 {
-    chkAuth->setChecked(m_client->data.owner.WaitAuth);
-    chkWeb->setChecked(m_client->data.owner.WebAware);
+    chkAuth->setChecked(m_client->data.owner.WaitAuth != 0);
+    chkWeb->setChecked(m_client->data.owner.WebAware != 0);
     chkHideIP->setChecked(m_client->getHideIP());
     chkIgnoreAuth->setChecked(m_client->getIgnoreAuth());
     grpDirect->setButton(m_client->getDirectMode());

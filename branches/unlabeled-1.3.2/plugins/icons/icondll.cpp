@@ -464,7 +464,7 @@ QPixmap IconLoader::getIcon(int id)
             unsigned char curByte = 0;
             for (int x = 0; x < w; x++){
                 if ((x & 3) == 0) curByte = *(from++);
-                *(to++) = (curByte >> 6) & 3;
+                *(to++) = (unsigned char)((curByte >> 6) & 3);
                 curByte <<= 2;
             }
             delete[] line;
@@ -476,7 +476,7 @@ QPixmap IconLoader::getIcon(int id)
             unsigned char curByte = 0;
             for (int x = 0; x < w; x++){
                 if ((x & 1) == 0) curByte = *(from++);
-                *(to++) = (curByte >> 4) & 0x0F;
+                *(to++) = (unsigned char)((curByte >> 4) & 0x0F);
                 curByte <<= 4;
             }
             delete[] line;

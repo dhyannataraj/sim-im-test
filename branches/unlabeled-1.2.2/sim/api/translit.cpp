@@ -21,7 +21,19 @@ namespace SIM
 {
 #include "translit.h"
 #include "cjk_variants.h"
+
+#ifdef WIN32
+#if _MSC_VER > 1020
+#pragma warning(push)
+#pragma warning(disable: 4244)  
+#endif
+#endif
 #include "johab_hangul.h"
+#ifdef WIN32
+#if _MSC_VER > 1020
+#pragma warning(pop)
+#endif
+#endif
 
 EXPORT QString toTranslit(const QString &str)
 {

@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qcomplextext.cpp,v 1.2 2003-08-02 19:22:04 shutoff Exp $
+** $Id: qcomplextext.cpp,v 1.2.2.1 2003-10-20 07:56:56 shutoff Exp $
 **
 ** Implementation of some internal classes
 **
@@ -34,6 +34,13 @@
 ** not clear to you.
 **
 **********************************************************************/
+
+#ifdef WIN32
+#if _MSC_VER > 1020
+#include <yvals.h>              
+#pragma warning(disable: 4244)
+#endif
+#endif
 
 #include "qcomplextext_p.h"
 

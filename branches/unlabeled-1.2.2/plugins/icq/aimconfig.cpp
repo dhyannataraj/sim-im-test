@@ -64,7 +64,7 @@ void AIMConfig::apply()
         m_client->setPassword(edtPasswd->text());
     }
     m_client->setServer(edtServer->text().local8Bit());
-    m_client->setPort(atol(edtPort->text()));
+    m_client->setPort((unsigned short)atol(edtPort->text()));
 }
 
 void AIMConfig::changed(const QString&)

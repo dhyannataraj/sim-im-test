@@ -190,7 +190,7 @@ void *LoggerPlugin::processEvent(Event *e)
 /**
  * DLL's entry point
  **/
-int WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
+int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
 {
     return TRUE;
 }

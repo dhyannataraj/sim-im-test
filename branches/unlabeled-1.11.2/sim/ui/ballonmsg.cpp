@@ -55,7 +55,7 @@ UI_EXPORT QPixmap& intensity(QPixmap &pict, float percent)
             tmp = (int)(i*percent);
             if(tmp > 255)
                 tmp = 255;
-            segTbl[i] = tmp;
+            segTbl[i] = (unsigned char)tmp;
         }
     }
     else{
@@ -63,7 +63,7 @@ UI_EXPORT QPixmap& intensity(QPixmap &pict, float percent)
             tmp = (int)(i*percent);
             if(tmp < 0)
                 tmp = 0;
-            segTbl[i] = tmp;
+            segTbl[i] = (unsigned char)tmp;
         }
     }
 

@@ -130,7 +130,7 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
             setItemEnabled(id, false);
         if (s->accel)
             setAccel(QAccel::stringToKey(i18n(s->accel)), id);
-        setItemChecked(id, s->flags & COMMAND_CHECKED);
+        setItemChecked(id, (s->flags & COMMAND_CHECKED) != 0);
     }
     bSeparator = false;
 }
@@ -182,6 +182,10 @@ void CMenu::menuActivated(int n)
                 s->flags ^= COMMAND_CHECKED;
                 if (s->flags & COMMAND_RECURSIVE){
                     CommandDef *cmds = (CommandDef*)(s->param);
+					for (CommandDef *c = cmds; c->text; c++){
+						if (c->text_wrk)
+							free(c->text_wrk);
+					}
                     delete[] cmds;
                 }
             }

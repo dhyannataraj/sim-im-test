@@ -19,9 +19,7 @@
 #define _WINDOCK_H
 
 #include "simapi.h"
-
-#include <list>
-using namespace std;
+#include "stl.h"
 
 #include <qpixmap.h>
 

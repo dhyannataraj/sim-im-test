@@ -157,7 +157,7 @@ public:
     virtual Mode mode() { return Indirect; }
     PROP_ULONG(Type);
     PROP_STR(Host);
-    PROP_ULONG(Port);
+    PROP_USHORT(Port);
     PROP_BOOL(Auth);
     PROP_STR(User);
     PROP_STR(Password);
@@ -288,7 +288,7 @@ class SOCKS4_Proxy : public Proxy
 {
 public:
     SOCKS4_Proxy(ProxyPlugin *plugin, ProxyData *data, TCPClient *client);
-    virtual void connect(const char *host, int port);
+    virtual void connect(const char *host, unsigned short port);
 protected:
     virtual void connect_ready();
     virtual void read_ready();
@@ -312,7 +312,7 @@ SOCKS4_Proxy::SOCKS4_Proxy(ProxyPlugin *plugin, ProxyData *data, TCPClient *clie
     m_state = None;
 }
 
-void SOCKS4_Proxy::connect(const char *host, int port)
+void SOCKS4_Proxy::connect(const char *host, unsigned short port)
 {
     if (m_state != None){
         if (notify) notify->error_state(STATE_ERROR);
@@ -373,7 +373,7 @@ class SOCKS5_Proxy : public Proxy
 {
 public:
     SOCKS5_Proxy(ProxyPlugin*, ProxyData*, TCPClient*);
-    virtual void connect(const char *host, int port);
+    virtual void connect(const char *host, unsigned short port);
 protected:
     virtual void connect_ready();
     virtual void read_ready();
@@ -398,7 +398,7 @@ SOCKS5_Proxy::SOCKS5_Proxy(ProxyPlugin *plugin, ProxyData *d, TCPClient *client)
     m_state = None;
 }
 
-void SOCKS5_Proxy::connect(const char *host, int port)
+void SOCKS5_Proxy::connect(const char *host, unsigned short port)
 {
     if (m_state != None){
         error_state(STATE_ERROR, 0);
@@ -429,7 +429,7 @@ void SOCKS5_Proxy::read_ready()
     case WaitAnswer:
         read(2);
         bIn >> b1 >> b2;
-        if ((b1 != 0x05) || (b2 == (char)0xFF)) {
+        if ((b1 != 0x05) || (b2 == '\xFF')) {
             error_state(ANSWER_ERROR, m_plugin->ProxyErr);
             return;
         }
@@ -505,7 +505,7 @@ class HTTPS_Proxy : public Proxy
 {
 public:
     HTTPS_Proxy(ProxyPlugin *plugin, ProxyData*, TCPClient *client);
-    virtual void connect(const char *host, int port);
+    virtual void connect(const char *host, unsigned short port);
 protected:
     virtual void connect_ready();
     virtual void read_ready();
@@ -529,7 +529,7 @@ HTTPS_Proxy::HTTPS_Proxy(ProxyPlugin *plugin, ProxyData *d, TCPClient *client)
     m_state = None;
 }
 
-void HTTPS_Proxy::connect(const char *host, int port)
+void HTTPS_Proxy::connect(const char *host, unsigned short port)
 {
     if (m_state != None){
         error_state(STATE_ERROR, 0);
@@ -742,9 +742,9 @@ class HTTP_Proxy : public Proxy
 public:
     HTTP_Proxy(ProxyPlugin *plugin, ProxyData *d, TCPClient *client);
     ~HTTP_Proxy();
-    virtual void connect(const char *host, int port);
-    virtual int read(char *buf, unsigned int size);
-    virtual void write(const char *buf, unsigned int size);
+    virtual void connect(const char *host, unsigned short port);
+    virtual int read(char *buf, unsigned size);
+    virtual void write(const char *buf, unsigned size);
     virtual void close();
     virtual Mode mode() { return Web; }
 protected:
@@ -770,7 +770,7 @@ protected:
     HttpRequest *monitor;
     HttpRequest *post;
 
-    unsigned long nSock;
+    unsigned short nSock;
 
     friend class HttpRequest;
     friend class HelloRequest;
@@ -864,7 +864,7 @@ void HttpRequest::connect_ready()
     }
     bOut << "\r\n";
     if (p){
-        unsigned short len = p->size + 12;
+        unsigned short len = (unsigned short)(p->size + 12);
         bOut
         << len
         << HTTP_PROXY_VERSION
@@ -1185,7 +1185,7 @@ void HTTP_Proxy::connect_ready()
 {
 }
 
-int HTTP_Proxy::read(char *buf, unsigned int size)
+int HTTP_Proxy::read(char *buf, unsigned size)
 {
     unsigned tail = readData.size() - readData.readPos();
     if (size > tail) size = tail;
@@ -1196,9 +1196,9 @@ int HTTP_Proxy::read(char *buf, unsigned int size)
     return size;
 }
 
-void HTTP_Proxy::write(const char *buf, unsigned int size)
+void HTTP_Proxy::write(const char *buf, unsigned size)
 {
-    queue.push_back(new HttpPacket(buf, size, HTTP_PROXY_FLAP, nSock));
+    queue.push_back(new HttpPacket(buf, (unsigned short)size, HTTP_PROXY_FLAP, nSock));
     request();
 }
 
@@ -1206,14 +1206,14 @@ void HTTP_Proxy::close()
 {
 }
 
-void HTTP_Proxy::connect(const char *host, int port)
+void HTTP_Proxy::connect(const char *host, unsigned short port)
 {
     state = None;
     Buffer b;
-    unsigned short len = strlen(host);
+    unsigned short len = (unsigned short)strlen(host);
     b << len << host << port;
     nSock++;
-    queue.push_back(new HttpPacket(b.data(0), b.size(), HTTP_PROXY_LOGIN, nSock));
+    queue.push_back(new HttpPacket(b.data(0), (unsigned short)(b.size()), HTTP_PROXY_LOGIN, nSock));
     if (sid.length()){
         unsigned char close_packet[] = { 0x2A, 0x04, 0x14, 0xAB, 0x00, 0x00 };
         queue.push_back(new HttpPacket((char*)close_packet, sizeof(close_packet), HTTP_PROXY_FLAP, 1));
@@ -1402,7 +1402,7 @@ const DataDef *ProxyPlugin::proxyData = _proxyData;
 /**
  * DLL's entry point
  **/
-int WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
+int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
 {
     return TRUE;
 }

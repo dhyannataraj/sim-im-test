@@ -19,10 +19,9 @@
 #define _TOOLSETUP_H
 
 #include "simapi.h"
-#include "toolsetupbase.h"
+#include "stl.h"
 
-#include <vector>
-using namespace std;
+#include "toolsetupbase.h"
 
 class Commands;
 

@@ -69,7 +69,11 @@ static DataDef navigateData[] =
 
 #endif
 
+#ifdef WIN32
+NavigatePlugin::NavigatePlugin(unsigned base, const char*)
+#else
 NavigatePlugin::NavigatePlugin(unsigned base, const char *config)
+#endif
         : Plugin(base)
 {
 #ifndef WIN32
@@ -262,7 +266,7 @@ QWidget *NavigatePlugin::createConfigWindow(QWidget *parent)
 /**
  * DLL's entry point
  **/
-int WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
+int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
 {
     return TRUE;
 }

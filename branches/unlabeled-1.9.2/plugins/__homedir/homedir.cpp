@@ -148,7 +148,6 @@ string HomeDirPlugin::defaultPath()
     char szPath[1024];
     szPath[0] = 0;
     HINSTANCE hLib = LoadLibraryA("Shell32.dll");
-    int res = false;
     QString defPath;
     if (hLib != NULL){
         (DWORD&)_SHGetSpecialFolderPathW = (DWORD)GetProcAddress(hLib,"SHGetSpecialFolderPathW");
@@ -246,7 +245,7 @@ void *HomeDirPlugin::processEvent(Event *e)
 /**
  * DLL's entry point
  **/
-int WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
+int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
 {
     return TRUE;
 }

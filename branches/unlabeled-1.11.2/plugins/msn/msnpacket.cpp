@@ -327,7 +327,7 @@ bool SynPacket::answer(const char *_cmd, vector<string> &args)
         if (args[0] == "PHM")
             set_str(&m_client->data.owner.PhoneMobile, m_client->unquote(QString::fromUtf8(args[1].c_str())).utf8());
         if (args[0] == "MBE")
-            m_client->data.owner.Mobile = (args[1].c_str() == "Y");
+            m_client->data.owner.Mobile = (args[1] == "Y");
         return true;
     }
     if (cmd == "BPR"){
@@ -346,7 +346,7 @@ bool SynPacket::answer(const char *_cmd, vector<string> &args)
         if (args[0] == "PHM")
             set_str(&m_data->PhoneMobile, m_client->unquote(QString::fromUtf8(args[1].c_str())).utf8());
         if (args[0] == "MBE")
-            m_data->Mobile = (args[1].c_str() == "Y");
+            m_data->Mobile = (args[1] == "Y");
         return true;
     }
     if (cmd == "LSG"){
@@ -524,7 +524,7 @@ AddPacket::AddPacket(MSNClient *client, const char *listType, const char *mail, 
         addArg(number(grp).c_str());
 }
 
-void AddPacket::error(unsigned code)
+void AddPacket::error(unsigned)
 {
     Contact *contact;
     MSNUserData *data = m_client->findContact(m_mail.c_str(), contact);

@@ -207,7 +207,7 @@ void TransparentPlugin::setState()
     }
     bool bNewState = main->isActiveWindow();
     if (bNewState == m_bState){
-        BYTE d = bNewState ? 255 : QMIN((100 - getTransparency()) * 256 / 100, 255);
+        BYTE d = (BYTE)(bNewState ? 255 : QMIN((100 - getTransparency()) * 256 / 100, 255));
         SetLayeredWindowAttributes(main->winId(), main->colorGroup().background().rgb(), d, LWA_ALPHA);
         return;
     }
@@ -239,7 +239,7 @@ void TransparentPlugin::tick()
     }
     if (m_bState)
         time = timeout - time;
-    BYTE d = QMIN((100 - getTransparency() * time / timeout) * 256 / 100, 255);
+    BYTE d = (BYTE)QMIN((100 - getTransparency() * time / timeout) * 256 / 100, 255);
     SetLayeredWindowAttributes(main->winId(), main->colorGroup().background().rgb(), d, LWA_ALPHA);
 #endif
 }
@@ -278,7 +278,7 @@ void *TransparentPlugin::processEvent(Event *e)
 /**
  * DLL's entry point
  **/
-int WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
+int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
 {
     return TRUE;
 }

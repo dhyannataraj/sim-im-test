@@ -19,9 +19,7 @@
 #define _MSNPACKET_H
 
 #include "simapi.h"
-
-#include <vector>
-using namespace std;
+#include "stl.h"
 
 class MSNClient;
 class SBSocket;

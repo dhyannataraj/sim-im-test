@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 1
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "ICQ_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /O1 /I "$(QTDIR)\include" /I "..\..\sim\api" /I "..\..\sim\ui" /I "..\_core" /I "C:\openssl\include" /D "USE_OPENSSL" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "QT_DLL" /D "UNICODE" /D "QT_THREAD_SUPPORT" /D VERSION=\"0.9\" /D PACKAGE=\"SIM\" /D USE_QT=1 /D CVS_BUILD=1 /FR"Debug/" /Fo"Debug/" /Fd"Debug/" /FD /c
+# ADD CPP /nologo /MD /W4 /WX /O1 /I "$(QTDIR)\include" /I "..\..\sim\api" /I "..\..\sim\ui" /I "..\_core" /I "C:\openssl\include" /D "USE_OPENSSL" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "QT_DLL" /D "UNICODE" /D "QT_THREAD_SUPPORT" /D VERSION=\"0.9\" /D PACKAGE=\"SIM\" /D USE_QT=1 /D CVS_BUILD=1 /FR"Debug/" /Fo"Debug/" /Fd"Debug/" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "NDEBUG"
@@ -69,7 +69,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 1
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "ICQ_EXPORTS" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /ZI /Od /I "$(QTDIR)\include" /I "..\..\sim\api" /I "..\..\sim\ui" /I "..\_core" /I "C:\openssl\include" /D "_DEBUG" /D "DEBUG" /D USE_OPENSSL=1 /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "QT_DLL" /D "UNICODE" /D "QT_THREAD_SUPPORT" /D VERSION=\"0.9\" /D PACKAGE=\"SIM\" /D USE_QT=1 /D CVS_BUILD=1 /FR /FD /GZ /c
+# ADD CPP /nologo /MDd /W4 /WX /Gm /ZI /Od /I "$(QTDIR)\include" /I "..\..\sim\api" /I "..\..\sim\ui" /I "..\_core" /I "C:\openssl\include" /D "_DEBUG" /D "DEBUG" /D USE_OPENSSL=1 /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "QT_DLL" /D "UNICODE" /D "QT_THREAD_SUPPORT" /D VERSION=\"0.9\" /D PACKAGE=\"SIM\" /D USE_QT=1 /D CVS_BUILD=1 /FR /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "_DEBUG"
@@ -97,6 +97,7 @@ SOURCE=.\aboutinfo.cpp
 # Begin Source File
 
 SOURCE=.\aboutinfobase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -105,6 +106,7 @@ SOURCE=.\aimconfig.cpp
 # Begin Source File
 
 SOURCE=.\aimconfigbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -113,6 +115,7 @@ SOURCE=.\aiminfo.cpp
 # Begin Source File
 
 SOURCE=.\aiminfobase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -121,6 +124,7 @@ SOURCE=.\aimsearch.cpp
 # Begin Source File
 
 SOURCE=.\aimsearchbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -133,6 +137,7 @@ SOURCE=.\encodingdlg.cpp
 # Begin Source File
 
 SOURCE=.\encodingdlgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -141,6 +146,7 @@ SOURCE=.\homeinfo.cpp
 # Begin Source File
 
 SOURCE=.\homeinfobase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -165,6 +171,7 @@ SOURCE=.\icqconfig.cpp
 # Begin Source File
 
 SOURCE=.\icqconfigbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -181,6 +188,7 @@ SOURCE=.\icqinfo.cpp
 # Begin Source File
 
 SOURCE=.\icqinfobase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -205,6 +213,7 @@ SOURCE=.\icqpicture.cpp
 # Begin Source File
 
 SOURCE=.\icqpicturebase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -217,6 +226,7 @@ SOURCE=.\icqsearch.cpp
 # Begin Source File
 
 SOURCE=.\icqsearchbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -225,6 +235,7 @@ SOURCE=.\icqsecure.cpp
 # Begin Source File
 
 SOURCE=.\icqsecurebase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -241,158 +252,197 @@ SOURCE=.\interestsinfo.cpp
 # Begin Source File
 
 SOURCE=.\interestsinfobase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_aboutinfo.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_aboutinfobase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_aimconfig.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_aimconfigbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_aiminfo.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_aiminfobase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_aimsearch.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_aimsearchbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_encodingdlg.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_encodingdlgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_homeinfo.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_homeinfobase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_icqclient.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_icqconfig.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_icqconfigbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_icqinfo.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_icqinfobase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_icqmessage.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_icqpicture.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_icqpicturebase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_icqsearch.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_icqsearchbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_icqsecure.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_icqsecurebase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_interestsinfo.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_interestsinfobase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_moreinfo.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_moreinfobase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_pastinfo.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_pastinfobase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_searchresult.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_searchresultbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_securedlg.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_securedlgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_warndlg.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_warndlgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_workinfo.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_workinfobase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -401,6 +451,7 @@ SOURCE=.\moreinfo.cpp
 # Begin Source File
 
 SOURCE=.\moreinfobase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -409,10 +460,12 @@ SOURCE=.\pastinfo.cpp
 # Begin Source File
 
 SOURCE=.\pastinfobase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\rtf.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -456,6 +509,7 @@ SOURCE=.\searchresult.cpp
 # Begin Source File
 
 SOURCE=.\searchresultbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -464,6 +518,7 @@ SOURCE=.\securedlg.cpp
 # Begin Source File
 
 SOURCE=.\securedlgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -472,6 +527,7 @@ SOURCE=.\warndlg.cpp
 # Begin Source File
 
 SOURCE=.\warndlgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -480,6 +536,7 @@ SOURCE=.\workinfo.cpp
 # Begin Source File
 
 SOURCE=.\workinfobase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 

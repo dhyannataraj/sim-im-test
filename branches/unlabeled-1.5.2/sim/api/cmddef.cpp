@@ -16,10 +16,7 @@
  ***************************************************************************/
 
 #include "simapi.h"
-
-#include <list>
-#include <map>
-using namespace std;
+#include "stl.h"
 
 namespace SIM
 {
@@ -400,6 +397,7 @@ bool CommandsMap::erase(unsigned id)
 
 class CommandsMapIteratorPrivate
 {
+COPY_RESTRICTED(CommandsMapIteratorPrivate)
 public:
     CommandsMapIteratorPrivate(CommandsMapPrivate &_map) : map(_map)
     { it = map.begin(); }

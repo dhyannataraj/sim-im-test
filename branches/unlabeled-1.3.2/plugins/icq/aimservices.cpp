@@ -79,7 +79,7 @@ void ServiceSocket::packet()
     case ICQ_CHNxNEW:
         flap(ICQ_CHNxNEW);
         m_socket->writeBuffer << 0x00000001L;
-        m_socket->writeBuffer.tlv(6, m_cookie.data(), m_cookie.size());
+        m_socket->writeBuffer.tlv(6, m_cookie.data(), (unsigned short)(m_cookie.size()));
         m_cookie.init(0);
         sendPacket();
         break;
@@ -100,7 +100,7 @@ void ServiceSocket::packet()
             m_socket->readBuffer >> err_code;
             log(L_DEBUG,"Error! family: %u reason",fam);
             // now decrease for icqicmb & icqvarious
-            m_socket->readBuffer.incReadPos(-(sizeof(unsigned short)));
+            m_socket->readBuffer.decReadPos(sizeof(unsigned short));
         }
         data(fam, type, seq);
         break;
@@ -138,7 +138,7 @@ protected:
     void snac_service(unsigned short type);
     void snac_search(unsigned short type, unsigned short seq);
     void process();
-    void addTlv(int n, const QString&, bool);
+    void addTlv(unsigned short n, const QString&, bool);
     REQUEST_MAP m_requests;
     SEQ_MAP		m_seq;
     unsigned short m_id;
@@ -159,7 +159,7 @@ static bool bLatin1(const QString &s)
     return true;
 }
 
-void SearchSocket::addTlv(int n, const QString &s, bool bLatin)
+void SearchSocket::addTlv(unsigned short n, const QString &s, bool bLatin)
 {
     string str;
     if (bLatin){
@@ -332,7 +332,7 @@ void SearchSocket::snac_search(unsigned short type, unsigned short seq)
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);
                         set_str(&res.data.Nick, str.utf8());
                     }
-                    Event e(static_cast<ICQPlugin*>(m_client->protocol()->plugin())->EventSearch, &res);
+                    Event e(EventSearch, &res);
                     e.process();
                     free_data(ICQProtocol::icqUserData, &res.data);
                 }
@@ -341,7 +341,7 @@ void SearchSocket::snac_search(unsigned short type, unsigned short seq)
             }
             if (bEnd){
                 load_data(ICQProtocol::icqUserData, &res.data, NULL);
-                Event e(static_cast<ICQPlugin*>(m_client->protocol()->plugin())->EventSearchDone, &res);
+                Event e(EventSearchDone, &res);
                 e.process();
                 free_data(ICQProtocol::icqUserData, &res.data);
                 m_seq.erase(it);
@@ -353,7 +353,7 @@ void SearchSocket::snac_search(unsigned short type, unsigned short seq)
     }
 }
 
-unsigned ICQClient::aimEMailSearch(const char *name)
+unsigned short ICQClient::aimEMailSearch(const char *name)
 {
     SearchSocket *s = NULL;
     for (list<ServiceSocket*>::iterator it = m_services.begin(); it != m_services.end(); ++it){
@@ -369,7 +369,7 @@ unsigned ICQClient::aimEMailSearch(const char *name)
     return s->add(name);
 }
 
-unsigned ICQClient::aimInfoSearch(const char *first, const char *last, const char *middle,
+unsigned short ICQClient::aimInfoSearch(const char *first, const char *last, const char *middle,
                                   const char *maiden, const char *country, const char *street,
                                   const char *city, const char *nick, const char *zip,
                                   const char *state)

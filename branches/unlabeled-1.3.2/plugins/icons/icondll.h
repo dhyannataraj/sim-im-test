@@ -19,9 +19,9 @@
 #define _ICONDLL_H
 
 #include "simapi.h"
+#include "stl.h"
+
 #include <qiconset.h>
-#include <map>
-using namespace std;
 
 class IconsMap : public map<unsigned, QIconSet>
 {

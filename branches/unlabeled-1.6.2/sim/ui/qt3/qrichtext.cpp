@@ -1,5 +1,5 @@
 #/****************************************************************************
-** $Id: qrichtext.cpp,v 1.6 2003-10-09 21:41:32 shutoff Exp $
+** $Id: qrichtext.cpp,v 1.6.2.1 2003-10-20 07:56:56 shutoff Exp $
 **
 ** Implementation of the internal Qt classes dealing with rich text
 **
@@ -34,6 +34,14 @@
 ** not clear to you.
 **
 **********************************************************************/
+
+#ifdef WIN32
+#if _MSC_VER > 1020
+#include <yvals.h>              
+#pragma warning(disable: 4127)
+#pragma warning(disable: 4244)
+#endif
+#endif
 
 #include "qrichtext_p.h"
 
@@ -3598,6 +3606,8 @@ int direction : 5;
         QMap<int, QTextParagLineStart*>::Iterator it = lineStarts.begin();
         for ( ; it != lineStarts.end(); ++it )
             delete *it;
+		if (bgcol)
+			delete bgcol;
     }
 
     void QTextParag::setNext( QTextParag *s )
@@ -6400,7 +6410,7 @@ formatAgain:
         if ( selected && placement() == PlaceInline && p->device()->devType() != QInternal::Printer ) {
             // #if defined(Q_WS_X11)
             p->fillRect( QRect( QPoint( x, y ), pm.size() ), QBrush( cg.highlight(), QBrush::Dense4Pattern) );
-#if 0
+#if !defined(Q_WS_X11)
             // #else // in WIN32 Dense4Pattern doesn't work correctly (transparency problem), so work around it
             if ( !qrt_selection )
                 qrt_createSelectionPixmap( cg );

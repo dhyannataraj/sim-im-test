@@ -25,30 +25,23 @@
 #include <qtimer.h>
 #include <qtoolbutton.h>
 
-MsgAuth::MsgAuth(CToolCustom *parent, Message *msg)
+MsgAuth::MsgAuth(MsgEdit *parent, Message *msg)
         : QObject(parent)
 {
     m_client = msg->client();
     m_type   = msg->type();
-    for (QWidget *p = parent->parentWidget(); p; p = p->parentWidget()){
-        if (p->inherits("MsgEdit")){
-            m_edit = static_cast<MsgEdit*>(p);
-            break;
-        }
-    }
-    parent->setText(i18n(" "));
-    m_edit->m_edit->setTextFormat(PlainText);
+	m_edit   = parent;
+    parent->m_edit->setTextFormat(PlainText);
+	parent->m_edit->setReadOnly(false);
     QString text = msg->getPlainText();
     if (!text.isEmpty())
-        m_edit->m_edit->setText(text);
-
+        parent->m_edit->setText(text);
     Command cmd;
     cmd->id    = CmdSend;
-    cmd->param = m_edit;
-    Event e(EventCommandWidget, cmd);
-    btnSend = (QToolButton*)(e.process());
-    if (btnSend)
-        btnSend->setEnabled(true);
+	cmd->flags = 0;
+    cmd->param = parent;
+    Event e(EventCommandChecked, cmd);
+    e.process();
 }
 
 void MsgAuth::init()
@@ -58,6 +51,28 @@ void MsgAuth::init()
 
 void *MsgAuth::processEvent(Event *e)
 {
+	if (e->type() == EventCheckState){
+        CommandDef *cmd = (CommandDef*)(e->param());
+        if (cmd->param == m_edit){
+			unsigned id = cmd->bar_grp;
+			if ((id >= MIN_INPUT_BAR_ID) && (id < MAX_INPUT_BAR_ID)){
+				cmd->flags |= BTN_HIDE;
+				return e->param();
+			}
+			switch (cmd->id){
+			case CmdTranslit:
+			case CmdSmile:
+			case CmdSend:
+			case CmdSendClose:
+				cmd->flags &= ~BTN_HIDE;
+				return NULL;
+			case CmdNextMessage:
+			case CmdMsgAnswer:
+				cmd->flags |= BTN_HIDE;
+				return NULL;
+			}
+		}
+	}
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
         if ((cmd->id == CmdSend) && (cmd->param == m_edit)){

@@ -19,17 +19,14 @@
 #define _MSGFILE_H
 
 #include "simapi.h"
-#include <qlineedit.h>
 
-class CToolCustom;
-class QToolButton;
 class MsgEdit;
 
-class MsgFile : public QLineEdit, public EventReceiver
+class MsgFile : public QObject, public EventReceiver
 {
     Q_OBJECT
 public:
-    MsgFile(CToolCustom *parent, Message *msg);
+    MsgFile(MsgEdit *parent, Message *msg);
 protected slots:
     void selectFile();
     void changed(const QString&);
@@ -37,8 +34,8 @@ protected slots:
 protected:
     virtual void *processEvent(Event*);
     string		 m_client;
-    QToolButton  *btnSend;
     MsgEdit      *m_edit;
+	bool		 m_bCanSend;
 };
 
 #endif

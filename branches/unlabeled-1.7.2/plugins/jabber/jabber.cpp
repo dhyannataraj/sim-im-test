@@ -217,7 +217,7 @@ JabberPlugin::JabberPlugin(unsigned base)
         : Plugin(base)
 {
     JabberPacket = registerType();
-    getContacts()->addPacketType(JabberPacket, jabber_descr.text, PACKET_TEXT);
+    getContacts()->addPacketType(JabberPacket, jabber_descr.text, true);
 
     EventAgentFound = registerType();
     EventAgentInfo	= registerType();
@@ -376,7 +376,7 @@ JabberPlugin::~JabberPlugin()
 /**
  * DLL's entry point
  **/
-int WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
+int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
 {
     return TRUE;
 }

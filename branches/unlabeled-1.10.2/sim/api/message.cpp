@@ -16,16 +16,15 @@
  ***************************************************************************/
 
 #include "simapi.h"
+#include "stl.h"
 
 #include <time.h>
+
 #include <qfile.h>
 #include <qfileinfo.h>
 #include <qdir.h>
 #include <qstringlist.h>
 #include <qregexp.h>
-
-#include <list>
-#include <vector>
 
 namespace SIM
 {
@@ -60,16 +59,18 @@ Message::~Message()
 
 QString Message::getPlainText()
 {
-    if (!(getFlags() & MESSAGE_RICHTEXT))
-        return getText();
-    return unquoteText(getText());
+	QString res = ((getFlags() & MESSAGE_RICHTEXT) == 0) ? getText() : unquoteText(getText());
+	if ((getFlags() & MESSAGE_TRANSLIT) == 0)
+		return res;
+	return toTranslit(res);
 }
 
 QString Message::getRichText()
 {
-    if (getFlags() & MESSAGE_RICHTEXT)
-        return getText();
-    return quoteString(getText());
+	QString res = ((getFlags() & MESSAGE_RICHTEXT) != 0) ? getText() : quoteString(getText());
+	if ((getFlags() & MESSAGE_TRANSLIT) == 0)
+		return res;
+	return toTranslit(res);
 }
 
 QString Message::presentation()

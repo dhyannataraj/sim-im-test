@@ -150,7 +150,7 @@ void InterestsInfo::fill()
     while (str.length()){
         QString info = getToken(str, ';', false);
         QString n = getToken(info, ',');
-        unsigned category = atol(n.latin1());
+        unsigned short category = (unsigned short)atol(n.latin1());
         switch (i){
         case 0:
             edtBg1->setText(info);
@@ -208,7 +208,7 @@ void InterestsInfo::cmbChanged(int)
     unsigned n = 0;
     unsigned i;
     for (i = 0; i < 4; i++){
-        int value = getComboValue(cmbs[i], interests);
+        unsigned short value = getComboValue(cmbs[i], interests);
         if (value){
             if (i != n){
                 cmbs[n]->setEnabled(true);

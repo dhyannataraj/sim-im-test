@@ -22,7 +22,6 @@
 #include <qcombobox.h>
 #include <qframe.h>
 
-class CToolCustom;
 class QToolButton;
 class QCheckBox;
 class MsgEdit;
@@ -36,26 +35,24 @@ public:
     QCheckBox	*chkSave;
 };
 
-class MsgSMS : public QComboBox, public EventReceiver
+class MsgSMS : public QObject, public EventReceiver
 {
     Q_OBJECT
 public:
-    MsgSMS(CToolCustom *parent, Message *msg);
+    MsgSMS(MsgEdit *parent, Message *msg);
     ~MsgSMS();
 protected slots:
     void init();
     void textChanged(const QString&);
     void textChanged();
-    void translitToggled(bool);
     void panelDestroyed();
 protected:
     void *processEvent(Event*);
     MsgEdit		*m_edit;
     SMSPanel	*m_panel;
-    QToolButton	*btnTranslit;
-    QToolButton *btnSend;
     unsigned	m_id;
     bool		m_bExpand;
+	bool		m_bCanSend;
 };
 
 #endif

@@ -188,9 +188,9 @@ void HTMLParser::parse(const QString &str)
 				
 				unsigned short code;
 				if (s[1] == 'x')
-				   code = s.mid(2).toUInt(&bOk, 16); // hex
+				   code = s.mid(2).toUShort(&bOk, 16); // hex
 				else
-				   code = s.mid(1).toUInt(&bOk, 10); // decimal
+				   code = s.mid(1).toUShort(&bOk, 10); // decimal
 				if (bOk)
 					p->text += QChar(code);
 			}else{

@@ -15,13 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifdef WIN32
-#if _MSC_VER > 1020
-#pragma warning(disable:4530)
-#endif
-#endif
-
 #include "socket.h"
+#include "stl.h"
 
 #include <qtimer.h>
 
@@ -83,7 +78,7 @@ const char *ClientSocket::errorString()
     return NULL;
 }
 
-void ClientSocket::connect(const char *host, int port, TCPClient *client)
+void ClientSocket::connect(const char *host, unsigned short port, TCPClient *client)
 {
     if (client){
         ConnectParam p;
@@ -362,7 +357,7 @@ ServerSocketNotify::~ServerSocketNotify()
         getSocketFactory()->remove(m_listener);
 }
 
-void ServerSocketNotify::bind(unsigned minPort, unsigned maxPort, TCPClient *client)
+void ServerSocketNotify::bind(unsigned short minPort, unsigned short maxPort, TCPClient *client)
 {
     if (m_listener)
         getSocketFactory()->remove(m_listener);

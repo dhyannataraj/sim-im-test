@@ -20,26 +20,20 @@
 
 #include "simapi.h"
 
-#include <qtoolbutton.h>
-#include <qlabel.h>
-
-class CToolCustom;
-class QToolButton;
 class MsgEdit;
 
 class MsgAuth : public QObject, public EventReceiver
 {
     Q_OBJECT
 public:
-    MsgAuth(CToolCustom *parent, Message *msg);
+    MsgAuth(MsgEdit *parent, Message *msg);
 protected slots:
     void init();
 protected:
     void *processEvent(Event*);
     string m_client;
-    MsgEdit	*m_edit;
     unsigned m_type;
-    QToolButton *btnSend;
+	MsgEdit *m_edit;
 };
 
 #endif

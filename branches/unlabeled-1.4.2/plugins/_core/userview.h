@@ -21,10 +21,6 @@
 #include "simapi.h"
 #include "userlist.h"
 
-#include <list>
-
-using namespace std;
-
 class CorePlugin;
 class IntLineEdit;
 class QTimer;

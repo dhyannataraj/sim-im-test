@@ -19,14 +19,14 @@
 #define _TOOLBTN_H
 
 #include "simapi.h"
+#include "stl.h"
 
 #include <qtoolbar.h>
 #include <qtoolbutton.h>
 #include <qpushbutton.h>
 #include <qlabel.h>
-
-#include <vector>
-using namespace std;
+#include <qcombobox.h>
+#include <qlineedit.h>
 
 class QMainWindow;
 class QPopupMenu;
@@ -38,10 +38,12 @@ class UI_EXPORT CToolItem
 public:
     CToolItem(CommandDef *def);
     virtual ~CToolItem() {}
-    virtual void setState() = 0;
+    virtual void setState();
     virtual QWidget *widget() = 0;
     void checkState();
     void setCommand(CommandDef *def);
+    void setChecked(CommandDef *def);
+	void setDisabled(CommandDef *def);
     CommandDef *def();
 protected:
     CommandDef m_def;
@@ -53,11 +55,13 @@ class UI_EXPORT CToolButton : public QToolButton, public CToolItem
     Q_OBJECT
 public:
     CToolButton(QWidget * parent, CommandDef *def);
+	~CToolButton();
     virtual void setState();
     virtual QWidget *widget() { return this; }
     static QPoint popupPos(QToolButton*, QWidget*);
 signals:
     void showPopup(QPoint);
+	void destroyed();
 protected slots:
     void btnClicked();
     void btnToggled(bool);
@@ -89,22 +93,35 @@ protected:
     QSize sizeHint() const;
 };
 
-class QHBoxLayout;
-
-class UI_EXPORT CToolCustom : public QWidget, public CToolItem
+class UI_EXPORT CToolCombo : public QComboBox, public CToolItem
 {
     Q_OBJECT
 public:
-    CToolCustom(QToolBar*, CommandDef *def);
-    void addWidget(QWidget*);
-    void removeWidgets();
-    void setText(const QString &text);
+    CToolCombo(QToolBar*, CommandDef *def, bool bCheck);
+	~CToolCombo();
+	void setText(const QString&);
+protected slots:
+	void slotTextChanged(const QString &str);
+	void btnDestroyed();
 protected:
-    virtual QWidget *widget() { return this; }
     virtual void setState();
-    QSizePolicy sizePolicy() const;
-    QLabel  *m_label;
-    QHBoxLayout	*m_lay;
+	CToolButton	*m_btn;
+	bool m_bCheck;
+    virtual QWidget *widget() { return this; }
+};
+
+class UI_EXPORT CToolEdit : public QLineEdit, public CToolItem
+{
+    Q_OBJECT
+public:
+    CToolEdit(QToolBar*, CommandDef *def);
+	~CToolEdit();
+protected slots:
+	void btnDestroyed();
+protected:
+    virtual void setState();
+    virtual QWidget *widget() { return this; }
+	CToolButton	*m_btn;
 };
 
 class ButtonsMap;

@@ -369,7 +369,7 @@ void *WinDockPlugin::processEvent(Event *e)
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
         if (cmd->id == CmdAutoHide){
-            dock->setAutoHide(cmd->flags & COMMAND_CHECKED);
+            dock->setAutoHide((cmd->flags & COMMAND_CHECKED) != 0);
             bAutoHideVisible = true;
             setBarState();
             enableAutoHide(getAutoHide());
@@ -482,7 +482,7 @@ QWidget *WinDockPlugin::getMainWindow()
 /**
  * DLL's entry point
  **/
-int WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
+int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
 {
     return TRUE;
 }

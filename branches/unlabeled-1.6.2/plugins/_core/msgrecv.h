@@ -22,47 +22,24 @@
 
 #include <qtoolbutton.h>
 
-#include <list>
-using namespace std;
-
-class CToolCustom;
 class MsgEdit;
-class QBoxLayout;
-
-class CmdButton : public QToolButton
-{
-    Q_OBJECT
-public:
-    CmdButton(CToolCustom *parent, unsigned id, const char *text);
-    unsigned id() { return m_id; }
-signals:
-    void command(CmdButton*);
-protected slots:
-    void click();
-protected:
-    QSize sizeHint() const;
-    QSize minimumSizeHint() const;
-    void paintEvent(QPaintEvent*);
-    void setText();
-    const char *m_text;
-    unsigned   m_id;
-};
 
 class MsgReceived : public QObject, public EventReceiver
 {
     Q_OBJECT
 public:
-    MsgReceived(CToolCustom *parent, Message *msg);
+    MsgReceived(MsgEdit *parent, Message *msg, bool bOpen);
 protected slots:
-    void command(CmdButton*);
-    void textChanged();
     void init();
 protected:
     void		*processEvent(Event*);
+	unsigned	m_type;
     unsigned	m_id;
     unsigned	m_contact;
     string		m_client;
-    MsgEdit	*m_edit;
+	bool		m_bOpen;
+    MsgEdit	    *m_edit;
+	Message		*m_msg;
 };
 
 #endif

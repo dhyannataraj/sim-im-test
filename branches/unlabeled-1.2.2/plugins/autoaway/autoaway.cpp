@@ -179,8 +179,8 @@ void *AutoAwayPlugin::processEvent(Event *e)
 
 #ifdef WIN32
 
-static unsigned oldX = (unsigned)(-1);
-static unsigned oldY = (unsigned)(-1);
+static int oldX = -1;
+static int oldY = -1;
 static time_t lastTime = 0;
 
 #endif
@@ -188,7 +188,6 @@ static time_t lastTime = 0;
 unsigned AutoAwayPlugin::getIdleTime()
 {
 #ifdef WIN32
-    unsigned idle_time = 0;
     if (_GetLastInputInfo == NULL){
         POINT p;
         GetCursorPos(&p);
@@ -240,7 +239,7 @@ unsigned AutoAwayPlugin::getIdleTime()
 /**
  * DLL's entry point
  **/
-int WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
+int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
 {
     return TRUE;
 }

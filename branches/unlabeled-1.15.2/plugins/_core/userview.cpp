@@ -457,7 +457,7 @@ void *UserView::processEvent(Event *e)
                 return e->param();
             }
             if (cmd->id == CmdOnline){
-                CorePlugin::m_plugin->setShowOnLine(cmd->flags & COMMAND_CHECKED);
+                CorePlugin::m_plugin->setShowOnLine((cmd->flags & COMMAND_CHECKED) != 0);
                 m_bShowOnline = (cmd->flags & COMMAND_CHECKED);
                 if (cmd->menu_id){
                     CommandDef c = *cmd;

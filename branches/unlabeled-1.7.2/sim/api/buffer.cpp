@@ -29,8 +29,23 @@
 #include <netinet/in.h>
 #endif
 
+#ifdef WIN32
+#if _MSC_VER > 1020
+#pragma warning(push)
+#pragma warning(disable: 4018)  
+#pragma warning(disable: 4663)  
+#endif
+#endif
+
 #include <vector>
 using namespace std;
+
+#ifdef WIN32
+#if _MSC_VER > 1020
+#pragma warning(pop)
+#endif
+#endif
+
 
 #ifdef WORDS_BIGENDIAN
 
@@ -46,7 +61,7 @@ using namespace std;
 
 Tlv::operator unsigned short ()
 {
-    return (m_nSize >= 2) ? htons(*((unsigned short*)m_data)) : 0;
+    return (unsigned short)((m_nSize >= 2) ? htons(*((unsigned short*)m_data)) : 0);
 }
 
 Tlv::operator unsigned long ()
@@ -153,7 +168,8 @@ void Buffer::unpack(string &s)
     unpack(size);
     s.erase();
     if (size == 0) return;
-    if (size > m_size - m_posRead) size = m_size - m_posRead;
+    if (size > m_size - m_posRead) 
+		size = (unsigned short)(m_size - m_posRead);
     s.append(size, '\x00');
     unpack((char*)s.c_str(), size);
 }
@@ -164,7 +180,8 @@ void Buffer::unpackStr(string &s)
     *this >> size;
     s.erase();
     if (size == 0) return;
-    if (size > m_size - m_posRead) size = m_size - m_posRead;
+    if (size > m_size - m_posRead) 
+		size = (unsigned short)(m_size - m_posRead);
     s.append(size, '\x00');
     unpack((char*)s.c_str(), size);
 }
@@ -188,7 +205,8 @@ Buffer &Buffer::operator >> (string &s)
     size = htons(size);
     s.erase();
     if (size){
-        if (size > m_size - m_posRead) size = m_size - m_posRead;
+        if (size > m_size - m_posRead) 
+			size = (unsigned short)(m_size - m_posRead);
         s.append(size, '\x00');
         unpack((char*)s.c_str(), size);
     }
@@ -250,7 +268,7 @@ void Buffer::unpack(unsigned long &c)
 
 void Buffer::pack(const string &s)
 {
-    unsigned short size = s.size();
+    unsigned short size = (unsigned short)(s.size());
     *this << size;
     pack(s.c_str(), size);
 }
@@ -276,7 +294,7 @@ void Buffer::packStr32(const char *s)
 
 Buffer &Buffer::operator << (const Buffer &b)
 {
-    unsigned short size = b.size() - b.readPos();
+    unsigned short size = unsigned short(b.size() - b.readPos());
     *this << (unsigned short)htons(size);
     pack(b.data(b.readPos()), size);
     return *this;
@@ -291,7 +309,7 @@ void Buffer::pack32(const Buffer &b)
 
 Buffer &Buffer::operator << (const string &s)
 {
-    unsigned short size = s.size() + 1;
+    unsigned short size = unsigned short(s.size() + 1);
     *this << (unsigned short)htons(size);
     pack(s.c_str(), size);
     return *this;
@@ -319,7 +337,7 @@ Buffer &Buffer::operator << (char c)
 
 Buffer &Buffer::operator << (bool b)
 {
-    char c = b ? 1 : 0;
+    char c = b ? (char)1 : (char)0;
     pack(&c, 1);
     return *this;
 }
@@ -340,7 +358,7 @@ Buffer &Buffer::operator << (unsigned long c)
 
 void Buffer::packScreen(const char *screen)
 {
-    char len = strlen(screen);
+    char len = (char)(strlen(screen));
     pack(&len, 1);
     pack(screen, len);
 }
@@ -379,7 +397,7 @@ void Buffer::tlv(unsigned short n, const char *data, unsigned short len)
 
 void Buffer::tlv(unsigned short n, const char *data)
 {
-    tlv(n, data, strlen(data));
+    tlv(n, data, (unsigned short)strlen(data));
 }
 
 void Buffer::tlv(unsigned short n, unsigned short c)
@@ -468,13 +486,11 @@ Tlv *TlvList::operator[](unsigned n)
 Buffer &Buffer::operator << (TlvList &tlvList)
 {
     listTlv *l = static_cast<listTlv*>(tlvList.m_tlv);
-    unsigned short size = 0;
+    unsigned size = 0;
     vector<Tlv*>::iterator it;
-    for (it = l->begin(); it != l->end(); it++){
-        size += 4;
-        size += (*it)->Size();
-    }
-    *this << size;
+    for (it = l->begin(); it != l->end(); it++)
+        size += (*it)->Size() + 4;
+    *this << (unsigned short)size;
     for (it = l->begin(); it != l->end(); it++){
         Tlv *tlv = *it;
         *this << tlv->Num() << tlv->Size();

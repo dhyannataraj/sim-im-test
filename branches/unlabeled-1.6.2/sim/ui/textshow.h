@@ -37,6 +37,16 @@
 #endif
 #endif
 
+class CToolBar;
+
+const unsigned TextCmdBase	= 0x00030000;
+const unsigned CmdBgColor	= TextCmdBase;
+const unsigned CmdFgColor	= TextCmdBase + 1;
+const unsigned CmdBold		= TextCmdBase + 2;
+const unsigned CmdItalic	= TextCmdBase + 3;
+const unsigned CmdUnderline	= TextCmdBase + 4;
+const unsigned CmdFont		= TextCmdBase + 5;
+
 class UI_EXPORT TextShow : public QTextEdit
 {
     Q_OBJECT
@@ -65,7 +75,7 @@ protected:
     bool linksEnabled() const { return true; }
 };
 
-class UI_EXPORT TextEdit : public TextShow
+class UI_EXPORT TextEdit : public TextShow, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -76,16 +86,30 @@ public:
     const QColor &foreground() const;
     void setForeground(const QColor&);
     void changeText();
+	void setParam(void*);
+	bool isEmpty();
 signals:
     void ctrlEnterPressed();
     void lostFocus();
+	void emptyChanged(bool);
+	void colorsChanged();
 protected slots:
+	void slotTextChanged();
     void slotColorChanged(const QColor &c);
+    void bgColorChanged(QColor c);
+    void fgColorChanged(QColor c);
+	void fontChanged(const QFont &f);
 protected:
+	void *processEvent(Event*);
     bool eventFilter(QObject *o, QEvent *e);
     void keyPressEvent(QKeyEvent *e);
+	void *m_param;
+	bool m_bBold;
+	bool m_bItalic;
+	bool m_bUnderline;
     QColor curFG;
     bool m_bCtrlMode;
+	bool m_bEmpty;
 };
 
 class QToolBar;
@@ -111,28 +135,10 @@ public:
     ColorPopup(QWidget *parent, QColor c);
 signals:
     void colorChanged(QColor color);
-    void colorCustom();
 protected slots:
     void colorSelected(int);
-};
-
-class UI_EXPORT ColorToolButton : public QToolButton
-{
-    Q_OBJECT
-public:
-    ColorToolButton(QWidget *parent, QColor color);
-    void setColor(QColor c);
-signals:
-    void colorChanged(QColor color);
-    void aboutToShow();
-protected slots:
-    void btnClicked();
-    void selectColor(QColor);
-    void selectCustom();
-    void closePopup();
 protected:
-    ColorPopup *m_popup;
-    QColor m_color;
+	QColor m_color;
 };
 
 class UI_EXPORT RichTextEdit : public QMainWindow
@@ -146,23 +152,9 @@ public:
     QTextEdit::TextFormat textFormat();
     void setReadOnly(bool bState);
     void showBar();
-protected slots:
-    void toggleBold(bool);
-    void toggleItalic(bool);
-    void toggleUnderline(bool);
-    void bgColorChanged(QColor);
-    void fgColorChanged(QColor);
-    void showFgPopup();
-    void fontChanged(const QFont&);
-    void selectFont();
 protected:
     TextEdit	*m_edit;
-    QToolBar	*m_bar;
-    ColorToolButton *btnBG;
-    ColorToolButton *btnFG;
-    QToolButton	*btnBold;
-    QToolButton	*btnItalic;
-    QToolButton	*btnUnderline;
+    CToolBar	*m_bar;
 };
 
 #endif

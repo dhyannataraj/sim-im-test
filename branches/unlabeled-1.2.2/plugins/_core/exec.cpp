@@ -105,8 +105,8 @@ void __cdecl ExecProcThread(LPVOID lpParameter)
     _STARTUPINFOA si;
     memset(&si, 0, sizeof(si));
     si.cb = sizeof(si);
-    si.dwX = CW_USEDEFAULT;
-    si.dwY = CW_USEDEFAULT;
+    si.dwX = (unsigned)CW_USEDEFAULT;
+    si.dwY = (unsigned)CW_USEDEFAULT;
     si.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
     si.wShowWindow = SW_HIDE;
 
@@ -328,9 +328,16 @@ void Exec::execute(const char *prg, const char *input)
 #endif
 }
 
+#ifdef WIN32
+
+void Exec::childExited(int, int)
+{
+}
+
+#else
+
 void Exec::childExited(int pid, int status)
 {
-#ifndef WIN32
     if (pid != child_pid) return;
     result = status;
     if (hIn != -1) close(hIn);
@@ -343,8 +350,9 @@ void Exec::childExited(int pid, int status)
         if (hErr != -1) close(hErr);
     }
     finished();
-#endif
 }
+
+#endif
 
 void Exec::inReady(int)
 {

@@ -357,7 +357,7 @@ void MSNClient::getLine(const char *line)
         if (type == "NS"){
             l = getToken(l, ' ');				// from
             QString host = getToken(l, ':');
-            unsigned port = l.toUInt();
+            unsigned short port = l.toUShort();
             if (host.isEmpty() || (port == 0)){
                 log(L_WARN, "Bad host on XFR");
                 m_socket->error_state(I18N_NOOP("MSN protocol error"));
@@ -906,17 +906,6 @@ void MSNClient::setupContact(Contact *contact, void *_data)
     }
 }
 
-static char fromHex(char c)
-{
-    if ((c >= '0') && (c <= '9'))
-        return c - '0';
-    if ((c >= 'A') && (c <= 'F'))
-        return c - 'A' + 10;
-    if ((c >= 'a') && (c <= 'f'))
-        return c - 'a' + 10;
-    return 0;
-}
-
 QString MSNClient::unquote(const QString &s)
 {
     QString res;
@@ -929,10 +918,7 @@ QString MSNClient::unquote(const QString &s)
         i++;
         if (i + 2 > (int)(s.length()))
             break;
-        char cc = 0;
-        cc = fromHex(s[i++]) << 4;
-        cc += fromHex(s[i]);
-        res += QChar(cc);
+        res += QChar((char)((fromHex(s[i++]) << 4) + fromHex(s[i])));
     }
     return res;
 }
@@ -1061,7 +1047,7 @@ MSNUserData *MSNClient::findGroup(unsigned long id, const char *name, Group *&gr
         set_str(&res->ScreenName, name);
         return res;
     }
-    grp = getContacts()->group(0, this);
+    grp = getContacts()->group(0, true);
     MSNUserData *res = (MSNUserData*)(grp->clientData.createData(this));
     res->Group = id;
     set_str(&res->ScreenName, name);
@@ -1634,10 +1620,10 @@ void SBSocket::connect(const char *addr, const char *session, const char *cookie
     m_cookie = cookie;
     m_session = session;
     string ip = addr;
-    unsigned port = 0;
+    unsigned short port = 0;
     int n = ip.find(':');
     if (n > 0){
-        port = atol(ip.substr(n + 1).c_str());
+        port = (unsigned short)atol(ip.substr(n + 1).c_str());
         ip = ip.substr(0, n);
     }
     if (port == 0){
@@ -1847,24 +1833,6 @@ static STR_VALUES parseValues(const char *str)
     return res;
 }
 
-static unsigned fromHex(const char *p)
-{
-    unsigned res = 0;
-    for (; *p; p++){
-        char r = 0;
-        char c = *p;
-        if ((c >= '0') && (c <= '9')){
-            r = c - '0';
-        }else if ((c >= 'A') && (c <= 'F')){
-            r = c - 'A' + 10;
-        }else if ((c >= 'a') && (c <= 'f')){
-            r = c - 'a' + 10;
-        }
-        res = (res << 4) + r;
-    }
-    return res;
-}
-
 static char FT_GUID[] = "{5D3E02AB-6190-11d3-BBBB-00C04F795683}";
 
 void SBSocket::messageReady()
@@ -1916,10 +1884,8 @@ void SBSocket::messageReady()
                     font += ", underline";
             }
             it = v.find("CO");
-            if (it != v.end()){
-                color = fromHex((*it).second.c_str());
-                bColor = true;
-            }
+            if (it != v.end())
+                color = QString((*it).second.c_str()).toULong(&bColor, 16);
             continue;
         }
         if (key == "TypingUser"){
@@ -1969,8 +1935,8 @@ void SBSocket::messageReady()
         string code;
         string ip_address;
         string ip_address_internal;
-        unsigned port = 0;
-        unsigned port_x = 0;
+        unsigned short port = 0;
+        unsigned short port_x = 0;
         unsigned cookie = 0;
         unsigned auth_cookie = 0;
         unsigned fileSize = 0;
@@ -2018,11 +1984,11 @@ void SBSocket::messageReady()
                 continue;
             }
             if (key == "Port"){
-                port = atol(trim(line.c_str()).c_str());
+                port = (unsigned short)atol(trim(line.c_str()).c_str());
                 continue;
             }
             if (key == "PortX"){
-                port_x = atol(trim(line.c_str()).c_str());
+                port_x = (unsigned short)atol(trim(line.c_str()).c_str());
                 continue;
             }
             if (key == "AuthCookie"){
@@ -2422,7 +2388,7 @@ void MSNFileTransfer::connect()
     error_state(I18N_NOOP("Can't established direct connection"), 0);
 }
 
-bool MSNFileTransfer::error_state(const char *err, unsigned code)
+bool MSNFileTransfer::error_state(const char *err, unsigned)
 {
     if (m_state == ConnectIP1){
         connect();
@@ -2647,8 +2613,8 @@ void MSNFileTransfer::write_ready()
     m_socket->writeBuffer.packetStart();
     char buf[MAX_FT_PACKET + 3];
     buf[0] = 0;
-    buf[1] = tail & 0xFF;
-    buf[2] = (tail >> 8) & 0xFF;
+    buf[1] = (char)(tail & 0xFF);
+    buf[2] = (char)((tail >> 8) & 0xFF);
     int readn = m_file->readBlock(&buf[3], tail);
     if (readn <= 0){
         m_socket->error_state("Read file error");

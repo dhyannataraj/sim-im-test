@@ -191,7 +191,7 @@ void ICQSearch::changed()
         chkOnline->setEnabled(true);
         break;
     case 2:
-        bSearch = edtUin->text().length();
+        bSearch = !edtUin->text().isEmpty();
         chkOnline->show();
         chkOnline->setEnabled(false);
         break;
@@ -200,7 +200,7 @@ void ICQSearch::changed()
         chkOnline->hide();
         break;
     case 4:
-        bSearch = edtScreen->text().length();
+        bSearch = !edtScreen->text().isEmpty();
         chkOnline->hide();
         break;
     }
@@ -234,12 +234,12 @@ void ICQSearch::startSearch()
     switch (tabSearch->currentPageIndex()){
     case 0:{
             string mail = getString(edtEmail);
-            unsigned age = getComboValue(cmbAge, ages);
-            unsigned gender = getComboValue(cmbGender, p_genders);
-            unsigned language = getComboValue(cmbLang, p_languages);
+            char age = (char)getComboValue(cmbAge, ages);
+            char gender = (char)getComboValue(cmbGender, p_genders);
+            char language = (char)getComboValue(cmbLang, p_languages);
             string city = getString(edtCity);
             string state = getString(edtState);
-            unsigned country = getComboValue(cmbCountry, getCountries());
+            unsigned short country = getComboValue(cmbCountry, getCountries());
             string company = getString(edtCompany);
             string department = getString(edtDepartment);
             string interests = getString(edtInterests);
@@ -349,7 +349,7 @@ extern const ext_info *p_languages;
 
 void *ICQSearch::processEvent(Event *e)
 {
-    if (e->type() == static_cast<ICQPlugin*>(m_client->protocol()->plugin())->EventRandomChat){
+    if (e->type() == EventRandomChat){
         m_randomUin = (unsigned)(e->param());
         if (m_randomUin == 0){
             edtStatus->setText(i18n("Search fail"));
@@ -365,7 +365,7 @@ void *ICQSearch::processEvent(Event *e)
         }
         return this;
     }
-    if (e->type() == static_cast<ICQPlugin*>(m_client->protocol()->plugin())->EventRandomChatInfo){
+    if (e->type() == EventRandomChatInfo){
         ICQUserData *data = (ICQUserData*)(e->param());
         if (data->Uin != m_randomUin)
             return NULL;

@@ -117,7 +117,7 @@ void PastInfo::fill()
     while (str.length()){
         QString info = getToken(str, ';', false);
         QString n = getToken(info, ',');
-        unsigned category = atol(n.latin1());
+        unsigned short category = (unsigned short)atol(n.latin1());
         switch (i){
         case 0:
             edtBg1->setText(info);
@@ -152,7 +152,7 @@ void PastInfo::fill()
     while (str.length()){
         QString info = getToken(str, ';', false);
         QString n = getToken(info, ',');
-        unsigned category = atol(n.latin1());
+        unsigned short category = (unsigned short)atol(n.latin1());
         switch (i){
         case 0:
             edtAf1->setText(info);
@@ -195,7 +195,7 @@ void PastInfo::cmbBgChanged(int)
     unsigned n = 0;
     unsigned i;
     for (i = 0; i < 3; i++){
-        int value = getComboValue(cmbs[i], pasts);
+        unsigned short value = getComboValue(cmbs[i], pasts);
         if (value){
             if (i != n){
                 cmbs[n]->setEnabled(true);
@@ -228,7 +228,7 @@ void PastInfo::cmbAfChanged(int)
     unsigned n = 0;
     unsigned i;
     for (i = 0; i < 3; i++){
-        int value = getComboValue(cmbs[i], affilations);
+        unsigned short value = getComboValue(cmbs[i], affilations);
         if (value){
             if (i != n){
                 cmbs[n]->setEnabled(true);

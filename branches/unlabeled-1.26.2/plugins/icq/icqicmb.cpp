@@ -68,7 +68,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             ICQUserData *data = findContact(screen.c_str(), NULL, false, contact);
             if (data == NULL)
                 break;
-            if ((bool)(data->bTyping) == bType)
+            if ((data->bTyping != 0) == bType)
                 break;
             data->bTyping = bType;
             Event e(EventContactStatus, contact);
@@ -181,7 +181,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             unsigned short oldLevel, newLevel;
             m_socket->readBuffer >> oldLevel >> newLevel;
             WarningMessage *msg = static_cast<WarningMessage*>(m_send.msg);
-            msg->setOldLevel(newLevel - oldLevel);
+            msg->setOldLevel((unsigned short)(newLevel - oldLevel));
             msg->setNewLevel(newLevel);
             ackMessage(m_send);
         }
@@ -208,7 +208,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                     if (m_send.msg->type() == MessageCheckInvisible){
                         Contact *contact;
                         ICQUserData *data = findContact(m_send.screen.c_str(), NULL, false, contact);
-                        if (data && !(bool)(data->bInvisible)) {
+                        if (data && (data->bInvisible == 0)) {
                             data->bInvisible = true;
                             Event e(EventContactStatus, contact);
                             e.process();
@@ -341,14 +341,14 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                     if (m_tlv->Size() <= 4)
                         break;
                     char *m_data = (*m_tlv);
-                    unsigned short encoding = (m_data[0] << 8) + m_data[1];
+                    unsigned short encoding = (unsigned short)((m_data[0] << 8) + m_data[1]);
                     m_data += 4;
                     if (encoding == 2){
                         QString text;
                         for (int i = 0; i < m_tlv->Size() - 5; i += 2){
                             unsigned char r1 = *(m_data++);
                             unsigned char r2 = *(m_data++);
-                            unsigned short c = (r1 << 8) + r2;
+                            unsigned short c = (unsigned short)((r1 << 8) + r2);
                             text += QChar(c);
                         }
                         Message *msg = new Message(MessageGeneric);
@@ -539,14 +539,14 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
 void ICQClient::sendThroughServer(const char *screen, unsigned short channel, Buffer &b, const MessageId &id, bool bOffline)
 {
     // we need informations about channel 2 tlvs !
-    int tlv_type = 5;
+    unsigned short tlv_type = 5;
     snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_SENDxSERVER);
     m_socket->writeBuffer << id.id_l << id.id_h;
     m_socket->writeBuffer << channel;
     m_socket->writeBuffer.packScreen(screen);
     if (channel == 1)
         tlv_type = 2;
-    m_socket->writeBuffer.tlv(tlv_type,b);
+    m_socket->writeBuffer.tlv(tlv_type, b);
     m_socket->writeBuffer.tlv(3);		// req. ack from server
     if (bOffline)
         m_socket->writeBuffer.tlv(6);	// store if user is offline
@@ -555,15 +555,15 @@ void ICQClient::sendThroughServer(const char *screen, unsigned short channel, Bu
 
 static char c2h(char c)
 {
-    c = c & 0xF;
+    c = (char)(c & 0xF);
     if (c < 10)
-        return '0' + c;
-    return 'A' + c - 10;
+        return (char)('0' + c);
+    return (char)('A' + c - 10);
 }
 
 static void b2h(char *&p, char c)
 {
-    *(p++) = c2h(c >> 4);
+    *(p++) = c2h((char)(c >> 4));
     *(p++) = c2h(c);
 }
 
@@ -762,7 +762,7 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &msg, bool needA
         log(L_DEBUG, "Setup reverse connect to %s %s:%u", screen, inet_ntoa(addr), localPort);
         DirectClient *direct = new DirectClient(data, this);
         m_sockets.push_back(direct);
-        direct->reverseConnect(localIP, localPort);
+        direct->reverseConnect(localIP, (unsigned short)localPort);
         return;
     }
 
@@ -953,7 +953,7 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &msg, bool needA
                     }
                     if (it == replyQueue.end()){
                         bool bAccept = true;
-                        unsigned ackFlags = 0;
+                        unsigned short ackFlags = 0;
                         if (m->type() != MessageICQFile){
                             switch (getStatus()){
                             case STATUS_DND:
@@ -1056,7 +1056,7 @@ void ICQClient::sendAutoReply(const char *screen, MessageId id,
         Contact *contact;
         ICQUserData *data = findContact(screen, NULL, false, contact);
         string r = fromUnicode(QString::fromUtf8(response), data);
-        unsigned short size = r.length() + 1;
+        unsigned short size = (unsigned short)(r.length() + 1);
         m_socket->writeBuffer.pack(size);
         m_socket->writeBuffer.pack(r.c_str(), size);
     }else{
@@ -1195,7 +1195,7 @@ void ICQClient::processSendQueue()
             }
 
             Buffer msgBuf;
-            unsigned short size = text.length() + 1;
+            unsigned short size  = (unsigned short)(text.length() + 1);
             unsigned short flags = ICQ_TCPxMSG_NORMAL;
             if (m_send.msg->getFlags() & MESSAGE_URGENT)
                 flags = ICQ_TCPxMSG_URGENT;
@@ -1305,8 +1305,8 @@ void ICQClient::sendType1(const QString &text, bool bWide, ICQUserData *data)
         string msg_text;
         for (int i = 0; i < (int)text.length(); i++){
             unsigned short c = text[i].unicode();
-            char c1 = (c >> 8) & 0xFF;
-            char c2 = c & 0xFF;
+            char c1 = (char)((c >> 8) & 0xFF);
+            char c2 = (char)(c & 0xFF);
             msg_text += c1;
             msg_text += c2;
         }
@@ -1363,7 +1363,7 @@ void ICQClient::accept(Message *msg, ICQUserData *data)
         unsigned short type = ICQ_MSGxEXT;
         packMessage(b, msg, data, type, 0);
         unsigned cookie  = static_cast<ICQFileMessage*>(msg)->getCookie();
-        sendAdvMessage(screen(data).c_str(), b, PLUGIN_NULL, id, false, false, true, cookie & 0xFFFF, (cookie >> 16) & 0xFFFF, 2);
+        sendAdvMessage(screen(data).c_str(), b, PLUGIN_NULL, id, false, false, true, (unsigned short)(cookie & 0xFFFF), (unsigned short)((cookie >> 16) & 0xFFFF), 2);
     }
 }
 
@@ -1459,7 +1459,7 @@ void ICQClient::decline(Message *msg, const char *reason)
             b.pack(buf.data(0), buf.size());
             b.pack32(msgBuf);
             unsigned short type = ICQ_MSGxEXT;
-            sendAutoReply(screen(data).c_str(), id, plugins[PLUGIN_NULL], cookie & 0xFFFF, (cookie >> 16) & 0xFFFF, type, 1, 0, reason, 2, b);
+            sendAutoReply(screen(data).c_str(), id, plugins[PLUGIN_NULL], (unsigned short)(cookie & 0xFFFF), (unsigned short)((cookie >> 16) & 0xFFFF), type, 1, 0, reason, 2, b);
         }
     }
     Event e(EventMessageDeleted, msg);

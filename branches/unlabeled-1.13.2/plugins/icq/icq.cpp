@@ -492,26 +492,6 @@ ICQPlugin::ICQPlugin(unsigned base, const char *cfg)
     icon.xpm = aim_away;
     eIcon.process();
 
-    EventSearch = EventUser + registerType();
-    EventSearchDone = EventUser + registerType();
-    EventAutoReplyFail = EventUser + registerType();
-    EventRandomChat = EventUser + registerType();
-    EventRandomChatInfo = EventUser + registerType();
-    EventServiceReady = EventUser + registerType();
-    MenuEncoding = registerType();
-    MenuSearchResult = registerType();
-    MenuGroups = registerType();
-
-    CmdVisibleList = registerType();
-    CmdInvisibleList = registerType();
-    CmdChangeEncoding = registerType();
-    CmdAllEncodings = registerType();
-    CmdSendMessage = registerType();
-    CmdGroups = registerType();
-    CmdCheckInvisibleAll = registerType();
-    CmdCheckInvisible  = registerType();
-    MenuCheckInvisible = registerType();
-
     m_icq = new ICQProtocol(this);
     m_aim = new AIMProtocol(this);
 
@@ -519,7 +499,7 @@ ICQPlugin::ICQPlugin(unsigned base, const char *cfg)
     eMenuEncoding.process();
     Event eMenuSearch(EventMenuCreate, (void*)MenuSearchResult);
     eMenuSearch.process();
-    Event eMenuGroups(EventMenuCreate, (void*)MenuGroups);
+    Event eMenuGroups(EventMenuCreate, (void*)MenuIcqGroups);
     eMenuGroups.process();
     Event eMenuCheckInvisible(EventMenuCreate, (void*)MenuCheckInvisible);
     eMenuCheckInvisible.process();
@@ -571,7 +551,7 @@ ICQPlugin::ICQPlugin(unsigned base, const char *cfg)
     cmd->popup_id	 = MenuEncoding;
     eCmd.process();
 
-    cmd->id			 = CmdSendMessage;
+    cmd->id			 = CmdIcqSendMessage;
     cmd->text		 = I18N_NOOP("&Message");
     cmd->icon		 = "message";
     cmd->menu_id	 = MenuSearchResult;
@@ -591,12 +571,12 @@ ICQPlugin::ICQPlugin(unsigned base, const char *cfg)
     cmd->text		 = I18N_NOOP("&Add to group");
     cmd->icon		 = NULL;
     cmd->menu_grp	 = 0x1002;
-    cmd->popup_id	 = MenuGroups;
+    cmd->popup_id	 = MenuIcqGroups;
     eCmd.process();
 
     cmd->id			 = CmdGroups;
     cmd->text		 = "_";
-    cmd->menu_id	 = MenuGroups;
+    cmd->menu_id	 = MenuIcqGroups;
     cmd->flags		 = COMMAND_CHECK_STATE;
     eCmd.process();
 
@@ -667,7 +647,7 @@ ICQPlugin::~ICQPlugin()
     Event eMenuSearch(EventMenuRemove, (void*)MenuSearchResult);
     eMenuSearch.process();
 
-    Event eMenuGroups(EventMenuRemove, (void*)MenuGroups);
+    Event eMenuGroups(EventMenuRemove, (void*)MenuIcqGroups);
     eMenuGroups.process();
 
     Event eMenuCheckInvisible(EventMenuRemove, (void*)MenuCheckInvisible);
@@ -685,7 +665,7 @@ string ICQPlugin::getConfig()
 /**
  * DLL's entry point
  **/
-int WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
+int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
 {
     return TRUE;
 }

@@ -107,7 +107,7 @@ void ICQClient::chn_login()
     if (m_cookie.size()){
         flap(ICQ_CHNxNEW);
         m_socket->writeBuffer << 0x00000001L;
-        m_socket->writeBuffer.tlv(6, m_cookie.data(), m_cookie.size());
+        m_socket->writeBuffer.tlv(6, m_cookie.data(), (unsigned short)(m_cookie.size()));
         m_cookie.init(0);
         sendPacket();
         return;
@@ -119,7 +119,7 @@ void ICQClient::chn_login()
         sprintf(uin, "%lu", data.owner.Uin);
 
         flap(ICQ_CHNxNEW);
-        int n = 0;
+        unsigned short n = 0;
         char pass[16];
         for (const char *p = pswd.c_str(); *p && n < 16; p++){
             if (*p != '\\'){
@@ -169,7 +169,7 @@ void ICQClient::chn_login()
     << 0x00000000L << 0x00000000L << 0x00000000L
     << 0x00000000L;
     string pswd = fromUnicode(getPassword(), &data.owner);
-    unsigned short len = pswd.length() + 1;
+    unsigned short len = (unsigned short)(pswd.length() + 1);
     msg.pack(len);
     msg.pack(pswd.c_str(), len);
     msg << 0x94680000L << 0x00000602L;
@@ -259,7 +259,7 @@ void ICQClient::chn_close()
     *port = 0;
     port++;
     m_socket->close();
-    m_socket->connect(host, atol(port), this);
+    m_socket->connect(host, (unsigned short)atol(port), this);
     m_cookie.init(0);
     m_cookie.pack(*tlv_cookie, tlv_cookie->Size());
 }

@@ -58,10 +58,7 @@
 #include <kglobal.h>
 #endif
 
-#include <list>
-#include <map>
-#include <vector>
-using namespace std;
+#include "stl.h"
 
 // _____________________________________________________________________________________
 
@@ -838,7 +835,7 @@ EXPORT int strcasecmp(const char *a, const char *b)
 /**
  * DLL's entry point
  **/
-int WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
+int WINAPI DllMain(HINSTANCE, DWORD dwReason, LPVOID)
 {
 #if defined(_MSC_VER) && defined(_DEBUG) && !defined(NO_CHECK_NEW)
     if (dwReason == DLL_PROCESS_DETACH){

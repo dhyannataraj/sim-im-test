@@ -29,7 +29,6 @@ SMSConfig::SMSConfig(QWidget *parent, void *_data)
         edtBefore->setText(QString::fromUtf8(data->SMSSignatureBefore));
     if (data->SMSSignatureAfter)
         edtAfter->setText(QString::fromUtf8(data->SMSSignatureAfter));
-    chkTranslit->setChecked(data->SMSTranslit);
 }
 
 void SMSConfig::apply(void *_data)
@@ -37,7 +36,6 @@ void SMSConfig::apply(void *_data)
     SMSUserData *data = (SMSUserData*)(_data);
     set_str(&data->SMSSignatureBefore, edtBefore->text().utf8());
     set_str(&data->SMSSignatureAfter, edtAfter->text().utf8());
-    data->SMSTranslit = chkTranslit->isChecked();
 }
 
 #ifndef WIN32

@@ -249,7 +249,7 @@ void HistoryFileIterator::loadBlock(bool bUp)
         while (getLine(file, line)){
             if (line[0] != '['){
                 if (type.empty()){
-                    if (file.at() > blockEnd)
+                    if ((unsigned)(file.at()) > blockEnd)
                         break;
                 }else{
                     if (!cfg.empty())

@@ -171,7 +171,7 @@ void MonitorWindow::adjustLog()
     menuLog->insertSeparator();
     for (const level_def *d = levels; d->name; d++){
         menuLog->insertItem(i18n(d->name), d->level);
-        menuLog->setItemChecked(d->level, m_plugin->getLogLevel() & d->level);
+        menuLog->setItemChecked(d->level, (m_plugin->getLogLevel() & d->level) != 0);
     }
 }
 

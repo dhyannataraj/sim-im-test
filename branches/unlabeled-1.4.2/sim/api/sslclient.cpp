@@ -374,7 +374,7 @@ void SSLClient::write()
     process();
 }
 
-void SSLClient::connect(const char *host, int port)
+void SSLClient::connect(const char *host, unsigned short port)
 {
     sock->connect(host, port);
 }

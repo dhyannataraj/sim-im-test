@@ -860,7 +860,7 @@ void remove_str_ncase(string& s, const string &str)
     remove_str(s, str);
     string lo_str;
     for (const char *p = str.c_str(); *p; p++)
-        lo_str += tolower(*p);
+        lo_str += (char)tolower(*p);
     remove_str(s, lo_str);
 }
 

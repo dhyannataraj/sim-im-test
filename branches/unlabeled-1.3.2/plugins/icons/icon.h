@@ -19,9 +19,7 @@
 #define _ICON_H
 
 #include "simapi.h"
-
-#include <map>
-using namespace std;
+#include "stl.h"
 
 typedef struct IconsData
 {
