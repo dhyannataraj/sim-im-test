@@ -509,7 +509,7 @@ Words can contain wildcards:
                         </property>
                         <property>
                             <name>text</name>
-                            <string>&amp;No show login dialog at start</string>
+                            <string>&amp;Do not show login dialog at start</string>
                         </property>
                     </widget>
                 </grid>
