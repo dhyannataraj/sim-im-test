@@ -108,7 +108,7 @@ static const tag_def defs[] =
 QString parseText(const string &text, bool bIgnoreColors, bool bUseSmiles)
 {
     if (text.size() == 0) return "";
-    yy_current_buffer = yy_scan_string(text.c_str());
+    YY_BUFFER_STATE yy_current_buffer = yy_scan_string(text.c_str());
     char *p;
     string res;
     string tag;

@@ -68,7 +68,7 @@ int yywrap() { return 1; }
 EXPORT string SIM::unquoteText(const char *text)
 {
 	char *p;
-    yy_current_buffer = yy_scan_string(text);
+    YY_BUFFER_STATE yy_current_buffer = yy_scan_string(text);
     string res;
     for (;;){
         int r = yylex();
