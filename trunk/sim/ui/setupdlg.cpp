@@ -134,6 +134,11 @@ SetupDialog::~SetupDialog()
     transparent = NULL;
 }
 
+void SetupDialog::showPage(int nWin)
+{
+    tabBars->raiseWidget(nWin);
+}
+
 void SetupDialog::iconChanged()
 {
     setIcon(Pict("configure"));

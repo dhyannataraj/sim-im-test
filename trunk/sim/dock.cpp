@@ -218,8 +218,6 @@ DockWnd::DockWnd(QWidget *main)
     connect(this, SIGNAL(toggleWin()), main, SLOT(toggleShow()));
     connect(this, SIGNAL(showPopup(QPoint)), main, SLOT(showPopup(QPoint)));
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
-    connect(pClient, SIGNAL(messageRead(ICQMessage*)), this, SLOT(messageRead(ICQMessage*)));
-    connect(pClient, SIGNAL(messageReceived(ICQMessage*)), this, SLOT(messageReceived(ICQMessage*)));
     connect(pMain, SIGNAL(iconChanged()), this, SLOT(reset()));
     m_state = 0;
     showIcon = State;
@@ -311,25 +309,7 @@ DockWnd::DockWnd(QWidget *main)
         show();
     }
 #endif
-    loadUnread();
     reset();
-}
-
-void DockWnd::loadUnread()
-{
-    messages.clear();
-    for (list<ICQUser*>::iterator it = pClient->contacts.users.begin(); it != pClient->contacts.users.end(); it++){
-        if ((*it)->unreadMsgs.size() == 0) continue;
-        History h((*it)->Uin);
-        for (list<unsigned long>::iterator msgs = (*it)->unreadMsgs.begin(); msgs != (*it)->unreadMsgs.end(); msgs++){
-            ICQMessage *msg = h.getMessage(*msgs);
-            if (msg == NULL) continue;
-            unread_msg m(msg);
-            messages.push_back(m);
-            if (msg->Id < MSG_PROCESS_ID)
-                delete msg;
-        }
-    }
 }
 
 DockWnd::~DockWnd()
@@ -405,7 +385,7 @@ void DockWnd::timer()
     ShowIcon needIcon = State;
     bool bBlinked = (pClient->m_state != ICQClient::Logoff) && (pClient->m_state != ICQClient::Logged);
     unsigned short msgType = 0;
-    if (messages.size()) msgType = messages.back().type();
+    if (pMain->messages.size()) msgType = pMain->messages.back().type();
     switch (m_state){
     case 1:
         if (msgType){
@@ -463,72 +443,17 @@ void DockWnd::timer()
 
 void DockWnd::processEvent(ICQEvent *e)
 {
-    if ((e->type() == EVENT_INFO_CHANGED) && (e->Uin() == 0)){
-        loadUnread();
-        timer();
-        return;
-    }
     if ((e->type() == EVENT_STATUS_CHANGED) && (e->Uin() == pClient->Uin)){
         showIcon = Unknown;
+		reset();
         timer();
     }
-}
-
-void DockWnd::messageRead(ICQMessage *msg)
-{
-    unread_msg m(msg);
-    messages.remove(m);
-    reset();
-}
-
-void DockWnd::messageReceived(ICQMessage *msg)
-{
-    unread_msg m(msg);
-    ICQUser *u = pClient->getUser(msg->getUin());
-    if (u == NULL) return;
-    list<unsigned long>::iterator it;
-    for (it = u->unreadMsgs.begin(); it != u->unreadMsgs.end(); it++)
-        if ((*it) == msg->Id) break;
-    if (it == u->unreadMsgs.end()) return;
-    messages.push_back(m);
-    reset();
-}
-
-typedef struct msgInfo
-{
-    unsigned long uin;
-    unsigned short type;
-    unsigned count;
-    bool operator < (const msgInfo &m) const;
-} msgInfo;
-
-bool msgInfo::operator < (const msgInfo &m) const
-{
-    if (uin < m.uin) return true;
-    if (uin > m.uin) return false;
-    return type < m.type;
 }
 
 void DockWnd::reset()
 {
     list<msgInfo> msgs;
-    for (list<unread_msg>::iterator it = messages.begin(); it != messages.end(); ++it){
-        list<msgInfo>::iterator it_msg;
-        for (it_msg = msgs.begin(); it_msg != msgs.end(); ++it_msg)
-            if (((*it_msg).uin == (*it).uin()) && ((*it_msg).type == (*it).type()))
-                break;
-        if (it_msg != msgs.end()){
-            (*it_msg).count++;
-            continue;
-        }
-        msgInfo info;
-        info.uin = (*it).uin();
-        info.type = (*it).type();
-        info.count = 1;
-        msgs.push_back(info);
-    }
-    msgs.sort();
-
+	pMain->fillUnread(msgs);
     QString s;
     if (msgs.size()){
         QStringList str;

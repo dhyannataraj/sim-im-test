@@ -32,19 +32,6 @@ class KPopupMenu;
 class ICQEvent;
 class ICQMessage;
 
-class unread_msg
-{
-public:
-    unread_msg(ICQMessage *msg);
-    unsigned short type() { return m_type; }
-    unsigned long uin() { return m_uin; }
-    bool operator == (const unread_msg &msg) const { return (m_uin == msg.m_uin) && (m_id == msg.m_id); }
-protected:
-    unsigned long  m_uin;
-    unsigned long  m_id;
-    unsigned short m_type;
-};
-
 class WharfIcon;
 
 class DockWnd : public QWidget
@@ -60,15 +47,13 @@ signals:
     void showPopup(QPoint);
     void toggleWin();
     void doubleClicked();
+public slots:
+    void reset();
 protected slots:
     void processEvent(ICQEvent*);
-    void messageRead(ICQMessage*);
-    void messageReceived(ICQMessage*);
     void timer();
     void toggle();
-    void reset();
 protected:
-    list<unread_msg> messages;
     enum ShowIcon
     {
         State,
@@ -85,7 +70,6 @@ protected:
     virtual void mouseDoubleClickEvent( QMouseEvent *e);
     void setIcon(const QPixmap&);
     void setTip(const QString&);
-    void loadUnread();
 #if !defined(WIN32) 
     WharfIcon *wharfIcon;
 #endif

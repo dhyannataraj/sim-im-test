@@ -80,6 +80,7 @@ const int mnuSound = 35;
 const int mnuSecureOn = 36;
 const int mnuSecureOff = 37;
 const int mnuGrpTitle = 0x10000;
+const int mnuPopupStatus = 0x20000;
 
 const unsigned long mnuGroupVisible = 0x10001;
 const unsigned long mnuGroupInvisible = 0x10002;
@@ -97,6 +98,28 @@ class ICQEvent;
 class QDialog;
 class KAboutKDE;
 class HotKeys;
+
+class unread_msg
+{
+public:
+    unread_msg(ICQMessage *msg);
+    unsigned short type() { return m_type; }
+    unsigned long uin() { return m_uin; }
+    bool operator == (const unread_msg &msg) const { return (m_uin == msg.m_uin) && (m_id == msg.m_id); }
+protected:
+    unsigned long  m_uin;
+    unsigned long  m_id;
+    unsigned short m_type;
+};
+
+typedef struct msgInfo
+{
+    unsigned long  uin;
+    unsigned short type;
+    unsigned	   count;
+	int			   menuId;
+    bool operator < (const msgInfo &m) const;
+} msgInfo;
 
 class MainWindow : public QMainWindow, public ConfigArray
 {
@@ -258,6 +281,9 @@ public:
     static QString ParseText(const char *t, bool bIgnoreColors);
 
     static const char *sound(const char *wav);
+
+	void fillUnread(list<msgInfo> &msgs);
+    list<unread_msg> messages;
 signals:
     void modeChanged(bool);
     void transparentChanged();
@@ -284,6 +310,7 @@ public slots:
     void showUserPopup(unsigned long uin, QPoint, QPopupMenu*, const QRect&);
     void userFunction(int);
     void userFunction(unsigned long uin, int, unsigned long param=0);
+	void showUser(int);
     void goURL(const char*);
     void sendMail(unsigned long);
     void sendMail(const char*);
@@ -301,6 +328,7 @@ protected slots:
     void blink();
     void processEvent(ICQEvent*);
     void messageReceived(ICQMessage *msg);
+    void messageRead(ICQMessage*);
     void dockDblClicked();
     void setPhoneLocation(int);
     void setPhoneStatus(int);
@@ -316,11 +344,13 @@ protected slots:
     void timerExpired();
     void currentDesktopChanged(int);
     void adjustGroupsMenu();
+	void adjustFucntionMenu();
 protected:
+	list<msgInfo> menuMsgs;
+	void loadUnread();
+
     char realTZ;
-
     int lockFile;
-
     bool bBlinkState;
 
     list<UserFloat*> floating;

@@ -32,6 +32,7 @@ fulldirectory=
 SubDir0=<TARGETDIR>\Sounds
 SubDir1=<TARGETDIR>\Icons
 SubDir2=<TARGETDIR>\po
+SubDir3=<TARGETDIR>\Pict
 TYPE=TEXTSUBFIXED
 
 [<TARGETDIR>\Sounds]
@@ -43,6 +44,10 @@ fulldirectory=
 TYPE=FOLDER
 
 [<TARGETDIR>\po]
+fulldirectory=
+TYPE=FOLDER
+
+[<TARGETDIR>\Pict]
 fulldirectory=
 TYPE=FOLDER
 

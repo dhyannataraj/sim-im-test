@@ -43,6 +43,7 @@
 #include "about.h"
 #include "splash.h"
 #include "keys.h"
+#include "history.h"
 
 #ifndef _WINDOWS
 #include <pwd.h>
@@ -302,6 +303,7 @@ MainWindow::MainWindow(const char *name)
     pClient = new Client(this);
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     connect(pClient, SIGNAL(messageReceived(ICQMessage*)), this, SLOT(messageReceived(ICQMessage*)));
+    connect(pClient, SIGNAL(messageRead(ICQMessage*)), this, SLOT(messageRead(ICQMessage*)));
 
     menuStatus = new QPopupMenu(this);
     menuStatus->setCheckable(true);
@@ -328,6 +330,8 @@ MainWindow::MainWindow(const char *name)
 
     menuFunction = new KPopupMenu(this);
     menuFunction->setCheckable(true);
+	connect(menuFunction, SIGNAL(aboutToShow()), this, SLOT(adjustFucntionMenu()));
+	connect(menuFunction, SIGNAL(activated(int)), this, SLOT(showUser(int)));
 
     menuContainers = new QPopupMenu(this);
     connect(menuContainers, SIGNAL(activated(int)), this, SLOT(toContainer(int)));
@@ -439,6 +443,26 @@ void MainWindow::toggleOnTop()
 {
     OnTop = !OnTop();
     setOnTop();
+}
+
+void MainWindow::adjustFucntionMenu()
+{
+	int n;
+	int oldItems = menuMsgs.size();
+	fillUnread(menuMsgs);
+	int index = menuFunction->indexOf(mnuPopupStatus);
+	for (n = 0; n < oldItems; n++)
+		menuFunction->removeItemAt(index+1);
+	int id = mnuPopupStatus;
+	for (list<msgInfo>::iterator it = menuMsgs.begin(); it != menuMsgs.end(); ++it){
+		CUser u((*it).uin);
+		(*it).menuId = ++id;
+		menuFunction->insertItem(Icon(Client::getMessageIcon((*it).type)), 
+			i18n("%1 from %2")
+				.arg(Client::getMessageText((*it).type, (*it).count))
+				.arg(u.name()),
+			id, ++index);
+	}
 }
 
 void MainWindow::adjustGroupsMenu()
@@ -733,6 +757,7 @@ bool MainWindow::init()
         toolbar->show();
     }
 
+	loadUnread();
     xosd->init();
     transparentChanged();
     setShow(Show());
@@ -762,12 +787,30 @@ void MainWindow::setKeys(const char *kWindow, const char *kDblClick, const char 
 
 void MainWindow::messageReceived(ICQMessage *msg)
 {
+    unread_msg m(msg);
     ICQUser *u = pClient->getUser(msg->getUin());
     if (u == NULL) return;
+
+    list<unsigned long>::iterator it;
+    for (it = u->unreadMsgs.begin(); it != u->unreadMsgs.end(); it++)
+        if ((*it) == msg->Id) break;
+    if (it == u->unreadMsgs.end()) return;
+    messages.push_back(m);
+    if (dock) dock->reset();
+
     CUser user(u);
     xosd->setMessage(i18n("%1 from %2 received")
                      .arg(pClient->getMessageText(msg->Type(), 1))
                      .arg(user.name()), u->Uin());
+}
+
+void MainWindow::showUser(int id)
+{
+	for (list<msgInfo>::iterator it = menuMsgs.begin(); it != menuMsgs.end(); ++it){
+		if ((*it).menuId != id) continue;
+		userFunction((*it).uin, mnuAction, 0);
+		return;
+	}
 }
 
 void MainWindow::processEvent(ICQEvent *e)
@@ -1131,8 +1174,11 @@ void MainWindow::setup()
 
 void MainWindow::phonebook()
 {
-    if (setupDlg == NULL)
+    if (setupDlg == NULL){
         setupDlg = new SetupDialog(this, SETUP_PHONE);
+	}else{
+		setupDlg->showPage(SETUP_PHONE);
+	}
     setupDlg->show();
 #ifdef USE_KDE
     KWin::setOnDesktop(setupDlg->winId(), KWin::currentDesktop());
@@ -1903,7 +1949,7 @@ void MainWindow::loadMenu()
     menuFunction->insertItem(Icon("find"), i18n("Find User"), this, SLOT(search()));
     menuFunction->insertItem(Icon("nonim"), i18n("Add Non-IM contact"), this, SLOT(addNonIM()));
     menuFunction->insertSeparator();
-    menuFunction->insertItem(i18n("Status"), menuStatus);
+    menuFunction->insertItem(i18n("Status"), menuStatus, mnuPopupStatus);
     menuFunction->insertSeparator();
     menuFunction->insertItem(Icon("configure"), i18n("Setup"), this, SLOT(setup()));
     menuFunction->insertItem(Icon("grp_on"), i18n("Groups"), menuGroups);
@@ -2010,6 +2056,58 @@ QWidget *MainWindow::ftWindow(unsigned long uin, const string &fileName)
 void MainWindow::ftClose()
 {
     emit ftChanged();
+}
+
+void MainWindow::loadUnread()
+{
+    messages.clear();
+    for (list<ICQUser*>::iterator it = pClient->contacts.users.begin(); it != pClient->contacts.users.end(); it++){
+        if ((*it)->unreadMsgs.size() == 0) continue;
+        History h((*it)->Uin);
+        for (list<unsigned long>::iterator msgs = (*it)->unreadMsgs.begin(); msgs != (*it)->unreadMsgs.end(); msgs++){
+            ICQMessage *msg = h.getMessage(*msgs);
+            if (msg == NULL) continue;
+            unread_msg m(msg);
+            messages.push_back(m);
+            if (msg->Id < MSG_PROCESS_ID)
+                delete msg;
+        }
+    }
+}
+
+void MainWindow::messageRead(ICQMessage *msg)
+{
+    unread_msg m(msg);
+    messages.remove(m);
+    if (dock) dock->reset();
+}
+
+bool msgInfo::operator < (const msgInfo &m) const
+{
+    if (uin < m.uin) return true;
+    if (uin > m.uin) return false;
+    return type < m.type;
+}
+
+void MainWindow::fillUnread(list<msgInfo> &msgs)
+{
+	msgs.clear();
+    for (list<unread_msg>::iterator it = messages.begin(); it != messages.end(); ++it){
+        list<msgInfo>::iterator it_msg;
+        for (it_msg = msgs.begin(); it_msg != msgs.end(); ++it_msg)
+            if (((*it_msg).uin == (*it).uin()) && ((*it_msg).type == (*it).type()))
+                break;
+        if (it_msg != msgs.end()){
+            (*it_msg).count++;
+            continue;
+        }
+        msgInfo info;
+        info.uin = (*it).uin();
+        info.type = (*it).type();
+        info.count = 1;
+        msgs.push_back(info);
+    }
+    msgs.sort();
 }
 
 void MainWindow::initTranslator()
