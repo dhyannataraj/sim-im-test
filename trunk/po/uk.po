@@ -1,4 +1,5 @@
 # translation of uk.po to 
+# translation of uk.po to
 # translation of uk1.po to
 # translation of uk.po to
 # translation of uk.po to
@@ -25,7 +26,7 @@ msgstr ""
 "Project-Id-Version: uk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-05-11 21:26+0200\n"
-"PO-Revision-Date: 2004-05-05 11:20+0300\n"
+"PO-Revision-Date: 2004-05-11 23:50+0300\n"
 "Last-Translator: Ivan Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team:  <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -70,9 +71,9 @@ msgid "Autoreply message"
 msgstr "Повідомлення автовідповіді"
 
 #: plugins/_core/autoreply.cpp:51 plugins/_core/autoreply.cpp:97
-#, fuzzy, c-format
+#, c-format
 msgid "Close after %n second"
-msgstr "&Закрити після відсилання"
+msgstr "Закрити після %n секунд"
 
 #: plugins/_core/cfgdlg.cpp:274 plugins/_core/usercfg.cpp:195
 msgid "User info"
@@ -519,12 +520,8 @@ msgid "time from set status"
 msgstr "час від встановлення статусу"
 
 #: plugins/_core/core.cpp:1664 plugins/_core/core.cpp:1665
-#, fuzzy
 msgid "%1 wrote:"
-msgstr ""
-"написав:\n"
-"%1 написали:\n"
-"%1 написали:"
+msgstr "%1 написав:"
 
 #: plugins/_core/core.cpp:1681 plugins/_core/status.cpp:321 sim/ui/qt3/i18n.cpp:21
 msgid "OK"
@@ -919,9 +916,8 @@ msgid "File"
 msgstr "Файл"
 
 #: plugins/_core/msgedit.cpp:472
-#, fuzzy
 msgid "URL"
-msgstr "URL:"
+msgstr "URL"
 
 #: plugins/_core/msgedit.cpp:589
 msgid "&Accept"
@@ -932,9 +928,8 @@ msgid "&Decline"
 msgstr "&Відмовити"
 
 #: plugins/_core/msgedit.cpp:657
-#, fuzzy
 msgid "Authorize request"
-msgstr "Запит &авторизації"
+msgstr "Запит авторизації"
 
 #: plugins/_core/msgedit.cpp:664
 msgid "&Grant"
@@ -945,24 +940,20 @@ msgid "&Refuse"
 msgstr "&Відмовити"
 
 #: plugins/_core/msgedit.cpp:727
-#, fuzzy
 msgid "Authorization granted"
-msgstr "Запит &авторизації"
+msgstr "Авторизація підтверджена"
 
 #: plugins/_core/msgedit.cpp:748
-#, fuzzy
 msgid "Authorization refused"
-msgstr "Запит &авторизації"
+msgstr "Авторизація відмовлена"
 
 #: plugins/_core/msgedit.cpp:769
-#, fuzzy
 msgid "Add to contacts"
-msgstr "Нема контакту"
+msgstr "Додати до контактів"
 
 #: plugins/_core/msgedit.cpp:790
-#, fuzzy
 msgid "Removed from contacts"
-msgstr "&Знищити з журналу"
+msgstr "Знищити з контактів"
 
 #: plugins/_core/msgedit.cpp:811 plugins/action/actioncfg.cpp:53
 msgid "Status changed"
@@ -1005,14 +996,12 @@ msgid "&Refuse autorization"
 msgstr "&Відмовити авторизацію"
 
 #: plugins/_core/msgedit.cpp:1722
-#, fuzzy
 msgid "Added"
 msgstr "Додати"
 
 #: plugins/_core/msgedit.cpp:1730
-#, fuzzy
 msgid "Removed"
-msgstr "&Вилучити"
+msgstr "Вилучити"
 
 #: plugins/_core/msgedit.cpp:1738 plugins/_core/status.cpp:48 plugins/_core/userviewcfg.cpp:161
 msgid "Status"
@@ -1067,9 +1056,9 @@ msgid "Not in list"
 msgstr "Не в списку"
 
 #: plugins/_core/search.cpp:631
-#, fuzzy, c-format
+#, c-format
 msgid "%n contact found"
-msgstr "Нема контактів для передачі"
+msgstr "%n контакт знайдено"
 
 #: plugins/_core/status.cpp:72 plugins/_core/statuswnd.cpp:86 plugins/dock/dock.cpp:183
 msgid "Inactive"
@@ -1420,9 +1409,9 @@ msgid "Encrypt failed"
 msgstr "Помилка шифрування"
 
 #: plugins/gpg/gpg.cpp:700
-#, fuzzy, c-format
+#, c-format
 msgid "%n GPG key"
-msgstr "GPG ключ"
+msgstr "%n GPG ключ"
 
 #: plugins/gpg/gpg.cpp:749
 msgid "GPG key"
@@ -1817,9 +1806,9 @@ msgid "Directory"
 msgstr "Каталог"
 
 #: plugins/icq/icqicmb.cpp:985 plugins/icq/icqicmb.cpp:991
-#, fuzzy, c-format
+#, c-format
 msgid "%n file"
-msgstr "Передача файла"
+msgstr "%n файл"
 
 #: plugins/icq/icqicmb.cpp:1272 plugins/icq/warndlg.cpp:66
 msgid "Send fail"
@@ -1954,14 +1943,12 @@ msgid "Bad host address"
 msgstr "Помилковий адрес сервера"
 
 #: plugins/icq/icqmessage.cpp:552
-#, fuzzy
 msgid "WWW-panel message"
-msgstr "&Відкрити повідомлення"
+msgstr "WWW-панель повідомлення"
 
 #: plugins/icq/icqmessage.cpp:573
-#, fuzzy
 msgid "Email pager message"
-msgstr "Email пейджер"
+msgstr "Email пейджер повідомлення"
 
 #: plugins/icq/icqmessage.cpp:594 plugins/icq/icqmessage.cpp:850
 msgid "Request secure channel"
@@ -1980,7 +1967,6 @@ msgid "Warning"
 msgstr "Попередження"
 
 #: plugins/icq/icqmessage.cpp:763
-#, fuzzy
 msgid "Contact request"
 msgstr "Запит контакту"
 
@@ -2709,9 +2695,9 @@ msgid "&Stat"
 msgstr "&Статус"
 
 #: plugins/jabber/discoinfo.cpp:251
-#, fuzzy, c-format
+#, c-format
 msgid "%n day"
-msgstr "Неділя"
+msgstr "%n день"
 
 #: plugins/jabber/jabber.cpp:63
 msgid "Jabber"
@@ -2982,9 +2968,8 @@ msgid "Organization Unit"
 msgstr "Відділ"
 
 #: plugins/livejournal/livejournal.cpp:110
-#, fuzzy
 msgid "LiveJournal post"
-msgstr "Запи&с в LiveJournal"
+msgstr "Запис в LiveJournal"
 
 #: plugins/livejournal/livejournal.cpp:111 plugins/livejournal/livejournal.cpp:252
 msgid "Friends updated"
@@ -3666,9 +3651,9 @@ msgid "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 msgstr "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 
 #: plugins/msn/msnpacket.cpp:471
-#, fuzzy, c-format
+#, c-format
 msgid "You have %n unread message"
-msgstr "Вам прийшла нова пошта"
+msgstr "Вам надійшло %n непрочитаних повідомлень"
 
 #: plugins/msn/msnpacket.cpp:491
 msgid "You have new mail"
@@ -3983,9 +3968,8 @@ msgid "Fonts and colors"
 msgstr "Шрифти і кольори"
 
 #: plugins/styles/wood/wood.cpp:1424
-#, fuzzy
 msgid "Wood"
-msgstr "добрий"
+msgstr "Дерево"
 
 #: plugins/transparent/transparent.cpp:65
 msgid "Transparent"
@@ -4064,9 +4048,8 @@ msgid "Sunday"
 msgstr "Неділя"
 
 #: plugins/weather/weather.cpp:461 plugins/weather/weather.cpp:462 plugins/weather/weather.cpp:463 plugins/weather/weather.cpp:464 plugins/weather/weather.cpp:465 plugins/weather/weather.cpp:466 plugins/weather/weather.cpp:467 plugins/weather/weather.cpp:468 plugins/weather/weather.cpp:469 plugins/weather/weather.cpp:470 plugins/weather/weather.cpp:471 plugins/weather/weather.cpp:472 plugins/weather/weather.cpp:473 plugins/weather/weather.cpp:474 plugins/weather/weather.cpp:475 plugins/weather/weather.cpp:476 plugins/weather/weather.cpp:477 plugins/weather/weather.cpp:478 plugins/weather/weather.cpp:479 plugins/weather/weather.cpp:480 plugins/weather/weather.cpp:481 plugins/weather/weather.cpp:482 plugins/weather/weather.cpp:483 plugins/weather/weather.cpp:484 plugins/weather/weather.cpp:485 plugins/weather/weather.cpp:486 plugins/weather/weather.cpp:487 plugins/weather/weather.cpp:488 plugins/weather/weather.cpp:489 plugins/weather/weather.cpp:490 plugins/weather/weather.cpp:491 plugins/weather/weather.cpp:492 plugins/weather/weather.cpp:493 plugins/weather/weather.cpp:494 plugins/weather/weather.cpp:495 plugins/weather/weather.cpp:496 plugins/weather/weather.cpp:497 plugins/weather/weather.cpp:498 plugins/weather/weather.cpp:499 plugins/weather/weather.cpp:500 plugins/weather/weather.cpp:501 plugins/weather/weather.cpp:502 plugins/weather/weather.cpp:503 plugins/weather/weather.cpp:504 plugins/weather/weather.cpp:505 plugins/weather/weather.cpp:506 plugins/weather/weather.cpp:523 plugins/weather/weather.cpp:526 plugins/weather/weather.cpp:530 plugins/weather/weather.cpp:546 plugins/weather/weather.cpp:548 plugins/weather/weather.cpp:553
-#, fuzzy
 msgid "weather"
-msgstr "Погода"
+msgstr "погода"
 
 #: plugins/weather/weather.cpp:507
 msgid "km"
@@ -8019,3 +8002,4 @@ msgstr "Стиль Windows XP"
 #~ "_: weather\n"
 #~ "Late"
 #~ msgstr "Вечором"
+
