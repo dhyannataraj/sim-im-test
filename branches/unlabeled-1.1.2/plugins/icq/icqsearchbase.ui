@@ -731,14 +731,14 @@
     <tabstop>tabSearch</tabstop>
     <tabstop>edtEmail</tabstop>
     <tabstop>cmbGender</tabstop>
-    <tabstop>cmbCountry</tabstop>
-    <tabstop>edtCity</tabstop>
-    <tabstop>edtCompany</tabstop>
-    <tabstop>edtInterests</tabstop>
     <tabstop>cmbAge</tabstop>
+    <tabstop>cmbCountry</tabstop>
     <tabstop>cmbLang</tabstop>
+    <tabstop>edtCity</tabstop>
     <tabstop>edtState</tabstop>
+    <tabstop>edtCompany</tabstop>
     <tabstop>edtDepartment</tabstop>
+    <tabstop>edtInterests</tabstop>
     <tabstop>edtNick</tabstop>
     <tabstop>edtFirst</tabstop>
     <tabstop>edtLast</tabstop>

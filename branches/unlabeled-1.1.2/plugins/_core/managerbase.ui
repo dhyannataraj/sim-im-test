@@ -196,4 +196,13 @@
         <slot>reject()</slot>
     </connection>
 </connections>
+<tabstops>
+    <tabstop>lstConnection</tabstop>
+    <tabstop>btnUp</tabstop>
+    <tabstop>btnDown</tabstop>
+    <tabstop>btnUpdate</tabstop>
+    <tabstop>btnAdd</tabstop>
+    <tabstop>btnRemove</tabstop>
+    <tabstop>buttonCancel</tabstop>
+</tabstops>
 </UI>

@@ -253,11 +253,11 @@
     </connection>
 </connections>
 <tabstops>
+    <tabstop>cmbProfile</tabstop>
+    <tabstop>btnDelete</tabstop>
     <tabstop>chkSave</tabstop>
     <tabstop>chkNoShow</tabstop>
     <tabstop>buttonOk</tabstop>
     <tabstop>buttonCancel</tabstop>
-    <tabstop>btnDelete</tabstop>
-    <tabstop>cmbProfile</tabstop>
 </tabstops>
 </UI>
