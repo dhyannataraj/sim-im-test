@@ -344,7 +344,7 @@ void JabberClient::packet_ready()
         return;
     JabberPlugin *plugin = static_cast<JabberPlugin*>(protocol()->plugin());
     log_packet(m_socket->readBuffer, false, plugin->JabberPacket);
-    if (xmlParseChunk(m_context, m_socket->readBuffer.data(), m_socket->readBuffer.writePos(), 0))
+    if (xmlParseChunk(m_context, m_socket->readBuffer.data(), m_socket->readBuffer.size(), 0))
         m_socket->error_state("XML parse error");
     m_socket->readBuffer.init(0);
     m_socket->readBuffer.packetStart();
@@ -908,6 +908,7 @@ void JabberClient::element_start(const char *el, const char **attr)
                 }
             }
         }
+		log(L_DEBUG, "Handshake %s (%s)", id, element.c_str());
         handshake(id);
     }
     m_depth++;
