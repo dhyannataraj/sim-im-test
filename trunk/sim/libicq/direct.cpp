@@ -857,7 +857,6 @@ void DirectClient::processPacket()
                             client->cancelMessage(msg, false);
                             return;
                         }
-                        if (m) delete m;
                         u->msgQueue.remove(e);
                         if (bToProcess){
                             client->processQueue.push_back(e);

@@ -1647,7 +1647,7 @@ void MainWindow::adjustUserMenu(QPopupMenu *menu, ICQUser *u, bool haveTitle)
     addMessageType(menu, ICQ_MSGxMAIL, mnuMail, haveEmail, haveTitle);
     addMessageType(menu, ICQ_MSGxAUTHxREQUEST, mnuAuth, u->WaitAuth, haveTitle);
     addMessageType(menu, ICQ_MSGxCHAT, mnuChat, (u->Type() == USER_TYPE_ICQ) && u->isOnline(), haveTitle);
-    addMessageType(menu, ICQ_MSGxFILE, mnuFile, (u->Type() == USER_TYPE_ICQ) && u->isOnline(), haveTitle);
+    addMessageType(menu, ICQ_MSGxFILE, mnuFile, (u->Type() == USER_TYPE_ICQ) && (u->uStatus != ICQ_STATUS_OFFLINE), haveTitle);
     addMessageType(menu, ICQ_MSGxCONTACTxLIST, mnuContacts, u->Type() == USER_TYPE_ICQ, haveTitle);
     bool havePhone = (u->Type() == USER_TYPE_ICQ);
     if (!havePhone){
