@@ -407,10 +407,10 @@ void MsgEdit::processEvent(ICQEvent *e)
     case EVENT_ACKED:
         if (e->message() && (e->message() == message())){
             sendEvent = NULL;
+            setMessage();
             if (bCloseSend){
                 close();
             }else{
-                setMessage();
                 action(mnuAction);
                 switch (e->message()->Type()){
                 case ICQ_MSGxFILE:
@@ -454,7 +454,6 @@ void MsgEdit::processEvent(ICQEvent *e)
                     BalloonMsg::message(QString::fromLocal8Bit(msg->DeclineReason.c_str()),
                                         btnNext);
             }
-            disconnect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
             bCloseSend = false;
             sendEvent = NULL;
             setState();
@@ -479,7 +478,6 @@ void MsgEdit::closeEvent(QCloseEvent *e)
 
 void MsgEdit::realSend()
 {
-    connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     sendEvent = pClient->sendMessage(message());
     setState();
 }
@@ -1290,6 +1288,7 @@ void MsgEdit::editTextChanged()
 {
     if (msg && msg->Received()){
         QString t = edit->text(0);
+	t = t.left(1);
         action(mnuMessage);
         edit->setText(t);
         edit->moveCursor(QTextEdit::MoveEnd, false);

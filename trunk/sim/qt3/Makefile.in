@@ -517,6 +517,7 @@ uninstall-am: uninstall-info-am
 .NOEXPORT:
 
 
+
 #>+ 3
 qtextbrowser.moc: $(srcdir)/qtextbrowser.h
 	$(MOC) $(srcdir)/qtextbrowser.h -o qtextbrowser.moc

@@ -582,6 +582,7 @@ uninstall-am: uninstall-info-am
 .NOEXPORT:
 
 
+
 #>+ 353
 xosdbase.cpp: $(srcdir)/xosdbase.ui xosdbase.h xosdbase.moc
 	rm -f xosdbase.cpp

@@ -253,7 +253,7 @@ void UserTbl::addGroup(unsigned short grpId)
     list<ICQUser*>::iterator it;
     list<ICQUser*> &users = pClient->contacts.users;
     for (it = users.begin(); it != users.end(); it++){
-        if ((*it)->GrpId == 0) continue;
+        if (grpId && ((*it)->GrpId == 0)) continue;
         if ((grpId == 0) || (grpId == (*it)->GrpId)) addUin((*it)->Uin);
     }
 }
@@ -380,7 +380,7 @@ void UserTbl::contentsMouseReleaseEvent(QMouseEvent *e)
 void UserTbl::viewportContextMenuEvent(QContextMenuEvent *e)
 {
     QPoint p = e->globalPos();
-    p = mapFromGlobal(p);
+    p = viewport()->mapFromGlobal(p);
     QListViewItem *item = itemAt(p);
     actionItem = item;
     menuTable->setItemEnabled(mnuTblDelete, actionItem != NULL);

@@ -56,8 +56,6 @@ TextShow::TextShow(QWidget *p)
 
 void TextShow::resizeEvent(QResizeEvent *e)
 {
-    QPoint pos(contentsX(), contentsY());
-    int n = paragraphAt(pos);
     QTextBrowser::resizeEvent(e);
     scrollToAnchor(curAnchor);
 }

@@ -279,6 +279,8 @@ DISTFILES = $(GMOFILES) $(POFILES) $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(
 
 DISTFILES = $(GMOFILES) $(POFILES) $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
 
+DISTFILES = $(GMOFILES) $(POFILES) $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
+
 
 top_distdir = ..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
@@ -386,6 +388,7 @@ uninstall-am: uninstall-info-am
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
+
 
 
 #>+ 7

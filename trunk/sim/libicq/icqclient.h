@@ -877,6 +877,15 @@ typedef struct msg_id
     unsigned long l;
 } msg_id;
 
+typedef struct list_req
+{
+    unsigned long uin;
+    int list_type;
+    bool bSet;
+} list_req;
+
+bool operator == (const list_req &r1, const list_req &r2);
+
 typedef unsigned char capability[0x10];
 
 class ICQClient : public ClientSocket, public ICQUser
@@ -1024,6 +1033,9 @@ protected:
     unsigned long lastInfoRequestTime;
     unsigned long lastPhoneRequestTime;
     unsigned long lastResponseRequestTime;
+
+    list<list_req>  listQueue;
+    void processListQueue();
 
     list<ICQEvent*> msgQueue;
     void processMsgQueue();

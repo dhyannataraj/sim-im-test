@@ -558,6 +558,7 @@ void ClientSocket::close()
         }
     }
     writeBuffer.init(0);
+    readBuffer.init(0);
     Socket::close();
 }
 

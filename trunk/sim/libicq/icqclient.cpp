@@ -276,7 +276,7 @@ void ICQClient::sendPacket()
     *((unsigned short*)(packet + 4)) = htons(writeBuffer.size() - m_nPacketStart - 6);
     dumpPacket(writeBuffer, m_nPacketStart, "Write");
     time(&m_lastTime);
-    if (m_connecting != Connected) return;
+    if ((m_fd == -1) || (m_connecting != Connected)) return;
     fd_set wf;
     FD_ZERO(&wf);
     FD_SET(m_fd, &wf);

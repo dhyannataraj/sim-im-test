@@ -318,6 +318,11 @@ protected:
     bool m_bSet;
 };
 
+bool operator == (const list_req &r1, const list_req &r2)
+{
+    return (r1.uin == r2.uin) && (r1.list_type == r2.list_type) && (r1.bSet == r2.bSet);
+}
+
 bool ICQSetListEvent::process(ICQClient *icq, unsigned short result)
 {
     if (result != 0){
@@ -343,57 +348,89 @@ bool ICQSetListEvent::process(ICQClient *icq, unsigned short result)
         u->inInvisible = m_bSet;
         break;
     case ICQ_IGNORE_LIST:
-        if (m_bSet){
-            icq->addToVisibleList(m_nUin);
-        }else{
-            icq->removeFromVisibleList(m_nUin);
-        }
         u->inIgnore = m_bSet;
         break;
     default:
         log(L_WARN, "Unknown ICQSetListEvent type");
         return false;
     }
+    if (m_nUin >= UIN_SPECIAL) return true;
+    icq->listQueue.remove(*icq->listQueue.begin());
+    icq->processListQueue();
     return true;
+}
+
+void ICQClient::processListQueue()
+{
+    for (;;){
+        if (listQueue.size() == 0) return;
+        list_req lr = *listQueue.begin();
+        ICQUser *u = getUser(lr.uin);
+        if (u == NULL){
+            listQueue.remove(lr);
+            continue;
+        }
+        unsigned short userId = contacts.getUserId(u);
+        ICQSetListEvent *e = new ICQSetListEvent(u->Uin(), lr.list_type, lr.bSet);
+        sendRoster(e,
+                   lr.bSet ? ICQ_SNACxLISTS_CREATE : ICQ_SNACxLISTS_DELETE,
+                   u->Uin, 0, userId, lr.list_type);
+        return;
+    }
 }
 
 void ICQClient::setInVisible(ICQUser *u, bool bSet)
 {
     if (u->inVisible() == bSet) return;
-    unsigned short userId = contacts.getUserId(u);
-    ICQSetListEvent *e = new ICQSetListEvent(u->Uin(), ICQ_VISIBLE_LIST, bSet);
     if (u->Uin() >= UIN_SPECIAL){
+        ICQSetListEvent *e = new ICQSetListEvent(u->Uin(), ICQ_VISIBLE_LIST, bSet);
         if (e->process(this, 0)) process_event(e);
         delete e;
         return;
     }
-    sendRoster(e, bSet ? ICQ_SNACxLISTS_CREATE : ICQ_SNACxLISTS_DELETE, u->Uin, 0, userId, ICQ_VISIBLE_LIST);
+    list_req lr;
+    lr.uin = u->Uin();
+    lr.list_type = ICQ_VISIBLE_LIST;
+    lr.bSet = bSet;
+    listQueue.push_back(lr);
+    if (listQueue.size() <= 1)
+        processListQueue();
 }
 
 void ICQClient::setInInvisible(ICQUser *u, bool bSet)
 {
     if (u->inInvisible() == bSet) return;
-    unsigned short userId = contacts.getUserId(u);
-    ICQSetListEvent *e = new ICQSetListEvent(u->Uin(), ICQ_INVISIBLE_LIST, bSet);
     if (u->Uin() >= UIN_SPECIAL){
+        ICQSetListEvent *e = new ICQSetListEvent(u->Uin(), ICQ_INVISIBLE_LIST, bSet);
         if (e->process(this, 0)) process_event(e);
         delete e;
         return;
     }
-    sendRoster(e, bSet ? ICQ_SNACxLISTS_CREATE : ICQ_SNACxLISTS_DELETE, u->Uin, 0, userId, ICQ_INVISIBLE_LIST);
+    list_req lr;
+    lr.uin = u->Uin();
+    lr.list_type = ICQ_INVISIBLE_LIST;
+    lr.bSet = bSet;
+    listQueue.push_back(lr);
+    if (listQueue.size() <= 1)
+        processListQueue();
 }
 
 void ICQClient::setInIgnore(ICQUser *u, bool bSet)
 {
     if (u->inIgnore() == bSet) return;
-    unsigned short userId = contacts.getUserId(u);
-    ICQSetListEvent *e = new ICQSetListEvent(u->Uin(), ICQ_IGNORE_LIST, bSet);
     if (u->Uin() >= UIN_SPECIAL){
+        ICQSetListEvent *e = new ICQSetListEvent(u->Uin(), ICQ_IGNORE_LIST, bSet);
         if (e->process(this, 0)) process_event(e);
         delete e;
         return;
     }
-    sendRoster(e, bSet ? ICQ_SNACxLISTS_CREATE : ICQ_SNACxLISTS_DELETE, u->Uin, 0, userId, ICQ_IGNORE_LIST);
+    list_req lr;
+    lr.uin = u->Uin();
+    lr.list_type = ICQ_IGNORE_LIST;
+    lr.bSet = bSet;
+    listQueue.push_back(lr);
+    if (listQueue.size() <= 1)
+        processListQueue();
 }
 
 class MoveUserEvent : public ICQListEvent
