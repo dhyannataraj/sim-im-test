@@ -1308,7 +1308,7 @@ UserViewContactDragObject::UserViewContactDragObject(UserView *view, Contact *co
     DWORD threadId;
     CreateThread(NULL, 0, DragScrollThread, NULL, 0, &threadId);
 #else
-    QTimer *dragTimer = new QTimer(this);
+QTimer *dragTimer = new QTimer(this);
     connect(dragTimer, SIGNAL(timeout()), view, SLOT(dragScroll()));
     dragTimer->start(200);
 #endif
@@ -1486,6 +1486,20 @@ void UserView::joinContacts(void*)
     if ((contact1 == NULL) || (contact2 == NULL))
         return;
     contact1->clientData.join(contact2->clientData);
+    if (!contact2->getPhones().isEmpty()){
+        QString phones = contact1->getPhones();
+        if (!phones.isEmpty())
+            phones += ";";
+        phones += contact2->getPhones();
+        contact1->setPhones(phones);
+    }
+    if (!contact2->getEMails().isEmpty()){
+        QString mails = contact1->getEMails();
+        if (!mails.isEmpty())
+            mails += ";";
+        mails += contact2->getEMails();
+        contact1->setEMails(mails);
+    }
     delete contact2;
     contact1->setup();
     Event e(EventContactChanged, contact1);

@@ -384,13 +384,42 @@ QStringList SerialPort::devices()
 
 #else
 
-SerialPort::SerialPort(QObject *parent)
-: QObject(parent)
+class SerialPortPrivate
 {
+public:
+    SerialPortPrivate();
+    ~SerialPortPrivate();
+    void close();
+    int fd;
+};
+
+SerialPortPrivate::SerialPortPrivate()
+{
+    fd = -1;
+}
+
+SerialPortPrivate::~SerialPortPrivate()
+{
+    close();
+}
+
+void SerialPortPrivate::close()
+{
+    if (fd == -1)
+        return;
+    ::close(fd);
+    fd = -1;
+}
+
+SerialPort::SerialPort(QObject *parent)
+        : QObject(parent)
+{
+    d = new SerialPortPrivate;
 }
 
 SerialPort::~SerialPort()
 {
+    delete d;
 }
 
 bool SerialPort::open(const char *device, int baudrate, bool bXonXoff, int DTRtime)
@@ -421,18 +450,18 @@ void SerialPort::timeout()
 
 bool SerialPort::event(QEvent *e)
 {
-	return QObject::event(e);
+    return QObject::event(e);
 }
 
 QStringList SerialPort::devices()
 {
     QStringList res;
     QDir dev("/dev");
-    QStringList entries = dev.entryList("cuaa*");
+    QStringList entries = dev.entryList("*", QDir::Drives);
+    log(L_DEBUG, "Dev: %u", dev.exists());
     for (QStringList::Iterator it = entries.begin(); it != entries.end(); ++it){
-        QString name = "/dev/";
-        name += *it;
-        res.append(name);
+	log(L_DEBUG, "?? %s", (const char*)(*it).latin1());
+        res.append(*it);
     }
     return res;
 }

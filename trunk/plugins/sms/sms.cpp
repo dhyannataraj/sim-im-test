@@ -21,12 +21,18 @@
 #include "gsm_ta.h"
 #include "core.h"
 #include "maininfo.h"
+#include "listview.h"
 
 #include "xpm/cell_off.xpm"
 #include "xpm/cell_on.xpm"
 #include "xpm/simcard.xpm"
 
 #include <qtimer.h>
+#include <qapplication.h>
+#include <qwidgetlist.h>
+#include <qobjectlist.h>
+
+const unsigned COL_TYPE	= 3;
 
 static DataDef _smsUserData[] =
     {
@@ -115,14 +121,76 @@ SMSPlugin::SMSPlugin(unsigned base)
     eMsg.process();
 
     m_protocol = new SMSProtocol(this);
+
+    qApp->installEventFilter(this);
+    setPhoneCol();
 }
 
 SMSPlugin::~SMSPlugin()
 {
+    removePhoneCol();
     delete m_protocol;
     getContacts()->removePacketType(SerialPacket);
     Event eCall(EventRemoveMessageType, (void*)MessagePhoneCall);
     eCall.process();
+}
+
+void SMSPlugin::setPhoneCol()
+{
+    QWidgetList  *list = QApplication::topLevelWidgets();
+    QWidgetListIt it(*list);
+    QWidget *w;
+    while ((w=it.current()) != NULL){
+        ++it;
+        QObjectList * l = w->queryList("MainInfo");
+        QObjectListIt itw(*l);
+        QObject * obj;
+        while ((obj=itw.current()) != NULL) {
+            ++itw;
+            setPhoneCol(static_cast<MainInfo*>(obj));
+        }
+        delete l;
+    }
+    delete list;
+}
+
+void SMSPlugin::removePhoneCol()
+{
+    QWidgetList  *list = QApplication::topLevelWidgets();
+    QWidgetListIt it(*list);
+    QWidget *w;
+    while ((w=it.current()) != NULL){
+        ++it;
+        QObjectList * l = w->queryList("MainInfo");
+        QObjectListIt itw(*l);
+        QObject * obj;
+        while ((obj=itw.current()) != NULL) {
+            ++itw;
+            removePhoneCol(static_cast<MainInfo*>(obj));
+        }
+        delete l;
+    }
+    delete list;
+}
+
+void SMSPlugin::setPhoneCol(MainInfo *w)
+{
+    w->lstPhones->addColumn(" ", 16);
+}
+
+void SMSPlugin::removePhoneCol(MainInfo *w)
+{
+    w->lstPhones->removeColumn(COL_TYPE);
+}
+
+bool SMSPlugin::eventFilter(QObject *obj, QEvent *e)
+{
+    if (e->type() == QEvent::ChildInserted){
+        QChildEvent *ce = static_cast<QChildEvent*>(e);
+        if (ce->child()->inherits("MainInfo"))
+            setPhoneCol(static_cast<MainInfo*>(ce->child()));
+    }
+    return QObject::eventFilter(obj, e);
 }
 
 SMSProtocol::SMSProtocol(Plugin *plugin)
@@ -225,7 +293,7 @@ static DataDef smsClientData[] =
 #ifdef WIN32
         { "Port", DATA_STRING, 1, (unsigned)"COM1" },
 #else
-        { "Port", DATA_STRING, 1, (unsigned)"modem" },
+        { "Port", DATA_STRING, 1, (unsigned)"cuaa0" },
 #endif
         { "InitString", DATA_STRING, 1, (unsigned)"E0" },
         { "BaudRate", DATA_ULONG, 1, 19200 },

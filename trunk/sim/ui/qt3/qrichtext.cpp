@@ -1,5 +1,5 @@
 #/****************************************************************************
-** $Id: qrichtext.cpp,v 1.9 2003-11-23 13:33:48 shutoff Exp $
+** $Id: qrichtext.cpp,v 1.10 2004-01-11 23:02:00 shutoff Exp $
 **
 ** Implementation of the internal Qt classes dealing with rich text
 **
@@ -106,13 +106,13 @@ static inline bool is_printer( QPainter *p )
 #if defined(Q_WS_X11)
             value = value * metrics.logicalDpiY() / QPaintDevice::x11AppDpiY();
 #elif defined (Q_WS_WIN)
-int gdc = GetDeviceCaps( GetDC( 0 ), LOGPIXELSY );
+            int gdc = GetDeviceCaps( GetDC( 0 ), LOGPIXELSY );
             if ( gdc )
                 value = value * metrics.logicalDpiY() / gdc;
 #elif defined (Q_WS_MAC)
-value = value * metrics.logicalDpiY() / 75; // ##### FIXME
+            value = value * metrics.logicalDpiY() / 75; // ##### FIXME
 #elif defined (Q_WS_QWS)
-value = value * metrics.logicalDpiY() / 75;
+            value = value * metrics.logicalDpiY() / 75;
 #endif
         }
         return value;
@@ -4590,7 +4590,7 @@ formatAgain:
         QString spaces;
         for ( int i = 0; i < length()-1; ++i ) {
             QTextStringChar *c = &str->at( i );
-            if ( !lastFormat || ( lastFormat->key() != c->format()->key() && c->c != ' ' ) ) {
+            if ( !lastFormat || ( lastFormat->key() != c->format()->key())) {
                 s += c->format()->makeFormatChangeTags( lastFormat );
                 lastFormat = c->format();
             }
@@ -5894,7 +5894,7 @@ formatAgain:
         QString tag;
 
         if ( f ) {
-            if ( f->font() != defaultFormat->font() ) {
+            if ( f->font() != defaultFormat->font() || f->color().rgb() != defaultFormat->color().rgb()) {
                 if ( f->font().family() != defaultFormat->font().family()
                         || f->font().pointSize() != defaultFormat->font().pointSize()
                         || f->color().rgb() != defaultFormat->color().rgb() )
