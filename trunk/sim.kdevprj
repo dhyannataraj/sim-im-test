@@ -103,6 +103,12 @@ files=po/ru.po,po/de.po,po/zh_TW.po,po/tr.po,po/it.po,po/uk.po,po/cs.po
 sub_dirs=
 type=po
 
+[po/cs.po]
+dist=false
+install=false
+install_location=
+type=PO
+
 [po/de.po]
 dist=false
 install=false
@@ -134,12 +140,6 @@ install_location=
 type=PO
 
 [po/zh_TW.po]
-dist=false
-install=false
-install_location=
-type=PO
-
-[po/cs.po]
 dist=false
 install=false
 install_location=
