@@ -45,8 +45,6 @@
 
 #include <time.h>
 
-#include <algorithm>
-
 const unsigned NO_TYPE = (unsigned)(-1);
 
 class MsgTextEdit : public TextEdit

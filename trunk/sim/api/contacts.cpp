@@ -18,8 +18,6 @@
 #include "simapi.h"
 #include "stl.h"
 
-#include <algorithm>
-
 #include <qfile.h>
 
 namespace SIM

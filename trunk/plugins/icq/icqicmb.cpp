@@ -37,8 +37,6 @@
 #include <qtimer.h>
 #include <qimage.h>
 
-#include <algorithm>
-
 bool operator < (const alias_group &s1, const alias_group &s2)
 {
     return s1.grp < s2.grp;
