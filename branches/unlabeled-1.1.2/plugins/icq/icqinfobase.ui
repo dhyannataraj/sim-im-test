@@ -498,8 +498,11 @@
                             <cstring>Line2</cstring>
                         </property>
                         <property>
-                            <name>orientation</name>
-                            <enum>Horizontal</enum>
+                            <name>sizePolicy</name>
+                            <sizepolicy>
+                                <hsizetype>1</hsizetype>
+                                <vsizetype>0</vsizetype>
+                            </sizepolicy>
                         </property>
                     </widget>
                     <spacer row="10"  column="1" >

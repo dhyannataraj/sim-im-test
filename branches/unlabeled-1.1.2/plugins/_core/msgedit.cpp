@@ -355,7 +355,7 @@ void MsgEdit::setInput()
         wReceive->removeWidgets();
         wReceive->hide();
     }
-}
+#}
 
 static Message *createGeneric(const char *cfg)
 {
@@ -1038,25 +1038,32 @@ void MsgEdit::insertSmile(int id)
         m_edit->insert(smiles()[id], false, true, true);
         return;
     }
- 	// determine the current position of the cursor
 #if QT_VERSION < 300
-	m_edit->insert("\255",true,true,true);
+    // determine the current position of the cursor
+    m_edit->insert("\255",true,true,true);
+    // RTF doesn't like '<' and '>'
+    QString txt = m_edit->text();
+    QString img_src = QString("<img src=icon:smile%1>").arg(id,0,16);
+    int pos = txt.find('\255');
+    if (pos != -1) {
+    	txt.replace(pos,1,img_src);
+    } else {
+        txt.append(img_src);
+    }
+    m_edit->setText(txt);
 #else
-	m_edit->insert("\255");
+    int para;
+    int index;
+    m_edit->getCursorPosition(&para,&index);
+    // determine the current position of the cursor
+    m_edit->insert("\255");
+    // RTF doesn't like '<' and '>'
+    QString txt = m_edit->text();
+    QString img_src = QString("<img src=icon:smile%1>").arg(id,0,16);
+    txt.replace('\255',img_src);
+    m_edit->setText(txt);
+    m_edit->setCursorPosition(para,index+1);
 #endif
-	// RTF doesn't like '<' and '>'
-	QString txt = m_edit->text();
-#if QT_VERSION < 300
-	int pos = txt.find('\255');
-	if (pos != -1) {
-		txt.replace(pos,1,QString("<img src=icon:smile") + (char)(id < 10 ? '0' + id : 'A' + id - 10) + ">");
-	} else {
-		txt.append(QString("<img src=icon:smile") + (char)(id < 10 ? '0' + id : 'A' + id - 10) + ">");
-	}
-#else
-	txt.replace('\255',QString("<img src=icon:smile") + (char)(id < 10 ? '0' + id : 'A' + id - 10) + ">");
-#endif
-	m_edit->setText(txt);
 }
 
 void MsgEdit::goNext()
