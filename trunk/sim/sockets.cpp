@@ -65,7 +65,7 @@ ICQClientSocket::ICQClientSocket(QSocket *s)
     if (sock == NULL)
 #ifdef HAVE_KEXTSOCK_H
         sock = new KExtendedSocket;
-    sock->setSocketFlags(KExtendedSocket::outputBufferedSocket );
+    sock->setSocketFlags(KExtendedSocket::outputBufferedSocket | KExtendedSocket::inetSocket);
 #else
         sock = new QSocket(this);
     bConnected = false;
@@ -159,8 +159,10 @@ void ICQClientSocket::connect(const char *host, int _port)
 
 void ICQClientSocket::resolveTimeout()
 {
+#ifndef HAVE_KEXTSOCK_H
     if (!bConnected)
         slotError(1);
+#endif
 }
 
 void ICQClientSocket::slotConnected()
@@ -253,21 +255,17 @@ void ICQClientSocket::pause(unsigned t)
 ICQServerSocket::ICQServerSocket(unsigned short minPort, unsigned short maxPort)
 {
 #ifdef HAVE_KEXTSOCK_H
-    sock = new KExtendedSocket;
-    connect(sock, SIGNAL(readyAccept()), this, SLOT(activated()));
     for (m_nPort = minPort; m_nPort <= maxPort; m_nPort++){
-        sock->reset();
+	sock = new KExtendedSocket(QString::null, m_nPort, KExtendedSocket::passiveSocket  | KExtendedSocket::inetSocket);
         sock->setBlockingMode(false);
-        sock->setSocketFlags(KExtendedSocket::passiveSocket);
-        sock->setPort(m_nPort);
         if (sock->listen() == 0)
             break;
+	delete sock;
+	sock = NULL;
     }
-    if (m_nPort > maxPort){
-        delete sock;
-        sock = NULL;
+    if (m_nPort > maxPort)
         return;
-    }
+    connect(sock, SIGNAL(readyAccept()), this, SLOT(activated()));
 #else
     sn = NULL;
     sock = new QSocketDevice;
@@ -287,7 +285,9 @@ ICQServerSocket::ICQServerSocket(unsigned short minPort, unsigned short maxPort)
 
 ICQServerSocket::~ICQServerSocket()
 {
+#ifndef HAVE_KEXTSOCK_H
     if (sn) delete sn;
+#endif
     if (sock) delete sock;
 }
 

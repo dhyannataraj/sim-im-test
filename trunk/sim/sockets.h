@@ -23,7 +23,7 @@
 
 #include "icqclient.h"
 
-#undef HAVE_KEXTSOCK_H
+// #undef HAVE_KEXTSOCK_H
 
 class QDns;
 class QSocket;
@@ -60,10 +60,10 @@ protected slots:
     void slotLookupFinished(int);
     void resolveTimeout();
 protected:
+    unsigned short port;
 #ifdef HAVE_KEXTSOCK_H
     KExtendedSocket *sock;
 #else
-    unsigned short port;
     QSocket *sock;
     bool bConnected;
 #endif
