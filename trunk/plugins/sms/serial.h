@@ -30,7 +30,7 @@ class SerialPort : public QObject
 public:
     SerialPort(QObject *parent);
     ~SerialPort();
-    bool open(const char *device, int baudrate, bool bXonXoff, int DTRtime);
+    bool openPort(const char *device, int baudrate, bool bXonXoff, int DTRtime);
     void close();
     static QStringList devices();
     void writeLine(const char *data, unsigned timeRead);

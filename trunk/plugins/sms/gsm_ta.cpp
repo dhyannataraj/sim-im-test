@@ -51,7 +51,7 @@ GsmTA::~GsmTA()
 bool GsmTA::open(const char *device, int baudrate, bool bXonXoff)
 {
     m_state      = Open;
-    return m_port->open(device, baudrate, bXonXoff, 100);
+    return m_port->openPort(device, baudrate, bXonXoff, 100);
 }
 
 void GsmTA::write_ready()

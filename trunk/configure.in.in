@@ -4,6 +4,14 @@ AC_LANG_CPLUSPLUS
 AM_INIT_AUTOMAKE(sim,0.9.3)
 AC_STDC_HEADERS
 AC_C_BIGENDIAN
+LEX=""
+AC_PATH_PROG(LEX, flex, no)
+if test "x$LEX" == "xno" ; then
+   AC_PATH_PROG(LEX, lex, no)
+   if text "x$FLEX" == "xno" ; then
+      AC_MSG_ERROR([lex or flex not found!])
+   fi
+fi
 AM_PROG_LEX
 AM_CONDITIONAL(QT2, test "$kde_qtver" = "2")
 if test "$kde_qtver" = "2" ; then
@@ -60,6 +68,8 @@ AC_CHECK_FUNC(chmod,[AC_DEFINE(HAVE_CHMOD,1,[Have chmod])])
 AC_CHECK_FUNC(gethostbyname_r,[AC_DEFINE(HAVE_GETHOSTBYNAME_R,1,[Have gethostbyname_r])]) 
 AC_CHECK_FUNC(gethostbyaddr_r,[AC_DEFINE(HAVE_GETHOSTBYADDR_R,1,[Have gethostbyaddr_r])])
 
+AC_CHECK_LIB(xnet,inet_addr)
+AC_CHECK_LIB(socket, socket)
 AC_CHECK_LIB(art_lgpl_2,libart_version)
 KDE_LIB_LTDL
 
@@ -75,10 +85,11 @@ sim_plugindir="${kde_datadir}/sim/plugins"
 AC_SUBST(sim_plugindir)
 
 LIB_XML2=""
-XML2_CONFIG=xml2-config
-if ! which $XML2_CONFIG; then
+AC_PATH_PROG(XML2_CONFIG, xml2-config, no)
+if test "x$XML2_CONFIG" == "xno" ; then
    AC_MSG_ERROR([Executable xml2-config not found!
 Seems you have no libxml2 devel files installed.
+You can download it from http://xmlsoft.org/download.html
 ])
 fi
 
@@ -86,10 +97,11 @@ LIB_XML2=`$XML2_CONFIG --libs 2>/dev/null`
 CPPFLAGS="$CPPFLAGS `$XML2_CONFIG --cflags`"
 
 LIB_XSLT=""
-XSLT_CONFIG=xslt-config
-if ! which $XSLT_CONFIG; then
+AC_PATH_PROG(XSLT_CONFIG, xslt-config, no)
+if test "x$XSLT_CONFIG" == "xno" ; then
    AC_MSG_ERROR([Executable xslt-config not found!
 Seems you have no libxslt devel files installed.
+You can download it from http://xmlsoft.org/download.html
 ])
 fi
 
