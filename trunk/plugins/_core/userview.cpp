@@ -306,19 +306,6 @@ void *UserView::processEvent(Event *e)
         }
     case EventCommandExec:{
             CommandDef *cmd = (CommandDef*)(e->param());
-            if (cmd->menu_id == MenuSort){
-                switch (cmd->id){
-                case CmdSortStatus:
-                    CorePlugin::m_plugin->setSortLexic(false);
-                    sortAll();
-                    return e->param();
-                case CmdSortLexic:
-                    CorePlugin::m_plugin->setSortLexic(true);
-                    sortAll();
-                    return e->param();
-                }
-                return NULL;
-            }
             if (cmd->menu_id == MenuContact){
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));
                 if (contact){
@@ -518,20 +505,6 @@ void *UserView::processEvent(Event *e)
             CommandDef *cmd = (CommandDef*)(e->param());
             if (cmd->id == CmdGrpCreate)
                 return CorePlugin::m_plugin->getGroupMode() ? e->param() : NULL;
-            if (cmd->menu_id == MenuSort){
-                cmd->flags &= ~COMMAND_CHECKED;
-                switch (cmd->id){
-                case CmdSortStatus:
-                    if (!CorePlugin::m_plugin->getSortLexic())
-                        cmd->flags |= COMMAND_CHECKED;
-                    return e->param();
-                case CmdSortLexic:
-                    if (CorePlugin::m_plugin->getSortLexic())
-                        cmd->flags |= COMMAND_CHECKED;
-                    return e->param();
-                }
-                return NULL;
-            }
             if (cmd->menu_id == MenuGroups){
                 cmd->flags = cmd->flags & (~COMMAND_CHECKED);
                 if (((cmd->id == CmdGrpOff) && (CorePlugin::m_plugin->getGroupMode() == 0)) ||

@@ -36,6 +36,8 @@ const unsigned DIV_OFFLINE = 1;
 
 const unsigned CONTACT_TEXT		= 1;
 const unsigned CONTACT_ICONS	= 2;
+const unsigned CONTACT_ACTIVE	= 3;
+const unsigned CONTACT_STATUS	= 4;
 
 class UserViewItemBase : public QListViewItem
 {
