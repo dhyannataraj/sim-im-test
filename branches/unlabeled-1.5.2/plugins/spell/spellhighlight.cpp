@@ -282,7 +282,7 @@ void *SpellHighlighter::processEvent(Event *e)
                 unsigned n = cmd->id - m_plugin->CmdSpell - 2;
                 QString word = m_sug[n];
                 textEdit()->setSelection(m_parag, m_start_word, m_parag, m_start_word + m_word.length());
-                textEdit()->insert(word, true, true);
+                textEdit()->insert(word, true, true, true);
             }
         }
     }

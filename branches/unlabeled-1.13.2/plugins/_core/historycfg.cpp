@@ -559,12 +559,11 @@ bool HistoryConfig::eventFilter(QObject *o, QEvent *e)
         case Key_Enter:
         case Key_Return:
             QTimer::singleShot(0, this, SLOT(realRename()));
-            break;
+	        return true;
         case Key_Escape:
             QTimer::singleShot(0, this, SLOT(cancelRename()));
-            break;
+	        return true;
         }
-        return true;
     }
     return HistoryConfigBase::eventFilter(o, e);
 }
