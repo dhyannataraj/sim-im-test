@@ -53,8 +53,8 @@ ICQClient::ICQClient()
         ProxyUser(this, "ProxyUser"),
         ProxyPasswd(this, "ProxyPasswd"),
         DirectMode(this, "DirectMode", 2),
+	BirthdayReminder(this, "BirthdayReminder", "birthday.wav"),
         FileDone(this, "FileDone", "filedone.wav"),
-        BirthdayReminder(this, "BirthdayReminder", "birthday.wav"),
         contacts(this),
         m_bHeader(true), m_bBirthday(false)
 {

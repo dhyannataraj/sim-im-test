@@ -140,7 +140,7 @@ const char *MainWindow::sound(const char *wav)
              ((wav[0] == '\\') && (wav[1] == '\\'))))
         return wav;
 #else
-    if (*wav == '/') return vaw;
+    if (*wav == '/') return wav;
 #endif
     string s = "sounds";
 #ifdef WIN32
