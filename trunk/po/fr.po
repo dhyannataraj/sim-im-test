@@ -1,0 +1,4635 @@
+# Simple Instant Messenger - "SIM"
+# Copyright (C) 2002 Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.8.1\n"
+"POT-Creation-Date: 2002-12-15 12:38+0300\n"
+"PO-Revision-Date: 2002-12-17 17:43+0100\n"
+"Last-Translator: AppZer0 <apostledemencia@free.fr>\n"
+"Language-Team: fr-FR <apostledemencia@free.fr>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: client.cpp:57
+#: client.cpp:58
+#: libicq/country.cpp:7
+msgid "Arabic"
+msgstr "Arabe"
+
+#: libicq/country.cpp:8
+#, fuzzy
+msgid "Bhojpuri"
+msgstr "Bhojpuri"
+
+#: libicq/country.cpp:9
+msgid "Bulgarian"
+msgstr "Bulgare"
+
+#: libicq/country.cpp:10
+#, fuzzy
+msgid "Burmese"
+msgstr "Burmese"
+
+#: libicq/country.cpp:11
+msgid "Cantonese"
+msgstr "Cantonais"
+
+#: libicq/country.cpp:12
+msgid "Catalan"
+msgstr "Catalan"
+
+#: libicq/country.cpp:13
+#: ui/themesetup.cpp:64
+msgid "Chinese"
+msgstr "Chinois"
+
+#: libicq/country.cpp:14
+msgid "Croatian"
+msgstr "Croate"
+
+#: libicq/country.cpp:15
+#: ui/themesetup.cpp:55
+msgid "Czech"
+msgstr "Tchèque"
+
+#: libicq/country.cpp:16
+msgid "Danish"
+msgstr "Danois"
+
+#: libicq/country.cpp:17
+#: ui/themesetup.cpp:59
+msgid "Dutch"
+msgstr "Allemand"
+
+#: libicq/country.cpp:18
+#: ui/themesetup.cpp:54
+msgid "English"
+msgstr "Anglais"
+
+#: client.cpp:74
+#: libicq/country.cpp:19
+msgid "Esperanto"
+msgstr "Esperanto"
+
+#: libicq/country.cpp:20
+msgid "Estonian"
+msgstr "Estonien"
+
+#: libicq/country.cpp:21
+#, fuzzy
+msgid "Farsi"
+msgstr "Farsi"
+
+#: libicq/country.cpp:22
+msgid "Finnish"
+msgstr "Finnois"
+
+#: libicq/country.cpp:23
+msgid "French"
+msgstr "Français"
+
+#: libicq/country.cpp:24
+msgid "Gaelic"
+msgstr "Gaellique"
+
+#: libicq/country.cpp:25
+#: ui/themesetup.cpp:56
+msgid "German"
+msgstr "Allemand"
+
+#: client.cpp:76
+#: client.cpp:77
+#: libicq/country.cpp:26
+msgid "Greek"
+msgstr "Grec"
+
+#: client.cpp:79
+#: client.cpp:80
+#: libicq/country.cpp:27
+msgid "Hebrew"
+msgstr "Hébreu"
+
+#: libicq/country.cpp:28
+#, fuzzy
+msgid "Hindi"
+msgstr "Hindi"
+
+#: libicq/country.cpp:29
+msgid "Hungarian"
+msgstr "Hongrois"
+
+#: libicq/country.cpp:30
+msgid "Icelandic"
+msgstr "Islandais"
+
+#: libicq/country.cpp:31
+msgid "Indonesian"
+msgstr "Indonésien"
+
+#: libicq/country.cpp:32
+#: ui/themesetup.cpp:58
+msgid "Italian"
+msgstr "Italien"
+
+#: client.cpp:82
+#: client.cpp:83
+#: client.cpp:84
+#: libicq/country.cpp:33
+msgid "Japanese"
+msgstr "Japonais"
+
+#: libicq/country.cpp:34
+#, fuzzy
+msgid "Khmer"
+msgstr "Khmer"
+
+#: client.cpp:86
+#: libicq/country.cpp:35
+msgid "Korean"
+msgstr "Coréen"
+
+#: libicq/country.cpp:36
+#, fuzzy
+msgid "Lao"
+msgstr "Lao"
+
+#: libicq/country.cpp:37
+msgid "Latvian"
+msgstr "Latvien"
+
+#: libicq/country.cpp:38
+msgid "Lithuanian"
+msgstr "Lituanien"
+
+#: libicq/country.cpp:39
+msgid "Malay"
+msgstr "Malaisien"
+
+#: libicq/country.cpp:40
+msgid "Norwegian"
+msgstr "Norvégien"
+
+#: libicq/country.cpp:41
+#: ui/themesetup.cpp:60
+msgid "Polish"
+msgstr "Polonais"
+
+#: libicq/country.cpp:42
+msgid "Portuguese"
+msgstr "Portugais"
+
+#: libicq/country.cpp:43
+msgid "Romanian"
+msgstr "Roumain"
+
+#: libicq/country.cpp:44
+#: ui/themesetup.cpp:61
+msgid "Russian"
+msgstr "Russe"
+
+#: libicq/country.cpp:45
+msgid "Serbian"
+msgstr "Serbe"
+
+#: libicq/country.cpp:46
+msgid "Slovak"
+msgstr "Slovaque"
+
+#: libicq/country.cpp:47
+msgid "Slovenian"
+msgstr "Slovénien"
+
+#: libicq/country.cpp:48
+msgid "Somali"
+msgstr "Somalien"
+
+#: libicq/country.cpp:49
+#: ui/themesetup.cpp:57
+msgid "Spanish"
+msgstr "Espagnol"
+
+#: libicq/country.cpp:50
+#, fuzzy
+msgid "Swahili"
+msgstr "Swahili"
+
+#: libicq/country.cpp:51
+msgid "Swedish"
+msgstr "Suédois"
+
+#: libicq/country.cpp:52
+msgid "Tagalog"
+msgstr "Tagalog"
+
+#: libicq/country.cpp:53
+msgid "Tatar"
+msgstr "Tatar"
+
+#: client.cpp:94
+#: libicq/country.cpp:54
+msgid "Thai"
+msgstr "Thailandais"
+
+#: client.cpp:96
+#: client.cpp:97
+#: libicq/country.cpp:55
+#: ui/themesetup.cpp:62
+msgid "Turkish"
+msgstr "Turc"
+
+#: client.cpp:99
+#: libicq/country.cpp:56
+#: ui/themesetup.cpp:63
+msgid "Ukrainian"
+msgstr "Ukrainien"
+
+#: libicq/country.cpp:57
+msgid "Urdu"
+msgstr "Urdu"
+
+#: libicq/country.cpp:58
+msgid "Vietnamese"
+msgstr "Vietnamien"
+
+#: libicq/country.cpp:59
+msgid "Yiddish"
+msgstr "Yiddish"
+
+#: libicq/country.cpp:60
+msgid "Yoruba"
+msgstr "Yoruba"
+
+#: libicq/country.cpp:61
+msgid "Taiwanese"
+msgstr "Taiwanais"
+
+#: libicq/country.cpp:62
+msgid "Afrikaans"
+msgstr "Afrikaans"
+
+#: libicq/country.cpp:63
+msgid "Persian"
+msgstr "Perse"
+
+#: libicq/country.cpp:64
+msgid "Albanian"
+msgstr "Albanais"
+
+#: libicq/country.cpp:65
+msgid "Armenian"
+msgstr "Arménien"
+
+#: libicq/country.cpp:71
+msgid "Afghanistan"
+msgstr "Afghan"
+
+#: libicq/country.cpp:72
+msgid "Albania"
+msgstr "Albanie"
+
+#: libicq/country.cpp:73
+msgid "Algeria"
+msgstr "Algérie"
+
+#: libicq/country.cpp:74
+msgid "American Samoa"
+msgstr "Samoa"
+
+#: libicq/country.cpp:75
+msgid "Andorra"
+msgstr "Andorre"
+
+#: libicq/country.cpp:76
+msgid "Angola"
+msgstr "Angola"
+
+#: libicq/country.cpp:77
+msgid "Anguilla"
+msgstr "Anguilla"
+
+#: libicq/country.cpp:78
+msgid "Antigua"
+msgstr "Antigua"
+
+#: libicq/country.cpp:79
+msgid "Argentina"
+msgstr "Argentine"
+
+#: libicq/country.cpp:80
+msgid "Armenia"
+msgstr "Arménie"
+
+#: libicq/country.cpp:81
+msgid "Aruba"
+msgstr "Aruba"
+
+#: libicq/country.cpp:82
+#, fuzzy
+msgid "Ascension Island"
+msgstr "Ascension Island"
+
+#: libicq/country.cpp:83
+msgid "Australia"
+msgstr "Australie"
+
+#: libicq/country.cpp:84
+msgid "Australian Antarctic Territory"
+msgstr "Territoire Antarctique d'Australie"
+
+#: libicq/country.cpp:85
+msgid "Austria"
+msgstr "Autriche"
+
+#: libicq/country.cpp:86
+msgid "Azerbaijan"
+msgstr "Azerbaïdjan"
+
+#: libicq/country.cpp:87
+msgid "Bahamas"
+msgstr "Bahamas"
+
+#: libicq/country.cpp:88
+#, fuzzy
+msgid "Bahrain"
+msgstr "Bahrain"
+
+#: libicq/country.cpp:89
+msgid "Bangladesh"
+msgstr "Bangla Desh"
+
+#: libicq/country.cpp:90
+msgid "Barbados"
+msgstr "Barbades"
+
+#: libicq/country.cpp:91
+#, fuzzy
+msgid "Barbuda"
+msgstr "Barbuda"
+
+#: libicq/country.cpp:92
+msgid "Belarus"
+msgstr "Bélarus"
+
+#: libicq/country.cpp:93
+msgid "Belgium"
+msgstr "Belgique"
+
+#: libicq/country.cpp:94
+#, fuzzy
+msgid "Belize"
+msgstr "Belize"
+
+#: libicq/country.cpp:95
+msgid "Benin"
+msgstr "Bénin"
+
+#: libicq/country.cpp:96
+msgid "Bermuda"
+msgstr "Bermudes"
+
+#: libicq/country.cpp:97
+#, fuzzy
+msgid "Bhutan"
+msgstr "Bhutan"
+
+#: libicq/country.cpp:98
+msgid "Bolivia"
+msgstr "Bolivie"
+
+#: libicq/country.cpp:99
+msgid "Bosnia and Herzegovina"
+msgstr "Bosnie Herzégovine"
+
+#: libicq/country.cpp:100
+msgid "Botswana"
+msgstr "Botswana"
+
+#: libicq/country.cpp:101
+msgid "Brazil"
+msgstr "Brésil"
+
+#: libicq/country.cpp:102
+msgid "British Virgin Islands"
+msgstr "Iles vierges britaniques"
+
+#: libicq/country.cpp:103
+#, fuzzy
+msgid "Brunei"
+msgstr "Brunei"
+
+#: libicq/country.cpp:104
+msgid "Bulgaria"
+msgstr "Bulgarie"
+
+#: libicq/country.cpp:105
+msgid "Burkina Faso"
+msgstr "Burkina Faso"
+
+#: libicq/country.cpp:106
+msgid "Burundi"
+msgstr "Burundi"
+
+#: libicq/country.cpp:107
+msgid "Cambodia"
+msgstr "Canbodge"
+
+#: libicq/country.cpp:108
+msgid "Cameroon"
+msgstr "Cameroun"
+
+#: libicq/country.cpp:109
+msgid "Canada"
+msgstr "Canada"
+
+#: libicq/country.cpp:110
+msgid "Cape Verde Islands"
+msgstr "Cap Vert"
+
+#: libicq/country.cpp:111
+msgid "Cayman Islands"
+msgstr "Iles Caïman"
+
+#: libicq/country.cpp:112
+msgid "Central African Republic"
+msgstr "République Centrafrique"
+
+#: libicq/country.cpp:113
+msgid "Chad"
+msgstr "Chad"
+
+#: libicq/country.cpp:114
+msgid "Chile"
+msgstr "Chili"
+
+#: libicq/country.cpp:115
+msgid "China"
+msgstr "Chine"
+
+#: libicq/country.cpp:116
+#, fuzzy
+msgid "Christmas Island"
+msgstr "Christames Island"
+
+#: libicq/country.cpp:117
+msgid "Cocos-Keeling Islands"
+msgstr "Cocos-Keeling Islands"
+
+#: libicq/country.cpp:118
+msgid "Colombia"
+msgstr "Colombie"
+
+#: libicq/country.cpp:119
+#, fuzzy
+msgid "Comoros"
+msgstr "Comoros"
+
+#: libicq/country.cpp:120
+msgid "Congo"
+msgstr "Congo"
+
+#: libicq/country.cpp:121
+#, fuzzy
+msgid "Cook Islands"
+msgstr "Cook Islands"
+
+#: libicq/country.cpp:122
+msgid "Costa Rica"
+msgstr "Costa Rica"
+
+#: libicq/country.cpp:123
+msgid "Croatia"
+msgstr "Croatie"
+
+#: libicq/country.cpp:124
+msgid "Cuba"
+msgstr "Cuba"
+
+#: libicq/country.cpp:125
+msgid "Cyprus"
+msgstr "Chypre"
+
+#: libicq/country.cpp:126
+msgid "Czech Republic"
+msgstr "République Tchèque"
+
+#: libicq/country.cpp:127
+msgid "Denmark"
+msgstr "Danemark"
+
+#: libicq/country.cpp:128
+#, fuzzy
+msgid "Diego Garcia"
+msgstr "Diego Garcia"
+
+#: libicq/country.cpp:129
+msgid "Djibouti"
+msgstr "Djibouti"
+
+#: libicq/country.cpp:130
+msgid "Dominica"
+msgstr "Dominique"
+
+#: libicq/country.cpp:131
+msgid "Dominican Republic"
+msgstr "République Dominicaine"
+
+#: libicq/country.cpp:132
+msgid "Ecuador"
+msgstr "Equateur"
+
+#: libicq/country.cpp:133
+msgid "Egypt"
+msgstr "Egypte"
+
+#: libicq/country.cpp:134
+msgid "El Salvador"
+msgstr "Salvador"
+
+#: libicq/country.cpp:135
+msgid "Equatorial Guinea"
+msgstr "Guinée Equatoriale"
+
+#: libicq/country.cpp:136
+msgid "Eritrea"
+msgstr "Erithrée"
+
+#: libicq/country.cpp:137
+msgid "Estonia"
+msgstr "Estonie"
+
+#: libicq/country.cpp:138
+msgid "Ethiopia"
+msgstr "Ethiopie"
+
+#: libicq/country.cpp:139
+#, fuzzy
+msgid "Faeroe Islands"
+msgstr "Faeroe Islands"
+
+#: libicq/country.cpp:140
+msgid "Falkland Islands"
+msgstr "Falkland Islands"
+
+#: libicq/country.cpp:141
+msgid "Fiji Islands"
+msgstr "Iles Fidji"
+
+#: libicq/country.cpp:142
+msgid "Finland"
+msgstr "Finlande"
+
+#: libicq/country.cpp:143
+msgid "France"
+msgstr "France"
+
+#: libicq/country.cpp:144
+msgid "French Antilles"
+msgstr "Antilles françaises"
+
+#: libicq/country.cpp:145
+msgid "French Guiana"
+msgstr "Guinée française"
+
+#: libicq/country.cpp:146
+msgid "French Polynesia"
+msgstr "Polynésie française"
+
+#: libicq/country.cpp:147
+msgid "Gabon"
+msgstr "Gabon"
+
+#: libicq/country.cpp:148
+msgid "Gambia"
+msgstr "Gambie"
+
+#: libicq/country.cpp:149
+msgid "Georgia"
+msgstr "Géorgie"
+
+#: libicq/country.cpp:150
+msgid "Germany"
+msgstr "Allemagne"
+
+#: libicq/country.cpp:151
+msgid "Ghana"
+msgstr "Ghana"
+
+#: libicq/country.cpp:152
+msgid "Gibraltar"
+msgstr "Gibraltar"
+
+#: libicq/country.cpp:153
+msgid "Greece"
+msgstr "Grèce"
+
+#: libicq/country.cpp:154
+#, fuzzy
+msgid "Greenland"
+msgstr "Greenland"
+
+#: libicq/country.cpp:155
+msgid "Grenada"
+msgstr "Grenade"
+
+#: libicq/country.cpp:156
+msgid "Guadeloupe"
+msgstr "Guadeloupe"
+
+#: libicq/country.cpp:157
+#, fuzzy
+msgid "Guam"
+msgstr "Guam"
+
+#: libicq/country.cpp:158
+msgid "Guantanamo Bay"
+msgstr "Baie de Guantanamo"
+
+#: libicq/country.cpp:159
+msgid "Guatemala"
+msgstr "Guatemala"
+
+#: libicq/country.cpp:160
+msgid "Guinea"
+msgstr "Guinée"
+
+#: libicq/country.cpp:161
+msgid "Guinea-Bissau"
+msgstr "Guinée-Bissau"
+
+#: libicq/country.cpp:162
+msgid "Guyana"
+msgstr "Guyane"
+
+#: libicq/country.cpp:163
+msgid "Haiti"
+msgstr "Haiti"
+
+#: libicq/country.cpp:164
+msgid "Honduras"
+msgstr "Honduras"
+
+#: libicq/country.cpp:165
+msgid "Hong Kong"
+msgstr "Hong Kong"
+
+#: libicq/country.cpp:166
+msgid "Hungary"
+msgstr "Hongrie"
+
+#: libicq/country.cpp:167
+#, fuzzy
+msgid "INMARSAT (Atlantic-East)"
+msgstr "INMARSAT (Atlantique Est)"
+
+#: libicq/country.cpp:168
+#, fuzzy
+msgid "INMARSAT (Atlantic-West)"
+msgstr "INMARSAT (Atlantique Ouest)"
+
+#: libicq/country.cpp:169
+#, fuzzy
+msgid "INMARSAT (Indian)"
+msgstr "INMARSAT (Indien)"
+
+#: libicq/country.cpp:170
+#, fuzzy
+msgid "INMARSAT (Pacific)"
+msgstr "INMARSAT (Pacifique)"
+
+#: libicq/country.cpp:171
+#, fuzzy
+msgid "INMARSAT"
+msgstr "INMARSAT"
+
+#: libicq/country.cpp:172
+msgid "Iceland"
+msgstr "Islande"
+
+#: libicq/country.cpp:173
+msgid "India"
+msgstr "Inde"
+
+#: libicq/country.cpp:174
+msgid "Indonesia"
+msgstr "Indonésie"
+
+#: libicq/country.cpp:175
+#, fuzzy
+msgid "International Freephone Service"
+msgstr "International Freephone Service"
+
+#: libicq/country.cpp:176
+msgid "Iran"
+msgstr "Iran"
+
+#: libicq/country.cpp:177
+msgid "Iraq"
+msgstr "Irak"
+
+#: libicq/country.cpp:178
+msgid "Ireland"
+msgstr "Irlande"
+
+#: libicq/country.cpp:179
+#, fuzzy
+msgid "Israel"
+msgstr "Israël"
+
+#: libicq/country.cpp:180
+msgid "Italy"
+msgstr "Italie"
+
+#: libicq/country.cpp:181
+msgid "Ivory Coast"
+msgstr "Côte d'Ivoire"
+
+#: libicq/country.cpp:182
+msgid "Jamaica"
+msgstr "Jamaïque"
+
+#: libicq/country.cpp:183
+msgid "Japan"
+msgstr "Japon"
+
+#: libicq/country.cpp:184
+#, fuzzy
+msgid "Jordan"
+msgstr "Jordan"
+
+#: libicq/country.cpp:185
+msgid "Kazakhstan"
+msgstr "Khazakstan"
+
+#: libicq/country.cpp:186
+msgid "Kenya"
+msgstr "Kenya"
+
+#: libicq/country.cpp:187
+#, fuzzy
+msgid "Kiribati Republic"
+msgstr "Kribati Republic"
+
+#: libicq/country.cpp:188
+msgid "Korea (North)"
+msgstr "Corée du Nord"
+
+#: libicq/country.cpp:189
+msgid "Korea (Republic of)"
+msgstr "Corée"
+
+#: libicq/country.cpp:190
+msgid "Kuwait"
+msgstr "Koweit"
+
+#: libicq/country.cpp:191
+#, fuzzy
+msgid "Kyrgyz Republic"
+msgstr "Kyrgyz Republic"
+
+#: libicq/country.cpp:192
+msgid "Laos"
+msgstr "Laos"
+
+#: libicq/country.cpp:193
+msgid "Latvia"
+msgstr "Latvia"
+
+#: libicq/country.cpp:194
+#, fuzzy
+msgid "Lebanon"
+msgstr "Lebanon"
+
+#: libicq/country.cpp:195
+msgid "Lesotho"
+msgstr "Lesotho"
+
+#: libicq/country.cpp:196
+msgid "Liberia"
+msgstr "Liberia"
+
+#: libicq/country.cpp:197
+msgid "Libya"
+msgstr "Libye"
+
+#: libicq/country.cpp:198
+msgid "Liechtenstein"
+msgstr "Liechtenstein"
+
+#: libicq/country.cpp:199
+msgid "Lithuania"
+msgstr "Lituanie"
+
+#: libicq/country.cpp:200
+msgid "Luxembourg"
+msgstr "Luxembourg"
+
+#: libicq/country.cpp:201
+msgid "Macau"
+msgstr "Macao"
+
+#: libicq/country.cpp:202
+msgid "Madagascar"
+msgstr "Madagascar"
+
+#: libicq/country.cpp:203
+msgid "Malawi"
+msgstr "Malawi"
+
+#: libicq/country.cpp:204
+msgid "Malaysia"
+msgstr "Malaysie"
+
+#: libicq/country.cpp:205
+msgid "Maldives"
+msgstr "Maldives"
+
+#: libicq/country.cpp:206
+msgid "Mali"
+msgstr "Mali"
+
+#: libicq/country.cpp:207
+msgid "Malta"
+msgstr "Malte"
+
+#: libicq/country.cpp:208
+msgid "Marshall Islands"
+msgstr "Iles Marshall"
+
+#: libicq/country.cpp:209
+msgid "Martinique"
+msgstr "Martinique"
+
+#: libicq/country.cpp:210
+msgid "Mauritania"
+msgstr "Mauritanie"
+
+#: libicq/country.cpp:211
+#, fuzzy
+msgid "Mauritius"
+msgstr "Mauritius"
+
+#: libicq/country.cpp:212
+msgid "Mayotte Island"
+msgstr "Mayotte"
+
+#: libicq/country.cpp:213
+msgid "Mexico"
+msgstr "Méxique"
+
+#: libicq/country.cpp:214
+msgid "Micronesia, Federated States of"
+msgstr "Micronésie, Etats Fédéraux de"
+
+#: libicq/country.cpp:215
+msgid "Moldova"
+msgstr "Moldavie"
+
+#: libicq/country.cpp:216
+msgid "Monaco"
+msgstr "Monaco"
+
+#: libicq/country.cpp:217
+msgid "Mongolia"
+msgstr "Mongolie"
+
+#: libicq/country.cpp:218
+msgid "Montserrat"
+msgstr "Montserrat"
+
+#: libicq/country.cpp:219
+msgid "Morocco"
+msgstr "Maroc"
+
+#: libicq/country.cpp:220
+msgid "Mozambique"
+msgstr "Mozambique"
+
+#: libicq/country.cpp:221
+msgid "Myanmar"
+msgstr "Myanmar"
+
+#: libicq/country.cpp:222
+msgid "Namibia"
+msgstr "Namibie"
+
+#: libicq/country.cpp:223
+#, fuzzy
+msgid "Nauru"
+msgstr "Nauru"
+
+#: libicq/country.cpp:224
+msgid "Nepal"
+msgstr "Népal"
+
+#: libicq/country.cpp:225
+msgid "Netherlands Antilles"
+msgstr "Antilles (ays-Bas)"
+
+#: libicq/country.cpp:226
+msgid "Netherlands"
+msgstr "Pays-Bas"
+
+#: libicq/country.cpp:227
+#, fuzzy
+msgid "Nevis"
+msgstr "Nevis"
+
+#: libicq/country.cpp:228
+msgid "New Caledonia"
+msgstr "Nouvelle Calédonie"
+
+#: libicq/country.cpp:229
+msgid "New Zealand"
+msgstr "Nouvelle Zélande"
+
+#: libicq/country.cpp:230
+msgid "Nicaragua"
+msgstr "Nicaragua"
+
+#: libicq/country.cpp:231
+msgid "Niger"
+msgstr "Niger"
+
+#: libicq/country.cpp:232
+msgid "Nigeria"
+msgstr "Nigéria"
+
+#: libicq/country.cpp:233
+#, fuzzy
+msgid "Niue"
+msgstr "Niue"
+
+#: libicq/country.cpp:234
+msgid "Norfolk Island"
+msgstr "Norfolk Island"
+
+#: libicq/country.cpp:235
+msgid "Norway"
+msgstr "Norvège"
+
+#: libicq/country.cpp:236
+msgid "Oman"
+msgstr "Oman"
+
+#: libicq/country.cpp:237
+msgid "Pakistan"
+msgstr "Pakistan"
+
+#: libicq/country.cpp:238
+#, fuzzy
+msgid "Palau"
+msgstr "Palau"
+
+#: libicq/country.cpp:239
+msgid "Panama"
+msgstr "Panama"
+
+#: libicq/country.cpp:240
+msgid "Papua New Guinea"
+msgstr "Papouasie Nouvelle Guinée"
+
+#: libicq/country.cpp:241
+msgid "Paraguay"
+msgstr "Paraguay"
+
+#: libicq/country.cpp:242
+msgid "Peru"
+msgstr "Pérou"
+
+#: libicq/country.cpp:243
+msgid "Philippines"
+msgstr "philppines"
+
+#: libicq/country.cpp:244
+msgid "Poland"
+msgstr "Pologne"
+
+#: libicq/country.cpp:245
+msgid "Portugal"
+msgstr "Portugal"
+
+#: libicq/country.cpp:246
+msgid "Puerto Rico"
+msgstr "Puerto Rico"
+
+#: libicq/country.cpp:247
+msgid "Qatar"
+msgstr "Qatat"
+
+#: libicq/country.cpp:248
+msgid "Republic of Macedonia"
+msgstr "République de Macédoine"
+
+#: libicq/country.cpp:249
+msgid "Reunion Island"
+msgstr "Ile de la Réunion"
+
+#: libicq/country.cpp:250
+msgid "Romania"
+msgstr "Roumanie"
+
+#: libicq/country.cpp:251
+#, fuzzy
+msgid "Rota Island"
+msgstr "Rota Island"
+
+#: libicq/country.cpp:252
+msgid "Russia"
+msgstr "Russie"
+
+#: libicq/country.cpp:253
+msgid "Rwanda"
+msgstr "Rwanda"
+
+#: libicq/country.cpp:254
+msgid "Saint Lucia"
+msgstr "Sainte Lucie"
+
+#: libicq/country.cpp:255
+#, fuzzy
+msgid "Saipan Island"
+msgstr "Saipan Island"
+
+#: libicq/country.cpp:256
+#, fuzzy
+msgid "San Marino"
+msgstr "San Marino"
+
+#: libicq/country.cpp:257
+#, fuzzy
+msgid "Sao Tome and Principe"
+msgstr "Sao Tome and Principe"
+
+#: libicq/country.cpp:258
+msgid "Saudi Arabia"
+msgstr "Arabie Saoudite"
+
+#: libicq/country.cpp:259
+msgid "Senegal Republic"
+msgstr "République du Sénégal"
+
+#: libicq/country.cpp:260
+msgid "Seychelle Islands"
+msgstr "Seychelles"
+
+#: libicq/country.cpp:261
+msgid "Sierra Leone"
+msgstr "Sierra Leone"
+
+#: libicq/country.cpp:262
+msgid "Singapore"
+msgstr "Singapour"
+
+#: libicq/country.cpp:263
+msgid "Slovak Republic"
+msgstr "République Slovaque"
+
+#: libicq/country.cpp:264
+msgid "Slovenia"
+msgstr "Slovénie"
+
+#: libicq/country.cpp:265
+#, fuzzy
+msgid "Solomon Islands"
+msgstr "Iles Solomon"
+
+#: libicq/country.cpp:266
+msgid "Somalia"
+msgstr "Somalie"
+
+#: libicq/country.cpp:267
+msgid "South Africa"
+msgstr "Afrique du Sud"
+
+#: libicq/country.cpp:268
+msgid "Spain"
+msgstr "Espagne"
+
+#: libicq/country.cpp:269
+msgid "Sri Lanka"
+msgstr "Sri Lanka"
+
+#: libicq/country.cpp:270
+msgid "St. Helena"
+msgstr "Sainte Hélène"
+
+#: libicq/country.cpp:271
+#, fuzzy
+msgid "St. Kitts"
+msgstr "St. Kitts"
+
+#: libicq/country.cpp:272
+msgid "St. Pierre and Miquelon"
+msgstr "St. Pierre and Miquelon"
+
+#: libicq/country.cpp:273
+#, fuzzy
+msgid "St. Vincent and the Grenadines"
+msgstr "Saint Vincent les Grenades"
+
+#: libicq/country.cpp:274
+msgid "Sudan"
+msgstr "Soudan"
+
+#: libicq/country.cpp:275
+msgid "Suriname"
+msgstr "Surinam"
+
+#: libicq/country.cpp:276
+msgid "Swaziland"
+msgstr "Swaziland"
+
+#: libicq/country.cpp:277
+msgid "Sweden"
+msgstr "Suède"
+
+#: libicq/country.cpp:278
+msgid "Switzerland"
+msgstr "Suisse"
+
+#: libicq/country.cpp:279
+msgid "Syria"
+msgstr "Syrie"
+
+#: libicq/country.cpp:280
+msgid "Taiwan, Republic of China"
+msgstr "Taiwan"
+
+#: libicq/country.cpp:281
+msgid "Tajikistan"
+msgstr "Tadjikistan"
+
+#: libicq/country.cpp:282
+msgid "Tanzania"
+msgstr "Tanzanie"
+
+#: libicq/country.cpp:283
+msgid "Thailand"
+msgstr "Thailande"
+
+#: libicq/country.cpp:284
+#, fuzzy
+msgid "Tinian Island"
+msgstr "Tinian Island"
+
+#: libicq/country.cpp:285
+msgid "Togo"
+msgstr "Togo"
+
+#: libicq/country.cpp:286
+#, fuzzy
+msgid "Tokelau"
+msgstr "Tokelau"
+
+#: libicq/country.cpp:287
+msgid "Tonga"
+msgstr "Tonga"
+
+#: libicq/country.cpp:288
+msgid "Trinidad and Tobago"
+msgstr "Trinidad and Tobago"
+
+#: libicq/country.cpp:289
+msgid "Tunisia"
+msgstr "Tunisie"
+
+#: libicq/country.cpp:290
+msgid "Turkey"
+msgstr "Turquie"
+
+#: libicq/country.cpp:291
+msgid "Turkmenistan"
+msgstr "Turkménistan"
+
+#: libicq/country.cpp:292
+#, fuzzy
+msgid "Turks and Caicos Islands"
+msgstr "Turks and Caicos Islands"
+
+#: libicq/country.cpp:293
+#, fuzzy
+msgid "Tuvalu"
+msgstr "Tuvalu"
+
+#: libicq/country.cpp:294
+msgid "USA"
+msgstr "Etats-Unis"
+
+#: libicq/country.cpp:295
+msgid "Uganda"
+msgstr "Ouganda"
+
+#: libicq/country.cpp:296
+msgid "Ukraine"
+msgstr "Ukraine"
+
+#: libicq/country.cpp:297
+msgid "United Arab Emirates"
+msgstr "Emirats Arabes Unis"
+
+#: libicq/country.cpp:298
+msgid "United Kingdom"
+msgstr "Royaume Uni"
+
+#: libicq/country.cpp:299
+msgid "United States Virgin Islands"
+msgstr "Iles Vierges des Etats-unis"
+
+#: libicq/country.cpp:300
+msgid "Uruguay"
+msgstr "Uruguay"
+
+#: libicq/country.cpp:301
+msgid "Uzbekistan"
+msgstr "Ouzbékistan"
+
+#: libicq/country.cpp:302
+#, fuzzy
+msgid "Vanuatu"
+msgstr "Vanucatu"
+
+#: libicq/country.cpp:303
+msgid "Vatican City"
+msgstr "Le Vatican"
+
+#: libicq/country.cpp:304
+msgid "Venezuela"
+msgstr "Vénézuéla"
+
+#: libicq/country.cpp:305
+msgid "Vietnam"
+msgstr "Vietnam"
+
+#: libicq/country.cpp:306
+msgid "Wallis and Futuna Islands"
+msgstr "Wallis et Futuna"
+
+#: libicq/country.cpp:307
+#, fuzzy
+msgid "Western Samoa"
+msgstr "Ouest Samoa"
+
+#: libicq/country.cpp:308
+msgid "Yemen"
+msgstr "Yémen"
+
+#: libicq/country.cpp:309
+msgid "Yugoslavia"
+msgstr "Yougoslavie"
+
+#: libicq/country.cpp:310
+msgid "Zaire"
+msgstr "Zaïre"
+
+#: libicq/country.cpp:311
+msgid "Zambia"
+msgstr "Zambie"
+
+#: libicq/country.cpp:312
+msgid "Zimbabwe"
+msgstr "Zimbabwé"
+
+#: libicq/country.cpp:331
+msgid "Art"
+msgstr "Art"
+
+#: libicq/country.cpp:332
+msgid "Cars"
+msgstr "Automobiles"
+
+#: libicq/country.cpp:333
+msgid "Celebrity Fans"
+msgstr "Fans de célébrités"
+
+#: libicq/country.cpp:334
+msgid "Collections"
+msgstr "Collections"
+
+#: libicq/country.cpp:335
+#: libicq/country.cpp:416
+msgid "Computers"
+msgstr "Ordinateurs"
+
+#: libicq/country.cpp:336
+msgid "Culture & Literature"
+msgstr "Culture et Littérature"
+
+#: libicq/country.cpp:337
+msgid "Fitness"
+msgstr "Fitness"
+
+#: libicq/country.cpp:338
+msgid "Games"
+msgstr "Jeux"
+
+#: libicq/country.cpp:339
+msgid "Hobbies"
+msgstr "Passe-temps"
+
+#: libicq/country.cpp:340
+#: libicq/country.cpp:424
+msgid "ICQ - Providing Help"
+msgstr "ICQ - Obtenir de l'aide"
+
+#: libicq/country.cpp:341
+msgid "Internet"
+msgstr "Internet"
+
+#: libicq/country.cpp:342
+msgid "Lifestyle"
+msgstr "Mode de vie"
+
+#: libicq/country.cpp:343
+msgid "Movies/TV"
+msgstr "Films/Télévision"
+
+#: libicq/country.cpp:344
+msgid "Music"
+msgstr "Musique"
+
+#: libicq/country.cpp:345
+msgid "Outdoor Activities"
+msgstr "Activités de plein air"
+
+#: libicq/country.cpp:346
+#, fuzzy
+msgid "Parenting"
+msgstr "Parents"
+
+#: libicq/country.cpp:347
+msgid "Pets/Animals"
+msgstr "Animaux/Animaux de compagnie"
+
+#: libicq/country.cpp:348
+msgid "Religion"
+msgstr "Religion"
+
+#: libicq/country.cpp:349
+msgid "Science/Technology"
+msgstr "Sciences et technologie"
+
+#: libicq/country.cpp:350
+#, fuzzy
+msgid "Skills"
+msgstr "Compétences"
+
+#: libicq/country.cpp:351
+#: libicq/country.cpp:436
+msgid "Sports"
+msgstr "Sports"
+
+#: libicq/country.cpp:352
+msgid "Web Design"
+msgstr "Web Design"
+
+#: libicq/country.cpp:353
+msgid "Nature and Environment"
+msgstr "Nature et Environnement"
+
+#: libicq/country.cpp:354
+msgid "News & Media"
+msgstr "News et Médias"
+
+#: libicq/country.cpp:355
+#: libicq/country.cpp:421
+msgid "Government"
+msgstr "Gouvernement"
+
+#: libicq/country.cpp:356
+msgid "Business & Economy"
+msgstr "Affaires et Economie"
+
+#: libicq/country.cpp:357
+msgid "Mystics"
+msgstr "Mysticisme"
+
+#: libicq/country.cpp:358
+msgid "Travel"
+msgstr "Voyages"
+
+#: libicq/country.cpp:359
+msgid "Astronomy"
+msgstr "Astronomie"
+
+#: libicq/country.cpp:360
+msgid "Space"
+msgstr "Espace"
+
+#: libicq/country.cpp:361
+msgid "Clothing"
+msgstr "Mode"
+
+#: libicq/country.cpp:362
+msgid "Parties"
+msgstr "Fêtes"
+
+#: libicq/country.cpp:363
+msgid "Women"
+msgstr "Femmes"
+
+#: libicq/country.cpp:364
+msgid "Social science"
+msgstr "Sciences sociales"
+
+#: libicq/country.cpp:365
+msgid "60's"
+msgstr "Années 60"
+
+#: libicq/country.cpp:366
+msgid "70's"
+msgstr "Années 70"
+
+#: libicq/country.cpp:367
+msgid "80's"
+msgstr "Années 80"
+
+#: libicq/country.cpp:368
+msgid "50's"
+msgstr "Années 50"
+
+#: libicq/country.cpp:369
+msgid "Finance and corporate"
+msgstr "Finances"
+
+#: libicq/country.cpp:370
+msgid "Entertainment"
+msgstr "Divertissement"
+
+#: libicq/country.cpp:371
+msgid "Consumer electronics"
+msgstr "Electronique"
+
+#: libicq/country.cpp:372
+msgid "Retail stores"
+msgstr "Magasins"
+
+#: libicq/country.cpp:373
+msgid "Health and beauty"
+msgstr "Santé/Beauté"
+
+#: libicq/country.cpp:374
+msgid "Media"
+msgstr "Médias"
+
+#: libicq/country.cpp:375
+msgid "Household products"
+msgstr "Produits Ménagers"
+
+#: libicq/country.cpp:376
+#, fuzzy
+msgid "Mail order catalog"
+msgstr "Mail Order Catalog"
+
+#: libicq/country.cpp:377
+msgid "Business services"
+msgstr "Services pour professionnels"
+
+#: libicq/country.cpp:378
+msgid "Audio and visual"
+msgstr "Audiovisuel"
+
+#: libicq/country.cpp:379
+msgid "Sporting and athletic"
+msgstr "Sports/Athlétisme"
+
+#: libicq/country.cpp:380
+msgid "Publishing"
+msgstr "Publication"
+
+#: libicq/country.cpp:381
+#, fuzzy
+msgid "Home automation"
+msgstr "Utilitaires Maison"
+
+#: libicq/country.cpp:387
+msgid "Alumni Org."
+msgstr "Alumni Org."
+
+#: libicq/country.cpp:388
+msgid "Charity Org."
+msgstr "Charité"
+
+#: libicq/country.cpp:389
+msgid "Club/Social Org."
+msgstr "Clubs/Cercles"
+
+#: libicq/country.cpp:390
+msgid "Community Org."
+msgstr "Communautés"
+
+#: libicq/country.cpp:391
+msgid "Cultural Org."
+msgstr "Organisations culturelles"
+
+#: libicq/country.cpp:392
+msgid "Fan Clubs"
+msgstr "Fan Clubs"
+
+#: libicq/country.cpp:393
+msgid "Fraternity/Sorority"
+msgstr "Fraternité"
+
+#: libicq/country.cpp:394
+msgid "Hobbyists Org."
+msgstr "Cercles de Hobbyistes"
+
+#: libicq/country.cpp:395
+msgid "International Org."
+msgstr "Org. internationales"
+
+#: libicq/country.cpp:396
+msgid "Nature and Environment Org."
+msgstr "Org. écologistes"
+
+#: libicq/country.cpp:397
+msgid "Professional Org."
+msgstr "Org. professionnelles"
+
+#: libicq/country.cpp:398
+msgid "Scientific/Technical Org."
+msgstr "Org.Org. scientifiques/Techniques"
+
+#: libicq/country.cpp:399
+msgid "Self Improvement Group"
+msgstr "Group d'Amélioration Personnelle"
+
+#: libicq/country.cpp:400
+msgid "Spiritual/Religious Org."
+msgstr "Org. Reigieuses/Spirituelles"
+
+#: libicq/country.cpp:401
+msgid "Sports Org."
+msgstr "Org. sportives"
+
+#: libicq/country.cpp:402
+msgid "Support Org."
+msgstr "Org. de supporters"
+
+#: libicq/country.cpp:403
+msgid "Trade and Business Org."
+msgstr "Org. commerciales et d'Affaires"
+
+#: libicq/country.cpp:404
+msgid "Union"
+msgstr "Union"
+
+#: libicq/country.cpp:405
+msgid "Volunteer Org."
+msgstr "Org. bénévoles"
+
+#: libicq/country.cpp:406
+#: libicq/country.cpp:452
+msgid "Other"
+msgstr "Autres"
+
+#: libicq/country.cpp:412
+msgid "Academic"
+msgstr "Académique"
+
+#: libicq/country.cpp:413
+msgid "Administrative"
+msgstr "Administratif"
+
+#: libicq/country.cpp:414
+msgid "Art/Entertainment"
+msgstr "Art/Divertissement"
+
+#: libicq/country.cpp:415
+msgid "College Student"
+msgstr "Etudiants"
+
+#: libicq/country.cpp:417
+msgid "Community & Social"
+msgstr "Société/communauté"
+
+#: libicq/country.cpp:418
+msgid "Education"
+msgstr "Education"
+
+#: libicq/country.cpp:419
+msgid "Engineering"
+msgstr "Ingénierie"
+
+#: libicq/country.cpp:420
+msgid "Financial Services"
+msgstr "Services Financiers"
+
+#: libicq/country.cpp:422
+msgid "High School Student"
+msgstr "Etudiants universitaires"
+
+#: libicq/country.cpp:423
+#, fuzzy
+msgid "Home"
+msgstr "Maison"
+
+#: libicq/country.cpp:425
+msgid "Law"
+msgstr "Justice/Droit/Loi"
+
+#: libicq/country.cpp:426
+msgid "Managerial"
+msgstr "Management"
+
+#: libicq/country.cpp:427
+msgid "Manufacturing"
+msgstr "Manufactures"
+
+#: libicq/country.cpp:428
+msgid "Medical/Health"
+msgstr "Médecine/Santé"
+
+#: libicq/country.cpp:429
+#: libicq/country.cpp:449
+msgid "Military"
+msgstr "Armée/Militaires"
+
+#: libicq/country.cpp:430
+msgid "Non-Goverment Organisation"
+msgstr "ONG"
+
+#: libicq/country.cpp:431
+msgid "Other services"
+msgstr "Autres Services"
+
+#: libicq/country.cpp:432
+msgid "Professional"
+msgstr "Porfessionnel"
+
+#: libicq/country.cpp:433
+msgid "Retail"
+msgstr "Commerce"
+
+#: libicq/country.cpp:434
+msgid "Retired"
+msgstr "Retraité(e)s"
+
+#: libicq/country.cpp:435
+msgid "Science & Research"
+msgstr "Science et Recherche"
+
+#: libicq/country.cpp:437
+msgid "Technical"
+msgstr "technique"
+
+#: libicq/country.cpp:438
+msgid "University student"
+msgstr "Etudiant/Univ."
+
+#: libicq/country.cpp:439
+msgid "Web building"
+msgstr "Web"
+
+#: libicq/country.cpp:445
+msgid "Elementary School"
+msgstr "Ecole"
+
+#: libicq/country.cpp:446
+msgid "High School"
+msgstr "Collège"
+
+#: libicq/country.cpp:447
+msgid "College"
+msgstr "Lycée"
+
+#: libicq/country.cpp:448
+msgid "University"
+msgstr "Université"
+
+#: libicq/country.cpp:450
+msgid "Past Work Place"
+msgstr "Ancien lieu de travail"
+
+#: libicq/country.cpp:451
+msgid "Past Organization"
+msgstr "Entreprise"
+
+#: libicq/country.cpp:458
+msgid "Female"
+msgstr "Femme"
+
+#: libicq/country.cpp:459
+msgid "Male"
+msgstr "Homme"
+
+#: about.cpp:280
+msgid "replace this with information about your translation team"
+msgstr "remplacez ceci avec vos infos sur l'équipe de traduction"
+
+#: about.cpp:296
+msgid "This program is distributed under the terms of the GPL v2."
+msgstr "ce programme est distribué selon les termes de la GPL version 2."
+
+#: chatwnd.cpp:75
+#: ui/userinfobase.cpp:54
+msgid "Save"
+msgstr "Enregistrer"
+
+#: chatwnd.cpp:82
+msgid "Bold"
+msgstr "Gras"
+
+#: chatwnd.cpp:88
+msgid "Italic"
+msgstr "Italique"
+
+#: chatwnd.cpp:94
+msgid "Underline"
+msgstr "Souligné"
+
+#: chatwnd.cpp:99
+msgid "Text color"
+msgstr "Couleur texte"
+
+#: chatwnd.cpp:240
+msgid "Enter to chat"
+msgstr "Entrer dans le salon"
+
+#: chatwnd.cpp:350
+#: ui/filetransfer.cpp:250
+#, c-format
+msgid "Can't create %1"
+msgstr "Impossible de créer %1"
+
+#: client.cpp:55
+msgid "Unicode"
+msgstr "Unicode"
+
+#: client.cpp:60
+#: client.cpp:61
+msgid "Baltic"
+msgstr "Baltique"
+
+#: client.cpp:63
+#: client.cpp:64
+msgid "Central European"
+msgstr "Europe Centrale"
+
+#: client.cpp:66
+msgid "Chinese "
+msgstr "Chnois"
+
+#: client.cpp:67
+msgid "Chinese Simplified"
+msgstr "Chnois simplifié"
+
+#: client.cpp:68
+msgid "Chinese Traditional"
+msgstr "Chnios traditionnel"
+
+#: client.cpp:70
+#: client.cpp:71
+#: client.cpp:72
+msgid "Cyrillic"
+msgstr "Cyrillique"
+
+#: client.cpp:88
+#: client.cpp:89
+#: client.cpp:90
+msgid "Western European"
+msgstr "Europe de l'OUest"
+
+#: client.cpp:92
+msgid "Tamil"
+msgstr "Tamil"
+
+#: client.cpp:294
+msgid "I am currently away from ICQ.\n"
+"Please leave your message and I will get back to you as soon as I return!\n"
+msgstr "Je ne suis pas là pour le moment.\n"
+"Veuillez laisser un message et je vous reviendrai dès que possible !\n"
+
+#: client.cpp:298
+msgid "I am out'a here.\n"
+"See you tomorrow!\n"
+msgstr "Je suis parti.\n"
+"A demain !\n"
+
+#: client.cpp:302
+msgid "Please do not disturb me now. Disturb me later.\n"
+msgstr "Ne pas déranger. Dérangez-moi plus tard.\n"
+
+#: client.cpp:305
+msgid ""
+"Please do not disturb me now.\n"
+"Disturb me later.\n"
+"Only urgent messages, please!\n"
+msgstr ""
+"Ne pas me déranger maintenant.\n"
+"Dérangez-moi plus tard.\n"
+"Uniquement pour des messages urgents, SVP!\n"
+
+#: client.cpp:309
+msgid "We'd love to hear what you have to say. Join our chat.\n"
+msgstr "Nous aimerions savoir ce que vous avez à dire. Rejoignez-nous.\n"
+
+#: client.cpp:1006
+#, c-format
+msgid "_n: Message\n"
+"%n messages"
+msgstr "_n : Messages\n"
+"%n messages"
+
+#: client.cpp:1008
+#, c-format
+msgid "_n: Chat request\n"
+"%n chat requests"
+msgstr "_n : Demande de discussion\n"
+"%n demandes de discussion"
+
+#: client.cpp:1010
+#: msgview.cpp:200
+#, c-format
+msgid "_n: File\n"
+"%n files"
+msgstr "_n : Fichier\n"
+"%n fichiers"
+
+#: client.cpp:1012
+#, c-format
+msgid "_n: URL\n"
+"%n URL"
+msgstr "_n : URL\n"
+"%n URL"
+
+#: client.cpp:1014
+#, c-format
+msgid "_n: Authorization request\n"
+"%n authorization requests"
+msgstr "_n : Demande d'autorisation\n"
+"%n demandes d'autorisation"
+
+#: client.cpp:1016
+#, c-format
+msgid "_n: Authorization refused\n"
+"%n authorizations refused"
+msgstr "_n : Autorisation refusée\n"
+"%n autorisations refusées"
+
+#: client.cpp:1018
+#, c-format
+msgid "_n: Authorization granted\n"
+"%n authorizations granted"
+msgstr "_n : Autorisation acceptée\n"
+"%n autorisations refusées"
+
+#: client.cpp:1020
+#, c-format
+msgid "_n: Added to contact list\n"
+"%n times added to contact list"
+msgstr "_n : Ajouté à la liste de contacts\n"
+"%n ajoutés à la liste de contacts"
+
+#: client.cpp:1022
+#, c-format
+msgid "_n: WWW-panel message\n"
+"%n WWW-panel messages"
+msgstr "_n: Message WWW\n"
+"%n messages WWW"
+
+#: client.cpp:1024
+#, c-format
+msgid "_n: Email pager message\n"
+"%n Email pager messages"
+msgstr "_n : Message Pager email\n"
+"%n messages Pager email"
+
+#: client.cpp:1026
+#, c-format
+msgid "_n: Contact list\n"
+"%n contact lists"
+msgstr "_n : Liste de contacts\n"
+"%n listes de contacts"
+
+#: client.cpp:1028
+#, c-format
+msgid "_n: Contacts request\n"
+"%n contacts requests"
+msgstr "_n : Demande de contacts\n"
+"%n demandes de contacts"
+
+#: client.cpp:1030
+#, c-format
+msgid "_n: External unknown message\n"
+"%n unknown messages"
+msgstr "_n : Message externe inconnu\n"
+"%n messages externes inconnus"
+
+#: client.cpp:1032
+#, c-format
+msgid "_n: SMS\n"
+"%n SMS"
+msgstr "_n : SMS\n"
+"%n SMS"
+
+#: client.cpp:1034
+#, c-format
+msgid "_n: SMS receipt\n"
+"%n SMS receipts"
+msgstr "_n : Réception SMS\n"
+"%n réceptions SMS"
+
+#: client.cpp:1036
+#, c-format
+msgid "_n: Email\n"
+"%n emails"
+msgstr "_n : Email\n"
+"%n Emails"
+
+#: client.cpp:1038
+#, c-format
+msgid "_n: Request secure channel\n"
+"%n requests secure channel"
+msgstr "_n : Demande de transmission sécurisée\n"
+"%n demandes de transmissions sécurisées"
+
+#: client.cpp:1040
+#, c-format
+msgid "_n: Close secure channel\n"
+"%n times close secure channel"
+msgstr "_n : Fermeture de transmission sécurisée\n"
+"%n fermeture de transmissions sécurisée"
+
+#: client.cpp:1044
+#, c-format
+msgid "_n: Unknown message\n"
+"%n unknown messages"
+msgstr "_n : Message inconnu\n"
+"%n messages inconnus"
+
+#: client.cpp:1051
+msgid "_: Ctrl+N\n"
+"new"
+msgstr "_: Ctrl+N\n"
+"Nouveau"
+
+#: client.cpp:1053
+msgid "_: Ctrl+B\n"
+"chat msg"
+msgstr "_: Ctrl+B\n"
+"Message"
+
+#: client.cpp:1055
+msgid "_: Ctrl+F\n"
+"File"
+msgstr "_: Ctrl+F\n"
+"Fichier"
+
+#: client.cpp:1057
+msgid "_: Ctrl+L\n"
+"URL"
+msgstr "_: Ctrl+L\n"
+"Lien"
+
+#: client.cpp:1059
+msgid "_: Ctrl+R\n"
+"AuthRequest"
+msgstr "_: Ctrl+R\n"
+"Demande Autorisation"
+
+#: client.cpp:1061
+msgid "_: Ctrl+T\n"
+"Contacts"
+msgstr "_: Ctrl+T\n"
+"Contacts"
+
+#: client.cpp:1063
+msgid "_: Ctrl+S\n"
+"SMS"
+msgstr "_: Ctrl+S\n"
+"SMS"
+
+#: client.cpp:1065
+msgid "_: Ctrl+E\n"
+"EMail"
+msgstr "_: Ctrl+E\n"
+"Email"
+
+#: client.cpp:1094
+#: userview.cpp:1297
+msgid "Offline"
+msgstr "Déconnecté"
+
+#: client.cpp:1095
+msgid "Do not disturb"
+msgstr "Ne pas déranger"
+
+#: client.cpp:1096
+msgid "Occupied"
+msgstr "Occupé"
+
+#: client.cpp:1097
+msgid "N/A"
+msgstr "NC"
+
+#: client.cpp:1098
+msgid "Free for chat"
+msgstr "Disponible"
+
+#: client.cpp:1099
+msgid "Away"
+msgstr "Absent"
+
+#: client.cpp:1100
+#: cuser.cpp:216
+#: userview.cpp:1294
+msgid "Online"
+msgstr "Connecté"
+
+#: client.cpp:1113
+#: mainwin.cpp:2698
+msgid "Invisible"
+msgstr "Invisible"
+
+#: control.cpp:218
+msgid "set status"
+msgstr "Régler Etat"
+
+#: control.cpp:219
+msgid "set invisible mode"
+msgstr "Régler Mode Invisible"
+
+#: control.cpp:220
+msgid "send message"
+msgstr "Envoyer message"
+
+#: control.cpp:221
+msgid "send SMS"
+msgstr "Envoyer SMS"
+
+#: control.cpp:222
+msgid "show/hide main window"
+msgstr "Monter/Cacher fenêtre principale"
+
+#: control.cpp:223
+msgid "show/hide search window"
+msgstr "Monter/Cacher fenêtre de recherche"
+
+#: control.cpp:224
+msgid "quit SIM"
+msgstr "Quitter SIM"
+
+#: control.cpp:225
+msgid "close session"
+msgstr "Fermes Session"
+
+#: control.cpp:226
+msgid "command help information"
+msgstr "Infos sur l'Aide"
+
+#: control.cpp:307
+#, c-format
+msgid "? Unknown command %1"
+msgstr "? Contact Inconnu %1"
+
+#: control.cpp:315
+#, c-format
+msgid "? Bad arguments number. Try help %1"
+msgstr "? Erreur nombre d'arguments. Essayez l'Aide %1"
+
+#: control.cpp:356
+#, c-format
+msgid "? Unknown status %1"
+msgstr "? Etat Inconnu %1"
+
+#: cuser.cpp:62
+#: cuser.cpp:74
+msgid "Unknown"
+msgstr "Inconnu"
+
+#: cuser.cpp:208
+#: ui/maininfo.cpp:136
+msgid "Last online"
+msgstr "Dernier Connecté"
+
+#: dock.cpp:942
+#: mainwin.cpp:871
+msgid "%1 from %2"
+msgstr "%1 sur %2"
+
+#: dock.cpp:955
+#: mainwin.cpp:1974
+msgid "Connecting"
+msgstr "Connexion"
+
+#: editspell.cpp:316
+msgid "Spell check"
+msgstr "Vérif. Orthographe"
+
+#: kabcsync.cpp:54
+msgid "IM Address"
+msgstr "Adresse IM"
+
+#: mainwin.cpp:442
+#: monitor.cpp:133
+msgid "Error"
+msgstr "Erreur"
+
+#: mainwin.cpp:443
+msgid "There is already an auto hidden window on this edge.\n"
+"Only one auto hidden window is allowed on each edge."
+msgstr "Il y a déjà une fenêtre cachée ici.\n"
+"Seule 1 fenêtre cachée automatiquement est autorisée."
+
+#: mainwin.cpp:610
+msgid "Show &offline"
+msgstr "Montrer Déc&onnecté"
+
+#: mainwin.cpp:611
+msgid "&Group mode"
+msgstr "Mode &Group"
+
+#: mainwin.cpp:613
+#: mainwin.cpp:2720
+#: usertbl.cpp:113
+msgid "Status"
+msgstr "Etat"
+
+#: mainwin.cpp:614
+msgid "&Menu"
+msgstr "&Menu"
+
+#: mainwin.cpp:616
+#: mainwin.cpp:2716
+msgid "Find User"
+msgstr "Trouver Utilisateur"
+
+#: mainwin.cpp:617
+#: mainwin.cpp:2717
+msgid "Add Non-IM contact"
+msgstr "Ajouter Contact non-IM"
+
+#: mainwin.cpp:618
+#: mainwin.cpp:2718
+msgid "Send SMS"
+msgstr "Envoyer SMS"
+
+#: mainwin.cpp:619
+#: mainwin.cpp:2722
+#: ui/setupdlg.cpp:97
+msgid "Setup"
+msgstr "Préférences"
+
+#: mainwin.cpp:620
+#: mainwin.cpp:2733
+#: monitor.cpp:59
+msgid "Network monitor"
+msgstr "Moniteur réseau"
+
+#: mainwin.cpp:708
+msgid "Current location"
+msgstr "Localisation actuelle"
+
+#: mainwin.cpp:709
+msgid "Phone status"
+msgstr "Etat Téléphone"
+
+#: mainwin.cpp:711
+msgid "Phone Book"
+msgstr "Répertoire Téléphonique"
+
+#: mainwin.cpp:884
+msgid "AutoHide"
+msgstr "Cacher Auto."
+
+#: mainwin.cpp:1222
+msgid "%1 from %2 received"
+msgstr "%1 sur %2 reçu(s)"
+
+#: mainwin.cpp:1261
+#: ui/logindlg.cpp:232
+msgid "Can't connect to proxy server"
+msgstr "Impossible de se connecter au proxy"
+
+#: mainwin.cpp:1268
+#: ui/logindlg.cpp:239
+msgid "Proxy server require authorization"
+msgstr "Le proxy requiert une autorisation"
+
+#: mainwin.cpp:1269
+#: ui/logindlg.cpp:240
+msgid "Invalid password for proxy"
+msgstr "Mot de passe invalide pour le proxy"
+
+#: mainwin.cpp:1282
+msgid "Your UIN used from another location"
+msgstr "Votre UIN est utilisé depuis un autre endroit"
+
+#: mainwin.cpp:1337
+msgid "%1 is online"
+msgstr "%1 est connecté."
+
+#: mainwin.cpp:1950
+#: mainwin.cpp:2281
+#: ui/enable.cpp:122
+#: ui/logindlg.cpp:298
+msgid "&Yes"
+msgstr "Oui"
+
+#: mainwin.cpp:1951
+#: mainwin.cpp:2282
+#: ui/enable.cpp:126
+#: ui/logindlg.cpp:299
+msgid "&No"
+msgstr "&Non"
+
+#: mainwin.cpp:1952
+msgid "Add %1 to ignore list ?"
+msgstr "Ajouter %1 à la liste des ignorés ?"
+
+#: mainwin.cpp:2016
+msgid "In visible list"
+msgstr "Dans la liste visible"
+
+#: mainwin.cpp:2018
+msgid "In invisible list"
+msgstr "Dans la liste invisible"
+
+#: mainwin.cpp:2021
+msgid "In ignore list"
+msgstr "Dans la liste des ignorés"
+
+#: mainwin.cpp:2037
+#: mainwin.cpp:2723
+msgid "Groups"
+msgstr "Groupes"
+
+#: mainwin.cpp:2038
+#: usertbl.cpp:391
+#: userview.cpp:1683
+msgid "Delete"
+msgstr "Supprimer"
+
+#: mainwin.cpp:2039
+#: userview.cpp:681
+#: userview.cpp:1684
+msgid "_: Del\n"
+"Delete"
+msgstr "_: Suppr\n"
+"Supprimer"
+
+#: mainwin.cpp:2043
+msgid "&User info"
+msgstr "Infos &Utilisateur"
+
+#: mainwin.cpp:2044
+msgid "_: Ctrl+U\n"
+"UserInfo"
+msgstr "_: Ctrl+U\Info Utilisateur"
+
+#: mainwin.cpp:2045
+msgid "&History"
+msgstr "&Historique"
+
+#: mainwin.cpp:2046
+msgid "_: Ctrl+H\n"
+"History"
+msgstr "_: Ctrl+H\n"
+"Historique"
+
+#: mainwin.cpp:2048
+#: ui/setupdlg.cpp:129
+#: ui/userinfo.cpp:90
+msgid "Alert"
+msgstr "Alerte"
+
+#: mainwin.cpp:2049
+msgid "_: Ctrl+L\n"
+"Alert"
+msgstr "_: Ctrl+L\n"
+"Alerte"
+
+#: mainwin.cpp:2050
+#: ui/acceptbase.cpp:137
+msgid "Accept mode"
+msgstr "Accepter le mode"
+
+#: mainwin.cpp:2051
+msgid "_: Ctrl+A\n"
+"Accept"
+msgstr "_: Ctrl+A\n"
+"Accepter"
+
+#: mainwin.cpp:2052
+#: ui/setupdlg.cpp:128
+#: ui/userinfo.cpp:92
+msgid "Sound"
+msgstr "Son"
+
+#: mainwin.cpp:2053
+msgid "_: Ctrl+S\n"
+"Sound"
+msgstr "_: Ctrl+S\n"
+"Son"
+
+#: mainwin.cpp:2056
+msgid "Floating off"
+msgstr "Flottant activé"
+
+#: mainwin.cpp:2056
+msgid "Floating on"
+msgstr "Flottant désactivé"
+
+#: mainwin.cpp:2057
+msgid "_: Ctrl+T\n"
+"Floating"
+msgstr "_: Ctrl+T\n"
+"Flottement"
+
+#: mainwin.cpp:2060
+msgid "Users"
+msgstr "Utilisateurs"
+
+#: mainwin.cpp:2061
+#: ui/aboutdlgbase.cpp:131
+#: ui/enable.cpp:125
+#: ui/filetransfer.cpp:156
+#: ui/logindlgbase.cpp:94
+#: ui/proxydlgbase.cpp:58
+#: ui/securedlg.cpp:62
+#: ui/setupdlgbase.cpp:71
+#: ui/toolsetupbase.cpp:113
+#: ui/userautoreply.cpp:76
+msgid "&Close"
+msgstr "&Clore"
+
+#: mainwin.cpp:2062
+msgid "_: Ctrl+C\n"
+"Close"
+msgstr "_: Ctrl+C\n"
+"Fermer"
+
+#: mainwin.cpp:2064
+msgid "Alphabetically sort"
+msgstr "Tri alphabétique"
+
+#: mainwin.cpp:2065
+msgid "_: Ctrl+B\n"
+"Alphabetically sort"
+msgstr "_: Ctrl+B\n"
+"Tri alphabétique"
+
+#: mainwin.cpp:2283
+msgid "Delete %1?"
+msgstr "Supprimer %1 ?"
+
+#: mainwin.cpp:2462
+msgid "New"
+msgstr "Nouveau"
+
+#: mainwin.cpp:2465
+msgid "To container"
+msgstr "Dans le groupe"
+
+#: mainwin.cpp:2470
+msgid "Read %1 message"
+msgstr "Lire %1 message"
+
+#: mainwin.cpp:2701
+msgid "Don't show"
+msgstr "Cacher"
+
+#: mainwin.cpp:2702
+msgid "Available"
+msgstr "Disponible"
+
+#: mainwin.cpp:2703
+msgid "Busy"
+msgstr "Occupé"
+
+#: mainwin.cpp:2706
+#: userview.cpp:1685
+msgid "Create group"
+msgstr "Créer groupe"
+
+#: mainwin.cpp:2708
+#: userview.cpp:1694
+msgid "Expand all"
+msgstr "Développer tout"
+
+#: mainwin.cpp:2709
+#: userview.cpp:1696
+msgid "Collapse all"
+msgstr "Réduire tout"
+
+#: mainwin.cpp:2711
+#: toolbtn.cpp:688
+msgid "Customize toolbar..."
+msgstr "Personnaliser barre d'outils"
+
+#: mainwin.cpp:2714
+msgid "ICQ"
+msgstr "ICQ"
+
+#: mainwin.cpp:2724
+msgid "Phone \"Follow Me\""
+msgstr "téléphone \"Suivez-Moi\""
+
+#: mainwin.cpp:2726
+msgid "Shared files"
+msgstr "Fichiers partagés"
+
+#: mainwin.cpp:2730
+msgid "Always on top"
+msgstr "Toujours visble"
+
+#: mainwin.cpp:2734
+msgid "&Bug report"
+msgstr "Rapport de &Bug"
+
+#: mainwin.cpp:2735
+msgid "&About SIM"
+msgstr "&A propos de SIM"
+
+#: mainwin.cpp:2737
+msgid "About &KDE"
+msgstr "A propos de &KDE"
+
+#: mainwin.cpp:2740
+msgid "Change UIN"
+msgstr "Changer l'UIN"
+
+#: mainwin.cpp:2741
+msgid "Quit"
+msgstr "Quitter"
+
+#: _translatorinfo.cpp:1
+#: mainwin.cpp:2957
+msgid "_: NAME OF TRANSLATORS\n"
+"Your names"
+msgstr "_: NOMS DES TRADUCTEURS\n"
+"Vos noms"
+
+#: _translatorinfo.cpp:3
+#: mainwin.cpp:2958
+msgid "_: EMAIL OF TRANSLATORS\n"
+"Your emails"
+msgstr "_: EMAILS DES TRADUCTEURS\n"
+"Vos emails"
+
+#: mainwin.cpp:2984
+msgid "light"
+msgstr "fin"
+
+#: mainwin.cpp:2988
+msgid "demibold"
+msgstr "semi-gras"
+
+#: mainwin.cpp:2992
+msgid "bold"
+msgstr "gras"
+
+#: mainwin.cpp:2996
+msgid "black"
+msgstr "noir"
+
+#: mainwin.cpp:3003
+msgid "italic"
+msgstr "italique"
+
+#: monitor.cpp:67
+msgid "&Save"
+msgstr "&Sauver"
+
+#: monitor.cpp:69
+msgid "E&xit"
+msgstr "Quitter"
+
+#: monitor.cpp:70
+#: ui/acceptbase.cpp:163
+msgid "&File"
+msgstr "&Fichier"
+
+#: monitor.cpp:73
+msgid "&Copy"
+msgstr "&Copier"
+
+#: monitor.cpp:74
+msgid "&Erase"
+msgstr "&effacer"
+
+#: monitor.cpp:75
+#: ui/phonebookbase.cpp:100
+msgid "&Edit"
+msgstr "&Editer"
+
+#: monitor.cpp:79
+msgid "&Packets"
+msgstr "&Paquets"
+
+#: monitor.cpp:80
+msgid "&Debug"
+msgstr "&Débugguer"
+
+#: monitor.cpp:81
+msgid "&Warnings"
+msgstr "&Warnings"
+
+#: monitor.cpp:82
+msgid "&Error"
+msgstr "&Erreur"
+
+#: monitor.cpp:83
+msgid "&Log"
+msgstr "&Log"
+
+#: monitor.cpp:133
+#, c-format
+msgid "Can't create file %1"
+msgstr "Impossible de créer le fichier %1"
+
+#: msgedit.cpp:78
+msgid "Decline file without reason"
+msgstr "Refuser le fichier sans raison"
+
+#: msgedit.cpp:80
+msgid "Sorry, I'm busy right now, and can not respond to your request"
+msgstr "Désolé, je suis occupé en ce moment et je ne peux répondre à votre demande."
+
+#: msgedit.cpp:82
+msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
+msgstr "Désolé, je suis occupé en ce moment mais je pourrai vous répondre plus tard."
+
+#: msgedit.cpp:84
+msgid "Enter a decline reason"
+msgstr "Entrer une raison de refus"
+
+#: msgedit.cpp:113
+msgid "Bac&kground color"
+msgstr "Couluer Arrière-plan"
+
+#: msgedit.cpp:114
+msgid "&Text color"
+msgstr "Couleur de &texte"
+
+#: msgedit.cpp:115
+msgid "&Bold"
+msgstr "Gras"
+
+#: msgedit.cpp:116
+msgid "&Italic"
+msgstr "&Italique"
+
+#: msgedit.cpp:117
+msgid "&Underline"
+msgstr "So&uligné"
+
+#: msgedit.cpp:118
+msgid "Text &font"
+msgstr "Police de texte"
+
+#: msgedit.cpp:119
+msgid "Inser&t smile"
+msgstr "Met&tre un smiley"
+
+#: msgedit.cpp:120
+msgid "&Grant"
+msgstr "Autoriser"
+
+#: msgedit.cpp:121
+msgid "&Refuse"
+msgstr "&Refuser"
+
+#: msgedit.cpp:122
+msgid "&Accept"
+msgstr "&Accepter"
+
+#: msgedit.cpp:123
+msgid "&Decline"
+msgstr "&Décliner"
+
+#: msgedit.cpp:124
+msgid "&Reply"
+msgstr "&Répondre"
+
+#: msgedit.cpp:125
+msgid "&Quote"
+msgstr "Citer"
+
+#: msgedit.cpp:126
+#: ui/smssetupbase.cpp:82
+msgid "&Forward"
+msgstr "&Faire suivre"
+
+#: msgedit.cpp:128
+msgid "Spell &check"
+msgstr "Vérifi&cation ortho."
+
+#: msgedit.cpp:130
+msgid "C&lose after send"
+msgstr "Fermer après &l'envoi"
+
+#: msgedit.cpp:132
+#: msgedit.cpp:359
+msgid "&Send"
+msgstr "Envoyer"
+
+#: msgedit.cpp:133
+msgid "&Next"
+msgstr "Suivant"
+
+#: msgedit.cpp:135
+msgid "&Multiply send"
+msgstr "Envoi &massif"
+
+#: msgedit.cpp:177
+msgid "Phone:"
+msgstr "Téléphone :"
+
+#: msgedit.cpp:186
+#: ui/soundsetupbase.cpp:88
+msgid "URL:"
+msgstr "URL :"
+
+#: msgedit.cpp:193
+#: msgedit.cpp:1363
+#: msgview.cpp:202
+msgid "File"
+msgstr "Fichier"
+
+#: msgedit.cpp:200
+msgid "Drag users here"
+msgstr "Glisser les utilisateurs ici"
+
+#: msgedit.cpp:349
+msgid "Sending"
+msgstr "Envoi"
+
+#: msgedit.cpp:357
+#: ui/addphonebase.cpp:106
+#: ui/emaileditbase.cpp:64
+#: ui/enable.cpp:125
+#: ui/filetransfer.cpp:246
+#: ui/filetransferbase.cpp:117
+#: ui/securedlgbase.cpp:47
+msgid "&Cancel"
+msgstr "Annuler"
+
+#: msgedit.cpp:493
+msgid "No files for transfer"
+msgstr "Aucun fichier à transférer"
+
+#: msgedit.cpp:511
+msgid "Transfer started"
+msgstr "Tranfert démarré"
+
+#: msgedit.cpp:514
+msgid "Chat started"
+msgstr "Discussion démarrée"
+
+#: msgedit.cpp:583
+msgid "Message sent"
+msgstr "Message envoyé"
+
+#: msgedit.cpp:586
+msgid "Send failed"
+msgstr "Echec de l'envoi"
+
+#: msgedit.cpp:868
+msgid "Next"
+msgstr "Suivant"
+
+#: msgedit.cpp:879
+msgid "&New message"
+msgstr "&Nouveau message"
+
+#: msgedit.cpp:921
+msgid "%1 (ICQ# %2) wrote:<br>\n"
+msgstr "%1 (ICQ# %2) a écrit :<br>\n"
+
+#: msgedit.cpp:1173
+msgid "Save to"
+msgstr "Enregistrer sous"
+
+#: msgedit.cpp:1559
+msgid "Size: %1 / Max. size: %2"
+msgstr "Taille : %1 / Taille max. : %2"
+
+#: msgedit.cpp:1563
+msgid "Message will be split"
+msgstr "Le message sera scindé"
+
+#: msgedit.cpp:1738
+msgid "Decline reason"
+msgstr "Décliner la raison"
+
+#: msgedit.cpp:1738
+msgid "Please, input decline reason:"
+msgstr "Veuillez entrer une raison de refus :"
+
+#: msgview.cpp:159
+msgid "Authorization request"
+msgstr "Demande d'autorisation"
+
+#: msgview.cpp:170
+msgid "Authorization refused"
+msgstr "Autorisation refusée"
+
+#: msgview.cpp:180
+msgid "Authorization granted"
+msgstr "Autorisation acceptée"
+
+#: msgview.cpp:183
+msgid "Added to contact list"
+msgstr "Ajouté à la liste de contacts"
+
+#: msgview.cpp:187
+msgid "Contact request"
+msgstr "Demande de contact"
+
+#: msgview.cpp:209
+msgid "bytes"
+msgstr "octets"
+
+#: msgview.cpp:226
+msgid "Contact list received"
+msgstr "Liste de contacts reçue"
+
+#: msgview.cpp:226
+msgid "Contact list sent"
+msgstr "Liste de contacts envoyée"
+
+#: msgview.cpp:828
+#: ui/searchbase.cpp:38
+#: ui/searchbase.cpp:51
+msgid "Search"
+msgstr "Rechercher"
+
+#: msgview.cpp:829
+msgid "&Search"
+msgstr "Rechercher"
+
+#: msgview.cpp:830
+msgid "&Filter"
+msgstr "&Filtre"
+
+#: msgview.cpp:832
+msgid "&Previous page"
+msgstr "Page &Précédente"
+
+#: msgview.cpp:833
+msgid "&Next page"
+msgstr "Page Suiva&nte"
+
+#: msgview.cpp:835
+msgid "&Sort order"
+msgstr "Trier l'ordre"
+
+#: sim.cpp:116
+msgid "_: Dear translator, please do not translate this string in any form, but pick the _right_ value out of NoPlural/TwoForms/French... If not sure what to do mail thd@kde.org and coolo@kde.org, they will tell you. Better leave that out if unsure, the programs will crash!!\n"
+"Definition of PluralForm - to be set by the translator of kdelibs.po"
+msgstr "_: Cher traducteur, veuillez ne traduire ce mot sous aucun prétexte, mettez la bonne valeur sans pluriel/composés/français... Si vous n'êtes pas sûr, mailez thd@kde.org et coolo@kde.org, ils vous aideront. Mieux vaut ne pas y toucher, ou le programme crashera fatalement !!!\n"
+"Definition de PluralForms - à faire par le traducteur de kdelibs.po"
+
+#: sim.cpp:519
+msgid "SIM"
+msgstr "SIM"
+
+#: sim.cpp:521
+msgid "ICQ client"
+msgstr "Client ICQ"
+
+#: sim.cpp:528
+msgid "Maintainer"
+msgstr "Mainteneur"
+
+#: sim.cpp:535
+msgid "Directory for files"
+msgstr "Répertoire des fichiers"
+
+#: sim.cpp:536
+#, fuzzy
+msgid "Loglevel"
+msgstr "Loglevel"
+
+#: sim.cpp:537
+msgid "Control socket"
+msgstr "socket de contrôle"
+
+#: themes.cpp:123
+#: themes.cpp:132
+msgid "Default style"
+msgstr "Style par défaut"
+
+#: userbox.cpp:106
+msgid "Message"
+msgstr "Message"
+
+#: userbox.cpp:108
+msgid "User"
+msgstr "Utilisateur"
+
+#: userbox.cpp:110
+msgid "Add to ignore &list"
+msgstr "Ajouter à la &liste des ignorés"
+
+#: userbox.cpp:111
+msgid "Move to &group"
+msgstr "Déplacer vers le &groupe"
+
+#: userbox.cpp:113
+msgid "User &info"
+msgstr "&Infos Utilisateur"
+
+#: userbox.cpp:114
+msgid "&History<br>with CTRL open in new window"
+msgstr "&Historique<br> avec CTRL ouvre dans une nouvelle fenêtre"
+
+#: userbox.cpp:115
+msgid "&Encoding"
+msgstr "&Encodage"
+
+#: userbox.cpp:117
+msgid "Close user &window"
+msgstr "Fermer la fenêtre Utilisateur"
+
+#: userbox.cpp:264
+msgid "All encodings"
+msgstr "Tous les encodages"
+
+#: userbox.cpp:358
+msgid "All users"
+msgstr "Tous les utilisateurs"
+
+#: ui/userinfo.cpp:73
+#: userbox.cpp:407
+#: usertbl.cpp:405
+msgid "User info"
+msgstr "Info utilisateur"
+
+#: userbox.cpp:458
+msgid "History"
+msgstr "Historique"
+
+#: userbox.cpp:1117
+msgid "History loading"
+msgstr "Chargement de l'historique"
+
+#: ui/searchbase.cpp:223
+#: usertbl.cpp:110
+msgid "UIN"
+msgstr "UIN"
+
+#: usertbl.cpp:112
+msgid "Alias"
+msgstr "Alias"
+
+#: usertbl.cpp:115
+msgid "Name"
+msgstr "Nom"
+
+#: usertbl.cpp:116
+msgid "Email"
+msgstr "Email"
+
+#: usertbl.cpp:392
+msgid "Erase"
+msgstr "Effacer"
+
+#: usertbl.cpp:394
+msgid "Add group"
+msgstr "Ajouter groupe"
+
+#: usertbl.cpp:395
+msgid "Add all"
+msgstr "Ajouter tout"
+
+#: usertbl.cpp:411
+msgid "Add to group"
+msgstr "Ajouter au groupe"
+
+#: userview.cpp:528
+#: userview.cpp:1300
+msgid "Not in list"
+msgstr "Pas dans la liste"
+
+#: userview.cpp:683
+#: userview.cpp:1686
+msgid "_: Ctrl+N\n"
+"Create group"
+msgstr "_: Ctrl+N\Créer groupe"
+
+#: userview.cpp:888
+#: userview.cpp:904
+msgid "New group"
+msgstr "Nouveau groupe"
+
+#: userview.cpp:1681
+msgid "Rename"
+msgstr "Renommer"
+
+#: userview.cpp:1689
+msgid "Up"
+msgstr "Haut"
+
+#: userview.cpp:1691
+msgid "Down"
+msgstr "Bas"
+
+#: ui/aboutdlg.cpp:41
+msgid "%1 Version: %2"
+msgstr "%1 Version : %2"
+
+#: ui/aboutdlg.cpp:44
+msgid "Bug report"
+msgstr "Rapport de bogue"
+
+#: ui/addphone.cpp:34
+msgid "Home Phone"
+msgstr "Téléphone domicile"
+
+#: ui/addphone.cpp:35
+msgid "Home Fax"
+msgstr "Fax"
+
+#: ui/addphone.cpp:36
+msgid "Private Cellular"
+msgstr "Tél. mobile"
+
+#: ui/addphone.cpp:37
+msgid "Work Phone"
+msgstr "Téléphone Travail"
+
+#: ui/addphone.cpp:38
+msgid "Work Fax"
+msgstr "Fax Travail"
+
+#: ui/addphone.cpp:39
+msgid "Wireless Pager"
+msgstr "Pager/bipper"
+
+#: ui/alertdialog.cpp:55
+msgid "Left-bottom"
+msgstr "En bas à gauche"
+
+#: ui/alertdialog.cpp:56
+msgid "Left-top"
+msgstr "En haut à gauche"
+
+#: ui/alertdialog.cpp:57
+msgid "Right-bottom"
+msgstr "En bas à droite"
+
+#: ui/alertdialog.cpp:58
+msgid "Right-top"
+msgstr "En haut à droite"
+
+#: ui/alertdialog.cpp:59
+msgid "Center-bottom"
+msgstr "Centré en bas"
+
+#: ui/alertdialog.cpp:60
+msgid "Center-top"
+msgstr "Centré en haut"
+
+#: ui/alertmsg.cpp:41
+msgid "User "
+msgstr "Utilisateur"
+
+#: ui/alertmsg.cpp:41
+msgid " is online"
+msgstr "est connecté"
+
+#: ui/alertmsg.cpp:51
+msgid "Close [%1 sec]"
+msgstr "Fermer [%1 sec.]"
+
+#: ui/autoreply.cpp:87
+msgid "Close in %1 sec"
+msgstr "Fermeture dans %1 sec."
+
+#: ui/addphonebase.cpp:112
+#: ui/alertmsgbase.cpp:52
+#: ui/autoreplybase.cpp:53
+#: ui/ballonmsg.cpp:194
+#: ui/emaileditbase.cpp:70
+#: ui/enable.cpp:122
+#: ui/logindlgbase.cpp:98
+#: ui/proxydlgbase.cpp:53
+#: ui/setupdlgbase.cpp:63
+#: ui/toolsetupbase.cpp:102
+msgid "&Ok"
+msgstr "&OK"
+
+#: ui/editfile.cpp:86
+msgid "Directory for incoming files"
+msgstr "Répertoire pour la réception des fichiers"
+
+#: ui/editfile.cpp:123
+msgid "*.wav|Sounds"
+msgstr "*.wav|Sons"
+
+#: ui/editfile.cpp:125
+msgid "Sounds(*.wav)"
+msgstr "Sons(*.wav)"
+
+#: ui/enable.cpp:123
+#: ui/setupdlgbase.cpp:67
+#: ui/toolsetupbase.cpp:107
+msgid "&Apply"
+msgstr "&Appliquer"
+
+#: ui/enable.cpp:123
+msgid "&Register"
+msgstr "Insc&ription"
+
+#: ui/filetransfer.cpp:72
+msgid "_n: Receive file from %1\n"
+"Receive %n files from %1"
+msgstr "_n: Récevoir fichier depuis %1\n"
+"Recevoir %n fichiers depuis %1"
+
+#: ui/filetransfer.cpp:74
+msgid "_n: Send file to %1\n"
+"Send %n files to %1"
+msgstr "_n: Envoyer fichier à %1\n"
+"Envoyer %n fichiers à %1"
+
+#: ui/filetransfer.cpp:136
+msgid "[done]"
+msgstr "[Effectué]"
+
+#: ui/filetransfer.cpp:140
+msgid "[fail]"
+msgstr "[Echec]"
+
+#: ui/filetransfer.cpp:201
+msgid "Receive file %1 of %2 files from %3"
+msgstr "Recevoir le fichier %1 sur %2 fichiers depuis %3"
+
+#: ui/filetransfer.cpp:203
+msgid "Send file %1 of %2 files to %3"
+msgstr "Envoyer le fichier %1 sur %2 fichiers à %3"
+
+#: ui/filetransfer.cpp:245
+#: ui/filetransfer.cpp:264
+msgid "&New"
+msgstr "&Nouveau"
+
+#: ui/filetransfer.cpp:262
+msgid "&Replace"
+msgstr "&Remplacer"
+
+#: ui/filetransfer.cpp:263
+msgid "R&esume"
+msgstr "R&eprendre"
+
+#: ui/filetransfer.cpp:265
+msgid "&Skip"
+msgstr "&Sauter"
+
+#: ui/filetransfer.cpp:269
+msgid "File %1 exist"
+msgstr "Le fichier %1 existe déjà"
+
+#: ui/generalsec.cpp:79
+msgid "Input current password"
+msgstr "Entrez le mot de passe actuel"
+
+#: ui/generalsec.cpp:83
+msgid "Confirm password does not match"
+msgstr "Les mots de passe ne correspondent pas"
+
+#: ui/generalsec.cpp:88
+#: ui/logindlg.cpp:227
+#: ui/logindlg.cpp:292
+msgid "Invalid password"
+msgstr "Mot de passe incorrect"
+
+#: ui/keysetup.cpp:33
+msgid "Action"
+msgstr "Action"
+
+#: ui/keysetup.cpp:34
+msgid "Keys"
+msgstr "Touches"
+
+#: ui/keysetup.cpp:36
+msgid "Show/Hide main window"
+msgstr "Montrer/Cacher la fenêtre principale"
+
+#: ui/keysetup.cpp:39
+msgid "Double click on dock"
+msgstr "Double-cliquez sur le \'dock\'"
+
+#: ui/keysetup.cpp:42
+msgid "Show search window"
+msgstr "Montrer fenêtre de recherche"
+
+#: ui/listsec.cpp:95
+#: ui/setupdlg.cpp:152
+msgid "Visible list"
+msgstr "Liste visible"
+
+#: ui/listsec.cpp:113
+#: ui/setupdlg.cpp:151
+msgid "Invisible list"
+msgstr "Liste invisible"
+
+#: ui/listsec.cpp:131
+#: ui/setupdlg.cpp:150
+msgid "Ignore list"
+msgstr "Liste des ignorés"
+
+#: ui/logindlg.cpp:84
+msgid "<New UIN>"
+msgstr "<Nouveau UIN>"
+
+#: ui/logindlg.cpp:141
+#: ui/logindlg.cpp:208
+msgid "Can't initialize main window"
+msgstr "Impossible d'initialiser la fenêtre principale"
+
+#: ui/logindlg.cpp:150
+#: ui/searchdlg.cpp:107
+msgid "Cancel"
+msgstr "Annuler"
+
+#: ui/logindlg.cpp:188
+#: ui/searchbase.cpp:59
+#: ui/searchdlg.cpp:110
+msgid "Close"
+msgstr "Fermer"
+
+#: ui/logindlg.cpp:219
+msgid "Unknown login error"
+msgstr "Erreur d'authentification inconnue"
+
+#: ui/logindlg.cpp:223
+msgid "Rate limit"
+msgstr "Limite de taux"
+
+#: ui/logindlg.cpp:300
+#, c-format
+msgid "Delete history and incoming files for %u?"
+msgstr "Effacer l'historique et les fichiers entrants pour %u ?"
+
+#: ui/maininfo.cpp:46
+msgid "Default"
+msgstr "Par défaut"
+
+#: ui/miscsetup.cpp:93
+msgid "Addressbook synchronization"
+msgstr "Synchronisationdu carnet d'adresses"
+
+#: ui/miscsetup.cpp:93
+msgid "Success."
+msgstr "Succès"
+
+#: ui/moreinfo.cpp:73
+msgid "January"
+msgstr "Janvier"
+
+#: ui/moreinfo.cpp:74
+msgid "February"
+msgstr "Février"
+
+#: ui/moreinfo.cpp:75
+msgid "March"
+msgstr "Mars"
+
+#: ui/moreinfo.cpp:76
+msgid "April"
+msgstr "Avril"
+
+#: ui/moreinfo.cpp:77
+msgid "May"
+msgstr "Mai"
+
+#: ui/moreinfo.cpp:78
+msgid "June"
+msgstr "Juin"
+
+#: ui/moreinfo.cpp:79
+msgid "July"
+msgstr "Juillet"
+
+#: ui/moreinfo.cpp:80
+msgid "August"
+msgstr "Août"
+
+#: ui/moreinfo.cpp:81
+msgid "September"
+msgstr "Septembre"
+
+#: ui/moreinfo.cpp:82
+msgid "October"
+msgstr "Octobre"
+
+#: ui/moreinfo.cpp:83
+msgid "November"
+msgstr "Novembre"
+
+#: ui/moreinfo.cpp:84
+msgid "December"
+msgstr "Décembre"
+
+#: ui/network.cpp:47
+#: ui/proxydlg.cpp:41
+msgid "No proxy"
+msgstr "Aucun proxy"
+
+#: ui/network.cpp:48
+#: ui/proxydlg.cpp:42
+msgid "SOCKS4"
+msgstr "SOCKS4"
+
+#: ui/network.cpp:49
+#: ui/proxydlg.cpp:43
+msgid "SOCKS5"
+msgstr "SOCKS5"
+
+#: ui/network.cpp:50
+#: ui/proxydlg.cpp:44
+msgid "HTTP"
+msgstr "HTTP"
+
+#: ui/network.cpp:52
+#: ui/proxydlg.cpp:46
+msgid "HTTPS"
+msgstr "HTTPS"
+
+#: ui/phonebook.cpp:55
+msgid "Yes"
+msgstr "Oui"
+
+#: ui/phonebook.cpp:78
+msgid "Type"
+msgstr "Type"
+
+#: ui/phonebook.cpp:80
+msgid "Number"
+msgstr "Numéro"
+
+#: ui/phonebook.cpp:81
+msgid "Publish"
+msgstr "Publier"
+
+#: ui/searchdlg.cpp:218
+msgid "No users was found"
+msgstr "Aucun utilisateur trouvé"
+
+#: ui/securedlg.cpp:61
+msgid "[Failed]"
+msgstr "[Echec]"
+
+#: ui/setupdlg.cpp:108
+msgid "My details"
+msgstr "Mes infos"
+
+#: ui/setupdlg.cpp:111
+#: ui/userinfo.cpp:76
+msgid "Main info"
+msgstr "Infos générales"
+
+#: ui/setupdlg.cpp:112
+#: ui/userinfo.cpp:78
+msgid "Home info"
+msgstr "Infos Lieu"
+
+#: ui/setupdlg.cpp:113
+#: ui/userinfo.cpp:79
+msgid "Work info"
+msgstr "Infos Travail"
+
+#: ui/setupdlg.cpp:114
+#: ui/userinfo.cpp:80
+msgid "More info"
+msgstr "Plus d'infos"
+
+#: ui/setupdlg.cpp:115
+#: ui/userinfo.cpp:81
+msgid "About info"
+msgstr "Infos A propos"
+
+#: ui/setupdlg.cpp:116
+#: ui/userinfo.cpp:82
+msgid "Interests"
+msgstr "Intérêts"
+
+#: ui/setupdlg.cpp:117
+#: ui/userinfo.cpp:83
+msgid "Group/Past"
+msgstr "Groupe"
+
+#: ui/setupdlg.cpp:118
+#: ui/userinfo.cpp:85
+msgid "Phone book"
+msgstr "Répertoire téléphonique"
+
+#: ui/setupdlg.cpp:120
+#: ui/userinfo.cpp:88
+msgid "Preferences"
+msgstr "Préférences"
+
+#: ui/setupdlg.cpp:123
+msgid "Status mode"
+msgstr "Mode d'Etat"
+
+#: ui/setupdlg.cpp:124
+msgid "Connection"
+msgstr "Connexion"
+
+#: ui/setupdlg.cpp:125
+msgid "Style"
+msgstr "Style"
+
+#: ui/setupdlg.cpp:126
+msgid "Interface"
+msgstr "Interface"
+
+#: ui/setupdlg.cpp:127
+msgid "Key shortcuts"
+msgstr "Raccourcis Clavier"
+
+#: ui/setupdlg.cpp:130
+#: ui/userinfo.cpp:91
+msgid "Accept"
+msgstr "Accepter"
+
+#: ui/setupdlg.cpp:131
+msgid "SMS"
+msgstr "SMS"
+
+#: ui/setupdlg.cpp:134
+msgid "Miscellaneous"
+msgstr "Divers"
+
+#: ui/setupdlg.cpp:137
+msgid "Auto reply"
+msgstr "Réponse automatique"
+
+#: ui/setupdlg.cpp:146
+msgid "Security"
+msgstr "Sécurité"
+
+#: ui/setupdlg.cpp:149
+msgid "General"
+msgstr "Général"
+
+#: ui/themesetup.cpp:53
+msgid "System"
+msgstr "Système"
+
+#: ui/themesetup.cpp:129
+msgid "%1|Graphics"
+msgstr "%1|Graphismes"
+
+#: ui/themesetup.cpp:131
+msgid "Graphics(%1)"
+msgstr "Graphismes(%1)"
+
+#: ui/themesetup.cpp:136
+msgid "Contact - left"
+msgstr "Contact - Gauche"
+
+#: ui/themesetup.cpp:137
+#, fuzzy
+msgid "Contact - scale"
+msgstr "Contact - Scale"
+
+#: ui/themesetup.cpp:138
+msgid "Window - left top"
+msgstr "Fenêtre - en haut à gauche"
+
+#: ui/themesetup.cpp:139
+msgid "Window - left bottom"
+msgstr "Fenêtre - en bas à gauche"
+
+#: ui/themesetup.cpp:140
+msgid "Window - left center"
+msgstr "Fenêtre - centrée à gauche"
+
+#: ui/themesetup.cpp:141
+#, fuzzy
+msgid "Window - scale"
+msgstr "Fenêtre - scale"
+
+#: ui/themesetup.cpp:204
+msgid "Need restart SIM for change language"
+msgstr "Redémarrage de SIM obligatoire pour changer la langue !"
+
+#: ui/themesetup.cpp:214
+msgid "Default icons"
+msgstr "Icônes par défaut"
+
+#: ui/toolsetup.cpp:63
+#: ui/toolsetup.cpp:132
+#: ui/toolsetup.cpp:159
+msgid "Separator"
+msgstr "Séparation"
+
+#: ui/userautoreply.cpp:51
+msgid "%1 autoresponse for %2"
+msgstr "%1 réponse automatique pour %2"
+
+#: ui/userautoreply.cpp:90
+msgid "&Check again"
+msgstr "Vérifier en&core"
+
+#: ui/searchbase.cpp:44
+msgid "Online only"
+msgstr "Connectés uniquement"
+
+#: ui/searchbase.cpp:55
+msgid "New search"
+msgstr "Nouvelle recherche"
+
+#: ui/searchbase.cpp:77
+msgid "Email:"
+msgstr "Email :"
+
+#: ui/moreinfobase.cpp:107
+#: ui/searchbase.cpp:95
+msgid "Age:"
+msgstr "Age :"
+
+#: ui/searchbase.cpp:105
+#: ui/themesetupbase.cpp:289
+msgid "Language:"
+msgstr "Langue :"
+
+#: ui/moreinfobase.cpp:94
+#: ui/searchbase.cpp:111
+msgid "Gender:"
+msgstr "Sexe :"
+
+#: ui/homeinfobase.cpp:102
+#: ui/phonebase.cpp:117
+#: ui/searchbase.cpp:117
+#: ui/workinfobase.cpp:83
+msgid "Country:"
+msgstr "Pays :"
+
+#: ui/homeinfobase.cpp:114
+#: ui/searchbase.cpp:123
+#: ui/workinfobase.cpp:57
+msgid "City:"
+msgstr "Ville :"
+
+#: ui/homeinfobase.cpp:81
+#: ui/searchbase.cpp:133
+#: ui/workinfobase.cpp:67
+msgid "State:"
+msgstr "Etat :"
+
+#: ui/searchbase.cpp:143
+msgid "Department:"
+msgstr "Région :"
+
+#: ui/searchbase.cpp:153
+msgid "Company:"
+msgstr "Entreprise :"
+
+#: ui/searchbase.cpp:163
+msgid "Interests:"
+msgstr "Intérêts"
+
+#: ui/searchbase.cpp:171
+msgid "Email/Info"
+msgstr "Email/Infos"
+
+#: ui/maininfobase.cpp:77
+#: ui/searchbase.cpp:179
+msgid "Last Name:"
+msgstr "Nom"
+
+#: ui/maininfobase.cpp:194
+#: ui/searchbase.cpp:185
+msgid "First name:"
+msgstr "Prénom"
+
+#: ui/searchbase.cpp:195
+msgid "Nickname:"
+msgstr "Pseudo"
+
+#: ui/searchbase.cpp:208
+msgid "Names"
+msgstr "Noms"
+
+#: ui/logindlgbase.cpp:55
+#: ui/searchbase.cpp:216
+msgid "UIN:"
+msgstr "UIN :"
+
+#: ui/toolsetupbase.cpp:34
+msgid "Toolbar setup"
+msgstr "Réglages barre d'outils"
+
+#: ui/toolsetupbase.cpp:42
+msgid "All buttons:"
+msgstr "Tous les boutons :"
+
+#: ui/keysetupbase.cpp:109
+#: ui/phonebookbase.cpp:87
+#: ui/setupdlgbase.cpp:45
+#: ui/themesetupbase.cpp:114
+#: ui/themesetupbase.cpp:126
+#: ui/toolsetupbase.cpp:46
+#: ui/toolsetupbase.cpp:72
+#: ui/userinfobase.cpp:42
+msgid "New Item"
+msgstr "Nouvel élément"
+
+#: ui/toolsetupbase.cpp:55
+msgid "&Add ->"
+msgstr "&Ajouter->"
+
+#: ui/toolsetupbase.cpp:59
+msgid "<- &Remove"
+msgstr "<-Enleve&r"
+
+#: ui/toolsetupbase.cpp:68
+msgid "Active:"
+msgstr "Actif :"
+
+#: ui/toolsetupbase.cpp:81
+msgid "&Up"
+msgstr "Ha&ut"
+
+#: ui/toolsetupbase.cpp:85
+msgid "&Down"
+msgstr "Bas"
+
+#: ui/securedlgbase.cpp:32
+msgid "Secure chanel request"
+msgstr "Demande de transmission sécurisée"
+
+#: ui/securedlgbase.cpp:36
+msgid ""
+"Secure channel is established using SSL with Diffie-Hellman key exchange and  the TLS version 1 protocol.\n"
+"\n"
+"This only works with other SIM and Licq clients"
+msgstr ""
+"La transmission sécurisée est établie via SSL avec la clé d'échange de Diffie-Hellman et la verison 1 du protocole TLS.\n"
+"\n"
+"Ceci ne fonctionne qu'avec les autres clients SIM ou Licq."
+
+#: ui/acceptbase.cpp:96
+#: ui/alertdialogbase.cpp:96
+#: ui/fontsetupbase.cpp:96
+#: ui/generalsecbase.cpp:68
+#: ui/homeinfobase.cpp:66
+#: ui/keysetupbase.cpp:94
+#: ui/miscsetupbase.cpp:33
+#: ui/msgdialogbase.cpp:63
+#: ui/networkbase.cpp:65
+#: ui/pastinfobase.cpp:64
+#: ui/phonebase.cpp:65
+#: ui/phonebookbase.cpp:65
+#: ui/setupdlgbase.cpp:37
+#: ui/smssetupbase.cpp:33
+#: ui/soundsetupbase.cpp:33
+#: ui/statussetupbase.cpp:33
+#: ui/themesetupbase.cpp:101
+#: ui/userinfobase.cpp:36
+msgid "Form1"
+msgstr "Forme1"
+
+#: ui/smssetupbase.cpp:42
+msgid "Text before cursor:"
+msgstr "Texte devant le curseur :"
+
+#: ui/smssetupbase.cpp:49
+msgid "Text after cursor:"
+msgstr "Texte après le curseur :"
+
+#: ui/smssetupbase.cpp:56
+msgid ""
+"You case use:\n"
+"&Alias; -  receipent name\n"
+"&Uin; - receipent UIN\n"
+"&MyAlias; - own name\n"
+"&MyUin; - own UIN"
+msgstr ""
+"Vous utilisez soit :\n"
+"&Alias; - Nom du destinataire\n"
+"&Uin; - UIN du destinataire\n"
+"&MyAlias; - Propre nom\n"
+"&MyUin; - Propre UIN"
+
+#: ui/smssetupbase.cpp:62
+msgid "&Signature"
+msgstr "&Signature"
+
+#: ui/smssetupbase.cpp:68
+msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
+msgstr "Envoyer tous les messages avec le statut \"Absent\" et \"NC\" dans la cellule :"
+
+#: ui/smssetupbase.cpp:76
+msgid "For the answer or sending of the new message you can answer on SMS having specified in the beginning of the message a line:\n"
+"<UIN>:"
+msgstr "Pour la réponse ou l'envoi du nouveau message, vous pouvez répondre sur SMS avoir sépcifié au début du message une ligne :\n"
+"<UIN> :"
+
+#: ui/proxydlgbase.cpp:37
+msgid "Proxy settings"
+msgstr "Paramètres proxy"
+
+#: ui/proxydlgbase.cpp:63
+msgid "Proxy"
+msgstr "Proxy"
+
+#: ui/networkbase.cpp:116
+#: ui/proxydlgbase.cpp:73
+msgid "Use proxy"
+msgstr "Utiliser proxy"
+
+#: ui/networkbase.cpp:135
+#: ui/proxydlgbase.cpp:85
+msgid "Proxy host:"
+msgstr "Hôte proxy :"
+
+#: ui/networkbase.cpp:177
+#: ui/proxydlgbase.cpp:95
+msgid "Proxy password:"
+msgstr "Mot de passe proxy :"
+
+#: ui/networkbase.cpp:163
+#: ui/proxydlgbase.cpp:109
+msgid "Proxy user:"
+msgstr "Utilisateur proxy :"
+
+#: ui/proxydlgbase.cpp:115
+msgid "User proxy authorization"
+msgstr "Autorisation utilisateur proxy"
+
+#: ui/networkbase.cpp:141
+#: ui/proxydlgbase.cpp:124
+msgid "Proxy port:"
+msgstr "Port proxy :"
+
+#: ui/proxydlgbase.cpp:132
+msgid "Server"
+msgstr "Serveur"
+
+#: ui/networkbase.cpp:93
+#: ui/proxydlgbase.cpp:142
+msgid "Host:"
+msgstr "Hôte :"
+
+#: ui/networkbase.cpp:87
+#: ui/proxydlgbase.cpp:148
+msgid "Port:"
+msgstr "Port :"
+
+#: ui/logindlgbase.cpp:36
+msgid "Login"
+msgstr "Connexion"
+
+#: ui/logindlgbase.cpp:40
+msgid "&Do not show this window"
+msgstr "Ne pas montrer cette fenêtre"
+
+#: ui/logindlgbase.cpp:45
+#: ui/phonebookbase.cpp:104
+msgid "&Delete"
+msgstr "Effecer"
+
+#: ui/logindlgbase.cpp:50
+msgid "&Proxy settings"
+msgstr "&Paramètres Proxy"
+
+#: ui/logindlgbase.cpp:61
+msgid "&Save password"
+msgstr "Enregistrer mot de pa&sse"
+
+#: ui/logindlgbase.cpp:80
+msgid "Password:"
+msgstr "Mot de passe :"
+
+#: ui/keysetupbase.cpp:103
+msgid "Actions:"
+msgstr "Actions :"
+
+#: ui/keysetupbase.cpp:107
+#: ui/phonebookbase.cpp:85
+#: ui/setupdlgbase.cpp:43
+#: ui/userinfobase.cpp:40
+msgid "Column 1"
+msgstr "Colonne 1"
+
+#: ui/keysetupbase.cpp:116
+msgid "&Enable"
+msgstr "Activ&er"
+
+#: ui/keysetupbase.cpp:126
+msgid "Send messages on \"Enter\""
+msgstr "Envoyer messages par \"Entrée\""
+
+#: ui/keysetupbase.cpp:130
+msgid "&Key"
+msgstr "Touche"
+
+#: ui/aboutdlgbase.cpp:67
+msgid "About SIM"
+msgstr "A propos de SIM"
+
+#: ui/aboutdlgbase.cpp:94
+msgid "About"
+msgstr "A propose"
+
+#: ui/aboutdlgbase.cpp:102
+msgid "Authors"
+msgstr "Auteurs"
+
+#: ui/aboutdlgbase.cpp:109
+msgid "Translation"
+msgstr "Traduction"
+
+#: ui/aboutdlgbase.cpp:116
+msgid "License"
+msgstr "Licence"
+
+#: ui/networkbase.cpp:74
+msgid "ICQ server:"
+msgstr "Serveur ICQ :"
+
+#: ui/networkbase.cpp:108
+msgid "&Server"
+msgstr "&Serveur"
+
+#: ui/networkbase.cpp:155
+msgid "Use proxy authorization"
+msgstr "Utiliser l'autorisation proxy"
+
+#: ui/networkbase.cpp:187
+msgid "&Proxy"
+msgstr "&Proxy"
+
+#: ui/networkbase.cpp:193
+msgid "Use the following TCP listen ports:"
+msgstr "utiliser les ports de surveillance TCP suivants :"
+
+#: ui/networkbase.cpp:199
+msgid "From:"
+msgstr "De :"
+
+#: ui/networkbase.cpp:207
+msgid "To:"
+msgstr "A :"
+
+#: ui/networkbase.cpp:218
+msgid "P&orts"
+msgstr "P&orts"
+
+#: ui/filetransferbase.cpp:37
+msgid "File transfer"
+msgstr "Tranfert de fichier"
+
+#: ui/filetransferbase.cpp:43
+msgid "File:"
+msgstr "Fichier :"
+
+#: ui/filetransferbase.cpp:57
+msgid "Batch"
+msgstr "Batch"
+
+#: ui/filetransferbase.cpp:74
+msgid "1000000/100000"
+msgstr "1000000/100000"
+
+#: ui/filetransferbase.cpp:83
+msgid "100000"
+msgstr "100000"
+
+#: ui/filetransferbase.cpp:90
+msgid "Speed:"
+msgstr "Vitesse :"
+
+#: ui/filetransferbase.cpp:111
+msgid "Close after send"
+msgstr "Fermer après l'envoi"
+
+#: ui/acceptbase.cpp:105
+msgid "Automaitcaly open window"
+msgstr "Ouvrir la fenêtre automatiquement"
+
+#: ui/acceptbase.cpp:109
+#: ui/acceptbase.cpp:126
+msgid "Override global settings"
+msgstr "Ignorer les paramètres généraux"
+
+#: ui/acceptbase.cpp:113
+msgid "Run external program"
+msgstr "Lancer un programme externe"
+
+#: ui/acceptbase.cpp:120
+msgid "&Message"
+msgstr "&Message"
+
+#: ui/acceptbase.cpp:130
+msgid "Path for incoming files:"
+msgstr "Chemin des fichiers entrants :"
+
+#: ui/acceptbase.cpp:145
+msgid "Show response"
+msgstr "Montrer la réponse"
+
+#: ui/acceptbase.cpp:149
+msgid "Auto accept"
+msgstr "Accepter automatiquement"
+
+#: ui/acceptbase.cpp:153
+msgid "Overwrite files"
+msgstr "Ecraser les fichiers"
+
+#: ui/acceptbase.cpp:157
+msgid "Auto decline"
+msgstr "Refus automatique"
+
+#: ui/fontsetupbase.cpp:105
+msgid "Mode"
+msgstr "mode"
+
+#: ui/fontsetupbase.cpp:113
+msgid "Split mode (&Chat style)"
+msgstr "Mode scindé (stle &Chat)"
+
+#: ui/fontsetupbase.cpp:117
+msgid "Simple mode (&Plain style)"
+msgstr "Mode silple (style &plat)"
+
+#: ui/fontsetupbase.cpp:123
+msgid "Copy"
+msgstr "Copier"
+
+#: ui/fontsetupbase.cpp:130
+msgid "last messages from history to conversation"
+msgstr "Derniers messages de l'historique dans la conversation"
+
+#: ui/fontsetupbase.cpp:138
+msgid "Open"
+msgstr "Ouvrir"
+
+#: ui/fontsetupbase.cpp:146
+msgid "&Each user in new container"
+msgstr "Chqu&e utilisateur dans un nouveau bloc"
+
+#: ui/fontsetupbase.cpp:150
+msgid "&New container for group"
+msgstr "&Nouveau bloc pour le groupe"
+
+#: ui/fontsetupbase.cpp:154
+msgid "&All users in one container"
+msgstr "Tous les utilis&ateurs dans un seul bloc"
+
+#: ui/fontsetupbase.cpp:159
+msgid "&User window"
+msgstr "Fenêtre &Utilisateur"
+
+#: ui/fontsetupbase.cpp:165
+msgid "&Use systems fonts"
+msgstr "&Utiliser les polices sytème"
+
+#: ui/fontsetupbase.cpp:169
+msgid "Base font"
+msgstr "Police de base"
+
+#: ui/fontsetupbase.cpp:176
+msgid "Menu font"
+msgstr "Police du mennu"
+
+#: ui/fontsetupbase.cpp:183
+msgid "Fonts"
+msgstr "Polices"
+
+#: ui/fontsetupbase.cpp:189
+msgid "Use &own colors and fonts settings"
+msgstr "Utiliser vos pr&opres couleurs et polices"
+
+#: ui/fontsetupbase.cpp:199
+msgid "Received messages color"
+msgstr "Couleur des messages reçus"
+
+#: ui/fontsetupbase.cpp:210
+msgid "Sending messages color"
+msgstr "Couluer des messages envoyés"
+
+#: ui/fontsetupbase.cpp:217
+msgid "&Colors"
+msgstr "&Couleurs"
+
+#: ui/emaileditbase.cpp:36
+msgid "Edit Email"
+msgstr "Editer Email"
+
+#: ui/emaileditbase.cpp:40
+msgid "Enter Email address:"
+msgstr "Entere l'adresse Email"
+
+#: ui/emaileditbase.cpp:47
+msgid "Don't publish my Email address"
+msgstr "Ne pas publier mon adresse Email"
+
+#: ui/pastinfobase.cpp:73
+msgid "Organization, Affiliation, Group:"
+msgstr "Organisation, groupe, affiliation :"
+
+#: ui/pastinfobase.cpp:102
+msgid "A&ffilation"
+msgstr "A&ffiliation"
+
+#: ui/pastinfobase.cpp:108
+#, fuzzy
+msgid "Past background:"
+msgstr "Arrière-plan"
+
+#: ui/pastinfobase.cpp:137
+msgid "&Background"
+msgstr "Arrière-plan"
+
+#: ui/autoreplybase.cpp:34
+msgid "Autoreply message"
+msgstr "Message d'auto-réponse"
+
+#: ui/autoreplybase.cpp:41
+msgid "Close after ...."
+msgstr "Fermer après..."
+
+#: ui/autoreplybase.cpp:45
+msgid "Don't show this dialog"
+msgstr "Ne pas montrer cett boîte"
+
+#: ui/alertmsgbase.cpp:33
+#: ui/alertmsgbase.cpp:37
+msgid "User is online"
+msgstr "Utilisateur est connecté"
+
+#: ui/interestsinfobase.cpp:63
+#: ui/pagerbase.cpp:62
+#: ui/workinfobase.cpp:34
+msgid "Form2"
+msgstr "Forme2"
+
+#: ui/interestsinfobase.cpp:110
+msgid "&Interests"
+msgstr "&Intérêts"
+
+#: ui/msgdialogbase.cpp:72
+msgid "Customize message"
+msgstr "Personnaliser le messaae"
+
+#: ui/msgdialogbase.cpp:79
+msgid "Don't show message dialog"
+msgstr "Ne pas montrer la boîte de message"
+
+#: ui/listsecbase.cpp:101
+#: ui/msgdialogbase.cpp:81
+msgid "Tab 1"
+msgstr "Tab 1"
+
+#: ui/alertdialogbase.cpp:105
+msgid "Override global alert"
+msgstr "ignorer l'alerte globale"
+
+#: ui/alertdialogbase.cpp:109
+msgid "Activate online alert when user returns from Away or NA"
+msgstr "Activer l'alerte de connexion quand les utilisateurs reviennent d'une absence ou autre"
+
+#: ui/alertdialogbase.cpp:114
+msgid "Online alert options"
+msgstr "Options d'alertes de connexion"
+
+#: ui/alertdialogbase.cpp:122
+msgid "Blinking alert effect"
+msgstr "Clignotement de l'alerte"
+
+#: ui/alertdialogbase.cpp:126
+msgid "Play online alert sound"
+msgstr "Jouer un son pour l'alerte"
+
+#: ui/alertdialogbase.cpp:130
+msgid "On Screen notification"
+msgstr "Notification visuelle"
+
+#: ui/alertdialogbase.cpp:134
+msgid "Popup online alert dialog"
+msgstr "Boîte surgissante (\"pop-up\")"
+
+#: ui/alertdialogbase.cpp:138
+msgid "Open user window when online"
+msgstr "Ouvrer la fenêtre de l'utilisateur lors de sa connexion"
+
+#: ui/alertdialogbase.cpp:142
+msgid "Write to history"
+msgstr "Ecrire dans l'historique"
+
+#: ui/alertdialogbase.cpp:145
+msgid "&Alert"
+msgstr "&Alerte"
+
+#: ui/alertdialogbase.cpp:151
+msgid "Enable notify on screen"
+msgstr "Activer la notification visuelle"
+
+#: ui/alertdialogbase.cpp:156
+#: ui/themesetupbase.cpp:159
+msgid "Place:"
+msgstr "Endroit :"
+
+#: ui/alertdialogbase.cpp:166
+msgid "Offset:"
+msgstr "Offset :"
+
+#: ui/alertdialogbase.cpp:176
+msgid "Show time:"
+msgstr "Montrer l'heure :"
+
+#: ui/alertdialogbase.cpp:186
+msgid "Color:"
+msgstr "Couleur :"
+
+#: ui/alertdialogbase.cpp:196
+msgid "Font:"
+msgstr "Police :"
+
+#: ui/alertdialogbase.cpp:206
+msgid "Shadow"
+msgstr "Ombre"
+
+#: ui/alertdialogbase.cpp:211
+msgid "Background"
+msgstr "Arrière-plan"
+
+#: ui/alertdialogbase.cpp:216
+msgid "Background color:"
+msgstr "Couleur d'arrière-plan"
+
+#: ui/alertdialogbase.cpp:228
+msgid "On Screen"
+msgstr "A l'écran"
+
+#: ui/phonebase.cpp:71
+msgid "Area code:"
+msgstr "Code de zone :"
+
+#: ui/phonebase.cpp:81
+msgid "Extension:"
+msgstr "Extension :"
+
+#: ui/phonebase.cpp:101
+#: ui/phonebase.cpp:112
+#: ui/phonebase.cpp:123
+msgid "-"
+msgstr "-"
+
+#: ui/pagerbase.cpp:92
+#: ui/phonebase.cpp:106
+msgid "Number:"
+msgstr "Numéro :"
+
+#: ui/phonebase.cpp:132
+msgid "Publish in global directory"
+msgstr "Publier dans le répertoire global"
+
+#: ui/phonebase.cpp:138
+msgid "SMS service available"
+msgstr "service SMS disponible"
+
+#: ui/pagerbase.cpp:76
+msgid "Provider:"
+msgstr "Fournisseur :"
+
+#: ui/pagerbase.cpp:82
+msgid "Email gateway:"
+msgstr "Serveur d'Emails :"
+
+#: ui/addphonebase.cpp:68
+msgid "Add phone"
+msgstr "Ajouter téléphone"
+
+#: ui/addphonebase.cpp:72
+msgid "Number details:"
+msgstr "Détails du numéro :"
+
+#: ui/addphonebase.cpp:82
+msgid "Type:"
+msgstr "Type :"
+
+#: ui/miscsetupbase.cpp:42
+msgid "Browser program path:"
+msgstr "Chemin du navigateur :"
+
+#: ui/miscsetupbase.cpp:49
+msgid "Email client:"
+msgstr "Client Email :"
+
+#: ui/miscsetupbase.cpp:56
+#: ui/themesetupbase.cpp:298
+msgid "&Miscellaneous"
+msgstr "Divers"
+
+#: ui/miscsetupbase.cpp:62
+msgid "A&utomatically add new user to KAddressBook"
+msgstr "Ajo&uter automatiquement l'utilisateur à KAddressBook"
+
+#: ui/miscsetupbase.cpp:70
+msgid "&Synchronize now"
+msgstr "&Synchroniser maintenant"
+
+#: ui/miscsetupbase.cpp:75
+msgid "&Addressbook synchronization"
+msgstr "Synchronis&ation du carnet d'adresses"
+
+#: ui/miscsetupbase.cpp:81
+msgid "Check &all messages on send"
+msgstr "Vérifier tous les mess&ages lors de l'envoi"
+
+#: ui/miscsetupbase.cpp:89
+msgid "&Spell check"
+msgstr "Vérification orthographique"
+
+#: ui/soundsetupbase.cpp:72
+msgid "&Override sounds"
+msgstr "Ign&orer les sons"
+
+#: ui/soundsetupbase.cpp:77
+msgid "&Disable all sounds"
+msgstr "&Désactiver tous les sons"
+
+#: ui/soundsetupbase.cpp:82
+msgid "Message:"
+msgstr "Message :"
+
+#: ui/soundsetupbase.cpp:94
+msgid "SMS:"
+msgstr "SMS :"
+
+#: ui/soundsetupbase.cpp:100
+msgid "Authorization:"
+msgstr "Autorisation :"
+
+#: ui/soundsetupbase.cpp:106
+msgid "Online alert:"
+msgstr "Alerte de connexion :"
+
+#: ui/soundsetupbase.cpp:112
+msgid "Incoming file:"
+msgstr "Fichier entrant :"
+
+#: ui/soundsetupbase.cpp:118
+msgid "File transfer done:"
+msgstr "Transfert du fichier terminé."
+
+#: ui/soundsetupbase.cpp:124
+msgid "Chat Request:"
+msgstr "Demande de discussion :"
+
+#: ui/soundsetupbase.cpp:130
+msgid "Startup sound:"
+msgstr "Son au démarrage :"
+
+#: ui/soundsetupbase.cpp:142
+msgid "&Sounds"
+msgstr "&SOns"
+
+#: ui/soundsetupbase.cpp:152
+msgid "Program for play:"
+msgstr "Programme lecteur :"
+
+#: ui/soundsetupbase.cpp:157
+#, fuzzy
+msgid "UseArts"
+msgstr "UseArts"
+
+#: ui/soundsetupbase.cpp:162
+msgid "&Programm"
+msgstr "&Programme"
+
+#: ui/phonebookbase.cpp:76
+msgid "User is currently available at:"
+msgstr "cet utilisateur est actuellement disponible sur :"
+
+#: ui/phonebookbase.cpp:96
+msgid "&Add"
+msgstr "&Ajouter"
+
+#: ui/phonebookbase.cpp:109
+msgid ""
+"Note:\n"
+"You can change only those numbers which have entered.\n"
+"It is impossible to change numbers which were received from the user."
+msgstr ""
+"Note :\n"
+"Vous ne pouvez changer que ces chiffres entrès au préalable.\n"
+"il est impossible de changer les chiffres reçus d'un utilisateur."
+
+#: ui/phonebookbase.cpp:114
+msgid "&Phonebook"
+msgstr "Ré&pertoire"
+
+#: ui/userinfobase.cpp:59
+msgid "Update"
+msgstr "Mise à jour"
+
+#: ui/setupdlgbase.cpp:57
+msgid "&Update"
+msgstr "Mise à jo&ur"
+
+#: ui/homeinfobase.cpp:87
+#: ui/workinfobase.cpp:47
+msgid "Address:"
+msgstr "Adresse :"
+
+#: ui/homeinfobase.cpp:124
+#: ui/workinfobase.cpp:77
+msgid "Zip code:"
+msgstr "Code postal :"
+
+#: ui/workinfobase.cpp:93
+msgid "Name:"
+msgstr "Nom :"
+
+#: ui/workinfobase.cpp:116
+msgid "Web site:"
+msgstr "Site Web :"
+
+#: ui/workinfobase.cpp:120
+msgid "&Company"
+msgstr "Entreprise :"
+
+#: ui/workinfobase.cpp:126
+msgid "Occupation:"
+msgstr "Occupation :"
+
+#: ui/workinfobase.cpp:132
+msgid "Div / dept:"
+msgstr "dept/secteur :"
+
+#: ui/workinfobase.cpp:146
+msgid "Position:"
+msgstr "Position :"
+
+#: ui/workinfobase.cpp:156
+msgid "&Occupation"
+msgstr "&Occupation :"
+
+#: ui/themesetupbase.cpp:110
+msgid "Select style:"
+msgstr "Sélection du style :"
+
+#: ui/themesetupbase.cpp:116
+msgid "&Style"
+msgstr "&Style"
+
+#: ui/themesetupbase.cpp:122
+msgid "Icons:"
+msgstr "Icônes :"
+
+#: ui/themesetupbase.cpp:134
+msgid "Add icons"
+msgstr "Ajouter icônes"
+
+#: ui/themesetupbase.cpp:137
+msgid "&Icons"
+msgstr "&Icônes"
+
+#: ui/themesetupbase.cpp:143
+msgid "Main window background:"
+msgstr "Arrière-plan fenêtre principale :"
+
+#: ui/themesetupbase.cpp:153
+msgid "Icon margin:"
+msgstr "Marge d'icône :"
+
+#: ui/themesetupbase.cpp:178
+msgid "Use &system colors"
+msgstr "Utiliser les couleurs &système"
+
+#: ui/themesetupbase.cpp:185
+msgid "Online contact color:"
+msgstr "Couleur contact connecté :"
+
+#: ui/themesetupbase.cpp:200
+msgid "Offline contact color:"
+msgstr "Couleur contact déconnecté :"
+
+#: ui/themesetupbase.cpp:213
+msgid "B&ackground"
+msgstr "&Arrière-plan"
+
+#: ui/themesetupbase.cpp:219
+msgid "Transparent main window"
+msgstr "Fenêtre principale transparente"
+
+#: ui/themesetupbase.cpp:223
+#: ui/themesetupbase.cpp:235
+msgid "Transparency"
+msgstr "Transparence"
+
+#: ui/themesetupbase.cpp:231
+msgid "Transparent container"
+msgstr "Bloc transparent"
+
+#: ui/themesetupbase.cpp:243
+msgid "Transparent only if inactive"
+msgstr "Transparent seulement si inactif"
+
+#: ui/themesetupbase.cpp:247
+msgid "&Transparency"
+msgstr "&Transparence"
+
+#: ui/themesetupbase.cpp:253
+msgid "Show main window in task manager"
+msgstr "Montrer la fenêtre dans le gestionnaire des tâches"
+
+#: ui/themesetupbase.cpp:258
+msgid "Show user window in task manager"
+msgstr "Montrer la fenêtre utilisateur dans le gestionnaire des tâches"
+
+#: ui/themesetupbase.cpp:263
+msgid "User window stays on &top"
+msgstr "La fenêtre utilisateur reste visible"
+
+#: ui/themesetupbase.cpp:268
+msgid "&Show splash window"
+msgstr "Montrer l'écran de bienvenue (&Splash)"
+
+#: ui/themesetupbase.cpp:273
+msgid "Use emotional &icons"
+msgstr "utiliser les emoticons"
+
+#: ui/themesetupbase.cpp:278
+msgid "Use &dock"
+msgstr "Utiliser le \"&dock\""
+
+#: ui/themesetupbase.cpp:295
+msgid "Use double c&lick"
+msgstr "Utiliser le double-clic"
+
+#: ui/statussetupbase.cpp:44
+msgid "Hide main window after"
+msgstr "Cacher la fenêtre principale après"
+
+#: ui/statussetupbase.cpp:57
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgstr "Désactiver l'alerte de connexion dans les listes \"Absent\", \"NC\", \"ne pas déranger\" et \"Occupé\""
+
+#: ui/statussetupbase.cpp:62
+msgid "Set \"Away\" status after"
+msgstr "Passer en mode \"Absent\" après"
+
+#: ui/statussetupbase.cpp:68
+msgid "minutes not using computer"
+msgstr "minutes d'inutilisation du PC"
+
+#: ui/statussetupbase.cpp:75
+msgid "minutes of \"Away\""
+msgstr "minutes en mode \"Absent\""
+
+#: ui/statussetupbase.cpp:81
+msgid "seconds inactive"
+msgstr "secondes d'inactivité"
+
+#: ui/statussetupbase.cpp:90
+msgid "Set \"N/A\" status after"
+msgstr "Passer en mode \"NC\" après"
+
+#: ui/maininfobase.cpp:312
+#: ui/statussetupbase.cpp:96
+msgid "&Status"
+msgstr "Etat"
+
+#: ui/listsecbase.cpp:90
+#: ui/moreinfobase.cpp:66
+msgid "Form3"
+msgstr "Forme3"
+
+#: ui/moreinfobase.cpp:75
+msgid "Homepage:"
+msgstr "Page d'accueil :"
+
+#: ui/moreinfobase.cpp:126
+msgid "Month:"
+msgstr "Mois :"
+
+#: ui/moreinfobase.cpp:133
+msgid "Day:"
+msgstr "Jour :"
+
+#: ui/moreinfobase.cpp:140
+msgid "Year:"
+msgstr "Année :"
+
+#: ui/moreinfobase.cpp:151
+msgid "Birth date:"
+msgstr "Date de naissance :"
+
+#: ui/moreinfobase.cpp:156
+msgid "&More info"
+msgstr "Plus d'infos"
+
+#: ui/moreinfobase.cpp:162
+msgid "Spoken languages:"
+msgstr "Langues parlées :"
+
+#: ui/moreinfobase.cpp:175
+msgid "&Languages"
+msgstr "&Langues"
+
+#: ui/maininfobase.cpp:66
+msgid "Form5"
+msgstr "Forme5"
+
+#: ui/maininfobase.cpp:94
+msgid "Uin:"
+msgstr "UIN :"
+
+#: ui/maininfobase.cpp:100
+msgid "Nick:"
+msgstr "Pseudo :"
+
+#: ui/maininfobase.cpp:188
+msgid "Display:"
+msgstr "Affichage :"
+
+#: ui/maininfobase.cpp:203
+msgid "Encoding:"
+msgstr "Encodage :"
+
+#: ui/maininfobase.cpp:212
+msgid "&Names"
+msgstr "&Noms"
+
+#: ui/maininfobase.cpp:218
+msgid "Email addresses:"
+msgstr "Adresses Email :"
+
+#: ui/maininfobase.cpp:229
+msgid "Add"
+msgstr "Ajouter"
+
+#: ui/maininfobase.cpp:233
+msgid "Edit"
+msgstr "Editer"
+
+#: ui/maininfobase.cpp:237
+msgid "Remove"
+msgstr "Retirer"
+
+#: ui/maininfobase.cpp:241
+msgid "Set as default"
+msgstr "Mettre par défaut"
+
+#: ui/maininfobase.cpp:246
+msgid "&EMail"
+msgstr "&Email"
+
+#: ui/maininfobase.cpp:252
+msgid "Status:"
+msgstr "Etat :"
+
+#: ui/maininfobase.cpp:262
+msgid "Online:"
+msgstr "Connecté :"
+
+#: ui/maininfobase.cpp:282
+msgid "External IP:"
+msgstr "IP externe :"
+
+#: ui/maininfobase.cpp:292
+msgid "Internal IP:"
+msgstr "IP interne :"
+
+#: ui/maininfobase.cpp:304
+msgid "Client:"
+msgstr "Client :"
+
+#: ui/homeinfobase.cpp:138
+msgid "Time zone:"
+msgstr "Fuseau horaire :"
+
+#: ui/homeinfobase.cpp:147
+msgid "&Home info"
+msgstr "Infos Lieu"
+
+#: ui/generalsecbase.cpp:77
+msgid "My &authorization is required before users add me to Contact List"
+msgstr "Mon autorisation est obligatoire avant que l'on m'ajoute à une liste de contacts"
+
+#: ui/generalsecbase.cpp:81
+msgid "Don't show my &IP-address"
+msgstr "Ne pas montrer mon adresse IP"
+
+#: ui/generalsecbase.cpp:85
+msgid "Allow other to view my &status from the Web"
+msgstr "Autoriser les autres à voir mon état de connexions depuis le Web"
+
+#: ui/generalsecbase.cpp:89
+msgid "I&gnore user authorization"
+msgstr "I&gnorer les autorisations utilisateurs"
+
+#: ui/generalsecbase.cpp:93
+msgid "Direct connection"
+msgstr "Connexion directe"
+
+#: ui/generalsecbase.cpp:101
+msgid "Allow &direct connection from any user"
+msgstr "Permettre la connexion &directe avec n'importe qui"
+
+#: ui/generalsecbase.cpp:105
+msgid "Allow direct connection from user listed in &contact list"
+msgstr "Permettre la connexion directe avec ceux de ma liste de &contacts"
+
+#: ui/generalsecbase.cpp:109
+msgid "Allow direct connection from user &upon authorization"
+msgstr "Permettre la connexion directe après autorisation"
+
+#: ui/generalsecbase.cpp:114
+msgid "&Security"
+msgstr "&Sécurité"
+
+#: ui/generalsecbase.cpp:120
+msgid "Reject &messages from unknown users"
+msgstr "Rejeter les &messages des utilisateurs inconnus"
+
+#: ui/generalsecbase.cpp:124
+msgid "Reject &URL from unknown users"
+msgstr "Rejeter les liens et &URL des utilisateurs inconnux"
+
+#: ui/generalsecbase.cpp:128
+msgid "Reject &World Wide pager messages"
+msgstr "Rejeter les messages de pagers &WWW"
+
+#: ui/generalsecbase.cpp:132
+msgid "Reject &EmailExpress messages"
+msgstr "Rejeter les messages &EmailExpress"
+
+#: ui/generalsecbase.cpp:136
+msgid "Reject &other messages"
+msgstr "Rejeter t&ous les autre messages"
+
+#: ui/generalsecbase.cpp:140
+msgid "&Reject"
+msgstr "&Rejeter"
+
+#: ui/generalsecbase.cpp:146
+msgid "Reject messages from unknown users contains this words or phrases:"
+msgstr "Rejeter les messages contenant ces mots ou phrases :"
+
+#: ui/generalsecbase.cpp:153
+msgid ""
+"Words are divided by any separators (space, comma, i.e.)\n"
+"Phrase (sequence of words) consists in quotas\n"
+"Words can contain wildcards:\n"
+"* - any amount of symbols (or is empty)\n"
+"? - any symbol"
+msgstr ""
+"Les mots sont séparés par des espace sou virgules\n"
+"Les phrases sont entre guillemets\n"
+"Caractères \"jokers\" disponibles :\n"
+"* - n'importe quelle séquence de caractères (ou vide)\n"
+"? - n'importe quel caractère"
+
+#: ui/generalsecbase.cpp:160
+msgid "Spam &filter"
+msgstr "&Filtre du SPAM"
+
+#: ui/generalsecbase.cpp:167
+msgid "Retype new password:"
+msgstr "Retapez le nouveau mot de passe :"
+
+#: ui/generalsecbase.cpp:174
+msgid "New password:"
+msgstr "Nouveau mot de passe :"
+
+#: ui/generalsecbase.cpp:188
+msgid "Current password:"
+msgstr "Mot de passe actuel :"
+
+#: ui/generalsecbase.cpp:202
+msgid "S&ave password"
+msgstr "Enregistrer mot de p&asse"
+
+#: ui/generalsecbase.cpp:213
+msgid "&Do not show login dialog at start"
+msgstr "Ne pas montrer la fenêtre de connexion au &démarrage"
+
+#: ui/generalsecbase.cpp:216
+msgid "&Password"
+msgstr "Mot de &passe"
+
+#: ui/aboutinfobase.cpp:63
+msgid "Form4"
+msgstr "Forme4"
+
+#: ui/aboutinfobase.cpp:72
+msgid "Additional information about user:"
+msgstr "Infos supllémentaires sur l'utilisateur :"
+
+#: ui/aboutinfobase.cpp:77
+msgid "A&bout"
+msgstr "A propos"
+
+#: ui/aboutinfobase.cpp:83
+msgid "My notes:"
+msgstr "Mes notes :"
+
+#: ui/aboutinfobase.cpp:88
+msgid "&Notes"
+msgstr "&Notes"
+
