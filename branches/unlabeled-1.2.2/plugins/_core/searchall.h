@@ -21,6 +21,8 @@
 #include "simapi.h"
 #include "searchallbase.h"
 
+class GroupRadioButton;
+
 class SearchAll : public SearchAllBase
 {
     Q_OBJECT
@@ -28,6 +30,11 @@ public:
     SearchAll(QWidget *parent);
 signals:
     void setAdd(bool);
+	void searchNames(const QString &first, const QString &last, const QString &nick);
+	void searchMail(const QString &mail);
+    void setColumns(const QStringList&, int);
+    void addItem(const QStringList&, QWidget*);
+    void searchDone(QWidget*);
 protected:
     void showEvent(QShowEvent*);
 };

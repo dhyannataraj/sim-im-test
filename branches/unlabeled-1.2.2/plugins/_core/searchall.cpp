@@ -23,8 +23,6 @@ SearchAll::SearchAll(QWidget *parent)
 {
     connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
     edtMail->setValidator(new EMailValidator(edtMail));
-    new GroupRadioButton(i18n("&E-Mail address"), grpMail);
-    new GroupRadioButton(i18n("&Name"), grpName);
 }
 
 void SearchAll::showEvent(QShowEvent *e)

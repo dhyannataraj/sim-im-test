@@ -38,10 +38,6 @@ protected slots:
 protected:
     YahooClient *m_client;
     void showEvent(QShowEvent*);
-    GroupRadioButton	*m_btnID;
-    GroupRadioButton	*m_btnMail;
-    GroupRadioButton	*m_btnName;
-    GroupRadioButton	*m_btnKeyword;
 };
 
 #endif

@@ -22,7 +22,7 @@
 
 #include <qlineedit.h>
 #include <qvalidator.h>
-#include <qradiobutton.h>
+#include <qgroupbox.h>
 
 #if COMPAT_QT_VERSION < 0x030000
 #include "qt3/qregexp.h"
@@ -75,19 +75,27 @@ public:
     PhoneValidator(QWidget *parent);
 };
 
-class QGroupBox;
-class QLabel;
+class QRadioButton;
 
-class UI_EXPORT GroupRadioButton : public QRadioButton
+class UI_EXPORT RadioGroup : public QGroupBox
 {
     Q_OBJECT
 public:
-    GroupRadioButton(const QString &text, QGroupBox *parent);
+    RadioGroup(QWidget *parent, const char *name);
+	~RadioGroup();
+	bool isChecked();
+    virtual void setTitle(const QString &);
+signals:
+	void toggled(bool);
 public slots:
-    void slotToggled(bool);
+	void slotToggled();
+	void slotToggled(bool);
+	void radioDestroyed();
 protected:
-    bool eventFilter(QObject*, QEvent*);
-    QGroupBox	*m_grp;
+	bool m_bInit;
+	QRadioButton	*m_button;
+	void moveEvent(QMoveEvent*);
+	void mousePressEvent(QMouseEvent*);
 };
 
 #endif

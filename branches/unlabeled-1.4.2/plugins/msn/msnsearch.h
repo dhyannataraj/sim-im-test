@@ -38,8 +38,6 @@ protected slots:
 protected:
     MSNClient *m_client;
     void showEvent(QShowEvent*);
-    GroupRadioButton	*m_btnMail;
-    GroupRadioButton	*m_btnInfo;
 };
 
 #endif

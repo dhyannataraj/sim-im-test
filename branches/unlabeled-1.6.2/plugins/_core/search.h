@@ -56,13 +56,17 @@ signals:
     void finished();
     void add(unsigned grp_id);
     void search();
+	void searchStop();
 protected slots:
     void searchClick();
     void addGroup(int);
     void setColumns(const QStringList&, int);
-    void addItem(const QStringList&);
-    void searchDone();
+    void addItem(const QStringList&, QWidget *search);
+    void searchDone(QWidget*);
     void update();
+	void addClick();
+	void optionsClick();
+	void selectionChanged();
 protected:
     vector<ClientWidget>	m_widgets;
     void		setStatus();

@@ -36,6 +36,8 @@
 #include <qstatusbar.h>
 #include <qtimer.h>
 
+const unsigned COL_SEARCH_WND	= 0x100;
+
 SearchDialog::SearchDialog()
 {
     SET_WNDPROC("search")
@@ -49,8 +51,11 @@ SearchDialog::SearchDialog()
     m_result_id = 0;
     m_active	= NULL;
     m_search	= new SearchBase(this);
+    m_update = new QTimer(this);
+    connect(m_update, SIGNAL(timeout()), this, SLOT(update()));
     setCentralWidget(m_search);
     m_status = statusBar();
+	m_result = NULL;
     setAdd(false);
     m_search->btnOptions->setIconSet(*Icon("1downarrow"));
     m_search->btnAdd->setIconSet(*Icon("add"));
@@ -68,8 +73,12 @@ SearchDialog::SearchDialog()
     showResult(NULL);
     aboutToShow(m_search->wndCondition->visibleWidget());
     connect(m_search->btnSearch, SIGNAL(clicked()), this, SLOT(searchClick()));
-    m_update = new QTimer(this);
-    connect(m_update, SIGNAL(timeout()), this, SLOT(update()));
+	m_search->cmbClients->setFocus();
+	connect(m_search->btnOptions, SIGNAL(clicked()), this, SLOT(optionsClick()));
+	connect(m_search->btnAdd, SIGNAL(clicked()), this, SLOT(addClick()));
+	m_search->btnOptions->setEnabled(false);
+	m_search->btnAdd->setEnabled(false);
+	connect(m_result, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
 }
 
 SearchDialog::~SearchDialog()
@@ -200,10 +209,25 @@ void SearchDialog::fillClients()
     if (search == m_current)
         current = m_widgets.size() - 1;
 
+    if (m_update->isActive()){
+        m_update->stop();
+    }else if (m_result){
+        m_result->viewport()->setUpdatesEnabled(false);
+    }
     for (n = 0; n < widgets.size(); n++){
         if (widgets[n].widget){
             if (widgets[n].widget == m_active)
-                searchDone();
+                searchDone(m_active);
+            if (widgets[n].widget == m_current)
+				m_current = NULL;
+			for (QListViewItem *item = m_result->firstChild(); item; ){
+				QListViewItem *next = item->nextSibling();
+				if ((QWidget*)(item->text(COL_SEARCH_WND).toUInt()) == widgets[n].widget)
+					delete item;
+				if (next == NULL)
+					break;
+				item = next;
+			}
             delete widgets[n].widget;
         }
     }
@@ -211,13 +235,15 @@ void SearchDialog::fillClients()
         current = 0;
     m_search->cmbClients->setCurrentItem(current);
     clientActivated(current);
+    setStatus();
+    m_update->start(500);
 }
 
 void SearchDialog::clientActivated(int n)
 {
     if ((unsigned)n >= m_widgets.size())
         return;
-    searchDone();
+    searchDone(m_active);
     if (m_widgets[n].widget != m_current)
         showResult(NULL);
     m_search->wndCondition->raiseWidget(m_widgets[n].widget);
@@ -316,6 +342,8 @@ void SearchDialog::detach(QWidget *w)
 
 void SearchDialog::attach(QWidget *w)
 {
+	if (w == NULL)
+		return;
     QObjectList *l = w->queryList();
     QObjectListIt it(*l);
     QObject *obj;
@@ -396,18 +424,22 @@ void SearchDialog::searchClick()
         return;
     }
     if (m_active){
-        searchDone();
+		emit searchStop();
+        searchDone(m_active);
         return;
     }
     m_active = m_current;
     m_result->clear();
+	m_search->btnAdd->setEnabled(false);
+	m_search->btnOptions->setEnabled(false);
     setAddButton();
     setStatus();
     m_bColumns = false;
     connect(this, SIGNAL(search()), m_active, SLOT(search()));
+    connect(this, SIGNAL(searchStop()), m_active, SLOT(searchStop()));
     connect(m_active, SIGNAL(setColumns(const QStringList&, int)), this, SLOT(setColumns(const QStringList&, int)));
-    connect(m_active, SIGNAL(addItem(const QStringList&)), this, SLOT(addItem(const QStringList&)));
-    connect(m_active, SIGNAL(searchDone()), this, SLOT(searchDone()));
+    connect(m_active, SIGNAL(addItem(const QStringList&,QWidget*)), this, SLOT(addItem(const QStringList&,QWidget*)));
+    connect(m_active, SIGNAL(searchDone(QWidget*)), this, SLOT(searchDone(QWidget*)));
     emit search();
 }
 
@@ -434,6 +466,8 @@ void SearchDialog::showError(const QString &err)
 
 void SearchDialog::setStatus()
 {
+	if (m_result == NULL)
+		return;
     QString message = i18n("Search");
     if (m_result->firstChild()){
         message += ": ";
@@ -442,15 +476,16 @@ void SearchDialog::setStatus()
     m_status->message(message);
 }
 
-void SearchDialog::searchDone()
+void SearchDialog::searchDone(QWidget*)
 {
     if (m_active == NULL)
         return;
     m_status->message("");
     disconnect(this, SIGNAL(search()), m_active, SLOT(search()));
+    disconnect(this, SIGNAL(searchStop()), m_active, SLOT(searchStop()));
     disconnect(m_active, SIGNAL(setColumns(const QStringList&, int)), this, SLOT(setColumns(const QStringList&, int)));
-    disconnect(m_active, SIGNAL(addItem(const QStringList&)), this, SLOT(addItem(const QStringList&)));
-    disconnect(m_active, SIGNAL(searchDone()), this, SLOT(searchDone()));
+    disconnect(m_active, SIGNAL(addItem(const QStringList&,QWidget*)), this, SLOT(addItem(const QStringList&,QWidget*)));
+    disconnect(m_active, SIGNAL(searchDone(QWidget*)), this, SLOT(searchDone(QWidget*)));
     m_active = NULL;
     textChanged("");
     setAddButton();
@@ -464,8 +499,8 @@ void SearchDialog::setColumns(const QStringList &columns, int n)
             m_result->removeColumn(i);
         m_bColumns = true;
     }
-    for (i = 0; (unsigned)i < columns.count(); i++)
-        m_result->addColumn(columns[i]);
+    for (i = 0; (unsigned)i < columns.count() / 2; i++)
+        m_result->addColumn(columns[2 * i + 1]);
     m_result->setExpandingColumn(n);
     m_result->adjustColumn();
 }
@@ -485,18 +520,36 @@ QString SearchViewItem::key(int column, bool ascending) const
     return res;
 }
 
-void SearchDialog::addItem(const QStringList &values)
+void SearchDialog::addItem(const QStringList &values, QWidget *wnd)
 {
+    QListViewItem *item;
+	for (item = m_result->firstChild(); item; item = item->nextSibling()){
+		if (item->text(m_result->columns()) == values[values.count() + 2])
+			break;
+	}
+	if (item){
+		QWidget *oldSearch = (QWidget*)(item->text(COL_SEARCH_WND).toUInt());
+		for (unsigned i = 0; i < m_widgets.size(); i++){
+			if (m_widgets[i].widget == wnd){
+				item->setText(COL_SEARCH_WND, QString::number((unsigned)wnd));
+				return;
+			}
+			if (m_widgets[i].widget == oldSearch)
+				return;
+		}
+		return;
+	}
     if (m_update->isActive()){
         m_update->stop();
     }else{
         m_result->viewport()->setUpdatesEnabled(false);
     }
-    QListViewItem *item = new SearchViewItem(m_result);
+	item = new SearchViewItem(m_result);
     item->setPixmap(0, Pict(values[0].latin1()));
     item->setText(values.count() - 2, values[1]);
     for (int i = 2; (unsigned)i < values.count(); i++)
         item->setText(i - 2, values[i]);
+	item->setText(COL_SEARCH_WND, QString::number((unsigned)wnd));
     setStatus();
     m_update->start(500);
 }
@@ -507,6 +560,22 @@ void SearchDialog::update()
     m_result->viewport()->setUpdatesEnabled(true);
     m_result->viewport()->repaint();
     m_result->adjustColumn();
+}
+
+void SearchDialog::selectionChanged()
+{
+	if ((m_currentResult == NULL) || (m_currentResult == m_result)){
+		m_search->btnAdd->setEnabled(m_result->selectedItem() != NULL);
+		m_search->btnOptions->setEnabled(m_result->selectedItem() != NULL);
+	}
+}
+
+void SearchDialog::addClick()
+{
+}
+
+void SearchDialog::optionsClick()
+{
 }
 
 #ifndef WIN32

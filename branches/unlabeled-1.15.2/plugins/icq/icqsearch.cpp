@@ -41,36 +41,30 @@ ICQSearch::ICQSearch(ICQClient *client, QWidget *parent)
         emit addResult(m_adv);
         edtAOL_UIN->setValidator(new RegExpValidator("[0-9]{4,13}", this));
         edtScreen->setValidator(new RegExpValidator("[0-9A-Za-z]+", this));
-        m_btnScreen	 = new GroupRadioButton(i18n("AIM s&creenname"), grpScreen);
-        m_btnAOL_UIN = new GroupRadioButton(i18n("&UIN"), grpAOL_UIN);
-        connect(m_btnScreen,	SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
-        connect(m_btnAOL_UIN,	SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
-        m_btnUin	= NULL;
-        m_btnAOL	= NULL;
-        m_btnName	= NULL;
-        grpUIN->hide();
-        grpAOL->hide();
-        grpName->hide();
+        connect(grpScreen,	SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
+        connect(grpAOL_UIN,	SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
+        delete grpUin;
+		grpUin = NULL;
+        delete grpAOL;
+		grpAOL = NULL;
+        delete grpName;
+		grpName = NULL;
     }else{
         m_adv    = new AdvSearch;
         emit addResult(m_adv);
         edtUIN->setValidator(new RegExpValidator("[0-9]{4,13}", this));
         edtAOL->setValidator(new RegExpValidator("[0-9A-Za-z]+", this));
-        m_btnUin		= new GroupRadioButton(i18n("&UIN"), grpUIN);
-        m_btnAOL		= new GroupRadioButton(i18n("AIM s&creenname"), grpAOL);
-        m_btnName		= new GroupRadioButton(i18n("&Name"), grpName);
-        connect(m_btnUin,		SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
-        connect(m_btnAOL,		SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
-        connect(m_btnName,		SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
-        m_btnScreen	 = NULL;
-        m_btnAOL_UIN = NULL;
-        grpScreen->hide();
-        grpAOL_UIN->hide();
+        connect(grpUin,	SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
+        connect(grpAOL,	SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
+        connect(grpName, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
+        delete grpScreen;
+		grpScreen = NULL;
+        delete grpAOL_UIN;
+		grpAOL_UIN = NULL;
     }
     edtMail->setValidator(new EMailValidator(edtMail));
-    m_btnMail		= new GroupRadioButton(i18n("&E-Mail address"), grpMail);
-    connect(m_btnMail,		SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
-    connect(btnAdvanced,	SIGNAL(clicked()),	this, SLOT(advClick()));
+    connect(grpMail, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
+    connect(btnAdvanced, SIGNAL(clicked()),	this, SLOT(advClick()));
     const QIconSet *is = Icon("1rightarrow");
     if (is)
         btnAdvanced->setIconSet(*is);
@@ -90,10 +84,10 @@ void ICQSearch::advDestroyed()
 void ICQSearch::showEvent(QShowEvent *e)
 {
     ICQSearchBase::showEvent(e);
-    if (m_btnAOL)
-        emit setAdd(m_btnAOL->isChecked());
-    if (m_btnScreen)
-        emit setAdd(m_btnScreen->isChecked());
+    if (grpAOL)
+        emit setAdd(grpAOL->isChecked());
+    if (grpScreen)
+        emit setAdd(grpScreen->isChecked());
     if (m_adv && m_bAdv)
         emit showResult(m_adv);
 }
@@ -101,10 +95,10 @@ void ICQSearch::showEvent(QShowEvent *e)
 void ICQSearch::radioToggled(bool)
 {
     setAdv(false);
-    if (m_btnAOL)
-        emit setAdd(m_btnAOL->isChecked());
-    if (m_btnScreen)
-        emit setAdd(m_btnScreen->isChecked());
+    if (grpAOL)
+        emit setAdd(grpAOL->isChecked());
+    if (grpScreen)
+        emit setAdd(grpScreen->isChecked());
 }
 
 void ICQSearch::advClick()
@@ -112,7 +106,7 @@ void ICQSearch::advClick()
     if (!m_bAdv && (m_id_icq || m_id_aim)){
         m_id_icq = 0;
         m_id_aim = 0;
-        emit searchDone();
+        emit searchDone(this);
     }
     setAdv(!m_bAdv);
 }
@@ -126,7 +120,7 @@ void ICQSearch::setAdv(bool bAdv)
     if (is)
         btnAdvanced->setIconSet(*is);
     if (m_bAdv){
-        if (m_btnUin){
+        if (grpUin){
             edtMail->setEnabled(true);
             edtFirst->setEnabled(true);
             edtLast->setEnabled(true);
@@ -143,15 +137,15 @@ void ICQSearch::setAdv(bool bAdv)
         }
         emit setAdd(false);
     }else{
-        if (m_btnUin){
-            m_btnUin->slotToggled(m_btnUin->isChecked());
-            m_btnAOL->slotToggled(m_btnAOL->isChecked());
-            m_btnName->slotToggled(m_btnName->isChecked());
+        if (grpUin){
+            grpUin->slotToggled();
+            grpAOL->slotToggled();
+            grpName->slotToggled();
         }else{
-            m_btnScreen->slotToggled(m_btnScreen->isChecked());
-            m_btnAOL_UIN->slotToggled(m_btnAOL_UIN->isChecked());
+            grpScreen->slotToggled();
+            grpAOL_UIN->slotToggled();
         }
-        m_btnMail->slotToggled(m_btnMail->isChecked());
+        grpMail->slotToggled();
         radioToggled(false);
     }
     emit showResult(m_bAdv ? m_adv : NULL);
@@ -159,9 +153,9 @@ void ICQSearch::setAdv(bool bAdv)
 
 void ICQSearch::add(unsigned grp_id)
 {
-    if (m_btnScreen && m_btnScreen->isChecked() && !edtScreen->text().isEmpty())
+    if (grpScreen && grpScreen->isChecked() && !edtScreen->text().isEmpty())
         add(edtScreen->text(), grp_id);
-    if (m_btnAOL && m_btnAOL->isChecked() && !edtAOL->text().isEmpty())
+    if (grpAOL && grpAOL->isChecked() && !edtAOL->text().isEmpty())
         add(edtAOL->text(), grp_id);
 }
 
@@ -267,18 +261,18 @@ void ICQSearch::search()
                        adv->edtNick->text().utf8(),
                        adv->edtZip->text().utf8(),
                        adv->edtState->text().utf8());
-    }else if (m_btnUin && m_btnUin->isChecked() && !edtUIN->text().isEmpty()){
+    }else if (grpUin && grpUin->isChecked() && !edtUIN->text().isEmpty()){
         m_type = UIN;
         m_uin  = atol(edtUIN->text().latin1());
         icq_search();
-    }else if (m_btnMail && m_btnMail->isChecked() && !edtMail->text().isEmpty()){
+    }else if (grpMail && grpMail->isChecked() && !edtMail->text().isEmpty()){
         if (!m_client->m_bAIM){
             m_type = Mail;
             m_mail = getContacts()->fromUnicode(0, edtMail->text());
             icq_search();
         }
         m_id_aim = m_client->aimEMailSearch(edtMail->text().utf8());
-    }else if (m_btnName && m_btnName->isChecked() &&
+    }else if (grpName && grpName->isChecked() &&
               (!edtFirst->text().isEmpty() || !edtLast->text().isEmpty() || !edtNick->text().isEmpty())){
         if (!m_client->m_bAIM){
             m_type = Name;
@@ -294,19 +288,35 @@ void ICQSearch::search()
         return;
     QStringList columns;
     columns.append("");
+	columns.append("");
+	columns.append("nick");
     columns.append(i18n("Nick"));
+	columns.append("first");
     columns.append(i18n("First name"));
+	columns.append("last");
     columns.append(i18n("Last name"));
     if (m_client->m_bAIM){
+		columns.append("city");
         columns.append(i18n("City"));
+		columns.append("state");
         columns.append(i18n("State"));
+		columns.append("country");
         columns.append(i18n("Country"));
     }else{
+		columns.append("gender");
         columns.append(i18n("Gender"));
+		columns.append("age");
         columns.append(i18n("Age"));
+		columns.append("email");
         columns.append(i18n("E-Mail"));
     }
     emit setColumns(columns, 6);
+}
+
+void ICQSearch::searchStop()
+{
+	m_id_icq = 0;
+	m_id_aim = 0;
 }
 
 void *ICQSearch::processEvent(Event *e)
@@ -324,7 +334,7 @@ void *ICQSearch::processEvent(Event *e)
             if (res->id == m_id_aim)
                 m_id_aim = 0;
             if ((m_id_icq == 0) && (m_id_aim == 0))
-                emit searchDone();
+                emit searchDone(this);
             return NULL;
         }
         QString icon;
@@ -411,7 +421,7 @@ void *ICQSearch::processEvent(Event *e)
             l.append(age);
             l.append(getContacts()->toUnicode(NULL, res->data.EMail.ptr));
         }
-        emit addItem(l);
+        emit addItem(l, this);
     }
     return NULL;
 }
