@@ -119,6 +119,8 @@ WharfIcon::WharfIcon(DockWnd *parent)
 {
     dock = parent;
     setMouseTracking(true);
+    QIconSet icon = Icon("offline");
+    setIcon(icon.pixmap(QIconSet::Large, QIconSet::Normal));
     resize(48, 48);
     parentWin = 0;
     setBackgroundMode(X11ParentRelative);
@@ -133,6 +135,7 @@ WharfIcon::~WharfIcon()
 
 bool WharfIcon::x11Event(XEvent *e)
 {
+//    log(L_DEBUG, "Wharf: %u", e->type);
     if ((e->type == ReparentNotify) && !bActivated){
         bActivated = true;
         if (vis) resize(vis->width(), vis->height());
@@ -174,6 +177,7 @@ void WharfIcon::set(const char *icon, const char *msg)
     }
     if (vis) delete vis;
     vis = nvis;
+    setIcon(*vis);
     repaint();
 }
 
@@ -291,6 +295,7 @@ DockWnd::~DockWnd()
 
 bool DockWnd::x11Event(XEvent *e)
 {
+//    log(L_DEBUG, "Dock %u", e->type);
     if (e->type == ClientMessage){
         if (!inTray){
             Atom xembed = XInternAtom( qt_xdisplay(), "_XEMBED", FALSE );
@@ -552,11 +557,10 @@ void DockWnd::mouseReleaseEvent( QMouseEvent *e)
 #ifndef WIN32
     if (!inTray && (wharfIcon == NULL)){
         releaseMouse();
-        move(e->globalPos().x() - mousePos.x(), y() + e->globalPos().y() - mousePos.y());
-        mousePos = QPoint(0, 0);
-        QPoint p(pMain->DockX - x(), pMain->DockY - y());
+        move(e->globalPos().x() - mousePos.x(),  e->globalPos().y() - mousePos.y());
         pMain->DockX = x();
         pMain->DockY = y();
+	QPoint p(pMain->DockX - x(), pMain->DockY - y());
         if (p.manhattanLength() > 6)
             return;
     }

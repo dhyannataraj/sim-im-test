@@ -691,8 +691,8 @@ MainWindow::MainWindow(const char *name)
 #if defined(SA_RESTART)
     act.sa_flags |= SA_RESTART;
 #endif
-    if (!sigaction( SIGCHLD, &act, &oldAct ))
-        log(L_WARN,  "Error installing SIGCHLD handler" );
+    if (sigaction( SIGCHLD, &act, &oldAct ))
+        log(L_WARN,  "Error installing SIGCHLD handler: %s", strerror(errno));
 
     QTimer *childTimer = new QTimer(this);
     connect(childTimer, SIGNAL(timeout()), this, SLOT(checkChilds()));

@@ -94,6 +94,7 @@ void EditSpell::keyPressEvent(QKeyEvent *e)
     }
 #if (QT_VERSION >= 300) && (QT_VERSION < 0x030100)
     // Workaround about autoformat feature in qt 3.0.x
+    log(L_DEBUG, "Press: %s", e->text().latin1());
     if ((e->text()[0] == '-') || (e->text()[0] == '*')){
         if (isOverwriteMode() && !hasSelectedText())
             moveCursor(MoveForward, true);

@@ -428,7 +428,7 @@ void ICQClientPrivate::idle()
     factory->idle();
     time_t now;
     time(&now);
-    if (now >= check_time + CHECK_INTERVAL){
+    if ((unsigned)now >= check_time + CHECK_INTERVAL){
         checkBirthDay();
         check_time = now;
     }
