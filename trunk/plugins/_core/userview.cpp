@@ -723,9 +723,10 @@ void *UserView::processEvent(Event *e)
                     }
                 }
             }
-            if (cmd->id == CmdGrpCreate)
+            if (cmd->id == CmdGrpCreate) {
                 cmd->flags &= ~COMMAND_CHECKED;
                 return CorePlugin::m_plugin->getGroupMode() ? e->param() : NULL;
+            }
             break;
         }
     case EventIconChanged:
