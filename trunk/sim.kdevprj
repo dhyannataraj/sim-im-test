@@ -320,7 +320,7 @@ type=DATA
 
 [sim/libicq/Makefile.am]
 dist=true
-files=sim/libicq/bos.cpp,sim/libicq/buddy.cpp,sim/libicq/buffer.cpp,sim/libicq/buffer.h,sim/libicq/cfg.cpp,sim/libicq/cfg.h,sim/libicq/contactlist.cpp,sim/libicq/icmb.cpp,sim/libicq/icqclient.cpp,sim/libicq/icqclient.h,sim/libicq/lists.cpp,sim/libicq/location.cpp,sim/libicq/log.cpp,sim/libicq/log.h,sim/libicq/login.cpp,sim/libicq/Makefile.am,sim/libicq/message.cpp,sim/libicq/ping.cpp,sim/libicq/service.cpp,sim/libicq/socket.cpp,sim/libicq/socket.h,sim/libicq/translator.cpp,sim/libicq/various.cpp,sim/libicq/xml.cpp,sim/libicq/xml.h,sim/libicq/rtf.ll,sim/libicq/country.cpp,sim/libicq/country.h,sim/libicq/clearhtml.ll,sim/libicq/genrtf.ll,sim/libicq/direct.cpp,sim/libicq/icqssl.cpp,sim/libicq/icqssl.h
+files=sim/libicq/bos.cpp,sim/libicq/buddy.cpp,sim/libicq/buffer.cpp,sim/libicq/buffer.h,sim/libicq/cfg.cpp,sim/libicq/cfg.h,sim/libicq/contactlist.cpp,sim/libicq/icmb.cpp,sim/libicq/icqclient.cpp,sim/libicq/icqclient.h,sim/libicq/lists.cpp,sim/libicq/location.cpp,sim/libicq/log.cpp,sim/libicq/log.h,sim/libicq/login.cpp,sim/libicq/Makefile.am,sim/libicq/message.cpp,sim/libicq/ping.cpp,sim/libicq/service.cpp,sim/libicq/socket.cpp,sim/libicq/socket.h,sim/libicq/translator.cpp,sim/libicq/various.cpp,sim/libicq/xml.cpp,sim/libicq/xml.h,sim/libicq/rtf.ll,sim/libicq/country.cpp,sim/libicq/country.h,sim/libicq/clearhtml.ll,sim/libicq/genrtf.ll,sim/libicq/direct.cpp,sim/libicq/icqssl.cpp,sim/libicq/icqssl.h,sim/libicq/proxy.cpp,sim/libicq/proxy.h
 install=false
 install_location=
 sharedlib_LDFLAGS=-version-info 0:0:1
@@ -471,6 +471,18 @@ dist=true
 install=false
 install_location=
 type=SOURCE
+
+[sim/libicq/proxy.cpp]
+dist=true
+install=false
+install_location=
+type=SOURCE
+
+[sim/libicq/proxy.h]
+dist=true
+install=false
+install_location=
+type=HEADER
 
 [sim/libicq/rtf.ll]
 dist=true

@@ -228,9 +228,9 @@ noinst_LIBRARIES = liblibicq.a
 
 #>- liblibicq_a_METASOURCES = AUTO
 
-liblibicq_a_SOURCES = icqssl.cpp direct.cpp genrtf.ll clearhtml.ll country.cpp rtf.ll xml.cpp various.cpp translator.cpp socket.cpp service.cpp ping.cpp message.cpp login.cpp log.cpp location.cpp lists.cpp icqclient.cpp icmb.cpp contactlist.cpp cfg.cpp buffer.cpp buddy.cpp bos.cpp 
+liblibicq_a_SOURCES = proxy.cpp icqssl.cpp direct.cpp genrtf.ll clearhtml.ll country.cpp rtf.ll xml.cpp various.cpp translator.cpp socket.cpp service.cpp ping.cpp message.cpp login.cpp log.cpp location.cpp lists.cpp icqclient.cpp icmb.cpp contactlist.cpp cfg.cpp buffer.cpp buddy.cpp bos.cpp 
 
-EXTRA_DIST = bos.cpp buddy.cpp buffer.cpp buffer.h cfg.cpp cfg.h contactlist.cpp icmb.cpp icqclient.cpp icqclient.h lists.cpp location.cpp log.cpp log.h login.cpp Makefile.am message.cpp ping.cpp service.cpp socket.cpp socket.h translator.cpp various.cpp xml.cpp xml.h rtf.ll country.cpp country.h clearhtml.ll genrtf.ll direct.cpp icqssl.cpp icqssl.h 
+EXTRA_DIST = bos.cpp buddy.cpp buffer.cpp buffer.h cfg.cpp cfg.h contactlist.cpp icmb.cpp icqclient.cpp icqclient.h lists.cpp location.cpp log.cpp log.h login.cpp Makefile.am message.cpp ping.cpp service.cpp socket.cpp socket.h translator.cpp various.cpp xml.cpp xml.h rtf.ll country.cpp country.h clearhtml.ll genrtf.ll direct.cpp icqssl.cpp icqssl.h proxy.cpp proxy.h 
 
 
 ####### kdevelop will overwrite this part!!! (end)############
@@ -243,9 +243,9 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 liblibicq_a_AR = $(AR) cru
 liblibicq_a_LIBADD =
-am_liblibicq_a_OBJECTS = icqssl.$(OBJEXT) direct.$(OBJEXT) \
-	genrtf.$(OBJEXT) clearhtml.$(OBJEXT) country.$(OBJEXT) \
-	rtf.$(OBJEXT) xml.$(OBJEXT) various.$(OBJEXT) \
+am_liblibicq_a_OBJECTS = proxy.$(OBJEXT) icqssl.$(OBJEXT) \
+	direct.$(OBJEXT) genrtf.$(OBJEXT) clearhtml.$(OBJEXT) \
+	country.$(OBJEXT) rtf.$(OBJEXT) xml.$(OBJEXT) various.$(OBJEXT) \
 	translator.$(OBJEXT) socket.$(OBJEXT) service.$(OBJEXT) \
 	ping.$(OBJEXT) message.$(OBJEXT) login.$(OBJEXT) log.$(OBJEXT) \
 	location.$(OBJEXT) lists.$(OBJEXT) icqclient.$(OBJEXT) \
@@ -254,9 +254,9 @@ am_liblibicq_a_OBJECTS = icqssl.$(OBJEXT) direct.$(OBJEXT) \
 #>- liblibicq_a_OBJECTS = $(am_liblibicq_a_OBJECTS)
 #>+ 11
 liblibicq_a_final_OBJECTS = genrtf.o clearhtml.o rtf.o liblibicq_a.all_cpp.o 
-liblibicq_a_nofinal_OBJECTS = icqssl.$(OBJEXT) direct.$(OBJEXT) \
-	genrtf.$(OBJEXT) clearhtml.$(OBJEXT) country.$(OBJEXT) \
-	rtf.$(OBJEXT) xml.$(OBJEXT) various.$(OBJEXT) \
+liblibicq_a_nofinal_OBJECTS = proxy.$(OBJEXT) icqssl.$(OBJEXT) \
+	direct.$(OBJEXT) genrtf.$(OBJEXT) clearhtml.$(OBJEXT) \
+	country.$(OBJEXT) rtf.$(OBJEXT) xml.$(OBJEXT) various.$(OBJEXT) \
 	translator.$(OBJEXT) socket.$(OBJEXT) service.$(OBJEXT) \
 	ping.$(OBJEXT) message.$(OBJEXT) login.$(OBJEXT) log.$(OBJEXT) \
 	location.$(OBJEXT) lists.$(OBJEXT) icqclient.$(OBJEXT) \
@@ -280,9 +280,10 @@ depcomp = $(SHELL) $(top_srcdir)/admin/depcomp
 	@AMDEP_TRUE@	$(DEPDIR)/lists.Po $(DEPDIR)/location.Po \
 	@AMDEP_TRUE@	$(DEPDIR)/log.Po $(DEPDIR)/login.Po \
 	@AMDEP_TRUE@	$(DEPDIR)/message.Po $(DEPDIR)/ping.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/rtf.Po $(DEPDIR)/service.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/socket.Po $(DEPDIR)/translator.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/various.Po $(DEPDIR)/xml.Po
+	@AMDEP_TRUE@	$(DEPDIR)/proxy.Po $(DEPDIR)/rtf.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/service.Po $(DEPDIR)/socket.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/translator.Po $(DEPDIR)/various.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/xml.Po
 #>- CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 #>- $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 #>+ 2
@@ -377,6 +378,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/login.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/message.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ping.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/proxy.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/rtf.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/service.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/socket.Po@am__quote@
@@ -594,11 +596,11 @@ force-reedit:
 
 
 #>+ 11
-liblibicq_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/icqssl.cpp $(srcdir)/direct.cpp $(srcdir)/country.cpp $(srcdir)/xml.cpp $(srcdir)/various.cpp $(srcdir)/translator.cpp $(srcdir)/socket.cpp $(srcdir)/service.cpp $(srcdir)/ping.cpp $(srcdir)/message.cpp $(srcdir)/login.cpp $(srcdir)/log.cpp $(srcdir)/location.cpp $(srcdir)/lists.cpp $(srcdir)/icqclient.cpp $(srcdir)/icmb.cpp $(srcdir)/contactlist.cpp $(srcdir)/cfg.cpp $(srcdir)/buffer.cpp $(srcdir)/buddy.cpp $(srcdir)/bos.cpp
+liblibicq_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/proxy.cpp $(srcdir)/icqssl.cpp $(srcdir)/direct.cpp $(srcdir)/country.cpp $(srcdir)/xml.cpp $(srcdir)/various.cpp $(srcdir)/translator.cpp $(srcdir)/socket.cpp $(srcdir)/service.cpp $(srcdir)/ping.cpp $(srcdir)/message.cpp $(srcdir)/login.cpp $(srcdir)/log.cpp $(srcdir)/location.cpp $(srcdir)/lists.cpp $(srcdir)/icqclient.cpp $(srcdir)/icmb.cpp $(srcdir)/contactlist.cpp $(srcdir)/cfg.cpp $(srcdir)/buffer.cpp $(srcdir)/buddy.cpp $(srcdir)/bos.cpp
 	@echo 'creating liblibicq_a.all_cpp.cpp ...'; \
 	rm -f liblibicq_a.all_cpp.files liblibicq_a.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> liblibicq_a.all_cpp.final; \
-	for file in icqssl.cpp direct.cpp country.cpp xml.cpp various.cpp translator.cpp socket.cpp service.cpp ping.cpp message.cpp login.cpp log.cpp location.cpp lists.cpp icqclient.cpp icmb.cpp contactlist.cpp cfg.cpp buffer.cpp buddy.cpp bos.cpp ; do \
+	for file in proxy.cpp icqssl.cpp direct.cpp country.cpp xml.cpp various.cpp translator.cpp socket.cpp service.cpp ping.cpp message.cpp login.cpp log.cpp location.cpp lists.cpp icqclient.cpp icmb.cpp contactlist.cpp cfg.cpp buffer.cpp buddy.cpp bos.cpp ; do \
 	  echo "#include \"$$file\"" >> liblibicq_a.all_cpp.files; \
 	  test ! -f $(srcdir)/$$file || egrep '^#pragma +implementation' $(srcdir)/$$file >> liblibicq_a.all_cpp.final; \
 	done; \

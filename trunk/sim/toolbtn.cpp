@@ -24,6 +24,7 @@
 #include <qtooltip.h>
 #include <qlayout.h>
 #include <qpopupmenu.h>
+#include <qstyle.h>
 
 CPushButton::CPushButton(QWidget *parent, const char *name)
         : QPushButton(parent, name)
@@ -166,7 +167,7 @@ void PictButton::setState(const QString& _icon, const QString& _text)
     repaint();
 }
 
-void PictButton::paintEvent(QPaintEvent *e)
+void PictButton::paintEvent(QPaintEvent*)
 {
     QPixmap pict(width(), height());
     QPainter p(&pict);
@@ -178,7 +179,11 @@ void PictButton::paintEvent(QPaintEvent *e)
             p.fillRect(0, 0, width(), height(), colorGroup().button());
         }
     }
+#if QT_VERSION < 300
     style().drawToolButton(this, &p);
+#else
+    drawButton(&p);
+#endif
     QRect rc(4, 4, width() - 4, height() - 4);
     if (icon){
         const QPixmap &pict = Pict(icon);

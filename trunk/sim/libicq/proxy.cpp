@@ -26,6 +26,13 @@
 #include "icqssl.h"
 #include "log.h"
 
+#ifndef WIN32
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <stdio.h>
+#include <netdb.h>
+#endif
+
 Proxy::Proxy() : Socket(NULL)
 {
 }
@@ -78,7 +85,7 @@ void Proxy::read(unsigned size, unsigned minsize)
 {
     bIn.init(size);
     int readn = sock->read(bIn.Data(0), size);
-    if ((readn != size) || (minsize && (readn < minsize))){
+    if ((readn != (int)size) || (minsize && (readn < (int)minsize))){
         notify->error_state(ErrorProxyConnect);
         return;
     }
@@ -203,7 +210,7 @@ void SOCKS5_Proxy::read_ready()
     case WaitAnswer:
         read(2);
         bIn >> b1 >> b2;
-        if ((b1 != 0x05) || (b2 == 0xff)) {
+        if ((b1 != 0x05) || (b2 == (char)0xFF)) {
             notify->error_state(ErrorProxyConnect);
             return;
         }

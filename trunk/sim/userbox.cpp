@@ -1017,10 +1017,12 @@ UserTabBar::UserTabBar(QWidget *parent) : QTabBar(parent)
 void UserTabBar::layoutTabs()
 {
     QTabBar::layoutTabs();
+#if QT_VERSION < 300
     QList<QTab> *tList = tabList();
     for (QTab *t = tList->first(); t; t = tList->next()){
         t->r.setHeight(height());
     }
+#endif
 }
 
 void UserTabBar::paintLabel(QPainter *p, const QRect &rc, QTab *t, bool bFocusRect) const

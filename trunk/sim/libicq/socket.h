@@ -48,7 +48,7 @@ enum SocketError
     ErrorConnectionClosed,
     ErrorProtocol,
     ErrorProxyAuth,
-    ErrorProxyConnect,
+    ErrorProxyConnect
 };
 
 class SocketNotify
