@@ -155,7 +155,7 @@ msgstr "Container"
 
 #: plugins/_core/container.cpp:580
 msgid "Contact typed message"
-msgstr "Geschriebene Nachricht von Kontakt"
+msgstr "Kontakt schreibt gerade an der Nachricht"
 
 #: plugins/_core/core.cpp:69
 msgid "Interface"
@@ -3376,10 +3376,10 @@ msgid ""
 "\"Slower\" matches your string anywhere in the field (ie. \"b\" would yield "
 "Bob, Bill, Caleb, Robbie, etc...)"
 msgstr ""
-"Wahl der Geschwindigkeit von der Suche.  \"Schnell\", dann gleicht die "
-"Zeichenkette nur dem Anfang der Textzeile an (z.B.: \"b\" würde "
-"Bob,Bill,usw... ergeben.)\"Langsamer\" gleicht die Zeichenkette irgendwo in "
-"der Textzeile an (z.B.: \"b\" würde  Bob, Bill, Caleb, Robbie, usw... "
+"Auswahl der Suchgeschwindigkeit.  \"Schnell\" gleicht die "
+"Zeichenkette nur dem Anfang der Textzeile an (\"b\" würde z.B."
+"Bob, Bill, usw... ergeben.)\"Langsamer\" gleicht die Zeichenkette irgendwo in "
+"der Textzeile an (\"b\" würde hier z.B. Bob, Bill, Caleb, Robbie, usw... "
 "ergeben)."
 
 #: plugins/jabber/jabbersearch.cpp:160
@@ -3392,7 +3392,7 @@ msgstr "Schneller / Weniger genau"
 
 #: plugins/jabber/jabbersearch.cpp:162
 msgid "Slower / More extensive"
-msgstr "Weniger / Aufwendiger"
+msgstr "Langsamer / Aufwendiger"
 
 #: plugins/jabber/jabberaddbase.cpp:115
 #: plugins/jabber/jabberconfigbase.cpp:184
