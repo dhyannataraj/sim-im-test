@@ -1039,12 +1039,14 @@ void MsgEdit::insertSmile(int id)
         m_edit->insert(smiles()[id], false, true, true);
         return;
     }
+    QString id_str  = QString("%1").arg(id,0,16);
+    id_str = id_str.upper();
+    QString img_src = QString("<img src=icon:smile%1>").arg(id_str);
 #if QT_VERSION < 300
     // determine the current position of the cursor
     m_edit->insert("\255",true,true,true);
     // RTF doesn't like '<' and '>'
     QString txt = m_edit->text();
-    QString img_src = QString("<img src=icon:smile%1>").arg(id,0,16);
     int pos = txt.find('\255');
     if (pos != -1) {
         txt.replace(pos,1,img_src);
@@ -1060,7 +1062,6 @@ void MsgEdit::insertSmile(int id)
     m_edit->insert("\255");
     // RTF doesn't like '<' and '>'
     QString txt = m_edit->text();
-    QString img_src = QString("<img src=icon:smile%1>").arg(id,0,16);
     txt.replace(QRegExp("\255"),img_src);
     m_edit->setText(txt);
     m_edit->setCursorPosition(para,index+1);
