@@ -18,6 +18,7 @@
 #include "defs.h"
 
 #include "themes.h"
+#include "mainwin.h"
 #include "log.h"
 #include "cfg.h"
 
@@ -79,7 +80,6 @@ QStyle *QStyleFactory::create(const QString &name)
 Themes::Themes(QWidget *parent)
         : QObject(parent)
 {
-    appFont = new QFont(QApplication::font());
 }
 
 void Themes::fillList(QListBox *box)
@@ -88,11 +88,6 @@ void Themes::fillList(QListBox *box)
     box->insertItem(i18n("Default style"));
 #endif
     box->insertStringList(QStyleFactory::keys());
-}
-
-Themes::~Themes()
-{
-    delete appFont;
 }
 
 void Themes::setTheme(const QString &styleName)
@@ -114,7 +109,7 @@ void Themes::setTheme(const QString &styleName)
     log(L_DEBUG, "Set style");
     qApp->setStyle(style);
     log(L_DEBUG, "Style OK");
-    //    qApp->setFont(*appFont, TRUE);
+    pMain->setFonts();
     current = styleName;
 }
 
