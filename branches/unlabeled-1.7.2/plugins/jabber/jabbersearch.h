@@ -30,9 +30,9 @@ class JabberSearch : public QChildWidget
 {
     Q_OBJECT
 public:
-    JabberSearch(QWidget *receiver, JabberClient *client, const char *jid, const char *node, const QString &name);
+    JabberSearch(QWidget *receiver, JabberClient *client, const char *jid, const char *node, const QString &name, bool bRegister);
     bool canSearch();
-    QString condition();
+    QString condition(bool &bXSearch);
     const char *id() { return m_jid.c_str(); }
     void addWidget(struct JabberAgentInfo *data);
     JabberClient	*m_client;
@@ -52,6 +52,7 @@ protected:
     bool			m_bDirty;
     bool			m_bXData;
     bool			m_bFirst;
+	bool			m_bRegister;
     list<QWidget*>	m_required;
     vector<QWidget*>	m_widgets;
     vector<QWidget*>	m_labels;

@@ -66,17 +66,18 @@ QString CComboBox::value()
 
 const unsigned MAX_ELEMENTS = 8;
 
-JabberSearch::JabberSearch(QWidget *receiver, JabberClient *client, const char *jid, const char *node, const QString &name)
+JabberSearch::JabberSearch(QWidget *receiver, JabberClient *client, const char *jid, const char *node, const QString &name, bool bRegister)
         : QChildWidget(NULL)
 {
-    m_client = client;
-    m_jid    = jid;
+    m_client    = client;
+    m_jid       = jid;
     if (node)
-        m_node = node;
-    m_name	 = name;
+        m_node  = node;
+    m_name	    = name;
     m_receiver	= receiver;
     m_bXData	= false;
     m_bFirst	= true;
+	m_bRegister = bRegister;
     QVBoxLayout *vlay = new QVBoxLayout(this);
     vlay->setMargin(6);
     lay = new QGridLayout(vlay);
@@ -210,7 +211,7 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
                 if (data->Value && *data->Value)
                     static_cast<QLineEdit*>(widget)->setText(QString::fromUtf8(data->Value));
                 set_str(&data->Label, f->name);
-                if (f->bRequired)
+                if (f->bRequired && m_bRegister)
                     data->bRequired = true;
             }else if (data->Label){
                 widget = new QLineEdit(this, data->Field);
@@ -377,8 +378,9 @@ bool JabberSearch::canSearch()
     return bRes;
 }
 
-QString JabberSearch::condition()
+QString JabberSearch::condition(bool &bXSearch)
 {
+	bXSearch = m_bXData;
     QString res;
     if (m_bXData)
         res += "x:data";

@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "msgcfg.h"
-#include "editfile.h"
+#include "filecfg.h"
 #include "smscfg.h"
 #include "core.h"
 
@@ -24,10 +24,22 @@
 #include <qbuttongroup.h>
 #include <qmultilineedit.h>
 #include <qradiobutton.h>
+#include <qtabwidget.h>
 
 MessageConfig::MessageConfig(QWidget *parent, void *_data)
         : MessageConfigBase(parent)
 {
+	m_file = NULL;
+    for (QObject *p = parent; p != NULL; p = p->parent()){
+        if (!p->inherits("QTabWidget"))
+            continue;
+        QTabWidget *tab = static_cast<QTabWidget*>(p);
+        m_file = new FileConfig(tab, _data);
+        tab->addTab(m_file, i18n("File"));
+        tab->adjustSize();
+        break;
+    }
+
     CoreUserData *data = (CoreUserData*)_data;
     chkOnline->setChecked((data->OpenOnOnline) != 0);
     chkStatus->setChecked((data->LogStatus) != 0);
@@ -42,49 +54,16 @@ MessageConfig::MessageConfig(QWidget *parent, void *_data)
         btnRaise->setChecked(true);
         break;
     }
-    edtPath->setDirMode(true);
-    QString incoming = QFile::encodeName(data->IncomingPath ? user_file(data->IncomingPath).c_str() : "");
-    edtPath->setText(incoming);
-    connect(grpAccept, SIGNAL(clicked(int)), this, SLOT(acceptClicked(int)));
-    switch (data->AcceptMode){
-    case 0:
-        btnDialog->setChecked(true);
-        break;
-    case 1:
-        btnAccept->setChecked(true);
-        break;
-    case 2:
-        btnDecline->setChecked(true);
-        break;
-    }
-    chkOverwrite->setChecked((data->OverwriteFiles) != 0);
-    if (data->DeclineMessage)
-        edtDecline->setText(QString::fromUtf8(data->DeclineMessage));
-    acceptClicked(data->AcceptMode);
 }
 
 void MessageConfig::apply(void *_data)
 {
+	if (m_file)
+		m_file->apply(_data);
+
     CoreUserData *data = (CoreUserData*)_data;
     data->OpenOnOnline  = chkOnline->isChecked();
     data->LogStatus     = chkStatus->isChecked();
-    QString def;
-    if (edtPath->text().isEmpty()) {
-        def = "Incoming Files";
-    } else {
-        def = edtPath->text();
-    }
-    set_str(&data->IncomingPath, QFile::encodeName(def));
-    edtPath->setText(QFile::decodeName(data->IncomingPath ? user_file(data->IncomingPath).c_str() : ""));
-    data->AcceptMode = 0;
-    if (btnAccept->isOn()){
-        data->AcceptMode = 1;
-        data->OverwriteFiles = chkOverwrite->isChecked();
-    }
-    if (btnDecline->isOn()){
-        data->AcceptMode = 2;
-        set_str(&data->DeclineMessage, edtDecline->text().utf8());
-    }
     data->OpenNewMessage = NEW_MSG_NOOPEN;
     if (btnMinimize->isOn())
         data->OpenNewMessage = NEW_MSG_MINIMIZE;
@@ -92,12 +71,11 @@ void MessageConfig::apply(void *_data)
         data->OpenNewMessage = NEW_MSG_RAISE;
 }
 
-void MessageConfig::acceptClicked(int id)
+void MessageConfig::setEnabled(bool state)
 {
-    if (id > 2)
-        return;
-    chkOverwrite->setEnabled(id == 1);
-    edtDecline->setEnabled(id == 2);
+	if (m_file)
+		m_file->setEnabled(state);
+	MessageConfigBase::setEnabled(state);
 }
 
 #ifndef WIN32

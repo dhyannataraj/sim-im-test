@@ -30,8 +30,22 @@ typedef struct RemoteData
 class ControlSocket;
 class CorePlugin;
 
-class RemotePlugin : public Plugin, public EventReceiver, public ServerSocketNotify
+#ifdef WIN32
+
+const unsigned N_SLOTS = 16;
+
+class IPC;
+#define SIM_SHARED	"SIMremote."
+
+const unsigned SLOT_NONE	= 0;
+const unsigned SLOT_IN		= 1;
+const unsigned SLOT_OUT		= 2;
+
+#endif
+
+class RemotePlugin : public QObject, public Plugin, public EventReceiver, public ServerSocketNotify
 {
+	Q_OBJECT
 public:
     RemotePlugin(unsigned, const char*);
     ~RemotePlugin();
@@ -39,6 +53,9 @@ public:
     void bind();
     list<ControlSocket*> m_sockets;
     CorePlugin	*core;
+public slots:
+	void command();
+	bool command(const QString&, QString&, bool &bError);
 protected:
     virtual bool accept(Socket*, unsigned long ip);
     virtual void bind_ready(unsigned short port);
@@ -47,6 +64,9 @@ protected:
     virtual void *processEvent(Event*);
     virtual string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
+#ifdef WIN32
+	IPC		*ipc;
+#endif
     RemoteData data;
 };
 

@@ -1618,6 +1618,7 @@ void AgentInfoRequest::element_start(const char *el, const char **attr)
         set_str(&data.VHost, m_client->VHost().c_str());
         set_str(&data.Type, "x");
         set_str(&data.ReqID, m_id.c_str());
+        set_str(&data.ID, m_jid.c_str());
         Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentInfo, &data);
         e.process();
         free_data(jabberAgentInfo, &data);
@@ -1632,7 +1633,11 @@ void AgentInfoRequest::element_end(const char *el)
         m_error = m_data;
         m_data  = "";
 		m_bError = false;
-    }else if (!strcmp(el, "field")){
+		return;
+	}
+	if (m_bError)
+		return;
+    if (!strcmp(el, "field")){
         if (data.Field && *data.Field){
             set_str(&data.VHost, m_client->VHost().c_str());
             set_str(&data.ReqID, m_id.c_str());
@@ -1696,6 +1701,8 @@ string JabberClient::get_agent_info(const char *jid, const char *node, const cha
     return req->m_id;
 }
 
+typedef map<my_string, string> VALUE_MAP;
+
 class SearchRequest : public JabberClient::ServerRequest
 {
 public:
@@ -1704,6 +1711,10 @@ public:
 protected:
     JabberSearchData data;
     string m_data;
+	string m_attr;
+	list<string> m_fields;
+	VALUE_MAP    m_values;
+	bool m_bReported;
     virtual void element_start(const char *el, const char **attr);
     virtual void element_end(const char *el);
     virtual void char_data(const char *el, int len);
@@ -1731,6 +1742,8 @@ static DataDef jabberSearchData[] =
         { "", DATA_STRING, 1, 0 },
         { "", DATA_STRING, 1, 0 },
         { "", DATA_STRING, 1, 0 },
+		{ "", DATA_STRLIST, 1, 0 },
+		{ "", DATA_ULONG, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -1739,6 +1752,7 @@ SearchRequest::SearchRequest(JabberClient *client, const char *jid)
         : ServerRequest(client, _SET, NULL, jid)
 {
     load_data(jabberSearchData, &data, NULL);
+	m_bReported = false;
 }
 
 SearchRequest::~SearchRequest()
@@ -1750,23 +1764,72 @@ SearchRequest::~SearchRequest()
 
 void SearchRequest::element_start(const char *el, const char **attr)
 {
-    if (!strcmp(el, "item")){
+	if (!strcmp(el, "reported")){
+		m_bReported = true;
+	}else if (!strcmp(el, "item")){
         free_data(jabberSearchData, &data);
         load_data(jabberSearchData, &data, NULL);
         m_data = JabberClient::get_attr("jid", attr);
         set_str(&data.JID, m_data.c_str());
-    }
+	}else if (!strcmp(el, "field")){
+		string var = JabberClient::get_attr("var", attr);
+		if (m_bReported){
+			if (!var.empty() && (var != "jid")){
+				string label = JabberClient::get_attr("label", attr);
+				if (label.empty())
+					label = var;
+				m_values.insert(VALUE_MAP::value_type(var.c_str(), label));
+				if (var == "nickname"){
+					m_fields.push_front(var);
+				}else{
+					m_fields.push_back(var);
+				}
+			}
+		}else{
+			m_attr = var;
+		}
+	}
     m_data = "";
 }
 
 void SearchRequest::element_end(const char *el)
 {
-    if (!strcmp(el, "item")){
+	if (!strcmp(el, "reported")){
+		m_bReported = false;
+        free_data(jabberSearchData, &data);
+        load_data(jabberSearchData, &data, NULL);
+		for (list<string>::iterator it = m_fields.begin(); it != m_fields.end(); ++it){
+			string value;
+			VALUE_MAP::iterator itv = m_values.find((*it).c_str());
+			if (itv != m_values.end())
+				value = (*itv).second;
+			set_str(&data.Fields, data.nFields++, value.c_str());
+		}
+        set_str(&data.ID, m_id.c_str());
+        Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventSearch, &data);
+        e.process();
+		m_fields.clear();
+	}else if (!strcmp(el, "item")){
         if (data.JID && *data.JID){
+			for (list<string>::iterator it = m_fields.begin(); it != m_fields.end(); ++it){
+				VALUE_MAP::iterator itv = m_values.find((*it).c_str());
+				if (itv != m_values.end())
+					set_str(&data.Fields, data.nFields, (*itv).second.c_str());
+				data.nFields++;
+			}
             set_str(&data.ID, m_id.c_str());
             Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventSearch, &data);
             e.process();
         }
+	}else if (!strcmp(el, "value") || !strcmp(el, "field")){
+		if (!m_attr.empty() && !m_data.empty()){
+			if (m_attr == "jid"){
+				set_str(&data.JID, m_data.c_str());
+			}else{
+				m_values.insert(VALUE_MAP::value_type(m_attr.c_str(), m_data));
+			}
+		}
+		m_attr = "";
     }else if (!strcmp(el, "first")){
         set_str(&data.First, m_data.c_str());
     }else if (!strcmp(el, "last")){

@@ -1,5 +1,5 @@
 /***************************************************************************
-                          msgcfg.h  -  description
+                          simipc.cpp  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,26 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _MSGCFG_H
-#define _MSGCFG_H
+#include <atlbase.h>
 
-#include "simapi.h"
-#include "msgcfgbase.h"
+extern "C" bool ProcessStr(BSTR in_str, BSTR *out_str);
 
-class QCheckBox;
-class FileConfig;
-
-class MessageConfig : public MessageConfigBase
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdLine, int)
 {
-    Q_OBJECT
-public:
-    MessageConfig(QWidget *parent, void *data);
-public slots:
-    void apply(void*);
-protected:
-	FileConfig *m_file;
-	void setEnabled(bool);
-};
-
-#endif
-
+	CComBSTR in("FILE ");
+	in.Append(cmdLine);
+	CComBSTR out;
+	ProcessStr(in, &out);
+	return 0;
+}

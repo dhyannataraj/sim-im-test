@@ -31,6 +31,7 @@ public:
 public slots:
     void apply();
     void selected(int);
+	void toggled(bool);
 protected:
     RemotePlugin *m_plugin;
 };

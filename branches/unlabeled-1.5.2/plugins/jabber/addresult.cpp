@@ -23,17 +23,19 @@
 
 #include <qlayout.h>
 #include <qlabel.h>
+#include <qwizard.h>
+#include <qpushbutton.h>
 
 AddResult::AddResult(JabberClient *client)
 {
     m_client = client;
-    tblUser->addColumn(i18n("Nick"));
-    tblUser->addColumn(i18n("First name"));
-    tblUser->addColumn(i18n("Last name"));
-    tblUser->addColumn(i18n("Email"));
-    tblUser->addColumn(i18n("ID"));
+	tblUser->addColumn(i18n("ID"));
+	tblUser->setExpandingColumn(0);
     connect(tblUser, SIGNAL(dragStart()), this, SLOT(dragStart()));
     connect(tblUser, SIGNAL(doubleClicked(QListViewItem*)), this, SLOT(doubleClicked(QListViewItem*)));
+	connect(tblUser, SIGNAL(currentChanged(QListViewItem*)), this, SLOT(currentChanged(QListViewItem*)));
+	connect(tblUser, SIGNAL(selectionChanged(QListViewItem*)), this, SLOT(currentChanged(QListViewItem*)));
+	m_bConnect = false;
 }
 
 AddResult::~AddResult()
@@ -75,6 +77,12 @@ QString AddResult::foundStatus()
         res += i18n("Found 1 contact", "Found %n contacts", m_nFound);
     }
     return res;
+}
+
+void AddResult::resizeEvent(QResizeEvent *e)
+{
+	AddResultBase::resizeEvent(e);
+	tblUser->adjustColumn();
 }
 
 void *AddResult::processEvent(Event *e)
@@ -144,24 +152,41 @@ void *AddResult::processEvent(Event *e)
     if (e->type() == EventSearch){
         JabberSearchData *data = (JabberSearchData*)(e->param());
         if (m_searchId == data->ID){
-            m_nFound++;
-            lblStatus->setText(i18n("Search") + foundStatus());
-            QListViewItem *item = new QListViewItem(tblUser);
-            if (data->Nick)
-                item->setText(0, QString::fromUtf8(data->Nick));
-            if (data->First)
-                item->setText(1, QString::fromUtf8(data->First));
-            if (data->Last)
-                item->setText(2, QString::fromUtf8(data->Last));
-            if (data->EMail)
-                item->setText(3, QString::fromUtf8(data->EMail));
-            if (data->JID)
-                item->setText(4, QString::fromUtf8(data->JID));
+			if (m_bXSearch){
+				if (data->JID){
+					m_nFound++;
+					lblStatus->setText(i18n("Search") + foundStatus());
+					QListViewItem *item = new QListViewItem(tblUser);
+					item->setText(0, QString::fromUtf8(data->JID));
+					for (unsigned col = 0; col < data->nFields; col++)
+						item->setText(col + 1, QString::fromUtf8(get_str(data->Fields, col)));
+				}else{
+					for (unsigned col = 0; col < data->nFields; col++)
+						tblUser->addColumn(QString::fromUtf8(get_str(data->Fields, col)));
+					tblUser->adjustColumn();
+				}
+			}else{
+				m_nFound++;
+				lblStatus->setText(i18n("Search") + foundStatus());
+				QListViewItem *item = new QListViewItem(tblUser);
+				if (data->JID)
+					item->setText(0, QString::fromUtf8(data->JID));
+				if (data->Nick)
+					item->setText(1, QString::fromUtf8(data->Nick));
+				if (data->First)
+					item->setText(2, QString::fromUtf8(data->First));
+				if (data->Last)
+					item->setText(3, QString::fromUtf8(data->Last));
+				if (data->EMail)
+					item->setText(4, QString::fromUtf8(data->EMail));
+			}
         }
     }
     if ((e->type() == EventSearchDone) && (m_searchId == (const char*)(e->param()))){
         lblStatus->setText(i18n("Search done") + foundStatus());
         m_searchId = "";
+		tblUser->adjustColumn();
+		currentChanged(NULL);
     }
     return NULL;
 }
@@ -172,7 +197,7 @@ void AddResult::setText(const QString &text)
     tblUser->hide();
 }
 
-void AddResult::setSearch(JabberClient *client, const char *search_id)
+void AddResult::setSearch(JabberClient *client, const char *search_id, bool bXSearch)
 {
     m_client = client;
     JabberPlugin *plugin = static_cast<JabberPlugin*>(m_client->protocol()->plugin());
@@ -180,7 +205,17 @@ void AddResult::setSearch(JabberClient *client, const char *search_id)
     EventSearchDone = plugin->EventSearchDone;
     tblUser->setMenu(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->MenuSearchResult);
     tblUser->clear();
+	for (int i = tblUser->columns() - 1; i > 0; i--)
+		tblUser->removeColumn(i);
+	m_bXSearch = bXSearch;
+	if (!bXSearch){
+		tblUser->addColumn(i18n("Nick"));
+		tblUser->addColumn(i18n("First name"));
+		tblUser->addColumn(i18n("Last name"));
+		tblUser->addColumn(i18n("Email"));
+	}
     tblUser->show();
+	finishEnable(false);
     m_nFound = 0;
     m_searchId = search_id;
     m_id = "";
@@ -197,9 +232,9 @@ Contact *AddResult::createContact(unsigned tmpFlags, JabberUserData **data)
     if (data == NULL)
         data = &d;
     Contact *contact;
-    *data = m_client->findContact(item->text(4).utf8(), item->text(0).utf8(), false, contact);
+    *data = m_client->findContact(item->text(0).utf8(), item->text(0).utf8(), false, contact);
     if (*data == NULL){
-        *data = m_client->findContact(item->text(4).utf8(), item->text(0).utf8(), true, contact);
+        *data = m_client->findContact(item->text(0).utf8(), item->text(0).utf8(), true, contact);
         contact->setTemporary(tmpFlags);
         Event e(EventContactChanged, contact);
         e.process();
@@ -218,7 +253,38 @@ void AddResult::dragStart()
 void AddResult::doubleClicked(QListViewItem *item)
 {
     Contact *contact;
-    m_client->findContact(item->text(4).utf8(), item->text(0).utf8(), true, contact);
+    m_client->findContact(item->text(0).utf8(), item->text(1).utf8(), true, contact);
+}
+
+void AddResult::finish()
+{
+	if (tblUser->isVisible() && tblUser->currentItem())
+		createContact(0);
+}
+
+void AddResult::currentChanged(QListViewItem*)
+{
+	finishEnable(tblUser->currentItem() != NULL);
+}
+
+void AddResult::finishEnable(bool state)
+{
+	QWizard *w = NULL;
+	for (QWidget *p = parentWidget(); p; p = p->parentWidget()){
+		if (p->inherits("QWizard"))
+			w = static_cast<QWizard*>(p);
+	}
+	if (w == NULL)
+		return;
+	if (state != m_bConnect){
+		m_bConnect = state;
+		if (m_bConnect){
+			connect(w->finishButton(), SIGNAL(clicked()), this, SLOT(finish()));
+		}else{
+			disconnect(w->finishButton(), SIGNAL(clicked()), this, SLOT(finish()));
+		}
+	}
+	w->setFinishEnabled(this, state);
 }
 
 #ifndef WIN32

@@ -44,6 +44,7 @@ public:
     void	setState();
 public slots:
     void tick();
+	void tickMouse();
     void topDestroyed();
 protected:
     virtual string getConfig();
@@ -55,6 +56,8 @@ protected:
 #ifdef WIN32
     unsigned startTime;
     QTimer   *timer;
+	bool	 m_bHaveMouse;
+	bool	 m_bActive;
 #else
     TransparentTop  *top;
 #endif

@@ -16,7 +16,6 @@ Compression=bzip/9
 AppId=SIM
 AppMutex=SIM_Mutex
 AppCopyright=Copyright © 2002-2003, Vladimir Shutoff
-DetectLanguageUsingLocale=yes
 ShowLanguageDialog=no
 ChangesAssociations=yes
 
@@ -46,6 +45,8 @@ Name: "pt"; MessagesFile: "BrazilianPortuguese.isl"
 
 [Files]
 Source: "..\Release\sim.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\Release\simctrl.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\Release\simipc.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Release\simapi.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Release\simui.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Release\qjpegio.dll"; DestDir: "{app}"; Flags: ignoreversion
@@ -85,6 +86,7 @@ Source: "..\Release\plugins\styles\wood.dll"; DestDir: "{app}\plugins\styles"; F
 Source: "..\Release\plugins\styles\xpstyle.dll"; DestDir: "{app}\plugins\styles"; Flags: ignoreversion
 Source: "..\Release\simremote.dll"; DestDir: "{app}"; Flags: ignoreversion regserver
 Source: "..\Release\sounds\startup.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
+Source: "..\Release\sounds\system.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
 Source: "..\Release\sounds\filedone.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
 Source: "..\Release\sounds\message.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
 Source: "..\Release\sounds\file.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
@@ -137,9 +139,12 @@ Type: filesandordirs; Name: {userappdata}\sim
 [Registry]
 Root: HKCR; Subkey: ".uin"; ValueType: string; ValueName: ""; ValueData: "sim"; Flags: uninsdeletevalue
 Root: HKCR; Subkey: ".uin"; ValueType: string; ValueName: "Content Type"; ValueData: "application/x-icq"; Flags: uninsdeletevalue
+Root: HKCR; Subkey: ".icq"; ValueType: string; ValueName: ""; ValueData: "sim"; Flags: uninsdeletevalue
+Root: HKCR; Subkey: ".icq"; ValueType: string; ValueName: "Content Type"; ValueData: "application/x-icq"; Flags: uninsdeletevalue
 Root: HKCR; Subkey: "sim"; ValueType: string; ValueName: ""; ValueData: "SIM File"; Flags: uninsdeletekey
 Root: HKCR; Subkey: "sim\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\sim.exe,0"; Flags: uninsdeletevalue
-Root: HKCR; Subkey: "sim\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\simctrl.exe"" ""-f %1"""; Flags: uninsdeletevalue
+Root: HKCR; Subkey: "sim\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\simipc.exe"" ""%1"""; Flags: uninsdeletevalue
+Root: HKCR; Subkey: "sim"; ValueType: binary; ValueName: "EditFlags"; ValueData: "00 00 01 00"; Flags: uninsdeletekey
 
 
 

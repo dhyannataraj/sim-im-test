@@ -668,7 +668,7 @@ EXPORT void load_data(const DataDef *d, void *data, const char *config)
                     getToken(line, '\"');
                     v = getToken(line, '\"', false);
                     v = unquoteString(v.c_str());
-                    if (line[0] == 'u'){
+                    if (line.length() && (line[0] == 'u')){
                         set_str((void**)(((char*)data) + offs), index, v.c_str());
                     }else{
                         QString s = QString::fromLocal8Bit(v.c_str());
@@ -685,7 +685,7 @@ EXPORT void load_data(const DataDef *d, void *data, const char *config)
                         break;
                     string v = getToken(line, '\"', false);
                     v = unquoteString(v.c_str());
-                    if (line[0] == 'u'){
+                    if (line.length() && (line[0] == 'u')){
                         set_str(p, v.c_str());
                     }else{
                         QString s = QString::fromLocal8Bit(v.c_str());

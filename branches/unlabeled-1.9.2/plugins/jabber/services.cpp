@@ -80,7 +80,7 @@ void *Services::processEvent(Event *e)
         if (it != m_agents.end()){
             agentInfo &info = (*it).second;
             if (info.search == NULL){
-                info.search = new JabberSearch(this, m_client, data->ID, NULL, QString::fromUtf8(info.name.c_str()));
+                info.search = new JabberSearch(this, m_client, data->ID, NULL, QString::fromUtf8(info.name.c_str()), true);
                 unsigned id = cmbAgents->count();
                 wndInfo->addWidget(info.search, id + 1);
                 cmbAgents->insertItem(QString::fromUtf8(info.name.c_str()));
@@ -265,7 +265,8 @@ void Services::regAgent()
         return;
     btnRegister->setEnabled(false);
     JabberSearch *s = static_cast<JabberSearch*>(w);
-    m_reg_id = m_client->process(s->id(), NULL, s->condition().utf8(), "register");
+	bool bXSearch;
+    m_reg_id = m_client->process(s->id(), NULL, s->condition(bXSearch).utf8(), "register");
 }
 
 void Services::unregAgent()

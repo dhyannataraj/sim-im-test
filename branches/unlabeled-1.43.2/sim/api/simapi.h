@@ -686,6 +686,30 @@ const unsigned EventCommonIcon		= 0x0920;
 */
 const unsigned EventCommonTitle		= 0x0921;
 
+typedef struct addContact
+{
+	const char		*proto;
+	const char		*addr;
+	const char		*nick;
+	unsigned		group;
+} addContact;
+
+/* Event for add contact
+   param is addContact*
+   return Contact*
+*/
+const unsigned EventAddContact		= 0x0930;
+
+/* Event for remove contact
+   param is char *address
+*/
+const unsigned EventDeleteContact	= 0x0931;
+
+/* Event for get contact IP
+   param is Contact*
+*/
+const unsigned EventGetContactIP	= 0x0932;
+
 /* Event netvork state changed
 */
 const unsigned EventNetworkChanged	= 0x1000;

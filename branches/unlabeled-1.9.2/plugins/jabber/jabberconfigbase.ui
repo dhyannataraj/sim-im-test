@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>351</width>
+            <width>347</width>
             <height>248</height>
         </rect>
     </property>
@@ -90,7 +90,7 @@
                         </property>
                         <property>
                             <name>text</name>
-                            <string>Jabber ID:</string>
+                            <string>Username:</string>
                         </property>
                         <property>
                             <name>alignment</name>

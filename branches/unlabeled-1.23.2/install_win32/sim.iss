@@ -131,7 +131,7 @@ begin
           Result := false;
       end;
     end;
-  end;
+ end;
 end;
 
 function InitializeSetup: Boolean;

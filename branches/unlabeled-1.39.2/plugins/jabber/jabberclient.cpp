@@ -163,19 +163,11 @@ JabberClient::JabberClient(JabberProtocol *protocol, const char *cfg)
 {
     load_data(jabberClientData, &data, cfg);
     QString jid = QString::fromUtf8(data.owner.ID);
-    if (!jid.isEmpty() && (jid.find('@') < 0)){
-        QString server;
-        if (data.UseVHost && data.VHost && *data.VHost){
-            server = QString::fromUtf8(data.VHost);
-        }else if (data.Server){
-            server = QString::fromUtf8(data.Server);
-        }
-        if (!server.isEmpty()){
-            jid += "@";
-            jid += server;
-        }
-        set_str(&data.owner.ID, jid.utf8());
-    }
+	int n = jid.find("@");
+	if (n > 0){
+		jid = jid.left(n);
+		set_str(&data.owner.ID, jid.utf8());
+	}
     if (data.owner.Resource == NULL){
         string resource = PACKAGE;
         resource += "_";
@@ -257,8 +249,16 @@ string JabberClient::getConfig()
 string JabberClient::name()
 {
     string res = "Jabber.";
-    if (data.owner.ID)
+    if (data.owner.ID){
+		string server;
+		if (getUseVHost())
+			server = getVHost();
+		if (server.empty())
+			server = getServer();
         res += data.owner.ID;
+		res += '@';
+		res += server;
+	}
     return res;
 }
 
@@ -348,6 +348,39 @@ static bool cmp(const string &str, const char *s)
 
 void *JabberClient::processEvent(Event *e)
 {
+	if (e->type() == EventAddContact){
+		addContact *ac = (addContact*)(e->param());
+		if (ac->proto && !strcmp(protocol()->description()->text, ac->proto)){
+			Contact *contact = NULL;
+		    findContact(ac->addr, ac->nick, true, contact);
+			if (contact && contact->getGroup() != ac->group){
+				contact->setGroup(ac->group);
+				Event e(EventContactChanged, contact);
+				e.process();
+			}
+			return contact;
+		}
+		return NULL;
+	}
+	if (e->type() == EventDeleteContact){
+		char *addr = (char*)(e->param());
+		ContactList::ContactIterator it;
+		Contact *contact;
+		while ((contact = ++it) != NULL){
+			JabberUserData *data;
+			ClientDataIterator itc(contact->clientData, this);
+			while ((data = (JabberUserData*)(++itc)) != NULL){
+				if (!strcmp(data->ID, addr)){
+					contact->clientData.freeData(data);
+					ClientDataIterator itc(contact->clientData);
+					if (++itc == NULL)
+						delete contact;
+					return e->param();
+				}
+			}
+		}
+		return NULL;
+	}
     if (e->type() == EventCheckState){
         CommandDef *cmd = (CommandDef*)(e->param());
         if (cmd->id == static_cast<JabberPlugin*>(protocol()->plugin())->CmdBrowser){
@@ -1742,10 +1775,11 @@ CommandDef *JabberClient::infoWindows(Contact*, void *_data)
 
 CommandDef *JabberClient::configWindows()
 {
-    QString name = i18n(protocol()->description()->text);
-    name += " ";
-    name += QString::fromUtf8(data.owner.ID);
-    cfgJabberWnd[0].text_wrk = strdup(name.utf8());
+    QString title = QString::fromUtf8(name().c_str());
+	int n = title.find(".");
+	if (n > 0)
+		title = title.left(n) + " " + title.mid(n + 1);
+    cfgJabberWnd[0].text_wrk = strdup(title.utf8());
     return cfgJabberWnd;
 }
 

@@ -2325,6 +2325,47 @@ void ICQClient::updateInfo(Contact *contact, void *_data)
 
 void *ICQClient::processEvent(Event *e)
 {
+	if (e->type() == EventAddContact){
+		addContact *ac = (addContact*)(e->param());
+		if (ac->proto && !strcmp(protocol()->description()->text, ac->proto)){
+			Group *grp = getContacts()->group(ac->group);
+			Contact *contact;
+			findContact(ac->addr, ac->nick, true, contact, grp);
+			return contact;
+		}
+		return NULL;
+	}
+	if (e->type() == EventDeleteContact){
+		char *addr = (char*)(e->param());
+		ContactList::ContactIterator it;
+		Contact *contact;
+		while ((contact = ++it) != NULL){
+			ICQUserData *data;
+			ClientDataIterator itc(contact->clientData, this);
+			while ((data = (ICQUserData*)(++itc)) != NULL){
+				if (!strcmp(data->Screen, addr)){
+					contact->clientData.freeData(data);
+					ClientDataIterator itc(contact->clientData);
+					if (++itc == NULL)
+						delete contact;
+					return e->param();
+				}
+			}
+		}
+		return NULL;
+	}
+	if (e->type() == EventGetContactIP){
+		Contact *contact = (Contact*)(e->param());
+		ICQUserData *data;
+		ClientDataIterator it(contact->clientData, this);
+		while ((data = (ICQUserData*)(++it)) != NULL){
+			if (data->RealIP)
+				return (void*)(data->RealIP);
+			if (data->IP)
+				return (void*)(data->IP);
+		}
+		return NULL;
+	}
     if (e->type() == EventMessageAccept){
         messageAccept *ma = (messageAccept*)(e->param());
         for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){

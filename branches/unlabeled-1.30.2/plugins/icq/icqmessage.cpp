@@ -886,7 +886,7 @@ i18n("Contact request", "%n contact requests", 1);
 static MessageDef defContactRequest =
     {
         NULL,
-        MESSAGE_DEFAULT,
+        MESSAGE_DEFAULT | MESSAGE_SYSTEM,
         "Contact request",
         "%n contact requests",
         createContactRequest,

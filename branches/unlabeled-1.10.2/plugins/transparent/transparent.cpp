@@ -111,6 +111,11 @@ TransparentPlugin::TransparentPlugin(unsigned base, const char *config)
     if (getTransparency() >100) setTransparency(100);
 #ifdef WIN32
     timer = NULL;
+	m_bHaveMouse = false;
+	m_bActive    = false;
+	QTimer *timer = new QTimer(this);
+	connect(timer, SIGNAL(timeout()), this, SLOT(tickMouse()));
+	timer->start(1000);
 #else
     top = NULL;
 #endif
@@ -165,13 +170,34 @@ QWidget *TransparentPlugin::createConfigWindow(QWidget *parent)
     return new TransparentCfg(parent, this);
 }
 
+void TransparentPlugin::tickMouse()
+{
+#ifdef WIN32
+	QPoint p = QCursor::pos();
+	bool bMouse = false;
+    QWidget *main = getMainWindow();
+	if (main && main->isVisible()){
+		if (main->frameGeometry().contains(p))
+			bMouse = true;
+	}
+	if (bMouse != m_bHaveMouse){
+		m_bHaveMouse = bMouse;
+		setState();
+	}
+#endif
+}
+
 bool TransparentPlugin::eventFilter(QObject *o, QEvent *e)
 {
 #ifdef WIN32
     if (getIfInactive()){
         switch (e->type()){
         case QEvent::WindowActivate:
+			m_bActive = true;
+			setState();
+			break;
         case QEvent::WindowDeactivate:
+			m_bActive = false;
             setState();
             break;
         case QEvent::Show:{
@@ -203,9 +229,10 @@ void TransparentPlugin::setState()
         SetLayeredWindowAttributes(main->winId(), main->colorGroup().background().rgb(), 0, LWA_ALPHA);
         RedrawWindow(main->winId(), NULL, NULL, RDW_UPDATENOW);
         main->setMouseTracking(true);
-        m_bState = !main->isActiveWindow();
+        m_bActive = main->isActiveWindow();
+		m_bState  = !m_bActive;
     }
-    bool bNewState = main->isActiveWindow();
+    bool bNewState = m_bActive || m_bHaveMouse;
     if (bNewState == m_bState){
         BYTE d = (BYTE)(bNewState ? 255 : QMIN((100 - getTransparency()) * 256 / 100, 255));
         SetLayeredWindowAttributes(main->winId(), main->colorGroup().background().rgb(), d, LWA_ALPHA);
@@ -231,7 +258,7 @@ void TransparentPlugin::tick()
         timer->stop();
         return;
     }
-    unsigned timeout = m_bState ? SHOW_TIMEOUT : HIDE_TIMEOUT;
+    unsigned timeout = m_bActive ? SHOW_TIMEOUT : HIDE_TIMEOUT;
     unsigned time = GetTickCount() - startTime;
     if (time >= timeout){
         time = timeout;
