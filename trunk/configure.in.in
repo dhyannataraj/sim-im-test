@@ -96,6 +96,9 @@ fi
 LIB_XSLT=`$XSLT_CONFIG --libs 2>/dev/null`
 CPPFLAGS="$CPPFLAGS `$XSLT_CONFIG --cflags`"
 
+AC_SUBST(LIB_XML2)
+AC_SUBST(LIB_XSLT)
+
 if test "$WITH_OPENSSL" = "no"; then
   echo ""
   echo "OpenSSL support is not available.  SIM will not be able to"
