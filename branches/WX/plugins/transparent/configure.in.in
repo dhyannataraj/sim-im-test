@@ -1,0 +1,11 @@
+compile_plugin="no"
+if test "$use_kde" = "yes" ; then
+KDE_CHECK_HEADER(krootpixmap.h,[
+ AC_DEFINE(HAVE_KROOTPIXMAP_H,1,[Have krootpixmap.h])
+ compile_plugin="yes"
+])
+fi
+if test "x$compile_plugin" = "xno"; then
+  DO_NOT_COMPILE="$DO_NOT_COMPILE plugins/transparent"
+fi
+

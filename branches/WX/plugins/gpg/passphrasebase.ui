@@ -1,0 +1,133 @@
+<!DOCTYPE UI><UI>
+<class>PassphraseDlgBase</class>
+<widget>
+    <class>QDialog</class>
+    <property stdset="1">
+        <name>name</name>
+        <cstring>Passphrase</cstring>
+    </property>
+    <property>
+        <name>geometry</name>
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>388</width>
+            <height>119</height>
+        </rect>
+    </property>
+    <property>
+        <name>caption</name>
+        <string>Input passphrase</string>
+    </property>
+    <grid>
+        <property>
+            <name>margin</name>
+            <number>11</number>
+        </property>
+        <property>
+            <name>spacing</name>
+            <number>6</number>
+        </property>
+        <widget row="0"  column="0"  rowspan="1"  colspan="3" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>lblTitle</cstring>
+            </property>
+            <property>
+                <name>sizePolicy</name>
+                <sizepolicy>
+                    <hsizetype>7</hsizetype>
+                    <vsizetype>7</vsizetype>
+                </sizepolicy>
+            </property>
+            <property>
+                <name>text</name>
+                <string></string>
+            </property>
+            <property>
+                <name>alignment</name>
+                <set>WordBreak|AlignVCenter|AlignLeft</set>
+            </property>
+            <property>
+                <name>wordwrap</name>
+            </property>
+        </widget>
+        <widget row="2"  column="0"  rowspan="1"  colspan="3" >
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkSave</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>&amp;Save passphrase</string>
+            </property>
+        </widget>
+        <widget row="1"  column="0"  rowspan="1"  colspan="3" >
+            <class>QLineEdit</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>edtPass</cstring>
+            </property>
+        </widget>
+        <widget row="4"  column="1" >
+            <class>QPushButton</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>btnOk</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>&amp;OK</string>
+            </property>
+        </widget>
+        <spacer row="4"  column="0" >
+            <property>
+                <name>name</name>
+                <cstring>Spacer1</cstring>
+            </property>
+            <property>
+                <name>orientation</name>
+                <enum>Horizontal</enum>
+            </property>
+            <property>
+                <name>sizeType</name>
+                <enum>Expanding</enum>
+            </property>
+            <property>
+                <name>sizeHint</name>
+                <size>
+                    <width>20</width>
+                    <height>20</height>
+                </size>
+            </property>
+        </spacer>
+        <widget row="4"  column="2" >
+            <class>QPushButton</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>btnCancel</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>&amp;Cancel</string>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>btnOk</sender>
+        <signal>clicked()</signal>
+        <receiver>Passphrase</receiver>
+        <slot>accept()</slot>
+    </connection>
+    <connection>
+        <sender>btnCancel</sender>
+        <signal>clicked()</signal>
+        <receiver>Passphrase</receiver>
+        <slot>reject()</slot>
+    </connection>
+</connections>
+</UI>
