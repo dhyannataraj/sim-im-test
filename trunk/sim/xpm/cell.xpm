@@ -1,5 +1,5 @@
 /* XPM */
-static char * cell_xpm[] = {
+static const char * cell[] = {
 "16 16 11 1",
 " 	c None",
 ".	c #B2B2B2",
