@@ -50,8 +50,8 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
     }
     edtServer->setText(QString::fromLocal8Bit(m_client->getServer()));
     edtPort->setValue(m_client->getPort());
-	edtMinPort->setValue(m_client->getMinPort());
-	edtMaxPort->setValue(m_client->getMaxPort());
+    edtMinPort->setValue(m_client->getMinPort());
+    edtMaxPort->setValue(m_client->getMaxPort());
     connect(edtServer, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(edtPort, SIGNAL(valueChanged(const QString&)), this, SLOT(changed(const QString&)));
     cmbFormat->insertItem(i18n("RTF"));
@@ -77,8 +77,8 @@ void ICQConfig::apply()
     }
     m_client->setServer(edtServer->text().local8Bit());
     m_client->setPort(atol(edtPort->text()));
-	m_client->setMinPort(atol(edtMinPort->text()));
-	m_client->setMaxPort(atol(edtMaxPort->text()));
+    m_client->setMinPort(atol(edtMinPort->text()));
+    m_client->setMaxPort(atol(edtMaxPort->text()));
     m_client->setSendFormat(cmbFormat->currentItem());
     m_client->setAutoUpdate(chkUpdate->isChecked());
     m_client->setAutoReplyUpdate(chkAutoReply->isChecked());

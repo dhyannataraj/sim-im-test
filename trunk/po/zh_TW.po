@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: zh_TV\n"
-"POT-Creation-Date: 2003-09-19 10:48+0400\n"
+"POT-Creation-Date: 2003-09-22 04:22+0400\n"
 "PO-Revision-Date: 2002-07-24 12:05+0800\n"
 "Last-Translator: 劉盛光 <stacker_liew_200@yahoo.com.tw>\n"
 "Language-Team: zh_TW.Big5 <zh@li.org>\n"
@@ -756,7 +756,7 @@ msgid "Select profile"
 msgstr "選擇風格："
 
 #: plugins/_core/logindlg.cpp:263 plugins/icq/aimconfigbase.cc:150
-#: plugins/icq/icqconfigbase.cc:189 plugins/jabber/jabberconfigbase.cpp:216
+#: plugins/icq/icqconfigbase.cc:218 plugins/jabber/jabberconfigbase.cpp:216
 #: plugins/msn/msnconfigbase.cpp:178 plugins/proxy/proxycfgbase.cpp:168
 msgid "Password:"
 msgstr "密碼："
@@ -1059,7 +1059,8 @@ msgid "Connecting"
 msgstr "連線"
 
 #: plugins/_core/status.cpp:137 plugins/_core/statuswnd.cpp:76
-#: plugins/netmonitor/monitor.cpp:89 sim/ui/qt3/i18n.cpp:141
+#: plugins/netmonitor/monitor.cpp:89 plugins/windock/windock.cpp:175
+#: sim/ui/qt3/i18n.cpp:141
 #, fuzzy
 msgid "Error"
 msgstr "刪除"
@@ -1213,7 +1214,7 @@ msgstr "不顯示此對話盒"
 #: plugins/filter/filtercfgbase.cpp:96 plugins/forward/forwardcfgbase.cpp:101
 #: plugins/icons/iconcfgbase.cpp:135 plugins/icons/smilecfgbase.cpp:121
 #: plugins/icq/aimconfigbase.cc:148 plugins/icq/aimsearchbase.cc:133
-#: plugins/icq/homeinfobase.cc:174 plugins/icq/icqconfigbase.cc:188
+#: plugins/icq/homeinfobase.cc:174 plugins/icq/icqconfigbase.cc:217
 #: plugins/icq/icqpicturebase.cc:133 plugins/icq/icqsecurebase.cc:212
 #: plugins/icq/pastinfobase.cc:169 plugins/jabber/addresultbase.cpp:116
 #: plugins/jabber/jabberaddbase.cpp:123
@@ -1242,6 +1243,7 @@ msgstr "延伸："
 #: plugins/_core/phonebase.cc:147 plugins/_core/phonebase.cc:149
 #: plugins/_core/phonebase.cc:151 plugins/_core/phonebase.cpp:147
 #: plugins/_core/phonebase.cpp:149 plugins/_core/phonebase.cpp:151
+#: plugins/icq/icqconfigbase.cc:225
 msgid "-"
 msgstr "-"
 
@@ -1891,7 +1893,7 @@ msgstr "興趣"
 msgid "Plugin provides dock main window in system tray"
 msgstr ""
 
-#: plugins/dock/dock.cpp:49 plugins/windock/windock.cpp:36
+#: plugins/dock/dock.cpp:49 plugins/windock/windock.cpp:40
 msgid "Dock"
 msgstr ""
 
@@ -3529,67 +3531,72 @@ msgstr "時區："
 msgid "&Home info"
 msgstr "家庭資訊"
 
-#: plugins/icq/icqconfigbase.cc:190
+#: plugins/icq/icqconfigbase.cc:219
 #, fuzzy
 msgid "&Register new UIN"
 msgstr "註冊"
 
-#: plugins/icq/aimsearchbase.cc:137 plugins/icq/icqconfigbase.cc:191
+#: plugins/icq/aimsearchbase.cc:137 plugins/icq/icqconfigbase.cc:220
 #: plugins/icq/icqsearchbase.cc:338
 msgid "UIN:"
 msgstr "UIN:"
 
-#: plugins/icq/aimsearchbase.cc:139 plugins/icq/icqconfigbase.cc:192
+#: plugins/icq/aimsearchbase.cc:139 plugins/icq/icqconfigbase.cc:221
 #, fuzzy
 msgid "&ICQ"
 msgstr "ICQ"
 
-#: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:193
+#: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:222
 #: plugins/jabber/jabberconfigbase.cpp:220 plugins/msn/msnconfigbase.cpp:180
 #, fuzzy
 msgid "Server:"
 msgstr "Штат"
 
-#: plugins/icq/aimconfigbase.cc:152 plugins/icq/icqconfigbase.cc:194
+#: plugins/icq/aimconfigbase.cc:152 plugins/icq/icqconfigbase.cc:223
 #: plugins/jabber/jabberconfigbase.cpp:221 plugins/msn/msnconfigbase.cpp:181
 #: plugins/proxy/proxycfgbase.cpp:165
 msgid "Port:"
 msgstr "埠："
 
-#: plugins/icq/aimconfigbase.cc:154 plugins/icq/icqconfigbase.cc:195
+#: plugins/icq/icqconfigbase.cc:224
+#, fuzzy
+msgid "Port range for direct connections:"
+msgstr "連線"
+
+#: plugins/icq/aimconfigbase.cc:154 plugins/icq/icqconfigbase.cc:226
 #: plugins/jabber/jabberconfigbase.cpp:226 plugins/msn/msnconfigbase.cpp:182
 #, fuzzy
 msgid "&Network"
 msgstr "網路"
 
-#: plugins/icq/icqconfigbase.cc:196
+#: plugins/icq/icqconfigbase.cc:227
 #, fuzzy
 msgid "Send format:"
 msgstr "傳送失敗"
 
-#: plugins/icq/icqconfigbase.cc:197
+#: plugins/icq/icqconfigbase.cc:228
 #, fuzzy
 msgid "Accept in &occupied mode"
 msgstr "接受模式"
 
-#: plugins/icq/icqconfigbase.cc:198
+#: plugins/icq/icqconfigbase.cc:229
 #, fuzzy
 msgid "Accept in &DND mode"
 msgstr "接受模式"
 
-#: plugins/icq/icqconfigbase.cc:199
+#: plugins/icq/icqconfigbase.cc:230
 msgid "Support &typing notification"
 msgstr ""
 
-#: plugins/icq/icqconfigbase.cc:200
+#: plugins/icq/icqconfigbase.cc:231
 msgid "Automatically &update user info"
 msgstr ""
 
-#: plugins/icq/icqconfigbase.cc:201
+#: plugins/icq/icqconfigbase.cc:232
 msgid "Automaticaly &request autoreply on change status"
 msgstr ""
 
-#: plugins/icq/icqconfigbase.cc:202
+#: plugins/icq/icqconfigbase.cc:233
 #, fuzzy
 msgid "&Options"
 msgstr "連線"
@@ -4759,11 +4766,17 @@ msgstr "主視窗透明"
 msgid "Transparent only if inactive"
 msgstr "容器透明"
 
-#: plugins/windock/windock.cpp:37
+#: plugins/windock/windock.cpp:41
 msgid "Plugin provides dock main window to left or right side of screen"
 msgstr ""
 
-#: plugins/windock/windock.cpp:115
+#: plugins/windock/windock.cpp:176
+msgid ""
+"There is already an auto hidden window on this edge.\n"
+"Only one auto hidden window is allowed on each edge."
+msgstr ""
+
+#: plugins/windock/windock.cpp:304
 msgid "AutoHide"
 msgstr ""
 

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
-"POT-Creation-Date: 2003-09-19 10:48+0400\n"
+"POT-Creation-Date: 2003-09-22 04:22+0400\n"
 "PO-Revision-Date: 2003-02-04 03:03+0200\n"
 "Last-Translator: Amir Tal <tal@whatsup.org.il>\n"
 "Language-Team: Hebrew <kde-il@yahoogroups.com>\n"
@@ -734,7 +734,7 @@ msgid "Select profile"
 msgstr "בחר הכל"
 
 #: plugins/_core/logindlg.cpp:263 plugins/icq/aimconfigbase.cc:150
-#: plugins/icq/icqconfigbase.cc:189 plugins/jabber/jabberconfigbase.cpp:216
+#: plugins/icq/icqconfigbase.cc:218 plugins/jabber/jabberconfigbase.cpp:216
 #: plugins/msn/msnconfigbase.cpp:178 plugins/proxy/proxycfgbase.cpp:168
 msgid "Password:"
 msgstr "סיסמה:"
@@ -1038,7 +1038,8 @@ msgid "Connecting"
 msgstr "חיבור"
 
 #: plugins/_core/status.cpp:137 plugins/_core/statuswnd.cpp:76
-#: plugins/netmonitor/monitor.cpp:89 sim/ui/qt3/i18n.cpp:141
+#: plugins/netmonitor/monitor.cpp:89 plugins/windock/windock.cpp:175
+#: sim/ui/qt3/i18n.cpp:141
 msgid "Error"
 msgstr "שגיאה"
 
@@ -1189,7 +1190,7 @@ msgstr "&אל תראה את החלון הזה"
 #: plugins/filter/filtercfgbase.cpp:96 plugins/forward/forwardcfgbase.cpp:101
 #: plugins/icons/iconcfgbase.cpp:135 plugins/icons/smilecfgbase.cpp:121
 #: plugins/icq/aimconfigbase.cc:148 plugins/icq/aimsearchbase.cc:133
-#: plugins/icq/homeinfobase.cc:174 plugins/icq/icqconfigbase.cc:188
+#: plugins/icq/homeinfobase.cc:174 plugins/icq/icqconfigbase.cc:217
 #: plugins/icq/icqpicturebase.cc:133 plugins/icq/icqsecurebase.cc:212
 #: plugins/icq/pastinfobase.cc:169 plugins/jabber/addresultbase.cpp:116
 #: plugins/jabber/jabberaddbase.cpp:123
@@ -1218,6 +1219,7 @@ msgstr "שלוחה:"
 #: plugins/_core/phonebase.cc:147 plugins/_core/phonebase.cc:149
 #: plugins/_core/phonebase.cc:151 plugins/_core/phonebase.cpp:147
 #: plugins/_core/phonebase.cpp:149 plugins/_core/phonebase.cpp:151
+#: plugins/icq/icqconfigbase.cc:225
 msgid "-"
 msgstr "-"
 
@@ -1858,7 +1860,7 @@ msgstr "מערכת"
 msgid "Plugin provides dock main window in system tray"
 msgstr ""
 
-#: plugins/dock/dock.cpp:49 plugins/windock/windock.cpp:36
+#: plugins/dock/dock.cpp:49 plugins/windock/windock.cpp:40
 msgid "Dock"
 msgstr ""
 
@@ -3456,68 +3458,73 @@ msgstr "איזור זמן:"
 msgid "&Home info"
 msgstr "&מידע ביתי"
 
-#: plugins/icq/icqconfigbase.cc:190
+#: plugins/icq/icqconfigbase.cc:219
 #, fuzzy
 msgid "&Register new UIN"
 msgstr "&הירשם"
 
-#: plugins/icq/aimsearchbase.cc:137 plugins/icq/icqconfigbase.cc:191
+#: plugins/icq/aimsearchbase.cc:137 plugins/icq/icqconfigbase.cc:220
 #: plugins/icq/icqsearchbase.cc:338
 msgid "UIN:"
 msgstr "UIN:"
 
-#: plugins/icq/aimsearchbase.cc:139 plugins/icq/icqconfigbase.cc:192
+#: plugins/icq/aimsearchbase.cc:139 plugins/icq/icqconfigbase.cc:221
 #, fuzzy
 msgid "&ICQ"
 msgstr "ICQ"
 
-#: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:193
+#: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:222
 #: plugins/jabber/jabberconfigbase.cpp:220 plugins/msn/msnconfigbase.cpp:180
 #, fuzzy
 msgid "Server:"
 msgstr "שרת"
 
-#: plugins/icq/aimconfigbase.cc:152 plugins/icq/icqconfigbase.cc:194
+#: plugins/icq/aimconfigbase.cc:152 plugins/icq/icqconfigbase.cc:223
 #: plugins/jabber/jabberconfigbase.cpp:221 plugins/msn/msnconfigbase.cpp:181
 #: plugins/proxy/proxycfgbase.cpp:165
 msgid "Port:"
 msgstr "יציאה:"
 
-#: plugins/icq/aimconfigbase.cc:154 plugins/icq/icqconfigbase.cc:195
+#: plugins/icq/icqconfigbase.cc:224
+#, fuzzy
+msgid "Port range for direct connections:"
+msgstr "קישור ישיר"
+
+#: plugins/icq/aimconfigbase.cc:154 plugins/icq/icqconfigbase.cc:226
 #: plugins/jabber/jabberconfigbase.cpp:226 plugins/msn/msnconfigbase.cpp:182
 #, fuzzy
 msgid "&Network"
 msgstr "ח&דש"
 
-#: plugins/icq/icqconfigbase.cc:196
+#: plugins/icq/icqconfigbase.cc:227
 #, fuzzy
 msgid "Send format:"
 msgstr "השליחה נכשלה"
 
-#: plugins/icq/icqconfigbase.cc:197
+#: plugins/icq/icqconfigbase.cc:228
 #, fuzzy
 msgid "Accept in &occupied mode"
 msgstr "מצב קבלה"
 
-#: plugins/icq/icqconfigbase.cc:198
+#: plugins/icq/icqconfigbase.cc:229
 #, fuzzy
 msgid "Accept in &DND mode"
 msgstr "מצב קבלה"
 
-#: plugins/icq/icqconfigbase.cc:199
+#: plugins/icq/icqconfigbase.cc:230
 msgid "Support &typing notification"
 msgstr ""
 
-#: plugins/icq/icqconfigbase.cc:200
+#: plugins/icq/icqconfigbase.cc:231
 #, fuzzy
 msgid "Automatically &update user info"
 msgstr "הוסף או&טומטית משתמש חדש ל KAdressBook."
 
-#: plugins/icq/icqconfigbase.cc:201
+#: plugins/icq/icqconfigbase.cc:232
 msgid "Automaticaly &request autoreply on change status"
 msgstr ""
 
-#: plugins/icq/icqconfigbase.cc:202
+#: plugins/icq/icqconfigbase.cc:233
 #, fuzzy
 msgid "&Options"
 msgstr "&עיסוק"
@@ -4659,11 +4666,21 @@ msgstr "חלון ראשי שקוף"
 msgid "Transparent only if inactive"
 msgstr "שקוף רק אם לא פעיל"
 
-#: plugins/windock/windock.cpp:37
+#: plugins/windock/windock.cpp:41
 msgid "Plugin provides dock main window to left or right side of screen"
 msgstr ""
 
-#: plugins/windock/windock.cpp:115
+#: plugins/windock/windock.cpp:176
+msgid ""
+"There is already an auto hidden window on this edge.\n"
+"Only one auto hidden window is allowed on each edge."
+msgstr ""
+"ישנו כבר חלון מוחבא אוטומטית על קצה זה של "
+"המסך.\n"
+"רק חלון מוחבא אוטומטית אחד יכול להיות בכל "
+"קצה."
+
+#: plugins/windock/windock.cpp:304
 msgid "AutoHide"
 msgstr "הסתר אוטומטית"
 
@@ -7106,15 +7123,6 @@ msgstr "קו &תחתון"
 
 #~ msgid "IM Address"
 #~ msgstr "כתובת מסרים מיידיים"
-
-#~ msgid ""
-#~ "There is already an auto hidden window on this edge.\n"
-#~ "Only one auto hidden window is allowed on each edge."
-#~ msgstr ""
-#~ "ישנו כבר חלון מוחבא אוטומטית על קצה זה של "
-#~ "המסך.\n"
-#~ "רק חלון מוחבא אוטומטית אחד יכול להיות בכל "
-#~ "קצה."
 
 #~ msgid "Find User"
 #~ msgstr "חפש משתמש"

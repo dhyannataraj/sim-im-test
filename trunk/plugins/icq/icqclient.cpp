@@ -255,8 +255,8 @@ static DataDef icqClientData[] =
         { "TypingNotification", DATA_BOOL, 1, 1 },
         { "AcceptInDND", DATA_BOOL, 1, 0 },
         { "AcceptInOccupied", DATA_BOOL, 1, 0 },
-		{ "MinPort", DATA_ULONG, 1, 1024 },
-		{ "MaxPort", DATA_ULONG, 1, 0xFFFE },
+        { "MinPort", DATA_ULONG, 1, 1024 },
+        { "MaxPort", DATA_ULONG, 1, 0xFFFE },
         { "", DATA_STRUCT, sizeof(ICQUserData) / sizeof(unsigned), (unsigned)_icqUserData },
         { NULL, 0, 0, 0 }
     };

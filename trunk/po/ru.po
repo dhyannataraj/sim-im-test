@@ -12,8 +12,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2003-09-19 10:48+0400\n"
-"PO-Revision-Date: 2003-09-19 10:49+0400\n"
+"POT-Creation-Date: 2003-09-22 04:22+0400\n"
+"PO-Revision-Date: 2003-09-22 04:33+0400\n"
 "Last-Translator: Vladimir Shutoff <vovan@shutoff.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -799,7 +799,7 @@ msgstr "Выберите профиль"
 
 # passwddlg.cpp:34 ui/logindlgbase.cpp:55
 #: plugins/_core/logindlg.cpp:263 plugins/icq/aimconfigbase.cc:150
-#: plugins/icq/icqconfigbase.cc:189 plugins/jabber/jabberconfigbase.cpp:216
+#: plugins/icq/icqconfigbase.cc:218 plugins/jabber/jabberconfigbase.cpp:216
 #: plugins/msn/msnconfigbase.cpp:178 plugins/proxy/proxycfgbase.cpp:168
 msgid "Password:"
 msgstr "Пароль:"
@@ -1147,7 +1147,8 @@ msgstr "Соединение"
 
 # monitor.cpp:108
 #: plugins/_core/status.cpp:137 plugins/_core/statuswnd.cpp:76
-#: plugins/netmonitor/monitor.cpp:89 sim/ui/qt3/i18n.cpp:141
+#: plugins/netmonitor/monitor.cpp:89 plugins/windock/windock.cpp:175
+#: sim/ui/qt3/i18n.cpp:141
 msgid "Error"
 msgstr "Ошибка"
 
@@ -1310,7 +1311,7 @@ msgstr "&Не показывать это окно при старте"
 #: plugins/filter/filtercfgbase.cpp:96 plugins/forward/forwardcfgbase.cpp:101
 #: plugins/icons/iconcfgbase.cpp:135 plugins/icons/smilecfgbase.cpp:121
 #: plugins/icq/aimconfigbase.cc:148 plugins/icq/aimsearchbase.cc:133
-#: plugins/icq/homeinfobase.cc:174 plugins/icq/icqconfigbase.cc:188
+#: plugins/icq/homeinfobase.cc:174 plugins/icq/icqconfigbase.cc:217
 #: plugins/icq/icqpicturebase.cc:133 plugins/icq/icqsecurebase.cc:212
 #: plugins/icq/pastinfobase.cc:169 plugins/jabber/addresultbase.cpp:116
 #: plugins/jabber/jabberaddbase.cpp:123
@@ -1342,6 +1343,7 @@ msgstr "Добавочный:"
 #: plugins/_core/phonebase.cc:147 plugins/_core/phonebase.cc:149
 #: plugins/_core/phonebase.cc:151 plugins/_core/phonebase.cpp:147
 #: plugins/_core/phonebase.cpp:149 plugins/_core/phonebase.cpp:151
+#: plugins/icq/icqconfigbase.cc:225
 msgid "-"
 msgstr "-"
 
@@ -2064,7 +2066,7 @@ msgstr ""
 "Модуль обеспечивает сворачивание "
 "главного окна в иконку в системном лотке"
 
-#: plugins/dock/dock.cpp:49 plugins/windock/windock.cpp:36
+#: plugins/dock/dock.cpp:49 plugins/windock/windock.cpp:40
 msgid "Dock"
 msgstr "Док"
 
@@ -3891,73 +3893,78 @@ msgstr "Часовой пояс:"
 msgid "&Home info"
 msgstr "&Домашняя информация"
 
-#: plugins/icq/icqconfigbase.cc:190
+#: plugins/icq/icqconfigbase.cc:219
 msgid "&Register new UIN"
 msgstr "&Зарегистрировать новый UIN"
 
 # ui/logindlgbase.cpp:49 ui/searchbase.cpp:247
-#: plugins/icq/aimsearchbase.cc:137 plugins/icq/icqconfigbase.cc:191
+#: plugins/icq/aimsearchbase.cc:137 plugins/icq/icqconfigbase.cc:220
 #: plugins/icq/icqsearchbase.cc:338
 msgid "UIN:"
 msgstr "UIN:"
 
 # mainwin.cpp:2359
-#: plugins/icq/aimsearchbase.cc:139 plugins/icq/icqconfigbase.cc:192
+#: plugins/icq/aimsearchbase.cc:139 plugins/icq/icqconfigbase.cc:221
 msgid "&ICQ"
 msgstr "&ICQ"
 
 # ui/proxydlgbase.cpp:129
-#: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:193
+#: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:222
 #: plugins/jabber/jabberconfigbase.cpp:220 plugins/msn/msnconfigbase.cpp:180
 msgid "Server:"
 msgstr "Сервер:"
 
 # ui/networkbase.cpp:105 ui/proxydlgbase.cpp:145
-#: plugins/icq/aimconfigbase.cc:152 plugins/icq/icqconfigbase.cc:194
+#: plugins/icq/aimconfigbase.cc:152 plugins/icq/icqconfigbase.cc:223
 #: plugins/jabber/jabberconfigbase.cpp:221 plugins/msn/msnconfigbase.cpp:181
 #: plugins/proxy/proxycfgbase.cpp:165
 msgid "Port:"
 msgstr "Порт:"
 
+# ui/generalsecbase.cpp:140
+#: plugins/icq/icqconfigbase.cc:224
+msgid "Port range for direct connections:"
+msgstr "Порты для прямых соединений:"
+
 # ui/networkbase.cpp:80
-#: plugins/icq/aimconfigbase.cc:154 plugins/icq/icqconfigbase.cc:195
+#: plugins/icq/aimconfigbase.cc:154 plugins/icq/icqconfigbase.cc:226
 #: plugins/jabber/jabberconfigbase.cpp:226 plugins/msn/msnconfigbase.cpp:182
 msgid "&Network"
 msgstr "&Сеть"
 
 # msgedit.cpp:648
-#: plugins/icq/icqconfigbase.cc:196
+#: plugins/icq/icqconfigbase.cc:227
 msgid "Send format:"
 msgstr "Формат сообщений:"
 
 # mainwin.cpp:1706 ui/acceptbase.cpp:133
-#: plugins/icq/icqconfigbase.cc:197
+#: plugins/icq/icqconfigbase.cc:228
 msgid "Accept in &occupied mode"
 msgstr "Принимать в режиме \"&Отошел\""
 
 # mainwin.cpp:1706 ui/acceptbase.cpp:133
-#: plugins/icq/icqconfigbase.cc:198
+#: plugins/icq/icqconfigbase.cc:229
 msgid "Accept in &DND mode"
 msgstr "Принимать в режиме \"Не &беспокоить\""
 
-#: plugins/icq/icqconfigbase.cc:199
+#: plugins/icq/icqconfigbase.cc:230
 msgid "Support &typing notification"
 msgstr "&Поддержка уведомления о печати сообщения"
 
-#: plugins/icq/icqconfigbase.cc:200
+#: plugins/icq/icqconfigbase.cc:231
 msgid "Automatically &update user info"
 msgstr ""
 "&Автоматически обновлять информацию о "
 "пользователе"
 
-#: plugins/icq/icqconfigbase.cc:201
+#: plugins/icq/icqconfigbase.cc:232
 msgid "Automaticaly &request autoreply on change status"
 msgstr ""
 "Автоматически запрашивать &авто-ответ "
 "при изменении статуса"
 
 # ui/workinfobase.cpp:97
-#: plugins/icq/icqconfigbase.cc:202
+#: plugins/icq/icqconfigbase.cc:233
 msgid "&Options"
 msgstr "&Настройки"
 
@@ -5226,14 +5233,24 @@ msgstr "Прозрачность главного окна:"
 msgid "Transparent only if inactive"
 msgstr "Прозрачные окна только если неактивные"
 
-#: plugins/windock/windock.cpp:37
+#: plugins/windock/windock.cpp:41
 msgid "Plugin provides dock main window to left or right side of screen"
 msgstr ""
 "Модуль обеспечивает прикрепление "
 "главного окна к левой или правой стороне "
 "экрана"
 
-#: plugins/windock/windock.cpp:115
+#: plugins/windock/windock.cpp:176
+msgid ""
+"There is already an auto hidden window on this edge.\n"
+"Only one auto hidden window is allowed on each edge."
+msgstr ""
+"Уже есть самоскрывающееся окно на этой "
+"стороне\n"
+"Может быть только одно самоскрывающееся "
+"окно с каждой стороны"
+
+#: plugins/windock/windock.cpp:304
 msgid "AutoHide"
 msgstr "Само-скрывающаяся панель"
 
@@ -8099,15 +8116,6 @@ msgstr "подчеркнутый"
 # ui/homeinfobase.cpp:102 ui/workinfobase.cpp:168
 #~ msgid "IM Address"
 #~ msgstr "IM Адрес:"
-
-#~ msgid ""
-#~ "There is already an auto hidden window on this edge.\n"
-#~ "Only one auto hidden window is allowed on each edge."
-#~ msgstr ""
-#~ "Уже есть самоскрывающееся окно на этой "
-#~ "стороне\n"
-#~ "Может быть только одно самоскрывающееся "
-#~ "окно с каждой стороны"
 
 # mainwin.cpp:2361
 #~ msgid "Find User"

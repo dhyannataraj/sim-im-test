@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
-"POT-Creation-Date: 2003-09-19 10:48+0400\n"
+"POT-Creation-Date: 2003-09-22 04:22+0400\n"
 "PO-Revision-Date: 2003-09-19 13:09GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -667,7 +667,7 @@ msgid "Select profile"
 msgstr "Profil auswählen"
 
 #: plugins/_core/logindlg.cpp:263 plugins/icq/aimconfigbase.cc:150
-#: plugins/icq/icqconfigbase.cc:189 plugins/jabber/jabberconfigbase.cpp:216
+#: plugins/icq/icqconfigbase.cc:218 plugins/jabber/jabberconfigbase.cpp:216
 #: plugins/msn/msnconfigbase.cpp:178 plugins/proxy/proxycfgbase.cpp:168
 msgid "Password:"
 msgstr "Passwort:"
@@ -954,7 +954,8 @@ msgid "Connecting"
 msgstr "Verbindungsaufbau"
 
 #: plugins/_core/status.cpp:137 plugins/_core/statuswnd.cpp:76
-#: plugins/netmonitor/monitor.cpp:89 sim/ui/qt3/i18n.cpp:141
+#: plugins/netmonitor/monitor.cpp:89 plugins/windock/windock.cpp:175
+#: sim/ui/qt3/i18n.cpp:141
 msgid "Error"
 msgstr "Fehler"
 
@@ -1089,7 +1090,7 @@ msgstr "Dieses Fenster beim Start nicht &anzeigen"
 #: plugins/filter/filtercfgbase.cpp:96 plugins/forward/forwardcfgbase.cpp:101
 #: plugins/icons/iconcfgbase.cpp:135 plugins/icons/smilecfgbase.cpp:121
 #: plugins/icq/aimconfigbase.cc:148 plugins/icq/aimsearchbase.cc:133
-#: plugins/icq/homeinfobase.cc:174 plugins/icq/icqconfigbase.cc:188
+#: plugins/icq/homeinfobase.cc:174 plugins/icq/icqconfigbase.cc:217
 #: plugins/icq/icqpicturebase.cc:133 plugins/icq/icqsecurebase.cc:212
 #: plugins/icq/pastinfobase.cc:169 plugins/jabber/addresultbase.cpp:116
 #: plugins/jabber/jabberaddbase.cpp:123
@@ -1118,6 +1119,7 @@ msgstr "Durchwahl:"
 #: plugins/_core/phonebase.cc:147 plugins/_core/phonebase.cc:149
 #: plugins/_core/phonebase.cc:151 plugins/_core/phonebase.cpp:147
 #: plugins/_core/phonebase.cpp:149 plugins/_core/phonebase.cpp:151
+#: plugins/icq/icqconfigbase.cc:225
 msgid "-"
 msgstr "-"
 
@@ -1407,7 +1409,8 @@ msgstr "Typ:"
 
 #: plugins/_core/searchbase.cc:74 plugins/_core/searchbase.cpp:74
 msgid "Choose type of contact which you want to find or add:"
-msgstr "Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
+msgstr ""
+"Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
 
 #: plugins/_core/searchbase.cc:75 plugins/_core/searchbase.cpp:75
 msgid "Contact type:"
@@ -1647,7 +1650,8 @@ msgstr "\"N/A\"-Status setzen wenn"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:125
 #: plugins/sound/soundconfigbase.cpp:166
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -1722,7 +1726,7 @@ msgstr "Kontrollleistensymbol"
 msgid "Plugin provides dock main window in system tray"
 msgstr "Plugin stellt Docking des Hauptfensters in der Kontrollleiste bereit"
 
-#: plugins/dock/dock.cpp:49 plugins/windock/windock.cpp:36
+#: plugins/dock/dock.cpp:49 plugins/windock/windock.cpp:40
 msgid "Dock"
 msgstr "Docking"
 
@@ -1782,7 +1786,8 @@ msgstr "Nachrichten nur von &Benutzern der Kontaktliste empfangen"
 
 #: plugins/filter/filtercfgbase.cpp:98
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr ""
+"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: plugins/filter/filtercfgbase.cpp:99
 msgid ""
@@ -1804,7 +1809,8 @@ msgstr "Floatings"
 
 #: plugins/floaty/floaty.cpp:44
 msgid "Plugin provides floating windows for contacts"
-msgstr "Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
+msgstr ""
+"Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
 
 #: plugins/floaty/floaty.cpp:91 plugins/floaty/floaty.cpp:165
 msgid "Floating on"
@@ -1824,7 +1830,8 @@ msgstr "Plugin stellt Nachrichtenweiterleitung an Handys bereit"
 
 #: plugins/forward/forwardcfgbase.cpp:102
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
+msgstr ""
+"Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
 
 #: plugins/forward/forwardcfgbase.cpp:103
 msgid ""
@@ -3251,60 +3258,65 @@ msgstr "Zeitzone:"
 msgid "&Home info"
 msgstr "&Wohnort-Info"
 
-#: plugins/icq/icqconfigbase.cc:190
+#: plugins/icq/icqconfigbase.cc:219
 msgid "&Register new UIN"
 msgstr "Neue UIN &registrieren"
 
-#: plugins/icq/aimsearchbase.cc:137 plugins/icq/icqconfigbase.cc:191
+#: plugins/icq/aimsearchbase.cc:137 plugins/icq/icqconfigbase.cc:220
 #: plugins/icq/icqsearchbase.cc:338
 msgid "UIN:"
 msgstr "ICQ#:"
 
-#: plugins/icq/aimsearchbase.cc:139 plugins/icq/icqconfigbase.cc:192
+#: plugins/icq/aimsearchbase.cc:139 plugins/icq/icqconfigbase.cc:221
 msgid "&ICQ"
 msgstr "&ICQ"
 
-#: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:193
+#: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:222
 #: plugins/jabber/jabberconfigbase.cpp:220 plugins/msn/msnconfigbase.cpp:180
 msgid "Server:"
 msgstr "Server:"
 
-#: plugins/icq/aimconfigbase.cc:152 plugins/icq/icqconfigbase.cc:194
+#: plugins/icq/aimconfigbase.cc:152 plugins/icq/icqconfigbase.cc:223
 #: plugins/jabber/jabberconfigbase.cpp:221 plugins/msn/msnconfigbase.cpp:181
 #: plugins/proxy/proxycfgbase.cpp:165
 msgid "Port:"
 msgstr "Port:"
 
-#: plugins/icq/aimconfigbase.cc:154 plugins/icq/icqconfigbase.cc:195
+#: plugins/icq/icqconfigbase.cc:224
+#, fuzzy
+msgid "Port range for direct connections:"
+msgstr "Direktverbindungen"
+
+#: plugins/icq/aimconfigbase.cc:154 plugins/icq/icqconfigbase.cc:226
 #: plugins/jabber/jabberconfigbase.cpp:226 plugins/msn/msnconfigbase.cpp:182
 msgid "&Network"
 msgstr "&Netzwerk"
 
-#: plugins/icq/icqconfigbase.cc:196
+#: plugins/icq/icqconfigbase.cc:227
 msgid "Send format:"
 msgstr "Sendeformat:"
 
-#: plugins/icq/icqconfigbase.cc:197
+#: plugins/icq/icqconfigbase.cc:228
 msgid "Accept in &occupied mode"
 msgstr "Im &beschäftigt-Modus akzeptieren"
 
-#: plugins/icq/icqconfigbase.cc:198
+#: plugins/icq/icqconfigbase.cc:229
 msgid "Accept in &DND mode"
 msgstr "Im &DND-Modus akzeptieren"
 
-#: plugins/icq/icqconfigbase.cc:199
+#: plugins/icq/icqconfigbase.cc:230
 msgid "Support &typing notification"
 msgstr "Unterstützung für Schreibbenachrich&tigung"
 
-#: plugins/icq/icqconfigbase.cc:200
+#: plugins/icq/icqconfigbase.cc:231
 msgid "Automatically &update user info"
 msgstr "Automatisch Benutzerinformation akt&ualisieren"
 
-#: plugins/icq/icqconfigbase.cc:201
+#: plugins/icq/icqconfigbase.cc:232
 msgid "Automaticaly &request autoreply on change status"
 msgstr "Automatische &Abfrage der Autoantwort bei einer Statusänderung"
 
-#: plugins/icq/icqconfigbase.cc:202
+#: plugins/icq/icqconfigbase.cc:233
 msgid "&Options"
 msgstr "&Optionen"
 
@@ -3978,7 +3990,8 @@ msgid "Navigate"
 msgstr "Navigation"
 
 #: plugins/navigate/navigate.cpp:38
-msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid ""
+"Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Plugin stellt Navigation von Hyperlinks bereit und ruft externe Browser- "
 "oder Mailprogramme auf"
@@ -4068,7 +4081,8 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:48
-msgid "Plugin provides on screen notification about messages and contacts status"
+msgid ""
+"Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Plugin stellt Bildschirmbenachrichtigungen über Nachrichten und "
 "Kontaktstatus bereit"
@@ -4123,7 +4137,8 @@ msgstr "Bei Nachrichteneingang informieren (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:93
 msgid "Enable &status notification"
-msgstr "Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
+msgstr ""
+"Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:94
 msgid "Enable &typing notification"
@@ -4171,7 +4186,8 @@ msgstr "&Proxy"
 
 #: plugins/proxy/proxycfg.cpp:140
 msgid "<b>Note !</b><br>HTTP-proxy support only ICQ-protocol"
-msgstr "<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
+msgstr ""
+"<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
 
 #: plugins/proxy/proxycfg.cpp:209
 msgid "Default"
@@ -4195,7 +4211,8 @@ msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1277
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS and HTTP)"
-msgstr "Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
+msgstr ""
+"Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
 
 #: plugins/proxy/proxycfgbase.cpp:164
 msgid "Host:"
@@ -4373,13 +4390,21 @@ msgstr "Transparentes Hauptfenster:"
 msgid "Transparent only if inactive"
 msgstr "Nur transparent wenn inaktiv"
 
-#: plugins/windock/windock.cpp:37
+#: plugins/windock/windock.cpp:41
 msgid "Plugin provides dock main window to left or right side of screen"
 msgstr ""
 "Plugin stellt das Docking von SIM an linke oder rechte Bildschirmränder "
 "bereit"
 
-#: plugins/windock/windock.cpp:115
+#: plugins/windock/windock.cpp:176
+msgid ""
+"There is already an auto hidden window on this edge.\n"
+"Only one auto hidden window is allowed on each edge."
+msgstr ""
+"Dort ist ein automatisch augeblendetes Fenster an dieser Kante.\n"
+"Es ist nur 1 automatisch ausgeblendetes Fenster an jeder Kante erlaubt."
+
+#: plugins/windock/windock.cpp:304
 msgid "AutoHide"
 msgstr "Automatisch ausblenden"
 
@@ -4389,7 +4414,8 @@ msgstr "Aktualisieren"
 
 #: plugins/update/update.cpp:40
 msgid "Plugin provides notifications about update SIM software"
-msgstr "Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
+msgstr ""
+"Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
 
 #: plugins/update/update.cpp:144
 msgid "Show details"
@@ -4405,11 +4431,13 @@ msgstr "Neue Version von SIM wurde veröffentlicht"
 
 #: sim/api/aboutdata.cpp:274
 msgid "replace this with information about your translation team"
-msgstr "Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
+msgstr ""
+"Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
 
 #: sim/api/aboutdata.cpp:290
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
+msgstr ""
+"Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
@@ -6729,13 +6757,6 @@ msgstr "Unterstrichen"
 #~ msgid "IM Address"
 #~ msgstr "IM-Adresse"
 
-#~ msgid ""
-#~ "There is already an auto hidden window on this edge.\n"
-#~ "Only one auto hidden window is allowed on each edge."
-#~ msgstr ""
-#~ "Dort ist ein automatisch augeblendetes Fenster an dieser Kante.\n"
-#~ "Es ist nur 1 automatisch ausgeblendetes Fenster an jeder Kante erlaubt."
-
 #~ msgid "Find User"
 #~ msgstr "Benutzer suchen"
 
@@ -7325,4 +7346,3 @@ msgstr "Unterstrichen"
 
 #~ msgid "Transfer completed"
 #~ msgstr "Übertragung abgeschlossen"
-

@@ -33,12 +33,12 @@ public:
 public slots:
     void apply(void *data);
     void toggled(bool);
-	void selectionChanged(QListViewItem*);
+    void selectionChanged(QListViewItem*);
 protected:
-	EditSound		*m_edit;
-	QListViewItem	*m_editItem;
-	void resizeEvent(QResizeEvent*);
-	QPixmap makePixmap(const char *source);
+    EditSound		*m_edit;
+    QListViewItem	*m_editItem;
+    void resizeEvent(QResizeEvent*);
+    QPixmap makePixmap(const char *source);
     SoundPlugin *m_plugin;
 };
 

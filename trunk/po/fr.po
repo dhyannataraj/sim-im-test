@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.1\n"
-"POT-Creation-Date: 2003-09-19 10:48+0400\n"
+"POT-Creation-Date: 2003-09-22 04:22+0400\n"
 "PO-Revision-Date: 2003-03-01 10:24+0100\n"
 "Last-Translator: Roméo VIU-BERGES <apostledemencia@free.fr>\n"
 "Language-Team: Français <fr@li.org>\n"
@@ -918,7 +918,7 @@ msgstr "Sélectionner la couleur"
 
 # ui/logindlgbase.cpp:80
 #: plugins/_core/logindlg.cpp:263 plugins/icq/aimconfigbase.cc:150
-#: plugins/icq/icqconfigbase.cc:189 plugins/jabber/jabberconfigbase.cpp:216
+#: plugins/icq/icqconfigbase.cc:218 plugins/jabber/jabberconfigbase.cpp:216
 #: plugins/msn/msnconfigbase.cpp:178 plugins/proxy/proxycfgbase.cpp:168
 msgid "Password:"
 msgstr "Mot de passe :"
@@ -1287,7 +1287,8 @@ msgstr "Connexion"
 # mainwin.cpp:442
 # monitor.cpp:133
 #: plugins/_core/status.cpp:137 plugins/_core/statuswnd.cpp:76
-#: plugins/netmonitor/monitor.cpp:89 sim/ui/qt3/i18n.cpp:141
+#: plugins/netmonitor/monitor.cpp:89 plugins/windock/windock.cpp:175
+#: sim/ui/qt3/i18n.cpp:141
 msgid "Error"
 msgstr "Erreur"
 
@@ -1496,7 +1497,7 @@ msgstr "Ne pas montrer cette fenêtre"
 #: plugins/filter/filtercfgbase.cpp:96 plugins/forward/forwardcfgbase.cpp:101
 #: plugins/icons/iconcfgbase.cpp:135 plugins/icons/smilecfgbase.cpp:121
 #: plugins/icq/aimconfigbase.cc:148 plugins/icq/aimsearchbase.cc:133
-#: plugins/icq/homeinfobase.cc:174 plugins/icq/icqconfigbase.cc:188
+#: plugins/icq/homeinfobase.cc:174 plugins/icq/icqconfigbase.cc:217
 #: plugins/icq/icqpicturebase.cc:133 plugins/icq/icqsecurebase.cc:212
 #: plugins/icq/pastinfobase.cc:169 plugins/jabber/addresultbase.cpp:116
 #: plugins/jabber/jabberaddbase.cpp:123
@@ -1530,6 +1531,7 @@ msgstr "Extension :"
 #: plugins/_core/phonebase.cc:147 plugins/_core/phonebase.cc:149
 #: plugins/_core/phonebase.cc:151 plugins/_core/phonebase.cpp:147
 #: plugins/_core/phonebase.cpp:149 plugins/_core/phonebase.cpp:151
+#: plugins/icq/icqconfigbase.cc:225
 msgid "-"
 msgstr "-"
 
@@ -2311,7 +2313,7 @@ msgstr "Système"
 msgid "Plugin provides dock main window in system tray"
 msgstr ""
 
-#: plugins/dock/dock.cpp:49 plugins/windock/windock.cpp:36
+#: plugins/dock/dock.cpp:49 plugins/windock/windock.cpp:40
 msgid "Dock"
 msgstr ""
 
@@ -4267,26 +4269,26 @@ msgid "&Home info"
 msgstr "Infos Lieu"
 
 # ui/enable.cpp:123
-#: plugins/icq/icqconfigbase.cc:190
+#: plugins/icq/icqconfigbase.cc:219
 #, fuzzy
 msgid "&Register new UIN"
 msgstr "Insc&ription"
 
 # ui/logindlgbase.cpp:55
 # ui/searchbase.cpp:216
-#: plugins/icq/aimsearchbase.cc:137 plugins/icq/icqconfigbase.cc:191
+#: plugins/icq/aimsearchbase.cc:137 plugins/icq/icqconfigbase.cc:220
 #: plugins/icq/icqsearchbase.cc:338
 msgid "UIN:"
 msgstr "UIN :"
 
 # mainwin.cpp:2714
-#: plugins/icq/aimsearchbase.cc:139 plugins/icq/icqconfigbase.cc:192
+#: plugins/icq/aimsearchbase.cc:139 plugins/icq/icqconfigbase.cc:221
 #, fuzzy
 msgid "&ICQ"
 msgstr "ICQ"
 
 # ui/proxydlgbase.cpp:132
-#: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:193
+#: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:222
 #: plugins/jabber/jabberconfigbase.cpp:220 plugins/msn/msnconfigbase.cpp:180
 #, fuzzy
 msgid "Server:"
@@ -4294,56 +4296,62 @@ msgstr "Serveur"
 
 # ui/networkbase.cpp:87
 # ui/proxydlgbase.cpp:148
-#: plugins/icq/aimconfigbase.cc:152 plugins/icq/icqconfigbase.cc:194
+#: plugins/icq/aimconfigbase.cc:152 plugins/icq/icqconfigbase.cc:223
 #: plugins/jabber/jabberconfigbase.cpp:221 plugins/msn/msnconfigbase.cpp:181
 #: plugins/proxy/proxycfgbase.cpp:165
 msgid "Port:"
 msgstr "Port :"
 
+# ui/generalsecbase.cpp:93
+#: plugins/icq/icqconfigbase.cc:224
+#, fuzzy
+msgid "Port range for direct connections:"
+msgstr "Connexion directe"
+
 # ui/filetransfer.cpp:245
 # ui/filetransfer.cpp:264
-#: plugins/icq/aimconfigbase.cc:154 plugins/icq/icqconfigbase.cc:195
+#: plugins/icq/aimconfigbase.cc:154 plugins/icq/icqconfigbase.cc:226
 #: plugins/jabber/jabberconfigbase.cpp:226 plugins/msn/msnconfigbase.cpp:182
 #, fuzzy
 msgid "&Network"
 msgstr "&Nouveau"
 
 # msgedit.cpp:586
-#: plugins/icq/icqconfigbase.cc:196
+#: plugins/icq/icqconfigbase.cc:227
 #, fuzzy
 msgid "Send format:"
 msgstr "Echec de l'envoi"
 
 # mainwin.cpp:2050
 # ui/acceptbase.cpp:137
-#: plugins/icq/icqconfigbase.cc:197
+#: plugins/icq/icqconfigbase.cc:228
 #, fuzzy
 msgid "Accept in &occupied mode"
 msgstr "Accepter le mode"
 
 # mainwin.cpp:2050
 # ui/acceptbase.cpp:137
-#: plugins/icq/icqconfigbase.cc:198
+#: plugins/icq/icqconfigbase.cc:229
 #, fuzzy
 msgid "Accept in &DND mode"
 msgstr "Accepter le mode"
 
-#: plugins/icq/icqconfigbase.cc:199
+#: plugins/icq/icqconfigbase.cc:230
 msgid "Support &typing notification"
 msgstr ""
 
 # ui/miscsetupbase.cpp:62
-#: plugins/icq/icqconfigbase.cc:200
+#: plugins/icq/icqconfigbase.cc:231
 #, fuzzy
 msgid "Automatically &update user info"
 msgstr "Ajo&uter automatiquement l'utilisateur à KAddressBook"
 
-#: plugins/icq/icqconfigbase.cc:201
+#: plugins/icq/icqconfigbase.cc:232
 msgid "Automaticaly &request autoreply on change status"
 msgstr ""
 
 # ui/workinfobase.cpp:156
-#: plugins/icq/icqconfigbase.cc:202
+#: plugins/icq/icqconfigbase.cc:233
 #, fuzzy
 msgid "&Options"
 msgstr "&Occupation :"
@@ -5672,12 +5680,21 @@ msgstr "Fenêtre principale transparente"
 msgid "Transparent only if inactive"
 msgstr "Transparent seulement si inactif"
 
-#: plugins/windock/windock.cpp:37
+#: plugins/windock/windock.cpp:41
 msgid "Plugin provides dock main window to left or right side of screen"
 msgstr ""
 
+# mainwin.cpp:443
+#: plugins/windock/windock.cpp:176
+msgid ""
+"There is already an auto hidden window on this edge.\n"
+"Only one auto hidden window is allowed on each edge."
+msgstr ""
+"Il y a déjà une fenêtre cachée ici.\n"
+"Seule 1 fenêtre cachée automatiquement est autorisée."
+
 # mainwin.cpp:884
-#: plugins/windock/windock.cpp:115
+#: plugins/windock/windock.cpp:304
 msgid "AutoHide"
 msgstr "Cacher Auto."
 
@@ -8696,14 +8713,6 @@ msgstr "So&uligné"
 # kabcsync.cpp:54
 #~ msgid "IM Address"
 #~ msgstr "Adresse IM"
-
-# mainwin.cpp:443
-#~ msgid ""
-#~ "There is already an auto hidden window on this edge.\n"
-#~ "Only one auto hidden window is allowed on each edge."
-#~ msgstr ""
-#~ "Il y a déjà une fenêtre cachée ici.\n"
-#~ "Seule 1 fenêtre cachée automatiquement est autorisée."
 
 # mainwin.cpp:616
 # mainwin.cpp:2716

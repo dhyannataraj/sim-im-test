@@ -123,6 +123,47 @@ void *OnTopPlugin::processEvent(Event *e)
             return cmd;
         }
     }
+    if (e->type() == EventOnTop){
+        QWidget *main = getMainWindow();
+        if (main == NULL) return NULL;
+        HWND hState = HWND_NOTOPMOST;
+        if (getOnTop()) hState = HWND_TOPMOST;
+        if (e->param()) hState = HWND_BOTTOM;
+        SetWindowPos(main->winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+    }
+    if (e->type() == EventInTaskManager){
+        QWidget *main = getMainWindow();
+        if (main == NULL) return NULL;
+        if (IsWindowUnicode(main->winId())){
+            if (e->param() && getInTask()){
+                SetWindowLongW(main->winId(), GWL_EXSTYLE,
+                               (GetWindowLongW(main->winId(), GWL_EXSTYLE) | WS_EX_APPWINDOW) & (~WS_EX_TOOLWINDOW));
+            }else{
+                DWORD exStyle = GetWindowLongW(main->winId(), GWL_EXSTYLE);
+                if ((exStyle & WS_EX_TOOLWINDOW) == 0){
+                    SetWindowLongW(main->winId(), GWL_EXSTYLE, (exStyle  & ~WS_EX_APPWINDOW) | WS_EX_TOOLWINDOW);
+                    QPoint p = main->pos();
+                    QSize s = main->size();
+                    main->resize(s.width() + 1, s.height());
+                    main->resize(s.width(), s.height());
+                    main->move(p);
+                }
+            }
+        }else{
+            if (e->param() && getInTask()){
+                SetWindowLongA(main->winId(), GWL_EXSTYLE,
+                               (GetWindowLongA(main->winId(), GWL_EXSTYLE) | WS_EX_APPWINDOW) & (~WS_EX_TOOLWINDOW));
+            }else{
+                DWORD exStyle = GetWindowLongA(main->winId(), GWL_EXSTYLE);
+                if ((exStyle & WS_EX_TOOLWINDOW) == 0){
+                    SetWindowLongA(main->winId(), GWL_EXSTYLE, (exStyle  & ~WS_EX_APPWINDOW) | WS_EX_TOOLWINDOW);
+                    QSize s = main->size();
+                    main->resize(s.width() + 1, s.height());
+                    main->resize(s.width(), s.height());
+                }
+            }
+        }
+    }
     return NULL;
 }
 
@@ -162,38 +203,10 @@ void OnTopPlugin::setState()
     QWidget *main = getMainWindow();
     if (main){
 #ifdef WIN32
-        HWND hState = HWND_NOTOPMOST;
-        if (getOnTop()) hState = HWND_TOPMOST;
-        SetWindowPos(main->winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-        if (IsWindowUnicode(main->winId())){
-            if (getInTask()){
-                SetWindowLongW(main->winId(), GWL_EXSTYLE,
-                               (GetWindowLongW(main->winId(), GWL_EXSTYLE) | WS_EX_APPWINDOW) & (~WS_EX_TOOLWINDOW));
-            }else{
-                DWORD exStyle = GetWindowLongW(main->winId(), GWL_EXSTYLE);
-                if ((exStyle & WS_EX_TOOLWINDOW) == 0){
-                    SetWindowLongW(main->winId(), GWL_EXSTYLE, (exStyle  & ~WS_EX_APPWINDOW) | WS_EX_TOOLWINDOW);
-                    QPoint p = main->pos();
-                    QSize s = main->size();
-                    main->resize(s.width() + 1, s.height());
-                    main->resize(s.width(), s.height());
-                    main->move(p);
-                }
-            }
-        }else{
-            if (getInTask()){
-                SetWindowLongA(main->winId(), GWL_EXSTYLE,
-                               (GetWindowLongA(main->winId(), GWL_EXSTYLE) | WS_EX_APPWINDOW) & (~WS_EX_TOOLWINDOW));
-            }else{
-                DWORD exStyle = GetWindowLongA(main->winId(), GWL_EXSTYLE);
-                if ((exStyle & WS_EX_TOOLWINDOW) == 0){
-                    SetWindowLongA(main->winId(), GWL_EXSTYLE, (exStyle  & ~WS_EX_APPWINDOW) | WS_EX_TOOLWINDOW);
-                    QSize s = main->size();
-                    main->resize(s.width() + 1, s.height());
-                    main->resize(s.width(), s.height());
-                }
-            }
-        }
+        Event eTop(EventOnTop, (void*)0);
+        eTop.process();
+        Event eTask(EventInTaskManager, (void*)getInTask());
+        eTask.process();
 #else
 #ifdef USE_KDE
         if (getOnTop()){
