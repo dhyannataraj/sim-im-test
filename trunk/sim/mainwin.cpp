@@ -2709,6 +2709,7 @@ void MainWindow::doSynchronize()
             else
                 pers=addresseeFromUser(user);
 
+            user.strKabUid=(const char*)pers.uid();
             ab.insertAddressee(pers);
             it++;
         }
