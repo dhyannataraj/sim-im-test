@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: 0.8.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-05 15:33+0200\n"
-"PO-Revision-Date: 2004-10-09 04:17+0100\n"
+"PO-Revision-Date: 2004-10-10 04:16+0100\n"
 "Last-Translator: \n"
 "Language-Team: Français <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -487,7 +487,7 @@ msgstr "&Insérer un smiley"
 #: plugins/_core/core.cpp:700
 #: plugins/forward/forwardcfgbase.cpp:75
 msgid "Send in &translit"
-msgstr ""
+msgstr "Envoyer en caractères spéciaux"
 
 # msgedit.cpp:130
 #: plugins/_core/core.cpp:708
@@ -3131,12 +3131,12 @@ msgstr "Barre de notification"
 
 #: plugins/dock/dock.cpp:50
 msgid "Plugin provides dock main window in system tray"
-msgstr "Ce plugin permet d'accrocher la fenêtre principale dans la barre de notification (à côté de l'horloge)."
+msgstr "Ce plugin permet de minimiser la fenêtre principale dans la barre de notification (à côté de l'horloge)."
 
 #: plugins/dock/dock.cpp:52
 #: plugins/windock/windock.cpp:43
 msgid "Dock"
-msgstr ""
+msgstr "Accrochage"
 
 #: plugins/dock/dock.cpp:53
 msgid "Plugin provides dock icon"
@@ -3185,9 +3185,8 @@ msgstr ""
 
 # ui/msgdialogbase.cpp:72
 #: plugins/dock/dockcfgbase.cpp:96
-#, fuzzy
 msgid "&Customize dock menu"
-msgstr "Personnaliser le messaae"
+msgstr "Personnaliser le menu obtenu par &clic-droit sur l'icône"
 
 # msgview.cpp:830
 #: plugins/filter/filter.cpp:37
@@ -3235,7 +3234,7 @@ msgstr "Nom"
 
 #: plugins/filter/filtercfgbase.cpp:66
 msgid "&Receive message only from contacts from list"
-msgstr ""
+msgstr "&Recevoir les messages ne provenant uniquement que des contacts connus"
 
 # ui/generalsecbase.cpp:146
 #: plugins/filter/filtercfgbase.cpp:67
@@ -3259,11 +3258,11 @@ msgstr ""
 
 #: plugins/floaty/floaty.cpp:44
 msgid "Floaty"
-msgstr ""
+msgstr "Flotant"
 
 #: plugins/floaty/floaty.cpp:45
 msgid "Plugin provides floating windows for contacts"
-msgstr ""
+msgstr "Ce plugin permet l'utilisation de fenêtres flottantes pour contenir les contacts."
 
 # mainwin.cpp:2056
 #: plugins/floaty/floaty.cpp:82
@@ -3284,7 +3283,7 @@ msgstr "Faire suivre"
 
 #: plugins/forward/forward.cpp:32
 msgid "Plugin provides messages forwarding on cellular"
-msgstr ""
+msgstr "Ce plugin permet de faire suivre les messages sur un téléphone portable."
 
 # ui/smssetupbase.cpp:68
 #: plugins/forward/forwardcfgbase.cpp:71
@@ -3302,7 +3301,7 @@ msgstr ""
 
 #: plugins/forward/forwardcfgbase.cpp:74
 msgid "Send only &one message (don't split)"
-msgstr ""
+msgstr "N'env&oyer qu'un message à la fois (ne pas couper les messages trop longs)"
 
 #: plugins/gpg/gpg.cpp:53
 msgid "GPG"
@@ -3310,13 +3309,15 @@ msgstr "GPG"
 
 #: plugins/gpg/gpg.cpp:54
 msgid "Plugin adds GnuPG encryption/decryption support for messages"
-msgstr ""
+msgstr "Ce plugin permet le cryptage/décryptage GnuPG des messages."
 
 #: plugins/gpg/gpg.cpp:78
 msgid ""
 "Plugin adds GnuPG encryption/decryption support for messages\n"
 "GPG not found in PATH"
 msgstr ""
+"Ce plugin permet le cryptage/décryptage GnuPG des messages.\n"
+"GPG est introuvable dans le chemin donné."
 
 # msgedit.cpp:511
 #: plugins/gpg/gpg.cpp:505
@@ -3338,19 +3339,19 @@ msgstr ""
 
 #: plugins/gpg/gpg.cpp:749
 msgid "GPG key"
-msgstr ""
+msgstr "Clé GPG"
 
 #: plugins/gpg/gpg.cpp:757
 msgid "Use GPG encryption"
-msgstr ""
+msgstr "Utiliser le cryptage GPG"
 
 #: plugins/gpg/gpg.cpp:764
 msgid "&GPG key"
-msgstr ""
+msgstr "Clé &GPG"
 
 #: plugins/gpg/gpgcfg.cpp:43
 msgid "GPG(gpg.exe)"
-msgstr ""
+msgstr "GPG(gpg.exe)"
 
 #: plugins/gpg/gpgcfg.cpp:51
 #, fuzzy
@@ -3359,7 +3360,7 @@ msgstr "le répertoire"
 
 #: plugins/gpg/gpgcfg.cpp:53
 msgid "Download GPG"
-msgstr ""
+msgstr "Télécharger GPG"
 
 # msgedit.cpp:357
 # ui/addphonebase.cpp:106
@@ -3377,7 +3378,7 @@ msgstr "&Avancé"
 #: plugins/gpg/gpguser.cpp:83
 #: plugins/proxy/proxycfg.cpp:38
 msgid "None"
-msgstr ""
+msgstr "Aucun"
 
 # mainwin.cpp:2462
 #: plugins/gpg/gpgcfg.cpp:169
@@ -3386,7 +3387,7 @@ msgstr "Nouveau"
 
 #: plugins/gpg/gpggen.cpp:107
 msgid "Move mouse for generate random key"
-msgstr ""
+msgstr "Bougez la souris pour générer une clé aléatoire."
 
 # ui/setupdlg.cpp:149
 #: plugins/gpg/gpggen.cpp:177
@@ -3869,15 +3870,15 @@ msgstr "Envoyer à la &liste"
 
 #: plugins/icq/icqconfig.cpp:57
 msgid "RTF"
-msgstr ""
+msgstr "RTF"
 
 #: plugins/icq/icqconfig.cpp:58
 msgid "UTF"
-msgstr ""
+msgstr "UTF"
 
 #: plugins/icq/icqconfig.cpp:59
 msgid "Plain text"
-msgstr ""
+msgstr "Texte brut"
 
 #: plugins/icq/icqdirect.cpp:197
 #, fuzzy
@@ -4366,15 +4367,15 @@ msgstr "le fichier"
 
 #: plugins/icq/icqvarious.cpp:1491
 msgid "The Cellular network is currently unable to send your message to the recipient. Please try again later."
-msgstr ""
+msgstr "Le réseau mobile est actuellement dans l'incapacité d'envoyer votre message. VEuillez recommencer plus tard."
 
 #: plugins/icq/icqvarious.cpp:1492
 msgid "INVALID NUMBER"
-msgstr ""
+msgstr "Nombre non valide"
 
 #: plugins/icq/icqvarious.cpp:1493
 msgid "RATE LIMIT"
-msgstr ""
+msgstr "Vitesse limite"
 
 # msgedit.cpp:586
 #: plugins/icq/icqvarious.cpp:1526
@@ -4386,21 +4387,21 @@ msgstr "Echec de l'envoi"
 # libicq/country.cpp:183
 #: plugins/icq/icqvarious.cpp:1610
 msgid "Jan"
-msgstr "Janvier"
+msgstr "Jan"
 
 #: plugins/icq/icqvarious.cpp:1611
 msgid "Feb"
-msgstr ""
+msgstr "Fév"
 
 # ui/moreinfo.cpp:75
 #: plugins/icq/icqvarious.cpp:1612
 msgid "Mar"
-msgstr "Mars"
+msgstr "Mar"
 
 # ui/moreinfo.cpp:76
 #: plugins/icq/icqvarious.cpp:1613
 msgid "Apr"
-msgstr "Avril"
+msgstr "Avr"
 
 # ui/moreinfo.cpp:77
 #: plugins/icq/icqvarious.cpp:1614
@@ -4416,37 +4417,35 @@ msgstr "Juin"
 # ui/moreinfo.cpp:79
 #: plugins/icq/icqvarious.cpp:1616
 msgid "Jul"
-msgstr "Juillet"
+msgstr "Juil"
 
 # ui/moreinfo.cpp:80
 #: plugins/icq/icqvarious.cpp:1617
 msgid "Aug"
-msgstr "Août"
+msgstr "Aoû"
 
 # mainwin.cpp:619
 # mainwin.cpp:2722
 # ui/setupdlg.cpp:97
 #: plugins/icq/icqvarious.cpp:1618
-#, fuzzy
 msgid "Sep"
-msgstr "Préférences"
+msgstr "Sep"
 
 #: plugins/icq/icqvarious.cpp:1619
 msgid "Oct"
-msgstr ""
+msgstr "Oct"
 
 # mainwin.cpp:1951
 # mainwin.cpp:2282
 # ui/enable.cpp:126
 # ui/logindlg.cpp:299
 #: plugins/icq/icqvarious.cpp:1620
-#, fuzzy
 msgid "Nov"
-msgstr "&Non"
+msgstr "Nov"
 
 #: plugins/icq/icqvarious.cpp:1621
 msgid "Dec"
-msgstr ""
+msgstr "Déc"
 
 # libicq/country.cpp:331
 #: plugins/icq/interestsinfo.cpp:91
@@ -5731,7 +5730,7 @@ msgstr "Mots-clés"
 
 #: plugins/icq/advsearchbase.cc:263
 msgid "Search &online users only"
-msgstr ""
+msgstr "Ne rechercher que les utilisateurs c&onnectés"
 
 # libicq/country.cpp:332
 #: plugins/icq/icqpicturebase.cc:76
@@ -5849,15 +5848,15 @@ msgstr "Choisir l'encodage par défaut"
 
 #: plugins/icq/encodingdlgbase.cc:84
 msgid "Your current system encoding (UTF-8) may cause problems saving your personal information and reading offline messages from other users."
-msgstr ""
+msgstr "Votre système d'encodage actuel (UTF-8) pourrait causer des problèmes lors de l'enregistrement de vos informations personnelles et à la lecture de messages envoyés par des contacts plus tard déconnectés."
 
 #: plugins/icq/encodingdlgbase.cc:85
 msgid "You will choose the coding by default which want to use:"
-msgstr ""
+msgstr "Vous choisirez le codage par défaut dont vous souhaitez vous servir: "
 
 #: plugins/jabber/discoinfo.cpp:64
 msgid "Units"
-msgstr ""
+msgstr "Unités"
 
 # libicq/country.cpp:459
 #: plugins/jabber/discoinfo.cpp:65
@@ -5898,7 +5897,7 @@ msgstr ""
 
 #: plugins/jabber/jabber.cpp:59
 msgid "Jabber"
-msgstr ""
+msgstr "Jabber"
 
 # mainwin.cpp:2996
 #: plugins/jabber/jabber.cpp:251
@@ -5912,7 +5911,7 @@ msgstr "(&b)Précédent"
 #: plugins/jabber/jabberbrowser.cpp:803
 #: plugins/jabber/jidsearch.cpp:121
 msgid "JID"
-msgstr ""
+msgstr "Jabber-ID"
 
 # ui/fontsetupbase.cpp:105
 #: plugins/jabber/jabber.cpp:273
@@ -6010,12 +6009,12 @@ msgstr "Préférences %1"
 
 #: plugins/jabber/jabberbrowser.cpp:987
 msgid "Choose a user and password to register with the server"
-msgstr ""
+msgstr "Choisissez un nom d'utilisateur et un mot de passe pour vous inscrire sur le serveur."
 
 #: plugins/jabber/jabberclient.cpp:1469
 #: plugins/jabber/jabberclient.cpp:1578
 msgid "Photo"
-msgstr ""
+msgstr "Photo"
 
 # monitor.cpp:83
 #: plugins/jabber/jabberclient.cpp:1484
@@ -6040,7 +6039,7 @@ msgstr "Le transfert de fichier a échoué."
 
 #: plugins/jabber/jabberconfig.cpp:53
 msgid "jabber.org"
-msgstr ""
+msgstr "jabber.org"
 
 #: plugins/jabber/jabberconfig.cpp:73
 msgid "List of public servers"
@@ -6049,7 +6048,7 @@ msgstr ""
 #: plugins/jabber/jabbermessage.cpp:53
 #: plugins/livejournal/livejournal.cpp:96
 msgid "<p>Subject: %1</p>"
-msgstr ""
+msgstr "<p>Sujet : %1</p>"
 
 # control.cpp:220
 #: plugins/jabber/jabbermessage.cpp:121
@@ -6172,47 +6171,47 @@ msgstr "Mot de passe :"
 
 #: plugins/jabber/jabbersearch.cpp:310
 msgid "Enter your MSN Messenger account and password. Example: user@hotmail.com.  Nickname is optional."
-msgstr ""
+msgstr "Entrer le nom de compte MSN Messenger et le mot de passe. Par exemple, user@hotmail.com. Le pseudo est optionnel."
 
 #: plugins/jabber/jabbersearch.cpp:311
 msgid "Enter your AIM screenname or ICQ UIN and the password for that account"
-msgstr ""
+msgstr "Entrer le nom du compte AIM ou l'UIN ICQ,ainsi que le mot de passe pour ce compte."
 
 #: plugins/jabber/jabbersearch.cpp:312
 msgid "Enter your YAHOO! Messenger Username and Password."
-msgstr ""
+msgstr "Entrer le login et le mot de passe pour Yahoo!Messenger."
 
 #: plugins/jabber/jabbersearch.cpp:313
 msgid "Please enter your UIN and password"
-msgstr ""
+msgstr "Entrer l'UIN et le mot de passe"
 
 #: plugins/jabber/jabbersearch.cpp:314
 msgid "You need a x:data capable client to register."
-msgstr ""
+msgstr "Vous avez besoin d'un client x:data capable de s'inscrire."
 
 #: plugins/jabber/jabbersearch.cpp:315
 msgid "Enter nick you want to register."
-msgstr ""
+msgstr "Entrer le pseudo voulu"
 
 #: plugins/jabber/jabbersearch.cpp:316
 msgid "Complete the form to submit your searchable attributes in the Jabber User Directory"
-msgstr ""
+msgstr "Complétez le formulaire pour soumettre vos paramètres de recherche au JUD (Jabber User Directory, répertoire des utilisateurs Jabber)."
 
 #: plugins/jabber/jabbersearch.cpp:317
 msgid "Fill in all of the fields to add yourself to the JUD."
-msgstr ""
+msgstr "Remplissez tous les champs pour pouvoir vous ajouter au JUD (Jabber User Directory, répertoire des utilisateurs Jabber)."
 
 #: plugins/jabber/jabbersearch.cpp:318
 msgid "Fill in a field to search for any matching Jabber User (POSIX regular expressions allowed)"
-msgstr ""
+msgstr "Remplissez le champ pour rechercher un contact Jabber. Les expressions régulière POSIX sont autorisées."
 
 #: plugins/jabber/jabbersearch.cpp:319
 msgid "Fill in a field to search for any matching Jabber users."
-msgstr ""
+msgstr "Remplissez le champ pour rechercher un contact Jabber."
 
 #: plugins/jabber/jabbersearch.cpp:320
 msgid "To register, please fill out the following form.  Be as accurate as possible to make it easier for people to search for you."
-msgstr ""
+msgstr "Pour vous inscrire, vous devez remplir ce formulaire. Veilliez à être aussi exact que possible afin que les personnes à votre recherche puissent vous retrouver plus facilement."
 
 # userbox.cpp:108
 #: plugins/jabber/jidsearch.cpp:175
@@ -6280,11 +6279,11 @@ msgstr "Utiliser &SSL"
 
 #: plugins/jabber/jabberconfigbase.cpp:300
 msgid "&Jabber"
-msgstr ""
+msgstr "&Jabber"
 
 #: plugins/jabber/jabberconfigbase.cpp:305
 msgid "Use &plain text login"
-msgstr ""
+msgstr "(&p)Utiliser la connexion en texte brut."
 
 # msgedit.cpp:186
 # ui/soundsetupbase.cpp:88
@@ -6307,7 +6306,7 @@ msgstr "Priorité : "
 
 #: plugins/jabber/jabberconfigbase.cpp:313
 msgid "Manualy specify Jabber host:"
-msgstr ""
+msgstr "Spécifier manuellement les hôtes Jabber"
 
 #: plugins/jabber/jabberconfigbase.cpp:314
 msgid "Use protocol &icons for agents contacts"
@@ -6322,7 +6321,7 @@ msgstr "Invisible"
 
 #: plugins/jabber/jabberconfigbase.cpp:316
 msgid "Automatically &accept subscribe requests"
-msgstr ""
+msgstr "&Accepter automatiquement les requêtes d'inscription"
 
 # control.cpp:220
 #: plugins/jabber/jabberconfigbase.cpp:317
@@ -6338,16 +6337,16 @@ msgstr "Activer les no&tifications visuelles de frappe"
 
 #: plugins/jabber/jabberinfobase.cpp:239
 msgid "ID:"
-msgstr ""
+msgstr "ID:"
 
 #: plugins/jabber/jabberaddbase.cpp:94
 msgid "&JID"
-msgstr ""
+msgstr "&Jabber-ID"
 
 #: plugins/jabber/jabberaddbase.cpp:100
 #: plugins/jabber/jidsearchbase.cpp:77
 msgid "Jabber &browser"
-msgstr ""
+msgstr "Navigateur Ja&bber"
 
 # ui/pagerbase.cpp:76
 #: plugins/jabber/jabberworkinfobase.cpp:91
@@ -6374,7 +6373,7 @@ msgstr "Nom :"
 
 #: plugins/jabber/discoinfobase.cpp:267
 msgid "Category:"
-msgstr ""
+msgstr "Catégorie :"
 
 # ui/aboutdlg.cpp:41
 #: plugins/jabber/discoinfobase.cpp:272
@@ -7140,7 +7139,7 @@ msgstr ""
 
 #: plugins/livejournal/msgjournalbase.cpp:82
 msgid "Subject:"
-msgstr ""
+msgstr "Sujet : "
 
 # ui/setupdlg.cpp:146
 #: plugins/livejournal/msgjournalbase.cpp:83
@@ -7207,7 +7206,7 @@ msgstr "Evénements"
 
 #: plugins/logger/logger.cpp:40
 msgid "Logger"
-msgstr ""
+msgstr "Fichier de log"
 
 #: plugins/logger/logger.cpp:41
 msgid ""
@@ -7216,10 +7215,14 @@ msgid ""
 "To log errors, set loglevel to 1, for warnings to 2 and for debug-messages to 4\n"
 "If you want to log more than one you may add the levels"
 msgstr ""
+"Ce plugin permet de configurer une sortie log.\n"
+"Vous pouvez régler le niveau de débogage par la ligne de commande \"-d<niveau-de-log>\".\n"
+"Pour logguer les erreurs, réglez le niveau à 1, 2 pour les avertissements, et 4 pour les messages de débogage.\n"
+"Si vous voulez logguer davantage, il faut ajouter les niveaux."
 
 #: plugins/logger/logger.cpp:80
 msgid "Set debug level"
-msgstr ""
+msgstr "Régler le niveau de débogage"
 
 # msgedit.cpp:193
 # msgedit.cpp:1363
@@ -7241,26 +7244,26 @@ msgstr "MSN"
 
 #: plugins/msn/msn.cpp:62
 msgid "http://help.microsoft.com/!data/en_us/data/messengerv47_xp.its51/$content$/xptroublesignin.htm"
-msgstr ""
+msgstr "http://help.microsoft.com/!data/en_us/data/messengerv47_xp.its51/$content$/xptroublesignin.htm"
 
 #: plugins/msn/msn.cpp:142
 #: plugins/yahoo/yahooclient.cpp:1405
 msgid "Be right back"
-msgstr ""
+msgstr "Je suis bientôt de retour..."
 
 #: plugins/msn/msn.cpp:157
 #: plugins/yahoo/yahooclient.cpp:1417
 msgid "On the phone"
-msgstr ""
+msgstr "Au téléphone"
 
 #: plugins/msn/msn.cpp:172
 msgid "On the lunch"
-msgstr ""
+msgstr "Au déjeuner"
 
 #: plugins/msn/msnclient.cpp:522
 #: plugins/msn/msnclient.cpp:539
 msgid "MSN protocol error"
-msgstr ""
+msgstr "Erreur du protocole MSN"
 
 # mainwin.cpp:1282
 #: plugins/msn/msnclient.cpp:707
@@ -7289,11 +7292,11 @@ msgstr "Tranfert annulé."
 
 #: plugins/msn/msnconfig.cpp:44
 msgid "Register in .NET Passport"
-msgstr ""
+msgstr "S'inscrire au .NET Passeport"
 
 #: plugins/msn/msnconfig.cpp:45
 msgid "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
-msgstr ""
+msgstr "https://register.passport.net/reg.srf?lc=1016&langid=1016&sl=1"
 
 # client.cpp:1044
 #: plugins/msn/msnpacket.cpp:468
@@ -7307,7 +7310,7 @@ msgstr ""
 
 #: plugins/msn/msnpacket.cpp:488
 msgid "You have new mail"
-msgstr ""
+msgstr "Vous avez de nouveaux mails."
 
 # ui/logindlgbase.cpp:36
 #: plugins/msn/msnconfigbase.cpp:169
@@ -7324,7 +7327,7 @@ msgstr "&MSN"
 
 #: plugins/msn/msnconfigbase.cpp:179
 msgid "&Automatically add contacts in accept list"
-msgstr ""
+msgstr "&Ajouter automatiquement les contacts dans la liste des acceptés"
 
 # libicq/country.cpp:231
 #: plugins/navigate/navigate.cpp:214
@@ -7333,7 +7336,7 @@ msgstr "Navigation web"
 
 #: plugins/navigate/navigate.cpp:215
 msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
-msgstr ""
+msgstr "Ce plugin permet la navigation à partir d'hyperliens, en appelant un navigateur web et un lecteur de mails externes."
 
 # msgedit.cpp:586
 #: plugins/navigate/navigate.cpp:264
@@ -7369,7 +7372,7 @@ msgstr "Ouvrir les liens dans une &nouvelle fenêtre"
 #: plugins/netmonitor/netmonitor.cpp:33
 #: plugins/netmonitor/netmonitor.cpp:82
 msgid "Network monitor"
-msgstr "Moniteur réseau"
+msgstr "Surveillance réseau"
 
 # monitor.cpp:67
 #: plugins/netmonitor/monitor.cpp:60
@@ -7434,17 +7437,19 @@ msgid ""
 "Plugin provides monitoring of net and messages\n"
 "For show monitor on start run sim -m"
 msgstr ""
+"Ce plugin permet la surveillance du réseau et des messages.\n"
+"Pour afficher la fenêtre de surveillance au démarrage, il faut exécuter \"sim -m\"."
 
 # mainwin.cpp:620
 # mainwin.cpp:2733
 # monitor.cpp:59
 #: plugins/netmonitor/netmonitor.cpp:93
 msgid "Show network monitor"
-msgstr "Afficher le moniteur réseau"
+msgstr "Afficher la fenêtre de surveillance réseau"
 
 #: plugins/ontop/ontop.cpp:45
 msgid "On Top"
-msgstr ""
+msgstr "Toujours visible"
 
 #: plugins/ontop/ontop.cpp:46
 msgid "Plugin provides main window and containers always on top"
@@ -7467,7 +7472,7 @@ msgstr "(&c)Fenêtre de messages toujours visible"
 
 #: plugins/osd/osd.cpp:68
 msgid "OSD"
-msgstr ""
+msgstr "OSD"
 
 #: plugins/osd/osd.cpp:69
 msgid "Plugin provides on screen notification about messages and contacts status"
@@ -7475,7 +7480,7 @@ msgstr "Ce plugin permet d'afficher à l'écran des notifications à propos des 
 
 #: plugins/osd/osd.cpp:147
 msgid "&OSD"
-msgstr ""
+msgstr "&OSD"
 
 # mainwin.cpp:1337
 #: plugins/osd/osd.cpp:407
@@ -7622,7 +7627,7 @@ msgstr "Activer les notifications visuelles de &messages"
 # ui/alertdialogbase.cpp:130
 #: plugins/osd/osdconfigbase.cpp:110
 msgid "Enable &status notification"
-msgstr "Activer les notifications vi&suelles de changement d'état"
+msgstr "Activer les notifications vi&suelles de changement d'état des contacts"
 
 # ui/keysetupbase.cpp:126
 #: plugins/osd/osdconfigbase.cpp:119
@@ -7632,9 +7637,8 @@ msgstr "Envoyer messages par \"Entrée\""
 
 # ui/keysetupbase.cpp:126
 #: plugins/osd/osdconfigbase.cpp:120
-#, fuzzy
 msgid "Show lines of content:"
-msgstr "Envoyer messages par \"Entrée\""
+msgstr "Afficher %1 lignes de contenu"
 
 # mainwin.cpp:2048
 # ui/setupdlg.cpp:129
@@ -7696,7 +7700,7 @@ msgstr "Impossible de se connecter au proxy"
 
 #: plugins/proxy/proxy.cpp:43
 msgid "Bad proxy answer"
-msgstr ""
+msgstr "Mauvaise réponse du proxy"
 
 # ui/proxydlgbase.cpp:115
 #: plugins/proxy/proxy.cpp:44
@@ -7710,7 +7714,7 @@ msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1153
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS/HTTP)"
-msgstr ""
+msgstr "Ce plugin permet l'utilisation d'un proxy, en mode SOCKS4, SOCKS5 ou HTTPS/HTTP."
 
 # ui/networkbase.cpp:187
 #: plugins/proxy/proxycfg.cpp:43
@@ -7724,7 +7728,7 @@ msgstr "Par défaut"
 
 #: plugins/proxy/proxycfg.cpp:224
 msgid "HTTP requests"
-msgstr ""
+msgstr "Requêtes HTTP"
 
 # ui/networkbase.cpp:93
 # ui/proxydlgbase.cpp:142
@@ -7762,11 +7766,11 @@ msgstr "Erreur proxy"
 
 #: plugins/remote/remote.cpp:42
 msgid "Remote control"
-msgstr ""
+msgstr "Contrôle à distance"
 
 #: plugins/remote/remote.cpp:43
 msgid "Plugin provides remote control"
-msgstr ""
+msgstr "Ce plugin permet le contôle à distance."
 
 # ui/themesetupbase.cpp:278
 #: plugins/remote/remotecfgbase.cpp:105
@@ -7790,7 +7794,7 @@ msgstr "Remplacer"
 
 #: plugins/replace/replace.cpp:34
 msgid "Plugin provides text replacing in message edit window"
-msgstr ""
+msgstr "Ce plugin permet de remplacer des bouts de textes lors de l'écriture des messages."
 
 # ui/networkbase.cpp:135
 # ui/proxydlgbase.cpp:85
@@ -7805,11 +7809,11 @@ msgstr "Expression qui remplace"
 
 #: plugins/shortcuts/mousecfg.cpp:39
 msgid "Left click"
-msgstr ""
+msgstr "Clic gauche"
 
 #: plugins/shortcuts/mousecfg.cpp:40
 msgid "Right click"
-msgstr ""
+msgstr "Clic droit"
 
 # ui/themesetupbase.cpp:295
 #: plugins/shortcuts/mousecfg.cpp:41
@@ -7823,7 +7827,7 @@ msgstr "Double-clic gauche"
 
 #: plugins/shortcuts/mousecfg.cpp:43
 msgid "Right dblclick"
-msgstr ""
+msgstr "Double-clic droit"
 
 # ui/themesetupbase.cpp:295
 #: plugins/shortcuts/mousecfg.cpp:44
@@ -7850,7 +7854,7 @@ msgstr "Raccourcis clavier"
 
 #: plugins/shortcuts/shortcuts.cpp:51
 msgid "Plugin provides keyboards shortcuts and global mouse functions"
-msgstr ""
+msgstr "Ce plugin permet de configurer les raccourcis claviers et les fonctions globales de la souris."
 
 # ui/searchbase.cpp:153
 #: plugins/shortcuts/mousecfgbase.cpp:36
@@ -7986,7 +7990,7 @@ msgstr "Homme"
 
 #: plugins/sms/smssetupbase.cpp:155
 msgid "Signal quality:"
-msgstr ""
+msgstr "Qualité du signal : "
 
 # client.cpp:74
 # libicq/country.cpp:19
@@ -8010,7 +8014,7 @@ msgstr "Son"
 
 #: plugins/sound/sound.cpp:44
 msgid "Plugin provides sounds on any events"
-msgstr ""
+msgstr "Ce plugin permet de configurer des sons pour chaque événement."
 
 # ui/soundsetupbase.cpp:142
 #: plugins/sound/sound.cpp:115
@@ -8020,7 +8024,7 @@ msgstr "&Sons"
 
 #: plugins/sound/soundconfig.cpp:50
 msgid "Qt provides sound output so you just need to set a player if you don't like Qt's sound."
-msgstr ""
+msgstr "Qt offre une sortie audio, mais vous pouvez régler un lecteur si vous ne voulez pas des sons joués par Qt."
 
 # ui/soundsetupbase.cpp:106
 #: plugins/sound/sounduser.cpp:44
@@ -8061,23 +8065,23 @@ msgstr "&Désactiver tous les sons"
 
 #: plugins/sound/sounduserbase.cpp:64
 msgid "No sound if windows has &focus"
-msgstr ""
+msgstr "Désactiver les sons lorsque la &fenêtre de messages est active."
 
 #: plugins/spell/spell.cpp:62
 msgid "Plugin provides check spelling"
-msgstr ""
+msgstr "Ce plugin permet de vérifier l'orthographe des messages envoyés."
 
 #: plugins/spell/spellcfg.cpp:46
 msgid "ASpell(aspell.exe)"
-msgstr ""
+msgstr "ASpell(aspell.exe)"
 
 #: plugins/spell/spellcfg.cpp:48
 msgid "Download ASpell"
-msgstr ""
+msgstr "Télécharger ASpell"
 
 #: plugins/spell/spellhighlight.cpp:259
 msgid "Add '%1'"
-msgstr ""
+msgstr "Ajouter '%1'"
 
 # ui/listsec.cpp:131
 # ui/setupdlg.cpp:150
@@ -8093,7 +8097,7 @@ msgstr "Logo au démarrage"
 
 #: plugins/splash/splash.cpp:37
 msgid "Plugin provides splash screen"
-msgstr ""
+msgstr "Ce plugin permet l'affichage d'un logo au démarrage de SIM."
 
 # themes.cpp:123
 # themes.cpp:132
@@ -8104,11 +8108,11 @@ msgstr "Style métal"
 # ui/themesetupbase.cpp:116
 #: plugins/styles/styles.cpp:51
 msgid "Styles"
-msgstr "Styles"
+msgstr "Thèmes"
 
 #: plugins/styles/styles.cpp:52
 msgid "Plugin provides styles"
-msgstr ""
+msgstr "Ce plugin permet l'utilisation de thèmes."
 
 # msgedit.cpp:113
 #: plugins/styles/stylescfg.cpp:57
@@ -8151,10 +8155,12 @@ msgid ""
 "Plugin provides windows transparency\n"
 "This plugin works only on Windows 2000 or Windows XP"
 msgstr ""
+"Ce plugin permet la transparence des fenêtres.\n"
+"Il ne fonctionne que sous Windows 2000 ou Windows XP."
 
 #: plugins/transparent/transparent.cpp:70
 msgid "Plugin provides windows transparency"
-msgstr ""
+msgstr "Ce plugin permet la transparence des fenêtres."
 
 # ui/themesetupbase.cpp:219
 #: plugins/transparent/transparentcfgbase.cpp:71
@@ -8173,7 +8179,7 @@ msgstr "Mise à jour"
 
 #: plugins/update/update.cpp:41
 msgid "Plugin provides notifications about update SIM software"
-msgstr "Ce plugin permet de savoir quand une nouvelle version du logiciel SIM est sortie."
+msgstr "Ce plugin permet d'être prévenu quand une nouvelle version du logiciel SIM est sortie."
 
 # ui/setupdlg.cpp:108
 #: plugins/update/update.cpp:127
@@ -8183,11 +8189,11 @@ msgstr "Mes infos"
 
 #: plugins/update/update.cpp:128
 msgid "Remind later"
-msgstr ""
+msgstr "Me le rappeler plus tard"
 
 #: plugins/update/update.cpp:144
 msgid "New version SIM is released"
-msgstr ""
+msgstr "Une nouvelle version de SIM est disponible."
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
@@ -8197,7 +8203,7 @@ msgstr "Le temps"
 
 #: plugins/weather/weather.cpp:48
 msgid "Plugin provides show weather"
-msgstr ""
+msgstr "Ce plugin permet l'affichage de la météo d'un endroit choisi."
 
 # mainwin.cpp:617
 # mainwin.cpp:2717
@@ -8218,11 +8224,11 @@ msgstr "Mardi"
 
 #: plugins/weather/weather.cpp:369
 msgid "Wednesday"
-msgstr ""
+msgstr "Mercredi"
 
 #: plugins/weather/weather.cpp:370
 msgid "Thursday"
-msgstr ""
+msgstr "Jeudi"
 
 # libicq/country.cpp:21
 #: plugins/weather/weather.cpp:371
@@ -8655,11 +8661,11 @@ msgstr "Autres"
 
 #: plugins/weather/weather.cpp:421
 msgid "km"
-msgstr ""
+msgstr "km"
 
 #: plugins/weather/weather.cpp:422
 msgid "km/h"
-msgstr ""
+msgstr "km/h"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
@@ -8714,7 +8720,7 @@ msgstr "Autres"
 #: plugins/weather/weather.cpp:485
 #: plugins/weather/weather.cpp:487
 msgid "m/s"
-msgstr ""
+msgstr "m/s"
 
 # ui/moreinfo.cpp:80
 #: plugins/weather/weather.cpp:486
@@ -8725,7 +8731,7 @@ msgstr "Août"
 
 #: plugins/weather/weather.cpp:553
 msgid "%t | %c"
-msgstr ""
+msgstr "%t | %c"
 
 #: plugins/weather/weather.cpp:562
 msgid ""
@@ -8743,6 +8749,20 @@ msgid ""
 "<br>\n"
 "Updated: %u<br>\n"
 msgstr ""
+"%l<br><br>\n"
+"<img src=\"icon:weather%i\"> %c<br>\n"
+"Température : <b>%t</b> (sensation : <b>%f</b>)<br>\n"
+"Humidité : <b>%h</b><br>\n"
+"Pression : <b>%p</b> (%q)<br>\n"
+"Vent : <b>%b</b> <b>%w %g</b><br>\n"
+"Visibilité: <b>%v</b><br>\n"
+"Température de rosée : <b>%d</b><br>\n"
+"Levé du soleil : %r<br>\n"
+"Couché du soleil : %s<br>\n"
+"<!-- \"%ut\" doesn't mean anything\n"
+"UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)<br>\n"
+"--><br>\n"
+"Dernière mise à jour : %u<br>\n"
 
 #: plugins/weather/weather.cpp:582
 msgid ""
@@ -8751,6 +8771,10 @@ msgid ""
 "<img src=\"icon:weather%n\"> %c<br>\n"
 " Temperature: <b>%t</b><br>\n"
 msgstr ""
+"<br>\n"
+"<nobr><b>%w %d</b></nobr><br>\n"
+"<img src=\"icon:weather%n\"> %c<br>\n"
+" Température : <b>%t</b><br>\n"
 
 #: plugins/weather/weathercfg.cpp:96
 #, fuzzy
@@ -8760,11 +8784,11 @@ msgstr "Hôte %1 trouvé"
 #: plugins/weather/wifacecfg.cpp:27
 #: plugins/weather/wifacecfg.cpp:66
 msgid "Temperature"
-msgstr ""
+msgstr "Température"
 
 #: plugins/weather/wifacecfg.cpp:29
 msgid "Feels like"
-msgstr ""
+msgstr "Sensation"
 
 # libicq/country.cpp:28
 #: plugins/weather/wifacecfg.cpp:31
@@ -8822,7 +8846,7 @@ msgstr "Visibilité"
 
 #: plugins/weather/wifacecfg.cpp:49
 msgid "Dew Point"
-msgstr ""
+msgstr "Température de rosée"
 
 # ui/setupdlgbase.cpp:57
 #: plugins/weather/wifacecfg.cpp:53
@@ -8855,7 +8879,7 @@ msgstr "Numéro"
 
 #: plugins/weather/wifacecfg.cpp:70
 msgid "Day of week"
-msgstr ""
+msgstr "Jour de la semaine"
 
 # ui/userinfobase.cpp:59
 #: plugins/weather/wifacecfg.cpp:72
@@ -8871,7 +8895,7 @@ msgstr "&Occupation :"
 
 #: plugins/weather/weathercfgbase.cpp:112
 msgid "You can enter ID as part URL for your location on weather.com"
-msgstr ""
+msgstr "L'identifiant de lieu est une partie de l'URL donnant la météo de ce lieu sur weather.com. Par exemple, l'identifiant pour Paris est FRXX0076, pour Marseille FRXX0059, pour Bordeaux FRXX0016..."
 
 # libicq/country.cpp:213
 #: plugins/weather/weathercfgbase.cpp:114
@@ -8888,11 +8912,11 @@ msgstr "Etat"
 
 #: plugins/weather/weathercfgbase.cpp:116
 msgid "Forecast days:"
-msgstr ""
+msgstr "Prévision à %1 jours"
 
 #: plugins/weather/weathercfgbase.cpp:117
 msgid "Units:"
-msgstr ""
+msgstr "Unités : "
 
 # libicq/country.cpp:97
 #: plugins/weather/wifacecfgbase.cpp:81
@@ -8908,11 +8932,11 @@ msgstr "Bhutan"
 
 #: plugins/weather/wifacecfgbase.cpp:83
 msgid "Forecast tip:"
-msgstr ""
+msgstr "Affichage des prévisions"
 
 #: plugins/windock/windock.cpp:44
 msgid "Plugin provides dock main window to left or right side of screen"
-msgstr ""
+msgstr "Ce plugin permet d'accrocher la fenêtre principale sur le côté gauche ou droit de l'écran."
 
 # mainwin.cpp:443
 #: plugins/windock/windock.cpp:181
@@ -8930,7 +8954,7 @@ msgstr "Cacher automatiquement la fenêtre."
 
 #: plugins/yahoo/yahoo.cpp:81
 msgid "Yahoo!"
-msgstr ""
+msgstr "Yahoo!"
 
 #: plugins/yahoo/yahoo.cpp:84
 msgid "http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.yahoo.com/&.redir_from=MESSENGER"
@@ -8938,7 +8962,7 @@ msgstr "http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messeng
 
 #: plugins/yahoo/yahoocfg.cpp:46
 msgid "Get a Yahoo! ID"
-msgstr ""
+msgstr "Obtenir un ID Yahoo!"
 
 #: plugins/yahoo/yahooclient.cpp:339
 msgid "Yahoo! login lock"
@@ -8956,11 +8980,11 @@ msgstr "Contact - Scale"
 
 #: plugins/yahoo/yahooclient.cpp:1411
 msgid "Not at my desk"
-msgstr ""
+msgstr "Pas à mon bureau"
 
 #: plugins/yahoo/yahooclient.cpp:1414
 msgid "Not in the office"
-msgstr ""
+msgstr "Pas au boulot"
 
 # ui/workinfobase.cpp:126
 #: plugins/yahoo/yahooclient.cpp:1420
@@ -8969,7 +8993,7 @@ msgstr "En vacances"
 
 #: plugins/yahoo/yahooclient.cpp:1423
 msgid "Out to lunch"
-msgstr ""
+msgstr "Parti déjeuner"
 
 #: plugins/yahoo/yahooclient.cpp:1426
 #, fuzzy
@@ -9020,15 +9044,15 @@ msgstr "(&k)Mot-clé"
 
 #: plugins/zodiak/zodiak.cpp:50
 msgid "Zodiak"
-msgstr ""
+msgstr "Zodiaque"
 
 #: plugins/zodiak/zodiak.cpp:51
 msgid "Plugin provides show zodiak pictures for date edit"
-msgstr ""
+msgstr "Ce plugin permet d'afficher les images des signes du zodiaque lors de l'écriture de dates."
 
 #: plugins/zodiak/zodiak.cpp:158
 msgid "View horoscope"
-msgstr ""
+msgstr "Voir l'horoscope"
 
 #: plugins/zodiak/zodiak.cpp:179
 msgid "Aries"
@@ -9058,7 +9082,7 @@ msgstr "Lion"
 
 #: plugins/zodiak/zodiak.cpp:184
 msgid "Virgo"
-msgstr ""
+msgstr "Vierge"
 
 # libicq/country.cpp:196
 #: plugins/zodiak/zodiak.cpp:185
@@ -9067,19 +9091,19 @@ msgstr "Balance"
 
 #: plugins/zodiak/zodiak.cpp:186
 msgid "Scorpio"
-msgstr ""
+msgstr "Scorpion"
 
 #: plugins/zodiak/zodiak.cpp:187
 msgid "Saqittarius"
-msgstr ""
+msgstr "Sagittaire"
 
 #: plugins/zodiak/zodiak.cpp:188
 msgid "Capricorn"
-msgstr ""
+msgstr "Capricorne"
 
 #: plugins/zodiak/zodiak.cpp:189
 msgid "Aquarius"
-msgstr ""
+msgstr "Verseau"
 
 # libicq/country.cpp:362
 #: plugins/zodiak/zodiak.cpp:190
@@ -9089,7 +9113,7 @@ msgstr "Poissons"
 #: plugins/zodiak/zodiak.cpp:232
 #, c-format
 msgid "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
-msgstr ""
+msgstr "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
 
 #: sim/qt3/i18n.cpp:1
 #, fuzzy
@@ -11067,37 +11091,37 @@ msgstr "Décembre"
 # libicq/country.cpp:216
 #: sim/datepicker.cpp:242
 msgid "Mon"
-msgstr "Lundi"
+msgstr "Lun"
 
 # libicq/country.cpp:290
 #: sim/datepicker.cpp:243
 msgid "Tue"
-msgstr "Mardi"
+msgstr "Mar"
 
 #: sim/datepicker.cpp:244
 msgid "Wed"
-msgstr ""
+msgstr "Mer"
 
 #: sim/datepicker.cpp:245
 msgid "Thu"
-msgstr ""
+msgstr "Jeu"
 
 # libicq/country.cpp:21
 #: sim/datepicker.cpp:246
 msgid "Fri"
-msgstr "Vendredi"
+msgstr "Ven"
 
 # ui/homeinfobase.cpp:81
 # ui/searchbase.cpp:133
 # ui/workinfobase.cpp:67
 #: sim/datepicker.cpp:247
 msgid "Sat"
-msgstr "Samedi"
+msgstr "Sam"
 
 # libicq/country.cpp:274
 #: sim/datepicker.cpp:248
 msgid "Sun"
-msgstr "Dimanche"
+msgstr "Dim"
 
 # ui/editfile.cpp:123
 #: sim/editfile.cpp:213
@@ -11151,15 +11175,15 @@ msgstr "Souligné"
 
 #: sim/message.cpp:508
 msgid "%1 Mbytes"
-msgstr ""
+msgstr "%1 Mbytes"
 
 #: sim/message.cpp:510
 msgid "%1 kbytes"
-msgstr ""
+msgstr "%1 kbytes"
 
 #: sim/message.cpp:512
 msgid "%1 bytes"
-msgstr ""
+msgstr "%1 bytes"
 
 #: sim/plugins.cpp:723
 #, c-format
@@ -11299,36 +11323,36 @@ msgstr "Can't allocate port"
 #: sim/sslclient.cpp:303
 #: sim/sslclient.cpp:307
 msgid "SSL write error"
-msgstr ""
+msgstr "Erreur d'écriture SSL"
 
 #: sim/sslclient.cpp:141
 #: sim/sslclient.cpp:162
 #: sim/sslclient.cpp:170
 msgid "SSL connect error"
-msgstr ""
+msgstr "Erreur de connexion SSL"
 
 #: sim/sslclient.cpp:177
 #: sim/sslclient.cpp:198
 #: sim/sslclient.cpp:206
 msgid "SSL shutdown error"
-msgstr ""
+msgstr "Erreur de fermeture SSL"
 
 #: sim/sslclient.cpp:213
 #: sim/sslclient.cpp:234
 #: sim/sslclient.cpp:242
 msgid "SSL accept error"
-msgstr ""
+msgstr "Erreur d'acceptation SSL"
 
 #: sim/sslclient.cpp:264
 #: sim/sslclient.cpp:268
 #: sim/sslclient.cpp:355
 #: sim/sslclient.cpp:361
 msgid "SSL read error"
-msgstr ""
+msgstr "Erreur de lecture SSL"
 
 #: sim/sslclient.cpp:345
 msgid "SSL init error"
-msgstr ""
+msgstr "Erreur d'initialisation SSL"
 
 #: sim/textshow.cpp:851
 msgid "Custom"
