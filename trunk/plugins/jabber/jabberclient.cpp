@@ -2106,12 +2106,12 @@ bool JabberClient::send(Message *msg, void *_data)
             }
             m_socket->writeBuffer
             << "\'><body>"
-            << (const char*)(quoteString(QString::fromUtf8(text.c_str()), quoteNOBR).utf8())
+            << (const char*)(quote_nbsp(quoteString(QString::fromUtf8(text.c_str()), quoteNOBR)).utf8())
             << "</body>";
             if (data->richText.bValue && getRichText() && (msg->getFlags() & MESSAGE_RICHTEXT)){
                 m_socket->writeBuffer
                 << "<html xmlns='http://jabber.org/protocol/xhtml-im'><body>"
-                << removeImages(msg->getRichText(), msg->getBackground()).utf8()
+                << quote_nbsp(removeImages(msg->getRichText(), msg->getBackground())).utf8()
                 << "</body></html>";
             }
             m_socket->writeBuffer

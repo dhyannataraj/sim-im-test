@@ -101,8 +101,7 @@ QString XSL::process(const QString &my_xml)
     /* Petr Cimprich, Sablot developer:
        &nbsp; is predefined in HTML but not in XML
        ... use Unicode numerical entity instead: &#160;*/
-    my_xsl = my_xml;
-    my_xsl.replace( QRegExp("&nbsp;"), QString("&#160;") );
+    my_xsl = quote_nbsp(my_xml);
 
     xmlDocPtr doc = xmlParseMemory(my_xsl.utf8(), my_xsl.utf8().length());
     if (doc == NULL){

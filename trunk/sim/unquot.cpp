@@ -202,4 +202,8 @@ EXPORT QString SIM::quoteString(const QString &_str, quoteMode mode)
     return str;
 }
 
-
+EXPORT QString SIM::quote_nbsp(const QString &str)
+{
+    QString s = str;
+    return s.replace(QRegExp("&nbsp;"), QString("&#160;"));
+}   
