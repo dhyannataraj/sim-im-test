@@ -256,7 +256,8 @@ cfgParam MainWindow_Params[] =
         { "UseEmotional", offsetof(MainWindow, UseEmotional), PARAM_BOOL, (unsigned)true },
         { "AutoHideTime", offsetof(MainWindow, AutoHideTime), PARAM_ULONG, 60 },
         { "SMSSignTop", offsetof(MainWindow, SMSSignTop), PARAM_STRING, 0 },
-        { "SNSSignBottom", offsetof(MainWindow, SMSSignBottom), PARAM_STRING, (unsigned)"\n&MyAlias; (ICQ# &MyUin;)" },
+        { "SMSSignBottom", offsetof(MainWindow, SMSSignBottom), PARAM_STRING, (unsigned)"\n&MyAlias; (ICQ# &MyUin;)" },
+		{ "ForwardPhone", offsetof(MainWindow, ForwardPhone), PARAM_STRING, 0 },
         { "", 0, 0, 0 }
     };
 
@@ -1268,8 +1269,10 @@ void MainWindow::setToggle()
 
 void MainWindow::setup()
 {
-    if (setupDlg == NULL)
+    if (setupDlg == NULL){
         setupDlg = new SetupDialog(this, 0);
+		connect(setupDlg, SIGNAL(closed()), this, SLOT(setupClosed()));
+	}
     emit setupInit();
     setupDlg->show();
 #ifdef USE_KDE
@@ -1279,7 +1282,11 @@ void MainWindow::setup()
 #ifdef USE_KDE
     KWin::setActiveWindow(setupDlg->winId());
 #endif
+}
 
+void MainWindow::setupClosed()
+{
+	setupDlg = NULL;
 }
 
 void MainWindow::phonebook()

@@ -46,8 +46,7 @@ FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
 {
     SET_WNDPROC
 
-
-
+	nProgress = -1;
     bStarted = false;
     file = _file;
     setIcon(Pict("file"));
@@ -66,18 +65,16 @@ FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
     if (file->ft) nFiles = file->ft->nFiles();
     CUser u(file->getUin());
 
-    QString c;
+	if (nFiles < 1) nFiles = 1;
     if (file->Received){
         QString name = file->Name.c_str();
         if (name.find(QRegExp("^[0-9]+ Files$")) >= 0)
             nFiles = name.toUInt();
-        c = i18n("Receive file from %1") .arg(u.name());
-
+        title = i18n("Receive file from %1", "Receive %n files from %1", nFiles) .arg(u.name());
     }else{
-        c = i18n("Send file to %1") .arg(u.name());
+        title = i18n("Send file to %1", "Send %n files to %1", nFiles) .arg(u.name());
     }
-
-    setCaption(c);
+    setCaption(title);
 
     if (nFiles <= 1){
         barBatch->hide();
@@ -128,21 +125,18 @@ void FileTransferDlg::timeout()
 void FileTransferDlg::processEvent(ICQEvent *e)
 {
     if (e->message() != file) return;
-
     QString c;
     if (e->state == ICQEvent::Success){
         if (e->type() != EVENT_DONE) return;
         file->state = file->Size;
-        c = caption() + " " + i18n("[done]");
+        c = title + " " + i18n("[done]");
         pMain->playSound(pClient->FileDone.c_str());
     }else if (e->state == ICQEvent::Fail){
-        c = caption() + " " + i18n("[fail]");
+        c = title + " " + i18n("[fail]");
     }else{
         return;
     }
-
     setCaption(c);
-
     if (chkClose->isChecked()){
         file = NULL;
         pMain->ftClose();
@@ -189,6 +183,14 @@ void FileTransferDlg::setProgress()
     lblSize->repaint();
     barBatch->setProgress(file->ft->totalSize());
     barSend->setProgress(file->ft->sendSize());
+	if (file->Size){
+		int newProgress = (file->ft->totalSize() * 100) / file->Size;
+		if (newProgress > 100) newProgress = 100;
+		if (nProgress != newProgress){
+			nProgress = newProgress;
+			setCaption(title + " " + QString::number(nProgress) + "%");
+		}
+	}
 }
 
 QString FileTransferDlg::formatSize(unsigned size)

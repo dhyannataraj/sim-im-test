@@ -285,6 +285,14 @@ SOURCE=.\sim\ui\fontsetupbase.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\ui\forwardsetup.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\forwardsetupbase.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\ui\generalsec.cpp
 # End Source File
 # Begin Source File
@@ -546,6 +554,14 @@ SOURCE=.\sim\ui\moc_fontsetup.cpp
 # Begin Source File
 
 SOURCE=.\sim\ui\moc_fontsetupbase.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\moc_forwardsetup.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\moc_forwardsetupbase.cpp
 # End Source File
 # Begin Source File
 
@@ -1827,6 +1843,43 @@ InputName=fontsetup
 # Begin Source File
 
 SOURCE=.\sim\ui\fontsetupbase.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\forwardsetup.h
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\forwardsetup.h
+InputName=forwardsetup
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\forwardsetup.h
+InputName=forwardsetup
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\forwardsetupbase.h
 # End Source File
 # Begin Source File
 
@@ -4143,6 +4196,61 @@ BuildCmds= \
 InputDir=.\sim\ui
 InputPath=.\sim\ui\fontsetupbase.ui
 InputName=fontsetupbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\forwardsetupbase.ui
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Uic'ing $(InputName).ui ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\forwardsetupbase.ui
+InputName=forwardsetupbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Uic'ing $(InputName).ui ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\forwardsetupbase.ui
+InputName=forwardsetupbase
 
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \

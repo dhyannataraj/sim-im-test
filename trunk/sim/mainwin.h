@@ -230,6 +230,8 @@ public:
     string			SMSSignTop;
     string			SMSSignBottom;
 
+	string			ForwardPhone;
+
     bool 	     init();
 
     QPopupMenu   *menuStatus;
@@ -348,6 +350,7 @@ protected slots:
     void adjustFucntionMenu();
     void sharedFiles();
     void badPassword();
+	void setupClosed();
 protected:
     list<msgInfo> menuMsgs;
     void loadUnread();

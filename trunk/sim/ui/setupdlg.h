@@ -46,8 +46,9 @@ const unsigned SETUP_XOSD			= 207;
 const unsigned SETUP_ALERT			= 208;
 const unsigned SETUP_ACCEPT			= 209;
 const unsigned SETUP_SMS		    = 210;
-const unsigned SETUP_MISC			= 211;
-const unsigned SETUP_SPELL			= 212;
+const unsigned SETUP_FORWARD		= 211;
+const unsigned SETUP_MISC			= 212;
+const unsigned SETUP_SPELL			= 213;
 
 const unsigned SETUP_AUTOREPLY		= 300;
 const unsigned SETUP_AR_AWAY		= 301;
@@ -63,6 +64,8 @@ const unsigned SETUP_IGNORE_LIST	= 403;
 const unsigned SETUP_INVISIBLE_LIST	= 404;
 const unsigned SETUP_VISIBLE_LIST	= 405;
 
+typedef QWidget *PAGEPROC(QWidget*, unsigned param);
+
 class SetupDialog : public SetupDialogBase
 {
     Q_OBJECT
@@ -73,6 +76,7 @@ public:
 signals:
     void applyChanges(ICQUser*);
     void backgroundUpdated();
+	void closed();
 protected slots:
     void selectionChanged();
     void update();
@@ -80,8 +84,10 @@ protected slots:
     void ok();
     void iconChanged();
 protected:
+	void raiseWidget(int id);
+	bool raiseWidget(QListViewItem *i, unsigned id);
     void iconChanged(QListViewItem*);
-    void addPage(QWidget *page, int id, const QString &name, const char *icon);
+    void addPage(PAGEPROC *pageProc, int id, const QString &name, const char *icon, unsigned param=0);
     QListViewItem *itemMain;
     TransparentTop *transparent;
     void setBackgroundPixmap(const QPixmap &pm);

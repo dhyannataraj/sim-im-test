@@ -1,5 +1,5 @@
 /***************************************************************************
-                          filetransfer.h  -  description
+                          forwardsetup.h  -  description
                              -------------------
     begin                : Sun Mar 24 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,46 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _FILETRANSFER_H
-#define _FILETRANSFER_H
+#ifndef _FORWARDSETUP_H
+#define _FORWARDSETUP_H
 
 #include "defs.h"
-#include "filetransferbase.h"
+#include "forwardsetupbase.h"
 
-class ICQFile;
-class ICQEvent;
+class ICQUser;
 
-class FileTransferDlg : public FileTransferBase
+class ForwardSetup : public ForwardSetupBase
 {
     Q_OBJECT
 public:
-    FileTransferDlg(QWidget *p, ICQFile *file);
-    ~FileTransferDlg();
-    ICQFile *file;
-protected slots:
-    void fileExist(ICQFile *f, const QString&, bool canResume);
-    void fileNoCreate(ICQFile *f, const QString&);
-    void processed(ICQFile*);
-    void processEvent(ICQEvent*);
-    void action(int);
-    void action();
-    void speedChanged(int);
-    void timeout();
-    void closeToggled(bool);
-protected:
-	int  nProgress;
-	QString title;
-    void closeEvent(QCloseEvent*);
-    void setProgress();
-    bool bDirty;
-    bool bSending;
-    bool bCanResume;
-    bool bIsExist;
-    bool bStarted;
-    QString formatSize(unsigned size);
-    QString formatKBytes(unsigned size);
-    int  curAction;
-    unsigned long curFile;
+    ForwardSetup(QWidget*);
+public slots:
+    void apply(ICQUser*);
 };
 
 #endif
