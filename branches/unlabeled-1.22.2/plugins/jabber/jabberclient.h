@@ -111,6 +111,7 @@ typedef struct JabberAgentsInfo
 
 typedef struct JabberAgentInfo
 {
+	char			*ReqID;
     char			*VHost;
     char			*ID;
     char			*Field;
@@ -269,7 +270,7 @@ class MessageRequest : public ServerRequest
     JabberUserData	*findContact(const char *jid, const char *name, bool bCreate, Contact *&contact);
     bool		add_contact(const char *id);
     void		get_agents();
-    void		get_agent_info(const char *jid, const char *type);
+    string		get_agent_info(const char *jid, const char *type);
     void		auth_request(const char *jid, unsigned type, const char *text, bool bCreate);
     string		search(const char *jid, const char *condition);
     string		register_agent(const char *jid, const char *condition);

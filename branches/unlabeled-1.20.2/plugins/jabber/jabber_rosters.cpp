@@ -1517,6 +1517,7 @@ static DataDef jabberAgentInfo[] =
         { "", DATA_STRING, 1, 0 },
         { "", DATA_STRING, 1, 0 },
         { "", DATA_STRING, 1, 0 },
+        { "", DATA_STRING, 1, 0 },
         { "", DATA_STRLIST, 1, 0 },
         { "", DATA_STRLIST, 1, 0 },
         { "", DATA_ULONG, 1, 0 },
@@ -1535,6 +1536,12 @@ AgentInfoRequest::AgentInfoRequest(JabberClient *client, const char *jid)
 
 AgentInfoRequest::~AgentInfoRequest()
 {
+    free_data(jabberAgentInfo, &data);
+    load_data(jabberAgentInfo, &data, NULL);
+    set_str(&data.ID, m_jid.c_str());
+    set_str(&data.ReqID, m_id.c_str());
+    Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentInfo, &data);
+    e.process();
     free_data(jabberAgentInfo, &data);
 }
 
@@ -1559,6 +1566,7 @@ void AgentInfoRequest::element_start(const char *el, const char **attr)
     if (!strcmp(el, "x")){
         set_str(&data.VHost, m_client->VHost().c_str());
         set_str(&data.Type, "x");
+	    set_str(&data.ReqID, m_id.c_str());
         Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentInfo, &data);
         e.process();
     }
@@ -1570,6 +1578,7 @@ void AgentInfoRequest::element_end(const char *el)
     if (!strcmp(el, "field")){
         if (data.Field && *data.Field){
             set_str(&data.VHost, m_client->VHost().c_str());
+		    set_str(&data.ReqID, m_id.c_str());
             Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentInfo, &data);
             e.process();
             set_str(&data.Field, NULL);
@@ -1590,12 +1599,14 @@ void AgentInfoRequest::element_end(const char *el)
     }else if (!strcmp(el, "key") || !strcmp(el, "instructions")){
         set_str(&data.Value, m_data.c_str());
         set_str(&data.ID, m_jid.c_str());
+	    set_str(&data.ReqID, m_id.c_str());
         set_str(&data.Type, el);
         Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentInfo, &data);
         e.process();
     }else if (strcmp(el, "error") && strcmp(el, "iq") && strcmp(el, "query") && strcmp(el, "x")){
         set_str(&data.Value, m_data.c_str());
         set_str(&data.ID, m_jid.c_str());
+	    set_str(&data.ReqID, m_id.c_str());
         set_str(&data.Type, el);
         Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentInfo, &data);
         e.process();
@@ -1607,7 +1618,7 @@ void AgentInfoRequest::char_data(const char *el, int len)
     m_data.append(el, len);
 }
 
-void JabberClient::get_agent_info(const char *jid, const char *type)
+string JabberClient::get_agent_info(const char *jid, const char *type)
 {
     AgentInfoRequest *req = new AgentInfoRequest(this, jid);
     req->start_element("query");
@@ -1616,6 +1627,7 @@ void JabberClient::get_agent_info(const char *jid, const char *type)
     req->add_attribute("xmlns", xmlns.c_str());
     req->send();
     m_requests.push_back(req);
+	return req->m_id;
 }
 
 class SearchRequest : public JabberClient::ServerRequest

@@ -23,12 +23,33 @@
 #include "jabberclient.h"
 
 #include <qmainwindow.h>
+#include <qwizard.h>
 
 class ListView;
 class QListViewItem;
 class QStatusBar;
 class CToolBar;
 class DiscoInfo;
+class JabberWizard;
+class AddResult;
+
+class JabberWizard : public QWizard, public EventReceiver
+{
+	Q_OBJECT
+public:
+	JabberWizard(QWidget *parent, const char *title, const char *icon, JabberClient *client, const char *jid, const char *type);
+	JabberSearch *m_search;
+	AddResult	 *m_result;
+protected slots:
+	void setNext();
+	void search();
+	void textChanged(const QString&);
+	void slotSelected(const QString&);
+protected:
+	void *processEvent(Event *e);
+	string m_type;
+	string m_id;
+};
 
 class JabberBrowser : public QMainWindow, public EventReceiver
 {
@@ -42,6 +63,8 @@ public:
 protected slots:
     void clickItem(QListViewItem*);
     void dragStart();
+	void showSearch();
+	void showReg();
 protected:
     void *processEvent(Event*);
     void setTitle();
@@ -63,6 +86,10 @@ protected:
     QString		 m_type;
     QString		 m_name;
     QString		 m_features;
+	JabberWizard	*m_search;
+	JabberWizard	*m_reg;
+	string		 m_search_id;
+	string		 m_reg_id;
     friend class DiscoInfo;
 };
 
