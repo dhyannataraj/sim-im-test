@@ -122,7 +122,7 @@ typedef struct YahooClientData
 
 typedef pair<unsigned, string> PARAM;
 
-class YahooClient : public TCPClient
+class YahooClient : public TCPClient, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -136,7 +136,11 @@ public:
     string  dataName(void*);
     YahooClientData	data;
     virtual void contactInfo(void *_data, unsigned long &status, unsigned &style, const char *&statusIcon, string *icons = NULL);
+    YahooUserData *findContact(const char *id, const char *grp, Contact *&contact, bool bSend=true);
+protected slots:
+	void ping();
 protected:
+	void	*processEvent(Event*);
     void	setStatus(unsigned status);
     void	disconnected();
     string	name();
@@ -150,6 +154,7 @@ protected:
     CommandDef *configWindows();
     QWidget *infoWindow(QWidget *parent, Contact*, void *_data, unsigned id);
     QWidget *configWindow(QWidget *parent, unsigned id);
+    virtual QWidget *searchWindow();
     virtual QString contactTip(void *_data);
     virtual void connect_ready();
     virtual void packet_ready();
@@ -164,10 +169,15 @@ protected:
     void processStatus(unsigned short service, const char *id,
                        const char *_state, const char *_msg,
                        const char *_away, const char *_idle);
-    YahooUserData *findContact(const char *id, const char *grp, Contact *&contact);
     void messageReceived(Message *msg, const char *id);
     void process_message(const char *id, const char *msg, const char *utf);
     void notify(const char *id, const char *msg, const char *state);
+	void sendMessage(const QString &msgText, Message *msg, YahooUserData*);
+	void sendTyping(YahooUserData*, bool);
+	void addBuddy(YahooUserData*);
+	void removeBuddy(YahooUserData*);
+	void moveBuddy(YahooUserData *data, const char *grp);
+	void sendStatus(unsigned long status, const char *msg = NULL);
     list<PARAM> m_values;
     unsigned long  m_session;
     unsigned long  m_pkt_status;

@@ -1,5 +1,5 @@
 #/****************************************************************************
-** $Id: qrichtext.cpp,v 1.11 2004-01-15 11:30:25 shutoff Exp $
+** $Id: qrichtext.cpp,v 1.11.2.1 2004-02-08 10:53:49 shutoff Exp $
 **
 ** Implementation of the internal Qt classes dealing with rich text
 **
@@ -6042,9 +6042,9 @@ formatAgain:
                 }
             } else {
                 if(match) {
+                    begin += sep_len;
                     if(!--start)
                         break;
-                    begin += sep_len;
                 } else {
                     if(start == 1 && begin == uc + n)
                         break;
@@ -6098,9 +6098,9 @@ formatAgain:
                     }
                 } else {
                     if(match) {
-                        last += sep_len;
                         if(!--end)
                             break;
+                        last += sep_len;
                     } else {
                         last++;
                     }
