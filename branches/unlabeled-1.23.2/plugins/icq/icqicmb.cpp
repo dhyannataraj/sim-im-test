@@ -473,7 +473,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
                 (data->Version >= 8) && !data->bBadClient){
             s.flags  = SEND_UTF;
             s.msg    = msg;
-            s.text   = msg->getPlainText();
+            s.text   = addCRLF(msg->getPlainText());
             s.screen = screen(data);
             sendQueue.push_front(s);
             send(false);
@@ -490,7 +490,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
         }
         s.flags	 = SEND_PLAIN;
         s.msg	 = msg;
-        s.text	 = msg->getPlainText();
+        s.text	 = addCRLF(msg->getPlainText());
         s.screen = screen(data);
         sendQueue.push_front(s);
         send(false);

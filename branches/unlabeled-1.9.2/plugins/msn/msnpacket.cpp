@@ -208,7 +208,8 @@ ChgPacket::ChgPacket(MSNClient *client)
 SynPacket::SynPacket(MSNClient *client)
         : MSNPacket(client, "SYN")
 {
-    bDone = false;
+    bDone	= false;
+	m_data	= NULL;
     client->data.ListVer = 0;
     addArg(number(client->data.ListVer).c_str());
 }
@@ -216,6 +217,11 @@ SynPacket::SynPacket(MSNClient *client)
 SynPacket::~SynPacket()
 {
     if ((m_client->getListVer() != m_ver) && bDone){
+			Contact *contact;
+			if (m_client->findContact(m_data->EMail, contact)){
+				Event e(EventContactChanged, contact);
+				e.process();
+			}
         m_client->setListVer(m_ver);
         ContactList::GroupIterator itg;
         Group *grp;
@@ -237,7 +243,6 @@ SynPacket::~SynPacket()
                 grpRemove.push_back(grp);
         }
         ContactList::ContactIterator itc;
-        Contact *contact;
         while ((contact = ++itc) != NULL){
             MSNUserData *data;
             ClientDataIterator it(contact->clientData, m_client);
@@ -262,7 +267,10 @@ SynPacket::~SynPacket()
         for (list<Group*>::iterator rg = grpRemove.begin(); rg != grpRemove.end(); ++rg)
             delete *rg;
     }
-    m_client->processRequests();
+	if (m_client->getState() == Client::Connecting){
+		m_client->setState(Client::Connected);
+		m_client->processRequests();
+	}
 }
 
 bool SynPacket::answer(const char *_cmd, vector<string> &args)
@@ -298,6 +306,40 @@ bool SynPacket::answer(const char *_cmd, vector<string> &args)
         return true;
     if (cmd == "BLP")
         return true;
+	if (cmd == "PRP"){
+		if (args.size() < 2){
+			log(L_WARN, "Bad PRP size");
+			return true;
+		}
+		if (args[0] == "PHH")
+			set_str(&m_client->data.owner.PhoneHome, m_client->unquote(QString::fromUtf8(args[1].c_str())).utf8());
+		if (args[0] == "PHW")
+			set_str(&m_client->data.owner.PhoneWork, m_client->unquote(QString::fromUtf8(args[1].c_str())).utf8());
+		if (args[0] == "PHM")
+			set_str(&m_client->data.owner.PhoneMobile, m_client->unquote(QString::fromUtf8(args[1].c_str())).utf8());
+		if (args[0] == "MBE")
+			m_client->data.owner.Mobile = (args[1].c_str() == "Y");
+		return true;
+	}
+	if (cmd == "BRP"){
+		if (args.size() < 2){
+			log(L_WARN, "Bad BRP size");
+			return true;
+		}
+		if (m_data == NULL){
+			log(L_WARN, "BRP without LST");
+			return true;
+		}
+		if (args[0] == "PHH")
+			set_str(&m_data->PhoneHome, m_client->unquote(QString::fromUtf8(args[1].c_str())).utf8());
+		if (args[0] == "PHW")
+			set_str(&m_data->PhoneWork, m_client->unquote(QString::fromUtf8(args[1].c_str())).utf8());
+		if (args[0] == "PHM")
+			set_str(&m_data->PhoneMobile, m_client->unquote(QString::fromUtf8(args[1].c_str())).utf8());
+		if (args[0] == "MBE")
+			m_data->Mobile = (args[1].c_str() == "Y");
+		return true;
+	}
     if (cmd == "LSG"){
         if (args.size() < 3){
             log(L_WARN, "Bad LSG size");
@@ -325,6 +367,13 @@ bool SynPacket::answer(const char *_cmd, vector<string> &args)
         return true;
     }
     if (cmd == "LST"){
+		if (m_data){
+			Contact *contact;
+			if (m_client->findContact(m_data->EMail, contact)){
+				Event e(EventContactChanged, contact);
+				e.process();
+			}
+		}
         if (args.size() < 3){
             log(L_WARN, "Bad size for LST");
             return true;
@@ -338,26 +387,27 @@ bool SynPacket::answer(const char *_cmd, vector<string> &args)
         if (lr)
             return true;
         bool bNew = false;
-        MSNUserData *data = m_client->findContact(mail.c_str(), contact);
-        if (data == NULL){
-            data = m_client->findContact(mail.c_str(), name.c_str(), contact);
+        m_data = m_client->findContact(mail.c_str(), contact);
+        if (m_data == NULL){
+            m_data = m_client->findContact(mail.c_str(), name.c_str(), contact);
             bNew = true;
         }else{
-            set_str(&data->EMail, mail.c_str());
-            set_str(&data->ScreenName, name.c_str());
-            if (name != (const char*)(contact->getName().utf8())){
+            set_str(&m_data->EMail, mail.c_str());
+            set_str(&m_data->ScreenName, name.c_str());
+            if (name != (const char*)(contact->getName().utf8()))
                 contact->setName(QString::fromUtf8(name.c_str()));
-                Event e(EventContactChanged, contact);
-                e.process();
-            }
         }
-        data->sFlags |= MSN_CHECKED;
+        m_data->sFlags |= MSN_CHECKED;
         lr = m_client->findRequest(mail.c_str(), LR_CONTACTxCHANGED);
         unsigned grp = NO_GROUP;
         if (args.size() > 3)
             grp = atol(args[3].c_str());
-        data->Group = grp;
-        data->Flags |= MSN_FORWARD;
+        m_data->Group = grp;
+        m_data->Flags |= MSN_FORWARD;
+		set_str(&m_data->PhoneHome, NULL);
+		set_str(&m_data->PhoneWork, NULL);
+		set_str(&m_data->PhoneMobile, NULL);
+		m_data->Mobile = false;
         Group *group = NULL;
         if (grp == NO_GROUP){
             group = getContacts()->group(0);
@@ -370,22 +420,19 @@ bool SynPacket::answer(const char *_cmd, vector<string> &args)
                 void *d;
                 ClientDataIterator it_d(contact->clientData);
                 while ((d = ++it_d) != NULL){
-                    if (d != data)
+                    if (d != m_data)
                         break;
                 }
                 if (d){
                     grp = contact->getGroup();
-                    m_client->findRequest(data->EMail, LR_CONTACTxCHANGED, true);
+                    m_client->findRequest(m_data->EMail, LR_CONTACTxCHANGED, true);
                     MSNListRequest lr;
                     lr.Type = LR_CONTACTxCHANGED;
-                    lr.Name = data->EMail;
+                    lr.Name = m_data->EMail;
                     m_client->m_requests.push_back(lr);
-                    m_client->processRequests();
                 }
             }
             contact->setGroup(grp);
-            Event e(EventContactChanged, contact);
-            e.process();
         }
         return true;
     }

@@ -573,8 +573,6 @@ void MSNClient::authOk()
     m_pingTime = now;
     setStatus(m_logonStatus);
     QTimer::singleShot(TYPING_TIME * 1000, this, SLOT(ping()));
-    setState(Connected);
-
     setPreviousPassword(NULL);
     MSNPacket *packet = new SynPacket(this);
     packet->send();
@@ -1275,19 +1273,28 @@ void MSNClient::processRequests()
                         packet = new RemPacket(this, "BL", data->EMail);
                     }
                 }
-                if ((data->Flags & MSN_FORWARD) == 0){
-                    packet = new AddPacket(this, "FL", data->EMail, quote(QString::fromUtf8(data->ScreenName)).utf8(), contact->getGroup());
-                    data->Group = contact->getGroup();
-                }
                 Group *group = NULL;
                 MSNUserData *grp_data = findGroup(data->Group, NULL, group);
+				unsigned grp_id = 0;
+				if (grp_data)
+					grp_id = grp_data->Group;
+                if ((group == NULL) || ((data->Flags & MSN_FORWARD) == 0)){
+					if (packet)
+						packet->send();
+                    packet = new AddPacket(this, "FL", data->EMail, quote(QString::fromUtf8(data->ScreenName)).utf8(), grp_id);
+                    data->Group = grp_id;
+                }
                 if (group && (contact->getGroup() != group->id())){
-                    packet = new AddPacket(this, "FL", data->EMail, quote(QString::fromUtf8(data->ScreenName)).utf8(), contact->getGroup());
-                    packet->send();
+					if (packet)
+						packet->send();
+					packet = new AddPacket(this, "FL", data->EMail, quote(QString::fromUtf8(data->ScreenName)).utf8(), grp_id);
+					packet->send();
                     packet = new RemPacket(this, "FL", data->EMail);
-                    data->Group = grp_data->Group;
+                    data->Group = grp_id;
                 }
                 if (contact->getName() != QString::fromUtf8(data->ScreenName)){
+					if (packet)
+						packet->send();
                     packet = new ReaPacket(this, data->EMail, quote(contact->getName()).utf8());
                     set_str(&data->ScreenName, contact->getName().utf8());
                 }

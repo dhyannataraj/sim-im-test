@@ -28,6 +28,7 @@
 #include <qaccel.h>
 #include <qtooltip.h>
 #include <qlayout.h>
+#include <qregexp.h>
 
 #ifdef USE_KDE
 #include <kcolordialog.h>
@@ -69,15 +70,20 @@ MsgGen::MsgGen(CToolCustom *parent, Message *msg)
     connect(m_edit->m_userWnd, SIGNAL(multiplyChanged()), this, SLOT(textChanged()));
     parent->setText(i18n(" "));
     m_edit->m_edit->setTextFormat(RichText);
-    QString text = msg->getRichText();
-    if (!text.isEmpty()){
-        m_edit->m_edit->setText(text);
-        m_edit->m_edit->moveCursor(QTextEdit::MoveEnd, false);
-        if ((msg->getBackground() != msg->getForeground()) && !CorePlugin::m_plugin->getOwnColors()){
-            m_edit->m_edit->setBackground(msg->getBackground());
-            m_edit->m_edit->setForeground(msg->getForeground());
-        }
-    }
+	if (msg->getFlags() & MESSAGE_INSERT){
+		QString text = msg->getPlainText();
+		m_edit->m_edit->insert(text, false, true, true);
+	}else{
+		QString text = msg->getRichText();
+		if (!text.isEmpty()){
+			m_edit->m_edit->setText(text);
+			m_edit->m_edit->moveCursor(QTextEdit::MoveEnd, false);
+			if ((msg->getBackground() != msg->getForeground()) && !CorePlugin::m_plugin->getOwnColors()){
+				m_edit->m_edit->setBackground(msg->getBackground());
+				m_edit->m_edit->setForeground(msg->getForeground());
+			}
+		}
+	}
     Command cmd;
     cmd->id    = CmdSend;
     cmd->param = m_edit;
