@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2003-09-04 09:27+0400\n"
-"PO-Revision-Date: 2003-09-04 17:01GMT\n"
+"PO-Revision-Date: 2003-09-04 17:20GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2522,7 +2522,7 @@ msgstr "GRENZRATE ERREICHT"
 
 #: plugins/icq/icqvarious.cpp:1447 plugins/icq/icqvarious.cpp:1506
 msgid "SMS send fail"
-msgstr "SMS Senden fehlgeschlagen"
+msgstr "SMS-Senden fehlgeschlagen"
 
 #: plugins/icq/interestsinfo.cpp:90
 msgid "Art"
