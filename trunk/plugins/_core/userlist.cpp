@@ -35,6 +35,12 @@ UserViewItemBase::UserViewItemBase(UserViewItemBase *parent)
 {
 }
 
+void UserViewItemBase::setup()
+{
+    UserListBase *view = static_cast<UserListBase*>(listView());
+    setHeight(view->heightItem(this));
+}
+
 void UserViewItemBase::paintFocus(QPainter*, const QColorGroup&, const QRect & )
 {
 }
@@ -111,7 +117,7 @@ void UserViewItemBase::drawSeparator(QPainter *p, int x, int width, const QColor
         QRect rcSep(x, height()/2, width - 6 - x, 1);
         listView()->style().drawPrimitive(QStyle::PE_Separator, p, rcSep, cg);
 #else
-listView()->style().drawSeparator(p, x, height() / 2, width - 6, height() / 2, cg);
+        listView()->style().drawSeparator(p, x, height() / 2, width - 6, height() / 2, cg);
 #endif
     }
 }
@@ -233,6 +239,7 @@ bool ContactItem::update(Contact *contact, unsigned status, unsigned style, cons
     setText(CONTACT_ICONS, icons_str);
     setText(CONTACT_ACTIVE, active);
     setText(CONTACT_STATUS, QString::number(9 - status));
+    setup();
     return true;
 }
 
@@ -1136,6 +1143,15 @@ int UserList::drawIndicator(QPainter *p, int x, QListViewItem *item, bool bState
     x += w + 2;
 #endif
     return x;
+}
+
+int UserListBase::heightItem(UserViewItemBase*)
+{
+    QFontMetrics fm(font());
+    int h = fm.height() + 4;
+    if (h < 22)
+        h = 22;
+    return h;
 }
 
 void UserList::contentsMouseReleaseEvent(QMouseEvent *e)

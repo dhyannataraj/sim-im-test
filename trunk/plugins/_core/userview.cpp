@@ -164,9 +164,26 @@ static void drawImage(QPainter *p, int x, int y, const QImage &img)
     QImage image = pict->convertToImage();
     unsigned int *f = (unsigned int*)(img.bits());
     unsigned int *t = (unsigned int*)(image.bits());
+    int w = img.width();
+    int h = img.height();
+    if (y < 0){
+        f -= img.width() * y;
+        h += y;
+        y = 0;
+    }
+    if (x < 0){
+        f -= x;
+        w += x;
+        x = 0;
+    }
+    if (h > image.height())
+        h = image.height();
+    if (w > image.width())
+        w = image.width();
+
     t += (image.width() * y) + x;
-    for (int i = 0; i < img.height(); i++){
-        for (int j = 0; j < img.width(); j++){
+    for (int i = 0; i < h; i++){
+        for (int j = 0; j < w; j++){
             unsigned char a = qAlpha(*f);
             *t = qRgba((a * qRed(*f) + (0xFF - a) * qRed(*t)) >> 8,
                        (a * qGreen(*f) + (0xFF - a) * qGreen(*t)) >> 8,
@@ -174,7 +191,8 @@ static void drawImage(QPainter *p, int x, int y, const QImage &img)
             f++;
             t++;
         }
-        t += (image.width() - img.width());
+        t += (image.width() - w);
+        f += (img.width() - w);
     }
     pict->convertFromImage(image);
     p->begin(pict);
@@ -182,6 +200,48 @@ static void drawImage(QPainter *p, int x, int y, const QImage &img)
     p->drawImage(x, y, img);
 #endif
 }
+
+int UserView::heightItem(UserViewItemBase *base)
+{
+    QFont f(font());
+    int h = 0;
+    if (base->type() == GRP_ITEM){
+        if (CorePlugin::m_plugin->getSmallGroupFont()){
+            int size = f.pixelSize();
+            if (size <= 0){
+                size = f.pointSize();
+                f.setPointSize(size * 3 / 4);
+            }else{
+                f.setPixelSize(size * 3 / 4);
+            }
+        }
+        h = 14;
+    }
+    if (base->type() == USR_ITEM){
+        ContactItem *item = static_cast<ContactItem*>(base);
+        string icons = item->text(CONTACT_ICONS).latin1();
+        while (!icons.empty()){
+            string icon = getToken(icons, ',');
+            const QImage *img = Image(icon.c_str());
+            if (img && (img->height() > h))
+                h = img->height();
+        }
+        if (item->m_unread){
+            CommandDef *def = CorePlugin::m_plugin->messageTypes.find(item->m_unread);
+            if (def){
+                const QImage *img = Image(def->icon);
+                if (img && (img->height() > h))
+                    h = img->height();
+            }
+        }
+    }
+    QFontMetrics fm(f);
+    int fh = fm.height();
+    if (fh > h)
+        h = fh;
+    return h + 2;
+}
+
 
 void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin)
 {

@@ -353,6 +353,11 @@ QIconSet Icon(const char *name)
     pict = getPict(bigName.c_str());
     if (pict)
         res.setPixmap(getPixmap(pict, bigName.c_str()), QIconSet::Large);
+    string disName = "disabled.";
+    disName += name;
+    pict = getPict(disName.c_str());
+    if (pict)
+        res.setPixmap(getPixmap(pict, bigName.c_str()), QIconSet::Small, QIconSet::Disabled);
     return res;
 }
 
@@ -556,6 +561,35 @@ static QImage makeInvisible(unsigned flags, const QImage &p)
     return image;
 }
 
+#ifdef WIN32
+
+static QImage makeDisabled(const QImage &p)
+{
+    QImage image = p.copy();
+    if (image.depth() != 32)
+        image = image.convertDepth(32);
+    unsigned int *data = (unsigned int*)image.bits();
+    QColor c1 = QApplication::palette().active().button();
+    unsigned char cr1 = c1.red();
+    unsigned char cg1 = c1.green();
+    unsigned char cb1 = c1.blue();
+    QColor c2 = QApplication::palette().active().dark();
+    unsigned char cr2 = c2.red();
+    unsigned char cg2 = c2.green();
+    unsigned char cb2 = c2.blue();
+    int i;
+    for (i = 0; i < image.width()*image.height(); i++){
+        int a = qAlpha(data[i]);
+        int v = (qRed(data[i]) + qGreen(data[i]) + qBlue(data[i])) / 3;
+        data[i] = qRgba((cr1 * v + cr2 * (0xFF - v)) >> 8,
+                        (cg1 * v + cg2 * (0xFF - v)) >> 8,
+                        (cb1 * v + cb2 * (0xFF - v)) >> 8, a);
+    }
+    return image;
+}
+
+#endif
+
 static QImage merge(const QImage &p1, const QImage &p2)
 {
     QImage img1 = p1.copy();
@@ -667,7 +701,16 @@ PictDef *WrkIconSet::getPict(const char *name)
             return add(name, res, p->flags);
         }
     }
-    if ((strlen(name) > 4) && memcmp(name, "big.", 4))
+#ifdef WIN32
+    char _disabled[] = "disabled.";
+    if ((strlen(name) > strlen(_disabled)) && !memcmp(name, _disabled, strlen(_disabled))){
+        PictDef *p = SIM::getPict(n.substr(strlen(_disabled)).c_str());
+        if (p == NULL)
+            return NULL;
+        return add(name, makeDisabled(*(p->image)), p->flags);
+    }
+#endif
+    if ((strlen(name) <= 4) || memcmp(name, "big.", 4))
         log(L_DEBUG, "Icon %s not found", name);
     return NULL;
 }

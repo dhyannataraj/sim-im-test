@@ -149,12 +149,12 @@ Name: "{commondesktop}\Simple Instant Messenger"; Filename: "{app}\sim.exe"; Tas
 
 [Run]
 Filename: "{app}\sim.exe"; Description: "Launch Simple Instant Messenger"; Flags: nowait postinstall skipifsilent
-Filename: {cmd}; Parameters: "/c del {app}\plugins\sms.dll"; WorkingDir: "{app}"; Flags: runhidden
-Filename: {cmd}; Parameters: "/c del {app}\libxml2.dll"; WorkingDir: "{app}"; Flags: runhidden
-Filename: {cmd}; Parameters: "/c del {app}\libxslt.dll"; WorkingDir: "{app}"; Flags: runhidden
-Filename: {cmd}; Parameters: "/c del {app}\qjpegio.dll"; WorkingDir: "{app}"; Flags: runhidden
-Filename: {cmd}; Parameters: "/c del {app}\simui.dll"; WorkingDir: "{app}"; Flags: runhidden
-Filename: {cmd}; Parameters: "/c del {app}\simapi.dll"; WorkingDir: "{app}"; Flags: runhidden
+Filename: {cmd}; Parameters: "/c del ""{app}\plugins\sms.dll"""; WorkingDir: "{app}"; Flags: runhidden
+Filename: {cmd}; Parameters: "/c del ""{app}\libxml2.dll"""; WorkingDir: "{app}"; Flags: runhidden
+Filename: {cmd}; Parameters: "/c del ""{app}\libxslt.dll"""; WorkingDir: "{app}"; Flags: runhidden
+Filename: {cmd}; Parameters: "/c del ""{app}\qjpegio.dll"""; WorkingDir: "{app}"; Flags: runhidden
+Filename: {cmd}; Parameters: "/c del ""{app}\simui.dll"""; WorkingDir: "{app}"; Flags: runhidden
+Filename: {cmd}; Parameters: "/c del ""{app}\simapi.dll"""; WorkingDir: "{app}"; Flags: runhidden
 
 [Registry]
 Root: HKCR; Subkey: ".uin"; ValueType: string; ValueName: ""; ValueData: "sim"; Flags: uninsdeletevalue

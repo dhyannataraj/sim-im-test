@@ -303,6 +303,8 @@ string Container::getState()
 {
     clearWndConfig();
     string windows;
+    if (m_tabBar == NULL)
+        return save_data(containerData, &data);
     list<UserWnd*> userWnds = m_tabBar->windows();
     for (list<UserWnd*>::iterator it = userWnds.begin(); it != userWnds.end(); ++it){
         if (!windows.empty())
@@ -610,7 +612,7 @@ void Container::flash()
 #else
 #if defined(USE_KDE)
 #if KDE_IS_VERSION(3,2,0)
-KWin::demandAttention(winId(), true);
+    KWin::demandAttention(winId(), true);
 #endif	/* KDE_IS_VERSION(3,2,0) */
 #endif	/* USE_KDE */
 #endif	/* ndef WIN32 */
