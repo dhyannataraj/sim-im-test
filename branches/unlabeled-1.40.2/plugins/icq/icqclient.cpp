@@ -1649,13 +1649,9 @@ string ICQClient::clientName(ICQUserData *data)
         return res;
     }
     if (hasCap(data, CAP_AIM_BUDDYCON)){
-
         res += "gaim";
-
         return res;
-
     }
-
     if ((data->InfoUpdateTime & 0xFF7F0000L) == 0x7D000000L){
         unsigned ver = data->InfoUpdateTime & 0xFFFF;
         if (ver % 10){
@@ -1723,6 +1719,10 @@ string ICQClient::clientName(ICQUserData *data)
     }
     if ((hasCap(data, CAP_STR_2001) || hasCap(data, CAP_SRV_RELAY)) && hasCap(data, CAP_IS_2001)){
         res += "ICQ 2001";
+        return res;
+    }
+    if (hasCap(data, CAP_SRV_RELAY) && hasCap(data, CAP_DIRECT)){
+        res += "ICQ 2001b";
         return res;
     }
     if ((data->Version == 7) && hasCap(data, CAP_RTF)){
