@@ -184,7 +184,7 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
                     msg.unpack(flag);
                     msg.unpack(message);
                 #ifndef HAVE_TM_GMTOFF
-                    sendTM.tm_sec  = -_timezone;
+                    sendTM.tm_sec  = -timezone;
                 #else
                     time_t now = time (NULL);
                     sendTM = *localtime (&now);
@@ -482,7 +482,7 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
         }else{
             int tz;
 #ifndef HAVE_TM_GMTOFF
-            tz = - _timezone;
+            tz = - timezone;
 #else
             time_t now;
             time(&now);
