@@ -20,11 +20,15 @@
 
 #include "simapi.h"
 #include "socket.h"
+#include "stl.h"
 
 typedef struct RemoteData
 {
     char *Path;
 } RemoteData;
+
+class ControlSocket;
+class CorePlugin;
 
 class RemotePlugin : public Plugin, public EventReceiver, public ServerSocketNotify
 {
@@ -33,6 +37,8 @@ public:
     ~RemotePlugin();
     PROP_STR(Path);
     void bind();
+	list<ControlSocket*> m_sockets;
+	CorePlugin	*core;
 protected:
     virtual bool accept(Socket*, unsigned long ip);
     virtual void bind_ready(unsigned short port);
@@ -42,6 +48,20 @@ protected:
     virtual string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     RemoteData data;
+};
+
+class ControlSocket : public ClientSocketNotify
+{
+public:
+    ControlSocket(RemotePlugin *plugin, Socket *s);
+    ~ControlSocket();
+protected:
+	ClientSocket	*m_socket;
+	RemotePlugin	*m_plugin;
+	void write(const char*);
+    virtual bool error_state(const char *err, unsigned code);
+    virtual void connect_ready();
+    virtual void packet_ready();
 };
 
 #endif

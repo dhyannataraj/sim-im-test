@@ -58,7 +58,7 @@ MsgGen::MsgGen(MsgEdit *parent, Message *msg)
             m_edit->m_edit->moveCursor(QTextEdit::MoveEnd, false);
             if ((msg->getBackground() != msg->getForeground()) && !CorePlugin::m_plugin->getOwnColors()){
                 m_edit->m_edit->setBackground(msg->getBackground());
-                m_edit->m_edit->setForeground(msg->getForeground());
+                m_edit->m_edit->setForeground(msg->getForeground(), true);
             }
         }
     }
