@@ -20,13 +20,14 @@
 #include "icqclient.h"
 #include "textshow.h"
 
-AboutInfo::AboutInfo(QWidget *parent, struct ICQUserData *data, ICQClient *client)
+AboutInfo::AboutInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
         : AboutInfoBase(parent)
 {
     m_data   = data;
     m_client = client;
     if (m_data)
         edtAbout->setReadOnly(true);
+	m_contact = contact;
     fill();
 }
 
@@ -39,7 +40,7 @@ void AboutInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    set_str(&data->About.ptr, m_client->fromUnicode(edtAbout->text(), NULL).c_str());
+    set_str(&data->About.ptr, getContacts()->fromUnicode(getContacts()->contact(m_contact), edtAbout->text()).c_str());
 }
 
 void *AboutInfo::processEvent(Event *e)
@@ -63,7 +64,7 @@ void AboutInfo::fill()
     if (data == NULL) data = &m_client->data.owner;
     if (data->Uin.value){
         edtAbout->setTextFormat(QTextEdit::PlainText);
-        edtAbout->setText(m_client->toUnicode(data->About.ptr, data));
+        edtAbout->setText(getContacts()->toUnicode(getContacts()->contact(m_contact), data->About.ptr));
     }else{
         edtAbout->setTextFormat(QTextEdit::RichText);
         if (data->About.ptr)

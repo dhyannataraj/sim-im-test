@@ -27,7 +27,7 @@ class HomeInfo : public HomeInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:
-    HomeInfo(QWidget *parent, struct ICQUserData*, ICQClient *client);
+    HomeInfo(QWidget *parent, struct ICQUserData*, unsigned contact, ICQClient *client);
 public slots:
     void apply();
     void apply(Client*, void*);
@@ -35,6 +35,7 @@ protected:
     void *processEvent(Event*);
     void fill();
     struct ICQUserData *m_data;
+	unsigned m_contact;
     ICQClient *m_client;
 };
 

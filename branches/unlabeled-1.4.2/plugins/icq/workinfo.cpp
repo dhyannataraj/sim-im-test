@@ -24,11 +24,12 @@
 #include <qmultilineedit.h>
 #include <qcombobox.h>
 
-WorkInfo::WorkInfo(QWidget *parent, struct ICQUserData *data, ICQClient *client)
+WorkInfo::WorkInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
         : WorkInfoBase(parent)
 {
-    m_data   = data;
-    m_client = client;
+    m_data    = data;
+    m_client  = client;
+	m_contact = contact;
     btnSite->setPixmap(Pict("home"));
     connect(btnSite, SIGNAL(clicked()), this, SLOT(goUrl()));
     if (m_data){
@@ -104,16 +105,17 @@ void WorkInfo::fill()
 {
     ICQUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
-    edtAddress->setText(m_client->toUnicode(data->WorkAddress.ptr, data));
-    edtCity->setText(m_client->toUnicode(data->WorkCity.ptr, data));
-    edtState->setText(m_client->toUnicode(data->WorkState.ptr, data));
-    edtZip->setText(m_client->toUnicode(data->WorkZip.ptr, data));
+	Contact *contact = getContacts()->contact(m_contact);
+    edtAddress->setText(getContacts()->toUnicode(contact, data->WorkAddress.ptr));
+    edtCity->setText(getContacts()->toUnicode(contact, data->WorkCity.ptr));
+    edtState->setText(getContacts()->toUnicode(contact, data->WorkState.ptr));
+    edtZip->setText(getContacts()->toUnicode(contact, data->WorkZip.ptr))
     initCombo(cmbCountry, (unsigned short)(data->WorkCountry.value), getCountries());
     initCombo(cmbOccupation, (unsigned short)(data->Occupation.value), occupations);
-    edtName->setText(m_client->toUnicode(data->WorkName.ptr, data));
-    edtDept->setText(m_client->toUnicode(data->WorkDepartment.ptr, data));
-    edtPosition->setText(m_client->toUnicode(data->WorkPosition.ptr, data));
-    edtSite->setText(m_client->toUnicode(data->WorkHomepage.ptr, data));
+    edtName->setText(getContacts()->toUnicode(contact, data->WorkName.ptr));
+    edtDept->setText(getContacts()->toUnicode(contact, data->WorkDepartment.ptr));
+    edtPosition->setText(getContacts()->toUnicode(contact, data->WorkPosition.ptr));
+    edtSite->setText(getContacts()->toUnicode(contact, data->WorkHomepage.ptr));
     urlChanged(edtSite->text());
 }
 

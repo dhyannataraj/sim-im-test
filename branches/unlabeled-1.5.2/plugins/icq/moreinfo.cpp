@@ -26,11 +26,12 @@
 #include <qcombobox.h>
 #include <qlineedit.h>
 
-MoreInfo::MoreInfo(QWidget *parent, struct ICQUserData *data, ICQClient *client)
+MoreInfo::MoreInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
         : MoreInfoBase(parent)
 {
-    m_data   = data;
-    m_client = client;
+    m_data    = data;
+    m_client  = client;
+	m_contact = contact;
     btnHomePage->setPixmap(Pict("home"));
     connect(btnHomePage, SIGNAL(clicked()), this, SLOT(goUrl()));
     QDate now = QDate::currentDate();
@@ -152,7 +153,7 @@ void MoreInfo::fill()
 {
     ICQUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
-    edtHomePage->setText(m_client->toUnicode(data->Homepage.ptr, data));
+    edtHomePage->setText(getContacts()->toUnicode(getContacts()->contact(m_contact), data->Homepage.ptr));
     initCombo(cmbGender, (unsigned short)(data->Gender.value), genders);
     if (spnAge->text() == "0") spnAge->setSpecialValueText("");
     edtDate->setDate(data->BirthDay.value, data->BirthMonth.value, data->BirthYear.value);
@@ -222,7 +223,7 @@ void MoreInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    set_str(&data->Homepage.ptr, m_client->fromUnicode(edtHomePage->text(), NULL).c_str());
+    set_str(&data->Homepage.ptr, getContacts()->fromUnicode(NULL, edtHomePage->text()).c_str());
     data->Gender.value = getComboValue(cmbGender, genders);
     int day, month, year;
     edtDate->getDate(day, month, year);

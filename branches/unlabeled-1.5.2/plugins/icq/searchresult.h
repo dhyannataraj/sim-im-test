@@ -31,7 +31,7 @@ public:
     UserTblItem(QListView *parent, ICQClient *client, struct ICQUserData *data);
     UserTblItem(QListView *parent, unsigned long uin, const QString &alias);
 protected:
-    void init(ICQClient *client, ICQUserData *data);
+    void init(ICQUserData *data);
     virtual QString key(int column, bool) const;
     unsigned long mUin;
     unsigned mState;

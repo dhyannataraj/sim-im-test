@@ -44,12 +44,13 @@ const ext_info chat_groups[] =
 
 const ext_info *p_chat_groups = chat_groups;
 
-ICQInfo::ICQInfo(QWidget *parent, struct ICQUserData *data, ICQClient *client)
+ICQInfo::ICQInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
         : ICQInfoBase(parent)
 {
-    m_bInit = false;
-    m_client  = client;
-    m_data  = data;
+    m_bInit		= false;
+    m_client	= client;
+    m_data		= data;
+	m_contact	= contact;
     edtUin->setReadOnly(true);
     if (m_data){
         edtFirst->setReadOnly(true);
@@ -84,9 +85,9 @@ void ICQInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    set_str(&data->FirstName.ptr, m_client->fromUnicode(edtFirst->text(), NULL).c_str());
-    set_str(&data->LastName.ptr, m_client->fromUnicode(edtLast->text(), NULL).c_str());
-    set_str(&data->Nick.ptr, m_client->fromUnicode(edtNick->text(), NULL).c_str());
+    set_str(&data->FirstName.ptr, getContacts()->fromUnicode(NULL, edtFirst->text()).c_str());
+    set_str(&data->LastName.ptr, getContacts()->fromUnicode(NULL, edtLast->text()).c_str());
+    set_str(&data->Nick.ptr, getContacts()->fromUnicode(NULL, edtNick->text()).c_str());
 }
 
 void *ICQInfo::processEvent(Event *e)

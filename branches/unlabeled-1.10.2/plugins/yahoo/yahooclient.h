@@ -117,7 +117,6 @@ typedef struct YahooUserData
     Data		Group;
     Data		bChecked;
     Data		bTyping;
-    Data		Encoding;
 } YahooUserData;
 
 typedef struct YahooClientData
@@ -170,9 +169,6 @@ public:
     YahooUserData *findContact(const char *id, const char *grp, Contact *&contact, bool bSend=true);
     QString toUnicode(const char *str, YahooUserData *client_data);
     string  fromUnicode(const QString &str, YahooUserData *client_data);
-    QTextCodec *getCodec(const char *encoding);
-    static QTextCodec *_getCodec(const char *encoding);
-    static QString toUnicode(const char *serverText, const char *clientName, unsigned contactId);
     void sendFile(FileMessage *msg, QFile *file, YahooUserData *data, unsigned short port);
     list<Message_ID>	m_waitMsg;
     list<Message*>		m_ackMsg;
@@ -237,7 +233,6 @@ protected:
 
 typedef struct YahooFileData
 {
-    Data	MsgText;
     Data	Url;
     Data	MsgID;
 } YahooFileData;
@@ -247,11 +242,9 @@ class YahooFileMessage : public FileMessage
 public:
     YahooFileMessage(Buffer *cfg=NULL);
     ~YahooFileMessage();
-    PROP_STR(MsgText);
     PROP_STR(Url);
     PROP_ULONG(MsgID);
     virtual	string save();
-    virtual QString getText() const;
     virtual unsigned baseType() { return MessageFile; }
 protected:
     YahooFileData data;

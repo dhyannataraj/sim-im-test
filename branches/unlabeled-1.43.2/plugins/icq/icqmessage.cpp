@@ -30,51 +30,6 @@
 #include <qimage.h>
 #include <qregexp.h>
 
-static DataDef icqMessageData[] =
-    {
-        { "ServerText", DATA_STRING, 1, 0 },
-        { NULL, 0, 0, 0 }
-    };
-
-ICQMessage::ICQMessage(unsigned type, Buffer *cfg)
-        : Message(type, cfg)
-{
-    load_data(icqMessageData, &data, cfg);
-}
-
-ICQMessage::~ICQMessage()
-{
-    free_data(icqMessageData, &data);
-}
-
-bool ICQMessage::setText(const char *r)
-{
-    return setServerText(r);
-}
-
-string ICQMessage::save()
-{
-    string s = Message::save();
-    string s1 = save_data(icqMessageData, &data);
-    if (!s1.empty()){
-        if (!s.empty())
-            s += '\n';
-        s += s1;
-    }
-    return s;
-}
-
-QString ICQMessage::getText() const
-{
-    const char *serverText = getServerText();
-    if ((serverText == NULL) || (*serverText == 0))
-        return Message::getText();
-    QString res = ICQClient::toUnicode(serverText, client(), contact());
-    if ((getFlags() & MESSAGE_RICHTEXT) && (res.left(6) == "<HTML>"))
-        ICQClient::clearTags(res);
-    return res;
-}
-
 static DataDef aimFileMessageData[] =
     {
         { "", DATA_ULONG, 1, 0 },				// Port
@@ -96,7 +51,6 @@ AIMFileMessage::~AIMFileMessage()
 
 static DataDef icqFileMessageData[] =
     {
-        { "ServerText", DATA_STRING, 1, 0 },
         { "ServerDescr", DATA_STRING, 1, 0 },
         { "", DATA_ULONG, 1, 0 },				// IP
         { "", DATA_ULONG, 1, 0 },				// Port
@@ -123,15 +77,7 @@ QString ICQFileMessage::getDescription()
     const char *serverText = getServerDescr();
     if ((serverText == NULL) || (*serverText == 0))
         return FileMessage::getDescription();
-    return ICQClient::toUnicode(serverText, client(), contact());
-}
-
-QString ICQFileMessage::getText() const
-{
-    const char *serverText = getServerText();
-    if ((serverText == NULL) || (*serverText == 0))
-        return FileMessage::getText();
-    return ICQClient::toUnicode(serverText, client(), contact());
+    return getContacts()->toUnicode(getContacts()->contact(contact()), serverText);
 }
 
 string ICQFileMessage::save()
@@ -146,67 +92,13 @@ string ICQFileMessage::save()
     return s;
 }
 
-static DataDef icqUrlMessageData[] =
-    {
-        { "ServerUrl", DATA_STRING, 1, 0 },
-        { "ServerText", DATA_STRING, 1, 0 },
-        { NULL, 0, 0, 0 }
-    };
-
-IcqUrlMessage::IcqUrlMessage(Buffer *cfg)
-        : UrlMessage(MessageICQUrl, cfg)
-{
-    load_data(icqUrlMessageData, &data, cfg);
-}
-
-IcqUrlMessage::~IcqUrlMessage()
-{
-    free_data(icqUrlMessageData, &data);
-}
-
-string IcqUrlMessage::save()
-{
-    string s = Message::save();
-    string s1 = save_data(icqUrlMessageData, &data);
-    if (!s1.empty()){
-        if (!s.empty())
-            s += '\n';
-        s += s1;
-    }
-    return s;
-}
-
-QString IcqUrlMessage::getText() const
-{
-    const char *serverText = getServerText();
-    if ((serverText == NULL) || (*serverText == 0))
-        return Message::getText();
-    return ICQClient::toUnicode(serverText, client(), contact());
-}
-
-QString IcqUrlMessage::getUrl() const
-{
-    const char *serverText = data.ServerUrl.ptr;
-    if (serverText && *serverText)
-        return ICQClient::toUnicode(serverText, client(), contact());
-    return UrlMessage::getUrl();
-}
-
-static DataDef icqContactsMessageData[] =
-    {
-        { "ServerText", DATA_STRING, 1, 0 },
-        { NULL, 0, 0, 0 }
-    };
-
 IcqContactsMessage::IcqContactsMessage(Buffer *cfg)
         : ContactsMessage(MessageICQContacts, cfg)
 {
-    load_data(icqContactsMessageData, &data, cfg);
 }
 
 IcqContactsMessage::~IcqContactsMessage()
 {
-    free_data(icqContactsMessageData, &data);
 }
 
 QString IcqContactsMessage::getContacts() const
@@ -214,24 +106,11 @@ QString IcqContactsMessage::getContacts() const
     const char *serverText = getServerText();
     if ((serverText == NULL) || (*serverText == 0))
         return ContactsMessage::getContacts();
-    return ICQClient::toUnicode(serverText, client(), contact());
-}
-
-string IcqContactsMessage::save()
-{
-    string s = Message::save();
-    string s1 = save_data(icqContactsMessageData, &data);
-    if (!s1.empty()){
-        if (!s.empty())
-            s += '\n';
-        s += s1;
-    }
-    return s;
+    return SIM::getContacts()->toUnicode(SIM::getContacts()->contact(contact()), serverText);
 }
 
 static DataDef icqAuthMessageData[] =
     {
-        { "ServerText", DATA_STRING, 1, 0 },
         { "Charset", DATA_STRING, 1, 0 },
         { NULL, 0, 0, 0 }
     };
@@ -349,7 +228,7 @@ static Message *parseTextMessage(const char *str, const char *pp, const char *en
             }
         }
     }
-    ICQMessage *m = new ICQMessage;
+    Message *m = new Message;
     m->setServerText(str);
     return m;
 }
@@ -361,9 +240,9 @@ static Message *parseURLMessage(const char *str)
         log(L_WARN, "Parse error URL message");
         return NULL;
     }
-    IcqUrlMessage *m = new IcqUrlMessage;
+    UrlMessage *m = new UrlMessage;
     m->setServerText(l[0].c_str());
-    m->setServerUrl(l[1].c_str());
+    m->setUrl(l[1].c_str());
     return m;
 }
 

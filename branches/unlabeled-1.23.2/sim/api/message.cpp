@@ -34,6 +34,7 @@ using namespace std;
 static DataDef	messageData[] =
     {
         { "Text", DATA_UTF, 1, 0 },
+		{ "ServerText", DATA_STRING, 1, 0 },
         { "Flags", DATA_ULONG, 1, 0 },
         // Use impossible RGB values as defaults, to signify there's no color set.
         { "Background", DATA_ULONG, 1, (const char*)0xFFFFFFFF },
@@ -107,6 +108,20 @@ string Message::save()
     string res = save_data(messageData, &data);
     setFlags(saveFlags);
     return res;
+}
+
+QString Message::getText() const
+{
+	if (data.Text.ptr && *data.Text.ptr)
+		return QString::fromUtf8(data.Text.ptr);
+	if (data.ServerText.ptr && *data.ServerText.ptr)
+		return getContacts()->toUnicode(getContacts()->contact(m_contact), data.ServerText.ptr);
+	return "";
+}
+
+void Message::setText(const QString &text)
+{
+	set_str(&data.Text.ptr, text.utf8());
 }
 
 static DataDef messageSMSData[] =

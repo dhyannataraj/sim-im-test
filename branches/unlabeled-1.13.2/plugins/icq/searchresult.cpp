@@ -83,12 +83,12 @@ QString UserTblItem::key(int column, bool bDirect) const
     return QListViewItem::key(column, bDirect);
 }
 
-void UserTblItem::init(ICQClient *client, ICQUserData *data)
+void UserTblItem::init(ICQUserData *data)
 {
-    QString nick  = client->toUnicode(data->Nick.ptr, data);
-    QString first = client->toUnicode(data->FirstName.ptr, data);
-    QString last  = client->toUnicode(data->LastName.ptr, data);
-    QString mail  = client->toUnicode(data->EMail.ptr, data);
+    QString nick  = getContacts()->toUnicode(NULL, data->Nick.ptr);
+    QString first = getContacts()->toUnicode(NULL, data->FirstName.ptr);
+    QString last  = getContacts()->toUnicode(NULL, data->LastName.ptr);
+    QString mail  = getContacts()->toUnicode(NULL, data->EMail.ptr);
     setText(COL_NICK, nick);
     setText(COL_FIRST, first);
     setText(COL_LAST, last);

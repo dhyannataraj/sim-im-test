@@ -27,12 +27,13 @@
 #include <qpixmap.h>
 #include <qlabel.h>
 
-AIMInfo::AIMInfo(QWidget *parent, struct ICQUserData *data, ICQClient *client)
+AIMInfo::AIMInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
         : AIMInfoBase(parent)
 {
     m_bInit = false;
     m_client  = client;
-    m_data  = data;
+    m_data    = data;
+	m_contact = contact;
     edtScreen->setReadOnly(true);
     if (m_data){
         edtFirst->setReadOnly(true);
@@ -147,7 +148,7 @@ void AIMInfo::fill()
         status = m_client->getStatus();
     }
     if ((status != STATUS_ONLINE) && (status != STATUS_OFFLINE) && m_data){
-        edtAutoReply->setText(m_client->toUnicode(m_data->AutoReply.ptr, m_data));
+        edtAutoReply->setText(getContacts()->toUnicode(getContacts()->contact(m_contact), m_data->AutoReply.ptr));
     }else{
         edtAutoReply->hide();
     }

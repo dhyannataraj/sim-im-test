@@ -215,7 +215,7 @@ int htmlFontSizeToPt(int fontSize, int baseSize = 12)
 class RTFGenParser : public HTMLParser
 {
 public:
-    RTFGenParser(ICQClient *client, const QColor& foreColor, const char *encoding);
+    RTFGenParser(ICQClient *client, const QColor& foreColor, Contact *contact);
     string parse(const QString &text);
     // Returns the color's index in the colors table, adding the color if necessary.
     int getColorIdx(const QColor &color);
@@ -227,7 +227,7 @@ protected:
     virtual void tag_end(const QString &tag);
     string res;
     ICQClient  *m_client;
-    const char *m_encoding;
+    Contact    *m_contact;
     QTextCodec *m_codec;
     bool		m_bSpace;
 
@@ -250,10 +250,10 @@ protected:
     } m_paragraphDir;
 };
 
-RTFGenParser::RTFGenParser(ICQClient *client, const QColor& foreColor, const char *encoding)
+RTFGenParser::RTFGenParser(ICQClient *client, const QColor& foreColor, Contact *contact)
 {
     m_client    = client;
-    m_encoding  = encoding;
+    m_contact   = contact;
     m_foreColor = foreColor;
     m_lastParagraphPos = 0;
     m_paragraphDir = DirUnknown;
@@ -748,9 +748,9 @@ void RTFGenParser::tag_end(const QString &tagName)
     }
 }
 
-string ICQClient::createRTF(const QString &text, unsigned long foreColor, const char *encoding)
+string ICQClient::createRTF(const QString &text, unsigned long foreColor, Contact *contact)
 {
-    RTFGenParser p(this, foreColor, encoding);
+    RTFGenParser p(this, foreColor, contact);
     return p.parse(text);
 }
 

@@ -1059,6 +1059,7 @@ const unsigned	MESSAGE_TEMP		= 0x10000000;
 typedef struct MessageData
 {
     Data		Text;			// Message text (UTF-8)
+	Data		ServerText;		// Message text (8bit)
     Data		Flags;			//
     Data		Background;
     Data		Foreground;
@@ -1083,7 +1084,9 @@ public:
     virtual unsigned baseType() { return m_type; }
     QString getPlainText();
     QString getRichText();
-    VPROP_UTF8(Text)
+    virtual QString getText() const;
+	void setText(const QString &text);
+	PROP_STR(ServerText)
     virtual bool setText(const char *text);
     PROP_ULONG(Flags)
     PROP_ULONG(Background)
@@ -1399,6 +1402,7 @@ typedef struct ContactData
     Data			LastName;
     Data			Notes;
     Data			Flags;
+	Data			Encoding;
 } ContactData;
 
 const unsigned CONTACT_TEMP				= 0x0001;
@@ -1424,6 +1428,7 @@ public:
     PROP_UTF8(LastName)
     PROP_UTF8(Notes)
     PROP_ULONG(Flags)
+	PROP_STR(Encoding)
     void *getUserData(unsigned id, bool bCreate = false);
     UserData userData;
     ClientUserData clientData;
@@ -1590,6 +1595,16 @@ class ProtocolIteratorPrivate;
 class PacketIteratorPrivate;
 class UserDataIteratorPrivate;
 
+typedef struct ENCODING
+{
+    const char *language;
+    const char *codec;
+    int         mib;
+    int			rtf_code;
+    int			cp_code;
+    bool        bMain;
+} ENCODING;
+
 class EXPORT ContactList
 {
 public:
@@ -1673,6 +1688,11 @@ public:
     Contact *contactByPhone(const char *phone);
     Contact *contactByMail(const QString &_mail, const QString &_name);
     static bool cmpPhone(const char *p1, const char *p2);
+	QString toUnicode(Contact *contact, const char *str);
+	string fromUnicode(Contact *contact, const QString &str);
+	QTextCodec *getCodec(Contact *contact);
+	QTextCodec *getCodecByName(const char *encoding);
+	static const ENCODING *getEncodings();
 protected:
     ContactListPrivate *p;
     friend class Contact;

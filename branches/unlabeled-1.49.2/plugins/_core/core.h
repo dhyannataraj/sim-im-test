@@ -101,7 +101,6 @@ typedef struct CoreData
     Data	InvisibleStyle;
     Data	SmallGroupFont;
     Data	ShowAllEncodings;
-    Data	DefaultEncoding;
     Data	ShowEmptyGroup;
     Data	NoJoinAlert;
     Data	EnableSpell;
@@ -175,16 +174,6 @@ public:
     ~ClientList();
     void addToContacts();
 };
-
-typedef struct ENCODING
-{
-    const char *language;
-    const char *codec;
-    int         mib;
-    int		rtf_code;
-    int		cp_code;
-    bool        bMain;
-} ENCODING;
 
 const unsigned  CmdBase					= 0x00020000;
 const unsigned	CmdInfo					= (CmdBase + 1);
@@ -461,7 +450,6 @@ public:
     PROP_ULONG(InvisibleStyle);
     PROP_BOOL(SmallGroupFont);
     PROP_BOOL(ShowAllEncodings);
-    PROP_STR(DefaultEncoding);
     PROP_BOOL(ShowEmptyGroup);
     PROP_BOOL(NoJoinAlert);
     PROP_BOOL(EnableSpell);
@@ -487,10 +475,7 @@ public:
 
     XSL	*historyXSL;
     CoreData	data;
-
     bool m_bIgnoreEvents;
-    const ENCODING *encodings;
-
 signals:
     void modeChanged();
 protected slots:

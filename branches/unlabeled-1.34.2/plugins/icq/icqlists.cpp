@@ -1336,7 +1336,7 @@ bool ICQClient::sendAuthRequest(Message *msg, void *_data)
         message = msg->getPlainText().utf8();
         charset = "utf-8";
     }else{
-        message = fromUnicode(msg->getPlainText(), data);
+        message = getContacts()->fromUnicode(NULL, msg->getPlainText());
     }
     m_socket->writeBuffer
     << (unsigned short)(message.length())
@@ -1401,7 +1401,7 @@ bool ICQClient::sendAuthRefused(Message *msg, void *_data)
         message = msg->getPlainText().utf8();
         charset = "utf-8";
     }else{
-        message = fromUnicode(msg->getPlainText(), data);
+        message = getContacts()->fromUnicode(NULL, msg->getPlainText());
     }
     m_socket->writeBuffer
     << (char) 0

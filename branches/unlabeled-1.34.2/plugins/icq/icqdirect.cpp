@@ -334,6 +334,7 @@ void DirectSocket::packet_ready()
                     m_socket->error_state("User not found");
                     return;
                 }
+				m_contact = contact->id();
             }
             if (p_uin != m_data->Uin.value){
                 m_socket->error_state("Bad sender UIN");
@@ -845,7 +846,7 @@ void DirectClient::processPacket()
                     if (msg_str.empty()){
                         msg->setError(I18N_NOOP("Send message fail"));
                     }else{
-                        QString err = m_client->toUnicode(msg_str.c_str(), m_data);
+                        QString err = getContacts()->toUnicode(getContacts()->contact(m_contact), msg_str.c_str());
                         msg->setError(err.utf8());
                     }
                     Event e(EventMessageSent, msg);
@@ -1250,7 +1251,7 @@ void DirectClient::acceptMessage(Message *msg)
 void DirectClient::declineMessage(Message *msg, const char *reason)
 {
     string r;
-    r = m_client->fromUnicode(QString::fromUtf8(reason), m_data);
+    r = getContacts()->fromUnicode(getContacts()->contact(m_contact), QString::fromUtf8(reason));
     unsigned short seq = 0;
     switch (msg->type()){
     case MessageICQFile:
@@ -1302,7 +1303,7 @@ void DirectClient::processMsgQueue()
                 if ((sm.msg->getFlags() & MESSAGE_RICHTEXT) &&
                         (m_client->getSendFormat() == 0) &&
                         (m_client->hasCap(m_data, CAP_RTF))){
-                    message = m_client->createRTF(sm.msg->getRichText(), sm.msg->getForeground(), m_data->Encoding.ptr);
+                    message = m_client->createRTF(sm.msg->getRichText(), sm.msg->getForeground(), m_contact);
                     sm.type = CAP_RTF;
                 }else if (m_client->hasCap(m_data, CAP_UTF) &&
                           (m_client->getSendFormat() <= 1) &&
@@ -1310,7 +1311,7 @@ void DirectClient::processMsgQueue()
                     message = ICQClient::addCRLF(sm.msg->getPlainText()).utf8();
                     sm.type = CAP_UTF;
                 }else{
-                    message = m_client->fromUnicode(ICQClient::addCRLF(sm.msg->getPlainText()), m_data);
+                    message = getContacts()->fromUnicode(getContacts()->contact(m_contact), sm.msg->getPlainText());
                     messageSend ms;
                     ms.msg  = sm.msg;
                     ms.text = &message;

@@ -90,7 +90,6 @@ static DataDef yahooUserData[] =
         { "Group", DATA_STRING, 1, 0 },
         { "", DATA_BOOL, 1, 0 },			// bChecked
         { "", DATA_BOOL, 1, 0 },			// bTyping
-        { "Encoding", DATA_STRING, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -2061,7 +2060,6 @@ static MessageDef defYahooFile =
 
 static DataDef yahoMessageFile[] =
     {
-        { "ServerText", DATA_STRING, 1, 0 },
         { "", DATA_STRING, 1, 0 },				// URL
         { "", DATA_ULONG, 1, 0 },
         { NULL, 0, 0, 0 }

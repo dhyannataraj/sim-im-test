@@ -27,7 +27,7 @@ class AIMInfo : public AIMInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:
-    AIMInfo(QWidget *parent, struct ICQUserData*, ICQClient *client);
+    AIMInfo(QWidget *parent, struct ICQUserData*, unsigned contact, ICQClient *client);
 public slots:
     void apply();
     void apply(Client*, void*);
@@ -36,6 +36,7 @@ protected:
     void fill();
     struct ICQUserData *m_data;
     bool m_bInit;
+	unsigned  m_contact;
     ICQClient *m_client;
 };
 

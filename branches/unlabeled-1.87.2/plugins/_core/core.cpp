@@ -199,55 +199,6 @@ QTranslatorMessage SIMTranslator::findMessage(const char* context,
 
 #endif
 
-static ENCODING _encodingTbl[] =
-    {
-        { I18N_NOOP("Unicode"), "UTF-8", 106, 0, 65001, true },
-
-        { I18N_NOOP("Arabic"), "ISO 8859-6", 82, 180, 28596, false },
-        { I18N_NOOP("Arabic"), "CP 1256", 2256, 180, 1256, true },
-
-        { I18N_NOOP("Baltic"), "ISO 8859-13", 109, 186, 28594, false },
-        { I18N_NOOP("Baltic"), "CP 1257", 2257, 186, 1257, true },
-
-        { I18N_NOOP("Central European"), "ISO 8859-2", 5, 238, 28592, false },
-        { I18N_NOOP("Esperanto"), "ISO 8859-3", 6, 238, 28593, false },
-        { I18N_NOOP("Central European"), "CP 1250", 2250, 238, 1250, true },
-
-        { I18N_NOOP("Chinese "), "GBK", 2025, 134, 0, false },
-        { I18N_NOOP("Chinese Simplified"), "gbk2312",2312, 134, 0, true },
-        { I18N_NOOP("Chinese Traditional"), "Big5",2026, 136, 0, true },
-
-        { I18N_NOOP("Cyrillic"), "ISO 8859-5", 8, 204, 28595, false },
-        { I18N_NOOP("Cyrillic"), "KOI8-R", 2084, 204, 1251, false },
-        { I18N_NOOP("Ukrainian"), "KOI8-U", 2088, 204, 1251, false },
-        { I18N_NOOP("Cyrillic"), "CP 1251", 2251, 204, 1251, true },
-
-        { I18N_NOOP("Greek"), "ISO 8859-7", 10, 161, 28597, false },
-        { I18N_NOOP("Greek"), "CP 1253", 2253, 161, 1253, true },
-
-        { I18N_NOOP("Hebrew"), "ISO 8859-8-I", 85, 177, 28598,  false },
-        { I18N_NOOP("Hebrew"), "CP 1255", 2255, 177, 1255, true },
-
-        { I18N_NOOP("Japanese"), "JIS7", 16, 128, 0, false },
-        { I18N_NOOP("Japanese"), "eucJP", 18, 128, 0, false },
-        { I18N_NOOP("Japanese"), "Shift-JIS", 17, 128, 0, true },
-
-        { I18N_NOOP("Korean"), "eucKR", 38, 0, 0, true },
-
-        { I18N_NOOP("Western European"), "ISO 8859-1", 4, 0, 28591, false },
-        { I18N_NOOP("Western European"), "ISO 8859-15", 111, 0, 28605, false },
-        { I18N_NOOP("Western European"), "CP 1252", 2252, 0, 1252, true },
-
-        { I18N_NOOP("Tamil"), "TSCII", 2028, 0, 0, true },
-
-        { I18N_NOOP("Thai"), "TIS-620", 2259, 222, 0, true },
-
-        { I18N_NOOP("Turkish"), "ISO 8859-9", 12, 162, 28599, false },
-        { I18N_NOOP("Turkish"), "CP 1254", 2254, 162, 1254, true },
-
-        { NULL, NULL, 0, 0, 0, false }
-    };
-
 /*
 typedef struct CoreData
 {    
@@ -358,7 +309,6 @@ static DataDef coreData[] =
         { "InvisibleStyle", DATA_ULONG, 1, DATA(4) },
         { "SmallGroupFont", DATA_BOOL, 1, DATA(1) },
         { "ShowAllEncodings", DATA_BOOL, 1, 0 },
-        { "DefaultEncoding", DATA_STRING, 1, 0 },
         { "ShowEmptyGroup", DATA_BOOL, 1, DATA(1) },
         { "NoJoinAlert", DATA_BOOL, 1, 0 },
         { "EnableSpell", DATA_BOOL, 1, 0 },
@@ -498,7 +448,6 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     historyXSL = NULL;
     m_bIgnoreEvents = false;
     m_alert = NULL;
-    encodings = _encodingTbl;
 
     load_data(coreData, &data, config);
     time_t now;

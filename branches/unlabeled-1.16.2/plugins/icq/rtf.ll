@@ -722,7 +722,7 @@ void Level::flush()
     if (text.length() == 0) return;
     const char *encoding = NULL;
     if (m_nEncoding){
-        for (const ENCODING *c = ICQPlugin::core->encodings; c->language; c++){
+        for (const ENCODING *c = getContacts()->getEncodings(); c->language; c++){
 			if (!c->bMain)
 				continue;
             if ((unsigned)c->rtf_code == m_nEncoding){
@@ -733,7 +733,7 @@ void Level::flush()
     }
     if (encoding == NULL)
 		encoding = p->encoding;
-	QTextCodec *codec = ICQClient::_getCodec(encoding);
+	QTextCodec *codec = getContacts()->getCodecByName(encoding);
     p->PrintQuoted(codec->toUnicode(text.c_str(), text.length()));
     text = "";
 }
@@ -965,7 +965,7 @@ bool ICQClient::parseRTF(const char *rtf, const char *encoding, QString &res)
 		res = p.Parse(rtf, encoding);
 		return true;
 	}
-	QTextCodec *codec = ICQClient::_getCodec(encoding);
+	QTextCodec *codec = getContacts()->getCodecByName(encoding);
 	res = codec->toUnicode(rtf, strlen(rtf));
 	return false;
 }

@@ -23,11 +23,12 @@
 #include <qmultilineedit.h>
 #include <qcombobox.h>
 
-HomeInfo::HomeInfo(QWidget *parent, struct ICQUserData *data, ICQClient *client)
+HomeInfo::HomeInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
         : HomeInfoBase(parent)
 {
-    m_data   = data;
-    m_client = client;
+    m_data    = data;
+    m_client  = client;
+	m_contact = contact;
     if (m_data){
         edtAddress->setReadOnly(true);
         edtCity->setReadOnly(true);
@@ -48,10 +49,11 @@ void HomeInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    set_str(&data->Address.ptr, m_client->fromUnicode(edtAddress->text(), NULL).c_str());
-    set_str(&data->City.ptr, m_client->fromUnicode(edtCity->text(), NULL).c_str());
-    set_str(&data->State.ptr, m_client->fromUnicode(edtState->text(), NULL).c_str());
-    set_str(&data->Zip.ptr, m_client->fromUnicode(edtZip->text(), NULL).c_str());
+	Contact *contact = getContacts()->contact(m_contact);
+    set_str(&data->Address.ptr, getContacts()->fromUnicode(contact, edtAddress->text()).c_str());
+    set_str(&data->City.ptr, getContacts()->fromUnicode(contact, edtCity->text()).c_str());
+    set_str(&data->State.ptr, getContacts()->fromUnicode(contact, edtState->text()).c_str());
+    set_str(&data->Zip.ptr, getContacts()->fromUnicode(contact, edtZip->text()).c_str());
     data->Country.value = getComboValue(cmbCountry, getCountries());
 }
 
@@ -98,10 +100,11 @@ void HomeInfo::fill()
 {
     ICQUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
-    edtAddress->setText(m_client->toUnicode(data->Address.ptr, data));
-    edtCity->setText(m_client->toUnicode(data->City.ptr, data));
-    edtState->setText(m_client->toUnicode(data->State.ptr, data));
-    edtZip->setText(m_client->toUnicode(data->Zip.ptr, data));
+	Contact *contact = getContacts()->contact(m_contact);
+    edtAddress->setText(getContacts()->toUnicode(contact ,data->Address.ptr));
+    edtCity->setText(getContacts()->toUnicode(contact ,data->City.ptr));
+    edtState->setText(getContacts()->toUnicode(contact ,data->State.ptr));
+    edtZip->setText(getContacts()->toUnicode(contact ,data->Zip.ptr));
     initCombo(cmbCountry, (unsigned short)(data->Country.value), getCountries());
     initTZCombo(cmbZone, (char)(data->TimeZone.value));
 }
