@@ -20,12 +20,22 @@
 
 #include <qwindowsstyle.h>
 
-class QXpStyle: public QWindowsStyle
+class QWindowsXPStylePrivate;
+
+class QWindowsXPStyle: public QWindowsStyle
 {
     Q_OBJECT
 public:
-    QXpStyle();
-    virtual ~QXpStyle();
+    QWindowsXPStyle();
+    virtual ~QWindowsXPStyle();
+	void polish( QApplication *app );
+	void unPolish( QApplication *app );
+	void polish( QWidget *widget );
+	void unPolish( QWidget *widget );
+	void updateRegion( QWidget *widget );
+protected:
+	bool eventFilter( QObject *o, QEvent *e );
+	QWindowsXPStylePrivate *d;
 };
 
 #endif

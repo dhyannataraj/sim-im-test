@@ -45,6 +45,30 @@ extern KApplication *kApp;
 
 #if QT_VERSION < 300
 
+#ifdef WIN32
+#include <windows.h>
+
+class XpStyle
+{
+public:
+	XpStyle();
+};
+
+typedef QStyle *WINAPI CREATE_STYLE ();
+
+CREATE_STYLE *createXpStyle = NULL;
+
+XpStyle::XpStyle()
+{
+    HINSTANCE hLib = LoadLibraryA("xpstyle.dll");
+    if (hLib != NULL)
+        (DWORD&)createXpStyle = (DWORD)GetProcAddress(hLib,"_createXpStyle@0");
+}
+
+XpStyle _xpStyle;
+
+#endif
+
 class QStyleFactory
 {
 public:
@@ -56,6 +80,7 @@ QStringList QStyleFactory::keys()
 {
     QStringList styles;
     styles << "windows" << "motif" << "cde" << "platinum" << "sgi" << "motifplus";
+	if (createXpStyle) styles << "xp";
     return styles;
 }
 
@@ -73,6 +98,12 @@ QStyle *QStyleFactory::create(const QString &name)
         return new QSGIStyle();
     if (name == "motifplus")
         return new QMotifPlusStyle();
+	if (name == "xp"){
+		QStyle *xpStyle = NULL;
+		if (createXpStyle) xpStyle = createXpStyle();
+		if (xpStyle) return xpStyle;
+		return new QWindowsStyle();
+	}
     return NULL;
 }
 
