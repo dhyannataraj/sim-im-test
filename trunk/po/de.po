@@ -1,4 +1,4 @@
-﻿# translation of de.po to deutsch
+# translation of de.po to deutsch
 # Copyright (C) 2002,2003 Free Software Foundation, Inc.
 # Christoph Thielecke <crissi99@gmx.de>, 2002,2003.
 # Crissi <crissi99@gmx.de>, 2003.
@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2003-10-10 11:13+0400\n"
-"PO-Revision-Date: 2003-10-10 16:16GMT\n"
-"Last-Translator: Tobias Franz <noragen@gmx.net>\n"
+"PO-Revision-Date: 2003-10-11 00:46GMT\n"
+"Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -16,7 +16,7 @@ msgstr ""
 
 #: plugins/__homedir/homedircfgbase.cpp:37
 msgid "Use &default path"
-msgstr "Standardverzeichnis benutzen"
+msgstr "&Standardverzeichnis benutzen"
 
 #: plugins/__homedir/homedircfgbase.cpp:41
 msgid "Path for config files:"
