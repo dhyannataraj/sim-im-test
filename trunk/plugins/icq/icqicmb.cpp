@@ -190,7 +190,10 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
                     }
                     delete m_send.msg;
                 }else{
-                    replyQueue.push_back(m_send);
+// the old case statement checked for MessageFile and
+// pushed the message into the replyQueue
+//                    replyQueue.push_back(m_send);
+                    ackMessage(m_send);
                 }
             }else{
                 replyQueue.push_back(m_send);
