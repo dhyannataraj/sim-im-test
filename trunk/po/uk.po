@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
-"POT-Creation-Date: 2003-09-04 09:27+0400\n"
+"POT-Creation-Date: 2003-09-08 00:59+0400\n"
 "PO-Revision-Date: 2003-01-20 18:24+0200\n"
 "Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -254,7 +254,7 @@ msgid "Group"
 msgstr "Група:"
 
 #: plugins/_core/core.cpp:485 plugins/_core/core.cpp:939
-#: plugins/icq/icq.cpp:464 plugins/jabber/jabber.cpp:266
+#: plugins/icq/icq.cpp:464 plugins/jabber/jabber.cpp:267
 msgid "User &info"
 msgstr "&Інформація про користувача"
 
@@ -376,7 +376,7 @@ msgstr "Виділити все"
 msgid "&Messages"
 msgstr "&Повідомлення"
 
-#: plugins/_core/core.cpp:756 plugins/_core/msgedit.cpp:1269
+#: plugins/_core/core.cpp:756 plugins/_core/msgedit.cpp:1275
 #, fuzzy
 msgid "&SMS"
 msgstr "SMS"
@@ -488,65 +488,65 @@ msgstr "Доступний"
 msgid "&Busy"
 msgstr "Зайнятий"
 
-#: plugins/_core/core.cpp:1592
+#: plugins/_core/core.cpp:1603
 #, fuzzy
 msgid "&Separate"
 msgstr "Розділювач"
 
-#: plugins/_core/core.cpp:1692
+#: plugins/_core/core.cpp:1703
 msgid "&New"
 msgstr "&Новий"
 
-#: plugins/_core/core.cpp:1747
+#: plugins/_core/core.cpp:1758
 #, fuzzy
 msgid "Not available"
 msgstr "Доступний"
 
-#: plugins/_core/core.cpp:1846 plugins/dock/dockwnd.cpp:1124
+#: plugins/_core/core.cpp:1857 plugins/dock/dockwnd.cpp:1124
 #: plugins/osd/osd.cpp:321
 msgid "%1 from %2"
 msgstr "%1 від %2"
 
-#: plugins/_core/core.cpp:2017
+#: plugins/_core/core.cpp:2028
 msgid "%1 wrote:"
 msgstr ""
 
-#: plugins/_core/core.cpp:2053
+#: plugins/_core/core.cpp:2064
 msgid "Send SMS"
 msgstr "Відправити SMS"
 
-#: plugins/_core/core.cpp:2880 plugins/_core/core.cpp:2902
+#: plugins/_core/core.cpp:2891 plugins/_core/core.cpp:2913
 #: plugins/_core/managerbase.cc:103 plugins/_core/managerbase.cpp:103
 #, fuzzy
 msgid "Connection manager"
 msgstr "З'єднання"
 
-#: plugins/_core/core.cpp:2888
+#: plugins/_core/core.cpp:2899
 #, fuzzy
 msgid "Show status panel"
 msgstr "Телефон"
 
-#: plugins/_core/core.cpp:2895
+#: plugins/_core/core.cpp:2906
 #, fuzzy
 msgid "Connections"
 msgstr "З'єднання"
 
-#: plugins/_core/core.cpp:2910
+#: plugins/_core/core.cpp:2921
 #, fuzzy
 msgid "Change profile"
 msgstr "файл"
 
-#: plugins/_core/core.cpp:2939
+#: plugins/_core/core.cpp:2950
 #, fuzzy
 msgid "Common status"
 msgstr "встановити статус"
 
-#: plugins/_core/core.cpp:2945
+#: plugins/_core/core.cpp:2956
 #, fuzzy
 msgid "Configure client"
 msgstr "Клієнт ICQ"
 
-#: plugins/_core/core.cpp:2969 plugins/_core/status.cpp:135
+#: plugins/_core/core.cpp:2980 plugins/_core/status.cpp:135
 #: plugins/_core/status.cpp:217
 #, fuzzy
 msgid "&Invisible"
@@ -733,7 +733,7 @@ msgstr "Повідомлення"
 msgid "SMS"
 msgstr "SMS"
 
-#: plugins/_core/interfacecfg.cpp:89 plugins/icq/icqclient.cpp:2143
+#: plugins/_core/interfacecfg.cpp:89 plugins/icq/icqclient.cpp:2146
 msgid "System"
 msgstr "Система"
 
@@ -758,8 +758,8 @@ msgstr "Пароль:"
 msgid "New profile"
 msgstr "Нова папка"
 
-#: plugins/_core/logindlg.cpp:388 plugins/jabber/jabberclient.cpp:728
-#: plugins/msn/msnclient.cpp:530
+#: plugins/_core/logindlg.cpp:388 plugins/jabber/jabberclient.cpp:747
+#: plugins/msn/msnclient.cpp:562
 #, fuzzy
 msgid "Login failed"
 msgstr "Прийом файлу:"
@@ -955,26 +955,26 @@ msgstr "Відправити &повідомлення"
 msgid "Send to &list"
 msgstr "Пере&креслений"
 
-#: plugins/_core/msgedit.cpp:1250 plugins/icq/icq.cpp:454
-#: plugins/jabber/jabber.cpp:257
+#: plugins/_core/msgedit.cpp:1256 plugins/icq/icq.cpp:454
+#: plugins/jabber/jabber.cpp:258
 msgid "&Message"
 msgstr "&Повідомлення"
 
-#: plugins/_core/msgedit.cpp:1260 plugins/netmonitor/monitor.cpp:64
+#: plugins/_core/msgedit.cpp:1266 plugins/netmonitor/monitor.cpp:64
 msgid "&File"
 msgstr "&Файл"
 
-#: plugins/_core/msgedit.cpp:1278
+#: plugins/_core/msgedit.cpp:1284
 #, fuzzy
 msgid "&Authorization request"
 msgstr "Запит авторизації"
 
-#: plugins/_core/msgedit.cpp:1287
+#: plugins/_core/msgedit.cpp:1293
 #, fuzzy
 msgid "&Grant autorization"
 msgstr "І&гнорувати вимоги авторизації"
 
-#: plugins/_core/msgedit.cpp:1296
+#: plugins/_core/msgedit.cpp:1302
 #, fuzzy
 msgid "&Refuse autorization"
 msgstr "І&гнорувати вимоги авторизації"
@@ -1051,7 +1051,7 @@ msgstr "Додати зовнішній контакт"
 msgid "Search %1"
 msgstr "Пошук"
 
-#: plugins/_core/status.cpp:46 plugins/jabber/services.cpp:39
+#: plugins/_core/status.cpp:46 plugins/jabber/services.cpp:40
 msgid "Status"
 msgstr "Статус"
 
@@ -1105,8 +1105,8 @@ msgid "New contact"
 msgstr "Додати зовнішній контакт"
 
 #: plugins/_core/usercfg.cpp:288 plugins/_core/userlist.cpp:930
-#: plugins/_core/userview.cpp:164 plugins/_core/userview.cpp:637
-#: plugins/_core/userview.cpp:675 plugins/icq/icqsearch.cpp:150
+#: plugins/_core/userview.cpp:172 plugins/_core/userview.cpp:645
+#: plugins/_core/userview.cpp:683 plugins/icq/icqsearch.cpp:150
 #: plugins/icq/searchresult.cpp:240 plugins/jabber/addresult.cpp:135
 #: plugins/jabber/jabberadd.cpp:117
 msgid "Not in list"
@@ -1128,34 +1128,34 @@ msgid "Settings"
 msgstr "Посилка"
 
 #: plugins/_core/userlist.cpp:553 plugins/icq/icq.cpp:111
-#: plugins/icq/icqclient.cpp:1255 plugins/icq/icqclient.cpp:1282
-#: plugins/jabber/jabber.cpp:92 plugins/jabber/jabberclient.cpp:939
-#: plugins/msn/msn.cpp:89 plugins/msn/msnclient.cpp:1284
+#: plugins/icq/icqclient.cpp:1258 plugins/icq/icqclient.cpp:1285
+#: plugins/jabber/jabber.cpp:92 plugins/jabber/jabberclient.cpp:940
+#: plugins/msn/msn.cpp:89 plugins/msn/msnclient.cpp:1420
 msgid "Online"
 msgstr "В мережі"
 
 #: plugins/_core/userlist.cpp:556 plugins/_core/userviewcfgbase.cc:183
 #: plugins/_core/userviewcfgbase.cpp:186 plugins/icq/icq.cpp:201
-#: plugins/icq/icqclient.cpp:1252 plugins/jabber/jabber.cpp:167
+#: plugins/icq/icqclient.cpp:1255 plugins/jabber/jabber.cpp:167
 #: plugins/msn/msn.cpp:194
 msgid "Offline"
 msgstr "Вимкнений"
 
-#: plugins/_core/userview.cpp:325 plugins/_core/userview.cpp:503
+#: plugins/_core/userview.cpp:333 plugins/_core/userview.cpp:511
 #, fuzzy
 msgid "Delete \"%1\"?"
 msgstr "Знищити \"%1\"?"
 
-#: plugins/_core/userview.cpp:723
+#: plugins/_core/userview.cpp:734
 msgid "New group"
 msgstr "Створити групу"
 
-#: plugins/_core/userview.cpp:762
+#: plugins/_core/userview.cpp:773
 #, fuzzy
 msgid "&Groups"
 msgstr "Групи"
 
-#: plugins/_core/userview.cpp:1212
+#: plugins/_core/userview.cpp:1240
 msgid "Join \"%1\" and \"%2\"?"
 msgstr ""
 
@@ -1189,7 +1189,7 @@ msgstr "&Поновити"
 #: plugins/osd/osdconfigbase.cpp:91 plugins/proxy/proxycfgbase.cpp:146
 #: plugins/shortcuts/mousecfgbase.cpp:108
 #: plugins/shortcuts/shortcutcfgbase.cpp:138
-#: plugins/sound/soundconfigbase.cpp:159 plugins/sound/sounduserbase.cpp:130
+#: plugins/sound/soundconfigbase.cpp:159 plugins/sound/sounduserbase.cpp:131
 #: plugins/transparent/transparentcfgbase.cpp:101
 msgid "Form1"
 msgstr "Домашня"
@@ -1360,7 +1360,7 @@ msgid "Online:"
 msgstr "В мережі:"
 
 #: plugins/_core/userviewcfgbase.cc:184 plugins/_core/userviewcfgbase.cpp:187
-#: plugins/icq/icq.cpp:126 plugins/icq/icqclient.cpp:1258
+#: plugins/icq/icq.cpp:126 plugins/icq/icqclient.cpp:1261
 #: plugins/jabber/jabber.cpp:107 plugins/msn/msn.cpp:104
 msgid "Away"
 msgstr "Відійшов"
@@ -1903,7 +1903,7 @@ msgstr ""
 msgid "&Filter"
 msgstr "&Фільтр"
 
-#: plugins/filter/ignorelist.cpp:27 plugins/icq/icqmessage.cpp:1171
+#: plugins/filter/ignorelist.cpp:27 plugins/icq/icqmessage.cpp:1173
 #: plugins/icq/icqsecure.cpp:126 plugins/icq/searchresult.cpp:115
 #: sim/ui/qt3/i18n.cpp:39
 msgid "Name"
@@ -2001,7 +2001,7 @@ msgid "*.dll|Icons themes"
 msgstr ""
 
 #: plugins/icons/iconcfg.cpp:170
-msgid "Icons themes(*.dll)"
+msgid "Icons themes (*.dll)"
 msgstr ""
 
 #: plugins/icons/iconcfg.cpp:172
@@ -2027,7 +2027,7 @@ msgid "*.msl|Smiles"
 msgstr ""
 
 #: plugins/icons/smilecfg.cpp:123
-msgid "Smiles(*.msl)"
+msgid "Smiles (*.msl)"
 msgstr ""
 
 #: plugins/icons/smilecfg.cpp:126
@@ -2134,7 +2134,7 @@ msgstr "Усі кодові сторінки"
 msgid "Change &encoding"
 msgstr "&Кодова сторінка"
 
-#: plugins/icq/icq.cpp:470 plugins/jabber/jabber.cpp:272
+#: plugins/icq/icq.cpp:470 plugins/jabber/jabber.cpp:273
 #, fuzzy
 msgid "&Add to group"
 msgstr "Додати в групу"
@@ -2321,50 +2321,55 @@ msgstr ""
 msgid "Possibly invisible"
 msgstr "встановити невидимий режим"
 
-#: plugins/icq/icqclient.cpp:1275 plugins/icq/icqinfo.cpp:229
-#: plugins/jabber/jabberclient.cpp:932 plugins/jabber/jabberinfo.cpp:103
-#: plugins/msn/msnclient.cpp:1277 plugins/msn/msninfo.cpp:88
+#: plugins/icq/icqclient.cpp:1242
+#, fuzzy
+msgid "Invisible"
+msgstr "Невидимий"
+
+#: plugins/icq/icqclient.cpp:1278 plugins/icq/icqinfo.cpp:229
+#: plugins/jabber/jabberclient.cpp:933 plugins/jabber/jabberinfo.cpp:103
+#: plugins/msn/msnclient.cpp:1413 plugins/msn/msninfo.cpp:88
 msgid "Last online"
 msgstr "Останній раз в мережі"
 
-#: plugins/icq/icqclient.cpp:1547 plugins/icq/icqclient.cpp:1721
-#: plugins/jabber/jabberclient.cpp:992 plugins/jabber/jabberclient.cpp:1071
+#: plugins/icq/icqclient.cpp:1550 plugins/icq/icqclient.cpp:1724
+#: plugins/jabber/jabberclient.cpp:993 plugins/jabber/jabberclient.cpp:1072
 msgid "Home info"
 msgstr "Домашня інформація"
 
-#: plugins/icq/icqclient.cpp:1562 plugins/icq/icqclient.cpp:1736
-#: plugins/jabber/jabberclient.cpp:1007 plugins/jabber/jabberclient.cpp:1086
+#: plugins/icq/icqclient.cpp:1565 plugins/icq/icqclient.cpp:1739
+#: plugins/jabber/jabberclient.cpp:1008 plugins/jabber/jabberclient.cpp:1087
 msgid "Work info"
 msgstr "Інформація про роботу"
 
-#: plugins/icq/icqclient.cpp:1577 plugins/icq/icqclient.cpp:1751
+#: plugins/icq/icqclient.cpp:1580 plugins/icq/icqclient.cpp:1754
 msgid "More info"
 msgstr "Розширена інформація"
 
-#: plugins/icq/icqclient.cpp:1592 plugins/icq/icqclient.cpp:1766
-#: plugins/jabber/jabberclient.cpp:1022 plugins/jabber/jabberclient.cpp:1101
+#: plugins/icq/icqclient.cpp:1595 plugins/icq/icqclient.cpp:1769
+#: plugins/jabber/jabberclient.cpp:1023 plugins/jabber/jabberclient.cpp:1102
 msgid "About info"
 msgstr "Додаткова інформація"
 
-#: plugins/icq/icqclient.cpp:1607 plugins/icq/icqclient.cpp:1781
+#: plugins/icq/icqclient.cpp:1610 plugins/icq/icqclient.cpp:1784
 msgid "Interests"
 msgstr "Інтереси"
 
-#: plugins/icq/icqclient.cpp:1622 plugins/icq/icqclient.cpp:1796
+#: plugins/icq/icqclient.cpp:1625 plugins/icq/icqclient.cpp:1799
 msgid "Group/Past"
 msgstr "Освіта/об'єднання"
 
-#: plugins/icq/icqclient.cpp:1637 plugins/icq/icqclient.cpp:1811
+#: plugins/icq/icqclient.cpp:1640 plugins/icq/icqclient.cpp:1814
 msgid "Picture"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:1826 plugins/jabber/jabberclient.cpp:1131
-#: plugins/msn/msnclient.cpp:631
+#: plugins/icq/icqclient.cpp:1829 plugins/jabber/jabberclient.cpp:1132
+#: plugins/msn/msnclient.cpp:663
 #, fuzzy
 msgid "Network"
 msgstr "З'єднання"
 
-#: plugins/icq/icqclient.cpp:1841
+#: plugins/icq/icqclient.cpp:1844
 msgid "Security"
 msgstr "Безпека"
 
@@ -2499,7 +2504,7 @@ msgstr ""
 msgid "Bad host address"
 msgstr "Поштові адреси:"
 
-#: plugins/icq/icqmessage.cpp:790
+#: plugins/icq/icqmessage.cpp:792
 #, c-format
 msgid ""
 "_n: WWW-panel message\n"
@@ -2509,7 +2514,7 @@ msgstr ""
 "%n WWW повідомлення\n"
 "%n WWW повідомлень"
 
-#: plugins/icq/icqmessage.cpp:812
+#: plugins/icq/icqmessage.cpp:814
 #, c-format
 msgid ""
 "_n: Email pager message\n"
@@ -2519,7 +2524,7 @@ msgstr ""
 "%n Email повідомлення\n"
 "%n Email повідомлень"
 
-#: plugins/icq/icqmessage.cpp:834
+#: plugins/icq/icqmessage.cpp:836
 #, c-format
 msgid ""
 "_n: Request secure channel\n"
@@ -2529,7 +2534,7 @@ msgstr ""
 "%n запити захищеного з'єднання\n"
 "%n запитів захищеного з'єднання"
 
-#: plugins/icq/icqmessage.cpp:856
+#: plugins/icq/icqmessage.cpp:858
 #, fuzzy, c-format
 msgid ""
 "_n: Close secure channel\n"
@@ -2539,14 +2544,14 @@ msgstr ""
 "%n запити захищеного з'єднання\n"
 "%n запитів захищеного з'єднання"
 
-#: plugins/icq/icqmessage.cpp:878
+#: plugins/icq/icqmessage.cpp:880
 #, c-format
 msgid ""
 "_n: Check invisible\n"
 "%n times check invisible"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:959
+#: plugins/icq/icqmessage.cpp:961
 #, fuzzy, c-format
 msgid ""
 "_n: Contact request\n"
@@ -2556,7 +2561,7 @@ msgstr ""
 "%n запити списку контактів\n"
 "%n запитів списку контактів"
 
-#: plugins/icq/icqmessage.cpp:1001
+#: plugins/icq/icqmessage.cpp:1003
 #, fuzzy, c-format
 msgid ""
 "_n: URL\n"
@@ -2566,7 +2571,7 @@ msgstr ""
 "%n URL\n"
 "%n URL"
 
-#: plugins/icq/icqmessage.cpp:1049
+#: plugins/icq/icqmessage.cpp:1051
 #, fuzzy, c-format
 msgid ""
 "_n: Contact list\n"
@@ -2576,63 +2581,63 @@ msgstr ""
 "%n запити списку контактів\n"
 "%n запитів списку контактів"
 
-#: plugins/icq/icqmessage.cpp:1081
+#: plugins/icq/icqmessage.cpp:1083
 msgid "URL:"
 msgstr "URL:"
 
-#: plugins/icq/icqmessage.cpp:1153
+#: plugins/icq/icqmessage.cpp:1155
 msgid "Drag users here"
 msgstr "Перенести користувачів сюди"
 
-#: plugins/icq/icqmessage.cpp:1167 plugins/icq/icqsearchbase.cc:339
+#: plugins/icq/icqmessage.cpp:1169 plugins/icq/icqsearchbase.cc:339
 #: plugins/icq/icqsecure.cpp:124 plugins/icq/searchresult.cpp:111
 msgid "UIN"
 msgstr "UIN"
 
-#: plugins/icq/icqmessage.cpp:1169 plugins/icq/searchresult.cpp:113
+#: plugins/icq/icqmessage.cpp:1171 plugins/icq/searchresult.cpp:113
 msgid "Alias"
 msgstr "Псевдонім"
 
-#: plugins/icq/icqmessage.cpp:1172 plugins/icq/searchresult.cpp:116
+#: plugins/icq/icqmessage.cpp:1174 plugins/icq/searchresult.cpp:116
 #: plugins/jabber/addresult.cpp:33 plugins/jabber/jabbersearch.cpp:175
 msgid "Email"
 msgstr "Пошта"
 
-#: plugins/icq/icqmessage.cpp:1311
+#: plugins/icq/icqmessage.cpp:1313
 #, fuzzy
 msgid "&URL"
 msgstr "URL"
 
-#: plugins/icq/icqmessage.cpp:1321
+#: plugins/icq/icqmessage.cpp:1323
 #, fuzzy
 msgid "&Contact list"
 msgstr "Список контактов"
 
-#: plugins/icq/icqmessage.cpp:1337
+#: plugins/icq/icqmessage.cpp:1339
 #, fuzzy
 msgid "Contact Request"
 msgstr "Запит списку контактів"
 
-#: plugins/icq/icqmessage.cpp:1366
+#: plugins/icq/icqmessage.cpp:1368
 msgid "Web panel"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:1373
+#: plugins/icq/icqmessage.cpp:1375
 #, fuzzy
 msgid "Email pager"
 msgstr "Email пейджер"
 
-#: plugins/icq/icqmessage.cpp:1380
+#: plugins/icq/icqmessage.cpp:1382
 #, fuzzy
 msgid "Request secure channel"
 msgstr "Закончить шифрование"
 
-#: plugins/icq/icqmessage.cpp:1387
+#: plugins/icq/icqmessage.cpp:1389
 #, fuzzy
 msgid "Close secure channel"
 msgstr "Закончить шифрование"
 
-#: plugins/icq/icqmessage.cpp:1394
+#: plugins/icq/icqmessage.cpp:1396
 #, fuzzy
 msgid "Check invisible"
 msgstr "Невидимий"
@@ -3817,12 +3822,22 @@ msgstr ""
 msgid "Jabber"
 msgstr ""
 
+#: plugins/jabber/jabber_rosters.cpp:1172
+#, fuzzy
+msgid "Password does not match"
+msgstr "Підтвердження і пароль не співпадають"
+
+#: plugins/jabber/jabber_rosters.cpp:1173
+#, fuzzy
+msgid "Low level network error"
+msgstr "Монітор мережі"
+
 #: plugins/jabber/jabberadd.cpp:163
 #, fuzzy
 msgid "Add Jabber contact"
 msgstr "Додати зовнішній контакт"
 
-#: plugins/jabber/jabberclient.cpp:1116
+#: plugins/jabber/jabberclient.cpp:1117
 #, fuzzy
 msgid "Agents"
 msgstr "Ефекти"
@@ -3979,9 +3994,14 @@ msgstr ""
 msgid "Resource:"
 msgstr "В&ідновити"
 
-#: plugins/jabber/services.cpp:38
+#: plugins/jabber/services.cpp:39
 msgid "JID"
 msgstr ""
+
+#: plugins/jabber/services.cpp:98
+#, fuzzy
+msgid "Registration failed"
+msgstr "Прийом файлу:"
 
 #: plugins/jabber/jabberaddbase.cpp:125
 #: plugins/jabber/jabberconfigbase.cpp:184
@@ -4081,18 +4101,24 @@ msgstr ""
 msgid "On the lunch"
 msgstr ""
 
-#: plugins/msn/msnclient.cpp:323 plugins/msn/msnclient.cpp:340
-#: plugins/msn/msnpacket.cpp:60
+#: plugins/msn/msnclient.cpp:321 plugins/msn/msnclient.cpp:338
 #, fuzzy
 msgid "MSN protocol error"
 msgstr "Вибір кольору"
 
-#: plugins/msn/msnclient.cpp:1334
+#: plugins/msn/msnclient.cpp:491
+#, fuzzy
+msgid "Youur account is being used from another location"
+msgstr ""
+"Ваш UIN використовується з іншого "
+"комп'ютера"
+
+#: plugins/msn/msnclient.cpp:1470
 #, fuzzy
 msgid "Contact go offline"
 msgstr "Контакт - зліва"
 
-#: plugins/msn/msnclient.cpp:1521
+#: plugins/msn/msnclient.cpp:1656
 #, fuzzy
 msgid "Send message failed"
 msgstr "Відправити &повідомлення"
@@ -4527,19 +4553,19 @@ msgstr "Повідомлення:"
 msgid "Sound on startup:"
 msgstr ""
 
-#: plugins/sound/sounduserbase.cpp:131
-#, fuzzy
-msgid "On line alert:"
-msgstr "Попередження:"
-
 #: plugins/sound/sounduserbase.cpp:132
-msgid "No sound if windows has &focus"
-msgstr ""
-
-#: plugins/sound/sounduserbase.cpp:133
 #, fuzzy
 msgid "&Diasble all sounds"
 msgstr "&Заборонити всі звуки"
+
+#: plugins/sound/sounduserbase.cpp:133
+msgid "No sound if windows has &focus"
+msgstr ""
+
+#: plugins/sound/sounduserbase.cpp:134
+#, fuzzy
+msgid "On line alert:"
+msgstr "Попередження:"
 
 #: plugins/splash/splash.cpp:34
 #, fuzzy
@@ -5573,12 +5599,12 @@ msgstr ""
 msgid "%1 bytes"
 msgstr ""
 
-#: sim/api/plugins.cpp:660
+#: sim/api/plugins.cpp:661
 #, c-format
 msgid "Bad option %1"
 msgstr ""
 
-#: sim/api/plugins.cpp:661
+#: sim/api/plugins.cpp:662
 msgid "Usage: %1 "
 msgstr ""
 
@@ -5696,41 +5722,41 @@ msgstr "З'єднання розірвано"
 msgid "Socket error"
 msgstr "З'єднання"
 
-#: sim/api/sslclient.cpp:187 sim/api/sslclient.cpp:355
-#: sim/api/sslclient.cpp:359
+#: sim/api/sslclient.cpp:193 sim/api/sslclient.cpp:361
+#: sim/api/sslclient.cpp:365
 #, fuzzy
 msgid "SSL write error"
 msgstr "З'єднання"
 
-#: sim/api/sslclient.cpp:196 sim/api/sslclient.cpp:217
-#: sim/api/sslclient.cpp:225
+#: sim/api/sslclient.cpp:202 sim/api/sslclient.cpp:223
+#: sim/api/sslclient.cpp:231
 #, fuzzy
 msgid "SSL connect error"
 msgstr "З'єднання"
 
-#: sim/api/sslclient.cpp:232
+#: sim/api/sslclient.cpp:238
 #, fuzzy
 msgid "SSL shutdown error"
 msgstr "З'єднання"
 
-#: sim/api/sslclient.cpp:253 sim/api/sslclient.cpp:261
+#: sim/api/sslclient.cpp:259 sim/api/sslclient.cpp:267
 #, fuzzy
 msgid "SSL shuwdown error"
 msgstr "З'єднання"
 
-#: sim/api/sslclient.cpp:268 sim/api/sslclient.cpp:289
-#: sim/api/sslclient.cpp:297
+#: sim/api/sslclient.cpp:274 sim/api/sslclient.cpp:295
+#: sim/api/sslclient.cpp:303
 #, fuzzy
 msgid "SSL accept error"
 msgstr "З'єднання"
 
-#: sim/api/sslclient.cpp:319 sim/api/sslclient.cpp:323
-#: sim/api/sslclient.cpp:407 sim/api/sslclient.cpp:413
+#: sim/api/sslclient.cpp:325 sim/api/sslclient.cpp:329
+#: sim/api/sslclient.cpp:413 sim/api/sslclient.cpp:419
 #, fuzzy
 msgid "SSL read error"
 msgstr "З'єднання"
 
-#: sim/api/sslclient.cpp:397
+#: sim/api/sslclient.cpp:403
 #, fuzzy
 msgid "SSL init error"
 msgstr "З'єднання"

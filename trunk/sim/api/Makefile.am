@@ -7,6 +7,7 @@ libsimapi_la_SOURCES = \
  cmddef.cpp \
  contacts.cpp \
  country.cpp \
+ fetch.cpp \
  log.cpp \
  message.cpp \
  plugins.cpp \

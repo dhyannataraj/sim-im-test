@@ -343,25 +343,29 @@ void OSDPlugin::processQueue()
 void OSDPlugin::dblClick()
 {
     Message *msg = NULL;
-    if (m_request.type){
+    Contact *contact;
+    switch (m_request.type){
+    case OSD_ALERT:
+    case OSD_TYPING:
+        contact = getContacts()->contact(m_request.contact);
+        if (contact){
+            Event e(EventDefaultAction, contact);
+            e.process();
+        }
+        break;
+    default:
         MessageID m;
         m.id      = m_request.msg_id;
         m.contact = m_request.contact;
         m.client  = m_request.client.c_str();
         Event e(EventLoadMessage, &m);
         msg = (Message*)(e.process());
-    }else{
-        Contact *contact = getContacts()->contact(m_request.contact);
-        if (contact){
-            msg = new Message(MessageGeneric);
-            msg->setContact(m_request.contact);
+        if (msg){
+            Event e(EventOpenMessage, msg);
+            e.process();
+            delete msg;
         }
     }
-    if (msg == NULL)
-        return;
-    Event e(EventOpenMessage, msg);
-    e.process();
-    delete msg;
 }
 
 void *OSDPlugin::processEvent(Event *e)

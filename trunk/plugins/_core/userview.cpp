@@ -34,6 +34,14 @@
 #include <qapplication.h>
 #include <qwidgetlist.h>
 
+
+
+#ifdef WIN32
+
+#include <windows.h>
+
+#endif
+
 const unsigned BLINK_TIMEOUT	= 500;
 const unsigned BLINK_COUNT		= 8;
 
@@ -679,6 +687,9 @@ void *UserView::processEvent(Event *e)
             }
             break;
         }
+    case EventIconChanged:
+        viewport()->repaint();
+        break;
     case EventRaiseWindow:{
             QObject *o = (QObject*)(e->param());
             if (o->inherits("MainWindow"))
@@ -815,8 +826,13 @@ void UserView::contentsMouseReleaseEvent(QMouseEvent *e)
     QListViewItem *item = m_pressedItem;
     UserListBase::contentsMouseReleaseEvent(e);
     if (item){
-        if (!CorePlugin::m_plugin->getUseDblClick())
-            contentsMouseDoubleClickEvent(e);
+        if (!CorePlugin::m_plugin->getUseDblClick()){
+            m_current = item;
+
+            QTimer::singleShot(50, this, SLOT(doClick()));
+
+        }
+
     }
 }
 
@@ -833,16 +849,28 @@ void UserView::doClick()
         ContactItem *item = static_cast<ContactItem*>(m_current);
         Event e(EventDefaultAction, (void*)(item->id()));
         e.process();
+
+        viewport()->releaseMouse();
+
     }
     m_current = NULL;
 }
 
 void UserView::keyPressEvent(QKeyEvent *e)
 {
-    if ((e->key() == Key_Enter) && CorePlugin::m_plugin->getUseDblClick()){
-        m_current = currentItem();
-        QTimer::singleShot(0, this, SLOT(doClick()));
-        return;
+
+    if (CorePlugin::m_plugin->getUseDblClick()){
+
+        switch (e->key()){
+
+        case Key_Return:
+
+        case Key_Enter:
+            m_current = currentItem();
+            QTimer::singleShot(0, this, SLOT(doClick()));
+            return;
+
+        }
     }
     UserListBase::keyPressEvent(e);
 }

@@ -154,12 +154,12 @@ void ListView::contentsMouseMoveEvent(QMouseEvent *e)
 
 void ListView::contentsMouseReleaseEvent(QMouseEvent *e)
 {
+    QListView::contentsMouseReleaseEvent(e);
     if (m_pressedItem){
         QListViewItem *item = m_pressedItem;
         m_pressedItem = NULL;
         item->repaint();
     }
-    QListView::contentsMouseReleaseEvent(e);
 }
 
 void ListView::viewportContextMenuEvent( QContextMenuEvent *e)

@@ -167,7 +167,7 @@ IconCfg::IconCfg(QWidget *parent, IconsPlugin *plugin)
 #ifdef USE_KDE
     edtIcon->setFilter(i18n("*.dll|Icons themes"));
 #else
-    edtIcon->setFilter(i18n("Icons themes(*.dll)"));
+    edtIcon->setFilter(i18n("Icons themes (*.dll)"));
 #endif
     lblMore->setText(i18n("Get more icons themes"));
     connect(edtIcon, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));

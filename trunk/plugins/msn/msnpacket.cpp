@@ -18,12 +18,14 @@
 #include "msnpacket.h"
 #include "msnclient.h"
 
+#include <qtimer.h>
 #include <openssl/md5.h>
 
-#include <qtimer.h>
+const unsigned NO_GROUP = (unsigned)(-1);
 
 MSNPacket::MSNPacket(MSNClient *client, const char *cmd)
 {
+    m_bAnswer = false;
     m_cmd = cmd;
     m_client = client;
     m_id   = ++m_client->m_packetId;
@@ -45,6 +47,53 @@ void MSNPacket::send()
     m_client->m_packets.push_back(this);
 }
 
+typedef struct err_str
+{
+    unsigned	code;
+    const char	*str;
+} err_str;
+
+static err_str msn_errors[] =
+    {
+        { 200, "Syntax error" },
+        { 201, "Invalid parameter" },
+        { 205, "Invalid user" },
+        { 206, "FQDN missing" },
+        { 207, "Already login" },
+        { 208, "Invalid username" },
+        { 209, "Invalid friendly name" },
+        { 210, "List full" },
+        { 215, "Already there" },
+        { 216, "Not on list" },
+        { 218, "Already in the mode" },
+        { 219, "Already in opposite list" },
+        { 280, "Switchboard failed" },
+        { 281, "Notify XFR failed" },
+        { 300, "required fields missing" },
+        { 302, "Not logged in" },
+        { 500, "Internal server error" },
+        { 501, "DB server error" },
+        { 510, "File operation error" },
+        { 520, "Memory allocation error" },
+        { 600, "Server busy" },
+        { 601, "Server unavailable" },
+        { 602, "Peer NS down" },
+        { 603, "DB connect error" },
+        { 604, "Server going down" },
+        { 707, "Create connection error" },
+        { 711, "Blocking write" },
+        { 712, "Session overload" },
+        { 713, "User too active" },
+        { 714, "Too many sessions" },
+        { 715, "Not expected" },
+        { 717, "Bad friend file" },
+        { 911, "Authentication failed" },
+        { 913, "Not allowed when offline" },
+        { 920, "Not accepting new users" },
+        { 924, "Email address not verified" },
+        { 0, NULL }
+    };
+
 void MSNPacket::error(unsigned code)
 {
     switch (code){
@@ -52,37 +101,52 @@ void MSNPacket::error(unsigned code)
         m_client->authFailed();
         return;
     }
-    log(L_WARN, "MSN protocol error %u", code);
-    m_client->m_socket->error_state(I18N_NOOP("MSN protocol error"));
+    const err_str *err;
+    for (err = msn_errors; err->code; err++)
+        if (err->code == code)
+            break;
+    if (err->code){
+        m_client->m_socket->error_state(err->str);
+        return;
+    }
+    log(L_WARN, "Unknown error code %u", code);
+    m_client->m_socket->error_state("Protocol error");
 }
 
 VerPacket::VerPacket(MSNClient *client)
         : MSNPacket(client, "VER")
 {
-    addArg("MSNP7 MSNP6 MSNP5 MSNP4 CVR0");
+    addArg("MSNP8 CVR0");
 }
 
-void VerPacket::answer(const char*, vector<string>&)
+bool VerPacket::answer(const char*, vector<string>&)
 {
-    MSNPacket *packet = new InfPacket(m_client);
+    MSNPacket *packet = new CvrPacket(m_client);
     packet->send();
+    return false;
 }
 
-InfPacket::InfPacket(MSNClient *client)
-        : MSNPacket(client, "INF")
+CvrPacket::CvrPacket(MSNClient *client)
+        : MSNPacket(client, "CVR")
 {
+    addArg("0x0409 winnt 5.1 i386 MSNMSGR");
+    addArg(client->getVersion());
+    addArg("MSMSGS");
+    addArg(m_client->getLogin());
 }
 
-void InfPacket::answer(const char*, vector<string>&)
+bool CvrPacket::answer(const char*, vector<string> &arg)
 {
+    m_client->setVersion(arg[0].c_str());
     MSNPacket *packet = new UsrPacket(m_client);
     packet->send();
+    return false;
 }
 
 UsrPacket::UsrPacket(MSNClient *client, const char *digest)
         : MSNPacket(client, "USR")
 {
-    addArg("MD5");
+    addArg("TWN");
     if (digest){
         addArg("S");
         addArg(digest);
@@ -92,36 +156,22 @@ UsrPacket::UsrPacket(MSNClient *client, const char *digest)
     }
 }
 
-void UsrPacket::answer(const char *cmd, vector<string> &args)
+bool UsrPacket::answer(const char*, vector<string> &args)
 {
-    if (strcmp(cmd, "USR")){
-        QTimer::singleShot(0, m_client, SLOT(authFailed()));
-        return;
-    }
     if (args[0] == "OK"){
         QTimer::singleShot(0, m_client, SLOT(authOk()));
-        return;
+        return false;;
     }
     if (args[1] == "S"){
-        MD5_CTX c;
-        unsigned char md[MD5_DIGEST_LENGTH];
-        MD5_Init(&c);
-        string user;
-        user = m_client->getLogin().utf8();
-        MD5_Update(&c, args[2].c_str(),(unsigned long)args[2].length());
-        string pswd;
-        pswd = m_client->getPassword().utf8();
-        MD5_Update(&c, pswd.c_str(), pswd.length());
-        MD5_Final(md, &c);
-        string digest = "";
-        for (unsigned i = 0; i < MD5_DIGEST_LENGTH; i++){
-            char b[3];
-            sprintf(b, "%02x",md[i]);
-            digest += b;
+        m_client->m_authChallenge = args[2].c_str();
+        m_client->m_fetchId = fetch("https://nexus.passport.com/rdr/pprdr.asp");
+        if (m_client->m_fetchId == 0){
+            m_client->authFailed();
+            return false;
         }
-        MSNPacket *packet = new UsrPacket(m_client, digest.c_str());
-        packet->send();
+        m_client->m_state = MSNClient::LoginHost;
     }
+    return false;
 }
 
 OutPacket::OutPacket(MSNClient *client)
@@ -163,6 +213,7 @@ ChgPacket::ChgPacket(MSNClient *client)
 SynPacket::SynPacket(MSNClient *client)
         : MSNPacket(client, "SYN")
 {
+    client->data.ListVer = 0;
     addArg(number(client->data.ListVer).c_str());
 }
 
@@ -218,72 +269,78 @@ SynPacket::~SynPacket()
     m_client->processRequests();
 }
 
-void SynPacket::answer(const char *_cmd, vector<string> &args)
+bool SynPacket::answer(const char *_cmd, vector<string> &args)
 {
     string cmd = _cmd;
     if (cmd == "SYN"){
         m_ver = atol(args[0].c_str());
-        if (m_ver != m_client->getListVer()){
-            ContactList::GroupIterator itg;
-            Group *grp;
-            while ((grp = ++itg) != NULL){
-                MSNUserData *data;
-                ClientDataIterator it(grp->clientData, m_client);
-                while ((data = (MSNUserData*)(++it)) != NULL){
-                    data->sFlags = data->Flags;
-                    data->Flags  = 0;
-                }
-            }
-            ContactList::ContactIterator itc;
-            Contact *contact;
-            while ((contact = ++itc) != NULL){
-                MSNUserData *data;
-                ClientDataIterator it(contact->clientData, m_client);
-                while ((data = (MSNUserData*)(++it)) != NULL){
-                    data->sFlags = data->Flags;
-                    data->Flags = 0;
-                }
+        if (m_ver == m_client->getListVer())
+            return false;
+        ContactList::GroupIterator itg;
+        Group *grp;
+        while ((grp = ++itg) != NULL){
+            MSNUserData *data;
+            ClientDataIterator it(grp->clientData, m_client);
+            while ((data = (MSNUserData*)(++it)) != NULL){
+                data->sFlags = data->Flags;
+                data->Flags  = 0;
             }
         }
+        ContactList::ContactIterator itc;
+        Contact *contact;
+        while ((contact = ++itc) != NULL){
+            MSNUserData *data;
+            ClientDataIterator it(contact->clientData, m_client);
+            while ((data = (MSNUserData*)(++it)) != NULL){
+                data->sFlags = data->Flags;
+                data->Flags = 0;
+            }
+        }
+        return true;
     }
+    if (cmd == "GTC")
+        return true;
+    if (cmd == "BLP")
+        return true;
     if (cmd == "LSG"){
-        if (args.size() < 5){
+        if (args.size() < 3){
             log(L_WARN, "Bad LSG size");
-            return;
+            return true;
         }
-        unsigned id = atol(args[3].c_str());
+        unsigned id = atol(args[0].c_str());
         if (id == 0)
-            return;
+            return true;
         Group *grp;
         string grp_name;
-        grp_name = m_client->unquote(QString::fromUtf8(args[4].c_str())).utf8();
+        grp_name = m_client->unquote(QString::fromUtf8(args[1].c_str())).utf8();
         MSNListRequest *lr = m_client->findRequest(id, LR_GROUPxREMOVED);
         if (lr)
-            return;
+            return true;
         MSNUserData *data = m_client->findGroup(id, NULL, grp);
         if (data){
             lr = m_client->findRequest(grp->id(), LR_GROUPxCHANGED);
             if (lr){
                 data->sFlags |= MSN_CHECKED;
-                return;
+                return true;
             }
         }
         data = m_client->findGroup(id, grp_name.c_str(), grp);
         data->sFlags |= MSN_CHECKED;
+        return true;
     }
     if (cmd == "LST"){
-        if (args.size() < 6){
+        if (args.size() < 3){
             log(L_WARN, "Bad size for LST");
-            return;
+            return true;
         }
         string mail;
-        mail = m_client->unquote(QString::fromUtf8(args[4].c_str())).utf8();
+        mail = m_client->unquote(QString::fromUtf8(args[0].c_str())).utf8();
         string name;
-        name = m_client->unquote(QString::fromUtf8(args[5].c_str())).utf8();
+        name = m_client->unquote(QString::fromUtf8(args[1].c_str())).utf8();
         Contact *contact;
         MSNListRequest *lr = m_client->findRequest(mail.c_str(), LR_CONTACTxREMOVED);
         if (lr)
-            return;
+            return true;
         bool bNew = false;
         MSNUserData *data = m_client->findContact(mail.c_str(), contact);
         if (data == NULL){
@@ -292,69 +349,60 @@ void SynPacket::answer(const char *_cmd, vector<string> &args)
         }else{
             set_str(&data->EMail, mail.c_str());
             set_str(&data->ScreenName, name.c_str());
+            if (name != (const char*)(contact->getName().utf8())){
+                contact->setName(QString::fromUtf8(name.c_str()));
+                Event e(EventContactChanged, contact);
+                e.process();
+            }
         }
         data->sFlags |= MSN_CHECKED;
         lr = m_client->findRequest(mail.c_str(), LR_CONTACTxCHANGED);
-        if (args[0] == "FL"){
-            unsigned grp = atol(args[6].c_str());
-            data->Group = grp;
-            data->Flags |= MSN_FORWARD;
-            Group *group = NULL;
+        unsigned grp = NO_GROUP;
+        if (args.size() > 3)
+            grp = atol(args[3].c_str());
+        data->Group = grp;
+        data->Flags |= MSN_FORWARD;
+        Group *group = NULL;
+        if (grp == NO_GROUP){
+            group = getContacts()->group(0);
+        }else{
             m_client->findGroup(grp, NULL, group);
-            if ((lr == NULL) && group && (group->id() != contact->getGroup())){
-                unsigned grp = group->id();
-                if (grp == 0){
-                    void *d;
-                    ClientDataIterator it_d(contact->clientData);
-                    while ((d = ++it_d) != NULL){
-                        if (d != data)
-                            break;
-                    }
-                    if (d){
-                        grp = contact->getGroup();
-                        m_client->findRequest(data->EMail, LR_CONTACTxCHANGED, true);
-                        MSNListRequest lr;
-                        lr.Type = LR_CONTACTxCHANGED;
-                        lr.Name = data->EMail;
-                        m_client->m_requests.push_back(lr);
-                        m_client->processRequests();
-                    }
+        }
+        if ((lr == NULL) && group && (group->id() != contact->getGroup())){
+            unsigned grp = group->id();
+            if (grp == 0){
+                void *d;
+                ClientDataIterator it_d(contact->clientData);
+                while ((d = ++it_d) != NULL){
+                    if (d != data)
+                        break;
                 }
-                contact->setGroup(grp);
-                Event e(EventContactChanged, contact);
-                e.process();
+                if (d){
+                    grp = contact->getGroup();
+                    m_client->findRequest(data->EMail, LR_CONTACTxCHANGED, true);
+                    MSNListRequest lr;
+                    lr.Type = LR_CONTACTxCHANGED;
+                    lr.Name = data->EMail;
+                    m_client->m_requests.push_back(lr);
+                    m_client->processRequests();
+                }
             }
-            return;
+            contact->setGroup(grp);
+            Event e(EventContactChanged, contact);
+            e.process();
         }
-        if (args[0] == "RL"){
-            if (((data->sFlags & MSN_REVERSE) == 0) && m_client->getListVer())
-                m_client->auth_message(contact, MessageAdded, data);
-            data->Flags |= MSN_REVERSE;
-            return;
-        }
-        if (args[0] == "AL"){
-            data->Flags |= MSN_ACCEPT;
-            return;
-        }
-        if (args[0] == "BL"){
-            data->Flags |= MSN_BLOCKED;
-            if ((lr == NULL) && !contact->getIgnore()){
-                contact->setIgnore(true);
-                Event e(EventContactChanged, contact);
-                e.process();
-            }
-            return;
-        }
+        return true;
     }
+    return false;
 }
 
 QryPacket::QryPacket(MSNClient *client, const char *qry)
         : MSNPacket(client, "QRY")
 {
-    addArg("msmsgs@msnmsgr.com");
+    addArg("PROD0038W!61ZTF9");
     addArg("32");
     m_line += "\r\n";
-    char qry_add[] = "Q1P7W2E4J9R8U3S5";
+    char qry_add[] = "VT6PX?UQTM4WM%YR";
     MD5_CTX c;
     unsigned char md[MD5_DIGEST_LENGTH];
     MD5_Init(&c);
@@ -383,17 +431,18 @@ AdgPacket::AdgPacket(MSNClient *client, unsigned grp_id, const char *name)
     addArg("0");
 }
 
-void AdgPacket::answer(const char*, vector<string> &args)
+bool AdgPacket::answer(const char*, vector<string> &args)
 {
     Group *grp = getContacts()->group(m_id);
     if (grp == NULL)
-        return;
+        return false;
     MSNUserData *data;
     ClientDataIterator it(grp->clientData, m_client);
     data = (MSNUserData*)(++it);
     if (data == NULL)
         data = (MSNUserData*)(grp->clientData.createData(m_client));
     data->Group = atol(args[2].c_str());
+    return false;
 }
 
 RegPacket::RegPacket(MSNClient *client, unsigned id, const char *name)
@@ -430,6 +479,13 @@ RemPacket::RemPacket(MSNClient *client, const char *listType, const char *mail, 
         addArg(number(grp).c_str());
 }
 
+ReaPacket::ReaPacket(MSNClient *client, const char *mail, const char *name)
+        : MSNPacket(client, "REA")
+{
+    addArg(mail);
+    addArg(name);
+}
+
 BlpPacket::BlpPacket(MSNClient *client, bool bInvisible)
         : MSNPacket(client, "BLP")
 {
@@ -448,11 +504,11 @@ void XfrPacket::clear()
     m_socket = NULL;
 }
 
-void XfrPacket::answer(const char*, vector<string> &args)
+bool XfrPacket::answer(const char*, vector<string> &args)
 {
-    if (m_socket == NULL)
-        return;
-    m_socket->connect(args[1].c_str(), "", args[3].c_str(), true);
+    if (m_socket)
+        m_socket->connect(args[1].c_str(), "", args[3].c_str(), true);
+    return false;
 }
 
 MSNServerMessage::MSNServerMessage(MSNClient *client, unsigned size)

@@ -203,7 +203,6 @@ void FloatyWnd::mousePressEvent(QMouseEvent *e)
 
 void FloatyWnd::mouseReleaseEvent(QMouseEvent *e)
 {
-    initMousePos = QPoint(0, 0);
     moveTimer->stop();
     if (!mousePos.isNull()){
         move(e->globalPos() - mousePos);
@@ -217,7 +216,13 @@ void FloatyWnd::mouseReleaseEvent(QMouseEvent *e)
             }
         }
         mousePos = QPoint();
+    }else{
+        if ((e->pos() == initMousePos) && !m_plugin->core->getUseDblClick()){
+            Event e(EventDefaultAction, (void*)m_id);
+            e.process();
+        }
     }
+    initMousePos = QPoint(0, 0);
 }
 
 void FloatyWnd::mouseMoveEvent(QMouseEvent *e)

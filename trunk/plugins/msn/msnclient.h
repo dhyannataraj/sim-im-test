@@ -60,6 +60,7 @@ typedef struct MSNClientData
     unsigned	Port;
     unsigned	ListVer;
     char		*ListRequests;
+    char		*Version;
     MSNUserData	owner;
 } MSNClientData;
 
@@ -145,6 +146,7 @@ public:
     PROP_ULONG(Port);
     PROP_ULONG(ListVer);
     PROP_UTF8(ListRequests);
+    PROP_STR(Version);
     QString getLogin();
     QString unquote(const QString&);
     QString quote(const QString&);
@@ -188,11 +190,21 @@ protected:
     virtual void	connect_ready();
     virtual void	setStatus(unsigned status);
     virtual void	disconnected();
+    string			getValue(const char *key, const char *str);
+    string			getHeader(const char *name, const char *headers);
     unsigned			m_packetId;
     unsigned			m_pingTime;
-    MSNPacket			*m_curPacket;
     list<MSNPacket*>	m_packets;
     MSNServerMessage	*m_msg;
+    unsigned	 m_fetchId;
+    enum AuthState
+    {
+        None,
+        LoginHost,
+        TWN
+    };
+    AuthState	 m_state;
+    string		 m_authChallenge;
     friend class MSNPacket;
     friend class UsrPacket;
     friend class QryPacket;
