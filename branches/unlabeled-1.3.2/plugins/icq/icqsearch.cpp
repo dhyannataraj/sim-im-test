@@ -103,6 +103,7 @@ ICQSearch::ICQSearch(ICQClient *client)
     connect(edtLast, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     connect(edtNick, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     connect(edtUin, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
+    connect(edtScreen, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     connect(edtEmail, SIGNAL(returnPressed()), this, SLOT(search()));
     connect(edtFirst, SIGNAL(returnPressed()), this, SLOT(search()));
     connect(edtLast, SIGNAL(returnPressed()), this, SLOT(search()));
@@ -204,6 +205,11 @@ void ICQSearch::changed()
     case 3:
         bSearch = false;
         chkOnline->hide();
+		break;
+	case 4:
+		bSearch = edtScreen->text().length();
+		chkOnline->hide();
+		break;
     }
     if (m_wizard)
         m_wizard->setNextEnabled(this, bSearch);
@@ -272,6 +278,33 @@ void ICQSearch::startSearch()
         break;
     case 3:
         return;
+	case 4:{
+		QString screen = edtScreen->text();
+		if (screen.isEmpty())
+			return;
+		Contact *contact;
+		ICQUserData *data = m_client->findContact(screen.latin1(), NULL, false, contact);
+		if (data){
+			m_result->setText(i18n("%1 already in contact list") .arg(screen));
+			return;
+		}
+		data = m_client->findContact(screen.latin1(), NULL, true, contact);
+		int nGrp = cmbGrp->currentItem();
+		ContactList::GroupIterator it;
+		Group *grp;
+		while ((grp = ++it) != NULL){
+			if (grp->id() == 0)
+				continue;
+			if (nGrp-- == 0){
+				contact->setGroup(grp->id());
+				Event e(EventContactChanged, contact);
+				e.process();
+				break;
+			}
+		}
+		m_result->setText(i18n("%1 added to contact list") .arg(screen));
+		return;
+	}
     }
     m_result->setRequestId(id);
 }

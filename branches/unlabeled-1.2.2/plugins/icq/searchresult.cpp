@@ -137,8 +137,17 @@ void ICQSearchResult::setRequestId(unsigned short id)
 {
     m_id = id;
     setStatus();
+	tblUser->show();
     QWizard *wizard = static_cast<QWizard*>(topLevelWidget());
     wizard->setFinishEnabled(this, (m_id == 0) || (m_id == SEARCH_FAIL));
+}
+
+void ICQSearchResult::setText(const QString &text)
+{
+	lblStatus->setText(text);
+	tblUser->hide();
+    QWizard *wizard = static_cast<QWizard*>(topLevelWidget());
+    wizard->setFinishEnabled(this, true);
 }
 
 void ICQSearchResult::setStatus()

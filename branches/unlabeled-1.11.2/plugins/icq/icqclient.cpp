@@ -726,6 +726,10 @@ unsigned long ICQClient::fullStatus(unsigned s)
 
 ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool bCreate, Contact *&contact, Group *grp)
 {
+	string s;
+	for (const char *p = screen; *p; p++)
+		s += tolower(*p);
+
     ContactList::ContactIterator it;
     ICQUserData *data;
 	unsigned long uin = atol(screen);
@@ -736,7 +740,7 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
             if (uin && (data->Uin != uin))
                 continue;
 			if ((uin == 0) &&
-				((data->Screen == NULL) || strcmp(screen, data->Screen)))
+				((data->Screen == NULL) || (s != data->Screen)))
 				continue;
             bool bChanged = false;
             if (alias){
@@ -775,7 +779,7 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
                 if (uin && (data->Uin != uin))
                     continue;
 				if ((uin == 0) &&
-					((data->Screen == NULL) || strcmp(screen, data->Screen)))
+					((data->Screen == NULL) || (s != data->Screen)))
 					continue;
                 data = (ICQUserData*)(contact->clientData.createData(this));
                 data->Uin = uin;
@@ -1219,19 +1223,38 @@ QString ICQClient::contactTip(void *_data)
         res += "<img src=\"icon:";
         res += statusIcon;
         res += "\">";
-        for (const CommandDef *cmd = protocol()->statusList(); cmd->text; cmd++){
-            if (!strcmp(cmd->icon, statusIcon)){
-                res += " ";
-                statusText += i18n(cmd->text);
-                res += statusText;
-                break;
-            }
-        }
+		if (data->Uin){
+			for (const CommandDef *cmd = protocol()->statusList(); cmd->text; cmd++){
+				if (!strcmp(cmd->icon, statusIcon)){
+					res += " ";
+					statusText += i18n(cmd->text);
+					res += statusText;
+					break;
+				}
+			}
+		}else{
+			switch (status){
+			case STATUS_OFFLINE:
+				res += i18n("Offline");
+				break;
+			case STATUS_ONLINE:
+				res += i18n("Online");
+				break;
+			default:
+				res += i18n("Away");
+			}
+		}
     }
     res += "<br>";
-    res += "UIN: <b>";
-    res += number(data->Uin).c_str();
-    res += "</b>";
+	if (data->Uin){
+		res += "UIN: <b>";
+		res += number(data->Uin).c_str();
+		res += "</b>";
+	}else{
+		res += "<b>";
+		res += data->Screen;
+		res += "</b>";
+	}
     if (data->Status == ICQ_STATUS_OFFLINE){
         if (data->StatusTime){
             res += "<br><font size=-1>";
