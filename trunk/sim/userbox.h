@@ -29,7 +29,7 @@
 
 class QVBoxLayout;
 class QTabBar;
-class QToolBar;
+class CToolBar;
 class QToolButton;
 class QMenuData;
 class QPopupMenu;
@@ -140,15 +140,7 @@ protected:
     void moveEvent(QMoveEvent *e);
     unsigned long msgShowId;
     list<MsgEdit*> wnds;
-    QToolBar	*toolbar;
-    CToolButton *btnQuit;
-    CToolButton *btnHistory;
-    CToolButton *btnInfo;
-    CToolButton *btnEncoding;
-    PictButton  *btnType;
-    PictButton  *btnUser;
-    CToolButton	*btnIgnore;
-    CToolButton	*btnGroup;
+    CToolBar	*toolbar;
     QSplitter	*vSplitter;
     QSplitter  *tabSplitter;
     QStatusBar *status;

@@ -30,6 +30,7 @@ class QSocketNotifier;
 
 class QStringList;
 class QTextCodec;
+class QPopupMenu;
 
 typedef struct resolveAddr
 {
@@ -134,14 +135,17 @@ public:
     static QString getMessageAccel(int type);
     bool markAsRead(ICQMessage *msg);
     virtual void process_event(ICQEvent *e);
-    QStringList *encodings;
     void setUserEncoding(unsigned long uin, int i);
     int userEncoding(unsigned long uin);
+    QString encodingName(int mib);
+    int encodingMib(const QString&);
     QTextCodec *codecForUser(unsigned long uin);
     string to8Bit(unsigned long uin, const QString&);
     QString from8Bit(unsigned long uin, const string&, const char *srcCharset=NULL);
     static string to8Bit(QTextCodec*, const QString&);
     static QString from8Bit(QTextCodec*, const string&, const char *srcCharset=NULL);
+    void fillEncodings(QPopupMenu *menu, bool bMain);
+    QStringList getEncodings(bool bMain);
 protected:
     void sendSMS(SMSmessage *sms);
     list<SMSmessage*> smsQueue;

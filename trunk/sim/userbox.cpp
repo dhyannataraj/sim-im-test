@@ -51,6 +51,8 @@
 #include <kwin.h>
 #endif
 
+#define ALL_ENCODINGS	0x10000
+
 class Splitter : public QSplitter
 {
 public:
@@ -88,6 +90,32 @@ static cfgParam UserBox_Params[] =
         { "History", OFFSET_OF(UserBox, bHistory), PARAM_BOOL, 0 },
         { "UserInfo", OFFSET_OF(UserBox, bUserInfo), PARAM_BOOL, 0 },
         { "", 0, 0, 0 }
+    };
+
+const int btnType		= 1;
+const int btnUser		= 2;
+const int btnIgnore		= 3;
+const int btnGroup		= 4;
+const int btnInfo		= 5;
+const int btnHistory	= 6;
+const int btnEncoding	= 7;
+const int btnQuit		= 8;
+
+ToolBarDef userBoxToolBar[] =
+    {
+        { btnType, "message", I18N_NOOP("Message"), BTN_PICT, NULL, NULL },
+        SEPARATOR,
+        { btnUser, "online", I18N_NOOP("User"), BTN_PICT, NULL, NULL },
+        SEPARATOR,
+        { btnIgnore, "ignorelist", I18N_NOOP("Add to ignore &list"), 0, SLOT(toIgnore()), NULL },
+        { btnGroup, "grp_on", I18N_NOOP("Move to &group"), 0, NULL, NULL },
+        SEPARATOR,
+        { btnInfo, "info", I18N_NOOP("User &info"), BTN_TOGGLE, SLOT(toggleInfo(bool)), NULL },
+        { btnHistory, "history", I18N_NOOP("&History<br>with CTRL open in new window"), BTN_TOGGLE | BTN_CTRL, SLOT(toggleHistory(bool)), NULL },
+        { btnEncoding, "encoding", I18N_NOOP("&Encoding"), 0, NULL, NULL },
+        SEPARATOR,
+        { btnQuit, "exit", I18N_NOOP("Close user &window"), 0, SLOT(quit()), NULL },
+        END_DEF
     };
 
 UserBox::UserBox(unsigned long grpId)
@@ -139,61 +167,20 @@ UserBox::UserBox(unsigned long grpId)
     setIcon(Pict(pClient->getStatusIcon()));
     connect(tabs, SIGNAL(selected(int)), this, SLOT(selectedUser(int)));
     connect(tabs, SIGNAL(showUserPopup(int, QPoint)), this, SLOT(showUserPopup(int, QPoint)));
-    toolbar = new QToolBar(this);
-    toolbar->setHorizontalStretchable(true);
-    toolbar->setVerticalStretchable(true);
+    toolbar = new CToolBar(userBoxToolBar, this, this);
     menuType = new QPopupMenu(this);
     connect(menuType, SIGNAL(activated(int)), this, SLOT(typeChanged(int)));
-    btnType = new PictButton(toolbar);
-    btnType->setPopup(menuType);
-    btnType->setPopupDelay(0);
-    toolbar->addSeparator();
-    btnUser = new PictButton(toolbar);
-    btnUser->setPopup(menuUser);
-    btnUser->setPopupDelay(0);
-    toolbar->addSeparator();
-    btnIgnore = new CToolButton(toolbar);
-    btnIgnore->setIconSet(Icon("ignorelist"));
-    btnIgnore->setTextLabel(i18n("Add to ignore &list"));
-    connect(btnIgnore, SIGNAL(clicked()), this, SLOT(toIgnore()));
     menuGroup = new QPopupMenu(this);
     connect(menuGroup, SIGNAL(aboutToShow()), this, SLOT(showGrpMenu()));
     connect(menuGroup, SIGNAL(activated(int)), this, SLOT(moveUser(int)));
-    btnGroup = new CToolButton(toolbar);
-    btnGroup->setIconSet(Icon("grp_on"));
-    btnGroup->setTextLabel(i18n("Move to &group"));
-    btnGroup->setPopup(menuGroup);
-    btnGroup->setPopupDelay(0);
-    toolbar->addSeparator();
-    btnInfo = new CToolButton(toolbar);
-    btnInfo->setIconSet(Icon("info"));
-    btnInfo->setTextLabel(i18n("User &info"));
-    btnInfo->setToggleButton(true);
-    connect(btnInfo, SIGNAL(toggled(bool)), this, SLOT(toggleInfo(bool)));
-    btnHistory = new CToolButton(toolbar);
-    btnHistory->bProcessCtrl = true;
-    btnHistory->setIconSet(Icon("history"));
-    btnHistory->setTextLabel(i18n("&History<br>with CTRL open in new window"));
-    btnHistory->setToggleButton(true);
-    connect(btnHistory, SIGNAL(toggled(bool)), this, SLOT(toggleHistory(bool)));
     menuEncoding = new QPopupMenu(this);
     menuEncoding->setCheckable(true);
-    int index = 0;
-    for (QStringList::Iterator it = pClient->encodings->begin(); it != pClient->encodings->end(); ++it){
-        menuEncoding->insertItem(*it, ++index);
-    }
     connect(menuEncoding, SIGNAL(activated(int)), this, SLOT(setUserEncoding(int)));
     connect(menuEncoding, SIGNAL(aboutToShow()), this, SLOT(showEncodingPopup()));
-    btnEncoding = new CToolButton(toolbar);
-    btnEncoding->setIconSet(Icon("encoding"));
-    btnEncoding->setTextLabel(i18n("&Encoding"));
-    btnEncoding->setPopup(menuEncoding);
-    btnEncoding->setPopupDelay(0);
-    toolbar->addSeparator();
-    btnQuit = new CToolButton(toolbar);
-    btnQuit->setIconSet(Icon("exit"));
-    btnQuit->setTextLabel(i18n("Close user &window"));
-    connect(btnQuit, SIGNAL(clicked()), this, SLOT(quit()));
+    toolbar->setPopup(btnType, menuType);
+    toolbar->setPopup(btnUser, menuUser);
+    toolbar->setPopup(btnGroup, menuGroup);
+    toolbar->setPopup(btnEncoding, menuEncoding);
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     connect(pClient, SIGNAL(messageRead(ICQMessage*)), this, SLOT(messageRead(ICQMessage*)));
     connect(pMain, SIGNAL(iconChanged()), this, SLOT(iconChanged()));
@@ -255,17 +242,29 @@ void UserBox::wmChanged()
 
 void UserBox::showEncodingPopup()
 {
-    for (unsigned i = 0; i < (unsigned)(menuEncoding->count()); i++)
-        menuEncoding->setItemChecked(menuEncoding->idAt(i), false);
+    menuEncoding->clear();
+    pClient->fillEncodings(menuEncoding, true);
+    if (pMain->AllEncodings){
+        menuEncoding->insertSeparator();
+        pClient->fillEncodings(menuEncoding, false);
+    }
     if (curWnd){
         int encoding = pClient->userEncoding(curWnd->Uin);
         if (encoding)
             menuEncoding->setItemChecked(encoding, true);
     }
+    menuEncoding->insertSeparator();
+    menuEncoding->insertItem(i18n("All encodings"), ALL_ENCODINGS);
+    menuEncoding->setItemChecked(ALL_ENCODINGS, pMain->AllEncodings);
 }
 
 void UserBox::setUserEncoding(int n)
 {
+    if (n == ALL_ENCODINGS){
+        pMain->AllEncodings = !pMain->AllEncodings;
+        QTimer::singleShot(0, toolbar->getWidget(btnEncoding), SLOT(animateClick()));
+        return;
+    }
     if (curWnd)
         pClient->setUserEncoding(curWnd->Uin, n);
 }
@@ -301,8 +300,8 @@ void UserBox::iconChanged()
     ICQUser *u = pClient->getUser(curWnd->Uin);
     if (u){
         pMain->adjustUserMenu(menuType, u, true, true);
-        btnType->setPopup(menuType);
-        btnUser->setState(SIMClient::getUserIcon(u), curWnd->userName());
+        toolbar->setPopup(btnType, menuType);
+        toolbar->setState(btnUser, SIMClient::getUserIcon(u), curWnd->userName());
         setIcon(Pict(SIMClient::getUserIcon(u)));
     }
     adjustUserMenu(true);
@@ -373,8 +372,8 @@ void UserBox::saveInfo(ICQUser *u)
     ICQEvent e(EVENT_INFO_CHANGED, u->Uin);
     processEvent(&e);
     pMain->adjustUserMenu(menuType, u, false, true);
-    btnType->setPopup(menuType);
-    btnUser->setState(SIMClient::getUserIcon(u), curWnd->userName());
+    toolbar->setPopup(btnType, menuType);
+    toolbar->setState(btnUser, SIMClient::getUserIcon(u), curWnd->userName());
     setIcon(Pict(SIMClient::getUserIcon(u)));
     setGroupButtons();
 }
@@ -383,7 +382,7 @@ void UserBox::toggleInfo(bool bShow)
 {
     if (bShow && !bUserInfo){
         pMain->userFunction(curWnd->Uin, mnuInfo, 0);
-        btnInfo->setOn(false);
+        toolbar->setOn(btnInfo, false);
         return;
     }
     bool oldState = isUpdatesEnabled();
@@ -394,9 +393,9 @@ void UserBox::toggleInfo(bool bShow)
             delete users;
             users = NULL;
         }
-        btnHistory->setOn(false);
-        disconnect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), btnType, SLOT(setState(const QString&, const QString&)));
-        btnType->setState("info", i18n("User info"));
+        toolbar->setOn(btnHistory, false);
+        disconnect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), toolbar->getWidget(btnType), SLOT(setState(const QString&, const QString&)));
+        toolbar->setState(btnType, "info", i18n("User info"));
         if (infoWnd == NULL){
             infoWnd = new UserInfo(frm, curWnd->Uin, infoPage);
             infoPage = 0;
@@ -416,7 +415,7 @@ void UserBox::toggleInfo(bool bShow)
         infoWnd = NULL;
         vSplitter->show();
         if (curWnd){
-            connect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), btnType, SLOT(setState(const QString&, const QString&)));
+            connect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), toolbar->getWidget(btnType), SLOT(setState(const QString&, const QString&)));
             curWnd->action(mnuAction);
         }
     }else{
@@ -430,24 +429,24 @@ void UserBox::toggleInfo(bool bShow)
 
 void UserBox::hideHistory()
 {
-    btnHistory->setOn(false);
+    toolbar->setOn(btnHistory, false);
     curWnd->showMessage(msgShowId);
 }
 
 void UserBox::toggleHistory(bool bShow)
 {
-    if (bShow && !bHistory && (btnHistory->bCtrl || pMain->isHistory(curWnd->Uin))){
+    if (bShow && !bHistory && (toolbar->isCtrl(btnHistory) || pMain->isHistory(curWnd->Uin))){
         pMain->userFunction(curWnd->Uin, mnuHistoryNew, 0);
-        btnHistory->setOn(false);
+        toolbar->setOn(btnHistory, false);
         return;
     }
     bool oldState = isUpdatesEnabled();
     if (bShow){
         if ((curWnd == NULL) || (curWnd->Uin == 0)) return;
         setUpdatesEnabled(false);
-        btnInfo->setOn(false);
-        disconnect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), btnType, SLOT(setState(const QString&, const QString&)));
-        btnType->setState("history", i18n("History"));
+        toolbar->setOn(btnInfo, false);
+        disconnect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), toolbar->getWidget(btnType), SLOT(setState(const QString&, const QString&)));
+        toolbar->setState(btnType, "history", i18n("History"));
         if (historyWnd == NULL){
             historyWnd = new HistoryView(frm, curWnd->Uin);
             connect(historyWnd, SIGNAL(goMessage(unsigned long, unsigned long)), this, SLOT(showMessage(unsigned long, unsigned long)));
@@ -464,7 +463,7 @@ void UserBox::toggleHistory(bool bShow)
         historyWnd = NULL;
         vSplitter->show();
         if (curWnd){
-            connect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), btnType, SLOT(setState(const QString&, const QString&)));
+            connect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), toolbar->getWidget(btnType), SLOT(setState(const QString&, const QString&)));
             curWnd->action(mnuAction);
         }
     }else{
@@ -478,14 +477,14 @@ void UserBox::toggleHistory(bool bShow)
 
 void UserBox::typeChanged(int)
 {
-    btnHistory->setOn(false);
-    btnInfo->setOn(false);
+    toolbar->setOn(btnHistory, false);
+    toolbar->setOn(btnInfo, false);
 }
 
 void UserBox::quit()
 {
-    btnInfo->setOn(false);
-    btnHistory->setOn(false);
+    toolbar->setOn(btnInfo, false);
+    toolbar->setOn(btnHistory, false);
     MsgEdit *wnd = getWnd(tabs->currentTab());
     if (wnd) wnd->close();
 }
@@ -508,7 +507,7 @@ void UserBox::destroyChild(int id)
         return;
     if (wnd == curWnd) curWnd = NULL;
     menuUser->removeItem(id);
-    btnUser->setPopup(menuUser);
+    toolbar->setPopup(btnUser, menuUser);
     tabs->removeTab(wnd->tab);
     wnds.remove(wnd);
     if (curWnd) return;
@@ -661,7 +660,7 @@ bool UserBox::load(std::istream &s, string &part)
         if (wnd->load(s, part) && (wnd->tab == NULL)){
             new UserTab(wnd, tabs);
             if (wnd->Uin == CurrentUser) curTab = wnd->tabId;
-            btnUser->setPopup(menuUser);
+            toolbar->setPopup(btnUser, menuUser);
             continue;
         }
         wnds.remove(wnd);
@@ -673,8 +672,8 @@ bool UserBox::load(std::istream &s, string &part)
     if (curTab != -1) selectedUser(curTab);
     adjustToolbar();
     setShow();
-    if (bHistory) btnHistory->setOn(true);
-    if (bUserInfo) btnInfo->setOn(true);
+    if (bHistory) toolbar->setOn(btnHistory, true);
+    if (bUserInfo) toolbar->setOn(btnInfo, true);
     return true;
 }
 
@@ -783,8 +782,9 @@ void UserBox::messageRead(ICQMessage *msg)
 void UserBox::toIgnore()
 {
     if (curWnd == NULL) return;
-    QPoint p = btnIgnore->mapToGlobal(btnIgnore->rect().topLeft());
-    QRect rc(p.x(), p.y(), btnIgnore->width(), btnIgnore->height());
+    QWidget *btn = toolbar->getWidget(btnIgnore);
+    QPoint p = btn->mapToGlobal(btn->rect().topLeft());
+    QRect rc(p.x(), p.y(), btn->width(), btn->height());
     pMain->m_uin = curWnd->Uin;
     pMain->m_rc = rc;
     pMain->moveUser(mnuGroupIgnore);
@@ -858,22 +858,22 @@ void UserBox::setGroupButtons()
     ICQUser *u = NULL;
     if (curWnd) u = pClient->getUser(curWnd->Uin);
     if (u == NULL){
-        btnIgnore->hide();
-        btnGroup->hide();
+        toolbar->hide(btnIgnore);
+        toolbar->hide(btnGroup);
         return;
     }
-    btnGroup->show();
+    toolbar->show(btnGroup);
     if (u->GrpId){
-        btnIgnore->hide();
+        toolbar->hide(btnIgnore);
     }else{
-        btnIgnore->show();
+        toolbar->show(btnIgnore);
     }
     if (u->Type == USER_TYPE_ICQ){
-        btnIgnore->setEnabled(pClient->isLogged());
-        btnGroup->setEnabled(pClient->isLogged());
+        toolbar->setEnabled(btnIgnore, pClient->isLogged());
+        toolbar->setEnabled(btnGroup, pClient->isLogged());
     }else{
-        btnIgnore->setEnabled(true);
-        btnGroup->setEnabled(true);
+        toolbar->setEnabled(btnIgnore, true);
+        toolbar->setEnabled(btnGroup, true);
     }
     if ((tabs->count() > 1) && !tabs->isVisible() && isVisible())
         tabs->show();
@@ -886,10 +886,10 @@ void UserBox::statusChanged(unsigned long uin)
     if (wnd->Uin != uin) return;
     ICQUser *u = pClient->getUser(curWnd->Uin);
     if (u){
-        btnUser->setState(SIMClient::getUserIcon(u), curWnd->userName());
+        toolbar->setState(btnUser, SIMClient::getUserIcon(u), curWnd->userName());
         setIcon(Pict(SIMClient::getUserIcon(u)));
         pMain->adjustUserMenu(menuType, u, false, true);
-        btnType->setPopup(menuType);
+        toolbar->setPopup(btnType, menuType);
     }
 }
 
@@ -916,15 +916,15 @@ void UserBox::selectedUser(int id)
     setCaption(wnd->userName());
 
     if (curWnd){
-        btnHistory->setOn(false);
-        btnInfo->setOn(false);
+        toolbar->setOn(btnHistory, false);
+        toolbar->setOn(btnInfo, false);
         curWnd->hide();
         disconnect(menuType, SIGNAL(activated(int)), curWnd, SLOT(action(int)));
         disconnect(curWnd, SIGNAL(setStatus(const QString&)), status, SLOT(message(const QString&)));
         disconnect(curWnd, SIGNAL(setStatus(const QString&, int)), status, SLOT(message(const QString&, int)));
-        disconnect(curWnd, SIGNAL(setSendState(bool)), btnType, SLOT(setEnabled(bool)));
-        disconnect(curWnd, SIGNAL(setSendState(bool)), btnQuit, SLOT(setEnabled(bool)));
-        disconnect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), btnType, SLOT(setState(const QString&, const QString&)));
+        disconnect(curWnd, SIGNAL(setSendState(bool)), toolbar->getWidget(btnType), SLOT(setEnabled(bool)));
+        disconnect(curWnd, SIGNAL(setSendState(bool)), toolbar->getWidget(btnQuit), SLOT(setEnabled(bool)));
+        disconnect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), toolbar->getWidget(btnType), SLOT(setState(const QString&, const QString&)));
         showUsers(false, 0);
     }
     status->message("");
@@ -932,9 +932,9 @@ void UserBox::selectedUser(int id)
     connect(menuType, SIGNAL(activated(int)), curWnd, SLOT(action(int)));
     connect(curWnd, SIGNAL(setStatus(const QString&)), status, SLOT(message(const QString&)));
     connect(curWnd, SIGNAL(setStatus(const QString&, int)), status, SLOT(message(const QString&, int)));
-    connect(curWnd, SIGNAL(setSendState(bool)), btnType, SLOT(setEnabled(bool)));
-    connect(curWnd, SIGNAL(setSendState(bool)), btnQuit, SLOT(setEnabled(bool)));
-    connect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), btnType, SLOT(setState(const QString&, const QString&)));
+    connect(curWnd, SIGNAL(setSendState(bool)), toolbar->getWidget(btnType), SLOT(setEnabled(bool)));
+    connect(curWnd, SIGNAL(setSendState(bool)), toolbar->getWidget(btnQuit), SLOT(setEnabled(bool)));
+    connect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), toolbar->getWidget(btnType), SLOT(setState(const QString&, const QString&)));
     connect(curWnd, SIGNAL(showUsers(bool, unsigned long)), this, SLOT(showUsers(bool, unsigned long)));
     curWnd->markAsRead();
     curWnd->show();
@@ -943,8 +943,8 @@ void UserBox::selectedUser(int id)
     ICQUser *u = pClient->getUser(curWnd->Uin);
     if (u){
         pMain->adjustUserMenu(menuType, u, false, true);
-        btnType->setPopup(menuType);
-        btnUser->setState(SIMClient::getUserIcon(u), curWnd->userName());
+        toolbar->setPopup(btnType, menuType);
+        toolbar->setState(btnUser, SIMClient::getUserIcon(u), curWnd->userName());
         setIcon(Pict(SIMClient::getUserIcon(u)));
     }
     showUsers(curWnd->bMultiply, curWnd->Uin);
@@ -977,7 +977,7 @@ void UserBox::adjustUserMenu(bool bRescan)
         }
         menuUser->setItemChecked((*it)->tabId, (*it)->tabId == tabs->currentTab());
     }
-    btnUser->setPopup(menuUser);
+    toolbar->setPopup(btnUser, menuUser);
 }
 
 bool UserBox::closeUser(unsigned long uin)
@@ -1001,19 +1001,19 @@ void UserBox::showUser(unsigned long uin, int function, unsigned long param)
     switch (function){
     case mnuInfo:
         infoPage = param;
-        btnInfo->setOn(true);
+        toolbar->setOn(btnInfo, true);
         break;
     case mnuHistory:
-        btnHistory->setOn(true);
+        toolbar->setOn(btnHistory, true);
         break;
     case mnuGo:
-        btnInfo->setOn(false);
-        btnHistory->setOn(false);
+        toolbar->setOn(btnInfo, false);
+        toolbar->setOn(btnHistory, false);
         wnd->showMessage(param);
         break;
     default:
-        btnInfo->setOn(false);
-        btnHistory->setOn(false);
+        toolbar->setOn(btnInfo, false);
+        toolbar->setOn(btnHistory, false);
         wnd->action(function);
         if (param) wnd->setParam(param);
     }

@@ -20,10 +20,12 @@
 
 #include "defs.h"
 
+#include <qtoolbar.h>
 #include <qtoolbutton.h>
 #include <qpushbutton.h>
 #include <qcombobox.h>
 
+class QMainWindow;
 class QPopupMenu;
 class QAccel;
 
@@ -41,13 +43,7 @@ class CToolButton : public QToolButton
 {
     Q_OBJECT
 public:
-    CToolButton( const QIconSet & p, const QString & textLabel,
-                 const QString & grouptext, QObject * receiver, const char * slot, QToolBar * parent,
-                 const char * name = 0 );
-    CToolButton( const QIconSet & pOff, const QPixmap & pOn,  const QString & textLabel,
-                 const QString & grouptext, QObject * receiver, const char * slot, QToolBar * parent,
-                 const char * name = 0 );
-    CToolButton ( QWidget * parent, const char * name = 0 );
+    CToolButton(QWidget * parent, const char *name);
     void setPopup(QPopupMenu *popup);
     void setTextLabel(const QString &label);
     QPoint popupPos(QWidget *w);
@@ -73,7 +69,7 @@ class PictButton : public CToolButton
 {
     Q_OBJECT
 public:
-    PictButton(QToolBar*);
+    PictButton(QToolBar*, const char *name);
     ~PictButton();
     void setText(const QString& text);
 public slots:
@@ -109,9 +105,58 @@ class CToolCombo : public QComboBox
 {
     Q_OBJECT
 public:
-    CToolCombo(QToolBar*, const QString& toolTip);
+    CToolCombo(QToolBar*, const QString& toolTip, const char *name);
 protected:
     virtual QSizePolicy sizePolicy() const;
+};
+
+const int BTN_SEPARATOR	= -1;
+const int BTN_END_DEF	= -2;
+
+const int BTN_TOGGLE		= 0x0001;
+const int BTN_TOGGLE_PICT	= 0x0002;
+const int BTN_PICT			= 0x0004;
+const int BTN_HIDE			= 0x0008;
+const int BTN_COMBO			= 0x0010;
+const int BTN_CTRL			= 0x0020;
+const int BTN_PICT_INVERT	= 0x0040;
+
+typedef struct ToolBarDef
+{
+    int	id;
+    const char *icon;
+    const char *text;
+    int	flags;
+    const char *slot;
+    const char *popup_slot;
+} ToolBarDef;
+
+#define SEPARATOR	{ BTN_SEPARATOR, NULL, NULL, 0, NULL, NULL }
+#define END_DEF		{ BTN_END_DEF, NULL, NULL, 0, NULL, NULL }
+
+class CToolBar : public QToolBar
+{
+    Q_OBJECT
+public:
+    CToolBar(const ToolBarDef *def, QMainWindow *parent, QWidget *receiver);
+    void setState(int id, const char *icon, const QString &text);
+    void setPopup(int id, QPopupMenu *popup);
+    void setEnabled(int id, bool bEnable);
+    void setIcon(int id, const char *icon);
+    void show(int id = 0);
+    void hide(int id = 0);
+    bool isVisible(int id);
+    bool isEnabled(int id);
+    bool isOn(int id);
+    bool isCtrl(int id);
+    void setOn(int id, bool bOn);
+    QWidget *getWidget(int id);
+    QPoint popupPos(int id, QWidget *popup);
+protected:
+    bool isButton(int id);
+    bool isPictButton(int id);
+    bool isCombo(int id);
+    const ToolBarDef *m_def;
 };
 
 #endif

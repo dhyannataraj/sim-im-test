@@ -681,7 +681,7 @@ void MsgViewConv::setUin(unsigned long uin)
     if (pMain->CopyMessages){
         ICQUser *u = pClient->getUser(m_nUin);
         if (u == NULL) return;
-		bBack = true;
+        bBack = true;
         History h(uin);
         History::iterator &it = h.messages();
         for (unsigned n = 0; (n < pMain->CopyMessages) && ++it; n++){
@@ -690,7 +690,7 @@ void MsgViewConv::setUin(unsigned long uin)
                 if ((*unreadIt) == (*it)->Id) break;
             addMessage(*it, unreadIt != u->unreadMsgs.end(), false);
         }
-		bBack = false;
+        bBack = false;
         scrollToBottom();
     }
 }
@@ -798,6 +798,23 @@ void HistoryTextView::ownColorsChanged()
     QTimer::singleShot(100, this, SLOT(fill()));
 }
 
+const int cmbSearch	= 1;
+const int btnSearch	= 2;
+const int btnFilter	= 3;
+const int btnPrev	= 4;
+const int btnNext	= 5;
+
+ToolBarDef historyToolBar[] =
+    {
+        { cmbSearch, "find", I18N_NOOP("Search"), BTN_COMBO, SLOT(searchTextChanged(const QString&)), NULL },
+        { btnSearch, "find", I18N_NOOP("&Search"), 0, SLOT(slotSearch()), NULL },
+        { btnFilter, "filter", I18N_NOOP("&Filter"), BTN_TOGGLE, SLOT(slotFilter(bool)), NULL },
+        SEPARATOR,
+        { btnPrev, "1leftarrow", I18N_NOOP("&Previous page"), 0, SLOT(prevPage()), NULL },
+        { btnNext, "1rightarrow", I18N_NOOP("&Next page"), 0, SLOT(nextPage()), NULL },
+        END_DEF
+    };
+
 HistoryView::HistoryView(QWidget *p, unsigned long uin)
         : QMainWindow(p, "historyview", 0)
 {
@@ -810,32 +827,10 @@ HistoryView::HistoryView(QWidget *p, unsigned long uin)
     connect(view, SIGNAL(fillDone(unsigned long)), this, SLOT(fillDone(unsigned long)));
     connect(view, SIGNAL(findDone(unsigned long)), this, SLOT(findDone(unsigned long)));
     setCentralWidget(view);
-    QToolBar *t = new QToolBar(this);
-    t->setHorizontalStretchable(true);
-    t->setVerticalStretchable(true);
-    cmbSearch = new CToolCombo(t, i18n("Search"));
-    btnSearch = new CToolButton(t);
-    btnSearch->setTextLabel(i18n("&Search"));
-    btnSearch->setIconSet(Icon("find"));
-    connect(btnSearch, SIGNAL(clicked()), this, SLOT(slotSearch()));
-    btnFilter = new CToolButton(t);
-    btnFilter->setTextLabel(i18n("&Filter"));
-    btnFilter->setIconSet(Icon("filter"));
-    btnFilter->setToggleButton(true);
-    connect(btnFilter, SIGNAL(toggled(bool)), this, SLOT(slotFilter(bool)));
-    connect(cmbSearch, SIGNAL(textChanged(const QString&)), this, SLOT(searchTextChanged(const QString&)));
-    t->addSeparator();
-    btnPrev = new CToolButton(t);
-    btnPrev->setTextLabel(i18n("&Previous page"));
-    btnPrev->setIconSet(Icon("1leftarrow"));
-    connect(btnPrev, SIGNAL(clicked()), this, SLOT(prevPage()));
-    btnNext = new CToolButton(t);
-    btnNext->setTextLabel(i18n("&Next page"));
-    btnNext->setIconSet(Icon("1rightarrow"));
-    connect(btnNext, SIGNAL(clicked()), this, SLOT(nextPage()));
+    toolbar = new CToolBar(historyToolBar, this, this);
     searchTextChanged("");
-    setDockEnabled(t, Left, false);
-    setDockEnabled(t, Right, false);
+    setDockEnabled(toolbar, Left, false);
+    setDockEnabled(toolbar, Right, false);
     searchParag = 0;
     searchIndex = 0;
     searchChanged();
@@ -856,8 +851,8 @@ HistoryView::HistoryView(QWidget *p, unsigned long uin)
 
 void HistoryView::fill()
 {
-    btnPrev->setEnabled(false);
-    btnNext->setEnabled(false);
+    toolbar->setEnabled(btnPrev, false);
+    toolbar->setEnabled(btnNext, false);
     viewFill((unsigned long)(-1), 0);
 }
 
@@ -869,7 +864,7 @@ void HistoryView::viewFill(unsigned long offs, unsigned long findId)
 void HistoryView::fillDone(unsigned long offs)
 {
     if (offs){
-        btnNext->setEnabled(true);
+        toolbar->setEnabled(btnNext, true);
         pages.push(offs);
     }
     if (view->findId) nextPage(view->findId);
@@ -879,17 +874,18 @@ void HistoryView::searchChanged()
 {
     int safeParag = searchParag;
     int safeIndex = searchIndex;
-    QLineEdit *edt = cmbSearch->lineEdit();
+    QComboBox *cmb = static_cast<QComboBox*>(toolbar->getWidget(cmbSearch));
+    QLineEdit *edt = cmb->lineEdit();
     QString searchText = edt->text();
 #if QT_VERSION >= 300
     int startPos, endPos;
     edt->getSelection(&startPos, &endPos);
 #endif
     int pos = edt->cursorPosition();
-    for (int n = cmbSearch->count() - 1; n >= 0; n--){
-        cmbSearch->removeItem(n);
+    for (int n = cmb->count() - 1; n >= 0; n--){
+        cmb->removeItem(n);
     }
-    cmbSearch->insertStringList(pMain->searches);
+    cmb->insertStringList(pMain->searches);
     edt->setText(searchText);
 #if QT_VERSION >= 300
     edt->setSelection(startPos, endPos);
@@ -906,7 +902,8 @@ void HistoryView::slotSearch(int)
 
 void HistoryView::findDone(unsigned long id)
 {
-    QString searchText = cmbSearch->lineEdit()->text();
+    QComboBox *cmb = static_cast<QComboBox*>(toolbar->getWidget(cmbSearch));
+    QString searchText = cmb->lineEdit()->text();
     if (searchText.isEmpty()) return;
     searchParag = view->findMsg(id, searchParag);
     searchIndex = 0;
@@ -921,7 +918,8 @@ void HistoryView::findDone(unsigned long id)
 
 void HistoryView::slotSearch()
 {
-    QString searchText = cmbSearch->lineEdit()->text();
+    QComboBox *cmb = static_cast<QComboBox*>(toolbar->getWidget(cmbSearch));
+    QString searchText = cmb->lineEdit()->text();
     if (searchText.isEmpty()) return;
     pMain->addSearch(searchText);
     unsigned long curId = view->msgId(searchParag);
@@ -968,7 +966,8 @@ void HistoryView::slotFilter(bool bSet)
 {
     searchParag = 0;
     searchIndex = 0;
-    filter = bSet ? cmbSearch->lineEdit()->text() : QString("");
+    QComboBox *cmb = static_cast<QComboBox*>(toolbar->getWidget(cmbSearch));
+    filter = bSet ? cmb->lineEdit()->text() : QString("");
     while (pages.size())
         pages.pop();
     fill();
@@ -986,28 +985,28 @@ void HistoryView::slotGoMessage(unsigned long uin, unsigned long msgId)
 
 void HistoryView::searchTextChanged(const QString &searchText)
 {
-    btnSearch->setEnabled(!searchText.isEmpty());
-    btnFilter->setEnabled(!searchText.isEmpty());
+    toolbar->setEnabled(btnSearch, !searchText.isEmpty());
+    toolbar->setEnabled(btnFilter, !searchText.isEmpty());
     searchParag = 0;
     searchIndex = 0;
 }
 
 void HistoryView::prevPage()
 {
-    if (btnNext->isEnabled()) pages.pop();
+    if (toolbar->isEnabled(btnNext)) pages.pop();
     unsigned long offs = (unsigned long)(-1);
     if (pages.size()) pages.pop();
     if (pages.size()) offs = pages.top();
-    btnPrev->setEnabled(pages.size() > 0);
-    btnNext->setEnabled(false);
+    toolbar->setEnabled(btnPrev, pages.size() > 0);
+    toolbar->setEnabled(btnNext, false);
     viewFill(offs, 0);
 }
 
 void HistoryView::nextPage(unsigned long findId)
 {
     if (pages.size() == 0) return;
-    btnPrev->setEnabled(true);
-    btnNext->setEnabled(false);
+    toolbar->setEnabled(btnPrev, true);
+    toolbar->setEnabled(btnNext, false);
     viewFill(pages.top(), findId);
 }
 
@@ -1028,7 +1027,7 @@ void HistoryView::messageReceived(ICQMessage *msg)
 {
     if (msg->getUin() != view->Uin()) return;
     if (msg->Id >= MSG_PROCESS_ID) return;
-    btnPrev->setEnabled(true);
+    toolbar->setEnabled(btnPrev, true);
 }
 
 #ifndef _WINDOWS

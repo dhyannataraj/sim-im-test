@@ -44,6 +44,8 @@ protected slots:
 protected:
     EMailInfo *currentMail();
     void addString(QStringList &list, QString str);
+    void setCurrentEncoding(int mib);
+    int  getCurrentEncoding();
     void reloadList();
     EMailList mails;
     bool bReadOnly;

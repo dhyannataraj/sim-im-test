@@ -5988,7 +5988,7 @@ SOURCE=.\po\ru.po
 OutDir=.\Release
 InputPath=.\po\ru.po
 
-"$(OutDir)\ru.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\ru.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	$(QTDIR)\bin\msg2qm $(InputPath) 
 	move tr.qm $(OutDir)\po\ru.qm 
 	

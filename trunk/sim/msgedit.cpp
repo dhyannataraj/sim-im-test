@@ -86,6 +86,56 @@ static QString reason_string(int i)
     return "";
 }
 
+const int btnBgColor	= 1;
+const int btnFgColor	= 2;
+const int btnBold		= 3;
+const int btnItalic		= 4;
+const int btnUnder		= 5;
+const int btnFont		= 6;
+const int btnSmile		= 7;
+const int btnGrant		= 8;
+const int btnRefuse		= 9;
+const int btnAccept		= 10;
+const int btnDecline	= 11;
+const int btnReply		= 12;
+const int btnQuote		= 13;
+const int btnForward	= 14;
+#ifdef USE_SPELL
+const int btnSpell		= 15;
+#endif
+const int btnCloseSend	= 16;
+const int btnSend		= 17;
+const int btnNext		= 18;
+const int btnMultiply	= 19;
+
+ToolBarDef msgEditToolBar[] =
+    {
+        { btnBgColor, "bgcolor", I18N_NOOP("Bac&kground color"), BTN_HIDE, SLOT(setMsgBackgroundColor()), NULL },
+        { btnFgColor, "fgcolor", I18N_NOOP("&Text color"), BTN_HIDE, SLOT(setMsgForegroundColor()), NULL },
+        { btnBold, "text_bold", I18N_NOOP("&Bold"), BTN_TOGGLE | BTN_HIDE, SLOT(setBold(bool)), NULL },
+        { btnItalic, "text_italic", I18N_NOOP("&Italic"), BTN_TOGGLE | BTN_HIDE, SLOT(setItalic(bool)), NULL },
+        { btnUnder, "text_under", I18N_NOOP("&Underline"), BTN_TOGGLE | BTN_HIDE, SLOT(setUnder(bool)), NULL },
+        { btnFont, "text", I18N_NOOP("Text &font"), BTN_HIDE, SLOT(setFont()), NULL },
+        { btnSmile, "smile0", I18N_NOOP("Inser&t smile"), BTN_HIDE, SLOT(insertSmile()), NULL },
+        { btnGrant, "apply", I18N_NOOP("&Grant"), BTN_PICT | BTN_HIDE, SLOT(grantClick()), NULL },
+        { btnRefuse, "cancel", I18N_NOOP("&Refuse"), BTN_PICT | BTN_HIDE, SLOT(refuseClick()), NULL },
+        { btnAccept, "apply", I18N_NOOP("&Accept"), BTN_PICT | BTN_HIDE, SLOT(acceptMessage()), NULL },
+        { btnDecline, "cancel", I18N_NOOP("&Decline"), BTN_PICT | BTN_HIDE, NULL, NULL },
+        { btnReply, "mail_reply", I18N_NOOP("&Reply"), BTN_PICT | BTN_HIDE, SLOT(replyClick()), NULL },
+        { btnQuote, "mail_replylist", I18N_NOOP("&Quote"), BTN_PICT | BTN_HIDE, SLOT(quoteClick()), NULL },
+        { btnForward, "mail_forward", I18N_NOOP("&Forward"), BTN_PICT | BTN_HIDE, SLOT(forwardClick()), NULL },
+#ifdef USE_SPELL
+        { btnSpell, "spellcheck", I18N_NOOP("Spell &check"), BTN_HIDE, SLOT(spell()), NULL },
+#endif
+        { btnCloseSend, "fileclose", I18N_NOOP("C&lose after send"), BTN_TOGGLE | BTN_HIDE, SLOT(closeToggle(bool)), NULL },
+        SEPARATOR,
+        { btnSend, "mail_send", I18N_NOOP("&Send"), BTN_PICT, SLOT(sendClick()), NULL },
+        { btnNext, "message", I18N_NOOP("&Next"), BTN_PICT | BTN_HIDE, SLOT(nextClick()), NULL },
+        SEPARATOR,
+        { btnMultiply, "1rightarrow", I18N_NOOP("&Multiply send"), 0, SLOT(toggleMultiply()), NULL },
+        END_DEF
+    };
+
 MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
         : QSplitter(Vertical, p)
 {
@@ -105,10 +155,8 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
 
     frmEdit = new QFrame(wndEdit);
     wndEdit->setCentralWidget(frmEdit);
-    QToolBar *t = new QToolBar(wndEdit);
-    t->installEventFilter(this);
-    t->setHorizontalStretchable(true);
-    t->setVerticalStretchable(true);
+    toolbar = new CToolBar(msgEditToolBar, wndEdit, this);
+    toolbar->installEventFilter(this);
     QVBoxLayout *lay = new QVBoxLayout(frmEdit);
     tmpl = new Tmpl(this);
 
@@ -118,119 +166,8 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     declineMenu->insertItem(reason_string(DECLINE_REASON_BUSY), DECLINE_REASON_BUSY);
     declineMenu->insertItem(reason_string(DECLINE_REASON_LATER), DECLINE_REASON_LATER);
     declineMenu->insertItem(reason_string(DECLINE_REASON_INPUT), DECLINE_REASON_INPUT);
-
-    btnBgColor = new CToolButton(t);
-    btnBgColor->setTextLabel(i18n("Bac&kground color"));
-    btnBgColor->setIconSet(Icon("bgcolor"));
-    connect(btnBgColor, SIGNAL(clicked()), this, SLOT(setMsgBackgroundColor()));
-    btnBgColor->hide();
-
-    btnFgColor = new CToolButton(t);
-    btnFgColor->setTextLabel(i18n("&Text color"));
-    btnFgColor->setIconSet(Icon("fgcolor"));
-    connect(btnFgColor, SIGNAL(clicked()), this, SLOT(setMsgForegroundColor()));
-    btnFgColor->hide();
-
-    btnBold = new CToolButton(t);
-    btnBold->setTextLabel(i18n("&Bold"));
-    btnBold->setIconSet(Icon("text_bold"));
-    btnBold->setToggleButton(true);
-    connect(btnBold, SIGNAL(toggled(bool)), this, SLOT(setBold(bool)));
-    btnBold->hide();
-
-    btnItalic = new CToolButton(t);
-    btnItalic->setTextLabel(i18n("&Italic"));
-    btnItalic->setIconSet(Icon("text_italic"));
-    btnItalic->setToggleButton(true);
-    connect(btnItalic, SIGNAL(toggled(bool)), this, SLOT(setItalic(bool)));
-    btnItalic->hide();
-
-    btnUnder = new CToolButton(t);
-    btnUnder->setTextLabel(i18n("&Underline"));
-    btnUnder->setIconSet(Icon("text_under"));
-    btnUnder->setToggleButton(true);
-    connect(btnUnder, SIGNAL(toggled(bool)), this, SLOT(setUnder(bool)));
-    btnUnder->hide();
-
-    btnFont = new CToolButton(t);
-    btnFont->setTextLabel(i18n("Text &font"));
-    btnFont->setIconSet(Icon("text"));
-    connect(btnFont, SIGNAL(clicked()), this, SLOT(setFont()));
-    btnFont->hide();
-
-    btnSmile = new CToolButton(t);
-    btnSmile->setTextLabel(i18n("Inser&t smile"));
-    btnSmile->setIconSet(Icon("smile0"));
-    connect(btnSmile, SIGNAL(clicked()), this, SLOT(insertSmile()));
-    btnSmile->hide();
-
-    btnGrant = new PictButton(t);
-    btnGrant->hide();
-    btnGrant->setState("apply", i18n("&Grant"));
-    connect(btnGrant, SIGNAL(clicked()), this, SLOT(grantClick()));
-
-    btnRefuse = new PictButton(t);
-    btnRefuse->hide();
-    btnRefuse->setState("cancel", i18n("&Refuse"));
-    connect(btnRefuse, SIGNAL(clicked()), this, SLOT(refuseClick()));
-
-    btnAccept = new PictButton(t);
-    btnAccept->hide();
-    btnAccept->setState("apply", i18n("&Accept"));
-    connect(btnAccept, SIGNAL(clicked()), this, SLOT(acceptMessage()));
-
-    btnDecline = new PictButton(t);
-    btnDecline->hide();
-    btnDecline->setPopup(declineMenu);
-    btnDecline->setState("cancel", i18n("&Decline"));
-
-    btnReply = new PictButton(t);
-    btnReply->hide();
-    btnReply->setState("mail_reply", i18n("&Reply"));
-    connect(btnReply, SIGNAL(clicked()), this, SLOT(replyClick()));
-
-    btnQuote = new PictButton(t);
-    btnQuote->hide();
-    btnQuote->setState("mail_replylist", i18n("&Quote"));
-    connect(btnQuote, SIGNAL(clicked()), this, SLOT(quoteClick()));
-
-    btnForward = new PictButton(t);
-    btnForward->hide();
-    btnForward->setState("mail_forward", i18n("&Forward"));
-    connect(btnForward, SIGNAL(clicked()), this, SLOT(forwardClick()));
-
-#ifdef USE_SPELL
-    btnSpell = new CToolButton(t);
-    btnSpell->setTextLabel(i18n("Spell &check"));
-    btnSpell->setIconSet(Icon("spellcheck"));
-    connect(btnSpell, SIGNAL(clicked()), this, SLOT(spell()));
-    btnSpell->hide();
-#endif
-
-    btnCloseSend = new CToolButton(t);
-    btnCloseSend->setTextLabel(i18n("C&lose after send"));
-    btnCloseSend->setIconSet(Icon("fileclose"));
-    btnCloseSend->setToggleButton(true);
-    btnCloseSend->setOn(pMain->CloseAfterSend);
-    connect(btnCloseSend, SIGNAL(toggled(bool)), this, SLOT(closeToggle(bool)));
-
-    t->addSeparator();
-
-    btnSend = new PictButton(t);
-    btnSend->setState("mail_send", i18n("&Send"));
-    connect(btnSend, SIGNAL(clicked()), this, SLOT(sendClick()));
-
-    btnNext = new PictButton(t);
-    btnNext->hide();
-    btnNext->setState("message", i18n("&Next"));
-    connect(btnNext, SIGNAL(clicked()), this, SLOT(nextClick()));
-
-    t->addSeparator();
-
-    btnMultiply = new CToolButton(t);
-    btnMultiply->setTextLabel(i18n("&Multiply send"));
-    btnMultiply->setIconSet(Icon("1rightarrow"));
-    connect(btnMultiply, SIGNAL(clicked()), this, SLOT(toggleMultiply()));
+    toolbar->setPopup(btnDecline, declineMenu);
+    toolbar->setOn(btnCloseSend, pMain->CloseAfterSend);
 
     phone = new QHGroupBox(frmEdit);
     phone->hide();
@@ -395,7 +332,7 @@ void MsgEdit::insertSmile()
 {
     SmilePopup *smile = new SmilePopup(this);
     connect(smile, SIGNAL(insert(const QString&, bool, bool, bool)), edit, SLOT(insert(const QString&, bool, bool, bool)));
-    QPoint p = btnSmile->popupPos(smile);
+    QPoint p = toolbar->popupPos(btnSmile, smile);
     smile->move(p);
     smile->show();
 }
@@ -418,11 +355,11 @@ void MsgEdit::setState()
         emit setMessageType(SIMClient::getMessageIcon(msgType), SIMClient::getMessageText(msgType, 1));
     }
     if (sendEvent){
-        btnSend->setState("cancel", i18n("&Cancel"));
+        toolbar->setState(btnSend, "cancel", i18n("&Cancel"));
     }else{
-        btnSend->setState("mail_send", i18n("&Send"));
+        toolbar->setState(btnSend, "mail_send", i18n("&Send"));
     }
-    btnCloseSend->setEnabled(sendEvent == NULL);
+    toolbar->setEnabled(btnCloseSend, sendEvent == NULL);
     phone->setEnabled(sendEvent == NULL);
     url->setEnabled(sendEvent == NULL);
     edit->setEnabled(sendEvent == NULL);
@@ -656,7 +593,7 @@ void MsgEdit::processEvent(ICQEvent *e)
                     }
                     if (*trMsg == NULL)
                         declineReason = pClient->from8Bit(Uin, msg->DeclineReason.c_str(), msg->Charset.c_str());
-                    BalloonMsg::message(declineReason, btnSend);
+                    BalloonMsg::message(declineReason, toolbar->getWidget(btnSend));
                 }
             }
             bCloseSend = false;
@@ -705,7 +642,7 @@ void MsgEdit::sendClick()
         pClient->cancelMessage(sendEvent->message());
         return;
     }
-    bCloseSend = pMain->SimpleMode || btnCloseSend->isOn();
+    bCloseSend = pMain->SimpleMode || toolbar->isOn(btnCloseSend);
     send();
 }
 
@@ -863,9 +800,9 @@ void MsgEdit::setFont()
 
 void MsgEdit::editFontChanged(const QFont &f)
 {
-    btnBold->setOn(f.bold());
-    btnItalic->setOn(f.italic());
-    btnUnder->setOn(f.underline());
+    toolbar->setOn(btnBold, f.bold());
+    toolbar->setOn(btnItalic, f.italic());
+    toolbar->setOn(btnUnder, f.underline());
 }
 
 void MsgEdit::setParam(unsigned long param)
@@ -916,19 +853,19 @@ void MsgEdit::setupNext()
     if (nUnread){
         QString s;
         if (nUnread > 1) s.sprintf(" [%u]", nUnread);
-        btnNext->setState(SIMClient::getMessageIcon(msgType), i18n("Next") + s);
-        if (btnSend->isVisible()){
-            btnNext->hide();
+        toolbar->setState(btnNext, SIMClient::getMessageIcon(msgType), i18n("Next") + s);
+        if (toolbar->isVisible(btnSend)){
+            toolbar->hide(btnNext);
         }else{
-            btnNext->show();
+            toolbar->show(btnNext);
         }
         return;
     }
-    if (btnReply->isVisible() || btnSend->isVisible()){
-        btnNext->hide();
+    if (toolbar->isVisible(btnReply) || toolbar->isVisible(btnSend)){
+        toolbar->hide(btnNext);
     }else{
-        btnNext->setState("message", i18n("&New message"));
-        btnNext->show();
+        toolbar->setState(btnNext, "message", i18n("&New message"));
+        toolbar->show(btnNext);
     }
 }
 
@@ -1000,7 +937,7 @@ void MsgEdit::forwardClick()
     setMessage(newMsg);
     edit->moveCursor(QTextEdit::MoveEnd, false);
     bMultiply = true;
-    btnMultiply->setIconSet(Icon("1leftarrow"));
+    toolbar->setIcon(btnMultiply, "1leftarrow");
     emit showUsers(true, 0);
     textChanged();
 }
@@ -1008,7 +945,7 @@ void MsgEdit::forwardClick()
 void MsgEdit::toggleMultiply()
 {
     bMultiply = !bMultiply;
-    btnMultiply->setIconSet(Icon(bMultiply ? "1leftarrow" : "1rightarrow"));
+    toolbar->setIcon(btnMultiply, bMultiply ? "1leftarrow" : "1rightarrow");
     emit showUsers(bMultiply, Uin);
 }
 
@@ -1127,26 +1064,26 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
         edit->hide();
         file->hide();
         lblUsers->hide();
-        btnBgColor->hide();
-        btnFgColor->hide();
-        btnBold->hide();
-        btnItalic->hide();
-        btnUnder->hide();
-        btnFont->hide();
-        btnSmile->hide();
+        toolbar->hide(btnBgColor);
+        toolbar->hide(btnFgColor);
+        toolbar->hide(btnBold);
+        toolbar->hide(btnItalic);
+        toolbar->hide(btnUnder);
+        toolbar->hide(btnFont);
+        toolbar->hide(btnSmile);
 #ifdef USE_SPELL
-        btnSpell->hide();
+        toolbar->hide(btnSpell);
 #endif
-        btnSend->hide();
-        btnCloseSend->hide();
-        btnAccept->hide();
-        btnDecline->hide();
-        btnReply->hide();
-        btnQuote->hide();
-        btnGrant->hide();
-        btnRefuse->hide();
-        btnMultiply->hide();
-        btnForward->hide();
+        toolbar->hide(btnSend);
+        toolbar->hide(btnCloseSend);
+        toolbar->hide(btnAccept);
+        toolbar->hide(btnDecline);
+        toolbar->hide(btnReply);
+        toolbar->hide(btnQuote);
+        toolbar->hide(btnGrant);
+        toolbar->hide(btnRefuse);
+        toolbar->hide(btnMultiply);
+        toolbar->hide(btnForward);
         users->hide();
         view->hide();
         setupNext();
@@ -1163,31 +1100,31 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
         edit->hide();
         file->hide();
         lblUsers->hide();
-        btnBgColor->hide();
-        btnFgColor->hide();
-        btnBold->hide();
-        btnItalic->hide();
-        btnUnder->hide();
-        btnFont->hide();
-        btnSmile->hide();
+        toolbar->hide(btnBgColor);
+        toolbar->hide(btnFgColor);
+        toolbar->hide(btnBold);
+        toolbar->hide(btnItalic);
+        toolbar->hide(btnUnder);
+        toolbar->hide(btnFont);
+        toolbar->hide(btnSmile);
 #ifdef USE_SPELL
-        btnSpell->hide();
+        toolbar->hide(btnSpell);
 #endif
-        btnSend->hide();
-        btnCloseSend->hide();
-        btnAccept->hide();
-        btnDecline->hide();
-        btnMultiply->hide();
+        toolbar->hide(btnSend);
+        toolbar->hide(btnCloseSend);
+        toolbar->hide(btnAccept);
+        toolbar->hide(btnDecline);
+        toolbar->hide(btnMultiply);
         setupNext();
         if (msg->Type() == ICQ_MSGxCONTACTxLIST){
-            btnReply->hide();
-            btnQuote->hide();
-            btnGrant->hide();
-            btnRefuse->hide();
+            toolbar->hide(btnReply);
+            toolbar->hide(btnQuote);
+            toolbar->hide(btnGrant);
+            toolbar->hide(btnRefuse);
             users->show();
             users->sender = false;
             view->hide();
-            btnForward->show();
+            toolbar->show(btnForward);
             ICQContacts *m = static_cast<ICQContacts*>(msg);
             for (ContactList::iterator it = m->Contacts.begin(); it != m->Contacts.end(); it++){
                 Contact *contact = static_cast<Contact*>(*it);
@@ -1197,13 +1134,13 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
             switch (msg->Type()){
             case ICQ_MSGxFILE:{
                     ICQFile *f = static_cast<ICQFile*>(msg);
-                    btnReply->hide();
-                    btnQuote->hide();
-                    btnGrant->hide();
-                    btnRefuse->hide();
+                    toolbar->hide(btnReply);
+                    toolbar->hide(btnQuote);
+                    toolbar->hide(btnGrant);
+                    toolbar->hide(btnRefuse);
                     if (f->Id >= MSG_PROCESS_ID){
-                        btnAccept->show();
-                        btnDecline->show();
+                        toolbar->show(btnAccept);
+                        toolbar->show(btnDecline);
                         file->show();
                         ICQUser *u = pClient->getUser(f->getUin());
                         if (u == NULL) u = pClient->owner;
@@ -1228,30 +1165,30 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                         fileEdit->setMultiplyMode(false);
                         ftChanged();
                     }else{
-                        btnAccept->hide();
-                        btnDecline->hide();
+                        toolbar->hide(btnAccept);
+                        toolbar->hide(btnDecline);
                     }
                     break;
                 }
             case ICQ_MSGxAUTHxREQUEST:
-                btnReply->hide();
-                btnQuote->hide();
-                btnGrant->show();
-                btnRefuse->show();
-                btnAccept->hide();
-                btnDecline->hide();
-                btnForward->hide();
+                toolbar->hide(btnReply);
+                toolbar->hide(btnQuote);
+                toolbar->show(btnGrant);
+                toolbar->show(btnRefuse);
+                toolbar->hide(btnAccept);
+                toolbar->hide(btnDecline);
+                toolbar->hide(btnForward);
                 break;
             case ICQ_MSGxMSG:
             case ICQ_MSGxURL:
                 if ((bInTop || !bChanged) && !pMain->SimpleMode){
-                    btnReply->hide();
-                    btnQuote->show();
-                    btnForward->show();
-                    btnGrant->hide();
-                    btnRefuse->hide();
-                    btnAccept->hide();
-                    btnDecline->hide();
+                    toolbar->hide(btnReply);
+                    toolbar->show(btnQuote);
+                    toolbar->show(btnForward);
+                    toolbar->hide(btnGrant);
+                    toolbar->hide(btnRefuse);
+                    toolbar->hide(btnAccept);
+                    toolbar->hide(btnDecline);
                     users->hide();
                     view->hide();
                     edit->setTextFormat(RichText);
@@ -1264,36 +1201,36 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                     repaint();
                     return;
                 }
-                btnReply->show();
-                btnQuote->show();
-                btnGrant->hide();
-                btnRefuse->hide();
-                btnAccept->hide();
-                btnDecline->hide();
-                btnForward->show();
+                toolbar->show(btnReply);
+                toolbar->show(btnQuote);
+                toolbar->hide(btnGrant);
+                toolbar->hide(btnRefuse);
+                toolbar->hide(btnAccept);
+                toolbar->hide(btnDecline);
+                toolbar->show(btnForward);
                 break;
             case ICQ_MSGxCHAT:
-                btnReply->hide();
-                btnQuote->hide();
-                btnGrant->hide();
-                btnRefuse->hide();
-                btnAccept->hide();
-                btnDecline->hide();
-                btnForward->hide();
+                toolbar->hide(btnReply);
+                toolbar->hide(btnQuote);
+                toolbar->hide(btnGrant);
+                toolbar->hide(btnRefuse);
+                toolbar->hide(btnAccept);
+                toolbar->hide(btnDecline);
+                toolbar->hide(btnForward);
                 if (msg->Id >= MSG_PROCESS_ID){
-                    btnAccept->show();
-                    btnDecline->show();
+                    toolbar->show(btnAccept);
+                    toolbar->show(btnDecline);
                     chatChanged();
                 }
                 break;
             default:
-                btnReply->hide();
-                btnQuote->hide();
-                btnGrant->hide();
-                btnRefuse->hide();
-                btnAccept->hide();
-                btnDecline->hide();
-                btnForward->hide();
+                toolbar->hide(btnReply);
+                toolbar->hide(btnQuote);
+                toolbar->hide(btnGrant);
+                toolbar->hide(btnRefuse);
+                toolbar->hide(btnAccept);
+                toolbar->hide(btnDecline);
+                toolbar->hide(btnForward);
             }
             users->hide();
             view->show();
@@ -1311,19 +1248,19 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
             }
         }
     }else{
-        btnReply->hide();
-        btnForward->hide();
-        btnQuote->hide();
-        btnGrant->hide();
-        btnRefuse->hide();
-        btnAccept->hide();
-        btnDecline->hide();
+        toolbar->hide(btnReply);
+        toolbar->hide(btnForward);
+        toolbar->hide(btnQuote);
+        toolbar->hide(btnGrant);
+        toolbar->hide(btnRefuse);
+        toolbar->hide(btnAccept);
+        toolbar->hide(btnDecline);
         if (pMain->SimpleMode){
-            btnCloseSend->hide();
+            toolbar->hide(btnCloseSend);
         }else{
-            btnCloseSend->show();
+            toolbar->show(btnCloseSend);
         }
-        btnSend->show();
+        toolbar->show(btnSend);
         switch (msg->Type()){
         case ICQ_MSGxMSG:{
                 phone->hide();
@@ -1333,16 +1270,16 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 view->hide();
                 file->hide();
                 lblUsers->hide();
-                btnBgColor->show();
-                btnFgColor->show();
-                btnBold->show();
-                btnItalic->show();
-                btnUnder->show();
-                btnFont->show();
-                btnSmile->show();
-                btnMultiply->show();
+                toolbar->show(btnBgColor);
+                toolbar->show(btnFgColor);
+                toolbar->show(btnBold);
+                toolbar->show(btnItalic);
+                toolbar->show(btnUnder);
+                toolbar->show(btnFont);
+                toolbar->show(btnSmile);
+                toolbar->show(btnMultiply);
 #ifdef USE_SPELL
-                btnSpell->show();
+                toolbar->show(btnSpell);
 #endif
                 if (!bSaveEdit){
                     edit->setTextFormat(RichText);
@@ -1369,16 +1306,16 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 view->hide();
                 file->hide();
                 lblUsers->hide();
-                btnBgColor->hide();
-                btnFgColor->hide();
-                btnBold->hide();
-                btnItalic->hide();
-                btnUnder->hide();
-                btnFont->hide();
-                btnSmile->hide();
-                btnMultiply->show();
+                toolbar->hide(btnBgColor);
+                toolbar->hide(btnFgColor);
+                toolbar->hide(btnBold);
+                toolbar->hide(btnItalic);
+                toolbar->hide(btnUnder);
+                toolbar->hide(btnFont);
+                toolbar->hide(btnSmile);
+                toolbar->show(btnMultiply);
 #ifdef USE_SPELL
-                btnSpell->show();
+                toolbar->show(btnSpell);
 #endif
                 ICQUrl *m = static_cast<ICQUrl*>(msg);
                 edit->resetColors(false);
@@ -1399,16 +1336,16 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 view->hide();
                 file->show();
                 lblUsers->hide();
-                btnBgColor->hide();
-                btnFgColor->hide();
-                btnBold->hide();
-                btnItalic->hide();
-                btnUnder->hide();
-                btnFont->hide();
-                btnSmile->hide();
-                btnMultiply->hide();
+                toolbar->hide(btnBgColor);
+                toolbar->hide(btnFgColor);
+                toolbar->hide(btnBold);
+                toolbar->hide(btnItalic);
+                toolbar->hide(btnUnder);
+                toolbar->hide(btnFont);
+                toolbar->hide(btnSmile);
+                toolbar->hide(btnMultiply);
 #ifdef USE_SPELL
-                btnSpell->show();
+                toolbar->show(btnSpell);
 #endif
                 ICQFile *m = static_cast<ICQFile*>(msg);
                 edit->resetColors(false);
@@ -1431,16 +1368,16 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 view->hide();
                 file->hide();
                 lblUsers->hide();
-                btnBgColor->hide();
-                btnFgColor->hide();
-                btnBold->hide();
-                btnItalic->hide();
-                btnUnder->hide();
-                btnFont->hide();
-                btnSmile->hide();
-                btnMultiply->hide();
+                toolbar->hide(btnBgColor);
+                toolbar->hide(btnFgColor);
+                toolbar->hide(btnBold);
+                toolbar->hide(btnItalic);
+                toolbar->hide(btnUnder);
+                toolbar->hide(btnFont);
+                toolbar->hide(btnSmile);
+                toolbar->hide(btnMultiply);
 #ifdef USE_SPELL
-                btnSpell->show();
+                toolbar->show(btnSpell);
 #endif
                 ICQChat *m = static_cast<ICQChat*>(msg);
                 edit->resetColors(false);
@@ -1457,16 +1394,16 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 view->hide();
                 file->hide();
                 lblUsers->hide();
-                btnBgColor->hide();
-                btnFgColor->hide();
-                btnBold->hide();
-                btnItalic->hide();
-                btnUnder->hide();
-                btnFont->hide();
-                btnSmile->hide();
-                btnMultiply->hide();
+                toolbar->hide(btnBgColor);
+                toolbar->hide(btnFgColor);
+                toolbar->hide(btnBold);
+                toolbar->hide(btnItalic);
+                toolbar->hide(btnUnder);
+                toolbar->hide(btnFont);
+                toolbar->hide(btnSmile);
+                toolbar->hide(btnMultiply);
 #ifdef USE_SPELL
-                btnSpell->show();
+                toolbar->show(btnSpell);
 #endif
                 ICQSMS *m = static_cast<ICQSMS*>(msg);
                 edit->resetColors(false);
@@ -1491,16 +1428,16 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 view->hide();
                 file->hide();
                 lblUsers->show();
-                btnBgColor->hide();
-                btnFgColor->hide();
-                btnBold->hide();
-                btnItalic->hide();
-                btnUnder->hide();
-                btnFont->hide();
-                btnSmile->hide();
-                btnMultiply->show();
+                toolbar->hide(btnBgColor);
+                toolbar->hide(btnFgColor);
+                toolbar->hide(btnBold);
+                toolbar->hide(btnItalic);
+                toolbar->hide(btnUnder);
+                toolbar->hide(btnFont);
+                toolbar->hide(btnSmile);
+                toolbar->show(btnMultiply);
 #ifdef USE_SPELL
-                btnSpell->hide();
+                toolbar->hide(btnSpell);
 #endif
                 users->sender = true;
                 if (bChanged){
@@ -1521,16 +1458,16 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 view->hide();
                 file->hide();
                 lblUsers->hide();
-                btnBgColor->hide();
-                btnFgColor->hide();
-                btnBold->hide();
-                btnItalic->hide();
-                btnUnder->hide();
-                btnFont->hide();
-                btnSmile->hide();
-                btnMultiply->hide();
+                toolbar->hide(btnBgColor);
+                toolbar->hide(btnFgColor);
+                toolbar->hide(btnBold);
+                toolbar->hide(btnItalic);
+                toolbar->hide(btnUnder);
+                toolbar->hide(btnFont);
+                toolbar->hide(btnSmile);
+                toolbar->hide(btnMultiply);
 #ifdef USE_SPELL
-                btnSpell->hide();
+                toolbar->hide(btnSpell);
 #endif
                 ICQAuthRequest *m = static_cast<ICQAuthRequest*>(msg);
                 edit->resetColors(false);
@@ -1547,16 +1484,16 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 view->hide();
                 file->hide();
                 lblUsers->hide();
-                btnBgColor->hide();
-                btnFgColor->hide();
-                btnBold->hide();
-                btnItalic->hide();
-                btnUnder->hide();
-                btnFont->hide();
-                btnSmile->hide();
-                btnMultiply->hide();
+                toolbar->hide(btnBgColor);
+                toolbar->hide(btnFgColor);
+                toolbar->hide(btnBold);
+                toolbar->hide(btnItalic);
+                toolbar->hide(btnUnder);
+                toolbar->hide(btnFont);
+                toolbar->hide(btnSmile);
+                toolbar->hide(btnMultiply);
 #ifdef USE_SPELL
-                btnSpell->hide();
+                toolbar->hide(btnSpell);
 #endif
                 ICQAuthRefused *m = static_cast<ICQAuthRefused*>(msg);
                 edit->resetColors(false);
@@ -1572,16 +1509,16 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 view->show();
                 file->hide();
                 lblUsers->hide();
-                btnBgColor->hide();
-                btnFgColor->hide();
-                btnBold->hide();
-                btnItalic->hide();
-                btnUnder->hide();
-                btnFont->hide();
-                btnSmile->hide();
-                btnMultiply->hide();
+                toolbar->hide(btnBgColor);
+                toolbar->hide(btnFgColor);
+                toolbar->hide(btnBold);
+                toolbar->hide(btnItalic);
+                toolbar->hide(btnUnder);
+                toolbar->hide(btnFont);
+                toolbar->hide(btnSmile);
+                toolbar->hide(btnMultiply);
 #ifdef USE_SPELL
-                btnSpell->hide();
+                toolbar->hide(btnSpell);
 #endif
                 break;
             }
@@ -1629,9 +1566,9 @@ void MsgEdit::textChanged(const QString&)
 void MsgEdit::textChanged()
 {
 #ifdef USE_SPELL
-    btnSpell->setEnabled(canSpell());
+    toolbar->setEnabled(btnSpell, canSpell());
 #endif
-    btnSend->setEnabled(canSend());
+    toolbar->setEnabled(btnSend, canSend());
 }
 
 void MsgEdit::spell()
@@ -1803,7 +1740,7 @@ void MsgEdit::chatChanged()
 {
     if (msg && (msg->Type() == ICQ_MSGxCHAT) && msg->Received){
         QWidget *chat = pMain->chatWindow(Uin);
-        btnAccept->setEnabled(chat == NULL);
+        toolbar->setEnabled(btnAccept, chat == NULL);
     }
 }
 
@@ -1812,7 +1749,7 @@ void MsgEdit::ftChanged()
     if (msg && (msg->Type() == ICQ_MSGxFILE) && msg->Received){
         ICQFile *f = static_cast<ICQFile*>(msg);
         QWidget *file = pMain->ftWindow(Uin, f->shortName());
-        btnAccept->setEnabled(file == NULL);
+        toolbar->setEnabled(btnAccept, file == NULL);
     }
 }
 

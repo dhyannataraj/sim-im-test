@@ -34,57 +34,69 @@
 #include <qstringlist.h>
 #include <qtextcodec.h>
 #include <qregexp.h>
+#include <qpopupmenu.h>
 
 #ifdef USE_KDE
 #include <kglobal.h>
 #include <kcharsets.h>
 #endif
 
-#ifndef USE_KDE
-
 typedef struct encoding
 {
     const char *language;
     const char *codec;
+    int			mib;
+    bool		bMain;
 } encoding;
 
 encoding encodingTbl[] =
     {
-        { I18N_NOOP("Unicode"), "UTF-8" },
-        { I18N_NOOP("Western European"), "ISO 8859-1" },
-        { I18N_NOOP("Western European"), "ISO 8859-15" },
-        { I18N_NOOP("Western European"), "CP 1252" },
-        { I18N_NOOP("Central European"), "CP 1250" },
-        { I18N_NOOP("Central European"), "ISO 8859-2" },
-        { I18N_NOOP("Esperanto"), "ISO 8859-3" },
-        { I18N_NOOP("Baltic"), "ISO 8859-13" },
-        { I18N_NOOP("Baltic"), "CP 1257" },
-#ifndef WIN32
-        { I18N_NOOP("Cyrillic"), "KOI8-R" },
-#endif
-        { I18N_NOOP("Cyrillic"), "CP 1251" },
-#ifndef WIN32
-        { I18N_NOOP("Ukrainan"), "KOI8-U" },
-#endif
-        { I18N_NOOP("Ukrainan"), "CP 1251" },
-        { I18N_NOOP("Arabic"), "ISO 8859-6-I" },
-        { I18N_NOOP("Greek"), "ISO 8859-7" },
-        { I18N_NOOP("Hebrew"), "ISO 8859-8-I" },
-        { I18N_NOOP("Chinese Traditional"), "Big5" },
-        { I18N_NOOP("Chinese Simplified"), "gbk" },
-        { I18N_NOOP("Chinese Simplified"), "gbk2312" },
-        { I18N_NOOP("Turkish"), "ISO 8859-9" },
-        { I18N_NOOP("Turkish"), "CP 1254" },
-        { I18N_NOOP("Korean"), "eucKR" },
-        { I18N_NOOP("Japanese"), "eucJP" },
-        { I18N_NOOP("Japanese"), "jis7" },
-        { I18N_NOOP("Japanese"), "sjis7" },
-        { I18N_NOOP("Tamil"), "tscii" },
-        { I18N_NOOP("UTF8"), "utf8" },
-        { I18N_NOOP("UTF16"), "utf16" }
-    };
+        { I18N_NOOP("Unicode"), "UTF-8", 106, true },
 
-#endif
+        { I18N_NOOP("Arabic"), "ISO 8859-6", 82, false },
+        { I18N_NOOP("Arabic"), "CP 1256", 2256, true },
+
+        { I18N_NOOP("Baltic"), "ISO 8859-13", 109, false },
+        { I18N_NOOP("Baltic"), "CP 1257", 2257, true },
+
+        { I18N_NOOP("Central European"), "ISO 8859-2", 5, false },
+        { I18N_NOOP("Central European"), "CP 1250", 2250, true },
+
+        { I18N_NOOP("Chinese "), "GBK", 2025, false },
+        { I18N_NOOP("Chinese Simplified"), "gbk2312", 2312, false },
+        { I18N_NOOP("Chinese Traditional"), "Big5", 2026, true },
+
+        { I18N_NOOP("Cyrillic"), "ISO 8859-5", 8, false },
+        { I18N_NOOP("Cyrillic"), "KOI8-R", 2084, false },
+        { I18N_NOOP("Cyrillic"), "CP 1251", 2251, true },
+
+        { I18N_NOOP("Esperanto"), "ISO 8859-3", 6, false },
+
+        { I18N_NOOP("Greek"), "ISO 8859-7", 10, false },
+        { I18N_NOOP("Greek"), "CP 1253", 2253, true },
+
+        { I18N_NOOP("Hebrew"), "ISO 8859-8-I", 85, false },
+        { I18N_NOOP("Hebrew"), "CP 1255", 2255, true },
+
+        { I18N_NOOP("Japanese"), "Shift-JIS", 17, true },
+        { I18N_NOOP("Japanese"), "JIS7", 16, false },
+        { I18N_NOOP("Japanese"), "eucJP", 18, false },
+
+        { I18N_NOOP("Korean"), "eucKR", 38, true },
+
+        { I18N_NOOP("Western European"), "ISO 8859-1", 4, false },
+        { I18N_NOOP("Western European"), "ISO 8859-15", 111, false },
+        { I18N_NOOP("Western European"), "CP 1252", 2252, true },
+
+        { I18N_NOOP("Tamil"), "TSCII", 2028, true },
+
+        { I18N_NOOP("Thai"), "TIS-620", 2259, true },
+
+        { I18N_NOOP("Turkish"), "ISO 8859-9", 12, false },
+        { I18N_NOOP("Turkish"), "CP 1254", 2254, true },
+
+        { I18N_NOOP("Ukrainian"), "KOI8-U", 2088, false }
+    };
 
 static void *createEMail()
 {
@@ -442,14 +454,6 @@ SIMClient::SIMClient(QObject *parent, const char *name)
     resolver = new QDns;
     resolver->setRecordType(QDns::Ptr);
     QObject::connect(resolver, SIGNAL(resultsReady()), this, SLOT(resolve_ready()));
-    encodings = new QStringList;
-#ifdef USE_KDE
-    *encodings = KGlobal::charsets()->descriptiveEncodingNames();
-#else
-    for (uint i=0; i< (sizeof(encodingTbl) / sizeof(encoding)); i++) {
-        (*encodings).append(i18n(encodingTbl[i].language) + " ( " + encodingTbl[i].codec + " )");
-    }
-#endif
     init();
     ::init(this, Client_Params);
 }
@@ -460,8 +464,55 @@ SIMClient::~SIMClient()
         delete (*it);
     }
     close();
-    delete encodings;
     delete resolver;
+}
+
+class Encoding
+{
+public:
+    Encoding(const QString &_name, int _mib) : name(_name), mib(_mib) {}
+    QString name;
+    int		mib;
+};
+
+bool operator < (const Encoding &a, const Encoding &b)
+{
+    return a.name < b.name;
+}
+
+static void fillEncodings(list<Encoding> &encodings, bool bMain)
+{
+    const encoding *e;
+#ifdef USE_KDE
+    //    QStringList &encodings = KGlobal::charsets()->descriptiveEncodingNames();
+#else
+    e = encodingTbl;
+    for (uint i=0; i< (sizeof(encodingTbl) / sizeof(encoding)); i++, e++) {
+        if (e->bMain != bMain) continue;
+        encodings.push_back(Encoding(i18n(e->language) + " ( " + e->codec + " )", e->mib));
+    }
+#endif
+    encodings.sort();
+}
+
+void SIMClient::fillEncodings(QPopupMenu *menu, bool bMain)
+{
+    list<Encoding> enc;
+    ::fillEncodings(enc, bMain);
+    for (list<Encoding>::iterator it = enc.begin(); it != enc.end(); ++it){
+        menu->insertItem((*it).name, (*it).mib);
+    }
+}
+
+QStringList SIMClient::getEncodings(bool bMain)
+{
+    list<Encoding> enc;
+    ::fillEncodings(enc, bMain);
+    QStringList res;
+    for (list<Encoding>::iterator it = enc.begin(); it != enc.end(); ++it){
+        res.append((*it).name);
+    }
+    return res;
 }
 
 void SIMClient::timer()
@@ -1284,15 +1335,10 @@ void SIMClient::setUserEncoding(unsigned long uin, int i)
         u = getUser(uin);
     }
     if (u == NULL) return;
-    QString name;
-    if (i > 0){
-        name = (*encodings)[i-1];
-        int left = name.find(" ( ");
-        if (left >= 0) name = name.mid(left + 3);
-        int right = name.find(" )");
-        if (right >= 0) name = name.left(right);
-        u->Encoding = name.latin1();
-    }
+    QTextCodec *codec = NULL;
+    if (i) codec = QTextCodec::codecForMib(i);
+    u->Encoding = "";
+    if (codec) u->Encoding = codec->name();
     emit encodingChanged(uin);
     ICQEvent e(EVENT_INFO_CHANGED, uin);
     process_event(&e);
@@ -1303,17 +1349,30 @@ void SIMClient::setUserEncoding(unsigned long uin, int i)
 int SIMClient::userEncoding(unsigned long uin)
 {
     QTextCodec *codec = codecForUser(uin);
-    int n = 1;
-    for (QStringList::Iterator it = encodings->begin(); it != encodings->end(); ++it, n++){
-        QString name = *it;
-        int left = name.find(" ( ");
-        if (left >= 0) name = name.mid(left + 3);
-        int right = name.find(" )");
-        if (right >= 0) name = name.left(right);
-        if (!strcasecmp(name.latin1(), codec->name()))
-            return n;
+    return codec ? codec->mibEnum() : 0;
+}
+
+int SIMClient::encodingMib(const QString &s)
+{
+    QString name = s;
+    int p = name.find('(');
+    if (p >= 0) name = name.mid(p + 1);
+    p = name.find(')');
+    if (p > 0) name = name.left(p - 1);
+    QTextCodec *codec = QTextCodec::codecForName(name);
+    return codec ? codec->mibEnum() : 0;
+}
+
+QString SIMClient::encodingName(int mib)
+{
+    if (mib){
+        list<Encoding> enc;
+        ::fillEncodings(enc, false);
+        ::fillEncodings(enc, true);
+        for (list<Encoding>::iterator it = enc.begin(); it != enc.end(); ++it)
+            if ((*it).mib == mib) return (*it).name;
     }
-    return 0;
+    return "";
 }
 
 SIMClient *pClient = NULL;

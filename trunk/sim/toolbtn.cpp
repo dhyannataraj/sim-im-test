@@ -44,35 +44,7 @@ void CPushButton::setTip(const QString &_tip)
     QToolTip::add(this, _tip);
 }
 
-CToolButton::CToolButton( const QIconSet & p, const QString & textLabel,
-                          const QString & grouptext, QObject * receiver, const char * slot, QToolBar * parent,
-                          const char * name)
-        : QToolButton(p, textLabel, grouptext, receiver, slot, parent, name)
-{
-    popup = NULL;
-    bCtrl = false;
-    bProcessCtrl = false;
-}
-
-CToolButton::CToolButton( const QIconSet & pOff, const QPixmap & pOn, const QString & textLabel,
-                          const QString & grouptext, QObject * receiver, const char * slot, QToolBar * parent,
-                          const char * name)
-        : QToolButton(pOff, textLabel, grouptext, receiver, slot, parent, name)
-{
-    popup = NULL;
-    bCtrl = false;
-    bProcessCtrl = false;
-#if QT_VERSION < 300
-    setOnIconSet(pOn);
-#else
-    QIconSet icon = pOff;
-    icon.setPixmap(pOn, QIconSet::Small, QIconSet::Normal, QIconSet::On);
-    setIconSet(icon);
-#endif
-    setTextLabel(textLabel);
-}
-
-CToolButton::CToolButton ( QWidget * parent, const char * name  )
+CToolButton::CToolButton (QWidget * parent, const char *name)
         : QToolButton( parent, name)
 {
     popup = NULL;
@@ -171,8 +143,8 @@ void CToolButton::ctrlClick()
     bCtrl = false;
 }
 
-PictButton::PictButton( QToolBar *parent)
-        : CToolButton(parent)
+PictButton::PictButton(QToolBar *parent, const char *name)
+        : CToolButton(parent, name)
 {
     accelKey = 0;
     connect(pMain, SIGNAL(iconChanged()), this, SLOT(iconChanged()));
@@ -374,8 +346,8 @@ void PictPushButton::paintEvent(QPaintEvent *e)
     p.drawText(rc, AlignHCenter | AlignVCenter, text);
 }
 
-CToolCombo::CToolCombo(QToolBar *t, const QString &toolTip)
-        : QComboBox(t)
+CToolCombo::CToolCombo(QToolBar *t, const QString &toolTip, const char *name)
+        : QComboBox(t, name)
 {
     QToolTip::add(this, toolTip);
     setEditable(true);
@@ -391,6 +363,199 @@ QSizePolicy CToolCombo::sizePolicy() const
         p.setHorData(QSizePolicy::Expanding);
     }
     return p;
+}
+
+CToolBar::CToolBar(const ToolBarDef *def, QMainWindow *parent, QWidget *receiver)
+        : QToolBar(parent)
+{
+    m_def = def;
+    setHorizontalStretchable(true);
+    setVerticalStretchable(true);
+    for (; def->id != BTN_END_DEF; def++){
+        if (def->id == BTN_SEPARATOR){
+            addSeparator();
+            continue;
+        }
+        QWidget *w;
+        if (def->flags & BTN_PICT){
+            PictButton *btn = new PictButton(this, QString::number(def->id));
+            w = btn;
+            btn->setState(def->icon, i18n(def->text));
+        }else if (def->flags & BTN_COMBO){
+            CToolCombo *cmb = new CToolCombo(this, i18n(def->text), QString::number(def->id));
+            w = cmb;
+        }else{
+            CToolButton *btn = new CToolButton(this, QString::number(def->id));
+            w = btn;
+            if (def->flags & BTN_CTRL) btn->bProcessCtrl = true;
+            btn->setTextLabel(i18n(def->text));
+            if (def->flags & BTN_TOGGLE)
+                btn->setToggleButton(true);
+            if (def->flags & BTN_TOGGLE_PICT){
+                string s;
+                s = def->icon;
+                s += (def->flags & BTN_PICT_INVERT) ? "_on" : "_off";
+                QIconSet offIcon = Icon(s.c_str());
+                s = def->icon;
+                s += (def->flags & BTN_PICT_INVERT) ? "_off" : "_on";
+#if QT_VERSION < 300
+                btn->setIconSet(offIcon);
+                btn->setOnIconSet(Icon(s.c_str()));
+#else
+                offIcon.setPixmap(Pict(s.c_str(), QIconSet::Small, QIconSet::Normal, QIconSet::On);
+                                  btn->setIconSet(icon);
+#endif
+            }else{
+                btn->setIconSet(Icon(def->icon));
+            }
+        }
+        if (def->flags & BTN_HIDE) w->hide();
+        if (def->slot){
+            if (def->flags & BTN_COMBO){
+                connect(w, SIGNAL(textChanged(const QString&) ), receiver, def->slot);
+            }else if (def->flags & BTN_TOGGLE){
+                connect(w, SIGNAL(toggled(bool)), receiver, def->slot);
+            }else{
+                connect(w, SIGNAL(clicked()), receiver, def->slot);
+            }
+        }
+        if (def->popup_slot){
+            connect(w, SIGNAL(showPopup(QPoint)), receiver, def->popup_slot);
+        }
+    }
+}
+
+bool CToolBar::isButton(int id)
+{
+    for (const ToolBarDef *d = m_def; d->id != BTN_END_DEF; d++){
+        if (d->id != id) continue;
+        return !(d->flags & BTN_COMBO);
+    }
+    return false;
+}
+
+bool CToolBar::isPictButton(int id)
+{
+    for (const ToolBarDef *d = m_def; d->id != BTN_END_DEF; d++){
+        if (d->id != id) continue;
+        return (d->flags & BTN_PICT);
+    }
+    return false;
+}
+
+bool CToolBar::isCombo(int id)
+{
+    for (const ToolBarDef *d = m_def; d->id != BTN_END_DEF; d++){
+        if (d->id != id) continue;
+        return (d->flags & BTN_COMBO);
+    }
+    return false;
+}
+
+QWidget *CToolBar::getWidget(int id)
+{
+    QObject *res = child(QString::number(id));
+    if (res == NULL) return NULL;
+    return static_cast<QWidget*>(res);
+}
+
+void CToolBar::setPopup(int id, QPopupMenu *popup)
+{
+    if (!isButton(id)) return;
+    QWidget *b = getWidget(id);
+    if (b == NULL) return;
+    CToolButton *btn = static_cast<CToolButton*>(b);
+    btn->setPopup(popup);
+    btn->setPopupDelay(0);
+}
+
+void CToolBar::setState(int id, const char *icon, const QString &text)
+{
+    if (!isPictButton(id)) return;
+    QWidget *b = getWidget(id);
+    if (b == NULL) return;
+    PictButton *btn = static_cast<PictButton*>(b);
+    btn->setState(icon, text);
+}
+
+void CToolBar::setEnabled(int id, bool bEnable)
+{
+    QWidget *b = getWidget(id);
+    if (b == NULL) return;
+    b->setEnabled(bEnable);
+}
+
+void CToolBar::setIcon(int id, const char *icon)
+{
+    if (!isButton(id)) return;
+    QWidget *b = getWidget(id);
+    if (b == NULL) return;
+    CToolButton *btn = static_cast<CToolButton*>(b);
+    btn->setIcon(Pict(icon));
+}
+
+void CToolBar::show(int id)
+{
+    QWidget *b = getWidget(id);
+    if (b == NULL) return;
+    b->show();
+}
+
+void CToolBar::hide(int id)
+{
+    QWidget *b = getWidget(id);
+    if (b == NULL) return;
+    b->hide();
+}
+
+bool CToolBar::isVisible(int id)
+{
+    QWidget *b = getWidget(id);
+    if (b == NULL) return false;
+    return b->isVisible();
+}
+
+bool CToolBar::isEnabled(int id)
+{
+    QWidget *b = getWidget(id);
+    if (b == NULL) return false;
+    return b->isEnabled();
+}
+
+bool CToolBar::isOn(int id)
+{
+    if (!isButton(id)) return false;
+    QWidget *b = getWidget(id);
+    if (b == NULL) return false;
+    CToolButton *btn = static_cast<CToolButton*>(b);
+    return btn->isOn();
+}
+
+bool CToolBar::isCtrl(int id)
+{
+    if (!isButton(id)) return false;
+    QWidget *b = getWidget(id);
+    if (b == NULL) return false;
+    CToolButton *btn = static_cast<CToolButton*>(b);
+    return btn->bCtrl;
+}
+
+void CToolBar::setOn(int id, bool bOn)
+{
+    if (!isButton(id)) return;
+    QWidget *b = getWidget(id);
+    if (b == NULL) return;
+    CToolButton *btn = static_cast<CToolButton*>(b);
+    btn->setOn(bOn);
+}
+
+QPoint CToolBar::popupPos(int id, QWidget *popup)
+{
+    if (!isButton(id)) return QPoint();
+    QWidget *b = getWidget(id);
+    if (b == NULL) return QPoint();
+    CToolButton *btn = static_cast<CToolButton*>(b);
+    return btn->popupPos(popup);
 }
 
 #ifndef _WINDOWS

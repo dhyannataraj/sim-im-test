@@ -286,6 +286,7 @@ cfgParam MainWindow_Params[] =
         { "MonitorHeight", OFFSET_OF(MainWindow, MonitorHeight), PARAM_USHORT, 0 },
         { "MonitorLevel", OFFSET_OF(MainWindow, MonitorLevel), PARAM_USHORT, L_PACKET | L_DEBUG | L_WARN | L_ERROR },
         { "CopyMessages", OFFSET_OF(MainWindow, CopyMessages), PARAM_USHORT, 3 },
+        { "AllEncodings", OFFSET_OF(MainWindow, AllEncodings), PARAM_BOOL, 0 },
         { "", 0, 0, 0 }
     };
 
@@ -298,6 +299,21 @@ static void child_proc(int)
 }
 
 #endif
+
+const int btnShowOffline	= 1;
+const int btnGroupMode		= 2;
+const int btnStatus			= 3;
+const int btnSetup			= 4;
+
+ToolBarDef mainWndToolBar[] =
+    {
+        { btnShowOffline, "online", I18N_NOOP("Show &offline"), BTN_TOGGLE | BTN_TOGGLE_PICT | BTN_PICT_INVERT, SLOT(toggleShowOffline()), NULL },
+        { btnGroupMode, "grp", I18N_NOOP("&Group mode"), BTN_TOGGLE | BTN_TOGGLE_PICT, SLOT(toggleGroupMode()), SLOT(showGroupPopup(QPoint)) },
+        SEPARATOR,
+        { btnStatus, "online", I18N_NOOP("Status"), BTN_PICT, NULL, NULL },
+        { btnSetup, "2downarrow", I18N_NOOP("&Menu"), 0, NULL, NULL },
+        END_DEF
+    };
 
 MainWindow::MainWindow(const char *name)
         : QMainWindow(NULL, name, WType_TopLevel | WStyle_Customize | WStyle_Title | WStyle_NormalBorder| WStyle_SysMenu)
@@ -390,35 +406,14 @@ MainWindow::MainWindow(const char *name)
     menuContainers = new QPopupMenu(this);
     connect(menuContainers, SIGNAL(activated(int)), this, SLOT(toContainer(int)));
 
-    toolbar = new QToolBar(this);
-    toolbar->setHorizontalStretchable(true);
-    toolbar->setVerticalStretchable(true);
-
-    btnShowOffline = new CToolButton(Icon("online_on"), Pict("online_off"), i18n("Show &offline"), "",
-                                     this, SLOT(toggleShowOffline()), toolbar);
-    btnShowOffline->setToggleButton(true);
-
-    btnGroupMode = new CToolButton(Icon("grp_off"), Pict("grp_on"), i18n("&Group mode"), "",
-                                   this, SLOT(toggleGroupMode()), toolbar);
-    btnGroupMode->setToggleButton(true);
-
-    toolbar->addSeparator();
-
-    btnStatus = new PictButton(toolbar);
-    btnStatus->setState(pClient->getStatusIcon(), pClient->getStatusText());
-    btnStatus->setPopup(menuStatus);
-    btnStatus->setPopupDelay(0);
-
-    CToolButton *btnSetup = new CToolButton(toolbar);
-    btnSetup->setTextLabel(i18n("&Menu"));
-    btnSetup->setOffIconSet(Icon("2downarrow"));
-    btnSetup->setPopup(menuFunction);
-    btnSetup->setPopupDelay(0);
+    toolbar = new CToolBar(mainWndToolBar, this, this);
+    toolbar->setState(btnStatus, pClient->getStatusIcon(), pClient->getStatusText());
+    toolbar->setPopup(btnStatus, menuStatus);
+    toolbar->setPopup(btnSetup, menuFunction);
 
     users = new UserView(this);
     setCentralWidget(users);
 
-    connect(btnGroupMode, SIGNAL(showPopup(QPoint)), this, SLOT(showGroupPopup(QPoint)));
     connect(menuGroups, SIGNAL(activated(int)), users, SLOT(grpFunction(int)));
 
     searchDlg = NULL;
@@ -666,23 +661,23 @@ bool makedir(char *p)
 
 void MainWindow::toggleGroupMode()
 {
-    setGroupMode(btnGroupMode->isOn());
+    setGroupMode(toolbar->isOn(btnGroupMode));
 }
 
 void MainWindow::toggleShowOffline()
 {
-    setShowOffline(btnShowOffline->isOn());
+    setShowOffline(toolbar->isOn(btnShowOffline));
 }
 
 void MainWindow::setGroupMode(bool bState)
 {
-    btnGroupMode->setOn(bState);
+    toolbar->setOn(btnGroupMode, bState);
     users->setGroupMode(bState);
 }
 
 void MainWindow::setShowOffline(bool bState)
 {
-    btnShowOffline->setOn(bState);
+    toolbar->setOn(btnShowOffline, bState);
     users->setShowOffline(bState);
 }
 
@@ -986,7 +981,7 @@ void MainWindow::processEvent(ICQEvent *e)
         return;
     case EVENT_ANOTHER_LOCATION:
         setShow(true);
-        BalloonMsg::message(i18n("Your UIN used from another location"), btnStatus);
+        BalloonMsg::message(i18n("Your UIN used from another location"), toolbar->getWidget(btnStatus));
         break;
     case EVENT_INFO_CHANGED:
         saveContacts();
@@ -1069,8 +1064,8 @@ void MainWindow::badPassword()
 void MainWindow::saveState()
 {
     if (m_bAutoAway || m_bAutoNA) ManualStatus = (unsigned long)m_autoStatus;
-    ShowOffline = btnShowOffline->isOn();
-    GroupMode = btnGroupMode->isOn();
+    ShowOffline = toolbar->isOn(btnShowOffline);
+    GroupMode = toolbar->isOn(btnGroupMode);
     Show = isShow();
     mLeft = pos().x();
     mTop = pos().y();
@@ -1627,9 +1622,9 @@ void MainWindow::setIcons()
 {
     QPixmap icon = Pict(pClient->getStatusIcon());
     if (!pClient->isConnecting()){
-        btnStatus->setState(pClient->getStatusIcon(), pClient->getStatusText());
+        toolbar->setState(btnStatus, pClient->getStatusIcon(), pClient->getStatusText());
     }else{
-        btnStatus->setState(SIMClient::getStatusIcon(bBlinkState ? ICQ_STATUS_OFFLINE : ICQ_STATUS_ONLINE), i18n("Connecting"));
+        toolbar->setState(btnStatus, SIMClient::getStatusIcon(bBlinkState ? ICQ_STATUS_OFFLINE : ICQ_STATUS_ONLINE), i18n("Connecting"));
         icon = Pict(SIMClient::getStatusIcon(bBlinkState ? ICQ_STATUS_OFFLINE : ICQ_STATUS_ONLINE));
     }
     setIcon(icon);

@@ -35,6 +35,7 @@ class QPushButton;
 class QPopupMenu;
 class CPushButton;
 class QComboBox;
+class CToolBar;
 class QLineEdit;
 class EditSpell;
 class ICQMessage;
@@ -171,28 +172,7 @@ protected:
     History *history();
     ICQMessage *msg;
 
-    CToolButton	*btnCloseSend;
-    PictButton	*btnSend;
-
-    CToolButton	*btnBgColor;
-    CToolButton	*btnFgColor;
-    CToolButton	*btnBold;
-    CToolButton	*btnItalic;
-    CToolButton	*btnUnder;
-    CToolButton	*btnFont;
-    CToolButton *btnSmile;
-#ifdef USE_SPELL
-    CToolButton	*btnSpell;
-#endif
-    PictButton	*btnNext;
-    PictButton	*btnReply;
-    PictButton	*btnForward;
-    PictButton	*btnQuote;
-    PictButton	*btnGrant;
-    PictButton	*btnRefuse;
-    PictButton	*btnAccept;
-    PictButton	*btnDecline;
-    CToolButton	*btnMultiply;
+    CToolBar	*toolbar;
 
     TextShow   *view;
     QHGroupBox *phone;

@@ -39,7 +39,7 @@ class QTimer;
 class UserFloat;
 class UserBox;
 class QPopupMenu;
-class QToolBar;
+class CToolBar;
 class Themes;
 class SearchDialog;
 class SetupDialog;
@@ -257,6 +257,8 @@ public:
 
     unsigned short	CopyMessages;
 
+    bool			AllEncodings;
+
     bool 	     init();
 
     QPopupMenu   *menuStatus;
@@ -271,11 +273,8 @@ public:
 
     UserView     *users;
 
-    CToolButton  *btnShowOffline;
-    CToolButton  *btnGroupMode;
-    PictButton   *btnStatus;
-    Themes *themes;
-    XOSD	*xosd;
+    Themes       *themes;
+    XOSD	     *xosd;
 
 
     void setShow(bool bState);
@@ -428,7 +427,7 @@ protected:
     virtual void closeEvent(QCloseEvent*);
     void addMessageType(QPopupMenu *menu, int type, int id, bool bAdd, bool bHaveTitle, unsigned long uin);
     void addMenuItem(QPopupMenu *menuUser, const char *icon, const QString &n, int id, bool bAdd, bool bHaveTitle, const QString &accel = QString::null);
-    QToolBar *toolbar;
+    CToolBar *toolbar;
     list<UserBox*> containers;
     SearchDialog *searchDlg;
     SetupDialog *setupDlg;

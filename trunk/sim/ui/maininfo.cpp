@@ -39,7 +39,8 @@ MainInfo::MainInfo(QWidget *p, bool readOnly)
     edtUin->setReadOnly(true);
     cmbDisplay->setEditable(true);
     cmbEncoding->insertStringList(i18n("Default"));
-    cmbEncoding->insertStringList(*pClient->encodings);
+    cmbEncoding->insertStringList(pClient->getEncodings(true));
+    cmbEncoding->insertStringList(pClient->getEncodings(false));
     connect(lstEmail, SIGNAL(highlighted(int)), this, SLOT(setButtons(int)));
     connect(btnAdd, SIGNAL(clicked()), this, SLOT(addEmail()));
     connect(btnEdit, SIGNAL(clicked()), this, SLOT(editEmail()));
@@ -56,6 +57,22 @@ MainInfo::MainInfo(QWidget *p, bool readOnly)
     }
 }
 
+void MainInfo::setCurrentEncoding(int mib)
+{
+    QString &name = pClient->encodingName(mib);
+    for (int i = 0; i < cmbEncoding->count(); i++){
+        if (cmbEncoding->text(i) == name){
+            cmbEncoding->setCurrentItem(i);
+            break;
+        }
+    }
+}
+
+int MainInfo::getCurrentEncoding()
+{
+    return pClient->encodingMib(cmbEncoding->currentText());
+}
+
 void MainInfo::load(ICQUser *u)
 {
     if (u->Type == USER_TYPE_ICQ){
@@ -67,7 +84,7 @@ void MainInfo::load(ICQUser *u)
         lblUin->show();
         lineDiv->show();
     }
-    cmbEncoding->setCurrentItem(pClient->userEncoding(u->Uin));
+    setCurrentEncoding(pClient->userEncoding(u->Uin));
     edtFirst->setText(QString::fromLocal8Bit(u->FirstName.c_str()));
     edtLast->setText(QString::fromLocal8Bit(u->LastName.c_str()));
     edtNotes->setText(QString::fromLocal8Bit(u->Notes.c_str()));
@@ -177,7 +194,7 @@ void MainInfo::defaultEmail()
 
 void MainInfo::save(ICQUser *u)
 {
-    pClient->setUserEncoding(u->Uin, cmbEncoding->currentItem());
+    pClient->setUserEncoding(u->Uin, getCurrentEncoding());
     u->EMails = mails;
     set(u->Notes, edtNotes->text());
     set(u->FirstName, edtFirst->text());
@@ -205,7 +222,7 @@ void MainInfo::save(ICQUser *u)
 
 void MainInfo::apply(ICQUser *u)
 {
-    pClient->setUserEncoding(u->Uin, cmbEncoding->currentItem());
+    pClient->setUserEncoding(u->Uin, getCurrentEncoding());
     EMailInfo *mailInfo = NULL;
     if (mails.begin() != mails.end()){
         for (EMailList::iterator it = mails.begin(); it != mails.end(); ++it){

@@ -87,7 +87,7 @@ void log_string(unsigned short l, const char *s)
     string m;
     format(m, "%02u:%02u:%02u [%s] ", tm->tm_hour, tm->tm_min, tm->tm_sec, level_name(l));
     m += s;
-    if (LogProc) LogProc(l, m.c_str());
+    if (LogProc) (*LogProc)(l, m.c_str());
     if (bLog){
 #ifdef QT_DLL
         for (char *p = (char*)m.c_str(); *p; ){

@@ -47,6 +47,7 @@ class QPainter;
 class TransparentBg;
 class QTextCodec;
 class QComboBox;
+class CToolBar;
 
 class TextShow : public QTextBrowser
 {
@@ -170,12 +171,8 @@ protected:
     int searchParag;
     int searchIndex;
     HistoryTextView *view;
-    CToolButton *btnSearch;
-    CToolButton *btnFilter;
-    QComboBox   *cmbSearch;
-    CToolButton *btnNext;
-    CToolButton *btnPrev;
-    QString filter;
+    CToolBar	*toolbar;
+    QString		filter;
 };
 
 #endif

@@ -25,6 +25,8 @@
 #include <qmenubar.h>
 #include <qpopupmenu.h>
 #include <qfile.h>
+#include <qfont.h>
+#include <qfontdatabase.h>
 #include <qmessagebox.h>
 #ifdef USE_KDE
 #include <kfiledialog.h>
@@ -86,6 +88,29 @@ MonitorWindow::MonitorWindow()
         resize(pMain->MonitorWidth, pMain->MonitorHeight);
     monitor = this;
     setLogProc(&logMonitor);
+    QFont font("Courier");
+    if (font.fixedPitch()){
+        edit->setFont(font);
+        return;
+    }
+    QFontDatabase fdb;
+    QStringList families = fdb.families();
+    bool bFound = false;
+    for ( QStringList::Iterator f = families.begin(); f != families.end(); ++f ) {
+        QString family = *f;
+        QStringList styles = fdb.styles( family );
+        for ( QStringList::Iterator s = styles.begin(); s != styles.end(); ++s ) {
+            QString style = *s;
+            QFontInfo info(fdb.font(family,style,10));
+            if (info.fixedPitch()){
+                QFont f(family);
+                edit->setFont(f);
+                bFound = true;
+                break;
+            }
+        }
+        if (bFound) break;
+    }
 }
 
 MonitorWindow::~MonitorWindow()
