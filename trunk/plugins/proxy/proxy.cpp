@@ -876,7 +876,7 @@ void HTTPS_Proxy::send_auth()
 {
     if (getAuth()){
         string s = basic_auth(getUser(), getPassword());
-        bOut << "Proxy-Authorization: basic ";
+        bOut << "Proxy-Authorization: Basic ";
         bOut << s.c_str();
         bOut << "\r\n";
     }
