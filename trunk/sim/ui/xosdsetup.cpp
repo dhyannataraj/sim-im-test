@@ -48,11 +48,11 @@ XOSDSetup::XOSDSetup(QWidget *p)
     cmbPos->insertItem(i18n("Center-bottom"));
     cmbPos->insertItem(i18n("Center-top"));
     cmbPos->setCurrentItem(pMain->XOSD_pos());
-	chkShadow->setChecked(pMain->XOSD_Shadow());
-	chkBackground->setChecked(pMain->XOSD_Background());
-	btnBgColor->setColor(pMain->XOSD_BgColor());
+    chkShadow->setChecked(pMain->XOSD_Shadow());
+    chkBackground->setChecked(pMain->XOSD_Background());
+    btnBgColor->setColor(pMain->XOSD_BgColor());
     connect(chkOn, SIGNAL(toggled(bool)), this, SLOT(toggledOn(bool)));
-	connect(chkBackground, SIGNAL(toggled(bool)), this, SLOT(toggledOn(bool)));
+    connect(chkBackground, SIGNAL(toggled(bool)), this, SLOT(toggledOn(bool)));
     toggledOn(chkOn->isChecked());
 }
 
@@ -63,9 +63,9 @@ void XOSDSetup::apply(ICQUser*)
     pMain->XOSD_timeout = spnTimeout->value();
     pMain->XOSD_color = btnColor->color().rgb() & 0xFFFFFF;
     pMain->XOSD_pos = cmbPos->currentItem();
-	pMain->XOSD_Shadow = chkShadow->isChecked();
-	pMain->XOSD_Background = chkBackground->isChecked();
-	pMain->XOSD_BgColor = btnBgColor->color().rgb() & 0xFFFFFF;
+    pMain->XOSD_Shadow = chkShadow->isChecked();
+    pMain->XOSD_Background = chkBackground->isChecked();
+    pMain->XOSD_BgColor = btnBgColor->color().rgb() & 0xFFFFFF;
     const QFont &f = edtFont->winFont();
     pMain->XOSD_FontFamily = f.family();
     pMain->XOSD_FontSize = f.pointSize();
@@ -76,16 +76,16 @@ void XOSDSetup::apply(ICQUser*)
 
 void XOSDSetup::toggledOn(bool)
 {
-	bool bOn = chkOn->isChecked();
-	bool bBg = chkBackground->isChecked();
+    bool bOn = chkOn->isChecked();
+    bool bBg = chkBackground->isChecked();
     spnOffs->setEnabled(bOn);
     spnTimeout->setEnabled(bOn);
     btnColor->setEnabled(bOn);
     edtFont->setEnabled(bOn);
     cmbPos->setEnabled(bOn);
-	chkShadow->setEnabled(bOn);
-	chkBackground->setEnabled(bOn);
-	btnBgColor->setEnabled(bOn & bBg);
+    chkShadow->setEnabled(bOn);
+    chkBackground->setEnabled(bOn);
+    btnBgColor->setEnabled(bOn & bBg);
 }
 
 #ifndef _WINDOWS

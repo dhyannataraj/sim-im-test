@@ -1,4 +1,5 @@
 # Makefile.in generated automatically by automake 1.5 from Makefile.am.
+# KDE tags expanded automatically by am_edit - $Revision: 1.1.1.1 $ 
 
 # Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
 # Free Software Foundation, Inc.
@@ -225,14 +226,19 @@ qt_libraries = @qt_libraries@
 x_includes = @x_includes@
 x_libraries = @x_libraries@
 
-POFILES = AUTO
+#>- POFILES = AUTO
+#>+ 2
+POFILES = de.po ru.po
+GMOFILES = de.gmo ru.gmo
 subdir = po
 mkinstalldirs = $(SHELL) $(top_srcdir)/admin/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 DIST_SOURCES =
 DIST_COMMON = Makefile.am Makefile.in
-all: all-am
+#>- all: all-am
+#>+ 1
+all: all-nls docs-am  all-am
 
 .SUFFIXES:
 
@@ -245,37 +251,50 @@ clean-libtool:
 distclean-libtool:
 	-rm -f libtool
 $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
+#>- 	cd $(top_srcdir) && \
+#>- $(AUTOMAKE) --gnu  po/Makefile
+#>+ 3
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  po/Makefile
+	$(AUTOMAKE) --gnu  po/Makefile
+	cd $(top_srcdir) && perl admin/am_edit po/Makefile.in
 Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && \
-	  CONFIG_HEADERS= CONFIG_LINKS= \
-	  CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
+	CONFIG_HEADERS= CONFIG_LINKS= \
+	CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
 uninstall-info-am:
 tags: TAGS
 TAGS:
 
 
-DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+#>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+#>+ 4
+KDE_DIST=sim.pot ru.po de.gmo de.po ru.gmo 
+
+#>- DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
+#>+ 1
+DISTFILES = $(GMOFILES) $(POFILES) $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
+
 
 top_distdir = ..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
-distdir: $(DISTFILES)
+#>- distdir: $(DISTFILES)
+#>+ 1
+distdir: distdir-nls  $(DISTFILES)
 	@for file in $(DISTFILES); do \
-	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
-	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
-	  if test "$$dir" != "$$file" && test "$$dir" != "."; then \
-	    $(mkinstalldirs) "$(distdir)/$$dir"; \
-	  fi; \
-	  if test -d $$d/$$file; then \
-	    cp -pR $$d/$$file $(distdir) \
-	    || exit 1; \
-	  else \
-	    test -f $(distdir)/$$file \
-	    || cp -p $$d/$$file $(distdir)/$$file \
-	    || exit 1; \
-	  fi; \
+	if test -f $$file; then d=.; else d=$(srcdir); fi; \
+	dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
+	if test "$$dir" != "$$file" && test "$$dir" != "."; then \
+	$(mkinstalldirs) "$(distdir)/$$dir"; \
+	fi; \
+	if test -d $$d/$$file; then \
+	cp -pR $$d/$$file $(distdir) \
+	|| exit 1; \
+	else \
+	test -f $(distdir)/$$file \
+	|| cp -p $$d/$$file $(distdir)/$$file \
+	|| exit 1; \
+	fi; \
 	done
 check-am: all-am
 check: check-am
@@ -286,7 +305,9 @@ installdirs:
 install: install-am
 install-exec: install-exec-am
 install-data: install-data-am
-uninstall: uninstall-am
+#>- uninstall: uninstall-am
+#>+ 1
+uninstall: uninstall-nls  uninstall-am
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
@@ -294,8 +315,8 @@ install-am: all-am
 installcheck: installcheck-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) INSTALL_PROGRAM="$(INSTALL_STRIP_PROGRAM)" \
-	  `test -z '$(STRIP)' || \
-	    echo "INSTALL_PROGRAM_ENV=STRIPPROG='$(STRIP)'"` install
+	`test -z '$(STRIP)' || \
+	echo "INSTALL_PROGRAM_ENV=STRIPPROG='$(STRIP)'"` install
 mostlyclean-generic:
 
 clean-generic:
@@ -306,7 +327,9 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-clean: clean-am
+#>- clean: clean-am
+#>+ 1
+clean: kde-rpo-clean  clean-am
 
 clean-am: clean-generic clean-libtool mostlyclean-am
 
@@ -322,7 +345,9 @@ info: info-am
 
 info-am:
 
-install-data-am:
+#>- install-data-am:
+#>+ 1
+install-data-am: install-nls 
 
 install-exec-am:
 
@@ -332,7 +357,9 @@ install-man:
 
 installcheck-am:
 
-maintainer-clean: maintainer-clean-am
+#>- maintainer-clean: maintainer-clean-am
+#>+ 1
+maintainer-clean: clean-nls  maintainer-clean-am
 
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -354,3 +381,82 @@ uninstall-am: uninstall-info-am
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
+
+#>+ 7
+de.gmo: de.po
+	rm -f de.gmo; $(GMSGFMT) -o de.gmo $(srcdir)/de.po
+	test ! -f de.gmo || touch de.gmo
+ru.gmo: ru.po
+	rm -f ru.gmo; $(GMSGFMT) -o ru.gmo $(srcdir)/ru.po
+	test ! -f ru.gmo || touch ru.gmo
+
+#>+ 3
+clean-nls:
+	-rm -f  de.gmo ru.gmo
+
+#>+ 8
+install-nls:
+	@for base in de ru ; do \
+	  echo $(INSTALL_DATA) $$base.gmo $(DESTDIR)$(kde_locale)/$$base/LC_MESSAGES/$(PACKAGE).mo ;\
+	  $(mkinstalldirs) $(DESTDIR)$(kde_locale)/$$base/LC_MESSAGES ; \
+	  test ! -f $$base.gmo || $(INSTALL_DATA) $$base.gmo $(DESTDIR)$(kde_locale)/$$base/LC_MESSAGES/$(PACKAGE).mo ;\
+	done
+
+
+#>+ 4
+uninstall-nls:
+	rm -f $(DESTDIR)$(kde_locale)/de/LC_MESSAGES/$(PACKAGE).mo
+	rm -f $(DESTDIR)$(kde_locale)/ru/LC_MESSAGES/$(PACKAGE).mo
+
+#>+ 2
+all-nls: $(GMOFILES)
+
+#>+ 8
+distdir-nls:$(GMOFILES)
+	for file in $(POFILES); do \
+	  cp $(srcdir)/$$file $(distdir); \
+	done
+	for file in $(GMOFILES); do \
+	  cp $(srcdir)/$$file $(distdir); \
+	done
+
+#>+ 4
+merge:
+	$(MAKE) -f $(top_srcdir)/admin/Makefile.common package-merge POFILES="${POFILES}" PACKAGE=${PACKAGE}
+
+
+#>+ 2
+docs-am:
+
+#>+ 2
+apidox-am:
+
+#>+ 2
+apidox: apidox-am
+
+#>+ 6
+force-reedit:
+		cd $(top_srcdir) && \
+	$(AUTOMAKE) --gnu  po/Makefile
+	cd $(top_srcdir) && perl admin/am_edit po/Makefile.in
+
+
+#>+ 2
+final:
+	$(MAKE) all-am
+#>+ 2
+final-install:
+	$(MAKE) install-am
+#>+ 2
+no-final:
+	$(MAKE) all-am
+#>+ 2
+no-final-install:
+	$(MAKE) install-am
+#>+ 3
+cvs-clean:
+	$(MAKE) admindir=$(top_srcdir)/admin -f $(top_srcdir)/admin/Makefile.common cvs-clean
+
+#>+ 3
+kde-rpo-clean:
+	-rm -f *.rpo

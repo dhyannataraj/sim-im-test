@@ -162,7 +162,7 @@ void WharfIcon::set(const char *icon, const char *msg)
         }
     }else{
         const QBitmap *mask = nvis->mask();
-	if (mask) setMask(*mask);
+        if (mask) setMask(*mask);
     }
     if (vis) delete vis;
     vis = nvis;
@@ -385,13 +385,13 @@ void DockWnd::setTip(const QString &tip)
 #else
     if (wharfIcon == NULL){
         if (isVisible()){
-        QToolTip::remove(this);
-        QToolTip::add(this, tip);
+            QToolTip::remove(this);
+            QToolTip::add(this, tip);
         }
     }else{
-	if (wharfIcon->isVisible()){
-        QToolTip::remove(wharfIcon);
-        QToolTip::add(wharfIcon, tip);
+        if (wharfIcon->isVisible()){
+            QToolTip::remove(wharfIcon);
+            QToolTip::add(wharfIcon, tip);
         }
     }
 #endif

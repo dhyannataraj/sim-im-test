@@ -182,9 +182,9 @@ public:
     ConfigUShort XOSD_FontWeight;
     ConfigBool   XOSD_FontItalic;
     ConfigUShort XOSD_timeout;
-	ConfigBool	 XOSD_Shadow;
-	ConfigBool	 XOSD_Background;
-	ConfigULong	 XOSD_BgColor;
+    ConfigBool	 XOSD_Shadow;
+    ConfigBool	 XOSD_Background;
+    ConfigULong	 XOSD_BgColor;
 
     ConfigUShort ContainerMode;
 

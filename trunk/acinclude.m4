@@ -41,15 +41,14 @@ dnl HAVE_TM_GMTOFF (defined)
 dnl
 AC_DEFUN(AC_TM_GMTOFF,
 [AC_MSG_CHECKING(if struct tm has tm_gmtoff member)
-AC_CACHE_VAL(ac_cv_tm_has_tm_gmtoff,
 AC_TRY_COMPILE([
 # include <sys/types.h>
 # include <time.h>],
 [u_int i = sizeof(((struct tm *)0)->tm_gmtoff)],
-ac_cv_acme_tm_has_tm_gmtoff=yes,
-ac_cv_acme_tm_has_tm_gmtoff=no))
+ac_cv_tm_has_tm_gmtoff=yes,
+ac_cv_tm_has_tm_gmtoff=no)
 AC_MSG_RESULT($ac_cv_tm_has_tm_gmtoff)
-if test $ac_cv_tm_has_tm_gmtoff = yes ; then
+if test "$ac_cv_tm_has_tm_gmtoff" = "yes" ; then
 AC_DEFINE(HAVE_TM_GMTOFF, 1, [Have tm_gmtoff])
 fi])
 

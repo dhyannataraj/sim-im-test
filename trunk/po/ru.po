@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2002-07-15 02:13+0400\n"
-"PO-Revision-Date: 2002-07-15 02:19GMT+3\n"
+"POT-Creation-Date: 2002-07-16 00:12+0400\n"
+"PO-Revision-Date: 2002-07-16 00:15GMT+3\n"
 "Last-Translator: Vladimir Shutoff <shutoff@mail.ru>\n"
 "Language-Team: Русский <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -27,7 +27,8 @@ msgid ""
 "Please leave your message and I will get back to you as soon as I return!\n"
 msgstr ""
 "Я отошел.\n"
-"Оставьте ваше сообщение, когда вернусь прочитаю\n"
+"Оставьте ваше сообщение, когда вернусь "
+"прочитаю\n"
 
 #: libicq/icqclient.cpp:56
 msgid ""
@@ -165,12 +166,12 @@ msgstr "Неактивный"
 msgid "Last online"
 msgstr "Последний раз в сети"
 
-#: dock.cpp:493
+#: dock.cpp:500
 #, c-format
 msgid "%n unread message"
 msgstr "%n непрочитанное сообщение"
 
-#: dock.cpp:498 mainwin.cpp:1244
+#: dock.cpp:505 mainwin.cpp:1247
 msgid "Connecting"
 msgstr "Соединение"
 
@@ -230,163 +231,163 @@ msgstr "Исчерпано количество попыток"
 msgid "Invalid password"
 msgstr "Неверный пароль"
 
-#: mainwin.cpp:290
+#: mainwin.cpp:293
 msgid "Current location"
 msgstr "Текущее положение"
 
-#: mainwin.cpp:291
+#: mainwin.cpp:294
 msgid "Phone status"
 msgstr "Телефон"
 
-#: mainwin.cpp:293
+#: mainwin.cpp:296
 msgid "Phone Book"
 msgstr "Телефонная книга"
 
-#: mainwin.cpp:307
+#: mainwin.cpp:310
 msgid "Show offline"
 msgstr "Показывать пользователей не в сети"
 
-#: mainwin.cpp:311
+#: mainwin.cpp:314
 msgid "Group mode"
 msgstr "Показывать группы"
 
-#: mainwin.cpp:323
+#: mainwin.cpp:326
 msgid "Menu"
 msgstr "Меню"
 
-#: mainwin.cpp:708
+#: mainwin.cpp:711
 msgid "%1 from %2 received"
 msgstr "%1 от %2"
 
-#: mainwin.cpp:770
+#: mainwin.cpp:773
 msgid "Your UIN used from another location"
 msgstr "Ваш UIN используется с другого компьютера"
 
-#: mainwin.cpp:815
+#: mainwin.cpp:818
 msgid "User %1 is online"
 msgstr "Пользователь %1 в сети"
 
-#: mainwin.cpp:1219 mainwin.cpp:1462
+#: mainwin.cpp:1222 mainwin.cpp:1465
 msgid "&Yes"
 msgstr "&Да"
 
-#: mainwin.cpp:1220 mainwin.cpp:1463
+#: mainwin.cpp:1223 mainwin.cpp:1466
 msgid "&No"
 msgstr "&Нет"
 
-#: mainwin.cpp:1221
+#: mainwin.cpp:1224
 msgid "Add user %1 to ignore list ?"
 msgstr "Добавить \"%1\" в список игнорируемых"
 
-#: mainwin.cpp:1287
+#: mainwin.cpp:1290
 msgid "In visible list"
 msgstr "В списке видимости"
 
-#: mainwin.cpp:1289
+#: mainwin.cpp:1292
 msgid "In invisible list"
 msgstr "В списке невидимости"
 
-#: mainwin.cpp:1292
+#: mainwin.cpp:1295
 msgid "In ignore list"
 msgstr "В списке игнорируемых"
 
-#: mainwin.cpp:1309 mainwin.cpp:1750
+#: mainwin.cpp:1312 mainwin.cpp:1753
 msgid "Groups"
 msgstr "Группы"
 
-#: mainwin.cpp:1314 ui/userinfo.cpp:53 userbox.cpp:149 userbox.cpp:281
+#: mainwin.cpp:1317 ui/userinfo.cpp:53 userbox.cpp:149 userbox.cpp:281
 msgid "User info"
 msgstr "Информация о пользователе"
 
-#: mainwin.cpp:1315 userbox.cpp:154 userbox.cpp:325
+#: mainwin.cpp:1318 userbox.cpp:154 userbox.cpp:325
 msgid "History"
 msgstr "История"
 
-#: mainwin.cpp:1318
+#: mainwin.cpp:1321
 msgid "Floating off"
 msgstr "Выключить плавающее окно"
 
-#: mainwin.cpp:1318
+#: mainwin.cpp:1321
 msgid "Floating on"
 msgstr "Включить плавающее окно"
 
-#: mainwin.cpp:1321
+#: mainwin.cpp:1324
 msgid "Users"
 msgstr "Пользователи"
 
-#: mainwin.cpp:1464
+#: mainwin.cpp:1467
 msgid "Delete user %1?"
 msgstr "Удалить пользователя \"%1\"?"
 
-#: mainwin.cpp:1531 msgedit.cpp:724
+#: mainwin.cpp:1534 msgedit.cpp:724
 msgid "New"
 msgstr "Новое"
 
-#: mainwin.cpp:1534
+#: mainwin.cpp:1537
 msgid "To container"
 msgstr "В контейнер"
 
-#: mainwin.cpp:1726
+#: mainwin.cpp:1729
 msgid "Invisible"
 msgstr "Невидимый"
 
-#: mainwin.cpp:1729
+#: mainwin.cpp:1732
 msgid "Don't show"
 msgstr "Не показывать"
 
-#: mainwin.cpp:1730
+#: mainwin.cpp:1733
 msgid "Available"
 msgstr "Доступен"
 
-#: mainwin.cpp:1731
+#: mainwin.cpp:1734
 msgid "Busy"
 msgstr "Занят"
 
-#: mainwin.cpp:1734 userview.cpp:475
+#: mainwin.cpp:1737 userview.cpp:475
 msgid "Create group"
 msgstr "Создать группу"
 
-#: mainwin.cpp:1736 userview.cpp:480
+#: mainwin.cpp:1739 userview.cpp:480
 msgid "Expand all"
 msgstr "Развернуть все группы"
 
-#: mainwin.cpp:1737 userview.cpp:481
+#: mainwin.cpp:1740 userview.cpp:481
 msgid "Collapse all"
 msgstr "Свернуть все группы"
 
-#: mainwin.cpp:1741
+#: mainwin.cpp:1744
 msgid "ICQ"
 msgstr "ICQ"
 
-#: mainwin.cpp:1744
+#: mainwin.cpp:1747
 msgid "Find User"
 msgstr "Поиск пользователя"
 
-#: mainwin.cpp:1745
+#: mainwin.cpp:1748
 msgid "Add Non-IM contact"
 msgstr "Добавить внешний контакт"
 
-#: mainwin.cpp:1747 ui/statussetupbase.cpp:79 usertbl.cpp:112
+#: mainwin.cpp:1750 ui/statussetupbase.cpp:79 usertbl.cpp:112
 msgid "Status"
 msgstr "Статус"
 
-#: mainwin.cpp:1749 ui/setupdlg.cpp:64
+#: mainwin.cpp:1752 ui/setupdlg.cpp:64
 msgid "Setup"
 msgstr "Настройки"
 
-#: mainwin.cpp:1751
+#: mainwin.cpp:1754
 msgid "Phone \"Follow Me\""
 msgstr "Телефонный сервис"
 
-#: mainwin.cpp:1754
+#: mainwin.cpp:1757
 msgid "Always on top"
 msgstr "Всегда наверху"
 
-#: mainwin.cpp:1758
+#: mainwin.cpp:1761
 msgid "&About SIM"
 msgstr "О &приложении SIM"
 
-#: mainwin.cpp:1759
+#: mainwin.cpp:1762
 msgid "About &KDE"
 msgstr "О &KDE"
 
@@ -954,29 +955,41 @@ msgstr "Домашняя"
 msgid "Notify On Screen"
 msgstr "On-Screen сообщения"
 
-#: ui/xosdbase.cpp:121
+#: ui/xosdbase.cpp:120
 msgid "Enable notify on screen"
 msgstr "Разрешить On-Screen сообщения"
 
+#: ui/xosdbase.cpp:127
+msgid "Background color:"
+msgstr "Цвет фона:"
+
 #: ui/xosdbase.cpp:141
-msgid "Show time:"
-msgstr "Время показа:"
+msgid "Color:"
+msgstr "Цвет:"
 
-#: ui/workinfobase.cpp:196 ui/xosdbase.cpp:153
-msgid "Position:"
-msgstr "Должность:"
-
-#: ui/xosdbase.cpp:159
+#: ui/xosdbase.cpp:151
 msgid "Font:"
 msgstr "Шрифт:"
 
-#: ui/xosdbase.cpp:167
+#: ui/xosdbase.cpp:157
+msgid "Show time:"
+msgstr "Время показа:"
+
+#: ui/xosdbase.cpp:175
 msgid "Offset:"
 msgstr "Отступ:"
 
-#: ui/xosdbase.cpp:177
-msgid "Color:"
-msgstr "Цвет:"
+#: ui/workinfobase.cpp:196 ui/xosdbase.cpp:181
+msgid "Position:"
+msgstr "Должность:"
+
+#: ui/xosdbase.cpp:193
+msgid "Shadow"
+msgstr "Тень"
+
+#: ui/xosdbase.cpp:202
+msgid "Background"
+msgstr "Фон"
 
 #: ui/networkbase.cpp:80
 msgid "Network"

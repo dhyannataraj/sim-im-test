@@ -225,9 +225,9 @@ MainWindow::MainWindow(const char *name)
         XOSD_FontWeight(this, "XOSD_FontWeight"),
         XOSD_FontItalic(this, "XOSD_FontItalic"),
         XOSD_timeout(this, "XOSD_timeout", 10),
-		XOSD_Shadow(this, "XOSD_Shadow", true),
-		XOSD_Background(this, "XOSD_Background", false),
-		XOSD_BgColor(this, "XOSD_BgColor", colorGroup().background().rgb()),
+        XOSD_Shadow(this, "XOSD_Shadow", true),
+        XOSD_Background(this, "XOSD_Background", false),
+        XOSD_BgColor(this, "XOSD_BgColor", colorGroup().background().rgb()),
         ContainerMode(this, "ContainerMode", ContainerModeGroup)
 
 {
@@ -1812,12 +1812,12 @@ QWidget *MainWindow::ftWindow(unsigned long uin, const string &fileName)
     QWidget *w;
     while ( (w=it.current()) != NULL) {
         ++it;
-        if (w->inherits("FileTransfer")){
+        if (w->inherits("FileTransferDlg")){
             FileTransferDlg *ft = static_cast<FileTransferDlg*>(w);
             if (ft->file && (ft->file->getUin() == uin) && (ft->file->shortName() == fileName))
                 res = ft;
         }else{
-            QObjectList *l = w->queryList("ChatWindow");
+            QObjectList *l = w->queryList("FileTransferDlg");
             QObjectListIt it(*l);
             QObject *obj;
             while ((obj=it.current()) != NULL){
