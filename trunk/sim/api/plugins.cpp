@@ -161,7 +161,15 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
 
     QStringList pluginsList;
     QDir pluginDir(app_file("plugins").c_str());
+    /* do some test so we can blame when sim couldn't access / find
+       the plugins */
     pluginsList = pluginDir.entryList("*" LTDL_SHLIB_EXT);
+    if (pluginsList.isEmpty()) {
+        fprintf(stderr,
+                "Couldn't access %s or directory contains no plugins!\n",
+                pluginDir.path().ascii());
+        exit(1);
+    }
     m_bAbort = false;
 
     for (QStringList::Iterator it = pluginsList.begin(); it != pluginsList.end(); ++it){
@@ -183,6 +191,7 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
         info.info		 = NULL;
         info.base		 = 0;
         plugins.push_back(info);
+        fprintf(stderr,"Loaded plugin %s\n",info.name);
     }
     sort(plugins.begin(), plugins.end(), cmp_plugin);
     for (vector<pluginInfo>::iterator itp = plugins.begin(); itp != plugins.end(); ++itp){
