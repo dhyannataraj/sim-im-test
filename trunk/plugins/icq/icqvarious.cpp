@@ -122,12 +122,7 @@ const char SEARCH_STATE_OFFLINE  = 0;
 const char SEARCH_STATE_ONLINE   = 1;
 const char SEARCH_STATE_DISABLED = 2;
 
-const unsigned ERROR_RATE_LIMIT		= 0x0002;
-
 const unsigned INFO_REQUEST_TIMEOUT = 60;
-const unsigned INFO_PAUSE_TIMEOUT   = 300;
-
-const unsigned short PAUSE_ID		= 0xFFFF;
 
 class ServerRequest
 {
@@ -166,9 +161,9 @@ void ICQClient::clearServerRequests()
         delete *it_req;
     }
     varRequests.clear();
-    list<unsigned long>::iterator it;
+    list<InfoRequest>::iterator it;
     for (it = infoRequests.begin(); it != infoRequests.end(); ++it){
-        Contact *contact = getContacts()->contact(*it);
+        Contact *contact = getContacts()->contact((*it).uin);
         if (contact == NULL)
             continue;
         Event e(EventFetchInfoFail, contact);
@@ -215,7 +210,7 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
                 serverRequest(ICQ_SRVxREQ_ACK_OFFLINE_MSG);
                 sendServerRequest();
                 setChatGroup();
-                addFullInfoRequest(data.owner.Uin.value, false);
+                addFullInfoRequest(data.owner.Uin.value);
                 m_bReady = true;
                 processSendQueue();
                 break;
@@ -348,7 +343,7 @@ FullInfoRequest::FullInfoRequest(ICQClient *client, unsigned short id, unsigned 
     m_uin = uin;
 }
 
-void FullInfoRequest::fail(unsigned short error_code)
+void FullInfoRequest::fail(unsigned short)
 {
     Contact *contact = NULL;
     if (m_nParts){
@@ -367,11 +362,7 @@ void FullInfoRequest::fail(unsigned short error_code)
         Event e(EventFetchInfoFail, contact);
         e.process();
     }
-    if (error_code == ERROR_RATE_LIMIT){
-        m_client->infoRequestPause();
-    }else{
-        m_client->removeFullInfoRequest(m_uin);
-    }
+    m_client->removeFullInfoRequest(m_uin);
 }
 
 string FullInfoRequest::unpack_list(Buffer &b)
@@ -539,11 +530,11 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
             if (tm->tm_isdst) tz -= (60 * 60);
 #endif
             tz = - tz / (30 * 60);
+            m_client->setupContact(getContacts()->owner(), data);
             if (data->TimeZone.value != (unsigned)tz){
                 data->TimeZone.value = tz;
                 m_client->setMainInfo(data);
             }
-            m_client->setupContact(getContacts()->owner(), data);
             Event eContact(EventContactChanged, getContacts()->owner());
             eContact.process();
             Event e(EventClientChanged, m_client);
@@ -555,89 +546,71 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
     return false;
 }
 
-void ICQClient::infoRequest()
-{
-    processInfoRequest();
-}
-
 unsigned ICQClient::processInfoRequest()
 {
-    m_infoTimer->stop();
     if ((getState() != Connected) || infoRequests.empty())
         return 0;
-    if (m_infoRequestId)
-        return 0;
-    unsigned delay = delayTime(SNAC(ICQ_SNACxFAM_VARIOUS, ICQ_SNACxVAR_REQxSRV));
-    if (delay)
-        return delay;
-    unsigned long uin = infoRequests.front();
-    serverRequest(ICQ_SRVxREQ_MORE);
-    m_socket->writeBuffer << ((uin == data.owner.Uin.value) ? ICQ_SRVxREQ_OWN_INFO : ICQ_SRVxREQ_FULL_INFO);
-    m_socket->writeBuffer.pack(uin);
-    sendServerRequest();
-    m_infoTimer->start(INFO_REQUEST_TIMEOUT * 1000);
-    m_infoRequestId = m_nMsgSequence;
-    varRequests.push_back(new FullInfoRequest(this, m_infoRequestId, uin));
+    for (list<InfoRequest>::iterator it = infoRequests.begin(); it != infoRequests.end(); ++it){
+        if ((*it).request_id)
+            continue;
+        unsigned delay = delayTime(SNAC(ICQ_SNACxFAM_VARIOUS, ICQ_SNACxVAR_REQxSRV));
+        if (delay)
+            return delay;
+        unsigned long uin = (*it).uin;
+        serverRequest(ICQ_SRVxREQ_MORE);
+        m_socket->writeBuffer << ((uin == data.owner.Uin.value) ? ICQ_SRVxREQ_OWN_INFO : ICQ_SRVxREQ_FULL_INFO);
+        m_socket->writeBuffer.pack(uin);
+        sendServerRequest();
+        (*it).request_id = m_nMsgSequence;
+        time_t now;
+        time(&now);
+        (*it).start_time = now;
+        varRequests.push_back(new FullInfoRequest(this, m_nMsgSequence, uin));
+    }
     return 0;
 }
 
-void ICQClient::infoRequestFail()
+void ICQClient::checkInfoRequest()
 {
-    m_infoTimer->stop();
-    if (m_infoRequestId == PAUSE_ID){
-        m_infoRequestId = 0;
-        processSendQueue();
-        return;
-    }
-    ServerRequest *req = findServerRequest(m_infoRequestId);
-    if (req)
-        req->fail();
-}
-
-void ICQClient::infoRequestPause()
-{
-    m_infoRequestId = PAUSE_ID;
-    m_infoTimer->stop();
-    m_infoTimer->start(INFO_PAUSE_TIMEOUT * 1000);
-}
-
-void ICQClient::addFullInfoRequest(unsigned long uin, bool bInLast)
-{
-    if (bInLast){
-        list<unsigned long>::iterator it;
-        for (it = infoRequests.begin(); it != infoRequests.end(); ++it){
-            if ((*it) == uin)
-                return;
+    time_t now;
+    time(&now);
+    for (list<InfoRequest>::iterator it = infoRequests.begin(); it != infoRequests.end(); ){
+        if (((*it).request_id == 0) || ((time_t)((*it).start_time + INFO_REQUEST_TIMEOUT) < now)){
+            ++it;
+            continue;
         }
-        infoRequests.push_back(uin);
-    }else{
-        if (!infoRequests.empty() && (infoRequests.front() == uin))
+        ServerRequest *req = findServerRequest((*it).request_id);
+        if (req){
+            req->fail();
+        }else{
+            infoRequests.erase(it);
+        }
+        it = infoRequests.begin();
+    }
+}
+
+void ICQClient::addFullInfoRequest(unsigned long uin)
+{
+    for (list<InfoRequest>::iterator it = infoRequests.begin(); it != infoRequests.end(); ++it){
+        if ((*it).uin == uin)
             return;
-        list<unsigned long>::iterator it;
-        for (it = infoRequests.begin(); it != infoRequests.end(); ++it){
-            if ((*it) == uin){
-                infoRequests.erase(it);
-                break;
-            }
-        }
-        infoRequests.push_front(uin);
     }
+    InfoRequest r;
+    r.uin = uin;
+    r.request_id = 0;
+    infoRequests.push_back(r);
     processSendQueue();
 }
 
 void ICQClient::removeFullInfoRequest(unsigned long uin)
 {
-    m_infoTimer->stop();
-    list<unsigned long>::iterator it;
+    list<InfoRequest>::iterator it;
     for (it = infoRequests.begin(); it != infoRequests.end(); ++it){
-        if ((*it) == uin){
+        if ((*it).uin == uin){
             infoRequests.erase(it);
             break;
         }
     }
-    if (infoRequests.empty())
-        return;
-    processSendQueue();
 }
 
 // _________________________________________________________________________________________

@@ -358,7 +358,7 @@ package_merge()
 {
 catalogs=$POFILES
 for cat in $catalogs; do
-  msgmerge -o $cat.new $cat $PACKAGE.pot
+  msgmerge --width=2048 -o $cat.new $cat $PACKAGE.pot
   if test -s $cat.new; then
     grep -v "\"POT-Creation" $cat.new > $cat.new.2
     grep -v "\"POT-Creation" $cat >> $cat.new.1

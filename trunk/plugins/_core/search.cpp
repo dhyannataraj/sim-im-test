@@ -83,7 +83,7 @@ SearchDialog::SearchDialog()
     connect(m_result, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
     connect(m_result, SIGNAL(dragStart()), this, SLOT(dragStart()));
     connect(m_search->btnNew, SIGNAL(clicked()), this, SLOT(newSearch()));
-    m_result->setMenu(MenuSearch);
+    m_result->setMenu(MenuSearchItem);
 }
 
 SearchDialog::~SearchDialog()
@@ -155,7 +155,7 @@ void SearchDialog::fillClients()
             continue;
         unsigned n;
         for (n = 0; n < widgets.size(); n++){
-            if (widgets[n].client != client)
+            if ((widgets[n].client != client) || !widgets[n].name.isEmpty())
                 continue;
             delete search;
             search = widgets[n].widget;
@@ -195,7 +195,7 @@ void SearchDialog::fillClients()
         cw.client = (Client*)(-1);
         cw.widget = search;
         m_widgets.push_back(cw);
-        if ((search == m_current) || ((m_current == NULL) && (current < 0)))
+        if ((search == m_current) || ((m_current == NULL) && (current < 0) && (defCurrent < 0)))
             current = m_widgets.size() - 1;
     }
     unsigned n;
@@ -223,6 +223,19 @@ void SearchDialog::fillClients()
         m_update->stop();
     }else if (m_result){
         m_result->viewport()->setUpdatesEnabled(false);
+    }
+    for (n = 0; n < widgets.size(); n++){
+        if (widgets[n].name.isEmpty())
+            continue;
+        unsigned i;
+        for (i = 0; i < m_widgets.size(); i++)
+            if (widgets[n].client == m_widgets[i].client)
+                break;
+        if (i >= m_widgets.size())
+            continue;
+        m_search->cmbClients->insertItem(Pict(widgets[n].client->protocol()->description()->icon), widgets[n].name);
+        m_widgets.push_back(widgets[n]);
+        widgets[n].widget = NULL;
     }
     for (n = 0; n < widgets.size(); n++){
         if (widgets[n].widget){
@@ -294,6 +307,8 @@ void *SearchDialog::processEvent(Event *e)
         fillClients();
         break;
     case EventCommandExec:{
+            if (m_result != m_currentResult)
+                return NULL;
             CommandDef *cmd = (CommandDef*)(e->param());
             if (cmd->menu_id == MenuSearchGroups){
                 Group *grp = getContacts()->group(cmd->id - CmdContactGroup);
@@ -356,6 +371,40 @@ void *SearchDialog::processEvent(Event *e)
         }
     case EventCheckState:{
             CommandDef *cmd = (CommandDef*)(e->param());
+            if ((cmd->id == CmdSearchOptions) && (cmd->menu_id == MenuSearchItem)){
+                Event eDef(EventGetMenuDef, (void*)MenuSearchOptions);
+                CommandsDef *def = (CommandsDef*)(eDef.process());
+                if (def){
+                    CommandsList list(*def, true);
+                    CommandDef *s;
+                    unsigned nItems = 0;
+                    while ((s = ++list) != NULL)
+                        nItems++;
+                    if (nItems){
+                        CommandDef *cmds = new CommandDef[nItems * 2 + 1];
+                        memset(cmds, 0, sizeof(CommandDef) * (nItems * 2 + 1));
+                        list.reset();
+                        nItems = 0;
+                        unsigned prev = 0;
+                        while ((s = ++list) != NULL){
+                            if (s->flags & COMMAND_CHECK_STATE){
+                                CommandDef cCheck = *s;
+                                Event e(EventCheckState, &cCheck);
+                                if (!e.process())
+                                    continue;
+                            }
+                            if (prev && ((prev & 0xFF00) != (s->menu_grp & 0xFF00)))
+                                cmds[nItems++].text = "_";
+                            prev = s->menu_grp;
+                            cmds[nItems++] = *s;
+                        }
+                        cmd->param = cmds;
+                        cmd->flags |= COMMAND_RECURSIVE;
+                        return e->param();
+                    }
+                }
+                return NULL;
+            }
             if ((cmd->id == CmdContactGroup) && (cmd->menu_id == MenuSearchGroups)){
                 Group *grp;
                 ContactList::GroupIterator it;
@@ -495,12 +544,16 @@ void SearchDialog::aboutToShow(QWidget *w)
 void SearchDialog::resultShow(QWidget *w)
 {
     if (m_currentResult){
+        if (m_currentResult != m_result)
+            disconnect(m_currentResult, SIGNAL(enableOptions(bool)), this, SLOT(enableOptions(bool)));
         disconnect(m_currentResult, SIGNAL(destroyed()), this, SLOT(resultDestroyed()));
         detach(m_currentResult);
     }
     m_currentResult = w;
     attach(m_currentResult);
     connect(m_currentResult, SIGNAL(destroyed()), this, SLOT(resultDestroyed()));
+    if (m_currentResult != m_result)
+        connect(m_currentResult, SIGNAL(enableOptions(bool)), this, SLOT(enableOptions(bool)));
     textChanged("");
 }
 
@@ -667,9 +720,14 @@ void SearchDialog::update()
 
 void SearchDialog::selectionChanged()
 {
-    bool bEnable = false;
-    if (m_result && ((m_currentResult == NULL) || (m_currentResult == m_result)))
-        bEnable = (m_result->selectedItem() != NULL);
+    if (m_result && ((m_currentResult == NULL) || (m_currentResult == m_result))){
+        bool bEnable = (m_result->selectedItem() != NULL);
+        enableOptions(bEnable);
+    }
+}
+
+void SearchDialog::enableOptions(bool bEnable)
+{
     m_search->btnAdd->setEnabled(bEnable);
     m_search->btnOptions->setEnabled(bEnable);
 }
@@ -752,6 +810,38 @@ void SearchDialog::newSearch()
     m_result->addColumn(i18n("Results"));
     m_result->setExpandingColumn(0);
     m_result->adjustColumn();
+}
+
+void SearchDialog::addSearch(QWidget *w, Client *client, const QString &name)
+{
+    for (unsigned i = 0; i < m_widgets.size(); i++){
+        if ((m_widgets[i].client == client) && (m_widgets[i].name == name)){
+            delete w;
+            m_search->cmbClients->setCurrentItem(i);
+            clientActivated(i);
+            return;
+        }
+    }
+    m_search->wndCondition->addWidget(w, ++m_id);
+    ClientWidget cw;
+    cw.widget = w;
+    cw.client = client;
+    cw.name   = name;
+    m_widgets.push_back(cw);
+    m_search->cmbClients->insertItem(Pict(client->protocol()->description()->icon), name);
+    m_search->cmbClients->setCurrentItem(m_widgets.size() - 1);
+    clientActivated(m_widgets.size() - 1);
+}
+
+void SearchDialog::showClient(Client *client)
+{
+    for (unsigned i = 0; i < m_widgets.size(); i++){
+        if (m_widgets[i].client != client)
+            continue;
+        m_search->cmbClients->setCurrentItem(i);
+        clientActivated(i);
+        return;
+    }
 }
 
 #ifndef WIN32

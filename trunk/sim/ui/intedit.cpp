@@ -263,6 +263,18 @@ void RadioGroup::slotToggled(bool bState)
     emit toggled(bState);
 }
 
+void RadioGroup::show()
+{
+    QGroupBox::show();
+    m_button->show();
+}
+
+void RadioGroup::hide()
+{
+    QGroupBox::hide();
+    m_button->hide();
+}
+
 bool RadioGroup::isChecked()
 {
     return m_button->isChecked();

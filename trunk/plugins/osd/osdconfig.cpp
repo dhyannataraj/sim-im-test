@@ -58,7 +58,7 @@ OSDConfig::OSDConfig(QWidget *parent, void *d, OSDPlugin *plugin)
     connect(chkMessageContent, SIGNAL(toggled(bool)), this, SLOT(contentToggled(bool)));
     showMessageToggled(chkMessage->isChecked());
     contentToggled(chkMessageContent->isChecked());
-    statusToggled(data->EnableAlert.bValue);    
+    statusToggled(data->EnableAlert.bValue);
 }
 
 void OSDConfig::apply()

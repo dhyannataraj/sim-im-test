@@ -312,7 +312,8 @@ const unsigned CAP_MICQ				= 17;
 const unsigned CAP_LICQ				= 18;
 const unsigned CAP_SIMOLD			= 19;
 const unsigned CAP_KOPETE			= 20;
-const unsigned CAP_NULL				= 21;
+const unsigned CAP_XTRAZ			= 21;
+const unsigned CAP_NULL				= 22;
 
 const unsigned PLUGIN_PHONEBOOK          = 0;
 const unsigned PLUGIN_PICTURE            = 1;
@@ -455,6 +456,13 @@ typedef struct RateInfo
     unsigned			m_winSize;
 } RateInfo;
 
+typedef struct InfoRequest
+{
+    unsigned	uin;
+    unsigned	request_id;
+    unsigned	start_time;
+} InfoRequest;
+
 typedef map<my_string, alias_group> CONTACTS_MAP;
 typedef map<unsigned, unsigned>	    RATE_MAP;
 
@@ -515,7 +523,7 @@ public:
     Contact *getContact(ICQUserData*);
     ICQUserData *findContact(const char *screen, const char *alias, bool bCreate, Contact *&contact, Group *grp=NULL, bool bJoin=true);
     ICQUserData *findGroup(unsigned id, const char *name, Group *&group);
-    void addFullInfoRequest(unsigned long uin, bool bInLast = true);
+    void addFullInfoRequest(unsigned long uin);
     ListRequest *findContactListRequest(const char *screen);
     ListRequest *findGroupListRequest(unsigned short id);
     void removeListRequest(ListRequest *lr);
@@ -550,8 +558,6 @@ public:
     static QString addCRLF(const QString &str);
 protected slots:
     void ping();
-    void infoRequest();
-    void infoRequestFail();
     void processSendQueue();
     void sendTimeout();
     void retry(int n, void*);
@@ -625,8 +631,6 @@ protected:
     list<ServiceSocket*> m_services;
     QTimer *m_processTimer;
     QTimer *m_sendTimer;
-    QTimer *m_infoTimer;
-    unsigned short m_infoRequestId;
     unsigned short m_sendSmsId;
     unsigned short m_offlineMessagesRequestId;
     ListServerRequest *m_listRequest;
@@ -635,7 +639,7 @@ protected:
     bool m_bBirthday;
     bool m_bNoSend;
     list<ServerRequest*> varRequests;
-    list<unsigned long>  infoRequests;
+    list<InfoRequest>    infoRequests;
     list<string>		 buddies;
     list<ListRequest>    listRequests;
     list<SendMsg>        smsQueue;
@@ -648,6 +652,7 @@ protected:
     void addBuddy(Contact *contact);
     void removeBuddy(Contact *contact);
     void checkListRequest();
+    void checkInfoRequest();
     ServerRequest *findServerRequest(unsigned short id);
     void clearServerRequests();
     void clearListServerRequest();
@@ -656,7 +661,6 @@ protected:
     unsigned processListRequest();
     unsigned processSMSQueue();
     unsigned processInfoRequest();
-    void infoRequestPause();
     void sendIdleTime();
     void sendPluginInfoUpdate(unsigned plugin_id);
     void sendPluginStatusUpdate(unsigned plugin_id, unsigned long status);

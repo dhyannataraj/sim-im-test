@@ -21,7 +21,9 @@
 #include "discoinfo.h"
 #include "listview.h"
 #include "toolbtn.h"
+#include "jidsearch.h"
 #include "ballonmsg.h"
+#include "core.h"
 
 #include <qpixmap.h>
 #include <qtoolbar.h>
@@ -35,7 +37,8 @@ JabberWizard::JabberWizard(QWidget *parent, const QString &title, const char *ic
         : QWizard(parent, NULL, true)
 {
     m_type = type;
-    m_search = new JabberSearch(this, client, jid, node, title, m_type == "register");
+    m_search = new JabberSearch;
+    m_search->init(this, client, jid, node, title, m_type == "register");
     addPage(m_search, title);
     m_result = new QLabel(this);
     addPage(m_result, title);
@@ -62,13 +65,8 @@ void JabberWizard::slotSelected(const QString&)
     if (currentPage() != m_result)
         return;
     setFinishEnabled(m_result, false);
-    bool bXSearch;
-    QString condition = m_search->condition(bXSearch);
-    if (m_type == "search"){
-        m_id = m_search->m_client->search(m_search->m_jid.c_str(), m_search->m_node.c_str(), condition);
-    }else{
-        m_id = m_search->m_client->process(m_search->m_jid.c_str(), m_search->m_node.c_str(), condition, m_type.c_str());
-    }
+    QString condition = m_search->condition(NULL);
+    m_id = m_search->m_client->process(m_search->m_jid.c_str(), m_search->m_node.c_str(), condition, m_type.c_str());
 }
 
 void *JabberWizard::processEvent(Event *e)
@@ -118,6 +116,7 @@ JabberBrowser::JabberBrowser()
     m_list->setExpandingColumn(0);
     m_list->setMenu(0);
     connect(m_list, SIGNAL(currentChanged(QListViewItem*)), this, SLOT(currentChanged(QListViewItem*)));
+    connect(m_list, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
     connect(m_list, SIGNAL(dragStart()), this, SLOT(dragStart()));
 
     BarShow b;
@@ -144,10 +143,11 @@ JabberBrowser::JabberBrowser()
         cmbUrl->setText(QString::null);
     }
 
-    m_search = NULL;
     m_reg    = NULL;
     m_config = NULL;
+    m_search = NULL;
     m_bInProcess = false;
+    m_list->setMenu(MenuSearchItem);
 }
 
 JabberBrowser::~JabberBrowser()
@@ -261,6 +261,17 @@ void JabberBrowser::startProcess()
     e.process();
 }
 
+void JabberBrowser::showEvent(QShowEvent *e)
+{
+    QMainWindow::showEvent(e);
+    selectionChanged();
+}
+
+void JabberBrowser::selectionChanged()
+{
+    emit enableOptions(m_list->selectedItem() != NULL);
+}
+
 void JabberBrowser::save()
 {
     saveToolbar(m_bar, JabberPlugin::plugin->data.browser_bar);
@@ -279,8 +290,6 @@ void *JabberBrowser::processEvent(Event *e)
                     if (err.isEmpty())
                         err = i18n("Error %1") .arg(data->nOptions.value);
                     m_search_id = "";
-                    delete m_search;
-                    m_search = NULL;
                     Command cmd;
                     cmd->id		= CmdBrowseSearch;
                     cmd->param	= this;
@@ -289,14 +298,18 @@ void *JabberBrowser::processEvent(Event *e)
                     if (parent == NULL)
                         parent = this;
                     BalloonMsg::message(err, parent);
+                    delete m_search;
                 }else{
-                    m_search->m_search->addWidget(data);
-                    QTimer::singleShot(0, this, SLOT(showSearch()));
+                    m_search->jidSearch->addWidget(data);
+                    connect(this, SIGNAL(addSearch(QWidget*, Client*, const QString&)), topLevelWidget(), SLOT(addSearch(QWidget*, Client*, const QString&)));
+                    emit addSearch(m_search, m_client, m_search->m_jid);
+                    disconnect(this, SIGNAL(addSearch(QWidget*, Client*, const QString&)), topLevelWidget(), SLOT(addSearch(QWidget*, Client*, const QString&)));
                 }
                 m_search_id = "";
+                m_search    = NULL;
                 return e->param();
             }
-            m_search->m_search->addWidget(data);
+            m_search->jidSearch->addWidget(data);
             return e->param();
         }
         if (m_reg_id == data->ReqID.ptr){
@@ -360,6 +373,24 @@ void *JabberBrowser::processEvent(Event *e)
     }
     if (e->type() == EventCheckState){
         CommandDef *cmd = (CommandDef*)(e->param());
+        if ((cmd->menu_id == MenuSearchOptions) && isVisible()){
+            cmd->flags &= ~COMMAND_CHECKED;
+            switch (cmd->id){
+            case CmdBrowseSearch:
+                if (haveFeature("jabber:iq:search"))
+                    return e->param();
+                break;
+            case CmdRegister:
+                if (haveFeature("jabber:iq:register"))
+                    return e->param();
+                break;
+            case CmdBrowseConfigure:
+                if (haveFeature("jabber:iq:data"))
+                    return e->param();
+                break;
+            }
+            return NULL;
+        }
         if (cmd->param != this)
             return NULL;
         if (cmd->menu_id != MenuBrowser)
@@ -390,6 +421,15 @@ void *JabberBrowser::processEvent(Event *e)
     }
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
+        if (((cmd->menu_id == MenuSearchItem) || (cmd->menu_id == MenuSearchOptions)) && isVisible()){
+            Command c;
+            c->id    = cmd->id;
+            if (cmd->id == CmdSearchInfo)
+                c->id = CmdBrowseInfo;
+            c->param = this;
+            Event e(EventCommandExec, c);
+            return e.process();
+        }
         if (cmd->param != this)
             return NULL;
         QListViewItem *item = m_list->currentItem();
@@ -427,7 +467,8 @@ void *JabberBrowser::processEvent(Event *e)
             if (cmd->id == CmdBrowseSearch){
                 if (m_search)
                     delete m_search;
-                m_search = new JabberWizard(this, i18n("%1 Search") .arg(item->text(COL_NAME)), "find", m_client, item->text(COL_JID).utf8(), item->text(COL_NODE).utf8(), "search");
+                m_search = new JIDSearch(this, m_client, item->text(COL_JID), item->text(COL_NODE), item->text(COL_TYPE).utf8());
+                m_search->jidSearch->init(this, m_client, m_search->m_jid, m_search->m_node, "", false);
                 m_search_id = m_client->get_agent_info(item->text(COL_JID).utf8(), item->text(COL_NODE).utf8(), "search");
                 return e->param();
             }
@@ -669,7 +710,6 @@ void JabberBrowser::currentChanged(QListViewItem*)
     if (item == NULL)
         return;
     loadItem(item);
-    emit currentChanged("");
 }
 
 void JabberBrowser::loadItem(QListViewItem *item)
@@ -822,17 +862,6 @@ bool JabberBrowser::haveFeature(const char *feature, const QString &features)
     return false;
 }
 
-void JabberBrowser::showSearch()
-{
-    if (m_search){
-        m_search->initTitle();
-        QTimer::singleShot(0, m_search, SLOT(setNext()));
-        m_search->exec();
-        delete m_search;
-        m_search = NULL;
-    }
-}
-
 void JabberBrowser::showReg()
 {
     if (m_reg){
@@ -934,6 +963,14 @@ void JabberBrowser::adjustColumn(QListViewItem *item)
             return;
     }
     m_list->adjustColumn();
+}
+
+void JabberBrowser::search()
+{
+}
+
+void JabberBrowser::textChanged(const QString&)
+{
 }
 
 #if 0

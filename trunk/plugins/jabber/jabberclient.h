@@ -227,6 +227,8 @@ class PresenceRequest : public ServerRequest
         string m_type;
         string m_status;
         string m_show;
+        string m_stamp1;
+        string m_stamp2;
     };
 
 class MessageRequest : public ServerRequest

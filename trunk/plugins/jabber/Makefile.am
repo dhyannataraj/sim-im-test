@@ -27,6 +27,10 @@ jabber_la_SOURCES = \
  discoinfobase.ui \
  infoproxy.cpp \
  infoproxybase.ui \
+ jidsearch.cpp \
+ jidsearchbase.ui \
+ jidadvsearch.cpp \
+ jidadvsearchbase.ui \
  httppoll.cpp 
 
 SUBDIRS = sounds

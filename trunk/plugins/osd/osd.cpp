@@ -224,28 +224,6 @@ OSDWidget::OSDWidget()
 
 QPixmap& intensity(QPixmap &pict, float percent);
 
-#ifndef WIN32
-#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
-
-static XErrorHandler old_handler = 0;
-static Bool got_badwindow = False;
-static int
-BadWindow_ehandler (Display *dpy, XErrorEvent *error)
-{
-    if (error->error_code == BadWindow)
-    {
-        got_badwindow = True;
-        return 0;
-    }
-    else
-    {
-        return (*old_handler) (dpy, error);
-    }
-}
-
-#endif
-#endif
-
 bool OSDWidget::isScreenSaverActive()
 {
 #ifdef WIN32
@@ -286,15 +264,17 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     if (nScreen >= nScreens)
         nScreen = 0;
     int SHADOW_OFFS = SHADOW_DEF;
-#ifdef WIN32
-    if ((GetClassLong(winId(), GCL_STYLE) & CS_DROPSHADOW) && style().inherits("QWindowsXPStyle"))
-        SHADOW_OFFS = 0;
-#endif
     QRect rcScreen = screenGeometry(nScreen);
     rcScreen = QRect(0, 0,
-                     rcScreen.width() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.value,
+                     rcScreen.width() / 2 - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.value,
                      rcScreen.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.value);
     QRect rc = p.boundingRect(rcScreen, AlignLeft | AlignTop | WordBreak, str);
+    if (rc.height() >= rcScreen.height() / 2){
+        rcScreen = QRect(0, 0,
+                         rcScreen.width() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.value,
+                         rcScreen.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.value);
+        rc = p.boundingRect(rcScreen, AlignLeft | AlignTop | WordBreak, str);
+    }
     p.end();
     if (data->EnableMessageShowContent.bValue && data->ContentLines.value){
         QFontMetrics fm(font());
@@ -582,6 +562,7 @@ void OSDPlugin::processQueue()
                 text += ":\n";
                 text += msg_text;
             }
+            break;
         default:
             break;
         }
@@ -589,7 +570,7 @@ void OSDPlugin::processQueue()
             if (m_osd == NULL){
                 m_osd = new OSDWidget;
                 connect(m_osd, SIGNAL(dblClick()), this, SLOT(dblClick()));
-                connect(m_osd, SIGNAL(closeClick()), this, SLOT(timeout()));
+                connect(m_osd, SIGNAL(closeClick()), this, SLOT(closeClick()));
             }
             static_cast<OSDWidget*>(m_osd)->showOSD(text, data);
             m_timer->start(data->Timeout.value * 1000);
@@ -599,6 +580,32 @@ void OSDPlugin::processQueue()
     m_timer->stop();
     m_request.contact = 0;
     m_request.type = OSD_NONE;
+}
+
+void OSDPlugin::closeClick()
+{
+    if (m_request.type == OSD_MESSAGE){
+        for (list<msg_id>::iterator it = core->unread.begin(); it != core->unread.end(); ){
+            if ((*it).contact != m_request.contact){
+                ++it;
+                continue;
+            }
+            MessageID id;
+            id.id      = (*it).id;
+            id.contact = (*it).contact;
+            id.client  = (*it).client.c_str();
+            Event e(EventLoadMessage, &id);
+            Message *msg = (Message*)(e.process());
+            core->unread.erase(it);
+            if (msg){
+                Event e(EventMessageRead, msg);
+                e.process();
+                delete msg;
+            }
+            it = core->unread.begin();
+        }
+    }
+    timeout();
 }
 
 void OSDPlugin::dblClick()

@@ -1645,9 +1645,9 @@ bool ICQClient::processMsg()
     }
     unsigned short type = 0;
     if (m_send.msg) {
-	type = m_send.msg->type();
-	log(L_DEBUG, "Send: %s %u %X", m_send.screen.c_str(), type, m_send.flags);
-	}
+        type = m_send.msg->type();
+        log(L_DEBUG, "Send: %s %u %X", m_send.screen.c_str(), type, m_send.flags);
+    }
     if (m_send.msg && (m_send.socket == NULL)){
         Buffer b;
         m_send.id.id_l = rand();

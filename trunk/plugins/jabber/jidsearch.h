@@ -1,5 +1,5 @@
 /***************************************************************************
-                          advsearch.h  -  description
+                          jidsearch.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,21 +15,44 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _ADVSEARCH_H
-#define _ADVSEARCH_H
+#ifndef _JIDSEARCH_H
+#define _JIDSEARCH_H
 
 #include "simapi.h"
-#include "advsearchbase.h"
+#include "jidsearchbase.h"
 
-class AdvSearch : public AdvSearchBase
+class JabberClient;
+class JIDAdvSearch;
+
+class JIDSearch : public JIDSearchBase, public EventReceiver
 {
     Q_OBJECT
 public:
-    AdvSearch();
+    JIDSearch(QWidget *parent, JabberClient *client, const QString &jid, const QString &m_node, const char *type);
+    QString m_jid;
+    QString m_node;
 signals:
-    void enableOptions(bool);
+    void setAdd(bool);
+    void showClient(Client*);
+    void showResult(QWidget*);
+    void addResult(QWidget*);
+    void setColumns(const QStringList&, int, QWidget*);
+    void addItem(const QStringList&, QWidget*);
+    void searchDone(QWidget*);
+protected slots:
+    void browserClicked();
+    void advancedClicked();
+    void search();
+    void searchStop();
 protected:
+    void *processEvent(Event*);
     void showEvent(QShowEvent*);
+    string		 m_search_id;
+    string		 m_type;
+    bool		 m_bInit;
+    bool		 m_bAdv;
+    JIDAdvSearch *m_adv;
+    JabberClient *m_client;
 };
 
 #endif

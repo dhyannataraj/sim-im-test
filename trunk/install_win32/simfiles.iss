@@ -136,6 +136,7 @@ Source: "..\Release\po\pt_BR.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\ru.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\sk.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\sw.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\th.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\tr.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\uk.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\zh_TW.qm"; DestDir: "{app}\po"; Flags: ignoreversion
@@ -147,6 +148,7 @@ Name: "{commondesktop}\Simple Instant Messenger"; Filename: "{app}\sim.exe"; Tas
 
 [Run]
 Filename: "{app}\sim.exe"; Description: "Launch Simple Instant Messenger"; Flags: nowait postinstall skipifsilent
+Filename: {cmd}; Parameters: "/c del {app}\plugins\sms.dll"; WorkingDir: "{app}"; Flags: runhidden
 
 [Registry]
 Root: HKCR; Subkey: ".uin"; ValueType: string; ValueName: ""; ValueData: "sim"; Flags: uninsdeletevalue

@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qtextedit.h,v 1.6 2004-02-18 18:52:47 chehrlic Exp $
+** $Id: qtextedit.h,v 1.7 2004-04-25 02:20:01 shutoff Exp $
 **
 ** Definition of the QTextEdit class
 **
@@ -165,7 +165,7 @@ public:
     void getSelection( int *paraFrom, int *indexFrom,
                        int *paraTo, int *indexTo, int selNum = 0 ) const;
     virtual bool find( const QString &expr, bool cs, bool wo, bool forward = TRUE,
-                       int *para = 0, int *index = 0 );
+                       int *para = 0, int *index = 0, bool bVisible = TRUE );
 
     int paragraphs() const;
     int lines() const;
@@ -278,7 +278,7 @@ public slots:
     virtual void setAlignment( int a );
     virtual void setParagType( QStyleSheetItem::DisplayMode dm, QStyleSheetItem::ListStyle listStyle );
     virtual void setCursorPosition( int parag, int index );
-    virtual void setSelection( int parag_from, int index_from, int parag_to, int index_to, int selNum = 0 );
+    virtual void setSelection( int parag_from, int index_from, int parag_to, int index_to, int selNum, bool bVisible=true);
     virtual void setSelectionAttributes( int selNum, const QColor &back, bool invertText );
     virtual void setModified( bool m );
     virtual void resetFormat();

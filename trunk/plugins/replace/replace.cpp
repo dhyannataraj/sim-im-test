@@ -126,7 +126,7 @@ bool ReplacePlugin::eventFilter(QObject *o, QEvent *e)
                         continue;
                     if ((key.length() < text.length()) && !text[(int)(text.length() - key.length() - 1)].isSpace())
                         continue;
-                    edit->setSelection(parag, index - key.length(), parag, index);
+                    edit->setSelection(parag, index - key.length(), parag, index, 0);
                     edit->insert(getValue(i), false, false);
                     break;
                 }

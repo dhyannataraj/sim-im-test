@@ -812,6 +812,35 @@ JabberClient::PresenceRequest::PresenceRequest(JabberClient *client)
 {
 }
 
+static unsigned get_number(string &s, unsigned digits)
+{
+    if (s.length() < digits){
+        s = "";
+        return 0;
+    }
+    string p = s.substr(0, digits);
+    s = s.substr(digits);
+    return atol(p.c_str());
+}
+
+static time_t fromDelay(const char *t)
+{
+    string s = t;
+    time_t now;
+    time(&now);
+    struct tm _tm = *localtime(&now);
+    _tm.tm_year = get_number(s, 4) - 1900;
+    _tm.tm_mon  = get_number(s, 2) - 1;
+    _tm.tm_mday = get_number(s, 2);
+    get_number(s, 1);
+    _tm.tm_hour = get_number(s, 2);
+    get_number(s, 1);
+    _tm.tm_min  = get_number(s, 2);
+    get_number(s, 1);
+    _tm.tm_sec  = get_number(s, 2);
+    return mktime(&_tm);
+}
+
 JabberClient::PresenceRequest::~PresenceRequest()
 {
     unsigned status = STATUS_UNKNOWN;
@@ -867,6 +896,21 @@ JabberClient::PresenceRequest::~PresenceRequest()
     }else{
         log(L_DEBUG, "Unsupported presence type %s", m_type.c_str());
     }
+    time_t now;
+    time(&now);
+    time_t time1 = now;
+    time_t time2 = 0;
+    if (!m_stamp1.empty())
+        time1 = fromDelay(m_stamp1.c_str());
+    if (!m_stamp2.empty()){
+        time2 = fromDelay(m_stamp2.c_str());
+        if (time2 > time1){
+            time_t t = time1;
+            time1 = time2;
+            time2 = t;
+        }
+    }
+
     if (status != STATUS_UNKNOWN){
         Contact *contact;
         string resource;
@@ -878,8 +922,6 @@ JabberClient::PresenceRequest::~PresenceRequest()
                     break;
             }
             bool bChanged = false;
-            time_t now;
-            time(&now);
             if (status == STATUS_OFFLINE){
                 if (i <= data->nResources.value){
                     bChanged = true;
@@ -918,12 +960,12 @@ JabberClient::PresenceRequest::~PresenceRequest()
                     bChanged = true;
                     data->nResources.value = i;
                     set_str(&data->Resources, i, resource.c_str());
-                    set_str(&data->ResourceOnlineTime, i, number(now).c_str());
+                    set_str(&data->ResourceOnlineTime, i, number(time2 ? time2 : time1).c_str());
                 }
                 if (number(status) != get_str(data->ResourceStatus, i)){
                     bChanged = true;
                     set_str(&data->ResourceStatus, i, number(status).c_str());
-                    set_str(&data->ResourceStatusTime, i, number(now).c_str());
+                    set_str(&data->ResourceStatusTime, i, number(time1).c_str());
                 }
                 if (m_status != get_str(data->ResourceReply, i)){
                     bChanged = true;
@@ -940,15 +982,15 @@ JabberClient::PresenceRequest::~PresenceRequest()
             if (data->Status.value != status){
                 bChanged = true;
                 if ((status == STATUS_ONLINE) &&
-                        ((now - m_client->data.owner.OnlineTime.value > 60) ||
+                        (((int)(time1 - m_client->data.owner.OnlineTime.value) > 60) ||
                          (data->Status.value != STATUS_OFFLINE)))
                     bOnLine = true;
                 if (data->Status.value == STATUS_OFFLINE){
-                    data->OnlineTime.value = now;
+                    data->OnlineTime.value = time1;
                     data->richText.bValue = true;
                 }
                 data->Status.value = status;
-                data->StatusTime.value = now;
+                data->StatusTime.value = time1;
             }
             if (data->invisible.bValue != bInvisible){
                 data->invisible.bValue = bInvisible;
@@ -976,6 +1018,18 @@ void JabberClient::PresenceRequest::element_start(const char *el, const char **a
     if (!strcmp(el, "presence")){
         m_from = JabberClient::get_attr("from", attr);
         m_type = JabberClient::get_attr("type", attr);
+    }
+    if (!strcmp(el, "x")){
+        if (JabberClient::get_attr("xmlns", attr) == "jabber:x:delay"){
+            string stamp = JabberClient::get_attr("stamp", attr);
+            if (!stamp.empty()){
+                if (m_stamp1.empty()){
+                    m_stamp1 = stamp;
+                }else if (m_stamp2.empty()){
+                    m_stamp2 = stamp;
+                }
+            }
+        }
     }
     m_data = "";
 }

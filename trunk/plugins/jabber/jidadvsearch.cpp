@@ -1,5 +1,5 @@
 /***************************************************************************
-                          advsearch.h  -  description
+                          jidadvsearch.cpp  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,22 +15,20 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _ADVSEARCH_H
-#define _ADVSEARCH_H
+#include "jidadvsearch.h"
 
-#include "simapi.h"
-#include "advsearchbase.h"
-
-class AdvSearch : public AdvSearchBase
+JIDAdvSearch::JIDAdvSearch(QWidget *parent)
+        : JIDAdvSearchBase(parent)
 {
-    Q_OBJECT
-public:
-    AdvSearch();
-signals:
-    void enableOptions(bool);
-protected:
-    void showEvent(QShowEvent*);
-};
+}
 
+void JIDAdvSearch::showEvent(QShowEvent *e)
+{
+    JIDAdvSearchBase::showEvent(e);
+    emit enableOptions(false);
+}
+
+#ifndef WIN32
+#include "jidadvsearch.moc"
 #endif
 

@@ -221,6 +221,7 @@ public:
     CommandsListPrivate(CommandsDefPrivate *def);
     virtual ~CommandsListPrivate() {}
     virtual CommandDef *next() = 0;
+    virtual void reset() = 0;
     CommandsDefPrivate *m_def;
 };
 
@@ -235,10 +236,16 @@ public:
     CommandsListPrivateFull(CommandsDefPrivate *p);
     list<CommandDef>::iterator it;
     virtual CommandDef *next();
+    virtual void reset();
 };
 
 CommandsListPrivateFull::CommandsListPrivateFull(CommandsDefPrivate *def)
         : CommandsListPrivate(def)
+{
+    reset();
+}
+
+void CommandsListPrivateFull::reset()
 {
     it = m_def->buttons.begin();
 }
@@ -258,10 +265,16 @@ public:
     CommandsListPrivateShort(CommandsDefPrivate *p);
     list<unsigned>::iterator it;
     virtual CommandDef *next();
+    virtual void reset();
 };
 
 CommandsListPrivateShort::CommandsListPrivateShort(CommandsDefPrivate *def)
         : CommandsListPrivate(def)
+{
+    reset();
+}
+
+void CommandsListPrivateShort::reset()
 {
     it = m_def->cfg.begin();
 }
@@ -321,6 +334,11 @@ CommandDef *CommandsList::operator ++()
 {
     CommandDef *c = p->next();
     return c;
+}
+
+void CommandsList::reset()
+{
+    p->reset();
 }
 
 CommandsDef::CommandsDef(unsigned id, bool bMenu)

@@ -17,7 +17,7 @@
 
 #include "jabber.h"
 #include "jabberclient.h"
-#include "simapi.h"
+#include "core.h"
 
 #include "xpm/jabber.xpm"
 #include "xpm/register.xpm"
@@ -305,6 +305,8 @@ JabberPlugin::JabberPlugin(unsigned base, Buffer *cfg)
     cmd->text		 = I18N_NOOP("&Search");
     cmd->icon		 = "find";
     cmd->bar_grp	 = 0x3000;
+    cmd->menu_id	 = MenuSearchOptions;
+    cmd->menu_grp	 = 0x2000;
     cmd->flags		 = COMMAND_CHECK_STATE;
     eCmd.process();
 
@@ -312,12 +314,15 @@ JabberPlugin::JabberPlugin(unsigned base, Buffer *cfg)
     cmd->text		 = I18N_NOOP("&Register");
     cmd->icon		 = "reg";
     cmd->bar_grp	 = 0x3001;
+    cmd->menu_grp	 = 0x2001;
     cmd->flags		 = COMMAND_CHECK_STATE;
     eCmd.process();
 
     cmd->id			 = CmdBrowseInfo;
     cmd->text		 = I18N_NOOP("Info");
     cmd->icon		 = "info";
+    cmd->menu_id	 = 0;
+    cmd->menu_grp	 = 0;
     cmd->bar_grp	 = 0x3010;
     eCmd.process();
 
@@ -325,12 +330,16 @@ JabberPlugin::JabberPlugin(unsigned base, Buffer *cfg)
     cmd->text		 = I18N_NOOP("Configure");
     cmd->icon		 = "configure";
     cmd->bar_grp	 = 0x3020;
+    cmd->menu_id	 = MenuSearchOptions;
+    cmd->menu_grp	 = 0x2002;
     eCmd.process();
 
     cmd->id			 = CmdBrowseMode;
     cmd->text		 = I18N_NOOP("Browser mode");
     cmd->icon		 = "configure";
     cmd->bar_grp	 = 0x5000;
+    cmd->menu_id	 = 0;
+    cmd->menu_grp	 = 0;
     cmd->flags		 = COMMAND_DEFAULT;
     cmd->popup_id	 = MenuBrowser;
     eCmd.process();

@@ -485,9 +485,9 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                             addContactRequest(contact);
                     }else{
                         contact->setGroup(newGroup);
+		                Event e(EventContactChanged, contact);
+	                    e.process();
                     }
-                    Event e(EventContactChanged, contact);
-                    e.process();
                 }
             }
         }

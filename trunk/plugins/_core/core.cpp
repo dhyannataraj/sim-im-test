@@ -513,7 +513,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     eMenuStatusWnd.process();
     Event eMenuEncoding(EventMenuCreate, (void*)MenuEncoding);
     eMenuEncoding.process();
-    Event eMenuSearch(EventMenuCreate, (void*)MenuSearch);
+    Event eMenuSearch(EventMenuCreate, (void*)MenuSearchItem);
     eMenuSearch.process();
     Event eMenuSearchGroups(EventMenuCreate, (void*)MenuSearchGroups);
     eMenuSearchGroups.process();
@@ -1379,32 +1379,37 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->id			 = CmdContactGroup;
     cmd->text		 = I18N_NOOP("Add to &group");
     cmd->icon		 = NULL;
-    cmd->menu_id	 = MenuSearch;
-    cmd->menu_grp	 = 0x1000;
+    cmd->menu_id	 = MenuSearchItem;
+    cmd->menu_grp	 = 0x2000;
     cmd->bar_id		 = 0;
     cmd->bar_grp	 = 0;
     cmd->popup_id	 = MenuSearchGroups;
     cmd->flags		 = COMMAND_DEFAULT;
     eCmd.process();
 
+    cmd->id			 = CmdSearchOptions;
+    cmd->text		 = "_";
+    cmd->icon		 = NULL;
+    cmd->menu_id	 = MenuSearchItem;
+    cmd->menu_grp	 = 0x3000;
+    cmd->popup_id	 = 0;
+    cmd->flags		 = COMMAND_CHECK_STATE;
+    eCmd.process();
+
     cmd->id			 = CmdSearchInfo;
     cmd->text		 = I18N_NOOP("&Info");
     cmd->icon		 = "info";
-    cmd->menu_grp	 = 0x1001;
-    cmd->popup_id	 = 0;
-    eCmd.process();
-
     cmd->menu_id	 = MenuSearchOptions;
+    cmd->menu_grp	 = 0x3000;
+    cmd->popup_id	 = 0;
+    cmd->flags		 = COMMAND_DEFAULT;
     eCmd.process();
 
     cmd->id			 = CmdSearchMsg;
     cmd->text		 = I18N_NOOP("Send &message");
     cmd->icon		 = "message";
-    cmd->menu_id	 = MenuSearch;
-    cmd->menu_grp	 = 0x1002;
-    eCmd.process();
-
     cmd->menu_id	 = MenuSearchOptions;
+    cmd->menu_grp	 = 0x3001;
     eCmd.process();
 
     cmd->id			 = CmdContactGroup;
@@ -2117,11 +2122,11 @@ if (fname[0] != '/')
             }
             delete list;
             if (userWnd == NULL){
-		if (contact->getFlags() & CONTACT_TEMP){
-			contact->setFlags(contact->getFlags() & ~CONTACT_TEMP);
-			Event e(EventContactChanged, contact);
-			e.process();
-		}
+                if (contact->getFlags() & CONTACT_TEMP){
+                    contact->setFlags(contact->getFlags() & ~CONTACT_TEMP);
+                    Event e(EventContactChanged, contact);
+                    e.process();
+                }
                 userWnd = new UserWnd(contact->id(), NULL, (*msg)->getFlags() & MESSAGE_RECEIVED, (*msg)->getFlags() & MESSAGE_RECEIVED);
                 if (getContainerMode() == 3){
                     QWidgetList  *list = QApplication::topLevelWidgets();

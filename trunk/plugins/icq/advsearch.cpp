@@ -49,6 +49,12 @@ AdvSearch::AdvSearch()
     initCombo(cmbAffilation, 0, p_affilations);
 }
 
+void AdvSearch::showEvent(QShowEvent *e)
+{
+    AdvSearchBase::showEvent(e);
+    emit enableOptions(false);
+}
+
 #ifndef WIN32
 #include "advsearch.moc"
 #endif
