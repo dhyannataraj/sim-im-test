@@ -2,19 +2,19 @@
 # Copyright (C) 2003, 2004 Free Software Foundation, Inc.
 # Атанас Мавров <bugar@mail.bg>, 2003.
 # Атанас Мавров <bugar@developer.bg>, 2004.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: bg\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-11-17 18:12+0000\n"
-"PO-Revision-Date: 2004-08-31 10:35+0300\n"
+"PO-Revision-Date: 2004-11-23 01:00+0200\n"
 "Last-Translator: Атанас Мавров <bugar@developer.bg>\n"
 "Language-Team: Bulgarian <dict@linux.zonebg.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.3.1\n"
+"X-Generator: KBabel 1.9.1\n"
 
 #: plugins/__homedir/homedir.cpp:48
 msgid "Home directory"
@@ -93,9 +93,9 @@ msgid "Autoreply message"
 msgstr "Автоматичен отговор"
 
 #: plugins/_core/autoreply.cpp:51 plugins/_core/autoreply.cpp:97
-#, fuzzy, c-format
+#, c-format
 msgid "Close after %n second"
-msgstr "Затваряне след изпра&щане"
+msgstr "Затваряне след %n секунди"
 
 #: plugins/_core/cfgdlg.cpp:275 plugins/_core/usercfg.cpp:195
 msgid "User info"
@@ -749,7 +749,7 @@ msgstr "История"
 
 #: plugins/_core/historywnd.cpp:189
 msgid "Textfile (*.txt)"
-msgstr ""
+msgstr "Текстов файл (*txt)"
 
 #: plugins/_core/historywnd.cpp:193 plugins/_core/historywnd.cpp:213 plugins/_core/status.cpp:139 plugins/_core/statuswnd.cpp:97 plugins/jabber/jabbermessage.cpp:109 plugins/jabber/jabbermessage.cpp:133 plugins/jabber/jabbermessage.cpp:228 plugins/logger/logconfig.cpp:92 plugins/netmonitor/monitor.cpp:89 plugins/windock/windock.cpp:180 sim/qt3/i18n.cpp:141
 msgid "Error"
@@ -960,9 +960,8 @@ msgid "File"
 msgstr "Файл"
 
 #: plugins/_core/msgedit.cpp:473
-#, fuzzy
 msgid "URL"
-msgstr "УРЛ:"
+msgstr "УРЛ"
 
 #: plugins/_core/msgedit.cpp:590
 msgid "&Accept"
@@ -973,9 +972,8 @@ msgid "&Decline"
 msgstr "&Отказване"
 
 #: plugins/_core/msgedit.cpp:658
-#, fuzzy
 msgid "Authorize request"
-msgstr "&Искане за удостоверяване"
+msgstr "Искане за удостоверяване"
 
 #: plugins/_core/msgedit.cpp:665
 msgid "&Grant"
@@ -986,24 +984,20 @@ msgid "&Refuse"
 msgstr "&Отказване"
 
 #: plugins/_core/msgedit.cpp:728
-#, fuzzy
 msgid "Authorization granted"
-msgstr "&Искане за удостоверяване"
+msgstr "Удостоверяването е дадено"
 
 #: plugins/_core/msgedit.cpp:749
-#, fuzzy
 msgid "Authorization refused"
-msgstr "&Искане за удостоверяване"
+msgstr "Удостоверяването е отказано"
 
 #: plugins/_core/msgedit.cpp:770
-#, fuzzy
 msgid "Add to contacts"
-msgstr "Няма потребител"
+msgstr "Добавяне към списъка с потребители"
 
 #: plugins/_core/msgedit.cpp:791
-#, fuzzy
 msgid "Removed from contacts"
-msgstr "&Премахване от журнала"
+msgstr "Премахване от потребителите"
 
 #: plugins/_core/msgedit.cpp:812 plugins/action/actioncfg.cpp:53
 msgid "Status changed"
@@ -1106,9 +1100,9 @@ msgid "Not in list"
 msgstr "Не е в списъка"
 
 #: plugins/_core/search.cpp:632
-#, fuzzy, c-format
+#, c-format
 msgid "%n contact found"
-msgstr "Няма потребител за изпращане"
+msgstr "%n открити потребители"
 
 #: plugins/_core/status.cpp:72 plugins/_core/statuswnd.cpp:88 plugins/dock/dock.cpp:183
 msgid "Inactive"
@@ -2113,9 +2107,9 @@ msgid "Encrypt failed"
 msgstr "Грешка при шифроване"
 
 #: plugins/gpg/gpg.cpp:700
-#, fuzzy, c-format
+#, c-format
 msgid "%n GPG key"
-msgstr "GPG ключ"
+msgstr "%n GPG ключ"
 
 #: plugins/gpg/gpg.cpp:749
 msgid "GPG key"
@@ -2562,9 +2556,9 @@ msgid "Directory"
 msgstr "Директория"
 
 #: plugins/icq/icqicmb.cpp:989 plugins/icq/icqicmb.cpp:995
-#, fuzzy, c-format
+#, c-format
 msgid "%n file"
-msgstr "Изпращане на файл"
+msgstr "%n файл"
 
 #: plugins/icq/icqicmb.cpp:1286 plugins/icq/warndlg.cpp:66
 msgid "Send failed"
@@ -2699,14 +2693,12 @@ msgid "Bad host address"
 msgstr "Неправилен адрес на машина"
 
 #: plugins/icq/icqmessage.cpp:552
-#, fuzzy
 msgid "WWW-panel message"
-msgstr "&Отваряне на съобщение"
+msgstr "WWW съобщение"
 
 #: plugins/icq/icqmessage.cpp:573
-#, fuzzy
 msgid "Email pager message"
-msgstr "Уведомител за електронна поща"
+msgstr "Съобщение от електронната поща"
 
 #: plugins/icq/icqmessage.cpp:594 plugins/icq/icqmessage.cpp:850
 msgid "Request secure channel"
@@ -2725,9 +2717,8 @@ msgid "Warning"
 msgstr "Предупреждения"
 
 #: plugins/icq/icqmessage.cpp:763
-#, fuzzy
 msgid "Contact request"
-msgstr "Искане на списък с потребители"
+msgstr "Искане на потребител"
 
 #: plugins/icq/icqmessage.cpp:813
 msgid "Contact Request"
@@ -3899,9 +3890,9 @@ msgid "&Stat"
 msgstr "&Статистика"
 
 #: plugins/jabber/discoinfo.cpp:251
-#, fuzzy, c-format
+#, c-format
 msgid "%n day"
-msgstr "Неделя"
+msgstr "%n ден"
 
 #: plugins/jabber/jabber.cpp:59
 msgid "Jabber"
@@ -4280,9 +4271,8 @@ msgid "&Statistic"
 msgstr "&Статистика"
 
 #: plugins/livejournal/livejournal.cpp:102
-#, fuzzy
 msgid "LiveJournal post"
-msgstr "Запис в &журнала"
+msgstr "Запис в журнала"
 
 #: plugins/livejournal/livejournal.cpp:103 plugins/livejournal/livejournal.cpp:232
 msgid "Friends updated"
@@ -5025,9 +5015,9 @@ msgid "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 msgstr "https://register.passport.net/reg.srf?lc=1049&langid=1049&sl=1"
 
 #: plugins/msn/msnpacket.cpp:468
-#, fuzzy, c-format
+#, c-format
 msgid "You have %n unread message"
-msgstr "Имате нова поща"
+msgstr "Имате %n непрочетени съобщения"
 
 #: plugins/msn/msnpacket.cpp:488
 msgid "You have new mail"
@@ -5682,9 +5672,8 @@ msgid "Sunday"
 msgstr "Неделя"
 
 #: plugins/weather/weather.cpp:379 plugins/weather/weather.cpp:380 plugins/weather/weather.cpp:381 plugins/weather/weather.cpp:382 plugins/weather/weather.cpp:383 plugins/weather/weather.cpp:384 plugins/weather/weather.cpp:385 plugins/weather/weather.cpp:386 plugins/weather/weather.cpp:387 plugins/weather/weather.cpp:388 plugins/weather/weather.cpp:389 plugins/weather/weather.cpp:390 plugins/weather/weather.cpp:391 plugins/weather/weather.cpp:392 plugins/weather/weather.cpp:393 plugins/weather/weather.cpp:394 plugins/weather/weather.cpp:395 plugins/weather/weather.cpp:396 plugins/weather/weather.cpp:397 plugins/weather/weather.cpp:398 plugins/weather/weather.cpp:399 plugins/weather/weather.cpp:400 plugins/weather/weather.cpp:401 plugins/weather/weather.cpp:402 plugins/weather/weather.cpp:403 plugins/weather/weather.cpp:404 plugins/weather/weather.cpp:405 plugins/weather/weather.cpp:406 plugins/weather/weather.cpp:407 plugins/weather/weather.cpp:408 plugins/weather/weather.cpp:409 plugins/weather/weather.cpp:410 plugins/weather/weather.cpp:411 plugins/weather/weather.cpp:412 plugins/weather/weather.cpp:413 plugins/weather/weather.cpp:414 plugins/weather/weather.cpp:415 plugins/weather/weather.cpp:416 plugins/weather/weather.cpp:417 plugins/weather/weather.cpp:418 plugins/weather/weather.cpp:419 plugins/weather/weather.cpp:420 plugins/weather/weather.cpp:421 plugins/weather/weather.cpp:422 plugins/weather/weather.cpp:423 plugins/weather/weather.cpp:424 plugins/weather/weather.cpp:425 plugins/weather/weather.cpp:428 plugins/weather/weather.cpp:429 plugins/weather/weather.cpp:430 plugins/weather/weather.cpp:431 plugins/weather/weather.cpp:432 plugins/weather/weather.cpp:433 plugins/weather/weather.cpp:448 plugins/weather/weather.cpp:451 plugins/weather/weather.cpp:455 plugins/weather/weather.cpp:486 plugins/weather/weather.cpp:489 plugins/weather/weather.cpp:501 plugins/weather/weather.cpp:503 plugins/weather/weather.cpp:508
-#, fuzzy
 msgid "weather"
-msgstr "Време"
+msgstr "време"
 
 #: plugins/weather/weather.cpp:426
 msgid "km"
@@ -5711,7 +5700,6 @@ msgid "%t | %c"
 msgstr "%t | %c"
 
 #: plugins/weather/weather.cpp:573
-#, fuzzy
 msgid ""
 "%l<br><br>\n"
 "<img src=\"icon:weather%i\"> %c<br>\n"
@@ -5731,14 +5719,16 @@ msgid ""
 msgstr ""
 "%l<br><br>\n"
 "<img src=\"icon:weather%i\"> %c<br>\n"
-"Температура: <b>%t</b> (feels like: <b>%f</b>)<br>\n"
+"Температура: <b>%t</b> (подобно на: <b>%f</b>)<br>\n"
 "Влажност: <b>%h</b><br>\n"
+"Количество валежи: <b>%pp %</b><br>\n"
 "Налягане: <b>%p</b> (%q)<br>\n"
 "Вятър: <b>%b</b> <b>%w %g</b><br>\n"
 "Видимост: <b>%v</b><br>\n"
 "Точка на оросяване: <b>%d</b><br>\n"
 "Изгрев: %r<br>\n"
 "Залез: %s<br>\n"
+"<img src=\"icon:moon%mi\"> %mp<br>\n"
 "UV-интензивност <b>%ut</b> със стойност <b>%ui</b> (от 11)<br>\n"
 "<br>\n"
 "Обновено: %u<br>\n"
@@ -7809,573 +7799,3 @@ msgstr "Пада"
 msgid "Windows XP style"
 msgstr "Уиндоус XP стил"
 
-#~ msgid ""
-#~ "_n: Close after %n second\n"
-#~ "Close after %n seconds"
-#~ msgstr ""
-#~ "Затваряне след %n секундa\n"
-#~ "Затваряне след %n секунди"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is typing"
-#~ msgstr "%1 пише"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is typing"
-#~ msgstr "%1 пише"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 wrote:"
-#~ msgstr "%1 написа:"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 wrote:"
-#~ msgstr "%1 написа:"
-
-#~ msgid ""
-#~ "_n: Message\n"
-#~ "%n messages"
-#~ msgstr ""
-#~ "съобщение\n"
-#~ "%n съобщения"
-
-#~ msgid ""
-#~ "_n: SMS\n"
-#~ "%n SMSs"
-#~ msgstr ""
-#~ "SMS\n"
-#~ "%n SMS -и"
-
-#~ msgid ""
-#~ "_n: URL\n"
-#~ "%n URLs"
-#~ msgstr ""
-#~ "УРЛ\n"
-#~ "%n УРЛ -та"
-
-#~ msgid ""
-#~ "_n: Contact list\n"
-#~ "%n contact lists"
-#~ msgstr ""
-#~ "Списък с потребители\n"
-#~ "%n списъка с потребители"
-
-#~ msgid ""
-#~ "_n: File\n"
-#~ "%n files"
-#~ msgstr ""
-#~ "Файл\n"
-#~ "%n файлове"
-
-#~ msgid ""
-#~ "_n: Authorize request\n"
-#~ "%n authorize requests"
-#~ msgstr ""
-#~ "Искане за удостоверяване\n"
-#~ "%n Искания за удостоверяване "
-
-#~ msgid ""
-#~ "_n: Authorization granted\n"
-#~ "%n authorization granted"
-#~ msgstr ""
-#~ "Удостоверяването е осигурено\n"
-#~ "%n удостоверяванията са осигурени "
-
-#~ msgid ""
-#~ "_n: Authorization refused\n"
-#~ "%n authorization refused"
-#~ msgstr ""
-#~ "Отказано удостоверяване\n"
-#~ "%n отказани удостоверявания"
-
-#~ msgid ""
-#~ "_n: Add to contacts\n"
-#~ "%n add to contacts"
-#~ msgstr ""
-#~ "Прибавяне към списъка с потребители \n"
-#~ "%n прибавяне към списъка с потребители"
-
-#~ msgid ""
-#~ "_n: Removed from contacts\n"
-#~ "%n removed from contacts"
-#~ msgstr ""
-#~ "Премахване от списъка с потребители \n"
-#~ "%n премахване от списъка с потребители"
-
-#~ msgid ""
-#~ "_n: Status changed\n"
-#~ "%n times status changed"
-#~ msgstr ""
-#~ "Състоянието е променено\n"
-#~ "%n състоянията са променени"
-
-#~ msgid ""
-#~ "_n: %n contact found\n"
-#~ "%n contacts found"
-#~ msgstr ""
-#~ "%n открит потребител\n"
-#~ "%n открити потребителя"
-
-#~ msgid ""
-#~ "_n: %n GPG key\n"
-#~ "%n GPG keys"
-#~ msgstr ""
-#~ "%n GPG ключ\n"
-#~ "%n GPG ключове"
-
-#~ msgid ""
-#~ "_n: %n file\n"
-#~ "%n files"
-#~ msgstr ""
-#~ "%n Файл\n"
-#~ "%n файлове"
-
-#~ msgid ""
-#~ "_n: WWW-panel message\n"
-#~ "%n WWW-panel messages"
-#~ msgstr ""
-#~ "WWW-съобщение\n"
-#~ "%n WWW-съобщения"
-
-#~ msgid ""
-#~ "_n: Email pager message\n"
-#~ "%n Email pager messages"
-#~ msgstr ""
-#~ "Имате поща\n"
-#~ "%n Имате поща"
-
-#~ msgid ""
-#~ "_n: Request secure channel\n"
-#~ "%n requests secure channel"
-#~ msgstr ""
-#~ "Искане за защитен канал\n"
-#~ "%n Искане за защитен канал"
-
-#~ msgid ""
-#~ "_n: Close secure channel\n"
-#~ "%n times close secure channel"
-#~ msgstr ""
-#~ "Затваряне на защитен канал\n"
-#~ "%n Затваряне на защитен канал"
-
-#~ msgid ""
-#~ "_n: Check invisible\n"
-#~ "%n times check invisible"
-#~ msgstr ""
-#~ "Проверяване за невидими потребители\n"
-#~ "Проверка за невидими потребители %n пъти"
-
-#~ msgid ""
-#~ "_n: Warning\n"
-#~ "%n warnings"
-#~ msgstr ""
-#~ "Предупреждение\n"
-#~ "%n предупреждения"
-
-#~ msgid ""
-#~ "_n: Contact request\n"
-#~ "%n contact requests"
-#~ msgstr ""
-#~ "Искане на списъка с потребители\n"
-#~ "%n Искане списъците с потребители"
-
-#~ msgid ""
-#~ "_n: %n day\n"
-#~ "%n days"
-#~ msgstr ""
-#~ "%n ден\n"
-#~ "%n дни"
-
-#~ msgid ""
-#~ "_n: Error\n"
-#~ "%n errors"
-#~ msgstr ""
-#~ "Грешка\n"
-#~ "%n грешки"
-
-#~ msgid ""
-#~ "_n: LiveJournal post\n"
-#~ "%n LiveJournal posts"
-#~ msgstr ""
-#~ "Запис в журнала\n"
-#~ "%n записа в журнала"
-
-#~ msgid ""
-#~ "_n: Friends updated\n"
-#~ "Friends updated %n"
-#~ msgstr ""
-#~ "Журнала е обновен\n"
-#~ "Журналите са обновени %n пъти"
-
-#~ msgid ""
-#~ "_n: You have %n unread message\n"
-#~ "You have %n unread messages"
-#~ msgstr ""
-#~ "Имате %n непрочетено съобщение\n"
-#~ "Имате %n непрочетени съобщения"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is online"
-#~ msgstr "%1 е включен"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is online"
-#~ msgstr "%1 е включен"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is away"
-#~ msgstr "%1 не е пред компютъра"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is away"
-#~ msgstr "%1 не е пред компютъра"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is not available"
-#~ msgstr "%1 го няма"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is not available"
-#~ msgstr "%1 я няма"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 doesn't want to be disturbed"
-#~ msgstr "%1 не желае да го безпокоят"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 doesn't want to be disturbed"
-#~ msgstr "%1 не желае да я безпокоят"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is occupied"
-#~ msgstr "%1 е зает"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is occupied"
-#~ msgstr "%1 е заета"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is free for chat"
-#~ msgstr "%1 е свободен за бърборене"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is free for chat"
-#~ msgstr "%1 е свободна за бърборене"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is offline"
-#~ msgstr "%1 е изключен"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is offline"
-#~ msgstr "%1 е изключена"
-
-#~ msgid ""
-#~ "_n: Phone call\n"
-#~ "%n phone calls"
-#~ msgstr ""
-#~ "Телефонно повикване\n"
-#~ "%n телефонни повиквания"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Overcast"
-#~ msgstr "Облачно"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Fog"
-#~ msgstr "Мъгла"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Mist"
-#~ msgstr "Източен"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Haze"
-#~ msgstr "Лека мъгла"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Storm"
-#~ msgstr "Буря"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Rain"
-#~ msgstr "Дъжд"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Snow"
-#~ msgstr "Сняг"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Light Rain"
-#~ msgstr "Слаб дъжд"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Light Snow"
-#~ msgstr "Лек сняг"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Few Snow"
-#~ msgstr "Слаб снеговалеж"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Scattered Snow"
-#~ msgstr "Слаб сняг"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Clear"
-#~ msgstr "Ясно"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Showers"
-#~ msgstr "Преваляване"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Mostly Clear"
-#~ msgstr "Предимно ясно"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Sunny"
-#~ msgstr "Слънчево"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Fair"
-#~ msgstr "Ясно"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Cloudy"
-#~ msgstr "Облачно"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Mostly Cloudy"
-#~ msgstr "Предимно облачно"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Partly Cloudy"
-#~ msgstr "Променлива облачност"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Wind"
-#~ msgstr "Ветровито"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Windy"
-#~ msgstr "Ветровито"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Drizzle"
-#~ msgstr "Ръмене"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Light Drizzle"
-#~ msgstr "Слабо ръмене"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Drifting Snow"
-#~ msgstr "Сняг"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Scattered"
-#~ msgstr "разкъсана облачност"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Smoke"
-#~ msgstr "Смог"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "steady"
-#~ msgstr "без изменение"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "rising"
-#~ msgstr "нараства"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "falling"
-#~ msgstr "намалява"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Unlimited"
-#~ msgstr "Неограничен"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "N"
-#~ msgstr "Северен"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "NNW"
-#~ msgstr "Северен северозападен"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "NW"
-#~ msgstr "Северозападен"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "WNW"
-#~ msgstr "Западен северозападен"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "W"
-#~ msgstr "Западен"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "WSW"
-#~ msgstr "Южен югозападен"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "SW"
-#~ msgstr "Югозападен"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "SSW"
-#~ msgstr "Южен югозападен"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "S"
-#~ msgstr "Южен"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "SSE"
-#~ msgstr "Южен югоизточен"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "SE"
-#~ msgstr "Югоизточен"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "ESE"
-#~ msgstr "Източен югоизточен"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "E"
-#~ msgstr "Източен"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "ENE"
-#~ msgstr "Източен североизточен"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "NE"
-#~ msgstr "Североизточен"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "NNE"
-#~ msgstr "Северен североизточен"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "VAR"
-#~ msgstr "Променливо"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Low"
-#~ msgstr "ниска"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Moderate"
-#~ msgstr "средна"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "High"
-#~ msgstr "висока"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Showers in the Vicinity"
-#~ msgstr "Преваляване"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Waning Crescent"
-#~ msgstr "Дъжд"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Waxing Crescent"
-#~ msgstr "Дъжд"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Early"
-#~ msgstr "Сутрин"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Late"
-#~ msgstr "Вечер"
-
-#~ msgid "First name:"
-#~ msgstr "Име:"
-
-#~ msgid "Last name:"
-#~ msgstr "Фамилия:"
