@@ -145,6 +145,25 @@ protected:
     ICQFileMessageData data;
 };
 
+typedef struct AIMFileMessageData
+{
+    unsigned long	Port;
+    unsigned long	ID_L;
+    unsigned long	ID_H;
+} AIMFileMessageData;
+
+class AIMFileMessage : public FileMessage
+{
+public:
+    AIMFileMessage(const char *cfg=NULL);
+    ~AIMFileMessage();
+    PROP_USHORT(Port);
+    PROP_ULONG(ID_L);
+    PROP_ULONG(ID_H);
+protected:
+    AIMFileMessageData data;
+};
+
 typedef struct MessageWarningData
 {
     unsigned	Anonymous;

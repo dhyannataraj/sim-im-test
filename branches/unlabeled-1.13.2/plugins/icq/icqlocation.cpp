@@ -53,6 +53,13 @@ static bool extractInfo(TlvList &tlvs, unsigned short id, char **data)
 
 QString ICQClient::convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n)
 {
+    if (tlvInfo == NULL)
+        return "";
+    return convert(*tlvInfo, tlvInfo->Size(), tlvs, n);
+}
+
+QString ICQClient::convert(const char *text, unsigned size, TlvList &tlvs, unsigned n)
+{
     string charset = "us-ascii";
     Tlv *tlvCharset = NULL;
     for (unsigned i = 0;; i++){
@@ -77,21 +84,18 @@ QString ICQClient::convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n)
         }
     }
     QString res;
-    if (tlvInfo == NULL)
-        return res;
-    const char *text = *tlvInfo;
     if (strstr(charset.c_str(), "us-ascii") || strstr(charset.c_str(), "utf")){
-        res = QString::fromUtf8(text, tlvInfo->Size());
+        res = QString::fromUtf8(text, size);
     }else if (strstr(charset.c_str(), "unicode")){
         unsigned short *p = (unsigned short*)text;
-        for (unsigned i = 0; i < (unsigned)(tlvInfo->Size() - 1); i += 2, p++)
+        for (unsigned i = 0; i < size - 1; i += 2, p++)
             res += QChar((unsigned short)htons(*p));
     }else{
         QTextCodec *codec = QTextCodec::codecForName(charset.c_str());
         if (codec){
-            res = codec->toUnicode(text, tlvInfo->Size());
+            res = codec->toUnicode(text, size);
         }else{
-            res = QString::fromUtf8(text, tlvInfo->Size());
+            res = QString::fromUtf8(text, size);
             log(L_WARN, "Unknown encdoing %s", charset.c_str());
         }
     }

@@ -34,14 +34,14 @@
 
 FloatyWnd::FloatyWnd(FloatyPlugin *plugin, unsigned id)
         : QWidget(NULL, "floaty",
-                  WType_TopLevel | WStyle_Customize | WStyle_NoBorder | WStyle_Tool |
-                  WStyle_StaysOnTop | WRepaintNoErase )
+                  WType_TopLevel | WStyle_Customize | WStyle_NoBorder | WStyle_Tool | 
+				  WStyle_StaysOnTop | WRepaintNoErase)
 {
     m_plugin = plugin;
     m_id = id;
     init();
     setAcceptDrops(true);
-    setBackgroundMode(NoBackground);
+	setBackgroundMode(NoBackground);
 #ifdef USE_KDE
     KWin::setState(winId(), NET::SkipTaskbar | NET::SkipPager);
     KWin::setOnAllDesktops(winId(), true);
@@ -97,16 +97,16 @@ void FloatyWnd::init()
 
 void FloatyWnd::paintEvent(QPaintEvent*)
 {
-    int w = width();
-    int h = height();
+    int w = width()  - 4;
+    int h = height() - 4;
 
     QPixmap pict(w, h);
     QPainter p(&pict);
     p.fillRect(QRect(0, 0, width(), height()), colorGroup().base());
     PaintView pv;
     pv.p        = &p;
-    pv.pos      = QPoint(6, 6);
-    pv.size		= QSize(w - 8, h - 8);
+    pv.pos      = QPoint(2, 2);
+    pv.size		= QSize(w, h);
     pv.win      = this;
     pv.isStatic = false;
     pv.height   = h;
@@ -140,7 +140,7 @@ void FloatyWnd::paintEvent(QPaintEvent*)
         }
     }
 
-    int x = 4;
+    int x = 0;
     const char *statusIcon = m_statusIcon;
     if (m_unread && m_plugin->m_bBlink){
         CommandDef *def = m_plugin->core->messageTypes.find(m_unread);
@@ -155,7 +155,7 @@ void FloatyWnd::paintEvent(QPaintEvent*)
         x += pict.width() + 2;
     }
     QRect br;
-    p.drawText(x, 4, w, h - 8, AlignLeft | AlignVCenter, m_text, -1, &br);
+    p.drawText(x, 0, w, h, AlignLeft | AlignVCenter, m_text, -1, &br);
     x = br.right() + 5;
     string icons = m_icons;
     while (icons.length()){
@@ -165,6 +165,10 @@ void FloatyWnd::paintEvent(QPaintEvent*)
         p.drawPixmap(x, (h - pict.height()) / 2, pict);
         x += pict.width();
     }
+    p.end();
+
+    p.begin(this);
+    p.drawPixmap(QPoint(2, 2), pict);
     p.setPen(colorGroup().dark());
     p.moveTo(1, 1);
     p.lineTo(width() - 2, 1);
@@ -185,9 +189,6 @@ void FloatyWnd::paintEvent(QPaintEvent*)
     p.moveTo(width() - 1, 0);
     p.lineTo(0, 0);
     p.lineTo(0, height() - 1);
-    p.end();
-    p.begin(this);
-    p.drawPixmap(QPoint(0, 0), pict);
 }
 
 void FloatyWnd::mousePressEvent(QMouseEvent *e)

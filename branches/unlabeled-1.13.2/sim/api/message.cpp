@@ -467,7 +467,7 @@ QString FileMessage::presentation()
         }
 
     }
-    QString text = getText();
+    QString text = getRichText();
     if (text.length()){
         res += "<br>";
         res += text;

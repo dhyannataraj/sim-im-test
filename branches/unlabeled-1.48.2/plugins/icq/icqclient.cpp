@@ -3151,6 +3151,7 @@ bool ICQClient::messageReceived(Message *msg, const char *screen)
     bool bAccept = false;
     switch (msg->type()){
     case MessageICQFile:
+    case MessageFile:
         bAccept = true;
         break;
     }

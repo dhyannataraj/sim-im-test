@@ -66,6 +66,25 @@ QString ICQMessage::getText()
     return ICQClient::toUnicode(serverText, client(), contact());
 }
 
+static DataDef aimFileMessageData[] =
+    {
+        { "", DATA_ULONG, 1, 0 },				// Port
+		{ "", DATA_ULONG, 1, 0 },				// ID_L
+		{ "", DATA_ULONG, 1, 0 },				// ID_H
+        { NULL, 0, 0, 0 }
+    };
+
+AIMFileMessage::AIMFileMessage(const char *cfg)
+        : FileMessage(MessageFile, cfg)
+{
+    load_data(aimFileMessageData, &data, cfg);
+}
+
+AIMFileMessage::~AIMFileMessage()
+{
+    free_data(aimFileMessageData, &data);
+}
+
 static DataDef icqFileMessageData[] =
     {
         { "ServerText", DATA_STRING, 1, 0 },

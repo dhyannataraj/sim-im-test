@@ -154,6 +154,9 @@ void ListView::contentsMouseMoveEvent(QMouseEvent *e)
 
 void ListView::contentsMouseReleaseEvent(QMouseEvent *e)
 {
+#if QT_VERSION < 300
+	m_mousePressPos = QPoint(0, 0);
+#endif
     QListView::contentsMouseReleaseEvent(e);
     if (m_pressedItem){
         QListViewItem *item = m_pressedItem;
