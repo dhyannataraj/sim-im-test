@@ -298,7 +298,7 @@ ENCODING encodingTbl[] =
     };
 
 const char icq_error_codes[][40] = {
-                                       "Unknown error code"
+                                       "Unknown error code",
                                        "Invalid SNAC header",
                                        "Server rate limit exceeded",
                                        "Client rate limit exceeded",

@@ -324,12 +324,12 @@ typedef struct SendMsg
 {
     unsigned long	uin;
     MessageId		id;
-    Message			*msg;
-    QString			text;
-    QString			part;
+    Message		*msg;
+    QString		text;
+    QString		part;
     unsigned		flags;
     DirectSocket	*socket;
-    SendMsg() : msg(NULL), socket(NULL), uin(0) {}
+    SendMsg() : uin(0), msg(NULL), socket(NULL) {}
 } SendMsg;
 
 const unsigned SEND_PLAIN	= 0x0001;

@@ -28,49 +28,49 @@
 #include <qtimer.h>
 #include "xml.h"
 
-const unsigned short ICQ_SNACxVAR_ERROR			   = 0x0001;
-const unsigned short ICQ_SNACxVAR_REQxSRV          = 0x0002;
-const unsigned short ICQ_SNACxVAR_DATA			   = 0x0003;
+const unsigned short ICQ_SNACxVAR_ERROR             = 0x0001;
+const unsigned short ICQ_SNACxVAR_REQxSRV           = 0x0002;
+const unsigned short ICQ_SNACxVAR_DATA              = 0x0003;
 
-const unsigned short ICQ_SRVxREQ_OFFLINE_MSG       = 0x3C00;
-const unsigned short ICQ_SRVxREQ_ACK_OFFLINE_MSG   = 0x3E00;
-const unsigned short ICQ_SRVxOFFLINE_MSG       	   = 0x4100;
-const unsigned short ICQ_SRVxEND_OFFLINE_MSG	   = 0x4200;
-const unsigned short ICQ_SRVxREQ_MORE              = 0xD007;
-const unsigned short ICQ_SRVxANSWER_MORE           = 0xDA07;
+const unsigned short ICQ_SRVxREQ_OFFLINE_MSG        = 0x3C00;
+const unsigned short ICQ_SRVxREQ_ACK_OFFLINE_MSG    = 0x3E00;
+const unsigned short ICQ_SRVxOFFLINE_MSG            = 0x4100;
+const unsigned short ICQ_SRVxEND_OFFLINE_MSG        = 0x4200;
+const unsigned short ICQ_SRVxREQ_MORE               = 0xD007;
+const unsigned short ICQ_SRVxANSWER_MORE            = 0xDA07;
 
-const unsigned short ICQ_SRVxREQ_FULL_INFO         = 0xB204;
-const unsigned short ICQ_SRVxREQ_SHORT_INFO        = 0xBA04;
-const unsigned short ICQ_SRVxREQ_OWN_INFO		   = 0xD004;
-const unsigned short ICQ_SRVxREQ_SEND_SMS          = 0x8214;
-const unsigned short ICQ_SRVxREQ_WP_INFO_UIN       = 0x6905;
-const unsigned short ICQ_SRVxREQ_WP_SHORT          = 0x1505;
-const unsigned short ICQ_SRVxREQ_WP_FULL           = 0x3305;
-const unsigned short ICQ_SRVxREQ_CHANGE_PASSWD     = 0x2E04;
-const unsigned short ICQ_SRVxREQ_PERMISSIONS       = 0x2404;
-const unsigned short ICQ_SRVxREQ_XML_KEY		   = 0x9808;
+const unsigned short ICQ_SRVxREQ_FULL_INFO          = 0xB204;
+const unsigned short ICQ_SRVxREQ_SHORT_INFO         = 0xBA04;
+const unsigned short ICQ_SRVxREQ_OWN_INFO           = 0xD004;
+const unsigned short ICQ_SRVxREQ_SEND_SMS           = 0x8214;
+const unsigned short ICQ_SRVxREQ_WP_INFO_UIN        = 0x6905;
+const unsigned short ICQ_SRVxREQ_WP_SHORT           = 0x1505;
+const unsigned short ICQ_SRVxREQ_WP_FULL            = 0x3305;
+const unsigned short ICQ_SRVxREQ_CHANGE_PASSWD      = 0x2E04;
+const unsigned short ICQ_SRVxREQ_PERMISSIONS        = 0x2404;
+const unsigned short ICQ_SRVxREQ_XML_KEY            = 0x9808;
 
-const unsigned short ICQ_SRVxGENERAL_INFO	   = 0xC800;
-const unsigned short ICQ_SRVxMORE_INFO		   = 0xDC00;
-const unsigned short ICQ_SRVxEMAIL_INFO		   = 0xEB00;
-const unsigned short ICQ_SRVxWORK_INFO		   = 0xD200;
-const unsigned short ICQ_SRVxABOUT_INFO		   = 0xE600;
-const unsigned short ICQ_SRVxINTERESTS_INFO	   = 0xF000;
-const unsigned short ICQ_SRVxBACKGROUND_INFO   = 0xFA00;
-const unsigned short ICQ_SRVxUNKNOWN_INFO	   = 0x0E01;
+const unsigned short ICQ_SRVxGENERAL_INFO           = 0xC800;
+const unsigned short ICQ_SRVxMORE_INFO              = 0xDC00;
+const unsigned short ICQ_SRVxEMAIL_INFO             = 0xEB00;
+const unsigned short ICQ_SRVxWORK_INFO              = 0xD200;
+const unsigned short ICQ_SRVxABOUT_INFO             = 0xE600;
+const unsigned short ICQ_SRVxINTERESTS_INFO         = 0xF000;
+const unsigned short ICQ_SRVxBACKGROUND_INFO        = 0xFA00;
+const unsigned short ICQ_SRVxUNKNOWN_INFO           = 0x0E01;
 
-const unsigned short ICQ_SRVxREQ_MODIFY_MAIN	   = 0xEA03;
-const unsigned short ICQ_SRVxREQ_MODIFY_HOME	   = 0xFD03;
-const unsigned short ICQ_SRVxREQ_MODIFY_ABOUT	   = 0x0604;
-const unsigned short ICQ_SRVxREQ_MODIFY_WORK       = 0xF303;
-const unsigned short ICQ_SRVxREQ_MODIFY_MORE       = 0xFD03;
-const unsigned short ICQ_SRVxREQ_MODIFY_INTERESTS  = 0x1004;
-const unsigned short ICQ_SRVxREQ_MODIFY_BACKGROUND = 0x1A04;
-const unsigned short ICQ_SRVxREQ_MODIFY_MAIL	   = 0x0B04;
+const unsigned short ICQ_SRVxREQ_MODIFY_MAIN        = 0xEA03;
+const unsigned short ICQ_SRVxREQ_MODIFY_HOME        = 0xFD03;
+const unsigned short ICQ_SRVxREQ_MODIFY_ABOUT       = 0x0604;
+const unsigned short ICQ_SRVxREQ_MODIFY_WORK        = 0xF303;
+const unsigned short ICQ_SRVxREQ_MODIFY_MORE        = 0xFD03;
+const unsigned short ICQ_SRVxREQ_MODIFY_INTERESTS   = 0x1004;
+const unsigned short ICQ_SRVxREQ_MODIFY_BACKGROUND  = 0x1A04;
+const unsigned short ICQ_SRVxREQ_MODIFY_MAIL        = 0x0B04;
 
-const unsigned short ICQ_SRVxREQ_PHONE_UPDATE	   = 0x5406;
-const unsigned short ICQ_SRVxREQ_SET_CHAT_GROUP	   = 0x5807;
-const unsigned short ICQ_SRVxREQ_RANDOM_CHAT	   = 0x4E07;
+const unsigned short ICQ_SRVxREQ_PHONE_UPDATE       = 0x5406;
+const unsigned short ICQ_SRVxREQ_SET_CHAT_GROUP     = 0x5807;
+const unsigned short ICQ_SRVxREQ_RANDOM_CHAT        = 0x4E07;
 
 const char SEARCH_STATE_OFFLINE  = 0;
 const char SEARCH_STATE_ONLINE   = 1;
