@@ -576,8 +576,8 @@ void SIMClient::process_event(ICQEvent *e)
                                     msgText = msgText.mid(pos+1);
                                     ICQMsg *n = new ICQMsg;
                                     n->Uin.push_back(uin);
-                                    n->Message = to8Bit(uin, msgText);
-                                    n->Charset = userEncoding(uin);
+                                    n->Message = msgText.utf8();
+                                    n->Charset = "utf-8";
                                     sendMessage(n);
                                     return;
                                 }

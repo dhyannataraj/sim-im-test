@@ -124,6 +124,7 @@ void ICQClient::chn_close()
     Tlv *tlv_error = tlv(8);
     if (tlv_error){
         unsigned short err = *tlv_error;
+	if (err) setStatus(ICQ_STATUS_OFFLINE);
         switch (err){
         case 0x18:{
                 log(L_WARN, "Rate limit");
@@ -155,6 +156,7 @@ void ICQClient::chn_close()
     tlv_error = tlv(9);
     if (tlv_error){
         unsigned short err = *tlv_error;
+	if (err) setStatus(ICQ_STATUS_OFFLINE);
         switch (err){
         case 0x1:{
                 log(L_WARN, "Your ICQ number is used from another location");
