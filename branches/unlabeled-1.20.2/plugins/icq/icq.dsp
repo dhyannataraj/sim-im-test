@@ -2616,35 +2616,6 @@ BuildCmds= \
 # PROP Default_Filter "wav"
 # Begin Source File
 
-SOURCE=.\sounds\contacts.wav
-
-!IF  "$(CFG)" == "icq - Win32 Release"
-
-# Begin Custom Build - Copy $(InputPath)
-OutDir=.\..\..\Release
-InputPath=.\sounds\contacts.wav
-
-"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /Y $(InputPath) $(OutDir)\$(InputPath)
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "icq - Win32 Debug"
-
-# Begin Custom Build - Copy $(InputPath)
-OutDir=.\..\..\Debug
-InputPath=.\sounds\contacts.wav
-
-"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /Y $(InputPath) $(OutDir)\$(InputPath)
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
 SOURCE=.\sounds\mailpager.wav
 
 !IF  "$(CFG)" == "icq - Win32 Release"
@@ -2663,35 +2634,6 @@ InputPath=.\sounds\mailpager.wav
 # Begin Custom Build - Copy $(InputPath)
 OutDir=.\..\..\Debug
 InputPath=.\sounds\mailpager.wav
-
-"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /Y $(InputPath) $(OutDir)\$(InputPath)
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\sounds\url.wav
-
-!IF  "$(CFG)" == "icq - Win32 Release"
-
-# Begin Custom Build - Copy $(InputPath)
-OutDir=.\..\..\Release
-InputPath=.\sounds\url.wav
-
-"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /Y $(InputPath) $(OutDir)\$(InputPath)
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "icq - Win32 Debug"
-
-# Begin Custom Build - Copy $(InputPath)
-OutDir=.\..\..\Debug
-InputPath=.\sounds\url.wav
 
 "$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy /Y $(InputPath) $(OutDir)\$(InputPath)

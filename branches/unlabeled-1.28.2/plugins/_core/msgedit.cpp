@@ -1249,15 +1249,50 @@ void *MsgEdit::processEvent(Event *e)
                     m_edit->setFont(CorePlugin::m_plugin->editFont);
                     m_edit->setForeground(CorePlugin::m_plugin->getEditForeground());
                     m_edit->setBackground(CorePlugin::m_plugin->getEditBackground());
-                    Message *msg = new Message(MessageGeneric);
-                    setMessage(msg, false);
-                    delete msg;
+					setEmptyMessage();
                 }
             }
             return NULL;
         }
     }
     return NULL;
+}
+
+void MsgEdit::setEmptyMessage()
+{
+	bool bGeneric = true;
+	Contact *contact = getContacts()->contact(m_userWnd->id());
+	if (contact){
+	Command cmd;
+	cmd->id      = MessageGeneric;
+	cmd->menu_id = MenuMessage;
+	Event e(EventCheckState, cmd);
+	if (e.process() == NULL){
+        QString phones = contact->getPhones();
+        while (phones.length()){
+            QString phoneItem = getToken(phones, ';', false);
+            phoneItem = getToken(phoneItem, '/', false);
+            QString phone = getToken(phoneItem, ',');
+            getToken(phoneItem, ',');
+            if (phoneItem.toUInt() == CELLULAR){
+				cmd->id      = MessageSMS;
+				Event e(EventCheckState, cmd);
+				if (e.process())
+					bGeneric = false;
+				break;
+			}
+		}
+	}
+	}
+    Message *msg;
+	if (bGeneric){
+		msg = new Message(MessageGeneric);
+	}else{
+		msg = new SMSMessage;
+	}
+	msg->setContact(m_userWnd->id());
+    m_userWnd->setMessage(msg);
+    delete msg;
 }
 
 void MsgEdit::changeTyping(Client *client, void *data)
@@ -1379,9 +1414,7 @@ void MsgEdit::goNext()
         return;
     }
     if (CorePlugin::m_plugin->getContainerMode()){
-        Message msg(MessageGeneric);
-        msg.setContact(m_userWnd->id());
-        setMessage(&msg, false);
+		setEmptyMessage();
         return;
     }
     QTimer::singleShot(0, m_userWnd, SLOT(close()));
