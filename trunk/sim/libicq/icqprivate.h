@@ -64,7 +64,7 @@ typedef unsigned char capability[0x10];
 const unsigned CAP_ISISQ	= 0;
 const unsigned CAP_RTF		= 1;
 const unsigned CAP_STR_2002	= 2;
-const unsigned CAP_IS_2002	= 3;
+const unsigned CAP_UTF		= 3;
 const unsigned CAP_SIM		= 4;
 const unsigned CAP_STR_2001	= 5;
 const unsigned CAP_IS_2001	= 6;
@@ -205,7 +205,7 @@ public:
     void parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAck, unsigned long t1, unsigned long t2);
     ICQMessage *parseMessage(unsigned short type, unsigned long uin, string &p, Buffer &b,
                              unsigned short cookie1, unsigned short cookie2, unsigned long timestamp1, unsigned long timestamp2);
-    bool parseMessageText(const string &packet, string &msg, ICQUser *u);
+    void parseMessageText(const string &packet, string &msg, ICQUser *u, bool isRTF = false, bool isUTF=false);
     bool parseFE(const char *str, vector<string> &l, unsigned n);
 
     unsigned m_nPacketStart;

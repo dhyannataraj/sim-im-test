@@ -414,6 +414,7 @@ public:
 
     string	client();
     bool canRTF();
+	bool canUTF();
     bool isSecure();
 
     void adjustPhones();

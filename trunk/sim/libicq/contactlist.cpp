@@ -524,6 +524,11 @@ bool ICQUser::canRTF()
     return (Version >= 8) && (uStatus != ICQ_STATUS_OFFLINE) && hasCap(CAP_RTF);
 }
 
+bool ICQUser::canUTF()
+{
+    return (Version >= 8) && (uStatus != ICQ_STATUS_OFFLINE) && hasCap(CAP_UTF);
+}
+
 bool ICQUser::isSecure()
 {
     return (direct != NULL) && direct->isSecure();
@@ -845,7 +850,7 @@ string ICQUser::client()
         res += "vICQ";
         return res;
     }
-    if (hasCap(CAP_STR_2002) && hasCap(CAP_IS_2002)){
+    if (hasCap(CAP_STR_2002) && hasCap(CAP_UTF)){
         res += "ICQ 2002";
         return res;
     }

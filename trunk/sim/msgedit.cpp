@@ -363,6 +363,8 @@ void MsgEdit::setState()
     edit->setEnabled(sendEvent == NULL);
     users->setEnabled(sendEvent == NULL);
     file->setEnabled(sendEvent == NULL);
+	if (edit->isVisible())
+		edit->setFocus();
 }
 
 void MsgEdit::showMessage(unsigned long msgId)
