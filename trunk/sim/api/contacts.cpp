@@ -2089,10 +2089,13 @@ QTextCodec *ContactList::getCodec(Contact *contact)
     return getCodecByName(owner()->getEncoding());
 }
 
-QString ContactList::toUnicode(Contact *contact, const char *str)
+QString ContactList::toUnicode(Contact *contact, const char *str, int length)
 {
     if (str && *str){
-        QString res = getCodec(contact)->toUnicode(str, strlen(str));
+        if (length > 0)
+          QString res = getCodec(contact)->toUnicode(str, length);
+        else;  
+          QString res = getCodec(contact)->toUnicode(str, strlen(str));
         return res.replace(QRegExp("\r"), "");
     }
     return "";
