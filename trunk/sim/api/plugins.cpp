@@ -604,7 +604,7 @@ void PluginManagerPrivate::loadState()
     QFile f(QFile::decodeName(cfgName.c_str()));
     if (!f.exists()) {
         /* Maybe first start ? */
-        QDir dir(user_file(NULL));
+        QDir dir(user_file(NULL).c_str());
         if (!dir.exists()) {
             log(L_WARN, "Creating directory %s",dir.absPath().ascii());
             if (!dir.mkdir(dir.absPath())) {
@@ -809,4 +809,4 @@ bool PluginManager::isLoaded()
 ContactList *PluginManager::contacts = NULL;
 SocketFactory *PluginManager::factory = NULL;
 
-};
+}

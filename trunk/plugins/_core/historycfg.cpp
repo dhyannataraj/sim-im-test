@@ -191,6 +191,7 @@ HistoryConfig::HistoryConfig(QWidget *parent)
     cmbPage->insertItem("50");
     cmbPage->insertItem("25");
     m_cur = -1;
+    m_bDirty = false;
     QLineEdit *edit = cmbPage->lineEdit();
     edit->setValidator(new QIntValidator(1, 500, edit));
     edit->setText(QString::number(CorePlugin::m_plugin->getHistoryPage()));

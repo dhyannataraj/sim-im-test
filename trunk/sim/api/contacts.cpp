@@ -1952,7 +1952,7 @@ EXPORT ContactList *getContacts()
     return PluginManager::contacts;
 }
 
-};
+}
 
 EXPORT QString g_i18n(const char *text, Contact *contact)
 {

@@ -98,7 +98,7 @@ QString ICQClient::convert(const char *text, unsigned size, TlvList &tlvs, unsig
             res = codec->toUnicode(text, size);
         }else{
             res = QString::fromUtf8(text, size);
-            log(L_WARN, "Unknown encdoing %s", charset.c_str());
+            log(L_WARN, "Unknown encoding %s", charset.c_str());
         }
     }
     return res;
@@ -143,6 +143,8 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
                         e.process();
                     }
                 }
+                break;	/* Because we won't find tlv(0x03) which is
+                           "since online" instead of encoding... */                            
             }
             Tlv *tlvAway = tlvs(0x04);
             if (tlvAway){

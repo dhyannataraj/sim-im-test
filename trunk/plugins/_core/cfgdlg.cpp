@@ -279,7 +279,7 @@ QWidget *MainInfoItem::getWidget(ConfigureDialog *dlg)
     return new MainInfo(dlg, NULL);
 }
 
-};
+}
 
 using namespace ConfigDlg;
 

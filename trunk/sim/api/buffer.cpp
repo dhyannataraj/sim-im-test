@@ -251,6 +251,13 @@ Buffer &Buffer::operator >> (unsigned long &c)
     return *this;
 }
 
+Buffer &Buffer::operator >> (int &c)
+{
+    if (unpack((char*)&c, 4) != 4) c = 4;
+    c = htonl(c);
+    return *this;
+}
+
 Buffer &Buffer::operator >> (char **s)
 {
     unsigned short size;

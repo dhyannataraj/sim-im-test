@@ -256,6 +256,6 @@ protected:
 
 #endif
 
-};
+}
 
 #endif

@@ -640,7 +640,7 @@ void IPResolver::start_resolve()
 #endif
 }
 
-};
+}
 
 #ifndef WIN32
 #include "sockfactory.moc"

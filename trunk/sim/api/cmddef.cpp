@@ -424,6 +424,6 @@ CommandDef *CommandsMapIterator::operator++()
     return res;
 }
 
-};
+}
 
 

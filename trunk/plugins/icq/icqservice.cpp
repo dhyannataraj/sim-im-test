@@ -93,16 +93,59 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
                         emit canSendPakets(); */
             break;
         }
-    case ICQ_SNACxSRV_RATExCHANGE:
-        log(L_DEBUG, "Rate change");
-        if (m_nSendTimeout < 200){
-            m_nSendTimeout = m_nSendTimeout + 2;
-            if (m_sendTimer->isActive()){
-                m_sendTimer->stop();
-                m_sendTimer->start(m_nSendTimeout * 500);
+    case ICQ_SNACxSRV_RATExCHANGE:{
+            const char *msg_text;
+            unsigned short msg_code;
+            unsigned short class_id;
+            int window_size;
+            int clear_level;
+            int alert_level;
+            int limit_level;
+            int current_level;
+            int max_level;
+            int last_level;
+            char current_state;
+            m_socket->readBuffer >> msg_code;
+            m_socket->readBuffer >> class_id;
+            m_socket->readBuffer >> window_size;
+            m_socket->readBuffer >> clear_level;
+            m_socket->readBuffer >> alert_level;
+            m_socket->readBuffer >> limit_level;
+            m_socket->readBuffer >> current_level;
+            m_socket->readBuffer >> max_level;
+            m_socket->readBuffer >> last_level;
+            m_socket->readBuffer >> current_state;
+            switch (msg_code) {
+            	case 0x0001:
+                	msg_text = "Rate limits parameters changed";
+                    break;
+            	case 0x0002:
+                	msg_text = "Rate limits warning";
+                    break;
+            	case 0x0003:
+                	msg_text = "Rate limit hit";
+                    break;
+            	case 0x0004:
+                	msg_text = "Rate limit clear";
+                    break;
+                default:
+                    msg_text = "Unknown";
             }
+            log(L_DEBUG, msg_text);
+            log(L_DEBUG, "window_size: %x,clear_level %x,alert_level %x,\
+limit_level %x,current_level %x,max_level %x,last_level %x,current_state %c",
+					window_size,clear_level,alert_level,limit_level,
+					current_level,max_level,last_level,current_state);
+            if (m_nSendTimeout < 200){
+                m_nSendTimeout = m_nSendTimeout + 2;
+                if (m_sendTimer->isActive()){
+                    m_sendTimer->stop();
+                    m_sendTimer->start(m_nSendTimeout * 500);
+                }
+            }
+            snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_RATExACK);
+            break;
         }
-        break;
     case ICQ_SNACxSRV_RATExINFO:
         snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_RATExACK);
         m_socket->writeBuffer << 0x00010002L << 0x00030004L << 0x0005;

@@ -115,7 +115,7 @@ void StatusLabel::setPict()
     QToolTip::add(this, tip);
     resize(pict.width(), pict.height());
     setFixedSize(pict.width(), pict.height());
-};
+}
 
 void StatusLabel::timeout()
 {

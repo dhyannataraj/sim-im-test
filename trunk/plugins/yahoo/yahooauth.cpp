@@ -52,7 +52,7 @@ extern "C"
 {
     char *yahoo_crypt(const char *key, const char *salt);
     int yahoo_Dispatch(int Salt, int Parameter);
-};
+}
 
 /* This is the y64 alphabet... it's like base64, but has a . and a _ */
 char base64digits[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789._";

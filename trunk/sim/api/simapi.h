@@ -1803,7 +1803,7 @@ EXPORT bool inResize();
 EXPORT bool logEnabled();
 EXPORT void setLogEnable(bool);
 
-};
+}
 
 using namespace SIM;
 

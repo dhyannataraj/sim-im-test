@@ -539,4 +539,4 @@ EXPORT const pager_provider *getProviders()
 }
 
 
-};
+}

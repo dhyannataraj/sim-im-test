@@ -85,6 +85,7 @@ public:
     Buffer &operator >> (unsigned char &c) { return operator >> ((char&)c); }
     Buffer &operator >> (unsigned short &c);
     Buffer &operator >> (unsigned long &c);
+    Buffer &operator >> (int &c);
     Buffer &operator >> (string &s);
     Buffer &operator >> (char**);
 

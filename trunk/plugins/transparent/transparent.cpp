@@ -282,6 +282,7 @@ void *TransparentPlugin::processEvent(Event *e)
     }
 #ifndef WIN32
     if (e->type() == EventPaintView){
+    	return NULL;
         if (top == NULL)
             return NULL;
         PaintView *pv = (PaintView*)(e->param());

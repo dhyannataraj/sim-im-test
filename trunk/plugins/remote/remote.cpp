@@ -609,7 +609,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                                 index = getContacts()->groupIndex(grp->id());
                         }
                         QString grpIndex;
-                        grpIndex.sprintf("%08lX", index);
+                        grpIndex.sprintf("%08X", index);
                         info.key += grpIndex;
                     }
                     for (;;){

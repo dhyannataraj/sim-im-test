@@ -46,6 +46,6 @@ protected:
     friend class HTMLParserPrivate;
 };
 
-};
+}
 
 #endif

@@ -520,7 +520,7 @@ void SOCKS4_Listener::read_ready()
         m_state = Accept;
         if (notify)
             notify->bind_ready(port);
-        return;
+        break;
     case Accept:
         read(8);
         bIn >> b1 >> b2;
@@ -535,6 +535,9 @@ void SOCKS4_Listener::read_ready()
         }else{
             error_state("Bad state", 0);
         }
+        break;
+    default:
+    	break;
     }
 }
 

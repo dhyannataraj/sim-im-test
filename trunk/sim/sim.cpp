@@ -287,7 +287,7 @@ int main(int argc, char *argv[])
     CloseHandle(hMutex);
 #endif
     return res;
-};
+}
 
 
 

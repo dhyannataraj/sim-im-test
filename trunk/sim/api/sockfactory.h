@@ -152,7 +152,7 @@ protected:
     QDns *resolver;
 };
 
-};
+}
 
 #endif
 

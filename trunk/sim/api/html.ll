@@ -347,9 +347,6 @@ QString HTMLParser::makeStyle(const list<QString> &opt)
 	return res;
 }
 
-};
+}
 
 int yywrap() { return 1; }
-
-
-

@@ -75,4 +75,4 @@ EXPORT QString toTranslit(const QString &str)
     return res;
 }
 
-};
+}

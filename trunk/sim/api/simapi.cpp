@@ -963,7 +963,7 @@ bool my_string::operator < (const my_string &a) const
     return strcmp(m_str->c_str(), a.m_str->c_str()) < 0;
 }
 
-};
+}
 
 #ifndef HAVE_STRCASECMP
 

@@ -645,5 +645,5 @@ QString StatusMessage::presentation()
     return "";
 }
 
-};
+}
 

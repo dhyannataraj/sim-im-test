@@ -143,4 +143,4 @@ EXPORT string make_packet_string(LogInfo *l)
     return m;
 }
 
-};
+}
