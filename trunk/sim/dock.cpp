@@ -271,13 +271,19 @@ DockWnd::DockWnd(QWidget *main, bool _bWM)
     bool bWharf = true;
     if (!bWM){
         setBackgroundMode(X11ParentRelative);
-	const QPixmap &pict = Pict(pClient->getStatusIcon());
+        const QPixmap &pict = Pict(pClient->getStatusIcon());
         setIcon(pict);
 #ifdef USE_KDE
-        bWharf = false;
-	resize(pict.width(), pict.height());
-	KWin::setSystemTrayWindowFor( winId(), main->topLevelWidget()->winId());
-        show();
+        resize(pict.width(), pict.height());
+        bReparent = false;
+	log(L_DEBUG, ">> sys tray");
+        KWin::setSystemTrayWindowFor( winId(), main->topLevelWidget()->winId());
+	log(L_DEBUG, "?? %u", bReparent);
+//        if (bReparent){
+            bWharf = false;
+//        }else{
+	    show();
+//	}
 #endif
     }
     log(L_DEBUG, "Create WHarf %u", bWharf);
@@ -507,6 +513,18 @@ void DockWnd::mouseDoubleClickEvent( QMouseEvent*)
     needToggle = false;
     emit doubleClicked();
 }
+
+#ifndef WIN32
+
+bool DockWnd::x11Event(XEvent *e)
+{
+    log(L_DEBUG, "X11 %u", e->type);
+    if (e->type == ReparentNotify)
+        bReparent = true;
+    return QWidget::x11Event(e);
+}
+
+#endif
 
 #ifndef _WINDOWS
 #include "dock.moc"

@@ -54,6 +54,10 @@ protected slots:
     void timer();
     void toggle();
 protected:
+#ifndef WIN32
+    bool bReparent;
+    bool x11Event(XEvent*);
+#endif
     enum ShowIcon
     {
         State,
