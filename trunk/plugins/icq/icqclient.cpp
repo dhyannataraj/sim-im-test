@@ -775,7 +775,7 @@ void ICQClient::packet()
             if (type == 0x0001) {
                 unsigned short err_code;
                 m_socket->readBuffer >> err_code;
-                log(L_DEBUG,"Error! family: %u reason: %s",fam,error_message(err_code));
+                log(L_DEBUG,"Error! family: %04X reason: %s",fam,error_message(err_code));
                 // now decrease for icqicmb & icqvarious
                 m_socket->readBuffer.decReadPos(sizeof(unsigned short));
             }
@@ -808,7 +808,7 @@ void ICQClient::packet()
                 snac_login(type, seq);
                 break;
             default:
-                log(L_WARN, "Unknown family %02X", fam);
+                log(L_WARN, "Unknown family %04X", fam);
             }
             break;
         }

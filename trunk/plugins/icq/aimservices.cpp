@@ -103,7 +103,7 @@ void ServiceSocket::packet()
         if (type == 0x0001) {
             unsigned short err_code;
             m_socket->readBuffer >> err_code;
-            log(L_DEBUG,"Error! family: %u reason",fam);
+            log(L_DEBUG,"Error! family: %04X reason",fam);
             // now decrease for icqicmb & icqvarious
             m_socket->readBuffer.decReadPos(sizeof(unsigned short));
         }
@@ -266,7 +266,7 @@ void SearchSocket::data(unsigned short fam, unsigned short type, unsigned short 
         snac_search(type, seq);
         break;
     default:
-        log(L_WARN, "Unknown family %02X", fam);
+        log(L_WARN, "Unknown family %04X", fam);
     }
 }
 

@@ -579,7 +579,7 @@ protected:
     virtual QString ownerName();
     virtual QString contactName(void *clientData);
     string  dataName(const char *screen);
-    Buffer            m_cookie;
+    Buffer  m_cookie;
     virtual ClientSocket *socket();
     virtual void packet();
     void snac_service(unsigned short, unsigned short);
@@ -591,6 +591,8 @@ protected:
     void snac_lists(unsigned short, unsigned short);
     void snac_various(unsigned short, unsigned short);
     void snac_login(unsigned short, unsigned short);
+    void parseRosterItem(unsigned short type, string str,unsigned short grp_id,
+                         unsigned short id, TlvList *inf, bool &bIgnoreTime);
     void chn_login();
     void chn_close();
     void listsRequest();

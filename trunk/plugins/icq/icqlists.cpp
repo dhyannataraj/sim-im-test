@@ -115,6 +115,191 @@ protected:
 
 static char PLEASE_UPGRADE[] = "PleaseUpgrade";
 
+void ICQClient::parseRosterItem(unsigned short type,
+                                string str,
+                                unsigned short grp_id,
+                                unsigned short id,
+                                TlvList *inf,
+                                bool &bIgnoreTime) {
+    int seq;
+    
+    switch (type){
+    case ICQ_USER: {
+            if (str.length()){
+                if ((str.length() == strlen(PLEASE_UPGRADE) + 3) &&
+                    (str.substr(0, strlen(PLEASE_UPGRADE)) == PLEASE_UPGRADE)){
+                    log(L_DEBUG, "Upgrade warning");
+                    return;
+                }
+                log(L_DEBUG, "User %s", str.c_str());
+                // check for own uin in contact list
+                if (!m_bAIM && ((unsigned)atol(str.c_str()) == getUin())) {
+                    log(L_DEBUG, "Own UIN in contact list - removing!");
+                    seq = sendRoster(ICQ_SNACxLISTS_DELETE, "", grp_id, id);
+                    m_listRequest = new ContactServerRequest(seq, number(id).c_str(), 0, 0);
+                    time((time_t*)&m_listRequestTime);
+                    break;
+                }
+                ListRequest *lr = findContactListRequest(str.c_str());
+                if (lr){
+                    log(L_DEBUG, "Request found");
+                    lr->icq_id = id;
+                    lr->grp_id = grp_id;
+                    Contact *contact;
+                    ICQUserData *data = findContact(lr->screen.c_str(), NULL, false, contact);
+                    if (data){
+                        data->IcqID.value = id;
+                        data->GrpId.value = grp_id;
+                    }
+                }else{
+                    bool bChanged = false;
+                    string alias;
+                    Tlv *tlv_name = NULL;
+                    if (inf) tlv_name = (*inf)(TLV_ALIAS);
+                    if (tlv_name)
+                        alias = (char*)(*tlv_name);
+                    log(L_DEBUG, "User %s [%s] id %u - group %u", str.c_str(), alias.c_str(), id, grp_id);
+                    Contact *contact;
+                    Group *grp = NULL;
+                    ICQUserData *data = findGroup(grp_id, NULL, grp);
+                    data = findContact(str.c_str(), alias.c_str(), true, contact, grp);
+                    if (inf && (*inf)(TLV_WAIT_AUTH)){
+                        if (!data->WaitAuth.bValue){
+                            data->WaitAuth.bValue = true;
+                            bChanged = true;
+                        }
+                    } else {
+                        /* if not TLV(WAIT_AUTH) we are authorized ... */
+                        if (inf && !(*inf)(TLV_WAIT_AUTH)) {
+                            if (data->WaitAuth.bValue){
+                                data->WaitAuth.bValue = false;
+                                bChanged = true;
+                            }
+                        }
+                    }
+                    data->IcqID.value = id;
+                    data->GrpId.value = grp_id;
+                    Tlv *tlv_phone = NULL;
+                    if (inf) tlv_phone = (*inf)(TLV_CELLULAR);
+                    if (tlv_phone){
+                        set_str(&data->Cellular.ptr, *tlv_phone);
+                        string phone = trimPhone(*tlv_phone);
+                        QString phone_str = quoteChars(QString::fromUtf8(phone.c_str()), ",");
+                        phone_str += ",Private Cellular,";
+                        phone_str += number(CELLULAR).c_str();
+                        bChanged |= contact->setPhones(phone_str, NULL);
+                    }else{
+                        set_str(&data->Cellular.ptr, NULL);
+                    }
+                    if (bChanged){
+                        Event e(EventContactChanged, contact);
+                        e.process();
+                    }
+                    if ((data->InfoFetchTime.value == 0) && data->Uin.value)
+                        addFullInfoRequest(data->Uin.value);
+                }
+            }else{
+                bIgnoreTime = true;
+            }
+            break;
+        }
+    case ICQ_GROUPS:{
+            if (str.size() == 0) break;
+            log(L_DEBUG, "group %s %u", str.c_str(), grp_id);
+            ListRequest *lr = findGroupListRequest(grp_id);
+            if (lr)
+                break;
+            Group *grp;
+            ICQUserData *data = findGroup(grp_id, str.c_str(), grp);
+            if (data->IcqID.value){
+                lr = findGroupListRequest((unsigned short)(data->IcqID.value));
+                if (lr)
+                    removeListRequest(lr);
+            }
+            data->IcqID.value     = grp_id;
+            data->bChecked.bValue = true;
+            if (grp->getName() != QString::fromUtf8(str.c_str())){
+                grp->setName(QString::fromUtf8(str.c_str()));
+                Event e(EventGroupChanged, grp);
+                e.process();
+            }
+            break;
+        }
+    case ICQ_VISIBLE_LIST:{
+            if (str.length()){
+                log(L_DEBUG, "Visible %s", str.c_str());
+                ListRequest *lr = findContactListRequest(str.c_str());
+                if (lr)
+                    lr->visible_id = id;
+                if ((lr == NULL) || (lr->type != LIST_USER_DELETED)){
+                    Contact *contact;
+                    ICQUserData *data = findContact(str.c_str(), NULL, true, contact);
+                    data->ContactVisibleId.value = id;
+                    if ((lr == NULL) && (data->VisibleId.value != id)){
+                        data->VisibleId.value = id;
+                        Event e(EventContactChanged, contact);
+                        e.process();
+                    }
+                    if ((data->InfoFetchTime.value == 0) && data->Uin.value)
+                        addFullInfoRequest(data->Uin.value);
+                }
+            }
+            break;
+        }
+    case ICQ_INVISIBLE_LIST:{
+            if (str.length()){
+                log(L_DEBUG, "Invisible %s", str.c_str());
+                ListRequest *lr = findContactListRequest(str.c_str());
+                if (lr)
+                    lr->invisible_id = id;
+                if ((lr == NULL) || (lr->type != LIST_USER_DELETED)){
+                    Contact *contact;
+                    ICQUserData *data = findContact(str.c_str(), NULL, true, contact);
+                    data->ContactInvisibleId.value = id;
+                    if ((lr == NULL) && (data->InvisibleId.value != id)){
+                        data->InvisibleId.value = id;
+                        Event e(EventContactChanged, contact);
+                        e.process();
+                    }
+                    if ((data->InfoFetchTime.value == 0) && data->Uin.value)
+                        addFullInfoRequest(data->Uin.value);
+                }
+            }
+            break;
+        }
+    case ICQ_IGNORE_LIST:{
+            if (str.length()){
+                log(L_DEBUG, "Ignore %s", str.c_str());
+                ListRequest *lr = findContactListRequest(str.c_str());
+                if (lr)
+                    lr->ignore_id = id;
+                Contact *contact;
+                ICQUserData *data = findContact(str.c_str(), NULL, true, contact);
+                if (data->IgnoreId.value != id){
+                    data->IgnoreId.value = id;
+                    if (lr == NULL){
+                        contact->setIgnore(true);
+                        Event e(EventContactChanged, contact);
+                        e.process();
+                    }
+                }
+            }
+            break;
+        }
+    case ICQ_INVISIBLE_STATE:
+        setContactsInvisible(id);
+        break;
+    case 0x0009:
+    case 0x000f:    /* I saw this roster type in junction to
+                       TLV(0x0145) - DateTime() */
+    case 0x0011:
+    case 0x0013:
+        break;
+    default:
+        log(L_WARN,"Unknown roster type %04X", type);
+    }
+}
+
 void ICQClient::snac_lists(unsigned short type, unsigned short seq)
 {
     switch (type){
@@ -136,7 +321,21 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             break;
         }
     case ICQ_SNACxLISTS_RENAME: {
-            log(L_DEBUG, "Server modifies item - currently not implemented");
+            string name;
+            unsigned short id, grp_id, type, len;
+            bool tmp;
+
+            m_socket->readBuffer.unpackStr(name);
+            m_socket->readBuffer >> grp_id >> id >> type >> len;
+            TlvList *inf = NULL;
+            if (len){
+                Buffer b(len);
+                b.pack(m_socket->readBuffer.data(m_socket->readBuffer.readPos()), len);
+                m_socket->readBuffer.incReadPos(len);
+                inf = new TlvList(b);
+            }
+            parseRosterItem(type,name,grp_id,id,inf,tmp);
+            if (inf) delete inf;
             break;
         }
     case ICQ_SNACxLISTS_DELETE: {
@@ -186,9 +385,9 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             }
             m_socket->readBuffer >> list_len;
             for (unsigned i = 0; i < list_len; i++){
-                string str;
+                string name;
                 unsigned short id, grp_id, type, len;
-                m_socket->readBuffer.unpackStr(str);
+                m_socket->readBuffer.unpackStr(name);
                 m_socket->readBuffer >> grp_id >> id >> type >> len;
                 TlvList *inf = NULL;
                 if (len){
@@ -197,179 +396,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     m_socket->readBuffer.incReadPos(len);
                     inf = new TlvList(b);
                 }
-                switch (type){
-                case ICQ_USER: {
-                        if (str.length()){
-                            if ((str.length() == strlen(PLEASE_UPGRADE) + 3) &&
-                                    (str.substr(0, strlen(PLEASE_UPGRADE)) == PLEASE_UPGRADE)){
-                                log(L_DEBUG, "Upgrade warning");
-                                continue;
-                            }
-                            log(L_DEBUG, "User %s", str.c_str());
-                            // check for own uin in contact list
-                            if (!m_bAIM && ((unsigned)atol(str.c_str()) == getUin())) {
-                                log(L_DEBUG, "Own Uin in contact list - removing!");
-                                seq = sendRoster(ICQ_SNACxLISTS_DELETE, "", grp_id, id);
-                                m_listRequest = new ContactServerRequest(seq, number(id).c_str(), 0, 0);
-                                time((time_t*)&m_listRequestTime);
-                                break;
-                            }
-                            ListRequest *lr = findContactListRequest(str.c_str());
-                            if (lr){
-                                log(L_DEBUG, "Request found");
-                                lr->icq_id = id;
-                                lr->grp_id = grp_id;
-                                Contact *contact;
-                                ICQUserData *data = findContact(lr->screen.c_str(), NULL, false, contact);
-                                if (data){
-                                    data->IcqID.value = id;
-                                    data->GrpId.value = grp_id;
-                                }
-                            }else{
-                                bool bChanged = false;
-                                string alias;
-                                Tlv *tlv_name = NULL;
-                                if (inf) tlv_name = (*inf)(TLV_ALIAS);
-                                if (tlv_name)
-                                    alias = (char*)(*tlv_name);
-                                log(L_DEBUG, "User %s [%s] id %u - group %u", str.c_str(), alias.c_str(), id, grp_id);
-                                Contact *contact;
-                                Group *grp = NULL;
-                                ICQUserData *data = findGroup(grp_id, NULL, grp);
-                                data = findContact(str.c_str(), alias.c_str(), true, contact, grp);
-                                if (inf && (*inf)(TLV_WAIT_AUTH)){
-                                    if (!data->WaitAuth.bValue){
-                                        data->WaitAuth.bValue = true;
-                                        bChanged = true;
-                                    }
-                                } else {
-                                    /* if not TLV(WAIT_AUTH) we are authorized ... */
-                                    if (inf && !(*inf)(TLV_WAIT_AUTH)) {
-                                        if (data->WaitAuth.bValue){
-                                            data->WaitAuth.bValue = false;
-                                            bChanged = true;
-                                        }
-                                    }
-                                }
-                                data->IcqID.value = id;
-                                data->GrpId.value = grp_id;
-                                Tlv *tlv_phone = NULL;
-                                if (inf) tlv_phone = (*inf)(TLV_CELLULAR);
-                                if (tlv_phone){
-                                    set_str(&data->Cellular.ptr, *tlv_phone);
-                                    string phone = trimPhone(*tlv_phone);
-                                    QString phone_str = quoteChars(QString::fromUtf8(phone.c_str()), ",");
-                                    phone_str += ",Private Cellular,";
-                                    phone_str += number(CELLULAR).c_str();
-                                    bChanged |= contact->setPhones(phone_str, NULL);
-                                }else{
-                                    set_str(&data->Cellular.ptr, NULL);
-                                }
-                                if (bChanged){
-                                    Event e(EventContactChanged, contact);
-                                    e.process();
-                                }
-                                if ((data->InfoFetchTime.value == 0) && data->Uin.value)
-                                    addFullInfoRequest(data->Uin.value);
-                            }
-                        }else{
-                            bIgnoreTime = true;
-                        }
-                        break;
-                    }
-                case ICQ_GROUPS:{
-                        if (str.size() == 0) break;
-                        log(L_DEBUG, "group %s %u", str.c_str(), grp_id);
-                        ListRequest *lr = findGroupListRequest(grp_id);
-                        if (lr)
-                            break;
-                        Group *grp;
-                        ICQUserData *data = findGroup(grp_id, str.c_str(), grp);
-                        if (data->IcqID.value){
-                            lr = findGroupListRequest((unsigned short)(data->IcqID.value));
-                            if (lr)
-                                removeListRequest(lr);
-                        }
-                        data->IcqID.value     = grp_id;
-                        data->bChecked.bValue = true;
-                        if (grp->getName() != QString::fromUtf8(str.c_str())){
-                            grp->setName(QString::fromUtf8(str.c_str()));
-                            Event e(EventGroupChanged, grp);
-                            e.process();
-                        }
-                        break;
-                    }
-                case ICQ_VISIBLE_LIST:{
-                        if (str.length()){
-                            log(L_DEBUG, "Visible %s", str.c_str());
-                            ListRequest *lr = findContactListRequest(str.c_str());
-                            if (lr)
-                                lr->visible_id = id;
-                            if ((lr == NULL) || (lr->type != LIST_USER_DELETED)){
-                                Contact *contact;
-                                ICQUserData *data = findContact(str.c_str(), NULL, true, contact);
-                                data->ContactVisibleId.value = id;
-                                if ((lr == NULL) && (data->VisibleId.value != id)){
-                                    data->VisibleId.value = id;
-                                    Event e(EventContactChanged, contact);
-                                    e.process();
-                                }
-                                if ((data->InfoFetchTime.value == 0) && data->Uin.value)
-                                    addFullInfoRequest(data->Uin.value);
-                            }
-                        }
-                        break;
-                    }
-                case ICQ_INVISIBLE_LIST:{
-                        if (str.length()){
-                            log(L_DEBUG, "Invisible %s", str.c_str());
-                            ListRequest *lr = findContactListRequest(str.c_str());
-                            if (lr)
-                                lr->invisible_id = id;
-                            if ((lr == NULL) || (lr->type != LIST_USER_DELETED)){
-                                Contact *contact;
-                                ICQUserData *data = findContact(str.c_str(), NULL, true, contact);
-                                data->ContactInvisibleId.value = id;
-                                if ((lr == NULL) && (data->InvisibleId.value != id)){
-                                    data->InvisibleId.value = id;
-                                    Event e(EventContactChanged, contact);
-                                    e.process();
-                                }
-                                if ((data->InfoFetchTime.value == 0) && data->Uin.value)
-                                    addFullInfoRequest(data->Uin.value);
-                            }
-                        }
-                        break;
-                    }
-                case ICQ_IGNORE_LIST:{
-                        if (str.length()){
-                            log(L_DEBUG, "Ignore %s", str.c_str());
-                            ListRequest *lr = findContactListRequest(str.c_str());
-                            if (lr)
-                                lr->ignore_id = id;
-                            Contact *contact;
-                            ICQUserData *data = findContact(str.c_str(), NULL, true, contact);
-                            if (data->IgnoreId.value != id){
-                                data->IgnoreId.value = id;
-                                if (lr == NULL){
-                                    contact->setIgnore(true);
-                                    Event e(EventContactChanged, contact);
-                                    e.process();
-                                }
-                            }
-                        }
-                        break;
-                    }
-                case ICQ_INVISIBLE_STATE:
-                    setContactsInvisible(id);
-                    break;
-                case 0x0009:
-                case 0x0011:
-                case 0x0013:
-                    break;
-                default:
-                    log(L_WARN,"Unknown roster type %04X", type);
-                }
+                parseRosterItem(type,name,grp_id,id,inf,bIgnoreTime);
                 if (inf) delete inf;
             }
             unsigned long time;

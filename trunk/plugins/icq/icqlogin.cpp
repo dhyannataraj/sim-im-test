@@ -268,7 +268,7 @@ void ICQClient::chn_close()
         unsigned short err = *tlv_error;
         switch (err){
         case 0x1:{
-                errString = I18N_NOOP("Youur UIN is being used from another location");
+                errString = I18N_NOOP("Your UIN is being used from another location");
                 m_reconnect = NO_RECONNECT;
                 break;
             }
