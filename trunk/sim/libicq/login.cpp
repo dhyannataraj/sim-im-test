@@ -169,7 +169,7 @@ void ICQClientPrivate::chn_close()
             if (sock) sock->error_state(ErrorProtocol);
         switch (err){
         case 0x1:{
-                log(L_WARN, "Your ICQ number is used from another location");
+                log(L_WARN, "Your UIN is being used from another location");
                 m_reconnectTime = (time_t)(-1);
                 ICQEvent e(EVENT_ANOTHER_LOCATION);
                 client->process_event(&e);
