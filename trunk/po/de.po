@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2002-10-15 03:23+0400\n"
-"PO-Revision-Date: 2002-10-13 17:19GMT\n"
+"PO-Revision-Date: 2002-10-15 15:28GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1804,7 +1804,7 @@ msgstr "Abbrechen"
 
 #: mainwin.cpp:1621
 msgid "Alphabetically sort"
-msgstr ""
+msgstr "Alphabetisch sortieren"
 
 #: mainwin.cpp:1775
 msgid "Delete %1?"
@@ -2058,9 +2058,8 @@ msgid "Next"
 msgstr "Weiter"
 
 #: msgedit.cpp:956
-#, fuzzy
 msgid "&New message"
-msgstr "Nachricht %1 lesen"
+msgstr "&Neue Nachricht"
 
 #: msgedit.cpp:998
 msgid "%1 (ICQ# %2) wrote:<br>\n"
@@ -2137,12 +2136,11 @@ msgstr "&Suchen"
 
 #: msgview.cpp:613
 msgid "&Previous page"
-msgstr ""
+msgstr "&Vorherige Seite"
 
 #: msgview.cpp:617
-#, fuzzy
 msgid "&Next page"
-msgstr "&Nächster"
+msgstr "&Nächste Seite"
 
 #: passwddlg.cpp:34 ui/logindlgbase.cpp:55
 msgid "Password:"
@@ -2646,7 +2644,6 @@ msgid "Bug report"
 msgstr "Berichten Sie Probleme oder Wünsche"
 
 #: ui/securedlg.cpp:54
-#, fuzzy
 msgid "[Failed]"
 msgstr "[fehlgeschlagen]"
 
@@ -2849,8 +2846,7 @@ msgstr "Automatisches weiterleiten"
 
 #: ui/forwardsetupbase.cpp:89
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-"Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
 
 #: ui/forwardsetupbase.cpp:97
 msgid ""
@@ -3436,8 +3432,7 @@ msgid "Hide main window after"
 msgstr "Hauptfenster anzeigen/verstecken nach"
 
 #: ui/statussetupbase.cpp:107
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -3594,8 +3589,7 @@ msgstr "&Andere Nachrichten ablehnen"
 
 #: ui/generalsecbase.cpp:189
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: ui/changepasswdbase.cpp:77
 msgid "Change password"
@@ -3618,9 +3612,8 @@ msgid "Additional information about user:"
 msgstr "Zusätzliche Information über den Benutzer:"
 
 #: ui/securedlgbase.cpp:32
-#, fuzzy
 msgid "Secure chanel request"
-msgstr "Anforderung \"sicherer Kanal\" fehlgeschlagen"
+msgstr "Anforderung \"sicherer Kanal\""
 
 #: ui/securedlgbase.cpp:36
 msgid ""
@@ -3629,6 +3622,10 @@ msgid ""
 "\n"
 "This only works with other SIM and Licq clients"
 msgstr ""
+"Der sichere Kanal benutzt SSL mit dem Diffie-Hellman-Schlüsselaustausch und dem "
+"TLS-Protokoll Version 1.\n"
+"\n"
+"Dies funktioniert nur mit anderen SIM- oder Licq-Klienten."
 
 #: about.cpp:280
 msgid "replace this with information about your translation team"
@@ -3636,8 +3633,7 @@ msgstr ";-)"
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #: client.cpp:72
 msgid "Unicode"
@@ -3970,3 +3966,4 @@ msgstr "Weg"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
