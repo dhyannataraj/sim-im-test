@@ -502,7 +502,7 @@ public:
                            const char *state);
     virtual string dataName(void*);
     Message *parseMessage(unsigned short type, const char *screen,
-                          string &p, Buffer &packet);
+                          string &p, Buffer &packet, MessageId &id, unsigned cookie);
     bool messageReceived(Message*, const char *screen);
     QTextCodec *getCodec(const char *encoding);
     static QTextCodec *_getCodec(const char *encoding);
@@ -639,12 +639,14 @@ protected:
     string createRTF(const QString &text, unsigned long foreColor, const char *encoding);
     QString removeImages(const QString &text, unsigned maxSmile);
     void ackMessage(SendMsg &s);
+	void accept(Message *msg, const char *dir, OverwriteMode overwrite);
+	void decline(Message *msg, const char *reason);
     void sendThroughServer(const char *screen, unsigned short type, Buffer &b, const MessageId &id, bool bOffline);
     bool sendAuthRequest(Message *msg, void *data);
     bool sendAuthGranted(Message *msg, void *data);
     bool sendAuthRefused(Message *msg, void *data);
-    void sendAdvMessage(const char *screen, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bPeek, bool bDirect);
-    void sendType2(const char *screen, Buffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, bool bPeek, bool bDirect);
+    void sendAdvMessage(const char *screen, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bPeek, bool bDirect, unsigned short cookie1=0, unsigned short cookie2=0, unsigned short type=1);
+    void sendType2(const char *screen, Buffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, bool bPeek, bool bDirect, unsigned short type=1);
     void sendType1(const QString &text, bool bWide, ICQUserData *data);
     void parseAdvancedMessage(const char *screen, Buffer &msg, bool needAck, MessageId id);
     void sendAutoReply(const char *screen, MessageId id,
@@ -654,10 +656,11 @@ protected:
     void addPluginInfoRequest(unsigned long uin, unsigned plugin_index);
     void sendMTN(const char *screen, unsigned short type);
     void setChatGroup();
-    Message *parseExtendedMessage(const char *screen, Buffer &packet);
+    Message *parseExtendedMessage(const char *screen, Buffer &packet, MessageId &id, unsigned cookie);
     void parsePluginPacket(Buffer &b, unsigned plugin_index, ICQUserData *data, unsigned uin, bool bDirect);
     void pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &b);
-    void packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned short &type, unsigned short nSequence);
+    void packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned short &type, unsigned short nSequence, unsigned short flags=ICQ_TCPxMSG_NORMAL);
+	void packExtendedMessage(Message *msg, Buffer &buf, Buffer &msgBuf, ICQUserData *data);
     void requestReverseConnection(const char *screen, DirectSocket *socket);
     bool ackMessage(Message *msg, unsigned short ackFlags, const char *str);
     void fetchProfile(ICQUserData *data);
@@ -829,6 +832,7 @@ public:
     ICQFileTransfer(FileMessage *msg, ICQUserData *data, ICQClient *client);
     ~ICQFileTransfer();
     void connect(unsigned short port);
+	void listen();
     void setSocket(ClientSocket *socket);
 protected:
     enum State

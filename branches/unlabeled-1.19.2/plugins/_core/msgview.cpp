@@ -326,6 +326,48 @@ void MsgViewBase::setColors()
 
 void *MsgViewBase::processEvent(Event *e)
 {
+	if (e->type() == EventMessageDeleted){
+        Message *msg = (Message*)(e->param());
+        if (msg->contact() != m_id)
+            return NULL;
+        for (unsigned i = 0; i < (unsigned)paragraphs(); i++){
+            QString s = text(i);
+            int n = s.find(MSG_HREF);
+            if (n < 0)
+                continue;
+            s = s.mid(n + strlen(MSG_HREF));
+            n = s.find("\"");
+            if (n < 0)
+                continue;
+            s = s.left(n);
+            unsigned id = atol(getToken(s, ',').latin1());
+            if (id != msg->id())
+                continue;
+            getToken(s, ',');
+            if (s != msg->client())
+                continue;
+			unsigned j;
+			for (j = i + 1; j < (unsigned)paragraphs(); j++){
+		        QString s = text(j);
+	            if (s.find(MSG_HREF) >= 0)
+					break;
+			}
+            int paraFrom, indexFrom;
+            int paraTo, indexTo;
+            getSelection(&paraFrom, &indexFrom, &paraTo, &indexTo);
+            setSelection(i, 0, j - 1, 0xFFFF);
+			setReadOnly(false);
+			removeSelectedText();
+			setReadOnly(true);
+            if ((paraFrom == -1) && (paraTo == -1)){
+                scrollToBottom();
+            }else{
+                setSelection(paraFrom, indexFrom, paraTo, indexTo);
+            }
+            break;
+        }
+        return NULL;
+	}
     if (e->type() == EventMessageRead){
         Message *msg = (Message*)(e->param());
         if (msg->contact() != m_id)

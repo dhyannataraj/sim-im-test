@@ -326,6 +326,7 @@ ICQClient::ICQClient(Protocol *protocol, const char *cfg, bool bAIM)
         : TCPClient(protocol, cfg), EventReceiver(HighPriority - 1)
 {
     m_bAIM = bAIM;
+
 	m_listener = NULL;
     load_data(icqClientData, &data, cfg);
     if (data.owner.Uin)
@@ -379,6 +380,7 @@ ICQClient::ICQClient(Protocol *protocol, const char *cfg, bool bAIM)
 ICQClient::~ICQClient()
 {
     setStatus(STATUS_OFFLINE, false);
+
 	if (m_listener)
 		delete m_listener;
     free_data(icqClientData, &data);
@@ -540,8 +542,10 @@ void OscarSocket::connect_ready()
 
 void ICQClient::connect_ready()
 {
+
 	if (m_listener == NULL)
 	    m_listener = new ICQListener(this);
+
     OscarSocket::connect_ready();
     TCPClient::connect_ready();
 }
@@ -549,6 +553,7 @@ void ICQClient::connect_ready()
 void ICQClient::setStatus(unsigned status, bool bCommon)
 {
     if (status != STATUS_OFFLINE){
+
         switch (status){
         case STATUS_NA:
         case STATUS_AWAY:
@@ -650,8 +655,11 @@ void ICQClient::disconnected()
             }
         }
     }
-    for (list<Message*>::iterator itm = m_acceptMsg.begin(); itm != m_acceptMsg.end(); ++itm)
+    for (list<Message*>::iterator itm = m_acceptMsg.begin(); itm != m_acceptMsg.end(); ++itm){
+		Event e(EventMessageDeleted, *itm);
+		e.process();
         delete *itm;
+	}
     m_acceptMsg.clear();
     m_bRosters = false;
     m_nMsgSequence = 0;
@@ -666,9 +674,13 @@ void ICQClient::disconnected()
         ServiceSocket *s = m_services.front();
         delete s;
     }
+
 	if (m_listener){
+
 		delete m_listener;
+
 		m_listener = NULL;
+
 	}
 }
 
@@ -1066,6 +1078,18 @@ ICQUserData *ICQClient::findGroup(unsigned id, const char *alias, Group *&grp)
 
 void ICQClient::setOffline(ICQUserData *data)
 {
+	string name = dataName(data);
+	for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ){
+		Message *msg = *it;
+		if (msg->client() && (name == msg->client())){
+			Event e(EventMessageDeleted, msg);
+			e.process();
+			delete msg;
+			m_acceptMsg.erase(it);
+			it = m_acceptMsg.begin();
+		}
+		++it;
+	}
     if (data->Direct){
         delete data->Direct;
         data->Direct = NULL;
@@ -1623,7 +1647,9 @@ string ICQClient::clientName(ICQUserData *data)
         res += b;
         if (data->Build & 0x80)
             res += "/win32";
+
 		if (data->Build & 0x40)
+
 			res += "/MacOS X";
         return res;
     }
@@ -2287,6 +2313,30 @@ void ICQClient::updateInfo(Contact *contact, void *_data)
 
 void *ICQClient::processEvent(Event *e)
 {
+	if (e->type() == EventMessageAccept){
+		messageAccept *ma = (messageAccept*)(e->param());
+		for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
+			if ((*it)->id() == ma->msg->id()){
+				Message *msg = *it;
+				m_acceptMsg.erase(it);
+				accept(msg, ma->dir, ma->overwrite);
+				return msg;
+			}
+		}
+		return NULL;
+	}
+	if (e->type() == EventMessageDecline){
+		messageDecline *md = (messageDecline*)(e->param());
+		for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
+			if ((*it)->id() == md->msg->id()){
+				Message *msg = *it;
+				m_acceptMsg.erase(it);
+				decline(msg, md->reason);
+				return msg;
+			}
+		}
+		return NULL;
+	}
     if (e->type() == EventMessageRetry){
         MsgSend *m = (MsgSend*)(e->param());
         QStringList btns;
@@ -3095,13 +3145,21 @@ bool ICQClient::messageReceived(Message *msg, const char *screen)
         bAccept = true;
         break;
     }
+	if (bAccept)
+        m_acceptMsg.push_back(msg);
     Event e(EventMessageReceived, msg);
-    if (!e.process()){
-        if (bAccept){
-            m_acceptMsg.push_back(msg);
-        }else{
+    if (e.process()){
+		if (bAccept){
+			for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
+				if ((*it) == msg){
+					m_acceptMsg.erase(it);
+					break;
+				}
+			}
+		}
+	}else{
+        if (!bAccept)
             delete msg;
-        }
     }
     return !bAccept;
 }

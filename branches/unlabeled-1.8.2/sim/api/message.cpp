@@ -309,7 +309,7 @@ string FileMessage::save()
 
 QString FileMessage::presentation()
 {
-    QString res = getFile();
+    QString res = getDescription();
     res += " ";
     unsigned size = getSize();
     if (size >= 1024 * 1024){
@@ -319,10 +319,10 @@ QString FileMessage::presentation()
     }else{
         res += i18n("%1 bytes") .arg(size);
     }
-    QString descr = getDescription();
-    if (descr.length()){
+    QString text = getText();
+    if (text.length()){
         res += "<br>";
-        res += descr;
+        res += text;
     }
     return res;
 }
@@ -339,6 +339,7 @@ FileTransfer::FileTransfer(FileMessage *msg)
     m_totalSize	 = 0;
     m_speed		 = 100;
     m_state		 = Unknown;
+	m_overwrite  = Ask;
     m_transferBytes = 0;
     if (msg->m_transfer)
         delete msg->m_transfer;

@@ -194,6 +194,7 @@ void *FloatyPlugin::processEvent(Event *e)
             }
             break;
         }
+	case EventMessageDeleted:
     case EventMessageRead:
     case EventMessageReceived:{
             Message *msg = (Message*)(e->param());

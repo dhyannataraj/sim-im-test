@@ -21,6 +21,7 @@
 #include "simapi.h"
 
 #include <list>
+#include <map>
 using namespace std;
 
 class CorePlugin;
@@ -29,15 +30,27 @@ class QFile;
 class HistoryFile;
 class HistoryFileIterator;
 
+typedef struct msg_save
+{
+	string		msg;
+	string		client;
+	unsigned	contact;
+} msg_save;
+
+typedef map<unsigned, msg_save>	MAP_MSG;
+
 class History
 {
 public:
     History(unsigned contact_id);
     ~History();
     static void add(Message*, const char *type);
+	static void del(unsigned msg_id);
     static void remove(Contact *contact);
     static Message *load(unsigned id, const char *client, unsigned contact);
 protected:
+	static unsigned	s_tempId;
+	static MAP_MSG	*s_tempMsg;
     unsigned m_contact;
     list<HistoryFile*> files;
     friend class HistoryIterator;
@@ -58,6 +71,7 @@ public:
 protected:
     bool m_bUp;
     bool m_bDown;
+	unsigned m_temp_id;
     History m_history;
     HistoryFileIterator *m_it;
     list<HistoryFileIterator*> iters;

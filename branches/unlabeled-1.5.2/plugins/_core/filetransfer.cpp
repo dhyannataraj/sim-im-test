@@ -75,6 +75,7 @@ FileTransferDlg::FileTransferDlg(FileMessage *msg)
     disableWidget(edtTime);
     disableWidget(edtEstimated);
     disableWidget(edtSpeed);
+	btnGo->hide();
     msg->m_transfer->setNotify(new FileTransferDlgNotify(this));
     sldSpeed->setValue(m_msg->m_transfer->speed());
     connect(sldSpeed, SIGNAL(valueChanged(int)), this, SLOT(speedChanged(int)));
@@ -198,6 +199,8 @@ void FileTransferDlg::notifyDestroyed()
     m_timer->stop();
     btnCancel->setText(i18n("&Close"));
     if (m_state == FileTransfer::Done){
+		Event e(EventSent, m_msg);
+		e.process();
         if (chkClose->isChecked())
             close();
         return;

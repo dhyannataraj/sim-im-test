@@ -326,6 +326,7 @@ void *UserView::processEvent(Event *e)
             return NULL;
         }
         break;
+	case EventMessageDeleted:
     case EventMessageRead:
     case EventMessageReceived:{
             Message *msg = (Message*)(e->param());

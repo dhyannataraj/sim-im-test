@@ -647,16 +647,24 @@ typedef struct ConnectParam
 
 class Message;
 
-typedef struct messageChange
+enum OverwriteMode
 {
-    Message		*msg;
-    unsigned	old_id;
-} messageChange;
+	Ask,
+	Skip,
+	Replace
+};
+
+typedef struct messageAccept
+{
+    Message			*msg;
+    const char		*dir;
+	OverwriteMode	overwrite;
+} messageAccept;
 
 typedef struct messageDecline
 {
     Message		*msg;
-    char		*reason;
+    const char	*reason;
 } messageDecline;
 
 const unsigned EventMessageReceived	= 0x1100;
@@ -667,9 +675,8 @@ const unsigned EventOpenMessage		= 0x1104;
 const unsigned EventMessageRead		= 0x1105;
 const unsigned EventMessageAcked	= 0x1106;
 const unsigned EventMessageDeleted  = 0x1107;
-const unsigned EventMessageChanged	= 0x1108;
-const unsigned EventMessageAccept	= 0x1109;
-const unsigned EventMessageDecline	= 0x1110;
+const unsigned EventMessageAccept	= 0x1108;
+const unsigned EventMessageDecline	= 0x1109;
 
 const unsigned EventFetchDone		= 0x1300;
 
@@ -990,6 +997,10 @@ public:
     unsigned speed()		{ return m_speed; }
     unsigned transferBytes()	{ return m_transferBytes; }
     virtual void setSpeed(unsigned speed);
+	QString  dir()			{ return m_dir; }
+	void setDir(const QString &dir) { m_dir = dir; }
+	OverwriteMode overwrite()	{ return m_overwrite; }
+	void setOverwrite(OverwriteMode overwrite) { m_overwrite = overwrite; }
     enum State
     {
         Unknown,
@@ -1013,6 +1024,8 @@ protected:
     unsigned m_totalSize;
     unsigned m_speed;
     unsigned m_transferBytes;
+	OverwriteMode m_overwrite;
+	QString	 m_dir;
     State	 m_state;
 };
 

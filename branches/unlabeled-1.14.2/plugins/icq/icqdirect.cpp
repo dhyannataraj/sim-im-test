@@ -533,23 +533,21 @@ void DirectClient::processPacket()
             bool bFileTransfer = false;
             unsigned pos = m_socket->readBuffer.readPos();
             unsigned packetSize = m_socket->readBuffer.size() - m_socket->readBuffer.packetStartPos();
-            if (packetSize == 7){
-                char cmd;
-                m_socket->readBuffer >> cmd;
-                if (cmd == FT_SPEED)
-                    bFileTransfer = true;
-            }
-            if (packetSize == 23){
-                char cmd;
-                m_socket->readBuffer >> cmd;
-                if (cmd == FT_INIT)
-                    bFileTransfer = true;
-            }
+			unsigned long cmd;
+            m_socket->readBuffer >> cmd;
+			switch (cmd){
+            case FT_SPEED:
+			case FT_INIT:
+			case FT_INIT_ACK:
+				bFileTransfer = true;
+				break;
+			}
             m_socket->readBuffer.setReadPos(pos);
             if (bFileTransfer){
+				log(L_DEBUG, "Accept file transfer");
                 ICQFileTransfer *transfer = NULL;
                 for (list<Message*>::iterator it = m_client->m_processMsg.begin(); it != m_client->m_processMsg.end(); ++it){
-                    if ((*it)->type() != MessageFile)
+                    if (((*it)->type() != MessageFile) && ((*it)->type() != MessageICQFile))
                         continue;
                     FileMessage *msg = static_cast<FileMessage*>(*it);
                     transfer = static_cast<ICQFileTransfer*>(msg->m_transfer);
@@ -777,7 +775,7 @@ void DirectClient::processPacket()
         if (m_channel == PLUGIN_NULL){
             MessageId id;
             id.id_l = seq;
-            m = m_client->parseMessage(type, m_client->screen(m_data).c_str(), msg_str, m_socket->readBuffer);
+            m = m_client->parseMessage(type, m_client->screen(m_data).c_str(), msg_str, m_socket->readBuffer, id, 0);
             if (m == NULL){
                 m_socket->error_state("Start without message");
                 return;
@@ -800,12 +798,12 @@ void DirectClient::processPacket()
             if (msgFlags & (ICQ_TCPxMSG_URGENT | ICQ_TCPxMSG_LIST))
                 bAccept = true;
             if (bAccept){
-                sendAck(seq, type, msgFlags);
                 if (msgFlags & ICQ_TCPxMSG_URGENT)
                     m->setFlags(m->getFlags() | MESSAGE_URGENT);
                 if (msgFlags & ICQ_TCPxMSG_LIST)
                     m->setFlags(m->getFlags() | MESSAGE_LIST);
-                m_client->messageReceived(m, m_client->screen(m_data).c_str());
+                if (m_client->messageReceived(m, m_client->screen(m_data).c_str()))
+					sendAck(seq, type, msgFlags);
             }else{
                 sendAck(seq, type, ICQ_TCPxMSG_AUTOxREPLY);
                 delete m;
@@ -878,7 +876,7 @@ void DirectClient::processPacket()
             }
             MessageId id;
             id.id_l = seq;
-            Message *m = m_client->parseMessage(type, m_client->screen(m_data).c_str(), msg_str, m_socket->readBuffer);
+            Message *m = m_client->parseMessage(type, m_client->screen(m_data).c_str(), msg_str, m_socket->readBuffer, id, 0);
             switch (msg->type()){
 #ifdef USE_OPENSSL
             case MessageCloseSecure:
@@ -957,8 +955,32 @@ void DirectClient::processPacket()
             delete msg;
             break;
         }
-        if (it == m_queue.end())
-            log(L_WARN, "Message for ACK not found");
+        if (it == m_queue.end()){
+			list<Message*>::iterator it;
+			for (it = m_client->m_acceptMsg.begin(); it != m_client->m_acceptMsg.end(); ++it){
+				string name = m_client->dataName(m_data);
+				Message *msg = *it;
+				if ((msg->getFlags() & MESSAGE_DIRECT) &&
+					msg->client() && (name == msg->client())){
+					bool bFound = false;
+					switch (msg->type()){
+					case MessageICQFile:
+						if (static_cast<ICQFileMessage*>(msg)->getID_L() == seq)
+							bFound = true;
+						break;
+					}
+					if (bFound){
+						m_client->m_acceptMsg.erase(it);
+						Event e(EventMessageDeleted, msg);
+						e.process();
+						delete msg;
+						break;
+					}
+				}
+			}
+			if (it == m_client->m_acceptMsg.end())
+				log(L_WARN, "Message for ACK not found");
+		}
         break;
     default:
         m_socket->error_state("Unknown TCP command");
@@ -1572,6 +1594,13 @@ void ICQFileTransfer::connect(unsigned short port)
     if (m_notify)
         m_notify->process();
     DirectSocket::connect();
+}
+
+void ICQFileTransfer::listen()
+{
+	FileTransfer::m_state = FileTransfer::Listen;
+    if (m_notify)
+        m_notify->process();
 }
 
 void ICQFileTransfer::processPacket()

@@ -522,7 +522,7 @@ static CommandDef fileCommands[] =
             MenuMessage,
             0,
             0,
-            COMMAND_DEFAULT,
+            COMMAND_CHECK_STATE,
             NULL,
             NULL
         },
@@ -537,7 +537,7 @@ static CommandDef fileCommands[] =
             MenuMessage,
             0,
             MenuFileDecline,
-            COMMAND_DEFAULT,
+            COMMAND_CHECK_STATE,
             NULL,
             NULL
         },
@@ -1274,8 +1274,12 @@ void MsgEdit::goNext()
         delete msg;
         return;
     }
-    if (CorePlugin::m_plugin->getContainerMode())
+    if (CorePlugin::m_plugin->getContainerMode()){
+		Message msg(MessageGeneric);
+		msg.setContact(m_userWnd->id());
+		setMessage(&msg, false);
         return;
+	}
     QTimer::singleShot(0, m_userWnd, SLOT(close()));
 }
 
