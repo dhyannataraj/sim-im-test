@@ -299,7 +299,6 @@ void DirectSocket::connect_ready()
     state = WaitAck;
     sock->readBuffer.init(2);
     m_bHeader = true;
-    sock->read_ready();
 }
 
 // ____________________________________________________________________________________________

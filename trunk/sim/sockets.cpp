@@ -65,7 +65,7 @@ ICQClientSocket::ICQClientSocket(QSocket *s)
     if (sock == NULL)
 #ifdef HAVE_KEXTSOCK_H
         sock = new KExtendedSocket;
-    sock->setSocketFlags(KExtendedSocket::outputBufferedSocket | KExtendedSocket::inetSocket);
+    sock->setSocketFlags(KExtendedSocket::bufferedSocket | KExtendedSocket::inetSocket);
 #else
         sock = new QSocket(this);
     bConnected = false;
@@ -106,6 +106,10 @@ void ICQClientSocket::close()
 void ICQClientSocket::slotLookupFinished(int state)
 {
     log(L_DEBUG, "Lookup finished %u", state);
+    if (state == 0){
+	    log(L_WARN, "Can't lookup");
+	    notify->error_state(ErrorConnect);
+    }
 }
 
 int ICQClientSocket::read(char *buf, unsigned int size)
@@ -113,10 +117,11 @@ int ICQClientSocket::read(char *buf, unsigned int size)
     int res = sock->readBlock(buf, size);
     if (res < 0){
 #ifdef HAVE_KEXTSOCK_H
-        if ((errno == EWOULDBLOCK) || (errno == 0))
-            return 0;
+	if (sock->systemError() == EWOULDBLOCK) return 0;
+        log(L_DEBUG, "QClientSocket::read error %u", sock->systemError());
+#else
+	log(L_DEBUG, "QClientSocket::read error %u", errno);
 #endif
-        log(L_DEBUG, "QClientSocket::read error %u", errno);
         if (notify) notify->error_state(ErrorRead);
         return -1;
     }
@@ -142,9 +147,11 @@ void ICQClientSocket::connect(const char *host, int _port)
     log(L_DEBUG, "Connect to %s:%u", host, port);
 #ifdef HAVE_KEXTSOCK_H
     sock->setAddress(host, port);
+    sock->enableRead(true);
     if (sock->lookup() < 0){
-        log(L_WARN, "Can't lookup");
-        if (notify) notify->error_state(ErrorConnect);
+	log(L_WARN, "Can't lookup");
+	if (notify) notify->error_state(ErrorConnect);
+	return;
     }
     if (sock->startAsyncConnect() < 0){
         log(L_WARN, "Can't connect");
@@ -172,6 +179,7 @@ void ICQClientSocket::slotConnected()
 #ifdef HAVE_KEXTSOCK_H
     sock->setBlockingMode(false);
     sock->enableRead(true);
+    sock->enableWrite(false);
 #else
     bConnected = true;
 #endif
