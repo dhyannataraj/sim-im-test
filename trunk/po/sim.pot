@@ -3280,7 +3280,6 @@ msgid "Directory"
 msgstr ""
 
 #: plugins/icq/icqicmb.cpp:989 plugins/icq/icqicmb.cpp:995
-#, c-format
 msgid ""
 "_n: %n file\n"
 "%n files"
@@ -3675,7 +3674,6 @@ msgid "File transfer failed"
 msgstr ""
 
 #: plugins/msn/msnpacket.cpp:472
-#, c-format
 msgid ""
 "_n: You have %n unread message\n"
 "You have %n unread messages"
@@ -5860,7 +5858,6 @@ msgid "%1 already in contact list"
 msgstr ""
 
 #: plugins/_core/search.cpp:631
-#, c-format
 msgid ""
 "_n: %n contact found\n"
 "%n contacts found"
