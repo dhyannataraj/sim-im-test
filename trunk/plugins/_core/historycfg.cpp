@@ -17,7 +17,7 @@
 
 #include "simapi.h"
 
-#if QT_VERSION < 300
+#if QT_VERSION < 0x030000
 #include "qt3/qsyntaxhighlighter.h"
 #else
 #include <qsyntaxhighlighter.h>
@@ -271,12 +271,14 @@ void HistoryConfig::apply()
         }
     }
     int cur = cmbStyle->currentItem();
-    if ((cur >= 0) && (m_styles[cur].name != QFile::decodeName(CorePlugin::m_plugin->getHistoryStyle()))){
+    if ((cur >= 0) &&
+		(m_styles.size()) &&
+		(m_styles[cur].name != QFile::decodeName(CorePlugin::m_plugin->getHistoryStyle()))){
         CorePlugin::m_plugin->setHistoryStyle(QFile::encodeName(m_styles[cur].name));
         bChanged = true;
+	    delete CorePlugin::m_plugin->historyXSL;
+        CorePlugin::m_plugin->historyXSL = new XSL(m_styles[cur].name);
     }
-    delete CorePlugin::m_plugin->historyXSL;
-    CorePlugin::m_plugin->historyXSL = new XSL(m_styles[cur].name);
 
     if (chkOwn->isChecked() != CorePlugin::m_plugin->getOwnColors()){
         bChanged = true;
@@ -345,7 +347,7 @@ void HistoryConfig::styleSelected(int n)
 void HistoryConfig::copy()
 {
     int cur = cmbStyle->currentItem();
-    if (cur < 0)
+    if ((cur < 0) || (!m_styles.size()))
         return;
     QString name    = m_styles[cur].name;
     QString newName;
@@ -446,6 +448,8 @@ void HistoryConfig::fillCombo(const char *current)
 void HistoryConfig::del()
 {
     int cur = cmbStyle->currentItem();
+    if ((cur < 0) || (!m_styles.size()))
+        return;
     if (!m_styles[cur].bCustom)
         return;
     BalloonMsg::ask(NULL, i18n("Remove style '%1'?") .arg(m_styles[cur].name),
@@ -455,7 +459,7 @@ void HistoryConfig::del()
 void HistoryConfig::realDelete()
 {
     int cur = cmbStyle->currentItem();
-    if (cur < 0)
+    if ((cur < 0) || (!m_styles.size()))
         return;
     if (!m_styles[cur].bCustom)
         return;
@@ -477,6 +481,8 @@ void HistoryConfig::realDelete()
 void HistoryConfig::rename()
 {
     int cur = cmbStyle->currentItem();
+    if ((cur < 0) || (!m_styles.size()))
+        return;
     if (!m_styles[cur].bCustom)
         return;
     cmbStyle->setEditable(true);
@@ -494,7 +500,7 @@ void HistoryConfig::cancelRename()
 void HistoryConfig::realRename()
 {
     int cur = cmbStyle->currentItem();
-    if (cur < 0)
+    if ((cur < 0) || (!m_styles.size()))
         return;
     QString newName = cmbStyle->lineEdit()->text();
     cmbStyle->lineEdit()->removeEventFilter(this);
@@ -554,7 +560,7 @@ bool HistoryConfig::eventFilter(QObject *o, QEvent *e)
 void HistoryConfig::viewChanged(QWidget *w)
 {
     int cur = cmbStyle->currentItem();
-    if (cur < 0)
+    if ((cur < 0) || (!m_styles.size()))
         return;
     if (w == preview){
         if (!m_styles[cur].bCustom)
@@ -601,7 +607,7 @@ void HistoryConfig::fillPreview()
 {
     m_bDirty = false;
     int cur = cmbStyle->currentItem();
-    if (cur < 0)
+    if ((cur < 0) || (!m_styles.size()))
         return;
     XSL *xsl = new XSL(m_styles[cur].name);
     if (!m_styles[cur].text.isEmpty())
