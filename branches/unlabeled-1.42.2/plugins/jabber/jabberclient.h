@@ -60,7 +60,6 @@ typedef struct JabberUserData
     Data		Country;
     Data		EMail;
     Data		Phone;
-    Data		AutoReply;
     Data		StatusTime;
     Data		OnlineTime;
     Data		Subscribe;
@@ -74,6 +73,12 @@ typedef struct JabberUserData
     Data		PhotoHeight;
     Data		LogoWidth;
     Data		LogoHeight;
+	Data		nResources;
+	Data		Resources;
+	Data		ResourceStatus;
+	Data		ResourceReply;
+	Data		ResourceStatusTime;
+	Data		ResourceOnlineTime;
 } JabberUserData;
 
 typedef struct JabberClientData
@@ -284,7 +289,7 @@ class MessageRequest : public ServerRequest
     PROP_STR(URL);
 
     string		buildId(JabberUserData *data);
-    JabberUserData	*findContact(const char *jid, const char *name, bool bCreate, Contact *&contact);
+    JabberUserData	*findContact(const char *jid, const char *name, bool bCreate, Contact *&contact, string &resource);
     bool		add_contact(const char *id, unsigned grp);
     void		get_agents();
     string		get_agent_info(const char *jid, const char *node, const char *type);
@@ -344,8 +349,9 @@ protected:
     virtual bool isMyData(clientData*&, Contact*&);
     virtual bool createData(clientData*&, Contact*);
     virtual bool compareData(void*, void*);
-    virtual bool canSend(unsigned, void*, string&);
+    virtual bool canSend(unsigned, void*);
     virtual void contactInfo(void *data, unsigned long &curStatus, unsigned &style, const char *&statusIcon, string *icons = NULL);
+	virtual string resources(void *data);
     virtual QString contactTip(void *data);
     virtual QWidget *searchWindow();
     virtual CommandDef *infoWindows(Contact *contact, void *data);
@@ -382,6 +388,8 @@ protected:
 
     list<JabberListRequest>	m_listRequests;
     ServerRequest			*m_curRequest;
+
+	const char *get_icon(JabberUserData *data, unsigned status, bool invisible);
 
     void		processList();
 

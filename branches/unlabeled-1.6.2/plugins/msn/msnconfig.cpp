@@ -49,6 +49,7 @@ MSNConfig::MSNConfig(QWidget *parent, MSNClient *client, bool bConfig)
     chkAuto->setChecked(m_client->getAutoHTTP());
     connect(chkAuto, SIGNAL(toggled(bool)), this, SLOT(autoToggled(bool)));
     autoToggled(m_client->getAutoHTTP());
+	chkAuth->setChecked(m_client->getAutoAuth());
 }
 
 void MSNConfig::apply(Client*, void*)
@@ -67,6 +68,7 @@ void MSNConfig::apply()
     m_client->setMaxPort((unsigned short)atol(edtMaxPort->text()));
     m_client->setUseHTTP(chkHTTP->isChecked());
     m_client->setAutoHTTP(chkAuto->isChecked());
+	m_client->setAutoAuth(chkAuth->isChecked());
 }
 
 void MSNConfig::changed(const QString&)

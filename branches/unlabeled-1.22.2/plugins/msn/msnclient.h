@@ -74,6 +74,7 @@ typedef struct MSNClientData
     Data	AutoHTTP;
     Data	Deleted;
     Data	NDeleted;
+	Data	AutoAuth;
     MSNUserData	owner;
 } MSNClientData;
 
@@ -183,6 +184,7 @@ public:
     PROP_BOOL(AutoHTTP);
     PROP_STRLIST(Deleted);
     PROP_ULONG(NDeleted);
+	PROP_BOOL(AutoAuth);
     QString getLogin();
     QString unquote(const QString&);
     QString quote(const QString&);
@@ -220,7 +222,7 @@ protected:
     virtual QWidget *infoWindow(QWidget *parent, Contact*, void *_data, unsigned id);
     virtual QWidget *configWindow(QWidget *parent, unsigned id);
     virtual bool send(Message*, void*);
-    virtual bool canSend(unsigned, void*, string&);
+    virtual bool canSend(unsigned, void*);
     virtual void *processEvent(Event*);
     virtual QWidget *searchWindow();
     virtual bool isMyData(clientData*&, Contact*&);

@@ -484,6 +484,11 @@ unsigned long Contact::contactInfo(unsigned &style, const char *&statusIcon, str
     return status;
 }
 
+string Client::resources(void*)
+{
+	return "";
+}
+
 QString Client::ownerName()
 {
     return "";

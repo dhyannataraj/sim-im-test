@@ -1530,7 +1530,7 @@ public:
     virtual QString contactName(void *clientData);
     virtual void setupContact(Contact*, void *data) = 0;
     virtual bool send(Message*, void *data) = 0;
-    virtual bool canSend(unsigned type, void *data, string &resource) = 0;
+    virtual bool canSend(unsigned type, void *data) = 0;
     virtual QString contactTip(void *clientData);
     virtual CommandDef *infoWindows(Contact *contact, void *clientData);
     virtual QWidget *infoWindow(QWidget *parent, Contact *contact, void *clientData, unsigned id);
@@ -1539,6 +1539,7 @@ public:
     virtual void updateInfo(Contact *contact, void *clientData);
     virtual void setClientInfo(void *data);
     virtual QWidget *searchWindow();
+	virtual string resources(void *data);
     void    setState(State, const char *text = NULL, unsigned code = 0);
     State   getState() { return m_state; }
     virtual unsigned getStatus();

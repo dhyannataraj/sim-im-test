@@ -625,8 +625,7 @@ void MessageRequest::result(const char *key, const char *value)
 
 bool LiveJournalClient::send(Message *msg, void *_data)
 {
-    string resource;
-    if (!canSend(msg->type(), _data, resource))
+    if (!canSend(msg->type(), _data))
         return false;
     LiveJournalUserData *data = (LiveJournalUserData*)_data;
     const char *journal = NULL;
@@ -638,7 +637,7 @@ bool LiveJournalClient::send(Message *msg, void *_data)
     return true;
 }
 
-bool LiveJournalClient::canSend(unsigned type, void *_data, string&)
+bool LiveJournalClient::canSend(unsigned type, void *_data)
 {
     if ((_data == NULL) || (((clientData*)_data)->Sign.value != LIVEJOURNAL_SIGN))
         return false;

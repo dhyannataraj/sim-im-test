@@ -499,9 +499,11 @@ void JabberBrowser::dragStart()
     if (item == NULL)
         return;
     Contact *contact;
-    JabberUserData *data = m_client->findContact(item->text(COL_JID).utf8(), NULL, false, contact);
+	string resource;
+    JabberUserData *data = m_client->findContact(item->text(COL_JID).utf8(), NULL, false, contact, resource);
     if (data == NULL){
-        m_client->findContact(item->text(COL_JID).utf8(), item->text(COL_NAME).utf8(), true, contact);
+		string resource;
+        m_client->findContact(item->text(COL_JID).utf8(), item->text(COL_NAME).utf8(), true, contact, resource);
         contact->setTemporary(CONTACT_DRAG);
     }
     m_list->startDrag(new ContactDragObject(m_list, contact));

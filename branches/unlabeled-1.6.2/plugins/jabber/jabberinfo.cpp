@@ -37,7 +37,6 @@ JabberInfo::JabberInfo(QWidget *parent, struct JabberUserData *data, JabberClien
     connect(btnUrl, SIGNAL(clicked()), this, SLOT(goUrl()));
     edtOnline->setReadOnly(true);
     edtNA->setReadOnly(true);
-    edtResource->setReadOnly(true);
     edtID->setReadOnly(true);
     if (m_data){
         edtFirstName->setReadOnly(true);
@@ -50,10 +49,77 @@ JabberInfo::JabberInfo(QWidget *parent, struct JabberUserData *data, JabberClien
         edtAutoReply->hide();
     }
     fill();
+	connect(cmbResource, SIGNAL(activated(int)), this, SLOT(resourceActivated(int)));
 }
 
 void JabberInfo::apply()
 {
+}
+
+void JabberInfo::resourceActivated(int i)
+{
+    JabberUserData *data = m_data;
+    if (data == NULL) data = &m_client->data.owner;
+	unsigned n = i + 1;
+	unsigned status = STATUS_OFFLINE;
+	unsigned statusTime;
+	unsigned onlineTime;
+	QString autoReply;
+	if ((n == 0) || (n > data->nResources.value)){
+		status = m_data ? m_data->Status.value : m_client->getStatus();
+		statusTime = data->StatusTime.value;
+		onlineTime = data->OnlineTime.value;
+	}else{
+		status = atol(get_str(data->ResourceStatus, n));
+		statusTime = atol(get_str(data->ResourceStatusTime, n));
+		onlineTime = atol(get_str(data->ResourceOnlineTime, n));
+		autoReply = QString::fromUtf8(get_str(data->ResourceReply, n));
+	}
+    int current = 0;
+    const char *text = NULL;
+    for (const CommandDef *cmd = m_client->protocol()->statusList(); cmd->id; cmd++){
+        if (cmd->flags & COMMAND_CHECK_STATE)
+            continue;
+        if (status == cmd->id){
+            current = cmbStatus->count();
+            text = cmd->text;
+        }
+        cmbStatus->insertItem(Pict(cmd->icon), i18n(cmd->text));
+    }
+    cmbStatus->setCurrentItem(current);
+    disableWidget(cmbStatus);
+    if (status == STATUS_OFFLINE){
+        lblOnline->setText(i18n("Last online") + ":");
+        edtOnline->setText(formatDateTime(statusTime));
+        lblOnline->show();
+        edtOnline->show();
+        lblNA->hide();
+        edtNA->hide();
+    }else{
+        if (onlineTime){
+            edtOnline->setText(formatDateTime(onlineTime));
+            lblOnline->show();
+            edtOnline->show();
+        }else{
+            lblOnline->hide();
+            edtOnline->hide();
+        }
+        if ((status == STATUS_ONLINE) || (text == NULL)){
+            lblNA->hide();
+            edtNA->hide();
+        }else{
+            lblNA->setText(i18n(text));
+            edtNA->setText(formatDateTime(statusTime));
+            lblNA->show();
+            edtNA->show();
+        }
+    }
+    if (autoReply.isEmpty()){
+        edtAutoReply->hide();
+	}else{
+		edtAutoReply->show();
+        edtAutoReply->setText(autoReply);
+    }
 }
 
 void *JabberInfo::processEvent(Event *e)
@@ -86,49 +152,17 @@ void JabberInfo::fill()
     edtDate->setText(data->Bday.ptr ? QString::fromUtf8(data->Bday.ptr) : QString(""));
     edtUrl->setText(data->Url.ptr ? QString::fromUtf8(data->Url.ptr) : QString(""));
     urlChanged(edtUrl->text());
-    int current = 0;
-    const char *text = NULL;
-    unsigned status = m_data ? m_data->Status.value : m_client->getStatus();
-    for (const CommandDef *cmd = m_client->protocol()->statusList(); cmd->id; cmd++){
-        if (cmd->flags & COMMAND_CHECK_STATE)
-            continue;
-        if (status == cmd->id){
-            current = cmbStatus->count();
-            text = cmd->text;
-        }
-        cmbStatus->insertItem(Pict(cmd->icon), i18n(cmd->text));
-    }
-    cmbStatus->setCurrentItem(current);
-    disableWidget(cmbStatus);
-    if (status == STATUS_OFFLINE){
-        lblOnline->setText(i18n("Last online") + ":");
-        edtOnline->setText(formatDateTime(data->StatusTime.value));
-        lblNA->hide();
-        edtNA->hide();
-    }else{
-        if (data->OnlineTime.value){
-            edtOnline->setText(formatDateTime(data->OnlineTime.value));
-        }else{
-            lblOnline->hide();
-            edtOnline->hide();
-        }
-        if ((status == STATUS_ONLINE) || (text == NULL)){
-            lblNA->hide();
-            edtNA->hide();
-        }else{
-            lblNA->setText(i18n(text));
-            edtNA->setText(formatDateTime(data->StatusTime.value));
-        }
-    }
-    if ((status != STATUS_ONLINE) && (status != STATUS_OFFLINE) && m_data){
-        QString autoReply;
-        if (m_data->AutoReply.ptr)
-            autoReply = QString::fromUtf8(m_data->AutoReply.ptr);
-        edtAutoReply->setText(autoReply);
-    }else{
-        edtAutoReply->hide();
-    }
-    edtResource->setText(data->Resource.ptr ? QString::fromUtf8(data->Resource.ptr) : QString(""));
+	cmbResource->clear();
+	if (data->nResources.value){
+		for (unsigned i = 1; i <= data->nResources.value; i++)
+			cmbResource->insertItem(QString::fromUtf8(get_str(data->Resources, i)));
+		cmbResource->setEnabled(data->nResources.value > 1);
+	}else{
+		if (data->Resource.ptr)
+			cmbResource->insertItem(QString::fromUtf8(data->Resource.ptr));
+		cmbResource->setEnabled(false);
+	}
+	resourceActivated(0);
 }
 
 void JabberInfo::apply(Client *client, void *_data)

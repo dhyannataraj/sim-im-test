@@ -357,8 +357,7 @@ Client *MsgEdit::client(void *&data, bool bCreate, bool bTyping, unsigned contac
         unsigned i;
         for (i = 0; i < cs.size(); i++){
             Client *client = getContacts()->getClient(cs[i].client);
-            string resource;
-            if (client->canSend(m_type, cs[i].data, resource)){
+            if (client->canSend(m_type, cs[i].data)){
                 data = cs[i].data;
                 if (bTyping)
                     changeTyping(client, data);
@@ -374,8 +373,7 @@ Client *MsgEdit::client(void *&data, bool bCreate, bool bTyping, unsigned contac
                     continue;
                 if (c && (c != contact))
                     continue;
-                string resource;
-                if (client->canSend(m_type, d, resource)){
+                if (client->canSend(m_type, d)){
                     if (bCreate)
                         client->createData(cs[i].data, contact);
                     data = cs[i].data;

@@ -554,7 +554,7 @@ protected:
     virtual bool compareData(void*, void*);
     virtual void contactInfo(void *_data, unsigned long &status, unsigned &style, const char *&statusIcon, string *icons = NULL);
     virtual bool send(Message*, void*);
-    virtual bool canSend(unsigned type, void*, string&);
+    virtual bool canSend(unsigned type, void*);
     virtual bool isMyData(clientData*&, Contact*&);
     virtual bool createData(clientData*&, Contact*);
     virtual QString contactTip(void *_data);
