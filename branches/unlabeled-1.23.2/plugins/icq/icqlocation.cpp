@@ -212,7 +212,7 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
 void ICQClient::locationRequest()
 {
     snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_REQUESTxRIGHTS);
-    sendPacket();
+    sendPacket(true);
 }
 
 #define cap_id   0x82, 0x22, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00
@@ -410,7 +410,7 @@ os_ver = 0;
     m_socket->writeBuffer.tlv(0x0005, cap);
     if (m_bAIM)
         m_socket->writeBuffer.tlv(0x0006, "\x00\x04\x00\x02\x00\x02", 6);
-    sendPacket();
+    sendPacket(true);
 }
 
 void ICQClient::setAwayMessage(const char *msg)
@@ -421,7 +421,7 @@ void ICQClient::setAwayMessage(const char *msg)
     }else{
         m_socket->writeBuffer.tlv(0x0004);
     }
-    sendPacket();
+    sendPacket(true);
 }
 
 void ICQClient::fetchProfile(ICQUserData *data)
@@ -429,10 +429,10 @@ void ICQClient::fetchProfile(ICQUserData *data)
     snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_REQUESTxUSERxINFO, true);
     m_socket->writeBuffer << (unsigned short)0x0001;
     m_socket->writeBuffer.packScreen(screen(data).c_str());
-    sendPacket();
+    sendPacket(false);
     snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_REQUESTxDIRxINFO, true);
     m_socket->writeBuffer.packScreen(screen(data).c_str());
-    sendPacket();
+    sendPacket(false);
     m_info_req.insert(INFO_REQ_MAP::value_type(m_nMsgSequence, screen(data)));
 }
 
@@ -441,7 +441,7 @@ void ICQClient::fetchAwayMessage(ICQUserData *data)
     snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_REQUESTxUSERxINFO, true);
     m_socket->writeBuffer << (unsigned short)0x0003;
     m_socket->writeBuffer.packScreen(screen(data).c_str());
-    sendPacket();
+    sendPacket(false);
 }
 
 void ICQClient::fetchProfiles()
@@ -506,7 +506,7 @@ void ICQClient::setAIMInfo(ICQUserData *data)
     encodeString(data->Nick.ptr, 0x0C, bWide);
     encodeString(data->Zip.ptr, 0x0D, bWide);
     encodeString(data->State.ptr, 0x21, bWide);
-    sendPacket();
+    sendPacket(false);
 
     ICQUserData *ownerData = &this->data.owner;
     set_str(&ownerData->FirstName.ptr, data->FirstName.ptr);
@@ -528,6 +528,6 @@ void ICQClient::setProfile(ICQUserData *data)
         profile = QString::fromUtf8(data->About.ptr);
     profile = QString("<HTML>") + profile + "</HTML>";
     encodeString(profile, "text/aolrtf", 1, 2);
-    sendPacket();
+    sendPacket(false);
 }
 

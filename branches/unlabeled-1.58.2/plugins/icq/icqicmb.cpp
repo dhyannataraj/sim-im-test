@@ -90,7 +90,8 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                 Contact *contact;
                 ICQUserData *data = findContact(m_send.screen.c_str(), NULL, false, contact);
                 if (data){
-                    for (list<SendMsg>::iterator it = sendQueue.begin(); it != sendQueue.end();){
+					list<SendMsg>::iterator it;
+                    for (it = sendFgQueue.begin(); it != sendFgQueue.end();){
                         if ((*it).screen != m_send.screen){
                             ++it;
                             continue;
@@ -100,8 +101,21 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                             ++it;
                             continue;
                         }
-                        sendQueue.erase(it);
-                        it = sendQueue.begin();
+                        sendFgQueue.erase(it);
+                        it = sendFgQueue.begin();
+                    }
+                    for (it = sendBgQueue.begin(); it != sendBgQueue.end();){
+                        if ((*it).screen != m_send.screen){
+                            ++it;
+                            continue;
+                        }
+                        if ((*it).msg){
+                            (*it).flags = 0;
+                            ++it;
+                            continue;
+                        }
+                        sendBgQueue.erase(it);
+                        it = sendBgQueue.begin();
                     }
                     data->bBadClient.bValue = true;
                     if (m_send.msg)
@@ -484,7 +498,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
 void ICQClient::icmbRequest()
 {
     snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_REQUESTxRIGHTS);
-    sendPacket();
+    sendPacket(true);
 }
 
 void ICQClient::sendICMB(unsigned short channel, unsigned long flags)
@@ -497,7 +511,7 @@ void ICQClient::sendICMB(unsigned short channel, unsigned long flags)
     << (unsigned short)999		// max receiver warning level
     << (unsigned short)0		// min message interval
     << (unsigned short)0;		// unknown
-    sendPacket();
+    sendPacket(true);
 }
 
 bool ICQClient::sendThruServer(Message *msg, void *_data)
@@ -516,7 +530,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
             s.msg    = msg;
             s.text   = msg->getRichText();
             s.screen = screen(data);
-            sendQueue.push_front(s);
+            sendFgQueue.push_front(s);
             send(false);
             return true;
         }
@@ -529,7 +543,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
             s.msg    = msg;
             s.text   = addCRLF(msg->getPlainText());
             s.screen = screen(data);
-            sendQueue.push_front(s);
+            sendFgQueue.push_front(s);
             send(false);
             return true;
         }
@@ -541,7 +555,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
             s.msg    = msg;
             s.text   = msg->getPlainText();
             s.screen = screen(data);
-            sendQueue.push_front(s);
+            sendFgQueue.push_front(s);
             send(false);
             return true;
         }
@@ -557,7 +571,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
                 s.text	 = msg->getPlainText();
             }
             s.screen = screen(data);
-            sendQueue.push_front(s);
+            sendFgQueue.push_front(s);
             send(false);
             return true;
         }
@@ -565,7 +579,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
         s.msg	 = msg;
         s.text	 = addCRLF(msg->getPlainText());
         s.screen = screen(data);
-        sendQueue.push_front(s);
+        sendFgQueue.push_front(s);
         send(false);
         return true;
     case MessageUrl:
@@ -583,7 +597,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
             s.msg	 = msg;
             s.text	 = text;
             s.screen = screen(data);
-            sendQueue.push_front(s);
+            sendFgQueue.push_front(s);
             send(false);
             return true;
         }
@@ -594,7 +608,11 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
         s.flags  = SEND_RAW;
         s.msg    = msg;
         s.screen = screen(data);
-        sendQueue.push_front(s);
+		if (msg->type() == MessageCheckInvisible){
+			sendBgQueue.push_front(s);
+		}else{
+			sendFgQueue.push_front(s);
+		}
         send(false);
         return true;
     }
@@ -617,7 +635,7 @@ void ICQClient::sendThroughServer(const char *screen, unsigned short channel, Bu
         m_socket->writeBuffer.tlv(3);		// req. ack from server
     if (bOffline)
         m_socket->writeBuffer.tlv(6);	// store if user is offline
-    sendPacket();
+    sendPacket(true);
 }
 
 static char c2h(char c)
@@ -700,7 +718,7 @@ void ICQClient::ackMessage(SendMsg &s)
         s.msg = NULL;
         s.screen = "";
     }else{
-        sendQueue.push_front(s);
+        sendBgQueue.push_front(s);
     }
     send(true);
 }
@@ -787,7 +805,8 @@ void ICQClient::sendType2(const char *screen, Buffer &msgBuf, const MessageId &i
 
 void ICQClient::clearMsgQueue()
 {
-    for (list<SendMsg>::iterator it = sendQueue.begin(); it != sendQueue.end(); ++it){
+	list<SendMsg>::iterator it;
+    for (it = sendFgQueue.begin(); it != sendFgQueue.end(); ++it){
         if ((*it).socket){
             // dunno know if this is ok - vladimir please take a look
             (*it).socket->acceptReverse(NULL);
@@ -800,7 +819,21 @@ void ICQClient::clearMsgQueue()
             delete (*it).msg;
         }
     }
-    sendQueue.clear();
+    sendFgQueue.clear();
+    for (it = sendBgQueue.begin(); it != sendBgQueue.end(); ++it){
+        if ((*it).socket){
+            // dunno know if this is ok - vladimir please take a look
+            (*it).socket->acceptReverse(NULL);
+            continue;
+        }
+        if ((*it).msg) {
+            (*it).msg->setError(I18N_NOOP("Client go offline"));
+            Event e(EventMessageSent, (*it).msg);
+            e.process();
+            delete (*it).msg;
+        }
+    }
+    sendBgQueue.clear();
     if (m_send.msg){
         m_send.msg->setError(I18N_NOOP("Client go offline"));
         Event e(EventMessageSent, m_send.msg);
@@ -994,7 +1027,7 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
         m_socket->writeBuffer << id.id_l << id.id_h << 0x0002;
         m_socket->writeBuffer.packScreen(screen);
         m_socket->writeBuffer << 0x0003 << 0x0002 << 0x0002;
-        sendPacket();
+        sendPacket(false);
         ContactsMessage *msg = new ContactsMessage;
         msg->setContacts(contacts);
         messageReceived(msg, screen);
@@ -1297,7 +1330,7 @@ void ICQClient::sendAutoReply(const char *screen, MessageId id,
             m_socket->writeBuffer << 0x00000000L << 0xFFFFFF00L;
         }
     }
-    sendPacket();
+    sendPacket(false);
 }
 
 void ICQClient::sendMTN(const char *screen, unsigned short type)
@@ -1308,7 +1341,7 @@ void ICQClient::sendMTN(const char *screen, unsigned short type)
     m_socket->writeBuffer << 0x00000000L << 0x00000000L << (unsigned short)0x0001;
     m_socket->writeBuffer.packScreen(screen);
     m_socket->writeBuffer << type;
-    sendPacket();
+    sendPacket(true);
 }
 
 class AIMParser : public HTMLParser
@@ -1459,7 +1492,7 @@ void ICQClient::processSendQueue()
     }
     m_sendTimer->start(50000);
     for (;;){
-        if ((getState() != Connected) || sendQueue.empty()){
+        if ((getState() != Connected) || (sendFgQueue.empty() && sendBgQueue.empty())){
             m_sendTimer->stop();
             return;
         }

@@ -443,7 +443,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
         {
             log(L_DEBUG, "Rosters OK");
             snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_ACTIVATE);
-            sendPacket();
+            sendPacket(true);
             QTimer::singleShot(PING_TIMEOUT * 1000, this, SLOT(ping()));
             setPreviousPassword(NULL);
             sendClientReady();
@@ -496,14 +496,14 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             sendMessageRequest();
             if (getContactsInvisible() == 0){
                 snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_EDIT);
-                sendPacket();
+                sendPacket(true);
                 snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_CREATE, true);
                 m_socket->writeBuffer
                 << 0x00000000L << 0x00000001L
                 << 0x000400C8L << (unsigned short)0;
-                sendPacket();
+                sendPacket(true);
                 snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_SAVE);
-                sendPacket();
+                sendPacket(true);
             }
             fetchProfiles();
             break;
@@ -653,12 +653,12 @@ void ICQClient::listsRequest()
 {
     log(L_DEBUG, "lists request");
     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_REQxRIGHTS);
-    sendPacket();
+    sendPacket(true);
     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_REQxROSTER);
     unsigned long	contactsTime	= getContactsTime();
     unsigned short	contactsLength	= getContactsLength();
     m_socket->writeBuffer << contactsTime << contactsLength;
-    sendPacket();
+    sendPacket(true);
 }
 
 void ICQClient::sendVisibleList()
@@ -672,7 +672,7 @@ void ICQClient::sendVisibleList()
     << (unsigned short)0x0005
     << 0x00CA0001L
     << (char)3;
-    sendPacket();
+    sendPacket(true);
 }
 
 void ICQClient::sendInvisibleList()
@@ -686,7 +686,7 @@ void ICQClient::sendInvisibleList()
     << (unsigned short)0x0005
     << 0x00CA0001L
     << (char)4;
-    sendPacket();
+    sendPacket(true);
 }
 
 ListRequest *ICQClient::findContactListRequest(const char *screen)
@@ -928,7 +928,7 @@ unsigned short ICQClient::sendRoster(unsigned short cmd, const char *name, unsig
     }else{
         m_socket->writeBuffer << (unsigned short)0;
     }
-    sendPacket();
+    sendPacket(true);
     return m_nMsgSequence;
 }
 
@@ -954,7 +954,7 @@ void ICQClient::sendRosterGrp(const char *name, unsigned short grpId, unsigned s
         << (unsigned short) 0xC8
         << (unsigned short) 0;
     }
-    sendPacket();
+    sendPacket(true);
 }
 
 static string userStr(Contact *contact, ICQUserData *data)
@@ -1045,10 +1045,10 @@ void ICQClient::processListRequest()
                         snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_FUTURE_AUTH);
                         m_socket->writeBuffer.packScreen(screen(data).c_str());
                         m_socket->writeBuffer << 0x00000000L;
-                        sendPacket();
+                        sendPacket(true);
                     }
                     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_EDIT);
-                    sendPacket();
+                    sendPacket(true);
                     if (data->IcqID.value == 0)
                         data->IcqID.value = getListId();
                     TlvList *tlv = createListTlv(data, contact);
@@ -1057,7 +1057,7 @@ void ICQClient::processListRequest()
                     seq = sendRoster(ICQ_SNACxLISTS_CREATE, screen(data).c_str(), grp_id, (unsigned short)(data->IcqID.value), 0, tlv);
                     sendRosterGrp(group->getName().utf8(), grp_id, (unsigned short)(data->IcqID.value));
                     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_SAVE);
-                    sendPacket();
+                    sendPacket(true);
                     log(L_DEBUG, "%s move to group %s", userStr(contact, data).c_str(), (const char*)group->getName().local8Bit());
                     m_listRequest = new ContactServerRequest(seq, screen(data).c_str(), (unsigned short)(data->IcqID.value), grp_id, tlv);
                     time((time_t*)&m_listRequestTime);
@@ -1127,10 +1127,10 @@ void ICQClient::processListRequest()
                     log(L_DEBUG, "create group %s", (const char*)group->getName().local8Bit());
                     icq_id = getListId();
                     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_EDIT);
-                    sendPacket();
+                    sendPacket(true);
                     seq = sendRoster(ICQ_SNACxLISTS_CREATE, name.c_str(), icq_id, 0, ICQ_GROUPS);
                     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_SAVE);
-                    sendPacket();
+                    sendPacket(true);
                 }
                 if (seq)
                     m_listRequest = new GroupServerRequest(seq, group->id(), icq_id, name.c_str());
@@ -1141,10 +1141,10 @@ void ICQClient::processListRequest()
             if (lr.icq_id){
                 log(L_DEBUG, "delete group");
                 snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_EDIT);
-                sendPacket();
+                sendPacket(true);
                 seq = sendRoster(ICQ_SNACxLISTS_DELETE, "", lr.icq_id, 0, ICQ_GROUPS);
                 snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_SAVE);
-                sendPacket();
+                sendPacket(true);
                 m_listRequest = new GroupServerRequest(seq, 0, lr.icq_id, name.c_str());
                 time((time_t*)&m_listRequestTime);
             }
@@ -1351,7 +1351,7 @@ bool ICQClient::sendAuthRequest(Message *msg, void *_data)
         << (unsigned short)(charset.length())
         << charset.c_str();
     }
-    sendPacket();
+    sendPacket(true);
 
     msg->setClient(dataName(data).c_str());
     Event eSent(EventSent, msg);
@@ -1374,7 +1374,7 @@ bool ICQClient::sendAuthGranted(Message *msg, void *_data)
     m_socket->writeBuffer
     << (char)0x01
     << (unsigned long)0;
-    sendPacket();
+    sendPacket(true);
 
     msg->setClient(dataName(data).c_str());
     Event eSent(EventSent, msg);
@@ -1416,7 +1416,7 @@ bool ICQClient::sendAuthRefused(Message *msg, void *_data)
         << (unsigned short)(charset.length())
         << charset.c_str();
     }
-    sendPacket();
+    sendPacket(true);
 
     msg->setClient(dataName(data).c_str());
     Event eSent(EventSent, msg);

@@ -108,7 +108,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
             m_socket->writeBuffer.tlv(0x000F, "en");
             m_socket->writeBuffer.tlv(0x000E, "us");
             m_socket->writeBuffer.tlv(0x004A, "\x01");
-            sendPacket();
+            sendPacket(true);
         }
         break;
     case ICQ_SNACxLOGIN_LOGINxREPLY:
@@ -126,7 +126,7 @@ void ICQClient::chn_login()
         m_socket->writeBuffer << 0x00000001L;
         m_socket->writeBuffer.tlv(6, m_cookie.data(), (unsigned short)(m_cookie.size()));
         m_cookie.init(0);
-        sendPacket();
+        sendPacket(true);
         return;
     }
     if (data.owner.Uin.value){
@@ -148,24 +148,24 @@ void ICQClient::chn_login()
         m_socket->writeBuffer.tlv(0x0014, 0x00000055L);
         m_socket->writeBuffer.tlv(0x000f, "en");
         m_socket->writeBuffer.tlv(0x000e, "us");
-        sendPacket();
+        sendPacket(true);
         return;
     }
     if (data.owner.Screen.ptr && *data.owner.Screen.ptr){
         flap(ICQ_CHNxNEW);
         m_socket->writeBuffer << 0x00000001L;
-        sendPacket();
+        sendPacket(true);
         snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_AUTHxREQUEST, false, false);
         m_socket->writeBuffer.tlv(0x0001, data.owner.Screen.ptr);
         m_socket->writeBuffer.tlv(0x004B);
         m_socket->writeBuffer.tlv(0x005A);
-        sendPacket();
+        sendPacket(true);
         return;
     }
 
     flap(ICQ_CHNxNEW);
     m_socket->writeBuffer << 0x00000001L;
-    sendPacket();
+    sendPacket(true);
     snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_REGISTERxREQ);
     Buffer msg;
     msg
@@ -179,7 +179,7 @@ void ICQClient::chn_login()
     msg.pack(pswd.c_str(), len);
     msg << 0x94680000L << 0x00000602L;
     m_socket->writeBuffer.tlv(0x0001, msg);
-    sendPacket();
+    sendPacket(true);
 }
 
 void ICQClient::chn_close()

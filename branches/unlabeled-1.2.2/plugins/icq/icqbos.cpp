@@ -38,5 +38,5 @@ void ICQClient::snac_bos(unsigned short type, unsigned short)
 void ICQClient::bosRequest()
 {
     snac(ICQ_SNACxFAM_BOS, ICQ_SNACxBOS_REQUESTxRIGHTS);
-    sendPacket();
+    sendPacket(true);
 }

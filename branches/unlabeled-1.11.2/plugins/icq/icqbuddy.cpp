@@ -361,7 +361,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
 void ICQClient::buddyRequest()
 {
     snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_REQUESTxRIGHTS);
-    sendPacket();
+    sendPacket(true);
 }
 
 void ICQClient::sendContactList()
@@ -388,7 +388,7 @@ void ICQClient::sendContactList()
                 m_socket->writeBuffer.packScreen(screen(data).c_str());
         }
     }
-    sendPacket();
+    sendPacket(true);
 }
 
 void ICQClient::addBuddy(Contact *contact)
@@ -410,7 +410,7 @@ void ICQClient::addBuddy(Contact *contact)
         if ((data->IgnoreId.value == 0)  && (data->WaitAuth.bValue || (data->GrpId.value == 0))){
             snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_ADDxTOxLIST);
             m_socket->writeBuffer.packScreen(screen(data).c_str());
-            sendPacket();
+            sendPacket(true);
             buddies.push_back(screen(data));
         }
     }
@@ -434,7 +434,7 @@ void ICQClient::removeBuddy(Contact *contact)
             continue;
         snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_REMOVExFROMxLIST);
         m_socket->writeBuffer.packScreen(screen(data).c_str());
-        sendPacket();
+        sendPacket(true);
         buddies.erase(it);
     }
 }

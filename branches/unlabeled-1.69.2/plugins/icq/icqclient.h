@@ -419,19 +419,15 @@ public:
     OscarSocket();
     virtual ~OscarSocket();
 protected:
+	void sendPacket(bool bSend=true);
     virtual ClientSocket *socket() = 0;
     virtual void packet() = 0;
-    void sendPacket();
     void flap(char channel);
     void snac(unsigned short fam, unsigned short type, bool msgId=false, bool bType=true);
     void connect_ready();
     void packet_ready();
-    void write_ready();
     bool m_bHeader;
     char m_nChannel;
-    Buffer   delayed;
-    unsigned m_time;
-    unsigned m_packets;
     unsigned short m_nSequence;
     unsigned short m_nMsgSequence;
 };
@@ -540,6 +536,7 @@ protected slots:
     void processSendQueue();
     void retry(int n, void*);
 protected:
+	void sendPacket(bool bSend);
     virtual void setInvisible(bool bState);
     virtual void setStatus(unsigned status, bool bCommon);
     virtual void setStatus(unsigned status);
@@ -603,7 +600,6 @@ protected:
     string cryptPassword();
     virtual void connect_ready();
     virtual void packet_ready();
-    virtual void write_ready();
     const char* error_message(unsigned short error);
     ICQListener		*m_listener;
     list<ServiceSocket*> m_services;
@@ -621,7 +617,8 @@ protected:
     list<string>		 buddies;
     list<ListRequest>    listRequests;
     list<SendMsg>        smsQueue;
-    list<SendMsg>        sendQueue;
+    list<SendMsg>        sendFgQueue;
+	list<SendMsg>		 sendBgQueue;
     list<SendMsg>        replyQueue;
     list<ar_request>    arRequests;
     void addGroupRequest(Group *group);
@@ -691,6 +688,9 @@ protected:
     void setAwayMessage(const char *msg);
     void encodeString(const QString &text, const char *type, unsigned short charsetTlv, unsigned short infoTlv);
     void encodeString(const char *_str, unsigned short nTlv, bool bWide);
+    Buffer   delayed;
+    unsigned m_time;
+    unsigned m_packets;
     ICQUserData *findInfoRequest(unsigned short seq, Contact *&contact);
     INFO_REQ_MAP m_info_req;
     unsigned short msgStatus();
@@ -726,7 +726,6 @@ public:
 protected:
     virtual void connect_ready();
     virtual void packet_ready();
-    virtual void write_ready();
     virtual ClientSocket *socket();
     virtual void packet();
     virtual void data(unsigned short fam, unsigned short type, unsigned short seq) = 0;

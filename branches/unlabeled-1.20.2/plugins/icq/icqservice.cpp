@@ -68,7 +68,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
         << ICQ_SNACxFAM_LISTS
         << ICQ_SNACxFAM_VARIOUS
         << ICQ_SNACxFAM_LOGIN;
-        sendPacket();
+        sendPacket(true);
         break;
     case ICQ_SNACxSRV_RESUME:
         /*        m_bDontSendPakets = true;
@@ -166,9 +166,9 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
     case ICQ_SNACxSRV_RATExINFO:
         snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_RATExACK);
         m_socket->writeBuffer << 0x00010002L << 0x00030004L << 0x0005;
-        sendPacket();
+        sendPacket(true);
         snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_GETxUSERxINFO);
-        sendPacket();
+        sendPacket(true);
         listsRequest();
         locationRequest();
         buddyRequest();
@@ -179,7 +179,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
         break;
     case ICQ_SNACxSRV_ACKxIMxICQ:
         snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_REQxRATExINFO);
-        sendPacket();
+        sendPacket(true);
         break;
     case ICQ_SNACxSRV_NAMExINFO:{
             string screen = m_socket->readBuffer.unpackScreen();
@@ -241,7 +241,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             << 0x000A0001L
             << 0x000B0001L;
         }
-        sendPacket();
+        sendPacket(true);
         break;
     case ICQ_SNACxSRV_ERROR:
         break;
@@ -320,7 +320,7 @@ void ICQClient::sendClientReady()
     << 0x000A0001L << 0x0110047BL
     << 0x000B0001L << 0x0110047BL;
 
-    sendPacket();
+    sendPacket(true);
 }
 
 void ICQClient::sendLogonStatus()
@@ -360,7 +360,7 @@ void ICQClient::sendLogonStatus()
     m_socket->writeBuffer.tlv(0x0008, (unsigned short)0);
     m_socket->writeBuffer.tlv(0x000C, directInfo);
 
-    sendPacket();
+    sendPacket(true);
     if (!getInvisible())
         sendInvisibleList();
     sendIdleTime();
@@ -373,7 +373,7 @@ void ICQClient::setInvisible()
         sendVisibleList();
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
     m_socket->writeBuffer.tlv(0x0006, fullStatus(m_status));
-    sendPacket();
+    sendPacket(true);
     if (!getInvisible())
         sendInvisibleList();
 }
@@ -382,7 +382,7 @@ void ICQClient::sendStatus()
 {
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
     m_socket->writeBuffer.tlv(0x0006, fullStatus(m_status));
-    sendPacket();
+    sendPacket(true);
     sendIdleTime();
 }
 
@@ -404,7 +404,7 @@ void ICQClient::sendPluginInfoUpdate(unsigned plugin_id)
     b << (char)0;
     m_socket->writeBuffer.tlv(0x0011, b);
     m_socket->writeBuffer.tlv(0x0012, (unsigned short)0);
-    sendPacket();
+    sendPacket(false);
 }
 
 void ICQClient::sendPluginStatusUpdate(unsigned plugin_id, unsigned long status)
@@ -429,7 +429,7 @@ void ICQClient::sendPluginStatusUpdate(unsigned plugin_id, unsigned long status)
     b.pack((unsigned short)1);
     m_socket->writeBuffer.tlv(0x0011, b);
     m_socket->writeBuffer.tlv(0x0012, (unsigned short)0);
-    sendPacket();
+    sendPacket(false);
 }
 
 void ICQClient::sendUpdate()
@@ -446,7 +446,7 @@ void ICQClient::sendUpdate()
     Buffer directInfo(25);
     fillDirectInfo(directInfo);
     m_socket->writeBuffer.tlv(0x000C, directInfo);
-    sendPacket();
+    sendPacket(false);
 }
 
 void ICQClient::fillDirectInfo(Buffer &directInfo)
@@ -506,7 +506,7 @@ void ICQClient::sendIdleTime()
         idle = 1;
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxIDLE);
     m_socket->writeBuffer << idle;
-    sendPacket();
+    sendPacket(false);
     m_bIdleTime = true;
 }
 
@@ -514,5 +514,5 @@ void ICQClient::requestService(ServiceSocket *s)
 {
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SERVICExREQ, true);
     m_socket->writeBuffer << s->id();
-    sendPacket();
+    sendPacket(true);
 }

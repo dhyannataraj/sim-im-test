@@ -2105,7 +2105,7 @@ void AIMFileTransfer::bind_ready(unsigned short port)
     s.socket = this;
     s.screen = m_client->screen(m_data);
     s.msg	 = m_msg;
-    m_client->sendQueue.push_front(s);
+    m_client->sendFgQueue.push_front(s);
     m_client->send(false);
 }
 
