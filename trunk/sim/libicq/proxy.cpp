@@ -33,6 +33,10 @@
 #include <netdb.h>
 #endif
 
+#ifndef INADDR_NONE
+#define INADDR_NONE	0xFFFFFFFF
+#endif
+
 Proxy::Proxy()
 {
 }

@@ -25,6 +25,10 @@
 #include "proxy.h"
 #include "log.h"
 
+#ifndef INADDR_NONE
+#define INADDR_NONE	0xFFFFFFFF
+#endif
+
 Socket::Socket()
 {
     notify = NULL;
