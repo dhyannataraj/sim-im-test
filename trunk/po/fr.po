@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.1\n"
-"POT-Creation-Date: 2004-07-24 22:24+0200\n"
+"POT-Creation-Date: 2004-07-25 11:36+0200\n"
 "PO-Revision-Date: 2004-05-02 14:28+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: Français <fr@li.org>\n"
@@ -1956,13 +1956,9 @@ msgstr "Utiliser les couleurs &système"
 msgid "Use small &font for group"
 msgstr "&Nouveau bloc pour le groupe"
 
-# ui/toolsetup.cpp:63
-# ui/toolsetup.cpp:132
-# ui/toolsetup.cpp:159
 #: plugins/_core/userviewcfgbase.cpp:322
-#, fuzzy
 msgid "Show group &separator"
-msgstr "Séparation"
+msgstr ""
 
 # libicq/country.cpp:351
 # libicq/country.cpp:436
@@ -2037,11 +2033,9 @@ msgstr ""
 msgid "Keep history "
 msgstr "Enregistrer l'historique"
 
-# libicq/country.cpp:216
 #: plugins/_core/historycfgbase.cpp:233 plugins/_core/userhistorycfgbase.cpp:126
-#, fuzzy
 msgid "days"
-msgstr "Monaco"
+msgstr ""
 
 # ui/filetransferbase.cpp:83
 #: plugins/_core/historycfgbase.cpp:239
@@ -2055,11 +2049,9 @@ msgstr "100000"
 msgid "50"
 msgstr "Années 50"
 
-# ui/filetransferbase.cpp:83
 #: plugins/_core/historycfgbase.cpp:241
-#, fuzzy
 msgid "20"
-msgstr "100000"
+msgstr ""
 
 # msgview.cpp:832
 #: plugins/_core/historycfgbase.cpp:243
@@ -2077,13 +2069,13 @@ msgstr "Trier"
 # ui/maininfobase.cpp:194
 # ui/searchbase.cpp:185
 #: plugins/_core/maininfobase.cpp:246 plugins/_core/nonimbase.cpp:126 plugins/icq/aiminfobase.cc:287 plugins/icq/icqinfobase.cc:343 plugins/jabber/discoinfobase.cpp:314 plugins/jabber/jabberinfobase.cpp:299 plugins/yahoo/yahooinfobase.cpp:186
+#, fuzzy
 msgid "First Name:"
 msgstr "Prénom"
 
 # ui/maininfobase.cpp:77
 # ui/searchbase.cpp:179
 #: plugins/_core/maininfobase.cpp:247 plugins/_core/nonimbase.cpp:127 plugins/icq/aiminfobase.cc:288 plugins/icq/icqinfobase.cc:340 plugins/yahoo/yahooinfobase.cpp:187
-#, fuzzy
 msgid "Last Name:"
 msgstr "Nom"
 
@@ -2376,11 +2368,9 @@ msgstr "Connexion directe"
 msgid "New connection"
 msgstr "Connexion directe"
 
-# libicq/country.cpp:246
 #: plugins/_core/newprotocolbase.cpp:68
-#, fuzzy
 msgid "Protocol:"
-msgstr "Puerto Rico"
+msgstr ""
 
 # chatwnd.cpp:99
 #: plugins/_core/newprotocolbase.cpp:69
@@ -3124,11 +3114,9 @@ msgstr "Turquie"
 msgid "&Refresh"
 msgstr "&Refuser"
 
-# mainwin.cpp:709
 #: plugins/gpg/gpgadvbase.cpp:156
-#, fuzzy
 msgid "Command arguments"
-msgstr "Etat Téléphone"
+msgstr ""
 
 # ui/setupdlg.cpp:149
 #: plugins/gpg/gpgadvbase.cpp:157
@@ -5888,12 +5876,9 @@ msgstr ""
 msgid "Automatically send &subscribe request"
 msgstr "Invisible"
 
-# client.cpp:1113
-# mainwin.cpp:2698
 #: plugins/jabber/jabberconfigbase.cpp:375
-#, fuzzy
 msgid "Automatically &accept subscribe requests"
-msgstr "Invisible"
+msgstr ""
 
 # control.cpp:220
 #: plugins/jabber/jabberconfigbase.cpp:376
@@ -7144,13 +7129,11 @@ msgid ""
 "%1 is not available"
 msgstr "%1 est connecté."
 
-# mainwin.cpp:1337
 #: plugins/osd/osd.cpp:413
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 doesn't want to be disturbed"
-msgstr "%1 est connecté."
+msgstr ""
 
 # mainwin.cpp:1337
 #: plugins/osd/osd.cpp:414
@@ -7583,11 +7566,9 @@ msgstr "Barbuda"
 msgid "115200"
 msgstr "100000"
 
-# ui/filetransferbase.cpp:83
 #: plugins/sms/smssetupbase.cpp:175
-#, fuzzy
 msgid "38400"
-msgstr "100000"
+msgstr ""
 
 # ui/filetransferbase.cpp:83
 #: plugins/sms/smssetupbase.cpp:176
@@ -7595,21 +7576,17 @@ msgstr "100000"
 msgid "19200"
 msgstr "100000"
 
-# ui/filetransferbase.cpp:83
 #: plugins/sms/smssetupbase.cpp:177
-#, fuzzy
 msgid "9600"
-msgstr "100000"
+msgstr ""
 
 #: plugins/sms/smssetupbase.cpp:178
 msgid "4800"
 msgstr ""
 
-# ui/filetransferbase.cpp:83
 #: plugins/sms/smssetupbase.cpp:179
-#, fuzzy
 msgid "2400"
-msgstr "100000"
+msgstr ""
 
 # ui/filetransferbase.cpp:83
 #: plugins/sms/smssetupbase.cpp:180
@@ -8544,11 +8521,9 @@ msgstr "Etat"
 msgid "Forecast days:"
 msgstr ""
 
-# ui/maininfobase.cpp:94
 #: plugins/weather/weathercfgbase.cpp:176
-#, fuzzy
 msgid "Units:"
-msgstr "UIN :"
+msgstr ""
 
 # libicq/country.cpp:97
 #: plugins/weather/wifacecfgbase.cpp:140
@@ -11162,3 +11137,15 @@ msgstr "Fenêtre - scale"
 #, fuzzy
 #~ msgid "%1 wrote:"
 #~ msgstr "%1 est connecté."
+
+# ui/maininfobase.cpp:77
+# ui/searchbase.cpp:179
+#, fuzzy
+#~ msgid "Last name"
+#~ msgstr "Nom"
+
+# ui/maininfobase.cpp:77
+# ui/searchbase.cpp:179
+#, fuzzy
+#~ msgid "Last name:"
+#~ msgstr "Nom"

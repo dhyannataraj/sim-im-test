@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
-"POT-Creation-Date: 2004-07-24 22:15+0200\n"
+"POT-Creation-Date: 2004-07-25 11:36+0200\n"
 "PO-Revision-Date: 2004-05-02 14:28+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team:  <en@li.org>\n"
@@ -1530,9 +1530,8 @@ msgid "Use small &font for group"
 msgstr "&Νέο δοχείο για γκρούπ"
 
 #: plugins/_core/userviewcfgbase.cpp:322
-#, fuzzy
 msgid "Show group &separator"
-msgstr "Διαχωριστής"
+msgstr ""
 
 #: plugins/_core/userviewcfgbase.cpp:323
 #, fuzzy
@@ -1593,9 +1592,8 @@ msgid "Keep history "
 msgstr "Αποθήκευση Ιστορικού"
 
 #: plugins/_core/historycfgbase.cpp:233 plugins/_core/userhistorycfgbase.cpp:126
-#, fuzzy
 msgid "days"
-msgstr "Μονακό"
+msgstr ""
 
 #: plugins/_core/historycfgbase.cpp:239
 msgid "100"
@@ -1733,9 +1731,8 @@ msgid "Provider:"
 msgstr "Παροχέας:"
 
 #: plugins/_core/pagerbase.cpp:120
-#, fuzzy
 msgid "Email gateway:"
-msgstr "Εισάγετε τη διεύθυνση Email:"
+msgstr ""
 
 #: plugins/_core/searchbase.cpp:155
 #, fuzzy
@@ -1862,9 +1859,8 @@ msgid "New connection"
 msgstr "Σύνδεση"
 
 #: plugins/_core/newprotocolbase.cpp:68
-#, fuzzy
 msgid "Protocol:"
-msgstr "Πουέρτο Ρίκο"
+msgstr ""
 
 #: plugins/_core/newprotocolbase.cpp:69
 #, fuzzy
@@ -1945,9 +1941,8 @@ msgid "File transfer"
 msgstr "Μεταφορά αρχείου"
 
 #: plugins/_core/filetransferbase.cpp:133
-#, fuzzy
 msgid "Time:"
-msgstr "Τύπος:"
+msgstr ""
 
 #: plugins/_core/filetransferbase.cpp:134
 #, fuzzy
@@ -2121,18 +2116,16 @@ msgid "Plugin provides set away and N/A status after some idle time"
 msgstr ""
 
 #: plugins/autoaway/autoawaycfgbase.cpp:134
-#, fuzzy
 msgid "Set \"Away\" status after"
-msgstr "Κατάσταση Τηλεφώνου"
+msgstr ""
 
 #: plugins/autoaway/autoawaycfgbase.cpp:135
 msgid "minutes not using computer"
 msgstr ""
 
 #: plugins/autoaway/autoawaycfgbase.cpp:136
-#, fuzzy
 msgid "minutes of \"Away\""
-msgstr "Υπολογιστές"
+msgstr ""
 
 #: plugins/autoaway/autoawaycfgbase.cpp:137
 #, fuzzy
@@ -2475,9 +2468,8 @@ msgid "&Refresh"
 msgstr "Άρνηση"
 
 #: plugins/gpg/gpgadvbase.cpp:156
-#, fuzzy
 msgid "Command arguments"
-msgstr "Κατάσταση Τηλεφώνου"
+msgstr ""
 
 #: plugins/gpg/gpgadvbase.cpp:157
 #, fuzzy
@@ -3911,14 +3903,12 @@ msgid "Wait ack from client"
 msgstr ""
 
 #: plugins/icq/icqconfigbase.cc:314
-#, fuzzy
 msgid "Accept in &occupied mode"
-msgstr "Αποδοχή"
+msgstr ""
 
 #: plugins/icq/icqconfigbase.cc:315
-#, fuzzy
 msgid "Accept in &DND mode"
-msgstr "Αποδοχή"
+msgstr ""
 
 #: plugins/icq/icqconfigbase.cc:316
 msgid "For decrease traffic you can:"
@@ -3987,9 +3977,8 @@ msgid "External IP:"
 msgstr ""
 
 #: plugins/icq/aiminfobase.cc:304 plugins/icq/icqinfobase.cc:350
-#, fuzzy
 msgid "Internal IP:"
-msgstr "Ιντερνετ"
+msgstr ""
 
 #: plugins/icq/aiminfobase.cc:301 plugins/icq/icqinfobase.cc:351 plugins/proxy/proxycfgbase.cpp:168
 #, fuzzy
@@ -4002,9 +3991,8 @@ msgid "New password:"
 msgstr "Απο&θήκευση κωδικού"
 
 #: plugins/icq/icqinfobase.cc:354 plugins/jabber/jabberinfobase.cpp:311
-#, fuzzy
 msgid "Retype new password:"
-msgstr "Απο&θήκευση κωδικού"
+msgstr ""
 
 #: plugins/icq/icqinfobase.cc:355 plugins/jabber/jabberinfobase.cpp:312
 #, fuzzy
@@ -4035,9 +4023,8 @@ msgid "Zip code:"
 msgstr "Κωδικός περιοχής:"
 
 #: plugins/icq/homeinfobase.cc:180
-#, fuzzy
 msgid "Time zone:"
-msgstr "Τηλέφωνο Κατοικίας"
+msgstr ""
 
 #: plugins/icq/homeinfobase.cc:181
 #, fuzzy
@@ -4163,14 +4150,12 @@ msgid "Allow &direct connection from any user"
 msgstr "Σύνδεση"
 
 #: plugins/icq/icqsecurebase.cc:173
-#, fuzzy
 msgid "Allow direct connection from user listed in &contact list"
-msgstr "Σύνδεση"
+msgstr ""
 
 #: plugins/icq/icqsecurebase.cc:174
-#, fuzzy
 msgid "Allow direct connection from user &upon authorization"
-msgstr "Σύνδεση"
+msgstr ""
 
 #: plugins/icq/icqsecurebase.cc:175
 #, fuzzy
@@ -4297,9 +4282,8 @@ msgid "Street:"
 msgstr "Πολιτεία:"
 
 #: plugins/icq/aiminfobase.cc:295 plugins/icq/aimsearchbase.cc:203
-#, fuzzy
 msgid "Zip:"
-msgstr "Κωδικός περιοχής:"
+msgstr ""
 
 #: plugins/icq/aiminfobase.cc:298
 #, fuzzy
@@ -5672,9 +5656,8 @@ msgid "Mailer:"
 msgstr "Άντρας"
 
 #: plugins/navigate/navcfgbase.cc:102
-#, fuzzy
 msgid "Open links in &new window"
-msgstr "&Όλοι οι χρήστες σε ένα δοχείο"
+msgstr ""
 
 #: plugins/netmonitor/monitor.cpp:51 plugins/netmonitor/netmonitor.cpp:33 plugins/netmonitor/netmonitor.cpp:82
 msgid "Network monitor"
@@ -5816,11 +5799,10 @@ msgid ""
 msgstr "%1 είναι online"
 
 #: plugins/osd/osd.cpp:413
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 doesn't want to be disturbed"
-msgstr "%1 είναι online"
+msgstr ""
 
 #: plugins/osd/osd.cpp:414
 #, fuzzy
@@ -6163,9 +6145,8 @@ msgid "SMSSetup"
 msgstr "Εγκατάσταση"
 
 #: plugins/sms/smssetupbase.cpp:172
-#, fuzzy
 msgid "Baudrate:"
-msgstr "Όνομα:"
+msgstr ""
 
 #: plugins/sms/smssetupbase.cpp:174
 msgid "115200"
@@ -6949,9 +6930,8 @@ msgid "Forecast days:"
 msgstr ""
 
 #: plugins/weather/weathercfgbase.cpp:176
-#, fuzzy
 msgid "Units:"
-msgstr "Ένωση"
+msgstr ""
 
 #: plugins/weather/wifacecfgbase.cpp:140
 #, fuzzy

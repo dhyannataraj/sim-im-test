@@ -1,10 +1,9 @@
-# translation of ru.po to
 # Copyright (C) YEAR Free Software Foundation, Inc., 2002
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: zh_TV\n"
-"POT-Creation-Date: 2004-07-24 22:15+0200\n"
+"POT-Creation-Date: 2004-07-25 11:36+0200\n"
 "PO-Revision-Date: 2004-05-02 14:35+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: zh_TW.Big5 <zh@li.org>\n"
@@ -1512,9 +1511,8 @@ msgid "Open one container for &group"
 msgstr ""
 
 #: plugins/_core/interfacecfgbase.cpp:162
-#, fuzzy
 msgid "Open all contacts in &one container"
-msgstr "主視窗透明"
+msgstr ""
 
 #: plugins/_core/interfacecfgbase.cpp:163
 msgid "Use \"&Enter\" for send message"
@@ -1636,9 +1634,8 @@ msgid "Keep history "
 msgstr "Штат"
 
 #: plugins/_core/historycfgbase.cpp:233 plugins/_core/userhistorycfgbase.cpp:126
-#, fuzzy
 msgid "days"
-msgstr "五月"
+msgstr ""
 
 #: plugins/_core/historycfgbase.cpp:239
 #, fuzzy
@@ -1650,9 +1647,8 @@ msgid "50"
 msgstr ""
 
 #: plugins/_core/historycfgbase.cpp:241
-#, fuzzy
 msgid "20"
-msgstr "100000"
+msgstr ""
 
 #: plugins/_core/historycfgbase.cpp:243
 #, fuzzy
@@ -2523,9 +2519,8 @@ msgid "&Refresh"
 msgstr "拒絕(&R)"
 
 #: plugins/gpg/gpgadvbase.cpp:156
-#, fuzzy
 msgid "Command arguments"
-msgstr "電話狀態"
+msgstr ""
 
 #: plugins/gpg/gpgadvbase.cpp:157
 #, fuzzy
@@ -2554,9 +2549,8 @@ msgid "Encrypt:"
 msgstr "接受檔案"
 
 #: plugins/gpg/gpgadvbase.cpp:163
-#, fuzzy
 msgid "Decrypt:"
-msgstr "接受檔案"
+msgstr ""
 
 #: plugins/gpg/gpggenbase.cpp:135
 #, fuzzy
@@ -4094,9 +4088,8 @@ msgid "External IP:"
 msgstr ""
 
 #: plugins/icq/aiminfobase.cc:304 plugins/icq/icqinfobase.cc:350
-#, fuzzy
 msgid "Internal IP:"
-msgstr "興趣"
+msgstr ""
 
 #: plugins/icq/aiminfobase.cc:301 plugins/icq/icqinfobase.cc:351 plugins/proxy/proxycfgbase.cpp:168
 #, fuzzy
@@ -4221,9 +4214,8 @@ msgid "Organization, Affiliation, Group:"
 msgstr "組織，Affiliation，群組："
 
 #: plugins/icq/pastinfobase.cc:171
-#, fuzzy
 msgid "A&ffilation"
-msgstr "職業："
+msgstr ""
 
 #: plugins/icq/pastinfobase.cc:172
 msgid "Past background:"
@@ -4265,14 +4257,12 @@ msgid "Allow &direct connection from any user"
 msgstr "連線"
 
 #: plugins/icq/icqsecurebase.cc:173
-#, fuzzy
 msgid "Allow direct connection from user listed in &contact list"
-msgstr "連線"
+msgstr ""
 
 #: plugins/icq/icqsecurebase.cc:174
-#, fuzzy
 msgid "Allow direct connection from user &upon authorization"
-msgstr "連線"
+msgstr ""
 
 #: plugins/icq/icqsecurebase.cc:175
 #, fuzzy
@@ -4330,9 +4320,8 @@ msgid "Company:"
 msgstr "國家："
 
 #: plugins/icq/advsearchbase.cc:287 plugins/jabber/jabberworkinfobase.cpp:120
-#, fuzzy
 msgid "Department:"
-msgstr "更新"
+msgstr ""
 
 #: plugins/icq/advsearchbase.cc:290
 #, fuzzy
@@ -5615,9 +5604,8 @@ msgid "Public"
 msgstr "公佈"
 
 #: plugins/livejournal/msgjournalbase.cpp:117
-#, fuzzy
 msgid "Friends-Only"
-msgstr "自動回應訊息"
+msgstr ""
 
 #: plugins/livejournal/msgjournalbase.cpp:118
 #, fuzzy
@@ -5944,11 +5932,10 @@ msgid ""
 msgstr "已經上線"
 
 #: plugins/osd/osd.cpp:413
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 doesn't want to be disturbed"
-msgstr "已經上線"
+msgstr ""
 
 #: plugins/osd/osd.cpp:414
 #, fuzzy
@@ -6326,9 +6313,8 @@ msgid "115200"
 msgstr "100000"
 
 #: plugins/sms/smssetupbase.cpp:175
-#, fuzzy
 msgid "38400"
-msgstr "100000"
+msgstr ""
 
 #: plugins/sms/smssetupbase.cpp:176
 #, fuzzy
@@ -6336,18 +6322,16 @@ msgid "19200"
 msgstr "100000"
 
 #: plugins/sms/smssetupbase.cpp:177
-#, fuzzy
 msgid "9600"
-msgstr "100000"
+msgstr ""
 
 #: plugins/sms/smssetupbase.cpp:178
 msgid "4800"
 msgstr ""
 
 #: plugins/sms/smssetupbase.cpp:179
-#, fuzzy
 msgid "2400"
-msgstr "100000"
+msgstr ""
 
 #: plugins/sms/smssetupbase.cpp:180
 #, fuzzy
@@ -7104,9 +7088,8 @@ msgid "Forecast days:"
 msgstr ""
 
 #: plugins/weather/weathercfgbase.cpp:176
-#, fuzzy
 msgid "Units:"
-msgstr "Uin:"
+msgstr ""
 
 #: plugins/weather/wifacecfgbase.cpp:140
 #, fuzzy

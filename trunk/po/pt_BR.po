@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
-"POT-Creation-Date: 2004-07-24 22:15+0200\n"
+"POT-Creation-Date: 2004-07-25 11:36+0200\n"
 "PO-Revision-Date: 2004-05-02 14:34+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: Brazilian Portuguese\n"
@@ -1937,11 +1937,9 @@ msgstr "Mb/s"
 msgid "Keep history "
 msgstr "salvar historico"
 
-# sim/api/country.cpp:170
 #: plugins/_core/historycfgbase.cpp:233 plugins/_core/userhistorycfgbase.cpp:126
-#, fuzzy
 msgid "days"
-msgstr "MĂłnaco"
+msgstr ""
 
 #: plugins/_core/historycfgbase.cpp:239
 #, fuzzy
@@ -1955,9 +1953,8 @@ msgid "50"
 msgstr "Decáda de 50"
 
 #: plugins/_core/historycfgbase.cpp:241
-#, fuzzy
 msgid "20"
-msgstr "100000"
+msgstr ""
 
 # plugins/_core/core.cpp:673
 #: plugins/_core/historycfgbase.cpp:243
@@ -2995,11 +2992,9 @@ msgstr "TurquĂ­a"
 msgid "&Refresh"
 msgstr "&Rejeitar"
 
-# plugins/_core/core.cpp:3408
 #: plugins/gpg/gpgadvbase.cpp:156
-#, fuzzy
 msgid "Command arguments"
-msgstr "Estado comum"
+msgstr ""
 
 #: plugins/gpg/gpgadvbase.cpp:157
 #, fuzzy
@@ -6962,13 +6957,11 @@ msgid ""
 "%1 is not available"
 msgstr "%1 está online"
 
-# plugins/osd/osd.cpp:303
 #: plugins/osd/osd.cpp:413
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 doesn't want to be disturbed"
-msgstr "%1 está online"
+msgstr ""
 
 # plugins/osd/osd.cpp:303
 #: plugins/osd/osd.cpp:414
@@ -7391,9 +7384,8 @@ msgid "115200"
 msgstr "100000"
 
 #: plugins/sms/smssetupbase.cpp:175
-#, fuzzy
 msgid "38400"
-msgstr "100000"
+msgstr ""
 
 #: plugins/sms/smssetupbase.cpp:176
 #, fuzzy
@@ -7401,18 +7393,16 @@ msgid "19200"
 msgstr "100000"
 
 #: plugins/sms/smssetupbase.cpp:177
-#, fuzzy
 msgid "9600"
-msgstr "100000"
+msgstr ""
 
 #: plugins/sms/smssetupbase.cpp:178
 msgid "4800"
 msgstr ""
 
 #: plugins/sms/smssetupbase.cpp:179
-#, fuzzy
 msgid "2400"
-msgstr "100000"
+msgstr ""
 
 #: plugins/sms/smssetupbase.cpp:180
 #, fuzzy
@@ -8280,11 +8270,9 @@ msgstr "&Status"
 msgid "Forecast days:"
 msgstr ""
 
-# plugins/icq/icqinfobase.cc:307
 #: plugins/weather/weathercfgbase.cpp:176
-#, fuzzy
 msgid "Units:"
-msgstr "Uin:"
+msgstr ""
 
 # plugins/shortcuts/mousecfgbase.cpp:68
 # plugins/shortcuts/mousecfgbase.cpp:110

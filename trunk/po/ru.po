@@ -1,5 +1,10 @@
 # translation of ru.po to Russian
 # translation of ru.po to Русский
+# translation of ru.po to
+# translation of ru.po to
+# translation of ru.po to
+# translation of ru.po to
+# translation of ru.po to
 # Copyright (C) 2002 Free Software Foundation, Inc., 2002,2003, 2004
 # Vladimir Shutoff <vovan@shutoff.ru>, 2002,2003, 2004.
 # Albert R. Valiev <darkstar@altlinux.ru>, 2003.
@@ -8,7 +13,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2004-07-24 22:15+0200\n"
+"POT-Creation-Date: 2004-07-25 11:36+0200\n"
 "PO-Revision-Date: 2004-06-14 02:54+0400\n"
 "Last-Translator: Vladimir Shutoff <vovan@shutoff.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -6494,6 +6499,7 @@ msgid "Use &TCP socket"
 msgstr "Использовать &TCP-сокет"
 
 #: plugins/remote/remotecfgbase.cpp:140
+#, fuzzy
 msgid "Enable IE context menu extension"
 msgstr "Разрешить разрешения меню IE"
 
@@ -7486,8 +7492,9 @@ msgid "Zodiak"
 msgstr "Зодиак"
 
 #: plugins/zodiak/zodiak.cpp:51
+#, fuzzy
 msgid "Plugin provides show zodiak pictures for date edit"
-msgstr "Модуль добавляет показ знака зодиака к окну ввода даты"
+msgstr "Модуль обеспечивает фон списка контактов"
 
 #: plugins/zodiak/zodiak.cpp:158
 msgid "View horoscope"
@@ -9726,7 +9733,7 @@ msgstr "Стиль XP"
 # ui/soundsetupbase.cpp:133
 #, fuzzy
 #~ msgid "URL"
-#~ msgstr "URL:"
+#~ msgstr "&URL"
 
 # msgview.cpp:159
 #, fuzzy
@@ -9785,10 +9792,10 @@ msgstr "Стиль XP"
 #~ msgid "Contact request"
 #~ msgstr "Запрос списка контактов"
 
-# libicq/country.cpp:274
+# libicq/country.cpp:216
 #, fuzzy
 #~ msgid "%n day"
-#~ msgstr "Воскресенье"
+#~ msgstr "Понедельник"
 
 #, fuzzy
 #~ msgid "LiveJournal post"

@@ -1,19 +1,23 @@
-# translation of sim.pot to Thai
+# translation of th-latest2.po to Thai
+# translation of th.po to Thai
+# translation of newww.po to Thai
+# translation of sim.po to Thai
 # Copyright (C) 2004 Free Software Foundation, Inc.
-# Tobias Franz <noragen@gmx.net>, 2004.
+# Narachai Sakorn <arm2001@hunsa.com>, 2004.
 # Narachai Sakorn <narachai@opentle.org>, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: th\n"
 "POT-Creation-Date: 2004-07-24 22:15+0200\n"
-"PO-Revision-Date: 2004-07-12 11:00+0700\n"
+"PO-Revision-Date: 2004-06-12 15:27+0700\n"
 "Last-Translator: Narachai Sakorn <narachai@opentle.org>\n"
 "Language-Team: Thai <th@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Report-Msgid-Bugs-To: \n"
+"X-Generator: KBabel 1.3.1\n"
 
 #: plugins/__homedir/homedir.cpp:48
 msgid "Home directory"
@@ -33,11 +37,11 @@ msgstr ""
 
 #: plugins/__homedir/homedircfgbase.cpp:122
 msgid "Use &default path"
-msgstr ""
+msgstr "ใช้เส้นทางของแฟ้ม&ปริยาย"
 
 #: plugins/__homedir/homedircfgbase.cpp:123
 msgid "Path for config files:"
-msgstr ""
+msgstr "เส้นทางของแฟ้มกำหนดค่า:"
 
 #: plugins/__migrate/migrate.cpp:35
 msgid "Migrate"
@@ -58,31 +62,31 @@ msgstr "ไม่สามารถเปิด %1"
 
 #: plugins/__migrate/migratedlgbase.cpp:89
 msgid "Convert configuration from old version"
-msgstr ""
+msgstr "แปลงค่าที่กำหนดไว้จากรุ่นก่อน"
 
 #: plugins/__migrate/migratedlgbase.cpp:90
-#, fuzzy
 msgid "Directories for convert:"
-msgstr "ไดเรกทอรี"
+msgstr "ไดเรกทอรีสำหรับแปลงค่า:"
 
 #: plugins/__migrate/migratedlgbase.cpp:91
-#, fuzzy
 msgid "&Remove old files"
-msgstr "รับแฟ้ม"
+msgstr "&ลบแฟ้มเก่า"
 
 #: plugins/__migrate/migratedlgbase.cpp:92
 msgid ""
 "Note!\n"
 "If you select an option \" Remove old files \", you can not use the old version"
 msgstr ""
+"คำเตือน!\n"
+"หากคุณเลือกตัวเลือก \" ลบแฟ้มเก่า \", คุณจะไม่สามารถใช้งานรุ่นเก่าได้อีก"
 
 #: plugins/__migrate/migratedlgbase.cpp:94
 msgid "Select directories for convert"
-msgstr ""
+msgstr "เลือกไดเรกทอรีสำหรับแปลงค่า"
 
 #: plugins/__migrate/migratedlgbase.cpp:96
 msgid "Convert configuration"
-msgstr ""
+msgstr "แปลงค่าที่กำหนดไว้"
 
 #: plugins/_core/arcfg.cpp:96 plugins/_core/autoreply.cpp:111 plugins/weather/wifacecfg.cpp:107
 msgid "In text you can use:"
@@ -261,7 +265,7 @@ msgstr "ใส่&รอยยิ้ม"
 
 #: plugins/_core/core.cpp:700 plugins/forward/forwardcfgbase.cpp:106
 msgid "Send in &translit"
-msgstr "ส่งแบบ&ถอดถ่ายตัวอักษร"
+msgstr ""
 
 #: plugins/_core/core.cpp:708 plugins/_core/msgedit.cpp:252
 msgid "C&lose after send"
@@ -269,7 +273,7 @@ msgstr "ปิดหลังจากการส่งเ&สร็จสิ�
 
 #: plugins/_core/core.cpp:716 plugins/_core/msgedit.cpp:1007
 msgid "&Multiply send"
-msgstr "ส่ง&หลายครั้ง"
+msgstr ""
 
 #: plugins/_core/core.cpp:724 plugins/_core/core.cpp:820
 msgid "Back&ground color"
@@ -277,7 +281,7 @@ msgstr "สีพื้น&หลัง"
 
 #: plugins/_core/core.cpp:732 plugins/_core/core.cpp:829
 msgid "&Foreground color"
-msgstr "สีพื้&นหน้า"
+msgstr "สีพื้ึ&นหน้า"
 
 #: plugins/_core/core.cpp:738 plugins/_core/core.cpp:835
 msgid "&Bold"
@@ -900,7 +904,7 @@ msgstr "แฟกซ์ที่ทำงาน"
 
 #: plugins/_core/maininfo.cpp:51
 msgid "Private Cellular"
-msgstr "โทรศัพท์เคลื่อนที่"
+msgstr ""
 
 #: plugins/_core/maininfo.cpp:52
 msgid "Wireless Pager"
@@ -1017,9 +1021,7 @@ msgstr "&ปฏิเสธ"
 msgid ""
 "_n: Authorization granted\n"
 "%n authorization granted"
-msgstr ""
-"การขออนุญาตของ\n"
-"%n ได้รับการยินยอม"
+msgstr "การขออนุญาตของ %n ได้รับการยินยอม"
 
 #: plugins/_core/msgedit.cpp:749
 #, c-format
@@ -1150,7 +1152,7 @@ msgstr "ไม่ได้อยู่ในรายชื่อ"
 msgid ""
 "_n: %n contact found\n"
 "%n contacts found"
-msgstr "เจอ %n คู่สนทนา"
+msgstr "เจอผู้ใช้ %n"
 
 #: plugins/_core/status.cpp:72 plugins/_core/statuswnd.cpp:88 plugins/dock/dock.cpp:183
 msgid "Inactive"
@@ -1251,81 +1253,72 @@ msgid "to %1"
 msgstr "ถึง %1"
 
 #: plugins/_core/cfgdlgbase.cpp:124
-#, fuzzy
 msgid "&Update"
-msgstr "ปรับปรุง"
+msgstr "&ปรับปรุง"
 
 #: plugins/_core/plugincfgbase.cpp:102
 msgid "Plugin &enabled"
-msgstr ""
+msgstr "เปิดใช้&งานปลั๊กอิน"
 
 #: plugins/_core/arcfgbase.cpp:138 plugins/_core/prefcfgbase.cpp:97
 msgid "&Override global settings"
-msgstr ""
+msgstr "เขียนทั&บค่าที่ตั้งไว้ปัจจุบัน"
 
 #: plugins/_core/toolsetupbase.cpp:123
 msgid "Toolbar setup"
-msgstr ""
+msgstr "ปรับแต่งแถบเครื่องมือ"
 
 #: plugins/_core/toolsetupbase.cpp:124
 msgid "All buttons:"
-msgstr ""
+msgstr "ทุกปุ่ม:"
 
 #: plugins/_core/toolsetupbase.cpp:126 plugins/_core/toolsetupbase.cpp:131
-#, fuzzy
 msgid "New Item"
-msgstr "รายการ"
+msgstr "รายการใหม่"
 
 #: plugins/_core/toolsetupbase.cpp:127
-#, fuzzy
 msgid "&Add ->"
-msgstr "เพิ่&ม"
+msgstr "เ&พิ่ม ->"
 
 #: plugins/_core/toolsetupbase.cpp:128
-#, fuzzy
 msgid "<- &Remove"
-msgstr "เอาออกแล้ว"
+msgstr "<- เ&อาออก"
 
 #: plugins/_core/toolsetupbase.cpp:129
-#, fuzzy
 msgid "Active:"
-msgstr "ไม่ได้ใช้งาน"
+msgstr "ใช้งาน:"
 
 #: plugins/_core/managerbase.cpp:105 plugins/_core/toolsetupbase.cpp:132 plugins/icons/iconcfgbase.cpp:105
-#, fuzzy
 msgid "&Up"
-msgstr "ขึ้น"
+msgstr "ขึ้&น"
 
 #: plugins/_core/managerbase.cpp:107 plugins/_core/toolsetupbase.cpp:133 plugins/icons/iconcfgbase.cpp:106
-#, fuzzy
 msgid "&Down"
-msgstr "ลง"
+msgstr "&ลง"
 
 #: plugins/_core/interfacecfgbase.cpp:154 plugins/icq/advsearchbase.cc:278
 msgid "Language:"
-msgstr ""
+msgstr "ภาษา:"
 
 #: plugins/_core/interfacecfgbase.cpp:155
-#, fuzzy
 msgid "Message window"
-msgstr "ข้อความถูกปฏิเสธ"
+msgstr "หน้าต่างข้อความ"
 
 #: plugins/_core/interfacecfgbase.cpp:156
 msgid "&Simple mode"
-msgstr ""
+msgstr "โหมดพื้น&ฐาน"
 
 #: plugins/_core/interfacecfgbase.cpp:157
 msgid "&Chat mode"
-msgstr ""
+msgstr "โหมด&สนทนา"
 
 #: plugins/_core/interfacecfgbase.cpp:158
 msgid "&Using last selected font"
-msgstr ""
+msgstr "ใช้แ&บบอักษรที่เลือกไว้"
 
 #: plugins/_core/interfacecfgbase.cpp:159
-#, fuzzy
 msgid "Container mode"
-msgstr "ชื่อคู่สนทนา"
+msgstr ""
 
 #: plugins/_core/interfacecfgbase.cpp:160
 msgid "Open each contact in &new container"
@@ -1340,32 +1333,28 @@ msgid "Open all contacts in &one container"
 msgstr ""
 
 #: plugins/_core/interfacecfgbase.cpp:163
-#, fuzzy
 msgid "Use \"&Enter\" for send message"
-msgstr "ไม่มีไคลเอ็นต์สำหรับส่งข้อความ"
+msgstr "ใช้แป้น \"Enter\" ในการส่งข้อความ"
 
 #: plugins/_core/interfacecfgbase.cpp:166
 msgid "Start SIM on every &windows startup"
-msgstr ""
+msgstr "เริ่ม SIM ทุกครั้งที่เริ่มต้น&หน้าต่าง"
 
 #: plugins/_core/nonimbase.cpp:124 plugins/_core/pagerbase.cpp:118 plugins/_core/userviewcfgbase.cpp:311 plugins/filter/ignorelistbase.cpp:113 plugins/icq/interestsinfobase.cc:139 plugins/icq/workinfobase.cc:209 plugins/jabber/jabberhomeinfobase.cpp:135 plugins/msn/msnconfigbase.cpp:227 plugins/osd/osdifacebase.cpp:187 plugins/yahoo/yahoocfgbase.cpp:233
 msgid "Form2"
 msgstr ""
 
 #: plugins/_core/userviewcfgbase.cpp:312
-#, fuzzy
 msgid "Groups"
-msgstr "&กลุ่ม"
+msgstr "กลุ่ม"
 
 #: plugins/_core/userviewcfgbase.cpp:313
-#, fuzzy
 msgid "Do not distrub"
 msgstr "ห้ามรบกวน"
 
 #: plugins/_core/userviewcfgbase.cpp:315 plugins/icq/aiminfobase.cc:299 plugins/icq/icqinfobase.cc:347 plugins/jabber/jabberinfobase.cpp:307 plugins/msn/msninfobase.cpp:165 plugins/yahoo/yahooinfobase.cpp:190
-#, fuzzy
 msgid "Online:"
-msgstr "ออนไลน์"
+msgstr "ออนไลน์:"
 
 #: plugins/_core/userviewcfgbase.cpp:316 plugins/icq/icq.cpp:97 plugins/icq/icq.cpp:267 plugins/icq/icqclient.cpp:1461 plugins/jabber/jabber.cpp:97 plugins/msn/msn.cpp:97 plugins/osd/osdconfigbase.cpp:143 plugins/yahoo/yahoo.cpp:119
 msgid "Away"
@@ -1376,59 +1365,52 @@ msgid "N/A"
 msgstr ""
 
 #: plugins/_core/userviewcfgbase.cpp:318
-#, fuzzy
 msgid "Colors:"
-msgstr "สี"
+msgstr "สี:"
 
 #: plugins/_core/userviewcfgbase.cpp:319
-#, fuzzy
 msgid "Use &double click"
-msgstr "ดับเบิลคลิกซ้าย"
+msgstr "ใช้ดับเบิล&คลิก"
 
 #: plugins/_core/userviewcfgbase.cpp:320 plugins/styles/fontconfigbase.cpp:163
-#, fuzzy
 msgid "Use system &colors"
-msgstr "สีที่กำหนดเ&อง"
+msgstr "ใช้สีของ&ระบบ"
 
 #: plugins/_core/userviewcfgbase.cpp:321
 msgid "Use small &font for group"
-msgstr ""
+msgstr "ใช้อักษร&ขนาดเล็กสำหรับกลุ่ม"
 
 #: plugins/_core/userviewcfgbase.cpp:322
-#, fuzzy
 msgid "Show group &separator"
-msgstr "ตัวคั่น"
+msgstr "แสดงตัวคั่น&กลุ่ม"
 
 #: plugins/_core/userviewcfgbase.cpp:323
-#, fuzzy
 msgid "Sorting"
-msgstr "เรียง"
+msgstr "กำลังจัดเรียง"
 
 #: plugins/_core/userviewcfgbase.cpp:324
 msgid "1st:"
-msgstr ""
+msgstr "อันดับ 1:"
 
 #: plugins/_core/userviewcfgbase.cpp:325
 msgid "2nd:"
-msgstr ""
+msgstr "อันดับ 2:"
 
 #: plugins/_core/userviewcfgbase.cpp:326
 msgid "3rd:"
-msgstr ""
+msgstr "อันดับ 3:"
 
 #: plugins/_core/userviewcfgbase.cpp:330 plugins/icq/icqclient.cpp:1442
 msgid "Invisible"
 msgstr "มองไม่เห็น"
 
 #: plugins/_core/userviewcfgbase.cpp:334
-#, fuzzy
 msgid "Visible"
-msgstr "มองไม่เห็น"
+msgstr "มองเห็น"
 
 #: plugins/_core/userviewcfgbase.cpp:338
-#, fuzzy
 msgid "Awaiting authorization"
-msgstr "ยิน&ยอมการขออนุญาต"
+msgstr "กำลังคอยการอนุญาต"
 
 #: plugins/_core/userviewcfgbase.cpp:339
 #, fuzzy
@@ -1437,76 +1419,68 @@ msgstr "ห้ามแ&สดงกลุ่ม"
 
 #: plugins/_core/historycfgbase.cpp:226
 msgid "Use &own colors and fonts settings"
-msgstr ""
+msgstr "ใช้การตั้งค่าสีและแ&บบอักษรของฉัน"
 
 #: plugins/_core/historycfgbase.cpp:227
 msgid "Use emotional &icons"
-msgstr ""
+msgstr "ใช้ไอคอนแสดง&อารมณ์"
 
 #: plugins/_core/historycfgbase.cpp:228 plugins/_core/userhistorycfgbase.cpp:125
 msgid "Max history file size"
-msgstr ""
+msgstr "ขนาดของแฟ้มประวัติที่ใหญ่ที่สุด"
 
 #: plugins/_core/historycfgbase.cpp:230 plugins/_core/userhistorycfgbase.cpp:123
-#, fuzzy
 msgid "Mb"
-msgstr "เมกะไบต์/วินาที"
+msgstr "เมกะไบต์"
 
 #: plugins/_core/historycfgbase.cpp:232 plugins/_core/userhistorycfgbase.cpp:127
-#, fuzzy
 msgid "Keep history "
-msgstr "ลบประวัติ "
+msgstr "บันทึกประวัติ "
 
 #: plugins/_core/historycfgbase.cpp:233 plugins/_core/userhistorycfgbase.cpp:126
-#, fuzzy
 msgid "days"
-msgstr "จันทร์"
+msgstr "วัน"
 
 #: plugins/_core/historycfgbase.cpp:239
 msgid "100"
-msgstr ""
+msgstr "1200"
 
 #: plugins/_core/historycfgbase.cpp:240
 msgid "50"
-msgstr ""
+msgstr "50"
 
 #: plugins/_core/historycfgbase.cpp:241
 msgid "20"
-msgstr ""
+msgstr "20"
 
 #: plugins/_core/historycfgbase.cpp:243
-#, fuzzy
 msgid "&Preview"
-msgstr "หน้าก่อ&นหน้า"
+msgstr "แสดง&ตัวอย่าง"
 
 #: plugins/_core/historycfgbase.cpp:244
-#, fuzzy
 msgid "&Source"
-msgstr "เสีย&ง"
+msgstr "ที่&มา"
 
 #: plugins/_core/maininfobase.cpp:246 plugins/_core/nonimbase.cpp:126 plugins/icq/aiminfobase.cc:287 plugins/icq/icqinfobase.cc:343 plugins/jabber/discoinfobase.cpp:314 plugins/jabber/jabberinfobase.cpp:299 plugins/yahoo/yahooinfobase.cpp:186
 #, fuzzy
 msgid "First Name:"
-msgstr "ชื่อ"
+msgstr "ชื่อ:"
 
 #: plugins/_core/maininfobase.cpp:247 plugins/_core/nonimbase.cpp:127 plugins/icq/aiminfobase.cc:288 plugins/icq/icqinfobase.cc:340 plugins/yahoo/yahooinfobase.cpp:187
-#, fuzzy
 msgid "Last Name:"
-msgstr "นามสกุล"
+msgstr "นามสกุล:"
 
 #: plugins/_core/maininfobase.cpp:248
 msgid "Display:"
-msgstr ""
+msgstr "แสดง:"
 
 #: plugins/_core/maininfobase.cpp:249
-#, fuzzy
 msgid "Encoding:"
-msgstr "กำลังโหลด"
+msgstr "การเข้ารหัส:"
 
 #: plugins/_core/maininfobase.cpp:251
-#, fuzzy
 msgid "Email addresses:"
-msgstr "แก้ไขที่อยู่ไปรษณีย์"
+msgstr "ที่อยู่อีเมล:"
 
 #: plugins/_core/maininfobase.cpp:255
 msgid ""
@@ -1516,19 +1490,16 @@ msgid ""
 msgstr ""
 
 #: plugins/_core/maininfobase.cpp:258
-#, fuzzy
 msgid "&Mails"
-msgstr "อีเมล"
+msgstr "เ&มล"
 
 #: plugins/_core/maininfobase.cpp:259
-#, fuzzy
 msgid "Phones:"
-msgstr "โทรศัพท์"
+msgstr "โทรศัพท์:"
 
 #: plugins/_core/maininfobase.cpp:261
-#, fuzzy
 msgid "Phone Status:"
-msgstr "สถานะ"
+msgstr "สถานะของโทรศัพท์:"
 
 #: plugins/_core/maininfobase.cpp:265
 msgid ""
@@ -1538,47 +1509,40 @@ msgid ""
 msgstr ""
 
 #: plugins/_core/maininfobase.cpp:268
-#, fuzzy
 msgid "&Phones"
-msgstr "โทรศัพท์"
+msgstr "โ&ทรศัพท์"
 
 #: plugins/_core/maininfobase.cpp:269
-#, fuzzy
 msgid "&Notes"
-msgstr "อ้า&งถึง"
+msgstr "บั&นทึกย่อ"
 
 #: plugins/_core/editmailbase.cpp:94
-#, fuzzy
 msgid "EditMail"
-msgstr "อีเมล"
+msgstr "แก้ไขเมล"
 
 #: plugins/_core/editmailbase.cpp:95
-#, fuzzy
 msgid "Enter Email address:"
-msgstr "แก้ไขที่อยู่ไปรษณีย์"
+msgstr "ใส่ที่อยู่อีเมล:"
 
 #: plugins/_core/editmailbase.cpp:96 plugins/_core/editphonebase.cpp:142
-#, fuzzy
 msgid "&Publish"
-msgstr "จัดพิมพ์"
+msgstr "จัดพิ&มพ์"
 
 #: plugins/_core/editphonebase.cpp:139
-#, fuzzy
 msgid "EditPhone"
-msgstr "โทรศัพท์"
+msgstr "แก้ไขเบอรื"
 
 #: plugins/_core/editphonebase.cpp:140
 msgid "Number details:"
-msgstr ""
+msgstr "รายละเอียด:"
 
 #: plugins/_core/editphonebase.cpp:141 plugins/jabber/discoinfobase.cpp:299
-#, fuzzy
 msgid "Type:"
-msgstr "ชนิด"
+msgstr "ชนิด:"
 
 #: plugins/_core/phonebase.cpp:145
 msgid "Area code:"
-msgstr ""
+msgstr "รหัสพื้นที่:"
 
 #: plugins/_core/phonebase.cpp:146
 msgid "Extension:"
@@ -1586,167 +1550,144 @@ msgstr ""
 
 #: plugins/_core/phonebase.cpp:147 plugins/_core/phonebase.cpp:149 plugins/_core/phonebase.cpp:151 plugins/icq/icqconfigbase.cc:303 plugins/jabber/jabberconfigbase.cpp:362 plugins/msn/msnconfigbase.cpp:234 plugins/yahoo/yahoocfgbase.cpp:242
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: plugins/_core/pagerbase.cpp:121 plugins/_core/phonebase.cpp:148
-#, fuzzy
 msgid "Number:"
-msgstr "ตัวเลข"
+msgstr "เลข:"
 
 #: plugins/_core/phonebase.cpp:150 plugins/icq/advsearchbase.cc:281 plugins/icq/aiminfobase.cc:296 plugins/icq/aimsearchbase.cc:200 plugins/icq/homeinfobase.cc:177 plugins/icq/workinfobase.cc:214 plugins/jabber/jabberhomeinfobase.cpp:138
-#, fuzzy
 msgid "Country:"
-msgstr "ประเทศ"
+msgstr "ประเทศ:"
 
 #: plugins/_core/pagerbase.cpp:119
 msgid "Provider:"
-msgstr ""
+msgstr "ผู้ใช้บริการ:"
 
 #: plugins/_core/pagerbase.cpp:120
 msgid "Email gateway:"
-msgstr ""
+msgstr "เกตเวย์ของอีเมล:"
 
 #: plugins/_core/searchbase.cpp:155
-#, fuzzy
 msgid "&Add to list"
-msgstr "ส่งไปให้&รายชื่อ"
+msgstr "เพิ่&มเข้าสู่รายชื่อ"
 
 #: plugins/_core/searchbase.cpp:157
-#, fuzzy
 msgid "More &options"
-msgstr "ข้อมูลเพิ่มเติม"
+msgstr "ตัวเลื&อกเพิ่มเติม"
 
 #: plugins/_core/searchbase.cpp:158
-#, fuzzy
 msgid "&New search"
-msgstr "ค้น&หา"
+msgstr "ค้น&หาใหม่"
 
 #: plugins/_core/searchallbase.cpp:142 plugins/icq/aboutinfobase.cc:124 plugins/jabber/jabberaboutinfobase.cpp:87
 msgid "Form4"
 msgstr ""
 
 #: plugins/_core/searchallbase.cpp:143 plugins/icq/icqsearchbase.cc:187 plugins/jabber/jabberaddbase.cpp:154
-#, fuzzy
 msgid "&E-Mail"
-msgstr "อีเมล"
+msgstr "อีเ&มล"
 
 #: plugins/_core/searchallbase.cpp:144 plugins/icq/icqsearchbase.cc:188 plugins/jabber/jabberaddbase.cpp:155 plugins/yahoo/yahoosearchbase.cpp:158
-#, fuzzy
 msgid "&Name"
-msgstr "ชื่อ"
+msgstr "ชื่&อ"
 
 #: plugins/_core/searchallbase.cpp:145 plugins/icq/aimsearchbase.cc:194 plugins/icq/icqsearchbase.cc:189 plugins/jabber/jabberaddbase.cpp:156
-#, fuzzy
 msgid "First:"
-msgstr "ชื่อ"
+msgstr "ชื่อจริง:"
 
 #: plugins/_core/searchallbase.cpp:146 plugins/icq/aimsearchbase.cc:195 plugins/icq/icqsearchbase.cc:190 plugins/jabber/jabberaddbase.cpp:157
-#, fuzzy
 msgid "Last:"
-msgstr "ลาว"
+msgstr "ล่าสุด:"
 
 #: plugins/_core/searchallbase.cpp:147 plugins/icq/aiminfobase.cc:291 plugins/icq/aimsearchbase.cc:198 plugins/icq/icqinfobase.cc:342 plugins/icq/icqsearchbase.cc:191 plugins/jabber/discoinfobase.cpp:311 plugins/jabber/jabberinfobase.cpp:300 plugins/msn/msninfobase.cpp:162 plugins/yahoo/yahooinfobase.cpp:184
-#, fuzzy
 msgid "Nick:"
-msgstr "ชื่อเล่น"
+msgstr "ชื่อเล่น:"
 
 #: plugins/_core/nonimbase.cpp:128 plugins/jabber/jabberaddbase.cpp:158
-#, fuzzy
 msgid "Nickname:"
-msgstr "ชื่อเล่น"
+msgstr "ชื่อเล่น:"
 
 #: plugins/_core/nonimbase.cpp:129
-#, fuzzy
 msgid "E-Mail address:"
-msgstr "แก้ไขที่อยู่ไปรษณีย์"
+msgstr "ที่อยู่อีเมล:"
 
 #: plugins/_core/nonimbase.cpp:130 plugins/jabber/discoinfobase.cpp:317
-#, fuzzy
 msgid "Phone:"
-msgstr "โทรศัพท์"
+msgstr "โทรศัพท์:"
 
 #: plugins/_core/autoreplybase.cpp:118 plugins/_core/connectionsettingsbase.cpp:105
 msgid "MyDialog"
-msgstr ""
+msgstr "หน้าต่างของฉัน"
 
 #: plugins/_core/connectwndbase.cpp:157 plugins/icq/moreinfobase.cc:211
 msgid "Form3"
 msgstr ""
 
 #: plugins/_core/connectwndbase.cpp:160
-#, fuzzy
 msgid "Complete"
-msgstr "คอมพิวเตอร์"
+msgstr "เสร็จสมบูรณ์"
 
 #: plugins/_core/connectwndbase.cpp:161
 msgid ""
 "If you want to add connection press button \" Next\".\n"
 "You can add connection later using connection manager"
 msgstr ""
+"หากคุณต้องการที่จะเพิ่มการเชื่อมต่อ กดปุ่ม \" ต่อไป\"\n"
+"หรือหากคุณไม่ต้องการที่จะเพิ่มในขณะนี้ คุณยังสามารถ\n"
+"เพิ่มโดยใช้โปรแกรมจัดการการเชื่อมต่อ"
 
 #: plugins/_core/logindlgbase.cpp:124
-#, fuzzy
 msgid "Login"
-msgstr "เข้าระบบ"
+msgstr "เข้าสู่ระบบ"
 
 #: plugins/_core/logindlgbase.cpp:126
-#, fuzzy
 msgid "Passwords:"
 msgstr "รหัสผ่าน:"
 
 #: plugins/_core/logindlgbase.cpp:128
-#, fuzzy
 msgid "Profile:"
-msgstr "โพรไฟล์ของคุณ"
+msgstr "โพรไฟล์:"
 
 #: plugins/_core/logindlgbase.cpp:130
-#, fuzzy
 msgid "&Save password"
-msgstr "รหัสผ่านไม่ถูกต้อง"
+msgstr "บันทึก&รหัสผ่าน"
 
 #: plugins/_core/logindlgbase.cpp:131
 msgid "&Do not show this window on startup"
-msgstr ""
+msgstr "ห้ามแสดงหน้าต่างนี้ขณะเริ่มต้น&ระบบ"
 
 #: plugins/_core/managerbase.cpp:46 plugins/_core/managerbase.cpp:106
-#, fuzzy
 msgid "Connection"
 msgstr "การเชื่อมต่อ"
 
 #: plugins/_core/managerbase.cpp:104
-#, fuzzy
 msgid "&Configure"
-msgstr "ปรับแต่ง"
+msgstr "&ปรับแต่ง"
 
 #: plugins/_core/managerbase.cpp:108 plugins/icons/iconcfgbase.cpp:107
-#, fuzzy
 msgid "&Remove"
-msgstr "เอาออกแล้ว"
+msgstr "เอา&ออก"
 
 #: plugins/_core/managerbase.cpp:109
-#, fuzzy
 msgid "&New connection"
-msgstr "การเชื่อมต่อ"
+msgstr "สร้างการเชื่อมต่อใ&หม่"
 
 #: plugins/_core/newprotocolbase.cpp:67
-#, fuzzy
 msgid "New connection"
-msgstr "การเชื่อมต่อ"
+msgstr "สร้างการเชื่อมต่อใหม่"
 
 #: plugins/_core/newprotocolbase.cpp:68
-#, fuzzy
 msgid "Protocol:"
-msgstr "โพรโตคอลทำงานผิดพลาด"
+msgstr "โพรโตคอล:"
 
 #: plugins/_core/newprotocolbase.cpp:69
-#, fuzzy
 msgid "Select protocol"
-msgstr "เลือกโพรไฟล์"
+msgstr "เลือกโพรโตคอล"
 
 #: plugins/_core/autoreplybase.cpp:119
-#, fuzzy
 msgid "Don't show this dialog"
-msgstr "ห้ามแสดง"
+msgstr "ไม่ต้องแสดงหน้าต่างนี้"
 
 #: plugins/_core/arcfgbase.cpp:139 plugins/_core/autoreplybase.cpp:120 plugins/action/actioncfgbase.cpp:121 plugins/action/additembase.cpp:125 plugins/weather/wifacecfgbase.cpp:143 sim/simapi.cpp:485
 msgid "&Help"
@@ -1754,53 +1695,47 @@ msgstr "ช่วยเ&หลือ"
 
 #: plugins/_core/msgcfgbase.cpp:115
 msgid "Save &status changes to history"
-msgstr ""
+msgstr "บันทึก&การเปลี่ยนแปลงสถานะไว้ในแฟ้มประวัติ"
 
 #: plugins/_core/msgcfgbase.cpp:116
 msgid "Open window if user go online"
-msgstr ""
+msgstr "แสดงหน้าต่างเมื่อผู้ใช้ออนไลน์"
 
 #: plugins/_core/msgcfgbase.cpp:118
-#, fuzzy
 msgid "&No open"
-msgstr "ไม่แ&สดง"
+msgstr "ไม่ต้อ&งเปิด"
 
 #: plugins/_core/msgcfgbase.cpp:119
 msgid "Open and &minimize"
-msgstr ""
+msgstr "เปิ&ดและย่อหน้าต่าง"
 
 #: plugins/_core/msgcfgbase.cpp:120
 msgid "Open and &raise"
-msgstr ""
+msgstr "เปิดและ&ยกขึ้น"
 
 #: plugins/_core/filecfgbase.cpp:146
 msgid "Path for incoming files:"
-msgstr ""
+msgstr "เส้นทางสำหรับแฟ้มที่จะเข้ามา:"
 
 #: plugins/_core/filecfgbase.cpp:147
-#, fuzzy
 msgid "Accept mode"
-msgstr "&ยอมรับ"
+msgstr "โหมดยอมรับ"
 
 #: plugins/_core/filecfgbase.cpp:148
-#, fuzzy
 msgid "Show response"
-msgstr "แสดงคู่สนทนาที่&ออฟไลน์"
+msgstr "แสดงผลตอบรับ"
 
 #: plugins/_core/filecfgbase.cpp:149
-#, fuzzy
 msgid "Auto accept"
-msgstr "&ยอมรับ"
+msgstr "ยอมรับอัตโนมัติ"
 
 #: plugins/_core/filecfgbase.cpp:150
-#, fuzzy
 msgid "Overwrite files"
-msgstr "แฟ้ม"
+msgstr "เขียนทับแฟ้ม"
 
 #: plugins/_core/filecfgbase.cpp:151
-#, fuzzy
 msgid "Auto decline"
-msgstr "เส้นใต้"
+msgstr "ปฏิเสธอัตโนมัติ"
 
 #: plugins/_core/smscfgbase.cpp:96
 msgid "Text before cursor:"
@@ -1812,46 +1747,39 @@ msgstr ""
 
 #: plugins/_core/arcfgbase.cpp:140
 msgid "Don't show autoreply dialog"
-msgstr ""
+msgstr "ไม่ต้องแสดงหน้าต่างตอบกลับอัตโนมัติ"
 
 #: plugins/_core/filetransferbase.cpp:131
-#, fuzzy
 msgid "File transfer"
-msgstr "การรับ-ส่งแฟ้มล้มเหลว"
+msgstr "รับ-ส่งแฟ้ม"
 
 #: plugins/_core/filetransferbase.cpp:133
-#, fuzzy
 msgid "Time:"
-msgstr "เ&วลา"
+msgstr "เวลา:"
 
 #: plugins/_core/filetransferbase.cpp:134
-#, fuzzy
 msgid "Estimated time:"
-msgstr "เวลารับ-ส่งข้อความครั้งล่าสุด"
+msgstr "เวลาที่เหลือโดยประมาณ:"
 
 #: plugins/_core/filetransferbase.cpp:135
-#, fuzzy
 msgid "Speed:"
-msgstr "มีความสุข"
+msgstr "ความเร็ว:"
 
 #: plugins/_core/filetransferbase.cpp:136
 msgid "&Go to dir"
-msgstr ""
+msgstr "ไ&ปไดเรกทอรี"
 
 #: plugins/_core/filetransferbase.cpp:137
-#, fuzzy
 msgid "Close after &transfer"
-msgstr "ปิดหลังจากการส่งเ&สร็จสิ้น"
+msgstr "ปิดหลังจากการรับ-ส่งเ&สร็จสิ้น"
 
 #: plugins/_core/declinedlgbase.cpp:80
-#, fuzzy
 msgid "Decline reason"
-msgstr "ใส่เหตุผลที่ปฏิเสธ"
+msgstr "เหตุผลที่ปฏิเสธ"
 
 #: plugins/_core/declinedlgbase.cpp:81
-#, fuzzy
 msgid "Enter decline reason:"
-msgstr "ใส่เหตุผลที่ปฏิเสธ"
+msgstr "ใส่เหตุผลที่ปฏิเสธ:"
 
 #: plugins/about/about.cpp:38 plugins/about/aboutdlgbase.cpp:149
 msgid "About"
@@ -1877,7 +1805,7 @@ msgstr "เกี่ยวกับ &KDE"
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
-msgstr "Narachai Sakorn"
+msgstr "นราชัย สาคร"
 
 #: plugins/about/about.cpp:112
 msgid ""
@@ -1895,27 +1823,23 @@ msgstr "รายงานจุดบกพร่อง"
 
 #: plugins/about/aboutdlg.cpp:52
 msgid "Note: This is english mailing list"
-msgstr "หมายเหตุ: เมลลิงลิสต์นี้เป็นภาษาอังกฤษ"
+msgstr "หมายเหตุ: เมลลิงลิสต์นี้เป็นภาษาอัง��ฤษ"
 
 #: plugins/about/aboutdlgbase.cpp:148
-#, fuzzy
 msgid "About SIM"
-msgstr "เกี่ยวกับ &SIM"
+msgstr "เกี่ยวกับ SIM"
 
 #: plugins/about/aboutdlgbase.cpp:150
-#, fuzzy
 msgid "Authors"
-msgstr "ตอบกลับอัตโนมัติ"
+msgstr "เจ้าของ"
 
 #: plugins/about/aboutdlgbase.cpp:151
-#, fuzzy
 msgid "Translation"
-msgstr "โปร่งใส"
+msgstr "ผู้แปลภาษา"
 
 #: plugins/about/aboutdlgbase.cpp:152
-#, fuzzy
 msgid "License"
-msgstr "ลิคเตนสไตน์"
+msgstr "]b-lbmTbn"
 
 #: plugins/action/action.cpp:33
 msgid "Action"
@@ -1966,19 +1890,16 @@ msgid "Item"
 msgstr "รายการ"
 
 #: plugins/action/additembase.cpp:122
-#, fuzzy
 msgid "Add Item"
-msgstr "รายการ"
+msgstr "เพิ่มรายการ"
 
 #: plugins/action/additembase.cpp:123
-#, fuzzy
 msgid "Item:"
-msgstr "รายการ"
+msgstr "รายการ:"
 
 #: plugins/action/additembase.cpp:124
-#, fuzzy
 msgid "Program:"
-msgstr "โปรแกรม"
+msgstr "โปรแกรม:"
 
 #: plugins/autoaway/autoaway.cpp:66
 msgid "AutoAway"
@@ -1989,29 +1910,28 @@ msgid "Plugin provides set away and N/A status after some idle time"
 msgstr ""
 
 #: plugins/autoaway/autoawaycfgbase.cpp:134
-#, fuzzy
 msgid "Set \"Away\" status after"
-msgstr "แสดงแถบสถานะ"
+msgstr "ตั้งสถานะเป็น \"ไม่อยู่\" หลังจาก"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:135
 msgid "minutes not using computer"
-msgstr ""
+msgstr "นาทีที่ไม่ได้ใช้งานคอมพิว��ตอร์"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:136
 msgid "minutes of \"Away\""
-msgstr ""
+msgstr "นาทีที่สถานะเป็น \"ไม่อยู่\""
 
 #: plugins/autoaway/autoawaycfgbase.cpp:137
 msgid "minutes of \"N/A\""
-msgstr ""
+msgstr "นาทีของสถานะ \"N/A\""
 
 #: plugins/autoaway/autoawaycfgbase.cpp:138
 msgid "Set \"N/A\" status after"
-msgstr ""
+msgstr "ตั้งสถานะเป็น \"N/A\" หลังจาก"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:139
 msgid "Set \"Offline\" status after"
-msgstr ""
+msgstr "ตั้งสถานะเป็น \"ออฟไลน์\" หลังจาก"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:140
 msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
@@ -2070,18 +1990,16 @@ msgid "Group margin:"
 msgstr ""
 
 #: plugins/background/bkgndcfgbase.cpp:174
-#, fuzzy
 msgid "Contact margin:"
-msgstr "คู่สนทนาออนไลน์"
+msgstr ""
 
 #: plugins/background/bkgndcfgbase.cpp:175
 msgid "Main window background:"
-msgstr ""
+msgstr "พื้นหลังของหน้าต่างหลัก:"
 
 #: plugins/background/bkgndcfgbase.cpp:176 plugins/osd/osdifacebase.cpp:195
-#, fuzzy
 msgid "Place:"
-msgstr "แพ็กเก็ต"
+msgstr "ที่อยู่:"
 
 #: plugins/dock/dock.cpp:49
 msgid "System tray"
@@ -2116,28 +2034,24 @@ msgid "Show main window"
 msgstr "แสดงหน้าต่างหลัก"
 
 #: plugins/dock/dockcfgbase.cpp:123
-#, fuzzy
 msgid "Hide main window after"
-msgstr "ซ่อนหน้าต่างหลัก"
+msgstr "ซ่อนหน้าต่างหลักหลังจาก"
 
 #: plugins/dock/dockcfgbase.cpp:124
 msgid "seconds inactive"
-msgstr ""
+msgstr "วินาทีที่ไม่ได้ใช้งาน"
 
 #: plugins/dock/dockcfgbase.cpp:125
-#, fuzzy
 msgid "Show Mainwin on desktop"
-msgstr "แสดงหน้าต่างหลัก"
+msgstr "แสดงหน้าต่างหลักบนเดสก์ทอ��"
 
 #: plugins/dock/dockcfgbase.cpp:126
-#, fuzzy
 msgid "current"
-msgstr "เอกเขนก"
+msgstr "ปัจจุบัน"
 
 #: plugins/dock/dockcfgbase.cpp:127
-#, fuzzy
 msgid "&Customize dock menu"
-msgstr "ปรับแต่งเมนู"
+msgstr ""
 
 #: plugins/filter/filter.cpp:37
 msgid "Filter"
@@ -2169,7 +2083,7 @@ msgstr "ชื่อ"
 
 #: plugins/filter/filtercfgbase.cpp:97
 msgid "&Receive message only from contacts from list"
-msgstr ""
+msgstr "รับเ&ฉพาะข้อความที่ส่งมาจากคู่สนทนาที่อยู่ในรายชื่อเท่านั้น"
 
 #: plugins/filter/filtercfgbase.cpp:98
 msgid "Reject messages from unknown users contains this words or phrases:"
@@ -2220,7 +2134,7 @@ msgstr ""
 
 #: plugins/forward/forwardcfgbase.cpp:105
 msgid "Send only &one message (don't split)"
-msgstr ""
+msgstr "ส่งข้อ&ความเพียงข้อความเดียวเท่านั้น (ห้ามแบ่งข้อความ)"
 
 #: plugins/gpg/gpg.cpp:53
 msgid "GPG"
@@ -2245,7 +2159,7 @@ msgstr "การเข้ารหัสผิดพลาด"
 msgid ""
 "_n: %n GPG key\n"
 "%n GPG keys"
-msgstr "รหัส GPG %n"
+msgstr "%n รหัส GPG"
 
 #: plugins/gpg/gpg.cpp:749
 msgid "GPG key"
@@ -2305,43 +2219,36 @@ msgid "Executable:"
 msgstr ""
 
 #: plugins/gpg/gpgcfgbase.cpp:166
-#, fuzzy
 msgid "Home directory:"
-msgstr "ไดเรกทอรีบ้าน"
+msgstr "ไดเรกทอรีบ้าน:"
 
 #: plugins/gpg/gpgcfgbase.cpp:167
-#, fuzzy
 msgid "&Find"
-msgstr "ฟินแลนด์"
+msgstr "ค้น&หา"
 
 #: plugins/gpg/gpgcfgbase.cpp:168
-#, fuzzy
 msgid "Your key:"
-msgstr "ตุรกี"
+msgstr "รหัสของคุณ:"
 
 #: plugins/gpg/gpgcfgbase.cpp:169 plugins/gpg/gpguserbase.cpp:100
-#, fuzzy
 msgid "&Refresh"
-msgstr "สดชื่น"
+msgstr "เรี&ยกใหม่"
 
 #: plugins/gpg/gpgadvbase.cpp:156
-#, fuzzy
 msgid "Command arguments"
-msgstr "สถานะ"
+msgstr ""
 
 #: plugins/gpg/gpgadvbase.cpp:157
-#, fuzzy
 msgid "Generate key:"
-msgstr "การสร้างรหัสล้มเหลว"
+msgstr "สร้างรหัส:"
 
 #: plugins/gpg/gpgadvbase.cpp:158
-#, fuzzy
 msgid "List public keys:"
-msgstr "รายชื่อเซิร์ฟเวอร์สาธารณะ"
+msgstr "แสดงรหัสสาธารณะ:"
 
 #: plugins/gpg/gpgadvbase.cpp:159
 msgid "List secret keys:"
-msgstr ""
+msgstr "แสดงรหัสลับ:"
 
 #: plugins/gpg/gpgadvbase.cpp:160
 msgid "Import public:"
@@ -2352,76 +2259,70 @@ msgid "Export public:"
 msgstr ""
 
 #: plugins/gpg/gpgadvbase.cpp:162
-#, fuzzy
 msgid "Encrypt:"
-msgstr "การเข้ารหัสผิดพลาด"
+msgstr "เข้ารหัส:"
 
 #: plugins/gpg/gpgadvbase.cpp:163
 msgid "Decrypt:"
-msgstr ""
+msgstr "ถอดรหัส:"
 
 #: plugins/gpg/gpggenbase.cpp:135
-#, fuzzy
 msgid "Generate key"
-msgstr "การสร้างรหัสล้มเหลว"
+msgstr "สร้างรหัส"
 
 #: plugins/gpg/gpggenbase.cpp:136 plugins/jabber/discoinfobase.cpp:316
-#, fuzzy
 msgid "EMail:"
-msgstr "อีเมล"
+msgstr "อีเมล:"
 
 #: plugins/gpg/gpggenbase.cpp:137
-#, fuzzy
 msgid "Comment:"
-msgstr "ผู้หญิง"
+msgstr "คำแนะนำ:"
 
 #: plugins/gpg/gpggenbase.cpp:138 plugins/icq/workinfobase.cc:215 plugins/jabber/discoinfobase.cpp:300 plugins/jabber/discoinfobase.cpp:302
-#, fuzzy
 msgid "Name:"
-msgstr "ชื่อ"
+msgstr "ชื่อ:"
 
 #: plugins/gpg/gpggenbase.cpp:139
-#, fuzzy
 msgid "Passphrase:"
-msgstr "รหัสผ่าน:"
+msgstr ""
 
 #: plugins/gpg/gpggenbase.cpp:140
 msgid "Retype passphrase:"
 msgstr ""
 
 #: plugins/gpg/gpguserbase.cpp:99
-#, fuzzy
 msgid "Key:"
-msgstr "เคนยา"
+msgstr "รหัส:"
 
 #: plugins/gpg/passphrasebase.cpp:87
 msgid "Input passphrase"
 msgstr ""
 
 #: plugins/gpg/passphrasebase.cpp:89
-#, fuzzy
 msgid "&Save passphrase"
-msgstr "ตั&วคั่น"
+msgstr ""
 
 #: plugins/icons/icon.cpp:30
 msgid "Icons"
 msgstr "ไอคอน"
 
 #: plugins/icons/icon.cpp:31
+#, fuzzy
 msgid "Plugin provides JISP icons themes and emoticons"
-msgstr "ปลั๊กอินนี้จะรวบรวบไอคอนแสดงอารมณ์และรูปลักษณะของ JISP"
+msgstr "ปลั๊กอินนี้จะรวบรวบไอคอนแสดงอารมณ์และรูปลักษณะของ Miranda"
 
 #: plugins/icons/iconcfg.cpp:91
 msgid "*.jisp|Icon set"
-msgstr "*.jisp|ชุดไอคอน"
+msgstr ""
 
 #: plugins/icons/iconcfg.cpp:93
 msgid "Icon set(*.jisp)"
-msgstr "ชุดไอคอน(*.jisp)"
+msgstr ""
 
 #: plugins/icons/iconcfg.cpp:95
+#, fuzzy
 msgid "Select icon set"
-msgstr "เลือกชุดไอคอน"
+msgstr "เลือกไอคอน DLL"
 
 #: plugins/icq/aimconfig.cpp:43
 msgid "Register new ScreenName"
@@ -2717,6 +2618,7 @@ msgstr ""
 "%n แฟ้ม"
 
 #: plugins/icq/icqicmb.cpp:1286 plugins/icq/warndlg.cpp:66
+#, fuzzy
 msgid "Send failed"
 msgstr "การส่งล้มเหลว"
 
@@ -2826,7 +2728,7 @@ msgstr ""
 
 #: plugins/icq/icqlogin.cpp:230
 msgid "Too young!"
-msgstr "ยังเด็ก"
+msgstr ""
 
 #: plugins/icq/icqlogin.cpp:234
 msgid "UIN was suspended"
@@ -2945,7 +2847,7 @@ msgstr "ชื่อ"
 #: plugins/icq/icqsearch.cpp:301 plugins/jabber/jabberadd.cpp:280 plugins/jabber/jabbersearch.cpp:105 plugins/jabber/jabbersearch.cpp:305
 #, fuzzy
 msgid "Last Name"
-msgstr "นามสกุล"
+msgstr "นามสกุล:"
 
 #: plugins/icq/icqsearch.cpp:304 plugins/jabber/jabbersearch.cpp:108
 msgid "City"
@@ -2998,7 +2900,7 @@ msgstr "การเปลี่ยนรหัสผ่านล้มเหล
 
 #: plugins/icq/icqvarious.cpp:1491
 msgid "The Cellular network is currently unable to send your message to the recipient. Please try again later."
-msgstr "ขณะนี้เครือข่ายโทรศัพท์ไม่สามารถใช้ส่งข้อความของคุณได้ กรุณาลองใหม่ภายหลัง"
+msgstr ""
 
 #: plugins/icq/icqvarious.cpp:1492
 msgid "INVALID NUMBER"
@@ -3270,7 +3172,7 @@ msgstr ""
 
 #: plugins/icq/moreinfo.cpp:90
 msgid "Burmese"
-msgstr "ชาวพม่า"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:91
 msgid "Cantonese"
@@ -3278,7 +3180,7 @@ msgstr "ชาวจีนกวางตุ้ง"
 
 #: plugins/icq/moreinfo.cpp:94
 msgid "Croatian"
-msgstr "ชาวโครเอเชีย"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:96
 msgid "Danish"
@@ -3286,7 +3188,7 @@ msgstr "ชาวเดนมาร์ก"
 
 #: plugins/icq/moreinfo.cpp:99 sim/contacts.cpp:2010
 msgid "Esperanto"
-msgstr "ชาวเอสเปรันต์"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:100
 msgid "Estonian"
@@ -3298,99 +3200,99 @@ msgstr ""
 
 #: plugins/icq/moreinfo.cpp:102
 msgid "Finnish"
-msgstr "ชาวฟินแลนด์"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:104
 msgid "Gaelic"
-msgstr "ชาวเกล"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:108
 msgid "Hindi"
-msgstr "ชาวฮินดี"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:110
 msgid "Icelandic"
-msgstr "ชาวไอซ์แลนดิก"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:111
 msgid "Indonesian"
-msgstr "ชาวอินโดนีเซีย"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:113 sim/contacts.cpp:2028 sim/contacts.cpp:2029 sim/contacts.cpp:2030
 msgid "Japanese"
-msgstr "ชาวญี่ปุ่น"
+msgstr "ภาษาญี่ปุ่น"
 
 #: plugins/icq/moreinfo.cpp:114
 msgid "Khmer"
-msgstr "ชาวขอม"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:115 sim/contacts.cpp:2032
 msgid "Korean"
-msgstr "ชาวเกาหลี"
+msgstr "ภาษาเกาหลี"
 
 #: plugins/icq/moreinfo.cpp:116
 msgid "Lao"
-msgstr "ชาวลาว"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:117
 msgid "Latvian"
-msgstr "ชาวแลตเวีย"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:118
 msgid "Lithuanian"
-msgstr "ชาวลิธัวเนีย"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:119
 msgid "Malay"
-msgstr "ชาวมลายู"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:120
 msgid "Norwegian"
-msgstr "ชาวนอร์เวย์"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:123
 msgid "Romanian"
-msgstr "ชาวโรมาเนีย"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:125
 msgid "Serbian"
-msgstr "ชาวเซิร์บ"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:127
 msgid "Slovenian"
-msgstr "ชาวสโลเวเนีย"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:128
 msgid "Somali"
-msgstr "ชาวโซมาลี"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:130
 msgid "Swahili"
-msgstr "ชาวซวาฮีลี"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:131
 msgid "Swedish"
-msgstr "ชาวสวีเดน"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:132
 msgid "Tagalog"
-msgstr "ชาวตากาล็อก"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:133
 msgid "Tatar"
-msgstr "ชาวทาร์ทาร์"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:137
 msgid "Urdu"
-msgstr "ชาวอูรดู"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:138
 msgid "Vietnamese"
-msgstr "ชาวเวียดนาม"
+msgstr "ภาษาเวียดนาม"
 
 #: plugins/icq/moreinfo.cpp:139
 msgid "Yiddish"
-msgstr "ชาวยิดดิช"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:140
 msgid "Yoruba"
@@ -3398,23 +3300,23 @@ msgstr ""
 
 #: plugins/icq/moreinfo.cpp:141
 msgid "Taiwanese"
-msgstr "ชาวไต้หวัน"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:142
 msgid "Afrikaans"
-msgstr "ชาวอาฟริกัน"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:143
 msgid "Persian"
-msgstr "ชาวเปอร์เซีย"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:144
 msgid "Albanian"
-msgstr "ชาวอัลบาเนีย"
+msgstr ""
 
 #: plugins/icq/moreinfo.cpp:145
 msgid "Armenian"
-msgstr "ชาวอาร์เมเนีย"
+msgstr ""
 
 #: plugins/icq/pastinfo.cpp:76
 msgid "Elementary School"
@@ -3442,7 +3344,7 @@ msgstr ""
 
 #: plugins/icq/pastinfo.cpp:82
 msgid "Past Organization"
-msgstr "องค์กรที่เคยทำงาน"
+msgstr ""
 
 #: plugins/icq/pastinfo.cpp:83 plugins/icq/pastinfo.cpp:110
 msgid "Other"
@@ -3610,7 +3512,7 @@ msgstr "วิจัยวิทยาศาสตร์"
 
 #: plugins/icq/workinfo.cpp:98
 msgid "Technical"
-msgstr "ทางเทคนิค"
+msgstr ""
 
 #: plugins/icq/workinfo.cpp:99
 msgid "University student"
@@ -3621,19 +3523,16 @@ msgid "Web building"
 msgstr "สร้างเว็บไซต์"
 
 #: plugins/icq/icqconfigbase.cc:295
-#, fuzzy
 msgid "&Register new UIN"
-msgstr "ลงทะเบียนผู้ใช้ใหม่"
+msgstr "&ลงทะเบียน UIN ใหม่"
 
 #: plugins/icq/icqconfigbase.cc:296
-#, fuzzy
 msgid "UIN:"
-msgstr "UIN"
+msgstr "UIN:"
 
 #: plugins/icq/icqconfigbase.cc:297
-#, fuzzy
 msgid "&ICQ"
-msgstr "ICQ"
+msgstr "&ICQ"
 
 #: plugins/icq/aimconfigbase.cc:181 plugins/icq/icqconfigbase.cc:298 plugins/msn/msnconfigbase.cpp:236 plugins/yahoo/yahoocfgbase.cpp:240
 msgid "&Automatically use HTTP polling if proxy required"
@@ -3645,17 +3544,15 @@ msgstr ""
 
 #: plugins/icq/aimconfigbase.cc:179 plugins/icq/icqconfigbase.cc:300 plugins/jabber/jabberconfigbase.cpp:356 plugins/jabber/jabberconfigbase.cpp:360 plugins/livejournal/livejournalcfgbase.cpp:211 plugins/msn/msnconfigbase.cpp:231 plugins/yahoo/yahoocfgbase.cpp:237
 msgid "Server:"
-msgstr ""
+msgstr "เซิร์ฟเวอร์:"
 
 #: plugins/icq/aimconfigbase.cc:178 plugins/icq/icqconfigbase.cc:301 plugins/jabber/jabberconfigbase.cpp:357 plugins/jabber/jabberconfigbase.cpp:361 plugins/livejournal/livejournalcfgbase.cpp:213 plugins/msn/msnconfigbase.cpp:232 plugins/proxy/proxycfgbase.cpp:163 plugins/remote/remotecfgbase.cpp:137 plugins/sms/smssetupbase.cpp:171 plugins/yahoo/yahoocfgbase.cpp:238
-#, fuzzy
 msgid "Port:"
-msgstr "เรียง"
+msgstr "พอร์ต:"
 
 #: plugins/icq/icqconfigbase.cc:302 plugins/jabber/jabberconfigbase.cpp:363 plugins/msn/msnconfigbase.cpp:233 plugins/yahoo/yahoocfgbase.cpp:243
-#, fuzzy
 msgid "Port range for direct connections:"
-msgstr "ไม่สามารถยอมรับการเชื่อมต่อโดยตรงได้"
+msgstr "การจัดสรรพอร์ตสำหรับการเชื่อมต่อโดยตรง:"
 
 #: plugins/icq/aimconfigbase.cc:182 plugins/icq/icqconfigbase.cc:304 plugins/jabber/jabberconfigbase.cpp:367 plugins/msn/msnconfigbase.cpp:237 plugins/yahoo/yahoocfgbase.cpp:239
 msgid "Note: For HTTP-polling using proxy settings for HTTP"
@@ -3663,37 +3560,31 @@ msgstr ""
 
 #: plugins/icq/aimconfigbase.cc:183 plugins/icq/icqconfigbase.cc:305
 msgid "&Keep-alive connection"
-msgstr ""
+msgstr "การเชื่อมต่อ&ตลอดเวลา"
 
 #: plugins/icq/aimconfigbase.cc:184 plugins/icq/icqconfigbase.cc:306 plugins/jabber/jabberconfigbase.cpp:369 plugins/livejournal/livejournalcfgbase.cpp:214 plugins/msn/msnconfigbase.cpp:239 plugins/yahoo/yahoocfgbase.cpp:244
-#, fuzzy
 msgid "&Network"
-msgstr "เครือข่าย"
+msgstr "เ&ครือข่าย"
 
 #: plugins/icq/icqconfigbase.cc:307
-#, fuzzy
 msgid "Automatically check &invisible"
-msgstr "ตรวจสอบคู่สนทนาที่&มองไม่เห็น"
+msgstr "ตรวจสอบคู่สนทนาที่&มองไม่เห็นอัตโนมัติ"
 
 #: plugins/icq/icqconfigbase.cc:308
-#, fuzzy
 msgid "Send format:"
-msgstr "ส่งเมล"
+msgstr "ส่งในรูปของ:"
 
 #: plugins/icq/icqconfigbase.cc:309
-#, fuzzy
 msgid "Send message:"
-msgstr "ส่งข้อ&ความ"
+msgstr "ส่งข้อความ:"
 
 #: plugins/icq/icqconfigbase.cc:311
-#, fuzzy
 msgid "No wait ack"
-msgstr "ไม่ถูกต้อง"
+msgstr "ไม่คอย ack"
 
 #: plugins/icq/icqconfigbase.cc:312
-#, fuzzy
 msgid "Wait ack from server"
-msgstr "แพ็กเก็ตถูกปิดจากเซิร์ฟเวอร์"
+msgstr "คอย ack จากเซิฟร์เวอร์"
 
 #: plugins/icq/icqconfigbase.cc:313
 msgid "Wait ack from client"
@@ -3701,11 +3592,11 @@ msgstr ""
 
 #: plugins/icq/icqconfigbase.cc:314
 msgid "Accept in &occupied mode"
-msgstr ""
+msgstr "ยอมรับในโหมด &ติดธุระ"
 
 #: plugins/icq/icqconfigbase.cc:315
 msgid "Accept in &DND mode"
-msgstr ""
+msgstr "ยอมรับในโหมด &DND"
 
 #: plugins/icq/icqconfigbase.cc:316
 msgid "For decrease traffic you can:"
@@ -3716,31 +3607,29 @@ msgid "Disable answer on phonebook and &picture requests"
 msgstr ""
 
 #: plugins/icq/icqconfigbase.cc:318
+#, fuzzy
 msgid "Disable automatically &request autoreply on change status"
-msgstr ""
+msgstr "ปิดการ&ปรับปรุงข้อมูลผู้ใช้อัตโนมัติ"
 
 #: plugins/icq/icqconfigbase.cc:319
 msgid "Disable automatically &update user info"
-msgstr ""
+msgstr "ปิดการ&ปรับปรุงข้อมูลผู้ใช้อัตโนมัติ"
 
 #: plugins/icq/icqconfigbase.cc:320
 msgid "Disable &typing notification"
-msgstr ""
+msgstr "ปิดการแจ้งเตือนสถานะ&การพิมพ์"
 
 #: plugins/icq/icqconfigbase.cc:321
-#, fuzzy
 msgid "Check invisible every"
-msgstr "ตรวจสอบคู่สนทนาที่มองไม่เห็น"
+msgstr "ตรวจสอบคู่สนทนาที่มองไม่เห็นทุก"
 
 #: plugins/icq/icqconfigbase.cc:322 plugins/livejournal/livejournalcfgbase.cpp:216
-#, fuzzy
 msgid "minutes"
-msgstr "คอมพิวเตอร์"
+msgstr "นาที"
 
 #: plugins/icq/icqconfigbase.cc:323 plugins/jabber/jabberconfigbase.cpp:378 plugins/livejournal/livejournalcfgbase.cpp:218
-#, fuzzy
 msgid "&Options"
-msgstr "การ&กระทำ"
+msgstr "ตัวเลื&อก"
 
 #: plugins/icq/icqinfobase.cc:339
 msgid "Form5"
@@ -3748,180 +3637,151 @@ msgstr ""
 
 #: plugins/icq/icqinfobase.cc:341
 msgid "Uin:"
-msgstr ""
+msgstr "Uin:"
 
 #: plugins/icq/icqinfobase.cc:344
 msgid "Random chat group:"
 msgstr ""
 
 #: plugins/icq/icqinfobase.cc:345 plugins/jabber/jabberinfobase.cpp:304 plugins/msn/msninfobase.cpp:163 plugins/yahoo/yahooinfobase.cpp:188
-#, fuzzy
 msgid "&Names"
-msgstr "ชื่อ"
+msgstr "ชื่&อ"
 
 #: plugins/icq/aiminfobase.cc:302 plugins/icq/icqinfobase.cc:346 plugins/jabber/jabberinfobase.cpp:305 plugins/msn/msninfobase.cpp:164 plugins/yahoo/yahooinfobase.cpp:189
-#, fuzzy
 msgid "Status:"
-msgstr "สถานะ"
+msgstr "สถานะ:"
 
 #: plugins/icq/aiminfobase.cc:300 plugins/icq/icqinfobase.cc:349
 msgid "External IP:"
 msgstr ""
 
 #: plugins/icq/aiminfobase.cc:304 plugins/icq/icqinfobase.cc:350
-#, fuzzy
 msgid "Internal IP:"
-msgstr "อินเทอร์เน็ต"
+msgstr ""
 
 #: plugins/icq/aiminfobase.cc:301 plugins/icq/icqinfobase.cc:351 plugins/proxy/proxycfgbase.cpp:168
-#, fuzzy
 msgid "Client:"
-msgstr "กลาง"
+msgstr "ไคลเอ็นต์:"
 
 #: plugins/icq/icqinfobase.cc:353 plugins/jabber/jabberinfobase.cpp:310
-#, fuzzy
 msgid "New password:"
-msgstr "รหัสผ่าน:"
+msgstr "รหัสผ่านใหม่:"
 
 #: plugins/icq/icqinfobase.cc:354 plugins/jabber/jabberinfobase.cpp:311
 msgid "Retype new password:"
-msgstr ""
+msgstr "พิมพ์รหัสผ่านอีกครั้ง:"
 
 #: plugins/icq/icqinfobase.cc:355 plugins/jabber/jabberinfobase.cpp:312
-#, fuzzy
 msgid "Current password:"
-msgstr "ใส่รหัสผ่านปัจจุบัน"
+msgstr "รหัสผ่านปัจจุบัน:"
 
 #: plugins/icq/icqinfobase.cc:356 plugins/jabber/jabberinfobase.cpp:313
-#, fuzzy
 msgid "&Password"
-msgstr "รหัสผ่าน"
+msgstr "&รหัสผ่าน"
 
 #: plugins/icq/advsearchbase.cc:280 plugins/icq/aiminfobase.cc:294 plugins/icq/aimsearchbase.cc:201 plugins/icq/homeinfobase.cc:175 plugins/icq/workinfobase.cc:212 plugins/jabber/jabberhomeinfobase.cpp:139
-#, fuzzy
 msgid "State:"
-msgstr "รัฐ"
+msgstr "รัฐ:"
 
 #: plugins/icq/homeinfobase.cc:176 plugins/icq/workinfobase.cc:210 plugins/jabber/jabberhomeinfobase.cpp:140
-#, fuzzy
 msgid "Address:"
-msgstr "รหัสประจำเครื่อง"
+msgstr "ที่อยู่:"
 
 #: plugins/icq/advsearchbase.cc:279 plugins/icq/aiminfobase.cc:293 plugins/icq/aimsearchbase.cc:202 plugins/icq/homeinfobase.cc:178 plugins/icq/workinfobase.cc:211 plugins/jabber/jabberhomeinfobase.cpp:136
-#, fuzzy
 msgid "City:"
-msgstr "เมือง"
+msgstr "เมือง:"
 
 #: plugins/icq/homeinfobase.cc:179 plugins/icq/workinfobase.cc:213 plugins/jabber/jabberhomeinfobase.cpp:137
-#, fuzzy
 msgid "Zip code:"
-msgstr "ยูนิโค้ด"
+msgstr "รหัสไปรษณีย์:"
 
 #: plugins/icq/homeinfobase.cc:180
-#, fuzzy
 msgid "Time zone:"
-msgstr "โทรศัพท์ที่บ้าน"
+msgstr "เขตเวลา:"
 
 #: plugins/icq/homeinfobase.cc:181
-#, fuzzy
 msgid "&Home info"
-msgstr "ข้อมูลเกี่ยวกับที่บ้าน"
+msgstr "ข้อมูลเกี่ยวกับที่บ้า&น"
 
 #: plugins/icq/advsearchbase.cc:282 plugins/icq/moreinfobase.cc:212 plugins/yahoo/yahoosearchbase.cpp:162
-#, fuzzy
 msgid "Age:"
-msgstr "อายุ"
+msgstr "อายุ:"
 
 #: plugins/icq/moreinfobase.cc:213 plugins/jabber/discoinfobase.cpp:312 plugins/jabber/jabberinfobase.cpp:302
-#, fuzzy
 msgid "Homepage:"
-msgstr "บ้าน"
+msgstr "โฮมเพจ:"
 
 #: plugins/icq/advsearchbase.cc:283 plugins/icq/moreinfobase.cc:215 plugins/yahoo/yahoosearchbase.cpp:161
-#, fuzzy
 msgid "Gender:"
-msgstr "เพศ"
+msgstr "เพศ:"
 
 #: plugins/icq/moreinfobase.cc:216 plugins/jabber/discoinfobase.cpp:313 plugins/jabber/jabberinfobase.cpp:301
-#, fuzzy
 msgid "Birth date:"
-msgstr "วันเกิด"
+msgstr "วันเกิด:"
 
 #: plugins/icq/moreinfobase.cc:217
-#, fuzzy
 msgid "&More info"
-msgstr "ข้อมูลเพิ่มเติม"
+msgstr "ข้&อมููลเพิ่มเติม"
 
 #: plugins/icq/moreinfobase.cc:218
 msgid "Spoken languages:"
-msgstr ""
+msgstr "ภาษาที่ใช้พูด:"
 
 #: plugins/icq/moreinfobase.cc:219
-#, fuzzy
 msgid "&Languages"
-msgstr "บังคลาเทศ"
+msgstr "&ภาษา"
 
 #: plugins/icq/workinfobase.cc:217
-#, fuzzy
 msgid "Web site:"
-msgstr "ออกแบบเว็บ"
+msgstr "เว็บไซต์:"
 
 #: plugins/icq/workinfobase.cc:218
-#, fuzzy
 msgid "&Company"
-msgstr "คัด&ลอก"
+msgstr "&บริษัท"
 
 #: plugins/icq/advsearchbase.cc:285 plugins/icq/workinfobase.cc:219
-#, fuzzy
 msgid "Occupation:"
-msgstr "อยุ่ระหว่างพักร้อน"
+msgstr "อาชีพ"
 
 #: plugins/icq/workinfobase.cc:220
 msgid "Div / dept:"
 msgstr ""
 
 #: plugins/icq/advsearchbase.cc:288 plugins/icq/workinfobase.cc:221 plugins/jabber/jabberworkinfobase.cpp:123
-#, fuzzy
 msgid "Position:"
-msgstr "เงื่อนไข"
+msgstr "ตำแหน่ง:"
 
 #: plugins/icq/workinfobase.cc:222
-#, fuzzy
 msgid "&Occupation"
-msgstr "ที่&อยู่"
+msgstr "&อาชีพ"
 
 #: plugins/icq/aboutinfobase.cc:125
 msgid "Additional information about user:"
 msgstr ""
 
 #: plugins/icq/aboutinfobase.cc:126
-#, fuzzy
 msgid "A&bout"
-msgstr "เกี่ยวกับ"
+msgstr "เกี่ยวกั&บ"
 
 #: plugins/icq/interestsinfobase.cc:140
-#, fuzzy
 msgid "&Interests"
-msgstr "สิ่งที่สนใจ"
+msgstr "สิ่งที่&สนใจ"
 
 #: plugins/icq/pastinfobase.cc:170
 msgid "Organization, Affiliation, Group:"
 msgstr ""
 
 #: plugins/icq/pastinfobase.cc:171
-#, fuzzy
 msgid "A&ffilation"
-msgstr "ที่&อยู่"
+msgstr ""
 
 #: plugins/icq/pastinfobase.cc:172
-#, fuzzy
 msgid "Past background:"
-msgstr "พื้นหลัง"
+msgstr "พื้นหลังที่ผ่านมา:"
 
 #: plugins/icq/pastinfobase.cc:173
-#, fuzzy
 msgid "&Background"
-msgstr "พื้นหลัง"
+msgstr "&พื้นหลัง"
 
 #: plugins/icq/icqsecurebase.cc:166
 msgid "My &authorization is required before users add me to Contact List"
@@ -3933,17 +3793,15 @@ msgstr ""
 
 #: plugins/icq/icqsecurebase.cc:169
 msgid "Allow other to view my &status from the Web"
-msgstr ""
+msgstr "อนุญาตให้ผู้อื่น ดูสถานะของคุณได้จากเว็บ"
 
 #: plugins/icq/icqsecurebase.cc:170
-#, fuzzy
 msgid "I&gnore user authorization"
-msgstr "&ปฏิเสธการขออนุญาต"
+msgstr "ข้ามการ&ขออนุญาตของผู้ใช้"
 
 #: plugins/icq/icqsecurebase.cc:171
-#, fuzzy
 msgid "Direct connections"
-msgstr "การเชื่อมต่อ"
+msgstr "การเชื่อมต่อโดยตรง"
 
 #: plugins/icq/icqsecurebase.cc:172
 msgid "Allow &direct connection from any user"
@@ -3958,29 +3816,24 @@ msgid "Allow direct connection from user &upon authorization"
 msgstr ""
 
 #: plugins/icq/icqsecurebase.cc:175
-#, fuzzy
 msgid "&Security"
-msgstr "ความปลอดภัย"
+msgstr "ความ&ปลอดภัย"
 
 #: plugins/icq/icqsecurebase.cc:176
-#, fuzzy
 msgid "&Visible list"
-msgstr "รายชื่อคู่สนทนาที่มองเห็น"
+msgstr "รายชื่อคู่สนทนาที่มองเ&ห็น"
 
 #: plugins/icq/icqsecurebase.cc:177
-#, fuzzy
 msgid "&Invisible list"
-msgstr "รายชื่อคู่สนทนาที่มองไม่เห็น"
+msgstr "รายชื่อคู่สนทนาที่มองเ&ห็น"
 
 #: plugins/icq/icqsearchbase.cc:185
-#, fuzzy
 msgid "&UIN"
-msgstr "UIN"
+msgstr "&UIN"
 
 #: plugins/icq/icqsearchbase.cc:186
-#, fuzzy
 msgid "&Screenname"
-msgstr "เ&ปลี่ยนชื่อ"
+msgstr ""
 
 #: plugins/icq/icqsearchbase.cc:192
 msgid "AOL s&creenname"
@@ -3988,59 +3841,51 @@ msgstr ""
 
 #: plugins/icq/icqsearchbase.cc:193
 msgid "ICQ &UIN"
-msgstr ""
+msgstr "ICQ &UIN"
 
 #: plugins/icq/icqsearchbase.cc:194
-#, fuzzy
 msgid "Advanced"
-msgstr "ขั้นสู&ง"
+msgstr "ขั้นสูง"
 
 #: plugins/icq/advsearchbase.cc:277 plugins/jabber/jabber.cpp:296
 msgid "Info"
 msgstr "ข้อมูล"
 
 #: plugins/icq/advsearchbase.cc:284
-#, fuzzy
 msgid "Work"
-msgstr "แฟกซ์ที่ทำงาน"
+msgstr "ที่ทำงาน"
 
 #: plugins/icq/advsearchbase.cc:286 plugins/jabber/jabberworkinfobase.cpp:121
-#, fuzzy
 msgid "Company:"
-msgstr "คัดลอก"
+msgstr "บริษัท:"
 
 #: plugins/icq/advsearchbase.cc:287 plugins/jabber/jabberworkinfobase.cpp:120
-#, fuzzy
 msgid "Department:"
-msgstr "ตั&วคั่น"
+msgstr ""
 
 #: plugins/icq/advsearchbase.cc:290
-#, fuzzy
 msgid "Past"
-msgstr "วาง"
+msgstr "ที่ผ่านมา"
 
 #: plugins/icq/advsearchbase.cc:292
-#, fuzzy
 msgid "Affilations"
-msgstr "ชาวอาฟริกัน"
+msgstr ""
 
 #: plugins/icq/advsearchbase.cc:293
 msgid "Keywords"
-msgstr ""
+msgstr "คำค้นหา"
 
 #: plugins/icq/advsearchbase.cc:294
 msgid "Search &online users only"
-msgstr ""
+msgstr "ค้น&หาเฉพาะผู้ใช้ที่ออนไลน์"
 
 #: plugins/icq/icqpicturebase.cc:135 plugins/jabber/jabberpicturebase.cpp:135 plugins/shortcuts/shortcutcfgbase.cpp:143
-#, fuzzy
 msgid "&Clear"
-msgstr "ลบ"
+msgstr "&ลบ"
 
 #: plugins/icq/icqpicturebase.cc:136
-#, fuzzy
 msgid "&Picture"
-msgstr "รูปภาพ"
+msgstr "รูป&ภาพ"
 
 #: plugins/icq/securedlgbase.cc:73
 msgid "Secure chanel request"
@@ -4054,19 +3899,16 @@ msgid ""
 msgstr ""
 
 #: plugins/icq/aimconfigbase.cc:175 plugins/icq/aiminfobase.cc:297
-#, fuzzy
 msgid "ScreenName:"
-msgstr "ซูรินาเม"
+msgstr "ชื่อผู้ใช้:"
 
 #: plugins/icq/aimconfigbase.cc:177
-#, fuzzy
 msgid "&AIM"
-msgstr "AIM"
+msgstr "&AIM"
 
 #: plugins/icq/aiminfobase.cc:289 plugins/icq/aimsearchbase.cc:196
-#, fuzzy
 msgid "Middle:"
-msgstr "ชื่อกลาง"
+msgstr "ชื่อกลาง:"
 
 #: plugins/icq/aiminfobase.cc:290 plugins/icq/aimsearchbase.cc:197
 msgid "Maiden:"
@@ -4074,39 +3916,35 @@ msgstr ""
 
 #: plugins/icq/aiminfobase.cc:292 plugins/icq/aimsearchbase.cc:204
 msgid "Street:"
-msgstr ""
+msgstr "ถนน:"
 
 #: plugins/icq/aiminfobase.cc:295 plugins/icq/aimsearchbase.cc:203
 msgid "Zip:"
-msgstr ""
+msgstr "รหัสไปรษณีย์:"
 
 #: plugins/icq/aiminfobase.cc:298
-#, fuzzy
 msgid "&Profile"
-msgstr "โพรไฟล์ของคุณ"
+msgstr "โ&พรไฟล์"
 
 #: plugins/icq/aimsearchbase.cc:193
-#, fuzzy
 msgid "Names"
 msgstr "ชื่อ"
 
 #: plugins/icq/aimsearchbase.cc:199 plugins/weather/wifacecfg.cpp:51 plugins/yahoo/yahoosearch.cpp:134
 msgid "Location"
-msgstr "สถานที่"
+msgstr ""
 
 #: plugins/icq/warndlgbase.cc:83
-#, fuzzy
 msgid "Send warning"
-msgstr "ส่งเมล"
+msgstr "ส่งคำเตือน"
 
 #: plugins/icq/warndlgbase.cc:84
 msgid "Click OK to send warning to %1. This will raise %1's warning and limit his or her activity. Do this only if %1 has done something to merit a warning."
 msgstr ""
 
 #: plugins/icq/warndlgbase.cc:85
-#, fuzzy
 msgid "Warn &anonymously"
-msgstr "ผู้ไม่ประสงค์ออกนาม"
+msgstr "เตือนโดยผู้ไม่ประสงค์&ออกนาม"
 
 #: plugins/icq/warndlgbase.cc:86
 msgid ""
@@ -4115,9 +3953,8 @@ msgid ""
 msgstr ""
 
 #: plugins/icq/encodingdlgbase.cc:83
-#, fuzzy
 msgid "Choose default encoding"
-msgstr "แ&สดงการเข้ารหัสทั้งหมด"
+msgstr "เลือกการเข้ารหัส"
 
 #: plugins/icq/encodingdlgbase.cc:84
 msgid "Your current system encoding (UTF-8) may cause problems saving your personal information and reading offline messages from other users."
@@ -4145,7 +3982,7 @@ msgstr "เ&วลา"
 
 #: plugins/jabber/discoinfo.cpp:168
 msgid "&Stat"
-msgstr "&สถิติ"
+msgstr ""
 
 #: plugins/jabber/discoinfo.cpp:251
 #, c-format
@@ -4429,79 +4266,74 @@ msgid "Organization Unit"
 msgstr ""
 
 #: plugins/jabber/jabberconfigbase.cpp:354 plugins/livejournal/livejournalcfgbase.cpp:208
-#, fuzzy
 msgid "Username:"
-msgstr "ชื่อผู้ใช้"
+msgstr "ชื่อผู้ใช้:"
 
 #: plugins/jabber/jabberconfigbase.cpp:355
-#, fuzzy
 msgid "&Register new account"
-msgstr "ลงทะเบียนผู้ใช้ใหม่"
+msgstr "&ลงทะเบียนชื่อผู้ใช้ใหม่"
 
 #: plugins/jabber/jabberconfigbase.cpp:358 plugins/jabber/jabberconfigbase.cpp:365
 msgid "Use &SSL"
-msgstr ""
+msgstr "ใช้ &SSL"
 
 #: plugins/jabber/jabberconfigbase.cpp:359
-#, fuzzy
 msgid "&Jabber"
-msgstr "Jabber"
+msgstr "&Jabber"
 
 #: plugins/jabber/jabberconfigbase.cpp:364
 msgid "Use &plain text login"
-msgstr ""
+msgstr "ใช้ข้อความธรรมดาในการเข้า��ู่ระบบ"
 
 #: plugins/jabber/jabberconfigbase.cpp:368
-#, fuzzy
 msgid "URL:"
-msgstr "&URL"
+msgstr "URL:"
 
 #: plugins/jabber/jabberconfigbase.cpp:370 plugins/jabber/jabberinfobase.cpp:308
-#, fuzzy
 msgid "Resource:"
-msgstr "เรีย&กคืน"
+msgstr "ที่มา:"
 
 #: plugins/jabber/jabberconfigbase.cpp:371
 msgid "Priority:"
-msgstr ""
+msgstr "ระดับความสำคัญ:"
 
 #: plugins/jabber/jabberconfigbase.cpp:372
 msgid "Manualy specify Jabber host:"
-msgstr ""
+msgstr "ระบุโฮสต์ Jabber เอง:"
 
 #: plugins/jabber/jabberconfigbase.cpp:373
 msgid "Use protocol &icons for agents contacts"
 msgstr ""
 
 #: plugins/jabber/jabberconfigbase.cpp:374
+#, fuzzy
 msgid "Automatically send &subscribe request"
-msgstr ""
+msgstr "ตรวจสอบคู่สนทนาที่&มองไม่เห็นอัตโนมัติ"
 
 #: plugins/jabber/jabberconfigbase.cpp:375
+#, fuzzy
 msgid "Automatically &accept subscribe requests"
-msgstr ""
+msgstr "ตรวจสอบคู่สนทนาที่&มองไม่เห็นอัตโนมัติ"
 
 #: plugins/jabber/jabberconfigbase.cpp:376
-#, fuzzy
 msgid "Send &rich text messages if possible"
-msgstr "การส่งข้อความผิดพลาด"
+msgstr "ถ้าเป็นไปได้ให้ส่งข้อความในรูปแบบ rich textาม"
 
 #: plugins/jabber/jabberconfigbase.cpp:377 plugins/osd/osdconfigbase.cpp:149
 msgid "Enable &typing notification"
-msgstr ""
+msgstr "เปิดการใช้งานการแจ้งเตือนสถานะการพิมพ์"
 
 #: plugins/jabber/jabberinfobase.cpp:298
 msgid "ID:"
 msgstr ""
 
 #: plugins/jabber/jabberworkinfobase.cpp:122
-#, fuzzy
 msgid "Role:"
-msgstr "แ&ดง:"
+msgstr ""
 
 #: plugins/jabber/jabberaboutinfobase.cpp:88
 msgid "Additional information:"
-msgstr ""
+msgstr "ข้อมูลเพิ่มเติม:"
 
 #: plugins/jabber/jabberaddbase.cpp:153
 msgid "&JID"
@@ -4509,59 +4341,53 @@ msgstr ""
 
 #: plugins/jabber/jabberaddbase.cpp:159 plugins/jabber/jidsearchbase.cpp:136
 msgid "Jabber &browser"
-msgstr ""
+msgstr "เ&บราเซอร์ของ Jabber"
 
 #: plugins/jabber/discoinfobase.cpp:296
-#, fuzzy
 msgid "DiscoInfo"
-msgstr "ข้อมูล"
+msgstr ""
 
 #: plugins/jabber/discoinfobase.cpp:297
 msgid "Namespaces:"
 msgstr ""
 
 #: plugins/jabber/discoinfobase.cpp:298
-#, fuzzy
 msgid "Category:"
-msgstr "แบตเตอรี่:"
+msgstr ""
 
 #: plugins/jabber/discoinfobase.cpp:303
-#, fuzzy
 msgid "Version:"
-msgstr "รุ่&น"
+msgstr "รุ่น:"
 
 #: plugins/jabber/discoinfobase.cpp:304
-#, fuzzy
 msgid "System:"
-msgstr "ระบบ"
+msgstr "ระบบ:"
 
 #: plugins/jabber/discoinfobase.cpp:306
-#, fuzzy
 msgid "UTC client time:"
-msgstr "ไคลเอ็นต์ออฟไลน์"
+msgstr ""
 
 #: plugins/jabber/discoinfobase.cpp:307
 msgid "Last activity, idle response:"
 msgstr ""
 
 #: plugins/jabber/discoinfobase.cpp:310
-#, fuzzy
 msgid "&Statistic"
-msgstr "มีรสนิยม"
+msgstr "&สถิติ"
 
 #: plugins/livejournal/livejournal.cpp:102
 #, c-format
 msgid ""
 "_n: LiveJournal post\n"
 "%n LiveJournal posts"
-msgstr "โพสต์ LiveJournal ไปแล้ว %n"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:103
 #, c-format
 msgid ""
 "_n: Friends updated\n"
 "Friends updated %n"
-msgstr "ปรับปรุงเพื่อน %n"
+msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:120
 msgid "&Remove from journal"
@@ -5164,53 +4990,44 @@ msgid "Remove record from journal?"
 msgstr "คุณแน่ใจหรือไม่ที่จะลบรายการออกจาก journal?"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:210
-#, fuzzy
 msgid "&LiveJournal"
-msgstr "LiveJournal"
+msgstr "&LiveJournal"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:212
-#, fuzzy
 msgid "Path:"
-msgstr "วาง"
+msgstr "เส้นทาง:"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:215
-#, fuzzy
 msgid "Check interval:"
-msgstr "ตรวจสอบคู่สนทนาที่มองไม่เห็น"
+msgstr "ตรวจสอบระยะเวลา:"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:217
 msgid "Use &fast server - only for paying customers"
 msgstr ""
 
 #: plugins/livejournal/msgjournalbase.cpp:113
-#, fuzzy
 msgid "Subject:"
-msgstr "<p>หัวข้อ: %1</p>"
+msgstr "หัวข้อ:"
 
 #: plugins/livejournal/msgjournalbase.cpp:114
-#, fuzzy
 msgid "Security:"
-msgstr "ความปลอดภัย"
+msgstr "ความปลอดภัย:"
 
 #: plugins/livejournal/msgjournalbase.cpp:116
-#, fuzzy
 msgid "Public"
-msgstr "จัดพิมพ์"
+msgstr "สาธารณะ"
 
 #: plugins/livejournal/msgjournalbase.cpp:117
-#, fuzzy
 msgid "Friends-Only"
-msgstr "เขียนอย่างเดียว"
+msgstr "เพื่อนเท่านั้น"
 
 #: plugins/livejournal/msgjournalbase.cpp:118
-#, fuzzy
 msgid "Private"
-msgstr "โมโหร้าย"
+msgstr "ส่วนตัว"
 
 #: plugins/livejournal/msgjournalbase.cpp:119
-#, fuzzy
 msgid "Mood:"
-msgstr "เก่ง"
+msgstr "อารมณ์:"
 
 #: plugins/livejournal/msgjournalbase.cpp:123
 msgid "Enable comments"
@@ -5222,11 +5039,11 @@ msgstr ""
 
 #: plugins/livejournal/msgjournalbase.cpp:125
 msgid "Disable comments"
-msgstr ""
+msgstr "ปิ&ดคำแนะนำ"
 
 #: plugins/livejournal/journalsearchbase.cpp:96
 msgid "Add community"
-msgstr ""
+msgstr "เพิ่มกลุ่มเพื่อน"
 
 #: plugins/logger/logconfig.cpp:94
 msgid "Debug"
@@ -5242,7 +5059,7 @@ msgstr "เหตุการณ์"
 
 #: plugins/logger/logger.cpp:40
 msgid "Logger"
-msgstr "บันทึกการใช้งาน"
+msgstr ""
 
 #: plugins/logger/logger.cpp:41
 msgid ""
@@ -5251,24 +5068,18 @@ msgid ""
 "To log errors, set loglevel to 1, for warnings to 2 and for debug-messages to 4\n"
 "If you want to log more than one you may add the levels"
 msgstr ""
-"ปลั๊กอินนี้จะแสดงผลบันทึกการใช้งาน\n"
-"คุณสามารถตั้งระดับการดีบักโดยการพิมพ์คำสั่ง -d<ระดับการดีบัก> ที่บรรทัดคำสั่ง\n"
-"ในการบันทึกข้อผิดพลาด ตั้งระดับการดีบักที่ 1, ในการแสดงคำเตือน ตั้งที่ 2 และในการแสดงข้อความดีบักตั้งที่ 4\n"
-"คุณสามารถเพิ่มระดับการดีบัก ถ้าหากคุณต้องการบันทึกการใช้งานที่มีรายละเอียดมากขึ้น"
 
 #: plugins/logger/logger.cpp:80
 msgid "Set debug level"
 msgstr "ตั้งระดับการดีบั๊ก"
 
 #: plugins/logger/logconfigbase.cpp:127
-#, fuzzy
 msgid "File:"
-msgstr "แฟ้ม"
+msgstr "แฟ้ม:"
 
 #: plugins/logger/logconfigbase.cpp:128
-#, fuzzy
 msgid "Log level:"
-msgstr "โหลดระดับหนึ่ง"
+msgstr "ระดับการบันทึกการใช้งาน:"
 
 #: plugins/msn/msn.cpp:59
 msgid "MSN"
@@ -5330,22 +5141,20 @@ msgid "You have new mail"
 msgstr "คุณมีเมลใหม่"
 
 #: plugins/msn/msnconfigbase.cpp:228 plugins/yahoo/yahoocfgbase.cpp:234 plugins/yahoo/yahooinfobase.cpp:185
-#, fuzzy
 msgid "Login:"
-msgstr "เข้าระบบ"
+msgstr "ชื่อผู้ใช้:"
 
 #: plugins/msn/msnconfigbase.cpp:230
-#, fuzzy
 msgid "&MSN"
-msgstr "MSN"
+msgstr "&MSN"
 
 #: plugins/msn/msnconfigbase.cpp:238
 msgid "&Automatically add contacts in accept list"
-msgstr ""
+msgstr "เพิ่มคู่สนทนาเข้าไปในรายชื่อที่ได้รับการอนุญาตอั&ตโนมัติ"
 
 #: plugins/navigate/navigate.cpp:214
 msgid "Navigate"
-msgstr "ตัวนำทาง"
+msgstr ""
 
 #: plugins/navigate/navigate.cpp:215
 msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
@@ -5360,18 +5169,16 @@ msgid "Copy &location"
 msgstr "คัดลอกที่&อยู่"
 
 #: plugins/navigate/navcfgbase.cc:100
-#, fuzzy
 msgid "Browser:"
-msgstr "โหมดเบราเซอร์"
+msgstr "เบราเซอร์:"
 
 #: plugins/navigate/navcfgbase.cc:101
-#, fuzzy
 msgid "Mailer:"
-msgstr "ชาย"
+msgstr ""
 
 #: plugins/navigate/navcfgbase.cc:102
 msgid "Open links in &new window"
-msgstr ""
+msgstr "เปิดลิงก์ใน&หน้าต่างใหม่"
 
 #: plugins/netmonitor/monitor.cpp:51 plugins/netmonitor/netmonitor.cpp:33 plugins/netmonitor/netmonitor.cpp:82
 msgid "Network monitor"
@@ -5427,8 +5234,6 @@ msgid ""
 "Plugin provides monitoring of net and messages\n"
 "For show monitor on start run sim -m"
 msgstr ""
-"ปลั๊กอินนี้จะติดตามการใช้งานอินเทอร์เน็ตและข้อความต่างๆ\n"
-"สำหรับการแสดงการติดตามในขณะเริ่มต้นโปรแกรมให้ตั้ง sim -m"
 
 #: plugins/netmonitor/netmonitor.cpp:93
 msgid "Show network monitor"
@@ -5447,14 +5252,12 @@ msgid "Always on top"
 msgstr "อยู่ด้านบนเสมอ"
 
 #: plugins/ontop/ontopcfgbase.cpp:89
-#, fuzzy
 msgid "Show &main window in task manager"
-msgstr "แสดงหน้าต่างหลัก"
+msgstr "แสดงหน้าต่าง&หลักในโปรแกรมจัดการหน้าต่าง"
 
 #: plugins/ontop/ontopcfgbase.cpp:90
-#, fuzzy
 msgid "&Container always on top"
-msgstr "อยู่ด้านบนเสมอ"
+msgstr ""
 
 #: plugins/osd/osd.cpp:68
 msgid "OSD"
@@ -5586,63 +5389,55 @@ msgstr "กลาง"
 
 #: plugins/osd/osdconfigbase.cpp:140
 msgid "Enable &messages notification"
-msgstr ""
+msgstr "เปิดการใช้งานการแจ้งเ&ตือนข้อความ"
 
 #: plugins/osd/osdconfigbase.cpp:141
 msgid "Enable &status notification"
-msgstr ""
+msgstr "เปิดการใช้งานการแจ้งเตือน&���ถานะ"
 
 #: plugins/osd/osdconfigbase.cpp:150
-#, fuzzy
 msgid "Show message &content"
-msgstr "ชนิดของข้อความที่ไม่รู้จัก"
+msgstr "แ&สดงเนื้อหาข้อความ"
 
 #: plugins/osd/osdconfigbase.cpp:151
 msgid "Show lines of content:"
-msgstr ""
+msgstr "แสดงบรรทัดของเนื้อหา:"
 
 #: plugins/osd/osdconfigbase.cpp:152
-#, fuzzy
 msgid "All"
-msgstr "ทั้ง&หมด"
+msgstr "ทั้งหมด"
 
 #: plugins/osd/osdifacebase.cpp:188
 msgid "Offset:"
 msgstr ""
 
 #: plugins/osd/osdifacebase.cpp:189
-#, fuzzy
 msgid "Show time:"
-msgstr "แสดงรายละเอียด"
+msgstr "แสดงเวลา:"
 
 #: plugins/osd/osdifacebase.cpp:190
-#, fuzzy
 msgid "Color:"
-msgstr "สี"
+msgstr "สี:"
 
 #: plugins/osd/osdifacebase.cpp:191
-#, fuzzy
 msgid "Font:"
-msgstr "แ&บบอักษร"
+msgstr "รูปแบบอักษร:"
 
 #: plugins/osd/osdifacebase.cpp:192
-#, fuzzy
 msgid "Show sha&dow"
-msgstr "แสดงหน้าต่างหลัก"
+msgstr "แสดงเ&งา"
 
 #: plugins/osd/osdifacebase.cpp:193
-#, fuzzy
 msgid "Show &background"
-msgstr "พื้นหลัง"
+msgstr "แสดง&พื้นหลัง"
 
 #: plugins/osd/osdifacebase.cpp:194 plugins/styles/fontconfigbase.cpp:161
-#, fuzzy
 msgid "Background color:"
-msgstr "สีพื้น&หลัง"
+msgstr "สีพื้นหลัง:"
 
 #: plugins/osd/osdifacebase.cpp:196
 msgid "Shown on screen:"
-msgstr ""
+msgstr "แสดงบนหน้าจอ:"
 
 #: plugins/proxy/proxy.cpp:42
 msgid "Can't connect to proxy"
@@ -5674,39 +5469,35 @@ msgstr "ปริยาย"
 
 #: plugins/proxy/proxycfg.cpp:224
 msgid "HTTP requests"
-msgstr "ร้องขอ HTTP"
+msgstr ""
 
 #: plugins/proxy/proxycfgbase.cpp:162
 msgid "Host:"
-msgstr ""
+msgstr "โฮสต์"
 
 #: plugins/proxy/proxycfgbase.cpp:164
-#, fuzzy
 msgid "Proxy require &authorization"
-msgstr "การขออนุญาตใช้พร็อกซีล้มเ��ลว"
+msgstr "ใช้การขอ&อนุญาตพร็อกซี"
 
 #: plugins/proxy/proxycfgbase.cpp:165
-#, fuzzy
 msgid "User:"
-msgstr "ผู้ใช้"
+msgstr "ชื่อผู้ใช้:"
 
 #: plugins/proxy/proxycfgbase.cpp:167
-#, fuzzy
 msgid "Proxy type:"
-msgstr "คุณพิมพ์"
+msgstr "ชนิดพร็อกซี:"
 
 #: plugins/proxy/proxycfgbase.cpp:169
 msgid "Do not show error dialog (automatically reconnect)"
-msgstr ""
+msgstr "ติดต่อใหม่อัตโนมัติ หากการเชื่อมต่อผิดพลาด"
 
 #: plugins/proxy/proxyerrorbase.cpp:78
-#, fuzzy
 msgid "Proxy error"
-msgstr "พอร์ตทำงานผิดพลาด"
+msgstr "พร็อกซีทำงานผิดพลาด"
 
 #: plugins/remote/remote.cpp:42
 msgid "Remote control"
-msgstr "รีโมทคอนโทรล"
+msgstr ""
 
 #: plugins/remote/remote.cpp:43
 msgid "Plugin provides remote control"
@@ -5774,26 +5565,23 @@ msgstr ""
 
 #: plugins/shortcuts/shortcuts.cpp:50
 msgid "Shortcuts"
-msgstr "ทางลัด"
+msgstr ""
 
 #: plugins/shortcuts/shortcuts.cpp:51
 msgid "Plugin provides keyboards shortcuts and global mouse functions"
 msgstr ""
 
 #: plugins/shortcuts/mousecfgbase.cpp:67 plugins/shortcuts/mousecfgbase.cpp:109 plugins/shortcuts/shortcutcfgbase.cpp:96 plugins/shortcuts/shortcutcfgbase.cpp:139
-#, fuzzy
 msgid "Command"
-msgstr "แคนาดา"
+msgstr "คำสั่ง"
 
 #: plugins/shortcuts/shortcutcfgbase.cpp:97 plugins/shortcuts/shortcutcfgbase.cpp:140
-#, fuzzy
 msgid "Key"
-msgstr "เคนยา"
+msgstr "รหัส"
 
 #: plugins/shortcuts/mousecfgbase.cpp:68 plugins/shortcuts/mousecfgbase.cpp:110
-#, fuzzy
 msgid "Button"
-msgstr "ภูฏาน"
+msgstr "ปุ่ม"
 
 #: plugins/shortcuts/mousecfgbase.cpp:112 sim/qt3/i18n.cpp:197
 msgid "Alt"
@@ -5812,11 +5600,11 @@ msgstr "Shift"
 msgid ""
 "_n: Phone call\n"
 "%n phone calls"
-msgstr "%n สายที่โทรเข้า"
+msgstr ""
 
 #: plugins/sms/sms.cpp:95
 msgid "Phone call"
-msgstr "โทรศัพท์"
+msgstr ""
 
 #: plugins/sms/sms.cpp:539
 msgid "Port error"
@@ -5828,12 +5616,11 @@ msgstr ""
 
 #: plugins/sms/smssetup.cpp:58
 msgid "Battery:"
-msgstr "แบตเตอรี่:"
+msgstr ""
 
 #: plugins/sms/smssetupbase.cpp:170
-#, fuzzy
 msgid "SMSSetup"
-msgstr "ปรับแต่ง"
+msgstr "ติดตั้ง SMS"
 
 #: plugins/sms/smssetupbase.cpp:172
 msgid "Baudrate:"
@@ -5841,39 +5628,39 @@ msgstr ""
 
 #: plugins/sms/smssetupbase.cpp:174
 msgid "115200"
-msgstr ""
+msgstr "115200"
 
 #: plugins/sms/smssetupbase.cpp:175
 msgid "38400"
-msgstr ""
+msgstr "38400"
 
 #: plugins/sms/smssetupbase.cpp:176
 msgid "19200"
-msgstr ""
+msgstr "19200"
 
 #: plugins/sms/smssetupbase.cpp:177
 msgid "9600"
-msgstr ""
+msgstr "9600"
 
 #: plugins/sms/smssetupbase.cpp:178
 msgid "4800"
-msgstr ""
+msgstr "4800"
 
 #: plugins/sms/smssetupbase.cpp:179
 msgid "2400"
-msgstr ""
+msgstr "2400"
 
 #: plugins/sms/smssetupbase.cpp:180
 msgid "1200"
-msgstr ""
+msgstr "1200"
 
 #: plugins/sms/smssetupbase.cpp:181
 msgid "600"
-msgstr ""
+msgstr "600"
 
 #: plugins/sms/smssetupbase.cpp:182
 msgid "300"
-msgstr ""
+msgstr "300"
 
 #: plugins/sms/smssetupbase.cpp:183
 msgid "Software handshake"
@@ -5881,21 +5668,19 @@ msgstr ""
 
 #: plugins/sms/smssetupbase.cpp:185
 msgid "Model:"
-msgstr ""
+msgstr "รุ่น:"
 
 #: plugins/sms/smssetupbase.cpp:186
 msgid "Signal quality:"
 msgstr ""
 
 #: plugins/sms/smssetupbase.cpp:188
-#, fuzzy
 msgid "Operator:"
-msgstr "ตัวคั่น"
+msgstr "ผู้ให้บริการ:"
 
 #: plugins/sms/smssetupbase.cpp:189
-#, fuzzy
 msgid "&Phone"
-msgstr "โทรศัพท์"
+msgstr "โ&ทรศัพท์"
 
 #: plugins/sound/sound.cpp:43 plugins/sound/sounduser.cpp:37
 msgid "Sound"
@@ -5918,32 +5703,28 @@ msgid "Online alert"
 msgstr "เตือนเมื่อออนไลน์"
 
 #: plugins/sound/soundconfigbase.cpp:156
-#, fuzzy
 msgid "&Use artsd"
-msgstr "&ไม่เรียง"
+msgstr "ใช้ &artsd"
 
 #: plugins/sound/soundconfigbase.cpp:157
 msgid "Player:"
-msgstr ""
+msgstr "ตัวเล่น:"
 
 #: plugins/sound/soundconfigbase.cpp:158
-#, fuzzy
 msgid "File transfer done:"
-msgstr "การรับ-ส่งแฟ้มถูกปฏิเสธ"
+msgstr "รับ-ส่งแฟ้มเรียบร้อย"
 
 #: plugins/sound/soundconfigbase.cpp:159
-#, fuzzy
 msgid "Message sent:"
-msgstr "ข้อความ"
+msgstr "ส่งข้อความ:"
 
 #: plugins/sound/soundconfigbase.cpp:160
-#, fuzzy
 msgid "Sound on startup:"
-msgstr "สถานะ"
+msgstr "เสียงขณะเริ่มต้นระบบ:"
 
 #: plugins/sound/sounduserbase.cpp:122
 msgid "&Disable all sounds"
-msgstr ""
+msgstr "ปิ&ดเสียง"
 
 #: plugins/sound/sounduserbase.cpp:123
 msgid "No sound if windows has &focus"
@@ -5999,20 +5780,19 @@ msgstr ""
 
 #: plugins/styles/fontconfigbase.cpp:159
 msgid "Use &system fonts"
-msgstr ""
+msgstr "ใช้แบบอักษรของ&ระบบ"
 
 #: plugins/styles/fontconfigbase.cpp:160
 msgid "Base font:"
-msgstr ""
+msgstr "แบบอักษรมาตรฐาน:"
 
 #: plugins/styles/fontconfigbase.cpp:162
-#, fuzzy
 msgid "Button color:"
-msgstr "สีที่กำหนดเ&อง"
+msgstr "สีของปุ่ม:"
 
 #: plugins/styles/fontconfigbase.cpp:164
 msgid "Menu font:"
-msgstr ""
+msgstr "รูปแบบอักษรของเมนู:"
 
 #: plugins/transparent/transparent.cpp:65
 msgid "Transparent"
@@ -6032,11 +5812,11 @@ msgstr "ปลัี๊กอินนี้จะแสดงหน้าต่
 
 #: plugins/transparent/transparentcfgbase.cpp:102
 msgid "Transparency of main window:"
-msgstr ""
+msgstr "ความโปร่งใสของหน้าต่างหลัก:"
 
 #: plugins/transparent/transparentcfgbase.cpp:103
 msgid "Transparent only if inactive"
-msgstr ""
+msgstr "โปร่งใสเท่านั้นหากไม่ทำงาน"
 
 #: plugins/update/update.cpp:40
 msgid "Update"
@@ -6400,7 +6180,7 @@ msgstr ""
 
 #: plugins/weather/weather.cpp:479 plugins/weather/weather.cpp:481
 msgid "m/s"
-msgstr "ไมล์/วินาที"
+msgstr ""
 
 #: plugins/weather/weather.cpp:480 plugins/weather/weather.cpp:481
 msgid "gust "
@@ -6452,7 +6232,7 @@ msgstr "ความรู้สึก"
 
 #: plugins/weather/wifacecfg.cpp:31
 msgid "Humidity"
-msgstr "ความชื้น"
+msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:33
 msgid "Wind direction"
@@ -6460,7 +6240,7 @@ msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:35
 msgid "Wind speed"
-msgstr "ความเร็วลม"
+msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:37
 msgid "Wind gust"
@@ -6468,7 +6248,7 @@ msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:39
 msgid "Wind speed (m/s)"
-msgstr "ความเร็วลม (ไมล์/วินาที)"
+msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:41
 msgid "Wind gust (m/s)"
@@ -6484,11 +6264,11 @@ msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:47
 msgid "Visibility"
-msgstr "ทัศนวิสัย"
+msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:49
 msgid "Dew Point"
-msgstr "หยดน้ำค้าง"
+msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:53
 msgid "Updated"
@@ -6519,23 +6299,20 @@ msgid "Date"
 msgstr "วันที่"
 
 #: plugins/weather/weathercfgbase.cpp:169
-#, fuzzy
 msgid "Location ID:"
-msgstr "สถานที่"
+msgstr "รหัสพื้นที่:"
 
 #: plugins/weather/weathercfgbase.cpp:171
 msgid "You can enter ID as part URL for your location on weather.com"
-msgstr ""
+msgstr "คุณสามารถใส่ ID พื้นที่ของคุณ เป็นส่วนหนึ่งของ URL ได้ที่ weather.com"
 
 #: plugins/weather/weathercfgbase.cpp:173
-#, fuzzy
 msgid "Metric"
-msgstr "เฉื่อยชา"
+msgstr "ระบบเมตริก"
 
 #: plugins/weather/weathercfgbase.cpp:174
-#, fuzzy
 msgid "Standart"
-msgstr "รัฐ"
+msgstr ""
 
 #: plugins/weather/weathercfgbase.cpp:175
 msgid "Forecast days:"
@@ -6547,7 +6324,7 @@ msgstr ""
 
 #: plugins/weather/wifacecfgbase.cpp:140
 msgid "Button text:"
-msgstr ""
+msgstr "ข้อความบนปุ่ม:"
 
 #: plugins/weather/wifacecfgbase.cpp:141
 msgid "Button tip:"
@@ -6628,18 +6405,16 @@ msgid "Yahoo! ID"
 msgstr "Yahoo! ID"
 
 #: plugins/yahoo/yahoocfgbase.cpp:236
-#, fuzzy
 msgid "&Yahoo!"
-msgstr "Yahoo!"
+msgstr "&Yahoo!"
 
 #: plugins/yahoo/yahoosearchbase.cpp:157
-#, fuzzy
 msgid "Yahoo! &ID"
-msgstr "Yahoo! ID"
+msgstr "Yahoo! &ID"
 
 #: plugins/yahoo/yahoosearchbase.cpp:159
 msgid "&Keyword"
-msgstr ""
+msgstr "คำค้น&หา"
 
 #: plugins/zodiak/zodiak.cpp:50
 msgid "Zodiak"
@@ -6656,15 +6431,15 @@ msgstr "ดูโชคชะตา"
 
 #: plugins/zodiak/zodiak.cpp:179
 msgid "Aries"
-msgstr "ราศีเมษ"
+msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:180
 msgid "Taurus"
-msgstr "ราศีพฤษภ"
+msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:181
 msgid "Gemini"
-msgstr "ราศีเมถุน"
+msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:182
 msgid "Cancer"
@@ -6672,19 +6447,19 @@ msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:183
 msgid "Leo"
-msgstr "ราศีสิงห์"
+msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:184
 msgid "Virgo"
-msgstr "ราศีกันย์"
+msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:185
 msgid "Libra"
-msgstr "ราศีตุล"
+msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:186
 msgid "Scorpio"
-msgstr "ราศีพฤศจิก"
+msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:187
 msgid "Saqittarius"
@@ -6696,7 +6471,7 @@ msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:189
 msgid "Aquarius"
-msgstr "ราศีกุมภ์"
+msgstr ""
 
 #: plugins/zodiak/zodiak.cpp:190
 msgid "Pisces"
@@ -6721,7 +6496,7 @@ msgstr "ผู้พัฒนา"
 
 #: sim/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
-msgstr "SIM-ICQ - โปรแกรมสื่อสารหลากหลายโพรโตคอล"
+msgstr ""
 
 #: sim/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."
@@ -8023,8 +7798,9 @@ msgid "Hu&e:"
 msgstr ""
 
 #: sim/qt3/i18n.cpp:3
+#, fuzzy
 msgid "&Sat:"
-msgstr ""
+msgstr "เสาร์"
 
 #: sim/qt3/i18n.cpp:5
 msgid "&Val:"
@@ -8310,7 +8086,7 @@ msgstr "เลือกแบบอักษร"
 
 #: sim/qt3/i18n.cpp:177
 msgid "<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ GUI toolkit from Trolltech. Qt provides single-source portability across Windows 95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix with X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more information.</p>"
-msgstr "<h3>เกี่ยวกับ Qt</h3><p>โปรแกรมนี้ใช้ Qt รุ่น %1, C++ หลากหลายแพตฟอร์ม ทูลกิต (toolkit) GUI จาก Trolltech. Qt ได้เตรียมการพอร์ตซอร์สเดี่ยว (single source) บน Windows 95/98/NT/2000, Linux, Solaris, HP-UX และรุ่นอื่นๆของยูนิกซ์ที่ทำงานบน X11.</p><p>เชิญเยี่ยมชม <tt>http://www.trolltech.com/qt/</tt> สำหรับข้อมูลเพิ่มเติม</p>"
+msgstr ""
 
 #: sim/qt3/i18n.cpp:183
 msgid "Help"
@@ -8499,8 +8275,9 @@ msgid "Minimize"
 msgstr "ย่อหน้าต่าง"
 
 #: sim/qt3/i18n.cpp:293
+#, fuzzy
 msgid "Restore Down"
-msgstr ""
+msgstr "เรีย&กคืน"
 
 #: sim/qt3/i18n.cpp:295
 msgid "Maximize"
@@ -8511,8 +8288,9 @@ msgid "Roll up"
 msgstr "ม้วนขึ้น"
 
 #: sim/qt3/i18n.cpp:299
+#, fuzzy
 msgid "Restore Up"
-msgstr ""
+msgstr "เรีย&กคืน"
 
 #: sim/qt3/i18n.cpp:301
 msgid "Roll down"
@@ -8521,3 +8299,21 @@ msgstr "ม้วนลง"
 #: xpstyle/xpstyle.cpp:63
 msgid "Windows XP style"
 msgstr "ลักษณะแบบ Windows XP"
+
+#~ msgid "Last name"
+#~ msgstr "นามสกุล"
+
+#~ msgid "Last name:"
+#~ msgstr "นามสกุล:"
+
+#~ msgid "Smiles:"
+#~ msgstr "รอยยิ้ม:"
+
+#~ msgid "Log &On"
+#~ msgstr "เข้า&ระบบ"
+
+#~ msgid "Log O&ff"
+#~ msgstr "&ออกระบบ"
+
+#~ msgid "&Unregister"
+#~ msgstr "ยังไม่ได้ลง&ทะเบียน"

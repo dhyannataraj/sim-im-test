@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sim\n"
-"POT-Creation-Date: 2004-07-24 22:15+0200\n"
+"POT-Creation-Date: 2004-07-25 11:36+0200\n"
 "PO-Revision-Date: 2004-05-22 21:40+0100\n"
 "Last-Translator: Kroly Barcza (VectoR) <kbarcza@blackpanther.hu>\n"
 "Language-Team: Hungarian <translator@vgroup.hu>\n"
@@ -2364,9 +2364,8 @@ msgid "Key:"
 msgstr "Kulcs:"
 
 #: plugins/gpg/passphrasebase.cpp:87
-#, fuzzy
 msgid "Input passphrase"
-msgstr "Add meg ismét a jelszót:"
+msgstr ""
 
 #: plugins/gpg/passphrasebase.cpp:89
 #, fuzzy
@@ -3937,9 +3936,8 @@ msgid "AOL s&creenname"
 msgstr "AIM-neved:"
 
 #: plugins/icq/icqsearchbase.cc:193
-#, fuzzy
 msgid "ICQ &UIN"
-msgstr "UIN"
+msgstr ""
 
 #: plugins/icq/icqsearchbase.cc:194
 #, fuzzy
@@ -3974,9 +3972,8 @@ msgid "Affilations"
 msgstr "A&ffilation"
 
 #: plugins/icq/advsearchbase.cc:293
-#, fuzzy
 msgid "Keywords"
-msgstr "&Hálózat"
+msgstr ""
 
 #: plugins/icq/advsearchbase.cc:294
 msgid "Search &online users only"
@@ -5446,11 +5443,10 @@ msgid ""
 msgstr "%1 kapcsolódott"
 
 #: plugins/osd/osd.cpp:413
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 doesn't want to be disturbed"
-msgstr "%1 kapcsolódott"
+msgstr ""
 
 #: plugins/osd/osd.cpp:414
 #, fuzzy
@@ -5659,6 +5655,7 @@ msgid "Use &TCP socket"
 msgstr "TCP socket használat"
 
 #: plugins/remote/remotecfgbase.cpp:140
+#, fuzzy
 msgid "Enable IE context menu extension"
 msgstr "IE context menü kiterjesztés bekapcsolása"
 
@@ -6645,8 +6642,9 @@ msgid "Zodiak"
 msgstr "Zodiak"
 
 #: plugins/zodiak/zodiak.cpp:51
+#, fuzzy
 msgid "Plugin provides show zodiak pictures for date edit"
-msgstr "Plugin provides show zodiak pictures for date edit"
+msgstr "Plugin a felhasználó lista hátteréhez"
 
 #: plugins/zodiak/zodiak.cpp:158
 msgid "View horoscope"

@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
-"POT-Creation-Date: 2004-07-24 22:15+0200\n"
+"POT-Creation-Date: 2004-07-25 11:36+0200\n"
 "PO-Revision-Date: 2004-06-16 14:43+0100\n"
 "Last-Translator: Jiří Jureček <jjure@users.sourceforge.net>\n"
 "Language-Team:  <C@li.org>\n"
@@ -5628,6 +5628,7 @@ msgid "Use &TCP socket"
 msgstr "Použít &TCP soket"
 
 #: plugins/remote/remotecfgbase.cpp:140
+#, fuzzy
 msgid "Enable IE context menu extension"
 msgstr "Povolit rozšíření kontextového menu IE"
 
@@ -6580,8 +6581,9 @@ msgid "Zodiak"
 msgstr "Horoskop"
 
 #: plugins/zodiak/zodiak.cpp:51
+#, fuzzy
 msgid "Plugin provides show zodiak pictures for date edit"
-msgstr "Plugin poskytuje zobrazování obrázků horoskopu"
+msgstr "Plugin poskytuje obrázky na pozadí seznamu uživatelů"
 
 #: plugins/zodiak/zodiak.cpp:158
 msgid "View horoscope"
@@ -8468,7 +8470,7 @@ msgstr "Styl Windows XP"
 
 #, fuzzy
 #~ msgid "URL"
-#~ msgstr "URL:"
+#~ msgstr "&URL"
 
 #, fuzzy
 #~ msgid "Authorize request"
@@ -8519,7 +8521,7 @@ msgstr "Styl Windows XP"
 
 #, fuzzy
 #~ msgid "%n day"
-#~ msgstr "Neděle"
+#~ msgstr "Pondělí"
 
 #, fuzzy
 #~ msgid "LiveJournal post"

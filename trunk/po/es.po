@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the SIM package.
 # Copyright (C) 2004
 #
-# $Id: es.po,v 1.161 2004-07-24 20:31:23 thermoman Exp $
+# $Id: es.po,v 1.162 2004-07-25 09:56:41 thermoman Exp $
 # Jorge Lopez Trescastro <jorge@acm.asoc.fi.upm.es>, 2002, 2003, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: SIM\n"
-"POT-Creation-Date: 2004-07-24 22:22+0200\n"
+"POT-Creation-Date: 2004-07-25 11:36+0200\n"
 "PO-Revision-Date: 2004-07-02 04:59+0200\n"
 "Last-Translator: Jorge Lopez Trescastro <jorge@acm.asoc.fi.upm.es>\n"
 "Language-Team: sim-es <jorge@acm.asoc.fi.upm.es>\n"
@@ -1489,12 +1489,13 @@ msgid "&Source"
 msgstr "&Fuente"
 
 #: plugins/_core/maininfobase.cpp:246 plugins/_core/nonimbase.cpp:126 plugins/icq/aiminfobase.cc:287 plugins/icq/icqinfobase.cc:343 plugins/jabber/discoinfobase.cpp:314 plugins/jabber/jabberinfobase.cpp:299 plugins/yahoo/yahooinfobase.cpp:186
+#, fuzzy
 msgid "First Name:"
 msgstr "Nombre:"
 
 #: plugins/_core/maininfobase.cpp:247 plugins/_core/nonimbase.cpp:127 plugins/icq/aiminfobase.cc:288 plugins/icq/icqinfobase.cc:340 plugins/yahoo/yahooinfobase.cpp:187
 msgid "Last Name:"
-msgstr "Apellidos:"
+msgstr "Apellido:"
 
 #: plugins/_core/maininfobase.cpp:248
 msgid "Display:"
@@ -2897,12 +2898,14 @@ msgid "Nick"
 msgstr "Apodo"
 
 #: plugins/icq/icqsearch.cpp:299 plugins/jabber/jabberadd.cpp:279 plugins/jabber/jabbersearch.cpp:104 plugins/jabber/jabbersearch.cpp:304
+#, fuzzy
 msgid "First Name"
 msgstr "Nombre"
 
 #: plugins/icq/icqsearch.cpp:301 plugins/jabber/jabberadd.cpp:280 plugins/jabber/jabbersearch.cpp:105 plugins/jabber/jabbersearch.cpp:305
+#, fuzzy
 msgid "Last Name"
-msgstr "Apellido"
+msgstr "Apellido:"
 
 #: plugins/icq/icqsearch.cpp:304 plugins/jabber/jabbersearch.cpp:108
 msgid "City"
@@ -4407,9 +4410,8 @@ msgid "DiscoInfo"
 msgstr "DiscoInfo"
 
 #: plugins/jabber/discoinfobase.cpp:297
-#, fuzzy
 msgid "Namespaces:"
-msgstr "Nombre:"
+msgstr ""
 
 #: plugins/jabber/discoinfobase.cpp:298
 msgid "Category:"
@@ -5096,9 +5098,8 @@ msgid "Enable comments"
 msgstr "Habilitar comentarios"
 
 #: plugins/livejournal/msgjournalbase.cpp:124
-#, fuzzy
 msgid "No email comments"
-msgstr "Habilitar comentarios"
+msgstr ""
 
 #: plugins/livejournal/msgjournalbase.cpp:125
 msgid "Disable comments"
@@ -6412,14 +6413,12 @@ msgid "Button text:"
 msgstr "Texto del botón"
 
 #: plugins/weather/wifacecfgbase.cpp:141
-#, fuzzy
 msgid "Button tip:"
-msgstr "Texto del botón"
+msgstr ""
 
 #: plugins/weather/wifacecfgbase.cpp:142
-#, fuzzy
 msgid "Forecast tip:"
-msgstr "Días de pronóstico:"
+msgstr ""
 
 #: plugins/windock/windock.cpp:44
 msgid "Plugin provides dock main window to left or right side of screen"
@@ -6510,8 +6509,9 @@ msgid "Zodiak"
 msgstr "Horóscopo"
 
 #: plugins/zodiak/zodiak.cpp:51
+#, fuzzy
 msgid "Plugin provides show zodiak pictures for date edit"
-msgstr ""
+msgstr "Este plugin permite tener imagenes de fondo en la lista de usuarios"
 
 #: plugins/zodiak/zodiak.cpp:158
 msgid "View horoscope"
@@ -8391,7 +8391,7 @@ msgstr "Estilo Windows XP"
 
 #, fuzzy
 #~ msgid "URL"
-#~ msgstr "URL:"
+#~ msgstr "&URL"
 
 #, fuzzy
 #~ msgid "Authorize request"
@@ -8439,7 +8439,7 @@ msgstr "Estilo Windows XP"
 
 #, fuzzy
 #~ msgid "%n day"
-#~ msgstr "Domingo"
+#~ msgstr "Lunes"
 
 #, fuzzy
 #~ msgid "LiveJournal post"
@@ -8452,3 +8452,9 @@ msgstr "Estilo Windows XP"
 #, fuzzy
 #~ msgid "weather"
 #~ msgstr "Tiempo"
+
+#~ msgid "Last name"
+#~ msgstr "Apellido"
+
+#~ msgid "Last name:"
+#~ msgstr "Apellidos:"

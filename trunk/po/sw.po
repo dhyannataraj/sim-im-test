@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: swabian\n"
-"POT-Creation-Date: 2004-07-24 22:26+0200\n"
+"POT-Creation-Date: 2004-07-25 11:36+0200\n"
 "PO-Revision-Date: 2004-05-02 14:30+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: schwäbisch <swabian@li.org>\n"
@@ -1500,6 +1500,7 @@ msgid "&Source"
 msgstr "&Quelle"
 
 #: plugins/_core/maininfobase.cpp:246 plugins/_core/nonimbase.cpp:126 plugins/icq/aiminfobase.cc:287 plugins/icq/icqinfobase.cc:343 plugins/jabber/discoinfobase.cpp:314 plugins/jabber/jabberinfobase.cpp:299 plugins/yahoo/yahooinfobase.cpp:186
+#, fuzzy
 msgid "First Name:"
 msgstr "Vorname:"
 
@@ -2923,10 +2924,12 @@ msgid "Nick"
 msgstr "Niggname:"
 
 #: plugins/icq/icqsearch.cpp:299 plugins/jabber/jabberadd.cpp:279 plugins/jabber/jabbersearch.cpp:104 plugins/jabber/jabbersearch.cpp:304
+#, fuzzy
 msgid "First Name"
 msgstr "Vorname:"
 
 #: plugins/icq/icqsearch.cpp:301 plugins/jabber/jabberadd.cpp:280 plugins/jabber/jabbersearch.cpp:105 plugins/jabber/jabbersearch.cpp:305
+#, fuzzy
 msgid "Last Name"
 msgstr "Nachname:"
 
@@ -5305,9 +5308,8 @@ msgid "Mailer:"
 msgstr "Mailr:"
 
 #: plugins/navigate/navcfgbase.cc:102
-#, fuzzy
 msgid "Open links in &new window"
-msgstr "A&lle Benudzr &en oim Condainr effna"
+msgstr ""
 
 #: plugins/netmonitor/monitor.cpp:51 plugins/netmonitor/netmonitor.cpp:33 plugins/netmonitor/netmonitor.cpp:82
 msgid "Network monitor"
@@ -5443,11 +5445,10 @@ msgid ""
 msgstr "%1 ischd online"
 
 #: plugins/osd/osd.cpp:413
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 doesn't want to be disturbed"
-msgstr "%1 ischd online"
+msgstr ""
 
 #: plugins/osd/osd.cpp:414
 #, fuzzy
@@ -6592,8 +6593,9 @@ msgid "Zodiak"
 msgstr "Schdernzeicha"
 
 #: plugins/zodiak/zodiak.cpp:51
+#, fuzzy
 msgid "Plugin provides show zodiak pictures for date edit"
-msgstr "Blugin schdelld des Anzeiga von Schdernzeicha-Bildern zom Ändern des Dadoms bereid"
+msgstr "Dieses Blugin ermeglichd des Oifiga von Hendergrondbildern fir d Benudzerlischde"
 
 #: plugins/zodiak/zodiak.cpp:158
 msgid "View horoscope"
@@ -8590,3 +8592,9 @@ msgstr "Wendows XB-Schdil"
 #, fuzzy
 #~ msgid "%1 wrote:"
 #~ msgstr "%1 schreibd"
+
+#~ msgid "Last name"
+#~ msgstr "Nachname:"
+
+#~ msgid "Last name:"
+#~ msgstr "Nachname:"

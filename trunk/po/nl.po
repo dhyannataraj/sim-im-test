@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
-"POT-Creation-Date: 2004-07-24 22:25+0200\n"
+"POT-Creation-Date: 2004-07-25 11:36+0200\n"
 "PO-Revision-Date: 2004-05-02 14:30+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: Nederlands <i18n@kde.nl>\n"
@@ -1629,9 +1629,8 @@ msgid "Keep history "
 msgstr "Opslaan als"
 
 #: plugins/_core/historycfgbase.cpp:233 plugins/_core/userhistorycfgbase.cpp:126
-#, fuzzy
 msgid "days"
-msgstr "Monaco"
+msgstr ""
 
 #: plugins/_core/historycfgbase.cpp:239
 #, fuzzy
@@ -1644,9 +1643,8 @@ msgid "50"
 msgstr "50's"
 
 #: plugins/_core/historycfgbase.cpp:241
-#, fuzzy
 msgid "20"
-msgstr "100000"
+msgstr ""
 
 #: plugins/_core/historycfgbase.cpp:243
 #, fuzzy
@@ -1659,11 +1657,11 @@ msgid "&Source"
 msgstr "Sport"
 
 #: plugins/_core/maininfobase.cpp:246 plugins/_core/nonimbase.cpp:126 plugins/icq/aiminfobase.cc:287 plugins/icq/icqinfobase.cc:343 plugins/jabber/discoinfobase.cpp:314 plugins/jabber/jabberinfobase.cpp:299 plugins/yahoo/yahooinfobase.cpp:186
+#, fuzzy
 msgid "First Name:"
 msgstr "Voornaam:"
 
 #: plugins/_core/maininfobase.cpp:247 plugins/_core/nonimbase.cpp:127 plugins/icq/aiminfobase.cc:288 plugins/icq/icqinfobase.cc:340 plugins/yahoo/yahooinfobase.cpp:187
-#, fuzzy
 msgid "Last Name:"
 msgstr "Achternaam:"
 
@@ -1899,9 +1897,8 @@ msgid "New connection"
 msgstr "Directe verbinding"
 
 #: plugins/_core/newprotocolbase.cpp:68
-#, fuzzy
 msgid "Protocol:"
-msgstr "Puerto Rico"
+msgstr ""
 
 #: plugins/_core/newprotocolbase.cpp:69
 #, fuzzy
@@ -2522,9 +2519,8 @@ msgid "&Refresh"
 msgstr "&Weigeren"
 
 #: plugins/gpg/gpgadvbase.cpp:156
-#, fuzzy
 msgid "Command arguments"
-msgstr "Telefoonstatus"
+msgstr ""
 
 #: plugins/gpg/gpgadvbase.cpp:157
 #, fuzzy
@@ -4058,9 +4054,8 @@ msgid "External IP:"
 msgstr ""
 
 #: plugins/icq/aiminfobase.cc:304 plugins/icq/icqinfobase.cc:350
-#, fuzzy
 msgid "Internal IP:"
-msgstr "Internet"
+msgstr ""
 
 #: plugins/icq/aiminfobase.cc:301 plugins/icq/icqinfobase.cc:351 plugins/proxy/proxycfgbase.cpp:168
 #, fuzzy
@@ -4801,9 +4796,8 @@ msgid "Automatically send &subscribe request"
 msgstr "Onzichtbaar"
 
 #: plugins/jabber/jabberconfigbase.cpp:375
-#, fuzzy
 msgid "Automatically &accept subscribe requests"
-msgstr "Onzichtbaar"
+msgstr ""
 
 #: plugins/jabber/jabberconfigbase.cpp:376
 #, fuzzy
@@ -5582,9 +5576,8 @@ msgid "Public"
 msgstr "Publiceren"
 
 #: plugins/livejournal/msgjournalbase.cpp:117
-#, fuzzy
 msgid "Friends-Only"
-msgstr "Bericht %1 lezen"
+msgstr ""
 
 #: plugins/livejournal/msgjournalbase.cpp:118
 #, fuzzy
@@ -5917,11 +5910,10 @@ msgid ""
 msgstr "%1 is online"
 
 #: plugins/osd/osd.cpp:413
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 doesn't want to be disturbed"
-msgstr "%1 is online"
+msgstr ""
 
 #: plugins/osd/osd.cpp:414
 #, fuzzy
@@ -6293,9 +6285,8 @@ msgid "115200"
 msgstr "100000"
 
 #: plugins/sms/smssetupbase.cpp:175
-#, fuzzy
 msgid "38400"
-msgstr "100000"
+msgstr ""
 
 #: plugins/sms/smssetupbase.cpp:176
 #, fuzzy
@@ -6303,18 +6294,16 @@ msgid "19200"
 msgstr "100000"
 
 #: plugins/sms/smssetupbase.cpp:177
-#, fuzzy
 msgid "9600"
-msgstr "100000"
+msgstr ""
 
 #: plugins/sms/smssetupbase.cpp:178
 msgid "4800"
 msgstr ""
 
 #: plugins/sms/smssetupbase.cpp:179
-#, fuzzy
 msgid "2400"
-msgstr "100000"
+msgstr ""
 
 #: plugins/sms/smssetupbase.cpp:180
 #, fuzzy
@@ -7080,9 +7069,8 @@ msgid "Forecast days:"
 msgstr ""
 
 #: plugins/weather/weathercfgbase.cpp:176
-#, fuzzy
 msgid "Units:"
-msgstr "UIN:"
+msgstr ""
 
 #: plugins/weather/wifacecfgbase.cpp:140
 #, fuzzy
@@ -9280,3 +9268,11 @@ msgstr "Contactlijst verzonden"
 #, fuzzy
 #~ msgid "%1 wrote:"
 #~ msgstr "%1 is online"
+
+#, fuzzy
+#~ msgid "Last name"
+#~ msgstr "Achternaam:"
+
+#, fuzzy
+#~ msgid "Last name:"
+#~ msgstr "Achternaam:"
