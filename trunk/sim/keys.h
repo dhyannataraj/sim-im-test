@@ -21,6 +21,10 @@
 #ifndef KEYS_H
 #define KEYS_H	1
 
+#ifdef USE_KDE
+class KGlobalAccel;
+#endif
+
 class HotKeys : public QObject
 {
     Q_OBJECT
@@ -37,12 +41,20 @@ signals:
     void toggleWindow();
     void dblClick();
     void showSearch();
+protected slots:
+    void slotToggleWindow();
+    void slotDblClick();
+    void slotShowSearch();
 protected:
 #ifdef WIN32
     QWidget *wnd;
     int keyWindow;
     int keyDblClick;
     int keySearch;
+#else
+#ifdef USE_KDE
+    KGlobalAccel *accel;
+#endif
 #endif
 };
 

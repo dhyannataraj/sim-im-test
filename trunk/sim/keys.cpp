@@ -18,6 +18,7 @@
 #include "defs.h"
 #include "keys.h"
 #include "mainwin.h"
+#include "log.h"
 
 #include <qnamespace.h>
 #include <string>
@@ -26,6 +27,11 @@ using namespace std;
 
 #ifdef WIN32
 #include <windows.h>
+#else
+#ifdef USE_KDE
+#include <kglobalaccel.h>
+#include <kshortcut.h>
+#endif
 #endif
 
 typedef struct key_name
@@ -335,6 +341,47 @@ static void getKey(const char *key_str, int &mod, int &key)
         }
 }
 
+#else
+#ifdef USE_KDE
+
+int str2key(const char *key_str)
+{
+    int res = 0;
+    string k = key_str;
+    char *p;
+    for (p = (char*)k.c_str(); *p; p++)
+        *p = tolower(*p);
+    char CTRL[] = "ctrl-";
+    char SHIFT[] = "shift-";
+    char ALT[] = "alt-";
+    p = (char*)k.c_str();
+    for (;;){
+        if (!memcmp(p, CTRL, strlen(CTRL))){
+            res |= KKey::CTRL;
+            p += strlen(CTRL);
+            continue;
+        }
+        if (!memcmp(p, ALT, strlen(ALT))){
+            res |= KKey::ALT;
+            p += strlen(ALT);
+            continue;
+        }
+        if (!memcmp(p, SHIFT, strlen(SHIFT))){
+            res |= KKey::SHIFT;
+            p += strlen(SHIFT);
+            continue;
+        }
+        break;
+    }
+    for (const key_name *kk = keys; kk->code; kk++)
+        if (strcasecmp(kk->name, p) == 0){
+            res |= kk->code;
+            return res;
+        }
+    return 0;
+}
+
+#endif
 #endif
 
 HotKeys::HotKeys(QWidget *parent, const char *name)
@@ -347,6 +394,10 @@ HotKeys::HotKeys(QWidget *parent, const char *name)
     oldKeysProc = (WNDPROC)SetWindowLongW(wnd->winId(), GWL_WNDPROC, (LONG)KeysWindowProc);
     if (oldKeysProc == 0)
         oldKeysProc = (WNDPROC)SetWindowLongA(wnd->winId(), GWL_WNDPROC, (LONG)KeysWindowProc);
+#else
+#ifdef USE_KDE
+    accel = new KGlobalAccel(this);
+#endif
 #endif
     regKeys();
 }
@@ -378,6 +429,24 @@ void HotKeys::regKeys()
         keySearch	= GlobalAddAtomA("sim_search");
         RegisterHotKey(wnd->winId(), keySearch, mod, key);
     }
+#else
+#ifdef USE_KDE
+    int keys;
+    keys = str2key(pMain->KeyWindow.c_str());
+    if (keys)
+        accel->insert("sim_window", "Show/hide main window", "Show/hide main window",
+                      keys, keys, this, SLOT(slotToggleWindow()));
+    keys = str2key(pMain->KeyDblClick.c_str());
+    if (keys)
+        accel->insert("sim_dblclick", "Double click on dock", "Double click on dock",
+                      keys, keys, this, SLOT(slotDblClick()));
+    keys = str2key(pMain->KeySearch.c_str());
+    if (keys)
+        accel->insert("sim_search", "Show search window", "Show search window",
+                      keys, keys, this, SLOT(slotShowSearch()));
+    accel->updateConnections();
+
+#endif
 #endif
 }
 
@@ -399,6 +468,13 @@ void HotKeys::unregKeys()
         DeleteAtom(keySearch);
         keyWindow = 0;
     }
+#else
+#ifdef USE_KDE
+    accel->remove("sim_window");
+    accel->remove("sim_dblclick");
+    accel->remove("sim_search");
+    accel->updateConnections();
+#endif
 #endif
 }
 
@@ -413,6 +489,21 @@ void HotKeys::hotKey(int k)
         emit showSearch();
 }
 #endif
+
+void HotKeys::slotToggleWindow()
+{
+    emit toggleWindow();
+}
+
+void HotKeys::slotDblClick()
+{
+    emit dblClick();
+}
+
+void HotKeys::slotShowSearch()
+{
+    emit showSearch();
+}
 
 #ifndef _WINDOWS
 #include "keys.moc"
