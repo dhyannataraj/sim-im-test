@@ -294,6 +294,10 @@ void UserListBase::drawUpdates()
     m_bDirty = false;
     updTimer->stop();
     QListViewItem *item;
+    int x = contentsX();
+    int y = contentsY();
+    viewport()->setUpdatesEnabled(false);
+    bool bChanged = false;
     list<unsigned long>::iterator it;
     for (it = updGroups.begin(); it != updGroups.end(); ++it){
         Group *group = getContacts()->group(*it);
@@ -305,13 +309,16 @@ void UserListBase::drawUpdates()
             if (item){
                 if (!m_bShowEmpty && (item->firstChild() == NULL)){
                     delete item;
+                    bChanged = true;
                 }else{
                     static_cast<GroupItem*>(item)->update(group);
-                    repaintItem(item);
+                    addUpdatedItem(item);
                 }
             }else{
-                if (m_bShowEmpty)
+                if (m_bShowEmpty){
                     new GroupItem(this, group, true);
+                    bChanged = true;
+                }
             }
             break;
         case 2:
@@ -323,13 +330,16 @@ void UserListBase::drawUpdates()
                 if (grpItem){
                     if (!m_bShowEmpty && (item->firstChild() == NULL)){
                         delete grpItem;
+                        bChanged = true;
                     }else{
                         grpItem->update(group);
-                        repaintItem(grpItem);
+                        addUpdatedItem(grpItem);
                     }
                 }else{
-                    if (m_bShowEmpty)
+                    if (m_bShowEmpty){
                         new GroupItem(divItem, group, divItem->state() == DIV_OFFLINE);
+                        bChanged = true;
+                    }
                 }
             }
             break;
@@ -372,6 +382,7 @@ void UserListBase::drawUpdates()
                     contactItem = findContactItem(contact->id(), itemOnline);
                     if (contactItem){
                         deleteItem(contactItem);
+                        bChanged = true;
                         if (itemOnline->firstChild() == NULL){
                             deleteItem(itemOnline);
                             itemOnline = NULL;
@@ -383,6 +394,7 @@ void UserListBase::drawUpdates()
                         contactItem = findContactItem(contact->id(), itemOffline);
                         if (contactItem){
                             deleteItem(contactItem);
+                            bChanged = true;
                             if (itemOffline->firstChild() == NULL){
                                 deleteItem(itemOffline);
                                 itemOffline = NULL;
@@ -394,20 +406,23 @@ void UserListBase::drawUpdates()
                 if (itemOffline == NULL){
                     itemOffline = new DivItem(this, DIV_OFFLINE);
                     setOpen(itemOffline, true);
+                    bChanged = true;
                 }
                 contactItem = findContactItem(contact->id(), itemOffline);
                 if (contactItem){
                     if (contactItem->update(contact, status, style, icons.c_str(), unread))
                         addSortItem(itemOffline);
-                    repaintItem(contactItem);
+                    addUpdatedItem(contactItem);
                 }else{
                     contactItem = new ContactItem(itemOffline, contact, status, style, icons.c_str(), unread);
+                    bChanged = true;
                 }
             }else{
                 if (itemOffline){
                     contactItem = findContactItem(contact->id(), itemOffline);
                     if (contactItem){
                         deleteItem(contactItem);
+                        bChanged = true;
                         if (itemOffline->firstChild() == NULL){
                             deleteItem(itemOffline);
                             itemOffline = NULL;
@@ -417,14 +432,16 @@ void UserListBase::drawUpdates()
                 if (itemOnline == NULL){
                     itemOnline = new DivItem(this, DIV_ONLINE);
                     setOpen(itemOnline, true);
+                    bChanged = true;
                 }
                 contactItem = findContactItem(contact->id(), itemOnline);
                 if (contactItem){
                     if (contactItem->update(contact, status, style, icons.c_str(), unread))
                         addSortItem(itemOnline);
-                    repaintItem(contactItem);
+                    addUpdatedItem(contactItem);
                 }else{
                     contactItem = new ContactItem(itemOnline, contact, status, style, icons.c_str(), unread);
+                    bChanged = true;
                 }
             }
             break;
@@ -440,6 +457,7 @@ void UserListBase::drawUpdates()
                         grpItem->m_nContactsOnline--;
                     addGroupForUpdate(grpItem->id());
                     deleteItem(contactItem);
+                    bChanged = true;
                     if (!m_bShowEmpty && (grpItem->firstChild() == NULL))
                         delete grpItem;
                     contactItem = NULL;
@@ -451,15 +469,17 @@ void UserListBase::drawUpdates()
                     grpItem = findGroupItem(contact->getGroup());
                     if (grpItem == NULL){
                         Group *grp = getContacts()->group(contact->getGroup());
-                        if (grp)
+                        if (grp){
                             grpItem = new GroupItem(this, grp, true);
+                            bChanged = true;
+                        }
                     }
                 }
                 if (grpItem){
                     if (contactItem){
                         if (contactItem->update(contact, status, style, icons.c_str(), unread))
                             addSortItem(grpItem);
-                        repaintItem(contactItem);
+                        addUpdatedItem(contactItem);
                         if (!m_bShowOnline &&
                                 (contactItem->m_bOnline != (status > STATUS_OFFLINE))){
                             if (status <= STATUS_OFFLINE){
@@ -472,6 +492,7 @@ void UserListBase::drawUpdates()
                             addGroupForUpdate(grpItem->id());
                         }
                     }else{
+                        bChanged = true;
                         contactItem = new ContactItem(grpItem, contact, status, style, icons.c_str(), unread);
                         grpItem->m_nContacts++;
                         if (!m_bShowOnline && (status > STATUS_OFFLINE)){
@@ -492,6 +513,7 @@ void UserListBase::drawUpdates()
                     grpItem->m_nContacts--;
                     addGroupForUpdate(grpItem->id());
                     deleteItem(contactItem);
+                    bChanged = true;
                     if (!m_bShowEmpty && (grpItem->firstChild() == NULL))
                         delete grpItem;
                     grpItem = NULL;
@@ -508,6 +530,7 @@ void UserListBase::drawUpdates()
                         addGroupForUpdate(grpItem->id());
                         deleteItem(contactItem);
                         contactItem = NULL;
+                        bChanged = true;
                         if (m_bShowOnline && (grpItem->firstChild() == NULL)){
                             deleteItem(grpItem);
                             grpItem = NULL;
@@ -524,6 +547,7 @@ void UserListBase::drawUpdates()
             DivItem *divItem;
             if (status <= STATUS_OFFLINE){
                 if (itemOffline == NULL){
+                    bChanged = true;
                     itemOffline = new DivItem(this, DIV_OFFLINE);
                     setOpen(itemOffline, true);
                 }
@@ -536,6 +560,7 @@ void UserListBase::drawUpdates()
                 Group *grp = getContacts()->group(contact->getGroup());
                 if (grp == NULL)
                     break;
+                bChanged = true;
                 grpItem = new GroupItem(divItem, grp, true);
                 addSortItem(divItem);
             }
@@ -544,6 +569,7 @@ void UserListBase::drawUpdates()
                 if (contactItem->update(contact, status, style, icons.c_str(), unread))
                     addSortItem(grpItem);
             }else{
+                bChanged = true;
                 new ContactItem(grpItem, contact, status, style, icons.c_str(), unread);
                 grpItem->m_nContacts++;
                 addGroupForUpdate(grpItem->id());
@@ -552,9 +578,21 @@ void UserListBase::drawUpdates()
     }
     updContacts.clear();
     for (list<QListViewItem*>::iterator it_sort = sortItems.begin(); it_sort != sortItems.end(); ++it_sort){
+        if ((*it_sort)->firstChild() == NULL)
+            continue;
         (*it_sort)->sort();
+        bChanged = true;
     }
     sortItems.clear();
+    center(x, y, 0, 0);
+    viewport()->setUpdatesEnabled(true);
+    if (bChanged){
+        viewport()->repaint();
+    }else{
+        for (list<QListViewItem*>::iterator it = updatedItems.begin(); it != updatedItems.end(); ++it)
+            (*it)->repaint();
+    }
+    updatedItems.clear();
 }
 
 const unsigned UPDATE_TIME = 800;
@@ -619,6 +657,15 @@ void UserListBase::addSortItem(QListViewItem *item)
             return;
     }
     sortItems.push_back(item);
+}
+
+void UserListBase::addUpdatedItem(QListViewItem *item)
+{
+    for (list<QListViewItem*>::iterator it = updatedItems.begin(); it != updatedItems.end(); ++it){
+        if ((*it) == item)
+            return;
+    }
+    updatedItems.push_back(item);
 }
 
 unsigned UserListBase::getUnread(unsigned)

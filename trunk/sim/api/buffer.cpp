@@ -719,7 +719,7 @@ string Buffer::getSection(bool bSkip)
     /* when current line starts with '[' we have a section
        without any data */
     if (*p == '[') {
-    	return section;
+        return section;
     }
     /* put m_posWrite to (next section start) - 1 */
     for (; m_posWrite < m_size; p++, m_posWrite++){

@@ -116,14 +116,6 @@ SOURCE=.\moc_yahooinfobase.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc_yahooresult.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\moc_yahooresultbase.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\moc_yahoosearch.cpp
 # End Source File
 # Begin Source File
@@ -161,14 +153,6 @@ SOURCE=.\yahooinfo.cpp
 # Begin Source File
 
 SOURCE=.\yahooinfobase.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\yahooresult.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\yahooresultbase.cpp
 # End Source File
 # Begin Source File
 
@@ -301,43 +285,6 @@ InputName=yahooinfo
 # Begin Source File
 
 SOURCE=.\yahooinfobase.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\yahooresult.h
-
-!IF  "$(CFG)" == "yahoo - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\yahooresult.h
-InputName=yahooresult
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "yahoo - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\yahooresult.h
-InputName=yahooresult
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\yahooresultbase.h
 # End Source File
 # Begin Source File
 
@@ -478,61 +425,6 @@ BuildCmds= \
 InputDir=.
 InputPath=.\yahooinfobase.ui
 InputName=yahooinfobase
-
-BuildCmds= \
-	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
-	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
-	
-
-"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\yahooresultbase.ui
-
-!IF  "$(CFG)" == "yahoo - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
-InputDir=.
-InputPath=.\yahooresultbase.ui
-InputName=yahooresultbase
-
-BuildCmds= \
-	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
-	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
-	
-
-"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "yahoo - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
-InputDir=.
-InputPath=.\yahooresultbase.ui
-InputName=yahooresultbase
 
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \

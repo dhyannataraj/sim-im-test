@@ -106,6 +106,9 @@ protected slots:
     void slotTextChanged(const QString &str);
     void btnDestroyed();
 protected:
+    QSizePolicy sizePolicy() const;
+    QSize minimumSizeHint() const;
+    QSize sizeHint() const;
     virtual void setState();
     CToolButton	*m_btn;
     bool m_bCheck;

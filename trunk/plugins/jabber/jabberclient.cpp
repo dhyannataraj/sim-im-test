@@ -961,7 +961,7 @@ void JabberClient::handshake(const char *id)
             auth_digest();
         }
 #else
-        auth_plain();
+auth_plain();
 #endif
     }
 }
@@ -1225,9 +1225,11 @@ string JabberClient::buildId(JabberUserData *data)
     return res;
 }
 
-QWidget *JabberClient::searchWindow()
+QWidget *JabberClient::searchWindow(QWidget *parent)
 {
-    return new JabberAdd(this);
+    if (getState() != Connected)
+        return NULL;
+    return new JabberAdd(this, parent);
 }
 
 void JabberClient::ping()

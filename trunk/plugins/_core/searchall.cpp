@@ -1,5 +1,5 @@
 /***************************************************************************
-                          yahooresult.cpp  -  description
+                          searchall.cpp  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,43 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "yahooresult.h"
-#include "yahooclient.h"
-#include "yahoo.h"
+#include "searchall.h"
+#include "intedit.h"
 
-#include <qlabel.h>
-#include <qwizard.h>
-
-YahooResult::YahooResult(QWidget *parent, YahooClient *client)
-        : YahooResultBase(parent)
+SearchAll::SearchAll(QWidget *parent)
+        : SearchAllBase(parent)
 {
-    m_client = client;
-    m_wizard = static_cast<QWizard*>(topLevelWidget());
-    m_wizard->setFinishEnabled(this, true);
+    connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
+    edtMail->setValidator(new EMailValidator(edtMail));
+    new GroupRadioButton(i18n("&E-Mail address"), grpMail);
+    new GroupRadioButton(i18n("&Name"), grpName);
 }
 
-YahooResult::~YahooResult()
+void SearchAll::showEvent(QShowEvent *e)
 {
-}
-
-void YahooResult::showEvent(QShowEvent*)
-{
-    emit search();
-}
-
-void YahooResult::setID(const char *id)
-{
-    m_id = id;
-}
-
-void YahooResult::setStatus(const QString &str)
-{
-    lblStatus->setText(str);
-    m_wizard = static_cast<QWizard*>(topLevelWidget());
-    m_wizard->setFinishEnabled(this, true);
+    SearchAllBase::showEvent(e);
+    emit setAdd(false);
 }
 
 #ifndef WIN32
-#include "yahooresult.moc"
+#include "searchall.moc"
 #endif
 

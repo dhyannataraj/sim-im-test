@@ -301,7 +301,7 @@ static CommandDef livejournal_descr =
         0,
         0,
         0,
-        PROTOCOL_NOSMS | PROTOCOL_SEARCH | PROTOCOL_NOPROXY,
+        PROTOCOL_NOSMS | PROTOCOL_NOPROXY,
         NULL,
         NULL
     };
@@ -1016,9 +1016,9 @@ void LiveJournalClient::setStatus(unsigned status)
     version = "Win32";
 #else
 #ifdef QT_MACOSX_VERSION
-    version = "MacOS";
+version = "MacOS";
 #else
-    version = "Qt";
+version = "Qt";
 #endif
 #endif
     version += "-" PACKAGE "/" VERSION;
@@ -1045,9 +1045,9 @@ void LiveJournalClient::auth_fail(const char *err)
     error_state(err, AuthError);
 }
 
-QWidget *LiveJournalClient::searchWindow()
+QWidget *LiveJournalClient::searchWindow(QWidget *parent)
 {
-    return new JournalSearch(this);
+    return new JournalSearch(this, parent);
 }
 
 bool LiveJournalClient::done(unsigned code, Buffer &data, const char*)

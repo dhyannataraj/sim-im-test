@@ -1,5 +1,5 @@
 /***************************************************************************
-                          yahooresult.h  -  description
+                          nonim.cpp  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,31 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _YAHOORESULT_H
-#define _YAHOORESULT_H
+#include "nonim.h"
+#include "intedit.h"
 
-#include "simapi.h"
-#include "yahooresultbase.h"
-
-class YahooClient;
-class QWizard;
-
-class YahooResult : public YahooResultBase
+NonIM::NonIM(QWidget *parent)
+        : NonIMBase(parent)
 {
-    Q_OBJECT
-public:
-    YahooResult(QWidget *parent, YahooClient *client);
-    ~YahooResult();
-    void setID(const char *id);
-    void setStatus(const QString &str);
-signals:
-    void search();
-protected:
-    void showEvent(QShowEvent*);
-    string	   m_id;
-    QWizard	  *m_wizard;
-    YahooClient *m_client;
-};
+    connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
+    edtMail->setValidator(new EMailValidator(edtMail));
+    edtPhone->setValidator(new PhoneValidator(edtPhone));
+}
 
+void NonIM::showEvent(QShowEvent *e)
+{
+    NonIMBase::showEvent(e);
+    emit setAdd(true);
+}
+
+
+#ifndef WIN32
+#include "nonim.moc"
 #endif
 

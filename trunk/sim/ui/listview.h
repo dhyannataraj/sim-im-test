@@ -26,6 +26,8 @@
 const unsigned MenuListView		= 0x100;
 const unsigned CmdListDelete	= 0x100;
 
+class QTimer;
+
 class UI_EXPORT ListView : public QListView, public EventReceiver
 {
     Q_OBJECT
@@ -68,6 +70,7 @@ protected:
     int m_expandingColumn;
     unsigned m_menuId;
     ProcessMenuParam m_mp;
+    QTimer	 *m_resizeTimer;
 #if COMPAT_QT_VERSION < 0x030000
     QPoint m_mousePressPos;
 #endif

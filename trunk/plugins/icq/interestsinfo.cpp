@@ -142,6 +142,8 @@ static const ext_info interests[] =
         { "", 0  }
     };
 
+const ext_info *p_interests = interests;
+
 void InterestsInfo::fill()
 {
     ICQUserData *data = m_data;

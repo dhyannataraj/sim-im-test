@@ -8,8 +8,6 @@ msn_la_SOURCES = \
  msnpacket.cpp \
  msninfo.cpp \
  msninfobase.ui \
- msnresult.cpp \
- msnresultbase.ui \
  msnsearch.cpp \
  msnsearchbase.ui \
  msnhttp.cpp

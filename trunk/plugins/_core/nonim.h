@@ -1,5 +1,5 @@
 /***************************************************************************
-                          msnresult.h  -  description
+                          nonim.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,31 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _MSNRESULT_H
-#define _MSNRESULT_H
+#ifndef _NONIM_H
+#define _NONIM_H
 
 #include "simapi.h"
-#include "msnresultbase.h"
+#include "nonimbase.h"
 
-class MSNClient;
-class QWizard;
-
-class MSNResult : public MSNResultBase, public EventReceiver
+class NonIM : public NonIMBase
 {
     Q_OBJECT
 public:
-    MSNResult(QWidget *parent, MSNClient *client);
-    ~MSNResult();
-    void setMail(const char *mail);
-    void setStatus(const QString &str);
+    NonIM(QWidget *parent);
 signals:
-    void search();
+    void setAdd(bool);
 protected:
-    void *processEvent(Event*);
     void showEvent(QShowEvent*);
-    string	   m_mail;
-    QWizard	  *m_wizard;
-    MSNClient *m_client;
 };
 
 #endif

@@ -1,5 +1,5 @@
 /***************************************************************************
-                          msnresult.cpp  -  description
+                          advsearch.cpp  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,37 +15,39 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "journalresult.h"
-#include "livejournal.h"
+#include "advsearch.h"
 
-#include <qlabel.h>
-#include <qwizard.h>
+extern const ext_info *p_genders;
+extern const ext_info *p_languages;
+extern const ext_info *p_occupations;
+extern const ext_info *p_interests;
+extern const ext_info *p_pasts;
+extern const ext_info *p_affilations;
 
-JournalResult::JournalResult(QWidget *parent, LiveJournalClient *client)
-        : JournalResultBase(parent)
+const ext_info ages[] =
+    {
+        { "18-22", 1 },
+        { "23-29", 2 },
+        { "30-39", 3 },
+        { "40-49", 4 },
+        { "50-59", 5 },
+        { "> 60", 6 },
+        { "", 0 }
+    };
+
+AdvSearch::AdvSearch()
 {
-    m_client = client;
-    m_wizard = static_cast<QWizard*>(topLevelWidget());
-    m_wizard->setFinishEnabled(this, true);
-}
-
-JournalResult::~JournalResult()
-{
-}
-
-void JournalResult::showEvent(QShowEvent*)
-{
-    emit search();
-}
-
-void JournalResult::setStatus(const QString &str)
-{
-    lblStatus->setText(str);
-    m_wizard = static_cast<QWizard*>(topLevelWidget());
-    m_wizard->setFinishEnabled(this, true);
+    initCombo(cmbGender, 0, p_genders);
+    initCombo(cmbAge, 0, ages);
+    initCombo(cmbCountry, 0, getCountries(), true, getCountryCodes());
+    initCombo(cmbLang, 0, p_languages);
+    initCombo(cmbOccupation, 0, p_occupations);
+    initCombo(cmbInterests, 0, p_interests);
+    initCombo(cmbPast, 0, p_pasts);
+    initCombo(cmbAffilation, 0, p_affilations);
 }
 
 #ifndef WIN32
-#include "journalresult.moc"
+#include "advsearch.moc"
 #endif
 

@@ -10,8 +10,6 @@ yahoo_la_SOURCES = \
  yahooinfobase.ui \
  yahoosearch.cpp \
  yahoosearchbase.ui \
- yahooresult.cpp \
- yahooresultbase.ui \
  crypt.c \
  yahootransformtables.c \
  yahoohttp.cpp

@@ -21,50 +21,38 @@
 #include "simapi.h"
 #include "icqsearchbase.h"
 
-#include <qvalidator.h>
-
-class ICQSearchResult;
 class ICQClient;
-class QWizard;
-class QLineEdit;
+class AdvSearch;
+class AIMSearch;
+class GroupRadioButton;
 
-class ICQSearch : public ICQSearchBase, public EventReceiver
+class ICQSearch : public ICQSearchBase
 {
     Q_OBJECT
 public:
-    ICQSearch(ICQClient *client);
+    ICQSearch(ICQClient *client, QWidget *parent);
     ~ICQSearch();
 signals:
-    void goNext();
+    void setAdd(bool);
+    void addResult(QWidget*);
+    void showResult(QWidget*);
 protected slots:
-    void resultFinished();
-    void changed();
-    void search();
-    void startSearch();
-    void currentChanged(QWidget*);
-    void textChanged(const QString&);
-    void randomFind();
-    void addContact();
-    void sendMessage();
+    void advDestroyed();
+    void radioToggled(bool);
+    void advClick();
+    void add(unsigned grp_id);
 protected:
-    virtual void *processEvent(Event *e);
-    virtual void showEvent(QShowEvent *e);
-    void fillGroup();
-    string getString(QLineEdit*);
-    void setFindText();
-    bool m_bRandomSearch;
-    unsigned m_randomUin;
-    QString m_name;
-    ICQSearchResult *m_result;
-    QWizard	*m_wizard;
-    ICQClient *m_client;
-};
-
-class AIMValidator : public QValidator
-{
-public:
-    AIMValidator(QWidget *parent);
-    virtual State validate(QString &input, int &pos) const;
+    void showEvent(QShowEvent*);
+    void setAdv(bool);
+    ICQClient			*m_client;
+    QWidget				*m_adv;
+    GroupRadioButton	*m_btnUin;
+    GroupRadioButton	*m_btnMail;
+    GroupRadioButton	*m_btnName;
+    GroupRadioButton	*m_btnAOL;
+    GroupRadioButton	*m_btnScreen;
+    GroupRadioButton	*m_btnAOL_UIN;
+    bool				m_bAdv;
 };
 
 #endif

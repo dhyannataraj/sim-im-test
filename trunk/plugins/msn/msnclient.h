@@ -224,7 +224,7 @@ protected:
     virtual bool send(Message*, void*);
     virtual bool canSend(unsigned, void*);
     virtual void *processEvent(Event*);
-    virtual QWidget *searchWindow();
+    virtual QWidget *searchWindow(QWidget *parent);
     virtual bool isMyData(clientData*&, Contact*&);
     virtual bool createData(clientData*&, Contact*);
     Socket *createSocket();

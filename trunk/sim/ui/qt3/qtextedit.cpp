@@ -993,7 +993,7 @@ void QTextEdit::keyPressEvent( QKeyEvent *e )
 #if defined(Q_WS_X11)
                     moveCursor( MoveLineStart, e->state() & ShiftButton );
 #else
-                    selectAll( TRUE );
+selectAll( TRUE );
 #endif
                     break;
                 case Key_B:
@@ -3831,7 +3831,7 @@ void QTextEdit::pasteSubType( const QCString& subtype, QMimeSource *m )
         // Need to convert CRLF to LF
         t.replace( "\r\n", "\n" );
 #elif defined(Q_OS_MAC)
-        //need to convert CR to LF
+//need to convert CR to LF
         t.replace( '\r', '\n' );
 #endif
         QChar *uc = (QChar *)t.unicode();
@@ -4240,7 +4240,7 @@ QPopupMenu *QTextEdit::createPopupMenu( const QPoint& )
 #if defined(Q_WS_X11)
     d->id[ IdSelectAll ] = popup->insertItem( i18n( "Select All" ) );
 #else
-    d->id[ IdSelectAll ] = popup->insertItem( i18n( "Select All" ) + ACCEL_KEY( A ) );
+d->id[ IdSelectAll ] = popup->insertItem( i18n( "Select All" ) + ACCEL_KEY( A ) );
 #endif
     popup->setItemEnabled( d->id[ IdUndo ], !isReadOnly() && doc->commands()->isUndoAvailable() );
     popup->setItemEnabled( d->id[ IdRedo ], !isReadOnly() && doc->commands()->isRedoAvailable() );

@@ -18,7 +18,6 @@
 #include "jabberbrowser.h"
 #include "jabbersearch.h"
 #include "jabber.h"
-#include "addresult.h"
 #include "discoinfo.h"
 #include "listview.h"
 #include "toolbtn.h"
@@ -27,6 +26,8 @@
 #include <qpixmap.h>
 #include <qtoolbar.h>
 #include <qtimer.h>
+#include <qlabel.h>
+#include <qapplication.h>
 
 const unsigned BROWSE_INFO	= 8;
 
@@ -36,7 +37,7 @@ JabberWizard::JabberWizard(QWidget *parent, const QString &title, const char *ic
     m_type = type;
     m_search = new JabberSearch(this, client, jid, node, title, m_type == "register");
     addPage(m_search, title);
-    m_result = new AddResult(client);
+    m_result = new QLabel(this);
     addPage(m_result, title);
     m_result->setText(i18n("Process"));
     helpButton()->hide();
@@ -65,7 +66,6 @@ void JabberWizard::slotSelected(const QString&)
     QString condition = m_search->condition(bXSearch);
     if (m_type == "search"){
         m_id = m_search->m_client->search(m_search->m_jid.c_str(), m_search->m_node.c_str(), condition);
-        m_result->setSearch(m_search->m_client, m_id.c_str(), bXSearch);
     }else{
         m_id = m_search->m_client->process(m_search->m_jid.c_str(), m_search->m_node.c_str(), condition, m_type.c_str());
     }
@@ -106,14 +106,7 @@ void JabberWizard::initTitle()
     setTitle(m_search, m_search->m_title);
 }
 
-void JabberWizard::accept()
-{
-    m_result->finish();
-    QWizard::accept();
-}
-
-JabberBrowser::JabberBrowser(QWidget *parent, const char *name)
-        : QMainWindow(parent, name, WDestructiveClose)
+JabberBrowser::JabberBrowser()
 {
     m_client = NULL;
     m_info   = NULL;
@@ -135,6 +128,7 @@ JabberBrowser::JabberBrowser(QWidget *parent, const char *name)
     m_bar->setParam(this);
     restoreToolbar(m_bar, JabberPlugin::plugin->data.browser_bar);
     m_bar->show();
+    resize(qApp->desktop()->width(), qApp->desktop()->height());
     setCentralWidget(m_list);
     m_historyPos = -1;
 

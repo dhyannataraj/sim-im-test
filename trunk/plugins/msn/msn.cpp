@@ -69,7 +69,7 @@ static CommandDef msn_descr =
         0,
         0,
         0,
-        PROTOCOL_SEARCH_ONLINE | PROTOCOL_INVISIBLE,
+        PROTOCOL_INVISIBLE,
         NULL,
         NULL
     };

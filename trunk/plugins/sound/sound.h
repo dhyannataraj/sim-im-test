@@ -47,7 +47,7 @@ class Exec;
 
 class SoundPlugin : public QObject, public Plugin, public EventReceiver
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
     SoundPlugin(unsigned, bool, Buffer*);
     virtual ~SoundPlugin();
@@ -61,7 +61,7 @@ public:
     unsigned CmdSoundDisable;
     unsigned EventSoundChanged;
 protected slots:
-	void checkSound();
+    void checkSound();
     void childExited(int, int);
 protected:
     unsigned user_data_id;
@@ -71,13 +71,13 @@ protected:
     string fullName(const char*);
     string messageSound(unsigned type, SoundUserData *data);
     void playSound(const char*);
-	void processQueue();
-	string			m_current;
-	list<string>	m_queue;
-	QSound			*m_sound;
-	QTimer			*m_checkTimer;
+    void processQueue();
+    string			m_current;
+    list<string>	m_queue;
+    QSound			*m_sound;
+    QTimer			*m_checkTimer;
 #ifndef WIN32
-	unsigned		m_player;
+    unsigned		m_player;
 #endif
     SoundData	data;
     CorePlugin	*core;

@@ -101,6 +101,8 @@ static const ext_info occupations[] =
         { "", 0  }
     };
 
+const ext_info *p_occupations = occupations;
+
 void WorkInfo::fill()
 {
     ICQUserData *data = m_data;

@@ -132,6 +132,8 @@ using namespace std;
 #include "xpm/yahoo_away.xpm"
 #include "xpm/yahoo_dnd.xpm"
 #include "xpm/chat.xpm"
+#include "xpm/encoding.xpm"
+#include "xpm/add.xpm"
 
 #define KICON(A)    addIcon(#A, p_##A, #A, 0);
 #define ICON(A)		addIcon(#A, A, NULL, 0);
@@ -283,6 +285,8 @@ Icons::Icons()
     KICON(help)
     ICON(btn_more);
     ICON(chat);
+    addIcon("encoding", encoding, "charset", 0);
+    addIcon("add", add, "bookmark_add", 0);
 }
 
 Icons::~Icons()

@@ -1,5 +1,5 @@
 #/****************************************************************************
-** $Id: qrichtext.cpp,v 1.15 2004-03-16 16:15:30 shutoff Exp $
+** $Id: qrichtext.cpp,v 1.16 2004-04-16 00:52:29 shutoff Exp $
 **
 ** Implementation of the internal Qt classes dealing with rich text
 **
@@ -109,7 +109,7 @@ static inline bool is_printer( QPainter *p )
 #if defined(Q_WS_X11)
             value = value * metrics.logicalDpiY() / QPaintDevice::x11AppDpiY();
 #elif defined (Q_WS_WIN)
-int gdc = GetDeviceCaps( GetDC( 0 ), LOGPIXELSY );
+            int gdc = GetDeviceCaps( GetDC( 0 ), LOGPIXELSY );
             if ( gdc )
                 value = value * metrics.logicalDpiY() / gdc;
 #elif defined (Q_WS_MAC)
@@ -577,7 +577,7 @@ value = value * metrics.logicalDpiY() / 75;
         QString s( str );
 #if defined(Q_WS_WIN)
         if ( checkNewLine )
-            s = s.replace( QRegExp( "\\r" ), "" );
+            s = s.replace( ::QRegExp( "\\r" ), "" );
 #endif
         if ( checkNewLine )
             justInsert = s.find( '\n' ) == -1;
@@ -6251,8 +6251,8 @@ formatAgain:
                         format.fn.setWeight( n/8 );
                 } else if ( style.startsWith("font-family:" ) ) {
                     QString family = section(style.mid(12), ",",0,0);
-                    family.replace( QRegExp("\""), " " );
-                    family.replace( QRegExp("\'"), " " );
+                    family.replace( ::QRegExp("\""), " " );
+                    family.replace( ::QRegExp("\'"), " " );
                     family = family.stripWhiteSpace();
                     format.fn.setFamily( family );
                 } else if ( style.startsWith("text-decoration:" ) ) {

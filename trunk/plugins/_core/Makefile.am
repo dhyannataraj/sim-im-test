@@ -38,6 +38,10 @@ _core_la_SOURCES = \
  pagerbase.ui \
  search.cpp \
  searchbase.ui \
+ searchall.cpp \
+ searchallbase.ui \
+ nonim.cpp \
+ nonimbase.ui \
  connectionsettings.cpp \
  connectionsettingsbase.ui \
  connectwnd.cpp \

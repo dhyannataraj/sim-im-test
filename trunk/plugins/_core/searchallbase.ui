@@ -1,23 +1,23 @@
 <!DOCTYPE UI><UI>
-<class>MSNSearchBase</class>
+<class>SearchAllBase</class>
 <widget>
     <class>QWidget</class>
     <property stdset="1">
         <name>name</name>
-        <cstring>MSNSearch</cstring>
+        <cstring>SearchAll</cstring>
     </property>
     <property>
         <name>geometry</name>
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>196</width>
-            <height>480</height>
+            <width>242</width>
+            <height>478</height>
         </rect>
     </property>
     <property>
         <name>caption</name>
-        <string>Form1</string>
+        <string>Form4</string>
     </property>
     <vbox>
         <property>
@@ -26,7 +26,7 @@
         </property>
         <property>
             <name>spacing</name>
-            <number>6</number>
+            <number>12</number>
         </property>
         <widget>
             <class>QGroupBox</class>
@@ -60,7 +60,7 @@
             <class>QGroupBox</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>grpHotmail</cstring>
+                <cstring>grpName</cstring>
             </property>
             <property>
                 <name>title</name>
@@ -79,11 +79,11 @@
                     <class>QLabel</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>TextLabel1</cstring>
+                        <cstring>TextLabel5</cstring>
                     </property>
                     <property>
                         <name>text</name>
-                        <string>First name:</string>
+                        <string>First:</string>
                     </property>
                 </widget>
                 <widget>
@@ -97,11 +97,11 @@
                     <class>QLabel</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>TextLabel2</cstring>
+                        <cstring>TextLabel6</cstring>
                     </property>
                     <property>
                         <name>text</name>
-                        <string>Last name:</string>
+                        <string>Last:</string>
                     </property>
                 </widget>
                 <widget>
@@ -115,18 +115,18 @@
                     <class>QLabel</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>lblCountry</cstring>
+                        <cstring>TextLabel7</cstring>
                     </property>
                     <property>
                         <name>text</name>
-                        <string>Country:</string>
+                        <string>Nick:</string>
                     </property>
                 </widget>
                 <widget>
-                    <class>QComboBox</class>
+                    <class>QLineEdit</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>cmbCountry</cstring>
+                        <cstring>edtNick</cstring>
                     </property>
                 </widget>
             </vbox>
@@ -134,7 +134,7 @@
         <spacer>
             <property>
                 <name>name</name>
-                <cstring>Spacer2</cstring>
+                <cstring>Spacer8</cstring>
             </property>
             <property>
                 <name>orientation</name>

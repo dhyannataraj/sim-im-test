@@ -347,9 +347,9 @@ QSizePolicy PictButton::sizePolicy() const
     QSizePolicy p = QToolButton::sizePolicy();
     QToolBar *bar = static_cast<QToolBar*>(parent());
     if (bar->orientation() == Vertical){
-        p.setVerData(QSizePolicy::MinimumExpanding);
+        p.setVerData(QSizePolicy::Expanding);
     }else{
-        p.setHorData(QSizePolicy::MinimumExpanding);
+        p.setHorData(QSizePolicy::Expanding);
     }
     return p;
 }
@@ -496,6 +496,7 @@ CToolCombo::CToolCombo(QToolBar* parent, CommandDef *def, bool bCheck)
             connect(lineEdit(), SIGNAL(textChanged(const QString&)), this, SLOT(slotTextChanged(const QString&)));
     }
     setState();
+    setMinimumSize(minimumSizeHint());
 }
 
 CToolCombo::~CToolCombo()
@@ -538,6 +539,30 @@ void CToolCombo::setState()
             m_btn->setEnabled(!lineEdit()->text().isEmpty());
     }
 }
+
+QSizePolicy CToolCombo::sizePolicy() const
+{
+    QSizePolicy p = QComboBox::sizePolicy();
+    p.setHorData(QSizePolicy::Expanding);
+    return p;
+}
+
+QSize CToolCombo::minimumSizeHint() const
+{
+    int wChar = QFontMetrics(font()).width('0');
+    int w = wChar * 10 + 6;
+    int h = 22;
+    return QSize(w, h);
+}
+
+QSize CToolCombo::sizeHint() const
+{
+    int wChar = QFontMetrics(font()).width('0');
+    int w = wChar * 15 + 6;
+    int h = 22;
+    return QSize(w, h);
+}
+
 
 CToolEdit::CToolEdit(QToolBar* parent, CommandDef *def)
         : QLineEdit(parent), CToolItem(def)

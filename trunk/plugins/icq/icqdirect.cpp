@@ -1480,7 +1480,7 @@ bool ICQ_SSLClient::initSSL()
 #if OPENSSL_VERSION_NUMBER >= 0x00905000L
     SSL_CTX_set_cipher_list(pCTX, "ADH:@STRENGTH");
 #else
-    SSL_CTX_set_cipher_list(pCTX, "ADH");
+SSL_CTX_set_cipher_list(pCTX, "ADH");
 #endif
     DH *dh = get_dh512();
     SSL_CTX_set_tmp_dh(pCTX, dh);

@@ -22,29 +22,22 @@
 #include "msnsearchbase.h"
 
 class MSNClient;
-class MSNResult;
-class QWizard;
+class GroupRadioButton;
 
-class MSNSearch : public MSNSearchBase, public EventReceiver
+class MSNSearch : public MSNSearchBase
 {
     Q_OBJECT
 public:
-    MSNSearch(MSNClient *client);
-    ~MSNSearch();
+    MSNSearch(MSNClient *client, QWidget *parent);
 signals:
-    void goNext();
+    void setAdd(bool);
 protected slots:
-    void textChanged(const QString&);
-    void search();
-    void startSearch();
+    void radioToggled(bool);
 protected:
-    void *processEvent(Event*);
-    void showEvent(QShowEvent *e);
-    void changed();
-    void fillGroup();
-    QWizard	  *m_wizard;
-    MSNResult *m_result;
     MSNClient *m_client;
+    void showEvent(QShowEvent*);
+    GroupRadioButton	*m_btnMail;
+    GroupRadioButton	*m_btnInfo;
 };
 
 #endif

@@ -16,71 +16,19 @@
  ***************************************************************************/
 
 #include "journalsearch.h"
-#include "journalresult.h"
 #include "livejournal.h"
 
-#include <qlineedit.h>
-#include <qwizard.h>
-#include <qtabwidget.h>
-#include <qpushbutton.h>
-
-JournalSearch::JournalSearch(LiveJournalClient *client)
+JournalSearch::JournalSearch(LiveJournalClient *client, QWidget *parent)
+        : JournalSearchBase(parent)
 {
     m_client = client;
-    m_result = NULL;
-    m_wizard = NULL;
-    connect(edtCommunity, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
-}
-
-JournalSearch::~JournalSearch()
-{
-    if (m_result && m_wizard){
-        if (m_wizard->inherits("QWizard"))
-            m_wizard->removePage(m_result);
-        delete m_result;
-    }
+    connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
 }
 
 void JournalSearch::showEvent(QShowEvent *e)
 {
     JournalSearchBase::showEvent(e);
-    if (m_wizard == NULL){
-        m_wizard = static_cast<QWizard*>(topLevelWidget());
-        connect(this, SIGNAL(goNext()), m_wizard, SLOT(goNext()));
-    }
-    if (m_result == NULL){
-        m_result = new JournalResult(m_wizard, m_client);
-        connect(m_result, SIGNAL(search()), this, SLOT(startSearch()));
-        m_wizard->addPage(m_result, i18n("Add community results"));
-    }
-    textChanged("");
-}
-
-void JournalSearch::textChanged(const QString&)
-{
-    changed();
-}
-
-void JournalSearch::changed()
-{
-    if (m_wizard)
-        m_wizard->setNextEnabled(this, !edtCommunity->text().isEmpty());
-}
-
-void JournalSearch::search()
-{
-    if ((m_wizard == NULL) || !m_wizard->nextButton()->isEnabled())
-        return;
-    emit goNext();
-}
-
-void JournalSearch::startSearch()
-{
-    if (m_client->add(edtCommunity->text().latin1())){
-        m_result->setStatus(i18n("Community %1 added to list") .arg(edtCommunity->text()));
-    }else{
-        m_result->setStatus(i18n("Community %1 already in list") .arg(edtCommunity->text()));
-    }
+    emit setAdd(true);
 }
 
 #ifndef WIN32

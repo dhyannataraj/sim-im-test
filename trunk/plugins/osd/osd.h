@@ -56,6 +56,7 @@ typedef struct OSDRequest
 } OSDRequest;
 
 class QTimer;
+class QPushButton;
 class CorePlugin;
 
 class OSDWidget : public QWidget
@@ -66,12 +67,16 @@ public:
     void showOSD(const QString &text, OSDUserData *data);
 signals:
     void dblClick();
+    void closeClick();
+protected slots:
+    void slotCloseClick();
 protected:
     bool isScreenSaverActive();
     void paintEvent(QPaintEvent*);
     void mouseDoubleClickEvent(QMouseEvent *e);
     QFont	baseFont;
     QPixmap bgPict;
+    QPushButton	*m_button;
 };
 
 class OSDPlugin : public QObject, public Plugin, public EventReceiver

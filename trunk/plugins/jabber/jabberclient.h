@@ -355,7 +355,7 @@ protected:
     virtual void contactInfo(void *data, unsigned long &curStatus, unsigned &style, const char *&statusIcon, string *icons = NULL);
     virtual string resources(void *data);
     virtual QString contactTip(void *data);
-    virtual QWidget *searchWindow();
+    virtual QWidget *searchWindow(QWidget *parent);
     virtual CommandDef *infoWindows(Contact *contact, void *data);
     virtual QWidget *infoWindow(QWidget *parent, Contact *contact, void *data, unsigned id);
     virtual CommandDef *configWindows();

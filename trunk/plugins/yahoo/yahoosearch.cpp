@@ -16,121 +16,63 @@
  ***************************************************************************/
 
 #include "yahoosearch.h"
-#include "yahooresult.h"
 #include "yahooclient.h"
+#include "intedit.h"
 
+#include <qlabel.h>
 #include <qcombobox.h>
-#include <qlineedit.h>
-#include <qwizard.h>
-#include <qtabwidget.h>
-#include <qpushbutton.h>
 
-YahooSearch::YahooSearch(YahooClient *client)
+const ext_info ages[] =
+    {
+        { "13-18", 1 },
+        { "18-25", 2 },
+        { "25-35", 3 },
+        { "35-50", 4 },
+        { "50-70", 5 },
+        { "> 70",  6 },
+        { "", 0 }
+    };
+
+const ext_info genders[] =
+    {
+        { I18N_NOOP("Female"), 1 },
+        { I18N_NOOP("Male"), 2 },
+        { "", 0 }
+    };
+
+YahooSearch::YahooSearch(YahooClient *client, QWidget *parent)
+        : YahooSearchBase(parent)
 {
     m_client = client;
-    m_result = NULL;
-    m_wizard = NULL;
-    connect(edtID, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
-    fillGroup();
+    connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
+    edtMail->setValidator(new EMailValidator(edtMail));
+    edtID->setValidator(new RegExpValidator("[0-9A-Za-z \\-_]+", this));
+    initCombo(cmbAge, 0, ages);
+    initCombo(cmbGender, 0, genders);
+    m_btnID			= new GroupRadioButton(i18n("&Yahoo! ID"), grpID);
+    m_btnMail		= new GroupRadioButton(i18n("&E-Mail address"), grpMail);
+    m_btnName		= new GroupRadioButton(i18n("&Name"), grpName);
+    m_btnKeyword	= new GroupRadioButton(i18n("&Keywords"), grpKeyword);
+    connect(m_btnID,		SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
+    connect(m_btnMail,		SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
+    connect(m_btnName,		SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
+    connect(m_btnKeyword,	SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
 }
 
-YahooSearch::~YahooSearch()
+void YahooSearch::radioToggled(bool)
 {
-    if (m_result && m_wizard){
-        if (m_wizard->inherits("QWizard"))
-            m_wizard->removePage(m_result);
-        delete m_result;
-    }
+    emit setAdd(m_btnID->isChecked());
+    lblGender->setEnabled(!m_btnID->isChecked());
+    lblAge->setEnabled(!m_btnID->isChecked());
+    cmbGender->setEnabled(!m_btnID->isChecked());
+    cmbAge->setEnabled(!m_btnID->isChecked());
 }
 
 void YahooSearch::showEvent(QShowEvent *e)
 {
     YahooSearchBase::showEvent(e);
-    if (m_wizard == NULL){
-        m_wizard = static_cast<QWizard*>(topLevelWidget());
-        connect(this, SIGNAL(goNext()), m_wizard, SLOT(goNext()));
-    }
-    if (m_result == NULL){
-        m_result = new YahooResult(m_wizard, m_client);
-        connect(m_result, SIGNAL(search()), this, SLOT(startSearch()));
-        m_wizard->addPage(m_result, i18n("Yahoo! search results"));
-    }
-    textChanged("");
-}
-
-void YahooSearch::textChanged(const QString&)
-{
-    changed();
-}
-
-void YahooSearch::fillGroup()
-{
-    QString grpName = cmbGroup->currentText();
-    cmbGroup->clear();
-    Group *grp;
-    ContactList::GroupIterator it;
-    while ((grp = ++it) != NULL){
-        if (grp->id() == 0)
-            continue;
-        cmbGroup->insertItem(grp->getName());
-    }
-}
-
-void *YahooSearch::processEvent(Event *e)
-{
-    switch (e->type()){
-    case EventGroupChanged:
-    case EventGroupDeleted:
-        fillGroup();
-        break;
-    }
-    return NULL;
-}
-
-void YahooSearch::changed()
-{
-    if (m_wizard)
-        m_wizard->setNextEnabled(this, !edtID->text().isEmpty());
-}
-
-void YahooSearch::search()
-{
-    if ((m_wizard == NULL) || !m_wizard->nextButton()->isEnabled())
-        return;
-    emit goNext();
-}
-
-void YahooSearch::startSearch()
-{
-    if (!edtID->text().isEmpty()){
-        Group *grp = NULL;
-        int n = cmbGroup->currentItem();
-        if (n >= 0){
-            ContactList::GroupIterator it;
-            while ((grp = ++it) != NULL){
-                if (grp->id() == 0)
-                    continue;
-                if (n-- == 0)
-                    break;
-            }
-        }
-        if (grp == NULL)
-            return;
-        Contact *contact;
-        YahooUserData *data = m_client->findContact(edtID->text().utf8(), grp->getName().local8Bit(), contact, true);
-        if (data == NULL)
-            return;
-        if ((contact->getFlags() & CONTACT_TEMPORARY) || (contact->getGroup() == 0)){
-            if (contact->getGroup() != grp->id())
-                contact->setGroup(grp->id());
-            contact->setFlags(contact->getFlags() & ~CONTACT_TEMPORARY);
-            Event e(EventContactChanged, contact);
-            e.process();
-            m_result->setStatus(i18n("Contact %1 added to group %2") .arg(edtID->text()) .arg(grp->getName()));
-        }else{
-            m_result->setStatus(i18n("Contact %1 already in list") .arg(edtID->text()));
-        }
-    }
+    radioToggled(false);
+    emit setAdd(m_btnID->isChecked());
 }
 
 #ifndef WIN32

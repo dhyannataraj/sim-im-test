@@ -18,8 +18,6 @@ jabber_la_SOURCES = \
  jabberaboutinfobase.ui \
  jabberadd.cpp \
  jabberaddbase.ui \
- addresult.cpp \
- addresultbase.ui \
  jabbersearch.cpp \
  jabbermessage.cpp \
  jabberpicture.cpp \

@@ -20,223 +20,96 @@
 #include "jabberclient.h"
 #include "jabbersearch.h"
 #include "jabberbrowser.h"
-#include "addresult.h"
 #include "listview.h"
+#include "intedit.h"
 
-#include <qtabwidget.h>
-#include <qwizard.h>
 #include <qlineedit.h>
 #include <qpushbutton.h>
-#include <qcombobox.h>
-#include <qvalidator.h>
+#include <qlabel.h>
 
-class IdValidator : public QValidator
+JabberAdd::JabberAdd(JabberClient *client, QWidget *parent)
+        : JabberAddBase(parent)
 {
-public:
-    IdValidator(QWidget *parent);
-    virtual QValidator::State validate(QString &input, int &pos) const;
-};
-
-IdValidator::IdValidator(QWidget *parent)
-        : QValidator(parent)
-{
-}
-
-QValidator::State IdValidator::validate(QString &input, int &pos) const
-{
-    QString id = input;
-    QString host;
-    int p = input.find('@');
-    if (p >= 0){
-        id = input.left(p);
-        host = input.mid(p + 1);
-    }
-    QRegExp r("[A-Za-z0-9\\.\\-_\\+]+");
-    if (id.length() == 0)
-        return Intermediate;
-    int len = 0;
-    if ((r.match(id, 0, &len) != 0) || (len != (int)id.length())){
-        pos = input.length();
-        return Invalid;
-    }
-    if (host.length()){
-        if ((r.match(id, 0, &len) != 0) || (len != (int)id.length())){
-            pos = input.length();
-            return Invalid;
-        }
-    }
-    return Acceptable;
-}
-
-JabberAdd::JabberAdd(JabberClient *client)
-{
-    m_client = client;
-    m_wizard = NULL;
-    m_result = NULL;
-    m_idValidator = new IdValidator(edtID);
-    edtID->setValidator(m_idValidator);
-    connect(tabAdd, SIGNAL(currentChanged(QWidget*)), this, SLOT(currentChanged(QWidget*)));
-    connect(edtID, SIGNAL(returnPressed()), this, SLOT(search()));
-    connect(edtID, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
-    connect(m_browser, SIGNAL(currentChanged(const QString&)), this, SLOT(textChanged(const QString&)));
-    QStringList services;
-    for (unsigned i = 0; i < getContacts()->nClients(); i++){
-        Client *c = getContacts()->getClient(i);
-        if ((c->protocol() != client->protocol()) || (c->getState() != Client::Connected))
-            continue;
-        JabberClient *jc = static_cast<JabberClient*>(c);
-        QString vHost = QString::fromUtf8(jc->VHost().c_str());
-        QStringList::Iterator it;
-        for (it = services.begin(); it != services.end(); ++it){
-            if ((*it) == vHost)
-                break;
-        }
-        if (it != services.end())
-            continue;
-        services.append(vHost);
-    }
-    cmbServices->insertStringList(services);
-    fillGroup();
-    clientActivated(0);
-    connect(cmbServices, SIGNAL(activated(int)), this, SLOT(clientActivated(int)));
+    m_client   = client;
+    m_browser  = NULL;
+    m_bBrowser = false;
+    connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
+    connect(this, SIGNAL(addResult(QWidget*)), topLevelWidget(), SLOT(addResult(QWidget*)));
+    connect(this, SIGNAL(showResult(QWidget*)), topLevelWidget(), SLOT(showResult(QWidget*)));
+    m_btnJID  = new GroupRadioButton(i18n("&JID"), grpJID);
+    m_btnMail = new GroupRadioButton(i18n("&E-Mail address"), grpMail);
+    m_btnName = new GroupRadioButton(i18n("&Name"), grpName);
+    connect(m_btnJID,  SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
+    connect(m_btnMail, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
+    connect(m_btnName, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
+    connect(btnBrowser, SIGNAL(clicked()), this, SLOT(browserClick()));
+    const QIconSet *is = Icon("1rightarrow");
+    if (is)
+        btnBrowser->setIconSet(*is);
 }
 
 JabberAdd::~JabberAdd()
 {
-    if (m_result)
-        delete m_result;
+    if (m_browser)
+        delete m_browser;
 }
 
-void JabberAdd::fillGroup()
+void JabberAdd::browserDestroyed()
 {
-    cmbGroup->clear();
-    ContactList::GroupIterator it;
-    Group *grp;
-    while ((grp = ++it) != NULL){
-        if (grp->id() == 0)
-            continue;
-        cmbGroup->insertItem(grp->getName());
-    }
-    cmbGroup->insertItem(i18n("Not in list"));
+    m_browser = NULL;
 }
 
-void JabberAdd::clientActivated(int)
+void JabberAdd::radioToggled(bool)
 {
-    m_browser->setClient(findClient(cmbServices->currentText()));
-}
-
-void JabberAdd::currentChanged(QWidget*)
-{
-    if (m_result)
-        m_result->showSearch(tabAdd->currentPageIndex() != 0);
-    textChanged("");
-}
-
-void JabberAdd::search()
-{
-    if ((m_wizard == NULL) || !m_wizard->nextButton()->isEnabled())
-        return;
-    emit goNext();
-}
-
-void JabberAdd::textChanged(const QString&)
-{
-    bool bSearch = false;
-    if (tabAdd->currentPageIndex() == 0){
-        bSearch = !edtID->text().isEmpty();
-        if (bSearch){
-            int pos = 0;
-            QString text = edtID->text();
-            if (!m_idValidator->validate(text, pos))
-                bSearch = false;
-        }
-    }else if (m_browser->m_list->currentItem()){
-        bSearch = true;
-    }
-    if (m_wizard)
-        m_wizard->setNextEnabled(this, bSearch);
+    setBrowser(false);
+    emit setAdd(m_btnJID->isChecked());
 }
 
 void JabberAdd::showEvent(QShowEvent *e)
 {
     JabberAddBase::showEvent(e);
-    if (m_wizard == NULL){
-        m_wizard = static_cast<QWizard*>(topLevelWidget());
-        connect(this, SIGNAL(goNext()), m_wizard, SLOT(goNext()));
-    }
-    if (m_result == NULL){
-        m_result = new AddResult(m_client);
-        connect(m_result, SIGNAL(finished()), this, SLOT(addResultFinished()));
-        connect(m_result, SIGNAL(search()), this, SLOT(startSearch()));
-        m_wizard->addPage(m_result, i18n("Add Jabber contact"));
-    }
-    currentChanged(NULL);
+    emit setAdd(m_btnJID->isChecked());
+    if (m_browser && m_bBrowser)
+        emit showResult(m_browser);
 }
 
-void JabberAdd::addResultFinished()
+void JabberAdd::browserClick()
 {
-    m_result = NULL;
+    setBrowser(!m_bBrowser);
 }
 
-void JabberAdd::startSearch()
+void JabberAdd::setBrowser(bool bBrowser)
 {
-    if (m_result == NULL)
+    if (m_bBrowser == bBrowser)
         return;
-    JabberClient *client = findClient(cmbServices->currentText().latin1());
-    if (client == NULL)
-        return;
-    QString jid;
-    unsigned grp_id = 0;
-    if (tabAdd->currentPageIndex() == 0){
-        jid = edtID->text();
-        ContactList::GroupIterator it;
-        Group *grp;
-        unsigned nGrp = cmbGroup->currentItem();
-        while ((grp = ++it) != NULL){
-            if (grp->id() == 0)
-                continue;
-            if (nGrp-- == 0){
-                grp_id = grp->id();
-                break;
-            }
-        }
-    }else if (m_browser->m_list->currentItem()){
-        jid = m_browser->m_list->currentItem()->text(COL_JID);
+    m_bBrowser = bBrowser;
+    if (m_bBrowser && (m_browser == NULL)){
+        m_browser = new JabberBrowser;
+        emit addResult(m_browser);
+        m_browser->setClient(m_client);
+        connect(m_browser, SIGNAL(destroyed()), this, SLOT(browserDestroyed()));
     }
-    if (jid.isEmpty())
-        return;
-    if (client->add_contact(jid.utf8(), grp_id)){
-        m_result->setText(i18n("%1 added to contact list") .arg(jid));
+    emit showResult(m_bBrowser ? m_browser : NULL);
+    const QIconSet *is = Icon(m_bBrowser ? "1leftarrow" : "1rightarrow");
+    if (is)
+        btnBrowser->setIconSet(*is);
+    if (m_bBrowser){
+        edtJID->setEnabled(false);
+        edtMail->setEnabled(false);
+        edtFirst->setEnabled(false);
+        edtLast->setEnabled(false);
+        edtNick->setEnabled(false);
+        lblFirst->setEnabled(false);
+        lblLast->setEnabled(false);
+        lblNick->setEnabled(false);
+        emit setAdd(false);
     }else{
-        m_result->setText(i18n("%1 is already in contact list") .arg(jid));
+        m_btnJID->slotToggled(m_btnJID->isChecked());
+        m_btnName->slotToggled(m_btnName->isChecked());
+        m_btnMail->slotToggled(m_btnMail->isChecked());
     }
-    if (m_wizard)
-        m_wizard->setFinishEnabled(m_result, true);
 }
 
-JabberClient *JabberAdd::findClient(const char *host)
-{
-    for (unsigned i = 0; i < getContacts()->nClients(); i++){
-        Client *client = getContacts()->getClient(i);
-        if ((client->protocol() != m_client->protocol()) || (client->getState() != Client::Connected))
-            continue;
-        JabberClient *jc = static_cast<JabberClient*>(client);
-        if (!strcmp(jc->VHost().c_str(), host))
-            return jc;
-    }
-    return NULL;
-}
-
-void *JabberAdd::processEvent(Event *e)
-{
-    switch (e->type()){
-    case EventGroupChanged:
-    case EventGroupDeleted:
-        fillGroup();
-        break;
-    }
-    return NULL;
-}
 
 #ifndef WIN32
 #include "jabberadd.moc"

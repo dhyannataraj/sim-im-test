@@ -21,32 +21,11 @@
 #include "simapi.h"
 #include "aimsearchbase.h"
 
-class ICQClient;
-class ICQSearchResult;
-class QWizard;
-
-class AIMSearch : public AIMSearchBase, public EventReceiver
+class AIMSearch : public AIMSearchBase
 {
     Q_OBJECT
 public:
-    AIMSearch(ICQClient *client);
-    ~AIMSearch();
-signals:
-    void goNext();
-protected slots:
-    void search();
-    void startSearch();
-    void textChanged(const QString&);
-    void currentChanged(QWidget*);
-    void resultFinished();
-protected:
-    void showEvent(QShowEvent *e);
-    void *processEvent(Event*);
-    void fillGroups();
-    void changed();
-    ICQSearchResult *m_result;
-    ICQClient *m_client;
-    QWizard	*m_wizard;
+    AIMSearch();
 };
 
 #endif

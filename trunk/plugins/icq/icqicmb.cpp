@@ -1590,7 +1590,7 @@ void ICQClient::processSendQueue()
 static QString getUtf8Part(QString &str, unsigned size)
 {
     if (str.utf8().length() < size){
-        QString res;
+        QString res = str;
         str = "";
         return res;
     }
@@ -1746,6 +1746,7 @@ bool ICQClient::processMsg()
             return true;
         case MessageCheckInvisible:{
                 Buffer b;
+                sendThroughServer(m_send.screen.c_str(), 2, b, m_send.id, true, false);
                 sendThroughServer(m_send.screen.c_str(), 2, b, m_send.id, true, false);
                 return true;
             }

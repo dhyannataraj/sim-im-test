@@ -22,26 +22,16 @@
 #include "journalsearchbase.h"
 
 class LiveJournalClient;
-class JournalResult;
-class QWizard;
 
 class JournalSearch : public JournalSearchBase
 {
     Q_OBJECT
 public:
-    JournalSearch(LiveJournalClient *client);
-    ~JournalSearch();
+    JournalSearch(LiveJournalClient *client, QWidget *parent);
 signals:
-    void goNext();
-protected slots:
-    void textChanged(const QString&);
-    void search();
-    void startSearch();
+    void setAdd(bool);
 protected:
-    void showEvent(QShowEvent *e);
-    void changed();
-    QWizard	  *m_wizard;
-    JournalResult *m_result;
+    void showEvent(QShowEvent*);
     LiveJournalClient *m_client;
 };
 

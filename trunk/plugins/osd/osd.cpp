@@ -37,6 +37,7 @@
 #include <qregion.h>
 #include <qstyle.h>
 #include <qregexp.h>
+#include <qpushbutton.h>
 
 #ifdef WIN32
 #include <windows.h>
@@ -173,12 +174,26 @@ void OSDPlugin::timeout()
     processQueue();
 }
 
+static const char * const arrow_h_xpm[] = {
+            "9 7 3 1",
+            "	    c None",
+            ".	    c #000000",
+            "+	    c none",
+            "..++..+++",
+            "+..++..++",
+            "++..++..+",
+            "+++..++..",
+            "++..++..+",
+            "+..++..++",
+            "..++..+++"};
+
 OSDWidget::OSDWidget()
         : QWidget(NULL, "osd", WType_TopLevel |
                   WStyle_StaysOnTop |  WStyle_Customize | WStyle_NoBorder |
                   WStyle_Tool |WRepaintNoErase | WX11BypassWM)
 {
     baseFont = font();
+    m_button = NULL;
     int size = baseFont.pixelSize();
     if (size <= 0){
         size = baseFont.pointSize();
@@ -226,6 +241,20 @@ bool OSDWidget::isScreenSaverActive()
     return false;
 }
 
+static const char * const close_h_xpm[] = {
+            "8 8 3 1",
+            "	    c None",
+            ".	    c #000000",
+            "+	    c none",
+            ".++++++.",
+            "+.++++.+",
+            "++.++.++",
+            "+++..+++",
+            "+++..+++",
+            "++.++.++",
+            "+.++++.+",
+            ".++++++."};
+
 void OSDWidget::showOSD(const QString &str, OSDUserData *data)
 {
     if (isScreenSaverActive()){
@@ -255,13 +284,30 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     int y = rcScreen.top();
     int w = rc.width() + 1;
     int h = rc.height() + 1;
-    if (data->Shadow.bValue){
-        w += SHADOW_OFFS;
-        h += SHADOW_OFFS;
-    }
+    int text_y = 0;
     if (data->Background.bValue){
         w += XOSD_MARGIN * 2;
         h += XOSD_MARGIN * 2;
+        if (m_button == NULL){
+            m_button = new QPushButton("", this);
+            m_button->setPixmap(QPixmap((const char **)close_h_xpm));
+            connect(m_button, SIGNAL(clicked()), this, SLOT(slotCloseClick()));
+        }
+        QSize s = m_button->sizeHint();
+        m_button->resize(s.height() - 4, s.height() - 4);
+        m_button->move(w - m_button->width() - 3, 2);
+        text_y = m_button->height() + 4;
+        h += text_y;
+        m_button->show();
+    }else{
+        if (m_button){
+            delete m_button;
+            m_button = NULL;
+        }
+    }
+    if (data->Shadow.bValue){
+        w += SHADOW_OFFS;
+        h += SHADOW_OFFS;
     }
     resize(QSize(w, h));
     switch (data->Position.value){
@@ -338,6 +384,7 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     }
     p.setFont(font());
     p.setPen(QColor(data->Color.value));
+    rc.setTop(text_y);
     p.drawText(rc, AlignLeft | AlignTop | WordBreak, str);
     p.end();
     bgPict = pict;
@@ -355,6 +402,11 @@ void OSDWidget::paintEvent(QPaintEvent*)
 void OSDWidget::mouseDoubleClickEvent(QMouseEvent*)
 {
     emit dblClick();
+}
+
+void OSDWidget::slotCloseClick()
+{
+    emit closeClick();
 }
 
 #if 0
@@ -471,6 +523,7 @@ void OSDPlugin::processQueue()
             if (m_osd == NULL){
                 m_osd = new OSDWidget;
                 connect(m_osd, SIGNAL(dblClick()), this, SLOT(dblClick()));
+                connect(m_osd, SIGNAL(closeClick()), this, SLOT(timeout()));
             }
             static_cast<OSDWidget*>(m_osd)->showOSD(text, data);
             m_timer->start(data->Timeout.value * 1000);

@@ -31,7 +31,7 @@ class QStatusBar;
 class CToolBar;
 class DiscoInfo;
 class JabberWizard;
-class AddResult;
+class QLabel;
 
 const unsigned COL_NAME				= 0;
 const unsigned COL_JID				= 1;
@@ -52,7 +52,7 @@ class JabberWizard : public QWizard, public EventReceiver
 public:
     JabberWizard(QWidget *parent, const QString &title, const char *icon, JabberClient *client, const char *jid, const char *node, const char *type);
     JabberSearch *m_search;
-    AddResult	 *m_result;
+    QLabel		 *m_result;
     void initTitle();
 protected slots:
     void setNext();
@@ -61,7 +61,6 @@ protected slots:
     void slotSelected(const QString&);
 protected:
     void *processEvent(Event *e);
-    void accept();
     string m_type;
     string m_id;
 };
@@ -70,7 +69,7 @@ class JabberBrowser : public QMainWindow, public EventReceiver
 {
     Q_OBJECT
 public:
-    JabberBrowser(QWidget *parent, const char *name);
+    JabberBrowser();
     ~JabberBrowser();
     void goUrl(const QString &url, const QString &node);
     void save();

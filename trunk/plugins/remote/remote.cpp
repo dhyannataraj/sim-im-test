@@ -914,7 +914,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
     case CMD_SHOW:{
             Command cmd;
             if (core->unread.size())
-            cmd->id = CmdUnread;
+                cmd->id = CmdUnread;
             else return false;
             Event e(EventCommandExec, cmd);
             e.process();

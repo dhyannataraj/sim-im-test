@@ -196,7 +196,7 @@ protected:
     CommandDef *configWindows();
     QWidget *infoWindow(QWidget *parent, Contact*, void *_data, unsigned id);
     QWidget *configWindow(QWidget *parent, unsigned id);
-    virtual QWidget *searchWindow();
+    virtual QWidget *searchWindow(QWidget *parent);
     virtual QString contactTip(void *_data);
     virtual void connect_ready();
     virtual void packet_ready();

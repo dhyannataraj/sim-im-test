@@ -122,12 +122,12 @@ void ICQClient::parseRosterItem(unsigned short type,
                                 TlvList *inf,
                                 bool &bIgnoreTime) {
     int seq;
-    
+
     switch (type){
     case ICQ_USER: {
             if (str.length()){
                 if ((str.length() == strlen(PLEASE_UPGRADE) + 3) &&
-                    (str.substr(0, strlen(PLEASE_UPGRADE)) == PLEASE_UPGRADE)){
+                        (str.substr(0, strlen(PLEASE_UPGRADE)) == PLEASE_UPGRADE)){
                     log(L_DEBUG, "Upgrade warning");
                     return;
                 }
@@ -291,7 +291,7 @@ void ICQClient::parseRosterItem(unsigned short type,
         break;
     case 0x0009:
     case 0x000f:    /* I saw this roster type in junction to
-                       TLV(0x0145) - DateTime() */
+                           TLV(0x0145) - DateTime() */
     case 0x0011:
     case 0x0013:
         break;

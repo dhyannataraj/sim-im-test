@@ -1,5 +1,5 @@
 /***************************************************************************
-                          journalresult.h  -  description
+                          searchall.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,28 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _JOURNALRESULT_H
-#define _JOURNALRESULT_H
+#ifndef _SEARCHALL_H
+#define _SEARCHALL_H
 
 #include "simapi.h"
-#include "journalresultbase.h"
+#include "searchallbase.h"
 
-class LiveJournalClient;
-class QWizard;
-
-class JournalResult : public JournalResultBase
+class SearchAll : public SearchAllBase
 {
     Q_OBJECT
 public:
-    JournalResult(QWidget *parent, LiveJournalClient *client);
-    ~JournalResult();
-    void setStatus(const QString &str);
+    SearchAll(QWidget *parent);
 signals:
-    void search();
+    void setAdd(bool);
 protected:
     void showEvent(QShowEvent*);
-    QWizard	  *m_wizard;
-    LiveJournalClient *m_client;
 };
 
 #endif

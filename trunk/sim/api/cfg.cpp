@@ -265,6 +265,14 @@ EXPORT string quoteChars(const char *from, const char *chars)
     return res;
 }
 
+char fromHex(char c)
+{
+    if ((c >= '0') && (c <= '9')) return (char)(c - '0');
+    if ((c >= 'A') && (c <= 'F')) return (char)(c + 10 - 'A');
+    if ((c >= 'a') && (c <= 'f')) return (char)(c + 10 - 'a');
+    return (char)0;
+}
+
 EXPORT string getToken(char const *&p, char c, bool bUnEscape)
 {
     string res;
@@ -279,6 +287,7 @@ EXPORT string getToken(char const *&p, char c, bool bUnEscape)
             if (!bUnEscape)
                 continue;
             char c = *p;
+            int d = 0;
             switch (c){
             case 'n':
                 c = '\n';
@@ -289,6 +298,12 @@ EXPORT string getToken(char const *&p, char c, bool bUnEscape)
             case 't':
                 c = '\t';
                 break;
+            case 'x':
+                if (p[1] && p[2]){
+                    c = fromHex(p[1]) << fromHex(p[2]);
+                    d = 2;
+                }
+                break;
             }
             if (start != p - 1){
                 string part;
@@ -296,7 +311,7 @@ EXPORT string getToken(char const *&p, char c, bool bUnEscape)
                 res += part;
             }
             res += c;
-            start = p + 1;
+            start = p + 1 + d;
             continue;
         }
     }
@@ -498,14 +513,6 @@ EXPORT void free_data(const DataDef *def, void *d)
             }
         }
     }
-}
-
-char fromHex(char c)
-{
-    if ((c >= '0') && (c <= '9')) return (char)(c - '0');
-    if ((c >= 'A') && (c <= 'F')) return (char)(c + 10 - 'A');
-    if ((c >= 'a') && (c <= 'f')) return (char)(c + 10 - 'a');
-    return (char)0;
 }
 
 string unquoteString(const char *p)
@@ -753,6 +760,8 @@ static string quoteString(const char *str)
             switch (*p){
             case '\\':
                 quoted += "\\\\";
+                break;
+            case '\r':
                 break;
             case '\n':
                 quoted += "\\n";

@@ -34,8 +34,8 @@ icq_la_SOURCES = \
  icqsecurebase.ui \
  icqsearch.cpp \
  icqsearchbase.ui \
- searchresult.cpp \
- searchresultbase.ui \
+ advsearch.cpp \
+ advsearchbase.ui \
  icqpicture.cpp \
  icqpicturebase.ui \
  icqmessage.cpp \

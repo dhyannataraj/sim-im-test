@@ -24,6 +24,13 @@
 #include "searchbase.h"
 
 class CorePlugin;
+class ListView;
+
+typedef struct ClientWidget
+{
+    Client		*client;
+    QWidget		*widget;
+} ClientWidget;
 
 class SearchDialog : public SearchBase, public EventReceiver
 {
@@ -31,23 +38,38 @@ class SearchDialog : public SearchBase, public EventReceiver
 public:
     SearchDialog();
     ~SearchDialog();
+public slots:
+    void setAdd(bool bAdd);
+    void clientActivated(int);
+    void aboutToShow(QWidget*);
+    void resultShow(QWidget*);
+    void textChanged(const QString&);
+    void toggled(bool);
+    void addResult(QWidget*);
+    void showResult(QWidget*);
+    void showError(const QString&);
 signals:
     void finished();
+    void add(unsigned grp_id);
 protected slots:
-    void typeChanged(int);
-    void goNext();
-    void apply();
+    void searchClick();
+    void addGroup(int);
 protected:
-    virtual void *processEvent(Event*);
-    virtual void closeEvent(QCloseEvent*);
-    virtual void moveEvent(QMoveEvent*);
-    virtual void resizeEvent(QResizeEvent*);
-    vector<Client*> clients;
-    void reject();
-    void accept();
-    void fill();
-    Client	*m_client;
-    QWidget	*m_widget;
+    vector<ClientWidget>	m_widgets;
+    ListView	*m_result;
+    QWidget		*m_current;
+    QWidget		*m_currentResult;
+    void		*processEvent(Event*);
+    void		resizeEvent(QResizeEvent*);
+    void		moveEvent(QMoveEvent*);
+    void		closeEvent(QCloseEvent*);
+    void		fillClients();
+    void		attach(QWidget*);
+    void		detach(QWidget*);
+    bool		checkSearch(QWidget*, bool&);
+    bool		m_bAdd;
+    unsigned	m_id;
+    unsigned	m_result_id;
 };
 
 #endif

@@ -350,11 +350,11 @@ void PluginManagerPrivate::load(pluginInfo &info)
             return;
         }
 #else
-        if (info.info->flags & PLUGIN_KDE_COMPILE){
-            log(L_WARN, "Plugin %s is compiled with KDE support!", info.name);
-            release(info);
-            return;
-        }
+if (info.info->flags & PLUGIN_KDE_COMPILE){
+        log(L_WARN, "Plugin %s is compiled with KDE support!", info.name);
+        release(info);
+        return;
+    }
 #endif
 #endif
     }

@@ -20,7 +20,6 @@
 #include "icq.h"
 #include "toolbtn.h"
 #include "core.h"
-#include "searchresult.h"
 #include "xml.h"
 
 #include <qtimer.h>

@@ -1,5 +1,5 @@
 /***************************************************************************
-                          jabberadd.h  -  description
+                          advsearch.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,39 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _JABBERADD_H
-#define _JABBERADD_H
+#ifndef _ADVSEARCH_H
+#define _ADVSEARCH_H
 
 #include "simapi.h"
-#include "jabberaddbase.h"
+#include "advsearchbase.h"
 
-class JabberClient;
-class JabberBrowser;
-class GroupRadioButton;
-
-class JabberAdd : public JabberAddBase
+class AdvSearch : public AdvSearchBase
 {
     Q_OBJECT
 public:
-    JabberAdd(JabberClient *client, QWidget *parent);
-    ~JabberAdd();
-signals:
-    void setAdd(bool);
-    void addResult(QWidget*);
-    void showResult(QWidget*);
-protected slots:
-    void radioToggled(bool);
-    void browserDestroyed();
-    void browserClick();
-protected:
-    void setBrowser(bool bBrowser);
-    void showEvent(QShowEvent*);
-    JabberClient	*m_client;
-    JabberBrowser	*m_browser;
-    GroupRadioButton	*m_btnJID;
-    GroupRadioButton	*m_btnMail;
-    GroupRadioButton	*m_btnName;
-    bool			m_bBrowser;
+    AdvSearch();
 };
 
 #endif
