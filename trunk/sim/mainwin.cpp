@@ -1579,15 +1579,15 @@ void MainWindow::showUser(unsigned long uin, int function, unsigned long param)
 
 void MainWindow::setShow(bool bShow)
 {
-	Show = bShow;
+    Show = bShow;
 #ifdef WIN32
     if (BarState != ABE_FLOAT){
-		if (bShow){
-			setBarState();
-		}else{
-			appBarMessage(ABM_SETPOS, ABE_FLOAT, FALSE);
-		}
-	}
+        if (bShow){
+            setBarState();
+        }else{
+            appBarMessage(ABM_SETPOS, ABE_FLOAT, FALSE);
+        }
+    }
 #endif
     if (!bShow){
         hide();

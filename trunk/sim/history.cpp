@@ -532,8 +532,8 @@ void History::iterator::loadBlock()
                 msg = NULL;
             }
         }
-		break;
-	}
+        break;
+    }
     start_block = start;
 }
 

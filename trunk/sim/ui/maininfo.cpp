@@ -52,11 +52,11 @@ MainInfo::MainInfo(QWidget *p, bool readOnly)
         lblUin->hide();
         lineDiv->hide();
     }
-	edtOnline->setReadOnly(true);
-	edtNA->setReadOnly(true);
-	edtExtIP->setReadOnly(true);
-	edtIntIP->setReadOnly(true);
-	edtClient->setReadOnly(true);
+    edtOnline->setReadOnly(true);
+    edtNA->setReadOnly(true);
+    edtExtIP->setReadOnly(true);
+    edtIntIP->setReadOnly(true);
+    edtClient->setReadOnly(true);
 }
 
 void MainInfo::setCurrentEncoding(int mib)
@@ -117,96 +117,96 @@ void MainInfo::load(ICQUser *u)
         lstEmail->insertItem(Pict("mail_generic"), QString::fromLocal8Bit(email->Email.c_str()));
     }
     reloadList();
-	cmbStatus->insertItem(Pict(SIMClient::getStatusIcon(ICQ_STATUS_ONLINE)), SIMClient::getStatusText(ICQ_STATUS_ONLINE));
-	cmbStatus->insertItem(Pict(SIMClient::getStatusIcon(ICQ_STATUS_AWAY)), SIMClient::getStatusText(ICQ_STATUS_AWAY));
-	cmbStatus->insertItem(Pict(SIMClient::getStatusIcon(ICQ_STATUS_NA)), SIMClient::getStatusText(ICQ_STATUS_NA));
-	cmbStatus->insertItem(Pict(SIMClient::getStatusIcon(ICQ_STATUS_OCCUPIED)), SIMClient::getStatusText(ICQ_STATUS_OCCUPIED));
-	cmbStatus->insertItem(Pict(SIMClient::getStatusIcon(ICQ_STATUS_DND)), SIMClient::getStatusText(ICQ_STATUS_DND));
-	cmbStatus->insertItem(Pict(SIMClient::getStatusIcon(ICQ_STATUS_FREEFORCHAT)), SIMClient::getStatusText(ICQ_STATUS_FREEFORCHAT));
-	cmbStatus->insertItem(Pict(SIMClient::getStatusIcon(ICQ_STATUS_OFFLINE)), SIMClient::getStatusText(ICQ_STATUS_OFFLINE));
-	unsigned long status = u->uStatus;
+    cmbStatus->insertItem(Pict(SIMClient::getStatusIcon(ICQ_STATUS_ONLINE)), SIMClient::getStatusText(ICQ_STATUS_ONLINE));
+    cmbStatus->insertItem(Pict(SIMClient::getStatusIcon(ICQ_STATUS_AWAY)), SIMClient::getStatusText(ICQ_STATUS_AWAY));
+    cmbStatus->insertItem(Pict(SIMClient::getStatusIcon(ICQ_STATUS_NA)), SIMClient::getStatusText(ICQ_STATUS_NA));
+    cmbStatus->insertItem(Pict(SIMClient::getStatusIcon(ICQ_STATUS_OCCUPIED)), SIMClient::getStatusText(ICQ_STATUS_OCCUPIED));
+    cmbStatus->insertItem(Pict(SIMClient::getStatusIcon(ICQ_STATUS_DND)), SIMClient::getStatusText(ICQ_STATUS_DND));
+    cmbStatus->insertItem(Pict(SIMClient::getStatusIcon(ICQ_STATUS_FREEFORCHAT)), SIMClient::getStatusText(ICQ_STATUS_FREEFORCHAT));
+    cmbStatus->insertItem(Pict(SIMClient::getStatusIcon(ICQ_STATUS_OFFLINE)), SIMClient::getStatusText(ICQ_STATUS_OFFLINE));
+    unsigned long status = u->uStatus;
     if ((status & 0xFFFF) == ICQ_STATUS_OFFLINE){
-		cmbStatus->setCurrentItem(6);
-		lblOnline->setText(i18n("Last online") + ":");
-		edtOnline->setText(user.statusTime());
-		lblNA->hide();
-		edtNA->hide();
-	}else{
-		if (u->OnlineTime){
-			edtOnline->setText(user.onlineTime());
-		}else{
-			lblOnline->hide();
-			edtOnline->hide();
-		}
-		bool bOnline = false;
-		if (status & ICQ_STATUS_DND){
-			cmbStatus->setCurrentItem(4);
-		}else if (status & ICQ_STATUS_OCCUPIED){
-			cmbStatus->setCurrentItem(3);
-		}else if (status & ICQ_STATUS_NA){
-			cmbStatus->setCurrentItem(2);
-		}else if (status & ICQ_STATUS_FREEFORCHAT){
-			cmbStatus->setCurrentItem(5);
-		}else if (status & ICQ_STATUS_AWAY){
-			cmbStatus->setCurrentItem(1);
-		}else{
-			cmbStatus->setCurrentItem(0);
-			bOnline = true;
-		}
-		if (bOnline){
-			lblNA->hide();
-			edtNA->hide();
-		}else{
-			lblNA->setText(SIMClient::getStatusText(u->uStatus));
-			edtNA->setText(user.statusTime());
-		}
-	}
-	disableWidget(cmbStatus);
-	    if (u->IP){
-			QString res;
-		    struct in_addr a;
-			a.s_addr = u->IP;
-			res += inet_ntoa(a);
-			if (u->HostName.size()){
-				res += "(";
-				res += u->HostName.c_str();
-				res += ")";
-			}
-			if (u->Port){
-				QString s;
-				res += s.sprintf(":%u", u->Port);
-			}
-			edtExtIP->setText(res);
-		}else{
-			lblExtIP->hide();
-			edtExtIP->hide();
-		}
-		if (u->RealIP && (u->RealIP != u->IP)){
-			QString res;
-		    struct in_addr a;
-			a.s_addr = u->RealIP;
-			res += inet_ntoa(a);
-			if (u->RealHostName.size()){
-				res += "(";
-				res += u->RealHostName.c_str();
-				res += ")";
-			}
-			if (u->Port){
-				QString s;
-				res += s.sprintf(":%u", u->Port);
-			}
-			edtIntIP->setText(res);
-		}else{
-			lblIntIP->hide();
-			edtIntIP->hide();
-		}
-		QString sClient = user.client();
-		if (sClient.isEmpty()){
-			lblClient->hide();
-			edtClient->hide();
-		}else{
-			edtClient->setText(sClient);
-	    }
+        cmbStatus->setCurrentItem(6);
+        lblOnline->setText(i18n("Last online") + ":");
+        edtOnline->setText(user.statusTime());
+        lblNA->hide();
+        edtNA->hide();
+    }else{
+        if (u->OnlineTime){
+            edtOnline->setText(user.onlineTime());
+        }else{
+            lblOnline->hide();
+            edtOnline->hide();
+        }
+        bool bOnline = false;
+        if (status & ICQ_STATUS_DND){
+            cmbStatus->setCurrentItem(4);
+        }else if (status & ICQ_STATUS_OCCUPIED){
+            cmbStatus->setCurrentItem(3);
+        }else if (status & ICQ_STATUS_NA){
+            cmbStatus->setCurrentItem(2);
+        }else if (status & ICQ_STATUS_FREEFORCHAT){
+            cmbStatus->setCurrentItem(5);
+        }else if (status & ICQ_STATUS_AWAY){
+            cmbStatus->setCurrentItem(1);
+        }else{
+            cmbStatus->setCurrentItem(0);
+            bOnline = true;
+        }
+        if (bOnline){
+            lblNA->hide();
+            edtNA->hide();
+        }else{
+            lblNA->setText(SIMClient::getStatusText(u->uStatus));
+            edtNA->setText(user.statusTime());
+        }
+    }
+    disableWidget(cmbStatus);
+    if (u->IP){
+        QString res;
+        struct in_addr a;
+        a.s_addr = u->IP;
+        res += inet_ntoa(a);
+        if (u->HostName.size()){
+            res += "(";
+            res += u->HostName.c_str();
+            res += ")";
+        }
+        if (u->Port){
+            QString s;
+            res += s.sprintf(":%u", u->Port);
+        }
+        edtExtIP->setText(res);
+    }else{
+        lblExtIP->hide();
+        edtExtIP->hide();
+    }
+    if (u->RealIP && (u->RealIP != u->IP)){
+        QString res;
+        struct in_addr a;
+        a.s_addr = u->RealIP;
+        res += inet_ntoa(a);
+        if (u->RealHostName.size()){
+            res += "(";
+            res += u->RealHostName.c_str();
+            res += ")";
+        }
+        if (u->Port){
+            QString s;
+            res += s.sprintf(":%u", u->Port);
+        }
+        edtIntIP->setText(res);
+    }else{
+        lblIntIP->hide();
+        edtIntIP->hide();
+    }
+    QString sClient = user.client();
+    if (sClient.isEmpty()){
+        lblClient->hide();
+        edtClient->hide();
+    }else{
+        edtClient->setText(sClient);
+    }
     setButtons(-1);
 }
 
