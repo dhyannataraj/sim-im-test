@@ -89,6 +89,7 @@ public:
 protected slots:
     void timeout();
     void dblClick();
+	void closeClick();
 protected:
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual void *processEvent(Event*);
