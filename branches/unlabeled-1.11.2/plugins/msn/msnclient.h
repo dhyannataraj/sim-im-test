@@ -80,6 +80,19 @@ typedef struct msgInvite
 	unsigned	cookie;
 } msgInvite;
 
+class MSNListener : public ServerSocketNotify
+{
+public:
+    MSNListener(MSNClient *client);
+    ~MSNListener();
+    bool created() { return (m_socket != NULL); }
+    unsigned short port();
+protected:
+    virtual void accept(Socket *s, unsigned long ip);
+    ServerSocket *m_socket;
+    MSNClient  *m_client;
+};
+
 class SBSocket : public QObject, public ClientSocketNotify
 {
     Q_OBJECT
@@ -188,6 +201,8 @@ public:
     bool add(const char *mail, const char *name, unsigned grp);
     list<SBSocket*> m_SBsockets;
     virtual void setupContact(Contact*, void *data);
+	MSNListener *m_listener;
+	FileMessage *m_listenMsg;
 protected slots:
     void ping();
     void authOk();
@@ -239,26 +254,36 @@ protected:
 	friend class SBSocket;
 };
 
-class MSNFileTransfer : public FileTransfer, public ClientSocketNotify
+class MSNFileTransfer : public QObject, public FileTransfer, public ClientSocketNotify
 {
+	Q_OBJECT
 public:
 	MSNFileTransfer(FileMessage *msg, MSNClient *client, MSNUserData *data);
 	~MSNFileTransfer();
 	void connect();
+	void listen();
+	void setSocket(Socket *s);
 	unsigned ip1;
 	unsigned ip2;
 	unsigned port1;
 	unsigned port2;
 	unsigned auth_cookie;
+protected slots:
+	void timeout();
 protected:
 	enum State
 	{
 		None,
 		ConnectIP1,
 		ConnectIP2,
+		ConnectIP3,
 		Connected,
 		Send,
-		Wait
+		Wait,
+		Listen,
+		Receive,
+		ReceiveWait,
+		Incoming
 	};
     virtual bool    error_state(const char *err, unsigned code);
     virtual void	packet_ready();
@@ -267,10 +292,14 @@ protected:
     virtual void	startReceive(unsigned pos);
 	void			send(const char *line);
     void			getLine(const char *line);
+	bool			m_bHeader;
+	int				m_size;
+	Buffer			m_readBuffer;
 	State			m_state;
     ClientSocket    *m_socket;
 	MSNClient		*m_client;
 	MSNUserData		*m_data;
+	QTimer			*m_timer;
 };
 
 #endif

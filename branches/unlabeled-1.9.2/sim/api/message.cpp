@@ -385,16 +385,21 @@ QString FileMessage::presentation()
 
 FileTransfer::FileTransfer(FileMessage *msg)
 {
-    FileMessage::Iterator it(*msg);
     m_file		 = 0;
     m_msg		 = msg;
     m_notify	 = NULL;
     m_nFile		 = NO_FILE;
-    m_nFiles	 = it.count();
     m_bytes		 = 0;
     m_totalBytes = 0;
     m_fileSize	 = 0;
-    m_totalSize	 = msg->getSize();
+	if (msg){
+		FileMessage::Iterator it(*msg);
+		m_nFiles	 = it.count();
+		m_totalSize	 = msg->getSize();
+	}else{
+		m_nFiles	 = 0;
+		m_totalSize  = 0;
+	}
     m_speed		 = 100;
     m_state		 = Unknown;
     m_overwrite  = Ask;
@@ -402,15 +407,18 @@ FileTransfer::FileTransfer(FileMessage *msg)
     m_sendTime   = 0;
     m_sendSize   = 0;
     m_transfer   = 0;
-    if (msg->m_transfer)
-        delete msg->m_transfer;
-    msg->m_transfer = this;
+	if (msg){
+		if (msg->m_transfer)
+			delete msg->m_transfer;
+		msg->m_transfer = this;
+	}
 }
 
 FileTransfer::~FileTransfer()
 {
     setNotify(NULL);
-    m_msg->m_transfer = NULL;
+	if (m_msg)
+		m_msg->m_transfer = NULL;
     if (m_file)
         delete m_file;
 }
