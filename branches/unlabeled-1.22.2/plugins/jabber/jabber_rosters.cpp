@@ -234,13 +234,14 @@ void JabberClient::rosters_request()
 class InfoRequest : public JabberClient::ServerRequest
 {
 public:
-    InfoRequest(JabberClient *client, JabberUserData *data);
+    InfoRequest(JabberClient *client, JabberUserData *data, bool bVCard);
     ~InfoRequest();
 protected:
     virtual void element_start(const char *el, const char **attr);
     virtual void element_end(const char *el);
     virtual void char_data(const char *str, int len);
     string	m_jid;
+	string  m_node;
     string	m_host;
     bool	m_bStarted;
     string  m_firstName;
@@ -266,17 +267,23 @@ protected:
     Buffer	*m_cdata;
     bool	m_bPhoto;
     bool	m_bLogo;
+	bool	m_bVCard;
 };
 
-InfoRequest::InfoRequest(JabberClient *client, JabberUserData *data)
+extern DataDef jabberUserData[];
+
+InfoRequest::InfoRequest(JabberClient *client, JabberUserData *data, bool bVCard)
         : JabberClient::ServerRequest(client, _GET, NULL, client->buildId(data).c_str())
 {
     m_jid	= data->ID;
+	if (data->Node)
+		m_node  = data->Node;
     m_bStarted = false;
     m_data  = NULL;
     m_cdata = NULL;
     m_bPhoto = false;
     m_bLogo  = false;
+	m_bVCard = bVCard;
 }
 
 InfoRequest::~InfoRequest()
@@ -284,18 +291,26 @@ InfoRequest::~InfoRequest()
     if (m_bStarted){
         Contact *contact = NULL;
         JabberUserData *data;
-        if (m_jid == m_client->data.owner.ID){
-            data = &m_client->data.owner;
-        }else{
-            string jid = m_jid;
-            if (strchr(jid.c_str(), '@') == NULL){
-                jid += "@";
-                jid += m_host;
-            }
-            data = m_client->findContact(m_jid.c_str(), NULL, false, contact);
-            if (data == NULL)
-                return;
-        }
+		JabberUserData u_data;
+		if (m_bVCard){
+			load_data(jabberUserData, &u_data, NULL);
+			data = &u_data;
+			set_str(&data->ID, m_jid.c_str());
+			set_str(&data->Node, m_node.c_str());
+		}else{
+			if (m_jid == m_client->data.owner.ID){
+	            data = &m_client->data.owner;
+		    }else{
+			    string jid = m_jid;
+				if (strchr(jid.c_str(), '@') == NULL){
+					jid += "@";
+					jid += m_host;
+				}
+				data = m_client->findContact(m_jid.c_str(), NULL, false, contact);
+				if (data == NULL)
+					return;
+			}
+		}
         bool bChanged = false;
         bChanged |= set_str(&data->FirstName, m_firstName.c_str());
         bChanged |= set_str(&data->Nick, m_nick.c_str());
@@ -315,6 +330,12 @@ InfoRequest::~InfoRequest()
         bChanged |= set_str(&data->EMail, m_email.c_str());
         bChanged |= set_str(&data->Phone, m_phone.c_str());
 
+		if (m_bVCard){
+			Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventVCard, data);
+			e.process();
+			free_data(jabberUserData, &u_data);
+			return;
+		}
         QImage photo;
         if (m_photo.size()){
             Buffer unpack;
@@ -523,17 +544,19 @@ void InfoRequest::char_data(const char *str, int len)
         m_data->append(str, len);
 }
 
-void JabberClient::info_request(JabberUserData *user_data)
+void JabberClient::info_request(JabberUserData *user_data, bool bVCard)
 {
     if (getState() != Connected)
         return;
     if (user_data == NULL)
         user_data = &data.owner;
-    InfoRequest *req = new InfoRequest(this, user_data);
+    InfoRequest *req = new InfoRequest(this, user_data, bVCard);
     req->start_element("vCard");
     req->add_attribute("prodid", "-//HandGen//NONSGML vGen v1.0//EN");
     req->add_attribute("xmlns", "vcard-temp");
     req->add_attribute("version", "2.0");
+	if (user_data->Node && *user_data->Node)
+		req->add_attribute("node", user_data->Node);
     req->send();
     m_requests.push_back(req);
 }
@@ -563,7 +586,7 @@ protected:
 };
 
 SetInfoRequest::SetInfoRequest(JabberClient *client, JabberUserData *data)
-        : JabberClient::ServerRequest(client, _SET, NULL, NULL)
+        : JabberClient::ServerRequest(client, _SET, NULL, client->buildId(data).c_str())
 {
     m_jid	= data->ID;
     if (data->FirstName)
@@ -632,6 +655,8 @@ void JabberClient::setClientInfo(void *_data)
     req->add_attribute("prodid", "-//HandGen//NONSGML vGen v1.0//EN");
     req->add_attribute("xmlns", "vcard-temp");
     req->add_attribute("version", "2.0");
+	if (data->Node && *data->Node)
+		req->add_attribute("node", data->Node);
     req->text_tag("FN", data->FirstName);
     req->text_tag("NICKNAME", data->Nick);
     req->text_tag("DESC", data->Desc);
@@ -1472,6 +1497,7 @@ void JabberClient::get_agents()
     AgentRequest *req = new AgentRequest(this);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:agents");
+	addLang(req);
     req->send();
     m_requests.push_back(req);
 }
@@ -1638,6 +1664,7 @@ string JabberClient::get_agent_info(const char *jid, const char *node, const cha
     req->add_attribute("xmlns", xmlns.c_str());
     if (node && *node)
         req->add_attribute("node", node);
+	addLang(req);
     req->send();
     m_requests.push_back(req);
     return req->m_id;
@@ -2335,6 +2362,7 @@ StatItemsRequest::~StatItemsRequest()
     req->add_attribute("xmlns", "http://jabber.org/protocol/stats");
     if (!m_node.empty())
         req->add_attribute("node", m_node.c_str());
+	m_client->addLang(req);
     for (list<string>::iterator it = m_stats.begin(); it != m_stats.end(); ++it){
         req->start_element("stat");
         req->add_attribute("name", (*it).c_str());
@@ -2362,6 +2390,7 @@ string JabberClient::statInfo(const char *jid, const char *node)
     req->add_attribute("xmlns", "http://jabber.org/protocol/stats");
     if (node && *node)
         req->add_attribute("node", node);
+	addLang(req);
     req->send();
     m_requests.push_back(req);
     return req->m_id;

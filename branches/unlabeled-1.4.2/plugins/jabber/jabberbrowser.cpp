@@ -218,7 +218,7 @@ void JabberBrowser::go(const QString &url, const QString &node)
     m_id2 = m_client->discoInfo(url.utf8(), node.utf8());
     cmd->id			 = static_cast<JabberPlugin*>(m_client->protocol()->plugin())->CmdUrl;
     cmd->text		 = I18N_NOOP("Stop");
-    cmd->icon		 = "stop";
+    cmd->icon		 = "cancel";
     cmd->bar_grp	 = 0x2000;
     cmd->flags		 = BTN_COMBO_CHECK;
     cmd->param		 = this;

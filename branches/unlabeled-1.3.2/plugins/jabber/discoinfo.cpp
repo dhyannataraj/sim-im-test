@@ -19,12 +19,18 @@
 #include "jabberbrowser.h"
 #include "jabberclient.h"
 #include "jabber.h"
+#include "jabberhomeinfo.h"
+#include "jabberworkinfo.h"
+#include "jabberaboutinfo.h"
 #include "listview.h"
 
 #include <qpixmap.h>
 #include <qlineedit.h>
 #include <qmultilineedit.h>
 #include <qtabwidget.h>
+#include <qpushbutton.h>
+
+extern DataDef jabberUserData[];
 
 DiscoInfo::DiscoInfo(JabberBrowser *browser)
         : DiscoInfoBase(browser, NULL, false, WDestructiveClose)
@@ -33,10 +39,17 @@ DiscoInfo::DiscoInfo(JabberBrowser *browser)
     SET_WNDPROC("jbrowser")
     setIcon(Pict("Jabber_online"));
     setTitle();
+    setButtonsPict(this);
+    connect(buttonApply, SIGNAL(clicked()), this, SLOT(apply()));
     m_bVersion = true;
     m_bTime    = true;
     m_bLast	   = true;
     m_bStat	   = true;
+	m_bVCard   = true;
+	m_home     = NULL;
+	m_work	   = NULL;
+	m_about    = NULL;
+    load_data(jabberUserData, &m_data, NULL);
     disableWidget(edtJName);
     disableWidget(edtType);
     disableWidget(edtCategory);
@@ -50,10 +63,14 @@ DiscoInfo::DiscoInfo(JabberBrowser *browser)
     lstStat->addColumn(i18n("Units"));
     lstStat->addColumn(i18n("Value"));
     lstStat->setExpandingColumn(2);
+    btnUrl->setPixmap(Pict("home"));
+    connect(btnUrl, SIGNAL(clicked()), this, SLOT(goUrl()));
+    connect(edtUrl, SIGNAL(textChanged(const QString&)), this, SLOT(urlChanged(const QString&)));
 }
 
 DiscoInfo::~DiscoInfo()
 {
+    free_data(jabberUserData, &m_data);
     m_browser->m_info = NULL;
 }
 
@@ -64,10 +81,29 @@ void DiscoInfo::setTitle()
 
 void DiscoInfo::reset()
 {
+	if (m_home){
+		tabInfo->removePage(m_home);
+		delete m_home;
+		m_home = NULL;
+	}
+	if (m_work){
+		tabInfo->removePage(m_work);
+		delete m_work;
+		m_work = NULL;
+	}
+	if (m_about){
+		tabInfo->removePage(m_about);
+		delete m_about;
+		m_about = NULL;
+	}
     m_url = QString::fromUtf8(m_browser->m_history[m_browser->m_historyPos].c_str());
     m_node = "";
     if (!m_browser->m_nodes[m_browser->m_historyPos].empty())
         m_node = QString::fromUtf8(m_browser->m_nodes[m_browser->m_historyPos].c_str());
+	free_data(jabberUserData, &m_data);
+	load_data(jabberUserData, &m_data, NULL);
+	set_str(&m_data.ID, m_url.utf8());
+	set_str(&m_data.Node, m_node.utf8());
     setTitle();
     edtJName->setText(m_browser->m_name);
     edtType->setText(m_browser->m_type);
@@ -77,6 +113,7 @@ void DiscoInfo::reset()
     bool bTime    = false;
     bool bLast	  = false;
     bool bStat	  = false;
+	bool bVCard	  = false;
     QString mf = m_browser->m_features;
     while (!mf.isEmpty()){
         QString f = getToken(mf, '\n');
@@ -88,6 +125,8 @@ void DiscoInfo::reset()
             bLast = true;
         if (f == "http://jabber.org/protocol/stats")
             bStat = true;
+        if (f == "vcard-temp")
+            bVCard = true;
     }
     int pos = 1;
     if (bVersion != m_bVersion){
@@ -97,7 +136,9 @@ void DiscoInfo::reset()
         }else{
             tabInfo->removePage(tabVersion);
         }
-    }
+    }else if (m_bVersion){
+		pos++;
+	}
     edtName->setText("");
     edtVersion->setText("");
     edtSystem->setText("");
@@ -110,7 +151,9 @@ void DiscoInfo::reset()
         }else{
             tabInfo->removePage(tabTime);
         }
-    }
+    }else if (m_bTime || m_bLast){
+		pos++;
+	}
     edtTime->setText("");
     edtLast->setText("");
     if (m_bTime){
@@ -135,12 +178,53 @@ void DiscoInfo::reset()
         }else{
             tabInfo->removePage(tabStat);
         }
-    }
+    }else if (m_bStat){
+		pos++;
+	}
     m_statId = m_bStat ? m_browser->m_client->statInfo(m_url.utf8(), m_node.utf8()) : "";
+    if (bVCard != m_bVCard){
+        m_bVCard = bVCard;
+        if (m_bVCard || m_bVCard){
+            tabInfo->insertTab(tabVCard, i18n("&Info"), pos++);
+        }else{
+            tabInfo->removePage(tabVCard);
+        }
+    }else if (m_bVCard){
+		pos++;
+	}
+	edtFirstName->setText("");
+	edtNick->setText("");
+	edtBirthday->setText("");
+	edtUrl->setText("");
+	edtEMail->setText("");
+	edtPhone->setText("");
+	if (bVCard){
+		m_home = new JabberHomeInfo(tabInfo, &m_data, m_browser->m_client);
+		tabInfo->insertTab(m_home, i18n("Home info"), pos++);
+		m_work = new JabberWorkInfo(tabInfo, &m_data, m_browser->m_client);
+		tabInfo->insertTab(m_work, i18n("Work info"), pos++);
+		m_about = new JabberAboutInfo(tabInfo, &m_data, m_browser->m_client);
+		tabInfo->insertTab(m_about, i18n("About info"), pos++);
+		m_browser->m_client->info_request(&m_data, true);
+	}
 }
+
+int str_cmp(const char *s1, const char *s2);
 
 void *DiscoInfo::processEvent(Event *e)
 {
+	if (e->type() == static_cast<JabberPlugin*>(m_browser->m_client->protocol()->plugin())->EventVCard){
+		JabberUserData *data = (JabberUserData*)(e->param());
+		if (!str_cmp(m_data.ID, data->ID) && !str_cmp(m_data.Node, data->Node)){
+			edtFirstName->setText(data->FirstName ? QString::fromUtf8(data->FirstName) : QString(""));
+			edtNick->setText(data->Nick ? QString::fromUtf8(data->Nick) : QString(""));
+			edtBirthday->setText(data->Bday ? QString::fromUtf8(data->Bday) : QString(""));
+			edtUrl->setText(data->Url ? QString::fromUtf8(data->Url) : QString(""));
+			urlChanged(edtUrl->text());
+			edtEMail->setText(data->EMail ? QString::fromUtf8(data->EMail) : QString(""));
+			edtPhone->setText(data->Phone ? QString::fromUtf8(data->Phone) : QString(""));
+		}
+	}
     if (e->type() == static_cast<JabberPlugin*>(m_browser->m_client->protocol()->plugin())->EventDiscoItem){
         JabberDiscoItem *item = (JabberDiscoItem*)(e->param());
         if (m_versionId == item->id){
@@ -194,6 +278,42 @@ void DiscoInfo::resizeEvent(QResizeEvent *e)
 {
     DiscoInfoBase::resizeEvent(e);
     lstStat->adjustColumn();
+}
+
+void DiscoInfo::accept()
+{
+    apply();
+	DiscoInfoBase::accept();
+}
+
+void DiscoInfo::apply()
+{
+	if (m_bVCard && m_home && m_work && m_about){
+		m_home->apply(m_browser->m_client, &m_data);
+		m_work->apply(m_browser->m_client, &m_data);
+		m_about->apply(m_browser->m_client, &m_data);
+		set_str(&m_data.FirstName, edtFirstName->text().utf8());
+		set_str(&m_data.Nick, edtNick->text().utf8());
+		set_str(&m_data.Bday, edtBirthday->text().utf8());
+	    set_str(&m_data.Url, edtUrl->text().utf8());
+	    set_str(&m_data.EMail, edtEMail->text().utf8());
+	    set_str(&m_data.Phone, edtPhone->text().utf8());
+		m_browser->m_client->setClientInfo(&m_data);
+	}
+}
+
+void DiscoInfo::goUrl()
+{
+    QString url = edtUrl->text();
+    if (url.isEmpty())
+        return;
+    Event e(EventGoURL, (void*)(const char*)(url.local8Bit()));
+    e.process();
+}
+
+void DiscoInfo::urlChanged(const QString &text)
+{
+    btnUrl->setEnabled(!text.isEmpty());
 }
 
 #ifndef WIN32

@@ -20,8 +20,12 @@
 
 #include "simapi.h"
 #include "discoinfobase.h"
+#include "jabberclient.h"
 
 class JabberBrowser;
+class JabberHomeInfo;
+class JabberWorkInfo;
+class JabberAboutInfo;
 
 class DiscoInfo : public DiscoInfoBase, public EventReceiver
 {
@@ -30,7 +34,12 @@ public:
     DiscoInfo(JabberBrowser *browser);
     ~DiscoInfo();
     void reset();
+protected slots:
+	void apply();
+	void goUrl();
+	void urlChanged(const QString &text);
 protected:
+	void accept();
     QString m_url;
     QString m_node;
     void *processEvent(Event *e);
@@ -40,11 +49,16 @@ protected:
     bool m_bTime;
     bool m_bLast;
     bool m_bStat;
+	bool m_bVCard;
     JabberBrowser *m_browser;
     string m_versionId;
     string m_timeId;
     string m_lastId;
     string m_statId;
+	JabberHomeInfo	*m_home;
+	JabberWorkInfo	*m_work;
+	JabberAboutInfo *m_about;
+	JabberUserData	m_data;
 };
 
 #endif

@@ -33,7 +33,7 @@ public slots:
     void apply(Client*, void*);
 protected:
     void *processEvent(Event *e);
-    void fill();
+    void fill(JabberUserData *data);
     struct JabberUserData *m_data;
     JabberClient *m_client;
 };

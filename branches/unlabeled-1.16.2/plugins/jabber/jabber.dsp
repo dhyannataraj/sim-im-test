@@ -109,6 +109,14 @@ SOURCE=.\discoinfobase.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\infoproxy.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\infoproxybase.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\jabber.cpp
 # End Source File
 # Begin Source File
@@ -217,6 +225,15 @@ SOURCE=.\moc_discoinfo.cpp
 # Begin Source File
 
 SOURCE=.\moc_discoinfobase.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\moc_infoproxy.cpp
+# ADD CPP /W3
+# End Source File
+# Begin Source File
+
+SOURCE=.\moc_infoproxybase.cpp
 # End Source File
 # Begin Source File
 
@@ -423,6 +440,43 @@ InputName=discoinfo
 # Begin Source File
 
 SOURCE=.\discoinfobase.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\infoproxy.h
+
+!IF  "$(CFG)" == "jabber - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\infoproxy.h
+InputName=infoproxy
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "jabber - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\infoproxy.h
+InputName=infoproxy
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\infoproxybase.h
 # End Source File
 # Begin Source File
 
@@ -1207,6 +1261,61 @@ BuildCmds= \
 InputDir=.
 InputPath=.\discoinfobase.ui
 InputName=discoinfobase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\infoproxybase.ui
+
+!IF  "$(CFG)" == "jabber - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Uic'ing $(InputName).ui ...
+InputDir=.
+InputPath=.\infoproxybase.ui
+InputName=infoproxybase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "jabber - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Uic'ing $(InputName).ui ...
+InputDir=.
+InputPath=.\infoproxybase.ui
+InputName=infoproxybase
 
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \

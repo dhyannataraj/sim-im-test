@@ -28,6 +28,7 @@
 #include "jabbermessage.h"
 #include "jabberbrowser.h"
 #include "services.h"
+#include "infoproxy.h"
 #include "html.h"
 
 #include "core.h"
@@ -76,11 +77,12 @@ typedef struct JabberUserData
 } JabberUserData;
 */
 
-static DataDef jabberUserData[] =
+DataDef jabberUserData[] =
     {
         { "", DATA_ULONG, 1, JABBER_SIGN },		// Sign
         { "LastSend", DATA_ULONG, 1, 0 },
         { "ID", DATA_UTF, 1, 0 },
+        { "Node", DATA_UTF, 1, 0 },
         { "Resource", DATA_UTF, 1, 0 },
         { "Name", DATA_UTF, 1, 0 },
         { "", DATA_ULONG, 1, STATUS_OFFLINE },		// Status
@@ -996,7 +998,7 @@ void JabberClient::auth_ok()
     setState(Connected);
     setPreviousPassword(NULL);
     rosters_request();
-    info_request(NULL);
+    info_request(NULL, false);
     setStatus(m_logonStatus);
     QTimer::singleShot(PING_TIMEOUT * 1000, this, SLOT(ping()));
 }
@@ -1065,7 +1067,7 @@ JabberUserData *JabberClient::findContact(const char *_jid, const char *name, bo
                 set_str(&data->Resource, resource.c_str());
             if (name)
                 set_str(&data->Name, name);
-            info_request(data);
+            info_request(data, false);
             Event e(EventContactChanged, contact);
             e.process();
             return data;
@@ -1079,7 +1081,7 @@ JabberUserData *JabberClient::findContact(const char *_jid, const char *name, bo
     if (name)
         set_str(&data->Name, name);
     contact->setName(sname);
-    info_request(data);
+    info_request(data, false);
     Event e(EventContactChanged, contact);
     e.process();
     return data;
@@ -1687,11 +1689,11 @@ QWidget *JabberClient::infoWindow(QWidget *parent, Contact*, void *_data, unsign
     case MAIN_INFO:
         return new JabberInfo(parent, data, this);
     case HOME_INFO:
-        return new JabberHomeInfo(parent, data, this);
+        return new InfoProxy(parent, new JabberHomeInfo(parent, data, this), i18n("Home info"));
     case WORK_INFO:
-        return new JabberWorkInfo(parent, data, this);
+        return new InfoProxy(parent, new JabberWorkInfo(parent, data, this), i18n("Work info"));
     case ABOUT_INFO:
-        return new JabberAboutInfo(parent, data, this);
+        return new InfoProxy(parent, new JabberAboutInfo(parent, data, this), i18n("About info"));
     case PHOTO_INFO:
         return new JabberPicture(parent, data, this, true);
     case LOGO_INFO:
@@ -1706,11 +1708,11 @@ QWidget *JabberClient::configWindow(QWidget *parent, unsigned id)
     case MAIN_INFO:
         return new JabberInfo(parent, NULL, this);
     case HOME_INFO:
-        return new JabberHomeInfo(parent, NULL, this);
+        return new InfoProxy(parent, new JabberHomeInfo(parent, NULL, this), i18n("Home info"));
     case WORK_INFO:
-        return new JabberWorkInfo(parent, NULL, this);
+        return new InfoProxy(parent, new JabberWorkInfo(parent, NULL, this), i18n("Work info"));
     case ABOUT_INFO:
-        return new JabberAboutInfo(parent, NULL, this);
+        return new InfoProxy(parent, new JabberAboutInfo(parent, NULL, this), i18n("About info"));
     case PHOTO_INFO:
         return new JabberPicture(parent, NULL, this, true);
     case LOGO_INFO:
@@ -1731,7 +1733,7 @@ void JabberClient::updateInfo(Contact *contact, void *data)
     }
     if (data == NULL)
         data = &this->data.owner;
-    info_request((JabberUserData*)data);
+    info_request((JabberUserData*)data, false);
 }
 
 bool JabberClient::canSend(unsigned type, void *_data)

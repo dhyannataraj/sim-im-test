@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>378</width>
-            <height>288</height>
+            <width>374</width>
+            <height>251</height>
         </rect>
     </property>
     <property>
@@ -29,50 +29,22 @@
             <number>6</number>
         </property>
         <widget>
-            <class>QTabWidget</class>
+            <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>TabWidget2</cstring>
+                <cstring>TextLabel26</cstring>
             </property>
-            <widget>
-                <class>QWidget</class>
-                <property stdset="1">
-                    <name>name</name>
-                    <cstring>tab</cstring>
-                </property>
-                <attribute>
-                    <name>title</name>
-                    <string>A&amp;bout</string>
-                </attribute>
-                <vbox>
-                    <property>
-                        <name>margin</name>
-                        <number>11</number>
-                    </property>
-                    <property>
-                        <name>spacing</name>
-                        <number>6</number>
-                    </property>
-                    <widget>
-                        <class>QLabel</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>TextLabel26</cstring>
-                        </property>
-                        <property>
-                            <name>text</name>
-                            <string>Additional information about user:</string>
-                        </property>
-                    </widget>
-                    <widget>
-                        <class>QMultiLineEdit</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>edtAbout</cstring>
-                        </property>
-                    </widget>
-                </vbox>
-            </widget>
+            <property>
+                <name>text</name>
+                <string>Additional information:</string>
+            </property>
+        </widget>
+        <widget>
+            <class>QMultiLineEdit</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>edtAbout</cstring>
+            </property>
         </widget>
     </vbox>
 </widget>

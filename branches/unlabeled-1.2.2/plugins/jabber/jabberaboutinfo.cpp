@@ -18,6 +18,7 @@
 #include "simapi.h"
 #include "jabberaboutinfo.h"
 #include "jabberclient.h"
+#include "jabber.h"
 
 #include <qmultilineedit.h>
 
@@ -28,31 +29,37 @@ JabberAboutInfo::JabberAboutInfo(QWidget *parent, struct JabberUserData *data, J
     m_data    = data;
     if (m_data)
         edtAbout->setReadOnly(true);
-    fill();
+    fill(m_data);
 }
 
 void JabberAboutInfo::apply()
 {
 }
 
+int str_cmp(const char *s1, const char *s2);
+
 void *JabberAboutInfo::processEvent(Event *e)
 {
     if (e->type() == EventContactChanged){
         Contact *contact = (Contact*)(e->param());
         if (contact->clientData.have(m_data))
-            fill();
+            fill(m_data);
     }
     if ((e->type() == EventClientChanged) && (m_data == 0)){
         Client *client = (Client*)(e->param());
         if (client == m_client)
-            fill();
+            fill(m_data);
     }
+	if (m_data && (e->type() == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventVCard)){
+		JabberUserData *data = (JabberUserData*)(e->param());
+		if (!str_cmp(m_data->ID, data->ID) && !str_cmp(m_data->Node, data->Node))
+			fill(data);
+	}
     return NULL;
 }
 
-void JabberAboutInfo::fill()
+void JabberAboutInfo::fill(JabberUserData *data)
 {
-    JabberUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
     edtAbout->setText(data->Desc ? QString::fromUtf8(data->Desc) : QString(""));
 }

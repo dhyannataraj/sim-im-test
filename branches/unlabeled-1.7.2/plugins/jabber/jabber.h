@@ -43,6 +43,7 @@ public:
     unsigned EventSearch;
     unsigned EventSearchDone;
     unsigned EventDiscoItem;
+	unsigned EventVCard;
     unsigned CmdSendMessage;
     unsigned CmdGroups;
     unsigned CmdBrowser;
