@@ -1336,14 +1336,14 @@ void ICQPlugin::registerMessages()
     eMsg.process();
 
     cmd->id			= MessageContactRequest;
-    cmd->text		= "Contact Request";
+    cmd->text		= I18N_NOOP("Contact Request");
     cmd->icon		= "contacts";
     cmd->menu_grp	= 0;
     cmd->param		= &defContactRequest;
     eMsg.process();
 
     cmd->id         = MessageICQAuthRequest;
-    cmd->text       = "ICQ AuthRequest";
+    cmd->text       = I18N_NOOP("ICQ AuthRequest");
     cmd->icon       = "auth";
     cmd->menu_grp   = 0;
     cmd->param      = &defIcqAuthRequest;
@@ -1351,49 +1351,49 @@ void ICQPlugin::registerMessages()
 
 
     cmd->id			= MessageICQAuthGranted;
-    cmd->text		= "ICQ AuthGranted";
+    cmd->text		= I18N_NOOP("ICQ AuthGranted");
     cmd->icon		= "auth";
     cmd->menu_grp	= 0;
     cmd->param		= &defIcqAuthGranted;
     eMsg.process();
 
     cmd->id			= MessageICQAuthRefused;
-    cmd->text		= "ICQ AuthRefused";
+    cmd->text		= I18N_NOOP("ICQ AuthRefused");
     cmd->icon		= "auth";
     cmd->menu_grp	= 0;
     cmd->param		= &defIcqAuthRefused;
     eMsg.process();
 
     cmd->id			= MessageWebPanel;
-    cmd->text		= "Web panel";
+    cmd->text		= I18N_NOOP("Web panel");
     cmd->icon		= "web";
     cmd->menu_grp	= 0;
     cmd->param		= &defWebPanel;
     eMsg.process();
 
     cmd->id			= MessageEmailPager;
-    cmd->text		= "Email pager";
+    cmd->text		= I18N_NOOP("Email pager");
     cmd->icon		= "mailpager";
     cmd->menu_grp	= 0;
     cmd->param		= &defEmailPager;
     eMsg.process();
 
     cmd->id			= MessageOpenSecure;
-    cmd->text		= "Request secure channel";
+    cmd->text		= I18N_NOOP("Request secure channel");
     cmd->icon		= "encrypted";
     cmd->menu_grp	= 0x30F0;
     cmd->param		= &defOpenSecure;
     eMsg.process();
 
     cmd->id			= MessageCloseSecure;
-    cmd->text		= "Close secure channel";
+    cmd->text		= I18N_NOOP("Close secure channel");
     cmd->icon		= "encrypted";
     cmd->menu_grp	= 0x30F0;
     cmd->param		= &defCloseSecure;
     eMsg.process();
 
     cmd->id			= MessageCheckInvisible;
-    cmd->text		= "Check invisible";
+    cmd->text		= I18N_NOOP("Check invisible");
     cmd->icon		= "ICQ_invisible";
     cmd->menu_grp	= 0x30F1;
     cmd->param		= &defCheckInvisible;
