@@ -34,8 +34,6 @@ public:
     SMSPanel(QWidget *parent);
     ~SMSPanel();
     QCheckBox	*chkSave;
-signals:
-    void destroyed();
 };
 
 class MsgSMS : public QComboBox, public EventReceiver
