@@ -101,7 +101,6 @@ bool ControlListener::bind(const char *addr)
 	return false;
     }
     struct sockaddr_un sun;
-    sun.sun_len = sizeof(sun);
     sun.sun_family = AF_UNIX;
     strcpy(sun.sun_path, addr);
     if (::bind(s, (struct sockaddr*)&sun, sizeof(sun)) < 0){
