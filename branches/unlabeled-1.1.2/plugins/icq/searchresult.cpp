@@ -182,6 +182,7 @@ void *ICQSearchResult::processEvent(Event *e)
             Contact *contact;
             if (cmd->id == static_cast<ICQPlugin*>(m_client->protocol()->plugin())->CmdSendMessage){
                 contact = createContact(CONTACT_TEMP);
+                if (!contact) return NULL;
                 Message msg(MessageGeneric);
                 msg.setContact(contact->id());
                 Event e(EventOpenMessage, &msg);
@@ -189,6 +190,7 @@ void *ICQSearchResult::processEvent(Event *e)
             }
             if (cmd->id == CmdInfo){
                 contact = createContact(CONTACT_TEMP);
+                if (!contact) return NULL;
                 m_client->addFullInfoRequest(atol(tblUser->currentItem()->text(0).latin1()), true);
                 Command cmd;
                 cmd->id = CmdInfo;
@@ -201,6 +203,7 @@ void *ICQSearchResult::processEvent(Event *e)
         }
         if (cmd->menu_id == static_cast<ICQPlugin*>(m_client->protocol()->plugin())->MenuGroups){
             Contact *contact = createContact(0);
+            if (!contact) return NULL;
             contact->setGroup(cmd->id - 1);
             Event eContact(EventContactChanged, contact);
             eContact.process();
@@ -249,7 +252,7 @@ Contact *ICQSearchResult::createContact(unsigned tmpFlags)
     if (item == NULL)
         return NULL;
     unsigned uin = atol(item->text(0).latin1());
-    if (uin == 0)
+    if ((uin == 0) || (uin == m_client->getUin()))
         return NULL;
     Contact *contact;
     ICQUserData *data = m_client->findContact(uin, item->text(1).utf8(), false, contact);

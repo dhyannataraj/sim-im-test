@@ -418,6 +418,11 @@ void ICQClient::setUin(unsigned long uin)
     data.owner.Uin = uin;
 }
 
+unsigned long ICQClient::getUin()
+{
+    return data.owner.Uin;
+}
+
 void ICQClient::connect_ready()
 {
     log(L_DEBUG, "Connect ready");

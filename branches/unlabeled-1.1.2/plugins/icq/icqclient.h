@@ -362,6 +362,7 @@ public:
     virtual string getConfig();
     virtual unsigned getStatus();
     void setUin(unsigned long);
+    unsigned long getUin();
     PROP_STR(Server);
     PROP_ULONG(Port);
     PROP_ULONG(ContactsTime);
