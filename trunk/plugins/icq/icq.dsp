@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 1
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "ICQ_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /WX /Gi /GX /O2 /Ob2 /I "$(QTDIR)\include" /I "..\..\sim\api" /I "..\..\sim\ui" /I "..\_core" /I "C:\openssl\include" /D "USE_OPENSSL" /D "_WINDOWS" /D "QT_DLL" /D "UNICODE" /D "QT_THREAD_SUPPORT" /D VERSION=\"0.9.4\" /D PACKAGE=\"SIM\" /D USE_QT=1 /D CVS_BUILD=1 /D "WIN32" /D "_MBCS" /FR"Debug/" /Fo"Debug/" /Fd"Debug/" /FD /c
+# ADD CPP /nologo /MD /W4 /WX /O1 /I "$(QTDIR)\include" /I "..\..\sim\api" /I "..\..\sim\ui" /I "..\_core" /I "$(OPENSSL_DIR)\include" /D "USE_OPENSSL" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "QT_DLL" /D "UNICODE" /D "QT_THREAD_SUPPORT" /D VERSION=\"0.9.4\" /D PACKAGE=\"SIM\" /D USE_QT=1 /D CVS_BUILD=1 /FR"Debug/" /Fo"Debug/" /Fd"Debug/" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "NDEBUG"
@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 ..\..\Release\simui.lib wsock32.lib winmm.lib $(OPENSSL_DIR)\lib\libeay32.lib $(OPENSSL_DIR)\lib\ssleay32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib $(QTDIR)\lib\$(QT_LIB) ..\..\Release\simapi.lib /nologo /dll /pdb:none /machine:I386 /out:"../../Release/plugins/icq.dll"
+# ADD LINK32 ..\..\Release\simapi.lib ..\..\Release\simui.lib ..\..\Release\qjpegio.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\qt-mt230nc.lib $(OPENSSL_DIR)\lib\libeay32.lib $(OPENSSL_DIR)\lib\ssleay32.lib /nologo /dll /pdb:none /machine:I386 /out:"../../Release/plugins/icq.dll"
 
 !ELSEIF  "$(CFG)" == "icq - Win32 Debug"
 
@@ -69,7 +69,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 1
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "ICQ_EXPORTS" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "$(QTDIR)\include" /I "$(OPENSSL_DIR)\include" /I "..\..\sim\api" /I "..\..\sim\ui" /I "..\_core" /D "_DEBUG" /D "DEBUG" /D USE_OPENSSL=1 /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "QT_DLL" /D "UNICODE" /D "QT_THREAD_SUPPORT" /D VERSION=\"0.9.4\" /D PACKAGE=\"SIM\" /D USE_QT=1 /D CVS_BUILD=1 /FD /I /GZ /c
+# ADD CPP /nologo /MDd /W4 /WX /Gm /ZI /Od /I "$(QTDIR)\include" /I "..\..\sim\api" /I "..\..\sim\ui" /I "..\_core" /I "$(OPENSSL_DIR)\include" /D "_DEBUG" /D "DEBUG" /D USE_OPENSSL=1 /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "QT_DLL" /D "UNICODE" /D "QT_THREAD_SUPPORT" /D VERSION=\"0.9.4\" /D PACKAGE=\"SIM\" /D USE_QT=1 /D CVS_BUILD=1 /FR /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "_DEBUG"
@@ -79,8 +79,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 ..\..\Debug\simapi.lib ..\..\Debug\simui.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\$(QT_LIB) $(OPENSSL_DIR)\lib\libeay32.lib $(OPENSSL_DIR)\lib\ssleay32.lib /nologo /dll /debug /machine:I386 /out:"../../Debug/plugins/icq.dll" /pdbtype:sept
-# SUBTRACT LINK32 /pdb:none
+# ADD LINK32 ..\..\Debug\simapi.lib ..\..\Debug\simui.lib ..\..\Debug\qjpegio.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\qt-mt230nc.lib $(OPENSSL_DIR)\lib\libeay32.lib $(OPENSSL_DIR)\lib\ssleay32.lib /nologo /dll /debug /machine:I386 /out:"../../Debug/plugins/icq.dll" /pdbtype:sept
 
 !ENDIF 
 
@@ -595,7 +594,7 @@ InputName=aboutinfobase
 
 !ELSEIF  "$(CFG)" == "icq - Win32 Debug"
 
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\aboutinfobase.h
 InputName=aboutinfobase
@@ -844,7 +843,7 @@ InputName=homeinfobase
 
 !ELSEIF  "$(CFG)" == "icq - Win32 Debug"
 
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\homeinfobase.h
 InputName=homeinfobase
@@ -945,7 +944,7 @@ InputName=icqconfigbase
 
 !ELSEIF  "$(CFG)" == "icq - Win32 Debug"
 
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\icqconfigbase.h
 InputName=icqconfigbase
@@ -1009,7 +1008,7 @@ InputName=icqinfobase
 
 !ELSEIF  "$(CFG)" == "icq - Win32 Debug"
 
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\icqinfobase.h
 InputName=icqinfobase
@@ -1078,7 +1077,7 @@ InputName=icqpicturebase
 
 !ELSEIF  "$(CFG)" == "icq - Win32 Debug"
 
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\icqpicturebase.h
 InputName=icqpicturebase
@@ -1142,7 +1141,7 @@ InputName=icqsearchbase
 
 !ELSEIF  "$(CFG)" == "icq - Win32 Debug"
 
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\icqsearchbase.h
 InputName=icqsearchbase
@@ -1206,7 +1205,7 @@ InputName=icqsecurebase
 
 !ELSEIF  "$(CFG)" == "icq - Win32 Debug"
 
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\icqsecurebase.h
 InputName=icqsecurebase
@@ -1270,7 +1269,7 @@ InputName=interestsinfobase
 
 !ELSEIF  "$(CFG)" == "icq - Win32 Debug"
 
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\interestsinfobase.h
 InputName=interestsinfobase
@@ -1334,7 +1333,7 @@ InputName=moreinfobase
 
 !ELSEIF  "$(CFG)" == "icq - Win32 Debug"
 
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\moreinfobase.h
 InputName=moreinfobase
@@ -1398,7 +1397,7 @@ InputName=pastinfobase
 
 !ELSEIF  "$(CFG)" == "icq - Win32 Debug"
 
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\pastinfobase.h
 InputName=pastinfobase
@@ -1495,7 +1494,7 @@ InputName=securedlgbase
 
 !ELSEIF  "$(CFG)" == "icq - Win32 Debug"
 
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\securedlgbase.h
 InputName=securedlgbase
@@ -1596,7 +1595,7 @@ InputName=workinfobase
 
 !ELSEIF  "$(CFG)" == "icq - Win32 Debug"
 
-# Begin Custom Build - Moc'ing $(InputName).h ...
+# Begin Custom Build
 InputDir=.
 InputPath=.\workinfobase.h
 InputName=workinfobase

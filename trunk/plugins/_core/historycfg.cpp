@@ -17,7 +17,11 @@
 
 #include "simapi.h"
 
+#ifdef WIN32
+#include "qt3/qsyntaxhighlighter.h"
+#else
 #include <qsyntaxhighlighter.h>
+#endif
 
 #include "historycfg.h"
 #include "core.h"

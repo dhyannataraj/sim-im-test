@@ -268,12 +268,21 @@ int main(int argc, char *argv[])
             return 0;
     }
     SimApp app(argc, argv);
-#endif
-    {
-        PluginManager p(argc, argv);
-        if (p.isLoaded())
-            res = app.exec();
+    StyleInfo*  (*getStyleInfo)() = NULL;
+    HINSTANCE hLib = LoadLibraryA("UxTheme.dll");
+    if (hLib != NULL)
+        hLib = LoadLibraryA(app_file("plugins\\styles\\xpstyle.dll").c_str());
+    if (hLib != NULL)
+        (DWORD&)getStyleInfo = (DWORD)GetProcAddress(hLib,"GetStyleInfo");
+    if (getStyleInfo){
+        StyleInfo *info = getStyleInfo();
+        if (info)
+            qApp->setStyle(info->create());
     }
+#endif
+    PluginManager p(argc, argv);
+    if (p.isLoaded())
+        res = app.exec();
 #ifdef WIN32
     CloseHandle(hMutex);
 #endif

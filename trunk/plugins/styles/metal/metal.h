@@ -1,7 +1,7 @@
 /****************************************************************************
-** $Id: metal.h,v 1.3 2004-05-28 15:09:25 chehrlic Exp $
+** $Id: metal.h,v 1.4 2004-06-04 16:55:46 shutoff Exp $
 **
-** Definition of the Metal Style for the themes example
+** Definition of something or other
 **
 ** Created : 979899
 **
@@ -15,14 +15,8 @@
 #ifndef METAL_H
 #define METAL_H
 
-
-#include <qpalette.h>
-
-#ifndef QT_NO_STYLE_WINDOWS
-
 #include <qwindowsstyle.h>
-#include <qstyleplugin.h>
-
+#include <qpalette.h>
 
 class MetalStyle : public QWindowsStyle
 {
@@ -33,61 +27,40 @@ public:
     void polish( QWidget* );
     void unPolish( QWidget* );
 
-    void drawPrimitive( PrimitiveElement pe,
-                        QPainter *p,
-                        const QRect &r,
-                        const QColorGroup &cg,
-                        SFlags flags = Style_Default,
-                        const QStyleOption& = QStyleOption::Default) const;
+    void drawMetalButton( QPainter *p, int x, int y, int w, int h,
+                          bool sunken = FALSE, bool horz = TRUE );
 
-    void drawControl( ControlElement element,
-                      QPainter *p,
-                      const QWidget *widget,
-                      const QRect &r,
-                      const QColorGroup &cg,
-                      SFlags how = Style_Default,
-                      const QStyleOption& = QStyleOption::Default ) const;
+    void drawButton( QPainter *p, int x, int y, int w, int h,
+                     const QColorGroup &g, bool sunken = FALSE,
+                     const QBrush *fill = 0 );
+    void drawBevelButton( QPainter *p, int x, int y, int w, int h,
+                          const QColorGroup &g, bool sunken = FALSE,
+                          const QBrush *fill = 0 );
 
-    void drawComplexControl( ComplexControl cc,
-                             QPainter *p,
-                             const QWidget *widget,
-                             const QRect &r,
-                             const QColorGroup &cg,
-                             SFlags how = Style_Default,
-                             SCFlags sub = SC_All,
-                             SCFlags subActive = SC_None,
-                             const QStyleOption& = QStyleOption::Default ) const;
-    int pixelMetric( PixelMetric, const QWidget * ) const;
+    void drawPushButton( QPushButton* btn, QPainter *p);
+    void drawPushButtonLabel( QPushButton* btn, QPainter *p);
+    void drawPanel( QPainter *p, int x, int y, int w, int h,
+                    const QColorGroup &, bool sunken,
+                    int lineWidth, const QBrush *fill );
 
+    void drawSlider( QPainter *p,
+                     int x, int y, int w, int h,
+                     const QColorGroup &g,
+                     Orientation orient, bool tickAbove, bool tickBelow );
+
+    void drawScrollBarControls( QPainter* p, const QScrollBar* sb,
+                                int sliderStart, uint controls,
+                                uint activeControl );
+
+    void drawComboButton( QPainter *p, int x, int y, int w, int h,
+                          const QColorGroup &g, bool sunken = FALSE,
+                          bool editable = FALSE,
+                          bool enabled = TRUE,
+                          const QBrush *fill = 0 );
 
 private:
-    void drawMetalFrame(  QPainter *p, int x, int y, int w, int h ) const;
-    void drawMetalGradient( QPainter *p, int x, int y, int w, int h,
-                          bool sunken, bool horz, bool flat=FALSE ) const;
-    void drawMetalButton( QPainter *p, int x, int y, int w, int h,
-                          bool sunken, bool horz, bool flat=FALSE ) const;
     QPalette oldPalette;
 };
 
-class MetalStylePlugin : public QStylePlugin
-{
-public:
-	MetalStylePlugin() {};
-	~MetalStylePlugin() {};
-
-	QStringList keys() const { 
-            return QStringList() << "Metal"; 
-        }
-
-	QStyle* create( const QString& key ) { 
-            if ( key.lower() == "metal" ) 
-                return new MetalStyle();
-            return 0;
-	}
-};
-
-Q_EXPORT_PLUGIN( MetalStylePlugin )
-
 #endif
 
-#endif
