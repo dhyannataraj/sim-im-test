@@ -147,6 +147,7 @@ void ICQClientPrivate::snac_buddy(unsigned short type, unsigned short)
                             if (*capabilities[i] == 0) break;
                             unsigned size = sizeof(capability);
                             if (i == CAP_SIM) size--;
+			    if (i == CAP_MICQ) size -= 4;
                             if (!memcmp(cap, capabilities[i], size)){
                                 if (i == CAP_SIM){
                                     unsigned char build = cap[sizeof(capability)-1];
@@ -154,6 +155,11 @@ void ICQClientPrivate::snac_buddy(unsigned short type, unsigned short)
                                     if (build && ((build == 0x92) || (build < (1 << 6)))) continue;
                                     user->Build = build;
                                 }
+				if (i == CAP_MICQ){
+				    unsigned char *p = (unsigned char*)cap;
+				    p += 12;
+				    user->Build = (p[0] << 24) + (p[1] << 16) + (p[2] << 8) + p[3];
+				}
                                 user->Caps |= (1 << i);
                             }
                         }

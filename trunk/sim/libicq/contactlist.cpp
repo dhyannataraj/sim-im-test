@@ -691,6 +691,11 @@ bool ICQUser::isOnline()
     return false;
 }
 
+/*
+	Based on code from micq
+	Copyright © Rüdiger Kuhlmann;
+*/
+
 string ICQUser::client()
 {
     string res;
@@ -778,6 +783,14 @@ string ICQUser::client()
             res = "Kopete";
             v1 = v2 = 0;
         }
+    }
+    else if (hasCap(CAP_MICQ))
+    {
+	res = "mICQ";
+	v1 = (Build >> 24) & 0xFF;
+	v2 = (Build >> 16) & 0xFF;
+	v3 = (Build >> 8) & 0xFF;
+	v4 = Build & 0xFF;
     }
     else if (hasCap(CAP_STR_2002) && hasCap(CAP_IS_2002))
         res = "ICQ 2002";

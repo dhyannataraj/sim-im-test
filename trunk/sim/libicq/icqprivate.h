@@ -83,6 +83,7 @@ const unsigned CAP_TRIL_CRYPT	= 9;
 const unsigned CAP_LICQ		= 10;
 const unsigned CAP_MACICQ	= 11;
 const unsigned CAP_AIM_CHAT	= 12;
+const unsigned CAP_MICQ		= 13;
 
 class ICQListener;
 
