@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-11-08 07:23+0300\n"
+"POT-Creation-Date: 2003-11-09 02:39+0300\n"
 "PO-Revision-Date: 2003-09-17 18:18+0100\n"
 "Last-Translator: Pau Bosch i Crespo <paubcrespo@hotmail.com>\n"
 "Language-Team: LANGUAGE <paubcrespo@hotmail.com>\n"
@@ -330,7 +330,7 @@ msgid "&Open message"
 msgstr "&Obre missatge"
 
 #: plugins/_core/core.cpp:760 plugins/_core/core.cpp:859
-#: plugins/netmonitor/monitor.cpp:67 sim/ui/qt3/qtextedit.cpp:4025
+#: plugins/netmonitor/monitor.cpp:67 sim/ui/qt3/qtextedit.cpp:4024
 msgid "&Copy"
 msgstr "&Copia"
 
@@ -346,29 +346,29 @@ msgstr "&Endavant"
 msgid "&Answer"
 msgstr "&Resposta"
 
-#: plugins/_core/core.cpp:832 sim/ui/qt3/qtextedit.cpp:4018
+#: plugins/_core/core.cpp:832 sim/ui/qt3/qtextedit.cpp:4017
 msgid "&Undo"
 msgstr "&Desfés"
 
-#: plugins/_core/core.cpp:843 sim/ui/qt3/qtextedit.cpp:4019
+#: plugins/_core/core.cpp:843 sim/ui/qt3/qtextedit.cpp:4018
 msgid "&Redo"
 msgstr "&Refés"
 
-#: plugins/_core/core.cpp:851 sim/ui/qt3/qtextedit.cpp:4024
+#: plugins/_core/core.cpp:851 sim/ui/qt3/qtextedit.cpp:4023
 msgid "Cu&t"
 msgstr "&Talla"
 
-#: plugins/_core/core.cpp:867 sim/ui/qt3/qtextedit.cpp:4027
+#: plugins/_core/core.cpp:867 sim/ui/qt3/qtextedit.cpp:4026
 msgid "&Paste"
 msgstr "&Enganxa"
 
 #: plugins/_core/core.cpp:875 sim/ui/qt3/i18n.cpp:255
-#: sim/ui/qt3/qtextedit.cpp:4030
+#: sim/ui/qt3/qtextedit.cpp:4029
 msgid "Clear"
 msgstr "Neteja"
 
 #: plugins/_core/core.cpp:883 sim/ui/qt3/i18n.cpp:257
-#: sim/ui/qt3/qtextedit.cpp:4034 sim/ui/qt3/qtextedit.cpp:4036
+#: sim/ui/qt3/qtextedit.cpp:4033 sim/ui/qt3/qtextedit.cpp:4035
 msgid "Select All"
 msgstr "Selecciona-ho tot"
 
@@ -638,7 +638,7 @@ msgstr "Mostra %1 missatges per pàgina"
 msgid "Loading"
 msgstr "S'està carregant"
 
-#: plugins/_core/historywnd.cpp:117 plugins/_core/interfacecfg.cpp:78
+#: plugins/_core/historywnd.cpp:117 plugins/_core/interfacecfg.cpp:79
 msgid "History"
 msgstr "Historial"
 
@@ -675,70 +675,74 @@ msgstr "Francès"
 msgid "Hebrew"
 msgstr "Hebreu"
 
-#: plugins/_core/interfacecfg.cpp:54 plugins/icq/moreinfo.cpp:119
+#: plugins/_core/interfacecfg.cpp:54 plugins/icq/moreinfo.cpp:116
+msgid "Hungarian"
+msgstr "Hongarès"
+
+#: plugins/_core/interfacecfg.cpp:55 plugins/icq/moreinfo.cpp:119
 msgid "Italian"
 msgstr "Italià"
 
-#: plugins/_core/interfacecfg.cpp:55 plugins/icq/moreinfo.cpp:104
+#: plugins/_core/interfacecfg.cpp:56 plugins/icq/moreinfo.cpp:104
 msgid "Dutch"
 msgstr "Holandès"
 
-#: plugins/_core/interfacecfg.cpp:56 plugins/icq/moreinfo.cpp:128
+#: plugins/_core/interfacecfg.cpp:57 plugins/icq/moreinfo.cpp:128
 msgid "Polish"
 msgstr "Polonès"
 
-#: plugins/_core/interfacecfg.cpp:57 plugins/icq/moreinfo.cpp:129
+#: plugins/_core/interfacecfg.cpp:58 plugins/icq/moreinfo.cpp:129
 msgid "Portuguese"
 msgstr "Portuguès"
 
-#: plugins/_core/interfacecfg.cpp:58 plugins/icq/moreinfo.cpp:131
+#: plugins/_core/interfacecfg.cpp:59 plugins/icq/moreinfo.cpp:131
 msgid "Russian"
 msgstr "Rus"
 
-#: plugins/_core/interfacecfg.cpp:59 plugins/icq/moreinfo.cpp:133
+#: plugins/_core/interfacecfg.cpp:60 plugins/icq/moreinfo.cpp:133
 msgid "Slovak"
 msgstr "Eslovac"
 
-#: plugins/_core/interfacecfg.cpp:60
+#: plugins/_core/interfacecfg.cpp:61
 msgid "Swabian"
 msgstr ""
 
-#: plugins/_core/interfacecfg.cpp:61 plugins/icq/icqclient.cpp:317
+#: plugins/_core/interfacecfg.cpp:62 plugins/icq/icqclient.cpp:317
 #: plugins/icq/icqclient.cpp:318 plugins/icq/moreinfo.cpp:142
 msgid "Turkish"
 msgstr "Turc"
 
-#: plugins/_core/interfacecfg.cpp:62 plugins/icq/icqclient.cpp:294
+#: plugins/_core/interfacecfg.cpp:63 plugins/icq/icqclient.cpp:294
 #: plugins/icq/moreinfo.cpp:143
 msgid "Ukrainian"
 msgstr "Ucrainià"
 
-#: plugins/_core/interfacecfg.cpp:63 plugins/icq/moreinfo.cpp:100
+#: plugins/_core/interfacecfg.cpp:64 plugins/icq/moreinfo.cpp:100
 msgid "Chinese"
 msgstr "Xinès"
 
-#: plugins/_core/interfacecfg.cpp:76
+#: plugins/_core/interfacecfg.cpp:77
 msgid "Contact list"
 msgstr "Llistat de contactes"
 
-#: plugins/_core/interfacecfg.cpp:81
+#: plugins/_core/interfacecfg.cpp:82
 msgid "Messages"
 msgstr "Missatges"
 
-#: plugins/_core/interfacecfg.cpp:84
+#: plugins/_core/interfacecfg.cpp:85
 msgid "SMS"
 msgstr "SMS"
 
-#: plugins/_core/interfacecfg.cpp:86
+#: plugins/_core/interfacecfg.cpp:87
 #, fuzzy
 msgid "Fonts"
 msgstr "Font:"
 
-#: plugins/_core/interfacecfg.cpp:93 plugins/icq/icqclient.cpp:2585
+#: plugins/_core/interfacecfg.cpp:94 plugins/icq/icqclient.cpp:2585
 msgid "System"
 msgstr "Sistema"
 
-#: plugins/_core/interfacecfg.cpp:127
+#: plugins/_core/interfacecfg.cpp:128
 msgid "Copy %1 messages from history"
 msgstr "Copia %1 missatges des de l'historial"
 
@@ -2385,19 +2389,19 @@ msgstr ""
 "_n: Fitxer\n"
 "%n fitxers"
 
-#: plugins/icq/icqicmb.cpp:1215 plugins/icq/warndlg.cpp:66
+#: plugins/icq/icqicmb.cpp:1214 plugins/icq/warndlg.cpp:66
 msgid "Send fail"
 msgstr "Enviament fallit"
 
-#: plugins/icq/icqicmb.cpp:1294
+#: plugins/icq/icqicmb.cpp:1293
 msgid "Send timeout"
 msgstr "Temps d'espera per enviar esgotat"
 
-#: plugins/icq/icqicmb.cpp:1318
+#: plugins/icq/icqicmb.cpp:1317
 msgid "No contact"
 msgstr "No hi ha contacte"
 
-#: plugins/icq/icqicmb.cpp:1339 plugins/icq/icqmessage.cpp:1178
+#: plugins/icq/icqicmb.cpp:1338 plugins/icq/icqmessage.cpp:1178
 #: plugins/jabber/jabberclient.cpp:2147
 #, fuzzy
 msgid "No contacts for send"
@@ -2929,10 +2933,6 @@ msgstr "Gaèlic"
 #: plugins/icq/moreinfo.cpp:115
 msgid "Hindi"
 msgstr "Hindi"
-
-#: plugins/icq/moreinfo.cpp:116
-msgid "Hungarian"
-msgstr "Hongarès"
 
 #: plugins/icq/moreinfo.cpp:117
 msgid "Icelandic"
@@ -4436,11 +4436,11 @@ msgstr ""
 msgid "Proxy authorization failed"
 msgstr "Error en l'autorització del proxy"
 
-#: plugins/proxy/proxy.cpp:1240
+#: plugins/proxy/proxy.cpp:1243
 msgid "Proxy"
 msgstr "Proxy"
 
-#: plugins/proxy/proxy.cpp:1241
+#: plugins/proxy/proxy.cpp:1244
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS and HTTP)"
 msgstr "El pedaç permet l'ús de proxy (SOCKS4, SOCKS5, HTTPS i HTTP)"
 
@@ -4681,26 +4681,26 @@ msgstr ""
 msgid "AutoHide"
 msgstr "Autoamaga"
 
-#: plugins/gpg/gpg.cpp:48
+#: plugins/gpg/gpg.cpp:52
 msgid "GPG"
 msgstr ""
 
-#: plugins/gpg/gpg.cpp:49
+#: plugins/gpg/gpg.cpp:53
 msgid "Plugin adds GnuPG encryption/decryption support for messages"
 msgstr ""
 
-#: plugins/gpg/gpg.cpp:73
+#: plugins/gpg/gpg.cpp:77
 msgid ""
 "Plugin adds GnuPG encryption/decryption support for messages\n"
 "GPG not found in PATH"
 msgstr ""
 
-#: plugins/gpg/gpg.cpp:392 plugins/gpg/gpg.cpp:397
+#: plugins/gpg/gpg.cpp:396 plugins/gpg/gpg.cpp:401
 #, fuzzy
 msgid "Encrypt failed"
 msgstr "Transferència fallida"
 
-#: plugins/gpg/gpg.cpp:551
+#: plugins/gpg/gpg.cpp:558
 #, fuzzy, c-format
 msgid ""
 "_n: %n GPG key\n"
@@ -4709,15 +4709,15 @@ msgstr ""
 "_n: Fitxer\n"
 "%n fitxers"
 
-#: plugins/gpg/gpg.cpp:598
+#: plugins/gpg/gpg.cpp:605
 msgid "GPG key"
 msgstr ""
 
-#: plugins/gpg/gpg.cpp:606
+#: plugins/gpg/gpg.cpp:613
 msgid "Use GPG encryption"
 msgstr ""
 
-#: plugins/gpg/gpg.cpp:613
+#: plugins/gpg/gpg.cpp:620
 msgid "&GPG key"
 msgstr ""
 
@@ -4743,6 +4743,15 @@ msgstr "&Anul·la"
 #, fuzzy
 msgid "New"
 msgstr "&Nou"
+
+#: plugins/gpg/gpggen.cpp:103
+msgid "Move mouse for generate random key"
+msgstr ""
+
+#: plugins/gpg/gpggen.cpp:169
+#, fuzzy
+msgid "Generate key failed"
+msgstr "Envia missatge fallit"
 
 #: plugins/gpg/gpgcfgbase.cpp:96
 msgid "Executable:"

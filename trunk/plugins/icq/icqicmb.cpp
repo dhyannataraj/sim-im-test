@@ -516,7 +516,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
         if ((data->Status != ICQ_STATUS_OFFLINE) &&
                 (getSendFormat() <= 1) &&
                 hasCap(data, CAP_UTF) &&
-				((msg->getFlags() & MESSAGE_SECURE) == 0) &&
+                ((msg->getFlags() & MESSAGE_SECURE) == 0) &&
                 (data->Version >= 8) && !data->bBadClient){
             s.flags  = SEND_UTF;
             s.msg    = msg;
@@ -527,9 +527,9 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
             return true;
         }
         if ((data->Status != ICQ_STATUS_OFFLINE) &&
-                (data->Version >= 8) && 
-				!data->bBadClient &&
-				(msg->getPlainText().length() >= MAX_PLAIN_MESSAGE_SIZE)){
+                (data->Version >= 8) &&
+                !data->bBadClient &&
+                (msg->getPlainText().length() >= MAX_PLAIN_MESSAGE_SIZE)){
             s.flags  = SEND_TYPE2;
             s.msg    = msg;
             s.text   = addCRLF(msg->getPlainText());
@@ -541,13 +541,13 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
         if ((data->Uin == 0) || m_bAIM ||
                 (hasCap(data, CAP_AIM_BUDDYCON) && !hasCap(data, CAP_AIM_CHAT))){
             s.msg	 = msg;
-			if (msg->getFlags() & MESSAGE_RICHTEXT){
-				s.flags  = SEND_HTML;
-				s.text	 = removeImages(msg->getRichText(), 0);
-			}else{
-				s.flags  = SEND_HTML_PLAIN;
-				s.text	 = msg->getPlainText();
-			}
+            if (msg->getFlags() & MESSAGE_RICHTEXT){
+                s.flags  = SEND_HTML;
+                s.text	 = removeImages(msg->getRichText(), 0);
+            }else{
+                s.flags  = SEND_HTML_PLAIN;
+                s.text	 = msg->getPlainText();
+            }
             s.screen = screen(data);
             sendQueue.push_front(s);
             send(false);
@@ -804,13 +804,13 @@ void ICQClient::clearMsgQueue()
     m_send.screen = "";
 }
 
-void ICQClient::parseAdvancedMessage(const char *screen, Buffer &msg, bool needAck, MessageId id)
+void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck, MessageId id)
 {
-    msg.incReadPos(8);
+    m.incReadPos(8);
     capability cap;
-    msg.unpack((char*)cap, sizeof(cap));
+    m.unpack((char*)cap, sizeof(cap));
     if (!memcmp(cap, capabilities[CAP_DIRECT], sizeof(cap))){
-        TlvList tlv(msg);
+        TlvList tlv(m);
         if (!tlv(0x2711)){
             log(L_DEBUG, "No 2711 tlv in direct message");
             return;
@@ -862,7 +862,7 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &msg, bool needA
         return;
     }
 
-    TlvList tlv(msg);
+    TlvList tlv(m);
     unsigned long real_ip = 0;
     unsigned long ip = 0;
     unsigned short port = 0;
@@ -1081,7 +1081,9 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &msg, bool needA
     adv.unpack(msgType);
     adv.unpack(msgState);
     adv.unpack(msgFlags);
-    Buffer copy;
+    string msg;
+    adv >> msg;
+
     switch (msgType){
     case ICQ_MSGxAR_AWAY:
     case ICQ_MSGxAR_OCCUPIED:
@@ -1128,8 +1130,6 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &msg, bool needA
             Event e(EventARRequest, &ar);
             e.process();
 
-            string msg;
-            adv >> msg;
             if (!msg.empty()){
                 set_str(&data->AutoReply, msg.c_str());
                 Event e(EventContactChanged, contact);
@@ -1137,100 +1137,99 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &msg, bool needA
             }
             return;
         }
-    default:
-        string msg;
-        adv >> msg;
-        if (*msg.c_str() || (msgType == ICQ_MSGxEXT)){
-            if (adv.readPos() < adv.writePos())
-                copy.pack(adv.data(adv.readPos()), adv.writePos() - adv.readPos());
-            log(L_DEBUG, "Msg size=%u type=%u", msg.size(), msgType);
-            if (msg.size() || (msgType == ICQ_MSGxEXT)){
-                Message *m = parseMessage(msgType, screen, msg, adv, id, cookie1 | (cookie2 << 16));
-                if (m){
-                    list<SendMsg>::iterator it;
-                    for (it = replyQueue.begin(); it != replyQueue.end(); ++it){
-                        SendMsg &s = *it;
-                        if ((s.id == id) && (s.screen == screen))
+    }
+    Buffer copy;
+    if (*msg.c_str() || (msgType == ICQ_MSGxEXT)){
+        if (adv.readPos() < adv.writePos())
+            copy.pack(adv.data(adv.readPos()), adv.writePos() - adv.readPos());
+        log(L_DEBUG, "Msg size=%u type=%u", msg.size(), msgType);
+        if (msg.size() || (msgType == ICQ_MSGxEXT)){
+            Message *m = parseMessage(msgType, screen, msg, adv, id, cookie1 | (cookie2 << 16));
+            if (m){
+                list<SendMsg>::iterator it;
+                for (it = replyQueue.begin(); it != replyQueue.end(); ++it){
+                    SendMsg &s = *it;
+                    if ((s.id == id) && (s.screen == screen))
+                        break;
+                }
+                if (it == replyQueue.end()){
+                    bool bAccept = true;
+                    unsigned short ackFlags = 0;
+                    if (m->type() != MessageICQFile){
+                        switch (getStatus()){
+                        case STATUS_DND:
+                            if (getAcceptInDND())
+                                break;
+                            ackFlags = ICQ_TCPxACK_DND;
+                            bAccept = false;
                             break;
-                    }
-                    if (it == replyQueue.end()){
-                        bool bAccept = true;
-                        unsigned short ackFlags = 0;
-                        if (m->type() != MessageICQFile){
-                            switch (getStatus()){
-                            case STATUS_DND:
-                                if (getAcceptInDND())
-                                    break;
-                                ackFlags = ICQ_TCPxACK_DND;
-                                bAccept = false;
+                        case STATUS_OCCUPIED:
+                            if (getAcceptInOccupied())
                                 break;
-                            case STATUS_OCCUPIED:
-                                if (getAcceptInOccupied())
-                                    break;
-                                ackFlags = ICQ_TCPxACK_OCCUPIED;
-                                bAccept = false;
-                                break;
-                            }
-                            if (msgFlags & (ICQ_TCPxMSG_URGENT | ICQ_TCPxMSG_LIST))
-                                bAccept = true;
-                            if (!bAccept){
-                                Contact *contact;
-                                ICQUserData *data = findContact(screen, NULL, false, contact);
-                                if (data == NULL)
-                                    return;
-
-                                ar_request req;
-                                req.screen  = screen;
-                                req.type    = msgType;
-                                req.ack		= ackFlags;
-                                req.id      = id;
-                                req.id1     = cookie1;
-                                req.id2     = cookie2;
-                                req.bDirect = false;
-                                arRequests.push_back(req);
-
-                                ARRequest ar;
-                                ar.contact  = contact;
-                                ar.param    = &arRequests.back();
-                                ar.receiver = this;
-                                ar.status   = getStatus();
-                                Event e(EventARRequest, &ar);
-                                e.process();
-                                return;
-                            }
+                            ackFlags = ICQ_TCPxACK_OCCUPIED;
+                            bAccept = false;
+                            break;
                         }
-                        if (msgFlags & ICQ_TCPxMSG_URGENT)
-                            m->setFlags(m->getFlags() | MESSAGE_URGENT);
-                        if (msgFlags & ICQ_TCPxMSG_LIST)
-                            m->setFlags(m->getFlags() | MESSAGE_LIST);
-                        needAck = messageReceived(m, screen);
-                    }else{
-                        Message *msg = (*it).msg;
-                        replyQueue.erase(it);
-                        if (msg->type() == MessageFile){
+                        if (msgFlags & (ICQ_TCPxMSG_URGENT | ICQ_TCPxMSG_LIST))
+                            bAccept = true;
+                        if (!bAccept){
                             Contact *contact;
                             ICQUserData *data = findContact(screen, NULL, false, contact);
-                            if ((m->type() != MessageICQFile) || (data == NULL)){
-                                log(L_WARN, "Bad answer type");
-                                msg->setError(I18N_NOOP("Send fail"));
-                                Event e(EventMessageSent, msg);
-                                e.process();
-                                delete msg;
+                            if (data == NULL)
                                 return;
-                            }
-                            ICQFileTransfer *ft = new ICQFileTransfer(static_cast<FileMessage*>(msg), data, this);
-                            Event e(EventMessageAcked, msg);
+
+                            ar_request req;
+                            req.screen  = screen;
+                            req.type    = msgType;
+                            req.ack		= ackFlags;
+                            req.id      = id;
+                            req.id1     = cookie1;
+                            req.id2     = cookie2;
+                            req.bDirect = false;
+                            arRequests.push_back(req);
+
+                            ARRequest ar;
+                            ar.contact  = contact;
+                            ar.param    = &arRequests.back();
+                            ar.receiver = this;
+                            ar.status   = getStatus();
+                            Event e(EventARRequest, &ar);
                             e.process();
-                            m_processMsg.push_back(msg);
-                            ft->connect(static_cast<ICQFileMessage*>(m)->getPort());
-                        }else{
-                            log(L_WARN, "Unknown message type for ACK");
-                            delete msg;
+                            return;
                         }
+                    }
+                    if (msgFlags & ICQ_TCPxMSG_URGENT)
+                        m->setFlags(m->getFlags() | MESSAGE_URGENT);
+                    if (msgFlags & ICQ_TCPxMSG_LIST)
+                        m->setFlags(m->getFlags() | MESSAGE_LIST);
+                    needAck = messageReceived(m, screen);
+                }else{
+                    Message *msg = (*it).msg;
+                    replyQueue.erase(it);
+                    if (msg->type() == MessageFile){
+                        Contact *contact;
+                        ICQUserData *data = findContact(screen, NULL, false, contact);
+                        if ((m->type() != MessageICQFile) || (data == NULL)){
+                            log(L_WARN, "Bad answer type");
+                            msg->setError(I18N_NOOP("Send fail"));
+                            Event e(EventMessageSent, msg);
+                            e.process();
+                            delete msg;
+                            return;
+                        }
+                        ICQFileTransfer *ft = new ICQFileTransfer(static_cast<FileMessage*>(msg), data, this);
+                        Event e(EventMessageAcked, msg);
+                        e.process();
+                        m_processMsg.push_back(msg);
+                        ft->connect(static_cast<ICQFileMessage*>(m)->getPort());
+                    }else{
+                        log(L_WARN, "Unknown message type for ACK");
+                        delete msg;
                     }
                 }
             }
         }
+        Buffer copy;
     }
     if (!needAck) return;
     sendAutoReply(screen, id, p, cookie1, cookie2,
@@ -1449,40 +1448,40 @@ void ICQClient::processSendQueue()
                 text = m_send.part.utf8();
                 break;
             case SEND_TYPE2:{
-                m_send.part = getPart(m_send.text, MAX_TYPE2_MESSAGE_SIZE);
-                text = fromUnicode(m_send.part, data);
-				messageSend ms;
-				ms.msg  = m_send.msg;
-				ms.text = &text;
-				Event e(EventSend, &ms);
-				e.process();
-                break;
-			}
+                    m_send.part = getPart(m_send.text, MAX_TYPE2_MESSAGE_SIZE);
+                    text = fromUnicode(m_send.part, data);
+                    messageSend ms;
+                    ms.msg  = m_send.msg;
+                    ms.text = &text;
+                    Event e(EventSend, &ms);
+                    e.process();
+                    break;
+                }
             case SEND_HTML:
-			case SEND_HTML_PLAIN:{
+            case SEND_HTML_PLAIN:{
                     QString t;
-					if ((m_send.flags & SEND_MASK) == SEND_HTML){
-						m_send.part = getRichTextPart(m_send.text, MAX_TYPE2_MESSAGE_SIZE);
-					}else{
-						m_send.part = getPart(m_send.text, MAX_TYPE2_MESSAGE_SIZE);
-					}
+                    if ((m_send.flags & SEND_MASK) == SEND_HTML){
+                        m_send.part = getRichTextPart(m_send.text, MAX_TYPE2_MESSAGE_SIZE);
+                    }else{
+                        m_send.part = getPart(m_send.text, MAX_TYPE2_MESSAGE_SIZE);
+                    }
                     char b[15];
                     sprintf(b, "%06X", (unsigned)(m_send.msg->getBackground() & 0xFFFFFF));
                     t += "<HTML><BODY BGCOLOR=\"#";
                     t += b;
                     t += "\">";
-					if ((m_send.flags & SEND_MASK) == SEND_HTML){
-						t += m_send.part;
-					}else{
-						string s;
-						s = m_send.part.utf8();
-						messageSend ms;
-						ms.msg  = m_send.msg;
-						ms.text = &s;
-						Event e(EventSend, &ms);
-						e.process();
-						t += quoteString(QString::fromUtf8(s.c_str()));
-					}
+                    if ((m_send.flags & SEND_MASK) == SEND_HTML){
+                        t += m_send.part;
+                    }else{
+                        string s;
+                        s = m_send.part.utf8();
+                        messageSend ms;
+                        ms.msg  = m_send.msg;
+                        ms.text = &s;
+                        Event e(EventSend, &ms);
+                        e.process();
+                        t += quoteString(QString::fromUtf8(s.c_str()));
+                    }
                     t += "</BODY></HTML>";
                     bool bWide = false;
                     for (int i = 0; i < (int)(t.length()); i++){
@@ -1517,10 +1516,10 @@ void ICQClient::processSendQueue()
             }else{
                 msgBuf << (m_send.msg->getForeground() << 8) << (m_send.msg->getBackground() << 8);
             }
-			if ((m_send.flags & SEND_MASK) != SEND_TYPE2){
-				msgBuf << 0x26000000L;
-				packCap(msgBuf, capabilities[((m_send.flags & SEND_MASK) == SEND_RTF) ? CAP_RTF : CAP_UTF]);
-			}
+            if ((m_send.flags & SEND_MASK) != SEND_TYPE2){
+                msgBuf << 0x26000000L;
+                packCap(msgBuf, capabilities[((m_send.flags & SEND_MASK) == SEND_RTF) ? CAP_RTF : CAP_UTF]);
+            }
             m_send.id.id_l = rand();
             m_send.id.id_h = rand();
             sendAdvMessage(m_send.screen.c_str(), msgBuf, PLUGIN_NULL, m_send.id, true, false, false);
@@ -1706,11 +1705,11 @@ void ICQClient::sendType1(const QString &text, bool bWide, ICQUserData *data)
         QTextCodec *codec = getCodec(encoding.c_str());
         string msg_text;
         msg_text = codec->fromUnicode(text);
-		messageSend ms;
-		ms.msg  = m_send.msg;
-		ms.text = &msg_text;
-		Event e(EventSend, &ms);
-		e.process();
+        messageSend ms;
+        ms.msg  = m_send.msg;
+        ms.text = &msg_text;
+        Event e(EventSend, &ms);
+        e.process();
         msgBuf << 0x0000L;
         msgBuf << msg_text.c_str();
     }

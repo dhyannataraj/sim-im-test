@@ -213,96 +213,17 @@ void GpgCfg::clearExec()
         delete m_exec;
         m_exec = NULL;
     }
-    if (m_bNew)
-        QTimer::singleShot(1000, this, SLOT(refresh()));
-}
-
-#ifdef WIN32
-#define CRLF	"\r\n"
-#else
-#define CRLF	"\n"
-#endif
-
-static string toLatin(const QString &str)
-{
-    QString s = toTranslit(str);
-    string res;
-    for (int i = 0; i < (int)s.length(); i++){
-        if (s[i].unicode() > 0x7F){
-            res += "?";
-        }else{
-            res += s[i].latin1();
-        }
-    }
-    return res;
 }
 
 void GpgCfg::selectKey(int n)
 {
     if (n == cmbKey->count() - 1){
-        GpgGen gen;
-        if (gen.exec() && (m_exec == NULL)){
-#ifdef WIN32
-            QString gpg  = edtGPG->text();
-#else
-	    QString gpg  = QFile::decodeName(m_plugin->GPG());
-#endif
-            QString home = edtHome->text();
-            if (gpg.isEmpty() || home.isEmpty())
-                return;
-            if (home[(int)(home.length() - 1)] == '\\')
-                home = home.left(home.length() - 1);
-            string in =
-                "Key-Type: 1" CRLF
-                "Key-Length: 1024" CRLF
-                "Expire-Date: 0" CRLF
-                "Name-Real: ";
-            in += toLatin(gen.edtName->text());
-            in += CRLF;
-            if (!gen.edtComment->text().isEmpty()){
-                in += "Name-Comment: ";
-                in += toLatin(gen.edtComment->text());
-                in += CRLF;
-            }
-            in += "Name-Email: ";
-            in += toLatin(gen.cmbMail->lineEdit()->text());
-            in += CRLF;
-
-#ifdef WIN32
-            QString fname = QFile::decodeName(user_file("keys\\genkey.txt").c_str());
-#else
-            QString fname = QFile::decodeName(user_file("keys/genkey.txt").c_str());
-#endif
-            QFile f(fname);
-            f.open(IO_WriteOnly | IO_Truncate);
-            f.writeBlock(in.c_str(), in.length());
-            f.close();
-
-            gpg = QString("\"") + gpg + "\"";
-            gpg += " --homedir \"";
-            gpg += home;
-            gpg += "\" ";
-            gpg += m_plugin->getGenKey();
-            gpg += " \"";
-            gpg += fname.local8Bit();
-            gpg += "\"";
-            m_exec = new Exec;
-            connect(m_exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(genKeyReady(Exec*,int,const char*)));
-            m_exec->execute(gpg.local8Bit(), "");
+        GpgGen gen(this);
+        if (gen.exec()){
+            m_bNew = true;
+            QTimer::singleShot(0, this, SLOT(refresh()));
         }
     }
-}
-
-void GpgCfg::genKeyReady(Exec*,int res,const char*)
-{
-#ifdef WIN32
-    QFile::remove(QFile::decodeName(user_file("keys\\genkey.txt").c_str()));
-#else
-    QFile::remove(QFile::decodeName(user_file("keys/genkey.txt").c_str()));
-#endif
-    if (res == 0)
-        m_bNew = true;
-    QTimer::singleShot(0, this, SLOT(clearExec()));
 }
 
 #ifndef WIN32

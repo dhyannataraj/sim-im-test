@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
-"POT-Creation-Date: 2003-11-08 07:23+0300\n"
+"POT-Creation-Date: 2003-11-09 02:39+0300\n"
 "PO-Revision-Date: 2003-11-06 12:12+0100\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
@@ -422,7 +422,7 @@ msgstr "&Otvoriť správu"
 
 # monitor.cpp:73
 #: plugins/_core/core.cpp:760 plugins/_core/core.cpp:859
-#: plugins/netmonitor/monitor.cpp:67 sim/ui/qt3/qtextedit.cpp:4025
+#: plugins/netmonitor/monitor.cpp:67 sim/ui/qt3/qtextedit.cpp:4024
 msgid "&Copy"
 msgstr "&Kopírovať"
 
@@ -443,34 +443,34 @@ msgid "&Answer"
 msgstr "Odpoved&ať"
 
 # qt3/i18n.cpp:245
-#: plugins/_core/core.cpp:832 sim/ui/qt3/qtextedit.cpp:4018
+#: plugins/_core/core.cpp:832 sim/ui/qt3/qtextedit.cpp:4017
 msgid "&Undo"
 msgstr "Vrátiť späť"
 
 # qt3/i18n.cpp:247
-#: plugins/_core/core.cpp:843 sim/ui/qt3/qtextedit.cpp:4019
+#: plugins/_core/core.cpp:843 sim/ui/qt3/qtextedit.cpp:4018
 msgid "&Redo"
 msgstr "Urobiť znovu"
 
 # qt3/i18n.cpp:249
-#: plugins/_core/core.cpp:851 sim/ui/qt3/qtextedit.cpp:4024
+#: plugins/_core/core.cpp:851 sim/ui/qt3/qtextedit.cpp:4023
 msgid "Cu&t"
 msgstr "Vystrihnúť"
 
 # qt3/i18n.cpp:253
-#: plugins/_core/core.cpp:867 sim/ui/qt3/qtextedit.cpp:4027
+#: plugins/_core/core.cpp:867 sim/ui/qt3/qtextedit.cpp:4026
 msgid "&Paste"
 msgstr "Vložiť"
 
 # qt3/i18n.cpp:255
 #: plugins/_core/core.cpp:875 sim/ui/qt3/i18n.cpp:255
-#: sim/ui/qt3/qtextedit.cpp:4030
+#: sim/ui/qt3/qtextedit.cpp:4029
 msgid "Clear"
 msgstr "Odznačiť"
 
 # qt3/i18n.cpp:257
 #: plugins/_core/core.cpp:883 sim/ui/qt3/i18n.cpp:257
-#: sim/ui/qt3/qtextedit.cpp:4034 sim/ui/qt3/qtextedit.cpp:4036
+#: sim/ui/qt3/qtextedit.cpp:4033 sim/ui/qt3/qtextedit.cpp:4035
 msgid "Select All"
 msgstr "Vybrať všetko"
 
@@ -809,7 +809,7 @@ msgid "Loading"
 msgstr "Nahrávanie"
 
 # userbox.cpp:406
-#: plugins/_core/historywnd.cpp:117 plugins/_core/interfacecfg.cpp:78
+#: plugins/_core/historywnd.cpp:117 plugins/_core/interfacecfg.cpp:79
 msgid "History"
 msgstr "História"
 
@@ -863,42 +863,47 @@ msgstr "Francúzsky"
 msgid "Hebrew"
 msgstr "Hebrejsky"
 
+# libicq/country.cpp:29
+#: plugins/_core/interfacecfg.cpp:54 plugins/icq/moreinfo.cpp:116
+msgid "Hungarian"
+msgstr "Maďarsky"
+
 # libicq/country.cpp:32
 # ui/themesetup.cpp:61
-#: plugins/_core/interfacecfg.cpp:54 plugins/icq/moreinfo.cpp:119
+#: plugins/_core/interfacecfg.cpp:55 plugins/icq/moreinfo.cpp:119
 msgid "Italian"
 msgstr "Taliansky"
 
 # libicq/country.cpp:17
 # ui/themesetup.cpp:62
-#: plugins/_core/interfacecfg.cpp:55 plugins/icq/moreinfo.cpp:104
+#: plugins/_core/interfacecfg.cpp:56 plugins/icq/moreinfo.cpp:104
 msgid "Dutch"
 msgstr "Holandsky"
 
 # libicq/country.cpp:41
 # ui/themesetup.cpp:63
-#: plugins/_core/interfacecfg.cpp:56 plugins/icq/moreinfo.cpp:128
+#: plugins/_core/interfacecfg.cpp:57 plugins/icq/moreinfo.cpp:128
 msgid "Polish"
 msgstr "Poľsky"
 
 # libicq/country.cpp:42
-#: plugins/_core/interfacecfg.cpp:57 plugins/icq/moreinfo.cpp:129
+#: plugins/_core/interfacecfg.cpp:58 plugins/icq/moreinfo.cpp:129
 msgid "Portuguese"
 msgstr "Portugalsky"
 
 # libicq/country.cpp:44
 # ui/themesetup.cpp:64
-#: plugins/_core/interfacecfg.cpp:58 plugins/icq/moreinfo.cpp:131
+#: plugins/_core/interfacecfg.cpp:59 plugins/icq/moreinfo.cpp:131
 msgid "Russian"
 msgstr "Rusky"
 
 # libicq/country.cpp:46
-#: plugins/_core/interfacecfg.cpp:59 plugins/icq/moreinfo.cpp:133
+#: plugins/_core/interfacecfg.cpp:60 plugins/icq/moreinfo.cpp:133
 msgid "Slovak"
 msgstr "Slovensky"
 
 # libicq/country.cpp:276
-#: plugins/_core/interfacecfg.cpp:60
+#: plugins/_core/interfacecfg.cpp:61
 msgid "Swabian"
 msgstr "Svazijsko"
 
@@ -906,7 +911,7 @@ msgstr "Svazijsko"
 # client.cpp:106
 # libicq/country.cpp:55
 # ui/themesetup.cpp:65
-#: plugins/_core/interfacecfg.cpp:61 plugins/icq/icqclient.cpp:317
+#: plugins/_core/interfacecfg.cpp:62 plugins/icq/icqclient.cpp:317
 #: plugins/icq/icqclient.cpp:318 plugins/icq/moreinfo.cpp:142
 msgid "Turkish"
 msgstr "Turecky"
@@ -914,45 +919,45 @@ msgstr "Turecky"
 # client.cpp:108
 # libicq/country.cpp:56
 # ui/themesetup.cpp:66
-#: plugins/_core/interfacecfg.cpp:62 plugins/icq/icqclient.cpp:294
+#: plugins/_core/interfacecfg.cpp:63 plugins/icq/icqclient.cpp:294
 #: plugins/icq/moreinfo.cpp:143
 msgid "Ukrainian"
 msgstr "Ukrajinsky"
 
 # libicq/country.cpp:13
 # ui/themesetup.cpp:67
-#: plugins/_core/interfacecfg.cpp:63 plugins/icq/moreinfo.cpp:100
+#: plugins/_core/interfacecfg.cpp:64 plugins/icq/moreinfo.cpp:100
 msgid "Chinese"
 msgstr "Čínsky"
 
 # msgview.cpp:231
 # msgview.cpp:1273
-#: plugins/_core/interfacecfg.cpp:76
+#: plugins/_core/interfacecfg.cpp:77
 msgid "Contact list"
 msgstr "Zoznam kontaktov"
 
 # userbox.cpp:105
-#: plugins/_core/interfacecfg.cpp:81
+#: plugins/_core/interfacecfg.cpp:82
 msgid "Messages"
 msgstr "Správy"
 
 # ui/setupdlg.cpp:134
-#: plugins/_core/interfacecfg.cpp:84
+#: plugins/_core/interfacecfg.cpp:85
 msgid "SMS"
 msgstr "SMS správa"
 
 # ui/alertdialogbase.cpp:247
-#: plugins/_core/interfacecfg.cpp:86
+#: plugins/_core/interfacecfg.cpp:87
 msgid "Fonts"
 msgstr "Písma"
 
 # ui/themesetup.cpp:53
-#: plugins/_core/interfacecfg.cpp:93 plugins/icq/icqclient.cpp:2585
+#: plugins/_core/interfacecfg.cpp:94 plugins/icq/icqclient.cpp:2585
 msgid "System"
 msgstr "Systém"
 
 # ui/fontsetupbase.cpp:226
-#: plugins/_core/interfacecfg.cpp:127
+#: plugins/_core/interfacecfg.cpp:128
 msgid "Copy %1 messages from history"
 msgstr "Skopírovať %1 správ z histórie"
 
@@ -2993,24 +2998,24 @@ msgstr ""
 "%n súborov"
 
 # msgedit.cpp:588
-#: plugins/icq/icqicmb.cpp:1215 plugins/icq/warndlg.cpp:66
+#: plugins/icq/icqicmb.cpp:1214 plugins/icq/warndlg.cpp:66
 msgid "Send fail"
 msgstr "Chyba pri odosielaní"
 
 # qt3/i18n.cpp:158
-#: plugins/icq/icqicmb.cpp:1294
+#: plugins/icq/icqicmb.cpp:1293
 msgid "Send timeout"
 msgstr "Prekročený časový limit pri odosielaní (timeout)"
 
 # mainwin.cpp:628
 # mainwin.cpp:2727
-#: plugins/icq/icqicmb.cpp:1318
+#: plugins/icq/icqicmb.cpp:1317
 msgid "No contact"
 msgstr "Žiaden kontakt"
 
 # mainwin.cpp:628
 # mainwin.cpp:2727
-#: plugins/icq/icqicmb.cpp:1339 plugins/icq/icqmessage.cpp:1178
+#: plugins/icq/icqicmb.cpp:1338 plugins/icq/icqmessage.cpp:1178
 #: plugins/jabber/jabberclient.cpp:2147
 msgid "No contacts for send"
 msgstr "Žiadne kontakty pre odoslanie"
@@ -3651,11 +3656,6 @@ msgstr "Gaelic"
 #: plugins/icq/moreinfo.cpp:115
 msgid "Hindi"
 msgstr "Hindsky"
-
-# libicq/country.cpp:29
-#: plugins/icq/moreinfo.cpp:116
-msgid "Hungarian"
-msgstr "Maďarsky"
 
 # libicq/country.cpp:30
 #: plugins/icq/moreinfo.cpp:117
@@ -5489,11 +5489,11 @@ msgid "Proxy authorization failed"
 msgstr "Chyba pri autorizácii užívateľa na proxy"
 
 # ui/proxydlgbase.cpp:174
-#: plugins/proxy/proxy.cpp:1240
+#: plugins/proxy/proxy.cpp:1243
 msgid "Proxy"
 msgstr "Proxy"
 
-#: plugins/proxy/proxy.cpp:1241
+#: plugins/proxy/proxy.cpp:1244
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS and HTTP)"
 msgstr ""
 "Zásuvný modul umožňuje podporu proxy (SOCKS4, SOCKS5, HTTPS a HTTP)"
@@ -5782,22 +5782,22 @@ msgstr ""
 msgid "AutoHide"
 msgstr "Automaticky skryť"
 
-#: plugins/gpg/gpg.cpp:48
+#: plugins/gpg/gpg.cpp:52
 msgid "GPG"
 msgstr ""
 
-#: plugins/gpg/gpg.cpp:49
+#: plugins/gpg/gpg.cpp:53
 msgid "Plugin adds GnuPG encryption/decryption support for messages"
 msgstr ""
 
-#: plugins/gpg/gpg.cpp:73
+#: plugins/gpg/gpg.cpp:77
 msgid ""
 "Plugin adds GnuPG encryption/decryption support for messages\n"
 "GPG not found in PATH"
 msgstr ""
 
 # msgedit.cpp:513
-#: plugins/gpg/gpg.cpp:392 plugins/gpg/gpg.cpp:397
+#: plugins/gpg/gpg.cpp:396 plugins/gpg/gpg.cpp:401
 #, fuzzy
 msgid "Encrypt failed"
 msgstr "Prenos skončil s chybou"
@@ -5805,7 +5805,7 @@ msgstr "Prenos skončil s chybou"
 # client.cpp:1138
 # msgview.cpp:205
 # msgview.cpp:1245
-#: plugins/gpg/gpg.cpp:551
+#: plugins/gpg/gpg.cpp:558
 #, fuzzy, c-format
 msgid ""
 "_n: %n GPG key\n"
@@ -5814,15 +5814,15 @@ msgstr ""
 "Súbor\n"
 "%n súborov"
 
-#: plugins/gpg/gpg.cpp:598
+#: plugins/gpg/gpg.cpp:605
 msgid "GPG key"
 msgstr ""
 
-#: plugins/gpg/gpg.cpp:606
+#: plugins/gpg/gpg.cpp:613
 msgid "Use GPG encryption"
 msgstr ""
 
-#: plugins/gpg/gpg.cpp:613
+#: plugins/gpg/gpg.cpp:620
 msgid "&GPG key"
 msgstr ""
 
@@ -5859,6 +5859,16 @@ msgstr "&Zrušiť"
 #, fuzzy
 msgid "New"
 msgstr "&Nový"
+
+#: plugins/gpg/gpggen.cpp:103
+msgid "Move mouse for generate random key"
+msgstr ""
+
+# ui/randomchatbase.cpp:287
+#: plugins/gpg/gpggen.cpp:169
+#, fuzzy
+msgid "Generate key failed"
+msgstr "Nastala chyba pri odosielaní správy"
 
 #: plugins/gpg/gpgcfgbase.cpp:96
 msgid "Executable:"

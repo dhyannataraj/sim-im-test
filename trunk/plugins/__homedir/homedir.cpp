@@ -178,6 +178,9 @@ string HomeDirPlugin::defaultPath()
         s = app_file("");
     }
 #endif
+#ifdef HAVE_CHMOD
+    chmod(s.c_str(), 0700);
+#endif
     return s;
 }
 

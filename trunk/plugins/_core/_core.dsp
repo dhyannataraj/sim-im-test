@@ -4418,6 +4418,39 @@ InputPath=..\..\po\he.po
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\po\hu.po
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build - msg2qm on $(InputPath)
+OutDir=.\..\..\Release
+InputPath=..\..\po\hu.po
+InputName=hu
+
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
+	
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build - msg2qm on $(InputPath)
+OutDir=.\..\..\Debug
+InputPath=..\..\po\hu.po
+InputName=hu
+
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
+	
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\po\it.po
 
 !IF  "$(CFG)" == "_core - Win32 Release"

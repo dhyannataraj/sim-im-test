@@ -59,6 +59,7 @@ AC_CHECK_OPENSSL
 AC_CHECK_HEADERS([inttypes.h stdint.h stddef.h unistd.h limits.h fcntl.h ctype.h netdb.h netinet/in.h arpa/inet.h sys/types.h sys/time.h sys/socket.h])
 AC_CHECK_FUNC(strcasecmp,[AC_DEFINE(HAVE_STRCASECMP,1,[Have strcasecmp])])
 AC_CHECK_FUNC(umask,[AC_DEFINE(HAVE_UMASK,1,[Have umask])])
+AC_CHECK_FUNC(chmod,[AC_DEFINE(HAVE_CHMOD,1,[Have chmod])])
 AC_CHECK_FUNC(gethostbyname_r,[AC_DEFINE(HAVE_GETHOSTBYNAME_R,1,[Have gethostbyname_r])]) 
 AC_CHECK_FUNC(gethostbyaddr_r,[AC_DEFINE(HAVE_GETHOSTBYADDR_R,1,[Have gethostbyaddr_r])])
 AC_CHECK_FUNCS([dup2, strtoul, strtol, strstr, strerror, strdup, strcasecmp, socket, rmdir, munmap, mkdir,memset, memmove, inet_ntoa, gethostname, gethostbyname])

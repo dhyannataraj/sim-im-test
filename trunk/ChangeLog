@@ -1,6 +1,8 @@
 Version 0.9.1
 ICQ: Fix login
 Add GPG plugin
+Fix HTTPS proxy auth
+Add Hungarian translation
 
 Version 0.9
 Rewrite code, make plugin-based structure

@@ -55,6 +55,7 @@ Source: "..\Release\plugins\dock.dll"; DestDir: "{app}\plugins"; Flags: ignoreve
 Source: "..\Release\plugins\filter.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\floaty.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\forward.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
+Source: "..\Release\plugins\gpg.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\icons.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\icq.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\jabber.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
@@ -86,6 +87,24 @@ Source: "..\Release\sounds\mailpager.wav"; DestDir: "{app}\sounds"; Flags: ignor
 Source: "..\Release\sounds\error.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
 Source: "..\Release\pict\splash.png"; DestDir: "{app}\pict"; Flags: ignoreversion
 Source: "..\Release\pict\connect.gif"; DestDir: "{app}\pict"; Flags: ignoreversion
+Source: "..\Release\po\bg.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\ca.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\cs.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\de.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\es.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\fr.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\he.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\hu.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\it.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\nl.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\pl.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\pt_BR.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\ru.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\sk.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\sw.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\tr.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\uk.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\zh_TW.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 
 [Icons]
 Name: "{commonprograms}\SIM"; Filename: "{app}\sim.exe"

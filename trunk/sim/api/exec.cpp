@@ -416,7 +416,6 @@ void Exec::outReady(int)
 {
 #ifndef WIN32
     if (hOut == -1) return;
-    log(L_WARN, "Out ready");
     char buf[2048];
     int readn = read(hOut, buf, sizeof(buf));
     if (readn == -1){
@@ -433,7 +432,6 @@ void Exec::errReady(int)
 {
 #ifndef WIN32
     if (hErr == -1) return;
-    log(L_WARN, "Err ready");
     char buf[2048];
     int readn = read(hErr, buf, sizeof(buf));
     if (readn == -1){

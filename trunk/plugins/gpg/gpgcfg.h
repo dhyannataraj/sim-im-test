@@ -43,7 +43,6 @@ public slots:
     void find();
     void findFinished();
     void secretReady(Exec*, int, const char*);
-    void genKeyReady(Exec*, int, const char*);
     void clearExec();
     void selectKey(int);
 protected:

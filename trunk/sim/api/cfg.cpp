@@ -97,7 +97,7 @@ EXPORT bool makedir(char *p)
     struct stat st;
     if (stat(p, &st)){
         if (makedir(p)){
-            if (mkdir(p, 0755)){
+            if (mkdir(p, 0700)){
                 log(L_ERROR, "Can't create %s: %s", p, strerror(errno));
                 res = false;
             }

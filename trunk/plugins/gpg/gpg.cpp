@@ -29,6 +29,10 @@
 #include <qfileinfo.h>
 #include <qregexp.h>
 
+#ifdef HAVE_SYS_STAT_H
+#include <sys/stat.h>
+#endif
+
 #ifndef WIN32
 static string GPGpath;
 #endif
@@ -541,6 +545,9 @@ QWidget *GpgPlugin::createConfigWindow(QWidget *parent)
 void GpgPlugin::reset()
 {
     if (*GPG() && *getHome() && *getKey()){
+#ifdef HAVE_CHMOD
+        chmod(user_file(getHome()).c_str(), 0700);
+#endif
         registerMessage();
     }else{
         unregisterMessage();
