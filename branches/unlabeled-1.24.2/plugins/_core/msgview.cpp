@@ -437,12 +437,8 @@ void *MsgViewBase::processEvent(Event *e)
             ensureCursorVisible();
         }
     }
-    if (e->type() == EventHistoryColors){
+    if (e->type() == EventHistoryColors)
         setColors();
-    }
-    if (e->type() == EventHistoryFont){
-        setFont(CorePlugin::m_plugin->editFont);
-    }
     if (e->type() == EventCheckState){
         CommandDef *cmd = (CommandDef*)(e->param());
         if ((cmd->param != this) || (cmd->menu_id != MenuMsgView))

@@ -31,6 +31,7 @@
 #include "userlist.h"
 #include "history.h"
 #include "container.h"
+#include "fontedit.h"
 
 #include <qfontmetrics.h>
 #include <qtoolbar.h>
@@ -271,6 +272,9 @@ void MsgEdit::editFontChanged(const QFont &f)
 	CorePlugin::m_plugin->editFont = f;
 	Event e(EventHistoryFont);
 	e.process();
+    string ef;
+    ef = FontEdit::font2str(f, false).latin1();
+	log(L_DEBUG, "Set %s", ef.c_str());
 }
 
 bool MsgEdit::setMessage(Message *msg, bool bSetFocus)

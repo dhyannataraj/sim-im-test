@@ -72,6 +72,7 @@ TextEdit::TextEdit(QWidget *p, const char *name)
     m_bItalic = false;
     m_bUnderline = false;
 	m_bSelected  = false;
+	m_bNoSelected = false;
     setReadOnly(false);
     curFG = colorGroup().color(QColorGroup::Text);
     m_bCtrlMode = true;
@@ -93,7 +94,10 @@ TextEdit::~TextEdit()
 void TextEdit::setFont(const QFont &f)
 {
 	TextShow::setFont(f);
+	m_bNoSelected = true;
 	fontChanged(f);
+	m_bNoSelected = false;
+	m_bSelected   = false;
 }
 
 void TextEdit::slotTextChanged()
@@ -156,7 +160,8 @@ void TextEdit::changeText()
 void TextEdit::fontChanged(const QFont &f)
 {
 	if (m_bSelected){
-		emit fontSelected(f);
+		if (!m_bNoSelected)
+			emit fontSelected(f);
 		m_bSelected = false;
 	}
     if (m_param == NULL)

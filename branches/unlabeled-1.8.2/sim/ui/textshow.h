@@ -114,6 +114,7 @@ protected:
     bool m_bCtrlMode;
     bool m_bEmpty;
 	bool m_bSelected;
+	bool m_bNoSelected;
 };
 
 class QToolBar;

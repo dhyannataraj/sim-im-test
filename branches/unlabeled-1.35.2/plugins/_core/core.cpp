@@ -769,49 +769,30 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     cmd->menu_grp	= 0x1002;
 
     cmd->bar_id		= 0;
-
     cmd->bar_grp	= 0;
     cmd->flags		= COMMAND_CHECK_STATE;
     eCmd.process();
 
-
-
     cmd->id			= CmdMsgQuote + CmdReceived;
-
     cmd->bar_id		= ToolBarMsgEdit;
-
     cmd->bar_grp	= 0x1041;
-
     cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
-
     eCmd.process();
-
-
 
     cmd->id			= CmdMsgForward;
     cmd->text		= I18N_NOOP("&Forward");
     cmd->menu_id	= MenuMsgCommand;
-
     cmd->menu_grp	= 0x1003;
     cmd->bar_id		= 0;
-
     cmd->bar_grp	= 0;
-
     cmd->flags		= COMMAND_CHECK_STATE;
-
     eCmd.process();
-
 
     cmd->id			= CmdMsgForward + CmdReceived;
-
     cmd->bar_id		= ToolBarMsgEdit;
-
     cmd->bar_grp	= 0x1042;
-
     cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
-
     eCmd.process();
-
 
     cmd->id			= CmdMsgAnswer;
     cmd->text		= I18N_NOOP("&Answer");

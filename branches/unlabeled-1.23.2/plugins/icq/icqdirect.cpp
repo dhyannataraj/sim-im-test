@@ -281,7 +281,7 @@ void DirectSocket::packet_ready()
             unsigned short s1, s2;
             m_socket->readBuffer.unpack(s1);
             m_socket->readBuffer.unpack(s2);
-            if ((s1 != 1) || (s2 != 0)){
+            if (s2 != 0){
                 m_socket->error_state("Bad ack");
                 return;
             }
@@ -1793,14 +1793,12 @@ void ICQFileTransfer::connect_ready()
         DirectSocket::connect_ready();
         return;
     }
-    if (m_state == Listen){
+    if (m_state == WaitReverse){
         m_bIncoming = false;
         m_state = WaitReverseLogin;
         DirectSocket::connect_ready();
         return;
     }
-    if (m_state == WaitReverse)
-        m_bIncoming = false;
     if (m_state == WaitReverseLogin)
         m_bIncoming = true;
     m_file = 0;
