@@ -10,6 +10,8 @@ msgstr ""
 "POT-Creation-Date: 2004-02-18 09:48+0300\n"
 "PO-Revision-Date: 2004-02-19 00:54+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
+"PO-Revision-Date: 2004-02-19 00:40+0100\n"
+"Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2282,7 +2284,7 @@ msgstr "http://help.microsoft.com/!data/en_us/data/messengerv47_xp.its51/$conten
 #: plugins/msn/msn.cpp:101
 #: plugins/yahoo/yahoo.cpp:112
 msgid "Away"
-msgstr "Weg"
+msgstr "Abwesend"
 
 #: plugins/_core/userviewcfgbase.cpp:269
 #: plugins/icq/icq.cpp:129
@@ -2290,7 +2292,7 @@ msgstr "Weg"
 #: plugins/msn/msn.cpp:116
 #: plugins/yahoo/yahoo.cpp:127
 msgid "N/A"
-msgstr "N/A"
+msgstr "Nicht erreichbar"
 
 #: plugins/_core/maininfo.cpp:81
 #: plugins/msn/msn.cpp:131
@@ -4205,7 +4207,7 @@ msgstr "Lizenz"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:103
 msgid "Set \"Away\" status after"
-msgstr "\"Weg\"-Status setzen wenn"
+msgstr "\"Abwesend\"-Status setzen wenn"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:104
 msgid "minutes not using computer"
@@ -4213,7 +4215,7 @@ msgstr "Minuten keine Computerbenutzung"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:105
 msgid "minutes of \"Away\""
-msgstr "Minuten \"Weg\"-Status"
+msgstr "Minuten \"Abwesend\"-Status"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:106
 msgid "minutes of \"N/A\""
@@ -4230,15 +4232,19 @@ msgstr "\"Offline\"-Status setzen nach"
 #: plugins/autoaway/autoawaycfgbase.cpp:109
 #: plugins/sound/soundconfigbase.cpp:107
 msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
-msgstr "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste deaktivieren"
+msgstr ""
+"Onlinealarm in \"Abwesend\", \"Nicht erreichbar\", \"DND\" und \"Beschäftigt\"-Liste "
+"deaktivieren"
 
 #: plugins/autoaway/autoaway.cpp:66
 msgid "AutoAway"
-msgstr "Automatischer Weg-Status"
+msgstr "Automatischer \"Abwesend\"-Status"
 
 #: plugins/autoaway/autoaway.cpp:67
 msgid "Plugin provides set away and N/A status after some idle time"
-msgstr "Plugin stellt automatischen Statuswechsel nach Status \"Weg\" und \"N/A\" nach einer bestimmten Zeit der Nichtbenutzung bereit"
+msgstr ""
+"Plugin stellt automatischen Statuswechsel nach Status \"Abwesend\" und \"Nicht erreichbar\" "
+"nach einer bestimmten Zeit der Nichtbenutzung bereit"
 
 #: plugins/background/bkgndcfg.cpp:45
 msgid "Select background picture"
@@ -4420,7 +4426,7 @@ msgstr "Floating aus"
 
 #: plugins/forward/forwardcfgbase.cpp:71
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Abwesend\" und \"Nicht erreichbar\" an ein Handy weiterleiten:"
 
 #: plugins/forward/forwardcfgbase.cpp:72
 msgid ""
