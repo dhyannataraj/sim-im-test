@@ -617,6 +617,7 @@ void MsgEdit::processEvent(ICQEvent *e)
                         m->Uin.push_back(Uin);
                         m->Message = smsChunk();
                         m->Phone = pClient->to8Bit(Uin, phoneEdit->lineEdit()->text());
+			m->Charset = pClient->codecForUser(Uin)->name();
                         msg = m;
                         sendEvent = pClient->sendMessage(msg);
                         return;
@@ -1710,6 +1711,7 @@ void MsgEdit::makeMessage()
             msgTail = trim(s);
             m->Message = smsChunk();
             m->Phone = phoneEdit->lineEdit()->text().local8Bit();
+	    m->Charset = pClient->codecForUser(Uin)->name();
             break;
         }
     case ICQ_MSGxCONTACTxLIST:{
