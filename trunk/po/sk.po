@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
 "POT-Creation-Date: 2004-04-04 02:07+0400\n"
-"PO-Revision-Date: 2004-04-05 11:09+0200\n"
+"PO-Revision-Date: 2004-04-05 12:05+0200\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -223,32 +223,32 @@ msgstr "Kajmanské ostrovy"
 # libicq/country.cpp:112
 #: sim/api/country.cpp:66
 msgid "Central African Republic"
-msgstr "Stredoafrick�republika"
+msgstr "Stredoafrická republika"
 
 # libicq/country.cpp:113
 #: sim/api/country.cpp:67
 msgid "Chad"
-msgstr "�d"
+msgstr "Čad"
 
 # libicq/country.cpp:114
 #: sim/api/country.cpp:68
 msgid "Chile"
-msgstr "Chile"
+msgstr "Čile"
 
 # libicq/country.cpp:115
 #: sim/api/country.cpp:69
 msgid "China"
-msgstr "�na"
+msgstr "Čína"
 
 # libicq/country.cpp:116
 #: sim/api/country.cpp:70
 msgid "Christmas Island"
-msgstr "Viano� ostrov"
+msgstr "Vianočný ostrov"
 
 # libicq/country.cpp:117
 #: sim/api/country.cpp:71
 msgid "Cocos-Keeling Islands"
-msgstr "Kokosov�ostrovy"
+msgstr "Kokosové ostrovy"
 
 # libicq/country.cpp:118
 #: sim/api/country.cpp:72
@@ -268,7 +268,7 @@ msgstr "Kongo"
 # libicq/country.cpp:121
 #: sim/api/country.cpp:75
 msgid "Cook Islands"
-msgstr "Cookovy ostrovy"
+msgstr "Cookove ostrovy"
 
 # libicq/country.cpp:122
 #: sim/api/country.cpp:76
@@ -278,7 +278,7 @@ msgstr "Kostarika"
 # libicq/country.cpp:123
 #: sim/api/country.cpp:77
 msgid "Croatia"
-msgstr "Chorv�sko"
+msgstr "Chorvátsko"
 
 # libicq/country.cpp:124
 #: sim/api/country.cpp:78
@@ -293,12 +293,12 @@ msgstr "Cyprus"
 # libicq/country.cpp:126
 #: sim/api/country.cpp:80
 msgid "Czech Republic"
-msgstr "�sk�republika"
+msgstr "Česká republika"
 
 # libicq/country.cpp:127
 #: sim/api/country.cpp:81
 msgid "Denmark"
-msgstr "D�sko"
+msgstr "Dánsko"
 
 # libicq/country.cpp:128
 #: sim/api/country.cpp:82
@@ -318,7 +318,7 @@ msgstr "Dominica"
 # libicq/country.cpp:131
 #: sim/api/country.cpp:85
 msgid "Dominican Republic"
-msgstr "Dominik�sk�republika"
+msgstr "Dominikánska republika"
 
 # libicq/country.cpp:132
 #: sim/api/country.cpp:86
@@ -338,7 +338,7 @@ msgstr "El Salvador"
 # libicq/country.cpp:135
 #: sim/api/country.cpp:89
 msgid "Equatorial Guinea"
-msgstr "Rovn�ov�Guinea"
+msgstr "Rovníková Guinea"
 
 # libicq/country.cpp:136
 #: sim/api/country.cpp:90
@@ -348,7 +348,7 @@ msgstr "Eritrea"
 # libicq/country.cpp:137
 #: sim/api/country.cpp:91
 msgid "Estonia"
-msgstr "Est�sko"
+msgstr "Estónsko"
 
 # libicq/country.cpp:138
 #: sim/api/country.cpp:92
@@ -358,42 +358,42 @@ msgstr "Etiopia"
 # libicq/country.cpp:139
 #: sim/api/country.cpp:93
 msgid "Faeroe Islands"
-msgstr "Faersk�ostrovy"
+msgstr "Faerské ostrovy"
 
 # libicq/country.cpp:140
 #: sim/api/country.cpp:94
 msgid "Falkland Islands"
-msgstr "Falklandsk�ostrovy"
+msgstr "Falklandské ostrovy"
 
 # libicq/country.cpp:141
 #: sim/api/country.cpp:95
 msgid "Fiji Islands"
-msgstr "Fidijsk�ostrovy"
+msgstr "Fidijské ostrovy"
 
 # libicq/country.cpp:142
 #: sim/api/country.cpp:96
 msgid "Finland"
-msgstr "F�sko"
+msgstr "Fínsko"
 
 # libicq/country.cpp:143
 #: sim/api/country.cpp:97
 msgid "France"
-msgstr "Franczsko"
+msgstr "Francúzsko"
 
 # libicq/country.cpp:144
 #: sim/api/country.cpp:98
 msgid "French Antilles"
-msgstr "French Antilles"
+msgstr "Francúzske Antily"
 
 # libicq/country.cpp:145
 #: sim/api/country.cpp:99
 msgid "French Guiana"
-msgstr "Fraczsk�Guiana"
+msgstr "Francúzska Guiana"
 
 # libicq/country.cpp:146
 #: sim/api/country.cpp:100
 msgid "French Polynesia"
-msgstr "Franczsk�Polyn�ia"
+msgstr "Francúzska Polynézia"
 
 # libicq/country.cpp:147
 #: sim/api/country.cpp:101
@@ -428,12 +428,12 @@ msgstr "Gibraltar"
 # libicq/country.cpp:153
 #: sim/api/country.cpp:107
 msgid "Greece"
-msgstr "Gr�ko"
+msgstr "Grécko"
 
 # libicq/country.cpp:154
 #: sim/api/country.cpp:108
 msgid "Greenland"
-msgstr "Gr�sko"
+msgstr "Grónsko"
 
 # libicq/country.cpp:155
 #: sim/api/country.cpp:109
@@ -493,17 +493,17 @@ msgstr "Hong Kong"
 # libicq/country.cpp:166
 #: sim/api/country.cpp:120
 msgid "Hungary"
-msgstr "Ma�rsko"
+msgstr "Maďarsko"
 
 # libicq/country.cpp:167
 #: sim/api/country.cpp:121
 msgid "INMARSAT (Atlantic-East)"
-msgstr "INMARSAT (Vchodn Atlantik)"
+msgstr "INMARSAT (Východný Atlantik)"
 
 # libicq/country.cpp:168
 #: sim/api/country.cpp:122
 msgid "INMARSAT (Atlantic-West)"
-msgstr "INMARSAT (Z�adn Atlantik)"
+msgstr "INMARSAT (Západný Atlantik)"
 
 # libicq/country.cpp:169
 #: sim/api/country.cpp:123
@@ -533,27 +533,27 @@ msgstr "India"
 # libicq/country.cpp:174
 #: sim/api/country.cpp:128
 msgid "Indonesia"
-msgstr "Indon�ia"
+msgstr "Indonézia"
 
 # libicq/country.cpp:175
 #: sim/api/country.cpp:129
 msgid "International Freephone Service"
-msgstr "Mezin�odn�bezplatn�telef�ne sluby (IFS)"
+msgstr "Medzinárodné bezplatné telefónne služby (IFS)"
 
 # libicq/country.cpp:176
 #: sim/api/country.cpp:130
 msgid "Iran"
-msgstr "Ir�"
+msgstr "Irán"
 
 # libicq/country.cpp:177
 #: sim/api/country.cpp:131
 msgid "Iraq"
-msgstr "Ir�"
+msgstr "Irak"
 
 # libicq/country.cpp:178
 #: sim/api/country.cpp:132
 msgid "Ireland"
-msgstr "�sko"
+msgstr "Írsko"
 
 # libicq/country.cpp:179
 #: sim/api/country.cpp:133
@@ -583,17 +583,17 @@ msgstr "Japonsko"
 # libicq/country.cpp:184
 #: sim/api/country.cpp:138
 msgid "Jordan"
-msgstr "Jord�sko"
+msgstr "Jordánsko"
 
 # libicq/country.cpp:185
 #: sim/api/country.cpp:139
 msgid "Kazakhstan"
-msgstr "Kazachst�"
+msgstr "Kazachstán"
 
 # libicq/country.cpp:186
 #: sim/api/country.cpp:140
 msgid "Kenya"
-msgstr "Ke�"
+msgstr "Keňa"
 
 # libicq/country.cpp:187
 #: sim/api/country.cpp:141
@@ -603,12 +603,12 @@ msgstr "Kiribati Republic"
 # libicq/country.cpp:188
 #: sim/api/country.cpp:142
 msgid "Korea (North)"
-msgstr "K�ea (Severn�"
+msgstr "Kórea (severná)"
 
 # libicq/country.cpp:189
 #: sim/api/country.cpp:143
 msgid "Korea (Republic of)"
-msgstr "Korejsk�republika"
+msgstr "Korejská republika"
 
 # libicq/country.cpp:190
 #: sim/api/country.cpp:144
@@ -618,7 +618,7 @@ msgstr "Kuwait"
 # libicq/country.cpp:191
 #: sim/api/country.cpp:145
 msgid "Kyrgyz Republic"
-msgstr "Kyrgisk�republika"
+msgstr "Kyrgiská republika"
 
 # libicq/country.cpp:192
 #: sim/api/country.cpp:146
@@ -653,7 +653,7 @@ msgstr "Lybie"
 # libicq/country.cpp:198
 #: sim/api/country.cpp:152
 msgid "Liechtenstein"
-msgstr "Lichtentajnsko"
+msgstr "Lichtenštajnsko"
 
 # libicq/country.cpp:199
 #: sim/api/country.cpp:153
@@ -683,12 +683,12 @@ msgstr "Malawi"
 # libicq/country.cpp:204
 #: sim/api/country.cpp:158
 msgid "Malaysia"
-msgstr "Malajsie"
+msgstr "Malajzia"
 
 # libicq/country.cpp:205
 #: sim/api/country.cpp:159
 msgid "Maldives"
-msgstr "Malediven"
+msgstr "Male Divy"
 
 # libicq/country.cpp:206
 #: sim/api/country.cpp:160
@@ -703,7 +703,7 @@ msgstr "Malta"
 # libicq/country.cpp:208
 #: sim/api/country.cpp:162
 msgid "Marshall Islands"
-msgstr "Marshall Islands"
+msgstr "Maršalové ostrovy"
 
 # libicq/country.cpp:209
 #: sim/api/country.cpp:163
@@ -733,7 +733,7 @@ msgstr "Mexiko"
 # libicq/country.cpp:214
 #: sim/api/country.cpp:168
 msgid "Micronesia, Federated States of"
-msgstr "Mikron�ia"
+msgstr "Mikronézia"
 
 # libicq/country.cpp:215
 #: sim/api/country.cpp:169
@@ -763,7 +763,7 @@ msgstr "Maroko"
 # libicq/country.cpp:220
 #: sim/api/country.cpp:174
 msgid "Mozambique"
-msgstr "Mosambik"
+msgstr "Mozambik"
 
 # libicq/country.cpp:221
 #: sim/api/country.cpp:175
@@ -773,7 +773,7 @@ msgstr "Myanmar"
 # libicq/country.cpp:222
 #: sim/api/country.cpp:176
 msgid "Namibia"
-msgstr "Nam�ia"
+msgstr "Namíbia"
 
 # libicq/country.cpp:223
 #: sim/api/country.cpp:177
@@ -783,12 +783,12 @@ msgstr "Nauru"
 # libicq/country.cpp:224
 #: sim/api/country.cpp:178
 msgid "Nepal"
-msgstr "Nep�"
+msgstr "Nepál"
 
 # libicq/country.cpp:225
 #: sim/api/country.cpp:179
 msgid "Netherlands Antilles"
-msgstr "Netherlands Antilles"
+msgstr "Holanské Antily"
 
 # libicq/country.cpp:226
 #: sim/api/country.cpp:180
@@ -803,12 +803,12 @@ msgstr "Nevis"
 # libicq/country.cpp:228
 #: sim/api/country.cpp:182
 msgid "New Caledonia"
-msgstr "Nov�Kaledonia"
+msgstr "Nová Kaledonia"
 
 # libicq/country.cpp:229
 #: sim/api/country.cpp:183
 msgid "New Zealand"
-msgstr "Nov Z�and"
+msgstr "Nový Zéland"
 
 # libicq/country.cpp:230
 #: sim/api/country.cpp:184
@@ -823,7 +823,7 @@ msgstr "Niger"
 # libicq/country.cpp:232
 #: sim/api/country.cpp:186
 msgid "Nigeria"
-msgstr "Nig�ia"
+msgstr "Nigéria"
 
 # libicq/country.cpp:233
 #: sim/api/country.cpp:187
@@ -838,7 +838,7 @@ msgstr "Norfolk Island"
 # libicq/country.cpp:235
 #: sim/api/country.cpp:189
 msgid "Norway"
-msgstr "N�sko"
+msgstr "Nórsko"
 
 # libicq/country.cpp:236
 #: sim/api/country.cpp:190
@@ -848,7 +848,7 @@ msgstr "Oman"
 # libicq/country.cpp:237
 #: sim/api/country.cpp:191
 msgid "Pakistan"
-msgstr "Pakist�"
+msgstr "Pakistán"
 
 # libicq/country.cpp:238
 #: sim/api/country.cpp:192
@@ -863,7 +863,7 @@ msgstr "Panama"
 # libicq/country.cpp:240
 #: sim/api/country.cpp:194
 msgid "Papua New Guinea"
-msgstr "Papua Nov�Guinea"
+msgstr "Papua Nová Guinea"
 
 # libicq/country.cpp:241
 #: sim/api/country.cpp:195
@@ -878,12 +878,12 @@ msgstr "Peru"
 # libicq/country.cpp:243
 #: sim/api/country.cpp:197
 msgid "Philippines"
-msgstr "Filip�y"
+msgstr "Filipíny"
 
 # libicq/country.cpp:244
 #: sim/api/country.cpp:198
 msgid "Poland"
-msgstr "Posko"
+msgstr "Poľsko"
 
 # libicq/country.cpp:245
 #: sim/api/country.cpp:199
@@ -903,7 +903,7 @@ msgstr "Katar"
 # libicq/country.cpp:248
 #: sim/api/country.cpp:202
 msgid "Republic of Macedonia"
-msgstr "Makedonsk�republika"
+msgstr "Macedonská republika"
 
 # libicq/country.cpp:249
 #: sim/api/country.cpp:203
@@ -953,17 +953,17 @@ msgstr "Sao Tome and Principe"
 # libicq/country.cpp:258
 #: sim/api/country.cpp:212
 msgid "Saudi Arabia"
-msgstr "Saudsk�Ar�ia"
+msgstr "Saudská Arábia"
 
 # libicq/country.cpp:259
 #: sim/api/country.cpp:213
 msgid "Senegal Republic"
-msgstr "Senegalsk�republika"
+msgstr "Senegalská republika"
 
 # libicq/country.cpp:260
 #: sim/api/country.cpp:214
 msgid "Seychelle Islands"
-msgstr "Seychelsk�ostrovy"
+msgstr "Sejšelské ostrovy"
 
 # libicq/country.cpp:261
 #: sim/api/country.cpp:215
@@ -978,7 +978,7 @@ msgstr "Singapur"
 # libicq/country.cpp:263
 #: sim/api/country.cpp:217
 msgid "Slovak Republic"
-msgstr "Slovensk�republika"
+msgstr "Slovenská republika"
 
 # libicq/country.cpp:264
 #: sim/api/country.cpp:218
@@ -993,17 +993,17 @@ msgstr "Solomon Islands"
 # libicq/country.cpp:266
 #: sim/api/country.cpp:220
 msgid "Somalia"
-msgstr "Som�sko"
+msgstr "Somálsko"
 
 # libicq/country.cpp:267
 #: sim/api/country.cpp:221
 msgid "South Africa"
-msgstr "Jun�Afrika"
+msgstr "Južná Afrika"
 
 # libicq/country.cpp:268
 #: sim/api/country.cpp:222
 msgid "Spain"
-msgstr "panielsko"
+msgstr "Španielsko"
 
 # libicq/country.cpp:269
 #: sim/api/country.cpp:223
@@ -1033,7 +1033,7 @@ msgstr "Sv. Vincent a Grenadines"
 # libicq/country.cpp:274
 #: sim/api/country.cpp:228
 msgid "Sudan"
-msgstr "Sud�"
+msgstr "Sudán"
 
 # libicq/country.cpp:275
 #: sim/api/country.cpp:229
@@ -1048,32 +1048,32 @@ msgstr "Svazijsko"
 # libicq/country.cpp:277
 #: sim/api/country.cpp:231
 msgid "Sweden"
-msgstr "v�sko"
+msgstr "Švédsko"
 
 # libicq/country.cpp:278
 #: sim/api/country.cpp:232
 msgid "Switzerland"
-msgstr "vaj�arsko"
+msgstr "Švajčiarsko"
 
 # libicq/country.cpp:279
 #: sim/api/country.cpp:233
 msgid "Syria"
-msgstr "Sria"
+msgstr "Síria"
 
 # libicq/country.cpp:280
 #: sim/api/country.cpp:234
 msgid "Taiwan, Republic of China"
-msgstr "Taiwan, �nsk�republika"
+msgstr "Taiwan, Čínska republika"
 
 # libicq/country.cpp:281
 #: sim/api/country.cpp:235
 msgid "Tajikistan"
-msgstr "Tadikist�"
+msgstr "Tadžikistán"
 
 # libicq/country.cpp:282
 #: sim/api/country.cpp:236
 msgid "Tanzania"
-msgstr "Tanz�ia"
+msgstr "Tanzánia"
 
 # libicq/country.cpp:283
 #: sim/api/country.cpp:237
@@ -1118,7 +1118,7 @@ msgstr "Turecko"
 # libicq/country.cpp:291
 #: sim/api/country.cpp:245
 msgid "Turkmenistan"
-msgstr "Turkmenist�"
+msgstr "Turkmenistán"
 
 # libicq/country.cpp:292
 #: sim/api/country.cpp:246
@@ -1148,17 +1148,17 @@ msgstr "Ukrajina"
 # libicq/country.cpp:297
 #: sim/api/country.cpp:251
 msgid "United Arab Emirates"
-msgstr "Spojen�arabsk�emir�y"
+msgstr "Spojené arabské emiráty"
 
 # libicq/country.cpp:298
 #: sim/api/country.cpp:252
 msgid "United Kingdom"
-msgstr "Vek�Brit�ia"
+msgstr "Spojené kráľovstvo"
 
 # libicq/country.cpp:299
 #: sim/api/country.cpp:253
 msgid "United States Virgin Islands"
-msgstr "Spojen�t�y Panensk�ostrovy"
+msgstr "Spojené štáty Panenské ostrovy"
 
 # libicq/country.cpp:300
 #: sim/api/country.cpp:254
@@ -1168,7 +1168,7 @@ msgstr "Uruguaj"
 # libicq/country.cpp:301
 #: sim/api/country.cpp:255
 msgid "Uzbekistan"
-msgstr "Uzbekist�"
+msgstr "Uzbekistán"
 
 # libicq/country.cpp:302
 #: sim/api/country.cpp:256
@@ -1178,7 +1178,7 @@ msgstr "Vanuatu"
 # libicq/country.cpp:303
 #: sim/api/country.cpp:257
 msgid "Vatican City"
-msgstr "Vatik�"
+msgstr "Vatikán"
 
 # libicq/country.cpp:304
 #: sim/api/country.cpp:258
@@ -1198,7 +1198,7 @@ msgstr "Wallis a Futuna Islands"
 # libicq/country.cpp:307
 #: sim/api/country.cpp:261
 msgid "Western Samoa"
-msgstr "Z�adn�Samoa"
+msgstr "Západná Samoa"
 
 # libicq/country.cpp:308
 #: sim/api/country.cpp:262
@@ -1208,7 +1208,7 @@ msgstr "Jemen"
 # libicq/country.cpp:309
 #: sim/api/country.cpp:263
 msgid "Yugoslavia"
-msgstr "Juhosl�ia"
+msgstr "Juhoslávia"
 
 # libicq/country.cpp:310
 #: sim/api/country.cpp:264
@@ -1228,50 +1228,50 @@ msgstr "Zimbabwe"
 #: sim/api/plugins.cpp:715
 #, c-format
 msgid "Bad option %1"
-msgstr "Zl�voba %1"
+msgstr "Zlá voľba %1"
 
 #: sim/api/plugins.cpp:716
 msgid "Usage: %1 "
-msgstr "Pouitie: %1"
+msgstr "Použitie: %1"
 
 # ui/setupdlg.cpp:127
 #: sim/api/sslclient.cpp:127 sim/api/sslclient.cpp:298
 #: sim/api/sslclient.cpp:302
 msgid "SSL write error"
-msgstr "Chyba pri zapisovan�SSL (write error)"
+msgstr "Chyba pri zapisovaní SSL (write error)"
 
 # ui/setupdlg.cpp:127
 #: sim/api/sslclient.cpp:136 sim/api/sslclient.cpp:157
 #: sim/api/sslclient.cpp:165
 msgid "SSL connect error"
-msgstr "Chyba pri prip�an�SSL (connect error)"
+msgstr "Chyba pri pripájaní SSL (connect error)"
 
 # ui/setupdlg.cpp:127
 #: sim/api/sslclient.cpp:172
 msgid "SSL shutdown error"
-msgstr "Chyba pri ukon�van�SSL (shutdown error)"
+msgstr "Chyba pri ukončovaní SSL (shutdown error)"
 
 # ui/setupdlg.cpp:127
 #: sim/api/sslclient.cpp:193 sim/api/sslclient.cpp:201
 msgid "SSL shuwdown error"
-msgstr "Chyba pri ukon�van�SSL (shutdown error)"
+msgstr "Chyba pri ukončovaní SSL (shutdown error)"
 
 # ui/setupdlg.cpp:127
 #: sim/api/sslclient.cpp:208 sim/api/sslclient.cpp:229
 #: sim/api/sslclient.cpp:237
 msgid "SSL accept error"
-msgstr "Chyba pri akcept�ii SSL (accept error)"
+msgstr "Chyba pri akceptácii SSL (accept error)"
 
 # ui/setupdlg.cpp:127
 #: sim/api/sslclient.cpp:259 sim/api/sslclient.cpp:263
 #: sim/api/sslclient.cpp:350 sim/api/sslclient.cpp:356
 msgid "SSL read error"
-msgstr "Chyba pri �tan�SSL (read error)"
+msgstr "Chyba pri čítaní SSL (read error)"
 
 # ui/setupdlg.cpp:127
 #: sim/api/sslclient.cpp:340
 msgid "SSL init error"
-msgstr "Chyba pri inicializ�ii SSL (init error)"
+msgstr "Chyba pri inicializácii SSL (init error)"
 
 #: sim/api/message.cpp:493
 msgid "%1 Mbytes"
@@ -1291,23 +1291,23 @@ msgstr "%1 B"
 #: plugins/__migrate/migratedlg.cpp:232 sim/api/message.cpp:586
 #, c-format
 msgid "Can't open %1"
-msgstr "Nie je mon�otvori %1"
+msgstr "Nie je monžné otvoriť %1"
 
 # about.cpp:280
 #: sim/api/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
 msgstr ""
-"Slovensk prekladatesk tm - Slovak Translation Team:\n"
-"Tom�Ol�\tmailto://tomas.olah@alert.sk\thttp://griffin.alert.sk"
+"Slovenský prekladateľský tím - Slovak Translation Team:\n"
+"Tomáš Oláh\tmailto://tomas.olah@alert.sk\thttp://griffin.alert.sk"
 
 # about.cpp:296
 #: sim/api/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr "Tento program je �en pod licenciou GPL v2."
+msgstr "Tento program je šírený pod licenciou GPL v2."
 
 #: sim/api/socket.cpp:145 sim/api/socket.cpp:163
 msgid "Read socket error"
-msgstr "Chyba pri �tan�soketu"
+msgstr "Chyba pri čítaní soketu"
 
 # sim.cpp:117
 #: sim/api/simapi.cpp:107
@@ -1340,7 +1340,7 @@ msgstr "&OK"
 # ui/logindlg.cpp:304
 #: sim/api/simapi.cpp:467 sim/ui/ballonmsg.cpp:327 sim/ui/qt3/i18n.cpp:125
 msgid "&Yes"
-msgstr "&�o"
+msgstr "&Áno"
 
 # ui/enable.cpp:134
 # ui/randomchatbase.cpp:306
@@ -1350,13 +1350,13 @@ msgstr "&�o"
 #: plugins/_core/toolsetupbase.cpp:134 plugins/jabber/discoinfobase.cpp:288
 #: sim/api/simapi.cpp:468
 msgid "&Apply"
-msgstr "&Poui"
+msgstr "&Použiť"
 
 # ui/enable.cpp:134
 #: plugins/jabber/jabber.cpp:305 plugins/jabber/servicesbase.cpp:115
 #: sim/api/simapi.cpp:468
 msgid "&Register"
-msgstr "&Registr�ia"
+msgstr "&Registrácia"
 
 # msgedit.cpp:356
 # qt3/i18n.cpp:35
@@ -1400,7 +1400,7 @@ msgstr "&Zrušiť"
 #: plugins/jabber/discoinfobase.cpp:290 sim/api/simapi.cpp:470
 #: sim/ui/qt3/i18n.cpp:287
 msgid "&Close"
-msgstr "&Zavrie"
+msgstr "&Zavrieť"
 
 # mainwin.cpp:1973
 # mainwin.cpp:2295
@@ -1422,26 +1422,26 @@ msgstr "&Pomoc"
 # qt3/i18n.cpp:164
 #: sim/api/simapi.cpp:706
 msgid "Smile"
-msgstr "�mev"
+msgstr "Úmev"
 
 #: sim/api/simapi.cpp:707
 msgid "Surprised"
-msgstr "Prekvapen"
+msgstr "Prekvapený"
 
 # libicq/country.cpp:341
 #: sim/api/simapi.cpp:708
 msgid "Indifferent"
-msgstr "ahostajn"
+msgstr "ľahostajný"
 
 # qt3/i18n.cpp:87
 #: sim/api/simapi.cpp:709
 msgid "Skeptical"
-msgstr "Skeptick"
+msgstr "Skeptický"
 
 # ui/alertdialogbase.cpp:248
 #: sim/api/simapi.cpp:710
 msgid "Sad"
-msgstr "Smutn"
+msgstr "Smutný"
 
 #: sim/api/simapi.cpp:711
 msgid "Kiss"
@@ -1449,20 +1449,20 @@ msgstr "Bozk"
 
 #: sim/api/simapi.cpp:712
 msgid "Annoyed"
-msgstr "Zlostn"
+msgstr "Zlostný"
 
 #: sim/api/simapi.cpp:713
 msgid "Crying"
-msgstr "Pla�ci"
+msgstr "Plačúci"
 
 #: sim/api/simapi.cpp:714
 msgid "Wink"
-msgstr "murk"
+msgstr "Žmurk"
 
 # libicq/country.cpp:166
 #: sim/api/simapi.cpp:715
 msgid "Angry"
-msgstr "Natvan"
+msgstr "Naštvaný"
 
 # usertbl.cpp:392
 #: sim/api/simapi.cpp:716
@@ -1472,17 +1472,17 @@ msgstr "V rozpakoch"
 # mainwin.cpp:3105
 #: sim/api/simapi.cpp:717
 msgid "Uptight"
-msgstr "Podr�en"
+msgstr "Podráždený"
 
 # ui/filetransfer.cpp:177
 #: sim/api/simapi.cpp:718
 msgid "Teaser"
-msgstr "Chytr�"
+msgstr "Chytrý"
 
 # libicq/country.cpp:120
 #: sim/api/simapi.cpp:719
 msgid "Cool"
-msgstr "Perfektn"
+msgstr "Perfektný"
 
 # libicq/country.cpp:76
 #: sim/api/simapi.cpp:720
@@ -1491,7 +1491,7 @@ msgstr "Anjel"
 
 #: sim/api/simapi.cpp:721
 msgid "Grin"
-msgstr "ڹkrnok"
+msgstr "Úškrnok"
 
 # ui/setupdlg.cpp:127
 #: sim/api/sockfactory.cpp:212
@@ -1503,12 +1503,12 @@ msgstr "Chyba spojenia"
 # ui/filetransfer.cpp:303
 #: sim/api/sockfactory.cpp:274
 msgid "Can't resolve host"
-msgstr "Nem�m resolvova %1"
+msgstr "Nemôžem resolvovať %1"
 
 # qt3/i18n.cpp:237
 #: sim/api/sockfactory.cpp:303 sim/ui/qt3/i18n.cpp:237
 msgid "Connection closed"
-msgstr "Spojenie bolo ukon�n�"
+msgstr "Spojenie bolo ukončené"
 
 # ui/setupdlg.cpp:127
 #: sim/api/sockfactory.cpp:363
@@ -1518,7 +1518,7 @@ msgstr "Chyba soketu"
 # monitor.cpp:133
 #: sim/api/sockfactory.cpp:419
 msgid "Can't allocate port"
-msgstr "Nem�m alokova port"
+msgstr "Nemôžem alokovať port"
 
 # qt3/i18n.cpp:1
 #: sim/ui/qt3/i18n.cpp:1
@@ -1538,37 +1538,37 @@ msgstr "&Val:"
 # qt3/i18n.cpp:7
 #: sim/ui/qt3/i18n.cpp:7
 msgid "&Red:"
-msgstr "&�rven�"
+msgstr "&Červená:"
 
 # qt3/i18n.cpp:9
 #: sim/ui/qt3/i18n.cpp:9
 msgid "&Green:"
-msgstr "&Zelen�"
+msgstr "&Zelená:"
 
 # qt3/i18n.cpp:11
 #: sim/ui/qt3/i18n.cpp:11
 msgid "Bl&ue:"
-msgstr "&Modr�"
+msgstr "&Modrá:"
 
 # qt3/i18n.cpp:13
 #: sim/ui/qt3/i18n.cpp:13
 msgid "A&lpha channel:"
-msgstr "A&lfa kan�:"
+msgstr "A&lfa kanál:"
 
 # qt3/i18n.cpp:15
 #: sim/ui/qt3/i18n.cpp:15
 msgid "&Basic colors"
-msgstr "Z�ladn�&farvy"
+msgstr "Základné &farby"
 
 # qt3/i18n.cpp:17
 #: sim/ui/qt3/i18n.cpp:17
 msgid "&Custom colors"
-msgstr "&Vlastn�farvy"
+msgstr "&Vlastné farby"
 
 # qt3/i18n.cpp:19
 #: sim/ui/qt3/i18n.cpp:19
 msgid "&Define Custom Colors >>"
-msgstr "&Definova vlastn�farvy >>"
+msgstr "&Definovať vlastné farby >>"
 
 # qt3/i18n.cpp:21
 #: plugins/_core/core.cpp:1635 plugins/_core/status.cpp:303
@@ -1586,34 +1586,34 @@ msgstr "Zrušiť"
 # qt3/i18n.cpp:25
 #: sim/ui/qt3/i18n.cpp:25
 msgid "&Add To Custom Colors"
-msgstr "&Prida do vlasn�h farieb"
+msgstr "&Pridať do vlastných farieb"
 
 # qt3/i18n.cpp:27
 #: sim/ui/qt3/i18n.cpp:27
 msgid "Select color"
-msgstr "Vybra farbu"
+msgstr "Vybrať farbu"
 
 # qt3/i18n.cpp:29
 #: sim/ui/qt3/i18n.cpp:29
 msgid "Copy or Move a File"
-msgstr "Kop�ova alebo presun sbor"
+msgstr "Kopírovať alebo presunúť súbor"
 
 # qt3/i18n.cpp:31
 #: sim/ui/qt3/i18n.cpp:31
 #, c-format
 msgid "Read: %1"
-msgstr "�ta: %1"
+msgstr "Čítať: %1"
 
 # qt3/i18n.cpp:33
 #: sim/ui/qt3/i18n.cpp:33
 #, c-format
 msgid "Write: %1"
-msgstr "Zap�a: %1"
+msgstr "Zapísať: %1"
 
 # qt3/i18n.cpp:37
 #: sim/ui/qt3/i18n.cpp:37
 msgid "All files (*)"
-msgstr "Vetky sbory (*)"
+msgstr "Všetky súbory (*)"
 
 # qt3/i18n.cpp:39
 # usertbl.cpp:115
@@ -1626,7 +1626,7 @@ msgstr "Meno"
 # qt3/i18n.cpp:41
 #: sim/ui/qt3/i18n.cpp:41
 msgid "Size"
-msgstr "Vekos"
+msgstr "Veľkosť"
 
 # qt3/i18n.cpp:43
 # ui/phonebook.cpp:78
@@ -1637,7 +1637,7 @@ msgstr "Typ"
 # qt3/i18n.cpp:45
 #: plugins/weather/wifacecfg.cpp:72 sim/ui/qt3/i18n.cpp:45
 msgid "Date"
-msgstr "D�um"
+msgstr "Dátum"
 
 # qt3/i18n.cpp:47
 #: sim/ui/qt3/i18n.cpp:47
@@ -1672,7 +1672,7 @@ msgstr "O adres� vyie"
 # qt3/i18n.cpp:59
 #: sim/ui/qt3/i18n.cpp:59
 msgid "Create New Folder"
-msgstr "Vytvori nov adres�"
+msgstr "Vytvoriť nový adresár"
 
 # qt3/i18n.cpp:61
 #: sim/ui/qt3/i18n.cpp:61
@@ -1687,12 +1687,12 @@ msgstr "Pohad (detail)"
 # qt3/i18n.cpp:65
 #: sim/ui/qt3/i18n.cpp:65
 msgid "Preview File Info"
-msgstr "Inform�ie o sbore"
+msgstr "Informácie o súbore"
 
 # qt3/i18n.cpp:67
 #: sim/ui/qt3/i18n.cpp:67
 msgid "Preview File Contents"
-msgstr "Uk�a obsah sboru"
+msgstr "Ukázať obsah sboru"
 
 # qt3/i18n.cpp:69
 #: sim/ui/qt3/i18n.cpp:69
@@ -1758,7 +1758,7 @@ msgstr "Otvori"
 # qt3/i18n.cpp:91
 #: sim/ui/qt3/i18n.cpp:91
 msgid "Save as"
-msgstr "Uloi ako"
+msgstr "Uložiť ako"
 
 # qt3/i18n.cpp:93
 #: sim/ui/qt3/i18n.cpp:93
@@ -1770,13 +1770,13 @@ msgstr "&Otvori"
 # qt3/i18n.cpp:95
 #: plugins/netmonitor/monitor.cpp:60 sim/ui/qt3/i18n.cpp:95
 msgid "&Save"
-msgstr "U&loi"
+msgstr "U&ložiť"
 
 # qt3/i18n.cpp:97
 #: plugins/_core/core.cpp:1207 plugins/_core/historycfgbase.cpp:176
 #: sim/ui/qt3/i18n.cpp:97
 msgid "&Rename"
-msgstr "&Premenova"
+msgstr "&Premenovať"
 
 # qt3/i18n.cpp:99
 # ui/logindlgbase.cpp:125
@@ -1853,18 +1853,18 @@ msgstr "<qt>Naozaj si prajete zmaza %1 \"%2\"?</qt>"
 # qt3/i18n.cpp:129
 #: sim/ui/qt3/i18n.cpp:129
 msgid "New Folder 1"
-msgstr "Nov adres� 1"
+msgstr "Nový adresár 1"
 
 # qt3/i18n.cpp:131
 #: sim/ui/qt3/i18n.cpp:131
 msgid "New Folder"
-msgstr "Nov adres�"
+msgstr "Nový adresár"
 
 # qt3/i18n.cpp:133
 #: sim/ui/qt3/i18n.cpp:133
 #, c-format
 msgid "New Folder %1"
-msgstr "Nov adres� %1"
+msgstr "Nový adresár %1"
 
 # qt3/i18n.cpp:135
 #: sim/ui/qt3/i18n.cpp:135
@@ -1874,13 +1874,13 @@ msgstr "N�s adres�"
 # qt3/i18n.cpp:137
 #: sim/ui/qt3/i18n.cpp:137
 msgid "Directories"
-msgstr "Adres�e"
+msgstr "Adresáre"
 
 # msgview.cpp:851
 # qt3/i18n.cpp:139
 #: sim/ui/qt3/i18n.cpp:139
 msgid "Save"
-msgstr "Uloi"
+msgstr "Uložiť"
 
 # mainwin.cpp:446
 # monitor.cpp:133
@@ -1931,7 +1931,7 @@ msgstr "Efekty"
 # qt3/i18n.cpp:158
 #: sim/ui/qt3/i18n.cpp:158
 msgid "Stri&keout"
-msgstr "Pre�ar&knut�"
+msgstr "Prečiar&knuté"
 
 # chatwnd.cpp:60
 # msgedit.cpp:117
@@ -1972,7 +1972,7 @@ msgstr "Zavrie"
 # qt3/i18n.cpp:172
 #: sim/ui/qt3/i18n.cpp:172
 msgid "Select Font"
-msgstr "Vybra tl"
+msgstr "Vybrať písmo"
 
 # qt3/i18n.cpp:177
 #: sim/ui/qt3/i18n.cpp:177
@@ -1996,7 +1996,7 @@ msgstr "Pomoc"
 # qt3/i18n.cpp:185
 #: sim/ui/qt3/i18n.cpp:185
 msgid "Defaults"
-msgstr "Predvolen�"
+msgstr "Predvolené"
 
 # qt3/i18n.cpp:187
 #: sim/ui/qt3/i18n.cpp:187
@@ -2062,7 +2062,7 @@ msgid ""
 "to\n"
 "%2"
 msgstr ""
-"Nie je mone premenova\n"
+"Nie je monže premenovať\n"
 "%1\n"
 "na\n"
 "%2"
@@ -2090,7 +2090,7 @@ msgstr ""
 # qt3/i18n.cpp:223
 #: sim/ui/qt3/i18n.cpp:223
 msgid "Operation stopped by the user"
-msgstr "Oper�ia bola u�ateom preruen�"
+msgstr "Operácia bola prerušená užívateľom"
 
 # qt3/i18n.cpp:225
 #: sim/ui/qt3/i18n.cpp:225
@@ -2176,7 +2176,7 @@ msgstr "Odzna�"
 #: plugins/_core/core.cpp:1026 sim/ui/qt3/i18n.cpp:257
 #: sim/ui/qt3/qtextedit.cpp:4241 sim/ui/qt3/qtextedit.cpp:4243
 msgid "Select All"
-msgstr "Vybra vetko"
+msgstr "Vybrať všetko"
 
 # qt3/i18n.cpp:259
 #: sim/ui/qt3/i18n.cpp:259
@@ -2236,7 +2236,7 @@ msgstr "O&bnovi"
 # qt3/i18n.cpp:281
 #: sim/ui/qt3/i18n.cpp:281
 msgid "&Move"
-msgstr "Pres&un"
+msgstr "Pres&unúť"
 
 # qt3/i18n.cpp:283
 #: sim/ui/qt3/i18n.cpp:283
@@ -2338,7 +2338,7 @@ msgstr "kurz�a"
 # qt3/i18n.cpp:158
 #: sim/ui/fontedit.cpp:123
 msgid "strikeout"
-msgstr "Pre�ar&knut�"
+msgstr "Prečiar&knuté"
 
 # chatwnd.cpp:60
 # msgedit.cpp:117
@@ -2360,7 +2360,7 @@ msgstr "Zvuky(*.wav)"
 # qt3/i18n.cpp:172
 #: sim/ui/editfile.cpp:218
 msgid "Select sound"
-msgstr "Vybra zvuk"
+msgstr "Vybrať zvuk"
 
 # ui/addphonebase.cpp:139
 # ui/alertmsgbase.cpp:75
@@ -2571,14 +2571,14 @@ msgstr "Nie je možné vytvoriť priame pripojenie"
 # msgedit.cpp:513
 #: plugins/msn/msnclient.cpp:2748
 msgid "Transfer canceled"
-msgstr "Prenos preruen"
+msgstr "Prenos prerušený"
 
 # msgedit.cpp:513
 #: plugins/jabber/jabberclient.cpp:2928 plugins/jabber/jabberclient.cpp:2969
 #: plugins/msn/msnclient.cpp:2926 plugins/yahoo/yahooclient.cpp:2409
 #: plugins/yahoo/yahooclient.cpp:2451
 msgid "File transfer failed"
-msgstr "Prenos skon�l s chybou"
+msgstr "Prenos skončil s chybou"
 
 # ui/enable.cpp:134
 #: plugins/msn/msnconfig.cpp:44
@@ -2643,28 +2643,28 @@ msgstr ""
 #: plugins/jabber/jabber.cpp:101 plugins/msn/msn.cpp:101
 #: plugins/yahoo/yahoo.cpp:119
 msgid "Away"
-msgstr "Pre�(Away)"
+msgstr "Preč (Away)"
 
 # client.cpp:1233
 #: plugins/_core/userviewcfgbase.cpp:269 plugins/icq/icq.cpp:129
 #: plugins/jabber/jabber.cpp:116 plugins/msn/msn.cpp:116
 #: plugins/yahoo/yahoo.cpp:134
 msgid "N/A"
-msgstr "Nedostupn (N/A)"
+msgstr "Nedostupný (N/A)"
 
 # mainwin.cpp:2713
 #: plugins/_core/maininfo.cpp:81 plugins/msn/msn.cpp:131
 #: plugins/yahoo/yahoo.cpp:149
 msgid "Busy"
-msgstr "Zanepr�dnen"
+msgstr "Zaneprázdnený"
 
 #: plugins/msn/msn.cpp:146 plugins/yahoo/yahooclient.cpp:1344
 msgid "Be right back"
-msgstr "Hne�som sp�"
+msgstr "Hneď som späť"
 
 #: plugins/msn/msn.cpp:161 plugins/yahoo/yahooclient.cpp:1356
 msgid "On the phone"
-msgstr "Na telef�e"
+msgstr "Na telefóne"
 
 #: plugins/msn/msn.cpp:176
 msgid "On the lunch"
@@ -2738,7 +2738,7 @@ msgstr "Nepripojený"
 #: plugins/weather/weathercfgbase.cpp:109 plugins/weather/wifacecfgbase.cpp:80
 #: plugins/yahoo/yahooinfobase.cpp:162 plugins/yahoo/yahoosearchbase.cpp:78
 msgid "Form1"
-msgstr "Formul� 1"
+msgstr "Formulár 1"
 
 # ui/maininfobase.cpp:327
 #: plugins/gpg/gpggenbase.cpp:116 plugins/jabber/discoinfobase.cpp:285
@@ -2751,14 +2751,14 @@ msgstr "Email:"
 #: plugins/icq/icqsearchbase.cc:315 plugins/jabber/jabberaddbase.cpp:93
 #: plugins/msn/msnsearchbase.cpp:80 plugins/yahoo/yahoosearchbase.cpp:80
 msgid "Add to group:"
-msgstr "Prida do skupiny:"
+msgstr "Pridať do skupiny:"
 
 # mainwin.cpp:628
 # mainwin.cpp:2727
 #: plugins/icq/icqsearchbase.cc:311 plugins/msn/msnsearchbase.cpp:81
 #: plugins/yahoo/yahoosearchbase.cpp:81
 msgid "&Add contact"
-msgstr "Prid&a kontakt"
+msgstr "Prid&ať kontakt"
 
 # ui/maininfobase.cpp:327
 #: plugins/_core/maininfo.cpp:70 plugins/filter/ignorelist.cpp:28
@@ -2772,13 +2772,13 @@ msgstr "Email"
 #: plugins/jabber/discoinfobase.cpp:280 plugins/jabber/jabberinfobase.cpp:197
 #: plugins/msn/msninfobase.cpp:131 plugins/yahoo/yahooinfobase.cpp:163
 msgid "Nick:"
-msgstr "Prezvka (Nick):"
+msgstr "Prezývka (Nick):"
 
 # ui/maininfobase.cpp:321
 #: plugins/icq/icqinfobase.cc:281 plugins/jabber/jabberinfobase.cpp:201
 #: plugins/msn/msninfobase.cpp:132 plugins/yahoo/yahooinfobase.cpp:168
 msgid "&Names"
-msgstr "Me&n�"
+msgstr "Me&ná"
 
 # ui/maininfobase.cpp:328
 #: plugins/icq/aiminfobase.cc:288 plugins/icq/icqinfobase.cc:282
@@ -2972,7 +2972,7 @@ msgstr "Migr�ia"
 
 #: plugins/__migrate/migrate.cpp:36
 msgid "Plugin provides convert configuration and history from SIM 0.8"
-msgstr "Z�uvny modul umo�je konverziu konfigur�ie a hist�ie z SIM v0.8"
+msgstr "Zásuvný modul umožňuje konverziu konfigur�ie a hist�ie z SIM v0.8"
 
 #: plugins/__migrate/migratedlg.cpp:77
 msgid "Cancel convert?"
@@ -2985,7 +2985,7 @@ msgstr "Konvertova konfigur�iu zo starej verzie"
 # ui/editfile.cpp:86
 #: plugins/__migrate/migratedlgbase.cpp:90
 msgid "Directories for convert:"
-msgstr "Adres�e pre konverziu:"
+msgstr "Adresáre pre konverziu:"
 
 #: plugins/__migrate/migratedlgbase.cpp:91
 msgid "&Remove old files"
@@ -3003,7 +3003,7 @@ msgstr ""
 
 #: plugins/__migrate/migratedlgbase.cpp:94
 msgid "Select directories for convert"
-msgstr "Vybra adres�e pre konverziu"
+msgstr "Vybrať adresáre pre konverziu"
 
 # sim.cpp:527
 #: plugins/__migrate/migratedlgbase.cpp:96
@@ -3047,7 +3047,7 @@ msgstr "Konfigurácia"
 # usertbl.cpp:405
 #: plugins/_core/cfgdlg.cpp:539
 msgid "Update info"
-msgstr "Aktualizova inform�ie o u�ateovi"
+msgstr "Aktualizova informácie o užívateľovi"
 
 #: plugins/_core/cmenu.cpp:78
 msgid "More..."
@@ -3062,7 +3062,7 @@ msgstr "Prispôsobiť nástrojovú lištu ..."
 # sim.cpp:527
 #: plugins/_core/connectionsettings.cpp:32
 msgid "Configure %1 client"
-msgstr "Konfigurova %1 klienta"
+msgstr "Konfigurovať %1 klienta"
 
 # mainwin.cpp:2464
 #: plugins/_core/container.cpp:284
@@ -3234,7 +3234,7 @@ msgstr ""
 # client.cpp:328
 #: plugins/_core/core.cpp:485
 msgid "Please do not disturb me now. Disturb me later.\n"
-msgstr "Teraz ma, pros�, nevyruujte. Skste nesk�.\n"
+msgstr "Teraz ma, prosím, nevyrušujte. Skúste neskôr.\n"
 
 # client.cpp:335
 #: plugins/_core/core.cpp:488
@@ -3259,18 +3259,18 @@ msgstr "&Menu"
 
 #: plugins/_core/core.cpp:602 plugins/_core/searchbase.cpp:73
 msgid "Search / Add contact"
-msgstr "Hada/Prida kontakt"
+msgstr "Hľadať/Pridať kontakt"
 
 # mainwin.cpp:629
 # mainwin.cpp:2728
 #: plugins/_core/core.cpp:613
 msgid "&Send SMS"
-msgstr "Odo&sla SMS"
+msgstr "Odo&slať SMS"
 
 # libicq/country.cpp:431
 #: plugins/_core/core.cpp:620
 msgid "&Phone service"
-msgstr "Telef�ne sluby"
+msgstr "Telefónne služby"
 
 # userbox.cpp:105
 #: plugins/_core/core.cpp:630
@@ -3518,7 +3518,7 @@ msgstr "Telef�ny zoznam"
 # userview.cpp:905
 #: plugins/_core/core.cpp:1301
 msgid "&No show"
-msgstr "Nezobrazova"
+msgstr "Nezobrazovať"
 
 # mainwin.cpp:2712
 #: plugins/_core/core.cpp:1308
@@ -3536,11 +3536,11 @@ msgstr "Odmietnu sbor bez pr�iny"
 
 #: plugins/_core/core.cpp:1340 plugins/_core/core.cpp:3127
 msgid "Sorry, I'm busy right now, and can not respond to your request"
-msgstr "Prep�te, ale moment�ne som zanepr�dnen a nem�m odpoveda na poiadavku"
+msgstr "Prepáčte, ale momentálne som zaneprázdnený a nemôžem odpovedať na požiadavku"
 
 #: plugins/_core/core.cpp:1345 plugins/_core/core.cpp:3136
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
-msgstr "Prep�te, moment�ne som zanepr�dnen ale m�m odpoveda nesk�"
+msgstr "Prepáčte, momentálne som zaneprázdnený, ale môžem odpovedať neskôr"
 
 #: plugins/_core/core.cpp:1350
 msgid "Enter a decline reason"
@@ -3600,15 +3600,15 @@ msgid ""
 "If it is wrong, you can separate them. For this purpose in contact menu "
 "choose the necessary name and choose a command \"Separate\"."
 msgstr ""
-"Pri nahr�an�zoznamu kontaktov kontakty s rovnakmi menami s automaticky "
-"spojen�do jedn�o.\n"
-"Ak to nie je spr�ne, m�te ich rozdeli ozna�n� kontaktu a z menu vybra "
-"pr�az \"Rozdeli\""
+"Pri nahrávaní zoznamu kontaktov, kontakty s rovnakými menami sa automaticky "
+"spoja do jedného.\n"
+"Ak to nie je správne, môžete ich rozdeliť označením kontaktu a z menu vybrať "
+"príkaz \"Rozdeliť\""
 
 # ui/autoreplybase.cpp:75
 #: plugins/_core/core.cpp:1640
 msgid "Don't show this message in next time"
-msgstr "Nabudce nezobrazova tto spr�u"
+msgstr "Nabudúce nezobrazovať túto správu"
 
 #: plugins/_core/core.cpp:1667
 msgid "`<command>` - call <command> and substitute command output\n"
@@ -3855,7 +3855,7 @@ msgstr "Hist�ia"
 # qt3/i18n.cpp:257
 #: plugins/_core/logindlg.cpp:57
 msgid "Select profile"
-msgstr "Vybra profil"
+msgstr "Vybrať profil"
 
 #: plugins/_core/logindlg.cpp:134
 msgid "Other instance of SIM use this profile"
@@ -3869,7 +3869,7 @@ msgstr "Zabudli ste heslo ?"
 # qt3/i18n.cpp:131
 #: plugins/_core/logindlg.cpp:338
 msgid "New profile"
-msgstr "Nov profil"
+msgstr "Nový profil"
 
 # ui/addphone.cpp:34
 #: plugins/_core/maininfo.cpp:47
@@ -3977,7 +3977,7 @@ msgstr "Spr�a bude rozdelen�"
 # msgview.cpp:1228
 #: plugins/_core/msgsms.cpp:301
 msgid "Save phone in contact list"
-msgstr "Uloi telef� v zozname kontaktov"
+msgstr "Uložiť telefón v zozname kontaktov"
 
 # mainwin.cpp:628
 # mainwin.cpp:2727
@@ -4037,7 +4037,7 @@ msgstr "Inform�ie o u�ateovi - '%1'"
 # mainwin.cpp:2727
 #: plugins/_core/usercfg.cpp:281
 msgid "New contact"
-msgstr "Nov kontakt"
+msgstr "Nový kontakt"
 
 # ui/userinfo.cpp:155
 # userview.cpp:537
@@ -4118,7 +4118,7 @@ msgstr "N�ov kontaktu"
 
 #: plugins/_core/searchbase.cpp:74
 msgid "Choose type of contact which you want to find or add:"
-msgstr "Vybra typ kontaktu, ktor chcete hada alebo prida:"
+msgstr "Vybrať typ kontaktu, ktorý chcete hľadať alebo pridať:"
 
 # msgview.cpp:231
 # msgview.cpp:1273
@@ -4128,7 +4128,7 @@ msgstr "Typ kontaktu:"
 
 #: plugins/_core/searchbase.cpp:76
 msgid "Choose contact type"
-msgstr "Vybra typ kontaktu"
+msgstr "Vybrať typ kontaktu"
 
 # ui/generalsecbase.cpp:216
 #: plugins/_core/newprotocolbase.cpp:67
@@ -4142,7 +4142,7 @@ msgstr "Protokol:"
 # qt3/i18n.cpp:27
 #: plugins/_core/newprotocolbase.cpp:69
 msgid "Select protocol"
-msgstr "Vybra protokol"
+msgstr "Vybrať protokol"
 
 # ui/setupdlg.cpp:127
 #: plugins/_core/managerbase.cpp:46 plugins/_core/managerbase.cpp:106
@@ -4247,7 +4247,7 @@ msgstr "Skupiny"
 # client.cpp:1231
 #: plugins/_core/userviewcfgbase.cpp:265
 msgid "Do not distrub"
-msgstr "Nevyruova (DND)"
+msgstr "Nevyrušovať (DND)"
 
 # ui/alertdialogbase.cpp:246
 #: plugins/_core/userviewcfgbase.cpp:270
@@ -4315,12 +4315,12 @@ msgstr "Profil:"
 # ui/logindlgbase.cpp:128
 #: plugins/_core/logindlgbase.cpp:130
 msgid "&Save password"
-msgstr "Uloi he&slo"
+msgstr "Uložiť he&slo"
 
 # ui/logindlgbase.cpp:124
 #: plugins/_core/logindlgbase.cpp:131
 msgid "&Do not show this window on startup"
-msgstr "Nezo&brazova toto okno pri tarte"
+msgstr "Nezo&brazovať toto okno pri štarte"
 
 #: plugins/_core/plugincfgbase.cpp:71
 msgid "Plugin &enabled"
@@ -4564,7 +4564,7 @@ msgstr "M� dial�"
 # ui/autoreplybase.cpp:75
 #: plugins/_core/autoreplybase.cpp:88
 msgid "Don't show this dialog"
-msgstr "Nezobrazova tento dialog"
+msgstr "Nezobrazovať tento dialog"
 
 # ui/acceptbase.cpp:173
 # ui/acceptbase.cpp:177
@@ -4575,7 +4575,7 @@ msgstr "P&otla� glob�ne nastavenia"
 # ui/autoreplybase.cpp:75
 #: plugins/_core/arcfgbase.cpp:81
 msgid "Don't show autoreply dialog"
-msgstr "Nezobrazova dialog automatickej odpovede"
+msgstr "Nezobrazovať dialóg automatickej odpovede"
 
 # ui/acceptbase.cpp:178
 #: plugins/_core/filecfgbase.cpp:87
@@ -4737,7 +4737,7 @@ msgstr "D�od odmietnutia"
 
 #: plugins/_core/declinedlgbase.cpp:81
 msgid "Enter decline reason:"
-msgstr "Vlote d�od odmietnutia:"
+msgstr "Vložte d�od odmietnutia:"
 
 # ui/smssetupbase.cpp:123
 #: plugins/_core/smscfgbase.cpp:65
@@ -5035,12 +5035,12 @@ msgstr "O ..."
 
 #: plugins/about/about.cpp:39
 msgid "Plugin provides about information"
-msgstr "Z�uvny modul umo�je zobrazi inform�ie \"O ...\""
+msgstr "Zásuvný modul umožňuje zobrazi inform�ie \"O ...\""
 
 # mainwin.cpp:2745
 #: plugins/about/about.cpp:61
 msgid "&Bug report"
-msgstr "&Hl�enie chb"
+msgstr "&Hlásenie chýb"
 
 # mainwin.cpp:2746
 #: plugins/about/about.cpp:71
@@ -5133,12 +5133,12 @@ msgstr "Pre�(AutoAway)"
 #: plugins/autoaway/autoaway.cpp:67
 msgid "Plugin provides set away and N/A status after some idle time"
 msgstr ""
-"Z�uvny modul umo�je nastavi status \"  \" a \"  \" po istom �se "
+"Zásuvný modul umožňuje nastavi status \"  \" a \"  \" po istom �se "
 "ne�nnosti"
 
 #: plugins/background/bkgndcfg.cpp:45
 msgid "Select background picture"
-msgstr "Vybra obr�ok pozadia"
+msgstr "Vybrať obrázok pozadia"
 
 # ui/themesetup.cpp:132
 #: plugins/background/bkgndcfg.cpp:60 plugins/icq/icqpicture.cpp:51
@@ -5214,7 +5214,7 @@ msgstr "Pozadie"
 
 #: plugins/background/background.cpp:35
 msgid "Plugin provides background pictures for user list"
-msgstr "Z�uvny modul umo�je nastavi obr�ky pozadia pre zoznam u�ateov"
+msgstr "Zásuvný modul umožňuje nastavi obr�ky pozadia pre zoznam u�ateov"
 
 # ui/themesetup.cpp:53
 #: plugins/dock/dock.cpp:49
@@ -5223,7 +5223,7 @@ msgstr "Systray"
 
 #: plugins/dock/dock.cpp:50
 msgid "Plugin provides dock main window in system tray"
-msgstr "Z�uvny modul umo�je umiestni (dokova) hlavn�okno v systrayi"
+msgstr "Zásuvný modul umožňuje umiestniť (dokovať) hlavné okno v systrayi"
 
 #: plugins/dock/dock.cpp:52 plugins/windock/windock.cpp:43
 msgid "Dock"
@@ -5231,41 +5231,41 @@ msgstr "Dokova"
 
 #: plugins/dock/dock.cpp:53
 msgid "Plugin provides dock icon"
-msgstr "Z�uvny modul umo�je umiestni (dokova) ikonu"
+msgstr "Zásuvný modul umožňuje umiestni (dokova) ikonu"
 
 # mainwin.cpp:893
 #: plugins/dock/dock.cpp:148
 msgid "Toggle main window"
-msgstr "Preklopi hlavn�okno"
+msgstr "Preklopiť hlavné okno"
 
 # ui/keysetup.cpp:36
 #: plugins/dock/dock.cpp:269
 msgid "Hide main window"
-msgstr "Skry hlavn�okno"
+msgstr "Skryť hlavné okno"
 
 # ui/keysetup.cpp:36
 #: plugins/dock/dock.cpp:270
 msgid "Show main window"
-msgstr "Uk�a hlavn�okno"
+msgstr "Ukázať hlavné okno"
 
 # ui/statussetupbase.cpp:140
 #: plugins/dock/dockcfgbase.cpp:92
 msgid "Hide main window after"
-msgstr "Schov�a hlavn�okno po"
+msgstr "Schovávať hlavné okno po"
 
 # ui/statussetupbase.cpp:146
 #: plugins/dock/dockcfgbase.cpp:93
 msgid "seconds inactive"
-msgstr "sekund�h neaktivity"
+msgstr "sekundách neaktivity"
 
 # ui/keysetup.cpp:36
 #: plugins/dock/dockcfgbase.cpp:94
 msgid "Show Mainwin on desktop"
-msgstr "Uk�a hlavn�okno na pracovnej ploche"
+msgstr "Ukazať hlavné okno na pracovnej ploche"
 
 #: plugins/dock/dockcfgbase.cpp:95
 msgid "current"
-msgstr "aktu�ny"
+msgstr "aktuálny"
 
 # ui/msgdialogbase.cpp:99
 #: plugins/dock/dockcfgbase.cpp:96
@@ -5285,7 +5285,7 @@ msgstr "Filter"
 
 #: plugins/filter/filter.cpp:40
 msgid "Plugin provides message filter"
-msgstr "Z�uvny modul umo�je filtrova spr�y"
+msgstr "Zásuvný modul umožňuje filtrova spr�y"
 
 # ui/listsec.cpp:131
 # ui/setupdlg.cpp:153
@@ -5334,7 +5334,7 @@ msgstr "Pl�ajci"
 
 #: plugins/floaty/floaty.cpp:47
 msgid "Plugin provides floating windows for contacts"
-msgstr "Z�uvny modul umo�je nastavi pl�ajce okn�pre kontakty"
+msgstr "Zásuvný modul umožňuje nastavi pl�ajce okn�pre kontakty"
 
 # mainwin.cpp:2078
 #: plugins/floaty/floaty.cpp:91 plugins/floaty/floaty.cpp:165
@@ -5374,7 +5374,7 @@ msgstr "Preposla"
 
 #: plugins/forward/forward.cpp:32
 msgid "Plugin provides messages forwarding on cellular"
-msgstr "Z�uvny modul umo�je preposiela spr�y na mobiln telef�"
+msgstr "Zásuvný modul umožňuje preposiela spr�y na mobiln telef�"
 
 #: plugins/gpg/gpgcfg.cpp:43
 msgid "GPG(gpg.exe)"
@@ -5383,7 +5383,7 @@ msgstr "GPG(gpg.exe)"
 # qt3/i18n.cpp:117
 #: plugins/gpg/gpgcfg.cpp:51
 msgid "Select home directory"
-msgstr "Vybra domovsk adres�"
+msgstr "Vybrať domovský adresár"
 
 #: plugins/gpg/gpgcfg.cpp:53
 msgid "Download GPG"
@@ -5551,12 +5551,12 @@ msgstr "Ikony"
 
 #: plugins/icons/icon.cpp:33
 msgid "Plugin provides Miranda icons themes and emoticons"
-msgstr "Z�uvny modul umo�je pou�a t�y ikon a emotikony z programu Miranda"
+msgstr "Zásuvný modul umožňuje pou�a t�y ikon a emotikony z programu Miranda"
 
 # qt3/i18n.cpp:172
 #: plugins/icons/iconcfg.cpp:169
 msgid "Select icons DLL"
-msgstr "Vybra ikony DLL"
+msgstr "Vybrať ikony DLL"
 
 #: plugins/icons/iconcfg.cpp:172
 msgid "*.dll|Icons themes"
@@ -5578,7 +5578,7 @@ msgstr "Emotikony"
 # qt3/i18n.cpp:257
 #: plugins/icons/smilecfg.cpp:128
 msgid "Select smiles"
-msgstr "Vybra emotikony"
+msgstr "Vybrať emotikony"
 
 #: plugins/icons/smilecfg.cpp:131
 msgid "*.msl *.xep|Smiles"
@@ -5608,7 +5608,7 @@ msgstr "Emotikony:"
 #: plugins/windock/windock.cpp:44
 msgid "Plugin provides dock main window to left or right side of screen"
 msgstr ""
-"Z�uvn modul umo�je umiestni hlavn�okno na av alebo prav stranu "
+"Zásuvný modul umožňuje umiestniť hlavné okno na ľavu alebo pravu stranu "
 "obrazovky"
 
 #: plugins/windock/windock.cpp:181
@@ -5636,7 +5636,7 @@ msgid ""
 "to 4\n"
 "If you want to log more than one you may add the levels"
 msgstr ""
-"Z�uvny modul umo�je zobrazova vstup logovM�te nastavi rove�"
+"Zásuvný modul umožňuje zobrazova vstup logovM�te nastavi rove�"
 "ladiaceho vstup z pr�azov�o riadku pomocou -d<loglevel>\n"
 "Pre logovanie chb nastavte loglevel na 1, pre upozornenia na 2, a pre "
 "ladiace spr�y na 4\n"
@@ -5687,7 +5687,7 @@ msgstr "Znamenie zverokruhu"
 
 #: plugins/zodiak/zodiak.cpp:51
 msgid "Plugin provides show zodiak puctures for date edit"
-msgstr "Z�uvny modul umo�je zobrazi obr�ok znamenia poda d�umu"
+msgstr "Zásuvný modul umožňuje zobrazi obr�ok znamenia poda d�umu"
 
 #: plugins/zodiak/zodiak.cpp:159
 msgid "View horoscope"
@@ -5780,17 +5780,17 @@ msgstr "ICQ"
 # client.cpp:1231
 #: plugins/icq/icq.cpp:144 plugins/jabber/jabber.cpp:131
 msgid "Do not Disturb"
-msgstr "Nevyruova (DND)"
+msgstr "Nevyrušovať (DND)"
 
 # client.cpp:1232
 #: plugins/icq/icq.cpp:159
 msgid "Occupied"
-msgstr "Zanepr�dnen (Occupied)"
+msgstr "Zaneprázdnený (Occupied)"
 
 # client.cpp:1234
 #: plugins/icq/icq.cpp:174 plugins/jabber/jabber.cpp:146
 msgid "Free for chat"
-msgstr "Chcem chatova (FFC)"
+msgstr "Chcem chatovať (FFC)"
 
 # sim.cpp:525
 #: plugins/icq/icq.cpp:246
@@ -5801,18 +5801,18 @@ msgstr "AIM"
 # ui/setupdlg.cpp:155
 #: plugins/icq/icq.cpp:440
 msgid "Visible list"
-msgstr "Zoznam viditench"
+msgstr "Zoznam viditených"
 
 # ui/listsec.cpp:113
 # ui/setupdlg.cpp:154
 #: plugins/icq/icq.cpp:449
 msgid "Invisible list"
-msgstr "Zoznam neviditench"
+msgstr "Zoznam neviditeľných"
 
 # userbox.cpp:256
 #: plugins/icq/icq.cpp:460
 msgid "&Show all encodings"
-msgstr "&Uk�a vetky k�ovania"
+msgstr "&Ukázať všetky kódovania"
 
 # userbox.cpp:114
 #: plugins/icq/icq.cpp:466 plugins/icq/icq.cpp:476
@@ -5828,7 +5828,7 @@ msgstr "Prid&a do skupiny"
 # mainwin.cpp:2708
 #: plugins/icq/icq.cpp:515
 msgid "Check &invisible"
-msgstr "Skontrolova nev&iditenos"
+msgstr "Skontrolovať nev&iditeľnosť"
 
 #: plugins/icq/icq.cpp:524
 msgid "&All"
@@ -5987,7 +5987,7 @@ msgstr "UIN bolo podozriv�"
 
 #: plugins/icq/icqlogin.cpp:250
 msgid "Can't login to ICQ network - Please try again later"
-msgstr "Nie je mon�sa prihl�i do siete ICQ. Skste pros� nesk�"
+msgstr "Nie je mon�sa prihl�i do siete ICQ. Skúste pros� nesk�"
 
 # mainwin.cpp:1328
 #: plugins/icq/icqlogin.cpp:271
@@ -6098,7 +6098,7 @@ msgstr "Zatvori bezpe� kan�"
 # mainwin.cpp:2708
 #: plugins/icq/icqmessage.cpp:1032
 msgid "Check invisible"
-msgstr "Skontrolova neviditenos"
+msgstr "Skontrolovať neviditeľnosť"
 
 # mainwin.cpp:628
 # mainwin.cpp:2727
@@ -6143,7 +6143,7 @@ msgstr "Vyhad�anie nespen�"
 # ui/randomchat.cpp:217
 #: plugins/icq/icqsearch.cpp:357
 msgid "Request user info"
-msgstr "iados o inform�ie o u�ateovi"
+msgstr "Žiadosť o informácie o užívateľovi"
 
 #: plugins/icq/icqsearch.cpp:360
 msgid "<p>UIN: <b><a href=\"icq://%1\"><u>%2</u></a></b></p>"
@@ -6175,23 +6175,23 @@ msgstr "<p>Jazyk: <b>%1</b></p>"
 
 #: plugins/icq/icqsearch.cpp:419
 msgid "<p>Homepage: <a href=\"%1\"><u>%2</u></a></p>"
-msgstr "<p>Domovsk�str�ka: <a href=\"%1\"><u>%2</u></a></p>"
+msgstr "<p>Domovská stránka: <a href=\"%1\"><u>%2</u></a></p>"
 
 # ui/generalsec.cpp:79
 #: plugins/icq/icqsecure.cpp:46
 msgid "Input current password"
-msgstr "Vlote aktu�ne heslo"
+msgstr "Vložte aktuálne heslo"
 
 # ui/generalsec.cpp:83
 #: plugins/icq/icqsecure.cpp:49
 msgid "Confirm password does not match"
-msgstr "Potvrden�heslo nezodpoved�"
+msgstr "Potvrdené heslo nezodpovedá"
 
 # mainwin.cpp:1314
 # ui/logindlg.cpp:247
 #: plugins/icq/icqsecure.cpp:52
 msgid "Invalid password"
-msgstr "Chybn�heslo"
+msgstr "Chybné heslo"
 
 # ui/searchbase.cpp:298
 # usertbl.cpp:110
@@ -6203,16 +6203,16 @@ msgstr "UIN"
 #: plugins/icq/icqsecure.cpp:126 plugins/jabber/addresult.cpp:210
 #: plugins/jabber/jabbersearch.cpp:99
 msgid "Nick"
-msgstr "Prezvka (Nick)"
+msgstr "Prezývka (Nick)"
 
 #: plugins/icq/icqservice.cpp:196
 msgid "anonymous"
-msgstr "Anonymn"
+msgstr "Anonymný"
 
 #: plugins/icq/icqservice.cpp:200
 #, c-format
 msgid "You've been warned by %1"
-msgstr "Boli ste upozornen u�ateom %1"
+msgstr "Boli ste upozornený užívateľom %1"
 
 # qt3/i18n.cpp:115
 #: plugins/icq/icqvarious.cpp:1405
@@ -6224,16 +6224,16 @@ msgid ""
 "The Cellular network is currently unable to send your message to the "
 "recipient. Please try again later."
 msgstr ""
-"Mobiln�sie moment�ne nie je schopn�odosla vau spr�u prij�ateovi. "
-"Skste nesk� pros�."
+"Mobilná sieť momentálne nie je schopná odoslať vašu správu prijímateľovi. "
+"Skúste neskôr prosím."
 
 #: plugins/icq/icqvarious.cpp:1439
 msgid "INVALID NUMBER"
-msgstr "NEPLATN��SLO"
+msgstr "NEPLATNÉ ČÍSLO"
 
 #: plugins/icq/icqvarious.cpp:1440
 msgid "RATE LIMIT"
-msgstr "LIMIT R�HLOSTI"
+msgstr "LIMIT RÝCHLOSTI"
 
 # msgedit.cpp:588
 #: plugins/icq/icqvarious.cpp:1473 plugins/icq/icqvarious.cpp:1532
@@ -6262,12 +6262,12 @@ msgstr "Apr"
 # ui/moreinfo.cpp:78
 #: plugins/icq/icqvarious.cpp:1562
 msgid "Jun"
-msgstr "Jn"
+msgstr "Jún"
 
 # ui/moreinfo.cpp:79
 #: plugins/icq/icqvarious.cpp:1563
 msgid "Jul"
-msgstr "Jl"
+msgstr "Júl"
 
 # ui/moreinfo.cpp:80
 #: plugins/icq/icqvarious.cpp:1564
@@ -6313,7 +6313,7 @@ msgstr "Umenie"
 # libicq/country.cpp:332
 #: plugins/icq/interestsinfo.cpp:91
 msgid "Cars"
-msgstr "Aut�"
+msgstr "Autá"
 
 # libicq/country.cpp:333
 #: plugins/icq/interestsinfo.cpp:92
@@ -6334,7 +6334,7 @@ msgstr "Po�ta�"
 # libicq/country.cpp:336
 #: plugins/icq/interestsinfo.cpp:95
 msgid "Culture & Literature"
-msgstr "Kultra & Literatra"
+msgstr "Kultra & Literatúra"
 
 # libicq/country.cpp:337
 #: plugins/icq/interestsinfo.cpp:96
@@ -6344,7 +6344,7 @@ msgstr "Fitness"
 # libicq/country.cpp:339
 #: plugins/icq/interestsinfo.cpp:98
 msgid "Hobbies"
-msgstr "Kon�ky"
+msgstr "Koníčky"
 
 # libicq/country.cpp:340
 # libicq/country.cpp:424
@@ -6375,22 +6375,22 @@ msgstr "Hudba"
 # libicq/country.cpp:345
 #: plugins/icq/interestsinfo.cpp:104
 msgid "Outdoor Activities"
-msgstr "Aktivity v pr�ode"
+msgstr "Aktivity v prírode"
 
 # libicq/country.cpp:346
 #: plugins/icq/interestsinfo.cpp:105
 msgid "Parenting"
-msgstr "Rodi�vstvo"
+msgstr "Rodičovstvo"
 
 # libicq/country.cpp:347
 #: plugins/icq/interestsinfo.cpp:106
 msgid "Pets/Animals"
-msgstr "Dom�e zvierat�Zvierat�"
+msgstr "Domáce zvieratá/Zvieratá"
 
 # libicq/country.cpp:348
 #: plugins/icq/interestsinfo.cpp:107
 msgid "Religion"
-msgstr "N�oenstvo"
+msgstr "Náboženstvo"
 
 # libicq/country.cpp:349
 #: plugins/icq/interestsinfo.cpp:108
@@ -6406,7 +6406,7 @@ msgstr "Zručnosti"
 # libicq/country.cpp:436
 #: plugins/icq/interestsinfo.cpp:110 plugins/icq/workinfo.cpp:96
 msgid "Sports"
-msgstr "Sporty"
+msgstr "Športy"
 
 # libicq/country.cpp:352
 #: plugins/icq/interestsinfo.cpp:111
@@ -6416,18 +6416,18 @@ msgstr "Webdesign"
 # libicq/country.cpp:353
 #: plugins/icq/interestsinfo.cpp:112
 msgid "Nature and Environment"
-msgstr "Pr�oda a prostredie"
+msgstr "Príroda a prostredie"
 
 # libicq/country.cpp:354
 #: plugins/icq/interestsinfo.cpp:113
 msgid "News & Media"
-msgstr "Novinky & M�ia"
+msgstr "Noviny & Médiá"
 
 # libicq/country.cpp:355
 # libicq/country.cpp:421
 #: plugins/icq/interestsinfo.cpp:114 plugins/icq/workinfo.cpp:81
 msgid "Government"
-msgstr "Vl�a"
+msgstr "Vláda"
 
 # libicq/country.cpp:356
 #: plugins/icq/interestsinfo.cpp:115
@@ -6447,32 +6447,32 @@ msgstr "Cestovanie"
 # libicq/country.cpp:359
 #: plugins/icq/interestsinfo.cpp:118
 msgid "Astronomy"
-msgstr "Astron�ia"
+msgstr "Astronómia"
 
 # libicq/country.cpp:360
 #: plugins/icq/interestsinfo.cpp:119
 msgid "Space"
-msgstr "Vesm�"
+msgstr "Vesmír"
 
 # libicq/country.cpp:361
 #: plugins/icq/interestsinfo.cpp:120
 msgid "Clothing"
-msgstr "M�a"
+msgstr "Móda"
 
 # libicq/country.cpp:362
 #: plugins/icq/interestsinfo.cpp:121
 msgid "Parties"
-msgstr "P�ty"
+msgstr "Párty"
 
 # libicq/country.cpp:363
 #: plugins/icq/interestsinfo.cpp:122
 msgid "Women"
-msgstr "eny"
+msgstr "Ženy"
 
 # libicq/country.cpp:364
 #: plugins/icq/interestsinfo.cpp:123
 msgid "Social science"
-msgstr "Soci�ne vedy"
+msgstr "Sociálne vedy"
 
 # libicq/country.cpp:365
 #: plugins/icq/interestsinfo.cpp:124
@@ -6497,17 +6497,17 @@ msgstr "'50 roky"
 # libicq/country.cpp:369
 #: plugins/icq/interestsinfo.cpp:128
 msgid "Finance and corporate"
-msgstr "Financie a spolo�osti"
+msgstr "Financie a spoločnosti"
 
 # libicq/country.cpp:370
 #: plugins/icq/interestsinfo.cpp:129
 msgid "Entertainment"
-msgstr "Z�ava"
+msgstr "Zábava"
 
 # libicq/country.cpp:371
 #: plugins/icq/interestsinfo.cpp:130
 msgid "Consumer electronics"
-msgstr "Spotrebn�elektronika"
+msgstr "Spotrebná elektronika"
 
 # libicq/country.cpp:372
 #: plugins/icq/interestsinfo.cpp:131
@@ -6517,27 +6517,27 @@ msgstr "Obchod"
 # libicq/country.cpp:373
 #: plugins/icq/interestsinfo.cpp:132
 msgid "Health and beauty"
-msgstr "Zdravie a kr�a"
+msgstr "Zdravie a krása"
 
 # libicq/country.cpp:374
 #: plugins/icq/interestsinfo.cpp:133
 msgid "Media"
-msgstr "M�i�"
+msgstr "Médiá"
 
 # libicq/country.cpp:375
 #: plugins/icq/interestsinfo.cpp:134
 msgid "Household products"
-msgstr "Dom�e produkty"
+msgstr "Domáce produkty"
 
 # libicq/country.cpp:376
 #: plugins/icq/interestsinfo.cpp:135
 msgid "Mail order catalog"
-msgstr "Z�ielkov�katal�y"
+msgstr "Zásielkové katalógy"
 
 # libicq/country.cpp:377
 #: plugins/icq/interestsinfo.cpp:136
 msgid "Business services"
-msgstr "Obchodn�sluby"
+msgstr "Obchodné služby"
 
 # libicq/country.cpp:378
 #: plugins/icq/interestsinfo.cpp:137
@@ -6935,32 +6935,32 @@ msgstr "Administrat�ne"
 # libicq/country.cpp:414
 #: plugins/icq/workinfo.cpp:74
 msgid "Art/Entertainment"
-msgstr "Umenie/Z�ava"
+msgstr "Umenie/Zábava"
 
 # libicq/country.cpp:415
 #: plugins/icq/workinfo.cpp:75
 msgid "College Student"
-msgstr "Vysokokolsk tudent"
+msgstr "Vysokoškolský študent"
 
 # libicq/country.cpp:417
 #: plugins/icq/workinfo.cpp:77
 msgid "Community & Social"
-msgstr "Spolo�os"
+msgstr "Spoločnosť"
 
 # libicq/country.cpp:418
 #: plugins/icq/workinfo.cpp:78
 msgid "Education"
-msgstr "Vzkum"
+msgstr "Výzkum"
 
 # libicq/country.cpp:419
 #: plugins/icq/workinfo.cpp:79
 msgid "Engineering"
-msgstr "Ininierstvo"
+msgstr "Inžinierstvo"
 
 # libicq/country.cpp:420
 #: plugins/icq/workinfo.cpp:80
 msgid "Financial Services"
-msgstr "Finan��sluby"
+msgstr "Finančné služby"
 
 # libicq/country.cpp:422
 #: plugins/icq/workinfo.cpp:82
@@ -6970,12 +6970,12 @@ msgstr "Gymnazista"
 # libicq/country.cpp:423
 #: plugins/icq/workinfo.cpp:83
 msgid "Home"
-msgstr "V dom�nosti"
+msgstr "V domácnosti"
 
 # libicq/country.cpp:425
 #: plugins/icq/workinfo.cpp:85
 msgid "Law"
-msgstr "Pr�o"
+msgstr "Právo"
 
 # libicq/country.cpp:426
 #: plugins/icq/workinfo.cpp:86
@@ -6985,22 +6985,22 @@ msgstr "Riadenie"
 # libicq/country.cpp:427
 #: plugins/icq/workinfo.cpp:87
 msgid "Manufacturing"
-msgstr "Ru��pr�e"
+msgstr "Ručné práce"
 
 # libicq/country.cpp:428
 #: plugins/icq/workinfo.cpp:88
 msgid "Medical/Health"
-msgstr "Medic�a/Zdravotnictvo"
+msgstr "Medicína/Zdravotníctvo"
 
 # libicq/country.cpp:430
 #: plugins/icq/workinfo.cpp:90
 msgid "Non-Goverment Organisation"
-msgstr "Net�na organiz�ia"
+msgstr "Nevládna organizácia"
 
 # libicq/country.cpp:431
 #: plugins/icq/workinfo.cpp:91
 msgid "Other services"
-msgstr "In�sluby"
+msgstr "Iné služby"
 
 # libicq/country.cpp:432
 #: plugins/icq/workinfo.cpp:92
@@ -7169,16 +7169,16 @@ msgstr "Akceptova v m�e \"O&bsaden\""
 # userview.cpp:1842
 #: plugins/icq/icqconfigbase.cc:245
 msgid "Accept in &DND mode"
-msgstr "Akceptova v m�e \"Nevyruova (&DND)\""
+msgstr "Akceptovať v móde \"Nevyrušovať (&DND)\""
 
 #: plugins/icq/icqconfigbase.cc:246
 msgid "Support &typing notification"
-msgstr "Podpora no&tifik�ie p�ania"
+msgstr "Podpora no&tifikácie písania"
 
 # ui/miscsetupbase.cpp:107
 #: plugins/icq/icqconfigbase.cc:247
 msgid "Automatically &update user info"
-msgstr "Automaticky akt&ualizova inform�ie o u�ateovi"
+msgstr "Automaticky akt&ualizovať informácie o užívateľovi"
 
 #: plugins/icq/icqconfigbase.cc:248
 msgid "Automaticaly &request autoreply on change status"
@@ -7540,7 +7540,7 @@ msgstr "Domovsk�str�ka:"
 #: plugins/icq/moreinfobase.cc:157 plugins/jabber/discoinfobase.cpp:282
 #: plugins/jabber/jabberinfobase.cpp:198
 msgid "Birth date:"
-msgstr "D�um narodenia:"
+msgstr "Dátum narodenia:"
 
 # ui/moreinfobase.cpp:197
 #: plugins/icq/moreinfobase.cc:158
@@ -7583,7 +7583,7 @@ msgstr "Form 4"
 # ui/aboutinfobase.cpp:106
 #: plugins/icq/aboutinfobase.cc:66
 msgid "Additional information about user:"
-msgstr "Dopl�jce inform�ie o u�ateovi:"
+msgstr "Dopl�jce informácie o užívateľovi:"
 
 # ui/aboutinfobase.cpp:107
 #: plugins/icq/aboutinfobase.cc:67
@@ -7840,7 +7840,7 @@ msgstr "Odos&la do zoznamu"
 #: plugins/netmonitor/monitor.cpp:51 plugins/netmonitor/netmonitor.cpp:35
 #: plugins/netmonitor/netmonitor.cpp:91
 msgid "Network monitor"
-msgstr "Sieov monitor"
+msgstr "Sieťový monitor"
 
 # qt3/i18n.cpp:253
 #: plugins/netmonitor/monitor.cpp:61 plugins/netmonitor/monitor.cpp:112
@@ -7897,7 +7897,7 @@ msgid ""
 "Plugin provides monitoring of net and messages\n"
 "For show monitor on start run sim -m"
 msgstr ""
-"Z�uvny modul umo�je monitorova sie a spr�y\n"
+"Zásuvný modul umožňuje monitorova sie a spr�y\n"
 "Pre zobrazenie monitoru spustite program s paramentrom -m (sim -m)"
 
 # mainwin.cpp:632
@@ -7905,7 +7905,7 @@ msgstr ""
 # monitor.cpp:59
 #: plugins/netmonitor/netmonitor.cpp:102
 msgid "Show network monitor"
-msgstr "Ukaza sieov monitor"
+msgstr "Ukázať sieťový monitor"
 
 #: plugins/ontop/ontop.cpp:45
 msgid "On Top"
@@ -7913,7 +7913,7 @@ msgstr "Navrchu"
 
 #: plugins/ontop/ontop.cpp:46
 msgid "Plugin provides main window and containers always on top"
-msgstr "Z�uvny modul umo�je udriava hlavn�okno a kontajnerov vdy navrchu"
+msgstr "Zásuvný modul umožňuje udržiavať hlavné okno a kontajnery vždy navrchu"
 
 # mainwin.cpp:2741
 #: plugins/ontop/ontop.cpp:81
@@ -7923,7 +7923,7 @@ msgstr "Vdy navrchu"
 # ui/themesetupbase.cpp:312
 #: plugins/ontop/ontopcfgbase.cpp:58
 msgid "Show &main window in task manager"
-msgstr "Zobrazova &hlavn�okno v pruhu loh"
+msgstr "Zobrazovať &hlavné okno v pruhu úloh"
 
 # mainwin.cpp:2741
 #: plugins/ontop/ontopcfgbase.cpp:59
@@ -7977,7 +7977,7 @@ msgstr "OSD"
 #: plugins/osd/osd.cpp:68
 msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
-"Z�uvny modul umo�je zobrazova notifik�ie o spr�ach a stave kontaktov "
+"Zásuvný modul umožňuje zobrazova notifik�ie o spr�ach a stave kontaktov "
 "na obrazovke (OSD)"
 
 #: plugins/osd/osd.cpp:137
@@ -8146,7 +8146,7 @@ msgstr "Vzdialen�ovl�anie"
 
 #: plugins/remote/remote.cpp:43
 msgid "Plugin provides remote control"
-msgstr "Z�uvny modul umo�je vzdialen kontrolu"
+msgstr "Zásuvný modul umožňuje vzdialen kontrolu"
 
 #: plugins/remote/remotecfgbase.cpp:105
 msgid "Use &UNIX socket"
@@ -8318,7 +8318,7 @@ msgstr "Z�uvn modul umo�je priehadn�zobrazenie okien"
 # ui/themesetupbase.cpp:306
 #: plugins/transparent/transparentcfgbase.cpp:71
 msgid "Transparency of main window:"
-msgstr "Priehadnos hlavn�o okna:"
+msgstr "Priehadnosť hlavného okna:"
 
 # ui/themesetupbase.cpp:310
 #: plugins/transparent/transparentcfgbase.cpp:72
@@ -8332,7 +8332,7 @@ msgstr "Aktualiz�ia"
 
 #: plugins/update/update.cpp:40
 msgid "Plugin provides notifications about update SIM software"
-msgstr "Z�uvny modul umo�je oznamova aktualiz�ie programu SIM"
+msgstr "Zásuvný modul umožňuje oznamova aktualiz�ie programu SIM"
 
 # qt3/i18n.cpp:113
 #: plugins/update/update.cpp:126
@@ -8455,7 +8455,7 @@ msgstr "Heslo nezodpoved�"
 # monitor.cpp:59
 #: plugins/jabber/jabber_rosters.cpp:1989
 msgid "Low level network error"
-msgstr "N�korov�v�sieov�chyba"
+msgstr "Nízkoúrovňová sieťová chyba"
 
 #: plugins/jabber/jabber_rosters.cpp:2747
 msgid "Please translate this to short language name (ru, de)"
@@ -8630,16 +8630,16 @@ msgid ""
 "Enter your MSN Messenger account and password. Example: user@hotmail.com.  "
 "Nickname is optional."
 msgstr ""
-"Vlote v��t pre MSN Messenger a heslo. Napr�lad: janko@hotmail.com. "
+"Vložte v��t pre MSN Messenger a heslo. Napr�lad: janko@hotmail.com. "
 "Prezvka je nepovinn�"
 
 #: plugins/jabber/jabbersearch.cpp:319
 msgid "Enter your AIM screenname or ICQ UIN and the password for that account"
-msgstr "Vlote v��t pre AIM alebo ICQ UIN a heslo."
+msgstr "Vložte v��t pre AIM alebo ICQ UIN a heslo."
 
 #: plugins/jabber/jabbersearch.cpp:320
 msgid "Enter your YAHOO! Messenger Username and Password."
-msgstr "Vlote v��t pre YAHOO! a heslo."
+msgstr "Vložte v��t pre YAHOO! a heslo."
 
 #: plugins/jabber/jabbersearch.cpp:321
 msgid "Please enter your UIN and password"
@@ -8651,7 +8651,7 @@ msgstr "Mus�e registrova x:data kompatibiln�o klienta."
 
 #: plugins/jabber/jabbersearch.cpp:323
 msgid "Enter nick you want to register."
-msgstr "Vlote vau prezvku, ktor chcete registrova."
+msgstr "Vložte vau prezvku, ktor chcete registrova."
 
 #: plugins/jabber/jabbersearch.cpp:324
 msgid ""
@@ -8880,7 +8880,7 @@ msgstr "%1 Konfigur�ia"
 
 #: plugins/jabber/jabberbrowser.cpp:928
 msgid "Choose a user and password to register with the server"
-msgstr "Vybra u�atea a heslo pre registr�iu na serveri"
+msgstr "Vybrať užívateľa a heslo pre registráciu na serveri"
 
 #: plugins/jabber/jabber.cpp:63
 msgid "Jabber"
@@ -9817,7 +9817,7 @@ msgstr "Ignorova '%1'"
 
 #: plugins/spell/spell.cpp:62
 msgid "Plugin provides check spelling"
-msgstr "Z�uvny modul umo�je kontrolova pravopis"
+msgstr "Zásuvný modul umožňuje kontrolova pravopis"
 
 # ui/keysetupbase.cpp:148
 # ui/phonebookbase.cpp:133
@@ -9925,7 +9925,7 @@ msgstr "Navig�ia"
 #: plugins/navigate/navigate.cpp:220
 msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
-"Z�uvny modul umo�je navig�iu po odkazoch, spa extern prehliada�a "
+"Zásuvný modul umožňuje navig�iu po odkazoch, spa extern prehliada�a "
 "potov klient"
 
 # msgedit.cpp:588
@@ -10028,7 +10028,7 @@ msgstr "Zmeni text"
 
 #: plugins/replace/replace.cpp:34
 msgid "Plugin provides text replacing in message edit window"
-msgstr "Z�uvny modul umo�je meni text v okne edit�ie spr�y"
+msgstr "Zásuvný modul umožňuje meni text v okne edit�ie spr�y"
 
 # ui/networkbase.cpp:231
 # ui/proxydlgbase.cpp:176
