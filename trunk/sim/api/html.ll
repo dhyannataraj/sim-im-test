@@ -158,7 +158,7 @@ void HTMLParser::parse(const QString &str)
 {
 	p->init();
 	QCString cstr = str.utf8();
-    	YY_BUFFER_STATE yy_current_buffer = yy_scan_string(cstr);
+    YY_BUFFER_STATE yy_current_buffer = yy_scan_string(cstr);
 	parse();
 	yy_delete_buffer(yy_current_buffer);
 }
@@ -196,9 +196,10 @@ void HTMLParser::parse()
 	p->start_pos = 0;
 	p->end_pos   = 0;
 	p->text_pos	 = 0;
-    for (;;){
-        int r = yylex();
-        if (!r) break;
+    yy_start = 1;	/* == BEGIN(INITIAL) - go to initial state since yy_start
+                       is static and can have an old invalid value */
+    int r;
+    while ((r = yylex())) {;
 		p->end_pos = p->start_pos + strlen(yytext);
 		QString s;
 		switch (r){
@@ -279,7 +280,7 @@ void HTMLParser::parse()
 			break;
 		}
 		p->start_pos = p->end_pos;
-	}
+	};
 	p->flushText();
 }
 

@@ -72,10 +72,11 @@ QString NavigatePlugin::parseUrl(const QString &text)
 {
     QCString str = text.utf8();
     YY_BUFFER_STATE yy_current_buffer = yy_scan_string(str);
+    yy_start = 1;	/* == BEGIN(INITIAL) - go to initial state since yy_start
+                       is static and can have an old invalid value */
     QString res;
-    for (;;){
-        int r = yylex();
-        if (!r) break;
+    int r;
+    while ((r = yylex())) {;
 		if (r == TXT){
 			res += QString::fromUtf8(yytext);
 			continue;
@@ -99,7 +100,7 @@ QString NavigatePlugin::parseUrl(const QString &text)
 		res += "\"><u>";
 		res += url;
 		res += "</u></a>";
-    }
+    };
     yy_delete_buffer(yy_current_buffer);
     return res;
 }

@@ -799,10 +799,11 @@ QString RTF2HTML::Parse(const char *rtf, const char *_encoding)
 {
     encoding = _encoding;
     YY_BUFFER_STATE yy_current_buffer = yy_scan_string(rtf);
+    yy_start = 1;	/* == BEGIN(INITIAL) - go to initial state since yy_start
+                       is static and can have an old invalid value */
     rtf_ptr = rtf;
-    for (;;){
-        int res = yylex();
-        if (!res) break;
+    int res;
+    while ((res = yylex())) {
         switch (res){
         case UP:{
                 cur_level.flush();
@@ -950,7 +951,7 @@ QString RTF2HTML::Parse(const char *rtf, const char *_encoding)
                 break;
             }
         }
-    }
+    };
     yy_delete_buffer(yy_current_buffer);
     yy_current_buffer = NULL;
     FlushParagraph();
