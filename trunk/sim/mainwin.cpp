@@ -2988,7 +2988,7 @@ QTranslatorMessage SIMTranslator::findMessage(const char* context,
 {
     QTranslatorMessage res;
     char *text = NULL;
-    if (sourceText == NULL)
+    if ((sourceText == NULL) || (*sourceText == 0))
         return res;
     if (message && *message){
         string s;
