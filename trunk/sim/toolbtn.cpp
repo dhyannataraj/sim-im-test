@@ -158,7 +158,7 @@ QSize PictButton::minimumSizeHint() const
 QSize PictButton::sizeHint() const
 {
     int wChar = QFontMetrics(font()).width('0');
-    QSize p = QToolButton:: minimumSizeHint();
+    QSize p = QToolButton:: sizeHint();
     QToolBar *bar = static_cast<QToolBar*>(parent());
     QMainWindow::ToolBarDock tDock;
     int index;

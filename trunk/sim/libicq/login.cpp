@@ -183,6 +183,9 @@ void ICQClient::chn_close()
     port++;
     m_state = Login;
     sock->close();
+    Socket *s = sock->socket();
+    sock->setSocket(createSocket());
+    delete s;
     sock->setProxy(getProxy());
     sock->connect(host, atol(port));
     cookie.init(0);
