@@ -271,7 +271,7 @@ void RTF2HTML::FlushOutTags()
             break;
         case TAG_BG_COLOR:{
                 QColor &c = colors[t.param];
-                PrintUnquoted("<span style=\"bgcolor:#%02X%02X%02X;\">", c.red(), c.green(), c.blue());
+                PrintUnquoted("<span style=\"background-color:#%02X%02X%02X;\">", c.red(), c.green(), c.blue());
                 break;
             }
         case TAG_BOLD:
