@@ -26,6 +26,7 @@
 #include <qlineedit.h>
 #include <qlayout.h>
 #include <qregexp.h>
+#include <qpainter.h>
 
 unsigned ONLINE_ALERT = 0x10000;
 
