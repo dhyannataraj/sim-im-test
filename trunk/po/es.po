@@ -1,15 +1,15 @@
 # translation of es.po to Spanish
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
-# Jorge Lopez <jorge@acm.asoc.fi.upm.es>, 2002, 2003.
+# Jorge Lopez <jorge@acm.asoc.fi.upm.es>, 2002, 2003, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "POT-Creation-Date: 2004-04-11 14:17+0400\n"
-"PO-Revision-Date: 2003-10-04 16:41+0000\n"
-"Last-Translator: Jorge Lopez <jorge@acm.asoc.fi.upm.es>\n"
-"Language-Team: Spanish <es@li.org>\n"
+"PO-Revision-Date: 2004-04-15 09:37+0200\n"
+"Last-Translator: Jorge Lopez\n"
+"Language-Team:  <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -17,971 +17,971 @@ msgstr ""
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
-msgstr ""
+msgstr "Afganistán"
 
 #: sim/api/country.cpp:26
 msgid "Albania"
-msgstr ""
+msgstr "Albania"
 
 #: sim/api/country.cpp:27
 msgid "Algeria"
-msgstr ""
+msgstr "Argelia"
 
 #: sim/api/country.cpp:28
 msgid "American Samoa"
-msgstr ""
+msgstr "Samoa Americana"
 
 #: sim/api/country.cpp:29
 msgid "Andorra"
-msgstr ""
+msgstr "Andorra"
 
 #: sim/api/country.cpp:30
 msgid "Angola"
-msgstr ""
+msgstr "Angola"
 
 #: sim/api/country.cpp:31
 msgid "Anguilla"
-msgstr ""
+msgstr "Anguilla"
 
 #: sim/api/country.cpp:32
 msgid "Antigua"
-msgstr ""
+msgstr "Antigua"
 
 #: sim/api/country.cpp:33
 msgid "Argentina"
-msgstr ""
+msgstr "Argentina"
 
 #: sim/api/country.cpp:34
 msgid "Armenia"
-msgstr ""
+msgstr "Armenia"
 
 #: sim/api/country.cpp:35
 msgid "Aruba"
-msgstr ""
+msgstr "Aruba"
 
 #: sim/api/country.cpp:36
 msgid "Ascension Island"
-msgstr ""
+msgstr "Isla de Ascensión"
 
 #: sim/api/country.cpp:37
 msgid "Australia"
-msgstr ""
+msgstr "Australia"
 
 #: sim/api/country.cpp:38
 msgid "Australian Antarctic Territory"
-msgstr ""
+msgstr "Territorio Antártico Australiano"
 
 #: sim/api/country.cpp:39
 msgid "Austria"
-msgstr ""
+msgstr "Austria"
 
 #: sim/api/country.cpp:40
 msgid "Azerbaijan"
-msgstr ""
+msgstr "Azerbaijan"
 
 #: sim/api/country.cpp:41
 msgid "Bahamas"
-msgstr ""
+msgstr "Bahamas"
 
 #: sim/api/country.cpp:42
 msgid "Bahrain"
-msgstr ""
+msgstr "Bahrein"
 
 #: sim/api/country.cpp:43
 msgid "Bangladesh"
-msgstr ""
+msgstr "Bangladesh"
 
 #: sim/api/country.cpp:44
 msgid "Barbados"
-msgstr ""
+msgstr "Barbados"
 
 #: sim/api/country.cpp:45
 msgid "Barbuda"
-msgstr ""
+msgstr "Barbuda"
 
 #: sim/api/country.cpp:46
 msgid "Belarus"
-msgstr ""
+msgstr "Bielorrusia"
 
 #: sim/api/country.cpp:47
 msgid "Belgium"
-msgstr ""
+msgstr "Bélgica"
 
 #: sim/api/country.cpp:48
 msgid "Belize"
-msgstr ""
+msgstr "Belize"
 
 #: sim/api/country.cpp:49
 msgid "Benin"
-msgstr ""
+msgstr "Benin"
 
 #: sim/api/country.cpp:50
 msgid "Bermuda"
-msgstr ""
+msgstr "Bermudas"
 
 #: sim/api/country.cpp:51
 msgid "Bhutan"
-msgstr ""
+msgstr "Bhután"
 
 #: sim/api/country.cpp:52
 msgid "Bolivia"
-msgstr ""
+msgstr "Bolivia"
 
 #: sim/api/country.cpp:53
 msgid "Bosnia and Herzegovina"
-msgstr ""
+msgstr "Bosnia y Hercegovina"
 
 #: sim/api/country.cpp:54
 msgid "Botswana"
-msgstr ""
+msgstr "Botswana"
 
 #: sim/api/country.cpp:55
 msgid "Brazil"
-msgstr ""
+msgstr "Brasil"
 
 #: sim/api/country.cpp:56
 msgid "British Virgin Islands"
-msgstr ""
+msgstr "Islas Vírgenes Británicas"
 
 #: sim/api/country.cpp:57
 msgid "Brunei"
-msgstr ""
+msgstr "Brunei"
 
 #: sim/api/country.cpp:58
 msgid "Bulgaria"
-msgstr ""
+msgstr "Bulgaria"
 
 #: sim/api/country.cpp:59
 msgid "Burkina Faso"
-msgstr ""
+msgstr "Burkina Faso"
 
 #: sim/api/country.cpp:60
 msgid "Burundi"
-msgstr ""
+msgstr "Burundi"
 
 #: sim/api/country.cpp:61
 msgid "Cambodia"
-msgstr ""
+msgstr "Camboya"
 
 #: sim/api/country.cpp:62
 msgid "Cameroon"
-msgstr ""
+msgstr "Camerún"
 
 #: sim/api/country.cpp:63
 msgid "Canada"
-msgstr ""
+msgstr "Canadá"
 
 #: sim/api/country.cpp:64
 msgid "Cape Verde Islands"
-msgstr ""
+msgstr "Islas Cabo Verde"
 
 #: sim/api/country.cpp:65
 msgid "Cayman Islands"
-msgstr ""
+msgstr "Islas Caimán"
 
 #: sim/api/country.cpp:66
 msgid "Central African Republic"
-msgstr ""
+msgstr "República de África Central"
 
 #: sim/api/country.cpp:67
 msgid "Chad"
-msgstr ""
+msgstr "Chad"
 
 #: sim/api/country.cpp:68
 msgid "Chile"
-msgstr ""
+msgstr "Chile"
 
 #: sim/api/country.cpp:69
 msgid "China"
-msgstr ""
+msgstr "China"
 
 #: sim/api/country.cpp:70
 msgid "Christmas Island"
-msgstr ""
+msgstr "Isla Navidad"
 
 #: sim/api/country.cpp:71
 msgid "Cocos-Keeling Islands"
-msgstr ""
+msgstr "Islas Cocos-Keeling"
 
 #: sim/api/country.cpp:72
 msgid "Colombia"
-msgstr ""
+msgstr "Colombia"
 
 #: sim/api/country.cpp:73
 msgid "Comoros"
-msgstr ""
+msgstr "Comoros"
 
 #: sim/api/country.cpp:74
 msgid "Congo"
-msgstr ""
+msgstr "Congo"
 
 #: sim/api/country.cpp:75
 msgid "Cook Islands"
-msgstr ""
+msgstr "Islas Cook"
 
 #: sim/api/country.cpp:76
 msgid "Costa Rica"
-msgstr ""
+msgstr "Costa Rica"
 
 #: sim/api/country.cpp:77
 msgid "Croatia"
-msgstr ""
+msgstr "Croacia"
 
 #: sim/api/country.cpp:78
 msgid "Cuba"
-msgstr ""
+msgstr "Cuba"
 
 #: sim/api/country.cpp:79
 msgid "Cyprus"
-msgstr ""
+msgstr "Chipre"
 
 #: sim/api/country.cpp:80
 msgid "Czech Republic"
-msgstr ""
+msgstr "República Checa"
 
 #: sim/api/country.cpp:81
 msgid "Denmark"
-msgstr ""
+msgstr "Dinamarca"
 
 #: sim/api/country.cpp:82
 msgid "Diego Garcia"
-msgstr ""
+msgstr "Diego Garcia"
 
 #: sim/api/country.cpp:83
 msgid "Djibouti"
-msgstr ""
+msgstr "Djibouti"
 
 #: sim/api/country.cpp:84
 msgid "Dominica"
-msgstr ""
+msgstr "Dominica"
 
 #: sim/api/country.cpp:85
 msgid "Dominican Republic"
-msgstr ""
+msgstr "República Dominicana"
 
 #: sim/api/country.cpp:86
 msgid "Ecuador"
-msgstr ""
+msgstr "Ecuador"
 
 #: sim/api/country.cpp:87
 msgid "Egypt"
-msgstr ""
+msgstr "Egipto"
 
 #: sim/api/country.cpp:88
 msgid "El Salvador"
-msgstr ""
+msgstr "El Salvador"
 
 #: sim/api/country.cpp:89
 msgid "Equatorial Guinea"
-msgstr ""
+msgstr "Guinea Ecuatorial"
 
 #: sim/api/country.cpp:90
 msgid "Eritrea"
-msgstr ""
+msgstr "Eritrea"
 
 #: sim/api/country.cpp:91
 msgid "Estonia"
-msgstr ""
+msgstr "Estonia"
 
 #: sim/api/country.cpp:92
 msgid "Ethiopia"
-msgstr ""
+msgstr "Etiopía"
 
 #: sim/api/country.cpp:93
 msgid "Faeroe Islands"
-msgstr ""
+msgstr "Islas Feroe"
 
 #: sim/api/country.cpp:94
 msgid "Falkland Islands"
-msgstr ""
+msgstr "Islas Falkland"
 
 #: sim/api/country.cpp:95
 msgid "Fiji Islands"
-msgstr ""
+msgstr "Islas Fiji"
 
 #: sim/api/country.cpp:96
 msgid "Finland"
-msgstr ""
+msgstr "Finlandia"
 
 #: sim/api/country.cpp:97
 msgid "France"
-msgstr ""
+msgstr "Francia"
 
 #: sim/api/country.cpp:98
 msgid "French Antilles"
-msgstr ""
+msgstr "Antillas Francesas"
 
 #: sim/api/country.cpp:99
 msgid "French Guiana"
-msgstr ""
+msgstr "Guayana Francesa"
 
 #: sim/api/country.cpp:100
 msgid "French Polynesia"
-msgstr ""
+msgstr "Polinesia Francesa"
 
 #: sim/api/country.cpp:101
 msgid "Gabon"
-msgstr ""
+msgstr "Gabón"
 
 #: sim/api/country.cpp:102
 msgid "Gambia"
-msgstr ""
+msgstr "Gambia"
 
 #: sim/api/country.cpp:103
 msgid "Georgia"
-msgstr ""
+msgstr "Georgia"
 
 #: sim/api/country.cpp:104
 msgid "Germany"
-msgstr ""
+msgstr "Alemania"
 
 #: sim/api/country.cpp:105
 msgid "Ghana"
-msgstr ""
+msgstr "Ghana"
 
 #: sim/api/country.cpp:106
 msgid "Gibraltar"
-msgstr ""
+msgstr "Gibraltar"
 
 #: sim/api/country.cpp:107
 msgid "Greece"
-msgstr ""
+msgstr "Grecia"
 
 #: sim/api/country.cpp:108
 msgid "Greenland"
-msgstr ""
+msgstr "Groenlandia"
 
 #: sim/api/country.cpp:109
 msgid "Grenada"
-msgstr ""
+msgstr "Grenada"
 
 #: sim/api/country.cpp:110
 msgid "Guadeloupe"
-msgstr ""
+msgstr "Guadeloupe"
 
 #: sim/api/country.cpp:111
 msgid "Guam"
-msgstr ""
+msgstr "Guam"
 
 #: sim/api/country.cpp:112
 msgid "Guantanamo Bay"
-msgstr ""
+msgstr "Bahía de Guantánamo"
 
 #: sim/api/country.cpp:113
 msgid "Guatemala"
-msgstr ""
+msgstr "Guatemala"
 
 #: sim/api/country.cpp:114
 msgid "Guinea"
-msgstr ""
+msgstr "Guinea"
 
 #: sim/api/country.cpp:115
 msgid "Guinea-Bissau"
-msgstr ""
+msgstr "Guinea-Bissau"
 
 #: sim/api/country.cpp:116
 msgid "Guyana"
-msgstr ""
+msgstr "Guyana"
 
 #: sim/api/country.cpp:117
 msgid "Haiti"
-msgstr ""
+msgstr "Haití"
 
 #: sim/api/country.cpp:118
 msgid "Honduras"
-msgstr ""
+msgstr "Honduras"
 
 #: sim/api/country.cpp:119
 msgid "Hong Kong"
-msgstr ""
+msgstr "Hong Kong"
 
 #: sim/api/country.cpp:120
 msgid "Hungary"
-msgstr ""
+msgstr "Hungría"
 
 #: sim/api/country.cpp:121
 msgid "INMARSAT (Atlantic-East)"
-msgstr ""
+msgstr "INMARSAT (Altántico este)"
 
 #: sim/api/country.cpp:122
 msgid "INMARSAT (Atlantic-West)"
-msgstr ""
+msgstr "INMARSAT (Atlántico oeste)"
 
 #: sim/api/country.cpp:123
 msgid "INMARSAT (Indian)"
-msgstr ""
+msgstr "INMARSAT (India)"
 
 #: sim/api/country.cpp:124
 msgid "INMARSAT (Pacific)"
-msgstr ""
+msgstr "INMARSAT (Pacífico)"
 
 #: sim/api/country.cpp:125
 msgid "INMARSAT"
-msgstr ""
+msgstr "INMARSAT"
 
 #: sim/api/country.cpp:126
 msgid "Iceland"
-msgstr ""
+msgstr "Islandia"
 
 #: sim/api/country.cpp:127
 msgid "India"
-msgstr ""
+msgstr "India"
 
 #: sim/api/country.cpp:128
 msgid "Indonesia"
-msgstr ""
+msgstr "Indonesia"
 
 #: sim/api/country.cpp:129
 msgid "International Freephone Service"
-msgstr ""
+msgstr "Servicio telefónico gratuito internacional"
 
 #: sim/api/country.cpp:130
 msgid "Iran"
-msgstr ""
+msgstr "Irán"
 
 #: sim/api/country.cpp:131
 msgid "Iraq"
-msgstr ""
+msgstr "Iraq"
 
 #: sim/api/country.cpp:132
 msgid "Ireland"
-msgstr ""
+msgstr "Irlanda"
 
 #: sim/api/country.cpp:133
 msgid "Israel"
-msgstr ""
+msgstr "Israel"
 
 #: sim/api/country.cpp:134
 msgid "Italy"
-msgstr ""
+msgstr "Italia"
 
 #: sim/api/country.cpp:135
 msgid "Ivory Coast"
-msgstr ""
+msgstr "Costa Ivory"
 
 #: sim/api/country.cpp:136
 msgid "Jamaica"
-msgstr ""
+msgstr "Jamaica"
 
 #: sim/api/country.cpp:137
 msgid "Japan"
-msgstr ""
+msgstr "Japón"
 
 #: sim/api/country.cpp:138
 msgid "Jordan"
-msgstr ""
+msgstr "Jordania"
 
 #: sim/api/country.cpp:139
 msgid "Kazakhstan"
-msgstr ""
+msgstr "Kazakhstan"
 
 #: sim/api/country.cpp:140
 msgid "Kenya"
-msgstr ""
+msgstr "Kenia"
 
 #: sim/api/country.cpp:141
 msgid "Kiribati Republic"
-msgstr ""
+msgstr "República Kiribati"
 
 #: sim/api/country.cpp:142
 msgid "Korea (North)"
-msgstr ""
+msgstr "Corea (Norte)"
 
 #: sim/api/country.cpp:143
 msgid "Korea (Republic of)"
-msgstr ""
+msgstr "Corea (República de)"
 
 #: sim/api/country.cpp:144
 msgid "Kuwait"
-msgstr ""
+msgstr "Kuwait"
 
 #: sim/api/country.cpp:145
 msgid "Kyrgyz Republic"
-msgstr ""
+msgstr "República Kyrgyz"
 
 #: sim/api/country.cpp:146
 msgid "Laos"
-msgstr ""
+msgstr "Laos"
 
 #: sim/api/country.cpp:147
 msgid "Latvia"
-msgstr ""
+msgstr "Letonia"
 
 #: sim/api/country.cpp:148
 msgid "Lebanon"
-msgstr ""
+msgstr "Líbano"
 
 #: sim/api/country.cpp:149
 msgid "Lesotho"
-msgstr ""
+msgstr "Lesoto"
 
 #: sim/api/country.cpp:150
 msgid "Liberia"
-msgstr ""
+msgstr "Liberia"
 
 #: sim/api/country.cpp:151
 msgid "Libya"
-msgstr ""
+msgstr "Libia"
 
 #: sim/api/country.cpp:152
 msgid "Liechtenstein"
-msgstr ""
+msgstr "Liechtenstein"
 
 #: sim/api/country.cpp:153
 msgid "Lithuania"
-msgstr ""
+msgstr "Lituania"
 
 #: sim/api/country.cpp:154
 msgid "Luxembourg"
-msgstr ""
+msgstr "Luxemburgo"
 
 #: sim/api/country.cpp:155
 msgid "Macau"
-msgstr ""
+msgstr "Macau"
 
 #: sim/api/country.cpp:156
 msgid "Madagascar"
-msgstr ""
+msgstr "Madagascar"
 
 #: sim/api/country.cpp:157
 msgid "Malawi"
-msgstr ""
+msgstr "Malawi"
 
 #: sim/api/country.cpp:158
 msgid "Malaysia"
-msgstr ""
+msgstr "Malasia"
 
 #: sim/api/country.cpp:159
 msgid "Maldives"
-msgstr ""
+msgstr "Maldivas"
 
 #: sim/api/country.cpp:160
 msgid "Mali"
-msgstr ""
+msgstr "Mali"
 
 #: sim/api/country.cpp:161
 msgid "Malta"
-msgstr ""
+msgstr "Malta"
 
 #: sim/api/country.cpp:162
 msgid "Marshall Islands"
-msgstr ""
+msgstr "Islas Marshall"
 
 #: sim/api/country.cpp:163
 msgid "Martinique"
-msgstr ""
+msgstr "Martinica"
 
 #: sim/api/country.cpp:164
 msgid "Mauritania"
-msgstr ""
+msgstr "Mauritania"
 
 #: sim/api/country.cpp:165
 msgid "Mauritius"
-msgstr ""
+msgstr "Mauritius"
 
 #: sim/api/country.cpp:166
 msgid "Mayotte Island"
-msgstr ""
+msgstr "Isla Mayotte"
 
 #: sim/api/country.cpp:167
 msgid "Mexico"
-msgstr ""
+msgstr "México"
 
 #: sim/api/country.cpp:168
 msgid "Micronesia, Federated States of"
-msgstr ""
+msgstr "Micronesia, Estados Federados de"
 
 #: sim/api/country.cpp:169
 msgid "Moldova"
-msgstr ""
+msgstr "Moldova"
 
 #: sim/api/country.cpp:170
 msgid "Monaco"
-msgstr ""
+msgstr "Mónaco"
 
 #: sim/api/country.cpp:171
 msgid "Mongolia"
-msgstr ""
+msgstr "Mongolia"
 
 #: sim/api/country.cpp:172
 msgid "Montserrat"
-msgstr ""
+msgstr "Montserrat"
 
 #: sim/api/country.cpp:173
 msgid "Morocco"
-msgstr ""
+msgstr "Marruecos"
 
 #: sim/api/country.cpp:174
 msgid "Mozambique"
-msgstr ""
+msgstr "Mozambique"
 
 #: sim/api/country.cpp:175
 msgid "Myanmar"
-msgstr ""
+msgstr "Myanmar"
 
 #: sim/api/country.cpp:176
 msgid "Namibia"
-msgstr ""
+msgstr "Namibia"
 
 #: sim/api/country.cpp:177
 msgid "Nauru"
-msgstr ""
+msgstr "Naurú"
 
 #: sim/api/country.cpp:178
 msgid "Nepal"
-msgstr ""
+msgstr "Nepal"
 
 #: sim/api/country.cpp:179
 msgid "Netherlands Antilles"
-msgstr ""
+msgstr "Antillas Holandesas"
 
 #: sim/api/country.cpp:180
 msgid "Netherlands"
-msgstr ""
+msgstr "Holanda"
 
 #: sim/api/country.cpp:181
 msgid "Nevis"
-msgstr ""
+msgstr "Nevis"
 
 #: sim/api/country.cpp:182
 msgid "New Caledonia"
-msgstr ""
+msgstr "Nueva Caledonia"
 
 #: sim/api/country.cpp:183
 msgid "New Zealand"
-msgstr ""
+msgstr "Nueva Zelanda"
 
 #: sim/api/country.cpp:184
 msgid "Nicaragua"
-msgstr ""
+msgstr "Nicaragua"
 
 #: sim/api/country.cpp:185
 msgid "Niger"
-msgstr ""
+msgstr "Niger"
 
 #: sim/api/country.cpp:186
 msgid "Nigeria"
-msgstr ""
+msgstr "Nigeria"
 
 #: sim/api/country.cpp:187
 msgid "Niue"
-msgstr ""
+msgstr "Niue"
 
 #: sim/api/country.cpp:188
 msgid "Norfolk Island"
-msgstr ""
+msgstr "Isla Norfolk"
 
 #: sim/api/country.cpp:189
 msgid "Norway"
-msgstr ""
+msgstr "Noruega"
 
 #: sim/api/country.cpp:190
 msgid "Oman"
-msgstr ""
+msgstr "Omán"
 
 #: sim/api/country.cpp:191
 msgid "Pakistan"
-msgstr ""
+msgstr "Paquistán"
 
 #: sim/api/country.cpp:192
 msgid "Palau"
-msgstr ""
+msgstr "Palau"
 
 #: sim/api/country.cpp:193
 msgid "Panama"
-msgstr ""
+msgstr "Panamá"
 
 #: sim/api/country.cpp:194
 msgid "Papua New Guinea"
-msgstr ""
+msgstr "Papúa Nueva Guinea"
 
 #: sim/api/country.cpp:195
 msgid "Paraguay"
-msgstr ""
+msgstr "Paraguay"
 
 #: sim/api/country.cpp:196
 msgid "Peru"
-msgstr ""
+msgstr "Perú"
 
 #: sim/api/country.cpp:197
 msgid "Philippines"
-msgstr ""
+msgstr "Filipinas"
 
 #: sim/api/country.cpp:198
 msgid "Poland"
-msgstr ""
+msgstr "Polonia"
 
 #: sim/api/country.cpp:199
 msgid "Portugal"
-msgstr ""
+msgstr "Portugal"
 
 #: sim/api/country.cpp:200
 msgid "Puerto Rico"
-msgstr ""
+msgstr "Puerto Rico"
 
 #: sim/api/country.cpp:201
 msgid "Qatar"
-msgstr ""
+msgstr "Qatar"
 
 #: sim/api/country.cpp:202
 msgid "Republic of Macedonia"
-msgstr ""
+msgstr "República de Macedonia"
 
 #: sim/api/country.cpp:203
 msgid "Reunion Island"
-msgstr ""
+msgstr "Isla Reunión"
 
 #: sim/api/country.cpp:204
 msgid "Romania"
-msgstr ""
+msgstr "Rumanía"
 
 #: sim/api/country.cpp:205
 msgid "Rota Island"
-msgstr ""
+msgstr "Isla Rota"
 
 #: sim/api/country.cpp:206
 msgid "Russia"
-msgstr ""
+msgstr "Rusia"
 
 #: sim/api/country.cpp:207
 msgid "Rwanda"
-msgstr ""
+msgstr "Ruanda"
 
 #: sim/api/country.cpp:208
 msgid "Saint Lucia"
-msgstr ""
+msgstr "Santa Lucía"
 
 #: sim/api/country.cpp:209
 msgid "Saipan Island"
-msgstr ""
+msgstr "Isla Saipán"
 
 #: sim/api/country.cpp:210
 msgid "San Marino"
-msgstr ""
+msgstr "San Marino"
 
 #: sim/api/country.cpp:211
 msgid "Sao Tome and Principe"
-msgstr ""
+msgstr "Santo Tomé y Principe"
 
 #: sim/api/country.cpp:212
 msgid "Saudi Arabia"
-msgstr ""
+msgstr "Arabia Saudí"
 
 #: sim/api/country.cpp:213
 msgid "Senegal Republic"
-msgstr ""
+msgstr "República de Senegal"
 
 #: sim/api/country.cpp:214
 msgid "Seychelle Islands"
-msgstr ""
+msgstr "Islans Seichele"
 
 #: sim/api/country.cpp:215
 msgid "Sierra Leone"
-msgstr ""
+msgstr "Sierra Leona"
 
 #: sim/api/country.cpp:216
 msgid "Singapore"
-msgstr ""
+msgstr "Singapur"
 
 #: sim/api/country.cpp:217
 msgid "Slovak Republic"
-msgstr ""
+msgstr "República Eslovaca"
 
 #: sim/api/country.cpp:218
 msgid "Slovenia"
-msgstr ""
+msgstr "Eslovenia"
 
 #: sim/api/country.cpp:219
 msgid "Solomon Islands"
-msgstr ""
+msgstr "Islas Salomón"
 
 #: sim/api/country.cpp:220
 msgid "Somalia"
-msgstr ""
+msgstr "Somalia"
 
 #: sim/api/country.cpp:221
 msgid "South Africa"
-msgstr ""
+msgstr "Sudáfrica"
 
 #: sim/api/country.cpp:222
 msgid "Spain"
-msgstr ""
+msgstr "España"
 
 #: sim/api/country.cpp:223
 msgid "Sri Lanka"
-msgstr ""
+msgstr "Sri Lanka"
 
 #: sim/api/country.cpp:224
 msgid "St. Helena"
-msgstr ""
+msgstr "Santa Helena"
 
 #: sim/api/country.cpp:225
 msgid "St. Kitts"
-msgstr ""
+msgstr "San Kitts"
 
 #: sim/api/country.cpp:226
 msgid "St. Pierre and Miquelon"
-msgstr ""
+msgstr "San Pierre y Miquelon"
 
 #: sim/api/country.cpp:227
 msgid "St. Vincent and the Grenadines"
-msgstr ""
+msgstr "San Vincent y las Granadinas"
 
 #: sim/api/country.cpp:228
 msgid "Sudan"
-msgstr ""
+msgstr "Sudán"
 
 #: sim/api/country.cpp:229
 msgid "Suriname"
-msgstr ""
+msgstr "Suriname"
 
 #: sim/api/country.cpp:230
 msgid "Swaziland"
-msgstr ""
+msgstr "Swazilandia"
 
 #: sim/api/country.cpp:231
 msgid "Sweden"
-msgstr ""
+msgstr "Suecia"
 
 #: sim/api/country.cpp:232
 msgid "Switzerland"
-msgstr ""
+msgstr "Suiza"
 
 #: sim/api/country.cpp:233
 msgid "Syria"
-msgstr ""
+msgstr "Siria"
 
 #: sim/api/country.cpp:234
 msgid "Taiwan, Republic of China"
-msgstr ""
+msgstr "Taiwán, República de China"
 
 #: sim/api/country.cpp:235
 msgid "Tajikistan"
-msgstr ""
+msgstr "Tajikistan"
 
 #: sim/api/country.cpp:236
 msgid "Tanzania"
-msgstr ""
+msgstr "Tanzania"
 
 #: sim/api/country.cpp:237
 msgid "Thailand"
-msgstr ""
+msgstr "Tailandia"
 
 #: sim/api/country.cpp:238
 msgid "Tinian Island"
-msgstr ""
+msgstr "Isla Tinian"
 
 #: sim/api/country.cpp:239
 msgid "Togo"
-msgstr ""
+msgstr "Togo"
 
 #: sim/api/country.cpp:240
 msgid "Tokelau"
-msgstr ""
+msgstr "Tokelau"
 
 #: sim/api/country.cpp:241
 msgid "Tonga"
-msgstr ""
+msgstr "Tonga"
 
 #: sim/api/country.cpp:242
 msgid "Trinidad and Tobago"
-msgstr ""
+msgstr "Trinidad y Tobago"
 
 #: sim/api/country.cpp:243
 msgid "Tunisia"
-msgstr ""
+msgstr "Túnez"
 
 #: sim/api/country.cpp:244
 msgid "Turkey"
-msgstr ""
+msgstr "Turquía"
 
 #: sim/api/country.cpp:245
 msgid "Turkmenistan"
-msgstr ""
+msgstr "Turkmenistán"
 
 #: sim/api/country.cpp:246
 msgid "Turks and Caicos Islands"
-msgstr ""
+msgstr "Islas Turks y Caicos"
 
 #: sim/api/country.cpp:247
 msgid "Tuvalu"
-msgstr ""
+msgstr "Tuvalu"
 
 #: sim/api/country.cpp:248
 msgid "USA"
-msgstr ""
+msgstr "Estados Unidos de América"
 
 #: sim/api/country.cpp:249
 msgid "Uganda"
-msgstr ""
+msgstr "Uganda"
 
 #: sim/api/country.cpp:250
 msgid "Ukraine"
-msgstr ""
+msgstr "Ucrania"
 
 #: sim/api/country.cpp:251
 msgid "United Arab Emirates"
-msgstr ""
+msgstr "Emiratos Árabes Unidos"
 
 #: sim/api/country.cpp:252
 msgid "United Kingdom"
-msgstr ""
+msgstr "Reino Unido"
 
 #: sim/api/country.cpp:253
 msgid "United States Virgin Islands"
-msgstr ""
+msgstr "Islas Vírgenes de los Estados Unidos"
 
 #: sim/api/country.cpp:254
 msgid "Uruguay"
-msgstr ""
+msgstr "Uruguay"
 
 #: sim/api/country.cpp:255
 msgid "Uzbekistan"
-msgstr ""
+msgstr "Uzbekistán"
 
 #: sim/api/country.cpp:256
 msgid "Vanuatu"
-msgstr ""
+msgstr "Vanuatu"
 
 #: sim/api/country.cpp:257
 msgid "Vatican City"
-msgstr ""
+msgstr "Ciudad del Vaticano"
 
 #: sim/api/country.cpp:258
 msgid "Venezuela"
-msgstr ""
+msgstr "Venezuela"
 
 #: sim/api/country.cpp:259
 msgid "Vietnam"
-msgstr ""
+msgstr "Vietnam"
 
 #: sim/api/country.cpp:260
 msgid "Wallis and Futuna Islands"
-msgstr ""
+msgstr "Islas Wallis y Futuna"
 
 #: sim/api/country.cpp:261
 msgid "Western Samoa"
-msgstr ""
+msgstr "Samoa Occidental"
 
 #: sim/api/country.cpp:262
 msgid "Yemen"
-msgstr ""
+msgstr "Yemen"
 
 #: sim/api/country.cpp:263
 msgid "Yugoslavia"
-msgstr ""
+msgstr "Yugoslavia"
 
 #: sim/api/country.cpp:264
 msgid "Zaire"
-msgstr ""
+msgstr "Zaire"
 
 #: sim/api/country.cpp:265
 msgid "Zambia"
-msgstr ""
+msgstr "Zambia"
 
 #: sim/api/country.cpp:266
 msgid "Zimbabwe"
-msgstr ""
+msgstr "Zimbabwe"
 
 #: sim/api/plugins.cpp:710
 #, c-format
@@ -999,36 +999,36 @@ msgstr "Unicode"
 #: plugins/icq/moreinfo.cpp:88 sim/api/contacts.cpp:1962
 #: sim/api/contacts.cpp:1963
 msgid "Arabic"
-msgstr ""
+msgstr "Árabe"
 
 #: sim/api/contacts.cpp:1965 sim/api/contacts.cpp:1966
 msgid "Baltic"
-msgstr ""
+msgstr "Báltico"
 
 #: sim/api/contacts.cpp:1968 sim/api/contacts.cpp:1970
 msgid "Central European"
-msgstr ""
+msgstr "Centroeuropeo"
 
 #: plugins/icq/moreinfo.cpp:100 sim/api/contacts.cpp:1969
 msgid "Esperanto"
-msgstr ""
+msgstr "Esperanto"
 
 #: sim/api/contacts.cpp:1972
 msgid "Chinese "
-msgstr ""
+msgstr "Chino"
 
 #: sim/api/contacts.cpp:1973
 msgid "Chinese Simplified"
-msgstr ""
+msgstr "Chino simplificado"
 
 #: sim/api/contacts.cpp:1974
 msgid "Chinese Traditional"
-msgstr ""
+msgstr "Chino tradicional"
 
 #: sim/api/contacts.cpp:1976 sim/api/contacts.cpp:1977
 #: sim/api/contacts.cpp:1979
 msgid "Cyrillic"
-msgstr ""
+msgstr "Cirílico"
 
 #: plugins/_core/interfacecfg.cpp:71 plugins/icq/moreinfo.cpp:137
 #: sim/api/contacts.cpp:1978
@@ -1038,7 +1038,7 @@ msgstr "Ukraniano"
 #: plugins/_core/interfacecfg.cpp:58 plugins/icq/moreinfo.cpp:107
 #: sim/api/contacts.cpp:1981 sim/api/contacts.cpp:1982
 msgid "Greek"
-msgstr ""
+msgstr "Griego"
 
 #: plugins/_core/interfacecfg.cpp:61 plugins/icq/moreinfo.cpp:108
 #: sim/api/contacts.cpp:1984 sim/api/contacts.cpp:1985
@@ -1048,24 +1048,24 @@ msgstr "Hebreo"
 #: plugins/icq/moreinfo.cpp:114 sim/api/contacts.cpp:1987
 #: sim/api/contacts.cpp:1988 sim/api/contacts.cpp:1989
 msgid "Japanese"
-msgstr ""
+msgstr "Japonés"
 
 #: plugins/icq/moreinfo.cpp:116 sim/api/contacts.cpp:1991
 msgid "Korean"
-msgstr ""
+msgstr "Coreano"
 
 #: sim/api/contacts.cpp:1993 sim/api/contacts.cpp:1994
 #: sim/api/contacts.cpp:1995
 msgid "Western European"
-msgstr ""
+msgstr "Europeo occidental"
 
 #: sim/api/contacts.cpp:1997
 msgid "Tamil"
-msgstr ""
+msgstr "Tamil"
 
 #: plugins/icq/moreinfo.cpp:135 sim/api/contacts.cpp:1999
 msgid "Thai"
-msgstr ""
+msgstr "Thai"
 
 #: plugins/_core/interfacecfg.cpp:70 plugins/icq/moreinfo.cpp:136
 #: sim/api/contacts.cpp:2001 sim/api/contacts.cpp:2002
@@ -1135,11 +1135,11 @@ msgstr ""
 #: plugins/jabber/discoinfobase.cpp:289 plugins/proxy/proxyerrorbase.cpp:80
 #: sim/api/simapi.cpp:467 sim/ui/qt3/i18n.cpp:174
 msgid "&OK"
-msgstr "&Ok"
+msgstr "&OK"
 
 #: sim/api/simapi.cpp:467 sim/ui/ballonmsg.cpp:346 sim/ui/qt3/i18n.cpp:125
 msgid "&Yes"
-msgstr "&Si"
+msgstr "&Sí"
 
 #: plugins/_core/cfgdlg.cpp:498 plugins/_core/cfgdlgbase.cpp:94
 #: plugins/_core/toolsetupbase.cpp:134 plugins/jabber/discoinfobase.cpp:288
@@ -1180,13 +1180,12 @@ msgstr "&No"
 #: plugins/_core/arcfgbase.cpp:80 plugins/_core/autoreplybase.cpp:89
 #: plugins/action/actioncfgbase.cpp:62 plugins/action/additembase.cpp:94
 #: plugins/weather/wifacecfgbase.cpp:84 sim/api/simapi.cpp:473
-#, fuzzy
 msgid "&Help"
-msgstr "Ayuda"
+msgstr "A&yuda"
 
 #: sim/api/simapi.cpp:699
 msgid "Smile"
-msgstr "Sonriente"
+msgstr "Sonrisa"
 
 #: sim/api/simapi.cpp:700
 msgid "Surprised"
@@ -1214,7 +1213,7 @@ msgstr "Molesto"
 
 #: sim/api/simapi.cpp:706
 msgid "Crying"
-msgstr "Llorando"
+msgstr "Llanto"
 
 #: sim/api/simapi.cpp:707
 msgid "Wink"
@@ -1250,7 +1249,7 @@ msgstr "Risueño"
 
 #: sim/api/sockfactory.cpp:212
 msgid "Connect error"
-msgstr "Error de conexión del socket"
+msgstr "Error de conexión"
 
 #: sim/api/sockfactory.cpp:274
 msgid "Can't resolve host"
@@ -1265,9 +1264,8 @@ msgid "Socket error"
 msgstr "Error de socket"
 
 #: sim/api/sockfactory.cpp:419
-#, fuzzy
 msgid "Can't allocate port"
-msgstr "No se puede crear el fichero %1"
+msgstr "No se puede asignar el puerto"
 
 #: sim/api/message.cpp:508
 msgid "%1 Mbytes"
@@ -1286,11 +1284,11 @@ msgstr "%1 bytes"
 #: plugins/__migrate/migratedlg.cpp:238 sim/api/message.cpp:601
 #, c-format
 msgid "Can't open %1"
-msgstr "No se puede abrir %1"
+msgstr "No se pude abrir %1"
 
 #: sim/ui/qt3/i18n.cpp:1
 msgid "Hu&e:"
-msgstr "Hu&e:"
+msgstr "Mati&z"
 
 #: sim/ui/qt3/i18n.cpp:3
 msgid "&Sat:"
@@ -1302,15 +1300,15 @@ msgstr "&Val:"
 
 #: sim/ui/qt3/i18n.cpp:7
 msgid "&Red:"
-msgstr "&Rojo"
+msgstr "&Rojo:"
 
 #: sim/ui/qt3/i18n.cpp:9
 msgid "&Green:"
-msgstr "&Verde"
+msgstr "&Verde:"
 
 #: sim/ui/qt3/i18n.cpp:11
 msgid "Bl&ue:"
-msgstr "Az&ul"
+msgstr "Az&ul:"
 
 #: sim/ui/qt3/i18n.cpp:13
 msgid "A&lpha channel:"
@@ -1318,7 +1316,7 @@ msgstr "Canal a&lpha:"
 
 #: sim/ui/qt3/i18n.cpp:15
 msgid "&Basic colors"
-msgstr "Colores &basicos"
+msgstr "Colores &básicos"
 
 #: sim/ui/qt3/i18n.cpp:17
 msgid "&Custom colors"
@@ -1331,7 +1329,7 @@ msgstr "&Definir colores personalizados >>"
 #: plugins/_core/core.cpp:1625 plugins/_core/status.cpp:321
 #: sim/ui/qt3/i18n.cpp:21
 msgid "OK"
-msgstr "Ok"
+msgstr "OK"
 
 #: plugins/_core/msgedit.cpp:925 sim/ui/qt3/i18n.cpp:23
 msgid "Cancel"
@@ -1347,17 +1345,17 @@ msgstr "Seleccionar color"
 
 #: sim/ui/qt3/i18n.cpp:29
 msgid "Copy or Move a File"
-msgstr "Copiar o mover a fichero"
+msgstr "Copiar o mover un fichero"
 
 #: sim/ui/qt3/i18n.cpp:31
 #, c-format
 msgid "Read: %1"
-msgstr "Leer %1"
+msgstr "Leer: %1"
 
 #: sim/ui/qt3/i18n.cpp:33
 #, c-format
 msgid "Write: %1"
-msgstr "Escribir %1"
+msgstr "Escribir: %1"
 
 #: sim/ui/qt3/i18n.cpp:37
 msgid "All files (*)"
@@ -1387,55 +1385,55 @@ msgstr "Atributos"
 
 #: sim/ui/qt3/i18n.cpp:49
 msgid "Look &in:"
-msgstr ""
+msgstr "&Mirar en:"
 
 #: sim/ui/qt3/i18n.cpp:51
 msgid "File &name:"
-msgstr "&Nombre del fichero:"
+msgstr "&Nombre del archivo:"
 
 #: sim/ui/qt3/i18n.cpp:53
 msgid "File &type:"
-msgstr "&Tipo del fichero:"
+msgstr "&Tipo de archivo:"
 
 #: sim/ui/qt3/i18n.cpp:55
 msgid "Back"
-msgstr "Atras"
+msgstr "Atrás"
 
 #: sim/ui/qt3/i18n.cpp:57
 msgid "One directory up"
-msgstr "Subir directorio"
+msgstr "Subir un directorio"
 
 #: sim/ui/qt3/i18n.cpp:59
 msgid "Create New Folder"
-msgstr "Crear nueva carpeta"
+msgstr "Crear carpeta nueva"
 
 #: sim/ui/qt3/i18n.cpp:61
 msgid "List View"
-msgstr "Mostrar listado"
+msgstr "Vista de lista"
 
 #: sim/ui/qt3/i18n.cpp:63
 msgid "Detail View"
-msgstr "Mostrar detalles"
+msgstr "Vista detallada"
 
 #: sim/ui/qt3/i18n.cpp:65
 msgid "Preview File Info"
-msgstr "Previsualizar información del fichero"
+msgstr "Previsualizar información del archivo"
 
 #: sim/ui/qt3/i18n.cpp:67
 msgid "Preview File Contents"
-msgstr "Previsualizar contenido del fichero"
+msgstr "Previsualizar contenido del archivo"
 
 #: sim/ui/qt3/i18n.cpp:69
 msgid "Read-write"
-msgstr "Leer-escribir"
+msgstr "Lectura-escritura"
 
 #: sim/ui/qt3/i18n.cpp:71
 msgid "Read-only"
-msgstr "Solo lectura"
+msgstr "Sólo lectura"
 
 #: sim/ui/qt3/i18n.cpp:73
 msgid "Write-only"
-msgstr "Solo escritura"
+msgstr "Sólo escritura"
 
 #: sim/ui/qt3/i18n.cpp:75
 msgid "Inaccessible"
@@ -1443,11 +1441,11 @@ msgstr "Inaccesible"
 
 #: sim/ui/qt3/i18n.cpp:77
 msgid "Symlink to File"
-msgstr "Enlace simbolico al fichero"
+msgstr "Enlace simbolico a archivo"
 
 #: sim/ui/qt3/i18n.cpp:79
 msgid "Symlink to Directory"
-msgstr "Enlace simbolico al directorio"
+msgstr "Enlace simbolico a directorio"
 
 #: sim/ui/qt3/i18n.cpp:81
 msgid "Symlink to Special"
@@ -1456,7 +1454,7 @@ msgstr ""
 #: plugins/_core/msgcfg.cpp:38 plugins/sound/sounduser.cpp:38
 #: sim/ui/qt3/i18n.cpp:83
 msgid "File"
-msgstr "Fichero"
+msgstr "Archivo"
 
 #: sim/ui/qt3/i18n.cpp:85
 msgid "Dir"
@@ -1521,15 +1519,15 @@ msgstr "Ordenar"
 
 #: sim/ui/qt3/i18n.cpp:113
 msgid "Show &hidden files"
-msgstr "Mostar ficheros ocu&ltos"
+msgstr "Mostrar arc&hivos ocultos"
 
 #: sim/ui/qt3/i18n.cpp:115
 msgid "the file"
-msgstr "el fichero"
+msgstr "el archivo"
 
 #: sim/ui/qt3/i18n.cpp:117
 msgid "the directory"
-msgstr "el directorio"
+msgstr "la carpeta"
 
 #: sim/ui/qt3/i18n.cpp:119
 msgid "the symlink"
@@ -1542,20 +1540,20 @@ msgstr "Eliminar %1"
 
 #: sim/ui/qt3/i18n.cpp:123
 msgid "<qt>Do you really want to delete %1 \"%2\"?</qt>"
-msgstr "<qt>¿Realmente quieres eliminar %1 \"%2\"?</qt>"
+msgstr "<qt>¿Realmente quiere eliminar %1 \"%2\"?</qt>"
 
 #: sim/ui/qt3/i18n.cpp:129
 msgid "New Folder 1"
-msgstr "Nuevo directorio 1"
+msgstr "Nueva carpeta 1"
 
 #: sim/ui/qt3/i18n.cpp:131
 msgid "New Folder"
-msgstr "Nuevo directorio"
+msgstr "Nueva carpeta"
 
 #: sim/ui/qt3/i18n.cpp:133
 #, c-format
 msgid "New Folder %1"
-msgstr "Nuevo directorio %1"
+msgstr "Nueva carpeta %1"
 
 #: sim/ui/qt3/i18n.cpp:135
 msgid "Find Directory"
@@ -1583,8 +1581,8 @@ msgid ""
 "Check path and filename."
 msgstr ""
 "%1\n"
-"Fichero no encontrado.\n"
-"Compruebe ruta y nombre."
+"No se ha encontrado el fichero.\n"
+"Compruebe el nombre y la ruta."
 
 #: sim/ui/qt3/i18n.cpp:148
 msgid "ERROR"
@@ -1596,7 +1594,7 @@ msgstr "&Fuente"
 
 #: sim/ui/qt3/i18n.cpp:152
 msgid "Font st&yle"
-msgstr "Est&ilo fuente"
+msgstr "Est&ilo de la fuente"
 
 #: sim/ui/qt3/i18n.cpp:154
 msgid "&Size"
@@ -1608,7 +1606,7 @@ msgstr "Efectos"
 
 #: sim/ui/qt3/i18n.cpp:158
 msgid "Stri&keout"
-msgstr ""
+msgstr "&Tachado"
 
 #: plugins/_core/core.cpp:726 plugins/_core/core.cpp:823
 #: sim/ui/qt3/i18n.cpp:160
@@ -1659,11 +1657,11 @@ msgstr "Ayuda"
 
 #: sim/ui/qt3/i18n.cpp:185
 msgid "Defaults"
-msgstr "Por defecto"
+msgstr "Predeterminado"
 
 #: sim/ui/qt3/i18n.cpp:187
 msgid "< Back"
-msgstr "< Atras"
+msgstr "< Atrás"
 
 #: sim/ui/qt3/i18n.cpp:189
 msgid "Next >"
@@ -1687,7 +1685,7 @@ msgstr "Alt"
 
 #: plugins/shortcuts/mousecfgbase.cpp:83 sim/ui/qt3/i18n.cpp:199
 msgid "Shift"
-msgstr "Mayúscula"
+msgstr "Mayúsculas"
 
 #: sim/ui/qt3/i18n.cpp:201
 #, c-format
@@ -1700,7 +1698,7 @@ msgstr "ctrl"
 
 #: sim/ui/qt3/i18n.cpp:205
 msgid "shift"
-msgstr "mayúscula"
+msgstr "mayúsculas"
 
 #: sim/ui/qt3/i18n.cpp:207
 msgid "alt"
@@ -1746,20 +1744,20 @@ msgstr "(desconocido)"
 
 #: sim/ui/qt3/i18n.cpp:227
 msgid "Host %1 found"
-msgstr "Host %1 encontrado"
+msgstr "Servidor %1 encontrado"
 
 #: sim/ui/qt3/i18n.cpp:229
 msgid "Host found"
-msgstr "Host encontrado"
+msgstr "Servidor encontrado"
 
 #: sim/ui/qt3/i18n.cpp:231
 #, c-format
 msgid "Connected to host %1"
-msgstr "Conectado al host %1"
+msgstr "Conectado al servidor %1"
 
 #: sim/ui/qt3/i18n.cpp:233
 msgid "Connected to host"
-msgstr "Conectado al host"
+msgstr "Conectado al servidor"
 
 #: sim/ui/qt3/i18n.cpp:235
 msgid "Connection to %1 closed"
@@ -1767,7 +1765,7 @@ msgstr "Conexión a %1 cerrada"
 
 #: sim/ui/qt3/i18n.cpp:239
 msgid "Login Incorrect"
-msgstr "Login incorrecto"
+msgstr "Fallo en autentificación"
 
 #: sim/ui/qt3/i18n.cpp:241
 #, c-format
@@ -1807,7 +1805,7 @@ msgstr "Limpiar"
 #: plugins/_core/core.cpp:979 sim/ui/qt3/i18n.cpp:257
 #: sim/ui/qt3/qtextedit.cpp:4241 sim/ui/qt3/qtextedit.cpp:4243
 msgid "Select All"
-msgstr "Seleccionar Todo"
+msgstr "Seleccionar todo"
 
 #: sim/ui/qt3/i18n.cpp:259
 msgid "&Left"
@@ -1819,11 +1817,11 @@ msgstr "De&recha"
 
 #: sim/ui/qt3/i18n.cpp:263
 msgid "&Top"
-msgstr "&Arriba"
+msgstr "Su&perior"
 
 #: sim/ui/qt3/i18n.cpp:265
 msgid "&Bottom"
-msgstr "A&bajo"
+msgstr "In&ferior"
 
 #: sim/ui/qt3/i18n.cpp:267
 msgid "R&estore"
@@ -1831,15 +1829,15 @@ msgstr "R&estaurar"
 
 #: sim/ui/qt3/i18n.cpp:269
 msgid "&Hide"
-msgstr "&Esconder"
+msgstr "&Ocultar"
 
 #: sim/ui/qt3/i18n.cpp:271
 msgid "Line Up Toolbars (compact)"
-msgstr ""
+msgstr "Alinear barra de herramientas (comprimir)"
 
 #: sim/ui/qt3/i18n.cpp:273
 msgid "Line Up Toolbars (normal)"
-msgstr ""
+msgstr "Alinear barra de herramientas (normal)"
 
 #: sim/ui/qt3/i18n.cpp:275
 msgid "Paste special..."
@@ -1875,7 +1873,7 @@ msgstr "Minimizar"
 
 #: sim/ui/qt3/i18n.cpp:293
 msgid "Restore Down"
-msgstr ""
+msgstr "Restaurar abajo"
 
 #: sim/ui/qt3/i18n.cpp:295
 msgid "Maximize"
@@ -1887,7 +1885,7 @@ msgstr ""
 
 #: sim/ui/qt3/i18n.cpp:299
 msgid "Restore Up"
-msgstr ""
+msgstr "Restaurar"
 
 #: sim/ui/qt3/i18n.cpp:301
 msgid "Roll down"
@@ -1937,7 +1935,7 @@ msgstr "cursiva"
 
 #: sim/ui/fontedit.cpp:123
 msgid "strikeout"
-msgstr ""
+msgstr "tachado"
 
 #: sim/ui/fontedit.cpp:127
 msgid "underline"
@@ -2008,35 +2006,32 @@ msgid "December"
 msgstr "Diciembre"
 
 #: sim/ui/datepicker.cpp:238
-#, fuzzy
 msgid "Mon"
-msgstr "Mes:"
+msgstr "Lun"
 
 #: sim/ui/datepicker.cpp:239
 msgid "Tue"
-msgstr ""
+msgstr "Mar"
 
 #: sim/ui/datepicker.cpp:240
 msgid "Wed"
-msgstr ""
+msgstr "Mié"
 
 #: sim/ui/datepicker.cpp:241
 msgid "Thu"
-msgstr ""
+msgstr "Jue"
 
 #: sim/ui/datepicker.cpp:242
 msgid "Fri"
-msgstr ""
+msgstr "Vie"
 
 #: sim/ui/datepicker.cpp:243
-#, fuzzy
 msgid "Sat"
-msgstr "&Sat:"
+msgstr "Sab"
 
 #: sim/ui/datepicker.cpp:244
-#, fuzzy
 msgid "Sun"
-msgstr "Sonido"
+msgstr "Dom"
 
 #: sim/ui/textshow.cpp:846
 msgid "Custom"
@@ -2048,20 +2043,19 @@ msgstr "SIM"
 
 #: sim/sim.cpp:185
 msgid "Multiprotcol instant messenger"
-msgstr ""
+msgstr "Multiprotcol instant messenger"
 
 #: sim/sim.cpp:191
 msgid "Maintainer"
-msgstr "Mantenedor"
+msgstr "Responsable"
 
 #: sim/sim.cpp:192
 msgid "Developer"
 msgstr "Desarrollador"
 
 #: xpstyle/xpstyle.cpp:62
-#, fuzzy
 msgid "Windows XP style"
-msgstr "Ventana - izquierda escalado"
+msgstr "Estilo Windows XP"
 
 #: plugins/msn/msnclient.cpp:522 plugins/msn/msnclient.cpp:539
 msgid "MSN protocol error"
@@ -2069,13 +2063,13 @@ msgstr "Error protocolo MSN"
 
 #: plugins/msn/msnclient.cpp:707
 msgid "Youur account is being used from another location"
-msgstr "Tu cuenta esta siendo usada desde otro lugar"
+msgstr "Tu cuenta está siendo usada desde otro lugar"
 
 #: plugins/_core/logindlg.cpp:469 plugins/jabber/jabberclient.cpp:988
 #: plugins/livejournal/livejournal.cpp:934 plugins/msn/msnclient.cpp:827
 #: plugins/yahoo/yahooclient.cpp:357 plugins/yahoo/yahooclient.cpp:368
 msgid "Login failed"
-msgstr "Error en el Login"
+msgstr "Fallo en autentificación"
 
 #: plugins/icq/icqclient.cpp:2059 plugins/icq/icqclient.cpp:2138
 #: plugins/jabber/jabberclient.cpp:1618 plugins/msn/msnclient.cpp:926
@@ -2089,7 +2083,7 @@ msgstr "Red"
 #: plugins/msn/msninfo.cpp:88 plugins/yahoo/yahooclient.cpp:1352
 #: plugins/yahoo/yahooinfo.cpp:109
 msgid "Last online"
-msgstr "Ultima vez conectado"
+msgstr "Última vez conectado"
 
 #: plugins/_core/userlist.cpp:595 plugins/icq/icq.cpp:98
 #: plugins/icq/icq.cpp:268 plugins/icq/icqclient.cpp:1417
@@ -2103,11 +2097,11 @@ msgstr "Conectado"
 
 #: plugins/msn/msnclient.cpp:1908 plugins/msn/msnclient.cpp:1916
 msgid "Contact go offline"
-msgstr ""
+msgstr "Contacto desconectado"
 
 #: plugins/msn/msnclient.cpp:2110
 msgid "Send message failed"
-msgstr "Fallo al enviar el mensaje"
+msgstr "Envío de mensaje fallido"
 
 #: plugins/icq/icqicmb.cpp:743 plugins/icq/icqicmb.cpp:1281
 #: plugins/msn/msnclient.cpp:2412 plugins/yahoo/yahooclient.cpp:446
@@ -2120,16 +2114,14 @@ msgid "Can't established direct connection"
 msgstr "No se puede establecer conexión directa"
 
 #: plugins/msn/msnclient.cpp:2761
-#, fuzzy
 msgid "Transfer canceled"
-msgstr "Fallo en la transferencia"
+msgstr "Transferencia cancelada"
 
 #: plugins/jabber/jabberclient.cpp:2776 plugins/jabber/jabberclient.cpp:2817
 #: plugins/msn/msnclient.cpp:2939 plugins/yahoo/yahooclient.cpp:2348
 #: plugins/yahoo/yahooclient.cpp:2390
-#, fuzzy
 msgid "File transfer failed"
-msgstr "Fallo en la transferencia"
+msgstr "Error en la transferencia del archivo"
 
 #: plugins/msn/msnconfig.cpp:44
 msgid "Register in .NET Passport"
@@ -2148,7 +2140,7 @@ msgstr ""
 
 #: plugins/msn/msnpacket.cpp:491
 msgid "You have new mail"
-msgstr ""
+msgstr "Tiene un nuevo correo"
 
 #: plugins/_core/core.cpp:2749 plugins/dock/dockwnd.cpp:1361
 #: plugins/msn/msnpacket.cpp:493 plugins/osd/osd.cpp:463
@@ -2157,12 +2149,12 @@ msgstr "%1 de %2"
 
 #: plugins/msn/msnresult.cpp:59
 msgid "Contact %1 added to list"
-msgstr "Contacto %1 añadido a la lista"
+msgstr "Se ha añadido el contacto %1 a la lista"
 
 #: plugins/msn/msnresult.cpp:63
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid address: %1"
-msgstr "Mensaje invalido"
+msgstr "Dirección no válida: %1"
 
 #: plugins/msn/msnsearch.cpp:58
 msgid "MSN search results"
@@ -2170,7 +2162,7 @@ msgstr "Resultados busqueda MSN"
 
 #: plugins/msn/msnsearch.cpp:126
 msgid "Contact %1 allready in list"
-msgstr "Contacto %1 ya esta en la lista"
+msgstr "El contacto %1 ya está en la lista"
 
 #: plugins/_core/pagerbase.cpp:87 plugins/_core/userviewcfgbase.cpp:247
 #: plugins/filter/ignorelistbase.cpp:54 plugins/icq/interestsinfobase.cc:108
@@ -2186,7 +2178,7 @@ msgstr "Form2"
 #: plugins/msn/msnconfigbase.cpp:169 plugins/yahoo/yahoocfgbase.cpp:175
 #: plugins/yahoo/yahooinfobase.cpp:149
 msgid "Login:"
-msgstr "Login:"
+msgstr "Usuario:"
 
 #: plugins/_core/logindlg.cpp:287 plugins/icq/aimconfigbase.cc:145
 #: plugins/icq/icqconfigbase.cc:230 plugins/jabber/jabberconfigbase.cpp:278
@@ -2248,7 +2240,7 @@ msgstr ""
 
 #: plugins/msn/msnconfigbase.cpp:179
 msgid "&Automaticaly add contacts in accept list"
-msgstr ""
+msgstr "&Añadir automáticamente los contactos de la lista aceptar"
 
 #: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:242
 #: plugins/jabber/jabberconfigbase.cpp:294
@@ -2280,7 +2272,7 @@ msgstr "Ausente"
 #: plugins/jabber/jabber.cpp:115 plugins/msn/msn.cpp:116
 #: plugins/yahoo/yahoo.cpp:134
 msgid "N/A"
-msgstr "N/A"
+msgstr "N/D"
 
 #: plugins/_core/maininfo.cpp:82 plugins/msn/msn.cpp:131
 #: plugins/yahoo/yahoo.cpp:149
@@ -2289,15 +2281,15 @@ msgstr "Ocupado"
 
 #: plugins/msn/msn.cpp:146 plugins/yahoo/yahooclient.cpp:1371
 msgid "Be right back"
-msgstr ""
+msgstr "Ahora vuelvo"
 
 #: plugins/msn/msn.cpp:161 plugins/yahoo/yahooclient.cpp:1383
 msgid "On the phone"
-msgstr "Al telefono"
+msgstr "Al teléfono"
 
 #: plugins/msn/msn.cpp:176
 msgid "On the lunch"
-msgstr "Almorzando"
+msgstr "Almorzando..."
 
 #: plugins/_core/userlist.cpp:598 plugins/_core/userviewcfgbase.cpp:266
 #: plugins/icq/icq.cpp:188 plugins/icq/icq.cpp:298
@@ -2353,13 +2345,13 @@ msgstr "Form1"
 #: plugins/icq/icqsecure.cpp:128 plugins/jabber/jabbersearch.cpp:101
 #: plugins/msn/msninfobase.cpp:130
 msgid "EMail"
-msgstr "Email"
+msgstr "EMail"
 
 #: plugins/icq/aiminfobase.cc:260 plugins/icq/icqinfobase.cc:267
 #: plugins/jabber/discoinfobase.cpp:280 plugins/jabber/jabberinfobase.cpp:197
 #: plugins/msn/msninfobase.cpp:131 plugins/yahoo/yahooinfobase.cpp:148
 msgid "Nick:"
-msgstr "Nick:"
+msgstr "Apodo:"
 
 #: plugins/icq/icqinfobase.cc:270 plugins/jabber/jabberinfobase.cpp:201
 #: plugins/msn/msninfobase.cpp:132 plugins/yahoo/yahooinfobase.cpp:152
@@ -2387,7 +2379,7 @@ msgstr "E&stado"
 #: plugins/gpg/gpggenbase.cpp:134 plugins/jabber/discoinfobase.cpp:285
 #: plugins/msn/msnsearchbase.cpp:79
 msgid "EMail:"
-msgstr "Email:"
+msgstr "EMail:"
 
 #: plugins/icq/aimsearchbase.cc:241 plugins/icq/aimsearchbase.cc:244
 #: plugins/icq/icqsearchbase.cc:315 plugins/jabber/jabberaddbase.cpp:108
@@ -2402,13 +2394,13 @@ msgstr "&Añadir contacto"
 
 #: plugins/__homedir/homedir.cpp:48
 msgid "Home directory"
-msgstr "Directorio de inicio"
+msgstr "Carpeta personal"
 
 #: plugins/__homedir/homedir.cpp:49
 msgid "Plugin provides select directory for store config files"
 msgstr ""
-"Este plugin habilita la selección de un directorio para almacenar los "
-"ficheros de configuracion"
+"Este plugin permite seleccionar una carpeta para almacenar los "
+"archivos de configuracion"
 
 #: plugins/__homedir/homedir.cpp:92
 msgid "Set home directory"
@@ -2416,36 +2408,31 @@ msgstr "Establecer directorio de inicio"
 
 #: plugins/__homedir/homedircfgbase.cpp:63
 msgid "Use &default path"
-msgstr ""
+msgstr "Usar ruta por &defecto"
 
 #: plugins/__homedir/homedircfgbase.cpp:64
-#, fuzzy
 msgid "Path for config files:"
-msgstr "Directorio para los ficheros entrantes:"
+msgstr "Directorio para los archivos de configuracion:"
 
 #: plugins/styles/wood/wood.cpp:1269
 msgid "Norwegian Wood"
-msgstr ""
+msgstr "Bosque Noruego"
 
 #: plugins/styles/metal/metal.cpp:514
-#, fuzzy
 msgid "Metal style"
-msgstr "Tiendas al por menor"
+msgstr "Estilo metalico"
 
 #: plugins/styles/stylescfg.cpp:57
-#, fuzzy
 msgid "Fonts and colors"
-msgstr "Color del fon&do"
+msgstr "Colores y fuentes"
 
 #: plugins/styles/styles.cpp:51
-#, fuzzy
 msgid "Styles"
-msgstr "si"
+msgstr "Estilos"
 
 #: plugins/styles/styles.cpp:52
-#, fuzzy
 msgid "Plugin provides styles"
-msgstr "Este plugin activa el splash screen al arrancar la aplicacion"
+msgstr "Este plugin permite cambiar el aspecto de sim"
 
 #: plugins/styles/fontconfigbase.cpp:100
 msgid "Use &system fonts"
@@ -2460,9 +2447,8 @@ msgid "Background color:"
 msgstr "Color de fondo:"
 
 #: plugins/styles/fontconfigbase.cpp:103
-#, fuzzy
 msgid "Button color:"
-msgstr "Color de fondo:"
+msgstr ""
 
 #: plugins/_core/userviewcfgbase.cpp:272 plugins/styles/fontconfigbase.cpp:104
 msgid "Use system &colors"
@@ -2478,24 +2464,23 @@ msgstr "Migrar"
 
 #: plugins/__migrate/migrate.cpp:36
 msgid "Plugin provides convert configuration and history from SIM 0.8"
-msgstr ""
-"Este plugin permite convertir la configuracion y el historial de SIM 0.8"
+msgstr "Este plugin permite convertir la configuración y el historial de SIM 0.8"
 
 #: plugins/__migrate/migratedlg.cpp:78
 msgid "Cancel convert?"
-msgstr "¿Cancelar conversión?"
+msgstr "¿Desea cancelar la conversión?"
 
 #: plugins/__migrate/migratedlgbase.cpp:89
 msgid "Convert configuration from old version"
-msgstr "Configuración conversor desde version anterior"
+msgstr "Convertir la configuración de la versión antigua "
 
 #: plugins/__migrate/migratedlgbase.cpp:90
 msgid "Directories for convert:"
-msgstr "Directorio a convertir:"
+msgstr "Directorios a convertir:"
 
 #: plugins/__migrate/migratedlgbase.cpp:91
 msgid "&Remove old files"
-msgstr "&Eliminar ficheros antiguos"
+msgstr "Elimina&r archivos antiguos"
 
 #: plugins/__migrate/migratedlgbase.cpp:92
 msgid ""
@@ -2504,8 +2489,8 @@ msgid ""
 "version"
 msgstr ""
 "¡Nota!\n"
-"Si seleccionas la opción \"Eliminar ficheros antiguos\", no podras usar una "
-"version anterior"
+"Si selecciona la opción \"Eliminar archivos antiguos\", no podra usar la"
+"versión antigua"
 
 #: plugins/__migrate/migratedlgbase.cpp:94
 msgid "Select directories for convert"
@@ -2513,15 +2498,15 @@ msgstr "Seleccionar directorios a convertir"
 
 #: plugins/__migrate/migratedlgbase.cpp:96
 msgid "Convert configuration"
-msgstr "Configuración conversor"
+msgstr "Convertir configuración"
 
 #: plugins/_core/cfgdlg.cpp:274 plugins/_core/usercfg.cpp:195
 msgid "User info"
-msgstr "Informacion usuario"
+msgstr "Información de usuario"
 
 #: plugins/_core/cfgdlg.cpp:363 plugins/_core/usercfg.cpp:341
 msgid "Autoreply"
-msgstr "Auto respuesta"
+msgstr "Auto-respuesta"
 
 #: plugins/_core/cfgdlg.cpp:381
 msgid "Plugins"
@@ -2531,7 +2516,7 @@ msgstr "Plugins"
 #: plugins/_core/core.cpp:518 plugins/_core/core.cpp:1118
 #: plugins/_core/core.cpp:1200
 msgid "Setup"
-msgstr "Configurar"
+msgstr "Configuración"
 
 #: plugins/_core/cfgdlg.cpp:546 plugins/jabber/jabber.cpp:319
 msgid "Configure"
@@ -2539,15 +2524,15 @@ msgstr "Configurar"
 
 #: plugins/_core/cfgdlg.cpp:549
 msgid "Update info"
-msgstr "Actualizar informacion"
+msgstr "Actualizar información"
 
 #: plugins/_core/cmenu.cpp:78
 msgid "More..."
-msgstr ""
+msgstr "Más..."
 
 #: plugins/_core/commands.cpp:234 plugins/_core/toolbarcfg.cpp:40
 msgid "Customize toolbar..."
-msgstr "Configurar barra de herramientas..."
+msgstr "Personalizar la barra de herramientas..."
 
 #: plugins/_core/connectionsettings.cpp:32
 msgid "Configure %1 client"
@@ -2558,26 +2543,24 @@ msgid "Container"
 msgstr "Contenedor"
 
 #: plugins/_core/container.cpp:586
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is typing"
-msgstr "%1 esta conectado"
+msgstr ""
 
 #: plugins/_core/container.cpp:587
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is typing"
-msgstr "%1 esta conectado"
+msgstr ""
 
 #: plugins/_core/core.cpp:108 plugins/weather/weathercfg.cpp:53
 msgid "Interface"
-msgstr "Aspecto"
+msgstr "Interfaz"
 
 #: plugins/_core/core.cpp:109
 msgid "System interface"
-msgstr "Aspecto del sistema"
+msgstr "Interfaz del sistema"
 
 #: plugins/_core/core.cpp:429
 msgid ""
@@ -2593,7 +2576,7 @@ msgid ""
 "See you tomorrow!\n"
 msgstr ""
 "No estoy.\n"
-"¡Te vere mañana!\n"
+"¡Te veré mañana!\n"
 
 #: plugins/_core/core.cpp:437
 msgid "Please do not disturb me now. Disturb me later.\n"
@@ -2613,7 +2596,7 @@ msgstr "Salir"
 
 #: plugins/_core/core.cpp:545
 msgid "&Menu"
-msgstr "&Menu"
+msgstr "&Menú"
 
 #: plugins/_core/core.cpp:555 plugins/_core/searchbase.cpp:73
 msgid "Search / Add contact"
@@ -2625,7 +2608,7 @@ msgstr "Enviar &SMS"
 
 #: plugins/_core/core.cpp:573
 msgid "&Phone service"
-msgstr "Servicio &telefonico"
+msgstr "Servicio &telefónico"
 
 #: plugins/_core/core.cpp:583
 msgid "Message"
@@ -2642,7 +2625,7 @@ msgstr "Grupo"
 #: plugins/_core/core.cpp:609 plugins/_core/core.cpp:1185
 #: plugins/icq/icq.cpp:461 plugins/jabber/jabber.cpp:251
 msgid "User &info"
-msgstr "&Información usuario"
+msgstr "&Información de usuario"
 
 #: plugins/_core/core.cpp:616 plugins/_core/core.cpp:1018
 #: plugins/_core/core.cpp:1193
@@ -2663,49 +2646,44 @@ msgstr ""
 
 #: plugins/_core/core.cpp:682 plugins/_core/msgedit.cpp:250
 msgid "C&lose after send"
-msgstr "Cer&rar despues de enviar"
+msgstr "Cer&rar después de enviar"
 
 #: plugins/_core/core.cpp:690 plugins/_core/msgedit.cpp:1005
 msgid "&Multiply send"
-msgstr "Envio &multiple"
+msgstr "Envio &múltiple"
 
 #: plugins/_core/core.cpp:698 plugins/_core/core.cpp:794
-#, fuzzy
 msgid "Back&ground color"
 msgstr "Color del fon&do"
 
 #: plugins/_core/core.cpp:706 plugins/_core/core.cpp:803
-#, fuzzy
 msgid "&Foreground color"
-msgstr "Color del fon&do"
+msgstr "Color del &primer plano"
 
 #: plugins/_core/core.cpp:712 plugins/_core/core.cpp:809
 msgid "&Bold"
-msgstr "N&egrita"
+msgstr "&Negrita"
 
 #: plugins/_core/core.cpp:719 plugins/_core/core.cpp:816
 msgid "&Italic"
 msgstr "&Cursiva"
 
 #: plugins/_core/core.cpp:733 plugins/_core/core.cpp:830
-#, fuzzy
 msgid "Select &font"
 msgstr "Seleccionar fuente"
 
 #: plugins/_core/core.cpp:740
-#, fuzzy
 msgid "Select &file"
-msgstr "Seleccionar fichero"
+msgstr "Seleccionar archivo"
 
 #: plugins/_core/core.cpp:748
-#, fuzzy
 msgid "&Phone number"
-msgstr "Añadir telefono"
+msgstr "Número de teléfono:"
 
 #: plugins/_core/core.cpp:756 plugins/_core/msgedit.cpp:1526
 #: plugins/jabber/jabber.cpp:280
 msgid "&Next"
-msgstr "Si&guiente"
+msgstr "&Siguiente"
 
 #: plugins/_core/core.cpp:763
 msgid "&Direction"
@@ -2717,20 +2695,19 @@ msgstr "&Filtro"
 
 #: plugins/_core/core.cpp:780
 msgid "&Previous page"
-msgstr "&Pagina anterior"
+msgstr "&Página anterior"
 
 #: plugins/_core/core.cpp:788
 msgid "&Next page"
-msgstr "Pagina siguie&nte"
+msgstr "Página siguie&nte"
 
 #: plugins/_core/core.cpp:852
 msgid "&Open message"
 msgstr "&Abrir mensaje"
 
 #: plugins/_core/core.cpp:875
-#, fuzzy
 msgid "&Delete message"
-msgstr "&Abrir mensaje"
+msgstr "&Borrar mensaje"
 
 #: plugins/_core/core.cpp:881
 #, fuzzy
@@ -2739,7 +2716,7 @@ msgstr "&Historial"
 
 #: plugins/_core/core.cpp:886
 msgid "&Quote"
-msgstr "Res&ponder mensaje"
+msgstr "&Citar"
 
 #: plugins/_core/core.cpp:903 plugins/forward/forward.cpp:65
 msgid "&Forward"
@@ -4145,8 +4122,7 @@ msgid "Set \"Offline\" status after"
 msgstr "Establecer estado \"N/A\" despues de"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:109
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Desactivar alertas online en \"Ausente\", \"N/A\", \"No molestar\" y "
 "\"Ocupado\""
@@ -6539,10 +6515,8 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:68
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
-msgstr ""
-"Este plugin notifica en pantalla los mensajes y el estado de los contactos"
+msgid "Plugin provides on screen notification about messages and contacts status"
+msgstr "Este plugin notifica en pantalla los mensajes y el estado de los contactos"
 
 #: plugins/osd/osd.cpp:137
 msgid "&OSD"
@@ -6775,8 +6749,7 @@ msgstr "Alerta online"
 
 #: plugins/sound/sound.cpp:47
 msgid "Plugin provides sounds on any events"
-msgstr ""
-"Este plugin habilita la reproducción de sonidos tras producirse un evento"
+msgstr "Este plugin habilita la reproducción de sonidos tras producirse un evento"
 
 #: plugins/sound/sound.cpp:129 plugins/sound/sound.cpp:137
 msgid "&Sound"
@@ -8330,8 +8303,7 @@ msgid "Navigate"
 msgstr "Navegar"
 
 #: plugins/navigate/navigate.cpp:214
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr "Este plugin establece el navegador y el cliente de correo"
 
 #: plugins/navigate/navigate.cpp:262
@@ -8970,116 +8942,3 @@ msgstr ""
 msgid "Units:"
 msgstr ""
 
-#, fuzzy
-#~ msgid "Browser: %1"
-#~ msgstr "Navegador:"
-
-#~ msgid "Agents"
-#~ msgstr "Agentes"
-
-#~ msgid "Receive"
-#~ msgstr "Recibir"
-
-#~ msgid "Send"
-#~ msgstr "Enviar"
-
-#, fuzzy
-#~ msgid "Cancel send"
-#~ msgstr "Cancelar"
-
-#, fuzzy
-#~ msgid "File transfer server:"
-#~ msgstr "Transferencia de fichero realizada:"
-
-#, fuzzy
-#~ msgid "File transfer port:"
-#~ msgstr "Transferencia de fichero realizada:"
-
-#, fuzzy
-#~ msgid ""
-#~ "_n: File message\n"
-#~ "%n File messages"
-#~ msgstr ""
-#~ "Mensaje\n"
-#~ "%n mensajes"
-
-#~ msgid "<b>Note !</b><br>HTTP-proxy support only ICQ-protocol"
-#~ msgstr "<b>¡Nota!</b><br>El proxy HTTP soporta solo el protocolo ICQ"
-
-#, fuzzy
-#~ msgid "Plugin provides posting to LiveJournal"
-#~ msgstr "Este plugin habilita la información acerca de SIM"
-
-#~ msgid "Day:"
-#~ msgstr "Dia:"
-
-#~ msgid "Year:"
-#~ msgstr "Año:"
-
-#~ msgid "Automaitcaly open window on receive message"
-#~ msgstr "Abrir automaticamente ventana al recibir mensaje"
-
-#~ msgid "&Work info"
-#~ msgstr "Infor&mación profesional"
-
-#~ msgid "Registration failed"
-#~ msgstr "Registro fallido"
-
-#, fuzzy
-#~ msgid "Register success"
-#~ msgstr "Agentes registrados:"
-
-#, fuzzy
-#~ msgid "Register failed"
-#~ msgstr "Registro fallido"
-
-#~ msgid "Sending messages color"
-#~ msgstr "Color de los mensajes enviados"
-
-#~ msgid "Received messages color"
-#~ msgstr "Color de los mensajes recibidos"
-
-#~ msgid "Others color"
-#~ msgstr "Color del resto"
-
-#~ msgid "Own color"
-#~ msgstr "Color propio"
-
-#~ msgid "*.msl|Smiles"
-#~ msgstr "*.msl|Smiles"
-
-#~ msgid "Smiles (*.msl)"
-#~ msgstr "Smiles (*.msl)"
-
-#~ msgid "Fonts"
-#~ msgstr "Fuentes"
-
-#~ msgid "Input"
-#~ msgstr "Insertar"
-
-#~ msgid "Search:"
-#~ msgstr "Busqueda:"
-
-#~ msgid " "
-#~ msgstr " "
-
-#~ msgid "&Text color"
-#~ msgstr "Color del te&xto"
-
-#~ msgid "Text &font"
-#~ msgstr "&Fuente del texto"
-
-#~ msgid "Drag users here"
-#~ msgstr "Arrastre los usuarios aqui"
-
-#~ msgid ""
-#~ "You have default encoding UTF-8. \n"
-#~ "At its use you can have problems with reading offline messages and "
-#~ "installation of your personal information."
-#~ msgstr ""
-#~ "Tiene codificacion UTF-8 por defecto\n"
-#~ "Con su uso puede tener problemas con la lectura de mensajes offline y la "
-#~ "instalación de su información personal."
-
-#~ msgid "Can't open file"
-#~ msgstr "No se puede abrir el fichero"
