@@ -31,6 +31,10 @@
 #include <qslider.h>
 #include <qpushbutton.h>
 #include <qscrollbar.h>
+#include <qbitmap.h>
+
+#define INCLUDE_MENUITEM_DEF 1
+#include <qmenudata.h>
 
 #define Q_ASSERT ASSERT
 
@@ -977,6 +981,164 @@ void QWindowsXPStyle::drawTab( QPainter *p, const QTabBar *tbar, QTab *t, bool s
 
 void QWindowsXPStyle::drawTabMask( QPainter*, const QTabBar*, QTab*, bool selected )
 {
+}
+
+static const unsigned bitmapWidth = 22;
+static const unsigned itemVMargin = 4;
+static const unsigned rightBorder = 12;
+static const unsigned itemFrame = 0;
+static const unsigned itemHMargin = 3;
+static const unsigned shadowWidth = 3;
+static const unsigned arrowHMargin = 6;
+
+void QWindowsXPStyle::drawPopupMenuItem( QPainter* p, bool checkable,
+        int maxpmw, int tab, QMenuItem* mi,
+        const QPalette& pal,
+        bool act, bool enabled,
+        int x, int y, int w, int h)
+{
+    int checkcol = 22;
+    QRect r(x, y, w, h);
+    QColorGroup cg = pal.active();
+    if (act){
+        p->setPen(cg.highlight());
+        p->fillRect(x, y, w, h, enabled ? colorSel(cg) : colorMenu(pal.disabled()));
+        p->drawLine(x+1, y, x+w-2, y);
+        p->drawLine(x+1, y+h-1, x+w-2, y+h-1);
+        p->drawLine(x, y+1, x, y+h-2);
+        p->drawLine(x+w-1, y+1, x+w-1, y+h-2);
+    }else{
+        drawMenuBackground(p, r, cg);
+    }
+
+    int xpos = x;
+    int xm = itemFrame + checkcol + itemHMargin;
+    if (mi->isSeparator()) {
+        p->setPen(cg.mid());
+        if ((int)(x + bitmapWidth + 2) < (int)(x + w - 2))
+            p->drawLine(x + bitmapWidth + 2, y + h / 2,
+                        x + w - 2, y + h / 2);
+        return;
+    }
+
+    if (mi->iconSet()) {
+        p->save();
+        QIconSet::Mode mode =
+            enabled ? QIconSet::Normal : QIconSet::Disabled;
+        QPixmap pixmap = mi->iconSet()->pixmap(QIconSet::Small, mode);
+        int pixw = pixmap.width();
+        int pixh = pixmap.height();
+
+        QRect cr(xpos, y, 22, h);
+        QRect pmr(0, 0, pixw, pixh);
+        if (checkable && mi->isChecked()){
+            p->setPen(darkXp(enabled ? colorSel(cg) : colorMenu(pal.disabled())));
+            p->drawLine(cr.x(), cr.y(), cr.x() + cr.width()-1, cr.y());
+            p->drawLine(cr.x(), cr.y(), cr.x(), cr.y() + cr.height());
+            p->setPen(colorMenu(cg));
+            p->drawLine(cr.x(), cr.y()+cr.height()-1,
+                        cr.x()+cr.width()-1, cr.y()+cr.height()-1);
+            cr.moveBy(1, 1);
+        }
+        pmr.moveCenter(cr.center());
+        QPoint picPoint = pmr.topLeft();
+        if (act && enabled){
+            const QBitmap *mask = pixmap.mask();
+            if (mask){
+                QPixmap maskPict = *mask;
+                maskPict.setMask(*mask);
+                p->setBrush(darkXp(colorSel(cg)));
+                picPoint += QPoint(1, 1);
+                p->drawPixmap(picPoint, maskPict);
+                picPoint -= QPoint(2, 2);
+            }
+        }
+        p->setPen(cg.highlightedText());
+        p->drawPixmap(picPoint, pixmap);
+        p->restore();
+
+    }else if (checkable && mi->isChecked()){
+        p->setPen(cg.buttonText());
+        drawCheckMark(p, xpos, y, bitmapWidth, h, cg, act, !enabled);
+    }
+
+    xpos += xm;
+    if (mi->custom()) {
+        int m = itemVMargin;
+        p->save();
+        p->setPen(cg.text());
+        mi->custom()->paint(p, cg, act, enabled,
+                            x+xm, y+m, w-xm-tab+1, h-2*m);
+        p->restore();
+        return;
+    }else{
+        QString s = mi->text();
+        if(!s.isNull()) {
+            int t = s.find('\t');
+            int m = itemVMargin;
+
+            const int text_flags =
+                AlignVCenter | ShowPrefix | DontClip | SingleLine;
+
+            p->setPen(cg.text());
+            if (t >= 0) {
+                int xp;
+                xp = x + w - tab - rightBorder - itemHMargin - itemFrame + 1;
+                p->drawText(xp, y+m, tab, h-2*m, text_flags, s.mid(t+1));
+                s = s.left(t);
+            }
+            p->drawText(xpos, y+m, w-xm-tab+1, h-2*m, text_flags, s);
+        }
+    }
+    if (mi->popup()) {
+        int dim = (h - 2 * itemFrame) / 2;
+        xpos = x+w - arrowHMargin - itemFrame - dim;
+        p->setPen(cg.text());
+        drawArrow(p, RightArrow, false, xpos, y + h / 4, dim, dim, cg, enabled);
+    }
+}
+
+QColor QWindowsXPStyle::mix(const QColor &c1, const QColor &c2, int k) const
+{
+    int r1, g1, b1;
+    int r2, g2, b2;
+    c1.rgb(&r1, &g1, &b1);
+    c2.rgb(&r2, &g2, &b2);
+    return QColor(
+               ((r1 * k) + (r2 * (100-k)))/100,
+               ((g1 * k) + (g2 * (100-k)))/100,
+               ((b1 * k) + (b2 * (100-k)))/100);
+}
+
+QColor QWindowsXPStyle::colorMenu(const QColorGroup &cg) const
+{
+    return mix(cg.background(), cg.button(), 86).light(110);
+}
+
+QColor QWindowsXPStyle::colorBitmap(const QColorGroup &cg) const
+{
+    return mix(cg.background(), cg.button(), 14).dark(120);
+}
+
+QColor QWindowsXPStyle::colorSel(const QColorGroup &cg) const
+{
+    return mix(cg.background(), cg.highlight(), 70);
+}
+
+QColor QWindowsXPStyle::darkXp(const QColor &c) const
+{
+    int r, g, b;
+    c.rgb(&r, &g, &b);
+    b = QMIN(b + 55, 255);
+    return mix(QColor(r, g, b), QColor(0, 0, 0), 70);
+}
+
+
+void QWindowsXPStyle::drawMenuBackground(QPainter *p, const QRect &rc, const QColorGroup &cg) const
+{
+    p->fillRect(rc, colorMenu(cg));
+    QRect rcBitmap(0, rc.y(), bitmapWidth, rc.height());
+    p->fillRect(rcBitmap, colorBitmap(cg));
 }
 
 void QWindowsXPStyle::activeTabChanged()

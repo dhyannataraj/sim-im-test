@@ -69,11 +69,25 @@ public:
     //    virtual void tabbarMetrics( const QTabBar*, int&, int&, int& );
     virtual void drawTab( QPainter*, const QTabBar*, QTab*, bool selected );
     virtual void drawTabMask( QPainter*, const QTabBar*, QTab*, bool selected );
+    virtual void drawPopupMenuItem( QPainter* p, bool checkable,
+                                    int maxpmw, int tab, QMenuItem* mi,
+                                    const QPalette& pal,
+                                    bool act, bool enabled,
+                                    int x, int y, int w, int h);
 protected slots:
     void activeTabChanged();
 protected:
     bool eventFilter( QObject *o, QEvent *e );
     QWindowsXPStylePrivate *d;
+    QColor colorMenu(const QColorGroup &cg) const;
+    QColor colorBitmap(const QColorGroup &cg) const;
+    QColor colorSel(const QColorGroup &cg) const;
+    QColor darkXp(const QColor &c) const;
+    QColor shiftColor( const QColor &c, int value, bool bXp=true) const;
+    QColor mix(const QColor &c1, const QColor &c2, int k) const;
+    void drawMenuBackground(QPainter *p,
+                            const QRect &rc,
+                            const QColorGroup &cg) const;
 };
 
 #endif
