@@ -475,6 +475,7 @@ void *UserView::processEvent(Event *e)
                         userWnd = new UserWnd(contact->id(), NULL, true, true);
                     if (to == NULL)
                         to = new Container(max_id + 1);
+					to->init();
                     to->addUserWnd(userWnd, true);
                     to->setNoSwitch(true);
                     raiseWindow(to);

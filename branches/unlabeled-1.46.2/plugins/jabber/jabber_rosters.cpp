@@ -881,7 +881,7 @@ JabberClient::PresenceRequest::~PresenceRequest()
             time_t now;
             time(&now);
             if (status == STATUS_OFFLINE){
-                if (i < data->nResources.value){
+                if (i <= data->nResources.value){
                     bChanged = true;
                     vector<string> resources;
                     vector<string> resourceReply;
@@ -996,10 +996,12 @@ JabberClient::IqRequest::IqRequest(JabberClient *client)
         : ServerRequest(client, NULL, NULL, NULL)
 {
     m_data = NULL;
+	m_file_size = 0;
 }
 
 JabberClient::IqRequest::~IqRequest()
 {
+    JabberFileMessage *msg = NULL;
     if (m_query == "jabber:iq:oob"){
         string proto = m_url.substr(0, 7);
         if (proto != "http://"){
@@ -1020,6 +1022,17 @@ JabberClient::IqRequest::~IqRequest()
             return;
         }
         string file = m_url.substr(n + 1);
+        msg = new JabberFileMessage;
+        msg->setDescription(QString::fromUtf8(file.c_str()));
+        msg->setText(QString::fromUtf8(m_descr.c_str()));
+        msg->setHost(host.c_str());
+        msg->setPort(port);
+    }else if (!m_file_name.empty()){
+        msg = new JabberFileMessage;
+        msg->setDescription(QString::fromUtf8(m_file_name.c_str()));
+		msg->setSize(m_file_size);
+	}
+	if (msg){
         Contact *contact;
         string resource;
         JabberUserData *data = m_client->findContact(m_from.c_str(), NULL, false, contact, resource);
@@ -1030,13 +1043,8 @@ JabberClient::IqRequest::~IqRequest()
                 return;
             contact->setFlags(CONTACT_TEMP);
         }
-        JabberFileMessage *msg = new JabberFileMessage;
-        msg->setDescription(QString::fromUtf8(file.c_str()));
-        msg->setText(QString::fromUtf8(m_descr.c_str()));
-        msg->setHost(host.c_str());
-        msg->setPort(port);
-        msg->setFrom(m_from.c_str());
-        msg->setID(m_id.c_str());
+		msg->setFrom(m_from.c_str());
+		msg->setID(m_id.c_str());
         msg->setFlags(MESSAGE_RECEIVED | MESSAGE_TEMP);
         msg->setClient(m_client->dataName(data).c_str());
         msg->setContact(contact->id());
@@ -1050,7 +1058,7 @@ JabberClient::IqRequest::~IqRequest()
                 }
             }
         }
-    }
+	}
 }
 
 void JabberClient::IqRequest::element_start(const char *el, const char **attr)
@@ -1107,6 +1115,10 @@ void JabberClient::IqRequest::element_start(const char *el, const char **attr)
         m_data = &m_url;
     if (!strcmp(el, "desc"))
         m_data = &m_descr;
+	if (!strcmp(el, "file")){
+		m_file_name = JabberClient::get_attr("name", attr);
+		m_file_size = atol(JabberClient::get_attr("size", attr).c_str());
+	}
 }
 
 void JabberClient::IqRequest::element_end(const char*)
@@ -2091,6 +2103,8 @@ void JabberClient::processList()
     m_listRequests.clear();
 }
 
+#if 0
+
 class SendFileRequest : public JabberClient::ServerRequest
 {
 public:
@@ -2148,14 +2162,78 @@ void SendFileRequest::char_data(const char *str, int len)
         m_data->append(str, len);
 }
 
-void JabberClient::sendFileRequest(FileMessage *msg, unsigned short port, JabberUserData *data, const char *fname)
+#endif
+
+class SendFileRequest : public JabberClient::ServerRequest
+{
+public:
+    SendFileRequest(JabberClient *client, const char *jid, FileMessage *msg);
+    ~SendFileRequest();
+protected:
+    virtual void	element_start(const char *el, const char **attr);
+    virtual void	element_end(const char *el);
+    virtual	void	char_data(const char *str, int len);
+    FileMessage *m_msg;
+};
+
+SendFileRequest::SendFileRequest(JabberClient *client, const char *jid, FileMessage *msg)
+        : JabberClient::ServerRequest(client, _SET, NULL, jid)
+{
+	m_msg = msg;
+}
+
+SendFileRequest::~SendFileRequest()
+{
+}
+
+void SendFileRequest::element_start(const char*, const char**)
+{
+}
+
+void SendFileRequest::element_end(const char*)
+{
+}
+
+void SendFileRequest::char_data(const char*, int)
+{
+}
+
+void JabberClient::sendFileRequest(FileMessage *msg, unsigned short, JabberUserData *data, const char *fname, unsigned size)
 {
     string jid = data->ID.ptr;
-    if (data->Resource.ptr){
-        jid += "/";
-        jid += data->Resource.ptr;
-    }
+	string resource;
+	if (msg->getResource().isEmpty()){
+		if (data->Resource.ptr){
+			jid += "/";
+			jid += data->Resource.ptr;
+		}
+	}else{
+		jid += "/";
+		jid += msg->getResource().utf8();
+	}
     SendFileRequest *req = new SendFileRequest(this, jid.c_str(), msg);
+	req->start_element("si");
+	req->add_attribute("xmlns", "http://jabber.org/protocol/si");
+	req->add_attribute("profile", "http://jabber.org/protocol/si/profile/file-transfer");
+	req->add_attribute("id", get_unique_id().c_str());
+	req->start_element("file");
+	req->add_attribute("xmns", "http://jabber.org/protocol/si/profile/file-transfer");
+	req->add_attribute("size", number(size).c_str());
+	req->add_attribute("name", fname);
+	req->start_element("range");
+	req->end_element();
+	req->end_element();
+	req->start_element("feature");
+	req->add_attribute("xmlns", "http://jabber.org/protocol/feature-neg");
+	req->start_element("x");
+	req->add_attribute("xmlns", "jabber:x:data");
+	req->add_attribute("type", "form");
+	req->start_element("field");
+	req->add_attribute("type", "list-single");
+	req->add_attribute("var", "stream-method");
+	req->start_element("option");
+	req->text_tag("value", "http://jabber.org/protocol/bytestreams");
+#if 0
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:oob");
     string url  = "http://";
@@ -2170,8 +2248,37 @@ void JabberClient::sendFileRequest(FileMessage *msg, unsigned short port, Jabber
     desc = msg->getText().utf8();
     req->text_tag("url", url.c_str());
     req->text_tag("desc", desc.c_str());
+#endif
     req->send();
     m_requests.push_back(req);
+}
+
+void JabberClient::sendFileAccept(FileMessage *msg, JabberUserData *data)
+{
+	JabberFileMessage *m = static_cast<JabberFileMessage*>(msg);
+    string jid = data->ID.ptr;
+	string resource;
+	if (msg->getResource().isEmpty()){
+		if (data->Resource.ptr){
+			jid += "/";
+			jid += data->Resource.ptr;
+		}
+	}else{
+		jid += "/";
+		jid += msg->getResource().utf8();
+	}
+    ServerRequest req(this, ServerRequest::_RESULT, NULL, jid.c_str(), m->getID());
+	req.start_element("si");
+	req.add_attribute("xmlns", "http://jabber.org/protocol/si");
+	req.start_element("feature");
+	req.add_attribute("xmlns", "http://jabber.org/protocol/feature-neg");
+	req.start_element("x");
+	req.add_attribute("xmlns", "jabber:x:data");
+	req.add_attribute("type", "submit");
+	req.start_element("field");
+	req.add_attribute("var", "stream-method");
+	req.text_tag("value", "http://jabber.org/protocol/bytestreams");
+	req.send();
 }
 
 class DiscoItemsRequest : public JabberClient::ServerRequest

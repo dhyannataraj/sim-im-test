@@ -31,7 +31,9 @@ SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin)
 {
     m_plugin = plugin;
     user_cfg = NULL;
+#ifndef WIN32
     bool bSound = QSound::available();
+#endif
 #ifdef USE_KDE
     bSound = false;
     connect(chkArts, SIGNAL(toggled(bool)), this, SLOT(artsToggled(bool)));
@@ -39,10 +41,15 @@ SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin)
 #else
     chkArts->hide();
 #endif
+#ifdef WIN32
+	lblPlayer->hide();
+	edtPlayer->hide();
+#else
     if (bSound){
         lblPlayer->setText(i18n("Qt provides sound output so you just need to set a player if you don't like Qt's sound."));
     }
     edtPlayer->setText(QString::fromLocal8Bit(plugin->getPlayer()));
+#endif
     string s;
     s = plugin->fullName(plugin->getStartUp());
     edtStartup->setText(QFile::decodeName(s.c_str()));

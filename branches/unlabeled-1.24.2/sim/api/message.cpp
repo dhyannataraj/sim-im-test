@@ -567,9 +567,9 @@ bool FileTransfer::openFile()
         delete m_file;
         m_file = NULL;
     }
+	m_bDir = false;
     if (++m_nFile >= m_nFiles){
         m_state = Done;
-        m_bDir  = false;
         if (m_notify)
             m_notify->process();
         return false;

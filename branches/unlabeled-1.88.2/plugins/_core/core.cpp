@@ -2142,6 +2142,7 @@ if (fname[0] != '/')
 #ifdef WIN32
                     ShowWindow(container->winId(), SW_SHOWMINNOACTIVE);
 #else
+					container->init();
                     container->showMinimized();
 #endif
                     container->m_bNoRead = false;
@@ -2149,6 +2150,7 @@ if (fname[0] != '/')
                 if (m_focus)
                     m_focus->setFocus();
             }else{
+				container->init();
                 container->show();
                 raiseWindow(container);
             }
@@ -3633,8 +3635,10 @@ bool CorePlugin::init(bool bInit)
 
     if (!bNew){
         string containers = getContainers();
-        while (!containers.empty())
-            new Container(0, getContainer(strtoul(getToken(containers, ',').c_str(), NULL, 10)));
+        while (!containers.empty()){
+            Container *c = new Container(0, getContainer(strtoul(getToken(containers, ',').c_str(), NULL, 10)));
+			c->init();
+		}
     }
     clearContainer();
     setContainers(NULL);

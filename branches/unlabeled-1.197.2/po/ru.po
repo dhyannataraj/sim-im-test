@@ -9821,12 +9821,6 @@ msgid ""
 "Clear"
 msgstr "Ясно"
 
-#: plugins/weather/weather.cpp:472
-msgid ""
-"_: weather\n"
-"Showers"
-msgstr "Снег"
-
 #: plugins/weather/weather.cpp:473
 msgid ""
 "_: weather\n"

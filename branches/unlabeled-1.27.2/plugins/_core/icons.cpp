@@ -161,6 +161,7 @@ const QMimeSource *MyMimeSourceFactory::data(const QString &abs_name) const
         const QIconSet *icons = Icon(name.latin1());
         if (icons){
             QImage img = icons->pixmap(QIconSet::Small, QIconSet::Normal).convertToImage();
+			img = img.convertDepth(32);
             ((QMimeSourceFactory*)this)->setImage(abs_name, img);
         }
     }

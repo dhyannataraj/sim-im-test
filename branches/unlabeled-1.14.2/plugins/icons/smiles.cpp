@@ -44,7 +44,7 @@ public:
     list<xepRecord>		m_rec;
     QPixmap				pict(unsigned index);
 protected:
-    QPixmap				m_image;
+    QImage				m_image;
     string				*m_data;
     string				m_str;
     Buffer				m_pict;
@@ -146,11 +146,10 @@ bool XepParser::parse(QFile &f)
     if (pict.size() < 28)
         return false;
     QByteArray arr;
-    arr.assign(pict.data(28), pict.size() - 28);
-    QImage img(arr);
-    if ((img.width() == 0) || (img.height() == 0))
+    arr.duplicate(pict.data(28), pict.size() - 28);
+    m_image = QImage(arr);
+    if ((m_image.width() == 0) || (m_image.height() == 0))
         return false;
-    m_image.convertFromImage(img);
     return true;
 }
 
@@ -234,7 +233,7 @@ QPixmap XepParser::pict(unsigned n)
     int x = (n - row * cols) * m_width;
     QPixmap res(m_width, m_height);
     QPainter p(&res);
-    p.drawPixmap(0, 0, m_image, x, y);
+    p.drawImage(0, 0, m_image, x, y);
     p.end();
     res.setMask(res.createHeuristicMask());
     return res;
@@ -315,7 +314,9 @@ bool Smiles::load(const QString &file)
                     sd.exp += '\\';
                 sd.exp += *p;
             }
-            QIconSet *is = new QIconSet(pict);
+            QIconSet *is = new QIconSet;
+			is->setPixmap(pict, QIconSet::Small);
+			is->setPixmap(pict, QIconSet::Large);
             m_icons.push_back(is);
             sd.icon	 = is;
             unsigned index = (unsigned)(-1);

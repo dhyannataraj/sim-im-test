@@ -522,7 +522,7 @@ void *JabberClient::processEvent(Event *e)
                     reason = md->reason;
                 ServerRequest req(this, "error", NULL, msg->getFrom(), msg->getID());
                 req.start_element("error");
-                req.add_attribute("code", "406");
+                req.add_attribute("code", "403");
                 req.add_text(reason.c_str());
                 req.send();
                 Event e(EventMessageDeleted, msg);
@@ -931,6 +931,7 @@ void JabberClient::ServerRequest::add_condition(const char *condition, bool bXDa
 
 const char *JabberClient::ServerRequest::_GET = "get";
 const char *JabberClient::ServerRequest::_SET = "set";
+const char *JabberClient::ServerRequest::_RESULT = "result";
 
 void JabberClient::startHandshake()
 {
@@ -2598,7 +2599,6 @@ void JabberFileTransfer::listen()
             if (!isDirectory())
                 break;
         }
-        return;
     }
     bind(m_client->getMinPort(), m_client->getMaxPort(), m_client);
 }
@@ -2630,7 +2630,7 @@ void JabberFileTransfer::bind_ready(unsigned short port)
     if (n >= 0)
         fname = fname.mid(n + 1);
     m_url = fname.utf8();
-    m_client->sendFileRequest(m_msg, port, m_data, m_url.c_str());
+    m_client->sendFileRequest(m_msg, port, m_data, m_url.c_str(), m_fileSize);
 }
 
 bool JabberFileTransfer::error(const char *err)
@@ -2986,6 +2986,8 @@ void JabberFileTransfer::send_line(const char *line)
 void JabberFileTransfer::connect()
 {
     m_nFiles = 1;
+	if (static_cast<JabberFileMessage*>(m_msg)->getPort() == 0)
+		m_client->sendFileAccept(m_msg, m_data);
     if (m_notify)
         m_notify->createFile(m_msg->getDescription(), 0xFFFFFFFF, false);
 }

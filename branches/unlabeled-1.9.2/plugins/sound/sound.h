@@ -19,6 +19,7 @@
 #define _SOUND_H
 
 #include "simapi.h"
+#include "stl.h"
 
 typedef struct SoundData
 {
@@ -40,9 +41,13 @@ typedef struct SoundUserData
 } SoundUserData;
 
 class CorePlugin;
+class QTimer;
+class QSound;
+class Exec;
 
-class SoundPlugin : public Plugin, public EventReceiver
+class SoundPlugin : public QObject, public Plugin, public EventReceiver
 {
+	Q_OBJECT
 public:
     SoundPlugin(unsigned, bool, Buffer*);
     virtual ~SoundPlugin();
@@ -55,6 +60,9 @@ public:
     PROP_STR(MessageSent);
     unsigned CmdSoundDisable;
     unsigned EventSoundChanged;
+protected slots:
+	void checkSound();
+    void childExited(int, int);
 protected:
     unsigned user_data_id;
     virtual void *processEvent(Event*);
@@ -63,6 +71,14 @@ protected:
     string fullName(const char*);
     string messageSound(unsigned type, SoundUserData *data);
     void playSound(const char*);
+	void processQueue();
+	string			m_current;
+	list<string>	m_queue;
+	QSound			*m_sound;
+	QTimer			*m_checkTimer;
+#ifndef WIN32
+	unsigned		m_player;
+#endif
     SoundData	data;
     CorePlugin	*core;
     bool	    m_bChanged;
