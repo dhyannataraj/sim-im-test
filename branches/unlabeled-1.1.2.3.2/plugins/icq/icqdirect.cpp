@@ -327,6 +327,9 @@ DirectClient::DirectClient(Socket *s, ICQClient *client)
         : DirectSocket(s, client)
 {
     m_state = WaitLogin;
+#ifdef USE_OPENSSL
+	m_ssl = NULL;
+#endif
 }
 
 DirectClient::DirectClient(ICQUserData *data, ICQClient *client, unsigned channel)
@@ -334,6 +337,9 @@ DirectClient::DirectClient(ICQUserData *data, ICQClient *client, unsigned channe
 {
     m_state   = None;
     m_channel = channel;
+#ifdef USE_OPENSSL
+	m_ssl = NULL;
+#endif
 }
 
 DirectClient::~DirectClient()
@@ -364,6 +370,26 @@ DirectClient::~DirectClient()
             m_data->DirectPluginStatus = NULL;
         break;
     }
+#ifdef USE_OPENSSL
+	if (m_ssl){
+		delete m_ssl;
+		m_ssl = NULL;
+		Contact *contact;
+		if (m_client->findContact(m_data->Uin, NULL, false, contact)){
+			Event e(EventContactStatus, contact);
+			e.process();
+		}
+	}
+#endif
+}
+
+bool DirectClient::isSecure()
+{
+#ifdef USE_OPENSSL
+	return m_ssl && m_ssl->connected();
+#else
+	return false;
+#endif
 }
 
 void DirectClient::processPacket()
@@ -544,7 +570,10 @@ void DirectClient::processPacket()
                 m_socket->error_state("Start without message");
                 return;
             }
-            m->setFlags(m->getFlags() | MESSAGE_RECEIVED | MESSAGE_DIRECT);
+			unsigned flags = m->getFlags() | MESSAGE_RECEIVED | MESSAGE_DIRECT;
+			if (isSecure())
+				flags |= MESSAGE_SECURE;
+            m->setFlags(flags);
             sendAck(seq, type);
             m_client->messageReceived(m, m_data->Uin);
         }else{
@@ -616,7 +645,10 @@ void DirectClient::processPacket()
                             m.setContact(msg->contact());
                             m.setClient(msg->client());
                             m.setText(msg->getPlainText());
-                            m.setFlags(MESSAGE_DIRECT);
+							unsigned flags = MESSAGE_DIRECT;
+							if (isSecure())
+								flags |= MESSAGE_SECURE;
+                            m.setFlags(flags);
                             if (msg->getBackground() != msg->getForeground()){
                                 m.setForeground(msg->getForeground());
                                 m.setBackground(msg->getBackground());
@@ -624,7 +656,10 @@ void DirectClient::processPacket()
                             Event e(EventSent, &m);
                             e.process();
                         }else{
-                            msg->setFlags(msg->getFlags() | MESSAGE_DIRECT);
+							unsigned flags = msg->getFlags() | MESSAGE_DIRECT;
+							if (isSecure())
+								flags |= MESSAGE_SECURE;
+                            msg->setFlags(flags);
                             Event e(EventSent, msg);
                             e.process();
                         }

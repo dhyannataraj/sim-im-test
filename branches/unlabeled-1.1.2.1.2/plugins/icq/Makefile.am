@@ -38,6 +38,8 @@ icq_la_SOURCES = \
  icqpicture.cpp \
  icqpicturebase.ui \
  icqmessage.cpp \
+ securedlg.cpp \
+ securedlgbase.ui \
  genrtf.ll \
  rtf.ll \
  xml.cpp

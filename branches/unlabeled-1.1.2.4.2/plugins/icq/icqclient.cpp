@@ -28,6 +28,7 @@
 #include "icqsearch.h"
 #include "icqsecure.h"
 #include "icqmessage.h"
+#include "securedlg.h"
 #include "core.h"
 
 #include "simapi.h"
@@ -39,6 +40,8 @@
 #include <qregexp.h>
 #include <qimage.h>
 #include <qpixmap.h>
+#include <qapplication.h>
+#include <qwidgetlist.h>
 
 #include <time.h>
 
@@ -292,7 +295,7 @@ ENCODING encodingTbl[] =
 
 
 ICQClient::ICQClient(ICQProtocol *protocol, const char *cfg)
-        : TCPClient(protocol, cfg)
+        : TCPClient(protocol, cfg), EventReceiver(HighPriority - 1)
 {
     load_data(icqClientData, &data, cfg);
     m_bRosters = false;
@@ -891,6 +894,8 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
         }
         if (data->bTyping)
             addIcon(icons, "typing");
+		if (data->Direct && data->Direct->isSecure())
+			addIcon(icons, "encrypted");
     }
     if (data->InvisibleId)
         style |= CONTACT_STRIKEOUT;
@@ -2210,6 +2215,58 @@ void *ICQClient::processEvent(Event *e)
         sendMTN(data->Uin, (e->type() == EventStartTyping) ? ICQ_MTN_START : ICQ_MTN_FINISH);
         return e->param();
     }
+	if (e->type() == EventOpenMessage){
+		Message *msg = (Message*)(e->param());
+		if ((msg->type() != MessageOpenSecure) && (msg->type() != MessageCloseSecure))
+			return NULL;
+		const char *client = msg->client();
+		if (client && (*client == 0))
+			client = NULL;
+		Contact *contact = getContacts()->contact(msg->contact());
+		if (contact == NULL)
+			return NULL;
+		ICQUserData *data = NULL;
+		ClientDataIterator it(contact->clientData, this);
+		if (client){
+			while ((data = (ICQUserData*)(++it)) != NULL){
+				if (dataName(data) == client)
+					break;
+			}
+		}else{
+			while ((data = (ICQUserData*)(++it)) != NULL)
+				break;
+		}
+		if (data == NULL)
+			return NULL;
+		if (msg->type() == MessageOpenSecure){
+			SecureDlg *dlg = NULL;
+			QWidgetList  *list = QApplication::topLevelWidgets();
+			QWidgetListIt it(*list);
+			QWidget * w;
+			while ((w=it.current()) != NULL) {
+				++it;
+				if (!w->inherits("SecureDlg"))
+					continue;
+				dlg = static_cast<SecureDlg*>(w);
+				if ((dlg->m_client == this) && 
+					(dlg->m_contact == contact->id()) && 
+					(dlg->m_data == data))
+					break;
+				dlg = NULL;
+		    }
+			delete list;
+			if (dlg == NULL)
+				dlg = new SecureDlg(this, contact->id(), data);
+			raiseWindow(dlg);
+			return e->param();
+		}
+		if (data->Direct && data->Direct->isSecure()){
+			data->Direct->sendMessage(msg);
+			Event eSent(EventMessageSent, msg);
+			eSent.process();
+			return e->param();
+		}
+	}
     return NULL;
 }
 
@@ -2241,6 +2298,20 @@ bool ICQClient::send(Message *msg, void *_data)
         if (data && data->WantAuth)
             return sendAuthRefused(msg, data);
         return false;
+	case MessageOpenSecure:
+		if (data == NULL)
+			return false;
+		if (data && data->Direct && data->Direct->isSecure())
+			return false;
+		if (data->Direct == NULL){
+			data->Direct = new DirectClient(data, this, PLUGIN_NULL);
+			data->Direct->connect();
+		}
+		return data->Direct->sendMessage(msg);
+	case MessageCloseSecure:
+		if (data && data->Direct && data->Direct->isSecure())
+			return data->Direct->sendMessage(msg);
+		return false;
     }
     if (data == NULL)
         return false;
@@ -2287,6 +2358,20 @@ bool ICQClient::canSend(unsigned type, void *_data)
         return data && (data->WaitAuth);
     case MessageAuthGranted:
         return data && (data->WantAuth);
+	case MessageOpenSecure:
+		if ((data == NULL) || (data->Status & 0xFFFF == ICQ_STATUS_OFFLINE))
+			return false;
+		if (hasCap(data, CAP_LICQ) || 
+			hasCap(data, CAP_SIM) || 
+			hasCap(data, CAP_SIMOLD) ||
+			((data->InfoUpdateTime & 0xFF7F0000L) == 0x7D000000L)){
+			if (data->Direct)
+				return !data->Direct->isSecure();
+			return get_ip(data->IP) || get_ip(data->RealIP);
+		}
+		return false;
+	case MessageCloseSecure:
+		return data && data->Direct && data->Direct->isSecure();
     }
     return false;
 }

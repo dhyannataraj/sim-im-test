@@ -65,7 +65,7 @@ static QWidget *getFilterConfig(QWidget *parent, void *data)
 }
 
 FilterPlugin::FilterPlugin(unsigned base, const char *cfg)
-        : Plugin(base), EventReceiver(HighPriority)
+        : Plugin(base), EventReceiver(HighPriority - 1)
 {
     filterPlugin = this;
 

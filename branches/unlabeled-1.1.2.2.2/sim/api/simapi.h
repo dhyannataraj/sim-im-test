@@ -826,7 +826,7 @@ const unsigned MessageStatus		= 9;
 
 const unsigned	MESSAGE_RECEIVED	= 0x00000001;
 const unsigned	MESSAGE_RICHTEXT	= 0x00000002;
-
+const unsigned	MESSAGE_SECURE		= 0x00000004;
 
 const unsigned	MESSAGE_SAVEMASK	= 0x0000FFFF;
 

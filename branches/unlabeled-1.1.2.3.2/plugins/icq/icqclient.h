@@ -602,6 +602,7 @@ public:
     void declineMessage(Message*, const char *reason);
     bool cancelMessage(Message*);
     bool isLogged() { return (m_state != None) && (m_state != WaitInit2); }
+	bool isSecure();
     void addPluginInfoRequest(unsigned plugin_index);
 protected:
     enum State{
@@ -625,6 +626,9 @@ protected:
     void secureStop(bool bShutdown);
     void processMsgQueue();
     list<SendDirectMsg> m_queue;
+#ifdef USE_OPENSSL
+    SSLClient *m_ssl;
+#endif
 };
 
 #endif

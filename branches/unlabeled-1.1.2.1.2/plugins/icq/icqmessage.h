@@ -31,6 +31,8 @@ const unsigned MessageICQAuthGranted	= 0x105;
 const unsigned MessageICQAuthRefused	= 0x106;
 const unsigned MessageWebPanel			= 0x107;
 const unsigned MessageEmailPager		= 0x108;
+const unsigned MessageOpenSecure		= 0x109;
+const unsigned MessageCloseSecure		= 0x110;
 
 class ListView;
 

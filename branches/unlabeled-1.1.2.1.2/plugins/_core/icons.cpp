@@ -93,6 +93,7 @@ using namespace std;
 #include "xpm/typing.xpm"
 #include "xpm/sort_increase.xpm"
 #include "xpm/fileclose.xpm"
+#include "xpm/encrypted.xpm"
 #include "xpm/smile0.xpm"
 #include "xpm/smile1.xpm"
 #include "xpm/smile2.xpm"
@@ -185,6 +186,7 @@ Icons::Icons()
     ICON(typing)
     KICON(sort_increase)
     KICON(fileclose)
+	KICON(encrypted)
     ICON(smile0)
     ICON(smile1)
     ICON(smile2)
