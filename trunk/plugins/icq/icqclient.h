@@ -164,6 +164,8 @@ typedef struct ICQUserData
     char            *Nick;
     char            *FirstName;
     char            *LastName;
+    char			*MiddleName;
+    char			*Maiden;
     char            *EMail;
     unsigned long    HiddenEMail;
     char            *City;

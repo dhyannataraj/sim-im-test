@@ -26,6 +26,7 @@
 #include "interestsinfo.h"
 #include "pastinfo.h"
 #include "icqpicture.h"
+#include "aiminfo.h"
 #include "icqsearch.h"
 #include "aimsearch.h"
 #include "icqsecure.h"
@@ -164,6 +165,8 @@ static DataDef _icqUserData[] =
         { "Nick", DATA_STRING, 1, 0 },
         { "FirstName", DATA_STRING, 1, 0 },
         { "LastName", DATA_STRING, 1, 0 },
+        { "MiddleName", DATA_STRING, 1, 0 },
+        { "Maiden", DATA_STRING, 1, 0 },
         { "", DATA_STRING, 1, 0 },
         { "", DATA_BOOL, 1, 0 },
         { "City", DATA_STRING, 1, 0 },
@@ -1764,7 +1767,22 @@ static CommandDef aimWnd[] =
         {
             MAIN_INFO,
             "",
-            "ICQ_online",
+            "AIM_online",
+            NULL,
+            NULL,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            NULL,
+            NULL
+        },
+        {
+            ABOUT_INFO,
+            I18N_NOOP("About info"),
+            "info",
             NULL,
             NULL,
             0,
@@ -1792,7 +1810,6 @@ static CommandDef aimWnd[] =
             NULL
         },
     };
-
 
 static CommandDef icqConfigWnd[] =
     {
@@ -1963,6 +1980,70 @@ static CommandDef icqConfigWnd[] =
         },
     };
 
+static CommandDef aimConfigWnd[] =
+    {
+        {
+            MAIN_INFO,
+            "",
+            "AIM_online",
+            NULL,
+            NULL,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            NULL,
+            NULL
+        },
+        {
+            ABOUT_INFO,
+            I18N_NOOP("About info"),
+            "info",
+            NULL,
+            NULL,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            NULL,
+            NULL
+        },
+        {
+            NETWORK,
+            I18N_NOOP("Network"),
+            "network",
+            NULL,
+            NULL,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            NULL,
+            NULL
+        },
+        {
+            0,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            NULL,
+            NULL
+        },
+    };
+
 CommandDef *ICQClient::infoWindows(Contact*, void *_data)
 {
     ICQUserData *data = (ICQUserData*)_data;
@@ -1980,11 +2061,17 @@ CommandDef *ICQClient::infoWindows(Contact*, void *_data)
 
 CommandDef *ICQClient::configWindows()
 {
+    CommandDef *def = icqConfigWnd;
     QString name = i18n(protocol()->description()->text);
     name += " ";
-    name += QString::number(data.owner.Uin);
-    icqConfigWnd[0].text_wrk = strdup(name.utf8());
-    return icqConfigWnd;
+    if (m_bAIM){
+        name += QString::fromUtf8(data.owner.Screen);
+        def = aimConfigWnd;
+    }else{
+        name += QString::number(data.owner.Uin);
+    }
+    def->text_wrk = strdup(name.utf8());
+    return def;
 }
 
 QWidget *ICQClient::infoWindow(QWidget *parent, Contact*, void *_data, unsigned id)
@@ -1992,7 +2079,9 @@ QWidget *ICQClient::infoWindow(QWidget *parent, Contact*, void *_data, unsigned 
     ICQUserData *data = (ICQUserData*)_data;
     switch (id){
     case MAIN_INFO:
-        return new ICQInfo(parent, data, this);
+        if (data->Uin)
+            return new ICQInfo(parent, data, this);
+        return new AIMInfo(parent, data, this);
     case HOME_INFO:
         return new HomeInfo(parent, data, this);
     case WORK_INFO:
@@ -2015,6 +2104,8 @@ QWidget *ICQClient::configWindow(QWidget *parent, unsigned id)
 {
     switch (id){
     case MAIN_INFO:
+        if (m_bAIM)
+            return new AIMInfo(parent, NULL, this);
         return new ICQInfo(parent, NULL, this);
     case HOME_INFO:
         return new HomeInfo(parent, NULL, this);
@@ -2031,6 +2122,8 @@ QWidget *ICQClient::configWindow(QWidget *parent, unsigned id)
     case PICTURE_INFO:
         return new ICQPicture(parent, NULL, this);
     case NETWORK:
+        if (m_bAIM)
+            return new AIMConfig(parent, this, false);
         return new ICQConfig(parent, this, false);
     case SECURITY:
         return new ICQSecure(parent, this);
@@ -2308,11 +2401,32 @@ void *ICQClient::processEvent(Event *e)
                 return e->param();
             }
         }
-        if (cmd->id == plugin->CmdCheckInvisible){
-
+        if (cmd->id == plugin->CmdCheckInvisibleAll){
             cmd->flags &= ~COMMAND_CHECKED;
-            if (getState() == Connected)
+            if (getState() != Connected)
+                return NULL;
+            Contact *contact;
+            ContactList::ContactIterator it;
+            bool bICQ = false;
+            while ((contact = ++it) != NULL){
+                ICQUserData *data;
+                ClientDataIterator itc(contact->clientData, this);
+                while ((data = (ICQUserData*)(++itc)) != NULL){
+                    if (data->Uin == 0)
+                        continue;
+                    if (data->Status != ICQ_STATUS_OFFLINE)
+                        continue;
+                    bICQ = true;
+                    if (data->bInvisible){
+                        cmd->popup_id = plugin->MenuCheckInvisible;
+                        return e->param();
+                    }
+                }
+            }
+            if (bICQ){
+                cmd->popup_id = 0;
                 return e->param();
+            }
         }
         if ((cmd->bar_id == ToolBarContainer) || (cmd->bar_id == BarHistory)){
             if (cmd->id == plugin->CmdChangeEncoding){
@@ -2459,7 +2573,8 @@ void *ICQClient::processEvent(Event *e)
             }
             return NULL;
         }
-        if (cmd->id == plugin->CmdCheckInvisible){
+        if ((cmd->id == plugin->CmdCheckInvisible) ||
+                (cmd->id == plugin->CmdCheckInvisibleAll)){
             if (getState() == Connected){
                 ContactList::ContactIterator it;
                 Contact *contact;
@@ -2469,7 +2584,11 @@ void *ICQClient::processEvent(Event *e)
                     ClientDataIterator itd(contact->clientData, this);
                     ICQUserData *data;
                     while ((data = (ICQUserData*)(++itd)) != NULL){
+                        if (data->Uin == 0)
+                            continue;
                         if (data->Status != ICQ_STATUS_OFFLINE)
+                            continue;
+                        if ((cmd->id == plugin->CmdCheckInvisible) && (data->bInvisible == 0))
                             continue;
                         Message *m = new Message(MessageCheckInvisible);
                         m->setContact(contact->id());

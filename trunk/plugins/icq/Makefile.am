@@ -42,6 +42,8 @@ icq_la_SOURCES = \
  securedlgbase.ui \
  aimconfig.cpp \
  aimconfigbase.ui \
+ aiminfo.cpp \
+ aiminfobase.ui \
  aimsearch.cpp \
  aimsearchbase.ui \
  aimservices.cpp \
