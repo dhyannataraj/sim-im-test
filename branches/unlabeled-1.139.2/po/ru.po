@@ -2000,7 +2000,7 @@ msgstr "Владимир Шутов,Albert R. Valiev"
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
-msgstr "vovan@shutoff,rudarkstar@altlinux.ru"
+msgstr "vovan@shutoff.ru,rudarkstar@altlinux.ru"
 
 # ui/aboutdlg.cpp:44
 #: plugins/about/aboutdlg.cpp:43
