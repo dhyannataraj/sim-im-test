@@ -372,7 +372,8 @@ void ICQClient::sendContactList()
         ClientDataIterator it_data(contact->clientData, this);
         ICQUserData *data;
         while ((data = (ICQUserData*)(++it_data)) != NULL){
-            if ((data->IgnoreId == 0)  && (data->WaitAuth || (data->GrpId == 0)))
+//            if ((data->IgnoreId == 0)  && (data->WaitAuth || (data->GrpId == 0)))
+            if (data->IgnoreId == 0)
                 buddies.push_back(screen(data));
         }
     }
@@ -383,7 +384,8 @@ void ICQClient::sendContactList()
         ClientDataIterator it_data(contact->clientData, this);
         ICQUserData *data;
         while ((data = (ICQUserData*)(++it_data)) != NULL){
-            if ((data->IgnoreId == 0)  && (data->WaitAuth || (data->GrpId == 0)))
+//            if ((data->IgnoreId == 0)  && (data->WaitAuth || (data->GrpId == 0)))
+            if (data->IgnoreId == 0)
                 m_socket->writeBuffer.packScreen(screen(data).c_str());
         }
     }
