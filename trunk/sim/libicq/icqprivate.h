@@ -61,20 +61,21 @@ typedef struct info_request
 
 typedef unsigned char capability[0x10];
 
-const unsigned CAP_ISISQ	= 0;
-const unsigned CAP_RTF		= 1;
-const unsigned CAP_STR_2002	= 2;
-const unsigned CAP_UTF		= 3;
-const unsigned CAP_SIM		= 4;
-const unsigned CAP_STR_2001	= 5;
-const unsigned CAP_IS_2001	= 6;
-const unsigned CAP_IS_WEB	= 7;
-const unsigned CAP_TRILLIAN	= 8;
+const unsigned CAP_ISISQ		= 0;
+const unsigned CAP_RTF			= 1;
+const unsigned CAP_STR_2002		= 2;
+const unsigned CAP_UTF			= 3;
+const unsigned CAP_SIM			= 4;
+const unsigned CAP_STR_2001		= 5;
+const unsigned CAP_IS_2001		= 6;
+const unsigned CAP_IS_WEB		= 7;
+const unsigned CAP_TRILLIAN		= 8;
 const unsigned CAP_TRIL_CRYPT	= 9;
-const unsigned CAP_LICQ		= 10;
-const unsigned CAP_MACICQ	= 11;
-const unsigned CAP_AIM_CHAT	= 12;
-const unsigned CAP_MICQ		= 13;
+const unsigned CAP_LICQ			= 10;
+const unsigned CAP_MACICQ		= 11;
+const unsigned CAP_AIM_CHAT		= 12;
+const unsigned CAP_MICQ			= 13;
+const unsigned CAP_SIMOLD		= 14;
 
 class ICQListener;
 

@@ -759,6 +759,49 @@ string ICQUser::client()
         res = b;
     }
 
+    if (hasCap(CAP_SIMOLD))
+    {
+        if (Build == 0){
+            res += "Kopete";
+            return res;
+        }
+        snprintf(b, sizeof(b), "SIM %lu.%lu", (Build >> 6) - 1, Build & 0x1F);
+        res += b;
+        return res;
+    }
+
+    if (hasCap(CAP_SIM))
+    {
+        unsigned ver1 = (Build >> 24) & 0xFF;
+        unsigned ver2 = (Build >> 16) & 0xFF;
+        unsigned ver3 = (Build >> 8) & 0xFF;
+        if (ver3){
+            snprintf(b, sizeof(b), "SIM %u.%u.%u", ver1, ver2, ver3);
+        }else{
+            snprintf(b, sizeof(b), "SIM %u.%u", ver1, ver2);
+        }
+        res += b;
+        if (Build & 0x80)
+            res += "/win32";
+        return res;
+    }
+
+    if (hasCap(CAP_LICQ))
+    {
+        unsigned ver1 = (Build >> 24) & 0xFF;
+        unsigned ver2 = (Build >> 16) & 0xFF;
+        unsigned ver3 = (Build >> 8) & 0xFF;
+        if (ver3){
+            snprintf(b, sizeof(b), "Licq %u.%u.%u", ver1, ver2, ver3);
+        }else{
+            snprintf(b, sizeof(b), "Licq %u.%u", ver1, ver2);
+        }
+        res += b;
+        if (Build & 0xFF)
+            res += "/SSL";
+        return res;
+    }
+
     if (hasCap(CAP_IS_WEB))
     {
         res += (Version == 9) ? "ICQ Lite" : "ICQ2go";
@@ -768,17 +811,6 @@ string ICQUser::client()
     if (hasCap(CAP_TRIL_CRYPT) || hasCap(CAP_TRILLIAN))
     {
         res += "Trillian";
-        return res;
-    }
-
-    if (hasCap(CAP_SIM))
-    {
-        if (Build == 0){
-            res += "Kopete";
-            return res;
-        }
-        snprintf(b, sizeof(b), "SIM %lu.%lu", (Build >> 6) - 1, Build & 0x1F);
-        res += b;
         return res;
     }
 

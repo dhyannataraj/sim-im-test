@@ -58,8 +58,8 @@ const capability arrCapabilities[] =
         // CAP_IS_2002
         { 0x09, 0x46, 0x13, 0x4e, cap_mid, cap_id },
         // CAP_SIM
-        { 0x97, 0xb1, 0x27, 0x51, 0x24, 0x3c, 0x43, 0x34,
-          0xad, 0x22, 0xd6, 0xab, 0xf7, 0x3f, 0x14, 0x00 },
+        { 'S', 'I', 'M', ' ', 'c', 'l', 'i', 'e',
+          'n', 't', ' ', ' ', 0, 0, 0, 0 },
         // CAP_STR_2001
         { 0xa0, 0xe9, 0x3f, 0x37, cap_mstr, cap_str },
         // CAP_IS_2001
@@ -75,7 +75,8 @@ const capability arrCapabilities[] =
         { 0xf2, 0xe7, 0xc7, 0xf4, 0xfe, 0xad, 0x4d, 0xfb,
           0xb2, 0x35, 0x36, 0x79, 0x8b, 0xdf, 0x00, 0x00 },
         // CAP_LICQ
-        { 0x09, 0x49, 0x13, 0x49, cap_mid, cap_id },
+        { 'L', 'i', 'c', 'q', ' ', 'c', 'l', 'i',
+          'e', 'n', 't', ' ', 0, 0, 0, 0 },
         // CAP_MACICQ
         { 0xdd, 0x16, 0xf2, 0x02, 0x84, 0xe6, 0x11, 0xd4,
           0x90, 0xdb, 0x00, 0x10, 0x4b, 0x9b, 0x4b, 0x7d },
@@ -84,6 +85,9 @@ const capability arrCapabilities[] =
         // CAP_MICQ
         { 'm', 'I', 'C', 'Q', ' ', '©', 'R', '.',
           'K', ' ', '.', ' ', 0, 0, 0, 0 },
+        // CAP_SIMOLD
+        { 0x97, 0xb1, 0x27, 0x51, 0x24, 0x3c, 0x43, 0x34,
+          0xad, 0x22, 0xd6, 0xab, 0xf7, 0x3f, 0x14, 0x00 },
         // CAP_NULL
         { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
           0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },
@@ -95,16 +99,35 @@ const capability *ICQClientPrivate::capabilities = arrCapabilities;
 #define VERSION  "0.1"
 #endif
 
+static unsigned char get_ver(const char *&v)
+{
+    if (v == NULL)
+        return 0;
+    char c = atol(v);
+    v = strchr(v, '.');
+    if (v)
+        v++;
+    return c;
+}
+
 void ICQClientPrivate::sendCapability()
 {
     Buffer cap(5 * sizeof(capability));
     capability c;
     memmove(c, capabilities[4], sizeof(c));
-    char ver[] = VERSION;
-    char pack_ver = (atol(ver) + 1) << 6;
-    char *p = strchr(ver, '.');
-    if (p) pack_ver += atol(p+1);
-    c[sizeof(capability)-1] = pack_ver;
+    const char *ver = VERSION;
+    unsigned char *pack_ver = c + sizeof(capability) - 4;
+    *(pack_ver++) = get_ver(ver);
+    *(pack_ver++) = get_ver(ver);
+    *(pack_ver++) = get_ver(ver);
+    unsigned char os_ver;
+#ifdef WIN32
+    os_ver = 0x80;
+#else
+    os_ver = 0;
+#endif
+    *(pack_ver++) = os_ver;
+
     cap.pack((char*)capabilities[0], sizeof(capability));
     cap.pack((char*)capabilities[1], sizeof(capability));
     cap.pack((char*)capabilities[2], sizeof(capability));

@@ -17,7 +17,7 @@ install-data-local:
 	$(INSTALL_DATA) $(srcdir)/sim-kde.menu $(libdir)/menu
 	$(mkinstalldirs) $(kde_appsdir)/Internet/
 	$(INSTALL_DATA) $(srcdir)/sim.desktop $(kde_appsdir)/Internet/sim.desktop
-	if [ -d /usr/share/applnk-mdk/Networking/Instant\ messaging/ ] ; then $(INSTALL_DATA) $(srcdir)/sim.desktop /usr/share/applnk-mdk/Networking/Instant\ messaging/sim.desktop ; fi
+	if [ -d /usr/share/applnk-mdk/Networking/Instant\ messaging/ ] ; then $(INSTALL_DATA) $(srcdir)/sim.desktop ${DESTDIR}/usr/share/applnk-mdk/Networking/Instant\ messaging/sim.desktop ; fi
 	$(mkinstalldirs) $(kde_icondir)/locolor/32x32/apps/
 	$(INSTALL_DATA) $(srcdir)/lo32-app-sim.png $(kde_icondir)/locolor/32x32/apps/sim.png
 	$(mkinstalldirs) $(kde_icondir)/locolor/16x16/apps/
