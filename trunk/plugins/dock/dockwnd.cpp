@@ -798,6 +798,7 @@ void *DockWnd::processEvent(Event *e)
     switch (e->type()){
     case EventMessageReceived:
     case EventMessageRead:
+    case EventMessageDeleted:
         reset();
         break;
     case EventSetMainIcon:

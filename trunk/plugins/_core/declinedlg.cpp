@@ -18,18 +18,42 @@
 #include "declinedlg.h"
 
 #include <qpixmap.h>
+#include <qlineedit.h>
 
 DeclineDlg::DeclineDlg(Message *msg)
+        : DeclineDlgBase(NULL, NULL, false, WDestructiveClose)
 {
     m_msg = msg;
-    SET_WNDPROC("configure")
-    setIcon(Pict("configure"));
+    SET_WNDPROC("decline")
+    setIcon(Pict("file"));
     setButtonsPict(this);
     setCaption(caption());
 }
 
 DeclineDlg::~DeclineDlg()
 {
+}
+
+void DeclineDlg::accept()
+{
+    string reason;
+    reason = edtReason->text().utf8();
+    messageDecline md;
+    md.msg    = m_msg;
+    md.reason = reason.c_str();
+    Event e(EventMessageDecline, &md);
+    e.process();
+    DeclineDlgBase::accept();
+}
+
+void *DeclineDlg::processEvent(Event *e)
+{
+    if (e->type() == EventMessageDeleted){
+        Message *msg = (Message*)(e->param());
+        if (msg->id() == m_msg->id())
+            close();
+    }
+    return NULL;
 }
 
 #ifndef WIN32

@@ -23,6 +23,7 @@
 #include <qcheckbox.h>
 #include <qbuttongroup.h>
 #include <qmultilineedit.h>
+#include <qradiobutton.h>
 
 MessageConfig::MessageConfig(QWidget *parent, void *_data)
         : MessageConfigBase(parent)
@@ -32,13 +33,20 @@ MessageConfig::MessageConfig(QWidget *parent, void *_data)
     chkOnline->setChecked(data->OpenOnOnline);
     chkStatus->setChecked(data->LogStatus);
     edtPath->setDirMode(true);
-    QString incoming = QString::fromUtf8(data->IncomingPath);
-    if (incoming == "Incoming Files") {
-        incoming = QString::fromUtf8(user_file("Incoming Files").c_str());
-    }
+    QString incoming = QFile::encodeName(data->IncomingPath ? user_file(data->IncomingPath).c_str() : "");
     edtPath->setText(incoming);
     connect(grpAccept, SIGNAL(clicked(int)), this, SLOT(acceptClicked(int)));
-    grpAccept->setButton(data->AcceptMode);
+    switch (data->AcceptMode){
+    case 0:
+        btnDialog->setChecked(true);
+        break;
+    case 1:
+        btnAccept->setChecked(true);
+        break;
+    case 2:
+        btnDecline->setChecked(true);
+        break;
+    }
     chkOverwrite->setChecked(data->OverwriteFiles);
     if (data->DeclineMessage)
         edtDecline->setText(QString::fromUtf8(data->DeclineMessage));
@@ -53,22 +61,27 @@ void MessageConfig::apply(void *_data)
     data->LogStatus     = chkStatus->isChecked();
     QString def;
     if (edtPath->text().isEmpty()) {
-        const char *defPath = "Incoming Files";
-        def = QString::fromUtf8(user_file(defPath).c_str());
+        def = "Incoming Files";
     } else {
         def = edtPath->text();
     }
-    set_str(&data->IncomingPath, def.utf8());
-    edtPath->setText(QString::fromUtf8(data->IncomingPath));
-    data->AcceptMode = grpAccept->id(grpAccept->selected());
-    if (data->AcceptMode == 1)
+    set_str(&data->IncomingPath, QFile::encodeName(def));
+    edtPath->setText(QFile::decodeName(data->IncomingPath ? user_file(data->IncomingPath).c_str() : ""));
+    data->AcceptMode = 0;
+    if (btnAccept->isOn()){
+        data->AcceptMode = 1;
         data->OverwriteFiles = chkOverwrite->isChecked();
-    if (data->AcceptMode == 2)
+    }
+    if (btnDecline->isOn()){
+        data->AcceptMode = 2;
         set_str(&data->DeclineMessage, edtDecline->text().utf8());
+    }
 }
 
 void MessageConfig::acceptClicked(int id)
 {
+    if (id > 2)
+        return;
     chkOverwrite->setEnabled(id == 1);
     edtDecline->setEnabled(id == 2);
 }

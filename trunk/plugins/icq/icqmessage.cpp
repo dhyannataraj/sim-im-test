@@ -242,8 +242,13 @@ QString ICQMessage::getText()
 static DataDef icqFileMessageData[] =
     {
         { "ServerText", DATA_STRING, 1, 0 },
+        { "ServerDescr", DATA_STRING, 1, 0 },
         { "", DATA_ULONG, 1, 0 },				// IP
         { "", DATA_ULONG, 1, 0 },				// Port
+        { "", DATA_ULONG, 1, 0 },				// ID_L
+        { "", DATA_ULONG, 1, 0 },				// ID_H
+        { "", DATA_ULONG, 1, 0 },				// Cookie
+        { "", DATA_ULONG, 1, 0 },				// Extended
         { NULL, 0, 0, 0 }
     };
 
@@ -260,9 +265,17 @@ ICQFileMessage::~ICQFileMessage()
 
 QString ICQFileMessage::getDescription()
 {
-    const char *serverText = getServerText();
+    const char *serverText = getServerDescr();
     if ((serverText == NULL) || (*serverText == 0))
         return FileMessage::getDescription();
+    return ICQClient::toUnicode(serverText, client(), contact());
+}
+
+QString ICQFileMessage::getText()
+{
+    const char *serverText = getServerText();
+    if ((serverText == NULL) || (*serverText == 0))
+        return FileMessage::getText();
     return ICQClient::toUnicode(serverText, client(), contact());
 }
 
@@ -585,7 +598,7 @@ static Message *parseAuthRequest(const char *str)
     return m;
 }
 
-Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet)
+Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet, MessageId &id, unsigned cookie)
 {
     string header;
     packet >> header;
@@ -631,13 +644,16 @@ Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet)
         unsigned long fileSize;
         b.unpack(fileSize);
         Contact *contact;
-        ICQUserData *data = findContact(screen, NULL, false, contact);
         ICQFileMessage *m = new ICQFileMessage;
+        m->setServerDescr(fileName.c_str());
         m->setServerText(fileDescr.c_str());
-        m->setFile(toUnicode(fileName.c_str(), data));
         m->setSize(fileSize);
         m->setPort(port);
         m->setFlags(MESSAGE_TEMP);
+        m->setID_L(id.id_l);
+        m->setID_H(id.id_h);
+        m->setCookie(cookie);
+        m->setExtended(true);
         return m;
     }
     if (msgType == "ICQSMS"){
@@ -683,7 +699,7 @@ Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet)
     return NULL;
 }
 
-Message *ICQClient::parseMessage(unsigned short type, const char *screen, string &p, Buffer &packet)
+Message *ICQClient::parseMessage(unsigned short type, const char *screen, string &p, Buffer &packet, MessageId &id, unsigned cookie)
 {
     if (atol(screen) == 0x0A){
         vector<string> l;
@@ -748,7 +764,6 @@ Message *ICQClient::parseMessage(unsigned short type, const char *screen, string
             ICQFileMessage *m = new ICQFileMessage;
             m->setServerText(p.c_str());
             Contact *contact;
-            ICQUserData *data = findContact(screen, NULL, false, contact);
             unsigned short port;
             unsigned long  fileSize;
             string fileName;
@@ -758,12 +773,12 @@ Message *ICQClient::parseMessage(unsigned short type, const char *screen, string
             packet.unpack(fileSize);
             m->setPort(port);
             m->setSize(fileSize);
-            m->setDescription(toUnicode(fileName.c_str(), data));
+            m->setServerDescr(fileName.c_str());
             msg = m;
             break;
         }
     case ICQ_MSGxEXT:
-        msg = parseExtendedMessage(screen, packet);
+        msg = parseExtendedMessage(screen, packet, id, cookie);
         break;
     default:
         log(L_WARN, "Unknown message type %04X", type);
@@ -1530,7 +1545,26 @@ void ICQPlugin::unregisterMessages()
     eCheckInvisible.process();
 }
 
-void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned short &type, unsigned short nSequence)
+void ICQClient::packExtendedMessage(Message *msg, Buffer &buf, Buffer &msgBuf, ICQUserData *data)
+{
+    unsigned short port = 0;
+    switch (msg->type()){
+    case MessageICQFile:
+        port = static_cast<ICQFileMessage*>(msg)->getPort();
+    case MessageFile:
+        buf.pack((char*)plugins[PLUGIN_FILE], sizeof(plugin));
+        buf.packStr32("File");
+        buf << 0x00000100L << 0x00010000L << 0x00000000L << (unsigned short)0 << (char)0;
+        msgBuf.packStr32(fromUnicode(msg->getPlainText(), data).c_str());
+        msgBuf << port << (unsigned short)0;
+        msgBuf << fromUnicode(static_cast<FileMessage*>(msg)->getDescription(), data);
+        msgBuf.pack((unsigned long)(static_cast<FileMessage*>(msg)->getSize()));
+        msgBuf << 0x00000000L;
+        break;
+    }
+}
+
+void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned short &type, unsigned short flags)
 {
     Buffer msgBuf;
     Buffer buf;
@@ -1563,21 +1597,15 @@ void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned
             type = ICQ_MSGxCONTACTxLIST;
             break;
         }
-    case MessageFile:
-        if (nSequence){
+    case MessageICQFile:
+        if (!static_cast<ICQFileMessage*>(msg)->getExtended()){
             res = fromUnicode(msg->getPlainText(), data);
             type = ICQ_MSGxFILE;
-        }else{
-            type = ICQ_MSGxEXT;
-            buf.pack((char*)plugins[PLUGIN_FILE], sizeof(plugin));
-            buf.packStr32("File");
-            buf << 0x00000100L << 0x00010000L << 0x00000000L << (unsigned short)0 << (char)0;
-            msgBuf.packStr32(fromUnicode(msg->getPlainText(), data).c_str());
-            msgBuf << 0x00000000L;
-            msgBuf << fromUnicode(static_cast<FileMessage*>(msg)->getDescription(), data);
-            msgBuf.pack((unsigned long)(static_cast<FileMessage*>(msg)->getSize()));
-            msgBuf << 0x00000000L;
+            break;
         }
+    case MessageFile:	// FALLTHROW
+        type = ICQ_MSGxEXT;
+        packExtendedMessage(msg, buf, msgBuf, data);
         break;
     case MessageOpenSecure:
         type = ICQ_MSGxSECURExOPEN;
@@ -1586,27 +1614,11 @@ void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned
         type = ICQ_MSGxSECURExCLOSE;
         break;
     }
-    unsigned short flags = ICQ_TCPxMSG_NORMAL;
-    if (msg->getFlags() & MESSAGE_URGENT)
-        flags = ICQ_TCPxMSG_URGENT;
-    if (msg->getFlags() & MESSAGE_LIST)
-        flags = ICQ_TCPxMSG_LIST;
-    if (nSequence){
-        b.pack(type);
-        b.pack(msgStatus());
-        b.pack(flags);
-        b << res;
-        switch (type){
-        case MessageFile:
-            b << nSequence
-            << (unsigned short)0
-            << fromUnicode(static_cast<FileMessage*>(msg)->getDescription(), data);
-            b.pack((unsigned long)(static_cast<FileMessage*>(msg)->getSize()));
-            b.pack(nSequence);
-            b << (unsigned short)0;
-            break;
-        }
-        return;
+    if (flags == ICQ_TCPxMSG_NORMAL){
+        if (msg->getFlags() & MESSAGE_URGENT)
+            flags = ICQ_TCPxMSG_URGENT;
+        if (msg->getFlags() & MESSAGE_LIST)
+            flags = ICQ_TCPxMSG_LIST;
     }
     if (type == ICQ_MSGxEXT){
         b.pack(type);

@@ -48,7 +48,7 @@ protected:
     unsigned   m_id;
 };
 
-class MsgReceived : public QObject
+class MsgReceived : public QObject, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -58,6 +58,7 @@ protected slots:
     void textChanged();
     void init();
 protected:
+    void		*processEvent(Event*);
     unsigned	m_id;
     unsigned	m_contact;
     string		m_client;

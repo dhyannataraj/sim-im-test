@@ -501,8 +501,9 @@ public:
                            const char *city, const char *nick, const char *zip,
                            const char *state);
     virtual string dataName(void*);
+    void requestReverseConnection(const char *screen, DirectSocket *socket);
     Message *parseMessage(unsigned short type, const char *screen,
-                          string &p, Buffer &packet);
+                          string &p, Buffer &packet, MessageId &id, unsigned cookie);
     bool messageReceived(Message*, const char *screen);
     QTextCodec *getCodec(const char *encoding);
     static QTextCodec *_getCodec(const char *encoding);
@@ -639,12 +640,14 @@ protected:
     string createRTF(const QString &text, unsigned long foreColor, const char *encoding);
     QString removeImages(const QString &text, unsigned maxSmile);
     void ackMessage(SendMsg &s);
+    void accept(Message *msg, const char *dir, OverwriteMode overwrite);
+    void decline(Message *msg, const char *reason);
     void sendThroughServer(const char *screen, unsigned short type, Buffer &b, const MessageId &id, bool bOffline);
     bool sendAuthRequest(Message *msg, void *data);
     bool sendAuthGranted(Message *msg, void *data);
     bool sendAuthRefused(Message *msg, void *data);
-    void sendAdvMessage(const char *screen, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bPeek, bool bDirect);
-    void sendType2(const char *screen, Buffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, bool bPeek, bool bDirect);
+    void sendAdvMessage(const char *screen, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bPeek, bool bDirect, unsigned short cookie1=0, unsigned short cookie2=0, unsigned short type=1);
+    void sendType2(const char *screen, Buffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, bool bPeek, bool bDirect, unsigned short type=1);
     void sendType1(const QString &text, bool bWide, ICQUserData *data);
     void parseAdvancedMessage(const char *screen, Buffer &msg, bool needAck, MessageId id);
     void sendAutoReply(const char *screen, MessageId id,
@@ -654,11 +657,11 @@ protected:
     void addPluginInfoRequest(unsigned long uin, unsigned plugin_index);
     void sendMTN(const char *screen, unsigned short type);
     void setChatGroup();
-    Message *parseExtendedMessage(const char *screen, Buffer &packet);
+    Message *parseExtendedMessage(const char *screen, Buffer &packet, MessageId &id, unsigned cookie);
     void parsePluginPacket(Buffer &b, unsigned plugin_index, ICQUserData *data, unsigned uin, bool bDirect);
     void pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &b);
-    void packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned short &type, unsigned short nSequence);
-    void requestReverseConnection(const char *screen, DirectSocket *socket);
+    void packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned short &type, unsigned short flags=ICQ_TCPxMSG_NORMAL);
+    void packExtendedMessage(Message *msg, Buffer &buf, Buffer &msgBuf, ICQUserData *data);
     bool ackMessage(Message *msg, unsigned short ackFlags, const char *str);
     void fetchProfile(ICQUserData *data);
     void fetchAwayMessage(ICQUserData *data);
@@ -738,7 +741,7 @@ public:
         ReverseConnect,
         Logged
     };
-    DirectSocket(Socket *s, ICQClient*);
+    DirectSocket(Socket *s, ICQClient*, unsigned long ip);
     DirectSocket(ICQUserData *data, ICQClient *client);
     ~DirectSocket();
     virtual void packet_ready();
@@ -768,7 +771,7 @@ protected:
     ICQUserData        *m_data;
     ClientSocket    *m_socket;
     ICQClient        *m_client;
-    //    DirectListener    *m_listener;
+    unsigned long m_ip;
 };
 
 typedef struct SendDirectMsg
@@ -782,14 +785,15 @@ typedef struct SendDirectMsg
 class DirectClient : public DirectSocket
 {
 public:
-    DirectClient(Socket *s, ICQClient *client);
+    DirectClient(Socket *s, ICQClient *client, unsigned long ip);
     DirectClient(ICQUserData *data, ICQClient *client, unsigned channel = PLUGIN_NULL);
     ~DirectClient();
     bool sendMessage(Message*);
     void acceptMessage(Message*);
     void declineMessage(Message*, const char *reason);
     bool cancelMessage(Message*);
-    void sendAck(unsigned short, unsigned short msgType, unsigned short msgFlags, const char *message=NULL);
+    void sendAck(unsigned short, unsigned short msgType, unsigned short msgFlags,
+                 const char *message=NULL, unsigned short status=ICQ_TCPxACK_ACCEPT, Message *m=NULL);
     bool isLogged() { return (m_state != None) && (m_state != WaitInit2); }
     bool isSecure();
     void addPluginInfoRequest(unsigned plugin_index);
@@ -829,7 +833,9 @@ public:
     ICQFileTransfer(FileMessage *msg, ICQUserData *data, ICQClient *client);
     ~ICQFileTransfer();
     void connect(unsigned short port);
+    void listen();
     void setSocket(ClientSocket *socket);
+    virtual void processPacket();
 protected:
     enum State
     {
@@ -842,18 +848,17 @@ protected:
         Receive,
         Wait
     };
-    QFile *m_f;
     State m_state;
 
     unsigned m_sendTime;
     unsigned m_sendSize;
     unsigned m_transfer;
 
-    virtual void processPacket();
     virtual void connect_ready();
     virtual bool error_state(const char *err, unsigned code);
     virtual void write_ready();
     virtual void setSpeed(unsigned speed);
+    virtual void startReceive(unsigned pos);
 
     void init();
     void sendInit();

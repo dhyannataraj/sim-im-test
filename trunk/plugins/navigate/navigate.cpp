@@ -129,6 +129,7 @@ void *NavigatePlugin::processEvent(Event *e)
             if ((proto != "http") &&
                     (proto != "https") &&
                     (proto != "ftp") &&
+                    (proto != "file") &&
                     (proto != "mailto"))
                 return NULL;
         }

@@ -67,6 +67,13 @@ MsgReceived::MsgReceived(CToolCustom *parent, Message *msg)
     if (mdef && mdef->cmd){
         unsigned n = 0;
         for (const CommandDef *d = mdef->cmd; d->text; d++, n++){
+            if (d->flags & COMMAND_CHECK_STATE){
+                CommandDef c = *d;
+                c.param = msg;
+                Event e(EventCheckState, &c);
+                if (e.process() == NULL)
+                    continue;
+            }
             CmdButton *btn;
             btn = new CmdButton(parent, CmdMsgSpecial + n, d->text);
             connect(btn, SIGNAL(command(CmdButton*)), this, SLOT(command(CmdButton*)));
@@ -83,7 +90,7 @@ MsgReceived::MsgReceived(CToolCustom *parent, Message *msg)
             continue;
         CmdButton *btn;
         btn = new CmdButton(parent, c->id, c->text);
-        connect(btn, SIGNAL(command(unsigned)), this, SLOT(command(unsigned)));
+        connect(btn, SIGNAL(command(CmdButton*)), this, SLOT(command(CmdButton*)));
         btn->show();
     }
     if (((msg->getFlags() & MESSAGE_RECEIVED) == 0) || CorePlugin::m_plugin->getContainerMode()){
@@ -116,6 +123,16 @@ MsgReceived::MsgReceived(CToolCustom *parent, Message *msg)
     }
 }
 
+void *MsgReceived::processEvent(Event *e)
+{
+    if (e->type() == EventMessageDeleted){
+        Message *msg = (Message*)(e->param());
+        if (msg->id() == m_id)
+            QTimer::singleShot(0, m_edit, SLOT(goNext()));
+    }
+    return NULL;
+}
+
 void MsgReceived::command(CmdButton *btn)
 {
     unsigned id = btn->id();
@@ -140,6 +157,7 @@ void MsgReceived::command(CmdButton *btn)
                 if (n-- == 0){
                     CommandDef cmd = *d;
                     cmd.param = msg;
+                    cmd.menu_id = 0;
                     if (d->popup_id){
                         Event e(EventGetMenu, &cmd);
                         QPopupMenu *popup = (QPopupMenu*)(e.process());

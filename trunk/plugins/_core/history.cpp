@@ -27,6 +27,10 @@ static char HISTORY_PATH[] = "history/";
 #endif
 
 const unsigned BLOCK_SIZE	= 2048;
+const unsigned TEMP_BASE	= 0x80000000;
+
+unsigned History::s_tempId		= TEMP_BASE;
+MAP_MSG  *History::s_tempMsg	= NULL;
 
 class HistoryFile : public QFile
 {
@@ -46,6 +50,7 @@ class HistoryFileIterator
 public:
     HistoryFileIterator(HistoryFile&);
     ~HistoryFileIterator();
+    void createMessage(unsigned id, const char *type, const char *cfg);
     void begin();
     void end();
     void clear();
@@ -56,13 +61,24 @@ public:
     list<Message*>	msgs;
     int				m_block;
     Message			*m_msg;
-    void			createMessage(unsigned id, const char *type, const char *cfg);
     void			loadBlock(bool bUp);
     QString			m_filter;
 private:
     HistoryFileIterator(const HistoryFileIterator&);
     void operator = (const HistoryFileIterator&);
 };
+
+static Message *createMessage(unsigned id, const char *type, const char *cfg)
+{
+    if ((type == NULL) || (*type == 0))
+        return NULL;
+    Message *msg = CorePlugin::m_plugin->createMessage(type, cfg);
+    if (msg){
+        msg->setId(id);
+        return msg;
+    }
+    return NULL;
+}
 
 HistoryFile::HistoryFile(const char *name, unsigned contact)
 {
@@ -118,6 +134,23 @@ HistoryFileIterator::HistoryFileIterator(HistoryFile &f)
 HistoryFileIterator::~HistoryFileIterator()
 {
     clear();
+}
+
+void HistoryFileIterator::createMessage(unsigned id, const char *type, const char *cfg)
+{
+    Message *msg = ::createMessage(id, type, cfg);
+    if (msg){
+        if (!m_filter.isEmpty()){
+            QString p = unquoteText(msg->presentation()).lower();
+            if (p.find(m_filter) < 0){
+                delete msg;
+                return;
+            }
+        }
+        msg->setClient(file.m_name.c_str());
+        msg->setContact(file.m_contact);
+        msgs.push_back(msg);
+    }
 }
 
 void HistoryFileIterator::begin()
@@ -250,26 +283,6 @@ Message *HistoryFileIterator::message()
     return m_msg;
 }
 
-void HistoryFileIterator::createMessage(unsigned id, const char *type, const char *cfg)
-{
-    if ((type == NULL) || (*type == 0))
-        return;
-    Message *msg = CorePlugin::m_plugin->createMessage(type, cfg);
-    if (msg){
-        if (!m_filter.isEmpty()){
-            QString p = unquoteText(msg->presentation()).lower();
-            if (p.find(m_filter) < 0){
-                delete msg;
-                return;
-            }
-        }
-        msg->setId(id);
-        msg->setClient(file.m_name.c_str());
-        msg->setContact(file.m_contact);
-        msgs.push_back(msg);
-    }
-}
-
 History::History(unsigned id)
 {
     m_contact = id;
@@ -307,6 +320,7 @@ HistoryIterator::HistoryIterator(unsigned contact_id)
 {
     m_bUp   = false;
     m_bDown = false;
+    m_temp_id = 0;
     m_it = NULL;
     for (list<HistoryFile*>::iterator it = m_history.files.begin(); it != m_history.files.end(); ++it)
         iters.push_back(new HistoryFileIterator(**it));
@@ -322,6 +336,7 @@ void HistoryIterator::begin()
 {
     for (list<HistoryFileIterator*>::iterator it = iters.begin(); it != iters.end(); ++it)
         (*it)->begin();
+    m_temp_id = 0;
     m_bUp = m_bDown = false;
 }
 
@@ -329,6 +344,7 @@ void HistoryIterator::end()
 {
     for (list<HistoryFileIterator*>::iterator it = iters.begin(); it != iters.end(); ++it)
         (*it)->end();
+    m_temp_id = 0xFFFFFFFF;
     m_bUp = m_bDown = false;
 }
 
@@ -347,6 +363,10 @@ string HistoryIterator::state()
         res += ",";
         res += (*it)->file.m_name;
     }
+    if (!res.empty())
+        res += ";";
+    res += number(m_temp_id);
+    res += ",temp";
     return res;
 }
 
@@ -356,6 +376,10 @@ void HistoryIterator::setState(const char *str)
     while (!s.empty()){
         string item = getToken(s, ';');
         unsigned pos = atol(getToken(item, ',').c_str());
+        if (item == "temp"){
+            m_temp_id = strtoul(item.c_str(), NULL, 10);
+            continue;
+        }
         for (list<HistoryFileIterator*>::iterator it = iters.begin(); it != iters.end(); ++it){
             if ((*it)->file.m_name == item){
                 (*it)->clear();
@@ -391,11 +415,54 @@ Message *HistoryIterator::operator ++()
             m_it = *it;
         }
     }
-    return msg;
+    if (msg)
+        return msg;
+    if (History::s_tempMsg){
+        MAP_MSG::iterator itm;
+        for (itm = History::s_tempMsg->begin(); itm != History::s_tempMsg->end(); ++itm)
+            if ((*itm).first > m_temp_id)
+                break;
+        for (; itm != History::s_tempMsg->end(); ++itm){
+            if ((*itm).second.contact == m_history.m_contact){
+                m_temp_id = (*itm).first;
+                Message *msg = History::load(m_temp_id, NULL, m_history.m_contact);
+                if (msg)
+                    return msg;
+            }
+        }
+        m_temp_id = 0xFFFFFFFF;
+    }
+    return NULL;
 }
 
 Message *HistoryIterator::operator --()
 {
+    if (m_temp_id && History::s_tempMsg){
+        MAP_MSG::iterator itm = History::s_tempMsg->end();
+        if (itm != History::s_tempMsg->begin()){
+            for (--itm;;--itm){
+                if ((*itm).first < m_temp_id)
+                    break;
+                if (itm == History::s_tempMsg->begin()){
+                    m_temp_id = 0;
+                    break;
+                }
+            }
+            if (m_temp_id){
+                for (;; --itm){
+                    if ((*itm).second.contact == m_history.m_contact){
+                        m_temp_id = (*itm).first;
+                        Message *msg = History::load(m_temp_id, NULL, m_history.m_contact);
+                        if (msg)
+                            return msg;
+                    }
+                    if (itm == History::s_tempMsg->begin())
+                        break;
+                }
+            }
+        }
+    }
+    m_temp_id = 0;
     if (!m_bDown){
         m_bDown = true;
         m_bUp   = false;
@@ -429,6 +496,24 @@ void HistoryIterator::setFilter(const QString &filter)
 
 Message *History::load(unsigned id, const char *client, unsigned contact)
 {
+    if (id >= TEMP_BASE){
+        if (s_tempMsg == NULL)
+            return NULL;
+        MAP_MSG::iterator it = s_tempMsg->find(id);
+        if (it == s_tempMsg->end())
+            return NULL;
+        msg_save &ms = (*it).second;
+        string cfg = ms.msg;
+        string type = getToken(cfg, '\n');
+        type = type.substr(1, type.length() - 2);
+        Message *msg = createMessage(id, type.c_str(), cfg.c_str());
+        if (msg){
+            msg->setClient(ms.client.c_str());
+            msg->setContact(ms.contact);
+            msg->setFlags(msg->getFlags() | MESSAGE_TEMP);
+        }
+        return msg;
+    }
     HistoryFile f(client, contact);
     if (!f.isOpen())
         return NULL;
@@ -437,6 +522,23 @@ Message *History::load(unsigned id, const char *client, unsigned contact)
 
 void History::add(Message *msg, const char *type)
 {
+    string line = "[";
+    line += type;
+    line += "]\n";
+    line += msg->save();
+
+    if (msg->getFlags() & MESSAGE_TEMP){
+        if (s_tempMsg == NULL)
+            s_tempMsg = new MAP_MSG;
+        msg_save ms;
+        ms.msg     = line;
+        ms.contact = msg->contact();
+        if (msg->client())
+            ms.client = msg->client();
+        s_tempMsg->insert(MAP_MSG::value_type(++s_tempId, ms));
+        msg->setId(s_tempId);
+        return;
+    }
     string name = msg->client();
     if (name.empty())
         name = number(msg->contact());
@@ -450,16 +552,20 @@ void History::add(Message *msg, const char *type)
         return;
     }
     unsigned id = f.at();
-    string line = "[";
-    line += type;
-    line += "]\n";
     f.writeBlock(line.c_str(), line.size());
-    line = msg->save();
-    if (!line.empty()){
-        line += "\n";
-        f.writeBlock(line.c_str(), line.size());
-    }
     msg->setId(id);
+}
+
+void History::del(unsigned msg_id)
+{
+    if (s_tempMsg == NULL)
+        return;
+    MAP_MSG::iterator it = s_tempMsg->find(msg_id);
+    if (it == s_tempMsg->end()){
+        log(L_WARN, "Message %X for remove not found");
+        return;
+    }
+    s_tempMsg->erase(it);
 }
 
 void History::remove(Contact *contact)

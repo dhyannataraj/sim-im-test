@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>399</width>
+            <width>395</width>
             <height>312</height>
         </rect>
     </property>
@@ -130,6 +130,10 @@
                         <name>text</name>
                         <string>Overwrite files</string>
                     </property>
+                    <property>
+                        <name>buttonGroupId</name>
+                        <number>100</number>
+                    </property>
                 </widget>
                 <widget>
                     <class>QRadioButton</class>
@@ -140,6 +144,10 @@
                     <property>
                         <name>text</name>
                         <string>Auto decline</string>
+                    </property>
+                    <property>
+                        <name>buttonGroupId</name>
+                        <number>2</number>
                     </property>
                 </widget>
                 <widget>

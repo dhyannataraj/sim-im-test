@@ -44,6 +44,7 @@
 #include "autoreply.h"
 #include "textshow.h"
 #include "filetransfer.h"
+#include "declinedlg.h"
 
 #include <qtimer.h>
 #include <qapplication.h>
@@ -1323,18 +1324,31 @@ void *CorePlugin::processEvent(Event *e)
         return NULL;
     case EventHomeDir:{
             string *cfg = (string*)(e->param());
-            string profile = getProfile();
-            if (profile.length()){
+            QString fname = QFile::decodeName(cfg->c_str());
+            QString profile;
+#ifdef WIN32
+            if ((fname[1] != ':') && (fname.left(2) != "\\\\"))
+#else
+            if (fname[0] != '/')
+#endif
+                profile = getProfile();
+            if (profile.length())
 #ifdef WIN32
                 profile += "\\";
 #else
                 profile += "/";
 #endif
+            profile += fname;
+            if (profile.isEmpty()){
+                *cfg = "";
+            }else{
+                *cfg = QFile::encodeName(profile);
             }
-            profile += cfg->c_str();
-            *cfg = profile;
             Event eProfile(EventHomeDir, cfg);
-            return eProfile.process(this);
+            if (!eProfile.process(this))
+                *cfg = app_file(cfg->c_str());
+            makedir((char*)(cfg->c_str()));
+            return cfg;
         }
     case EventAddPreferences:{
             CommandDef *cmd = (CommandDef*)(e->param());
@@ -1398,7 +1412,9 @@ void *CorePlugin::processEvent(Event *e)
                 }
             }
             Event eCmd(EventCommandRemove, (void*)id);
+
             eCmd.process();
+
             messageTypes.erase(id);
             return e->param();
         }
@@ -1432,15 +1448,73 @@ void *CorePlugin::processEvent(Event *e)
             }
             return NULL;
         }
+    case EventMessageDeleted:{
+            Message *msg = (Message*)(e->param());
+            History::del(msg->id());
+            for (list<msg_id>::iterator it = unread.begin(); it != unread.end(); ++it){
+                msg_id &m = *it;
+                if (m.id == msg->id()){
+                    unread.erase(it);
+                    break;
+                }
+            }
+            return NULL;
+        }
     case EventMessageReceived:{
             Message *msg = (Message*)(e->param());
             Contact *contact = getContacts()->contact(msg->contact());
             if (contact == NULL)
                 return NULL;
-            if (msg->type() == MessageStatus){
+            MessageDef *mdef = NULL;
+            unsigned type = msg->type();
+            for (;;){
+                CommandDef *msgCmd = CorePlugin::m_plugin->messageTypes.find(type);
+                if (msgCmd == NULL)
+                    break;
+                mdef = (MessageDef*)(msgCmd->param);
+                if (mdef->base_type == 0)
+                    break;
+                type = mdef->base_type;
+            }
+            if (type == MessageStatus){
                 CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
                 if ((data == NULL) || (data->LogStatus == 0))
                     return NULL;
+            }else if (type == MessageFile){
+                CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
+                if (data){
+                    if (data->AcceptMode == 1){
+                        string dir;
+                        if (data && data->IncomingPath)
+                            dir = data->IncomingPath;
+#ifdef WIN32
+                        if (!dir.empty() && (dir[dir.length() - 1] != '\\'))
+                            dir += '\\';
+#else
+                        if (!dir.empty() && (dir[dir.length() - 1] != '/'))
+                            dir += '/';
+#endif
+                        dir = user_file(dir.c_str());
+                        messageAccept ma;
+                        ma.msg	     = msg;
+                        ma.dir 		 = dir.c_str();
+                        ma.overwrite = data->OverwriteFiles ? Replace : Skip;
+                        Event e(EventMessageAccept, &ma);
+                        e.process();
+                        return msg;
+                    }
+                    if (data->AcceptMode == 2){
+                        string reason;
+                        if (data->DeclineMessage)
+                            reason = data->DeclineMessage;
+                        messageDecline md;
+                        md.msg    = msg;
+                        md.reason = reason.c_str();
+                        Event e(EventMessageDecline, &md);
+                        e.process();
+                        return msg;
+                    }
+                }
             }else{
                 time_t now;
                 time(&now);
@@ -1621,6 +1695,12 @@ void *CorePlugin::processEvent(Event *e)
                 if (getCloseSend())
                     cmd->flags |= COMMAND_CHECKED;
                 return e->param();
+            }
+            if ((cmd->id == CmdFileAccept) || (cmd->id == CmdFileDecline)){
+                Message *msg = (Message*)(cmd->param);
+                if (msg->getFlags() & MESSAGE_TEMP)
+                    return e->param();
+                return NULL;
             }
             if (cmd->id == CmdContactClients){
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));
@@ -2346,6 +2426,73 @@ void *CorePlugin::processEvent(Event *e)
                 }
                 raiseWindow(m_manager);
                 return e->param();
+            }
+            if (cmd->id == CmdFileAccept){
+                Message *msg = (Message*)(cmd->param);
+                Contact *contact = getContacts()->contact(msg->contact());
+                CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
+                string dir;
+                if (data && data->IncomingPath)
+                    dir = data->IncomingPath;
+#ifdef WIN32
+                if (!dir.empty() && (dir[dir.length() - 1] != '\\'))
+                    dir += '\\';
+#else
+                if (!dir.empty() && (dir[dir.length() - 1] != '/'))
+                    dir += '/';
+#endif
+                dir = user_file(dir.c_str());
+                messageAccept ma;
+                ma.msg	     = msg;
+                ma.dir	     = dir.c_str();
+                ma.overwrite = Ask;
+                Event e(EventMessageAccept, &ma);
+                e.process();
+            }
+            if (cmd->id == CmdDeclineWithoutReason){
+                messageDecline md;
+                md.msg    = (Message*)(cmd->param);
+                md.reason = "";
+                Event e(EventMessageDecline, &md);
+                e.process();
+            }
+            if (cmd->id == CmdDeclineReasonBusy){
+                string reason;
+                reason = i18n("Sorry, I'm busy right now, and can not respond to your request").utf8();
+                messageDecline md;
+                md.msg    = (Message*)(cmd->param);
+                md.reason = reason.c_str();
+                Event e(EventMessageDecline, &md);
+                e.process();
+            }
+            if (cmd->id == CmdDeclineReasonLater){
+                string reason;
+                reason = i18n("Sorry, I'm busy right now, but I'll be able to respond to you later").utf8();
+                messageDecline md;
+                md.msg    = (Message*)(cmd->param);
+                md.reason = reason.c_str();
+                Event e(EventMessageDecline, &md);
+                e.process();
+            }
+            if (cmd->id == CmdDeclineReasonInput){
+                Message *msg = (Message*)(cmd->param);
+                QWidgetList  *list = QApplication::topLevelWidgets();
+                QWidgetListIt it( *list );
+                DeclineDlg *dlg = NULL;
+                QWidget *w;
+                while ( (w=it.current()) != 0 ) {
+                    ++it;
+                    if (w->inherits("DeclineDlg")){
+                        dlg = static_cast<DeclineDlg*>(w);
+                        if (dlg->message()->id() == msg->id())
+                            break;
+                        dlg = NULL;
+                    }
+                }
+                delete list;
+                if (dlg == NULL)
+                    dlg = new DeclineDlg(msg);
+                raiseWindow(dlg);
             }
             if ((cmd->id >= CmdUnread) && (cmd->id < CmdUnread + unread.size())){
                 unsigned n = cmd->id - CmdUnread;

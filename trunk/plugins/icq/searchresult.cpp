@@ -71,7 +71,7 @@ UserTblItem::UserTblItem(QListView *parent, unsigned long uin, const QString &al
 
 QString UserTblItem::key(int column, bool bDirect) const
 {
-    if (column == COL_SCREEN){
+    if ((unsigned)column == COL_SCREEN){
         if (mUin){
             QString s;
             s.sprintf("%012lu", mUin);
@@ -301,9 +301,9 @@ void ICQSearchResult::dragStart()
     tblUser->startDrag(new ContactDragObject(tblUser, contact));
 }
 
-void ICQSearchResult::doubleClicked(QListViewItem *item)
+void ICQSearchResult::doubleClicked(QListViewItem*)
 {
-    Contact *contact = createContact(false);
+    createContact(false);
 }
 
 #ifndef WIN32

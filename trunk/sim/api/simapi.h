@@ -647,16 +647,25 @@ typedef struct ConnectParam
 
 class Message;
 
-typedef struct messageChange
+enum OverwriteMode
 {
-    Message		*msg;
-    unsigned	old_id;
-} messageChange;
+    Ask,
+    Skip,
+    Resume,
+    Replace
+};
+
+typedef struct messageAccept
+{
+    Message			*msg;
+    const char		*dir;
+    OverwriteMode	overwrite;
+} messageAccept;
 
 typedef struct messageDecline
 {
     Message		*msg;
-    char		*reason;
+    const char	*reason;
 } messageDecline;
 
 const unsigned EventMessageReceived	= 0x1100;
@@ -667,9 +676,8 @@ const unsigned EventOpenMessage		= 0x1104;
 const unsigned EventMessageRead		= 0x1105;
 const unsigned EventMessageAcked	= 0x1106;
 const unsigned EventMessageDeleted  = 0x1107;
-const unsigned EventMessageChanged	= 0x1108;
-const unsigned EventMessageAccept	= 0x1109;
-const unsigned EventMessageDecline	= 0x1110;
+const unsigned EventMessageAccept	= 0x1108;
+const unsigned EventMessageDecline	= 0x1109;
 
 const unsigned EventFetchDone		= 0x1300;
 
@@ -971,6 +979,7 @@ public:
     virtual ~FileTransferNotify() {}
     virtual void process() = 0;
     virtual void transfer(bool) = 0;
+    virtual void createFile(const QString &name, unsigned size) = 0;
 };
 
 const unsigned NO_FILE	= (unsigned)(-1);
@@ -981,15 +990,20 @@ public:
     FileTransfer(FileMessage *msg);
     virtual ~FileTransfer();
     void setNotify(FileTransferNotify*);
-    unsigned file()			{ return m_file; }
-    unsigned files()		{ return m_files; }
-    unsigned bytes()		{ return m_bytes; }
-    unsigned totalBytes()	{ return m_totalBytes; }
-    unsigned fileSize()		{ return m_fileSize; }
-    unsigned totalSize()	{ return m_totalSize; }
-    unsigned speed()		{ return m_speed; }
+    FileTransferNotify			*notify() { return m_notify; }
+    unsigned file()				{ return m_nFile; }
+    unsigned files()			{ return m_nFiles; }
+    unsigned bytes()			{ return m_bytes; }
+    unsigned totalBytes()		{ return m_totalBytes; }
+    unsigned fileSize()			{ return m_fileSize; }
+    unsigned totalSize()		{ return m_totalSize; }
+    unsigned speed()			{ return m_speed; }
     unsigned transferBytes()	{ return m_transferBytes; }
     virtual void setSpeed(unsigned speed);
+    QString  dir()				{ return m_dir; }
+    void setDir(const QString &dir) { m_dir = dir; }
+    OverwriteMode overwrite()	{ return m_overwrite; }
+    void setOverwrite(OverwriteMode overwrite) { m_overwrite = overwrite; }
     enum State
     {
         Unknown,
@@ -1001,19 +1015,27 @@ public:
         Done,
         Error
     };
-    State state()			{ return m_state; }
+    State state()	{ return m_state; }
+    QFile			*m_file;
+    virtual void	startReceive(unsigned pos) = 0;
+    virtual void	setError();
+    void	addFile(const QString &file, unsigned size);
 protected:
+    bool	openFile();
     FileMessage			*m_msg;
     FileTransferNotify	*m_notify;
-    unsigned m_file;
-    unsigned m_files;
+    unsigned m_nFile;
+    unsigned m_nFiles;
     unsigned m_bytes;
     unsigned m_totalBytes;
     unsigned m_fileSize;
     unsigned m_totalSize;
     unsigned m_speed;
     unsigned m_transferBytes;
+    OverwriteMode m_overwrite;
+    QString	 m_dir;
     State	 m_state;
+    friend class FileMessage;
 };
 
 class EXPORT FileMessage : public Message
@@ -1028,22 +1050,27 @@ public:
     virtual QString presentation();
     virtual QString getDescription();
     void	setDescription(const QString&);
+    void	addFile(const QString&);
+    void	addFile(const QString&, unsigned size);
     class EXPORT Iterator
     {
     public:
         Iterator(const FileMessage&);
         ~Iterator();
-        const char *operator++();
-        const char *operator[](unsigned);
+        const QString *operator++();
+        const QString *operator[](unsigned);
         void reset();
         unsigned count();
+        unsigned size();
     protected:
         FileMessageIteratorPrivate *p;
+        friend class FileMessage;
     };
     FileTransfer	*m_transfer;
 protected:
     MessageFileData	data;
     friend class FileTransfer;
+    friend class Iterator;
 };
 
 class EXPORT AuthMessage : public Message

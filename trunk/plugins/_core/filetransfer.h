@@ -33,6 +33,8 @@ protected slots:
     void speedChanged(int);
     void closeToggled(bool);
     void timeout();
+    void action(int, void*);
+    void goDir();
 protected:
     void process();
     void notifyDestroyed();
@@ -54,6 +56,7 @@ protected:
     unsigned m_fileSize;
     unsigned m_totalBytes;
     unsigned m_totalSize;
+    QString  m_dir;
     FileTransfer::State m_state;
     friend class FileTransferDlgNotify;
 };

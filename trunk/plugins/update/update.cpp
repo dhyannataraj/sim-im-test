@@ -84,6 +84,10 @@ void UpdatePlugin::timeout()
         string url = "http://sim.shutoff.ru/cgi-bin/update.pl?v=" VERSION;
 #ifdef WIN32
         url += "&os=1";
+#else
+#ifdef QT_MACOSX_VERSION
+        url += "&os=2";
+#endif
 #endif
 #ifdef CVS_BUILD
         url += "&cvs=";

@@ -121,8 +121,13 @@ protected:
 typedef struct ICQFileMessageData
 {
     char			*ServerText;
+    char			*ServerDescr;
     unsigned long	IP;
     unsigned long	Port;
+    unsigned long	ID_L;
+    unsigned long	ID_H;
+    unsigned long	Cookie;
+    unsigned long	Extended;
 } ICQFileMessageData;
 
 class ICQFileMessage : public FileMessage
@@ -131,8 +136,14 @@ public:
     ICQFileMessage(const char *cfg=NULL);
     ~ICQFileMessage();
     PROP_STR(ServerText);
+    PROP_STR(ServerDescr);
     PROP_ULONG(IP);
     PROP_ULONG(Port);
+    PROP_ULONG(ID_L);
+    PROP_ULONG(ID_H);
+    PROP_ULONG(Cookie);
+    PROP_ULONG(Extended);
+    virtual QString getText();
     virtual QString getDescription();
     virtual string  save();
 protected:
