@@ -266,7 +266,7 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     int SHADOW_OFFS = SHADOW_DEF;
     QRect rcScreen = screenGeometry(nScreen);
     rcScreen = QRect(0, 0,
-                     rcScreen.width() / 2 - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.value,
+                     rcScreen.width()  - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.value,
                      rcScreen.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.value);
     QRect rc = p.boundingRect(rcScreen, AlignLeft | AlignTop | WordBreak, str);
     if (rc.height() >= rcScreen.height() / 2){
