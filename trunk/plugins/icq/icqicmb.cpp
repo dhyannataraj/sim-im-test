@@ -26,6 +26,7 @@
 #include <winsock.h>
 #else
 #include <arpa/inet.h>
+#include <ctype.h>
 #endif
 #include <time.h>
 
