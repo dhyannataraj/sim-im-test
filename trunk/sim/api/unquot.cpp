@@ -116,7 +116,7 @@ QString SIM::unquoteString(const QString &text)
     return res;
 }
 
-EXPORT QString SIM::quoteString(const QString &_str, bool bHTML)
+EXPORT QString SIM::quoteString(const QString &_str, quoteMode mode)
 {
     QString str = _str;
     str.replace(QRegExp("&"), "&amp;");
@@ -124,7 +124,16 @@ EXPORT QString SIM::quoteString(const QString &_str, bool bHTML)
     str.replace(QRegExp(">"), "&gt;");
     str.replace(QRegExp("\""), "&quot;");
     str.replace(QRegExp("\r"), "");
-    str.replace(QRegExp("\n"), bHTML ? "<br>\n" : "<br/>\n");
+    switch (mode){
+    case quoteHTML:
+        str.replace(QRegExp("\n"), "<br>\n");
+        break;
+    case quoteXML:
+        str.replace(QRegExp("\n"), "<br/>\n");
+        break;
+    default:
+        break;
+    }
     QRegExp re("  +");
     int len;
     for (;;){

@@ -166,7 +166,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     }
     if (contactName.isEmpty())
         contactName = "???";
-    info += QString("<from>%1</from>") .arg(quoteString(contactName, true));
+    info += QString("<from>%1</from>") .arg(quoteString(contactName));
     QString id = QString::number(msg->id());
     id += ",";
     if (msg->getBackground() != msg->getForeground())
@@ -176,7 +176,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
         client_str = msg->client();
     if (!client_str.empty()){
         id += ",";
-        id += quoteString(client_str.c_str(), true);
+        id += quoteString(client_str.c_str());
     }
     info += "<id>";
     info += id;
@@ -229,7 +229,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     msgText = parseText(msgText, CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
     msgText = QString(MSG_BEGIN) + msgText;
     s += "<body>";
-    s += quoteString(msgText, true);
+    s += quoteString(msgText);
     s += "</body>";
     s += "</message>";
     XSL *p = xsl;

@@ -19,6 +19,9 @@
 #include "filtercfg.h"
 #include "simapi.h"
 #include "ballonmsg.h"
+#include "core.h"
+#include "msgedit.h"
+#include "userwnd.h"
 
 #include "xpm/ignorelist.xpm"
 
@@ -77,6 +80,7 @@ FilterPlugin::FilterPlugin(unsigned base, const char *cfg)
 
     CmdIgnoreList	= registerType();
     CmdIgnore		= registerType();
+    CmdIgnoreText	= registerType();
 
     IconDef icon;
     icon.name = "ignorelist";
@@ -106,12 +110,19 @@ FilterPlugin::FilterPlugin(unsigned base, const char *cfg)
     cmd->flags		 = COMMAND_CHECK_STATE;
     eCmd.process();
 
+    cmd->id          = CmdIgnoreText;
+    cmd->text        = I18N_NOOP("Ignore this phrase");
+    cmd->icon		 = NULL;
+    cmd->menu_id     = MenuTextEdit;
+    cmd->menu_grp    = 0x7000;
+    cmd->bar_id		 = 0;
+    cmd->bar_grp	 = 0;
+    cmd->flags		 = COMMAND_CHECK_STATE;
+    eCmd.process();
+
     cmd->id			 = user_data_id + 1;
     cmd->text		 = I18N_NOOP("&Filter");
     cmd->icon		 = "filter";
-    cmd->icon_on	 = NULL;
-    cmd->bar_id		 = 0;
-    cmd->bar_grp	 = 0;
     cmd->menu_id	 = 0;
     cmd->menu_grp	 = 0;
     cmd->param		 = (void*)getFilterConfig;
@@ -179,6 +190,12 @@ void *FilterPlugin::processEvent(Event *e)
                 cmd->flags |= BTN_HIDE;
             return e->param();
         }
+        if (cmd->id == CmdIgnoreText){
+            TextEdit *edit = ((MsgEdit*)(cmd->param))->m_edit;
+            if (edit->hasSelectedText())
+                return e->param();
+            return NULL;
+        }
         if (cmd->menu_id == MenuContactGroup){
             if (cmd->id == CmdIgnoreList){
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));
@@ -205,6 +222,35 @@ void *FilterPlugin::processEvent(Event *e)
                 BalloonMsg::ask((void*)(contact->id()), text, w, SLOT(addToIgnore(void*)), NULL, NULL, this);
             }
             return e->param();
+        }
+        if (cmd->id == CmdIgnoreText){
+            MsgEdit *medit = (MsgEdit*)(cmd->param);
+            TextEdit *edit = medit->m_edit;
+            if (edit->hasSelectedText()){
+                QString text = edit->selectedText();
+                bool bSpace = false;
+                for (int i = 0; i < (int)(text.length()); i++)
+                    if (text[i] == ' '){
+                        bSpace = true;
+                        break;
+                    }
+                if (bSpace)
+                    text = QString("\"") + text + "";
+                FilterUserData *data = NULL;
+                Contact *contact = getContacts()->contact(medit->m_userWnd->id());
+                if (contact){
+                    data = (FilterUserData*)(contact->getUserData(user_data_id));
+                }else{
+                    data = (FilterUserData*)(getContacts()->getUserData(user_data_id));
+                }
+                QString s;
+                s = QString::fromUtf8(data->SpamList);
+                if (!s.isEmpty())
+                    s += " ";
+                s += text;
+                set_str(&data->SpamList, s.utf8());
+            }
+            return NULL;
         }
         if (cmd->menu_id == MenuContactGroup){
             if (cmd->id == CmdIgnoreList){

@@ -16,7 +16,9 @@
  ***************************************************************************/
 
 #include "jabberbrowser.h"
+#include "jabbersearch.h"
 #include "jabber.h"
+#include "addresult.h"
 #include "discoinfo.h"
 #include "listview.h"
 #include "toolbtn.h"
@@ -25,10 +27,77 @@
 #include <qpixmap.h>
 #include <qtoolbar.h>
 #include <qstatusbar.h>
+#include <qtimer.h>
 
 const unsigned COL_JID	= 0;
 const unsigned COL_NAME	= 1;
 const unsigned COL_NODE = 2;
+
+JabberWizard::JabberWizard(QWidget *parent, const char *_title, const char *icon, JabberClient *client, const char *jid, const char *type)
+        : QWizard(parent, NULL, true)
+{
+    QString title = i18n(_title) .arg(QString::fromUtf8(jid));
+    m_search = new JabberSearch(this, client, jid, title);
+    addPage(m_search, title);
+    m_result = new AddResult(client);
+    addPage(m_result, title);
+    m_result->setText(i18n("Process"));
+    helpButton()->hide();
+    SET_WNDPROC("jbrowser")
+    setIcon(Pict(icon));
+    setCaption(title);
+    connect(this, SIGNAL(selected(const QString&)), this, SLOT(slotSelected(const QString&)));
+    m_type = type;
+}
+
+void JabberWizard::search()
+{
+    showPage(m_result);
+}
+
+void JabberWizard::textChanged(const QString&)
+{
+    setNext();
+}
+
+void JabberWizard::slotSelected(const QString&)
+{
+    if (currentPage() != m_result)
+        return;
+    setFinishEnabled(m_result, false);
+    if (m_type == "search"){
+        m_id = m_search->m_client->search(m_search->m_jid.c_str(), m_search->condition());
+        m_result->setSearch(m_search->m_client, m_id.c_str());
+    }
+    if (m_type == "register")
+        m_id = m_search->m_client->register_agent(m_search->m_jid.c_str(), m_search->condition());
+}
+
+void *JabberWizard::processEvent(Event *e)
+{
+    if (e->type() == static_cast<JabberPlugin*>(m_search->m_client->protocol()->plugin())->EventAgentRegister){
+        agentRegisterInfo *ai = (agentRegisterInfo*)(e->param());
+        if (m_id == ai->id){
+            if (ai->bOK){
+                m_result->setText(i18n("Register success"));
+                setFinishEnabled(m_result, true);
+            }else{
+                if (ai->error && *ai->error){
+                    m_result->setText(i18n(ai->error));
+                }else{
+                    m_result->setText(i18n("Register failed"));
+                }
+            }
+            return e->param();
+        }
+    }
+    return NULL;
+}
+
+void JabberWizard::setNext()
+{
+    nextButton()->setEnabled(m_search->canSearch());
+}
 
 JabberBrowser::JabberBrowser(JabberClient *client)
         : QMainWindow(NULL, NULL, WDestructiveClose)
@@ -66,6 +135,9 @@ JabberBrowser::JabberBrowser(JabberClient *client)
     CToolCombo *cmbFind = (CToolCombo*)(eWidget.process());
     if (cmbFind)
         cmbFind->setText(QString::null);
+
+    m_search = NULL;
+    m_reg    = NULL;
 }
 
 JabberBrowser::~JabberBrowser()
@@ -150,10 +222,45 @@ void JabberBrowser::save()
 
 void *JabberBrowser::processEvent(Event *e)
 {
+    if (e->type() == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentInfo){
+        JabberAgentInfo *data = (JabberAgentInfo*)(e->param());
+        if (m_search_id == data->ReqID){
+            if (data->Type == NULL){
+                QTimer::singleShot(0, this, SLOT(showSearch()));
+                m_search_id = "";
+                return e->param();
+            }
+            m_search->m_search->addWidget(data);
+            return e->param();
+        }
+        if (m_reg_id == data->ReqID){
+            if (data->Type == NULL){
+                QTimer::singleShot(0, this, SLOT(showReg()));
+                m_reg_id = "";
+                return e->param();
+            }
+            m_reg->m_search->addWidget(data);
+            return e->param();
+        }
+    }
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
         if (cmd->param != this)
             return NULL;
+        if (cmd->id == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->CmdSearch){
+            if (m_search)
+                delete m_search;
+            m_search = new JabberWizard(this, I18N_NOOP("%1 Search"), "find", m_client, m_history[m_historyPos].c_str(), "search");
+            m_search_id = m_client->get_agent_info(m_history[m_historyPos].c_str(), "search");
+            return e->param();
+        }
+        if (cmd->id == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->CmdRegister){
+            if (m_reg)
+                delete m_reg;
+            m_reg = new JabberWizard(this, I18N_NOOP("%1 Register"), "reg", m_client, m_history[m_historyPos].c_str(), "register");
+            m_reg_id = m_client->get_agent_info(m_history[m_historyPos].c_str(), "register");
+            return e->param();
+        }
         if (cmd->id == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->CmdBack){
             if (m_historyPos){
                 QString url = QString::fromUtf8(m_history[--m_historyPos].c_str());
@@ -353,6 +460,32 @@ bool JabberBrowser::haveFeature(const char *feature)
     }
     return false;
 }
+
+void JabberBrowser::showSearch()
+{
+    if (m_search){
+        QTimer::singleShot(0, m_search, SLOT(setNext()));
+        m_search->exec();
+        delete m_search;
+        m_search = NULL;
+    }
+}
+
+void JabberBrowser::showReg()
+{
+    if (m_reg){
+        QTimer::singleShot(0, m_reg, SLOT(setNext()));
+        m_reg->exec();
+        delete m_reg;
+        m_reg = NULL;
+    }
+}
+
+#if 0
+
+I18N_NOOP("Choose a user and password to register with the server");
+
+#endif
 
 #ifndef WIN32
 #include "jabberbrowser.moc"

@@ -84,19 +84,20 @@ typedef struct defFlds
 {
     char	*tag;
     char	*name;
+    bool	bRequired;
 } defFlds;
 
 static defFlds fields[] =
     {
-        { "username", I18N_NOOP("Username") },
-        { "nick", I18N_NOOP("Nick") },
-        { "email", I18N_NOOP("EMail") },
-        { "first", I18N_NOOP("First name") },
-        { "last", I18N_NOOP("Last name") },
-        { "age_min", I18N_NOOP("Age min") },
-        { "age_max", I18N_NOOP("Age max") },
-        { "city", I18N_NOOP("City") },
-        { NULL, NULL }
+        { "username", I18N_NOOP("Username"), true },
+        { "nick", I18N_NOOP("Nick"), false },
+        { "email", I18N_NOOP("EMail"), false },
+        { "first", I18N_NOOP("First name"), false },
+        { "last", I18N_NOOP("Last name"), false },
+        { "age_min", I18N_NOOP("Age min"), false },
+        { "age_max", I18N_NOOP("Age max"), false },
+        { "city", I18N_NOOP("City"), false },
+        { NULL, NULL, false }
     };
 
 void JabberSearch::addWidget(JabberAgentInfo *data)
@@ -158,6 +159,8 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
                 connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
                 connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
                 set_str(&data->Label, f->name);
+                if (f->bRequired)
+                    data->bRequired = true;
             }else if (data->Label){
                 widget = new QLineEdit(this, f->tag);
                 connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));

@@ -1618,8 +1618,15 @@ EXPORT ContactList *getContacts();
 // ____________________________________________________________________________________
 // Url procs
 
+enum quoteMode
+{
+    quoteHTML,
+    quoteXML,
+    quoteNOBR
+};
+
 EXPORT QString	unquoteText(const QString &text);
-EXPORT QString  quoteString(const QString &str, bool bHTML = true);
+EXPORT QString  quoteString(const QString &str, quoteMode mode = quoteHTML);
 EXPORT QString	unquoteString(const QString &str);
 
 // ____________________________________________________________________________________

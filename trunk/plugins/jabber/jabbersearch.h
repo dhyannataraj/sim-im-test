@@ -35,6 +35,8 @@ public:
     QString condition();
     const char *id() { return m_jid.c_str(); }
     void addWidget(struct JabberAgentInfo *data);
+    JabberClient	*m_client;
+    string			m_jid;
 protected slots:
     void setSize();
 protected:
@@ -42,12 +44,10 @@ protected:
     QGridLayout		*lay;
     QString			m_name;
     QWidget			*m_receiver;
-    string			m_jid;
     string			m_key;
     unsigned		m_nPos;
     bool			m_bDirty;
     bool			m_bXData;
-    JabberClient	*m_client;
     list<QWidget*>	m_required;
 };
 
