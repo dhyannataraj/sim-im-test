@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2003-07-16 09:51+0200\n"
-"PO-Revision-Date: 2003-07-16 10:03GMT\n"
+"PO-Revision-Date: 2003-07-16 11:10GMT\n"
 "Last-Translator: Crissi <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5638,8 +5638,7 @@ msgstr ""
 "antworten."
 
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
-msgstr ""
-"Entschuldigung, bin gerade beschäftigt, werde aber später antworten."
+msgstr "Entschuldigung, bin gerade beschäftigt, werde aber später antworten."
 
 msgid "Enter a decline reason"
 msgstr "Ablehungsgrund eingeben"
@@ -6223,9 +6222,8 @@ msgstr "Ich bin verfügbar für einen Chat mit einem Freund"
 msgid "Chat topic/Interests:"
 msgstr "Chattitel/Interessen:"
 
-#, fuzzy
 msgid "URL: "
-msgstr "URL:"
+msgstr "URL: "
 
 msgid "Bold"
 msgstr "Fett"
@@ -6252,11 +6250,10 @@ msgid "External unknown message"
 msgstr "Externe unbekannte Nachricht"
 
 msgid "SMS receipt"
-msgstr "SMS Empfänger"
+msgstr "SMS-Empfänger"
 
-#, fuzzy
 msgid "Ctrl+N"
-msgstr "Strg+B"
+msgstr "Strg+N"
 
 msgid "Ctrl+B"
 msgstr "Strg+B"
@@ -6294,45 +6291,35 @@ msgstr "Strg+A"
 msgid "Ctrl+C"
 msgstr "Strg+C"
 
-#, fuzzy
 msgid "Receive %2 from %1"
-msgstr "Datei von %1 empfangen"
+msgstr "%2 wird von %1 empfangen"
 
-#, fuzzy
 msgid "Printer settings"
-msgstr "Proxy-Einstellungen"
+msgstr "Druckereinstellungen"
 
-#, fuzzy
 msgid "Print to printer:"
-msgstr "In Verlauf schreiben"
+msgstr "Auf Drucker ausgeben:"
 
-#, fuzzy
 msgid "Printer"
-msgstr "Anbieter:"
+msgstr "Drucker"
 
-#, fuzzy
 msgid "Host"
-msgstr "Rechner:"
+msgstr "Host"
 
-#, fuzzy
 msgid "Options"
-msgstr "Aktionen:"
+msgstr "Optionen"
 
-#, fuzzy
 msgid "From page:"
-msgstr "Homepage:"
+msgstr "Von Seite:"
 
-#, fuzzy
 msgid "To page:"
-msgstr "Homepage:"
+msgstr "Bis Seite:"
 
-#, fuzzy
 msgid "Number of copies:"
-msgstr "Nummerdetails:"
+msgstr "Anzahl der Kopien:"
 
-#, fuzzy
 msgid "Portrait"
-msgstr "Portugal"
+msgstr "Portrait"
 
 msgid "Batch"
 msgstr "Stapel"
