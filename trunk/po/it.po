@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sim\n"
 "POT-Creation-Date: 2003-11-09 02:39+0300\n"
-"PO-Revision-Date: 2003-11-10 09:48+0100\n"
+"PO-Revision-Date: 2003-11-10 09:56+0100\n"
 "Last-Translator: Lapo Luchini <lapo@lapo.it>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -4881,17 +4881,19 @@ msgstr "AutoNascondimento"
 
 #: plugins/gpg/gpg.cpp:52
 msgid "GPG"
-msgstr ""
+msgstr "GPG"
 
 #: plugins/gpg/gpg.cpp:53
 msgid "Plugin adds GnuPG encryption/decryption support for messages"
-msgstr ""
+msgstr "Questo plugin aggiunge supporto per la crittografia GnuPG nei messaggi"
 
 #: plugins/gpg/gpg.cpp:77
 msgid ""
 "Plugin adds GnuPG encryption/decryption support for messages\n"
 "GPG not found in PATH"
 msgstr ""
+"Questo plugin aggiunge supporto per la crittografia GnuPG nei messaggi\n"
+"GPG non trovato nel PATH"
 
 #: plugins/gpg/gpg.cpp:396
 #: plugins/gpg/gpg.cpp:401
@@ -4909,7 +4911,7 @@ msgstr ""
 
 #: plugins/gpg/gpg.cpp:605
 msgid "GPG key"
-msgstr ""
+msgstr "Chiave GPG"
 
 #: plugins/gpg/gpg.cpp:613
 msgid "Use GPG encryption"
@@ -4917,11 +4919,11 @@ msgstr "Usa GPG per crittare"
 
 #: plugins/gpg/gpg.cpp:620
 msgid "&GPG key"
-msgstr ""
+msgstr "Chiave &GPG"
 
 #: plugins/gpg/gpgcfg.cpp:43
 msgid "GPG(gpg.exe)"
-msgstr ""
+msgstr "GPG(gpg.exe)"
 
 #: plugins/gpg/gpgcfg.cpp:51
 msgid "Select home directory"
@@ -4929,7 +4931,7 @@ msgstr "Seleziona la cartella home"
 
 #: plugins/gpg/gpgcfg.cpp:53
 msgid "Download GPG"
-msgstr ""
+msgstr "Scarica GPG"
 
 #: plugins/gpg/gpgcfg.cpp:62
 msgid "&Advanced"
@@ -4941,7 +4943,7 @@ msgstr "Nuovo"
 
 #: plugins/gpg/gpggen.cpp:103
 msgid "Move mouse for generate random key"
-msgstr ""
+msgstr "Muovi il mouse per generare la chiave casuale"
 
 #: plugins/gpg/gpggen.cpp:169
 msgid "Generate key failed"
@@ -4949,7 +4951,7 @@ msgstr "Generazione chiave fallita"
 
 #: plugins/gpg/gpgcfgbase.cpp:96
 msgid "Executable:"
-msgstr ""
+msgstr "Eseguibile:"
 
 #: plugins/gpg/gpgcfgbase.cpp:107
 msgid "Home directory:"
@@ -4970,11 +4972,11 @@ msgstr "&Aggiorna"
 
 #: plugins/gpg/gpgadvbase.cpp:66
 msgid "Command arguments"
-msgstr ""
+msgstr "Opzioni da riga di comando:"
 
 #: plugins/gpg/gpgadvbase.cpp:74
 msgid "Generate key:"
-msgstr ""
+msgstr "Genera chiave:"
 
 #: plugins/gpg/gpgadvbase.cpp:80
 msgid "List public keys:"
@@ -4998,11 +5000,11 @@ msgstr "Critta:"
 
 #: plugins/gpg/gpgadvbase.cpp:134
 msgid "Decrypt:"
-msgstr ""
+msgstr "Decritta:"
 
 #: plugins/gpg/gpggenbase.cpp:34
 msgid "Generate key"
-msgstr ""
+msgstr "Genera chiave"
 
 #: plugins/gpg/gpggenbase.cpp:62
 msgid "Comment:"
