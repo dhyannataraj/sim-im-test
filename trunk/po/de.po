@@ -15,8 +15,8 @@ msgstr ""
 "X-Generator: KBabel 1.0.2\n"
 
 #: plugins/__homedir/homedirconfigbase.cpp:37
-msgid "Use &default path"
-msgstr "Stan&dardpfad benutzen"
+#msgid "Use &default path"
+#msgstr "Stan&dardpfad benutzen"
 
 #: plugins/__homedir/homedirconfigbase.cpp:41
 msgid "Path for config files:"
