@@ -278,7 +278,7 @@ unsigned FileMessage::Iterator::count()
 static DataDef messageFileData[] =
     {
         { "File", DATA_UTF, 1, 0 },
-        { "", DATA_UTF, 1, 0 },			// Description
+        { "Description", DATA_UTF, 1, 0 },
         { "Size", DATA_ULONG, 1, 0 },
         { NULL, 0, 0, 0 }
     };

@@ -2354,6 +2354,7 @@ void MSNFileTransfer::listen()
     FileTransfer::m_state = FileTransfer::Listen;
     if (m_notify)
         m_notify->process();
+	bind(m_client->getMinPort(), m_client->getMaxPort(), m_client);
 }
 
 void MSNFileTransfer::connect()
@@ -2418,28 +2419,42 @@ void MSNFileTransfer::packet_ready()
             char cmd;
             char s1, s2;
             m_socket->readBuffer >> cmd >> s1 >> s2;
+			log(L_DEBUG, "MSN FT header: %02X %02X %02X", cmd & 0xFF, s1 & 0xFF, s2 & 0xFF);
             if (cmd != 0){
                 m_socket->error_state(I18N_NOOP("Transfer canceled"), 0);
                 return;
             }
-            unsigned size = s1 + (s2 << 8);
+            unsigned size = (unsigned char)s1 + ((unsigned char)s2 << 8);
             m_bHeader = false;
+			log(L_DEBUG, "MSN FT header: %u", size);
             m_socket->readBuffer.init(size);
         }else{
             unsigned size = m_socket->readBuffer.size();
+			if (size == 0)
+				return;
+			log(L_DEBUG, "MSN FT data: %u", size);
             if (m_state == Receive){
                 m_file->writeBlock(m_socket->readBuffer.data(), size);
             }else{
                 m_readBuffer.pack(m_socket->readBuffer.data(), size);
             }
+			m_socket->readBuffer.incReadPos(size);
+            m_bytes      += size;
+            m_totalBytes += size;
+			if (m_notify)
+				m_notify->process();
             m_size -= size;
             if (m_size <= 0){
-                m_socket->setRaw(true);
                 m_socket->readBuffer.init(0);
-                send("BYE");
+                m_socket->setRaw(true);
+				string bye;
+				bye = "BYE ";
+				bye += number(m_fileSize);
+                send(bye.c_str());
                 m_state = None;
                 FileTransfer::m_state = FileTransfer::Done;
-                m_socket->error_state("");
+				if (m_notify)
+					m_notify->transfer(false);
                 return;
             }
             m_bHeader = true;
@@ -2455,7 +2470,8 @@ void MSNFileTransfer::packet_ready()
         string s;
         if (!m_socket->readBuffer.scan("\r\n", s))
             break;
-        getLine(s.c_str());
+        if (getLine(s.c_str()))
+			return;
     }
     if (m_socket->readBuffer.readPos() == m_socket->readBuffer.writePos())
         m_socket->readBuffer.init(0);
@@ -2499,7 +2515,7 @@ void MSNFileTransfer::send(const char *line)
     m_socket->write();
 }
 
-void MSNFileTransfer::getLine(const char *line)
+bool MSNFileTransfer::getLine(const char *line)
 {
     QString l = QString::fromUtf8(line);
     l = l.replace(QRegExp("\r"), "");
@@ -2516,30 +2532,30 @@ void MSNFileTransfer::getLine(const char *line)
         }else{
             send("VER MSNFTP");
         }
-        return;
+        return false;
     }
     if (cmd == "USR"){
         QString mail = m_client->unquote(getToken(l, ' '));
         unsigned auth = l.toUInt();
         if (mail.lower() != QString(m_data->EMail).lower()){
             error_state("Bad address", 0);
-            return;
+            return false;
         }
         if (auth != auth_cookie){
             error_state("Bad auth cookie", 0);
-            return;
+            return false;
         }
         if ((m_file == NULL) && !openFile()){
             if (FileTransfer::m_state == FileTransfer::Done)
                 m_socket->error_state("");
             if (m_notify)
                 m_notify->transfer(false);
-            return;
+            return false;
         }
         string cmd = "FIL ";
         cmd += number(m_fileSize);
         send(cmd.c_str());
-        return;
+        return false;
     }
     if (cmd == "TFR"){
         FileTransfer::m_state = FileTransfer::Write;
@@ -2547,7 +2563,7 @@ void MSNFileTransfer::getLine(const char *line)
         if (m_notify)
             m_notify->transfer(true);
         write_ready();
-        return;
+        return false;
     }
     if (cmd == "FIL"){
         send("TFR");
@@ -2558,15 +2574,19 @@ void MSNFileTransfer::getLine(const char *line)
         m_socket->setRaw(false);
         FileTransfer::m_state = FileTransfer::Read;
         m_size = strtoul(l.latin1(), NULL, 10);
-        if (m_notify)
+	    m_bytes = 0;
+        if (m_notify){
             m_notify->createFile(m_msg->getDescription(), m_size);
-        return;
+            m_notify->transfer(true);
+		}
+        return true;
     }
     if (cmd == "BYE"){
         write_ready();
-        return;
+        return false;
     }
     error_state("Bad line", 0);
+	return false;
 }
 
 void MSNFileTransfer::timeout()
@@ -2631,15 +2651,39 @@ void MSNFileTransfer::write_ready()
     m_socket->write();
 }
 
-bool SBSocket::acceptMessage(Message *msg, const char *dir, OverwriteMode mode)
+bool MSNFileTransfer::accept(Socket *s, unsigned long ip)
 {
-    for (list<msgInvite>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
-        if ((*it).msg->id() != msg->id())
-            continue;
-        Message *msg = (*it).msg;
-        unsigned cookie = (*it).cookie;
-        m_acceptMsg.erase(it);
-        unsigned auth_cookie = get_random();
+    struct in_addr addr;
+    addr.s_addr = ip;
+    log(L_DEBUG, "Accept direct connection %s", inet_ntoa(addr));
+	m_socket->setSocket(s);
+    m_socket->readBuffer.init(0);
+    m_socket->readBuffer.packetStart();
+	m_socket->setRaw(true);
+    FileTransfer::m_state = Negotiation;
+	m_state = Incoming;
+    if (m_notify)
+        m_notify->process();
+    send("VER MSNFTP");
+	return true;
+}
+
+void MSNFileTransfer::bind_ready(unsigned short port)
+{
+	if (m_data->sb == NULL){
+		error_state("No switchboard socket", 0);
+		return;
+	}
+	m_data->sb->acceptMessage(port, cookie, auth_cookie);
+}
+
+bool MSNFileTransfer::error(const char *err)
+{
+	return error_state(err, 0);
+}
+
+void SBSocket::acceptMessage(unsigned short port, unsigned cookie, unsigned auth_cookie)
+{
         string message;
         message += "MIME-Version: 1.0\r\n"
                    "Content-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
@@ -2653,7 +2697,7 @@ bool SBSocket::acceptMessage(Message *msg, const char *dir, OverwriteMode mode)
         message += inet_ntoa(addr);
         message += "\r\n"
                    "Port: ";
-        //		message += number(m_client->m_listener->port());
+      	message += number(port);
         message += "\r\n"
                    "AuthCookie: ";
         message += number(auth_cookie);
@@ -2666,13 +2710,24 @@ bool SBSocket::acceptMessage(Message *msg, const char *dir, OverwriteMode mode)
                    "Launch-Application: FALSE\r\n"
                    "Request-Data: IP-Address:\r\n\r\n";
         sendMessage(message.c_str(), "N");
-        MSNFileTransfer *ft = new MSNFileTransfer(static_cast<FileMessage*>(msg), m_client, m_data);
+}
+
+bool SBSocket::acceptMessage(Message *msg, const char *dir, OverwriteMode mode)
+{
+    for (list<msgInvite>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
+        if ((*it).msg->id() != msg->id())
+            continue;
+        Message *msg = (*it).msg;
+        unsigned cookie = (*it).cookie;
+        m_acceptMsg.erase(it);
+		MSNFileTransfer *ft = new MSNFileTransfer(static_cast<FileMessage*>(msg), m_client, m_data);
         ft->setDir(QFile::encodeName(dir));
         ft->setOverwrite(mode);
-        ft->auth_cookie = auth_cookie;
+        ft->auth_cookie = get_random();
+		ft->cookie = cookie;
+		ft->listen();
         Event e(EventMessageAcked, msg);
         e.process();
-        ft->listen();
         Event eDel(EventMessageDeleted, msg);
         eDel.process();
         return true;

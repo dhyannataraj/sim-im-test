@@ -80,7 +80,7 @@ void MsgFile::changed(const QString &str)
     Command cmd;
     cmd->id    = CmdSend;
     cmd->flags = m_bCanSend ? 0 : COMMAND_DISABLED;
-    cmd->param = this;
+    cmd->param = m_edit;
     Event e(EventCommandDisabled, cmd);
     e.process();
 }
