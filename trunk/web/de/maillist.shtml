@@ -1,0 +1,32 @@
+<!--#include virtual="top_inc.htm" -->
+<table align="center" width="300" cellspacing="5" cellpadding="5">
+<tr valign="middle">
+  <td align="center" bgcolor="#bbbbbb"><b><h1>Ank&uuml;ndigungen</h1></b></td>
+</tr>
+<tr>
+  <td align="center" bgcolor="#dddddd">
+    <a href="http://lists.sourceforge.net/mailman/listinfo/sim-icq-main">Abonnieren</a><br>
+  </td>
+</tr>
+<tr>
+  <td align="center" bgcolor="#dddddd">
+    <a href="http://www.geocrawler.com/redir-sf.php3?list=sim-icq-main">Web-Archiv</a>
+  </td>
+</tr>
+<tr valign="middle">
+  <td align="center" bgcolor="#bbbbbb">
+    <b><h1>Hauptmailingliste</h1></b>
+  </td>
+</tr>
+<tr>
+  <td align="center" bgcolor="#dddddd">
+    <a href="http://lists.sourceforge.net/mailman/listinfo/sim-icq-announce">Abonnieren</a><br>
+  </td>
+</tr>
+<tr>
+  <td align="center" bgcolor="#dddddd">
+    <a href="http://www.geocrawler.com/redir-sf.php3?list=sim-icq-announce">Web-Archiv</a>
+  </td>
+</tr>
+</table>
+<!--#include virtual="down_inc.htm" -->

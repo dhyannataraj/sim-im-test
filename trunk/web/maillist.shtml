@@ -1,0 +1,13 @@
+<!--#include virtual="top_inc.htm" -->
+<LI><B>Announcements</b><br>
+<ul>
+<li><a href="http://lists.sourceforge.net/mailman/listinfo/sim-icq-announce">Subscribe</a>
+<li><a href="http://www.geocrawler.com/redir-sf.php3?list=sim-icq-announce">Web archive</a>
+</ul>
+<LI><B>Main</b><br>
+<ul>
+<li><a href="http://lists.sourceforge.net/mailman/listinfo/sim-icq-main">Subscribe</a>
+<li><a href="http://www.geocrawler.com/redir-sf.php3?list=sim-icq-main">Web archive</a>
+</ul>
+
+<!--#include virtual="down_inc.htm" -->

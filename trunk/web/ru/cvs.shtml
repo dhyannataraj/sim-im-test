@@ -1,0 +1,36 @@
+<!--#include virtual="top_inc.htm" -->
+<H2><a href="index.shtml">SIM</a> - CVS Information</H2><br>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/sim-icq/sim">Browse CVS</a><br><BR><br>
+VS is a way of storing and tracking changes in the code between releases.
+It always has the latest code and bug fixes, which is why you should all be using CVS
+.
+Here's step-by-step instructions for how to check out and build SIM from CVS.<br><br>
+<b>Step 1. Check out the source</b><br>
+Run the following commands in a directory that you have write access to: <br>
+<b><pre>cvs -d ':pserver:anonymous@cvs.sourceforge.net:/cvsroot/sim-icq' login
+</pre></b>
+(Just hit enter for the password)<br>
+<b><pre>
+cvs -z3 -d ':pserver:anonymous@cvs.sourceforge.net:/cvsroot/sim-icq' checkout sim
+</pre></b><br>
+You should see it listing all the source files.<br><br>
+<b>Step 2. Build SIM</b><br>
+Once you've checked SIM out of CVS, run the follwing commands:
+<b>
+<pre>cd sim
+gmake -f admin/Makefile.common</pre></b>
+You need autoconf and automake installed.<br>
+Run:<br>
+<b><pre>./configure
+gmake
+gmake install</pre></b><br><br>
+<b>Step 3. Update SIM</b><br>
+hen there are changes to SIM's code, you'll want to update your local copy.
+You don't have to remove the entire directory that you checked out and redo the whole thing;
+instead, from inside the directory, run:
+<b><pre>cvs update -d
+gmake
+gmake install</pre></b>
+The update will merge all the changes into the current files,
+and then gmake will rebuild SIM.<br>
+<!--#include virtual="down_inc.htm" -->

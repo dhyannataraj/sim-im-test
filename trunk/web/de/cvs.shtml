@@ -1,0 +1,31 @@
+<!--#include virtual="top_inc.htm" -->
+<H2><a href="index.shtml">SIM</a> - CVS Information</H2><br>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/sim-icq/sim">CVS browsen</a><br><BR><br>
+CVS ist der Weg zum Speichern und Verfolgen der &Auml;nderungen im Quellkode zwischen den Versionen.
+Das CVS enthält den aktuellsten Quellkode und Bugfixes, Sie sollten aus diesem Grund das CVS verwenden.
+Hier ist eine schrittweise Anleitung, wie Sie SIM vom CVS herunterladen und kompilieren.<br><br>
+<b>Schritt 1. Quellkode herunterladen</b><br>
+F&uuml;hren Sie die folgenden Kommandos in einem Verzeichnis aus, in dem Sie Schreibberechtigung haben: <br>
+<b><pre>cvs -d :pserver:anonymous@cvs.sim-icq.sourceforge.net:/cvsroot/sim-icq login</pre></b>
+(Einfach [ENTER] bei Pa&szlig;wortabfrage dr&uuml;cken)<br>
+<b><pre>cvs -z3 -d :pserver:anonymous@cvs.sim-icq.sourceforge.net:/cvsroot/sim-icq checkout sim</pre></b><br>
+Es werden alle heruntergeladenen Dateien angezeigt.<br><br>
+<b>Schritt 2. SIM kompilieren</b><br>
+nachdem sie SIM vom CVS heruntergeladen haben, f&uuml;ren Sie die folgenden Kommandos aus:
+<b>
+<pre>cd sim
+gmake -f admin/Makefile.common</pre></b>
+Sie ben&ouml;tigen installiertes autoconf und automake.<br>
+Run:<br>
+<b><pre>./configure
+gmake
+gmake install</pre></b><br>
+<b>Schritt 3. SIM aktualisieren</b><br>
+Wenn &Auml;nderungen im Quellkode von SIM vorgenommen werden, können Sie SIM aktualisieren.
+Sie m&uuml;ssen nicht das ganze Verzeichnis l&ouml;schen und neu herunterladen;
+Wechseln Sie in das sim-Verzeichnis und tun folgendes:
+<b><pre>cvs update -d
+gmake
+gmake install</pre></b>
+Dies wird die lokalen Dateien aktuelisieren und gmake wird SIM neu kompilieren.<br>
+<!--#include virtual="down_inc.htm" -->

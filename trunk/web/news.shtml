@@ -1,0 +1,76 @@
+<!--#include virtual="top_inc.htm" -->
+<b><font size=+1>Version 0.8</font></b>
+<ul>
+<li>Add optional opwn history and user info in separate window</li>
+<li>Add filter for history</li>
+<li>Add alphabticaly sorting user list</li>
+<li>Add secure channel dialog</li>
+<li>Add recognize various clients</li>
+<li>Fix dock window and keyboard shortcuts for QT-only version</li>
+<li>Add loging change status</li>
+<li>Add smiles popup</li>
+<li>Add autoforward to cellular</li>
+<li>Fix work protocol on bigendian</li>
+<li>Change message window button to toolbar</li>
+<li>Change configure for FreeBSD</li>
+<li>Change font saving</li>
+<li>Use KExtendedSocket on KDE</li>
+<li>Add HTTPS proxy support</li>
+<li>Make abstract interface for socket</li>
+<li>Fix receive messages from ICQLite</li>
+<li>Fix drag-and-drop files</li>
+<li>Fix user encoding for encode/decode RTF</li>
+<li>Add process escape for close user window</li>
+<li>Fix set status for icq2go</li>
+<li>Fix save options "Alert if Away" and "Require authorization"</li>
+</ul>
+
+<b><font size=+1>Version 0.7</font></b>
+<ul>
+<li>Sending of the messages to several users added</li>
+<li>Add message forwarding</li>
+<li>Add autosplit SMS messages</li>
+<li>Add support keyboard shortcuts</li>
+<li>Add On-Screen display notification about messages and user status</li>
+<li>Work with a history is improved, the speed is increased, search and adjustments is added
+<li>Add message mode for user window</li>
+<li>Is corrected batch file transfer, transfer of several files and recursive directoryes now works</li>
+<li>Direct connection with ICQ-clones is corrected</li>
+<li>Add support secure direct connection with SIM and Licq</li>
+<li>Add support user encoding</li>
+<li>Fix bug with receive bug server-side contact list</li>
+<li>Add spam filter</li>
+</ul>
+
+
+<b><font size=+1>Version 0.6</font></b>
+<ul>
+<li>Proxy support added (SOCKS4, SOCKS5, HTTP)</li>
+<li>Germany translation added</li>
+<li>Add miranda icon themes support (see <a href="http://sim-icq.sourceforge.net/icons.shtml">http://sim-icq.sourceforge.net/icons.shtml</a> for details)</li>
+<li>Add save flag "Close on send"</li>
+<li>Fix bug with KCmdLineArgs, SIM may crash on start</li>
+<li>Fix bug on update timezone - SIM may crash after logon</li>
+<li>Fix compile on gcc 3.1</li>
+</ul>
+
+<b><font size=+1>Version 0.5</font></b>
+<ul>
+<li>The chat support added.
+<li>List of attributes for search of the user is extended</li>
+<li>The processing of network mistakes is corrected, resulted in that that on the
+  broken off connection could work very long, thus loading strongly enough
+  processor (the very unpleasant mistake was - on windows could result in
+  crash of system)</li>
+<li>The effect "strange sound" is corrected, that is it was really started to
+  play twice</li>
+<li>Are corrected acinclude - now normally is going on KDE 2 and does not require
+  of a key - disable-kde if KDE is not present</li>
+</ul>
+
+<b><font size=+1>Version 0.4</font></b>
+<ul>
+<li>Configure with iconv bug fixed (const keyword missed)</li>
+<li>Owner info dialog bug fixed</li>
+</ul>
+<!--#include virtual="down_inc.htm" -->

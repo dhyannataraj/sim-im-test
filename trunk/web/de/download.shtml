@@ -1,0 +1,165 @@
+<!--#include virtual="top_inc.htm" -->
+<table border="0" cellpadding="7" cellspacing="10" align="center">
+<tr>
+  <td colspan="2" align="center" bgcolor="#bbbbbb"><b><h1>Quellcode &amp; SPEC-Dateien:</h1></b></td>
+</tr>
+<tr>
+  <td align="center" bgcolor="#eeeeee"><img src="/tgz.png" height="30"><br><h2>Generisch</h2></td>
+  <td align="center" bgcolor="#dddddd">
+    <!--
+    <br>
+    <b><i>Release 0.7</i></b><br>
+    <A href="http://osdn.dl.sourceforge.net/sourceforge/sim-icq/sim-0.7.tar.gz">sim-0.7.tar.gz</A><BR><BR>
+    <!-- <A href="http://telia.dl.sourceforge.net/sourceforge/sim-icq/sim-0.7-1.src.rpm">sim-0.7-1.src.rpm</A><BR>
+    -->
+    <br> 
+    <b><u><i>Release 0.8</i></u></b><br>
+    <A href="http://osdn.dl.sourceforge.net/sourceforge/sim-icq/sim-0.8.tar.gz">sim-0.8.tar.gz</a><br><br>
+    
+    <A href="http://osdn.dl.sourceforge.net/sourceforge/sim-icq/sim-0.8-suse81.spec">sim-0.8-suse81.spec</a><br><br>                                                                    
+    <!--
+    <A href="/sim-8.0pre-suse81.spec">sim-8.0pre-suse81.spec</a><br><br>
+    -->
+  </td>
+</tr>
+
+
+
+<tr>
+  <td colspan="2" align="center" bgcolor="#bbbbbb">
+    <b><h1>Bin&auml;rdateien:</h1></b>
+  </td>
+</tr>
+<tr>
+  <td align="center" bgcolor="#eeeeee"><img src="/logos/suse.gif"><h2>SuSE</h2>
+  </td>
+  <td align="center" bgcolor="#dddddd">
+    <!--
+    <br>
+    <b><u><i>Release 0.7</i></u></b><br>
+    <b>SuSE 8.0 KDE 3.x RPM:</b><br>
+    <A href="http://osdn.dl.sourceforge.net/sourceforge/sim-icq/sim-0.7-1.i386.suse.rpm">sim-0.7-1-i386.suse.rpm</a><br><br>
+    <b><u><i><font color="red">CVS [Entwicklung]</font></i></u></b>
+    <br>
+    <b>SuSE 8.0 KDE3.0.3 QT 3.0.5 RPM:</b><br>
+    <A href="../sim-0.8-16092002.suse80.i386.rpm">sim-0.8-16092002.suse80.i386.rpm</a>
+    -->
+    <!--
+    <br>
+    <b><u><i>Pre-Release 0.8</i></u></b><br>
+    <b>SuSE 8.0 KDE 3.0.2 QT 3.0.3 RPM:</b><br>
+    <A href="/sim-0.8pre-suse80.i386.rpm">sim-0.8pre-suse80.i386.rpm</a><br>
+    <br>
+    <b>SuSE 8.1 KDE 3.1beta2 QT 3.0.5 RPM:</b><br>
+    <A href="http://osdn.dl.sourceforge.net/sourceforge/sim-icq/sim-0.8pre-suse81-kde31beta2.i386.rpm">sim-0.8pre-suse81-kde31beta2.i386.rpm</a><br><br>
+    -->
+    <br>
+    <b><u><i>Release 0.8</i></u></b><br>
+    <b>SuSE 8.0 KDE 3.0.4 RPM:</b><br>
+    <A href="http://osdn.dl.sourceforge.net/sourceforge/sim-icq/sim-0.8-suse80-kde304-0.i386.rpm">sim-0.8-suse80-kde304-0.i386.rpm</a><br><br>
+    <b>SuSE 8.1 KDE 3.0.x RPM:</b><br>
+    <A href="http://osdn.dl.sourceforge.net/sourceforge/sim-icq/sim-0.8-suse81-kde303-1.i386.rpm">sim-0.8-suse81-kde303-1.i386.rpm</a><br>
+    <br><b>SuSE 8.1 KDE 3.1beta2 QT 3.0.5 RPM:</b><br>
+    <A href="http://osdn.dl.sourceforge.net/sourceforge/sim-icq/sim-0.8-suse81-kde31beta2-i386.rpm">sim-0.8-suse81-kde31beta2-i386.rpm</a><br><br>
+    <b><u><i><font color="red">CVS [Entwicklung]</font></i></u></b>
+    <br>
+    <b>SuSE 8.1 KDE 3.1beta2 QT 3.0.5 RPM:</b><br>
+    <a href="http://sim-icq.sourceforge.net/sim-0.8-20021108-suse81-kde31beta2-i386.rpm">sim-0.8-20021108-suse81-kde31beta2-i386.rpm</a><br><br>
+  </td>
+</tr>
+
+<tr>
+  <td align="center" bgcolor="#eeeeee">
+    <img src="/logos/mandrake.gif"><h2>Mandrake</h2>
+  </td>
+  <td align="center" bgcolor="#dddddd">
+    <!--
+    <br>
+    <b><u>Release 0.7</u></b><br>
+    <b>Mandrake 9.0:</b><br>
+    <a href="http://osdn.dl.sourceforge.net/sourceforge/sim-icq/sim-0.7-1mdk.i686.rpm">sim-0.7-1mdk.i686.rpm</a><br><br>
+    <b>Mandrake 8.x:</b><br>
+    F&uuml;r KDE 3.0.2:<br>
+    <a href="http://osdn.dl.sourceforge.net/sourceforge/sim-icq/sim-0.7-kde3-1mdk.i586.rpm">sim-0.7-kde3-1mdk.i586.rpm</a><br><br>
+    F&uuml;r KDE 2.2:<br>
+    <a href="http://osdn.dl.sourceforge.net/sourceforge/sim-icq/sim-0.7-kde2-1mdk.i586.rpm">sim-0.7-kde2-1mdk.i586.rpm</a><br><br>
+    F&uuml;r QT:<br>
+    <a href="http://osdn.dl.sourceforge.net/sourceforge/sim-icq/sim-0.7-qt-1mdk.i586.rpm">sim-0.7-qt-1mdk.i586.rpm</a><br>
+    -->
+    <br>
+    <b><u><i>Release 0.8</i></u></b><br>
+    <b>Mandrake 8.x:</b><br>
+    F&uuml;r KDE 3.0.2:<br>
+    <a href="http://osdn.dl.sourceforge.net/sourceforge/sim-icq/sim-0.8-kde3-1mdk.i586.rpm">sim-0.8-kde3-1mdk.i586.rpm</a><br><br>
+    F&uuml;r KDE 2.2:<br>
+    <a href="http://osdn.dl.sourceforge.net/sourceforge/sim-icq/sim-0.8-kde2-1mdk.i586.rpm">sim-0.8-kde2-1mdk.i586.rpm</a><br><br>
+    F&uuml;r QT:<br>
+    <a href="http://osdn.dl.sourceforge.net/sourceforge/sim-icq/sim-0.8-qt-1mdk.i586.rpm">sim-0.8-qt-1mdk.i586.rpm</a><br>
+    <br><b>Mandrake 9.0 RPM:</b><br>
+    <A href="http://osdn.dl.sourceforge.net/sourceforge/sim-icq/sim-0.8-mandrake9-mdk.i586.rpm">sim-0.8-mandrake9-mdk.i586.rpm</a><br><br>
+  </td>
+</tr>
+
+<tr>
+  <td align="center" bgcolor="#eeeeee"><img src="/openlogo-nd-25.png"><h2>Debian</h2>
+  </td>
+  <td align="center" bgcolor="#dddddd">
+    <!--
+    <br>
+    <b><u>Release 0.7</u></b><br>
+    <b>Debian unstable (SID):</b><br>
+    F&uuml;r KDE 3.0.3:<br>
+    <a href="http://osdn.dl.sourceforge.net/sourceforge/sim-icq/sim_0.7-1_i386.deb">sim_0.7-1_i386.deb</a><br>
+    -->
+    <br>
+    <b><u>Release 0.8</u></b><br>
+    <b>Debian unstable (SID):</b><br>
+    For KDE 3.0.4 QT 3.0.5:<br>
+    <a href="http://osdn.dl.sourceforge.net/sourceforge/sim-icq/sim-0.8-1-sid-kde304-i386.deb">sim-0.8-1-sid-kde304-i386.deb</a><br><br>
+    <b><u><i><font color="red">CVS [Entwicklung]</font></i></u></b>
+    <br>
+    <a href="http://sim-icq.sourceforge.net/sim_0.8.cvs11082002-1_i386.deb">sim_0.8.cvs11082002-1_i386.deb</a><br><br>
+  </td>
+</tr>
+
+<tr>
+  <td align="center" bgcolor="#eeeeee"><img src="/redhat.gif" height="35" width="40"><h2>Redhat</h2>
+  </td>
+  <td align="center" bgcolor="#dddddd">
+  <!--
+  <br>
+  <b><u>Release 0.7</u></b><br>
+  <b>RedHat 7.2:</b><br>
+  <a href="http://osdn.dl.sourceforge.net/sourceforge/sim-icq/sim-0.7-1.i686.rpm">sim-0.7-1.i686.rpm</a><br><br>
+  <b>RedHat 7.3, KDE 3.0.0, QT3 3.0.3:</b><br>
+  <A href="http://osdn.dl.sourceforge.net/sourceforge/sim-icq/sim-0.7.0-1.kde300.rh73.i386.rpm">sim-0.7.0-1.kde300.rh73.i386.rpm</a><br><br>
+  <b>RedHat 7.3, KDE 3.0.3, QT3 3.0.5:</b><br>
+  <A href="http://osdn.dl.sourceforge.net/sourceforge/sim-icq/sim-0.7.0-1.kde303.rh73.i386.rpm">sim-0.7.0-1.kde303.rh73.i386.rpm</a><br>
+  -->
+  <br>
+  <b><u><i>Release 0.8</i></u></b>  
+  <br><b>Redhat 8.x RPM:</b><br>
+  <A href="http://osdn.dl.sourceforge.net/sourceforge/sim-icq/sim-0.8-0.rh8.0.i386.rpm">sim-0.8-0.rh8.0.i386.rpm</a><br><br>
+  </td>
+</tr>
+<tr>
+  <td align="center" bgcolor="#eeeeee"><img src="/logos/win.gif"><h2>Windows<br>9x, ME, 2000, XP</h2>
+  </td>
+  <td align="center" bgcolor="#dddddd">
+  <!--
+  <br>
+  <b><u><i>Release 0.7</i><u></b><br>
+    <b>Installer (enth&auml;lt QT):</b><BR>
+    <A href="http://osdn.dl.sourceforge.net/sourceforge/sim-icq/sim-0.7-win32.exe">sim-0.7-win32.exe</a><BR><BR>
+    <b><u><i><font color="red">CVS [Entwicklung]</font></i></u></b><br>
+    <b>Installer (enth&auml;lt QT):</b> <font color="red">CVS 14.10.2002</font><br>
+    <a href="/sim-cvs20021014-win32.exe">sim-cvs20021014-win32.exe</a><br>
+    -->
+    <br>
+    <b><u><i>Release 0.8</i></u></b><br>
+    <b>Installer (enth&auml;lt QT):</b><BR>
+    <A href="http://osdn.dl.sourceforge.net/sourceforge/sim-icq/sim-0.8-win32.exe">sim-0.8-win32.exe</a><br><br>
+  </td>
+</tr>
+</table>
+<!--#include virtual="down_inc.htm" -->
