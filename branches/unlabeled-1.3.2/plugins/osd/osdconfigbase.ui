@@ -11,15 +11,15 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>242</width>
-            <height>127</height>
+            <width>301</width>
+            <height>158</height>
         </rect>
     </property>
     <property>
         <name>caption</name>
         <string>Form1</string>
     </property>
-    <grid>
+    <vbox>
         <property>
             <name>margin</name>
             <number>11</number>
@@ -28,7 +28,7 @@
             <name>spacing</name>
             <number>6</number>
         </property>
-        <widget row="0"  column="0"  rowspan="1"  colspan="2" >
+        <widget>
             <class>QCheckBox</class>
             <property stdset="1">
                 <name>name</name>
@@ -39,7 +39,7 @@
                 <string>Enable &amp;messages notification</string>
             </property>
         </widget>
-        <widget row="1"  column="0"  rowspan="1"  colspan="2" >
+        <widget>
             <class>QCheckBox</class>
             <property stdset="1">
                 <name>name</name>
@@ -50,7 +50,18 @@
                 <string>Enable &amp;status notification</string>
             </property>
         </widget>
-        <spacer row="3"  column="0" >
+        <widget>
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkTyping</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Enable &amp;typing notification</string>
+            </property>
+        </widget>
+        <spacer>
             <property>
                 <name>name</name>
                 <cstring>Spacer5</cstring>
@@ -71,7 +82,7 @@
                 </size>
             </property>
         </spacer>
-    </grid>
+    </vbox>
 </widget>
 <customwidgets>
     <customwidget>
