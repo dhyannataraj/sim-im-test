@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2002-11-25 10:46+0300\n"
-"PO-Revision-Date: 2002-11-25 14:07GMT\n"
+"PO-Revision-Date: 2002-11-25 14:24GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3587,7 +3587,7 @@ msgstr "Icons hinzufügen"
 
 #: ui/themesetupbase.cpp:101
 msgid "&Icons"
-msgstr "&Icons:"
+msgstr "&Icons"
 
 #: ui/themesetupbase.cpp:107
 msgid "Transparent main window"
