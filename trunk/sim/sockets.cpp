@@ -226,9 +226,7 @@ void ICQClientSocket::slotError(int err)
     if (!(err & KBufferedIO::involuntary)) return;
     log(L_DEBUG, "Connection closed by peer");
 #else
-#ifndef WIN32
     if (!err) return;
-#endif
     log(L_DEBUG, "Slot error %u", err);
 #endif
     if (notify) notify->error_state(ErrorSocket);
@@ -286,6 +284,7 @@ void ICQServerSocket::activated(int)
     if (sock == NULL) return;
     int fd = sock->accept();
     if (fd >= 0){
+	    log(L_DEBUG, "accept ready");
         if (notify){
             QSocket *s = new QSocket;
             s->setSocket(fd);

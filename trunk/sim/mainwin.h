@@ -267,6 +267,11 @@ public:
     list<unsigned long> ToolBarHistory;
     list<unsigned long> ToolBarUserBox;
 
+#ifdef WIN32
+	unsigned short	BarState;
+	bool			BarAutoHide;
+#endif
+
     bool 	     init();
 
     QPopupMenu   *menuStatus;
@@ -403,9 +408,7 @@ protected slots:
     void clearUserMenu();
     void networkMonitor();
     void monitorFinished();
-#ifdef USE_KDE    
     void doSynchronize();
-#endif    
 protected:
     bool eventFilter(QObject *o, QEvent *e);
 

@@ -292,6 +292,10 @@ cfgParam MainWindow_Params[] =
         { "ToolBarMsg", OFFSET_OF(MainWindow, ToolBarMsg), PARAM_ULONGS, 0 },
         { "ToolBarHistory", OFFSET_OF(MainWindow, ToolBarHistory), PARAM_ULONGS, 0 },
         { "ToolBarUserBox", OFFSET_OF(MainWindow, ToolBarUserBox), PARAM_ULONGS, 0 },
+#ifdef WIN32
+        { "BarState", OFFSET_OF(MainWindow, BarState), PARAM_USHORT, 0 },
+        { "BarAutoHide", OFFSET_OF(MainWindow, BarAutoHide), PARAM_BOOL, 0 },
+#endif
         { "", 0, 0, 0 }
     };
 
@@ -2324,13 +2328,13 @@ void MainWindow::monitorFinished()
     mNetMonitor = NULL;
 }
 
-#ifdef USE_KDE
 void MainWindow::doSynchronize()
 {
+#ifdef USE_KDE
     //pClient->contacts->users
     //ICQUser *u = pClient->getUser(uin)
-}
 #endif
+}
 
 void MainWindow::about()
 {
