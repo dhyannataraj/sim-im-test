@@ -1122,7 +1122,6 @@ unsigned long SIMClient::getFileSize(QString name, QString base, vector<fileName
     QString fName = base + "/" + name;
 #endif
     QFileInfo fInfo(fName);
-	log(L_DEBUG, "GetFile %s", (const char*)(name.local8Bit()));
     if (!fInfo.exists()) return 0;
     if (!fInfo.isDir()){
         if (fInfo.isReadable()){
@@ -1131,7 +1130,6 @@ unsigned long SIMClient::getFileSize(QString name, QString base, vector<fileName
             n = n.replace(QRegExp("/"), "\\");
             f.name = n.local8Bit();
             f.localName = fName.local8Bit();
-			log(L_DEBUG, "Set: %s %s", f.name.c_str(), f.localName.c_str());
             f.size = fInfo.size();
             files.push_back(f);
 	        return fInfo.size();

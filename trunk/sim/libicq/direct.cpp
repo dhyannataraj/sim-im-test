@@ -123,7 +123,6 @@ void DirectSocket::connect()
         m_bUseInternalIP = true;
         if ((ip != 0) && ((ip & 0xFFFFFF) != (client->client->owner->IP & 0xFFFFFF)))
             m_bUseInternalIP = false;
-        log(L_DEBUG, "Use internal... %u", m_bUseInternalIP);
         state = ConnectIP1;
         if (real_ip != 0){
             struct in_addr addr;
@@ -295,7 +294,6 @@ void DirectSocket::sendInitAck()
 
 void DirectSocket::connect_ready()
 {
-    log(L_DEBUG, "Direct connect OK");
     sock->setProxyConnected();
     sendInit();
     state = WaitAck;
@@ -1020,7 +1018,6 @@ void FileTransfer::write_ready()
         DirectSocket::write_ready();
         return;
     }
-    log(L_DEBUG, "> %u %u %u %u", m_curFile, m_nFiles, m_curSize, m_fileSize);
     if (m_fileSize >= m_curSize){
         state = None;
         client->client->closeFile(file);
@@ -1301,8 +1298,6 @@ void FileTransfer::connect_ready()
         if (m_nFiles == 0) sock->error_state(ErrorCancel);
         if (file->files.size() == 0)
             sock->error_state(ErrorCancel);
-		log(L_DEBUG, "Setup curName");
-		log(L_DEBUG, "Cur name - %s", file->files[0].name.c_str());
         curName = file->files[0].name;
         m_curSize = file->files[0].size;
     }
@@ -1618,7 +1613,6 @@ void ChatSocket::processPacket()
             sock->readBuffer.unpack(alias);
             sock->readBuffer.unpack(bgColor);
             sock->readBuffer.unpack(fgColor);
-            log(L_DEBUG, "Info %lu %s %lX %lX", uin, alias.c_str(), fgColor, bgColor);
             unsigned long version, port, ip, real_ip;
             char mode;
             unsigned short session;
@@ -1633,17 +1627,12 @@ void ChatSocket::processPacket()
             string ip_str = inet_ntoa(addr);
             addr.s_addr = real_ip;
             string real_ip_str = inet_ntoa(addr);
-            log(L_DEBUG, "Inof %lu %lu %s %s %u", version, port,
-                ip_str.c_str(), real_ip_str.c_str(),
-                mode);
             sock->readBuffer.unpack(fontSize);
             sock->readBuffer.unpack(fontFace);
             sock->readBuffer.unpack(fontFamily);
-            log(L_DEBUG, "Font info: %lu %lu %s", fontSize, fontFace, fontFamily.c_str());
             sock->readBuffer.incReadPos(2);
             char nClients;
             sock->readBuffer.unpack(nClients);
-            log(L_DEBUG, "Clients: %u", nClients);
             for (; nClients > 0; nClients--){
                 unsigned long version, port, uin, ip, real_ip, handshake;
                 unsigned short session;
@@ -1662,9 +1651,6 @@ void ChatSocket::processPacket()
                 string ip_str = inet_ntoa(addr);
                 addr.s_addr = real_ip;
                 string real_ip_str = inet_ntoa(addr);
-                log(L_DEBUG, "Client %lu %lu %lu %ls %s %u %u %lu",
-                    uin, version, port, ip_str.c_str(), real_ip_str.c_str(),
-                    mode, session, handshake);
             }
 
             startPacket();

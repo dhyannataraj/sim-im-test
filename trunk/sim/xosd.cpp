@@ -31,7 +31,9 @@
 
 XOSD::XOSD(QWidget *p)
         : QWidget(p, "xosd",
-				WStyle_StaysOnTop |  WStyle_Customize | WStyle_NoBorder | WStyle_Tool |WRepaintNoErase | WX11BypassWM)
+				WType_Popup | 
+				WStyle_StaysOnTop |  WStyle_Customize | WStyle_NoBorder | 
+				WStyle_Tool |WRepaintNoErase | WX11BypassWM)
 {
 	setFocusPolicy(NoFocus);
     init();
@@ -56,6 +58,7 @@ void XOSD::init()
 
 void XOSD::set(const QString &str, unsigned long _uin)
 {
+	QWidget *active = qApp->activeWindow();
     uin = _uin;
     hide();
     QPainter p(this);
@@ -149,6 +152,7 @@ void XOSD::set(const QString &str, unsigned long _uin)
     p.end();
     bgPict = pict;
     show();
+	if (active) active->setFocus();
     QTimer::singleShot(pMain->XOSD_timeout * 1000, this, SLOT(timeout()));
 }
 
