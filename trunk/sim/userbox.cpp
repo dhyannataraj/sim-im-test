@@ -906,7 +906,7 @@ void UserBox::selectedUser(int id)
     if (u){
         pMain->adjustUserMenu(menuType, u, false, true);
         toolbar->setPopup(btnType, menuType);
-        toolbar->setState(btnUser, SIMClient::getUserIcon(u), curWnd->userName());
+        toolbar->setState(btnUser, SIMClient::getUserIcon(u), curWnd->userName().replace(QRegExp("&"), "&&"));
         setIcon(Pict(SIMClient::getUserIcon(u)));
     }
     showUsers(curWnd->isMultiply(), curWnd->getUin());
@@ -921,7 +921,7 @@ void UserBox::adjustUserMenu(bool bRescan)
     unsigned i = 1;
     for (it = wnds.begin(); it != wnds.end(); it++, i++){
         if (bRescan){
-            QString str = (*it)->userName();
+            QString str = (*it)->userName().replace(QRegExp("&"), "&&");
             int key = 0;
             if (i <= 10){
                 str += "\t";
