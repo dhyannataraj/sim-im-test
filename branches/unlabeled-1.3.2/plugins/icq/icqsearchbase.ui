@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>434</width>
+            <width>430</width>
             <height>276</height>
         </rect>
     </property>
@@ -734,7 +734,7 @@
                             <cstring>edtScreen</cstring>
                         </property>
                     </widget>
-                    <spacer row="1"  column="0" >
+                    <spacer row="2"  column="0" >
                         <property>
                             <name>name</name>
                             <cstring>Spacer7</cstring>
@@ -755,6 +755,31 @@
                             </size>
                         </property>
                     </spacer>
+                    <widget row="1"  column="0" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>TextLabel1_8</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Add to group:</string>
+                        </property>
+                    </widget>
+                    <widget row="1"  column="1" >
+                        <class>QComboBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>cmbGrp</cstring>
+                        </property>
+                        <property>
+                            <name>sizePolicy</name>
+                            <sizepolicy>
+                                <hsizetype>7</hsizetype>
+                                <vsizetype>0</vsizetype>
+                            </sizepolicy>
+                        </property>
+                    </widget>
                 </grid>
             </widget>
         </widget>

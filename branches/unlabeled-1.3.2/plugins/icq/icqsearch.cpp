@@ -29,6 +29,7 @@
 #include <qstyle.h>
 #include <qcombobox.h>
 #include <qcheckbox.h>
+#include <qvalidator.h>
 
 extern const ext_info *p_genders;
 extern const ext_info *p_languages;
@@ -45,6 +46,36 @@ const ext_info ages[] =
         { "", 0 }
     };
 
+class AIMValidator : public QValidator
+{
+public:
+	AIMValidator(QWidget *parent);
+	virtual State validate(QString &input, int &pos) const;
+};
+
+AIMValidator::AIMValidator(QWidget *parent)
+: QValidator(parent)
+{
+}
+
+QValidator::State AIMValidator::validate(QString &input, int &pos) const
+{
+	if (input.length() == 0)
+		return Intermediate;
+	char c = input[0].latin1();
+	if (((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z'))){
+		for (int i = 1; i < input.length(); i++){
+			char c = input[i].latin1();
+			if (((c >= 'a') && (c <= 'z')) || 
+				((c >= 'A') && (c <= 'Z')) ||
+				((c >= '0') && (c <= '9')))
+				continue;
+			return Invalid;
+		}
+		return Acceptable;
+	}
+	return Invalid;
+}
 
 ICQSearch::ICQSearch(ICQClient *client)
 {
@@ -93,6 +124,8 @@ ICQSearch::ICQSearch(ICQClient *client)
     btnMsg->setEnabled(false);
     connect(btnAdd, SIGNAL(clicked()), this, SLOT(addContact()));
     connect(btnMsg, SIGNAL(clicked()), this, SLOT(sendMessage()));
+	edtScreen->setValidator(new AIMValidator(edtScreen));
+	fillGroup();
 }
 
 ICQSearch::~ICQSearch()
@@ -102,6 +135,18 @@ ICQSearch::~ICQSearch()
             m_wizard->removePage(m_result);
         delete m_result;
     }
+}
+
+void ICQSearch::fillGroup()
+{
+	ContactList::GroupIterator itg;
+	Group *grp;
+	while ((grp = ++itg) != NULL){
+		if (grp->id() == 0)
+			continue;
+		cmbGrp->insertItem(grp->getName());
+	}
+	cmbGrp->insertItem(i18n("Not on list"));
 }
 
 void ICQSearch::resultFinished()
@@ -343,6 +388,12 @@ void *ICQSearch::processEvent(Event *e)
         edtInfo->append(text);
         edtInfo->sync();
     }
+	switch (e->type()){
+	case EventGroupCreated:
+	case EventGroupDeleted:
+	case EventGroupChanged:
+		fillGroup();
+	}
     return NULL;
 }
 
