@@ -79,17 +79,17 @@ QString i18n(const char *comment, const char *text)
 {
     if (text == NULL)
         return QString::null;
-	if (comment == NULL)
-		return i18n(text);
-	string s;
-	s = "_: ";
-	s += comment;
-	s += "\n";
-	s += text;
-	QString res = QObject::tr(s.c_str());
-	if (res != s.c_str())
-		return res;
-	return i18n(text);
+    if (comment == NULL)
+        return i18n(text);
+    string s;
+    s = "_: ";
+    s += comment;
+    s += "\n";
+    s += text;
+    QString res = QObject::tr(s.c_str());
+    if (res != s.c_str())
+        return res;
+    return i18n(text);
 }
 
 #endif
