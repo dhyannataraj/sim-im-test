@@ -240,7 +240,7 @@ void *WeatherPlugin::processEvent(Event *e)
 bool WeatherPlugin::done(unsigned code, Buffer &data, const char*)
 {
     if (code != 200)
-        return NULL;
+        return false;
     m_data  = "";
     m_day   = 0;
     m_bBar  = false;
@@ -251,7 +251,7 @@ bool WeatherPlugin::done(unsigned code, Buffer &data, const char*)
     if (xmlParseChunk(m_context, data.data(), data.size(), 0)){
         log(L_WARN, "XML parse error");
         xmlFreeParserCtxt(m_context);
-        return NULL;
+        return false;
     }
     xmlFreeParserCtxt(m_context);
     time_t now;
@@ -443,7 +443,7 @@ void WeatherPlugin::updateButton()
 static QString number(unsigned long n)
 {
     char b[32];
-    sprintf(b, "%i", n);
+    sprintf(b, "%li", n);
     return b;
 }
 

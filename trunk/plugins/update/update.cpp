@@ -136,13 +136,13 @@ bool UpdatePlugin::done(unsigned, Buffer&, const char *headers)
     }else{
         QWidget *main = getMainWindow();
         if (main == NULL)
-            return NULL;
+            return false;
         Command cmd;
         cmd->id		= CmdStatusBar;
         Event eWidget(EventCommandWidget, cmd);
         QWidget *statusWidget = (QWidget*)(eWidget.process());
         if (statusWidget == NULL)
-            return NULL;
+            return false;
         m_url = h;
         QStringList l;
         l.append(i18n("Show details"));
