@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2002-12-07 18:05+0300\n"
-"PO-Revision-Date: 2002-12-04 00:14GMT\n"
-"Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
-"Language-Team: deutsch <de@li.org>\n"
+"PO-Revision-Date: 2002-12-07 20:15GMT\n"
+"Last-Translator: Crissi <crissi99@gmx.de>\n"
+"Language-Team: Deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "<<<<<<< de.poPOT-Creation-Date: 2002-11-09 04:37+0300\n"
 "=======POT-Creation-Date: 2002-11-12 09:51+0300\n"
 ">>>>>>> 1.109MIME-Version: 1.0\n"
-"X-Generator: KBabel 1.0\n"
+"X-Generator: KBabel 0.9.6\n"
 
 #: client.cpp:57 client.cpp:58 libicq/country.cpp:7
 msgid "Arabic"
@@ -2497,7 +2497,7 @@ msgstr "Verzeichnis für ankommende Dateien"
 
 #: ui/editfile.cpp:113
 msgid "Sounds (*.wav)"
-msgstr ""
+msgstr "Klänge (*.wav)"
 
 #: ui/enable.cpp:123 ui/setupdlgbase.cpp:121 ui/toolsetupbase.cpp:135
 msgid "&Apply"
@@ -2765,7 +2765,7 @@ msgstr "System"
 
 #: ui/themesetup.cpp:117
 msgid "Graphics (%1)"
-msgstr ""
+msgstr "Grafiken (%1)"
 
 #: ui/themesetup.cpp:188
 msgid "Need restart SIM for change language"
@@ -2945,8 +2945,7 @@ msgstr "&Signatur"
 
 #: ui/forwardsetupbase.cpp:89 ui/smssetupbase.cpp:131
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-"Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
 
 #: ui/forwardsetupbase.cpp:97 ui/smssetupbase.cpp:132
 msgid ""
@@ -3602,32 +3601,28 @@ msgid "&Icons"
 msgstr "&Icons"
 
 #: ui/themesetupbase.cpp:295
-#, fuzzy
 msgid "Main window background:"
-msgstr "Geschichtlicher Hintergrund:"
+msgstr "Hintergrund des Hauptfensters:"
 
 #: ui/themesetupbase.cpp:296
 msgid "Icon margin:"
-msgstr ""
+msgstr "Symbolrand"
 
 #: ui/themesetupbase.cpp:298
-#, fuzzy
 msgid "Use &system colors"
-msgstr "Systemschriftarten &benutzen"
+msgstr "Systemfarben &benutzen"
 
 #: ui/themesetupbase.cpp:299
-#, fuzzy
 msgid "Online contact color:"
-msgstr "Onlinealarm:"
+msgstr "Offinekontaktfarbe:"
 
 #: ui/themesetupbase.cpp:300
 msgid "Offline contact color:"
-msgstr ""
+msgstr "Onlinekontaktfarbe:"
 
 #: ui/themesetupbase.cpp:301
-#, fuzzy
 msgid "B&ackground"
-msgstr "Hintergrund"
+msgstr "Hi&nergrund"
 
 #: ui/themesetupbase.cpp:302
 msgid "Transparent main window"
@@ -3682,8 +3677,7 @@ msgid "Hide main window after"
 msgstr "Hauptfenster anzeigen/verstecken nach"
 
 #: ui/statussetupbase.cpp:141
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -3882,8 +3876,7 @@ msgstr "&Ablehnen"
 
 #: ui/generalsecbase.cpp:201
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: ui/generalsecbase.cpp:202
 msgid ""
@@ -4017,8 +4010,7 @@ msgstr ";-)"
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #: editspell.cpp:319
 msgid "Spell check"
@@ -4644,3 +4636,4 @@ msgstr "? Unbekannter Status %1"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
