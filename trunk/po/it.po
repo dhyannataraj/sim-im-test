@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sim\n"
 "POT-Creation-Date: 2004-06-06 14:00+0200\n"
-"PO-Revision-Date: 2004-06-07 19:28+0100\n"
+"PO-Revision-Date: 2004-06-09 01:30+0100\n"
 "Last-Translator: Lapo Luchini <lapo@lapo.it>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2909,20 +2909,24 @@ msgid "Accept in &DND mode"
 msgstr "Accetta in modalità \"&Non disturbare\""
 
 #: plugins/icq/icqconfigbase.cc:285
+#, fuzzy
 msgid "For decrease traffic you can:"
-msgstr ""
+msgstr "Per diminuire il traffico puoi:"
 
 #: plugins/icq/icqconfigbase.cc:286
+#, fuzzy
 msgid "Disable answer on phonebook and &picture requests"
-msgstr ""
+msgstr "Disabilitare le risposte alle richieste di numeri di telefono o &foto"
 
 #: plugins/icq/icqconfigbase.cc:287
+#, fuzzy
 msgid "Disable automaticaly &request autoreply on change status"
-msgstr ""
+msgstr "Disabilitare le &richieste automatiche di stato sul cambio di stato"
 
 #: plugins/icq/icqconfigbase.cc:288
+#, fuzzy
 msgid "Disable automatically &update user info"
-msgstr ""
+msgstr "Disabilitare le richieste automatiche delle informazioni &utente"
 
 #: plugins/icq/icqconfigbase.cc:289
 msgid "Disable &typing notification"
@@ -4473,6 +4477,8 @@ msgid ""
 "_n: Friends updated\n"
 "Friends updated %n"
 msgstr ""
+"Amici aggiornati\n"
+"Amici aggiornati"
 
 #: plugins/livejournal/livejournal.cpp:128
 msgid "&Remove from journal"
@@ -7605,7 +7611,7 @@ msgstr "Spazio dei nomi:"
 
 #: plugins/jabber/discoinfobase.cpp:267
 msgid "Category:"
-msgstr ""
+msgstr "Categoria:"
 
 #: plugins/jabber/discoinfobase.cpp:272
 msgid "Version:"
@@ -7990,22 +7996,18 @@ msgid "Metal style"
 msgstr "Stile metallico"
 
 #: plugins/styles/fontconfigbase.cpp:100
-#, fuzzy
 msgid "Use &system fonts"
 msgstr "Usa caratteri di &sistema"
 
 #: plugins/styles/fontconfigbase.cpp:101
-#, fuzzy
 msgid "Base font:"
 msgstr "Carattere base:"
 
 #: plugins/styles/fontconfigbase.cpp:103
-#, fuzzy
 msgid "Button color:"
 msgstr "Color bottoni:"
 
 #: plugins/styles/fontconfigbase.cpp:105
-#, fuzzy
 msgid "Menu font:"
 msgstr "Carattere menu:"
 
@@ -8140,18 +8142,16 @@ msgid "Pressure"
 msgstr "Pressione"
 
 #: plugins/weather/wifacecfg.cpp:45
-#, fuzzy
 msgid "Pressure state"
-msgstr "Stato dipl."
+msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:47
 msgid "Visibility"
 msgstr "Visibilità"
 
 #: plugins/weather/wifacecfg.cpp:49
-#, fuzzy
 msgid "Dew Point"
-msgstr "Virgola mobile"
+msgstr "Punto di rugiada"
 
 #: plugins/weather/wifacecfg.cpp:53
 msgid "Updated"
