@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2003-08-02 23:07+0400\n"
-"PO-Revision-Date: 2003-08-04 09:10GMT\n"
-"Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
+"PO-Revision-Date: 2003-08-04 11:37GMT\n"
+"Last-Translator: Robert Scheck <sim@robert-scheck.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -736,7 +736,7 @@ msgstr "Katar"
 
 #: sim/api/country.cpp:202
 msgid "Republic of Macedonia"
-msgstr "Republik Mazedonien"
+msgstr "Makedonien"
 
 #: sim/api/country.cpp:203
 msgid "Reunion Island"
@@ -2067,7 +2067,7 @@ msgstr "&Signatur"
 
 #: plugins/forward/forwardcfgbase.cpp:102 sim/ui/smssetupbase.cpp:132
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" auf ein Mobiltelefon weiterleiten:"
 
 #: plugins/forward/forwardcfgbase.cpp:103 sim/ui/smssetupbase.cpp:133
 msgid ""
@@ -3024,7 +3024,7 @@ msgstr "&Nachrichten von unbekannten Benutzern ablehnen"
 
 #: sim/ui/generalsecbase.cpp:223
 msgid "Reject &URL from unknown users"
-msgstr "&URL`s von unbekannten Benutzern ablehnen"
+msgstr "&URLs von unbekannten Benutzern ablehnen"
 
 #: sim/ui/generalsecbase.cpp:224
 msgid "Reject &World Wide pager messages"
@@ -5928,7 +5928,7 @@ msgstr "Im Vordergrund"
 
 #: plugins/ontop/ontop.cpp:40
 msgid "Plugin provides main window allways on top"
-msgstr "Diese Plugin sorgt dafür, dass SIM kontinuierlich im Vordergrund bleibt."
+msgstr "Dieses Plugin sorgt dafür, dass SIM kontinuierlich im Vordergrund bleibt."
 
 #: plugins/ontop/ontop.cpp:74
 msgid "Always on top"
@@ -6394,7 +6394,7 @@ msgstr "Automatisch ausblenden"
 #~ msgstr "Aktueller Ort"
 
 #~ msgid "Phone Book"
-#~ msgstr "Adreßbuch"
+#~ msgstr "Adressbuch"
 
 #~ msgid "Open main window"
 #~ msgstr "Hauptfenster öffnen"
@@ -6759,7 +6759,7 @@ msgstr "Automatisch ausblenden"
 #~ msgstr "Allgemein"
 
 #~ msgid "Need restart SIM for change language"
-#~ msgstr "SIM muß zum Ändern der Sprache neu gestartet werden"
+#~ msgstr "SIM muss zum Ändern der Sprache neu gestartet werden"
 
 #~ msgid "Default icons"
 #~ msgstr "Standard Icons"
@@ -6897,7 +6897,7 @@ msgstr "Automatisch ausblenden"
 #~ msgstr "Alle Nachrichten beim Versenden prüfen"
 
 #~ msgid "KabcSync"
-#~ msgstr "KDE Adressbuchsynchronisation"
+#~ msgstr "KDE-Adressbuchsynchronisation"
 
 #~ msgid ""
 #~ "_: Ctrl+H\n"
@@ -6905,7 +6905,7 @@ msgstr "Automatisch ausblenden"
 #~ msgstr "Strg+H"
 
 #~ msgid "Synchronize with KDE address book"
-#~ msgstr "Mit KDE Adressbuch sychronisieren"
+#~ msgstr "Mit KDE-Adressbuch sychronisieren"
 
 #~ msgid "&Miscelanious"
 #~ msgstr "&Verschiedenes"
