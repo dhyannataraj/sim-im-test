@@ -48,7 +48,7 @@ void *IgnoreList::processEvent(Event *e)
     case EventContactDeleted:
         contact = (Contact*)(e->param());
         removeItem(findItem(contact));
-        return NULL;
+        return e->param();
     case EventContactCreated:
     case EventContactChanged:
         contact = (Contact*)(e->param());
@@ -106,8 +106,14 @@ QListViewItem *IgnoreList::findItem(Contact *contact)
 void IgnoreList::deleteItem(QListViewItem *item)
 {
     Contact *contact = getContacts()->contact(item->text(3).toUInt());
-    if (contact)
+    if (contact) {
+        contact->setIgnore(false);
+        Event e1(EventContactChanged, contact);
+        e1.process();
+        Event e2(EventContactDeleted, contact);
+        e2.process();
         delete contact;
+    }
 }
 
 void IgnoreList::dragStart()
