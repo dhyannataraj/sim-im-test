@@ -52,7 +52,7 @@ StatusSetup::StatusSetup(QWidget *p)
         spnAutoHide->setEnabled(false);
     }
     connect(chkAutoHide, SIGNAL(toggled(bool)), this, SLOT(changed(bool)));
-
+    chkAutoHide->setEnabled(pMain->isDock());
     chkAlert->setChecked(pMain->NoAlertAway);
 }
 

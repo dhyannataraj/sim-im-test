@@ -261,6 +261,8 @@ cfgParam MainWindow_Params[] =
         { "SendEnter", offsetof(MainWindow, SendEnter), PARAM_BOOL, 0 },
         { "DockX", offsetof(MainWindow, DockX), PARAM_SHORT, 0 },
         { "DockY", offsetof(MainWindow, DockY), PARAM_SHORT, 0 },
+        { "UseDock", offsetof(MainWindow, UseDock), PARAM_BOOL, 0 },
+        { "WMDock", offsetof(MainWindow, WMDock), PARAM_BOOL, 0 },
         { "", 0, 0, 0 }
     };
 
@@ -280,7 +282,37 @@ MainWindow::MainWindow(const char *name)
     translator = NULL;
     mAboutApp = NULL;
     hideTime = 0;
-    useWM = -1;
+
+    canWM = false;
+#ifndef WIN32
+    Atom r_type;
+    int r_format;
+    unsigned long count, bytes_remain;
+    unsigned char *prop = NULL, *prop2 = NULL;
+    Atom _XA_WIN_SUPPORTING_WM_CHECK = XInternAtom(qt_xdisplay(), XA_WIN_SUPPORTING_WM_CHECK, False);
+    int p = XGetWindowProperty(qt_xdisplay(), qt_xrootwin(), _XA_WIN_SUPPORTING_WM_CHECK,
+                               0, 1, False, XA_CARDINAL, &r_type, &r_format,
+                               &count, &bytes_remain, &prop);
+
+    if (p == Success && prop && r_type == XA_CARDINAL &&
+            r_format == 32 && count == 1)
+    {
+        Window n = *(long *) prop;
+
+        p = XGetWindowProperty(qt_xdisplay(), n, _XA_WIN_SUPPORTING_WM_CHECK, 0, 1,
+                               False, XA_CARDINAL, &r_type, &r_format,
+                               &count, &bytes_remain, &prop2);
+
+        if (p == Success && prop2 && r_type == XA_CARDINAL &&
+                r_format == 32 && count == 1)
+            canWM = true;
+    }
+
+    if (prop)
+        XFree(prop);
+    if (prop2)
+        XFree(prop2);
+#endif
 
 #ifdef HAVE_UMASK
     umask(0077);
@@ -412,6 +444,7 @@ MainWindow::MainWindow(const char *name)
     connect(keys, SIGNAL(toggleWindow()), this, SLOT(toggleWindow()));
     connect(keys, SIGNAL(dblClick()), this, SLOT(dockDblClicked()));
     connect(keys, SIGNAL(showSearch()), this, SLOT(search()));
+    setIcons();
 }
 
 void MainWindow::changeMode(bool bSimple)
@@ -715,7 +748,7 @@ bool MainWindow::init()
     std::ifstream fs(file.c_str(), ios::in);
     ::load(this, MainWindow_Params, fs, part);
 
-    setDock(true);
+    setDock();
 
     if (mLeft < 5) mLeft = 5;
     if (mTop < 5) mTop = 5;
@@ -980,7 +1013,7 @@ void MainWindow::processEvent(ICQEvent *e)
                 }
                 if (u->AlertOnScreen){
                     CUser user(e->Uin());
-                    xosd->setMessage(i18n("User %1 is online") .arg(user.name()), e->Uin());
+                    xosd->setMessage(i18n("%1 is online") .arg(user.name()), e->Uin());
                 }
                 if (u->AlertPopup){
                     AlertMsgDlg *dlg = new AlertMsgDlg(this, e->Uin());
@@ -1085,21 +1118,27 @@ void MainWindow::saveContacts()
     fs.close();
 }
 
-void MainWindow::setDock(bool bUseDock)
+bool MainWindow::isDock()
 {
-    log(L_DEBUG, "Set dock %u", bUseDock);
-    if (bUseDock){
-        if (dock == NULL){
-            dock = new DockWnd(this, useWM);
-            connect(dock, SIGNAL(showPopup(QPoint)), this, SLOT(showPopup(QPoint)));
-            connect(dock, SIGNAL(toggleWin()), this, SLOT(toggleShow()));
-            connect(dock, SIGNAL(doubleClicked()), this, SLOT(dockDblClicked()));
-        }
+#if defined(WIN32) || defined(USE_KDE)
+    return true;
+#else
+    return UseDock;
+#endif
+}
+
+void MainWindow::setDock()
+{
+    if (dock){
+        delete dock;
+        dock = NULL;
+    }
+    if (isDock()){
+        dock = new DockWnd(this, WMDock);
+        connect(dock, SIGNAL(showPopup(QPoint)), this, SLOT(showPopup(QPoint)));
+        connect(dock, SIGNAL(toggleWin()), this, SLOT(toggleShow()));
+        connect(dock, SIGNAL(doubleClicked()), this, SLOT(dockDblClicked()));
     }else{
-        if (dock){
-            delete dock;
-            dock = NULL;
-        }
         setShow(true);
     }
 }
@@ -1360,7 +1399,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
 void MainWindow::autoAway()
 {
-    if (hideTime){
+    if (hideTime && isDock()){
         time_t now;
         time(&now);
         if (now >= (time_t)hideTime){
@@ -1494,7 +1533,7 @@ void MainWindow::moveUser(int grp)
             QStringList btns;
             btns.append(i18n("&Yes"));
             btns.append(i18n("&No"));
-            BalloonMsg *msg = new BalloonMsg(i18n("Add user %1 to ignore list ?") .arg(user.name()),
+            BalloonMsg *msg = new BalloonMsg(i18n("Add %1 to ignore list ?") .arg(user.name()),
                                              m_rc, btns, this);
             connect(msg, SIGNAL(action(int)), this, SLOT(ignoreUser(int)));
             msg->show();
@@ -1752,7 +1791,7 @@ void MainWindow::userFunction(unsigned long uin, int function, unsigned long par
                 QStringList btns;
                 btns.append(i18n("&Yes"));
                 btns.append(i18n("&No"));
-                BalloonMsg *msg = new BalloonMsg(i18n("Delete user %1?") .arg(user.name()),
+                BalloonMsg *msg = new BalloonMsg(i18n("Delete %1?") .arg(user.name()),
                                                  m_rc, btns, this);
                 connect(msg, SIGNAL(action(int)), this, SLOT(deleteUser(int)));
                 msg->show();

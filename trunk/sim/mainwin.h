@@ -235,6 +235,8 @@ public:
 
     short	DockX;
     short	DockY;
+    bool	UseDock;
+    bool	WMDock;
 
     bool 	     init();
 
@@ -256,7 +258,6 @@ public:
     Themes *themes;
     XOSD	*xosd;
 
-    int		useWM;
 
     void setShow(bool bState);
     bool isShow();
@@ -292,6 +293,9 @@ public:
 
     void fillUnread(list<msgInfo> &msgs);
     list<unread_msg> messages;
+    void setDock();
+    bool canWM;
+    bool isDock();
 signals:
     void modeChanged(bool);
     void transparentChanged();
@@ -374,7 +378,6 @@ protected:
     QTimer *autoAwayTimer;
     QTimer *blinkTimer;
     void setIcons();
-    void setDock(bool bState);
     unsigned long uinMenu;
     void setOnTop();
     void ownerChanged();

@@ -84,6 +84,17 @@ ThemeSetup::ThemeSetup(QWidget *parent)
 #else
     chkInactive->hide();
 #endif
+    chkDock->setChecked(pMain->UseDock);
+    chkWM->setChecked(pMain->WMDock);
+#ifdef WIN32
+    chkDock->hide();
+    chkWM->hide();
+#else
+#ifdef USE_KDE
+    chkDock->hide();
+#endif
+    if (!pMain->canWM()) chkWM->hide();
+#endif
     setupInit();
 }
 
@@ -157,6 +168,11 @@ void ThemeSetup::apply(ICQUser*)
     }
     if (bChange) pMain->changeWm();
 #endif
+    if ((chkDock->isChecked() != pMain->UseDock) || (chkWM->isChecked() != pMain->WMDock)){
+        pMain->UseDock = chkDock->isChecked();
+        pMain->WMDock = chkWM->isChecked();
+        pMain->setDock();
+    }
 }
 
 

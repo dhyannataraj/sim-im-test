@@ -63,7 +63,7 @@ QString EditFile::text()
 
 void EditFile::showFiles()
 {
-    QTimer::songleShot(10, this, SLOT(realShowFiles()));
+    QTimer::singleShot(10, this, SLOT(realShowFiles()));
 }
 
 void EditFile::realShowFiles()

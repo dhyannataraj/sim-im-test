@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>556</width>
-            <height>512</height>
+            <width>541</width>
+            <height>539</height>
         </rect>
     </property>
     <property>
@@ -327,6 +327,28 @@
             <property>
                 <name>text</name>
                 <string>Show user window in task manager</string>
+            </property>
+        </widget>
+        <widget>
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkDock</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Use dock</string>
+            </property>
+        </widget>
+        <widget>
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkWM</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Use WindowMaker applet</string>
             </property>
         </widget>
         <spacer>

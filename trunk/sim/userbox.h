@@ -129,6 +129,7 @@ protected slots:
     void setUserEncoding(int);
     void slotMessageReceived(ICQMessage*);
     void modeChanged(bool);
+    void accelActivated(int id);
 protected:
     void getToolbarPosition();
     void showEvent(QShowEvent *e);

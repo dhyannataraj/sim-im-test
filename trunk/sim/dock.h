@@ -38,7 +38,7 @@ class DockWnd : public QWidget
 {
     Q_OBJECT
 public:
-    DockWnd(QWidget *parent, int useWM);
+    DockWnd(QWidget *parent, bool bWM);
     ~DockWnd();
 #ifdef WIN32
     void callProc(unsigned long);
@@ -72,7 +72,7 @@ protected:
     void setTip(const QString&);
 #ifndef WIN32
     WharfIcon *wharfIcon;
-    int useWM;
+    bool bWM;
 #endif
     friend class WharfIcon;
 };

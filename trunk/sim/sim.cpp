@@ -279,7 +279,6 @@ int main(int argc, char *argv[])
         {
             { "b <dir>", i18n("Directory for files"), 0 },
             { "d <loglevel>", i18n("Loglevel"), 0 },
-            { "w <showdock>", i18n("Use WM dock"), 0 },
             { 0, 0, 0 }
         };
     KCmdLineArgs::addCmdLineOptions( options );
@@ -309,10 +308,6 @@ int main(int argc, char *argv[])
             pMain->homeDir = argv[++i];
         if (!strcmp(argv[i], "-d") && argv[i+1])
             log_level = atoi(argv[++i]);
-#ifndef WIN32
-        if (!strcmp(argv[i], "-w") && argv[i+1])
-            pMain->useWM = atoi(argv[++i]);
-#endif
     }
 #endif
     if (!pMain->init())

@@ -236,12 +236,12 @@ void WharfIcon::leaveEvent( QEvent *)
 
 #define XA_WIN_SUPPORTING_WM_CHECK      "_WIN_SUPPORTING_WM_CHECK"
 
-DockWnd::DockWnd(QWidget *main, int _useWM)
+DockWnd::DockWnd(QWidget *main, bool _bWM)
         : QWidget(NULL, "dock")
 {
 #ifndef WIN32
     wharfIcon = NULL;
-    useWM = _useWM;
+    bWM = _bWM;
 #endif
     connect(this, SIGNAL(toggleWin()), main, SLOT(toggleShow()));
     connect(this, SIGNAL(showPopup(QPoint)), main, SLOT(showPopup(QPoint)));
@@ -252,40 +252,8 @@ DockWnd::DockWnd(QWidget *main, int _useWM)
     QTimer *t = new QTimer(this);
     connect(t, SIGNAL(timeout()), this, SLOT(timer()));
     t->start(800);
-#ifndef WIN32
-    if (useWM == -1){
-        useWM = 0;
-        Atom r_type;
-        int r_format;
-        unsigned long count, bytes_remain;
-        unsigned char *prop = NULL, *prop2 = NULL;
-        Atom _XA_WIN_SUPPORTING_WM_CHECK = XInternAtom(qt_xdisplay(), XA_WIN_SUPPORTING_WM_CHECK, False);
-        int p = XGetWindowProperty(qt_xdisplay(), qt_xrootwin(), _XA_WIN_SUPPORTING_WM_CHECK,
-                                   0, 1, False, XA_CARDINAL, &r_type, &r_format,
-                                   &count, &bytes_remain, &prop);
-
-        if (p == Success && prop && r_type == XA_CARDINAL &&
-                r_format == 32 && count == 1)
-        {
-            Window n = *(long *) prop;
-
-            p = XGetWindowProperty(qt_xdisplay(), n, _XA_WIN_SUPPORTING_WM_CHECK, 0, 1,
-                                   False, XA_CARDINAL, &r_type, &r_format,
-                                   &count, &bytes_remain, &prop2);
-
-            if (p == Success && prop2 && r_type == XA_CARDINAL &&
-                    r_format == 32 && count == 1)
-                useWM = 1;
-        }
-
-        if (prop)
-            XFree(prop);
-        if (prop2)
-            XFree(prop2);
-    }
-#endif
 #ifdef USE_KDE
-    if (useWM == 0)
+    if (!bWM)
         KWin::setSystemTrayWindowFor( winId(), main->topLevelWidget()->winId());
 #endif
     needToggle = false;
@@ -307,7 +275,7 @@ DockWnd::DockWnd(QWidget *main, int _useWM)
     Shell_NotifyIconA(NIM_ADD, &notifyIconData);
 #else
     bool bWharf = true;
-    if (useWM == 0){
+    if (!bWM){
         setBackgroundMode(X11ParentRelative);
         setIcon(Pict(pClient->getStatusIcon()));
 #ifdef USE_KDE
@@ -317,26 +285,29 @@ DockWnd::DockWnd(QWidget *main, int _useWM)
     }
     if (bWharf){
         wharfIcon = new WharfIcon(this);
+        if *bWM){
         Display *dsp = x11Display();
-        WId win = winId();
-        XWMHints *hints;
-        XClassHint classhint;
-        classhint.res_name  = (char*)"sim";
-        classhint.res_class = (char*)"sim";
-        XSetClassHint(dsp, win, &classhint);
-        hints = XGetWMHints(dsp, win);
-        hints->initial_state = WithdrawnState;
-        hints->icon_x = 0;
-        hints->icon_y = 0;
-        hints->icon_window = wharfIcon->winId();
-        hints->window_group = win;
-        hints->flags = WindowGroupHint | IconWindowHint | IconPositionHint | StateHint;
-        XSetWMHints(dsp, win, hints);
-        XFree( hints );
-        XSetCommand(dsp, winId(), _argv, _argc);
-        resize(64, 64);
-        wharfIcon->show();
-        show();
+            WId win = winId();
+            XWMHints *hints;
+            XClassHint classhint;
+            classhint.res_name  = (char*)"sim";
+            classhint.res_class = (char*)"sim";
+            XSetClassHint(dsp, win, &classhint);
+            hints = XGetWMHints(dsp, win);
+            hints->initial_state = WithdrawnState;
+            hints->icon_x = 0;
+            hints->icon_y = 0;
+            hints->icon_window = wharfIcon->winId();
+            hints->window_group = win;
+            hints->flags = WindowGroupHint | IconWindowHint | IconPositionHint | StateHint;
+            XSetWMHints(dsp, win, hints);
+            XFree( hints );
+            XSetCommand(dsp, winId(), _argv, _argc);
+            resize(64, 64);
+            show();
+        }else{
+            wharfIcon->show();
+        }
     }
 #endif
     reset();
