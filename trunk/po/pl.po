@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
-"POT-Creation-Date: 2002-12-13 08:04+0300\n"
+"POT-Creation-Date: 2002-12-14 03:56+0300\n"
 "PO-Revision-Date: 2002-12-04 06:57+0100\n"
 "Last-Translator: Rafal Bera <rexx@dione.ids.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -1674,7 +1674,7 @@ msgstr "Dostępny"
 msgid "%1 from %2"
 msgstr "%1 od %2"
 
-#: dock.cpp:955 mainwin.cpp:1946
+#: dock.cpp:955 mainwin.cpp:1958
 msgid "Connecting"
 msgstr "Łączenie"
 
@@ -1698,7 +1698,7 @@ msgstr "Pokaż nied&ostępnych"
 msgid "&Group mode"
 msgstr "&Grupy"
 
-#: mainwin.cpp:613 mainwin.cpp:2692 usertbl.cpp:113
+#: mainwin.cpp:613 mainwin.cpp:2704 usertbl.cpp:113
 msgid "Status"
 msgstr "Status"
 
@@ -1706,23 +1706,23 @@ msgstr "Status"
 msgid "&Menu"
 msgstr "&Menu"
 
-#: mainwin.cpp:616 mainwin.cpp:2688
+#: mainwin.cpp:616 mainwin.cpp:2700
 msgid "Find User"
 msgstr "Szukaj użytkownika"
 
-#: mainwin.cpp:617 mainwin.cpp:2689
+#: mainwin.cpp:617 mainwin.cpp:2701
 msgid "Add Non-IM contact"
 msgstr "Dodaj kontakt spoza ICQ"
 
-#: mainwin.cpp:618 mainwin.cpp:2690
+#: mainwin.cpp:618 mainwin.cpp:2702
 msgid "Send SMS"
 msgstr "Wyślij SMS"
 
-#: mainwin.cpp:619 mainwin.cpp:2694 ui/setupdlg.cpp:97
+#: mainwin.cpp:619 mainwin.cpp:2706 ui/setupdlg.cpp:97
 msgid "Setup"
 msgstr "Ustawienia"
 
-#: mainwin.cpp:620 mainwin.cpp:2705 monitor.cpp:59
+#: mainwin.cpp:620 mainwin.cpp:2717 monitor.cpp:59
 msgid "Network monitor"
 msgstr "Monitor sieci"
 
@@ -1742,73 +1742,73 @@ msgstr "Książka telefoniczna"
 msgid "AutoHide"
 msgstr "AutoUkrywanie"
 
-#: mainwin.cpp:1194
+#: mainwin.cpp:1206
 msgid "%1 from %2 received"
 msgstr "Otrzymano %1 od %2"
 
-#: mainwin.cpp:1233 ui/logindlg.cpp:170
+#: mainwin.cpp:1245 ui/logindlg.cpp:222
 msgid "Can't connect to proxy server"
 msgstr "Nie mogę się połączyć z serwerem proxy"
 
-#: mainwin.cpp:1240 ui/logindlg.cpp:177
+#: mainwin.cpp:1252 ui/logindlg.cpp:229
 msgid "Proxy server require authorization"
 msgstr "Serwer wymaga autoryzacji"
 
-#: mainwin.cpp:1241 ui/logindlg.cpp:178
+#: mainwin.cpp:1253 ui/logindlg.cpp:230
 msgid "Invalid password for proxy"
 msgstr "Błędne hasło dla serwera proxy"
 
-#: mainwin.cpp:1254
+#: mainwin.cpp:1266
 msgid "Your UIN used from another location"
 msgstr "Twój UIN jest używany z innego miejsca"
 
-#: mainwin.cpp:1309
+#: mainwin.cpp:1321
 msgid "%1 is online"
 msgstr "%1 jest dostępny"
 
-#: mainwin.cpp:1922 mainwin.cpp:2253 ui/enable.cpp:122
+#: mainwin.cpp:1934 mainwin.cpp:2265 ui/enable.cpp:122 ui/logindlg.cpp:288
 msgid "&Yes"
 msgstr "&Tak"
 
-#: mainwin.cpp:1923 mainwin.cpp:2254 ui/enable.cpp:126
+#: mainwin.cpp:1935 mainwin.cpp:2266 ui/enable.cpp:126 ui/logindlg.cpp:289
 msgid "&No"
 msgstr "&Nie"
 
-#: mainwin.cpp:1924
+#: mainwin.cpp:1936
 msgid "Add %1 to ignore list ?"
 msgstr "Dodać %1 do listy ignorowanych ?"
 
-#: mainwin.cpp:1988
+#: mainwin.cpp:2000
 msgid "In visible list"
 msgstr "Na liście widocznych"
 
-#: mainwin.cpp:1990
+#: mainwin.cpp:2002
 msgid "In invisible list"
 msgstr "Na liście niewidocznych"
 
-#: mainwin.cpp:1993
+#: mainwin.cpp:2005
 msgid "In ignore list"
 msgstr "Na liście ignorowanych"
 
-#: mainwin.cpp:2009 mainwin.cpp:2695
+#: mainwin.cpp:2021 mainwin.cpp:2707
 msgid "Groups"
 msgstr "Grupy"
 
-#: mainwin.cpp:2010 usertbl.cpp:391 userview.cpp:1683
+#: mainwin.cpp:2022 usertbl.cpp:391 userview.cpp:1683
 msgid "Delete"
 msgstr "Usuń"
 
-#: mainwin.cpp:2011 userview.cpp:681 userview.cpp:1684
+#: mainwin.cpp:2023 userview.cpp:681 userview.cpp:1684
 msgid ""
 "_: Del\n"
 "Delete"
 msgstr "Usuń"
 
-#: mainwin.cpp:2015
+#: mainwin.cpp:2027
 msgid "&User info"
 msgstr "&Informacje"
 
-#: mainwin.cpp:2016
+#: mainwin.cpp:2028
 msgid ""
 "_: Ctrl+U\n"
 "UserInfo"
@@ -1816,11 +1816,11 @@ msgstr ""
 "Informacje o użytkowniku\n"
 "Informacje o użytkowniku"
 
-#: mainwin.cpp:2017
+#: mainwin.cpp:2029
 msgid "&History"
 msgstr "&Historia"
 
-#: mainwin.cpp:2018
+#: mainwin.cpp:2030
 msgid ""
 "_: Ctrl+H\n"
 "History"
@@ -1828,11 +1828,11 @@ msgstr ""
 "Historia\n"
 "Historia"
 
-#: mainwin.cpp:2020 ui/setupdlg.cpp:129 ui/userinfo.cpp:90
+#: mainwin.cpp:2032 ui/setupdlg.cpp:129 ui/userinfo.cpp:90
 msgid "Alert"
 msgstr "Powiadomienia"
 
-#: mainwin.cpp:2021
+#: mainwin.cpp:2033
 msgid ""
 "_: Ctrl+L\n"
 "Alert"
@@ -1840,180 +1840,180 @@ msgstr ""
 "Powiadomienia\n"
 "Powiadomienia"
 
-#: mainwin.cpp:2022 ui/acceptbase.cpp:179
+#: mainwin.cpp:2034 ui/acceptbase.cpp:179
 msgid "Accept mode"
 msgstr "Potwierdzenia"
 
-#: mainwin.cpp:2023
+#: mainwin.cpp:2035
 msgid ""
 "_: Ctrl+A\n"
 "Accept"
 msgstr "Ctrl+A"
 
-#: mainwin.cpp:2024 ui/setupdlg.cpp:128 ui/userinfo.cpp:92
+#: mainwin.cpp:2036 ui/setupdlg.cpp:128 ui/userinfo.cpp:92
 msgid "Sound"
 msgstr "Dźwięki"
 
-#: mainwin.cpp:2025
+#: mainwin.cpp:2037
 msgid ""
 "_: Ctrl+S\n"
 "Sound"
 msgstr "Dźwięki"
 
-#: mainwin.cpp:2028
+#: mainwin.cpp:2040
 msgid "Floating off"
 msgstr "Zakotwiczony"
 
-#: mainwin.cpp:2028
+#: mainwin.cpp:2040
 msgid "Floating on"
 msgstr "Pływający"
 
-#: mainwin.cpp:2029
+#: mainwin.cpp:2041
 msgid ""
 "_: Ctrl+T\n"
 "Floating"
 msgstr "Ctrl+T"
 
-#: mainwin.cpp:2032
+#: mainwin.cpp:2044
 msgid "Users"
 msgstr "Użytkownicy"
 
-#: mainwin.cpp:2033 ui/aboutdlgbase.cpp:156 ui/enable.cpp:125
-#: ui/filetransfer.cpp:156 ui/finddlgbase.cpp:66 ui/logindlgbase.cpp:124
+#: mainwin.cpp:2045 ui/aboutdlgbase.cpp:156 ui/enable.cpp:125
+#: ui/filetransfer.cpp:156 ui/finddlgbase.cpp:66 ui/logindlgbase.cpp:130
 #: ui/proxydlgbase.cpp:172 ui/securedlg.cpp:62 ui/setupdlgbase.cpp:94
 #: ui/toolsetupbase.cpp:136 ui/userautoreply.cpp:76
 msgid "&Close"
 msgstr "&Zamknij"
 
-#: mainwin.cpp:2034
+#: mainwin.cpp:2046
 msgid ""
 "_: Ctrl+C\n"
 "Close"
 msgstr "Ctrl+C"
 
-#: mainwin.cpp:2036
+#: mainwin.cpp:2048
 msgid "Alphabetically sort"
 msgstr "Sortuj alfabetycznie"
 
-#: mainwin.cpp:2037
+#: mainwin.cpp:2049
 msgid ""
 "_: Ctrl+B\n"
 "Alphabetically sort"
 msgstr "Ctrl+B"
 
-#: mainwin.cpp:2255
+#: mainwin.cpp:2267
 msgid "Delete %1?"
 msgstr "Usunąć %1?"
 
-#: mainwin.cpp:2434
+#: mainwin.cpp:2446
 msgid "New"
 msgstr "Nowy"
 
-#: mainwin.cpp:2437
+#: mainwin.cpp:2449
 msgid "To container"
 msgstr "Do segregatora"
 
-#: mainwin.cpp:2442
+#: mainwin.cpp:2454
 msgid "Read %1 message"
 msgstr "Zobacz komunikat %1"
 
-#: client.cpp:1113 mainwin.cpp:2670
+#: client.cpp:1113 mainwin.cpp:2682
 msgid "Invisible"
 msgstr "Niewidoczny"
 
-#: mainwin.cpp:2673
+#: mainwin.cpp:2685
 msgid "Don't show"
 msgstr "Nie pokazuj"
 
-#: mainwin.cpp:2674
+#: mainwin.cpp:2686
 msgid "Available"
 msgstr "Dostępny"
 
-#: mainwin.cpp:2675
+#: mainwin.cpp:2687
 msgid "Busy"
 msgstr "Zajęty"
 
-#: mainwin.cpp:2678 userview.cpp:1685
+#: mainwin.cpp:2690 userview.cpp:1685
 msgid "Create group"
 msgstr "Utwórz grupę"
 
-#: mainwin.cpp:2680 userview.cpp:1694
+#: mainwin.cpp:2692 userview.cpp:1694
 msgid "Expand all"
 msgstr "Rozwiń wszystkie"
 
-#: mainwin.cpp:2681 userview.cpp:1696
+#: mainwin.cpp:2693 userview.cpp:1696
 msgid "Collapse all"
 msgstr "Zwiń wszytskie"
 
-#: mainwin.cpp:2683 toolbtn.cpp:688
+#: mainwin.cpp:2695 toolbtn.cpp:688
 msgid "Customize toolbar..."
 msgstr "Dostosuj pasek narzędzi..."
 
-#: mainwin.cpp:2686
+#: mainwin.cpp:2698
 msgid "ICQ"
 msgstr "ICQ"
 
-#: mainwin.cpp:2696
+#: mainwin.cpp:2708
 msgid "Phone \"Follow Me\""
 msgstr "Bieżący numer telefonu"
 
-#: mainwin.cpp:2698
+#: mainwin.cpp:2710
 msgid "Shared files"
 msgstr "Udostępnianie plików"
 
-#: mainwin.cpp:2702
+#: mainwin.cpp:2714
 msgid "Always on top"
 msgstr "Zawsze na wierzchu"
 
-#: mainwin.cpp:2706
+#: mainwin.cpp:2718
 msgid "&Bug report"
 msgstr "Raport o &błędzie"
 
-#: mainwin.cpp:2707
+#: mainwin.cpp:2719
 msgid "&About SIM"
 msgstr "&O programie SIM"
 
-#: mainwin.cpp:2709
+#: mainwin.cpp:2721
 msgid "About &KDE"
 msgstr "Informacje o &KDE"
 
-#: mainwin.cpp:2712
+#: mainwin.cpp:2724
 msgid "Change UIN"
 msgstr ""
 
-#: mainwin.cpp:2713
+#: mainwin.cpp:2725
 msgid "Quit"
 msgstr "Zakończ"
 
-#: _translatorinfo.cpp:1 mainwin.cpp:2929
+#: _translatorinfo.cpp:1 mainwin.cpp:2941
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
 msgstr "Rafal Bera"
 
-#: _translatorinfo.cpp:3 mainwin.cpp:2930
+#: _translatorinfo.cpp:3 mainwin.cpp:2942
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
 msgstr "rexx@dione.ids.pl"
 
-#: mainwin.cpp:2956
+#: mainwin.cpp:2968
 msgid "light"
 msgstr "jasny"
 
-#: mainwin.cpp:2960
+#: mainwin.cpp:2972
 msgid "demibold"
 msgstr "wytłuszczony"
 
-#: mainwin.cpp:2964
+#: mainwin.cpp:2976
 msgid "bold"
 msgstr "pogrubiony"
 
-#: mainwin.cpp:2968
+#: mainwin.cpp:2980
 msgid "black"
 msgstr "czarny"
 
-#: mainwin.cpp:2975
+#: mainwin.cpp:2987
 msgid "italic"
 msgstr "kursywa"
 
@@ -2472,7 +2472,7 @@ msgstr "Zamknij w ciągu %1 sek"
 
 #: ui/addphonebase.cpp:139 ui/alertmsgbase.cpp:75 ui/autoreplybase.cpp:76
 #: ui/ballonmsg.cpp:194 ui/emaileditbase.cpp:93 ui/enable.cpp:122
-#: ui/logindlgbase.cpp:125 ui/proxydlgbase.cpp:171 ui/setupdlgbase.cpp:92
+#: ui/logindlgbase.cpp:131 ui/proxydlgbase.cpp:171 ui/setupdlgbase.cpp:92
 #: ui/toolsetupbase.cpp:134
 msgid "&Ok"
 msgstr "&Ok"
@@ -2552,16 +2552,15 @@ msgstr "Po&miń"
 msgid "File %1 exist"
 msgstr "Plik %1 istnieje"
 
-#: ui/generalsec.cpp:73
-msgid "Confirm password does not match"
-msgstr "Podane hasła są różne"
-
-#: ui/generalsec.cpp:76
+#: ui/generalsec.cpp:79
 msgid "Input current password"
 msgstr ""
 
-#: ui/generalsec.cpp:81 ui/logindlg.cpp:85 ui/logindlg.cpp:165
-#: ui/logindlg.cpp:199
+#: ui/generalsec.cpp:83
+msgid "Confirm password does not match"
+msgstr "Podane hasła są różne"
+
+#: ui/generalsec.cpp:88 ui/logindlg.cpp:217 ui/logindlg.cpp:282
 msgid "Invalid password"
 msgstr "Nieprawidłowe hasło"
 
@@ -2673,11 +2672,11 @@ msgstr "Numer"
 msgid "Publish"
 msgstr "Publiczny"
 
-#: ui/logindlg.cpp:97 ui/searchdlg.cpp:107
+#: ui/logindlg.cpp:147 ui/searchdlg.cpp:107
 msgid "Cancel"
 msgstr "Anuluj"
 
-#: ui/logindlg.cpp:133 ui/searchbase.cpp:249 ui/searchdlg.cpp:110
+#: ui/logindlg.cpp:184 ui/searchbase.cpp:249 ui/searchdlg.cpp:110
 msgid "Close"
 msgstr "Zamknij"
 
@@ -2892,7 +2891,7 @@ msgstr "Pseudonim:"
 msgid "Names"
 msgstr "Personalia"
 
-#: ui/logindlgbase.cpp:120 ui/searchbase.cpp:265
+#: ui/logindlgbase.cpp:127 ui/searchbase.cpp:265
 msgid "UIN:"
 msgstr "UIN:"
 
@@ -2947,7 +2946,7 @@ msgstr ""
 "Ta opcja współpracuje tylko z programami SIM i Licq."
 
 #: ui/acceptbase.cpp:172 ui/alertdialogbase.cpp:229 ui/fontsetupbase.cpp:221
-#: ui/forwardsetupbase.cpp:62 ui/generalsecbase.cpp:204
+#: ui/forwardsetupbase.cpp:62 ui/generalsecbase.cpp:211
 #: ui/homeinfobase.cpp:160 ui/keysetupbase.cpp:143 ui/miscsetupbase.cpp:103
 #: ui/msgbase.cpp:63 ui/msgdialogbase.cpp:98 ui/networkbase.cpp:225
 #: ui/pastinfobase.cpp:154 ui/phonebase.cpp:152 ui/phonebookbase.cpp:123
@@ -2998,26 +2997,31 @@ msgstr ""
 "dodajac na poczatku linii:\n"
 "<UIN>:"
 
-#: ui/logindlgbase.cpp:119
+#: ui/logindlgbase.cpp:123
 msgid "Login"
 msgstr "Login"
 
-#: ui/logindlgbase.cpp:121
-msgid "Password:"
-msgstr "Hasło:"
+#: ui/logindlgbase.cpp:124
+#, fuzzy
+msgid "&No show this window"
+msgstr "Nie pokazuj tego okna"
 
-#: ui/logindlgbase.cpp:122 ui/phonebookbase.cpp:132
+#: ui/logindlgbase.cpp:125 ui/phonebookbase.cpp:132
 msgid "&Delete"
 msgstr "&Usuń"
 
-#: ui/logindlgbase.cpp:123
+#: ui/logindlgbase.cpp:126
 msgid "&Proxy settings"
 msgstr "Ustawienia &proxy"
 
-#: ui/logindlgbase.cpp:126
+#: ui/logindlgbase.cpp:128
 #, fuzzy
 msgid "&Save password"
 msgstr "Zmiana hasła"
+
+#: ui/logindlgbase.cpp:129
+msgid "Password:"
+msgstr "Hasło:"
 
 #: ui/proxydlgbase.cpp:170
 msgid "Proxy settings"
@@ -3866,73 +3870,73 @@ msgstr "Strefa czasowa:"
 msgid "&Home info"
 msgstr "Adre&s zamieszkania:"
 
-#: ui/generalsecbase.cpp:205
+#: ui/generalsecbase.cpp:212
 msgid "My &authorization is required before users add me to Contact List"
 msgstr "Wymóg &autoryzacji przed dopisaniem mnie do listy kontaktów"
 
-#: ui/generalsecbase.cpp:206
+#: ui/generalsecbase.cpp:213
 msgid "Don't show my &IP-address"
 msgstr "Nie pokazuj mojego &IP"
 
-#: ui/generalsecbase.cpp:207
+#: ui/generalsecbase.cpp:214
 msgid "Allow other to view my &status from the Web"
 msgstr "Zezwól na podgląd mojego &statusu z WWW"
 
-#: ui/generalsecbase.cpp:208
+#: ui/generalsecbase.cpp:215
 msgid "I&gnore user authorization"
 msgstr "I&gnoruj wymóg autoryzacji"
 
-#: ui/generalsecbase.cpp:209
+#: ui/generalsecbase.cpp:216
 msgid "Direct connection"
 msgstr "Bezpośrednie połączenia (DCC)"
 
-#: ui/generalsecbase.cpp:210
+#: ui/generalsecbase.cpp:217
 msgid "Allow &direct connection from any user"
 msgstr "Zezwól na bezpośrednie &połączenia od wszystkich"
 
-#: ui/generalsecbase.cpp:211
+#: ui/generalsecbase.cpp:218
 msgid "Allow direct connection from user listed in &contact list"
 msgstr ""
 "Zezwól na bezpośrednie połą&czenia od użytkowników z listy kontaktów"
 
-#: ui/generalsecbase.cpp:212
+#: ui/generalsecbase.cpp:219
 msgid "Allow direct connection from user &upon authorization"
 msgstr ""
 "Zezwól na bezpośrednie połączenia od użytkowników z a&utoryzacją"
 
-#: ui/generalsecbase.cpp:213
+#: ui/generalsecbase.cpp:220
 msgid "&Security"
 msgstr "&Bezpieczeństwo"
 
-#: ui/generalsecbase.cpp:214
+#: ui/generalsecbase.cpp:221
 msgid "Reject &messages from unknown users"
 msgstr "Odrzucaj wiado&mości od nieznajomych"
 
-#: ui/generalsecbase.cpp:215
+#: ui/generalsecbase.cpp:222
 msgid "Reject &URL from unknown users"
 msgstr "Odrzucaj adresy &URL od nieznajomych"
 
-#: ui/generalsecbase.cpp:216
+#: ui/generalsecbase.cpp:223
 msgid "Reject &World Wide pager messages"
 msgstr "Odrzucaj wiadomości &World Wide pager"
 
-#: ui/generalsecbase.cpp:217
+#: ui/generalsecbase.cpp:224
 msgid "Reject &EmailExpress messages"
 msgstr "Odrzucaj wiadomości &EmailExpress"
 
-#: ui/generalsecbase.cpp:218
+#: ui/generalsecbase.cpp:225
 msgid "Reject &other messages"
 msgstr "&Odrzucaj inne wiadomości"
 
-#: ui/generalsecbase.cpp:219
+#: ui/generalsecbase.cpp:226
 msgid "&Reject"
 msgstr "Od&rzuć"
 
-#: ui/generalsecbase.cpp:220
+#: ui/generalsecbase.cpp:227
 msgid "Reject messages from unknown users contains this words or phrases:"
 msgstr "Odrzuć wiadomości od nieznajomych zawierające wyrazy lub zwroty:"
 
-#: ui/generalsecbase.cpp:221
+#: ui/generalsecbase.cpp:228
 msgid ""
 "Words are divided by any separators (space, comma, i.e.)\n"
 "Phrase (sequence of words) consists in quotas\n"
@@ -3946,29 +3950,33 @@ msgstr ""
 "* - dowolny ciąg znaków (również pusty)\n"
 "? - dowolny znak"
 
-#: ui/generalsecbase.cpp:226
+#: ui/generalsecbase.cpp:233
 msgid "Spam &filter"
 msgstr "&Filtr spamu"
 
-#: ui/changepasswdbase.cpp:90 ui/generalsecbase.cpp:227
+#: ui/changepasswdbase.cpp:90 ui/generalsecbase.cpp:234
 msgid "Retype new password:"
 msgstr "Powtórz nowe hasło:"
 
-#: ui/changepasswdbase.cpp:97 ui/generalsecbase.cpp:228
+#: ui/changepasswdbase.cpp:97 ui/generalsecbase.cpp:235
 msgid "New password:"
 msgstr "Nowe hasło:"
 
-#: ui/generalsecbase.cpp:229
+#: ui/generalsecbase.cpp:236
 #, fuzzy
 msgid "Current password:"
 msgstr "Nowe hasło:"
 
-#: ui/generalsecbase.cpp:230
+#: ui/generalsecbase.cpp:237
 #, fuzzy
 msgid "S&ave password"
 msgstr "Zmiana hasła"
 
-#: ui/generalsecbase.cpp:231
+#: ui/generalsecbase.cpp:238
+msgid "&No show login dialog at start"
+msgstr ""
+
+#: ui/generalsecbase.cpp:239
 msgid "&Password"
 msgstr "&Hasło"
 
@@ -4040,17 +4048,22 @@ msgstr "Podwójne kliknięcie na ikonę zadokowania"
 msgid "Show search window"
 msgstr "Pokaż okno wyszukiwania"
 
-#: ui/logindlg.cpp:46
+#: ui/logindlg.cpp:84
 msgid "<New UIN>"
 msgstr ""
 
-#: ui/logindlg.cpp:157
+#: ui/logindlg.cpp:209
 msgid "Unknown login error"
 msgstr "Nieznany błąd logowania"
 
-#: ui/logindlg.cpp:161
+#: ui/logindlg.cpp:213
 msgid "Rate limit"
 msgstr "Limit transferu"
+
+#: ui/logindlg.cpp:290
+#, fuzzy, c-format
+msgid "Delete history and incoming files for %u?"
+msgstr "Katalog dla plików przychodzących"
 
 #: ui/securedlg.cpp:61
 msgid "[Failed]"

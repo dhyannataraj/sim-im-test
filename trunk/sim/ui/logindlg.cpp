@@ -241,7 +241,7 @@ void LoginDialog::proxySetup()
     d.exec();
 }
 
-static rmDir(const QString &path)
+static void rmDir(const QString &path)
 {
     QDir d(path);
     QStringList l = d.entryList(QDir::Dirs);
@@ -287,7 +287,7 @@ void LoginDialog::deleteUin()
     QStringList btns;
     btns.append(i18n("&Yes"));
     btns.append(i18n("&No"));
-    BalloonMsg *msg = new BalloonMsg(i18n("Delete history and incoming files for %u") .arg(uin),
+    BalloonMsg *msg = new BalloonMsg(i18n("Delete history and incoming files for %u?") .arg(uin),
                                      rc, btns, this);
     connect(msg, SIGNAL(action(int)), this, SLOT(realDeleteUin(int)));
     msg->show();
