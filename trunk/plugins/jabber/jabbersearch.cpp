@@ -134,20 +134,19 @@ void JabberSearch::setSize()
     if (!m_bDirty || (parent() == NULL))
         return;
     m_bDirty = false;
-    QSize s = sizeHint();
-    setMinimumSize(s);
     for (QObject *p = parent(); p; p = p->parent()){
         if (p->inherits("QTabWidget")){
             QTabWidget *w = static_cast<QTabWidget*>(p);
-            s = w->sizeHint();
-            w->setMinimumSize(s);
-            s = QSize(w->width(), w->height());
+            w->setMinimumSize(w->sizeHint());
+            w->adjustSize();
             w->changeTab(this, m_name);
             break;
         }
         if (p->parent() == NULL)
             break;
     }
+    setMinimumSize(sizeHint());
+    adjustSize();
 }
 
 #if 0
