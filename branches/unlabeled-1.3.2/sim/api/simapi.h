@@ -874,7 +874,7 @@ public:
     PROP_ULONG(Time)
     PROP_STR(Error);
     PROP_STR(Font);
-    PROP_BOOL(Retry);
+    PROP_ULONG(Retry);
     const char *client() { return m_client.c_str(); }
     void setClient(const char *client);
     virtual QString presentation();

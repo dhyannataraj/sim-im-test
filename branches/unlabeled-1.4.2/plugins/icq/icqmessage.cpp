@@ -1327,7 +1327,7 @@ void ICQPlugin::registerMessages()
     eMsg.process();
 
     cmd->id			= MessageICQ;
-    cmd->text		= I18N_NOOP("Message");
+    cmd->text		= "ICQMessage";
     cmd->icon		= "message";
     cmd->accel		= NULL;
     cmd->menu_grp	= 0;
@@ -1342,7 +1342,7 @@ void ICQPlugin::registerMessages()
     eMsg.process();
 
     cmd->id         = MessageICQAuthRequest;
-    cmd->text       = "";
+    cmd->text       = "ICQAuthRequest";
     cmd->icon       = "auth";
     cmd->menu_grp   = 0;
     cmd->param      = &defIcqAuthRequest;
@@ -1350,14 +1350,14 @@ void ICQPlugin::registerMessages()
 
 
     cmd->id			= MessageICQAuthGranted;
-    cmd->text		= "";
+    cmd->text		= "ICQAuthGranted";
     cmd->icon		= "auth";
     cmd->menu_grp	= 0;
     cmd->param		= &defIcqAuthGranted;
     eMsg.process();
 
     cmd->id			= MessageICQAuthRefused;
-    cmd->text		= "";
+    cmd->text		= "ICQAuthRefused";
     cmd->icon		= "auth";
     cmd->menu_grp	= 0;
     cmd->param		= &defIcqAuthRefused;

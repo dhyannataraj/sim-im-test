@@ -969,8 +969,10 @@ void *MsgEdit::processEvent(Event *e)
                     msgWidget = this;
                 if (msg->getRetry()){
                     QStringList btns;
-                    btns.append(i18n("Send &urgent"));
-                    btns.append(i18n("Send to &list"));
+					if (msg->getRetry() & MESSAGE_URGENT)
+						btns.append(i18n("Send &urgent"));
+					if (msg->getRetry() & MESSAGE_LIST)
+	                    btns.append(i18n("Send to &list"));
                     btns.append(i18n("&Cancel"));
                     BalloonMsg *msg = new BalloonMsg(NULL, err, btns, msgWidget, NULL, false);
                     connect(msg, SIGNAL(action(int, void*)), this, SLOT(retry(int, void*)));

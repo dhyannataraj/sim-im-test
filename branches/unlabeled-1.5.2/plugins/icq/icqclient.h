@@ -231,6 +231,7 @@ typedef struct ICQClientData
     unsigned	RandomChatGroupCurrent;
     unsigned	SendFormat;
     unsigned	AutoUpdate;
+	unsigned	AutoReplyUpdate;
     unsigned	TypingNotification;
     unsigned	AcceptInDND;
     unsigned	AcceptInOccupied;
@@ -368,6 +369,7 @@ typedef struct ar_request
 {
     unsigned short	type;
     unsigned short	flags;
+	unsigned short	ack;
     MessageId		id;
     unsigned short	id1;
     unsigned short	id2;
@@ -404,6 +406,7 @@ public:
     PROP_ULONG(RandomChatGroupCurrent);
     PROP_ULONG(SendFormat);
     PROP_BOOL(AutoUpdate);
+	PROP_BOOL(AutoReplyUpdate);
     PROP_BOOL(TypingNotification);
     PROP_BOOL(AcceptInDND);
     PROP_BOOL(AcceptInOccupied);
@@ -577,7 +580,7 @@ protected:
     void parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAck, MessageId id);
     void sendAutoReply(unsigned long uin, MessageId id,
                        const plugin p, unsigned short cookie1, unsigned short cookie2,
-                       unsigned char msgType, unsigned char msgFlags, unsigned long msgState,
+                       unsigned short  msgType, char msgFlags, unsigned short msgState,
                        const char *response, unsigned short response_type, Buffer &copy);
     void addPluginInfoRequest(unsigned long uin, unsigned plugin_index);
     void sendMTN(unsigned long uin, unsigned short type);

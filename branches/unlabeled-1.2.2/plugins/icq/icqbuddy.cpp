@@ -318,7 +318,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                     Event e(EventContactOnline, contact);
                     e.process();
                 }
-                if (getAutoUpdate() && ((data->Status & 0xFF) != ICQ_STATUS_ONLINE)){
+                if (getAutoReplyUpdate() && ((data->Status & 0xFF) != ICQ_STATUS_ONLINE)){
                     if ((getInvisible() && data->VisibleId) ||
                             (!getInvisible() && (data->InvisibleId == 0)))
                         addPluginInfoRequest(data->Uin, PLUGIN_AR);
