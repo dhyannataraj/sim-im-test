@@ -49,6 +49,7 @@
 #include <qtoolbar.h>
 #include <qlineedit.h>
 #include <qaccel.h>
+#include <qdragobject.h>
 
 #ifdef WIN32
 #if _MSC_VER > 1020
@@ -367,19 +368,35 @@ QString TextShow::unquoteString(const QString &s, int from, int to)
     return res;
 }
 
-void TextShow::copy()
+QString TextShow::selectedText()
 {
+    QString res;
     int paraFrom, paraTo, indexFrom, indexTo;
     getSelection(&paraFrom, &indexFrom, &paraTo, &indexTo);
     if ((paraFrom > paraTo) || ((paraFrom == paraTo) && (indexFrom >= indexTo)))
-        return;
-    QString res;
+        return res;
     for (int i = paraFrom; i <= paraTo; i++){
         res += unquoteString(text(i), (i == paraFrom) ? indexFrom : 0, (i == paraTo) ? indexTo : -1);
         if ((i < paraTo) && (i < paragraphs()))
             res += "\n";
     }
-    QApplication::clipboard()->setText(res);
+	return res;
+}
+
+void TextShow::copy()
+{
+    QApplication::clipboard()->setText(selectedText());
+}
+
+void TextShow::startDrag()
+{
+    QDragObject *drag = new QTextDrag(selectedText(), viewport());
+    if ( isReadOnly() ) {
+        drag->dragCopy();
+    } else {
+        if ( drag->drag() && QDragObject::target() != this && QDragObject::target() != viewport() )
+            removeSelectedText();
+    }
 }
 
 void TextShow::encodingChanged(unsigned long _uin)

@@ -1754,7 +1754,7 @@ bool UserFloat::setUIN(unsigned long uin)
     if (!it.current()) return false;
     QSize s;
     s.setWidth(it.current()->width(QFontMetrics(QFont()), this, 0) + 10);
-    s.setHeight(it.current()->totalHeight() + 6);
+    s.setHeight(it.current()->totalHeight() + 2);
     resize(s);
     setUin(uin);
     return true;
