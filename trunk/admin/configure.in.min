@@ -58,11 +58,11 @@ AC_ENABLE_STATIC(no)
 AC_LIBTOOL_DLOPEN
 KDE_PROG_LIBTOOL
 
-if test "$use_kde" = "yes"; then
-  dnl for NLS support. Call them in this order!
-  dnl WITH_NLS is for the po files
-  AM_KDE_WITH_NLS
-else
+dnl for NLS support. Call them in this order!
+dnl WITH_NLS is for the po files
+AM_KDE_WITH_NLS
+
+if test "x$use_kde" != "xyes"; then
   KDE_CHECK_STL
   include_ARTS_TRUE='#'
   include_ARTS_FALSE=
