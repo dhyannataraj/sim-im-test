@@ -4933,6 +4933,35 @@ InputPath=.\pict\connect.gif
 # PROP Default_Filter "xsl"
 # Begin Source File
 
+SOURCE=.\styles\Separated.xsl
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build - Copy $(InputPath)
+OutDir=.\..\..\Release
+InputPath=.\styles\Separated.xsl
+
+"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /Y $(InputPath) $(OutDir)\$(InputPath)
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build - Copy $(InputPath)
+OutDir=.\..\..\Debug
+InputPath=.\styles\Separated.xsl
+
+"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /Y $(InputPath) $(OutDir)\$(InputPath)
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE=.\styles\SIM.xsl
 
 !IF  "$(CFG)" == "_core - Win32 Release"

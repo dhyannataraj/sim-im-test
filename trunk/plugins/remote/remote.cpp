@@ -327,7 +327,7 @@ static cmdDef cmds[] =
         { "DELETE", "delete contact", "DELETE [<address> | <nick>]", 1, 1 },
         { "OPEN", "open contact", "ADD <protocol> <address> [<nick>] [<group>]", 2, 4 },
         { "FILE", "process UIN file", "FILE <file>", 1, 1 },
-        { "CONTACTS", "print contact list", "CONTACT", 0, 0 },
+        { "CONTACTS", "print contact list", "CONTACT [<message_type>]", 0, 1 },
         { "SENDFILE", "send file", "SENDFILE <file> <contact>", 2, 2 },
         { NULL, NULL, NULL, 0, 0 }
     };
@@ -441,9 +441,21 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             return true;
         }
     case CMD_CONTACTS:{
+            unsigned type = 0;
+            if (args.size())
+                type = args[0].toUInt();
             ContactList::ContactIterator it;
             Contact *contact;
             while ((contact = ++it) != NULL){
+                if (type){
+                    Command cmd;
+                    cmd->id      = type;
+                    cmd->menu_id = MenuMessage;
+                    cmd->param   = (void*)(contact->id());
+                    Event e(EventCheckState, cmd);
+                    if (!e.process())
+                        continue;
+                }
                 if (!out.isEmpty())
                     out += "\n";
                 out += QString::number(contact->id());

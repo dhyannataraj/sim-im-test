@@ -359,6 +359,10 @@ JabberPlugin::JabberPlugin(unsigned base)
     icon.xpm = yahoo_offline;
     eIcon.process();
 
+    icon.name = "Yahoo_online";
+    icon.xpm = yahoo_online;
+    eIcon.process();
+
     icon.name = "Yahoo_away";
     icon.xpm = yahoo_away;
     eIcon.process();
