@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2003-10-04 21:04+0400\n"
-"PO-Revision-Date: 2003-10-05 18:21+0300\n"
+"PO-Revision-Date: 2003-10-05 18:58+0300\n"
 "Last-Translator: Ivan Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team:  <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2452,7 +2452,7 @@ msgstr "<p>Домашня сторінка: <a href=\"%1\"><u>%2</u></a></p>"
 
 #: plugins/icq/icqsecure.cpp:46
 msgid "Input current password"
-msgstr "Введіть діючий пароль"
+msgstr "Введіть чинний пароль"
 
 #: plugins/icq/icqsecure.cpp:49
 msgid "Confirm password does not match"
@@ -2460,7 +2460,7 @@ msgstr "Підтвердження і пароль не співпадають"
 
 #: plugins/icq/icqsecure.cpp:52
 msgid "Invalid password"
-msgstr "Помилковий пароль"
+msgstr "Недійсний пароль"
 
 #: plugins/icq/icqsecure.cpp:125 plugins/jabber/addresult.cpp:30
 msgid "Nick"
@@ -2468,7 +2468,7 @@ msgstr "Псевдонім"
 
 #: plugins/icq/icqservice.cpp:178
 msgid "anonymous"
-msgstr "невідомий"
+msgstr "анонімний"
 
 #: plugins/icq/icqservice.cpp:182
 #, c-format
@@ -2490,11 +2490,11 @@ msgstr "Невірний номер"
 
 #: plugins/icq/icqvarious.cpp:1414
 msgid "RATE LIMIT"
-msgstr "Перевищено обмеження на кількість SMS"
+msgstr "Перевищено обмеження"
 
 #: plugins/icq/icqvarious.cpp:1447 plugins/icq/icqvarious.cpp:1506
 msgid "SMS send fail"
-msgstr "Помилка відправки SMS"
+msgstr "Помилка відсилання SMS"
 
 #: plugins/icq/interestsinfo.cpp:90
 msgid "Art"
@@ -2506,7 +2506,7 @@ msgstr "Автомобілі"
 
 #: plugins/icq/interestsinfo.cpp:92
 msgid "Celebrity Fans"
-msgstr "Фани"
+msgstr "Фани знаменитостей"
 
 #: plugins/icq/interestsinfo.cpp:93
 msgid "Collections"
@@ -2550,27 +2550,27 @@ msgstr "Музика"
 
 #: plugins/icq/interestsinfo.cpp:104
 msgid "Outdoor Activities"
-msgstr "Подорожі"
+msgstr "Зовнішня діяльність"
 
 #: plugins/icq/interestsinfo.cpp:105
 msgid "Parenting"
-msgstr "Діти"
+msgstr "Батьківство"
 
 #: plugins/icq/interestsinfo.cpp:106
 msgid "Pets/Animals"
-msgstr "Тварини"
+msgstr "Улюбленці/Тварини"
 
 #: plugins/icq/interestsinfo.cpp:107
 msgid "Religion"
-msgstr "Релігія"
+msgstr "Святиня"
 
 #: plugins/icq/interestsinfo.cpp:108
 msgid "Science/Technology"
-msgstr "Наука/технології"
+msgstr "Наука/Технології"
 
 #: plugins/icq/interestsinfo.cpp:109
 msgid "Skills"
-msgstr "Навчання"
+msgstr "Майстерність"
 
 #: plugins/icq/interestsinfo.cpp:110 plugins/icq/workinfo.cpp:96
 msgid "Sports"
@@ -2582,7 +2582,7 @@ msgstr "Веб-дизайн"
 
 #: plugins/icq/interestsinfo.cpp:112
 msgid "Nature and Environment"
-msgstr "Природа"
+msgstr "Природа і оточуюче середовище"
 
 #: plugins/icq/interestsinfo.cpp:113
 msgid "News & Media"
@@ -2590,19 +2590,19 @@ msgstr "Новини"
 
 #: plugins/icq/interestsinfo.cpp:114 plugins/icq/workinfo.cpp:81
 msgid "Government"
-msgstr "Державна служба"
+msgstr "Врядування"
 
 #: plugins/icq/interestsinfo.cpp:115
 msgid "Business & Economy"
-msgstr "Бізнес"
+msgstr "Бізнес і економіка"
 
 #: plugins/icq/interestsinfo.cpp:116
 msgid "Mystics"
-msgstr "Містицизм"
+msgstr "Містика"
 
 #: plugins/icq/interestsinfo.cpp:117
 msgid "Travel"
-msgstr "Туризм"
+msgstr "Подорожі"
 
 #: plugins/icq/interestsinfo.cpp:118
 msgid "Astronomy"
@@ -2610,7 +2610,7 @@ msgstr "Астрономія"
 
 #: plugins/icq/interestsinfo.cpp:119
 msgid "Space"
-msgstr "Простір"
+msgstr "Космос"
 
 #: plugins/icq/interestsinfo.cpp:120
 msgid "Clothing"
@@ -2646,7 +2646,7 @@ msgstr "50-і"
 
 #: plugins/icq/interestsinfo.cpp:128
 msgid "Finance and corporate"
-msgstr "Фінанси"
+msgstr "Фінанси і коропорації"
 
 #: plugins/icq/interestsinfo.cpp:129
 msgid "Entertainment"
@@ -2715,7 +2715,7 @@ msgstr "Бходжпурі"
 
 #: plugins/icq/moreinfo.cpp:97
 msgid "Burmese"
-msgstr "Бурменська"
+msgstr "Бірманська"
 
 #: plugins/icq/moreinfo.cpp:98
 msgid "Cantonese"
@@ -2747,7 +2747,7 @@ msgstr "Фінська"
 
 #: plugins/icq/moreinfo.cpp:111
 msgid "Gaelic"
-msgstr "Гаелська"
+msgstr "Гельська"
 
 #: plugins/icq/icqclient.cpp:297 plugins/icq/icqclient.cpp:298
 #: plugins/icq/moreinfo.cpp:113
@@ -2953,7 +2953,7 @@ msgstr "Минуле місце роботи"
 
 #: plugins/icq/pastinfo.cpp:81
 msgid "Past Organization"
-msgstr "Бувші організації"
+msgstr "Минула організація"
 
 #: plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
 msgid "Other"
@@ -3001,11 +3001,11 @@ msgstr "Клуб натуралістів"
 
 #: plugins/icq/pastinfo.cpp:98
 msgid "Professional Org."
-msgstr "Професіональне об'єднання"
+msgstr "Професійне об'єднання"
 
 #: plugins/icq/pastinfo.cpp:99
 msgid "Scientific/Technical Org."
-msgstr "Наукове товариство"
+msgstr "Науково-технічне товариство"
 
 #: plugins/icq/pastinfo.cpp:100
 msgid "Self Improvement Group"
@@ -3062,11 +3062,11 @@ msgstr ""
 
 #: plugins/icq/workinfo.cpp:72
 msgid "Academic"
-msgstr "Академік"
+msgstr "Академічність"
 
 #: plugins/icq/workinfo.cpp:73
 msgid "Administrative"
-msgstr "Адміністратор"
+msgstr "Адміністрація"
 
 #: plugins/icq/workinfo.cpp:74
 msgid "Art/Entertainment"
@@ -3138,7 +3138,7 @@ msgstr "Пенсіонер"
 
 #: plugins/icq/workinfo.cpp:95
 msgid "Science & Research"
-msgstr "Наука"
+msgstr "Наука і дослідження"
 
 #: plugins/icq/workinfo.cpp:97
 msgid "Technical"
@@ -3223,11 +3223,11 @@ msgstr "Порти для прямих з'єднань"
 #: plugins/icq/aimconfigbase.cc:154 plugins/icq/icqconfigbase.cc:226
 #: plugins/jabber/jabberconfigbase.cpp:265 plugins/msn/msnconfigbase.cpp:182
 msgid "&Network"
-msgstr "&З'єднання"
+msgstr "&Мережа"
 
 #: plugins/icq/icqconfigbase.cc:227
 msgid "Send format:"
-msgstr "Формат повідомлення:"
+msgstr "Формат посилання:"
 
 #: plugins/icq/icqconfigbase.cc:228
 msgid "Accept in &occupied mode"
@@ -3240,7 +3240,7 @@ msgstr "Приймати в режимі \"&Не турбувати\""
 #: plugins/icq/icqconfigbase.cc:230
 msgid "Support &typing notification"
 msgstr ""
-"&Підтримувати попередженя про друк "
+"&Підтримувати сповіщення про набір "
 "повідомлення"
 
 #: plugins/icq/icqconfigbase.cc:231
@@ -3257,7 +3257,7 @@ msgstr ""
 
 #: plugins/icq/icqconfigbase.cc:233
 msgid "&Options"
-msgstr "&Опції"
+msgstr "&Параметри"
 
 #: plugins/icq/icqinfobase.cc:305
 msgid "Form5"
@@ -3278,11 +3278,11 @@ msgstr "Псевдонім:"
 
 #: plugins/icq/icqinfobase.cc:310
 msgid "Encoding:"
-msgstr "Кодова сторінка:"
+msgstr "Кодування:"
 
 #: plugins/icq/icqinfobase.cc:311
 msgid "Random chat group:"
-msgstr "Група випадкового пошуку:"
+msgstr "Група випадкового спілкування:"
 
 #: plugins/icq/icqinfobase.cc:312 plugins/jabber/jabberinfobase.cpp:214
 #: plugins/msn/msninfobase.cpp:163
@@ -3315,7 +3315,7 @@ msgstr ""
 
 #: plugins/icq/icqsecurebase.cc:214
 msgid "Don't show my &IP-address"
-msgstr "Не показувати свою &IP-адресу"
+msgstr "Не показувати мою &IP-адресу"
 
 #: plugins/icq/icqsecurebase.cc:216
 msgid "Allow other to view my &status from the Web"
@@ -3363,7 +3363,7 @@ msgstr "Новий пароль:"
 
 #: plugins/icq/icqsecurebase.cc:225
 msgid "Retype new password:"
-msgstr "Введіть новий пароль ще раз:"
+msgstr "Повторіть новий пароль:"
 
 #: plugins/icq/icqsecurebase.cc:226
 msgid "&Password"
@@ -3379,7 +3379,7 @@ msgstr "Список &невидимості"
 
 #: plugins/icq/warndlgbase.cc:83
 msgid "Send warning"
-msgstr "Відправка попередження"
+msgstr "Відсилання попередження"
 
 #: plugins/icq/warndlgbase.cc:84
 msgid ""
@@ -3394,7 +3394,7 @@ msgstr ""
 
 #: plugins/icq/warndlgbase.cc:85
 msgid "Warn &anonymously"
-msgstr "Попередити &анонімно"
+msgstr "Попередження &анонімності"
 
 #: plugins/icq/warndlgbase.cc:86
 msgid ""
@@ -3440,11 +3440,11 @@ msgstr "&Розширена інформація"
 
 #: plugins/icq/moreinfobase.cc:211
 msgid "Spoken languages:"
-msgstr "Мови:"
+msgstr "Розмовні мови:"
 
 #: plugins/icq/moreinfobase.cc:212
 msgid "&Languages"
-msgstr "&Мова"
+msgstr "&Мови"
 
 #: plugins/icq/workinfobase.cc:215
 msgid "Name:"
@@ -3508,7 +3508,7 @@ msgstr "&Фон"
 
 #: plugins/icq/aimsearchbase.cc:277 plugins/icq/icqsearchbase.cc:323
 msgid "Email:"
-msgstr "Пошта:"
+msgstr "Email:"
 
 #: plugins/icq/icqsearchbase.cc:330 plugins/jabber/jabberworkinfobase.cpp:129
 msgid "Department:"
@@ -3544,7 +3544,7 @@ msgstr "&Додати контакт"
 
 #: plugins/icq/icqsearchbase.cc:343
 msgid "Send &message"
-msgstr "Відправити &повідомлення"
+msgstr "Відіслати &повідомлення"
 
 #: plugins/icq/icqsearchbase.cc:344
 msgid "Random chat"
