@@ -167,7 +167,13 @@ cfgParam ICQGroup_Params[] =
     {
         { "Name", OFFSET_OF(ICQGroup, Name), PARAM_STRING, 0 },
         { "Id", OFFSET_OF(ICQGroup, Id), PARAM_USHORT, 0 },
-        { "Expand", OFFSET_OF(ICQGroup, Expand), PARAM_BOOL, 1 },
+        { "", 0, 0, 0 }
+    };
+
+cfgParam SIMGroup_Params[] =
+    {
+        { "Expand", OFFSET_OF(SIMGroup, Expand), PARAM_BOOL, 1 },
+        { "", 0, PARAM_OFFS, (unsigned)ICQGroup_Params },
         { "", 0, 0, 0 }
     };
 
@@ -373,6 +379,13 @@ ICQUser *SIMClient::createUser()
     return u;
 }
 
+ICQGroup *SIMClient::createGroup()
+{
+    ICQGroup *g = new SIMGroup;
+    ::init(g, SIMGroup_Params);
+    return g;
+}
+
 void SIMClient::save(QFile &s)
 {
     ::save(this, Client_Params, s);
@@ -380,7 +393,7 @@ void SIMClient::save(QFile &s)
     ::save(&contacts, ICQContactList_Params, s);
     for (vector<ICQGroup*>::iterator it_grp = contacts.groups.begin(); it_grp != contacts.groups.end(); it_grp++){
         writeStr(s, "[Group]\n");
-        ::save(*it_grp, ICQGroup_Params, s);
+        ::save(*it_grp, SIMGroup_Params, s);
     }
     for (list<ICQUser*>::iterator it = contacts.users.begin(); it != contacts.users.end(); it++){
         if ((*it)->bIsTemp) continue;
@@ -400,7 +413,7 @@ bool SIMClient::load(QFile &s, string &nextPart)
         }
         if (!strcmp(nextPart.c_str(), "[Group]")){
             ICQGroup *grp = createGroup();
-            if (!::load(grp, ICQGroup_Params, s, nextPart)){
+            if (!::load(grp, SIMGroup_Params, s, nextPart)){
                 delete grp;
                 break;
             }
@@ -1408,6 +1421,11 @@ QString SIMClient::encodingName(int mib)
             if ((*it).mib == mib) return (*it).name;
     }
     return "";
+}
+
+void SIMClient::createGroup(const char *name)
+{
+	ICQClient::createGroup(name);
 }
 
 SIMClient *pClient = NULL;

@@ -75,6 +75,12 @@ inline bool operator == (const autoResponse &a, const autoResponse &b)
     return (a.tmpl == b.tmpl) && (a.msg == b.msg);
 }
 
+class SIMGroup : public ICQGroup
+{
+public:
+    bool				Expand;
+};
+
 class SIMUser : public ICQUser
 {
 public:
@@ -132,7 +138,8 @@ public:
     ~SIMClient();
     string			BirthdayReminder;
     string			FileDone;
-    ICQUser *createUser();
+    ICQUser			*createUser();
+	ICQGroup		*createGroup();
     void save(QFile &s);
     bool load(QFile &s, string &nextPart);
     QString getName(bool bUserUIN=true);
@@ -158,6 +165,7 @@ public:
     static QString from8Bit(QTextCodec*, const string&, const char *srcCharset=NULL);
     void fillEncodings(QPopupMenu *menu, bool bMain);
     QStringList getEncodings(bool bMain);
+    void createGroup(const char *name);
 protected:
     void sendSMS(SMSmessage *sms);
     list<SMSmessage*> smsQueue;

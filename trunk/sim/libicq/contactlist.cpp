@@ -311,7 +311,6 @@ string ICQUser::name(bool UseUin)
 ICQGroup::ICQGroup()
 {
     Id = 0;
-    Expand = true;
 }
 
 EMailInfo::EMailInfo()

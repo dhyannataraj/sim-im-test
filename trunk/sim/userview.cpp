@@ -532,7 +532,7 @@ GroupViewItem::GroupViewItem(ICQGroup *g, unsigned n, UserView *parent)
     m_id = g->Id;
     CGroup grp(g);
     setText(0, grp.name());
-    setOpen(g->Expand);
+    setOpen(static_cast<SIMGroup*>(g)->Expand);
     UserView *users = static_cast<UserView*>(listView());
     if (users->bList) setText(3, QString::number(CHECK_OFF));
 }
@@ -553,7 +553,7 @@ void GroupViewItem::setOpen(bool bState)
     UserViewItemBase::setOpen(bState);
     if (m_id){
         ICQGroup *g = pClient->getGroup(m_id);
-        g->Expand = bState;
+        static_cast<SIMGroup*>(g)->Expand = bState;
     }else{
         pClient->contacts.Expand = bState;
     }
@@ -1279,7 +1279,7 @@ void UserView::setGroupExpand(unsigned short grpId, bool bState)
     }
     ICQGroup *g = pClient->getGroup(grpId);
     if (g == NULL) return;
-    g->Expand = bState;
+    static_cast<SIMGroup*>(g)->Expand = bState;
 }
 
 void UserView::incStateCount(unsigned state)

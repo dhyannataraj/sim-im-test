@@ -118,7 +118,6 @@ public:
     virtual ~ICQGroup() {}
     string			Name;
     unsigned short	Id;
-    bool			Expand;
 protected:
     bool			bChecked;
     friend class	ICQClient;
