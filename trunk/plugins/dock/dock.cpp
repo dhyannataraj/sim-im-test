@@ -215,9 +215,9 @@ bool DockPlugin::eventFilter(QObject *o, QEvent *e)
 bool DockPlugin::isMainShow()
 {
     QWidget *main = getMainWindow();
-    if (!main->isVisible())
-        return false;
-    return true;
+    if (main && main->isVisible())
+        return true;
+    return false;
 }
 
 void *DockPlugin::processEvent(Event *e)
