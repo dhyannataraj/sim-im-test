@@ -40,7 +40,8 @@ const unsigned short ICQ_SNACxLISTS_DONE           = 0x000E;
 const unsigned short ICQ_SNACxLISTS_ROSTERxOK      = 0x000F;
 const unsigned short ICQ_SNACxLISTS_EDIT           = 0x0011;
 const unsigned short ICQ_SNACxLISTS_SAVE           = 0x0012;
-const unsigned short ICQ_SNACxLISTS_CREATE_USER    = 0x0014;
+const unsigned short ICQ_SNACxLISTS_FUTURE_AUTH    = 0x0014;
+const unsigned short ICQ_SNACxLISTS_FUTURE_GRANT   = 0x0015;
 const unsigned short ICQ_SNACxLISTS_REQUEST_AUTH   = 0x0018;
 const unsigned short ICQ_SNACxLISTS_AUTHxREQUEST   = 0x0019;
 const unsigned short ICQ_SNACxLISTS_AUTHxSEND	   = 0x001A;
@@ -487,7 +488,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             messageReceived(new AuthMessage(MessageAdded), screen.c_str());
             break;
         }
-    case ICQ_SNACxLISTS_AUTHxREQUEST:{
+	case ICQ_SNACxLISTS_AUTHxREQUEST:{
             string screen = m_socket->readBuffer.unpackScreen();
             string message;
             string charset;
@@ -517,6 +518,28 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 data->WantAuth.bValue = true;
             break;
         }
+    case ICQ_SNACxLISTS_FUTURE_GRANT:{
+			/* we treat future grant as normal grant but it isn't the same...
+			   http://iserverd1.khstu.ru/oscar/snac_13_15.html */
+            string screen = m_socket->readBuffer.unpackScreen();
+            string message;
+            Message *m = NULL;
+
+            m_socket->readBuffer.unpackStr(message);
+            AuthMessage *msg = new AuthMessage(MessageAuthGranted);
+            msg->setText(QString::fromUtf8(message.c_str()));
+            m = msg;
+            messageReceived(m, screen.c_str());
+            Contact *contact;
+            ICQUserData *data = findContact(screen.c_str(), NULL, false, contact);
+            if (data){
+                data->WaitAuth.bValue = false;
+                Event e(EventContactChanged, contact);
+                e.process();
+                addPluginInfoRequest(data->Uin.value, PLUGIN_QUERYxSTATUS);
+                addPluginInfoRequest(data->Uin.value, PLUGIN_QUERYxINFO);
+            }
+	}
     case ICQ_SNACxLISTS_AUTH:{
             string screen = m_socket->readBuffer.unpackScreen();
             char auth_ok;
@@ -994,7 +1017,7 @@ void ICQClient::processListRequest()
             if (data->GrpId.value != grp_id){
                 if (grp_id){
                     if (data->GrpId.value == 0){
-                        snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_CREATE_USER);
+                        snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_FUTURE_AUTH);
                         m_socket->writeBuffer.packScreen(screen(data).c_str());
                         m_socket->writeBuffer << 0x00000000L;
                         sendPacket();
