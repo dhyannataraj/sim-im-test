@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2003-08-02 23:07+0400\n"
-"PO-Revision-Date: 2003-08-02 18:28GMT\n"
-"Last-Translator: Crissi <crissi99@gmx.de>\n"
+"PO-Revision-Date: 2003-08-04 09:10GMT\n"
+"Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,13 +20,11 @@ msgstr ""
 
 #: sim/api/aboutdata.cpp:274
 msgid "replace this with information about your translation team"
-msgstr ""
-"Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
+msgstr "Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
 
 #: sim/api/aboutdata.cpp:290
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
@@ -1624,7 +1622,7 @@ msgstr "Ausschneiden"
 
 #: sim/ui/fontsetupbase.cpp:244 sim/ui/qt3/i18n.cpp:251
 msgid "Copy"
-msgstr "Kopieren"
+msgstr "Letzte"
 
 #: sim/ui/qt3/i18n.cpp:253
 msgid "Paste"
@@ -2064,14 +2062,12 @@ msgstr ""
 "&MyUin; - eigene UIN"
 
 #: sim/ui/smssetupbase.cpp:131
-#, fuzzy
 msgid "&Signature"
-msgstr "&Bild"
+msgstr "&Signatur"
 
 #: plugins/forward/forwardcfgbase.cpp:102 sim/ui/smssetupbase.cpp:132
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-"Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
 
 #: plugins/forward/forwardcfgbase.cpp:103 sim/ui/smssetupbase.cpp:133
 msgid ""
@@ -2101,32 +2097,28 @@ msgid "Use proxy"
 msgstr "Proxy-Server benutzen"
 
 #: sim/ui/networkbase.cpp:232 sim/ui/proxydlgbase.cpp:176
-#, fuzzy
 msgid "Proxy host:"
-msgstr "Proxy-Port:"
+msgstr "Proxyhost:"
 
 #: sim/ui/networkbase.cpp:236 sim/ui/proxydlgbase.cpp:177
 msgid "Proxy password:"
 msgstr "Proxy-Passwort:"
 
 #: sim/ui/networkbase.cpp:235 sim/ui/proxydlgbase.cpp:178
-#, fuzzy
 msgid "Proxy user:"
-msgstr "Proxy-Host:"
+msgstr "Proxy-Benutzer:"
 
 #: sim/ui/proxydlgbase.cpp:179
-#, fuzzy
 msgid "User proxy authorization"
-msgstr "Fehler bei der Benutzerauthentisierung am Proxy-Server"
+msgstr "Proxy-Benutzerauthentfizierung"
 
 #: sim/ui/networkbase.cpp:233 sim/ui/proxydlgbase.cpp:180
 msgid "Proxy port:"
 msgstr "Proxy-Port:"
 
 #: sim/ui/proxydlgbase.cpp:181
-#, fuzzy
 msgid "Server"
-msgstr "Server:"
+msgstr "Server"
 
 #: plugins/proxy/proxycfgbase.cpp:148 sim/ui/networkbase.cpp:229
 #: sim/ui/proxydlgbase.cpp:182
@@ -2144,9 +2136,8 @@ msgid "Login"
 msgstr "Benutzer"
 
 #: sim/ui/logindlgbase.cpp:124
-#, fuzzy
 msgid "&Do not show this window"
-msgstr "Dieses Fenster beim Start nicht &anzeigen"
+msgstr "Dieses Fenster nicht &anzeigen"
 
 #: sim/ui/logindlgbase.cpp:126
 msgid "&Proxy settings"
@@ -2215,9 +2206,8 @@ msgid "&Server"
 msgstr "&Server"
 
 #: sim/ui/networkbase.cpp:234
-#, fuzzy
 msgid "Use proxy authorization"
-msgstr "Fehler bei der Benutzerauthentisierung am Proxy-Server"
+msgstr "Proxy-Authentifizierung benutzen"
 
 #: plugins/proxy/proxy.cpp:1233 sim/ui/networkbase.cpp:237
 msgid "&Proxy"
@@ -2256,24 +2246,20 @@ msgid "Speed:"
 msgstr "Geschwindigkeit:"
 
 #: sim/ui/filetransferbase.cpp:128
-#, fuzzy
 msgid "&Transfer"
-msgstr "Übertragung abgeschlossen"
+msgstr "Über&tragung"
 
 #: sim/ui/filetransferbase.cpp:130
-#, fuzzy
 msgid "Close after send"
-msgstr "&Nach beendeter Übertragung schließen"
+msgstr "Nach dem Senden schließen"
 
 #: sim/ui/acceptbase.cpp:174 sim/ui/acceptbase.cpp:178
-#, fuzzy
 msgid "Override global settings"
-msgstr "Globale Einstellungen über&schreiben"
+msgstr "Globale Einstellungen überschreiben"
 
 #: sim/ui/acceptbase.cpp:175
-#, fuzzy
 msgid "Automaitcaly open window"
-msgstr "Fenster beim Nachrichtenempfang automatisch öffnen"
+msgstr "Fenster automatisch öffnen"
 
 #: sim/ui/acceptbase.cpp:176
 msgid "Run external program"
@@ -2314,9 +2300,8 @@ msgid "&File"
 msgstr "&Datei"
 
 #: sim/ui/fontsetupbase.cpp:241
-#, fuzzy
 msgid "Mode"
-msgstr "Maus"
+msgstr "Modus"
 
 #: sim/ui/fontsetupbase.cpp:242
 msgid "Split mode (&Chat style)"
@@ -2327,24 +2312,20 @@ msgid "Simple mode (&Plain style)"
 msgstr "Nachrichtenmodus (&Ein-Fenster-Modus)"
 
 #: sim/ui/fontsetupbase.cpp:245
-#, fuzzy
 msgid "last messages from history to conversation"
-msgstr "%1 Nachrichten vom Verlauf kopieren"
+msgstr "Nachrichten vom Verlauf kopieren"
 
 #: sim/ui/fontsetupbase.cpp:247
-#, fuzzy
 msgid "&Each user in new container"
-msgstr "Jeden Benutzer in einem &neuem Container öffnen"
+msgstr "Jeder Benutzer in einem &neuem Container"
 
 #: sim/ui/fontsetupbase.cpp:248
-#, fuzzy
 msgid "&New container for group"
-msgstr "Neuer Container für &Gruppe öffnen"
+msgstr "Neuer Container für &Gruppe"
 
 #: sim/ui/fontsetupbase.cpp:249
-#, fuzzy
 msgid "&All users in one container"
-msgstr "Alle Benutzer in &einem Container öffnen"
+msgstr "Alle Benutzer in &einem Container"
 
 #: sim/ui/fontsetupbase.cpp:250
 msgid "&User window"
@@ -2379,21 +2360,18 @@ msgid "Received messages color"
 msgstr "Farbe für emfangene Nachrichten"
 
 #: sim/ui/fontsetupbase.cpp:258
-#, fuzzy
 msgid "Receivers color"
-msgstr "Farbe für emfangene Nachrichten"
+msgstr "Farbe des Emfängers"
 
 #: sim/ui/fontsetupbase.cpp:259
-#, fuzzy
 msgid "Senders color"
-msgstr "Farbe des anderen Chatpartners"
+msgstr "Farbe des Senders"
 
 #: sim/ui/fontsetupbase.cpp:260
 msgid "&Colors"
 msgstr "&Farben"
 
 #: sim/ui/emaileditbase.cpp:89
-#, fuzzy
 msgid "Edit Email"
 msgstr "E-Mail bearbeiten"
 
@@ -2434,9 +2412,8 @@ msgid "Don't show this dialog"
 msgstr "Diesen Dialog nicht wieder anzeigen"
 
 #: sim/ui/alertmsgbase.cpp:73 sim/ui/alertmsgbase.cpp:74
-#, fuzzy
 msgid "User is online"
-msgstr "Benutzer %1 ist online"
+msgstr "Benutzer ist online"
 
 #: plugins/_core/pagerbase.cc:118 plugins/_core/userviewcfgbase.cc:169
 #: plugins/filter/ignorelistbase.cpp:113 plugins/icq/interestsinfobase.cc:139
@@ -2453,9 +2430,8 @@ msgid "&Interests"
 msgstr "&Interessen"
 
 #: sim/ui/msgdialogbase.cpp:100
-#, fuzzy
 msgid "Customize message"
-msgstr "Menü anpassen"
+msgstr "Nachricht anpassen"
 
 #: sim/ui/msgdialogbase.cpp:101
 msgid "Don't show message dialog"
@@ -2488,18 +2464,16 @@ msgid "Play online alert sound"
 msgstr "Onlineton abspielen"
 
 #: sim/ui/alertdialogbase.cpp:238
-#, fuzzy
 msgid "On Screen notification"
-msgstr "Bei Nachrichteneingang informieren (per OSD)"
+msgstr "Bildschirmbenachrichtigung"
 
 #: sim/ui/alertdialogbase.cpp:239
 msgid "Popup online alert dialog"
 msgstr "Onlinedialog anzeigen"
 
 #: sim/ui/alertdialogbase.cpp:240
-#, fuzzy
 msgid "Open user window when online"
-msgstr "Benutzerfenster öffnen"
+msgstr "Benutzerfenster öffnen, wenn Benutzer online"
 
 #: sim/ui/alertdialogbase.cpp:241
 msgid "Write to history"
@@ -2586,7 +2560,6 @@ msgid "Email gateway:"
 msgstr "E-Mail Gateway:"
 
 #: sim/ui/addphonebase.cpp:135
-#, fuzzy
 msgid "Add phone"
 msgstr "Telefonnummer hinzufügen"
 
@@ -2611,9 +2584,8 @@ msgid "&Miscellaneous"
 msgstr "&Verschiedenes"
 
 #: sim/ui/miscsetupbase.cpp:108
-#, fuzzy
 msgid "A&utomatically add new user to KAddressBook"
-msgstr "Automatisch Benutzerinformation akt&ualisieren"
+msgstr "A&utomatisch neuen Benutzer zum KDE-Adressbuch hinzufügen"
 
 #: sim/ui/miscsetupbase.cpp:109
 msgid "&Synchronize now"
@@ -2656,7 +2628,6 @@ msgid "Authorization:"
 msgstr "Authorisierung:"
 
 #: sim/ui/soundsetupbase.cpp:235
-#, fuzzy
 msgid "Online alert:"
 msgstr "Onlinealarm:"
 
@@ -2677,7 +2648,6 @@ msgid "Startup sound:"
 msgstr "Startklang:"
 
 #: sim/ui/soundsetupbase.cpp:240
-#, fuzzy
 msgid "&Sounds"
 msgstr "&Klänge"
 
@@ -2686,16 +2656,14 @@ msgid "Program for play:"
 msgstr "Programm zum Abspielen:"
 
 #: sim/ui/soundsetupbase.cpp:242
-#, fuzzy
 msgid "UseArts"
-msgstr "Benutzer"
+msgstr "Arts benutzen"
 
 #: sim/ui/soundsetupbase.cpp:243
 msgid "&Programm"
 msgstr "&Programm"
 
 #: sim/ui/phonebookbase.cpp:130
-#, fuzzy
 msgid "User is currently available at:"
 msgstr "Der Benutzer ist aktuell bei:"
 
@@ -2724,9 +2692,8 @@ msgid "&Phonebook"
 msgstr "&Telefonbuch"
 
 #: sim/ui/userinfobase.cpp:152
-#, fuzzy
 msgid "Update"
-msgstr "&Aktualisieren"
+msgstr "Aktualisieren"
 
 #: plugins/_core/cfgdlgbase.cc:124 sim/ui/setupdlgbase.cpp:119
 msgid "&Update"
@@ -2778,9 +2745,8 @@ msgid "&Style"
 msgstr "&Stil"
 
 #: sim/ui/themesetupbase.cpp:295
-#, fuzzy
 msgid "Icons:"
-msgstr "Icons"
+msgstr "Symbole:"
 
 #: sim/ui/themesetupbase.cpp:298
 msgid "Add icons"
@@ -2799,9 +2765,8 @@ msgid "Icon margin:"
 msgstr "Symbolrand"
 
 #: sim/ui/themesetupbase.cpp:303
-#, fuzzy
 msgid "Use &system colors"
-msgstr "System&farben benutzen"
+msgstr "&Systemfarben benutzen"
 
 #: sim/ui/themesetupbase.cpp:304
 msgid "Online contact color:"
@@ -2816,14 +2781,12 @@ msgid "B&ackground"
 msgstr "&Hintergrund"
 
 #: sim/ui/themesetupbase.cpp:307
-#, fuzzy
 msgid "Transparent main window"
-msgstr "Transparentes Hauptfenster:"
+msgstr "Transparentes Hauptfenster"
 
 #: sim/ui/themesetupbase.cpp:308 sim/ui/themesetupbase.cpp:310
-#, fuzzy
 msgid "Transparency"
-msgstr "&Transpararenz"
+msgstr "Transpararenz"
 
 #: sim/ui/themesetupbase.cpp:309
 msgid "Transparent container"
@@ -2863,9 +2826,8 @@ msgid "Use &dock"
 msgstr "&Docking benutzen"
 
 #: sim/ui/themesetupbase.cpp:320
-#, fuzzy
 msgid "Use double c&lick"
-msgstr "&Doppelklick benutzen"
+msgstr "Doppelk&lick benutzen"
 
 #: plugins/dock/dockcfgbase.cpp:109 sim/ui/statussetupbase.cpp:141
 msgid "Hide main window after"
@@ -2873,8 +2835,7 @@ msgstr "Hauptfenster anzeigen/verstecken nach"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:125
 #: plugins/sound/soundconfigbase.cpp:166 sim/ui/statussetupbase.cpp:143
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -2978,18 +2939,16 @@ msgid "Edit"
 msgstr "Bearbeiten"
 
 #: sim/ui/maininfobase.cpp:326
-#, fuzzy
 msgid "Remove"
-msgstr "&Entfernen"
+msgstr "Löschen"
 
 #: sim/ui/maininfobase.cpp:327
 msgid "Set as default"
 msgstr "Als Standard festlegen"
 
 #: sim/ui/maininfobase.cpp:328
-#, fuzzy
 msgid "&EMail"
-msgstr "E-Mail"
+msgstr "&E-Mail"
 
 #: plugins/icq/icqinfobase.cc:313 plugins/jabber/jabberinfobase.cpp:215
 #: plugins/msn/msninfobase.cpp:164 sim/ui/maininfobase.cpp:329
@@ -3040,9 +2999,8 @@ msgid "I&gnore user authorization"
 msgstr "Benutzerauthentisierung i&gnorieren"
 
 #: sim/ui/generalsecbase.cpp:217
-#, fuzzy
 msgid "Direct connection"
-msgstr "Direktverbindungen"
+msgstr "Direktverbindung"
 
 #: plugins/icq/icqsecurebase.cc:219 sim/ui/generalsecbase.cpp:218
 msgid "Allow &direct connection from any user"
@@ -3086,8 +3044,7 @@ msgstr "&Ablehnen"
 
 #: plugins/filter/filtercfgbase.cpp:98 sim/ui/generalsecbase.cpp:228
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: plugins/filter/filtercfgbase.cpp:99 sim/ui/generalsecbase.cpp:229
 msgid ""
@@ -4394,8 +4351,7 @@ msgstr "Floatings"
 
 #: plugins/floaty/floaty.cpp:44
 msgid "Plugin provides floating windows for contacts"
-msgstr ""
-"Das Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
+msgstr "Das Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
 
 #: plugins/floaty/floaty.cpp:91 plugins/floaty/floaty.cpp:165
 msgid "Floating on"
@@ -5651,7 +5607,7 @@ msgstr "Automatisch Benutzerinformation akt&ualisieren"
 
 #: plugins/icq/icqconfigbase.cc:186
 msgid "Support &typing notification"
-msgstr ""
+msgstr "Unterstützung für Schreibbenachrich&tigung"
 
 #: plugins/icq/icqconfigbase.cc:187
 msgid "&Options"
@@ -5905,8 +5861,7 @@ msgid "Navigate"
 msgstr "Navigation"
 
 #: plugins/navigate/navigate.cpp:38
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Das Plugin überprüft Nachrichten auf Hyperlinks und ruft externe Browser- "
 "oder Mailprogramme auf."
@@ -5973,8 +5928,7 @@ msgstr "Im Vordergrund"
 
 #: plugins/ontop/ontop.cpp:40
 msgid "Plugin provides main window allways on top"
-msgstr ""
-"Diese Plugin sorgt dafür, dass SIM kontinuierlich im Vordergrund bleibt."
+msgstr "Diese Plugin sorgt dafür, dass SIM kontinuierlich im Vordergrund bleibt."
 
 #: plugins/ontop/ontop.cpp:74
 msgid "Always on top"
@@ -5985,8 +5939,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:47
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Das ist ein Plugin, das Bildschirmbenachrichtigungen betreffend Kontakte "
 "und\n"
@@ -6038,8 +5991,7 @@ msgstr "Bei Nachrichteneingang informieren (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:90
 msgid "Enable &status notification"
-msgstr ""
-"Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
+msgstr "Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
 
 #: plugins/osd/osdifacebase.cpp:185
 msgid "Show sha&dow"
@@ -6078,8 +6030,7 @@ msgstr "Fehler bei der Benutzerauthentisierung am Proxy-Server"
 
 #: plugins/proxy/proxy.cpp:1143
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS and HTTP)"
-msgstr ""
-"Das Plugin bietet Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP)"
+msgstr "Das Plugin bietet Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP)"
 
 #: plugins/proxy/proxycfg.cpp:31
 msgid "None"
@@ -6087,8 +6038,7 @@ msgstr "Kein Proxy"
 
 #: plugins/proxy/proxycfg.cpp:84
 msgid "<b>Note !</b><br>HTTP-proxy support only ICQ-protocol"
-msgstr ""
-"<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
+msgstr "<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
 
 #: plugins/proxy/proxycfgbase.cpp:147
 msgid "Proxy type:"
@@ -7050,3 +7000,4 @@ msgstr "Automatisch ausblenden"
 
 #~ msgid "Transfer completed"
 #~ msgstr "Übertragung abgeschlossen"
+
