@@ -1048,7 +1048,9 @@ void ICQClientPrivate::processMsgQueueThruServer()
                 for (list<unsigned long>::iterator itUin = msg->Uin.begin(); itUin != msg->Uin.end(); ++itUin){
                     ICQUser *u = client->getUser(*itUin);
                     message = makeMessageText(msg, u);
-                    if (u && u->canRTF()){
+                    if (u && u->canRTF() &&
+                            ((client->owner->inInvisible && u->inVisible) ||
+                             (!client->owner->inInvisible && !u->inInvisible))){
                         advCounter--;
                         msgBuf
                         << (unsigned short)0x1B00

@@ -1046,7 +1046,7 @@ void MsgEdit::bottomReady(Tmpl*, const QString &res)
 
 void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEdit)
 {
-	log(L_DEBUG, "Set message %i\n", msg ? msg->Id : -1);
+    log(L_DEBUG, "Set message %i\n", msg ? msg->Id : -1);
     msgTail = "";
     setUpdatesEnabled(false);
     bool bChanged = false;

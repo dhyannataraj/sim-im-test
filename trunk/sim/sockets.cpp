@@ -62,7 +62,7 @@ ICQClientSocket::ICQClientSocket(QSocket *s)
 #endif
 {
     sock = s;
-	resolver = NULL;
+    resolver = NULL;
     if (sock == NULL)
 #ifdef HAVE_KEXTSOCK_H
         sock = new KExtendedSocket;
@@ -90,7 +90,7 @@ ICQClientSocket::ICQClientSocket(QSocket *s)
 
 ICQClientSocket::~ICQClientSocket()
 {
-	if (resolver) delete resolver;
+    if (resolver) delete resolver;
     close();
     delete sock;
 }
@@ -139,7 +139,7 @@ void ICQClientSocket::write(const char *buf, unsigned int size)
 
 void ICQClientSocket::connect(const char *host, int _port)
 {
-	port = _port;
+    port = _port;
     log(L_DEBUG, "Connect to %s:%u", host, port);
 #ifdef HAVE_KEXTSOCK_H
     sock->setAddress(host, port);
@@ -152,36 +152,36 @@ void ICQClientSocket::connect(const char *host, int _port)
         if (notify) notify->error_state(ErrorConnect);
     }
 #else
-	if (resolver == NULL){
-		resolver = new QDns;
-		QObject::connect(resolver, SIGNAL(resultsReady()), this, SLOT(resolveReady()));
-		QTimer::singleShot(10000, this, SLOT(resolveTimeout()));
-		resolver->setRecordType(QDns::A);
-	}
-	resolver->setLabel(host);
+    if (resolver == NULL){
+        resolver = new QDns;
+        QObject::connect(resolver, SIGNAL(resultsReady()), this, SLOT(resolveReady()));
+        QTimer::singleShot(10000, this, SLOT(resolveTimeout()));
+        resolver->setRecordType(QDns::A);
+    }
+    resolver->setLabel(host);
 #endif
 }
 
 void ICQClientSocket::resolveReady()
 {
-	if (resolver == NULL){
-		log(L_WARN, "Unexpected resolve ready");
-		slotError(1);
-		return;
-	}
-	if (resolver->addresses().count() == 0){
-		log(L_WARN, "Can't resolve %s", (const char*)(resolver->label().latin1()));
-		slotError(1);
-		return;
-	}
-	QString host = resolver->addresses()[0].toString();
+    if (resolver == NULL){
+        log(L_WARN, "Unexpected resolve ready");
+        slotError(1);
+        return;
+    }
+    if (resolver->addresses().count() == 0){
+        log(L_WARN, "Can't resolve %s", (const char*)(resolver->label().latin1()));
+        slotError(1);
+        return;
+    }
+    QString host = resolver->addresses()[0].toString();
     sock->connectToHost(host, port);
 }
 
 void ICQClientSocket::resolveTimeout()
 {
-	if (resolver->isWorking())
-		slotError(1);
+    if (resolver->isWorking())
+        slotError(1);
 }
 
 void ICQClientSocket::slotConnected()

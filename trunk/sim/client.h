@@ -174,13 +174,13 @@ protected slots:
     void tmpl_clear();
     void resolve_ready();
     void timer();
-	void fltrTmplReady(Tmpl*, const QString &res);
-	void fltrExecReady(Exec*, int res, const char *out);
-	void fltrDone();
+    void fltrTmplReady(Tmpl*, const QString &res);
+    void fltrExecReady(Exec*, int res, const char *out);
+    void fltrDone();
 protected:
     void getAutoResponse(unsigned long uin, ICQMessage *msg);
     list<autoResponse> responses;
-	list<MsgFilter*> filters;
+    list<MsgFilter*> filters;
     void start_resolve();
     virtual bool createFile(ICQFile *f, int mode);
     virtual bool openFile(ICQFile *f);
@@ -193,7 +193,7 @@ protected:
     unsigned long getFileSize(QString name, QString base, vector<fileName> &file);
     unsigned long getFileSize(QString name, vector<fileName> &file);
 
-	friend class MsgFilter;
+    friend class MsgFilter;
 };
 
 extern SIMClient *pClient;

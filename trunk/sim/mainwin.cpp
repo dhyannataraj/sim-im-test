@@ -1177,7 +1177,7 @@ void MainWindow::processEvent(ICQEvent *e)
             userFunction(e->Uin(), mnuAuth, 0);
         return;
     case EVENT_USER_DELETED:{
-			loadUnread();
+            loadUnread();
             UserFloat *floaty = findFloating(e->Uin(), true);
             if (floaty == NULL) return;
             delete floaty;
@@ -1763,16 +1763,16 @@ void MainWindow::autoAway()
 #ifdef WIN32
     unsigned long idle_time = 0;
     if (_GetLastInputInfo == NULL){
-            POINT p;
-            GetCursorPos(&p);
-            time_t now;
-            time(&now);
-            if ((p.x != oldX) || (p.y != oldY)){
-                oldX = p.x;
-                oldY = p.y;
-                lastTime = now;
-            }
-            idle_time = now - lastTime;
+        POINT p;
+        GetCursorPos(&p);
+        time_t now;
+        time(&now);
+        if ((p.x != oldX) || (p.y != oldY)){
+            oldX = p.x;
+            oldY = p.y;
+            lastTime = now;
+        }
+        idle_time = now - lastTime;
     }else{
         LASTINPUTINFO lii;
         ZeroMemory(&lii,sizeof(lii));
@@ -2579,12 +2579,12 @@ QString& getCountry(unsigned short code)
     int nC=0;
     static QString str;
     str.truncate(0);
-    
+
     while (languages[nC].nCode)
     {
-     if (languages[nC].nCode==code)
-        return str=languages[nC].szName;
-     nC++;
+        if (languages[nC].nCode==code)
+            return str=languages[nC].szName;
+        nC++;
     }
 
     return str;
@@ -2608,14 +2608,14 @@ Addressee addresseeFromUser(SIMUser& u, Addressee* oldPers=NULL)
 
     if (pers.note().isEmpty())
         pers.setNote(u.Notes);
-    
+
     list<EMailInfo*>::iterator it=u.EMails.begin();
 
     if (it!=u.EMails.end())
     {
         pers.insertEmail((*it)->Email.c_str(),true);
         it++;
-        
+
         while (it!=u.EMails.end())
         {
             pers.insertEmail((*it)->Email.c_str());
@@ -2647,16 +2647,16 @@ Addressee addresseeFromUser(SIMUser& u, Addressee* oldPers=NULL)
     work.setLocality(QString::fromLocal8Bit(u.WorkCity.c_str()));
     work.setRegion(QString::fromLocal8Bit(u.WorkState.c_str()));
     work.setStreet(QString::fromLocal8Bit(u.WorkAddress.c_str()));
-    work.setCountry(QString::fromLocal8Bit(getCountry(u.WorkCountry)));    
+    work.setCountry(QString::fromLocal8Bit(getCountry(u.WorkCountry)));
 
     if (oldPers==NULL) // because i'm too laaaaaazy to handle this properly right now
     {
         pers.insertAddress(home);
         pers.insertAddress(work);
-    }    
+    }
 
     // TODO: handle all other fields (maybe)
-    
+
     return pers;
 }
 #endif
@@ -2668,14 +2668,14 @@ void MainWindow::doSynchronize()
     {
         AddressBook& ab=*StdAddressBook::self();
         bool bFound=false;
-        
+
         list<ICQUser*>::iterator it=pClient->contacts.users.begin();
         while (it!=pClient->contacts.users.end())
         {
             SIMUser& user=*(static_cast<SIMUser*>(*it));
 
             Addressee newPers;
-            
+
             if (!user.strKabUid.empty())
             {
                 qDebug("not empty %s",user.strKabUid.c_str());
@@ -2706,20 +2706,20 @@ void MainWindow::doSynchronize()
                         newPers=(*lit);
                         break;
                     }
-                    
+
                     it++;
                 }
             }
 
             Addressee pers;
-            
+
             if (bFound)
                 pers=addresseeFromUser(user,&newPers);
             else
                 pers=addresseeFromUser(user);
 
             ab.insertAddressee(pers);
-            
+
             it++;
         }
 

@@ -58,14 +58,14 @@ protected slots:
     void slotBytesWritten();
     void slotError(int);
     void slotLookupFinished(int);
-	void resolveReady();
-	void resolveTimeout();
+    void resolveReady();
+    void resolveTimeout();
 protected:
 #ifdef HAVE_KEXTSOCK_H
     KExtendedSocket *sock;
 #else
-	unsigned short port;
-	QDns	*resolver;
+    unsigned short port;
+    QDns	*resolver;
     QSocket *sock;
 #endif
     bool bInWrite;

@@ -1072,7 +1072,7 @@ void ICQClientPrivate::messageReceived(ICQMessage *msg)
     }
     ICQEvent e(EVENT_MESSAGE_RECEIVED, msg->getUin());
     e.msg = msg;
-	msg->bDelete = true;
+    msg->bDelete = true;
     client->process_event(&e);
     if (msg->bDelete) delete msg;
 }
