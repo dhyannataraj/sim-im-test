@@ -115,7 +115,7 @@ protected:
     bool setInfo(const char *name);
 
 #ifndef WIN32
-    void execute(const char *prg, const char *arg);
+    unsigned execute(const char *prg, const char *arg);
 #endif
 
     int m_argc;
@@ -285,8 +285,7 @@ void *PluginManagerPrivate::processEvent(Event *e)
 #ifndef WIN32
     case EventExec:
         exec = (ExecParam*)(e->param());
-        execute(exec->cmd, exec->arg);
-        return e->param();
+        return (void*)execute(exec->cmd, exec->arg);
 #endif
     default:
         break;
@@ -361,11 +360,11 @@ void PluginManagerPrivate::load(pluginInfo &info)
             return;
         }
 #else
-if (info.info->flags & PLUGIN_KDE_COMPILE){
-        log(L_WARN, "Plugin %s is compiled with KDE support!", info.name);
-        release(info);
-        return;
-    }
+        if (info.info->flags & PLUGIN_KDE_COMPILE){
+            log(L_WARN, "Plugin %s is compiled with KDE support!", info.name);
+            release(info);
+            return;
+        }
 #endif
 #endif
     }
@@ -737,9 +736,10 @@ void PluginManagerPrivate::usage(const char *err)
 }
 
 #ifndef WIN32
-void PluginManagerPrivate::execute(const char *prg, const char *arg)
+unsigned PluginManagerPrivate::execute(const char *prg, const char *arg)
 {
-    if (*prg == 0) return;
+    if (*prg == 0)
+	return 0;
     QString p = QString::fromLocal8Bit(prg);
     if (p.find("%s") >= 0){
         p.replace(QRegExp("%s"), arg);

@@ -552,6 +552,7 @@ Message *History::load(unsigned id, const char *client, unsigned contact)
         msg_save &ms = (*it).second;
         Buffer config;
         config << ms.msg.c_str();
+        config.setWritePos(0);
         string type = config.getSection();
         Message *msg = createMessage(id, type.c_str(), &config);
         if (msg){

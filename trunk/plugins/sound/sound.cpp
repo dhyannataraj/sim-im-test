@@ -18,11 +18,12 @@
 #include "sound.h"
 #include "soundconfig.h"
 #include "sounduser.h"
-#include "simapi.h"
 #include "core.h"
+#include "exec.h"
 
 #include <qfile.h>
 #include <qsound.h>
+#include <qtimer.h>
 
 #ifdef USE_KDE
 #include <kaudioplayer.h>
@@ -30,6 +31,9 @@
 
 #include "xpm/sound.xpm"
 #include "xpm/nosound.xpm"
+
+const unsigned CHECK_SOUND_TIMEOUT	= 200;
+const unsigned WAIT_SOUND_TIMEOUT	= 1000;
 
 Plugin *createSoundPlugin(unsigned base, bool bFirst, Buffer *config)
 {
@@ -102,8 +106,6 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
 {
     load_data(soundData, &data, config);
     soundPlugin = this;
-    if (bFirst)
-        playSound(getStartUp());
     user_data_id = getContacts()->registerUserData(info.title, soundUserData);
 
     m_bChanged = false;
@@ -153,10 +155,22 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
     Event ePlugin(EventGetPluginInfo, (void*)"_core");
     pluginInfo *info = (pluginInfo*)(ePlugin.process());
     core = static_cast<CorePlugin*>(info->plugin);
+
+    m_sound	 = NULL;
+#ifndef WIN32
+    m_player = 0;
+    connect(ExecManager::manager, SIGNAL(childExited(int,int)), this, SLOT(childExited(int,int)));
+#endif
+    m_checkTimer = new QTimer(this);
+    connect(m_checkTimer, SIGNAL(timeout()), this, SLOT(checkSound()));
+    if (bFirst)
+        playSound(getStartUp());
 }
 
 SoundPlugin::~SoundPlugin()
 {
+    if (m_sound)
+        delete m_sound;
     soundPlugin = NULL;
     Event eCmd(EventCommandRemove, (void*)CmdSoundDisable);
     eCmd.process();
@@ -325,32 +339,106 @@ void SoundPlugin::playSound(const char *s)
 {
     if ((s == NULL) || (*s == 0))
         return;
-    string sound = fullName(s);
+    if (m_current == s)
+        return;
+    for (list<string>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
+        if ((*it) == s)
+            return;
+    }
+    m_queue.push_back(s);
+    processQueue();
+}
+
+void SoundPlugin::processQueue()
+{
+    if (!m_current.empty() || m_queue.empty())
+        return;
+    m_current = m_queue.front();
+    m_queue.erase(m_queue.begin());
+    string sound = fullName(m_current.c_str());
     // check whether file is available
     if (!QFile::exists(QString(sound.c_str())))
         return;
     /* If there is an external player selected, don't use Qt */
+#ifdef WIN32
+    bool bSound = true;
+#else
     bool bSound = QSound::available() && !getPlayer();
+#endif
 #ifdef USE_KDE
     if (getUseArts()){
         KAudioPlayer::play(sound.c_str());
+        m_checkTimer->start(WAIT_SOUND_TIMEOUT);
         return;
     }
     bSound = false;
 #endif
     if (bSound){
-        QSound s(sound.c_str());
-        s.play();
+        if (!QSound::available()){
+            m_queue.clear();
+            m_current = "";
+            return;
+        }
+        m_sound = new QSound(sound.c_str());
+        m_sound->play();
+#if COMPAT_QT_VERSION >= 0x030000
+        m_checkTimer->start(CHECK_SOUND_TIMEOUT);
+#else
+        m_checkTimer->start(WAIT_SOUND_TIMEOUT);
+#endif
         return;
     }
+#ifndef WIN32
     ExecParam p;
     p.cmd = getPlayer();
     if (*p.cmd == 0)
         return;
     p.arg = sound.c_str();
     Event e(EventExec, &p);
-    e.process();
+    m_player = (int)e.process();
+    if (m_player == NULL){
+        log(L_WARN, "Can't execute player");
+        m_current = "";
+        m_queue.clear();
+    }
+#endif
 }
+
+void SoundPlugin::checkSound()
+{
+    bool bDone = true;
+#if COMPAT_QT_VERSION >= 0x030000
+    if (m_sound && !m_sound->isFinished())
+        bDone = false;
+#endif
+    if (bDone){
+        m_checkTimer->stop();
+        if (m_sound)
+            delete m_sound;
+        m_sound   = NULL;
+        m_current = "";
+        processQueue();
+    }
+}
+
+#ifdef WIN32
+
+void SoundPlugin::childExited(int, int)
+{
+}
+
+#else
+
+void SoundPlugin::childExited(int pid, int)
+{
+    if (pid == m_player){
+        m_player = 0;
+        m_current = "";
+        processQueue();
+    }
+}
+
+#endif
 
 #ifdef WIN32
 #include <windows.h>
@@ -372,5 +460,10 @@ extern "C" BOOL __stdcall _DllMainCRTStartup( HINSTANCE hinstDLL, DWORD fdwReaso
 }
 
 #endif
+
+#ifndef WIN32
+#include "sound.moc"
+#endif
+
 
 

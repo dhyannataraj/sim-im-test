@@ -501,6 +501,7 @@ i18n("weather", "E")
 i18n("weather", "ENE")
 i18n("weather", "NE")
 i18n("weather", "NNE")
+i18n("weather", "VAR")
 i18n("km")
 i18n("km/h")
 #endif
@@ -690,10 +691,6 @@ void WeatherPlugin::element_start(const char *el, const char **attr)
         for (const char **p = attr; *p;){
             string key = *(p++);
             string value = *(p++);
-            if (key == "d"){
-                m_day = atol(value.c_str());
-                continue;
-            }
             if (key == "dt"){
                 day = value;
                 continue;
@@ -774,14 +771,16 @@ void WeatherPlugin::element_end(const char *el)
         return;
     }
     if (!strcmp(el, "low") && m_day){
-        if (m_data != "N/A")
-            setMinT(m_day, m_data.c_str());
+        if (m_data == "N/A")
+            m_data = "";
+        setMinT(m_day, m_data.c_str());
         m_data = "";
         return;
     }
     if (!strcmp(el, "hi") && m_day){
-        if (m_data != "N/A")
-            setMaxT(m_day, m_data.c_str());
+        if (m_data == "N/A")
+            m_data = "";
+        setMaxT(m_day, m_data.c_str());
         m_data = "";
         return;
     }

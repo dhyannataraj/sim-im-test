@@ -179,6 +179,7 @@ public:
         void	text_tag(const char *name, const char *value);
         static const char *_GET;
         static const char *_SET;
+        static const char *_RESULT;
     protected:
         virtual void	element_start(const char *el, const char **attr);
         virtual void	element_end(const char *el);
@@ -199,12 +200,14 @@ class IqRequest : public ServerRequest
         virtual void	element_start(const char *el, const char **attr);
         virtual void	element_end(const char *el);
         virtual	void	char_data(const char *str, int len);
-        string	*m_data;
-        string  m_url;
-        string	m_descr;
-        string  m_query;
-        string	m_from;
-        string  m_id;
+        string		*m_data;
+        string		m_url;
+        string		m_descr;
+        string		m_query;
+        string		m_from;
+        string		m_id;
+        string		m_file_name;
+        unsigned	m_file_size;
     };
 
 class PresenceRequest : public ServerRequest
@@ -309,7 +312,8 @@ class MessageRequest : public ServerRequest
     bool isAgent(const char *jid);
     virtual bool send(Message*, void*);
     void    listRequest(JabberUserData *data, const char *name, const char *grp, bool bDelete);
-    void	sendFileRequest(FileMessage *msg, unsigned short port, JabberUserData *data, const char *url);
+    void	sendFileRequest(FileMessage *msg, unsigned short port, JabberUserData *data, const char *url, unsigned size);
+    void	sendFileAccept(FileMessage *msg, JabberUserData *data);
 
     list<Message*>  m_ackMsg;
     list<Message*>	m_waitMsg;

@@ -155,6 +155,18 @@ string FilterPlugin::getConfig()
 
 void *FilterPlugin::processEvent(Event *e)
 {
+    if (e->type() == EventContactChanged){
+        Contact *contact = (Contact*)(e->param());
+        if (contact->getGroup()){
+            Command cmd;
+            cmd->id		= CmdIgnore;
+            cmd->flags	= BTN_HIDE;
+            cmd->param  = (void*)(contact->id());
+            Event eShow(EventCommandShow, cmd);
+            eShow.process();
+        }
+        return NULL;
+    }
     if (e->type() == EventMessageReceived){
         Message *msg = (Message*)(e->param());
         if (!msg || (msg->type() == MessageStatus))

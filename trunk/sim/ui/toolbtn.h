@@ -44,6 +44,7 @@ public:
     void setCommand(CommandDef *def);
     void setChecked(CommandDef *def);
     void setDisabled(CommandDef *def);
+    void setShow(CommandDef *def);
     CommandDef *def();
 protected:
     CommandDef m_def;

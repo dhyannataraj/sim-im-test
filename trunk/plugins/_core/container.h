@@ -105,6 +105,7 @@ public:
     PROP_ULONG(StatusSize);
     PROP_STRLIST(WndConfig);
     bool m_bNoRead;
+    void init();
 public slots:
     void addUserWnd(UserWnd*, bool bRaise);
     void removeUserWnd(UserWnd*);
@@ -123,7 +124,6 @@ protected:
     virtual bool event(QEvent*);
     void *processEvent(Event*);
     void showBar();
-    void init();
     void setupAccel();
     ContainerData	data;
     bool			m_bInit;
@@ -132,15 +132,13 @@ protected:
     bool			m_bBarChanged;
     bool			m_bReceived;
     bool			m_bNoSwitch;
-#ifdef WIN32
-    bool			m_bInitWnd;
-#endif
     CToolBar		*m_bar;
     QSplitter		*m_tabSplitter;
     UserTabBar		*m_tabBar;
     ContainerStatus	*m_status;
     QWidgetStack	*m_wnds;
     QAccel			*m_accel;
+    list<UserWnd*>	m_childs;
 };
 
 #endif

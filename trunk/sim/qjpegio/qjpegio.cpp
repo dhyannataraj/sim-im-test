@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qjpegio.cpp,v 1.2 2003-08-02 19:21:58 shutoff Exp $
+** $Id: qjpegio.cpp,v 1.3 2004-04-11 10:24:14 shutoff Exp $
 **
 ** Implementation of JPEG QImage IOHandler
 **

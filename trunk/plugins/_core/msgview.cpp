@@ -862,6 +862,7 @@ void *MsgViewBase::processEvent(Event *e)
                     for (const CommandDef *d = cmdsSpecial; d->text; d++){
                         cmds[n] = *d;
                         cmds[n].id = CmdMsgSpecial + n;
+                        cmds[n].flags = COMMAND_DEFAULT;
                         n++;
                     }
                 }
@@ -944,6 +945,7 @@ void *MsgViewBase::processEvent(Event *e)
                             if (n-- == 0){
                                 CommandDef cmd = *d;
                                 cmd.param = msg;
+                                cmd.menu_id = 0;
                                 Event eCmd(EventCommandExec, &cmd);
                                 eCmd.process();
                                 return e->param();
@@ -1129,13 +1131,13 @@ ViewParser::ViewParser(bool bIgnoreColors, bool bUseSmiles)
                 str += *p;
             }
 #else
-if (*(s->exp)){
-            Smile ss;
-            ss.nSmile = i;
-            ss.re = QRegExp(s->exp);
-            if (ss.re.isValid())
-                m_smiles.push_back(ss);
-        }
+            if (*(s->exp)){
+                Smile ss;
+                ss.nSmile = i;
+                ss.re = QRegExp(s->exp);
+                if (ss.re.isValid())
+                    m_smiles.push_back(ss);
+            }
 #endif
         }
     }

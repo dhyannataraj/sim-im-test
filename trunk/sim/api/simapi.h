@@ -599,7 +599,8 @@ const unsigned EventSetMainText		= 0x0521;
 const unsigned EventCommandChange	= 0x0522;
 const unsigned EventCommandChecked	= 0x0523;
 const unsigned EventCommandDisabled	= 0x0524;
-const unsigned EventCommandWidget	= 0x0525;
+const unsigned EventCommandShow		= 0x0525;
+const unsigned EventCommandWidget	= 0x0526;
 
 const unsigned EventClientChanged	= 0x0530;
 

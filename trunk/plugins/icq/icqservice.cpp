@@ -142,6 +142,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             m_maxLevel = max_level;
             m_minLevel = alert_level;
             m_curLevel = current_level;
+            m_lastSend = QDateTime::currentDateTime();
             processSendQueue();
         }
         if (type != ICQ_SNACxSRV_RATExINFO)

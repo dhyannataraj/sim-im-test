@@ -97,6 +97,13 @@ void CToolItem::setDisabled(CommandDef *def)
     setState();
 }
 
+void CToolItem::setShow(CommandDef *def)
+{
+    m_def.flags &= ~BTN_HIDE;
+    m_def.flags |= (def->flags & BTN_HIDE);
+    setState();
+}
+
 void CToolItem::setState()
 {
     if (m_def.flags & BTN_HIDE){
@@ -661,6 +668,14 @@ void* CToolBar::processEvent(Event *e)
             it = buttons->find(cmd->id);
             if (it != buttons->end())
                 (*it).second->setDisabled(cmd);
+        }
+        return NULL;
+    case EventCommandShow:
+        cmd = (CommandDef*)(e->param());
+        if ((cmd->param == NULL) || (cmd->param == m_param)){
+            it = buttons->find(cmd->id);
+            if (it != buttons->end())
+                (*it).second->setShow(cmd);
         }
         return NULL;
     }

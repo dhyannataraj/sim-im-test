@@ -112,30 +112,11 @@ Container::Container(unsigned id, const char *cfg)
     m_bReceived = false;
     m_bNoSwitch = false;
     m_bNoRead   = false;
-#ifdef WIN32
-    m_bInitWnd	= false;
-#endif
+    m_wnds		= NULL;
+    m_tabBar	= NULL;
 
     SET_WNDPROC("container")
     setWFlags(WDestructiveClose);
-    QFrame *frm = new QFrame(this, "container");
-    setCentralWidget(frm);
-
-    connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
-
-    QVBoxLayout *lay = new QVBoxLayout(frm);
-    m_wnds = new QWidgetStack(frm);
-    m_wnds->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
-    lay->addWidget(m_wnds);
-
-    m_tabSplitter = new Splitter(frm);
-    m_tabSplitter->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
-    m_tabBar = new UserTabBar(m_tabSplitter);
-    m_tabBar->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding));
-    m_tabBar->hide();
-
-    m_status = new ContainerStatus(m_tabSplitter);
-    lay->addWidget(m_tabSplitter);
 
     if (cfg && *cfg){
         Buffer config;
@@ -200,28 +181,83 @@ Container::Container(unsigned id, const char *cfg)
             delete list;
         }
         setStatusSize(CorePlugin::m_plugin->getContainerStatusSize());
-        showBar();
-        m_bInit = true;
     }
     m_bInSize = true;
     restoreGeometry(this, data.geometry, bPos, true);
     m_bInSize = false;
-    connect(m_tabBar, SIGNAL(selected(int)), this, SLOT(contactSelected(int)));
-    connect(this, SIGNAL(toolBarPositionChanged(QToolBar*)), this, SLOT(toolbarChanged(QToolBar*)));
-    connect(m_status, SIGNAL(sizeChanged(int)), this, SLOT(statusChanged(int)));
-
-    m_accel = new QAccel(this);
-    connect(m_accel, SIGNAL(activated(int)), this, SLOT(accelActivated(int)));
-    setupAccel();
 }
 
 Container::~Container()
 {
     list<UserWnd*> wnds = m_tabBar->windows();
-    for (list<UserWnd*>::iterator it = wnds.begin(); it != wnds.end(); ++it){
+    list<UserWnd*>::iterator it;
+    for (it = wnds.begin(); it != wnds.end(); ++it)
         disconnect(*it, SIGNAL(closed(UserWnd*)), this, SLOT(removeUserWnd(UserWnd*)));
-    }
+    for (it = m_childs.begin(); it != m_childs.end(); ++it)
+        delete (*it);
     free_data(containerData, &data);
+}
+
+void Container::init()
+{
+    if (m_bInit)
+        return;
+
+    QFrame *frm = new QFrame(this, "container");
+    setCentralWidget(frm);
+
+    connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
+
+    QVBoxLayout *lay = new QVBoxLayout(frm);
+    m_wnds = new QWidgetStack(frm);
+    m_wnds->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+    lay->addWidget(m_wnds);
+
+    m_tabSplitter = new Splitter(frm);
+    m_tabSplitter->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
+    m_tabBar = new UserTabBar(m_tabSplitter);
+    m_tabBar->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding));
+    m_tabBar->hide();
+
+    m_bInit = true;
+
+    m_status = new ContainerStatus(m_tabSplitter);
+    lay->addWidget(m_tabSplitter);
+    connect(m_tabBar, SIGNAL(selected(int)), this, SLOT(contactSelected(int)));
+    connect(this, SIGNAL(toolBarPositionChanged(QToolBar*)), this, SLOT(toolbarChanged(QToolBar*)));
+    connect(m_status, SIGNAL(sizeChanged(int)), this, SLOT(statusChanged(int)));
+    m_accel = new QAccel(this);
+    connect(m_accel, SIGNAL(activated(int)), this, SLOT(accelActivated(int)));
+    setupAccel();
+    showBar();
+
+    for (list<UserWnd*>::iterator it = m_childs.begin(); it != m_childs.end(); ++it)
+        addUserWnd((*it), false);
+    m_childs.clear();
+
+    string windows = getWindows();
+    while (!windows.empty()){
+        unsigned long id = strtoul(getToken(windows, ',').c_str(), NULL, 10);
+        Contact *contact = getContacts()->contact(id);
+        if (contact == NULL)
+            continue;
+        Buffer config;
+        const char *cfg = getWndConfig(id);
+        if (cfg && *cfg){
+            config << "[Title]\n" << cfg;
+            config.setWritePos(0);
+            config.getSection();
+        }
+        addUserWnd(new UserWnd(id, &config, false, true), true);
+    }
+
+    if (m_tabBar->count() == 0)
+        QTimer::singleShot(0, this, SLOT(close()));
+    setWindows(NULL);
+    clearWndConfig();
+    m_tabBar->raiseTab(getActiveWindow());
+
+    show();
 }
 
 void Container::setupAccel()
@@ -295,6 +331,14 @@ QString Container::name()
 
 void Container::addUserWnd(UserWnd *wnd, bool bRaise)
 {
+    if (m_wnds == NULL){
+        m_childs.push_back(wnd);
+        if (m_childs.size() == 1){
+            setIcon(Pict(wnd->getIcon()));
+            setCaption(wnd->getLongName());
+        }
+        return;
+    }
     connect(wnd, SIGNAL(closed(UserWnd*)), this, SLOT(removeUserWnd(UserWnd*)));
     connect(wnd, SIGNAL(statusChanged(UserWnd*)), this, SLOT(statusChanged(UserWnd*)));
     m_wnds->addWidget(wnd, -1);
@@ -348,11 +392,23 @@ void Container::removeUserWnd(UserWnd *wnd)
 
 UserWnd *Container::wnd(unsigned id)
 {
+    if (m_tabBar == NULL){
+        for (list<UserWnd*>::iterator it = m_childs.begin(); it != m_childs.end(); ++it){
+            if ((*it)->id() == id)
+                return (*it);
+        }
+        return NULL;
+    }
     return m_tabBar->wnd(id);
 }
 
 UserWnd *Container::wnd()
 {
+    if (m_tabBar == NULL){
+        if (m_childs.empty())
+            return NULL;
+        return m_childs.front();
+    }
     return m_tabBar->currentWnd();
 }
 
@@ -368,37 +424,6 @@ void Container::showBar()
     m_bar->show();
     m_bBarChanged = false;
     contactSelected(0);
-}
-
-void Container::init()
-{
-    if (m_bInit)
-        return;
-    m_bInit = true;
-
-    showBar();
-    string windows = getWindows();
-    while (!windows.empty()){
-        unsigned long id = strtoul(getToken(windows, ',').c_str(), NULL, 10);
-        Contact *contact = getContacts()->contact(id);
-        if (contact == NULL)
-            continue;
-        Buffer config;
-        const char *cfg = getWndConfig(id);
-        if (cfg && *cfg){
-            config << "[Title]\n" << cfg;
-            config.setWritePos(0);
-            config.getSection();
-        }
-        addUserWnd(new UserWnd(id, &config, false, true), true);
-    }
-    if (m_tabBar->count() == 0)
-        QTimer::singleShot(0, this, SLOT(close()));
-    setWindows(NULL);
-    clearWndConfig();
-    m_tabBar->raiseTab(getActiveWindow());
-
-    show();
 }
 
 void Container::contactSelected(int)
@@ -591,6 +616,8 @@ void Container::flash()
 
 void *Container::processEvent(Event *e)
 {
+    if (m_tabBar == NULL)
+        return NULL;
     UserWnd *userWnd;
     Contact *contact;
     CommandDef *cmd;
@@ -772,11 +799,8 @@ void Container::wndClosed()
 bool Container::event(QEvent *e)
 {
 #ifdef WIN32
-    if ((e->type() == QEvent::WindowActivate) && !m_bInitWnd){
-        m_bInitWnd = true;
-        m_bNoRead  = false;
-        show();
-    }
+    if (e->type() == QEvent::WindowActivate)
+        init();
 #endif
     if ((e->type() == QEvent::WindowActivate) ||
             (((e->type() == QEvent::ShowNormal) || (e->type() == QEvent::ShowMaximized)) &&
@@ -803,7 +827,12 @@ bool Container::event(QEvent *e)
 
 void Container::contactChanged(Contact *contact)
 {
-    UserWnd *userWnd = m_tabBar->currentWnd();
+    UserWnd *userWnd = NULL;
+    if (m_tabBar){
+        userWnd = m_tabBar->currentWnd();
+    }else if (!m_childs.empty()){
+        userWnd = m_childs.front();
+    }
     if (userWnd && (contact->id() == userWnd->id())){
         QString name = userWnd->getName();
         Command cmd;
