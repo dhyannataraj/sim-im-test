@@ -367,6 +367,7 @@ void FullInfoRequest::fail(unsigned short error_code)
         Event e(EventFetchInfoFail, contact);
         e.process();
     }
+	m_client->m_infoRequestId = 0;
     if (error_code == ERROR_RATE_LIMIT){
         m_client->infoRequestPause();
     }else{
@@ -549,6 +550,7 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
             Event e(EventClientChanged, m_client);
             e.process();
         }
+		m_client->m_infoRequestId = 0;
         m_client->removeFullInfoRequest(m_uin);
         return true;
     }

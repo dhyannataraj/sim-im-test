@@ -301,6 +301,7 @@ void UserConfig::fill()
     ConfigItem::curIndex = 1;
     lstBox->clear();
     QListViewItem *parentItem;
+	bool bSetup = true;
     if (m_contact){
         parentItem = new MainInfoItem(lstBox, CmdInfo);
         ClientDataIterator it(m_contact->clientData);
@@ -322,8 +323,10 @@ void UserConfig::fill()
                 }
             }
         }
+		if (m_contact->getFlags() & CONTACT_TEMP)
+			bSetup = false;
     }
-
+	if (bSetup){
     parentItem = NULL;
     ClientUserData* data;
     if (m_contact) {
@@ -367,7 +370,7 @@ void UserConfig::fill()
         if (m_defaultPage == 0)
             m_defaultPage = cmd->id;
     }
-
+	}
     QFontMetrics fm(lstBox->font());
     unsigned w = 0;
     for (QListViewItem *item = lstBox->firstChild(); item; item = item->nextSibling()){

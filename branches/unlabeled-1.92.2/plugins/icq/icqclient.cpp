@@ -323,7 +323,6 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
         }
     }
     disconnected();
-    m_infoRequestId = 0;
     m_bFirstTry = false;
     ContactList::ContactIterator it;
     Contact *contact;
@@ -677,6 +676,7 @@ void ICQClient::disconnected()
     m_advCounter = 0;
     m_nUpdates = 0;
     m_info_req.clear();
+    m_infoRequestId = 0;
     while (!m_services.empty()){
         ServiceSocket *s = m_services.front();
         delete s;
@@ -1041,6 +1041,7 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
                         Event e(EventContactChanged, contact);
                         e.process();
                     }
+					updateInfo(contact, data);
                     return data;
                 }
             }
@@ -1058,6 +1059,7 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
                     Event e(EventContactChanged, contact);
                     e.process();
                     m_bJoin = true;
+					updateInfo(contact, data);
                     return data;
                 }
             }
@@ -1082,6 +1084,7 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
         contact->setGroup(grp->id());
     Event e(EventContactChanged, contact);
     e.process();
+	updateInfo(contact, data);
     return data;
 }
 
