@@ -115,11 +115,16 @@ static DataDef weatherData[] =
         { "Bar", DATA_LONG, 7, DATA(QMainWindow::Bottom) },
         { "Updated", DATA_STRING, 1, 0 },
         { "Temperature", DATA_LONG, 1, 0 },
+        { "FeelsLike", DATA_LONG, 1, 0 },
+        { "DewPoint", DATA_LONG, 1, 0 },
         { "Humidity", DATA_LONG, 1, 0 },
         { "Pressure", DATA_LONG, 1, 0 },
+        { "PressureD", DATA_STRING, 1, 0 },
         { "Conditions", DATA_STRING, 1, 0 },
         { "Wind", DATA_STRING, 1, 0 },
         { "Wind_speed", DATA_LONG, 1, 0 },
+        { "WindGust", DATA_LONG, 1, 0 },
+        { "Visibiliy", DATA_STRING, 1, 0 },
         { "Sun_raise", DATA_STRING, 1, 0 },
         { "Sun_set", DATA_STRING, 1, 0 },
         { "Icon", DATA_LONG, 1, 0 },
@@ -414,21 +419,28 @@ i18n("weather", "Fair")
 i18n("weather", "Cloudy")
 i18n("weather", "Mostly Cloudy")
 i18n("weather", "Partly Cloudy")
+i18n("weather", "steady")
+i18n("weather", "Unlimited")
 #endif
 
 QString WeatherPlugin::replace(const QString &text)
 {
     QString res = text;
     res = res.replace(QRegExp("\\%t"), number(getTemperature()) + QChar((unsigned short)176) + getUT());
+    res = res.replace(QRegExp("\\%f"), number(getFeelsLike()) + QChar((unsigned short)176) + getUT());
+    res = res.replace(QRegExp("\\%d"), number(getDewPoint()) + QChar((unsigned short)176) + getUT());
     res = res.replace(QRegExp("\\%h"), number(getHumidity()) + "%");
     res = res.replace(QRegExp("\\%w"), number(getWind_speed()) + " " + getUS());
-    res = res.replace(QRegExp("\\%i"), number(getPressure()) + " " + getUP());
+    res = res.replace(QRegExp("\\%g"), getWindGust() ? QString("<") + i18n("gust ") + number(getWindGust()) + ")" : "");
+    res = res.replace(QRegExp("\\%p"), number(getPressure()) + " " + getUP() + " (" + i18n("weather", getPressureD()) + ")");
+    res = res.replace(QRegExp("\\%a"), number(getPressure() * 75 / 100));
     res = res.replace(QRegExp("\\%l"), getLocation());
-    res = res.replace(QRegExp("\\%r"), getWind());
+    res = res.replace(QRegExp("\\%b"), getWind());
     res = res.replace(QRegExp("\\%u"), getUpdated());
-    res = res.replace(QRegExp("\\%p"), getSun_raise());
-    res = res.replace(QRegExp("\\%q"), getSun_set());
+    res = res.replace(QRegExp("\\%r"), getSun_raise());
+    res = res.replace(QRegExp("\\%s"), getSun_set());
     res = res.replace(QRegExp("\\%c"), i18n("weather", getConditions()));
+    res = res.replace(QRegExp("\\%v"), i18n("weather", getVisibility()));
     return res;
 }
 
@@ -447,12 +459,14 @@ QString WeatherPlugin::getTipText()
     if (str.isEmpty())
         str = i18n("%l<br><br>\n"
                    "<img src=\"icon:weather\"> %c<br>\n"
-                   "Temperature: <b>%t</b><br>\n"
+                   "Temperature: <b>%t</b> (feels like: <b>%f</b>)<br>\n"
                    "Humidity: <b>%h</b><br>\n"
-                   "Pressure: <b>%i</b><br>\n"
-                   "Wind: <b>%r</b> <b>%w</b><br>\n"
-                   "Sunrise: %p<br>\n"
-                   "Sunset: %q<br>\n"
+                   "Pressure: <b>%p</b><br>\n"
+                   "Wind: <b>%b</b> <b>%w %g</b><br>\n"
+				   "Visibility: <b>%v</b><br>\n"
+				   "Dew Point: <b>%d</b><br>\n"
+                   "Sunrise: %r<br>\n"
+                   "Sunset: %s<br>\n"
                    "<br>\n"
                    "Updated: %u<br>\n"
                    "Weather data provided by weather.com") + QChar((unsigned short)176);
@@ -471,14 +485,19 @@ static const char *tags[] =
         "sunr",
         "suns",
         "tmp",
+		"flik",
         "hmid",
         "t",
         "icon",
         "r",
         "s",
+		"d",
         "ut",
         "us",
         "up",
+		"gust",
+		"vis",
+		"devp",
         NULL,
     };
 
@@ -528,8 +547,23 @@ void WeatherPlugin::element_end(const char *el)
         m_data = "";
         return;
     }
+    if (!strcmp(el, "vis")){
+        setVisibility(m_data.c_str());
+        m_data = "";
+        return;
+    }
     if (!strcmp(el, "tmp")){
         setTemperature(atol(m_data.c_str()));
+        m_data = "";
+        return;
+    }
+    if (!strcmp(el, "flik")){
+        setFeelsLike(atol(m_data.c_str()));
+        m_data = "";
+        return;
+    }
+    if (!strcmp(el, "devp")){
+        setDewPoint(atol(m_data.c_str()));
         m_data = "";
         return;
     }
@@ -566,6 +600,11 @@ void WeatherPlugin::element_end(const char *el)
         m_data = "";
         return;
     }
+    if (!strcmp(el, "gust")){
+        setWindGust(atol(m_data.c_str()));
+        m_data = "";
+        return;
+    }
     if (!strcmp(el, "bar")){
         m_bBar = false;
         return;
@@ -582,6 +621,11 @@ void WeatherPlugin::element_end(const char *el)
         setPressure(v);
         return;
     }
+    if (!strcmp(el, "d") && m_bBar){
+		setPressureD(m_data.c_str());
+		m_data = "";
+		return;
+	}
     if (!strcmp(el, "wind")){
         m_bWind = false;
         return;
