@@ -362,7 +362,11 @@ bool ICQClient::compareData(void *d1, void *d2)
 {
     ICQUserData *data1 = (ICQUserData*)d1;
     ICQUserData *data2 = (ICQUserData*)d2;
-    return data1->Uin == data2->Uin;
+    if (data1->Uin)
+    	return data1->Uin == data2->Uin;
+    if (data2->Uin)
+	return false;
+    return strcmp(data1->Screen, data2->Screen);
 }
 
 string ICQClient::getConfig()
@@ -2681,17 +2685,16 @@ QString ICQClient::ownerName()
 
 QString ICQClient::contactName(void *clientData)
 {
-    QString res = Client::contactName(clientData);
-    res += ": ";
+    QString res;
     ICQUserData *data = (ICQUserData*)clientData;
+    res = data->Uin ? "ICQ: " : "AIM: ";
     if (data->Nick && *data->Nick){
         res += toUnicode(data->Nick, data);
         res += " (";
-        res += QString::number(data->Uin);
-        res += ")";
-    }else{
-        res += QString::number(data->Uin);
     }
+    res += data->Uin ? QString::number(data->Uin) : QString(data->Screen);
+    if (data->Nick && *data->Nick)
+        res += ")";
     return res;
 }
 

@@ -181,6 +181,12 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
             string screen = m_socket->readBuffer.unpackScreen();
             if ((m_send.screen != screen) || !(m_send.id == id)){
                 log(L_WARN, "Bad ack sequence");
+		if (m_send.msg){
+			m_send.msg->setError(I18N_NOOP("Bad ack sequence"));
+			Event e(EventMessageSent, m_send.msg);
+			e.process();
+			delete m_send.msg;
+		}
             }else{
                 if (m_send.msg){
                     if (m_send.msg->type() == MessageCheckInvisible){
@@ -1024,26 +1030,24 @@ void ICQClient::processSendQueue()
         if (m_send.msg){
             unsigned short type;
             Buffer b;
+	    m_send.id.id_l = rand();
+	    m_send.id.id_h = rand();
             switch (m_send.msg->type()){
             case MessageURL:
             case MessageContact:
                 packMessage(b, m_send.msg, data, type, 0);
-                sendThroughServer(screen(data).c_str(), 4, b, 0, 0, true);
+                sendThroughServer(screen(data).c_str(), 4, b, m_send.id.id_l, m_send.id.id_h, true);
                 if (data->Status != ICQ_STATUS_OFFLINE)
                     ackMessage(m_send);
                 return;
             case MessageFile:
                 packMessage(b, m_send.msg, data, type, 0);
-                m_send.id.id_l = rand();
-                m_send.id.id_h = rand();
                 sendAdvMessage(screen(data).c_str(), b, PLUGIN_NULL, m_send.id, false, false, true);
                 return;
             case MessageCheckInvisible:
                 b.pack(ICQ_MSGxAR_AWAY);
                 b.pack((unsigned short)(fullStatus(m_status) & 0xFFFF));
                 b << 0x0100 << 0x0100 << (char)0;
-                m_send.id.id_l = rand();
-                m_send.id.id_h = rand();
                 sendAdvMessage(screen(data).c_str(), b, PLUGIN_NULL, m_send.id, false, true, false);
                 return;
             }
@@ -1084,7 +1088,7 @@ void ICQClient::processSendQueue()
                 Buffer b;
                 b.tlv(0x0501, "\x01", 1);
                 b.tlv(0x0101, msgBuf);
-                sendThroughServer(m_send.screen.c_str(), 1, b, 0, 0, true);
+                sendThroughServer(m_send.screen.c_str(), 1, b, m_send.id.id_l, m_send.id.id_h, true);
                 if (data->Status != ICQ_STATUS_OFFLINE)
                     ackMessage(m_send);
                 return;
