@@ -37,8 +37,7 @@ msgstr "ถ่ายโอน"
 
 #: plugins/__migrate/migrate.cpp:36
 msgid "Plugin provides convert configuration and history from SIM 0.8"
-msgstr ""
-"ปลั๊กอินนี้จะเป็นการแปลงค่าที่กำหนดไว้และประวัติของ SIM 0.8 ให้สามารถใช้งานได้กับรุ่นปัจจุบัน"
+msgstr "ปลั๊กอินนี้จะเป็นการแปลงค่าที่กำหนดไว้และประวัติของ SIM 0.8 ให้สามารถใช้งานได้กับรุ่นปัจจุบัน"
 
 #: plugins/__migrate/migratedlg.cpp:78
 msgid "Cancel convert?"
@@ -151,8 +150,7 @@ msgstr "อินเทอร์เฟซของระบบ"
 msgid ""
 "I am currently away from ICQ.\n"
 "Please leave your message and I will get back to you as soon as I return!\n"
-msgstr ""
-"ตอนนี้ฉันไม่ได้อยู่หน้าเครื่อง ขอให้คุณส่งข้อความทั้งไว้ เดี๋ยวฉันกลับมาแล้วฉันจะมาสนทนากับคุณ\n"
+msgstr "ตอนนี้ฉันไม่ได้อยู่หน้าเครื่อง ขอให้คุณส่งข้อความทั้งไว้ เดี๋ยวฉันกลับมาแล้วฉันจะมาสนทนากับคุณ\n"
 
 #: plugins/_core/core.cpp:434
 msgid ""
@@ -727,8 +725,7 @@ msgstr "สวัสดี"
 msgid ""
 "<b><font color=\"#FF0000\">C</font><font color=\"#FFFF00\">olored</font></b> "
 "message"
-msgstr ""
-"<b><font color=\"#FF0000\">ข้</font><font color=\"#FFFF00\">อความ</font></b> สี"
+msgstr "<b><font color=\"#FF0000\">ข้</font><font color=\"#FFFF00\">อความ</font></b> สี"
 
 #: plugins/_core/historycfg.cpp:675
 msgid "New message"
@@ -3773,8 +3770,7 @@ msgid "Navigate"
 msgstr ""
 
 #: plugins/navigate/navigate.cpp:215
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 
 #: plugins/navigate/navigate.cpp:264
@@ -3861,8 +3857,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:71
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 
 #: plugins/osd/osd.cpp:155
@@ -7441,3 +7436,4 @@ msgstr "ลักษณะแบบ Windows XP"
 
 #~ msgid "Browser: %1"
 #~ msgstr "เบราเซอร์: %1"
+
