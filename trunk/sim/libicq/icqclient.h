@@ -651,6 +651,8 @@ public:
     ConfigString AcceptFilePath;
     ConfigString DeclineFileMessage;
 
+    ConfigULong  ClientType;
+
     void adjustPhones();
     void adjustEMails(const ConfigPtrList &mails);
 
@@ -1170,7 +1172,7 @@ protected:
 
     unsigned long m_nProcessId;
 
-    static const capability capabilities[4];
+    static const capability *capabilities;
 
     static const unsigned char PHONEBOOK_SIGN[16];
     static const unsigned char PLUGINS_SIGN[16];

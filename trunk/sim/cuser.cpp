@@ -165,6 +165,19 @@ const QString CUser::addr()
     return res;
 }
 
+static QString LicqVersionToString(unsigned long v)
+{
+    QString res;
+    if(v % 10)
+        res.sprintf("%ld.%ld.%ld", v / 1000, (v / 10) % 100, v % 10);
+    else
+        res.sprintf("%ld.%ld", v / 1000, (v / 10) % 100);
+    return res;
+}
+
+#define LICQ_WITHSSL     0x7D800000
+#define LICQ_WITHOUTSSL  0x7D000000
+
 QString CUser::toolTip()
 {
     if (u == NULL) return "";
@@ -241,6 +254,32 @@ QString CUser::toolTip()
     if (sAutoReply.length()){
         r += "<br>_____________<br>";
         r += sAutoReply;
+    }
+    if (u->Version()){
+        r += "<br>_____________<br>";
+        r += "v" + QString::number(u->Version) + " ";
+        if (u->PhoneStatusTime() == 0xFFFFFFFF){
+            r += "MIRANDA";
+        }else if((u->PhoneStatusTime() & 0xFFFF0000) == LICQ_WITHSSL){
+            r += "Licq " + LicqVersionToString(u->PhoneStatusTime() & 0xFFFF) + "/SSL";
+        }else if((u->PhoneStatusTime() & 0xFFFF0000) == LICQ_WITHOUTSSL){
+            r += "Licq " + LicqVersionToString(u->PhoneStatusTime() & 0xFFFF);
+        }else if (u->Version() == 5){
+            r += "ICQ 99";
+        }else if (u->Version() == 7){
+            r += "ICQ 2000";
+        }else if (u->Version() == 8){
+            switch (u->ClientType()){
+            case 2:
+                r += "ICQ 2002";
+                break;
+            case 1:
+                r += "Trillian";
+                break;
+            default:
+                r += "ICQ 2001";
+            }
+        }
     }
     return r;
 }

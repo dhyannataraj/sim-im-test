@@ -306,6 +306,7 @@ protected slots:
     void dialogFinished();
     void timerExpired();
     void currentDesktopChanged(int);
+    void adjustGroupsMenu();
 protected:
     char realTZ;
 

@@ -740,6 +740,19 @@ void ICQClient::packMessage(Buffer &mb, ICQMessage *m, const char *msg,
                             unsigned short msgType, unsigned short msgFlags,
                             char oper, bool bShort)
 {
+    if (!m->isExt){
+        switch (m->Type()){
+        case ICQ_MSGxFILE:
+            ICQFile *file = static_cast<ICQFile*>(m);
+            mb
+            << (unsigned long)(htonl(file->id1))
+            << string("")
+            << (unsigned long)(file->Size())
+            << (unsigned long)(file->id1);
+            break;
+        }
+        return;
+    }
     string message;
     if (msg) message = msg;
     toServer(message);

@@ -312,6 +312,7 @@ MainWindow::MainWindow(const char *name)
     menuPhone->insertItem(i18n("Phone Book"), this, SLOT(phonebook()));
 
     menuGroups = new QPopupMenu(this);
+    connect(menuGroups, SIGNAL(aboutToShow()), this, SLOT(adjustGroupsMenu()));
 
     menuFunction = new KPopupMenu(this);
     menuFunction->setCheckable(true);
@@ -424,11 +425,15 @@ void MainWindow::toggleOnTop()
     setOnTop();
 }
 
-void MainWindow::showGroupPopup(QPoint p)
+void MainWindow::adjustGroupsMenu()
 {
-    menuGroups->setItemEnabled(mnuGrpCreate, pClient->m_state == ICQClient::Logged);
+    menuGroups->setItemEnabled(mnuGrpCreate, GroupMode() && (pClient->m_state == ICQClient::Logged));
     menuGroups->setItemEnabled(mnuGrpCollapseAll, GroupMode());
     menuGroups->setItemEnabled(mnuGrpExpandAll, GroupMode());
+}
+
+void MainWindow::showGroupPopup(QPoint p)
+{
     menuGroups->popup(p);
 }
 

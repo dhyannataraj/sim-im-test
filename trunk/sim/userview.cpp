@@ -1303,13 +1303,21 @@ void UserFloat::userChanged()
     resize(s);
 }
 
+void UserFloat::contentsMouseDoubleClickEvent(QMouseEvent *e)
+{
+    if (bMoveMode){
+        bMoveMode = false;
+        viewport()->releaseMouse();
+    }
+    mousePos = QPoint();
+    UserView::contentsMouseDoubleClickEvent(e);
+}
+
 void UserFloat::contentsMousePressEvent(QMouseEvent *e)
 {
     if (e->button() == QObject::LeftButton){
         QRect rc(geometry());
         mousePos = e->globalPos() - rc.topLeft();
-        bMoveMode = true;
-        viewport()->grabMouse();
     }
     UserView::contentsMousePressEvent(e);
 }
@@ -1321,12 +1329,17 @@ void UserFloat::contentsMouseReleaseEvent(QMouseEvent *e)
         bMoveMode = false;
         viewport()->releaseMouse();
     }
+    mousePos = QPoint();
     UserView::contentsMouseReleaseEvent(e);
 }
 
 void UserFloat::contentsMouseMoveEvent(QMouseEvent *e)
 {
-    QListViewItemIterator it(this);
+    if (!mousePos.isNull() &&
+            (QPoint(e->pos() - mousePos).manhattanLength() > QApplication::startDragDistance())){
+        bMoveMode = true;
+        viewport()->grabMouse();
+    }
     if (bMoveMode)
         move(e->globalPos() - mousePos);
     UserView::contentsMouseMoveEvent(e);

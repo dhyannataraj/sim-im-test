@@ -71,7 +71,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             for (it_grp = contacts.groups.begin(); it_grp != contacts.groups.end(); it_grp++)
                 (*it_grp)->bChecked = false;
             for (it_usr = contacts.users.begin(); it_usr != contacts.users.end(); it_usr++){
-				if ((*it_usr)->Type != USER_TYPE_ICQ) continue;
+                if ((*it_usr)->Type != USER_TYPE_ICQ) continue;
                 (*it_usr)->Id = 0;
                 (*it_usr)->GrpId = 0;
                 (*it_usr)->inIgnore = false;

@@ -225,7 +225,8 @@ ICQUser::ICQUser()
         AcceptFileOverride(this, "AcceptFileOverride"),
         AcceptFileOverwrite(this, "AcceptFileOverwrite"),
         AcceptFilePath(this, "AcceptFilePath"),
-        DeclineFileMessage(this, "DeclineFileMessage")
+        DeclineFileMessage(this, "DeclineFileMessage"),
+        ClientType(this, "ClientType")
 {
     direct = 0;
     GetRTF = false;

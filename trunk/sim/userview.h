@@ -201,6 +201,7 @@ protected:
     void contentsMousePressEvent(QMouseEvent *e);
     void contentsMouseReleaseEvent(QMouseEvent *e);
     void contentsMouseMoveEvent(QMouseEvent *e);
+    void contentsMouseDoubleClickEvent(QMouseEvent *e);
     TransparentTop *transparent;
 };
 

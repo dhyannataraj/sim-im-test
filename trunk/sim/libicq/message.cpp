@@ -305,6 +305,30 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
         }
         return msg;
     }
+    if (type == ICQ_MSGxFILE){
+        unsigned long unk;
+        unsigned long fileSize;
+        string fileName;
+        packet
+        >> unk
+        >> fileName
+        >> fileSize
+        >> unk;
+        fromServer(p);
+        fromServer(fileName);
+        const char *shortName = strrchr(fileName.c_str(), '\\');
+        if (shortName){
+            shortName++;
+        }else{
+            shortName = fileName.c_str();
+        }
+        ICQFile *msg = new ICQFile();
+        msg->Uin.push_back(uin);
+        msg->Name = shortName;
+        msg->Description = p;
+        msg->Size = fileSize;
+        return msg;
+    }
     if (type == ICQ_MSGxEXT){
         string header;
         packet >> header;
