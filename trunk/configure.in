@@ -36,7 +36,7 @@ dnl Perform program name transformation
 AC_ARG_PROGRAM
 
 dnl Automake doc recommends to do this only here. (Janos)
-AM_INIT_AUTOMAKE(sim, 0.7) dnl searches for some needed programs
+AM_INIT_AUTOMAKE(sim, 0.1) dnl searches for some needed programs
 
 KDE_SET_PREFIX
 
@@ -102,6 +102,7 @@ AC_DEFINE_UNQUOTED(PREFIX, "$prefix", [Install prefix])
 
 KDE_CREATE_SUBDIRSLIST
 AC_CONFIG_FILES([ ./Makefile ])
+AC_CONFIG_FILES([ pict/Makefile ])
 AC_CONFIG_FILES([ po/Makefile ])
 AC_CONFIG_FILES([ sim/Makefile ])
 AC_CONFIG_FILES([ sim/libicq/Makefile ])

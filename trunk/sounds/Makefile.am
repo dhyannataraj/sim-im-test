@@ -1,7 +1,7 @@
 ####### kdevelop will overwrite this part!!! (begin)##########
 
 
-EXTRA_DIST = auth.wav message.wav url.wav alert.wav sms.wav file.wav filedone.wav chat.wav 
+EXTRA_DIST = auth.wav message.wav url.wav alert.wav sms.wav file.wav filedone.wav chat.wav startup.wav 
 
 ####### kdevelop will overwrite this part!!! (end)############
 
