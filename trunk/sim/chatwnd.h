@@ -49,6 +49,7 @@ protected slots:
     void setFgColor();
 protected:
     bool bClientMode;
+    bool bConnected;
     QString chatHeader(unsigned long uin);
     QColor baseColor;
     void resizeEvent(QResizeEvent*);
