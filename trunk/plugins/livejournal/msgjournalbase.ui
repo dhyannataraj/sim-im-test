@@ -106,6 +106,12 @@
                     </item>
                     <item>
                         <property>
+                          <name>text</name>
+                            <string>Friends-Only</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property>
                             <name>text</name>
                             <string>Private</string>
                         </property>

@@ -378,8 +378,9 @@ static void usage(char *s)
 #ifndef WIN32
             "      -s socket	[/tmp/sim.%s] Control socket\n"
 #endif
-            "      -d                         Debug mode\n"
+            //            "      -d                         Debug mode\n"
             "      -c command                 Command\n"
+            "      -h                         Show this help\n"
             "\n",
             s
 #ifndef WIN32
@@ -394,7 +395,11 @@ int main(int argc, char **argv)
     const char *cmd  = NULL;
     const char *addr = NULL;
     for (char **p = argv + 1; *p; p++){
-        if (!strcmp(*p, "-d")){
+        if (!strcmp(*p, "-h")){
+            usage(argv[0]);
+            return 0;
+        }
+        if (!strcmp(*p, "-s")){
             p++;
             if (*p == NULL){
                 usage(argv[0]);
@@ -450,6 +455,7 @@ int main(int argc, char **argv)
     }
     FILE *f = stdin;
     while (!feof(f) && !ferror(f)){
+        printf(">");
         char buf[4096];
         char *line = fgets(buf, sizeof(buf), f);
         if (line == NULL)
@@ -467,7 +473,7 @@ int main(int argc, char **argv)
         out_str = out_str.substr(1);
         if (bBad)
             printf("? ");
-        printf("%s\n>", out_str.c_str());
+        printf("%s\n", out_str.c_str());
     }
     return 0;
 }

@@ -571,8 +571,21 @@ MessageRequest::MessageRequest(LiveJournalClient *client, JournalMessage *msg, c
     addParam("day", number(tm->tm_mday).c_str());
     addParam("hour", number(tm->tm_hour).c_str());
     addParam("min", number(tm->tm_min).c_str());
-    if (msg->getPrivate())
-        addParam("security", "private");
+    if (msg->getPrivate()){
+        switch (msg->getPrivate()){
+        case 0:
+                addParam("security", "private");
+            break;
+        case 1:
+            addParam("security", "usemask");
+            addParam("allowmask", "0");
+            break;
+        case 2:
+            addParam("security", "usemask");
+            addParam("allowmask", "0");
+            break;
+        }
+    }
     if (msg->getMood())
         addParam("prop_current_moodid", number(msg->getMood()).c_str());
     if (journal)
@@ -897,7 +910,7 @@ protected:
 };
 
 LoginRequest::LoginRequest(LiveJournalClient *client)
-: LiveJournalRequest(client, "login")
+        : LiveJournalRequest(client, "login")
 {
     m_bOK     = false;
     m_bResult = false;
@@ -1003,9 +1016,9 @@ void LiveJournalClient::setStatus(unsigned status)
     version = "Win32";
 #else
 #ifdef QT_MACOSX_VERSION
-version = "MacOS";
+    version = "MacOS";
 #else
-version = "Qt";
+    version = "Qt";
 #endif
 #endif
     version += "-" PACKAGE "/" VERSION;

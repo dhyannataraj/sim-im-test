@@ -57,7 +57,7 @@ static DataDef remoteData[] =
         { "Path", DATA_STRING, 1, "auto:" },
         { "EnableMenu", DATA_BOOL, 1, DATA(1) },
 #else
-{ "Path", DATA_STRING, 1, "/tmp/sim.%user%" },
+        { "Path", DATA_STRING, 1, "/tmp/sim.%user%" },
 #endif
         { NULL, 0, 0, 0 }
     };
@@ -329,7 +329,7 @@ static cmdDef cmds[] =
         { "HELP", "command help information", "HELP [<cmd>]", 0, 1 },
         { "ADD", "add contact", "ADD <protocol> <address> [<nick>] [<group>]", 2, 4 },
         { "DELETE", "delete contact", "DELETE [<address> | <nick>]", 1, 1 },
-        { "OPEN", "open contact", "ADD <protocol> <address> [<nick>] [<group>]", 2, 4 },
+        { "OPEN", "open contact", "OPEN <protocol> <address> [<nick>] [<group>]", 2, 4 },
         { "FILE", "process UIN file", "FILE <file>", 1, 1 },
         { "CONTACTS", "print contact list", "CONTACTS [<message_type>]", 0, 1 },
         { "SENDFILE", "send file", "SENDFILE <file> <contact>", 2, 2 },
@@ -484,7 +484,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
     for (; i < (int)(in.length()); i++){
         if (in[i] == ' ')
             break;
-        cmd += in[i];
+        cmd += in[i].upper();
     }
     for (; i < (int)(in.length()); ){
         for (; i < (int)(in.length()); i++)
@@ -909,6 +909,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                 out += "\n";
             }
         }else{
+            args[0] = args[0].upper();
             for (c = cmds; c->cmd; c++)
                 if (args[0] == c->cmd)
                     break;
