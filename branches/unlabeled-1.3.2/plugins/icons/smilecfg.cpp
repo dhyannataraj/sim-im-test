@@ -114,13 +114,25 @@ SmileCfg::SmileCfg(QWidget *parent, IconsPlugin *plugin)
 {
     m_plugin = plugin;
     connect(lblMore, SIGNAL(click()), this, SLOT(goSmiles()));
+#ifdef WIN32
     edtSmiles->setStartDir(QFile::decodeName(app_file("smiles/").c_str()));
+#else
+    edtSmiles->setStartDir(QFile::decodeName(user_file("smiles/").c_str()));
+#endif
     edtSmiles->setTitle(i18n("Select smiles"));
     edtSmiles->setFilePreview(createPreview);
 #ifdef USE_KDE
+#ifdef USE_EXPAT
+    edtSmiles->setFilter(i18n("*.msl *.xep|Smiles"));
+#else
     edtSmiles->setFilter(i18n("*.msl|Smiles"));
+#endif
+#else
+#ifdef USE_EXPAT
+    edtSmiles->setFilter(i18n("Smiles (*.msl *.xep)"));
 #else
     edtSmiles->setFilter(i18n("Smiles (*.msl)"));
+#endif
 #endif
     edtSmiles->setText(m_plugin->getSmiles());
     lblMore->setText(i18n("Get more smiles"));

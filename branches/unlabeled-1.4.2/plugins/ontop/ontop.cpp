@@ -173,9 +173,11 @@ void OnTopPlugin::setState()
 			DWORD exStyle = GetWindowLongW(main->winId(), GWL_EXSTYLE);
 			if ((exStyle & WS_EX_TOOLWINDOW) == 0){
 				SetWindowLongW(main->winId(), GWL_EXSTYLE, (exStyle  & ~WS_EX_APPWINDOW) | WS_EX_TOOLWINDOW);
+				QPoint p = main->pos();
 				QSize s = main->size();
 				main->resize(s.width() + 1, s.height());
 				main->resize(s.width(), s.height());
+				main->move(p);
 			}
         }
     }else{

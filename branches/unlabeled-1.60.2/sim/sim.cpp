@@ -188,6 +188,7 @@ int main(int argc, char *argv[])
                          "http://sim-icq.sourceforge.net/",
                          "sim-icq-main@lists.sourceforge.net");
     aboutData.addAuthor("Vladimir Shutoff",I18N_NOOP("Maintainer"),"vovan@shutoff.ru");
+    aboutData.addAuthor("Christian Ehrlicher",I18N_NOOP("Developer"),"Ch.Ehrlicher@gmx.de");
     setAboutData(&aboutData);
 #ifndef WIN32
     int _argc = 0;

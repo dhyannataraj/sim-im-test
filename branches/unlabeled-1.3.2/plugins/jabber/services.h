@@ -39,10 +39,12 @@ protected slots:
     void logon();
     void logoff();
     void selectAgent(int);
-    void selectChanged(QListViewItem*);
+    void selectChanged();
     void showAgent(QWidget*);
 protected:
     void *processEvent(Event *e);
+	void makeAgentItem(JabberUserData *data, unsigned contactId);
+	void setAgentStatus(JabberUserData *data, QListViewItem *item);
     void statusChanged();
     bool m_bOnline;
     string m_reg_id;

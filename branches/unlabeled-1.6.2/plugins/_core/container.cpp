@@ -204,7 +204,7 @@ void Container::setupAccel()
     CommandsList it(*cmdsMsg, true);
     CommandDef *c;
     while ((c = ++it) != NULL){
-        if (c->accel == NULL)
+        if ((c->accel == NULL) || (*c->accel == 0))
             continue;
         m_accel->insertItem(QAccel::stringToKey(c->accel), ACCEL_MESSAGE + c->id);
     }

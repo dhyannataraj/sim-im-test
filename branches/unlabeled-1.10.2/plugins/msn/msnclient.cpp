@@ -901,7 +901,7 @@ QString MSNClient::contactName(void *clientData)
 {
     MSNUserData *data = (MSNUserData*)clientData;
     QString res = "MSN: ";
-    res += QString::fromUtf8(data->ScreenName);
+    res += QString::fromUtf8(data->EMail);
     return res;
 }
 

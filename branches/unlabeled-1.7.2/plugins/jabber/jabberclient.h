@@ -227,6 +227,7 @@ QString getID() { return QString::fromUtf8(data.owner.ID ? data.owner.ID : ""); 
     unsigned m_authCode;
 
     string VHost();
+    bool isAgent(const char *jid);
 
 protected slots:
     void	ping();
@@ -263,7 +264,6 @@ protected:
     void rosters_request();
     void info_request(JabberUserData *user_data);
     void setOffline(JabberUserData *data);
-    bool isAgent(const char *jid);
 
     static	QCString encodeXML(const QString &str);
     XML_Parser	m_parser;

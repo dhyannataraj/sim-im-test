@@ -54,7 +54,7 @@ void AutoAwayConfig::apply()
     if (m_plugin->getEnableAway())
         m_plugin->setAwayTime(atol(spnAway->text().latin1()));
     if (m_plugin->getEnableNA())
-        m_plugin->setNATime(atol(spnAway->text().latin1()));
+        m_plugin->setNATime(atol(spnNA->text().latin1()));
 }
 
 #ifndef WIN32
