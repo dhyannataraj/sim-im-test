@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2002-12-28 03:18+0300\n"
-"PO-Revision-Date: 2002-12-15 17:10+0200\n"
+"PO-Revision-Date: 2002-12-28 10:39+0200\n"
 "Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1639,8 +1639,7 @@ msgstr "..."
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Ця програма поширюється під ліцензією GPL v2"
+msgstr "Ця програма поширюється під ліцензією GPL v2"
 
 #: chatwnd.cpp:75 ui/userinfobase.cpp:94
 msgid "Save"
@@ -2009,9 +2008,8 @@ msgid "Online"
 msgstr "В мережі"
 
 #: client.cpp:1117
-#, fuzzy
 msgid "Inactive"
-msgstr "Дія:"
+msgstr "Неактивно"
 
 #: client.cpp:1119 mainwin.cpp:2729
 msgid "Invisible"
@@ -2165,8 +2163,7 @@ msgstr "%1 від %2"
 
 #: mainwin.cpp:1277 ui/logindlg.cpp:234
 msgid "Can't connect to proxy server"
-msgstr ""
-"Неможливо з'єднатися з проксі-сервером"
+msgstr "Неможливо з'єднатися з проксі-сервером"
 
 #: mainwin.cpp:1285 ui/logindlg.cpp:241
 msgid "Proxy server require authorization"
@@ -2198,8 +2195,7 @@ msgstr "&Ні"
 
 #: mainwin.cpp:1983
 msgid "Add %1 to ignore list ?"
-msgstr ""
-"Додати \"%1\" в список тих що ігноруються?"
+msgstr "Додати \"%1\" в список тих що ігноруються?"
 
 #: mainwin.cpp:2047
 msgid "In visible list"
@@ -2639,8 +2635,7 @@ msgstr "Розмір: %1 / Максимальний: %2"
 
 #: msgedit.cpp:1563
 msgid "Message will be split"
-msgstr ""
-"Повідомлення буде розділено на частини"
+msgstr "Повідомлення буде розділено на частини"
 
 #: msgedit.cpp:1738
 msgid "Decline reason"
@@ -2953,22 +2948,20 @@ msgid "&Register"
 msgstr "&Реєстрація"
 
 #: ui/filetransfer.cpp:74
-#, fuzzy
 msgid ""
 "_n: Receive %2 from %1\n"
 "Receive %n files from %1"
 msgstr ""
-"Прийом файлу від %1\n"
+"Прийом %2 від %1\n"
 "Прийом %n файлів від %1\n"
 "Прийом %n файлів від %1"
 
 #: ui/filetransfer.cpp:78
-#, fuzzy
 msgid ""
 "_n: Send %2 to %1\n"
 "Send %n files to %1"
 msgstr ""
-"Передача файлу %1\n"
+"Передача %2 для %1\n"
 "Передача %n файлів %1\n"
 "Передача %n файлів %1"
 
@@ -2978,11 +2971,11 @@ msgstr "Нема файлів для відправки"
 
 #: ui/filetransfer.cpp:157
 msgid "Connect to %1 [%2]"
-msgstr ""
+msgstr "З'єднання з %1 [%2]"
 
 #: ui/filetransfer.cpp:162
 msgid "Wait connect to %1 [%2]"
-msgstr ""
+msgstr "Очікування під'єднання до %1 [%2]"
 
 #: ui/filetransfer.cpp:176
 msgid "[done]"
@@ -3319,8 +3312,7 @@ msgstr "Вікно - розтягнути"
 
 #: ui/themesetup.cpp:205
 msgid "Need restart SIM for change language"
-msgstr ""
-"Потрібно перестартувати SIM для зміни мови"
+msgstr "Потрібно перестартувати SIM для зміни мови"
 
 #: ui/themesetup.cpp:215
 msgid "Default icons"
@@ -3678,14 +3670,12 @@ msgid "Speed:"
 msgstr "Швидкість:"
 
 #: ui/filetransferbase.cpp:127
-#, fuzzy
 msgid "&Transfer"
-msgstr "&Очистити"
+msgstr "&Передати"
 
 #: ui/filetransferbase.cpp:128
-#, fuzzy
 msgid "&Details"
-msgstr "Роздрібна торгівля"
+msgstr "&Деталі"
 
 #: ui/filetransferbase.cpp:129
 msgid "Close after send"
@@ -3694,8 +3684,7 @@ msgstr "Закрити після відправки"
 # #
 #: ui/acceptbase.cpp:114
 msgid "Automaitcaly open window"
-msgstr ""
-"Автоматично відкривати вікно повідомлень"
+msgstr "Автоматично відкривати вікно повідомлень"
 
 #: ui/acceptbase.cpp:115 ui/acceptbase.cpp:118
 msgid "Override global settings"
@@ -4218,8 +4207,7 @@ msgstr "&Прозорість"
 
 #: ui/themesetupbase.cpp:253
 msgid "Show main window in task manager"
-msgstr ""
-"Показувати основне вікно в панелі задач"
+msgstr "Показувати основне вікно в панелі задач"
 
 #: ui/themesetupbase.cpp:254
 msgid "Show user window in task manager"
@@ -4250,8 +4238,7 @@ msgid "Hide main window after"
 msgstr "Сховати головне вікно"
 
 #: ui/statussetupbase.cpp:110
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Заборонити попередження в стані "
 "\"Відійшов\", \"Не активний\", \"Зайнятий\""
@@ -4446,8 +4433,7 @@ msgstr ""
 
 #: ui/generalsecbase.cpp:191
 msgid "Reject &URL from unknown users"
-msgstr ""
-"Відкидати &URL від невідомих користувачів"
+msgstr "Відкидати &URL від невідомих користувачів"
 
 #: ui/generalsecbase.cpp:192
 msgid "Reject &World Wide pager messages"
@@ -4845,3 +4831,4 @@ msgstr "&Нотатки"
 
 #~ msgid "Spell"
 #~ msgstr "Проверка орфографии"
+
