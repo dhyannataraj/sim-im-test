@@ -1038,36 +1038,25 @@ void MsgEdit::insertSmile(int id)
         m_edit->insert(smiles()[id], false, true, true);
         return;
     }
-    QString tail;
-    int paraPos, idxPos;
-    int paraEnd, idxEnd;
-    if (m_edit->hasSelectedText()){
-        m_edit->getSelection(&paraPos, &idxPos, &paraEnd, &idxEnd);
-    }else{
-        m_edit->getCursorPosition(&paraPos, &idxPos);
-        paraEnd = paraPos;
-        idxEnd  = idxPos;
-    }
-    tail = m_edit->text(paraEnd);
-    tail = tail.mid(m_edit->textPosition(tail, idxEnd));
-    for (int para = paraPos + 1; para < m_edit->paragraphs(); para++)
-        tail += m_edit->text(para);
-    m_edit->setCursorPosition(paraPos, idxPos);
-    if (idxPos == 0)
-        m_edit->moveCursor(QTextEdit::MoveBackward, false);
-    m_edit->moveCursor(QTextEdit::MoveEnd, true);
-    m_edit->removeSelectedText();
-    QFont f = m_edit->font();
-    QColor fgColor = m_edit->foreground();
-    char b[10];
-    sprintf(b, "%X", id);
-    m_edit->append(QString("<img src=icon:smile") + b + ">");
-    m_edit->append(tail);
-    m_edit->setCursorPosition(paraPos, idxPos);
-    m_edit->setFont(f);
-    m_edit->setForeground(fgColor);
-    m_edit->moveCursor(QTextEdit::MoveForward, false);
-    m_edit->changeText();
+ 	// determine the current position of the cursor
+#if QT_VERSION < 300
+	m_edit->insert("\255",true,true,true);
+#else
+	m_edit->insert("\255");
+#endif
+	// RTF doesn't like '<' and '>'
+	QString txt = m_edit->text();
+#if QT_VERSION < 300
+	int pos = txt.find('\255');
+	if (pos != -1) {
+		txt.replace(pos,1,QString("<img src=icon:smile") + (char)(id < 10 ? '0' + id : 'A' + id - 10) + ">");
+	} else {
+		txt.append(QString("<img src=icon:smile") + (char)(id < 10 ? '0' + id : 'A' + id - 10) + ">");
+	}
+#else
+	txt.replace('\255',QString("<img src=icon:smile") + (char)(id < 10 ? '0' + id : 'A' + id - 10) + ">");
+#endif
+	m_edit->setText(txt);
 }
 
 void MsgEdit::goNext()
