@@ -234,7 +234,6 @@ protected:
     const char *encoding;
     Level cur_level;
     stack<Level> levels;
-	bool  bFirst;
 };
 
 OutTag* RTF2HTML::getTopOutTag(TagEnum tagType)
@@ -451,18 +450,12 @@ void RTF2HTML::FlushParagraph()
     if (!bExplicitParagraph || sParagraph.isEmpty())
        return;
 
-	if (bFirst){
-		bFirst = false;
-	}else{
-		s += "<br>";
-	}
-	if (parStyle.dir == ParStyle::DirRTL){
-		s += "<span dir=\"rtl\">";
-		s += sParagraph;
-		s += "</span>";
-	}else{
-		s += sParagraph;
-	}
+    s += "<p dir=\"";
+    // Note: Lower-case 'ltr' and 'rtl' are important for Qt.
+    s += (parStyle.dir == ParStyle::DirRTL ? "rtl" : "ltr");
+    s += "\">";
+    s += sParagraph;
+    s += "</p>";
 
     // Clear up the paragraph members
     sParagraph = "";
