@@ -677,23 +677,37 @@ MsgViewConv::MsgViewConv(QWidget *p)
 
 void MsgViewConv::setUin(unsigned long uin)
 {
-    MsgView::setUin(uin);
+    TextShow::setUin(uin);
     setText("");
     if (pMain->CopyMessages){
         ICQUser *u = pClient->getUser(m_nUin);
         if (u == NULL) return;
-        bBack = true;
+		int nUnread = 0;
+        list<unsigned long>::iterator unreadIt;
+        for (unreadIt = u->unreadMsgs.begin(); unreadIt != u->unreadMsgs.end(); unreadIt++)
+            if ((*unreadIt) < MSG_PROCESS_ID) nUnread++;
+		
+		list<unsigned long> unreadMsg;
         History h(uin);
         History::iterator &it = h.messages();
-        for (unsigned n = 0; (n < pMain->CopyMessages) && ++it; n++){
-            list<unsigned long>::iterator unreadIt;
+		for (unsigned n = 0; ((n < pMain->CopyMessages) || nUnread) && ++it; n++){
+			unreadMsg.push_front((*it)->Id);
             for (unreadIt = u->unreadMsgs.begin(); unreadIt != u->unreadMsgs.end(); unreadIt++)
                 if ((*unreadIt) == (*it)->Id) break;
-            addMessage(*it, unreadIt != u->unreadMsgs.end(), false);
+			if (unreadIt != u->unreadMsgs.end()) nUnread--;
+		}
+        for (list<unsigned long>::iterator itMsg = unreadMsg.begin(); itMsg != unreadMsg.end(); ++itMsg){
+			ICQMessage *msg = h.getMessage(*itMsg);
+			if (msg == NULL) continue;
+            for (unreadIt = u->unreadMsgs.begin(); unreadIt != u->unreadMsgs.end(); unreadIt++)
+                if ((*unreadIt) == (*itMsg)) break;
+            addMessage(msg, unreadIt != u->unreadMsgs.end(), false);
         }
         bBack = false;
-        scrollToBottom();
-    }
+    }else if (uin){
+		addUnread(uin);
+	}
+    scrollToBottom();
 }
 
 HistoryTextView::HistoryTextView(QWidget *p, unsigned long uin)
