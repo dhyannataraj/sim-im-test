@@ -1230,7 +1230,7 @@ QString ICQClient::contactTip(void *_data)
     unsigned style  = 0;
     const char *statusIcon = NULL;
     contactInfo(data, status, style, statusIcon);
-    if ((status == STATUS_OFFLINE) && data->bInvisible){
+    if (status == STATUS_INVISIBLE){
         res += "<img src=\"icon:ICQ_invisible\">";
         res += i18n("Possibly invisible");
     }else{
