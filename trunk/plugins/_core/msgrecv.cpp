@@ -53,7 +53,7 @@ MsgReceived::MsgReceived(MsgEdit *parent, Message *msg, bool bOpen)
         m_edit->m_edit->setText(p);
         if ((msg->getBackground() != msg->getForeground()) && !CorePlugin::m_plugin->getOwnColors()){
             m_edit->m_edit->setBackground(msg->getBackground());
-            m_edit->m_edit->setForeground(msg->getForeground());
+            m_edit->m_edit->setForeground(msg->getForeground(), true);
         }
         for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
             if (((*it).id == msg->id()) &&

@@ -84,11 +84,13 @@ public:
     void setCtrlMode(bool);
     void setTextFormat(QTextEdit::TextFormat);
     const QColor &foreground() const;
-    void setForeground(const QColor&);
+    const QColor &defForeground() const;
+    void setForeground(const QColor&, bool bDef);
     void changeText();
     void setParam(void*);
     void setFont(const QFont&);
     bool isEmpty();
+    QPoint m_popupPos;
 signals:
     void ctrlEnterPressed();
     void lostFocus();
@@ -114,6 +116,7 @@ protected:
     bool m_bItalic;
     bool m_bUnderline;
     QColor curFG;
+    QColor defFG;
     bool m_bCtrlMode;
     bool m_bEmpty;
     bool m_bSelected;

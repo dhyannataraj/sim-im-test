@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
-"POT-Creation-Date: 2003-11-27 09:56+0300\n"
+"POT-Creation-Date: 2003-11-30 07:53+0300\n"
 "PO-Revision-Date: 2003-02-04 03:03+0200\n"
 "Last-Translator: Amir Tal <tal@whatsup.org.il>\n"
 "Language-Team: Hebrew <kde-il@yahoogroups.com>\n"
@@ -1266,7 +1266,7 @@ msgstr "&הגדר צבעים מותאמים אישית >>"
 msgid "OK"
 msgstr "אישור"
 
-#: plugins/_core/msgedit.cpp:888 sim/ui/qt3/i18n.cpp:23
+#: plugins/_core/msgedit.cpp:889 sim/ui/qt3/i18n.cpp:23
 msgid "Cancel"
 msgstr "ביטול"
 
@@ -1501,7 +1501,7 @@ msgstr "שמור"
 
 #: plugins/_core/status.cpp:137 plugins/_core/statuswnd.cpp:76
 #: plugins/jabber/jabbermessage.cpp:108 plugins/jabber/jabbermessage.cpp:224
-#: plugins/logger/logconfig.cpp:78 plugins/netmonitor/monitor.cpp:89
+#: plugins/logger/logconfig.cpp:91 plugins/netmonitor/monitor.cpp:89
 #: plugins/windock/windock.cpp:179 sim/ui/qt3/i18n.cpp:141
 msgid "Error"
 msgstr "שגיאה"
@@ -1892,7 +1892,7 @@ msgstr "קו &חוצה"
 msgid "underline"
 msgstr "קו &תחתון"
 
-#: sim/ui/textshow.cpp:743
+#: sim/ui/textshow.cpp:751
 #, fuzzy
 msgid "Custom"
 msgstr "גזור"
@@ -2008,7 +2008,7 @@ msgstr "כל הקידודים"
 msgid "Change &encoding"
 msgstr "&קידוד"
 
-#: plugins/_core/msgedit.cpp:1534 plugins/icq/icq.cpp:552
+#: plugins/_core/msgedit.cpp:1535 plugins/icq/icq.cpp:552
 #: plugins/jabber/jabber.cpp:346
 msgid "&Message"
 msgstr "&הודעה"
@@ -2595,12 +2595,12 @@ msgstr "בקש פרטי משתמש"
 msgid "Check invisible"
 msgstr "לא נראה"
 
-#: plugins/icq/icqmessage.cpp:1011 plugins/logger/logconfig.cpp:79
+#: plugins/icq/icqmessage.cpp:1011 plugins/logger/logconfig.cpp:92
 #, fuzzy
 msgid "Warning"
 msgstr "&אזהרות"
 
-#: plugins/_core/msgedit.cpp:1553 plugins/icq/icqmessage.cpp:1018
+#: plugins/_core/msgedit.cpp:1554 plugins/icq/icqmessage.cpp:1018
 #, fuzzy
 msgid "&URL"
 msgstr "כתובת:"
@@ -3461,7 +3461,8 @@ msgstr "בניית אתרים באינטרנט"
 #: plugins/remote/remotecfgbase.cpp:123 plugins/shortcuts/mousecfgbase.cpp:108
 #: plugins/shortcuts/shortcutcfgbase.cpp:138
 #: plugins/sound/soundconfigbase.cpp:159 plugins/sound/sounduserbase.cpp:121
-#: plugins/styles/fontconfigbase.cpp:158 plugins/styles/stylescfgbase.cpp:83
+#: plugins/spell/spellcfgbase.cpp:142 plugins/styles/fontconfigbase.cpp:158
+#: plugins/styles/stylescfgbase.cpp:83
 #: plugins/transparent/transparentcfgbase.cpp:101
 msgid "Form1"
 msgstr "טופס1"
@@ -3842,6 +3843,7 @@ msgid "Email:"
 msgstr "דוא\"ל:"
 
 #: plugins/_core/interfacecfgbase.cpp:147 plugins/icq/icqsearchbase.cc:325
+#: plugins/spell/spellcfgbase.cpp:145
 msgid "Language:"
 msgstr "שפה:"
 
@@ -4274,7 +4276,7 @@ msgstr "קבוצה:"
 msgid "&History"
 msgstr "&היסטוריה"
 
-#: plugins/_core/core.cpp:597 plugins/_core/msgedit.cpp:979
+#: plugins/_core/core.cpp:597 plugins/_core/msgedit.cpp:980
 msgid "&Send"
 msgstr "של&ח"
 
@@ -4287,11 +4289,11 @@ msgstr "הו&ספת חיוך"
 msgid "Send in &translit"
 msgstr ""
 
-#: plugins/_core/core.cpp:622 plugins/_core/msgedit.cpp:240
+#: plugins/_core/core.cpp:622 plugins/_core/msgedit.cpp:241
 msgid "C&lose after send"
 msgstr "סגור לאחר שליחה"
 
-#: plugins/_core/core.cpp:630 plugins/_core/msgedit.cpp:968
+#: plugins/_core/core.cpp:630 plugins/_core/msgedit.cpp:969
 msgid "&Multiply send"
 msgstr "&שליחה מרובת משתמשים"
 
@@ -4328,7 +4330,7 @@ msgstr "בחר הכל"
 msgid "&Phone number"
 msgstr "הוסף מספר טלפון"
 
-#: plugins/_core/core.cpp:696 plugins/_core/msgedit.cpp:1411
+#: plugins/_core/core.cpp:696 plugins/_core/msgedit.cpp:1412
 msgid "&Next"
 msgstr "&הבא"
 
@@ -4373,7 +4375,7 @@ msgstr "הע&ברה"
 msgid "&Messages"
 msgstr "&הודעה"
 
-#: plugins/_core/core.cpp:928 plugins/_core/msgedit.cpp:1562
+#: plugins/_core/core.cpp:928 plugins/_core/msgedit.cpp:1563
 #, fuzzy
 msgid "&SMS"
 msgstr "SMS"
@@ -4762,7 +4764,7 @@ msgstr "המשתמש זמין כרגע ב:"
 msgid "Yes"
 msgstr "כן"
 
-#: plugins/_core/msgedit.cpp:417 plugins/update/update.cpp:105
+#: plugins/_core/msgedit.cpp:418 plugins/update/update.cpp:105
 #, c-format
 msgid ""
 "_n: Message\n"
@@ -4771,7 +4773,7 @@ msgstr ""
 "Message\n"
 "%n messages"
 
-#: plugins/_core/msgedit.cpp:442
+#: plugins/_core/msgedit.cpp:443
 #, fuzzy, c-format
 msgid ""
 "_n: SMS\n"
@@ -4780,7 +4782,7 @@ msgstr ""
 "SMS\n"
 "%n SMS"
 
-#: plugins/_core/msgedit.cpp:457
+#: plugins/_core/msgedit.cpp:458
 #, fuzzy, c-format
 msgid ""
 "_n: URL\n"
@@ -4789,7 +4791,7 @@ msgstr ""
 "URL\n"
 "%n URL"
 
-#: plugins/_core/msgedit.cpp:519
+#: plugins/_core/msgedit.cpp:520
 #, fuzzy, c-format
 msgid ""
 "_n: Contact list\n"
@@ -4798,7 +4800,7 @@ msgstr ""
 "Contacts request\n"
 "%n contacts requests"
 
-#: plugins/_core/msgedit.cpp:565
+#: plugins/_core/msgedit.cpp:566
 #, c-format
 msgid ""
 "_n: File\n"
@@ -4807,15 +4809,15 @@ msgstr ""
 "File\n"
 "%n files"
 
-#: plugins/_core/msgedit.cpp:572
+#: plugins/_core/msgedit.cpp:573
 msgid "&Accept"
 msgstr "&קבל"
 
-#: plugins/_core/msgedit.cpp:587
+#: plugins/_core/msgedit.cpp:588
 msgid "&Decline"
 msgstr "&דחה"
 
-#: plugins/_core/msgedit.cpp:639
+#: plugins/_core/msgedit.cpp:640
 #, fuzzy, c-format
 msgid ""
 "_n: Authorize request\n"
@@ -4824,15 +4826,15 @@ msgstr ""
 "Authorization request\n"
 "%n authorization requests"
 
-#: plugins/_core/msgedit.cpp:646
+#: plugins/_core/msgedit.cpp:647
 msgid "&Grant"
 msgstr "&אשר"
 
-#: plugins/_core/msgedit.cpp:661
+#: plugins/_core/msgedit.cpp:662
 msgid "&Refuse"
 msgstr "&סרב"
 
-#: plugins/_core/msgedit.cpp:708
+#: plugins/_core/msgedit.cpp:709
 #, fuzzy, c-format
 msgid ""
 "_n: Authorization granted\n"
@@ -4841,7 +4843,7 @@ msgstr ""
 "Authorization granted\n"
 "%n authorizations granted"
 
-#: plugins/_core/msgedit.cpp:728
+#: plugins/_core/msgedit.cpp:729
 #, fuzzy, c-format
 msgid ""
 "_n: Authorization refused\n"
@@ -4850,7 +4852,7 @@ msgstr ""
 "Authorization refused\n"
 "%n authorizations refused"
 
-#: plugins/_core/msgedit.cpp:748
+#: plugins/_core/msgedit.cpp:749
 #, fuzzy, c-format
 msgid ""
 "_n: Add to contacts\n"
@@ -4859,7 +4861,7 @@ msgstr ""
 "Added to contact list\n"
 "%n times added to contact list"
 
-#: plugins/_core/msgedit.cpp:768
+#: plugins/_core/msgedit.cpp:769
 #, fuzzy, c-format
 msgid ""
 "_n: Removed from contacts\n"
@@ -4868,7 +4870,7 @@ msgstr ""
 "Added to contact list\n"
 "%n times added to contact list"
 
-#: plugins/_core/msgedit.cpp:788
+#: plugins/_core/msgedit.cpp:789
 #, fuzzy, c-format
 msgid ""
 "_n: Status changed\n"
@@ -4877,30 +4879,30 @@ msgstr ""
 "Close secure channel\n"
 "%n times close secure channel"
 
-#: plugins/_core/msgedit.cpp:956
+#: plugins/_core/msgedit.cpp:957
 msgid "No such client for send message"
 msgstr ""
 
-#: plugins/_core/msgedit.cpp:1544 plugins/netmonitor/monitor.cpp:64
+#: plugins/_core/msgedit.cpp:1545 plugins/netmonitor/monitor.cpp:64
 msgid "&File"
 msgstr "&קובץ"
 
-#: plugins/_core/msgedit.cpp:1571
+#: plugins/_core/msgedit.cpp:1572
 #, fuzzy
 msgid "&Contact list"
 msgstr "רשימת קשר נשלחה"
 
-#: plugins/_core/msgedit.cpp:1579
+#: plugins/_core/msgedit.cpp:1580
 #, fuzzy
 msgid "&Authorization request"
 msgstr "בקשת אימות זהות"
 
-#: plugins/_core/msgedit.cpp:1588
+#: plugins/_core/msgedit.cpp:1589
 #, fuzzy
 msgid "&Grant autorization"
 msgstr "ה&תעלם מאישור משתמש"
 
-#: plugins/_core/msgedit.cpp:1597
+#: plugins/_core/msgedit.cpp:1598
 #, fuzzy
 msgid "&Refuse autorization"
 msgstr "ה&תעלם מאישור משתמש"
@@ -5921,7 +5923,7 @@ msgstr ""
 msgid "Home directory:"
 msgstr "הספריה"
 
-#: plugins/gpg/gpgcfgbase.cpp:163
+#: plugins/gpg/gpgcfgbase.cpp:163 plugins/spell/spellcfgbase.cpp:144
 #, fuzzy
 msgid "&Find"
 msgstr "&מוצא"
@@ -6016,12 +6018,12 @@ msgstr ""
 msgid "AutoHide"
 msgstr "הסתר אוטומטית"
 
-#: plugins/logger/logconfig.cpp:80
+#: plugins/logger/logconfig.cpp:93
 #, fuzzy
 msgid "Debug"
 msgstr "&ניפוי באגים"
 
-#: plugins/logger/logconfig.cpp:81
+#: plugins/logger/logconfig.cpp:94
 #, fuzzy
 msgid "Packets"
 msgstr "&חפיסות"
@@ -6417,11 +6419,11 @@ msgid "Do not show error dialog (automatically reconnect)"
 msgstr ""
 "&אל תראה דיאלוג כניסה למערכת בתחילת התכנית"
 
-#: plugins/remote/remote.cpp:30
+#: plugins/remote/remote.cpp:36
 msgid "Remote control"
 msgstr ""
 
-#: plugins/remote/remote.cpp:31
+#: plugins/remote/remote.cpp:37
 msgid "Plugin provides remote control"
 msgstr ""
 
@@ -6959,6 +6961,35 @@ msgstr "&הירשם"
 #, fuzzy
 msgid "&Agents"
 msgstr "אפקטים"
+
+#: plugins/spell/spell.cpp:61
+msgid "Spell check"
+msgstr "בדוק איות"
+
+#: plugins/spell/spell.cpp:62
+msgid "Plugin provides check spelling"
+msgstr ""
+
+#: plugins/spell/spellcfg.cpp:46
+msgid "ASpell(aspell.exe)"
+msgstr ""
+
+#: plugins/spell/spellcfg.cpp:48
+msgid "Download ASpell"
+msgstr ""
+
+#: plugins/spell/spellhighlight.cpp:195
+msgid "Add '%1'"
+msgstr ""
+
+#: plugins/spell/spellhighlight.cpp:199
+#, fuzzy
+msgid "Ignore '%1'"
+msgstr "רשימת התעלמות"
+
+#: plugins/spell/spellcfgbase.cpp:143
+msgid "Path:"
+msgstr ""
 
 #~ msgid "Sending messages color"
 #~ msgstr "צבע שליחת הודעה"
@@ -7622,9 +7653,6 @@ msgstr "אפקטים"
 
 #~ msgid "Unknown"
 #~ msgstr "לא ידוע"
-
-#~ msgid "Spell check"
-#~ msgstr "בדוק איות"
 
 #~ msgid "IM Address"
 #~ msgstr "כתובת מסרים מיידיים"

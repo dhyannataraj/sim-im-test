@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
-"POT-Creation-Date: 2003-11-27 09:56+0300\n"
+"POT-Creation-Date: 2003-11-30 07:53+0300\n"
 "PO-Revision-Date: 2003-01-14 20:31+0200\n"
 "Last-Translator: ismail donmez <voidcartman@yahoo.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
@@ -1267,7 +1267,7 @@ msgstr "Özel Renkler &Belirle >>"
 msgid "OK"
 msgstr "Tamam"
 
-#: plugins/_core/msgedit.cpp:888 sim/ui/qt3/i18n.cpp:23
+#: plugins/_core/msgedit.cpp:889 sim/ui/qt3/i18n.cpp:23
 msgid "Cancel"
 msgstr "İptal"
 
@@ -1502,7 +1502,7 @@ msgstr "Kaydet"
 
 #: plugins/_core/status.cpp:137 plugins/_core/statuswnd.cpp:76
 #: plugins/jabber/jabbermessage.cpp:108 plugins/jabber/jabbermessage.cpp:224
-#: plugins/logger/logconfig.cpp:78 plugins/netmonitor/monitor.cpp:89
+#: plugins/logger/logconfig.cpp:91 plugins/netmonitor/monitor.cpp:89
 #: plugins/windock/windock.cpp:179 sim/ui/qt3/i18n.cpp:141
 msgid "Error"
 msgstr "Hata"
@@ -1885,7 +1885,7 @@ msgstr "Çı&kartma"
 msgid "underline"
 msgstr "Altını Çiz"
 
-#: sim/ui/textshow.cpp:743
+#: sim/ui/textshow.cpp:751
 #, fuzzy
 msgid "Custom"
 msgstr "Kes"
@@ -2001,7 +2001,7 @@ msgstr "Tüm-Kodlamalar"
 msgid "Change &encoding"
 msgstr "&Kodlama"
 
-#: plugins/_core/msgedit.cpp:1534 plugins/icq/icq.cpp:552
+#: plugins/_core/msgedit.cpp:1535 plugins/icq/icq.cpp:552
 #: plugins/jabber/jabber.cpp:346
 msgid "&Message"
 msgstr "&Mesaj"
@@ -2574,12 +2574,12 @@ msgstr "Kullanıcı bilgisi isteniyor"
 msgid "Check invisible"
 msgstr "Görünmez"
 
-#: plugins/icq/icqmessage.cpp:1011 plugins/logger/logconfig.cpp:79
+#: plugins/icq/icqmessage.cpp:1011 plugins/logger/logconfig.cpp:92
 #, fuzzy
 msgid "Warning"
 msgstr "&Uyarılar"
 
-#: plugins/_core/msgedit.cpp:1553 plugins/icq/icqmessage.cpp:1018
+#: plugins/_core/msgedit.cpp:1554 plugins/icq/icqmessage.cpp:1018
 #, fuzzy
 msgid "&URL"
 msgstr "URL:"
@@ -3438,7 +3438,8 @@ msgstr "Web Tasarım"
 #: plugins/remote/remotecfgbase.cpp:123 plugins/shortcuts/mousecfgbase.cpp:108
 #: plugins/shortcuts/shortcutcfgbase.cpp:138
 #: plugins/sound/soundconfigbase.cpp:159 plugins/sound/sounduserbase.cpp:121
-#: plugins/styles/fontconfigbase.cpp:158 plugins/styles/stylescfgbase.cpp:83
+#: plugins/spell/spellcfgbase.cpp:142 plugins/styles/fontconfigbase.cpp:158
+#: plugins/styles/stylescfgbase.cpp:83
 #: plugins/transparent/transparentcfgbase.cpp:101
 msgid "Form1"
 msgstr "Form1"
@@ -3814,6 +3815,7 @@ msgid "Email:"
 msgstr "E-Mail:"
 
 #: plugins/_core/interfacecfgbase.cpp:147 plugins/icq/icqsearchbase.cc:325
+#: plugins/spell/spellcfgbase.cpp:145
 msgid "Language:"
 msgstr "Dil:"
 
@@ -4243,7 +4245,7 @@ msgstr "Grup:"
 msgid "&History"
 msgstr "&Geçmiş"
 
-#: plugins/_core/core.cpp:597 plugins/_core/msgedit.cpp:979
+#: plugins/_core/core.cpp:597 plugins/_core/msgedit.cpp:980
 msgid "&Send"
 msgstr "&Gönder"
 
@@ -4256,11 +4258,11 @@ msgstr "Gülümseme &girin"
 msgid "Send in &translit"
 msgstr ""
 
-#: plugins/_core/core.cpp:622 plugins/_core/msgedit.cpp:240
+#: plugins/_core/core.cpp:622 plugins/_core/msgedit.cpp:241
 msgid "C&lose after send"
 msgstr "&Gönderdikten sonra kapat"
 
-#: plugins/_core/core.cpp:630 plugins/_core/msgedit.cpp:968
+#: plugins/_core/core.cpp:630 plugins/_core/msgedit.cpp:969
 msgid "&Multiply send"
 msgstr "&Çoklu gönder"
 
@@ -4297,7 +4299,7 @@ msgstr "Hepsini seç"
 msgid "&Phone number"
 msgstr "Telefon ekle"
 
-#: plugins/_core/core.cpp:696 plugins/_core/msgedit.cpp:1411
+#: plugins/_core/core.cpp:696 plugins/_core/msgedit.cpp:1412
 msgid "&Next"
 msgstr "&Sonraki"
 
@@ -4342,7 +4344,7 @@ msgstr "&Transfer"
 msgid "&Messages"
 msgstr "&Mesaj"
 
-#: plugins/_core/core.cpp:928 plugins/_core/msgedit.cpp:1562
+#: plugins/_core/core.cpp:928 plugins/_core/msgedit.cpp:1563
 #, fuzzy
 msgid "&SMS"
 msgstr "SMS"
@@ -4728,123 +4730,123 @@ msgstr "Kullanıcı şu anda ulaşılabilir :"
 msgid "Yes"
 msgstr "Evet"
 
-#: plugins/_core/msgedit.cpp:417 plugins/update/update.cpp:105
+#: plugins/_core/msgedit.cpp:418 plugins/update/update.cpp:105
 #, c-format
 msgid ""
 "_n: Message\n"
 "%n messages"
 msgstr "Mesaj"
 
-#: plugins/_core/msgedit.cpp:442
+#: plugins/_core/msgedit.cpp:443
 #, fuzzy, c-format
 msgid ""
 "_n: SMS\n"
 "%n SMSs"
 msgstr "SMS"
 
-#: plugins/_core/msgedit.cpp:457
+#: plugins/_core/msgedit.cpp:458
 #, fuzzy, c-format
 msgid ""
 "_n: URL\n"
 "%n URLs"
 msgstr "URL"
 
-#: plugins/_core/msgedit.cpp:519
+#: plugins/_core/msgedit.cpp:520
 #, fuzzy, c-format
 msgid ""
 "_n: Contact list\n"
 "%n contact lists"
 msgstr "Kontak isteği"
 
-#: plugins/_core/msgedit.cpp:565
+#: plugins/_core/msgedit.cpp:566
 #, c-format
 msgid ""
 "_n: File\n"
 "%n files"
 msgstr "Dosya"
 
-#: plugins/_core/msgedit.cpp:572
+#: plugins/_core/msgedit.cpp:573
 msgid "&Accept"
 msgstr "&Kabul"
 
-#: plugins/_core/msgedit.cpp:587
+#: plugins/_core/msgedit.cpp:588
 msgid "&Decline"
 msgstr "&Reddet"
 
-#: plugins/_core/msgedit.cpp:639
+#: plugins/_core/msgedit.cpp:640
 #, fuzzy, c-format
 msgid ""
 "_n: Authorize request\n"
 "%n authorize requests"
 msgstr "İzin isteği"
 
-#: plugins/_core/msgedit.cpp:646
+#: plugins/_core/msgedit.cpp:647
 msgid "&Grant"
 msgstr "&Onayla"
 
-#: plugins/_core/msgedit.cpp:661
+#: plugins/_core/msgedit.cpp:662
 msgid "&Refuse"
 msgstr "&Reddet"
 
-#: plugins/_core/msgedit.cpp:708
+#: plugins/_core/msgedit.cpp:709
 #, fuzzy, c-format
 msgid ""
 "_n: Authorization granted\n"
 "%n authorization granted"
 msgstr "İzin kabul edildi"
 
-#: plugins/_core/msgedit.cpp:728
+#: plugins/_core/msgedit.cpp:729
 #, fuzzy, c-format
 msgid ""
 "_n: Authorization refused\n"
 "%n authorization refused"
 msgstr "İzin isteği reddedildi"
 
-#: plugins/_core/msgedit.cpp:748
+#: plugins/_core/msgedit.cpp:749
 #, fuzzy, c-format
 msgid ""
 "_n: Add to contacts\n"
 "%n add to contacts"
 msgstr "Kontak listesine ekledi"
 
-#: plugins/_core/msgedit.cpp:768
+#: plugins/_core/msgedit.cpp:769
 #, fuzzy, c-format
 msgid ""
 "_n: Removed from contacts\n"
 "%n removed from contacts"
 msgstr "Kontak listesine ekledi"
 
-#: plugins/_core/msgedit.cpp:788
+#: plugins/_core/msgedit.cpp:789
 #, fuzzy, c-format
 msgid ""
 "_n: Status changed\n"
 "%n times status changed"
 msgstr "Güvenli kanalı kapat"
 
-#: plugins/_core/msgedit.cpp:956
+#: plugins/_core/msgedit.cpp:957
 msgid "No such client for send message"
 msgstr ""
 
-#: plugins/_core/msgedit.cpp:1544 plugins/netmonitor/monitor.cpp:64
+#: plugins/_core/msgedit.cpp:1545 plugins/netmonitor/monitor.cpp:64
 msgid "&File"
 msgstr "&Dosya"
 
-#: plugins/_core/msgedit.cpp:1571
+#: plugins/_core/msgedit.cpp:1572
 #, fuzzy
 msgid "&Contact list"
 msgstr "Kontak listesi gönderildi"
 
-#: plugins/_core/msgedit.cpp:1579
+#: plugins/_core/msgedit.cpp:1580
 #, fuzzy
 msgid "&Authorization request"
 msgstr "İzin İsteği"
 
-#: plugins/_core/msgedit.cpp:1588
+#: plugins/_core/msgedit.cpp:1589
 #, fuzzy
 msgid "&Grant autorization"
 msgstr "Kullanıcıdan &izin isteme"
 
-#: plugins/_core/msgedit.cpp:1597
+#: plugins/_core/msgedit.cpp:1598
 #, fuzzy
 msgid "&Refuse autorization"
 msgstr "Kullanıcıdan &izin isteme"
@@ -5859,7 +5861,7 @@ msgstr ""
 msgid "Home directory:"
 msgstr "dizin"
 
-#: plugins/gpg/gpgcfgbase.cpp:163
+#: plugins/gpg/gpgcfgbase.cpp:163 plugins/spell/spellcfgbase.cpp:144
 #, fuzzy
 msgid "&Find"
 msgstr "&Arama"
@@ -5952,12 +5954,12 @@ msgstr ""
 msgid "AutoHide"
 msgstr "OtomatikGizle"
 
-#: plugins/logger/logconfig.cpp:80
+#: plugins/logger/logconfig.cpp:93
 #, fuzzy
 msgid "Debug"
 msgstr "&Debug"
 
-#: plugins/logger/logconfig.cpp:81
+#: plugins/logger/logconfig.cpp:94
 #, fuzzy
 msgid "Packets"
 msgstr "&Paket"
@@ -6353,11 +6355,11 @@ msgstr "Vekil sunucu adresi:"
 msgid "Do not show error dialog (automatically reconnect)"
 msgstr "&Başlarkan giriş dialoğunu gösterme"
 
-#: plugins/remote/remote.cpp:30
+#: plugins/remote/remote.cpp:36
 msgid "Remote control"
 msgstr ""
 
-#: plugins/remote/remote.cpp:31
+#: plugins/remote/remote.cpp:37
 msgid "Plugin provides remote control"
 msgstr ""
 
@@ -6895,6 +6897,35 @@ msgstr "&Kaydet"
 #, fuzzy
 msgid "&Agents"
 msgstr "Efektler"
+
+#: plugins/spell/spell.cpp:61
+msgid "Spell check"
+msgstr "Yazım Kontrolü"
+
+#: plugins/spell/spell.cpp:62
+msgid "Plugin provides check spelling"
+msgstr ""
+
+#: plugins/spell/spellcfg.cpp:46
+msgid "ASpell(aspell.exe)"
+msgstr ""
+
+#: plugins/spell/spellcfg.cpp:48
+msgid "Download ASpell"
+msgstr ""
+
+#: plugins/spell/spellhighlight.cpp:195
+msgid "Add '%1'"
+msgstr ""
+
+#: plugins/spell/spellhighlight.cpp:199
+#, fuzzy
+msgid "Ignore '%1'"
+msgstr "Umursama listesi"
+
+#: plugins/spell/spellcfgbase.cpp:143
+msgid "Path:"
+msgstr ""
 
 #~ msgid "Sending messages color"
 #~ msgstr "Gönderilen mesaj rengi"
@@ -7548,9 +7579,6 @@ msgstr "Efektler"
 
 #~ msgid "Unknown"
 #~ msgstr "Bilinmeyen"
-
-#~ msgid "Spell check"
-#~ msgstr "Yazım Kontrolü"
 
 #~ msgid "IM Address"
 #~ msgstr "IM Adresi"

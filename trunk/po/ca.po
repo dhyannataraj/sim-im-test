@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-11-27 09:56+0300\n"
+"POT-Creation-Date: 2003-11-30 07:53+0300\n"
 "PO-Revision-Date: 2003-09-17 18:18+0100\n"
 "Last-Translator: Pau Bosch i Crespo <paubcrespo@hotmail.com>\n"
 "Language-Team: LANGUAGE <paubcrespo@hotmail.com>\n"
@@ -1242,7 +1242,7 @@ msgstr "&Defineix els colors actuals >>"
 msgid "OK"
 msgstr "D'acord"
 
-#: plugins/_core/msgedit.cpp:888 sim/ui/qt3/i18n.cpp:23
+#: plugins/_core/msgedit.cpp:889 sim/ui/qt3/i18n.cpp:23
 msgid "Cancel"
 msgstr "Anul·la"
 
@@ -1477,7 +1477,7 @@ msgstr "Desa"
 
 #: plugins/_core/status.cpp:137 plugins/_core/statuswnd.cpp:76
 #: plugins/jabber/jabbermessage.cpp:108 plugins/jabber/jabbermessage.cpp:224
-#: plugins/logger/logconfig.cpp:78 plugins/netmonitor/monitor.cpp:89
+#: plugins/logger/logconfig.cpp:91 plugins/netmonitor/monitor.cpp:89
 #: plugins/windock/windock.cpp:179 sim/ui/qt3/i18n.cpp:141
 msgid "Error"
 msgstr "Error"
@@ -1861,7 +1861,7 @@ msgstr "barrat"
 msgid "underline"
 msgstr "subratllat"
 
-#: sim/ui/textshow.cpp:743
+#: sim/ui/textshow.cpp:751
 msgid "Custom"
 msgstr "Personalització"
 
@@ -1972,7 +1972,7 @@ msgstr "&Mostra totes les codificacions"
 msgid "Change &encoding"
 msgstr "&Canvia la codificació"
 
-#: plugins/_core/msgedit.cpp:1534 plugins/icq/icq.cpp:552
+#: plugins/_core/msgedit.cpp:1535 plugins/icq/icq.cpp:552
 #: plugins/jabber/jabber.cpp:346
 msgid "&Message"
 msgstr "&Missatge"
@@ -2525,12 +2525,12 @@ msgstr "Tanca canal segur"
 msgid "Check invisible"
 msgstr "Revisa invisible"
 
-#: plugins/icq/icqmessage.cpp:1011 plugins/logger/logconfig.cpp:79
+#: plugins/icq/icqmessage.cpp:1011 plugins/logger/logconfig.cpp:92
 #, fuzzy
 msgid "Warning"
 msgstr "&Avisos"
 
-#: plugins/_core/msgedit.cpp:1553 plugins/icq/icqmessage.cpp:1018
+#: plugins/_core/msgedit.cpp:1554 plugins/icq/icqmessage.cpp:1018
 msgid "&URL"
 msgstr "&URL"
 
@@ -3382,7 +3382,8 @@ msgstr "Construcció web"
 #: plugins/remote/remotecfgbase.cpp:123 plugins/shortcuts/mousecfgbase.cpp:108
 #: plugins/shortcuts/shortcutcfgbase.cpp:138
 #: plugins/sound/soundconfigbase.cpp:159 plugins/sound/sounduserbase.cpp:121
-#: plugins/styles/fontconfigbase.cpp:158 plugins/styles/stylescfgbase.cpp:83
+#: plugins/spell/spellcfgbase.cpp:142 plugins/styles/fontconfigbase.cpp:158
+#: plugins/styles/stylescfgbase.cpp:83
 #: plugins/transparent/transparentcfgbase.cpp:101
 msgid "Form1"
 msgstr "Form1"
@@ -3748,6 +3749,7 @@ msgid "Email:"
 msgstr "Correu:"
 
 #: plugins/_core/interfacecfgbase.cpp:147 plugins/icq/icqsearchbase.cc:325
+#: plugins/spell/spellcfgbase.cpp:145
 msgid "Language:"
 msgstr "Idioma:"
 
@@ -4160,7 +4162,7 @@ msgstr "Grup"
 msgid "&History"
 msgstr "&Historial"
 
-#: plugins/_core/core.cpp:597 plugins/_core/msgedit.cpp:979
+#: plugins/_core/core.cpp:597 plugins/_core/msgedit.cpp:980
 msgid "&Send"
 msgstr "&Envia"
 
@@ -4172,11 +4174,11 @@ msgstr "&IInsereix ganyota"
 msgid "Send in &translit"
 msgstr ""
 
-#: plugins/_core/core.cpp:622 plugins/_core/msgedit.cpp:240
+#: plugins/_core/core.cpp:622 plugins/_core/msgedit.cpp:241
 msgid "C&lose after send"
 msgstr "&Tanca després d'enviar"
 
-#: plugins/_core/core.cpp:630 plugins/_core/msgedit.cpp:968
+#: plugins/_core/core.cpp:630 plugins/_core/msgedit.cpp:969
 msgid "&Multiply send"
 msgstr "&Enviament múltiple"
 
@@ -4213,7 +4215,7 @@ msgstr "Selecciona fitxer"
 msgid "&Phone number"
 msgstr "Afegeix el número de telèfon"
 
-#: plugins/_core/core.cpp:696 plugins/_core/msgedit.cpp:1411
+#: plugins/_core/core.cpp:696 plugins/_core/msgedit.cpp:1412
 msgid "&Next"
 msgstr "&Següent"
 
@@ -4253,7 +4255,7 @@ msgstr "&Resposta"
 msgid "&Messages"
 msgstr "&Missatges"
 
-#: plugins/_core/core.cpp:928 plugins/_core/msgedit.cpp:1562
+#: plugins/_core/core.cpp:928 plugins/_core/msgedit.cpp:1563
 msgid "&SMS"
 msgstr "&SMS"
 
@@ -4601,7 +4603,7 @@ msgstr "L'usuari es troba actualment disponible a:"
 msgid "Yes"
 msgstr "Sí"
 
-#: plugins/_core/msgedit.cpp:417 plugins/update/update.cpp:105
+#: plugins/_core/msgedit.cpp:418 plugins/update/update.cpp:105
 #, c-format
 msgid ""
 "_n: Message\n"
@@ -4610,7 +4612,7 @@ msgstr ""
 "_n: Missatge\n"
 "%n missatges"
 
-#: plugins/_core/msgedit.cpp:442
+#: plugins/_core/msgedit.cpp:443
 #, c-format
 msgid ""
 "_n: SMS\n"
@@ -4619,7 +4621,7 @@ msgstr ""
 "_n: SMS\n"
 "%n SMS"
 
-#: plugins/_core/msgedit.cpp:457
+#: plugins/_core/msgedit.cpp:458
 #, c-format
 msgid ""
 "_n: URL\n"
@@ -4628,7 +4630,7 @@ msgstr ""
 "_n: URL\n"
 "%n URLs"
 
-#: plugins/_core/msgedit.cpp:519
+#: plugins/_core/msgedit.cpp:520
 #, c-format
 msgid ""
 "_n: Contact list\n"
@@ -4637,7 +4639,7 @@ msgstr ""
 "_n:Llistat de contactes\n"
 "%n llistats de contactes"
 
-#: plugins/_core/msgedit.cpp:565
+#: plugins/_core/msgedit.cpp:566
 #, c-format
 msgid ""
 "_n: File\n"
@@ -4646,17 +4648,17 @@ msgstr ""
 "_n: Fitxer\n"
 "%n fitxers"
 
-#: plugins/_core/msgedit.cpp:572
+#: plugins/_core/msgedit.cpp:573
 #, fuzzy
 msgid "&Accept"
 msgstr "Mode d'acceptació"
 
-#: plugins/_core/msgedit.cpp:587
+#: plugins/_core/msgedit.cpp:588
 #, fuzzy
 msgid "&Decline"
 msgstr "&Direcció"
 
-#: plugins/_core/msgedit.cpp:639
+#: plugins/_core/msgedit.cpp:640
 #, c-format
 msgid ""
 "_n: Authorize request\n"
@@ -4665,15 +4667,15 @@ msgstr ""
 "_n: Sol·licitud d'autorització\n"
 "%n sol·licituds d'autorització"
 
-#: plugins/_core/msgedit.cpp:646
+#: plugins/_core/msgedit.cpp:647
 msgid "&Grant"
 msgstr "&Concesió"
 
-#: plugins/_core/msgedit.cpp:661
+#: plugins/_core/msgedit.cpp:662
 msgid "&Refuse"
 msgstr "&Refusa"
 
-#: plugins/_core/msgedit.cpp:708
+#: plugins/_core/msgedit.cpp:709
 #, c-format
 msgid ""
 "_n: Authorization granted\n"
@@ -4682,7 +4684,7 @@ msgstr ""
 "_n: Autorizació concedida\n"
 "%n autorizació concedida"
 
-#: plugins/_core/msgedit.cpp:728
+#: plugins/_core/msgedit.cpp:729
 #, c-format
 msgid ""
 "_n: Authorization refused\n"
@@ -4691,7 +4693,7 @@ msgstr ""
 "_n: Autorizació rebutjada\n"
 "%n autorizació rebutjada"
 
-#: plugins/_core/msgedit.cpp:748
+#: plugins/_core/msgedit.cpp:749
 #, c-format
 msgid ""
 "_n: Add to contacts\n"
@@ -4700,7 +4702,7 @@ msgstr ""
 "_n: Afegit al llistat de contactes\n"
 "%n afegits al llistat de contactes"
 
-#: plugins/_core/msgedit.cpp:768
+#: plugins/_core/msgedit.cpp:769
 #, c-format
 msgid ""
 "_n: Removed from contacts\n"
@@ -4709,7 +4711,7 @@ msgstr ""
 "_n: Extreu del llistat de contactes\n"
 "%n s'ha extret del llistat de contactes"
 
-#: plugins/_core/msgedit.cpp:788
+#: plugins/_core/msgedit.cpp:789
 #, c-format
 msgid ""
 "_n: Status changed\n"
@@ -4718,27 +4720,27 @@ msgstr ""
 "_n: Estat canviat\n"
 "%n cops que ha canviat l'estat"
 
-#: plugins/_core/msgedit.cpp:956
+#: plugins/_core/msgedit.cpp:957
 msgid "No such client for send message"
 msgstr "Sense client per enviar-li el missatge"
 
-#: plugins/_core/msgedit.cpp:1544 plugins/netmonitor/monitor.cpp:64
+#: plugins/_core/msgedit.cpp:1545 plugins/netmonitor/monitor.cpp:64
 msgid "&File"
 msgstr "&Fitxer"
 
-#: plugins/_core/msgedit.cpp:1571
+#: plugins/_core/msgedit.cpp:1572
 msgid "&Contact list"
 msgstr "&Llistat de contacte"
 
-#: plugins/_core/msgedit.cpp:1579
+#: plugins/_core/msgedit.cpp:1580
 msgid "&Authorization request"
 msgstr "Sol·licitud d'&autorització"
 
-#: plugins/_core/msgedit.cpp:1588
+#: plugins/_core/msgedit.cpp:1589
 msgid "&Grant autorization"
 msgstr "&Concedeix autorització"
 
-#: plugins/_core/msgedit.cpp:1597
+#: plugins/_core/msgedit.cpp:1598
 msgid "&Refuse autorization"
 msgstr "&Refusa autorització"
 
@@ -5690,7 +5692,7 @@ msgstr ""
 msgid "Home directory:"
 msgstr "Directori principal"
 
-#: plugins/gpg/gpgcfgbase.cpp:163
+#: plugins/gpg/gpgcfgbase.cpp:163 plugins/spell/spellcfgbase.cpp:144
 #, fuzzy
 msgid "&Find"
 msgstr "Finlàndia"
@@ -5781,12 +5783,12 @@ msgstr ""
 msgid "AutoHide"
 msgstr "Autoamaga"
 
-#: plugins/logger/logconfig.cpp:80
+#: plugins/logger/logconfig.cpp:93
 #, fuzzy
 msgid "Debug"
 msgstr "&Depuració"
 
-#: plugins/logger/logconfig.cpp:81
+#: plugins/logger/logconfig.cpp:94
 #, fuzzy
 msgid "Packets"
 msgstr "Lloc:"
@@ -6164,11 +6166,11 @@ msgstr "Tipus de proxy:"
 msgid "Do not show error dialog (automatically reconnect)"
 msgstr ""
 
-#: plugins/remote/remote.cpp:30
+#: plugins/remote/remote.cpp:36
 msgid "Remote control"
 msgstr ""
 
-#: plugins/remote/remote.cpp:31
+#: plugins/remote/remote.cpp:37
 #, fuzzy
 msgid "Plugin provides remote control"
 msgstr "El pedaç habilita la icona de la safata del sistema"
@@ -6681,6 +6683,36 @@ msgstr "&Agents registrats"
 #: plugins/jabber/servicesbase.cpp:175
 msgid "&Agents"
 msgstr "&Agents"
+
+#: plugins/spell/spell.cpp:61
+msgid "Spell check"
+msgstr ""
+
+#: plugins/spell/spell.cpp:62
+#, fuzzy
+msgid "Plugin provides check spelling"
+msgstr "El pedaç habilita la icona de la safata del sistema"
+
+#: plugins/spell/spellcfg.cpp:46
+msgid "ASpell(aspell.exe)"
+msgstr ""
+
+#: plugins/spell/spellcfg.cpp:48
+msgid "Download ASpell"
+msgstr ""
+
+#: plugins/spell/spellhighlight.cpp:195
+msgid "Add '%1'"
+msgstr ""
+
+#: plugins/spell/spellhighlight.cpp:199
+#, fuzzy
+msgid "Ignore '%1'"
+msgstr "Llistat d'ignorar"
+
+#: plugins/spell/spellcfgbase.cpp:143
+msgid "Path:"
+msgstr ""
 
 #~ msgid "Sending messages color"
 #~ msgstr "S'està enviant missatges de colors"

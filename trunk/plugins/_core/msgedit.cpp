@@ -52,10 +52,10 @@ MsgTextEdit::MsgTextEdit(MsgEdit *edit, QWidget *parent)
 {
     m_edit = edit;
     setBackground(CorePlugin::m_plugin->getEditBackground());
-    setForeground(CorePlugin::m_plugin->getEditForeground());
+    setForeground(CorePlugin::m_plugin->getEditForeground(), true);
 }
 
-QPopupMenu *MsgTextEdit::createPopupMenu(const QPoint&)
+QPopupMenu *MsgTextEdit::createPopupMenu(const QPoint &pos)
 {
     if (m_bInClick)
         return NULL;
@@ -63,6 +63,7 @@ QPopupMenu *MsgTextEdit::createPopupMenu(const QPoint&)
     cmd->popup_id	= MenuTextEdit;
     cmd->param		= parentWidget()->parentWidget();
     cmd->flags		= COMMAND_NEW_POPUP;
+    m_popupPos = pos;
     Event e(EventGetMenu, cmd);
     return (QPopupMenu*)(e.process());
 }
@@ -153,7 +154,7 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd)
 
     m_edit = new MsgTextEdit(this, m_frame);
     m_edit->setBackground(QColor(CorePlugin::m_plugin->getEditBackground() & 0xFFFFFF));
-    m_edit->setForeground(QColor(CorePlugin::m_plugin->getEditForeground() & 0xFFFFFF));
+    m_edit->setForeground(QColor(CorePlugin::m_plugin->getEditForeground() & 0xFFFFFF), true);
     m_edit->setFont(CorePlugin::m_plugin->editFont);
     m_edit->setCtrlMode(!CorePlugin::m_plugin->getSendOnEnter());
 
@@ -257,8 +258,8 @@ void MsgEdit::resizeEvent(QResizeEvent *e)
 
 void MsgEdit::editFontChanged(const QFont &f)
 {
-	if (!CorePlugin::m_plugin->getEditSaveFont())
-		return;
+    if (!CorePlugin::m_plugin->getEditSaveFont())
+        return;
     CorePlugin::m_plugin->editFont = f;
     Event e(EventHistoryFont);
     e.process();
@@ -1215,7 +1216,7 @@ void *MsgEdit::processEvent(Event *e)
                 }else{
                     m_edit->setText("");
                     m_edit->setFont(CorePlugin::m_plugin->editFont);
-                    m_edit->setForeground(CorePlugin::m_plugin->getEditForeground());
+                    m_edit->setForeground(CorePlugin::m_plugin->getEditForeground(), true);
                     m_edit->setBackground(CorePlugin::m_plugin->getEditBackground());
                     setEmptyMessage();
                 }

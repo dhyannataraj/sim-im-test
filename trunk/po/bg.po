@@ -17,7 +17,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bg\n"
-"POT-Creation-Date: 2003-11-27 09:56+0300\n"
+"POT-Creation-Date: 2003-11-30 07:53+0300\n"
 "PO-Revision-Date: 2003-09-18 18:44+0300\n"
 "Last-Translator: Атанас Мавров <bugar@mail.bg>\n"
 "Language-Team:  <bg@li.org>\n"
@@ -1258,7 +1258,7 @@ msgstr "Опре&деляне на собствени цветове>>"
 msgid "OK"
 msgstr "Добре"
 
-#: plugins/_core/msgedit.cpp:888 sim/ui/qt3/i18n.cpp:23
+#: plugins/_core/msgedit.cpp:889 sim/ui/qt3/i18n.cpp:23
 msgid "Cancel"
 msgstr "Отказ"
 
@@ -1495,7 +1495,7 @@ msgstr "Запазване"
 
 #: plugins/_core/status.cpp:137 plugins/_core/statuswnd.cpp:76
 #: plugins/jabber/jabbermessage.cpp:108 plugins/jabber/jabbermessage.cpp:224
-#: plugins/logger/logconfig.cpp:78 plugins/netmonitor/monitor.cpp:89
+#: plugins/logger/logconfig.cpp:91 plugins/netmonitor/monitor.cpp:89
 #: plugins/windock/windock.cpp:179 sim/ui/qt3/i18n.cpp:141
 msgid "Error"
 msgstr "Грешка"
@@ -1880,7 +1880,7 @@ msgstr "зачертан"
 msgid "underline"
 msgstr "подчертан"
 
-#: sim/ui/textshow.cpp:743
+#: sim/ui/textshow.cpp:751
 msgid "Custom"
 msgstr "Потребителски"
 
@@ -1994,7 +1994,7 @@ msgstr "&Всички кодировки"
 msgid "Change &encoding"
 msgstr "&Променяне на кодировката"
 
-#: plugins/_core/msgedit.cpp:1534 plugins/icq/icq.cpp:552
+#: plugins/_core/msgedit.cpp:1535 plugins/icq/icq.cpp:552
 #: plugins/jabber/jabber.cpp:346
 msgid "&Message"
 msgstr "&Съобщение"
@@ -2553,12 +2553,12 @@ msgstr "Затваряне на секретен канал"
 msgid "Check invisible"
 msgstr "Невидима проверка "
 
-#: plugins/icq/icqmessage.cpp:1011 plugins/logger/logconfig.cpp:79
+#: plugins/icq/icqmessage.cpp:1011 plugins/logger/logconfig.cpp:92
 #, fuzzy
 msgid "Warning"
 msgstr "&Предупреждения"
 
-#: plugins/_core/msgedit.cpp:1553 plugins/icq/icqmessage.cpp:1018
+#: plugins/_core/msgedit.cpp:1554 plugins/icq/icqmessage.cpp:1018
 msgid "&URL"
 msgstr "&УРЛ:"
 
@@ -3414,7 +3414,8 @@ msgstr "Интернет програмиране"
 #: plugins/remote/remotecfgbase.cpp:123 plugins/shortcuts/mousecfgbase.cpp:108
 #: plugins/shortcuts/shortcutcfgbase.cpp:138
 #: plugins/sound/soundconfigbase.cpp:159 plugins/sound/sounduserbase.cpp:121
-#: plugins/styles/fontconfigbase.cpp:158 plugins/styles/stylescfgbase.cpp:83
+#: plugins/spell/spellcfgbase.cpp:142 plugins/styles/fontconfigbase.cpp:158
+#: plugins/styles/stylescfgbase.cpp:83
 #: plugins/transparent/transparentcfgbase.cpp:101
 msgid "Form1"
 msgstr "Форма 1"
@@ -3799,6 +3800,7 @@ msgid "Email:"
 msgstr "Електронна поща:"
 
 #: plugins/_core/interfacecfgbase.cpp:147 plugins/icq/icqsearchbase.cc:325
+#: plugins/spell/spellcfgbase.cpp:145
 msgid "Language:"
 msgstr "Език:"
 
@@ -4223,7 +4225,7 @@ msgstr "Група"
 msgid "&History"
 msgstr "Ис&тория"
 
-#: plugins/_core/core.cpp:597 plugins/_core/msgedit.cpp:979
+#: plugins/_core/core.cpp:597 plugins/_core/msgedit.cpp:980
 msgid "&Send"
 msgstr "&Изпращане"
 
@@ -4235,11 +4237,11 @@ msgstr "Доба&вяне на усмивка"
 msgid "Send in &translit"
 msgstr "Изпращане в преобразуван &вид"
 
-#: plugins/_core/core.cpp:622 plugins/_core/msgedit.cpp:240
+#: plugins/_core/core.cpp:622 plugins/_core/msgedit.cpp:241
 msgid "C&lose after send"
 msgstr "Затваряне след изпра&щане"
 
-#: plugins/_core/core.cpp:630 plugins/_core/msgedit.cpp:968
+#: plugins/_core/core.cpp:630 plugins/_core/msgedit.cpp:969
 msgid "&Multiply send"
 msgstr "Изпращане &до няколко потребителя"
 
@@ -4276,7 +4278,7 @@ msgstr "Избиране на файл"
 msgid "&Phone number"
 msgstr "Добавяне на телефон"
 
-#: plugins/_core/core.cpp:696 plugins/_core/msgedit.cpp:1411
+#: plugins/_core/core.cpp:696 plugins/_core/msgedit.cpp:1412
 msgid "&Next"
 msgstr "Следв&ащ"
 
@@ -4316,7 +4318,7 @@ msgstr "&Отговор"
 msgid "&Messages"
 msgstr "&Съобщение "
 
-#: plugins/_core/core.cpp:928 plugins/_core/msgedit.cpp:1562
+#: plugins/_core/core.cpp:928 plugins/_core/msgedit.cpp:1563
 msgid "&SMS"
 msgstr "&SMS"
 
@@ -4668,7 +4670,7 @@ msgstr ""
 msgid "Yes"
 msgstr "Да"
 
-#: plugins/_core/msgedit.cpp:417 plugins/update/update.cpp:105
+#: plugins/_core/msgedit.cpp:418 plugins/update/update.cpp:105
 #, c-format
 msgid ""
 "_n: Message\n"
@@ -4677,7 +4679,7 @@ msgstr ""
 "Съобщение\n"
 "%n съобщения"
 
-#: plugins/_core/msgedit.cpp:442
+#: plugins/_core/msgedit.cpp:443
 #, c-format
 msgid ""
 "_n: SMS\n"
@@ -4686,7 +4688,7 @@ msgstr ""
 "SMS\n"
 " %n SMS"
 
-#: plugins/_core/msgedit.cpp:457
+#: plugins/_core/msgedit.cpp:458
 #, c-format
 msgid ""
 "_n: URL\n"
@@ -4695,7 +4697,7 @@ msgstr ""
 "УРЛ\n"
 "%n УРЛ"
 
-#: plugins/_core/msgedit.cpp:519
+#: plugins/_core/msgedit.cpp:520
 #, c-format
 msgid ""
 "_n: Contact list\n"
@@ -4704,7 +4706,7 @@ msgstr ""
 "Списък с потребители\n"
 "%n списък с потребители"
 
-#: plugins/_core/msgedit.cpp:565
+#: plugins/_core/msgedit.cpp:566
 #, c-format
 msgid ""
 "_n: File\n"
@@ -4713,16 +4715,16 @@ msgstr ""
 "Файл\n"
 "%n файлове"
 
-#: plugins/_core/msgedit.cpp:572
+#: plugins/_core/msgedit.cpp:573
 msgid "&Accept"
 msgstr "&Приемане"
 
-#: plugins/_core/msgedit.cpp:587
+#: plugins/_core/msgedit.cpp:588
 #, fuzzy
 msgid "&Decline"
 msgstr "&Направление"
 
-#: plugins/_core/msgedit.cpp:639
+#: plugins/_core/msgedit.cpp:640
 #, c-format
 msgid ""
 "_n: Authorize request\n"
@@ -4731,15 +4733,15 @@ msgstr ""
 "Искане за удостоверяване\n"
 "%n Искания за удостоверяване "
 
-#: plugins/_core/msgedit.cpp:646
+#: plugins/_core/msgedit.cpp:647
 msgid "&Grant"
 msgstr "&Удостоверява"
 
-#: plugins/_core/msgedit.cpp:661
+#: plugins/_core/msgedit.cpp:662
 msgid "&Refuse"
 msgstr "&Отказва"
 
-#: plugins/_core/msgedit.cpp:708
+#: plugins/_core/msgedit.cpp:709
 #, c-format
 msgid ""
 "_n: Authorization granted\n"
@@ -4748,7 +4750,7 @@ msgstr ""
 "Удостоверяването е осигурено\n"
 "%n Удостоверяванията са осигурени "
 
-#: plugins/_core/msgedit.cpp:728
+#: plugins/_core/msgedit.cpp:729
 #, c-format
 msgid ""
 "_n: Authorization refused\n"
@@ -4757,7 +4759,7 @@ msgstr ""
 "Отказано удостоверяване\n"
 "%n Отказани удостоверявания "
 
-#: plugins/_core/msgedit.cpp:748
+#: plugins/_core/msgedit.cpp:749
 #, c-format
 msgid ""
 "_n: Add to contacts\n"
@@ -4766,7 +4768,7 @@ msgstr ""
 "Прибавяне към списъка с потребители \n"
 "%n Прибавяне към списъка с потребители"
 
-#: plugins/_core/msgedit.cpp:768
+#: plugins/_core/msgedit.cpp:769
 #, c-format
 msgid ""
 "_n: Removed from contacts\n"
@@ -4775,7 +4777,7 @@ msgstr ""
 "Премахнане от списъка с потребители \n"
 "%n Премахнане от списъка с потребители"
 
-#: plugins/_core/msgedit.cpp:788
+#: plugins/_core/msgedit.cpp:789
 #, c-format
 msgid ""
 "_n: Status changed\n"
@@ -4784,29 +4786,29 @@ msgstr ""
 "Състоянието е променено\n"
 "%n състоянията са променени"
 
-#: plugins/_core/msgedit.cpp:956
+#: plugins/_core/msgedit.cpp:957
 msgid "No such client for send message"
 msgstr ""
 "Не е намерен клиент за изпращане на "
 "съобщение"
 
-#: plugins/_core/msgedit.cpp:1544 plugins/netmonitor/monitor.cpp:64
+#: plugins/_core/msgedit.cpp:1545 plugins/netmonitor/monitor.cpp:64
 msgid "&File"
 msgstr "&Файл"
 
-#: plugins/_core/msgedit.cpp:1571
+#: plugins/_core/msgedit.cpp:1572
 msgid "&Contact list"
 msgstr "&Списък с потребители"
 
-#: plugins/_core/msgedit.cpp:1579
+#: plugins/_core/msgedit.cpp:1580
 msgid "&Authorization request"
 msgstr "&Искане за удостоверяване"
 
-#: plugins/_core/msgedit.cpp:1588
+#: plugins/_core/msgedit.cpp:1589
 msgid "&Grant autorization"
 msgstr "&Удостоверяването е дадено"
 
-#: plugins/_core/msgedit.cpp:1597
+#: plugins/_core/msgedit.cpp:1598
 msgid "&Refuse autorization"
 msgstr "Отхвърляне на &удостоверяването"
 
@@ -5814,7 +5816,7 @@ msgstr ""
 msgid "Home directory:"
 msgstr "Домашна директория"
 
-#: plugins/gpg/gpgcfgbase.cpp:163
+#: plugins/gpg/gpgcfgbase.cpp:163 plugins/spell/spellcfgbase.cpp:144
 #, fuzzy
 msgid "&Find"
 msgstr "&Намиране"
@@ -5911,12 +5913,12 @@ msgstr ""
 msgid "AutoHide"
 msgstr "Скрива автоматично"
 
-#: plugins/logger/logconfig.cpp:80
+#: plugins/logger/logconfig.cpp:93
 #, fuzzy
 msgid "Debug"
 msgstr "&Проверка за грешки"
 
-#: plugins/logger/logconfig.cpp:81
+#: plugins/logger/logconfig.cpp:94
 #, fuzzy
 msgid "Packets"
 msgstr "&Пакети"
@@ -6316,11 +6318,11 @@ msgstr ""
 "Не показва прозорец за избор пр&и "
 "включване"
 
-#: plugins/remote/remote.cpp:30
+#: plugins/remote/remote.cpp:36
 msgid "Remote control"
 msgstr ""
 
-#: plugins/remote/remote.cpp:31
+#: plugins/remote/remote.cpp:37
 #, fuzzy
 msgid "Plugin provides remote control"
 msgstr ""
@@ -6866,6 +6868,38 @@ msgstr "&Регистриране на потребител"
 #: plugins/jabber/servicesbase.cpp:175
 msgid "&Agents"
 msgstr "&Агенти"
+
+#: plugins/spell/spell.cpp:61
+msgid "Spell check"
+msgstr "Правописна проверка"
+
+#: plugins/spell/spell.cpp:62
+#, fuzzy
+msgid "Plugin provides check spelling"
+msgstr ""
+"Приставка осигурява скриване на главния "
+"прозорец в системния поднос"
+
+#: plugins/spell/spellcfg.cpp:46
+msgid "ASpell(aspell.exe)"
+msgstr ""
+
+#: plugins/spell/spellcfg.cpp:48
+msgid "Download ASpell"
+msgstr ""
+
+#: plugins/spell/spellhighlight.cpp:195
+msgid "Add '%1'"
+msgstr ""
+
+#: plugins/spell/spellhighlight.cpp:199
+#, fuzzy
+msgid "Ignore '%1'"
+msgstr "Списък с пренебрегнати потребители"
+
+#: plugins/spell/spellcfgbase.cpp:143
+msgid "Path:"
+msgstr ""
 
 #~ msgid "Sending messages color"
 #~ msgstr "Цвят на изпращаните съобщения"
@@ -7533,9 +7567,6 @@ msgstr "&Агенти"
 
 #~ msgid "Unknown"
 #~ msgstr "Неизвестен"
-
-#~ msgid "Spell check"
-#~ msgstr "Правописна проверка"
 
 #~ msgid "IM Address"
 #~ msgstr "IM Адрес:"

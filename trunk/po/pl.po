@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
-"POT-Creation-Date: 2003-11-27 09:56+0300\n"
+"POT-Creation-Date: 2003-11-30 07:53+0300\n"
 "PO-Revision-Date: 2002-12-04 06:57+0100\n"
 "Last-Translator: Rafal Bera <rexx@dione.ids.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -1273,7 +1273,7 @@ msgstr "&Użyj fontów systemowych"
 msgid "OK"
 msgstr "&Ok"
 
-#: plugins/_core/msgedit.cpp:888 sim/ui/qt3/i18n.cpp:23
+#: plugins/_core/msgedit.cpp:889 sim/ui/qt3/i18n.cpp:23
 msgid "Cancel"
 msgstr "Anuluj"
 
@@ -1533,7 +1533,7 @@ msgstr "Zapisz"
 
 #: plugins/_core/status.cpp:137 plugins/_core/statuswnd.cpp:76
 #: plugins/jabber/jabbermessage.cpp:108 plugins/jabber/jabbermessage.cpp:224
-#: plugins/logger/logconfig.cpp:78 plugins/netmonitor/monitor.cpp:89
+#: plugins/logger/logconfig.cpp:91 plugins/netmonitor/monitor.cpp:89
 #: plugins/windock/windock.cpp:179 sim/ui/qt3/i18n.cpp:141
 msgid "Error"
 msgstr "Błąd"
@@ -1940,7 +1940,7 @@ msgstr ""
 msgid "underline"
 msgstr "Podkreślenie"
 
-#: sim/ui/textshow.cpp:743
+#: sim/ui/textshow.cpp:751
 msgid "Custom"
 msgstr ""
 
@@ -2055,7 +2055,7 @@ msgstr "Wszystkie kodowania"
 msgid "Change &encoding"
 msgstr "Kodowani&e"
 
-#: plugins/_core/msgedit.cpp:1534 plugins/icq/icq.cpp:552
+#: plugins/_core/msgedit.cpp:1535 plugins/icq/icq.cpp:552
 #: plugins/jabber/jabber.cpp:346
 msgid "&Message"
 msgstr "Wiadomość"
@@ -2653,12 +2653,12 @@ msgstr "Informacje o użytkowniku"
 msgid "Check invisible"
 msgstr "Niewidoczny"
 
-#: plugins/icq/icqmessage.cpp:1011 plugins/logger/logconfig.cpp:79
+#: plugins/icq/icqmessage.cpp:1011 plugins/logger/logconfig.cpp:92
 #, fuzzy
 msgid "Warning"
 msgstr "&Ostrzeżenia"
 
-#: plugins/_core/msgedit.cpp:1553 plugins/icq/icqmessage.cpp:1018
+#: plugins/_core/msgedit.cpp:1554 plugins/icq/icqmessage.cpp:1018
 #, fuzzy
 msgid "&URL"
 msgstr "URL:"
@@ -3523,7 +3523,8 @@ msgstr "Tworzenie serwisów WWW"
 #: plugins/remote/remotecfgbase.cpp:123 plugins/shortcuts/mousecfgbase.cpp:108
 #: plugins/shortcuts/shortcutcfgbase.cpp:138
 #: plugins/sound/soundconfigbase.cpp:159 plugins/sound/sounduserbase.cpp:121
-#: plugins/styles/fontconfigbase.cpp:158 plugins/styles/stylescfgbase.cpp:83
+#: plugins/spell/spellcfgbase.cpp:142 plugins/styles/fontconfigbase.cpp:158
+#: plugins/styles/stylescfgbase.cpp:83
 #: plugins/transparent/transparentcfgbase.cpp:101
 msgid "Form1"
 msgstr "Form1"
@@ -3901,6 +3902,7 @@ msgid "Email:"
 msgstr "E-mail:"
 
 #: plugins/_core/interfacecfgbase.cpp:147 plugins/icq/icqsearchbase.cc:325
+#: plugins/spell/spellcfgbase.cpp:145
 msgid "Language:"
 msgstr "Język:"
 
@@ -4330,7 +4332,7 @@ msgstr "Grupy"
 msgid "&History"
 msgstr "&Historia"
 
-#: plugins/_core/core.cpp:597 plugins/_core/msgedit.cpp:979
+#: plugins/_core/core.cpp:597 plugins/_core/msgedit.cpp:980
 msgid "&Send"
 msgstr "&Wyślij"
 
@@ -4343,11 +4345,11 @@ msgstr "Wstaw &uśmieszek"
 msgid "Send in &translit"
 msgstr ""
 
-#: plugins/_core/core.cpp:622 plugins/_core/msgedit.cpp:240
+#: plugins/_core/core.cpp:622 plugins/_core/msgedit.cpp:241
 msgid "C&lose after send"
 msgstr "Zam&knij po wysłaniu"
 
-#: plugins/_core/core.cpp:630 plugins/_core/msgedit.cpp:968
+#: plugins/_core/core.cpp:630 plugins/_core/msgedit.cpp:969
 msgid "&Multiply send"
 msgstr "Wyślij &zbiorowo"
 
@@ -4384,7 +4386,7 @@ msgstr "Wybierz styl:"
 msgid "&Phone number"
 msgstr "Dodaj telefon"
 
-#: plugins/_core/core.cpp:696 plugins/_core/msgedit.cpp:1411
+#: plugins/_core/core.cpp:696 plugins/_core/msgedit.cpp:1412
 msgid "&Next"
 msgstr "&Następny"
 
@@ -4429,7 +4431,7 @@ msgstr "Kas&uj"
 msgid "&Messages"
 msgstr "Wiadomość"
 
-#: plugins/_core/core.cpp:928 plugins/_core/msgedit.cpp:1562
+#: plugins/_core/core.cpp:928 plugins/_core/msgedit.cpp:1563
 #, fuzzy
 msgid "&SMS"
 msgstr "SMS"
@@ -4816,7 +4818,7 @@ msgstr "Aktualnie dostępny pod:"
 msgid "Yes"
 msgstr "Tak"
 
-#: plugins/_core/msgedit.cpp:417 plugins/update/update.cpp:105
+#: plugins/_core/msgedit.cpp:418 plugins/update/update.cpp:105
 #, c-format
 msgid ""
 "_n: Message\n"
@@ -4826,7 +4828,7 @@ msgstr ""
 "%n wiadomości\n"
 "."
 
-#: plugins/_core/msgedit.cpp:442
+#: plugins/_core/msgedit.cpp:443
 #, fuzzy, c-format
 msgid ""
 "_n: SMS\n"
@@ -4836,7 +4838,7 @@ msgstr ""
 "%n SMSów\n"
 "."
 
-#: plugins/_core/msgedit.cpp:457
+#: plugins/_core/msgedit.cpp:458
 #, fuzzy, c-format
 msgid ""
 "_n: URL\n"
@@ -4846,7 +4848,7 @@ msgstr ""
 "%n URLi\n"
 "."
 
-#: plugins/_core/msgedit.cpp:519
+#: plugins/_core/msgedit.cpp:520
 #, fuzzy, c-format
 msgid ""
 "_n: Contact list\n"
@@ -4856,7 +4858,7 @@ msgstr ""
 "%n próśb o kontakt\n"
 "."
 
-#: plugins/_core/msgedit.cpp:565
+#: plugins/_core/msgedit.cpp:566
 #, c-format
 msgid ""
 "_n: File\n"
@@ -4866,15 +4868,15 @@ msgstr ""
 "%n plików\n"
 "."
 
-#: plugins/_core/msgedit.cpp:572
+#: plugins/_core/msgedit.cpp:573
 msgid "&Accept"
 msgstr "&Akceptuj"
 
-#: plugins/_core/msgedit.cpp:587
+#: plugins/_core/msgedit.cpp:588
 msgid "&Decline"
 msgstr "O&drzuć"
 
-#: plugins/_core/msgedit.cpp:639
+#: plugins/_core/msgedit.cpp:640
 #, fuzzy, c-format
 msgid ""
 "_n: Authorize request\n"
@@ -4884,15 +4886,15 @@ msgstr ""
 "%n próśb o autoryzację\n"
 "."
 
-#: plugins/_core/msgedit.cpp:646
+#: plugins/_core/msgedit.cpp:647
 msgid "&Grant"
 msgstr "&Przyznaj"
 
-#: plugins/_core/msgedit.cpp:661
+#: plugins/_core/msgedit.cpp:662
 msgid "&Refuse"
 msgstr "&Odmów"
 
-#: plugins/_core/msgedit.cpp:708
+#: plugins/_core/msgedit.cpp:709
 #, fuzzy, c-format
 msgid ""
 "_n: Authorization granted\n"
@@ -4902,7 +4904,7 @@ msgstr ""
 "%n razy przyzdzielono autoryzację\n"
 "."
 
-#: plugins/_core/msgedit.cpp:728
+#: plugins/_core/msgedit.cpp:729
 #, fuzzy, c-format
 msgid ""
 "_n: Authorization refused\n"
@@ -4912,7 +4914,7 @@ msgstr ""
 "%n próśb o autoryzację odrzuconych\n"
 "."
 
-#: plugins/_core/msgedit.cpp:748
+#: plugins/_core/msgedit.cpp:749
 #, fuzzy, c-format
 msgid ""
 "_n: Add to contacts\n"
@@ -4922,7 +4924,7 @@ msgstr ""
 "%n razy dodano do listy kontaktów\n"
 "."
 
-#: plugins/_core/msgedit.cpp:768
+#: plugins/_core/msgedit.cpp:769
 #, fuzzy, c-format
 msgid ""
 "_n: Removed from contacts\n"
@@ -4932,7 +4934,7 @@ msgstr ""
 "%n razy dodano do listy kontaktów\n"
 "."
 
-#: plugins/_core/msgedit.cpp:788
+#: plugins/_core/msgedit.cpp:789
 #, fuzzy, c-format
 msgid ""
 "_n: Status changed\n"
@@ -4942,30 +4944,30 @@ msgstr ""
 "%n zamkniętych bezpiecznych połączeń\n"
 "."
 
-#: plugins/_core/msgedit.cpp:956
+#: plugins/_core/msgedit.cpp:957
 msgid "No such client for send message"
 msgstr ""
 
-#: plugins/_core/msgedit.cpp:1544 plugins/netmonitor/monitor.cpp:64
+#: plugins/_core/msgedit.cpp:1545 plugins/netmonitor/monitor.cpp:64
 msgid "&File"
 msgstr "&Plik"
 
-#: plugins/_core/msgedit.cpp:1571
+#: plugins/_core/msgedit.cpp:1572
 #, fuzzy
 msgid "&Contact list"
 msgstr "Lista kontaktów wysłana"
 
-#: plugins/_core/msgedit.cpp:1579
+#: plugins/_core/msgedit.cpp:1580
 #, fuzzy
 msgid "&Authorization request"
 msgstr "Wymagana autoryzacja"
 
-#: plugins/_core/msgedit.cpp:1588
+#: plugins/_core/msgedit.cpp:1589
 #, fuzzy
 msgid "&Grant autorization"
 msgstr "I&gnoruj wymóg autoryzacji"
 
-#: plugins/_core/msgedit.cpp:1597
+#: plugins/_core/msgedit.cpp:1598
 #, fuzzy
 msgid "&Refuse autorization"
 msgstr "I&gnoruj wymóg autoryzacji"
@@ -5990,7 +5992,7 @@ msgstr ""
 msgid "Home directory:"
 msgstr "Szukaj użytkownika"
 
-#: plugins/gpg/gpgcfgbase.cpp:163
+#: plugins/gpg/gpgcfgbase.cpp:163 plugins/spell/spellcfgbase.cpp:144
 #, fuzzy
 msgid "&Find"
 msgstr "Szukaj"
@@ -6083,12 +6085,12 @@ msgstr ""
 msgid "AutoHide"
 msgstr "AutoUkrywanie"
 
-#: plugins/logger/logconfig.cpp:80
+#: plugins/logger/logconfig.cpp:93
 #, fuzzy
 msgid "Debug"
 msgstr "&Debug"
 
-#: plugins/logger/logconfig.cpp:81
+#: plugins/logger/logconfig.cpp:94
 #, fuzzy
 msgid "Packets"
 msgstr "&Pakiety"
@@ -6484,11 +6486,11 @@ msgstr "Serwer:"
 msgid "Do not show error dialog (automatically reconnect)"
 msgstr "Nie pokazuj tego okna"
 
-#: plugins/remote/remote.cpp:30
+#: plugins/remote/remote.cpp:36
 msgid "Remote control"
 msgstr ""
 
-#: plugins/remote/remote.cpp:31
+#: plugins/remote/remote.cpp:37
 msgid "Plugin provides remote control"
 msgstr ""
 
@@ -7025,6 +7027,35 @@ msgstr "&Rejestracja"
 #, fuzzy
 msgid "&Agents"
 msgstr "Argentyna"
+
+#: plugins/spell/spell.cpp:61
+msgid "Spell check"
+msgstr "Sprawdzanie pisowni"
+
+#: plugins/spell/spell.cpp:62
+msgid "Plugin provides check spelling"
+msgstr ""
+
+#: plugins/spell/spellcfg.cpp:46
+msgid "ASpell(aspell.exe)"
+msgstr ""
+
+#: plugins/spell/spellcfg.cpp:48
+msgid "Download ASpell"
+msgstr ""
+
+#: plugins/spell/spellhighlight.cpp:195
+msgid "Add '%1'"
+msgstr ""
+
+#: plugins/spell/spellhighlight.cpp:199
+#, fuzzy
+msgid "Ignore '%1'"
+msgstr "Lista ignorowanych"
+
+#: plugins/spell/spellcfgbase.cpp:143
+msgid "Path:"
+msgstr ""
 
 #~ msgid "Sending messages color"
 #~ msgstr "Kolor wiadomości wychodzących"
@@ -7717,9 +7748,6 @@ msgstr "Argentyna"
 
 #~ msgid "Unknown"
 #~ msgstr "Nieznany"
-
-#~ msgid "Spell check"
-#~ msgstr "Sprawdzanie pisowni"
 
 #~ msgid "IM Address"
 #~ msgstr "Adres IM"

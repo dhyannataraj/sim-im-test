@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
-"POT-Creation-Date: 2003-11-27 09:56+0300\n"
+"POT-Creation-Date: 2003-11-30 07:53+0300\n"
 "PO-Revision-Date: 2003-11-07 14:23-0000\n"
 "Last-Translator: K�roly Barcza (VectoR) <vector@vstart.hu>\n"
 "Language-Team: hungarian <translator@vgroup.hu>\n"
@@ -1240,7 +1240,7 @@ msgstr "E&gyéni színek használata"
 msgid "OK"
 msgstr "RENDBEN"
 
-#: plugins/_core/msgedit.cpp:888 sim/ui/qt3/i18n.cpp:23
+#: plugins/_core/msgedit.cpp:889 sim/ui/qt3/i18n.cpp:23
 msgid "Cancel"
 msgstr "Mégsem"
 
@@ -1475,7 +1475,7 @@ msgstr "Mentés"
 
 #: plugins/_core/status.cpp:137 plugins/_core/statuswnd.cpp:76
 #: plugins/jabber/jabbermessage.cpp:108 plugins/jabber/jabbermessage.cpp:224
-#: plugins/logger/logconfig.cpp:78 plugins/netmonitor/monitor.cpp:89
+#: plugins/logger/logconfig.cpp:91 plugins/netmonitor/monitor.cpp:89
 #: plugins/windock/windock.cpp:179 sim/ui/qt3/i18n.cpp:141
 msgid "Error"
 msgstr "Hiba"
@@ -1850,7 +1850,7 @@ msgstr "Áthúzott"
 msgid "underline"
 msgstr "aláhúzás"
 
-#: sim/ui/textshow.cpp:743
+#: sim/ui/textshow.cpp:751
 msgid "Custom"
 msgstr "Egyéni"
 
@@ -1958,7 +1958,7 @@ msgstr "Az összes lehetséges paraméter megjelenítése"
 msgid "Change &encoding"
 msgstr "A kó&dolás beállítása"
 
-#: plugins/_core/msgedit.cpp:1534 plugins/icq/icq.cpp:552
+#: plugins/_core/msgedit.cpp:1535 plugins/icq/icq.cpp:552
 #: plugins/jabber/jabber.cpp:346
 msgid "&Message"
 msgstr "Ü&zenet"
@@ -2508,11 +2508,11 @@ msgstr "Titkosított csatorna bezárása"
 msgid "Check invisible"
 msgstr "Láthatatlanság ellenőrzése"
 
-#: plugins/icq/icqmessage.cpp:1011 plugins/logger/logconfig.cpp:79
+#: plugins/icq/icqmessage.cpp:1011 plugins/logger/logconfig.cpp:92
 msgid "Warning"
 msgstr "Figyelmeztetés"
 
-#: plugins/_core/msgedit.cpp:1553 plugins/icq/icqmessage.cpp:1018
+#: plugins/_core/msgedit.cpp:1554 plugins/icq/icqmessage.cpp:1018
 msgid "&URL"
 msgstr "&URL"
 
@@ -3364,7 +3364,8 @@ msgstr "Webszerkesztő"
 #: plugins/remote/remotecfgbase.cpp:123 plugins/shortcuts/mousecfgbase.cpp:108
 #: plugins/shortcuts/shortcutcfgbase.cpp:138
 #: plugins/sound/soundconfigbase.cpp:159 plugins/sound/sounduserbase.cpp:121
-#: plugins/styles/fontconfigbase.cpp:158 plugins/styles/stylescfgbase.cpp:83
+#: plugins/spell/spellcfgbase.cpp:142 plugins/styles/fontconfigbase.cpp:158
+#: plugins/styles/stylescfgbase.cpp:83
 #: plugins/transparent/transparentcfgbase.cpp:101
 msgid "Form1"
 msgstr "Űrlap1"
@@ -3729,6 +3730,7 @@ msgid "Email:"
 msgstr "Email:"
 
 #: plugins/_core/interfacecfgbase.cpp:147 plugins/icq/icqsearchbase.cc:325
+#: plugins/spell/spellcfgbase.cpp:145
 msgid "Language:"
 msgstr "Nyelv:"
 
@@ -4135,7 +4137,7 @@ msgstr "Csoport"
 msgid "&History"
 msgstr "&Napló"
 
-#: plugins/_core/core.cpp:597 plugins/_core/msgedit.cpp:979
+#: plugins/_core/core.cpp:597 plugins/_core/msgedit.cpp:980
 msgid "&Send"
 msgstr "&Küldés"
 
@@ -4147,11 +4149,11 @@ msgstr "Elem beszúrása"
 msgid "Send in &translit"
 msgstr "Send in &translit"
 
-#: plugins/_core/core.cpp:622 plugins/_core/msgedit.cpp:240
+#: plugins/_core/core.cpp:622 plugins/_core/msgedit.cpp:241
 msgid "C&lose after send"
 msgstr "&Küldés után bezárja"
 
-#: plugins/_core/core.cpp:630 plugins/_core/msgedit.cpp:968
+#: plugins/_core/core.cpp:630 plugins/_core/msgedit.cpp:969
 msgid "&Multiply send"
 msgstr "Másolat kül&dése"
 
@@ -4183,7 +4185,7 @@ msgstr "Fájl kiválasztása"
 msgid "&Phone number"
 msgstr "Telefonszám"
 
-#: plugins/_core/core.cpp:696 plugins/_core/msgedit.cpp:1411
+#: plugins/_core/core.cpp:696 plugins/_core/msgedit.cpp:1412
 msgid "&Next"
 msgstr "&Következő "
 
@@ -4223,7 +4225,7 @@ msgstr "Válasz"
 msgid "&Messages"
 msgstr "Ü&zenetek"
 
-#: plugins/_core/core.cpp:928 plugins/_core/msgedit.cpp:1562
+#: plugins/_core/core.cpp:928 plugins/_core/msgedit.cpp:1563
 msgid "&SMS"
 msgstr "&SMS"
 
@@ -4567,7 +4569,7 @@ msgstr "Ez a felhasználó most elérhető:"
 msgid "Yes"
 msgstr "Igen"
 
-#: plugins/_core/msgedit.cpp:417 plugins/update/update.cpp:105
+#: plugins/_core/msgedit.cpp:418 plugins/update/update.cpp:105
 #, c-format
 msgid ""
 "_n: Message\n"
@@ -4576,7 +4578,7 @@ msgstr ""
 "Üzenet\n"
 "%n üzenetek"
 
-#: plugins/_core/msgedit.cpp:442
+#: plugins/_core/msgedit.cpp:443
 #, c-format
 msgid ""
 "_n: SMS\n"
@@ -4585,7 +4587,7 @@ msgstr ""
 "SMS\n"
 "%n SMS"
 
-#: plugins/_core/msgedit.cpp:457
+#: plugins/_core/msgedit.cpp:458
 #, c-format
 msgid ""
 "_n: URL\n"
@@ -4594,14 +4596,14 @@ msgstr ""
 "URL\n"
 "%n URLs"
 
-#: plugins/_core/msgedit.cpp:519
+#: plugins/_core/msgedit.cpp:520
 #, c-format
 msgid ""
 "_n: Contact list\n"
 "%n contact lists"
 msgstr "_n: Kontakt listan%n kontakt lista"
 
-#: plugins/_core/msgedit.cpp:565
+#: plugins/_core/msgedit.cpp:566
 #, c-format
 msgid ""
 "_n: File\n"
@@ -4610,15 +4612,15 @@ msgstr ""
 "Fájl\n"
 "%n Fájlok"
 
-#: plugins/_core/msgedit.cpp:572
+#: plugins/_core/msgedit.cpp:573
 msgid "&Accept"
 msgstr "&Elfogadás"
 
-#: plugins/_core/msgedit.cpp:587
+#: plugins/_core/msgedit.cpp:588
 msgid "&Decline"
 msgstr "Elutasítás"
 
-#: plugins/_core/msgedit.cpp:639
+#: plugins/_core/msgedit.cpp:640
 #, c-format
 msgid ""
 "_n: Authorize request\n"
@@ -4627,15 +4629,15 @@ msgstr ""
 "Kérést elfogadja\n"
 "%n kéréseket elfogadja"
 
-#: plugins/_core/msgedit.cpp:646
+#: plugins/_core/msgedit.cpp:647
 msgid "&Grant"
 msgstr "&Grant"
 
-#: plugins/_core/msgedit.cpp:661
+#: plugins/_core/msgedit.cpp:662
 msgid "&Refuse"
 msgstr "Megtagad"
 
-#: plugins/_core/msgedit.cpp:708
+#: plugins/_core/msgedit.cpp:709
 #, c-format
 msgid ""
 "_n: Authorization granted\n"
@@ -4644,7 +4646,7 @@ msgstr ""
 "_n: Authorization granted\n"
 "%n authorization granted"
 
-#: plugins/_core/msgedit.cpp:728
+#: plugins/_core/msgedit.cpp:729
 #, c-format
 msgid ""
 "_n: Authorization refused\n"
@@ -4653,7 +4655,7 @@ msgstr ""
 "_n: Authorization refused\n"
 "%n authorization refused"
 
-#: plugins/_core/msgedit.cpp:748
+#: plugins/_core/msgedit.cpp:749
 #, c-format
 msgid ""
 "_n: Add to contacts\n"
@@ -4662,7 +4664,7 @@ msgstr ""
 "_n: Add to contacts\n"
 "%n add to contacts"
 
-#: plugins/_core/msgedit.cpp:768
+#: plugins/_core/msgedit.cpp:769
 #, c-format
 msgid ""
 "_n: Removed from contacts\n"
@@ -4671,7 +4673,7 @@ msgstr ""
 "_n: Removed from contacts\n"
 "%n removed from contacts"
 
-#: plugins/_core/msgedit.cpp:788
+#: plugins/_core/msgedit.cpp:789
 #, c-format
 msgid ""
 "_n: Status changed\n"
@@ -4680,27 +4682,27 @@ msgstr ""
 "_n: Status changed\n"
 "%n times status changed"
 
-#: plugins/_core/msgedit.cpp:956
+#: plugins/_core/msgedit.cpp:957
 msgid "No such client for send message"
 msgstr "Nincs ilyen kliens a küldéshez"
 
-#: plugins/_core/msgedit.cpp:1544 plugins/netmonitor/monitor.cpp:64
+#: plugins/_core/msgedit.cpp:1545 plugins/netmonitor/monitor.cpp:64
 msgid "&File"
 msgstr "&Fájl"
 
-#: plugins/_core/msgedit.cpp:1571
+#: plugins/_core/msgedit.cpp:1572
 msgid "&Contact list"
 msgstr "&Címlista"
 
-#: plugins/_core/msgedit.cpp:1579
+#: plugins/_core/msgedit.cpp:1580
 msgid "&Authorization request"
 msgstr "Azonosítás kérés"
 
-#: plugins/_core/msgedit.cpp:1588
+#: plugins/_core/msgedit.cpp:1589
 msgid "&Grant autorization"
 msgstr "&Grant autorization"
 
-#: plugins/_core/msgedit.cpp:1597
+#: plugins/_core/msgedit.cpp:1598
 msgid "&Refuse autorization"
 msgstr "A kapcsolat vissza&utasítása"
 
@@ -5643,7 +5645,7 @@ msgstr ""
 msgid "Home directory:"
 msgstr "Saját könyvtár"
 
-#: plugins/gpg/gpgcfgbase.cpp:163
+#: plugins/gpg/gpgcfgbase.cpp:163 plugins/spell/spellcfgbase.cpp:144
 #, fuzzy
 msgid "&Find"
 msgstr "Finnland"
@@ -5731,11 +5733,11 @@ msgstr ""
 msgid "AutoHide"
 msgstr "Automatikus elrejtés"
 
-#: plugins/logger/logconfig.cpp:80
+#: plugins/logger/logconfig.cpp:93
 msgid "Debug"
 msgstr "Hibakeresés"
 
-#: plugins/logger/logconfig.cpp:81
+#: plugins/logger/logconfig.cpp:94
 #, fuzzy
 msgid "Packets"
 msgstr "Tér:"
@@ -6102,11 +6104,11 @@ msgstr "Proxy-Host:"
 msgid "Do not show error dialog (automatically reconnect)"
 msgstr "Do not show error dialog (automatically reconnect)"
 
-#: plugins/remote/remote.cpp:30
+#: plugins/remote/remote.cpp:36
 msgid "Remote control"
 msgstr ""
 
-#: plugins/remote/remote.cpp:31
+#: plugins/remote/remote.cpp:37
 #, fuzzy
 msgid "Plugin provides remote control"
 msgstr "A rendelkezésre álló plugin jellemzői, dokkolási ikon"
@@ -6603,6 +6605,36 @@ msgstr "&Regisztrált "
 #: plugins/jabber/servicesbase.cpp:175
 msgid "&Agents"
 msgstr "&Agents"
+
+#: plugins/spell/spell.cpp:61
+msgid "Spell check"
+msgstr ""
+
+#: plugins/spell/spell.cpp:62
+#, fuzzy
+msgid "Plugin provides check spelling"
+msgstr "A rendelkezésre álló plugin jellemzői, dokkolási ikon"
+
+#: plugins/spell/spellcfg.cpp:46
+msgid "ASpell(aspell.exe)"
+msgstr ""
+
+#: plugins/spell/spellcfg.cpp:48
+msgid "Download ASpell"
+msgstr ""
+
+#: plugins/spell/spellhighlight.cpp:195
+msgid "Add '%1'"
+msgstr ""
+
+#: plugins/spell/spellhighlight.cpp:199
+#, fuzzy
+msgid "Ignore '%1'"
+msgstr "Mellőzöttek listája..."
+
+#: plugins/spell/spellcfgbase.cpp:143
+msgid "Path:"
+msgstr ""
 
 #~ msgid "Sending messages color"
 #~ msgstr "A küldött üzenetek színe"

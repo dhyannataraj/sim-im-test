@@ -1,5 +1,5 @@
 /***************************************************************************
-                          remote.h  -  description
+                          spell.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,53 +15,64 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _REMOTE_H
-#define _REMOTE_H
+#ifndef _SPELL_H
+#define _SPELL_H
 
 #include "simapi.h"
-#include "socket.h"
 #include "stl.h"
 
-typedef struct RemoteData
-{
-    char *Path;
-} RemoteData;
+#include <qdict.h>
+#include <qstringlist.h>
 
-class ControlSocket;
-class CorePlugin;
-
-class RemotePlugin : public Plugin, public EventReceiver, public ServerSocketNotify
+typedef struct SpellData
 {
+#ifdef WIN32
+    char	*Path;
+#endif
+    char	*Lang;
+} SpellData;
+
+class TextEdit;
+class QSyntaxHighlighter;
+class KDictSpellingHighlighter;
+class SpellerBase;
+class Speller;
+
+typedef map<TextEdit*, QSyntaxHighlighter*>	MAP_EDITS;
+
+class SpellPlugin : public QObject, public Plugin, public EventReceiver
+{
+    Q_OBJECT
 public:
-    RemotePlugin(unsigned, const char*);
-    ~RemotePlugin();
+    SpellPlugin(unsigned, const char*);
+    ~SpellPlugin();
+#ifdef WIN32
     PROP_STR(Path);
-    void bind();
-    list<ControlSocket*> m_sockets;
-    CorePlugin	*core;
+#endif
+    PROP_STR(Lang);
+    MAP_EDITS m_edits;
+    void reset();
+    unsigned CmdSpell;
+    QStringList suggestions(const QString &word);
+    void add(const QString &word);
+    QDict<bool>  m_ignore;
+signals:
+    void misspelling(const QString &word);
+    void configChanged();
+protected slots:
+    void textEditFinished(TextEdit*);
+    void check(const QString &word);
 protected:
-    virtual bool accept(Socket*, unsigned long ip);
-    virtual void bind_ready(unsigned short port);
-    virtual bool error(const char *err);
-
+    bool eventFilter(QObject *o, QEvent *e);
     virtual void *processEvent(Event*);
     virtual string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
-    RemoteData data;
-};
-
-class ControlSocket : public ClientSocketNotify
-{
-public:
-    ControlSocket(RemotePlugin *plugin, Socket *s);
-    ~ControlSocket();
-protected:
-    ClientSocket	*m_socket;
-    RemotePlugin	*m_plugin;
-    void write(const char*);
-    virtual bool error_state(const char *err, unsigned code);
-    virtual void connect_ready();
-    virtual void packet_ready();
+    void activate();
+    void deactivate();
+    bool			m_bActive;
+    SpellerBase		*m_base;
+    list<Speller*>	m_spellers;
+    SpellData data;
 };
 
 #endif

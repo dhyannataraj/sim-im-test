@@ -132,6 +132,7 @@ QPopupMenu *TextEdit::createPopupMenu(const QPoint& pos)
 {
     if (m_bInClick)
         return NULL;
+    m_popupPos = pos;
     return TextShow::createPopupMenu(pos);
 }
 
@@ -161,7 +162,7 @@ void TextEdit::setParam(void *param)
 void TextEdit::slotColorChanged(const QColor &c)
 {
     if (c != curFG)
-        setForeground(c);
+        setForeground(c, false);
 }
 
 void TextEdit::bgColorChanged(QColor c)
@@ -172,7 +173,7 @@ void TextEdit::bgColorChanged(QColor c)
 
 void TextEdit::fgColorChanged(QColor c)
 {
-    setForeground(c);
+    setForeground(c, true);
     curFG = c;
     emit colorsChanged();
 }
@@ -372,9 +373,11 @@ void TextShow::setForeground(const QColor& c)
     setPalette(pal);
 }
 
-void TextEdit::setForeground(const QColor& c)
+void TextEdit::setForeground(const QColor& c, bool bDef)
 {
     curFG = c;
+    if (bDef)
+        defFG = c;
     setColor(c);
     QPalette pal = palette();
     pal.setColor(QPalette::Active, QColorGroup::Text, c);
@@ -394,6 +397,11 @@ const QColor &TextShow::foreground() const
 const QColor &TextEdit::foreground() const
 {
     return curFG;
+}
+
+const QColor &TextEdit::defForeground() const
+{
+    return defFG;
 }
 
 void TextEdit::setTextFormat(QTextEdit::TextFormat format)
