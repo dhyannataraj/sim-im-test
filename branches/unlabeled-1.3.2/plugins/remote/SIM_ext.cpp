@@ -72,8 +72,7 @@ HRESULT CSIM_ext::QueryContextMenu(HMENU hmenu,
     if (lpData == NULL)
         return 0;
     if (((uFlags & 0x0000000F) == CMF_NORMAL) || (uFlags & CMF_EXPLORE)){
-//        CComBSTR in("CONTACTS 3");
-        CComBSTR in("CONTACTS");
+        CComBSTR in("CONTACTS 3");
         CComBSTR out;
         unsigned cmd_id = idCmdFirst;
         if (ProcessStr && ProcessStr(in, &out)){
