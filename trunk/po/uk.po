@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2003-01-13 05:24+0300\n"
-"PO-Revision-Date: 2003-01-14 16:52+0200\n"
+"PO-Revision-Date: 2003-01-16 21:57+0200\n"
 "Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1639,7 +1639,7 @@ msgstr "Основна група"
 
 #: libicq/country.cpp:477
 msgid "Romance"
-msgstr "Румантика"
+msgstr "Романтика"
 
 #: libicq/country.cpp:479
 msgid "Students"
@@ -2195,7 +2195,7 @@ msgstr "Налагодження"
 
 #: mainwin.cpp:630 mainwin.cpp:2697 ui/randomchatbase.cpp:278
 msgid "Random chat"
-msgstr "Випадковий співрозмовник"
+msgstr "Випадкова розмова"
 
 #: mainwin.cpp:631 mainwin.cpp:2712 monitor.cpp:59
 msgid "Network monitor"
@@ -4747,7 +4747,7 @@ msgstr "Індекс:"
 
 #: ui/randomchatbase.cpp:292 ui/randomchatbase.cpp:297 ui/workinfobase.cpp:213
 msgid "Name:"
-msgstr "Назва:"
+msgstr "Ім'я:"
 
 #: ui/workinfobase.cpp:215
 msgid "Web site:"
@@ -5192,7 +5192,7 @@ msgstr "Відправити &URL"
 
 #: ui/randomchatbase.cpp:289 ui/randomchatbase.cpp:295
 msgid "Group:"
-msgstr "Группа:"
+msgstr "Група:"
 
 #: ui/randomchatbase.cpp:293
 msgid "&Finding"
