@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: newww\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-04-26 11:31+0400\n"
-"PO-Revision-Date: 2004-05-05 15:20+0700\n"
+"PO-Revision-Date: 2004-05-05 15:46+0700\n"
 "Last-Translator: Narachai Sakorn <narachai@opentle.org>\n"
 "Language-Team: Thai <th@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2946,11 +2946,11 @@ msgstr "เปลี่ยนโพรไฟล์"
 
 #: plugins/_core/core.cpp:4196
 msgid "Common status"
-msgstr ""
+msgstr "สถานะ"
 
 #: plugins/_core/core.cpp:4202
 msgid "Configure client"
-msgstr ""
+msgstr "ปรับแต่งไคลเอ็นต์"
 
 #: plugins/_core/core.cpp:4226 plugins/_core/status.cpp:153
 #: plugins/_core/status.cpp:223
@@ -3176,6 +3176,9 @@ msgid ""
 "If you want to add connection press button \" Next\".\n"
 "You can add connection later using connection manager"
 msgstr ""
+"หากคุณต้องการที่จะเพิ่มการเชื่อมต่อ กดปุ่ม \" ต่อไป\"\n"
+"หรือหากคุณไม่ต้องการที่จะเพิ่มในขณะนี้ คุณยังสามารถ\n"
+"เพิ่มโดยใช้โปรแกรมจัดการการเชื่อมต่อ"
 
 #: plugins/_core/managerbase.cpp:46 plugins/_core/managerbase.cpp:106
 msgid "Connection"
@@ -3388,7 +3391,7 @@ msgstr "เปิดและ&ย่อหน้าต่าง"
 
 #: plugins/_core/msgcfgbase.cpp:89
 msgid "Open and &raise"
-msgstr ""
+msgstr "เปิดและ&ยกขึ้น"
 
 #: plugins/_core/filetransferbase.cpp:131
 msgid "File transfer"
@@ -3429,7 +3432,7 @@ msgstr "เลข:"
 #: plugins/_core/autoreplybase.cpp:87
 #: plugins/_core/connectionsettingsbase.cpp:74
 msgid "MyDialog"
-msgstr ""
+msgstr "หน้าต่างของฉัน"
 
 #: plugins/_core/autoreplybase.cpp:88
 msgid "Don't show this dialog"
@@ -3952,11 +3955,11 @@ msgstr "การขอ&อนุญาต"
 
 #: plugins/_core/msgedit.cpp:1704
 msgid "&Grant autorization"
-msgstr ""
+msgstr "ยิน&ยอมการขออนุญาต"
 
 #: plugins/_core/msgedit.cpp:1713
 msgid "&Refuse autorization"
-msgstr ""
+msgstr "&ปฏิเสธการขออนุญาต"
 
 #: plugins/_core/maininfobase.cpp:187 plugins/_core/nonimbase.cpp:95
 #: plugins/icq/aiminfobase.cc:256 plugins/icq/icqinfobase.cc:312
@@ -3976,7 +3979,7 @@ msgstr "แสดง:"
 
 #: plugins/_core/maininfobase.cpp:190
 msgid "Encoding:"
-msgstr ""
+msgstr "การเข้ารหัส:"
 
 #: plugins/_core/maininfobase.cpp:192
 msgid "Email addresses:"
@@ -4018,7 +4021,7 @@ msgstr "บั&นทึกย่อ"
 
 #: plugins/_core/nonimbase.cpp:97 plugins/jabber/jabberaddbase.cpp:99
 msgid "Nickname:"
-msgstr ""
+msgstr "ชื่อเล่น:"
 
 #: plugins/_core/nonimbase.cpp:98
 msgid "E-Mail address:"
@@ -4030,7 +4033,7 @@ msgstr "โทรศัพท์:"
 
 #: plugins/_core/toolsetupbase.cpp:123
 msgid "Toolbar setup"
-msgstr ""
+msgstr "ปรับแต่งแถบเครื่องมือ"
 
 #: plugins/_core/toolsetupbase.cpp:124
 msgid "All buttons:"
@@ -4038,7 +4041,7 @@ msgstr "ทุกปุ่ม:"
 
 #: plugins/_core/toolsetupbase.cpp:126 plugins/_core/toolsetupbase.cpp:131
 msgid "New Item"
-msgstr ""
+msgstr "รายการใหม่"
 
 #: plugins/_core/toolsetupbase.cpp:127
 msgid "&Add ->"
@@ -4070,7 +4073,7 @@ msgstr "เกี่ยวกับ"
 
 #: plugins/about/about.cpp:39
 msgid "Plugin provides about information"
-msgstr ""
+msgstr "ปลั๊กอินนี้แสดงข้อมูลเกี่ยวกับโปรแกรม SIM"
 
 #: plugins/about/about.cpp:61
 msgid "&Bug report"
@@ -4088,13 +4091,13 @@ msgstr "เกี่ยวกับ &KDE"
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
-msgstr ""
+msgstr "นราชัย สาคร"
 
 #: plugins/about/about.cpp:112
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
-msgstr ""
+msgstr "narachai@opentle.org"
 
 #: plugins/about/aboutdlgbase.cpp:117
 msgid "About SIM"
@@ -4126,15 +4129,15 @@ msgstr "นาทีที่สถานะเป็น \"ไม่อยู่
 
 #: plugins/autoaway/autoawaycfgbase.cpp:106
 msgid "minutes of \"N/A\""
-msgstr ""
+msgstr "นาทีของสถานะ \"N/A\""
 
 #: plugins/autoaway/autoawaycfgbase.cpp:107
 msgid "Set \"N/A\" status after"
-msgstr ""
+msgstr "ตั้งสถานะเป็น \"N/A\" หลังจาก"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:108
 msgid "Set \"Offline\" status after"
-msgstr ""
+msgstr "ตั้งสถานะเป็น \"ออฟไลน์\" หลังจาก"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:109
 msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
@@ -4155,16 +4158,16 @@ msgstr "เลือกภาพพื้นหลัง"
 #: plugins/background/bkgndcfg.cpp:60 plugins/icq/icqpicture.cpp:51
 #: plugins/jabber/jabberpicture.cpp:54
 msgid "%1|Graphics"
-msgstr ""
+msgstr "%1|กราฟิก"
 
 #: plugins/background/bkgndcfg.cpp:62 plugins/icq/icqpicture.cpp:53
 #: plugins/jabber/jabberpicture.cpp:56
 msgid "Graphics(%1)"
-msgstr ""
+msgstr "กราฟิก(%1)"
 
 #: plugins/background/bkgndcfg.cpp:65
 msgid "Contact - left"
-msgstr ""
+msgstr "คู่สนทนา - ซ้าย"
 
 #: plugins/background/bkgndcfg.cpp:66
 msgid "Contact - scale"
@@ -4172,15 +4175,15 @@ msgstr ""
 
 #: plugins/background/bkgndcfg.cpp:67
 msgid "Window - left top"
-msgstr ""
+msgstr "หน้าต่าง - บนซ้าย"
 
 #: plugins/background/bkgndcfg.cpp:68
 msgid "Window - left bottom"
-msgstr ""
+msgstr "หน้าต่าง - ล่างซ้าย"
 
 #: plugins/background/bkgndcfg.cpp:69
 msgid "Window - left center"
-msgstr ""
+msgstr "หน้าต่าง - กลางซ้าย"
 
 #: plugins/background/bkgndcfg.cpp:70
 msgid "Window - scale"
@@ -4204,7 +4207,7 @@ msgstr "พื้นหลังของหน้าต่างหลัก:"
 
 #: plugins/background/bkgndcfgbase.cpp:117 plugins/osd/osdifacebase.cpp:136
 msgid "Place:"
-msgstr ""
+msgstr "ที่อยู่:"
 
 #: plugins/background/background.cpp:34
 msgid "Background"
