@@ -47,7 +47,8 @@ AutoReplyDialog::AutoReplyDialog(unsigned status)
         return;
     setCaption(i18n("Autoreply message") + " " + i18n(text));
     setIcon(Pict(icon));
-    m_time = 16;
+    m_time = 15;
+    lblTime->setText(i18n("Close after %n second", "Close after %n seconds", m_time));
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
     m_timer->start(1000);
@@ -106,6 +107,7 @@ void AutoReplyDialog::accept()
 
 void AutoReplyDialog::help()
 {
+    stopTimer();
     QString helpString = i18n("In text you can use:");
     helpString += "\n";
     Event e(EventTmplHelp, &helpString);
