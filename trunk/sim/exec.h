@@ -28,14 +28,28 @@ class Exec : public QObject
 public:
     Exec(QObject *parent);
     ~Exec();
-public slots:
-    void execute(const char *prog, const char *input);
-signals:
-    void ready(int res, const char *out);
-protected:
+    int result;
     Buffer bIn;
     Buffer bOut;
     Buffer bErr;
+    string prog;
+public slots:
+    void execute(const char *prog, const char *input);
+    void finished();
+signals:
+    void ready(int res, const char *out);
+protected slots:
+    void childExited(int, int);
+    void inReady(int);
+    void outReady(int);
+    void errReady(int);
+protected:
+#ifndef WIN32
+    int child_pid;
+    int hIn;
+    int hOut;
+    int hErr;
+#endif
 };
 
 #endif

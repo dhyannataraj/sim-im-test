@@ -412,7 +412,7 @@ bool SIMClient::load(istream &s, string &nextPart)
 }
 
 SIMClient::SIMClient(QObject *parent, const char *name)
-        : ICQClient(getFactory()), QObject(parent, name)
+        : QObject(parent, name), ICQClient(getFactory())
 {
     QTimer *timer = new QTimer(this);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(timer()));

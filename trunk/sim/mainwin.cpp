@@ -55,6 +55,8 @@
 #include <pwd.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <signal.h>
+#include <sys/wait.h>
 #endif
 
 #ifdef WIN32
@@ -282,10 +284,19 @@ cfgParam MainWindow_Params[] =
         { "", 0, 0, 0 }
     };
 
+#ifndef WIN32
+
+static void child_proc(int)
+{
+	if (pMain)
+		QTimer::singleShot(0, pMain, SLOT(checkChilds()));
+}
+
+#endif
+
 MainWindow::MainWindow(const char *name)
         : QMainWindow(NULL, name, WType_TopLevel | WStyle_Customize | WStyle_Title | WStyle_NormalBorder| WStyle_SysMenu)
 {
-    log(L_DEBUG, "Main window");
     SET_WNDPROC
     ::init(this, MainWindow_Params);
 
@@ -407,6 +418,24 @@ MainWindow::MainWindow(const char *name)
 
     searchDlg = NULL;
     setupDlg = NULL;
+
+#ifndef WIN32
+    struct sigaction act;
+    struct sigaction oldAct;
+    act.sa_handler = child_proc;
+    sigemptyset( &(act.sa_mask) );
+    sigaddset( &(act.sa_mask), SIGCHLD );
+    act.sa_flags = SA_NOCLDSTOP;
+#if defined(SA_RESTART)
+    act.sa_flags |= SA_RESTART;
+#endif
+    if (!sigaction( SIGCHLD, &act, &oldAct ))
+        log(L_WARN,  "Error installing SIGCHLD handler" );
+
+    QTimer *childTimer = new QTimer(this);
+    connect(childTimer, SIGNAL(timeout()), this, SLOT(checkChilds()));
+    childTimer->start(1000);
+#endif
 
     bBlinkState = false;
     blinkTimer = new QTimer(this);
@@ -2132,7 +2161,7 @@ void MainWindow::exec(const char *prg, const char *arg)
     arglist[i] = NULL;
     if(!fork()) {
         if (execvp(arglist[0], arglist))
-            log(L_DEBUG, "can't execute %s: %s", arglist[0], strerror(errno));
+            log(L_WARN, "can't execute %s: %s", arglist[0], strerror(errno));
         _exit(-1);
     }
     for (char **p = arglist; *p != NULL; p++)
@@ -2658,6 +2687,19 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
 void MainWindow::clearUserMenu()
 {
     menuUser->clear();
+}
+
+void MainWindow::checkChilds()
+{
+#ifndef WIN32
+    for (;;){
+	int status;
+    	pid_t child = waitpid(0, &status, WNOHANG);
+	if ((child == 0) || (child == -1)) break;
+	if (!WIFEXITED(status)) continue;
+	emit childExited(child, WEXITSTATUS(status));
+    }
+#endif
 }
 
 #ifndef _WINDOWS

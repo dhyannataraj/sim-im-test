@@ -331,6 +331,7 @@ signals:
     void wmChanged();
     void chatChanged();
     void ftChanged();
+    void childExited(int pid, int status);
 public slots:
     void quit();
     void setup();
@@ -358,6 +359,7 @@ public slots:
     void changeIcons(int);
     void chatClose();
     void ftClose();
+    void checkChilds();
 protected slots:
     void toggleWindow();
     void realSetStatus();

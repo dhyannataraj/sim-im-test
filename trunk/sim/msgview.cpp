@@ -301,7 +301,7 @@ QString TextShow::unquoteString(const QString &s, int from, int to)
     if (to < 0) to = s.length();
     QString res;
     int n = 0;
-    for (int i = 0; i < s.length(); i++){
+    for (unsigned i = 0; i < s.length(); i++){
         if (s[i] == '&'){
             int m = i;
             for (; i < s.length(); i++)
@@ -326,7 +326,7 @@ QString TextShow::unquoteString(const QString &s, int from, int to)
             i = m;
         }
         if (s[i] == '<'){
-            int m = i;
+            unsigned m = i;
             for (; i < s.length(); i++)
                 if (s[i] == '>') break;
             QString t = s.mid(m, i - m + 1);
