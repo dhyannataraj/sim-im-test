@@ -11,7 +11,7 @@ Copyright: 	GPL
 Group: 		X11/KDE/Network
 URL: 		http://sim-icq.sourceforge.net/
 Source0: 	http://osdn.dl.sourceforge.net/sourceforge/sim-icq/%{name}-%{version}.tar.gz
-PreReq:		autoconf >= 2.52, automake >= 1.5
+BuildRequires:	autoconf >= 2.52, automake >= 1.5
 BuildRequires:  gcc, gcc-c++, XFree86-devel, zlib-devel, libjpeg-devel, expat-devel, flex, libart_lgpl-devel, libpng-devel, gettext
 BuildRequires:  kdelibs-devel >= 3.0.0, qt-devel >= 3.0.0, openssl-devel, pcre-devel >= 3.9, arts-devel >= 1.0
 Requires:       kdebase >= 3.0.0, kdelibs >= 3.0.0, qt >= 3.0.0, openssl, arts >= 1.0
