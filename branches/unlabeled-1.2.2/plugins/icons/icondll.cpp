@@ -431,7 +431,7 @@ QPixmap IconLoader::getIcon(int id)
     int w = bh.biWidth;
     int h = bh.biHeight / 2;
 
-    if ((w > 22) || (h > 22)) return QPixmap();
+    if ((w > 64) || (h > 64)) return QPixmap();
 
     int bits = bh.biBitCount;
     int depth = bits;

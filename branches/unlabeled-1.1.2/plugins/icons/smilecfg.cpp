@@ -51,6 +51,8 @@ SmilePreview::SmilePreview(QWidget *parent)
         for (unsigned j = 0; j < 4; j++){
             QLabel *l = new QLabel(this);
             l->setMinimumSize(QSize(22, 22));
+			l->setFrameStyle(QFrame::Box);
+			l->setLineWidth(2);
             labels[i * 4 + j] = l;
             lay->addWidget(l, i, j);
         }
@@ -85,17 +87,17 @@ void SmilePreview::setSmiles()
 {
     unsigned i = 0;
     if (smiles){
-        for (unsigned i = 0; (i < smiles->count()) && (i < 20); ){
+        for (i = 0; (i < smiles->count()) && (i < 20); ){
             const QIconSet *icon = smiles->get(i);
 			if (icon == NULL)
 				break;
-			QPixmap p = icon->pixmap(QIconSet::Automatic, QIconSet::Normal);
-			log(L_DEBUG, "S %u %u %u", i, p.width(), p.height());
-            labels[i++]->setPixmap(p);
+			labels[i]->setPixmap(icon->pixmap(QIconSet::Automatic, QIconSet::Normal));
+			i++;
         }
     }
-    for (; i < 20; i++)
+    for (; i < 20; i++){
         labels[i]->setPixmap(QPixmap());
+	}
 }
 
 static FilePreview *createPreview(QWidget *parent)
