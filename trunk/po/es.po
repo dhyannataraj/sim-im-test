@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the SIM package.
 # Copyright (C) 2004
 #
-# $Id: es.po,v 1.153 2004-06-25 01:14:14 jorgelt Exp $
+# $Id: es.po,v 1.154 2004-06-30 17:45:49 noragen Exp $
 # Jorge Lopez Trescastro <jorge@acm.asoc.fi.upm.es>, 2002, 2003, 2004.
 #
 msgid ""
@@ -3167,7 +3167,7 @@ msgstr "&ICQ"
 
 #: plugins/icq/aimconfigbase.cc:150 plugins/icq/icqconfigbase.cc:267
 #: plugins/yahoo/yahoocfgbase.cpp:181
-msgid "&Automaticaly use HTTP pooling if proxy required"
+msgid "&Automatically use HTTP pooling if proxy required"
 msgstr ""
 
 #: plugins/icq/aimconfigbase.cc:149 plugins/icq/icqconfigbase.cc:268
@@ -3264,7 +3264,7 @@ msgid "Disable answer on phonebook and &picture requests"
 msgstr "Deshabilitar la respuesta a las &peticiones de agenda y fotografía"
 
 #: plugins/icq/icqconfigbase.cc:287
-msgid "Disable automaticaly &request autoreply on change status"
+msgid "Disable automatically &request autoreply on change status"
 msgstr "Deshabilitar la petición automática de los mensajes de autorespuesta al cambiar de estado"
 
 #: plugins/icq/icqconfigbase.cc:288
@@ -7580,11 +7580,11 @@ msgid "Use protocol &icons for agents contacts"
 msgstr "Usar los &iconos del protocolo para los contactos de agentes"
 
 #: plugins/jabber/jabberconfigbase.cpp:315
-msgid "Automaticaly send &subscribe request"
+msgid "Automatically send &subscribe request"
 msgstr "Enviar automáticamente petición de &subscripción"
 
 #: plugins/jabber/jabberconfigbase.cpp:316
-msgid "Automaticaly &accept subscribe requests"
+msgid "Automatically &accept subscribe requests"
 msgstr "&Aceptar automáticamente peticiones de subscripción"
 
 #: plugins/jabber/jabberconfigbase.cpp:317

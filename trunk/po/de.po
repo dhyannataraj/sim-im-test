@@ -3417,7 +3417,7 @@ msgstr "&ICQ"
 #: plugins/icq/aimconfigbase.cc:150
 #: plugins/icq/icqconfigbase.cc:267
 #: plugins/yahoo/yahoocfgbase.cpp:181
-msgid "&Automaticaly use HTTP pooling if proxy required"
+msgid "&Automatically use HTTP pooling if proxy required"
 msgstr "&Automatische HTTP Anfragen benutzen, wenn ein Proxy benötigt wird"
 
 #: plugins/icq/aimconfigbase.cc:149
@@ -3531,7 +3531,7 @@ msgid "Disable answer on phonebook and &picture requests"
 msgstr "Antworten auf Telefonbuch und Bilderanfragen verweigern"
 
 #: plugins/icq/icqconfigbase.cc:287
-msgid "Disable automaticaly &request autoreply on change status"
+msgid "Disable automatically &request autoreply on change status"
 msgstr "Automatische Anfragen nach Autoantworten bei Statusänderungen verweigern"
 
 #: plugins/icq/icqconfigbase.cc:288
@@ -7975,11 +7975,11 @@ msgid "Use protocol &icons for agents contacts"
 msgstr "Protokoll&symbole für Agentkontakte benutzen"
 
 #: plugins/jabber/jabberconfigbase.cpp:315
-msgid "Automaticaly send &subscribe request"
+msgid "Automatically send &subscribe request"
 msgstr "Automatische Abonnieranfrage &senden"
 
 #: plugins/jabber/jabberconfigbase.cpp:316
-msgid "Automaticaly &accept subscribe requests"
+msgid "Automatically &accept subscribe requests"
 msgstr "Automatisch Abonnierenanfragen &akzeptieren"
 
 #: plugins/jabber/jabberconfigbase.cpp:317

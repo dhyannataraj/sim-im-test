@@ -3377,7 +3377,7 @@ msgstr "ICQ"
 
 #: plugins/icq/aimconfigbase.cc:150 plugins/icq/icqconfigbase.cc:267
 #: plugins/yahoo/yahoocfgbase.cpp:181
-msgid "&Automaticaly use HTTP pooling if proxy required"
+msgid "&Automatically use HTTP pooling if proxy required"
 msgstr ""
 
 #: plugins/icq/aimconfigbase.cc:149 plugins/icq/icqconfigbase.cc:268
@@ -3484,7 +3484,7 @@ msgid "Disable answer on phonebook and &picture requests"
 msgstr ""
 
 #: plugins/icq/icqconfigbase.cc:287
-msgid "Disable automaticaly &request autoreply on change status"
+msgid "Disable automatically &request autoreply on change status"
 msgstr ""
 
 #: plugins/icq/icqconfigbase.cc:288
@@ -8221,11 +8221,11 @@ msgstr ""
 
 #: plugins/jabber/jabberconfigbase.cpp:315
 #, fuzzy
-msgid "Automaticaly send &subscribe request"
+msgid "Automatically send &subscribe request"
 msgstr "Onzichtbaar"
 
 #: plugins/jabber/jabberconfigbase.cpp:316
-msgid "Automaticaly &accept subscribe requests"
+msgid "Automatically &accept subscribe requests"
 msgstr ""
 
 #: plugins/jabber/jabberconfigbase.cpp:317

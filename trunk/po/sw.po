@@ -3179,7 +3179,7 @@ msgstr "&ICQ"
 
 #: plugins/icq/aimconfigbase.cc:150 plugins/icq/icqconfigbase.cc:267
 #: plugins/yahoo/yahoocfgbase.cpp:181
-msgid "&Automaticaly use HTTP pooling if proxy required"
+msgid "&Automatically use HTTP pooling if proxy required"
 msgstr "&Audomadische HTTP-Anfroga benudza, wenn Broxy baedigd wird"
 
 #: plugins/icq/aimconfigbase.cc:149 plugins/icq/icqconfigbase.cc:268
@@ -3278,7 +3278,7 @@ msgstr ""
 
 #: plugins/icq/icqconfigbase.cc:287
 #, fuzzy
-msgid "Disable automaticaly &request autoreply on change status"
+msgid "Disable automatically &request autoreply on change status"
 msgstr "Audomadische &Anfroge von Heilix Blechleandword bei Schdadusänderong"
 
 #: plugins/icq/icqconfigbase.cc:288
@@ -7671,11 +7671,11 @@ msgid "Use protocol &icons for agents contacts"
 msgstr "Brodokoll&symbole fir Agendkondakde benudza"
 
 #: plugins/jabber/jabberconfigbase.cpp:315
-msgid "Automaticaly send &subscribe request"
+msgid "Automatically send &subscribe request"
 msgstr "Audomadische &Abonnierenanfroge senda"
 
 #: plugins/jabber/jabberconfigbase.cpp:316
-msgid "Automaticaly &accept subscribe requests"
+msgid "Automatically &accept subscribe requests"
 msgstr "Audomadisch Abonnierenanfroga &akzebdiera"
 
 #: plugins/jabber/jabberconfigbase.cpp:317
