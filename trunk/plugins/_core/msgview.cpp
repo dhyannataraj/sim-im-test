@@ -50,6 +50,7 @@ protected:
     bool m_bInLink;
     bool m_bInHead;
     bool m_bInParagraph;
+    bool m_bParagraphEmpty;
     bool m_bFirst;
     bool m_bSpan;
     // Marks the position in 'res' where " DIR=\"whatever\"" should be inserted,
@@ -1228,6 +1229,7 @@ ViewParser::ViewParser(bool bIgnoreColors, bool bUseSmiles)
     m_bInLink       = false;
     m_bInHead       = false;
     m_bInParagraph  = false;
+    m_bParagraphEmpty = true;
     m_bFirst     	= true;
     m_bSpan			= false;
 }
@@ -1243,6 +1245,9 @@ void ViewParser::text(const QString &text)
 {
     if (text.isEmpty())
         return;
+        
+    if (m_bInParagraph)
+       m_bParagraphEmpty = false;
 
     if (m_bInParagraph && (m_paragraphDir == DirAuto))
     {
@@ -1345,6 +1350,7 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
     }else if (tag == "p"){
         m_bInParagraph = true;
         m_paragraphDir = DirAuto;
+        m_bParagraphEmpty = true;
     }else if (tag == "html"){ // we display as a part of a larger document
         return;
     }else if (tag == "head"){
@@ -1444,6 +1450,13 @@ void ViewParser::tag_end(const QString &tag)
     if (tag == "a"){
         m_bInLink = false;
     }else if (tag == "p"){
+        if (m_bInParagraph && m_bParagraphEmpty)
+           // The user probably didn't intend to insert an empty paragraph.
+           // We are probably viewing faulty content produced by QTextEdit
+           // (which returns <p></p> but optimizes it away upon loading),
+           // so we fix it up.
+           res += "<br>";
+        res += "</p>";
         m_bInParagraph = false;
         return;
     }else if (tag == "head"){
