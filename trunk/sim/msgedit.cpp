@@ -1619,12 +1619,12 @@ void MsgEdit::textChanged(const QString&)
 
 void MsgEdit::phoneTextChanged(const QString &str)
 {
-	if (!str.isEmpty() && prevPhone.isEmpty()){
-		char *a = NULL;
-		*a = 1;
-	}
-	prevPhone = str;
-	textChanged();
+    if (str.isEmpty() && !prevPhone.isEmpty()){
+        char *a = NULL;
+        *a = 1;
+    }
+    prevPhone = str;
+    textChanged();
 }
 
 void MsgEdit::textChanged()
