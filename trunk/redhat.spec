@@ -2,11 +2,12 @@
 %define release %(release="`echo "%{rh_release} * 10" | bc 2>/dev/null`" ; if test $? != 0 ; then release="" ; fi ; echo "$release")
 
 Name: 		sim
-Version: 	0.9.0
+Version: 	0.9.1
 Release: 	1.rh%{release}
 Vendor: 	Vladimir Shutoff <shutoff@mail.ru>
 Packager:	Robert Scheck <sim@robert-scheck.de>
 Summary:  	SIM - Multiprotocol Instant Messenger
+Summary(de):	SIM - Multiprotokoll Instant Messenger
 License: 	GPL
 Group: 		X11/KDE/Network
 URL: 		http://sim-icq.sourceforge.net/
@@ -22,10 +23,11 @@ Prefix:         /usr
 %description -l de
 SIM - Multiprotokoll Instant Messenger
 
-SIM (Simple Instant Messenger) ist ein anspruchsloser
-open-source ICQ-Client, der viele Features vom ICQ-
-Protokoll Version 8 (ICQ 2001) unterstuetzt. Daneben 
-wird Jabber, AIM und MSN unterstuetzt.
+SIM (Simple Instant Messenger) ist ein Plugin-basierender
+open-source Instant Messenger, der verschiedene Protokolle
+(ICQ, Jabber, AIM, MSN) unterstuetzt. Dafuer wird die QT-
+Bibliothek und X11 (mit optionaler KDE-Unterstuetzung)
+verwendet.
 
 SIM hat sehr viele Features, viele von diesen sind
 aufgelistet unter: http://sim-icq.sourceforge.net/de/
@@ -33,10 +35,10 @@ aufgelistet unter: http://sim-icq.sourceforge.net/de/
 %description
 SIM - Multiprotocol Instant Messenger
 
-SIM (Simple Instant Messenger) is an unpretentious
-open-source ICQ client which supports many of the
-features of Version 8 of the ICQ protocol (ICQ 2001).
-Besides Jabber, AIM and MSN are supported.
+SIM (Simple Instant Messenger) is a plugins-based open-
+source instant messenger that supports various protocols
+(ICQ, Jabber, AIM, MSN). It uses the QT library and works
+on X11 (with optional KDE-support).
 
 SIM has a lot of features, many of them are listed
 at: http://sim-icq.sourceforge.net/
@@ -86,6 +88,9 @@ rm -rf $RPM_BUILD_DIR/sim*
 %{_datadir}/icons/*/*/*/*
 
 %changelog
+* Wed Nov 05 2003 - Robert Scheck <sim@robert-scheck.de> - 0.9.1-1
+- Upgrade to 0.9.1
+
 * Tue Oct 28 2003 - Robert Scheck <sim@robert-scheck.de> - 0.9.0-1
 - Upgrade to 0.9.0
 - Fixed dependencie to autoconf and corrected something in %clean
