@@ -109,6 +109,7 @@ public slots:
     void setGroupButtons();
     void showUsers(bool, unsigned long);
 protected slots:
+    void toolBarChanged(QToolBar *toolbar);
     void showMessage(unsigned long uin, unsigned long id);
     void processEvent(ICQEvent*);
     void toggleHistory(bool);
@@ -120,9 +121,12 @@ protected slots:
     void moveUser(int);
     void iconChanged();
     void wmChanged();
+    void modeChanged(bool bSimple);
 protected:
+    void getToolbarPosition();
     void showEvent(QShowEvent *e);
     void resizeEvent(QResizeEvent *e);
+    void moveEvent(QMoveEvent *e);
     unsigned long msgShowId;
     list<MsgEdit*> wnds;
     QToolBar	*toolbar;
@@ -152,6 +156,7 @@ protected:
     void adjustUserMenu(bool rescan);
     void statusChanged(unsigned long uin);
     void adjustPos();
+    void adjustToolbar();
     UserTabBar  *tabs;
     MsgEdit     *curWnd;
     UserInfo	*infoWnd;

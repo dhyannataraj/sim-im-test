@@ -31,7 +31,7 @@
 %x tag
 %%
 
-(http|https|ftp)"://"[A-Za-z0-9/\.\?\-_\+\%=]+		{ return URL; }
+(http|https|ftp)"://"[A-Za-z0-9/\.\?\&\-_\+\%=]+		{ return URL; }
 "<"							{ BEGIN(tag); return TEXT; }
 <tag>">"						{ BEGIN(INITIAL); return TEXT; }
 <tag>.							{ return TEXT; }

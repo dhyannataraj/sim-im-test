@@ -89,6 +89,7 @@ void Client::setHaveData(Socket *s)
 Client::Client(QObject *parent, const char *name)
         : QObject(parent, name)
 {
+    bMarkMode = false;
     QTimer *timer = new QTimer(this);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(data_ready()));
     timer->start(1000);
@@ -569,6 +570,17 @@ void Client::closeFile(ICQFile *f)
 {
     if (f->p) delete (QFile*)(f->p);
     f->p = 0;
+}
+
+void Client::startMark()
+{
+    bMarkMode = true;
+}
+
+void Client::endMark()
+{
+    bMarkMode = false;
+    emit markFinished();
 }
 
 Client *pClient = NULL;

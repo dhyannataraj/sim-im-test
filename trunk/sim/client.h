@@ -64,6 +64,9 @@ public:
     virtual void createSocket(Socket*);
     virtual void closeSocket(Socket*);
     virtual void setHaveData(Socket*);
+    void startMark();
+    void endMark();
+    bool bMarkMode;
 protected:
     QDns resolver;
     list<resolveAddr> resolveQueue;
@@ -75,6 +78,7 @@ signals:
     void messageRead(ICQMessage *msg);
     void fileProcess(ICQFile*);
     void fileExist(ICQFile*, bool canResume);
+    void markFinished();
 protected slots:
     void ptr_resolve_ready();
     void resolve_ready();

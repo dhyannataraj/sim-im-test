@@ -251,7 +251,9 @@ MsgView::MsgView(QWidget *p)
         : TextShow(p)
 {
     bBack = false;
+    bDirty = false;
     connect(pClient, SIGNAL(messageRead(ICQMessage*)), this, SLOT(messageRead(ICQMessage*)));
+    connect(pClient, SIGNAL(markFinished()), this, SLOT(markFinished()));
     connect(pMain, SIGNAL(colorsChanged()), this, SLOT(colorsChanged()));
     oldSendColor = pMain->ColorSend();
     oldReceiveColor = pMain->ColorReceive();
@@ -283,23 +285,35 @@ void MsgView::messageRead(ICQMessage *msg)
 {
     QString pat;
     pat.sprintf("<p><a name=\"%lu.%lu\"></a>", msg->getUin(), msg->Id);
-    QString res;
-    QString t = text();
-    int pos = t.find(pat);
+    if (!bDirty){
+        bDirty = true;
+        newText = text();
+    }
+    int pos = newText.find(pat);
     if (pos < 0) return;
-    res = t.left(pos);
+    QString res;
+    res = newText.left(pos);
     if (msg){
         bool bSaveBack = bBack;
         bBack = false;
         res += makeMessage(msg, false);
         bBack = bSaveBack;
     }
-    t = t.mid(pos+1);
-    pos = t.find("<p><a name=");
-    if (pos >= 0) res += t.mid(pos);
+    newText = newText.mid(pos+1);
+    pos = newText.find("<p><a name=");
+    if (pos >= 0) res += newText.mid(pos);
+    newText = res;
     curAnchor = QString::number(msg->getUin()) + "." + QString::number(msg->Id);
-    setText(res, curAnchor);
+    if (!pClient->bMarkMode)
+        markFinished();
+}
+
+void MsgView::markFinished()
+{
+    if (!bDirty) return;
+    setText(newText, curAnchor);
     scrollToAnchor(curAnchor);
+    bDirty = false;
 }
 
 void MsgView::deleteUser(unsigned long uin)
@@ -404,8 +418,11 @@ void MsgView::addMessage(ICQMessage *msg, bool bUnread, bool bSet)
     }else{
         setText(text() + s, curAnchor);
     }
-    scrollToAnchor(curAnchor);
-    setContentsPos(x, y);
+    if (bSet){
+        scrollToBottom();
+    }else{
+        setContentsPos(x, y);
+    }
 }
 
 void MsgView::addUnread(unsigned long uin)

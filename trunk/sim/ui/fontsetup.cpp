@@ -46,6 +46,7 @@ FontSetup::FontSetup(QWidget *p)
     grpContainer->setButton(pMain->ContainerMode());
     btnSend->setColor(QColor(pMain->ColorSend));
     btnReceive->setColor(QColor(pMain->ColorReceive));
+    chkSimple->setChecked(pMain->SimpleMode());
 }
 
 void FontSetup::systemToggled(bool)
@@ -90,6 +91,7 @@ void FontSetup::apply(ICQUser*)
         pMain->ContainerMode = ContainerModeGroup;
     if (w == rbtAll)
         pMain->ContainerMode = ContainerModeAll;
+    pMain->changeMode(chkSimple->isChecked());
 }
 
 #ifndef _WINDOWS

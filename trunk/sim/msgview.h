@@ -75,9 +75,12 @@ public slots:
     void setMessage(unsigned long uin, unsigned long msgId);
 protected slots:
     void messageRead(ICQMessage *msg);
+    void markFinished();
     void colorsChanged();
 protected:
     bool bBack;
+    bool bDirty;
+    QString newText;
     unsigned long oldSendColor;
     unsigned long oldReceiveColor;
 };

@@ -510,8 +510,31 @@ void MsgEdit::sendClick()
 void MsgEdit::markAsRead()
 {
     if (msg == NULL) return;
-    if (!msg->Received) return;
-    pClient->markAsRead(msg);
+    if (pMain->SimpleMode()){
+        if (!msg->Received) return;
+        pClient->markAsRead(msg);
+    }else{
+        ICQUser *u = pClient->getUser(Uin());
+        if (u){
+            History h(Uin());
+            pClient->startMark();
+            for (;;){
+                bool bExit = true;
+                for (list<unsigned long>::iterator it = u->unreadMsgs.begin(); it != u->unreadMsgs.end(); it++){
+                    ICQMessage *msg = h.getMessage(*it);
+                    if (msg == NULL) continue;
+                    unsigned type = msg->Type();
+                    if ((type == ICQ_MSGxMSG) || (type == ICQ_MSGxURL) || (type == ICQ_MSGxSMS)){
+                        pClient->markAsRead(msg);
+                        bExit = false;
+                        break;
+                    }
+                }
+                if (bExit) break;
+            }
+            pClient->endMark();
+        }
+    }
     setupNext();
 }
 
@@ -861,7 +884,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
     if (bMultiply) toggleMultiply();
     if (msg == NULL){
         edit->setText("");
-        edit->resetColors();
+        edit->resetColors(false);
         urlEdit->setText("");
         users->clear();
         url->hide();
@@ -980,7 +1003,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 break;
             case ICQ_MSGxMSG:
             case ICQ_MSGxURL:
-                if (bInTop){
+                if (bInTop && !pMain->SimpleMode()){
                     btnReply->hide();
                     btnQuote->show();
                     btnForward->show();
@@ -993,7 +1016,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                     edit->setTextFormat(RichText);
                     edit->setText("");
                     edit->show();
-                    edit->resetColors();
+                    edit->resetColors(true);
                     textChanged();
                     setUpdatesEnabled(true);
                     edit->setFocus();
@@ -1084,10 +1107,10 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                         edit->setBackground(QColor(m->BackColor));
                         edit->setForeground(QColor(m->ForeColor));
                     }else{
-                        edit->resetColors();
+                        edit->resetColors(true);
                     }
                     edit->setFocus();
-                }
+		}
                 break;
             }
         case ICQ_MSGxURL:{
@@ -1110,7 +1133,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 btnSpell->show();
 #endif
                 ICQUrl *m = static_cast<ICQUrl*>(msg);
-                edit->resetColors();
+                edit->resetColors(false);
                 edit->setText(QString::fromLocal8Bit(m->Message.c_str()));
                 urlEdit->setText(QString::fromLocal8Bit(m->URL.c_str()));
                 urlEdit->setFocus();
@@ -1136,7 +1159,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 btnSpell->show();
 #endif
                 ICQFile *m = static_cast<ICQFile*>(msg);
-                edit->resetColors();
+                edit->resetColors(false);
                 edit->setText(QString::fromLocal8Bit(m->Description.c_str()));
                 fileEdit->setSaveMode(false);
                 fileEdit->setText(QString::fromLocal8Bit(m->Name.c_str()));
@@ -1163,7 +1186,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 btnSpell->show();
 #endif
                 ICQChat *m = static_cast<ICQChat*>(msg);
-                edit->resetColors();
+                edit->resetColors(false);
                 edit->setText(QString::fromLocal8Bit(m->Reason.c_str()));
                 break;
             }
@@ -1187,7 +1210,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 btnSpell->show();
 #endif
                 ICQSMS *m = static_cast<ICQSMS*>(msg);
-                edit->resetColors();
+                edit->resetColors(false);
                 edit->setText(QString::fromLocal8Bit(pClient->clearHTML(m->Message.c_str()).c_str()));
                 if (*m->Phone.c_str())
                     phoneEdit->lineEdit()->setText(QString::fromLocal8Bit(m->Phone.c_str()));
@@ -1240,7 +1263,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 btnSpell->hide();
 #endif
                 ICQAuthRequest *m = static_cast<ICQAuthRequest*>(msg);
-                edit->resetColors();
+                edit->resetColors(false);
                 edit->setText(QString::fromLocal8Bit(m->Message.c_str()));
                 edit->setFocus();
                 break;
@@ -1265,7 +1288,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 btnSpell->hide();
 #endif
                 ICQAuthRefused *m = static_cast<ICQAuthRefused*>(msg);
-                edit->resetColors();
+                edit->resetColors(false);
                 edit->setText(QString::fromLocal8Bit(m->Message.c_str()));
                 edit->setFocus();
                 break;
@@ -1334,6 +1357,8 @@ void MsgEdit::makeMessage()
             if (edit->colorChanged()){
                 m->BackColor = (edit->background().rgb() & 0xFFFFFF);
                 m->ForeColor = (edit->foreground().rgb() & 0xFFFFFF);
+                pMain->MessageBgColor = m->BackColor();
+                pMain->MessageFgColor = m->ForeColor();
             }
             break;
         }

@@ -167,8 +167,13 @@ public:
     ConfigUShort ChatWidth;
     ConfigUShort ChatHeight;
 
+    ConfigShort	 UserBoxX;
+    ConfigShort	 UserBoxY;
     ConfigUShort UserBoxWidth;
     ConfigUShort UserBoxHeight;
+    ConfigString UserBoxToolbarDock;
+    ConfigShort	 UserBoxToolbarOffset;
+    ConfigShort  UserBoxToolbarY;
 
     ConfigBool	 CloseAfterSend;
     ConfigBool	 UserWindowInTaskManager;
@@ -189,6 +194,9 @@ public:
     ConfigULong	 XOSD_BgColor;
 
     ConfigUShort ContainerMode;
+    ConfigULong	 MessageBgColor;
+    ConfigULong	 MessageFgColor;
+    ConfigBool	 SimpleMode;
 
     bool 	     init();
 
@@ -226,10 +234,12 @@ public:
     void setFonts();
     void changeColors();
     void changeWm();
+    void changeMode(bool bSample);
 
     QWidget *chatWindow(unsigned long uin);
     QWidget *ftWindow(unsigned long uin, const string &fileName);
 signals:
+    void modeChanged(bool);
     void transparentChanged();
     void colorsChanged();
     void setupInit();
