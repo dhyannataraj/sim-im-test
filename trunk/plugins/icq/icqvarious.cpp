@@ -740,10 +740,10 @@ void ICQClient::packTlv(unsigned short tlv, unsigned short code, const char *key
 
 unsigned short ICQClient::findWP(const char *szFirst, const char *szLast, const char *szNick,
                                  const char *szEmail, char age, char nGender,
-                                 char nLanguage, const char *szCity, const char *szState,
+                                 unsigned short nLanguage, const char *szCity, const char *szState,
                                  unsigned short nCountryCode,
                                  const char *szCoName, const char *szCoDept, const char *szCoPos,
-                                 char nOccupation,
+                                 unsigned short nOccupation,
                                  unsigned short nPast, const char *szPast,
                                  unsigned short nInterests, const char *szInterests,
                                  unsigned short nAffilation, const char *szAffilation,

@@ -520,10 +520,10 @@ public:
     unsigned short findByMail(const char *mail);
     unsigned short findWP(const char *first, const char *last, const char *nick,
                           const char *email, char age, char nGender,
-                          char nLanguage, const char *city, const char *szState,
+                          unsigned short nLanguage, const char *city, const char *szState,
                           unsigned short nCountryCode,
                           const char *cCoName, const char *szCoDept, const char *szCoPos,
-                          char nOccupation,
+                          unsigned short nOccupation,
                           unsigned short nPast, const char *szPast,
                           unsigned short nInterests, const char *szInterests,
                           unsigned short nAffiliation, const char *szAffiliation,

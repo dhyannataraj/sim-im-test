@@ -63,7 +63,7 @@ void WarnDlg::accept()
     if (!((Client*)m_client)->send(m_msg, m_data)){
         delete m_msg;
         m_msg = NULL;
-        showError(I18N_NOOP("Send fail"));
+        showError(I18N_NOOP("Send failed"));
         return;
     }
     buttonOk->setEnabled(false);

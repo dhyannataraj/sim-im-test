@@ -1283,7 +1283,7 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
                         ICQUserData *data = findContact(screen, NULL, false, contact);
                         if ((m->type() != MessageICQFile) || (data == NULL)){
                             log(L_WARN, "Bad answer type");
-                            msg->setError(I18N_NOOP("Send fail"));
+                            msg->setError(I18N_NOOP("Send failed"));
                             Event e(EventMessageSent, msg);
                             e.process();
                             delete msg;
