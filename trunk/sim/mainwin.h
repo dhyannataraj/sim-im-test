@@ -230,7 +230,7 @@ public:
     string			SMSSignTop;
     string			SMSSignBottom;
 
-	string			ForwardPhone;
+    string			ForwardPhone;
 
     bool 	     init();
 
@@ -350,7 +350,7 @@ protected slots:
     void adjustFucntionMenu();
     void sharedFiles();
     void badPassword();
-	void setupClosed();
+    void setupClosed();
 protected:
     list<msgInfo> menuMsgs;
     void loadUnread();

@@ -127,7 +127,7 @@ void CToolButton::contextMenuEvent(QContextMenuEvent *e)
 PictButton::PictButton( QToolBar *parent)
         : CToolButton(parent)
 {
-	accelKey = 0;
+    accelKey = 0;
     connect(pMain, SIGNAL(iconChanged()), this, SLOT(iconChanged()));
 }
 
@@ -199,23 +199,23 @@ void PictButton::setText(const QString &text)
 
 void PictButton::showEvent(QShowEvent *e)
 {
-	if (accelKey) setAccel(accelKey);
-	CToolButton::showEvent(e);
+    if (accelKey) setAccel(accelKey);
+    CToolButton::showEvent(e);
 }
 
 void PictButton::hideEvent(QHideEvent *e)
 {
-	if (accelKey) setAccel(0);
-	CToolButton::hideEvent(e);
+    if (accelKey) setAccel(0);
+    CToolButton::hideEvent(e);
 }
 
 void PictButton::setState(const QString& _icon, const QString& _text)
 {
     icon = _icon;
     text = _text;
-	int accelKey = QAccel::shortcutKey(text);
+    int accelKey = QAccel::shortcutKey(text);
     if (isVisible())
-		setAccel(accelKey);
+        setAccel(accelKey);
     QString t = _text;
     int pos;
     while ((pos = t.find('&')) >= 0){

@@ -76,7 +76,7 @@ public:
 signals:
     void applyChanges(ICQUser*);
     void backgroundUpdated();
-	void closed();
+    void closed();
 protected slots:
     void selectionChanged();
     void update();
@@ -84,8 +84,8 @@ protected slots:
     void ok();
     void iconChanged();
 protected:
-	void raiseWidget(int id);
-	bool raiseWidget(QListViewItem *i, unsigned id);
+    void raiseWidget(int id);
+    bool raiseWidget(QListViewItem *i, unsigned id);
     void iconChanged(QListViewItem*);
     void addPage(PAGEPROC *pageProc, int id, const QString &name, const char *icon, unsigned param=0);
     QListViewItem *itemMain;

@@ -31,18 +31,18 @@ ForwardSetup::ForwardSetup(QWidget *p)
         : ForwardSetupBase(p)
 {
     lblPict->setPixmap(Pict("mail_forward"));
-	cmbPhone->setEditable(true);
-	for (PhoneBook::iterator it = pClient->owner->Phones.begin(); it != pClient->owner->Phones.end(); ++it){
-		if (((*it)->Type != SMS) && ((*it)->Type != MOBILE)) continue;
-		string number = (*it)->getNumber();
-		cmbPhone->insertItem(QString::fromLocal8Bit(number.c_str()));
-	}
-	cmbPhone->lineEdit()->setText(pMain->ForwardPhone.c_str());
+    cmbPhone->setEditable(true);
+    for (PhoneBook::iterator it = pClient->owner->Phones.begin(); it != pClient->owner->Phones.end(); ++it){
+        if (((*it)->Type != SMS) && ((*it)->Type != MOBILE)) continue;
+        string number = (*it)->getNumber();
+        cmbPhone->insertItem(QString::fromLocal8Bit(number.c_str()));
+    }
+    cmbPhone->lineEdit()->setText(pMain->ForwardPhone.c_str());
 }
 
 void ForwardSetup::apply(ICQUser *u)
 {
-	set(pMain->ForwardPhone, cmbPhone->lineEdit()->text());
+    set(pMain->ForwardPhone, cmbPhone->lineEdit()->text());
 }
 
 #ifndef _WINDOWS

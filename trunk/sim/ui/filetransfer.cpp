@@ -46,7 +46,7 @@ FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
 {
     SET_WNDPROC
 
-	nProgress = -1;
+    nProgress = -1;
     bStarted = false;
     file = _file;
     setIcon(Pict("file"));
@@ -65,7 +65,7 @@ FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
     if (file->ft) nFiles = file->ft->nFiles();
     CUser u(file->getUin());
 
-	if (nFiles < 1) nFiles = 1;
+    if (nFiles < 1) nFiles = 1;
     if (file->Received){
         QString name = file->Name.c_str();
         if (name.find(QRegExp("^[0-9]+ Files$")) >= 0)
@@ -183,14 +183,14 @@ void FileTransferDlg::setProgress()
     lblSize->repaint();
     barBatch->setProgress(file->ft->totalSize());
     barSend->setProgress(file->ft->sendSize());
-	if (file->Size){
-		int newProgress = (file->ft->totalSize() * 100) / file->Size;
-		if (newProgress > 100) newProgress = 100;
-		if (nProgress != newProgress){
-			nProgress = newProgress;
-			setCaption(title + " " + QString::number(nProgress) + "%");
-		}
-	}
+    if (file->Size){
+        int newProgress = (file->ft->totalSize() * 100) / file->Size;
+        if (newProgress > 100) newProgress = 100;
+        if (nProgress != newProgress){
+            nProgress = newProgress;
+            setCaption(title + " " + QString::number(nProgress) + "%");
+        }
+    }
 }
 
 QString FileTransferDlg::formatSize(unsigned size)

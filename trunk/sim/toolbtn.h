@@ -69,11 +69,11 @@ public slots:
 protected slots:
     void iconChanged();
 protected:
-	int accelKey;
+    int accelKey;
     QString text;
     QString icon;
-	void showEvent(QShowEvent*);
-	void hideEvent(QHideEvent*);
+    void showEvent(QShowEvent*);
+    void hideEvent(QHideEvent*);
     void paintEvent(QPaintEvent*);
     QSizePolicy sizePolicy() const;
     QSize minimumSizeHint() const;

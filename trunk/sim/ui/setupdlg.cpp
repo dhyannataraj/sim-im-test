@@ -142,7 +142,7 @@ SetupDialog::SetupDialog(QWidget*, int nWin)
     addPage(p_AlertDialog, SETUP_ALERT, i18n("Alert"), "alert");
     addPage(p_AcceptDialog, SETUP_ACCEPT, i18n("Accept file"), "file");
     addPage(p_SMSSetup, SETUP_SMS, i18n("SMS"), "sms");
-	addPage(p_ForwardSetup, SETUP_FORWARD, i18n("Forward"), "mail_forward");
+    addPage(p_ForwardSetup, SETUP_FORWARD, i18n("Forward"), "mail_forward");
 
 #ifndef WIN32
     addPage(p_MiscSetup, SETUP_MISC, i18n("Miscellaneous"), "misc");
@@ -178,7 +178,7 @@ SetupDialog::SetupDialog(QWidget*, int nWin)
 
 SetupDialog::~SetupDialog()
 {
-	emit closed();
+    emit closed();
     transparent = NULL;
 }
 
@@ -208,25 +208,25 @@ void SetupDialog::addPage(PAGEPROC *page, int id, const QString &name, const cha
     QListViewItem *item = new QListViewItem(itemMain, name, QString::number(id));
     item->setPixmap(0, Pict(icon));
     item->setText(2, icon);
-	item->setText(3, QString::number((unsigned)page));
-	item->setText(4, QString::number(param));
+    item->setText(3, QString::number((unsigned)page));
+    item->setText(4, QString::number(param));
 }
 
 void SetupDialog::raiseWidget(int id)
 {
-	for (QListViewItem *item = lstBars->firstChild(); item != NULL; item = item->nextSibling())
-		if (raiseWidget(item, id)) break;
+    for (QListViewItem *item = lstBars->firstChild(); item != NULL; item = item->nextSibling())
+        if (raiseWidget(item, id)) break;
 }
 
 bool SetupDialog::raiseWidget(QListViewItem *i, unsigned id)
 {
-	if (id == i->text(1).toULong()){
-		lstBars->setCurrentItem(i);
-		return true;
-	}
-	for (QListViewItem *item = i->firstChild(); item != NULL; item = item->nextSibling())
-		if (raiseWidget(item, id)) return true;
-	return false;
+    if (id == i->text(1).toULong()){
+        lstBars->setCurrentItem(i);
+        return true;
+    }
+    for (QListViewItem *item = i->firstChild(); item != NULL; item = item->nextSibling())
+        if (raiseWidget(item, id)) return true;
+    return false;
 }
 
 void SetupDialog::selectionChanged()
@@ -235,14 +235,14 @@ void SetupDialog::selectionChanged()
     if (item == NULL) return;
     unsigned id = item->text(1).toULong();
     if (id == 0) return;
-	QWidget *w = tabBars->widget(id);
-	if (w == NULL){
-		PAGEPROC *p = (PAGEPROC*)(item->text(3).toUInt());
-		if (p == NULL) return;
-		QWidget *page = p(tabBars, item->text(4).toUInt());
-	    tabBars->addWidget(page, id);
-		connect(this, SIGNAL(applyChanges(ICQUser*)), page, SLOT(apply(ICQUser*)));
-	}
+    QWidget *w = tabBars->widget(id);
+    if (w == NULL){
+        PAGEPROC *p = (PAGEPROC*)(item->text(3).toUInt());
+        if (p == NULL) return;
+        QWidget *page = p(tabBars, item->text(4).toUInt());
+        tabBars->addWidget(page, id);
+        connect(this, SIGNAL(applyChanges(ICQUser*)), page, SLOT(apply(ICQUser*)));
+    }
     tabBars->raiseWidget(id);
 }
 

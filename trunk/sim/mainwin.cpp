@@ -257,7 +257,7 @@ cfgParam MainWindow_Params[] =
         { "AutoHideTime", offsetof(MainWindow, AutoHideTime), PARAM_ULONG, 60 },
         { "SMSSignTop", offsetof(MainWindow, SMSSignTop), PARAM_STRING, 0 },
         { "SMSSignBottom", offsetof(MainWindow, SMSSignBottom), PARAM_STRING, (unsigned)"\n&MyAlias; (ICQ# &MyUin;)" },
-		{ "ForwardPhone", offsetof(MainWindow, ForwardPhone), PARAM_STRING, 0 },
+        { "ForwardPhone", offsetof(MainWindow, ForwardPhone), PARAM_STRING, 0 },
         { "", 0, 0, 0 }
     };
 
@@ -1271,8 +1271,8 @@ void MainWindow::setup()
 {
     if (setupDlg == NULL){
         setupDlg = new SetupDialog(this, 0);
-		connect(setupDlg, SIGNAL(closed()), this, SLOT(setupClosed()));
-	}
+        connect(setupDlg, SIGNAL(closed()), this, SLOT(setupClosed()));
+    }
     emit setupInit();
     setupDlg->show();
 #ifdef USE_KDE
@@ -1286,7 +1286,7 @@ void MainWindow::setup()
 
 void MainWindow::setupClosed()
 {
-	setupDlg = NULL;
+    setupDlg = NULL;
 }
 
 void MainWindow::phonebook()

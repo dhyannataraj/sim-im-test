@@ -42,8 +42,8 @@ protected slots:
     void timeout();
     void closeToggled(bool);
 protected:
-	int  nProgress;
-	QString title;
+    int  nProgress;
+    QString title;
     void closeEvent(QCloseEvent*);
     void setProgress();
     bool bDirty;
