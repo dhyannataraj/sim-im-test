@@ -90,10 +90,6 @@ ThemeSetup::ThemeSetup(QWidget *parent)
 #ifdef WIN32
     chkDock->hide();
     chkWM->hide();
-#else
-#ifdef USE_KDE
-    chkDock->hide();
-#endif
 #endif
     setupInit();
 }

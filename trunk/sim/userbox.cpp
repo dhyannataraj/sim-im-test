@@ -166,9 +166,8 @@ UserBox::UserBox(unsigned long grpId)
     btnGroup->setPopupDelay(0);
     toolbar->addSeparator();
     btnInfo = new CToolButton(toolbar);
-    btnInfo->bProcessCtrl = true;
     btnInfo->setIconSet(Icon("info"));
-    btnInfo->setTextLabel(i18n("User &info<br>with CTRL open in new window"));
+    btnInfo->setTextLabel(i18n("User &info"));
     btnInfo->setToggleButton(true);
     connect(btnInfo, SIGNAL(toggled(bool)), this, SLOT(toggleInfo(bool)));
     btnHistory = new CToolButton(toolbar);
@@ -382,8 +381,8 @@ void UserBox::saveInfo(ICQUser *u)
 
 void UserBox::toggleInfo(bool bShow)
 {
-    if (bShow && (btnInfo->bCtrl || pMain->isUserInfo(curWnd->Uin))){
-        pMain->userFunction(curWnd->Uin, mnuInfoNew, 0);
+    if (bShow && !bUserInfo){
+        pMain->userFunction(curWnd->Uin, mnuInfo, 0);
         btnInfo->setOn(false);
         return;
     }
@@ -437,7 +436,7 @@ void UserBox::hideHistory()
 
 void UserBox::toggleHistory(bool bShow)
 {
-    if (bShow && (btnHistory->bCtrl || pMain->isHistory(curWnd->Uin))){
+    if (bShow && !bHistory && (btnHistory->bCtrl || pMain->isHistory(curWnd->Uin))){
         pMain->userFunction(curWnd->Uin, mnuHistoryNew, 0);
         btnHistory->setOn(false);
         return;

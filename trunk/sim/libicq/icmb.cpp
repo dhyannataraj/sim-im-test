@@ -256,15 +256,30 @@ void ICQClientPrivate::snac_message(unsigned short type, unsigned short)
                     }
                     Buffer msg(*tlv(2));
                     TlvList tlv_msg(msg);
-                    if (!tlv_msg(0x101)){
+                    Tlv *m_tlv = tlv_msg(0x101);
+                    if (m_tlv == NULL){
                         log(L_WARN, "No found generic message tlv 101");
+                        break;
+                    }
+                    if (m_tlv->Size() < 4){
+                        log(L_WARN, "Bad tlv 101 size");
                         break;
                     }
                     ICQMsg *m = new ICQMsg();
                     ICQUser *u = client->getUser(uin);
                     m->Uin.push_back(uin);
                     m->Received = true;
-                    parseMessageText((const char*)(*tlv_msg(0x101)) + 4, m->Message, u);
+                    char *m_data = (*m_tlv);
+                    if (*((unsigned long*)m_data)){
+                        // UTF-8 message from icq2go
+                        m_data += 4;
+                        for (unsigned n = 4; n < m_tlv->Size() - 1; n += 2, m_data += 2){
+                            utf16to8((m_data[0] << 8) + m_data[1], m->Message);
+                        }
+                        m->Charset = "utf-8";
+                    }else{
+                        parseMessageText(m_data + 4, m->Message, u);
+                    }
                     messageReceived(m);
                     break;
                 }

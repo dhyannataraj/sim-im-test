@@ -29,6 +29,7 @@
 #include <qcheckbox.h>
 #include <qbuttongroup.h>
 #include <qradiobutton.h>
+#include <qspinbox.h>
 
 FontSetup::FontSetup(QWidget *p)
         : FontSetupBase(p)
@@ -52,6 +53,9 @@ FontSetup::FontSetup(QWidget *p)
     chkSplash->setChecked(pSplash->Show);
     chkEmotional->setChecked(pMain->UseEmotional);
     chkUserWnd->setChecked(pMain->UserWndOnTop);
+    spnCopy->setMinValue(0);
+    spnCopy->setMaxValue(9);
+    spnCopy->setValue(pMain->CopyMessages);
     connect(btnModeSplit, SIGNAL(toggled(bool)), this, SLOT(modeChanged(bool)));
     connect(btnModePlain, SIGNAL(toggled(bool)), this, SLOT(modeChanged(bool)));
     modeChanged(false);
@@ -68,6 +72,7 @@ void FontSetup::systemToggled(bool)
 void FontSetup::modeChanged(bool)
 {
     grpContainer->setEnabled(btnModeSplit->isOn());
+    spnCopy->setEnabled(btnModeSplit->isOn());
 }
 
 void FontSetup::apply(ICQUser*)

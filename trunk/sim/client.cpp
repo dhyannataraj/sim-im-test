@@ -935,11 +935,11 @@ QString SIMClient::getMessageAccel(int type)
     case ICQ_MSGxFILE:
         return i18n("Ctrl+F", "File");
     case ICQ_MSGxURL:
-        return i18n("Ctrl+U", "URL");
+        return i18n("Ctrl+L", "URL");
     case ICQ_MSGxAUTHxREQUEST:
-        return i18n("Ctrl+A", "AuthRequest");
+        return i18n("Ctrl+R", "AuthRequest");
     case ICQ_MSGxCONTACTxLIST:
-        return i18n("Ctrl+C", "Contacts");
+        return i18n("Ctrl+T", "Contacts");
     case ICQ_MSGxSMS:
         return i18n("Ctrl+S", "SMS");
     case ICQ_MSGxMAIL:

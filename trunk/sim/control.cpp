@@ -357,11 +357,11 @@ void ControlSocket::read_ready()
                 write("\n>");
                 return;
             }
-	    arg = i18n(cmds[n].shortDescr);
-	    arg = arg.left(1).upper() + arg.mid(1);
+            arg = i18n(cmds[n].shortDescr);
+            arg = arg.left(1).upper() + arg.mid(1);
             msg = QString("%1\n%2\n")
-		.arg(cmds[n].longDescr)
-		.arg(arg); 
+                  .arg(cmds[n].longDescr)
+                  .arg(arg);
             write(msg.local8Bit());
         }
         break;

@@ -1071,8 +1071,10 @@ void MsgEdit::refuseClick()
 bool MsgEdit::eventFilter(QObject *o, QEvent *e)
 {
     if ((e->type() != QEvent::Show) || !bFirstShow) return false;
+    if (msgView && !msgView->isVisible()) return false;
     bFirstShow = false;
     o->event(e);
+    if (msgView) msgView->scrollToBottom();
     setMessage(msg);
     return true;
 }
@@ -1296,7 +1298,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
             users->hide();
             view->show();
             view->setText(view->makeMessageText(msg, false));
-            if (msg->Type() == ICQ_MSGxMSG){
+            if ((msg->Type() == ICQ_MSGxMSG) && !pMain->UseOwnColors){
                 ICQMsg *m = static_cast<ICQMsg*>(msg);
                 if (m->BackColor != m->ForeColor){
                     view->setForeground(QColor(m->ForeColor));
@@ -1878,7 +1880,8 @@ void MsgEdit::modeChanged(bool bSimple)
         return;
     }
     if (msgView) return;
-    msgView = new MsgView(this);
+    msgView = new MsgViewConv(this);
+    msgView->installEventFilter(this);
     msgView->setUin(Uin);
     moveToFirst(msgView);
     connect(msgView, SIGNAL(goMessage(unsigned long, unsigned long)), topLevelWidget(), SLOT(showMessage(unsigned long, unsigned long)));

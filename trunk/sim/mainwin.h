@@ -87,10 +87,9 @@ const int mnuAutoResponse = 38;
 const int mnuShare = 39;
 const int mnuSort = 40;
 const int mnuActionAuto = 41;
-const int mnuInfoNew = 42;
-const int mnuHistoryNew = 43;
-const int mnuGo = 44;
-const int mnuMonitor = 45;
+const int mnuHistoryNew = 42;
+const int mnuGo = 43;
+const int mnuMonitor = 44;
 
 const int mnuGrpTitle    = 0x10000;
 const int mnuPopupStatus = 0x20000;
@@ -245,16 +244,18 @@ public:
     bool			SendEnter;
     bool			AlphabetSort;
 
-    short	DockX;
-    short	DockY;
-    bool	UseDock;
-    bool	WMDock;
+    short			DockX;
+    short			DockY;
+    bool			UseDock;
+    bool			WMDock;
 
-    short	MonitorX;
-    short	MonitorY;
-    unsigned short MonitorWidth;
-    unsigned short MonitorHeight;
-    unsigned short MonitorLevel;
+    short			MonitorX;
+    short			MonitorY;
+    unsigned short	MonitorWidth;
+    unsigned short	MonitorHeight;
+    unsigned short	MonitorLevel;
+
+    unsigned short	CopyMessages;
 
     bool 	     init();
 

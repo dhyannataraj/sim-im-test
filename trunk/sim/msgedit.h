@@ -45,7 +45,7 @@ class PictPushButton;
 class EditFile;
 class UserTab;
 class History;
-class MsgView;
+class MsgViewConv;
 class WndCancel;
 class CToolButton;
 class PictButton;
@@ -156,7 +156,7 @@ protected slots:
     void heightChanged(int);
 protected:
     Tmpl *tmpl;
-    MsgView *msgView;
+    MsgViewConv *msgView;
     QFrame  *frmEdit;
     virtual bool eventFilter(QObject*, QEvent*);
     virtual void closeEvent(QCloseEvent *e);

@@ -274,13 +274,18 @@ cfgParam MainWindow_Params[] =
         { "AlphabetSort", OFFSET_OF(MainWindow, AlphabetSort), PARAM_BOOL, 0 },
         { "DockX", OFFSET_OF(MainWindow, DockX), PARAM_SHORT, 0 },
         { "DockY", OFFSET_OF(MainWindow, DockY), PARAM_SHORT, 0 },
+#ifdef USE_KDE
+        { "UseDock", OFFSET_OF(MainWindow, UseDock), PARAM_BOOL, 1 },
+#else
         { "UseDock", OFFSET_OF(MainWindow, UseDock), PARAM_BOOL, 0 },
+#endif
         { "WMDock", OFFSET_OF(MainWindow, WMDock), PARAM_BOOL, 0 },
         { "MonitorX", OFFSET_OF(MainWindow, MonitorX), PARAM_SHORT, 0 },
         { "MonitorY", OFFSET_OF(MainWindow, MonitorY), PARAM_SHORT, 0 },
         { "MonitorWidth", OFFSET_OF(MainWindow, MonitorWidth), PARAM_USHORT, 0 },
         { "MonitorHeight", OFFSET_OF(MainWindow, MonitorHeight), PARAM_USHORT, 0 },
         { "MonitorLevel", OFFSET_OF(MainWindow, MonitorLevel), PARAM_USHORT, L_PACKET | L_DEBUG | L_WARN | L_ERROR },
+        { "CopyMessages", OFFSET_OF(MainWindow, CopyMessages), PARAM_USHORT, 3 },
         { "", 0, 0, 0 }
     };
 
@@ -1141,7 +1146,7 @@ void MainWindow::saveContacts()
 
 bool MainWindow::isDock()
 {
-#if defined(WIN32) || defined(USE_KDE)
+#if defined(WIN32)
     return true;
 #else
     return UseDock;
@@ -1692,9 +1697,9 @@ void MainWindow::showUserPopup(unsigned long uin, QPoint p, QPopupMenu *popup, c
     menuUser->setItemEnabled(mnuDelete, pClient->isLogged() || (u->Type != USER_TYPE_ICQ) || (u->GrpId == 0));
     menuUser->insertSeparator();
     menuUser->insertItem(Icon("info"), i18n("&User info"), mnuInfo);
-    menuUser->setAccel(QAccel::stringToKey(i18n("Ctrl+U", "UserInfo")), mnuSound);
+    menuUser->setAccel(QAccel::stringToKey(i18n("Ctrl+U", "UserInfo")), mnuInfo);
     menuUser->insertItem(Icon("history"), i18n("&History"), mnuHistory);
-    menuUser->setAccel(QAccel::stringToKey(i18n("Ctrl+H", "History")), mnuSound);
+    menuUser->setAccel(QAccel::stringToKey(i18n("Ctrl+H", "History")), mnuHistory);
     menuUser->insertSeparator();
     menuUser->insertItem(Icon("alert"), i18n("Alert"), mnuAlert);
     menuUser->setAccel(QAccel::stringToKey(i18n("Ctrl+L", "Alert")), mnuAlert);
@@ -1791,10 +1796,9 @@ bool MainWindow::canUserFunction(unsigned long uin, int function)
     case mnuAction:
     case mnuGo:
     case mnuHistory:
-    case mnuInfo:
     case mnuDelete:
     case mnuSort:
-    case mnuInfoNew:
+    case mnuInfo:
     case mnuHistoryNew:
         return true;
     case mnuSecureOn:
@@ -1921,7 +1925,6 @@ void MainWindow::userFunction(unsigned long uin, int function, unsigned long par
     case mnuAuth:
     case mnuContacts:
     case mnuHistory:
-    case mnuInfo:
         showUser(uin, function, param);
         return;
     case mnuAlert:
@@ -2000,7 +2003,7 @@ void MainWindow::userFunction(unsigned long uin, int function, unsigned long par
         AlphabetSort = !AlphabetSort;
         users->refresh();
         return;
-    case mnuInfoNew:
+    case mnuInfo:
         for (it = containers.begin(); it != containers.end(); ++it){
             if (!(*it)->bUserInfo) continue;
             if (!(*it)->haveUser(uin)) continue;
@@ -2008,6 +2011,7 @@ void MainWindow::userFunction(unsigned long uin, int function, unsigned long par
             return;
         }
         box = new UserBox(uin);
+        containers.push_back(box);
         box->bUserInfo = true;
         box->hideToolbar();
         box->showUser(uin, mnuInfo, 0);
@@ -2020,6 +2024,7 @@ void MainWindow::userFunction(unsigned long uin, int function, unsigned long par
             return;
         }
         box = new UserBox(uin);
+        containers.push_back(box);
         box->bHistory = true;
         box->hideToolbar();
         box->showUser(uin, mnuHistory, 0);

@@ -269,6 +269,8 @@ public:
 
     unsigned long m_nProcessId;
 
+    bool utf16to8(unsigned short c, string &s);
+
     enum LoginState{
         Logoff,
         Connect,

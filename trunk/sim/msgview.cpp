@@ -269,6 +269,15 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
     return s;
 }
 
+void TextShow::keyPressEvent(QKeyEvent *e)
+{
+    if ((e->key() == Key_C) && (e->state() == ControlButton)){
+        copy();
+        return;
+    }
+    QTextBrowser::keyPressEvent(e);
+}
+
 QString TextShow::quoteText(const char *text, const char *charset)
 {
     string msg = ICQClient::quoteText(text);
@@ -658,6 +667,30 @@ int MsgView::findMsg(unsigned long id, int parag)
         }
     }
     return -1;
+}
+
+MsgViewConv::MsgViewConv(QWidget *p)
+        : MsgView(p)
+{
+}
+
+void MsgViewConv::setUin(unsigned long uin)
+{
+    MsgView::setUin(uin);
+    setText("");
+    if (pMain->CopyMessages){
+        ICQUser *u = pClient->getUser(m_nUin);
+        if (u == NULL) return;
+        History h(uin);
+        History::iterator &it = h.messages();
+        for (unsigned n = 0; (n < pMain->CopyMessages) && ++it; n++){
+            list<unsigned long>::iterator unreadIt;
+            for (unreadIt = u->unreadMsgs.begin(); unreadIt != u->unreadMsgs.end(); unreadIt++)
+                if ((*unreadIt) == (*it)->Id) break;
+            addMessage(*it, unreadIt != u->unreadMsgs.end(), false);
+        }
+        scrollToBottom();
+    }
 }
 
 HistoryTextView::HistoryTextView(QWidget *p, unsigned long uin)

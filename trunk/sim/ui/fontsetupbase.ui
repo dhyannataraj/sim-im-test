@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>335</width>
-            <height>493</height>
+            <width>382</width>
+            <height>517</height>
         </rect>
     </property>
     <property>
@@ -144,6 +144,73 @@
                         <name>text</name>
                         <string>Simple mode (&amp;Plain style)</string>
                     </property>
+                </widget>
+                <widget>
+                    <class>QLayoutWidget</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>Layout5</cstring>
+                    </property>
+                    <hbox>
+                        <property>
+                            <name>margin</name>
+                            <number>0</number>
+                        </property>
+                        <property>
+                            <name>spacing</name>
+                            <number>6</number>
+                        </property>
+                        <widget>
+                            <class>QLabel</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>TextLabel1_2</cstring>
+                            </property>
+                            <property>
+                                <name>text</name>
+                                <string>Copy</string>
+                            </property>
+                        </widget>
+                        <widget>
+                            <class>QSpinBox</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>spnCopy</cstring>
+                            </property>
+                        </widget>
+                        <widget>
+                            <class>QLabel</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>TextLabel2_2</cstring>
+                            </property>
+                            <property>
+                                <name>text</name>
+                                <string>last messages from history to conversation</string>
+                            </property>
+                        </widget>
+                        <spacer>
+                            <property>
+                                <name>name</name>
+                                <cstring>Spacer2_2</cstring>
+                            </property>
+                            <property>
+                                <name>orientation</name>
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property>
+                                <name>sizeType</name>
+                                <enum>Expanding</enum>
+                            </property>
+                            <property>
+                                <name>sizeHint</name>
+                                <size>
+                                    <width>20</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </hbox>
                 </widget>
             </vbox>
         </widget>
@@ -300,7 +367,7 @@
                     </property>
                     <property>
                         <name>text</name>
-                        <string>Use &amp;own colors in history</string>
+                        <string>Use &amp;own colors and fonts settings</string>
                     </property>
                 </widget>
                 <widget>

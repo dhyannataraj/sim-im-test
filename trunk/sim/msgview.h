@@ -67,6 +67,7 @@ signals:
 protected slots:
     void encodingChanged(unsigned long);
 protected:
+    void keyPressEvent(QKeyEvent *e);
     QString unquoteString(const QString &s, int from, int to);
     QTextCodec *codec;
     unsigned long m_nUin;
@@ -101,6 +102,14 @@ protected:
     bool bBack;
     unsigned long oldSendColor;
     unsigned long oldReceiveColor;
+};
+
+class MsgViewConv : public MsgView
+{
+    Q_OBJECT
+public:
+    MsgViewConv(QWidget *p);
+    void setUin(unsigned long uin);
 };
 
 class ICQUser;
