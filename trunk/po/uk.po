@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2002-12-07 18:05+0300\n"
-"PO-Revision-Date: 2002-12-05 19:16+0200\n"
+"PO-Revision-Date: 2002-12-07 22:02+0200\n"
 "Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1753,8 +1753,7 @@ msgstr "%1 від %2"
 
 #: mainwin.cpp:1275 ui/logindlg.cpp:140
 msgid "Can't connect to proxy server"
-msgstr ""
-"Неможливо з'єднатися з проксі-сервером"
+msgstr "Неможливо з'єднатися з проксі-сервером"
 
 #: mainwin.cpp:1282 ui/logindlg.cpp:147
 msgid "Proxy server require authorization"
@@ -1786,8 +1785,7 @@ msgstr "&Ні"
 
 #: mainwin.cpp:1969
 msgid "Add %1 to ignore list ?"
-msgstr ""
-"Додати \"%1\" в список тих що ігноруються?"
+msgstr "Додати \"%1\" в список тих що ігноруються?"
 
 #: mainwin.cpp:2033
 msgid "In visible list"
@@ -2182,8 +2180,7 @@ msgstr "Розмір: %1 / Максимальний: %2"
 
 #: msgedit.cpp:1538
 msgid "Message will be split"
-msgstr ""
-"Повідомлення буде розділено на частини"
+msgstr "Повідомлення буде розділено на частини"
 
 #: msgedit.cpp:1713
 msgid "Decline reason"
@@ -2507,7 +2504,7 @@ msgstr "Каталог для прийому файлів"
 
 #: ui/editfile.cpp:113
 msgid "Sounds (*.wav)"
-msgstr ""
+msgstr "Звуки (*.wav)"
 
 #: ui/enable.cpp:123 ui/setupdlgbase.cpp:121 ui/toolsetupbase.cpp:135
 msgid "&Apply"
@@ -2777,12 +2774,11 @@ msgstr "Система"
 
 #: ui/themesetup.cpp:117
 msgid "Graphics (%1)"
-msgstr ""
+msgstr "Графіка (%1)"
 
 #: ui/themesetup.cpp:188
 msgid "Need restart SIM for change language"
-msgstr ""
-"Потрібно перестартувати SIM для зміни мови"
+msgstr "Потрібно перестартувати SIM для зміни мови"
 
 #: ui/themesetup.cpp:198
 msgid "Default icons"
@@ -3140,8 +3136,7 @@ msgstr "Закрити після відправки"
 # #
 #: ui/acceptbase.cpp:173 ui/msgbase.cpp:94
 msgid "Automaitcaly open window"
-msgstr ""
-"Автоматично відкривати вікно повідомлень"
+msgstr "Автоматично відкривати вікно повідомлень"
 
 #: ui/acceptbase.cpp:174 ui/acceptbase.cpp:177 ui/msgbase.cpp:90
 msgid "Override global settings"
@@ -3632,32 +3627,28 @@ msgid "&Icons"
 msgstr "&Іконки"
 
 #: ui/themesetupbase.cpp:295
-#, fuzzy
 msgid "Main window background:"
-msgstr "Освіта:"
+msgstr "Фон головного вікна:"
 
 #: ui/themesetupbase.cpp:296
 msgid "Icon margin:"
-msgstr ""
+msgstr "Відступ для іконок:"
 
 #: ui/themesetupbase.cpp:298
-#, fuzzy
 msgid "Use &system colors"
-msgstr "&Використовувати системні шрифти"
+msgstr "&Використовувати кольори системи"
 
 #: ui/themesetupbase.cpp:299
-#, fuzzy
 msgid "Online contact color:"
-msgstr "Попередження:"
+msgstr "Колір для користувачів, що в мережі:"
 
 #: ui/themesetupbase.cpp:300
 msgid "Offline contact color:"
-msgstr ""
+msgstr "Колір вимкнених користувачів:"
 
 #: ui/themesetupbase.cpp:301
-#, fuzzy
 msgid "B&ackground"
-msgstr "Фон"
+msgstr "Ф&он"
 
 #: ui/themesetupbase.cpp:302
 msgid "Transparent main window"
@@ -3681,8 +3672,7 @@ msgstr "&Прозорість"
 
 #: ui/themesetupbase.cpp:308
 msgid "Show main window in task manager"
-msgstr ""
-"Показувати основне вікно в панелі задач"
+msgstr "Показувати основне вікно в панелі задач"
 
 #: ui/themesetupbase.cpp:309
 msgid "Show user window in task manager"
@@ -3713,8 +3703,7 @@ msgid "Hide main window after"
 msgstr "Сховати головне вікно"
 
 #: ui/statussetupbase.cpp:141
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Заборонити попередження в стані "
 "\"Відійшов\", \"Не активний\", \"Зайнятий\""
@@ -3905,8 +3894,7 @@ msgstr ""
 
 #: ui/generalsecbase.cpp:196
 msgid "Reject &URL from unknown users"
-msgstr ""
-"Відкидати &URL від невідомих користувачів"
+msgstr "Відкидати &URL від невідомих користувачів"
 
 #: ui/generalsecbase.cpp:197
 msgid "Reject &World Wide pager messages"
@@ -4063,8 +4051,7 @@ msgstr "..."
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Ця програма поширюється під ліцензією GPL v2"
+msgstr "Ця програма поширюється під ліцензією GPL v2"
 
 #: editspell.cpp:319
 msgid "Spell check"
@@ -4735,3 +4722,4 @@ msgstr "? Невідомий статус %1"
 
 #~ msgid "Spell"
 #~ msgstr "Проверка орфографии"
+
