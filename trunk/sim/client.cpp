@@ -581,7 +581,7 @@ void SIMClient::process_event(ICQEvent *e)
                     if (u == NULL) continue;
                     History h(*it);
                     unsigned long id = h.addMessage(msg);
-                    if (msg->Id == 0) msg->Id = id;
+                    if (msg->Id != MSG_NEW) msg->Id = id;
                 }
             }
             break;

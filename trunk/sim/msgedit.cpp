@@ -402,7 +402,9 @@ void MsgEdit::action(int type, bool bSaveEdit)
             return;
         ICQUser *u = pClient->getUser(Uin);
         if (u){
-            ICQMessage *msg = history()->getMessage(u->unreadMsgs.front());
+            ICQMessage *msg = NULL;
+			if (u->unreadMsgs.size())
+				msg = history()->getMessage(u->unreadMsgs.front());
             if (msg){
                 setMessage(msg, true, true);
                 setState();
@@ -1046,7 +1048,6 @@ void MsgEdit::bottomReady(Tmpl*, const QString &res)
 
 void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEdit)
 {
-    log(L_DEBUG, "Set message %i\n", msg ? msg->Id : MSG_NEW);
     msgTail = "";
     setUpdatesEnabled(false);
     bool bChanged = false;
@@ -1614,11 +1615,9 @@ void MsgEdit::makeMessage()
     case ICQ_MSGxSMS:{
             ICQSMS *m = static_cast<ICQSMS*>(msg);
             QString s = edit->text();
-            log(L_DEBUG, "T: %s", (const char*)(s.local8Bit()));
             string text(s.utf8());
             text = pClient->clearHTML(text);
             s = QString::fromUtf8(text.c_str());
-            log(L_DEBUG, "T: %s", (const char*)(s.local8Bit()));
             msgTail = trim(s);
             m->Message = smsChunk();
             m->Phone = phoneEdit->lineEdit()->text().local8Bit();
