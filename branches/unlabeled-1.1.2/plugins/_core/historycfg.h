@@ -32,6 +32,7 @@ public:
     ~HistoryConfig();
 public slots:
     void apply();
+	void useOwnColorsChanged(bool);
 };
 
 #endif

@@ -84,6 +84,8 @@ typedef struct CoreData
     unsigned	EditForeground;
     char		*EditFont;
     unsigned	OwnColors;
+    unsigned	ColorSend;
+    unsigned	ColorReceive;
     unsigned	ColorSender;
     unsigned	ColorReceiver;
     unsigned	UseSmiles;
@@ -335,6 +337,8 @@ public:
     PROP_ULONG(EditBackground);
     PROP_STR(EditFont);
     PROP_BOOL(OwnColors);
+    PROP_ULONG(ColorSend);
+    PROP_ULONG(ColorReceive);
     PROP_ULONG(ColorSender);
     PROP_ULONG(ColorReceiver);
     PROP_BOOL(UseSmiles);

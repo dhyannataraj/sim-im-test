@@ -31,9 +31,11 @@ HistoryConfig::HistoryConfig(QWidget *parent)
 {
     chkOwn->setChecked(CorePlugin::m_plugin->getOwnColors());
     chkSmile->setChecked(CorePlugin::m_plugin->getUseSmiles());
-    btnSend->setColor(QColor(CorePlugin::m_plugin->getColorSender()));
-    btnReceive->setColor(QColor(CorePlugin::m_plugin->getColorReceiver()));
-    cmbPage->setEditable(true);
+	btnSend->setColor(QColor(CorePlugin::m_plugin->getColorSend()));
+	btnReceive->setColor(QColor(CorePlugin::m_plugin->getColorReceive()));
+	btnSender->setColor(QColor(CorePlugin::m_plugin->getColorSender()));
+	btnReceiver->setColor(QColor(CorePlugin::m_plugin->getColorReceiver()));
+	cmbPage->setEditable(true);
     cmbPage->insertItem("100");
     cmbPage->insertItem("50");
     cmbPage->insertItem("25");
@@ -49,11 +51,22 @@ HistoryConfig::HistoryConfig(QWidget *parent)
     }
     lblPage1->setText(str1);
     lblPage2->setText(str2);
+	connect(chkOwn, SIGNAL(toggled(bool)), this, SLOT(useOwnColorsChanged(bool)));
+	useOwnColorsChanged(CorePlugin::m_plugin->getOwnColors());
 }
 
 HistoryConfig::~HistoryConfig()
 {
 }
+
+void HistoryConfig::useOwnColorsChanged(bool AToggled)
+{
+	btnSend->setEnabled(AToggled);
+	btnReceive->setEnabled(AToggled);
+	btnSender->setEnabled(AToggled);
+	btnReceiver->setEnabled(AToggled);
+}
+
 
 void HistoryConfig::apply()
 {
@@ -66,13 +79,21 @@ void HistoryConfig::apply()
         bChanged = true;
         CorePlugin::m_plugin->setUseSmiles(chkSmile->isChecked());
     }
-    if (btnSend->color().rgb() != CorePlugin::m_plugin->getColorSender()){
+    if (btnSend->color().rgb() != CorePlugin::m_plugin->getColorSend()){
         bChanged = true;
-        CorePlugin::m_plugin->setColorSender(btnSend->color().rgb());
+        CorePlugin::m_plugin->setColorSend(btnSend->color().rgb());
     }
-    if (btnReceive->color().rgb() != CorePlugin::m_plugin->getColorReceiver()){
+    if (btnReceive->color().rgb() != CorePlugin::m_plugin->getColorReceive()){
         bChanged = true;
-        CorePlugin::m_plugin->setColorReceiver(btnReceive->color().rgb());
+        CorePlugin::m_plugin->setColorReceive(btnReceive->color().rgb());
+    }
+    if (btnSender->color().rgb() != CorePlugin::m_plugin->getColorSender()){
+        bChanged = true;
+        CorePlugin::m_plugin->setColorSender(btnSender->color().rgb());
+    }
+    if (btnReceiver->color().rgb() != CorePlugin::m_plugin->getColorReceiver()){
+        bChanged = true;
+        CorePlugin::m_plugin->setColorReceiver(btnReceiver->color().rgb());
     }
     CorePlugin::m_plugin->setHistoryPage(atol(cmbPage->lineEdit()->text().latin1()));
     if (bChanged){

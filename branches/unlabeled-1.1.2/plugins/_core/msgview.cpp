@@ -41,13 +41,22 @@ void MsgViewBase::setSelect(const QString &str)
     m_selectStr = str;
 }
 
+#define FONT_FORMAT "%06lX"
 QString MsgViewBase::messageText(Message *msg)
 {
     QString color;
-    color.sprintf("%06lX",
-                  ((msg->getFlags() & MESSAGE_RECEIVED) ?
-                   CorePlugin::m_plugin->getColorReceiver() :
-                   CorePlugin::m_plugin->getColorSender()) & 0xFFFFFF);
+	unsigned c_sender   = 0x800000;
+	unsigned c_receiver = 0x000080;
+	unsigned c_send     = 0x000000;
+	unsigned c_receive  = 0x000000;
+    if (CorePlugin::m_plugin->getOwnColors()) {
+		c_send     = (CorePlugin::m_plugin->getColorSend())    & 0xFFFFFF;
+		c_receive  = (CorePlugin::m_plugin->getColorReceive()) & 0xFFFFFF;
+		c_sender   = (CorePlugin::m_plugin->getColorSender())  & 0xFFFFFF;
+		c_receiver = (CorePlugin::m_plugin->getColorReceiver())& 0xFFFFFF;
+    }
+    color.sprintf(FONT_FORMAT,
+                  ((msg->getFlags() & MESSAGE_RECEIVED) ? c_receiver : c_sender));
     const char *icon = "message";
     const CommandDef *def = CorePlugin::m_plugin->messageTypes.find(msg->type());
     if (def)
@@ -126,7 +135,15 @@ QString MsgViewBase::messageText(Message *msg)
                 .arg(formatTime(msg->getTime()))
                 .arg(bUnread ? "</b>" : "");
     if (msg->type() != MessageStatus){
-        QString msgText = msg->presentation();
+		QString msgText = msg->presentation();
+		// replace font color if we use own colors
+		int pos = msgText.find("font color=\"#");
+		if ((pos != -1) && (CorePlugin::m_plugin->getOwnColors())) {
+			pos += 13;
+			QString color;
+			color.sprintf("%06lX", (msg->getFlags() & MESSAGE_RECEIVED) ? c_receive : c_send);
+			msgText.replace(pos,6,color);
+		}
         if (msgText.isEmpty()){
             unsigned type = msg->type();
             for (;;){
@@ -154,7 +171,8 @@ QString MsgViewBase::messageText(Message *msg)
         msg_text = msgText.utf8();
         Event e(EventEncodeText, &msg_text);
         e.process();
-        s += parseText(msg_text.c_str(), CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
+//        s += parseText(msg_text.c_str(), CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
+        s += parseText(msg_text.c_str(), false, CorePlugin::m_plugin->getUseSmiles());
     }
     return s;
 }
