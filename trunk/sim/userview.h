@@ -77,6 +77,7 @@ public:
     void setOpen(bool);
     void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align);
     void changeCounter(bool bInc);
+    unsigned short Id() { return m_id; }
 protected:
     unsigned m_nOnline;
     unsigned short m_id;

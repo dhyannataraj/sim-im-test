@@ -72,12 +72,15 @@ void PasswdDialog::login()
     bLogin = true;
     pClient->storePassword(edtPasswd->text().local8Bit());
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
-    pClient->setStatus(pMain->ManualStatus);
+    pClient->setStatus((pMain->ManualStatus == ICQ_STATUS_OFFLINE) ? ICQ_STATUS_ONLINE : pMain->ManualStatus);
 }
 
 void PasswdDialog::closeEvent(QCloseEvent *e)
 {
-    if (!bLogin) QDialog::closeEvent(e);
+    if (!bLogin){
+        QDialog::closeEvent(e);
+        return;
+    }
     e->ignore();
     stopLogin();
 }
@@ -98,7 +101,7 @@ void PasswdDialog::processEvent(ICQEvent *e)
 {
     if (pClient->m_state == ICQClient::Logged){
         bLogin = false;
-        close();
+        done(1);
         return;
     }
     if (e->type() == EVENT_BAD_PASSWORD){

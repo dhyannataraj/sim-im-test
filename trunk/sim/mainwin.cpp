@@ -917,13 +917,8 @@ void MainWindow::processEvent(ICQEvent *e)
         }
     case EVENT_BAD_PASSWORD:
         if (!bInLogin){
-            PasswdDialog dlg;
-            bInLogin = true;
-            if (!dlg.exec()){
-                quit();
-                return;
-            }
-            bInLogin = false;
+            pClient->setStatus(ICQ_STATUS_OFFLINE);
+            QTimer::singleShot(50, this, SLOT(badPassword()));
         }
         return;
     case EVENT_ANOTHER_LOCATION:
@@ -992,6 +987,17 @@ void MainWindow::processEvent(ICQEvent *e)
         }
         return;
     }
+}
+
+void MainWindow::badPassword()
+{
+    PasswdDialog dlg;
+    bInLogin = true;
+    if (!dlg.exec()){
+        quit();
+        return;
+    }
+    bInLogin = false;
 }
 
 void MainWindow::saveState()

@@ -593,6 +593,55 @@ void UserView::editEnter()
 
 void UserView::keyReleaseEvent(QKeyEvent *e)
 {
+    QListViewItem *item = currentItem();
+    if (item){
+        UserViewItem *userItem = NULL;
+        GroupViewItem *grpItem = NULL;
+        switch (static_cast<UserViewItemBase*>(item)->type()){
+        case 1:
+            userItem = static_cast<UserViewItem*>(item);
+            break;
+        case 2:
+            grpItem = static_cast<GroupViewItem*>(item);
+            break;
+        }
+        if (e->state() == 0){
+            switch (e->key()){
+            case QListView::Key_F2:
+                if (grpItem){
+                    grp_id = grpItem->Id();
+                    grpFunction(mnuGrpRename);
+                    return;
+                }
+                break;
+            case QListView::Key_Delete:
+                if (grpItem){
+                    grp_id = grpItem->Id();
+                    grpFunction(mnuGrpDelete);
+                    return;
+                }
+                if (userItem){
+                    QRect rc = itemRect(item);
+                    QPoint p = mapToGlobal(rc.topLeft());
+                    pMain->m_rc.setRect(p.x(), p.y(), rc.width(), rc.height());
+                    pMain->userFunction(userItem->m_uin, mnuDelete, 0);
+                    return;
+                }
+                break;
+            }
+        }
+        if ((e->state() == QListView::ShiftButton) && grpItem){
+            grp_id = grpItem->Id();
+            switch (e->key()){
+            case QListView::Key_Down:
+                grpFunction(mnuGrpDown);
+                return;
+            case QListView::Key_Up:
+                grpFunction(mnuGrpUp);
+                return;
+            }
+        }
+    }
     QListView::keyReleaseEvent(e);
 }
 

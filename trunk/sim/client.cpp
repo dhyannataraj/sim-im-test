@@ -385,7 +385,7 @@ bool Client::load(istream &s, string &nextPart)
         if (ok) break;
     }
     owner->adjustPhones();
-    owner->adjustEMails();
+    owner->adjustEMails(NULL, true);
     return true;
 }
 

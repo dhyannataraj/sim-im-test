@@ -262,7 +262,7 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     connect(edit, SIGNAL(currentFontChanged(const QFont&)), this, SLOT(editFontChanged(const QFont&)));
     connect(edit, SIGNAL(ctrlEnterPressed()), this, SLOT(sendClick()));
     connect(users, SIGNAL(changed()), this, SLOT(textChanged()));
-    connect(pClient, SIGNAL(messageReceived(ICQMessage*)), this, SLOT(messageReceived(ICQMessage*)));
+    connect(topLevelWidget(), SIGNAL(messageReceived(ICQMessage*)), this, SLOT(messageReceived(ICQMessage*)));
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     connect(pMain, SIGNAL(chatChanged()), this, SLOT(chatChanged()));
     connect(pMain, SIGNAL(ftChanged()), this, SLOT(ftChanged()));

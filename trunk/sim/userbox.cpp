@@ -199,7 +199,7 @@ UserBox::UserBox(unsigned long grpId)
     connect(pMain, SIGNAL(iconChanged()), this, SLOT(iconChanged()));
     connect(pMain, SIGNAL(wmChanged()), this, SLOT(wmChanged()));
     connect(this, SIGNAL(toolBarPositionChanged(QToolBar*)), this, SLOT(toolBarChanged(QToolBar*)));
-    connect(pClient, SIGNAL(messageReceived(ICQMessage*)), this, SLOT(messageReceived(ICQMessage*)));
+    connect(pClient, SIGNAL(messageReceived(ICQMessage*)), this, SLOT(slotMessageReceived(ICQMessage*)));
     setGroupButtons();
     wmChanged();
     adjustPos();
@@ -1008,19 +1008,25 @@ static BOOL (WINAPI *FlashWindowEx)(FLASHWINFO*) = NULL;
 static bool initFlash = false;
 #endif
 
-void UserBox::messageReceived(ICQMessage *msg)
+void UserBox::slotMessageReceived(ICQMessage *msg)
 {
+    if (qApp->activeWindow() != this){
+        if (haveUser(msg->getUin()))
+            messageReceived(msg);
+        return;
+    }
     if (curWnd && (msg->getUin() == curWnd->Uin) &&
-            (qApp->activeWindow() == this) && !pMain->SimpleMode &&
+            !pMain->SimpleMode &&
             ((msg->Type() == ICQ_MSGxMSG) || (msg->Type() == ICQ_MSGxURL) ||
              (msg->Type() == ICQ_MSGxSMS))){
         pClient->markAsRead(msg);
-
         return;
     }
-#ifdef WIN32
-    if (qApp->activeWindow() == this) return;
     if (!haveUser(msg->getUin())) return;
+    QWidget *focus = focusWidget();
+    emit messageReceived(msg);
+    if (focus) focus->setFocus();
+#ifdef WIN32
     if (!initFlash){
         HINSTANCE hLib = GetModuleHandleA("user32");
         if (hLib != NULL)

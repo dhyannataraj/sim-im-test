@@ -347,6 +347,7 @@ protected slots:
     void adjustGroupsMenu();
     void adjustFucntionMenu();
     void sharedFiles();
+    void badPassword();
 protected:
     list<msgInfo> menuMsgs;
     void loadUnread();

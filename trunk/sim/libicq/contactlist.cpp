@@ -502,16 +502,16 @@ static void addEMail(EMailList &mails, EMailInfo *mail)
     mails.push_back(info);
 }
 
-static void addMyEMails(EMailList &mails, const EMailList &add)
+static void addMyEMails(EMailList &mails, const EMailList &add, bool bOwn)
 {
     for (EMailList::const_iterator it = add.begin(); it != add.end(); ++it){
         EMailInfo *info = static_cast<EMailInfo*>(*it);
-        if (!info->MyInfo) continue;
+        if (!bOwn && !info->MyInfo) continue;
         addEMail(mails, info);
     }
 }
 
-void ICQUser::adjustEMails(EMailList *addMails)
+void ICQUser::adjustEMails(EMailList *addMails, bool bOwn)
 {
     EMailList mails;
     bool myInfoFirst = false;
@@ -519,7 +519,7 @@ void ICQUser::adjustEMails(EMailList *addMails)
         EMailInfo *info = static_cast<EMailInfo*>(*EMails.begin());
         if (info->MyInfo) myInfoFirst = true;
     }
-    if (myInfoFirst && (addMails == NULL)) addMyEMails(mails, EMails);
+    if (myInfoFirst && (addMails == NULL)) addMyEMails(mails, EMails, bOwn);
     if (*EMail.c_str()){
         EMailInfo info;
         info.Email = EMail.c_str();
@@ -532,7 +532,7 @@ void ICQUser::adjustEMails(EMailList *addMails)
             addEMail(mails, info);
         }
     }
-    if (!myInfoFirst && (addMails == NULL)) addMyEMails(mails, EMails);
+    if (!myInfoFirst && (addMails == NULL)) addMyEMails(mails, EMails, bOwn);
     EMails = mails;
 }
 

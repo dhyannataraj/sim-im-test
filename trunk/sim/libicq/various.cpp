@@ -233,7 +233,7 @@ bool FullInfoEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short n
             client->fromServer(u->HomePhone, u);
             client->fromServer(u->HomeFax, u);
             client->fromServer(u->PrivateCellular, u);
-            u->adjustEMails();
+            u->adjustEMails(NULL, Uin() == client->owner->Uin);
             if (*u->Alias.c_str() == 0)
                 client->renameUser(u, u->Nick.c_str());
             break;
@@ -271,7 +271,7 @@ bool FullInfoEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short n
                 email->Hide = (d != 0);
                 mails.push_back(email);
             }
-            u->adjustEMails(&mails);
+            u->adjustEMails(&mails, Uin() == client->owner->Uin);
             break;
         }
     case ICQ_SRVxWORK_INFO:{

@@ -701,7 +701,7 @@ public:
     string			Encoding;
 
     void adjustPhones();
-    void adjustEMails(EMailList *mails = NULL);
+    void adjustEMails(EMailList *mails = NULL, bool bOwn=false);
 
     void setOffline();
     unsigned long DCcookie;
