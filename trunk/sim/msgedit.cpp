@@ -96,12 +96,14 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     QMainWindow *w = new QMainWindow(this, "msgedit", 0);
 	frmEdit = new QFrame(w);
 	w->setCentralWidget(frmEdit);
+/*
 	QToolBar *t = new QToolBar(w);
 	t->setHorizontalStretchable(true);
 	t->setVerticalStretchable(true);
     QToolButton *btnIgnore = new QToolButton(t);
     btnIgnore->setIconSet(Icon("ignorelist"));
     btnIgnore->setTextLabel(i18n("Add to ignore list"));
+*/
     QVBoxLayout *lay = new QVBoxLayout(frmEdit);
     boxSend = new QVGroupBox(frmEdit);
     lay->addWidget(boxSend);
