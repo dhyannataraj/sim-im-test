@@ -767,19 +767,19 @@ LiveJournalUserData *LiveJournalClient::findContact(const char *user, Contact *&
                 return data;
         }
     }
+    if (!bCreate)
+        return NULL;
+    QString sname = QString::fromUtf8(user);
     if (bJoin){
-        QString sname = QString::fromUtf8(user);
         it.reset();
         while ((contact = ++it) != NULL){
             if (contact->getName().lower() == sname.lower())
                 break;;
         }
-        if (contact == NULL){
-            if (!bCreate)
-                return NULL;
-            contact = getContacts()->contact(0, true);
-            contact->setName(sname);
-        }
+    }
+    if (contact == NULL){
+        contact = getContacts()->contact(0, true);
+        contact->setName(sname);
     }
     LiveJournalUserData *data = (LiveJournalUserData*)(contact->clientData.createData(this));
     set_str(&data->User.ptr, user);
