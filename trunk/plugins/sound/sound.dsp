@@ -569,6 +569,15 @@ InputPath=.\sounds\message2.wav
 
 !ELSEIF  "$(CFG)" == "sound - Win32 Debug"
 
+# Begin Custom Build - Copy $(InputPath)
+OutDir=.\..\..\Debug
+InputPath=.\sounds\message2.wav
+
+"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /Y $(InputPath) $(OutDir)\$(InputPath)
+
+# End Custom Build
+
 !ENDIF 
 
 # End Source File
@@ -719,13 +728,13 @@ InputPath=.\sounds\url.wav
 # End Source File
 # Begin Source File
 
-SOURCE=.\sounds\VIP_online.wav
+SOURCE=.\sounds\vip_online.wav
 
 !IF  "$(CFG)" == "sound - Win32 Release"
 
 # Begin Custom Build - Copy $(InputPath)
 OutDir=.\..\..\Release
-InputPath=.\sounds\VIP_online.wav
+InputPath=.\sounds\vip_online.wav
 
 "$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy /Y $(InputPath) $(OutDir)\$(InputPath)
@@ -733,6 +742,15 @@ InputPath=.\sounds\VIP_online.wav
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "sound - Win32 Debug"
+
+# Begin Custom Build - Copy $(InputPath)
+OutDir=.\..\..\Debug
+InputPath=.\sounds\vip_online.wav
+
+"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /Y $(InputPath) $(OutDir)\$(InputPath)
+
+# End Custom Build
 
 !ENDIF 
 
