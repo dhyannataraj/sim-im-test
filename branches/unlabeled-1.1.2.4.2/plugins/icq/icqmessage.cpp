@@ -794,6 +794,27 @@ static MessageDef defCloseSecure =
         NULL
     };
 
+#if 0
+i18n("Check invisible", "%n times check invisible", 1);
+#endif
+
+static Message *createCheckInvisible(const char *cfg)
+{
+    return new Message(MessageCheckInvisible, cfg);
+}
+
+static MessageDef defCheckInvisible =
+    {
+        NULL,
+        MESSAGE_HIDDEN,
+        0,
+        "Check invisible",
+        "%n times checkInvisible",
+        createCheckInvisible,
+        NULL,
+        NULL
+    };
+
 static Message *createIcqAuthRequest(const char *cfg)
 {
     return new ICQAuthMessage(MessageICQAuthRequest, cfg);
@@ -1245,6 +1266,13 @@ void ICQPlugin::registerMessages()
     cmd->menu_grp	= 0x30F0;
     cmd->param		= &defCloseSecure;
     eMsg.process();
+
+    cmd->id			= MessageCheckInvisible;
+    cmd->text		= "Check invisible";
+    cmd->icon		= "ICQ_invisible";
+    cmd->menu_grp	= 0x30F1;
+    cmd->param		= &defCheckInvisible;
+    eMsg.process();
 }
 
 void ICQPlugin::unregisterMessages()
@@ -1281,6 +1309,9 @@ void ICQPlugin::unregisterMessages()
 
     Event eCloseSecure(EventRemoveMessageType, (void*)MessageCloseSecure);
     eCloseSecure.process();
+
+    Event eCheckInvisible(EventRemoveMessageType, (void*)MessageCheckInvisible);
+    eCheckInvisible.process();
 }
 
 void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *data, unsigned uin, bool bDirect)
@@ -1326,13 +1357,13 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 ICQUserData data;
                 load_data(static_cast<ICQProtocol*>(protocol())->icqUserData, &data, NULL);
                 data.Uin = uin;
-                set_str(&data.Alias, toUnicode(name.c_str(), NULL).utf8());
-                set_str(&data.About, toUnicode(topic.c_str(), NULL).utf8());
+                set_str(&data.Alias, name.c_str());
+                set_str(&data.About, topic.c_str());
                 data.Age = age;
                 data.Gender = gender;
                 data.Country = country;
                 data.Language = language;
-                set_str(&data.Homepage, toUnicode(homepage.c_str(), NULL).utf8());
+                set_str(&data.Homepage, homepage.c_str());
                 Event e(static_cast<ICQPlugin*>(protocol()->plugin())->EventRandomChatInfo, &data);
                 e.process();
                 free_data(static_cast<ICQProtocol*>(protocol())->icqUserData, &data);

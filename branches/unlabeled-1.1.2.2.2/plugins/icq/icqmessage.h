@@ -33,6 +33,7 @@ const unsigned MessageWebPanel			= 0x107;
 const unsigned MessageEmailPager		= 0x108;
 const unsigned MessageOpenSecure		= 0x109;
 const unsigned MessageCloseSecure		= 0x110;
+const unsigned MessageCheckInvisible	= 0x111;
 
 class ListView;
 

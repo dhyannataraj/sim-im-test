@@ -944,6 +944,16 @@ void ICQClient::send(bool bTimer)
         m_sendTimer->start(m_nSendTimeout * 500);
 }
 
+void ICQClient::sendCheckInvisible(ICQUserData *data)
+{
+    snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_SENDxSERVER);
+    m_socket->writeBuffer << 0 << 0;
+    m_socket->writeBuffer << 2;
+    m_socket->writeBuffer.packUin(data->Uin);
+	m_socket->writeBuffer << 0x0005006AL << 0x00000000L;
+    sendPacket();
+}
+
 static const plugin arrPlugins[] =
     {
         // PLUGIN_PHONExBOOK

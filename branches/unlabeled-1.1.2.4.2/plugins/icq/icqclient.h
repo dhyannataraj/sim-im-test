@@ -191,6 +191,7 @@ typedef struct ICQUserData
     DirectClient	*DirectPluginInfo;
     DirectClient	*DirectPluginStatus;
     unsigned long	bNoDirect;
+	unsigned long	bInvisible;
 } ICQUserData;
 
 typedef struct ICQClientData
@@ -541,6 +542,7 @@ protected:
     void setChatGroup();
     void parsePluginPacket(Buffer &b, unsigned plugin_index, ICQUserData *data, unsigned uin, bool bDirect);
     void pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &b);
+	void sendCheckInvisible(ICQUserData *data);
     string packMessage(Message *msg, ICQUserData *data, unsigned short &type);
     unsigned short m_advCounter;
     unsigned m_nUpdates;
