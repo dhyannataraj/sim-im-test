@@ -450,6 +450,8 @@ void setBarState(bool bAnimate = false)
     appBarMessage(ABM_ACTIVATE);
 }
 
+static bool bSizing = false;
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -475,7 +477,9 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     case WM_ENTERSIZEMOVE:
         bInMoving = true;
         pMain->mWidth = pMain->size().width();
+        bSizing = true;
         if (pMain->BarState != ABE_FLOAT) break;
+        bSizing = false;
         pMain->mLeft = pMain->pos().x();
         pMain->mTop = pMain->pos().y();
         pMain->mHeight = pMain->size().height();
@@ -491,14 +495,17 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         prc = (RECT*)lParam;
         type = getEdge(prc);
         if (type == ABE_FLOAT){
-            if (pMain->BarState != ABE_FLOAT)
+            if (bSizing){
                 prc->bottom = prc->top + pMain->mHeight;
+                bSizing = false;
+            }
         }else{
             getBarRect(type, rc, prc);
             prc->left = rc.left();
             prc->top = rc.top();
             prc->right = rc.right();
             prc->bottom = rc.bottom();
+            bSizing = true;
         }
         return 1;
     }

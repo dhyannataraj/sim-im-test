@@ -85,7 +85,7 @@ FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
     sldSpeed->setValue(file->speed());
     connect(sldSpeed, SIGNAL(valueChanged(int)), this, SLOT(speedChanged(int)));
     connect(chkClose, SIGNAL(toggled(bool)), this, SLOT(closeToggled(bool)));
-    setProgress();
+    setProgress(false);
     bSending = true;
     bDirty = false;
     QTimer *timer = new QTimer(this);
@@ -111,7 +111,7 @@ void FileTransferDlg::processed(ICQFile *f)
     if (f != file) return;
     if (file && file->ft && (file->curFile() != nCurFile)){
         nCurFile = file->curFile();
-        setProgress();
+        setProgress(true);
     }else{
         bDirty = true;
     }
@@ -122,7 +122,7 @@ void FileTransferDlg::timeout()
     if (!bDirty || !file) return;
     if (file->ft && (file->speed() != sldSpeed->value()))
         sldSpeed->setValue(file->speed());
-    setProgress();
+    setProgress(false);
     bDirty = false;
 }
 
@@ -135,7 +135,7 @@ void FileTransferDlg::processEvent(ICQEvent *e)
         file->state = file->Size;
         c = title + " " + i18n("[done]");
         pMain->playSound(pClient->FileDone.c_str());
-        setProgress();
+        setProgress(false);
     }else if (e->state == ICQEvent::Fail){
         c = title + " " + i18n("[fail]");
     }else{
@@ -156,7 +156,7 @@ void FileTransferDlg::processEvent(ICQEvent *e)
     btnCancel->setText(i18n("&Close"));
 }
 
-void FileTransferDlg::setProgress()
+void FileTransferDlg::setProgress(bool bChangeTitle)
 {
     if (file->ft == NULL){
         lblSpeed->setText("");
@@ -190,9 +190,21 @@ void FileTransferDlg::setProgress()
     if (file->Size){
         int newProgress = (file->totalSize() * 100) / file->Size;
         if (newProgress > 100) newProgress = 100;
-        if (nProgress != newProgress){
+        if ((nProgress != newProgress) || bChangeTitle){
             nProgress = newProgress;
-            setCaption(title + " " + QString::number(nProgress) + "%");
+            QString t = title;
+            unsigned long nFile = file->curFile() + 1;
+            if (nFile > file->nFiles()) nFile = file->nFiles();
+            if (file->nFiles() > 1){
+                CUser u(file->getUin());
+                if (file->Received){
+                    t = i18n("Receive file %1 of %2 files from %3");
+                }else{
+                    t = i18n("Send file %1 of %2 files to %3");
+                }
+                t = t .arg(nFile) .arg(file->nFiles()) .arg(u.name());
+            }
+            setCaption(t + " " + QString::number(nProgress) + "%");
         }
     }
 }

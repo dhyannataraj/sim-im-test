@@ -402,8 +402,8 @@ void MsgEdit::action(int type, bool bSaveEdit)
             return;
         ICQUser *u = pClient->getUser(Uin);
         if (u){
-           ICQMessage *msg = history()->getMessage(u->unreadMsgs.front());
-           if (msg){
+            ICQMessage *msg = history()->getMessage(u->unreadMsgs.front());
+            if (msg){
                 setMessage(msg, true, true);
                 setState();
                 return;
@@ -1716,8 +1716,8 @@ void MsgEdit::acceptMessage()
             f->localName = (const char*)(fileEdit->text().local8Bit());
     }
     pClient->acceptMessage(msg);
-	if (pMain->SimpleMode)
-		QTimer::singleShot(50, this, SLOT(close()));
+    if (pMain->SimpleMode)
+        QTimer::singleShot(50, this, SLOT(close()));
 }
 
 void MsgEdit::declineMessage(int action)
@@ -1738,8 +1738,8 @@ void MsgEdit::declineMessage(int action)
     }
     string declineStr = pClient->to8Bit(Uin, reason);
     pClient->declineMessage(msg, declineStr.c_str());
-	if (pMain->SimpleMode)
-		QTimer::singleShot(50, this, SLOT(close()));
+    if (pMain->SimpleMode)
+        QTimer::singleShot(50, this, SLOT(close()));
 }
 
 void MsgEdit::chatChanged()

@@ -46,7 +46,7 @@ protected:
     unsigned nCurFile;
     QString title;
     void closeEvent(QCloseEvent*);
-    void setProgress();
+    void setProgress(bool bChangeTitle);
     bool bDirty;
     bool bSending;
     bool bCanResume;
