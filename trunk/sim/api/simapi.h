@@ -41,10 +41,10 @@
 #endif
 
 #ifndef WIN32
-	#if HAVE_STDBOOL_H
+	#ifdef HAVE_STDBOOL_H
 	  #include <stdbool.h>
 	#else
-	  #if !HAVE__BOOL
+	  #ifndef HAVE__BOOL
 	    #ifdef __cplusplus
 		  typedef bool _Bool;
 		#else
