@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sim\n"
 "POT-Creation-Date: 2003-10-04 21:04+0400\n"
-"PO-Revision-Date: 2003-10-06 12:54+0100\n"
+"PO-Revision-Date: 2003-10-07 11:08+0100\n"
 "Last-Translator: Lapo Luchini <lapo@lapo.it>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -367,12 +367,12 @@ msgstr "&Inoltra"
 #: plugins/_core/core.cpp:696
 #: sim/ui/qt3/qtextedit.cpp:3988
 msgid "&Undo"
-msgstr ""
+msgstr "&Annulla operazione"
 
 #: plugins/_core/core.cpp:704
 #: sim/ui/qt3/qtextedit.cpp:3989
 msgid "&Redo"
-msgstr ""
+msgstr "&Ripeti operazione"
 
 #: plugins/_core/core.cpp:712
 #: sim/ui/qt3/qtextedit.cpp:3994
@@ -1920,7 +1920,7 @@ msgstr ""
 
 #: plugins/autoaway/autoaway.cpp:55
 msgid "Plugin provides set away and N/A status after some idle time"
-msgstr ""
+msgstr "Questo plugin permette di impostare lo stato di \"Assente\" e \"Non disponibile\" dopo qualche tempo di inutilizzo del computer"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:121
 msgid "Set \"Away\" status after"
@@ -2097,6 +2097,11 @@ msgid ""
 "* - any amount of symbols (or is empty)\n"
 "? - any symbol"
 msgstr ""
+"Le parole sono divise da separatori (ad esempio spazio o virgola)\n"
+"Le frasi (sequenze di parole) si specificano usando le virgolette\n"
+"Le parole possono contenere metacaratteri:\n"
+"* - una qualsiasi quantità di simboli (anche zero)\n"
+"? - un singolo simbolo qualsiasi"
 
 #: plugins/floaty/floaty.cpp:43
 msgid "Floaty"
@@ -2551,7 +2556,7 @@ msgstr "Richiesta di contatti"
 
 #: plugins/icq/icqmessage.cpp:1419
 msgid "Web panel"
-msgstr ""
+msgstr "Pannello web"
 
 #: plugins/icq/icqmessage.cpp:1426
 msgid "Email pager"
@@ -2752,7 +2757,7 @@ msgstr "Attitità all'aperto"
 
 #: plugins/icq/interestsinfo.cpp:105
 msgid "Parenting"
-msgstr ""
+msgstr "Cura dei bambini"
 
 #: plugins/icq/interestsinfo.cpp:106
 msgid "Pets/Animals"
@@ -4347,7 +4352,7 @@ msgstr "Debug"
 
 #: plugins/logger/logger.cpp:34
 msgid "Logger"
-msgstr ""
+msgstr "Gestore dei log"
 
 #: plugins/logger/logger.cpp:35
 msgid ""
@@ -4356,7 +4361,7 @@ msgid ""
 "To log errors, set loglevel to 1, for warnings to 2 and for debug-messages to 4\n"
 "If you want to log more than one you may add the levels"
 msgstr ""
-"Questo plugin registra gli eventi\n"
+"Questo plugin gestisce i log\n"
 "Puoi imposta il livello di debug dalla riga di comando con -d<livello>\n"
 "Per registrare gli errori, imposta ad 1 il livello, per gil avvertimenti impostalo a 2 e per i messaggi di debug a 4\n"
 "Se vuoi registrare contemporaneamente alcuni di questi, somma i loro livelli"
@@ -5023,7 +5028,7 @@ msgstr "Brasile"
 
 #: sim/api/country.cpp:56
 msgid "British Virgin Islands"
-msgstr "Vergini, Isole"
+msgstr "Vergini, Isole (britanniche)"
 
 #: sim/api/country.cpp:57
 msgid "Brunei"
@@ -5811,7 +5816,7 @@ msgstr "Regno Unito"
 
 #: sim/api/country.cpp:253
 msgid "United States Virgin Islands"
-msgstr ""
+msgstr "Vergini, Isole (statunitensi)"
 
 #: sim/api/country.cpp:254
 msgid "Uruguay"
@@ -5950,15 +5955,15 @@ msgstr "Imbarazzato"
 
 #: sim/api/simapi.cpp:614
 msgid "Uptight"
-msgstr ""
+msgstr "Disappunto"
 
 #: sim/api/simapi.cpp:615
 msgid "Teaser"
-msgstr ""
+msgstr "Linguaccia"
 
 #: sim/api/simapi.cpp:616
 msgid "Cool"
-msgstr ""
+msgstr "Figo"
 
 #: sim/api/simapi.cpp:617
 msgid "Angel"
@@ -5966,7 +5971,7 @@ msgstr "Angelo"
 
 #: sim/api/simapi.cpp:618
 msgid "Grin"
-msgstr ""
+msgstr "Ghigno"
 
 #: sim/api/socket.cpp:143
 msgid "Read socket error"
@@ -6029,7 +6034,7 @@ msgstr "SSL: errore di inizializzazione"
 
 #: sim/sim.cpp:187
 msgid "Multiprotcol instant messenger"
-msgstr ""
+msgstr "Programma multiprotocollo per messaggi istantanei"
 
 #: sim/sim.cpp:193
 msgid "Maintainer"
@@ -6462,11 +6467,11 @@ msgstr "Riga %1"
 
 #: sim/ui/qt3/i18n.cpp:245
 msgid "Undo"
-msgstr ""
+msgstr "Annulla operazione"
 
 #: sim/ui/qt3/i18n.cpp:247
 msgid "Redo"
-msgstr ""
+msgstr "Ripeti operazione"
 
 #: sim/ui/qt3/i18n.cpp:249
 msgid "Cut"
