@@ -30,7 +30,6 @@ class Themes : public QObject
     Q_OBJECT
 public:
     Themes(QWidget *parent);
-    ~Themes();
     QString getTheme() { return current; }
     void fillList(QListBox*);
 public slots:
