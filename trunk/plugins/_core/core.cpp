@@ -2863,44 +2863,45 @@ void *CorePlugin::processEvent(Event *e)
                 setShowPanel((cmd->flags & COMMAND_CHECKED) != 0);
                 showPanel();
             }
-            return NULL;
         }
-    }
-    if (e->type() == EventGoURL){
-        string url = (const char*)(e->param());
-        string proto;
-        int n = url.find(':');
-        if (n < 0)
-            return NULL;
-        proto = url.substr(0, n);
-        if (proto == "sms"){
+        return NULL;
+    case EventGoURL:{
+            string url = (const char*)(e->param());
+            string proto;
+            int n = url.find(':');
+            if (n < 0)
+                return NULL;
+            proto = url.substr(0, n);
+            if (proto == "sms"){
+                url = url.substr(proto.length() + 1);
+                while (url[0] == '/')
+                    url = url.substr(1);
+                Contact *contact = getContacts()->contactByPhone(url.c_str());
+                if (contact){
+                    Command cmd;
+                    cmd->id		 = MessageSMS;
+                    cmd->menu_id = MenuMessage;
+                    cmd->param	 = (void*)(contact->id());
+                    Event eCmd(EventCommandExec, cmd);
+                    eCmd.process();
+                }
+                return e->param();
+            }
+            if (proto != "sim")
+                return NULL;
             url = url.substr(proto.length() + 1);
-            while (url[0] == '/')
-                url = url.substr(1);
-            Contact *contact = getContacts()->contactByPhone(url.c_str());
+            unsigned contact_id = atol(url.c_str());
+            Contact *contact = getContacts()->contact(contact_id);
             if (contact){
                 Command cmd;
-                cmd->id		 = MessageSMS;
+                cmd->id		 = MessageGeneric;
                 cmd->menu_id = MenuMessage;
-                cmd->param	 = (void*)(contact->id());
+                cmd->param	 = (void*)contact_id;
                 Event eCmd(EventCommandExec, cmd);
                 eCmd.process();
             }
-            return e->param();
         }
-        if (proto != "sim")
-            return NULL;
-        url = url.substr(proto.length() + 1);
-        unsigned contact_id = atol(url.c_str());
-        Contact *contact = getContacts()->contact(contact_id);
-        if (contact){
-            Command cmd;
-            cmd->id		 = MessageGeneric;
-            cmd->menu_id = MenuMessage;
-            cmd->param	 = (void*)contact_id;
-            Event eCmd(EventCommandExec, cmd);
-            eCmd.process();
-        }
+        return NULL;
     }
     return NULL;
 }

@@ -570,7 +570,7 @@ QString AuthMessage::presentation()
 
 static DataDef messageStatusData[] =
     {
-        { "Status", DATA_ULONG, 1, (char*)STATUS_UNKNOWN },
+        { "Status", DATA_ULONG, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 

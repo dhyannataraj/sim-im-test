@@ -1,6 +1,5 @@
 #MIN_CONFIG
 
-
 AC_LANG_CPLUSPLUS
 AM_INIT_AUTOMAKE(sim,0.9.3)
 AC_STDC_HEADERS
@@ -75,46 +74,27 @@ AC_SUBST(EXTRA_LIBS)
 sim_plugindir="${kde_datadir}/sim/plugins"
 AC_SUBST(sim_plugindir)
 
-AC_CHECK_HEADER(expat.h, [expat="yes"])
-if test "x$expat" = "xyes"; then
-        expat="no"
-        AC_CHECK_LIB(expat, XML_Parse, [expat="yes"; LIB_EXPAT="-lexpat"])
-	AC_SUBST(LIB_EXPAT)
-fi
-if test "x$expat" != "xyes"; then
-   AC_MSG_ERROR([No expat library found!
-See: http://sf.net/projects/expat
-])
-fi
-LIB_SABLOT=""
-SABLOT_CONFIG=sablot-config
-if ! which $SABLOT_CONFIG; then
-   AC_MSG_ERROR([Executable sablot-config not found!
-Seems you have no sablotron devel files installed.
+LIB_XML2=""
+XML2_CONFIG=xml2-config
+if ! which $XML2_CONFIG; then
+   AC_MSG_ERROR([Executable xml2-config not found!
+Seems you have no libxml2 devel files installed.
 ])
 fi
 
-LIB_SABLOT=`$SABLOT_CONFIG --libs 2>/dev/null`
-if test "x$LIBS_SSL" != "x" ; then
-    CPPFLAGS="$CPPFLAGS `$SABLOT_CONFIG --cflags`"
+LIB_XML2=`$XML2_CONFIG --libs 2>/dev/null`
+CPPFLAGS="$CPPFLAGS `$XML2_CONFIG --cflags`"
+
+LIB_XSLT=""
+XSLT_CONFIG=xslt-config
+if ! which $XSLT_CONFIG; then
+   AC_MSG_ERROR([Executable xslt-config not found!
+Seems you have no libxslt devel files installed.
+])
 fi
 
-  AC_CHECK_HEADER(sablot.h, [sablot="yes"])
-  if test "x$sablot" = "xyes"; then
-	sablot="no"
-	save_libs="$LIBS"
-	LIBS="$LIBS $LIB_SABLOT"
-	AC_CHECK_LIB(sablot, SablotCreateProcessor,
-		[sablot="yes"; LIB_SABLOT="$LIB_SABLOT -lsablot"])
-	AC_SUBST(LIB_SABLOT)
-	LIBS="$save_libs"
-  fi
-  if test "x$sablot" != "xyes"; then
-   AC_MSG_ERROR([No sablotron library found!
-See: http://www.gingerall.org/
-])
-  fi
-
+LIB_XSLT=`$XSLT_CONFIG --libs 2>/dev/null`
+CPPFLAGS="$CPPFLAGS `$XSLT_CONFIG --cflags`"
 
 if test "$WITH_OPENSSL" = "no"; then
   echo ""

@@ -13,7 +13,7 @@ INCLUDES=-I../../sim/api -I../../sim/ui -I../_core $(all_includes)
 
 icons_la_METASOURCES = AUTO
 icons_la_LIBADD = ../../sim/api/libsimapi.la $(LIBUI) $(LIB_QT) $(EXTRA_LIBS)
-icons_la_LDFLAGS = -module -no-undefined -avoid-version $(LIB_EXPAT) $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
+icons_la_LDFLAGS = -module -no-undefined -avoid-version $(LIB_XML2) $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 install-data-hook:
 	rm -rf $(DESTDIR)$(sim_plugindir)/icons.la

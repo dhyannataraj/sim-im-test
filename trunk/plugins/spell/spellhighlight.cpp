@@ -85,32 +85,39 @@ void SpellHighlighter::tag_start(const QString &tag, const list<QString> &opt)
         flush();
         m_pos++;
     }
-    if (tag == "font"){
+    if (tag == "span"){
         QString key;
         QString val;
-        for (list<QString>::const_iterator it = opt.begin(); it != opt.end(); ++it){
+        list<QString>::const_iterator it;
+        for (it = opt.begin(); it != opt.end(); ++it){
             key = (*it);
             ++it;
             val = (*it);
-            if (key == "color")
+            if (key == "style")
                 break;
         }
-        if (val.lower() == "#ff0101"){
-            m_bError = true;
-            m_fonts.push(true);
-        }else{
-            m_fonts.push(false);
+        if (it != opt.end()){
+            list<QString> styles = parseStyle(val);
+            for (it = styles.begin(); it != styles.end(); ++it){
+                key = (*it);
+                ++it;
+                val = (*it);
+                if ((key == "color") && (val.lower() == "#ff0101")){
+                    m_bError = true;
+                    break;
+                }
+            }
         }
+        m_fonts.push(m_bError);
     }
 }
 
 void SpellHighlighter::tag_end(const QString &tag)
 {
-    if (tag == "font"){
+    if (tag == "span"){
         if (m_fonts.empty())
             return;
-        if (m_fonts.top())
-            m_bError = false;
+        m_bError = m_fonts.top();
         m_fonts.pop();
     }
 }

@@ -56,8 +56,8 @@ Name: "el"; MessagesFile: "Greek.isl"
 Source: "..\Release\sim.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Release\simctrl.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Release\simipc.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\Release\simremote.dll"; DestDir: "{app}"; Flags: regserver
-Source: "..\Release\simext.dll"; DestDir: "{app}"; Flags: regserver
+Source: "..\Release\simremote.dll"; DestDir: "{app}"; Flags: ignoreversion regserver
+Source: "..\Release\simext.dll"; DestDir: "{app}"; Flags: ignoreversion regserver
 Source: "..\Release\simapi.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Release\simui.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Release\qjpegio.dll"; DestDir: "{app}"; Flags: ignoreversion

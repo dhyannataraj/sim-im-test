@@ -320,10 +320,11 @@ void JabberClient::connected()
     startHandshake();
     TCPClient::connect_ready();
     if (!m_bXML){
-        m_parser = XML_ParserCreate("UTF-8");
-        XML_SetUserData(m_parser, this);
-        XML_SetElementHandler(m_parser, p_element_start, p_element_end);
-        XML_SetCharacterDataHandler(m_parser, p_char_data);
+        memset(&m_handler, 0, sizeof(m_handler));
+        m_handler.startElement = p_element_start;
+        m_handler.endElement   = p_element_end;
+        m_handler.characters   = p_char_data;
+        m_context = xmlCreatePushParserCtxt(&m_handler, this, "", 0, "");
         m_bXML = true;
     }
 }
@@ -334,8 +335,7 @@ void JabberClient::packet_ready()
         return;
     JabberPlugin *plugin = static_cast<JabberPlugin*>(protocol()->plugin());
     log_packet(m_socket->readBuffer, false, plugin->JabberPacket);
-    if (XML_Parse(m_parser,
-                  m_socket->readBuffer.data(), m_socket->readBuffer.writePos(), false) != XML_STATUS_OK)
+    if (xmlParseChunk(m_context, m_socket->readBuffer.data(), m_socket->readBuffer.writePos(), 0))
         m_socket->error_state("XML parse error");
     m_socket->readBuffer.init(0);
     m_socket->readBuffer.packetStart();
@@ -776,7 +776,7 @@ void JabberClient::disconnected()
         m_browser = NULL;
     }
     if (m_bXML){
-        XML_ParserFree(m_parser);
+        xmlFreeParserCtxt(m_context);
         m_bXML = false;
     }
     for (list<ServerRequest*>::iterator it = m_requests.begin(); it != m_requests.end(); ++it)
@@ -819,19 +819,19 @@ void JabberClient::sendPacket()
     m_socket->write();
 }
 
-void JabberClient::p_element_start(void *data, const char *el, const char **attr)
+void JabberClient::p_element_start(void *data, const xmlChar *el, const xmlChar **attr)
 {
-    ((JabberClient*)data)->element_start(el, attr);
+    ((JabberClient*)data)->element_start((char*)el, (const char**)attr);
 }
 
-void JabberClient::p_element_end(void *data, const char *el)
+void JabberClient::p_element_end(void *data, const xmlChar *el)
 {
-    ((JabberClient*)data)->element_end(el);
+    ((JabberClient*)data)->element_end((char*)el);
 }
 
-void JabberClient::p_char_data(void *data, const char *str, int len)
+void JabberClient::p_char_data(void *data, const xmlChar *str, int len)
 {
-    ((JabberClient*)data)->char_data(str, len);
+    ((JabberClient*)data)->char_data((char*)str, len);
 }
 
 string JabberClient::get_attr(const char *name, const char **attr)
