@@ -327,11 +327,19 @@ SIMServerSocket::SIMServerSocket(unsigned short minPort, unsigned short maxPort)
 {
     sn = NULL;
     sock = new QSocketDevice;
-    for (m_nPort = minPort; m_nPort <= maxPort; m_nPort++){
-        if (sock->bind(QHostAddress(), m_nPort))
+	unsigned startPort = minPort + get_random() % (maxPort - minPort + 1);
+	bool bOK = false;
+    for (m_nPort = startPort;;){
+        if (sock->bind(QHostAddress(), m_nPort)){
+			bOK = true;
             break;
+		}
+		if (++m_nPort > maxPort)
+			m_nPort = minPort;
+		if (m_nPort == startPort)
+			break;
     }
-    if ((m_nPort > maxPort) || !sock->listen(50)){
+    if (!bOK || !sock->listen(50)){
         delete sock;
         sock = NULL;
         return;

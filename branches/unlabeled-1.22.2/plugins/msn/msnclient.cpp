@@ -1594,7 +1594,7 @@ SBSocket::SBSocket(MSNClient *client, Contact *contact, MSNUserData *data)
     m_socket	= new ClientSocket(this);
     m_packet_id = 0;
     m_messageSize = 0;
-    m_invite_cookie    = 0;
+    m_invite_cookie = get_random();
 	m_bTyping	= false;
     m_client->m_SBsockets.push_back(this);
 }
@@ -2239,9 +2239,11 @@ void SBSocket::sendFile()
         return;
     m_queue.erase(m_queue.begin());
     FileMessage *m = static_cast<FileMessage*>(msg);
+	if (++m_invite_cookie == 0)
+		m_invite_cookie++;
     msgInvite mi;
     mi.msg    = msg;
-    mi.cookie = ++m_invite_cookie;
+    mi.cookie = m_invite_cookie;
     m_waitMsg.push_back(mi);
     string message;
     message += "MIME-Version: 1.0\r\n";
