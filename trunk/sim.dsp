@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /O1 /I "$(QTDIR)\include" /I "sim" /I "sim\libicq" /I "sim\qt3" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "QT_DLL" /D "UNICODE" /D "QT_THREAD_SUPPORT" /D "NO_DEBUG" /D PACKAGE=\"SIM\" /D VERSION=\"0.7\" /FD /c
+# ADD CPP /nologo /MD /W3 /O1 /I "$(QTDIR)\include" /I "sim" /I "sim\libicq" /I "sim\qt3" /I "\openssl\include" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "QT_DLL" /D "UNICODE" /D "QT_THREAD_SUPPORT" /D "NO_DEBUG" /D PACKAGE=\"SIM\" /D VERSION=\"0.7\" /D USE_OPENSSL=1 /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "NDEBUG"
@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib $(QTDIR)\lib\qt-mt230nc.lib $(QTDIR)\lib\qtmain.lib idle\Release\idletrac.lib winmm.lib /nologo /subsystem:windows /machine:I386
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib $(QTDIR)\lib\qt-mt230nc.lib $(QTDIR)\lib\qtmain.lib idle\Release\idletrac.lib winmm.lib \openssl\lib\ssleay32.lib \openssl\lib\libeay32.lib /nologo /subsystem:windows /machine:I386
 
 !ELSEIF  "$(CFG)" == "sim - Win32 Debug"
 
@@ -5149,7 +5149,7 @@ SOURCE=.\po\ru.po
 OutDir=.\Release
 InputPath=.\po\ru.po
 
-"$(OutDir)\pu.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\ru.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	$(QTDIR)\bin\msg2qm $(InputPath) 
 	move tr.qm $(OutDir)\po\ru.qm 
 	
