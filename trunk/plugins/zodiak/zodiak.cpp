@@ -82,9 +82,8 @@ ZodiakPlugin::ZodiakPlugin(unsigned base)
 
 ZodiakPlugin::~ZodiakPlugin()
 {
-    for (list<Picker>::iterator it = m_pickers.begin(); it != m_pickers.end(); ++it){
-        delete (*it).label;
-    }
+    // The labels we created would be destroyed on their own, since their parent object
+    // (the DatePicker) is destroyed. We just clean the list so it won't contain stale Pickers.
     m_pickers.clear();
 }
 
