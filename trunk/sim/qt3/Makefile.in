@@ -1,6 +1,5 @@
 # Makefile.in generated automatically by automake 1.5 from Makefile.am.
 # KDE tags expanded automatically by am_edit - $Revision: 1.1.1.1 $ 
-
 # Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
 # Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -513,9 +512,6 @@ uninstall-am: uninstall-info-am
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
 
-#>+ 3
-qtextbrowser.moc: $(srcdir)/qtextbrowser.h
-	$(MOC) $(srcdir)/qtextbrowser.h -o qtextbrowser.moc
 
 #>+ 3
 qstylesheet.moc: $(srcdir)/qstylesheet.h
@@ -526,12 +522,16 @@ qrichtext_p.moc: $(srcdir)/qrichtext_p.h
 	$(MOC) $(srcdir)/qrichtext_p.h -o qrichtext_p.moc
 
 #>+ 3
+qtextbrowser.moc: $(srcdir)/qtextbrowser.h
+	$(MOC) $(srcdir)/qtextbrowser.h -o qtextbrowser.moc
+
+#>+ 3
 qtextedit.moc: $(srcdir)/qtextedit.h
 	$(MOC) $(srcdir)/qtextedit.h -o qtextedit.moc
 
 #>+ 3
 clean-metasources:
-	-rm -f  qtextbrowser.moc qstylesheet.moc qrichtext_p.moc qtextedit.moc
+	-rm -f  qstylesheet.moc qrichtext_p.moc qtextbrowser.moc qtextedit.moc
 
 #>+ 2
 docs-am:
@@ -550,12 +550,12 @@ force-reedit:
 
 
 #>+ 15
-libqt3_a_meta_unload.cpp:  qtextbrowser.moc qrichtext_p.moc qstylesheet.moc qtextedit.moc
+libqt3_a_meta_unload.cpp:  qrichtext_p.moc qstylesheet.moc qtextbrowser.moc qtextedit.moc
 	@echo 'creating libqt3_a_meta_unload.cpp'
 	@-rm -f libqt3_a_meta_unload.cpp
 	@if test ${kde_qtver} = 2; then \
 		echo 'static const char * _metalist_libqt3_a[] = {' > libqt3_a_meta_unload.cpp ;\
-		cat  qtextbrowser.moc qrichtext_p.moc qstylesheet.moc qtextedit.moc | grep 'char.*className' | sed -e 's/.*[^A-Za-z0-9_:]\([A-Za-z0-9_:]*\)::className.*$$/\"\1\",/' | sort | uniq >> libqt3_a_meta_unload.cpp ;\
+		cat  qrichtext_p.moc qstylesheet.moc qtextbrowser.moc qtextedit.moc | grep 'char.*className' | sed -e 's/.*[^A-Za-z0-9_:]\([A-Za-z0-9_:]*\)::className.*$$/\"\1\",/' | sort | uniq >> libqt3_a_meta_unload.cpp ;\
 		echo '0};' >> libqt3_a_meta_unload.cpp ;\
 		echo '#include "defs.h"' >> libqt3_a_meta_unload.cpp ;\
 		echo '#ifdef USE_KDE' >> libqt3_a_meta_unload.cpp ;\
@@ -606,11 +606,11 @@ kde-rpo-clean:
 	-rm -f *.rpo
 
 #>+ 9
+qtextedit.lo: qtextedit.moc 
+qstylesheet.lo: qstylesheet.moc 
+qtextbrowser.o: qtextbrowser.moc 
+qrichtext_p.o: qrichtext_p.moc 
 qtextbrowser.lo: qtextbrowser.moc 
 qrichtext_p.lo: qrichtext_p.moc 
-qstylesheet.lo: qstylesheet.moc 
-qtextedit.lo: qtextedit.moc 
-qtextbrowser.o: qtextbrowser.moc 
-qstylesheet.o: qstylesheet.moc 
-qrichtext_p.o: qrichtext_p.moc 
 qtextedit.o: qtextedit.moc 
+qstylesheet.o: qstylesheet.moc 

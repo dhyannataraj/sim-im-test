@@ -738,7 +738,7 @@ void MainWindow::messageReceived(ICQMessage *msg)
     CUser user(u);
     xosd->setMessage(i18n("%1 from %2 received")
                      .arg(pClient->getMessageText(msg->Type()))
-                     .arg(user.name()));
+                     .arg(user.name()), u->Uin());
 }
 
 void MainWindow::processEvent(ICQEvent *e)
@@ -843,7 +843,7 @@ void MainWindow::processEvent(ICQEvent *e)
                 if (u->AlertSound()) playSound(OnlineAlert.c_str());
                 if (u->AlertOnScreen()){
                     CUser user(e->Uin());
-                    xosd->setMessage(i18n("User %1 is online") .arg(user.name()));
+                    xosd->setMessage(i18n("User %1 is online") .arg(user.name()), e->Uin());
                 }
                 if (u->AlertPopup()){
                     AlertMsgDlg *dlg = new AlertMsgDlg(this, e->Uin());

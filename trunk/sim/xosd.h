@@ -31,14 +31,17 @@ public:
     XOSD(QWidget *parent);
 public slots:
     void init();
-    void setMessage(const QString&);
+    void setMessage(const QString&, unsigned long uin);
 protected slots:
-    void set(const QString&);
+    void set(const QString&, unsigned long uin);
     void timeout();
 protected:
+    unsigned long uin;
     void paintEvent(QPaintEvent*);
+    void mouseDoubleClickEvent(QMouseEvent*);
     QPixmap bgPict;
     QStringList msg;
+    QValueList<unsigned long> uins;
 };
 
 #endif
