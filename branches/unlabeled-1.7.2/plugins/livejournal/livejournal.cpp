@@ -372,7 +372,7 @@ const CommandDef *LiveJournalProtocol::statusList()
 
 static DataDef liveJournalUserData[] =
     {
-        { "", DATA_ULONG, 1, DATA(LIVEJOURNAL_SIGN) },		// Sign
+        { "", DATA_ULONG, 1, DATA(5) },		// Sign
         { "LastSend", DATA_ULONG, 1, 0 },
         { "User", DATA_UTF, 1, 0 },
         { "Shared", DATA_BOOL, 1, 0 },
