@@ -51,7 +51,7 @@
             </property>
         </widget>
         <widget>
-            <class>QGroupBox</class>
+            <class>QButtonGroup</class>
             <property stdset="1">
                 <name>name</name>
                 <cstring>grpWindow</cstring>
