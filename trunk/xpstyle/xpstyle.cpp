@@ -291,7 +291,7 @@ void QWindowsXPStyle::polish( QWidget *widget )
     } else if ( widget->inherits( "QWidgetStack" ) &&
 		widget->parentWidget() &&
 		widget->parentWidget()->inherits( "QTabWidget" ) ) {
-	widget->setPaletteBackgroundPixmap( *d->tabBody( widget ) );
+	widget->setBackgroundPixmap( *d->tabBody( widget ) );
     } else if ( widget->inherits( "QMenuBar" ) ) {
 	QPalette pal = widget->palette();
 
@@ -326,7 +326,7 @@ void QWindowsXPStyle::unPolish( QWidget *widget )
     } else if ( widget->inherits( "QWidgetStack" ) &&
 		widget->parentWidget() &&
 		widget->parentWidget()->inherits( "QTabWidget" ) ) {
-	widget->setPaletteBackgroundPixmap( QPixmap() );
+	widget->setBackgroundPixmap( QPixmap() );
     } else if ( widget->inherits( "QTabBar" ) ) {
 	disconnect( widget, SIGNAL(selected(int)), this, SLOT(activeTabChanged()) );
     }
@@ -360,6 +360,32 @@ void QWindowsXPStyle::updateRegion( QWidget *widget )
     }
 }
 
+class QMyTabBar : public QTabBar
+{
+public:
+	virtual QTab* selectTab ( const QPoint & p ) const;
+private:
+	QMyTabBar();
+};
+
+QTab *QMyTabBar::selectTab(const QPoint &p) const
+{
+	return QTabBar::selectTab(p);
+};
+
+class QMyHeader : public QHeader
+{
+public:
+	QRect sectionRect ( int index );
+private:
+	QMyHeader();
+};
+
+QRect QMyHeader::sectionRect(int index)
+{
+	return QHeader::sRect(index);
+}
+
 // HotSpot magic
 /*! \reimp */
 bool QWindowsXPStyle::eventFilter( QObject *o, QEvent *e )
@@ -381,14 +407,14 @@ bool QWindowsXPStyle::eventFilter( QObject *o, QEvent *e )
 	    d->hotSpot = me->pos();
 
 	    if ( o->inherits( "QTabBar" ) ) {
-		QTabBar* bar = (QTabBar*)o;
+		QMyTabBar* bar = (QMyTabBar*)o;
 		QTab * t = bar->selectTab( me->pos() );
 		if ( d->hotTab != t ) {
 		    d->hotTab = t;
 		    widget->repaint( FALSE );
 		}
 	    } else if ( o->inherits( "QHeader" ) ) {
-		QHeader *header = (QHeader*)o;
+		QMyHeader *header = (QMyHeader*)o;
 		QRect oldHeader = d->hotHeader;
 		
 		if ( header->orientation() == Horizontal )
@@ -402,6 +428,7 @@ bool QWindowsXPStyle::eventFilter( QObject *o, QEvent *e )
 		    if ( d->hotHeader.isValid() )
 			header->update( d->hotHeader );
 		}
+/*
 	    } else if ( o->inherits( "QTitleBar" ) ) {
 		static SubControl clearHot = SC_TitleBarLabel;
 		QTitleBar *titlebar = (QTitleBar*)o;
@@ -414,6 +441,7 @@ bool QWindowsXPStyle::eventFilter( QObject *o, QEvent *e )
 		    rect = visualRect( querySubControlMetrics( CC_TitleBar, titlebar, sc ), titlebar );
 		    titlebar->repaint( rect, FALSE );
 		}
+*/
 	    } else if ( o->inherits( "QSlider" ) ) {
 		static clearSlider = FALSE;
 		QSlider *slider = (QSlider*)o;
@@ -465,7 +493,7 @@ bool QWindowsXPStyle::eventFilter( QObject *o, QEvent *e )
 	break;
 
     case QEvent::Move:
-	if ( widget->paletteBackgroundPixmap() &&
+	if ( widget->backgroundPixmap() &&
 	     widget->backgroundOrigin() != QWidget::WidgetOrigin )
 	    widget->update();
 	break;
