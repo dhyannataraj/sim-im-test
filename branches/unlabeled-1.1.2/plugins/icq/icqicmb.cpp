@@ -914,8 +914,15 @@ string ICQClient::packMessage(Message *msg, ICQUserData *data, unsigned short &t
                 res += fromUnicode(contact, data);
             }
             res += (char)0xFE;
+            type = ICQ_MSGxCONTACTxLIST;
             break;
         }
+    case MessageOpenSecure:
+        type = ICQ_MSGxSECURExOPEN;
+        break;
+    case MessageCloseSecure:
+        type = ICQ_MSGxSECURExCLOSE;
+        break;
     }
     return res;
 }

@@ -3598,6 +3598,10 @@ SOURCE=.\xpm\editpaste.xpm
 # End Source File
 # Begin Source File
 
+SOURCE=.\xpm\encrypted.xpm
+# End Source File
+# Begin Source File
+
 SOURCE=.\xpm\exit.xpm
 # End Source File
 # Begin Source File

@@ -218,7 +218,7 @@ string SoundPlugin::messageSound(unsigned type, SoundUserData *data)
         return "";
     if (sound.empty()){
         def = core->messageTypes.find(type);
-        if (def == NULL)
+        if ((def == NULL) || (def->icon == NULL))
             return "";
         sound = def->icon;
         sound += ".wav";

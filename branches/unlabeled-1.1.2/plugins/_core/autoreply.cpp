@@ -101,5 +101,6 @@ void AutoReplyDialog::accept()
 }
 
 #ifndef WIN32
+#include "autoreply.moc"
 #endif
 

@@ -184,6 +184,7 @@ public:
     virtual void pause(unsigned);
     bool connected() { return m_bSecure; }
     Socket *socket() { return sock; }
+    void setSocket(Socket *s);
     bool init();
     void accept();
     void connect();

@@ -41,7 +41,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
     CommandsMapIterator it(m_plugin->core->messageTypes);
     while ((cmd = ++it) != NULL){
         MessageDef *def = (MessageDef*)(cmd->param);
-        if (def->base_type)
+        if ((def == NULL) || (def->base_type) || (cmd->icon == NULL) || (def->flags & MESSAGE_HIDDEN))
             continue;
         QLabel *lbl = new QLabel(this);
         lbl->setAlignment(AlignRight);

@@ -1312,7 +1312,7 @@ bool JabberClient::send(Message *msg, void *_data)
 
 string JabberClient::dataName(void *_data)
 {
-    string res = name();
+    QString res(name().c_str());
     JabberUserData *data = (JabberUserData*)_data;
     res += "+";
     res += data->ID;
@@ -1320,7 +1320,8 @@ string JabberClient::dataName(void *_data)
         res += "@";
         res += data->VHost;
     }
-    return res;
+    res = res.replace(QRegExp("/"), "_");
+    return res.utf8();
 }
 
 void JabberClient::listRequest(JabberUserData *data, const char *name, const char *grp, bool bDelete)

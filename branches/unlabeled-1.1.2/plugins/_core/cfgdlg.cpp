@@ -473,6 +473,8 @@ void ConfigureDialog::apply()
     }
     if (lstBox->currentItem())
         static_cast<ConfigItem*>(lstBox->currentItem())->show();
+    Event e(EventSaveState);
+    e.process();
 }
 
 void *ConfigureDialog::processEvent(Event *e)

@@ -752,6 +752,48 @@ static MessageDef defEmailPager =
         NULL
     };
 
+#if 0
+i18n("Request secure channel", "%n requests secure channel", 1);
+#endif
+
+static Message *createOpenSecure(const char *cfg)
+{
+    return new Message(MessageOpenSecure, cfg);
+}
+
+static MessageDef defOpenSecure =
+    {
+        NULL,
+        MESSAGE_HIDDEN,
+        0,
+        "Request secure channel",
+        "%n requests secure channel",
+        createOpenSecure,
+        NULL,
+        NULL
+    };
+
+#if 0
+i18n("Close secure channel", "%n times close secure channel", 1);
+#endif
+
+static Message *createCloseSecure(const char *cfg)
+{
+    return new Message(MessageCloseSecure, cfg);
+}
+
+static MessageDef defCloseSecure =
+    {
+        NULL,
+        MESSAGE_HIDDEN,
+        0,
+        "Close secure channel",
+        "%n times close secure channel",
+        createCloseSecure,
+        NULL,
+        NULL
+    };
+
 static Message *createIcqAuthRequest(const char *cfg)
 {
     return new ICQAuthMessage(MessageICQAuthRequest, cfg);
@@ -1142,6 +1184,7 @@ void ICQPlugin::registerMessages()
     cmd->id			= MessageICQ;
     cmd->text		= "ICQ";
     cmd->icon		= "message";
+    cmd->accel		= NULL;
     cmd->menu_grp	= 0;
     cmd->param		= &defIcq;
     eMsg.process();
@@ -1188,6 +1231,20 @@ void ICQPlugin::registerMessages()
     cmd->menu_grp	= 0;
     cmd->param		= &defEmailPager;
     eMsg.process();
+
+    cmd->id			= MessageOpenSecure;
+    cmd->text		= "Request secure channel";
+    cmd->icon		= "encrypted";
+    cmd->menu_grp	= 0x30F0;
+    cmd->param		= &defOpenSecure;
+    eMsg.process();
+
+    cmd->id			= MessageCloseSecure;
+    cmd->text		= "Close secure channel";
+    cmd->icon		= "encrypted";
+    cmd->menu_grp	= 0x30F0;
+    cmd->param		= &defCloseSecure;
+    eMsg.process();
 }
 
 void ICQPlugin::unregisterMessages()
@@ -1218,6 +1275,12 @@ void ICQPlugin::unregisterMessages()
 
     Event ePager(EventRemoveMessageType, (void*)MessageEmailPager);
     ePager.process();
+
+    Event eOpenSecure(EventRemoveMessageType, (void*)MessageOpenSecure);
+    eOpenSecure.process();
+
+    Event eCloseSecure(EventRemoveMessageType, (void*)MessageCloseSecure);
+    eCloseSecure.process();
 }
 
 void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *data, unsigned uin, bool bDirect)

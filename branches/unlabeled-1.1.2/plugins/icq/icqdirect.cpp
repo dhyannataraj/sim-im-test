@@ -15,6 +15,24 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "simapi.h"
+
+#ifdef USE_OPENSSL
+#include <openssl/ssl.h>
+#include <openssl/err.h>
+#include <openssl/bio.h>
+#include <openssl/rand.h>
+#endif
+
+#include "simapi.h"
+
+#ifdef USE_OPENSSL
+#include <openssl/ssl.h>
+#include <openssl/err.h>
+#include <openssl/bio.h>
+#include <openssl/rand.h>
+#endif
+
 #include "icqclient.h"
 #include "icqmessage.h"
 
@@ -150,7 +168,8 @@ void DirectSocket::connect()
             return;
         }
     }
-    m_socket->error_state("Can't established direct connection");
+    m_state = ConnectFail;
+    m_socket->error_state(I18N_NOOP("Can't established direct connection"));
 }
 
 void DirectSocket::packet_ready()
@@ -327,6 +346,9 @@ DirectClient::DirectClient(Socket *s, ICQClient *client)
         : DirectSocket(s, client)
 {
     m_state = WaitLogin;
+#ifdef USE_OPENSSL
+    m_ssl = NULL;
+#endif
 }
 
 DirectClient::DirectClient(ICQUserData *data, ICQClient *client, unsigned channel)
@@ -334,22 +356,14 @@ DirectClient::DirectClient(ICQUserData *data, ICQClient *client, unsigned channe
 {
     m_state   = None;
     m_channel = channel;
+#ifdef USE_OPENSSL
+    m_ssl = NULL;
+#endif
 }
 
 DirectClient::~DirectClient()
 {
-    for (list<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
-        SendDirectMsg &sm = *it;
-        if (sm.msg){
-            if (!m_client->sendThruServer(sm.msg, m_data)){
-                sm.msg->setError(I18N_NOOP("Send message fail"));
-                Event e(EventMessageSent, sm.msg);
-                delete sm.msg;
-            }
-        }else{
-            m_client->addPluginInfoRequest(m_data->Uin, sm.type);
-        }
-    }
+    error_state(NULL, 0);
     switch (m_channel){
     case PLUGIN_NULL:
         if (m_data && (m_data->Direct == this))
@@ -364,6 +378,18 @@ DirectClient::~DirectClient()
             m_data->DirectPluginStatus = NULL;
         break;
     }
+#ifdef USE_OPENSSL
+    secureStop(false);
+#endif
+}
+
+bool DirectClient::isSecure()
+{
+#ifdef USE_OPENSSL
+    return m_ssl && m_ssl->connected();
+#else
+    return false;
+#endif
 }
 
 void DirectClient::processPacket()
@@ -485,7 +511,6 @@ void DirectClient::processPacket()
     m_socket->readBuffer.incReadPos(12);
 
     unsigned short type, ackFlags, msgFlags;
-    unsigned short id1 = 0;
     m_socket->readBuffer.unpack(type);
     m_socket->readBuffer.unpack(ackFlags);
     m_socket->readBuffer.unpack(msgFlags);
@@ -537,6 +562,21 @@ void DirectClient::processPacket()
                 e.process();
                 return;
             }
+        case ICQ_MSGxSECURExOPEN:
+        case ICQ_MSGxSECURExCLOSE:
+            msg_str = "";
+#ifdef USE_OPENSSL
+            msg_str = "1";
+#endif
+            sendAck(seq, type, msg_str.c_str());
+#ifdef USE_OPENSSL
+            if (type == ICQ_MSGxSECURExOPEN){
+                secureListen();
+            }else{
+                secureStop(true);
+            }
+#endif
+            return;
         }
         if (m_channel == PLUGIN_NULL){
             m = m_client->parseMessage(type, m_data->Uin, msg_str, m_socket->readBuffer, 0, 0, seq, 0);
@@ -544,7 +584,10 @@ void DirectClient::processPacket()
                 m_socket->error_state("Start without message");
                 return;
             }
-            m->setFlags(m->getFlags() | MESSAGE_RECEIVED | MESSAGE_DIRECT);
+            unsigned flags = m->getFlags() | MESSAGE_RECEIVED | MESSAGE_DIRECT;
+            if (isSecure())
+                flags |= MESSAGE_SECURE;
+            m->setFlags(flags);
             sendAck(seq, type);
             m_client->messageReceived(m, m_data->Uin);
         }else{
@@ -610,13 +653,30 @@ void DirectClient::processPacket()
                     Event e(EventMessageCancel, msg);
                     e.process();
                 }else{
+#ifdef USE_OPENSSL
+                    switch (msg->type()){
+                    case MessageCloseSecure:
+                        secureStop(true);
+                        break;
+                    case MessageOpenSecure:
+                        if (*msg_str.c_str() == 0){
+                            msg->setError(I18N_NOOP("Other side does not support the secure connection"));
+                        }else{
+                            secureConnect();
+                        }
+                        return;
+                    }
+#endif
                     if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
                         if ((msg->type() == MessageGeneric) && ((*it).type != CAP_RTF)){
                             Message m;
                             m.setContact(msg->contact());
                             m.setClient(msg->client());
                             m.setText(msg->getPlainText());
-                            m.setFlags(MESSAGE_DIRECT);
+                            unsigned flags = MESSAGE_DIRECT;
+                            if (isSecure())
+                                flags |= MESSAGE_SECURE;
+                            m.setFlags(flags);
                             if (msg->getBackground() != msg->getForeground()){
                                 m.setForeground(msg->getForeground());
                                 m.setBackground(msg->getBackground());
@@ -624,7 +684,10 @@ void DirectClient::processPacket()
                             Event e(EventSent, &m);
                             e.process();
                         }else{
-                            msg->setFlags(msg->getFlags() | MESSAGE_DIRECT);
+                            unsigned flags = msg->getFlags() | MESSAGE_DIRECT;
+                            if (isSecure())
+                                flags |= MESSAGE_SECURE;
+                            msg->setFlags(flags);
                             Event e(EventSent, msg);
                             e.process();
                         }
@@ -651,6 +714,44 @@ void DirectClient::connect_ready()
     if (m_state == None){
         m_state = WaitLogin;
         DirectSocket::connect_ready();
+        return;
+    }
+    if (m_state == SSLconnect){
+        for (list<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
+            SendDirectMsg &sm = *it;
+            if ((sm.msg == NULL) || (sm.msg->type() != MessageOpenSecure))
+                continue;
+            Event e(EventMessageSent, sm.msg);
+            e.process();
+            delete sm.msg;
+            m_queue.erase(it);
+            break;
+        }
+        m_state = Logged;
+        Contact *contact;
+        if (m_client->findContact(m_data->Uin, NULL, false, contact)){
+            Event e(EventContactStatus, contact);
+            e.process();
+        }
+        return;
+    }
+    if (m_state == SSLconnect){
+        for (list<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
+            SendDirectMsg &sm = *it;
+            if ((sm.msg == NULL) || (sm.msg->type() != MessageOpenSecure))
+                continue;
+            Event e(EventMessageSent, sm.msg);
+            e.process();
+            delete sm.msg;
+            m_queue.erase(it);
+            break;
+        }
+        m_state = Logged;
+        Contact *contact;
+        if (m_client->findContact(m_data->Uin, NULL, false, contact)){
+            Event e(EventContactStatus, contact);
+            e.process();
+        }
         return;
     }
     if (m_bIncoming){
@@ -706,20 +807,39 @@ void DirectClient::sendInit2()
 
 bool DirectClient::error_state(const char *err, unsigned code)
 {
-    if (!DirectSocket::error_state(err, code))
+    if (err && !DirectSocket::error_state(err, code))
         return false;
     if (m_state == None)
         m_data->bNoDirect = true;
+    if (err == NULL)
+        err = I18N_NOOP("Send message fail");
+    for (list<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
+        SendDirectMsg &sm = *it;
+        if (sm.msg){
+            if (!m_client->sendThruServer(sm.msg, m_data)){
+                sm.msg->setError(err);
+                Event e(EventMessageSent, sm.msg);
+                e.process();
+                delete sm.msg;
+            }
+        }else{
+            m_client->addPluginInfoRequest(m_data->Uin, sm.type);
+        }
+    }
+    m_queue.clear();
     return true;
 }
 
-void DirectClient::sendAck(unsigned short seq, unsigned short type)
+void DirectClient::sendAck(unsigned short seq, unsigned short type, const char *msg)
 {
+    string message;
+    if (msg)
+        message = msg;
     startPacket(TCP_ACK, seq);
     m_socket->writeBuffer.pack(type);
-    m_socket->writeBuffer << 0x00000000L
-    << (char)1
-    << (unsigned short)0
+    m_socket->writeBuffer
+    << 0x00000000L
+    << message
     << 0x00000000L
     << 0xFFFFFFFFL;
     sendPacket();
@@ -858,6 +978,8 @@ void DirectClient::processMsgQueue()
                 break;
             case MessageURL:
             case MessageContact:
+            case MessageOpenSecure:
+            case MessageCloseSecure:
                 startPacket(TCP_START, 0);
                 message = m_client->packMessage(sm.msg, m_data, sm.icq_type);
                 mb.pack((unsigned short)sm.icq_type);
@@ -973,3 +1095,109 @@ void DirectClient::addPluginInfoRequest(unsigned plugin_index)
     m_queue.push_back(sm);
     processMsgQueue();
 }
+
+#ifdef USE_OPENSSL
+
+class ICQ_SSLClient : public SSLClient
+{
+public:
+    ICQ_SSLClient(Socket *s) : SSLClient(s) {}
+    virtual bool initSSL();
+};
+
+// AUTOGENERATED by dhparam
+static DH *get_dh512()
+{
+    static unsigned char dh512_p[]={
+                                       0xFF,0xD3,0xF9,0x7C,0xEB,0xFE,0x45,0x2E,0x47,0x41,0xC1,0x8B,
+                                       0xF7,0xB9,0xC6,0xF2,0x40,0xCF,0x10,0x8B,0xF3,0xD7,0x08,0xC7,
+                                       0xF0,0x3F,0x46,0x7A,0xAD,0x71,0x6A,0x70,0xE1,0x76,0x8F,0xD9,
+                                       0xD4,0x46,0x70,0xFB,0x31,0x9B,0xD8,0x86,0x58,0x03,0xE6,0x6F,
+                                       0x08,0x9B,0x16,0xA0,0x78,0x70,0x6C,0xB1,0x78,0x73,0x52,0x3F,
+                                       0xD2,0x74,0xED,0x9B,
+                                   };
+    static unsigned char dh512_g[]={
+                                       0x02,
+                                   };
+    DH *dh;
+
+    if ((dh=DH_new()) == NULL) return(NULL);
+    dh->p=BN_bin2bn(dh512_p,sizeof(dh512_p),NULL);
+    dh->g=BN_bin2bn(dh512_g,sizeof(dh512_g),NULL);
+    if ((dh->p == NULL) || (dh->g == NULL))
+    { DH_free(dh); return(NULL); }
+    return(dh);
+}
+
+bool ICQ_SSLClient::initSSL()
+{
+    mpCTX = SSL_CTX_new(TLSv1_method());
+    if (mpCTX == NULL)
+        return false;
+#if OPENSSL_VERSION_NUMBER >= 0x00905000L
+    SSL_CTX_set_cipher_list(pCTX, "ADH:@STRENGTH");
+#else
+    SSL_CTX_set_cipher_list(pCTX, "ADH");
+#endif
+    DH *dh = get_dh512();
+    SSL_CTX_set_tmp_dh(pCTX, dh);
+    DH_free(dh);
+    mpSSL = SSL_new(pCTX);
+    if(!mpSSL)
+        return false;
+    return true;
+}
+
+void DirectClient::secureConnect()
+{
+    if (m_ssl != NULL) return;
+    m_ssl = new ICQ_SSLClient(m_socket->socket());
+    if (!m_ssl->init()){
+        delete m_ssl;
+        m_ssl = NULL;
+        return;
+    }
+    m_socket->setSocket(m_ssl);
+    m_state = SSLconnect;
+    m_ssl->connect();
+    m_ssl->process();
+}
+
+void DirectClient::secureListen()
+{
+    if (m_ssl != NULL)
+        return;
+    m_ssl = new ICQ_SSLClient(m_socket->socket());
+    if (!m_ssl->init()){
+        delete m_ssl;
+        m_ssl = NULL;
+        return;
+    }
+    m_socket->setSocket(m_ssl);
+    m_state = SSLconnect;
+    m_ssl->accept();
+    m_ssl->process();
+}
+
+void DirectClient::secureStop(bool bShutdown)
+{
+    if (m_ssl){
+        if (bShutdown){
+            m_ssl->shutdown();
+            m_ssl->process();
+        }
+        m_socket->setSocket(m_ssl->socket());
+        m_ssl->setSocket(NULL);
+        delete m_ssl;
+        m_ssl = NULL;
+        Contact *contact;
+        if (m_client->findContact(m_data->Uin, NULL, false, contact)){
+            Event e(EventContactStatus, contact);
+            e.process();
+        }
+    }
+}
+
+#endif
+
+

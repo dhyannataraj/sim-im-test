@@ -86,6 +86,9 @@ const unsigned short ICQ_MSGxEMAILxPAGER       = 0x000E;
 const unsigned short ICQ_MSGxCONTACTxLIST      = 0x0013;
 const unsigned short ICQ_MSGxEXT			   = 0x001A;
 
+const unsigned short ICQ_MSGxSECURExCLOSE	   = 0x00EE;
+const unsigned short ICQ_MSGxSECURExOPEN	   = 0x00EF;
+
 const unsigned short ICQ_MSGxAR_AWAY		   = 0x03E8;
 const unsigned short ICQ_MSGxAR_OCCUPIED	   = 0x03E9;
 const unsigned short ICQ_MSGxAR_NA			   = 0x03EA;
@@ -555,6 +558,7 @@ public:
         NotConnected,
         ConnectIP1,
         ConnectIP2,
+        ConnectFail,
         WaitInit,
         WaitAck,
         Logged
@@ -602,13 +606,15 @@ public:
     void declineMessage(Message*, const char *reason);
     bool cancelMessage(Message*);
     bool isLogged() { return (m_state != None) && (m_state != WaitInit2); }
+    bool isSecure();
     void addPluginInfoRequest(unsigned plugin_index);
 protected:
     enum State{
         None,
         WaitLogin,
         WaitInit2,
-        Logged
+        Logged,
+        SSLconnect
     };
     State		m_state;
     unsigned	m_channel;
@@ -619,12 +625,15 @@ protected:
     void startPacket(unsigned short cms, unsigned short seq);
     void startMsgPacket(unsigned short msgType, const string &s);
     void sendPacket();
-    void sendAck(unsigned short, unsigned short msgType);
+    void sendAck(unsigned short, unsigned short msgType, const char *message=NULL);
+    void processMsgQueue();
+    list<SendDirectMsg> m_queue;
+#ifdef USE_OPENSSL
     void secureConnect();
     void secureListen();
     void secureStop(bool bShutdown);
-    void processMsgQueue();
-    list<SendDirectMsg> m_queue;
+    SSLClient *m_ssl;
+#endif
 };
 
 #endif

@@ -1,5 +1,5 @@
 /***************************************************************************
-                          mainwin.h  -  description
+                          securedlg.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,48 +15,29 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _MAINWIN_H
-#define _MAINWIN_H
+#ifndef _SECUREDLG_H
+#define _SECUREDLG_H
 
 #include "simapi.h"
-#include <qmainwindow.h>
+#include "securedlgbase.h"
 
-#include <list>
-using namespace std;
+class ICQClient;
 
-class QVBoxLayout;
-class QHBoxLayout;
-class QToolBat;
-class CorePlugin;
-class QSizeGrip;
-
-class MainWindow : public QMainWindow, public EventReceiver
+class SecureDlg : public SecureDlgBase, public EventReceiver
 {
     Q_OBJECT
 public:
-    MainWindow();
-    ~MainWindow();
+    SecureDlg(ICQClient *client, unsigned contact, struct ICQUserData *data);
+    ~SecureDlg();
+    ICQClient	*m_client;
+    unsigned	m_contact;
+    struct ICQUserData *m_data;
 protected slots:
-    void setGrip();
+    void start();
 protected:
-    QWidget		*main;
-    QToolBar	*bar;
-    QVBoxLayout	*lay;
-    QHBoxLayout	*h_lay;
-    QSizeGrip	*m_grip;
     void *processEvent(Event*);
-    void setTitle();
-    void closeEvent(QCloseEvent *e);
-    bool eventFilter(QObject *o, QEvent *e);
-    void quit();
-    void addWidget(QWidget*, bool bDown);
-    void addStatus(QWidget *w, bool);
-    list<QWidget*> statusWidgets;
-    friend class CorePlugin;
-#ifdef WIN32
-    QPoint p;
-    QSize s;
-#endif
+    void error(const char *err);
+    Message *m_msg;
 };
 
 #endif

@@ -162,13 +162,20 @@ void RostersRequest::element_end(const char *el)
         if (lr == NULL){
             unsigned grp = 0;
             if (!m_grp.empty()){
-                Group *group;
+                Group *group = NULL;
                 ContactList::GroupIterator it;
                 while ((group = ++it) != NULL){
                     if (m_grp == (const char*)(group->getName().utf8())){
                         grp = group->id();
                         break;
                     }
+                }
+                if (group == NULL){
+                    group = getContacts()->group(0, true);
+                    group->setName(QString::fromUtf8(m_grp.c_str()));
+                    grp = group->id();
+                    Event e(EventGroupChanged, group);
+                    e.process();
                 }
             }
             if (contact->getGroup() != grp){

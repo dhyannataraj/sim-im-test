@@ -109,8 +109,10 @@ SSLClient::SSLClient(Socket *_sock)
 SSLClient::~SSLClient()
 {
     free();
-    sock->close();
-    delete sock;
+    if (sock){
+        sock->close();
+        delete sock;
+    }
 }
 
 void SSLClient::free()
@@ -422,6 +424,11 @@ void SSLClient::write_ready()
 void SSLClient::error_state(const char *err, unsigned code)
 {
     if (notify) notify->error_state(err, code);
+}
+
+void SSLClient::setSocket(Socket *s)
+{
+    sock = s;
 }
 
 #endif
