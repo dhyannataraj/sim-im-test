@@ -518,6 +518,8 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     eMenuMailList.process();
     Event eMenuPhoneList(EventMenuCreate, (void*)MenuPhoneList);
     eMenuPhoneList.process();
+    Event eMenuStatusWnd(EventMenuCreate, (void*)MenuStatusWnd);
+    eMenuStatusWnd.process();
 
     Command cmd;
     cmd->id          = CmdConfigure;
@@ -1317,6 +1319,12 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     cmd->text		= I18N_NOOP("&Delete");
     cmd->icon		= "remove";
     cmd->menu_grp	= 0x1001;
+    eCmd.process();
+
+    cmd->id			= CmdStatusWnd;
+    cmd->text		= "_";
+    cmd->icon		= NULL;
+    cmd->menu_id	= MenuStatusWnd;
     eCmd.process();
 }
 
@@ -3759,11 +3767,10 @@ void CorePlugin::setContainerMode(unsigned value)
 
 QString CorePlugin::clientName(Client *client)
 {
-    QString res = QString::fromUtf8(client->name().c_str());
-    int n = res.find('.');
-    if (n > 0)
-        res = res.left(n) + " " + res.mid(n + 1);
-    return res;
+	string s = client->name();
+    QString res = i18n(getToken(s, '.').c_str());
+	res += " ";
+    return res + s.c_str();
 }
 
 void CorePlugin::checkHistory()
