@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2002-07-16 00:12+0400\n"
-"PO-Revision-Date: 2002-07-15 12:15GMT\n"
+"PO-Revision-Date: 2002-07-16 00:31GMT\n"
 "Last-Translator: Crissi <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -952,9 +952,8 @@ msgid "Enable notify on screen"
 msgstr "Benachrichtigung auf Bildschirm aktivieren"
 
 #: ui/xosdbase.cpp:127
-#, fuzzy
 msgid "Background color:"
-msgstr "Hintergrundfarbe"
+msgstr "Hintergrundfarbe:"
 
 #: ui/xosdbase.cpp:141
 msgid "Color:"
@@ -978,12 +977,11 @@ msgstr "Position:"
 
 #: ui/xosdbase.cpp:193
 msgid "Shadow"
-msgstr ""
+msgstr "Schatten"
 
 #: ui/xosdbase.cpp:202
-#, fuzzy
 msgid "Background"
-msgstr "Hintergrundfarbe"
+msgstr "Hintergrund"
 
 #: ui/networkbase.cpp:80
 msgid "Network"
@@ -1176,8 +1174,7 @@ msgstr "Globalen Online-Alarm überschreiben"
 
 #: ui/alertdialogbase.cpp:95
 msgid "Activate online alert when user returns from Away or NA"
-msgstr ""
-"Online-Alarm aktivieren, wenn der Benutzer von NA oder Weg zurückkehrt"
+msgstr "Online-Alarm aktivieren, wenn der Benutzer von NA oder Weg zurückkehrt"
 
 #: ui/alertdialogbase.cpp:99
 msgid "Online alert options"
@@ -1365,8 +1362,7 @@ msgid "Show user window in task manager"
 msgstr "Benutzerfenster in Prozeßliste anzeigen"
 
 #: ui/statussetupbase.cpp:95
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -1482,14 +1478,12 @@ msgid "Additional information about user:"
 msgstr "Zusätzliche Information über den Benutzer:"
 
 #: _translatorinfo.cpp:1
-#, fuzzy
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
 msgstr "Crissi"
 
 #: _translatorinfo.cpp:3
-#, fuzzy
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
@@ -1500,3 +1494,4 @@ msgstr "crissi99@gmx.de"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
