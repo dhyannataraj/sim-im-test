@@ -460,7 +460,7 @@ void ICQClient::addResponseRequest(unsigned long uin, bool bPriority)
     ICQUser *u = getUser(uin);
     if (u == NULL) return;
 	if (u->uStatus == ICQ_STATUS_OFFLINE) return;
-    if ((u->Version <= 6) || (u->direct && u->direct->isLogged())){
+    if ((u->Version <= 6) || u->hasCap(CAP_TRILLIAN) || (u->direct && u->direct->isLogged())){
         ICQMessage *msg = new ICQAutoResponse;
         msg->setType(ICQ_READxAWAYxMSG);
         if (u->uStatus & ICQ_STATUS_DND){
