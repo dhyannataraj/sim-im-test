@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2003-01-19 06:48+0300\n"
-"PO-Revision-Date: 2003-01-13 11:13GMT\n"
+"PO-Revision-Date: 2003-01-20 17:04GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1674,8 +1674,7 @@ msgstr ";-)"
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #: chatwnd.cpp:56 monitor.cpp:67 qt3/i18n.cpp:95
 msgid "&Save"
@@ -2194,14 +2193,12 @@ msgid "AutoHide"
 msgstr "Automatisch ausblenden"
 
 #: mainwin.cpp:893
-#, fuzzy
 msgid "Close main window"
-msgstr "Benutzer&fenster schließen"
+msgstr "Hauptfenster schließen"
 
 #: mainwin.cpp:894
-#, fuzzy
 msgid "Open main window"
-msgstr "Transparentes Hauptfenster"
+msgstr "Hauptfenster öffnen"
 
 #: mainwin.cpp:1259
 msgid "%1 from %2 received"
@@ -2542,11 +2539,11 @@ msgstr "&Hintergrundfarbe"
 
 #: msgedit.cpp:118
 msgid "Text &font"
-msgstr "&Schriftart"
+msgstr "Schrif&tart"
 
 #: msgedit.cpp:119
 msgid "Inser&t smile"
-msgstr "&Smiley einfügen"
+msgstr "Smiley ein&fügen"
 
 #: msgedit.cpp:120
 msgid "&Grant"
@@ -2736,22 +2733,24 @@ msgid ""
 "text/plain|Text file\n"
 "text/html|HTML file"
 msgstr ""
+"text/plain|Textdatei\n"
+"text/html|HTML-Datei"
 
 #: msgview.cpp:1103
 msgid "Text file(*.txt);;HTML file(*.htm *.html)"
-msgstr ""
+msgstr "Textdatei(*.txt);;HTML-Datei(*.htm *.html)"
 
 #: msgview.cpp:1105
-#, fuzzy
 msgid "Save history"
-msgstr "Speichern nach"
+msgstr "Verlauf speichern"
 
 #: msgview.cpp:1120
-#, fuzzy
 msgid ""
 "File %1 exists\n"
 "Overwrite?"
-msgstr "Datei %1 existiert"
+msgstr ""
+"Datei %1 existiert bereits\n"
+"Überschreiben?"
 
 #: sim.cpp:117
 msgid ""
@@ -3539,9 +3538,8 @@ msgid "Center-top"
 msgstr "Mitte-oben"
 
 #: ui/alertdialog.cpp:61
-#, fuzzy
 msgid "Center"
-msgstr "Mitte-oben"
+msgstr "Mitte"
 
 #: ui/alertmsg.cpp:41
 msgid "User "
@@ -3648,7 +3646,6 @@ msgid "&Skip"
 msgstr "Über&springen"
 
 #: ui/filetransfer.cpp:312
-#, fuzzy
 msgid "File %1 exists"
 msgstr "Datei %1 existiert"
 
@@ -4169,8 +4166,7 @@ msgstr "&Signatur"
 
 #: ui/smssetupbase.cpp:131
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-"Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
 
 #: ui/smssetupbase.cpp:132
 msgid ""
@@ -4845,8 +4841,7 @@ msgid "Hide main window after"
 msgstr "Hauptfenster anzeigen/verstecken nach"
 
 #: ui/statussetupbase.cpp:142
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -5049,8 +5044,7 @@ msgstr "&Ablehnen"
 
 #: ui/generalsecbase.cpp:227
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: ui/generalsecbase.cpp:228
 msgid ""
@@ -5470,3 +5464,4 @@ msgstr "Chattitel/Interessen:"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
