@@ -1112,7 +1112,8 @@ void YahooClient::loadList(const char *str)
                 QString grpName;
                 if (contact->getGroup()){
                     Group *grp = getContacts()->group(contact->getGroup());
-                    grpName = grp->getName();
+                    if (grp)
+                        grpName = grp->getName();
                 }
                 if (grpName != getContacts()->toUnicode(NULL, grp.c_str()))
                     moveBuddy(data, getContacts()->toUnicode(NULL, grp.c_str()));

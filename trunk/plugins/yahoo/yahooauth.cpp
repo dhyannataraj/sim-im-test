@@ -140,9 +140,6 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
 
     unsigned char md5test[7];
 
-    FILE *dump = fopen("yahoo.log", "a");
-    fprintf(dump, "Yahoo auth\n");
-
     memset(&pass_hash_xor1, 0, 64);
     memset(&pass_hash_xor2, 0, 64);
     memset(&crypt_hash_xor1, 0, 64);
