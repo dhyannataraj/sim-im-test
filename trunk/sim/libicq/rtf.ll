@@ -404,8 +404,13 @@ void Level::setFontBgColor(unsigned short nColor)
 
 void Level::setFontSize(unsigned short nSize)
 {
-    nSize = (nSize >> 3);
-    nSize++;
+	if (nSize > 8){
+		nSize = (nSize >> 3);
+		nSize++;
+		if (nSize > 8) nSize = 8;
+	}else{
+		nSize = 1;
+	}
     _setFontSize(nSize);
 }
 

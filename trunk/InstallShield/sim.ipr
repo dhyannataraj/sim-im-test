@@ -43,9 +43,9 @@ MIFFileName=Status
 MIFSerial=
 
 [Project:Properties:DepManager]
-Application=D:\cygwin\home\Vova\sim\Debug\sim.exe
+Application=C:\sim\Release\sim.exe
 CommandLine=
-StartInFolder=D:\cygwin\home\Vova\sim\Debug
+StartInFolder=C:\sim\Release
 
 [Project:Languages]
 0009=

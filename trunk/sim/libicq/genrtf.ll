@@ -428,8 +428,15 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
                         }
                         if (eq((*it).name.c_str(), "size")){
                             if (size == f.size){
-                                size = atol((*it).value.c_str()) * 6;
-                                if (size == 0) size = f.size;
+								const char *v = (*it).value.c_str();
+								if (*v == '-'){
+									size -= atol(++v);
+								}else if (*v == '+'){
+									size += atol(++v);
+								}else{
+									size = atol((*it).value.c_str());
+								}
+                                if (size <= 0) size = f.size;
                             }
                         }
                     }
