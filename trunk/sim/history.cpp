@@ -209,15 +209,16 @@ bool History::open(bool bWrite, std::fstream &f, unsigned long *f_size)
              m_nUin);
     string fname;
     pMain->buildFileName(fname, buffer);
-    if (f_size){
+    if (f_size)
         *f_size = 0;
-        QFileInfo f(fname.c_str());
-        if (f.exists()) *f_size = f.size();
-    }
     f.open(fname.c_str(), bWrite ? ios::out | ios::app : ios::in);
     if (!f.is_open()){
         log(L_WARN, "File %s not open", fname.c_str());
         return false;
+    }
+    if (f_size){
+        f.seekp(0, ios::end);
+        *f_size = f.tellg();
     }
     if (bWrite) f.seekp(0, ios::end);
     return true;

@@ -130,4 +130,3 @@ void setWndProc(QWidget *w)
 }
 
 #endif
-
