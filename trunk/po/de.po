@@ -6983,7 +6983,7 @@ msgstr "Alle"
 
 #: plugins/osd/osdifacebase.cpp:129
 msgid "Offset:"
-msgstr "Verschiebung:"
+msgstr "Verschiebung vom Rand:"
 
 #: plugins/osd/osdifacebase.cpp:130
 msgid "Show time:"
