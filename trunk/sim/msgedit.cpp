@@ -1613,9 +1613,11 @@ void MsgEdit::makeMessage()
     case ICQ_MSGxSMS:{
             ICQSMS *m = static_cast<ICQSMS*>(msg);
             QString s = edit->text();
+	    log(L_DEBUG, "T: %s", (const char*)(s.local8Bit()));
             string text(s.utf8());
             text = pClient->clearHTML(text);
             s = QString::fromUtf8(text.c_str());
+	    log(L_DEBUG, "T: %s", (const char*)(s.local8Bit()));
             msgTail = trim(s);
             m->Message = smsChunk();
             m->Phone = phoneEdit->lineEdit()->text().local8Bit();

@@ -484,10 +484,34 @@ static void fillEncodings(list<Encoding> &encodings, bool bMain)
 {
     const encoding *e;
 #ifdef USE_KDE
-    //    QStringList &encodings = KGlobal::charsets()->descriptiveEncodingNames();
+    QStringList sysenc = KGlobal::charsets()->descriptiveEncodingNames();
+    for (QStringList::Iterator it = sysenc.begin(); it != sysenc.end(); ++it){
+        QString enc = *it;
+        int n = enc.find("(");
+        if (n == -1) continue;
+        enc = enc.mid(n + 1);
+        n = enc.find(")");
+        if (n == -1) continue;
+        enc = enc.left(n);
+        QTextCodec *codec = QTextCodec::codecForName(enc);
+        if (codec == NULL) continue;
+        e = encodingTbl;
+        unsigned i;
+        for (i = 0; i < (sizeof(encodingTbl) / sizeof(encoding)); i++, e++) {
+            if (e->mib != codec->mibEnum()) continue;
+            break;
+        }
+        if (i < (sizeof(encodingTbl) / sizeof(encoding))){
+            if (e->bMain == bMain)
+                encodings.push_back(Encoding(*it, e->mib));
+        }else{
+            if (bMain)
+                encodings.push_back(Encoding(*it, codec->mibEnum()));
+        }
+    }
 #else
     e = encodingTbl;
-    for (uint i=0; i< (sizeof(encodingTbl) / sizeof(encoding)); i++, e++) {
+    for (unsigned i = 0; i < (sizeof(encodingTbl) / sizeof(encoding)); i++, e++) {
         if (e->bMain != bMain) continue;
         encodings.push_back(Encoding(i18n(e->language) + " ( " + e->codec + " )", e->mib));
     }

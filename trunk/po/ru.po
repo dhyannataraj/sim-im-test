@@ -11,13 +11,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "POT-Creation-Date: 2002-11-12 09:51+0300\n"
-"PO-Revision-Date: 2002-11-09 04:42GMT+3\n"
+"PO-Revision-Date: 2002-11-12 10:30+0300\n"
 "Last-Translator: Vladimir Shutoff <shutoff@mail.ru>\n"
 "Language-Team: Русский <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0\n"
+"X-Generator: KBabel 0.9.6\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 :n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
 
@@ -384,8 +384,7 @@ msgstr "Австралия"
 # libicq/country.cpp:84
 #: libicq/country.cpp:84
 msgid "Australian Antarctic Territory"
-msgstr ""
-"Австралийская антарктическая территория"
+msgstr "Австралийская антарктическая территория"
 
 # libicq/country.cpp:85
 #: libicq/country.cpp:85
@@ -2151,8 +2150,7 @@ msgstr "%1 от %2"
 # mainwin.cpp:969 ui/logindlg.cpp:138
 #: mainwin.cpp:965 ui/logindlg.cpp:138
 msgid "Can't connect to proxy server"
-msgstr ""
-"Невозможно соединиться с прокси-сервером"
+msgstr "Невозможно соединиться с прокси-сервером"
 
 # mainwin.cpp:975 ui/logindlg.cpp:145
 #: mainwin.cpp:971 ui/logindlg.cpp:145
@@ -2169,8 +2167,7 @@ msgstr ""
 # mainwin.cpp:988
 #: mainwin.cpp:984
 msgid "Your UIN used from another location"
-msgstr ""
-"Ваш UIN используется с другого компьютера"
+msgstr "Ваш UIN используется с другого компьютера"
 
 # mainwin.cpp:1042
 #: mainwin.cpp:1038
@@ -2870,9 +2867,8 @@ msgstr "Сообщение"
 
 # mainwin.cpp:1716
 #: userbox.cpp:108
-#, fuzzy
 msgid "User"
-msgstr "Пользователи"
+msgstr "Пользователь"
 
 # userbox.cpp:157
 #: userbox.cpp:110
@@ -2906,9 +2902,8 @@ msgstr "З&акрыть окно пользователя"
 
 # userbox.cpp:189
 #: userbox.cpp:257
-#, fuzzy
 msgid "All encodings"
-msgstr "&Кодировка"
+msgstr "Все кодировки"
 
 # userbox.cpp:350
 #: userbox.cpp:349
@@ -4000,8 +3995,7 @@ msgstr "Цвета"
 # ui/fontsetupbase.cpp:214
 #: ui/fontsetupbase.cpp:214
 msgid "Use &own colors and fonts settings"
-msgstr ""
-"Использовать &собственные цвета и шрифты"
+msgstr "Использовать &собственные цвета и шрифты"
 
 # ui/fontsetupbase.cpp:224
 #: ui/fontsetupbase.cpp:224
@@ -4046,8 +4040,7 @@ msgstr "Не показывать мой email"
 # ui/pastinfobase.cpp:89
 #: ui/pastinfobase.cpp:89
 msgid "Organization, Affiliation, Group:"
-msgstr ""
-"Объединения, общественные организации:"
+msgstr "Объединения, общественные организации:"
 
 # ui/pastinfobase.cpp:131
 #: ui/pastinfobase.cpp:131
@@ -4421,14 +4414,12 @@ msgstr "Прозрачный контейнер"
 # ui/themesetupbase.cpp:146
 #: ui/themesetupbase.cpp:146
 msgid "Transparent only if inactive"
-msgstr ""
-"Прозрачные окна только если неактивные"
+msgstr "Прозрачные окна только если неактивные"
 
 # ui/themesetupbase.cpp:154
 #: ui/themesetupbase.cpp:154
 msgid "Show main window in task manager"
-msgstr ""
-"Показывать основное окно в панели задач"
+msgstr "Показывать основное окно в панели задач"
 
 # ui/themesetupbase.cpp:158
 #: ui/themesetupbase.cpp:158
@@ -4452,8 +4443,7 @@ msgstr "Скрыть главное окно"
 
 # ui/statussetupbase.cpp:107
 #: ui/statussetupbase.cpp:107
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Запретить оповещение в состояниях "
 "\"Отошел\", \"Не активный\", \"Занят\""
@@ -4714,10 +4704,8 @@ msgstr ""
 
 # ui/msgbase.cpp:94
 #: ui/msgbase.cpp:94
-#, fuzzy
 msgid "Automaitcaly open window"
-msgstr ""
-"Автоматически открывать окно сообщений"
+msgstr "Автоматически открывать окно сообщений"
 
 # ui/msgbase.cpp:98
 #: ui/msgbase.cpp:98
@@ -4753,7 +4741,6 @@ msgstr "Центральная Европа"
 
 # libicq/country.cpp:13
 #: client.cpp:65
-#, fuzzy
 msgid "Chinese "
 msgstr "Китайский"
 
@@ -5061,7 +5048,6 @@ msgstr "Ctrl+T"
 
 # client.cpp:944
 #: client.cpp:995
-#, fuzzy
 msgid ""
 "_: Ctrl+S\n"
 "SMS"
@@ -5177,7 +5163,6 @@ msgstr "Отправить сообщение"
 
 # control.cpp:191
 #: control.cpp:191
-#, fuzzy
 msgid "send SMS"
 msgstr "Послать SMS"
 
@@ -5425,3 +5410,4 @@ msgstr "? Неищвестный статус %1"
 
 #~ msgid "Spell"
 #~ msgstr "Проверка орфографии"
+
