@@ -1,4 +1,7 @@
 Version 0.8.1
+Add option for using simple/double click
+Add background picture for mainwindow
+Add option "disable all sounds"
 Add change UIN
 Add GNOME 2 docklet support
 Add Polish translation
@@ -19,7 +22,7 @@ Switch support HTTP and HTTPS proxy from call CONNECT method to using AIM-HTTP g
 Add saving split position in chat mode message window
 
 Version 0.8
-Add optional opwn history and user info in separate window
+Add optional own history and user info in separate window
 Add filter for history
 Add alphabticaly sorting user list
 Add secure channel dialog
