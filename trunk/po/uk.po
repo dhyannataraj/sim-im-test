@@ -39,7 +39,7 @@ msgstr "Кантонська"
 
 #: libicq/country.cpp:12
 msgid "Catalan"
-msgstr "Каталанська"
+msgstr "Каталонська"
 
 #: libicq/country.cpp:13
 msgid "Chinese"
@@ -51,7 +51,7 @@ msgstr "Хорватська"
 
 #: libicq/country.cpp:15
 msgid "Czech"
-msgstr "Чешська"
+msgstr "Чеська"
 
 #: libicq/country.cpp:16
 msgid "Danish"
@@ -59,7 +59,7 @@ msgstr "Датська"
 
 #: libicq/country.cpp:17
 msgid "Dutch"
-msgstr "Голандська"
+msgstr "Голландська"
 
 #: libicq/country.cpp:18
 msgid "English"
@@ -87,7 +87,7 @@ msgstr "Французська"
 
 #: libicq/country.cpp:24
 msgid "Gaelic"
-msgstr "Гаэльска"
+msgstr "Гаелська"
 
 #: libicq/country.cpp:25
 msgid "German"
@@ -99,7 +99,7 @@ msgstr "Грецька"
 
 #: client.cpp:71 libicq/country.cpp:27
 msgid "Hebrew"
-msgstr "Івріт"
+msgstr "Іврит"
 
 #: libicq/country.cpp:28
 msgid "Hindi"
@@ -107,7 +107,7 @@ msgstr "Хінді"
 
 #: libicq/country.cpp:29
 msgid "Hungarian"
-msgstr "Венгерська"
+msgstr "Угорська"
 
 #: libicq/country.cpp:30
 msgid "Icelandic"
@@ -119,7 +119,7 @@ msgstr "Індонезійська"
 
 #: libicq/country.cpp:32
 msgid "Italian"
-msgstr "Італьянська"
+msgstr "Італійська"
 
 #: client.cpp:78 client.cpp:79 client.cpp:80 libicq/country.cpp:33
 msgid "Japanese"
@@ -151,7 +151,7 @@ msgstr "Малайська"
 
 #: libicq/country.cpp:40
 msgid "Norwegian"
-msgstr "Норвежська"
+msgstr "Норвезька"
 
 #: libicq/country.cpp:41
 msgid "Polish"
@@ -227,7 +227,7 @@ msgstr "В'єтнамська"
 
 #: libicq/country.cpp:59
 msgid "Yiddish"
-msgstr "Ідіш"
+msgstr "Ідиш"
 
 #: libicq/country.cpp:60
 msgid "Yoruba"
@@ -251,7 +251,7 @@ msgstr "Албанська"
 
 #: libicq/country.cpp:65
 msgid "Armenian"
-msgstr "Армянська"
+msgstr "Вірменська"
 
 #: libicq/country.cpp:71
 msgid "Afghanistan"
@@ -263,11 +263,11 @@ msgstr "Албанія"
 
 #: libicq/country.cpp:73
 msgid "Algeria"
-msgstr "Алжір"
+msgstr "Алжир"
 
 #: libicq/country.cpp:74
 msgid "American Samoa"
-msgstr "Американска Самоа"
+msgstr "Американська Самоа"
 
 #: libicq/country.cpp:75
 msgid "Andorra"
@@ -291,7 +291,7 @@ msgstr "Аргентина"
 
 #: libicq/country.cpp:80
 msgid "Armenia"
-msgstr "Арменія"
+msgstr "Вірменія"
 
 #: libicq/country.cpp:81
 msgid "Aruba"
@@ -367,7 +367,7 @@ msgstr "Болівія"
 
 #: libicq/country.cpp:99
 msgid "Bosnia and Herzegovina"
-msgstr "Боснія і Герцеговина"
+msgstr "Боснія і Герцоговина"
 
 #: libicq/country.cpp:100
 msgid "Botswana"
@@ -391,7 +391,7 @@ msgstr "Болгарія"
 
 #: libicq/country.cpp:105
 msgid "Burkina Faso"
-msgstr "Буркіна-Фасо"
+msgstr "Буркуна-Фасу"
 
 #: libicq/country.cpp:106
 msgid "Burundi"
@@ -415,7 +415,7 @@ msgstr "Острови Зеленого Мису"
 
 #: libicq/country.cpp:111
 msgid "Cayman Islands"
-msgstr "Кайманскі острови"
+msgstr "Кайманові острови"
 
 #: libicq/country.cpp:112
 msgid "Central African Republic"
@@ -427,7 +427,7 @@ msgstr "Чад"
 
 #: libicq/country.cpp:114
 msgid "Chile"
-msgstr "Чілі"
+msgstr "Чилі"
 
 #: libicq/country.cpp:115
 msgid "China"
@@ -527,11 +527,11 @@ msgstr "Ефіопія"
 
 #: libicq/country.cpp:139
 msgid "Faeroe Islands"
-msgstr "Ферскі острови"
+msgstr "Ферські острови"
 
 #: libicq/country.cpp:140
 msgid "Falkland Islands"
-msgstr "Фолклендскі острови"
+msgstr "Фолклендські острови"
 
 #: libicq/country.cpp:141
 msgid "Fiji Islands"
@@ -547,15 +547,15 @@ msgstr "Франція"
 
 #: libicq/country.cpp:144
 msgid "French Antilles"
-msgstr "Французські Антіли"
+msgstr "Французькі Антіли"
 
 #: libicq/country.cpp:145
 msgid "French Guiana"
-msgstr "Французська Гвінея"
+msgstr "Французька Гвінея"
 
 #: libicq/country.cpp:146
 msgid "French Polynesia"
-msgstr "Французська Полінезія"
+msgstr "Французька Полінезія"
 
 #: libicq/country.cpp:147
 msgid "Gabon"
@@ -623,7 +623,7 @@ msgstr "Гайана"
 
 #: libicq/country.cpp:163
 msgid "Haiti"
-msgstr "Хайті"
+msgstr "Гаїті"
 
 #: libicq/country.cpp:164
 msgid "Honduras"
@@ -631,7 +631,7 @@ msgstr "Гондурас"
 
 #: libicq/country.cpp:165
 msgid "Hong Kong"
-msgstr "Гонк-Конг"
+msgstr "Гонг-Конг"
 
 #: libicq/country.cpp:166
 msgid "Hungary"
@@ -687,7 +687,7 @@ msgstr "Ірландія"
 
 #: libicq/country.cpp:179
 msgid "Israel"
-msgstr "Ізраіль"
+msgstr "Ізраїль"
 
 #: libicq/country.cpp:180
 msgid "Italy"
@@ -707,7 +707,7 @@ msgstr "Японія"
 
 #: libicq/country.cpp:184
 msgid "Jordan"
-msgstr "Йордан"
+msgstr "Йорданія"
 
 #: libicq/country.cpp:185
 msgid "Kazakhstan"
@@ -763,7 +763,7 @@ msgstr "Лівія"
 
 #: libicq/country.cpp:198
 msgid "Liechtenstein"
-msgstr "Ліхтештейн"
+msgstr "Ліхтенштейн"
 
 #: libicq/country.cpp:199
 msgid "Lithuania"
@@ -871,7 +871,7 @@ msgstr "Непал"
 
 #: libicq/country.cpp:225
 msgid "Netherlands Antilles"
-msgstr "Нідерландскі Антіли"
+msgstr "Нідерландські Антіли"
 
 #: libicq/country.cpp:226
 msgid "Netherlands"
@@ -919,7 +919,7 @@ msgstr "Оман"
 
 #: libicq/country.cpp:237
 msgid "Pakistan"
-msgstr "Пакістан"
+msgstr "Пакистан"
 
 #: libicq/country.cpp:238
 msgid "Palau"
@@ -1019,7 +1019,7 @@ msgstr "Сієрра-Ліоне"
 
 #: libicq/country.cpp:262
 msgid "Singapore"
-msgstr "Сингапур"
+msgstr "Сінгапур"
 
 #: libicq/country.cpp:263
 msgid "Slovak Republic"
@@ -1055,15 +1055,15 @@ msgstr "Острів Св'ятої Єлени"
 
 #: libicq/country.cpp:271
 msgid "St. Kitts"
-msgstr "Острів св'ятого Кітса"
+msgstr "Острів святого Кітса"
 
 #: libicq/country.cpp:272
 msgid "St. Pierre and Miquelon"
-msgstr "Острів св'ятого Пірра"
+msgstr "Острів святого Пірра"
 
 #: libicq/country.cpp:273
 msgid "St. Vincent and the Grenadines"
-msgstr "Острів св'ятого Вінсента"
+msgstr "Острів святого Вінсента"
 
 #: libicq/country.cpp:274
 msgid "Sudan"
@@ -1167,7 +1167,7 @@ msgstr "Великобританія"
 
 #: libicq/country.cpp:299
 msgid "United States Virgin Islands"
-msgstr "Вірджінскі острови"
+msgstr "Вірджінські острови"
 
 #: libicq/country.cpp:300
 msgid "Uruguay"
@@ -1175,7 +1175,7 @@ msgstr "Уругвай"
 
 #: libicq/country.cpp:301
 msgid "Uzbekistan"
-msgstr "Узбекістан"
+msgstr "Узбекистан"
 
 #: libicq/country.cpp:302
 msgid "Vanuatu"
@@ -1183,11 +1183,11 @@ msgstr "Вануату"
 
 #: libicq/country.cpp:303
 msgid "Vatican City"
-msgstr "Ватікан"
+msgstr "Ватикан"
 
 #: libicq/country.cpp:304
 msgid "Venezuela"
-msgstr "Венесуєла"
+msgstr "Венесуела"
 
 #: libicq/country.cpp:305
 msgid "Vietnam"
@@ -1195,7 +1195,7 @@ msgstr "В'єтнам"
 
 #: libicq/country.cpp:306
 msgid "Wallis and Futuna Islands"
-msgstr "Уельскі острови"
+msgstr "Уельські острови"
 
 #: libicq/country.cpp:307
 msgid "Western Samoa"
@@ -1255,7 +1255,7 @@ msgstr "Ігри"
 
 #: libicq/country.cpp:339
 msgid "Hobbies"
-msgstr "Хоббі"
+msgstr "Хобі"
 
 #: libicq/country.cpp:340 libicq/country.cpp:424
 msgid "ICQ - Providing Help"
@@ -1347,7 +1347,7 @@ msgstr "Одяг"
 
 #: libicq/country.cpp:362
 msgid "Parties"
-msgstr "Вечеринки"
+msgstr "Вечірки"
 
 #: libicq/country.cpp:363
 msgid "Women"
@@ -1391,7 +1391,7 @@ msgstr "Анекдоти"
 
 #: libicq/country.cpp:373
 msgid "Health and beauty"
-msgstr "Здоров'я і красота"
+msgstr "Здоров'я і краса"
 
 #: libicq/country.cpp:374
 msgid "Media"
@@ -1431,7 +1431,7 @@ msgstr "Товариство випускників"
 
 #: libicq/country.cpp:388
 msgid "Charity Org."
-msgstr "Благочинна організація"
+msgstr "Благодійна організація"
 
 #: libicq/country.cpp:389
 msgid "Club/Social Org."
@@ -1439,7 +1439,7 @@ msgstr "Клуб"
 
 #: libicq/country.cpp:390
 msgid "Community Org."
-msgstr "Клуб спілкуваня"
+msgstr "Клуб спілкування"
 
 #: libicq/country.cpp:391
 msgid "Cultural Org."
@@ -1595,7 +1595,7 @@ msgstr "Техніка"
 
 #: libicq/country.cpp:438
 msgid "University student"
-msgstr "Студент університета"
+msgstr "Студент університету"
 
 #: libicq/country.cpp:439
 msgid "Web building"
@@ -1619,7 +1619,7 @@ msgstr "Університет"
 
 #: libicq/country.cpp:450
 msgid "Past Work Place"
-msgstr "Минуле місце работи"
+msgstr "Минуле місце роботи"
 
 #: libicq/country.cpp:451
 msgid "Past Organization"
@@ -1758,7 +1758,7 @@ msgstr "В списку невидимих"
 
 #: mainwin.cpp:1616
 msgid "In ignore list"
-msgstr "В списке ігнорованих"
+msgstr "В списку ігнорованих"
 
 #: mainwin.cpp:1632 mainwin.cpp:2307
 msgid "Groups"
@@ -1896,7 +1896,7 @@ msgstr "Доступний"
 
 #: mainwin.cpp:2289
 msgid "Busy"
-msgstr "Занятий"
+msgstr "Зайнятий"
 
 #: mainwin.cpp:2292 userview.cpp:1342
 msgid "Create group"
@@ -1904,7 +1904,7 @@ msgstr "Створити групу"
 
 #: mainwin.cpp:2294 userview.cpp:1351
 msgid "Expand all"
-msgstr "Разгорнути всі групи"
+msgstr "Розгорнути всі групи"
 
 #: mainwin.cpp:2295 userview.cpp:1353
 msgid "Collapse all"
@@ -2005,14 +2005,12 @@ msgstr "Відмовитись від пояснення причин"
 #: msgedit.cpp:80
 msgid "Sorry, I'm busy right now, and can not respond to your request"
 msgstr ""
-"Вибачте, але я зараз зайнятий і не можу "
-"прийняти Ваше повідомлення"
+"Вибачте, але я зараз зайнятий і не можу прийняти Ваші повідомлення"
 
 #: msgedit.cpp:82
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
 msgstr ""
-"Вибачте, я зараз занятий, але зможу "
-"відповісти Вам пізніше"
+"Вибачте, я зараз зайнятий, але зможу відповісти Вам пізніше"
 
 #: msgedit.cpp:84
 msgid "Enter a decline reason"
@@ -2084,7 +2082,7 @@ msgstr "&Закрити після відправки"
 
 #: msgedit.cpp:220 msgedit.cpp:423
 msgid "&Send"
-msgstr "&Відісліти"
+msgstr "&Відіслати"
 
 #: msgedit.cpp:225
 msgid "&Next"
@@ -2153,7 +2151,7 @@ msgstr "%1 (ICQ# %2) пише:<br>\n"
 
 #: msgedit.cpp:1220
 msgid "Save to"
-msgstr "Сохранить в"
+msgstr "Зберегти в"
 
 #: msgedit.cpp:1606
 msgid "Size: %1 / Max. size: %2"
@@ -2185,7 +2183,7 @@ msgstr "Запит авторизації прийнятий"
 
 #: msgview.cpp:183
 msgid "Added to contact list"
-msgstr "Добавлений в список контактів"
+msgstr "Доданий в список контактів"
 
 #: msgview.cpp:187
 msgid "Contact request"
@@ -2231,7 +2229,7 @@ msgstr "&Попередня сторінка"
 
 #: msgview.cpp:702
 msgid "&Next page"
-msgstr "&Наступна сторніка"
+msgstr "&Наступна сторінка"
 
 #: passwddlg.cpp:34 ui/logindlgbase.cpp:55
 msgid "Password:"
@@ -2285,11 +2283,11 @@ msgstr "Рівень відладки"
 
 #: themes.cpp:123 themes.cpp:132
 msgid "Default style"
-msgstr "Стиль по-змовчуванню"
+msgstr "Стиль по-замовчуванню"
 
 #: userbox.cpp:160
 msgid "Add to ignore &list"
-msgstr "Додати в &список тих що ігрноруються"
+msgstr "Додати в &список тих що ігноруються"
 
 #: userbox.cpp:167
 msgid "Move to &group"
@@ -2298,12 +2296,12 @@ msgstr "Перенести в &групу"
 #: userbox.cpp:174
 msgid "User &info<br>with CTRL open in new window"
 msgstr ""
-"&Информація про користувача<br>CTRL - відкрити "
+"&Інформація про користувача<br>CTRL - відкрити "
 "в новому вікні"
 
 #: userbox.cpp:180
 msgid "&History<br>with CTRL open in new window"
-msgstr "Істо&рія<br>CTRL - відкрити в новомому вікні"
+msgstr "Істо&рія<br>CTRL - відкрити в новому вікні"
 
 #: userbox.cpp:193
 msgid "&Encoding"
@@ -2343,7 +2341,7 @@ msgstr "Ім'я"
 
 #: usertbl.cpp:116
 msgid "Email"
-msgstr "Email"
+msgstr "Пошта"
 
 #: usertbl.cpp:392
 msgid "Erase"
@@ -2401,7 +2399,7 @@ msgstr "Домашній факс"
 
 #: ui/addphone.cpp:35
 msgid "Private Cellular"
-msgstr "Мобільнік"
+msgstr "Мобільний"
 
 #: ui/addphone.cpp:36
 msgid "Work Phone"
@@ -2507,7 +2505,7 @@ msgstr ""
 "береться в кавички\n"
 "Слова можуть містити наступні маски:\n"
 "* - будь-яка послідовність символів "
-"(мужлива пуста)\n"
+"(можлива пуста)\n"
 " ? - будь-який символ\n"
 
 #: ui/listsec.cpp:93 ui/setupdlg.cpp:172
@@ -2524,7 +2522,7 @@ msgstr "Список ігнорованих"
 
 #: ui/maininfo.cpp:41
 msgid "Default"
-msgstr "По-змовчуванню"
+msgstr "По-замовчуванню"
 
 #: ui/moreinfo.cpp:66
 msgid "January"
@@ -2632,7 +2630,7 @@ msgstr "Домашня інформація"
 
 #: ui/setupdlg.cpp:126 ui/userinfo.cpp:77 ui/workinfobase.cpp:80
 msgid "Work info"
-msgstr "Інформація про работу"
+msgstr "Інформація про роботу"
 
 #: ui/moreinfobase.cpp:80 ui/setupdlg.cpp:127 ui/userinfo.cpp:78
 msgid "More info"
@@ -2664,7 +2662,7 @@ msgstr "Статус"
 
 #: ui/setupdlg.cpp:137
 msgid "Connection"
-msgstr "З'єданння"
+msgstr "З'єднання"
 
 #: ui/setupdlg.cpp:138 ui/themesetupbase.cpp:80
 msgid "Style"
@@ -2716,7 +2714,7 @@ msgstr "Пароль"
 
 #: ui/themesetup.cpp:109
 msgid "Default icons"
-msgstr "Іконки по-змовчуванню"
+msgstr "Іконки по-замовчуванню"
 
 #: ui/xosdsetup.cpp:44
 msgid "Left-bottom"
@@ -2805,7 +2803,7 @@ msgstr "Інтереси:"
 
 #: ui/searchbase.cpp:202
 msgid "Email/Info"
-msgstr "Email/Інформація"
+msgstr "Пошта/Інформація"
 
 #: ui/maininfobase.cpp:95 ui/searchbase.cpp:210
 msgid "Last Name:"
@@ -2933,7 +2931,7 @@ msgstr "&Пошук"
 
 #: ui/logindlgbase.cpp:35
 msgid "Registration"
-msgstr "Регістрація"
+msgstr "Реєстрація"
 
 #: ui/logindlgbase.cpp:62
 msgid "Use existing UIN"
@@ -2945,7 +2943,7 @@ msgstr "Установки &проксі"
 
 #: ui/logindlgbase.cpp:87
 msgid "&Register"
-msgstr "&Регістрація"
+msgstr "&Реєстрація"
 
 #: ui/forwardsetupbase.cpp:77
 msgid "Autoforward"
@@ -3066,8 +3064,7 @@ msgstr "ICQ сервер:"
 #: ui/networkbase.cpp:207
 msgid "Use the following TCP listen ports:"
 msgstr ""
-"Використовувати для вхідних з'єднаннь "
-"порти:"
+"Використовувати для вхідних з'єднань порти:"
 
 #: ui/networkbase.cpp:213
 msgid "From:"
@@ -3107,7 +3104,7 @@ msgstr "Закрити після відправки"
 
 #: ui/acceptbase.cpp:122
 msgid "Override global settings"
-msgstr "Користувацький режим прийому файлів"
+msgstr "Режим користувача для прийому файлів"
 
 #: ui/acceptbase.cpp:126
 msgid "Automatically open all messages"
@@ -3179,11 +3176,11 @@ msgstr "Шрифт меню"
 
 #: ui/fontsetupbase.cpp:189
 msgid "Colors"
-msgstr "Кольора"
+msgstr "Кольори"
 
 #: ui/fontsetupbase.cpp:197
 msgid "Use &own colors in history"
-msgstr "Використовувати & власний колір в історії"
+msgstr "Використовувати &власний колір в історії"
 
 #: ui/fontsetupbase.cpp:207
 msgid "Received messages color"
@@ -3191,7 +3188,7 @@ msgstr "Колір отриманих повідомлень"
 
 #: ui/fontsetupbase.cpp:218
 msgid "Sending messages color"
-msgstr "Корір відправлених повідомлень"
+msgstr "Колір відправлених повідомлень"
 
 #: ui/fontsetupbase.cpp:226
 msgid "User window stays on &top"
@@ -3264,8 +3261,7 @@ msgstr "Користувацький режим попередження"
 #: ui/alertdialogbase.cpp:97
 msgid "Activate online alert when user returns from Away or NA"
 msgstr ""
-"Попередження якщо користувач переходить"
-"з режиму \"Відійшов\" або \"Недоступний\""
+"Попередження якщо користувач переходить з режиму \"Відійшов\" або \"Недоступний\""
 
 #: ui/alertdialogbase.cpp:102
 msgid "Online alert options"
@@ -3273,7 +3269,7 @@ msgstr "Режими попереджень"
 
 #: ui/alertdialogbase.cpp:110
 msgid "Blinking alert effect"
-msgstr "Ефект моргання"
+msgstr "Ефект блимання"
 
 #: ui/alertdialogbase.cpp:114
 msgid "Play online alert sound"
@@ -3281,7 +3277,7 @@ msgstr "Звукові попередження"
 
 #: ui/alertdialogbase.cpp:122
 msgid "Popup online alert dialog"
-msgstr "Показуивти діалог попереджень"
+msgstr "Показувати діалог попереджень"
 
 #: ui/alertdialogbase.cpp:126
 msgid "Open user window when online"
@@ -3498,7 +3494,7 @@ msgstr "Посада:"
 
 #: ui/themesetupbase.cpp:93
 msgid "Select style:"
-msgstr "Віберіть стиль:"
+msgstr "Виберіть стиль:"
 
 #: ui/themesetupbase.cpp:105
 msgid "Icons:"
@@ -3564,7 +3560,7 @@ msgstr "хвилин після \"Відійшов\""
 
 #: ui/statussetupbase.cpp:131
 msgid "seconds inactive"
-msgstr "секунд неактивності"
+msgstr "секунд не активності"
 
 #: ui/statussetupbase.cpp:140
 msgid "Set \"N/A\" status after"
@@ -3576,7 +3572,7 @@ msgstr "Домашня сторінка:"
 
 #: ui/moreinfobase.cpp:142
 msgid "Birth date:"
-msgstr "Дата нарождення:"
+msgstr "Дата народження:"
 
 #: ui/moreinfobase.cpp:148
 msgid "Month:"
@@ -3628,7 +3624,7 @@ msgstr "Знищити"
 
 #: ui/maininfobase.cpp:244
 msgid "Set as default"
-msgstr "По-змовчуванню"
+msgstr "По-замовчуванню"
 
 #: ui/maininfobase.cpp:256
 msgid "Notes"
@@ -3681,7 +3677,7 @@ msgstr ""
 #: ui/generalsecbase.cpp:156
 msgid "Allow direct connection from user &upon authorization"
 msgstr ""
-"Дозволити прямі з'єданння після &авторизації"
+"Дозволити прямі з'єднання після &авторизації"
 
 #: ui/generalsecbase.cpp:161
 msgid "Reject messages"
@@ -3736,7 +3732,7 @@ msgstr ""
 
 #: ui/securedlgbase.cpp:32
 msgid "Secure chanel request"
-msgstr "Запит шифрованого з'єдання"
+msgstr "Запит шифрованого з'єднання"
 
 #: ui/securedlgbase.cpp:36
 msgid ""
@@ -3745,11 +3741,11 @@ msgid ""
 "\n"
 "This only works with other SIM and Licq clients"
 msgstr ""
-"Шифроване з'єдання встанавлюється "
+"Шифроване з'єднання встановлюється "
 "з допомогою SSL з обміном ключами методом "
 "Діффі-Хелмана і протоколом TLS версії 1\n"
 "\n"
-"Це з'єдання працює тільки з "
+"Це з'єднання працює тільки з "
 "клієнтами SIM і Licq"
 
 #: about.cpp:280
@@ -3788,7 +3784,7 @@ msgstr "Українська"
 
 #: client.cpp:72
 msgid "Chinese Traditional"
-msgstr "Традиційа китайська"
+msgstr "Традиційна китайська"
 
 #: client.cpp:73 client.cpp:74
 msgid "Chinese Simplified"
@@ -3885,7 +3881,7 @@ msgid ""
 "%n authorizations refused"
 msgstr ""
 "Авторизація відхилена\n"
-"Авторизація відхилена %n раза\n"
+"Авторизація відхилена %n рази\n"
 "Авторизація відхилена %n раз"
 
 #: client.cpp:881
@@ -3895,7 +3891,7 @@ msgid ""
 "%n authorizations granted"
 msgstr ""
 "Авторизація прийнята\n"
-"Авторизація прийнята %n раза\n"
+"Авторизація прийнята %n рази\n"
 "Авторизація прийнята %n раз"
 
 #: client.cpp:883
@@ -3905,7 +3901,7 @@ msgid ""
 "%n times added to contact list"
 msgstr ""
 "Додав в список контактів\n"
-"Додав в список контактів %n раза\n"
+"Додав в список контактів %n рази\n"
 "Додав в список контактів %n раз"
 
 #: client.cpp:885
@@ -3956,7 +3952,7 @@ msgid ""
 msgstr ""
 "Невідоме повідомлення\n"
 "%n невідомих повідомлення\n"
-"%n невідовмих повідомлень"
+"%n невідомих повідомлень"
 
 #: client.cpp:895
 #, c-format
@@ -3994,9 +3990,9 @@ msgid ""
 "_n: Request secure channel\n"
 "%n requests sequre channel"
 msgstr ""
-"Запит захищеного з'єдання\n"
-"%n запита захищеного з'єдання\n"
-"%n запитів захищеного з'єдання"
+"Запит захищеного з'єднання\n"
+"%n запити захищеного з'єднання\n"
+"%n запитів захищеного з'єднання"
 
 #: client.cpp:903
 #, c-format
@@ -4004,9 +4000,9 @@ msgid ""
 "_n: Close secure channel\n"
 "%n times close sequre channel"
 msgstr ""
-"Розірвати захищене з'єдання\n"
-"%n Розірвати захищене з'єдання\n"
-"%n Розірвати захищене з'єдання"
+"Розірвати захищене з'єднання\n"
+"%n розриви захищеного з'єднання\n"
+"%n розривів захищених з'єднань"
 
 #: client.cpp:907
 #, c-format
@@ -4275,4 +4271,3 @@ msgstr "Не можу створити файл %1"
 
 #~ msgid "Spell"
 #~ msgstr "Проверка орфографии"
-
