@@ -332,7 +332,8 @@ void SoundPlugin::playSound(const char *s)
             return;
     }
     m_queue.push_back(s);
-    processQueue();
+	if (m_sound == NULL)
+		processQueue();
 }
 
 void SoundPlugin::processQueue()
@@ -369,6 +370,9 @@ bool bSound = true;
             m_current = "";
             return;
         }
+        if (m_sound)
+            delete m_sound;
+        m_sound   = NULL;
         m_sound = new QSound(sound.c_str());
         m_sound->play();
 #if COMPAT_QT_VERSION >= 0x030000

@@ -841,7 +841,7 @@ void Container::contactChanged(Contact *contact)
     }else if (!m_childs.empty()){
         userWnd = m_childs.front();
     }
-    if (userWnd && (contact->id() == userWnd->id())){
+    if (userWnd && contact && (contact->id() == userWnd->id())){
         QString name = userWnd->getName();
         Command cmd;
         cmd->id = CmdContainerContact;
