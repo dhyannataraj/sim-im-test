@@ -38,6 +38,20 @@
 #include <windows.h>
 #endif
 
+#ifdef WIN32
+
+static BOOL (WINAPI *SetLayeredWindowAttributes)(
+    HWND hwnd,
+    COLORREF crKey,
+    BYTE bAlpha,
+    DWORD dwFlags) = NULL;
+
+#define WS_EX_LAYERED           0x00080000
+#define LWA_COLORKEY            0x00000001
+#define LWA_ALPHA               0x00000002
+
+#endif
+
 char _TRANSPARENT[] = "transparent";
 
 TransparentBg::TransparentBg(QWidget *p, const char *name)
@@ -141,18 +155,33 @@ TransparentTop::TransparentTop(QWidget *parent,
     }
     connect(pMain, SIGNAL(transparentChanged()), this, SLOT(transparentChanged()));
 #ifdef WIN32
+	if (bCanTransparent){
+		SetWindowLongW(parent->winId(), GWL_EXSTYLE, GetWindowLongW(parent->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
+		SetLayeredWindowAttributes(parent->winId(), parent->colorGroup().background().rgb(), 255, LWA_ALPHA);
+		if (parent->isVisible()){
+			RedrawWindow(parent->winId(), NULL, NULL, RDW_UPDATENOW);
+			QTimer::singleShot(500, this, SLOT(transparentChanged()));
+		}
+    }
     parent->installEventFilter(this);
 #endif
     transparentChanged();
 }
 
-bool TransparentTop::eventFilter(QObject*, QEvent *e)
+bool TransparentTop::eventFilter(QObject *o, QEvent *e)
 {
     switch (e->type()){
     case QEvent::WindowActivate:
     case QEvent::WindowDeactivate:
         transparentChanged();
         break;
+	case QEvent::Show:
+		if (bCanTransparent){
+			QWidget *w = static_cast<QWidget*>(o);
+			SetLayeredWindowAttributes(w->winId(), w->colorGroup().background().rgb(), 255, LWA_ALPHA);
+			QTimer::singleShot(0, this, SLOT(transparentChanged()));
+		}
+		break;
     default:
         break;
     }
@@ -213,20 +242,6 @@ public:
 
 Transparency transparency;
 
-#ifdef WIN32
-
-static BOOL (WINAPI *SetLayeredWindowAttributes)(
-    HWND hwnd,
-    COLORREF crKey,
-    BYTE bAlpha,
-    DWORD dwFlags) = NULL;
-
-#define WS_EX_LAYERED           0x00080000
-#define LWA_COLORKEY            0x00000001
-#define LWA_ALPHA               0x00000002
-
-#endif
-
 Transparency::Transparency()
 {
     TransparentTop::bCanTransparent = false;
@@ -254,10 +269,9 @@ void TransparentTop::setTransparent(
     if (!bCanTransparent) return;
     if (isTransparent){
         BYTE d = QMIN(transparency * 256 / 100, 255);
-        SetWindowLongW(w->winId(), GWL_EXSTYLE, GetWindowLongW(w->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
         SetLayeredWindowAttributes(w->winId(), w->colorGroup().background().rgb(), d, LWA_ALPHA);
     }else{
-        SetWindowLongW(w->winId(), GWL_EXSTYLE, GetWindowLongW(w->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
+        SetLayeredWindowAttributes(w->winId(), w->colorGroup().background().rgb(), 255, LWA_ALPHA);
     }
 #endif
 }
