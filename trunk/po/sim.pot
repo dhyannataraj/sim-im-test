@@ -5442,10 +5442,6 @@ msgstr ""
 msgid "busy"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1444
-msgid "blah"
-msgstr ""
-
 #: plugins/livejournal/livejournal.cpp:1445
 msgid "full"
 msgstr ""
