@@ -1,4 +1,5 @@
 Version 0.8
+Add optional opwn history and user info in separate window
 Add filter for history
 Add alphabticaly sorting user list
 Add secure channel dialog
