@@ -20,6 +20,8 @@
 
 #include "simapi.h"
 
+class CorePlugin;
+
 const unsigned IcqCmdBase	= 0x00040000;
 
 const unsigned EventSearch			= IcqCmdBase;
@@ -68,32 +70,22 @@ public:
     static const DataDef *icqUserData;
 };
 
-typedef struct ICQData
-{
-    Data	ShowAllEncodings;
-    Data	DefaultEncoding;
-} ICQData;
-
 class ICQPlugin : public Plugin
 {
 public:
-    ICQPlugin(unsigned base, const char *cfg);
+    ICQPlugin(unsigned base);
     virtual ~ICQPlugin();
     unsigned OscarPacket;
     unsigned ICQDirectPacket;
     unsigned AIMDirectPacket;
-    PROP_BOOL(ShowAllEncodings);
-    PROP_STR(DefaultEncoding);
     unsigned RetrySendDND;
     unsigned RetrySendOccupied;
     static Protocol *m_icq;
     static Protocol *m_aim;
-    static ICQPlugin *icq_plugin;
+    static ICQPlugin  *icq_plugin;
+	static CorePlugin *core;
     void registerMessages();
     void unregisterMessages();
-protected:
-    virtual string getConfig();
-    ICQData	 data;
 };
 
 #endif

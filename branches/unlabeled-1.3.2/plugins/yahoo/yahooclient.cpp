@@ -230,7 +230,7 @@ void YahooClient::connect_ready()
     sendPacket(YAHOO_SERVICE_VERIFY);
 }
 
-class Params : public map<unsigned, string>
+class Params : public list<PARAM>
 {
 public:
     Params() {}
@@ -239,24 +239,24 @@ public:
 
 const char *Params::operator [](unsigned id)
 {
-    map<unsigned, string>::iterator it = find(id);
-    if (it == end())
-        return NULL;
-    return (*it).second.c_str();
+	for (iterator it = begin(); it != end(); ++it){
+		if ((*it).first == id)
+			return (*it).second.c_str();
+	}
+	return NULL;
 }
 
 void YahooClient::process_packet()
 {
     Params params;
+	Params::iterator it;
     for (;;){
         string key;
         string value;
         if (!m_socket->readBuffer.scan("\xC0\x80", key) || !m_socket->readBuffer.scan("\xC0\x80", value))
             break;
         unsigned key_id = atol(key.c_str());
-        map<unsigned, string>::iterator it = params.find(key_id);
-        if (it == params.end())
-            params.insert(map<unsigned, string>::value_type(key_id, value));
+        params.push_back(PARAM(key_id, value));
         log(L_DEBUG, "Param: %u %s", key_id, value.c_str());
     }
     switch (m_service){
@@ -299,6 +299,22 @@ void YahooClient::process_packet()
     case YAHOO_SERVICE_LIST:
         authOk();
         loadList(params[87]);
+		for (it = params.begin(); it != params.end(); ++it){
+			if ((*it).first == 59){
+				string s = (*it).second;
+				string n = getToken(s, ' ');
+				const char *p = s.c_str();
+				for (; *p; ++p)
+					if (*p != ' ')
+						break;
+				string cookie = p;
+				s = getToken(cookie, ';');
+				if (n == "Y")
+					setCookieY(s.c_str());
+				if (n == "T")
+					setCookieT(s.c_str());
+			}
+		}
         break;
     case YAHOO_SERVICE_LOGOFF:
         if (m_pkt_status == (unsigned long)(-1)){

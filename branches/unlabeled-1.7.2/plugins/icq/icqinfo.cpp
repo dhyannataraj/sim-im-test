@@ -85,7 +85,7 @@ void ICQInfo::apply()
         QStringList l;
         const ENCODING *e;
         QStringList main;
-        for (e = ICQClient::encodings; e->language; e++){
+        for (e = ICQPlugin::core->encodings; e->language; e++){
             if (!e->bMain)
                 continue;
             main.append(i18n(e->language) + " (" + e->codec + ")");
@@ -96,7 +96,7 @@ void ICQInfo::apply()
             l.append(*it);
         }
         QStringList noMain;
-        for (e = ICQClient::encodings; e->language; e++){
+        for (e = ICQPlugin::core->encodings; e->language; e++){
             if (e->bMain)
                 continue;
             noMain.append(i18n(e->language) + " (" + e->codec + ")");
@@ -118,7 +118,7 @@ void ICQInfo::apply()
         }
     }
     if (m_data == NULL)
-        static_cast<ICQPlugin*>(m_client->protocol()->plugin())->setDefaultEncoding(encoding.c_str());
+		ICQPlugin::core->setDefaultEncoding(encoding.c_str());
     if (!set_str(&data->Encoding.ptr, encoding.c_str()))
         return;
     Contact *contact;
@@ -286,7 +286,7 @@ void ICQInfo::fill()
     const ENCODING *e;
     QStringList main;
     QStringList::Iterator it;
-    for (e = ICQClient::encodings; e->language; e++){
+    for (e = ICQPlugin::core->encodings; e->language; e++){
         if (!e->bMain)
             continue;
         main.append(i18n(e->language) + " (" + e->codec + ")");
@@ -303,7 +303,7 @@ void ICQInfo::fill()
         cmbEncoding->insertItem(*it);
     }
     QStringList noMain;
-    for (e = ICQClient::encodings; e->language; e++){
+    for (e = ICQPlugin::core->encodings; e->language; e++){
         if (e->bMain)
             continue;
         noMain.append(i18n(e->language) + " (" + e->codec + ")");

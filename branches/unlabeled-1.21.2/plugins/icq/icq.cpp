@@ -36,9 +36,9 @@
 #include "xpm/icqphonebusy.xpm"
 #include "xpm/sharedfiles.xpm"
 
-Plugin *createICQPlugin(unsigned base, bool, const char *cfg)
+Plugin *createICQPlugin(unsigned base, bool, const char*)
 {
-    Plugin *plugin = new ICQPlugin(base, cfg);
+    Plugin *plugin = new ICQPlugin(base);
     return plugin;
 }
 
@@ -331,19 +331,6 @@ const CommandDef *AIMProtocol::statusList()
     return aim_status_list;
 }
 
-/*
-typedef struct IconsData
-{
-    void *IconDLLs;
-} IconsData;
-*/
-static DataDef icqData[] =
-    {
-        { "ShowAllEncodings", DATA_BOOL, 1, 0 },
-        { "DefaultEncoding", DATA_STRING, 1, 0 },
-        { NULL, 0, 0, 0 }
-    };
-
 Protocol *ICQPlugin::m_icq = NULL;
 Protocol *ICQPlugin::m_aim = NULL;
 
@@ -351,17 +338,21 @@ Protocol *ICQPlugin::m_aim = NULL;
 void qInitJpeg();
 #endif
 
+CorePlugin *ICQPlugin::core = NULL;
+
 ICQPlugin *ICQPlugin::icq_plugin = NULL;
 
-ICQPlugin::ICQPlugin(unsigned base, const char *cfg)
+ICQPlugin::ICQPlugin(unsigned base)
         : Plugin(base)
 {
+    Event ePlugin(EventGetPluginInfo, (void*)"_core");
+    pluginInfo *info = (pluginInfo*)(ePlugin.process());
+    core = static_cast<CorePlugin*>(info->plugin);
+
 #if defined(WIN32) && (QT_VERSION < 300)
     qInitJpeg();
 #endif
     icq_plugin = this;
-
-    load_data(icqData, &data, cfg);
 
     OscarPacket = registerType();
     getContacts()->addPacketType(OscarPacket, "Oscar");
@@ -593,11 +584,6 @@ ICQPlugin::~ICQPlugin()
 
     Event eMenuCheckInvisible(EventMenuRemove, (void*)MenuCheckInvisible);
     eMenuCheckInvisible.process();
-}
-
-string ICQPlugin::getConfig()
-{
-    return save_data(icqData, &data);
 }
 
 #ifdef WIN32

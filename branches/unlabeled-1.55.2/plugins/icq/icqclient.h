@@ -264,6 +264,7 @@ typedef struct ICQClientData
     Data		MinPort;
     Data		MaxPort;
     Data		WarnAnonimously;
+	Data		AckMode;
     ICQUserData	owner;
 } ICQClientData;
 
@@ -323,16 +324,6 @@ const unsigned PLUGIN_AIM_FT			 = 16;
 const unsigned PLUGIN_AIM_FT_ACK		 = 17;
 
 class ICQClient;
-
-typedef struct ENCODING
-{
-    const char *language;
-    const char *codec;
-    int         mib;
-    int			rtf_code;
-    int			cp_code;
-    bool        bMain;
-} ENCODING;
 
 const unsigned LIST_USER_CHANGED    = 0;
 const unsigned LIST_USER_DELETED    = 1;
@@ -482,6 +473,7 @@ public:
     PROP_USHORT(MinPort);
     PROP_USHORT(MaxPort);
     PROP_BOOL(WarnAnonimously);
+	PROP_USHORT(AckMode);
     ICQClientData    data;
     QString toUnicode(const char *str, ICQUserData *client_data);
     string fromUnicode(const QString &str, ICQUserData *client_data);
@@ -528,7 +520,6 @@ public:
     static QString pictureFile(ICQUserData *data);
     static const capability *capabilities;
     static const plugin *plugins;
-    static const ENCODING *encodings;
     static QString convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n);
     static QString convert(const char *text, unsigned size, TlvList &tlvs, unsigned n);
     string screen(ICQUserData*);
