@@ -142,9 +142,8 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
     m_argv = argv;
 
     app_name = *argv;
-    for (argv++, argc--; argc > 0; argv++, argc--){
+    for (argv++, argc--; argc > 0; argv++, argc--)
         args.push_back(string(*argv));
-    }
 
     m_base = 0;
     m_bLoaded = false;

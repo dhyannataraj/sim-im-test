@@ -848,6 +848,7 @@ bool DockWnd::x11Event(XEvent *e)
             if (e->xclient.message_type == xembed_atom){
                 inTray = true;
                 bInit = true;
+		resize(22, 22);
                 if (wharfIcon){
                     delete wharfIcon;
                     wharfIcon = NULL;

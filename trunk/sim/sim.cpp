@@ -205,8 +205,7 @@ int main(int argc, char *argv[])
         char *arg = *p;
         // check if "-" or "--"
         if (arg[0] != '-') {
-            // wrong parameter :(
-            argc--;
+            *(to++) = *p;
             continue;
         }
         arg++;

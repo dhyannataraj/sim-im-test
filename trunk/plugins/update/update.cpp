@@ -81,7 +81,7 @@ void UpdatePlugin::timeout()
     time_t now;
     time(&now);
     if ((unsigned)now >= getTime() + CHECK_INTERVAL){
-        string url = "http://sim.shutoff.ru/cgi-bin/update.pl?v=" VERSION;
+        string url = "http://sim.shutoff.ru/cgi-bin/update1.pl?v=" VERSION;
 #ifdef WIN32
         url += "&os=1";
 #else
