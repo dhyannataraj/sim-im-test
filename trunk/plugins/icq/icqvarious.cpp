@@ -1175,6 +1175,14 @@ void ICQClient::setClientInfo(void *_data)
 
     ICQUserData *d = (ICQUserData*)_data;
 
+    if (m_bAIM){
+        d->ProfileFetch = 1;
+        set_str(&data.owner.About, d->About);
+        setAIMInfo(d);
+        setProfile(d);
+        return;
+    }
+
     set_str(&d->HomePhone, NULL);
     set_str(&d->HomeFax, NULL);
     set_str(&d->WorkPhone, NULL);

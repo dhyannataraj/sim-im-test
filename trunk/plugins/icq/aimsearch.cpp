@@ -171,6 +171,7 @@ void AIMSearch::startSearch()
         break;
     case 2:
         id = m_client->aimEMailSearch(edtMail->text().utf8());
+        m_result->setRequestId(id, SEARCH_DONE);
         return;
     case 3:{
             unsigned short code = getComboValue(cmbCountry, getCountries(), getCountryCodes());
@@ -186,6 +187,7 @@ void AIMSearch::startSearch()
                                          country, edtStreet->text().utf8(),
                                          edtCity->text().utf8(), edtNick->text().utf8(),
                                          edtZip->text().utf8(), edtState->text().utf8());
+            m_result->setRequestId(id, SEARCH_DONE);
             return;
         }
     }

@@ -27,6 +27,20 @@
 #include "xpm/jabber_dnd.xpm"
 #include "xpm/jabber_ffc.xpm"
 #include "xpm/jabber_invisible.xpm"
+#include "xpm/icq_online.xpm"
+#include "xpm/icq_offline.xpm"
+#include "xpm/icq_away.xpm"
+#include "xpm/icq_na.xpm"
+#include "xpm/icq_dnd.xpm"
+#include "xpm/icq_ffc.xpm"
+#include "xpm/msn_online.xpm"
+#include "xpm/msn_offline.xpm"
+#include "xpm/msn_away.xpm"
+#include "xpm/msn_na.xpm"
+#include "xpm/msn_dnd.xpm"
+#include "xpm/aim_online.xpm"
+#include "xpm/aim_offline.xpm"
+#include "xpm/aim_away.xpm"
 
 Plugin *createJabberPlugin(unsigned base, bool, const char*)
 {
@@ -246,6 +260,62 @@ JabberPlugin::JabberPlugin(unsigned base)
 
     icon.name = "Jabber_invisible";
     icon.xpm = jabber_invisible;
+    eIcon.process();
+
+    icon.name = "ICQ_offline";
+    icon.xpm = icq_offline;
+    eIcon.process();
+
+    icon.name = "ICQ_online";
+    icon.xpm = icq_online;
+    eIcon.process();
+
+    icon.name = "ICQ_away";
+    icon.xpm = icq_away;
+    eIcon.process();
+
+    icon.name = "ICQ_na";
+    icon.xpm = icq_na;
+    eIcon.process();
+
+    icon.name = "ICQ_dnd";
+    icon.xpm = icq_dnd;
+    eIcon.process();
+
+    icon.name = "ICQ_ffc";
+    icon.xpm = icq_ffc;
+    eIcon.process();
+
+    icon.name = "MSN_offline";
+    icon.xpm = msn_offline;
+    eIcon.process();
+
+    icon.name = "MSN_online";
+    icon.xpm = msn_online;
+    eIcon.process();
+
+    icon.name = "MSN_away";
+    icon.xpm = msn_away;
+    eIcon.process();
+
+    icon.name = "MSN_na";
+    icon.xpm = msn_na;
+    eIcon.process();
+
+    icon.name = "MSN_dnd";
+    icon.xpm = msn_dnd;
+    eIcon.process();
+
+    icon.name = "AIM_offline";
+    icon.xpm = aim_offline;
+    eIcon.process();
+
+    icon.name = "AIM_online";
+    icon.xpm = aim_online;
+    eIcon.process();
+
+    icon.name = "AIM_away";
+    icon.xpm = aim_away;
     eIcon.process();
 
     Event eMenuSearch(EventMenuCreate, (void*)MenuSearchResult);

@@ -68,6 +68,8 @@ typedef struct JabberUserData
     unsigned	Subscribe;
     char		*Group;
     unsigned	bChecked;
+    char		*TypingId;
+    unsigned	composeId;
 } JabberUserData;
 
 typedef struct JabberClientData
@@ -81,6 +83,8 @@ typedef struct JabberClientData
     unsigned		Priority;
     char			*ListRequest;
     char			*VHost;
+    unsigned		Typing;
+    unsigned		ProtocolIcons;
     JabberUserData	owner;
 } JabberClientData;
 
@@ -193,6 +197,10 @@ class MessageRequest : public ServerRequest
         string m_body;
         string m_subj;
         string m_error;
+        bool   m_bBody;
+        string m_id;
+        bool   m_bCompose;
+        bool   m_bEvent;
         unsigned m_errorCode;
     };
 
@@ -203,7 +211,10 @@ class MessageRequest : public ServerRequest
     virtual string getConfig();
 
     void setID(const QString &id);
-QString getID() { return QString::fromUtf8(data.owner.ID ? data.owner.ID : ""); }
+    QString getID()
+    {
+        return QString::fromUtf8(data.owner.ID ? data.owner.ID : "");
+    }
     PROP_STR(Server);
     PROP_ULONG(Port);
     PROP_BOOL(UseSSL);
@@ -212,6 +223,8 @@ QString getID() { return QString::fromUtf8(data.owner.ID ? data.owner.ID : ""); 
     PROP_BOOL(Register);
     PROP_ULONG(Priority);
     PROP_UTF8(ListRequest);
+    PROP_BOOL(Typing);
+    PROP_BOOL(ProtocolIcons);
 
     string		buildId(JabberUserData *data);
     JabberUserData	*findContact(const char *jid, const char *name, bool bCreate, Contact *&contact);
@@ -280,6 +293,7 @@ protected:
 
     string		get_unique_id();
     unsigned	m_id_seed;
+    unsigned	m_msg_id;
 
     bool		m_bXML;
     void		element_start(const char *el, const char **attr);

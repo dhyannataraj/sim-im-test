@@ -761,6 +761,22 @@ bool MSNClient::send(Message *msg, void *_data)
             data->sb = new SBSocket(this, contact, data);
         }
         return data->sb->send(msg);
+    case MessageTypingStart:
+        if (data->sb == NULL){
+            Contact *contact;
+            findContact(data->EMail, contact);
+            data->sb = new SBSocket(this, contact, data);
+            data->sb->connect();
+        }
+        data->sb->setTyping(true);
+        delete msg;
+        return true;
+    case MessageTypingStop:
+        if (data->sb == NULL)
+            return false;
+        data->sb->setTyping(false);
+        delete msg;
+        return true;
     }
     if (packet == NULL)
         return false;
@@ -1085,26 +1101,6 @@ void *MSNClient::processEvent(Event *e)
             processRequests();
         }
     }
-    if ((e->type() == EventStartTyping) || (e->type() == EventStopTyping)){
-        if (getState() != Connected)
-            return NULL;
-        Contact *contact = getContacts()->contact((unsigned long)(e->param()));
-        if (contact == NULL)
-            return NULL;
-        ClientDataIterator it(contact->clientData, this);
-        MSNUserData *data = (MSNUserData*)(++it);
-        if (data == NULL)
-            return NULL;
-        if (data->sb){
-            data->sb->setTyping(e->type() == EventStartTyping);
-            return NULL;
-        }
-        if (e->type() == EventStartTyping){
-            data->sb = new SBSocket(this, contact, data);
-            data->sb->connect();
-            data->sb->setTyping(true);
-        }
-    }
     if (e->type() == EventMessageCancel){
         Message *msg = (Message*)(e->param());
         for (list<SBSocket*>::iterator it = m_SBsockets.begin(); it != m_SBsockets.end(); ++it){
@@ -1353,22 +1349,40 @@ bool MSNClient::compareData(void *d1, void *d2)
     return strcmp(((MSNUserData*)d1)->EMail, ((MSNUserData*)d2)->EMail) == 0;
 }
 
-static void addIcon(string *s, const char *icon)
+static void addIcon(string *s, const char *icon, const char *statusIcon)
+
 {
+
     if (s == NULL)
+
         return;
+
+    if (statusIcon && !strcmp(statusIcon, icon))
+
+        return;
+
     string str = *s;
+
     while (!str.empty()){
+
         string item = getToken(str, ',');
+
         if (item == icon)
+
             return;
+
     }
+
     if (!s->empty())
+
         *s += ',';
+
     *s += icon;
+
 }
 
-void MSNClient::contactInfo(void *_data, unsigned long &status, unsigned&, const char *&statusIcon, string *icons)
+
+void MSNClient::contactInfo(void *_data, unsigned long &curStatus, unsigned&, const char *&statusIcon, string *icons)
 {
     MSNUserData *data = (MSNUserData*)_data;
     unsigned cmp_status = data->Status;
@@ -1379,24 +1393,40 @@ void MSNClient::contactInfo(void *_data, unsigned long &status, unsigned&, const
     }
     if ((cmp_status == STATUS_BRB) || (cmp_status == STATUS_PHONE) || (cmp_status == STATUS_LUNCH))
         cmp_status = STATUS_AWAY;
-    if ((cmp_status > status) || (statusIcon == NULL)){
-        status = cmp_status;
-        if (icons && statusIcon){
-            if (!icons->empty())
-                *icons += ",";
-            *icons += statusIcon;
+    if (data->Status > curStatus){
+
+        curStatus = data->Status;
+
+        if (statusIcon && icons){
+
+            string iconSave = *icons;
+
+            *icons = statusIcon;
+
+            if (iconSave.length())
+
+                addIcon(icons, iconSave.c_str(), statusIcon);
+
         }
+
         statusIcon = def->icon;
+
     }else{
-        if (icons){
-            if (!icons->empty())
-                *icons += ",";
-            *icons += def->icon;
+
+        if (statusIcon){
+
+            addIcon(icons, def->icon, statusIcon);
+
+        }else{
+
+            statusIcon = def->icon;
+
         }
+
     }
-    if (icons && data->typing_time){
-        addIcon(icons, "typing");
-    }
+
+    if (icons && data->typing_time)
+        addIcon(icons, "typing", statusIcon);
 }
 
 QString MSNClient::contactTip(void *_data)

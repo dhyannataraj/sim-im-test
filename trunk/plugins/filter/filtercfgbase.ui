@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>357</width>
+            <width>353</width>
             <height>253</height>
         </rect>
     </property>
@@ -73,7 +73,7 @@
             <property>
                 <name>text</name>
                 <string>Words are divided by any separators (space, comma, i.e.)
-Phrase (sequence of words) consists in quotas
+A phrase can be specified using quotation marks
 Words can contain wildcards:
 * - any amount of symbols (or is empty)
 ? - any symbol</string>

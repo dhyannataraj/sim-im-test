@@ -104,7 +104,7 @@ QString UserWnd::getLongName()
     Contact *contact = getContacts()->contact(m_id);
     res = contact->getName();
     void *data;
-    Client *client = m_edit->client(data, false);
+    Client *client = m_edit->client(data, false, true);
     if (client && data){
         res += " ";
         res += client->contactName(data);
@@ -139,7 +139,7 @@ const char *UserWnd::getIcon()
     unsigned style;
     const char *statusIcon;
     void *data;
-    Client *client = m_edit->client(data, false);
+    Client *client = m_edit->client(data, false, true);
     if (client){
         client->contactInfo(data, status, style, statusIcon);
     }else{

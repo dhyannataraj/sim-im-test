@@ -835,6 +835,42 @@ SOURCE=.\jabber.rc
 # PROP Default_Filter "xpm"
 # Begin Source File
 
+SOURCE=.\xpm\aim_away.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\aim_offline.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\aim_online.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\icq_away.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\icq_dnd.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\icq_ffc.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\icq_na.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\icq_offline.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\icq_online.xpm
+# End Source File
+# Begin Source File
+
 SOURCE=.\xpm\jabber_away.xpm
 # End Source File
 # Begin Source File
@@ -856,6 +892,26 @@ SOURCE=.\xpm\jabber_offline.xpm
 # Begin Source File
 
 SOURCE=.\xpm\jabber_online.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\msn_away.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\msn_dnd.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\msn_na.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\msn_offline.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\msn_online.xpm
 # End Source File
 # End Group
 # Begin Group "Interfaces"

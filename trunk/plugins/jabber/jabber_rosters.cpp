@@ -790,11 +790,14 @@ JabberClient::MessageRequest::MessageRequest(JabberClient *client)
 {
     m_data = NULL;
     m_errorCode = 0;
+    m_bBody = false;
+    m_bCompose = false;
+    m_bEvent = false;
 }
 
 JabberClient::MessageRequest::~MessageRequest()
 {
-    if (m_from.empty() || m_body.empty())
+    if (m_from.empty())
         return;
     Contact *contact;
     JabberUserData *data = m_client->findContact(m_from.c_str(), NULL, false, contact);
@@ -804,19 +807,52 @@ JabberClient::MessageRequest::~MessageRequest()
             return;
         contact->setTemporary(CONTACT_TEMP);
     }
-    Message *msg;
-    if (m_errorCode || !m_error.empty()){
-        JabberMessageError *m = new JabberMessageError;
-        m->setError(QString::fromUtf8(m_error.c_str()));
-        m->setCode(m_errorCode);
-        msg = m;
-    }else if (m_subj.empty()){
-        msg = new Message(MessageGeneric);
-    }else{
-        JabberMessage *m = new JabberMessage;
-        m->setSubject(QString::fromUtf8(m_subj.c_str()));
-        msg = m;
+    Message *msg = NULL;
+    if (!m_id.empty()){
+        string typing_id;
+        if (data->TypingId)
+            typing_id = data->TypingId;
+        string new_typing_id;
+        bool bProcess = false;
+        while (!typing_id.empty()){
+            string id = getToken(typing_id, ';');
+            if (id == m_id){
+                if (!m_bCompose)
+                    continue;
+                bProcess = true;
+            }
+            if (!new_typing_id.empty())
+                new_typing_id += ";";
+            new_typing_id += id;
+        }
+        if (!bProcess && m_bCompose){
+            if (!new_typing_id.empty())
+                new_typing_id += ";";
+            new_typing_id += m_id;
+        }
+        if (set_str(&data->TypingId, new_typing_id.c_str())){
+            Event e(EventContactStatus, contact);
+            e.process();
+        }
     }
+    if (m_errorCode || !m_error.empty()){
+        if (!m_bEvent){
+            JabberMessageError *m = new JabberMessageError;
+            m->setError(QString::fromUtf8(m_error.c_str()));
+            m->setCode(m_errorCode);
+            msg = m;
+        }
+    }else if (m_bBody){
+        if (m_subj.empty()){
+            msg = new Message(MessageGeneric);
+        }else{
+            JabberMessage *m = new JabberMessage;
+            m->setSubject(QString::fromUtf8(m_subj.c_str()));
+            msg = m;
+        }
+    }
+    if (msg == NULL)
+        return;
     msg->setText(QString::fromUtf8(m_body.c_str()));
     msg->setFlags(MESSAGE_RECEIVED);
     msg->setClient(m_client->dataName(data).c_str());
@@ -835,6 +871,7 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
     }
     if (!strcmp(el, "body")){
         m_data = &m_body;
+        m_bBody = true;
         return;
     }
     if (!strcmp(el, "subject")){
@@ -844,6 +881,19 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
     if (!strcmp(el, "error")){
         m_errorCode = atol(JabberClient::get_attr("code", attr).c_str());
         m_data = &m_error;
+        return;
+    }
+    if (!strcmp(el, "compose")){
+        m_bCompose = true;
+        return;
+    }
+    if (!strcmp(el, "id")){
+        m_data = &m_id;
+        return;
+    }
+    if (!strcmp(el, "x")){
+        if (JabberClient::get_attr("xmlns", attr) == "jabber:x:event")
+            m_bEvent = true;
     }
 }
 

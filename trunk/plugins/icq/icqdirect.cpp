@@ -172,7 +172,8 @@ bool DirectSocket::error_state(const char *error, unsigned)
         connect();
         return false;
     }
-    log(L_WARN, "Direct socket error %s", error);
+    if (*error)
+        log(L_WARN, "Direct socket error %s", error);
     return true;
 }
 
@@ -1753,7 +1754,7 @@ void ICQFileTransfer::write_ready()
             FileTransfer::m_state = FileTransfer::Done;
             if (m_notify)
                 m_notify->process();
-            m_socket->error_state("Done");
+            m_socket->error_state("");
             return;
         }
         m_state = InitSend;

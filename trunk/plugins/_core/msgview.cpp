@@ -185,7 +185,6 @@ QString MsgViewBase::messageText(Message *msg)
         if (CorePlugin::m_plugin->getOwnColors())
             s += "</span>";
     }
-    log(L_DEBUG, "> %s", s.latin1());
     return s;
 }
 

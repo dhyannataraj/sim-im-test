@@ -27,7 +27,8 @@ ServiceSocket::ServiceSocket(ICQClient *client, unsigned short id)
     m_id     = id;
     m_client->m_services.push_back(this);
     m_socket = NULL;
-	m_bConnected = false;
+
+    m_bConnected = false;
 }
 
 ServiceSocket::~ServiceSocket()
@@ -135,6 +136,7 @@ public:
 protected:
     void data(unsigned short fam, unsigned short type, unsigned short seq);
     void snac_service(unsigned short type);
+    void snac_search(unsigned short type, unsigned short seq);
     void process();
     void addTlv(int n, const QString&, bool);
     REQUEST_MAP m_requests;
@@ -237,7 +239,7 @@ void SearchSocket::process()
                 addTlv(0x21, state, bLatin);
         }
         sendPacket();
-        m_seq.insert(SEQ_MAP::value_type((*it).first, m_nSequence));
+        m_seq.insert(SEQ_MAP::value_type(m_nMsgSequence, (*it).first));
     }
     m_requests.clear();
 }
@@ -249,11 +251,14 @@ unsigned short SearchSocket::add(string name)
     return m_id;
 }
 
-void SearchSocket::data(unsigned short fam, unsigned short type, unsigned short)
+void SearchSocket::data(unsigned short fam, unsigned short type, unsigned short seq)
 {
     switch (fam){
     case ICQ_SNACxFAM_SERVICE:
         snac_service(type);
+        break;
+    case USER_DIRECTORY_SERVICE:
+        snac_search(type, seq);
         break;
     default:
         log(L_WARN, "Unknown family %02X", fam);
@@ -287,12 +292,66 @@ void SearchSocket::snac_service(unsigned short type)
     }
 }
 
-/*
-void ICQClient::snac_lookup(unsigned short type, unsigned short)
+void SearchSocket::snac_search(unsigned short type, unsigned short seq)
 {
-    log(L_WARN, "Unknown lookup family type %04X", type);
+    SEQ_MAP::iterator it;
+    switch (type){
+    case USER_DIRECTORY_RESULT:
+        it = m_seq.find(seq);
+        if (it == m_seq.end()){
+            log(L_WARN, "Bad sequence in search answer");
+        }else{
+            unsigned short res1, res2;
+            m_socket->readBuffer >> res1;
+            m_socket->readBuffer.incReadPos(4);
+            m_socket->readBuffer >> res2;
+
+            SearchResult res;
+            res.id = (*it).second;
+            res.client = m_client;
+
+            bool bEnd = true;
+            if (res2){
+                TlvList tlvs(m_socket->readBuffer);
+                Tlv *tlv = tlvs(0x09);
+                if (tlv){
+                    load_data(ICQProtocol::icqUserData, &res.data, NULL);
+                    set_str(&res.data.Screen, *tlv);
+                    tlv = tlvs(0x01);
+                    if (tlv){
+                        QString str = ICQClient::convert(tlv, tlvs, 0x1C);
+                        set_str(&res.data.FirstName, str.utf8());
+                    }
+                    tlv = tlvs(0x02);
+                    if (tlv){
+                        QString str = ICQClient::convert(tlv, tlvs, 0x1C);
+                        set_str(&res.data.LastName, str.utf8());
+                    }
+                    tlv = tlvs(0x0C);
+                    if (tlv){
+                        QString str = ICQClient::convert(tlv, tlvs, 0x1C);
+                        set_str(&res.data.Nick, str.utf8());
+                    }
+                    Event e(static_cast<ICQPlugin*>(m_client->protocol()->plugin())->EventSearch, &res);
+                    e.process();
+                    free_data(ICQProtocol::icqUserData, &res.data);
+                }
+                if (res1 == 6)
+                    bEnd = false;
+            }
+            if (bEnd){
+                load_data(ICQProtocol::icqUserData, &res.data, NULL);
+                Event e(static_cast<ICQPlugin*>(m_client->protocol()->plugin())->EventSearchDone, &res);
+                e.process();
+                free_data(ICQProtocol::icqUserData, &res.data);
+                m_seq.erase(it);
+            }
+        }
+        break;
+    default:
+        log(L_WARN, "Unknown search family type %04X", type);
+    }
 }
-*/
 
 unsigned ICQClient::aimEMailSearch(const char *name)
 {
@@ -328,35 +387,45 @@ unsigned ICQClient::aimInfoSearch(const char *first, const char *last, const cha
     }
     string info;
     info += (char)0;
-	if (first)
-		info += first;
+
+    if (first)
+        info += first;
     info += (char)0;
-	if (last)
-		info += last;
+
+    if (last)
+        info += last;
     info += (char)0;
-	if (middle)
-		info += middle;
+
+    if (middle)
+        info += middle;
     info += (char)0;
-	if (maiden)
-		info += maiden;
+
+    if (maiden)
+        info += maiden;
     info += (char)0;
-	if (country)
-		info += country;
+
+    if (country)
+        info += country;
     info += (char)0;
-	if (street)
-		info += street;
+
+    if (street)
+        info += street;
     info += (char)0;
-	if (city)
-		info += city;
+
+    if (city)
+        info += city;
     info += (char)0;
-	if (nick)
-		info += nick;
+
+    if (nick)
+        info += nick;
     info += (char)0;
-	if (zip)
-		info += zip;
+
+    if (zip)
+        info += zip;
     info += (char)0;
-	if (state)
-		info += state;
+
+    if (state)
+        info += state;
     return s->add(info);
 }
 
