@@ -1951,10 +1951,10 @@ EXPORT ContactList *getContacts()
 
 EXPORT QString i18n(const char *text, Contact *contact)
 {
-    QString male = i18n(text, "male");
+    QString male = i18n("male", text);
     if (contact == NULL)
         return male;
-    QString female = i18n(text, "female");
+    QString female = i18n("female", text);
     if (male == female)
         return male;
     string gender = contact->clientData.property("Gender");

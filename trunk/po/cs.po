@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
-"POT-Creation-Date: 2004-02-19 10:52+0300\n"
+"POT-Creation-Date: 2004-02-20 08:57+0300\n"
 "PO-Revision-Date: 2004-01-03 17:27+0100\n"
 "Last-Translator: Pavel Rousar <p.rousar@sh.cvut.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -2073,7 +2073,7 @@ msgstr "Kontakt %1 už v kontaktlistu je"
 
 #: plugins/__homedir/homedircfgbase.cpp:62 plugins/_core/arcfgbase.cpp:78
 #: plugins/_core/filecfgbase.cpp:86 plugins/_core/historycfgbase.cpp:165
-#: plugins/_core/interfacecfgbase.cpp:115 plugins/_core/maininfobase.cpp:170
+#: plugins/_core/interfacecfgbase.cpp:117 plugins/_core/maininfobase.cpp:170
 #: plugins/_core/msgcfgbase.cpp:83 plugins/_core/phonebase.cpp:113
 #: plugins/_core/plugincfgbase.cpp:70 plugins/_core/prefcfgbase.cpp:65
 #: plugins/_core/smscfgbase.cpp:64 plugins/_core/userhistorycfgbase.cpp:91
@@ -2432,15 +2432,15 @@ msgstr "Kontejner"
 #: plugins/_core/container.cpp:557 plugins/osd/osd.cpp:294
 #, fuzzy
 msgid ""
-"_: %1 typed\n"
-"male"
+"_: male\n"
+"%1 typed"
 msgstr "%1 napsáno"
 
 #: plugins/_core/container.cpp:558 plugins/osd/osd.cpp:295
 #, fuzzy
 msgid ""
-"_: %1 typed\n"
-"female"
+"_: female\n"
+"%1 typed"
 msgstr "%1 napsáno"
 
 #: plugins/_core/core.cpp:75
@@ -3314,6 +3314,47 @@ msgstr "Čas poslední zprávy"
 msgid "Contact name"
 msgstr "Název kontaktu"
 
+#: plugins/_core/interfacecfgbase.cpp:118 plugins/icq/icqsearchbase.cc:294
+#: plugins/spell/spellcfgbase.cpp:86
+msgid "Language:"
+msgstr "Jazyk:"
+
+#: plugins/_core/interfacecfgbase.cpp:119
+msgid "Message window"
+msgstr "Okno se zprávou"
+
+#: plugins/_core/interfacecfgbase.cpp:120
+msgid "&Simple mode"
+msgstr "&Jednoduchý mód"
+
+#: plugins/_core/interfacecfgbase.cpp:121
+msgid "&Chat mode"
+msgstr "&Chat mód"
+
+#: plugins/_core/interfacecfgbase.cpp:122
+msgid "&Using last selected font"
+msgstr "&Použít posledně vybraný font"
+
+#: plugins/_core/interfacecfgbase.cpp:123
+msgid "Container mode"
+msgstr "Mód s kontejnerem"
+
+#: plugins/_core/interfacecfgbase.cpp:124
+msgid "Open each contact in &new container"
+msgstr "Otevřít každý kontakt do &nového kontejneru"
+
+#: plugins/_core/interfacecfgbase.cpp:125
+msgid "Open one container for &group"
+msgstr "Otevřít jeden kontejner pro &skupinu"
+
+#: plugins/_core/interfacecfgbase.cpp:126
+msgid "Open all contacts in &one container"
+msgstr "Všechny kontakty v jedn&om kontejneru"
+
+#: plugins/_core/interfacecfgbase.cpp:127
+msgid "Use \"&Enter\" for send message"
+msgstr "Použít \"&Enter\" k odeslání zprávy"
+
 #: plugins/_core/cfgdlgbase.cpp:93
 msgid "&Update"
 msgstr "Akt&ualizace"
@@ -3326,47 +3367,6 @@ msgstr "MůjDialog"
 #: plugins/_core/autoreplybase.cpp:88
 msgid "Don't show this dialog"
 msgstr "Nezobrazovat tento dialog"
-
-#: plugins/_core/interfacecfgbase.cpp:116 plugins/icq/icqsearchbase.cc:294
-#: plugins/spell/spellcfgbase.cpp:86
-msgid "Language:"
-msgstr "Jazyk:"
-
-#: plugins/_core/interfacecfgbase.cpp:117
-msgid "Message window"
-msgstr "Okno se zprávou"
-
-#: plugins/_core/interfacecfgbase.cpp:118
-msgid "&Simple mode"
-msgstr "&Jednoduchý mód"
-
-#: plugins/_core/interfacecfgbase.cpp:119
-msgid "&Chat mode"
-msgstr "&Chat mód"
-
-#: plugins/_core/interfacecfgbase.cpp:120
-msgid "&Using last selected font"
-msgstr "&Použít posledně vybraný font"
-
-#: plugins/_core/interfacecfgbase.cpp:121
-msgid "Container mode"
-msgstr "Mód s kontejnerem"
-
-#: plugins/_core/interfacecfgbase.cpp:122
-msgid "Open each contact in &new container"
-msgstr "Otevřít každý kontakt do &nového kontejneru"
-
-#: plugins/_core/interfacecfgbase.cpp:123
-msgid "Open one container for &group"
-msgstr "Otevřít jeden kontejner pro &skupinu"
-
-#: plugins/_core/interfacecfgbase.cpp:124
-msgid "Open all contacts in &one container"
-msgstr "Všechny kontakty v jedn&om kontejneru"
-
-#: plugins/_core/interfacecfgbase.cpp:125
-msgid "Use \"&Enter\" for send message"
-msgstr "Použít \"&Enter\" k odeslání zprávy"
 
 #: plugins/_core/userviewcfgbase.cpp:248
 #, fuzzy
@@ -6276,15 +6276,15 @@ msgstr "&OSD"
 #: plugins/osd/osd.cpp:292
 #, fuzzy
 msgid ""
-"_: %1 is online\n"
-"male"
+"_: male\n"
+"%1 is online"
 msgstr "%1 je online"
 
 #: plugins/osd/osd.cpp:293
 #, fuzzy
 msgid ""
-"_: %1 is online\n"
-"female"
+"_: female\n"
+"%1 is online"
 msgstr "%1 je online"
 
 #: plugins/osd/osdconfigbase.cpp:61
@@ -8098,6 +8098,18 @@ msgstr "Typ proxy:"
 #, fuzzy
 msgid "You send"
 msgstr "zmatený"
+
+#, fuzzy
+#~ msgid ""
+#~ "_: %1 typed\n"
+#~ "female"
+#~ msgstr "%1 napsáno"
+
+#, fuzzy
+#~ msgid ""
+#~ "_: %1 is online\n"
+#~ "female"
+#~ msgstr "%1 je online"
 
 #~ msgid "Contact typed message"
 #~ msgstr "Spojit napsané zprávy"

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
-"POT-Creation-Date: 2004-02-19 10:52+0300\n"
+"POT-Creation-Date: 2004-02-20 08:57+0300\n"
 "PO-Revision-Date: 2003-02-04 03:03+0200\n"
 "Last-Translator: Amir Tal <tal@whatsup.org.il>\n"
 "Language-Team: Hebrew <kde-il@yahoogroups.com>\n"
@@ -2118,7 +2118,7 @@ msgstr "רשימת קשר נשלחה"
 
 #: plugins/__homedir/homedircfgbase.cpp:62 plugins/_core/arcfgbase.cpp:78
 #: plugins/_core/filecfgbase.cpp:86 plugins/_core/historycfgbase.cpp:165
-#: plugins/_core/interfacecfgbase.cpp:115 plugins/_core/maininfobase.cpp:170
+#: plugins/_core/interfacecfgbase.cpp:117 plugins/_core/maininfobase.cpp:170
 #: plugins/_core/msgcfgbase.cpp:83 plugins/_core/phonebase.cpp:113
 #: plugins/_core/plugincfgbase.cpp:70 plugins/_core/prefcfgbase.cpp:65
 #: plugins/_core/smscfgbase.cpp:64 plugins/_core/userhistorycfgbase.cpp:91
@@ -2497,14 +2497,14 @@ msgstr "אל קונטיינר"
 
 #: plugins/_core/container.cpp:557 plugins/osd/osd.cpp:294
 msgid ""
-"_: %1 typed\n"
-"male"
+"_: male\n"
+"%1 typed"
 msgstr ""
 
 #: plugins/_core/container.cpp:558 plugins/osd/osd.cpp:295
 msgid ""
-"_: %1 typed\n"
-"female"
+"_: female\n"
+"%1 typed"
 msgstr ""
 
 #: plugins/_core/core.cpp:75
@@ -3470,6 +3470,53 @@ msgstr "שלח &הודעה"
 msgid "Contact name"
 msgstr "Contact - scale"
 
+#: plugins/_core/interfacecfgbase.cpp:118 plugins/icq/icqsearchbase.cc:294
+#: plugins/spell/spellcfgbase.cpp:86
+msgid "Language:"
+msgstr "שפה:"
+
+#: plugins/_core/interfacecfgbase.cpp:119
+#, fuzzy
+msgid "Message window"
+msgstr "ההודעה נשלחה"
+
+#: plugins/_core/interfacecfgbase.cpp:120
+msgid "&Simple mode"
+msgstr ""
+
+#: plugins/_core/interfacecfgbase.cpp:121
+#, fuzzy
+msgid "&Chat mode"
+msgstr "מצב"
+
+#: plugins/_core/interfacecfgbase.cpp:122
+msgid "&Using last selected font"
+msgstr ""
+
+#: plugins/_core/interfacecfgbase.cpp:123
+#, fuzzy
+msgid "Container mode"
+msgstr "אל קונטיינר"
+
+#: plugins/_core/interfacecfgbase.cpp:124
+#, fuzzy
+msgid "Open each contact in &new container"
+msgstr "&כל משתמש בקונטיינר חדש"
+
+#: plugins/_core/interfacecfgbase.cpp:125
+#, fuzzy
+msgid "Open one container for &group"
+msgstr "&קונטיינר חדש עבור קבוצה"
+
+#: plugins/_core/interfacecfgbase.cpp:126
+#, fuzzy
+msgid "Open all contacts in &one container"
+msgstr "&כל המשתמשים בקונטיינר אחד"
+
+#: plugins/_core/interfacecfgbase.cpp:127
+msgid "Use \"&Enter\" for send message"
+msgstr ""
+
 #: plugins/_core/cfgdlgbase.cpp:93
 msgid "&Update"
 msgstr "&עדכן"
@@ -3482,53 +3529,6 @@ msgstr ""
 #: plugins/_core/autoreplybase.cpp:88
 msgid "Don't show this dialog"
 msgstr "אל תראה את הדיאלוג הזה"
-
-#: plugins/_core/interfacecfgbase.cpp:116 plugins/icq/icqsearchbase.cc:294
-#: plugins/spell/spellcfgbase.cpp:86
-msgid "Language:"
-msgstr "שפה:"
-
-#: plugins/_core/interfacecfgbase.cpp:117
-#, fuzzy
-msgid "Message window"
-msgstr "ההודעה נשלחה"
-
-#: plugins/_core/interfacecfgbase.cpp:118
-msgid "&Simple mode"
-msgstr ""
-
-#: plugins/_core/interfacecfgbase.cpp:119
-#, fuzzy
-msgid "&Chat mode"
-msgstr "מצב"
-
-#: plugins/_core/interfacecfgbase.cpp:120
-msgid "&Using last selected font"
-msgstr ""
-
-#: plugins/_core/interfacecfgbase.cpp:121
-#, fuzzy
-msgid "Container mode"
-msgstr "אל קונטיינר"
-
-#: plugins/_core/interfacecfgbase.cpp:122
-#, fuzzy
-msgid "Open each contact in &new container"
-msgstr "&כל משתמש בקונטיינר חדש"
-
-#: plugins/_core/interfacecfgbase.cpp:123
-#, fuzzy
-msgid "Open one container for &group"
-msgstr "&קונטיינר חדש עבור קבוצה"
-
-#: plugins/_core/interfacecfgbase.cpp:124
-#, fuzzy
-msgid "Open all contacts in &one container"
-msgstr "&כל המשתמשים בקונטיינר אחד"
-
-#: plugins/_core/interfacecfgbase.cpp:125
-msgid "Use \"&Enter\" for send message"
-msgstr ""
 
 #: plugins/_core/userviewcfgbase.cpp:248
 #, fuzzy
@@ -6593,15 +6593,15 @@ msgstr ""
 #: plugins/osd/osd.cpp:292
 #, fuzzy
 msgid ""
-"_: %1 is online\n"
-"male"
+"_: male\n"
+"%1 is online"
 msgstr "%1 מחובר כעת"
 
 #: plugins/osd/osd.cpp:293
 #, fuzzy
 msgid ""
-"_: %1 is online\n"
-"female"
+"_: female\n"
+"%1 is online"
 msgstr "%1 מחובר כעת"
 
 #: plugins/osd/osdconfigbase.cpp:61
@@ -8489,6 +8489,12 @@ msgstr "כתובת פרוקסי:"
 #, fuzzy
 msgid "You send"
 msgstr "אייקונים:"
+
+#, fuzzy
+#~ msgid ""
+#~ "_: %1 is online\n"
+#~ "female"
+#~ msgstr "%1 מחובר כעת"
 
 #, fuzzy
 #~ msgid "Contact typed message"

@@ -12,8 +12,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2004-02-19 10:52+0300\n"
-"PO-Revision-Date: 2004-02-19 10:57+0300\n"
+"POT-Creation-Date: 2004-02-20 08:57+0300\n"
+"PO-Revision-Date: 2004-02-20 08:58+0300\n"
 "Last-Translator: Vladimir Shutoff <vovan@shutoff.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -91,7 +91,8 @@ msgstr "Австралия"
 # libicq/country.cpp:84
 #: sim/api/country.cpp:38
 msgid "Australian Antarctic Territory"
-msgstr "Австралийская антарктическая территория"
+msgstr ""
+"Австралийская антарктическая территория"
 
 # libicq/country.cpp:85
 #: sim/api/country.cpp:39
@@ -2460,7 +2461,7 @@ msgstr "Контакт %1 уже в списке"
 # ui/xosdbase.cpp:94
 #: plugins/__homedir/homedircfgbase.cpp:62 plugins/_core/arcfgbase.cpp:78
 #: plugins/_core/filecfgbase.cpp:86 plugins/_core/historycfgbase.cpp:165
-#: plugins/_core/interfacecfgbase.cpp:115 plugins/_core/maininfobase.cpp:170
+#: plugins/_core/interfacecfgbase.cpp:117 plugins/_core/maininfobase.cpp:170
 #: plugins/_core/msgcfgbase.cpp:83 plugins/_core/phonebase.cpp:113
 #: plugins/_core/plugincfgbase.cpp:70 plugins/_core/prefcfgbase.cpp:65
 #: plugins/_core/smscfgbase.cpp:64 plugins/_core/userhistorycfgbase.cpp:91
@@ -2867,14 +2868,14 @@ msgstr "Контейнер"
 
 #: plugins/_core/container.cpp:557 plugins/osd/osd.cpp:294
 msgid ""
-"_: %1 typed\n"
-"male"
+"_: male\n"
+"%1 typed"
 msgstr "%1 пишет"
 
 #: plugins/_core/container.cpp:558 plugins/osd/osd.cpp:295
 msgid ""
-"_: %1 typed\n"
-"female"
+"_: female\n"
+"%1 typed"
 msgstr "%1 пишет"
 
 # ui/fontsetupbase.cpp:112 ui/setupdlg.cpp:141
@@ -3942,6 +3943,55 @@ msgstr "Время последнего сообщения"
 msgid "Contact name"
 msgstr "Имя контакта"
 
+# ui/searchbase.cpp:136
+#: plugins/_core/interfacecfgbase.cpp:118 plugins/icq/icqsearchbase.cc:294
+#: plugins/spell/spellcfgbase.cpp:86
+msgid "Language:"
+msgstr "Язык:"
+
+# msgedit.cpp:645
+#: plugins/_core/interfacecfgbase.cpp:119
+msgid "Message window"
+msgstr "Окно сообщений"
+
+#: plugins/_core/interfacecfgbase.cpp:120
+msgid "&Simple mode"
+msgstr "&Простой режим"
+
+# ui/setupdlg.cpp:138
+#: plugins/_core/interfacecfgbase.cpp:121
+msgid "&Chat mode"
+msgstr "Режим &чата"
+
+#: plugins/_core/interfacecfgbase.cpp:122
+msgid "&Using last selected font"
+msgstr ""
+"Использовать .последний выбранный шоифт"
+
+# mainwin.cpp:2115
+#: plugins/_core/interfacecfgbase.cpp:123
+msgid "Container mode"
+msgstr "Настройки контейнера"
+
+# ui/fontsetupbase.cpp:165
+#: plugins/_core/interfacecfgbase.cpp:124
+msgid "Open each contact in &new container"
+msgstr "&Каждое окно в новом контейнере"
+
+# ui/fontsetupbase.cpp:169
+#: plugins/_core/interfacecfgbase.cpp:125
+msgid "Open one container for &group"
+msgstr "&Новый контейнер для группы"
+
+# ui/fontsetupbase.cpp:174
+#: plugins/_core/interfacecfgbase.cpp:126
+msgid "Open all contacts in &one container"
+msgstr "&Все в одном контейнере"
+
+#: plugins/_core/interfacecfgbase.cpp:127
+msgid "Use \"&Enter\" for send message"
+msgstr "Отправлять сообщения по \"&Enter\""
+
 # ui/setupdlgbase.cpp:85 ui/userinfobase.cpp:115
 #: plugins/_core/cfgdlgbase.cpp:93
 msgid "&Update"
@@ -3956,54 +4006,6 @@ msgstr "MyDualog"
 #: plugins/_core/autoreplybase.cpp:88
 msgid "Don't show this dialog"
 msgstr "Больше не показывать это сообщение"
-
-# ui/searchbase.cpp:136
-#: plugins/_core/interfacecfgbase.cpp:116 plugins/icq/icqsearchbase.cc:294
-#: plugins/spell/spellcfgbase.cpp:86
-msgid "Language:"
-msgstr "Язык:"
-
-# msgedit.cpp:645
-#: plugins/_core/interfacecfgbase.cpp:117
-msgid "Message window"
-msgstr "Окно сообщений"
-
-#: plugins/_core/interfacecfgbase.cpp:118
-msgid "&Simple mode"
-msgstr "&Простой режим"
-
-# ui/setupdlg.cpp:138
-#: plugins/_core/interfacecfgbase.cpp:119
-msgid "&Chat mode"
-msgstr "Режим &чата"
-
-#: plugins/_core/interfacecfgbase.cpp:120
-msgid "&Using last selected font"
-msgstr "Использовать .последний выбранный шоифт"
-
-# mainwin.cpp:2115
-#: plugins/_core/interfacecfgbase.cpp:121
-msgid "Container mode"
-msgstr "Настройки контейнера"
-
-# ui/fontsetupbase.cpp:165
-#: plugins/_core/interfacecfgbase.cpp:122
-msgid "Open each contact in &new container"
-msgstr "&Каждое окно в новом контейнере"
-
-# ui/fontsetupbase.cpp:169
-#: plugins/_core/interfacecfgbase.cpp:123
-msgid "Open one container for &group"
-msgstr "&Новый контейнер для группы"
-
-# ui/fontsetupbase.cpp:174
-#: plugins/_core/interfacecfgbase.cpp:124
-msgid "Open all contacts in &one container"
-msgstr "&Все в одном контейнере"
-
-#: plugins/_core/interfacecfgbase.cpp:125
-msgid "Use \"&Enter\" for send message"
-msgstr "Отправлять сообщения по \"&Enter\""
 
 # libicq/country.cpp:351 libicq/country.cpp:436
 #: plugins/_core/userviewcfgbase.cpp:248
@@ -4060,7 +4062,8 @@ msgstr "Использовать &двойной клик"
 
 #: plugins/_core/userviewcfgbase.cpp:273
 msgid "Use small &font for group"
-msgstr "Использовать маленький &шрифт для групп"
+msgstr ""
+"Использовать маленький &шрифт для групп"
 
 #: plugins/_core/userviewcfgbase.cpp:274
 msgid "Show group &separator"
@@ -4069,7 +4072,8 @@ msgstr "Показывать &разделитель групп"
 # ui/fontsetupbase.cpp:214
 #: plugins/_core/historycfgbase.cpp:166
 msgid "Use &own colors and fonts settings"
-msgstr "Использовать &собственные цвета и шрифты"
+msgstr ""
+"Использовать &собственные цвета и шрифты"
 
 # ui/fontsetupbase.cpp:251
 #: plugins/_core/historycfgbase.cpp:167
@@ -4324,7 +4328,8 @@ msgstr "Выберите протокол"
 
 #: plugins/_core/msgcfgbase.cpp:84
 msgid "Save &status changes to history"
-msgstr "Сохранять изменения &статуса в историю"
+msgstr ""
+"Сохранять изменения &статуса в историю"
 
 # ui/alertdialogbase.cpp:126
 #: plugins/_core/msgcfgbase.cpp:85
@@ -4748,7 +4753,8 @@ msgstr "Установить статус \"Не в сети\" через"
 # ui/statussetupbase.cpp:107
 #: plugins/autoaway/autoawaycfgbase.cpp:109
 #: plugins/sound/soundconfigbase.cpp:107
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Запретить оповещение в состояниях "
 "\"Отошел\", \"Не активный\", \"Занят\""
@@ -4830,7 +4836,8 @@ msgstr "Фон"
 
 #: plugins/background/background.cpp:35
 msgid "Plugin provides background pictures for user list"
-msgstr "Модуль обеспечивает фон списка контактов"
+msgstr ""
+"Модуль обеспечивает фон списка контактов"
 
 #: plugins/dock/dock.cpp:49
 msgid "System tray"
@@ -4903,7 +4910,8 @@ msgstr "Фильтр"
 
 #: plugins/filter/filter.cpp:40
 msgid "Plugin provides message filter"
-msgstr "Модуль обеспечивает фильтрацию сообщений"
+msgstr ""
+"Модуль обеспечивает фильтрацию сообщений"
 
 # ui/listsec.cpp:129 ui/setupdlg.cpp:173
 #: plugins/filter/filter.cpp:106
@@ -5128,7 +5136,8 @@ msgstr "GPG"
 
 #: plugins/gpg/gpg.cpp:53
 msgid "Plugin adds GnuPG encryption/decryption support for messages"
-msgstr "Модуль добавляет GnuPG шифрование сообщений"
+msgstr ""
+"Модуль добавляет GnuPG шифрование сообщений"
 
 #: plugins/gpg/gpg.cpp:77
 msgid ""
@@ -5788,7 +5797,8 @@ msgstr "Клиент устарел"
 
 #: plugins/icq/icqlogin.cpp:201
 msgid "Too many clients from same IP"
-msgstr "Слишком много пользователей с одного IP"
+msgstr ""
+"Слишком много пользователей с одного IP"
 
 # ui/logindlg.cpp:129
 #: plugins/icq/icqlogin.cpp:206
@@ -5830,12 +5840,14 @@ msgstr "UIN приостановлен"
 
 #: plugins/icq/icqlogin.cpp:250
 msgid "Can't login to ICQ network - Please try again later"
-msgstr "Не могу залогиниться - попробуйте попохже"
+msgstr ""
+"Не могу залогиниться - попробуйте попохже"
 
 # mainwin.cpp:988
 #: plugins/icq/icqlogin.cpp:271
 msgid "Youur UIN is being used from another location"
-msgstr "Ваш UIN используется с другого компьютера"
+msgstr ""
+"Ваш UIN используется с другого компьютера"
 
 #: plugins/icq/icqlogin.cpp:291
 msgid "Close packet from server"
@@ -6075,7 +6087,8 @@ msgstr "Неверный номер"
 
 #: plugins/icq/icqvarious.cpp:1426
 msgid "RATE LIMIT"
-msgstr "Превышено ограничение на количество SMS"
+msgstr ""
+"Превышено ограничение на количество SMS"
 
 # msgedit.cpp:648
 #: plugins/icq/icqvarious.cpp:1459 plugins/icq/icqvarious.cpp:1518
@@ -6681,7 +6694,8 @@ msgstr ""
 
 #: plugins/icq/securedlg.cpp:59
 msgid "Request secure channel fail"
-msgstr "Ошибка установки защищенного соединения"
+msgstr ""
+"Ошибка установки защищенного соединения"
 
 # libicq/country.cpp:412
 #: plugins/icq/workinfo.cpp:72
@@ -6904,7 +6918,8 @@ msgstr "Принимать в режиме \"Не &беспокоить\""
 
 #: plugins/icq/icqconfigbase.cc:213
 msgid "Support &typing notification"
-msgstr "&Поддержка уведомления о печати сообщения"
+msgstr ""
+"&Поддержка уведомления о печати сообщения"
 
 #: plugins/icq/icqconfigbase.cc:214
 msgid "Automatically &update user info"
@@ -7034,7 +7049,8 @@ msgstr "&Язык:"
 # ui/pastinfobase.cpp:89
 #: plugins/icq/pastinfobase.cc:139
 msgid "Organization, Affiliation, Group:"
-msgstr "Объединения, общественные организации:"
+msgstr ""
+"Объединения, общественные организации:"
 
 #: plugins/icq/pastinfobase.cc:140
 msgid "A&ffilation"
@@ -7413,7 +7429,8 @@ msgstr "Всегда наверху"
 # ui/themesetupbase.cpp:154
 #: plugins/ontop/ontopcfgbase.cpp:58
 msgid "Show &main window in task manager"
-msgstr "Показывать &основное окно в панели задач"
+msgstr ""
+"Показывать &основное окно в панели задач"
 
 # mainwin.cpp:2375
 #: plugins/ontop/ontopcfgbase.cpp:59
@@ -7465,7 +7482,8 @@ msgid "OSD"
 msgstr "Экран"
 
 #: plugins/osd/osd.cpp:48
-msgid "Plugin provides on screen notification about messages and contacts status"
+msgid ""
+"Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Модуль обеспечивает вывод уведомлений о "
 "приходе сообщений или изменении статуса "
@@ -7478,15 +7496,15 @@ msgstr "&Экран"
 # mainwin.cpp:1042
 #: plugins/osd/osd.cpp:292
 msgid ""
-"_: %1 is online\n"
-"male"
+"_: male\n"
+"%1 is online"
 msgstr "%1 в сети"
 
 # mainwin.cpp:1042
 #: plugins/osd/osd.cpp:293
 msgid ""
-"_: %1 is online\n"
-"female"
+"_: female\n"
+"%1 is online"
 msgstr "%1 в сети"
 
 # ui/alertdialogbase.cpp:118 ui/setupdlg.cpp:144
@@ -7585,7 +7603,8 @@ msgstr ""
 # mainwin.cpp:969 ui/logindlg.cpp:138
 #: plugins/proxy/proxy.cpp:41
 msgid "Can't connect to proxy"
-msgstr "Невозможно соединиться с прокси-сервером"
+msgstr ""
+"Невозможно соединиться с прокси-сервером"
 
 #: plugins/proxy/proxy.cpp:42
 msgid "Bad proxy answer"
@@ -7785,7 +7804,8 @@ msgstr ""
 
 #: plugins/transparent/transparent.cpp:70
 msgid "Plugin provides windows transparency"
-msgstr "Модуль обеспечивает прозрачные окошки"
+msgstr ""
+"Модуль обеспечивает прозрачные окошки"
 
 # ui/themesetupbase.cpp:122
 #: plugins/transparent/transparentcfgbase.cpp:71
@@ -7795,7 +7815,8 @@ msgstr "Прозрачность главного окна:"
 # ui/themesetupbase.cpp:146
 #: plugins/transparent/transparentcfgbase.cpp:72
 msgid "Transparent only if inactive"
-msgstr "Прозрачные окна только если неактивные"
+msgstr ""
+"Прозрачные окна только если неактивные"
 
 # ui/setupdlgbase.cpp:85 ui/userinfobase.cpp:115
 #: plugins/update/update.cpp:39
@@ -8096,7 +8117,8 @@ msgstr ""
 
 #: plugins/jabber/jabbersearch.cpp:319
 msgid "Enter your AIM screenname or ICQ UIN and the password for that account"
-msgstr "Введите ваш AIM логин или номер ICQ и пароль."
+msgstr ""
+"Введите ваш AIM логин или номер ICQ и пароль."
 
 #: plugins/jabber/jabbersearch.cpp:320
 msgid "Enter your YAHOO! Messenger Username and Password."
@@ -8211,7 +8233,8 @@ msgstr "Использовать &иконки протоколов"
 # control.cpp:190
 #: plugins/jabber/jabberconfigbase.cpp:268
 msgid "Send &rich text messages if possible"
-msgstr "Отправлять сообщения с &форматированием"
+msgstr ""
+"Отправлять сообщения с &форматированием"
 
 #: plugins/jabber/jabberconfigbase.cpp:269
 msgid "Automaticaly send &subscribe request"
@@ -8502,7 +8525,8 @@ msgstr "Результат добавления сообщества"
 # msgview.cpp:226
 #: plugins/livejournal/journalsearch.cpp:80
 msgid "Community %1 added to list"
-msgstr "Сообщество %1 добавлено в список контактов"
+msgstr ""
+"Сообщество %1 добавлено в список контактов"
 
 #: plugins/livejournal/journalsearch.cpp:82
 msgid "Community %1 already in list"
@@ -9219,7 +9243,8 @@ msgstr "Проверка орфографии"
 
 #: plugins/spell/spell.cpp:62
 msgid "Plugin provides check spelling"
-msgstr "Модуль обеспечивает проверку орфографии"
+msgstr ""
+"Модуль обеспечивает проверку орфографии"
 
 # ui/keysetupbase.cpp:131 ui/phonebookbase.cpp:104 ui/setupdlgbase.cpp:73
 # ui/themesetupbase.cpp:97 ui/themesetupbase.cpp:109 ui/userinfobase.cpp:98
@@ -9314,7 +9339,8 @@ msgid "Navigate"
 msgstr "Навигация"
 
 #: plugins/navigate/navigate.cpp:199
-msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid ""
+"Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Модуль обеспечивает навигацию по "
 "гиперссылкам"
@@ -9424,7 +9450,8 @@ msgstr "Подстановки"
 
 #: plugins/replace/replace.cpp:34
 msgid "Plugin provides text replacing in message edit window"
-msgstr "Модуль обеспечивает подстановки текста"
+msgstr ""
+"Модуль обеспечивает подстановки текста"
 
 # ui/networkbase.cpp:151 ui/proxydlgbase.cpp:82
 #: plugins/replace/replacecfg.cpp:31
@@ -9435,4 +9462,3 @@ msgstr "Вы пишете"
 #: plugins/replace/replacecfg.cpp:32
 msgid "You send"
 msgstr "Вы отправляете"
-

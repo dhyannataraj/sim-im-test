@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
-"POT-Creation-Date: 2004-02-19 10:52+0300\n"
+"POT-Creation-Date: 2004-02-20 08:57+0300\n"
 "PO-Revision-Date: 2002-12-04 06:57+0100\n"
 "Last-Translator: Rafal Bera <rexx@dione.ids.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -2164,7 +2164,7 @@ msgstr "Lista kontaktów wysłana"
 
 #: plugins/__homedir/homedircfgbase.cpp:62 plugins/_core/arcfgbase.cpp:78
 #: plugins/_core/filecfgbase.cpp:86 plugins/_core/historycfgbase.cpp:165
-#: plugins/_core/interfacecfgbase.cpp:115 plugins/_core/maininfobase.cpp:170
+#: plugins/_core/interfacecfgbase.cpp:117 plugins/_core/maininfobase.cpp:170
 #: plugins/_core/msgcfgbase.cpp:83 plugins/_core/phonebase.cpp:113
 #: plugins/_core/plugincfgbase.cpp:70 plugins/_core/prefcfgbase.cpp:65
 #: plugins/_core/smscfgbase.cpp:64 plugins/_core/userhistorycfgbase.cpp:91
@@ -2543,14 +2543,14 @@ msgstr "Do segregatora"
 
 #: plugins/_core/container.cpp:557 plugins/osd/osd.cpp:294
 msgid ""
-"_: %1 typed\n"
-"male"
+"_: male\n"
+"%1 typed"
 msgstr ""
 
 #: plugins/_core/container.cpp:558 plugins/osd/osd.cpp:295
 msgid ""
-"_: %1 typed\n"
-"female"
+"_: female\n"
+"%1 typed"
 msgstr ""
 
 #: plugins/_core/core.cpp:75
@@ -3522,6 +3522,52 @@ msgstr "wyślij wiadomość"
 msgid "Contact name"
 msgstr "Lista kontaktów wysłana"
 
+#: plugins/_core/interfacecfgbase.cpp:118 plugins/icq/icqsearchbase.cc:294
+#: plugins/spell/spellcfgbase.cpp:86
+msgid "Language:"
+msgstr "Język:"
+
+#: plugins/_core/interfacecfgbase.cpp:119
+#, fuzzy
+msgid "Message window"
+msgstr "Wiadomość wysłana"
+
+#: plugins/_core/interfacecfgbase.cpp:120
+msgid "&Simple mode"
+msgstr ""
+
+#: plugins/_core/interfacecfgbase.cpp:121
+#, fuzzy
+msgid "&Chat mode"
+msgstr "Status"
+
+#: plugins/_core/interfacecfgbase.cpp:122
+msgid "&Using last selected font"
+msgstr ""
+
+#: plugins/_core/interfacecfgbase.cpp:123
+#, fuzzy
+msgid "Container mode"
+msgstr "Do segregatora"
+
+#: plugins/_core/interfacecfgbase.cpp:124
+#, fuzzy
+msgid "Open each contact in &new container"
+msgstr "Każdy użytkownik w osobnym s&egregatorze"
+
+#: plugins/_core/interfacecfgbase.cpp:125
+msgid "Open one container for &group"
+msgstr ""
+
+#: plugins/_core/interfacecfgbase.cpp:126
+#, fuzzy
+msgid "Open all contacts in &one container"
+msgstr "Wszyscy użytkownicy w jednym segreg&atorze"
+
+#: plugins/_core/interfacecfgbase.cpp:127
+msgid "Use \"&Enter\" for send message"
+msgstr ""
+
 #: plugins/_core/cfgdlgbase.cpp:93
 msgid "&Update"
 msgstr "Akt&ualizuj"
@@ -3534,52 +3580,6 @@ msgstr ""
 #: plugins/_core/autoreplybase.cpp:88
 msgid "Don't show this dialog"
 msgstr "Nie pokazuj tego okna"
-
-#: plugins/_core/interfacecfgbase.cpp:116 plugins/icq/icqsearchbase.cc:294
-#: plugins/spell/spellcfgbase.cpp:86
-msgid "Language:"
-msgstr "Język:"
-
-#: plugins/_core/interfacecfgbase.cpp:117
-#, fuzzy
-msgid "Message window"
-msgstr "Wiadomość wysłana"
-
-#: plugins/_core/interfacecfgbase.cpp:118
-msgid "&Simple mode"
-msgstr ""
-
-#: plugins/_core/interfacecfgbase.cpp:119
-#, fuzzy
-msgid "&Chat mode"
-msgstr "Status"
-
-#: plugins/_core/interfacecfgbase.cpp:120
-msgid "&Using last selected font"
-msgstr ""
-
-#: plugins/_core/interfacecfgbase.cpp:121
-#, fuzzy
-msgid "Container mode"
-msgstr "Do segregatora"
-
-#: plugins/_core/interfacecfgbase.cpp:122
-#, fuzzy
-msgid "Open each contact in &new container"
-msgstr "Każdy użytkownik w osobnym s&egregatorze"
-
-#: plugins/_core/interfacecfgbase.cpp:123
-msgid "Open one container for &group"
-msgstr ""
-
-#: plugins/_core/interfacecfgbase.cpp:124
-#, fuzzy
-msgid "Open all contacts in &one container"
-msgstr "Wszyscy użytkownicy w jednym segreg&atorze"
-
-#: plugins/_core/interfacecfgbase.cpp:125
-msgid "Use \"&Enter\" for send message"
-msgstr ""
 
 #: plugins/_core/userviewcfgbase.cpp:248
 #, fuzzy
@@ -6662,15 +6662,15 @@ msgstr ""
 #: plugins/osd/osd.cpp:292
 #, fuzzy
 msgid ""
-"_: %1 is online\n"
-"male"
+"_: male\n"
+"%1 is online"
 msgstr "%1 jest dostępny"
 
 #: plugins/osd/osd.cpp:293
 #, fuzzy
 msgid ""
-"_: %1 is online\n"
-"female"
+"_: female\n"
+"%1 is online"
 msgstr "%1 jest dostępny"
 
 #: plugins/osd/osdconfigbase.cpp:61
@@ -8552,6 +8552,12 @@ msgstr "Serwer:"
 #, fuzzy
 msgid "You send"
 msgstr "Ikony:"
+
+#, fuzzy
+#~ msgid ""
+#~ "_: %1 is online\n"
+#~ "female"
+#~ msgstr "%1 jest dostępny"
 
 #, fuzzy
 #~ msgid "Contact typed message"

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-02-19 10:52+0300\n"
+"POT-Creation-Date: 2004-02-20 08:57+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2048,7 +2048,7 @@ msgstr ""
 
 #: plugins/__homedir/homedircfgbase.cpp:62 plugins/_core/arcfgbase.cpp:78
 #: plugins/_core/filecfgbase.cpp:86 plugins/_core/historycfgbase.cpp:165
-#: plugins/_core/interfacecfgbase.cpp:115 plugins/_core/maininfobase.cpp:170
+#: plugins/_core/interfacecfgbase.cpp:117 plugins/_core/maininfobase.cpp:170
 #: plugins/_core/msgcfgbase.cpp:83 plugins/_core/phonebase.cpp:113
 #: plugins/_core/plugincfgbase.cpp:70 plugins/_core/prefcfgbase.cpp:65
 #: plugins/_core/smscfgbase.cpp:64 plugins/_core/userhistorycfgbase.cpp:91
@@ -2396,14 +2396,14 @@ msgstr ""
 
 #: plugins/_core/container.cpp:557 plugins/osd/osd.cpp:294
 msgid ""
-"_: %1 typed\n"
-"male"
+"_: male\n"
+"%1 typed"
 msgstr ""
 
 #: plugins/_core/container.cpp:558 plugins/osd/osd.cpp:295
 msgid ""
-"_: %1 typed\n"
-"female"
+"_: female\n"
+"%1 typed"
 msgstr ""
 
 #: plugins/_core/core.cpp:75
@@ -3254,6 +3254,47 @@ msgstr ""
 msgid "Contact name"
 msgstr ""
 
+#: plugins/_core/interfacecfgbase.cpp:118 plugins/icq/icqsearchbase.cc:294
+#: plugins/spell/spellcfgbase.cpp:86
+msgid "Language:"
+msgstr ""
+
+#: plugins/_core/interfacecfgbase.cpp:119
+msgid "Message window"
+msgstr ""
+
+#: plugins/_core/interfacecfgbase.cpp:120
+msgid "&Simple mode"
+msgstr ""
+
+#: plugins/_core/interfacecfgbase.cpp:121
+msgid "&Chat mode"
+msgstr ""
+
+#: plugins/_core/interfacecfgbase.cpp:122
+msgid "&Using last selected font"
+msgstr ""
+
+#: plugins/_core/interfacecfgbase.cpp:123
+msgid "Container mode"
+msgstr ""
+
+#: plugins/_core/interfacecfgbase.cpp:124
+msgid "Open each contact in &new container"
+msgstr ""
+
+#: plugins/_core/interfacecfgbase.cpp:125
+msgid "Open one container for &group"
+msgstr ""
+
+#: plugins/_core/interfacecfgbase.cpp:126
+msgid "Open all contacts in &one container"
+msgstr ""
+
+#: plugins/_core/interfacecfgbase.cpp:127
+msgid "Use \"&Enter\" for send message"
+msgstr ""
+
 #: plugins/_core/cfgdlgbase.cpp:93
 msgid "&Update"
 msgstr ""
@@ -3265,47 +3306,6 @@ msgstr ""
 
 #: plugins/_core/autoreplybase.cpp:88
 msgid "Don't show this dialog"
-msgstr ""
-
-#: plugins/_core/interfacecfgbase.cpp:116 plugins/icq/icqsearchbase.cc:294
-#: plugins/spell/spellcfgbase.cpp:86
-msgid "Language:"
-msgstr ""
-
-#: plugins/_core/interfacecfgbase.cpp:117
-msgid "Message window"
-msgstr ""
-
-#: plugins/_core/interfacecfgbase.cpp:118
-msgid "&Simple mode"
-msgstr ""
-
-#: plugins/_core/interfacecfgbase.cpp:119
-msgid "&Chat mode"
-msgstr ""
-
-#: plugins/_core/interfacecfgbase.cpp:120
-msgid "&Using last selected font"
-msgstr ""
-
-#: plugins/_core/interfacecfgbase.cpp:121
-msgid "Container mode"
-msgstr ""
-
-#: plugins/_core/interfacecfgbase.cpp:122
-msgid "Open each contact in &new container"
-msgstr ""
-
-#: plugins/_core/interfacecfgbase.cpp:123
-msgid "Open one container for &group"
-msgstr ""
-
-#: plugins/_core/interfacecfgbase.cpp:124
-msgid "Open all contacts in &one container"
-msgstr ""
-
-#: plugins/_core/interfacecfgbase.cpp:125
-msgid "Use \"&Enter\" for send message"
 msgstr ""
 
 #: plugins/_core/userviewcfgbase.cpp:248
@@ -6137,14 +6137,14 @@ msgstr ""
 
 #: plugins/osd/osd.cpp:292
 msgid ""
-"_: %1 is online\n"
-"male"
+"_: male\n"
+"%1 is online"
 msgstr ""
 
 #: plugins/osd/osd.cpp:293
 msgid ""
-"_: %1 is online\n"
-"female"
+"_: female\n"
+"%1 is online"
 msgstr ""
 
 #: plugins/osd/osdconfigbase.cpp:61

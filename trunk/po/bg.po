@@ -17,7 +17,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bg\n"
-"POT-Creation-Date: 2004-02-19 10:52+0300\n"
+"POT-Creation-Date: 2004-02-20 08:57+0300\n"
 "PO-Revision-Date: 2003-09-18 18:44+0300\n"
 "Last-Translator: Атанас Мавров <bugar@mail.bg>\n"
 "Language-Team:  <bg@li.org>\n"
@@ -2096,7 +2096,7 @@ msgstr "Потребител %1 вече е в списъка"
 
 #: plugins/__homedir/homedircfgbase.cpp:62 plugins/_core/arcfgbase.cpp:78
 #: plugins/_core/filecfgbase.cpp:86 plugins/_core/historycfgbase.cpp:165
-#: plugins/_core/interfacecfgbase.cpp:115 plugins/_core/maininfobase.cpp:170
+#: plugins/_core/interfacecfgbase.cpp:117 plugins/_core/maininfobase.cpp:170
 #: plugins/_core/msgcfgbase.cpp:83 plugins/_core/phonebase.cpp:113
 #: plugins/_core/plugincfgbase.cpp:70 plugins/_core/prefcfgbase.cpp:65
 #: plugins/_core/smscfgbase.cpp:64 plugins/_core/userhistorycfgbase.cpp:91
@@ -2468,15 +2468,15 @@ msgstr "Прозорец"
 #: plugins/_core/container.cpp:557 plugins/osd/osd.cpp:294
 #, fuzzy
 msgid ""
-"_: %1 typed\n"
-"male"
+"_: male\n"
+"%1 typed"
 msgstr "%1 пише"
 
 #: plugins/_core/container.cpp:558 plugins/osd/osd.cpp:295
 #, fuzzy
 msgid ""
-"_: %1 typed\n"
-"female"
+"_: female\n"
+"%1 typed"
 msgstr "%1 пише"
 
 #: plugins/_core/core.cpp:75
@@ -3382,6 +3382,51 @@ msgstr "Изминало време:"
 msgid "Contact name"
 msgstr "Потребители - разтегнати"
 
+#: plugins/_core/interfacecfgbase.cpp:118 plugins/icq/icqsearchbase.cc:294
+#: plugins/spell/spellcfgbase.cpp:86
+msgid "Language:"
+msgstr "Език:"
+
+#: plugins/_core/interfacecfgbase.cpp:119
+msgid "Message window"
+msgstr "Прозорец за съобщения"
+
+#: plugins/_core/interfacecfgbase.cpp:120
+msgid "&Simple mode"
+msgstr "&Прост режим"
+
+#: plugins/_core/interfacecfgbase.cpp:121
+msgid "&Chat mode"
+msgstr "Режим за &бърборене"
+
+#: plugins/_core/interfacecfgbase.cpp:122
+msgid "&Using last selected font"
+msgstr ""
+
+#: plugins/_core/interfacecfgbase.cpp:123
+msgid "Container mode"
+msgstr "Режим на показване"
+
+#: plugins/_core/interfacecfgbase.cpp:124
+msgid "Open each contact in &new container"
+msgstr ""
+"&Отваряне на всяко съобщение в нов "
+"прозорец"
+
+#: plugins/_core/interfacecfgbase.cpp:125
+msgid "Open one container for &group"
+msgstr "&Отваряне на нов прозорец за група"
+
+#: plugins/_core/interfacecfgbase.cpp:126
+msgid "Open all contacts in &one container"
+msgstr "&Всички потребители в един прозорец"
+
+#: plugins/_core/interfacecfgbase.cpp:127
+msgid "Use \"&Enter\" for send message"
+msgstr ""
+"Използване на \"&Enter\"за изпращане на "
+"съобщение"
+
 #: plugins/_core/cfgdlgbase.cpp:93
 msgid "&Update"
 msgstr "&Обновяване"
@@ -3394,51 +3439,6 @@ msgstr "Мои думи"
 #: plugins/_core/autoreplybase.cpp:88
 msgid "Don't show this dialog"
 msgstr "Не показвай този прозорец"
-
-#: plugins/_core/interfacecfgbase.cpp:116 plugins/icq/icqsearchbase.cc:294
-#: plugins/spell/spellcfgbase.cpp:86
-msgid "Language:"
-msgstr "Език:"
-
-#: plugins/_core/interfacecfgbase.cpp:117
-msgid "Message window"
-msgstr "Прозорец за съобщения"
-
-#: plugins/_core/interfacecfgbase.cpp:118
-msgid "&Simple mode"
-msgstr "&Прост режим"
-
-#: plugins/_core/interfacecfgbase.cpp:119
-msgid "&Chat mode"
-msgstr "Режим за &бърборене"
-
-#: plugins/_core/interfacecfgbase.cpp:120
-msgid "&Using last selected font"
-msgstr ""
-
-#: plugins/_core/interfacecfgbase.cpp:121
-msgid "Container mode"
-msgstr "Режим на показване"
-
-#: plugins/_core/interfacecfgbase.cpp:122
-msgid "Open each contact in &new container"
-msgstr ""
-"&Отваряне на всяко съобщение в нов "
-"прозорец"
-
-#: plugins/_core/interfacecfgbase.cpp:123
-msgid "Open one container for &group"
-msgstr "&Отваряне на нов прозорец за група"
-
-#: plugins/_core/interfacecfgbase.cpp:124
-msgid "Open all contacts in &one container"
-msgstr "&Всички потребители в един прозорец"
-
-#: plugins/_core/interfacecfgbase.cpp:125
-msgid "Use \"&Enter\" for send message"
-msgstr ""
-"Използване на \"&Enter\"за изпращане на "
-"съобщение"
 
 #: plugins/_core/userviewcfgbase.cpp:248
 #, fuzzy
@@ -6500,15 +6500,15 @@ msgstr "&OSD"
 #: plugins/osd/osd.cpp:292
 #, fuzzy
 msgid ""
-"_: %1 is online\n"
-"male"
+"_: male\n"
+"%1 is online"
 msgstr "%1 е включен"
 
 #: plugins/osd/osd.cpp:293
 #, fuzzy
 msgid ""
-"_: %1 is online\n"
-"female"
+"_: female\n"
+"%1 is online"
 msgstr "%1 е включен"
 
 #: plugins/osd/osdconfigbase.cpp:61
@@ -8418,6 +8418,18 @@ msgstr "Вид прокси:"
 #, fuzzy
 msgid "You send"
 msgstr "Икони: "
+
+#, fuzzy
+#~ msgid ""
+#~ "_: %1 typed\n"
+#~ "female"
+#~ msgstr "%1 пише"
+
+#, fuzzy
+#~ msgid ""
+#~ "_: %1 is online\n"
+#~ "female"
+#~ msgstr "%1 е включен"
 
 #~ msgid "Contact typed message"
 #~ msgstr "Потребителят въвежда съобщение"

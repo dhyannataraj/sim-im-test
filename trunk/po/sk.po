@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
-"POT-Creation-Date: 2004-02-19 10:52+0300\n"
+"POT-Creation-Date: 2004-02-20 08:57+0300\n"
 "PO-Revision-Date: 2004-02-10 10:25+0100\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
@@ -2625,7 +2625,7 @@ msgstr "Kontakt %1 je u¾ v zozname"
 # ui/userinfobase.cpp:144
 #: plugins/__homedir/homedircfgbase.cpp:62 plugins/_core/arcfgbase.cpp:78
 #: plugins/_core/filecfgbase.cpp:86 plugins/_core/historycfgbase.cpp:165
-#: plugins/_core/interfacecfgbase.cpp:115 plugins/_core/maininfobase.cpp:170
+#: plugins/_core/interfacecfgbase.cpp:117 plugins/_core/maininfobase.cpp:170
 #: plugins/_core/msgcfgbase.cpp:83 plugins/_core/phonebase.cpp:113
 #: plugins/_core/plugincfgbase.cpp:70 plugins/_core/prefcfgbase.cpp:65
 #: plugins/_core/smscfgbase.cpp:64 plugins/_core/userhistorycfgbase.cpp:91
@@ -3045,15 +3045,15 @@ msgstr "Kontajner"
 #: plugins/_core/container.cpp:557 plugins/osd/osd.cpp:294
 #, fuzzy
 msgid ""
-"_: %1 typed\n"
-"male"
+"_: male\n"
+"%1 typed"
 msgstr "%1 pí¹e"
 
 #: plugins/_core/container.cpp:558 plugins/osd/osd.cpp:295
 #, fuzzy
 msgid ""
-"_: %1 typed\n"
-"female"
+"_: female\n"
+"%1 typed"
 msgstr "%1 pí¹e"
 
 # ui/setupdlg.cpp:129
@@ -4185,6 +4185,57 @@ msgstr "Èas poslednej správy"
 msgid "Contact name"
 msgstr "Názov kontaktu"
 
+# ui/randomchatbase.cpp:281
+# ui/randomchatbase.cpp:300
+# ui/searchbase.cpp:284
+# ui/themesetupbase.cpp:318
+#: plugins/_core/interfacecfgbase.cpp:118 plugins/icq/icqsearchbase.cc:294
+#: plugins/spell/spellcfgbase.cpp:86
+msgid "Language:"
+msgstr "Jazyk:"
+
+# msgedit.cpp:585
+#: plugins/_core/interfacecfgbase.cpp:119
+msgid "Message window"
+msgstr "Okno správy"
+
+#: plugins/_core/interfacecfgbase.cpp:120
+msgid "&Simple mode"
+msgstr "Jednoduchý mód"
+
+# ui/setupdlg.cpp:126
+#: plugins/_core/interfacecfgbase.cpp:121
+msgid "&Chat mode"
+msgstr "Mód &rozhovoru"
+
+#: plugins/_core/interfacecfgbase.cpp:122
+msgid "&Using last selected font"
+msgstr "&Pou¾i» naposledy pou¾itý font"
+
+# mainwin.cpp:2464
+#: plugins/_core/interfacecfgbase.cpp:123
+msgid "Container mode"
+msgstr "Mód kontajneru"
+
+# ui/fontsetupbase.cpp:228
+#: plugins/_core/interfacecfgbase.cpp:124
+msgid "Open each contact in &new container"
+msgstr "Otvori» ka¾dý kontakt v &novom kontajnery"
+
+# ui/fontsetupbase.cpp:229
+#: plugins/_core/interfacecfgbase.cpp:125
+msgid "Open one container for &group"
+msgstr "Otvori» jeden kontajner pre &skupinu"
+
+# ui/fontsetupbase.cpp:230
+#: plugins/_core/interfacecfgbase.cpp:126
+msgid "Open all contacts in &one container"
+msgstr "Otvori» v¹etky kontakty v jedn&om kontajnery"
+
+#: plugins/_core/interfacecfgbase.cpp:127
+msgid "Use \"&Enter\" for send message"
+msgstr "Pou¾i» \"&Enter\" pre odoslanie správy"
+
 # ui/setupdlgbase.cpp:119
 #: plugins/_core/cfgdlgbase.cpp:93
 msgid "&Update"
@@ -4199,57 +4250,6 @@ msgstr "Môj dialóg"
 #: plugins/_core/autoreplybase.cpp:88
 msgid "Don't show this dialog"
 msgstr "Nezobrazova» tento dialog"
-
-# ui/randomchatbase.cpp:281
-# ui/randomchatbase.cpp:300
-# ui/searchbase.cpp:284
-# ui/themesetupbase.cpp:318
-#: plugins/_core/interfacecfgbase.cpp:116 plugins/icq/icqsearchbase.cc:294
-#: plugins/spell/spellcfgbase.cpp:86
-msgid "Language:"
-msgstr "Jazyk:"
-
-# msgedit.cpp:585
-#: plugins/_core/interfacecfgbase.cpp:117
-msgid "Message window"
-msgstr "Okno správy"
-
-#: plugins/_core/interfacecfgbase.cpp:118
-msgid "&Simple mode"
-msgstr "Jednoduchý mód"
-
-# ui/setupdlg.cpp:126
-#: plugins/_core/interfacecfgbase.cpp:119
-msgid "&Chat mode"
-msgstr "Mód &rozhovoru"
-
-#: plugins/_core/interfacecfgbase.cpp:120
-msgid "&Using last selected font"
-msgstr "&Pou¾i» naposledy pou¾itý font"
-
-# mainwin.cpp:2464
-#: plugins/_core/interfacecfgbase.cpp:121
-msgid "Container mode"
-msgstr "Mód kontajneru"
-
-# ui/fontsetupbase.cpp:228
-#: plugins/_core/interfacecfgbase.cpp:122
-msgid "Open each contact in &new container"
-msgstr "Otvori» ka¾dý kontakt v &novom kontajnery"
-
-# ui/fontsetupbase.cpp:229
-#: plugins/_core/interfacecfgbase.cpp:123
-msgid "Open one container for &group"
-msgstr "Otvori» jeden kontajner pre &skupinu"
-
-# ui/fontsetupbase.cpp:230
-#: plugins/_core/interfacecfgbase.cpp:124
-msgid "Open all contacts in &one container"
-msgstr "Otvori» v¹etky kontakty v jedn&om kontajnery"
-
-#: plugins/_core/interfacecfgbase.cpp:125
-msgid "Use \"&Enter\" for send message"
-msgstr "Pou¾i» \"&Enter\" pre odoslanie správy"
 
 # qt3/i18n.cpp:111
 #: plugins/_core/userviewcfgbase.cpp:248
@@ -7815,16 +7815,16 @@ msgstr "&OSD"
 #: plugins/osd/osd.cpp:292
 #, fuzzy
 msgid ""
-"_: %1 is online\n"
-"male"
+"_: male\n"
+"%1 is online"
 msgstr "U¾ívateµ %1 je pripojený"
 
 # mainwin.cpp:1380
 #: plugins/osd/osd.cpp:293
 #, fuzzy
 msgid ""
-"_: %1 is online\n"
-"female"
+"_: female\n"
+"%1 is online"
 msgstr "U¾ívateµ %1 je pripojený"
 
 # ui/alertdialogbase.cpp:237
@@ -9835,6 +9835,19 @@ msgstr "Typ proxy:"
 #, fuzzy
 msgid "You send"
 msgstr "popletený"
+
+#, fuzzy
+#~ msgid ""
+#~ "_: %1 typed\n"
+#~ "female"
+#~ msgstr "%1 pí¹e"
+
+# mainwin.cpp:1380
+#, fuzzy
+#~ msgid ""
+#~ "_: %1 is online\n"
+#~ "female"
+#~ msgstr "U¾ívateµ %1 je pripojený"
 
 # msgview.cpp:231
 # msgview.cpp:1273

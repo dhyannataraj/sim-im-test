@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
-"POT-Creation-Date: 2004-02-19 10:52+0300\n"
+"POT-Creation-Date: 2004-02-20 08:57+0300\n"
 "PO-Revision-Date: 2003-10-04 16:41+0000\n"
 "Last-Translator: Jorge Lopez <jorge@acm.asoc.fi.upm.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -2073,7 +2073,7 @@ msgstr "Contacto %1 ya esta en la lista"
 
 #: plugins/__homedir/homedircfgbase.cpp:62 plugins/_core/arcfgbase.cpp:78
 #: plugins/_core/filecfgbase.cpp:86 plugins/_core/historycfgbase.cpp:165
-#: plugins/_core/interfacecfgbase.cpp:115 plugins/_core/maininfobase.cpp:170
+#: plugins/_core/interfacecfgbase.cpp:117 plugins/_core/maininfobase.cpp:170
 #: plugins/_core/msgcfgbase.cpp:83 plugins/_core/phonebase.cpp:113
 #: plugins/_core/plugincfgbase.cpp:70 plugins/_core/prefcfgbase.cpp:65
 #: plugins/_core/smscfgbase.cpp:64 plugins/_core/userhistorycfgbase.cpp:91
@@ -2435,14 +2435,14 @@ msgstr "Contenedor"
 
 #: plugins/_core/container.cpp:557 plugins/osd/osd.cpp:294
 msgid ""
-"_: %1 typed\n"
-"male"
+"_: male\n"
+"%1 typed"
 msgstr ""
 
 #: plugins/_core/container.cpp:558 plugins/osd/osd.cpp:295
 msgid ""
-"_: %1 typed\n"
-"female"
+"_: female\n"
+"%1 typed"
 msgstr ""
 
 #: plugins/_core/core.cpp:75
@@ -3330,6 +3330,47 @@ msgstr ""
 msgid "Contact name"
 msgstr "Nombre del contacto"
 
+#: plugins/_core/interfacecfgbase.cpp:118 plugins/icq/icqsearchbase.cc:294
+#: plugins/spell/spellcfgbase.cpp:86
+msgid "Language:"
+msgstr "Idioma:"
+
+#: plugins/_core/interfacecfgbase.cpp:119
+msgid "Message window"
+msgstr "Ventana de Mensajes"
+
+#: plugins/_core/interfacecfgbase.cpp:120
+msgid "&Simple mode"
+msgstr "Modo &simple"
+
+#: plugins/_core/interfacecfgbase.cpp:121
+msgid "&Chat mode"
+msgstr "Modo &chat"
+
+#: plugins/_core/interfacecfgbase.cpp:122
+msgid "&Using last selected font"
+msgstr ""
+
+#: plugins/_core/interfacecfgbase.cpp:123
+msgid "Container mode"
+msgstr "Modo contenedor"
+
+#: plugins/_core/interfacecfgbase.cpp:124
+msgid "Open each contact in &new container"
+msgstr "Abrir cada contacto &en un nuevo contenedor"
+
+#: plugins/_core/interfacecfgbase.cpp:125
+msgid "Open one container for &group"
+msgstr "Abrir un contenedor por cada &grupo"
+
+#: plugins/_core/interfacecfgbase.cpp:126
+msgid "Open all contacts in &one container"
+msgstr "Abrir todos los contactos en un c&ontenedor"
+
+#: plugins/_core/interfacecfgbase.cpp:127
+msgid "Use \"&Enter\" for send message"
+msgstr "Usar \"&Enter\" para enviar mensajes"
+
 #: plugins/_core/cfgdlgbase.cpp:93
 msgid "&Update"
 msgstr "A&ctualizar"
@@ -3342,47 +3383,6 @@ msgstr "MyDialog"
 #: plugins/_core/autoreplybase.cpp:88
 msgid "Don't show this dialog"
 msgstr "No mostrar este dialogo"
-
-#: plugins/_core/interfacecfgbase.cpp:116 plugins/icq/icqsearchbase.cc:294
-#: plugins/spell/spellcfgbase.cpp:86
-msgid "Language:"
-msgstr "Idioma:"
-
-#: plugins/_core/interfacecfgbase.cpp:117
-msgid "Message window"
-msgstr "Ventana de Mensajes"
-
-#: plugins/_core/interfacecfgbase.cpp:118
-msgid "&Simple mode"
-msgstr "Modo &simple"
-
-#: plugins/_core/interfacecfgbase.cpp:119
-msgid "&Chat mode"
-msgstr "Modo &chat"
-
-#: plugins/_core/interfacecfgbase.cpp:120
-msgid "&Using last selected font"
-msgstr ""
-
-#: plugins/_core/interfacecfgbase.cpp:121
-msgid "Container mode"
-msgstr "Modo contenedor"
-
-#: plugins/_core/interfacecfgbase.cpp:122
-msgid "Open each contact in &new container"
-msgstr "Abrir cada contacto &en un nuevo contenedor"
-
-#: plugins/_core/interfacecfgbase.cpp:123
-msgid "Open one container for &group"
-msgstr "Abrir un contenedor por cada &grupo"
-
-#: plugins/_core/interfacecfgbase.cpp:124
-msgid "Open all contacts in &one container"
-msgstr "Abrir todos los contactos en un c&ontenedor"
-
-#: plugins/_core/interfacecfgbase.cpp:125
-msgid "Use \"&Enter\" for send message"
-msgstr "Usar \"&Enter\" para enviar mensajes"
 
 #: plugins/_core/userviewcfgbase.cpp:248
 msgid "Sorting"
@@ -6317,15 +6317,15 @@ msgstr "&OSD"
 #: plugins/osd/osd.cpp:292
 #, fuzzy
 msgid ""
-"_: %1 is online\n"
-"male"
+"_: male\n"
+"%1 is online"
 msgstr "%1 esta conectado"
 
 #: plugins/osd/osd.cpp:293
 #, fuzzy
 msgid ""
-"_: %1 is online\n"
-"female"
+"_: female\n"
+"%1 is online"
 msgstr "%1 esta conectado"
 
 #: plugins/osd/osdconfigbase.cpp:61
@@ -8156,6 +8156,12 @@ msgstr "Tipo proxy:"
 #, fuzzy
 msgid "You send"
 msgstr "Iconos"
+
+#, fuzzy
+#~ msgid ""
+#~ "_: %1 is online\n"
+#~ "female"
+#~ msgstr "%1 esta conectado"
 
 #, fuzzy
 #~ msgid "Plugin provides posting to LiveJournal"

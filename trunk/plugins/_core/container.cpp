@@ -554,8 +554,8 @@ static bool initFlash = false;
 #endif
 
 #if 0
-i18n("%1 typed", "male")
-i18n("%1 typed", "female")
+i18n("male", "%1 typed")
+i18n("female", "%1 typed")
 #endif
 
 void *Container::processEvent(Event *e)

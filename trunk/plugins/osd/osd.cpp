@@ -289,10 +289,10 @@ void OSDWidget::mouseDoubleClickEvent(QMouseEvent*)
 }
 
 #if 0
-i18n("%1 is online", "male")
-i18n("%1 is online", "female")
-i18n("%1 typed", "male")
-i18n("%1 typed", "female")
+i18n("male", "%1 is online")
+i18n("female", "%1 is online")
+i18n("male", "%1 typed")
+i18n("female", "%1 typed")
 #endif
 
 void OSDPlugin::processQueue()
