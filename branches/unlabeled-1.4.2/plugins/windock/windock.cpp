@@ -60,6 +60,8 @@ static bool bSizing = false;
 
 UINT appBarMessage(DWORD dwMessage, UINT uEdge=ABE_FLOAT, LPARAM lParam=0, QRect *rc=NULL)
 {
+	log(L_DEBUG, "AppBar %04X", dwMessage);
+
     APPBARDATA abd;
     abd.cbSize           = sizeof(abd);
     abd.hWnd             = pMain->winId();
@@ -107,7 +109,7 @@ static void getBarRect(UINT state, QRect &rc, RECT *rcWnd = NULL)
         w = rcWnd->right - rcWnd->left;
     }else{
         GetWindowRect(pMain->winId(), &rcWork);
-        w = rcWork.right - rcWork.left + GetSystemMetrics(SM_CXBORDER) * 2;
+        w = rcWork.right - rcWork.left;
     }
     switch (state){
     case ABE_LEFT:
@@ -207,6 +209,7 @@ void setBarState(bool bAnimate = false)
 LRESULT CALLBACK dockWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     LRESULT res;
+	log(L_DEBUG, "Msg %04X %04X", msg, wParam);
     if (msg == WM_APPBAR){
         switch (wParam){
         case ABN_FULLSCREENAPP:
@@ -231,6 +234,7 @@ LRESULT CALLBACK dockWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				setBarState();
 			}
 			appBarMessage(ABM_ACTIVATE);
+
 		}
         break;
     case WM_NCMOUSEMOVE:
@@ -321,6 +325,7 @@ WinDockPlugin::WinDockPlugin(unsigned base, const char *config)
 
 WinDockPlugin::~WinDockPlugin()
 {
+
 	uninit();
     Event eCmd(EventCommandRemove, (void*)CmdAutoHide);
     eCmd.process();
@@ -339,6 +344,7 @@ void WinDockPlugin::uninit()
 		oldProc = NULL;
     }
 }
+
 
 void *WinDockPlugin::processEvent(Event *e)
 {

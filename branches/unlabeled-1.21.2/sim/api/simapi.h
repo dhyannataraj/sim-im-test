@@ -1279,6 +1279,7 @@ public:
     virtual void setStatus(unsigned status, bool bCommon);
     virtual string getConfig();
     virtual bool compareData(void*, void*);
+	virtual bool isMyData(clientData*, Contact*&) = 0;
     virtual void contactInfo(void *clientData, unsigned long &status, unsigned &style, const char *&statusIcon, string *icons = NULL);
     virtual QString ownerName();
     virtual QString contactName(void *clientData);

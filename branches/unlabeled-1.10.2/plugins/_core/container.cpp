@@ -563,11 +563,16 @@ void *Container::processEvent(Event *e)
         contact = (Contact*)(e->param());
         userWnd = wnd(contact->id());
         if (userWnd){
+
 			if (contact->getIgnore()){
+
 				removeUserWnd(userWnd);
+
 				break;
+
 			}
             m_tabBar->changeTab(contact->id());
+
 		}
     case EventClientsChanged:
         setupAccel();
@@ -685,6 +690,7 @@ void Container::wndClosed()
 bool Container::event(QEvent *e)
 {
     if (e->type() == QEvent::WindowActivate){
+		log(L_DEBUG, "Activate");
         UserWnd *userWnd = m_tabBar->currentWnd();
         if (userWnd)
             userWnd->markAsRead();
@@ -702,6 +708,9 @@ bool Container::event(QEvent *e)
             }
         }
     }
+    if (e->type() == QEvent::WindowDeactivate){
+		log(L_DEBUG, "Deactivate");
+	}
     return QMainWindow::event(e);
 }
 

@@ -481,6 +481,16 @@ unsigned long ICQClient::getUin()
     return data.owner.Uin;
 }
 
+bool ICQClient::isMyData(clientData *_data, Contact *&contact)
+{
+	if (_data->Sign != ICQ_SIGN)
+		return false;
+	ICQUserData *data = (ICQUserData*)_data;
+	if (findContact(screen(data).c_str(), NULL, false, contact) == NULL)
+		contact = NULL;
+	return true;
+}
+
 OscarSocket::OscarSocket()
 {
     m_nSequence = rand() & 0x7FFF;

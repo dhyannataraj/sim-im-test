@@ -130,7 +130,7 @@ void *OnTopPlugin::processEvent(Event *e)
         HWND hState = HWND_NOTOPMOST;
         if (getOnTop()) hState = HWND_TOPMOST;
         if (e->param()) hState = HWND_BOTTOM;
-        SetWindowPos(main->winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+        SetWindowPos(main->winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 #endif
     }
     if (e->type() == EventInTaskManager){

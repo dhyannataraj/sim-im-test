@@ -247,6 +247,7 @@ protected:
     virtual void connect_ready();
     virtual void packet_ready();
     virtual void setInvisible(bool bState);
+	virtual bool isMyData(clientData*, Contact*&);
 
     virtual bool compareData(void*, void*);
     virtual bool canSend(unsigned, void*);

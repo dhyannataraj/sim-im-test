@@ -231,6 +231,16 @@ QWidget	*JabberClient::setupWnd()
     return new JabberConfig(NULL, this, false);
 }
 
+bool JabberClient::isMyData(clientData *_data, Contact *&contact)
+{
+	if (_data->Sign != JABBER_SIGN)
+		return false;
+	JabberUserData *data = (JabberUserData*)_data;
+	if (findContact(data->ID, NULL, false, contact) == NULL)
+		contact = NULL;
+	return true;
+}
+
 void JabberClient::connect_ready()
 {
     if (!getUseSSL() || m_bSSL){

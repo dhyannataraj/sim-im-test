@@ -812,6 +812,16 @@ string MSNClient::dataName(void *_data)
     return res;
 }
 
+bool MSNClient::isMyData(clientData *_data, Contact *&contact)
+{
+	if (_data->Sign != MSN_SIGN)
+		return false;
+	MSNUserData *data = (MSNUserData*)_data;
+	if (findContact(data->EMail, contact) == NULL)
+		contact = NULL;
+	return true;
+}
+
 void MSNClient::setupContact(Contact *contact, void *_data)
 {
     MSNUserData *data = (MSNUserData*)_data;
