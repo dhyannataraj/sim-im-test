@@ -26,6 +26,8 @@
 
 #include "xpm/ignorelist.xpm"
 
+#include <qregexp.h>
+
 Plugin *createFilterPlugin(unsigned base, bool, const char *cfg)
 {
     Plugin *plugin = new FilterPlugin(base, cfg);
