@@ -223,6 +223,12 @@ void TextEdit::setParam(void *param)
 
 void TextEdit::slotColorChanged(const QColor &c)
 {
+    if (c == curFG)
+        return;
+    if (isEmpty()){
+        setColor(curFG);
+        return;
+    }
     if (c != curFG)
         setForeground(c, false);
 }

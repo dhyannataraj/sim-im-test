@@ -1456,7 +1456,7 @@ void CorePlugin::installTranslator()
 #ifdef USE_KDE
         return;
 #else
-char *p = getenv("LANG");
+        char *p = getenv("LANG");
         if (p){
             for (; *p; p++){
                 if (*p == '.') break;
@@ -2968,6 +2968,7 @@ void *CorePlugin::processEvent(Event *e)
                     if (n-- == 0){
                         Message *msg = History::load((*it).id, (*it).client.c_str(), (*it).contact);
                         if (msg){
+                            msg->setFlags(msg->getFlags() & ~MESSAGE_NORAISE);
                             Event e(EventOpenMessage, &msg);
                             e.process();
                             delete msg;

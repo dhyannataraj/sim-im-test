@@ -32,6 +32,7 @@ protected:
     bool m_bPar;
     bool m_bTD;
     bool m_bTR;
+    bool m_bPre;
 };
 
 UnquoteParser::UnquoteParser()
@@ -44,6 +45,7 @@ QString UnquoteParser::parse(const QString &str)
     m_bPar = false;
     m_bTD  = false;
     m_bTR  = false;
+    m_bPre = true;
     HTMLParser::parse(str);
     return res;
 }
@@ -51,6 +53,8 @@ QString UnquoteParser::parse(const QString &str)
 void UnquoteParser::text(const QString &text)
 {
     int len = text.length();
+    if (len)
+        m_bPre = false;
     for (int i = 0; i < len; i++){
         QChar c = text[i];
         if (c.unicode() == 160){
@@ -63,7 +67,10 @@ void UnquoteParser::text(const QString &text)
 
 void UnquoteParser::tag_start(const QString &tag, const list<QString> &options)
 {
-    if (tag == "br"){
+    if (tag == "pre"){
+        if (!m_bPre)
+            res += "\n";
+    }else if (tag == "br"){
         res += "\n";
     }else if (tag == "hr"){
         if (!res.isEmpty() && (res[(int)(res.length() - 1)] != '\n'))
@@ -112,6 +119,10 @@ void UnquoteParser::tag_start(const QString &tag, const list<QString> &options)
 
 void UnquoteParser::tag_end(const QString &tag)
 {
+    if (tag == "pre"){
+        res += "\n";
+        m_bPre = true;
+    }
     if (tag == "p")
         m_bPar = true;
     if (tag == "td"){

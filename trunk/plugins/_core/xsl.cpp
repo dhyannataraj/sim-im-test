@@ -105,7 +105,9 @@ QString XSL::process(const QString &my_xml)
 
     xmlDocPtr doc = xmlParseMemory(my_xsl.utf8(), my_xsl.utf8().length());
     if (doc == NULL){
-        log(L_WARN, "Parse XML error");
+        string s;
+        s = my_xsl.local8Bit();
+        log(L_WARN, "Parse XML error: %s", s.c_str());
         return QString::null;
     }
     const char *params[1];
