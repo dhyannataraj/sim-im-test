@@ -35,6 +35,13 @@ OSDConfig::OSDConfig(QWidget *parent, void *d, OSDPlugin *plugin)
     chkMessage->setChecked(data->EnableMessage.bValue);
     chkMessageContent->setChecked(data->EnableMessageShowContent.bValue);
     chkStatus->setChecked(data->EnableAlert.bValue);
+    chkStatusOnline->setChecked(data->EnableAlertOnline.bValue);
+    chkStatusAway->setChecked(data->EnableAlertAway.bValue);
+    chkStatusNA->setChecked(data->EnableAlertNA.bValue);
+    chkStatusDND->setChecked(data->EnableAlertDND.bValue);
+    chkStatusOccupied->setChecked(data->EnableAlertOccupied.bValue);
+    chkStatusFFC->setChecked(data->EnableAlertFFC.bValue);
+    chkStatusOffline->setChecked(data->EnableAlertOffline.bValue);
     chkTyping->setChecked(data->EnableTyping.bValue);
     for (QObject *p = parent; p != NULL; p = p->parent()){
         if (!p->inherits("QTabWidget"))
@@ -46,10 +53,12 @@ OSDConfig::OSDConfig(QWidget *parent, void *d, OSDPlugin *plugin)
         break;
     }
     edtLines->setValue(data->ContentLines.value);
+    connect(chkStatus, SIGNAL(toggled(bool)), this, SLOT(statusToggled(bool)));
     connect(chkMessage, SIGNAL(toggled(bool)), this, SLOT(showMessageToggled(bool)));
     connect(chkMessageContent, SIGNAL(toggled(bool)), this, SLOT(contentToggled(bool)));
     showMessageToggled(chkMessage->isChecked());
     contentToggled(chkMessageContent->isChecked());
+    statusToggled(data->EnableAlert.bValue);    
 }
 
 void OSDConfig::apply()
@@ -63,9 +72,27 @@ void OSDConfig::apply(void *d)
     data->EnableMessage.bValue = chkMessage->isChecked();
     data->EnableMessageShowContent.bValue = chkMessageContent->isChecked();
     data->EnableAlert.bValue = chkStatus->isChecked();
+    data->EnableAlertOnline.bValue = chkStatusOnline->isChecked();
+    data->EnableAlertAway.bValue = chkStatusAway->isChecked();
+    data->EnableAlertNA.bValue = chkStatusNA->isChecked();
+    data->EnableAlertDND.bValue = chkStatusDND->isChecked();
+    data->EnableAlertOccupied.bValue = chkStatusOccupied->isChecked();
+    data->EnableAlertFFC.bValue = chkStatusFFC->isChecked();
+    data->EnableAlertOffline.bValue = chkStatusOffline->isChecked();
     data->EnableTyping.bValue = chkTyping->isChecked();
     data->ContentLines.value = atol(edtLines->text());
     m_iface->apply(d);
+}
+
+void OSDConfig::statusToggled(bool bState)
+{
+    chkStatusOnline->setEnabled(bState);
+    chkStatusAway->setEnabled(bState);
+    chkStatusNA->setEnabled(bState);
+    chkStatusDND->setEnabled(bState);
+    chkStatusOccupied->setEnabled(bState);
+    chkStatusFFC->setEnabled(bState);
+    chkStatusOffline->setEnabled(bState);
 }
 
 void OSDConfig::showMessageToggled(bool bState)

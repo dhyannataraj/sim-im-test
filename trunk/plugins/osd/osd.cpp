@@ -85,6 +85,14 @@ typedef struct OSDUserData
 {
 	unsigned	EnableMessage;
 	unsigned	EnableAlert;
+	unsigned	EnableAlertOnline;,
+	unsigned	EnableAlertAway; 
+	unsigned	EnableAlertNA;
+	unsigned	EnableAlertDND;
+	unsigned	EnableAlertOccupied;
+	unsigned	EnableAlertFFC;
+	unsigned	EnableAlertOffline;
+	unsigned	EnableTyping;
 	unsigned	Position;
 	unsigned	Offset;
 	unsigned	Color;
@@ -103,6 +111,13 @@ static DataDef osdUserData[] =
         { "EnableMessageShowContent", DATA_BOOL, 1, DATA(0) },
         { "ContentTypes", DATA_ULONG, 1, DATA(3) },
         { "EnableAlert", DATA_BOOL, 1, DATA(1) },
+        { "EnableAlertOnline", DATA_BOOL, 1, DATA(1) },
+        { "EnableAlertAway", DATA_BOOL, 1, DATA(0) },
+        { "EnableAlertNA", DATA_BOOL, 1, DATA(0) },
+        { "EnableAlertDND", DATA_BOOL, 1, DATA(0) },
+        { "EnableAlertOccupied", DATA_BOOL, 1, DATA(0) },
+        { "EnableAlertFFC", DATA_BOOL, 1, DATA(0) },
+        { "EnableAlertOffline", DATA_BOOL, 1, DATA(0) },
         { "EnableTyping", DATA_BOOL, 1, 0 },
         { "Position", DATA_ULONG, 1, 0 },
         { "Offset", DATA_ULONG, 1, DATA(30) },
@@ -419,6 +434,18 @@ void OSDWidget::slotCloseClick()
 #if 0
 i18n("male", "%1 is online")
 i18n("female", "%1 is online")
+i18n("male", "%1 is away")
+i18n("female", "%1 is away")
+i18n("male", "%1 is not available")
+i18n("female", "%1 is not available")
+i18n("male", "%1 doesn't want to be disturbed")
+i18n("female", "%1 doesn't want to be disturbed")
+i18n("male", "%1 is occupied")
+i18n("female", "%1 is occupied")
+i18n("male", "%1 is free for chat")
+i18n("female", "%1 is free for chat")
+i18n("male", "%1 is offline")
+i18n("female", "%1 is offline")
 i18n("male", "%1 typed")
 i18n("female", "%1 typed")
 #endif
@@ -440,12 +467,42 @@ void OSDPlugin::processQueue()
         OSDUserData *data = NULL;
         data = (OSDUserData*)contact->getUserData(user_data_id);
         switch (m_request.type){
-        case OSD_ALERT:
-            if (data->EnableAlert.bValue){
+        case OSD_ALERTONLINE:
+            if (data->EnableAlertOnline.bValue){
                 unsigned style = 0;
                 const char *statusIcon = NULL;
-                if (contact->contactInfo(style, statusIcon) >= STATUS_ONLINE)
+                if (contact->contactInfo(style, statusIcon) == STATUS_ONLINE)
                     text = g_i18n("%1 is online", contact) .arg(contact->getName());
+            }
+            break;
+        case OSD_ALERTAWAY:
+            if (data->EnableAlertAway.bValue){
+                text = g_i18n("%1 is away", contact) .arg(contact->getName());
+            }
+            break;
+        case OSD_ALERTNA:
+            if (data->EnableAlertNA.bValue){
+                text = g_i18n("%1 is not available", contact) .arg(contact->getName());
+            }
+            break;
+        case OSD_ALERTDND:
+            if (data->EnableAlertDND.bValue){
+                text = g_i18n("%1 doesn't want to be disturbed", contact) .arg(contact->getName());
+            }
+            break;
+        case OSD_ALERTOCCUPIED:
+            if (data->EnableAlertOccupied.bValue){
+                text = g_i18n("%1 is occupied", contact) .arg(contact->getName());
+            }
+            break;
+        case OSD_ALERTFFC:
+            if (data->EnableAlertFFC.bValue){
+                text = g_i18n("%1 is free for chat", contact) .arg(contact->getName());
+            }
+            break;
+        case OSD_ALERTOFFLINE:
+            if (data->EnableAlertOffline.bValue){
+                text = g_i18n("%1 is offline", contact) .arg(contact->getName());
             }
             break;
         case OSD_TYPING:
@@ -525,6 +582,8 @@ void OSDPlugin::processQueue()
                 text += ":\n";
                 text += msg_text;
             }
+        default:
+            break;
         }
         if (!text.isEmpty()){
             if (m_osd == NULL){
@@ -561,7 +620,7 @@ void *OSDPlugin::processEvent(Event *e)
         contact = (Contact*)(e->param());
         if (contact->getIgnore()) break;
         osd.contact = contact->id();
-        osd.type    = OSD_ALERT;
+        osd.type    = OSD_ALERTONLINE;
         queue.push_back(osd);
         processQueue();
         break;
@@ -569,23 +628,51 @@ void *OSDPlugin::processEvent(Event *e)
     case EventMessageRead:
     case EventMessageReceived:
         msg = (Message*)(e->param());
-        if (msg->type() == MessageStatus)
-            break;
         contact = getContacts()->contact(msg->contact());
         if (contact == NULL)
             break;
         data = (OSDUserData*)(contact->getUserData(user_data_id));
         if (data == NULL)
             break;
-        osd.type    = OSD_MESSAGE;
         osd.contact = msg->contact();
-        if ((m_request.type == OSD_MESSAGE) && (m_request.contact == msg->contact())){
-            queue.push_front(osd);
-            m_timer->stop();
-            m_timer->start(100);
-        }else{
+        if (msg->type() == MessageStatus) {
+            StatusMessage *smsg = (StatusMessage*)msg;
+            switch (smsg->getStatus()) {
+            case STATUS_AWAY:
+                osd.type = OSD_ALERTAWAY;
+                break;
+            case STATUS_NA:
+                osd.type = OSD_ALERTNA;
+                break;
+            case STATUS_DND:
+                osd.type = OSD_ALERTDND;
+                break;
+            case 100:    /* STATUS_OCCUPIED, but defined in icqclient.h ! */
+                osd.type = OSD_ALERTOCCUPIED;
+                break;
+            case STATUS_FFC:
+                osd.type = OSD_ALERTFFC;
+                break;
+            case STATUS_OFFLINE:
+                osd.type = OSD_ALERTOFFLINE;
+                break;
+            default:
+                log(L_DEBUG,"OSD: Unknown status %d",smsg->getStatus());
+                osd.type = OSD_NONE;
+                return NULL;
+            }
             queue.push_back(osd);
             processQueue();
+        }else{
+            osd.type    = OSD_MESSAGE;
+            if ((m_request.type == OSD_MESSAGE) && (m_request.contact == msg->contact())){
+                queue.push_front(osd);
+                m_timer->stop();
+                m_timer->start(100);
+            }else{
+                queue.push_back(osd);
+                processQueue();
+            }
         }
         break;
     case EventContactStatus:

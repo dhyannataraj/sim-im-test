@@ -29,6 +29,13 @@ typedef struct OSDUserData
     Data    EnableMessageShowContent;
     Data	ContentLines;
     Data	EnableAlert;
+    Data	EnableAlertOnline;
+    Data	EnableAlertAway;
+    Data	EnableAlertNA;
+    Data	EnableAlertDND;
+    Data	EnableAlertOccupied;
+    Data	EnableAlertFFC;
+    Data	EnableAlertOffline;
     Data	EnableTyping;
     Data	Position;
     Data	Offset;
@@ -44,7 +51,13 @@ typedef struct OSDUserData
 enum OSDType
 {
     OSD_NONE,
-    OSD_ALERT,
+    OSD_ALERTONLINE,
+    OSD_ALERTAWAY,
+    OSD_ALERTNA,
+    OSD_ALERTDND,
+    OSD_ALERTOCCUPIED,
+    OSD_ALERTFFC,
+    OSD_ALERTOFFLINE,
     OSD_TYPING,
     OSD_MESSAGE
 };

@@ -32,6 +32,7 @@ public:
 public slots:
     void apply(void *data);
     void apply();
+    void statusToggled(bool);
     void showMessageToggled(bool);
     void contentToggled(bool);
 protected:

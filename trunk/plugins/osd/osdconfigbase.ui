@@ -28,7 +28,7 @@
             <name>spacing</name>
             <number>6</number>
         </property>
-        <widget row="0"  column="0"  rowspan="1"  colspan="3" >
+        <widget row="0"  column="0" >
             <class>QCheckBox</class>
             <property stdset="1">
                 <name>name</name>
@@ -39,7 +39,7 @@
                 <string>Enable &amp;messages notification</string>
             </property>
         </widget>
-        <widget row="1"  column="0"  rowspan="1"  colspan="3" >
+        <widget row="1"  column="0" >
             <class>QCheckBox</class>
             <property stdset="1">
                 <name>name</name>
@@ -50,7 +50,84 @@
                 <string>Enable &amp;status notification</string>
             </property>
         </widget>
-        <widget row="2"  column="0"  rowspan="1"  colspan="3" >
+        <widget row="1"  column="1" >
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkStatusOnline</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Online</string>
+            </property>
+        </widget>
+        <widget row="2"  column="1" >
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkStatusAway</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Away</string>
+            </property>
+        </widget>
+        <widget row="3"  column="1" >
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkStatusNA</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>N/A</string>
+            </property>
+        </widget>
+        <widget row="4"  column="1" >
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkStatusDND</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Do not Disturb</string>
+            </property>
+        </widget>
+        <widget row="5"  column="1" >
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkStatusOccupied</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Occupied</string>
+            </property>
+        </widget>
+        <widget row="6"  column="1" >
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkStatusFFC</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Free for chat</string>
+            </property>
+        </widget>
+        <widget row="7"  column="1" >
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkStatusOffline</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Offline</string>
+            </property>
+        </widget>
+        <widget row="8"  column="0" >
             <class>QCheckBox</class>
             <property stdset="1">
                 <name>name</name>
@@ -61,7 +138,7 @@
                 <string>Enable &amp;typing notification</string>
             </property>
         </widget>
-        <widget row="3"  column="0"  rowspan="1"  colspan="3" >
+        <widget row="9"  column="0" >
             <class>QCheckBox</class>
             <property stdset="1">
                 <name>name</name>
@@ -69,31 +146,21 @@
             </property>
             <property>
                 <name>text</name>
-                <string>Show message content</string>
+                <string>Show message &amp;content</string>
             </property>
         </widget>
-        <spacer row="5"  column="0" >
-            <property>
+        <widget row="9"  column="1" >
+            <class>QLabel</class>
+            <property stdset="1">
                 <name>name</name>
-                <cstring>Spacer5</cstring>
+                <cstring>lblLines</cstring>
             </property>
             <property>
-                <name>orientation</name>
-                <enum>Vertical</enum>
+                <name>text</name>
+                <string>Show lines of content:</string>
             </property>
-            <property>
-                <name>sizeType</name>
-                <enum>Expanding</enum>
-            </property>
-            <property>
-                <name>sizeHint</name>
-                <size>
-                    <width>20</width>
-                    <height>20</height>
-                </size>
-            </property>
-        </spacer>
-        <widget row="4"  column="1" >
+        </widget>
+        <widget row="9"  column="2" >
             <class>QSpinBox</class>
             <property stdset="1">
                 <name>name</name>
@@ -108,18 +175,7 @@
                 <number>0</number>
             </property>
         </widget>
-        <widget row="4"  column="0" >
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>lblLines</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Show lines of content:</string>
-            </property>
-        </widget>
-        <spacer row="4"  column="2" >
+        <spacer row="9"  column="2" >
             <property>
                 <name>name</name>
                 <cstring>Spacer29</cstring>
@@ -127,6 +183,27 @@
             <property>
                 <name>orientation</name>
                 <enum>Horizontal</enum>
+            </property>
+            <property>
+                <name>sizeType</name>
+                <enum>Expanding</enum>
+            </property>
+            <property>
+                <name>sizeHint</name>
+                <size>
+                    <width>20</width>
+                    <height>20</height>
+                </size>
+            </property>
+        </spacer>
+        <spacer row="10"  column="0" >
+            <property>
+                <name>name</name>
+                <cstring>Spacer5</cstring>
+            </property>
+            <property>
+                <name>orientation</name>
+                <enum>Vertical</enum>
             </property>
             <property>
                 <name>sizeType</name>
