@@ -937,8 +937,8 @@ void *SIMClient::resolve_thread(void *p)
     int herrno;
     client->m_host = "";
     char buf[4096];
-    gethostbyaddr_r((const char*)(&client->m_addr), sizeof(client->m_addr), AF_INET, 
-		    &hent, buf, sizeof(buf), &res, &herrno);
+    gethostbyaddr_r((const char*)(&client->m_addr), sizeof(client->m_addr), AF_INET,
+                    &hent, buf, sizeof(buf), &res, &herrno);
     if (res) client->m_host = res->h_name;
     QTimer::singleShot(0, client, SLOT(resolve_ready()));
     return NULL;
@@ -956,9 +956,9 @@ void SIMClient::resolve_ready()
     ICQUser *u = getUser(a.uin);
     if (u){
 #ifndef HAVE_GETHOSTBYADDR_R
-	    string m_host;
-	    if (resolver->hostNames().count())
-		    m_host = resolver->hostNames().first().latin1();
+        string m_host;
+        if (resolver->hostNames().count())
+            m_host = resolver->hostNames().first().latin1();
 #endif
         if (a.bReal){
             u->RealHostName = m_host;
@@ -997,14 +997,14 @@ void SIMClient::start_resolve()
             continue;
         }
 #ifdef HAVE_GETHOSTBYADDR_R
-	m_host = "";
-	m_addr = htonl(ip);
-	pthread_t h_thread;
-	resolver_working = true;
-	if (pthread_create(&h_thread, NULL, resolve_thread, this)){
-		log(L_DEBUG, "Can't create thread: %s", strerror(errno));
-		QTimer::singleShot(0, this, SLOT(resolveReady()));
-	}
+        m_host = "";
+        m_addr = htonl(ip);
+        pthread_t h_thread;
+        resolver_working = true;
+        if (pthread_create(&h_thread, NULL, resolve_thread, this)){
+            log(L_DEBUG, "Can't create thread: %s", strerror(errno));
+            QTimer::singleShot(0, this, SLOT(resolveReady()));
+        }
 #else
 #if QT_VERSION >= 300
         delete resolver;

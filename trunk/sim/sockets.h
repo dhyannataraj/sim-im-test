@@ -101,7 +101,7 @@ public:
 #ifdef HAVE_GETHOSTBYNAME_R
     string m_host;
     unsigned long m_addr;
-    static void *resolve_thread(void*); 
+    static void *resolve_thread(void*);
 #else
     QTimer *timer;
     QDns   *dns;

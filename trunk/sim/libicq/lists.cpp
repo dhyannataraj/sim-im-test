@@ -43,7 +43,6 @@ const unsigned short ICQ_SNACxLISTS_ADDED          = 0x001C;
 
 void ICQClientPrivate::snac_lists(unsigned short type, unsigned short seq)
 {
-    bool bFull = false;
     switch (type){
     case ICQ_SNACxLISTS_RIGHTS:
         log(L_DEBUG, "List rights");
@@ -186,7 +185,6 @@ void ICQClientPrivate::snac_lists(unsigned short type, unsigned short seq)
             ICQEvent e(EVENT_GROUP_CHANGED);
             client->process_event(&e);
             m_state = Logged;
-            bFull = true;
         }
     case ICQ_SNACxLISTS_ROSTERxOK:	// FALLTHROUGH
         {
@@ -199,15 +197,16 @@ void ICQClientPrivate::snac_lists(unsigned short type, unsigned short seq)
             sendClientReady();
             sendMessageRequest();
             sendPhoneStatus();
-            if (bFull || (client->owner->Nick.size() == 0)){
+            if (client->owner->Nick.size() == 0){
                 client->addInfoRequest(client->owner->Uin);
                 client->searchByUin(client->owner->Uin);
             }
             list<ICQUser*>::iterator it;
             for (it = client->contacts.users.begin(); it != client->contacts.users.end(); it++){
-                if ((*it)->IgnoreId) continue;
-                if (!bFull && (*it)->Nick.size()) continue;
-                client->addInfoRequest((*it)->Uin);
+                ICQUser *u = *it;
+                if (u->IgnoreId) continue;
+                if (u->Nick.size() || u->Alias.size()) continue;
+                client->addInfoRequest(u->Uin);
             }
             if (client->contacts.groups.size() == 0){
                 m_state = Logged;

@@ -467,7 +467,8 @@ void setBarState(bool bAnimate = false)
         if (bFullScreen) hState = HWND_BOTTOM;
         SetWindowPos(pMain->winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
     }
-    appBarMessage(ABM_ACTIVATE);
+    if (!bFullScreen)
+        appBarMessage(ABM_ACTIVATE);
 }
 
 static bool bSizing = false;

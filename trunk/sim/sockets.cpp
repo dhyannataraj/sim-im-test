@@ -54,66 +54,66 @@ SIMSockets::~SIMSockets()
 
 void *SIMResolver::resolve_thread(void *p)
 {
-	SIMResolver *r = (SIMResolver*)p;
-	log(L_DEBUG, "Resolve thread start");
-	struct hostent he;
-	struct hostent *res = NULL;
-	char buff[4096];
-	int herrno;
-	gethostbyname_r(r->m_host.c_str(), &he, buff, sizeof(buff), &res, &herrno);
-	if (res) r->m_addr = *((unsigned long*) res->h_addr);
-	log(L_DEBUG, "Resolve done %u", r->m_addr);
-	r->bDone = true;
-	if (res == NULL) r->bTimeout = false;
-	QTimer::singleShot(0, r->parent(), SLOT(resultsReady()));
-	return NULL;
+    SIMResolver *r = (SIMResolver*)p;
+    log(L_DEBUG, "Resolve thread start");
+    struct hostent he;
+    struct hostent *res = NULL;
+    char buff[4096];
+    int herrno;
+    gethostbyname_r(r->m_host.c_str(), &he, buff, sizeof(buff), &res, &herrno);
+    if (res) r->m_addr = *((unsigned long*) res->h_addr);
+    log(L_DEBUG, "Resolve done %u", r->m_addr);
+    r->bDone = true;
+    if (res == NULL) r->bTimeout = false;
+    QTimer::singleShot(0, r->parent(), SLOT(resultsReady()));
+    return NULL;
 }
 
 #endif
 
 SIMResolver::SIMResolver(QObject *parent, const char *host)
-	: QObject(parent)
+        : QObject(parent)
 {
-	bDone = false;
-	bTimeout = false;
+    bDone = false;
+    bTimeout = false;
 #ifdef HAVE_GETHOSTBYNAME_R
-	m_host = host;
-	m_addr = INADDR_NONE;
-	pthread_t h_thread;
-	if (pthread_create(&h_thread, NULL, resolve_thread, this)){
-		log(L_WARN, "Can't create thread: %s", strerror(errno));
-		bDone = true;
-		QTimer::singleShot(0, parent, SLOT(resultsReady()));
-		return;
-	}
+    m_host = host;
+    m_addr = INADDR_NONE;
+    pthread_t h_thread;
+    if (pthread_create(&h_thread, NULL, resolve_thread, this)){
+        log(L_WARN, "Can't create thread: %s", strerror(errno));
+        bDone = true;
+        QTimer::singleShot(0, parent, SLOT(resultsReady()));
+        return;
+    }
 #else
-	timer = new QTimer(this);
-	connect(timer, SIGNAL(timeout()), this, SLOT(resolveTimeout()));
-	timer->start(40000);
-	dns = new QDns(QString(host) + ".", QDns::A);
-	connect(dns, SIGNAL(resultsReady()), this, SLOT(resolveReady()));
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(resolveTimeout()));
+    timer->start(40000);
+    dns = new QDns(QString(host) + ".", QDns::A);
+    connect(dns, SIGNAL(resultsReady()), this, SLOT(resolveReady()));
 #endif
 }
 
 SIMResolver::~SIMResolver()
 {
 #ifndef HAVE_GETHOSTBYNAME_R
-	delete dns;
-	delete timer;
+    delete dns;
+    delete timer;
 #endif
 }
 
 void SIMResolver::resolveTimeout()
 {
-	bDone = true;
-	bTimeout = true;
-	QTimer::singleShot(0, parent(), SLOT(resultsReady()));
+    bDone = true;
+    bTimeout = true;
+    QTimer::singleShot(0, parent(), SLOT(resultsReady()));
 }
 
 void SIMResolver::resolveReady()
 {
-	bDone = true;
-	QTimer::singleShot(0, parent(), SLOT(resultsReady()));
+    bDone = true;
+    QTimer::singleShot(0, parent(), SLOT(resultsReady()));
 }
 
 unsigned long SIMResolver::addr()
@@ -122,8 +122,8 @@ unsigned long SIMResolver::addr()
     return m_addr;
 #else
     if (dns->addresses().isEmpty())
-	    return INADDR_NONE;
-    return dns->addresses().first().ip4Addr();
+        return INADDR_NONE;
+    return htonl(dns->addresses().first().ip4Addr());
 #endif
 }
 
@@ -132,8 +132,10 @@ string SIMResolver::host()
 #ifdef HAVE_GETHOSTBYNAME_R
     return m_host.c_str();
 #else
+    QString r = dns->label();
+    r = r.left(r.length() - 1);
     string res;
-    res = dns->label().latin1();
+    res = r;
     return res;
 #endif
 }
@@ -148,20 +150,20 @@ void SIMSockets::resultsReady()
 {
     list<SIMResolver*>::iterator it;
     for (it = resolvers.begin(); it != resolvers.end();){
-	SIMResolver *r = *it;
+        SIMResolver *r = *it;
         if (!r->bDone){
-		++it;
-		continue;
-	}
+            ++it;
+            continue;
+        }
         if (r->bTimeout){
-		isActive = false;
-	}else{
-		isActive = true;
-	}
-	emit resolveReady(r->addr(), r->host().c_str());
-	resolvers.remove(r);
-	delete r;
-	it = resolvers.begin();
+            isActive = false;
+        }else{
+            isActive = true;
+        }
+        emit resolveReady(r->addr(), r->host().c_str());
+        resolvers.remove(r);
+        delete r;
+        it = resolvers.begin();
     }
 }
 
