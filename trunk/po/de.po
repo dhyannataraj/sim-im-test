@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2002-11-26 11:38+0300\n"
-"PO-Revision-Date: 2002-11-26 14:01GMT\n"
+"PO-Revision-Date: 2002-11-28 12:23GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3543,7 +3543,7 @@ msgstr "Webseite:"
 
 #: ui/workinfobase.cpp:151
 msgid "&Company"
-msgstr "&Firma:"
+msgstr "&Firma"
 
 #: ui/workinfobase.cpp:157
 msgid "Occupation:"
@@ -3559,7 +3559,7 @@ msgstr "Position:"
 
 #: ui/workinfobase.cpp:187
 msgid "&Occupation"
-msgstr "&Beschäftigung:"
+msgstr "&Beschäftigung"
 
 #: ui/userautoreply.cpp:51
 msgid "%1 autoresponse for %2"
