@@ -158,6 +158,10 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                             user->ClientType = 2;
                         if (!memcmp(cap, capabilities[4], sizeof(capability)))
                             user->ClientType = 1;
+			if (!memcmp(cap, capabilities[4], sizeof(capability)-1) &&
+			    (cap[sizeof(capability)-1] > (1 << 6)) &&
+			    (cap[sizeof(capability)-1] != 0x92))
+			    user->ClientType = cap[sizeof(capability)-1];
                     }
                 }
 

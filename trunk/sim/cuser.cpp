@@ -282,12 +282,19 @@ QString CUser::toolTip()
                 r += "vICQ";
                 break;
             default:
-                if (u->Version() == 5)
-                    r += "ICQ 99";
-                if (u->Version() == 7)
-                    r += "ICQ 2000";
-                if (u->Version() == 8)
-                    r += "ICQ 2001";
+                if ((unsigned char)(u->ClientType()) >= (1 << 6)){
+                    r += "SIM ";
+                    r += QString::number((u->ClientType() >> 6)-1);
+                    r += ".";
+                    r += QString::number(u->ClientType() & 0x1F);
+                }else{
+                    if (u->Version() == 5)
+                        r += "ICQ 99";
+                    if (u->Version() == 7)
+                        r += "ICQ 2000";
+                    if (u->Version() == 8)
+                        r += "ICQ 2001";
+                }
             }
         }
     }

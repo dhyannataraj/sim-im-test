@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2002-08-20 04:03+0400\n"
-"PO-Revision-Date: 2002-08-20 04:05GMT+3\n"
+"POT-Creation-Date: 2002-08-21 06:26+0400\n"
+"PO-Revision-Date: 2002-08-21 06:27GMT+3\n"
 "Last-Translator: Vladimir Shutoff <shutoff@mail.ru>\n"
 "Language-Team: Русский <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1960,7 +1960,7 @@ msgstr "Свободен для разговора"
 msgid "N/A"
 msgstr "Неактивный"
 
-#: client.cpp:558 mainwin.cpp:1982
+#: client.cpp:558 mainwin.cpp:1989
 msgid "Invisible"
 msgstr "Невидимый"
 
@@ -1968,11 +1968,11 @@ msgstr "Невидимый"
 msgid "Last online"
 msgstr "Последний раз в сети"
 
-#: dock.cpp:462 mainwin.cpp:460
+#: dock.cpp:462 mainwin.cpp:462
 msgid "%1 from %2"
 msgstr "%1 от %2"
 
-#: dock.cpp:475 mainwin.cpp:1442
+#: dock.cpp:475 mainwin.cpp:1444
 msgid "Connecting"
 msgstr "Соединение"
 
@@ -2012,9 +2012,9 @@ msgstr "Пароль:"
 msgid "Use existing UIN"
 msgstr "Использовать существующий UIN"
 
-#: logindlg.cpp:57 logindlg.cpp:122 mainwin.cpp:1525 passwddlg.cpp:44
+#: logindlg.cpp:57 logindlg.cpp:122 mainwin.cpp:1527 passwddlg.cpp:44
 #: passwddlg.cpp:89 ui/searchbase.cpp:90 ui/searchdlg.cpp:106
-#: ui/setupdlgbase.cpp:95 userbox.cpp:184
+#: ui/setupdlgbase.cpp:95 userbox.cpp:185
 msgid "Close"
 msgstr "Закрыть"
 
@@ -2042,196 +2042,200 @@ msgstr "Исчерпано количество попыток"
 msgid "Invalid password"
 msgstr "Неверный пароль"
 
-#: mainwin.cpp:322
+#: mainwin.cpp:324
 msgid "Current location"
 msgstr "Текущее положение"
 
-#: mainwin.cpp:323
+#: mainwin.cpp:325
 msgid "Phone status"
 msgstr "Телефон"
 
-#: mainwin.cpp:325
+#: mainwin.cpp:327
 msgid "Phone Book"
 msgstr "Телефонная книга"
 
-#: mainwin.cpp:342
+#: mainwin.cpp:344
 msgid "Show offline"
 msgstr "Показывать пользователей не в сети"
 
-#: mainwin.cpp:346
+#: mainwin.cpp:348
 msgid "Group mode"
 msgstr "Показывать группы"
 
-#: mainwin.cpp:358
+#: mainwin.cpp:360
 msgid "Menu"
 msgstr "Меню"
 
-#: mainwin.cpp:802
+#: mainwin.cpp:804
 msgid "%1 from %2 received"
 msgstr "%1 от %2"
 
-#: mainwin.cpp:881
+#: mainwin.cpp:883
 msgid "Your UIN used from another location"
 msgstr "Ваш UIN используется с другого компьютера"
 
-#: mainwin.cpp:930
+#: mainwin.cpp:932
 msgid "User %1 is online"
 msgstr "Пользователь %1 в сети"
 
-#: mainwin.cpp:1415 mainwin.cpp:1674 msgview.cpp:331
+#: mainwin.cpp:1417 mainwin.cpp:1676 msgview.cpp:331
 msgid "&Yes"
 msgstr "&Да"
 
-#: mainwin.cpp:1416 mainwin.cpp:1675 msgview.cpp:332
+#: mainwin.cpp:1418 mainwin.cpp:1677 msgview.cpp:332
 msgid "&No"
 msgstr "&Нет"
 
-#: mainwin.cpp:1417
+#: mainwin.cpp:1419
 msgid "Add user %1 to ignore list ?"
 msgstr "Добавить \"%1\" в список игнорируемых"
 
-#: mainwin.cpp:1485
+#: mainwin.cpp:1487
 msgid "In visible list"
 msgstr "В списке видимости"
 
-#: mainwin.cpp:1487
+#: mainwin.cpp:1489
 msgid "In invisible list"
 msgstr "В списке невидимости"
 
-#: mainwin.cpp:1490
+#: mainwin.cpp:1492
 msgid "In ignore list"
 msgstr "В списке игнорируемых"
 
-#: mainwin.cpp:1508 mainwin.cpp:2006
+#: mainwin.cpp:1510 mainwin.cpp:2014
 msgid "Groups"
 msgstr "Группы"
 
-#: mainwin.cpp:1509 usertbl.cpp:391 userview.cpp:503
+#: mainwin.cpp:1511 usertbl.cpp:391 userview.cpp:503
 msgid "Delete"
 msgstr "Удалить"
 
-#: mainwin.cpp:1513 ui/userinfo.cpp:55 userbox.cpp:162 userbox.cpp:353
+#: mainwin.cpp:1515 ui/userinfo.cpp:55 userbox.cpp:163 userbox.cpp:354
 #: usertbl.cpp:405
 msgid "User info"
 msgstr "Информация о пользователе"
 
-#: mainwin.cpp:1514 userbox.cpp:167 userbox.cpp:399
+#: mainwin.cpp:1516 userbox.cpp:168 userbox.cpp:400
 msgid "History"
 msgstr "История"
 
-#: mainwin.cpp:1516 ui/alertdialogbase.cpp:79 ui/setupdlg.cpp:97
+#: mainwin.cpp:1518 ui/alertdialogbase.cpp:79 ui/setupdlg.cpp:97
 #: ui/userinfo.cpp:72
 msgid "Alert"
 msgstr "Уведомления"
 
-#: mainwin.cpp:1517 ui/acceptbase.cpp:137
+#: mainwin.cpp:1519 ui/acceptbase.cpp:137
 msgid "Accept mode"
 msgstr "Прием файлов"
 
-#: mainwin.cpp:1518 ui/setupdlg.cpp:95 ui/soundsetupbase.cpp:106
+#: mainwin.cpp:1520 ui/setupdlg.cpp:95 ui/soundsetupbase.cpp:106
 #: ui/userinfo.cpp:74
 msgid "Sound"
 msgstr "Звук"
 
-#: mainwin.cpp:1521
+#: mainwin.cpp:1523
 msgid "Floating off"
 msgstr "Выключить плавающее окно"
 
-#: mainwin.cpp:1521
+#: mainwin.cpp:1523
 msgid "Floating on"
 msgstr "Включить плавающее окно"
 
-#: mainwin.cpp:1524
+#: mainwin.cpp:1526
 msgid "Users"
 msgstr "Пользователи"
 
-#: mainwin.cpp:1676
+#: mainwin.cpp:1678
 msgid "Delete user %1?"
 msgstr "Удалить пользователя \"%1\"?"
 
-#: mainwin.cpp:1753 msgedit.cpp:811
+#: mainwin.cpp:1755 msgedit.cpp:811
 msgid "New"
 msgstr "Новое"
 
-#: mainwin.cpp:1756
+#: mainwin.cpp:1758
 msgid "To container"
 msgstr "В контейнер"
 
-#: mainwin.cpp:1985
+#: mainwin.cpp:1992
 msgid "Don't show"
 msgstr "Не показывать"
 
-#: mainwin.cpp:1986
+#: mainwin.cpp:1993
 msgid "Available"
 msgstr "Доступен"
 
-#: mainwin.cpp:1987
+#: mainwin.cpp:1994
 msgid "Busy"
 msgstr "Занят"
 
-#: mainwin.cpp:1990 userview.cpp:504
+#: mainwin.cpp:1997 userview.cpp:504
 msgid "Create group"
 msgstr "Создать группу"
 
-#: mainwin.cpp:1992 userview.cpp:509
+#: mainwin.cpp:1999 userview.cpp:509
 msgid "Expand all"
 msgstr "Развернуть все группы"
 
-#: mainwin.cpp:1993 userview.cpp:510
+#: mainwin.cpp:2000 userview.cpp:510
 msgid "Collapse all"
 msgstr "Свернуть все группы"
 
-#: mainwin.cpp:1997
+#: mainwin.cpp:2004
 msgid "ICQ"
 msgstr "ICQ"
 
-#: mainwin.cpp:2000
+#: mainwin.cpp:2007
 msgid "Find User"
 msgstr "Поиск пользователя"
 
-#: mainwin.cpp:2001
+#: mainwin.cpp:2008
 msgid "Add Non-IM contact"
 msgstr "Добавить внешний контакт"
 
-#: mainwin.cpp:2003 ui/statussetupbase.cpp:79 usertbl.cpp:113
+#: mainwin.cpp:2009
+msgid "Send SMS"
+msgstr "Послать SMS"
+
+#: mainwin.cpp:2011 ui/statussetupbase.cpp:79 usertbl.cpp:113
 msgid "Status"
 msgstr "Статус"
 
-#: mainwin.cpp:2005 ui/setupdlg.cpp:65
+#: mainwin.cpp:2013 ui/setupdlg.cpp:65
 msgid "Setup"
 msgstr "Настройки"
 
-#: mainwin.cpp:2007
+#: mainwin.cpp:2015
 msgid "Phone \"Follow Me\""
 msgstr "Телефонный сервис"
 
-#: mainwin.cpp:2010
+#: mainwin.cpp:2018
 msgid "Always on top"
 msgstr "Всегда наверху"
 
-#: mainwin.cpp:2013
+#: mainwin.cpp:2021
 msgid "&Bug report"
 msgstr "&Сообщения об ошибках"
 
-#: mainwin.cpp:2014
+#: mainwin.cpp:2022
 msgid "&About SIM"
 msgstr "О &приложении SIM"
 
-#: mainwin.cpp:2016
+#: mainwin.cpp:2024
 msgid "About &KDE"
 msgstr "О &KDE"
 
-#: mainwin.cpp:2019
+#: mainwin.cpp:2027
 msgid "Quit"
 msgstr "Выход"
 
-#: _translatorinfo.cpp:1 mainwin.cpp:2201
+#: _translatorinfo.cpp:1 mainwin.cpp:2209
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
 msgstr "Владимир Шутов"
 
-#: _translatorinfo.cpp:3 mainwin.cpp:2202
+#: _translatorinfo.cpp:3 mainwin.cpp:2210
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
@@ -2471,23 +2475,23 @@ msgstr "Уровень отладки"
 msgid "Default style"
 msgstr "Стиль по умолчанию"
 
-#: userbox.cpp:149
+#: userbox.cpp:150
 msgid "Add to ignore list"
 msgstr "Добавить в список игнорируемых"
 
-#: userbox.cpp:156
+#: userbox.cpp:157
 msgid "Move to group"
 msgstr "Переместить в группу"
 
-#: userbox.cpp:180
+#: userbox.cpp:181
 msgid "Encoding"
 msgstr "Кодировка"
 
-#: userbox.cpp:309
+#: userbox.cpp:310
 msgid "All users"
 msgstr "Все пользователи"
 
-#: userbox.cpp:978
+#: userbox.cpp:979
 msgid "History loading"
 msgstr "Загрузка истории"
 
@@ -3338,10 +3342,14 @@ msgid "Sending messages color"
 msgstr "Цвет отправленных сообщений"
 
 #: ui/fontsetupbase.cpp:226
+msgid "User window stays on &top"
+msgstr "Окно сообщений всегда наверху"
+
+#: ui/fontsetupbase.cpp:230
 msgid "&Show splash window"
 msgstr "&Показывать заставку при старте"
 
-#: ui/fontsetupbase.cpp:230
+#: ui/fontsetupbase.cpp:234
 msgid "Use emotional &icons"
 msgstr "Использовать &смайлики"
 

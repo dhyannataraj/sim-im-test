@@ -77,12 +77,19 @@ const capability *ICQClient::capabilities = arrCapabilities;
 
 void ICQClient::sendCapability()
 {
-    Buffer cap(0x04);
+    Buffer cap(5 * sizeof(capability));
+    capability c;
+    memmove(c, capabilities[4], sizeof(c));
+    char ver[] = VERSION; 
+    char pack_ver = (atol(ver) + 1) << 6;
+    char *p = strchr(ver, '.');
+    if (p) pack_ver += atol(p+1);
+    c[sizeof(capability)-1] = pack_ver;
     cap.pack((char*)capabilities[0], sizeof(capability));
     cap.pack((char*)capabilities[1], sizeof(capability));
     cap.pack((char*)capabilities[2], sizeof(capability));
     cap.pack((char*)capabilities[3], sizeof(capability));
-
+    cap.pack((char*)c, sizeof(c));
     snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_SETxUSERxINFO);
     writeBuffer.tlv(0x0005, cap);
     sendPacket();
