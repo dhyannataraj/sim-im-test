@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.1\n"
-"POT-Creation-Date: 2004-04-04 02:07+0400\n"
+"POT-Creation-Date: 2004-04-06 04:30+0400\n"
 "PO-Revision-Date: 2003-03-01 10:24+0100\n"
 "Last-Translator: Roméo VIU-BERGES <apostledemencia@free.fr>\n"
 "Language-Team: Français <fr@li.org>\n"
@@ -1367,10 +1367,10 @@ msgstr "French"
 #: plugins/_core/declinedlgbase.cpp:82 plugins/_core/editmailbase.cpp:97
 #: plugins/_core/editphonebase.cpp:112 plugins/_core/logindlgbase.cpp:132
 #: plugins/_core/toolsetupbase.cpp:135 plugins/action/additembase.cpp:95
-#: plugins/gpg/gpggenbase.cpp:114 plugins/icq/encodingdlgbase.cc:86
-#: plugins/icq/warndlgbase.cc:88 plugins/jabber/discoinfobase.cpp:289
-#: plugins/proxy/proxyerrorbase.cpp:80 sim/api/simapi.cpp:467
-#: sim/ui/qt3/i18n.cpp:174
+#: plugins/gpg/gpggenbase.cpp:140 plugins/gpg/passphrasebase.cpp:85
+#: plugins/icq/encodingdlgbase.cc:86 plugins/icq/warndlgbase.cc:88
+#: plugins/jabber/discoinfobase.cpp:289 plugins/proxy/proxyerrorbase.cpp:80
+#: sim/api/simapi.cpp:467 sim/ui/qt3/i18n.cpp:174
 msgid "&OK"
 msgstr "&OK"
 
@@ -1378,7 +1378,7 @@ msgstr "&OK"
 # mainwin.cpp:2281
 # ui/enable.cpp:122
 # ui/logindlg.cpp:298
-#: sim/api/simapi.cpp:467 sim/ui/ballonmsg.cpp:327 sim/ui/qt3/i18n.cpp:125
+#: sim/api/simapi.cpp:467 sim/ui/ballonmsg.cpp:346 sim/ui/qt3/i18n.cpp:125
 msgid "&Yes"
 msgstr "(&y) Oui"
 
@@ -1392,7 +1392,7 @@ msgid "&Apply"
 msgstr "&Appliquer"
 
 # ui/enable.cpp:123
-#: plugins/jabber/jabber.cpp:305 plugins/jabber/servicesbase.cpp:115
+#: plugins/jabber/jabber.cpp:306 plugins/jabber/servicesbase.cpp:115
 #: sim/api/simapi.cpp:468
 msgid "&Register"
 msgstr "Insc&ription"
@@ -1409,11 +1409,11 @@ msgstr "Insc&ription"
 #: plugins/_core/declinedlgbase.cpp:83 plugins/_core/editmailbase.cpp:98
 #: plugins/_core/editphonebase.cpp:113 plugins/_core/filetransferbase.cpp:138
 #: plugins/_core/logindlgbase.cpp:133 plugins/action/additembase.cpp:96
-#: plugins/gpg/gpggenbase.cpp:115 plugins/icq/encodingdlgbase.cc:87
-#: plugins/icq/icqclient.cpp:2424 plugins/icq/securedlgbase.cc:78
-#: plugins/icq/warndlgbase.cc:89 plugins/proxy/proxyerrorbase.cpp:81
-#: plugins/weather/weathercfg.cpp:80 sim/api/simapi.cpp:470
-#: sim/ui/qt3/i18n.cpp:35
+#: plugins/gpg/gpggenbase.cpp:141 plugins/gpg/passphrasebase.cpp:86
+#: plugins/icq/encodingdlgbase.cc:87 plugins/icq/icqclient.cpp:2424
+#: plugins/icq/securedlgbase.cc:78 plugins/icq/warndlgbase.cc:89
+#: plugins/proxy/proxyerrorbase.cpp:81 plugins/weather/weathercfg.cpp:80
+#: sim/api/simapi.cpp:470 sim/ui/qt3/i18n.cpp:35
 msgid "&Cancel"
 msgstr "(&c) Annuler"
 
@@ -1427,7 +1427,7 @@ msgstr "(&c) Annuler"
 # ui/setupdlgbase.cpp:71
 # ui/toolsetupbase.cpp:113
 # ui/userautoreply.cpp:76
-#: plugins/_core/core.cpp:670 plugins/_core/filetransfer.cpp:346
+#: plugins/_core/core.cpp:671 plugins/_core/filetransfer.cpp:346
 #: plugins/_core/managerbase.cpp:110 plugins/_core/toolsetupbase.cpp:136
 #: plugins/about/aboutdlgbase.cpp:122 plugins/icq/securedlg.cpp:92
 #: plugins/jabber/discoinfobase.cpp:290 sim/api/simapi.cpp:470
@@ -1439,7 +1439,7 @@ msgstr "&Clore"
 # mainwin.cpp:2282
 # ui/enable.cpp:126
 # ui/logindlg.cpp:299
-#: sim/api/simapi.cpp:471 sim/ui/ballonmsg.cpp:328 sim/ui/qt3/i18n.cpp:127
+#: sim/api/simapi.cpp:471 sim/ui/ballonmsg.cpp:347 sim/ui/qt3/i18n.cpp:127
 msgid "&No"
 msgstr "&Non"
 
@@ -1614,7 +1614,7 @@ msgstr "&Couleurs personnalisées"
 msgid "&Define Custom Colors >>"
 msgstr "&Définir couleurs personnalisées >>"
 
-#: plugins/_core/core.cpp:1635 plugins/_core/status.cpp:303
+#: plugins/_core/core.cpp:1636 plugins/_core/status.cpp:321
 #: sim/ui/qt3/i18n.cpp:21
 msgid "OK"
 msgstr "OK"
@@ -1656,7 +1656,7 @@ msgstr "Tous les fichiers (*)"
 # usertbl.cpp:115
 #: plugins/filter/ignorelist.cpp:27 plugins/icq/icqsecure.cpp:127
 #: plugins/icq/searchresult.cpp:129 plugins/jabber/discoinfo.cpp:63
-#: plugins/jabber/jabberbrowser.cpp:121 sim/ui/qt3/i18n.cpp:39
+#: plugins/jabber/jabberbrowser.cpp:116 sim/ui/qt3/i18n.cpp:39
 msgid "Name"
 msgstr "Nom"
 
@@ -1794,15 +1794,15 @@ msgid "&Save"
 msgstr "&Sauver"
 
 # userview.cpp:1681
-#: plugins/_core/core.cpp:1207 plugins/_core/historycfgbase.cpp:176
+#: plugins/_core/core.cpp:1208 plugins/_core/historycfgbase.cpp:176
 #: sim/ui/qt3/i18n.cpp:97
 msgid "&Rename"
 msgstr "&Renommer"
 
 # ui/logindlgbase.cpp:45
 # ui/phonebookbase.cpp:104
-#: plugins/_core/core.cpp:1216 plugins/_core/core.cpp:1363
-#: plugins/_core/core.cpp:1376 plugins/_core/historycfgbase.cpp:177
+#: plugins/_core/core.cpp:1217 plugins/_core/core.cpp:1364
+#: plugins/_core/core.cpp:1377 plugins/_core/historycfgbase.cpp:177
 #: plugins/_core/logindlgbase.cpp:129 plugins/_core/maininfobase.cpp:178
 #: plugins/_core/maininfobase.cpp:188 plugins/action/menucfgbase.cpp:70
 #: sim/ui/listview.cpp:38 sim/ui/qt3/i18n.cpp:99
@@ -1941,7 +1941,7 @@ msgid "Stri&keout"
 msgstr "Barrer"
 
 # msgedit.cpp:117
-#: plugins/_core/core.cpp:773 plugins/_core/core.cpp:870
+#: plugins/_core/core.cpp:774 plugins/_core/core.cpp:871
 #: sim/ui/qt3/i18n.cpp:160
 msgid "&Underline"
 msgstr "So&uligné"
@@ -2159,13 +2159,13 @@ msgid "Paste"
 msgstr "Coller"
 
 # libicq/country.cpp:332
-#: plugins/_core/core.cpp:1019 sim/ui/editfile.cpp:315 sim/ui/editfile.cpp:398
+#: plugins/_core/core.cpp:1020 sim/ui/editfile.cpp:315 sim/ui/editfile.cpp:398
 #: sim/ui/qt3/i18n.cpp:255 sim/ui/qt3/qtextedit.cpp:4237
 msgid "Clear"
 msgstr "Effacer"
 
 # ui/themesetupbase.cpp:110
-#: plugins/_core/core.cpp:1026 sim/ui/qt3/i18n.cpp:257
+#: plugins/_core/core.cpp:1027 sim/ui/qt3/i18n.cpp:257
 #: sim/ui/qt3/qtextedit.cpp:4241 sim/ui/qt3/qtextedit.cpp:4243
 msgid "Select All"
 msgstr "Tout sélectionner"
@@ -2263,31 +2263,31 @@ msgid "Roll down"
 msgstr "Dérouler"
 
 # libicq/country.cpp:404
-#: plugins/_core/core.cpp:980 sim/ui/qt3/qtextedit.cpp:4225
+#: plugins/_core/core.cpp:981 sim/ui/qt3/qtextedit.cpp:4225
 #, fuzzy
 msgid "&Undo"
 msgstr "Annuler"
 
 # ui/maininfobase.cpp:237
-#: plugins/_core/core.cpp:991 sim/ui/qt3/qtextedit.cpp:4226
+#: plugins/_core/core.cpp:992 sim/ui/qt3/qtextedit.cpp:4226
 #, fuzzy
 msgid "&Redo"
 msgstr "Rétablir"
 
-#: plugins/_core/core.cpp:998 sim/ui/qt3/qtextedit.cpp:4231
+#: plugins/_core/core.cpp:999 sim/ui/qt3/qtextedit.cpp:4231
 #, fuzzy
 msgid "Cu&t"
 msgstr "Couper"
 
 # monitor.cpp:73
-#: plugins/_core/core.cpp:916 plugins/_core/core.cpp:1005
+#: plugins/_core/core.cpp:917 plugins/_core/core.cpp:1006
 #: plugins/_core/historycfgbase.cpp:175 plugins/netmonitor/monitor.cpp:67
 #: sim/ui/qt3/qtextedit.cpp:4232
 msgid "&Copy"
 msgstr "&Copier"
 
 # libicq/country.cpp:362
-#: plugins/_core/core.cpp:1012 sim/ui/qt3/qtextedit.cpp:4234
+#: plugins/_core/core.cpp:1013 sim/ui/qt3/qtextedit.cpp:4234
 #, fuzzy
 msgid "&Paste"
 msgstr "Coller"
@@ -2354,7 +2354,7 @@ msgstr "Sélection Police"
 # ui/proxydlgbase.cpp:53
 # ui/setupdlgbase.cpp:63
 # ui/toolsetupbase.cpp:102
-#: sim/ui/ballonmsg.cpp:312
+#: sim/ui/ballonmsg.cpp:331
 msgid "&Ok"
 msgstr "&OK"
 
@@ -2498,7 +2498,7 @@ msgid "Youur account is being used from another location"
 msgstr "Votre UIN est utilisé depuis un autre endroit"
 
 # msgedit.cpp:586
-#: plugins/_core/logindlg.cpp:467 plugins/jabber/jabberclient.cpp:1139
+#: plugins/_core/logindlg.cpp:469 plugins/jabber/jabberclient.cpp:987
 #: plugins/livejournal/livejournal.cpp:921 plugins/msn/msnclient.cpp:827
 #: plugins/yahoo/yahooclient.cpp:344 plugins/yahoo/yahooclient.cpp:355
 #, fuzzy
@@ -2509,8 +2509,8 @@ msgstr "Echec de l'envoi"
 # mainwin.cpp:2733
 # monitor.cpp:59
 #: plugins/icq/icqclient.cpp:2125 plugins/icq/icqclient.cpp:2204
-#: plugins/jabber/jabberclient.cpp:1769 plugins/msn/msnclient.cpp:926
-#: plugins/yahoo/yahooclient.cpp:1436
+#: plugins/jabber/jabberclient.cpp:1617 plugins/msn/msnclient.cpp:926
+#: plugins/yahoo/yahooclient.cpp:1448
 #, fuzzy
 msgid "Network"
 msgstr "Moniteur réseau"
@@ -2518,9 +2518,9 @@ msgstr "Moniteur réseau"
 # cuser.cpp:208
 # ui/maininfo.cpp:136
 #: plugins/icq/aiminfo.cpp:170 plugins/icq/icqclient.cpp:1531
-#: plugins/icq/icqinfo.cpp:176 plugins/jabber/jabberclient.cpp:1433
-#: plugins/jabber/jabberinfo.cpp:92 plugins/msn/msnclient.cpp:1827
-#: plugins/msn/msninfo.cpp:88 plugins/yahoo/yahooclient.cpp:1325
+#: plugins/icq/icqinfo.cpp:176 plugins/jabber/jabberclient.cpp:1281
+#: plugins/jabber/jabberinfo.cpp:92 plugins/msn/msnclient.cpp:1840
+#: plugins/msn/msninfo.cpp:88 plugins/yahoo/yahooclient.cpp:1337
 #: plugins/yahoo/yahooinfo.cpp:111
 msgid "Last online"
 msgstr "Dernier connecté"
@@ -2530,50 +2530,50 @@ msgstr "Dernier connecté"
 # userview.cpp:1294
 #: plugins/_core/userlist.cpp:595 plugins/icq/icq.cpp:99
 #: plugins/icq/icq.cpp:269 plugins/icq/icqclient.cpp:1504
-#: plugins/icq/icqclient.cpp:1538 plugins/jabber/jabber.cpp:86
-#: plugins/jabber/jabberclient.cpp:1460
+#: plugins/icq/icqclient.cpp:1538 plugins/jabber/jabber.cpp:85
+#: plugins/jabber/jabberclient.cpp:1308
 #: plugins/livejournal/livejournal.cpp:318 plugins/msn/msn.cpp:86
-#: plugins/msn/msnclient.cpp:1834 plugins/sms/sms.cpp:229
-#: plugins/yahoo/yahoo.cpp:104 plugins/yahoo/yahooclient.cpp:1332
+#: plugins/msn/msnclient.cpp:1847 plugins/sms/sms.cpp:229
+#: plugins/yahoo/yahoo.cpp:104 plugins/yahoo/yahooclient.cpp:1344
 msgid "Online"
 msgstr "Connecté"
 
 # ui/themesetup.cpp:136
-#: plugins/msn/msnclient.cpp:1895 plugins/msn/msnclient.cpp:1903
+#: plugins/msn/msnclient.cpp:1908 plugins/msn/msnclient.cpp:1916
 #, fuzzy
 msgid "Contact go offline"
 msgstr "Contact - Gauche"
 
 # control.cpp:220
-#: plugins/msn/msnclient.cpp:2097
+#: plugins/msn/msnclient.cpp:2110
 #, fuzzy
 msgid "Send message failed"
 msgstr "Envoyer &message"
 
 # msgedit.cpp:583
 #: plugins/icq/icqicmb.cpp:718 plugins/icq/icqicmb.cpp:1240
-#: plugins/msn/msnclient.cpp:2399 plugins/yahoo/yahooclient.cpp:433
+#: plugins/msn/msnclient.cpp:2412 plugins/yahoo/yahooclient.cpp:433
 #: plugins/yahoo/yahooclient.cpp:436
 #, fuzzy
 msgid "Message declined"
 msgstr "Message envoyé"
 
 # ui/generalsecbase.cpp:93
-#: plugins/icq/icqdirect.cpp:230 plugins/msn/msnclient.cpp:2714
+#: plugins/icq/icqdirect.cpp:230 plugins/msn/msnclient.cpp:2727
 #, fuzzy
 msgid "Can't established direct connection"
 msgstr "Connexion directe"
 
 # msgedit.cpp:511
-#: plugins/msn/msnclient.cpp:2748
+#: plugins/msn/msnclient.cpp:2761
 #, fuzzy
 msgid "Transfer canceled"
 msgstr "Tranfert démarré"
 
 # ui/filetransferbase.cpp:37
-#: plugins/jabber/jabberclient.cpp:2928 plugins/jabber/jabberclient.cpp:2969
-#: plugins/msn/msnclient.cpp:2926 plugins/yahoo/yahooclient.cpp:2409
-#: plugins/yahoo/yahooclient.cpp:2451
+#: plugins/jabber/jabberclient.cpp:2776 plugins/jabber/jabberclient.cpp:2817
+#: plugins/msn/msnclient.cpp:2939 plugins/yahoo/yahooclient.cpp:2421
+#: plugins/yahoo/yahooclient.cpp:2463
 #, fuzzy
 msgid "File transfer failed"
 msgstr "Tranfert de fichier interrompu"
@@ -2585,6 +2585,27 @@ msgstr ""
 #: plugins/msn/msnconfig.cpp:45
 msgid "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 msgstr ""
+
+# client.cpp:1044
+#: plugins/msn/msnpacket.cpp:471
+#, fuzzy, c-format
+msgid ""
+"_n: You have %n unread message\n"
+"You have %n unread messages"
+msgstr ""
+"_n : Message extérieur inconnu\n"
+"%n messages inconnus"
+
+#: plugins/msn/msnpacket.cpp:491
+msgid "You have new mail"
+msgstr ""
+
+# dock.cpp:942
+# mainwin.cpp:871
+#: plugins/_core/core.cpp:2686 plugins/dock/dockwnd.cpp:1363
+#: plugins/msn/msnpacket.cpp:493 plugins/osd/osd.cpp:463
+msgid "%1 from %2"
+msgstr "%1 sur %2"
 
 #: plugins/msn/msnresult.cpp:59
 #, fuzzy
@@ -2601,7 +2622,7 @@ msgstr "Ouvrir message lu"
 msgid "MSN search results"
 msgstr ""
 
-#: plugins/msn/msnsearch.cpp:126 plugins/yahoo/yahoosearch.cpp:131
+#: plugins/msn/msnsearch.cpp:126
 msgid "Contact %1 allready in list"
 msgstr ""
 
@@ -2634,14 +2655,14 @@ msgstr ""
 # client.cpp:1099
 #: plugins/_core/userviewcfgbase.cpp:268 plugins/icq/icq.cpp:114
 #: plugins/icq/icq.cpp:284 plugins/icq/icqclient.cpp:1507
-#: plugins/jabber/jabber.cpp:101 plugins/msn/msn.cpp:101
+#: plugins/jabber/jabber.cpp:100 plugins/msn/msn.cpp:101
 #: plugins/yahoo/yahoo.cpp:119
 msgid "Away"
 msgstr "Absent"
 
 # client.cpp:1097
 #: plugins/_core/userviewcfgbase.cpp:269 plugins/icq/icq.cpp:129
-#: plugins/jabber/jabber.cpp:116 plugins/msn/msn.cpp:116
+#: plugins/jabber/jabber.cpp:115 plugins/msn/msn.cpp:116
 #: plugins/yahoo/yahoo.cpp:134
 msgid "N/A"
 msgstr "(Non communiqué)"
@@ -2652,11 +2673,11 @@ msgstr "(Non communiqué)"
 msgid "Busy"
 msgstr "Occupé"
 
-#: plugins/msn/msn.cpp:146 plugins/yahoo/yahooclient.cpp:1344
+#: plugins/msn/msn.cpp:146 plugins/yahoo/yahooclient.cpp:1356
 msgid "Be right back"
 msgstr ""
 
-#: plugins/msn/msn.cpp:161 plugins/yahoo/yahooclient.cpp:1356
+#: plugins/msn/msn.cpp:161 plugins/yahoo/yahooclient.cpp:1368
 msgid "On the phone"
 msgstr ""
 
@@ -2668,8 +2689,8 @@ msgstr ""
 # userview.cpp:1297
 #: plugins/_core/userlist.cpp:598 plugins/_core/userviewcfgbase.cpp:266
 #: plugins/icq/icq.cpp:189 plugins/icq/icq.cpp:299
-#: plugins/icq/icqclient.cpp:1501 plugins/jabber/jabber.cpp:161
-#: plugins/jabber/jabberclient.cpp:1422
+#: plugins/icq/icqclient.cpp:1501 plugins/jabber/jabber.cpp:160
+#: plugins/jabber/jabberclient.cpp:1270
 #: plugins/livejournal/livejournal.cpp:333 plugins/msn/msn.cpp:191
 #: plugins/sms/sms.cpp:244 plugins/yahoo/yahoo.cpp:164
 msgid "Offline"
@@ -2710,7 +2731,7 @@ msgstr "Déconnecté"
 #: plugins/icq/homeinfobase.cc:143 plugins/icq/icqconfigbase.cc:229
 #: plugins/icq/icqpicturebase.cc:74 plugins/icq/icqsecurebase.cc:153
 #: plugins/icq/pastinfobase.cc:138 plugins/jabber/addresultbase.cpp:57
-#: plugins/jabber/infoproxybase.cpp:55 plugins/jabber/jabberaddbase.cpp:92
+#: plugins/jabber/infoproxybase.cpp:55 plugins/jabber/jabberaddbase.cpp:107
 #: plugins/jabber/jabberconfigbase.cpp:277
 #: plugins/jabber/jabberinfobase.cpp:194
 #: plugins/jabber/jabberpicturebase.cpp:74
@@ -2735,7 +2756,7 @@ msgid "Form1"
 msgstr "Forme1"
 
 # ui/searchbase.cpp:77
-#: plugins/gpg/gpggenbase.cpp:116 plugins/jabber/discoinfobase.cpp:285
+#: plugins/gpg/gpggenbase.cpp:134 plugins/jabber/discoinfobase.cpp:285
 #: plugins/msn/msnsearchbase.cpp:79
 #, fuzzy
 msgid "EMail:"
@@ -2743,7 +2764,7 @@ msgstr "Email :"
 
 # usertbl.cpp:411
 #: plugins/icq/aimsearchbase.cc:241 plugins/icq/aimsearchbase.cc:244
-#: plugins/icq/icqsearchbase.cc:315 plugins/jabber/jabberaddbase.cpp:93
+#: plugins/icq/icqsearchbase.cc:315 plugins/jabber/jabberaddbase.cpp:108
 #: plugins/msn/msnsearchbase.cpp:80 plugins/yahoo/yahoosearchbase.cpp:80
 #, fuzzy
 msgid "Add to group:"
@@ -2759,7 +2780,7 @@ msgstr "Ajouter Contact non-IM"
 
 # ui/maininfobase.cpp:246
 #: plugins/_core/maininfo.cpp:70 plugins/filter/ignorelist.cpp:28
-#: plugins/icq/icqsecure.cpp:128 plugins/jabber/jabbersearch.cpp:100
+#: plugins/icq/icqsecure.cpp:128 plugins/jabber/jabbersearch.cpp:101
 #: plugins/msn/msninfobase.cpp:130
 #, fuzzy
 msgid "EMail"
@@ -2794,7 +2815,7 @@ msgstr "Connecté :"
 
 # ui/maininfobase.cpp:312
 # ui/statussetupbase.cpp:96
-#: plugins/_core/core.cpp:1287 plugins/icq/aiminfobase.cc:291
+#: plugins/_core/core.cpp:1288 plugins/icq/aiminfobase.cc:291
 #: plugins/icq/icqinfobase.cc:288 plugins/jabber/jabberinfobase.cpp:206
 #: plugins/msn/msninfobase.cpp:136 plugins/yahoo/yahooinfobase.cpp:172
 msgid "&Status"
@@ -3042,12 +3063,12 @@ msgstr "Polonais"
 # mainwin.cpp:2722
 # ui/setupdlg.cpp:97
 #: plugins/_core/cfgdlg.cpp:491 plugins/_core/cfgdlgbase.cpp:91
-#: plugins/_core/core.cpp:565 plugins/_core/core.cpp:1165
-#: plugins/_core/core.cpp:1247
+#: plugins/_core/core.cpp:566 plugins/_core/core.cpp:1166
+#: plugins/_core/core.cpp:1248
 msgid "Setup"
 msgstr "Préférences"
 
-#: plugins/_core/cfgdlg.cpp:536 plugins/jabber/jabber.cpp:318
+#: plugins/_core/cfgdlg.cpp:536 plugins/jabber/jabber.cpp:319
 msgid "Configure"
 msgstr ""
 
@@ -3228,7 +3249,7 @@ msgid "Turkish"
 msgstr "Turc"
 
 # client.cpp:294
-#: plugins/_core/core.cpp:477
+#: plugins/_core/core.cpp:478
 msgid ""
 "I am currently away from ICQ.\n"
 "Please leave your message and I will get back to you as soon as I return!\n"
@@ -3237,7 +3258,7 @@ msgstr ""
 "Veuillez laisser un message et je vous recontacte dès que possible !\n"
 
 # client.cpp:298
-#: plugins/_core/core.cpp:481
+#: plugins/_core/core.cpp:482
 msgid ""
 "I am out'a here.\n"
 "See you tomorrow!\n"
@@ -3246,358 +3267,358 @@ msgstr ""
 "A demain !\n"
 
 # client.cpp:302
-#: plugins/_core/core.cpp:485
+#: plugins/_core/core.cpp:486
 msgid "Please do not disturb me now. Disturb me later.\n"
 msgstr "Ne pas déranger. Dérangez-moi plus tard.\n"
 
 # client.cpp:309
-#: plugins/_core/core.cpp:488
+#: plugins/_core/core.cpp:489
 msgid "We'd love to hear what you have to say. Join our chat.\n"
 msgstr "Nous aimerions savoir ce que vous avez à dire. Rejoignez-nous.\n"
 
 # control.cpp:220
-#: plugins/_core/core.cpp:575
+#: plugins/_core/core.cpp:576
 #, fuzzy
 msgid "Unread messages"
 msgstr "Ouvrir message lu"
 
 # mainwin.cpp:2741
-#: plugins/_core/core.cpp:583
+#: plugins/_core/core.cpp:584
 msgid "Quit"
 msgstr "Quitter"
 
 # mainwin.cpp:614
-#: plugins/_core/core.cpp:592
+#: plugins/_core/core.cpp:593
 msgid "&Menu"
 msgstr "&Menu"
 
-#: plugins/_core/core.cpp:602 plugins/_core/searchbase.cpp:73
+#: plugins/_core/core.cpp:603 plugins/_core/searchbase.cpp:73
 msgid "Search / Add contact"
 msgstr ""
 
 # mainwin.cpp:618
 # mainwin.cpp:2718
-#: plugins/_core/core.cpp:613
+#: plugins/_core/core.cpp:614
 #, fuzzy
 msgid "&Send SMS"
 msgstr "Envoyer SMS"
 
 # libicq/country.cpp:431
-#: plugins/_core/core.cpp:620
+#: plugins/_core/core.cpp:621
 #, fuzzy
 msgid "&Phone service"
 msgstr "Autres Services"
 
 # userbox.cpp:106
-#: plugins/_core/core.cpp:630
+#: plugins/_core/core.cpp:631
 msgid "Message"
 msgstr "Message"
 
 # ui/themesetup.cpp:136
-#: plugins/_core/core.cpp:641 plugins/filter/ignorelist.cpp:26
+#: plugins/_core/core.cpp:642 plugins/filter/ignorelist.cpp:26
 #, fuzzy
 msgid "Contact"
 msgstr "Contact - Gauche"
 
 # mainwin.cpp:2037
 # mainwin.cpp:2723
-#: plugins/_core/core.cpp:648 plugins/_core/core.cpp:1199
+#: plugins/_core/core.cpp:649 plugins/_core/core.cpp:1200
 #, fuzzy
 msgid "Group"
 msgstr "Groupes"
 
 # userbox.cpp:113
-#: plugins/_core/core.cpp:656 plugins/_core/core.cpp:1232
-#: plugins/icq/icq.cpp:496 plugins/jabber/jabber.cpp:242
+#: plugins/_core/core.cpp:657 plugins/_core/core.cpp:1233
+#: plugins/icq/icq.cpp:496 plugins/jabber/jabber.cpp:251
 msgid "User &info"
 msgstr "&Infos Utilisateur"
 
 # mainwin.cpp:2045
-#: plugins/_core/core.cpp:663 plugins/_core/core.cpp:1065
-#: plugins/_core/core.cpp:1240
+#: plugins/_core/core.cpp:664 plugins/_core/core.cpp:1066
+#: plugins/_core/core.cpp:1241
 msgid "&History"
 msgstr "&Historique"
 
 # msgedit.cpp:132
 # msgedit.cpp:359
-#: plugins/_core/core.cpp:704 plugins/_core/msgedit.cpp:1015
+#: plugins/_core/core.cpp:705 plugins/_core/msgedit.cpp:1015
 msgid "&Send"
 msgstr "(&s) Envoyer"
 
 # msgedit.cpp:119
-#: plugins/_core/core.cpp:714
+#: plugins/_core/core.cpp:715
 #, fuzzy
 msgid "&Insert smile"
 msgstr "Met&tre un smiley"
 
-#: plugins/_core/core.cpp:721 plugins/forward/forwardcfgbase.cpp:75
+#: plugins/_core/core.cpp:722 plugins/forward/forwardcfgbase.cpp:75
 msgid "Send in &translit"
 msgstr ""
 
 # msgedit.cpp:130
-#: plugins/_core/core.cpp:729 plugins/_core/msgedit.cpp:249
+#: plugins/_core/core.cpp:730 plugins/_core/msgedit.cpp:249
 msgid "C&lose after send"
 msgstr "Fermer après &l'envoi"
 
 # msgedit.cpp:135
-#: plugins/_core/core.cpp:737 plugins/_core/msgedit.cpp:1004
+#: plugins/_core/core.cpp:738 plugins/_core/msgedit.cpp:1004
 msgid "&Multiply send"
 msgstr "Envoi &massif"
 
 # msgedit.cpp:113
-#: plugins/_core/core.cpp:745 plugins/_core/core.cpp:841
+#: plugins/_core/core.cpp:746 plugins/_core/core.cpp:842
 #, fuzzy
 msgid "Back&ground color"
 msgstr "(&k) Couleur Arrière-plan"
 
 # msgedit.cpp:113
-#: plugins/_core/core.cpp:753 plugins/_core/core.cpp:850
+#: plugins/_core/core.cpp:754 plugins/_core/core.cpp:851
 #, fuzzy
 msgid "&Foreground color"
 msgstr "(&k) Couleur Arrière-plan"
 
 # msgedit.cpp:115
-#: plugins/_core/core.cpp:759 plugins/_core/core.cpp:856
+#: plugins/_core/core.cpp:760 plugins/_core/core.cpp:857
 msgid "&Bold"
 msgstr "(&b) Gras"
 
 # msgedit.cpp:116
-#: plugins/_core/core.cpp:766 plugins/_core/core.cpp:863
+#: plugins/_core/core.cpp:767 plugins/_core/core.cpp:864
 msgid "&Italic"
 msgstr "&Italique"
 
 # ui/themesetupbase.cpp:110
-#: plugins/_core/core.cpp:780 plugins/_core/core.cpp:877
+#: plugins/_core/core.cpp:781 plugins/_core/core.cpp:878
 #, fuzzy
 msgid "Select &font"
 msgstr "Sélection Police"
 
 # ui/themesetupbase.cpp:110
-#: plugins/_core/core.cpp:787
+#: plugins/_core/core.cpp:788
 #, fuzzy
 msgid "Select &file"
 msgstr "Tout sélectionner"
 
 # ui/addphonebase.cpp:68
-#: plugins/_core/core.cpp:795
+#: plugins/_core/core.cpp:796
 #, fuzzy
 msgid "&Phone number"
 msgstr "Ajouter téléphone"
 
 # msgedit.cpp:133
-#: plugins/_core/core.cpp:803 plugins/_core/msgedit.cpp:1521
-#: plugins/jabber/jabber.cpp:279
+#: plugins/_core/core.cpp:804 plugins/_core/msgedit.cpp:1521
+#: plugins/jabber/jabber.cpp:280
 msgid "&Next"
 msgstr "Suiva&nt"
 
 # msgedit.cpp:123
-#: plugins/_core/core.cpp:810
+#: plugins/_core/core.cpp:811
 #, fuzzy
 msgid "&Direction"
 msgstr "&Décliner"
 
 # msgview.cpp:830
-#: plugins/_core/core.cpp:819 plugins/filter/filter.cpp:129
+#: plugins/_core/core.cpp:820 plugins/filter/filter.cpp:129
 msgid "&Filter"
 msgstr "&Filtre"
 
 # msgview.cpp:832
-#: plugins/_core/core.cpp:827
+#: plugins/_core/core.cpp:828
 msgid "&Previous page"
 msgstr "Page &Précédente"
 
 # msgview.cpp:833
-#: plugins/_core/core.cpp:835
+#: plugins/_core/core.cpp:836
 msgid "&Next page"
 msgstr "Page Suiva&nte"
 
 # control.cpp:220
-#: plugins/_core/core.cpp:899
+#: plugins/_core/core.cpp:900
 #, fuzzy
 msgid "&Open message"
 msgstr "Envoyer message"
 
 # control.cpp:220
-#: plugins/_core/core.cpp:922
+#: plugins/_core/core.cpp:923
 #, fuzzy
 msgid "&Delete message"
 msgstr "Envoyer message"
 
 # mainwin.cpp:2045
-#: plugins/_core/core.cpp:928
+#: plugins/_core/core.cpp:929
 #, fuzzy
 msgid "&Cut history"
 msgstr "&Historique"
 
 # msgedit.cpp:125
-#: plugins/_core/core.cpp:933
+#: plugins/_core/core.cpp:934
 msgid "&Quote"
 msgstr "(&q) Citer"
 
 # msgedit.cpp:126
 # ui/smssetupbase.cpp:82
-#: plugins/_core/core.cpp:950 plugins/forward/forward.cpp:65
+#: plugins/_core/core.cpp:951 plugins/forward/forward.cpp:65
 msgid "&Forward"
 msgstr "&Faire suivre"
 
 # monitor.cpp:74
-#: plugins/_core/core.cpp:965
+#: plugins/_core/core.cpp:966
 #, fuzzy
 msgid "&Answer"
 msgstr "&Transfert"
 
 # editspell.cpp:316
-#: plugins/_core/core.cpp:1034
+#: plugins/_core/core.cpp:1035
 #, fuzzy
 msgid "Enable spell check"
 msgstr "Vérif. Orthographe"
 
 # editspell.cpp:316
-#: plugins/_core/core.cpp:1040 plugins/spell/spell.cpp:61
+#: plugins/_core/core.cpp:1041 plugins/spell/spell.cpp:61
 msgid "Spell check"
 msgstr "Vérif. Orthographe"
 
 # ui/acceptbase.cpp:120
-#: plugins/_core/core.cpp:1048
+#: plugins/_core/core.cpp:1049
 #, fuzzy
 msgid "&Messages"
 msgstr "&Message"
 
 # ui/setupdlg.cpp:131
-#: plugins/_core/core.cpp:1057 plugins/_core/msgedit.cpp:1672
+#: plugins/_core/core.cpp:1058 plugins/_core/msgedit.cpp:1672
 #: plugins/sms/smssetupbase.cpp:153
 #, fuzzy
 msgid "&SMS"
 msgstr "SMS"
 
 # mainwin.cpp:610
-#: plugins/_core/core.cpp:1073 plugins/_core/core.cpp:1104
+#: plugins/_core/core.cpp:1074 plugins/_core/core.cpp:1105
 msgid "Show &offline"
 msgstr "Montrer Déc&onnecté"
 
 # userview.cpp:888
 # userview.cpp:904
-#: plugins/_core/core.cpp:1085
+#: plugins/_core/core.cpp:1086
 #, fuzzy
 msgid "&No show groups"
 msgstr "Nouveau groupe"
 
 # mainwin.cpp:611
-#: plugins/_core/core.cpp:1095
+#: plugins/_core/core.cpp:1096
 #, fuzzy
 msgid "Group mode 1"
 msgstr "Mode &Group"
 
 # mainwin.cpp:611
-#: plugins/_core/core.cpp:1100
+#: plugins/_core/core.cpp:1101
 #, fuzzy
 msgid "Group mode 2"
 msgstr "Mode &Group"
 
 # userview.cpp:888
 # userview.cpp:904
-#: plugins/_core/core.cpp:1111
+#: plugins/_core/core.cpp:1112
 #, fuzzy
 msgid "Show &empty groups"
 msgstr "Nouveau groupe"
 
 # mainwin.cpp:2706
 # userview.cpp:1685
-#: plugins/_core/core.cpp:1118
+#: plugins/_core/core.cpp:1119
 #, fuzzy
 msgid "&Create group"
 msgstr "Créer groupe"
 
 # mainwin.cpp:2706
 # userview.cpp:1685
-#: plugins/_core/core.cpp:1129
+#: plugins/_core/core.cpp:1130
 #, fuzzy
 msgid "&Rename group"
 msgstr "Créer groupe"
 
 # mainwin.cpp:2706
 # userview.cpp:1685
-#: plugins/_core/core.cpp:1136
+#: plugins/_core/core.cpp:1137
 #, fuzzy
 msgid "&Delete group"
 msgstr "Créer groupe"
 
 # userview.cpp:1689
-#: plugins/_core/core.cpp:1143
+#: plugins/_core/core.cpp:1144
 msgid "Up"
 msgstr "Haut"
 
 # userview.cpp:1691
-#: plugins/_core/core.cpp:1150
+#: plugins/_core/core.cpp:1151
 msgid "Down"
 msgstr "Bas"
 
-#: plugins/_core/core.cpp:1224
+#: plugins/_core/core.cpp:1225
 msgid "Show &always"
 msgstr ""
 
 # mainwin.cpp:2465
-#: plugins/_core/core.cpp:1254
+#: plugins/_core/core.cpp:1255
 msgid "To container"
 msgstr "Dans le groupe"
 
 # ui/workinfobase.cpp:156
-#: plugins/_core/core.cpp:1279
+#: plugins/_core/core.cpp:1280
 #, fuzzy
 msgid "&Location"
 msgstr "&Occupation :"
 
 # ui/setupdlg.cpp:118
 # ui/userinfo.cpp:85
-#: plugins/_core/core.cpp:1294
+#: plugins/_core/core.cpp:1295
 #, fuzzy
 msgid "&Phone book"
 msgstr "Répertoire téléphonique"
 
 # userview.cpp:888
 # userview.cpp:904
-#: plugins/_core/core.cpp:1301
+#: plugins/_core/core.cpp:1302
 #, fuzzy
 msgid "&No show"
 msgstr "Nouveau groupe"
 
 # mainwin.cpp:2702
-#: plugins/_core/core.cpp:1308
+#: plugins/_core/core.cpp:1309
 #, fuzzy
 msgid "&Available"
 msgstr "Disponible"
 
 # mainwin.cpp:2703
-#: plugins/_core/core.cpp:1316
+#: plugins/_core/core.cpp:1317
 #, fuzzy
 msgid "&Busy"
 msgstr "Occupé"
 
 # msgedit.cpp:78
-#: plugins/_core/core.cpp:1332
+#: plugins/_core/core.cpp:1333
 msgid "Decline file without reason"
 msgstr "Refuser le fichier sans raison"
 
 # msgedit.cpp:80
-#: plugins/_core/core.cpp:1340 plugins/_core/core.cpp:3127
+#: plugins/_core/core.cpp:1341 plugins/_core/core.cpp:3136
 msgid "Sorry, I'm busy right now, and can not respond to your request"
 msgstr ""
 "Désolé, je suis occupé en ce moment et je ne peux répondre à votre demande."
 
 # msgedit.cpp:82
-#: plugins/_core/core.cpp:1345 plugins/_core/core.cpp:3136
+#: plugins/_core/core.cpp:1346 plugins/_core/core.cpp:3145
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
 msgstr ""
 "Désolé, je suis occupé en ce moment mais je pourrai vous répondre plus tard."
 
 # msgedit.cpp:84
-#: plugins/_core/core.cpp:1350
+#: plugins/_core/core.cpp:1351
 msgid "Enter a decline reason"
 msgstr "Entrer une raison de refus"
 
 # monitor.cpp:75
 # ui/phonebookbase.cpp:100
-#: plugins/_core/core.cpp:1355 plugins/_core/core.cpp:1369
+#: plugins/_core/core.cpp:1356 plugins/_core/core.cpp:1370
 #: plugins/_core/maininfobase.cpp:177 plugins/_core/maininfobase.cpp:187
 #: plugins/action/menucfgbase.cpp:69 plugins/netmonitor/monitor.cpp:69
 msgid "&Edit"
@@ -3605,52 +3626,52 @@ msgstr "&Editer"
 
 # ui/homeinfobase.cpp:87
 # ui/workinfobase.cpp:47
-#: plugins/_core/core.cpp:1604
+#: plugins/_core/core.cpp:1605
 #, fuzzy
 msgid "ip-address"
 msgstr "Adresse :"
 
 # usertbl.cpp:116
-#: plugins/_core/core.cpp:1606
+#: plugins/_core/core.cpp:1607
 #, fuzzy
 msgid "e-mail"
 msgstr "Email"
 
 # msgedit.cpp:177
-#: plugins/_core/core.cpp:1608
+#: plugins/_core/core.cpp:1609
 #, fuzzy
 msgid "phone"
 msgstr "Téléphone :"
 
 # ui/themesetup.cpp:136
-#: plugins/_core/core.cpp:1610
+#: plugins/_core/core.cpp:1611
 #, fuzzy
 msgid "contact nick"
 msgstr "Contact - Gauche"
 
-#: plugins/_core/core.cpp:1612
+#: plugins/_core/core.cpp:1613
 msgid "number of unread messages from this contact"
 msgstr ""
 
 # msgview.cpp:226
-#: plugins/_core/core.cpp:1614
+#: plugins/_core/core.cpp:1615
 #, fuzzy
 msgid "contact status"
 msgstr "Liste de contacts envoyée"
 
 # control.cpp:218
-#: plugins/_core/core.cpp:1616
+#: plugins/_core/core.cpp:1617
 #, fuzzy
 msgid "time of set status"
 msgstr "Régler Etat"
 
 # control.cpp:218
-#: plugins/_core/core.cpp:1618
+#: plugins/_core/core.cpp:1619
 #, fuzzy
 msgid "time from set status"
 msgstr "Régler Etat"
 
-#: plugins/_core/core.cpp:1637
+#: plugins/_core/core.cpp:1639
 msgid ""
 "At loading contact list contacts with identical names were automatically "
 "joined.\n"
@@ -3659,100 +3680,93 @@ msgid ""
 msgstr ""
 
 # ui/msgdialogbase.cpp:79
-#: plugins/_core/core.cpp:1640
+#: plugins/_core/core.cpp:1642
 #, fuzzy
 msgid "Don't show this message in next time"
 msgstr "Ne pas montrer la boîte de message"
 
-#: plugins/_core/core.cpp:1667
+#: plugins/_core/core.cpp:1669
 msgid "`<command>` - call <command> and substitute command output\n"
 msgstr ""
 
 # ui/toolsetup.cpp:63
 # ui/toolsetup.cpp:132
 # ui/toolsetup.cpp:159
-#: plugins/_core/core.cpp:2278
+#: plugins/_core/core.cpp:2280
 #, fuzzy
 msgid "&Separate"
 msgstr "Séparation"
 
 # dock.cpp:942
 # mainwin.cpp:871
-#: plugins/_core/core.cpp:2316 plugins/_core/userwnd.cpp:134
+#: plugins/_core/core.cpp:2318 plugins/_core/userwnd.cpp:134
 #, fuzzy, c-format
 msgid "from %1"
 msgstr "%1 sur %2"
 
 # ui/filetransfer.cpp:245
 # ui/filetransfer.cpp:264
-#: plugins/_core/core.cpp:2510
+#: plugins/_core/core.cpp:2512
 msgid "&New"
 msgstr "&Nouveau"
 
 # mainwin.cpp:2702
-#: plugins/_core/core.cpp:2584
+#: plugins/_core/core.cpp:2586
 #, fuzzy
 msgid "Not available"
 msgstr "Disponible"
 
-# dock.cpp:942
-# mainwin.cpp:871
-#: plugins/_core/core.cpp:2684 plugins/dock/dockwnd.cpp:1359
-#: plugins/osd/osd.cpp:463
-msgid "%1 from %2"
-msgstr "%1 sur %2"
-
-#: plugins/_core/core.cpp:2825
+#: plugins/_core/core.cpp:2827
 msgid "%1 wrote:"
 msgstr ""
 
 # mainwin.cpp:618
 # mainwin.cpp:2718
-#: plugins/_core/core.cpp:2913
+#: plugins/_core/core.cpp:2915
 msgid "Send SMS"
 msgstr "Envoyer SMS"
 
 # dock.cpp:955
 # mainwin.cpp:1974
-#: plugins/_core/core.cpp:3940 plugins/_core/core.cpp:3962
+#: plugins/_core/core.cpp:3949 plugins/_core/core.cpp:3971
 #: plugins/_core/managerbase.cpp:103
 #, fuzzy
 msgid "Connection manager"
 msgstr "Connexion"
 
 # mainwin.cpp:709
-#: plugins/_core/core.cpp:3948
+#: plugins/_core/core.cpp:3957
 #, fuzzy
 msgid "Show status panel"
 msgstr "Etat Téléphone"
 
 # ui/setupdlg.cpp:124
-#: plugins/_core/core.cpp:3955
+#: plugins/_core/core.cpp:3964
 #, fuzzy
 msgid "Connections"
 msgstr "Connexion"
 
 # mainwin.cpp:2726
-#: plugins/_core/core.cpp:3970
+#: plugins/_core/core.cpp:3979
 #, fuzzy
 msgid "Change profile"
 msgstr "le fichier"
 
 # mainwin.cpp:709
-#: plugins/_core/core.cpp:3999
+#: plugins/_core/core.cpp:4008
 #, fuzzy
 msgid "Common status"
 msgstr "Etat Téléphone"
 
 # sim.cpp:521
-#: plugins/_core/core.cpp:4005
+#: plugins/_core/core.cpp:4014
 #, fuzzy
 msgid "Configure client"
 msgstr "Client ICQ"
 
 # client.cpp:1113
 # mainwin.cpp:2698
-#: plugins/_core/core.cpp:4029 plugins/_core/status.cpp:153
+#: plugins/_core/core.cpp:4038 plugins/_core/status.cpp:153
 #: plugins/_core/status.cpp:223
 #, fuzzy
 msgid "&Invisible"
@@ -3888,30 +3902,30 @@ msgstr ""
 msgid "b/s"
 msgstr ""
 
-#: plugins/_core/historycfg.cpp:194
+#: plugins/_core/historycfg.cpp:195
 msgid "Show %1 messages per page"
 msgstr ""
 
-#: plugins/_core/historycfg.cpp:478
+#: plugins/_core/historycfg.cpp:479
 msgid "Remove style '%1'?"
 msgstr ""
 
-#: plugins/_core/historycfg.cpp:653
+#: plugins/_core/historycfg.cpp:654
 msgid "Hi! ;)"
 msgstr ""
 
-#: plugins/_core/historycfg.cpp:659
+#: plugins/_core/historycfg.cpp:660
 msgid "Hi!"
 msgstr ""
 
-#: plugins/_core/historycfg.cpp:665
+#: plugins/_core/historycfg.cpp:666
 msgid ""
 "<b><font color=\"#FF0000\">C</font><font color=\"#FFFF00\">olored</font></b> "
 "message"
 msgstr ""
 
 # msgedit.cpp:879
-#: plugins/_core/historycfg.cpp:674 plugins/_core/msgcfgbase.cpp:86
+#: plugins/_core/historycfg.cpp:675 plugins/_core/msgcfgbase.cpp:86
 #, fuzzy
 msgid "New message"
 msgstr "&Nouveau message"
@@ -4063,7 +4077,7 @@ msgstr "Ajouté à la liste de contacts"
 
 # mainwin.cpp:617
 # mainwin.cpp:2717
-#: plugins/_core/search.cpp:88
+#: plugins/_core/search.cpp:101
 #, fuzzy
 msgid "Non-IM contact"
 msgstr "Ajouter Contact non-IM"
@@ -4071,7 +4085,7 @@ msgstr "Ajouter Contact non-IM"
 # msgview.cpp:828
 # ui/searchbase.cpp:38
 # ui/searchbase.cpp:51
-#: plugins/_core/search.cpp:147
+#: plugins/_core/search.cpp:160
 #, fuzzy, c-format
 msgid "Search %1"
 msgstr "Rechercher"
@@ -4135,7 +4149,7 @@ msgstr "Ajouter Contact non-IM"
 #: plugins/_core/userview.cpp:177 plugins/_core/userview.cpp:682
 #: plugins/_core/userview.cpp:720 plugins/icq/icqsearch.cpp:143
 #: plugins/icq/searchresult.cpp:270 plugins/jabber/addresult.cpp:144
-#: plugins/jabber/jabberadd.cpp:115 plugins/remote/remote.cpp:566
+#: plugins/jabber/jabberadd.cpp:120 plugins/remote/remote.cpp:566
 msgid "Not in list"
 msgstr "Pas dans la liste"
 
@@ -4638,7 +4652,7 @@ msgstr ""
 
 # ui/acceptbase.cpp:120
 #: plugins/_core/msgedit.cpp:1644 plugins/icq/icq.cpp:486
-#: plugins/jabber/jabber.cpp:233
+#: plugins/jabber/jabber.cpp:242
 msgid "&Message"
 msgstr "&Message"
 
@@ -5584,12 +5598,12 @@ msgstr ""
 msgid "New"
 msgstr "Nouveau"
 
-#: plugins/gpg/gpggen.cpp:103
+#: plugins/gpg/gpggen.cpp:107
 msgid "Move mouse for generate random key"
 msgstr ""
 
 # ui/setupdlg.cpp:149
-#: plugins/gpg/gpggen.cpp:169
+#: plugins/gpg/gpggen.cpp:177
 #, fuzzy
 msgid "Generate key failed"
 msgstr "Général"
@@ -5622,22 +5636,34 @@ msgid "&Refresh"
 msgstr "&Refuser"
 
 # ui/setupdlg.cpp:149
-#: plugins/gpg/gpggenbase.cpp:113
+#: plugins/gpg/gpggenbase.cpp:133
 #, fuzzy
 msgid "Generate key"
 msgstr "Général"
 
 # ui/maininfobase.cpp:304
-#: plugins/gpg/gpggenbase.cpp:117
+#: plugins/gpg/gpggenbase.cpp:135
 #, fuzzy
 msgid "Comment:"
 msgstr "Client :"
 
 # ui/workinfobase.cpp:93
-#: plugins/gpg/gpggenbase.cpp:118 plugins/icq/workinfobase.cc:184
+#: plugins/gpg/gpggenbase.cpp:136 plugins/icq/workinfobase.cc:184
 #: plugins/jabber/discoinfobase.cpp:269 plugins/jabber/discoinfobase.cpp:271
 msgid "Name:"
 msgstr "Nom :"
+
+# ui/logindlgbase.cpp:80
+#: plugins/gpg/gpggenbase.cpp:137
+#, fuzzy
+msgid "Passphrase:"
+msgstr "Mot de passe :"
+
+# ui/generalsecbase.cpp:167
+#: plugins/gpg/gpggenbase.cpp:138
+#, fuzzy
+msgid "Retype passphrase:"
+msgstr "Retapez le nouveau mot de passe :"
 
 # ui/keysetup.cpp:34
 #: plugins/gpg/gpguserbase.cpp:68
@@ -5645,29 +5671,29 @@ msgstr "Nom :"
 msgid "Key:"
 msgstr "Touches"
 
-#: plugins/gpg/gpg.cpp:52
+#: plugins/gpg/gpg.cpp:53
 msgid "GPG"
 msgstr ""
 
-#: plugins/gpg/gpg.cpp:53
+#: plugins/gpg/gpg.cpp:54
 msgid "Plugin adds GnuPG encryption/decryption support for messages"
 msgstr ""
 
-#: plugins/gpg/gpg.cpp:77
+#: plugins/gpg/gpg.cpp:78
 msgid ""
 "Plugin adds GnuPG encryption/decryption support for messages\n"
 "GPG not found in PATH"
 msgstr ""
 
 # msgedit.cpp:511
-#: plugins/gpg/gpg.cpp:399 plugins/gpg/gpg.cpp:404
+#: plugins/gpg/gpg.cpp:505 plugins/gpg/gpg.cpp:514
 #, fuzzy
 msgid "Encrypt failed"
 msgstr "Tranfert démarré"
 
 # client.cpp:1010
 # msgview.cpp:200
-#: plugins/gpg/gpg.cpp:561
+#: plugins/gpg/gpg.cpp:700
 #, fuzzy, c-format
 msgid ""
 "_n: %n GPG key\n"
@@ -5676,15 +5702,15 @@ msgstr ""
 "_n : Fichier\n"
 "%n fichiers"
 
-#: plugins/gpg/gpg.cpp:610
+#: plugins/gpg/gpg.cpp:749
 msgid "GPG key"
 msgstr ""
 
-#: plugins/gpg/gpg.cpp:618
+#: plugins/gpg/gpg.cpp:757
 msgid "Use GPG encryption"
 msgstr ""
 
-#: plugins/gpg/gpg.cpp:625
+#: plugins/gpg/gpg.cpp:764
 msgid "&GPG key"
 msgstr ""
 
@@ -5721,6 +5747,25 @@ msgstr "Egypte"
 #: plugins/gpg/gpgadvbase.cpp:132
 msgid "Decrypt:"
 msgstr ""
+
+#: plugins/gpg/passphrase.cpp:37
+#, c-format
+msgid "Input passphrase for key %1"
+msgstr ""
+
+#: plugins/gpg/passphrase.cpp:62
+msgid "Bad passphrase"
+msgstr ""
+
+#: plugins/gpg/passphrasebase.cpp:82
+msgid "Input passphrase"
+msgstr ""
+
+# ui/logindlgbase.cpp:61
+#: plugins/gpg/passphrasebase.cpp:84
+#, fuzzy
+msgid "&Save passphrase"
+msgstr "Enregistrer mot de pa&sse"
 
 # ui/themesetupbase.cpp:122
 #: plugins/icons/icon.cpp:32
@@ -5951,7 +5996,7 @@ msgstr "Ajouté à la liste de contacts"
 # mainwin.cpp:617
 # mainwin.cpp:2717
 #: plugins/icq/aimsearch.cpp:219 plugins/icq/icqsearch.cpp:306
-#: plugins/jabber/jabberadd.cpp:193
+#: plugins/jabber/jabberadd.cpp:209
 #, fuzzy
 msgid "%1 added to contact list"
 msgstr "Ajouter Contact non-IM"
@@ -5962,7 +6007,7 @@ msgid "ICQ"
 msgstr "ICQ"
 
 # client.cpp:1095
-#: plugins/icq/icq.cpp:144 plugins/jabber/jabber.cpp:131
+#: plugins/icq/icq.cpp:144 plugins/jabber/jabber.cpp:130
 #, fuzzy
 msgid "Do not Disturb"
 msgstr "Ne pas déranger"
@@ -5973,7 +6018,7 @@ msgid "Occupied"
 msgstr "Occupé"
 
 # client.cpp:1098
-#: plugins/icq/icq.cpp:174 plugins/jabber/jabber.cpp:146
+#: plugins/icq/icq.cpp:174 plugins/jabber/jabber.cpp:145
 msgid "Free for chat"
 msgstr "Disponible"
 
@@ -6008,7 +6053,7 @@ msgid "Change &encoding"
 msgstr "&Encodage"
 
 # usertbl.cpp:411
-#: plugins/icq/icq.cpp:502 plugins/jabber/jabber.cpp:248
+#: plugins/icq/icq.cpp:502 plugins/jabber/jabber.cpp:257
 #, fuzzy
 msgid "&Add to group"
 msgstr "Ajouter au groupe"
@@ -6302,7 +6347,7 @@ msgstr "Invisible"
 # mainwin.cpp:617
 # mainwin.cpp:2717
 #: plugins/icq/icqicmb.cpp:1498 plugins/icq/icqmessage.cpp:1221
-#: plugins/jabber/jabberclient.cpp:2405
+#: plugins/jabber/jabberclient.cpp:2253
 #, fuzzy
 msgid "No contacts for send"
 msgstr "Ajouter Contact non-IM"
@@ -6406,16 +6451,16 @@ msgstr "UIN"
 
 # ui/maininfobase.cpp:100
 #: plugins/icq/icqsecure.cpp:126 plugins/jabber/addresult.cpp:210
-#: plugins/jabber/jabbersearch.cpp:99
+#: plugins/jabber/jabbersearch.cpp:100
 #, fuzzy
 msgid "Nick"
 msgstr "Pseudo :"
 
-#: plugins/icq/icqservice.cpp:196
+#: plugins/icq/icqservice.cpp:243
 msgid "anonymous"
 msgstr ""
 
-#: plugins/icq/icqservice.cpp:200
+#: plugins/icq/icqservice.cpp:247
 #, c-format
 msgid "You've been warned by %1"
 msgstr ""
@@ -6512,8 +6557,8 @@ msgid "Dec"
 msgstr ""
 
 #: plugins/icq/icqicmb.cpp:797 plugins/icq/icqicmb.cpp:805
-#: plugins/icq/icqvarious.cpp:1638 plugins/jabber/jabberclient.cpp:823
-#: plugins/yahoo/yahooclient.cpp:1002
+#: plugins/icq/icqvarious.cpp:1638 plugins/jabber/jabberclient.cpp:671
+#: plugins/yahoo/yahooclient.cpp:1014
 msgid "Client go offline"
 msgstr ""
 
@@ -6773,12 +6818,12 @@ msgid "Home automation"
 msgstr "Utilitaires Maison"
 
 # libicq/country.cpp:458
-#: plugins/icq/moreinfo.cpp:78 plugins/jabber/jabbersearch.cpp:199
+#: plugins/icq/moreinfo.cpp:78 plugins/jabber/jabbersearch.cpp:200
 msgid "Female"
 msgstr "Femme"
 
 # libicq/country.cpp:459
-#: plugins/icq/moreinfo.cpp:79 plugins/jabber/jabbersearch.cpp:198
+#: plugins/icq/moreinfo.cpp:79 plugins/jabber/jabbersearch.cpp:199
 msgid "Male"
 msgstr "Homme"
 
@@ -7518,7 +7563,7 @@ msgid "AIM user"
 msgstr "Tous les utilisateurs"
 
 # ui/searchbase.cpp:44
-#: plugins/icq/icqsearchbase.cc:317 plugins/jabber/jabbersearch.cpp:193
+#: plugins/icq/icqsearchbase.cc:317 plugins/jabber/jabbersearch.cpp:194
 msgid "Online only"
 msgstr "Connectés uniquement"
 
@@ -8020,16 +8065,16 @@ msgstr "&Warnings"
 # ui/setupdlg.cpp:112
 # ui/userinfo.cpp:78
 #: plugins/icq/icqclient.cpp:1832 plugins/icq/icqclient.cpp:2020
-#: plugins/jabber/jabberclient.cpp:1585 plugins/jabber/jabberclient.cpp:1694
-#: plugins/jabber/jabberclient.cpp:1826 plugins/jabber/jabberclient.cpp:1845
+#: plugins/jabber/jabberclient.cpp:1433 plugins/jabber/jabberclient.cpp:1542
+#: plugins/jabber/jabberclient.cpp:1674 plugins/jabber/jabberclient.cpp:1693
 msgid "Home info"
 msgstr "Infos Lieu"
 
 # ui/setupdlg.cpp:113
 # ui/userinfo.cpp:79
 #: plugins/icq/icqclient.cpp:1847 plugins/icq/icqclient.cpp:2035
-#: plugins/jabber/jabberclient.cpp:1600 plugins/jabber/jabberclient.cpp:1709
-#: plugins/jabber/jabberclient.cpp:1828 plugins/jabber/jabberclient.cpp:1847
+#: plugins/jabber/jabberclient.cpp:1448 plugins/jabber/jabberclient.cpp:1557
+#: plugins/jabber/jabberclient.cpp:1676 plugins/jabber/jabberclient.cpp:1695
 msgid "Work info"
 msgstr "Infos Travail"
 
@@ -8043,9 +8088,9 @@ msgstr "Plus d'infos"
 # ui/userinfo.cpp:81
 #: plugins/icq/icqclient.cpp:1877 plugins/icq/icqclient.cpp:1971
 #: plugins/icq/icqclient.cpp:2065 plugins/icq/icqclient.cpp:2189
-#: plugins/jabber/discoinfo.cpp:194 plugins/jabber/jabberclient.cpp:1615
-#: plugins/jabber/jabberclient.cpp:1724 plugins/jabber/jabberclient.cpp:1830
-#: plugins/jabber/jabberclient.cpp:1849
+#: plugins/jabber/discoinfo.cpp:194 plugins/jabber/jabberclient.cpp:1463
+#: plugins/jabber/jabberclient.cpp:1572 plugins/jabber/jabberclient.cpp:1678
+#: plugins/jabber/jabberclient.cpp:1697
 msgid "About info"
 msgstr "Infos A propos"
 
@@ -8404,11 +8449,11 @@ msgid "Proxy authorization failed"
 msgstr "Autorisation utilisateur proxy"
 
 # ui/proxydlgbase.cpp:63
-#: plugins/proxy/proxy.cpp:1135
+#: plugins/proxy/proxy.cpp:1138
 msgid "Proxy"
 msgstr "Proxy"
 
-#: plugins/proxy/proxy.cpp:1136
+#: plugins/proxy/proxy.cpp:1139
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS/HTTP)"
 msgstr ""
 
@@ -8768,13 +8813,13 @@ msgstr ""
 
 # mainwin.cpp:617
 # mainwin.cpp:2717
-#: plugins/jabber/jabberadd.cpp:161
+#: plugins/jabber/jabberadd.cpp:171
 #, fuzzy
 msgid "Add Jabber contact"
 msgstr "Ajouter Contact non-IM"
 
 # msgview.cpp:183
-#: plugins/jabber/jabberadd.cpp:195
+#: plugins/jabber/jabberadd.cpp:211
 #, fuzzy
 msgid "%1 is already in contact list"
 msgstr "Ajouté à la liste de contacts"
@@ -8829,73 +8874,73 @@ msgid "&Logo"
 msgstr "&Log"
 
 # userview.cpp:1681
-#: plugins/jabber/jabbersearch.cpp:98 plugins/jabber/jabbersearch.cpp:316
+#: plugins/jabber/jabbersearch.cpp:99 plugins/jabber/jabbersearch.cpp:317
 #, fuzzy
 msgid "Username"
 msgstr "Renommer"
 
 # ui/maininfobase.cpp:194
 # ui/searchbase.cpp:185
-#: plugins/jabber/addresult.cpp:211 plugins/jabber/jabbersearch.cpp:101
-#: plugins/jabber/jabbersearch.cpp:312
+#: plugins/jabber/addresult.cpp:211 plugins/jabber/jabbersearch.cpp:102
+#: plugins/jabber/jabbersearch.cpp:313
 #, fuzzy
 msgid "First name"
 msgstr "Prénom"
 
 # ui/maininfobase.cpp:77
 # ui/searchbase.cpp:179
-#: plugins/jabber/addresult.cpp:212 plugins/jabber/jabbersearch.cpp:102
-#: plugins/jabber/jabbersearch.cpp:313
+#: plugins/jabber/addresult.cpp:212 plugins/jabber/jabbersearch.cpp:103
+#: plugins/jabber/jabbersearch.cpp:314
 #, fuzzy
 msgid "Last name"
 msgstr "Nom"
 
 # libicq/country.cpp:79
-#: plugins/jabber/jabbersearch.cpp:103
+#: plugins/jabber/jabbersearch.cpp:104
 #, fuzzy
 msgid "Age min"
 msgstr "Argentine"
 
-#: plugins/jabber/jabbersearch.cpp:104
+#: plugins/jabber/jabbersearch.cpp:105
 msgid "Age max"
 msgstr ""
 
 # ui/homeinfobase.cpp:114
 # ui/searchbase.cpp:123
 # ui/workinfobase.cpp:57
-#: plugins/jabber/jabbersearch.cpp:105
+#: plugins/jabber/jabbersearch.cpp:106
 #, fuzzy
 msgid "City"
 msgstr "Ville :"
 
 # ui/moreinfobase.cpp:94
 # ui/searchbase.cpp:111
-#: plugins/jabber/jabbersearch.cpp:200
+#: plugins/jabber/jabbersearch.cpp:201
 #, fuzzy
 msgid "Gender"
 msgstr "Sexe :"
 
-#: plugins/jabber/jabbersearch.cpp:303
+#: plugins/jabber/jabbersearch.cpp:304
 msgid "First (Given)"
 msgstr ""
 
 # ui/maininfobase.cpp:77
 # ui/searchbase.cpp:179
-#: plugins/jabber/jabbersearch.cpp:304
+#: plugins/jabber/jabbersearch.cpp:305
 #, fuzzy
 msgid "Last (Family)"
 msgstr "Nom"
 
-#: plugins/jabber/jabbersearch.cpp:305
+#: plugins/jabber/jabbersearch.cpp:306
 msgid "Nick (Alias)"
 msgstr ""
 
 # usertbl.cpp:116
-#: plugins/jabber/addresult.cpp:213 plugins/jabber/jabbersearch.cpp:306
+#: plugins/jabber/addresult.cpp:213 plugins/jabber/jabbersearch.cpp:307
 msgid "Email"
 msgstr "Email"
 
-#: plugins/jabber/jabbersearch.cpp:307
+#: plugins/jabber/jabbersearch.cpp:308
 msgid ""
 "Select the speed of the search.  \"Fast\" matches your string to the "
 "beginning of the field only (ie. \"b\" would yield Bob,Bill,etc...)  "
@@ -8906,91 +8951,91 @@ msgstr ""
 # msgview.cpp:828
 # ui/searchbase.cpp:38
 # ui/searchbase.cpp:51
-#: plugins/jabber/jabbersearch.cpp:308
+#: plugins/jabber/jabbersearch.cpp:309
 #, fuzzy
 msgid "Search Speed"
 msgstr "Rechercher"
 
-#: plugins/jabber/jabbersearch.cpp:309
+#: plugins/jabber/jabbersearch.cpp:310
 msgid "Fast / Less accurate"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:310
+#: plugins/jabber/jabbersearch.cpp:311
 msgid "Slower / More extensive"
 msgstr ""
 
 # ui/maininfobase.cpp:194
 # ui/searchbase.cpp:185
-#: plugins/jabber/jabbersearch.cpp:311
+#: plugins/jabber/jabbersearch.cpp:312
 #, fuzzy
 msgid "Full name"
 msgstr "&Nom de fichier :"
 
 # ui/searchbase.cpp:195
-#: plugins/jabber/jabbersearch.cpp:314
+#: plugins/jabber/jabbersearch.cpp:315
 #, fuzzy
 msgid "Nickname"
 msgstr "Pseudo"
 
 # usertbl.cpp:116
-#: plugins/jabber/jabbersearch.cpp:315
+#: plugins/jabber/jabbersearch.cpp:316
 #, fuzzy
 msgid "E-mail"
 msgstr "Email"
 
 # ui/logindlgbase.cpp:80
-#: plugins/jabber/jabbersearch.cpp:317
+#: plugins/jabber/jabbersearch.cpp:318
 #, fuzzy
 msgid "Password"
 msgstr "Mot de passe :"
 
-#: plugins/jabber/jabbersearch.cpp:318
+#: plugins/jabber/jabbersearch.cpp:319
 msgid ""
 "Enter your MSN Messenger account and password. Example: user@hotmail.com.  "
 "Nickname is optional."
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:319
+#: plugins/jabber/jabbersearch.cpp:320
 msgid "Enter your AIM screenname or ICQ UIN and the password for that account"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:320
+#: plugins/jabber/jabbersearch.cpp:321
 msgid "Enter your YAHOO! Messenger Username and Password."
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:321
+#: plugins/jabber/jabbersearch.cpp:322
 msgid "Please enter your UIN and password"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:322
+#: plugins/jabber/jabbersearch.cpp:323
 msgid "You need a x:data capable client to register."
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:323
+#: plugins/jabber/jabbersearch.cpp:324
 msgid "Enter nick you want to register."
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:324
+#: plugins/jabber/jabbersearch.cpp:325
 msgid ""
 "Complete the form to submit your searchable attributes in the Jabber User "
 "Directory"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:325
+#: plugins/jabber/jabbersearch.cpp:326
 msgid "Fill in all of the fields to add yourself to the JUD."
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:326
+#: plugins/jabber/jabbersearch.cpp:327
 msgid ""
 "Fill in a field to search for any matching Jabber User (POSIX regular "
 "expressions allowed)"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:327
+#: plugins/jabber/jabbersearch.cpp:328
 msgid "Fill in a field to search for any matching Jabber users."
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:328
+#: plugins/jabber/jabbersearch.cpp:329
 msgid ""
 "To register, please fill out the following form.  Be as accurate as possible "
 "to make it easier for people to search for you."
@@ -9112,18 +9157,18 @@ msgstr ""
 "_n : Fichier\n"
 "%n fichiers"
 
-#: plugins/jabber/jabberclient.cpp:1630 plugins/jabber/jabberclient.cpp:1739
+#: plugins/jabber/jabberclient.cpp:1478 plugins/jabber/jabberclient.cpp:1587
 msgid "Photo"
 msgstr ""
 
 # monitor.cpp:83
-#: plugins/jabber/jabberclient.cpp:1645 plugins/jabber/jabberclient.cpp:1754
+#: plugins/jabber/jabberclient.cpp:1493 plugins/jabber/jabberclient.cpp:1602
 #, fuzzy
 msgid "Logo"
 msgstr "&Log"
 
 # ui/filetransferbase.cpp:37
-#: plugins/jabber/jabberclient.cpp:3067 plugins/yahoo/yahooclient.cpp:2549
+#: plugins/jabber/jabberclient.cpp:2915 plugins/yahoo/yahooclient.cpp:2561
 #, fuzzy
 msgid "File transfer fail"
 msgstr "Tranfert de fichier interrompu"
@@ -9135,46 +9180,39 @@ msgid "Additional information:"
 msgstr "Infos supllémentaires sur l'utilisateur :"
 
 # libicq/country.cpp:432
-#: plugins/jabber/jabberbrowser.cpp:42 plugins/jabber/jabberbrowser.cpp:264
+#: plugins/jabber/jabberbrowser.cpp:41
 #, fuzzy
 msgid "Process"
 msgstr "Porfessionnel"
 
 # mainwin.cpp:442
 # monitor.cpp:133
-#: plugins/jabber/jabberbrowser.cpp:85 plugins/jabber/jabberbrowser.cpp:284
-#: plugins/jabber/jabberbrowser.cpp:313 plugins/jabber/jabberbrowser.cpp:342
-#: plugins/jabber/jabberbrowser.cpp:522 plugins/jabber/jabberbrowser.cpp:592
+#: plugins/jabber/jabberbrowser.cpp:84 plugins/jabber/jabberbrowser.cpp:280
+#: plugins/jabber/jabberbrowser.cpp:309 plugins/jabber/jabberbrowser.cpp:338
+#: plugins/jabber/jabberbrowser.cpp:518 plugins/jabber/jabberbrowser.cpp:588
 #, fuzzy, c-format
 msgid "Error %1"
 msgstr "Erreur"
 
 # userview.cpp:1691
-#: plugins/jabber/jabberbrowser.cpp:88
+#: plugins/jabber/jabberbrowser.cpp:87
 #, fuzzy
 msgid "Done"
 msgstr "Bas"
 
-#: plugins/jabber/jabber.cpp:285 plugins/jabber/jabberbrowser.cpp:122
-#: plugins/jabber/jabberbrowser.cpp:749
+#: plugins/jabber/jabber.cpp:286 plugins/jabber/jabberbrowser.cpp:117
+#: plugins/jabber/jabberbrowser.cpp:746
 msgid "JID"
 msgstr ""
 
 # ui/fontsetupbase.cpp:105
-#: plugins/jabber/jabber.cpp:292 plugins/jabber/jabberbrowser.cpp:123
+#: plugins/jabber/jabber.cpp:293 plugins/jabber/jabberbrowser.cpp:118
 #, fuzzy
 msgid "Node"
 msgstr "mode"
 
-# ui/networkbase.cpp:163
-# ui/proxydlgbase.cpp:109
-#: plugins/jabber/jabberbrowser.cpp:171
-#, fuzzy, c-format
-msgid "Browser: %1"
-msgstr "Utilisateur proxy :"
-
 # ui/themesetup.cpp:136
-#: plugins/jabber/jabberbrowser.cpp:250
+#: plugins/jabber/jabberbrowser.cpp:248
 #, fuzzy
 msgid "Client offline"
 msgstr "Contact - Gauche"
@@ -9182,7 +9220,7 @@ msgstr "Contact - Gauche"
 # mainwin.cpp:619
 # mainwin.cpp:2722
 # ui/setupdlg.cpp:97
-#: plugins/jabber/jabberbrowser.cpp:257
+#: plugins/jabber/jabberbrowser.cpp:255
 #, fuzzy
 msgid "Stop"
 msgstr "Préférences"
@@ -9190,67 +9228,63 @@ msgstr "Préférences"
 # msgview.cpp:828
 # ui/searchbase.cpp:38
 # ui/searchbase.cpp:51
-#: plugins/jabber/jabberbrowser.cpp:434
+#: plugins/jabber/jabberbrowser.cpp:430
 #, fuzzy
 msgid "%1 Search"
 msgstr "Rechercher"
 
 # ui/enable.cpp:123
-#: plugins/jabber/jabberbrowser.cpp:441
+#: plugins/jabber/jabberbrowser.cpp:437
 #, fuzzy
 msgid "%1 Register"
 msgstr "Insc&ription"
 
 # sim.cpp:521
-#: plugins/jabber/jabberbrowser.cpp:448
+#: plugins/jabber/jabberbrowser.cpp:444
 #, fuzzy
 msgid "%1 Configure"
 msgstr "Client ICQ"
 
-#: plugins/jabber/jabberbrowser.cpp:928
+#: plugins/jabber/jabberbrowser.cpp:935
 msgid "Choose a user and password to register with the server"
 msgstr ""
 
-#: plugins/jabber/jabber.cpp:63
+#: plugins/jabber/jabber.cpp:62
 msgid "Jabber"
 msgstr ""
 
-#: plugins/jabber/jabber.cpp:261
-msgid "Jabber browser"
-msgstr ""
-
 # mainwin.cpp:2996
-#: plugins/jabber/jabber.cpp:270
+#: plugins/jabber/jabber.cpp:271
 #, fuzzy
 msgid "&Back"
 msgstr "Précédent"
 
 # msgview.cpp:829
-#: plugins/jabber/jabber.cpp:298 plugins/weather/weathercfg.cpp:74
+#: plugins/jabber/jabber.cpp:299 plugins/weather/weathercfg.cpp:74
 #: plugins/weather/weathercfg.cpp:96 plugins/weather/weathercfgbase.cpp:111
 msgid "&Search"
 msgstr "Rechercher"
 
 # libicq/country.cpp:404
-#: plugins/jabber/jabber.cpp:312
+#: plugins/jabber/jabber.cpp:313
 #, fuzzy
 msgid "Info"
 msgstr "Annuler"
 
 # ui/networkbase.cpp:163
 # ui/proxydlgbase.cpp:109
-#: plugins/jabber/jabber.cpp:324
+#: plugins/jabber/jabber.cpp:325
 #, fuzzy
 msgid "Browser mode"
 msgstr "Utilisateur proxy :"
 
 # sim.cpp:536
-#: plugins/jabber/jabber.cpp:343
+#: plugins/jabber/jabber.cpp:333
 #, fuzzy
 msgid "Load one level"
 msgstr "Loglevel"
 
-#: plugins/jabber/jabber.cpp:349
+#: plugins/jabber/jabber.cpp:343
 #, fuzzy
 msgid "Load all levels"
 msgstr "Tous les fichiers (*)"
@@ -9342,16 +9376,20 @@ msgstr "Téléphone :"
 msgid "ID:"
 msgstr ""
 
-#: plugins/jabber/jabberaddbase.cpp:94
+#: plugins/jabber/jabberaddbase.cpp:109
 msgid "Jabber ID:"
 msgstr ""
 
-#: plugins/jabber/jabberaddbase.cpp:95
+#: plugins/jabber/jabberaddbase.cpp:110
 msgid "Jabber ID"
 msgstr ""
 
+#: plugins/jabber/jabberaddbase.cpp:111
+msgid "Jabber &browser"
+msgstr ""
+
 # ui/proxydlgbase.cpp:132
-#: plugins/jabber/jabberaddbase.cpp:96
+#: plugins/jabber/jabberaddbase.cpp:112
 #, fuzzy
 msgid "Service:"
 msgstr "Serveur"
@@ -10393,30 +10431,30 @@ msgid "Your account is being used from another location"
 msgstr "Votre UIN est utilisé depuis un autre endroit"
 
 # ui/themesetup.cpp:137
-#: plugins/yahoo/yahooclient.cpp:1347
+#: plugins/yahoo/yahooclient.cpp:1359
 #, fuzzy
 msgid "Not at home"
 msgstr "Contact - Scale"
 
-#: plugins/yahoo/yahooclient.cpp:1350
+#: plugins/yahoo/yahooclient.cpp:1362
 msgid "Not at my desk"
 msgstr ""
 
-#: plugins/yahoo/yahooclient.cpp:1353
+#: plugins/yahoo/yahooclient.cpp:1365
 msgid "Not in the office"
 msgstr ""
 
 # ui/workinfobase.cpp:126
-#: plugins/yahoo/yahooclient.cpp:1359
+#: plugins/yahoo/yahooclient.cpp:1371
 #, fuzzy
 msgid "On vacation"
 msgstr "Occupation :"
 
-#: plugins/yahoo/yahooclient.cpp:1362
+#: plugins/yahoo/yahooclient.cpp:1374
 msgid "Out to lunch"
 msgstr ""
 
-#: plugins/yahoo/yahooclient.cpp:1365
+#: plugins/yahoo/yahooclient.cpp:1377
 #, fuzzy
 msgid "Stepped out"
 msgstr "Barrer"
@@ -10427,18 +10465,24 @@ msgstr "Barrer"
 msgid "&Yahoo!"
 msgstr "Ré&pertoire"
 
+#: plugins/yahoo/yahoosearchbase.cpp:79
+msgid "Yahoo ID:"
+msgstr ""
+
 #: plugins/yahoo/yahoosearch.cpp:56
 msgid "Yahoo! search results"
 msgstr ""
 
 #: plugins/yahoo/yahoosearch.cpp:129
 #, fuzzy
-msgid "Contact %1 added in group %2"
+msgid "Contact %1 added to group %2"
 msgstr "Connecté à l'hôte"
 
-#: plugins/yahoo/yahoosearchbase.cpp:79
-msgid "Yahoo ID:"
-msgstr ""
+# msgview.cpp:183
+#: plugins/yahoo/yahoosearch.cpp:131
+#, fuzzy
+msgid "Contact %1 already in list"
+msgstr "Ajouté à la liste de contacts"
 
 # ui/filetransfer.cpp:262
 #: plugins/replace/replace.cpp:33
@@ -11048,6 +11092,12 @@ msgstr "Bhutan"
 #: plugins/weather/wifacecfgbase.cpp:83
 msgid "Forecast tip:"
 msgstr ""
+
+# ui/networkbase.cpp:163
+# ui/proxydlgbase.cpp:109
+#, fuzzy
+#~ msgid "Browser: %1"
+#~ msgstr "Utilisateur proxy :"
 
 #, fuzzy
 #~ msgid "Agents"
@@ -11796,14 +11846,6 @@ msgstr ""
 #~ msgstr ""
 #~ "_n : Demande de discussion\n"
 #~ "%n demandes de discussion"
-
-# client.cpp:1044
-#~ msgid ""
-#~ "_n: External unknown message\n"
-#~ "%n unknown messages"
-#~ msgstr ""
-#~ "_n : Message extérieur inconnu\n"
-#~ "%n messages inconnus"
 
 # client.cpp:1034
 #~ msgid ""

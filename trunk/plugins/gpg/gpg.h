@@ -36,6 +36,10 @@ typedef struct GpgData
     Data	Encrypt;
     Data	Decrypt;
     Data	Key;
+    Data	Passphrases;
+    Data	Keys;
+    Data	nPassphrases;
+    Data	SavePassphrase;
 } GpgData;
 
 typedef struct GpgUserData
@@ -53,6 +57,8 @@ typedef struct DecryptMsg
     QString		infile;
     QString		outfile;
     unsigned	contact;
+    QString		passphrase;
+    string		key;
 } DecryptMsg;
 
 typedef struct KeyMsg
@@ -60,6 +66,8 @@ typedef struct KeyMsg
     string	key;
     Message	*msg;
 } KeyMsg;
+
+class PassphraseDlg;
 
 class GpgPlugin : public QObject, public Plugin, public EventReceiver
 {
@@ -77,6 +85,10 @@ public:
     PROP_STR(Encrypt);
     PROP_STR(Decrypt);
     PROP_STR(Key);
+    PROP_UTFLIST(Passphrases);
+    PROP_STRLIST(Keys);
+    PROP_ULONG(nPassphrases);
+    PROP_BOOL(SavePassphrase);
     const char *GPG();
     void reset();
     static GpgPlugin *plugin;
@@ -87,16 +99,22 @@ protected slots:
     void importReady(Exec*,int,const char*);
     void publicReady(Exec*,int,const char*);
     void clear();
+    void passphraseFinished();
+    void passphraseApply(const QString&);
 protected:
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual string getConfig();
     void *processEvent(Event*);
     void registerMessage();
     void unregisterMessage();
+    void askPassphrase();
+    bool decode(Message *msg, const char *pass, const char *key);
     bool m_bMessage;
     list<DecryptMsg> m_decrypt;
     list<DecryptMsg> m_import;
     list<DecryptMsg> m_public;
+    list<DecryptMsg> m_wait;
+    PassphraseDlg	 *m_pass;
     GpgData data;
 };
 

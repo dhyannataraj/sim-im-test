@@ -82,6 +82,7 @@ KDE_LIB_LTDL
 EXTRA_LIBS=""
 if test "$use_kde" = "yes" ; then
 KDE_CHECK_HEADER(ktextedit.h,[AC_DEFINE(HAVE_KTEXTEDIT_H,1,[Have ktextedit.h])])
+KDE_CHECK_HEADER(kwallet.h,[AC_DEFINE(HAVE_KWALLET_H,1,[Have kwallet.h])])
 fi
 KDE_CHECK_HEADER(qsyntaxhighlighter.h,[AC_DEFINE(HAVE_QSYNTAXHIGHLIGHTER_H,1,[Have qsyntaxhighlighter.h])])
 AC_DEFINE_UNQUOTED(PREFIX, "$prefix", [Install prefix])

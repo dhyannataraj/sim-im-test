@@ -39,6 +39,8 @@ GpgGen::GpgGen(GpgCfg *cfg)
     m_exec = NULL;
     m_cfg  = cfg;
     connect(edtName, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
+    connect(edtPass1, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
+    connect(edtPass2, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     connect(cmbMail->lineEdit(), SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     Contact *owner = getContacts()->owner();
     if (owner){
@@ -71,7 +73,9 @@ GpgGen::~GpgGen()
 
 void GpgGen::textChanged(const QString&)
 {
-    buttonOk->setEnabled(!edtName->text().isEmpty() && !cmbMail->lineEdit()->text().isEmpty());
+    buttonOk->setEnabled(!edtName->text().isEmpty() &&
+                         !cmbMail->lineEdit()->text().isEmpty() &&
+                         (edtPass1->text() == edtPass2->text()));
 }
 
 #ifdef WIN32
@@ -104,7 +108,7 @@ void GpgGen::accept()
 #ifdef WIN32
     QString gpg  = m_cfg->edtGPG->text();
 #else
-QString gpg  = QFile::decodeName(GpgPlugin::plugin->GPG());
+    QString gpg  = QFile::decodeName(GpgPlugin::plugin->GPG());
 #endif
     QString home = m_cfg->edtHome->text();
     if (gpg.isEmpty() || home.isEmpty())
@@ -126,7 +130,11 @@ QString gpg  = QFile::decodeName(GpgPlugin::plugin->GPG());
     in += "Name-Email: ";
     in += toLatin(cmbMail->lineEdit()->text());
     in += CRLF;
-
+    if (!edtPass1->text().isEmpty()){
+        in += "Passphrase: ";
+        in += edtPass1->text().utf8();
+        in += CRLF;
+    }
 #ifdef WIN32
     QString fname = QFile::decodeName(user_file("keys\\genkey.txt").c_str());
 #else

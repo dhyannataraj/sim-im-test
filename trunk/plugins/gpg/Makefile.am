@@ -9,7 +9,9 @@ gpg_la_SOURCES = \
  gpggen.cpp \
  gpggenbase.ui \
  gpguser.cpp \
- gpguserbase.ui
+ gpguserbase.ui \
+ passphrase.cpp \
+ passphrasebase.ui
 
 INCLUDES=-I../../sim/api -I../../sim/ui -I../_core $(all_includes)
 
