@@ -744,9 +744,9 @@ char *Buffer::getLine()
         return NULL;
     char *res = data(m_posRead);
     char *p;
-    for (p = res; *p && (m_posRead < m_posWrite); p++)
+    for (p = res; (m_posRead < m_posWrite) && *p ; p++)
         m_posRead++;
-    for (; (*p == 0) && (m_posRead < m_posWrite); p++)
+    for (; (m_posRead < m_posWrite) && (*p == 0) ; p++)
         m_posRead++;
     return res;
 }
