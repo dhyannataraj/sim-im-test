@@ -5,8 +5,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
+"<<<<<<< de.po"
+"<<<<<<< de.po"
+"POT-Creation-Date: 2002-08-13 06:12+0400\n"
+"PO-Revision-Date: 2002-08-15 06:27GMT\n"
+"======="
+"POT-Creation-Date: 2002-08-14 02:50+0400\n"
+"PO-Revision-Date: 2002-08-15 06:27GMT\n"
+">>>>>>> 1.51"
+"Last-Translator: Crissi <crissi99@gmx.de>\n"
+"======="
 "POT-Creation-Date: 2002-08-15 06:25+0400\n"
-"PO-Revision-Date: 2002-08-14 02:42GMT\n"
+"PO-Revision-Date: 2002-08-15 06:27GMT\n"
+">>>>>>> 1.54"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1695,40 +1706,36 @@ msgid "Can't create %1"
 msgstr "Konnte %1 nicht erstellen"
 
 #: client.cpp:106
-#, fuzzy
 msgid "Unicode"
-msgstr "Verein"
+msgstr "Unicode"
 
 #: client.cpp:107 client.cpp:108 client.cpp:109
-#, fuzzy
 msgid "Western European"
-msgstr "Western Samoa"
+msgstr "Westeuropäisch"
 
 #: client.cpp:110 client.cpp:111
 msgid "Central European"
-msgstr ""
+msgstr "Zentraleuropa"
 
 #: client.cpp:113 client.cpp:114
-#, fuzzy
 msgid "Baltic"
-msgstr "Gaelic"
+msgstr "Baltisch"
 
 #: client.cpp:115
 msgid "Cyrillic"
-msgstr ""
+msgstr "Kyrillisch"
 
 #: client.cpp:116
-#, fuzzy
 msgid "Ukrainan"
 msgstr "Ukrainisch"
 
 #: client.cpp:120
 msgid "Chinese Traditional"
-msgstr ""
+msgstr "Chinesisch (traditionell)"
 
 #: client.cpp:121 client.cpp:122
 msgid "Chinese Simplified"
-msgstr ""
+msgstr "Chinesisch (vereinfacht)"
 
 #: client.cpp:443
 #, c-format
@@ -2443,9 +2450,8 @@ msgid "Move to group"
 msgstr "Zu Gruppe verschieben"
 
 #: userbox.cpp:180
-#, fuzzy
 msgid "Encoding"
-msgstr "Sende"
+msgstr "Kodierung"
 
 #: userbox.cpp:307
 msgid "All users"
@@ -2574,7 +2580,7 @@ msgstr "Verzeichnis für ankommende Dateien"
 
 #: ui/editfile.cpp:91
 msgid "*.wav(Sounds)"
-msgstr ""
+msgstr "*.wav (Klänge)"
 
 #: ui/filetransfer.cpp:50
 #, c-format
@@ -3373,9 +3379,8 @@ msgid "Icons:"
 msgstr "Icons:"
 
 #: ui/themesetupbase.cpp:117
-#, fuzzy
 msgid "Add icons"
-msgstr "Telefon hinzufügen"
+msgstr "Icons hinzufügen"
 
 #: ui/themesetupbase.cpp:122
 msgid "Transparent main window"
@@ -3442,8 +3447,7 @@ msgid "Hide main window after"
 msgstr "Hauptfenster anzeigen/verstecken nach"
 
 #: ui/statussetupbase.cpp:107
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -3576,8 +3580,7 @@ msgstr "&Andere Nachrichten ablehnen"
 
 #: ui/generalsecbase.cpp:185
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: ui/aboutinfobase.cpp:62
 msgid "Form4"
@@ -3681,8 +3684,7 @@ msgstr ";-)"
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #~ msgid ""
 #~ "_: Dear translator, please do not translate this string in any form, but "
@@ -3730,3 +3732,4 @@ msgstr ""
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
