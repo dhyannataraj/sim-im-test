@@ -537,7 +537,7 @@ QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
         if (foreColor != backColor) s += "</font>";
         s += "</td></tr></table></p>";
     */
-    s += "<p";
+    s += "<qt";
     if (foreColor != backColor){
         QString bg;
         bg.sprintf(" bgcolor=#%06lX", backColor);
@@ -550,7 +550,7 @@ QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
         s += fg;
     }
     s += makeMessageText(msg);
-    if (foreColor != backColor) s += "</font></p>";
+    if (foreColor != backColor) s += "</font></qt>";
     return s;
 }
 

@@ -192,6 +192,11 @@ void SearchDialog::processEvent(ICQEvent *e)
     }
 }
 
+void SearchDialog::setBackgroundPixmap(const QPixmap &pm)
+{
+    transparent->updateBackground(pm);
+}
+
 #ifndef _WINDOWS
 #include "searchdlg.moc"
 #endif

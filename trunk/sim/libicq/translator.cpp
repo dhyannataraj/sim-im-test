@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "defs.h"
 #include "icqclient.h"
 #include "log.h"
 
@@ -52,7 +53,6 @@ bool ICQClient::translate(const char *to, const char *from, string &str)
 
 #else
 
-#include <qstring.h>
 #include <qtextcodec.h>
 
 #ifndef HAVE_STRCASECMP
@@ -133,7 +133,8 @@ void ICQClient::toServer(string &str)
 
 const char *ICQClient::localCharset()
 {
-    char *p = getenv("LANG");
+    char *p = getenv("LANGUAGE");
+    if (p == NULL) p = getenv("LANG");
     if (p) {
         p = strchr(p, '.');
         if (p) p++;

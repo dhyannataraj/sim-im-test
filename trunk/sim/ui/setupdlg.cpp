@@ -124,6 +124,8 @@ SetupDialog::SetupDialog(QWidget *parent, int nWin)
 
     tabBars->raiseWidget(nWin ? nWin : 101);
     connect(pMain, SIGNAL(iconChanged()), this, SLOT(iconChanged()));
+
+    transparent = new TransparentTop(this, pMain->UseTransparentContainer, pMain->TransparentContainer);
 };
 
 void SetupDialog::iconChanged()
@@ -176,6 +178,11 @@ void SetupDialog::ok()
 {
     apply();
     close();
+}
+
+void SetupDialog::setBackgroundPixmap(const QPixmap &pm)
+{
+    transparent->updateBackground(pm);
 }
 
 #ifndef _WINDOWS

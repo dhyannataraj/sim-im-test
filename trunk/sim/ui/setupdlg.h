@@ -22,6 +22,7 @@
 #include "setupdlgbase.h"
 
 class QListViewItem;
+class TransparentTop;
 class ICQUser;
 
 class SetupDialog : public SetupDialogBase
@@ -42,6 +43,8 @@ protected:
     void iconChanged(QListViewItem*);
     void addPage(QWidget *page, int id, const QString &name, const char *icon);
     QListViewItem *itemMain;
+    TransparentTop *transparent;
+    void setBackgroundPixmap(const QPixmap &pm);
 };
 
 #endif

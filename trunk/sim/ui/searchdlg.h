@@ -38,6 +38,7 @@ protected slots:
     void search();
 protected:
     virtual void closeEvent(QCloseEvent*);
+    virtual void setBackgroundPixmap(const QPixmap&);
     ICQEvent *event;
     TransparentTop *transparent;
 };

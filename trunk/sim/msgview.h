@@ -27,8 +27,10 @@
 #else
 #include <qtextbrowser.h>
 #ifdef USE_KDE
+#ifdef HAVE_KTEXTBROWSER_H
 #include <ktextbrowser.h>
 #define QTextBrowser KTextBrowser
+#endif
 #endif
 #endif
 

@@ -18,6 +18,12 @@
 /* Have krootpixmap.h */
 #undef HAVE_KROOTPIXMAP_H
 
+/* Have ktextbrowser.h */
+#undef HAVE_KTEXTBROWSER_H
+
+/* Have ktextedit.h */
+#undef HAVE_KTEXTEDIT_H
+
 /* Define if you have libjpeg */
 #undef HAVE_LIBJPEG
 

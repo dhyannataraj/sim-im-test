@@ -84,8 +84,11 @@ fi
 LIBS="$LIBS $XSS_LIBS $XPMLIB"
 CPPFLAGS="$ac_save_CPPFLAGS"
 LDFLAGS="$ac_save_LDFLAGS"
-KDE_CHECK_HEADER(krootpixmap.h,[AC_DEFINE(HAVE_KROOTPIXMAP_H,1,[Have krootpixmap.h])])
 if test "$use_kde" = "yes" ; then
+KDE_CHECK_HEADER(krootpixmap.h,[AC_DEFINE(HAVE_KROOTPIXMAP_H,1,[Have krootpixmap.h])]
+)
+KDE_CHECK_HEADER(ktextedit.h,[AC_DEFINE(HAVE_KTEXTEDIT_H,1,[Have ktextedit.h])])
+KDE_CHECK_HEADER(ktextbrowser.h,[AC_DEFINE(HAVE_KTEXTBROWSER_H,1,[Have ktextbrowser.h])])
 AC_ARG_ENABLE(kde, [  --disable-spell         don't use spell],
         use_spell=$enableval, use_spell=yes)
 if test "${use_spell}" = "yes"; then
