@@ -439,7 +439,7 @@ void IPResolver::resolve_ready()
         queue.erase(it);
         it = queue.begin();
     }
-    start_resolve();
+//    start_resolve();
 }
 
 void IPResolver::start_resolve()
