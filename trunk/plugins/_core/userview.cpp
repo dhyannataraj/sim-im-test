@@ -992,7 +992,6 @@ static void resetUnread(QListViewItem *item, list<QListViewItem*> &grp)
             string s;
             s = item->text(0).local8Bit();
             GroupItem *group = static_cast<GroupItem*>(item);
-            log(L_DEBUG, ">> %s %u", s.c_str(), group->m_unread);
             if (group->m_unread){
                 group->m_unread = 0;
                 if (!group->isOpen())
