@@ -52,6 +52,10 @@ protected:
     void addStatus(QWidget *w, bool);
     list<QWidget*> statusWidgets;
     friend class CorePlugin;
+#ifdef WIN32
+    QPoint p;
+    QSize s;
+#endif
 };
 
 #endif

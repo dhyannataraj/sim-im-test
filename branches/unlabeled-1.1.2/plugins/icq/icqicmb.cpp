@@ -873,10 +873,6 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
         }
         Contact *contact;
         ICQUserData *data = findContact(uin, NULL, false, contact);
-        if ((data == NULL) || contact->getIgnore()){
-            log(L_WARN, "Request plugins from unknown user %u");
-            return;
-        }
         log(L_DEBUG, "Request about %u (%u)", plugin_type, plugin_index);
         Buffer answer;
         unsigned long typeAnswer = 0;
@@ -884,94 +880,96 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
         unsigned long time = 0;
         switch (plugin_type){
         case PLUGIN_PHONEBOOK:{
-                Buffer answer1;
-                time = this->data.owner.PluginInfoTime;
-                QString phones = getContacts()->owner()->getPhones();
-                while (!phones.isEmpty()){
-                    QString item = getToken(phones, ';', false);
-                    unsigned long publish = 0;
-                    QString phoneItem = getToken(item, '/', false);
-                    if (item != "-")
-                        publish = 1;
-                    QString number = getToken(phoneItem, ',');
-                    QString descr = getToken(phoneItem, ',');
-                    unsigned long type = getToken(phoneItem, ',').toUInt();
-                    unsigned long active = 0;
-                    if (!phoneItem.isEmpty())
-                        active = 1;
-                    QString area;
-                    QString phone;
-                    QString ext;
-                    QString country;
-                    QString gateway;
-                    if (type == PAGER){
-                        phone = getToken(number, '@');
-                        int n = number.find('[');
-                        if (n >= 0){
-                            getToken(number, '[');
-                            gateway = getToken(number, ']');
+                if (data && data->GrpId && !contact->getIgnore()){
+                    Buffer answer1;
+                    time = this->data.owner.PluginInfoTime;
+                    QString phones = getContacts()->owner()->getPhones();
+                    while (!phones.isEmpty()){
+                        QString item = getToken(phones, ';', false);
+                        unsigned long publish = 0;
+                        QString phoneItem = getToken(item, '/', false);
+                        if (item != "-")
+                            publish = 1;
+                        QString number = getToken(phoneItem, ',');
+                        QString descr = getToken(phoneItem, ',');
+                        unsigned long type = getToken(phoneItem, ',').toUInt();
+                        unsigned long active = 0;
+                        if (!phoneItem.isEmpty())
+                            active = 1;
+                        QString area;
+                        QString phone;
+                        QString ext;
+                        QString country;
+                        QString gateway;
+                        if (type == PAGER){
+                            phone = getToken(number, '@');
+                            int n = number.find('[');
+                            if (n >= 0){
+                                getToken(number, '[');
+                                gateway = getToken(number, ']');
+                            }else{
+                                gateway = number;
+                            }
                         }else{
-                            gateway = number;
-                        }
-                    }else{
-                        int n = number.find('(');
-                        if (n >= 0){
-                            country = getToken(number, '(');
-                            area    = getToken(number, ')');
-                            if (country[0] == '+')
-                                country = country.mid(1);
-                            unsigned code = atol(country.latin1());
-                            country = "";
-                            for (const ext_info *e = getCountries(); e->nCode; e++){
-                                if (e->nCode == code){
-                                    country = e->szName;
-                                    break;
+                            int n = number.find('(');
+                            if (n >= 0){
+                                country = getToken(number, '(');
+                                area    = getToken(number, ')');
+                                if (country[0] == '+')
+                                    country = country.mid(1);
+                                unsigned code = atol(country.latin1());
+                                country = "";
+                                for (const ext_info *e = getCountries(); e->nCode; e++){
+                                    if (e->nCode == code){
+                                        country = e->szName;
+                                        break;
+                                    }
                                 }
                             }
+                            n = number.find(" - ");
+                            if (n >= 0){
+                                ext = number.mid(n + 3);
+                                number = number.left(n);
+                            }
+                            phone = number;
                         }
-                        n = number.find(" - ");
-                        if (n >= 0){
-                            ext = number.mid(n + 3);
-                            number = number.left(n);
-                        }
-                        phone = number;
-                    }
-                    answer.packStr32(descr.local8Bit());
-                    answer.packStr32(area.local8Bit());
-                    answer.packStr32(phone.local8Bit());
-                    answer.packStr32(ext.local8Bit());
-                    answer.packStr32(country.local8Bit());
-                    answer.pack(active);
+                        answer.packStr32(descr.local8Bit());
+                        answer.packStr32(area.local8Bit());
+                        answer.packStr32(phone.local8Bit());
+                        answer.packStr32(ext.local8Bit());
+                        answer.packStr32(country.local8Bit());
+                        answer.pack(active);
 
-                    unsigned long len = gateway.length() + 24;
-                    unsigned long sms_available = 0;
-                    switch (type){
-                    case PHONE:
-                        type = 0;
-                        break;
-                    case FAX:
-                        type = 3;
-                        break;
-                    case CELLULAR:
-                        type = 2;
-                        sms_available = 1;
-                        break;
-                    case PAGER:
-                        type = 4;
-                        break;
+                        unsigned long len = gateway.length() + 24;
+                        unsigned long sms_available = 0;
+                        switch (type){
+                        case PHONE:
+                            type = 0;
+                            break;
+                        case FAX:
+                            type = 3;
+                            break;
+                        case CELLULAR:
+                            type = 2;
+                            sms_available = 1;
+                            break;
+                        case PAGER:
+                            type = 4;
+                            break;
+                        }
+                        answer1.pack(len);
+                        answer1.pack(type);
+                        answer1.packStr32(gateway.local8Bit());
+                        answer1.pack((unsigned long)0);
+                        answer1.pack(sms_available);
+                        answer1.pack((unsigned long)0);
+                        answer1.pack(publish);
+                        nEntries++;
                     }
-                    answer1.pack(len);
-                    answer1.pack(type);
-                    answer1.packStr32(gateway.local8Bit());
-                    answer1.pack((unsigned long)0);
-                    answer1.pack(sms_available);
-                    answer1.pack((unsigned long)0);
-                    answer1.pack(publish);
-                    nEntries++;
+                    answer.pack(answer1.data(0), answer1.size());
+                    typeAnswer = 0x00000003;
+                    break;
                 }
-                answer.pack(answer1.data(0), answer1.size());
-                typeAnswer = 0x00000003;
-                break;
             }
         case PLUGIN_PICTURE:{
                 time = this->data.owner.PluginInfoTime;

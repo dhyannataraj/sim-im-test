@@ -302,7 +302,25 @@ void SynPacket::answer(const char *_cmd, vector<string> &args)
             Group *group = NULL;
             m_client->findGroup(grp, NULL, group);
             if ((lr == NULL) && group && (group->id() != contact->getGroup())){
-                contact->setGroup(group->id());
+                unsigned grp = group->id();
+                if (grp == NULL){
+                    void *d;
+                    ClientDataIterator it_d(contact->clientData);
+                    while ((d = ++it_d) != NULL){
+                        if (d != data)
+                            break;
+                    }
+                    if (d){
+                        grp = contact->getGroup();
+                        m_client->findRequest(data->EMail, LR_CONTACTxCHANGED, true);
+                        MSNListRequest lr;
+                        lr.Type = LR_CONTACTxCHANGED;
+                        lr.Name = data->EMail;
+                        m_client->m_requests.push_back(lr);
+                        m_client->processRequests();
+                    }
+                }
+                contact->setGroup(grp);
                 Event e(EventContactChanged, contact);
                 e.process();
             }

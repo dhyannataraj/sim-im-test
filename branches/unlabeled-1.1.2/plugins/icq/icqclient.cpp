@@ -1744,6 +1744,8 @@ void ICQClient::updateInfo(Contact *contact, void *_data)
         return;
     }
     addFullInfoRequest(data->Uin, false);
+    addPluginInfoRequest(data->Uin, PLUGIN_QUERYxINFO);
+    addPluginInfoRequest(data->Uin, PLUGIN_QUERYxSTATUS);
 }
 
 void *ICQClient::processEvent(Event *e)

@@ -270,6 +270,7 @@ MSNPlugin::MSNPlugin(unsigned base)
 
 MSNPlugin::~MSNPlugin()
 {
+    getContacts()->removePacketType(MSNPacket);
     delete m_protocol;
 }
 
