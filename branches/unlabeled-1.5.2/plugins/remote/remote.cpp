@@ -327,7 +327,7 @@ static cmdDef cmds[] =
         { "DELETE", "delete contact", "DELETE [<address> | <nick>]", 1, 1 },
         { "OPEN", "open contact", "ADD <protocol> <address> [<nick>] [<group>]", 2, 4 },
         { "FILE", "process UIN file", "FILE <file>", 1, 1 },
-        { "CONTACTS", "print contact list", "CONTACT [<message_type>]", 0, 1 },
+        { "CONTACTS", "print contact list", "CONTACTS [<message_type>]", 0, 1 },
         { "SENDFILE", "send file", "SENDFILE <file> <contact>", 2, 2 },
         { NULL, NULL, NULL, 0, 0 }
     };

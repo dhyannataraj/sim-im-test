@@ -185,8 +185,8 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     p.end();
     int x = rcScreen.left();
     int y = rcScreen.top();
-    int w = rc.width();
-    int h = rc.height();
+    int w = rc.width() + 1;
+    int h = rc.height() + 1;
     if (data->Shadow){
         w += SHADOW_OFFS;
         h += SHADOW_OFFS;
@@ -238,9 +238,12 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
             if (data->Shadow){
                 rc = QRect(SHADOW_OFFS, SHADOW_OFFS, w - SHADOW_OFFS, h - SHADOW_OFFS);
                 p.drawText(rc, AlignLeft | AlignTop | WordBreak, str);
-            }
-            rc = QRect(0, 0, w - SHADOW_OFFS, h - SHADOW_OFFS);
-            p.drawText(rc, AlignLeft | AlignTop | WordBreak, str);
+				rc = QRect(0, 0, w - SHADOW_OFFS, h - SHADOW_OFFS);
+				p.drawText(rc, AlignLeft | AlignTop | WordBreak, str);
+			}else{
+				rc = QRect(0, 0, w, h);
+				p.drawText(rc, AlignLeft | AlignTop | WordBreak, str);
+			}
         }
         p.end();
         setMask(mask);

@@ -42,6 +42,14 @@ Name: "ru"; MessagesFile: "Russian.isl"
 Name: "it"; MessagesFile: "Italian.isl"
 Name: "de"; MessagesFile: "German.isl"
 Name: "pt"; MessagesFile: "BrazilianPortuguese.isl"
+Name: "bg"; MessagesFile: "Bulgarian.isl"
+Name: "cs"; MessagesFile: "Czech.isl"
+Name: "ca"; MessagesFile: "Catalan.isl"
+Name: "hu"; MessagesFile: "Hungarian.isl"
+Name: "fr"; MessagesFile: "French.isl"
+Name: "po"; MessagesFile: "Polish.isl"
+Name: "sk"; MessagesFile: "Slovak.isl"
+Name: "uk"; MessagesFile: "Ukrainian.isl"
 
 [Files]
 Source: "..\Release\sim.exe"; DestDir: "{app}"; Flags: ignoreversion

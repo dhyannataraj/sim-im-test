@@ -36,6 +36,7 @@ typedef struct LiveJournalUserData
 {
     clientData		base;
     char			*User;
+	unsigned		Shared;
     unsigned		bChecked;
 } LiveJournalUserData;
 
@@ -142,9 +143,10 @@ public:
     PROP_STR(LastUpdate);
     void auth_fail(const char *err);
     void auth_ok();
-    LiveJournalUserData	*findContact(const char *user, Contact *&contact);
+    LiveJournalUserData	*findContact(const char *user, Contact *&contact, bool bCreate=true);
     QTimer  *m_timer;
     virtual bool error_state(const char *err, unsigned code);
+	bool add(const char *name);
 public slots:
     void timeout();
     void send();
@@ -165,6 +167,7 @@ protected:
     virtual void packet_ready();
     virtual void *processEvent(Event*);
     virtual void contactInfo(void*, unsigned long &curStatus, unsigned&, const char *&statusIcon, string *icons);
+	QWidget *searchWindow();
     CommandDef *configWindows();
     QWidget *configWindow(QWidget *parent, unsigned id);
     void statusChanged();
