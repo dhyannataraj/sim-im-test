@@ -1004,6 +1004,24 @@ static DataDef clientData[] =
 Client::Client(Protocol *protocol, const char *cfg)
 {
     load_data(clientData, &data, cfg);
+
+    // now uncrypt password somehow
+    QString pswd = getPassword();
+    if (pswd.length()) {
+        QString new_pswd;
+        unsigned short temp = 0x4345;
+        QString tmp;
+        do {
+            QString sub_str = pswd.left(4);
+            pswd.remove(0,5);
+            
+            temp ^= sub_str.toUShort(0,16);
+            new_pswd += tmp.setUnicodeCodes(&temp,1);
+            temp = sub_str.toUShort(0,16);
+        } while (pswd.length());
+        setPassword(new_pswd);
+    }
+    
     m_protocol = protocol;
     m_status = STATUS_OFFLINE;
     m_state  = Offline;
@@ -1062,14 +1080,29 @@ Client::~Client()
 
 string Client::getConfig()
 {
-    QString pswd;
+    QString real_pswd = getPassword();
+    QString pswd = getPassword();
+
+    // crypt password somehow
+    if (pswd.length()) {
+        QString new_passwd;
+        unsigned short temp = 0x4345;
+        for (unsigned int i = 0; i < pswd.length(); i++) {
+            temp ^= (pswd[i].unicode());
+            new_passwd += QString::number(temp,16);
+            if (i+1 != pswd.length())
+                new_passwd +=";";
+        }
+        setPassword(new_passwd);
+    }    
+    
     if (!getSavePassword()){
-        pswd = getPassword();
         setPassword(NULL);
     }
+
     string res = save_data(clientData, &data);
-    if (!getSavePassword())
-        setPassword(pswd);
+
+    setPassword(real_pswd);
     return res;
 }
 
