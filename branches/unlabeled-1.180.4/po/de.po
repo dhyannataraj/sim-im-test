@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2003-07-16 09:51+0200\n"
-"PO-Revision-Date: 2003-07-16 11:10GMT\n"
+"PO-Revision-Date: 2003-07-16 11:40GMT\n"
 "Last-Translator: Crissi <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -233,7 +233,7 @@ msgstr "&Verlauf"
 #: plugins/_core/managerbase.cc:102 plugins/about/aboutdlgbase.cpp:156
 #: plugins/icq/securedlg.cpp:92 sim/api/simapi.cpp:388 sim/ui/qt3/i18n.cpp:287
 msgid "&Close"
-msgstr "&Schließen"
+msgstr "S&chließen"
 
 #: plugins/_core/core.cpp:500 plugins/_core/msgedit.cpp:689
 msgid "&Send"
@@ -1956,7 +1956,7 @@ msgstr "ICQ Suchresultate"
 
 #: plugins/icq/icqsearch.cpp:247
 msgid "&Stop search"
-msgstr "&Suchen anhalten"
+msgstr "&Suche anhalten"
 
 #: plugins/icq/icqsearch.cpp:248
 msgid "Find an &Online Chat Friend"
