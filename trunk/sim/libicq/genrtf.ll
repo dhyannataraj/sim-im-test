@@ -259,7 +259,6 @@ string ICQClientPrivate::createRTF(const string &text, unsigned long foreColor, 
             break;
         case WIDECHAR:
             t = yytext;
-            log(L_DEBUG, "Wide %s %s", t.c_str(), send_encoding);
             bConvert = false;
             if (send_encoding){
                 string utf = t;
