@@ -37,11 +37,11 @@ DockCfg::DockCfg(QWidget *parent, DockPlugin *plugin)
     connect(btnCustomize, SIGNAL(clicked()), this, SLOT(customize()));
     autoHideToggled(plugin->getAutoHide());
 #ifdef USE_KDE
-	spn_desk->setMaxValue(KWin::numberOfDesktops());
-	spn_desk->setValue(m_plugin->getDesktop());
+    spn_desk->setMaxValue(KWin::numberOfDesktops());
+    spn_desk->setValue(m_plugin->getDesktop());
 #else
-	spn_desk->hide();
-	TextLabel1_2->hide();
+    spn_desk->hide();
+    TextLabel1_2->hide();
 #endif
 }
 
@@ -50,7 +50,7 @@ void DockCfg::apply()
     m_plugin->setAutoHide(chkAutoHide->isChecked());
     m_plugin->setAutoHideInterval(atol(spnAutoHide->text().latin1()));
 #ifdef USE_KDE
-	m_plugin->setDesktop(atol(spn_desk->text().latin1()));
+    m_plugin->setDesktop(atol(spn_desk->text().latin1()));
 #endif
 }
 

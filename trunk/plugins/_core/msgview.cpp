@@ -224,9 +224,22 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     }else{
         msgText = status;
     }
+
+    string ss;
+    ss = msgText.local8Bit();
+    log(L_DEBUG, "1: %s", ss.c_str());
+
     Event e(EventEncodeText, &msgText);
     e.process();
+
+    ss = msgText.local8Bit();
+    log(L_DEBUG, "2: %s", ss.c_str());
+
     msgText = parseText(msgText, CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
+
+    ss = msgText.local8Bit();
+    log(L_DEBUG, "3: %s", ss.c_str());
+
     msgText = QString(MSG_BEGIN) + msgText;
     s += "<body>";
     s += quoteString(msgText);
@@ -244,6 +257,10 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     }else{
         res = anchor + res;
     }
+
+    ss = res.local8Bit();
+    log(L_DEBUG, "4: %s", ss.c_str());
+
     return res;
 }
 

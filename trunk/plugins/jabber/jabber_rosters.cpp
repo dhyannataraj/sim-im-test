@@ -743,16 +743,18 @@ void JabberClient::setClientInfo(void *_data)
 class AddRequest : public JabberClient::ServerRequest
 {
 public:
-    AddRequest(JabberClient *client, const char *jid);
+    AddRequest(JabberClient *client, const char *jid, unsigned grp);
 protected:
     virtual void element_start(const char *el, const char **attr);
     string m_jid;
+    unsigned m_grp;
 };
 
-AddRequest::AddRequest(JabberClient *client, const char *jid)
+AddRequest::AddRequest(JabberClient *client, const char *jid, unsigned grp)
         : JabberClient::ServerRequest(client, _SET, NULL, NULL)
 {
-    m_jid  = jid;
+    m_jid = jid;
+    m_grp = grp;
 }
 
 void AddRequest::element_start(const char *el, const char **attr)
@@ -761,12 +763,17 @@ void AddRequest::element_start(const char *el, const char **attr)
         string type = JabberClient::get_attr("type", attr);
         if (type == "result"){
             Contact *contact;
-            m_client->findContact(m_jid.c_str(), NULL, true, contact);
+            JabberUserData *data = m_client->findContact(m_jid.c_str(), NULL, true, contact);
+            if (data && (contact->getGroup() != m_grp)){
+                contact->setGroup(m_grp);
+                Event e(EventContactChanged, contact);
+                e.process();
+            }
         }
     }
 }
 
-bool JabberClient::add_contact(const char *jid)
+bool JabberClient::add_contact(const char *jid, unsigned grp)
 {
     Contact *contact;
     if (findContact(jid, NULL, false, contact)){
@@ -774,11 +781,16 @@ bool JabberClient::add_contact(const char *jid)
         e.process();
         return false;
     }
-    AddRequest *req = new AddRequest(this, jid);
+    AddRequest *req = new AddRequest(this, jid, grp);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:roster");
     req->start_element("item");
     req->add_attribute("jid", jid);
+    Group *g = NULL;
+    if (grp)
+        g = getContacts()->group(grp);
+    if (g)
+        req->text_tag("group", g->getName().utf8());
     req->send();
     m_requests.push_back(req);
     return true;

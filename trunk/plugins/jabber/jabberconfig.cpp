@@ -49,13 +49,16 @@ JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig)
         edtServer->hide();
         lblPort->hide();
         edtPort->hide();
+        chkSSL1->hide();
         edtServer1->setText(i18n("jabber.org"));
         edtPort1->setValue(m_client->getPort());
     }
 #ifdef USE_OPENSSL
     chkSSL->setChecked(m_client->getUseSSL());
+    chkSSL1->setChecked(m_client->getUseSSL());
     chkPlain->setChecked(m_client->getUsePlain());
 #else
+    chkSSL1->hide();
     chkSSL->hide();
     chkPlain->hide();
 #endif
@@ -72,6 +75,7 @@ JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig)
     connect(edtServer, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(edtPort, SIGNAL(valueChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(chkSSL, SIGNAL(toggled(bool)), this, SLOT(toggledSSL(bool)));
+    connect(chkSSL1, SIGNAL(toggled(bool)), this, SLOT(toggledSSL(bool)));
     connect(chkVHost, SIGNAL(toggled(bool)), this, SLOT(toggledVHost(bool)));
 }
 
@@ -107,7 +111,11 @@ void JabberConfig::apply()
         m_client->setPort((unsigned short)atol(edtPort1->text()));
     }
 #ifdef USE_OPENSSL
-    m_client->setUseSSL(chkSSL->isChecked());
+    if (m_bConfig){
+        m_client->setUseSSL(chkSSL1->isChecked());
+    }else{
+        m_client->setUseSSL(chkSSL->isChecked());
+    }
     m_client->setUsePlain(chkPlain->isChecked());
 #endif
     m_client->setMinPort((unsigned short)atol(edtMinPort->text().latin1()));

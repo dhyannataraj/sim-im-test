@@ -296,7 +296,7 @@ QString Container::name()
     return i18n("Container");
 }
 
-void Container::addUserWnd(UserWnd *wnd)
+void Container::addUserWnd(UserWnd *wnd, bool bRaise)
 {
     connect(wnd, SIGNAL(closed(UserWnd*)), this, SLOT(removeUserWnd(UserWnd*)));
     connect(wnd, SIGNAL(statusChanged(UserWnd*)), this, SLOT(statusChanged(UserWnd*)));
@@ -310,7 +310,11 @@ void Container::addUserWnd(UserWnd *wnd)
     }
     QTab *tab = new UserTab(wnd, bBold);
     m_tabBar->addTab(tab);
-    m_tabBar->setCurrentTab(tab);
+    if (bRaise){
+        m_tabBar->setCurrentTab(tab);
+    }else{
+        m_tabBar->repaint();
+    }
     contactSelected(0);
     if ((m_tabBar->count() > 1) && !m_tabBar->isVisible()){
         m_tabBar->show();
@@ -382,7 +386,7 @@ void Container::init()
         Contact *contact = getContacts()->contact(id);
         if (contact == NULL)
             continue;
-        addUserWnd(new UserWnd(id, getWndConfig(id), false));
+        addUserWnd(new UserWnd(id, getWndConfig(id), false), true);
     }
     if (m_tabBar->count() == 0)
         QTimer::singleShot(0, this, SLOT(close()));

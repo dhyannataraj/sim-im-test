@@ -80,7 +80,7 @@ public:
     PROP_ULONG(StatusSize);
     PROP_STRLIST(WndConfig);
 public slots:
-    void addUserWnd(UserWnd*);
+    void addUserWnd(UserWnd*, bool bRaise);
     void removeUserWnd(UserWnd*);
     void raiseUserWnd(UserWnd*);
     void contactSelected(int);
