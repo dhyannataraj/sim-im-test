@@ -180,7 +180,7 @@ class RTF2HTML
     friend class Level;
 
 public:
-    RTF2HTML() : rtf_ptr(NULL), cur_level(this) {}
+    RTF2HTML() : rtf_ptr(NULL), cur_level(this), bFirst(true) {}
     QString Parse(const char *rtf, const char *encoding);
 
 // Paragraph-specific functions:
@@ -233,6 +233,7 @@ protected:
     const char *encoding;
     Level cur_level;
     stack<Level> levels;
+	bool  bFirst;
 };
 
 OutTag* RTF2HTML::getTopOutTag(TagEnum tagType)
@@ -449,12 +450,18 @@ void RTF2HTML::FlushParagraph()
     if (!bExplicitParagraph || sParagraph.isEmpty())
        return;
 
-    s += "<p dir=\"";
-    // Note: Lower-case 'ltr' and 'rtl' are important for Qt.
-    s += (parStyle.dir == ParStyle::DirRTL ? "rtl" : "ltr");
-    s += "\">";
-    s += sParagraph;
-    s += "</p>";
+	if (bFirst){
+		bFirst = false;
+	}else{
+		s += "<br>";
+	}
+	if (parStyle.dir == ParStyle::DirRTL){
+		s += "<span dir=\"rtl\">";
+		s += sParagraph;
+		s += "</span>";
+	}else{
+		s += sParagraph;
+	}
 
     // Clear up the paragraph members
     sParagraph = "";

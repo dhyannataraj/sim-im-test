@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qrichtext_p.cpp,v 1.3 2003-10-20 08:39:29 shutoff Exp $
+** $Id: qrichtext_p.cpp,v 1.3.2.1 2003-11-23 01:28:45 shutoff Exp $
 **
 ** Implementation of the internal Qt classes dealing with rich text
 **
@@ -108,7 +108,10 @@ QTextFormatter::~QTextFormatter() {}
 void QTextFormatter::setWrapEnabled( bool b ) { wrapEnabled = b; }
 void QTextFormatter::setWrapAtColumn( int c ) { wrapColumn = c; }
 
-
+QTextFormat *QTextFormatCollection::createFormat( const QTextFormat &f ) 
+{ 
+	return new QTextFormat( f ); 
+}
 
 int QTextCursor::x() const
 {

@@ -560,11 +560,15 @@ unsigned TextShow::textPosition(const QString &text, unsigned pos)
             continue;
         }
         if (c == '&'){
-            for (; i < text.length(); i++){
-                c = text[(int)i];
+			unsigned n = i;
+            for (; n < text.length(); n++){
+                c = text[(int)n];
                 if (c == ';')
                     break;
             }
+			if (pos == 0)
+				return i;
+			i = n;
         }
         if (pos == 0)
             return i;

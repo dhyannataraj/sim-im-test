@@ -47,19 +47,6 @@
 
 const unsigned NO_TYPE = (unsigned)(-1);
 
-class MsgTextEdit : public TextEdit
-{
-public:
-    MsgTextEdit(MsgEdit *edit, QWidget *parent);
-protected:
-    virtual QPopupMenu *createPopupMenu(const QPoint& pos);
-    virtual void contentsDropEvent(QDropEvent*);
-    virtual void contentsDragEnterEvent(QDragEnterEvent*);
-    virtual void contentsDragMoveEvent(QDragMoveEvent*);
-    Message *createMessage(QMimeSource*);
-    MsgEdit *m_edit;
-};
-
 MsgTextEdit::MsgTextEdit(MsgEdit *edit, QWidget *parent)
         : TextEdit(parent)
 {
@@ -763,7 +750,7 @@ i18n("Add to contacts", "%n add to contacts", 1);
 static MessageDef defAdded =
     {
         NULL,
-        MESSAGE_DEFAULT,
+        MESSAGE_INFO,
         "Add to contacts",
         "%n add to contacts",
         createAdded,
@@ -783,7 +770,7 @@ i18n("Removed from contacts", "%n removed from contacts", 1);
 static MessageDef defRemoved =
     {
         NULL,
-        MESSAGE_DEFAULT,
+        MESSAGE_INFO,
         "Removed from contacts",
         "%n removed from contacts",
         createRemoved,

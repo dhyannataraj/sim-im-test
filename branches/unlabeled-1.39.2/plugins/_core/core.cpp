@@ -45,6 +45,7 @@
 #include "textshow.h"
 #include "filetransfer.h"
 #include "declinedlg.h"
+#include "xsl.h"
 
 #include <qtimer.h>
 #include <qapplication.h>
@@ -168,17 +169,54 @@ QTranslatorMessage SIMTranslator::findMessage(const char* context,
 /*
 typedef struct CoreData
 {    
-	char		*Profile;
-    bool		SavePasswd;
-    bool		NoShow;
-    bool		ShowPanel;
+    char		*Profile;
+    unsigned	SavePasswd;
+    unsigned	NoShow;
+    unsigned	ShowPanel;
     unsigned	ManualStatus;
+    unsigned	Invisible;
     long		geometry[4];
     long		toolBarState[7];
     void		*Buttons;
     void		*Menues;
-    bool		ShowOnLine;
+    unsigned	ShowOnLine;
     unsigned	GroupMode;
+    unsigned	UseDblClick;
+    unsigned	UseSysColors;
+    unsigned	ColorOnline;
+    unsigned	ColorOffline;
+    unsigned	ColorAway;
+    unsigned	ColorNA;
+    unsigned	ColorDND;
+    unsigned	ColorGroup;
+    unsigned	GroupSeparator;
+    char		*Lang;
+    unsigned	ContainerMode;
+    unsigned	SendOnEnter;
+    unsigned	containerGeo[4];
+    unsigned	containerBar[7];
+    unsigned	ContainerStatusSize;
+    char		*Containers;
+    void		*Container;
+    unsigned	CopyMessages;
+    unsigned	EditHeight;
+    unsigned	editBar[7];
+    unsigned	EditBackground;
+    unsigned	EditForeground;
+    char		*EditFont;
+    unsigned	OwnColors;
+    unsigned	UseSmiles;
+    unsigned	CloseSend;
+    unsigned	HistoryPage;
+    unsigned	HistoryDirection;
+    unsigned	historySize[2];
+    long		historyBar[7];
+    char		*HistorySearch;
+    char		*Unread;
+    void		*NoShowAutoReply;
+    unsigned	SortMode;
+    unsigned	CloseTransfer;
+	char		*HistoryStyle;
 } CoreData;
 */
 static DataDef coreData[] =
@@ -219,10 +257,6 @@ static DataDef coreData[] =
         { "EditBackground", DATA_ULONG, 1, 0x000000 },
         { "EditFont", DATA_STRING, 1, 0 },
         { "OwnColors", DATA_BOOL, 1, 0 },
-        { "ColorSend", DATA_ULONG, 1, 0x000000 },
-        { "ColorReceive", DATA_ULONG, 1, 0x000000 },
-        { "ColorSender", DATA_ULONG, 1, 0x000080 },
-        { "ColorReceiver", DATA_ULONG, 1, 0x800000 },
         { "UseSmiles", DATA_BOOL, 1, 1 },
         { "CloseSend", DATA_BOOL, 1, 0 },
         { "HistoryPage", DATA_ULONG, 1, 100 },
@@ -234,6 +268,7 @@ static DataDef coreData[] =
         { "NoShowAutoReply", DATA_STRLIST, 1, 0 },
         { "SortMode", DATA_ULONG, 1, 0x00030201 },
         { "CloseTransfer", DATA_BOOL, 1, 0 },
+        { "HistoryStyle", DATA_STRING, 1, (unsigned)"SIM" },
         { NULL, 0, 0, 0 }
     };
 
@@ -351,6 +386,7 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
         : Plugin(base), EventReceiver(HighPriority)
 {
     m_plugin = this;
+	historyXSL = NULL;
 
     load_data(coreData, &data, config);
 
@@ -1157,6 +1193,13 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
 
 void CorePlugin::initData()
 {
+	if (historyXSL)
+		delete historyXSL;
+	QString styleName;
+	const char *s = getHistoryStyle();
+	if (s && *s)
+		styleName = QFile::decodeName(s);
+	historyXSL = new XSL(styleName);
     if ((getEditBackground() == 0) && (getEditForeground() == 0)){
         QPalette pal = QApplication::palette();
         QColorGroup cg = pal.normal();
@@ -1185,6 +1228,8 @@ CorePlugin::~CorePlugin()
     delete m_tmpl;
     if (m_status)
         delete m_status;
+	if (historyXSL)
+		delete historyXSL;
 
     getContacts()->unregisterUserData(translit_data_id);
     getContacts()->unregisterUserData(list_data_id);

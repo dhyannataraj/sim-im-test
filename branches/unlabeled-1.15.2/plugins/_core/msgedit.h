@@ -20,6 +20,7 @@
 
 #include "simapi.h"
 #include "core.h"
+#include "textshow.h"
 
 #include <qmainwindow.h>
 #include <qlabel.h>
@@ -37,6 +38,20 @@ typedef struct ClientStatus
     unsigned		client;
     clientData		*data;
 } ClientStatus;
+
+class MsgTextEdit : public TextEdit
+{
+	Q_OBJECT
+public:
+    MsgTextEdit(MsgEdit *edit, QWidget *parent);
+protected:
+    virtual QPopupMenu *createPopupMenu(const QPoint& pos);
+    virtual void contentsDropEvent(QDropEvent*);
+    virtual void contentsDragEnterEvent(QDragEnterEvent*);
+    virtual void contentsDragMoveEvent(QDragMoveEvent*);
+    Message *createMessage(QMimeSource*);
+    MsgEdit *m_edit;
+};
 
 class MsgEdit : public QMainWindow, public EventReceiver
 {

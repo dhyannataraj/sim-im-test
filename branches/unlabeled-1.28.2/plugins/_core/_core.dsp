@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\qt-mt230nc.lib ..\..\Release\simapi.lib ..\..\Release\simui.lib /nologo /dll /pdb:none /machine:I386 /out:"../../Release/plugins/_core.dll"
+# ADD LINK32 ..\..\Release\simapi.lib ..\..\Release\simui.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\qt-mt230nc.lib $(QTDIR)\lib\sablot.lib /nologo /dll /pdb:none /machine:I386 /out:"../../Release/plugins/_core.dll"
 
 !ELSEIF  "$(CFG)" == "_core - Win32 Debug"
 
@@ -79,7 +79,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\qt-mt230nc.lib ..\..\Debug\simapi.lib ..\..\Debug\simui.lib /nologo /dll /debug /machine:I386 /out:"../../Debug/plugins/_core.dll" /pdbtype:sept
+# ADD LINK32 ..\..\Debug\simapi.lib ..\..\Debug\simui.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\qt-mt230nc.lib $(QTDIR)\lib\sablot.lib /nologo /dll /debug /machine:I386 /out:"../../Debug/plugins/_core.dll" /pdbtype:sept
 
 !ENDIF 
 
@@ -771,6 +771,10 @@ SOURCE=.\userviewcfgbase.cpp
 # Begin Source File
 
 SOURCE=.\userwnd.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\xsl.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -2492,6 +2496,10 @@ InputName=userwnd
 
 !ENDIF 
 
+# End Source File
+# Begin Source File
+
+SOURCE=.\xsl.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"
@@ -4682,6 +4690,68 @@ InputPath=.\pict\connect.gif
 # Begin Custom Build - Copy $(InputPath)
 OutDir=.\..\..\Debug
 InputPath=.\pict\connect.gif
+
+"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /Y $(InputPath) $(OutDir)\$(InputPath)
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# End Group
+# Begin Group "styles"
+
+# PROP Default_Filter "xsl"
+# Begin Source File
+
+SOURCE=.\styles\SIM.xsl
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build - Copy $(InputPath)
+OutDir=.\..\..\Release
+InputPath=.\styles\SIM.xsl
+
+"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /Y $(InputPath) $(OutDir)\$(InputPath)
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build - Copy $(InputPath)
+OutDir=.\..\..\Debug
+InputPath=.\styles\SIM.xsl
+
+"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /Y $(InputPath) $(OutDir)\$(InputPath)
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\styles\XChat.xsl
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build - Copy $(InputPath)
+OutDir=.\..\..\Release
+InputPath=.\styles\XChat.xsl
+
+"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /Y $(InputPath) $(OutDir)\$(InputPath)
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build - Copy $(InputPath)
+OutDir=.\..\..\Debug
+InputPath=.\styles\XChat.xsl
 
 "$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy /Y $(InputPath) $(OutDir)\$(InputPath)

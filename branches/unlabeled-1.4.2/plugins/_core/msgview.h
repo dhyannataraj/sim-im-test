@@ -22,17 +22,19 @@
 #include "textshow.h"
 
 class CorePlugin;
+class XSL;
 
 class MsgViewBase : public TextShow, public EventReceiver
 {
     Q_OBJECT
 public:
-    MsgViewBase(QWidget *parent, unsigned id);
+    MsgViewBase(QWidget *parent, const char *name, unsigned id=(unsigned)(-1));
     ~MsgViewBase();
-    void		addMessage(Message *msg);
+    void		addMessage(Message *msg, bool bUnread=false);
     bool		findMessage(Message *msg);
     void		setSelect(const QString &str);
-    static QString parseText(const QString &text, bool bIgnoreColors, bool bUseSmiles);
+	void		setXSL(XSL*);
+    static		QString parseText(const QString &text, bool bIgnoreColors, bool bUseSmiles);
 protected:
     virtual		QPopupMenu *createPopupMenu( const QPoint& pos );
     void		*processEvent(Event*);
@@ -40,11 +42,12 @@ protected:
     void		setSource(const QString&);
     void		setColors();
     Message		*currentMessage();
-    QString		messageText(Message *msg);
+    QString		messageText(Message *msg, bool bUnread);
     QPoint		m_popupPos;
     QString		m_selectStr;
     unsigned	m_id;
     unsigned	m_nSelection;
+	XSL			*xsl;
 };
 
 class MsgView : public MsgViewBase
@@ -53,6 +56,8 @@ class MsgView : public MsgViewBase
 public:
     MsgView(QWidget *parent, unsigned id);
     ~MsgView();
+protected slots:
+	void		init();
 protected:
     void		*processEvent(Event*);
 };

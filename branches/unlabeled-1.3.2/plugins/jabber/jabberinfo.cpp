@@ -101,12 +101,12 @@ void JabberInfo::fill()
     disableWidget(cmbStatus);
     if (status == STATUS_OFFLINE){
         lblOnline->setText(i18n("Last online") + ":");
-        edtOnline->setText(formatTime(data->StatusTime));
+        edtOnline->setText(formatDateTime(data->StatusTime));
         lblNA->hide();
         edtNA->hide();
     }else{
         if (data->OnlineTime){
-            edtOnline->setText(formatTime(data->OnlineTime));
+            edtOnline->setText(formatDateTime(data->OnlineTime));
         }else{
             lblOnline->hide();
             edtOnline->hide();
@@ -116,7 +116,7 @@ void JabberInfo::fill()
             edtNA->hide();
         }else{
             lblNA->setText(i18n(text));
-            edtNA->setText(formatTime(data->StatusTime));
+            edtNA->setText(formatDateTime(data->StatusTime));
         }
     }
     if ((status != STATUS_ONLINE) && (status != STATUS_OFFLINE) && m_data){

@@ -1508,20 +1508,20 @@ QString MSNClient::contactTip(void *_data)
             res += "<br><font size=-1>";
             res += i18n("Last online");
             res += ": </font>";
-            res += formatTime(data->StatusTime);
+            res += formatDateTime(data->StatusTime);
         }
     }else{
         if (data->OnlineTime){
             res += "<br><font size=-1>";
             res += i18n("Online");
             res += ": </font>";
-            res += formatTime(data->OnlineTime);
+            res += formatDateTime(data->OnlineTime);
         }
         if (data->Status != STATUS_ONLINE){
             res += "<br><font size=-1>";
             res += statusText;
             res += ": </font>";
-            res += formatTime(data->StatusTime);
+            res += formatDateTime(data->StatusTime);
         }
     }
     if (data->IP){

@@ -1,5 +1,5 @@
 #/****************************************************************************
-** $Id: qrichtext.cpp,v 1.8 2003-11-01 14:51:24 shutoff Exp $
+** $Id: qrichtext.cpp,v 1.8.4.1 2003-11-23 01:28:45 shutoff Exp $
 **
 ** Implementation of the internal Qt classes dealing with rich text
 **
@@ -1796,7 +1796,7 @@ int direction : 5;
                             if ( p && p->length() > 0 ) {
                                 QTextFormat *f = p->at( p->length() - 1 )->format();
                                 if ( f && !f->isAnchor() ) {
-                                    f = fCollection->createFormat( *f );
+                                    f = fCollection->format( f );
                                     f->anchor_name = attr[ "name" ];
                                     f->update();
                                     p->setFormat( p->length() - 1, 1, f, TRUE, QTextFormat::Format );

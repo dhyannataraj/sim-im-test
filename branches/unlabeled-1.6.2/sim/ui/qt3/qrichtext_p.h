@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qrichtext_p.h,v 1.6 2003-11-16 19:48:34 shutoff Exp $
+** $Id: qrichtext_p.h,v 1.6.2.1 2003-11-23 01:28:45 shutoff Exp $
 **
 ** Definition of internal rich text classes
 **
@@ -1514,7 +1514,7 @@ public:
     virtual QTextFormat *format( QTextFormat *of, QTextFormat *nf, int flags );
     virtual QTextFormat *format( const QFont &f, const QColor &c );
     virtual void remove( QTextFormat *f );
-    virtual QTextFormat *createFormat( const QTextFormat &f ) { return new QTextFormat( f ); }
+    virtual QTextFormat *createFormat( const QTextFormat &f);
     virtual QTextFormat *createFormat( const QFont &f, const QColor &c ) { return new QTextFormat( f, c, this ); }
     void debug();
 
