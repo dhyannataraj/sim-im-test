@@ -40,6 +40,7 @@
 #include "ui/ballonmsg.h"
 #include "ui/filetransfer.h"
 #include "chatwnd.h"
+#include "about.h"
 
 #ifndef _WINDOWS
 #include <pwd.h>
@@ -71,6 +72,7 @@
 #include <qstyle.h>
 #include <qwidgetlist.h>
 #include <qobjectlist.h>
+#include <qtranslator.h>
 
 #if USE_KDE
 #include <kwin.h>
@@ -233,9 +235,12 @@ MainWindow::MainWindow(const char *name)
     noToggle = false;
     bInLogin = false;
     lockFile = -1;
+    translator = NULL;
+    mAboutApp = NULL;
+
+    initTranslator();
 
 #ifdef USE_KDE
-    mAboutApp = NULL;
     mAboutKDE = NULL;
 #endif
 
@@ -1593,6 +1598,11 @@ void MainWindow::sendMail(unsigned long uin)
             }
         }
     }
+    sendMail(mail);
+}
+
+void MainWindow::sendMail(const char *mail)
+{
     if (mail == NULL) return;
 
 #ifdef WIN32
@@ -1658,17 +1668,16 @@ void MainWindow::setFonts()
     }
 }
 
+extern KAboutData *appAboutData;
+
 void MainWindow::about()
 {
-#ifdef USE_KDE
-    const KAboutData *aboutData = KGlobal::instance()->aboutData();
     if( mAboutApp == 0 )
     {
-        mAboutApp = new KAboutApplication( aboutData, this, "about", false );
+        mAboutApp = new KAboutApplication( appAboutData, this, "about", false );
         connect( mAboutApp, SIGNAL(finished()), this, SLOT( dialogFinished()) );
     }
     mAboutApp->show();
-#endif
 }
 
 void MainWindow::about_kde()
@@ -1696,11 +1705,11 @@ void MainWindow::timerExpired()
     {
         delete mAboutKDE; mAboutKDE = NULL;
     }
+#endif
     if( mAboutApp != 0 && mAboutApp->isVisible() == false )
     {
         delete mAboutApp; mAboutApp = NULL;
     }
-#endif
 }
 
 void MainWindow::changeIcons(int)
@@ -1752,9 +1761,9 @@ void MainWindow::loadMenu()
     menuFunction->insertSeparator();
     menuFunction->insertItem(i18n("Always on top"), this, SLOT(toggleOnTop()), 0, mnuOnTop);
 #endif
-#ifdef USE_KDE
     menuFunction->insertSeparator();
     menuFunction->insertItem(Icon("licq"), i18n("&About SIM"), this, SLOT(about()));
+#ifdef USE_KDE
     menuFunction->insertItem(Icon("about_kde"), i18n("About &KDE"), this, SLOT(about_kde()));
 #endif
     menuFunction->insertSeparator();
@@ -1832,6 +1841,47 @@ QWidget *MainWindow::ftWindow(unsigned long uin, const string &fileName)
 void MainWindow::ftClose()
 {
     emit ftChanged();
+}
+
+void MainWindow::initTranslator()
+{
+    if (translator)
+        qApp->removeTranslator(translator);
+    translator = NULL;
+    string lang;
+#ifdef WIN32
+    char buff[256];
+    int res = GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_SABBREVLANGNAME, buff, sizeof(buff));
+    if (res){
+        lang += tolower(buff[0]);
+        lang += tolower(buff[1]);
+    }
+#else
+    char *p = getenv("LANG");
+    if (p){
+        for (; *p; p++){
+            if (*p == '.') break;
+            lang += *p;
+        }
+    }
+#endif
+    if (lang.size() == 0) return;
+    string s = "po";
+#if WIN32
+    s += "\\";
+#else
+    s += "/";
+#endif
+    for (const char *p = lang.c_str(); *p; p++)
+        s += tolower(*p);
+    s += ".qm";
+    QFile f(QString::fromLocal8Bit(app_file(s.c_str())));
+    if (!f.exists()) return;
+    translator = new QTranslator(this);
+    translator->load(f.name());
+    qApp->installTranslator(translator);
+    appAboutData->setTranslator(I18N_NOOP("_: NAME OF TRANSLATORS\nYour names"),
+                                I18N_NOOP("_: EMAIL OF TRANSLATORS\nYour emails"));
 }
 
 #ifndef _WINDOWS

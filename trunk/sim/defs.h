@@ -58,6 +58,7 @@ QString i18n(const char *singular, const char *plural, unsigned long n);
 QString i18n(const char *text);
 QString i18n(const char *singular, const char *plural, unsigned long n);
 #define KPopupMenu QPopupMenu
+#define I18N_NOOP(A)	(A)
 #endif
 
 #ifdef WIN32

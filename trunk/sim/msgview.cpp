@@ -46,8 +46,8 @@
 
 QString ParseText(const char *text);
 
-TextShow::TextShow(QWidget *p)
-        : QTextBrowser(p)
+TextShow::TextShow(QWidget *p, const char *name)
+        : QTextBrowser(p, name)
 {
     bg = new TransparentBg(this);
     baseBG = colorGroup().color(QColorGroup::Base);

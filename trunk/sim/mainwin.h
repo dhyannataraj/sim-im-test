@@ -44,6 +44,7 @@ class SetupDialog;
 class ICQMessage;
 class ICQUser;
 class TransparentTop;
+class QTranslator;
 
 const int mnuAction = 0;
 const int mnuMessage = 1;
@@ -253,6 +254,7 @@ public slots:
     void userFunction(unsigned long uin, int, unsigned long param=0);
     void goURL(const char*);
     void sendMail(unsigned long);
+    void sendMail(const char*);
     void toggleOnTop();
     void moveUser(int);
     void changeTransparent();
@@ -318,10 +320,12 @@ protected:
     void closeUser(unsigned long uin);
 
     TransparentTop *transparent;
-#if USE_KDE
     QDialog      *mAboutApp;
+#if USE_KDE
     KAboutKDE    *mAboutKDE;
 #endif
+    QTranslator	 *translator;
+    void initTranslator();
 };
 
 extern MainWindow *pMain;
