@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bg\n"
 "POT-Creation-Date: 2004-04-26 11:31+0400\n"
-"PO-Revision-Date: 2004-04-26 03:20+0300\n"
+"PO-Revision-Date: 2004-04-26 13:47+0300\n"
 "Last-Translator: Атанас Мавров <bugar@developer.bg>\n"
 "Language-Team: Bulgarian <dict@linux.zonebg.com>\n"
 "MIME-Version: 1.0\n"
@@ -7922,19 +7922,16 @@ msgid "Conditions"
 msgstr "Състояние"
 
 #: plugins/yahoo/yahoosearch.cpp:44
-#, fuzzy
 msgid "male"
-msgstr "Жена"
+msgstr "Мъж"
 
 #: plugins/yahoo/yahoosearch.cpp:45
-#, fuzzy
 msgid "female"
 msgstr "Жена"
 
 #: plugins/yahoo/yahoosearch.cpp:128
-#, fuzzy
 msgid "Yahoo! ID"
-msgstr "Yahoo! &ID"
+msgstr "Yahoo! ID"
 
 #: plugins/replace/replace.cpp:33
 msgid "Replace text"
@@ -8451,3 +8448,4 @@ msgstr "Прогнозирани дни:"
 #: plugins/weather/weathercfgbase.cpp:117
 msgid "Units:"
 msgstr "Система:"
+
