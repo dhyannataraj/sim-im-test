@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
 "POT-Creation-Date: 2004-07-06 21:37+0200\n"
-"PO-Revision-Date: 2004-06-28 12:51+0200\n"
+"PO-Revision-Date: 2004-07-13 15:58+0200\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -23,8 +23,7 @@ msgstr "Domovský adresár"
 
 #: plugins/__homedir/homedir.cpp:49
 msgid "Plugin provides select directory for store config files"
-msgstr ""
-"Zásuvný modul umožňuje vybrať miesto uloženia konfiguračných súborov"
+msgstr "Zásuvný modul umožňuje vybrať miesto uloženia konfiguračných súborov"
 
 # qt3/i18n.cpp:117
 #: plugins/__homedir/homedir.cpp:92
@@ -38,8 +37,7 @@ msgstr "Migrácia"
 
 #: plugins/__migrate/migrate.cpp:36
 msgid "Plugin provides convert configuration and history from SIM 0.8"
-msgstr ""
-"Zásuvný modul umožňuje konverziu konfigurácie a histórie z SIM v0.8"
+msgstr "Zásuvný modul umožňuje konverziu konfigurácie a histórie z SIM v0.8"
 
 #: plugins/__migrate/migratedlg.cpp:78
 msgid "Cancel convert?"
@@ -606,8 +604,7 @@ msgstr ""
 
 #: plugins/_core/core.cpp:1323 plugins/_core/core.cpp:3369
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
-msgstr ""
-"Prepáčte, momentálne som zaneprázdnený, ale môžem odpovedať neskôr"
+msgstr "Prepáčte, momentálne som zaneprázdnený, ale môžem odpovedať neskôr"
 
 #: plugins/_core/core.cpp:1328
 msgid "Enter a decline reason"
@@ -684,19 +681,17 @@ msgid "time from set status"
 msgstr "čas od nastavenia stavu"
 
 #: plugins/_core/core.cpp:1675
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 wrote:"
-msgstr "%1 napísala:"
+msgstr "%1 napísal:"
 
 # mainwin.cpp:1380
 #: plugins/_core/core.cpp:1676
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 wrote:"
-msgstr "%1 je pripojená"
+msgstr "%1 napísala:"
 
 # qt3/i18n.cpp:21
 #: plugins/_core/core.cpp:1713 plugins/_core/status.cpp:321
@@ -1516,7 +1511,7 @@ msgstr "Nie s v zozname"
 
 # client.cpp:1156
 #: plugins/_core/search.cpp:628
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: %n contact found\n"
 "%n contacts found"
@@ -1873,8 +1868,7 @@ msgstr "Systray"
 
 #: plugins/dock/dock.cpp:50
 msgid "Plugin provides dock main window in system tray"
-msgstr ""
-"Zásuvný modul umožňuje umiestniť (dokovať) hlavné okno v systrayi"
+msgstr "Zásuvný modul umožňuje umiestniť (dokovať) hlavné okno v systrayi"
 
 #: plugins/dock/dock.cpp:52 plugins/windock/windock.cpp:43
 msgid "Dock"
@@ -1979,8 +1973,7 @@ msgstr "GPG"
 
 #: plugins/gpg/gpg.cpp:54
 msgid "Plugin adds GnuPG encryption/decryption support for messages"
-msgstr ""
-"Zásuvný modul pridáva podporu GnuPG šifrovania a dešifrovania správ"
+msgstr "Zásuvný modul pridáva podporu GnuPG šifrovania a dešifrovania správ"
 
 #: plugins/gpg/gpg.cpp:78
 msgid ""
@@ -1999,7 +1992,7 @@ msgstr "Šifrovanie skončilo s chybou"
 # msgview.cpp:205
 # msgview.cpp:1245
 #: plugins/gpg/gpg.cpp:700
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: %n GPG key\n"
 "%n GPG keys"
@@ -2080,25 +2073,21 @@ msgid "Icons"
 msgstr "Ikony"
 
 #: plugins/icons/icon.cpp:31
-#, fuzzy
 msgid "Plugin provides JISP icons themes and emoticons"
-msgstr ""
-"Zásuvný modul umožňuje používať štýly ikon a emotikony z programu "
-"Miranda"
+msgstr "Zásuvný modul umožňuje používať JISP štýly ikon a emotikony"
 
 #: plugins/icons/iconcfg.cpp:91
 msgid "*.jisp|Icon set"
-msgstr ""
+msgstr "*.jisp|Štýl ikon"
 
 #: plugins/icons/iconcfg.cpp:93
 msgid "Icon set(*.jisp)"
-msgstr ""
+msgstr "Štýl ikon(*.jisp)"
 
 # qt3/i18n.cpp:172
 #: plugins/icons/iconcfg.cpp:95
-#, fuzzy
 msgid "Select icon set"
-msgstr "Vybrať ikony DLL"
+msgstr "Vybrať štýl ikon"
 
 # ui/enable.cpp:134
 #: plugins/icq/aimconfig.cpp:43
@@ -2482,7 +2471,7 @@ msgstr "Adresár"
 # msgview.cpp:205
 # msgview.cpp:1245
 #: plugins/icq/icqicmb.cpp:989 plugins/icq/icqicmb.cpp:995
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: %n file\n"
 "%n files"
@@ -2492,7 +2481,6 @@ msgstr ""
 
 # msgedit.cpp:588
 #: plugins/icq/icqicmb.cpp:1286 plugins/icq/warndlg.cpp:66
-#, fuzzy
 msgid "Send failed"
 msgstr "Chyba pri odosielaní"
 
@@ -3984,8 +3972,7 @@ msgstr ""
 
 #: plugins/jabber/jabbersearch.cpp:317
 msgid "Fill in all of the fields to add yourself to the JUD."
-msgstr ""
-"Vyplňte všetky polia pre pridanie do užívateľského adresára Jabber."
+msgstr "Vyplňte všetky polia pre pridanie do užívateľského adresára Jabber."
 
 #: plugins/jabber/jabbersearch.cpp:318
 msgid ""
@@ -4837,7 +4824,7 @@ msgid "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 msgstr "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 
 #: plugins/msn/msnpacket.cpp:468
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: You have %n unread message\n"
 "You have %n unread messages"
@@ -4853,8 +4840,7 @@ msgid "Navigate"
 msgstr "Navigácia"
 
 #: plugins/navigate/navigate.cpp:215
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Zásuvný modul umožňuje navigáciu po odkazoch, spúštenie externého "
 "prehliadača, poštového klienta"
@@ -4969,8 +4955,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:69
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Zásuvný modul umožňuje zobrazovať notifikácie o správach a stave "
 "kontaktov na obrazovke (OSD)"
@@ -5312,8 +5297,7 @@ msgstr "Úvodná obrazovka"
 
 #: plugins/splash/splash.cpp:37
 msgid "Plugin provides splash screen"
-msgstr ""
-"Zásuvný modul umožňuje zobraziť úvodnú obrazovku (splash screen)"
+msgstr "Zásuvný modul umožňuje zobraziť úvodnú obrazovku (splash screen)"
 
 # libicq/country.cpp:372
 #: plugins/styles/metal/metal.cpp:514
@@ -5337,9 +5321,8 @@ msgstr "Fonty a farby"
 
 # libicq/country.cpp:40
 #: plugins/styles/wood/wood.cpp:1269
-#, fuzzy
 msgid "Norwegian Wood"
-msgstr "Nórsky"
+msgstr "Nórske drevo"
 
 # ui/themesetupbase.cpp:307
 # ui/themesetupbase.cpp:309
@@ -5777,7 +5760,6 @@ msgid "%t | %c"
 msgstr "%t | %c"
 
 #: plugins/weather/weather.cpp:556
-#, fuzzy
 msgid ""
 "%l<br><br>\n"
 "<img src=\"icon:weather%i\"> %c<br>\n"
@@ -5794,7 +5776,7 @@ msgid ""
 msgstr ""
 "%l<br><br>\n"
 "<img src=\"icon:weather\"> %c<br>\n"
-"Teplota: <b>%t</b> (feels like: <b>%f</b>)<br>\n"
+"Teplota: <b>%t</b> (ako keby: <b>%f</b>)<br>\n"
 "Vlhkosť: <b>%h</b><br>\n"
 "Tlak: <b>%p</b> (%q)<br>\n"
 "Vietor: <b>%b</b> <b>%w %g</b><br>\n"
@@ -7739,18 +7721,17 @@ msgstr "Vlastné"
 
 #: sim/qt3/i18n.cpp:1
 msgid "Hu&e:"
-msgstr ""
+msgstr "Odti&eň:"
 
 # ui/maininfobase.cpp:334
 # ui/statussetupbase.cpp:148
 #: sim/qt3/i18n.cpp:3
-#, fuzzy
 msgid "&Sat:"
-msgstr "&Stav"
+msgstr "&Sýtosť:"
 
 #: sim/qt3/i18n.cpp:5
 msgid "&Val:"
-msgstr ""
+msgstr "H&odnota:"
 
 # qt3/i18n.cpp:247
 #: sim/qt3/i18n.cpp:7
@@ -7863,9 +7844,8 @@ msgstr "Vytvoriť nový adresár"
 
 # qt3/i18n.cpp:61
 #: sim/qt3/i18n.cpp:61
-#, fuzzy
 msgid "List View"
-msgstr "Pohľad na priateľov"
+msgstr "Pohľad na zoznam"
 
 #: sim/qt3/i18n.cpp:63
 msgid "Detail View"
@@ -7873,11 +7853,11 @@ msgstr "Detailný pohľad"
 
 #: sim/qt3/i18n.cpp:65
 msgid "Preview File Info"
-msgstr ""
+msgstr "Náhľad na informácie o súbore"
 
 #: sim/qt3/i18n.cpp:67
 msgid "Preview File Contents"
-msgstr ""
+msgstr "Náhľad na obsah súboru"
 
 #: sim/qt3/i18n.cpp:69
 msgid "Read-write"
@@ -8070,7 +8050,7 @@ msgstr "Príklad"
 # ui/setupdlg.cpp:149
 #: sim/qt3/i18n.cpp:166
 msgid "Scr&ipt"
-msgstr ""
+msgstr "Skr&ipt"
 
 # ui/enable.cpp:134
 # ui/randomchatbase.cpp:306
@@ -8104,7 +8084,6 @@ msgid "Select Font"
 msgstr "Výber písma"
 
 #: sim/qt3/i18n.cpp:177
-#, fuzzy
 msgid ""
 "<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ GUI "
 "toolkit from Trolltech. Qt provides single-source portability across Windows "
@@ -8113,10 +8092,8 @@ msgid ""
 "information.</p>"
 msgstr ""
 "<h3>About Qt</h3><p>Tento program používa Qt verziu %1, multiplatformový "
-"C++ GUI toolkit od Trolltech. Qt provides single-source portability across "
-"Windows 95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix "
-"with X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more "
-"information.</p>"
+"C++ GUI toolkit od Trolltech-u. Qt poskytuje portabilitu medzi "
+"Windows 95/98/NT/2000, Linux, Solaris, HP-UX a množstvom iných verzií UNIX-u s X11 bez zmeny zdrojového kódu.</p><p>Pre viac informácií - <tt>http://www.trolltech.com/qt/</tt>.</p>"
 
 # qt3/i18n.cpp:183
 #: sim/qt3/i18n.cpp:183
@@ -8229,1987 +8206,148 @@ msgstr "Server %1 bol nájdený"
 # mainwin.cpp:628
 # mainwin.cpp:2727
 #: sim/qt3/i18n.cpp:229
-#, fuzzy
 msgid "Host found"
-msgstr "Žiadne kontakty pre odoslanie"
+msgstr "Server nájdený"
 
 # qt3/i18n.cpp:233
 #: sim/qt3/i18n.cpp:231
-#, fuzzy, c-format
+#, c-format
 msgid "Connected to host %1"
-msgstr "Pripojený na neznámy port"
+msgstr "Pripojený k serveru: %1"
 
 # qt3/i18n.cpp:233
 #: sim/qt3/i18n.cpp:233
-#, fuzzy
 msgid "Connected to host"
-msgstr "Pripojený na neznámy port"
+msgstr "Pripojený k serveru"
 
 # qt3/i18n.cpp:237
 #: sim/qt3/i18n.cpp:235
-#, fuzzy
 msgid "Connection to %1 closed"
-msgstr "Spojenie bolo ukončené"
+msgstr "Spojenie na %1 bolo ukončené"
 
 # ui/setupdlg.cpp:127
 #: sim/qt3/i18n.cpp:239
-#, fuzzy
 msgid "Login Incorrect"
 msgstr "Chyba pri prihlasovaní"
 
 # qt3/i18n.cpp:241
 #: sim/qt3/i18n.cpp:241
-#, fuzzy, c-format
+#, c-format
 msgid "Col %1"
-msgstr "užívateľovi %1"
+msgstr "Stĺpec %1"
 
 # qt3/i18n.cpp:241
 #: sim/qt3/i18n.cpp:243
-#, fuzzy, c-format
+#, c-format
 msgid "Row %1"
-msgstr "užívateľovi %1"
+msgstr "Riadok %1"
 
 # qt3/i18n.cpp:245
 #: sim/qt3/i18n.cpp:245
-#, fuzzy
 msgid "Undo"
 msgstr "Vrátiť späť"
 
 # qt3/i18n.cpp:247
 #: sim/qt3/i18n.cpp:247
-#, fuzzy
 msgid "Redo"
 msgstr "Urobiť znovu"
 
 # ui/alertdialog.cpp:56
 #: sim/qt3/i18n.cpp:259
-#, fuzzy
 msgid "&Left"
-msgstr "Vľavo hore"
+msgstr "Vľa&vo"
 
 # mainwin.cpp:3105
 #: sim/qt3/i18n.cpp:261
-#, fuzzy
 msgid "&Right"
-msgstr "svetlosť"
+msgstr "vp&ravo"
 
 # monitor.cpp:73
 #: sim/qt3/i18n.cpp:263
-#, fuzzy
 msgid "&Top"
-msgstr "&Kopírovať"
+msgstr "&Hore"
 
 # msgedit.cpp:184
 #: sim/qt3/i18n.cpp:265
-#, fuzzy
 msgid "&Bottom"
-msgstr "&Foto"
+msgstr "&Dole"
 
 # qt3/i18n.cpp:267
 #: sim/qt3/i18n.cpp:267
-#, fuzzy
 msgid "R&estore"
-msgstr "Zdroj:"
+msgstr "Obn&oviť"
 
 # mainwin.cpp:883
 #: sim/qt3/i18n.cpp:269
-#, fuzzy
 msgid "&Hide"
-msgstr "Automaticky skry"
+msgstr "&Skryť"
 
 #: sim/qt3/i18n.cpp:271
 msgid "Line Up Toolbars (compact)"
-msgstr ""
+msgstr "Zarovnať nástrojové lišty (kompaktne)"
 
 #: sim/qt3/i18n.cpp:273
 msgid "Line Up Toolbars (normal)"
-msgstr ""
+msgstr "Zarovnať nástrojové lišty (normálne)"
 
 #: sim/qt3/i18n.cpp:275
 msgid "Paste special..."
-msgstr ""
+msgstr "Nalepiť špeciálne..."
 
 #: sim/qt3/i18n.cpp:277
 msgid "What's this?"
-msgstr ""
+msgstr "Čo je toto?"
 
 # ui/enable.cpp:134
 #: sim/qt3/i18n.cpp:279
-#, fuzzy
 msgid "&Restore"
-msgstr "&Registrácia"
+msgstr "Ob&noviť"
 
 # ui/maininfobase.cpp:325
 #: sim/qt3/i18n.cpp:281
-#, fuzzy
 msgid "&Move"
-msgstr "Odst&rániť"
+msgstr "Pres&unúť"
 
 #: sim/qt3/i18n.cpp:283
 msgid "Mi&nimize"
-msgstr ""
+msgstr "Mi&nimalizovať"
 
 #: sim/qt3/i18n.cpp:285
 msgid "Ma&ximize"
-msgstr ""
+msgstr "Ma&ximalizovať"
 
 #: sim/qt3/i18n.cpp:289
 msgid "&Roll up"
-msgstr ""
+msgstr "Z&rolovať"
 
 # qt3/i18n.cpp:291
 #: sim/qt3/i18n.cpp:291
-#, fuzzy
 msgid "Minimize"
-msgstr "vystrašený"
+msgstr "Minimalizovať"
 
 #: sim/qt3/i18n.cpp:293
 msgid "Restore Down"
-msgstr ""
+msgstr "Obnoviť dole"
 
 #: sim/qt3/i18n.cpp:295
 msgid "Maximize"
-msgstr ""
+msgstr "Maximalizovať"
 
 #: sim/qt3/i18n.cpp:297
 msgid "Roll up"
-msgstr ""
+msgstr "Zrolovať"
 
 # qt3/i18n.cpp:267
 #: sim/qt3/i18n.cpp:299
-#, fuzzy
 msgid "Restore Up"
-msgstr "Zdroj:"
+msgstr "Obnoviť hore"
 
 #: sim/qt3/i18n.cpp:301
 msgid "Roll down"
-msgstr ""
+msgstr "Vyrolovať"
 
 # ui/themesetup.cpp:144
 #: xpstyle/xpstyle.cpp:63
-#, fuzzy
 msgid "Windows XP style"
-msgstr "Okno - prispôsobiť"
+msgstr "Štýl Windows XP"
 
-# ui/acceptbase.cpp:172
-# ui/alertdialogbase.cpp:231
-# ui/fontsetupbase.cpp:221
-# ui/generalsecbase.cpp:211
-# ui/homeinfobase.cpp:163
-# ui/keysetupbase.cpp:143
-# ui/miscsetupbase.cpp:103
-# ui/msgdialogbase.cpp:98
-# ui/networkbase.cpp:225
-# ui/pastinfobase.cpp:154
-# ui/phonebase.cpp:153
-# ui/phonebookbase.cpp:128
-# ui/setupdlgbase.cpp:113
-# ui/smssetupbase.cpp:122
-# ui/soundsetupbase.cpp:227
-# ui/statussetupbase.cpp:139
-# ui/themesetupbase.cpp:289
-# ui/userinfobase.cpp:144
-#~ msgid "Form1"
-#~ msgstr "Formulár 1"
-
-#~ msgid "Use &default path"
-#~ msgstr "Použiť  stan&dardn cestu"
-
-# ui/acceptbase.cpp:178
-#~ msgid "Path for config files:"
-#~ msgstr "Cesta pre konfiguračné súbory:"
-
-#~ msgid "Convert configuration from old version"
-#~ msgstr "Konvertovať konfiguráciu zo starej verzie"
-
-# ui/editfile.cpp:86
-#~ msgid "Directories for convert:"
-#~ msgstr "Adresáre pre konverziu:"
-
-#~ msgid "&Remove old files"
-#~ msgstr "Odst&rániť staré súbory"
-
-#~ msgid ""
-#~ "Note!\n"
-#~ "If you select an option \" Remove old files \", you can not use the old "
-#~ "version"
-#~ msgstr ""
-#~ "Poznámka!\n"
-#~ "Ak si vyberiete voľbu \" Odstrániť staré súbory \", nebudete môcť "
-#~ "používať starú verziu"
-
-#~ msgid "Select directories for convert"
-#~ msgstr "Vybrať adresáre pre konverziu"
-
-# sim.cpp:527
-#~ msgid "Convert configuration"
-#~ msgstr "Konfigurácia konverzie"
-
-# msgedit.cpp:130
-#, fuzzy
-#~ msgid "Close after %n second"
-#~ msgstr "Po odoslaní &zavrieť"
-
-# msgedit.cpp:193
-# msgview.cpp:1191
-# ui/soundsetupbase.cpp:231
-#, fuzzy
-#~ msgid "URL"
-#~ msgstr "URL:"
-
-# msgview.cpp:164
-# msgview.cpp:1204
-#, fuzzy
-#~ msgid "Authorize request"
-#~ msgstr "Požiadavka na autorizácia"
-
-# msgview.cpp:164
-# msgview.cpp:1204
-#, fuzzy
-#~ msgid "Authorization granted"
-#~ msgstr "Požiadavka na autorizácia"
-
-# msgview.cpp:164
-# msgview.cpp:1204
-#, fuzzy
-#~ msgid "Authorization refused"
-#~ msgstr "Požiadavka na autorizácia"
-
-# mainwin.cpp:628
-# mainwin.cpp:2727
-#, fuzzy
-#~ msgid "Add to contacts"
-#~ msgstr "iaden kontakt"
-
-#, fuzzy
-#~ msgid "Removed from contacts"
-#~ msgstr "Odst&rániť z denníka"
-
-# mainwin.cpp:628
-# mainwin.cpp:2727
-#, fuzzy
-#~ msgid "%n contact found"
-#~ msgstr "Žiadne kontakty pre odoslanie"
-
-# ui/setupdlgbase.cpp:119
-#~ msgid "&Update"
-#~ msgstr "Akt&ualizácia"
-
-#~ msgid "Plugin &enabled"
-#~ msgstr "Zásuvný modul povol&ený"
-
-# ui/acceptbase.cpp:173
-# ui/acceptbase.cpp:177
-#~ msgid "&Override global settings"
-#~ msgstr "P&otlačiť globálne nastavenia"
-
-# ui/toolsetupbase.cpp:123
-#~ msgid "Toolbar setup"
-#~ msgstr "Nastavenie nástrojovej lišty"
-
-# ui/toolsetupbase.cpp:124
-#~ msgid "All buttons:"
-#~ msgstr "Všetky tlačítka:"
-
-# ui/keysetupbase.cpp:148
-# ui/phonebookbase.cpp:133
-# ui/setupdlgbase.cpp:117
-# ui/themesetupbase.cpp:292
-# ui/themesetupbase.cpp:296
-# ui/toolsetupbase.cpp:126
-# ui/toolsetupbase.cpp:131
-# ui/userinfobase.cpp:148
-#~ msgid "New Item"
-#~ msgstr "Nová položka"
-
-# ui/toolsetupbase.cpp:127
-#~ msgid "&Add ->"
-#~ msgstr "&Pridať ->"
-
-# ui/toolsetupbase.cpp:128
-#~ msgid "<- &Remove"
-#~ msgstr "<- Odob&rať"
-
-# ui/toolsetupbase.cpp:129
-#~ msgid "Active:"
-#~ msgstr "Aktívny:"
-
-# ui/toolsetupbase.cpp:132
-#~ msgid "&Up"
-#~ msgstr "Ho&re"
-
-# ui/toolsetupbase.cpp:133
-#~ msgid "&Down"
-#~ msgstr "&Dole"
-
-# ui/randomchatbase.cpp:281
-# ui/randomchatbase.cpp:300
-# ui/searchbase.cpp:284
-# ui/themesetupbase.cpp:318
-#~ msgid "Language:"
-#~ msgstr "Jazyk:"
-
-# msgedit.cpp:585
-#~ msgid "Message window"
-#~ msgstr "Okno správy"
-
-#~ msgid "&Simple mode"
-#~ msgstr "Jednoduchý mód"
-
-# ui/setupdlg.cpp:126
-#~ msgid "&Chat mode"
-#~ msgstr "Mód &rozhovoru"
-
-#~ msgid "&Using last selected font"
-#~ msgstr "&Použiť  naposledy použitý font"
-
-# mainwin.cpp:2464
-#~ msgid "Container mode"
-#~ msgstr "Mód kontajneru"
-
-# ui/fontsetupbase.cpp:228
-#~ msgid "Open each contact in &new container"
-#~ msgstr "Otvoriť každý kontakt v &novom kontajnery"
-
-# ui/fontsetupbase.cpp:229
-#~ msgid "Open one container for &group"
-#~ msgstr "Otvoriť jeden kontajner pre &skupinu"
-
-# ui/fontsetupbase.cpp:230
-#~ msgid "Open all contacts in &one container"
-#~ msgstr "Otvoriť všetky kontakty v jedn&om kontajnery"
-
-#~ msgid "Use \"&Enter\" for send message"
-#~ msgstr "Použiť \"&Enter\" pre odoslanie správy"
-
-#~ msgid "Start SIM on every &windows startup"
-#~ msgstr "Spúšťať SIM pri každom spustení &Windows"
-
-# ui/interestsinfobase.cpp:138
-# ui/pagerbase.cpp:113
-# ui/workinfobase.cpp:207
-#~ msgid "Form2"
-#~ msgstr "Form 2"
-
-# mainwin.cpp:2059
-# mainwin.cpp:2734
-#~ msgid "Groups"
-#~ msgstr "Skupiny"
-
-# client.cpp:1231
-#~ msgid "Do not distrub"
-#~ msgstr "Nevyrušovať (DND)"
-
-# ui/maininfobase.cpp:329
-#~ msgid "Online:"
-#~ msgstr "Online:"
-
-# ui/alertdialogbase.cpp:246
-#~ msgid "Colors:"
-#~ msgstr "Farby:"
-
-# ui/themesetupbase.cpp:317
-#~ msgid "Use &double click"
-#~ msgstr "Použiť &dvojklik"
-
-# ui/themesetupbase.cpp:302
-#~ msgid "Use system &colors"
-#~ msgstr "Použiť  &systémové farby"
-
-#~ msgid "Use small &font for group"
-#~ msgstr "Použiť  malé &písmo pre skupinu"
-
-#~ msgid "Show group &separator"
-#~ msgstr "Ukazať oddeľovače &skupín"
-
-# qt3/i18n.cpp:111
-#~ msgid "Sorting"
-#~ msgstr "Zoradiť"
-
-# ui/networkbase.cpp:228
-# ui/proxydlgbase.cpp:182
-#~ msgid "1st:"
-#~ msgstr "Prvý:"
-
-#~ msgid "2nd:"
-#~ msgstr "Druhý:"
-
-#~ msgid "3rd:"
-#~ msgstr "Tretí:"
-
-# client.cpp:1252
-# mainwin.cpp:2708
-#~ msgid "Visible"
-#~ msgstr "Viditeľný"
-
-# ui/generalsecbase.cpp:215
-#~ msgid "Awaiting authorization"
-#~ msgstr "Očakávaná autorizácia"
-
-# userview.cpp:889
-# userview.cpp:905
-#, fuzzy
-#~ msgid "No show scroller"
-#~ msgstr "Žiad&ne zobrazené skupiny"
-
-# ui/fontsetupbase.cpp:236
-#~ msgid "Use &own colors and fonts settings"
-#~ msgstr "P&oužiť vlastné farby"
-
-# ui/themesetupbase.cpp:316
-#~ msgid "Use emotional &icons"
-#~ msgstr "Použiť  emot&ikony"
-
-#~ msgid "Max history file size"
-#~ msgstr "Maximálna veľkosť súboru histórie"
-
-#~ msgid "Mb"
-#~ msgstr "Mb"
-
-#~ msgid "Keep history "
-#~ msgstr "Ponechať históriu"
-
-#~ msgid "days"
-#~ msgstr "dní"
-
-#~ msgid "100"
-#~ msgstr "100"
-
-# libicq/country.cpp:368
-#~ msgid "50"
-#~ msgstr "50"
-
-#~ msgid "20"
-#~ msgstr "20"
-
-# msgview.cpp:857
-#~ msgid "&Preview"
-#~ msgstr "&Náhľad"
-
-# qt3/i18n.cpp:267
-#~ msgid "&Source"
-#~ msgstr "&Zdroj"
-
-# ui/maininfobase.cpp:319
-# ui/searchbase.cpp:294
-#~ msgid "First name:"
-#~ msgstr "Meno:"
-
-# ui/maininfobase.cpp:315
-# ui/searchbase.cpp:293
-#~ msgid "Last name:"
-#~ msgstr "Priezvisko:"
-
-# ui/maininfobase.cpp:318
-#~ msgid "Display:"
-#~ msgstr "Zobrazi:"
-
-# ui/maininfobase.cpp:320
-#~ msgid "Encoding:"
-#~ msgstr "Kódovanie:"
-
-# ui/maininfobase.cpp:322
-#~ msgid "Email addresses:"
-#~ msgstr "Email adresy:"
-
-# ui/phonebookbase.cpp:135
-#~ msgid ""
-#~ "Note:\n"
-#~ "You can change only those addresses which have entered.\n"
-#~ "It is impossible to change addresses which were received from the user."
-#~ msgstr ""
-#~ "Poznámka:\n"
-#~ "Môžete meniť len tie adresy, ktoré ste zadali.\n"
-#~ "Nie je možné zmeniť adresy, ktoré boli prijaté od užívateľa."
-
-# ui/maininfobase.cpp:327
-#~ msgid "&Mails"
-#~ msgstr "E&maily"
-
-# msgedit.cpp:184
-#~ msgid "Phones:"
-#~ msgstr "Telefóny:"
-
-# msgedit.cpp:184
-#~ msgid "Phone Status:"
-#~ msgstr "Status telefónu:"
-
-# ui/phonebookbase.cpp:135
-#~ msgid ""
-#~ "Note:\n"
-#~ "You can change only those numbers which have entered.\n"
-#~ "It is impossible to change numbers which were received from the user."
-#~ msgstr ""
-#~ "Poznámka:\n"
-#~ "Môžete zmeniť len tie čísla, ktoré ste zadali.\n"
-#~ "Nie je možné zmeniť čísla prijaté od ostatných užívateľov."
-
-# msgedit.cpp:184
-#~ msgid "&Phones"
-#~ msgstr "Tele&fóny:"
-
-# ui/aboutinfobase.cpp:109
-#~ msgid "&Notes"
-#~ msgstr "Poz&námky"
-
-# ui/emaileditbase.cpp:89
-#~ msgid "EditMail"
-#~ msgstr "Upraviť poštovú správu"
-
-# ui/emaileditbase.cpp:90
-#~ msgid "Enter Email address:"
-#~ msgstr "Vložiť emailovou adresu"
-
-# ui/phonebook.cpp:81
-#~ msgid "&Publish"
-#~ msgstr "&Zverejniť"
-
-# msgedit.cpp:184
-#~ msgid "EditPhone"
-#~ msgstr "Upraviť telefón"
-
-# ui/addphonebase.cpp:136
-#~ msgid "Number details:"
-#~ msgstr "Detail čísla:"
-
-# ui/addphonebase.cpp:137
-#~ msgid "Type:"
-#~ msgstr "Typ:"
-
-# ui/phonebase.cpp:154
-#~ msgid "Area code:"
-#~ msgstr "Smerové číslo:"
-
-# ui/phonebase.cpp:155
-#~ msgid "Extension:"
-#~ msgstr "Klapka:"
-
-# ui/phonebase.cpp:156
-# ui/phonebase.cpp:158
-# ui/phonebase.cpp:160
-#~ msgid "-"
-#~ msgstr "-"
-
-# ui/pagerbase.cpp:116
-# ui/phonebase.cpp:157
-#~ msgid "Number:"
-#~ msgstr "Číslo:"
-
-# ui/homeinfobase.cpp:166
-# ui/phonebase.cpp:159
-# ui/randomchatbase.cpp:282
-# ui/randomchatbase.cpp:301
-# ui/searchbase.cpp:286
-# ui/workinfobase.cpp:212
-#~ msgid "Country:"
-#~ msgstr "Štát:"
-
-# ui/pagerbase.cpp:114
-#~ msgid "Provider:"
-#~ msgstr "Poskytovate:"
-
-# ui/pagerbase.cpp:115
-#~ msgid "Email gateway:"
-#~ msgstr "Poštová brána:"
-
-# qt3/i18n.cpp:158
-#~ msgid "&Add to list"
-#~ msgstr "Prid&ať do zoznamu"
-
-# ui/workinfobase.cpp:220
-#~ msgid "More &options"
-#~ msgstr "Viac m&ožností"
-
-# msgview.cpp:853
-# ui/searchbase.cpp:277
-# ui/searchbase.cpp:279
-#~ msgid "&New search"
-#~ msgstr "&Nové vyhľadávanie"
-
-# ui/aboutinfobase.cpp:105
-#~ msgid "Form4"
-#~ msgstr "Form 4"
-
-# ui/maininfobase.cpp:327
-#~ msgid "&E-Mail"
-#~ msgstr "&Email"
-
-# ui/maininfobase.cpp:321
-#~ msgid "&Name"
-#~ msgstr "Me&no"
-
-# ui/maininfobase.cpp:319
-# ui/searchbase.cpp:294
-#~ msgid "First:"
-#~ msgstr "Prvé meno:"
-
-# libicq/country.cpp:192
-#~ msgid "Last:"
-#~ msgstr "Druhé meno:"
-
-# ui/maininfobase.cpp:317
-#~ msgid "Nick:"
-#~ msgstr "Prezývka (Nick):"
-
-# ui/searchbase.cpp:295
-#~ msgid "Nickname:"
-#~ msgstr "Prezvka (Nick):"
-
-# ui/maininfobase.cpp:322
-#~ msgid "E-Mail address:"
-#~ msgstr "Email adresa:"
-
-# msgedit.cpp:184
-#~ msgid "Phone:"
-#~ msgstr "Telefón:"
-
-#~ msgid "MyDialog"
-#~ msgstr "Môj dialóg"
-
-# ui/listsecbase.cpp:120
-# ui/moreinfobase.cpp:188
-#~ msgid "Form3"
-#~ msgstr "Form 3"
-
-# libicq/country.cpp:335
-# libicq/country.cpp:416
-#~ msgid "Complete"
-#~ msgstr "Hotovo"
-
-#~ msgid ""
-#~ "If you want to add connection press button \" Next\".\n"
-#~ "You can add connection later using connection manager"
-#~ msgstr ""
-#~ "Ak chcete pridať spojenie, stlačte tlačítko \"Ďalej\".\n"
-#~ "Spojenie je možné neskôr pridať pomocou menežera spojení"
-
-# ui/logindlgbase.cpp:123
-#~ msgid "Login"
-#~ msgstr "Login"
-
-# ui/logindlgbase.cpp:129
-#~ msgid "Passwords:"
-#~ msgstr "Heslá:"
-
-# ui/pagerbase.cpp:114
-#~ msgid "Profile:"
-#~ msgstr "Profil:"
-
-# ui/logindlgbase.cpp:128
-#~ msgid "&Save password"
-#~ msgstr "Uložiť he&slo"
-
-# ui/logindlgbase.cpp:124
-#~ msgid "&Do not show this window on startup"
-#~ msgstr "Nezo&brazovať toto okno pri štarte"
-
-# ui/setupdlg.cpp:127
-#~ msgid "Connection"
-#~ msgstr "Spojenie"
-
-# sim.cpp:527
-#~ msgid "&Configure"
-#~ msgstr "&Konfigurova"
-
-# ui/maininfobase.cpp:325
-#~ msgid "&Remove"
-#~ msgstr "Odst&rániť"
-
-# ui/generalsecbase.cpp:216
-#~ msgid "&New connection"
-#~ msgstr "&Nové pripojenie"
-
-# ui/generalsecbase.cpp:216
-#~ msgid "New connection"
-#~ msgstr "Nové pripojenie"
-
-#~ msgid "Protocol:"
-#~ msgstr "Protokol:"
-
-# qt3/i18n.cpp:27
-#~ msgid "Select protocol"
-#~ msgstr "Vybrať protokol"
-
-# ui/autoreplybase.cpp:75
-#~ msgid "Don't show this dialog"
-#~ msgstr "Nezobrazovať tento dialog"
-
-#~ msgid "Save &status changes to history"
-#~ msgstr "Ukladať zmeny &statusu do histórie"
-
-# ui/alertdialogbase.cpp:239
-#~ msgid "Open window if user go online"
-#~ msgstr "Otvoriť okno, keď je užívateľ pripojený"
-
-# userview.cpp:889
-# userview.cpp:905
-#~ msgid "&No open"
-#~ msgstr "&Neotvárať"
-
-#~ msgid "Open and &minimize"
-#~ msgstr "Otvoriť a &minimalizovať"
-
-#~ msgid "Open and &raise"
-#~ msgstr "Otvoriť a daj na pop&redie"
-
-# ui/acceptbase.cpp:178
-#~ msgid "Path for incoming files:"
-#~ msgstr "Cesta pre prichádzajúce súbory:"
-
-# mainwin.cpp:2072
-# ui/acceptbase.cpp:179
-# userview.cpp:1842
-#~ msgid "Accept mode"
-#~ msgstr "Prenos súboru"
-
-# ui/acceptbase.cpp:180
-#~ msgid "Show response"
-#~ msgstr "Ukázať odpoveď"
-
-# ui/acceptbase.cpp:181
-#~ msgid "Auto accept"
-#~ msgstr "Automatické prijatie"
-
-# ui/acceptbase.cpp:182
-#~ msgid "Overwrite files"
-#~ msgstr "Prepísať súbory"
-
-# ui/acceptbase.cpp:183
-#~ msgid "Auto decline"
-#~ msgstr "Automatické odmietnutie"
-
-# ui/smssetupbase.cpp:123
-#~ msgid "Text before cursor:"
-#~ msgstr "Text pred kurzorom:"
-
-# ui/smssetupbase.cpp:124
-#~ msgid "Text after cursor:"
-#~ msgstr "Text za kurzorom:"
-
-# ui/autoreplybase.cpp:75
-#~ msgid "Don't show autoreply dialog"
-#~ msgstr "Nezobrazovať dialóg automatickej odpovede"
-
-# ui/filetransferbase.cpp:123
-#~ msgid "File transfer"
-#~ msgstr "Prenos súboru"
-
-# ui/homeinfobase.cpp:169
-#~ msgid "Time:"
-#~ msgstr "Čas:"
-
-#~ msgid "Estimated time:"
-#~ msgstr "Predpokladaný čas:"
-
-# ui/filetransferbase.cpp:127
-#~ msgid "Speed:"
-#~ msgstr "Rýchlosť:"
-
-#~ msgid "&Go to dir"
-#~ msgstr "Ísť do adresára"
-
-# msgedit.cpp:130
-#~ msgid "Close after &transfer"
-#~ msgstr "Po prenose &zavrieť"
-
-#~ msgid "Decline reason"
-#~ msgstr "Dôvod odmietnutia"
-
-#~ msgid "Enter decline reason:"
-#~ msgstr "Vložte dôvod odmietnutia:"
-
-# ui/aboutdlgbase.cpp:149
-#~ msgid "About SIM"
-#~ msgstr "O SIM"
-
-# ui/aboutdlgbase.cpp:153
-#~ msgid "Authors"
-#~ msgstr "Autory"
-
-# ui/aboutdlgbase.cpp:154
-#~ msgid "Translation"
-#~ msgstr "Preklad"
-
-# ui/aboutdlgbase.cpp:155
-#~ msgid "License"
-#~ msgstr "Licencia"
-
-# ui/keysetupbase.cpp:148
-# ui/phonebookbase.cpp:133
-# ui/setupdlgbase.cpp:117
-# ui/themesetupbase.cpp:292
-# ui/themesetupbase.cpp:296
-# ui/toolsetupbase.cpp:126
-# ui/toolsetupbase.cpp:131
-# ui/userinfobase.cpp:148
-#~ msgid "Add Item"
-#~ msgstr "Pridať poloku"
-
-# ui/keysetupbase.cpp:148
-# ui/phonebookbase.cpp:133
-# ui/setupdlgbase.cpp:117
-# ui/themesetupbase.cpp:292
-# ui/themesetupbase.cpp:296
-# ui/toolsetupbase.cpp:126
-# ui/toolsetupbase.cpp:131
-# ui/userinfobase.cpp:148
-#~ msgid "Item:"
-#~ msgstr "Poloka:"
-
-# ui/networkbase.cpp:227
-# ui/proxydlgbase.cpp:183
-#~ msgid "Program:"
-#~ msgstr "Program:"
-
-# ui/statussetupbase.cpp:143
-#~ msgid "Set \"Away\" status after"
-#~ msgstr "Nastavi \"Away\" status po"
-
-# ui/statussetupbase.cpp:144
-#~ msgid "minutes not using computer"
-#~ msgstr "minútach nepoužívania počítaču"
-
-# ui/statussetupbase.cpp:145
-#~ msgid "minutes of \"Away\""
-#~ msgstr "minút \"Away\""
-
-# ui/statussetupbase.cpp:145
-#~ msgid "minutes of \"N/A\""
-#~ msgstr "minút \"Away\""
-
-# ui/statussetupbase.cpp:147
-#~ msgid "Set \"N/A\" status after"
-#~ msgstr "Nastaviť \"N/A\" status po"
-
-# ui/statussetupbase.cpp:147
-#~ msgid "Set \"Offline\" status after"
-#~ msgstr "Nastaviť \"Offline\" status po"
-
-# ui/statussetupbase.cpp:142
-#~ msgid ""
-#~ "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
-#~ msgstr ""
-#~ "Zakázať online výstrahu pre \"Away\", \"N/A\", \"DND\" a \"Occupied\" "
-#~ "zoznam"
-
-# ui/themesetupbase.cpp:300
-#~ msgid "Group margin:"
-#~ msgstr "Hranica skupiny:"
-
-# ui/themesetupbase.cpp:300
-#~ msgid "Contact margin:"
-#~ msgstr "Hranica kontaktu:"
-
-# ui/themesetupbase.cpp:299
-#~ msgid "Main window background:"
-#~ msgstr "Pozadie okna:"
-
-# ui/alertdialogbase.cpp:243
-# ui/themesetupbase.cpp:301
-#~ msgid "Place:"
-#~ msgstr "Umiestenie:"
-
-# ui/statussetupbase.cpp:140
-#~ msgid "Hide main window after"
-#~ msgstr "Schovávať hlavné okno po"
-
-# ui/statussetupbase.cpp:146
-#~ msgid "seconds inactive"
-#~ msgstr "sekundách neaktivity"
-
-# ui/keysetup.cpp:36
-#~ msgid "Show Mainwin on desktop"
-#~ msgstr "Ukazať hlavné okno na pracovnej ploche"
-
-#~ msgid "current"
-#~ msgstr "aktuálny"
-
-# ui/msgdialogbase.cpp:99
-#~ msgid "&Customize dock menu"
-#~ msgstr "&Prispôsobiť dok menu"
-
-#~ msgid "&Receive message only from contacts from list"
-#~ msgstr "P&rijímať správy len od kontaktov zo zoznamu"
-
-# ui/generalsecbase.cpp:227
-#~ msgid "Reject messages from unknown users contains this words or phrases:"
-#~ msgstr ""
-#~ "Odmietnuť správy od neznámych užívateľov obsahujúce tieto slová "
-#~ "alebo výrazy:"
-
-# ui/generalsecbase.cpp:228
-#~ msgid ""
-#~ "Words are divided by any separators (space, comma, i.e.)\n"
-#~ "A phrase can be specified using quotation marks\n"
-#~ "Words can contain wildcards:\n"
-#~ "* - any amount of symbols (or is empty)\n"
-#~ "? - any symbol"
-#~ msgstr ""
-#~ "Slová sú oddelené oddeovačmi (mezera, bodka, atp.)\n"
-#~ "Slová môžu obsahovať divoké karty:\n"
-#~ "* - jeden zo znakov (alebo \"prázdny znak\")\n"
-#~ "? - akýkoľvek symbol"
-
-# ui/smssetupbase.cpp:131
-#~ msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-#~ msgstr "Všetky správy pri statuse \"Away\" a \"N/A\" posielať na mobil:"
-
-# ui/smssetupbase.cpp:132
-#~ msgid ""
-#~ "For the answer or sending of the new message you can answer on SMS having "
-#~ "specified in the beginning of the message a line:\n"
-#~ "<UIN>:"
-#~ msgstr ""
-#~ "Pri posielaní odpovede alebo novej správy môžete odpovedať SMS-kou na "
-#~ "číslo špecifikované na začiatku správy:\n"
-#~ "<UIN>:"
-
-#~ msgid "Send only &one message (don't split)"
-#~ msgstr "Od&oslať len jednu správu (nerozdeľovať)"
-
-#, fuzzy
-#~ msgid "%n GPG key"
-#~ msgstr "GPG kľúč"
-
-#~ msgid "Executable:"
-#~ msgstr "Spúšťateľný súbor:"
-
-# qt3/i18n.cpp:117
-#~ msgid "Home directory:"
-#~ msgstr "Domovský adresár:"
-
-# libicq/country.cpp:142
-#~ msgid "&Find"
-#~ msgstr "&Nájsť"
-
-# libicq/country.cpp:290
-#~ msgid "Your key:"
-#~ msgstr "Tvoj kľúč:"
-
-# msgedit.cpp:121
-#~ msgid "&Refresh"
-#~ msgstr "O&bnoviť"
-
-#~ msgid "Command arguments"
-#~ msgstr "Argumenty príkazu"
-
-#~ msgid "Generate key:"
-#~ msgstr "Generovať kľúč:"
-
-#~ msgid "List public keys:"
-#~ msgstr "Zoznam verejných kľúčov:"
-
-#~ msgid "List secret keys:"
-#~ msgstr "Zoznam skromných kľúčov:"
-
-#~ msgid "Import public:"
-#~ msgstr "Importovať verejný:"
-
-#~ msgid "Export public:"
-#~ msgstr "Exportovať verejný:"
-
-# libicq/country.cpp:133
-#~ msgid "Encrypt:"
-#~ msgstr "Šifrovať:"
-
-#~ msgid "Decrypt:"
-#~ msgstr "Deifrova:"
-
-#~ msgid "Generate key"
-#~ msgstr "Generovať kľúč"
-
-# ui/maininfobase.cpp:327
-#~ msgid "EMail:"
-#~ msgstr "Email:"
-
-# ui/maininfobase.cpp:333
-#~ msgid "Comment:"
-#~ msgstr "Komentár:"
-
-# ui/randomchatbase.cpp:292
-# ui/randomchatbase.cpp:297
-# ui/workinfobase.cpp:213
-#~ msgid "Name:"
-#~ msgstr "Meno:"
-
-# ui/logindlgbase.cpp:129
-#~ msgid "Passphrase:"
-#~ msgstr "Heslová fráza:"
-
-# ui/generalsecbase.cpp:234
-#~ msgid "Retype passphrase:"
-#~ msgstr "Napíšte znovu heslovú frázu:"
-
-# ui/keysetup.cpp:34
-#~ msgid "Key:"
-#~ msgstr "Kľúč:"
-
-#~ msgid "Input passphrase"
-#~ msgstr "Vložiť heslovú frázu"
-
-# ui/logindlgbase.cpp:128
-#~ msgid "&Save passphrase"
-#~ msgstr "Uložiť he&slovú frázu"
-
-# msgedit.cpp:588
-#, fuzzy
-#~ msgid "%n file"
-#~ msgstr "Odoslať súbor"
-
-# control.cpp:234
-#, fuzzy
-#~ msgid "WWW-panel message"
-#~ msgstr "&Otvoriť správu"
-
-# ui/maininfobase.cpp:322
-#, fuzzy
-#~ msgid "Email pager message"
-#~ msgstr "Email pager"
-
-# msgview.cpp:192
-# msgview.cpp:1232
-#, fuzzy
-#~ msgid "Contact request"
-#~ msgstr "Žiadosť o kontakt"
-
-# ui/enable.cpp:134
-#~ msgid "&Register new UIN"
-#~ msgstr "&Registrácia nového UIN"
-
-# ui/logindlgbase.cpp:127
-# ui/randomchatbase.cpp:291
-# ui/searchbase.cpp:297
-#~ msgid "UIN:"
-#~ msgstr "UIN:"
-
-# mainwin.cpp:2724
-#~ msgid "&ICQ"
-#~ msgstr "&ICQ"
-
-#~ msgid "&Automatically use HTTP polling if proxy required"
-#~ msgstr "&Automaticky použiť  HTTP polling, ak to proxy vyžaduje"
-
-#~ msgid "Use &HTTP polling"
-#~ msgstr "Použiť  &HTTP polling"
-
-# ui/proxydlgbase.cpp:181
-#~ msgid "Server:"
-#~ msgstr "Server:"
-
-# ui/networkbase.cpp:227
-# ui/proxydlgbase.cpp:183
-#~ msgid "Port:"
-#~ msgstr "Port:"
-
-# ui/generalsecbase.cpp:216
-#~ msgid "Port range for direct connections:"
-#~ msgstr "Rozsah portov pre priame pripojenie:"
-
-#~ msgid "Note: For HTTP-polling using proxy settings for HTTP"
-#~ msgstr "Poznámka: Pre HTTP polling použite nastavenie proxy pre HTTP"
-
-# ui/generalsecbase.cpp:216
-#~ msgid "&Keep-alive connection"
-#~ msgstr "Držať spojenie živé"
-
-# ui/filetransfer.cpp:301
-# ui/filetransfer.cpp:317
-#~ msgid "&Network"
-#~ msgstr "&Sieť"
-
-# client.cpp:1252
-# mainwin.cpp:2708
-#~ msgid "Automatically check &invisible"
-#~ msgstr "Automaticky kontrolovať nev&iditeľnosť"
-
-# msgedit.cpp:588
-#~ msgid "Send format:"
-#~ msgstr "Formát odosielania:"
-
-# ui/randomchatbase.cpp:287
-#~ msgid "Send message:"
-#~ msgstr "Poslať správu:"
-
-#~ msgid "No wait ack"
-#~ msgstr "Nečakať na potvrdenie"
-
-#~ msgid "Wait ack from server"
-#~ msgstr "Čakať na potvrdenie zo servera"
-
-#~ msgid "Wait ack from client"
-#~ msgstr "Čakať na potvrdenie z klienta"
-
-# mainwin.cpp:2072
-# ui/acceptbase.cpp:179
-# userview.cpp:1842
-#~ msgid "Accept in &occupied mode"
-#~ msgstr "Akceptovať v móde \"O&bsadený\""
-
-# mainwin.cpp:2072
-# ui/acceptbase.cpp:179
-# userview.cpp:1842
-#~ msgid "Accept in &DND mode"
-#~ msgstr "Akceptovať v móde \"Nevyrušovať (&DND)\""
-
-#~ msgid "For decrease traffic you can:"
-#~ msgstr "Pre zníženie trafiku môžete:"
-
-#~ msgid "Disable answer on phonebook and &picture requests"
-#~ msgstr "Zakázať od&poveď na žiadosti o telefónny zoznam a obrázok"
-
-#, fuzzy
-#~ msgid "Disable automatically &request autoreply on change status"
-#~ msgstr ""
-#~ "Zakázať automaticky žiadať o automatickú odpoveď p&ri zmene statusu"
-
-# ui/miscsetupbase.cpp:107
-#~ msgid "Disable automatically &update user info"
-#~ msgstr "Zakázať automatickú akt&ualizáciu informácií o užívateľovi"
-
-# ui/alertdialogbase.cpp:237
-#~ msgid "Disable &typing notification"
-#~ msgstr "Zakázať no&tifikáciu písania"
-
-# client.cpp:1252
-# mainwin.cpp:2708
-#~ msgid "Check invisible every"
-#~ msgstr "Kontrolovať neviditeľnosť každých"
-
-# libicq/country.cpp:335
-# libicq/country.cpp:416
-#~ msgid "minutes"
-#~ msgstr "minty"
-
-# ui/workinfobase.cpp:220
-#~ msgid "&Options"
-#~ msgstr "M&ožnosti"
-
-# ui/maininfobase.cpp:319
-# ui/searchbase.cpp:294
-#~ msgid "ScreenName:"
-#~ msgstr "Meno:"
-
-#~ msgid "&AIM"
-#~ msgstr "&AIM"
-
-# ui/maininfobase.cpp:314
-#~ msgid "Form5"
-#~ msgstr "Form5"
-
-# ui/maininfobase.cpp:315
-# ui/searchbase.cpp:293
-#~ msgid "Last Name:"
-#~ msgstr "Priezvisko:"
-
-# ui/maininfobase.cpp:316
-#~ msgid "Uin:"
-#~ msgstr "UIN:"
-
-# mainwin.cpp:631
-# mainwin.cpp:2729
-# ui/randomchatbase.cpp:278
-#~ msgid "Random chat group:"
-#~ msgstr "Skupina pre náhodný rozhovor:"
-
-# ui/maininfobase.cpp:321
-#~ msgid "&Names"
-#~ msgstr "Me&ná"
-
-# ui/maininfobase.cpp:328
-#~ msgid "Status:"
-#~ msgstr "Stav:"
-
-# ui/maininfobase.cpp:331
-#~ msgid "External IP:"
-#~ msgstr "Externá IP:"
-
-# ui/maininfobase.cpp:332
-#~ msgid "Internal IP:"
-#~ msgstr "Interná IP:"
-
-# ui/maininfobase.cpp:333
-#~ msgid "Client:"
-#~ msgstr "Klient:"
-
-# ui/generalsecbase.cpp:235
-#~ msgid "New password:"
-#~ msgstr "Nové heslo:"
-
-# ui/generalsecbase.cpp:234
-#~ msgid "Retype new password:"
-#~ msgstr "Nové heslo (znovu):"
-
-# ui/generalsecbase.cpp:236
-#~ msgid "Current password:"
-#~ msgstr "Súčasné heslo:"
-
-# ui/generalsecbase.cpp:239
-#~ msgid "&Password"
-#~ msgstr "&Heslo"
-
-# ui/homeinfobase.cpp:164
-# ui/searchbase.cpp:288
-# ui/workinfobase.cpp:210
-#~ msgid "State:"
-#~ msgstr "Stav:"
-
-# ui/homeinfobase.cpp:165
-# ui/workinfobase.cpp:208
-#~ msgid "Address:"
-#~ msgstr "Adresa:"
-
-# ui/homeinfobase.cpp:167
-# ui/searchbase.cpp:287
-# ui/workinfobase.cpp:209
-#~ msgid "City:"
-#~ msgstr "Mesto:"
-
-# ui/homeinfobase.cpp:168
-# ui/workinfobase.cpp:211
-#~ msgid "Zip code:"
-#~ msgstr "PSČ:"
-
-# ui/homeinfobase.cpp:169
-#~ msgid "Time zone:"
-#~ msgstr "Časová zóna:"
-
-# ui/homeinfobase.cpp:170
-#~ msgid "&Home info"
-#~ msgstr "&Domov"
-
-# ui/moreinfobase.cpp:192
-# ui/randomchatbase.cpp:279
-# ui/randomchatbase.cpp:298
-# ui/searchbase.cpp:283
-#~ msgid "Age:"
-#~ msgstr "Vek:"
-
-# ui/moreinfobase.cpp:189
-# ui/randomchatbase.cpp:283
-# ui/randomchatbase.cpp:302
-#~ msgid "Homepage:"
-#~ msgstr "Domovská stránka:"
-
-# ui/moreinfobase.cpp:191
-# ui/randomchatbase.cpp:280
-# ui/randomchatbase.cpp:299
-# ui/searchbase.cpp:285
-#~ msgid "Gender:"
-#~ msgstr "Pohlavie:"
-
-# ui/moreinfobase.cpp:196
-#~ msgid "Birth date:"
-#~ msgstr "Dátum narodenia:"
-
-# ui/moreinfobase.cpp:197
-#~ msgid "&More info"
-#~ msgstr "&Ostatné informácie"
-
-# ui/moreinfobase.cpp:198
-#~ msgid "Spoken languages:"
-#~ msgstr "Jazyky:"
-
-# ui/moreinfobase.cpp:199
-#~ msgid "&Languages"
-#~ msgstr "&Jazyk:"
-
-# ui/workinfobase.cpp:215
-#~ msgid "Web site:"
-#~ msgstr "Web:"
-
-# ui/workinfobase.cpp:216
-#~ msgid "&Company"
-#~ msgstr "&Firma:"
-
-# ui/workinfobase.cpp:217
-#~ msgid "Occupation:"
-#~ msgstr "Povolanie:"
-
-# ui/workinfobase.cpp:218
-#~ msgid "Div / dept:"
-#~ msgstr "Oddelenie/Divízia:"
-
-# ui/workinfobase.cpp:219
-#~ msgid "Position:"
-#~ msgstr "Pozícia:"
-
-# ui/workinfobase.cpp:220
-#~ msgid "&Occupation"
-#~ msgstr "P&ovolanie:"
-
-# ui/aboutinfobase.cpp:106
-#~ msgid "Additional information about user:"
-#~ msgstr "Doplňujúce informácie o užívateľovi:"
-
-# ui/aboutinfobase.cpp:107
-#~ msgid "A&bout"
-#~ msgstr "&O ..."
-
-# ui/interestsinfobase.cpp:139
-#~ msgid "&Interests"
-#~ msgstr "Záujm&y"
-
-# ui/pastinfobase.cpp:155
-#~ msgid "Organization, Affiliation, Group:"
-#~ msgstr "Organizácie, spolky, skupiny:"
-
-# ui/pastinfobase.cpp:156
-#~ msgid "A&ffilation"
-#~ msgstr "&Spolky"
-
-# ui/pastinfobase.cpp:157
-#~ msgid "Past background:"
-#~ msgstr "V minulosti"
-
-# ui/pastinfobase.cpp:158
-#~ msgid "&Background"
-#~ msgstr "&Minulosť"
-
-# ui/generalsecbase.cpp:212
-#~ msgid "My &authorization is required before users add me to Contact List"
-#~ msgstr ""
-#~ "Je vyžadovaná moja &autorizácia pred pridaním mňa do zoznamu kontaktov"
-
-# ui/generalsecbase.cpp:213
-#~ msgid "Don't show my &IP-address"
-#~ msgstr "Neukazovať moju &IP adresu"
-
-# ui/generalsecbase.cpp:214
-#~ msgid "Allow other to view my &status from the Web"
-#~ msgstr "Povoli zisovanie &stavu cez Web"
-
-# ui/generalsecbase.cpp:215
-#~ msgid "I&gnore user authorization"
-#~ msgstr "I&gnorovať užívateľovu autorizáciu"
-
-# ui/generalsecbase.cpp:216
-#~ msgid "Direct connections"
-#~ msgstr "Priame pripojenia"
-
-# ui/generalsecbase.cpp:217
-#~ msgid "Allow &direct connection from any user"
-#~ msgstr "Povoliť &priame pripojenie pre všetkých užívateľov"
-
-# ui/generalsecbase.cpp:218
-#~ msgid "Allow direct connection from user listed in &contact list"
-#~ msgstr ""
-#~ "Povoliť priame pripojenie pre užívateľov z mojho zoznamu &kontaktov"
-
-# ui/generalsecbase.cpp:219
-#~ msgid "Allow direct connection from user &upon authorization"
-#~ msgstr "Povoliť priame pripojenie pre užíateľov po &autorizácii"
-
-# ui/generalsecbase.cpp:220
-#~ msgid "&Security"
-#~ msgstr "&Bezpečosť"
-
-# ui/listsec.cpp:95
-# ui/setupdlg.cpp:155
-#~ msgid "&Visible list"
-#~ msgstr "Zoznam &viditeľných"
-
-# ui/listsec.cpp:113
-# ui/setupdlg.cpp:154
-#~ msgid "&Invisible list"
-#~ msgstr "Zoznam nev&iditeľných"
-
-# ui/searchbase.cpp:298
-# usertbl.cpp:110
-#~ msgid "&UIN"
-#~ msgstr "&UIN"
-
-# ui/maininfobase.cpp:319
-# ui/searchbase.cpp:294
-#~ msgid "&Screenname"
-#~ msgstr "Prihlasovacie meno"
-
-# ui/maininfobase.cpp:319
-# ui/searchbase.cpp:294
-#~ msgid "AOL s&creenname"
-#~ msgstr "AIM prihlasova&cie meno"
-
-# ui/searchbase.cpp:298
-# usertbl.cpp:110
-#~ msgid "ICQ &UIN"
-#~ msgstr "ICQ &UIN"
-
-# msgedit.cpp:356
-# qt3/i18n.cpp:35
-# ui/addphonebase.cpp:138
-# ui/emaileditbase.cpp:92
-# ui/enable.cpp:136
-# ui/filetransfer.cpp:302
-# ui/filetransferbase.cpp:131
-# ui/randomchat.cpp:170
-# ui/securedlgbase.cpp:70
-#~ msgid "Advanced"
-#~ msgstr "Rozšírené"
-
-# ui/addphone.cpp:38
-#~ msgid "Work"
-#~ msgstr "Práca"
-
-# ui/workinfobase.cpp:216
-#~ msgid "Company:"
-#~ msgstr "Spoločnosť:"
-
-# ui/searchbase.cpp:289
-#~ msgid "Department:"
-#~ msgstr "Oddelenie:"
-
-# qt3/i18n.cpp:253
-#~ msgid "Past"
-#~ msgstr "Minulý"
-
-#~ msgid "Keywords"
-#~ msgstr "Kľúčové slová"
-
-#~ msgid "Search &online users only"
-#~ msgstr "Vyhľadať len prip&ojených užívateľov"
-
-# qt3/i18n.cpp:255
-#~ msgid "&Clear"
-#~ msgstr "V&yčistiť"
-
-# ui/smssetupbase.cpp:130
-#~ msgid "&Picture"
-#~ msgstr "O&brázok"
-
-# ui/securedlgbase.cpp:66
-#~ msgid "Secure chanel request"
-#~ msgstr "Žiadosť o bezpečný kanál"
-
-# ui/securedlgbase.cpp:67
-#~ msgid ""
-#~ "Secure channel is established using SSL with Diffie-Hellman key exchange and "
-#~ " the TLS version 1 protocol.\n"
-#~ "\n"
-#~ "This only works with other SIM and Licq clients"
-#~ msgstr ""
-#~ "Bezpečný kanál je nadviazaný s použitím SSL s Diffie-Hellman výmenou "
-#~ "klúčov a TLS protokolom verzie 1.\n"
-#~ "\n"
-#~ "Funguje len s ostatnými SIM a Licq klientami"
-
-# libicq/country.cpp:459
-#~ msgid "Middle:"
-#~ msgstr "Prostredné meno:"
-
-# libicq/country.cpp:459
-#~ msgid "Maiden:"
-#~ msgstr "Dievčenské meno:"
-
-# ui/filetransferbase.cpp:127
-#~ msgid "Street:"
-#~ msgstr "Ulica:"
-
-# ui/homeinfobase.cpp:168
-# ui/workinfobase.cpp:211
-#~ msgid "Zip:"
-#~ msgstr "PSČ:"
-
-# ui/pagerbase.cpp:114
-#~ msgid "&Profile"
-#~ msgstr "&Profil"
-
-# ui/searchbase.cpp:296
-#~ msgid "Names"
-#~ msgstr "Mená"
-
-# msgedit.cpp:588
-#~ msgid "Send warning"
-#~ msgstr "Odosla upozornenie"
-
-#~ msgid ""
-#~ "Click OK to send warning to %1. This will raise %1's warning and limit his "
-#~ "or her activity. Do this only if %1 has done something to merit a warning."
-#~ msgstr ""
-#~ "Klikni OK pre odoslanie upozornenia užívateľovi %1. This will raise %1's "
-#~ "warning and limit his or her activity. Do this only if %1 has done something "
-#~ "to merit a warning."
-
-#~ msgid "Warn &anonymously"
-#~ msgstr "Upozorni &anonymne"
-
-#~ msgid ""
-#~ "Check this if you don't want your screen name revealed.\n"
-#~ "Anonymous warinings are less severe."
-#~ msgstr ""
-#~ "Označte toto, keď nechcete, aby sa vaše meno zobrazovalo.\n"
-#~ "Anonymné upozornenia sú menej časté."
-
-# userbox.cpp:256
-#~ msgid "Choose default encoding"
-#~ msgstr "Výber prednastaveného kódovania"
-
-#~ msgid ""
-#~ "Your current system encoding (UTF-8) may cause problems saving your personal "
-#~ "information and reading offline messages from other users."
-#~ msgstr ""
-#~ "Váš aktuálny systém použia kódovanie UTF-8,čo môže spôsobiť "
-#~ "problémy pri ukladaní vašich osobných údajov a čítanie správ od "
-#~ "ostatných užívateľov v režime nepripojený."
-
-#~ msgid "You will choose the coding by default which want to use:"
-#~ msgstr "Zvoľte prednastaveného kódovanie, ktoré chcete používať:"
-
-# libicq/country.cpp:274
-#, fuzzy
-#~ msgid "%n day"
-#~ msgstr "Nedeľa"
-
-# userview.cpp:1827
-#~ msgid "Username:"
-#~ msgstr "Užívateľské meno:"
-
-# ui/enable.cpp:134
-#~ msgid "&Register new account"
-#~ msgstr "&Registrovať nové konto"
-
-# control.cpp:235
-#~ msgid "Use &SSL"
-#~ msgstr "Použiť  &SSL"
-
-#~ msgid "&Jabber"
-#~ msgstr "&Jabber"
-
-#~ msgid "Use &plain text login"
-#~ msgstr "Použiť  &prihlasovanie čistým textom"
-
-# msgedit.cpp:193
-# msgview.cpp:1191
-# ui/soundsetupbase.cpp:231
-#~ msgid "URL:"
-#~ msgstr "URL:"
-
-# qt3/i18n.cpp:267
-#~ msgid "Resource:"
-#~ msgstr "Zdroj:"
-
-# ui/networkbase.cpp:227
-# ui/proxydlgbase.cpp:183
-#~ msgid "Priority:"
-#~ msgstr "Priorita:"
-
-#~ msgid "Manualy specify Jabber host:"
-#~ msgstr "Ručne špecifikovať Jabber server:"
-
-#~ msgid "Use protocol &icons for agents contacts"
-#~ msgstr "Použiť &ikony protokolov pre kontakty"
-
-#, fuzzy
-#~ msgid "Automatically send &subscribe request"
-#~ msgstr "Automaticky odoslať podpísanú požiadavku"
-
-#, fuzzy
-#~ msgid "Automatically &accept subscribe requests"
-#~ msgstr "Automaticky &akceptovať podpísané požiadavky"
-
-# ui/randomchatbase.cpp:287
-#~ msgid "Send &rich text messages if possible"
-#~ msgstr "Odoslať sp&rávu vo formáte RTF, ak je to možné"
-
-# ui/alertdialogbase.cpp:237
-#~ msgid "Enable &typing notification"
-#~ msgstr "Povoliť notifikáciu &písania"
-
-#~ msgid "ID:"
-#~ msgstr "ID:"
-
-# ui/pagerbase.cpp:114
-#~ msgid "Role:"
-#~ msgstr "Rola:"
-
-# ui/aboutinfobase.cpp:106
-#~ msgid "Additional information:"
-#~ msgstr "Doplňujúce informácie:"
-
-#~ msgid "&JID"
-#~ msgstr "&Jabber ID"
-
-#~ msgid "Jabber &browser"
-#~ msgstr "Prehliadač Ja&bber"
-
-#~ msgid "DiscoInfo"
-#~ msgstr "DiscoInfo"
-
-# ui/randomchatbase.cpp:292
-# ui/randomchatbase.cpp:297
-# ui/workinfobase.cpp:213
-#~ msgid "Namespaces:"
-#~ msgstr "Mená:"
-
-#~ msgid "Category:"
-#~ msgstr "Kategória:"
-
-# ui/aboutdlg.cpp:41
-#~ msgid "Version:"
-#~ msgstr "Verzia:"
-
-# ui/themesetup.cpp:53
-#~ msgid "System:"
-#~ msgstr "Systém:"
-
-# sim.cpp:527
-#~ msgid "UTC client time:"
-#~ msgstr "UTC čas klienta:"
-
-#~ msgid "Last activity, idle response:"
-#~ msgstr "Posledná aktivita, odpoveď nečinnosti:"
-
-# ui/maininfobase.cpp:334
-# ui/statussetupbase.cpp:148
-#~ msgid "&Statistic"
-#~ msgstr "Štatis&tika"
-
-#, fuzzy
-#~ msgid "LiveJournal post"
-#~ msgstr "&Odoslať na Live Journal"
-
-#~ msgid "&LiveJournal"
-#~ msgstr "&LiveJournal"
-
-#~ msgid "Path:"
-#~ msgstr "Cesta:"
-
-# client.cpp:1252
-# mainwin.cpp:2708
-#~ msgid "Check interval:"
-#~ msgstr "Interval kontroly:"
-
-#~ msgid "Use &fast server - only for paying customers"
-#~ msgstr "Použiť  rýchly server - len pre platiacich zákazníkov"
-
-#~ msgid "Subject:"
-#~ msgstr "Predmet:"
-
-# ui/setupdlg.cpp:149
-#~ msgid "Security:"
-#~ msgstr "Bezpečnosť:"
-
-# ui/phonebook.cpp:81
-#~ msgid "Public"
-#~ msgstr "Verejn"
-
-# qt3/i18n.cpp:73
-#~ msgid "Friends-Only"
-#~ msgstr "Len priatelia"
-
-# qt3/i18n.cpp:253
-#~ msgid "Private"
-#~ msgstr "Skromn"
-
-#~ msgid "Mood:"
-#~ msgstr "Nálada:"
-
-#~ msgid "Enable comments"
-#~ msgstr "Povoliť komentáre"
-
-#~ msgid "No email comments"
-#~ msgstr "Žiadne komentáre elektronickej pošty"
-
-# ui/soundsetupbase.cpp:229
-#~ msgid "Disable comments"
-#~ msgstr "Zakázať komentáre"
-
-# mainwin.cpp:628
-# mainwin.cpp:2727
-#~ msgid "Add community"
-#~ msgstr "Pridať komunitu"
-
-# msgedit.cpp:200
-# msgedit.cpp:1369
-# msgview.cpp:207
-# msgview.cpp:1247
-# qt3/i18n.cpp:83
-#~ msgid "File:"
-#~ msgstr "Súbor:"
-
-# sim.cpp:542
-#~ msgid "Log level:"
-#~ msgstr "Úroveň logovania:"
-
-#, fuzzy
-#~ msgid "You have %n unread message"
-#~ msgstr "Máte novú poštu"
-
-# ui/logindlgbase.cpp:123
-#~ msgid "Login:"
-#~ msgstr "Prihlasovacie meno:"
-
-# ui/setupdlg.cpp:134
-#~ msgid "&MSN"
-#~ msgstr "&MSN"
-
-#~ msgid "&Automatically add contacts in accept list"
-#~ msgstr "&Automaticky pridať kontakty v zozname akceptovaných"
-
-# ui/networkbase.cpp:234
-# ui/proxydlgbase.cpp:178
-#~ msgid "Browser:"
-#~ msgstr "Prehliadač:"
-
-# libicq/country.cpp:459
-#~ msgid "Mailer:"
-#~ msgstr "Poštový klient:"
-
-#~ msgid "Open links in &new window"
-#~ msgstr "Otvoriť linky v &novom okne"
-
-# ui/themesetupbase.cpp:312
-#~ msgid "Show &main window in task manager"
-#~ msgstr "Zobrazovať &hlavné okno v pruhu úloh"
-
-# mainwin.cpp:2741
-#~ msgid "&Container always on top"
-#~ msgstr "&Kontajner vždy navrchu"
-
-# ui/alertdialogbase.cpp:237
-#~ msgid "Enable &messages notification"
-#~ msgstr "Povoliť &notifikáciu správ"
-
-# ui/alertdialogbase.cpp:237
-#~ msgid "Enable &status notification"
-#~ msgstr "Povoliť notifikáciu &statusu"
-
-#~ msgid "Show message &content"
-#~ msgstr "Ukázať obsah správy"
-
-#~ msgid "Show lines of content:"
-#~ msgstr "Zobraziť riadky obsahu:"
-
-#~ msgid "All"
-#~ msgstr "Všetko"
-
-# ui/alertdialogbase.cpp:244
-#~ msgid "Offset:"
-#~ msgstr "Posunutie:"
-
-# ui/alertdialogbase.cpp:245
-#~ msgid "Show time:"
-#~ msgstr "Zobraziť na (sekúnd):"
-
-# ui/alertdialogbase.cpp:246
-#~ msgid "Color:"
-#~ msgstr "Farba:"
-
-# ui/alertdialogbase.cpp:247
-#~ msgid "Font:"
-#~ msgstr "Písmo:"
-
-# ui/keysetup.cpp:42
-#~ msgid "Show sha&dow"
-#~ msgstr "Ukázať tieň"
-
-# ui/pastinfobase.cpp:158
-#~ msgid "Show &background"
-#~ msgstr "Ukázať pozadie"
-
-# ui/alertdialogbase.cpp:250
-#~ msgid "Background color:"
-#~ msgstr "Farba pozadia:"
-
-# ui/acceptbase.cpp:180
-#~ msgid "Shown on screen:"
-#~ msgstr "Zobrazen na obrazovne"
-
-# ui/networkbase.cpp:228
-# ui/proxydlgbase.cpp:182
-#~ msgid "Host:"
-#~ msgstr "Server:"
-
-# mainwin.cpp:1313
-# ui/logindlg.cpp:246
-#~ msgid "Proxy require &authorization"
-#~ msgstr "Proxy server vyžaduje &autorizáciu"
-
-# userbox.cpp:107
-#~ msgid "User:"
-#~ msgstr "Užívateľ:"
-
-# ui/networkbase.cpp:231
-# ui/proxydlgbase.cpp:176
-#~ msgid "Proxy type:"
-#~ msgstr "Typ proxy:"
-
-#~ msgid "Do not show error dialog (automatically reconnect)"
-#~ msgstr "Neukazovať dialog chyby (automaticky znovu pripojiť) "
-
-#~ msgid "Proxy error"
-#~ msgstr "Chyba proxy servera"
-
-#~ msgid "Use &UNIX socket"
-#~ msgstr "Použiť  &UNIX-ov socket"
-
-#~ msgid "Use &TCP socket"
-#~ msgstr "Použiť  &TCP socket"
-
-#~ msgid "Enable IE context menu extension"
-#~ msgstr "Povoliť rozširenie kontextového menu IE"
-
-# ui/searchbase.cpp:290
-#~ msgid "Command"
-#~ msgstr "Príkaz"
-
-# ui/keysetup.cpp:34
-#~ msgid "Key"
-#~ msgstr "Klávesa"
-
-# libicq/country.cpp:97
-#~ msgid "Button"
-#~ msgstr "Tlačítko"
-
-# mainwin.cpp:630
-# mainwin.cpp:2733
-# ui/setupdlg.cpp:100
-#~ msgid "SMSSetup"
-#~ msgstr "Nastavenie SMS"
-
-# libicq/country.cpp:91
-#~ msgid "Baudrate:"
-#~ msgstr "Rchlos:"
-
-#~ msgid "115200"
-#~ msgstr "115200"
-
-#~ msgid "38400"
-#~ msgstr "38400"
-
-#~ msgid "19200"
-#~ msgstr "19200"
-
-#~ msgid "9600"
-#~ msgstr "9600"
-
-#~ msgid "4800"
-#~ msgstr "4800"
-
-#~ msgid "2400"
-#~ msgstr "2400"
-
-#~ msgid "1200"
-#~ msgstr "1200"
-
-#~ msgid "600"
-#~ msgstr "600"
-
-#~ msgid "300"
-#~ msgstr "300"
-
-#~ msgid "Software handshake"
-#~ msgstr "Dohoda software"
-
-# libicq/country.cpp:459
-#~ msgid "Model:"
-#~ msgstr "Model:"
-
-#~ msgid "Signal quality:"
-#~ msgstr "Kvalita signálu:"
-
-# client.cpp:83
-# libicq/country.cpp:19
-#~ msgid "Operator:"
-#~ msgstr "Operátor:"
-
-# msgedit.cpp:184
-#~ msgid "&Phone"
-#~ msgstr "Tele&fón"
-
-# ui/soundsetupbase.cpp:241
-#~ msgid "&Use artsd"
-#~ msgstr "Použiť  Arts sound server"
-
-# ui/alertdialogbase.cpp:243
-# ui/themesetupbase.cpp:301
-#~ msgid "Player:"
-#~ msgstr "Prehrávač:"
-
-# ui/soundsetupbase.cpp:236
-#~ msgid "File transfer done:"
-#~ msgstr "Prenos súboru dokončený:"
-
-# ui/soundsetupbase.cpp:230
-#~ msgid "Message sent:"
-#~ msgstr "Správa odoslaná:"
-
-#~ msgid "Sound on startup:"
-#~ msgstr "Zvuk pri tarte:"
-
-# ui/soundsetupbase.cpp:229
-#~ msgid "&Disable all sounds"
-#~ msgstr "&Zakázať všetky zvuky"
-
-#~ msgid "No sound if windows has &focus"
-#~ msgstr "Bez zvuku, keď majú okná &fokus"
-
-# ui/themesetupbase.cpp:302
-#~ msgid "Use &system fonts"
-#~ msgstr "Použiť  &systémového písma"
-
-#~ msgid "Base font:"
-#~ msgstr "Základné písmo:"
-
-# ui/alertdialogbase.cpp:250
-#~ msgid "Button color:"
-#~ msgstr "Farba tlačítka:"
-
-# msgedit.cpp:588
-#~ msgid "Menu font:"
-#~ msgstr "Písmo pre menu:"
-
-# ui/themesetupbase.cpp:306
-#~ msgid "Transparency of main window:"
-#~ msgstr "Priehľadnosť hlavného okna:"
-
-# ui/themesetupbase.cpp:310
-#~ msgid "Transparent only if inactive"
-#~ msgstr "Priehľadnosť len pri neaktivite"
-
-# libicq/country.cpp:406
-# libicq/country.cpp:452
-#, fuzzy
-#~ msgid "weather"
-#~ msgstr "Počasie"
-
-# ui/workinfobase.cpp:220
-#~ msgid "Location ID:"
-#~ msgstr "ID lokality:"
-
-#~ msgid "You can enter ID as part URL for your location on weather.com"
-#~ msgstr "Môžete vložiť ID ako časť URL vašej lokality na weather.com"
-
-# libicq/country.cpp:213
-#~ msgid "Metric"
-#~ msgstr "Metrické"
-
-# ui/maininfobase.cpp:334
-# ui/statussetupbase.cpp:148
-#~ msgid "Standart"
-#~ msgstr "Štandardné"
-
-#~ msgid "Forecast days:"
-#~ msgstr "Predpoveď na dni:"
-
-#~ msgid "Units:"
-#~ msgstr "Jednotky:"
-
-# libicq/country.cpp:97
-#~ msgid "Button text:"
-#~ msgstr "Text tlačítka:"
-
-# libicq/country.cpp:97
-#~ msgid "Button tip:"
-#~ msgstr "Tip tlačítka:"
-
-#~ msgid "Forecast tip:"
-#~ msgstr "Predpoveď:"
-
-# msgedit.cpp:184
-#~ msgid "&Yahoo!"
-#~ msgstr "&Yahoo!"
-
-#~ msgid "Yahoo! &ID"
-#~ msgstr "Yahoo! &ID"
-
-#~ msgid "&Keyword"
-#~ msgstr "&Kľúčové slovo"
