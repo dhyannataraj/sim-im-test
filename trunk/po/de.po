@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2002-11-29 13:10+0300\n"
-"PO-Revision-Date: 2002-11-29 08:53GMT\n"
+"PO-Revision-Date: 2002-11-29 11:33GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3017,8 +3017,7 @@ msgstr "&Signatur"
 
 #: ui/forwardsetupbase.cpp:89 ui/smssetupbase.cpp:131
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-"Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
 
 #: ui/forwardsetupbase.cpp:97 ui/smssetupbase.cpp:132
 msgid ""
@@ -3513,7 +3512,7 @@ msgstr "Arts benutzen"
 
 #: ui/soundsetupbase.cpp:242
 msgid "&Program"
-msgstr ""
+msgstr "&Programm"
 
 #: ui/phonebookbase.cpp:120
 msgid "User is currently available at:"
@@ -3664,7 +3663,6 @@ msgid "Use emotional &icons"
 msgstr "Emot&icons benutzen"
 
 #: ui/themesetupbase.cpp:211
-#, fuzzy
 msgid "Lnaguage:"
 msgstr "Sprache:"
 
@@ -3693,8 +3691,7 @@ msgid "Hide main window after"
 msgstr "Hauptfenster anzeigen/verstecken nach"
 
 #: ui/statussetupbase.cpp:141
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -3895,8 +3892,7 @@ msgstr "&Ablehnen"
 
 #: ui/generalsecbase.cpp:201
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: ui/generalsecbase.cpp:202
 msgid ""
@@ -3962,8 +3958,7 @@ msgstr ";-)"
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #: client.cpp:55
 msgid "Unicode"
@@ -4571,3 +4566,4 @@ msgstr "? Unbekannter Status %1"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
