@@ -29,6 +29,7 @@
 #endif
 
 #define RECONNECT_TIMEOUT	5
+#define CHECK_DNS_TIMEOUT	60
 #define PING_TIMEOUT		60
 
 ICQClient::ICQClient(SocketFactory *factory)
@@ -81,6 +82,7 @@ ICQClientPrivate::ICQClientPrivate(ICQClient *_client, SocketFactory *_factory)
     sock = NULL;
     listener = NULL;
     m_nProcessId = MSG_PROCESS_ID;
+    m_state = Logoff;
     unsigned long now;
     time((time_t*)&now);
     advCounter = 0;
@@ -181,6 +183,11 @@ void ICQClient::closeSecureChannel(ICQUser *u)
     u->closeSecureChannel(p);
 }
 
+bool ICQClient::isActive()
+{
+    return p->factory->isActive;
+}
+
 bool ICQClient::isLogged()
 {
     return (p->m_state == ICQClientPrivate::Logged);
@@ -188,7 +195,7 @@ bool ICQClient::isLogged()
 
 bool ICQClient::isConnecting()
 {
-    return (p->m_state != ICQClientPrivate::Logged) && (p->m_state != ICQClientPrivate::Logoff);
+    return isActive() && (p->m_state != ICQClientPrivate::Logged) && (p->m_state != ICQClientPrivate::Logoff);
 }
 
 void ICQClient::idle()
@@ -353,7 +360,7 @@ void ICQClientPrivate::setStatus(unsigned short status)
                 m_state = Reconnect;
                 time_t reconnect;
                 time(&reconnect);
-                reconnect += RECONNECT_TIMEOUT;
+                reconnect += factory->isActive ? RECONNECT_TIMEOUT : CHECK_DNS_TIMEOUT;
                 if (m_reconnectTime < reconnect) m_reconnectTime = reconnect;
             }else{
                 m_state = Logoff;

@@ -217,6 +217,7 @@ SocketFactory::SocketFactory()
     ProxyHost = "proxy";
     ProxyPort = 1080;
     ProxyAuth = false;
+    isActive = false;
 }
 
 bool SocketFactory::isHttpProxy()

@@ -84,7 +84,6 @@ static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
 #include <qlayout.h>
 #include <qtoolbar.h>
 #include <qapplication.h>
-#include <qdns.h>
 #include <qfile.h>
 #include <qstyle.h>
 #include <qwidgetlist.h>
@@ -96,6 +95,7 @@ static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
 #include <qaccel.h>
 #include <qfile.h>
 #include <qmessagebox.h>
+#include <qdns.h>
 
 #ifdef USE_KDE
 #include <kwin.h>

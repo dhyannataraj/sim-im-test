@@ -134,6 +134,7 @@ public:
     string				ProxyUser;
     string				ProxyPasswd;
     bool isHttpProxy();
+    bool isActive;
 protected:
     list<ClientSocket*> errSockets;
     list<Socket*> removedSockets;

@@ -44,6 +44,45 @@
 
 SIMSockets::SIMSockets()
 {
+    bFirst = true;
+    resolver = new QDns("localhost");
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(resolveTimeout()));
+    connect(resolver, SIGNAL(resultsReady()), this, SLOT(resultsReady()));
+}
+
+SIMSockets::~SIMSockets()
+{
+    delete resolver;
+}
+
+void SIMSockets::resolveTimeout()
+{
+    timer->stop();
+    emit resolveReady(NULL);
+    isActive = false;
+}
+
+void SIMSockets::resultsReady()
+{
+    timer->stop();
+    if (resolver->addresses().isEmpty()){
+        emit resolveReady(NULL);
+        return;
+    }
+    if (bFirst){
+        bFirst = false;
+        return;
+    }
+    isActive = true;
+    QString s = resolver->addresses().first().toString();
+    emit resolveReady(s.latin1());
+}
+
+void SIMSockets::resolve(const char *host)
+{
+    resolver->setLabel(host);
+    timer->start(15000);
 }
 
 Socket *SIMSockets::createSocket()
@@ -70,9 +109,6 @@ ICQClientSocket::ICQClientSocket(QSocket *s)
 #else
         sock = new QSocket(this);
 #endif
-    resolver = NULL;
-    timer = NULL;
-    bConnected = false;
 #ifdef HAVE_KEXTSOCK_H
     QObject::connect(sock, SIGNAL(connectionSuccess()), this, SLOT(slotConnected()));
     QObject::connect(sock, SIGNAL(lookupFinished(int)), this, SLOT(slotLookupFinished(int)));
@@ -104,14 +140,6 @@ void ICQClientSocket::close()
 #else
     sock->close();
 #endif
-    if (resolver){
-        delete resolver;
-        resolver = NULL;
-    }
-    if (timer){
-        delete timer;
-        timer = NULL;
-    }
 }
 
 void ICQClientSocket::slotLookupFinished(int state)
@@ -162,38 +190,21 @@ void ICQClientSocket::write(const char *buf, unsigned int size)
         QTimer::singleShot(0, this, SLOT(slotBytesWritten()));
 }
 
-void ICQClientSocket::resolveReady()
-{
-    log(L_DEBUG, "Resolve ready");
-    if ((resolver == NULL) || (resolver->addresses().size() == 0)){
-        if (resolver){
-            delete resolver;
-            resolver = NULL;
-        }
-        log(L_WARN, "Lookup failed");
-        if (notify) notify->error_state(ErrorConnect);
-        return;
-    }
-    QString host = resolver->addresses().first().toString();
-    delete resolver;
-    resolver = NULL;
-    doConnect(host.latin1());
-}
-
 void ICQClientSocket::connect(const char *host, int _port)
 {
     port = _port;
     log(L_DEBUG, "Connect to %s:%u", host, port);
     if (inet_addr(host) == INADDR_NONE){
-        if (resolver) delete resolver;
-        resolver = new QDns(host, QDns::A);
-        QObject::connect(resolver, SIGNAL(resultsReady()), this, SLOT(resolveReady()));
+        log(L_DEBUG, "Start resolve %s", host);
+        SIMSockets *s = static_cast<SIMSockets*>(getFactory());
+        QObject::connect(s, SIGNAL(resolveReady(const char*)), this, SLOT(resolveReady(const char*)));
+        s->resolve(host);
         return;
     }
-    doConnect(host);
+    resolveReady(host);
 }
 
-void ICQClientSocket::doConnect(const char *host)
+void ICQClientSocket::resolveReady(const char *host)
 {
 #ifdef HAVE_KEXTSOCK_H
     sock->open();
@@ -211,21 +222,15 @@ void ICQClientSocket::doConnect(const char *host)
         log(L_WARN, "Can't connect");
         if (notify) notify->error_state(ErrorConnect);
     }
-#endif
-    bConnected = false;
-    timer = new QTimer(this);
-    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(resolveTimeout()));
-    timer->start(15000);
-#ifndef HAVE_KEXTSOCK_H
+#else
+    if (host == NULL){
+        log(L_WARN, "Can't resolve");
+        if (notify) notify->error_state(ErrorConnect);
+        return;
+    }
+    log(L_DEBUG, "Resolve ready %s", host);
     sock->connectToHost(host, port);
 #endif
-}
-
-void ICQClientSocket::resolveTimeout()
-{
-    log(L_DEBUG, "Resolve timeout");
-    if (!bConnected)
-        slotError(1);
 }
 
 void ICQClientSocket::slotConnected()
@@ -240,11 +245,7 @@ void ICQClientSocket::slotConnected()
 #else
     if (notify) notify->connect_ready();
 #endif
-    if (timer){
-        delete timer;
-        timer = NULL;
-    }
-    bConnected = true;
+    getFactory()->isActive = true;
 }
 
 void ICQClientSocket::slotConnectionClosed()

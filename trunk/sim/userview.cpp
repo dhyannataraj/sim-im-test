@@ -96,8 +96,11 @@ void UserViewItemBase::paint(QPainter *p, const QString s, const QColorGroup &c,
     if (vBar && vBar->isVisible()) width -= vBar->width();
     UserView *userView = static_cast<UserView*>(listView());
     const QPixmap *pix = userView->transparent->background(cg.base());
-    bool bSelected = isSelected() && !userView->bFloaty;
-    if (bEnabled){
+    bool bPressed = (this == userView->mPressedItem) && !userView->bFloaty;
+    bool bSelected = isSelected() && !userView->bFloaty && pMain->isUseDoubleClick();
+    if (bSelected){
+        p->setPen(c.highlightedText());
+    }else if (bEnabled){
         p->setPen(pMain->isUseSystemColors() ?
                   cg.color(QColorGroup::Text) :
                   QColor(pMain->getOnlineColor()));
@@ -115,47 +118,49 @@ void UserViewItemBase::paint(QPainter *p, const QString s, const QColorGroup &c,
     int cy = 0;
     bool bStaticBg = false;
     QPoint pos = listView()->itemRect(this).topLeft();
-    pos = listView()->viewport()->mapToParent(pos);
-    if (!bgPict.isNull()){
-        switch (pMain->getBackgroundMode()){
-        case bgModeContactLeft:
-            w = bgPict.width();
-            break;
-        case bgModeContactScale:
-            w = width;
-            bStaticBg = true;
-            break;
-        case bgModeWndTop:
-            w = bgPict.width();
-            ch = bgPict.height();
-            cy = pos.y();
-            bTile = true;
-            break;
-        case bgModeWndBottom:
-            w = bgPict.width();
-            ch = bgPict.height();
-            cy = pos.y() + (bgPict.height() - userView->height());
-            bTile = true;
-            bStaticBg = true;
-            break;
-        case bgModeWndCenter:
-            w = bgPict.width();
-            ch = bgPict.height();
-            cy = pos.y() + (bgPict.height() - userView->height()) / 2;
-            bTile = true;
-            bStaticBg = true;
-            break;
-        case bgModeWndScale:
-            w = width;
-            ch = userView->height();
-            cy = pos.y();
-            bStaticBg = true;
-            break;
+    if (!bSelected){
+        pos = listView()->viewport()->mapToParent(pos);
+        if (!bgPict.isNull()){
+            switch (pMain->getBackgroundMode()){
+            case bgModeContactLeft:
+                w = bgPict.width();
+                break;
+            case bgModeContactScale:
+                w = width;
+                bStaticBg = true;
+                break;
+            case bgModeWndTop:
+                w = bgPict.width();
+                ch = bgPict.height();
+                cy = pos.y();
+                bTile = true;
+                break;
+            case bgModeWndBottom:
+                w = bgPict.width();
+                ch = bgPict.height();
+                cy = pos.y() + (bgPict.height() - userView->height());
+                bTile = true;
+                bStaticBg = true;
+                break;
+            case bgModeWndCenter:
+                w = bgPict.width();
+                ch = bgPict.height();
+                cy = pos.y() + (bgPict.height() - userView->height()) / 2;
+                bTile = true;
+                bStaticBg = true;
+                break;
+            case bgModeWndScale:
+                w = width;
+                ch = userView->height();
+                cy = pos.y();
+                bStaticBg = true;
+                break;
+            }
         }
     }
     int xp = 0;
     int yp = 0;
-    if (bSelected){
+    if (bPressed){
         xp = 2;
         yp = 2;
     }
@@ -188,14 +193,14 @@ void UserViewItemBase::paint(QPainter *p, const QString s, const QColorGroup &c,
             }
         }
     }else{
-        if (pix != NULL){
+        if (!bSelected && (pix != NULL)){
             QPoint pos = listView()->itemRect(this).topLeft();
             pos = listView()->viewport()->mapToParent(pos);
             pos = listView()->mapToGlobal(pos);
             pos = listView()->topLevelWidget()->mapFromGlobal(pos);
             p->drawTiledPixmap(xp, yp, width, h, *pix, pos.x(), pos.y());
         }else{
-            p->fillRect( 0, 0, width, height(), cg.base());
+            p->fillRect( 0, 0, width, height(), bSelected ? cg.highlight() : cg.base());
         }
     }
     listView()->setStaticBackground(userView->bStaticBg || bStaticBg ||
@@ -258,7 +263,7 @@ void UserViewItemBase::paint(QPainter *p, const QString s, const QColorGroup &c,
     }
     if (pW) *pW = x;
     if (pWidth) *pWidth = width - 6;
-    if (bSelected){
+    if (bPressed){
         p->setPen(cg.color(QColorGroup::Text));
         p->moveTo(0, h - 1);
         p->lineTo(0, 0);
@@ -328,10 +333,10 @@ void UserViewItem::paintCell(QPainter *p, const QColorGroup &cg, int, int, int)
     paint(p, text(0), cg, false, bNormal, &w, &width);
     UserView *userView = static_cast<UserView*>(listView());
     if (userView->bList) return;
-    bool bSelected = isSelected() && !userView->bFloaty;
+    bool bPressed = (this == userView->mPressedItem) && !userView->bFloaty;
     int dx = 0;
     int dy = 0;
-    if (bSelected){
+    if (bPressed){
         dx = 2;
         dy = 2;
     }
@@ -686,7 +691,7 @@ UserView::UserView (QWidget *parent, bool _bList, bool bFill, WFlags f)
     accel->insertItem(QListView::CTRL + QListView::Key_Plus, mnuGrpExpandAll);
     accel->insertItem(QListView::CTRL + QListView::Key_Minus, mnuGrpCollapseAll);
     bgChanged();
-    pressedItem = NULL;
+    mPressedItem = NULL;
     viewport()->setMouseTracking(true);
 }
 
@@ -1499,10 +1504,9 @@ void UserView::contentsMouseReleaseEvent(QMouseEvent *e)
     mousePressPos = QPoint(0, 0);
 #endif
     if (!bList){
-        clearSelection();
-        if (!pMain->isUseDoubleClick() && pressedItem && (pressedItem == itemAt(contentsToViewport(e->pos()))))
-            doubleClick(pressedItem);
-        pressedItem = NULL;
+        if (!pMain->isUseDoubleClick() && mPressedItem && (mPressedItem == itemAt(contentsToViewport(e->pos()))))
+            doubleClick(mPressedItem);
+        pressedUp();
     }
     QListView::contentsMouseReleaseEvent(e);
 }
@@ -1522,7 +1526,7 @@ void UserView::contentsMousePressEvent(QMouseEvent *e)
         if (list_item) doubleClick(list_item);
     }
     if (e->button() == QObject::LeftButton){
-        pressedItem = itemAt(contentsToViewport(e->pos()));
+        mPressedItem = itemAt(contentsToViewport(e->pos()));
     }
     QListView::contentsMousePressEvent(e);
 }
@@ -1634,12 +1638,16 @@ MyTextDrag::MyTextDrag(QListView *view, const QString &str)
 
 MyTextDrag::~MyTextDrag()
 {
-    QTimer::singleShot(0, mView, SLOT(selectionClear()));
+    QTimer::singleShot(0, mView, SLOT(pressedUp()));
 }
 
-void UserView::selectionClear()
+void UserView::pressedUp()
 {
-    clearSelection();
+    if (mPressedItem){
+        QListViewItem *item = mPressedItem;
+        mPressedItem = NULL;
+        item->repaint();
+    }
 }
 
 QDragObject *UserView::dragObject()
@@ -1705,7 +1713,7 @@ void UserView::viewportContextMenuEvent( QContextMenuEvent *e)
         menuGroup->popup(p);
         break;
     }
-    clearSelection();
+    mPressedItem = NULL;
 }
 
 void UserView::maybeTip ( const QPoint &p )
@@ -1818,7 +1826,7 @@ void UserFloat::contentsMouseReleaseEvent(QMouseEvent *e)
         viewport()->releaseMouse();
         QPoint p(pos().x() - getLeft(), pos().y() - getTop());
         if (p.manhattanLength() > 6){
-            clearSelection();
+            pressedUp();
             mousePos = QPoint();
             return;
         }

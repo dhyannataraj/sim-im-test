@@ -503,6 +503,27 @@ static QPixmap swapRG(const QPixmap &p)
     return pict;
 }
 
+static QPixmap setGB(const QPixmap &p)
+{
+    QImage image = p.convertToImage();
+    unsigned int *data = (image.depth() > 8) ? (unsigned int *)image.bits() :
+                         (unsigned int *)image.colorTable();
+    int pixels = (image.depth() > 8) ? image.width()*image.height() :
+                 image.numColors();
+    for (int i = 0; i < pixels; i++){
+        int r = qRed(data[i]);
+        int g = qGreen(data[i]);
+        int b = qBlue(data[i]);
+        int a = qAlpha(data[i]);
+        int n = (3 * r + 2 * g + 2 * b) / 3;
+        if (n > 255) n = 255;
+        data[i] = qRgba((n + r) / 2, (n + g) / 2, (n * 3 + 2 * b) / 4, a);
+    }
+    QPixmap pict;
+    pict.convertFromImage(image);
+    return pict;
+}
+
 static QPixmap addPict(const QPixmap &pict, const QPixmap &add)
 {
     QRegion empty;
@@ -795,6 +816,17 @@ void Icons::init(const char *name)
         pictOffline = QIconSet(dllPict);
     }
     setIcon("offline", pictOffline);
+    QIconSet pictInactive;
+    QPixmap smallPict = pict.pixmap(QIconSet::Small, QIconSet::Normal);
+    QPixmap bigPict = pict.pixmap(QIconSet::Large, QIconSet::Normal);
+    QPixmap bigPictActive = pict.pixmap(QIconSet::Large, QIconSet::Active);
+    smallPict = setGB(smallPict);
+    bigPict = setGB(bigPict);
+    bigPictActive = setGB(bigPictActive);
+    pictInactive = QIconSet(smallPict);
+    pictInactive.setPixmap(bigPict, QIconSet::Large);
+    pictInactive.setPixmap(bigPictActive, QIconSet::Large, QIconSet::Active);
+    setIcon("inactive", pictInactive);
     SICON(away, 128);
     SICON(na, 131)
     SICON(dnd, 158)

@@ -114,7 +114,7 @@ public slots:
     void setShowOffline(bool);
     void setGroupMode(bool);
     void refresh();
-    void selectionClear();
+    void pressedUp();
 signals:
     void checked();
 protected slots:
@@ -164,7 +164,7 @@ protected:
 
     void updateUser(unsigned long uin, bool bFull);
 
-    QListViewItem *pressedItem;
+    QListViewItem *mPressedItem;
     QLineEdit *edtGroup;
     QPoint mousePressPos;
     KPopupMenu *menuGroup;

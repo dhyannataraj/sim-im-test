@@ -124,7 +124,7 @@ WharfIcon::WharfIcon(DockWnd *parent)
 {
     dock = parent;
     setMouseTracking(true);
-    QIconSet icon = Icon("offline");
+    QIconSet icon = Icon("inactive");
     const QPixmap &pict = icon.pixmap(QIconSet::Large, QIconSet::Normal);
     setIcon(pict);
     resize(pict.width(), pict.height());

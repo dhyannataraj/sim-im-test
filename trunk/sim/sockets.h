@@ -59,19 +59,14 @@ protected slots:
     void slotBytesWritten();
     void slotError(int);
     void slotLookupFinished(int);
-    void resolveTimeout();
-    void resolveReady();
+    void resolveReady(const char *host);
 protected:
     unsigned short port;
-    void doConnect(const char *host);
-    QDns *resolver;
 #ifdef HAVE_KEXTSOCK_H
     KExtendedSocket *sock;
 #else
     QSocket *sock;
 #endif
-    QTimer  *timer;
-    bool bConnected;
     bool bInWrite;
 };
 
@@ -96,13 +91,24 @@ protected:
     unsigned short m_nPort;
 };
 
-class SIMSockets : public SocketFactory
+class SIMSockets : public QObject, public SocketFactory
 {
+    Q_OBJECT
 public:
     SIMSockets();
-
+    ~SIMSockets();
     virtual Socket *createSocket();
     virtual ServerSocket *createServerSocket();
+    void resolve(const char *host);
+signals:
+    void resolveReady(const char*);
+protected slots:
+    void resolveTimeout();
+    void resultsReady();
+protected:
+    bool	bFirst;
+    QDns   *resolver;
+    QTimer *timer;
 };
 
 SocketFactory *getFactory();

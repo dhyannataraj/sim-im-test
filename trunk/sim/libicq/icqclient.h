@@ -847,6 +847,7 @@ public:
 
     bool isLogged();
     bool isConnecting();
+    bool isActive();
 
     static string quoteText(const char *text);
     static string unquoteText(const char *text);
