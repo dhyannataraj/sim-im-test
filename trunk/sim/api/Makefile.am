@@ -22,7 +22,7 @@ libsimapi_la_SOURCES = \
  html.ll \
  md5_dgst.c
 
-libsimapi_la_LIBADD = $(LIBS_SSL) $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(EXTRA_LIBS) $(LIBLD)
+libsimapi_la_LIBADD = $(LIBSSL) $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(EXTRA_LIBS) $(LIBLD)
 
 # set the include path for X, qt and KDE
 INCLUDES= $(all_includes) 
