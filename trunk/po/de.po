@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2002-10-04 11:19+0400\n"
-"PO-Revision-Date: 2002-10-02 14:26GMT\n"
+"PO-Revision-Date: 2002-10-04 10:04GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1956,7 +1956,7 @@ msgstr "Schriftart"
 
 #: msgedit.cpp:156
 msgid "Insert smile"
-msgstr ""
+msgstr "Smile einfügen"
 
 #: msgedit.cpp:163
 msgid "&Grant"
@@ -2777,9 +2777,8 @@ msgid "Keyboard shortcuts"
 msgstr "Tastaturkürzel"
 
 #: ui/keysetupbase.cpp:121
-#, fuzzy
 msgid "Send messages on \"Enter\""
-msgstr "Farbe für gesendete Nachricht"
+msgstr "Nachrichten mit \"Enter\" senden"
 
 #: ui/keysetupbase.cpp:125
 msgid "Actions:"
@@ -2865,7 +2864,7 @@ msgstr "Verschiebung:"
 
 #: ui/xosdbase.cpp:181
 msgid "Place:"
-msgstr ""
+msgstr "Platz:"
 
 #: ui/xosdbase.cpp:193
 msgid "Shadow"
@@ -3176,7 +3175,7 @@ msgstr "&Klänge überschreiben"
 
 #: ui/soundsetupbase.cpp:122
 msgid "&Disable all sounds"
-msgstr ""
+msgstr "Alle Klänge &deaktivieren"
 
 #: ui/soundsetupbase.cpp:126
 msgid "Message:"
@@ -3345,8 +3344,7 @@ msgid "Hide main window after"
 msgstr "Hauptfenster anzeigen/verstecken nach"
 
 #: ui/statussetupbase.cpp:107
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -3503,8 +3501,7 @@ msgstr "&Andere Nachrichten ablehnen"
 
 #: ui/generalsecbase.cpp:189
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: ui/aboutinfobase.cpp:62
 msgid "Form4"
@@ -3568,8 +3565,7 @@ msgstr "Automatisches weiterleiten"
 
 #: ui/forwardsetupbase.cpp:89
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-"Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
 
 #: ui/forwardsetupbase.cpp:97
 msgid ""
@@ -3587,8 +3583,7 @@ msgstr ";-)"
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #: client.cpp:65
 msgid "Unicode"
@@ -3901,3 +3896,4 @@ msgstr "Weg"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
