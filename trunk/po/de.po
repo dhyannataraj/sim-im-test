@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2002-08-16 04:27+0400\n"
-"PO-Revision-Date: 2002-08-15 06:27GMT\n"
+"PO-Revision-Date: 2002-08-17 07:49GMT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,6 +19,8 @@ msgstr ""
 "=======POT-Creation-Date: 2002-08-14 02:50+0400\n"
 ">>>>>>> 1.51Last-Translator: Crissi <crissi99@gmx.de>\n"
 "X-Generator: KBabel 0.9.6\n"
+"Last-Translator: \n"
+"Language-Team:  <de@li.org>\n"
 
 #: client.cpp:123 libicq/country.cpp:6
 msgid "Arabic"
@@ -1731,18 +1733,16 @@ msgid "Chinese Simplified"
 msgstr "Chinesisch (vereinfacht)"
 
 #: client.cpp:135
-#, fuzzy
 msgid "Tamil"
-msgstr "Thai"
+msgstr "Tamil"
 
 #: client.cpp:136
-#, fuzzy
 msgid "UTF8"
 msgstr "UTF-8"
 
 #: client.cpp:137
 msgid "UTF16"
-msgstr ""
+msgstr "UTF16"
 
 #: client.cpp:456
 #, c-format
@@ -2650,9 +2650,8 @@ msgid "Ignore list"
 msgstr "Ignorieren-Liste"
 
 #: ui/maininfo.cpp:40
-#, fuzzy
 msgid "Default"
-msgstr "Standard Icons"
+msgstr "Standard"
 
 #: ui/moreinfo.cpp:66
 msgid "January"
@@ -3459,8 +3458,7 @@ msgid "Hide main window after"
 msgstr "Hauptfenster anzeigen/verstecken nach"
 
 #: ui/statussetupbase.cpp:107
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -3534,9 +3532,8 @@ msgid "Notes"
 msgstr "Bemerkungen"
 
 #: ui/maininfobase.cpp:265
-#, fuzzy
 msgid "Encoding:"
-msgstr "Kodierung"
+msgstr "Kodierung:"
 
 #: ui/homeinfobase.cpp:153
 msgid "Time zone:"
@@ -3598,8 +3595,7 @@ msgstr "&Andere Nachrichten ablehnen"
 
 #: ui/generalsecbase.cpp:185
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: ui/aboutinfobase.cpp:62
 msgid "Form4"
@@ -3703,8 +3699,7 @@ msgstr ";-)"
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #~ msgid ""
 #~ "_: Dear translator, please do not translate this string in any form, but "
@@ -3749,3 +3744,4 @@ msgstr ""
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
