@@ -26,6 +26,7 @@
 #include <qpixmap.h>
 #include <qbitmap.h>
 #include <qpainter.h>
+#include <qbutton.h>
 
 const unsigned COL_NAME		= 0;
 const unsigned COL_CHECK	= 1;

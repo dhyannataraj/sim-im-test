@@ -73,6 +73,7 @@ Source: "..\Release\sounds\url.wav"; DestDir: "{app}\sounds"; Flags: ignoreversi
 Source: "..\Release\sounds\contacts.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
 Source: "..\Release\sounds\web.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
 Source: "..\Release\sounds\mailpager.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
+Source: "..\Release\sounds\error.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
 Source: "..\Release\pict\splash.png"; DestDir: "{app}\pict"; Flags: ignoreversion
 Source: "..\Release\pict\connect.gif"; DestDir: "{app}\pict"; Flags: ignoreversion
 Source: "..\Release\po\bg.qm"; DestDir: "{app}\po"; Flags: ignoreversion
