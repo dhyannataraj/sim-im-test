@@ -1302,7 +1302,7 @@ void FileTransfer::connect_ready()
         if (file->files.size() == 0)
             sock->error_state(ErrorCancel);
 		log(L_DEBUG, "Setup curName");
-		log(L_DEBUG, "Cur name - %s", file->files[0].name);
+		log(L_DEBUG, "Cur name - %s", file->files[0].name.c_str());
         curName = file->files[0].name;
         m_curSize = file->files[0].size;
     }

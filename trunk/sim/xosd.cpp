@@ -31,7 +31,7 @@
 
 XOSD::XOSD(QWidget *p)
         : QWidget(p, "xosd",
-                  WType_TopLevel | WStyle_Customize | WStyle_NoBorderEx | WStyle_StaysOnTop | WRepaintNoErase | WStyle_Tool | WX11BypassWM)
+                  WType_Popup | WStyle_Customize | WStyle_NoBorderEx | WStyle_StaysOnTop | WRepaintNoErase | WStyle_Tool | WX11BypassWM)
 {
 	setFocusPolicy(NoFocus);
     init();
