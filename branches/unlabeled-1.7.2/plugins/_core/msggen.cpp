@@ -162,12 +162,18 @@ void MsgGen::fontChanged(const QFont &f)
 
 void MsgGen::bgColorChanged(QColor c)
 {
+	if (c.rgb() == m_edit->m_edit->background().rgb())
+		return;
     m_edit->m_edit->setBackground(c);
     CorePlugin::m_plugin->setEditBackground(c.rgb());
+	Event e(EventHistoryColors);
+	e.process();
 }
 
 void MsgGen::fgColorChanged(QColor c)
 {
+	if (c.rgb() == m_edit->m_edit->foreground().rgb())
+		return;
     m_edit->m_edit->setForeground(c);
     CorePlugin::m_plugin->setEditForeground(c.rgb());
 }

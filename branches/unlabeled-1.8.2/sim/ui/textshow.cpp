@@ -148,12 +148,19 @@ void TextEdit::keyPressEvent(QKeyEvent *e)
     TextShow::keyPressEvent(e);
 }
 
-void TextEdit::setBackground(const QColor& c)
+void TextShow::setBackground(const QColor& c)
 {
     QPalette pal = palette();
     pal.setColor(QPalette::Active, QColorGroup::Base, c);
     pal.setColor(QPalette::Inactive, QColorGroup::Base, c);
     pal.setColor(QPalette::Disabled, QColorGroup::Base, c);
+    setPalette(pal);
+}
+
+void TextShow::setForeground(const QColor& c)
+{
+    QPalette pal = palette();
+    pal.setColor(QPalette::Active, QColorGroup::Text, c);
     setPalette(pal);
 }
 
@@ -166,9 +173,14 @@ void TextEdit::setForeground(const QColor& c)
     setPalette(pal);
 }
 
-const QColor &TextEdit::background() const
+const QColor &TextShow::background() const
 {
     return palette().color(QPalette::Active, QColorGroup::Base);
+}
+
+const QColor &TextShow::foreground() const
+{
+    return palette().color(QPalette::Active, QColorGroup::Text);
 }
 
 const QColor &TextEdit::foreground() const

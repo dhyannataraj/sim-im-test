@@ -271,19 +271,19 @@ QString HTMLParser::makeStyle(const list<QString> &opt)
 			break;
 		QString value = (*it);
 		if (!res.isEmpty())
-			res += "; ";
+			res += ";";
 		res += name;
-		res += ": ";
+		res += ":";
 		int n;
 		int end = value.length();
 		for (n = 0; n < end; n++)
 			if (value[n] == ' ')
 				break;
 		if (n < end)
-			res += "\"";
+			res += "\'";
 		res += value;
 		if (n < end)
-			res += "\"";
+			res += "\'";
 	}
 	return res;
 }
