@@ -405,6 +405,8 @@ void UserConfig::apply()
     emit applyChanges();
     if (m_contact)
         getContacts()->addContact(m_contact);
+	Event e(EventSaveState);
+	e.process();
 }
 
 void UserConfig::itemSelected(QListViewItem *item)

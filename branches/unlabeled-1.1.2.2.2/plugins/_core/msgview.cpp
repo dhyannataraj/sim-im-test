@@ -113,12 +113,13 @@ QString MsgViewBase::messageText(Message *msg)
     }
 
     QString s = QString("<p><nobr>"
-                        "<a href=\"msg://%1\"><img src=\"icon:%2\"></a>"
-                        "&nbsp;%3<font color=\"#%4\">%5</font> &nbsp;"
-                        "<font size=-1>%6</font>%7"
+                        "<a href=\"msg://%1\"><img src=\"icon:%2\"></a>%3"
+                        "&nbsp;%4<font color=\"#%5\">%6</font> &nbsp;"
+                        "<font size=-1>%7</font>%8"
                         "</nobr></p>")
                 .arg(id)
                 .arg(icon)
+				.arg((msg->getFlags() & MESSAGE_SECURE) ? "<img src=\"icon:encrypted\">" : "")
                 .arg(bUnread ? "<b>" : "")
                 .arg(color)
                 .arg(quoteString(contactName))

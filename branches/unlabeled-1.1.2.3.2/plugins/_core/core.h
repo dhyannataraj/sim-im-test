@@ -283,6 +283,7 @@ typedef struct MsgSend
 
 const unsigned	MESSAGE_DEFAULT	= 0;
 const unsigned	MESSAGE_SILENT	= 1;
+const unsigned	MESSAGE_HIDDEN	= 2;
 
 typedef struct MessageDef
 {

@@ -764,7 +764,7 @@ static Message *createOpenSecure(const char *cfg)
 static MessageDef defOpenSecure =
     {
         NULL,
-        MESSAGE_DEFAULT,
+        MESSAGE_HIDDEN,
         0,
         "Request secure channel",
         "%n requests secure channel",
@@ -785,7 +785,7 @@ static Message *createCloseSecure(const char *cfg)
 static MessageDef defCloseSecure =
     {
         NULL,
-        MESSAGE_DEFAULT,
+        MESSAGE_HIDDEN,
         0,
         "Close secure channel",
         "%n times close secure channel",
@@ -803,7 +803,7 @@ static Message *createIcqAuthRequest(const char *cfg)
 static MessageDef defIcqAuthRequest =
     {
         NULL,
-        MESSAGE_DEFAULT,
+        MESSAGE_HIDDEN,
         MessageAuthRequest,
         NULL,
         NULL,

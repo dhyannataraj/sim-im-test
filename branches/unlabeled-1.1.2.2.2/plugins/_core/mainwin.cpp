@@ -72,6 +72,7 @@ MainWindow::MainWindow()
 
     SET_WNDPROC("mainwnd")
     setIcon(Pict("licq"));
+	setTitle();
 
 #ifdef WIN32
     if (IsWindowUnicode(winId())){
@@ -174,6 +175,7 @@ void *MainWindow::processEvent(Event *e)
         setIcon(Pict((const char*)(e->param())));
         break;
     case EventInit:{
+			setTitle();
             BarShow b;
             b.bar_id = ToolBarMain;
             b.parent = this;
@@ -199,6 +201,12 @@ void *MainWindow::processEvent(Event *e)
     case EventIconChanged:
         setIcon(Pict("licq"));
         break;
+	case EventContactChanged:{
+		Contact *contact = (Contact*)(e->param());
+		if (contact == getContacts()->owner())
+			setTitle();
+		break;
+							 }
     }
     return NULL;
 }
@@ -315,6 +323,17 @@ void MainWindow::setGrip()
         w->show();
         m_grip->show();
     }
+}
+
+void MainWindow::setTitle()
+{
+	QString title;
+	Contact *owner = getContacts()->owner();
+	if (owner)
+		title = owner->getName();
+	if (title.isEmpty())
+		title = "SIM";
+	setCaption(title);
 }
 
 #ifndef WIN32

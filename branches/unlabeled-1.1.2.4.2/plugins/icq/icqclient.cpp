@@ -2261,9 +2261,12 @@ void *ICQClient::processEvent(Event *e)
 			return e->param();
 		}
 		if (data->Direct && data->Direct->isSecure()){
-			data->Direct->sendMessage(msg);
-			Event eSent(EventMessageSent, msg);
-			eSent.process();
+			Message *m = new Message(MessageCloseSecure);
+			m->setContact(msg->contact());
+			m->setClient(msg->client());
+			m->setFlags(MESSAGE_NOHISTORY);
+			if (!data->Direct->sendMessage(m))
+				delete m;
 			return e->param();
 		}
 	}
@@ -2358,8 +2361,9 @@ bool ICQClient::canSend(unsigned type, void *_data)
         return data && (data->WaitAuth);
     case MessageAuthGranted:
         return data && (data->WantAuth);
+#ifdef USE_OPENSSL
 	case MessageOpenSecure:
-		if ((data == NULL) || (data->Status & 0xFFFF == ICQ_STATUS_OFFLINE))
+		if ((data == NULL) || ((data->Status & 0xFFFF) == ICQ_STATUS_OFFLINE))
 			return false;
 		if (hasCap(data, CAP_LICQ) || 
 			hasCap(data, CAP_SIM) || 
@@ -2373,6 +2377,7 @@ bool ICQClient::canSend(unsigned type, void *_data)
 	case MessageCloseSecure:
 		return data && data->Direct && data->Direct->isSecure();
     }
+#endif
     return false;
 }
 

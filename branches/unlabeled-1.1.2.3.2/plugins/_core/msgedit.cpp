@@ -534,7 +534,7 @@ i18n("Status changed", "%n times status changed", 1);
 static MessageDef defStatus =
     {
         NULL,
-        MESSAGE_DEFAULT,
+        MESSAGE_HIDDEN,
         0,
         "Status changed",
         "%n times status changed",
