@@ -30,6 +30,7 @@ ICQSecure::ICQSecure(QWidget *parent, ICQClient *client)
 {
     m_client = client;
     connect(this, SIGNAL(raise(QWidget*)), topLevelWidget(), SLOT(raisePage(QWidget*)));
+	connect(chkHideIP, SIGNAL(toggled(bool)), this, SLOT(hideIpToggled(bool)));
     setListView(lstVisible);
     setListView(lstInvisible);
     fill();
@@ -101,6 +102,7 @@ void ICQSecure::fill()
     tabPassword->setEnabled(m_client->getState() == Client::Connected);
     fillListView(lstVisible, offsetof(ICQUserData, VisibleId));
     fillListView(lstInvisible, offsetof(ICQUserData, InvisibleId));
+	hideIpToggled(m_client->getHideIP());
 }
 
 void *ICQSecure::processEvent(Event *e)
@@ -183,6 +185,17 @@ void ICQSecure::fillListView(ListView *lst, unsigned offs)
             }
         }
     }
+}
+
+void ICQSecure::hideIpToggled(bool bOn)
+{
+	if (bOn){
+		grpDirect->setButton(2);
+		grpDirect->setEnabled(false);
+	}else{
+		grpDirect->setButton(m_client->getDirectMode());
+		grpDirect->setEnabled(true);
+	}
 }
 
 #ifndef WIN32

@@ -129,6 +129,7 @@ void TextEdit::keyPressEvent(QKeyEvent *e)
 
 void TextEdit::setBackground(const QColor& c)
 {
+	log(L_DEBUG, "Set bg %06X", c.rgb() & 0xFFFFFF);
     QPalette pal = palette();
     pal.setColor(QPalette::Active, QColorGroup::Base, c);
     pal.setColor(QPalette::Inactive, QColorGroup::Base, c);
@@ -138,6 +139,7 @@ void TextEdit::setBackground(const QColor& c)
 
 void TextEdit::setForeground(const QColor& c)
 {
+	log(L_DEBUG, "Set fg %06X", c.rgb() & 0xFFFFFF);
     curFG = c;
     setColor(c);
     QPalette pal = palette();

@@ -2519,7 +2519,7 @@ string CorePlugin::getConfig()
     setUnread(unread_str.c_str());
 
     unsigned editBgColor = getEditBackground();
-    unsigned editFgColor = getEditBackground();
+    unsigned editFgColor = getEditForeground();
 
     QPalette pal = QApplication::palette();
     QColorGroup cg = pal.normal();

@@ -686,20 +686,22 @@ unsigned long ICQClient::fullStatus(unsigned s)
     }
     if (data.owner.WebAware)
         status |= ICQ_STATUS_FxWEBxPRESENCE;
-    if (getHideIP())
-        status |= ICQ_STATUS_FxHIDExIP;
+    if (getHideIP()){
+        status |= ICQ_STATUS_FxHIDExIP | ICQ_STATUS_FxDIRECTxAUTH;
+	}else{
+		switch (getDirectMode()){
+		case 1:
+			status |= ICQ_STATUS_FxDIRECTxLISTED;
+			break;
+		case 2:
+			status |= ICQ_STATUS_FxDIRECTxAUTH;
+		    break;
+	    }
+	}
     if (m_bBirthday)
         status |= ICQ_STATUS_FxBIRTHDAY;
     if (getInvisible())
         status |= ICQ_STATUS_FxPRIVATE;
-    switch (getDirectMode()){
-    case 1:
-        status |= ICQ_STATUS_FxDIRECTxLISTED;
-        break;
-    case 2:
-        status |= ICQ_STATUS_FxDIRECTxAUTH;
-        break;
-    }
     return status;
 }
 
