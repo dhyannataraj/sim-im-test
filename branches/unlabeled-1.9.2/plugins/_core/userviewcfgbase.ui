@@ -1,0 +1,678 @@
+<!DOCTYPE UI><UI>
+<class>UserViewConfigBase</class>
+<widget>
+    <class>QWidget</class>
+    <property stdset="1">
+        <name>name</name>
+        <cstring>ContactList</cstring>
+    </property>
+    <property>
+        <name>geometry</name>
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>389</width>
+            <height>388</height>
+        </rect>
+    </property>
+    <property>
+        <name>caption</name>
+        <string>Form2</string>
+    </property>
+    <grid>
+        <property>
+            <name>margin</name>
+            <number>11</number>
+        </property>
+        <property>
+            <name>spacing</name>
+            <number>6</number>
+        </property>
+        <widget row="0"  column="0"  rowspan="1"  colspan="5" >
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkDblClick</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Use &amp;double click</string>
+            </property>
+        </widget>
+        <widget row="1"  column="0"  rowspan="1"  colspan="5" >
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkSysColors</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Use system &amp;colors</string>
+            </property>
+        </widget>
+        <widget row="2"  column="0"  rowspan="1"  colspan="5" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>lblColors</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Colors:</string>
+            </property>
+        </widget>
+        <widget row="3"  column="0" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>lblOnline</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Online:</string>
+            </property>
+            <property>
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget row="4"  column="0" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>lblOffline</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Offline</string>
+            </property>
+            <property>
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget row="5"  column="0" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>lblAway</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Away</string>
+            </property>
+            <property>
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget row="3"  column="1" >
+            <class>QColorButton</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>btnOnline</cstring>
+            </property>
+        </widget>
+        <widget row="4"  column="1" >
+            <class>QColorButton</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>btnOffline</cstring>
+            </property>
+        </widget>
+        <widget row="5"  column="1" >
+            <class>QColorButton</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>btnAway</cstring>
+            </property>
+        </widget>
+        <widget row="3"  column="2" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>lblNA</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>N/A</string>
+            </property>
+            <property>
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget row="4"  column="2" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>lblDND</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Do not distrub</string>
+            </property>
+            <property>
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget row="5"  column="2" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>lblGroup</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Groups</string>
+            </property>
+            <property>
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget row="4"  column="3"  rowspan="1"  colspan="2" >
+            <class>QColorButton</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>btnDND</cstring>
+            </property>
+        </widget>
+        <widget row="3"  column="3"  rowspan="1"  colspan="2" >
+            <class>QColorButton</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>btnNA</cstring>
+            </property>
+        </widget>
+        <widget row="5"  column="3"  rowspan="1"  colspan="2" >
+            <class>QColorButton</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>btnGroup</cstring>
+            </property>
+        </widget>
+        <spacer row="12"  column="3" >
+            <property>
+                <name>name</name>
+                <cstring>Spacer1</cstring>
+            </property>
+            <property>
+                <name>orientation</name>
+                <enum>Vertical</enum>
+            </property>
+            <property>
+                <name>sizeType</name>
+                <enum>Expanding</enum>
+            </property>
+            <property>
+                <name>sizeHint</name>
+                <size>
+                    <width>20</width>
+                    <height>20</height>
+                </size>
+            </property>
+        </spacer>
+        <widget row="11"  column="0"  rowspan="1"  colspan="5" >
+            <class>QGroupBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>GroupBox1</cstring>
+            </property>
+            <property>
+                <name>title</name>
+                <string>Sorting</string>
+            </property>
+            <grid>
+                <property>
+                    <name>margin</name>
+                    <number>11</number>
+                </property>
+                <property>
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
+                <widget row="0"  column="0" >
+                    <class>QLabel</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>TextLabel1</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>1st:</string>
+                    </property>
+                </widget>
+                <widget row="0"  column="1" >
+                    <class>QComboBox</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>cmbSort1</cstring>
+                    </property>
+                    <property>
+                        <name>sizePolicy</name>
+                        <sizepolicy>
+                            <hsizetype>7</hsizetype>
+                            <vsizetype>0</vsizetype>
+                        </sizepolicy>
+                    </property>
+                </widget>
+                <widget row="1"  column="0" >
+                    <class>QLabel</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>TextLabel2</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>2nd:</string>
+                    </property>
+                </widget>
+                <widget row="1"  column="1" >
+                    <class>QComboBox</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>cmbSort2</cstring>
+                    </property>
+                    <property>
+                        <name>sizePolicy</name>
+                        <sizepolicy>
+                            <hsizetype>7</hsizetype>
+                            <vsizetype>0</vsizetype>
+                        </sizepolicy>
+                    </property>
+                </widget>
+                <widget row="2"  column="1" >
+                    <class>QComboBox</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>cmbSort3</cstring>
+                    </property>
+                    <property>
+                        <name>sizePolicy</name>
+                        <sizepolicy>
+                            <hsizetype>7</hsizetype>
+                            <vsizetype>0</vsizetype>
+                        </sizepolicy>
+                    </property>
+                </widget>
+                <widget row="2"  column="0" >
+                    <class>QLabel</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>TextLabel3</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>3rd:</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget row="8"  column="0"  rowspan="1"  colspan="5" >
+            <class>QLayoutWidget</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>Layout6</cstring>
+            </property>
+            <hbox>
+                <property>
+                    <name>margin</name>
+                    <number>0</number>
+                </property>
+                <property>
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
+                <widget>
+                    <class>QLayoutWidget</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>Layout5</cstring>
+                    </property>
+                    <property>
+                        <name>layoutSpacing</name>
+                    </property>
+                    <hbox>
+                        <property>
+                            <name>margin</name>
+                            <number>0</number>
+                        </property>
+                        <property>
+                            <name>spacing</name>
+                            <number>0</number>
+                        </property>
+                        <widget>
+                            <class>QPushButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>btnAuth1</cstring>
+                            </property>
+                            <property>
+                                <name>text</name>
+                                <string></string>
+                            </property>
+                        </widget>
+                        <widget>
+                            <class>QPushButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>btnAuth2</cstring>
+                            </property>
+                            <property>
+                                <name>text</name>
+                                <string></string>
+                            </property>
+                        </widget>
+                        <widget>
+                            <class>QPushButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>btnAuth3</cstring>
+                            </property>
+                            <property>
+                                <name>text</name>
+                                <string></string>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+                <widget>
+                    <class>QLabel</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>lblAuth</cstring>
+                    </property>
+                    <property>
+                        <name>sizePolicy</name>
+                        <sizepolicy>
+                            <hsizetype>7</hsizetype>
+                            <vsizetype>1</vsizetype>
+                        </sizepolicy>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Awaiting authorization</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget row="9"  column="0"  rowspan="1"  colspan="5" >
+            <class>QLayoutWidget</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>Layout8</cstring>
+            </property>
+            <hbox>
+                <property>
+                    <name>margin</name>
+                    <number>0</number>
+                </property>
+                <property>
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
+                <widget>
+                    <class>QLayoutWidget</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>Layout7</cstring>
+                    </property>
+                    <property>
+                        <name>layoutSpacing</name>
+                    </property>
+                    <hbox>
+                        <property>
+                            <name>margin</name>
+                            <number>0</number>
+                        </property>
+                        <property>
+                            <name>spacing</name>
+                            <number>0</number>
+                        </property>
+                        <widget>
+                            <class>QPushButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>btnVisible1</cstring>
+                            </property>
+                            <property>
+                                <name>text</name>
+                                <string></string>
+                            </property>
+                        </widget>
+                        <widget>
+                            <class>QPushButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>btnVisible2</cstring>
+                            </property>
+                            <property>
+                                <name>text</name>
+                                <string></string>
+                            </property>
+                        </widget>
+                        <widget>
+                            <class>QPushButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>btnVisible3</cstring>
+                            </property>
+                            <property>
+                                <name>text</name>
+                                <string></string>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+                <widget>
+                    <class>QLabel</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>lblVisible</cstring>
+                    </property>
+                    <property>
+                        <name>sizePolicy</name>
+                        <sizepolicy>
+                            <hsizetype>7</hsizetype>
+                            <vsizetype>1</vsizetype>
+                        </sizepolicy>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Visible</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget row="10"  column="0"  rowspan="1"  colspan="5" >
+            <class>QLayoutWidget</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>Layout10</cstring>
+            </property>
+            <hbox>
+                <property>
+                    <name>margin</name>
+                    <number>0</number>
+                </property>
+                <property>
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
+                <widget>
+                    <class>QLayoutWidget</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>Layout9</cstring>
+                    </property>
+                    <property>
+                        <name>layoutSpacing</name>
+                    </property>
+                    <hbox>
+                        <property>
+                            <name>margin</name>
+                            <number>0</number>
+                        </property>
+                        <property>
+                            <name>spacing</name>
+                            <number>0</number>
+                        </property>
+                        <widget>
+                            <class>QPushButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>btnInvisible1</cstring>
+                            </property>
+                            <property>
+                                <name>text</name>
+                                <string></string>
+                            </property>
+                        </widget>
+                        <widget>
+                            <class>QPushButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>btnInvisible2</cstring>
+                            </property>
+                            <property>
+                                <name>text</name>
+                                <string></string>
+                            </property>
+                        </widget>
+                        <widget>
+                            <class>QPushButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>btnInvisible3</cstring>
+                            </property>
+                            <property>
+                                <name>text</name>
+                                <string></string>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+                <widget>
+                    <class>QLabel</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>lblInvisible</cstring>
+                    </property>
+                    <property>
+                        <name>sizePolicy</name>
+                        <sizepolicy>
+                            <hsizetype>7</hsizetype>
+                            <vsizetype>1</vsizetype>
+                        </sizepolicy>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Invisible</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget row="7"  column="0"  rowspan="1"  colspan="5" >
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkGroupSeparator</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Show group &amp;separator</string>
+            </property>
+        </widget>
+        <widget row="6"  column="0"  rowspan="1"  colspan="4" >
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkSmallFont</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Use small &amp;font for group</string>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<customwidgets>
+    <customwidget>
+        <class>QWidget</class>
+        <header location="global">qwidget.h</header>
+        <sizehint>
+            <width>-1</width>
+            <height>-1</height>
+        </sizehint>
+        <container>0</container>
+        <sizepolicy>
+            <hordata>5</hordata>
+            <verdata>5</verdata>
+        </sizepolicy>
+        <pixmap>image0</pixmap>
+        <property type="String">text</property>
+    </customwidget>
+    <customwidget>
+        <class>QColorButton</class>
+        <header location="local">qcolorbutton.h</header>
+        <sizehint>
+            <width>-1</width>
+            <height>-1</height>
+        </sizehint>
+        <container>0</container>
+        <sizepolicy>
+            <hordata>5</hordata>
+            <verdata>5</verdata>
+        </sizepolicy>
+        <pixmap>image1</pixmap>
+    </customwidget>
+</customwidgets>
+<images>
+    <image>
+        <name>image0</name>
+        <data format="XPM.GZ" length="646">789c6dd2c10ac2300c00d07bbf2234b7229d1be245fc04c5a3201e4615f430059d0711ff5ddb2e6bb236ec90eed134cb5a19d8ef36602af5ecdbfeeac05dda0798d3abebde87e3faa374d3807fa0d633a52d38d8de6f679fe33fc776e196f53cd010188256a3600a292882096246517815ca99884606e18044a3a40d91824820924265a7923a2e8bcd05f33db1173e002913175f2a6be6d3294871a2d95fa00e8a94ee017b69d339d90df1e77c57ea072ede6758</data>
+    </image>
+    <image>
+        <name>image1</name>
+        <data format="XPM.GZ" length="646">789c6dd2c10ac2300c00d07bbf2234b7229d1ddec44f503c0ae2a154410f53d0ed20e2bf6bdb656dd6861dd23d9a66591b0587fd1654235ebded6f0edcd53e419d87ae7b1f4f9b8f906d0bfe012317426a70b07bdc2f3ec77f8ed6b89559061a0343d06a124cc105596482585094bc0ae599b04646c9018926491b2205e140c485cace25755c175d0a967b622ff900b8cc9c7d29af594ea722d589167f813aa852ba07d94b9dce296e883fe7bb163f23896753</data>
+    </image>
+</images>
+<tabstops>
+    <tabstop>chkDblClick</tabstop>
+    <tabstop>chkSysColors</tabstop>
+    <tabstop>chkSmallFont</tabstop>
+    <tabstop>chkGroupSeparator</tabstop>
+    <tabstop>btnAuth1</tabstop>
+    <tabstop>btnAuth2</tabstop>
+    <tabstop>btnAuth3</tabstop>
+    <tabstop>btnVisible1</tabstop>
+    <tabstop>btnVisible2</tabstop>
+    <tabstop>btnVisible3</tabstop>
+    <tabstop>btnInvisible1</tabstop>
+    <tabstop>btnInvisible2</tabstop>
+    <tabstop>btnInvisible3</tabstop>
+    <tabstop>cmbSort1</tabstop>
+    <tabstop>cmbSort2</tabstop>
+    <tabstop>cmbSort3</tabstop>
+</tabstops>
+</UI>
