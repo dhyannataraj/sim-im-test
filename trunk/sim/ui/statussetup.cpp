@@ -52,6 +52,7 @@ StatusSetup::StatusSetup(QWidget *p)
         spnAutoHide->setEnabled(false);
     }
     connect(chkAutoHide, SIGNAL(toggled(bool)), this, SLOT(changed(bool)));
+	chkAlert->setChecked(pMain->NoAlertAway());
 }
 
 void StatusSetup::changed(bool)
@@ -66,6 +67,7 @@ void StatusSetup::apply(ICQUser*)
     pMain->AutoAwayTime = chkAway->isChecked() ? spnAway->value() * 60 : 0;
     pMain->AutoNATime = chkNA->isChecked() ? spnNA->value() * 60 : 0;
     pMain->AutoHideTime = chkAutoHide->isChecked() ? spnAutoHide->value() : 0;
+	pMain->NoAlertAway = chkAlert->isChecked();
 }
 
 #ifndef _WINDOWS
