@@ -664,7 +664,7 @@ JabberClient::PresenceRequest::~PresenceRequest()
         }else if (m_show == "online"){
             status = STATUS_ONLINE;
         }else if (m_show.empty()){
-            status = STATUS_UNKNOWN;
+            status = STATUS_ONLINE;
             if (m_status == "Online"){
                 status = STATUS_ONLINE;
             }else if (m_status == "Disconnected"){
@@ -673,7 +673,7 @@ JabberClient::PresenceRequest::~PresenceRequest()
                 status = STATUS_ONLINE;
             }else if (!m_status.empty()){
                 log(L_DEBUG, "Unsupported status %s", m_status.c_str());
-            }
+			}
         }else{
             log(L_DEBUG, "Unsupported available status %s", m_show.c_str());
         }
