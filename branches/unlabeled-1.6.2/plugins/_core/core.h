@@ -100,7 +100,7 @@ typedef struct CoreData
     char		*HistorySearch;
     char		*Unread;
     void		*NoShowAutoReply;
-    unsigned	SortLexic;
+    unsigned	SortMode;
     unsigned	CloseTransfer;
 } CoreData;
 
@@ -110,6 +110,11 @@ const unsigned CONTAINER_GROUP	= 2;
 const unsigned CONTAINER_ALL	= 3;
 
 const unsigned CONTAINER_GRP	= 0x80000000;
+
+const unsigned char SORT_NONE	= 0;
+const unsigned char SORT_STATUS	= 1;
+const unsigned char SORT_ACTIVE	= 2;
+const unsigned char SORT_NAME	= 3;
 
 typedef struct CoreUserData
 {
@@ -216,9 +221,6 @@ const unsigned	CmdCustomReceive		= (CmdBase + 64);
 const unsigned	CmdNextMessage			= (CmdBase + 65);
 const unsigned	CmdGrantAuth			= (CmdBase + 66);
 const unsigned	CmdRefuseAuth			= (CmdBase + 67);
-const unsigned	CmdSort					= (CmdBase + 68);
-const unsigned	CmdSortStatus			= (CmdBase + 69);
-const unsigned	CmdSortLexic			= (CmdBase + 70);
 const unsigned	CmdPhones				= (CmdBase + 71);
 const unsigned	CmdLocation				= (CmdBase + 72);
 const unsigned	CmdPhoneState			= (CmdBase + 73);
@@ -241,10 +243,9 @@ const unsigned	MenuGroups				= (CmdBase + 4);
 const unsigned	MenuMsgView				= (CmdBase + 5);
 const unsigned	MenuTextEdit			= (CmdBase + 6);
 const unsigned	MenuMsgCommand			= (CmdBase + 7);
-const unsigned	MenuSort				= (CmdBase + 8);
-const unsigned	MenuPhones				= (CmdBase + 9);
-const unsigned	MenuLocation			= (CmdBase + 10);
-const unsigned	MenuPhoneState			= (CmdBase + 11);
+const unsigned	MenuPhones				= (CmdBase + 8);
+const unsigned	MenuLocation			= (CmdBase + 9);
+const unsigned	MenuPhoneState			= (CmdBase + 10);
 
 const unsigned	EventCreateMessageType	= (CmdBase + 1);
 const unsigned	EventRemoveMessageType	= (CmdBase + 2);
@@ -258,6 +259,8 @@ const unsigned	EventLoadMessage		= (CmdBase + 9);
 const unsigned	EventDefaultAction		= (CmdBase + 10);
 const unsigned	EventContactClient      = (CmdBase + 11);
 const unsigned	EventGetIcons			= (CmdBase + 12);
+const unsigned	EventSortChanged		= (CmdBase + 13);
+const unsigned	EventActiveContact		= (CmdBase + 14);
 
 const unsigned	BarHistory				= (CmdBase + 1);
 const unsigned	BarReceived				= (CmdBase + 2);
@@ -362,7 +365,7 @@ public:
     PROP_UTF8(HistorySearch);
     PROP_STR(Unread);
     PROP_STRLIST(NoShowAutoReply);
-    PROP_BOOL(SortLexic);
+    PROP_ULONG(SortMode);
     PROP_BOOL(CloseTransfer);
 
     unsigned user_data_id;

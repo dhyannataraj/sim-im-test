@@ -233,7 +233,7 @@ static DataDef coreData[] =
         { "HistorySearch", DATA_UTF, 1, 0 },
         { "Unread", DATA_STRING, 1, 0 },
         { "NoShowAutoReply", DATA_STRLIST, 1, 0 },
-        { "SortLexic", DATA_BOOL, 1, 0 },
+        { "SortMode", DATA_ULONG, 1, 0x00030201 },
         { "CloseTransfer", DATA_BOOL, 1, 0 },
         { NULL, 0, 0, 0 }
     };
@@ -380,8 +380,6 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     eToolbarReceived.process();
     Event eMenu(EventMenuCreate, (void*)MenuMain);
     eMenu.process();
-    Event eMenuSort(EventMenuCreate, (void*)MenuSort);
-    eMenuSort.process();
     Event eMenuPhones(EventMenuCreate, (void*)MenuPhones);
     eMenuPhones.process();
     Event eMenuLocation(EventMenuCreate, (void*)MenuLocation);
@@ -760,22 +758,6 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     Event ePrefSMS(EventAddPreferences, cmd);
     ePrefSMS.process();
 
-    cmd->id			 = CmdSortStatus;
-    cmd->text		 = I18N_NOOP("By &Status");
-    cmd->icon		 = NULL;
-    cmd->menu_id	 = MenuSort;
-    cmd->menu_grp	 = 0x1000;
-    cmd->flags		 = COMMAND_CHECK_STATE;
-    eCmd.process();
-
-    cmd->id			 = CmdSortLexic;
-    cmd->text		 = I18N_NOOP("By &Name");
-    cmd->icon		 = NULL;
-    cmd->menu_id	 = MenuSort;
-    cmd->menu_grp	 = 0x1001;
-    cmd->flags		 = COMMAND_CHECK_STATE;
-    eCmd.process();
-
     cmd->id          = CmdOnline;
     cmd->text        = I18N_NOOP("Show &offline");
     cmd->icon        = "online_off";
@@ -868,13 +850,6 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     cmd->flags		= COMMAND_DEFAULT;
     eCmd.process();
 
-    cmd->id			= CmdSort;
-    cmd->text		= I18N_NOOP("&Sort");
-    cmd->icon		= "sort_increase";
-    cmd->menu_grp	= 0xB001;
-    cmd->popup_id	= MenuSort;
-    eCmd.process();
-
     cmd->id			= CmdContactTitle;
     cmd->text		= "_";
     cmd->icon		= NULL;
@@ -955,13 +930,6 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     cmd->icon		= "configure";
     cmd->menu_grp	= 0x7020;
     cmd->flags		= COMMAND_DEFAULT;
-    eCmd.process();
-
-    cmd->id			= CmdSort;
-    cmd->text		= I18N_NOOP("&Sort");
-    cmd->icon		= "sort_increase";
-    cmd->menu_grp	= 0x8080;
-    cmd->popup_id	= MenuSort;
     eCmd.process();
 
     cmd->id			= CmdContainer;

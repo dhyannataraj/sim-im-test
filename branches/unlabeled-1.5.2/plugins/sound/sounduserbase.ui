@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>358</width>
+            <width>354</width>
             <height>187</height>
         </rect>
     </property>
@@ -36,7 +36,7 @@
             </property>
             <property>
                 <name>text</name>
-                <string>&amp;Diasble all sounds</string>
+                <string>&amp;Disable all sounds</string>
             </property>
         </widget>
         <widget>

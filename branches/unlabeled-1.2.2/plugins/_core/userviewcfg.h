@@ -33,6 +33,11 @@ public:
 public slots:
     void apply();
     void colorsToggled(bool);
+	void sortChanged(int);
+protected:
+	void fillBox(QComboBox*);
+	void setSortMode(unsigned);
+	unsigned getSortMode();
 };
 
 #endif
