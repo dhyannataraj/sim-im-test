@@ -240,6 +240,8 @@ QString CUser::client()
     }
     else if ((id == id2) && (id2 == id3) && (id == 0xffffffff))
         res = "vICQ/GAIM(?)";
+    else if (id && (id == id2) && (id2 == id3) && (u->Caps == 0))
+	res = "vICQ";
     else if ((u->Version == 7) && u->hasCap(CAP_IS_WEB))
         res = "ICQ2go";
     else if ((u->Version == 9) && u->hasCap(CAP_IS_WEB))
