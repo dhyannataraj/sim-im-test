@@ -1,8 +1,13 @@
 # translation of he.po to Hebrew
-# translation of sim.po to Hebrew
+# translation of he.po to hebrew
 # Copyright (C) 2003 Free Software Foundation, Inc.
 # Amir Tal <tal@whatsup.org.il>, 2003
 #
+# Email adress from Amir Tal is out of date and so there is no
+# translator for hebrew :-(
+# Christian, 17.04.2004
+#
+
 msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
@@ -1114,8 +1119,9 @@ msgid "SSL init error"
 msgstr "חיבור"
 
 #: sim/api/aboutdata.cpp:287
+#, fuzzy
 msgid "replace this with information about your translation team"
-msgstr "Amir Tal - tal@whatsup.org.il - http://www.whatsup.org.il"
+msgstr "Currently there is no translator for hebrew - if you like to translate to hebrew, write an email to sim-icq-main@lists.sourceforge.net"
 
 #: sim/api/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."

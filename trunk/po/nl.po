@@ -1,6 +1,11 @@
-# translation of de.po to deutsch
+# translation of nl.po to Dutch
+# translation of nl.po to dutch
 # Copyright (C) 2002 Free Software Foundation, Inc.
-# Christoph Thielecke <crissi99@gmx.de>, 2002
+# Arend van Beelen jr. <junior@vergeetalles.nl>, 2002
+#
+# Email adress from Arend van Beelen jr. is out of date and so there is no
+# translator for dutch :-(
+# Christian, 17.04.2004
 #
 msgid ""
 msgstr ""
@@ -1114,8 +1119,9 @@ msgid "SSL init error"
 msgstr "Verbinding"
 
 #: sim/api/aboutdata.cpp:287
+#, fuzzy
 msgid "replace this with information about your translation team"
-msgstr ";-)"
+msgstr "Currently there is no translator for dutch - if you like to translate to dutch, write an email to sim-icq-main@lists.sourceforge.net"
 
 #: sim/api/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."

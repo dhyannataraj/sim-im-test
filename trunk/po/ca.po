@@ -1,17 +1,19 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Free Software Foundation, Inc.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# currently no translator :-(
+# Pau Bosch i Crespo: Remove me, please. I dind't know that I was
+#                     in this list and I haven't time.
+# thx for the work.
+# Christian, 17.04.2004
+
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-04-16 04:18+0400\n"
-"PO-Revision-Date: 2003-09-17 18:18+0100\n"
-"Last-Translator: Pau Bosch i Crespo <paubcrespo@hotmail.com>\n"
-"Language-Team: LANGUAGE <paubcrespo@hotmail.com>\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: ca"
+"POT-Creation-Date: 2004-04-16 04:18+0400"
+"PO-Revision-Date: 2003-09-17 18:18+0100"
+"Last-Translator: Pau Bosch i Crespo <paubcrespo@hotmail.com>"
+"Language-Team: ca <paubcrespo@hotmail.com>"
+"MIME-Version: 1.0"
+"Content-Type: text/plain; charset=iso-8859-1"
+"Content-Transfer-Encoding: 8bit"
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
@@ -1103,10 +1105,9 @@ msgid "SSL init error"
 msgstr "Error en iniciar SSL"
 
 #: sim/api/aboutdata.cpp:287
+#, fuzzy
 msgid "replace this with information about your translation team"
-msgstr ""
-"Pau Bosch i Crespo - trobareu més programes traduïts al català a "
-"www.all4you.dk"
+msgstr "Currently there is no translator for catalan - if you like to translate to catalan, write an email to sim-icq-main@lists.sourceforge.net"
 
 #: sim/api/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."

@@ -1,29 +1,6 @@
-# translation of el.po to 
-# translation of el.po to
-# translation of el.po to
-# translation of el.po to
-# translation of el.po to
 # translation of el.po to
 # translation of sim.po to
 # Copyright (C) 2003 Free Software Foundation, Inc.
-# , 2003.
-# , 2003.
-# , 2003.
-# , 2003.
-# , 2003.
-# , 2003.
-# , 2003.
-# , 2003.
-# , 2003.
-# , 2003.
-# , 2003.
-# , 2003.
-# , 2003.
-# , 2003.
-# , 2003.
-# , 2003.
-# , 2003.
-# , 2003.
 #
 msgid ""
 msgstr ""
