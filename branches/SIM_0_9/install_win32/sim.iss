@@ -4,6 +4,8 @@
 #include "simfiles.iss"
 #include "isxdl.iss"
 
+[Setup]
+OutputBaseFilename=sim-0.9-win32
 [Files]
 
 [Code]
@@ -84,7 +86,7 @@ begin
       bDownloadExpat := true;
     end;
 
-    if bDownloadQt or bDownloadSSL or bDownloadExpat then begin
+    if bDownloadQt or bDownloadSSL or bDownloadExpat or bDownloadMsvcrt or bDownloadOpengl then begin
       if isxdl_DownloadFiles(hWnd) <> 0 then begin
         sParam := ExpandConstant('/VERYSILENT /DIR="{app}"');
         if (bDownloadQt) then begin

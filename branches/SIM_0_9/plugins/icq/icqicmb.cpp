@@ -331,6 +331,8 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             unsigned short mFormat;
             m_socket->readBuffer >> mFormat;
             string screen = m_socket->readBuffer.unpackScreen();
+			if (screen.empty())
+				break;
             log(L_DEBUG, "Message from %s [%04X]", screen.c_str(), mFormat);
             unsigned short level, nTLV;
             m_socket->readBuffer >> level >> nTLV;

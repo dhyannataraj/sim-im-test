@@ -18,6 +18,7 @@ AppMutex=SIM_Mutex
 AppCopyright=Copyright © 2002-2003, Vladimir Shutoff
 DetectLanguageUsingLocale=yes
 ShowLanguageDialog=no
+SolidCompression=yes
 
 [Tasks]
 Name: startup; Description: "Launch SIM on &startup"; GroupDescription: "Startup:"
@@ -92,6 +93,23 @@ Source: "..\Release\sounds\mailpager.wav"; DestDir: "{app}\sounds"; Flags: ignor
 Source: "..\Release\sounds\error.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
 Source: "..\Release\pict\splash.png"; DestDir: "{app}\pict"; Flags: ignoreversion
 Source: "..\Release\pict\connect.gif"; DestDir: "{app}\pict"; Flags: ignoreversion
+Source: "..\Release\po\bg.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\ca.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\cs.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\de.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\es.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\fr.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\he.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\it.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\nl.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\pl.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\pt_BR.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\ru.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\sk.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\sw.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\tr.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\uk.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\zh_TW.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 
 [Icons]
 Name: "{commonprograms}\SIM"; Filename: "{app}\sim.exe"

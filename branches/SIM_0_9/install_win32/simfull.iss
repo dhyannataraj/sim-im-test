@@ -2,34 +2,92 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #include "simfiles.iss"
+#include "isxdl.iss"
 
 [Setup]
-OutputBaseFilename=sim-full
+OutputBaseFilename=sim-0.9-full-win32
 
 [Files]
-Source: "..\Release\po\bg.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\ca.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\cs.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\de.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\es.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\fr.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\he.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\it.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\nl.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\pl.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\pt_BR.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\ru.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\sk.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\sw.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\tr.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\uk.qm"; DestDir: "{app}\po"; Flags: ignoreversion
-Source: "..\Release\po\zh_TW.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "C:\qt\bin\qt-mt230nc.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\openssl\bin\libeay32.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\openssl\bin\ssleay32.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\qt\bin\libexpat.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "msvcrt.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall onlyifdoesntexist
-Source: "msvcp60.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall onlyifdoesntexist
-Source: "opengl32.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall onlyifdoesntexist
-Source: "glu32.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall onlyifdoesntexist
+
+[Code]
+const url1 = 'http://cesnet.dl.sourceforge.net/sourceforge/sim-icq/msvcrt.exe';
+const url2 = 'http://cesnet.dl.sourceforge.net/sourceforge/sim-icq/opengl.exe';
+
+function NextButtonClick(CurPage: Integer): Boolean;
+var
+  hWnd: Integer;
+  sFileName: String;
+  nCode: Integer;
+  bDownloadMsvcrt: Boolean;
+  bDownloadOpengl: Boolean;
+  sParam: String;
+begin
+  Result := true;
+  bDownloadMsvcrt := false;
+  bDownloadOpengl := false;
+
+  if CurPage = wpSelectTasks then begin
+    hWnd := StrToInt(ExpandConstant('{wizardhwnd}'));
+    isxdl_ClearFiles;
+    sFileName := ExpandConstant('{sys}\msvcrt.dll');
+    if not FileExists(sFileName) then begin
+      bDownloadMsvcrt := true;
+    end;
+    sFileName := ExpandConstant('{sys}\msvcp60.dll');
+    if not FileExists(sFileName) then begin
+      bDownloadMsvcrt := true;
+    end;
+    sFileName := ExpandConstant('{sys}\opengl32.dll');
+    if not FileExists(sFileName) then begin
+      bDownloadOpengl := true;
+    end;
+    sFileName := ExpandConstant('{sys}\glu32.dll');
+    if not FileExists(sFileName) then begin
+      bDownloadOpengl := true;
+    end;
+
+    if bDownloadOpengl then begin
+      isxdl_AddFileSize(url2, ExpandConstant('{tmp}\opengl.exe'), 724992);
+    end;
+
+    if bDownloadMsvcrt then begin
+      isxdl_AddFileSize(url1, ExpandConstant('{tmp}\msvcrt.exe'), 627790);
+    end;
+
+    if bDownloadOpengl or bDownloadMsvcrt then begin
+      if isxdl_DownloadFiles(hWnd) <> 0 then begin
+        sParam := ExpandConstant('/VERYSILENT /DIR="{app}"');
+        if (bDownloadOpengl) then begin
+            sFileName := ExpandConstant('{tmp}\opengl.exe');
+            if FileExists(sFileName) then
+               InstExec(sFileName, sParam, '', true, false, 0, nCode)
+            else
+              Result := false;
+        end
+        if (Result and bDownloadMsvcrt) then begin
+            sFileName := ExpandConstant('{tmp}\msvcrt.exe');
+            if FileExists(sFileName) then
+               InstExec(sFileName, sParam, '', true, false, 0, nCode)
+            else
+              Result := false;
+        end else begin
+          Result := false;
+        end;
+      end;
+    end;
+  end;
+end;
+
+function InitializeSetup: Boolean;
+begin
+  isxdl_SetOption('title','Downloading lots of files...');
+  isxdl_SetOption('noftpsize','false');
+  isxdl_SetOption('aborttimeout','15');
+
+  Result := true;
+end;
 
