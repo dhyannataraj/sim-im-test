@@ -1741,7 +1741,12 @@ const unsigned short L_DEBUG		= 0x04;
 const unsigned short L_PACKET_IN	= 0x10;
 const unsigned short L_PACKET_OUT	= 0x20;
 
+#if defined __GNUC__
+EXPORT void log(unsigned short level, const char *fmt, ...)
+       __attribute__ ((__format__ (printf, 2, 3)));
+#else
 EXPORT void log(unsigned short level, const char *fmt, ...);
+#endif      
 EXPORT string make_packet_string(LogInfo *l);
 
 // _____________________________________________________________________________________
