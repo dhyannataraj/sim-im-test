@@ -84,17 +84,18 @@ MsgGen::MsgGen(CToolCustom *parent, Message *msg)
     Event e(EventCommandWidget, cmd);
     btnSend = (QToolButton*)(e.process());
 
-    QToolButton *btn = new ColorToolButton(parent, QColor(CorePlugin::m_plugin->getEditBackground()));
-    set_button(btn, "bgcolor", I18N_NOOP("Bac&kground color"));
-    connect(btn, SIGNAL(colorChanged(QColor)), this, SLOT(bgColorChanged(QColor)));
-    parent->addWidget(btn);
-    btn->show();
+    btnBG = new ColorToolButton(parent, QColor(CorePlugin::m_plugin->getEditBackground()));
+    set_button(btnBG, "bgcolor", I18N_NOOP("Bac&kground color"));
+    connect(btnBG, SIGNAL(colorChanged(QColor)), this, SLOT(bgColorChanged(QColor)));
+    parent->addWidget(btnBG);
+    btnBG->show();
 
-    btn = new ColorToolButton(parent, QColor(CorePlugin::m_plugin->getEditForeground()));
-    set_button(btn, "fgcolor", I18N_NOOP("&Text color"));
-    connect(btn, SIGNAL(colorChanged(QColor)), this, SLOT(fgColorChanged(QColor)));
-    parent->addWidget(btn);
-    btn->show();
+    btnFG = new ColorToolButton(parent, QColor(CorePlugin::m_plugin->getEditForeground()));
+    set_button(btnFG, "fgcolor", I18N_NOOP("&Text color"));
+    connect(btnFG, SIGNAL(colorChanged(QColor)), this, SLOT(fgColorChanged(QColor)));
+    connect(btnFG, SIGNAL(aboutToShow()), this, SLOT(showFG()));
+    parent->addWidget(btnFG);
+    btnFG->show();
 
     btnBold = new QToolButton(parent);
     set_button(btnBold, "text_bold", I18N_NOOP("&Bold"));
@@ -117,7 +118,7 @@ MsgGen::MsgGen(CToolCustom *parent, Message *msg)
     parent->addWidget(btnUnderline);
     btnUnderline->show();
 
-    btn = new QToolButton(parent);
+    QToolButton *btn = new QToolButton(parent);
     set_button(btn, "text", I18N_NOOP("Text &font"));
     connect(btn, SIGNAL(clicked()), this, SLOT(selectFont()));
     parent->addWidget(btn);
@@ -127,6 +128,11 @@ MsgGen::MsgGen(CToolCustom *parent, Message *msg)
     connect(m_edit->m_edit, SIGNAL(textChanged()), this, SLOT(textChanged()));
     fontChanged(m_edit->m_edit->font());
     textChanged();
+}
+
+void MsgGen::showFG()
+{
+    btnFG->setColor(m_edit->m_edit->foreground());
 }
 
 void MsgGen::init()

@@ -79,11 +79,18 @@ TextEdit::TextEdit(QWidget *p, const char *name)
 #if QT_VERSION >= 0x030100
     setAutoFormatting(0);
 #endif
+    connect(this, SIGNAL(currentColorChanged(const QColor&)), this, SLOT(slotColorChanged(const QColor&)));
     viewport()->installEventFilter(this);
 }
 
 TextEdit::~TextEdit()
 {
+}
+
+void TextEdit::slotColorChanged(const QColor &c)
+{
+    if (c != curFG)
+        setForeground(c);
 }
 
 bool TextEdit::eventFilter(QObject *o, QEvent *e)
@@ -473,13 +480,14 @@ void RichTextEdit::showBar()
         return;
     m_bar = new QToolBar(this);
 
-    QToolButton *btn = new ColorToolButton(m_bar, m_edit->background());
-    set_button(btn, "bgcolor", I18N_NOOP("Bac&kground color"));
-    connect(btn, SIGNAL(colorChanged(QColor)), this, SLOT(bgColorChanged(QColor)));
+    btnBG = new ColorToolButton(m_bar, m_edit->background());
+    set_button(btnBG, "bgcolor", I18N_NOOP("Bac&kground color"));
+    connect(btnBG, SIGNAL(colorChanged(QColor)), this, SLOT(bgColorChanged(QColor)));
 
-    btn = new ColorToolButton(m_bar, m_edit->foreground());
-    set_button(btn, "fgcolor", I18N_NOOP("&Text color"));
-    connect(btn, SIGNAL(colorChanged(QColor)), this, SLOT(fgColorChanged(QColor)));
+    btnFG = new ColorToolButton(m_bar, m_edit->foreground());
+    set_button(btnFG, "fgcolor", I18N_NOOP("&Text color"));
+    connect(btnFG, SIGNAL(colorChanged(QColor)), this, SLOT(fgColorChanged(QColor)));
+    connect(btnFG, SIGNAL(aboutToShow()), this, SLOT(showFgPopup()));
 
     m_bar->addSeparator();
 
@@ -500,11 +508,16 @@ void RichTextEdit::showBar()
 
     m_bar->addSeparator();
 
-    btn = new QToolButton(m_bar);
+    QToolButton *btn = new QToolButton(m_bar);
     set_button(btn, "text", I18N_NOOP("Text &font"));
     connect(btn, SIGNAL(clicked()), this, SLOT(selectFont()));
 
     connect(m_edit, SIGNAL(currentFontChanged(const QFont&)), this, SLOT(fontChanged(const QFont&)));
+}
+
+void RichTextEdit::showFgPopup()
+{
+    btnFG->setColor(m_edit->foreground());
 }
 
 void RichTextEdit::toggleBold(bool bState)
@@ -562,8 +575,14 @@ ColorToolButton::ColorToolButton(QWidget *parent, QColor color)
     connect(this, SIGNAL(clicked()), this, SLOT(btnClicked()));
 }
 
+void ColorToolButton::setColor(QColor c)
+{
+    m_color = c;
+}
+
 void ColorToolButton::btnClicked()
 {
+    emit aboutToShow();
     m_popup = new ColorPopup(this, m_color);
     connect(m_popup, SIGNAL(colorChanged(QColor)), this, SLOT(selectColor(QColor)));
     connect(m_popup, SIGNAL(colorCustom()), this, SLOT(selectCustom()));

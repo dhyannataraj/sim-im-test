@@ -25,6 +25,8 @@ jabber_la_SOURCES = \
  services.cpp \
  servicesbase.ui
 
+SUBDIRS = sounds
+
 INCLUDES=-I../../sim/api -I../../sim/ui -I../_core $(all_includes)
 
 jabber_la_METASOURCES = AUTO

@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qstylesheet.h,v 1.3 2003-10-05 00:45:31 shutoff Exp $
+** 
 **
 ** Definition of the QStyleSheet class
 **
@@ -67,6 +67,8 @@ public:
     QStyleSheetItem( const QStyleSheetItem & );
     ~QStyleSheetItem();
 
+    QStyleSheetItem& operator=( const QStyleSheetItem& other );
+
     QString name() const;
 
     QStyleSheet* styleSheet();
@@ -125,6 +127,10 @@ public:
     void setFontUnderline( bool );
     bool definesFontUnderline() const;
 
+    bool fontStrikeOut() const;
+    void setFontStrikeOut( bool );
+    bool definesFontStrikeOut() const;
+
     bool isAnchor() const;
     void setAnchor(bool anc);
 
@@ -173,7 +179,9 @@ private:
     QStyleSheetItemData* d;
 };
 
+#ifndef QT_NO_TEXTCUSTOMITEM
 class QTextCustomItem;
+#endif
 
 class UI_EXPORT QStyleSheet : public QObject
 {
@@ -191,14 +199,16 @@ public:
 
     void insert( QStyleSheetItem* item);
 
+#ifndef QT_NO_TEXTCUSTOMITEM
     virtual QTextCustomItem* tag( const QString& name,
                                   const QMap<QString, QString> &attr,
                                   const QString& context,
                                   const QMimeSourceFactory& factory,
                                   bool emptyTag, QTextDocument *doc ) const;
-
+#endif
     static QString escape( const QString& );
-    static QString convertFromPlainText( const QString&, QStyleSheetItem::WhiteSpaceMode mode = QStyleSheetItem::WhiteSpacePre );
+    static QString convertFromPlainText( const QString&,
+                                         QStyleSheetItem::WhiteSpaceMode mode = QStyleSheetItem::WhiteSpacePre );
     static bool mightBeRichText( const QString& );
 
     virtual void scaleFont( QFont& font, int logicalSize ) const;
@@ -209,12 +219,17 @@ private:
     void init();
     QDict<QStyleSheetItem> *pStyles;
     QStyleSheetItem* nullstyle;
+private:	// Disabled copy constructor and operator=
+#if defined(Q_DISABLE_COPY)
+    QStyleSheet( const QStyleSheet & );
+    QStyleSheet &operator=( const QStyleSheet & );
+#endif
 };
 
 }
 
-#endif // QT_NO_RICHTEXT
-
 #endif
+
+#endif // QT_NO_RICHTEXT
 
 #endif // QSTYLESHEET_H

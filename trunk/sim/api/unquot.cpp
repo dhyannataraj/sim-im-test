@@ -46,7 +46,15 @@ QString UnquoteParser::parse(const QString &str)
 
 void UnquoteParser::text(const QString &text)
 {
-    res += text;
+    int len = text.length();
+    for (int i = 0; i < len; i++){
+        QChar c = text[i];
+        if (c.unicode() == 160){
+            res += " ";
+        }else{
+            res += c;
+        }
+    }
 }
 
 void UnquoteParser::tag_start(const QString &tag, const list<QString> &options)

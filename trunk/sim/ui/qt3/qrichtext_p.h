@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qrichtext_p.h,v 1.3 2003-09-29 07:59:15 shutoff Exp $
+** $Id: qrichtext_p.h,v 1.4 2003-10-05 18:56:11 shutoff Exp $
 **
 ** Definition of internal rich text classes
 **
@@ -2040,6 +2040,7 @@ inline QBrush *QTextParag::background() const
 {
     return tc ? tc->backGround() : 0;
 }
+
 
 inline void QTextParag::setDocumentRect( const QRect &r )
 {

@@ -100,9 +100,19 @@ void LogConfig::addItem(const char *name, bool bChecked, unsigned level, unsigne
     setCheck(item);
 }
 
+#if QT_VERSION < 300
+#define CHECK_OFF       QButton::Off
+#define CHECK_ON        QButton::On
+#define CHECK_NOCHANGE  QButton::NoChange
+#else
+#define CHECK_OFF       QStyle::Style_Off
+#define CHECK_ON        QStyle::Style_On
+#define CHECK_NOCHANGE  QStyle::Style_NoChange
+#endif
+
 void LogConfig::setCheck(QListViewItem *item)
 {
-    int state = !item->text(COL_CHECKED).isEmpty();
+    int state = item->text(COL_CHECKED).isEmpty() ? CHECK_OFF : CHECK_ON;
     QColorGroup cg = palette().active();
 #if QT_VERSION < 300
     QSize s = style().indicatorSize();

@@ -74,6 +74,79 @@ static MessageDef defJabber =
         NULL
     };
 
+static DataDef jabberMessageErrorData[] =
+    {
+        { "Error", DATA_UTF, 1, 0 },
+        { "Code", DATA_ULONG, 1, 0 },
+        { NULL, 0, 0, 0 }
+    };
+
+JabberMessageError::JabberMessageError(const char *cfg)
+        : Message(MessageJabberError, cfg)
+{
+    load_data(jabberMessageErrorData, &data, cfg);
+}
+
+JabberMessageError::~JabberMessageError()
+{
+    free_data(jabberMessageErrorData, &data);
+}
+
+string JabberMessageError::save()
+{
+    string res = Message::save();
+    string s = save_data(jabberMessageErrorData, &data);
+    if (!s.empty()){
+        if (!res.empty())
+            res += "\n";
+        res += s;
+    }
+    return res;
+}
+
+QString JabberMessageError::presentation()
+{
+    QString res = "<p>";
+    res += i18n("Error");
+    if (getCode()){
+        res += " ";
+        res += QString::number(getCode());
+    }
+    QString err = getError();
+    if (!err.isEmpty()){
+        res += ": <b>";
+        res += err;
+        res += "</b>";
+    }
+    res += "<br>";
+    res += i18n("Original message:");
+    res += "</p>";
+    res += Message::presentation();
+    return res;
+}
+
+static Message *createJabberMessageError(const char *cfg)
+{
+    return new JabberMessageError(cfg);
+}
+
+#if 0
+i18n("Error", "%n errors", 1);
+#endif
+
+static MessageDef defJabberError =
+    {
+        NULL,
+        MESSAGE_DEFAULT,
+        0,
+        "Error",
+        "%n errors",
+        createJabberMessageError,
+        NULL,
+        NULL,
+        NULL
+    };
+
 static Message *createJabberOnlineMessage(const char *cfg)
 {
     return new AuthMessage(MessageJabberOnline, cfg);
@@ -127,14 +200,18 @@ void JabberPlugin::registerMessages()
     cmd->accel		 = "Ctrl+L";
     cmd->menu_grp	 = 0x3020;
     cmd->param		 = &defJabberOnline;
-    Event eMsgOnline(EventCreateMessageType, cmd);
     eMsg.process();
 
     cmd->id			 = MessageJabberOffline;
     cmd->text		 = I18N_NOOP("Log Off");
     cmd->icon		 = "Jabber_offline";
     cmd->param		 = &defJabberOffline;
-    Event eMsgOffline(EventCreateMessageType, cmd);
+    eMsg.process();
+
+    cmd->id			 = MessageJabberOffline;
+    cmd->text		 = I18N_NOOP("Error");
+    cmd->icon		 = "error";
+    cmd->param		 = &defJabberError;
     eMsg.process();
 }
 
@@ -142,5 +219,11 @@ void JabberPlugin::unregisterMessages()
 {
     Event eMsg(EventRemoveMessageType, (void*)MessageJabber);
     eMsg.process();
+    Event eMsgOnline(EventRemoveMessageType, (void*)MessageJabberOnline);
+    eMsgOnline.process();
+    Event eMsgOffline(EventRemoveMessageType, (void*)MessageJabberOffline);
+    eMsgOffline.process();
+    Event eMsgError(EventRemoveMessageType, (void*)MessageJabberError);
+    eMsgError.process();
 }
 

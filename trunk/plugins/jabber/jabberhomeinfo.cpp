@@ -80,7 +80,7 @@ void JabberHomeInfo::apply(Client *client, void *_data)
     set_str(&data->City, edtCity->text().utf8());
     set_str(&data->Region, edtState->text().utf8());
     set_str(&data->PCode, edtZip->text().utf8());
-    set_str(&data->Country, edtZip->text().utf8());
+    set_str(&data->Country, edtCountry->text().utf8());
 }
 
 #ifndef WIN32

@@ -789,6 +789,7 @@ JabberClient::MessageRequest::MessageRequest(JabberClient *client)
         : ServerRequest(client, NULL, NULL, NULL)
 {
     m_data = NULL;
+    m_errorCode = 0;
 }
 
 JabberClient::MessageRequest::~MessageRequest()
@@ -804,7 +805,12 @@ JabberClient::MessageRequest::~MessageRequest()
         contact->setTemporary(CONTACT_TEMP);
     }
     Message *msg;
-    if (m_subj.empty()){
+    if (m_errorCode || !m_error.empty()){
+        JabberMessageError *m = new JabberMessageError;
+        m->setError(QString::fromUtf8(m_error.c_str()));
+        m->setCode(m_errorCode);
+        msg = m;
+    }else if (m_subj.empty()){
         msg = new Message(MessageGeneric);
     }else{
         JabberMessage *m = new JabberMessage;
@@ -834,6 +840,10 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
     if (!strcmp(el, "subject")){
         m_data = &m_subj;
         return;
+    }
+    if (!strcmp(el, "error")){
+        m_errorCode = atol(JabberClient::get_attr("code", attr).c_str());
+        m_data = &m_error;
     }
 }
 

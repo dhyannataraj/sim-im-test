@@ -25,6 +25,7 @@
 
 class CToolCustom;
 class QToolButton;
+class ColorToolButton;
 class MsgEdit;
 class QFont;
 
@@ -43,10 +44,13 @@ protected slots:
     void toggleItalic(bool);
     void toggleUnderline(bool);
     void selectFont();
+    void showFG();
 protected:
     void *processEvent(Event*);
     string m_client;
     MsgEdit	*m_edit;
+    ColorToolButton *btnBG;
+    ColorToolButton *btnFG;
     QToolButton *btnSend;
     QToolButton *btnBold;
     QToolButton *btnItalic;

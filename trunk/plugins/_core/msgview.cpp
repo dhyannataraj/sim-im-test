@@ -140,7 +140,7 @@ QString MsgViewBase::messageText(Message *msg)
     QString s = QString("<p><nobr>"
                         "<a href=\"msg://%1\"><img src=\"icon:%2\"></a>%3"
                         "&nbsp;%4<span style=\"color:#%5\">%6</span> &nbsp;"
-                        "<span style=\"font-size:10pt\">%7</span>%8"
+                        "<font size=\"-1\">%7</font>%8"
                         "</nobr></p>")
                 .arg(id)
                 .arg(icon)

@@ -200,7 +200,12 @@ void InterfaceConfig::apply()
 #endif
     if (grpMode->selected()){
         if (grpMode->id(grpMode->selected())){
-            CorePlugin::m_plugin->setContainerMode(grpContainer->id(grpContainer->selected()) + 1);
+            int mode = 0;
+            if (btnGroup->isOn())
+                mode = 1;
+            if (btnOne->isOn())
+                mode = 2;
+            CorePlugin::m_plugin->setContainerMode(mode + 1);
             CorePlugin::m_plugin->setSendOnEnter(chkEnter->isChecked());
             CorePlugin::m_plugin->setCopyMessages(atol(spnCopy->text().latin1()));
         }else{

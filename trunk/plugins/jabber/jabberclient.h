@@ -192,6 +192,8 @@ class MessageRequest : public ServerRequest
         string *m_data;
         string m_body;
         string m_subj;
+        string m_error;
+        unsigned m_errorCode;
     };
 
     JabberClient(JabberProtocol*, const char *cfg);

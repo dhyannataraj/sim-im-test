@@ -1,5 +1,5 @@
 #/****************************************************************************
-** $Id: qrichtext.cpp,v 1.4 2003-09-01 00:01:07 shutoff Exp $
+** $Id: qrichtext.cpp,v 1.5 2003-10-05 18:56:11 shutoff Exp $
 **
 ** Implementation of the internal Qt classes dealing with rich text
 **
@@ -5956,90 +5956,253 @@ formatAgain:
         return tag;
     }
 
-    QTextFormat QTextFormat::makeTextFormat( const QStyleSheetItem *style, const QMap<QString,QString>& attr ) const
+    static QString section(const QString &str, const QString &sep, int start, int end)
     {
-        QTextFormat format(*this);
-        bool changed = FALSE;
-        if ( style ) {
-            format.style = style->name();
-            if ( style->name() == "font") {
-                if ( attr.contains("color") ) {
-                    QString s = attr["color"];
-                    if ( !s.isEmpty() ) {
-                        format.col.setNamedColor( s );
-                        format.linkColor = FALSE;
-                    }
+        const QChar *uc = str.unicode();
+        if ( !uc )
+            return QString();
+        const QChar *uc_sep = sep.unicode();
+        if(!uc_sep)
+            return QString();
+        bool match = FALSE, last_match = TRUE;
+
+        //find start
+        int n = str.length(), sep_len = sep.length();
+        const QChar *begin = start < 0 ? uc + n : uc;
+        while(start) {
+            match = FALSE;
+            int c = 0;
+            for(const QChar *tmp = start < 0 ? begin - sep_len : begin;
+                    c < sep_len && tmp < uc + n && tmp >= uc; tmp++, c++) {
+                if( *tmp != *(uc_sep + c) )
+                    break;
+                if(c == sep_len - 1) {
+                    match = TRUE;
+                    break;
                 }
-                if ( attr.contains("size") ) {
-                    QString a = attr["size"];
-                    int n = a.toInt();
-                    if ( a[0] == '+' || a[0] == '-' )
-                        n += format.logicalFontSize;
-                    format.logicalFontSize = n;
-                    format.fn.setPointSize( format.stdPointSize );
-                    style->styleSheet()->scaleFont( format.fn, format.logicalFontSize );
-                }
-                if ( attr.contains("style" ) ) {
-                    QString a = attr["style"];
-                    if ( a.startsWith( "font-size:" ) ) {
-                        QString s = a.mid( a.find( ':' ) + 1 );
-                        int n = s.left( s.length() - 2 ).toInt();
-                        format.logicalFontSize = 0;
-                        format.fn.setPointSize( n );
-                    }
-                }
-                if ( attr.contains("face") ) {
-                    QString a = attr["face"];
-                    if ( a.contains(',') )
-                        a = a.left( a.find(',') );
-                    format.fn.setFamily( a );
+            }
+            last_match = match;
+
+            if(start < 0) {
+                if(match) {
+                    begin -= sep_len;
+                    if(!++start)
+                        break;
+                } else {
+                    if(start == -1 && begin == uc)
+                        break;
+                    begin--;
                 }
             } else {
-
-                if ( style->isAnchor() ) {
-                    format.anchor_href = attr["href"];
-                    format.anchor_name = attr["name"];
-                    changed = TRUE;
+                if(match) {
+                    if(!--start)
+                        break;
+                    begin += sep_len;
+                } else {
+                    if(start == 1 && begin == uc + n)
+                        break;
+                    begin++;
                 }
+            }
+            if(begin > uc + n || begin < uc)
+                return QString();
+        }
+        if(begin > uc + n || begin < uc)
+            return QString();
 
-                switch ( style->verticalAlignment() ) {
-                case QStyleSheetItem::VAlignBaseline:
-                    format.setVAlign( QTextFormat::AlignNormal );
+        //now find last
+        match = FALSE;
+        const QChar *last = end < 0 ? uc + n : uc;
+        if(end == -1) {
+            int c = 0;
+            for(const QChar *tmp = end < 0 ? last - sep_len : last;
+                    c < sep_len && tmp < uc + n && tmp >= uc; tmp++, c++) {
+                if( *tmp != *(uc_sep + c) )
                     break;
-                case QStyleSheetItem::VAlignSuper:
-                    format.setVAlign( QTextFormat::AlignSuperScript );
-                    break;
-                case QStyleSheetItem::VAlignSub:
-                    format.setVAlign( QTextFormat::AlignSubScript );
+                if(c == sep_len - 1) {
+                    match = TRUE;
                     break;
                 }
-
-                if ( style->fontWeight() != QStyleSheetItem::Undefined )
-                    format.fn.setWeight( style->fontWeight() );
-                if ( style->fontSize() != QStyleSheetItem::Undefined ) {
-                    format.fn.setPointSize( style->fontSize() );
-                } else if ( style->logicalFontSize() != QStyleSheetItem::Undefined ) {
-                    format.logicalFontSize = style->logicalFontSize();
-                    format.fn.setPointSize( format.stdPointSize );
-                    style->styleSheet()->scaleFont( format.fn, format.logicalFontSize );
-                } else if ( style->logicalFontSizeStep() ) {
-                    format.logicalFontSize += style->logicalFontSizeStep();
-                    format.fn.setPointSize( format.stdPointSize );
-                    style->styleSheet()->scaleFont( format.fn, format.logicalFontSize );
+            }
+        } else {
+            end++;
+            last_match = TRUE;
+            while(end) {
+                match = FALSE;
+                int c = 0;
+                for(const QChar *tmp = end < 0 ? last - sep_len : last;
+                        c < sep_len && tmp < uc + n && tmp >= uc; tmp++, c++) {
+                    if( *tmp != *(uc_sep + c) )
+                        break;
+                    if(c == sep_len - 1) {
+                        match = TRUE;
+                        break;
+                    }
                 }
-                if ( !style->fontFamily().isEmpty() )
-                    format.fn.setFamily( style->fontFamily() );
-                if ( style->color().isValid() )
-                    format.col = style->color();
-                if ( style->definesFontItalic() )
-                    format.fn.setItalic( style->fontItalic() );
-                if ( style->definesFontUnderline() )
-                    format.fn.setUnderline( style->fontUnderline() );
+                last_match = match;
+
+                if(end < 0) {
+                    if(match) {
+                        if(!++end)
+                            break;
+                        last -= sep_len;
+                    } else {
+                        last--;
+                    }
+                } else {
+                    if(match) {
+                        last += sep_len;
+                        if(!--end)
+                            break;
+                    } else {
+                        last++;
+                    }
+                }
+                if(last >= uc + n) {
+                    last = uc + n;
+                    break;
+                } else if(last < uc) {
+                    return QString();
+                }
+            }
+        }
+        if(last < uc || last > uc + n || begin >= last)
+            return QString();
+
+        //done
+        return QString(begin, last - begin);
+    }
+
+
+    bool endsWith(const QString &str, const QString &pat)
+    {
+        int n = str.length() - pat.length();
+        if (n < 0)
+            return false;
+        return (str.mid(n) == pat);
+    }
+
+    QTextFormat QTextFormat::makeTextFormat( const QStyleSheetItem *style, const QMap<QString,QString>& attr) const
+    {
+        QTextFormat format(*this);
+        if (!style )
+            return format;
+
+        if ( !style->isAnchor() && style->color().isValid() ) {
+            // the style is not an anchor and defines a color.
+            // It might be used inside an anchor and it should
+            // override the link color.
+            format.linkColor = FALSE;
+        }
+        switch ( style->verticalAlignment() ) {
+        case QStyleSheetItem::VAlignBaseline:
+            format.setVAlign( QTextFormat::AlignNormal );
+            break;
+        case QStyleSheetItem::VAlignSuper:
+            format.setVAlign( QTextFormat::AlignSuperScript );
+            break;
+        case QStyleSheetItem::VAlignSub:
+            format.setVAlign( QTextFormat::AlignSubScript );
+            break;
+        }
+
+        if ( style->fontWeight() != QStyleSheetItem::Undefined )
+            format.fn.setWeight( style->fontWeight() );
+        if ( style->fontSize() != QStyleSheetItem::Undefined ) {
+            format.fn.setPointSize( style->fontSize() );
+        } else if ( style->logicalFontSize() != QStyleSheetItem::Undefined ) {
+            format.logicalFontSize = style->logicalFontSize();
+            format.fn.setPointSize( format.stdPointSize );
+            style->styleSheet()->scaleFont( format.fn, format.logicalFontSize );
+        } else if ( style->logicalFontSizeStep() ) {
+            format.logicalFontSize += style->logicalFontSizeStep();
+            format.fn.setPointSize( format.stdPointSize );
+            style->styleSheet()->scaleFont( format.fn, format.logicalFontSize );
+        }
+        if ( !style->fontFamily().isEmpty() )
+            format.fn.setFamily( style->fontFamily() );
+        if ( style->color().isValid() )
+            format.col = style->color();
+        if ( style->definesFontItalic() )
+            format.fn.setItalic( style->fontItalic() );
+        if ( style->definesFontUnderline() )
+            format.fn.setUnderline( style->fontUnderline() );
+        if ( style->definesFontStrikeOut() )
+            format.fn.setStrikeOut( style->fontStrikeOut() );
+
+
+        if ( style->name() == "font") {
+            if ( attr.contains("color") ) {
+                QString s = attr["color"];
+                if ( !s.isEmpty() ) {
+                    format.col.setNamedColor( s );
+                    format.linkColor = FALSE;
+                }
+            }
+            if ( attr.contains("face") ) {
+                QString a = attr["face"];
+                QString family = section(a, ",", 0, 0 );
+                if ( !!family )
+                    format.fn.setFamily( family );
+            }
+            if ( attr.contains("size") ) {
+                QString a = attr["size"];
+                int n = a.toInt();
+                if ( a[0] == '+' || a[0] == '-' )
+                    n += 3;
+                format.logicalFontSize = n;
+                format.fn.setPointSize( format.stdPointSize );
+                style->styleSheet()->scaleFont( format.fn, format.logicalFontSize );
+            }
+        }
+        if ( style->isAnchor() ) {
+            format.anchor_href = attr["href"];
+            format.anchor_name = attr["name"];
+        }
+        if ( attr.contains("style" ) ) {
+            QString a = attr["style"];
+            for ( int s = 0; s < a.contains(';')+1; s++ ) {
+                QString style = section(a, ";", s, s );
+                if ( style.startsWith("font-size:" ) && endsWith(style, "pt") ) {
+                    format.logicalFontSize = 0;
+                    int size = int( style.mid( 10, style.length() - 12 ).toDouble() );
+                    format.setPointSize( size );
+                } if ( style.startsWith("font-style:" ) ) {
+                    QString s = style.mid( 11 ).stripWhiteSpace();
+                    if ( s == "normal" )
+                        format.fn.setItalic( FALSE );
+                    else if ( s == "italic" || s == "oblique" )
+                        format.fn.setItalic( TRUE );
+                } else if ( style.startsWith("font-weight:" ) ) {
+                    QString s = style.mid( 12 );
+                    bool ok = TRUE;
+                    int n = s.toInt( &ok );
+                    if ( ok )
+                        format.fn.setWeight( n/8 );
+                } else if ( style.startsWith("font-family:" ) ) {
+                    QString family = section(style.mid(12), ",",0,0);
+                    family.replace( QRegExp("\""), " " );
+                    family.replace( QRegExp("\'"), " " );
+                    family = family.stripWhiteSpace();
+                    format.fn.setFamily( family );
+                } else if ( style.startsWith("text-decoration:" ) ) {
+                    QString s = style.mid( 16 ).stripWhiteSpace();
+                    format.fn.setUnderline( s == "underline" );
+                } else if ( style.startsWith("vertical-align:" ) ) {
+                    QString s = style.mid( 15 ).stripWhiteSpace();
+                    if ( s == "sub" )
+                        format.setVAlign( QTextFormat::AlignSubScript );
+                    else if ( s == "super" )
+                        format.setVAlign( QTextFormat::AlignSuperScript );
+                    else
+                        format.setVAlign( QTextFormat::AlignNormal );
+                } else if ( style.startsWith("color:" ) ) {
+                    format.col.setNamedColor( style.mid(6) );
+                    format.linkColor = FALSE;
+                }
             }
         }
 
-        if ( fn != format.fn || changed || col != format.col ) // slight performance improvement
-            format.generateKey();
         format.update();
         return format;
     }
@@ -6163,8 +6326,8 @@ formatAgain:
                 }
             }
         }
-		if (reg)
-			delete reg;
+        if (reg)
+            delete reg;
     }
 
     QString QTextImage::richText() const

@@ -46,7 +46,6 @@ AC_TM_GMTOFF
 EXTRA_LIBS=""
 if test "$use_kde" = "yes" ; then
 KDE_CHECK_HEADER(ktextedit.h,[AC_DEFINE(HAVE_KTEXTEDIT_H,1,[Have ktextedit.h])])
-KDE_CHECK_HEADER(ktextbrowser.h,[AC_DEFINE(HAVE_KTEXTBROWSER_H,1,[Have ktextbrowser.h])])
 fi
 AC_DEFINE_UNQUOTED(PREFIX, "$prefix", [Install prefix])
 AC_DEFINE(USE_QT,1,[Use QT - need for libicq])

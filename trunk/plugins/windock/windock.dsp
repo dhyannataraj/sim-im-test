@@ -92,6 +92,10 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
+SOURCE=.\moc_windock.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\windock.cpp
 # End Source File
 # End Group
@@ -101,6 +105,35 @@ SOURCE=.\windock.cpp
 # Begin Source File
 
 SOURCE=.\windock.h
+
+!IF  "$(CFG)" == "windock - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\windock.h
+InputName=windock
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "windock - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\windock.h
+InputName=windock
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # End Group
 # Begin Group "Resource Files"
