@@ -1871,9 +1871,14 @@ string JabberClient::resources(void *_data)
     JabberUserData *data = (JabberUserData*)_data;
 	string resource;
 	if (data->nResources.value > 1){
-		resource = ";";
-		for (unsigned i = 1; i <= data->nResources.value; i++)
+		for (unsigned i = 1; i <= data->nResources.value; i++){
+			if (!resource.empty())
+				resource += ";";
+			const char *dicon = get_icon(data, atol(get_str(data->ResourceStatus, i)), false);
+			resource += number((unsigned)dicon);
+			resource += ",";
 			resource += quoteChars(get_str(data->Resources, i), ";");
+		}
 	}
 	return resource;
 }
@@ -2250,6 +2255,11 @@ bool JabberClient::send(Message *msg, void *_data)
             m_socket->writeBuffer
             << "<message type=\'chat\' to=\'"
             << data->ID.ptr;
+			if (!msg->getResource().isEmpty()){
+	            m_socket->writeBuffer
+				<< "/"
+				<< msg->getResource().utf8();
+			}
             m_socket->writeBuffer
             << "\'><body>"
             << (const char*)(quoteString(QString::fromUtf8(text.c_str()), quoteNOBR).utf8())
@@ -2291,6 +2301,11 @@ bool JabberClient::send(Message *msg, void *_data)
             m_socket->writeBuffer
             << "<message type=\'chat\' to=\'"
             << data->ID.ptr;
+			if (!msg->getResource().isEmpty()){
+	            m_socket->writeBuffer
+				<< "/"
+				<< msg->getResource().utf8();
+			}
             m_socket->writeBuffer
             << "\'><body>"
             << (const char*)(quoteString(m->getUrl(), quoteNOBR).utf8());
@@ -2396,6 +2411,11 @@ bool JabberClient::send(Message *msg, void *_data)
             m_socket->writeBuffer
             << "<message type=\'chat\' to=\'"
             << data->ID.ptr;
+			if (!msg->getResource().isEmpty()){
+	            m_socket->writeBuffer
+				<< "/"
+				<< msg->getResource().utf8();
+			}
             m_socket->writeBuffer
             << "\'><x xmlns='jabber:x:roster'>";
             list<string>::iterator iti = jids.begin();

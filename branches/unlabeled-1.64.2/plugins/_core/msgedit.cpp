@@ -277,6 +277,7 @@ bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
 {
     m_type = msg->type();
     m_userWnd->setMessageType(msg->type());
+	m_resource  = msg->getResource();
     m_bReceived = msg->getFlags() & MESSAGE_RECEIVED;
     QObject *processor = NULL;
     MsgReceived *rcv = NULL;
@@ -901,7 +902,21 @@ bool MsgEdit::sendMessage(Message *msg)
         ++multiply_it;
         if (multiply_it != multiply.end())
             msg->setFlags(msg->getFlags() | MESSAGE_MULTIPLY);
-    }
+    }else if (!m_resource.isEmpty()){
+	    void *data = NULL;
+        Client *c = client(data, true, false, msg->contact(), true);
+        if (c){
+			string resources = c->resources(data);
+			while (!resources.empty()){
+				string res = getToken(resources, ';');
+				getToken(res, ',');
+				if (m_resource == QString::fromUtf8(res.c_str())){
+					msg->setResource(m_resource);
+					break;
+				}
+			}
+		}
+	}
 
     editLostFocus();
     Command cmd;
