@@ -331,16 +331,26 @@ void EventReceiver::destroyList()
 #ifdef WIN32
 
 static WNDPROC oldWndProc = 0;
-static bool inSetCaption = false;
+static bool bSetCaption = false;
+static bool bResize     = false;
 static MSG m;
+
+bool inResize()
+{
+    return bResize;
+}
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     if (msg == WM_SETTEXT){
-        if (!inSetCaption)
+        if (!bSetCaption)
             return 0;
         return DefWindowProc(hWnd, msg, wParam, lParam);
     }
+    if (msg == WM_ENTERSIZEMOVE)
+        bResize = true;
+    if (msg == WM_EXITSIZEMOVE)
+        bResize = false;
     if ((msg >= WM_KEYFIRST) && (msg <= WM_KEYLAST)){
         m.hwnd = hWnd;
         m.message = msg;
@@ -373,7 +383,7 @@ void setWndProc(QWidget *w)
 
 void mySetCaption(QWidget *w, const QString &caption)
 {
-    inSetCaption = true;
+    bSetCaption = true;
     if (IsWindowUnicode(w->winId())){
         unsigned size = caption.length();
         wchar_t *text = new wchar_t[size + 1];
@@ -384,7 +394,7 @@ void mySetCaption(QWidget *w, const QString &caption)
     }else{
         SendMessageA(w->winId(), WM_SETTEXT, 0, (LPARAM)(const char*)caption.local8Bit());
     }
-    inSetCaption = false;
+    bSetCaption = false;
 }
 
 #else

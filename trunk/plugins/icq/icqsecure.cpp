@@ -64,7 +64,8 @@ void ICQSecure::apply()
             BalloonMsg::message(errMsg, errWidget);
             return;
         }
-        m_client->changePassword(edtPswd1->text().utf8());
+        if (!edtPswd1->text().isEmpty())
+            m_client->changePassword(edtPswd1->text().utf8());
         // clear Textboxes
         edtCurrent->clear();
         edtPswd1->clear();

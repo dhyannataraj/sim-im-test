@@ -23,9 +23,9 @@
 typedef struct NavigateData
 {
 #ifdef WIN32
-	Data NewWindow;
+    Data NewWindow;
 #else
-    Data Browser;
+Data Browser;
     Data Mailer;
 #endif
 } NavigateData;
@@ -42,7 +42,7 @@ protected:
     unsigned CmdMailList;
     unsigned MenuMail;
 #ifdef WIN32
-	PROP_BOOL(NewWindow);
+    PROP_BOOL(NewWindow);
 #else
     PROP_STR(Browser);
     PROP_STR(Mailer);

@@ -136,8 +136,6 @@ begin
 end;
 
 function InitializeSetup: Boolean;
-var
-  sFileName: String;
 begin
   isxdl_SetOption('title','Downloading lots of files...');
   isxdl_SetOption('noftpsize','false');

@@ -101,6 +101,107 @@ void MsgViewBase::setSelect(const QString &str)
     m_selectStr = str;
 }
 
+void MsgViewBase::update()
+{
+    if (m_updated.empty())
+        return;
+    unsigned i;
+    for (i = 0; i < (unsigned)paragraphs(); i++){
+        QString s = text(i);
+        int n = s.find(MSG_ANCHOR);
+        if (n < 0)
+            continue;
+        s = s.mid(n + strlen(MSG_ANCHOR));
+        n = s.find("\"");
+        if (n < 0)
+            continue;
+        string client;
+        unsigned id = messageId(s.left(n), client);
+        list<Msg_Id>::iterator it;
+        for (it = m_updated.begin(); it != m_updated.end(); ++it){
+            if (((*it).id == id) && ((*it).client == client))
+                break;
+        }
+        if (it != m_updated.end())
+            break;
+    }
+    m_updated.clear();
+    if (i >= (unsigned)paragraphs())
+        return;
+    QPoint p = QPoint(0, 0);
+    p = mapToGlobal(p);
+    p = viewport()->mapFromGlobal(p);
+    int x, y;
+    viewportToContents(p.x(), p.y(), x, y);
+    int para;
+    int pos = charAt(QPoint(x, y), &para);
+    p = QPoint(0, viewport()->height());
+    p = viewport()->mapToGlobal(p);
+    p = mapFromGlobal(p);
+    if (p.y() + 2 == height())
+        pos = -1;
+    unsigned start = i;
+    list<Msg_Id> msgs;
+    for (; i < (unsigned)paragraphs(); i++){
+        QString s = text(i);
+        int n = s.find(MSG_ANCHOR);
+        if (n < 0)
+            continue;
+        s = s.mid(n + strlen(MSG_ANCHOR));
+        n = s.find("\"");
+        if (n < 0)
+            continue;
+        string client;
+        unsigned id = messageId(s.left(n), client);
+        list<Msg_Id>::iterator it;
+        for (it = msgs.begin(); it != msgs.end(); ++it){
+            if (((*it).id == id) && ((*it).client == client))
+                break;
+        }
+        if (it != msgs.end())
+            continue;
+        Msg_Id m_id;
+        m_id.id     = id;
+        m_id.client = client;
+        msgs.push_back(m_id);
+    }
+    int paraFrom, indexFrom;
+    int paraTo, indexTo;
+    getSelection(&paraFrom, &indexFrom, &paraTo, &indexTo);
+    setReadOnly(false);
+    setSelection(start, 0, paragraphs() - 1, 0xFFFF);
+    removeSelectedText();
+    setReadOnly(true);
+    QString text;
+    for (list<Msg_Id>::iterator it = msgs.begin(); it != msgs.end(); ++it){
+        Message *msg = History::load((*it).id, (*it).client.c_str(), m_id);
+        if (msg == NULL)
+            continue;
+        bool bUnread = false;
+        for (list<msg_id>::iterator itu = CorePlugin::m_plugin->unread.begin(); itu != CorePlugin::m_plugin->unread.end(); ++itu){
+            msg_id &m = (*itu);
+            if ((m.contact == msg->contact()) &&
+                    (m.id == msg->id()) &&
+                    (m.client == msg->client())){
+                bUnread = true;
+                break;
+            }
+        }
+        text += messageText(msg, bUnread);
+    }
+    append(text);
+    if (!CorePlugin::m_plugin->getOwnColors())
+        setBackground(0);
+    if ((paraFrom != paraTo) || (indexFrom != indexTo))
+        setSelection(paraFrom, indexFrom, paraTo, indexTo);
+    if (pos == -1){
+        scrollToBottom();
+    }else{
+        setCursorPosition(para, pos);
+        ensureCursorVisible();
+    }
+}
+
 QString MsgViewBase::messageText(Message *msg, bool bUnread)
 {
     QString options;
@@ -300,8 +401,11 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     XSL *p = xsl;
     if (p == NULL)
         p = CorePlugin::m_plugin->historyXSL;
-
     QString res = p->process(s);
+
+    string ss;
+    ss = res.local8Bit();
+    log(L_DEBUG, "> %s", ss.c_str());
 
     QString anchor = MSG_ANCHOR;
     anchor += id;
@@ -498,12 +602,6 @@ unsigned MsgViewBase::messageId(const QString &_s, string &client)
     return id;
 }
 
-typedef struct Msg_Id
-{
-    unsigned	id;
-    string		client;
-} Msg_Id;
-
 void MsgViewBase::reload()
 {
     QString t;
@@ -557,7 +655,7 @@ void MsgViewBase::reload()
 
 void *MsgViewBase::processEvent(Event *e)
 {
-    if (e->type() == EventRewriteMessage){
+    if ((e->type() == EventRewriteMessage) || (e->type() == EventMessageRead)){
         Message *msg = (Message*)(e->param());
         if (msg->contact() != m_id)
             return NULL;
@@ -577,7 +675,11 @@ void *MsgViewBase::processEvent(Event *e)
         }
         if (i >= (unsigned)paragraphs())
             return NULL;
-        reload();
+        Msg_Id id;
+        id.id     = msg->id();
+        id.client = msg->client();
+        m_updated.push_back(id);
+        QTimer::singleShot(0, this, SLOT(update()));
         return NULL;
     }
     if (e->type() == EventCutHistory){
@@ -696,37 +798,6 @@ void *MsgViewBase::processEvent(Event *e)
             removeSelectedText();
             setReadOnly(true);
             if ((paraFrom == -1) && (paraTo == -1)){
-                scrollToBottom();
-            }else{
-                setSelection(paraFrom, indexFrom, paraTo, indexTo);
-            }
-            break;
-        }
-        return NULL;
-    }
-    if (e->type() == EventMessageRead){
-        Message *msg = (Message*)(e->param());
-        if (msg->contact() != m_id)
-            return NULL;
-        for (unsigned i = 0; i < (unsigned)paragraphs(); i++){
-            QString s = text(i);
-            int n = s.find(MSG_ANCHOR);
-            if (n < 0)
-                continue;
-            s = s.mid(n + strlen(MSG_ANCHOR));
-            n = s.find("\"");
-            if (n < 0)
-                continue;
-            string client;
-            if ((messageId(s.left(n), client) != msg->id()) || (client != msg->client()))
-                continue;
-            int paraFrom, indexFrom;
-            int paraTo, indexTo;
-            getSelection(&paraFrom, &indexFrom, &paraTo, &indexTo);
-            setSelection(i, 0, i, 0xFFFF);
-            setBold(false);
-            if ((paraFrom == -1) && (paraTo == -1)){
-                removeSelection();
                 scrollToBottom();
             }else{
                 setSelection(paraFrom, indexFrom, paraTo, indexTo);

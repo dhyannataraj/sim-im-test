@@ -31,6 +31,7 @@ typedef struct msg_id
     string		client;
 } msg_id;
 
+class FileLock;
 class QWidget;
 class QTranslator;
 class QMimeSource;
@@ -497,6 +498,7 @@ protected slots:
     void checkHistory();
     void alertFinished();
     void focusDestroyed();
+    void showMain();
 protected:
     virtual void *processEvent(Event*);
     virtual string getConfig();
@@ -522,6 +524,7 @@ protected:
     void getWays(vector<clientContact> &ways, Contact *contact);
     string typeName(const char *name);
     void setAutoReplies();
+    bool lockProfile(const char*, bool bSend = false);
     bool				m_bInit;
     vector<string>		m_profiles;
     QWidget				*m_cfg;
@@ -541,6 +544,7 @@ protected:
     Icons				*m_icons;
     Tmpl				*m_tmpl;
     BalloonMsg			*m_alert;
+    FileLock			*m_lock;
 
     friend class MainWindow;
     friend class UserView;

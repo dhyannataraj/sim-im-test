@@ -53,6 +53,8 @@ signals:
 protected slots:
     void dragStart();
     void doubleClicked(QListViewItem*);
+    void selectionChanged();
+    void finishClicked();
 protected:
     void showEvent(QShowEvent *e);
     virtual void *processEvent(Event*);

@@ -119,7 +119,7 @@ InterfaceConfig::InterfaceConfig(QWidget *parent)
     }
     cmbLang->setCurrentItem(nCurrent);
 #else
-    cmbLang->hide();
+cmbLang->hide();
 #endif
     connect(grpMode, SIGNAL(clicked(int)), this, SLOT(modeChanged(int)));
     if (CorePlugin::m_plugin->getContainerMode()){

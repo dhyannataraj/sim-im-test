@@ -67,7 +67,7 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
     connect(chkAuto, SIGNAL(toggled(bool)), this, SLOT(autoToggled(bool)));
     chkAuto->setChecked(client->getAutoHTTP());
     chkKeepAlive->setChecked(client->getKeepAlive());
-	cmbAck->setCurrentItem(client->getAckMode());
+    cmbAck->setCurrentItem(client->getAckMode());
 }
 
 void ICQConfig::autoToggled(bool bState)
@@ -98,7 +98,7 @@ void ICQConfig::apply()
     m_client->setUseHTTP(chkHTTP->isChecked());
     m_client->setAutoHTTP(chkAuto->isChecked());
     m_client->setKeepAlive(chkKeepAlive->isChecked());
-	m_client->setAckMode(cmbAck->currentItem());
+    m_client->setAckMode(cmbAck->currentItem());
 }
 
 void ICQConfig::changed(const QString&)

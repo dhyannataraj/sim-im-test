@@ -24,6 +24,7 @@
 #include <qlabel.h>
 #include <qwizard.h>
 #include <qheader.h>
+#include <qpushbutton.h>
 
 const unsigned COL_SCREEN	= 0;
 const unsigned COL_NICK		= 1;
@@ -132,6 +133,10 @@ ICQSearchResult::ICQSearchResult(QWidget *parent, ICQClient *client)
     tblUser->header()->hide();
     connect(tblUser, SIGNAL(dragStart()), this, SLOT(dragStart()));
     connect(tblUser, SIGNAL(doubleClicked(QListViewItem*)), this, SLOT(doubleClicked(QListViewItem*)));
+    connect(tblUser, SIGNAL(selectionChanged()), this, SLOT(selectChanged()));
+    QWizard *wizard = static_cast<QWizard*>(topLevelWidget());
+    wizard->setFinishEnabled(this, false);
+    connect(wizard->finishButton(), SIGNAL(clicked()), this, SLOT(finishClicked()));
 }
 
 ICQSearchResult::~ICQSearchResult()
@@ -144,6 +149,14 @@ void ICQSearchResult::clear()
     setRequestId(SEARCH_DONE, SEARCH_DONE);
     m_nFound = 0;
     tblUser->clear();
+    QWizard *wizard = static_cast<QWizard*>(topLevelWidget());
+    wizard->setFinishEnabled(this, false);
+}
+
+void ICQSearchResult::selectionChanged()
+{
+    QWizard *wizard = static_cast<QWizard*>(topLevelWidget());
+    wizard->setFinishEnabled(this, (tblUser->selectedItem() != NULL));
 }
 
 void ICQSearchResult::setRequestId(unsigned short id1, unsigned short id2)
@@ -302,6 +315,11 @@ void ICQSearchResult::dragStart()
 }
 
 void ICQSearchResult::doubleClicked(QListViewItem*)
+{
+    createContact(false);
+}
+
+void ICQSearchResult::finishClicked()
 {
     createContact(false);
 }

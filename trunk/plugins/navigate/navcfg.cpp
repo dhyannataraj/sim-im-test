@@ -33,7 +33,7 @@ NavCfg::NavCfg(QWidget *parent, NavigatePlugin *plugin)
     lblBrowser->hide();
     lblMailer->hide();
 #else
-    edtBrowser->setText(QString::fromLocal8Bit(plugin->getBrowser()));
+edtBrowser->setText(QString::fromLocal8Bit(plugin->getBrowser()));
     edtMailer->setText(QString::fromLocal8Bit(plugin->getMailer()));
     chkNew->hide();
 #endif

@@ -33,6 +33,12 @@ typedef struct CutHistory
     unsigned	size;
 } CutHistory;
 
+typedef struct Msg_Id
+{
+    unsigned	id;
+    string		client;
+} Msg_Id;
+
 class MsgViewBase : public TextShow, public EventReceiver
 {
     Q_OBJECT
@@ -46,6 +52,8 @@ public:
     static		QString parseText(const QString &text, bool bIgnoreColors, bool bUseSmiles);
     unsigned	m_id;
     Message		*currentMessage();
+protected slots:
+    void		update();
 protected:
     virtual		QPopupMenu *createPopupMenu( const QPoint& pos );
     void		*processEvent(Event*);
@@ -60,6 +68,7 @@ protected:
     unsigned	m_nSelection;
     XSL			*xsl;
     vector<CutHistory>	m_cut;
+    list<Msg_Id>		m_updated;
 };
 
 class MsgView : public MsgViewBase

@@ -56,15 +56,45 @@
 #include <qfile.h>
 #include <qdir.h>
 #include <qpopupmenu.h>
+#include <qthread.h>
 
 #include <time.h>
 
 #ifdef WIN32
 #include <windows.h>
+#include <io.h>
 #else
+#include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #endif
+
+#ifdef WIN32
+
+class LockThread : public QThread
+{
+public:
+    LockThread(HANDLE hEvent);
+    HANDLE hEvent;
+protected:
+    void run();
+};
+
+#endif
+
+class FileLock : public QFile
+{
+public:
+    FileLock(const QString &name);
+    ~FileLock();
+    bool lock(bool bSend);
+protected:
+#ifdef WIN32
+    LockThread	*m_thread;
+#else
+    bool m_bLock;
+#endif
+};
 
 Plugin *createCorePlugin(unsigned base, bool, const char *config)
 {
@@ -489,6 +519,7 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     m_view		 = NULL;
     m_manager	 = NULL;
     m_focus		 = NULL;
+    m_lock		 = NULL;
     m_bInit		 = false;
     m_nClients	 = 0;
     m_nClientsMenu  = 0;
@@ -1385,6 +1416,7 @@ void CorePlugin::setAutoReplies()
 CorePlugin::~CorePlugin()
 {
     destroy();
+    delete m_lock;
     delete m_cmds;
     delete m_icons;
     delete m_tmpl;
@@ -1457,7 +1489,7 @@ void CorePlugin::installTranslator()
 #ifdef USE_KDE
         return;
 #else
-        char *p = getenv("LANG");
+char *p = getenv("LANG");
         if (p){
             for (; *p; p++){
                 if (*p == '.') break;
@@ -2110,7 +2142,7 @@ void *CorePlugin::processEvent(Event *e)
                 if (((*msg)->getFlags() & MESSAGE_NORAISE) == 0)
                     container->raiseUserWnd(userWnd);
             }
-            container->setNoSwitch();
+            container->setNoSwitch(true);
             userWnd->setMessage(msg);
             if ((*msg)->getFlags() & MESSAGE_NORAISE){
                 if (bNew){
@@ -2124,6 +2156,7 @@ void *CorePlugin::processEvent(Event *e)
                 container->show();
                 raiseWindow(container);
             }
+            container->setNoSwitch(false);
             if (m_focus)
                 disconnect(m_focus, SIGNAL(destroyed()), this, SLOT(focusDestroyed()));
             m_focus = NULL;
@@ -3389,6 +3422,12 @@ bool CorePlugin::init(bool bInit)
                 bRes = false;
             bLoaded = true;
         }
+    }else if (bInit && *getProfile()){
+        if (!lockProfile(getProfile(), true)){
+            Event eAbort(EventPluginsLoad, (void*)ABORT_LOADING);
+            eAbort.process();
+            return false;
+        }
     }
     if (*getProfile() == 0){
         hideWindows();
@@ -4090,6 +4129,153 @@ void CorePlugin::alertFinished()
 void CorePlugin::focusDestroyed()
 {
     m_focus = NULL;
+}
+
+bool CorePlugin::lockProfile(const char *profile, bool bSend)
+{
+    if ((profile == NULL) || (*profile == 0)){
+        if (m_lock){
+            delete m_lock;
+            m_lock = NULL;
+        }
+        return true;
+    }
+    FileLock *lock = new FileLock(QFile::decodeName(user_file(".lock").c_str()));
+    if (!lock->lock(bSend)){
+        delete lock;
+        return false;
+    }
+    if (m_lock)
+        delete m_lock;
+    m_lock = lock;
+    return true;
+}
+
+void CorePlugin::showMain()
+{
+    if (m_main){
+        m_main->show();
+        raiseWindow(m_main);
+    }
+}
+
+#ifdef WIN32
+
+LockThread::LockThread(HANDLE _hEvent)
+{
+    hEvent = _hEvent;
+}
+
+void LockThread::run()
+{
+    for (;;){
+        DWORD res = WaitForSingleObject(hEvent, INFINITE);
+        if (res == WAIT_ABANDONED)
+            break;
+        QTimer::singleShot(0, CorePlugin::m_plugin, SLOT(showMain()));
+    }
+}
+
+// From zlib
+// Copyright (C) 1995-2002 Mark Adler
+
+#define BASE 65521L
+#define NMAX 5552
+
+#define DO1(buf,i)  {s1 += buf[i]; s2 += s1;}
+#define DO2(buf,i)  DO1(buf,i); DO1(buf,i+1);
+#define DO4(buf,i)  DO2(buf,i); DO2(buf,i+2);
+#define DO8(buf,i)  DO4(buf,i); DO4(buf,i+4);
+#define DO16(buf)   DO8(buf,0); DO8(buf,8);
+
+unsigned adler32(const char *buf, unsigned len)
+{
+    unsigned long s1 = 0;
+    unsigned long s2 = 0;
+    int k;
+    while (len > 0) {
+        k = len < NMAX ? len : NMAX;
+        len -= k;
+        while (k >= 16) {
+            DO16(buf);
+            buf += 16;
+            k -= 16;
+        }
+        if (k != 0) do {
+                s1 += *buf++;
+                s2 += s1;
+            } while (--k);
+        s1 %= BASE;
+        s2 %= BASE;
+    }
+    return (s2 << 16) | s1;
+}
+
+#endif
+
+FileLock::FileLock(const QString &name)
+        : QFile(name)
+{
+#ifdef WIN32
+    m_thread = NULL;
+#else
+m_bLock  = false;
+#endif
+}
+
+FileLock::~FileLock()
+{
+#ifdef WIN32
+    if (m_thread){
+        CloseHandle(m_thread->hEvent);
+        m_thread->wait(1000);
+        delete m_thread;
+    }
+#else
+    close();
+    if (m_bLock)
+        QFile::remove(name());
+#endif
+}
+
+bool FileLock::lock(bool bSend)
+{
+#ifdef WIN32
+    string event = "SIM.";
+    string s;
+    s = name().local8Bit();
+    event += number(adler32(s.c_str(), s.length()));
+    HANDLE hEvent = OpenEventA(EVENT_MODIFY_STATE, FALSE, event.c_str());
+    if (hEvent){
+        if (bSend)
+            SetEvent(hEvent);
+        CloseHandle(hEvent);
+        return false;
+    }
+    hEvent = CreateEventA(NULL, false, false, event.c_str());
+    if (hEvent == NULL)
+        return false;
+    m_thread = new LockThread(hEvent);
+    m_thread->start();
+#else
+    if (!open(IO_ReadWrite | IO_Truncate)){
+        string s;
+        s = name().local8Bit();
+        log(L_WARN, "Can't create %s", s.c_str());
+        return false;
+    }
+    struct flock fl;
+    fl.l_type   = F_WRLCK;
+    fl.l_whence = SEEK_SET;
+    fl.l_start  = 0;
+    fl.l_len    = 1;
+    if (fcntl(handle(), F_SETLK, &fl) == -1){
+        QFile::remove(name());
+        return false;
+    }
+    m_bLock = true;
+#endif
+    return true;
 }
 
 #ifdef WIN32

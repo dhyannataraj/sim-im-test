@@ -713,7 +713,7 @@ unsigned short ICQClient::findWP(const char *szFirst, const char *szLast, const 
     unsigned short nMaxAge = 0;
     switch (age){
     case 1:
-        nMinAge = 13;
+        nMinAge = 18;
         nMaxAge = 22;
         break;
     case 2:

@@ -473,8 +473,9 @@ void *UserView::processEvent(Event *e)
                     if (to == NULL)
                         to = new Container(max_id + 1);
                     to->addUserWnd(userWnd, true);
-                    to->setNoSwitch();
+                    to->setNoSwitch(true);
                     raiseWindow(to);
+                    to->setNoSwitch(false);
                 }
                 return e->param();
             }

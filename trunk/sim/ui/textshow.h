@@ -67,8 +67,10 @@ signals:
     void finished();
 protected slots:
     void slotSelectionChanged();
+    void slotResizeTimer();
 protected:
     QTextDrag *dragObject(QWidget *parent) const;
+    QTimer	  *m_timer;
     void startDrag();
     void keyPressEvent(QKeyEvent *e);
     void resizeEvent(QResizeEvent *e);

@@ -45,7 +45,7 @@ public:
     int key() { return m_key; }
 #else
 #ifndef USE_KDE
-unsigned key() { return m_key; }
+    unsigned key() { return m_key; }
     unsigned state() { return m_state; }
 #endif
 #endif

@@ -57,6 +57,8 @@ MsgUrl::MsgUrl(MsgEdit *parent, Message *msg)
 
 void MsgUrl::init()
 {
+    if (!m_edit->topLevelWidget()->isActiveWindow() || m_edit->topLevelWidget()->isMinimized())
+        return;
     Command cmd;
     cmd->id    = CmdUrlInput;
     cmd->param = m_edit;

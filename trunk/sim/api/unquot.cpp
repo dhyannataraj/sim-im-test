@@ -180,9 +180,9 @@ EXPORT QString SIM::quoteString(const QString &_str, quoteMode mode)
     QRegExp re("  +");
     int len;
     int pos = 0;
-/*  match() is obsolete since 3.0 so there is a big chance
-    that this will be replaced and we get
-    bug-reports from the users ... */
+    /*  match() is obsolete since 3.0 so there is a big chance
+        that this will be replaced and we get
+        bug-reports from the users ... */
 #if COMPAT_QT_VERSION < 0x030000
     while ((pos = re.match(str, pos, &len)) != -1) {
 #else
@@ -190,7 +190,7 @@ EXPORT QString SIM::quoteString(const QString &_str, quoteMode mode)
         len = re.matchedLength();
 #endif
         if (len == 1)
-        	continue;
+            continue;
         QString s = " ";
         for (int i = 1; i < len; i++)
             s += "&nbsp;";

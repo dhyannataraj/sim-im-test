@@ -306,7 +306,7 @@ Processor *createProcessor(const char *addr_str)
     Processor *processor = createTCPProcessor(addr_str);
     if (processor != NULL)
         return processor;
-    string addr = "/tcp/sim.%user%";
+    string addr = "/tmp/sim.%user%";
     if (addr_str)
         addr = addr_str;
     int n = addr.find("%user%");
@@ -324,8 +324,10 @@ Processor *createProcessor(const char *addr_str)
         addr = addr.substr(0, n) + user + addr.substr(n + 6);
     }
     int s = socket(PF_UNIX, SOCK_STREAM, 0);
-    if (s < 0)
+    if (s < 0){
+	fprintf(stderr, "Can't create socket: %s\n", strerror(errno));
         return NULL;
+    }
 
     char local_name[256];
     strcpy(local_name, "/tmp/sim.XXXXX");
@@ -336,14 +338,17 @@ Processor *createProcessor(const char *addr_str)
     struct sockaddr_un sun_local;
     sun_local.sun_family = AF_UNIX;
     strcpy(sun_local.sun_path, local_name);
-    if (bind(s, (struct sockaddr*)&sun_local, sizeof(sun_local)) < 0)
+    unlink(local_name);
+    if (bind(s, (struct sockaddr*)&sun_local, sizeof(sun_local)) < 0){
+	fprintf(stderr, "Can't bind socket %s: %s\n", local_name, strerror(errno));
         return NULL;
-
+    }
 
     struct sockaddr_un sun_remote;
     sun_remote.sun_family = AF_UNIX;
     strcpy(sun_remote.sun_path, addr.c_str());
     if (connect(s, (struct sockaddr*)&sun_remote, sizeof(sun_remote)) < 0){
+	fprintf(stderr, "Can't connect to %s: %s\n", addr.c_str(), strerror(errno));
         unlink(local_name);
         return NULL;
     }
@@ -374,6 +379,7 @@ static void usage(char *s)
             "      -s socket	[/tmp/sim.%s] Control socket\n"
 #endif
             "      -d                         Debug mode\n"
+	    "      -c command                 Command\n"
             "\n",
             s
 #ifndef WIN32
@@ -385,6 +391,7 @@ static void usage(char *s)
 int main(int argc, char **argv)
 {
     list<string> uins;
+    const char *cmd  = NULL;
     const char *addr = NULL;
     for (char **p = argv + 1; *p; p++){
         if (!strcmp(*p, "-d")){
@@ -395,6 +402,15 @@ int main(int argc, char **argv)
             }
             addr = *p;
             continue;
+        }
+        if (!strcmp(*p, "-c")){
+            p++;
+            if (*p == NULL){
+	 	usage(argv[0]);
+		return 1;
+	    }
+            cmd = *p;
+	    continue;
         }
         uins.push_back(*p);
     }
@@ -414,6 +430,23 @@ int main(int argc, char **argv)
                 break;
         }
         return 0;
+    }
+    if (cmd){
+	string out_str;
+        if (!processor->process(cmd, out_str)){
+		fprintf(stderr, "Can't execute %s\n", cmd);
+		exit(1);
+        }
+	if (out_str.empty()){
+		fprintf(stderr, "No answer\n");
+		exit(1);
+	}
+	if (out_str[0] != '>'){
+		fprintf(stderr, "Execute %s fail\n", cmd);
+		exit(1);
+	}
+	printf("%s\n", out_str.c_str() + 1);
+	exit(0);
     }
     FILE *f = stdin;
     while (!feof(f) && !ferror(f)){

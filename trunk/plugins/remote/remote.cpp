@@ -57,7 +57,7 @@ static DataDef remoteData[] =
         { "Path", DATA_STRING, 1, "auto:" },
         { "EnableMenu", DATA_BOOL, 1, DATA(1) },
 #else
-        { "Path", DATA_STRING, 1, "/tmp/sim.%user%" },
+{ "Path", DATA_STRING, 1, "/tmp/sim.%user%" },
 #endif
         { NULL, 0, 0, 0 }
     };
@@ -128,7 +128,7 @@ IPC::~IPC()
         CloseHandle(hEventIn);
     if (hEventOut)
         CloseHandle(hEventOut);
-    wait();
+    wait(2000);
 }
 
 void IPC::run()

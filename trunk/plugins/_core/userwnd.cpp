@@ -227,6 +227,8 @@ void UserWnd::setMessage(Message **msg)
     if (m_view->findMessage(*msg))
         return;
     m_view->addMessage(*msg);
+    if (!m_view->hasSelectedText())
+        m_view->scrollToBottom();
 }
 
 void UserWnd::setStatus(const QString &status)
