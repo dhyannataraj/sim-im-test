@@ -149,7 +149,7 @@ bool TransparentTop::eventFilter(QObject*, QEvent *e)
         transparentChanged();
         break;
     default:
-	break;
+        break;
     }
     return false;
 }

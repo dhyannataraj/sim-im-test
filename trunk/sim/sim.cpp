@@ -134,7 +134,8 @@ QString i18n(const char *singular, const char *plural, unsigned long n)
     sprintf(newstring, "_n: %s\n%s", singular, plural);
     QString r = i18n(newstring);
     delete [] newstring;
-    if ( r.isEmpty() || d->plural_form == -1) {
+    initPlural();
+    if ( r.isEmpty() || plural_form == -1) {
         if ( n == 1 )
             return put_n_in( QString::fromUtf8( singular ),  n );
         else

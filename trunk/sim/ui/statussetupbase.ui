@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>580</width>
-            <height>480</height>
+            <width>385</width>
+            <height>330</height>
         </rect>
     </property>
     <property>
@@ -130,32 +130,54 @@
                     <name>spacing</name>
                     <number>6</number>
                 </property>
-                <widget row="2"  column="1"  rowspan="1"  colspan="4" >
-                    <class>QLabel</class>
+                <widget row="3"  column="0" >
+                    <class>QCheckBox</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>TextLabel1_2</cstring>
+                        <cstring>chkAutoHide</cstring>
                     </property>
                     <property>
-                        <name>sizePolicy</name>
-                        <sizepolicy>
-                            <hsizetype>7</hsizetype>
-                            <vsizetype>1</vsizetype>
-                        </sizepolicy>
+                        <name>text</name>
+                        <string>Hide main window after</string>
+                    </property>
+                </widget>
+                <widget row="0"  column="1" >
+                    <class>QSpinBox</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>spnAway</cstring>
+                    </property>
+                </widget>
+                <widget row="3"  column="1" >
+                    <class>QSpinBox</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>spnAutoHide</cstring>
+                    </property>
+                </widget>
+                <widget row="2"  column="0"  rowspan="1"  colspan="3" >
+                    <class>QCheckBox</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>chkAlert</cstring>
                     </property>
                     <property>
                         <name>text</name>
                         <string>Disable online alert in "Away", "N/A", "DND" and "Occupied" List</string>
                     </property>
-                    <property>
-                        <name>alignment</name>
-                        <set>WordBreak|AlignVCenter|AlignLeft</set>
+                </widget>
+                <widget row="0"  column="0" >
+                    <class>QCheckBox</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>chkAway</cstring>
                     </property>
                     <property>
-                        <name>wordwrap</name>
+                        <name>text</name>
+                        <string>Set "Away" status after</string>
                     </property>
                 </widget>
-                <widget row="0"  column="3" >
+                <widget row="0"  column="2" >
                     <class>QLabel</class>
                     <property stdset="1">
                         <name>name</name>
@@ -180,54 +202,7 @@
                         <name>wordwrap</name>
                     </property>
                 </widget>
-                <widget row="0"  column="2" >
-                    <class>QSpinBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>spnAway</cstring>
-                    </property>
-                </widget>
-                <widget row="1"  column="0" >
-                    <class>QCheckBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>chkNA</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string></string>
-                    </property>
-                </widget>
                 <widget row="1"  column="2" >
-                    <class>QSpinBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>spnNA</cstring>
-                    </property>
-                </widget>
-                <widget row="2"  column="0" >
-                    <class>QCheckBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>chkAlert</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string></string>
-                    </property>
-                </widget>
-                <widget row="0"  column="0" >
-                    <class>QCheckBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>chkAway</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string></string>
-                    </property>
-                </widget>
-                <widget row="1"  column="3" >
                     <class>QLabel</class>
                     <property stdset="1">
                         <name>name</name>
@@ -252,54 +227,33 @@
                         <name>wordwrap</name>
                     </property>
                 </widget>
-                <widget row="1"  column="1" >
+                <widget row="3"  column="2" >
                     <class>QLabel</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>TextLabel3</cstring>
+                        <cstring>TextLabel1_3</cstring>
                     </property>
                     <property>
-                        <name>sizePolicy</name>
-                        <sizepolicy>
-                            <hsizetype>1</hsizetype>
-                            <vsizetype>5</vsizetype>
-                        </sizepolicy>
+                        <name>text</name>
+                        <string>seconds inactive</string>
+                    </property>
+                </widget>
+                <widget row="1"  column="1" >
+                    <class>QSpinBox</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>spnNA</cstring>
+                    </property>
+                </widget>
+                <widget row="1"  column="0" >
+                    <class>QCheckBox</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>chkNA</cstring>
                     </property>
                     <property>
                         <name>text</name>
                         <string>Set "N/A" status after</string>
-                    </property>
-                    <property>
-                        <name>alignment</name>
-                        <set>WordBreak|AlignVCenter|AlignLeft</set>
-                    </property>
-                    <property>
-                        <name>wordwrap</name>
-                    </property>
-                </widget>
-                <widget row="0"  column="1" >
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>TextLabel2_2</cstring>
-                    </property>
-                    <property>
-                        <name>sizePolicy</name>
-                        <sizepolicy>
-                            <hsizetype>1</hsizetype>
-                            <vsizetype>5</vsizetype>
-                        </sizepolicy>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>Set "Away" status after</string>
-                    </property>
-                    <property>
-                        <name>alignment</name>
-                        <set>WordBreak|AlignVCenter|AlignLeft</set>
-                    </property>
-                    <property>
-                        <name>wordwrap</name>
                     </property>
                 </widget>
             </grid>
@@ -307,7 +261,7 @@
         <spacer>
             <property>
                 <name>name</name>
-                <cstring>Spacer1</cstring>
+                <cstring>Spacer2</cstring>
             </property>
             <property>
                 <name>orientation</name>

@@ -243,12 +243,13 @@ MainWindow::MainWindow(const char *name)
         MessageBgColor(this, "MessageBgColor"),
         MessageFgColor(this, "MessageFgColor"),
         SimpleMode(this, "SimpleMode"),
-	ContainerUserMsg(this, "ContainerUserMsg", true),
+        ContainerUserMsg(this, "ContainerUserMsg", true),
         UseOwnColors(this, "UseOwnColors"),
         KeyWindow(this, "KeyWindow", "CTRL-SHIFT-A"),
         KeyDblClick(this, "KeyDblClick", "CTRL-SHIFT-I"),
         KeySearch(this, "KeySearch", "CTRL-SHIFT-S"),
-        UseEmotional(this, "UseEmotional", true)
+        UseEmotional(this, "UseEmotional", true),
+        AutoHideTime(this, "AutoHideTime", 60)
 {
     pMain = this;
     bQuit = false;
@@ -258,6 +259,7 @@ MainWindow::MainWindow(const char *name)
     lockFile = -1;
     translator = NULL;
     mAboutApp = NULL;
+    hideTime = 0;
 
 #ifdef HAVE_UMASK
     umask(0077);
@@ -1156,6 +1158,22 @@ void MainWindow::search()
     searchDlg->raise();
 }
 
+bool MainWindow::event(QEvent *e)
+{
+    if (e->type() == QEvent::WindowDeactivate){
+        hideTime = 0;
+        if (AutoHideTime()){
+            time_t now;
+            time(&now);
+            hideTime = now + AutoHideTime();
+        }
+    }
+    if (e->type() == QEvent::WindowActivate){
+        hideTime = 0;
+    }
+    return QMainWindow::event(e);
+}
+
 void MainWindow::closeEvent(QCloseEvent *e)
 {
     if (!bQuit && (dock != NULL)){
@@ -1174,6 +1192,14 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
 void MainWindow::autoAway()
 {
+    if (hideTime){
+        time_t now;
+        time(&now);
+        if (now >= (time_t)hideTime){
+            setShow(false);
+            hideTime = 0;
+        }
+    }
 #ifdef WIN32
     unsigned long idle_time = (GetTickCount() - IdleTrackerGetLastTickCount()) / 1000;
 #endif

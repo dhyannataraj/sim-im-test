@@ -390,7 +390,7 @@ void DirectClient::read_ready()
         write_ready();
         return;
     default:
-	break;
+        break;
     }
     if (pSSL){
         int read = SSL_read(pSSL, readBuffer.Data(readBuffer.writePos()),
@@ -440,7 +440,7 @@ void DirectClient::write_ready()
         read_ready();
         return;
     default:
-	break;
+        break;
     }
     if (pSSL){
         if (writeBuffer.readPos() < writeBuffer.writePos()){
@@ -486,7 +486,7 @@ bool DirectClient::have_data()
     case SSLShutdown_Write:
         return true;
     default:
-	break;
+        break;
     }
     return DirectSocket::have_data();
 }
@@ -794,7 +794,7 @@ void DirectClient::processPacket()
             }
             delete m;
         }else{
-	    if ((m->Type() != ICQ_MSGxFILE) && (m->Type() != ICQ_MSGxCHAT))
+            if ((m->Type() != ICQ_MSGxFILE) && (m->Type() != ICQ_MSGxCHAT))
                 sendAck(seq, m->Type());
             client->messageReceived(m);
         }

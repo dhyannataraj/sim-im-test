@@ -124,9 +124,9 @@ void SoundSetup::save(ICQUser *u)
 #endif
 }
 
-void SoundSetup::apply(ICQUser *u)
+void SoundSetup::apply(ICQUser*)
 {
-    save(u);
+    save(pClient);
 }
 
 #ifndef _WINDOWS

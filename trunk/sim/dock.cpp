@@ -21,6 +21,7 @@
 #include "icons.h"
 #include "client.h"
 #include "history.h"
+#include "cuser.h"
 #include "log.h"
 
 #include <qpainter.h>
@@ -495,17 +496,53 @@ void DockWnd::messageReceived(ICQMessage *msg)
 
 typedef struct msgInfo
 {
-	unsigned long uin;
-	unsigned short type;
-	unsigned count;
+    unsigned long uin;
+    unsigned short type;
+    unsigned count;
+    bool operator < (const msgInfo &m) const;
 } msgInfo;
+
+bool msgInfo::operator < (const msgInfo &m) const
+{
+    if (uin < m.uin) return true;
+    if (uin > m.uin) return false;
+    return type < m.type;
+}
 
 void DockWnd::reset()
 {
-    unsigned unread = messages.size();
+    list<msgInfo> msgs;
+    for (list<unread_msg>::iterator it = messages.begin(); it != messages.end(); ++it){
+        list<msgInfo>::iterator it_msg;
+        for (it_msg = msgs.begin(); it_msg != msgs.end(); ++it_msg)
+            if (((*it_msg).uin == (*it).uin()) && ((*it_msg).type == (*it).type()))
+                break;
+        if (it_msg != msgs.end()){
+            (*it_msg).count++;
+            continue;
+        }
+        msgInfo info;
+        info.uin = (*it).uin();
+        info.type = (*it).type();
+        info.count = 1;
+        msgs.push_back(info);
+    }
+    msgs.sort();
+
     QString s;
-    if (unread){
-        s = i18n("%n unread message", "%n unread messages", unread);
+    if (msgs.size()){
+        QStringList str;
+        for (list<msgInfo>::iterator it_msg = msgs.begin(); it_msg != msgs.end(); ++it_msg){
+            CUser u((*it_msg).uin);
+            str.append(i18n("%1 from %2")
+                       .arg(Client::getMessageText((*it_msg).type, (*it_msg).count))
+                       .arg(u.name(true)));
+        }
+#ifdef WIN32
+        s = str.join(" ");
+#else
+        s = str.join("<br>");
+#endif
     }else{
         if ((pClient->m_state == ICQClient::Logoff) || (pClient->m_state == ICQClient::Logged)){
             s = pClient->getStatusText();

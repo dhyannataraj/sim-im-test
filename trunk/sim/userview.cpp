@@ -889,7 +889,7 @@ void UserView::processEvent(ICQEvent *e)
                 msg->show();
             }
         }
-	return;
+        return;
     case EVENT_MESSAGE_RECEIVED:
     case EVENT_USER_DELETED:
     case EVENT_USERGROUP_CHANGED:

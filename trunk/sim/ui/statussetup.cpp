@@ -44,18 +44,28 @@ StatusSetup::StatusSetup(QWidget *p)
         spnNA->setEnabled(false);
     }
     connect(chkNA, SIGNAL(toggled(bool)), this, SLOT(changed(bool)));
+    if (pMain->AutoHideTime){
+        chkAutoHide->setChecked(true);
+        spnAutoHide->setValue(pMain->AutoHideTime);
+    }else{
+        spnAutoHide->setValue(60);
+        spnAutoHide->setEnabled(false);
+    }
+    connect(chkAutoHide, SIGNAL(toggled(bool)), this, SLOT(changed(bool)));
 }
 
 void StatusSetup::changed(bool)
 {
     spnAway->setEnabled(chkAway->isChecked());
     spnNA->setEnabled(chkNA->isChecked());
+    spnAutoHide->setEnabled(chkAutoHide->isChecked());
 }
 
 void StatusSetup::apply(ICQUser*)
 {
     pMain->AutoAwayTime = chkAway->isChecked() ? spnAway->value() * 60 : 0;
     pMain->AutoNATime = chkNA->isChecked() ? spnNA->value() * 60 : 0;
+    pMain->AutoHideTime = chkAutoHide->isChecked() ? spnAutoHide->value() : 0;
 }
 
 #ifndef _WINDOWS

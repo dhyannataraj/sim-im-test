@@ -5080,10 +5080,46 @@ BuildCmds= \
 # Begin Source File
 
 SOURCE=.\po\de.po
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# Begin Custom Build - msg2qm on $(InputPath)
+OutDir=.\Debug
+InputPath=.\po\de.po
+
+"$(OutDir)\po\de.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	msg2qm $(InputPath) 
+	copy tr.qm $(OutDir)\po\de.qm 
+	del tr.qm 
+	
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=.\po\ru.po
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# Begin Custom Build - msg2qm on $(InputPath)
+OutDir=.\Debug
+InputPath=.\po\ru.po
+
+"$(OutDir)\po\ru.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	msg2qm $(InputPath) 
+	copy tr.qm $(OutDir)\po\ru.qm 
+	del tr.qm 
+	
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 

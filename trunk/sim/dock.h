@@ -37,6 +37,7 @@ class unread_msg
 public:
     unread_msg(ICQMessage *msg);
     unsigned short type() { return m_type; }
+    unsigned long uin() { return m_uin; }
     bool operator == (const unread_msg &msg) const { return (m_uin == msg.m_uin) && (m_id == msg.m_id); }
 protected:
     unsigned long  m_uin;

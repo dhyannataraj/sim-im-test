@@ -208,6 +208,7 @@ public:
     ConfigString KeySearch;
 
     ConfigBool	 UseEmotional;
+    ConfigULong	 AutoHideTime;
 
     bool 	     init();
 
@@ -342,6 +343,7 @@ protected:
     bool	bQuit;
     DockWnd	*dock;
     HotKeys *keys;
+    virtual bool event(QEvent*);
     virtual void closeEvent(QCloseEvent*);
     void addMessageType(QPopupMenu *menu, int type, int id, bool bAdd, bool bHaveTitle);
     QToolBar *toolbar;
@@ -349,6 +351,8 @@ protected:
     SearchDialog *searchDlg;
     SetupDialog *setupDlg;
     bool bInLogin;
+
+    unsigned hideTime;
 
     void exec(const char *prg, const char *arg);
     void loadMenu();
