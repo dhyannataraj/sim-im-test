@@ -20,13 +20,8 @@
 #include <time.h>
 #include <qfile.h>
 #include <qfileinfo.h>
-<<<<<<< message.cpp
 #include <qdir.h>
 #include <qstringlist.h>
-=======
-#include <qdir.h>
-#include <qstringlist.h>
-    >>>>>>> 1.1.2.3.2.2
 
 #include <list>
 
