@@ -184,11 +184,11 @@ i18n("Help")
 
 i18n("Defaults")
 
-i18n("< Back")
+i18n("< &Back")
 
-i18n("Next >")
+i18n("&Next >")
 
-i18n("Finish")
+i18n("&Finish")
 
 i18n("Ctrl")
 
