@@ -47,7 +47,7 @@ RSC=rc.exe
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "NDEBUG"
-# ADD RSC /l 0x419 /d "NDEBUG"
+# ADD RSC /l 0x417 /i "../.." /d "NDEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
@@ -73,7 +73,7 @@ LINK32=link.exe
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "_DEBUG"
-# ADD RSC /l 0x419 /d "_DEBUG"
+# ADD RSC /l 0x417 /i "../.." /d "_DEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
@@ -2309,6 +2309,10 @@ InputName=userwnd
 # Begin Group "Resource Files"
 
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
+# Begin Source File
+
+SOURCE=.\core.rc
+# End Source File
 # End Group
 # Begin Group "Interfaces"
 
@@ -3740,30 +3744,6 @@ SOURCE=.\xpm\smile1.xpm
 # End Source File
 # Begin Source File
 
-SOURCE=.\xpm\smile10.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smile11.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smile12.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smile13.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smile14.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smile15.xpm
-# End Source File
-# Begin Source File
-
 SOURCE=.\xpm\smile2.xpm
 # End Source File
 # Begin Source File
@@ -3793,6 +3773,30 @@ SOURCE=.\xpm\smile8.xpm
 # Begin Source File
 
 SOURCE=.\xpm\smile9.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\smileA.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\smileB.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\smileC.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\smileD.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\smileE.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\smileF.xpm
 # End Source File
 # Begin Source File
 

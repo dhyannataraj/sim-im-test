@@ -113,7 +113,6 @@ void IconsPlugin::setIcons()
         for (unsigned i = 0; i < smiles->count(); i++){
             const QIconSet *is = smiles->get(i);
             if (is == NULL){
-                log(L_DEBUG, "Skip %u", i);
                 s += '-';
                 s += '\x00';
                 s += '\x00';
@@ -127,13 +126,11 @@ void IconsPlugin::setIcons()
                     continue;
                 s += p.latin1();
                 s += '\x00';
-                log(L_DEBUG, "%u > %s", i, (const char*)(p.latin1()));
             }
             s += '\x00';
             QString tip = smiles->tip(i);
             if (!tip.isEmpty()){
                 s += tip.local8Bit();
-                log(L_DEBUG, "%u Tip %s", i, (const char*)(tip.local8Bit()));
             }
             s += '\x00';
             QString url = "smile";
@@ -221,15 +218,7 @@ void *IconsPlugin::processEvent(Event *e)
         }
         char _SMILE[] = "smile";
         if (smiles && (strlen(name) > strlen(_SMILE)) && (memcmp(name, _SMILE, strlen(_SMILE)) == 0)){
-            unsigned nIcon = 0;
-            p = name + strlen(_SMILE);
-            for (; *p; p++){
-                if ((*p >= '0') && (*p <= '9')){
-                    nIcon = (nIcon * 10) + (*p - '0');
-                    continue;
-                }
-                return NULL;
-            }
+            unsigned nIcon = strtol(name + strlen(_SMILE), NULL, 16);
             const QIconSet *is = smiles->get(nIcon);
             if (is)
                 return (void*)is;

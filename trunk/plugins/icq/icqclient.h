@@ -24,6 +24,7 @@
 
 const unsigned MESSAGE_DIRECT    = 0x0100;
 
+const unsigned STATUS_INVISIBLE	  = 2;
 const unsigned STATUS_OCCUPIED    = 100;
 
 const unsigned char ICQ_TCP_VERSION = 0x08;

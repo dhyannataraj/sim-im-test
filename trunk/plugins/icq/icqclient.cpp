@@ -555,7 +555,6 @@ void ICQClient::packet_ready()
             m_socket->readBuffer.add(size);
             return;
         }
-        log(L_DEBUG, "Header ready %u (%u)", size, sequence);
     }
     ICQPlugin *plugin = static_cast<ICQPlugin*>(protocol()->plugin());
     log_packet(m_socket->readBuffer, false, plugin->ICQPacket);
@@ -882,6 +881,8 @@ ICQUserData *ICQClient::findGroup(unsigned id, const char *alias, Group *&grp)
     data = (ICQUserData*)(grp->clientData.createData(this));
     data->IcqID = id;
     set_str(&data->Alias, alias);
+    Event e(EventGroupChanged, grp);
+    e.process();
     return data;
 }
 
@@ -990,6 +991,11 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
         }else{
             statusIcon = dicon;
         }
+    }
+    if ((status == STATUS_OFFLINE) && data->bInvisible){
+        status = STATUS_INVISIBLE;
+        if (status > curStatus)
+            curStatus = status;
     }
     if (icons){
         if ((iconStatus != STATUS_ONLINE) && (iconStatus != STATUS_OFFLINE) && (s & ICQ_STATUS_FxPRIVATE))
@@ -1224,7 +1230,7 @@ QString ICQClient::contactTip(void *_data)
     unsigned style  = 0;
     const char *statusIcon = NULL;
     contactInfo(data, status, style, statusIcon);
-    if ((status == STATUS_OFFLINE) && data->bInvisible){
+    if (status == STATUS_INVISIBLE){
         res += "<img src=\"icon:ICQ_invisible\">";
         res += i18n("Possibly invisible");
     }else{
@@ -2178,6 +2184,10 @@ void *ICQClient::processEvent(Event *e)
                 return e->param();
             }
         }
+        if (cmd->id == plugin->CmdCheckInvisible){
+            if (getState() == Connected)
+                return e->param();
+        }
         if ((cmd->bar_id == ToolBarContainer) || (cmd->bar_id == BarHistory)){
             if (cmd->id == plugin->CmdChangeEncoding){
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));
@@ -2322,6 +2332,28 @@ void *ICQClient::processEvent(Event *e)
                 eh.process();
             }
             return NULL;
+        }
+        if (cmd->id == plugin->CmdCheckInvisible){
+            if (getState() == Connected){
+                ContactList::ContactIterator it;
+                Contact *contact;
+                while ((contact = ++it) != NULL){
+                    if (contact->getIgnore())
+                        continue;
+                    ClientDataIterator itd(contact->clientData, this);
+                    ICQUserData *data;
+                    while ((data = (ICQUserData*)(++itd)) != NULL){
+                        if (data->Status != ICQ_STATUS_OFFLINE)
+                            continue;
+                        Message *m = new Message(MessageCheckInvisible);
+                        m->setContact(contact->id());
+                        m->setClient(dataName(data).c_str());
+                        m->setFlags(MESSAGE_NOHISTORY);
+                        if (!send(m, data))
+                            delete m;
+                    }
+                }
+            }
         }
         if (cmd->menu_id == MenuContactGroup){
             if (cmd->id == plugin->CmdVisibleList){

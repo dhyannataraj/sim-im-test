@@ -353,7 +353,9 @@ void Container::contactSelected(int)
     QString name = userWnd->getName();
     Command cmd;
     cmd->id = CmdContainerContact;
-    cmd->text_wrk = strdup(name.utf8());
+    cmd->text_wrk = NULL;
+    if (!name.isEmpty())
+        cmd->text_wrk = strdup(name.utf8());
     cmd->icon  = userWnd->getIcon();
     cmd->param = (void*)(userWnd->id());
     cmd->popup_id = MenuContainerContact;

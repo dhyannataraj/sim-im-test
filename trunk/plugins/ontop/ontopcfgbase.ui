@@ -6,16 +6,16 @@
         <name>name</name>
         <cstring>Form1</cstring>
     </property>
-    <property stdset="1">
+    <property>
         <name>geometry</name>
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>214</width>
-            <height>65</height>
+            <width>324</width>
+            <height>140</height>
         </rect>
     </property>
-    <property stdset="1">
+    <property>
         <name>caption</name>
         <string>Form1</string>
     </property>
@@ -23,11 +23,11 @@
         <name>text</name>
     </property>
     <vbox>
-        <property stdset="1">
+        <property>
             <name>margin</name>
             <number>11</number>
         </property>
-        <property stdset="1">
+        <property>
             <name>spacing</name>
             <number>6</number>
         </property>
@@ -37,9 +37,20 @@
                 <name>name</name>
                 <cstring>chkInTask</cstring>
             </property>
-            <property stdset="1">
+            <property>
                 <name>text</name>
-                <string>Show main window in task manager</string>
+                <string>Show &amp;main window in task manager</string>
+            </property>
+        </widget>
+        <widget>
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkContainer</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>&amp;Container allways on top</string>
             </property>
         </widget>
         <spacer>

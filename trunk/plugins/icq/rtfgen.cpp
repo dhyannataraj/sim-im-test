@@ -211,6 +211,8 @@ void RTFGenParser::text(const QString &text)
         }
         QString s;
         s += c;
+
+		if (m_codec){
         string plain;
         plain = m_codec->fromUnicode(s.utf8());
         if ((plain.length() == 1) && (m_codec->toUnicode(plain.c_str()) == s)){
@@ -220,9 +222,13 @@ void RTFGenParser::text(const QString &text)
             m_bSpace = false;
             continue;
         }
-        char b[20];
-        snprintf(b, sizeof(b), "\\u%u?", s[0].unicode());
-        res += b;
+
+		}
+
+		res += "\\u";
+
+		res += number(s[0].unicode());
+        res += "?";
         m_bSpace = false;
     }
 }
@@ -262,14 +268,10 @@ void RTFGenParser::tag_start(const QString &tag, const list<QString> &options)
         }
         if (src.left(10) != "icon:smile")
             return;
-        src = src.mid(10);
-        unsigned nSmile = 0;
-        for (int i = 0; i < (int)(src.length()); i++){
-            char c = src[i].latin1();
-            if ((c < '0') || (c > '9'))
-                return;
-            nSmile = nSmile * 10 + c - '0';
-        }
+		bool bOK;
+        unsigned nSmile = src.mid(10).toUInt(&bOK, 16);
+		if (!bOK)
+			return;
         if (nSmile < 16){
             res += "<##icqimage000";
             if (nSmile < 10){
@@ -478,7 +480,10 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &options)
         }
         if (src.left(10) != "icon:smile")
             return;
-        unsigned nIcon = atol(src.mid(10).latin1());
+		bool bOK;
+        unsigned nIcon = src.mid(10).toUInt(&bOK, 16);
+		if (!bOK)
+			return;
         if (nIcon >= m_maxSmile){
             const char *p = smiles(nIcon);
             if (p){

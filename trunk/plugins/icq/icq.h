@@ -56,6 +56,7 @@ public:
     unsigned CmdAllEncodings;
     unsigned CmdSendMessage;
     unsigned CmdGroups;
+    unsigned CmdCheckInvisible;
     unsigned MenuEncoding;
     unsigned MenuSearchResult;
     unsigned MenuGroups;

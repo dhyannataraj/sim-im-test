@@ -24,6 +24,7 @@ typedef struct OnTopData
 {
     unsigned long	OnTop;
     unsigned long	InTask;
+    unsigned long	ContainerOnTop;
 } OnTopData;
 
 class OnTopPlugin : public QObject, public Plugin, public EventReceiver
@@ -43,6 +44,7 @@ protected:
     unsigned CmdOnTop;
     PROP_BOOL(OnTop);
     PROP_BOOL(InTask);
+    PROP_BOOL(ContainerOnTop);
     OnTopData data;
     friend class OnTopCfg;
 };

@@ -187,7 +187,8 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         if (!CorePlugin::m_plugin->getUseSysColors())
             p->setPen(CorePlugin::m_plugin->getColorGroup());
         x = item->drawText(p, x, width, text);
-        item->drawSeparator(p, x, width, cg);
+        if (CorePlugin::m_plugin->getGroupSeparator())
+            item->drawSeparator(p, x, width, cg);
         return;
     }
     if (base->type() == USR_ITEM){
@@ -331,6 +332,20 @@ void *UserView::processEvent(Event *e)
                         if (item){
                             setCurrentItem(item);
                             renameContact();
+                        }
+                        return e->param();
+                    }
+                    if (cmd->id == CmdShowAllways){
+                        ListUserData *data = (ListUserData*)(contact->getUserData(CorePlugin::m_plugin->list_data_id, true));
+                        if (data){
+                            bool bShow = false;
+                            if (cmd->flags & COMMAND_CHECKED)
+                                bShow = true;
+                            if ((data->ShowAllways != 0) != bShow){
+                                data->ShowAllways = bShow;
+                                Event e(EventContactChanged, contact);
+                                e.process();
+                            }
                         }
                         return e->param();
                     }
@@ -523,6 +538,16 @@ void *UserView::processEvent(Event *e)
                     Contact *contact = getContacts()->contact((unsigned)(cmd->param));
                     if (contact){
                         cmd->text_wrk = strdup(contact->getName().utf8());
+                        return e->param();
+                    }
+                }
+                if (cmd->id == CmdShowAllways){
+                    Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                    if (contact){
+                        ListUserData *data = (ListUserData*)(contact->getUserData(CorePlugin::m_plugin->list_data_id, true));
+                        cmd->flags &= ~COMMAND_CHECKED;
+                        if (data && data->ShowAllways)
+                            cmd->flags |= COMMAND_CHECKED;
                         return e->param();
                     }
                 }

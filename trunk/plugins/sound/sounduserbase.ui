@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>366</width>
+            <width>362</width>
             <height>187</height>
         </rect>
     </property>
@@ -28,7 +28,7 @@
             <name>spacing</name>
             <number>6</number>
         </property>
-        <widget row="1"  column="0" >
+        <widget row="2"  column="0" >
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
@@ -46,14 +46,14 @@
                 <name>hAlign</name>
             </property>
         </widget>
-        <widget row="1"  column="1" >
+        <widget row="2"  column="1"  rowspan="1"  colspan="2" >
             <class>EditSound</class>
             <property stdset="1">
                 <name>name</name>
                 <cstring>edtAlert</cstring>
             </property>
         </widget>
-        <widget row="0"  column="0"  rowspan="1"  colspan="2" >
+        <widget row="1"  column="0"  rowspan="1"  colspan="3" >
             <class>QCheckBox</class>
             <property stdset="1">
                 <name>name</name>
@@ -62,6 +62,17 @@
             <property>
                 <name>text</name>
                 <string>No sound if windows has &amp;focus</string>
+            </property>
+        </widget>
+        <widget row="0"  column="0"  rowspan="1"  colspan="2" >
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkDisable</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>&amp;Diasble all sounds</string>
             </property>
         </widget>
     </grid>
@@ -107,4 +118,8 @@
         <data format="XPM.GZ" length="646">789c6dd2c10ac2300c00d07bbf2234b7229d1be245fc04c5a3201e4615f430059d0711ff5ddb2e6bb236ec90eed134cb5a19d8ef36602af5ecdbfeeac05dda0798d3abebde87e3faa374d3807fa0d633a52d38d8de6f679fe33fc776e196f53cd010188256a3600a292882096246517815ca99884606e18044a3a40d91824820924265a7923a2e8bcd05f33db1173e002913175f2a6be6d3294871a2d95fa00e8a94ee017b69d339d90df1e77c57ea072ede6758</data>
     </image>
 </images>
+<tabstops>
+    <tabstop>chkDisable</tabstop>
+    <tabstop>chkActive</tabstop>
+</tabstops>
 </UI>

@@ -865,6 +865,14 @@ MSNUserData *MSNClient::findContact(const char *mail, Contact *&contact)
     return NULL;
 }
 
+QString MSNClient::contactName(void *clientData)
+{
+    MSNUserData *data = (MSNUserData*)clientData;
+    QString res = "MSN: ";
+    res += QString::fromUtf8(data->ScreenName);
+    return res;
+}
+
 MSNUserData *MSNClient::findContact(const char *mail, const char *name, Contact *&contact)
 {
     MSNUserData *data = findContact(mail, contact);

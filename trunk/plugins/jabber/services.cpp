@@ -18,6 +18,7 @@
 #include "services.h"
 #include "jabber.h"
 #include "jabbersearch.h"
+#include "listview.h"
 
 #include <qwidgetstack.h>
 #include <qlabel.h>
@@ -34,8 +35,17 @@ Services::Services(QWidget *parent, JabberClient *client)
     wndInfo->raiseWidget(0);
     cmbAgents->hide();
     btnRegister->hide();
+    lstAgents->addColumn(i18n("JID"));
+    lstAgents->addColumn(i18n("Status"));
+    lstAgents->setExpandingColumn(0);
     statusChanged();
     connect(cmbAgents, SIGNAL(activated(int)), this, SLOT(selectAgent(int)));
+    connect(btnRegister, SIGNAL(clicked()), this, SLOT(regAgent()));
+    connect(btnUnregister, SIGNAL(clicked()), this, SLOT(unregAgent()));
+    connect(btnLogon, SIGNAL(clicked()), this, SLOT(logon()));
+    connect(btnLogoff, SIGNAL(clicked()), this, SLOT(logoff()));
+    connect(lstAgents, SIGNAL(currentChanged(QListViewItem*)), this, SLOT(slectChanged(QListViewItem*)));
+    selectChanged(NULL);
 }
 
 void *Services::processEvent(Event *e)
@@ -90,6 +100,12 @@ void Services::statusChanged()
     m_bOnline = bOnline;
     if (m_bOnline){
         lblOffline->hide();
+        lblOffline2->hide();
+        lblRegistered->show();
+        lstAgents->show();
+        btnLogon->show();
+        btnLogoff->show();
+        btnUnregister->show();
         cmbAgents->show();
         wndInfo->show();
         btnRegister->show();
@@ -104,18 +120,55 @@ void Services::statusChanged()
         }
         m_agents.clear();
         lblOffline->show();
+        lblOffline2->show();
         cmbAgents->hide();
         wndInfo->hide();
         btnRegister->hide();
+        lblRegistered->hide();
+        lstAgents->hide();
+        btnLogon->hide();
+        btnLogoff->hide();
+        btnUnregister->hide();
     }
 }
 
 void Services::selectAgent(int index)
 {
     wndInfo->raiseWidget(index + 1);
+    textChanged("");
+}
+
+void Services::selectChanged(QListViewItem *item)
+{
+    if (item == NULL){
+        btnLogon->setEnabled(false);
+        btnLogoff->setEnabled(false);
+        btnUnregister->setEnabled(false);
+        return;
+    }
+    btnUnregister->setEnabled(true);
+    bool bLogon = !item->text(2).isEmpty();
+    btnLogon->setEnabled(!bLogon);
+    btnLogoff->setEnabled(bLogon);
 }
 
 void Services::regAgent()
+{
+    QWidget *w = wndInfo->visibleWidget();
+    if (w == NULL)
+        return;
+    QString condition = static_cast<JabberSearch*>(w)->condition();
+}
+
+void Services::unregAgent()
+{
+}
+
+void Services::logon()
+{
+}
+
+void Services::logoff()
 {
 }
 
@@ -129,6 +182,11 @@ void Services::apply()
 
 void Services::textChanged(const QString&)
 {
+    bool bEnable = false;
+    QWidget *w = wndInfo->visibleWidget();
+    if (w)
+        bEnable = static_cast<JabberSearch*>(w);
+    btnRegister->setEnabled(bEnable);
 }
 
 void Services::search()
