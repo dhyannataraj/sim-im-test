@@ -27,6 +27,7 @@
 #include <qregexp.h>
 #include <qtimer.h>
 #include <qfile.h>
+#include <time.h>
 
 Plugin *createRemotePlugin(unsigned base, bool, const char *config)
 {
@@ -529,7 +530,14 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                 if (client->getCommonStatus())
                     client->setStatus(status, true);
             }
-            core->setManualStatus(status);
+			if (core->getManualStatus() == status)
+				return true;
+            core->data.ManualStatus  = status;
+			time_t now;
+			time(&now);
+			core->data.StatusTime = now;
+			Event e(EventClientStatus);
+			e.process();
             return true;
         }
         for (n = 0; n < getContacts()->nClients(); n++){

@@ -152,7 +152,12 @@ void AutoAwayPlugin::timeout()
             continue;
         client->setStatus(newStatus, true);
     }
-    core->setManualStatus(newStatus);
+	if (core->getManualStatus() == newStatus)
+		return;
+	time_t now;
+	time(&now);
+	core->data.StatusTime = now;
+    core->data.ManualStatus = newStatus;
     Event e(EventClientStatus);
     e.process();
 }
