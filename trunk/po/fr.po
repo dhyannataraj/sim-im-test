@@ -7433,11 +7433,11 @@ msgid "&ICQ"
 msgstr "ICQ"
 
 #: plugins/icq/icqconfigbase.cc:229
-msgid "Note: For HTTP-pooling using proxy setings for HTTP"
+msgid "Note: For HTTP-pooling using proxy settings for HTTP"
 msgstr ""
 
 #: plugins/icq/icqconfigbase.cc:230
-msgid "&Automaticaly use HTTP pooling if proxy required"
+msgid "&Automatically use HTTP pooling if proxy required"
 msgstr ""
 
 #: plugins/icq/icqconfigbase.cc:231
@@ -7475,7 +7475,7 @@ msgid "Automatically &update user info"
 msgstr "Ajo&uter automatiquement l'utilisateur à KAddressBook"
 
 #: plugins/icq/icqconfigbase.cc:242
-msgid "Automaticaly &request autoreply on change status"
+msgid "Automatically &request autoreply on change status"
 msgstr ""
 
 # control.cpp:220
@@ -8892,11 +8892,11 @@ msgid "Send &rich text messages if possible"
 msgstr "Envoyer &message"
 
 #: plugins/jabber/jabberconfigbase.cpp:269
-msgid "Automaticaly send &subscribe request"
+msgid "Automatically send &subscribe request"
 msgstr ""
 
 #: plugins/jabber/jabberconfigbase.cpp:270
-msgid "Automaticaly &accept subscribe requests"
+msgid "Automatically &accept subscribe requests"
 msgstr ""
 
 #: plugins/jabber/jabberworkinfobase.cpp:91

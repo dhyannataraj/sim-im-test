@@ -7218,11 +7218,11 @@ msgid "&ICQ"
 msgstr "&ICQ"
 
 #: plugins/icq/icqconfigbase.cc:229
-msgid "Note: For HTTP-pooling using proxy setings for HTTP"
+msgid "Note: For HTTP-pooling using proxy settings for HTTP"
 msgstr ""
 
 #: plugins/icq/icqconfigbase.cc:230
-msgid "&Automaticaly use HTTP pooling if proxy required"
+msgid "&Automatically use HTTP pooling if proxy required"
 msgstr ""
 
 #: plugins/icq/icqconfigbase.cc:231
@@ -7258,7 +7258,7 @@ msgid "Automatically &update user info"
 msgstr "Automaticky akt&ualizova» informácie o u¾ívateµovi"
 
 #: plugins/icq/icqconfigbase.cc:242
-msgid "Automaticaly &request autoreply on change status"
+msgid "Automatically &request autoreply on change status"
 msgstr "Automaticky po¾iada» o automatickú &odpoveï pri zmene statusu"
 
 # ui/randomchatbase.cpp:287
@@ -8617,11 +8617,11 @@ msgid "Send &rich text messages if possible"
 msgstr "Odosla» sp&rávu vo formáte RTF ak je to mo¾né"
 
 #: plugins/jabber/jabberconfigbase.cpp:269
-msgid "Automaticaly send &subscribe request"
+msgid "Automatically send &subscribe request"
 msgstr "Automaticky odosla» podpí&sanú po¾iadavku"
 
 #: plugins/jabber/jabberconfigbase.cpp:270
-msgid "Automaticaly &accept subscribe requests"
+msgid "Automatically &accept subscribe requests"
 msgstr "Automaticky &akceptova» podpísané po¾iadavky"
 
 # ui/pagerbase.cpp:114
