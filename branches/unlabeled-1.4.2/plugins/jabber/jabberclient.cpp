@@ -701,10 +701,10 @@ void JabberClient::auth_ok()
     QTimer::singleShot(PING_TIMEOUT * 1000, this, SLOT(ping()));
 }
 
-void JabberClient::auth_failed(unsigned code)
+void JabberClient::auth_failed()
 {
     m_reconnectTime = NO_RECONNECT;
-    m_socket->error_state(I18N_NOOP("Login failed"), code);
+    m_socket->error_state(I18N_NOOP("Login failed"), m_authCode);
 }
 
 string JabberClient::to_lower(const char *s)

@@ -42,10 +42,12 @@ void AuthRequest::element_end(const char *el)
     if (strcmp(el, "iq"))
         return;
     if (m_errorCode){
-        if (m_errorCode != (unsigned)(-1))
-            m_client->auth_failed(m_errorCode);
+        if (m_errorCode != (unsigned)(-1)){
+			m_client->m_authCode = m_errorCode;
+			QTimer::singleShot(0, m_client, SLOT(auth_failed()));
+		}
     }else{
-        m_client->auth_ok();
+		QTimer::singleShot(0, m_client, SLOT(auth_ok()));
     }
 }
 

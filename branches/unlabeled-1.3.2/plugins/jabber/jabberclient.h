@@ -205,9 +205,6 @@ QString getID() { return QString::fromUtf8(data.owner.ID ? data.owner.ID : ""); 
     PROP_BOOL(Register);
     PROP_UTF8(ListRequest);
 
-    void		auth_failed(unsigned code);
-    void		auth_ok();
-
     string		buildId(JabberUserData *data);
     JabberUserData	*findContact(const char *jid, const char *host, const char *name, bool bCreate, Contact *&contact);
     bool		add_contact(const char *id);
@@ -225,9 +222,12 @@ QString getID() { return QString::fromUtf8(data.owner.ID ? data.owner.ID : ""); 
     string dataName(void*);
 
     JabberListRequest *findRequest(const char *jid, bool bRemove);
+	unsigned m_authCode;
 
 protected slots:
-    void ping();
+    void	ping();
+    void	auth_failed();
+    void	auth_ok();
 protected:
     virtual void *processEvent(Event *e);
 
