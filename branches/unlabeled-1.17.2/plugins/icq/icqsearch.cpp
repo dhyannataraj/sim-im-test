@@ -309,23 +309,31 @@ void ICQSearch::searchMail(const QString &mail)
 {
     if (!m_client->m_bAIM){
         m_type = Mail;
-        m_mail = mail.local8Bit();
+		m_mail = "";
+		if (!mail.isEmpty())
+			m_mail = mail.utf8();
         icq_search();
     }
-    m_id_aim = m_client->aimEMailSearch(mail);
+    m_id_aim = m_client->aimEMailSearch(mail.utf8());
     addColumns();
 }
 
 void ICQSearch::searchName(const QString &first, const QString &last, const QString &nick)
 {
     if (!m_client->m_bAIM){
-        m_type = Name;
-        m_first		= first.local8Bit();
-        m_last		= last.local8Bit();
-        m_nick		= nick.local8Bit();
+        m_type		= Name;
+		m_first		= "";
+		m_last		= "";
+		m_nick		= "";
+		if (!first.isEmpty())
+			m_first		= first.utf8();
+		if (!last.isEmpty())
+			m_last		= last.utf8();
+		if (!nick.isEmpty())
+			m_nick		= nick.utf8();
         icq_search();
     }
-    m_id_aim = m_client->aimInfoSearch(first, last, NULL, NULL, NULL, NULL, NULL, nick, NULL, NULL);
+    m_id_aim = m_client->aimInfoSearch(first.utf8(), last.utf8(), NULL, NULL, NULL, NULL, NULL, nick.utf8(), NULL, NULL);
     addColumns();
 }
 

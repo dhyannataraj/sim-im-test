@@ -1092,8 +1092,10 @@ void Client::freeData()
         if (grp->clientData.size() == 0)
             continue;
         grp->clientData.freeClientData(this);
-        Event e(EventGroupChanged, grp);
-        e.process();
+		if (!getContacts()->p->bNoRemove){
+			Event e(EventGroupChanged, grp);
+			e.process();
+		}
     }
 
     Contact *contact;

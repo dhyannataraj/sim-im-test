@@ -11,13 +11,13 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>200</width>
+            <width>196</width>
             <height>381</height>
         </rect>
     </property>
     <property>
         <name>caption</name>
-        <string></string>
+        <string>JabberAdd</string>
     </property>
     <vbox>
         <property>
@@ -159,17 +159,6 @@
                 </widget>
             </vbox>
         </widget>
-        <widget>
-            <class>QPushButton</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>btnBrowser</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Jabber &amp;browser</string>
-            </property>
-        </widget>
         <spacer>
             <property>
                 <name>name</name>
@@ -191,6 +180,17 @@
                 </size>
             </property>
         </spacer>
+        <widget>
+            <class>QPushButton</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>btnBrowser</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Jabber &amp;browser</string>
+            </property>
+        </widget>
     </vbox>
 </widget>
 <customwidgets>

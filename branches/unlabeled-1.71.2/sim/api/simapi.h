@@ -840,6 +840,7 @@ public:
     CommandsList(CommandsDef &def, bool bFull = false);
     ~CommandsList();
     CommandDef *operator++();
+	void reset();
 private:
     CommandsListPrivate *p;
     friend class CommandsListPrivate;

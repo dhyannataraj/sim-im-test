@@ -43,9 +43,10 @@ class JabberSearch : public QChildWidget
 {
     Q_OBJECT
 public:
-    JabberSearch(QWidget *receiver, JabberClient *client, const char *jid, const char *node, const QString &name, bool bRegister);
+	JabberSearch(QWidget *parent = NULL, const char *name = NULL);
+    void init(QWidget *receiver, JabberClient *client, const char *jid, const char *node, const QString &name, bool bRegister);
     bool canSearch();
-    QString condition(bool &bXSearch);
+    QString condition(QWidget *w);
     const char *id() { return m_jid.c_str(); }
     void addWidget(struct JabberAgentInfo *data);
     JabberClient	*m_client;
@@ -55,21 +56,34 @@ public:
 protected slots:
     void setSize();
 protected:
-    QString			i18(const char *text);
-    QGridLayout		*lay;
-    QString			m_name;
-    QString			m_instruction;
-    QString			m_label;
-    QWidget			*m_receiver;
-    string			m_key;
-    bool			m_bDirty;
-    bool			m_bXData;
-    bool			m_bFirst;
-    bool			m_bRegister;
-    list<QWidget*>	m_required;
+	virtual void		createLayout();
+    QString				i18(const char *text);
+    QString				m_name;
+    QString				m_instruction;
+    QString				m_label;
+    QWidget				*m_receiver;
+    string				m_key;
+    bool				m_bDirty;
+    bool				m_bXData;
+    bool				m_bFirst;
+    bool				m_bRegister;
+    list<QWidget*>		m_required;
     vector<QWidget*>	m_widgets;
     vector<QWidget*>	m_labels;
     vector<QWidget*>	m_descs;
+};
+
+class JIDAdvSearch;
+
+class JIDJabberSearch : public JabberSearch
+{
+	Q_OBJECT
+public:
+	JIDJabberSearch(QWidget *parent = NULL, const char *name = NULL);
+	void setAdvanced(JIDAdvSearch *adv);
+protected:
+	void createLayout();
+	JIDAdvSearch *m_adv;
 };
 
 #endif

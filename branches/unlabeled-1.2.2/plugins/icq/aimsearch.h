@@ -26,6 +26,10 @@ class AIMSearch : public AIMSearchBase
     Q_OBJECT
 public:
     AIMSearch();
+signals:
+	void enableOptions(bool);
+protected:
+	void showEvent(QShowEvent*);
 };
 
 #endif

@@ -22,6 +22,12 @@ AIMSearch::AIMSearch()
     initCombo(cmbCountry, 0, getCountries(), true, getCountryCodes());
 }
 
+void AIMSearch::showEvent(QShowEvent *e)
+{
+	AIMSearchBase::showEvent(e);
+	emit enableOptions(false);
+}
+
 #ifndef WIN32
 #include "aimsearch.moc"
 #endif

@@ -33,6 +33,7 @@ typedef struct ClientWidget
 {
     Client		*client;
     QWidget		*widget;
+	QString		name;
 } ClientWidget;
 
 class SearchDialog : public QMainWindow, public EventReceiver
@@ -51,6 +52,8 @@ public slots:
     void toggled(bool);
     void addResult(QWidget*);
     void showResult(QWidget*);
+	void addSearch(QWidget*, Client*, const QString &name);
+	void showClient(Client*);
 signals:
     void finished();
     void search();
@@ -68,6 +71,7 @@ protected slots:
     void selectionChanged();
     void dragStart();
     void newSearch();
+	void enableOptions(bool);
 protected:
     vector<ClientWidget>	m_widgets;
     void		setStatus();

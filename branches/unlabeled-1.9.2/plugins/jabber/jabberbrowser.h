@@ -45,6 +45,7 @@ const unsigned COL_ID_BROWSE		= 8;
 const unsigned COL_MODE				= 9;
 
 class JabberSearch;
+class JIDSearch;
 
 class JabberWizard : public QWizard, public EventReceiver
 {
@@ -77,13 +78,16 @@ public:
     DiscoInfo *m_info;
     ListView  *m_list;
 signals:
-    void currentChanged(const QString&);
+	void enableOptions(bool);
+	void addSearch(QWidget*, Client*, const QString&);
 protected slots:
+	void selectionChanged();
     void currentChanged(QListViewItem*);
     void dragStart();
-    void showSearch();
     void showReg();
     void showConfig();
+	void search();
+	void textChanged(const QString&);
 protected:
     void *processEvent(Event*);
     void setNavigation();
@@ -102,6 +106,7 @@ protected:
     void startProcess();
     void changeMode();
     void changeMode(QListViewItem *item);
+	void showEvent(QShowEvent*);
     bool		 m_bInProcess;
     JabberClient *m_client;
     CToolBar	 *m_bar;
@@ -109,9 +114,9 @@ protected:
     vector<string>	m_nodes;
     QString		 m_historyStr;
     int			 m_historyPos;
-    JabberWizard	*m_search;
     JabberWizard	*m_reg;
     JabberWizard	*m_config;
+	JIDSearch	 *m_search;
     string		 m_search_id;
     string		 m_reg_id;
     string		 m_config_id;

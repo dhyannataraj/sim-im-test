@@ -26,6 +26,10 @@ class AdvSearch : public AdvSearchBase
     Q_OBJECT
 public:
     AdvSearch();
+signals:
+	void enableOptions(bool);
+protected:
+	void showEvent(QShowEvent*);
 };
 
 #endif

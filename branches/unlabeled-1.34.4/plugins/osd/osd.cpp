@@ -271,10 +271,6 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     if (nScreen >= nScreens)
         nScreen = 0;
     int SHADOW_OFFS = SHADOW_DEF;
-#ifdef WIN32
-    if ((GetClassLong(winId(), GCL_STYLE) & CS_DROPSHADOW) && style().inherits("QWindowsXPStyle"))
-        SHADOW_OFFS = 0;
-#endif
     QRect rcScreen = screenGeometry(nScreen);
     rcScreen = QRect(0, 0,
                      rcScreen.width() / 2 - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.value,

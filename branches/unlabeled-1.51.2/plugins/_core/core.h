@@ -270,6 +270,7 @@ const unsigned	CmdChangeEncoding		= (CmdBase + 98);
 const unsigned	CmdAllEncodings			= (CmdBase + 99);
 const unsigned	CmdSearchInfo			= (CmdBase + 101);
 const unsigned	CmdSearchMsg			= (CmdBase + 102);
+const unsigned	CmdSearchOptions		= (CmdBase + 103);
 
 const unsigned	CmdContactGroup			= (CmdBase + 0x100);
 const unsigned	CmdUnread				= (CmdBase + 0x200);
@@ -294,7 +295,7 @@ const unsigned	MenuMailList			= (CmdBase + 12);
 const unsigned	MenuPhoneList			= (CmdBase + 13);
 const unsigned	MenuStatusWnd			= (CmdBase + 14);
 const unsigned	MenuEncoding			= (CmdBase + 15);
-const unsigned	MenuSearch				= (CmdBase + 16);
+const unsigned	MenuSearchItem			= (CmdBase + 16);
 const unsigned	MenuSearchGroups		= (CmdBase + 17);
 const unsigned	MenuSearchOptions		= (CmdBase + 18);
 
