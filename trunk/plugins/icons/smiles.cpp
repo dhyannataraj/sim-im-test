@@ -495,9 +495,9 @@ bool Smiles::load(const QString &file)
         if (tip.isEmpty())
             tip = paste;
         SmileDef sd;
-        sd.exp     = p;
-        sd.paste   = paste;
-        sd.title   = tip;
+        sd.exp     = p.latin1();
+        sd.paste   = paste.latin1();
+        sd.title   = tip.latin1();
         sd.icon    = icon;
         log(L_DEBUG, "Store %u %s", index, sd.exp.c_str());
         if (index < 16){
