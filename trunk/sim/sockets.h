@@ -88,16 +88,16 @@ protected:
     unsigned short m_nPort;
 };
 
-class SIMSockets : public QObject, public SocketFactory
+class SIMSockets : public SocketFactory
 {
-    Q_OBJECT
 public:
-    SIMSockets(QObject *parent);
+    SIMSockets();
+
     virtual Socket *createSocket();
     virtual ServerSocket *createServerSocket();
-    unsigned short      MinTCPPort;
-    unsigned short      MaxTCPPort;
 };
+
+SocketFactory *getFactory();
 
 #endif
 

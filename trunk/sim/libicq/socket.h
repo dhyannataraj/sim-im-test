@@ -102,15 +102,37 @@ protected:
 
 class ClientSocket;
 
+enum PROXY_TYPE
+{
+    PROXY_NONE,
+    PROXY_SOCKS4,
+    PROXY_SOCKS5,
+    PROXY_HTTP
+#ifdef USE_OPENSSL
+    ,PROXY_HTTPS
+#endif
+};
+
+class Proxy;
+
 class SocketFactory
 {
 public:
-    SocketFactory() {}
+    SocketFactory();
     virtual ~SocketFactory() {}
     virtual Socket *createSocket() = 0;
     virtual ServerSocket *createServerSocket() = 0;
+    virtual Proxy *getProxy();
     void idle();
     void remove(Socket*);
+    unsigned short      MinTCPPort;
+    unsigned short      MaxTCPPort;
+    PROXY_TYPE			ProxyType;
+    string				ProxyHost;
+    unsigned short		ProxyPort;
+    bool				ProxyAuth;
+    string				ProxyUser;
+    string				ProxyPasswd;
 protected:
     list<ClientSocket*> errSockets;
     list<Socket*> removedSockets;

@@ -35,7 +35,7 @@ WorkInfo::WorkInfo(QWidget *p, bool readOnly)
     btnSite->setPixmap(Pict("home"));
     connect(btnSite, SIGNAL(clicked()), this, SLOT(goUrl()));
     if (!readOnly) {
-        load(pClient->owner);
+        load(&pClient->owner);
         return;
     }
     edtAddress->setReadOnly(true);

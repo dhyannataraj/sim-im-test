@@ -139,7 +139,7 @@ ChatWindow::ChatWindow(ICQChat *_chat)
 
     connect(edtChat, SIGNAL(returnPressed()), this, SLOT(sendLine()));
 
-    CUser owner(pClient->owner);
+    CUser owner(&pClient->owner);
     new ChatUserItem(lstUsers, owner.name(), 0);
 
     if (pMain->ChatWidth && pMain->ChatHeight)
@@ -212,7 +212,7 @@ QString ChatWindow::chatHeader(unsigned long uin)
         CUser u(uin);
         alias = u.name(true);
     }else{
-        CUser u(pClient->owner);
+        CUser u(&pClient->owner);
         alias = u.name(true);
     }
     QString color;

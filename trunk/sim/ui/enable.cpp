@@ -97,12 +97,12 @@ char getTZComboValue(QComboBox *cmb)
 
 void set(string &s, const QString &str)
 {
-    s = pClient->to8Bit(pClient->owner->Uin, str);
+    s = pClient->to8Bit(pClient->owner.Uin, str);
 }
 
 void set(QString &s, const string &str)
 {
-    s = pClient->from8Bit(pClient->owner->Uin, str);
+    s = pClient->from8Bit(pClient->owner.Uin, str);
 }
 
 #ifdef WIN32

@@ -52,10 +52,15 @@ BalloonMsg::BalloonMsg(const QString &_text, const QRect &rc, QStringList &btn, 
     lay->setSpacing(5);
     lay->addStretch();
     unsigned id = 0;
+    bool bFirst = true;
     for (QStringList::Iterator it = btn.begin(); it != btn.end(); ++it, id++){
         BalloonButton *b = new BalloonButton(*it, frm, id);
         connect(b, SIGNAL(action(int)), this, SIGNAL(action(int)));
         lay->addWidget(b);
+        if (bFirst){
+            b->setDefault(true);
+            bFirst = false;
+        }
         hButton = b->height();
     }
     lay->addStretch();

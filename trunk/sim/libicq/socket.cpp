@@ -23,6 +23,7 @@
 
 #include "socket.h"
 #include "proxy.h"
+#include "icqhttp.h"
 #include "log.h"
 
 #ifndef INADDR_NONE
@@ -208,9 +209,49 @@ void ClientSocket::setSocket(Socket *s)
     s->setNotify(this);
 }
 
+SocketFactory::SocketFactory()
+{
+    MinTCPPort = 1024;
+    MaxTCPPort = 0xFFFF;
+    ProxyType = PROXY_NONE;
+    ProxyHost = "proxy";
+    ProxyPort = 1080;
+    ProxyAuth = false;
+}
+
+Proxy *SocketFactory::getProxy()
+{
+    switch (ProxyType){
+    case PROXY_NONE:
+        return 0;
+    case PROXY_SOCKS4:
+        return new SOCKS4_Proxy(ProxyHost.c_str(), ProxyPort);
+    case PROXY_SOCKS5:
+        return new SOCKS5_Proxy(ProxyHost.c_str(), ProxyPort,
+                                ProxyAuth ? ProxyUser.c_str() : "",
+                                ProxyAuth ? ProxyPasswd.c_str() : "");
+    case PROXY_HTTP:
+        return new ICQ_HTTP_Proxy(this,
+                                  ProxyHost.c_str(), ProxyPort,
+                                  ProxyAuth ? ProxyUser.c_str() : "",
+                                  ProxyAuth ? ProxyPasswd.c_str() : "");
+#ifdef USE_OPENSSL
+    case PROXY_HTTPS:
+        return new ICQ_HTTPS_Proxy(this,
+                                   ProxyHost.c_str(), ProxyPort,
+                                   ProxyAuth ? ProxyUser.c_str() : "",
+                                   ProxyAuth ? ProxyPasswd.c_str() : "");
+#endif
+    default:
+        log(L_WARN, "Unknown proxy type");
+    }
+    return NULL;
+}
+
 void SocketFactory::remove(Socket *s)
 {
     s->setNotify(NULL);
+    s->close();
     for (list<Socket*>::iterator it = removedSockets.begin(); it != removedSockets.end(); ++it)
         if ((*it) == s) return;
     removedSockets.push_back(s);

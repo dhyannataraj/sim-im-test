@@ -40,11 +40,8 @@
 #include <ksockaddr.h>
 #endif
 
-SIMSockets::SIMSockets(QObject *parent)
-        : QObject(parent)
+SIMSockets::SIMSockets()
 {
-    MinTCPPort = 1024;
-    MaxTCPPort = 0xFFFF;
 }
 
 Socket *SIMSockets::createSocket()
@@ -229,7 +226,8 @@ void ICQClientSocket::slotError(int err)
     if (!(err & KBufferedIO::involuntary)) return;
     log(L_DEBUG, "Connection closed by peer");
 #else
-    log(L_DEBUG, "Error %u", err);
+    if (!err) return;
+    log(L_DEBUG, "Slot error %u", err);
 #endif
     if (notify) notify->error_state(ErrorSocket);
 }
@@ -315,6 +313,14 @@ void ICQServerSocket::activated()
         delete s;
     }
 #endif
+}
+
+static SocketFactory *pFactory = NULL;
+
+SocketFactory *getFactory()
+{
+    if (pFactory == NULL) pFactory = new SIMSockets;
+    return pFactory;
 }
 
 #ifndef _WINDOWS

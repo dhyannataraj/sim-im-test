@@ -760,7 +760,7 @@ public:
     ICQClient(SocketFactory *factory);
     virtual ~ICQClient();
 
-    ICQUser *owner;
+    ICQUser owner;
 
     void setStatus(unsigned short status);
     void setInvisible(bool bInvisible);
@@ -781,18 +781,7 @@ public:
     string			RejectFilter;
 
     unsigned short	DirectMode;
-
-    string			BirthdayReminder;
-    string			FileDone;
-
     bool			BypassAuth;
-
-    unsigned short	ProxyType;
-    string			ProxyHost;
-    unsigned short	ProxyPort;
-    bool			ProxyAuth;
-    string			ProxyUser;
-    string			ProxyPasswd;
 
     string			ShareDir;
     bool		    ShareOn;

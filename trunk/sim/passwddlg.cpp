@@ -89,7 +89,7 @@ void PasswdDialog::stopLogin()
 {
     disconnect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     pClient->setStatus(ICQ_STATUS_OFFLINE);
-    pClient->EncryptedPassword = oldPassword;
+    pClient->EncryptedPassword = (const char*)(oldPassword.local8Bit());
     btnClose->setText(i18n("Close"));
     lblPasswd->setEnabled(true);
     edtPasswd->setEnabled(true);

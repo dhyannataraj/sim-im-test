@@ -849,7 +849,7 @@ void UserBox::processEvent(ICQEvent *e)
             break;
         }
     case EVENT_STATUS_CHANGED:{
-            if (e->Uin() == pClient->owner->Uin)
+            if (e->Uin() == pClient->owner.Uin)
                 setGroupButtons();
             statusChanged(e->Uin());
             break;

@@ -21,49 +21,70 @@
 
 #include <stdio.h>
 
+#include <set>
+#include <string>
+
+#ifdef WIN32
+#if _MSC_VER > 1020
+#pragma warning(disable:4786)
+#endif
+#endif
+
+using namespace std;
+
+typedef void *paramProc(void*);
+
 void init(void *_obj, const cfgParam *params)
 {
+    const cfgParam *p;
+    paramProc *proc;
     char *obj = (char*)_obj;
-    for (;;){
-        const cfgParam *p;
-        for (p = params; *p->name; p++){
-            switch (p->type){
-            case PARAM_ULONG:
-                *((unsigned long*)(obj + p->offs)) = p->defValue;
-                break;
-            case PARAM_USHORT:
-                *((unsigned short*)(obj + p->offs)) = p->defValue;
-                break;
-            case PARAM_SHORT:
-                *((short*)(obj + p->offs)) = p->defValue;
-                break;
-            case PARAM_STRING:
-                if (p->defValue){
-                    string *s = (string*)(obj + p->offs);
-                    *s = (const char*)(p->defValue);
-                }
-                break;
-            case PARAM_BOOL:
-                *((bool*)(obj + p->offs)) = (bool)p->defValue;
-                break;
-            case PARAM_I18N:
-                if (p->defValue){
-                    string *s = (string*)(obj + p->offs);
-                    if (*((const char*)(p->defValue))){
-                        *s = i18n((const char*)(p->defValue)).local8Bit();
-                    }else{
-                        *s = "";
-                    }
-                }
-                break;
-            case PARAM_CHAR:
-                obj[p->offs] = p->defValue;
-                break;
-            }
+    for (p = params; p->type; p++){
+        switch (p->type){
+        case PARAM_PROC:
+            proc = (paramProc*)(p->offs);
+            init(proc(obj), (cfgParam*)(p->defValue));
+            break;
+        case PARAM_OFFS:
+            init(obj + p->offs, (cfgParam*)(p->defValue));
+            break;
         }
-        if (p->defValue == 0) break;
-        params = (const cfgParam*)(p->defValue);
-        if (p->offs) obj = *((char**)(obj + p->offs));
+    }
+
+    for (p = params; p->type; p++){
+        switch (p->type){
+        case PARAM_ULONG:
+            *((unsigned long*)(obj + p->offs)) = p->defValue;
+            break;
+        case PARAM_USHORT:
+            *((unsigned short*)(obj + p->offs)) = p->defValue;
+            break;
+        case PARAM_SHORT:
+            *((short*)(obj + p->offs)) = p->defValue;
+            break;
+        case PARAM_STRING:
+            if (p->defValue){
+                string *s = (string*)(obj + p->offs);
+                *s = (const char*)(p->defValue);
+            }
+            break;
+        case PARAM_BOOL:
+            *((bool*)(obj + p->offs)) = (bool)p->defValue;
+            break;
+        case PARAM_I18N:
+            if (p->defValue){
+                string *s = (string*)(obj + p->offs);
+                if (*((const char*)(p->defValue))){
+                    *s = i18n((const char*)(p->defValue)).local8Bit();
+                }else{
+                    *s = "";
+                }
+            }
+            break;
+        case PARAM_CHAR:
+            obj[p->offs] = p->defValue;
+            break;
+        }
     }
 }
 
@@ -74,28 +95,41 @@ static char toHex(char c)
     return c - 10 + 'a';
 }
 
-void save(void *_obj, const cfgParam *params, ostream &out)
+struct ltstr
 {
-    const cfgParam *saveParam = params;
-    char *obj = (char*)_obj;
-    string *s;
-    string v;
-    list<unsigned long> *l;
-    list<unsigned long>::iterator it;
-    for (;;){
-        const cfgParam *p;
-        for (p = params; *p->name; p++){
-            const cfgParam *pp = saveParam;
-            for (;;){
-                for (; *pp->name; pp++)
-                    if (strcmp(pp->name, p->name) == 0) break;
-                if (*pp->name) break;
-                if (pp->defValue == 0) break;
-                pp = (const cfgParam*)(pp->defValue);
-            }
-            if (pp != p) continue;
+    bool operator()(const char *s1, const char *s2) const
+    {
+        return strcmp(s1, s2) < 0;
+    }
+};
+
+typedef set<const char*, ltstr>	DICT;
+
+void save(void *_obj, const cfgParam *params, ostream &out, DICT &dict)
+{
+    char *obj = (char*)(_obj);
+    const cfgParam *p;
+    paramProc *proc;
+    for (p = params; p->type; p++){
+        switch (p->type){
+        case PARAM_PROC:
+            proc = (paramProc*)(p->offs);
+            save(proc(obj), (cfgParam*)(p->defValue), out, dict);
+            break;
+        case PARAM_OFFS:
+            save(obj + p->offs, (cfgParam*)(p->defValue), out, dict);
+            break;
+        default:
+            if (dict.find(p->name) != dict.end()) break;
+            dict.insert(p->name);
+
             bool writeEmpty = false;
             string value;
+            string *s;
+            const char *v;
+            list<unsigned long> *l;
+            list<unsigned long>::iterator it;
+
             switch (p->type){
             case PARAM_ULONG:
                 if (*((unsigned long*)(obj + p->offs)) != p->defValue){
@@ -139,17 +173,18 @@ void save(void *_obj, const cfgParam *params, ostream &out)
                     v = i18n((const char*)(p->defValue)).local8Bit();
                 if (*s != v) value = v;
                 break;
-            case PARAM_ULONGS:
-                l = (list<unsigned long>*)(obj + p->offs);
-                if (l->size()){
-                    for (it = l->begin(); it != l->end(); ++it){
-                        char b[15];
-                        snprintf(b, sizeof(b), "%lu", *it);
-                        if (value.length()) value += ",";
-                        value += b;
+            case PARAM_ULONGS:{
+                    l = (list<unsigned long>*)(obj + p->offs);
+                    if (l->size()){
+                        for (it = l->begin(); it != l->end(); ++it){
+                            char b[15];
+                            snprintf(b, sizeof(b), "%lu", *it);
+                            if (value.length()) value += ",";
+                            value += b;
+                        }
                     }
+                    break;
                 }
-                break;
             case PARAM_CHAR:
                 if (obj[p->offs] != (char)(p->defValue)){
                     char buf[32];
@@ -170,10 +205,13 @@ void save(void *_obj, const cfgParam *params, ostream &out)
             value = quoteString(value);
             out << p->name << "=" << value << "\n";
         }
-        if (p->defValue == 0) break;
-        params = (const cfgParam*)(p->defValue);
-        if (p->offs) obj = *((char**)(obj + p->offs));
     }
+}
+
+void save(void *_obj, const cfgParam *params, ostream &out)
+{
+    DICT dict;
+    save(_obj, params, out, dict);
 }
 
 string quoteString(const string &value)
@@ -210,19 +248,99 @@ static char fromHex(char c)
     return 0;
 }
 
+bool loadParam(void *_obj, const cfgParam *params, const char *name, const char *value, istream &sin, string &nextPart)
+{
+    char *obj = (char*)_obj;
+    const cfgParam *p;
+    paramProc *proc;
+    for (p = params; p->type; p++){
+        switch (p->type){
+        case PARAM_PROC:
+            proc = (paramProc*)(p->offs);
+            if (loadParam(proc(obj), (cfgParam*)(p->defValue), name, value, sin, nextPart))
+                return true;
+            break;
+        case PARAM_OFFS:
+            if (loadParam(obj + p->offs, (cfgParam*)(p->defValue), name, value, sin, nextPart))
+                return true;
+            break;
+        default:
+            if (!strcmp(name, p->name)){
+                if (value){
+                    const char *pp;
+                    string *s;
+                    list<unsigned long> *l;
+                    switch (p->type){
+                    case PARAM_ULONG:
+                        *((unsigned long*)(obj + p->offs)) = atol(value);
+                        return true;
+                    case PARAM_USHORT:
+                        *((unsigned short*)(obj + p->offs)) = atol(value);
+                        return true;
+                    case PARAM_SHORT:
+                        *((short*)(obj + p->offs)) = atoi(value);
+                        return true;
+                    case PARAM_STRING:
+                    case PARAM_I18N:
+                        s = (string*)(obj + p->offs);
+                        *s = value;
+                        return true;
+                    case PARAM_BOOL:
+                        *((bool*)(obj + p->offs)) =
+                            (strcasecmp(value, "false") != 0) &&
+                            (strcmp(value, "0") != 0) &&
+                            (*value != 0);
+                        return true;
+                    case PARAM_ULONGS:
+                        l = (list<unsigned long>*)(obj + p->offs);
+                        for (pp = value; *pp; ){
+                            l->push_back(atol(pp));
+                            pp = strchr(pp, ',');
+                            if (pp == NULL) break;
+                            pp++;
+                        }
+                        return true;
+                    case PARAM_CHAR:
+                        obj[p->offs] = atoi(value);
+                        return true;
+                    }
+                }else{
+                    switch (p->type){
+                    case PARAM_ULONG:
+                    case PARAM_USHORT:
+                    case PARAM_SHORT:
+                    case PARAM_STRING:
+                    case PARAM_BOOL:
+                    case PARAM_ULONGS:
+                    case PARAM_CHAR:
+                        break;
+                    default:
+                        list<unsigned long> *l;
+                        void *o = ((createObj*)(p->type))();
+                        if (!load(o, (const cfgParam*)(p->defValue), sin, nextPart))
+                            return false;
+                        l = (list<unsigned long>*)(obj + p->offs);
+                        l->push_back((unsigned long)o);
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+
 bool load(void *_obj, const cfgParam *params, istream &sin, string &nextPart)
 {
     nextPart = "";
-    list<unsigned long> *l;
-    string *s;
     for (;;){
         if (sin.eof() || sin.fail())
             return true;
         string line;
         getline(sin, line);
         if (line[0] == '['){
+            nextPart = line;
             for (;;){
-                nextPart = line;
                 string name = line.c_str() + 1;
                 char *p = strchr((char*)(name.c_str()), ']');
                 if (p == NULL){
@@ -235,39 +353,14 @@ bool load(void *_obj, const cfgParam *params, istream &sin, string &nextPart)
                     nextPart = "";
                     return true;
                 }
-                const cfgParam *pp = params;
-                char *obj = (char*)_obj;
-                for (;;){
-                    for (; *pp->name; pp++)
-                        if (!strcmp(name.c_str(), pp->name)) break;
-                    if (*pp->name) break;
-                    if (pp->defValue == 0){
-                        return true;
-                    }
-                    if (pp->offs) obj = *((char**)(obj + pp->offs));
-                    pp = (const cfgParam*)(pp->defValue);
-                }
-                switch (pp->type){
-                case PARAM_ULONG:
-                case PARAM_USHORT:
-                case PARAM_SHORT:
-                case PARAM_STRING:
-                case PARAM_BOOL:
-                case PARAM_I18N:
-                case PARAM_ULONGS:
-                case PARAM_CHAR:
+                if (!loadParam(_obj, params, name.c_str(), NULL, sin, nextPart))
                     return true;
-                }
-                void *o = ((createObj*)(pp->type))();
-                if (!load(o, (const cfgParam*)(pp->defValue), sin, nextPart))
-                    return false;
-                l = (list<unsigned long>*)(obj + pp->offs);
-                l->push_back((unsigned long)o);
                 if (*nextPart.c_str() == 0) break;
                 line = nextPart;
             }
             continue;
         }
+
         if (line.size() == 0) continue;
         char *p = (char*)strchr(line.c_str(), '=');
         if (p == NULL){
@@ -276,20 +369,6 @@ bool load(void *_obj, const cfgParam *params, istream &sin, string &nextPart)
         }
         *p = 0;
         p++;
-        const cfgParam *pp = params;
-        char *obj = (char*)_obj;
-        for (;;){
-            for (; *pp->name; pp++)
-                if (!strcmp(line.c_str(), pp->name)) break;
-            if (*pp->name) break;
-            if (pp->defValue == 0) break;
-            if (pp->offs) obj = *((char**)(obj + pp->offs));
-            pp = (const cfgParam*)(pp->defValue);
-        }
-        if (*pp->name == 0){
-            log(L_WARN, "Bad key in config %s", line.c_str());
-            continue;
-        }
         string unquoted;
         for (; *p; p++){
             if (*p != '\\'){
@@ -320,39 +399,8 @@ bool load(void *_obj, const cfgParam *params, istream &sin, string &nextPart)
                 p--;
             }
         }
-        switch (pp->type){
-        case PARAM_ULONG:
-            *((unsigned long*)(obj + pp->offs)) = atol(unquoted.c_str());
-            break;
-        case PARAM_USHORT:
-            *((unsigned short*)(obj + pp->offs)) = atol(unquoted.c_str());
-            break;
-        case PARAM_SHORT:
-            *((short*)(obj + pp->offs)) = atoi(unquoted.c_str());
-            break;
-        case PARAM_STRING:
-        case PARAM_I18N:
-            s = (string*)(obj + pp->offs);
-            *s = unquoted;
-            break;
-        case PARAM_BOOL:
-            *((bool*)(obj + pp->offs)) = ((unquoted != "false") && (unquoted != "0") && (unquoted != ""));
-            break;
-        case PARAM_ULONGS:
-            l = (list<unsigned long>*)(obj + pp->offs);
-            for (p = (char*)unquoted.c_str(); *p; ){
-                l->push_back(atol(p));
-                p = strchr(p, ',');
-                if (p == NULL) break;
-                p++;
-            }
-            break;
-        case PARAM_CHAR:
-            obj[pp->offs] = atoi(unquoted.c_str());
-            break;
-        default:
+        if (!loadParam(_obj, params, line.c_str(), unquoted.c_str(), sin, nextPart))
             log(L_WARN, "Bad key in config %s", line.c_str());
-        }
     }
     return true;
 }

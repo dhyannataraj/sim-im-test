@@ -158,13 +158,13 @@ QString MainWindow::ParseText(const string &text, bool bIgnoreColors)
                                     res += ">";
                                     continue;
                                 }
-                                res += QString::fromLocal8Bit(tag.c_str());
+                                res += (const char*)QString::fromLocal8Bit(tag.c_str());
                                 tags.pop();
                                 break;
                             }
                         }else{
                             tag_def td = *d;
-                            res += QString::fromLocal8Bit(tag.c_str());
+                            res += (const char*)QString::fromLocal8Bit(tag.c_str());
                             if (d->pair) tags.push(td);
                         }
                     }

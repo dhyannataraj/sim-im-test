@@ -73,7 +73,7 @@ void ICQClientPrivate::snac_service(unsigned short type, unsigned short)
                 sock->readBuffer.incReadPos(n);
                 uin = sock->readBuffer.unpackUin();
             }
-            if (uin != client->owner->Uin){
+            if (uin != client->owner.Uin){
                 log(L_WARN, "No my name info (%lu)", uin);
                 break;
             }
@@ -81,7 +81,7 @@ void ICQClientPrivate::snac_service(unsigned short type, unsigned short)
             TlvList tlv(sock->readBuffer);
             Tlv *tlvIP = tlv(0x000A);
             if (tlvIP)
-                client->owner->IP = htonl((unsigned long)(*tlvIP));
+                client->owner.IP = htonl((unsigned long)(*tlvIP));
             log(L_DEBUG, "Name info");
             bool bSend = true;
             if (needPhonebookUpdate){
@@ -124,19 +124,19 @@ void ICQClientPrivate::snac_service(unsigned short type, unsigned short)
 
 void ICQClientPrivate::sendLogonStatus()
 {
-    client->owner->IP = 0;
-    client->owner->RealIP = htonl(sock->localHost());
-    log(L_DEBUG, "RealIP: %X", client->owner->RealIP);
+    client->owner.IP = 0;
+    client->owner.RealIP = htonl(sock->localHost());
+    log(L_DEBUG, "RealIP: %X", client->owner.RealIP);
 
     log(L_DEBUG, "Logon status");
-    if (client->owner->inInvisible) sendVisibleList();
+    if (client->owner.inInvisible) sendVisibleList();
     sendContactList();
 
     unsigned long now;
     time((time_t*)&now);
-    if (client->owner->PhoneBookTime == 0) client->owner->PhoneBookTime = now;
-    if (client->owner->PhoneStatusTime == 0) client->owner->PhoneStatusTime = now;
-    if (client->owner->InfoUpdateTime == 0) client->owner->InfoUpdateTime = now;
+    if (client->owner.PhoneBookTime == 0) client->owner.PhoneBookTime = now;
+    if (client->owner.PhoneStatusTime == 0) client->owner.PhoneStatusTime = now;
+    if (client->owner.InfoUpdateTime == 0) client->owner.InfoUpdateTime = now;
 
     Buffer directInfo(25);
     fillDirectInfo(directInfo);
@@ -148,12 +148,12 @@ void ICQClientPrivate::sendLogonStatus()
 
     sendPacket();
 
-    if (!client->owner->inInvisible) sendInvisibleList();
+    if (!client->owner.inInvisible) sendInvisibleList();
     m_state = Logged;
-    client->owner->OnlineTime = now;
+    client->owner.OnlineTime = now;
 
-    client->owner->uStatus = m_nLogonStatus & 0xFF;
-    ICQEvent e(EVENT_STATUS_CHANGED, client->owner->Uin);
+    client->owner.uStatus = m_nLogonStatus & 0xFF;
+    ICQEvent e(EVENT_STATUS_CHANGED, client->owner.Uin);
     client->process_event(&e);
 
     processMsgQueue();
@@ -165,15 +165,15 @@ void ICQClientPrivate::sendLogonStatus()
 
 void ICQClient::setInvisible(bool bInvisible)
 {
-    if (owner->inInvisible == bInvisible) return;
-    owner->inInvisible = bInvisible;
+    if (owner.inInvisible == bInvisible) return;
+    owner.inInvisible = bInvisible;
     if (!isLogged()) return;
-    if (owner->inInvisible) p->sendVisibleList();
+    if (owner.inInvisible) p->sendVisibleList();
     p->snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
-    p->sock->writeBuffer.tlv(0x0006, p->fullStatus(owner->uStatus));
+    p->sock->writeBuffer.tlv(0x0006, p->fullStatus(owner.uStatus));
     p->sendPacket();
-    if (!owner->inInvisible) p->sendInvisibleList();
-    ICQEvent e(EVENT_STATUS_CHANGED, owner->Uin);
+    if (!owner.inInvisible) p->sendInvisibleList();
+    ICQEvent e(EVENT_STATUS_CHANGED, owner.Uin);
     process_event(&e);
 }
 
@@ -182,8 +182,8 @@ void ICQClientPrivate::sendStatus(unsigned long status)
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
     sock->writeBuffer.tlv(0x0006, fullStatus(status));
     sendPacket();
-    client->owner->uStatus = status & 0xFF;
-    ICQEvent e(EVENT_STATUS_CHANGED, client->owner->Uin);
+    client->owner.uStatus = status & 0xFF;
+    ICQEvent e(EVENT_STATUS_CHANGED, client->owner.Uin);
     client->process_event(&e);
 }
 
@@ -208,7 +208,7 @@ void ICQClientPrivate::sendClientReady()
 void ICQClientPrivate::fillDirectInfo(Buffer &directInfo)
 {
     directInfo
-    << (unsigned long)htonl(client->owner->RealIP)
+    << (unsigned long)htonl(client->owner.RealIP)
     << (unsigned short)0
     << (unsigned short)(listener ? listener->port() : 0)
 
@@ -217,12 +217,12 @@ void ICQClientPrivate::fillDirectInfo(Buffer &directInfo)
     << (char)ICQ_TCP_VERSION;
 
     directInfo
-    << client->owner->DCcookie
+    << client->owner.DCcookie
     << 0x00000050L
     << 0x00000003L
-    << client->owner->InfoUpdateTime
-    << client->owner->PhoneStatusTime
-    << client->owner->PhoneBookTime
+    << client->owner.InfoUpdateTime
+    << client->owner.PhoneStatusTime
+    << client->owner.PhoneBookTime
     << (unsigned short) 0x0000;
 }
 
@@ -232,7 +232,7 @@ void ICQClientPrivate::sendUpdate(Buffer &b)
     fillDirectInfo(directInfo);
 
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
-    sock->writeBuffer.tlv(0x0006, fullStatus(client->owner->uStatus));
+    sock->writeBuffer.tlv(0x0006, fullStatus(client->owner.uStatus));
     sock->writeBuffer.tlv(0x000C, directInfo);
 
     sock->writeBuffer.tlv(0x11, b);
@@ -253,7 +253,7 @@ bool ICQClient::updatePhoneBook()
     b << (unsigned short)0;
     b.pack((unsigned long)now);
     b << (char)0;
-    owner->PhoneBookTime = now;
+    owner.PhoneBookTime = now;
     p->sendUpdate(b);
     p->needPhonebookUpdate = true;
     return true;
@@ -267,8 +267,8 @@ void ICQClientPrivate::sendInfoUpdate()
     b << (char)1;
     b.pack((unsigned long)now);
     sendUpdate(b);
-    client->owner->InfoUpdateTime = now;
-    ICQEvent e(EVENT_INFO_CHANGED, client->owner->Uin);
+    client->owner.InfoUpdateTime = now;
+    ICQEvent e(EVENT_INFO_CHANGED, client->owner.Uin);
     sendMessageRequest();
     client->process_event(&e);
 }
@@ -278,18 +278,18 @@ bool ICQClient::updatePhoneStatus()
     if (!isLogged()) return false;
     unsigned long now;
     time((time_t*)&now);
-    owner->PhoneStatusTime = now;
+    owner.PhoneStatusTime = now;
     Buffer b;
     b << (char)3;
-    b.pack(owner->PhoneStatusTime);
+    b.pack(owner.PhoneStatusTime);
     b << (unsigned short)0x0000 << 0x01000100L;
     b.pack((const char*)(ICQClientPrivate::PHONEBOOK_SIGN), 0x10);
-    b << (char)0x02 << (unsigned short)0x0001 << owner->PhoneState << (char)0 << (unsigned short) 0;
-    b.pack(owner->PhoneStatusTime);
+    b << (char)0x02 << (unsigned short)0x0001 << owner.PhoneState << (char)0 << (unsigned short) 0;
+    b.pack(owner.PhoneStatusTime);
     b << (unsigned short)0 << 0x00000100L;
     p->sendUpdate(b);
     p->needPhoneStatusUpdate = true;
-    ICQEvent e(EVENT_INFO_CHANGED, owner->Uin);
+    ICQEvent e(EVENT_INFO_CHANGED, owner.Uin);
     process_event(&e);
     return true;
 }

@@ -43,23 +43,23 @@ MsgDialog::MsgDialog(QWidget *p, unsigned long _status, bool bReadOnly)
     }
     switch (status){
     case ICQ_STATUS_AWAY:
-        set(edtMessage, pClient->owner->AutoResponseAway, pClient->owner);
+        set(edtMessage, pClient->owner.AutoResponseAway, &pClient->owner);
         chkNoShow->setChecked(pMain->NoShowAway);
         break;
     case ICQ_STATUS_NA:
-        set(edtMessage, pClient->owner->AutoResponseNA, pClient->owner);
+        set(edtMessage, pClient->owner.AutoResponseNA, &pClient->owner);
         chkNoShow->setChecked(pMain->NoShowNA);
         break;
     case ICQ_STATUS_DND:
-        set(edtMessage, pClient->owner->AutoResponseDND, pClient->owner);
+        set(edtMessage, pClient->owner.AutoResponseDND, &pClient->owner);
         chkNoShow->setChecked(pMain->NoShowDND);
         break;
     case ICQ_STATUS_OCCUPIED:
-        set(edtMessage, pClient->owner->AutoResponseOccupied, pClient->owner);
+        set(edtMessage, pClient->owner.AutoResponseOccupied, &pClient->owner);
         chkNoShow->setChecked(pMain->NoShowOccupied);
         break;
     case ICQ_STATUS_FREEFORCHAT:
-        set(edtMessage, pClient->owner->AutoResponseFFC, pClient->owner);
+        set(edtMessage, pClient->owner.AutoResponseFFC, &pClient->owner);
         chkNoShow->setChecked(pMain->NoShowFFC);
         break;
     }
@@ -73,7 +73,7 @@ void MsgDialog::setup(ICQUser *u, const string &str1, const string &str2)
     if (*(str1.c_str()) == 0){
         chkOverride->setChecked(false);
         str = str2;
-        user = pClient->owner;
+        user = &pClient->owner;
     }else{
         chkOverride->setChecked(true);
         str = str1;
@@ -86,19 +86,19 @@ void MsgDialog::load(ICQUser *u)
 {
     switch (status){
     case ICQ_STATUS_AWAY:
-        setup(u, u->AutoResponseAway, pClient->owner->AutoResponseAway);
+        setup(u, u->AutoResponseAway, pClient->owner.AutoResponseAway);
         break;
     case ICQ_STATUS_NA:
-        setup(u, u->AutoResponseNA, pClient->owner->AutoResponseNA);
+        setup(u, u->AutoResponseNA, pClient->owner.AutoResponseNA);
         break;
     case ICQ_STATUS_DND:
-        setup(u, u->AutoResponseDND, pClient->owner->AutoResponseDND);
+        setup(u, u->AutoResponseDND, pClient->owner.AutoResponseDND);
         break;
     case ICQ_STATUS_OCCUPIED:
-        setup(u, u->AutoResponseOccupied, pClient->owner->AutoResponseOccupied);
+        setup(u, u->AutoResponseOccupied, pClient->owner.AutoResponseOccupied);
         break;
     case ICQ_STATUS_FREEFORCHAT:
-        setup(u, u->AutoResponseFFC, pClient->owner->AutoResponseFFC);
+        setup(u, u->AutoResponseFFC, pClient->owner.AutoResponseFFC);
         break;
     }
     overrideChanged(chkOverride->isChecked());
@@ -137,23 +137,23 @@ void MsgDialog::apply(ICQUser*)
 {
     switch (status){
     case ICQ_STATUS_AWAY:
-        set(pClient->owner->AutoResponseAway, edtMessage->text());
+        set(pClient->owner.AutoResponseAway, edtMessage->text());
         pMain->NoShowAway = chkNoShow->isChecked();
         break;
     case ICQ_STATUS_NA:
-        set(pClient->owner->AutoResponseNA, edtMessage->text());
+        set(pClient->owner.AutoResponseNA, edtMessage->text());
         pMain->NoShowNA = chkNoShow->isChecked();
         break;
     case ICQ_STATUS_DND:
-        set(pClient->owner->AutoResponseDND, edtMessage->text());
+        set(pClient->owner.AutoResponseDND, edtMessage->text());
         pMain->NoShowDND = chkNoShow->isChecked();
         break;
     case ICQ_STATUS_OCCUPIED:
-        set(pClient->owner->AutoResponseOccupied, edtMessage->text());
+        set(pClient->owner.AutoResponseOccupied, edtMessage->text());
         pMain->NoShowOccupied = chkNoShow->isChecked();
         break;
     case ICQ_STATUS_FREEFORCHAT:
-        set(pClient->owner->AutoResponseFFC, edtMessage->text());
+        set(pClient->owner.AutoResponseFFC, edtMessage->text());
         pMain->NoShowFFC = chkNoShow->isChecked();
         break;
     }

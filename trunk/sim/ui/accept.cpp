@@ -41,7 +41,7 @@ AcceptDialog::AcceptDialog(QWidget *p, bool _bReadOnly)
     }
     chkOverride->hide();
     edtPath->setDirMode(true);
-    load(pClient->owner);
+    load(&pClient->owner);
 }
 
 void AcceptDialog::load(ICQUser *u)
@@ -51,7 +51,7 @@ void AcceptDialog::load(ICQUser *u)
             chkOverride->setChecked(true);
         }else{
             chkOverride->setChecked(false);
-            u = pClient->owner;
+            u = &pClient->owner;
         }
         overrideChanged(chkOverride->isChecked());
     }
@@ -104,7 +104,7 @@ void AcceptDialog::save(ICQUser *u)
 
 void AcceptDialog::apply(ICQUser*)
 {
-    save(pClient->owner);
+    save(&pClient->owner);
 }
 
 void AcceptDialog::overrideChanged(bool)

@@ -340,11 +340,11 @@ void UserViewItem::update(ICQUser *u, bool bFirst)
         case ICQ_STATUS_FREEFORCHAT:
             if (((u->prevStatus & 0xFF) != ICQ_STATUS_ONLINE) &&
                     ((u->prevStatus & 0xFF) != ICQ_STATUS_FREEFORCHAT) &&
-                    (((pClient->owner->uStatus & 0xFF) == ICQ_STATUS_ONLINE) ||
-                     ((pClient->owner->uStatus & 0xFF) == ICQ_STATUS_FREEFORCHAT)) &&
-                    ((u->prevStatus == ICQ_STATUS_OFFLINE) || pClient->owner->AlertAway) &&
-                    ((u->OnlineTime > pClient->owner->OnlineTime) || ((u->prevStatus & 0xFFFF) != ICQ_STATUS_OFFLINE))){
-                if (!u->AlertOverride) u = pClient->owner;
+                    (((pClient->owner.uStatus & 0xFF) == ICQ_STATUS_ONLINE) ||
+                     ((pClient->owner.uStatus & 0xFF) == ICQ_STATUS_FREEFORCHAT)) &&
+                    ((u->prevStatus == ICQ_STATUS_OFFLINE) || pClient->owner.AlertAway) &&
+                    ((u->OnlineTime > pClient->owner.OnlineTime) || ((u->prevStatus & 0xFFFF) != ICQ_STATUS_OFFLINE))){
+                if (!u->AlertOverride) u = &pClient->owner;
                 if (u->AlertBlink)
                     nBlink = 18;
             }
@@ -441,9 +441,9 @@ void GroupViewItem::paintCell(QPainter *p, const QColorGroup &cg, int, int, int)
     int size = f.pixelSize();
     if (size <= 0){
         size = f.pointSize();
-        f.setPointSize(size * 2 / 3);
+        f.setPointSize(size * 3 / 4);
     }else{
-        f.setPixelSize(size * 2 / 3);
+        f.setPixelSize(size * 3 / 4);
     }
     f.setBold(true);
     p->setFont(f);
@@ -477,9 +477,9 @@ void DivItem::paintCell(QPainter *p, const QColorGroup &cg, int, int, int)
     int size = f.pixelSize();
     if (size <= 0){
         size = f.pointSize();
-        f.setPointSize(size * 2 / 3);
+        f.setPointSize(size * 3 / 4);
     }else{
-        f.setPixelSize(size * 2 / 3);
+        f.setPixelSize(size * 3 / 4);
     }
     p->setFont(f);
     paint(p, text(0), cg, true);
@@ -520,9 +520,9 @@ UserView::UserView (QWidget *parent, bool _bList, bool bFill, WFlags f)
     int size = font.pixelSize();
     if (size <= 0){
         size = font.pointSize();
-        font.setPointSize(size * 2 / 3);
+        font.setPointSize(size * 3 / 4);
     }else{
-        font.setPixelSize(size * 2 / 3);
+        font.setPixelSize(size * 3 / 4);
     }
     font.setBold(true);
     edtGroup->setFont(font);
@@ -856,7 +856,7 @@ void UserView::setOpen(bool bOpen)
 void UserView::addUserItem(ICQUser *u)
 {
     if (u->inIgnore || u->bIsTemp) return;
-    if (u->Uin == pClient->owner->Uin) return;
+    if (u->Uin == pClient->owner.Uin) return;
     if (!m_bShowOffline && (u->uStatus == ICQ_STATUS_OFFLINE) && (u->unreadMsgs.size() == 0)) return;
     if (!m_bGroupMode){
         new UserViewItem(u, this);

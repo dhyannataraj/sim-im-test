@@ -79,7 +79,7 @@ void GeneralSecurity::apply(ICQUser*)
     if (grpDirect->selected())
         pClient->DirectMode = grpDirect->id(grpDirect->selected());
     if (pClient->isLogged())
-        pClient->setStatus(pClient->owner->uStatus);
+        pClient->setStatus(pClient->owner.uStatus);
     pClient->setSecurityInfo(chkAuth->isChecked(), chkWeb->isChecked());
 }
 

@@ -63,11 +63,11 @@ void Tmpl::expand(bool bExt)
                 var += c;
             }
             if (var == "MyUin"){
-                res += QString::number(pClient->owner->Uin);
+                res += QString::number(pClient->owner.Uin);
                 continue;
             }
             if (var == "MyAlias"){
-                CUser owner(pClient->owner);
+                CUser owner(&pClient->owner);
                 res += owner.name(false);
                 continue;
             }

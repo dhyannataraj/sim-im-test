@@ -266,8 +266,6 @@ public:
     void packMessage(Buffer &b, ICQMessage *m, const char *msg, unsigned short msgFlags,
                      unsigned short msgState, char oper, bool bShort, bool bConvert);
 
-    Proxy *getProxy();
-
     unsigned long m_nProcessId;
 
     enum LoginState{

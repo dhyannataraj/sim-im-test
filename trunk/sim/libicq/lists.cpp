@@ -99,7 +99,7 @@ void ICQClientPrivate::snac_lists(unsigned short type, unsigned short seq)
                             Tlv *tlv_name = NULL;
                             if (inf) tlv_name = (*inf)(0x0131);
                             string alias = tlv_name ? (char*)(*tlv_name) : "";
-                            client->fromUTF(alias, client->owner->Encoding.c_str());
+                            client->fromUTF(alias, client->owner.Encoding.c_str());
                             bool needAuth = false;
                             if (inf && (*inf)(0x0066)) needAuth = true;
                             ICQUser *user = client->getUser(uin, true);
@@ -120,7 +120,7 @@ void ICQClientPrivate::snac_lists(unsigned short type, unsigned short seq)
                     }
                 case ICQ_GROUPS:{
                         if (str.size() == 0) break;
-                        client->fromUTF(str, client->owner->Encoding.c_str());
+                        client->fromUTF(str, client->owner.Encoding.c_str());
                         ICQGroup *grp = client->getGroup(grp_id, true);
                         if (grp == NULL){
                             grp = new ICQGroup();
@@ -205,9 +205,9 @@ void ICQClientPrivate::snac_lists(unsigned short type, unsigned short seq)
             sendClientReady();
             sendMessageRequest();
             sendPhoneStatus();
-            if (bFull || (client->owner->Nick.size() == 0)){
-                client->addInfoRequest(client->owner->Uin);
-                client->searchByUin(client->owner->Uin);
+            if (bFull || (client->owner.Nick.size() == 0)){
+                client->addInfoRequest(client->owner.Uin);
+                client->searchByUin(client->owner.Uin);
             }
             list<ICQUser*>::iterator it;
             for (it = client->contacts.users.begin(); it != client->contacts.users.end(); it++){
@@ -588,7 +588,7 @@ void ICQClientPrivate::sendRosterGrp(const char *name, unsigned short grpId, uns
 {
     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_RENAME, true);
     string sName = name;
-    client->toUTF(sName, client->owner->Encoding.c_str());
+    client->toUTF(sName, client->owner.Encoding.c_str());
     sock->writeBuffer.pack(sName);
     sock->writeBuffer
     << grpId
@@ -876,7 +876,7 @@ void ICQClientPrivate::sendRoster(ICQEvent *e,
     snac(ICQ_SNACxFAM_LISTS, cmd, true);
     string sName;
     if (name) sName = name;
-    client->toUTF(sName, client->owner->Encoding.c_str());
+    client->toUTF(sName, client->owner.Encoding.c_str());
     sock->writeBuffer.pack(sName);
     sock->writeBuffer
     << grp_id
@@ -884,7 +884,7 @@ void ICQClientPrivate::sendRoster(ICQEvent *e,
     << subCmd;
     if (alias){
         string sAlias = alias;
-        client->toUTF(sAlias, client->owner->Encoding.c_str());
+        client->toUTF(sAlias, client->owner.Encoding.c_str());
         unsigned short size = sAlias.length() + 4 + (waitAuth ? 4 : 0);
         sock->writeBuffer
         << size

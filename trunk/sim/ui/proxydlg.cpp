@@ -44,16 +44,18 @@ ProxyDialog::ProxyDialog(QWidget *p, const QString &msg)
 #ifdef USE_OPENSSL
     cmbProxy->insertItem(i18n("HTTPS"));
 #endif
-    cmbProxy->setCurrentItem(pClient->ProxyType);
 
-    edtProxyHost->setText(QString::fromLocal8Bit(pClient->ProxyHost.c_str()));
-    edtProxyPort->setText(QString::number(pClient->ProxyPort));
+    SocketFactory *factory = pClient->factory();
+    cmbProxy->setCurrentItem((int)(factory->ProxyType));
+
+    edtProxyHost->setText(QString::fromLocal8Bit(factory->ProxyHost.c_str()));
+    edtProxyPort->setText(QString::number(factory->ProxyPort));
     edtProxyPort->setValidator(new QIntValidator(1, 0xFFFF, edtProxyPort));
 
-    edtProxyUser->setText(QString::fromLocal8Bit(pClient->ProxyUser.c_str()));
-    edtProxyPasswd->setText(QString::fromLocal8Bit(pClient->ProxyPasswd.c_str()));
+    edtProxyUser->setText(QString::fromLocal8Bit(factory->ProxyUser.c_str()));
+    edtProxyPasswd->setText(QString::fromLocal8Bit(factory->ProxyPasswd.c_str()));
 
-    chkProxyAuth->setChecked(pClient->ProxyAuth);
+    chkProxyAuth->setChecked(factory->ProxyAuth);
 
     connect(cmbProxy, SIGNAL(activated(int)), this, SLOT(proxyChanged(int)));
     connect(chkProxyAuth, SIGNAL(toggled(bool)), this, SLOT(proxyChanged(bool)));
@@ -67,14 +69,15 @@ ProxyDialog::ProxyDialog(QWidget *p, const QString &msg)
 
 void ProxyDialog::apply()
 {
+    SocketFactory *factory = pClient->factory();
     set(pClient->ServerHost, edtHost->text());
     pClient->ServerPort = edtPort->text().toUInt();
-    pClient->ProxyType = cmbProxy->currentItem();
-    set(pClient->ProxyHost, edtProxyHost->text());
-    pClient->ProxyPort = edtProxyPort->text().toUInt();
-    set(pClient->ProxyUser, edtProxyUser->text());
-    set(pClient->ProxyPasswd, edtProxyPasswd->text());
-    pClient->ProxyAuth = chkProxyAuth->isChecked();
+    factory->ProxyType = (PROXY_TYPE)(cmbProxy->currentItem());
+    set(factory->ProxyHost, edtProxyHost->text());
+    factory->ProxyPort = edtProxyPort->text().toUInt();
+    set(factory->ProxyUser, edtProxyUser->text());
+    set(factory->ProxyPasswd, edtProxyPasswd->text());
+    factory->ProxyAuth = chkProxyAuth->isChecked();
     close();
 }
 

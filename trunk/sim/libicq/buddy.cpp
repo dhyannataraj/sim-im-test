@@ -47,7 +47,7 @@ void ICQClientPrivate::snac_buddy(unsigned short type, unsigned short)
         }
     case ICQ_SNACxBDY_USERONLINE:{
             unsigned long uin = sock->readBuffer.unpackUin();
-            if (uin == client->owner->Uin) break;
+            if (uin == client->owner.Uin) break;
             ICQUser *user = client->getUser(uin);
             if (user){
                 time_t now;

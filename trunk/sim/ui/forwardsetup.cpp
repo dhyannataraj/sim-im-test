@@ -32,7 +32,7 @@ ForwardSetup::ForwardSetup(QWidget *p)
 {
     lblPict->setPixmap(Pict("mail_forward"));
     cmbPhone->setEditable(true);
-    for (PhoneBook::iterator it = pClient->owner->Phones.begin(); it != pClient->owner->Phones.end(); ++it){
+    for (PhoneBook::iterator it = pClient->owner.Phones.begin(); it != pClient->owner.Phones.end(); ++it){
         if (((*it)->Type != SMS) && ((*it)->Type != MOBILE)) continue;
         string number = (*it)->getNumber();
         cmbPhone->insertItem(QString::fromLocal8Bit(number.c_str()));

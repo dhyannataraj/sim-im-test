@@ -66,6 +66,8 @@ class SIMClient : public QObject, public ICQClient
 public:
     SIMClient(QObject *parent = NULL, const char *name = NULL);
     ~SIMClient();
+    string			BirthdayReminder;
+    string			FileDone;
     void save(ostream &s);
     bool load(istream &s, string &nextPart);
     QString getName(bool bUserUIN=true);

@@ -1204,7 +1204,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                         btnDecline->show();
                         file->show();
                         ICQUser *u = pClient->getUser(f->getUin());
-                        if ((u == NULL) || !u->AcceptFileOverride) u = pClient->owner;
+                        if ((u == NULL) || !u->AcceptFileOverride) u = &pClient->owner;
                         string path = u->AcceptFilePath.c_str();
                         if (*path.c_str() == 0)
                             pMain->buildFileName(path, "IncomingFiles/");
@@ -1768,7 +1768,8 @@ void MsgEdit::acceptMessage()
     bCloseSend = false;
     if (msg->Type() == ICQ_MSGxFILE){
         ICQFile *f = static_cast<ICQFile*>(msg);
-        f->localName = fileEdit->text();
+        if (fileEdit->text().length())
+            f->localName = (const char*)(fileEdit->text().local8Bit());
     }
     pClient->acceptMessage(msg);
 }

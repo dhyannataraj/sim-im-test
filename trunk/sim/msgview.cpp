@@ -404,7 +404,7 @@ QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
         CUser u(msg->getUin());
         s += u.name(true);
     }else{
-        CUser u(pClient->owner);
+        CUser u(&pClient->owner);
         s += u.name(true);
     }
     s += "</font>&nbsp;&nbsp;";

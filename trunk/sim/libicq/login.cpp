@@ -46,11 +46,11 @@ void ICQClientPrivate::snac_login(unsigned short type, unsigned short)
             unsigned long newUin;
             sock->readBuffer.unpack(newUin);
             log(L_DEBUG, "Register %u %08lX", newUin, newUin);
-            client->owner->Uin = newUin;
+            client->owner.Uin = newUin;
             ICQEvent e(EVENT_INFO_CHANGED);
             client->process_event(&e);
             m_state = Connect;
-            sock->setProxy(getProxy());
+            sock->setProxy(factory->getProxy());
             sock->connect(client->ServerHost.c_str(), client->ServerPort);
             break;
         }
@@ -63,9 +63,9 @@ void ICQClientPrivate::chn_login()
 {
     switch (m_state){
     case Connect:{
-            log(L_DEBUG, "Login %lu [%s]", client->owner->Uin, client->EncryptedPassword.c_str());
+            log(L_DEBUG, "Login %lu [%s]", client->owner.Uin, client->EncryptedPassword.c_str());
             char uin[20];
-            sprintf(uin, "%lu", client->owner->Uin);
+            sprintf(uin, "%lu", client->owner.Uin);
 
             flap(ICQ_CHNxNEW);
             int n = 0;
@@ -201,13 +201,13 @@ void ICQClientPrivate::chn_close()
     *port = 0;
     port++;
     m_state = Login;
-    if ((client->ProxyType == PROXY_HTTP) || (client->ProxyType == PROXY_HTTPS)){
+    if ((factory->ProxyType == PROXY_HTTP) || (factory->ProxyType == PROXY_HTTPS)){
         sock->connect(host, atol(port));
     }else{
         sock->close();
         Socket *s = sock->socket();
         sock->setSocket(factory->createSocket());
-        sock->setProxy(getProxy());
+        sock->setProxy(factory->getProxy());
         sock->connect(host, atol(port));
         delete s;
     }

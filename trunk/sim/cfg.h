@@ -66,19 +66,26 @@ typedef struct cfgParam
     unsigned	defValue;
 } cfgParam;
 
-const unsigned PARAM_ULONG	 = 0;
-const unsigned PARAM_USHORT	 = 1;
-const unsigned PARAM_SHORT	 = 2;
-const unsigned PARAM_STRING	 = 3;
-const unsigned PARAM_BOOL	 = 4;
-const unsigned PARAM_I18N	 = 5;
-const unsigned PARAM_ULONGS	 = 6;
-const unsigned PARAM_CHAR	 = 7;
+const unsigned PARAM_ULONG	 = 1;
+const unsigned PARAM_USHORT	 = 2;
+const unsigned PARAM_SHORT	 = 3;
+const unsigned PARAM_STRING	 = 4;
+const unsigned PARAM_BOOL	 = 5;
+const unsigned PARAM_I18N	 = 6;
+const unsigned PARAM_ULONGS	 = 7;
+const unsigned PARAM_CHAR	 = 8;
+const unsigned PARAM_OFFS	 = 9;
+const unsigned PARAM_PROC	 = 10;
 
 void init(void *obj, const cfgParam *params);
 void save(void *obj, const cfgParam *params, ostream &s);
 bool load(void *obj, const cfgParam *params, istream &s, string &nextPart);
 string quoteString(const string &value);
+
+#define OFFSET_OF(type, field)                                               \
+            (reinterpret_cast <size_t>                                       \
+                (reinterpret_cast <char *>                                   \
+                    (&(reinterpret_cast <type *> (0))->field)))
 
 #endif
 

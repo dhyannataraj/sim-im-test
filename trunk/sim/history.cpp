@@ -56,26 +56,30 @@ cfgParam ICQMsg_Params[] =
         { "Message", OFFSET_OF(ICQMsg, Message), PARAM_STRING, 0 },
         { "ForeColor", OFFSET_OF(ICQMsg, ForeColor), PARAM_ULONG, 0 },
         { "BackColor", OFFSET_OF(ICQMsg, BackColor), PARAM_ULONG, 0 },
-        { "", 0, 0, (unsigned)ICQMessage_Params }
+        { "", 0, PARAM_OFFS, (unsigned)ICQMessage_Params },
+        { "", 0, 0, 0 }
     };
 
 cfgParam ICQUrl_Params[] =
     {
         { "URL", OFFSET_OF(ICQUrl, URL), PARAM_STRING, 0 },
         { "Message", OFFSET_OF(ICQUrl, Message), PARAM_STRING, 0 },
-        { "", 0, 0, (unsigned)ICQMessage_Params }
+        { "", 0, PARAM_OFFS, (unsigned)ICQMessage_Params },
+        { "", 0, 0, 0 }
     };
 
 cfgParam ICQAuthRequest_Params[] =
     {
         { "Message", OFFSET_OF(ICQAuthRequest, Message), PARAM_STRING, 0 },
-        { "", 0, 0, (unsigned)ICQMessage_Params }
+        { "", 0, PARAM_OFFS, (unsigned)ICQMessage_Params },
+        { "", 0, 0, 0 }
     };
 
 cfgParam ICQAuthRefused_Params[] =
     {
         { "Message", OFFSET_OF(ICQAuthRefused, Message), PARAM_STRING, 0 },
-        { "", 0, 0, (unsigned)ICQMessage_Params }
+        { "", 0, PARAM_OFFS, (unsigned)ICQMessage_Params },
+        { "", 0, 0, 0 }
     };
 
 cfgParam ICQSMS_Params[] =
@@ -83,7 +87,8 @@ cfgParam ICQSMS_Params[] =
         { "Phone", OFFSET_OF(ICQSMS, Phone), PARAM_STRING, 0 },
         { "Message", OFFSET_OF(ICQSMS, Message), PARAM_STRING, 0 },
         { "Network", OFFSET_OF(ICQSMS, Network), PARAM_STRING, 0 },
-        { "", 0, 0, (unsigned)ICQMessage_Params }
+        { "", 0, PARAM_OFFS, (unsigned)ICQMessage_Params },
+        { "", 0, 0, 0 }
     };
 
 cfgParam ICQSMSReceipt_Params[] =
@@ -92,13 +97,15 @@ cfgParam ICQSMSReceipt_Params[] =
         { "Destination", OFFSET_OF(ICQSMSReceipt, Destination), PARAM_STRING, 0 },
         { "Delivered", OFFSET_OF(ICQSMSReceipt, Delivered), PARAM_STRING, 0 },
         { "Message", OFFSET_OF(ICQSMSReceipt, Message), PARAM_STRING, 0 },
-        { "", 0, 0, (unsigned)ICQMessage_Params }
+        { "", 0, PARAM_OFFS, (unsigned)ICQMessage_Params },
+        { "", 0, 0, 0 }
     };
 
 cfgParam ICQMsgExt_Params[] =
     {
         { "MessageType", OFFSET_OF(ICQMsgExt, MessageType), PARAM_STRING, 0 },
-        { "", 0, 0, (unsigned)ICQMessage_Params }
+        { "", 0, PARAM_OFFS, (unsigned)ICQMessage_Params },
+        { "", 0, 0, 0 }
     };
 
 cfgParam ICQFile_Params[] =
@@ -106,14 +113,16 @@ cfgParam ICQFile_Params[] =
         { "Name", OFFSET_OF(ICQFile, Name), PARAM_STRING, 0 },
         { "Description", OFFSET_OF(ICQFile, Description), PARAM_STRING, 0 },
         { "Size", OFFSET_OF(ICQFile, Size), PARAM_ULONG, 0 },
-        { "", 0, 0, (unsigned)ICQMessage_Params }
+        { "", 0, PARAM_OFFS, (unsigned)ICQMessage_Params },
+        { "", 0, 0, 0 }
     };
 
 cfgParam ICQChat_Params[] =
     {
         { "Reason", OFFSET_OF(ICQChat, Reason), PARAM_STRING, 0 },
         { "Clients", OFFSET_OF(ICQChat, Clients), PARAM_STRING, 0 },
-        { "", 0, 0, (unsigned)ICQMessage_Params }
+        { "", 0, PARAM_OFFS, (unsigned)ICQMessage_Params },
+        { "", 0, 0, 0 }
     };
 
 cfgParam ICQWebPanel_Params[] =
@@ -121,7 +130,8 @@ cfgParam ICQWebPanel_Params[] =
         { "Name", OFFSET_OF(ICQWebPanel, Name), PARAM_STRING, 0 },
         { "Email", OFFSET_OF(ICQWebPanel, Email), PARAM_STRING, 0 },
         { "Message", OFFSET_OF(ICQWebPanel, Message), PARAM_STRING, 0 },
-        { "", 0, 0, (unsigned)ICQMessage_Params }
+        { "", 0, PARAM_OFFS, (unsigned)ICQMessage_Params },
+        { "", 0, 0, 0 }
     };
 
 cfgParam ICQEmailPager_Params[] =
@@ -129,7 +139,8 @@ cfgParam ICQEmailPager_Params[] =
         { "Name", OFFSET_OF(ICQEmailPager, Name), PARAM_STRING, 0 },
         { "Email", OFFSET_OF(ICQEmailPager, Email), PARAM_STRING, 0 },
         { "Message", OFFSET_OF(ICQEmailPager, Message), PARAM_STRING, 0 },
-        { "", 0, 0, (unsigned)ICQMessage_Params }
+        { "", 0, PARAM_OFFS, (unsigned)ICQMessage_Params },
+        { "", 0, 0, 0 }
     };
 
 cfgParam Contact_Params[] =
@@ -147,19 +158,22 @@ static void *createContact()
 cfgParam ICQContacts_Params[] =
     {
         { "Contacts", OFFSET_OF(ICQContacts, Contacts), (unsigned)createContact, (unsigned)&Contact_Params },
-        { "", 0, 0, (unsigned)ICQMessage_Params }
+        { "", 0, PARAM_OFFS, (unsigned)ICQMessage_Params },
+        { "", 0, 0, 0 }
     };
 
 cfgParam ICQContactRequest_Params[] =
     {
         { "Message", OFFSET_OF(ICQContactRequest, Message), PARAM_STRING, 0 },
-        { "", 0, 0, (unsigned)ICQMessage_Params }
+        { "", 0, PARAM_OFFS, (unsigned)ICQMessage_Params },
+        { "", 0, 0, 0 }
     };
 
 cfgParam ICQStatus_Params[] =
     {
         { "Status", OFFSET_OF(ICQStatus, status), PARAM_ULONG, ICQ_STATUS_OFFLINE },
-        { "", 0, 0, (unsigned)ICQMessage_Params }
+        { "", 0, PARAM_OFFS, (unsigned)ICQMessage_Params },
+        { "", 0, 0, 0 }
     };
 
 History::History(unsigned long uin)

@@ -251,13 +251,13 @@ void SetupDialog::selectionChanged()
 
 void SetupDialog::update()
 {
-    pClient->addInfoRequest(pClient->owner->Uin, true);
+    pClient->addInfoRequest(pClient->owner.Uin, true);
 }
 
 void SetupDialog::apply()
 {
     ICQUser u;
-    u = *(pClient->owner);
+    u = pClient->owner;
     emit applyChanges(&u);
     pClient->setInfo(&u);
     pMain->saveState();

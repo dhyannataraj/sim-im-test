@@ -169,7 +169,7 @@ ICQUser *ICQContactList::getUser(unsigned long uin, bool create)
             if ((*it_usr)->Uin == uin) return *it_usr;
         }
     }
-    if (uin == client->owner->Uin) return client->owner;
+    if (uin == client->owner.Uin) return &client->owner;
     if (!create) return NULL;
     ICQUser *usr = new ICQUser();
     if (uin == 0){
