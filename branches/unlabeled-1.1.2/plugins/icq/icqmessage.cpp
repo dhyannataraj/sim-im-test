@@ -963,7 +963,8 @@ static Message *dropContact(QMimeSource *src)
             return NULL;
         ContactMessage *msg = new ContactMessage;
         ICQUserData *d = (ICQUserData*)data;
-        msg->setContacts(QString::number(d->Uin) + "," + getToken(contact->getName(), '/'));
+	QString name = contact->getName();
+        msg->setContacts(QString::number(d->Uin) + "," + getToken(name, '/'));
         return msg;
     }
     return NULL;
