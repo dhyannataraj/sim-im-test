@@ -195,7 +195,7 @@ void SSLClient::shutdown()
         err = ERR_get_error_line(&file, &line);
         log(L_WARN, "SSL: SSL_shutdown error = %lx, %s:%i", err, file, line);
         ERR_clear_error();
-        notify->error_state(I18N_NOOP("SSL shuwdown error"));
+        notify->error_state(I18N_NOOP("SSL shutdown error"));
         return;
     case SSL_ERROR_WANT_READ:
     case SSL_ERROR_WANT_WRITE:
@@ -203,7 +203,7 @@ void SSLClient::shutdown()
         return;
     default:
         log(L_DEBUG, "SSL: SSL_shutdown error %d, SSL_%d", i, j);
-        notify->error_state(I18N_NOOP("SSL shuwdown error"));
+        notify->error_state(I18N_NOOP("SSL shutdown error"));
     }
 }
 
