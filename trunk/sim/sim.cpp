@@ -265,7 +265,7 @@ KAboutData *appAboutData = NULL;
 
 void simMessageOutput( QtMsgType, const char *msg )
 {
-    log(L_DEBUG, "QT: %s", msg); 
+    log(L_DEBUG, "QT: %s", msg);
 }
 
 #endif

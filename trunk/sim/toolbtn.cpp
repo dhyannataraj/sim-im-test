@@ -466,7 +466,7 @@ void CToolBar::toolBarChanged(const ToolBarDef *def)
         unsigned long id = *it;
         if (id == BTN_SEPARATOR){
             addSeparator();
-	    ++it;
+            ++it;
             continue;
         }
         const ToolBarDef *def;
@@ -476,11 +476,11 @@ void CToolBar::toolBarChanged(const ToolBarDef *def)
             for (def++; def->id != BTN_END_DEF; def++)
                 if (def->id == id) break;
             if (def->id == BTN_END_DEF){
-		m_active->remove(id);
-		clear();
-		it = m_active->begin();
-		continue;
-	    }
+                m_active->remove(id);
+                clear();
+                it = m_active->begin();
+                continue;
+            }
         }
 
         QWidget *w;
@@ -536,7 +536,7 @@ void CToolBar::toolBarChanged(const ToolBarDef *def)
         }else{
             connect(w, SIGNAL(showPopup(QPoint)), this, SLOT(showPopup(QPoint)));
         }
-	++it;
+        ++it;
     }
 }
 

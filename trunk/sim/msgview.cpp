@@ -894,7 +894,7 @@ void HistoryView::searchChanged()
     edt->setText(searchText);
 #if QT_VERSION >= 300
     if ((startPos < endPos) && (startPos >= 0) && (endPos >= 0))
-    	edt->setSelection(startPos, endPos);
+        edt->setSelection(startPos, endPos);
 #endif
     edt->setCursorPosition(pos);
     searchParag = safeParag;

@@ -84,24 +84,24 @@ void ToolBarSetup::okClick()
 void ToolBarSetup::applyClick()
 {
     if (bDirty){
-	string s;
-	char b[12];
-	list<unsigned long>::iterator it;
-	for (it = m_active->begin(); it != m_active->end(); ++it){
-		snprintf(b, sizeof(b), "%li ", *it);
-		s += b;
-	}
-	s = "";
+        string s;
+        char b[12];
+        list<unsigned long>::iterator it;
+        for (it = m_active->begin(); it != m_active->end(); ++it){
+            snprintf(b, sizeof(b), "%li ", *it);
+            s += b;
+        }
+        s = "";
         for (it = active.begin(); it != active.end(); ++it){
-                snprintf(b, sizeof(b), "%li ", *it);
-                s += b;
+            snprintf(b, sizeof(b), "%li ", *it);
+            s += b;
         }
 
-	s = "";
+        s = "";
         *m_active = active;
         for (it = m_active->begin(); it != m_active->end(); ++it){
-                snprintf(b, sizeof(b), "%li ", *it);
-                s += b;
+            snprintf(b, sizeof(b), "%li ", *it);
+            s += b;
         }
 
         pMain->changeToolBar(def);

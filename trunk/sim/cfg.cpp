@@ -303,7 +303,7 @@ bool loadParam(void *_obj, const cfgParam *params, const char *name, const char 
                         l->clear();
                         for (pp = value; *pp; ){
                             l->push_back(atol(pp));
-			    log(L_DEBUG, ">> %s %lu", pp, atol(pp));
+                            log(L_DEBUG, ">> %s %lu", pp, atol(pp));
                             pp = strchr(pp, ',');
                             if (pp == NULL) break;
                             pp++;

@@ -344,7 +344,7 @@ UINT appBarMessage(DWORD dwMessage, UINT uEdge = ABE_FLOAT, LPARAM lParam = 0, Q
 
     // If the caller passed a rectangle, return the updated rectangle.
     if (rc != NULL)
-        rc->setCoords(abd.rc.left, abd.rc.top, abd.rc.right, abd.rc.top);
+        rc->setCoords(abd.rc.left, abd.rc.top, abd.rc.right, abd.rc.bottom);
     return uRetVal;
 }
 
@@ -354,11 +354,33 @@ static bool bOnTop = false;
 
 void getBarRect(UINT state, QRect &rc)
 {
-    rc.setRect(0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
+    RECT rcWork;
+    SystemParametersInfoA(SPI_GETWORKAREA, 0, &rcWork, 0);
+    rc.setCoords(0, rcWork.top, GetSystemMetrics(SM_CXSCREEN), rcWork.bottom);
     appBarMessage(ABM_QUERYPOS, state, FALSE, &rc);
+    RECT rcWnd;
+    GetWindowRect(pMain->winId(), &rcWnd);
+    switch (state){
+    case ABE_LEFT:
+        rc.setRight(rc.left() + rcWnd.right - rcWnd.left);
+        break;
+    case ABE_RIGHT:
+        rc.setLeft(rc.right() - rcWnd.right + rcWnd.left);
+        break;
+    }
 }
 
 const int SLIDE_INTERVAL = 400;
+
+unsigned short getEdge()
+{
+    RECT rc, rcWnd;
+    GetWindowRect(pMain->winId(), &rcWnd);
+    SystemParametersInfoA(SPI_GETWORKAREA, 0, &rc, 0);
+    if (rcWnd.left <= rc.left) return ABE_LEFT;
+    if (rcWnd.right >= rc.right) return ABE_RIGHT;
+    return ABE_FLOAT;
+}
 
 void slideWindow (const QRect &rcEnd)
 {
@@ -388,10 +410,12 @@ void slideWindow (const QRect &rcEnd)
                         (rcEnd.width() - rcEnd.width()) * delta / SLIDE_INTERVAL);
             rc.setHeight(rcStart.height() +
                          (rcEnd.height() - rcEnd.height()) * delta / SLIDE_INTERVAL);
-            pMain->setGeometry(rc);
+            pMain->move(rc.left(), rc.top());
+            pMain->resize(rc.width(), rc.bottom());
         }
     }
-    pMain->setGeometry(rcEnd);
+    pMain->move(rcEnd.left(), rcEnd.top());
+    pMain->resize(rcEnd.width(), rcEnd.bottom());
 }
 
 
@@ -434,6 +458,8 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         break;
     case WM_EXITSIZEMOVE:
         bInMoving = false;
+        pMain->BarState = getEdge();
+        setBarState();
         break;
     }
     return WndProc(hWnd, msg, wParam, lParam);
@@ -1645,6 +1671,9 @@ void MainWindow::closeEvent(QCloseEvent *e)
         delete dock;
         dock = NULL;
     }
+#ifdef WIN32
+    appBarMessage(ABM_REMOVE);
+#endif
     QMainWindow::closeEvent(e);
 }
 

@@ -440,10 +440,10 @@ void History::iterator::loadBlock()
         if (start > BLOCK_SIZE){
             start -= BLOCK_SIZE;
             f.seekg(start, ios::beg);
-	    int pos = f.tellg();
-	    log(L_DEBUG, ">> getline %u", pos);
+            int pos = f.tellg();
+            log(L_DEBUG, ">> getline %u", pos);
             getline(f, type);
-            log(L_DEBUG, "<< %s", type.c_str());		
+            log(L_DEBUG, "<< %s", type.c_str());
             if ((f.tellg() > start_block) || f.eof())
                 continue;
         }else{
@@ -452,10 +452,10 @@ void History::iterator::loadBlock()
         }
         string line;
         for (;;){
-	    int pos = f.tellg();
-	    log(L_DEBUG, "> getline %u", pos);
+            int pos = f.tellg();
+            log(L_DEBUG, "> getline %u", pos);
             getline(f, line);
-	    log(L_DEBUG, "< %s", line.c_str());
+            log(L_DEBUG, "< %s", line.c_str());
             if ((f.tellg() > start_block) || f.eof())
                 break;
             if (*line.c_str() != '[') continue;
@@ -498,10 +498,10 @@ void History::iterator::loadBlock()
                 for (;;){
                     string line;
                     if (f.eof()) break;
-		    int pos = f.tellg();
-		    log(L_DEBUG, ">>> %u", pos);
+                    int pos = f.tellg();
+                    log(L_DEBUG, ">>> %u", pos);
                     getline(f, line);
-		    log(L_DEBUG, "<<< %s");
+                    log(L_DEBUG, "<<< %s");
                     if (*line.c_str() == '[') break;
                     char *p = strchr(line.c_str(), '=');
                     if (p == NULL) continue;
@@ -561,7 +561,7 @@ void History::iterator::loadBlock()
             }
         }
         start_block = start;
-	log(L_DEBUG, "Load OK");
+        log(L_DEBUG, "Load OK");
         return;
     }
 }
