@@ -233,7 +233,7 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     phoneEdit = new QComboBox(phone);
     phoneEdit->setEditable(true);
     phoneEdit->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
-    connect(phoneEdit, SIGNAL(textChanged(const QString&)), this, SLOT(phoneTextChanged(const QString&)));
+    connect(phoneEdit, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
 
     url   = new QHGroupBox(frmEdit);
     url->hide();
@@ -570,6 +570,7 @@ void MsgEdit::processEvent(ICQEvent *e)
         }
         break;
     case EVENT_INFO_CHANGED:
+	if (e->Uin() != Uin) break;
         fillPhones();
         u = pClient->getUser(Uin);
         if (!bInIgnore && u && u->inIgnore)
@@ -577,7 +578,7 @@ void MsgEdit::processEvent(ICQEvent *e)
         break;
     case EVENT_USER_DELETED:
         if (e->Uin() == Uin)
-            close();
+            QTimer::singleShot(10, this, SLOT(close()));
         break;
     }
     if (e->message() && (e->message() == message())){
@@ -1614,16 +1615,6 @@ void MsgEdit::editTextChanged()
 
 void MsgEdit::textChanged(const QString&)
 {
-    textChanged();
-}
-
-void MsgEdit::phoneTextChanged(const QString &str)
-{
-    if (str.isEmpty() && !prevPhone.isEmpty()){
-        char *a = NULL;
-        *a = 1;
-    }
-    prevPhone = str;
     textChanged();
 }
 

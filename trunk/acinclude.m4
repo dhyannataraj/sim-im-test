@@ -444,12 +444,7 @@ AC_DEFUN(KDE_SUBST_PROGRAMS,
            IFS=$kde_save_IFS
         fi
         kde_default_bindirs="$exec_prefix/bin $prefix/bin $kde_default_bindirs"
-        KDE_FIND_PATH(dcopidl, DCOPIDL, [$kde_default_bindirs], [KDE_MISSING_PROG_ERROR(dcopidl)])
-        KDE_FIND_PATH(dcopidl2cpp, DCOPIDL2CPP, [$kde_default_bindirs], [KDE_MISSING_PROG_ERROR(dcopidl2cpp)])
-        KDE_FIND_PATH(mcopidl, MCOPIDL, [$kde_default_bindirs], [KDE_MISSING_PROG_ERROR(mcopidl)])
-        KDE_FIND_PATH(artsc-config, ARTSCCONFIG, [$kde_default_bindirs], [KDE_MISSING_PROG_ERROR(artsc-config)])
         KDE_FIND_PATH(kde-config, KDECONFIG, [$kde_default_bindirs])
-        KDE_FIND_PATH(meinproc, MEINPROC, [$kde_default_bindirs])
       
         if test -n "$MEINPROC" && test ! "$MEINPROC" = "compiled"; then  
  	    kde_sharedirs="/usr/share/kde /usr/local/share /usr/share /opt/kde2/share /opt/kde/share $prefix/share"

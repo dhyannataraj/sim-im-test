@@ -97,7 +97,6 @@ public slots:
     void spell();
     void textChanged();
     void editTextChanged();
-    void phoneTextChanged(const QString&);
     void textChanged(const QString&);
     void spellDone(bool);
     void makeMessage();
@@ -195,8 +194,6 @@ protected:
     bool bFirstShow;
     QString msgTail;
     WndCancel *wndCancel;
-
-    QString prevPhone;
 };
 
 #endif
