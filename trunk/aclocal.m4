@@ -40,6 +40,31 @@ dnl
 dnl Single-module modifications are best placed in configure.in for kdelibs
 dnl and kdebase or configure.in.in if present.
 
+dnl
+dnl Checks to see if struct tm has the BSD tm_gmtoff member
+dnl
+dnl usage:
+dnl
+dnl AC_ACME_TM_GMTOFF
+dnl
+dnl results:
+dnl
+dnl HAVE_TM_GMTOFF (defined)
+dnl
+AC_DEFUN(AC_TM_GMTOFF,
+[AC_MSG_CHECKING(if struct tm has tm_gmtoff member)
+AC_CACHE_VAL(ac_cv_tm_has_tm_gmtoff,
+AC_TRY_COMPILE([
+# include <sys/types.h>
+# include <time.h>],
+[u_int i = sizeof(((struct tm *)0)->tm_gmtoff)],
+ac_cv_acme_tm_has_tm_gmtoff=yes,
+ac_cv_acme_tm_has_tm_gmtoff=no))
+AC_MSG_RESULT($ac_cv_tm_has_tm_gmtoff)
+if test $ac_cv_tm_has_tm_gmtoff = yes ; then
+AC_DEFINE(HAVE_TM_GMTOFF, 1, [Have tm_gmtoff])
+fi])
+
 dnl ------------------------------------------------------------------------
 dnl Forward compatibility macros (make autoconf 2.13 look like 2.50),
 dnl thanks to Raja R Harinath.

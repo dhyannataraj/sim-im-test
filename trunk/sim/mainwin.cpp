@@ -225,6 +225,9 @@ MainWindow::MainWindow(const char *name)
         XOSD_FontWeight(this, "XOSD_FontWeight"),
         XOSD_FontItalic(this, "XOSD_FontItalic"),
         XOSD_timeout(this, "XOSD_timeout", 10),
+		XOSD_Shadow(this, "XOSD_Shadow", true),
+		XOSD_Background(this, "XOSD_Background", false),
+		XOSD_BgColor(this, "XOSD_BgColor", colorGroup().background().rgb()),
         ContainerMode(this, "ContainerMode", ContainerModeGroup)
 
 {
@@ -241,7 +244,7 @@ MainWindow::MainWindow(const char *name)
 #endif
 
     int tz;
-#ifdef WIN32
+#ifndef HAVE_TM_GMTOFF
     tz = _timezone / 2;
 #else
     time_t now;

@@ -1,5 +1,4 @@
 # Makefile.in generated automatically by automake 1.5 from Makefile.am.
-# KDE tags expanded automatically by am_edit - $Revision: 1.1.1.1 $ 
 
 # Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
 # Free Software Foundation, Inc.
@@ -227,7 +226,7 @@ x_libraries = @x_libraries@
 bin_PROGRAMS = sim
 
 sim_SOURCES = xosd.cpp chatwnd.cpp fontedit.cpp transparent.cpp parse.ll intedit.cpp userview.cpp usertbl.cpp userbox.cpp toolbtn.cpp themes.cpp sim.cpp passwddlg.cpp msgview.cpp msgedit.cpp mainwin.cpp logindlg.cpp icons.cpp history.cpp editspell.cpp dock.cpp cuser.cpp client.cpp 
-sim_LDADD = ./libicq/liblibicq.a ./ui/libui.a ./qt3/libqt3.a  $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE)  $(LIBSOCKET)
+sim_LDADD = ./libicq/liblibicq.a ./ui/libui.a ./qt3/libqt3.a  $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE)  $(LIBSOCKET) $(LIBICONV)
 
 SUBDIRS = libicq ui xpm qt3 
 
@@ -250,10 +249,10 @@ EXTRA_DIST = sim.desktop lo32-app-sim.png lo16-app-sim.png client.cpp client.h c
 # set the include path for X, qt and KDE
 INCLUDES = $(all_includes) -Ilibicq
 
-#>- METASOURCES = AUTO
+METASOURCES = AUTO
 
 # the library search path. 
-sim_LDFLAGS = $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)  $(LIBICONV)
+sim_LDFLAGS = $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 subdir = sim
 mkinstalldirs = $(SHELL) $(top_srcdir)/admin/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
@@ -269,20 +268,7 @@ am_sim_OBJECTS = xosd.$(OBJEXT) chatwnd.$(OBJEXT) fontedit.$(OBJEXT) \
 	mainwin.$(OBJEXT) logindlg.$(OBJEXT) icons.$(OBJEXT) \
 	history.$(OBJEXT) editspell.$(OBJEXT) dock.$(OBJEXT) \
 	cuser.$(OBJEXT) client.$(OBJEXT)
-#>- sim_OBJECTS = $(am_sim_OBJECTS)
-#>+ 12
-sim_final_OBJECTS = parse.o sim.all_cpp.o sim.all_cc.o 
-sim_nofinal_OBJECTS = xosd.$(OBJEXT) chatwnd.$(OBJEXT) fontedit.$(OBJEXT) \
-	transparent.$(OBJEXT) parse.$(OBJEXT) intedit.$(OBJEXT) \
-	userview.$(OBJEXT) usertbl.$(OBJEXT) userbox.$(OBJEXT) \
-	toolbtn.$(OBJEXT) themes.$(OBJEXT) sim.$(OBJEXT) \
-	passwddlg.$(OBJEXT) msgview.$(OBJEXT) msgedit.$(OBJEXT) \
-	mainwin.$(OBJEXT) logindlg.$(OBJEXT) icons.$(OBJEXT) \
-	history.$(OBJEXT) editspell.$(OBJEXT) dock.$(OBJEXT) \
-	cuser.$(OBJEXT) client.$(OBJEXT) \
-	sim_meta_unload.o 
-@KDE_USE_FINAL_FALSE@sim_OBJECTS = $(sim_nofinal_OBJECTS)
-@KDE_USE_FINAL_TRUE@sim_OBJECTS = $(sim_final_OBJECTS)
+sim_OBJECTS = $(am_sim_OBJECTS)
 sim_DEPENDENCIES = ./libicq/liblibicq.a ./ui/libui.a ./qt3/libqt3.a
 
 DEFS = @DEFS@
@@ -292,34 +278,24 @@ LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 depcomp = $(SHELL) $(top_srcdir)/admin/depcomp
 @AMDEP_TRUE@DEP_FILES = $(DEPDIR)/chatwnd.Po $(DEPDIR)/client.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/cuser.Po $(DEPDIR)/dock.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/editspell.Po $(DEPDIR)/fontedit.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/history.Po $(DEPDIR)/icons.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/intedit.Po $(DEPDIR)/logindlg.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/mainwin.Po $(DEPDIR)/msgedit.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/msgview.Po $(DEPDIR)/parse.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/passwddlg.Po $(DEPDIR)/sim.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/themes.Po $(DEPDIR)/toolbtn.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/transparent.Po $(DEPDIR)/userbox.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/usertbl.Po $(DEPDIR)/userview.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/xosd.Po
-#>- CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
-#>- $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
-#>+ 2
+@AMDEP_TRUE@	$(DEPDIR)/cuser.Po $(DEPDIR)/dock.Po \
+@AMDEP_TRUE@	$(DEPDIR)/editspell.Po $(DEPDIR)/fontedit.Po \
+@AMDEP_TRUE@	$(DEPDIR)/history.Po $(DEPDIR)/icons.Po \
+@AMDEP_TRUE@	$(DEPDIR)/intedit.Po $(DEPDIR)/logindlg.Po \
+@AMDEP_TRUE@	$(DEPDIR)/mainwin.Po $(DEPDIR)/msgedit.Po \
+@AMDEP_TRUE@	$(DEPDIR)/msgview.Po $(DEPDIR)/parse.Po \
+@AMDEP_TRUE@	$(DEPDIR)/passwddlg.Po $(DEPDIR)/sim.Po \
+@AMDEP_TRUE@	$(DEPDIR)/themes.Po $(DEPDIR)/toolbtn.Po \
+@AMDEP_TRUE@	$(DEPDIR)/transparent.Po $(DEPDIR)/userbox.Po \
+@AMDEP_TRUE@	$(DEPDIR)/usertbl.Po $(DEPDIR)/userview.Po \
+@AMDEP_TRUE@	$(DEPDIR)/xosd.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
-	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) $(KDE_CXXFLAGS)
-#>- LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
-#>- $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
-#>- $(AM_CXXFLAGS) $(CXXFLAGS)
-#>+ 3
-LTCXXCOMPILE = $(LIBTOOL) --mode=compile --tag=CXX $(CXX) $(DEFS) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
 	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
-	$(AM_CXXFLAGS) $(CXXFLAGS) $(KDE_CXXFLAGS)
+	$(AM_CXXFLAGS) $(CXXFLAGS)
 CXXLD = $(CXX)
-#>- CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
-#>- $(AM_LDFLAGS) $(LDFLAGS) -o $@
-#>+ 2
-CXXLINK = $(LIBTOOL) --mode=link --tag=CXX $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(KDE_CXXFLAGS) \
+CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 CXXFLAGS = @CXXFLAGS@
 LEXCOMPILE = $(LEX) $(LFLAGS) $(AM_LFLAGS)
@@ -342,9 +318,7 @@ DIST_COMMON = Makefile.am Makefile.in parse.cc
 DIST_SUBDIRS = $(SUBDIRS)
 SOURCES = $(sim_SOURCES)
 
-#>- all: all-recursive
-#>+ 1
-all: docs-am  all-recursive
+all: all-recursive
 
 .SUFFIXES:
 .SUFFIXES: .cc .cpp .ll .lo .o .obj
@@ -358,36 +332,32 @@ clean-libtool:
 distclean-libtool:
 	-rm -f libtool
 $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
-#>- 	cd $(top_srcdir) && \
-#>- $(AUTOMAKE) --gnu  sim/Makefile
-#>+ 3
 	cd $(top_srcdir) && \
-	$(AUTOMAKE) --gnu  sim/Makefile
-	cd $(top_srcdir) && perl admin/am_edit sim/Makefile.in
+	  $(AUTOMAKE) --gnu  sim/Makefile
 Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && \
-	CONFIG_HEADERS= CONFIG_LINKS= \
-	CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
+	  CONFIG_HEADERS= CONFIG_LINKS= \
+	  CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(bindir)
 	@list='$(bin_PROGRAMS)'; for p in $$list; do \
-	p1=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
-	if test -f $$p \
-	|| test -f $$p1 \
-	; then \
-	f=`echo $$p1|sed '$(transform);s/$$/$(EXEEXT)/'`; \
-	echo " $(INSTALL_PROGRAM_ENV) $(LIBTOOL) --mode=install $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/$$f"; \
-	$(INSTALL_PROGRAM_ENV) $(LIBTOOL) --mode=install $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/$$f; \
-	else :; fi; \
+	  p1=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
+	  if test -f $$p \
+	     || test -f $$p1 \
+	  ; then \
+	    f=`echo $$p1|sed '$(transform);s/$$/$(EXEEXT)/'`; \
+	   echo " $(INSTALL_PROGRAM_ENV) $(LIBTOOL) --mode=install $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/$$f"; \
+	   $(INSTALL_PROGRAM_ENV) $(LIBTOOL) --mode=install $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/$$f; \
+	  else :; fi; \
 	done
 
 uninstall-binPROGRAMS:
 	@$(NORMAL_UNINSTALL)
 	@list='$(bin_PROGRAMS)'; for p in $$list; do \
-	f=`echo $$p|sed 's/$(EXEEXT)$$//;$(transform);s/$$/$(EXEEXT)/'`; \
-	echo " rm -f $(DESTDIR)$(bindir)/$$f"; \
-	rm -f $(DESTDIR)$(bindir)/$$f; \
+	  f=`echo $$p|sed 's/$(EXEEXT)$$//;$(transform);s/$$/$(EXEEXT)/'`; \
+	  echo " rm -f $(DESTDIR)$(bindir)/$$f"; \
+	  rm -f $(DESTDIR)$(bindir)/$$f; \
 	done
 
 clean-binPROGRAMS:
@@ -484,48 +454,48 @@ $(RECURSIVE_TARGETS):
 	dot_seen=no; \
 	target=`echo $@ | sed s/-recursive//`; \
 	list='$(SUBDIRS)'; for subdir in $$list; do \
-	echo "Making $$target in $$subdir"; \
-	if test "$$subdir" = "."; then \
-	dot_seen=yes; \
-	local_target="$$target-am"; \
-	else \
-	local_target="$$target"; \
-	fi; \
-	(cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
-	|| case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
+	  echo "Making $$target in $$subdir"; \
+	  if test "$$subdir" = "."; then \
+	    dot_seen=yes; \
+	    local_target="$$target-am"; \
+	  else \
+	    local_target="$$target"; \
+	  fi; \
+	  (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
+	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
 	done; \
 	if test "$$dot_seen" = "no"; then \
-	$(MAKE) $(AM_MAKEFLAGS) "$$target-am" || exit 1; \
+	  $(MAKE) $(AM_MAKEFLAGS) "$$target-am" || exit 1; \
 	fi; test -z "$$fail"
 
 mostlyclean-recursive clean-recursive distclean-recursive \
-	maintainer-clean-recursive:
+maintainer-clean-recursive:
 	@set fnord $(MAKEFLAGS); amf=$$2; \
 	dot_seen=no; \
 	case "$@" in \
-	distclean-* | maintainer-clean-*) list='$(DIST_SUBDIRS)' ;; \
-	*) list='$(SUBDIRS)' ;; \
+	  distclean-* | maintainer-clean-*) list='$(DIST_SUBDIRS)' ;; \
+	  *) list='$(SUBDIRS)' ;; \
 	esac; \
 	rev=''; for subdir in $$list; do \
-	if test "$$subdir" = "."; then :; else \
-	rev="$$subdir $$rev"; \
-	fi; \
+	  if test "$$subdir" = "."; then :; else \
+	    rev="$$subdir $$rev"; \
+	  fi; \
 	done; \
 	rev="$$rev ."; \
 	target=`echo $@ | sed s/-recursive//`; \
 	for subdir in $$rev; do \
-	echo "Making $$target in $$subdir"; \
-	if test "$$subdir" = "."; then \
-	local_target="$$target-am"; \
-	else \
-	local_target="$$target"; \
-	fi; \
-	(cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
-	|| case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
+	  echo "Making $$target in $$subdir"; \
+	  if test "$$subdir" = "."; then \
+	    local_target="$$target-am"; \
+	  else \
+	    local_target="$$target"; \
+	  fi; \
+	  (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
+	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
 	done && test -z "$$fail"
 tags-recursive:
 	list='$(SUBDIRS)'; for subdir in $$list; do \
-	test "$$subdir" = . || (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) tags); \
+	  test "$$subdir" = . || (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) tags); \
 	done
 
 tags: TAGS
@@ -533,76 +503,71 @@ tags: TAGS
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(TAGS_FILES)'; \
 	unique=`for i in $$list; do \
-	if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
-	done | \
-	$(AWK) '    { files[$$0] = 1; } \
-	END { for (i in files) print i; }'`; \
+	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
+	  done | \
+	  $(AWK) '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
 	mkid -fID $$unique $(LISP)
 
 TAGS: tags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
-	$(TAGS_FILES) $(LISP)
+		$(TAGS_FILES) $(LISP)
 	tags=; \
 	here=`pwd`; \
 	list='$(SUBDIRS)'; for subdir in $$list; do \
-	if test "$$subdir" = .; then :; else \
-	test -f $$subdir/TAGS && tags="$$tags -i $$here/$$subdir/TAGS"; \
-	fi; \
+	  if test "$$subdir" = .; then :; else \
+	    test -f $$subdir/TAGS && tags="$$tags -i $$here/$$subdir/TAGS"; \
+	  fi; \
 	done; \
 	list='$(SOURCES) $(HEADERS) $(TAGS_FILES)'; \
 	unique=`for i in $$list; do \
-	if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
-	done | \
-	$(AWK) '    { files[$$0] = 1; } \
-	END { for (i in files) print i; }'`; \
+	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
+	  done | \
+	  $(AWK) '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
 	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
-	|| etags $(ETAGS_ARGS) $$tags  $$unique $(LISP)
+	  || etags $(ETAGS_ARGS) $$tags  $$unique $(LISP)
 
 GTAGS:
 	here=`CDPATH=: && cd $(top_builddir) && pwd` \
-	&& cd $(top_srcdir) \
-	&& gtags -i $(GTAGS_ARGS) $$here
+	  && cd $(top_srcdir) \
+	  && gtags -i $(GTAGS_ARGS) $$here
 
 distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH
 
-#>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-#>+ 4
-KDE_DIST=sim 
-
-DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
-
+DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
 top_distdir = ..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
-	if test -f $$file; then d=.; else d=$(srcdir); fi; \
-	dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
-	if test "$$dir" != "$$file" && test "$$dir" != "."; then \
-	$(mkinstalldirs) "$(distdir)/$$dir"; \
-	fi; \
-	if test -d $$d/$$file; then \
-	cp -pR $$d/$$file $(distdir) \
-	|| exit 1; \
-	else \
-	test -f $(distdir)/$$file \
-	|| cp -p $$d/$$file $(distdir)/$$file \
-	|| exit 1; \
-	fi; \
+	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
+	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
+	  if test "$$dir" != "$$file" && test "$$dir" != "."; then \
+	    $(mkinstalldirs) "$(distdir)/$$dir"; \
+	  fi; \
+	  if test -d $$d/$$file; then \
+	    cp -pR $$d/$$file $(distdir) \
+	    || exit 1; \
+	  else \
+	    test -f $(distdir)/$$file \
+	    || cp -p $$d/$$file $(distdir)/$$file \
+	    || exit 1; \
+	  fi; \
 	done
 	for subdir in $(SUBDIRS); do \
-	if test "$$subdir" = .; then :; else \
-	test -d $(distdir)/$$subdir \
-	|| mkdir $(distdir)/$$subdir \
-	|| exit 1; \
-	(cd $$subdir && \
-	$(MAKE) $(AM_MAKEFLAGS) \
-	top_distdir="$(top_distdir)" \
-	distdir=../$(distdir)/$$subdir \
-	distdir) \
-	|| exit 1; \
-	fi; \
+	  if test "$$subdir" = .; then :; else \
+	    test -d $(distdir)/$$subdir \
+	    || mkdir $(distdir)/$$subdir \
+	    || exit 1; \
+	    (cd $$subdir && \
+	      $(MAKE) $(AM_MAKEFLAGS) \
+	        top_distdir="$(top_distdir)" \
+	        distdir=../$(distdir)/$$subdir \
+	        distdir) \
+	      || exit 1; \
+	  fi; \
 	done
 check-am: all-am
 check: check-recursive
@@ -622,8 +587,8 @@ install-am: all-am
 installcheck: installcheck-recursive
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) INSTALL_PROGRAM="$(INSTALL_STRIP_PROGRAM)" \
-	`test -z '$(STRIP)' || \
-	echo "INSTALL_PROGRAM_ENV=STRIPPROG='$(STRIP)'"` install
+	  `test -z '$(STRIP)' || \
+	    echo "INSTALL_PROGRAM_ENV=STRIPPROG='$(STRIP)'"` install
 mostlyclean-generic:
 
 clean-generic:
@@ -634,13 +599,9 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-#>- clean: clean-recursive
-#>+ 1
-clean: kde-rpo-clean  clean-recursive
+clean: clean-recursive
 
-#>- clean-am: clean-binPROGRAMS clean-generic clean-libtool mostlyclean-am
-#>+ 1
-clean-am: clean-metasources clean-moc-classes clean-final  clean-binPROGRAMS clean-generic clean-libtool mostlyclean-am
+clean-am: clean-binPROGRAMS clean-generic clean-libtool mostlyclean-am
 
 distclean: distclean-recursive
 
@@ -698,270 +659,30 @@ uninstall-info: uninstall-info-recursive
 
 
 install-data-local:
-#>- 	$(mkinstalldirs) $(kde_appsdir)/Applications/
-#>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(kde_appsdir)/Applications/
-#>- 	$(INSTALL_DATA) $(srcdir)/sim.desktop $(kde_appsdir)/Applications/sim.desktop
-#>+ 1
-	$(INSTALL_DATA) $(srcdir)/sim.desktop $(DESTDIR)$(kde_appsdir)/Applications/sim.desktop
-#>- 	$(mkinstalldirs) $(kde_icondir)/locolor/32x32/apps/
-#>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(kde_icondir)/locolor/32x32/apps/
-#>- 	$(INSTALL_DATA) $(srcdir)/lo32-app-sim.png $(kde_icondir)/locolor/32x32/apps/sim.png
-#>+ 1
-	$(INSTALL_DATA) $(srcdir)/lo32-app-sim.png $(DESTDIR)$(kde_icondir)/locolor/32x32/apps/sim.png
-#>- 	$(mkinstalldirs) $(kde_icondir)/locolor/16x16/apps/
-#>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(kde_icondir)/locolor/16x16/apps/
-#>- 	$(INSTALL_DATA) $(srcdir)/lo16-app-sim.png $(kde_icondir)/locolor/16x16/apps/sim.png
-#>+ 1
-	$(INSTALL_DATA) $(srcdir)/lo16-app-sim.png $(DESTDIR)$(kde_icondir)/locolor/16x16/apps/sim.png
-#>- 	$(mkinstalldirs) $(kde_icondir)/hicolor/16x16/apps/
-#>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(kde_icondir)/hicolor/16x16/apps/
-#>- 	$(INSTALL_DATA) $(srcdir)/hi16-app-sim.png $(kde_icondir)/hicolor/16x16/apps/sim.png
-#>+ 1
-	$(INSTALL_DATA) $(srcdir)/hi16-app-sim.png $(DESTDIR)$(kde_icondir)/hicolor/16x16/apps/sim.png
-#>- 	$(mkinstalldirs) $(kde_icondir)/hicolor/32x32/apps/
-#>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(kde_icondir)/hicolor/32x32/apps/
-#>- 	$(INSTALL_DATA) $(srcdir)/hi32-app-sim.png $(kde_icondir)/hicolor/32x32/apps/sim.png
-#>+ 1
-	$(INSTALL_DATA) $(srcdir)/hi32-app-sim.png $(DESTDIR)$(kde_icondir)/hicolor/32x32/apps/sim.png
+	$(mkinstalldirs) $(kde_appsdir)/Internet/
+	$(INSTALL_DATA) $(srcdir)/sim.desktop $(kde_appsdir)/Internet/sim.desktop
+	if test -f $(kde_appsdir)/Applications/sim.desktop ; then rm $(kde_appsdir)/Applications/sim.desktop
+	$(mkinstalldirs) $(kde_icondir)/locolor/32x32/apps/
+	$(INSTALL_DATA) $(srcdir)/lo32-app-sim.png $(kde_icondir)/locolor/32x32/apps/sim.png
+	$(mkinstalldirs) $(kde_icondir)/locolor/16x16/apps/
+	$(INSTALL_DATA) $(srcdir)/lo16-app-sim.png $(kde_icondir)/locolor/16x16/apps/sim.png
+	$(mkinstalldirs) $(kde_icondir)/hicolor/16x16/apps/
+	$(INSTALL_DATA) $(srcdir)/hi16-app-sim.png $(kde_icondir)/hicolor/16x16/apps/sim.png
+	$(mkinstalldirs) $(kde_icondir)/hicolor/32x32/apps/
+	$(INSTALL_DATA) $(srcdir)/hi32-app-sim.png $(kde_icondir)/hicolor/32x32/apps/sim.png
 
 uninstall-local:
-#>- 	-rm -f $(kde_appsdir)/Applications/sim.desktop
-#>+ 1
-	-rm -f $(DESTDIR)$(kde_appsdir)/Applications/sim.desktop
-#>- 	-rm -f $(kde_icondir)/locolor/32x32/apps/sim.png
-#>+ 1
-	-rm -f $(DESTDIR)$(kde_icondir)/locolor/32x32/apps/sim.png
-#>- 	-rm -f $(kde_icondir)/locolor/16x16/apps/sim.png
-#>+ 1
-	-rm -f $(DESTDIR)$(kde_icondir)/locolor/16x16/apps/sim.png
-#>- 	-rm -f $(kde_icondir)/hicolor/16x16/apps/sim.png
-#>+ 1
-	-rm -f $(DESTDIR)$(kde_icondir)/hicolor/16x16/apps/sim.png
-#>- 	-rm -f $(kde_icondir)/hicolor/32x32/apps/sim.png
-#>+ 1
-	-rm -f $(DESTDIR)$(kde_icondir)/hicolor/32x32/apps/sim.png
+	-rm -f $(kde_appsdir)/Applications/sim.desktop
+	-rm -f $(kde_icondir)/locolor/32x32/apps/sim.png
+	-rm -f $(kde_icondir)/locolor/16x16/apps/sim.png
+	-rm -f $(kde_icondir)/hicolor/16x16/apps/sim.png
+	-rm -f $(kde_icondir)/hicolor/32x32/apps/sim.png
 
 messages: rc.cpp
 	LIST=`find . -name \*.h -o -name \*.hh -o -name \*.H -o -name \*.hxx -o -name \*.hpp -o -name \*.cpp -o -name \*.cc -o -name \*.cxx -o -name \*.ecpp -o -name \*.C`; \
 	if test -n "$$LIST"; then \
-	$(XGETTEXT) $$LIST -o $(podir)/sim.pot; \
+	 $(XGETTEXT) $$LIST -o $(podir)/sim.pot; \
 	fi
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
-
-#>+ 3
-usertbl.moc: $(srcdir)/usertbl.h
-	$(MOC) $(srcdir)/usertbl.h -o usertbl.moc
-
-#>+ 3
-dock.moc: $(srcdir)/dock.h
-	$(MOC) $(srcdir)/dock.h -o dock.moc
-
-#>+ 3
-toolbtn.moc: $(srcdir)/toolbtn.h
-	$(MOC) $(srcdir)/toolbtn.h -o toolbtn.moc
-
-#>+ 3
-msgview.moc: $(srcdir)/msgview.h
-	$(MOC) $(srcdir)/msgview.h -o msgview.moc
-
-#>+ 3
-themes.moc: $(srcdir)/themes.h
-	$(MOC) $(srcdir)/themes.h -o themes.moc
-
-#>+ 3
-editspell.moc: $(srcdir)/editspell.h
-	$(MOC) $(srcdir)/editspell.h -o editspell.moc
-
-#>+ 3
-userbox.moc: $(srcdir)/userbox.h
-	$(MOC) $(srcdir)/userbox.h -o userbox.moc
-
-#>+ 3
-sim.moc: $(srcdir)/sim.h
-	$(MOC) $(srcdir)/sim.h -o sim.moc
-
-#>+ 3
-passwddlg.moc: $(srcdir)/passwddlg.h
-	$(MOC) $(srcdir)/passwddlg.h -o passwddlg.moc
-
-#>+ 3
-chatwnd.moc: $(srcdir)/chatwnd.h
-	$(MOC) $(srcdir)/chatwnd.h -o chatwnd.moc
-
-#>+ 3
-msgedit.moc: $(srcdir)/msgedit.h
-	$(MOC) $(srcdir)/msgedit.h -o msgedit.moc
-
-#>+ 3
-logindlg.moc: $(srcdir)/logindlg.h
-	$(MOC) $(srcdir)/logindlg.h -o logindlg.moc
-
-#>+ 3
-intedit.moc: $(srcdir)/intedit.h
-	$(MOC) $(srcdir)/intedit.h -o intedit.moc
-
-#>+ 3
-transparent.moc: $(srcdir)/transparent.h
-	$(MOC) $(srcdir)/transparent.h -o transparent.moc
-
-#>+ 3
-mainwin.moc: $(srcdir)/mainwin.h
-	$(MOC) $(srcdir)/mainwin.h -o mainwin.moc
-
-#>+ 3
-userview.moc: $(srcdir)/userview.h
-	$(MOC) $(srcdir)/userview.h -o userview.moc
-
-#>+ 3
-fontedit.moc: $(srcdir)/fontedit.h
-	$(MOC) $(srcdir)/fontedit.h -o fontedit.moc
-
-#>+ 3
-xosd.moc: $(srcdir)/xosd.h
-	$(MOC) $(srcdir)/xosd.h -o xosd.moc
-
-#>+ 3
-client.moc: $(srcdir)/client.h
-	$(MOC) $(srcdir)/client.h -o client.moc
-
-#>+ 3
-clean-metasources:
-	-rm -f  usertbl.moc dock.moc toolbtn.moc msgview.moc themes.moc editspell.moc userbox.moc sim.moc passwddlg.moc chatwnd.moc msgedit.moc logindlg.moc intedit.moc transparent.moc mainwin.moc userview.moc fontedit.moc xosd.moc client.moc
-
-#>+ 2
-docs-am:
-
-#>+ 2
-apidox-am:
-
-#>+ 9
-apidox: apidox-am
-	@set fnord $(MAKEFLAGS); amf=$$2; \
-	list='$(SUBDIRS)'; for subdir in $$list; do \
-		echo "Making apidox in $$subdir"; \
-		if test "$$subdir" != "."; then \
-			(cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) apidox) || exit 1; \
-		fi ;\
-	done
-
-#>+ 6
-force-reedit:
-		cd $(top_srcdir) && \
-	$(AUTOMAKE) --gnu  sim/Makefile
-	cd $(top_srcdir) && perl admin/am_edit sim/Makefile.in
-
-
-#>+ 15
-sim_meta_unload.cc:  dock.moc usertbl.moc msgview.moc toolbtn.moc editspell.moc themes.moc userbox.moc sim.moc passwddlg.moc chatwnd.moc msgedit.moc logindlg.moc intedit.moc transparent.moc mainwin.moc userview.moc fontedit.moc xosd.moc client.moc
-	@echo 'creating sim_meta_unload.cc'
-	@-rm -f sim_meta_unload.cc
-	@if test ${kde_qtver} = 2; then \
-		echo 'static const char * _metalist_sim[] = {' > sim_meta_unload.cc ;\
-		cat  dock.moc usertbl.moc msgview.moc toolbtn.moc editspell.moc themes.moc userbox.moc sim.moc passwddlg.moc chatwnd.moc msgedit.moc logindlg.moc intedit.moc transparent.moc mainwin.moc userview.moc fontedit.moc xosd.moc client.moc | grep 'char.*className' | sed -e 's/.*[^A-Za-z0-9_:]\([A-Za-z0-9_:]*\)::className.*$$/\"\1\",/' | sort | uniq >> sim_meta_unload.cc ;\
-		echo '0};' >> sim_meta_unload.cc ;\
-		echo '#include "defs.h"' >> sim_meta_unload.cc ;\
-		echo '#ifdef USE_KDE' >> sim_meta_unload.cc ;\
-		echo '#include <kunload.h>' >> sim_meta_unload.cc ;\
-		echo '_UNLOAD(sim)' >> sim_meta_unload.cc ;\
-		echo '#endif' >> sim_meta_unload.cc ;\
-	else echo > sim_meta_unload.cc; fi
-
-
-#>+ 3
-clean-moc-classes:
-	-rm -f  sim_meta_unload.cc
-
-#>+ 11
-sim.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/xosd.cpp $(srcdir)/chatwnd.cpp $(srcdir)/fontedit.cpp $(srcdir)/transparent.cpp $(srcdir)/intedit.cpp $(srcdir)/userview.cpp $(srcdir)/usertbl.cpp $(srcdir)/userbox.cpp $(srcdir)/toolbtn.cpp $(srcdir)/themes.cpp $(srcdir)/sim.cpp $(srcdir)/passwddlg.cpp $(srcdir)/msgview.cpp $(srcdir)/msgedit.cpp $(srcdir)/mainwin.cpp $(srcdir)/logindlg.cpp $(srcdir)/icons.cpp $(srcdir)/history.cpp $(srcdir)/editspell.cpp $(srcdir)/dock.cpp $(srcdir)/cuser.cpp $(srcdir)/client.cpp
-	@echo 'creating sim.all_cpp.cpp ...'; \
-	rm -f sim.all_cpp.files sim.all_cpp.final; \
-	echo "#define KDE_USE_FINAL 1" >> sim.all_cpp.final; \
-	for file in xosd.cpp chatwnd.cpp fontedit.cpp transparent.cpp intedit.cpp userview.cpp usertbl.cpp userbox.cpp toolbtn.cpp themes.cpp sim.cpp passwddlg.cpp msgview.cpp msgedit.cpp mainwin.cpp logindlg.cpp icons.cpp history.cpp editspell.cpp dock.cpp cuser.cpp client.cpp ; do \
-	  echo "#include \"$$file\"" >> sim.all_cpp.files; \
-	  test ! -f $(srcdir)/$$file || egrep '^#pragma +implementation' $(srcdir)/$$file >> sim.all_cpp.final; \
-	done; \
-	cat sim.all_cpp.final sim.all_cpp.files > sim.all_cpp.cpp; \
-	rm -f sim.all_cpp.final sim.all_cpp.files
-
-#>+ 11
-sim.all_cc.cc: $(srcdir)/Makefile.in $(srcdir)/sim_meta_unload.cc
-	@echo 'creating sim.all_cc.cc ...'; \
-	rm -f sim.all_cc.files sim.all_cc.final; \
-	echo "#define KDE_USE_FINAL 1" >> sim.all_cc.final; \
-	for file in sim_meta_unload.cc ; do \
-	  echo "#include \"$$file\"" >> sim.all_cc.files; \
-	  test ! -f $(srcdir)/$$file || egrep '^#pragma +implementation' $(srcdir)/$$file >> sim.all_cc.final; \
-	done; \
-	cat sim.all_cc.final sim.all_cc.files > sim.all_cc.cc; \
-	rm -f sim.all_cc.final sim.all_cc.files
-
-#>+ 3
-clean-final:
-	-rm -f sim.all_cpp.cpp sim.all_cc.cc
-
-#>+ 2
-final:
-	$(MAKE) sim_OBJECTS="$(sim_final_OBJECTS)" all-am
-#>+ 2
-final-install:
-	$(MAKE) sim_OBJECTS="$(sim_final_OBJECTS)" install-am
-#>+ 2
-no-final:
-	$(MAKE) sim_OBJECTS="$(sim_nofinal_OBJECTS)" all-am
-#>+ 2
-no-final-install:
-	$(MAKE) sim_OBJECTS="$(sim_nofinal_OBJECTS)" install-am
-#>+ 3
-cvs-clean:
-	$(MAKE) admindir=$(top_srcdir)/admin -f $(top_srcdir)/admin/Makefile.common cvs-clean
-
-#>+ 3
-kde-rpo-clean:
-	-rm -f *.rpo
-
-#>+ 39
-fontedit.lo: fontedit.moc 
-chatwnd.o: chatwnd.moc 
-sim.o: sim.moc 
-usertbl.lo: usertbl.moc 
-msgview.lo: msgview.moc 
-logindlg.o: logindlg.moc 
-intedit.o: intedit.moc 
-transparent.o: transparent.moc 
-themes.lo: themes.moc 
-editspell.lo: editspell.moc 
-mainwin.o: mainwin.moc 
-userbox.lo: userbox.moc 
-chatwnd.lo: chatwnd.moc 
-sim.lo: sim.moc 
-intedit.lo: intedit.moc 
-client.o: client.moc 
-mainwin.lo: mainwin.moc 
-dock.o: dock.moc 
-msgview.o: msgview.moc 
-themes.o: themes.moc 
-editspell.o: editspell.moc 
-userview.lo: userview.moc 
-userbox.o: userbox.moc 
-passwddlg.o: passwddlg.moc 
-xosd.lo: xosd.moc 
-client.lo: client.moc 
-dock.lo: dock.moc 
-msgedit.o: msgedit.moc 
-toolbtn.lo: toolbtn.moc 
-passwddlg.lo: passwddlg.moc 
-msgedit.lo: msgedit.moc 
-userview.o: userview.moc 
-logindlg.lo: logindlg.moc 
-fontedit.o: fontedit.moc 
-transparent.lo: transparent.moc 
-xosd.o: xosd.moc 
-usertbl.o: usertbl.moc 
-toolbtn.o: toolbtn.moc 

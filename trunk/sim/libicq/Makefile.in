@@ -1,5 +1,4 @@
 # Makefile.in generated automatically by automake 1.5 from Makefile.am.
-# KDE tags expanded automatically by am_edit - $Revision: 1.1.1.1 $ 
 
 # Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
 # Free Software Foundation, Inc.
@@ -226,7 +225,7 @@ x_libraries = @x_libraries@
 
 noinst_LIBRARIES = liblibicq.a
 
-#>- liblibicq_a_METASOURCES = AUTO
+liblibicq_a_METASOURCES = AUTO
 
 liblibicq_a_SOURCES = direct.cpp genrtf.ll clearhtml.ll country.cpp rtf.ll xml.cpp various.cpp translator.cpp socket.cpp service.cpp ping.cpp message.cpp login.cpp log.cpp location.cpp lists.cpp icqclient.cpp icmb.cpp contactlist.cpp cfg.cpp buffer.cpp buddy.cpp bos.cpp 
 
@@ -251,19 +250,7 @@ am_liblibicq_a_OBJECTS = direct.$(OBJEXT) genrtf.$(OBJEXT) \
 	location.$(OBJEXT) lists.$(OBJEXT) icqclient.$(OBJEXT) \
 	icmb.$(OBJEXT) contactlist.$(OBJEXT) cfg.$(OBJEXT) \
 	buffer.$(OBJEXT) buddy.$(OBJEXT) bos.$(OBJEXT)
-#>- liblibicq_a_OBJECTS = $(am_liblibicq_a_OBJECTS)
-#>+ 11
-liblibicq_a_final_OBJECTS = genrtf.o clearhtml.o rtf.o liblibicq_a.all_cpp.o 
-liblibicq_a_nofinal_OBJECTS = direct.$(OBJEXT) genrtf.$(OBJEXT) \
-	clearhtml.$(OBJEXT) country.$(OBJEXT) rtf.$(OBJEXT) \
-	xml.$(OBJEXT) various.$(OBJEXT) translator.$(OBJEXT) \
-	socket.$(OBJEXT) service.$(OBJEXT) ping.$(OBJEXT) \
-	message.$(OBJEXT) login.$(OBJEXT) log.$(OBJEXT) \
-	location.$(OBJEXT) lists.$(OBJEXT) icqclient.$(OBJEXT) \
-	icmb.$(OBJEXT) contactlist.$(OBJEXT) cfg.$(OBJEXT) \
-	buffer.$(OBJEXT) buddy.$(OBJEXT) bos.$(OBJEXT)
-@KDE_USE_FINAL_FALSE@liblibicq_a_OBJECTS = $(liblibicq_a_nofinal_OBJECTS)
-@KDE_USE_FINAL_TRUE@liblibicq_a_OBJECTS = $(liblibicq_a_final_OBJECTS)
+liblibicq_a_OBJECTS = $(am_liblibicq_a_OBJECTS)
 
 DEFS = @DEFS@
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
@@ -272,34 +259,24 @@ LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 depcomp = $(SHELL) $(top_srcdir)/admin/depcomp
 @AMDEP_TRUE@DEP_FILES = $(DEPDIR)/bos.Po $(DEPDIR)/buddy.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/buffer.Po $(DEPDIR)/cfg.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/clearhtml.Po $(DEPDIR)/contactlist.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/country.Po $(DEPDIR)/direct.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/genrtf.Po $(DEPDIR)/icmb.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/icqclient.Po $(DEPDIR)/lists.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/location.Po $(DEPDIR)/log.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/login.Po $(DEPDIR)/message.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/ping.Po $(DEPDIR)/rtf.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/service.Po $(DEPDIR)/socket.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/translator.Po $(DEPDIR)/various.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/xml.Po
-#>- CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
-#>- $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
-#>+ 2
+@AMDEP_TRUE@	$(DEPDIR)/buffer.Po $(DEPDIR)/cfg.Po \
+@AMDEP_TRUE@	$(DEPDIR)/clearhtml.Po $(DEPDIR)/contactlist.Po \
+@AMDEP_TRUE@	$(DEPDIR)/country.Po $(DEPDIR)/direct.Po \
+@AMDEP_TRUE@	$(DEPDIR)/genrtf.Po $(DEPDIR)/icmb.Po \
+@AMDEP_TRUE@	$(DEPDIR)/icqclient.Po $(DEPDIR)/lists.Po \
+@AMDEP_TRUE@	$(DEPDIR)/location.Po $(DEPDIR)/log.Po \
+@AMDEP_TRUE@	$(DEPDIR)/login.Po $(DEPDIR)/message.Po \
+@AMDEP_TRUE@	$(DEPDIR)/ping.Po $(DEPDIR)/rtf.Po \
+@AMDEP_TRUE@	$(DEPDIR)/service.Po $(DEPDIR)/socket.Po \
+@AMDEP_TRUE@	$(DEPDIR)/translator.Po $(DEPDIR)/various.Po \
+@AMDEP_TRUE@	$(DEPDIR)/xml.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
-	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) $(KDE_CXXFLAGS)
-#>- LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
-#>- $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
-#>- $(AM_CXXFLAGS) $(CXXFLAGS)
-#>+ 3
-LTCXXCOMPILE = $(LIBTOOL) --mode=compile --tag=CXX $(CXX) $(DEFS) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
 	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
-	$(AM_CXXFLAGS) $(CXXFLAGS) $(KDE_CXXFLAGS)
+	$(AM_CXXFLAGS) $(CXXFLAGS)
 CXXLD = $(CXX)
-#>- CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
-#>- $(AM_LDFLAGS) $(LDFLAGS) -o $@
-#>+ 2
-CXXLINK = $(LIBTOOL) --mode=link --tag=CXX $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(KDE_CXXFLAGS) \
+CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 CXXFLAGS = @CXXFLAGS@
 LEXCOMPILE = $(LEX) $(LFLAGS) $(AM_LFLAGS)
@@ -317,9 +294,7 @@ DIST_SOURCES = $(liblibicq_a_SOURCES)
 DIST_COMMON = Makefile.am Makefile.in clearhtml.cc genrtf.cc rtf.cc
 SOURCES = $(liblibicq_a_SOURCES)
 
-#>- all: all-am
-#>+ 1
-all: docs-am  all-am
+all: all-am
 
 .SUFFIXES:
 .SUFFIXES: .cc .cpp .ll .lo .o .obj
@@ -333,16 +308,12 @@ clean-libtool:
 distclean-libtool:
 	-rm -f libtool
 $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
-#>- 	cd $(top_srcdir) && \
-#>- $(AUTOMAKE) --gnu  sim/libicq/Makefile
-#>+ 3
 	cd $(top_srcdir) && \
-	$(AUTOMAKE) --gnu  sim/libicq/Makefile
-	cd $(top_srcdir) && perl admin/am_edit sim/libicq/Makefile.in
+	  $(AUTOMAKE) --gnu  sim/libicq/Makefile
 Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && \
-	CONFIG_HEADERS= CONFIG_LINKS= \
-	CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
+	  CONFIG_HEADERS= CONFIG_LINKS= \
+	  CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
 
 AR = ar
 
@@ -435,58 +406,53 @@ tags: TAGS
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(TAGS_FILES)'; \
 	unique=`for i in $$list; do \
-	if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
-	done | \
-	$(AWK) '    { files[$$0] = 1; } \
-	END { for (i in files) print i; }'`; \
+	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
+	  done | \
+	  $(AWK) '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
 	mkid -fID $$unique $(LISP)
 
 TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
-	$(TAGS_FILES) $(LISP)
+		$(TAGS_FILES) $(LISP)
 	tags=; \
 	here=`pwd`; \
 	list='$(SOURCES) $(HEADERS) $(TAGS_FILES)'; \
 	unique=`for i in $$list; do \
-	if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
-	done | \
-	$(AWK) '    { files[$$0] = 1; } \
-	END { for (i in files) print i; }'`; \
+	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
+	  done | \
+	  $(AWK) '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
 	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
-	|| etags $(ETAGS_ARGS) $$tags  $$unique $(LISP)
+	  || etags $(ETAGS_ARGS) $$tags  $$unique $(LISP)
 
 GTAGS:
 	here=`CDPATH=: && cd $(top_builddir) && pwd` \
-	&& cd $(top_srcdir) \
-	&& gtags -i $(GTAGS_ARGS) $$here
+	  && cd $(top_srcdir) \
+	  && gtags -i $(GTAGS_ARGS) $$here
 
 distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH
 
-#>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-#>+ 4
-KDE_DIST=liblibicq.a 
-
-DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
-
+DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
 top_distdir = ../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
-	if test -f $$file; then d=.; else d=$(srcdir); fi; \
-	dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
-	if test "$$dir" != "$$file" && test "$$dir" != "."; then \
-	$(mkinstalldirs) "$(distdir)/$$dir"; \
-	fi; \
-	if test -d $$d/$$file; then \
-	cp -pR $$d/$$file $(distdir) \
-	|| exit 1; \
-	else \
-	test -f $(distdir)/$$file \
-	|| cp -p $$d/$$file $(distdir)/$$file \
-	|| exit 1; \
-	fi; \
+	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
+	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
+	  if test "$$dir" != "$$file" && test "$$dir" != "."; then \
+	    $(mkinstalldirs) "$(distdir)/$$dir"; \
+	  fi; \
+	  if test -d $$d/$$file; then \
+	    cp -pR $$d/$$file $(distdir) \
+	    || exit 1; \
+	  else \
+	    test -f $(distdir)/$$file \
+	    || cp -p $$d/$$file $(distdir)/$$file \
+	    || exit 1; \
+	  fi; \
 	done
 check-am: all-am
 check: check-am
@@ -505,8 +471,8 @@ install-am: all-am
 installcheck: installcheck-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) INSTALL_PROGRAM="$(INSTALL_STRIP_PROGRAM)" \
-	`test -z '$(STRIP)' || \
-	echo "INSTALL_PROGRAM_ENV=STRIPPROG='$(STRIP)'"` install
+	  `test -z '$(STRIP)' || \
+	    echo "INSTALL_PROGRAM_ENV=STRIPPROG='$(STRIP)'"` install
 mostlyclean-generic:
 
 clean-generic:
@@ -517,14 +483,9 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-#>- clean: clean-am
-#>+ 1
-clean: kde-rpo-clean  clean-am
+clean: clean-am
 
-#>- clean-am: clean-generic clean-libtool clean-noinstLIBRARIES \
-#>- mostlyclean-am
-#>+ 2
-clean-am: clean-final  clean-generic clean-libtool clean-noinstLIBRARIES \
+clean-am: clean-generic clean-libtool clean-noinstLIBRARIES \
 	mostlyclean-am
 
 distclean: distclean-am
@@ -575,55 +536,3 @@ uninstall-am: uninstall-info-am
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
-
-#>+ 2
-docs-am:
-
-#>+ 2
-apidox-am:
-
-#>+ 2
-apidox: apidox-am
-
-#>+ 6
-force-reedit:
-		cd $(top_srcdir) && \
-	$(AUTOMAKE) --gnu  sim/libicq/Makefile
-	cd $(top_srcdir) && perl admin/am_edit sim/libicq/Makefile.in
-
-
-#>+ 11
-liblibicq_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/direct.cpp $(srcdir)/country.cpp $(srcdir)/xml.cpp $(srcdir)/various.cpp $(srcdir)/translator.cpp $(srcdir)/socket.cpp $(srcdir)/service.cpp $(srcdir)/ping.cpp $(srcdir)/message.cpp $(srcdir)/login.cpp $(srcdir)/log.cpp $(srcdir)/location.cpp $(srcdir)/lists.cpp $(srcdir)/icqclient.cpp $(srcdir)/icmb.cpp $(srcdir)/contactlist.cpp $(srcdir)/cfg.cpp $(srcdir)/buffer.cpp $(srcdir)/buddy.cpp $(srcdir)/bos.cpp
-	@echo 'creating liblibicq_a.all_cpp.cpp ...'; \
-	rm -f liblibicq_a.all_cpp.files liblibicq_a.all_cpp.final; \
-	echo "#define KDE_USE_FINAL 1" >> liblibicq_a.all_cpp.final; \
-	for file in direct.cpp country.cpp xml.cpp various.cpp translator.cpp socket.cpp service.cpp ping.cpp message.cpp login.cpp log.cpp location.cpp lists.cpp icqclient.cpp icmb.cpp contactlist.cpp cfg.cpp buffer.cpp buddy.cpp bos.cpp ; do \
-	  echo "#include \"$$file\"" >> liblibicq_a.all_cpp.files; \
-	  test ! -f $(srcdir)/$$file || egrep '^#pragma +implementation' $(srcdir)/$$file >> liblibicq_a.all_cpp.final; \
-	done; \
-	cat liblibicq_a.all_cpp.final liblibicq_a.all_cpp.files > liblibicq_a.all_cpp.cpp; \
-	rm -f liblibicq_a.all_cpp.final liblibicq_a.all_cpp.files
-
-#>+ 3
-clean-final:
-	-rm -f liblibicq_a.all_cpp.cpp
-
-#>+ 2
-final:
-	$(MAKE) liblibicq_a_OBJECTS="$(liblibicq_a_final_OBJECTS)" all-am
-#>+ 2
-final-install:
-	$(MAKE) liblibicq_a_OBJECTS="$(liblibicq_a_final_OBJECTS)" install-am
-#>+ 2
-no-final:
-	$(MAKE) liblibicq_a_OBJECTS="$(liblibicq_a_nofinal_OBJECTS)" all-am
-#>+ 2
-no-final-install:
-	$(MAKE) liblibicq_a_OBJECTS="$(liblibicq_a_nofinal_OBJECTS)" install-am
-#>+ 3
-cvs-clean:
-	$(MAKE) admindir=$(top_srcdir)/admin -f $(top_srcdir)/admin/Makefile.common cvs-clean
-
-#>+ 3
-kde-rpo-clean:
-	-rm -f *.rpo

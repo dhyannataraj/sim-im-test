@@ -210,6 +210,9 @@ void WharfIcon::leaveEvent( QEvent *)
 DockWnd::DockWnd(QWidget *main)
         : QWidget(NULL)
 {
+#ifndef WIN32
+    wharfIcon = NULL;
+#endif
     connect(this, SIGNAL(toggleWin()), main, SLOT(toggleShow()));
     connect(this, SIGNAL(showPopup(QPoint)), main, SLOT(showPopup(QPoint)));
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
@@ -381,11 +384,15 @@ void DockWnd::setTip(const QString &tip)
     Shell_NotifyIconA(NIM_MODIFY, &notifyIconData);
 #else
     if (wharfIcon == NULL){
+        if (isVisible()){
         QToolTip::remove(this);
         QToolTip::add(this, tip);
+        }
     }else{
+	if (wharfIcon->isVisible()){
         QToolTip::remove(wharfIcon);
         QToolTip::add(wharfIcon, tip);
+        }
     }
 #endif
 }
