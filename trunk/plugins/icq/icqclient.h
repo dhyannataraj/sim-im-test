@@ -633,6 +633,7 @@ protected:
     void addGroupRequest(Group *group);
     void addContactRequest(Contact *contact);
     void addBuddy(Contact *contact);
+    void removeBuddy(Contact *contact);
     void checkListRequest();
     ServerRequest *findServerRequest(unsigned short id);
     void clearServerRequests();

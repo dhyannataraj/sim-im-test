@@ -24,8 +24,6 @@ jabber_la_SOURCES = \
  jabbermessage.cpp \
  jabberpicture.cpp \
  jabberpicturebase.ui \
- services.cpp \
- servicesbase.ui \
  jabberbrowser.cpp \
  discoinfo.cpp \
  discoinfobase.ui \

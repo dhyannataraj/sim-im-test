@@ -247,7 +247,7 @@ void GpgPlugin::importReady(Exec *exec, int res, const char*)
                     QString gpg;
                     gpg += "\"";
                     gpg += QFile::decodeName(GPG());
-                    gpg += "\" --homedir \"";
+                    gpg += "\" --no-tty --homedir \"";
                     gpg += home;
                     gpg += "\" ";
                     gpg += getPublicList();
@@ -386,7 +386,7 @@ void *GpgPlugin::processEvent(Event *e)
                         QString gpg;
                         gpg += "\"";
                         gpg += QFile::decodeName(GPG());
-                        gpg += "\" --homedir \"";
+                        gpg += "\" --no-tty --homedir \"";
                         gpg += home;
                         gpg += "\" ";
                         gpg += getEncrypt();
@@ -442,7 +442,7 @@ void *GpgPlugin::processEvent(Event *e)
                     QString gpg;
                     gpg += "\"";
                     gpg += QFile::decodeName(GPG());
-                    gpg += "\" --homedir \"";
+                    gpg += "\" --no-tty --homedir \"";
                     gpg += home;
                     gpg += "\" ";
                     gpg += getDecrypt();
@@ -479,7 +479,7 @@ void *GpgPlugin::processEvent(Event *e)
                     QString gpg;
                     gpg += "\"";
                     gpg += QFile::decodeName(GPG());
-                    gpg += "\" --homedir \"";
+                    gpg += "\" --no-tty --homedir \"";
                     gpg += home;
                     gpg += "\" ";
                     gpg += getImport();
@@ -666,7 +666,7 @@ MsgGPGKey::MsgGPGKey(MsgEdit *parent, Message *msg)
         home = home.left(home.length() - 1);
 
     gpg = QString("\"") + gpg + "\"";
-    gpg += " --homedir \"";
+    gpg += " --no-tty --homedir \"";
     gpg += home;
     gpg += "\" ";
     gpg += GpgPlugin::plugin->getExport();

@@ -230,6 +230,8 @@ void ListView::resizeEvent(QResizeEvent *e)
 
 void ListView::adjustColumn()
 {
+    if (firstChild() == NULL)
+        return;
     if (m_expandingColumn >= 0){
         int w = width();
         QScrollBar *vBar = verticalScrollBar();
@@ -322,7 +324,7 @@ ContactDragObject::~ContactDragObject()
         item->repaint();
     }
     Contact *contact = getContacts()->contact(m_id);
-    if (contact && (contact->getTemporary() & CONTACT_DRAG))
+    if (contact && (contact->getFlags() & CONTACT_DRAG))
         delete contact;
 }
 

@@ -479,6 +479,8 @@ i18n("weather", "Partly Cloudy")
 i18n("weather", "Wind")
 i18n("weather", "Drizzle")
 i18n("weather", "Light Drizzle")
+i18n("weather", "Drifting Snow")
+i18n("weather", "Scattered")
 i18n("weather", "steady")
 i18n("weather", "rising")
 i18n("weather", "falling")
@@ -557,7 +559,7 @@ QString WeatherPlugin::forecastReplace(const QString &text)
     QString temp;
     int minT = atol(getMinT(m_day));
     int maxT = atol(getMaxT(m_day));
-    if ((minT < 0) && (maxT < 0)){
+    if ((minT < 0) && (maxT <= 0)){
         int r = minT;
         minT = maxT;
         maxT = r;

@@ -66,7 +66,7 @@ void GpgUser::refresh()
     if (home[(int)(home.length() - 1)] == '\\')
         home = home.left(home.length() - 1);
     gpg = QString("\"") + gpg + "\"";
-    gpg += " --homedir \"";
+    gpg += " --no-tty --homedir \"";
     gpg += home;
     gpg += "\" ";
     gpg += GpgPlugin::plugin->getPublicList();

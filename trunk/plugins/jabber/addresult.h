@@ -46,8 +46,6 @@ protected:
     QString m_id;
     QString m_host;
     string m_searchId;
-    unsigned EventSearch;
-    unsigned EventSearchDone;
     QString foundStatus();
     virtual void *processEvent(Event *e);
     virtual void showEvent(QShowEvent*);

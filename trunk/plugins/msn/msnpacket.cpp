@@ -249,9 +249,9 @@ void SynPacket::answer(vector<string> &args)
         m_ver = atol(args[0].c_str());
     m_client->m_nBuddies = 0;
     m_client->m_nGroups  = 0;
-    if (!args[1].empty())
+    if ((args.size() > 1) && !args[1].empty())
         m_client->m_nBuddies = atol(args[1].c_str());
-    if (!args[2].empty())
+    if ((args.size() > 2) && !args[2].empty())
         m_client->m_nGroups  = atol(args[2].c_str());
     m_client->setListVer(m_ver);
     ContactList::GroupIterator itg;
@@ -261,7 +261,8 @@ void SynPacket::answer(vector<string> &args)
         ClientDataIterator it(grp->clientData, m_client);
         while ((data = (MSNUserData*)(++it)) != NULL){
             data->sFlags.value = data->Flags.value;
-            data->Flags.value  = 0;
+            if (args.size() > 1)
+                data->Flags.value  = 0;
         }
     }
     ContactList::ContactIterator itc;
@@ -271,7 +272,8 @@ void SynPacket::answer(vector<string> &args)
         ClientDataIterator it(contact->clientData, m_client);
         while ((data = (MSNUserData*)(++it)) != NULL){
             data->sFlags.value = data->Flags.value;
-            data->Flags.value  = 0;
+            if (args.size() > 1)
+                data->Flags.value  = 0;
         }
     }
 }

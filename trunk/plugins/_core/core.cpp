@@ -362,6 +362,7 @@ static DataDef coreData[] =
         { "ShowEmptyGroup", DATA_BOOL, 1, DATA(1) },
         { "NoJoinAlert", DATA_BOOL, 1, 0 },
         { "EnableSpell", DATA_BOOL, 1, 0 },
+        { "RemoveHistory", DATA_BOOL, 1, DATA(1) },
         { NULL, 0, 0, 0 }
     };
 
@@ -1489,7 +1490,7 @@ void CorePlugin::installTranslator()
 #ifdef USE_KDE
         return;
 #else
-        char *p = getenv("LANG");
+char *p = getenv("LANG");
         if (p){
             for (; *p; p++){
                 if (*p == '.') break;
@@ -1994,8 +1995,8 @@ void *CorePlugin::processEvent(Event *e)
                     if (msg->getFlags() & MESSAGE_NOVIEW)
                         return NULL;
                     Contact *contact = getContacts()->contact(msg->contact());
-                    if (contact && contact->getTemporary()){
-                        contact->setTemporary(0);
+                    if (contact && (contact->getFlags() & CONTACT_TEMPORARY)){
+                        contact->setFlags(contact->getFlags() & ~CONTACT_TEMPORARY);
                         Event e(EventContactChanged, contact);
                         e.process();
                     }
@@ -2152,6 +2153,7 @@ void *CorePlugin::processEvent(Event *e)
 #else
                     container->showMinimized();
 #endif
+                    container->m_bNoRead = false;
                 }
                 if (m_focus)
                     m_focus->setFocus();
@@ -2907,7 +2909,7 @@ void *CorePlugin::processEvent(Event *e)
             }
             if (cmd->id == CmdSendSMS){
                 Contact *contact = getContacts()->contact(0, true);
-                contact->setTemporary(CONTACT_TEMP);
+                contact->setFlags(CONTACT_TEMP);
                 contact->setName(i18n("Send SMS"));
                 Event eChanged(EventContactChanged, contact);
                 eChanged.process();

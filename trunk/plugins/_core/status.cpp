@@ -36,8 +36,9 @@ typedef map<unsigned, unsigned> MAP_STATUS;
 CommonStatus::CommonStatus()
         : EventReceiver(LowPriority + 2)
 {
-    m_bBlink = false;
-    m_timer  = NULL;
+    m_bBlink  = false;
+    m_timer   = NULL;
+    m_balloon = NULL;
 
     Event eMenu(EventMenuCreate, (void*)MenuStatus);
     eMenu.process();
@@ -283,6 +284,29 @@ void *CommonStatus::processEvent(Event *e)
         checkInvisible();
         setBarStatus();
         break;
+    case EventShowError:{
+            clientErrorData *data = (clientErrorData*)(e->param());
+            for (list<BalloonItem>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
+                if ((*it).id == data->id)
+                    return e->param();
+            }
+            BalloonItem item;
+            item.id     = data->id;
+            item.client = data->client;
+            item.text = i18n(data->err_str);
+            if ((item.text.find("%1") >= 0) && data->args)
+                item.text = item.text.arg(QString::fromUtf8(data->args));
+            if (data->options){
+                for (const char *p = data->options; *p; p += strlen(p) + 1)
+                    item.buttons.append(i18n(p));
+            }else{
+                item.buttons.append(i18n("OK"));
+            }
+            m_queue.push_back(item);
+            if (m_balloon == NULL)
+                showBalloon();
+            break;
+        }
     case EventClientError:{
             clientErrorData *data = (clientErrorData*)(e->param());
             QString msg;
@@ -295,15 +319,8 @@ void *CommonStatus::processEvent(Event *e)
                 LoginDialog *loginDlg = new LoginDialog(false, data->client, msg, NULL);
                 raiseWindow(loginDlg);
             }else{
-                Command cmd;
-                cmd->id = CmdStatusBar;
-                Event eWidget(EventCommandWidget, cmd);
-                QWidget *widget = (QWidget*)(eWidget.process());
-                if (widget){
-                    raiseWindow(widget->topLevelWidget());
-                    if (!msg.isEmpty())
-                        BalloonMsg::message(msg, widget);
-                }
+                Event eShow(EventShowError, data);
+                eShow.process();
             }
             return e->param();
         }
@@ -408,6 +425,48 @@ void *CommonStatus::processEvent(Event *e)
         }
     }
     return NULL;
+}
+
+void CommonStatus::showBalloon()
+{
+    if (m_balloon || m_queue.empty())
+        return;
+    Command cmd;
+    cmd->id = CmdStatusBar;
+    Event eWidget(EventCommandWidget, cmd);
+    QWidget *widget = (QWidget*)(eWidget.process());
+    if (widget == NULL){
+        m_queue.erase(m_queue.begin());
+        return;
+    }
+    BalloonItem &item = m_queue.front();
+    if (CorePlugin::m_plugin->m_statusWnd)
+        m_balloon = CorePlugin::m_plugin->m_statusWnd->showError(item.text, item.buttons, item.client);
+    if (m_balloon == NULL)
+        m_balloon = new BalloonMsg(NULL, item.text, item.buttons, widget);
+    connect(m_balloon, SIGNAL(yes_action(void*)), this, SLOT(yes_action(void*)));
+    connect(m_balloon, SIGNAL(finished()), this, SLOT(finished()));
+    raiseWindow(widget->topLevelWidget());
+    m_balloon->show();
+}
+
+void CommonStatus::yes_action(void*)
+{
+    if (!m_queue.empty() && m_balloon){
+        m_balloon->hide();
+        BalloonItem &item = m_queue.front();
+        Command cmd;
+        cmd->id    = item.id;
+        cmd->param = item.client;
+        Event e(EventCommandExec, cmd);
+        e.process();
+    }
+}
+
+void CommonStatus::finished()
+{
+    m_balloon = NULL;
+    QTimer::singleShot(1000, this, SLOT(showBalloon()));
 }
 
 #ifndef WIN32

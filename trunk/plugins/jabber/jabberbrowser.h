@@ -33,11 +33,24 @@ class DiscoInfo;
 class JabberWizard;
 class AddResult;
 
+const unsigned COL_NAME				= 0;
+const unsigned COL_JID				= 1;
+const unsigned COL_NODE				= 2;
+const unsigned COL_CATEGORY			= 3;
+const unsigned COL_TYPE				= 4;
+const unsigned COL_FEATURES			= 5;
+const unsigned COL_ID_DISCO_ITEMS	= 6;
+const unsigned COL_ID_DISCO_INFO	= 7;
+const unsigned COL_ID_BROWSE		= 8;
+const unsigned COL_MODE				= 9;
+
+class JabberSearch;
+
 class JabberWizard : public QWizard, public EventReceiver
 {
     Q_OBJECT
 public:
-    JabberWizard(QWidget *parent, const char *title, const char *icon, JabberClient *client, const char *jid, const char *node, const char *type);
+    JabberWizard(QWidget *parent, const QString &title, const char *icon, JabberClient *client, const char *jid, const char *node, const char *type);
     JabberSearch *m_search;
     AddResult	 *m_result;
     void initTitle();
@@ -62,7 +75,7 @@ public:
     void save();
     DiscoInfo *m_info;
 protected slots:
-    void clickItem(QListViewItem*);
+    void currentChanged(QListViewItem*);
     void dragStart();
     void showSearch();
     void showReg();
@@ -75,8 +88,18 @@ protected:
     void go(const QString &url, const QString &node);
     void addHistory(const QString &str);
     bool haveFeature(const char*);
-    string		  m_id1;
-    string		  m_id2;
+    bool haveFeature(const char*, const QString&);
+    QListViewItem *findItem(unsigned col, const char *id);
+    QListViewItem *findItem(unsigned col, const char *id, QListViewItem *item);
+    void setItemPict(QListViewItem *item);
+    void adjustColumn(QListViewItem *item);
+    void loadItem(QListViewItem *item);
+    void checkDone();
+    bool checkDone(QListViewItem*);
+    void startProcess();
+    void changeMode();
+    void changeMode(QListViewItem *item);
+    bool		 m_bInProcess;
     JabberClient *m_client;
     ListView	 *m_list;
     QStatusBar	 *m_status;
@@ -85,16 +108,13 @@ protected:
     vector<string>	m_nodes;
     QString		 m_historyStr;
     int			 m_historyPos;
-    QString		 m_category;
-    QString		 m_type;
-    QString		 m_name;
-    QString		 m_features;
     JabberWizard	*m_search;
     JabberWizard	*m_reg;
     JabberWizard	*m_config;
     string		 m_search_id;
     string		 m_reg_id;
     string		 m_config_id;
+    bool		 m_bError;
     friend class DiscoInfo;
 };
 

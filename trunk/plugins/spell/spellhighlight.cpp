@@ -56,27 +56,37 @@ int SpellHighlighter::highlightParagraph(const QString&, int state)
     m_curWord = "";
     m_curStart = 0;
     parse(textEdit()->text(m_paragraph));
+    flushText();
     flush();
+    m_curText = "";
     return state + 1;
 }
 
 void SpellHighlighter::text(const QString &text)
 {
+    m_curText += text;
+}
+
+void SpellHighlighter::flushText()
+{
+    if (m_curText.isEmpty())
+        return;
     int i;
-    for (i = 0; i < (int)(text.length());){
-        if (text[i].isSpace() || text[i].isPunct()){
+    for (i = 0; i < (int)(m_curText.length());){
+        if (m_curText[i].isSpace() || m_curText[i].isPunct()){
             flush();
-            for (; i < (int)(text.length()); i++, m_pos++){
-                if (!text[i].isSpace() && !text[i].isPunct())
+            for (; i < (int)(m_curText.length()); i++, m_pos++){
+                if (!m_curText[i].isSpace() && !m_curText[i].isPunct())
                     break;
             }
             m_curStart = m_pos;
             continue;
         }
-        m_curWord += text[i];
+        m_curWord += m_curText[i];
         m_pos++;
         i++;
     }
+    m_curText = "";
 }
 
 void SpellHighlighter::tag_start(const QString &tag, const list<QString> &opt)
@@ -114,6 +124,7 @@ void SpellHighlighter::tag_start(const QString &tag, const list<QString> &opt)
 
 void SpellHighlighter::tag_end(const QString &tag)
 {
+    flushText();
     if (tag == "span"){
         if (m_fonts.empty())
             return;
@@ -220,6 +231,8 @@ void *SpellHighlighter::processEvent(Event *e)
                 m_fonts.pop();
             m_bCheck = true;
             parse(textEdit()->text(m_paragraph));
+            flushText();
+            m_curText = "";
             m_bCheck = false;
             if (!m_bInError)
                 return NULL;

@@ -186,14 +186,11 @@ HistoryConfig::HistoryConfig(QWidget *parent)
 {
     chkOwn->setChecked(CorePlugin::m_plugin->getOwnColors());
     chkSmile->setChecked(CorePlugin::m_plugin->getUseSmiles());
-    cmbPage->setEditable(true);
-    cmbPage->insertItem("100");
-    cmbPage->insertItem("50");
-    cmbPage->insertItem("25");
     m_cur = -1;
+    cmbPage->setEditable(true);
     m_bDirty = false;
     QLineEdit *edit = cmbPage->lineEdit();
-    edit->setValidator(new QIntValidator(1, 500, edit));
+    edit->setValidator(new QIntValidator(1, 10000, edit));
     edit->setText(QString::number(CorePlugin::m_plugin->getHistoryPage()));
     QString str1 = i18n("Show %1 messages per page");
     QString str2;
@@ -642,7 +639,7 @@ void HistoryConfig::fillPreview()
         xsl->setXSL(m_styles[cur].text);
     Contact *contact = getContacts()->contact(0, true);
     contact->setName("Buddy");
-    contact->setTemporary(true);
+    contact->setFlags(CONTACT_TEMP);
     edtPreview->clear();
     edtPreview->setXSL(xsl);
     time_t now;

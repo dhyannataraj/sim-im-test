@@ -51,29 +51,28 @@ void UserViewItemBase::paintCell(QPainter *p, const QColorGroup &cg, int, int wi
     QPixmap bg(width, height());
     QPainter pp(&bg);
     int margin = 0;
+    pp.fillRect(QRect(0, 0, width, height()), cg.base());
+    PaintView pv;
+    pv.p        = &pp;
+    pv.pos      = view->viewport()->mapToParent(view->itemRect(this).topLeft());
+    pv.size		= QSize(width, height());
+    pv.win      = view;
+    pv.isStatic = false;
+    pv.height   = height();
+    pv.margin   = 0;
+    pv.isGroup  = (type() == GRP_ITEM);
+    if (CorePlugin::m_plugin->getUseSysColors()){
+        pp.setPen(cg.text());
+    }else{
+        pp.setPen(QColor(CorePlugin::m_plugin->getColorOnline()));
+    }
+    Event e(EventPaintView, &pv);
+    e.process();
+    view->setStaticBackground(pv.isStatic);
+    margin = pv.margin;
     if (isSelected() && view->hasFocus() && CorePlugin::m_plugin->getUseDblClick()){
         pp.fillRect(QRect(0, 0, width, height()), cg.highlight());
         pp.setPen(cg.highlightedText());
-    }else{
-        pp.fillRect(QRect(0, 0, width, height()), cg.base());
-        PaintView pv;
-        pv.p        = &pp;
-        pv.pos      = view->viewport()->mapToParent(view->itemRect(this).topLeft());
-        pv.size		= QSize(width, height());
-        pv.win      = view;
-        pv.isStatic = false;
-        pv.height   = height();
-        pv.margin   = 0;
-        pv.isGroup  = (type() == GRP_ITEM);
-        if (CorePlugin::m_plugin->getUseSysColors()){
-            pp.setPen(cg.text());
-        }else{
-            pp.setPen(QColor(CorePlugin::m_plugin->getColorOnline()));
-        }
-        Event e(EventPaintView, &pv);
-        e.process();
-        view->setStaticBackground(pv.isStatic);
-        margin = pv.margin;
     }
     view->drawItem(this, &pp, cg, width, margin);
     pp.end();
@@ -112,7 +111,7 @@ void UserViewItemBase::drawSeparator(QPainter *p, int x, int width, const QColor
         QRect rcSep(x, height()/2, width - 6 - x, 1);
         listView()->style().drawPrimitive(QStyle::PE_Separator, p, rcSep, cg);
 #else
-        listView()->style().drawSeparator(p, x, height() / 2, width - 6, height() / 2, cg);
+listView()->style().drawSeparator(p, x, height() / 2, width - 6, height() / 2, cg);
 #endif
     }
 }
@@ -646,7 +645,7 @@ void UserListBase::fill()
         divItemOnline  = NULL;
         divItemOffline = NULL;
         while ((contact = ++contact_it) != NULL){
-            if (contact->getIgnore() || contact->getTemporary())
+            if (contact->getIgnore() || (contact->getFlags() & CONTACT_TEMPORARY))
                 continue;
             unsigned style;
             string icons;
@@ -683,7 +682,7 @@ void UserListBase::fill()
             grpItem = new GroupItem(this, list->group(0), true);
         }
         while ((contact = ++contact_it) != NULL){
-            if (contact->getIgnore() || contact->getTemporary())
+            if (contact->getIgnore() || (contact->getFlags() & CONTACT_TEMPORARY))
                 continue;
             unsigned style;
             string icons;
@@ -736,7 +735,7 @@ void UserListBase::fill()
             }
         }
         while ((contact = ++contact_it) != NULL){
-            if (contact->getIgnore() || contact->getTemporary())
+            if (contact->getIgnore() || (contact->getFlags() & CONTACT_TEMPORARY))
                 continue;
             unsigned style;
             string icons;
@@ -815,14 +814,14 @@ void *UserListBase::processEvent(Event *e)
             }
         case EventContactCreated:{
                 Contact *c = (Contact*)(e->param());
-                if (!c->getIgnore() && (c->getTemporary() == 0))
+                if (!c->getIgnore() && ((c->getFlags() & CONTACT_TEMPORARY) == 0))
                     addContactForUpdate(c->id());
                 break;
             }
         case EventContactStatus:
         case EventContactChanged:{
                 Contact *c = (Contact*)(e->param());
-                if (!c->getIgnore() && (c->getTemporary() == 0)){
+                if (!c->getIgnore() && ((c->getFlags() & CONTACT_TEMPORARY) == 0)){
                     addContactForUpdate(c->id());
                 }else{
                     Event e(EventContactDeleted, c);

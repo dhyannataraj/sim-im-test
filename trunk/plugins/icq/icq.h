@@ -41,6 +41,8 @@ const unsigned CmdGroups			= IcqCmdBase + 4;
 const unsigned CmdCheckInvisibleAll	= IcqCmdBase + 5;
 const unsigned CmdCheckInvisible	= IcqCmdBase + 6;
 const unsigned CmdIcqSendMessage	= IcqCmdBase + 7;
+const unsigned CmdShowWarning		= IcqCmdBase + 8;
+const unsigned CmdPasswordFail		= IcqCmdBase + 9;
 
 const unsigned MenuEncoding			= IcqCmdBase;
 const unsigned MenuSearchResult		= IcqCmdBase + 1;

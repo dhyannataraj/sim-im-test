@@ -30,7 +30,8 @@
 
 extern DataDef jabberUserData[];
 
-DiscoInfo::DiscoInfo(JabberBrowser *browser)
+DiscoInfo::DiscoInfo(JabberBrowser *browser, const QString &features,
+                     const QString &name, const QString &type, const QString &category)
         : DiscoInfoBase(browser, NULL, false, WDestructiveClose)
 {
     m_browser = browser;
@@ -45,6 +46,10 @@ DiscoInfo::DiscoInfo(JabberBrowser *browser)
     m_bStat	   = true;
     m_bVCard   = true;
     m_about    = NULL;
+    m_features = features;
+    m_name	   = name;
+    m_type	   = type;
+    m_category = category;
     load_data(jabberUserData, &m_data, NULL);
     disableWidget(edtJName);
     disableWidget(edtType);
@@ -82,25 +87,25 @@ void DiscoInfo::reset()
         delete m_about;
         m_about = NULL;
     }
-    m_url = QString::fromUtf8(m_browser->m_history[m_browser->m_historyPos].c_str());
-    m_node = "";
-    if (!m_browser->m_nodes[m_browser->m_historyPos].empty())
-        m_node = QString::fromUtf8(m_browser->m_nodes[m_browser->m_historyPos].c_str());
+    if (m_browser->m_list->currentItem()){
+        m_url  = m_browser->m_list->currentItem()->text(COL_JID);
+        m_node = m_browser->m_list->currentItem()->text(COL_NODE);
+    }
     free_data(jabberUserData, &m_data);
     load_data(jabberUserData, &m_data, NULL);
     set_str(&m_data.ID.ptr, m_url.utf8());
     set_str(&m_data.Node.ptr, m_node.utf8());
     setTitle();
-    edtJName->setText(m_browser->m_name);
-    edtType->setText(m_browser->m_type);
-    edtCategory->setText(m_browser->m_category);
-    edtNameSpace->setText(m_browser->m_features);
+    edtJName->setText(m_name);
+    edtType->setText(m_type);
+    edtCategory->setText(m_category);
+    edtNameSpace->setText(m_features);
     bool bVersion = false;
     bool bTime    = false;
     bool bLast	  = false;
     bool bStat	  = false;
     bool bVCard	  = false;
-    QString mf = m_browser->m_features;
+    QString mf = m_features;
     while (!mf.isEmpty()){
         QString f = getToken(mf, '\n');
         if (f == "jabber:iq:version")
@@ -195,7 +200,7 @@ int str_cmp(const char *s1, const char *s2);
 
 void *DiscoInfo::processEvent(Event *e)
 {
-    if (e->type() == static_cast<JabberPlugin*>(m_browser->m_client->protocol()->plugin())->EventVCard){
+    if (e->type() == EventVCard){
         JabberUserData *data = (JabberUserData*)(e->param());
         if (!str_cmp(m_data.ID.ptr, data->ID.ptr) && !str_cmp(m_data.Node.ptr, data->Node.ptr)){
             edtFirstName->setText(data->FirstName.ptr ? QString::fromUtf8(data->FirstName.ptr) : QString(""));
@@ -207,8 +212,8 @@ void *DiscoInfo::processEvent(Event *e)
             edtPhone->setText(data->Phone.ptr ? QString::fromUtf8(data->Phone.ptr) : QString(""));
         }
     }
-    if (e->type() == static_cast<JabberPlugin*>(m_browser->m_client->protocol()->plugin())->EventDiscoItem){
-        JabberDiscoItem *item = (JabberDiscoItem*)(e->param());
+    if (e->type() == EventDiscoItem){
+        DiscoItem *item = (DiscoItem*)(e->param());
         if (m_versionId == item->id){
             m_versionId = "";
             edtName->setText(QString::fromUtf8(item->name.c_str()));

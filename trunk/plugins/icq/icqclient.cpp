@@ -2545,6 +2545,7 @@ void *ICQClient::processEvent(Event *e)
             listRequests.push_back(lr);
             processListRequest();
         }
+        removeBuddy(contact);
     }
     if (e->type() == EventGroupChanged){
         Group *group = (Group*)(e->param());
@@ -3231,7 +3232,7 @@ bool ICQClient::messageReceived(Message *msg, const char *screen)
                 delete msg;
                 return true;
             }
-            contact->setTemporary(CONTACT_TEMP);
+            contact->setFlags(CONTACT_TEMP);
             Event e(EventContactChanged, contact);
             e.process();
         }

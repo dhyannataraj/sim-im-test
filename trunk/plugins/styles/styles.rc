@@ -61,14 +61,14 @@ BEGIN
             VALUE "Comments", "\0"
             VALUE "CompanyName", "Vladimir Shutoff\0"
             VALUE "FileDescription", "Styles plugin\0"
-            VALUE "FileVersion", "0, 9, 3, 0\0"
+            VALUE "FileVersion", "0, 9, 4, 0\0"
             VALUE "InternalName", "styles\0"
             VALUE "LegalCopyright", "Copyright © 2002-2003\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "styles.dll\0"
             VALUE "PrivateBuild", "\0"
             VALUE "ProductName", "SIM\0"
-            VALUE "ProductVersion", "0, 9, 3, 0\0"
+            VALUE "ProductVersion", "0, 9, 4, 0\0"
             VALUE "SpecialBuild", "\0"
         END
     END

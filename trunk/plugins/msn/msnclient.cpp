@@ -690,7 +690,7 @@ void MSNClient::getLine(const char *line)
         MSNUserData *data = findContact(email.c_str(), contact);
         if (data == NULL){
             data = findContact(email.c_str(), nick.c_str(), contact);
-            contact->setTemporary(CONTACT_TEMP);
+            contact->setFlags(CONTACT_TEMP);
             Event e(EventContactChanged, contact);
             e.process();
         }

@@ -105,6 +105,7 @@ typedef struct CoreData
     Data	ShowEmptyGroup;
     Data	NoJoinAlert;
     Data	EnableSpell;
+    Data	RemoveHistory;
 } CoreData;
 
 const unsigned CONTAINER_SIMPLE	= 0;
@@ -463,6 +464,7 @@ public:
     PROP_BOOL(ShowEmptyGroup);
     PROP_BOOL(NoJoinAlert);
     PROP_BOOL(EnableSpell);
+    PROP_BOOL(RemoveHistory);
 
     unsigned user_data_id;
     unsigned sms_data_id;

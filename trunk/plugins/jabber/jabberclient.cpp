@@ -27,7 +27,6 @@
 #include "jabberpicture.h"
 #include "jabbermessage.h"
 #include "jabberbrowser.h"
-#include "services.h"
 #include "infoproxy.h"
 #include "html.h"
 
@@ -163,6 +162,8 @@ static DataDef jabberClientData[] =
         { "AutoAccept", DATA_BOOL, 1, DATA(1) },
         { "UseHTTP", DATA_BOOL, 1, 0 },
         { "URL", DATA_STRING, 1, 0 },
+        { "AllLevels", DATA_BOOL, 1, 0 },
+        { "BrowseType", DATA_ULONG, 1, DATA(BROWSE_DISCO | BROWSE_BROWSE | BROWSE_AGENTS) },
         { "", DATA_STRUCT, sizeof(JabberUserData) / sizeof(Data), DATA(jabberUserData) },
         { NULL, 0, 0, 0 }
     };
@@ -401,7 +402,7 @@ void *JabberClient::processEvent(Event *e)
     }
     if (e->type() == EventCheckState){
         CommandDef *cmd = (CommandDef*)(e->param());
-        if (cmd->id == static_cast<JabberPlugin*>(protocol()->plugin())->CmdBrowser){
+        if (cmd->id == CmdBrowser){
             cmd->flags &= ~COMMAND_CHECKED;
             if (getState() != Connected)
                 return NULL;
@@ -416,13 +417,13 @@ void *JabberClient::processEvent(Event *e)
                     n++;
                 }
                 if (n > 1){
-                    cmd->popup_id = static_cast<JabberPlugin*>(protocol()->plugin())->MenuClients;
+                    cmd->popup_id = MenuClients;
                 }else{
                     cmd->popup_id = 0;
                 }
                 return e->param();
             }
-            if (cmd->menu_id == static_cast<JabberPlugin*>(protocol()->plugin())->MenuClients){
+            if (cmd->menu_id == MenuClients){
                 unsigned n = getContacts()->nClients() + 1;
                 CommandDef *cmds = new CommandDef[n];
                 memset(cmds, 0, sizeof(CommandDef) * n);
@@ -439,7 +440,7 @@ void *JabberClient::processEvent(Event *e)
                         url = QString::fromUtf8(jc->getVHost());
                     if (url.isEmpty())
                         url = QString::fromUtf8(jc->getServer());
-                    cmds[n].id       = static_cast<JabberPlugin*>(protocol()->plugin())->CmdBrowser + i;
+                    cmds[n].id       = CmdBrowser + i;
                     cmds[n].text     = "_";
                     cmds[n].text_wrk = strdup(url.utf8());
                     n++;
@@ -465,8 +466,8 @@ void *JabberClient::processEvent(Event *e)
     }
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
-        if (cmd->menu_id == static_cast<JabberPlugin*>(protocol()->plugin())->MenuClients){
-            unsigned n = cmd->id - static_cast<JabberPlugin*>(protocol()->plugin())->CmdBrowser;
+        if (cmd->menu_id == MenuClients){
+            unsigned n = cmd->id - CmdBrowser;
             if (n >= getContacts()->nClients())
                 return NULL;
             Client *client = getContacts()->getClient(n);
@@ -475,10 +476,16 @@ void *JabberClient::processEvent(Event *e)
             if (getState() != Connected)
                 return NULL;
             JabberClient *jc = static_cast<JabberClient*>(client);
-            if (jc->m_browser == NULL){
+            if (jc->m_browser == NULL)
                 jc->m_browser = new JabberBrowser(jc);
-                bool bSize = (jc->data.browser_geo[WIDTH].value && jc->data.browser_geo[HEIGHT].value);
-                restoreGeometry(m_browser, jc->data.browser_geo, bSize, bSize);
+            if (!jc->m_browser->isVisible()){
+                if (jc->data.browser_geo[WIDTH].value && jc->data.browser_geo[HEIGHT].value){
+                    jc->data.browser_geo[WIDTH].value  = 600;
+                    jc->data.browser_geo[HEIGHT].value = 400;
+                    restoreGeometry(jc->m_browser, jc->data.browser_geo, false, true);
+                }else{
+                    restoreGeometry(jc->m_browser, jc->data.browser_geo, true, true);
+                }
             }
             QString url;
             if (jc->getUseVHost())
@@ -489,7 +496,7 @@ void *JabberClient::processEvent(Event *e)
             raiseWindow(jc->m_browser);
             return e->param();
         }
-        if (cmd->id == static_cast<JabberPlugin*>(protocol()->plugin())->CmdBrowser){
+        if (cmd->id == CmdBrowser){
             if (getState() != Connected)
                 return NULL;
             if (m_browser == NULL){
@@ -1460,6 +1467,13 @@ QString JabberClient::contactTip(void *_data)
                 res += ": </font>";
                 res += formatDateTime(statusTime);
             }
+            const char *reply = get_str(data->ResourceReply, i);
+            if (reply && *reply){
+                res += "<br/>";
+                QString r = QString::fromUtf8(reply);
+                r = r.replace(QRegExp("\n"), "<br/>");
+                res += r;
+            }
             if (i < data->nResources.value)
                 res += "<br>_________<br>";
         }
@@ -1547,8 +1561,7 @@ const unsigned WORK_INFO  = 3;
 const unsigned ABOUT_INFO = 4;
 const unsigned PHOTO_INFO = 5;
 const unsigned LOGO_INFO  = 6;
-const unsigned SERVICES	  = 7;
-const unsigned NETWORK	  = 8;
+const unsigned NETWORK	  = 7;
 
 static CommandDef jabberWnd[] =
     {
@@ -1752,21 +1765,6 @@ static CommandDef cfgJabberWnd[] =
             NULL
         },
         {
-            SERVICES,
-            I18N_NOOP("Agents"),
-            "configure",
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
-        {
             NETWORK,
             I18N_NOOP("Network"),
             "network",
@@ -1855,8 +1853,6 @@ QWidget *JabberClient::configWindow(QWidget *parent, unsigned id)
         return new JabberPicture(parent, NULL, this, false);
     case NETWORK:
         return new JabberConfig(parent, this, true);
-    case SERVICES:
-        return new Services(parent, this);
     }
     return NULL;
 }
@@ -2682,7 +2678,7 @@ void JabberClient::auth_request(const char *jid, unsigned type, const char *text
     }
     if ((data == NULL) && bCreate){
         data = findContact(jid, NULL, true, contact, resource);
-        contact->setTemporary(CONTACT_TEMP);
+        contact->setFlags(CONTACT_TEMP);
     }
     if (data == NULL)
         return;

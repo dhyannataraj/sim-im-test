@@ -581,7 +581,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                 vector<ContactInfo> contacts;
                 list<unsigned> groups;
                 while ((contact = ++it) != NULL){
-                    if (contact->getTemporary() || contact->getIgnore())
+                    if ((contact->getFlags() & CONTACT_TEMPORARY) || contact->getIgnore())
                         continue;
                     if (type){
                         Command cmd;

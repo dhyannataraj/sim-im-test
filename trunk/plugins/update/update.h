@@ -26,9 +26,7 @@ typedef struct UpdateData
     Data	Time;
 } UpdateData;
 
-class BalloonMsg;
-
-class UpdatePlugin : public QObject, public Plugin, public FetchClient
+class UpdatePlugin : public QObject, public Plugin, public FetchClient, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -36,15 +34,13 @@ public:
     virtual ~UpdatePlugin();
 protected slots:
     void timeout();
-    void showDetails(int, void*);
-    void msgDestroyed();
 protected:
+    unsigned CmdGo;
     bool done(unsigned code, Buffer &data, const char *headers);
     virtual string getConfig();
-    QWidget *getMainWindow();
+    void *processEvent(Event*);
     string getHeader(const char *name, const char *headers);
     string   m_url;
-    BalloonMsg *m_msg;
     PROP_ULONG(Time);
     UpdateData data;
 };

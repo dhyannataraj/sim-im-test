@@ -31,10 +31,12 @@ class UI_EXPORT BalloonMsg : public QDialog
 {
     Q_OBJECT
 public:
-    BalloonMsg(void *param, const QString &text, QStringList&, QWidget *p, const QRect *rc = NULL, bool bModal=false, bool bAutoHide=true, unsigned width=150, const QString &boxText = QString::null);
+    BalloonMsg(void *param, const QString &text, QStringList&, QWidget *p,
+               const QRect *rc = NULL, bool bModal=false, bool bAutoHide=true,
+               unsigned width=150, const QString &boxText = QString::null, bool *bChecked=NULL);
     ~BalloonMsg();
     static void message(const QString &text, QWidget *parent, bool bModal=false, unsigned width=150);
-    static void ask(void *param, const QString &text, QWidget *parent, const char *slotYes, const char *slotNo, const QRect *rc=NULL, QObject *receiver=NULL);
+    static void ask(void *param, const QString &text, QWidget *parent, const char *slotYes, const char *slotNo, const QRect *rc=NULL, QObject *receiver=NULL, const QString &boxText = QString::null, bool *bChecked=NULL);
     bool isChecked();
 signals:
     void action(int, void*);
@@ -54,6 +56,7 @@ protected:
     QCheckBox *m_check;
     bool m_bAutoHide;
     bool m_bYes;
+    bool *m_bChecked;
     unsigned m_width;
     void *m_param;
 };

@@ -28,6 +28,7 @@ class CorePlugin;
 class QHBoxLayout;
 class QTimer;
 class QToolButton;
+class BalloonMsg;
 
 class StatusLabel : public QLabel
 {
@@ -52,6 +53,7 @@ class StatusFrame : public QFrame, public EventReceiver
 public:
     StatusFrame(QWidget *parent);
     void adjustPos();
+    StatusLabel *findLabel(Client*);
 signals:
     void showButton(bool);
 protected slots:
@@ -62,7 +64,6 @@ protected:
     virtual void *processEvent(Event *e);
     virtual QSize sizeHint() const;
     virtual QSize minimumSizeHint() const;
-    StatusLabel *findLabel(Client*);
     QFrame		*m_frame;
     QHBoxLayout	*m_lay;
 };
@@ -72,6 +73,7 @@ class StatusWnd : public QFrame
     Q_OBJECT
 public:
     StatusWnd();
+    BalloonMsg *showError(const QString &text, QStringList &buttons, Client *client);
 protected slots:
     void showButton(bool);
     void clicked();

@@ -610,7 +610,7 @@ void PluginManagerPrivate::loadState()
             if (!dir.mkdir(dir.absPath())) {
                 log(L_ERROR, "Can't create directory %s",dir.absPath().ascii());
                 return;
-            } 
+            }
         }
         if (f.open(IO_WriteOnly)) {
             f.close();

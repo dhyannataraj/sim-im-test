@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2004-03-30 03:46+0400\n"
-"PO-Revision-Date: 2004-03-30 03:48+0400\n"
+"POT-Creation-Date: 2004-04-04 02:07+0400\n"
+"PO-Revision-Date: 2004-04-04 02:09+0400\n"
 "Last-Translator: Vladimir Shutoff <vovan@shutoff.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1234,12 +1234,12 @@ msgstr "Замбия"
 msgid "Zimbabwe"
 msgstr "Зимбабве"
 
-#: sim/api/plugins.cpp:698
+#: sim/api/plugins.cpp:715
 #, c-format
 msgid "Bad option %1"
 msgstr "Неправильный аргумент %1"
 
-#: sim/api/plugins.cpp:699
+#: sim/api/plugins.cpp:716
 msgid "Usage: %1 "
 msgstr "Используйте: %1"
 
@@ -1299,6 +1299,22 @@ msgstr "%1 байт"
 msgid "Can't open %1"
 msgstr "Не могу открыть %1"
 
+# about.cpp:280
+#: sim/api/aboutdata.cpp:287
+msgid "replace this with information about your translation team"
+msgstr "..."
+
+# about.cpp:296
+#: sim/api/aboutdata.cpp:303
+msgid "This program is distributed under the terms of the GPL v2."
+msgstr ""
+"Эта программа распространяется под "
+"лицензией GPL v2"
+
+#: sim/api/socket.cpp:145 sim/api/socket.cpp:163
+msgid "Read socket error"
+msgstr "Ошибка чтения сокета"
+
 # sim.cpp:100
 #: sim/api/simapi.cpp:107
 msgid ""
@@ -1317,26 +1333,26 @@ msgstr "Russian"
 #: plugins/_core/toolsetupbase.cpp:135 plugins/action/additembase.cpp:95
 #: plugins/gpg/gpggenbase.cpp:114 plugins/icq/encodingdlgbase.cc:86
 #: plugins/icq/warndlgbase.cc:88 plugins/jabber/discoinfobase.cpp:289
-#: plugins/proxy/proxyerrorbase.cpp:80 sim/api/simapi.cpp:473
+#: plugins/proxy/proxyerrorbase.cpp:80 sim/api/simapi.cpp:467
 #: sim/ui/qt3/i18n.cpp:174
 msgid "&OK"
 msgstr "&Ok"
 
 # mainwin.cpp:1606 mainwin.cpp:1946
-#: sim/api/simapi.cpp:473 sim/ui/ballonmsg.cpp:319 sim/ui/qt3/i18n.cpp:125
+#: sim/api/simapi.cpp:467 sim/ui/ballonmsg.cpp:327 sim/ui/qt3/i18n.cpp:125
 msgid "&Yes"
 msgstr "&Да"
 
 # ui/setupdlgbase.cpp:99
 #: plugins/_core/cfgdlg.cpp:488 plugins/_core/cfgdlgbase.cpp:94
 #: plugins/_core/toolsetupbase.cpp:134 plugins/jabber/discoinfobase.cpp:288
-#: sim/api/simapi.cpp:474
+#: sim/api/simapi.cpp:468
 msgid "&Apply"
 msgstr "&Применить"
 
 # ui/logindlgbase.cpp:87
-#: plugins/jabber/jabber.cpp:327 plugins/jabber/servicesbase.cpp:115
-#: sim/api/simapi.cpp:474
+#: plugins/jabber/jabber.cpp:305 plugins/jabber/servicesbase.cpp:115
+#: sim/api/simapi.cpp:468
 msgid "&Register"
 msgstr "За&регистрировать"
 
@@ -1348,9 +1364,9 @@ msgstr "За&регистрировать"
 #: plugins/_core/editphonebase.cpp:113 plugins/_core/filetransferbase.cpp:138
 #: plugins/_core/logindlgbase.cpp:133 plugins/action/additembase.cpp:96
 #: plugins/gpg/gpggenbase.cpp:115 plugins/icq/encodingdlgbase.cc:87
-#: plugins/icq/icqclient.cpp:2422 plugins/icq/securedlgbase.cc:78
+#: plugins/icq/icqclient.cpp:2424 plugins/icq/securedlgbase.cc:78
 #: plugins/icq/warndlgbase.cc:89 plugins/proxy/proxyerrorbase.cpp:81
-#: plugins/weather/weathercfg.cpp:80 sim/api/simapi.cpp:476
+#: plugins/weather/weathercfg.cpp:80 sim/api/simapi.cpp:470
 #: sim/ui/qt3/i18n.cpp:35
 msgid "&Cancel"
 msgstr "&Отменить"
@@ -1358,112 +1374,96 @@ msgstr "&Отменить"
 # mainwin.cpp:1717 ui/aboutdlgbase.cpp:131 ui/filetransfer.cpp:156
 # ui/finddlgbase.cpp:66 ui/logindlgbase.cpp:83 ui/proxydlgbase.cpp:55
 # ui/securedlg.cpp:55 ui/userautoreply.cpp:76
-#: plugins/_core/core.cpp:669 plugins/_core/filetransfer.cpp:346
+#: plugins/_core/core.cpp:670 plugins/_core/filetransfer.cpp:346
 #: plugins/_core/managerbase.cpp:110 plugins/_core/toolsetupbase.cpp:136
 #: plugins/about/aboutdlgbase.cpp:122 plugins/icq/securedlg.cpp:92
-#: plugins/jabber/discoinfobase.cpp:290 sim/api/simapi.cpp:476
+#: plugins/jabber/discoinfobase.cpp:290 sim/api/simapi.cpp:470
 #: sim/ui/qt3/i18n.cpp:287
 msgid "&Close"
 msgstr "&Закрыть"
 
 # mainwin.cpp:1607 mainwin.cpp:1947
-#: sim/api/simapi.cpp:477 sim/ui/ballonmsg.cpp:320 sim/ui/qt3/i18n.cpp:127
+#: sim/api/simapi.cpp:471 sim/ui/ballonmsg.cpp:328 sim/ui/qt3/i18n.cpp:127
 msgid "&No"
 msgstr "&Нет"
 
 #: plugins/_core/arcfgbase.cpp:80 plugins/_core/autoreplybase.cpp:89
 #: plugins/action/actioncfgbase.cpp:62 plugins/action/additembase.cpp:94
-#: plugins/weather/wifacecfgbase.cpp:84 sim/api/simapi.cpp:479
+#: plugins/weather/wifacecfgbase.cpp:84 sim/api/simapi.cpp:473
 msgid "&Help"
 msgstr "&Справка"
 
-#: sim/api/simapi.cpp:712
+#: sim/api/simapi.cpp:706
 msgid "Smile"
 msgstr "Улыбка"
 
-#: sim/api/simapi.cpp:713
+#: sim/api/simapi.cpp:707
 msgid "Surprised"
 msgstr "Удивлен"
 
 # libicq/country.cpp:341
-#: sim/api/simapi.cpp:714
+#: sim/api/simapi.cpp:708
 msgid "Indifferent"
 msgstr "Безразлично"
 
-#: sim/api/simapi.cpp:715
+#: sim/api/simapi.cpp:709
 msgid "Skeptical"
 msgstr "Скептик"
 
 # ui/keysetup.cpp:43
-#: sim/api/simapi.cpp:716
+#: sim/api/simapi.cpp:710
 msgid "Sad"
 msgstr "Грустный"
 
-#: sim/api/simapi.cpp:717
+#: sim/api/simapi.cpp:711
 msgid "Kiss"
 msgstr "Поцелуй"
 
-#: sim/api/simapi.cpp:718
+#: sim/api/simapi.cpp:712
 msgid "Annoyed"
 msgstr "Раздраженный"
 
-#: sim/api/simapi.cpp:719
+#: sim/api/simapi.cpp:713
 msgid "Crying"
 msgstr "Плачущий"
 
-#: sim/api/simapi.cpp:720
+#: sim/api/simapi.cpp:714
 msgid "Wink"
 msgstr "Мигнуть"
 
 # libicq/country.cpp:166
-#: sim/api/simapi.cpp:721
+#: sim/api/simapi.cpp:715
 msgid "Angry"
 msgstr "Сердитый"
 
 # usertbl.cpp:392
-#: sim/api/simapi.cpp:722
+#: sim/api/simapi.cpp:716
 msgid "Embarrassed"
 msgstr "Обеспокоенный"
 
 # mainwin.cpp:2625
-#: sim/api/simapi.cpp:723
+#: sim/api/simapi.cpp:717
 msgid "Uptight"
 msgstr "Встревоженный"
 
 # ui/soundsetupbase.cpp:168
-#: sim/api/simapi.cpp:724
+#: sim/api/simapi.cpp:718
 msgid "Teaser"
 msgstr "Задира"
 
 # libicq/country.cpp:120
-#: sim/api/simapi.cpp:725
+#: sim/api/simapi.cpp:719
 msgid "Cool"
 msgstr "Круто"
 
 # libicq/country.cpp:76
-#: sim/api/simapi.cpp:726
+#: sim/api/simapi.cpp:720
 msgid "Angel"
 msgstr "Ангел"
 
-#: sim/api/simapi.cpp:727
+#: sim/api/simapi.cpp:721
 msgid "Grin"
 msgstr "Усмешка"
-
-# about.cpp:280
-#: sim/api/aboutdata.cpp:287
-msgid "replace this with information about your translation team"
-msgstr "..."
-
-# about.cpp:296
-#: sim/api/aboutdata.cpp:303
-msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Эта программа распространяется под "
-"лицензией GPL v2"
-
-#: sim/api/socket.cpp:145 sim/api/socket.cpp:163
-msgid "Read socket error"
-msgstr "Ошибка чтения сокета"
 
 # ui/setupdlg.cpp:139
 #: sim/api/sockfactory.cpp:212
@@ -1533,7 +1533,8 @@ msgid "&Define Custom Colors >>"
 msgstr "&Определить свои цвета >>"
 
 # ui/alertmsgbase.cpp:52 ui/autoreplybase.cpp:53 ui/setupdlgbase.cpp:91
-#: plugins/_core/core.cpp:1634 sim/ui/qt3/i18n.cpp:21
+#: plugins/_core/core.cpp:1635 plugins/_core/status.cpp:303
+#: sim/ui/qt3/i18n.cpp:21
 msgid "OK"
 msgstr "OK"
 
@@ -1572,8 +1573,8 @@ msgstr "Все файлы (*)"
 
 # usertbl.cpp:115
 #: plugins/filter/ignorelist.cpp:27 plugins/icq/icqsecure.cpp:127
-#: plugins/icq/searchresult.cpp:129 plugins/jabber/discoinfo.cpp:58
-#: plugins/jabber/jabberbrowser.cpp:125 sim/ui/qt3/i18n.cpp:39
+#: plugins/icq/searchresult.cpp:129 plugins/jabber/discoinfo.cpp:63
+#: plugins/jabber/jabberbrowser.cpp:121 sim/ui/qt3/i18n.cpp:39
 msgid "Name"
 msgstr "Имя"
 
@@ -1700,14 +1701,14 @@ msgid "&Save"
 msgstr "&Сохранить"
 
 # userview.cpp:1340
-#: plugins/_core/core.cpp:1206 plugins/_core/historycfgbase.cpp:175
+#: plugins/_core/core.cpp:1207 plugins/_core/historycfgbase.cpp:176
 #: sim/ui/qt3/i18n.cpp:97
 msgid "&Rename"
 msgstr "&Переименовать"
 
 # ui/phonebookbase.cpp:119
-#: plugins/_core/core.cpp:1215 plugins/_core/core.cpp:1362
-#: plugins/_core/core.cpp:1375 plugins/_core/historycfgbase.cpp:176
+#: plugins/_core/core.cpp:1216 plugins/_core/core.cpp:1363
+#: plugins/_core/core.cpp:1376 plugins/_core/historycfgbase.cpp:177
 #: plugins/_core/logindlgbase.cpp:129 plugins/_core/maininfobase.cpp:178
 #: plugins/_core/maininfobase.cpp:188 plugins/action/menucfgbase.cpp:70
 #: sim/ui/listview.cpp:38 sim/ui/qt3/i18n.cpp:99
@@ -1797,7 +1798,7 @@ msgid "Save"
 msgstr "Сохранить"
 
 # monitor.cpp:108
-#: plugins/_core/status.cpp:138 plugins/_core/statuswnd.cpp:95
+#: plugins/_core/status.cpp:139 plugins/_core/statuswnd.cpp:95
 #: plugins/jabber/jabbermessage.cpp:109 plugins/jabber/jabbermessage.cpp:228
 #: plugins/logger/logconfig.cpp:92 plugins/netmonitor/monitor.cpp:89
 #: plugins/windock/windock.cpp:180 sim/ui/qt3/i18n.cpp:141
@@ -1841,7 +1842,7 @@ msgid "Stri&keout"
 msgstr "Пере&черкнутый"
 
 # msgedit.cpp:149
-#: plugins/_core/core.cpp:772 plugins/_core/core.cpp:869
+#: plugins/_core/core.cpp:773 plugins/_core/core.cpp:870
 #: sim/ui/qt3/i18n.cpp:160
 msgid "&Underline"
 msgstr "&Подчеркнутый"
@@ -2051,13 +2052,13 @@ msgid "Paste"
 msgstr "Вставить"
 
 # libicq/country.cpp:332
-#: plugins/_core/core.cpp:1018 sim/ui/editfile.cpp:315 sim/ui/editfile.cpp:398
+#: plugins/_core/core.cpp:1019 sim/ui/editfile.cpp:315 sim/ui/editfile.cpp:398
 #: sim/ui/qt3/i18n.cpp:255 sim/ui/qt3/qtextedit.cpp:4237
 msgid "Clear"
 msgstr "Очистить"
 
 # ui/themesetupbase.cpp:93
-#: plugins/_core/core.cpp:1025 sim/ui/qt3/i18n.cpp:257
+#: plugins/_core/core.cpp:1026 sim/ui/qt3/i18n.cpp:257
 #: sim/ui/qt3/qtextedit.cpp:4241 sim/ui/qt3/qtextedit.cpp:4243
 msgid "Select All"
 msgstr "Выделить все"
@@ -2153,27 +2154,27 @@ msgid "Roll down"
 msgstr "Свернуть"
 
 # libicq/country.cpp:404
-#: plugins/_core/core.cpp:979 sim/ui/qt3/qtextedit.cpp:4225
+#: plugins/_core/core.cpp:980 sim/ui/qt3/qtextedit.cpp:4225
 msgid "&Undo"
 msgstr "&Отменить"
 
-#: plugins/_core/core.cpp:990 sim/ui/qt3/qtextedit.cpp:4226
+#: plugins/_core/core.cpp:991 sim/ui/qt3/qtextedit.cpp:4226
 msgid "&Redo"
 msgstr "&Повторить"
 
-#: plugins/_core/core.cpp:997 sim/ui/qt3/qtextedit.cpp:4231
+#: plugins/_core/core.cpp:998 sim/ui/qt3/qtextedit.cpp:4231
 msgid "Cu&t"
 msgstr "&Вырезать"
 
 # monitor.cpp:71
-#: plugins/_core/core.cpp:915 plugins/_core/core.cpp:1004
-#: plugins/_core/historycfgbase.cpp:174 plugins/netmonitor/monitor.cpp:67
+#: plugins/_core/core.cpp:916 plugins/_core/core.cpp:1005
+#: plugins/_core/historycfgbase.cpp:175 plugins/netmonitor/monitor.cpp:67
 #: sim/ui/qt3/qtextedit.cpp:4232
 msgid "&Copy"
 msgstr "&Копировать"
 
 # libicq/country.cpp:362
-#: plugins/_core/core.cpp:1011 sim/ui/qt3/qtextedit.cpp:4234
+#: plugins/_core/core.cpp:1012 sim/ui/qt3/qtextedit.cpp:4234
 msgid "&Paste"
 msgstr "В&ставить"
 
@@ -2226,7 +2227,7 @@ msgid "Select sound"
 msgstr "Выбор звука"
 
 # ui/ballonmsg.cpp:192
-#: sim/ui/ballonmsg.cpp:307
+#: sim/ui/ballonmsg.cpp:312
 msgid "&Ok"
 msgstr "&Ok"
 
@@ -2251,7 +2252,7 @@ msgid "April"
 msgstr "Апрель"
 
 # ui/moreinfo.cpp:70
-#: plugins/icq/icqvarious.cpp:1558 sim/ui/datepicker.cpp:226
+#: plugins/icq/icqvarious.cpp:1561 sim/ui/datepicker.cpp:226
 msgid "May"
 msgstr "Май"
 
@@ -2362,22 +2363,22 @@ msgstr ""
 "Ваш аккаунт используется с другого "
 "компьютера"
 
-#: plugins/_core/logindlg.cpp:467 plugins/jabber/jabberclient.cpp:1132
+#: plugins/_core/logindlg.cpp:467 plugins/jabber/jabberclient.cpp:1139
 #: plugins/livejournal/livejournal.cpp:921 plugins/msn/msnclient.cpp:827
 #: plugins/yahoo/yahooclient.cpp:344 plugins/yahoo/yahooclient.cpp:355
 msgid "Login failed"
 msgstr "Авторизация не удалась"
 
 # ui/networkbase.cpp:80
-#: plugins/icq/icqclient.cpp:2123 plugins/icq/icqclient.cpp:2202
-#: plugins/jabber/jabberclient.cpp:1771 plugins/msn/msnclient.cpp:926
+#: plugins/icq/icqclient.cpp:2125 plugins/icq/icqclient.cpp:2204
+#: plugins/jabber/jabberclient.cpp:1769 plugins/msn/msnclient.cpp:926
 #: plugins/yahoo/yahooclient.cpp:1436
 msgid "Network"
 msgstr "Сеть"
 
 # cuser.cpp:207
-#: plugins/icq/aiminfo.cpp:170 plugins/icq/icqclient.cpp:1529
-#: plugins/icq/icqinfo.cpp:176 plugins/jabber/jabberclient.cpp:1426
+#: plugins/icq/aiminfo.cpp:170 plugins/icq/icqclient.cpp:1531
+#: plugins/icq/icqinfo.cpp:176 plugins/jabber/jabberclient.cpp:1433
 #: plugins/jabber/jabberinfo.cpp:92 plugins/msn/msnclient.cpp:1827
 #: plugins/msn/msninfo.cpp:88 plugins/yahoo/yahooclient.cpp:1325
 #: plugins/yahoo/yahooinfo.cpp:111
@@ -2385,10 +2386,10 @@ msgid "Last online"
 msgstr "Последний раз в сети"
 
 # client.cpp:981 cuser.cpp:215 userview.cpp:994
-#: plugins/_core/userlist.cpp:596 plugins/icq/icq.cpp:99
-#: plugins/icq/icq.cpp:269 plugins/icq/icqclient.cpp:1502
-#: plugins/icq/icqclient.cpp:1536 plugins/jabber/jabber.cpp:87
-#: plugins/jabber/jabberclient.cpp:1453 plugins/jabber/services.cpp:235
+#: plugins/_core/userlist.cpp:595 plugins/icq/icq.cpp:99
+#: plugins/icq/icq.cpp:269 plugins/icq/icqclient.cpp:1504
+#: plugins/icq/icqclient.cpp:1538 plugins/jabber/jabber.cpp:86
+#: plugins/jabber/jabberclient.cpp:1460
 #: plugins/livejournal/livejournal.cpp:318 plugins/msn/msn.cpp:86
 #: plugins/msn/msnclient.cpp:1834 plugins/sms/sms.cpp:229
 #: plugins/yahoo/yahoo.cpp:104 plugins/yahoo/yahooclient.cpp:1332
@@ -2405,7 +2406,7 @@ msgid "Send message failed"
 msgstr "Сообщение отправлено неудачно"
 
 # msgedit.cpp:645
-#: plugins/icq/icqicmb.cpp:717 plugins/icq/icqicmb.cpp:1239
+#: plugins/icq/icqicmb.cpp:718 plugins/icq/icqicmb.cpp:1240
 #: plugins/msn/msnclient.cpp:2399 plugins/yahoo/yahooclient.cpp:433
 #: plugins/yahoo/yahooclient.cpp:436
 msgid "Message declined"
@@ -2422,7 +2423,7 @@ msgid "Transfer canceled"
 msgstr "Передача отменена"
 
 # msgedit.cpp:573
-#: plugins/jabber/jabberclient.cpp:2932 plugins/jabber/jabberclient.cpp:2973
+#: plugins/jabber/jabberclient.cpp:2928 plugins/jabber/jabberclient.cpp:2969
 #: plugins/msn/msnclient.cpp:2926 plugins/yahoo/yahooclient.cpp:2409
 #: plugins/yahoo/yahooclient.cpp:2451
 msgid "File transfer failed"
@@ -2483,15 +2484,15 @@ msgstr ""
 
 # client.cpp:980
 #: plugins/_core/userviewcfgbase.cpp:268 plugins/icq/icq.cpp:114
-#: plugins/icq/icq.cpp:284 plugins/icq/icqclient.cpp:1505
-#: plugins/jabber/jabber.cpp:102 plugins/msn/msn.cpp:101
+#: plugins/icq/icq.cpp:284 plugins/icq/icqclient.cpp:1507
+#: plugins/jabber/jabber.cpp:101 plugins/msn/msn.cpp:101
 #: plugins/yahoo/yahoo.cpp:119
 msgid "Away"
 msgstr "Отошел"
 
 # client.cpp:978
 #: plugins/_core/userviewcfgbase.cpp:269 plugins/icq/icq.cpp:129
-#: plugins/jabber/jabber.cpp:117 plugins/msn/msn.cpp:116
+#: plugins/jabber/jabber.cpp:116 plugins/msn/msn.cpp:116
 #: plugins/yahoo/yahoo.cpp:134
 msgid "N/A"
 msgstr "Неактивный"
@@ -2515,10 +2516,10 @@ msgid "On the lunch"
 msgstr "Обедаю"
 
 # client.cpp:975 userview.cpp:997
-#: plugins/_core/userlist.cpp:599 plugins/_core/userviewcfgbase.cpp:266
+#: plugins/_core/userlist.cpp:598 plugins/_core/userviewcfgbase.cpp:266
 #: plugins/icq/icq.cpp:189 plugins/icq/icq.cpp:299
-#: plugins/icq/icqclient.cpp:1499 plugins/jabber/jabber.cpp:162
-#: plugins/jabber/jabberclient.cpp:1415 plugins/jabber/services.cpp:232
+#: plugins/icq/icqclient.cpp:1501 plugins/jabber/jabber.cpp:161
+#: plugins/jabber/jabberclient.cpp:1422
 #: plugins/livejournal/livejournal.cpp:333 plugins/msn/msn.cpp:191
 #: plugins/sms/sms.cpp:244 plugins/yahoo/yahoo.cpp:164
 msgid "Offline"
@@ -2533,7 +2534,7 @@ msgstr "Отключен"
 # ui/statussetupbase.cpp:63 ui/themesetupbase.cpp:65 ui/userinfobase.cpp:92
 # ui/xosdbase.cpp:94
 #: plugins/__homedir/homedircfgbase.cpp:62 plugins/_core/arcfgbase.cpp:78
-#: plugins/_core/filecfgbase.cpp:86 plugins/_core/historycfgbase.cpp:165
+#: plugins/_core/filecfgbase.cpp:86 plugins/_core/historycfgbase.cpp:166
 #: plugins/_core/interfacecfgbase.cpp:122 plugins/_core/maininfobase.cpp:170
 #: plugins/_core/msgcfgbase.cpp:83 plugins/_core/phonebase.cpp:113
 #: plugins/_core/plugincfgbase.cpp:70 plugins/_core/prefcfgbase.cpp:65
@@ -2627,7 +2628,7 @@ msgid "Online:"
 msgstr "В сети:"
 
 # mainwin.cpp:2365 ui/statussetupbase.cpp:79 usertbl.cpp:113
-#: plugins/_core/core.cpp:1286 plugins/icq/aiminfobase.cc:291
+#: plugins/_core/core.cpp:1287 plugins/icq/aiminfobase.cc:291
 #: plugins/icq/icqinfobase.cc:288 plugins/jabber/jabberinfobase.cpp:206
 #: plugins/msn/msninfobase.cpp:136 plugins/yahoo/yahooinfobase.cpp:172
 msgid "&Status"
@@ -2867,13 +2868,13 @@ msgstr "Модули"
 
 # mainwin.cpp:2367 ui/setupdlg.cpp:112
 #: plugins/_core/cfgdlg.cpp:491 plugins/_core/cfgdlgbase.cpp:91
-#: plugins/_core/core.cpp:564 plugins/_core/core.cpp:1164
-#: plugins/_core/core.cpp:1246
+#: plugins/_core/core.cpp:565 plugins/_core/core.cpp:1165
+#: plugins/_core/core.cpp:1247
 msgid "Setup"
 msgstr "Настройки"
 
 # sim.cpp:272
-#: plugins/_core/cfgdlg.cpp:536 plugins/jabber/jabber.cpp:341
+#: plugins/_core/cfgdlg.cpp:536 plugins/jabber/jabber.cpp:318
 msgid "Configure"
 msgstr "Конфигурация"
 
@@ -3019,7 +3020,7 @@ msgid "Turkish"
 msgstr "Турецкий"
 
 # client.cpp:264
-#: plugins/_core/core.cpp:476
+#: plugins/_core/core.cpp:477
 msgid ""
 "I am currently away from ICQ.\n"
 "Please leave your message and I will get back to you as soon as I return!\n"
@@ -3029,363 +3030,363 @@ msgstr ""
 "прочитаю.\n"
 
 # client.cpp:268
-#: plugins/_core/core.cpp:480
+#: plugins/_core/core.cpp:481
 msgid ""
 "I am out'a here.\n"
 "See you tomorrow!\n"
 msgstr "Ушел далеко.\n"
 
 # client.cpp:272
-#: plugins/_core/core.cpp:484
+#: plugins/_core/core.cpp:485
 msgid "Please do not disturb me now. Disturb me later.\n"
 msgstr "Просьба не беспокоить меня.\n"
 
 # client.cpp:279
-#: plugins/_core/core.cpp:487
+#: plugins/_core/core.cpp:488
 msgid "We'd love to hear what you have to say. Join our chat.\n"
 msgstr "Делать нечего, присоединюсь к чату.\n"
 
 # control.cpp:190
-#: plugins/_core/core.cpp:574
+#: plugins/_core/core.cpp:575
 msgid "Unread messages"
 msgstr "Непрочитанные сообщения"
 
 # mainwin.cpp:2385
-#: plugins/_core/core.cpp:582
+#: plugins/_core/core.cpp:583
 msgid "Quit"
 msgstr "Выход"
 
 # mainwin.cpp:413
-#: plugins/_core/core.cpp:591
+#: plugins/_core/core.cpp:592
 msgid "&Menu"
 msgstr "&Меню"
 
-#: plugins/_core/core.cpp:601 plugins/_core/searchbase.cpp:73
+#: plugins/_core/core.cpp:602 plugins/_core/searchbase.cpp:73
 msgid "Search / Add contact"
 msgstr "Поиск/добавление контакта"
 
 # mainwin.cpp:2363
-#: plugins/_core/core.cpp:612
+#: plugins/_core/core.cpp:613
 msgid "&Send SMS"
 msgstr "Послать &SMS"
 
 # libicq/country.cpp:431
-#: plugins/_core/core.cpp:619
+#: plugins/_core/core.cpp:620
 msgid "&Phone service"
 msgstr "&Телефоны"
 
 # ui/msgbase.cpp:78 ui/msgdialogbase.cpp:78 ui/setupdlg.cpp:146
 # ui/userinfo.cpp:91
-#: plugins/_core/core.cpp:629
+#: plugins/_core/core.cpp:630
 msgid "Message"
 msgstr "Сообщение"
 
-#: plugins/_core/core.cpp:640 plugins/filter/ignorelist.cpp:26
+#: plugins/_core/core.cpp:641 plugins/filter/ignorelist.cpp:26
 msgid "Contact"
 msgstr "Контакт"
 
-#: plugins/_core/core.cpp:647 plugins/_core/core.cpp:1198
+#: plugins/_core/core.cpp:648 plugins/_core/core.cpp:1199
 msgid "Group"
 msgstr "Группа"
 
 # userbox.cpp:170
-#: plugins/_core/core.cpp:655 plugins/_core/core.cpp:1231
-#: plugins/icq/icq.cpp:496 plugins/jabber/jabber.cpp:264
+#: plugins/_core/core.cpp:656 plugins/_core/core.cpp:1232
+#: plugins/icq/icq.cpp:496 plugins/jabber/jabber.cpp:242
 msgid "User &info"
 msgstr "&Информация о пользователе"
 
 # mainwin.cpp:1701
-#: plugins/_core/core.cpp:662 plugins/_core/core.cpp:1064
-#: plugins/_core/core.cpp:1239
+#: plugins/_core/core.cpp:663 plugins/_core/core.cpp:1065
+#: plugins/_core/core.cpp:1240
 msgid "&History"
 msgstr "Исто&рия"
 
 # msgedit.cpp:220 msgedit.cpp:423
-#: plugins/_core/core.cpp:703 plugins/_core/msgedit.cpp:1015
+#: plugins/_core/core.cpp:704 plugins/_core/msgedit.cpp:1015
 msgid "&Send"
 msgstr "&Отправить"
 
 # msgedit.cpp:162
-#: plugins/_core/core.cpp:713
+#: plugins/_core/core.cpp:714
 msgid "&Insert smile"
 msgstr "&Вставить смайлик"
 
-#: plugins/_core/core.cpp:720 plugins/forward/forwardcfgbase.cpp:75
+#: plugins/_core/core.cpp:721 plugins/forward/forwardcfgbase.cpp:75
 msgid "Send in &translit"
 msgstr "Отправить в &транслите"
 
 # msgedit.cpp:211
-#: plugins/_core/core.cpp:728 plugins/_core/msgedit.cpp:249
+#: plugins/_core/core.cpp:729 plugins/_core/msgedit.cpp:249
 msgid "C&lose after send"
 msgstr "&Закрыть после отправки"
 
 # msgedit.cpp:231
-#: plugins/_core/core.cpp:736 plugins/_core/msgedit.cpp:1004
+#: plugins/_core/core.cpp:737 plugins/_core/msgedit.cpp:1004
 msgid "&Multiply send"
 msgstr "Отправить &нескольким адресатам"
 
 # msgedit.cpp:123
-#: plugins/_core/core.cpp:744 plugins/_core/core.cpp:840
+#: plugins/_core/core.cpp:745 plugins/_core/core.cpp:841
 msgid "Back&ground color"
 msgstr "Цвет &фона"
 
 # msgedit.cpp:123
-#: plugins/_core/core.cpp:752 plugins/_core/core.cpp:849
+#: plugins/_core/core.cpp:753 plugins/_core/core.cpp:850
 msgid "&Foreground color"
 msgstr "Цвет &текста"
 
 # msgedit.cpp:135
-#: plugins/_core/core.cpp:758 plugins/_core/core.cpp:855
+#: plugins/_core/core.cpp:759 plugins/_core/core.cpp:856
 msgid "&Bold"
 msgstr "&Жирный"
 
 # msgedit.cpp:142
-#: plugins/_core/core.cpp:765 plugins/_core/core.cpp:862
+#: plugins/_core/core.cpp:766 plugins/_core/core.cpp:863
 msgid "&Italic"
 msgstr "&Курсив"
 
 # ui/themesetupbase.cpp:93
-#: plugins/_core/core.cpp:779 plugins/_core/core.cpp:876
+#: plugins/_core/core.cpp:780 plugins/_core/core.cpp:877
 msgid "Select &font"
 msgstr "Выбор &шрифта"
 
 # ui/themesetupbase.cpp:93
-#: plugins/_core/core.cpp:786
+#: plugins/_core/core.cpp:787
 msgid "Select &file"
 msgstr "Выбор &файла"
 
 # ui/addphonebase.cpp:68
-#: plugins/_core/core.cpp:794
+#: plugins/_core/core.cpp:795
 msgid "&Phone number"
 msgstr "Номер телефона"
 
 # msgedit.cpp:225
-#: plugins/_core/core.cpp:802 plugins/_core/msgedit.cpp:1521
-#: plugins/jabber/jabber.cpp:301
+#: plugins/_core/core.cpp:803 plugins/_core/msgedit.cpp:1521
+#: plugins/jabber/jabber.cpp:279
 msgid "&Next"
 msgstr "&Следующее"
 
 # sim.cpp:286
-#: plugins/_core/core.cpp:809
+#: plugins/_core/core.cpp:810
 msgid "&Direction"
 msgstr "&Направление"
 
 # msgview.cpp:820
-#: plugins/_core/core.cpp:818 plugins/filter/filter.cpp:129
+#: plugins/_core/core.cpp:819 plugins/filter/filter.cpp:129
 msgid "&Filter"
 msgstr "&Фильтр"
 
 # msgview.cpp:827
-#: plugins/_core/core.cpp:826
+#: plugins/_core/core.cpp:827
 msgid "&Previous page"
 msgstr "&Предыдущая страница"
 
 # msgview.cpp:831
-#: plugins/_core/core.cpp:834
+#: plugins/_core/core.cpp:835
 msgid "&Next page"
 msgstr "&Следующая страница"
 
 # control.cpp:190
-#: plugins/_core/core.cpp:898
+#: plugins/_core/core.cpp:899
 msgid "&Open message"
 msgstr "&Открыть сообщение"
 
 # control.cpp:190
-#: plugins/_core/core.cpp:921
+#: plugins/_core/core.cpp:922
 msgid "&Delete message"
 msgstr "&Удалить сообщение"
 
 # mainwin.cpp:1701
-#: plugins/_core/core.cpp:927
+#: plugins/_core/core.cpp:928
 msgid "&Cut history"
 msgstr "&Обрезать историю"
 
 # msgedit.cpp:194
-#: plugins/_core/core.cpp:932
+#: plugins/_core/core.cpp:933
 msgid "&Quote"
 msgstr "&Цитировать"
 
 # msgedit.cpp:199
-#: plugins/_core/core.cpp:949 plugins/forward/forward.cpp:65
+#: plugins/_core/core.cpp:950 plugins/forward/forward.cpp:65
 msgid "&Forward"
 msgstr "&Переслать"
 
 # monitor.cpp:72
-#: plugins/_core/core.cpp:964
+#: plugins/_core/core.cpp:965
 msgid "&Answer"
 msgstr "&Ответить"
 
-#: plugins/_core/core.cpp:1033
+#: plugins/_core/core.cpp:1034
 msgid "Enable spell check"
 msgstr "Разрешить проверку орфографии"
 
-#: plugins/_core/core.cpp:1039 plugins/spell/spell.cpp:61
+#: plugins/_core/core.cpp:1040 plugins/spell/spell.cpp:61
 msgid "Spell check"
 msgstr "Проверка орфографии"
 
 # ui/msgbase.cpp:78 ui/msgdialogbase.cpp:78 ui/setupdlg.cpp:146
 # ui/userinfo.cpp:91
-#: plugins/_core/core.cpp:1047
+#: plugins/_core/core.cpp:1048
 msgid "&Messages"
 msgstr "&Сообщения"
 
 # ui/setupdlg.cpp:148 ui/soundsetupbase.cpp:140
-#: plugins/_core/core.cpp:1056 plugins/_core/msgedit.cpp:1672
+#: plugins/_core/core.cpp:1057 plugins/_core/msgedit.cpp:1672
 #: plugins/sms/smssetupbase.cpp:153
 msgid "&SMS"
 msgstr "&SMS"
 
 # mainwin.cpp:397
-#: plugins/_core/core.cpp:1072 plugins/_core/core.cpp:1103
+#: plugins/_core/core.cpp:1073 plugins/_core/core.cpp:1104
 msgid "Show &offline"
 msgstr "Показывать пользователей не в &сети"
 
 # userview.cpp:684 userview.cpp:697
-#: plugins/_core/core.cpp:1084
+#: plugins/_core/core.cpp:1085
 msgid "&No show groups"
 msgstr "&Не показывать группы"
 
 # mainwin.cpp:401
-#: plugins/_core/core.cpp:1094
+#: plugins/_core/core.cpp:1095
 msgid "Group mode 1"
 msgstr "Режим группы 1"
 
 # mainwin.cpp:401
-#: plugins/_core/core.cpp:1099
+#: plugins/_core/core.cpp:1100
 msgid "Group mode 2"
 msgstr "Режим группы 2"
 
 # userview.cpp:684 userview.cpp:697
-#: plugins/_core/core.cpp:1110
+#: plugins/_core/core.cpp:1111
 msgid "Show &empty groups"
 msgstr "&Показывать пустые группы"
 
 # mainwin.cpp:2353 userview.cpp:1344
-#: plugins/_core/core.cpp:1117
+#: plugins/_core/core.cpp:1118
 msgid "&Create group"
 msgstr "&Создать группу"
 
 # mainwin.cpp:2353 userview.cpp:1344
-#: plugins/_core/core.cpp:1128
+#: plugins/_core/core.cpp:1129
 msgid "&Rename group"
 msgstr "&Переименовать группу"
 
 # mainwin.cpp:2353 userview.cpp:1344
-#: plugins/_core/core.cpp:1135
+#: plugins/_core/core.cpp:1136
 msgid "&Delete group"
 msgstr "&Удалить группу"
 
 # userview.cpp:1348
-#: plugins/_core/core.cpp:1142
+#: plugins/_core/core.cpp:1143
 msgid "Up"
 msgstr "Вверх"
 
 # userview.cpp:1350
-#: plugins/_core/core.cpp:1149
+#: plugins/_core/core.cpp:1150
 msgid "Down"
 msgstr "Вниз"
 
-#: plugins/_core/core.cpp:1223
+#: plugins/_core/core.cpp:1224
 msgid "Show &always"
 msgstr "Показывать &всегда"
 
 # mainwin.cpp:2115
-#: plugins/_core/core.cpp:1253
+#: plugins/_core/core.cpp:1254
 msgid "To container"
 msgstr "В контейнер"
 
 # ui/workinfobase.cpp:97
-#: plugins/_core/core.cpp:1278
+#: plugins/_core/core.cpp:1279
 msgid "&Location"
 msgstr "&Положение"
 
 # ui/phonebookbase.cpp:80 ui/setupdlg.cpp:133 ui/userinfo.cpp:85
-#: plugins/_core/core.cpp:1293
+#: plugins/_core/core.cpp:1294
 msgid "&Phone book"
 msgstr "&Телефонная книга"
 
 # userview.cpp:684 userview.cpp:697
-#: plugins/_core/core.cpp:1300
+#: plugins/_core/core.cpp:1301
 msgid "&No show"
 msgstr "&Не показывать"
 
 # mainwin.cpp:2349
-#: plugins/_core/core.cpp:1307
+#: plugins/_core/core.cpp:1308
 msgid "&Available"
 msgstr "&Доступен"
 
 # mainwin.cpp:2350
-#: plugins/_core/core.cpp:1315
+#: plugins/_core/core.cpp:1316
 msgid "&Busy"
 msgstr "&Занят"
 
 # msgedit.cpp:78
-#: plugins/_core/core.cpp:1331
+#: plugins/_core/core.cpp:1332
 msgid "Decline file without reason"
 msgstr "Отказать без объяснения причин"
 
 # msgedit.cpp:80
-#: plugins/_core/core.cpp:1339 plugins/_core/core.cpp:3125
+#: plugins/_core/core.cpp:1340 plugins/_core/core.cpp:3127
 msgid "Sorry, I'm busy right now, and can not respond to your request"
 msgstr ""
 "Извините, но я сейчас занят и не могу "
 "принять Ваше сообщение"
 
 # msgedit.cpp:82
-#: plugins/_core/core.cpp:1344 plugins/_core/core.cpp:3134
+#: plugins/_core/core.cpp:1345 plugins/_core/core.cpp:3136
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
 msgstr ""
 "Извините, я сейчас занят, но смогу "
 "ответить Вам позже"
 
 # msgedit.cpp:84
-#: plugins/_core/core.cpp:1349
+#: plugins/_core/core.cpp:1350
 msgid "Enter a decline reason"
 msgstr "Ввести причину отказа"
 
 # monitor.cpp:73 ui/phonebookbase.cpp:115
-#: plugins/_core/core.cpp:1354 plugins/_core/core.cpp:1368
+#: plugins/_core/core.cpp:1355 plugins/_core/core.cpp:1369
 #: plugins/_core/maininfobase.cpp:177 plugins/_core/maininfobase.cpp:187
 #: plugins/action/menucfgbase.cpp:69 plugins/netmonitor/monitor.cpp:69
 msgid "&Edit"
 msgstr "&Редактировать"
 
 # ui/homeinfobase.cpp:102 ui/workinfobase.cpp:168
-#: plugins/_core/core.cpp:1603
+#: plugins/_core/core.cpp:1604
 msgid "ip-address"
 msgstr "IP-адрес"
 
 # usertbl.cpp:116
-#: plugins/_core/core.cpp:1605
+#: plugins/_core/core.cpp:1606
 msgid "e-mail"
 msgstr "Почтовый адрес"
 
 # msgedit.cpp:238
-#: plugins/_core/core.cpp:1607
+#: plugins/_core/core.cpp:1608
 msgid "phone"
 msgstr "Телефон"
 
-#: plugins/_core/core.cpp:1609
+#: plugins/_core/core.cpp:1610
 msgid "contact nick"
 msgstr "Имя контакта"
 
-#: plugins/_core/core.cpp:1611
+#: plugins/_core/core.cpp:1612
 msgid "number of unread messages from this contact"
 msgstr "Количество непрочитанных сообщений"
 
-#: plugins/_core/core.cpp:1613
+#: plugins/_core/core.cpp:1614
 msgid "contact status"
 msgstr "Состояние контакта"
 
-#: plugins/_core/core.cpp:1615
+#: plugins/_core/core.cpp:1616
 msgid "time of set status"
 msgstr "Время установки статуса"
 
-#: plugins/_core/core.cpp:1617
+#: plugins/_core/core.cpp:1618
 msgid "time from set status"
 msgstr "Время с усьановки статуса"
 
-#: plugins/_core/core.cpp:1636
+#: plugins/_core/core.cpp:1637
 msgid ""
 "At loading contact list contacts with identical names were automatically "
 "joined.\n"
@@ -3400,85 +3401,85 @@ msgstr ""
 "\"Отделить\"."
 
 # ui/autoreplybase.cpp:45
-#: plugins/_core/core.cpp:1639
+#: plugins/_core/core.cpp:1640
 msgid "Don't show this message in next time"
 msgstr "Больше не показывать это сообщение"
 
-#: plugins/_core/core.cpp:1666
+#: plugins/_core/core.cpp:1667
 msgid "`<command>` - call <command> and substitute command output\n"
 msgstr ""
 "`<command>` - заускаеися <command> и подставляется "
 "ее вывод\n"
 
-#: plugins/_core/core.cpp:2276
+#: plugins/_core/core.cpp:2278
 msgid "&Separate"
 msgstr "&Отделить"
 
 # dock.cpp:482 mainwin.cpp:541
-#: plugins/_core/core.cpp:2314 plugins/_core/userwnd.cpp:134
+#: plugins/_core/core.cpp:2316 plugins/_core/userwnd.cpp:134
 #, c-format
 msgid "from %1"
 msgstr "от %1"
 
 # ui/filetransfer.cpp:233 ui/filetransfer.cpp:252
-#: plugins/_core/core.cpp:2508
+#: plugins/_core/core.cpp:2510
 msgid "&New"
 msgstr "&Новый"
 
 # mainwin.cpp:2349
-#: plugins/_core/core.cpp:2582
+#: plugins/_core/core.cpp:2584
 msgid "Not available"
 msgstr "Нет"
 
 # dock.cpp:482 mainwin.cpp:541
-#: plugins/_core/core.cpp:2682 plugins/dock/dockwnd.cpp:1192
+#: plugins/_core/core.cpp:2684 plugins/dock/dockwnd.cpp:1359
 #: plugins/osd/osd.cpp:463
 msgid "%1 from %2"
 msgstr "%1 от %2"
 
-#: plugins/_core/core.cpp:2823
+#: plugins/_core/core.cpp:2825
 msgid "%1 wrote:"
 msgstr "%1 пишет:"
 
 # mainwin.cpp:2363
-#: plugins/_core/core.cpp:2911
+#: plugins/_core/core.cpp:2913
 msgid "Send SMS"
 msgstr "Послать SMS"
 
 # ui/setupdlg.cpp:139
-#: plugins/_core/core.cpp:3938 plugins/_core/core.cpp:3960
+#: plugins/_core/core.cpp:3940 plugins/_core/core.cpp:3962
 #: plugins/_core/managerbase.cpp:103
 msgid "Connection manager"
 msgstr "Менеджер соединений"
 
 # mainwin.cpp:378
-#: plugins/_core/core.cpp:3946
+#: plugins/_core/core.cpp:3948
 msgid "Show status panel"
 msgstr "Показать панель статуса"
 
 # ui/setupdlg.cpp:139
-#: plugins/_core/core.cpp:3953
+#: plugins/_core/core.cpp:3955
 msgid "Connections"
 msgstr "Соединения"
 
 # mainwin.cpp:2371
-#: plugins/_core/core.cpp:3968
+#: plugins/_core/core.cpp:3970
 msgid "Change profile"
 msgstr "Изменить профиль"
 
 # control.cpp:188
-#: plugins/_core/core.cpp:3997
+#: plugins/_core/core.cpp:3999
 msgid "Common status"
 msgstr "Общий статус"
 
 # sim.cpp:272
-#: plugins/_core/core.cpp:4003
+#: plugins/_core/core.cpp:4005
 msgid "Configure client"
 msgstr "Конфигурация клиента"
 
 # client.cpp:994 mainwin.cpp:2345
-#: plugins/_core/core.cpp:4027 plugins/_core/status.cpp:152
-#: plugins/_core/status.cpp:222
+#: plugins/_core/core.cpp:4029 plugins/_core/status.cpp:153
+#: plugins/_core/status.cpp:223
 msgid "&Invisible"
 msgstr "&Невидимый"
 
@@ -3597,23 +3598,23 @@ msgstr "kb/s"
 msgid "b/s"
 msgstr "b/s"
 
-#: plugins/_core/historycfg.cpp:197
+#: plugins/_core/historycfg.cpp:194
 msgid "Show %1 messages per page"
 msgstr "Показывать %1 сообщений на странице"
 
-#: plugins/_core/historycfg.cpp:481
+#: plugins/_core/historycfg.cpp:478
 msgid "Remove style '%1'?"
 msgstr "Удалить стиль '%1'?"
 
-#: plugins/_core/historycfg.cpp:656
+#: plugins/_core/historycfg.cpp:653
 msgid "Hi! ;)"
 msgstr "Привет ;)"
 
-#: plugins/_core/historycfg.cpp:662
+#: plugins/_core/historycfg.cpp:659
 msgid "Hi!"
 msgstr "Привет!"
 
-#: plugins/_core/historycfg.cpp:668
+#: plugins/_core/historycfg.cpp:665
 msgid ""
 "<b><font color=\"#FF0000\">C</font><font color=\"#FFFF00\">olored</font></b> "
 "message"
@@ -3622,7 +3623,7 @@ msgstr ""
 "color=\"#FFFF00\">ветное</font><b> сообщение"
 
 # control.cpp:190
-#: plugins/_core/historycfg.cpp:677 plugins/_core/msgcfgbase.cpp:86
+#: plugins/_core/historycfg.cpp:674 plugins/_core/msgcfgbase.cpp:86
 msgid "New message"
 msgstr "Новое сообщение"
 
@@ -3726,7 +3727,7 @@ msgid "Form3"
 msgstr "Дополнительная информация"
 
 # ui/setupdlg.cpp:139
-#: plugins/_core/connectwndbase.cpp:95 plugins/_core/status.cpp:98
+#: plugins/_core/connectwndbase.cpp:95 plugins/_core/status.cpp:99
 #: plugins/_core/statuswnd.cpp:56
 msgid "Connecting"
 msgstr "Соединение"
@@ -3773,7 +3774,7 @@ msgid "Search %1"
 msgstr "Поиск %1"
 
 # ui/keysetupbase.cpp:125
-#: plugins/_core/status.cpp:71 plugins/_core/statuswnd.cpp:86
+#: plugins/_core/status.cpp:72 plugins/_core/statuswnd.cpp:86
 #: plugins/dock/dock.cpp:183
 msgid "Inactive"
 msgstr "Нет сети"
@@ -3812,11 +3813,11 @@ msgid "New contact"
 msgstr "Новый контакт"
 
 # userview.cpp:406 userview.cpp:1000
-#: plugins/_core/usercfg.cpp:288 plugins/_core/userlist.cpp:994
-#: plugins/_core/userview.cpp:177 plugins/_core/userview.cpp:680
-#: plugins/_core/userview.cpp:718 plugins/icq/icqsearch.cpp:143
+#: plugins/_core/usercfg.cpp:288 plugins/_core/userlist.cpp:993
+#: plugins/_core/userview.cpp:177 plugins/_core/userview.cpp:682
+#: plugins/_core/userview.cpp:720 plugins/icq/icqsearch.cpp:143
 #: plugins/icq/searchresult.cpp:270 plugins/jabber/addresult.cpp:144
-#: plugins/jabber/jabberadd.cpp:117 plugins/remote/remote.cpp:566
+#: plugins/jabber/jabberadd.cpp:115 plugins/remote/remote.cpp:566
 msgid "Not in list"
 msgstr "Не в списке"
 
@@ -3835,33 +3836,36 @@ msgid "Settings"
 msgstr "Установки"
 
 # mainwin.cpp:1948
-#: plugins/_core/userview.cpp:372 plugins/_core/userview.cpp:556
+#: plugins/_core/userview.cpp:373 plugins/_core/userview.cpp:558
 msgid "Delete \"%1\"?"
 msgstr "Удалить \"%1\"?"
 
+#: plugins/_core/userview.cpp:375
+msgid "Remove history"
+msgstr "Удалить историю"
+
 # userview.cpp:684 userview.cpp:697
-#: plugins/_core/userview.cpp:775
+#: plugins/_core/userview.cpp:780
 msgid "New group"
 msgstr "Создать группу"
 
 # mainwin.cpp:1693 mainwin.cpp:2368
-#: plugins/_core/userview.cpp:814
+#: plugins/_core/userview.cpp:819
 msgid "&Groups"
 msgstr "&Группы"
 
 # msgview.cpp:814 ui/searchbase.cpp:69 ui/searchbase.cpp:82
-#: plugins/_core/userview.cpp:1030
+#: plugins/_core/userview.cpp:1035
 #, c-format
 msgid "Search: %1"
 msgstr "Поиск: %1"
 
-#: plugins/_core/userview.cpp:1483
+#: plugins/_core/userview.cpp:1488
 msgid "Join \"%1\" and \"%2\"?"
 msgstr "Объединить \"%1\" и \"%2\"?"
 
 # mainwin.cpp:2365 ui/statussetupbase.cpp:79 usertbl.cpp:113
-#: plugins/_core/status.cpp:47 plugins/_core/userviewcfg.cpp:161
-#: plugins/jabber/services.cpp:46
+#: plugins/_core/status.cpp:48 plugins/_core/userviewcfg.cpp:161
 msgid "Status"
 msgstr "Статус"
 
@@ -3989,7 +3993,7 @@ msgid "Visible"
 msgstr "Видимый"
 
 # client.cpp:994 mainwin.cpp:2345
-#: plugins/_core/userviewcfgbase.cpp:263 plugins/icq/icqclient.cpp:1486
+#: plugins/_core/userviewcfgbase.cpp:263 plugins/icq/icqclient.cpp:1488
 msgid "Invisible"
 msgstr "Невидимый"
 
@@ -4124,7 +4128,7 @@ msgid "Number:"
 msgstr "Номер:"
 
 # client.cpp:887
-#: plugins/_core/msgedit.cpp:428 plugins/update/update.cpp:107
+#: plugins/_core/msgedit.cpp:428 plugins/update/update.cpp:105
 #, c-format
 msgid ""
 "_n: Message\n"
@@ -4271,7 +4275,7 @@ msgstr "Нет клиента для отправки сообщения"
 # ui/msgbase.cpp:78 ui/msgdialogbase.cpp:78 ui/setupdlg.cpp:146
 # ui/userinfo.cpp:91
 #: plugins/_core/msgedit.cpp:1644 plugins/icq/icq.cpp:486
-#: plugins/jabber/jabber.cpp:255
+#: plugins/jabber/jabber.cpp:233
 msgid "&Message"
 msgstr "&Сообщение"
 
@@ -4449,7 +4453,7 @@ msgstr "Сообщения"
 msgid "SMS"
 msgstr "SMS"
 
-#: plugins/_core/interfacecfg.cpp:100 plugins/icq/icqclient.cpp:2653
+#: plugins/_core/interfacecfg.cpp:100 plugins/icq/icqclient.cpp:2656
 msgid "System"
 msgstr "Системный"
 
@@ -4486,42 +4490,55 @@ msgid "Text after cursor:"
 msgstr "Текст после курсора:"
 
 # ui/fontsetupbase.cpp:214
-#: plugins/_core/historycfgbase.cpp:166
+#: plugins/_core/historycfgbase.cpp:167
 msgid "Use &own colors and fonts settings"
 msgstr "Использовать &собственные цвета и шрифты"
 
 # ui/fontsetupbase.cpp:251
-#: plugins/_core/historycfgbase.cpp:167
+#: plugins/_core/historycfgbase.cpp:168
 msgid "Use emotional &icons"
 msgstr "Использовать &смайлики"
 
-#: plugins/_core/historycfgbase.cpp:168
+#: plugins/_core/historycfgbase.cpp:169
 #: plugins/_core/userhistorycfgbase.cpp:94
 msgid "Max history file size"
 msgstr "Максимальная длина файла истории"
 
-#: plugins/_core/historycfgbase.cpp:170
+#: plugins/_core/historycfgbase.cpp:171
 #: plugins/_core/userhistorycfgbase.cpp:92
 msgid "Mb"
 msgstr "Mb"
 
-#: plugins/_core/historycfgbase.cpp:172
+#: plugins/_core/historycfgbase.cpp:173
 #: plugins/_core/userhistorycfgbase.cpp:96
 msgid "Keep history "
 msgstr "Хранить историю"
 
-#: plugins/_core/historycfgbase.cpp:173
+#: plugins/_core/historycfgbase.cpp:174
 #: plugins/_core/userhistorycfgbase.cpp:95
 msgid "days"
 msgstr "дней"
 
+#: plugins/_core/historycfgbase.cpp:180
+msgid "100"
+msgstr "100"
+
+# libicq/country.cpp:368
+#: plugins/_core/historycfgbase.cpp:181
+msgid "50"
+msgstr "50"
+
+#: plugins/_core/historycfgbase.cpp:182
+msgid "20"
+msgstr "20"
+
 # msgview.cpp:827
-#: plugins/_core/historycfgbase.cpp:179
+#: plugins/_core/historycfgbase.cpp:184
 msgid "&Preview"
 msgstr "&Предварительный просмотр"
 
 # libicq/country.cpp:372
-#: plugins/_core/historycfgbase.cpp:180
+#: plugins/_core/historycfgbase.cpp:185
 msgid "&Source"
 msgstr "&Исходный код"
 
@@ -4531,6 +4548,58 @@ msgstr "&Исходный код"
 #, c-format
 msgid "to %1"
 msgstr "на %1"
+
+# ui/searchbase.cpp:136
+#: plugins/_core/interfacecfgbase.cpp:123 plugins/icq/icqsearchbase.cc:294
+#: plugins/spell/spellcfgbase.cpp:86
+msgid "Language:"
+msgstr "Язык:"
+
+# msgedit.cpp:645
+#: plugins/_core/interfacecfgbase.cpp:124
+msgid "Message window"
+msgstr "Окно сообщений"
+
+#: plugins/_core/interfacecfgbase.cpp:125
+msgid "&Simple mode"
+msgstr "&Простой режим"
+
+# ui/setupdlg.cpp:138
+#: plugins/_core/interfacecfgbase.cpp:126
+msgid "&Chat mode"
+msgstr "Режим &чата"
+
+#: plugins/_core/interfacecfgbase.cpp:127
+msgid "&Using last selected font"
+msgstr "Использовать последний выбранный шрифт"
+
+# mainwin.cpp:2115
+#: plugins/_core/interfacecfgbase.cpp:128
+msgid "Container mode"
+msgstr "Настройки контейнера"
+
+# ui/fontsetupbase.cpp:165
+#: plugins/_core/interfacecfgbase.cpp:129
+msgid "Open each contact in &new container"
+msgstr "&Каждое окно в новом контейнере"
+
+# ui/fontsetupbase.cpp:169
+#: plugins/_core/interfacecfgbase.cpp:130
+msgid "Open one container for &group"
+msgstr "&Новый контейнер для группы"
+
+# ui/fontsetupbase.cpp:174
+#: plugins/_core/interfacecfgbase.cpp:131
+msgid "Open all contacts in &one container"
+msgstr "&Все в одном контейнере"
+
+#: plugins/_core/interfacecfgbase.cpp:132
+msgid "Use \"&Enter\" for send message"
+msgstr "Отправлять сообщения по \"&Enter\""
+
+#: plugins/_core/interfacecfgbase.cpp:135
+msgid "Start SIM on every &windows startup"
+msgstr "Загружать SIM при старте Windows"
 
 # ui/setupdlgbase.cpp:85 ui/userinfobase.cpp:115
 #: plugins/_core/cfgdlgbase.cpp:93
@@ -4615,7 +4684,7 @@ msgid "Display:"
 msgstr "Показывать:"
 
 #: plugins/_core/maininfobase.cpp:174 plugins/icq/aimsearchbase.cc:259
-#: plugins/jabber/discoinfo.cpp:174 plugins/jabber/discoinfobase.cpp:270
+#: plugins/jabber/discoinfo.cpp:179 plugins/jabber/discoinfobase.cpp:270
 #: plugins/jabber/discoinfobase.cpp:287
 msgid "&Info"
 msgstr "&Информация"
@@ -4679,58 +4748,6 @@ msgstr "&Телефоны"
 #: plugins/_core/maininfobase.cpp:193
 msgid "&Notes"
 msgstr "&Заметки"
-
-# ui/searchbase.cpp:136
-#: plugins/_core/interfacecfgbase.cpp:123 plugins/icq/icqsearchbase.cc:294
-#: plugins/spell/spellcfgbase.cpp:86
-msgid "Language:"
-msgstr "Язык:"
-
-# msgedit.cpp:645
-#: plugins/_core/interfacecfgbase.cpp:124
-msgid "Message window"
-msgstr "Окно сообщений"
-
-#: plugins/_core/interfacecfgbase.cpp:125
-msgid "&Simple mode"
-msgstr "&Простой режим"
-
-# ui/setupdlg.cpp:138
-#: plugins/_core/interfacecfgbase.cpp:126
-msgid "&Chat mode"
-msgstr "Режим &чата"
-
-#: plugins/_core/interfacecfgbase.cpp:127
-msgid "&Using last selected font"
-msgstr "Использовать последний выбранный шрифт"
-
-# mainwin.cpp:2115
-#: plugins/_core/interfacecfgbase.cpp:128
-msgid "Container mode"
-msgstr "Настройки контейнера"
-
-# ui/fontsetupbase.cpp:165
-#: plugins/_core/interfacecfgbase.cpp:129
-msgid "Open each contact in &new container"
-msgstr "&Каждое окно в новом контейнере"
-
-# ui/fontsetupbase.cpp:169
-#: plugins/_core/interfacecfgbase.cpp:130
-msgid "Open one container for &group"
-msgstr "&Новый контейнер для группы"
-
-# ui/fontsetupbase.cpp:174
-#: plugins/_core/interfacecfgbase.cpp:131
-msgid "Open all contacts in &one container"
-msgstr "&Все в одном контейнере"
-
-#: plugins/_core/interfacecfgbase.cpp:132
-msgid "Use \"&Enter\" for send message"
-msgstr "Отправлять сообщения по \"&Enter\""
-
-#: plugins/_core/interfacecfgbase.cpp:135
-msgid "Start SIM on every &windows startup"
-msgstr "Загружать SIM при старте Windows"
 
 # ui/aboutdlg.cpp:44
 #: plugins/about/aboutdlg.cpp:44
@@ -5317,13 +5334,13 @@ msgstr "Смайлики (*.msl *.xep)"
 msgid "Get more smiles"
 msgstr "Другие смайлики"
 
-#: plugins/icons/smilecfgbase.cpp:63
-msgid "Smiles:"
-msgstr "Смайлики:"
-
 #: plugins/icons/iconcfgbase.cpp:77
 msgid "Icons for protocol:"
 msgstr "Иконки для протокола:"
+
+#: plugins/icons/smilecfgbase.cpp:63
+msgid "Smiles:"
+msgstr "Смайлики:"
 
 #: plugins/windock/windock.cpp:44
 msgid "Plugin provides dock main window to left or right side of screen"
@@ -5483,7 +5500,7 @@ msgstr "%1 уже в списке"
 
 # mainwin.cpp:2362
 #: plugins/icq/aimsearch.cpp:219 plugins/icq/icqsearch.cpp:306
-#: plugins/jabber/jabberadd.cpp:195
+#: plugins/jabber/jabberadd.cpp:193
 msgid "%1 added to contact list"
 msgstr "%1 добавлен в контакт лист"
 
@@ -5493,7 +5510,7 @@ msgid "ICQ"
 msgstr "ICQ"
 
 # client.cpp:976
-#: plugins/icq/icq.cpp:144 plugins/jabber/jabber.cpp:132
+#: plugins/icq/icq.cpp:144 plugins/jabber/jabber.cpp:131
 msgid "Do not Disturb"
 msgstr "Не беспокоить"
 
@@ -5503,7 +5520,7 @@ msgid "Occupied"
 msgstr "Занят"
 
 # client.cpp:979
-#: plugins/icq/icq.cpp:174 plugins/jabber/jabber.cpp:147
+#: plugins/icq/icq.cpp:174 plugins/jabber/jabber.cpp:146
 msgid "Free for chat"
 msgstr "Свободен для разговора"
 
@@ -5533,7 +5550,7 @@ msgid "Change &encoding"
 msgstr "&Кодировка"
 
 # usertbl.cpp:411
-#: plugins/icq/icq.cpp:502 plugins/jabber/jabber.cpp:270
+#: plugins/icq/icq.cpp:502 plugins/jabber/jabber.cpp:248
 msgid "&Add to group"
 msgstr "Добавить в &группу"
 
@@ -5632,7 +5649,7 @@ msgid "Seeking Men"
 msgstr "Ищу мужчину"
 
 # control.cpp:189
-#: plugins/icq/icqclient.cpp:1479 plugins/icq/icqinfo.cpp:161
+#: plugins/icq/icqclient.cpp:1481 plugins/icq/icqinfo.cpp:161
 msgid "Possibly invisible"
 msgstr "Возможно невидимый"
 
@@ -5812,8 +5829,8 @@ msgid "Check invisible"
 msgstr "Проверка невидимости"
 
 # mainwin.cpp:2362
-#: plugins/icq/icqicmb.cpp:1497 plugins/icq/icqmessage.cpp:1221
-#: plugins/jabber/jabberclient.cpp:2409
+#: plugins/icq/icqicmb.cpp:1498 plugins/icq/icqmessage.cpp:1221
+#: plugins/jabber/jabberclient.cpp:2405
 msgid "No contacts for send"
 msgstr "Нет контактов для отправки"
 
@@ -5904,7 +5921,7 @@ msgid "UIN"
 msgstr "UIN"
 
 # ui/maininfobase.cpp:118
-#: plugins/icq/icqsecure.cpp:126 plugins/jabber/addresult.cpp:213
+#: plugins/icq/icqsecure.cpp:126 plugins/jabber/addresult.cpp:210
 #: plugins/jabber/jabbersearch.cpp:99
 msgid "Nick"
 msgstr "Псевдоним"
@@ -5923,7 +5940,7 @@ msgstr "Вы получили предупреждение от %1"
 msgid "Change password fail"
 msgstr "Пароль изменен не удачно"
 
-#: plugins/icq/icqvarious.cpp:1435
+#: plugins/icq/icqvarious.cpp:1438
 msgid ""
 "The Cellular network is currently unable to send your message to the "
 "recipient. Please try again later."
@@ -5932,73 +5949,73 @@ msgstr ""
 "сообщения. Попробуйте отправить "
 "сообщение позже."
 
-#: plugins/icq/icqvarious.cpp:1436
+#: plugins/icq/icqvarious.cpp:1439
 msgid "INVALID NUMBER"
 msgstr "Неверный номер"
 
-#: plugins/icq/icqvarious.cpp:1437
+#: plugins/icq/icqvarious.cpp:1440
 msgid "RATE LIMIT"
 msgstr "Превышено ограничение на количество SMS"
 
 # msgedit.cpp:648
-#: plugins/icq/icqvarious.cpp:1470 plugins/icq/icqvarious.cpp:1529
+#: plugins/icq/icqvarious.cpp:1473 plugins/icq/icqvarious.cpp:1532
 msgid "SMS send fail"
 msgstr "SMS отправлена неудачно"
 
 # libicq/country.cpp:183
-#: plugins/icq/icqvarious.cpp:1554
+#: plugins/icq/icqvarious.cpp:1557
 msgid "Jan"
 msgstr "Январь"
 
-#: plugins/icq/icqvarious.cpp:1555
+#: plugins/icq/icqvarious.cpp:1558
 msgid "Feb"
 msgstr "Февраль"
 
 # ui/moreinfo.cpp:68
-#: plugins/icq/icqvarious.cpp:1556
+#: plugins/icq/icqvarious.cpp:1559
 msgid "Mar"
 msgstr "Март"
 
 # ui/moreinfo.cpp:69
-#: plugins/icq/icqvarious.cpp:1557
+#: plugins/icq/icqvarious.cpp:1560
 msgid "Apr"
 msgstr "Апрель"
 
 # ui/moreinfo.cpp:71
-#: plugins/icq/icqvarious.cpp:1559
+#: plugins/icq/icqvarious.cpp:1562
 msgid "Jun"
 msgstr "Июнь"
 
 # ui/moreinfo.cpp:72
-#: plugins/icq/icqvarious.cpp:1560
+#: plugins/icq/icqvarious.cpp:1563
 msgid "Jul"
 msgstr "Июль"
 
 # ui/moreinfo.cpp:73
-#: plugins/icq/icqvarious.cpp:1561
+#: plugins/icq/icqvarious.cpp:1564
 msgid "Aug"
 msgstr "Август"
 
 # mainwin.cpp:2367 ui/setupdlg.cpp:112
-#: plugins/icq/icqvarious.cpp:1562
+#: plugins/icq/icqvarious.cpp:1565
 msgid "Sep"
 msgstr "Сентябрь"
 
-#: plugins/icq/icqvarious.cpp:1563
+#: plugins/icq/icqvarious.cpp:1566
 msgid "Oct"
 msgstr "Октябрь"
 
 # mainwin.cpp:1607 mainwin.cpp:1947
-#: plugins/icq/icqvarious.cpp:1564
+#: plugins/icq/icqvarious.cpp:1567
 msgid "Nov"
 msgstr "Ноябрь"
 
-#: plugins/icq/icqvarious.cpp:1565
+#: plugins/icq/icqvarious.cpp:1568
 msgid "Dec"
 msgstr "Декабрь"
 
-#: plugins/icq/icqicmb.cpp:796 plugins/icq/icqicmb.cpp:804
-#: plugins/icq/icqvarious.cpp:1635 plugins/jabber/jabberclient.cpp:816
+#: plugins/icq/icqicmb.cpp:797 plugins/icq/icqicmb.cpp:805
+#: plugins/icq/icqvarious.cpp:1638 plugins/jabber/jabberclient.cpp:823
 #: plugins/yahoo/yahooclient.cpp:1002
 msgid "Client go offline"
 msgstr "Клиент ушел из сети"
@@ -6585,7 +6602,7 @@ msgstr "Поиск выполнен"
 # msgview.cpp:814 ui/searchbase.cpp:69 ui/searchbase.cpp:82
 #: plugins/icq/icqsearchbase.cc:291 plugins/icq/searchresult.cpp:186
 #: plugins/jabber/addresult.cpp:159 plugins/jabber/addresult.cpp:171
-#: plugins/jabber/addresult.cpp:224
+#: plugins/jabber/addresult.cpp:221
 msgid "Search"
 msgstr "Поиск"
 
@@ -6605,7 +6622,7 @@ msgid "Request secure channel fail"
 msgstr "Ошибка установки защищенного соединения"
 
 # msgedit.cpp:648
-#: plugins/icq/icqicmb.cpp:1232 plugins/icq/warndlg.cpp:66
+#: plugins/icq/icqicmb.cpp:1233 plugins/icq/warndlg.cpp:66
 msgid "Send fail"
 msgstr "Передача выполнена неудачно"
 
@@ -6998,33 +7015,6 @@ msgstr ""
 "обязательными, но могут значительно "
 "сузить ваш поиск"
 
-# ui/moreinfobase.cpp:135
-#: plugins/icq/moreinfobase.cc:154 plugins/jabber/discoinfobase.cpp:281
-#: plugins/jabber/jabberinfobase.cpp:199
-msgid "Homepage:"
-msgstr "Домашняя страница:"
-
-# ui/moreinfobase.cpp:142
-#: plugins/icq/moreinfobase.cc:157 plugins/jabber/discoinfobase.cpp:282
-#: plugins/jabber/jabberinfobase.cpp:198
-msgid "Birth date:"
-msgstr "Дата рождения:"
-
-# ui/moreinfobase.cpp:80 ui/setupdlg.cpp:129 ui/userinfo.cpp:80
-#: plugins/icq/moreinfobase.cc:158
-msgid "&More info"
-msgstr "&Расширенная информация"
-
-# ui/moreinfobase.cpp:177
-#: plugins/icq/moreinfobase.cc:159
-msgid "Spoken languages:"
-msgstr "Языки:"
-
-# ui/searchbase.cpp:136
-#: plugins/icq/moreinfobase.cc:160
-msgid "&Languages"
-msgstr "&Язык:"
-
 #: plugins/icq/aimconfig.cpp:46
 msgid "Register new ScreenName"
 msgstr "Зарегистрировать новый аккаунт"
@@ -7227,6 +7217,33 @@ msgstr "Образование:"
 msgid "&Background"
 msgstr "О&бразование"
 
+# ui/moreinfobase.cpp:135
+#: plugins/icq/moreinfobase.cc:154 plugins/jabber/discoinfobase.cpp:281
+#: plugins/jabber/jabberinfobase.cpp:199
+msgid "Homepage:"
+msgstr "Домашняя страница:"
+
+# ui/moreinfobase.cpp:142
+#: plugins/icq/moreinfobase.cc:157 plugins/jabber/discoinfobase.cpp:282
+#: plugins/jabber/jabberinfobase.cpp:198
+msgid "Birth date:"
+msgstr "Дата рождения:"
+
+# ui/moreinfobase.cpp:80 ui/setupdlg.cpp:129 ui/userinfo.cpp:80
+#: plugins/icq/moreinfobase.cc:158
+msgid "&More info"
+msgstr "&Расширенная информация"
+
+# ui/moreinfobase.cpp:177
+#: plugins/icq/moreinfobase.cc:159
+msgid "Spoken languages:"
+msgstr "Языки:"
+
+# ui/searchbase.cpp:136
+#: plugins/icq/moreinfobase.cc:160
+msgid "&Languages"
+msgstr "&Язык:"
+
 # userbox.cpp:189
 #: plugins/icq/encodingdlgbase.cc:83
 msgid "Choose default encoding"
@@ -7296,17 +7313,17 @@ msgid "We are to evil :("
 msgstr "Мы тоже дураки :("
 
 # ui/soundsetupbase.cpp:168
-#: plugins/icq/icqicmb.cpp:659 plugins/jabber/jabber_rosters.cpp:2117
+#: plugins/icq/icqicmb.cpp:660 plugins/jabber/jabber_rosters.cpp:2119
 msgid "File transfer declined"
 msgstr "Прием файлов отклонен"
 
 # sim.cpp:286
-#: plugins/icq/icqicmb.cpp:942
+#: plugins/icq/icqicmb.cpp:943
 msgid "Directory"
 msgstr "Каталог"
 
 # client.cpp:891 msgview.cpp:200
-#: plugins/icq/icqicmb.cpp:946 plugins/icq/icqicmb.cpp:952
+#: plugins/icq/icqicmb.cpp:947 plugins/icq/icqicmb.cpp:953
 #, c-format
 msgid ""
 "_n: %n file\n"
@@ -7316,12 +7333,12 @@ msgstr ""
 "%n файла\n"
 "%n файлов"
 
-#: plugins/icq/icqicmb.cpp:1449
+#: plugins/icq/icqicmb.cpp:1450
 msgid "Send timeout"
 msgstr "Тайм-аут отправки сообщения"
 
 # mainwin.cpp:2362
-#: plugins/icq/icqicmb.cpp:1473
+#: plugins/icq/icqicmb.cpp:1474
 msgid "No contact"
 msgstr "Нет контакта"
 
@@ -7430,63 +7447,63 @@ msgid "Protocol error"
 msgstr "Ошибка протокола"
 
 # monitor.cpp:79
-#: plugins/icq/icqclient.cpp:1521
+#: plugins/icq/icqclient.cpp:1523
 msgid "Warning level"
 msgstr "Уровень предупреждений"
 
 # ui/homeinfobase.cpp:80 ui/setupdlg.cpp:127 ui/userinfo.cpp:78
-#: plugins/icq/icqclient.cpp:1830 plugins/icq/icqclient.cpp:2018
-#: plugins/jabber/jabberclient.cpp:1572 plugins/jabber/jabberclient.cpp:1681
-#: plugins/jabber/jabberclient.cpp:1828 plugins/jabber/jabberclient.cpp:1847
+#: plugins/icq/icqclient.cpp:1832 plugins/icq/icqclient.cpp:2020
+#: plugins/jabber/jabberclient.cpp:1585 plugins/jabber/jabberclient.cpp:1694
+#: plugins/jabber/jabberclient.cpp:1826 plugins/jabber/jabberclient.cpp:1845
 msgid "Home info"
 msgstr "Домашняя информация"
 
 # ui/setupdlg.cpp:128 ui/userinfo.cpp:79 ui/workinfobase.cpp:80
-#: plugins/icq/icqclient.cpp:1845 plugins/icq/icqclient.cpp:2033
-#: plugins/jabber/jabberclient.cpp:1587 plugins/jabber/jabberclient.cpp:1696
-#: plugins/jabber/jabberclient.cpp:1830 plugins/jabber/jabberclient.cpp:1849
+#: plugins/icq/icqclient.cpp:1847 plugins/icq/icqclient.cpp:2035
+#: plugins/jabber/jabberclient.cpp:1600 plugins/jabber/jabberclient.cpp:1709
+#: plugins/jabber/jabberclient.cpp:1828 plugins/jabber/jabberclient.cpp:1847
 msgid "Work info"
 msgstr "Информация о работе"
 
 # ui/moreinfobase.cpp:80 ui/setupdlg.cpp:129 ui/userinfo.cpp:80
-#: plugins/icq/icqclient.cpp:1860 plugins/icq/icqclient.cpp:2048
+#: plugins/icq/icqclient.cpp:1862 plugins/icq/icqclient.cpp:2050
 msgid "More info"
 msgstr "Расширенная информация"
 
 # ui/aboutinfobase.cpp:77 ui/setupdlg.cpp:130 ui/userinfo.cpp:81
-#: plugins/icq/icqclient.cpp:1875 plugins/icq/icqclient.cpp:1969
-#: plugins/icq/icqclient.cpp:2063 plugins/icq/icqclient.cpp:2187
-#: plugins/jabber/discoinfo.cpp:189 plugins/jabber/jabberclient.cpp:1602
-#: plugins/jabber/jabberclient.cpp:1711 plugins/jabber/jabberclient.cpp:1832
-#: plugins/jabber/jabberclient.cpp:1851
+#: plugins/icq/icqclient.cpp:1877 plugins/icq/icqclient.cpp:1971
+#: plugins/icq/icqclient.cpp:2065 plugins/icq/icqclient.cpp:2189
+#: plugins/jabber/discoinfo.cpp:194 plugins/jabber/jabberclient.cpp:1615
+#: plugins/jabber/jabberclient.cpp:1724 plugins/jabber/jabberclient.cpp:1830
+#: plugins/jabber/jabberclient.cpp:1849
 msgid "About info"
 msgstr "Дополнительная информация"
 
 # ui/interestsinfobase.cpp:78 ui/setupdlg.cpp:131 ui/userinfo.cpp:82
-#: plugins/icq/icqclient.cpp:1890 plugins/icq/icqclient.cpp:2078
+#: plugins/icq/icqclient.cpp:1892 plugins/icq/icqclient.cpp:2080
 msgid "Interests"
 msgstr "Интересы"
 
 # ui/pastinfobase.cpp:78 ui/setupdlg.cpp:132 ui/userinfo.cpp:83
-#: plugins/icq/icqclient.cpp:1905 plugins/icq/icqclient.cpp:2093
+#: plugins/icq/icqclient.cpp:1907 plugins/icq/icqclient.cpp:2095
 msgid "Group/Past"
 msgstr "Образование/объединения"
 
-#: plugins/icq/icqclient.cpp:1920 plugins/icq/icqclient.cpp:2108
+#: plugins/icq/icqclient.cpp:1922 plugins/icq/icqclient.cpp:2110
 msgid "Picture"
 msgstr "Картинка"
 
 # ui/generalsecbase.cpp:111 ui/setupdlg.cpp:168
-#: plugins/icq/icqclient.cpp:2138
+#: plugins/icq/icqclient.cpp:2140
 msgid "Security"
 msgstr "Безопасность"
 
 # control.cpp:190
-#: plugins/icq/icqclient.cpp:2417
+#: plugins/icq/icqclient.cpp:2419
 msgid "Send &urgent"
 msgstr "Отправить &важное сообщение"
 
-#: plugins/icq/icqclient.cpp:2421
+#: plugins/icq/icqclient.cpp:2423
 msgid "Send to &list"
 msgstr "Отправить в &список"
 
@@ -7907,7 +7924,7 @@ msgstr ""
 
 # mainwin.cpp:1708 ui/setupdlg.cpp:143 ui/soundsetupbase.cpp:106
 # ui/userinfo.cpp:93
-#: plugins/sound/sound.cpp:124 plugins/sound/sound.cpp:135
+#: plugins/sound/sound.cpp:127 plugins/sound/sound.cpp:135
 msgid "&Sound"
 msgstr "&Звук"
 
@@ -7995,15 +8012,15 @@ msgstr ""
 "Модуль обеспечивает вывод уведомлений об "
 "обновлениях программы SIM"
 
-#: plugins/update/update.cpp:148
+#: plugins/update/update.cpp:126
 msgid "Show details"
 msgstr "Показать детали"
 
-#: plugins/update/update.cpp:149
+#: plugins/update/update.cpp:127
 msgid "Remind later"
 msgstr "Напомнить позже"
 
-#: plugins/update/update.cpp:151
+#: plugins/update/update.cpp:143
 msgid "New version SIM is released"
 msgstr "Выпущена новая версия программы SIM"
 
@@ -8104,26 +8121,26 @@ msgid "&Phone"
 msgstr "&Телефон"
 
 # ui/changepasswd.cpp:36
-#: plugins/jabber/jabber_rosters.cpp:1986
+#: plugins/jabber/jabber_rosters.cpp:1988
 msgid "Password does not match"
 msgstr "Неверный пароль"
 
 # mainwin.cpp:2378 monitor.cpp:57
-#: plugins/jabber/jabber_rosters.cpp:1987
+#: plugins/jabber/jabber_rosters.cpp:1989
 msgid "Low level network error"
 msgstr "Сетевая ошибка"
 
-#: plugins/jabber/jabber_rosters.cpp:2611
+#: plugins/jabber/jabber_rosters.cpp:2747
 msgid "Please translate this to short language name (ru, de)"
 msgstr "ru"
 
 # mainwin.cpp:2362
-#: plugins/jabber/jabberadd.cpp:163
+#: plugins/jabber/jabberadd.cpp:161
 msgid "Add Jabber contact"
 msgstr "Добавлен Jabber контакт"
 
 # msgview.cpp:183
-#: plugins/jabber/jabberadd.cpp:197
+#: plugins/jabber/jabberadd.cpp:195
 msgid "%1 is already in contact list"
 msgstr "%1 уже в списке контактов"
 
@@ -8179,13 +8196,13 @@ msgid "Username"
 msgstr "Имя пользователя"
 
 # ui/maininfobase.cpp:209 ui/searchbase.cpp:216
-#: plugins/jabber/addresult.cpp:214 plugins/jabber/jabbersearch.cpp:101
+#: plugins/jabber/addresult.cpp:211 plugins/jabber/jabbersearch.cpp:101
 #: plugins/jabber/jabbersearch.cpp:312
 msgid "First name"
 msgstr "Имя"
 
 # ui/maininfobase.cpp:95 ui/searchbase.cpp:210
-#: plugins/jabber/addresult.cpp:215 plugins/jabber/jabbersearch.cpp:102
+#: plugins/jabber/addresult.cpp:212 plugins/jabber/jabbersearch.cpp:102
 #: plugins/jabber/jabbersearch.cpp:313
 msgid "Last name"
 msgstr "Фамилия"
@@ -8223,7 +8240,7 @@ msgid "Nick (Alias)"
 msgstr "Псевдоним"
 
 # usertbl.cpp:116
-#: plugins/jabber/addresult.cpp:216 plugins/jabber/jabbersearch.cpp:306
+#: plugins/jabber/addresult.cpp:213 plugins/jabber/jabbersearch.cpp:306
 msgid "Email"
 msgstr "Email"
 
@@ -8336,19 +8353,9 @@ msgstr ""
 "аккуратными, чтобы другие люди могли вас "
 "найти"
 
-#: plugins/jabber/jabber.cpp:307 plugins/jabber/jabberbrowser.cpp:124
-#: plugins/jabber/jabberbrowser.cpp:516 plugins/jabber/services.cpp:45
-msgid "JID"
-msgstr "JID"
-
-# monitor.cpp:108
-#: plugins/jabber/jabberbrowser.cpp:88 plugins/jabber/jabberbrowser.cpp:266
-#: plugins/jabber/jabberbrowser.cpp:295 plugins/jabber/jabberbrowser.cpp:324
-#: plugins/jabber/jabberbrowser.cpp:436 plugins/jabber/jabberbrowser.cpp:456
-#: plugins/jabber/services.cpp:106
-#, c-format
-msgid "Error %1"
-msgstr "Ошибка %1"
+#: plugins/jabber/addresult.cpp:32
+msgid "ID"
+msgstr "ID"
 
 # userview.cpp:1340
 #: plugins/jabber/jabberconfigbase.cpp:279
@@ -8421,108 +8428,32 @@ msgstr ""
 msgid "Role:"
 msgstr "Роль:"
 
-#: plugins/jabber/addresult.cpp:32
-msgid "ID"
-msgstr "ID"
-
-#: plugins/jabber/jabberclient.cpp:1617 plugins/jabber/jabberclient.cpp:1726
-msgid "Photo"
-msgstr "Фото"
-
-# monitor.cpp:81
-#: plugins/jabber/jabberclient.cpp:1632 plugins/jabber/jabberclient.cpp:1741
-msgid "Logo"
-msgstr "Логотип"
-
-#: plugins/jabber/jabberclient.cpp:1756
-msgid "Agents"
-msgstr "Агенты"
-
-# msgedit.cpp:573
-#: plugins/jabber/jabberclient.cpp:3071 plugins/yahoo/yahooclient.cpp:2549
-msgid "File transfer fail"
-msgstr "Передача файлов окончилась неудачно"
-
-#: plugins/jabber/jabberinfobase.cpp:195
-msgid "ID:"
-msgstr "ID:"
-
-# libicq/country.cpp:432
-#: plugins/jabber/jabberbrowser.cpp:45 plugins/jabber/jabberbrowser.cpp:244
-msgid "Process"
-msgstr "Процесс"
-
-# userview.cpp:1350
-#: plugins/jabber/jabberbrowser.cpp:91
-msgid "Done"
-msgstr "Выполнено"
-
-# msgedit.cpp:238
-#: plugins/jabber/jabber.cpp:314 plugins/jabber/jabberbrowser.cpp:126
-msgid "Node"
-msgstr "Узел"
-
-#: plugins/jabber/jabberbrowser.cpp:173
-#, c-format
-msgid "Browser: %1"
-msgstr "Браузер: %1"
-
-# mainwin.cpp:2367 ui/setupdlg.cpp:112
-#: plugins/jabber/jabberbrowser.cpp:227
-msgid "Stop"
-msgstr "Остановить"
-
-#: plugins/jabber/jabberbrowser.cpp:246
-msgid "Client offline"
-msgstr "Клиент ушел из сети"
-
-# msgview.cpp:814 ui/searchbase.cpp:69 ui/searchbase.cpp:82
-#: plugins/jabber/jabberbrowser.cpp:354
-msgid "%1 Search"
-msgstr "%1 Поиск"
-
-# ui/logindlgbase.cpp:87
-#: plugins/jabber/jabberbrowser.cpp:361
-msgid "%1 Register"
-msgstr "%1 Регистрация"
-
-# sim.cpp:272
-#: plugins/jabber/jabberbrowser.cpp:368
-msgid "%1 Configure"
-msgstr "%1 Конфигурация"
-
-#: plugins/jabber/jabberbrowser.cpp:633
-msgid "Choose a user and password to register with the server"
-msgstr ""
-"Выберете имя пользователя и пароль для "
-"регистрации на сервере"
-
-#: plugins/jabber/discoinfo.cpp:59
+#: plugins/jabber/discoinfo.cpp:64
 msgid "Units"
 msgstr "Единицы"
 
 # libicq/country.cpp:206
-#: plugins/jabber/discoinfo.cpp:60
+#: plugins/jabber/discoinfo.cpp:65
 msgid "Value"
 msgstr "Значение"
 
 # libicq/country.cpp:63
-#: plugins/jabber/discoinfo.cpp:121 plugins/jabber/discoinfobase.cpp:274
+#: plugins/jabber/discoinfo.cpp:126 plugins/jabber/discoinfobase.cpp:274
 msgid "&Version"
 msgstr "&Версия"
 
 # ui/homeinfobase.cpp:153
-#: plugins/jabber/discoinfo.cpp:136 plugins/jabber/discoinfobase.cpp:277
+#: plugins/jabber/discoinfo.cpp:141 plugins/jabber/discoinfobase.cpp:277
 msgid "&Time"
 msgstr "&Время"
 
 # mainwin.cpp:2365 ui/statussetupbase.cpp:79 usertbl.cpp:113
-#: plugins/jabber/discoinfo.cpp:163
+#: plugins/jabber/discoinfo.cpp:168
 msgid "&Stat"
 msgstr "&Статистика"
 
 # client.cpp:891 msgview.cpp:200
-#: plugins/jabber/discoinfo.cpp:246
+#: plugins/jabber/discoinfo.cpp:251
 #, c-format
 msgid ""
 "_n: %n day\n"
@@ -8532,33 +8463,123 @@ msgstr ""
 "%n дня\n"
 "%n дней"
 
+#: plugins/jabber/jabberclient.cpp:1630 plugins/jabber/jabberclient.cpp:1739
+msgid "Photo"
+msgstr "Фото"
+
+# monitor.cpp:81
+#: plugins/jabber/jabberclient.cpp:1645 plugins/jabber/jabberclient.cpp:1754
+msgid "Logo"
+msgstr "Логотип"
+
+# msgedit.cpp:573
+#: plugins/jabber/jabberclient.cpp:3067 plugins/yahoo/yahooclient.cpp:2549
+msgid "File transfer fail"
+msgstr "Передача файлов окончилась неудачно"
+
 # ui/aboutinfobase.cpp:87
 #: plugins/jabber/jabberaboutinfobase.cpp:57
 msgid "Additional information:"
 msgstr "Дополнительная информация:"
 
-#: plugins/jabber/jabber.cpp:64
+# libicq/country.cpp:432
+#: plugins/jabber/jabberbrowser.cpp:42 plugins/jabber/jabberbrowser.cpp:264
+msgid "Process"
+msgstr "Процесс"
+
+# monitor.cpp:108
+#: plugins/jabber/jabberbrowser.cpp:85 plugins/jabber/jabberbrowser.cpp:284
+#: plugins/jabber/jabberbrowser.cpp:313 plugins/jabber/jabberbrowser.cpp:342
+#: plugins/jabber/jabberbrowser.cpp:522 plugins/jabber/jabberbrowser.cpp:592
+#, c-format
+msgid "Error %1"
+msgstr "Ошибка %1"
+
+# userview.cpp:1350
+#: plugins/jabber/jabberbrowser.cpp:88
+msgid "Done"
+msgstr "Выполнено"
+
+#: plugins/jabber/jabber.cpp:285 plugins/jabber/jabberbrowser.cpp:122
+#: plugins/jabber/jabberbrowser.cpp:749
+msgid "JID"
+msgstr "JID"
+
+# msgedit.cpp:238
+#: plugins/jabber/jabber.cpp:292 plugins/jabber/jabberbrowser.cpp:123
+msgid "Node"
+msgstr "Узел"
+
+#: plugins/jabber/jabberbrowser.cpp:171
+#, c-format
+msgid "Browser: %1"
+msgstr "Браузер: %1"
+
+#: plugins/jabber/jabberbrowser.cpp:250
+msgid "Client offline"
+msgstr "Клиент ушел из сети"
+
+# mainwin.cpp:2367 ui/setupdlg.cpp:112
+#: plugins/jabber/jabberbrowser.cpp:257
+msgid "Stop"
+msgstr "Остановить"
+
+# msgview.cpp:814 ui/searchbase.cpp:69 ui/searchbase.cpp:82
+#: plugins/jabber/jabberbrowser.cpp:434
+msgid "%1 Search"
+msgstr "%1 Поиск"
+
+# ui/logindlgbase.cpp:87
+#: plugins/jabber/jabberbrowser.cpp:441
+msgid "%1 Register"
+msgstr "%1 Регистрация"
+
+# sim.cpp:272
+#: plugins/jabber/jabberbrowser.cpp:448
+msgid "%1 Configure"
+msgstr "%1 Конфигурация"
+
+#: plugins/jabber/jabberbrowser.cpp:928
+msgid "Choose a user and password to register with the server"
+msgstr ""
+"Выберете имя пользователя и пароль для "
+"регистрации на сервере"
+
+#: plugins/jabber/jabber.cpp:63
 msgid "Jabber"
 msgstr "Jabber"
 
-#: plugins/jabber/jabber.cpp:283
+#: plugins/jabber/jabber.cpp:261
 msgid "Jabber browser"
 msgstr "Jabber browse/disco"
 
 # mainwin.cpp:2637
-#: plugins/jabber/jabber.cpp:292
+#: plugins/jabber/jabber.cpp:270
 msgid "&Back"
 msgstr "&Назад"
 
 # msgview.cpp:814 ui/searchbase.cpp:69 ui/searchbase.cpp:82
-#: plugins/jabber/jabber.cpp:320 plugins/weather/weathercfg.cpp:74
+#: plugins/jabber/jabber.cpp:298 plugins/weather/weathercfg.cpp:74
 #: plugins/weather/weathercfg.cpp:96 plugins/weather/weathercfgbase.cpp:111
 msgid "&Search"
 msgstr "&Поиск"
 
-#: plugins/jabber/jabber.cpp:334
+#: plugins/jabber/jabber.cpp:312
 msgid "Info"
 msgstr "&Информация"
+
+#: plugins/jabber/jabber.cpp:324
+msgid "Browser mode"
+msgstr "Режим просмотра"
+
+# sim.cpp:287
+#: plugins/jabber/jabber.cpp:343
+msgid "Load one level"
+msgstr "Загружать один уровень"
+
+#: plugins/jabber/jabber.cpp:349
+msgid "Load all levels"
+msgstr "Зашружать все уровни"
 
 #: plugins/jabber/servicesbase.cpp:108 plugins/jabber/servicesbase.cpp:114
 msgid "Jabber agents are available online after login"
@@ -8633,6 +8654,10 @@ msgstr "&Статистика"
 msgid "Phone:"
 msgstr "Телефон:"
 
+#: plugins/jabber/jabberinfobase.cpp:195
+msgid "ID:"
+msgstr "ID:"
+
 #: plugins/jabber/jabberaddbase.cpp:94
 msgid "Jabber ID:"
 msgstr "Jabber ID:"
@@ -8653,30 +8678,6 @@ msgstr "Зарегистрировать новый журнал"
 #: plugins/livejournal/msgjournal.cpp:153
 msgid "Remove record from journal?"
 msgstr "Удалить запись из журнала?"
-
-# ui/homeinfobase.cpp:117 ui/phonebase.cpp:117 ui/searchbase.cpp:148
-# ui/workinfobase.cpp:140
-#: plugins/livejournal/journalsearchbase.cpp:70
-msgid "Community:"
-msgstr "Сообщество:"
-
-# mainwin.cpp:2362
-#: plugins/livejournal/journalsearchbase.cpp:71
-msgid "&Add community"
-msgstr "&Добавитьсообщество"
-
-#: plugins/livejournal/journalsearch.cpp:54
-msgid "Add community results"
-msgstr "Результат добавления сообщества"
-
-# msgview.cpp:226
-#: plugins/livejournal/journalsearch.cpp:80
-msgid "Community %1 added to list"
-msgstr "Сообщество %1 добавлено в список контактов"
-
-#: plugins/livejournal/journalsearch.cpp:82
-msgid "Community %1 already in list"
-msgstr "Сообщество %1 уже в списке"
 
 #: plugins/livejournal/livejournal.cpp:109
 #, c-format
@@ -9341,6 +9342,19 @@ msgstr "Персональная информация"
 msgid "Journal Settings"
 msgstr "Установки журнала"
 
+#: plugins/livejournal/journalsearch.cpp:54
+msgid "Add community results"
+msgstr "Результат добавления сообщества"
+
+# msgview.cpp:226
+#: plugins/livejournal/journalsearch.cpp:80
+msgid "Community %1 added to list"
+msgstr "Сообщество %1 добавлено в список контактов"
+
+#: plugins/livejournal/journalsearch.cpp:82
+msgid "Community %1 already in list"
+msgstr "Сообщество %1 уже в списке"
+
 #: plugins/livejournal/livejournalcfgbase.cpp:151
 msgid "&LiveJournal"
 msgstr "&Живой журнал"
@@ -9401,6 +9415,17 @@ msgstr "Не отправлять комментарии почтой"
 msgid "Disable comments"
 msgstr "Запретить комментарии"
 
+# ui/homeinfobase.cpp:117 ui/phonebase.cpp:117 ui/searchbase.cpp:148
+# ui/workinfobase.cpp:140
+#: plugins/livejournal/journalsearchbase.cpp:70
+msgid "Community:"
+msgstr "Сообщество:"
+
+# mainwin.cpp:2362
+#: plugins/livejournal/journalsearchbase.cpp:71
+msgid "&Add community"
+msgstr "&Добавитьсообщество"
+
 #: plugins/spell/spellcfg.cpp:46
 msgid "ASpell(aspell.exe)"
 msgstr "ASpell(aspell.exe)"
@@ -9409,12 +9434,12 @@ msgstr "ASpell(aspell.exe)"
 msgid "Download ASpell"
 msgstr "Загрузить ASpell"
 
-#: plugins/spell/spellhighlight.cpp:238
+#: plugins/spell/spellhighlight.cpp:254
 msgid "Add '%1'"
 msgstr "Добавить '%1'"
 
 # ui/listsec.cpp:129 ui/setupdlg.cpp:173
-#: plugins/spell/spellhighlight.cpp:242
+#: plugins/spell/spellhighlight.cpp:258
 msgid "Ignore '%1'"
 msgstr "Игнорировать '%1'"
 
@@ -9807,162 +9832,174 @@ msgstr "Небольшой дождь"
 #: plugins/weather/weather.cpp:482
 msgid ""
 "_: weather\n"
+"Drifting Snow"
+msgstr "Снег"
+
+#: plugins/weather/weather.cpp:483
+msgid ""
+"_: weather\n"
+"Scattered"
+msgstr "Рассеянный"
+
+#: plugins/weather/weather.cpp:484
+msgid ""
+"_: weather\n"
 "steady"
 msgstr "не меняется"
 
-#: plugins/weather/weather.cpp:483
+#: plugins/weather/weather.cpp:485
 msgid ""
 "_: weather\n"
 "rising"
 msgstr "растет"
 
-#: plugins/weather/weather.cpp:484
+#: plugins/weather/weather.cpp:486
 msgid ""
 "_: weather\n"
 "falling"
 msgstr "падает"
 
-#: plugins/weather/weather.cpp:485
+#: plugins/weather/weather.cpp:487
 msgid ""
 "_: weather\n"
 "Unlimited"
 msgstr "Неограниченная"
 
-#: plugins/weather/weather.cpp:486
+#: plugins/weather/weather.cpp:488
 msgid ""
 "_: weather\n"
 "N"
 msgstr "Северный"
 
-#: plugins/weather/weather.cpp:487
+#: plugins/weather/weather.cpp:489
 msgid ""
 "_: weather\n"
 "NNW"
 msgstr "Северо-северо-западный"
 
-#: plugins/weather/weather.cpp:488
+#: plugins/weather/weather.cpp:490
 msgid ""
 "_: weather\n"
 "NW"
 msgstr "Северо-западный"
 
-#: plugins/weather/weather.cpp:489
+#: plugins/weather/weather.cpp:491
 msgid ""
 "_: weather\n"
 "WNW"
 msgstr "Северо-западный "
 
-#: plugins/weather/weather.cpp:490
+#: plugins/weather/weather.cpp:492
 msgid ""
 "_: weather\n"
 "W"
 msgstr "Западный"
 
-#: plugins/weather/weather.cpp:491
+#: plugins/weather/weather.cpp:493
 msgid ""
 "_: weather\n"
 "WSW"
 msgstr "Юго-западный"
 
-#: plugins/weather/weather.cpp:492
+#: plugins/weather/weather.cpp:494
 msgid ""
 "_: weather\n"
 "SW"
 msgstr "Юго-западный"
 
-#: plugins/weather/weather.cpp:493
+#: plugins/weather/weather.cpp:495
 msgid ""
 "_: weather\n"
 "SSW"
 msgstr "Юго-юго-западный"
 
-#: plugins/weather/weather.cpp:494
+#: plugins/weather/weather.cpp:496
 msgid ""
 "_: weather\n"
 "S"
 msgstr "Южный"
 
-#: plugins/weather/weather.cpp:495
+#: plugins/weather/weather.cpp:497
 msgid ""
 "_: weather\n"
 "SSE"
 msgstr "Юго-юго-восточный"
 
-#: plugins/weather/weather.cpp:496
+#: plugins/weather/weather.cpp:498
 msgid ""
 "_: weather\n"
 "SE"
 msgstr "Юго-восточный"
 
-#: plugins/weather/weather.cpp:497
+#: plugins/weather/weather.cpp:499
 msgid ""
 "_: weather\n"
 "ESE"
 msgstr "Юго-восточный"
 
-#: plugins/weather/weather.cpp:498
+#: plugins/weather/weather.cpp:500
 msgid ""
 "_: weather\n"
 "E"
 msgstr "Восточный"
 
-#: plugins/weather/weather.cpp:499
+#: plugins/weather/weather.cpp:501
 msgid ""
 "_: weather\n"
 "ENE"
 msgstr "Северо-восточный"
 
-#: plugins/weather/weather.cpp:500
+#: plugins/weather/weather.cpp:502
 msgid ""
 "_: weather\n"
 "NE"
 msgstr "Северо-восточный"
 
-#: plugins/weather/weather.cpp:501
+#: plugins/weather/weather.cpp:503
 msgid ""
 "_: weather\n"
 "NNE"
 msgstr "Северо-северо-восточный"
 
-#: plugins/weather/weather.cpp:502
+#: plugins/weather/weather.cpp:504
 msgid "km"
 msgstr "км"
 
-#: plugins/weather/weather.cpp:503
+#: plugins/weather/weather.cpp:505
 msgid "km/h"
 msgstr "км/ч"
 
 # libicq/country.cpp:109
-#: plugins/weather/weather.cpp:515
+#: plugins/weather/weather.cpp:517
 msgid "and"
 msgstr "и"
 
-#: plugins/weather/weather.cpp:518
+#: plugins/weather/weather.cpp:520
 msgid ""
 "_: weather\n"
 "Early"
 msgstr "С утра"
 
-#: plugins/weather/weather.cpp:521
+#: plugins/weather/weather.cpp:523
 msgid ""
 "_: weather\n"
 "Late"
 msgstr "Вечером"
 
-#: plugins/weather/weather.cpp:536 plugins/weather/weather.cpp:538
+#: plugins/weather/weather.cpp:538 plugins/weather/weather.cpp:540
 msgid "m/s"
 msgstr "м/с"
 
 # ui/moreinfo.cpp:73
-#: plugins/weather/weather.cpp:537 plugins/weather/weather.cpp:538
+#: plugins/weather/weather.cpp:539 plugins/weather/weather.cpp:540
 msgid "gust "
 msgstr "порывы"
 
-#: plugins/weather/weather.cpp:600
+#: plugins/weather/weather.cpp:602
 msgid "%t | %c"
 msgstr "%t | %c"
 
-#: plugins/weather/weather.cpp:609
+#: plugins/weather/weather.cpp:611
 msgid ""
 "%l<br><br>\n"
 "<img src=\"icon:weather\"> %c<br>\n"
@@ -9989,7 +10026,7 @@ msgstr ""
 "<br>\n"
 "Обновлено: %u<br>\n"
 
-#: plugins/weather/weather.cpp:628
+#: plugins/weather/weather.cpp:630
 msgid ""
 "<br>\n"
 "<nobr><b>%d %w</b></nobr><br>\n"

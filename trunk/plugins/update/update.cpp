@@ -57,18 +57,16 @@ static DataDef updateData[] =
 UpdatePlugin::UpdatePlugin(unsigned base, const char *config)
         : Plugin(base)
 {
-    m_msg = NULL;
     load_data(updateData, &data, config);
+    CmdGo = registerType();
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(timeout()));
-    timer->start(60000);
+    timer->start(15000);
 }
 
 UpdatePlugin::~UpdatePlugin()
 {
     free_data(updateData, &data);
-    if (m_msg)
-        delete m_msg;
 }
 
 string UpdatePlugin::getConfig()
@@ -78,7 +76,7 @@ string UpdatePlugin::getConfig()
 
 void UpdatePlugin::timeout()
 {
-    if (!getSocketFactory()->isActive() || !isDone() || m_msg)
+    if (!getSocketFactory()->isActive() || !isDone())
         return;
     time_t now;
     time(&now);
@@ -124,19 +122,15 @@ void UpdatePlugin::timeout()
     }
 }
 
+#if 0
+I18N_NOOP("Show details")
+I18N_NOOP("Remind later")
+#endif
+
 bool UpdatePlugin::done(unsigned, Buffer&, const char *headers)
 {
     string h = getHeader("Location", headers);
-    if (h.empty()){
-        time_t now;
-        time(&now);
-        setTime(now);
-        Event e(EventSaveState);
-        e.process();
-    }else{
-        QWidget *main = getMainWindow();
-        if (main == NULL)
-            return false;
+    if (!h.empty()){
         Command cmd;
         cmd->id		= CmdStatusBar;
         Event eWidget(EventCommandWidget, cmd);
@@ -144,16 +138,42 @@ bool UpdatePlugin::done(unsigned, Buffer&, const char *headers)
         if (statusWidget == NULL)
             return false;
         m_url = h;
-        QStringList l;
-        l.append(i18n("Show details"));
-        l.append(i18n("Remind later"));
-        raiseWindow(main);
-        m_msg = new BalloonMsg(NULL, i18n("New version SIM is released"), l, statusWidget);
-        connect(m_msg, SIGNAL(action(int, void*)), this, SLOT(showDetails(int, void*)));
-        connect(m_msg, SIGNAL(finished()), this, SLOT(msgDestroyed()));
-        m_msg->show();
+        clientErrorData d;
+        d.client  = NULL;
+        d.err_str = I18N_NOOP("New version SIM is released");
+        d.code	  = 0;
+        d.args    = NULL;
+        d.flags	  = ERR_INFO;
+        d.options = "Show details\x00Remind later\x00\x00";
+        d.id	  = CmdGo;
+        Event e(EventShowError, &d);
+        e.process();
     }
+    time_t now;
+    time(&now);
+    setTime(now);
+    Event e(EventSaveState);
+    e.process();
     return false;
+}
+
+void *UpdatePlugin::processEvent(Event *e)
+{
+    if (e->type() == EventCommandExec){
+        CommandDef *cmd = (CommandDef*)(e->param());
+        if (cmd->id == CmdGo){
+            Event eGo(EventGoURL, (void*)(m_url.c_str()));
+            eGo.process();
+            time_t now;
+            time(&now);
+            setTime(now);
+            m_url = "";
+            Event eSave(EventSaveState);
+            eSave.process();
+            return e->param();
+        }
+    }
+    return NULL;
 }
 
 string UpdatePlugin::getHeader(const char *name, const char *headers)
@@ -170,44 +190,6 @@ string UpdatePlugin::getHeader(const char *name, const char *headers)
         return p;
     }
     return "";
-}
-
-QWidget *UpdatePlugin::getMainWindow()
-{
-    QWidgetList  *list = QApplication::topLevelWidgets();
-    QWidgetListIt it( *list );
-    QWidget *w;
-    while ( (w=it.current()) != 0 ) {
-        ++it;
-        if (w->inherits("MainWindow")){
-            delete list;
-            return w;
-        }
-    }
-    delete list;
-    return NULL;
-}
-
-void UpdatePlugin::showDetails(int n, void*)
-{
-    if (n == 0){
-        Event e(EventGoURL, (void*)(m_url.c_str()));
-        e.process();
-    }
-    time_t now;
-    time(&now);
-    setTime(now);
-    m_url = "";
-    Event e(EventSaveState);
-    e.process();
-}
-
-void UpdatePlugin::msgDestroyed()
-{
-    time_t now;
-    time(&now);
-    setTime(now);
-    m_msg = NULL;
 }
 
 #ifdef WIN32

@@ -31,7 +31,8 @@ class DiscoInfo : public DiscoInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:
-    DiscoInfo(JabberBrowser *browser);
+    DiscoInfo(JabberBrowser *browser, const QString &features,
+              const QString &name, const QString &type, const QString &category);
     ~DiscoInfo();
     void reset();
 protected slots:
@@ -42,6 +43,10 @@ protected:
     void accept();
     QString m_url;
     QString m_node;
+    QString m_features;
+    QString m_name;
+    QString m_type;
+    QString m_category;
     void *processEvent(Event *e);
     void resizeEvent(QResizeEvent*);
     void setTitle();

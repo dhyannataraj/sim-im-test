@@ -368,9 +368,11 @@ void *UserView::processEvent(Event *e)
                             QRect rc = itemRect(item);
                             QPoint p = viewport()->mapToGlobal(rc.topLeft());
                             rc = QRect(p.x(), p.y(), rc.width(), rc.height());
+                            m_bRemoveHistory = CorePlugin::m_plugin->getRemoveHistory();
                             BalloonMsg::ask((void*)contact->id(),
                                             i18n("Delete \"%1\"?") .arg(contact->getName()),
-                                            this, SLOT(deleteContact(void*)), NULL, &rc);
+                                            this, SLOT(deleteContact(void*)), NULL, &rc, NULL,
+                                            i18n("Remove history"), &m_bRemoveHistory);
                         }
                         return e->param();
                     }
@@ -752,6 +754,9 @@ void UserView::deleteContact(void *p)
     ContactItem *item = findContactItem(contact->id());
     if (item)
         setCurrentItem(item);
+    CorePlugin::m_plugin->setRemoveHistory(m_bRemoveHistory);
+    if (!m_bRemoveHistory)
+        contact->setFlags(contact->getFlags() | CONTACT_NOREMOVE_HISTORY);
     delete contact;
 }
 
@@ -1379,7 +1384,7 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
                 Contact *contact = ContactDragObject::decode(e);
                 m_dropItem = item;
                 m_dropContactId = contact->id();
-                contact->setTemporary(contact->getTemporary() & ~CONTACT_DRAG);
+                contact->setFlags(contact->getFlags() & ~CONTACT_DRAG);
                 QTimer::singleShot(0, this, SLOT(doDrop()));
             }
             e->accept();
@@ -1396,7 +1401,7 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
                 if (isDrop){
                     m_dropItem = item;
                     m_dropContactId = contact->id();
-                    contact->setTemporary(contact->getTemporary() & ~CONTACT_DRAG);
+                    contact->setFlags(contact->getFlags() & ~CONTACT_DRAG);
                     QTimer::singleShot(0, this, SLOT(doDrop()));
                 }
                 e->accept();
@@ -1463,7 +1468,7 @@ void UserView::doDrop()
             GroupItem *grp_item = static_cast<GroupItem*>(m_dropItem);
             contact->setGroup(grp_item->id());
             contact->setIgnore(false);
-            contact->setTemporary(0);
+            contact->setFlags(contact->getFlags() & ~CONTACT_TEMPORARY);
             Event eContact(EventContactChanged, contact);
             eContact.process();
             break;
@@ -1523,7 +1528,7 @@ void UserView::joinContacts(void*)
 void UserView::cancelJoinContacts(void*)
 {
     Contact *contact2 = getContacts()->contact(joinContactsData.contact2);
-    if (contact2 && contact2->getTemporary())
+    if (contact2 && (contact2->getFlags() & CONTACT_TEMPORARY))
         delete contact2;
 }
 

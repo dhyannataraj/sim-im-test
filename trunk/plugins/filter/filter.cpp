@@ -162,7 +162,7 @@ void *FilterPlugin::processEvent(Event *e)
         Contact *contact = getContacts()->contact(msg->contact());
         FilterUserData *data = NULL;
         // check if we accept only from users on the list
-        if (getFromList() && ((contact == NULL) || contact->getTemporary())){
+        if (getFromList() && ((contact == NULL) || (contact->getFlags() & CONTACT_TEMPORARY))){
             delete msg;
             delete contact;
             return msg;

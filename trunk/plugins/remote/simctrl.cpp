@@ -325,7 +325,7 @@ Processor *createProcessor(const char *addr_str)
     }
     int s = socket(PF_UNIX, SOCK_STREAM, 0);
     if (s < 0){
-	fprintf(stderr, "Can't create socket: %s\n", strerror(errno));
+        fprintf(stderr, "Can't create socket: %s\n", strerror(errno));
         return NULL;
     }
 
@@ -340,7 +340,7 @@ Processor *createProcessor(const char *addr_str)
     strcpy(sun_local.sun_path, local_name);
     unlink(local_name);
     if (bind(s, (struct sockaddr*)&sun_local, sizeof(sun_local)) < 0){
-	fprintf(stderr, "Can't bind socket %s: %s\n", local_name, strerror(errno));
+        fprintf(stderr, "Can't bind socket %s: %s\n", local_name, strerror(errno));
         return NULL;
     }
 
@@ -348,7 +348,7 @@ Processor *createProcessor(const char *addr_str)
     sun_remote.sun_family = AF_UNIX;
     strcpy(sun_remote.sun_path, addr.c_str());
     if (connect(s, (struct sockaddr*)&sun_remote, sizeof(sun_remote)) < 0){
-	fprintf(stderr, "Can't connect to %s: %s\n", addr.c_str(), strerror(errno));
+        fprintf(stderr, "Can't connect to %s: %s\n", addr.c_str(), strerror(errno));
         unlink(local_name);
         return NULL;
     }
@@ -379,7 +379,7 @@ static void usage(char *s)
             "      -s socket	[/tmp/sim.%s] Control socket\n"
 #endif
             "      -d                         Debug mode\n"
-	    "      -c command                 Command\n"
+            "      -c command                 Command\n"
             "\n",
             s
 #ifndef WIN32
@@ -406,11 +406,11 @@ int main(int argc, char **argv)
         if (!strcmp(*p, "-c")){
             p++;
             if (*p == NULL){
-	 	usage(argv[0]);
-		return 1;
-	    }
+                usage(argv[0]);
+                return 1;
+            }
             cmd = *p;
-	    continue;
+            continue;
         }
         uins.push_back(*p);
     }
@@ -432,21 +432,21 @@ int main(int argc, char **argv)
         return 0;
     }
     if (cmd){
-	string out_str;
+        string out_str;
         if (!processor->process(cmd, out_str)){
-		fprintf(stderr, "Can't execute %s\n", cmd);
-		exit(1);
+            fprintf(stderr, "Can't execute %s\n", cmd);
+            exit(1);
         }
-	if (out_str.empty()){
-		fprintf(stderr, "No answer\n");
-		exit(1);
-	}
-	if (out_str[0] != '>'){
-		fprintf(stderr, "Execute %s fail\n", cmd);
-		exit(1);
-	}
-	printf("%s\n", out_str.c_str() + 1);
-	exit(0);
+        if (out_str.empty()){
+            fprintf(stderr, "No answer\n");
+            exit(1);
+        }
+        if (out_str[0] != '>'){
+            fprintf(stderr, "Execute %s fail\n", cmd);
+            exit(1);
+        }
+        printf("%s\n", out_str.c_str() + 1);
+        exit(0);
     }
     FILE *f = stdin;
     while (!feof(f) && !ferror(f)){

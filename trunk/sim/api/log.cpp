@@ -62,7 +62,9 @@ void log_string(unsigned short l, const char *s)
     time(&now);
     struct tm *tm = localtime(&now);
     string m;
-    format(m, "%02u:%02u:%02u [%s] ", tm->tm_hour, tm->tm_min, tm->tm_sec, level_name(l));
+    format(m, "%02u/%02u/%04u %02u:%02u:%02u [%s] ",
+           tm->tm_mday, tm->tm_mon + 1, tm->tm_year + 1900,
+           tm->tm_hour, tm->tm_min, tm->tm_sec, level_name(l));
     m += s;
     LogInfo li;
     li.log_level = l;
@@ -100,7 +102,9 @@ EXPORT string make_packet_string(LogInfo *l)
             name += ".";
             name += l->add_info;
         }
-        format(m, "%02u:%02u:%02u [%s] %s %u bytes\n", tm->tm_hour, tm->tm_min, tm->tm_sec,
+        format(m, "%02u/%02u/%04u %02u:%02u:%02u [%s] %s %u bytes\n",
+               tm->tm_mday, tm->tm_mon + 1, tm->tm_year + 1900,
+               tm->tm_hour, tm->tm_min, tm->tm_sec,
                name.c_str(),
                (l->log_level & L_PACKET_IN) ? "Read" : "Write",
                b->size() - start);

@@ -3,7 +3,7 @@
 
 [Setup]
 AppName=Simple Instant Messenger
-AppVerName=SIM 0.9.3
+AppVerName=SIM 0.9.4
 AppPublisher=vovan@shutoff.ru
 AppPublisherURL=http://sim-icq.sourceforge.net/
 AppSupportURL=http://sim-icq.sourceforge.net/
@@ -18,7 +18,7 @@ AppMutex=SIM_Mutex
 AppCopyright=Copyright © 2002-2004, Vladimir Shutoff
 ShowLanguageDialog=no
 ChangesAssociations=yes
-VersionInfoVersion=0.9.3.0
+VersionInfoVersion=0.9.4.0
 
 [Tasks]
 Name: startup; Description: "Launch SIM on &startup"; GroupDescription: "Startup:"
@@ -80,7 +80,6 @@ Source: "..\Release\plugins\proxy.dll"; DestDir: "{app}\plugins"; Flags: ignorev
 Source: "..\Release\plugins\remote.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\replace.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\shortcuts.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
-Source: "..\Release\plugins\sms.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\splash.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\sound.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\spell.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
@@ -107,7 +106,6 @@ Source: "..\Release\sounds\contacts.wav"; DestDir: "{app}\sounds"; Flags: ignore
 Source: "..\Release\sounds\web.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
 Source: "..\Release\sounds\mailpager.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
 Source: "..\Release\sounds\error.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
-Source: "..\Release\sounds\phone.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
 Source: "..\Release\sounds\message2.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
 Source: "..\Release\sounds\vip-online.wav"; DestDir: "{app}\sounds"; Flags: ignoreversion
 Source: "..\Release\pict\splash.png"; DestDir: "{app}\pict"; Flags: ignoreversion

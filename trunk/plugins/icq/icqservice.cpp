@@ -246,6 +246,9 @@ limit_level %04X, disconnect_level: %04X, current_level %04X, max_level %04X, la
             d.code    = 0;
             d.err_str = I18N_NOOP("You've been warned by %1");
             d.args    = strdup(f.utf8());
+            d.flags   = ERR_INFO;
+            d.options = NULL;
+            d.id	  = CmdShowWarning;
             Event e(EventClientError, &d);
             e.process();
             free(d.args);

@@ -120,10 +120,10 @@ void YahooSearch::startSearch()
         YahooUserData *data = m_client->findContact(edtID->text().utf8(), grp->getName().local8Bit(), contact, true);
         if (data == NULL)
             return;
-        if (contact->getTemporary() || (contact->getGroup() == 0)){
+        if ((contact->getFlags() & CONTACT_TEMPORARY) || (contact->getGroup() == 0)){
             if (contact->getGroup() != grp->id())
                 contact->setGroup(grp->id());
-            contact->setTemporary(0);
+            contact->setFlags(contact->getFlags() & ~CONTACT_TEMPORARY);
             Event e(EventContactChanged, contact);
             e.process();
             m_result->setStatus(i18n("Contact %1 added in group %2") .arg(edtID->text()) .arg(grp->getName()));

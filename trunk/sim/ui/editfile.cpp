@@ -152,7 +152,7 @@ void EditFile::showFiles()
             if (preview)
                 dlg->setPreviewWidget(preview);
 #else
-dlg->setMode( QFileDialog::ExistingFile );
+            dlg->setMode( QFileDialog::ExistingFile );
             if (preview){
                 dlg->setContentsPreview(preview, preview);
                 dlg->setContentsPreviewEnabled(true);

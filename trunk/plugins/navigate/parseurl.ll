@@ -39,10 +39,10 @@
 %x x_link
 %%
 
-(http|https|ftp)"://"[A-Za-z0-9/\,\.\?\@\&:\;\(\)\-_\+\%=~\#]+	{ return URL; }
+(http|https|ftp)"://"[A-Za-z0-9/\,\.\?\@\&:\;\(\)\-_\+\'\%=~\#]+	{ return URL; }
 (mailto:)?[A-Za-z0-9\-_][A-Za-z0-9\-_\.]*\@([A-Za-z0-9\-]+\.)+[A-Za-z]+		{ return MAIL_URL; }
-"www."[A-Za-z0-9/\,\.\?\&:\;\(\)\-_\+\%=~\#]+			{ return HTTP_URL; }
-"ftp."[A-Za-z0-9/\,\.:\;\-_\+~]+				{ return FTP_URL; }
+"www."[A-Za-z0-9/\,\.\?\&:\;\(\)\-_\+\%=~\#\']+			{ return HTTP_URL; }
+"ftp."[A-Za-z0-9/\,\.:\;\-_\+~\']+				{ return FTP_URL; }
 <INITIAL,x_word>"&quot;"					{ BEGIN(INITIAL); return TXT; }
 <INITIAL,x_word>"&amp;"						{ BEGIN(INITIAL); return TXT; }
 <INITIAL,x_word>"&lt;"						{ BEGIN(INITIAL); return TXT; }

@@ -808,13 +808,20 @@ const unsigned EventMessageSend		= 0x110A;
 const unsigned EventSend			= 0x110B;
 
 const unsigned EventClientError		= 0x1301;
+const unsigned EventShowError		= 0x1302;
+
+const unsigned ERR_ERROR	= 0x0000;
+const unsigned ERR_INFO		= 0x0001;
 
 typedef struct clientErrorData
 {
     Client		*client;
     const char	*err_str;
+    const char  *options;
     char		*args;
     unsigned	code;
+    unsigned	flags;
+    unsigned	id;
 } clientErrorData;
 
 const unsigned EventUser			= 0x10000;
@@ -1391,11 +1398,14 @@ typedef struct ContactData
     Data			FirstName;
     Data			LastName;
     Data			Notes;
-    Data			Temporary;
+    Data			Flags;
 } ContactData;
 
-const unsigned CONTACT_TEMP	= 1;
-const unsigned CONTACT_DRAG	= 2;
+const unsigned CONTACT_TEMP				= 0x0001;
+const unsigned CONTACT_DRAG				= 0x0002;
+const unsigned CONTACT_NOREMOVE_HISTORY	= 0x1000;
+
+const unsigned CONTACT_TEMPORARY	= CONTACT_TEMP | CONTACT_DRAG;
 
 class EXPORT Contact
 {
@@ -1413,7 +1423,7 @@ public:
     PROP_UTF8(FirstName)
     PROP_UTF8(LastName)
     PROP_UTF8(Notes)
-    PROP_ULONG(Temporary)
+    PROP_ULONG(Flags)
     void *getUserData(unsigned id, bool bCreate = false);
     UserData userData;
     ClientUserData clientData;
@@ -1546,6 +1556,7 @@ public:
     virtual void setClientInfo(void *data);
     virtual QWidget *searchWindow();
     virtual string resources(void *data);
+    void	removeGroup(Group *grp);
     void    setState(State, const char *text = NULL, unsigned code = 0);
     State   getState() { return m_state; }
     virtual unsigned getStatus();
