@@ -2337,7 +2337,7 @@ void *CorePlugin::processEvent(Event *e)
                         int cnt = (*itc).second.count;
                         msg = QString("%1").arg(cnt);
                     }
-                    int cnt = (*itc).second.count;
+                    //int cnt = (*itc).second.count; //Not referenced (by Noragen)
                     if (contact_id == 0){
                         Contact *contact = getContacts()->contact((*itc).first.contact);
                         if (contact == NULL)
