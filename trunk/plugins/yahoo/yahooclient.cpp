@@ -465,7 +465,7 @@ void YahooClient::process_packet(Params &params)
             process_file(params[4], params[27], params[28], params[14], params[20], params[11]);
         else
             /* file-url-message */
-            process_fileurl(params[4],params[14],params[20], params[11]);
+            process_fileurl(params[4],params[14],params[20]);
         break;
     case YAHOO_SERVICE_ADDBUDDY:
         if (params[1] && params[7] && params[65])
@@ -479,6 +479,8 @@ void YahooClient::process_packet(Params &params)
         else
             log(L_DEBUG,"Please send paket to developer!");
         break;
+    case YAHOO_SERVICE_CONFINVITE:
+    	log(L_WARN, "Conferencing currently not implemented!");
     default:
         log(L_WARN, "Unknown service %02X", m_service);
     }
@@ -888,7 +890,7 @@ void YahooClient::processStatus(unsigned short service, const char *id,
         state = YAHOO_STATUS_OFFLINE;
     if ((state != data->Status.value) ||
             ((state == YAHOO_STATUS_CUSTOM) &&
-             (((away != 0) != data->bAway.bValue) || _cmp(_msg, data->AwayMessage.ptr)))){
+             (((away != 0) != data->bAway.bValue) || equal(_msg, data->AwayMessage.ptr)))){
 
         unsigned long old_status = STATUS_UNKNOWN;
         unsigned style  = 0;
@@ -1004,15 +1006,13 @@ void YahooClient::process_file(const char *id, const char *fileName, const char 
     messageReceived(m, id);
 }
 
-void YahooClient::process_fileurl(const char *id, const char *msg, const char *url, const char *msgid)
+void YahooClient::process_fileurl(const char *id, const char *msg, const char *url)
 {
     UrlMessage *m = new UrlMessage(MessageUrl);
     
     if (msg)
         m->setServerText(msg);
     m->setUrl(url);
-/*    if (msgid)
-        m->setMsgID(atol(msgid)); */
     messageReceived(m, id);
 }
 
