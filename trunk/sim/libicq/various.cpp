@@ -475,8 +475,7 @@ bool SearchEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short nSu
     unsigned short n;
     b >> n;
     log(L_DEBUG, "n %04X", n);
-    unsigned long uin;
-    b.unpack(uin);
+    b.unpack(m_nUin);
     b
     >> nick
     >> firstName
