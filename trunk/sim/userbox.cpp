@@ -216,7 +216,7 @@ void UserBox::wmChanged()
 
 void UserBox::showEncodingPopup()
 {
-    for (int i = 0; i < menuEncoding->count(); i++)
+    for (unsigned i = 0; i < (unsigned)(menuEncoding->count()); i++)
         menuEncoding->setItemChecked(menuEncoding->idAt(i), false);
     if (curWnd){
         int encoding = pClient->userEncoding(curWnd->Uin());

@@ -32,6 +32,11 @@
 
 #include <string>
 
+#ifdef USE_KDE
+#include <kglobal.h>
+#include <kcharsets.h>
+#endif
+
 class SocketNotifier
 {
 public:
