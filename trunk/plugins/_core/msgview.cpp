@@ -169,8 +169,14 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     info += QString("<from>%1</from>") .arg(quoteString(contactName));
     QString id = QString::number(msg->id());
     id += ",";
-    if (msg->getBackground() != msg->getForeground())
-        id += QString::number(msg->getBackground() & 0xFFFFFF);
+    // <hack>
+    // Terrible hack to set message bgcolor. We prefer to insert the entire history
+    // in one chunk (since it's more efficient and causes less redraws), and there's
+    // no way to set block's background color directly in Qt's HTML), so we make a note
+    // of it in the HTML and set it retroactively in setBackground.
+    if (msg->getBackground() != 0xFFFFFFFF)
+        id += QString::number(msg->getBackground());
+    // </hack>
     string client_str;
     if (msg->client())
         client_str = msg->client();
@@ -185,6 +191,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     info += "<id>";
     info += id;
     info += "</id>";
+
 
     QString icons;
     if (msg->getFlags() & MESSAGE_SECURE)
@@ -232,23 +239,39 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     Event e(EventEncodeText, &msgText);
     e.process();
     msgText = parseText(msgText, CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
-    msgText = QString(MSG_BEGIN) + msgText;
-    s += "<body>";
-    s += quoteString(msgText);
+    s += "<body";
+
+    if (msg->getForeground() != 0xFFFFFFFF)
+    {
+       s += " fgcolor=\"#";
+       s += QString::number(msg->getForeground(), 16).rightJustify(6, '0');
+       s += "\"";
+    }
+
+    // Some bright day might come when one could specify background color from inside Qt's richtext.
+    // Meanwhile, this is useless:
+    if (msg->getBackground() != 0xFFFFFFFF)
+    {
+       s += " bgcolor=\"#";
+       s += QString::number(msg->getBackground(), 16).rightJustify(6, '0');
+       s += "\"";
+    }
+    s += ">";
+    
+    // We pass the rich text quoted, since we're not sure of its' XML validity.
+    // The XSL engine should copy it as-is (using xsl:value-of with disable-output-escaping="yes").
+    s += quoteString(QString(MSG_BEGIN) + msgText);
+    
     s += "</body>";
     s += "</message>";
     XSL *p = xsl;
     if (p == NULL)
         p = CorePlugin::m_plugin->historyXSL;
+    QString res = p->process(s);
     QString anchor = MSG_ANCHOR;
     anchor += id;
     anchor += "\">";
-    QString res = p->process(s);
-    if (res.left(3) == "<p>"){
-        res = QString("<p>") + anchor + res.mid(3);
-    }else{
-        res = anchor + res;
-    }
+    res = anchor + res;
     return res;
 }
 
@@ -277,40 +300,40 @@ void MsgViewBase::setSource(const QString &url)
     }
 }
 
+// <hack>
+// We have to use this function since Qt has no tag to set background color per-paragraph
+// from within HTML. See matching hack in MsgViewBase::messageText.
 void MsgViewBase::setBackground(unsigned n)
 {
-    QColor c;
-    bool bSet = false;
-    bool bSetColor = false;
+    QColor bgcolor;
+    bool bSet = false, bInMsg = false;
+    
+    QRegExp reAnchor(QString::fromLatin1(MSG_ANCHOR) + "\\d+,(\\d+)?");
+    QString sBegin = QString::fromLatin1(MSG_BEGIN);
+    
     for (unsigned i = n; i < (unsigned)paragraphs(); i++){
         QString s = text(i);
-        int n = s.find(MSG_ANCHOR);
-        if (n >= 0){
-            QString t = s.mid(n + strlen(MSG_BEGIN));
-            int p = t.find('\"');
-            if (p >= 0)
-                t = t.left(p);
-            getToken(t, ',');
-            t = getToken(t, ',');
-            if (t.isEmpty()){
-                bSet = false;
-            }else{
-                c = QColor(atol(t.latin1()));
-                bSet = true;
-            }
-            bSetColor = false;
+        if (reAnchor.search(s) >= 0)
+        {
+           bgcolor = QColor(reAnchor.cap(1).toULong(&bSet));
+           bInMsg = false;
         }
-        n = s.find(MSG_BEGIN);
-        if (n >= 0)
-            bSetColor = true;
-        if (bSet && bSetColor){
-            setParagraphBackgroundColor(i, c);
-        }else{
-            clearParagraphBackground(i);
+        else
+        {
+           if (s.find(sBegin) >= 0)
+           {
+              bInMsg = true;
+           }
         }
-        bSetColor = false;
+
+        if (bInMsg && bSet)
+           setParagraphBackgroundColor(i, bgcolor);
+        else
+           clearParagraphBackground(i);
     }
+
 }
+// </hack>
 
 void MsgViewBase::addMessage(Message *msg, bool bUnread)
 {
