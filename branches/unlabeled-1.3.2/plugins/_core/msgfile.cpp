@@ -69,6 +69,10 @@ MsgFile::MsgFile(CToolCustom *parent, Message *msg)
 
 void MsgFile::init()
 {
+	if (text().isEmpty()){
+		selectFile();
+		return;
+	}
     setFocus();
 }
 

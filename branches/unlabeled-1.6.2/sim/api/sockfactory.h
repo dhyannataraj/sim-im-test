@@ -65,10 +65,12 @@ class SIMServerSocket : public QObject, public ServerSocket
 {
     Q_OBJECT
 public:
-    SIMServerSocket(unsigned short minPort, unsigned short maxPort);
+    SIMServerSocket();
     ~SIMServerSocket();
     virtual unsigned short port() { return m_nPort; }
     bool created() { return (sock != NULL); }
+	void bind(unsigned mixPort, unsigned maxPort, TCPClient *client);
+	void close();
 protected slots:
     void activated(int);
     void activated();
@@ -102,7 +104,7 @@ public:
     SIMSockets();
     ~SIMSockets();
     virtual Socket *createSocket();
-    virtual ServerSocket *createServerSocket(unsigned minPort, unsigned maxPort);
+    virtual ServerSocket *createServerSocket();
     void resolve(const char *host);
 signals:
     void resolveReady(unsigned long res, const char*);

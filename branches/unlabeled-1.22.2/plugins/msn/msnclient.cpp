@@ -40,6 +40,7 @@
 #include <time.h>
 #include <qtimer.h>
 #include <qregexp.h>
+
 #include <qfile.h>
 
 #include <map>
@@ -47,6 +48,7 @@
 using namespace std;
 
 const unsigned long PING_TIMEOUT	= 60;
+
 const unsigned long FT_TIMEOUT		= 60;
 const unsigned long TYPING_TIME		= 10;
 const unsigned MAX_FT_PACKET		= 2045;
@@ -120,8 +122,6 @@ MSNClient::MSNClient(Protocol *protocol, const char *cfg)
     load_data(msnClientData, &data, cfg);
     m_packetId  = 1;
     m_msg       = NULL;
-	m_listener  = NULL;
-	m_listenMsg = NULL;
     QString s = getListRequests();
     while (!s.isEmpty()){
         QString item = getToken(s, ';');
@@ -134,8 +134,10 @@ MSNClient::MSNClient(Protocol *protocol, const char *cfg)
 
 MSNClient::~MSNClient()
 {
+
     TCPClient::setStatus(STATUS_OFFLINE, false);
     free_data(msnClientData, &data);
+
 	freeData();
 }
 
@@ -228,17 +230,6 @@ void MSNClient::setInvisible(bool bState)
 
 void MSNClient::disconnected()
 {
-	if (m_listenMsg){
-		m_listenMsg->setError(I18N_NOOP("Client go offline"));
-		Event e(EventMessageSent, m_listenMsg);
-		e.process();
-		delete m_listenMsg;
-		m_listenMsg = NULL;
-	}
-	if (m_listener){
-		delete m_listener;
-		m_listener = NULL;
-	}
     Contact *contact;
     ContactList::ContactIterator it;
     time_t now;
@@ -265,7 +256,6 @@ void MSNClient::disconnected()
                 m.setStatus(STATUS_OFFLINE);
                 Event e(EventMessageReceived, &m);
                 e.process();
-
             }
         }
     }
@@ -574,12 +564,10 @@ void MSNClient::getLine(const char *line)
         delete packet;
         return;
     }
-
     if (m_packets.empty()){
         log(L_DEBUG, "Packet not found");
         return;
     }
-
     MSNPacket *packet = NULL;
     unsigned id = getToken(l, ' ').toUInt();
     list<MSNPacket*>::iterator it;
@@ -589,7 +577,6 @@ void MSNClient::getLine(const char *line)
             break;
         }
     }
-
     if (it == m_packets.end()){
         m_socket->error_state("Bad packet id");
         return;
@@ -1662,6 +1649,7 @@ void SBSocket::connect(const char *addr, const char *session, const char *cookie
 
 bool SBSocket::send(Message *msg)
 {
+
 	m_bTyping = false;
     m_queue.push_back(msg);
     switch (m_state){
@@ -2103,6 +2091,7 @@ void SBSocket::messageReady()
 						ft->ip2	  = ip;
 						ft->port2 = port_x;
 						ft->auth_cookie = auth_cookie;
+
 						if (bNew){
 							Event e(EventMessageAcked, msg);
 							e.process();
@@ -2285,7 +2274,9 @@ void SBSocket::process(bool bTyping)
     if (m_msgText.isEmpty() && !m_queue.empty()){
         Message *msg = m_queue.front();
         m_msgText = msg->getPlainText();
+
 		if ((msg->type() == MessageFile) && static_cast<FileMessage*>(msg)->m_transfer)
+
 			m_msgText = "";
         if (m_msgText.isEmpty()){
             if (msg->type() == MessageFile){
@@ -2370,6 +2361,7 @@ MSNFileTransfer::~MSNFileTransfer()
 	if (m_socket)
 		delete m_socket;
 }
+
 
 void MSNFileTransfer::setSocket(Socket *s)
 {
@@ -2675,15 +2667,6 @@ bool SBSocket::acceptMessage(Message *msg, const char *dir, OverwriteMode mode)
 	for (list<msgInvite>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
 		if ((*it).msg->id() != msg->id())
 			continue;
-		if (m_client->m_listener == NULL){
-			m_client->m_listener = new MSNListener(m_client);
-			if (!m_client->m_listener->created()){
-				delete m_client->m_listener;
-				m_client->m_listener = NULL;
-				declineMessage(msg, "Can't allocate port");
-				return false;
-			}
-		}
 		Message *msg = (*it).msg;
 		unsigned cookie = (*it).cookie;
 		m_acceptMsg.erase(it);
@@ -2701,7 +2684,7 @@ bool SBSocket::acceptMessage(Message *msg, const char *dir, OverwriteMode mode)
 		message += inet_ntoa(addr);
 		message += "\r\n"
 			"Port: ";
-		message += number(m_client->m_listener->port());
+//		message += number(m_client->m_listener->port());
 		message += "\r\n"
 			"AuthCookie: ";
 		message += number(auth_cookie);
@@ -2721,14 +2704,6 @@ bool SBSocket::acceptMessage(Message *msg, const char *dir, OverwriteMode mode)
         Event e(EventMessageAcked, msg);
         e.process();
 		ft->listen();
-		if (m_client->m_listenMsg){
-			m_client->m_listenMsg->setError(I18N_NOOP("Timeout"));
-			Event e(EventMessageSent, m_client->m_listenMsg);
-			e.process();
-			delete m_client->m_listenMsg;
-			m_client->m_listenMsg;
-		}
-		m_client->m_listenMsg = static_cast<FileMessage*>(msg);
 		Event eDel(EventMessageDeleted, msg);
 	    eDel.process();
 		return true;
@@ -2764,40 +2739,6 @@ bool SBSocket::declineMessage(Message *msg, const char *reason)
 	}
 	return false;
 }
-
-MSNListener::MSNListener(MSNClient *client)
-{
-    m_socket = getSocketFactory()->createServerSocket(client->getMinPort(), client->getMaxPort());
-    m_socket->setNotify(this);
-    m_client = client;
-}
-
-MSNListener::~MSNListener()
-{
-    if (m_socket)
-        delete m_socket;
-}
-
-void MSNListener::accept(Socket *s, unsigned long ip)
-{
-    struct in_addr addr;
-    addr.s_addr = ip;
-    log(L_DEBUG, "Accept direct connection %s", inet_ntoa(addr));
-	if (m_client->m_listenMsg){
-		static_cast<MSNFileTransfer*>(m_client->m_listenMsg->m_transfer)->setSocket(s);
-		m_client->m_listenMsg = NULL;
-		return;
-	}
-	log(L_WARN, "No message for accept");
-}
-
-unsigned short MSNListener::port()
-{
-    if (m_socket)
-        return m_socket->port();
-    return 0;
-}
-
 
 #ifndef WIN32
 #include "msnclient.moc"

@@ -23,6 +23,9 @@
 #include <qmainwindow.h>
 #include <qstatusbar.h>
 
+#include <list>
+using namespace std;
+
 const unsigned NEW_CONTAINER	= (unsigned)(-1);
 const unsigned GRP_CONTAINER	= 0x80000000;
 
@@ -66,6 +69,7 @@ public:
     QString name();
     UserWnd *wnd(unsigned id);
     UserWnd *wnd();
+	list<UserWnd*> windows();
     string getState();
     bool isReceived() { return m_bReceived; }
     void setReceived(bool bReceived) { m_bReceived = bReceived; }

@@ -2206,6 +2206,7 @@ void *CorePlugin::processEvent(Event *e)
                     delete msg;
                     return e->param();
                 }
+
             if (cmd->id == CmdSeparate){
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));
                 if (contact == NULL)

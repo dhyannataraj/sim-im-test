@@ -265,28 +265,14 @@ void ICQClient::sendServerRequest()
     Buffer &b = m_socket->writeBuffer;
     char *packet = b.data(b.packetStartPos());
     unsigned short packet_size = b.size() - b.packetStartPos();
-    *((unsigned short*)(packet + 0x12)) = htons(packet_size - 0x14);
-    *((unsigned short*)(packet + 0x14)) = packet_size - 0x16;
+	unsigned short size = packet_size - 0x14;
+	packet[0x12] = (size >> 8) & 0xFF;
+	packet[0x13] = size & 0xFF;
+	size = packet_size - 0x16;
+	packet[0x14] = size & 0xFF;
+	packet[0x15] = (size >> 8) & 0xFF;
     sendPacket();
 }
-
-#if 0
-
-void ICQClient::sendPhoneStatus()
-{
-    serverRequest(ICQ_SRVxREQ_MORE);
-    m_socket->writeBuffer << (unsigned short)ICQ_SRVxREQ_PHONE_UPDATE;
-    m_socket->writeBuffer.pack((const char*)(capabilities[CAP_PHONEBOOK]), sizeof(capability));
-    char PhoneState = data.owner.PhoneState;
-    m_socket->writeBuffer
-    << (unsigned short)0x0200
-    << PhoneState
-    << (char)0
-    << (unsigned short)0;
-    sendServerRequest();
-}
-
-#endif
 
 void ICQClient::sendMessageRequest()
 {

@@ -632,6 +632,7 @@ const unsigned EventNetworkChanged	= 0x1000;
 const unsigned EventSocketConnect	= 0x1001;
 
 class ClientSocket;
+class ServerSocketNotify;
 class TCPClient;
 
 typedef struct ConnectParam
@@ -641,6 +642,18 @@ typedef struct ConnectParam
     const char		*host;
     unsigned short	port;
 } ConnectParam;
+
+/* Event socket listen
+   param is ListenParam *
+*/
+const unsigned EventSocketListen	 = 0x1002;
+
+typedef struct ListenParam
+{
+	ServerSocketNotify	*notify;
+	TCPClient			*client;
+	unsigned short		port;
+} ListenParam;
 
 /* Event send & receive message
 */
@@ -1013,6 +1026,7 @@ public:
         Read,
         Write,
         Done,
+
 		Wait,
         Error
     };
@@ -1359,6 +1373,7 @@ public:
     bool getInvisible() { return data.Invisible; }
     virtual void setInvisible(bool bInvisible) { data.Invisible = bInvisible; }
 protected:
+
 	void  freeData();
     State m_state;
     unsigned m_status;

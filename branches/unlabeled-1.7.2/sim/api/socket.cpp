@@ -41,6 +41,7 @@ public:
     SocketFactoryPrivate() {}
     list<ClientSocket*> errSockets;
     list<Socket*> removedSockets;
+	list<ServerSocket*> removedServerSockets;
 };
 
 Socket::Socket()
@@ -199,6 +200,7 @@ SocketFactory::SocketFactory()
 
 SocketFactory::~SocketFactory()
 {
+	idle();
     delete p;
 }
 
@@ -226,6 +228,16 @@ void SocketFactory::remove(Socket *s)
     QTimer::singleShot(0, this, SLOT(idle()));
 }
 
+void SocketFactory::remove(ServerSocket *s)
+{
+    s->setNotify(NULL);
+    s->close();
+    for (list<ServerSocket*>::iterator it = p->removedServerSockets.begin(); it != p->removedServerSockets.end(); ++it)
+        if ((*it) == s) return;
+    p->removedServerSockets.push_back(s);
+    QTimer::singleShot(0, this, SLOT(idle()));
+}
+
 void SocketFactory::idle()
 {
     for (list<ClientSocket*>::iterator it = p->errSockets.begin(); it != p->errSockets.end();){
@@ -245,6 +257,9 @@ void SocketFactory::idle()
     for (list<Socket*>::iterator its = p->removedSockets.begin(); its != p->removedSockets.end(); ++its)
         delete *its;
     p->removedSockets.clear();
+    for (list<ServerSocket*>::iterator itss = p->removedServerSockets.begin(); itss != p->removedServerSockets.end(); ++itss)
+        delete *itss;
+    p->removedServerSockets.clear();
 }
 
 TCPClient::TCPClient(Protocol *protocol, const char *cfg)
@@ -334,6 +349,26 @@ void TCPClient::setClientStatus(unsigned status)
         delete m_socket;
         m_socket = NULL;
     }
+}
+
+ServerSocketNotify::ServerSocketNotify()
+{
+	m_listener = NULL;
+}
+
+ServerSocketNotify::~ServerSocketNotify()
+{
+	if (m_listener)
+		getSocketFactory()->remove(m_listener);
+}
+
+void ServerSocketNotify::bind(unsigned minPort, unsigned maxPort, TCPClient *client)
+{
+	if (m_listener)
+		getSocketFactory()->remove(m_listener);
+	m_listener = getSocketFactory()->createServerSocket();
+    m_listener->setNotify(this);
+	m_listener->bind(minPort, maxPort, client);
 }
 
 };

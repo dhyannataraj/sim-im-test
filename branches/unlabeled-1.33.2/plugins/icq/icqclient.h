@@ -352,11 +352,10 @@ class ICQListener : public ServerSocketNotify
 public:
     ICQListener(ICQClient *client);
     ~ICQListener();
-    bool created() { return (m_socket != NULL); }
-    unsigned short port();
 protected:
-    virtual void accept(Socket *s, unsigned long ip);
-    ServerSocket *m_socket;
+    virtual bool accept(Socket *s, unsigned long ip);
+	virtual void bind_ready(unsigned port);
+	virtual bool error(const char *err);
     ICQClient  *m_client;
 };
 
@@ -502,6 +501,7 @@ public:
                            const char *state);
     virtual string dataName(void*);
     void requestReverseConnection(const char *screen, DirectSocket *socket);
+	void accept(Message *msg, ICQUserData *data);
     Message *parseMessage(unsigned short type, const char *screen,
                           string &p, Buffer &packet, MessageId &id, unsigned cookie);
     bool messageReceived(Message*, const char *screen);
@@ -689,21 +689,6 @@ protected:
     friend class ICQListener;
 };
 
-/*
-class DirectListener : public ServerSocketNotify
-{
-public:
-    DirectListener(DirectSocket *dsock);
-    ~DirectListener();
-    bool created() { return (m_socket != NULL); }
-    unsigned short port();
-protected:
-    virtual void accept(Socket*, unsigned long ip);
-    ServerSocket *m_socket;
-    DirectSocket *m_dsock;
-};
-*/
-
 class ServiceSocket : public ClientSocketNotify, public OscarSocket
 {
 public:
@@ -749,11 +734,12 @@ public:
     void connect();
     void reverseConnect(unsigned long ip, unsigned short port);
     void acceptReverse(Socket *s);
-    virtual bool error_state(const char *err, unsigned code);
-    virtual void connect_ready();
+    virtual bool   error_state(const char *err, unsigned code);
+    virtual void   connect_ready();
     unsigned short localPort();
     unsigned short remotePort();
-    unsigned long Uin();
+    unsigned long  Uin();
+    ICQUserData    *m_data;
 protected slots:
     void timeout();
 protected:
@@ -762,14 +748,14 @@ protected:
     void sendInit();
     void sendInitAck();
     void removeFromClient();
-    bool            m_bIncoming;
-    unsigned short    m_nSequence;
-    unsigned short    m_port;
-    char            m_version;
-    bool			m_bHeader;
+    bool             m_bIncoming;
+    unsigned short   m_nSequence;
+    unsigned short   m_port;
+	unsigned short	 m_localPort;
+    char             m_version;
+    bool			 m_bHeader;
     unsigned long    m_nSessionId;
-    ICQUserData        *m_data;
-    ClientSocket    *m_socket;
+    ClientSocket     *m_socket;
     ICQClient        *m_client;
     unsigned long m_ip;
 };
@@ -827,7 +813,7 @@ protected:
 #endif
 };
 
-class ICQFileTransfer : public FileTransfer, public DirectSocket
+class ICQFileTransfer : public FileTransfer, public DirectSocket, public ServerSocketNotify
 {
 public:
     ICQFileTransfer(FileMessage *msg, ICQUserData *data, ICQClient *client);
@@ -846,7 +832,9 @@ protected:
         InitReceive,
         Send,
         Receive,
-        Wait
+        Wait,
+		WaitReverse,
+		Listen
     };
     State m_state;
 
@@ -855,8 +843,10 @@ protected:
     virtual void write_ready();
     virtual void setSpeed(unsigned speed);
     virtual void startReceive(unsigned pos);
+	virtual void bind_ready(unsigned port);
+	virtual bool accept(Socket *s, unsigned long ip);
+	virtual bool error(const char *err);
 
-    void init();
     void sendInit();
     void startPacket(char cmd);
     void sendPacket(bool dump=true);

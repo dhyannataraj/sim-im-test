@@ -58,7 +58,7 @@ public:
     void setCreate(bool);
 signals:
     void textChanged(const QString&);
-protected slots:
+public slots:
     void showFiles();
     void editTextChanged(const QString&);
 protected:

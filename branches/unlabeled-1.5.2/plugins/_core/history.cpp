@@ -86,7 +86,11 @@ HistoryFile::HistoryFile(const char *name, unsigned contact)
     m_name = name;
 
     string f_name = HISTORY_PATH;
-    f_name += name;
+	if (name && *name){
+		f_name += name;
+	}else{
+		f_name += number(contact);
+	}
 
     f_name = user_file(f_name.c_str());
     setName(QString::fromUtf8(f_name.c_str()));
@@ -539,6 +543,7 @@ void History::add(Message *msg, const char *type)
         msg->setId(s_tempId);
         return;
     }
+
 	if (!line.empty() && (line[line.length() - 1] != '\n'))
 		line += '\n';
 
@@ -556,6 +561,7 @@ void History::add(Message *msg, const char *type)
     }
     unsigned id = f.at();
     f.writeBlock(line.c_str(), line.size());
+
     msg->setId(id);
 }
 

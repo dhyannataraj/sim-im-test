@@ -395,6 +395,7 @@ ICQClient::~ICQClient()
     while (!m_sockets.empty())
         delete m_sockets.front();
     m_processMsg.clear();
+
 	freeData();
 }
 
@@ -542,10 +543,10 @@ void OscarSocket::connect_ready()
 
 void ICQClient::connect_ready()
 {
-
-    if (m_listener == NULL)
+    if (m_listener == NULL){
         m_listener = new ICQListener(this);
-
+		m_listener->bind(getMinPort(), getMaxPort(), NULL);
+	}
     OscarSocket::connect_ready();
     TCPClient::connect_ready();
 }

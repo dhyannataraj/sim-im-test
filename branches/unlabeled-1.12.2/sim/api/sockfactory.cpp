@@ -139,9 +139,9 @@ Socket *SIMSockets::createSocket()
     return new SIMClientSocket;
 }
 
-ServerSocket *SIMSockets::createServerSocket(unsigned minPort, unsigned maxPort)
+ServerSocket *SIMSockets::createServerSocket()
 {
-    return new SIMServerSocket(minPort, maxPort);
+    return new SIMServerSocket();
 }
 
 SIMClientSocket::SIMClientSocket(QSocket *s)
@@ -323,35 +323,65 @@ void SIMClientSocket::pause(unsigned t)
     QTimer::singleShot(t * 1000, this, SLOT(slotBytesWritten()));
 }
 
-SIMServerSocket::SIMServerSocket(unsigned short minPort, unsigned short maxPort)
+SIMServerSocket::SIMServerSocket()
 {
     sn = NULL;
     sock = new QSocketDevice;
-	unsigned startPort = minPort + get_random() % (maxPort - minPort + 1);
-	bool bOK = false;
-    for (m_nPort = startPort;;){
-        if (sock->bind(QHostAddress(), m_nPort)){
-			bOK = true;
-            break;
-		}
-		if (++m_nPort > maxPort)
-			m_nPort = minPort;
-		if (m_nPort == startPort)
-			break;
-    }
-    if (!bOK || !sock->listen(50)){
-        delete sock;
-        sock = NULL;
-        return;
-    }
-    sn = new QSocketNotifier(sock->socket(), QSocketNotifier::Read, this);
-    connect(sn, SIGNAL(activated(int)), this, SLOT(activated(int)));
 }
 
 SIMServerSocket::~SIMServerSocket()
 {
-    if (sn) delete sn;
-    if (sock) delete sock;
+	close();
+}
+
+void SIMServerSocket::close()
+{
+    if (sn){
+		delete sn;
+		sn = NULL;
+	}
+    if (sock){
+		delete sock;
+		sock = NULL;
+	}
+}
+
+void SIMServerSocket::bind(unsigned int minPort, unsigned maxPort, TCPClient *client)
+{
+	unsigned startPort = minPort + get_random() % (maxPort - minPort + 1);
+	unsigned port;
+	bool bOK = false;
+    for (port = startPort;;){
+        if (sock->bind(QHostAddress(), port)){
+			bOK = true;
+            break;
+		}
+		if (++port > port)
+			port = minPort;
+		if (m_nPort == startPort)
+			break;
+    }
+    if (!bOK || !sock->listen(50)){
+		close();
+		if (notify && notify->error(I18N_NOOP("Can't allocate port"))){
+			notify->m_listener = NULL;
+			getSocketFactory()->remove(this);
+		}
+        return;
+    }
+    sn = new QSocketNotifier(sock->socket(), QSocketNotifier::Read, this);
+    connect(sn, SIGNAL(activated(int)), this, SLOT(activated(int)));
+	if (client && notify){
+		ListenParam p;
+		p.notify = notify;
+		p.port   = port;
+		p.client = client;
+		Event e(EventSocketListen, &p);
+		if (e.process())
+			return;
+	}
+	if (notify)
+		notify->bind_ready(port);
 }
 
 void SIMServerSocket::activated(int)
@@ -363,7 +393,10 @@ void SIMServerSocket::activated(int)
         if (notify){
             QSocket *s = new QSocket;
             s->setSocket(fd);
-            notify->accept(new SIMClientSocket(s), htonl(s->address().ip4Addr()));
+            if (notify->accept(new SIMClientSocket(s), htonl(s->address().ip4Addr()))){
+				notify->m_listener = NULL;
+				getSocketFactory()->remove(this);
+			}
         }else{
 #ifdef WIN32
             ::closesocket(fd);

@@ -80,19 +80,6 @@ typedef struct msgInvite
 	unsigned	cookie;
 } msgInvite;
 
-class MSNListener : public ServerSocketNotify
-{
-public:
-    MSNListener(MSNClient *client);
-    ~MSNListener();
-    bool created() { return (m_socket != NULL); }
-    unsigned short port();
-protected:
-    virtual void accept(Socket *s, unsigned long ip);
-    ServerSocket *m_socket;
-    MSNClient  *m_client;
-};
-
 class SBSocket : public QObject, public ClientSocketNotify
 {
     Q_OBJECT
@@ -130,6 +117,7 @@ protected:
 	void sendFile();
 	list<msgInvite>	m_acceptMsg;
 	list<msgInvite>	m_waitMsg;
+
     State			m_state;
     Contact			*m_contact;
     MSNClient		*m_client;
@@ -201,8 +189,6 @@ public:
     bool add(const char *mail, const char *name, unsigned grp);
     list<SBSocket*> m_SBsockets;
     virtual void setupContact(Contact*, void *data);
-	MSNListener *m_listener;
-	FileMessage *m_listenMsg;
 protected slots:
     void ping();
     void authOk();
@@ -268,7 +254,9 @@ public:
 	unsigned port1;
 	unsigned port2;
 	unsigned auth_cookie;
+
 protected slots:
+
 	void timeout();
 protected:
 	enum State
