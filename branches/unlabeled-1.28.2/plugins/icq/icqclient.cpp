@@ -274,7 +274,7 @@ static ENCODING _encodingTbl[] =
         { I18N_NOOP("Central European"), "CP 1250", 2250, 238, true },
 
         { I18N_NOOP("Chinese "), "GBK", 2025, 134, false },
-        { I18N_NOOP("Chinese Simplified"), "gbk2312",2312, 134, false },
+        { I18N_NOOP("Chinese Simplified"), "gbk2312",2312, 134, true },
         { I18N_NOOP("Chinese Traditional"), "Big5",2026, 136, true },
 
         { I18N_NOOP("Cyrillic"), "ISO 8859-5", 8, 204, false },
@@ -1217,6 +1217,7 @@ QTextCodec *ICQClient::_getCodec(const char *encoding)
             if (!strcmp(codec->name(), e->codec))
                 break;
         }
+
 		log(L_DEBUG, "C: %s", codec->name());
         if (e->language && !e->bMain){
             for (e++; e->language; e++){

@@ -757,7 +757,6 @@ QString RTF2HTML::Parse(const char *rtf, const char *_encoding)
                 break;
             }
         case HEX:{
-                cur_level.flush();
                 char s[2];
                 s[0] = (h2d(yytext[2]) << 4) + h2d(yytext[3]);
                 s[1] = 0;
