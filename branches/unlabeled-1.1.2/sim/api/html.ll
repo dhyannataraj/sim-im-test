@@ -69,7 +69,7 @@
 "&amp";?					{ return SYMBOL; }
 "&quot";?					{ return SYMBOL; }
 "&nbsp";?					{ return SYMBOL; }
-"&"[A-Za-z0-9]+";"			{ return SYMBOL; }
+"&"[\#A-Za-z0-9]+";"			{ return SYMBOL; }
 \r							{ return SKIP; }
 \n							{ return SKIP; }
 .							{ return TXT; }
@@ -185,7 +185,12 @@ void HTMLParser::parse(const QString &str)
 				p->text += " ";
 			}else if (s[0] == '#'){
 				bool bOk;
-				unsigned short code = s.mid(1).toUInt(&bOk, 16);
+				
+				unsigned short code;
+				if (s[1] == 'x')
+				   code = s.mid(2).toUInt(&bOk, 16); // hex
+				else
+				   code = s.mid(1).toUInt(&bOk, 10); // decimal
 				if (bOk)
 					p->text += QChar(code);
 			}else{

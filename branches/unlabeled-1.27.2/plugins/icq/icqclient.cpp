@@ -27,6 +27,7 @@
 #include "pastinfo.h"
 #include "icqpicture.h"
 #include "icqsearch.h"
+#include "aimsearch.h"
 #include "icqsecure.h"
 #include "icqmessage.h"
 #include "securedlg.h"
@@ -997,7 +998,7 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
         if ((iconStatus == STATUS_ONLINE) && (s & ICQ_STATUS_FxPRIVATE)){
             dicon = "ICQ_invisible";
         }else{
-            const CommandDef *def = protocol()->statusList();
+            const CommandDef *def = ICQProtocol::_statusList();
             for (; def->text; def++){
                 if (def->id == iconStatus){
                     dicon = def->icon;
@@ -1288,7 +1289,7 @@ QString ICQClient::contactTip(void *_data)
             res += " ";
             res += i18n("Invisible");
         }else  if (data->Uin){
-            for (const CommandDef *cmd = protocol()->statusList(); cmd->text; cmd++){
+            for (const CommandDef *cmd = ICQProtocol::_statusList(); cmd->text; cmd++){
                 if (!strcmp(cmd->icon, statusIcon)){
                     res += " ";
                     statusText += i18n(cmd->text);
@@ -2005,7 +2006,9 @@ QWidget *ICQClient::configWindow(QWidget *parent, unsigned id)
 
 QWidget *ICQClient::searchWindow()
 {
-    return new ICQSearch(this);
+    if (m_bAIM)
+		return new AIMSearch(this);
+	return new ICQSearch(this);
 }
 
 void ICQClient::updateInfo(Contact *contact, void *_data)

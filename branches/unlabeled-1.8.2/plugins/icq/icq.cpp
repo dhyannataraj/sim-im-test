@@ -233,6 +233,11 @@ const CommandDef *ICQProtocol::statusList()
     return icq_status_list;
 }
 
+const CommandDef *ICQProtocol::_statusList()
+{
+    return icq_status_list;
+}
+
 AIMProtocol::AIMProtocol(Plugin *plugin)
         : Protocol(plugin)
 {

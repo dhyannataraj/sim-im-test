@@ -240,18 +240,21 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                         if (str.size() == 0) break;
                         log(L_DEBUG, "group %s %u", str.c_str(), grp_id);
                         ListRequest *lr = findGroupListRequest(grp_id);
-                        if (lr){
-                            lr->icq_id = grp_id;
-                        }else{
-                            Group *grp;
-                            ICQUserData *data = findGroup(grp_id, str.c_str(), grp);
-                            data->IcqID = grp_id;
-                            data->bChecked = true;
-                            if (grp->getName() != QString::fromUtf8(str.c_str())){
-                                grp->setName(QString::fromUtf8(str.c_str()));
-                                Event e(EventGroupChanged, grp);
-                                e.process();
-                            }
+                        if (lr)
+                            break;
+                        Group *grp;
+                        ICQUserData *data = findGroup(grp_id, str.c_str(), grp);
+						if (data->IcqID){
+							lr = findGroupListRequest(data->IcqID);
+							if (lr)
+								removeListRequest(lr);
+						}
+                        data->IcqID    = grp_id;
+                        data->bChecked = true;
+                        if (grp->getName() != QString::fromUtf8(str.c_str())){
+                           grp->setName(QString::fromUtf8(str.c_str()));
+                           Event e(EventGroupChanged, grp);
+                           e.process();
                         }
                         break;
                     }
@@ -332,21 +335,16 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             m_socket->readBuffer >> time;
             if ((time == 0) && list_len && !bIgnoreTime)
                 break;
-
             setContactsTime(time);
-
             Group *grp;
             ContactList::GroupIterator it_g;
             list<Group*> forRemove;
             while ((grp = ++it_g) != NULL){
                 ICQUserData *data = (ICQUserData*)(grp->clientData.getData(this));
-
                 string n;
                 if (grp->id())
                     n = grp->getName().local8Bit();
                 log(L_DEBUG, "Check %u %s %X %u", grp->id(), n.c_str(), data, data ? data->bChecked : 0);
-
-
                 if ((data == NULL) || data->bChecked)
                     continue;
                 ListRequest *lr = findGroupListRequest(data->IcqID);
@@ -391,6 +389,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 }
             }
         }
+		getContacts()->save();
     case ICQ_SNACxLISTS_ROSTERxOK:	// FALLTHROUGH
         {
             log(L_DEBUG, "Rosters OK");
@@ -399,14 +398,29 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             sendCapability();
             sendICMB(1, 11);
             sendICMB(0, m_bAIM ? 11 : 3);
-            if (!m_bAIM)
+            if (m_bAIM){
+				m_status = m_logonStatus;
+			}else{
                 sendLogonStatus();
+			}
             setState(Connected);
 			setPreviousPassword(NULL);
             Event e(EventClientChanged, this);
             e.process();
             sendClientReady();
             if (m_bAIM){
+				Group *grp;
+				ContactList::GroupIterator it;
+				while ((grp = ++it) != NULL){
+					if (grp->id())
+						break;
+				}
+				if (grp == NULL){
+					grp = getContacts()->group(0, true);
+					grp->setName("General");
+					Event e(EventGroupChanged, grp);
+					e.process();
+				}
                 processListRequest();
                 break;
             }
@@ -551,21 +565,25 @@ ListRequest *ICQClient::findContactListRequest(const char *screen)
 ListRequest *ICQClient::findGroupListRequest(unsigned short id)
 {
     for (list<ListRequest>::iterator it = listRequests.begin(); it != listRequests.end(); ++it){
-        if (((*it).type == LIST_GROUP_DELETED) && ((*it).grp_id = id))
-            return &(*it);
-        if ((*it).type == LIST_GROUP_CHANGED){
-            Group *group;
-            ContactList::GroupIterator grp_it;
-            while ((group = ++grp_it) != NULL){
-                if (group->id() == 0)
-                    continue;
-                ICQUserData *data = (ICQUserData*)(group->clientData.getData(this));
-                if (data && (data->IcqID == id))
-                    return &(*it);
-            }
-        }
+		switch ((*it).type){
+		case LIST_GROUP_DELETED:
+        case LIST_GROUP_CHANGED:
+			if ((*it).icq_id = id)
+				return &(*it);
+			break;
+		}
     }
     return NULL;
+}
+
+void ICQClient::removeListRequest(ListRequest *lr)
+{
+    for (list<ListRequest>::iterator it = listRequests.begin(); it != listRequests.end(); ++it){
+		if (&(*it) == lr){
+			listRequests.erase(it);
+			return;
+		}
+    }
 }
 
 void ICQClient::clearListServerRequest()

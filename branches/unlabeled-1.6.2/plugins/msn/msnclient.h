@@ -196,6 +196,8 @@ protected:
     unsigned			m_pingTime;
     list<MSNPacket*>	m_packets;
     MSNServerMessage	*m_msg;
+	void		 requestLoginHost(const char *url);
+	void		 requestTWN(const char *url);
     unsigned	 m_fetchId;
     enum AuthState
     {

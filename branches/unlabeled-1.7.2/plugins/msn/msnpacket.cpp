@@ -163,14 +163,9 @@ bool UsrPacket::answer(const char*, vector<string> &args)
         return false;;
     }
     if (args[1] == "S"){
-        m_client->m_authChallenge = args[2].c_str();
-        m_client->m_fetchId = fetch(m_client, "https://nexus.passport.com/rdr/pprdr.asp");
-        if (m_client->m_fetchId == 0){
-            m_client->authFailed();
-            return false;
-        }
-        m_client->m_state = MSNClient::LoginHost;
-    }
+		m_client->m_authChallenge = args[2].c_str();
+		m_client->requestLoginHost("https://nexus.passport.com/rdr/pprdr.asp");
+	}
     return false;
 }
 

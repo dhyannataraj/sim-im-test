@@ -572,6 +572,7 @@ void MSNClient::authOk()
     setStatus(m_logonStatus);
     QTimer::singleShot(TYPING_TIME * 1000, this, SLOT(ping()));
     setState(Connected);
+
 	setPreviousPassword(NULL);
     MSNPacket *packet = new SynPacket(this);
     packet->send();
@@ -1122,10 +1123,16 @@ void *MSNClient::processEvent(Event *e)
         if (data->req_id != m_fetchId)
             return NULL;
         m_fetchId = 0;
+		string h;
         switch (m_state){
         case LoginHost:
+			h = getHeader("Location", data->headers);
+			if (!h.empty()){
+				requestLoginHost(h.c_str());
+				break;
+			}
             if (data->result == 200){
-                string h = getHeader("PassportURLs", data->headers);
+                h = getHeader("PassportURLs", data->headers);
                 if (h.empty()){
                     m_socket->error_state("No PassportURLs answer");
                     break;
@@ -1137,23 +1144,19 @@ void *MSNClient::processEvent(Event *e)
                 }
                 string loginUrl = "https://";
                 loginUrl += loginHost;
-                string auth = "Authorization: Passport1.4 OrgVerb=GET,OrgURL=http%%3A%%2F%%2Fmessenger%%2Emsn%%2Ecom,sign-in=";
-                auth += quote(getLogin()).utf8();
-                auth += ",pwd=";
-                auth += quote(getPassword()).utf8();
-                auth += ",";
-                auth += m_authChallenge;
-                auth += '\x00';
-                auth += '\x00';
-                m_state = TWN;
-                m_fetchId = fetch(this, loginUrl.c_str(), NULL, auth.c_str());
+				requestTWN(loginUrl.c_str());
             }else{
                 m_socket->error_state("Bad answer code");
             }
             break;
         case TWN:
+			h = getHeader("Location", data->headers);
+			if (!h.empty()){
+				requestTWN(h.c_str());
+				break;
+			}
             if (data->result == 200){
-                string h = getHeader("Authentication-Info", data->headers);
+                h = getHeader("Authentication-Info", data->headers);
                 if (h.empty()){
                     m_socket->error_state("No Authentication-Info answer");
                     break;
@@ -1175,6 +1178,30 @@ void *MSNClient::processEvent(Event *e)
         return e->param();
     }
     return NULL;
+}
+
+void MSNClient::requestLoginHost(const char *url)
+{
+	m_fetchId = fetch(this, url);
+    if (m_fetchId == 0){
+            authFailed();
+            return;
+    }
+    m_state = LoginHost;
+}
+
+void MSNClient::requestTWN(const char *url)
+{
+    string auth = "Authorization: Passport1.4 OrgVerb=GET,OrgURL=http%%3A%%2F%%2Fmessenger%%2Emsn%%2Ecom,sign-in=";
+    auth += quote(getLogin()).utf8();
+    auth += ",pwd=";
+    auth += quote(getPassword()).utf8();
+    auth += ",";
+    auth += m_authChallenge;
+    auth += '\x00';
+    auth += '\x00';
+    m_state = TWN;
+    m_fetchId = fetch(this, url, NULL, auth.c_str());
 }
 
 string MSNClient::getValue(const char *key, const char *str)

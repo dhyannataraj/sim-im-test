@@ -251,7 +251,7 @@ GlobalKey::GlobalKey(CommandDef *cmd)
     m_cmd = *cmd;
 #if QT_VERSION >= 300
     QKeySequence keys = QAccel::stringToKey(cmd->accel);
-    if (!keys.isEmpty()){
+    if (!((QString)keys).isEmpty()){
         string shortName = "sim_";
         shortName += number(cmd->id);
         accel = new KGlobalAccel(this);
@@ -261,9 +261,9 @@ GlobalKey::GlobalKey(CommandDef *cmd)
         accel->updateConnections();
     }
 #else
-accel = new KGlobalAccel(this);
-accel->insertItem(i18n(s->text), i18n(s->text), s->accel);
-accel->connectItem(cmd->accel, this, SLOT(execute()));
+	accel = new KGlobalAccel(this);
+	accel->insertItem(i18n(s->text), i18n(s->text), s->accel);
+	accel->connectItem(cmd->accel, this, SLOT(execute()));
 #endif
 }
 
