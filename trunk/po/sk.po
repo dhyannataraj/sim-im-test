@@ -6,12 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
 "POT-Creation-Date: 2004-04-26 11:31+0400\n"
-"PO-Revision-Date: 2004-05-02 14:30+0100\n"
-"Last-Translator: Tobias Franz <noragen@gmx.net>\n"
+"PO-Revision-Date: 2004-05-03 10:40+0200\n"
+"Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.3.1\n"
+"Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 # libicq/country.cpp:71
 #: sim/api/country.cpp:25
@@ -2284,7 +2286,7 @@ msgstr ""
 # qt3/i18n.cpp:223
 #: sim/ui/qt3/i18n.cpp:223
 msgid "Operation stopped by the user"
-msgstr "Operácia bola prerušená užívateľom"
+msgstr "Operácia bola prerušená používateľom"
 
 # qt3/i18n.cpp:225
 #: sim/ui/qt3/i18n.cpp:225
@@ -3029,9 +3031,8 @@ msgid "Note: For HTTP-pooling using proxy setings for HTTP"
 msgstr "Poznámka: Pre HTTP pooling použite nastavenie proxy pre HTTP"
 
 #: plugins/msn/msnconfigbase.cpp:179
-#, fuzzy
 msgid "&Automatically add contacts in accept list"
-msgstr "&Automaticky pridať kontakty do zoznamu akceptovaných"
+msgstr "&Automaticky pridať kontakty v zozname akceptovaných"
 
 # ui/filetransfer.cpp:301
 # ui/filetransfer.cpp:317
@@ -3326,7 +3327,7 @@ msgstr "Konfigurácia konverzie"
 #: plugins/_core/cfgdlg.cpp:274
 #: plugins/_core/usercfg.cpp:195
 msgid "User info"
-msgstr "Informácie o užívateľovi"
+msgstr "Informácie o používateľovi"
 
 # ui/setupdlg.cpp:140
 # ui/userinfo.cpp:110
@@ -3363,7 +3364,7 @@ msgstr "Konfigurácia"
 # usertbl.cpp:405
 #: plugins/_core/cfgdlg.cpp:550
 msgid "Update info"
-msgstr "Aktualizovať informácie o užívateľovi"
+msgstr "Aktualizovať informácie o používateľovi"
 
 #: plugins/_core/cmenu.cpp:78
 msgid "More..."
@@ -3510,7 +3511,7 @@ msgstr "Skupina"
 #: plugins/icq/icq.cpp:446
 #: plugins/jabber/jabber.cpp:257
 msgid "User &info"
-msgstr "&Informácie o užívateľovi"
+msgstr "&Informácie o používateľovi"
 
 # mainwin.cpp:2067
 #: plugins/_core/core.cpp:629
@@ -3909,7 +3910,7 @@ msgstr "Oddeli"
 #: plugins/_core/userwnd.cpp:134
 #, c-format
 msgid "from %1"
-msgstr "od užívateľa %1"
+msgstr "od používateľa %1"
 
 # mainwin.cpp:2461
 #: plugins/_core/core.cpp:2635
@@ -4027,13 +4028,13 @@ msgstr "Súbor %1 už existuje"
 #: plugins/_core/filetransfer.cpp:210
 #, c-format
 msgid "Receive file from %1"
-msgstr "Prijať súbor od užívateľa %1"
+msgstr "Prijať súbor od používateľa %1"
 
 # msgedit.cpp:588
 #: plugins/_core/filetransfer.cpp:211
 #, c-format
 msgid "Send file to %1"
-msgstr "Odoslať súbor užívateľovi %1"
+msgstr "Odoslať súbor používateľovi %1"
 
 # libicq/country.cpp:342
 #: plugins/_core/filetransfer.cpp:265
@@ -4196,7 +4197,7 @@ msgstr "Dostupný"
 # ui/phonebookbase.cpp:129
 #: plugins/_core/maininfo.cpp:85
 msgid "User is crrently available at:"
-msgstr "Užívateľ je práve dostupný na:"
+msgstr "Používateľ je práve dostupný na:"
 
 # ui/phonebook.cpp:55
 #: plugins/_core/maininfo.cpp:226
@@ -4402,7 +4403,7 @@ msgstr "Oddeľovač"
 # ui/userinfo.cpp:147
 #: plugins/_core/usercfg.cpp:279
 msgid "User info '%1'"
-msgstr "Informácie o užívateľovi - '%1'"
+msgstr "Informácie o používateľovi - '%1'"
 
 # mainwin.cpp:628
 # mainwin.cpp:2727
@@ -4516,7 +4517,7 @@ msgstr "Ukladať zmeny &statusu do histórie"
 # ui/alertdialogbase.cpp:239
 #: plugins/_core/msgcfgbase.cpp:85
 msgid "Open window if user go online"
-msgstr "Otvoriť okno, keď je užívateľ pripojený"
+msgstr "Otvoriť okno, keď je používateľ pripojený"
 
 # userview.cpp:889
 # userview.cpp:905
@@ -4879,7 +4880,7 @@ msgstr "&Zdroj"
 #: plugins/_core/userwnd.cpp:132
 #, c-format
 msgid "to %1"
-msgstr "užívateľovi %1"
+msgstr "používateľovi %1"
 
 # ui/randomchatbase.cpp:281
 # ui/randomchatbase.cpp:300
@@ -5338,7 +5339,7 @@ msgid ""
 msgstr ""
 "Poznámka:\n"
 "Môžete meniť len tie adresy, ktoré ste zadali.\n"
-"Nie je možné zmeniť adresy, ktoré boli prijaté od užívateľa."
+"Nie je možné zmeniť adresy, ktoré boli prijaté od používateľa."
 
 # ui/maininfobase.cpp:327
 #: plugins/_core/maininfobase.cpp:199
@@ -5364,7 +5365,7 @@ msgid ""
 msgstr ""
 "Poznámka:\n"
 "Môžete zmeniť len tie čísla, ktoré ste zadali.\n"
-"Nie je možné zmeniť čísla prijaté od ostatných užívateľov."
+"Nie je možné zmeniť čísla prijaté od ostatných používateľov."
 
 # msgedit.cpp:184
 #: plugins/_core/maininfobase.cpp:209
@@ -5633,7 +5634,7 @@ msgstr "Pozadie"
 
 #: plugins/background/background.cpp:35
 msgid "Plugin provides background pictures for user list"
-msgstr "Zásuvný modul umožňuje nastaviť obrázky pozadia pre zoznam užívateľov"
+msgstr "Zásuvný modul umožňuje nastaviť obrázky pozadia pre zoznam používateľov"
 
 # ui/themesetup.cpp:53
 #: plugins/dock/dock.cpp:49
@@ -5712,7 +5713,7 @@ msgstr "Zásuvný modul umožňuje filtrovať správy"
 # ui/setupdlg.cpp:153
 #: plugins/filter/filter.cpp:106
 msgid "Ignore user"
-msgstr "Ignorovať užívateľa"
+msgstr "Ignorovať používateľa"
 
 # ui/listsec.cpp:131
 # ui/setupdlg.cpp:153
@@ -5724,7 +5725,7 @@ msgstr "Ignorovať túto frázu"
 # ui/setupdlg.cpp:153
 #: plugins/filter/filter.cpp:238
 msgid "Add %1 to ignore list?"
-msgstr "Pridať užívateľa %1 do zoznamu ignorovaných?"
+msgstr "Pridať používateľa %1 do zoznamu ignorovaných?"
 
 #: plugins/filter/filtercfgbase.cpp:66
 msgid "&Receive message only from contacts from list"
@@ -5733,7 +5734,7 @@ msgstr "P&rijímať správy len od kontaktov zo zoznamu"
 # ui/generalsecbase.cpp:227
 #: plugins/filter/filtercfgbase.cpp:67
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr "Odmietnuť správy od neznámych užívateľov obsahujúce tieto slová alebo výrazy:"
+msgstr "Odmietnuť správy od neznámych používateľov obsahujúce tieto slová alebo výrazy:"
 
 # ui/generalsecbase.cpp:228
 #: plugins/filter/filtercfgbase.cpp:68
@@ -6496,7 +6497,7 @@ msgstr "Prijímateľ príliš zlý"
 # ui/phonebookbase.cpp:129
 #: plugins/icq/icqclient.cpp:708
 msgid "User temporarily unavailable"
-msgstr "Užívateľ dočasne nedostupný"
+msgstr "Používateľ dočasne nedostupný"
 
 #: plugins/icq/icqclient.cpp:709
 msgid "No match"
@@ -6578,7 +6579,7 @@ msgstr "Informácie o..."
 #: plugins/icq/icqclient.cpp:1867
 #: plugins/icq/icqclient.cpp:2055
 msgid "Interests"
-msgstr "Zájmy"
+msgstr "Záujmy"
 
 # ui/setupdlg.cpp:120
 # ui/userinfo.cpp:97
@@ -6888,7 +6889,7 @@ msgstr "Anonymný"
 #: plugins/icq/icqservice.cpp:299
 #, c-format
 msgid "You've been warned by %1"
-msgstr "Boli ste upozornený užívateľom %1"
+msgstr "Boli ste upozornený používateľom %1"
 
 # qt3/i18n.cpp:115
 #: plugins/icq/icqvarious.cpp:1456
@@ -7918,7 +7919,7 @@ msgstr "Kľúčové slová"
 
 #: plugins/icq/advsearchbase.cc:263
 msgid "Search &online users only"
-msgstr "Vyhľadať len prip&ojených užívateľov"
+msgstr "Vyhľadať len prip&ojených používateľov"
 
 # ui/enable.cpp:134
 #: plugins/icq/aimconfig.cpp:43
@@ -7963,7 +7964,7 @@ msgstr "Povoli zisovanie &stavu cez Web"
 # ui/generalsecbase.cpp:215
 #: plugins/icq/icqsecurebase.cc:111
 msgid "I&gnore user authorization"
-msgstr "I&gnorovať užívateľovu autorizáciu"
+msgstr "I&gnorovať používateľovu autorizáciu"
 
 # ui/generalsecbase.cpp:216
 #: plugins/icq/icqsecurebase.cc:112
@@ -7973,12 +7974,12 @@ msgstr "Priame pripojenia"
 # ui/generalsecbase.cpp:217
 #: plugins/icq/icqsecurebase.cc:113
 msgid "Allow &direct connection from any user"
-msgstr "Povoliť &priame pripojenie pre všetkých užívateľov"
+msgstr "Povoliť &priame pripojenie pre všetkých používateľov"
 
 # ui/generalsecbase.cpp:218
 #: plugins/icq/icqsecurebase.cc:114
 msgid "Allow direct connection from user listed in &contact list"
-msgstr "Povoliť priame pripojenie pre užívateľov z mojho zoznamu &kontaktov"
+msgstr "Povoliť priame pripojenie pre používateľov z mojho zoznamu &kontaktov"
 
 # ui/generalsecbase.cpp:219
 #: plugins/icq/icqsecurebase.cc:115
@@ -8074,7 +8075,7 @@ msgstr "Odosla upozornenie"
 
 #: plugins/icq/warndlgbase.cc:84
 msgid "Click OK to send warning to %1. This will raise %1's warning and limit his or her activity. Do this only if %1 has done something to merit a warning."
-msgstr "Klikni OK pre odoslanie upozornenia užívateľovi %1. This will raise %1's warning and limit his or her activity. Do this only if %1 has done something to merit a warning."
+msgstr "Klikni OK pre odoslanie upozornenia používateľovi %1. This will raise %1's warning and limit his or her activity. Do this only if %1 has done something to merit a warning."
 
 #: plugins/icq/warndlgbase.cc:85
 msgid "Warn &anonymously"
@@ -8158,7 +8159,7 @@ msgstr "Výber prednastaveného kódovania"
 
 #: plugins/icq/encodingdlgbase.cc:84
 msgid "Your current system encoding (UTF-8) may cause problems saving your personal information and reading offline messages from other users."
-msgstr "Váš aktuálny systém použia kódovanie UTF-8,čo môže spôsobiť problémy pri ukladaní vašich osobných údajov a čítanie správ od ostatných užívateľov v režime nepripojený."
+msgstr "Váš aktuálny systém použia kódovanie UTF-8,čo môže spôsobiť problémy pri ukladaní vašich osobných údajov a čítanie správ od ostatných používateľov v režime nepripojený."
 
 #: plugins/icq/encodingdlgbase.cc:85
 msgid "You will choose the coding by default which want to use:"
@@ -8167,7 +8168,7 @@ msgstr "Zvoľte prednastaveného kódovanie, ktoré chcete používať:"
 # ui/aboutinfobase.cpp:106
 #: plugins/icq/aboutinfobase.cc:66
 msgid "Additional information about user:"
-msgstr "Doplňujúce informácie o užívateľovi:"
+msgstr "Doplňujúce informácie o používateľovi:"
 
 # ui/aboutinfobase.cpp:107
 #: plugins/icq/aboutinfobase.cc:67
@@ -8269,7 +8270,7 @@ msgstr "Zakázať automatickú žiadosť o automatickú odpoveď p&ri zmene stat
 # ui/miscsetupbase.cpp:107
 #: plugins/icq/icqconfigbase.cc:288
 msgid "Disable automatically &update user info"
-msgstr "Zakázať automatickú akt&ualizáciu informácií o užívateľovi"
+msgstr "Zakázať automatickú akt&ualizáciu informácií o používateľovi"
 
 # ui/alertdialogbase.cpp:237
 #: plugins/icq/icqconfigbase.cc:289
@@ -8667,7 +8668,7 @@ msgstr "Proxy server vyžaduje &autorizáciu"
 # userbox.cpp:107
 #: plugins/proxy/proxycfgbase.cpp:134
 msgid "User:"
-msgstr "Užívateľ:"
+msgstr "Používateľ:"
 
 # ui/networkbase.cpp:231
 # ui/proxydlgbase.cpp:176
@@ -8691,7 +8692,7 @@ msgstr "Chybná odpoveď z proxy servera"
 # ui/proxydlgbase.cpp:179
 #: plugins/proxy/proxy.cpp:44
 msgid "Proxy authorization failed"
-msgstr "Chyba pri autorizácii užívateľa na proxy"
+msgstr "Chyba pri autorizácii používateľa na proxy"
 
 # ui/proxydlgbase.cpp:174
 #: plugins/proxy/proxy.cpp:1152
@@ -9134,7 +9135,7 @@ msgstr "%n deň%n dní"
 #: plugins/jabber/jabberconfigbase.cpp:295
 #: plugins/livejournal/livejournalcfgbase.cpp:149
 msgid "Username:"
-msgstr "Užívateľské meno:"
+msgstr "Používateľské meno:"
 
 # ui/enable.cpp:134
 #: plugins/jabber/jabberconfigbase.cpp:296
@@ -9296,7 +9297,7 @@ msgstr "%1 Konfigurácia"
 
 #: plugins/jabber/jabberbrowser.cpp:976
 msgid "Choose a user and password to register with the server"
-msgstr "Vybrať užívateľa a heslo pre registráciu na serveri"
+msgstr "Vybrať používateľa a heslo pre registráciu na serveri"
 
 #: plugins/jabber/jabber.cpp:63
 msgid "Jabber"
@@ -9392,7 +9393,7 @@ msgstr "Prenos skončil s chybou"
 #: plugins/jabber/jabbersearch.cpp:101
 #: plugins/jabber/jabbersearch.cpp:308
 msgid "Username"
-msgstr "Užívateľské meno"
+msgstr "Používateľské meno"
 
 # libicq/country.cpp:79
 #: plugins/jabber/jabbersearch.cpp:106
@@ -9490,19 +9491,19 @@ msgstr "Vložte vašu prezývku, ktorú chcete registrovať."
 
 #: plugins/jabber/jabbersearch.cpp:316
 msgid "Complete the form to submit your searchable attributes in the Jabber User Directory"
-msgstr "Vyplniť formulár s atribútmi pre vyhľadávanie v užívateľskom adresáry Jabber."
+msgstr "Vyplniť formulár s atribútmi pre vyhľadávanie v používateľskom adresáry Jabber."
 
 #: plugins/jabber/jabbersearch.cpp:317
 msgid "Fill in all of the fields to add yourself to the JUD."
-msgstr "Vyplňte všetky polia pre pridanie do užívateľského adresára Jabber."
+msgstr "Vyplňte všetky polia pre pridanie do používateľského adresára Jabber."
 
 #: plugins/jabber/jabbersearch.cpp:318
 msgid "Fill in a field to search for any matching Jabber User (POSIX regular expressions allowed)"
-msgstr "Vyplniť v poli pre hľadanie vyhovujúceho Jabber užívateľa (POSIX regulárne expresie sú povolené)"
+msgstr "Vyplniť v poli pre hľadanie vyhovujúceho Jabber používateľa (POSIX regulárne expresie sú povolené)"
 
 #: plugins/jabber/jabbersearch.cpp:319
 msgid "Fill in a field to search for any matching Jabber users."
-msgstr "Vyplniť v poli pre vyhľadanie vyhovujúcich Jabber užívateľov."
+msgstr "Vyplniť v poli pre vyhľadanie vyhovujúcich Jabber používateľov."
 
 #: plugins/jabber/jabbersearch.cpp:320
 msgid "To register, please fill out the following form.  Be as accurate as possible to make it easier for people to search for you."
@@ -9511,7 +9512,7 @@ msgstr "Pre registráciu vyplňte nasledujúci formulár. Buďte tak presný ako
 # userbox.cpp:107
 #: plugins/jabber/jidsearch.cpp:175
 msgid "User"
-msgstr "Užívateľ"
+msgstr "Používateľ"
 
 # qt3/i18n.cpp:51
 #: plugins/jabber/jidsearch.cpp:176
@@ -9551,7 +9552,7 @@ msgstr "Organizačná jednotka"
 # ui/enable.cpp:134
 #: plugins/livejournal/livejournalcfg.cpp:36
 msgid "Register new user"
-msgstr "Registrácia nového užívateľa"
+msgstr "Registrácia nového používateľa"
 
 #: plugins/livejournal/msgjournal.cpp:153
 msgid "Remove record from journal?"
@@ -9664,7 +9665,7 @@ msgstr "Chybné odoslanie"
 # control.cpp:241
 #: plugins/livejournal/livejournal.cpp:1376
 msgid "Invalid username"
-msgstr "Neplatné užívateľské meno"
+msgstr "Neplatné používateľské meno"
 
 #: plugins/livejournal/livejournal.cpp:1378
 msgid "aggravated"
