@@ -731,6 +731,7 @@ bool MainWindow::init()
     changeWm();
 
     if ((pClient->Uin == 0) || (*pClient->EncryptedPassword.c_str() == 0)){
+		pSplash->hide();
         bInLogin = true;
         LoginDialog dlg;
         dlg.exec();
