@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2002-11-26 11:38+0300\n"
-"PO-Revision-Date: 2002-11-25 11:30+0200\n"
+"PO-Revision-Date: 2002-11-26 23:16+0200\n"
 "Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1740,8 +1740,7 @@ msgstr "%1 від %2"
 
 #: mainwin.cpp:1230 ui/logindlg.cpp:140
 msgid "Can't connect to proxy server"
-msgstr ""
-"Неможливо з'єднатися з проксі-сервером"
+msgstr "Неможливо з'єднатися з проксі-сервером"
 
 #: mainwin.cpp:1236 ui/logindlg.cpp:147
 msgid "Proxy server require authorization"
@@ -1773,8 +1772,7 @@ msgstr "&Ні"
 
 #: mainwin.cpp:1909
 msgid "Add %1 to ignore list ?"
-msgstr ""
-"Додати \"%1\" в список тих що ігноруються?"
+msgstr "Додати \"%1\" в список тих що ігноруються?"
 
 #: mainwin.cpp:1973
 msgid "In visible list"
@@ -2173,8 +2171,7 @@ msgstr "Розмір: %1 / Максимальний: %2"
 
 #: msgedit.cpp:1552
 msgid "Message will be split"
-msgstr ""
-"Повідомлення буде розділено на частини"
+msgstr "Повідомлення буде розділено на частини"
 
 #: msgedit.cpp:1729
 msgid "Decline reason"
@@ -2531,20 +2528,12 @@ msgid "[fail]"
 msgstr "[помилка]"
 
 #: ui/filetransfer.cpp:201
-#, fuzzy
 msgid "Receive file %1 of %2 files from %3"
-msgstr ""
-"Прийом файлу від %1\n"
-"Прийом %n файлів від %1\n"
-"Прийом %n файлів від %1"
+msgstr "Прийом файлів %1 з %2 від %3"
 
 #: ui/filetransfer.cpp:203
-#, fuzzy
 msgid "Send file %1 of %2 files to %3"
-msgstr ""
-"Передача файлу %1\n"
-"Передача %n файлів %1\n"
-"Передача %n файлів %1"
+msgstr "Передача файлів %1 з %2 до %3"
 
 #: ui/filetransfer.cpp:245 ui/filetransfer.cpp:264
 msgid "&New"
@@ -3139,8 +3128,7 @@ msgstr "Режим користувача для прийому файлів"
 # #
 #: ui/acceptbase.cpp:109 ui/msgbase.cpp:94
 msgid "Automaitcaly open window"
-msgstr ""
-"Автоматично відкривати вікно повідомлень"
+msgstr "Автоматично відкривати вікно повідомлень"
 
 #: ui/acceptbase.cpp:113 ui/msgbase.cpp:98
 msgid "Run external program"
@@ -3651,8 +3639,7 @@ msgstr "&Прозорість"
 
 #: ui/themesetupbase.cpp:141
 msgid "Show main window in task manager"
-msgstr ""
-"Показувати основне вікно в панелі задач"
+msgstr "Показувати основне вікно в панелі задач"
 
 #: ui/themesetupbase.cpp:145
 msgid "Show user window in task manager"
@@ -3687,8 +3674,7 @@ msgid "Hide main window after"
 msgstr "Сховати головне вікно"
 
 #: ui/statussetupbase.cpp:88
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Заборонити попередження в стані "
 "\"Відійшов\", \"Не активний\", \"Зайнятий\""
@@ -3859,8 +3845,7 @@ msgstr ""
 
 #: ui/generalsecbase.cpp:123
 msgid "Reject &URL from unknown users"
-msgstr ""
-"Відкидати &URL від невідомих користувачів"
+msgstr "Відкидати &URL від невідомих користувачів"
 
 #: ui/generalsecbase.cpp:127
 msgid "Reject &World Wide pager messages"
@@ -3967,8 +3952,7 @@ msgstr "..."
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Ця програма поширюється під ліцензією GPL v2"
+msgstr "Ця програма поширюється під ліцензією GPL v2"
 
 #: client.cpp:54
 msgid "Unicode"
@@ -4618,3 +4602,4 @@ msgstr "? Невідомий статус %1"
 
 #~ msgid "Spell"
 #~ msgstr "Проверка орфографии"
+
