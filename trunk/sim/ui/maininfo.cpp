@@ -203,6 +203,7 @@ void MainInfo::apply(ICQUser *u)
     u->LastName = edtLast->text().local8Bit();
     u->EMail = mailInfo ? mailInfo->Email.c_str() : "";
     u->HiddenEMail = (mailInfo ? mailInfo->Hide() : 0);
+    u->EMails = mails;
 }
 
 EMailInfo *MainInfo::currentMail()

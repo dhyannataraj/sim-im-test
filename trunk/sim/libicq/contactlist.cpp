@@ -226,6 +226,7 @@ ICQUser::ICQUser()
         AlertOnScreen(this, "AlertOnScreen", true),
         AlertPopup(this, "AlertPopup"),
         AlertWindow(this, "AlertWindow"),
+        AcceptMsgWindow(this, "AcceptMsgWindow"),
         AcceptFileMode(this, "AcceptFileMode"),
         AcceptFileOverride(this, "AcceptFileOverride"),
         AcceptFileOverwrite(this, "AcceptFileOverwrite"),

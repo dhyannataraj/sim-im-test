@@ -32,7 +32,6 @@ GeneralSecurity::GeneralSecurity(QWidget *p)
 {
     lblPict->setPixmap(Pict("security"));
     chkAuth->setChecked(pClient->Authorize());
-    chkWebAware->setChecked(pClient->WebAware());
     chkHiddenIP->setChecked(pClient->HideIp());
     chkRejectMsg->setChecked(pClient->RejectMessage());
     chkRejectURL->setChecked(pClient->RejectURL());
@@ -50,7 +49,6 @@ GeneralSecurity::GeneralSecurity(QWidget *p)
                               "* - any amount of symbols (or is empty)\n"
                               "? - any symbol\n");
     connect(chkAuth, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
-    connect(chkWebAware, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
     connect(chkHiddenIP, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
     connect(chkRejectMsg, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
     connect(chkRejectURL, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
@@ -65,7 +63,6 @@ GeneralSecurity::GeneralSecurity(QWidget *p)
 void GeneralSecurity::apply(ICQUser*)
 {
     hideHelp(false);
-    pClient->setSecurityInfo(chkAuth->isChecked(), chkWebAware->isChecked());
     pClient->HideIp = chkHiddenIP->isChecked();
     pClient->RejectMessage = chkRejectMsg->isChecked();
     pClient->RejectURL = chkRejectURL->isChecked();

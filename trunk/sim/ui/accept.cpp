@@ -76,6 +76,7 @@ void AcceptDialog::load(ICQUser *u)
         btnDialog->setChecked(true);
         break;
     }
+    chkWindow->setChecked(u->AcceptMsgWindow());
     chkOverwrite->setChecked(u->AcceptFileOverwrite());
     modeChanged(0);
 }
@@ -89,6 +90,7 @@ void AcceptDialog::save(ICQUser *u)
         }
         u->AcceptFileOverride = true;
     }
+    u->AcceptMsgWindow = chkWindow->isChecked();
     u->AcceptFileOverwrite = chkOverwrite->isChecked();
     u->AcceptFilePath = edtPath->text().local8Bit();
     unsigned short id = 0;
@@ -110,6 +112,7 @@ void AcceptDialog::overrideChanged(bool)
     grpAccept->setEnabled(isEnable);
     edtPath->setEnabled(isEnable);
     lblPath->setEnabled(isEnable);
+    chkWindow->setEnabled(isEnable);
 }
 
 void AcceptDialog::modeChanged(int)

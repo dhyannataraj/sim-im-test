@@ -700,6 +700,7 @@ public:
     ConfigBool	 AlertWindow;
 
     // Accept mode
+    ConfigBool	 AcceptMsgWindow;
     ConfigUShort AcceptFileMode;
     ConfigBool	 AcceptFileOverride;
     ConfigBool	 AcceptFileOverwrite;

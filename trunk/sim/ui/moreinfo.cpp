@@ -116,14 +116,14 @@ void MoreInfo::setLang(int)
 void MoreInfo::apply(ICQUser *u)
 {
     u->Age = spnAge->value();
-    u->Gender = cmbGender->currentItem();
+    u->Gender = getComboValue(cmbGender, genders);
     u->Homepage = edtHomePage->text().local8Bit();
     u->BirthYear = spnYear->value();
     u->BirthMonth = cmbMonth->currentItem();
     u->BirthDay = spnDay->value();
-    u->Language1 = cmbLang1->currentItem();
-    u->Language2 = cmbLang2->currentItem();
-    u->Language3 = cmbLang3->currentItem();
+    u->Language1 = getComboValue(cmbLang1, languages);
+    u->Language2 = getComboValue(cmbLang2, languages);
+    u->Language3 = getComboValue(cmbLang3, languages);
 }
 
 #ifndef _WINDOWS

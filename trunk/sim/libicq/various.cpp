@@ -56,7 +56,7 @@ const unsigned short ICQ_SRVxREQ_MODIFY_MAIN	   = 0xEA03;
 const unsigned short ICQ_SRVxREQ_MODIFY_HOME	   = 0xFD03;
 const unsigned short ICQ_SRVxREQ_MODIFY_ABOUT	   = 0x0604;
 const unsigned short ICQ_SRVxREQ_MODIFY_WORK       = 0xF303;
-const unsigned short ICQ_SRVxREQ_MODIFY_MORE       = 0xF303;
+const unsigned short ICQ_SRVxREQ_MODIFY_MORE       = 0xFD03;
 const unsigned short ICQ_SRVxREQ_MODIFY_INTERESTS  = 0x1004;
 const unsigned short ICQ_SRVxREQ_MODIFY_BACKGROUND = 0x1A04;
 const unsigned short ICQ_SRVxREQ_MODIFY_MAIL	   = 0x0B04;
@@ -800,7 +800,7 @@ bool ICQClient::setMainInfo(ICQUser *u)
     NPARAM(TimeZone);
     NPARAM(HiddenEMail);
 
-    if (!bChange) return false;
+    // if (!bChange) return false;
 
     serverRequest(ICQ_SRVxREQ_MORE);
     writeBuffer << ICQ_SRVxREQ_MODIFY_MAIN
@@ -894,7 +894,8 @@ bool ICQClient::setWorkInfo(ICQUser *u)
     SPARAM(WorkPosition);
     NPARAM(Occupation);
     SPARAM(WorkHomepage);
-    if (!bChange) return false;
+
+    // if (!bChange) return false;
 
     serverRequest(ICQ_SRVxREQ_MORE);
     writeBuffer << ICQ_SRVxREQ_MODIFY_WORK
@@ -974,14 +975,16 @@ bool ICQClient::setMoreInfo(ICQUser *u)
     NPARAM(Language2);
     NPARAM(Language3);
     SPARAM(Homepage);
-    if (!bChange) return false;
+
+    // if (!bChange) return false;
 
     serverRequest(ICQ_SRVxREQ_MORE);
     writeBuffer << ICQ_SRVxREQ_MODIFY_MORE
     << u->Age()
+    << (char)0
     << u->Gender()
     << s_Homepage
-    << u->BirthYear()
+    << (unsigned short)htons(u->BirthYear())
     << u->BirthMonth()
     << u->BirthDay()
     << u->Language1()
@@ -1019,7 +1022,8 @@ bool ICQClient::setAboutInfo(ICQUser *u)
 
     bool bChange = false;
     SPARAM(About);
-    if (!bChange) return false;
+
+    // if (!bChange) return false;
 
     serverRequest(ICQ_SRVxREQ_MORE);
     writeBuffer << ICQ_SRVxREQ_MODIFY_ABOUT
@@ -1108,7 +1112,8 @@ bool ICQClient::setBackgroundInfo(ICQUser *u)
     bool bChange = false;
     NPARAM(Backgrounds);
     NPARAM(Affilations);
-    if (!bChange) return false;
+
+    // if (!bChange) return false;
 
     serverRequest(ICQ_SRVxREQ_MORE);
     writeBuffer << ICQ_SRVxREQ_MODIFY_BACKGROUND;
@@ -1149,7 +1154,7 @@ bool ICQClient::setMailInfo(ICQUser *u)
     NPARAM(EMails);
 
     serverRequest(ICQ_SRVxREQ_MORE);
-    writeBuffer << ICQ_SRVxREQ_MODIFY_BACKGROUND;
+    writeBuffer << ICQ_SRVxREQ_MODIFY_MAIL;
 
     char c = u->EMails.size();
     c--;
@@ -1186,11 +1191,13 @@ void ICQClient::setInfo(ICQUser *u)
     if (setMailInfo(u)) bChange = true;
     if (setInterestsInfo(u)) bChange = true;
     if (setBackgroundInfo(u)) bChange = true;
-    if (Phones != u->Phones){
-        Phones = u->Phones;
-        if (updatePhoneBook()) bChange = true;
-    }
-    if (bChange) sendInfoUpdate();
+    /*
+        if (Phones != u->Phones){
+            Phones = u->Phones;
+            if (updatePhoneBook()) bChange = true;
+        }
+    */
+    //    if (bChange) sendInfoUpdate();
 }
 
 void ICQClient::sendPhoneInit()

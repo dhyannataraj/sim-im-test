@@ -273,7 +273,7 @@ MainWindow::MainWindow(const char *name)
 
     int tz;
 #ifndef HAVE_TM_GMTOFF
-    tz = _timezone / 2;
+    tz = - _timezone;
 #else
     time_t now;
     time(&now);
@@ -788,6 +788,7 @@ void MainWindow::messageReceived(ICQMessage *msg)
 {
     unread_msg m(msg);
     ICQUser *u = pClient->getUser(msg->getUin());
+
     if (u == NULL) return;
 
     list<unsigned long>::iterator it;
@@ -801,6 +802,11 @@ void MainWindow::messageReceived(ICQMessage *msg)
     xosd->setMessage(i18n("%1 from %2 received")
                      .arg(pClient->getMessageText(msg->Type(), 1))
                      .arg(user.name()), u->Uin());
+
+    if (!u->AcceptFileOverride())
+        u = pClient;
+    if (u->AcceptMsgWindow())
+        userFunction(msg->getUin(), mnuAction);
 }
 
 void MainWindow::showUser(int id)
