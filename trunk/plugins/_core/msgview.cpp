@@ -508,7 +508,8 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
 
     // We pass the rich text quoted, since we're not sure of its' XML validity.
     // The XSL engine should copy it as-is (using xsl:value-of with disable-output-escaping="yes").
-    s += quoteString(QString(MSG_BEGIN) + msgText);
+    QString tmp(QString(QString(MSG_BEGIN) + msgText).utf8());
+    s += quoteString(tmp);
 
     s += "</body>";
     s += "</message>";
