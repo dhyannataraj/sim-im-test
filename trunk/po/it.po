@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sim\n"
 "POT-Creation-Date: 2004-04-11 14:17+0400\n"
-"PO-Revision-Date: 2004-04-15 10:52+0100\n"
+"PO-Revision-Date: 2004-04-15 12:46+0100\n"
 "Last-Translator: Lapo Luchini <lapo@lapo.it>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2364,14 +2364,12 @@ msgstr "-"
 #: plugins/jabber/jabberconfigbase.cpp:291
 #: plugins/msn/msnconfigbase.cpp:176
 #: plugins/yahoo/yahoocfgbase.cpp:182
-#, fuzzy
 msgid "Use &HTTP polling"
 msgstr "Usa polling &HTTP"
 
 #: plugins/msn/msnconfigbase.cpp:177
-#, fuzzy
 msgid "&Automatically use HTTP pooling if proxy required"
-msgstr "Usa &automaticamente pooling HTTP se è richiesto proxy"
+msgstr "Usa &automaticamente polling HTTP se è richiesto proxy"
 
 #: plugins/icq/aimconfigbase.cc:151
 #: plugins/icq/icqconfigbase.cc:240
