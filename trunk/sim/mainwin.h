@@ -231,6 +231,7 @@ public:
     string			SMSSignBottom;
 
     string			ForwardPhone;
+	bool			SendEnter;
 
     bool 	     init();
 

@@ -258,6 +258,7 @@ cfgParam MainWindow_Params[] =
         { "SMSSignTop", offsetof(MainWindow, SMSSignTop), PARAM_STRING, 0 },
         { "SMSSignBottom", offsetof(MainWindow, SMSSignBottom), PARAM_STRING, (unsigned)"\n&MyAlias; (ICQ# &MyUin;)" },
         { "ForwardPhone", offsetof(MainWindow, ForwardPhone), PARAM_STRING, 0 },
+		{ "SendEnter", offsetof(MainWindow, SendEnter), PARAM_BOOL, 0 },
         { "", 0, 0, 0 }
     };
 

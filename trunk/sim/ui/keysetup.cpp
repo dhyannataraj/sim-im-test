@@ -29,6 +29,7 @@ KeySetup::KeySetup(QWidget *parent)
         : KeySetupBase(parent)
 {
     lblPict->setPixmap(Pict("key_bindings"));
+	chkSendEnter->setChecked(pMain->SendEnter);
     lstActions->removeColumn(0);
     lstActions->addColumn(i18n("Action"));
     lstActions->addColumn(i18n("Keys"));
@@ -50,6 +51,7 @@ KeySetup::KeySetup(QWidget *parent)
 
 void KeySetup::apply(ICQUser*)
 {
+	pMain->SendEnter = chkSendEnter->isChecked();
     string kWindow;
     string kDblClick;
     string kSearch;

@@ -58,7 +58,6 @@ signals:
     void goMessage(unsigned long Uin, unsigned long msgId);
     void showPopup(QPoint);
 public slots:
-    void copy();
     void search();
     void repeatSearch();
 protected slots:

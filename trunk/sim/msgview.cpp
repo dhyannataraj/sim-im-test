@@ -80,15 +80,6 @@ void TextShow::resizeEvent(QResizeEvent *e)
     scrollToAnchor(curAnchor);
 }
 
-void TextShow::copy()
-{
-    if (!hasSelectedText()) return;
-    string text(selectedText().utf8());
-    text = pClient->clearHTML(text);
-    QString msgText = QString::fromUtf8(text.c_str());
-    QApplication::clipboard()->setText(msgText);
-}
-
 void TextShow::resetColors()
 {
     setBackground(baseBG);
