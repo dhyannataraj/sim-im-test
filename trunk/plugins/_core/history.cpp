@@ -865,13 +865,13 @@ bool History::save(unsigned id, const QString& file_name, bool bAppend)
 		#endif
         f.close();
         if (status != IO_Ok) {
-            log(L_ERROR, "I/O error during write to file %s : %s", file_name, (const char*)errorMessage.local8Bit());
+            log(L_ERROR, "I/O error during write to file %s : %s", (const char*)file_name.local8Bit(), (const char*)errorMessage.local8Bit());
             return false;
         }
         return true;
     }
 	//else deleted: unreachable Code
-    log(L_ERROR, "Can't open %s for writing", file_name);
+    log(L_ERROR, "Can't open %s for writing", (const char*)file_name.local8Bit());
     return false;
     
 }
