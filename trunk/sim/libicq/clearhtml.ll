@@ -43,6 +43,7 @@ using namespace std;
 %}
 
 %option nounput
+%option stack
 %option prefix="clearhtml"
 
 %x tag

@@ -54,6 +54,7 @@ using namespace std;
 %}
 
 %option prefix="genrtf"
+%option stack
 
 %x s_tag
 %x s_attr

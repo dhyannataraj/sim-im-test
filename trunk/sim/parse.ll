@@ -41,6 +41,7 @@
 %}
 
 %option nounput
+%option stack
 %option prefix="parser"
 
 %x x_tag

@@ -267,6 +267,9 @@ public:
 
     unsigned long m_nProcessId;
 
+    void sendVisibleList();
+    void sendInvisibleList();
+
     bool utf16to8(unsigned short c, string &s);
 
     enum LoginState{

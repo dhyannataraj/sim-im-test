@@ -48,6 +48,7 @@
 %}
 
 %option nounput
+%option stack
 %option prefix="rtf"
 
 %%

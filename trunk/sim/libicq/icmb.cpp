@@ -270,7 +270,7 @@ void ICQClientPrivate::snac_message(unsigned short type, unsigned short)
                     m->Uin.push_back(uin);
                     m->Received = true;
                     char *m_data = (*m_tlv);
-                    if (*((unsigned long*)m_data)){
+                    if (m_data[1] == 2){
                         // UTF-8 message from icq2go
                         m_data += 4;
                         for (unsigned n = 4; n < m_tlv->Size() - 1; n += 2, m_data += 2){
