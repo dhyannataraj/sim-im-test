@@ -25,6 +25,7 @@
 #include <qcombobox.h>
 #include <qspinbox.h>
 #include <qtabwidget.h>
+#include <qlabel.h>
 
 OSDConfig::OSDConfig(QWidget *parent, void *d, OSDPlugin *plugin)
         : OSDConfigBase(parent)

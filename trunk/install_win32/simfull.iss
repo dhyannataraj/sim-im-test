@@ -7,10 +7,10 @@
 OutputBaseFilename=sim-full
 
 [Files]
-Source: "C:\qt\bin\qt-mt230nc.dll"; DestDir: "{app}"; CopyMode: alwaysoverwrite
-Source: "C:\openssl\bin\libeay32.dll"; DestDir: "{app}"; CopyMode: alwaysoverwrite
-Source: "C:\openssl\bin\ssleay32.dll"; DestDir: "{app}"; CopyMode: alwaysoverwrite
-Source: "C:\windows\libexpat.dll"; DestDir: "{app}"; CopyMode: alwaysoverwrite
-Source: "msvcrt.dll"; DestDir: "{sys}"; CopyMode: onlyifdoesntexist; Flags: uninsneveruninstall
-Source: "msvcp60.dll"; DestDir: "{sys}"; CopyMode: onlyifdoesntexist; Flags: uninsneveruninstall
+Source: "C:\qt\bin\qt-mt230nc.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\openssl\bin\libeay32.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\openssl\bin\ssleay32.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\qt\bin\libexpat.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "msvcrt.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall
+Source: "msvcp60.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall
 

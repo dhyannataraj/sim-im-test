@@ -23,6 +23,7 @@
 #include <qcheckbox.h>
 #include <qcombobox.h>
 #include <qspinbox.h>
+#include <qlabel.h>
 
 OSDIface::OSDIface(QWidget *parent, void *d, OSDPlugin *plugin)
         : OSDIfaceBase(parent)
@@ -54,6 +55,14 @@ OSDIface::OSDIface(QWidget *parent, void *d, OSDPlugin *plugin)
     }
     bgToggled(data->Background != 0);
     connect(chkBackground, SIGNAL(toggled(bool)), this, SLOT(bgToggled(bool)));
+    unsigned nScreens = screens();
+    if (nScreens <= 1){
+        lblScreen->hide();
+        cmbScreen->hide();
+    }else{
+        for (unsigned i = 0; i < nScreens; i++)
+            cmbScreen->insertItem(QString::number(i));
+    }
 }
 
 void OSDIface::bgToggled(bool bState)

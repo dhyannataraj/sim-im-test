@@ -496,31 +496,31 @@ void ICQClient::disconnected()
     m_nSequence = rand() & 0x7FFF;
 }
 
-const char icq_error_codes[][40] = {"Unknown error code",
-                                    "Invalid SNAC header",
-                                    "Server rate limit exceeded",
-                                    "Client rate limit exceeded",
-                                    "Recipient is not logged in",
-                                    "Requested service unavailable",
-                                    "Requested service not defined",
-                                    "We sent an obsolete SNAC",
-                                    "Not supported by server",
-                                    "Not supported by client",
-                                    "Refused by client",
-                                    "Reply too big",
-                                    "Responses lost",
-                                    "Request denied",
-                                    "Incorrect SNAC format",
-                                    "Insufficient rights",
-                                    "Recipient blocked",
-                                    "Sender too evil",
-                                    "Receiver too evil",
-                                    "User temporarily unavailable",
-                                    "No match",
-                                    "List overflow",
-                                    "Request ambiguous",
-                                    "Server queue full",
-                                    "Not while on AOL"};
+const char *icq_error_codes[] = {I18N_NOOP("Unknown error"),
+                                    I18N_NOOP("Invalid SNAC header"),
+                                    I18N_NOOP("Server rate limit exceeded"),
+                                    I18N_NOOP("Client rate limit exceeded"),
+                                    I18N_NOOP("Recipient is not logged in"),
+                                    I18N_NOOP("Requested service unavailable"),
+                                    I18N_NOOP("Requested service not defined"),
+                                    I18N_NOOP("We sent an obsolete SNAC"),
+                                    I18N_NOOP("Not supported by server"),
+                                    I18N_NOOP("Not supported by client"),
+                                    I18N_NOOP("Refused by client"),
+                                    I18N_NOOP("Reply too big"),
+                                    I18N_NOOP("Responses lost"),
+                                    I18N_NOOP("Request denied"),
+                                    I18N_NOOP("Incorrect SNAC format"),
+                                    I18N_NOOP("Insufficient rights"),
+                                    I18N_NOOP("Recipient blocked"),
+                                    I18N_NOOP("Sender too evil"),
+                                    I18N_NOOP("Receiver too evil"),
+                                    I18N_NOOP("User temporarily unavailable"),
+                                    I18N_NOOP("No match"),
+                                    I18N_NOOP("List overflow"),
+                                    I18N_NOOP("Request ambiguous"),
+                                    I18N_NOOP("Server queue full"),
+                                    I18N_NOOP("Not while on AOL")};
 
 const char* ICQClient::error_message(unsigned short error)
 {
@@ -785,7 +785,7 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
                 data = (ICQUserData*)(contact->clientData.createData(this));
                 data->Uin = uin;
                 if (uin == 0)
-                    set_str(&data->Screen, screen);
+                    set_str(&data->Screen, s.c_str());
                 bool bChanged = false;
                 if (alias){
                     if (*alias){
@@ -828,7 +828,7 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
     data = (ICQUserData*)(contact->clientData.createData(this));
     data->Uin = uin;
     if (uin == 0)
-        set_str(&data->Screen, screen);
+        set_str(&data->Screen, s.c_str());
     QString name;
     if (alias && *alias){
         name = QString::fromUtf8(alias);

@@ -37,6 +37,7 @@ typedef struct OSDUserData
     unsigned	Shadow;
     unsigned	Background;
     unsigned	BgColor;
+    unsigned	Screen;
 } OSDUserData;
 
 const unsigned OSD_ALERT	= 0;

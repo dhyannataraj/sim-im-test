@@ -102,6 +102,8 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
                     send(true);
                     break;
                 }
+            }else{
+                err_str = error_message(error);
             }
             if (m_send.msg){
                 if ((m_send.msg->type() == MessageCheckInvisible) && (error == 0x0004)) {

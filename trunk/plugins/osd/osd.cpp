@@ -85,6 +85,7 @@ static DataDef osdUserData[] =
         { "Shadow", DATA_BOOL, 1, 1 },
         { "Background", DATA_BOOL, 1, 0 },
         { "BgColor", DATA_ULONG, 1, 0 },
+        { "Screen", DATA_ULONG, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 

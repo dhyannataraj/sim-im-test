@@ -73,6 +73,7 @@ Source: "..\Release\po\nl.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\pl.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\ru.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\sk.qm"; DestDir: "{app}\po"; Flags: ignoreversion
+Source: "..\Release\po\sw.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\tr.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\uk.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\plugins\styles\xpstyle.dll"; DestDir: "{app}\plugins\styles"; Flags: ignoreversion

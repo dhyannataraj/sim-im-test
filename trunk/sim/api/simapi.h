@@ -1462,6 +1462,9 @@ EXPORT QString getPart(QString&, unsigned size);
 EXPORT QString getRichTextPart(QString&, unsigned size);
 
 EXPORT const char **smiles();
+
+EXPORT unsigned screens();
+EXPORT QRect screenGeometry(unsigned nScreen);
 };
 
 using namespace SIM;

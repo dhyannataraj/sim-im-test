@@ -907,7 +907,7 @@ QString JabberClient::contactTip(void *_data)
             res += "<br><font size=-1>";
             res += i18n("Last online");
             res += ": </font>";
-            res += formatTime(data->Status);
+            res += formatTime(data->StatusTime);
         }
     }else{
         if (data->OnlineTime){
