@@ -215,31 +215,39 @@ void PictButton::setText(const QString &text)
     setState(icon, text);
 }
 
-void PictButton::showEvent(QShowEvent *e)
+void CToolButton::setAccel(int key)
 {
-    if (accelKey) setAccel(accelKey);
-    CToolButton::showEvent(e);
+    accelKey = key;
+    if (isVisible())
+        QToolButton::setAccel(key);
 }
 
-void PictButton::hideEvent(QHideEvent *e)
+void CToolButton::showEvent(QShowEvent *e)
 {
-    if (accelKey) setAccel(0);
-    CToolButton::hideEvent(e);
+    if (accelKey)
+        QToolButton::setAccel(accelKey);
+    QToolButton::showEvent(e);
+}
+
+void CToolButton::hideEvent(QHideEvent *e)
+{
+    if (accelKey)
+        QToolButton::setAccel(0);
+    QToolButton::hideEvent(e);
 }
 
 void PictButton::setState(const QString& _icon, const QString& _text)
 {
     icon = _icon;
     text = _text;
-    accelKey = QAccel::shortcutKey(text);
-    if (isVisible())
-        setAccel(accelKey);
+    int accelKey = QAccel::shortcutKey(text);
     QString t = _text;
     int pos;
     while ((pos = t.find('&')) >= 0){
         t = t.left(pos) + "<u>" + t.mid(pos+1, 1) + "</u>" + t.mid(pos+2);
     }
     setTextLabel(t);
+    setAccel(accelKey);
     repaint();
 }
 

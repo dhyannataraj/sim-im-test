@@ -372,14 +372,14 @@ bool SIMClient::load(istream &s, string &nextPart)
                         ok = false;
                         break;
                     }
-		    History h(u->Uin);
-		    ICQMessage *msg = h.getMessage(*it);
-		    if (msg == NULL){
-			u->unreadMsgs.remove(*it);
-			ok = false;
-			break;
-		    }
-		    delete msg; 
+                    History h(u->Uin);
+                    ICQMessage *msg = h.getMessage(*it);
+                    if (msg == NULL){
+                        u->unreadMsgs.remove(*it);
+                        ok = false;
+                        break;
+                    }
+                    delete msg;
                 }
                 if (ok) break;
             }
@@ -452,17 +452,18 @@ ServerSocket *SIMClient::createServerSocket()
     return new ICQServerSocket(MinTCPPort, MaxTCPPort);
 }
 
-void SIMClient::markAsRead(ICQMessage *msg)
+bool SIMClient::markAsRead(ICQMessage *msg)
 {
     ICQUser *u = getUser(msg->getUin());
-    if (u == NULL) return;
+    if (u == NULL) return false;
     for (list<unsigned long>::iterator it = u->unreadMsgs.begin(); it != u->unreadMsgs.end(); it++){
         if (*it == msg->Id){
             u->unreadMsgs.remove(*it);
             emit messageRead(msg);
-            return;
+            return true;
         }
     }
+    return false;
 }
 
 void SIMClient::process_event(ICQEvent *e)

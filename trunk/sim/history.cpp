@@ -345,6 +345,24 @@ ICQMessage *History::loadMessage(std::fstream &f, string &type, unsigned long id
 
 #define BLOCK_SIZE	1024
 
+History::iterator::iterator(History &_h)
+        : h(_h), f_size(0)
+{
+    msg = NULL;
+    start_block = (unsigned long)(-1);
+}
+
+void History::iterator::setOffs(unsigned long offs)
+{
+    if (offs > BLOCK_SIZE){
+        start_block = offs - BLOCK_SIZE;
+    }else{
+        start_block = 0;
+    }
+    while (!msgs.empty())
+        msgs.pop();
+}
+
 bool History::iterator::operator ++()
 {
     if (msg){
@@ -355,7 +373,8 @@ bool History::iterator::operator ++()
         if (!f.is_open()){
             if (!h.open(false, f, &f_size))
                 return false;
-            start_block = f_size;
+            if (start_block > f_size)
+                start_block = f_size;
         }
         if (msgs.size()){
             unsigned long msgId = msgs.top();

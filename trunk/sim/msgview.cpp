@@ -56,6 +56,8 @@
 #endif
 #endif
 
+#define MAX_HISTORY	100
+
 TextShow::TextShow(QWidget *p, const char *name)
         : QTextBrowser(p, name)
 {
@@ -474,7 +476,7 @@ void MsgView::addMessage(ICQMessage *msg, bool bUnread, bool bSet)
     }else{
         setContentsPos(x, y);
     }
-    updateScrollBars();
+    sync();
 }
 
 int MsgView::setMsgBgColor(unsigned long uin, unsigned long id, unsigned long rgb, int start)
@@ -520,9 +522,6 @@ HistoryTextView::HistoryTextView(QWidget *p, unsigned long uin)
     bFill = false;
     bBack = true;
     h = NULL;
-    connect(pClient, SIGNAL(messageReceived(ICQMessage*)), this, SLOT(messageReceived(ICQMessage*)));
-    connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
-    QTimer::singleShot(100, this, SLOT(fill()));
 }
 
 HistoryTextView::~HistoryTextView()
@@ -530,69 +529,46 @@ HistoryTextView::~HistoryTextView()
     if (h) delete h;
 }
 
-void HistoryTextView::processEvent(ICQEvent *e)
+void HistoryTextView::fill(unsigned long offs)
 {
-    if (e->type() != EVENT_DONE) return;
-    ICQMessage *msg = e->message();
-    if (msg == NULL) return;
-    messageReceived(msg);
-}
-
-void HistoryTextView::messageReceived(ICQMessage *msg)
-{
-    if (msg->getUin() != m_nUin) return;
-    if (msg->Id >= MSG_PROCESS_ID) return;
-    int x = contentsX();
-    int y = contentsY();
-    bool bUnread = false;
-    ICQUser *u = pClient->getUser(m_nUin);
-    if (u){
-        for (list<unsigned long>::iterator it = u->unreadMsgs.begin(); it != u->unreadMsgs.end(); it++){
-            if ((*it) == msg->Id){
-                bUnread = true;
-                break;
-            }
+    if (bFill){
+        bFill = false;
+        if (h){
+            delete h;
+            h = NULL;
         }
     }
-    if (bBack){
-        QString saveText;
-        for (int i = 0; i < paragraphs(); i++){
-            saveText += "<p>";
-            saveText += text(i);
-            saveText += "</p>";
-        }
-        setText("");
-        addMessage(msg, bUnread, false);
-        y += contentsHeight();
-        setText(text() + saveText);
-    }else{
-        addMessage(msg, bUnread, false);
-    }
-    setContentsPos(x, y);
+    setText("");
+    bFill = true;
+    u = pClient->getUser(m_nUin);
+    if (u == NULL) return;
+    h = new History(m_nUin);
+    History::iterator &it = h->messages();
+    it.setOffs(offs);
+    showProgress(0);
+    nMsg = 0;
+    fill();
 }
 
 void HistoryTextView::fill()
 {
-    if (!bFill){
-        bFill = true;
-        u = pClient->getUser(m_nUin);
-        if (u == NULL) return;
-        h = new History(m_nUin);
-        showProgress(0);
-    }
     if ((u == NULL) || (h == NULL)) return;
     History::iterator &it = h->messages();
     list<unsigned long>::iterator unreadIt;
     ++it;
     if (*it){
-        showProgress(it.progress());
         for (unreadIt = u->unreadMsgs.begin(); unreadIt != u->unreadMsgs.end(); unreadIt++)
             if ((*unreadIt) == (*it)->Id) break;
         bBack = false;
         addMessage(*it, unreadIt != u->unreadMsgs.end(), false);
         bBack = true;
-        QTimer::singleShot(0, this, SLOT(fill()));
-        return;
+        nMsg++;
+        showProgress(nMsg);
+        if (nMsg < MAX_HISTORY){
+            QTimer::singleShot(0, this, SLOT(fill()));
+            return;
+        }
+        emit fillDone((*it)->Id);
     }
 
     delete h;
@@ -615,10 +591,13 @@ void HistoryTextView::ownColorsChanged()
 HistoryView::HistoryView(QWidget *p, unsigned long uin)
         : QMainWindow(p, "historyview", 0)
 {
+    connect(pClient, SIGNAL(messageReceived(ICQMessage*)), this, SLOT(messageReceived(ICQMessage*)));
+    connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     connect(pMain, SIGNAL(searchChanged()), this, SLOT(searchChanged()));
     view = new HistoryTextView(this, uin);
     connect(view, SIGNAL(showProgress(int)), this, SLOT(slotShowProgress(int)));
     connect(view, SIGNAL(goMessage(unsigned long, unsigned long)), this, SLOT(slotGoMessage(unsigned long, unsigned long)));
+    connect(view, SIGNAL(fillDone(unsigned long)), this, SLOT(fillDone(unsigned long)));
     setCentralWidget(view);
     QToolBar *t = new QToolBar(this);
     t->setHorizontalStretchable(true);
@@ -629,6 +608,15 @@ HistoryView::HistoryView(QWidget *p, unsigned long uin)
     btnSearch->setIconSet(Icon("find"));
     connect(btnSearch, SIGNAL(clicked()), this, SLOT(slotSearch()));
     connect(cmbSearch, SIGNAL(textChanged(const QString&)), this, SLOT(searchTextChanged(const QString&)));
+    t->addSeparator();
+    btnPrev = new CToolButton(t);
+    btnPrev->setTextLabel(i18n("&Previous page"));
+    btnPrev->setIconSet(Icon("1leftarrow"));
+    connect(btnPrev, SIGNAL(clicked()), this, SLOT(prevPage()));
+    btnNext = new CToolButton(t);
+    btnNext->setTextLabel(i18n("&Next page"));
+    btnNext->setIconSet(Icon("1rightarrow"));
+    connect(btnNext, SIGNAL(clicked()), this, SLOT(nextPage()));
     searchTextChanged("");
     setDockEnabled(t, Left, false);
     setDockEnabled(t, Right, false);
@@ -643,11 +631,27 @@ HistoryView::HistoryView(QWidget *p, unsigned long uin)
     accel->connectItem(accel->insertItem(Key_F3), this, SLOT(slotSearch(int)));
     accel->connectItem(accel->insertItem(CTRL + Key_F), this, SLOT(slotSearch(int)));
 #endif
+    QTimer::singleShot(100, this, SLOT(fill()));
 }
 
 #ifdef USE_KDE
 #undef QLineEdit
 #endif
+
+void HistoryView::fill()
+{
+    btnPrev->setEnabled(false);
+    btnNext->setEnabled(false);
+    view->fill((unsigned long)(-1));
+}
+
+void HistoryView::fillDone(unsigned long offs)
+{
+    if (offs){
+        btnNext->setEnabled(true);
+        pages.push(offs);
+    }
+}
 
 void HistoryView::searchChanged()
 {
@@ -685,7 +689,7 @@ void HistoryView::slotSearch()
     pMain->addSearch(searchText);
     if (view->find(searchText, false, false, true, &searchParag, &searchIndex)){
         view->setSelection(searchParag, searchIndex, searchParag, searchIndex + searchText.length());
-	searchIndex += searchText.length();
+        searchIndex += searchText.length();
         view->setCursorPosition(searchParag, searchIndex);
         view->ensureCursorVisible();
         return;
@@ -708,6 +712,40 @@ void HistoryView::searchTextChanged(const QString &searchText)
     btnSearch->setEnabled(!searchText.isEmpty());
     searchParag = 0;
     searchIndex = 0;
+}
+
+void HistoryView::prevPage()
+{
+    if (btnNext->isEnabled()) pages.pop();
+    unsigned long offs = (unsigned long)(-1);
+    if (pages.size()) pages.pop();
+    if (pages.size()) offs = pages.top();
+    btnPrev->setEnabled(pages.size() > 0);
+    btnNext->setEnabled(false);
+    view->fill(offs);
+}
+
+void HistoryView::nextPage()
+{
+    if (pages.size() == 0) return;
+    btnPrev->setEnabled(true);
+    btnNext->setEnabled(false);
+    view->fill(pages.top());
+}
+
+void HistoryView::processEvent(ICQEvent *e)
+{
+    if (e->type() != EVENT_DONE) return;
+    ICQMessage *msg = e->message();
+    if (msg == NULL) return;
+    messageReceived(msg);
+}
+
+void HistoryView::messageReceived(ICQMessage *msg)
+{
+    if (msg->getUin() != view->Uin()) return;
+    if (msg->Id >= MSG_PROCESS_ID) return;
+    btnPrev->setEnabled(true);
 }
 
 #ifndef _WINDOWS

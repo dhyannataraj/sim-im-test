@@ -35,6 +35,8 @@
 #endif
 
 #include <qmainwindow.h>
+#include <stack>
+using namespace std;
 
 class ICQMessage;
 class ICQEvent;
@@ -56,6 +58,7 @@ public:
     void resetColors();
     QString quoteText(const char *text, const char *charset);
     void setUin(unsigned long);
+    unsigned long Uin() { return m_nUin; }
 signals:
     void goMessage(unsigned long Uin, unsigned long msgId);
     void showPopup(QPoint);
@@ -104,14 +107,15 @@ class HistoryTextView : public MsgView
 public:
     HistoryTextView(QWidget *p, unsigned long uin);
     ~HistoryTextView();
+    void fill(unsigned long offs);
 signals:
     void showProgress(int);
+    void fillDone(unsigned long offs);
 protected slots:
     virtual void ownColorsChanged();
-    void messageReceived(ICQMessage *msg);
-    void processEvent(ICQEvent *e);
     void fill();
 protected:
+    unsigned nMsg;
     bool bFill;
     ICQUser *u;
     History *h;
@@ -134,12 +138,21 @@ protected slots:
     void slotSearch(int);
     void searchTextChanged(const QString&);
     void searchChanged();
+    void prevPage();
+    void nextPage();
+    void messageReceived(ICQMessage *msg);
+    void processEvent(ICQEvent *e);
+    void fill();
+    void fillDone(unsigned long id);
 protected:
+    stack<unsigned long> pages;
     int searchParag;
     int searchIndex;
     HistoryTextView *view;
     CToolButton *btnSearch;
     QComboBox   *cmbSearch;
+    CToolButton *btnNext;
+    CToolButton *btnPrev;
 };
 
 #endif

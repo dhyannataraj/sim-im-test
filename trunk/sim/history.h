@@ -49,10 +49,11 @@ public:
         ICQMessage *operator*() { return msg; }
         bool operator++();
         int progress();
+        void setOffs(unsigned long);
         ~iterator() { if (msg) delete msg; f.close(); }
 protected:
         History &h;
-    iterator(History &_h) : h(_h), f_size(0) { msg = NULL; }
+        iterator(History &_h);
         std::fstream f;
         unsigned long f_size;
         unsigned long start_block;
@@ -66,7 +67,7 @@ private:
         iterator(iterator&);
     };
 
-    iterator &messages() { return it; }
+iterator &messages() { return it; }
 protected:
     iterator it;
     unsigned long m_nUin;

@@ -137,7 +137,7 @@ public:
     static QString getStatusText(unsigned long);
     static const char *getMessageIcon(int type);
     static QString getMessageText(int type, int n);
-    void markAsRead(ICQMessage *msg);
+    bool markAsRead(ICQMessage *msg);
     virtual void process_event(ICQEvent *e);
     QStringList *encodings;
     void setUserEncoding(unsigned long uin, int i);

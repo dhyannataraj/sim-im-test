@@ -704,11 +704,13 @@ void MsgEdit::markAsRead()
     if (msg == NULL) return;
     if (pMain->SimpleMode){
         if (!msg->Received) return;
-        pClient->markAsRead(msg);
+        if (pClient->markAsRead(msg))
+            setupNext();
     }else{
         ICQUser *u = pClient->getUser(Uin);
         if (u){
             History h(Uin);
+            bool bChanged = false;
             for (;;){
                 bool bExit = true;
                 for (list<unsigned long>::iterator it = u->unreadMsgs.begin(); it != u->unreadMsgs.end(); it++){
@@ -716,16 +718,16 @@ void MsgEdit::markAsRead()
                     if (msg == NULL) continue;
                     unsigned type = msg->Type();
                     if ((type == ICQ_MSGxMSG) || (type == ICQ_MSGxURL) || (type == ICQ_MSGxSMS)){
-                        pClient->markAsRead(msg);
+                        bChanged = pClient->markAsRead(msg) | bChanged;
                         bExit = false;
                         break;
                     }
                 }
                 if (bExit) break;
             }
+            if (bChanged) setupNext();
         }
     }
-    setupNext();
 }
 
 void MsgEdit::messageReceived(ICQMessage *m)
@@ -945,9 +947,15 @@ void MsgEdit::setupNext()
         QString s;
         if (nUnread > 1) s.sprintf(" [%u]", nUnread);
         btnNext->setState(SIMClient::getMessageIcon(msgType), i18n("Next") + s);
+        if (btnSend->isVisible()) btnNext->hide();
         return;
     }
-    btnNext->setState("message", i18n("New"));
+    if (btnReply->isVisible() || btnSend->isVisible()){
+        btnNext->hide();
+    }else{
+        btnNext->setState("message", i18n("&New message"));
+        btnNext->show();
+    }
 }
 
 void MsgEdit::nextClick()
@@ -1129,7 +1137,6 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
         btnCloseSend->hide();
         btnAccept->hide();
         btnDecline->hide();
-        btnNext->show();
         btnReply->hide();
         btnQuote->hide();
         btnGrant->hide();
@@ -1166,7 +1173,6 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
         btnCloseSend->hide();
         btnAccept->hide();
         btnDecline->hide();
-        btnNext->show();
         btnMultiply->hide();
         setupNext();
         if (msg->Type() == ICQ_MSGxCONTACTxLIST){
@@ -1303,7 +1309,6 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
         btnQuote->hide();
         btnGrant->hide();
         btnRefuse->hide();
-        btnNext->hide();
         btnAccept->hide();
         btnDecline->hide();
         if (pMain->SimpleMode){
@@ -1583,6 +1588,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
             log(L_WARN, "Unknown message type %u", msg->Type());
         }
     }
+    setupNext();
     textChanged();
     setUpdatesEnabled(true);
     repaint();

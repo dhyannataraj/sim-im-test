@@ -51,14 +51,18 @@ public:
     void setPopup(QPopupMenu *popup);
     void setTextLabel(const QString &label);
     QPoint popupPos(QWidget *w);
+    void setAccel(int key);
 signals:
     void showPopup(QPoint);
 protected slots:
     void btnClicked();
 protected:
+    int accelKey;
     QPopupMenu *popup;
     void mousePressEvent(QMouseEvent*);
     void contextMenuEvent(QContextMenuEvent*);
+    void showEvent(QShowEvent*);
+    void hideEvent(QHideEvent*);
 };
 
 class PictButton : public CToolButton
@@ -73,11 +77,8 @@ public slots:
 protected slots:
     void iconChanged();
 protected:
-    int accelKey;
     QString text;
     QString icon;
-    void showEvent(QShowEvent*);
-    void hideEvent(QHideEvent*);
     void paintEvent(QPaintEvent*);
     QSizePolicy sizePolicy() const;
     QSize minimumSizeHint() const;
