@@ -33,6 +33,7 @@ public:
     NewProtocol(QWidget *parent);
     ~NewProtocol();
     Client	*m_client;
+	bool	connected() { return m_bConnected; }
 signals:
     void apply();
 protected slots:
@@ -46,7 +47,10 @@ protected:
     vector<Protocol*>	m_protocols;
     ConnectWnd	*m_connectWnd;
     QWidget *m_setup;
+	QWidget *m_last;
     bool	m_bConnect;
+	bool	m_bConnected;
+	bool	m_bStart;
 };
 
 #endif

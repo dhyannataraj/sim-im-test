@@ -38,8 +38,11 @@ NewProtocol::NewProtocol(QWidget *parent)
 {
     m_setup  = NULL;
     m_client = NULL;
+    m_last   = NULL;
     m_connectWnd = NULL;
+    m_bConnected = false;
     m_bConnect = false;
+    m_bStart   = (parent == NULL);
     SET_WNDPROC("protocol")
     setIcon(Pict("configure"));
     setButtonsPict(this);
@@ -117,6 +120,11 @@ NewProtocol::~NewProtocol()
 
 void NewProtocol::protocolChanged(int n)
 {
+    if (m_last){
+        removePage(m_last);
+        delete m_last;
+        m_last = NULL;
+    }
     if (m_connectWnd){
         removePage(m_connectWnd);
         delete m_connectWnd;
@@ -146,8 +154,12 @@ void NewProtocol::protocolChanged(int n)
     connect(m_setup, SIGNAL(okEnabled(bool)), this, SLOT(okEnabled(bool)));
     connect(this, SIGNAL(apply()), m_setup, SLOT(apply()));
     addPage(m_setup, i18n(protocol->description()->text));
-    m_connectWnd = new ConnectWnd;
+    m_connectWnd = new ConnectWnd(m_bStart);
     addPage(m_connectWnd, i18n(protocol->description()->text));
+    if (m_bStart){
+        m_last = new QWidget;
+        addPage(m_last, i18n(protocol->description()->text));
+    }
     setNextEnabled(currentPage(), true);
     setIcon(Pict(protocol->description()->icon));
     Event e(EventRaiseWindow, this);
@@ -170,7 +182,16 @@ void NewProtocol::pageChanged(const QString&)
         m_client->setStatus(status, false);
         m_connectWnd->setConnecting(true);
         setBackEnabled(m_connectWnd, false);
+        setNextEnabled(currentPage(), false);
         setFinishEnabled(m_connectWnd, false);
+    }
+    if (m_last && (currentPage() == m_last)){
+        setFinishEnabled(m_connectWnd, false);
+        cancelButton()->show();
+        backButton()->show();
+        finishButton()->hide();
+        showPage(protocolPage);
+        protocolChanged(0);
     }
 }
 
@@ -191,13 +212,17 @@ void NewProtocol::loginComplete()
     if (m_client == NULL)
         return;
     m_bConnect = false;
+    m_bConnected = true;
     m_client->setStatus(CorePlugin::m_plugin->getManualStatus(), true);
     m_connectWnd->setConnecting(false);
+    setNextEnabled(currentPage(), true);
     setFinishEnabled(m_connectWnd, true);
     getContacts()->addClient(m_client);
     m_client = NULL;
     cancelButton()->hide();
     backButton()->hide();
+    Event e(EventSaveState);
+    e.process();
 }
 
 void *NewProtocol::processEvent(Event *e)

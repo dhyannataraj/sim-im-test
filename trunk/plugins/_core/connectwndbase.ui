@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>256</width>
-            <height>292</height>
+            <width>304</width>
+            <height>284</height>
         </rect>
     </property>
     <property>
@@ -36,7 +36,7 @@
         <spacer>
             <property>
                 <name>name</name>
-                <cstring>Spacer12</cstring>
+                <cstring>Spacer13</cstring>
             </property>
             <property>
                 <name>orientation</name>
@@ -175,6 +175,28 @@
             </property>
         </widget>
         <widget>
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>lblNext</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>If you want to add connection press button " Next".
+You can add connection later using connection manager</string>
+            </property>
+            <property>
+                <name>alignment</name>
+                <set>WordBreak|AlignVCenter|AlignLeft</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+            <property>
+                <name>wordwrap</name>
+            </property>
+        </widget>
+        <widget>
             <class>QFrame</class>
             <property stdset="1">
                 <name>name</name>
@@ -229,7 +251,7 @@
         <spacer>
             <property>
                 <name>name</name>
-                <cstring>Spacer13</cstring>
+                <cstring>Spacer12</cstring>
             </property>
             <property>
                 <name>orientation</name>

@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>347</width>
+            <width>343</width>
             <height>284</height>
         </rect>
     </property>
@@ -23,7 +23,7 @@
         <class>QWidget</class>
         <property stdset="1">
             <name>name</name>
-            <cstring>page</cstring>
+            <cstring>protocolPage</cstring>
         </property>
         <attribute>
             <name>title</name>

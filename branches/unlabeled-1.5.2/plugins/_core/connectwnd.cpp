@@ -22,13 +22,14 @@
 #include <qframe.h>
 #include <qfile.h>
 
-ConnectWnd::ConnectWnd()
+ConnectWnd::ConnectWnd(bool bStart)
 {
+	m_bStart = bStart;
     setConnecting(true);
 #if QT_VERSION < 300
     QMovie movie(QFile::decodeName(app_file("pict/connect.gif").c_str()));
 #else
-QMovie movie(QFile::decodeName(app_file("pict/connect.mng").c_str()));
+	QMovie movie(QFile::decodeName(app_file("pict/connect.mng").c_str()));
 #endif
     lblMovie->setMovie(movie);
     movie.connectUpdate(this, SLOT(updateMovie()));
@@ -48,11 +49,17 @@ void ConnectWnd::setConnecting(bool bState)
         lblConnect->show();
         lblMovie->show();
         lblComplete->hide();
+		lblNext->hide();
         frmError->hide();
     }else{
         lblConnect->hide();
         lblMovie->hide();
         lblComplete->show();
+		if (m_bStart){
+			lblNext->show();
+		}else{
+			lblNext->hide();
+		}
         frmError->hide();
     }
 }
@@ -62,6 +69,7 @@ void ConnectWnd::setErr(const QString &text)
     lblConnect->hide();
     lblMovie->hide();
     lblComplete->hide();
+	lblNext->hide();
     lblError->setText(text);
     frmError->show();
 }

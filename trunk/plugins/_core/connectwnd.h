@@ -25,11 +25,13 @@ class ConnectWnd : public ConnectWndBase
 {
     Q_OBJECT
 public:
-    ConnectWnd();
+    ConnectWnd(bool bStart);
     void setConnecting(bool bState);
     void setErr(const QString &text);
 protected slots:
     void updateMovie();
+protected:
+    bool m_bStart;
 };
 
 #endif

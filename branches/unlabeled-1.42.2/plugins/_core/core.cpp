@@ -2884,7 +2884,7 @@ bool CorePlugin::init(bool bInit)
         hideWindows();
         getContacts()->clearClients();
         NewProtocol pDlg(NULL);
-        if (!pDlg.exec()){
+        if (!pDlg.exec() && !pDlg.connected()){
             Event eAbort(EventPluginsLoad, (void*)ABORT_LOADING);
             eAbort.process();
             return false;
