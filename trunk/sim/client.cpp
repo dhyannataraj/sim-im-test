@@ -266,6 +266,7 @@ cfgParam SIMUser_Params[] =
         { "ProgOverride", OFFSET_OF(SIMUser, ProgOverride), PARAM_BOOL, 0 },
         { "ProgMessageOn", OFFSET_OF(SIMUser, ProgMessageOn), PARAM_BOOL, 0 },
         { "ProgMessage", OFFSET_OF(SIMUser, ProgMessage), PARAM_STRING, 0 },
+        { "KabUid", OFFSET_OF(SIMUser, strKabUid), PARAM_STRING, 0 },
         { "", 0, PARAM_OFFS, (unsigned)ICQUser_Params },
         { "", 0, 0, 0 }
     };

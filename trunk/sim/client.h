@@ -110,6 +110,9 @@ public:
     bool				ProgOverride;
     bool				ProgMessageOn;
     string				ProgMessage;
+
+    // corresponding KAddressBook identifier
+    string strKabUid;
 };
 
 class SIMClient : public QObject, public ICQClient
