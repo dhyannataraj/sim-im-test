@@ -186,24 +186,24 @@ void CToolButton::setState()
     if (m_def.icon_on && strcmp(m_def.icon, m_def.icon_on)){
         QIconSet offIcon = Icon(m_def.icon);
 #if COMPAT_QT_VERSION < 0x030000
-		if (!offIcon.isNull()){
+		if (!offIcon.pixmap(QIconSet::Small, QIconSet::Normal).isNull()){
 			setIconSet(offIcon);
 			QIconSet onIcon = Icon(m_def.icon_on);
-			if (!onIcon.isNull())
+			if (!onIcon.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
                 setOnIconSet(onIcon);
 		}
 #else
-		if (!offIcon.isNull()){
+		if (!offIcon.pixmap(QIconSet::Small, QIconSet::Normal).isNull()){
             QIconSet icons = offIcon;
 			QPixmap off = Pict(m_def.icon_on);
-			if (!off.isNull())
+			if (!off.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
 				icons.setPixmap(off, QIconSet::Small, QIconSet::Normal, QIconSet::On);
             setIconSet(icons);
 		}
 #endif
     }else{
         QIconSet icon = Icon(m_def.icon);
-        if (!icon.isNull())
+        if (!icon.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
             setIconSet(icon);
     }
     CToolItem::setState();
@@ -429,7 +429,7 @@ void PictButton::paintEvent(QPaintEvent*)
     QRect rc(4, 4, width() - 4, height() - 4);
     if (m_def.icon && strcmp(m_def.icon, "empty")){
         QIconSet icons = Icon(m_def.icon);
-        if (!icons.isNull()){
+        if (!icons.pixmap(QIconSet::Small, QIconSet::Normal).isNull()){
             const QPixmap &pict = icons.pixmap(QIconSet::Small, isEnabled() ? QIconSet::Active : QIconSet::Disabled);
             QToolBar *bar = static_cast<QToolBar*>(parent());
             if (bar->orientation() == Vertical){

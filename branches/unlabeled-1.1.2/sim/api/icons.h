@@ -60,6 +60,7 @@ public:
     Icons();
     ~Icons();
     const QPixmap *getPict(const char *name, unsigned &flags);
+	static unsigned nSmile;
 protected slots:
     void iconChanged(int);
 protected:

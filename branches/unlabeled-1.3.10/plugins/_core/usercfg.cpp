@@ -244,7 +244,7 @@ UserConfig::UserConfig(Contact *contact, Group *group)
     setButtonsPict(this);
     setTitle();
     QIconSet iconSet = Icon("webpress");
-    if (!iconSet.isNull())
+    if (!iconSet.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
         btnUpdate->setIconSet(iconSet);
     btnUpdate->hide();
 

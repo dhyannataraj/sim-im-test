@@ -64,6 +64,8 @@ protected:
     virtual	void element_end(const char *el);
     virtual	void char_data(const char *str, int len);
 	string		m_name;
+	string		m_file;
+	string		*m_data;
 	unsigned	m_flags;
 	UnZip		*m_zip;
 };
@@ -75,6 +77,8 @@ public:
     ~MyMimeSourceFactory();
     virtual const QMimeSource* data(const QString &abs_name) const;
 };
+
+unsigned Icons::nSmile = 0;
 
 Icons::Icons()
 {
@@ -354,39 +358,39 @@ const QPixmap *WrkIconSet::getPict(const char *name, unsigned &flags)
 		for (i = 0; i < getContacts()->nClients(); i++){
 			Client *client = getContacts()->getClient(i);
 			icon_name = client->protocol()->description()->icon;
-			icon = getPict(icon_name, flags);
+			icon = SIM::getPict(icon_name, flags);
 			if (icon)
 				break;
 		}
 		if (icon == NULL){
 			icon_name = "ICQ";
-			icon = getPict(icon_name, flags);
+			icon = SIM::getPict(icon_name, flags);
 		}
 		if (icon == NULL)
 			return NULL;
 		return add(name, *icon, flags);
 	}
 	if (n == "offline"){
-		const QPixmap *icon = getPict("online", flags);
+		const QPixmap *icon = SIM::getPict("online", flags);
 		if (icon == NULL)
 			return NULL;
 		return add(name, makeOffline(flags, *icon), flags);
 	}
 	if (n == "inactive"){
-		const QPixmap *icon = getPict("online", flags);
+		const QPixmap *icon = SIM::getPict("online", flags);
 		if (icon == NULL)
 			return NULL;
 		return add(name, makeInactive(*icon), flags);
 	}
 	if (n == "invisible"){
-		const QPixmap *icon = getPict("online", flags);
+		const QPixmap *icon = SIM::getPict("online", flags);
 		if (icon == NULL)
 			return NULL;
 		return add(name, makeInvisible(flags, *icon), flags);
 	}
 	int pos = n.find('_');
 	if (pos > 0){
-		const QPixmap *icon = getPict(n.substr(0, pos).c_str(), flags);
+		const QPixmap *icon = SIM::getPict(n.substr(0, pos).c_str(), flags);
 		QPixmap res;
 		if (icon){
 			string s = n.substr(pos + 1);
@@ -400,7 +404,7 @@ const QPixmap *WrkIconSet::getPict(const char *name, unsigned &flags)
 				res = makeInactive(*icon);
 			}else{
 				unsigned f;
-				const QPixmap *i = getPict(s.c_str(), f);
+				const QPixmap *i = SIM::getPict(s.c_str(), f);
 				if (i)
 					res = merge(*icon, *i);
 			}
@@ -433,7 +437,8 @@ FileIconSet::FileIconSet(const char *file)
 {
 	m_zip = new UnZip(QFile::decodeName(app_file(file).c_str()));
 	QByteArray arr;
-	if (m_zip->readFile("icondef.xml", &arr))
+	m_data = NULL;
+	if (m_zip->open() && m_zip->readFile("icondef.xml", &arr))
 		parse(arr.data(), arr.size());
 }
 
@@ -451,6 +456,8 @@ const QPixmap *FileIconSet::getPict(const char *name, unsigned &flags)
 		return NULL;
 	flags = (*it).second.flags;
 	if ((*it).second.icon == NULL){
+		if (it->second.file.empty())
+			return NULL;
 		QByteArray arr;
 		if (!m_zip->readFile(QString::fromUtf8(it->second.file.c_str()), &arr))
 			return NULL;
@@ -462,27 +469,82 @@ const QPixmap *FileIconSet::getPict(const char *name, unsigned &flags)
 void FileIconSet::clear()
 {
 	for (PIXMAP_MAP::iterator it = m_icons.begin(); it != m_icons.end(); ++it){
-		if ((*it).second.icon)
-			delete (*it).second.icon;
+		if ((*it).second.icon == NULL)
+			continue;
+		delete (*it).second.icon;
+		(*it).second.icon = NULL;
 	}
 }
 
-void FileIconSet::element_start(const char *el, const char**)
+void FileIconSet::element_start(const char *el, const char **args)
 {
 	if (!strcmp(el, "icon")){
 		m_name  = "";
 		m_flags = 0;
+		m_file  = "";
+		if (args){
+			for (; *args; ){
+				const char *key = *(args++);
+				const char *value = *(args++);
+				if (!strcmp(key, "name"))
+					m_name = value;
+				if (!strcmp(key, "flags"))
+					m_flags = atol(value);
+			}
+		}
+		return;
+	}
+	if (!strcmp(el, "object") && m_file.empty()){
+		string mime;
+		if (args){
+			for (; *args; ){
+				const char *key = *(args++);
+				const char *value = *(args++);
+				if (!strcmp(key, "mime"))
+					mime = value;
+			}
+		}
+		if (mime.empty())
+			return;
+		int n = mime.find('/');
+		if (n < 0)
+			return;
+		if (mime.substr(0, n) != "image")
+			return;
+		mime = mime.substr(n + 1);
+		QStringList l = QImage::inputFormatList();
+		for (unsigned i = 0; i < l.count(); i++){
+			if (l[i].lower() != mime.c_str())
+				continue;
+			m_data = &m_file;
+			return;
+		}
+		return;
 	}
 }
 
 void FileIconSet::element_end(const char *el)
 {
 	if (!strcmp(el, "icon")){
+		if (m_name.empty()){
+			m_name = "s_";
+			m_name += number(++Icons::nSmile);
+		}
+		PictDef p;
+		p.icon  = NULL;
+		p.file  = m_file;
+		p.flags = m_flags;
+		PIXMAP_MAP::iterator it = m_icons.find(m_name.c_str());
+		if (it == m_icons.end())
+			m_icons.insert(PIXMAP_MAP::value_type(m_name.c_str(), p));
 	}
+	m_data = NULL;
 }
 
-void FileIconSet::char_data(const char*, int)
+void FileIconSet::char_data(const char *data, int size)
 {
+	if (m_data)
+		m_data->append(data, size);
 }
 
 };

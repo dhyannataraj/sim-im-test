@@ -61,7 +61,7 @@ ICQSearch::ICQSearch(ICQClient *client, QWidget *parent)
     connect(grpMail, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
     connect(btnAdvanced, SIGNAL(clicked()),	this, SLOT(advClick()));
     QIconSet is = Icon("1rightarrow");
-    if (!is.isNull())
+    if (!is.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
         btnAdvanced->setIconSet(is);
 }
 
@@ -106,7 +106,7 @@ void ICQSearch::setAdv(bool bAdv)
         return;
     m_bAdv = bAdv;
     QIconSet is = Icon(m_bAdv ? "1leftarrow" : "1rightarrow");
-    if (!is.isNull())
+    if (!is.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
         btnAdvanced->setIconSet(is);
     if (m_bAdv){
         if (m_client->m_bAIM){

@@ -90,7 +90,7 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
     QIconSet icons;
     if ((s->flags & COMMAND_CHECKED) && s->icon_on)
         icons = Icon(s->icon_on);
-    if (icons.isNull() && s->icon)
+    if (icons.pixmap(QIconSet::Small, QIconSet::Normal).isNull() && s->icon)
         icons = Icon(s->icon);
     QString title = i18n(s->text);
     if (s->text_wrk){
@@ -102,7 +102,7 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
         title += i18n(s->accel);
     }
     if (s->flags & COMMAND_TITLE){
-        if (!icons.isNull()){
+        if (!icons.pixmap(QIconSet::Small, QIconSet::Normal).isNull()){
             m_wrk->insertTitle(icons.pixmap(QIconSet::Automatic, QIconSet::Normal), title);
         }else{
             m_wrk->insertTitle(title);
@@ -122,7 +122,7 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
     }
     unsigned id = 0;
     if (popup){
-        if (!icons.isNull()){
+        if (!icons.pixmap(QIconSet::Small, QIconSet::Normal).isNull()){
             m_wrk->insertItem(icons, title, popup);
         }else{
             m_wrk->insertItem(title, popup);
@@ -133,7 +133,7 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
         c.base_id = base_id;
         m_cmds.push_back(c);
         id = m_cmds.size();
-        if (!icons.isNull()){
+        if (!icons.pixmap(QIconSet::Small, QIconSet::Normal).isNull()){
             m_wrk->insertItem(icons, title, id);
         }else{
             m_wrk->insertItem(title, id);

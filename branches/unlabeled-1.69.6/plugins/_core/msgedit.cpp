@@ -1560,7 +1560,7 @@ SmileLabel::SmileLabel(int _id, const char *tip, QWidget *parent)
     sprintf(b, "smile%X", id);
     QIconSet icon = Icon(b);
     QPixmap pict;
-    if (!icon.isNull()){
+    if (!icon.pixmap(QIconSet::Small, QIconSet::Normal).isNull()){
         if (!icon.isGenerated(QIconSet::Large, QIconSet::Normal)){
             pict = icon.pixmap(QIconSet::Large, QIconSet::Normal);
         }else{
@@ -1594,7 +1594,7 @@ SmilePopup::SmilePopup(QWidget *popup)
         char b[20];
         sprintf(b, "smile%X", i);
         QIconSet is = Icon(b);
-        if (is.isNull())
+        if (is.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
             continue;
         QPixmap pict;
         if (!is.isGenerated(QIconSet::Large, QIconSet::Normal)){

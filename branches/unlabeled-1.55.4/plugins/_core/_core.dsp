@@ -5364,24 +5364,36 @@ SOURCE=.\jisp\icondef.xml
 
 # Begin Custom Build - Make sim.jisp
 InputDir=.\jisp
+IntDir=.\..\..\Release_Wrk
 OutDir=.\..\..\Release
 InputPath=.\jisp\icondef.xml
 
 "$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
+	mkdir $(IntDir)\jisp 
+	copy $(InputDir)\*.png $(IntDir)\jisp 
+	copy $(InputDir)\icondef.xml $(IntDir)\jisp 
+	jar -cMf $(OutDir)\icons\sim.jisp -C $(IntDir)\jisp . 
+	del /Q $(IntDir)\jisp\*.* 
+	rmdir /Q $(IntDir)\jisp 
+	
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "_core - Win32 Debug"
 
 # Begin Custom Build - Make sim.jisp
 InputDir=.\jisp
+IntDir=.\..\..\Debug_Wrk
 OutDir=.\..\..\Debug
 InputPath=.\jisp\icondef.xml
 
 "$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\sim.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
+	mkdir $(IntDir)\jisp 
+	copy $(InputDir)\*.png $(IntDir)\jisp 
+	copy $(InputDir)\icondef.xml $(IntDir)\jisp 
+	jar -cMf $(OutDir)\icons\sim.jisp -C $(IntDir)\jisp . 
+	del /Q $(IntDir)\jisp\*.* 
+	rmdir /Q $(IntDir)\jisp 
+	
 # End Custom Build
 
 !ENDIF 
@@ -5583,24 +5595,36 @@ SOURCE=.\smiles\icondef.xml
 
 # Begin Custom Build - Make smiles.jisp
 InputDir=.\smiles
+IntDir=.\..\..\Release_Wrk
 OutDir=.\..\..\Release
 InputPath=.\smiles\icondef.xml
 
 "$(OutDir)\icons\smiles.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\smiles.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
+	mkdir $(IntDir)\jisp 
+	copy $(InputDir)\*.png $(IntDir)\jisp 
+	copy $(InputDir)\icondef.xml $(IntDir)\jisp 
+	jar -cMf $(OutDir)\icons\smiles.jisp -C $(IntDir)\jisp . 
+	del /Q $(IntDir)\jisp\*.* 
+	rmdir /Q $(IntDir)\jisp 
+	
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "_core - Win32 Debug"
 
 # Begin Custom Build - Make smiles.jisp
 InputDir=.\smiles
+IntDir=.\..\..\Debug_Wrk
 OutDir=.\..\..\Debug
 InputPath=.\smiles\icondef.xml
 
 "$(OutDir)\icons\smiles.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\smiles.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
+	mkdir $(IntDir)\jisp 
+	copy $(InputDir)\*.png $(IntDir)\jisp 
+	copy $(InputDir)\icondef.xml $(IntDir)\jisp 
+	jar -cMf $(OutDir)\icons\smiles.jisp -C $(IntDir)\jisp . 
+	del /Q $(IntDir)\jisp\*.* 
+	rmdir /Q $(IntDir)\jisp 
+	
 # End Custom Build
 
 !ENDIF 

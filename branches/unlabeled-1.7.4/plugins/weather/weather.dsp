@@ -568,24 +568,36 @@ SOURCE=.\jisp\icondef.xml
 
 # Begin Custom Build - Make weather.jisp
 InputDir=.\jisp
+IntDir=.\..\..\Release_Wrk
 OutDir=.\..\..\Release
 InputPath=.\jisp\icondef.xml
 
 "$(OutDir)\icons\weather.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\weather.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
+	mkdir $(IntDir)\jisp 
+	copy $(InputDir)\*.png $(IntDir)\jisp 
+	copy $(InputDir)\icondef.xml $(IntDir)\jisp 
+	jar -cMf $(OutDir)\icons\weather.jisp -C $(IntDir)\jisp . 
+	del /Q $(IntDir)\jisp\*.* 
+	rmdir /Q $(IntDir)\jisp 
+	
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "weather - Win32 Debug"
 
 # Begin Custom Build - Make weather.jisp
 InputDir=.\jisp
+IntDir=.\..\..\Debug_Wrk
 OutDir=.\..\..\Debug
 InputPath=.\jisp\icondef.xml
 
 "$(OutDir)\icons\weather.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	jar -cf $(OutDir)\icons\weather.jisp $(InputDir)\*.png $(InputDir)\icondef.xml
-
+	mkdir $(IntDir)\jisp 
+	copy $(InputDir)\*.png $(IntDir)\jisp 
+	copy $(InputDir)\icondef.xml $(IntDir)\jisp 
+	jar -cMf $(OutDir)\icons\weather.jisp -C $(IntDir)\jisp . 
+	del /Q $(IntDir)\jisp\*.* 
+	rmdir /Q $(IntDir)\jisp 
+	
 # End Custom Build
 
 !ENDIF 

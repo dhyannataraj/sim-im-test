@@ -47,7 +47,7 @@ JabberAdd::JabberAdd(JabberClient *client, QWidget *parent)
     connect(grpName, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
     connect(btnBrowser, SIGNAL(clicked()), this, SLOT(browserClick()));
     QIconSet is = Icon("1rightarrow");
-    if (!is.isNull())
+    if (!is.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
         btnBrowser->setIconSet(is);
 }
 
@@ -95,7 +95,7 @@ void JabberAdd::setBrowser(bool bBrowser)
     }
     emit showResult(m_bBrowser ? m_browser : NULL);
     QIconSet is = Icon(m_bBrowser ? "1leftarrow" : "1rightarrow");
-    if (!is.isNull())
+    if (!is.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
         btnBrowser->setIconSet(is);
     if (m_bBrowser){
         edtJID->setEnabled(false);
