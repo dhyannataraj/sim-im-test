@@ -32,7 +32,7 @@
             <class>QTabWidget</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>TabWidget2</cstring>
+                <cstring>tabWnd</cstring>
             </property>
             <widget>
                 <class>QWidget</class>

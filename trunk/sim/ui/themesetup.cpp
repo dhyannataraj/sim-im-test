@@ -196,15 +196,16 @@ void ThemeSetup::apply(ICQUser*)
         }
         pMain->changeIcons(0);
     }
-    if (!TransparentTop::bCanTransparent) return;
+    if (!TransparentTop::bCanTransparent){
 #ifdef WIN32
-    pMain->TransparentIfInactive = chkInactive->isChecked();
+        pMain->TransparentIfInactive = chkInactive->isChecked();
 #endif
-    pMain->UseTransparent = chkTransparent->isChecked();
-    pMain->Transparent = sldTransparent->value();
-    pMain->UseTransparentContainer = chkTransparentContainer->isChecked();
-    pMain->TransparentContainer = sldTransparentContainer->value();
-    pMain->changeTransparent();
+        pMain->UseTransparent = chkTransparent->isChecked();
+        pMain->Transparent = sldTransparent->value();
+        pMain->UseTransparentContainer = chkTransparentContainer->isChecked();
+        pMain->TransparentContainer = sldTransparentContainer->value();
+        pMain->changeTransparent();
+    }
     pSplash->Show = chkSplash->isChecked();
     pMain->UseEmotional = chkEmotional->isChecked();
     if (chkUserWndOnTop->isChecked() != pMain->UserWndOnTop){

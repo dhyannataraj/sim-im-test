@@ -179,7 +179,7 @@ void WharfIcon::set(const char *icon, const char *msg)
 
 void WharfIcon::mousePressEvent( QMouseEvent *e)
 {
-    dock->mousePressEvent(e);
+    dock->mouseEvent(e);
 }
 
 void WharfIcon::mouseDoubleClickEvent( QMouseEvent *e)
@@ -200,7 +200,7 @@ void WharfIcon::paintEvent( QPaintEvent * )
 #endif
 
 DockWnd::DockWnd(QWidget *main)
-        : QWidget(NULL, "dock",  WType_TopLevel | WStyle_Customize | WStyle_NoBorder)
+        : QWidget(NULL, "dock",  WType_TopLevel | WStyle_Customize | WStyle_NoBorder | WStyle_StaysOnTop)
 {
     connect(this, SIGNAL(toggleWin()), main, SLOT(toggleShow()));
     connect(this, SIGNAL(showPopup(QPoint)), main, SLOT(showPopup(QPoint)));
@@ -230,7 +230,6 @@ DockWnd::DockWnd(QWidget *main)
     Shell_NotifyIconA(NIM_ADD, &notifyIconData);
 #else
     bInit = false;
-    vis = NULL;
 
     wharfIcon = new WharfIcon(this);
     Display *dsp = x11Display();
@@ -301,18 +300,21 @@ bool DockWnd::x11Event(XEvent *e)
                     delete wharfIcon;
                     wharfIcon = NULL;
                 }
+                reset();
             }
         }
     }
-    if (e->type == Expose){
-        if (inTray){
-            if (wharfIcon){
-                delete wharfIcon;
-                wharfIcon = NULL;
-            }
-        }else{
-            resize(32, 32);
+    if ((e->type == FocusIn) && !bInit){
+        if (wharfIcon){
+            delete wharfIcon;
+            wharfIcon = NULL;
+        }
+
+        if (!inTray){
             bInit = true;
+	    setFocusPolicy(NoFocus);
+            move(pMain->DockX, pMain->DockY);
+            reset();
         }
     }
     return QWidget::x11Event(e);
@@ -331,6 +333,9 @@ void DockWnd::paintEvent( QPaintEvent* )
 
 void DockWnd::setIcon(const QPixmap &p)
 {
+#ifndef WIN32
+    if (!inTray) return;
+#endif
     drawIcon = p;
 #ifdef WIN32
     QWidget::setIcon(p);
@@ -418,21 +423,54 @@ void DockWnd::timer()
         break;
     }
 #ifndef WIN32
-    if (wharfIcon == NULL) return;
-    const char *msg = NULL;
-    if (msgType) msg = SIMClient::getMessageIcon(msgType);
+    const char *icon = pClient->getStatusIcon();
+    const char *msg  = NULL;
+    const char *bmsg = NULL;
+    if (msgType) bmsg = SIMClient::getMessageIcon(msgType);
     if (bBlinked){
         if (m_state & 1){
-            wharfIcon->set(SIMClient::getStatusIcon(ICQ_STATUS_ONLINE), NULL);
+            icon = SIMClient::getStatusIcon(ICQ_STATUS_ONLINE);
         }else{
-            wharfIcon->set(pClient->getStatusIcon(), msg);
+            msg = bmsg;
         }
     }else{
-        if (m_state & 1){
-            wharfIcon->set(pClient->getStatusIcon(), NULL);
-        }else{
-            wharfIcon->set(pClient->getStatusIcon(), msg);
+        if (!(m_state & 1)){
+            msg = bmsg;
         }
+    }
+    if (wharfIcon){
+        wharfIcon->set(icon, msg);
+    }else if (!inTray){
+        const QIconSet &icons = Icon(icon);
+        QPixmap nvis(icons.pixmap(QIconSet::Large, QIconSet::Normal));
+        resize(nvis.width(), nvis.height());
+        if (msg){
+            QPixmap msgPict = Pict(msg);
+            QRegion *rgn = NULL;
+            if (nvis.mask() && msgPict.mask()){
+                rgn = new QRegion(*msgPict.mask());
+                rgn->translate(nvis.width() - msgPict.width() - SMALL_PICT_OFFS,
+                               nvis.height() - msgPict.height() - SMALL_PICT_OFFS);
+                *rgn += *nvis.mask();
+            }
+            QPainter p;
+            p.begin(&nvis);
+            p.drawPixmap(nvis.width() - msgPict.width() - SMALL_PICT_OFFS,
+                         nvis.height() - msgPict.height() - SMALL_PICT_OFFS, msgPict);
+            p.end();
+            if (rgn){
+                setMask(*rgn);
+                delete rgn;
+            }
+        }else{
+            const QBitmap *mask = nvis.mask();
+            if (mask) setMask(*mask);
+        }
+        drawIcon = nvis;
+        repaint();
+    }else{
+        drawIcon = Pict(icon);
+        repaint();
     }
 #endif
 }
@@ -484,7 +522,7 @@ void DockWnd::toggle()
     needToggle = false;
 }
 
-void DockWnd::mousePressEvent( QMouseEvent *e)
+void DockWnd::mouseEvent( QMouseEvent *e)
 {
     switch(e->button()){
     case QWidget::LeftButton:
@@ -497,17 +535,44 @@ void DockWnd::mousePressEvent( QMouseEvent *e)
     default:
         break;
     }
+}
+
+void DockWnd::mousePressEvent( QMouseEvent *e)
+{
     QWidget::mousePressEvent(e);
+#ifndef WIN32
+    if (inTray || wharfIcon) return;
+    grabMouse();
+    mousePos = e->pos();
+#endif
 }
 
 void DockWnd::mouseReleaseEvent( QMouseEvent *e)
 {
     QWidget::mouseReleaseEvent(e);
+#ifndef WIN32
+    if (!inTray || wharfIcon){
+        releaseMouse();
+        move(x() + e->pos().x() - mousePos.x(), y() + e->pos().y() - mousePos.y());
+	mousePos = QPoint(0, 0);
+	QPoint p(pMain->DockX - x(), pMain->DockY - y());
+	pMain->DockX = x();
+	pMain->DockY = y(); 
+        if (p.manhattanLength() > 6)
+            return;
+    }
+#endif
+    mouseEvent(e);
 }
 
 void DockWnd::mouseMoveEvent( QMouseEvent *e)
 {
     QWidget::mouseMoveEvent(e);
+#ifndef WIN32
+    if (inTray || wharfIcon) return;
+    if (mousePos.isNull()) return;
+    move(x() + e->pos().x() - mousePos.x(), y() + e->pos().y() - mousePos.y());
+#endif
 }
 
 void DockWnd::mouseDoubleClickEvent( QMouseEvent*)

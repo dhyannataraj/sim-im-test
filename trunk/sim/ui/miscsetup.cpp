@@ -29,6 +29,7 @@
 #include <qlabel.h>
 #include <qpixmap.h>
 #include <qcheckbox.h>
+#include <qtabwidget.h>
 
 MiscSetup::MiscSetup(QWidget *p)
         : MiscSetupBase(p)
@@ -38,6 +39,10 @@ MiscSetup::MiscSetup(QWidget *p)
 #ifdef USE_KDE
     chkSync->setChecked(pMain->AutoSync);
     connect(btnSync,SIGNAL(clicked()),SLOT(clickedSync()));
+#else
+    tabWnd->setCurrentPage(1);
+    QWidget *w = tabWnd->currentPage();
+    tabWnd->removePage(w);
 #endif    
 }
 
@@ -151,7 +156,6 @@ void MiscSetup::clickedSync()
         while (it!=pClient->contacts.users.end())
         {
             SIMUser& user=*(static_cast<SIMUser*>(*it));
-            
             if (!user.inIgnore)
             {
                 Addressee newPers;
@@ -179,7 +183,7 @@ void MiscSetup::clickedSync()
                         }
                         it++;
                     }
-                 }
+                }
 
                 Addressee pers;
                 if (bFound)
@@ -190,7 +194,7 @@ void MiscSetup::clickedSync()
                 user.strKabUid=(const char*)pers.uid();
                 ab.insertAddressee(pers);
             }
-            
+
             it++;
         }
 

@@ -275,7 +275,7 @@ cfgParam MainWindow_Params[] =
         { "ForwardPhone", OFFSET_OF(MainWindow, ForwardPhone), PARAM_STRING, 0 },
         { "SendEnter", OFFSET_OF(MainWindow, SendEnter), PARAM_BOOL, 0 },
         { "AlphabetSort", OFFSET_OF(MainWindow, AlphabetSort), PARAM_BOOL, 0 },
-        { "UseDock", OFFSET_OF(MainWindow, UseDock), PARAM_BOOL, 0 },
+        { "UseDock", OFFSET_OF(MainWindow, UseDock), PARAM_BOOL, 1 },
         { "DockX", OFFSET_OF(MainWindow, DockX), PARAM_SHORT, 0 },
         { "DockY", OFFSET_OF(MainWindow, DockY), PARAM_SHORT, 0 },
         { "MonitorX", OFFSET_OF(MainWindow, MonitorX), PARAM_SHORT, 0 },
@@ -1023,6 +1023,7 @@ bool MainWindow::init()
     appBarMessage(ABM_NEW);
 #endif
 
+    setIcons();
     string file;
 #ifndef WIN32
     buildFileName(file, "lock");
@@ -1143,6 +1144,7 @@ bool MainWindow::init()
     setDock();
     setOnTop();
     setUserBoxOnTop();
+    ownerChanged();
 
     setShowOffline(ShowOffline);
     setGroupMode(GroupMode);
@@ -1664,7 +1666,9 @@ void MainWindow::toggleShow()
 {
     if (menuFunction && menuFunction->isVisible()) return;
     if (noToggle) return;
-    if (!isShow() || !isActiveWindow()){
+    bool bIsActive = isActiveWindow();
+    if (!bIsActive && dock) bIsActive = dock->topLevelWidget()->isActiveWindow();
+    if (!isShow() || !bIsActive){
         setShow(true);
     }else{
         setShow(false);

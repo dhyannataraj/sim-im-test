@@ -43,6 +43,8 @@ public:
 #ifdef WIN32
     void callProc(unsigned long);
 #endif
+    void mouseEvent( QMouseEvent *e);
+    virtual void mouseDoubleClickEvent( QMouseEvent *e);
 signals:
     void showPopup(QPoint);
     void toggleWin();
@@ -69,7 +71,6 @@ protected:
     virtual void mousePressEvent( QMouseEvent *e);
     virtual void mouseReleaseEvent( QMouseEvent *e);
     virtual void mouseMoveEvent( QMouseEvent *e);
-    virtual void mouseDoubleClickEvent( QMouseEvent *e);
     void setIcon(const QPixmap&);
     void setTip(const QString&);
 #ifndef WIN32
@@ -78,9 +79,7 @@ protected:
     bool x11Event(XEvent*);
     bool inTray;
     bool bInit;
-    QPixmap *vis;
 #endif
-    friend class WharfIcon;
 };
 
 #endif

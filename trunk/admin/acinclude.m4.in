@@ -63,21 +63,24 @@ AC_DEFUN(AC_CHECK_OPENSSL,
 
     if test "$WITH_OPENSSL" = "yes"; then
       dnl AC_MSG_CHECKING(for the OpenSSL library)
-      temp="$LIBS"
+      LIBS_SSL=""
+      save_libs="$LIBS"
       if test "$openssl_libdir" != "no"; then
-        LIBS="$LIBS -L$openssl_libdir"
+        LIBS_SSL=" -L$openssl_libdir"
       fi
-      AC_CHECK_LIB(crypto, DH_free)
-      if test "$ac_cv_lib_crypto_DH_free" = "yes"; then
+      AC_CHECK_LIB(crypto, DH_free, WITH_OPENSSL="yes", WITH_OPENSSL="no")
+      if test "$WITH_OPENSSL" = "yes"; then
+	LIBS="-lcrypto $LIBS"
         AC_CHECK_LIB(ssl, SSL_new, WITH_OPENSSL="yes", WITH_OPENSSL="no")
       else
         WITH_OPENSSL="no"
       fi
       if test "$WITH_OPENSSL" = "no"; then
-        LIBS="$temp"
+        LIBS_SSL=""
       else
-        LIBS="-lssl -lcrypto $LIBS"
+        LIBS_SSL="$LIBS_SSL -lssl -lcrypto"
       fi
+      LIBS="$save_libs"
     fi
 
     AC_MSG_CHECKING(if OpenSSL support can be enabled)
@@ -240,7 +243,6 @@ AC_DEFUN(AC_PATH_QT_MOC_UIC,
       qt_bindirs="$ac_qt_bindir $qt_bindirs"
    fi
 
-   echo "vers $kde_qtver [$qt_bindirs]"
    if test "$kde_qtver" = "2" ; then
      KDE_FIND_PATH(moc2, MOC, [$qt_bindirs],[
        KDE_FIND_PATH(moc, MOC, [$qt_bindirs],[KDE_MOC_ERROR_MESSAGE])])
