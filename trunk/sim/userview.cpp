@@ -1188,7 +1188,7 @@ void UserView::setShowOffline(bool bShowOffline)
         }
     }else{
         for (it = contacts.users.begin(); it != contacts.users.end(); it++){
-            if (((*it)->uStatus != ICQ_STATUS_OFFLINE) || (*it)->unreadMsgs.size()) continue;
+			if (isUserShow(*it)) continue;
             UserViewItem *item = findUserItem((*it)->Uin);
             if (item) delete item;
         }
