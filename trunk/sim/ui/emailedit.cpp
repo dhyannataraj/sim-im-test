@@ -18,6 +18,7 @@
 #include "emailedit.h"
 #include "icons.h"
 #include "client.h"
+#include "enable.h"
 
 #include <qpixmap.h>
 #include <qlineedit.h>
@@ -33,7 +34,7 @@ EmailEditDlg::EmailEditDlg(QWidget *p, EMailInfo *_info, bool bMyEmail)
     connect(btnCancel, SIGNAL(clicked()), this, SLOT(close()));
     connect(btnOK, SIGNAL(clicked()), this, SLOT(apply()));
     connect(edtMail, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
-    edtMail->setText(QString::fromLocal8Bit(info->Email));
+    edtMail->setText(QString::fromLocal8Bit(info->Email.c_str()));
     chkHide->setChecked(info->Hide);
     if (!bMyEmail) chkHide->hide();
     textChanged("");
@@ -41,7 +42,7 @@ EmailEditDlg::EmailEditDlg(QWidget *p, EMailInfo *_info, bool bMyEmail)
 
 void EmailEditDlg::apply()
 {
-    info->Email = edtMail->text().local8Bit();
+    set(info->Email, edtMail->text());
     info->Hide  = chkHide->isChecked();
     done(1);
 }

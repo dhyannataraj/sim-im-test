@@ -169,7 +169,7 @@ SOURCE=.\sim\libicq\buffer.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\libicq\cfg.cpp
+SOURCE=.\sim\cfg.cpp
 # End Source File
 # Begin Source File
 

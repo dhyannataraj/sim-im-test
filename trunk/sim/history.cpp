@@ -26,6 +26,7 @@
 #include "history.h"
 #include "mainwin.h"
 #include "client.h"
+#include "cfg.h"
 #include "log.h"
 
 #include <stdio.h>
@@ -37,6 +38,122 @@ using namespace std;
 #define ios	ios_base
 #endif
 #endif
+
+cfgParam ICQMessage_Params[] =
+    {
+        { "Time", offsetof(ICQMessage, Time), PARAM_ULONG, 0 },
+        { "Direction", offsetof(ICQMessage, Received), PARAM_BOOL, 0 },
+        { "Uin", offsetof(ICQMessage, Uin), PARAM_ULONGS, 0 },
+        { "Direct", offsetof(ICQMessage, Direct), PARAM_BOOL, 0 },
+        { "Charset", offsetof(ICQMessage, Charset), PARAM_STRING, 0 },
+        { "", 0, 0, 0 }
+    };
+
+cfgParam ICQMsg_Params[] =
+    {
+        { "Message", offsetof(ICQMsg, Message), PARAM_STRING, 0 },
+        { "ForeColor", offsetof(ICQMsg, ForeColor), PARAM_ULONG, 0 },
+        { "BackColor", offsetof(ICQMsg, BackColor), PARAM_ULONG, 0 },
+        { "", 0, 0, (unsigned)ICQMessage_Params }
+    };
+
+cfgParam ICQUrl_Params[] =
+    {
+        { "URL", offsetof(ICQUrl, URL), PARAM_STRING, 0 },
+        { "Message", offsetof(ICQUrl, Message), PARAM_STRING, 0 },
+        { "", 0, 0, (unsigned)ICQMessage_Params }
+    };
+
+cfgParam ICQAuthRequest_Params[] =
+    {
+        { "Message", offsetof(ICQAuthRequest, Message), PARAM_STRING, 0 },
+        { "", 0, 0, (unsigned)ICQMessage_Params }
+    };
+
+cfgParam ICQAuthRefused_Params[] =
+    {
+        { "Message", offsetof(ICQAuthRefused, Message), PARAM_STRING, 0 },
+        { "", 0, 0, (unsigned)ICQMessage_Params }
+    };
+
+cfgParam ICQSMS_Params[] =
+    {
+        { "Phone", offsetof(ICQSMS, Phone), PARAM_STRING, 0 },
+        { "Message", offsetof(ICQSMS, Message), PARAM_STRING, 0 },
+        { "Network", offsetof(ICQSMS, Network), PARAM_STRING, 0 },
+        { "", 0, 0, (unsigned)ICQMessage_Params }
+    };
+
+cfgParam ICQSMSReceipt_Params[] =
+    {
+        { "MessageId", offsetof(ICQSMSReceipt, MessageId), PARAM_STRING, 0 },
+        { "Destination", offsetof(ICQSMSReceipt, Destination), PARAM_STRING, 0 },
+        { "Delivered", offsetof(ICQSMSReceipt, Delivered), PARAM_STRING, 0 },
+        { "Message", offsetof(ICQSMSReceipt, Message), PARAM_STRING, 0 },
+        { "", 0, 0, (unsigned)ICQMessage_Params }
+    };
+
+cfgParam ICQMsgExt_Params[] =
+    {
+        { "MessageType", offsetof(ICQMsgExt, MessageType), PARAM_STRING, 0 },
+        { "", 0, 0, (unsigned)ICQMessage_Params }
+    };
+
+cfgParam ICQFile_Params[] =
+    {
+        { "Name", offsetof(ICQFile, Name), PARAM_STRING, 0 },
+        { "Description", offsetof(ICQFile, Description), PARAM_STRING, 0 },
+        { "Size", offsetof(ICQFile, Size), PARAM_ULONG, 0 },
+        { "", 0, 0, (unsigned)ICQMessage_Params }
+    };
+
+cfgParam ICQChat_Params[] =
+    {
+        { "Reason", offsetof(ICQChat, Reason), PARAM_STRING, 0 },
+        { "Clients", offsetof(ICQChat, Clients), PARAM_STRING, 0 },
+        { "", 0, 0, (unsigned)ICQMessage_Params }
+    };
+
+cfgParam ICQWebPanel_Params[] =
+    {
+        { "Name", offsetof(ICQWebPanel, Name), PARAM_STRING, 0 },
+        { "Email", offsetof(ICQWebPanel, Email), PARAM_STRING, 0 },
+        { "Message", offsetof(ICQWebPanel, Message), PARAM_STRING, 0 },
+        { "", 0, 0, (unsigned)ICQMessage_Params }
+    };
+
+cfgParam ICQEmailPager_Params[] =
+    {
+        { "Name", offsetof(ICQEmailPager, Name), PARAM_STRING, 0 },
+        { "Email", offsetof(ICQEmailPager, Email), PARAM_STRING, 0 },
+        { "Message", offsetof(ICQEmailPager, Message), PARAM_STRING, 0 },
+        { "", 0, 0, (unsigned)ICQMessage_Params }
+    };
+
+cfgParam Contact_Params[] =
+    {
+        { "Uin", offsetof(Contact, Uin), PARAM_ULONG, 0 },
+        { "Alias", offsetof(Contact, Alias), PARAM_STRING, 0 },
+        { "", 0, 0, 0 }
+    };
+
+static void *createContact()
+{
+    return new Contact;
+}
+
+cfgParam ICQContacts_Params[] =
+    {
+        { "Contacts", offsetof(ICQContacts, Contacts), (unsigned)createContact, (unsigned)&Contact_Params },
+        { "", 0, 0, (unsigned)ICQMessage_Params }
+    };
+
+cfgParam ICQContactRequest_Params[] =
+    {
+        { "Message", offsetof(ICQContactRequest, Message), PARAM_STRING, 0 },
+        { "", 0, 0, (unsigned)ICQMessage_Params }
+    };
+
 
 History::History(unsigned long uin)
         : it(*this), m_nUin(uin)
@@ -88,26 +205,27 @@ typedef struct message_type
 {
     const char *name;
     unsigned short type;
+    const cfgParam *param;
 } message_type;
 
 static message_type types[] =
     {
-        {"Message", ICQ_MSGxMSG},
-        {"Chat", ICQ_MSGxCHAT},
-        {"File", ICQ_MSGxFILE},
-        {"URL", ICQ_MSGxURL},
-        {"AuthRequest", ICQ_MSGxAUTHxREQUEST},
-        {"AuthRefused", ICQ_MSGxAUTHxREFUSED},
-        {"AuthGranted", ICQ_MSGxAUTHxGRANTED},
-        {"Added", ICQ_MSGxADDEDxTOxLIST},
-        {"WebPanel", ICQ_MSGxWEBxPANEL},
-        {"EmailPager", ICQ_MSGxEMAILxPAGER},
-        {"Contacts", ICQ_MSGxCONTACTxLIST},
-        {"Extended", ICQ_MSGxEXT},
-        {"SMS", ICQ_MSGxSMS},
-        {"SMS_Receipt", ICQ_MSGxSMSxRECEIPT},
-        {"Contact_Request", ICQ_MSGxCONTACTxREQUEST},
-        {"Unknown message", 0}
+        {"Message", ICQ_MSGxMSG, ICQMsg_Params },
+        {"Chat", ICQ_MSGxCHAT, ICQChat_Params },
+        {"File", ICQ_MSGxFILE, ICQFile_Params },
+        {"URL", ICQ_MSGxURL, ICQUrl_Params },
+        {"AuthRequest", ICQ_MSGxAUTHxREQUEST, ICQAuthRequest_Params },
+        {"AuthRefused", ICQ_MSGxAUTHxREFUSED, ICQAuthRefused_Params },
+        {"AuthGranted", ICQ_MSGxAUTHxGRANTED, ICQMessage_Params },
+        {"Added", ICQ_MSGxADDEDxTOxLIST, ICQMessage_Params },
+        {"WebPanel", ICQ_MSGxWEBxPANEL, ICQWebPanel_Params },
+        {"EmailPager", ICQ_MSGxEMAILxPAGER, ICQEmailPager_Params },
+        {"Contacts", ICQ_MSGxCONTACTxLIST, ICQContacts_Params },
+        {"Extended", ICQ_MSGxEXT, ICQMsgExt_Params },
+        {"SMS", ICQ_MSGxSMS, ICQSMS_Params, },
+        {"SMS_Receipt", ICQ_MSGxSMSxRECEIPT, ICQSMSReceipt_Params },
+        {"Contact_Request", ICQ_MSGxCONTACTxREQUEST, ICQContactRequest_Params },
+        {"Unknown message", 0, 0}
     };
 
 unsigned long History::addMessage(ICQMessage *msg)
@@ -120,7 +238,7 @@ unsigned long History::addMessage(ICQMessage *msg)
     if (!open(true, f)) return (unsigned long)(-1);
     unsigned long res = f.tellp();
     f << "[" << t->name << "]\n";
-    msg->save(f);
+    ::save(msg, t->param, f);
     f << "\n";
     msg->Id = res;
     f.close();
@@ -211,7 +329,7 @@ ICQMessage *History::loadMessage(std::fstream &f, string &type, unsigned long id
         break;
     }
     if (!msg) return NULL;
-    msg->load(f, type);
+    ::load(msg, t->param, f, type);
     msg->Id = id;
     return msg;
 }

@@ -23,18 +23,18 @@
 
 class QWidget;
 
-class Splash : public ConfigArray
+class Splash
 {
 public:
     Splash();
     ~Splash();
     void hide();
     void save();
-    ConfigBool		Show;
-    ConfigString	Picture;
-    ConfigBool		UseArts;
-    ConfigString	SoundPlayer;
-    ConfigString	StartupSound;
+    bool			Show;
+    string			Picture;
+    bool			UseArts;
+    string			SoundPlayer;
+    string			StartupSound;
 protected:
     QWidget	*wnd;
 };

@@ -131,11 +131,11 @@ class RTF2HTML
 public:
     RTF2HTML(ICQClient *_icq)
             : rtf_ptr(NULL), icq(_icq), cur_level(this) {}
-    UTFstring Parse(const char *rtf, const char *encoding);
+    string Parse(const char *rtf, const char *encoding);
     void PrintUnquoted(const char *str, ...);
     void PrintQuoted(const char *str);
 protected:
-    UTFstring s;
+    string s;
     const char *rtf_ptr;
     const char *encoding;
     ICQClient *icq;
@@ -525,7 +525,7 @@ static char h2d(char c)
     return 0;
 }
 
-UTFstring RTF2HTML::Parse(const char *rtf, const char *_encoding)
+string RTF2HTML::Parse(const char *rtf, const char *_encoding)
 {
 	encoding = _encoding;
     yy_current_buffer = yy_scan_string(rtf);
@@ -776,7 +776,7 @@ UTFstring RTF2HTML::Parse(const char *rtf, const char *_encoding)
     return s;
 }
 
-UTFstring ICQClient::parseRTF(const char *rtf, ICQUser *u)
+string ICQClient::parseRTF(const char *rtf, ICQUser *u)
 {
     RTF2HTML p(this);
     return p.Parse(rtf, localCharset(u));

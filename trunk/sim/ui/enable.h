@@ -3,6 +3,9 @@
 #include "defs.h"
 #include "country.h"
 
+#include <string>
+using namespace std;
+
 class QWidget;
 class QComboBox;
 
@@ -13,5 +16,7 @@ void initTZCombo(QComboBox *cmb, char tz);
 
 unsigned short getComboValue(QComboBox *cmb, const ext_info *tbl);
 char getTZComboValue(QComboBox *cmb);
+
+void set(string &s, const QString &str);
 
 #endif

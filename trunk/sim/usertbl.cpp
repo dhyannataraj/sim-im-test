@@ -162,10 +162,10 @@ void UserTbl::fillFromUser(UserTblItem *item, ICQUser *u)
 {
     if (u == NULL) return;
     item->setText(1, QString::fromLocal8Bit(u->name().c_str()));
-    item->setText(3,  QString::fromLocal8Bit(u->FirstName) + " " +  QString::fromLocal8Bit(u->LastName));
+    item->setText(3,  QString::fromLocal8Bit(u->FirstName.c_str()) + " " +  QString::fromLocal8Bit(u->LastName.c_str()));
     if (u->EMails.size()){
         EMailInfo *email = static_cast<EMailInfo*>(u->EMails.front());
-        item->setText(4, QString::fromLocal8Bit(email->Email));
+        item->setText(4, QString::fromLocal8Bit(email->Email.c_str()));
     }
     if (u->uStatus == ICQ_STATUS_OFFLINE){
         item->setPixmap(2, Pict("useroffline"));
@@ -297,7 +297,7 @@ void UserTbl::action(int id)
     case mnuInfo:
         if (actionItem){
             ICQUser *u = pClient->getUser(static_cast<UserTblItem*>(currentItem())->mUin, true, true);
-            if (u) pMain->userFunction(u->Uin(), id, 0);
+            if (u) pMain->userFunction(u->Uin, id, 0);
         }
         break;
     case mnuTblDelete:
@@ -405,7 +405,7 @@ void UserTbl::viewportContextMenuEvent(QContextMenuEvent *e)
         menuTable->insertItem(Icon("info"), i18n("User info"), mnuInfo);
         unsigned long uin = static_cast<UserTblItem*>(currentItem())->mUin;
         ICQUser *u = pClient->getUser(uin);
-        if ((u == NULL) || (u->GrpId() == 0)){
+        if ((u == NULL) || (u->GrpId == 0)){
             pMain->m_uin = uin;
             pMain->adjustGroupMenu(pMain->menuGroup, pMain->m_uin);
             menuTable->insertItem(i18n("Add to group"), pMain->menuGroup, mnuGroups);

@@ -35,7 +35,7 @@ PastInfo::PastInfo(QWidget *p, bool readOnly)
         connect(cmbBg2, SIGNAL(activated(int)), this, SLOT(adjustEnabled(int)));
         connect(cmbAf1, SIGNAL(activated(int)), this, SLOT(adjustEnabled(int)));
         connect(cmbAf2, SIGNAL(activated(int)), this, SLOT(adjustEnabled(int)));
-        load(pClient);
+        load(pClient->owner);
         return;
     }
     edtBg1->setReadOnly(true);
@@ -131,48 +131,48 @@ void PastInfo::save(ICQUser*)
 void PastInfo::apply(ICQUser *u)
 {
     unsigned short category;
-    ExtInfoPtrList pastsList;
-    ExtInfoPtrList affilationsList;
+    ExtInfoList pastsList;
+    ExtInfoList affilationsList;
     category = getComboValue(cmbBg1, pasts);
     if (category){
         ExtInfo *info = new ExtInfo;
         info->Category = category;
-        info->Specific = edtBg1->text().local8Bit();
+        set(info->Specific, edtBg1->text());
         pastsList.push_back(info);
     }
     category = getComboValue(cmbBg2, pasts);
     if (category){
         ExtInfo *info = new ExtInfo;
         info->Category = category;
-        info->Specific = edtBg2->text().local8Bit();
+        set(info->Specific, edtBg2->text());
         pastsList.push_back(info);
     }
     category = getComboValue(cmbBg3, pasts);
     if (category){
         ExtInfo *info = new ExtInfo;
         info->Category = category;
-        info->Specific = edtBg3->text().local8Bit();
+        set(info->Specific, edtBg3->text());
         pastsList.push_back(info);
     }
     category = getComboValue(cmbAf1, affilations);
     if (category){
         ExtInfo *info = new ExtInfo;
         info->Category = category;
-        info->Specific = edtAf1->text().local8Bit();
+        set(info->Specific, edtAf1->text());
         affilationsList.push_back(info);
     }
     category = getComboValue(cmbAf2, affilations);
     if (category){
         ExtInfo *info = new ExtInfo;
         info->Category = category;
-        info->Specific = edtAf2->text().local8Bit();
+        set(info->Specific, edtAf2->text());
         affilationsList.push_back(info);
     }
     category = getComboValue(cmbAf3, affilations);
     if (category){
         ExtInfo *info = new ExtInfo;
         info->Category = category;
-        info->Specific = edtAf3->text().local8Bit();
+        set(info->Specific, edtAf3->text().local8Bit());
         affilationsList.push_back(info);
     }
     u->Backgrounds = pastsList;

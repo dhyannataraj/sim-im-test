@@ -84,8 +84,7 @@ static QString reason_string(int i)
 }
 
 MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
-        : QSplitter(Vertical, p),
-        Uin(this, "Uin")
+        : QSplitter(Vertical, p)
 {
     bFirstShow = true;
     Uin = uin;
@@ -199,7 +198,7 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     btnCloseSend->setTextLabel(i18n("C&lose after send"));
     btnCloseSend->setIconSet(Icon("close"));
     btnCloseSend->setToggleButton(true);
-    btnCloseSend->setOn(pMain->CloseAfterSend());
+    btnCloseSend->setOn(pMain->CloseAfterSend);
     connect(btnCloseSend, SIGNAL(toggled(bool)), this, SLOT(closeToggle(bool)));
 
     t->addSeparator();
@@ -269,7 +268,7 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     setState();
     setUin(uin);
     connect(pMain, SIGNAL(modeChanged(bool)), this, SLOT(modeChanged(bool)));
-    modeChanged(pMain->SimpleMode());
+    modeChanged(pMain->SimpleMode);
     wndCancel = new WndCancel(this);
 }
 
@@ -280,20 +279,31 @@ MsgEdit::~MsgEdit()
         delete msg;
     if (mHistory) delete mHistory;
     Uin = 0;
-    ICQUser *u = pClient->getUser(Uin());
+    ICQUser *u = pClient->getUser(Uin);
     if (u && u->bIsTemp)
         pClient->deleteUser(u);
     emit destroyChild(tabId);
 }
 
+cfgParam MsgEdit_Params[] =
+    {
+        { "Uin", offsetof(MsgEdit, Uin), PARAM_ULONG, 0 },
+        { "", 0, 0, 0 }
+    };
+
 bool MsgEdit::load(std::istream &s, string &part)
 {
-    ConfigArray::load(s, part);
+    ::load(this, MsgEdit_Params, s, part);
     setUin(Uin);
     ICQUser *u = pClient->getUser(Uin);
     if (u == NULL) return false;
     action(mnuAction);
     return true;
+}
+
+void MsgEdit::save(std::ostream &s)
+{
+    ::save(this, MsgEdit_Params, s);
 }
 
 void MsgEdit::closeToggle(bool state)
@@ -373,7 +383,7 @@ void MsgEdit::action(int type, bool bSaveEdit)
             PhoneBook::iterator it;
             for (it = u->Phones.begin(); it != u->Phones.end(); ++it){
                 PhoneInfo *info = static_cast<PhoneInfo*>(*it);
-                if (info->Type() == SMS){
+                if (info->Type == SMS){
                     type = mnuSMS;
                     break;
                 }
@@ -425,7 +435,7 @@ void MsgEdit::action(int type, bool bSaveEdit)
 
 QString MsgEdit::userName()
 {
-    if (Uin() == 0) return "[New]";
+    if (Uin == 0) return "[New]";
     CUser user(Uin);
     return user.name();
 }
@@ -442,7 +452,7 @@ void MsgEdit::fillPhones()
         phoneEdit->insertItem(phone->getNumber().c_str());
         QString t = phoneEdit->lineEdit()->text();
         if (phoneNumber.isEmpty())
-            phoneNumber = pClient->from8Bit(Uin(), phone->getNumber());
+            phoneNumber = pClient->from8Bit(Uin, phone->getNumber());
     }
     phoneEdit->lineEdit()->setText(phoneNumber);
 }
@@ -479,7 +489,7 @@ void MsgEdit::processEvent(ICQEvent *e)
     case EVENT_INFO_CHANGED:
         fillPhones();
         u = pClient->getUser(Uin);
-        if (!bInIgnore && u && u->inIgnore())
+        if (!bInIgnore && u && u->inIgnore)
             QTimer::singleShot(10, this, SLOT(close()));
         break;
     case EVENT_USER_DELETED:
@@ -492,7 +502,7 @@ void MsgEdit::processEvent(ICQEvent *e)
             if (e->state == ICQEvent::Success){
                 if ((message()->Type() == ICQ_MSGxMSG) && (message()->Charset == "utf-8")){
                     ICQMsg *m = static_cast<ICQMsg*>(message());
-                    QTextCodec *codec = pClient->codecForUser(Uin());
+                    QTextCodec *codec = pClient->codecForUser(Uin);
                     string msg_text = m->Message;
                     Client::fromUTF(msg_text, codec->name());
                     Client::toUTF(msg_text, codec->name());
@@ -505,13 +515,13 @@ void MsgEdit::processEvent(ICQEvent *e)
                 if (!msgTail.isEmpty()){
                     if (msgView){
                         msgView->addMessage(message(), false, true);
-                        msgView->setMessage(Uin(), message()->Id);
+                        msgView->setMessage(Uin, message()->Id);
                     }
                     if (e->message()->Type() == ICQ_MSGxSMS){
                         ICQSMS *m = new ICQSMS;
                         m->Uin.push_back(Uin);
                         m->Message = smsChunk();
-                        m->Phone = pClient->to8Bit(Uin(), phoneEdit->lineEdit()->text());
+                        m->Phone = pClient->to8Bit(Uin, phoneEdit->lineEdit()->text());
                         msg = m;
                         sendEvent = pClient->sendMessage(msg);
                         return;
@@ -525,7 +535,7 @@ void MsgEdit::processEvent(ICQEvent *e)
                 }
                 if (msgView){
                     msgView->addMessage(message(), false, true);
-                    msgView->setMessage(Uin(), message()->Id);
+                    msgView->setMessage(Uin, message()->Id);
                 }
                 setMessage();
                 sendEvent = NULL;
@@ -543,7 +553,7 @@ void MsgEdit::processEvent(ICQEvent *e)
                         }
                     }
                     if (*trMsg == NULL)
-                        declineReason = pClient->from8Bit(Uin(), msg->DeclineReason, msg->Charset);
+                        declineReason = pClient->from8Bit(Uin, msg->DeclineReason.c_str(), msg->Charset.c_str());
                     BalloonMsg::message(declineReason, btnSend);
                 }
             }
@@ -581,7 +591,7 @@ void MsgEdit::setUin(unsigned long uin)
     Uin = uin;
     ICQUser *u = pClient->getUser(uin);
     if (u == NULL) return;
-    bInIgnore = u->inIgnore();
+    bInIgnore = u->inIgnore;
     fillPhones();
     view->setUin(uin);
     if (msgView) msgView->setUin(uin);
@@ -593,20 +603,20 @@ void MsgEdit::sendClick()
         pClient->cancelMessage(sendEvent->message());
         return;
     }
-    bCloseSend = pMain->SimpleMode() || btnCloseSend->isOn();
+    bCloseSend = pMain->SimpleMode || btnCloseSend->isOn();
     send();
 }
 
 void MsgEdit::markAsRead()
 {
     if (msg == NULL) return;
-    if (pMain->SimpleMode()){
+    if (pMain->SimpleMode){
         if (!msg->Received) return;
         pClient->markAsRead(msg);
     }else{
-        ICQUser *u = pClient->getUser(Uin());
+        ICQUser *u = pClient->getUser(Uin);
         if (u){
-            History h(Uin());
+            History h(Uin);
             for (;;){
                 bool bExit = true;
                 for (list<unsigned long>::iterator it = u->unreadMsgs.begin(); it != u->unreadMsgs.end(); it++){
@@ -616,10 +626,8 @@ void MsgEdit::markAsRead()
                     if ((type == ICQ_MSGxMSG) || (type == ICQ_MSGxURL) || (type == ICQ_MSGxSMS)){
                         pClient->markAsRead(msg);
                         bExit = false;
-                        if (msg->Id < MSG_PROCESS_ID) delete msg;
                         break;
                     }
-                    if (msg->Id < MSG_PROCESS_ID) delete msg;
                 }
                 if (bExit) break;
             }
@@ -630,7 +638,7 @@ void MsgEdit::markAsRead()
 
 void MsgEdit::messageReceived(ICQMessage *m)
 {
-    if (m->getUin() != Uin()) return;
+    if (m->getUin() != Uin) return;
     if (msgView){
         bool bUnread = false;
         ICQUser *u = pClient->getUser(m->getUin());
@@ -779,7 +787,6 @@ void MsgEdit::setParam(unsigned long param)
     case ICQ_MSGxCONTACTxLIST:
         users->addUin(param);
         break;
-
     case ICQ_MSGxMSG:
         edit->setText(*((QString*)param));
         break;
@@ -788,7 +795,7 @@ void MsgEdit::setParam(unsigned long param)
         break;
     case ICQ_MSGxFILE:{
             string fileName;
-            fileName = pClient->to8Bit(Uin(), *((QString*)param));
+            fileName = pClient->to8Bit(Uin, *((QString*)param));
             string decodeName;
             for (unsigned i = 0; i < fileName.length(); i++){
                 char p = fileName[i];
@@ -810,7 +817,7 @@ void MsgEdit::setParam(unsigned long param)
                     decodeName += p;
                 }
             }
-            QString name = pClient->from8Bit(Uin(), decodeName, msg->Charset.c_str());
+            QString name = pClient->from8Bit(Uin, decodeName, msg->Charset.c_str());
             if (name.left(5) == "file:"){
                 name = name.mid(5);
 #ifdef WIN32
@@ -867,13 +874,13 @@ void MsgEdit::forwardClick()
 {
     if (msg == NULL) return;
     QString msgText;
-    if (msg && msg->Received()){
+    if (msg && msg->Received){
         switch (msg->Type()){
         case ICQ_MSGxMSG:
-            msgText = pClient->from8Bit(Uin(), static_cast<ICQMsg*>(msg)->Message, msg->Charset.c_str());
+            msgText = pClient->from8Bit(Uin, static_cast<ICQMsg*>(msg)->Message, msg->Charset.c_str());
             break;
         case ICQ_MSGxURL:
-            msgText = pClient->from8Bit(Uin(), static_cast<ICQUrl*>(msg)->Message, msg->Charset.c_str());
+            msgText = pClient->from8Bit(Uin, static_cast<ICQUrl*>(msg)->Message, msg->Charset.c_str());
             break;
         }
     }else{
@@ -883,7 +890,7 @@ void MsgEdit::forwardClick()
             msgText = view->text();
         }
     }
-    UTFstring text(msgText.utf8());
+    string text(msgText.utf8());
     text = pClient->clearHTML(text);
     msgText = QString::fromUtf8(text.c_str());
     QStringList l = QStringList::split('\n', msgText);
@@ -933,7 +940,7 @@ void MsgEdit::toggleMultiply()
 void MsgEdit::quoteClick()
 {
     QString msgText;
-    if (msg && msg->Received()){
+    if (msg && msg->Received){
         switch (msg->Type()){
         case ICQ_MSGxMSG:
             msgText = pClient->from8Bit(Uin, static_cast<ICQMsg*>(msg)->Message, msg->Charset.c_str());
@@ -949,7 +956,7 @@ void MsgEdit::quoteClick()
             msgText = view->text();
         }
     }
-    UTFstring text(msgText.utf8());
+    string text(msgText.utf8());
     text = pClient->clearHTML(text);
     msgText = QString::fromUtf8(text.c_str());
     QStringList l = QStringList::split('\n', msgText, true);
@@ -994,12 +1001,10 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
 {
     msgTail = "";
     setUpdatesEnabled(false);
-
     bool bChanged = false;
     if (msg != _msg){
         if (msg && (msg->Id < MSG_PROCESS_ID)) delete msg;
         msg = _msg;
-
         bChanged = true;
     }
     if (bMultiply) toggleMultiply();
@@ -1041,7 +1046,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
     }
     if (msgView)
         msgView->setMessage(Uin, msg->Id);
-    if (msg->Received()){
+    if (msg->Received){
         if (bMark) pClient->markAsRead(msg);
         phone->hide();
         url->hide();
@@ -1076,7 +1081,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
             ICQContacts *m = static_cast<ICQContacts*>(msg);
             for (ContactList::iterator it = m->Contacts.begin(); it != m->Contacts.end(); it++){
                 Contact *contact = static_cast<Contact*>(*it);
-                users->addUser(contact->Uin, contact->Alias);
+                users->addUser(contact->Uin, contact->Alias.c_str());
             }
         }else{
             switch (msg->Type()){
@@ -1091,7 +1096,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                         btnDecline->show();
                         file->show();
                         ICQUser *u = pClient->getUser(f->getUin());
-                        if ((u == NULL) || !u->AcceptFileOverride()) u = pClient;
+                        if ((u == NULL) || !u->AcceptFileOverride) u = pClient->owner;
                         string path = u->AcceptFilePath.c_str();
                         if (*path.c_str() == 0)
                             pMain->buildFileName(path, "IncomingFiles/");
@@ -1126,7 +1131,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 break;
             case ICQ_MSGxMSG:
             case ICQ_MSGxURL:
-                if (bInTop && !pMain->SimpleMode()){
+                if (bInTop && !pMain->SimpleMode){
                     btnReply->hide();
                     btnQuote->show();
                     btnForward->show();
@@ -1182,7 +1187,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
             view->setText(view->makeMessageText(msg, false));
             if (msg->Type() == ICQ_MSGxMSG){
                 ICQMsg *m = static_cast<ICQMsg*>(msg);
-                if (m->BackColor() != m->ForeColor()){
+                if (m->BackColor != m->ForeColor){
                     view->setForeground(QColor(m->ForeColor));
                     view->setBackground(QColor(m->BackColor));
                 }else{
@@ -1201,7 +1206,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
         btnNext->hide();
         btnAccept->hide();
         btnDecline->hide();
-        if (pMain->SimpleMode()){
+        if (pMain->SimpleMode){
             btnCloseSend->hide();
         }else{
             btnCloseSend->show();
@@ -1229,10 +1234,9 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 if (!bSaveEdit){
                     edit->setTextFormat(RichText);
                     ICQMsg *m = static_cast<ICQMsg*>(msg);
-
                     if (bChanged)
-                        edit->setText(pClient->from8Bit(Uin(), m->Message, m->Charset.c_str()));
-                    if (m->BackColor() != m->ForeColor()){
+                        edit->setText(pClient->from8Bit(Uin, m->Message, m->Charset.c_str()));
+                    if (m->BackColor != m->ForeColor){
                         edit->setBackground(QColor(m->BackColor));
                         edit->setForeground(QColor(m->ForeColor));
                     }else{
@@ -1263,11 +1267,9 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
 #endif
                 ICQUrl *m = static_cast<ICQUrl*>(msg);
                 edit->resetColors(false);
-
                 if (bChanged){
                     edit->setText(pClient->from8Bit(Uin, m->Message, m->Charset.c_str()));
                     urlEdit->setText(pClient->from8Bit(Uin, m->URL, m->Charset.c_str()));
-
                 }
                 urlEdit->setFocus();
                 break;
@@ -1293,17 +1295,13 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
 #endif
                 ICQFile *m = static_cast<ICQFile*>(msg);
                 edit->resetColors(false);
-
                 lblFile->setText(i18n("File") + ":");
                 fileEdit->setDirMode(true);
                 fileEdit->setMultiplyMode(false);
-
                 if (bChanged){
                     fileEdit->setText(pClient->from8Bit(Uin, m->Name, m->Charset.c_str()));
                     edit->setText(pClient->from8Bit(Uin, m->Description, m->Charset.c_str()));
-
                 }
-
                 fileEdit->setFocus();
                 break;
             }
@@ -1328,7 +1326,6 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
 #endif
                 ICQChat *m = static_cast<ICQChat*>(msg);
                 edit->resetColors(false);
-
                 if (bChanged)
                     edit->setText(pClient->from8Bit(Uin, m->Reason, m->Charset.c_str()));
                 break;
@@ -1354,12 +1351,10 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
 #endif
                 ICQSMS *m = static_cast<ICQSMS*>(msg);
                 edit->resetColors(false);
-
                 if (bChanged){
                     edit->setText(pClient->from8Bit(Uin, pClient->clearHTML(m->Message.c_str())), m->Charset.c_str());
                     if (*m->Phone.c_str())
                         phoneEdit->lineEdit()->setText(pClient->from8Bit(Uin, m->Phone, NULL));
-
                 }
                 phoneEdit->setFocus();
                 break;
@@ -1383,14 +1378,12 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 btnSpell->hide();
 #endif
                 users->sender = true;
-
                 if (bChanged){
                     ICQContacts *m = static_cast<ICQContacts*>(msg);
                     for (ContactList::iterator it = m->Contacts.begin(); it != m->Contacts.end(); it++){
                         Contact *contact = static_cast<Contact*>(*it);
-                        users->addUser(contact->Uin, contact->Alias);
+                        users->addUser(contact->Uin, contact->Alias.c_str());
                     }
-
                 }
                 break;
             }
@@ -1415,7 +1408,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
 #endif
                 ICQAuthRequest *m = static_cast<ICQAuthRequest*>(msg);
                 edit->resetColors(false);
-                edit->setText(pClient->from8Bit(Uin(), m->Message, m->Charset.c_str()));
+                edit->setText(pClient->from8Bit(Uin, m->Message, m->Charset.c_str()));
                 edit->setFocus();
                 break;
             }
@@ -1440,7 +1433,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
 #endif
                 ICQAuthRefused *m = static_cast<ICQAuthRefused*>(msg);
                 edit->resetColors(false);
-                edit->setText(pClient->from8Bit(Uin(), m->Message, m->Charset.c_str()));
+                edit->setText(pClient->from8Bit(Uin, m->Message, m->Charset.c_str()));
                 edit->setFocus();
                 break;
             }
@@ -1476,7 +1469,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
 void MsgEdit::editTextChanged()
 {
     if (msg){
-        if (msg->Received()){
+        if (msg->Received){
             if (edit->length())
                 action(mnuMessage, true);
         }else if (msg->Type() == ICQ_MSGxSMS){
@@ -1528,8 +1521,8 @@ void MsgEdit::makeMessage()
             m->BackColor = (edit->background().rgb() & 0xFFFFFF);
             m->ForeColor = (edit->foreground().rgb() & 0xFFFFFF);
 
-            pMain->MessageBgColor = m->BackColor();
-            pMain->MessageFgColor = m->ForeColor();
+            pMain->MessageBgColor = m->BackColor;
+            pMain->MessageFgColor = m->ForeColor;
             if (edit->fontChanged()){
                 QFont f = edit->currentFont();
                 pMain->UserBoxFontFamily = f.family();
@@ -1541,25 +1534,25 @@ void MsgEdit::makeMessage()
         }
     case ICQ_MSGxURL:{
             ICQUrl *m = static_cast<ICQUrl*>(msg);
-            m->Message = pClient->to8Bit(Uin(), edit->text());
-            m->URL = pClient->to8Bit(Uin(), urlEdit->text());
+            m->Message = pClient->to8Bit(Uin, edit->text());
+            m->URL = pClient->to8Bit(Uin, urlEdit->text());
             break;
         }
     case ICQ_MSGxFILE:{
             ICQFile *m = static_cast<ICQFile*>(msg);
-            m->Description = pClient->to8Bit(Uin(), edit->text());
-            m->Name = pClient->to8Bit(Uin(), fileEdit->text());
+            m->Description = pClient->to8Bit(Uin, edit->text());
+            m->Name = pClient->to8Bit(Uin, fileEdit->text());
             break;
         }
     case ICQ_MSGxCHAT:{
             ICQChat *m = static_cast<ICQChat*>(msg);
-            m->Reason = pClient->to8Bit(Uin(), edit->text());
+            m->Reason = pClient->to8Bit(Uin, edit->text());
             break;
         }
     case ICQ_MSGxSMS:{
             ICQSMS *m = static_cast<ICQSMS*>(msg);
             QString s = edit->text();
-            UTFstring text(s.utf8());
+            string text(s.utf8());
             text = pClient->clearHTML(text);
             s = QString::fromUtf8(text.c_str());
             msgTail = trim(s);
@@ -1574,12 +1567,12 @@ void MsgEdit::makeMessage()
         }
     case ICQ_MSGxAUTHxREQUEST:{
             ICQAuthRequest *m = static_cast<ICQAuthRequest*>(msg);
-            m->Message = pClient->to8Bit(Uin(), edit->text());
+            m->Message = pClient->to8Bit(Uin, edit->text());
             break;
         }
     case ICQ_MSGxAUTHxREFUSED:{
             ICQAuthRefused *m = static_cast<ICQAuthRefused*>(msg);
-            m->Message = pClient->to8Bit(Uin(), edit->text());
+            m->Message = pClient->to8Bit(Uin, edit->text());
             break;
         }
     case ICQ_MSGxAUTHxGRANTED:
@@ -1589,7 +1582,7 @@ void MsgEdit::makeMessage()
         return;
     }
     if (msg->Charset.length() == 0)
-        msg->Charset = pClient->codecForUser(Uin())->name();
+        msg->Charset = pClient->codecForUser(Uin)->name();
     if (bMultiply){
         msg->Uin.clear();
         UserBox *box = static_cast<UserBox*>(topLevelWidget());
@@ -1632,7 +1625,7 @@ void MsgEdit::send()
             }
         }
     }
-    if (pMain->SpellOnSend()){
+    if (pMain->SpellOnSend){
         switch (msg->Type()){
         case ICQ_MSGxSMS:
         case ICQ_MSGxMSG:
@@ -1681,17 +1674,17 @@ void MsgEdit::declineMessage(int action)
 
 void MsgEdit::chatChanged()
 {
-    if (msg && (msg->Type() == ICQ_MSGxCHAT) && msg->Received()){
-        QWidget *chat = pMain->chatWindow(Uin());
+    if (msg && (msg->Type() == ICQ_MSGxCHAT) && msg->Received){
+        QWidget *chat = pMain->chatWindow(Uin);
         btnAccept->setEnabled(chat == NULL);
     }
 }
 
 void MsgEdit::ftChanged()
 {
-    if (msg && (msg->Type() == ICQ_MSGxFILE) && msg->Received()){
+    if (msg && (msg->Type() == ICQ_MSGxFILE) && msg->Received){
         ICQFile *f = static_cast<ICQFile*>(msg);
-        QWidget *file = pMain->ftWindow(Uin(), f->shortName());
+        QWidget *file = pMain->ftWindow(Uin, f->shortName());
         btnAccept->setEnabled(file == NULL);
     }
 }
@@ -1761,7 +1754,7 @@ void MsgEdit::modeChanged(bool bSimple)
     }
     if (msgView) return;
     msgView = new MsgView(this);
-    msgView->setUin(Uin());
+    msgView->setUin(Uin);
     moveToFirst(msgView);
     connect(msgView, SIGNAL(goMessage(unsigned long, unsigned long)), topLevelWidget(), SLOT(showMessage(unsigned long, unsigned long)));
     if (isVisible())

@@ -46,20 +46,20 @@ FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
     file = _file;
     setIcon(Pict("file"));
     edtFile1->setReadOnly(true);
-    chkClose->setChecked(file->autoAccept || pMain->CloseAfterFileTransfer());
+    chkClose->setChecked(file->autoAccept || pMain->CloseAfterFileTransfer);
     connect(btnCancel, SIGNAL(clicked()), this, SLOT(close()));
     connect(pClient, SIGNAL(fileExist(ICQFile*, const QString&,bool)), this, SLOT(fileExist(ICQFile*, const QString&, bool)));
     connect(pClient, SIGNAL(fileNoCreate(ICQFile*, const QString&)), this, SLOT(fileNoCreate(ICQFile*, const QString&)));
     connect(pClient, SIGNAL(fileProcess(ICQFile*)), this, SLOT(processed(ICQFile*)));
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     barSend->setIndicatorFollowsStyle(true);
-    barSend->setTotalSteps(file->Size());
+    barSend->setTotalSteps(file->Size);
     barBatch->setIndicatorFollowsStyle(true);
-    barBatch->setTotalSteps(file->Size());
+    barBatch->setTotalSteps(file->Size);
     int nFiles = 0;
     if (file->ft) nFiles = file->ft->nFiles();
     CUser u(file->getUin());
-    if (file->Received()){
+    if (file->Received){
         QString name = file->Name.c_str();
         if (name.find(QRegExp("^[0-9]+ Files$")) >= 0)
             nFiles = name.toUInt();
@@ -118,7 +118,7 @@ void FileTransferDlg::processEvent(ICQEvent *e)
     if (e->message() != file) return;
     if (e->state == ICQEvent::Success){
         if (e->type() != EVENT_DONE) return;
-        file->state = file->Size();
+        file->state = file->Size;
         setCaption(caption() + " " + i18n("[done]"));
         pMain->playSound(pClient->FileDone.c_str());
     }else if (e->state == ICQEvent::Fail){
@@ -145,7 +145,7 @@ void FileTransferDlg::setProgress()
 {
     if (file->ft == NULL){
         lblSpeed->setText("");
-        lblSize->setText(formatSize(bStarted ? file->Size() : 0) + "/" + formatSize(file->Size()));
+        lblSize->setText(formatSize(bStarted ? file->Size : 0) + "/" + formatSize(file->Size));
         lblSize->repaint();
         barSend->setTotalSteps(100);
         barSend->setProgress(bStarted ? 100 : 0);
@@ -168,7 +168,7 @@ void FileTransferDlg::setProgress()
         lblBatchState->setText(QString::number(nFile) + "/" + QString::number(file->ft->nFiles()));
     }
     lblSpeed->setText("");
-    lblSize->setText(formatSize(file->ft->totalSize()) + "/" + formatSize(file->Size()));
+    lblSize->setText(formatSize(file->ft->totalSize()) + "/" + formatSize(file->Size));
     lblSize->repaint();
     barBatch->setProgress(file->ft->totalSize());
     barSend->setProgress(file->ft->sendSize());

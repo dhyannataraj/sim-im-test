@@ -19,7 +19,6 @@
 #define _MSGEDIT_H
 
 #include "defs.h"
-
 #include "cfg.h"
 
 #include <qsplitter.h>
@@ -49,7 +48,7 @@ class WndCancel;
 class QToolButton;
 class PictButton;
 
-class MsgEdit : public QSplitter, public ConfigArray
+class MsgEdit : public QSplitter
 {
     Q_OBJECT
 public:
@@ -64,8 +63,9 @@ public:
     QString userName();
     int tabId;
     UserTab *tab;
-    ConfigULong  Uin;
+    unsigned long	Uin;
     bool load(std::istream &s, string &part);
+    void save(std::ostream &s);
     bool bMultiply;
 public slots:
     void realSend();

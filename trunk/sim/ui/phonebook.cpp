@@ -53,7 +53,7 @@ void PhoneItem::update()
     setText(0, name);
     setText(1, QString::fromLocal8Bit(phone.getNumber().c_str()));
     setText(2, phone.Publish ? i18n("Yes") : QString());
-    switch (phone.Type()){
+    switch (phone.Type){
     case PHONE:
         setPixmap(0, Pict("phone"));
         break;
@@ -74,7 +74,7 @@ void PhoneItem::update()
 PhoneBookDlg::PhoneBookDlg(QWidget *p, bool bReadOnly)
         : PhoneBookBase(p)
 {
-    country = pClient->Country;
+    country = pClient->owner->Country;
     lblPict->setPixmap(Pict("phone"));
     tblPhone->setColumnText(0, i18n("Type"));
     tblPhone->setColumnWidth(0, -1);
@@ -93,7 +93,7 @@ PhoneBookDlg::PhoneBookDlg(QWidget *p, bool bReadOnly)
     if (bReadOnly){
         disableWidget(cmbPhone);
     }else{
-        load(pClient);
+        load(pClient->owner);
     }
 }
 
@@ -138,7 +138,7 @@ void PhoneBookDlg::deletePhone()
 void PhoneBookDlg::phoneEdit(QListViewItem *item)
 {
     PhoneItem *pItem = static_cast<PhoneItem*>(item);
-    if (!pItem->phone.MyInfo()) return;
+    if (!pItem->phone.MyInfo) return;
     AddPhone phone(this, &pItem->phone, country, cmbPhone->isEnabled());
     if (phone.exec() == 1)
         pItem->update();
@@ -168,7 +168,7 @@ void PhoneBookDlg::fillPhones()
     unsigned n = 1;
     for (QListViewItem *i = tblPhone->firstChild(); i != NULL; i = i->nextSibling(), n++){
         PhoneItem *item = static_cast<PhoneItem*>(i);
-        unsigned phoneType = item->phone.Type();
+        unsigned phoneType = item->phone.Type;
         if ((phoneType == FAX) || (phoneType == PAGER)) continue;
         cmbPhone->insertItem(item->text(1));
         if (item->phone.Active) cmbPhone->setCurrentItem(n);
@@ -204,8 +204,8 @@ void PhoneBookDlg::save(ICQUser *u)
         p->Active = (i == cmbPhone->currentItem());
         u->Phones.push_back(p);
     }
-    if (u->Uin()){
-        ICQEvent e(EVENT_INFO_CHANGED, u->Uin());
+    if (u->Uin){
+        ICQEvent e(EVENT_INFO_CHANGED, u->Uin);
         pClient->process_event(&e);
     }
 }
@@ -216,24 +216,24 @@ void PhoneBookDlg::apply(ICQUser *u)
     for (PhoneBook::iterator it = u->Phones.begin(); it != u->Phones.end(); it++){
         PhoneInfo *phone = static_cast<PhoneInfo*>(*it);
         if (!phone->Publish) continue;
-        if (phone->Type() == PHONE){
+        if (phone->Type == PHONE){
             if (phone->Name == "Home Phone"){
                 u->HomePhone = phone->getNumber();
             }else if (phone->Name == "Work Phone"){
                 u->WorkPhone = phone->getNumber();
             }
         }
-        if (phone->Type() == FAX){
+        if (phone->Type == FAX){
             if (phone->Name == "Home Fax"){
                 u->HomeFax = phone->getNumber();
             }else if (phone->Name == "Work Fax"){
                 u->WorkFax = phone->getNumber();
             }
         }
-        if ((phone->Type() == MOBILE) || (phone->Type() == SMS)){
+        if ((phone->Type == MOBILE) || (phone->Type == SMS)){
             if (phone->Name == "Private Cellular"){
                 u->PrivateCellular = phone->getNumber();
-                if (phone->Type() == SMS)
+                if (phone->Type == SMS)
                     u->PrivateCellular += " SMS";
             }
         }

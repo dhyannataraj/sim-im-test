@@ -53,11 +53,11 @@ void ListSecurity::processEvent(ICQEvent *e)
     ICQUser *u = pClient->getUser(e->Uin(), true);
     if (u == NULL) return;
     if (checkUser(u)){
-        tblUsers->addUin(u->Uin());
-        oldValue.push_back(u->Uin());
+        tblUsers->addUin(u->Uin);
+        oldValue.push_back(u->Uin);
     }else{
-        tblUsers->deleteUin(u->Uin());
-        oldValue.remove(u->Uin());
+        tblUsers->deleteUin(u->Uin);
+        oldValue.remove(u->Uin);
     }
 }
 
@@ -96,7 +96,7 @@ VisibleListSetup::VisibleListSetup(QWidget *parent)
 
 bool VisibleListSetup::checkUser(ICQUser *u)
 {
-    return u->inVisible();
+    return u->inVisible;
 }
 
 void VisibleListSetup::changeUser(ICQUser *u, bool bSet)
@@ -114,7 +114,7 @@ InvisibleListSetup::InvisibleListSetup(QWidget *parent)
 
 bool InvisibleListSetup::checkUser(ICQUser *u)
 {
-    return u->inInvisible();
+    return u->inInvisible;
 }
 
 void InvisibleListSetup::changeUser(ICQUser *u, bool bSet)
@@ -132,7 +132,7 @@ IgnoreListSetup::IgnoreListSetup(QWidget *parent)
 
 bool IgnoreListSetup::checkUser(ICQUser *u)
 {
-    return u->inIgnore();
+    return u->inIgnore;
 }
 
 void IgnoreListSetup::changeUser(ICQUser *u, bool bSet)

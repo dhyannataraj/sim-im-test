@@ -53,7 +53,7 @@ StatusSetup::StatusSetup(QWidget *p)
     }
     connect(chkAutoHide, SIGNAL(toggled(bool)), this, SLOT(changed(bool)));
 
-    chkAlert->setChecked(pMain->NoAlertAway());
+    chkAlert->setChecked(pMain->NoAlertAway);
 }
 
 void StatusSetup::changed(bool)

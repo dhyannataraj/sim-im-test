@@ -32,20 +32,20 @@ AlertDialog::AlertDialog(QWidget *p, bool bReadOnly)
         return;
     }
     chkOverride->hide();
-    load(pClient);
+    load(pClient->owner);
 }
 
 void AlertDialog::load(ICQUser *u)
 {
-    chkOverride->setChecked(u->AlertOverride());
-    if (!u->AlertOverride()) u = pClient;
-    chkOnline->setChecked(u->AlertAway());
-    chkBlink->setChecked(u->AlertBlink());
-    chkSound->setChecked(u->AlertSound());
-    chkOnScreen->setChecked(u->AlertOnScreen());
-    chkDialog->setChecked(u->AlertPopup());
-    chkFloat->setChecked(u->AlertWindow());
-    overrideChanged(u->AlertOverride());
+    chkOverride->setChecked(u->AlertOverride);
+    if (!u->AlertOverride) u = pClient->owner;
+    chkOnline->setChecked(u->AlertAway);
+    chkBlink->setChecked(u->AlertBlink);
+    chkSound->setChecked(u->AlertSound);
+    chkOnScreen->setChecked(u->AlertOnScreen);
+    chkDialog->setChecked(u->AlertPopup);
+    chkFloat->setChecked(u->AlertWindow);
+    overrideChanged(u->AlertOverride);
 }
 
 void AlertDialog::overrideChanged(bool bSet)
@@ -60,10 +60,9 @@ void AlertDialog::overrideChanged(bool bSet)
 }
 
 void AlertDialog::save(ICQUser *u)
-{
-    if (u->Uin() != pClient->Uin()){
+{    if (u->Uin != pClient->owner->Uin){
         u->AlertOverride = chkOverride->isChecked();
-        if (!u->AlertOverride()) return;
+        if (!u->AlertOverride) return;
     }
     u->AlertAway = chkOnline->isChecked();
     u->AlertBlink = chkBlink->isChecked();
@@ -75,7 +74,7 @@ void AlertDialog::save(ICQUser *u)
 
 void AlertDialog::apply(ICQUser*)
 {
-    save(pClient);
+    save(pClient->owner);
 }
 
 #ifndef _WINDOWS

@@ -29,7 +29,7 @@ PasswdDialog::PasswdDialog()
         : QDialog(NULL, NULL, true)
 {
     bLogin = false;
-    oldPassword = QString::fromLocal8Bit(pClient->EncryptedPassword);
+    oldPassword = QString::fromLocal8Bit(pClient->EncryptedPassword.c_str());
     QGridLayout *lay = new QGridLayout(this, 2, 2, 10, 5);
     lblPasswd = new QLabel(i18n("Password:"), this);
     lblPasswd->setAlignment(AlignRight | AlignVCenter);

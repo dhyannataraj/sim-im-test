@@ -95,20 +95,20 @@ void EditSpell::resetColors(bool bCanRich)
     curFG = baseFG;
     if (bCanRich){
         bFontChanged = false;
-        if (pMain->MessageBgColor() != pMain->MessageFgColor()){
-            setBackground(pMain->MessageBgColor());
-            setForeground(pMain->MessageFgColor());
-            curFG = pMain->MessageFgColor();
+        if (pMain->MessageBgColor != pMain->MessageFgColor){
+            setBackground(pMain->MessageBgColor);
+            setForeground(pMain->MessageFgColor);
+            curFG = pMain->MessageFgColor;
         }else{
             setBackground(baseBG);
             setForeground(baseFG);
         }
-        if (pMain->UserBoxFontSize() > 128) pMain->UserBoxFontSize = 0;
-        if (pMain->UserBoxFontSize()){
+        if (pMain->UserBoxFontSize > 128) pMain->UserBoxFontSize = 0;
+        if (pMain->UserBoxFontSize){
             QFont f(pMain->UserBoxFontFamily.c_str(),
-                    pMain->UserBoxFontSize(),
-                    pMain->UserBoxFontWeight(),
-                    pMain->UserBoxFontItalic());
+                    pMain->UserBoxFontSize,
+                    pMain->UserBoxFontWeight,
+                    pMain->UserBoxFontItalic);
             setCurrentFont(f);
         }
     }else{

@@ -41,7 +41,7 @@
 CUser::CUser(ICQUser *_u)
 {
     u = _u;
-    mUIN = u->Uin();
+    mUIN = u->Uin;
 }
 
 CUser::CUser(unsigned long uin)
@@ -66,7 +66,7 @@ const QString CUser::name(bool quoted)
         s.setNum(mUIN);
         return s;
     }
-    return pClient->from8Bit(u ? u->Uin() : mUIN, n.c_str());
+    return pClient->from8Bit(u ? u->Uin : mUIN, n.c_str());
 }
 
 const QString CUser::firstName(bool quoted)
@@ -74,7 +74,7 @@ const QString CUser::firstName(bool quoted)
     if (u == NULL) return "";
     string n = u->FirstName;
     if (quoted) n = XmlNode::quote(n);
-    return pClient->from8Bit(u->Uin(), n.c_str());
+    return pClient->from8Bit(u->Uin, n.c_str());
 }
 
 const QString CUser::lastName(bool quoted)
@@ -82,7 +82,7 @@ const QString CUser::lastName(bool quoted)
     if (u == NULL) return "";
     string n = u->LastName;
     if (quoted) n = XmlNode::quote(n);
-    return pClient->from8Bit(u->Uin(), n.c_str());
+    return pClient->from8Bit(u->Uin, n.c_str());
 }
 
 const QString CUser::email(bool quoted)
@@ -96,7 +96,7 @@ const QString CUser::email(bool quoted)
         if (quoted) n = XmlNode::quote(n);
         res += n;
     }
-    return pClient->from8Bit(u->Uin(), res.c_str());
+    return pClient->from8Bit(u->Uin, res.c_str());
 }
 
 const QString CUser::autoReply(bool quoted)
@@ -104,7 +104,7 @@ const QString CUser::autoReply(bool quoted)
     if (u == NULL) return "";
     string n = u->AutoReply;
     if (quoted) n = XmlNode::quote(n);
-    QString res = pClient->from8Bit(u->Uin(), n.c_str());
+    QString res = pClient->from8Bit(u->Uin, n.c_str());
     if (quoted) res.replace(QRegExp("\n"), "<br>");
     return res;
 }
@@ -137,9 +137,9 @@ const QString CUser::addr()
 {
     if (u == NULL) return "";
     QString res;
-    if (u->IP()){
+    if (u->IP){
         struct in_addr a;
-        a.s_addr = u->IP();
+        a.s_addr = u->IP;
         res += inet_ntoa(a);
         if (u->HostName.size()){
             res += "(";
@@ -148,13 +148,13 @@ const QString CUser::addr()
         }
         if (u->Port){
             QString s;
-            res += s.sprintf(":%u", u->Port());
+            res += s.sprintf(":%u", u->Port);
         }
     }
-    if (u->RealIP() && (u->RealIP() != u->IP())){
-        if (u->IP()) res += "<br>";
+    if (u->RealIP && (u->RealIP != u->IP)){
+        if (u->IP) res += "<br>";
         struct in_addr a;
-        a.s_addr = u->RealIP();
+        a.s_addr = u->RealIP;
         res += inet_ntoa(a);
         if (u->RealHostName.size()){
             res += "(";
@@ -186,8 +186,8 @@ QString CUser::toolTip()
     r = "<nobr>";
     r += name(true);
     r += "</nobr>";
-    if (u->Uin() < UIN_SPECIAL)
-        r += s.sprintf("<br><nobr><font size=-1>UIN:</font> %lu</nobr>", u->Uin());
+    if (u->Uin < UIN_SPECIAL)
+        r += s.sprintf("<br><nobr><font size=-1>UIN:</font> %lu</nobr>", u->Uin);
     QString sFirstName = firstName(true);
     QString sLastName = lastName(true);
     if (sFirstName.length() || sLastName.length()){
@@ -224,7 +224,7 @@ QString CUser::toolTip()
             r += statusTime();
         }
     }
-    if (u->IP() || u->RealIP()){
+    if (u->IP || u->RealIP){
         r += "<br>";
         r += addr();
     }
@@ -238,7 +238,7 @@ QString CUser::toolTip()
             isDiv = true;
         }
         r += "<br><img src=\"icon:cell\">";
-        r += pClient->from8Bit(u->Uin(), phone->getNumber().c_str());
+        r += pClient->from8Bit(u->Uin, phone->getNumber().c_str());
     }
     for (it = u->Phones.begin(); it != u->Phones.end(); it++){
         PhoneInfo *phone = static_cast<PhoneInfo*>(*it);
@@ -248,24 +248,24 @@ QString CUser::toolTip()
             isDiv = true;
         }
         r += "<br><img src=\"icon:phone\">";
-        r += pClient->from8Bit(u->Uin(), phone->getNumber().c_str());
+        r += pClient->from8Bit(u->Uin, phone->getNumber().c_str());
     }
     QString sAutoReply = autoReply(true);
     if (sAutoReply.length()){
         r += "<br>_____________<br>";
         r += sAutoReply;
     }
-    if (u->Version()){
+    if (u->Version){
         r += "<br>_____________<br>";
         r += "v" + QString::number(u->Version) + " ";
-        if (u->TimeStamp() == 0xFFFFFFFF){
+        if (u->TimeStamp == 0xFFFFFFFF){
             r += "MIRANDA";
-        }else if((u->TimeStamp() & 0xFFFF0000) == LICQ_WITHSSL){
-            r += "Licq " + LicqVersionToString(u->TimeStamp() & 0xFFFF) + "/SSL";
-        }else if((u->TimeStamp() & 0xFFFF0000) == LICQ_WITHOUTSSL){
-            r += "Licq " + LicqVersionToString(u->TimeStamp() & 0xFFFF);
+        }else if((u->TimeStamp & 0xFFFF0000) == LICQ_WITHSSL){
+            r += "Licq " + LicqVersionToString(u->TimeStamp & 0xFFFF) + "/SSL";
+        }else if((u->TimeStamp & 0xFFFF0000) == LICQ_WITHOUTSSL){
+            r += "Licq " + LicqVersionToString(u->TimeStamp & 0xFFFF);
         }else{
-            switch (u->ClientType()){
+            switch (u->ClientType){
             case 1:
                 r += "Trillian";
                 break;
@@ -282,17 +282,17 @@ QString CUser::toolTip()
                 r += "vICQ";
                 break;
             default:
-                if ((unsigned char)(u->ClientType()) >= (1 << 6)){
+                if ((unsigned char)(u->ClientType) >= (1 << 6)){
                     r += "SIM ";
-                    r += QString::number((u->ClientType() >> 6)-1);
+                    r += QString::number((u->ClientType >> 6)-1);
                     r += ".";
-                    r += QString::number(u->ClientType() & 0x1F);
+                    r += QString::number(u->ClientType & 0x1F);
                 }else{
-                    if (u->Version() == 5)
+                    if (u->Version == 5)
                         r += "ICQ 99";
-                    if (u->Version() == 7)
+                    if (u->Version == 7)
                         r += "ICQ 2000";
-                    if (u->Version() == 8)
+                    if (u->Version == 8)
                         r += "ICQ 2001";
                 }
             }

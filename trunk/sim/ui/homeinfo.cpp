@@ -35,7 +35,7 @@ HomeInfo::HomeInfo(QWidget *p, bool readOnly)
     lblPict->setPixmap(Pict("home"));
     edtState->setMaxLength(5);
     if (!readOnly) {
-        load(pClient);
+        load(pClient->owner);
         return;
     }
     edtAddress->setReadOnly(true);
@@ -62,10 +62,10 @@ void HomeInfo::save(ICQUser*)
 
 void HomeInfo::apply(ICQUser *u)
 {
-    u->City = edtCity->text().local8Bit();
-    u->State = edtState->text().local8Bit();
-    u->Address = edtAddress->text().local8Bit();
-    u->Zip = edtZip->text().local8Bit();
+    set(u->City, edtCity->text());
+    set(u->State, edtState->text());
+    set(u->Address, edtAddress->text());
+    set(u->Zip, edtZip->text());
     u->Country = getComboValue(cmbCountry, countries);
     u->TimeZone = getTZComboValue(cmbZone);
 }

@@ -110,7 +110,7 @@ void UserInfo::saveInfo()
 {
     ICQUser *u = pClient->getUser(m_nUin, m_nUin == 0);
     if (u == NULL) return;
-    if (m_nUin == 0) m_nUin = u->Uin();
+    if (m_nUin == 0) m_nUin = u->Uin;
     inSave = true;
     emit saveInfo(u);
     inSave = false;

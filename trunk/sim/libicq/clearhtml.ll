@@ -85,10 +85,10 @@ static tagDef tags[] = {
     { "", 0 }
 };
 
-UTFstring ICQClient::clearHTML(const UTFstring &text)
+string ICQClient::clearHTML(const string &text)
 {
     yy_current_buffer = yy_scan_string(text.c_str());
-    UTFstring res;
+    string res;
     for (;;){
         int r = yylex();
         if (!r) break;

@@ -46,7 +46,7 @@ class TransparentTop : public QObject
 {
     Q_OBJECT
 public:
-    TransparentTop(QWidget *parent, ConfigBool &useTransparent, ConfigULong &transparent);
+    TransparentTop(QWidget *parent, bool &useTransparent, unsigned long &transparent);
     static void setTransparent(QWidget*, bool isTransparent, unsigned long transparency);
     static bool bCanTransparent;
     static TransparentTop *getTransparent(QWidget*);
@@ -65,8 +65,8 @@ protected slots:
     void transparentChanged();
 protected:
     bool eventFilter(QObject *obj, QEvent *e);
-    ConfigBool &useTransparent;
-    ConfigULong &transparent;
+    bool			&useTransparent;
+    unsigned long	&transparent;
 };
 
 #endif

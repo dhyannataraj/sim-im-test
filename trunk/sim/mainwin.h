@@ -20,12 +20,13 @@
 
 #include "defs.h"
 
-#include <fstream>
+#include <list>
+#include <string>
+
+using namespace std;
 
 #include <qmainwindow.h>
 #include <qtimer.h>
-
-#include "cfg.h"
 
 class Skin;
 class DockWnd;
@@ -124,119 +125,119 @@ typedef struct msgInfo
     bool operator < (const msgInfo &m) const;
 } msgInfo;
 
-class MainWindow : public QMainWindow, public ConfigArray
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
     MainWindow(const char *name = NULL);
     ~MainWindow();
 
-    ConfigBool   Show;
-    ConfigBool	 OnTop;
+    bool			Show;
+    bool			OnTop;
 
-    ConfigBool   ShowOffline;
-    ConfigBool   GroupMode;
+    bool			ShowOffline;
+    bool			GroupMode;
 
-    ConfigShort  mLeft;
-    ConfigShort  mTop;
-    ConfigShort  mWidth;
-    ConfigShort  mHeight;
+    short			mLeft;
+    short			mTop;
+    short			mWidth;
+    short			mHeight;
 
-    ConfigString UseStyle;
+    string			UseStyle;
 
-    ConfigULong  AutoAwayTime;
-    ConfigULong  AutoNATime;
+    unsigned long	AutoAwayTime;
+    unsigned long	AutoNATime;
 
-    ConfigBool	 NoAlertAway;
+    bool			NoAlertAway;
 
-    ConfigULong  ManualStatus;
-    ConfigShort  DivPos;
+    unsigned long	ManualStatus;
+    short			DivPos;
 
-    ConfigBool   SpellOnSend;
+    bool			SpellOnSend;
 
-    ConfigString ToolbarDock;
-    ConfigShort	 ToolbarOffset;
-    ConfigShort  ToolbarY;
+    string			ToolbarDock;
+    short			ToolbarOffset;
+    short			ToolbarY;
 
-    ConfigString UrlViewer;
-    ConfigString MailClient;
+    string			UrlViewer;
+    string			MailClient;
 
-    ConfigBool   UseTransparent;
-    ConfigULong  Transparent;
-    ConfigBool	 UseTransparentContainer;
-    ConfigULong	 TransparentContainer;
-    ConfigBool	 TransparentIfInactive;
+    bool			UseTransparent;
+    unsigned long	Transparent;
+    bool			UseTransparentContainer;
+    unsigned long	TransparentContainer;
+    bool			TransparentIfInactive;
 
-    ConfigBool	 NoShowAway;
-    ConfigBool	 NoShowNA;
-    ConfigBool	 NoShowOccupied;
-    ConfigBool	 NoShowDND;
-    ConfigBool	 NoShowFFC;
+    bool			NoShowAway;
+    bool			NoShowNA;
+    bool			NoShowOccupied;
+    bool			NoShowDND;
+    bool			NoShowFFC;
 
-    ConfigBool	 UseSystemFonts;
+    bool			UseSystemFonts;
 
-    ConfigString FontFamily;
-    ConfigUShort FontSize;
-    ConfigUShort FontWeight;
-    ConfigBool   FontItalic;
+    string			FontFamily;
+    unsigned short	FontSize;
+    unsigned short	FontWeight;
+    bool			FontItalic;
 
-    ConfigString FontMenuFamily;
-    ConfigUShort FontMenuSize;
-    ConfigUShort FontMenuWeight;
-    ConfigBool   FontMenuItalic;
+    string			FontMenuFamily;
+    unsigned short	FontMenuSize;
+    unsigned short	FontMenuWeight;
+    bool			FontMenuItalic;
 
-    ConfigULong	 ColorSend;
-    ConfigULong	 ColorReceive;
+    unsigned long	ColorSend;
+    unsigned long	ColorReceive;
 
-    ConfigUShort ChatWidth;
-    ConfigUShort ChatHeight;
+    unsigned short	ChatWidth;
+    unsigned short	ChatHeight;
 
-    ConfigShort	 UserBoxX;
-    ConfigShort	 UserBoxY;
-    ConfigUShort UserBoxWidth;
-    ConfigUShort UserBoxHeight;
-    ConfigString UserBoxToolbarDock;
-    ConfigShort	 UserBoxToolbarOffset;
-    ConfigShort  UserBoxToolbarY;
+    short			UserBoxX;
+    short			UserBoxY;
+    unsigned short	UserBoxWidth;
+    unsigned short	UserBoxHeight;
+    string			UserBoxToolbarDock;
+    short			UserBoxToolbarOffset;
+    short			UserBoxToolbarY;
 
-    ConfigString UserBoxFontFamily;
-    ConfigUShort UserBoxFontSize;
-    ConfigUShort UserBoxFontWeight;
-    ConfigBool   UserBoxFontItalic;
+    string			UserBoxFontFamily;
+    unsigned short	UserBoxFontSize;
+    unsigned short	UserBoxFontWeight;
+    bool			UserBoxFontItalic;
 
-    ConfigBool	 CloseAfterSend;
-    ConfigBool	 CloseAfterFileTransfer;
-    ConfigBool	 MainWindowInTaskManager;
-    ConfigBool	 UserWindowInTaskManager;
+    bool			CloseAfterSend;
+    bool			CloseAfterFileTransfer;
+    bool			MainWindowInTaskManager;
+    bool			UserWindowInTaskManager;
 
-    ConfigString Icons;
+    string			Icons;
 
-    ConfigBool   XOSD_on;
-    ConfigShort  XOSD_pos;
-    ConfigShort  XOSD_offset;
-    ConfigULong  XOSD_color;
-    ConfigString XOSD_FontFamily;
-    ConfigUShort XOSD_FontSize;
-    ConfigUShort XOSD_FontWeight;
-    ConfigBool   XOSD_FontItalic;
-    ConfigUShort XOSD_timeout;
-    ConfigBool	 XOSD_Shadow;
-    ConfigBool	 XOSD_Background;
-    ConfigULong	 XOSD_BgColor;
+    bool			XOSD_on;
+    short			XOSD_pos;
+    short			XOSD_offset;
+    unsigned long	XOSD_color;
+    string			XOSD_FontFamily;
+    unsigned short	XOSD_FontSize;
+    unsigned short	XOSD_FontWeight;
+    bool			XOSD_FontItalic;
+    unsigned short	XOSD_timeout;
+    bool			XOSD_Shadow;
+    bool			XOSD_Background;
+    unsigned long	XOSD_BgColor;
 
-    ConfigUShort ContainerMode;
-    ConfigULong	 MessageBgColor;
-    ConfigULong	 MessageFgColor;
-    ConfigBool	 SimpleMode;
-    ConfigBool	 UseOwnColors;
-    ConfigBool	 UserWndOnTop;
+    unsigned short	ContainerMode;
+    unsigned long	MessageBgColor;
+    unsigned long	MessageFgColor;
+    bool			SimpleMode;
+    bool			UseOwnColors;
+    bool			UserWndOnTop;
 
-    ConfigString KeyWindow;
-    ConfigString KeyDblClick;
-    ConfigString KeySearch;
+    string			KeyWindow;
+    string			KeyDblClick;
+    string			KeySearch;
 
-    ConfigBool	 UseEmotional;
-    ConfigULong	 AutoHideTime;
+    bool			UseEmotional;
+    unsigned long	AutoHideTime;
 
     bool 	     init();
 
@@ -283,7 +284,7 @@ public:
 
     virtual void setBackgroundPixmap(const QPixmap&);
 
-    static QString ParseText(const UTFstring &t, bool bIgnoreColors);
+    static QString ParseText(const string &t, bool bIgnoreColors);
 
     static const char *sound(const char *wav);
 

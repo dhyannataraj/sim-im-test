@@ -31,32 +31,29 @@
 #define PING_TIMEOUT		60
 
 ICQClient::ICQClient()
-        : ServerHost(this, "ServerHost", "login.icq.com"),
-        ServerPort(this, "ServerPort", 5190),
-        DecryptedPassword(this, "Password"),
-        EncryptedPassword(this, "EncryptPassword"),
-        WebAware(this, "WebAware"),
-        Authorize(this, "Authorize"),
-        HideIp(this, "HideIp"),
-        RejectMessage(this, "RejectMessage"),
-        RejectURL(this, "RejectURL"),
-        RejectWeb(this, "RejectWeb"),
-        RejectEmail(this, "RejectEmail"),
-        RejectOther(this, "RejectOther"),
-        RejectFilter(this, "RejectFilter"),
-        DirectMode(this, "DirectMode"),
-        BirthdayReminder(this, "BirthdayReminder", "birthday.wav"),
-        FileDone(this, "FileDone", "filedone.wav"),
-        BypassAuth(this, "BypassAuth"),
-        ProxyType(this, "ProxyType"),
-        ProxyHost(this, "ProxyHost", "proxy"),
-        ProxyPort(this, "ProxyPort", 1080),
-        ProxyAuth(this, "ProxyAuth"),
-        ProxyUser(this, "ProxyUser"),
-        ProxyPasswd(this, "ProxyPasswd"),
-        contacts(this),
-        m_bHeader(true), m_bBirthday(false)
+        : contacts(this)
 {
+    owner = new ICQUser;
+    ServerHost = "login.icq.com";
+    ServerPort = 5190;
+    WebAware = false;
+    Authorize = false;
+    HideIp = false;
+    RejectMessage = false;
+    RejectURL = false;
+    RejectWeb = false;
+    RejectEmail = false;
+    RejectOther = false;
+    DirectMode = 0;
+    BirthdayReminder = "birthday.wav";
+    FileDone = "filedone.wav";
+    BypassAuth = false;
+    ProxyType = 0;
+    ProxyHost = "proxy";
+    ProxyPort = 1080;
+    ProxyAuth = false;
+    m_bHeader = true;
+    m_bBirthday = false;
     sock = NULL;
     listener = NULL;
     m_nProcessId = MSG_PROCESS_ID;
@@ -70,16 +67,17 @@ ICQClient::ICQClient()
     needPhoneStatusUpdate = false;
     unsigned long now;
     time((time_t*)&now);
-    PhoneBookTime = now;
-    PhoneStatusTime = now;
-    DCcookie = rand();
-    bMyInfo = true;
+    owner->PhoneBookTime = now;
+    owner->PhoneStatusTime = now;
+    owner->DCcookie = rand();
+    owner->bMyInfo = true;
     m_bRosters = false;
 }
 
 ICQClient::~ICQClient()
 {
     close();
+    delete owner;
 }
 
 void ICQClient::storePassword(const char *p)
@@ -112,7 +110,7 @@ void ICQClient::create_socket()
         close();
         return;
     }
-    Port = listener->port();
+    owner->Port = listener->port();
 }
 
 void ICQClient::close()
@@ -146,7 +144,7 @@ void ICQClient::packet_ready()
         unsigned short sequence, size;
         sock->readBuffer >> sequence >> size;
         if (size){
-	    log(L_DEBUG, "? packet size=%u", size);
+            log(L_DEBUG, "? packet size=%u", size);
             sock->readBuffer.add(size);
             m_bHeader = false;
             return;
@@ -243,7 +241,7 @@ void ICQClient::setStatus(unsigned short status)
         case Reconnect:{
                 m_reconnectTime = 0;
                 m_state = Logoff;
-                ICQEvent e(EVENT_STATUS_CHANGED, Uin);
+                ICQEvent e(EVENT_STATUS_CHANGED, owner->Uin);
                 process_event(&e);
                 break;
             }
@@ -251,7 +249,7 @@ void ICQClient::setStatus(unsigned short status)
             break;
         default:
             close();
-            uStatus = ICQ_STATUS_OFFLINE;
+            owner->uStatus = ICQ_STATUS_OFFLINE;
             if (m_state == ForceReconnect){
                 m_state = Reconnect;
                 time_t reconnect;
@@ -261,7 +259,7 @@ void ICQClient::setStatus(unsigned short status)
             }else{
                 m_state = Logoff;
             }
-            ICQEvent e(EVENT_STATUS_CHANGED, Uin);
+            ICQEvent e(EVENT_STATUS_CHANGED, owner->Uin);
             process_event(&e);
             time_t now;
             time(&now);
@@ -283,10 +281,10 @@ void ICQClient::setStatus(unsigned short status)
         m_nSequence = rand() & 0x7FFFF;
         m_nMsgSequence = 1;
         m_reconnectTime = 0;
-        m_state = Uin ? Connect : Register;
-        ICQEvent e(EVENT_STATUS_CHANGED, Uin);
+        m_state = owner->Uin ? Connect : Register;
+        ICQEvent e(EVENT_STATUS_CHANGED, owner->Uin);
         process_event(&e);
-        sock->connect(ServerHost.c_str(), ServerPort());
+        sock->connect(ServerHost.c_str(), ServerPort);
     }
     if (m_state != Logged){
         m_nLogonStatus = status;
@@ -357,15 +355,15 @@ unsigned long ICQClient::fullStatus(unsigned long s)
     if (s & ICQ_STATUS_OCCUPIED) s |= ICQ_STATUS_AWAY;
     if (s & ICQ_STATUS_DND) s |= (ICQ_STATUS_AWAY | ICQ_STATUS_OCCUPIED);
     s &= 0x0000FFFF;
-    if (WebAware())
+    if (WebAware)
         s |= ICQ_STATUS_FxWEBxPRESENCE;
-    if (HideIp())
+    if (HideIp)
         s |= ICQ_STATUS_FxHIDExIP;
     if (m_bBirthday)
         s |= ICQ_STATUS_FxBIRTHDAY;
-    if (inInvisible())
+    if (owner->inInvisible)
         s |= ICQ_STATUS_FxPRIVATE;
-    switch (DirectMode()){
+    switch (DirectMode){
     case 1:
         s |= ICQ_STATUS_FxDIRECTxLISTED;
         break;
@@ -386,79 +384,28 @@ void ICQClient::getAutoResponse(unsigned long uin, string &res)
         if (u)
             res = u->AutoResponseDND;
         if (*res.c_str() == 0)
-            res = AutoResponseDND;
+            res = owner->AutoResponseDND;
     }else if (status & ICQ_STATUS_OCCUPIED){
         if (u)
             res = u->AutoResponseOccupied;
         if (*res.c_str() == 0)
-            res = AutoResponseOccupied;
+            res = owner->AutoResponseOccupied;
     }else if (status & ICQ_STATUS_NA){
         if (u)
             res = u->AutoResponseNA;
         if (*res.c_str() == 0)
-            res = AutoResponseNA;
+            res = owner->AutoResponseNA;
     }else if (status & ICQ_STATUS_FREEFORCHAT){
         if (u)
             res = u->AutoResponseFFC;
         if (*res.c_str() == 0)
-            res = AutoResponseFFC;
+            res = owner->AutoResponseFFC;
     }else{
         if (u)
             res = u->AutoResponseAway;
         if (*res.c_str() == 0)
-            res = AutoResponseAway;
+            res = owner->AutoResponseAway;
     }
-}
-
-void ICQClient::save(ostream &s)
-{
-    ConfigArray::save(s);
-    s << "[ContactList]\n";
-    contacts.save(s);
-    for (vector<ICQGroup*>::iterator it_grp = contacts.groups.begin(); it_grp != contacts.groups.end(); it_grp++){
-        s << "[Group]\n";
-        (*it_grp)->save(s);
-    }
-    for (list<ICQUser*>::iterator it = contacts.users.begin(); it != contacts.users.end(); it++){
-        if ((*it)->bIsTemp) continue;
-        s << "[User]\n";
-        (*it)->save(s);
-    }
-}
-
-bool ICQClient::load(istream &s, string &nextPart)
-{
-    ICQUser::load(s, nextPart);
-    for (;;){
-        if (!strcmp(nextPart.c_str(), "[ContactList]")){
-            contacts.load(s, nextPart);
-            continue;
-        }
-        if (!strcmp(nextPart.c_str(), "[Group]")){
-            ICQGroup *grp = new ICQGroup;
-            if (grp->load(s, nextPart)){
-                contacts.groups.push_back(grp);
-            }else{
-                delete grp;
-            }
-            continue;
-        }
-        if (!strcmp(nextPart.c_str(), "[User]")){
-            ICQUser *u = new ICQUser;
-            if (u->load(s, nextPart) && u->Uin() && (u->Uin() != Uin())){
-                contacts.users.push_back(u);
-            }else{
-                delete u;
-            }
-            continue;
-        }
-        break;
-    }
-    if (*EncryptedPassword.c_str() == 0)
-        storePassword(DecryptedPassword.c_str());
-    ICQEvent e(EVENT_INFO_CHANGED);
-    process_event(&e);
-    return true;
 }
 
 void ICQClient::connect_ready()
@@ -511,7 +458,7 @@ void ICQClient::addResponseRequest(unsigned long uin, bool bPriority)
     ICQUser *u = getUser(uin);
     if (u == NULL) return;
     if (!u->CanResponse) return;
-    if ((u->Version() <= 6) || (u->direct && u->direct->isLogged())){
+    if ((u->Version <= 6) || (u->direct && u->direct->isLogged())){
         ICQMessage *msg = new ICQAutoResponse;
         msg->setType(ICQ_READxAWAYxMSG);
         if (u->uStatus & ICQ_STATUS_DND){
@@ -617,34 +564,25 @@ void ICQClient::closeFile(ICQFile*)
 {
 }
 
-UTFstring::UTFstring()
-{
-}
-
-UTFstring::UTFstring(const char *p)
-{
-    if (p) *((string*)this) = p;
-}
-
 Proxy *ICQClient::getProxy()
 {
-    switch (ProxyType()){
+    switch (ProxyType){
     case 0:
         return 0;
     case 1:
-        return new SOCKS4_Proxy(ProxyHost.c_str(), ProxyPort());
+        return new SOCKS4_Proxy(ProxyHost.c_str(), ProxyPort);
     case 2:
-        return new SOCKS5_Proxy(ProxyHost.c_str(), ProxyPort(),
-                                ProxyAuth() ? ProxyUser.c_str() : "",
-                                ProxyAuth() ? ProxyPasswd.c_str() : "");
+        return new SOCKS5_Proxy(ProxyHost.c_str(), ProxyPort,
+                                ProxyAuth ? ProxyUser.c_str() : "",
+                                ProxyAuth ? ProxyPasswd.c_str() : "");
     case 3:
-        return new HTTP_Proxy(ProxyHost.c_str(), ProxyPort(),
-                              ProxyAuth() ? ProxyUser.c_str() : "",
-                              ProxyAuth() ? ProxyPasswd.c_str() : "");
+        return new HTTP_Proxy(ProxyHost.c_str(), ProxyPort,
+                              ProxyAuth ? ProxyUser.c_str() : "",
+                              ProxyAuth ? ProxyPasswd.c_str() : "");
     case 4:
-        return new HTTPS_Proxy(ProxyHost.c_str(), ProxyPort(),
-                               ProxyAuth() ? ProxyUser.c_str() : "",
-                               ProxyAuth() ? ProxyPasswd.c_str() : "");
+        return new HTTPS_Proxy(ProxyHost.c_str(), ProxyPort,
+                               ProxyAuth ? ProxyUser.c_str() : "",
+                               ProxyAuth ? ProxyPasswd.c_str() : "");
     default:
         log(L_WARN, "Unknown proxy type");
     }

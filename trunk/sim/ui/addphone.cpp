@@ -72,7 +72,7 @@ AddPhone::AddPhone(QWidget *p, PhoneInfo *_info, int userCountry, bool bMyPhones
     wndDetails->addWidget(pager, 1);
     connect(pager, SIGNAL(numberChanged(const QString&, bool)), this, SLOT(numberChanged(const QString&, bool)));
     int phoneType = 0;
-    switch (info->Type()){
+    switch (info->Type){
     case MOBILE:
     case SMS:
         phoneType = 1;

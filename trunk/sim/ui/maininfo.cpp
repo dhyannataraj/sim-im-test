@@ -20,6 +20,7 @@
 #include "client.h"
 #include "icons.h"
 #include "cuser.h"
+#include "enable.h"
 #include "log.h"
 
 #include <qlineedit.h>
@@ -47,7 +48,7 @@ MainInfo::MainInfo(QWidget *p, bool readOnly)
     if (!readOnly){
         lblNotes->hide();
         edtNotes->hide();
-        load(pClient);
+        load(pClient->owner);
     }else{
         edtUin->hide();
         lblUin->hide();
@@ -66,7 +67,7 @@ void MainInfo::load(ICQUser *u)
         lblUin->show();
         lineDiv->show();
     }
-    cmbEncoding->setCurrentItem(pClient->userEncoding(u->Uin()));
+    cmbEncoding->setCurrentItem(pClient->userEncoding(u->Uin));
     edtFirst->setText(QString::fromLocal8Bit(u->FirstName.c_str()));
     edtLast->setText(QString::fromLocal8Bit(u->LastName.c_str()));
     edtNotes->setText(QString::fromLocal8Bit(u->Notes.c_str()));
@@ -78,7 +79,7 @@ void MainInfo::load(ICQUser *u)
     addString(strDisplay, QString::fromLocal8Bit(u->LastName.c_str()) + " " + QString::fromLocal8Bit(u->FirstName.c_str()));
     addString(strDisplay, QString::fromLocal8Bit(u->FirstName.c_str()));
     addString(strDisplay, QString::fromLocal8Bit(u->LastName.c_str()));
-    if (u->Type() == USER_TYPE_EXT){
+    if (u->Type == USER_TYPE_EXT){
         for (PhoneBook::iterator itPhone = u->Phones.begin(); itPhone != u->Phones.end(); ++itPhone){
             PhoneInfo *info = static_cast<PhoneInfo*>(*itPhone);
             addString(strDisplay, QString::fromLocal8Bit(info->getNumber().c_str()));
@@ -93,7 +94,7 @@ void MainInfo::load(ICQUser *u)
     CUser user(u);
     cmbDisplay->lineEdit()->setText(user.name());
     mails = u->EMails;
-    for (EMailPtrList::iterator it = mails.begin(); it != mails.end(); it++){
+    for (EMailList::iterator it = mails.begin(); it != mails.end(); it++){
         EMailInfo *email = static_cast<EMailInfo*>(*it);
         lstEmail->insertItem(Pict("mail_generic"), QString::fromLocal8Bit(email->Email.c_str()));
     }
@@ -105,7 +106,7 @@ void MainInfo::reloadList()
 {
     int curSel = lstEmail->currentItem();
     lstEmail->clear();
-    for (EMailPtrList::iterator it = mails.begin(); it != mails.end(); it++){
+    for (EMailList::iterator it = mails.begin(); it != mails.end(); it++){
         EMailInfo *email = static_cast<EMailInfo*>(*it);
         lstEmail->insertItem(Pict("mail_generic"), QString::fromLocal8Bit(email->Email.c_str()));
     }
@@ -162,7 +163,7 @@ void MainInfo::defaultEmail()
 {
     int curSel = lstEmail->currentItem();
     if (curSel <= 0) return;
-    for (EMailPtrList::iterator it = mails.begin(); it != mails.end(); it++){
+    for (EMailList::iterator it = mails.begin(); it != mails.end(); it++){
         if (curSel--) continue;
         EMailInfo *info = static_cast<EMailInfo*>(*it);
         mails.remove(info);
@@ -176,12 +177,12 @@ void MainInfo::defaultEmail()
 
 void MainInfo::save(ICQUser *u)
 {
-    pClient->setUserEncoding(u->Uin(), cmbEncoding->currentItem());
+    pClient->setUserEncoding(u->Uin, cmbEncoding->currentItem());
     u->EMails = mails;
-    u->Notes = edtNotes->text().local8Bit();
-    u->FirstName = edtFirst->text().local8Bit();
-    u->LastName = edtLast->text().local8Bit();
-    u->Nick = edtNick->text().local8Bit();
+    set(u->Notes, edtNotes->text());
+    set(u->FirstName, edtFirst->text());
+    set(u->LastName, edtLast->text());
+    set(u->Nick, edtNick->text());
     QLineEdit *edit = cmbDisplay->lineEdit();
     if (edit == NULL) return;
     pClient->renameUser(u, edit->text().local8Bit());
@@ -189,20 +190,20 @@ void MainInfo::save(ICQUser *u)
 
 void MainInfo::apply(ICQUser *u)
 {
-    pClient->setUserEncoding(u->Uin(), cmbEncoding->currentItem());
+    pClient->setUserEncoding(u->Uin, cmbEncoding->currentItem());
     EMailInfo *mailInfo = NULL;
     if (mails.begin() != mails.end()){
-        for (EMailPtrList::iterator it = mails.begin(); it != mails.end(); ++it){
+        for (EMailList::iterator it = mails.begin(); it != mails.end(); ++it){
             EMailInfo *info = static_cast<EMailInfo*>(*it);
-            info->MyInfo = info->Hide();
+            info->MyInfo = info->Hide;
         }
         mailInfo = static_cast<EMailInfo*>(*mails.begin());
     }
-    u->Nick = edtNick->text().local8Bit();
-    u->FirstName = edtFirst->text().local8Bit();
-    u->LastName = edtLast->text().local8Bit();
-    u->EMail = mailInfo ? mailInfo->Email.c_str() : "";
-    u->HiddenEMail = (mailInfo ? mailInfo->Hide() : 0);
+    set(u->Nick, edtNick->text());
+    set(u->FirstName, edtFirst->text());
+    set(u->LastName, edtLast->text());
+    u->EMail = (mailInfo ? mailInfo->Email.c_str() : "");
+    u->HiddenEMail = (mailInfo ? mailInfo->Hide : 0);
     u->EMails = mails;
 }
 
@@ -210,7 +211,7 @@ EMailInfo *MainInfo::currentMail()
 {
     int curSel = lstEmail->currentItem();
     if (curSel < 0) return NULL;
-    for (EMailPtrList::iterator it = mails.begin(); it != mails.end(); it++){
+    for (EMailList::iterator it = mails.begin(); it != mails.end(); it++){
         if (curSel--) continue;
         return static_cast<EMailInfo*>(*it);
     }
@@ -220,8 +221,8 @@ EMailInfo *MainInfo::currentMail()
 void MainInfo::setButtons(int)
 {
     int curMail = lstEmail->currentItem();
-    btnEdit->setEnabled((curMail >= 0) && (!bReadOnly || currentMail()->MyInfo()));
-    btnRemove->setEnabled((curMail >= 0) && (!bReadOnly || currentMail()->MyInfo()));
+    btnEdit->setEnabled((curMail >= 0) && (!bReadOnly || currentMail()->MyInfo));
+    btnRemove->setEnabled((curMail >= 0) && (!bReadOnly || currentMail()->MyInfo));
     btnDefault->setEnabled(curMail > 0);
 }
 

@@ -45,21 +45,21 @@ ThemeSetup::ThemeSetup(QWidget *parent)
     connect(lstThemes, SIGNAL(doubleClicked(QListBoxItem*)), this, SLOT(apply(QListBoxItem*)));
     connect(lstIcons, SIGNAL(doubleClicked(QListBoxItem*)), this, SLOT(apply(QListBoxItem*)));
     if (TransparentTop::bCanTransparent){
-        chkTransparent->setChecked(pMain->UseTransparent());
+        chkTransparent->setChecked(pMain->UseTransparent);
         sldTransparent->setMinValue(0);
         sldTransparent->setMaxValue(100);
         sldTransparent->setValue(pMain->Transparent);
         sldTransparent->setTickmarks(QSlider::Below);
         sldTransparent->setTickInterval(5);
         connect(chkTransparent, SIGNAL(toggled(bool)), this, SLOT(checkedTransparent(bool)));
-        chkTransparentContainer->setChecked(pMain->UseTransparentContainer());
+        chkTransparentContainer->setChecked(pMain->UseTransparentContainer);
         sldTransparentContainer->setMinValue(0);
         sldTransparentContainer->setMaxValue(100);
         sldTransparentContainer->setValue(pMain->TransparentContainer);
         sldTransparentContainer->setTickmarks(QSlider::Below);
         sldTransparentContainer->setTickInterval(5);
         connect(chkTransparentContainer, SIGNAL(toggled(bool)), this, SLOT(checkedTransparent(bool)));
-        checkedTransparent(pMain->UseTransparent());
+        checkedTransparent(pMain->UseTransparent);
     }else{
         chkTransparent->hide();
         lblTransparent->hide();
@@ -73,14 +73,14 @@ ThemeSetup::ThemeSetup(QWidget *parent)
     lstIcons->setMinimumSize(QSize(0, h * 3));
     connect(pMain, SIGNAL(setupInit()), this, SLOT(setupInit()));
 #if defined(USE_KDE) || defined(WIN32)
-    chkUserWnd->setChecked(pMain->UserWindowInTaskManager());
-    chkMainWnd->setChecked(pMain->MainWindowInTaskManager());
+    chkUserWnd->setChecked(pMain->UserWindowInTaskManager);
+    chkMainWnd->setChecked(pMain->MainWindowInTaskManager);
 #else
     chkUserWnd->hide();
     chkMainWnd->hide();
 #endif
 #ifdef WIN32
-    chkInactive->setChecked(pMain->TransparentIfInactive());
+    chkInactive->setChecked(pMain->TransparentIfInactive);
 #else
     chkInactive->hide();
 #endif
@@ -143,11 +143,11 @@ void ThemeSetup::apply(ICQUser*)
     pMain->changeTransparent();
 #if defined(USE_KDE) || defined(WIN32)
     bool bChange = false;
-    if (pMain->UserWindowInTaskManager() != chkUserWnd->isChecked()){
+    if (pMain->UserWindowInTaskManager != chkUserWnd->isChecked()){
         pMain->UserWindowInTaskManager = chkUserWnd->isChecked();
         bChange = true;
     }
-    if (pMain->MainWindowInTaskManager() != chkMainWnd->isChecked()){
+    if (pMain->MainWindowInTaskManager != chkMainWnd->isChecked()){
         pMain->MainWindowInTaskManager = chkMainWnd->isChecked();
         bChange = true;
     }

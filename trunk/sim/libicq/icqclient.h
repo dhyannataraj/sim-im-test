@@ -50,7 +50,6 @@
 #include <string>
 
 #include "socket.h"
-#include "cfg.h"
 
 const unsigned char ICQ_TCP_VERSION = 0x08;
 
@@ -130,73 +129,56 @@ const unsigned long  UIN_SPECIAL    = 0xF0000000L;
 const unsigned short USER_TYPE_ICQ	= 0;
 const unsigned short USER_TYPE_EXT  = 1;
 
-class ICQGroup : public ConfigArray
+class ICQGroup
 {
 public:
     ICQGroup();
-    ConfigString Name;
-    ConfigUShort Id;
-    ConfigBool   Expand;
-    bool bChecked;
+    virtual ~ICQGroup() {}
+    string			Name;
+    unsigned short	Id;
+    bool			Expand;
+protected:
+    bool			bChecked;
+    friend class	ICQClient;
 };
 
-class EMailInfo : public ConfigArray
+class EMailInfo
 {
 public:
     EMailInfo();
-    ConfigString Email;
-    ConfigBool	 Hide;
-    ConfigBool	 MyInfo;
+    virtual ~EMailInfo() {}
+    string			Email;
+    bool			Hide;
+    bool			MyInfo;
 };
 
-class EMailPtrList : public ConfigPtrList
+class EMailList : public list<EMailInfo*>
 {
 public:
-    EMailPtrList() {}
-    ConfigArray *create() { return new EMailInfo; }
-    const ConfigPtrList &operator = (const ConfigPtrList &v)
-    { return ConfigPtrList::operator =(v); }
+    EMailList() {}
+    ~EMailList();
+    EMailList &operator = (const EMailList&);
+private:
+    EMailList(const EMailList&);
 };
 
-class EMailList : public ConfigList
-{
-public:
-    EMailList(ConfigArray *arr, const char *name) : ConfigList(arr, name) {}
-    ConfigArray *create() { return new EMailInfo; }
-    const ConfigPtrList &operator = (const ConfigPtrList &v)
-    { return ConfigPtrList::operator =(v); }
-    EMailList &operator() () { return *this; }
-    bool operator == (const EMailList &b) const { return ConfigList::operator == (b); }
-    bool operator != (const EMailList &b) const { return ConfigList::operator != (b); }
-};
-
-class ExtInfo : public ConfigArray
+class ExtInfo
 {
 public:
     ExtInfo();
-    ConfigUShort	Category;
-    ConfigString	Specific;
+    ~ExtInfo() {}
+    unsigned short	Category;
+    string			Specific;
 };
 
-class ExtInfoPtrList : public ConfigPtrList
+class ExtInfoList : public list<ExtInfo*>
 {
 public:
-    ExtInfoPtrList() {}
-    ConfigArray *create() { return new ExtInfo; }
-    const ConfigPtrList &operator = (const ConfigPtrList &v)
-    { return ConfigPtrList::operator = (v); }
-};
-
-class ExtInfoList : public ConfigList
-{
-public:
-    ExtInfoList(ConfigArray *arr, const char *name) : ConfigList(arr, name) {}
-    ConfigArray *create() { return new ExtInfo; }
-    ExtInfoList &operator() () { return *this; }
-    const ConfigPtrList &operator = (const ConfigPtrList &v)
-    { return ConfigPtrList::operator = (v); }
-    bool operator == (const ExtInfoList &b) const { return ConfigList::operator == (b); }
-    bool operator != (const ExtInfoList &b) const { return ConfigList::operator != (b); }
+    ExtInfoList() {}
+    ~ExtInfoList();
+    ExtInfoList &operator = (const ExtInfoList&);
+private:
+    ExtInfoList(const ExtInfoList&);
 };
 
 const unsigned long PHONE = 0;
@@ -205,43 +187,39 @@ const unsigned long SMS = 2;
 const unsigned long FAX = 3;
 const unsigned long PAGER = 4;
 
-class PhoneInfo : public ConfigArray
+class PhoneInfo
 {
 public:
     PhoneInfo();
-    ConfigString	Name;
-    ConfigULong		Type;
-    ConfigBool		Active;
-    ConfigString	Country;
-    ConfigString	AreaCode;
-    ConfigString	Number;
-    ConfigString	Extension;
-    ConfigString	Provider;
-    ConfigString	Gateway;
-    ConfigBool		Publish;
-    ConfigBool		FromInfo;
-    ConfigBool		MyInfo;
+    virtual ~PhoneInfo() {}
+
+    string			Name;
+    unsigned short	Type;
+    bool			Active;
+    string			Country;
+    string			AreaCode;
+    string			Number;
+    string			Extension;
+    string			Provider;
+    string			Gateway;
+    bool			Publish;
+    bool			FromInfo;
+    bool			MyInfo;
     string getNumber();
     void setNumber(const string &number, unsigned long type);
     bool isEqual(const char *number);
 };
 
-class PhonePtrList : public ConfigPtrList
+class PhoneBook : public list<PhoneInfo*>
 {
 public:
-    PhonePtrList() {}
-    ConfigArray *create() { return new PhoneInfo; }
-};
-
-class PhoneBook : public ConfigList
-{
-public:
-    PhoneBook(ConfigArray *arr, const char *name) : ConfigList(arr, name) {}
-    ConfigArray *create() { return new PhoneInfo; }
-    void add(const char *number, const char *name, unsigned long type, bool bMyInfo);
-    void add(const PhonePtrList &l);
-    bool operator == (const PhoneBook &b) const { return ConfigList::operator == (b); }
-    bool operator != (const PhoneBook &b) const { return ConfigList::operator != (b); }
+    PhoneBook() {}
+    ~PhoneBook();
+    void add(const char *number, const char *name, unsigned long type, bool ownInfo);
+    void add(const PhoneBook &l);
+    PhoneBook &operator = (const PhoneBook&);
+private:
+    PhoneBook(const PhoneBook&);
 };
 
 class ICQUser;
@@ -574,34 +552,32 @@ protected:
 
 // ____________________________________________________________________________________________
 
-class ICQUser : public ConfigArray
+class ICQUser
 {
 public:
     ICQUser();
     virtual ~ICQUser();
-
-    virtual bool load(istream &s, string &nextPart);
 
     string name(bool useUin = true);
 
     unsigned    NewMessages;
     unsigned    LastMessageType;
 
-    ConfigUShort Type;
-    ConfigString Alias;
-    ConfigUShort Id;
-    ConfigUShort GrpId;
-    ConfigULong  Uin;
-    ConfigBool   inIgnore;
-    ConfigBool   inVisible;
-    ConfigBool   inInvisible;
-    ConfigBool   WaitAuth;
+    unsigned short	Type;
+    string			Alias;
+    unsigned short	Id;
+    unsigned short	GrpId;
+    unsigned long	Uin;
+    bool			inIgnore;
+    bool			inVisible;
+    bool			inInvisible;
+    bool			WaitAuth;
 
-    ConfigString AutoResponseAway;
-    ConfigString AutoResponseNA;
-    ConfigString AutoResponseDND;
-    ConfigString AutoResponseOccupied;
-    ConfigString AutoResponseFFC;
+    string			AutoResponseAway;
+    string			AutoResponseNA;
+    string			AutoResponseDND;
+    string			AutoResponseOccupied;
+    string			AutoResponseFFC;
 
     string AutoReply;
 
@@ -611,118 +587,118 @@ public:
     bool CanPlugin;
     bool CanResponse;
 
-    ConfigULongs unreadMsgs;
+    list<unsigned long> unreadMsgs;
 
-    ConfigULong	LastActive;
-    ConfigULong	OnlineTime;
-    ConfigULong StatusTime;
+    unsigned long	LastActive;
+    unsigned long	OnlineTime;
+    unsigned long	StatusTime;
 
-    ConfigULong	 IP;
-    ConfigUShort Port;
-    ConfigULong	 RealIP;
+    unsigned long	IP;
+    unsigned short	Port;
+    unsigned long	RealIP;
 
-    ConfigString HostName;
-    ConfigString RealHostName;
+    string			HostName;
+    string			RealHostName;
 
-    ConfigUShort Version;
-    ConfigUShort Mode;
+    unsigned short	Version;
+    unsigned short	Mode;
 
     // General info
-    ConfigString Nick;
-    ConfigString FirstName;
-    ConfigString LastName;
-    ConfigString City;
-    ConfigString State;
-    ConfigString Address;
-    ConfigString Zip;
-    ConfigUShort Country;
-    ConfigChar   TimeZone;
-    ConfigString HomePhone;
-    ConfigString HomeFax;
-    ConfigString PrivateCellular;
-    ConfigString EMail;
-    ConfigBool   HiddenEMail;
+    string			Nick;
+    string			FirstName;
+    string			LastName;
+    string			City;
+    string			State;
+    string			Address;
+    string			Zip;
+    unsigned short	Country;
+    char			TimeZone;
+    string			HomePhone;
+    string			HomeFax;
+    string			PrivateCellular;
+    string			EMail;
+    bool			HiddenEMail;
 
-    ConfigString Notes;
+    string			Notes;
 
     // Email info
-    EMailList	 EMails;
+    EMailList		EMails;
 
     // More info
-    ConfigChar   Age;
-    ConfigChar   Gender;
-    ConfigString Homepage;
-    ConfigUShort BirthYear;
-    ConfigChar   BirthMonth;
-    ConfigChar   BirthDay;
-    ConfigChar   Language1;
-    ConfigChar   Language2;
-    ConfigChar   Language3;
+    char			Age;
+    char			Gender;
+    string			Homepage;
+    unsigned short	BirthYear;
+    char			BirthMonth;
+    char			BirthDay;
+    char			Language1;
+    char			Language2;
+    char			Language3;
 
     // Company info
-    ConfigString WorkCity;
-    ConfigString WorkState;
-    ConfigString WorkZip;
-    ConfigString WorkAddress;
-    ConfigString WorkName;
-    ConfigString WorkDepartment;
-    ConfigString WorkPosition;
-    ConfigUShort WorkCountry;
-    ConfigUShort Occupation;
-    ConfigString WorkHomepage;
-    ConfigString WorkPhone;
-    ConfigString WorkFax;
+    string			WorkCity;
+    string			WorkState;
+    string			WorkZip;
+    string			WorkAddress;
+    string			WorkName;
+    string			WorkDepartment;
+    string			WorkPosition;
+    unsigned short	WorkCountry;
+    unsigned short	Occupation;
+    string			WorkHomepage;
+    string			WorkPhone;
+    string			WorkFax;
 
     // About info
-    ConfigString About;
+    string			About;
 
     // Background info
-    ExtInfoList Backgrounds;
-    ExtInfoList Affilations;
+    ExtInfoList		Backgrounds;
+    ExtInfoList		Affilations;
 
     // Personal interests info
-    ExtInfoList Interests;
+    ExtInfoList		Interests;
 
     // PhoneBook
-    PhoneBook	 Phones;
-    ConfigChar	 PhoneState;
-    ConfigULong	 PhoneBookTime;
-    ConfigULong  PhoneStatusTime;
-    ConfigULong	 TimeStamp;
-    bool bMyInfo;
+    PhoneBook		Phones;
+    char			PhoneState;
+    unsigned long	PhoneBookTime;
+    unsigned long	PhoneStatusTime;
+    unsigned long	TimeStamp;
+    bool			bMyInfo;
 
     // Alert mode
-    ConfigBool	 AlertOverride;
-    ConfigBool	 AlertAway;
-    ConfigBool	 AlertBlink;
-    ConfigBool	 AlertSound;
-    ConfigBool	 AlertOnScreen;
-    ConfigBool	 AlertPopup;
-    ConfigBool	 AlertWindow;
+    bool			AlertOverride;
+    bool			AlertAway;
+    bool			AlertBlink;
+    bool			AlertSound;
+    bool			AlertOnScreen;
+    bool			AlertPopup;
+    bool			AlertWindow;
 
     // Accept mode
-    ConfigBool	 AcceptMsgWindow;
-    ConfigUShort AcceptFileMode;
-    ConfigBool	 AcceptFileOverride;
-    ConfigBool	 AcceptFileOverwrite;
-    ConfigString AcceptFilePath;
-    ConfigString DeclineFileMessage;
+    bool			AcceptMsgWindow;
+    unsigned short	AcceptFileMode;
+    bool			AcceptFileOverride;
+    bool			AcceptFileOverwrite;
+    string			AcceptFilePath;
+    string			DeclineFileMessage;
 
-    ConfigULong  ClientType;
+    unsigned long	ClientType;
 
-    ConfigBool	 SoundOverride;
-    ConfigString IncomingMessage;
-    ConfigString IncomingURL;
-    ConfigString IncomingSMS;
-    ConfigString IncomingAuth;
-    ConfigString IncomingFile;
-    ConfigString IncomingChat;
-    ConfigString OnlineAlert;
+    bool			SoundOverride;
+    string			IncomingMessage;
+    string			IncomingURL;
+    string			IncomingSMS;
+    string			IncomingAuth;
+    string			IncomingFile;
+    string			IncomingChat;
+    string			OnlineAlert;
 
-    ConfigString Encoding;
+    string			Encoding;
 
     void adjustPhones();
-    void adjustEMails(const ConfigPtrList &mails);
+    void adjustEMails(EMailList *mails = NULL);
 
     void setOffline();
     unsigned long DCcookie;
@@ -743,15 +719,15 @@ public:
 
 class ICQClient;
 
-class ICQContactList : public ConfigArray
+class ICQContactList
 {
 public:
     ICQContactList(ICQClient*);
     ~ICQContactList();
-    ConfigUShort Len;
-    ConfigUShort Invisible;
-    ConfigULong  Time;
-    ConfigBool   Expand;
+    unsigned short	Len;
+    unsigned short	Invisible;
+    unsigned long	Time;
+    bool			Expand;
     list<ICQUser*>  users;
     vector<ICQGroup*> groups;
     unsigned short getUserId(ICQUser *u);
@@ -769,19 +745,19 @@ protected:
 
 const unsigned long MSG_PROCESS_ID	= 0x80000000L;
 
-class ICQMessage : public ConfigArray
+class ICQMessage
 {
 public:
     ICQMessage(unsigned short type);
     virtual ~ICQMessage() {}
     unsigned short Type() { return m_nType; }
     void setType(unsigned short type) { m_nType = type; }
-    ConfigULong Time;
-    ConfigBool Received;
-    ConfigULongs Uin;
-    ConfigBool Direct;
-    ConfigString Charset;
-    unsigned long Id;
+    unsigned long	Time;
+    bool			Received;
+    list<unsigned long>	Uin;
+    bool			Direct;
+    string			Charset;
+    unsigned long	Id;
     unsigned long	state;
     unsigned short	id1;
     unsigned short	id2;
@@ -793,7 +769,6 @@ public:
     bool			isExt;
     bool			bDelete;
     unsigned long	getUin();
-    virtual void save(ostream &s);
 protected:
     unsigned short m_nType;
 };
@@ -802,24 +777,24 @@ class ICQMsg : public ICQMessage
 {
 public:
     ICQMsg();
-    ConfigString Message;
-    ConfigULong  ForeColor;
-    ConfigULong  BackColor;
+    string			Message;
+    unsigned long	ForeColor;
+    unsigned long	BackColor;
 };
 
 class ICQUrl : public ICQMessage
 {
 public:
     ICQUrl();
-    ConfigString	URL;
-    ConfigString	Message;
+    string			URL;
+    string			Message;
 };
 
 class ICQAuthRequest : public ICQMessage
 {
 public:
     ICQAuthRequest();
-    ConfigString	Message;
+    string			Message;
 };
 
 class ICQAuthGranted : public ICQMessage
@@ -832,7 +807,7 @@ class ICQAuthRefused : public ICQMessage
 {
 public:
     ICQAuthRefused();
-    ConfigString	Message;
+    string			Message;
 };
 
 class ICQAddedToList : public ICQMessage
@@ -845,26 +820,26 @@ class ICQSMS : public ICQMessage
 {
 public:
     ICQSMS();
-    ConfigString Phone;
-    ConfigString Message;
-    ConfigString Network;
+    string			Phone;
+    string			Message;
+    string			Network;
 };
 
 class ICQSMSReceipt : public ICQMessage
 {
 public:
     ICQSMSReceipt();
-    ConfigString MessageId;
-    ConfigString Destination;
-    ConfigString Delivered;
-    ConfigString Message;
+    string			MessageId;
+    string			Destination;
+    string			Delivered;
+    string			Message;
 };
 
 class ICQMsgExt : public ICQMessage
 {
 public:
     ICQMsgExt();
-    ConfigString  MessageType;
+    string			MessageType;
 };
 
 class ICQSecureOn : public ICQMessage
@@ -906,9 +881,9 @@ public:
     ICQFile();
     ~ICQFile();
 
-    ConfigString	Name;
-    ConfigString	Description;
-    ConfigULong		Size;
+    string			Name;
+    string			Description;
+    unsigned long	Size;
 
     FileTransferListener *listener;
     FileTransfer		 *ft;
@@ -930,8 +905,8 @@ public:
     ICQChat();
     ~ICQChat();
 
-    ConfigString	Reason;
-    ConfigString	Clients;
+    string			Reason;
+    string			Clients;
 
     ChatListener	*listener;
     ChatSocket		*chat;
@@ -941,33 +916,33 @@ class ICQWebPanel : public ICQMessage
 {
 public:
     ICQWebPanel();
-    ConfigString	Name;
-    ConfigString	Email;
-    ConfigString	Message;
+    string			Name;
+    string			Email;
+    string			Message;
 };
 
 class ICQEmailPager : public ICQMessage
 {
 public:
     ICQEmailPager();
-    ConfigString	Name;
-    ConfigString	Email;
-    ConfigString	Message;
+    string			Name;
+    string			Email;
+    string			Message;
 };
 
-class Contact : public ConfigArray
+class Contact
 {
 public:
     Contact();
-    ConfigULong		Uin;
-    ConfigString	Alias;
+    unsigned long	Uin;
+    string			Alias;
 };
 
-class ContactList : public ConfigList
+class ContactList : public list<Contact*>
 {
 public:
-    ContactList(ConfigArray *arr, const char *name) : ConfigList(arr, name) {}
-    ConfigArray *create() { return new Contact; }
+    ContactList() {}
+    virtual ~ContactList();
 };
 
 class ICQContacts : public ICQMessage
@@ -981,7 +956,7 @@ class ICQContactRequest : public ICQMessage
 {
 public:
     ICQContactRequest();
-    ConfigString	Message;
+    string			Message;
 };
 
 // _______________________________________________________________________________________
@@ -1010,43 +985,45 @@ bool operator == (const list_req &r1, const list_req &r2);
 
 typedef unsigned char capability[0x10];
 
-class ICQClient : public ClientSocketNotify, public ICQUser, public SocketFactory
+class ICQClient : public ClientSocketNotify, public SocketFactory
 {
 public:
     ICQClient();
     ~ICQClient();
 
+    ICQUser *owner;
+
     void setStatus(unsigned short status);
     void setInvisible(bool bInvisible);
 
-    ConfigString ServerHost;
-    ConfigUShort ServerPort;
+    string			ServerHost;
+    unsigned short	ServerPort;
 
-    ConfigString DecryptedPassword;
-    ConfigString EncryptedPassword;
-    ConfigBool   WebAware;
-    ConfigBool   Authorize;
-    ConfigBool   HideIp;
-    ConfigBool	 RejectMessage;
-    ConfigBool	 RejectURL;
-    ConfigBool	 RejectWeb;
-    ConfigBool	 RejectEmail;
-    ConfigBool	 RejectOther;
-    ConfigString RejectFilter;
+    string			DecryptedPassword;
+    string			EncryptedPassword;
+    bool			WebAware;
+    bool			Authorize;
+    bool			HideIp;
+    bool			RejectMessage;
+    bool			RejectURL;
+    bool			RejectWeb;
+    bool			RejectEmail;
+    bool			RejectOther;
+    string			RejectFilter;
 
-    ConfigUShort DirectMode;
+    unsigned short	DirectMode;
 
-    ConfigString BirthdayReminder;
-    ConfigString FileDone;
+    string			BirthdayReminder;
+    string			FileDone;
 
-    ConfigBool	 BypassAuth;
+    bool			BypassAuth;
 
-    ConfigShort		ProxyType;
-    ConfigString	ProxyHost;
-    ConfigShort		ProxyPort;
-    ConfigBool		ProxyAuth;
-    ConfigString	ProxyUser;
-    ConfigString	ProxyPasswd;
+    unsigned short	ProxyType;
+    string			ProxyHost;
+    unsigned short	ProxyPort;
+    bool			ProxyAuth;
+    string			ProxyUser;
+    string			ProxyPasswd;
 
     void fromServer(string &s, ICQUser*);
     void toServer(string &s, ICQUser*);
@@ -1100,9 +1077,6 @@ public:
 
     virtual void process_event(ICQEvent*);
 
-    virtual void save(ostream &s);
-    virtual bool load(istream &s, string &nextPart);
-
     void addInfoRequest(unsigned long uin, bool bPriority=false);
     void addPhoneRequest(unsigned long uin, bool bPriority=false);
     void addResponseRequest(unsigned long uin, bool bPriority=false);
@@ -1110,9 +1084,9 @@ public:
     bool updatePhoneBook();
     bool updatePhoneStatus();
 
-    UTFstring parseRTF(const char *packet, ICQUser *u);
-    string createRTF(const UTFstring &html, unsigned long foreColor, const char *encoding);
-    UTFstring clearHTML(const UTFstring &html);
+    string parseRTF(const char *packet, ICQUser *u);
+    string createRTF(const string &html, unsigned long foreColor, const char *encoding);
+    string clearHTML(const string &html);
 
     enum LoginState{
         Logoff,

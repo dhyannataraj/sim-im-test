@@ -35,7 +35,7 @@ WorkInfo::WorkInfo(QWidget *p, bool readOnly)
     btnSite->setPixmap(Pict("home"));
     connect(btnSite, SIGNAL(clicked()), this, SLOT(goUrl()));
     if (!readOnly) {
-        load(pClient);
+        load(pClient->owner);
         return;
     }
     edtAddress->setReadOnly(true);
@@ -76,16 +76,16 @@ void WorkInfo::save(ICQUser*)
 
 void WorkInfo::apply(ICQUser *u)
 {
-    u->WorkCity = edtCity->text().local8Bit();
-    u->WorkState = edtState->text().local8Bit();
-    u->WorkAddress = edtAddress->text().local8Bit();
-    u->WorkZip = edtZip->text().local8Bit();
+    set(u->WorkCity, edtCity->text());
+    set(u->WorkState, edtState->text());
+    set(u->WorkAddress, edtAddress->text());
+    set(u->WorkZip, edtZip->text());
     u->WorkCountry = getComboValue(cmbCountry, countries);
-    u->WorkName = edtName->text().local8Bit();
-    u->WorkDepartment = edtDept->text().local8Bit();
-    u->WorkPosition = edtPosition->text().local8Bit();
+    set(u->WorkName, edtName->text());
+    set(u->WorkDepartment, edtDept->text());
+    set(u->WorkPosition, edtPosition->text());
     u->Occupation = getComboValue(cmbOccupation, occupations);
-    u->WorkHomepage = edtSite->text().local8Bit();
+    set(u->WorkHomepage, edtSite->text());
 }
 
 #ifndef _WINDOWS

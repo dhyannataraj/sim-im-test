@@ -45,7 +45,7 @@ protected:
     EMailInfo *currentMail();
     void addString(QStringList &list, QString str);
     void reloadList();
-    EMailPtrList mails;
+    EMailList mails;
     bool bReadOnly;
 };
 

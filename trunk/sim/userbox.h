@@ -19,7 +19,6 @@
 #define _USERBOX_H	1
 
 #include "defs.h"
-
 #include "cfg.h"
 
 #include <qmainwindow.h>
@@ -73,7 +72,7 @@ protected:
     virtual void paintLabel(QPainter *p, const QRect &rc, QTab *t, bool bFocus) const;
 };
 
-class UserBox : public QMainWindow, public ConfigArray
+class UserBox : public QMainWindow
 {
     Q_OBJECT
 public:
@@ -81,17 +80,17 @@ public:
     ~UserBox();
     void setShow();
     bool isShow();
-    virtual void save(std::ostream &s);
-    virtual bool load(std::istream &s, string &nextPart);
-    ConfigULong GrpId;
-    ConfigULong CurrentUser;
-    ConfigShort mLeft;
-    ConfigShort mTop;
-    ConfigShort mWidth;
-    ConfigShort mHeight;
-    ConfigString ToolbarDock;
-    ConfigShort	 ToolbarOffset;
-    ConfigShort  ToolbarY;
+    void save(std::ostream &s);
+    bool load(std::istream &s, string &nextPart);
+    unsigned long	GrpId;
+    unsigned long	CurrentUser;
+    short			mLeft;
+    short			mTop;
+    short			mWidth;
+    short			mHeight;
+    string			ToolbarDock;
+    short			ToolbarOffset;
+    short			ToolbarY;
     unsigned long currentUser();
     bool haveUser(unsigned long uin);
     QString containerName();

@@ -169,105 +169,110 @@ const char *MainWindow::sound(const char *wav)
     return app_file(s.c_str());
 }
 
+cfgParam MainWindow_Params[] =
+    {
+        { "Show", offsetof(MainWindow, Show), PARAM_BOOL, (unsigned)true },
+        { "OnTop", offsetof(MainWindow, OnTop), PARAM_BOOL, (unsigned)true },
+        { "ShowOffline", offsetof(MainWindow, ShowOffline), PARAM_BOOL, (unsigned)true },
+        { "GroupMode", offsetof(MainWindow, GroupMode), PARAM_BOOL, (unsigned)true },
+        { "Left", offsetof(MainWindow, mLeft), PARAM_SHORT, 0 },
+        { "Top", offsetof(MainWindow, mTop), PARAM_SHORT, 0 },
+        { "Width", offsetof(MainWindow, mWidth), PARAM_USHORT, 0 },
+        { "Height", offsetof(MainWindow, mHeight), PARAM_USHORT, 0 },
+        { "Style", offsetof(MainWindow, UseStyle), PARAM_STRING, 0 },
+        { "AutoAwayTime", offsetof(MainWindow, AutoAwayTime), PARAM_ULONG, 300 },
+        { "AutoNATime", offsetof(MainWindow, AutoNATime), PARAM_ULONG, 900 },
+        { "AlertAway", offsetof(MainWindow, NoAlertAway), PARAM_BOOL, (unsigned)true },
+        { "ManualStatus", offsetof(MainWindow, ManualStatus), PARAM_ULONG, ICQ_STATUS_OFFLINE },
+        { "DivPos", offsetof(MainWindow, DivPos), PARAM_SHORT, 0 },
+        { "SpellOnSend", offsetof(MainWindow, SpellOnSend), PARAM_BOOL, 0 },
+        { "ToolbarDock", offsetof(MainWindow, ToolbarDock), PARAM_STRING, (unsigned)"Top" },
+        { "ToolbarOffset", offsetof(MainWindow, ToolbarOffset), PARAM_SHORT, 0 },
+        { "ToolbarY", offsetof(MainWindow, ToolbarY), PARAM_SHORT, 0 },
+        { "URLViewer", offsetof(MainWindow, UrlViewer), PARAM_STRING, (unsigned)
+#ifdef USE_KDE
+          "konqueror"
+#else
+          "netscape"
+#endif
+        },
+        { "MailClient", offsetof(MainWindow, MailClient), PARAM_STRING, (unsigned)
+#ifdef USE_KDE
+          "kmail"
+#else
+          "netscape mailto:%s"
+#endif
+        },
+        { "TransparentMain", offsetof(MainWindow, UseTransparent), PARAM_BOOL, 0 },
+        { "TransparencyMain", offsetof(MainWindow, Transparent), PARAM_ULONG, 80 },
+        { "TransparentContainer", offsetof(MainWindow, UseTransparentContainer), PARAM_BOOL, 0 },
+        { "TransparencyContainer", offsetof(MainWindow, TransparentContainer), PARAM_ULONG, 80 },
+        { "TransparentIfInactive", offsetof(MainWindow, TransparentIfInactive), PARAM_BOOL, (unsigned)true },
+        { "NoShowAway", offsetof(MainWindow, NoShowAway), PARAM_BOOL, 0 },
+        { "NoShowNA", offsetof(MainWindow, NoShowNA), PARAM_BOOL, 0 },
+        { "NoShowOccupied", offsetof(MainWindow, NoShowOccupied), PARAM_BOOL, 0 },
+        { "NoShowDND", offsetof(MainWindow, NoShowDND), PARAM_BOOL, 0 },
+        { "NoShowFFC", offsetof(MainWindow, NoShowFFC), PARAM_BOOL, 0 },
+        { "UseSystemFonts", offsetof(MainWindow, UseSystemFonts), PARAM_BOOL, 0 },
+        { "FontFamily", offsetof(MainWindow, FontFamily), PARAM_STRING, 0 },
+        { "FontSize", offsetof(MainWindow, FontSize), PARAM_USHORT, 0 },
+        { "FontWeight", offsetof(MainWindow, FontWeight), PARAM_USHORT, 0 },
+        { "FontItalic", offsetof(MainWindow, FontItalic), PARAM_USHORT, 0 },
+        { "FontMenuFamily", offsetof(MainWindow, FontMenuFamily), PARAM_STRING, 0 },
+        { "FontMenuSize", offsetof(MainWindow, FontMenuSize), PARAM_USHORT, 0 },
+        { "FontMenuWeight", offsetof(MainWindow, FontMenuWeight), PARAM_USHORT, 0 },
+        { "FontMenuItalic", offsetof(MainWindow, FontMenuItalic), PARAM_USHORT, 0 },
+        { "ColorSend", offsetof(MainWindow, ColorSend), PARAM_ULONG, 0x0000B0 },
+        { "ColorReceive", offsetof(MainWindow, ColorReceive), PARAM_ULONG, 0xB00000 },
+        { "ChatWidth", offsetof(MainWindow, ChatWidth), PARAM_USHORT, 0 },
+        { "ChatHeight", offsetof(MainWindow, ChatHeight), PARAM_USHORT, 0 },
+        { "UserBoxX", offsetof(MainWindow, UserBoxX), PARAM_USHORT, 0 },
+        { "UserBoxY", offsetof(MainWindow, UserBoxY), PARAM_USHORT, 0 },
+        { "UserBoxWidth", offsetof(MainWindow, UserBoxWidth), PARAM_SHORT, 0 },
+        { "UserBoxHeight", offsetof(MainWindow, UserBoxHeight), PARAM_SHORT, 0 },
+        { "UserBoxToolbarDock", offsetof(MainWindow, UserBoxToolbarDock), PARAM_STRING, (unsigned)"Top" },
+        { "UserBoxToolbarOffset", offsetof(MainWindow, UserBoxToolbarOffset), PARAM_SHORT, 0 },
+        { "UserBoxToolbarY", offsetof(MainWindow, UserBoxToolbarY), PARAM_SHORT, 0 },
+        { "UserBoxFontFamily", offsetof(MainWindow, UserBoxFontFamily), PARAM_STRING, 0 },
+        { "UserBoxFontSize", offsetof(MainWindow, UserBoxFontSize), PARAM_USHORT, 0 },
+        { "UserBoxFontWeight", offsetof(MainWindow, UserBoxFontWeight), PARAM_USHORT, 0 },
+        { "UserBoxFontItalic", offsetof(MainWindow, UserBoxFontItalic), PARAM_USHORT, 0 },
+        { "CloaseAfterSend", offsetof(MainWindow, CloseAfterSend), PARAM_BOOL, 0 },
+        { "CloaseAfterFileTransfer", offsetof(MainWindow, CloseAfterFileTransfer), PARAM_BOOL, 0 },
+        { "MainWindowInTaskManager", offsetof(MainWindow, MainWindowInTaskManager), PARAM_BOOL, 0 },
+        { "UserWindowInTaskManager", offsetof(MainWindow, UserWindowInTaskManager), PARAM_BOOL, (unsigned)true },
+        { "Icons", offsetof(MainWindow, Icons), PARAM_STRING, 0 },
+        { "XOSD_on", offsetof(MainWindow, XOSD_on), PARAM_BOOL, (unsigned)true },
+        { "XOSD_pos", offsetof(MainWindow, XOSD_pos), PARAM_SHORT, 0 },
+        { "XOSD_offset", offsetof(MainWindow, XOSD_offset), PARAM_SHORT, 30 },
+        { "XOSD_color", offsetof(MainWindow, XOSD_color), PARAM_ULONG, 0x00E000 },
+        { "XOSD_FontFamily", offsetof(MainWindow, XOSD_FontFamily), PARAM_STRING, 0 },
+        { "XOSD_FontSize", offsetof(MainWindow, XOSD_FontSize), PARAM_USHORT, 0 },
+        { "XOSD_FontWeight", offsetof(MainWindow, XOSD_FontWeight), PARAM_USHORT, 0 },
+        { "XOSD_FontItalic", offsetof(MainWindow, XOSD_FontItalic), PARAM_USHORT, 0 },
+        { "XOSD_timeout", offsetof(MainWindow, XOSD_timeout), PARAM_USHORT, 7 },
+        { "XOSD_Shadow", offsetof(MainWindow, XOSD_Shadow), PARAM_BOOL, (unsigned)true },
+        { "XOSD_Background", offsetof(MainWindow, XOSD_Background), PARAM_BOOL, 0 },
+        { "XOSD_Bgcolor", offsetof(MainWindow, XOSD_BgColor), PARAM_ULONG, (unsigned)(-1) },
+        { "ContainerMode", offsetof(MainWindow, ContainerMode), PARAM_SHORT, ContainerModeGroup },
+        { "MessageBgColor", offsetof(MainWindow, MessageBgColor), PARAM_ULONG, 0 },
+        { "MessageFgColor", offsetof(MainWindow, MessageFgColor), PARAM_ULONG, 0 },
+        { "SimpleMode", offsetof(MainWindow, SimpleMode), PARAM_BOOL, 0 },
+        { "UseOwnColors", offsetof(MainWindow, UseOwnColors), PARAM_BOOL, 0 },
+        { "UserWndOnTop", offsetof(MainWindow, UserWndOnTop), PARAM_BOOL, 0 },
+        { "KeyWindow", offsetof(MainWindow, KeyWindow), PARAM_STRING, (unsigned)"CTRL-SHIFT-A" },
+        { "KeyDblClick", offsetof(MainWindow, KeyDblClick), PARAM_STRING, (unsigned)"CTRL-SHIFT-I" },
+        { "KeySearch", offsetof(MainWindow, KeySearch), PARAM_STRING, (unsigned)"CTRL-SHIFT-S" },
+        { "UseEmotional", offsetof(MainWindow, UseEmotional), PARAM_BOOL, (unsigned)true },
+        { "AutoHideTime", offsetof(MainWindow, AutoHideTime), PARAM_ULONG, 60 },
+        { "", 0, 0, 0 }
+    };
+
 MainWindow::MainWindow(const char *name)
-        : QMainWindow(NULL, name, WType_TopLevel | WStyle_Customize | WStyle_Title | WStyle_NormalBorder| WStyle_SysMenu),
-        Show(this, "Show", true),
-        OnTop(this, "OnTop", true),
-        ShowOffline(this, "ShowOffline", true),
-        GroupMode(this, "GroupMode", true),
-        mLeft(this, "Left"),
-        mTop(this, "Top"),
-        mWidth(this, "Width"),
-        mHeight(this, "Height"),
-
-        UseStyle(this, "Style"),
-        AutoAwayTime(this, "AutoAwayTime", 300),
-        AutoNATime(this, "AutoNATime", 900),
-
-        NoAlertAway(this, "AlertAway", true),
-        ManualStatus(this, "ManualStatus", ICQ_STATUS_OFFLINE),
-        DivPos(this, "DivPos"),
-        SpellOnSend(this, "SpellOnSend", true),
-        ToolbarDock(this, "ToolbarDock", "Top"),
-        ToolbarOffset(this, "ToolbarOffset"),
-        ToolbarY(this, "ToolbarY"),
-        UrlViewer(this, "URLViewer",
-#ifdef USE_KDE
-                  "konqueror"
-#else
-                  "netscape"
-#endif
-                 ),
-        MailClient(this, "MailClient",
-#ifdef USE_KDE
-                   "kmail"
-#else
-                   "netscape mailto:%s"
-#endif
-                  ),
-        UseTransparent(this, "TransparentMain"),
-        Transparent(this, "TransparencyMain", 80),
-        UseTransparentContainer(this, "TransparentContainer"),
-        TransparentContainer(this, "TransparencyContainer", 80),
-        TransparentIfInactive(this, "TransparentIfInactive", true),
-        NoShowAway(this, "NoShowAway"),
-        NoShowNA(this, "NoShowNA"),
-        NoShowOccupied(this, "NoShowOccupied"),
-        NoShowDND(this, "NoShowDND"),
-        NoShowFFC(this, "NoShowFFC"),
-        UseSystemFonts(this, "UseSystemFonts"),
-        FontFamily(this, "FontFamily"),
-        FontSize(this, "FontSize"),
-        FontWeight(this, "FontWeight"),
-        FontItalic(this, "FontItalic"),
-        FontMenuFamily(this, "FontMenuFanily"),
-        FontMenuSize(this, "FontMenuSize"),
-        FontMenuWeight(this, "FontMenuWeight"),
-        FontMenuItalic(this, "FontMenuItalic"),
-        ColorSend(this, "ColorSend", 0x0000B0),
-        ColorReceive(this, "ColorReceive", 0xB00000),
-        ChatWidth(this, "ChatWidth"),
-        ChatHeight(this, "Chatheight"),
-        UserBoxX(this, "UserBoxX"),
-        UserBoxY(this, "UserBoxY"),
-        UserBoxWidth(this, "UserBoxWidth"),
-        UserBoxHeight(this, "UserBoxHeight"),
-        UserBoxToolbarDock(this, "UserBoxToolbarDock", "Top"),
-        UserBoxToolbarOffset(this, "UserBoxToolbarOffset"),
-        UserBoxToolbarY(this, "UserBoxToolbarY"),
-        UserBoxFontFamily(this, "UserBoxFontFamily"),
-        UserBoxFontSize(this, "UserBoxFontSize"),
-        UserBoxFontWeight(this, "UserBoxFontWeight"),
-        UserBoxFontItalic(this, "UserBoxFontItalic"),
-        CloseAfterSend(this, "CloseAfterSend"),
-        CloseAfterFileTransfer(this, "CloseAfterFileTransfer"),
-        MainWindowInTaskManager(this, "MainWindowInTaskManager"),
-        UserWindowInTaskManager(this, "UserWindowInTaskManager", true),
-        Icons(this, "Icons"),
-        XOSD_on(this, "XOSD_on", true),
-        XOSD_pos(this, "XOSD_pos"),
-        XOSD_offset(this, "XOSD_offset", 30),
-        XOSD_color(this, "XOSD_color", 0x00E000),
-        XOSD_FontFamily(this, "XOSD_FontFamily"),
-        XOSD_FontSize(this, "XOSD_FontSize"),
-        XOSD_FontWeight(this, "XOSD_FontWeight"),
-        XOSD_FontItalic(this, "XOSD_FontItalic"),
-        XOSD_timeout(this, "XOSD_timeout", 7),
-        XOSD_Shadow(this, "XOSD_Shadow", true),
-        XOSD_Background(this, "XOSD_Background", false),
-        XOSD_BgColor(this, "XOSD_BgColor", colorGroup().background().rgb()),
-        ContainerMode(this, "ContainerMode", ContainerModeGroup),
-        MessageBgColor(this, "MessageBgColor"),
-        MessageFgColor(this, "MessageFgColor"),
-        SimpleMode(this, "SimpleMode"),
-        UseOwnColors(this, "UseOwnColors"),
-        UserWndOnTop(this, "UserWndOnTop"),
-        KeyWindow(this, "KeyWindow", "CTRL-SHIFT-A"),
-        KeyDblClick(this, "KeyDblClick", "CTRL-SHIFT-I"),
-        KeySearch(this, "KeySearch", "CTRL-SHIFT-S"),
-        UseEmotional(this, "UseEmotional", true),
-        AutoHideTime(this, "AutoHideTime", 60)
+        : QMainWindow(NULL, name, WType_TopLevel | WStyle_Customize | WStyle_Title | WStyle_NormalBorder| WStyle_SysMenu)
 {
+    ::init(this, MainWindow_Params);
+
     pMain = this;
     bQuit = false;
     dock = NULL;
@@ -412,21 +417,21 @@ MainWindow::MainWindow(const char *name)
 
 void MainWindow::changeMode(bool bSimple)
 {
-    if (SimpleMode() == bSimple) return;
+    if (SimpleMode == bSimple) return;
     SimpleMode = bSimple;
     emit modeChanged(bSimple);
 }
 
 void MainWindow::setOnTop()
 {
-    if (OnTop()){
+    if (OnTop){
         setWFlags(WStyle_StaysOnTop);
     }else{
         clearWFlags(WStyle_StaysOnTop);
     }
 #ifdef WIN32
-    menuFunction->setItemChecked(mnuOnTop, OnTop());
-    SetWindowPos(winId(), (HWND)(OnTop() ? HWND_TOPMOST : HWND_NOTOPMOST),
+    menuFunction->setItemChecked(mnuOnTop, OnTop);
+    SetWindowPos(winId(), (HWND)(OnTop ? HWND_TOPMOST : HWND_NOTOPMOST),
                  0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 #else
 #ifdef USE_KDE
@@ -454,14 +459,14 @@ void MainWindow::changeColors()
 
 void MainWindow::changeOwnColors(bool bUse)
 {
-    if (bUse == UseOwnColors()) return;
+    if (bUse == UseOwnColors) return;
     UseOwnColors = bUse;
     emit ownColorsChanged();
 }
 
 void MainWindow::toggleOnTop()
 {
-    OnTop = !OnTop();
+    OnTop = !OnTop;
     setOnTop();
 }
 
@@ -487,9 +492,9 @@ void MainWindow::adjustFucntionMenu()
 
 void MainWindow::adjustGroupsMenu()
 {
-    menuGroups->setItemEnabled(mnuGrpCreate, GroupMode() && (pClient->m_state == ICQClient::Logged));
-    menuGroups->setItemEnabled(mnuGrpCollapseAll, GroupMode());
-    menuGroups->setItemEnabled(mnuGrpExpandAll, GroupMode());
+    menuGroups->setItemEnabled(mnuGrpCreate, GroupMode && (pClient->m_state == ICQClient::Logged));
+    menuGroups->setItemEnabled(mnuGrpCollapseAll, GroupMode);
+    menuGroups->setItemEnabled(mnuGrpExpandAll, GroupMode);
 }
 
 void MainWindow::showGroupPopup(QPoint p)
@@ -528,10 +533,10 @@ void MainWindow::setPhoneLocation(int location)
         if (menuPhoneLocation->idAt(n) == location)
             break;
     }
-    for (PhoneBook::iterator it = pClient->Phones.begin(); it != pClient->Phones.end(); it++){
+    for (PhoneBook::iterator it = pClient->owner->Phones.begin(); it != pClient->owner->Phones.end(); it++){
         PhoneInfo *phone = static_cast<PhoneInfo*>(*it);
         phone->Active = false;
-        if ((phone->Type() == PHONE) || (phone->Type() == MOBILE) || (phone->Type() == SMS)){
+        if ((phone->Type == PHONE) || (phone->Type == MOBILE) || (phone->Type == SMS)){
             if (n == 0) phone->Active = true;
             n--;
         }
@@ -541,7 +546,7 @@ void MainWindow::setPhoneLocation(int location)
 
 void MainWindow::setPhoneStatus(int status)
 {
-    pClient->PhoneState = (unsigned short)status;
+    pClient->owner->PhoneState = (unsigned short)status;
     pClient->updatePhoneStatus();
 }
 
@@ -558,7 +563,7 @@ void MainWindow::addStatusItem(int status)
 
 void MainWindow::setStatusItem(int status)
 {
-    menuStatus->setItemChecked(status & 0xFF, (unsigned)(pClient->uStatus & 0xFF) == (unsigned)(status & 0xFF));
+    menuStatus->setItemChecked(status & 0xFF, (unsigned)(pClient->owner->uStatus & 0xFF) == (unsigned)(status & 0xFF));
 }
 
 #ifdef WIN32
@@ -706,7 +711,7 @@ bool MainWindow::init()
     string part;
     buildFileName(file, SIM_CONF);
     std::ifstream fs(file.c_str(), ios::in);
-    load(fs, part);
+    ::load(this, MainWindow_Params, fs, part);
 
     setDock(true);
 
@@ -717,7 +722,7 @@ bool MainWindow::init()
     if (mWidth > QApplication::desktop()->width() - 5) mWidth = QApplication::desktop()->width() - 5;
     if (mHeight > QApplication::desktop()->height() - 5) mHeight = QApplication::desktop()->height() - 5;
     move(mLeft, mTop);
-    if (mWidth() && mHeight()) resize(mWidth, mHeight);
+    if (mWidth && mHeight) resize(mWidth, mHeight);
     if (*Icons.c_str()) changeIcons(0);
     themes->setTheme(QString::fromLocal8Bit(UseStyle.c_str()));
     setFonts();
@@ -754,11 +759,11 @@ bool MainWindow::init()
         }
         break;
     }
-    menuStatus->setItemChecked(ICQ_STATUS_FxPRIVATE, pClient->inInvisible());
+    menuStatus->setItemChecked(ICQ_STATUS_FxPRIVATE, pClient->owner->inInvisible);
     changeWm();
 
     bool bNeedSetup = false;
-    if ((pClient->Uin == 0) || (*pClient->EncryptedPassword.c_str() == 0)){
+    if ((pClient->owner->Uin == 0) || (*pClient->EncryptedPassword.c_str() == 0)){
         pSplash->hide();
         bInLogin = true;
         LoginDialog dlg;
@@ -769,7 +774,7 @@ bool MainWindow::init()
         ShowOffline = true;
         GroupMode = true;
     }
-    if (pClient->Uin == 0)
+    if (pClient->owner->Uin == 0)
         return false;
 
     ToolBarDock tDock = Top;
@@ -793,11 +798,11 @@ bool MainWindow::init()
     loadUnread();
     xosd->init();
     transparentChanged();
-    setShow(Show());
+    setShow(Show);
     setOnTop();
 
-    setShowOffline(ShowOffline());
-    setGroupMode(GroupMode());
+    setShowOffline(ShowOffline);
+    setGroupMode(GroupMode);
 
     keys->unregKeys();
     keys->regKeys();
@@ -836,11 +841,11 @@ void MainWindow::messageReceived(ICQMessage *msg)
     CUser user(u);
     xosd->setMessage(i18n("%1 from %2 received")
                      .arg(pClient->getMessageText(msg->Type(), 1))
-                     .arg(user.name()), u->Uin());
+                     .arg(user.name()), u->Uin);
 
-    if (!u->AcceptFileOverride())
-        u = pClient;
-    if (u->AcceptMsgWindow())
+    if (!u->AcceptFileOverride)
+        u = pClient->owner;
+    if (u->AcceptMsgWindow)
         userFunction(msg->getUin(), mnuAction);
 }
 
@@ -857,7 +862,7 @@ void MainWindow::processEvent(ICQEvent *e)
 {
     switch (e->type()){
     case EVENT_AUTH_REQUIRED:
-        if (!pClient->BypassAuth())
+        if (!pClient->BypassAuth)
             userFunction(e->Uin(), mnuAuth, 0);
         return;
     case EVENT_USER_DELETED:{
@@ -872,8 +877,8 @@ void MainWindow::processEvent(ICQEvent *e)
             ICQMessage *msg = e->message();
             if (msg == NULL) return;
             ICQUser *u = pClient->getUser(msg->getUin());
-            if ((u == NULL) || !u->SoundOverride())
-                u = pClient;
+            if ((u == NULL) || !u->SoundOverride)
+                u = pClient->owner;
             const char *wav;
             switch (msg->Type()){
             case ICQ_MSGxURL:
@@ -897,7 +902,7 @@ void MainWindow::processEvent(ICQEvent *e)
             default:
                 wav = u->IncomingMessage.c_str();
             }
-            if (((pClient->uStatus & 0xFF) != ICQ_STATUS_AWAY) && ((pClient->uStatus & 0xFF) != ICQ_STATUS_NA))
+            if (((pClient->owner->uStatus & 0xFF) != ICQ_STATUS_AWAY) && ((pClient->owner->uStatus & 0xFF) != ICQ_STATUS_NA))
                 playSound(wav);
             return;
         }
@@ -907,7 +912,7 @@ void MainWindow::processEvent(ICQEvent *e)
             return;
         }
     case EVENT_PROXY_BAD_AUTH:{
-            ProxyDialog d(this, pClient->ProxyAuth() ?
+            ProxyDialog d(this, pClient->ProxyAuth ?
                           i18n("Proxy server require authorization") :
                           i18n("Invalid password for proxy"));
             d.exec();
@@ -930,16 +935,16 @@ void MainWindow::processEvent(ICQEvent *e)
         break;
     case EVENT_INFO_CHANGED:
         saveContacts();
-        if ((e->Uin() == pClient->Uin()) || (e->Uin() == 0)){
-            if ((realTZ != pClient->TimeZone()) && (e->subType() == EVENT_SUBTYPE_FULLINFO)){
+        if ((e->Uin() == pClient->owner->Uin) || (e->Uin() == 0)){
+            if ((realTZ != pClient->owner->TimeZone) && (e->subType() == EVENT_SUBTYPE_FULLINFO)){
                 ICQUser u;
-                u = *static_cast<ICQUser*>(pClient);
+                u = *(pClient->owner);
                 u.TimeZone = realTZ;
                 pClient->setInfo(&u);
             }
             menuPhoneLocation->clear();
             unsigned long n = 0;
-            for (PhoneBook::iterator it = pClient->Phones.begin(); it != pClient->Phones.end(); it++){
+            for (PhoneBook::iterator it = pClient->owner->Phones.begin(); it != pClient->owner->Phones.end(); it++){
                 PhoneInfo *phone = static_cast<PhoneInfo*>(*it);
                 if ((phone->Type == PHONE) || (phone->Type == MOBILE) || (phone->Type == SMS)){
                     menuPhoneLocation->insertItem(phone->getNumber().c_str());
@@ -949,44 +954,42 @@ void MainWindow::processEvent(ICQEvent *e)
                 }
             }
             menuPhone->setItemEnabled(menuPhone->idAt(0), n != 0);
-            menuPhoneStatus->setItemChecked(0, pClient->PhoneState() == 0);
-            menuPhoneStatus->setItemChecked(1, pClient->PhoneState() == 1);
-            menuPhoneStatus->setItemChecked(2, pClient->PhoneState() == 2);
+            menuPhoneStatus->setItemChecked(0, pClient->owner->PhoneState == 0);
+            menuPhoneStatus->setItemChecked(1, pClient->owner->PhoneState == 1);
+            menuPhoneStatus->setItemChecked(2, pClient->owner->PhoneState == 2);
         }
     case EVENT_STATUS_CHANGED:
-        if ((e->Uin() == pClient->Uin) || (e->Uin() == 0)){
+        if ((e->Uin() == pClient->owner->Uin) || (e->Uin() == 0)){
             ownerChanged();
-            if (realTZ != pClient->TimeZone())
-                pClient->addInfoRequest(pClient->Uin, true);
+            if (realTZ != pClient->owner->TimeZone)
+                pClient->addInfoRequest(pClient->owner->Uin, true);
         }else{
             ICQUser *u = pClient->getUser(e->Uin());
-            if (u && !u->inIgnore() && ((NoAlertAway() == 0) ||
-
-                                        ((u->uStatus & 0xFF) == ICQ_STATUS_ONLINE) ||
-
-                                        ((u->uStatus & 0xFF) == ICQ_STATUS_FREEFORCHAT)) &&
+            if (u && !u->inIgnore && ((NoAlertAway == 0) ||
+                                      ((u->uStatus & 0xFF) == ICQ_STATUS_ONLINE) ||
+                                      ((u->uStatus & 0xFF) == ICQ_STATUS_FREEFORCHAT)) &&
                     ((u->prevStatus & 0xFF) != ICQ_STATUS_ONLINE) &&
                     ((u->prevStatus & 0xFF) != ICQ_STATUS_FREEFORCHAT) &&
-                    (((pClient->uStatus & 0xFF) == ICQ_STATUS_ONLINE) ||
-                     ((pClient->uStatus & 0xFF) == ICQ_STATUS_FREEFORCHAT)) &&
-                    ((u->prevStatus == ICQ_STATUS_OFFLINE) || pClient->AlertAway()) &&
-                    ((u->OnlineTime() > pClient->OnlineTime()) || (u->prevStatus  != ICQ_STATUS_OFFLINE))){
-                if (!u->AlertOverride()) u = pClient;
-                if (u->AlertSound()){
+                    (((pClient->owner->uStatus & 0xFF) == ICQ_STATUS_ONLINE) ||
+                     ((pClient->owner->uStatus & 0xFF) == ICQ_STATUS_FREEFORCHAT)) &&
+                    ((u->prevStatus == ICQ_STATUS_OFFLINE) || pClient->owner->AlertAway) &&
+                    ((u->OnlineTime > pClient->owner->OnlineTime) || (u->prevStatus  != ICQ_STATUS_OFFLINE))){
+                if (!u->AlertOverride) u = pClient->owner;
+                if (u->AlertSound){
                     ICQUser *u = pClient->getUser(e->Uin());
-                    if ((u == NULL) || !u->SoundOverride()) u= pClient;
+                    if ((u == NULL) || !u->SoundOverride) u= pClient->owner;
                     playSound(u->OnlineAlert.c_str());
                 }
-                if (u->AlertOnScreen()){
+                if (u->AlertOnScreen){
                     CUser user(e->Uin());
                     xosd->setMessage(i18n("User %1 is online") .arg(user.name()), e->Uin());
                 }
-                if (u->AlertPopup()){
+                if (u->AlertPopup){
                     AlertMsgDlg *dlg = new AlertMsgDlg(this, e->Uin());
                     dlg->show();
                     dlg->raise();
                 }
-                if (u->AlertWindow())
+                if (u->AlertWindow)
                     userFunction(e->Uin(), mnuAction);
             }
         }
@@ -1035,7 +1038,8 @@ void MainWindow::saveState()
 #ifdef USE_KDE
     OnTop = KWin::info(winId()).state & NET::StaysOnTop;
 #endif
-    UseStyle = themes->getTheme().local8Bit();
+    UseStyle = "";
+    if (themes->getTheme().length()) UseStyle = themes->getTheme().local8Bit();
     string file;
     buildFileName(file, SIM_CONF);
 #ifndef WIN32
@@ -1044,7 +1048,7 @@ void MainWindow::saveState()
         unlink(file.c_str());
 #endif
     std::ofstream fs(file.c_str(), ios::out);
-    save(fs);
+    ::save(this, MainWindow_Params, fs);
     for (list<UserFloat*>::iterator itFloat = floating.begin(); itFloat != floating.end(); itFloat++){
         fs << "[Floaty]\n";
         (*itFloat)->save(fs);
@@ -1059,7 +1063,7 @@ void MainWindow::saveState()
 
 void MainWindow::saveContacts()
 {
-    if (pClient->Uin() == 0) return;
+    if (pClient->owner->Uin == 0) return;
     string file;
     buildFileName(file, ICQ_CONF);
 #ifndef WIN32
@@ -1127,7 +1131,7 @@ void MainWindow::showUser(unsigned long uin, int function, unsigned long param)
     ICQUser *u = pClient->getUser(uin);
     if (uin && (u == NULL)) return;
     list<UserBox*>::iterator it;
-    if (SimpleMode()){
+    if (SimpleMode){
         for (it = containers.begin(); it != containers.end(); ++it){
             if (!(*it)->haveUser(uin)) continue;
             ICQMessage *msg = (*it)->currentMessage();
@@ -1136,29 +1140,29 @@ void MainWindow::showUser(unsigned long uin, int function, unsigned long param)
             case mnuAction:
             case mnuActionInt:
                 if (u->unreadMsgs.size()){
-                    bOK = msg && msg->Received();
+                    bOK = msg && msg->Received;
                     break;
                 }
             case mnuMessage:
-                bOK = msg && (msg->Type() == ICQ_MSGxMSG) && !msg->Received();
+                bOK = msg && (msg->Type() == ICQ_MSGxMSG) && !msg->Received;
                 break;
             case mnuURL:
-                bOK = msg && (msg->Type() == ICQ_MSGxURL) && !msg->Received();
+                bOK = msg && (msg->Type() == ICQ_MSGxURL) && !msg->Received;
                 break;
             case mnuSMS:
-                bOK = msg && (msg->Type() == ICQ_MSGxSMS) && !msg->Received();
+                bOK = msg && (msg->Type() == ICQ_MSGxSMS) && !msg->Received;
                 break;
             case mnuFile:
-                bOK = msg && (msg->Type() == ICQ_MSGxFILE) && !msg->Received();
+                bOK = msg && (msg->Type() == ICQ_MSGxFILE) && !msg->Received;
                 break;
             case mnuContacts:
-                bOK = msg && (msg->Type() == ICQ_MSGxCONTACTxLIST) && !msg->Received();
+                bOK = msg && (msg->Type() == ICQ_MSGxCONTACTxLIST) && !msg->Received;
                 break;
             case mnuAuth:
-                bOK = msg && (msg->Type() == ICQ_MSGxAUTHxREQUEST) && !msg->Received();
+                bOK = msg && (msg->Type() == ICQ_MSGxAUTHxREQUEST) && !msg->Received;
                 break;
             case mnuChat:
-                bOK = msg && (msg->Type() == ICQ_MSGxCHAT) && !msg->Received();
+                bOK = msg && (msg->Type() == ICQ_MSGxCHAT) && !msg->Received;
                 break;
             default:
                 bOK = true;
@@ -1181,8 +1185,8 @@ void MainWindow::showUser(unsigned long uin, int function, unsigned long param)
         }
     }
     UserBox *box;
-    unsigned long grpId = u ? u->GrpId() : 0;
-    switch (ContainerMode()){
+    unsigned long grpId = u ? u->GrpId : 0;
+    switch (ContainerMode){
     case ContainerModeAll:
         for (it = containers.begin(); it != containers.end(); ++it){
             if ((*it)->GrpId != ContainerAllUsers) continue;
@@ -1311,10 +1315,10 @@ bool MainWindow::event(QEvent *e)
 {
     if (e->type() == QEvent::WindowDeactivate){
         hideTime = 0;
-        if (AutoHideTime()){
+        if (AutoHideTime){
             time_t now;
             time(&now);
-            hideTime = now + AutoHideTime();
+            hideTime = now + AutoHideTime;
         }
     }
     if (e->type() == QEvent::WindowActivate){
@@ -1389,7 +1393,7 @@ void MainWindow::autoAway()
         realSetStatus();
         return;
     }
-    if (!m_bAutoNA && AutoNATime() && (idle_time > AutoNATime())){
+    if (!m_bAutoNA && AutoNATime && (idle_time > AutoNATime)){
         m_bAutoNA = true;
         if (ManualStatus == ICQ_STATUS_OFFLINE) return;
         if (!m_bAutoAway){
@@ -1400,7 +1404,7 @@ void MainWindow::autoAway()
         realSetStatus();
         return;
     }
-    if (!m_bAutoAway && AutoAwayTime() && (idle_time > AutoAwayTime())){
+    if (!m_bAutoAway && AutoAwayTime && (idle_time > AutoAwayTime)){
         m_bAutoAway = true;
         if (ManualStatus == ICQ_STATUS_OFFLINE) return;
         if (ManualStatus == ICQ_STATUS_NA) return;
@@ -1415,30 +1419,30 @@ void MainWindow::autoAway()
 void MainWindow::setStatus(int status)
 {
     if ((unsigned long)status == ICQ_STATUS_FxPRIVATE){
-        pClient->setInvisible(!pClient->inInvisible());
-        menuStatus->setItemChecked(ICQ_STATUS_FxPRIVATE, pClient->inInvisible());
+        pClient->setInvisible(!pClient->owner->inInvisible);
+        menuStatus->setItemChecked(ICQ_STATUS_FxPRIVATE, pClient->owner->inInvisible);
         return;
     }
     AutoReplyDlg *autoDlg = NULL;
     switch (status & 0xFF){
     case ICQ_STATUS_AWAY:
-        if (NoShowAway()) break;
+        if (NoShowAway) break;
         autoDlg = new AutoReplyDlg(this, ICQ_STATUS_AWAY);
         break;
     case ICQ_STATUS_NA:
-        if (NoShowNA()) break;
+        if (NoShowNA) break;
         autoDlg = new AutoReplyDlg(this, ICQ_STATUS_NA);
         break;
     case ICQ_STATUS_OCCUPIED:
-        if (NoShowOccupied()) break;
+        if (NoShowOccupied) break;
         autoDlg = new AutoReplyDlg(this, ICQ_STATUS_OCCUPIED);
         break;
     case ICQ_STATUS_DND:
-        if (NoShowDND()) break;
+        if (NoShowDND) break;
         autoDlg = new AutoReplyDlg(this, ICQ_STATUS_DND);
         break;
     case ICQ_STATUS_FREEFORCHAT:
-        if (NoShowFFC()) break;
+        if (NoShowFFC) break;
         autoDlg = new AutoReplyDlg(this, ICQ_STATUS_FREEFORCHAT);
         break;
     }
@@ -1462,15 +1466,15 @@ void MainWindow::moveUser(int grp)
     switch (grp){
     case mnuGroupVisible:
         if (u == NULL) break;
-        pClient->setInVisible(u, !u->inVisible());
+        pClient->setInVisible(u, !u->inVisible);
         break;
     case mnuGroupInvisible:
         if (u == NULL) break;
-        pClient->setInInvisible(u, !u->inInvisible());
+        pClient->setInInvisible(u, !u->inInvisible);
         break;
     case mnuGroupIgnore:
         if (u == NULL) break;
-        if (!u->inIgnore()){
+        if (!u->inIgnore){
             CUser user(u);
             QStringList btns;
             btns.append(i18n("&Yes"));
@@ -1481,7 +1485,7 @@ void MainWindow::moveUser(int grp)
             msg->show();
             break;
         }
-        pClient->setInIgnore(u, !u->inIgnore());
+        pClient->setInIgnore(u, !u->inIgnore);
         break;
     default:
         if (u == NULL) u = pClient->getUser(m_uin, true);
@@ -1523,7 +1527,7 @@ void MainWindow::ownerChanged()
     setStatusItem(ICQ_STATUS_OCCUPIED);
     setStatusItem(ICQ_STATUS_FREEFORCHAT);
     setStatusItem(ICQ_STATUS_OFFLINE);
-    CUser owner(pClient);
+    CUser owner(pClient->owner);
     setCaption(owner.name());
     menuFunction->changeTitle(1, owner.name());
 }
@@ -1542,12 +1546,12 @@ void MainWindow::adjustGroupMenu(QPopupMenu *menuGroup, unsigned long uin)
         menuGroup->insertSeparator();
         if (u->Type == USER_TYPE_ICQ){
             menuGroup->insertItem(i18n("In visible list"), mnuGroupVisible);
-            menuGroup->setItemChecked(mnuGroupVisible, u->inVisible());
+            menuGroup->setItemChecked(mnuGroupVisible, u->inVisible);
             menuGroup->insertItem(i18n("In invisible list"), mnuGroupInvisible);
-            menuGroup->setItemChecked(mnuGroupInvisible, u->inInvisible());
+            menuGroup->setItemChecked(mnuGroupInvisible, u->inInvisible);
         }
         menuGroup->insertItem(i18n("In ignore list"), mnuGroupIgnore);
-        menuGroup->setItemChecked(mnuGroupIgnore, u->inIgnore());
+        menuGroup->setItemChecked(mnuGroupIgnore, u->inIgnore);
     }
 }
 
@@ -1564,8 +1568,8 @@ void MainWindow::showUserPopup(unsigned long uin, QPoint p, QPopupMenu *popup, c
     menuUser->insertSeparator();
     menuUser->insertItem(i18n("Groups"), menuGroup, mnuGroups);
     menuUser->insertItem(Pict("remove"), i18n("Delete"), mnuDelete);
-    menuUser->setItemEnabled(mnuGroups, (pClient->m_state == ICQClient::Logged) || (u->Type() != USER_TYPE_ICQ));
-    menuUser->setItemEnabled(mnuDelete, (pClient->m_state == ICQClient::Logged) || (u->Type() != USER_TYPE_ICQ) || (u->GrpId() == 0));
+    menuUser->setItemEnabled(mnuGroups, (pClient->m_state == ICQClient::Logged) || (u->Type != USER_TYPE_ICQ));
+    menuUser->setItemEnabled(mnuDelete, (pClient->m_state == ICQClient::Logged) || (u->Type != USER_TYPE_ICQ) || (u->GrpId == 0));
     menuUser->insertSeparator();
     menuUser->insertItem(Icon("info"), i18n("User info"), mnuInfo);
     menuUser->insertItem(Icon("history"), i18n("History"), mnuHistory);
@@ -1816,12 +1820,12 @@ void MainWindow::toContainer(int containerId)
 void MainWindow::adjustUserMenu(QPopupMenu *menu, ICQUser *u, bool haveTitle, bool bShort)
 {
     if (haveTitle){
-        uinMenu = u->Uin();
+        uinMenu = u->Uin;
         menuContainers->clear();
         bool canNew = true;
         list<UserBox*>::iterator it;
         for (it = containers.begin(); it != containers.end(); ++it){
-            menuContainers->insertItem((*it)->containerName(), (*it)->GrpId());
+            menuContainers->insertItem((*it)->containerName(), (*it)->GrpId);
             if (!(*it)->haveUser(uinMenu)) continue;
             menuContainers->setItemChecked((*it)->GrpId, true);
             if (((*it)->GrpId >= 0x10000L) && ((*it)->count() == 1))
@@ -1839,7 +1843,7 @@ void MainWindow::adjustUserMenu(QPopupMenu *menu, ICQUser *u, bool haveTitle, bo
             menu->insertItem(i18n("To container"), menuContainers, mnuContainers);
     }
     addMessageType(menu, ICQ_MSGxSECURExOPEN,  mnuSecureOn, !bShort &&
-                   (u->Type() == USER_TYPE_ICQ) && (u->uStatus != ICQ_STATUS_OFFLINE) &&
+                   (u->Type == USER_TYPE_ICQ) && (u->uStatus != ICQ_STATUS_OFFLINE) &&
                    ((u->direct == NULL) || !u->direct->isSecure()), haveTitle);
     addMessageType(menu, ICQ_MSGxSECURExCLOSE, mnuSecureOff, !bShort &&
                    u->direct && u->direct->isSecure(), haveTitle);
@@ -1857,10 +1861,10 @@ void MainWindow::adjustUserMenu(QPopupMenu *menu, ICQUser *u, bool haveTitle, bo
                 (u->uStatus != ICQ_STATUS_OFFLINE) && ((u->uStatus & 0xFF) != ICQ_STATUS_ONLINE), haveTitle);
     addMessageType(menu, ICQ_MSGxMAIL, mnuMail, haveEmail, haveTitle);
     addMessageType(menu, ICQ_MSGxAUTHxREQUEST, mnuAuth, u->WaitAuth, haveTitle);
-    addMessageType(menu, ICQ_MSGxCHAT, mnuChat, (u->Type() == USER_TYPE_ICQ) && u->isOnline(), haveTitle);
-    addMessageType(menu, ICQ_MSGxFILE, mnuFile, (u->Type() == USER_TYPE_ICQ) && (u->uStatus != ICQ_STATUS_OFFLINE), haveTitle);
-    addMessageType(menu, ICQ_MSGxCONTACTxLIST, mnuContacts, u->Type() == USER_TYPE_ICQ, haveTitle);
-    bool havePhone = (u->Type() == USER_TYPE_ICQ);
+    addMessageType(menu, ICQ_MSGxCHAT, mnuChat, (u->Type == USER_TYPE_ICQ) && u->isOnline(), haveTitle);
+    addMessageType(menu, ICQ_MSGxFILE, mnuFile, (u->Type == USER_TYPE_ICQ) && (u->uStatus != ICQ_STATUS_OFFLINE), haveTitle);
+    addMessageType(menu, ICQ_MSGxCONTACTxLIST, mnuContacts, u->Type == USER_TYPE_ICQ, haveTitle);
+    bool havePhone = (u->Type == USER_TYPE_ICQ);
     if (!havePhone){
         for (PhoneBook::iterator it = u->Phones.begin(); it != u->Phones.end(); ++it){
             PhoneInfo *info = static_cast<PhoneInfo*>(*it);
@@ -1871,11 +1875,11 @@ void MainWindow::adjustUserMenu(QPopupMenu *menu, ICQUser *u, bool haveTitle, bo
         }
     }
     addMessageType(menu, ICQ_MSGxSMS, mnuSMS, havePhone, haveTitle);
-    addMessageType(menu, ICQ_MSGxURL, mnuURL, u->Type() == USER_TYPE_ICQ, haveTitle);
-    addMessageType(menu, ICQ_MSGxMSG, mnuMessage, u->Type() == USER_TYPE_ICQ, haveTitle);
-    menu->setItemEnabled(mnuAlert, u->Type() == USER_TYPE_ICQ);
-    menu->setItemEnabled(mnuAccept, u->Type() == USER_TYPE_ICQ);
-    menu->setItemEnabled(mnuSound, u->Type() == USER_TYPE_ICQ);
+    addMessageType(menu, ICQ_MSGxURL, mnuURL, u->Type == USER_TYPE_ICQ, haveTitle);
+    addMessageType(menu, ICQ_MSGxMSG, mnuMessage, u->Type == USER_TYPE_ICQ, haveTitle);
+    menu->setItemEnabled(mnuAlert, u->Type == USER_TYPE_ICQ);
+    menu->setItemEnabled(mnuAccept, u->Type == USER_TYPE_ICQ);
+    menu->setItemEnabled(mnuSound, u->Type == USER_TYPE_ICQ);
 }
 
 void MainWindow::goURL(const char *url)
@@ -1991,14 +1995,14 @@ void MainWindow::setFonts()
 #ifdef USE_KDE
     if (UseSystemFonts()) return;
 #endif
-    if (FontSize() > 128) FontSize = 0;
-    if (FontSize()){
-        QFont fontWnd(FontFamily.c_str(), FontSize(), FontWeight(), FontItalic());
+    if (FontSize > 128) FontSize = 0;
+    if (FontSize){
+        QFont fontWnd(FontFamily.c_str(), FontSize, FontWeight, FontItalic);
         qApp->setFont(fontWnd, true);
     }
-    if (FontMenuSize() > 128) FontMenuSize = 0;
-    if (FontMenuSize()){
-        QFont fontMenu(FontMenuFamily.c_str(), FontMenuSize(), FontMenuWeight(), FontMenuItalic());
+    if (FontMenuSize > 128) FontMenuSize = 0;
+    if (FontMenuSize){
+        QFont fontMenu(FontMenuFamily.c_str(), FontMenuSize, FontMenuWeight, FontMenuItalic);
         qApp->setFont(fontMenu, true, "QPopupMenu");
     }
 }
@@ -2122,7 +2126,7 @@ void MainWindow::changeWm()
 #ifdef WIN32
     bool bVisible = isVisible();
     if (bVisible) hide();
-    if (MainWindowInTaskManager()){
+    if (MainWindowInTaskManager){
         SetWindowLongW(winId(), GWL_EXSTYLE, (GetWindowLongW(winId(), GWL_EXSTYLE) | WS_EX_APPWINDOW) & (~WS_EX_TOOLWINDOW));
     }else{
         SetWindowLongW(winId(), GWL_EXSTYLE, (GetWindowLongW(winId(), GWL_EXSTYLE) & ~(WS_EX_APPWINDOW)) | WS_EX_TOOLWINDOW);

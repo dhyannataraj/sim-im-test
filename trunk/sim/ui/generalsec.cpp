@@ -31,17 +31,17 @@ GeneralSecurity::GeneralSecurity(QWidget *p)
         : GeneralSecurityBase(p)
 {
     lblPict->setPixmap(Pict("security"));
-    chkAuth->setChecked(pClient->Authorize());
-    chkHiddenIP->setChecked(pClient->HideIp());
-    chkWeb->setChecked(pClient->WebAware());
-    chkBypassAuth->setChecked(pClient->BypassAuth());
-    chkRejectMsg->setChecked(pClient->RejectMessage());
-    chkRejectURL->setChecked(pClient->RejectURL());
-    chkRejectWeb->setChecked(pClient->RejectWeb());
-    chkRejectEmail->setChecked(pClient->RejectEmail());
-    chkRejectOther->setChecked(pClient->RejectOther());
+    chkAuth->setChecked(pClient->Authorize);
+    chkHiddenIP->setChecked(pClient->HideIp);
+    chkWeb->setChecked(pClient->WebAware);
+    chkBypassAuth->setChecked(pClient->BypassAuth);
+    chkRejectMsg->setChecked(pClient->RejectMessage);
+    chkRejectURL->setChecked(pClient->RejectURL);
+    chkRejectWeb->setChecked(pClient->RejectWeb);
+    chkRejectEmail->setChecked(pClient->RejectEmail);
+    chkRejectOther->setChecked(pClient->RejectOther);
     edtFilter->setText(QString::fromLocal8Bit(pClient->RejectFilter.c_str()));
-    grpDirect->setButton(pClient->DirectMode());
+    grpDirect->setButton(pClient->DirectMode);
     rejectToggled(chkRejectMsg->isChecked());
     connect(chkRejectMsg, SIGNAL(toggled(bool)), this, SLOT(rejectToggled(bool)));
     edtFilter->helpText = i18n(
@@ -79,7 +79,7 @@ void GeneralSecurity::apply(ICQUser*)
     if (grpDirect->selected())
         pClient->DirectMode = grpDirect->id(grpDirect->selected());
     if (pClient->m_state == ICQClient::Logged)
-        pClient->setStatus(pClient->uStatus);
+        pClient->setStatus(pClient->owner->uStatus);
     pClient->setSecurityInfo(chkAuth->isChecked(), chkWeb->isChecked());
 }
 

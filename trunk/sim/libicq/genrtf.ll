@@ -174,7 +174,7 @@ rtf_cp rtf_cps[] =
 { 0, 0 }
 };
 
-string ICQClient::createRTF(const UTFstring &text, unsigned long foreColor, const char *encoding)
+string ICQClient::createRTF(const string &text, unsigned long foreColor, const char *encoding)
 {
 	int charset = 0;
 	for (const rtf_charset *c = rtf_charsets; c->rtf_code; c++){

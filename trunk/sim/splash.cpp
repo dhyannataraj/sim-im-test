@@ -17,6 +17,7 @@
 
 #include "splash.h"
 #include "mainwin.h"
+#include "cfg.h"
 #include "log.h"
 
 #ifndef _WINDOWS
@@ -31,6 +32,9 @@
 #include <qbitmap.h>
 #include <qapplication.h>
 
+#include <fstream>
+using namespace std;
+
 #ifdef WIN32
 #if _MSC_VER > 1020
 #pragma warning(disable:4355)
@@ -41,13 +45,19 @@ const char *app_file(const char *f);
 
 static const char SPLASH_CONF[] = "splash.conf";
 
+cfgParam Splash_Params[] =
+    {
+        { "Show", offsetof(Splash, Show), PARAM_BOOL, (unsigned)true },
+        { "Picture", offsetof(Splash, Picture), PARAM_STRING, (unsigned)"pict/splash.png" },
+        { "UseArts", offsetof(Splash, UseArts), PARAM_BOOL, (unsigned)true },
+        { "SoundPlayer", offsetof(Splash, SoundPlayer), PARAM_STRING, 0 },
+        { "StartupSound", offsetof(Splash, StartupSound), PARAM_STRING, (unsigned)"startup.wav" },
+        { "", 0, 0, 0 }
+    };
+
 Splash::Splash()
-        : Show(this, "Show", true),
-        Picture(this, "Picture", "pict/splash.png"),
-        UseArts(this, "UseArts", true),
-        SoundPlayer(this, "SoundPlayer"),
-        StartupSound(this, "StartupSound", "startup.wav")
 {
+    ::init(this, Splash_Params);
     pSplash = this;
     wnd = NULL;
 #ifdef USE_KDE
@@ -70,8 +80,8 @@ Splash::Splash()
     string part;
     MainWindow::buildFileName(file, SPLASH_CONF);
     std::ifstream fs(file.c_str(), ios::in);
-    load(fs, part);
-    if (Show()){
+    ::load(this, Splash_Params, fs, part);
+    if (Show){
         QPixmap pict(QString::fromLocal8Bit(app_file(Picture.c_str())));
         if (!pict.isNull()){
             wnd = new QWidget(NULL, "splash",
@@ -107,7 +117,7 @@ void Splash::save()
     string file;
     MainWindow::buildFileName(file, SPLASH_CONF);
     std::ofstream fs(file.c_str(), ios::out);
-    ConfigArray::save(fs);
+    ::save(this, Splash_Params, fs);
 }
 
 

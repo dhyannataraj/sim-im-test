@@ -33,8 +33,8 @@ MiscSetup::MiscSetup(QWidget *p)
 
 void MiscSetup::apply(ICQUser*)
 {
-    pMain->UrlViewer = edtBrowser->text().local8Bit();
-    pMain->MailClient = edtMail->text().local8Bit();
+    set(pMain->UrlViewer, edtBrowser->text());
+    set(pMain->MailClient, edtMail->text());
 }
 
 #ifndef _WINDOWS

@@ -22,28 +22,89 @@
 #include <time.h>
 #include <stdio.h>
 
-ICQContactList::ICQContactList(ICQClient *_client)
-        : Len(this, "Length"),
-        Invisible(this, "Invsible"),
-        Time(this, "Time"),
-        Expand(this, "Expand", true)
+EMailList &EMailList::operator = (const EMailList &l)
 {
-    client = _client;
+    const_iterator it;
+    for (it = begin(); it != end(); ++it)
+        delete *it;
+    clear();
+    for (it = l.begin(); it != l.end(); ++it)
+        push_back(new EMailInfo(*(*it)));
+    return *this;
+}
+
+EMailList::~EMailList()
+{
+    for (iterator it = begin(); it != end(); ++it)
+        delete *it;
+    clear();
+}
+
+ExtInfoList &ExtInfoList::operator = (const ExtInfoList &l)
+{
+    const_iterator it;
+    for (it = begin(); it != end(); ++it)
+        delete *it;
+    clear();
+    for (it = l.begin(); it != l.end(); ++it)
+        push_back(new ExtInfo(*(*it)));
+    return *this;
+}
+
+ExtInfoList::~ExtInfoList()
+{
+    for (iterator it = begin(); it != end(); ++it)
+        delete *it;
+    clear();
+}
+
+PhoneBook &PhoneBook::operator = (const PhoneBook &l)
+{
+    const_iterator it;
+    for (it = begin(); it != end(); ++it)
+        delete *it;
+    clear();
+    for (it = l.begin(); it != l.end(); ++it)
+        push_back(new PhoneInfo(*(*it)));
+    return *this;
+}
+
+PhoneBook::~PhoneBook()
+{
+    for (iterator it = begin(); it != end(); ++it)
+        delete *it;
+    clear();
+}
+
+ContactList::~ContactList()
+{
+    for (iterator it = begin(); it != end(); ++it)
+        delete *it;
+    clear();
 }
 
 ICQContactList::~ICQContactList()
 {
-    list<ICQUser*>::iterator it_user;
-    for (it_user = users.begin(); it_user != users.end(); it_user++)
-        delete *it_user;
-    vector<ICQGroup*>::iterator it_group;
-    for (it_group = groups.begin(); it_group != groups.end(); it_group++)
-        delete *it_group;
+    for (list<ICQUser*>::iterator itUser = users.begin(); itUser != users.end(); ++itUser)
+        delete *itUser;
+    users.clear();
+    for (vector<ICQGroup*>::iterator itGrp = groups.begin(); itGrp != groups.end(); ++itGrp)
+        delete *itGrp;
+    groups.clear();
+}
+
+ICQContactList::ICQContactList(ICQClient *_client)
+{
+    Len= 0;
+    Invisible = false;
+    Time = 0;
+    Expand = true;
+    client = _client;
 }
 
 unsigned short ICQContactList::getUserId(ICQUser *u)
 {
-    if (u->Id()) return u->Id();
+    if (u->Id) return u->Id;
     time_t now;
     time(&now);
     for (unsigned short id = now & 0x7FFF;;id++){
@@ -61,7 +122,7 @@ unsigned short ICQContactList::getUserId(ICQUser *u)
 
 unsigned short ICQContactList::getGroupId(ICQGroup *g)
 {
-    if (g->Id()) return g->Id();
+    if (g->Id) return g->Id;
     time_t now;
     time(&now);
     for (unsigned short id = now & 0x7FFF;;id++){
@@ -81,7 +142,7 @@ ICQGroup *ICQContactList::getGroup(unsigned short id, bool create)
 {
     vector<ICQGroup*>::iterator it_group;
     for (it_group = groups.begin(); it_group != groups.end(); it_group++)
-        if ((*it_group)->Id() == id) return *it_group;
+        if ((*it_group)->Id == id) return *it_group;
     if (!create) return NULL;
     ICQGroup *grp = new ICQGroup();
     groups.push_back(grp);
@@ -104,17 +165,17 @@ ICQUser *ICQContactList::getUser(unsigned long uin, bool create)
     list<ICQUser*>::iterator it_usr;
     if (uin){
         for (it_usr = users.begin(); it_usr != users.end(); it_usr++){
-            if ((*it_usr)->Uin() == uin) return *it_usr;
+            if ((*it_usr)->Uin == uin) return *it_usr;
         }
     }
-    if (uin == client->Uin()) return client;
+    if (uin == client->owner->Uin) return client->owner;
     if (!create) return NULL;
     ICQUser *usr = new ICQUser();
     if (uin == 0){
         uin = UIN_SPECIAL;
         for (list<ICQUser*>::iterator it = users.begin(); it != users.end(); ++it){
-            if ((*it)->Uin() < uin) continue;
-            uin = (*it)->Uin() + 1;
+            if ((*it)->Uin < uin) continue;
+            uin = (*it)->Uin + 1;
         }
         usr->Type = USER_TYPE_EXT;
     }
@@ -139,110 +200,65 @@ ICQUser *ICQClient::getUser(unsigned long id, bool create, bool bIsTemp)
     u->bIsTemp = bIsTemp;
     ICQEvent e(EVENT_INFO_CHANGED, id);
     process_event(&e);
-    if (!u->inIgnore())
+    if (!u->inIgnore)
         addToContacts(id);
     addInfoRequest(id, true);
     return u;
 }
 
 ICQUser::ICQUser()
-        : Type(this, "Type"),
-        Alias(this, "Alias"),
-        Id(this, "Id"),
-        GrpId(this, "GrpId"),
-        Uin(this, "UIN"),
-        inIgnore(this, "Ignore"),
-        inVisible(this, "Visible"),
-        inInvisible(this, "Invisible"),
-        WaitAuth(this, "WaitAuth"),
-        AutoResponseAway(this, "AutoResponseAway"),
-        AutoResponseNA(this, "AutoResponseNA"),
-        AutoResponseDND(this, "AutoResponseDND"),
-        AutoResponseOccupied(this, "AutoResponseOccupied"),
-        AutoResponseFFC(this, "AutoResponseFFC"),
-        uStatus(ICQ_STATUS_OFFLINE),
-        prevStatus(ICQ_STATUS_OFFLINE),
-        unreadMsgs(this, "UnreadMessages"),
-        LastActive(this, "LastActive"),
-        OnlineTime(this, "OnlineTime"),
-        StatusTime(this, "StatusTime"),
-        IP(this, "IP"),
-        Port(this, "Port"),
-        RealIP(this, "RealIP"),
-        HostName(this, "HostName"),
-        RealHostName(this, "RealHostName"),
-        Version(this, "Version"),
-        Mode(this, "Mode"),
-        Nick(this, "Nick"),
-        FirstName(this, "FirstName"),
-        LastName(this, "LastName"),
-        City(this, "City"),
-        State(this, "State"),
-        Address(this, "Address"),
-        Zip(this, "Zip"),
-        Country(this, "Country"),
-        TimeZone(this, "TimeZone"),
-        HomePhone(this, "HomePhone"),
-        HomeFax(this, "HomeFax"),
-        PrivateCellular(this, "PrivateCellular"),
-        EMail(this, "EMailInfo"),
-        HiddenEMail(this, "HiddenEMail"),
-        Notes(this, "Notes"),
-        EMails(this, "EMail"),
-        Age(this, "Age"),
-        Gender(this, "Gender"),
-        Homepage(this, "Homepage"),
-        BirthYear(this, "BirthYear"),
-        BirthMonth(this, "BirthMonth"),
-        BirthDay(this, "BirthDay"),
-        Language1(this, "Language1"),
-        Language2(this, "Language2"),
-        Language3(this, "Language3"),
-        WorkCity(this, "WorkCity"),
-        WorkState(this, "WorkState"),
-        WorkZip(this, "WorkZip"),
-        WorkAddress(this, "WorkAddress"),
-        WorkName(this, "WorkName"),
-        WorkDepartment(this, "WorkDepartment"),
-        WorkPosition(this, "WorkPosition"),
-        WorkCountry(this, "WorkCountry"),
-        Occupation(this, "Occupation"),
-        WorkHomepage(this, "WorkHomepage"),
-        WorkPhone(this, "WorkPhone"),
-        WorkFax(this, "WorkFax"),
-        About(this, "About"),
-        Backgrounds(this, "Background"),
-        Affilations(this, "Affilation"),
-        Interests(this, "Interest"),
-        Phones(this, "Phone"),
-        PhoneState(this, "PhoneState"),
-        PhoneBookTime(this, "PhoneBookTime"),
-        PhoneStatusTime(this, "PhoneStatusTime"),
-        TimeStamp(this, "TimeStamp"),
-        AlertOverride(this, "AlertOverride"),
-        AlertAway(this, "AlertAway", true),
-        AlertBlink(this, "AlertBlink", true),
-        AlertSound(this, "AlertSound", true),
-        AlertOnScreen(this, "AlertOnScreen", true),
-        AlertPopup(this, "AlertPopup"),
-        AlertWindow(this, "AlertWindow"),
-        AcceptMsgWindow(this, "AcceptMsgWindow"),
-        AcceptFileMode(this, "AcceptFileMode"),
-        AcceptFileOverride(this, "AcceptFileOverride"),
-        AcceptFileOverwrite(this, "AcceptFileOverwrite"),
-        AcceptFilePath(this, "AcceptFilePath"),
-        DeclineFileMessage(this, "DeclineFileMessage"),
-        ClientType(this, "ClientType"),
-        SoundOverride(this, "SoundOverride"),
-        IncomingMessage(this, "IncomingMessage", "message.wav"),
-        IncomingURL(this, "IncomingURL", "url.wav"),
-        IncomingSMS(this, "IncomingSMS", "sms.wav"),
-        IncomingAuth(this, "IncomingAuth", "auth.wav"),
-        IncomingFile(this, "IncomingFile", "file.wav"),
-        IncomingChat(this, "IncomingChat", "chat.wav"),
-        OnlineAlert(this, "OnlineAlert", "alert.wav"),
-        Encoding(this, "Encoding")
 {
+    Type = 0;
+    Id = 0;
+    GrpId = 0;
+    Uin = 0;
+    inIgnore = false;
+    inVisible = false;
+    inInvisible = false;
+    WaitAuth = false;
+    uStatus = ICQ_STATUS_OFFLINE;
+    prevStatus = ICQ_STATUS_OFFLINE;
+    LastActive = 0;
+    OnlineTime = 0;
+    StatusTime = 0;
+    IP = 0;
+    Port = 0;
+    RealIP = 0;
+    Version = 0;
+    Mode = 0;
+    TimeZone = 0;
+    Age = 0;
+    Gender = 0;
+    BirthYear = 0;
+    BirthMonth = 0;
+    BirthDay = 0;
+    Language1 = 0;
+    Language2 = 0;
+    Language3 = 0;
+    PhoneState = 0;
+    PhoneBookTime = 0;
+    PhoneStatusTime = 0;
+    TimeStamp = 0;
+    AlertOverride = false;
+    AlertAway = true;
+    AlertBlink = true;
+    AlertSound = true;
+    AlertOnScreen = true;
+    AlertPopup = false;
+    AlertWindow = false;
+    AcceptMsgWindow = false;
+    AcceptFileMode = false;
+    AcceptFileOverride = false;
+    AcceptFileOverwrite = false;
+    ClientType = 0;
+    SoundOverride = false;
+    IncomingMessage = "message.wav";
+    IncomingURL = "url.wav";
+    IncomingSMS ="sms.wav";
+    IncomingAuth = "auth.wav";
+    IncomingFile = "file.wav";
+    IncomingChat = "chat.wav";
+    OnlineAlert = "alert.wav";
     direct = 0;
     GetRTF = false;
     CanPlugin = false;
@@ -276,26 +292,6 @@ void ICQUser::setOffline()
     StatusTime = (unsigned long)now;
 }
 
-bool ICQUser::load(std::istream &s, string &nextPart)
-{
-    if (!ConfigArray::load(s, nextPart)) return false;
-    for (;;){
-        bool ok = true;
-        list<unsigned long>::iterator it;
-        for (it = unreadMsgs.begin(); it != unreadMsgs.end(); ++it){
-            if (*it >= MSG_PROCESS_ID){
-                unreadMsgs.remove(*it);
-                ok = false;
-                break;
-            }
-        }
-        if (ok) break;
-    }
-    adjustPhones();
-    adjustEMails(EMails);
-    return true;
-}
-
 string ICQUser::name(bool UseUin)
 {
     string s;
@@ -307,7 +303,7 @@ string ICQUser::name(bool UseUin)
         s = Nick;
         return s;
     }
-    if (Type() == USER_TYPE_EXT){
+    if (Type == USER_TYPE_EXT){
         for (PhoneBook::iterator itPhone = Phones.begin(); itPhone != Phones.end(); ++itPhone){
             PhoneInfo *info = static_cast<PhoneInfo*>(*itPhone);
             return info->getNumber();
@@ -317,9 +313,9 @@ string ICQUser::name(bool UseUin)
             return info->Email;
         }
     }
-    if (Uin() && UseUin){
+    if (Uin && UseUin){
         char b[32];
-        snprintf(b, sizeof(b), "%lu", Uin());
+        snprintf(b, sizeof(b), "%lu", Uin);
         s = b;
         return s;
     }
@@ -327,37 +323,29 @@ string ICQUser::name(bool UseUin)
 }
 
 ICQGroup::ICQGroup()
-        : Name(this, "Name"),  Id(this, "Id"), Expand(this, "Expand", true)
 {
+    Id = 0;
+    Expand = true;
 }
 
 EMailInfo::EMailInfo()
-        : Email(this, "Email"),
-        Hide(this, "Hide"),
-        MyInfo(this, "MyInfo")
 {
+    Hide = false;
+    MyInfo = false;
 }
 
 ExtInfo::ExtInfo()
-        : Category(this, "Category"),
-        Specific(this, "Specific")
 {
+    Category = 0;
 }
 
 PhoneInfo::PhoneInfo()
-        : Name(this, "Name"),
-        Type(this, "Type"),
-        Active(this, "Active"),
-        Country(this, "Country"),
-        AreaCode(this, "AreaCode"),
-        Number(this, "Number"),
-        Extension(this, "Extension"),
-        Provider(this, "Provider"),
-        Gateway(this, "Gateway"),
-        Publish(this, "Publish"),
-        FromInfo(this, "FromInfo"),
-        MyInfo(this, "MyInfo")
 {
+    Type = 0;
+    Active = false;
+    Publish = false;
+    FromInfo = false;
+    MyInfo = false;
 }
 
 void PhoneInfo::setNumber(const string &number, unsigned long type)
@@ -399,9 +387,9 @@ string PhoneInfo::getNumber()
 {
     string res;
     if (FromInfo) return Number;
-    if (Type() == PAGER){
+    if (Type == PAGER){
         res = Number;
-        if (Gateway){
+        if (Gateway.size()){
             res += "@";
             res += Gateway;
             return res;
@@ -470,7 +458,7 @@ void ICQUser::adjustPhones()
     PhoneBook::iterator it;
     for (it = Phones.begin(); it != Phones.end(); ){
         PhoneInfo *phone = static_cast<PhoneInfo*>(*it);
-        if (phone->FromInfo()){
+        if ((phone->FromInfo) || (*phone->Name.c_str() == 0)){
             Phones.remove(*it);
             delete phone;
             it = Phones.begin();
@@ -486,18 +474,18 @@ void ICQUser::adjustPhones()
     Phones.add(WorkFax.c_str(), "Work fax", FAX, bMyInfo);
 }
 
-static void addEMail(ConfigPtrList &mails, EMailInfo *mail)
+static void addEMail(EMailList &mails, EMailInfo *mail)
 {
     if (*mail->Email.c_str() == 0) return;
-    ConfigPtrList::iterator it;
+    EMailList::iterator it;
     EMailInfo *info = NULL;
     for (it = mails.begin(); it != mails.end(); ++it){
         info = static_cast<EMailInfo*>(*it);
         if (info->Email == mail->Email) break;
     }
     if (it != mails.end()){
-        info->MyInfo = info->MyInfo() && mail->MyInfo();
-        info->Hide = info->Hide() || mail->Hide();
+        info->MyInfo = info->MyInfo && mail->MyInfo;
+        info->Hide = info->Hide || mail->Hide;
         return;
     }
     info = new EMailInfo;
@@ -507,35 +495,37 @@ static void addEMail(ConfigPtrList &mails, EMailInfo *mail)
     mails.push_back(info);
 }
 
-static void addMyEMails(ConfigPtrList &mails, const ConfigPtrList &add)
+static void addMyEMails(EMailList &mails, const EMailList &add)
 {
-    for (ConfigPtrList::const_iterator it = add.begin(); it != add.end(); ++it){
+    for (EMailList::const_iterator it = add.begin(); it != add.end(); ++it){
         EMailInfo *info = static_cast<EMailInfo*>(*it);
         if (!info->MyInfo) continue;
         addEMail(mails, info);
     }
 }
 
-void ICQUser::adjustEMails(const ConfigPtrList &addMails)
+void ICQUser::adjustEMails(EMailList *addMails)
 {
-    EMailPtrList mails;
+    EMailList mails;
     bool myInfoFirst = false;
     if (EMails.size()){
         EMailInfo *info = static_cast<EMailInfo*>(*EMails.begin());
         if (info->MyInfo) myInfoFirst = true;
     }
-    if (myInfoFirst) addMyEMails(mails, EMails);
+    if (myInfoFirst && (addMails == NULL)) addMyEMails(mails, EMails);
     if (*EMail.c_str()){
         EMailInfo info;
         info.Email = EMail.c_str();
         info.Hide = HiddenEMail;
         addEMail(mails, &info);
     }
-    for (ConfigPtrList::const_iterator it = addMails.begin(); it != addMails.end(); ++it){
-        EMailInfo *info = static_cast<EMailInfo*>(*it);
-        addEMail(mails, info);
+    if (addMails){
+        for (EMailList::const_iterator it = addMails->begin(); it != addMails->end(); ++it){
+            EMailInfo *info = static_cast<EMailInfo*>(*it);
+            addEMail(mails, info);
+        }
     }
-    if (!myInfoFirst) addMyEMails(mails, EMails);
+    if (!myInfoFirst && (addMails == NULL)) addMyEMails(mails, EMails);
     EMails = mails;
 }
 
@@ -565,7 +555,7 @@ void PhoneBook::add(const char *number, const char *name, unsigned long type, bo
     for (it = begin(); it != end(); it++){
         PhoneInfo *phone = static_cast<PhoneInfo*>(*it);
         if (phone->FromInfo) continue;
-        if (phone->Type() != type) continue;
+        if (phone->Type != type) continue;
         if (phone->isEqual(number)){
             phone->Publish = true;
             break;
@@ -582,14 +572,14 @@ void PhoneBook::add(const char *number, const char *name, unsigned long type, bo
     push_back(phone);
 }
 
-void PhoneBook::add(const PhonePtrList &l)
+void PhoneBook::add(const PhoneBook &l)
 {
-    for (PhonePtrList::const_iterator itList = l.begin(); itList != l.end(); ++itList){
+    for (PhoneBook::const_iterator itList = l.begin(); itList != l.end(); ++itList){
         PhoneInfo *infoAdd = static_cast<PhoneInfo*>(*itList);
         iterator it;
         for (it = begin(); it != end(); ++it){
             PhoneInfo *info = static_cast<PhoneInfo*>(*it);
-            if (info->Type() != infoAdd->Type()) continue;
+            if (info->Type != infoAdd->Type) continue;
             if (info->isEqual(infoAdd->getNumber().c_str())) break;
         }
         if (it != end()) continue;
@@ -613,7 +603,7 @@ unsigned long ICQContactList::findByEmail(const string &name, const string &emai
         }
         if (itMail != u->EMails.end()) break;
     }
-    if (it != users.end()) return (*it)->Uin();
+    if (it != users.end()) return (*it)->Uin;
     for (it = users.begin(); it != users.end(); ++it){
         ICQUser *u = *it;
         EMailList::iterator itMail;
@@ -624,13 +614,13 @@ unsigned long ICQContactList::findByEmail(const string &name, const string &emai
         }
         if (itMail != u->EMails.end()) break;
     }
-    if (it != users.end()) return (*it)->Uin();
+    if (it != users.end()) return (*it)->Uin;
     ICQUser *u = getUser(0, true);
     u->Nick = name;
     if (!*u->Nick.c_str()) u->Nick = email;
     u->EMail = email;
     u->Type = USER_TYPE_EXT;
-    return u->Uin();
+    return u->Uin;
 }
 
 unsigned long ICQContactList::findByPhone(const string &phone)
@@ -645,19 +635,19 @@ unsigned long ICQContactList::findByPhone(const string &phone)
         }
         if (itPhone != u->Phones.end()) break;
     }
-    if (it != users.end()) return (*it)->Uin();
+    if (it != users.end()) return (*it)->Uin;
     ICQUser *u = getUser(0, true);
     u->Nick = phone;
     PhoneInfo *phoneInfo = new PhoneInfo;
     phoneInfo->setNumber(phone, SMS);
     u->Phones.push_back(phoneInfo);
     u->Type = USER_TYPE_EXT;
-    return u->Uin();
+    return u->Uin;
 }
 
 bool ICQUser::isOnline()
 {
-    switch (Type()){
+    switch (Type){
     case USER_TYPE_ICQ:
         switch (uStatus & 0xFF){
         case ICQ_STATUS_ONLINE:

@@ -293,7 +293,7 @@ void UserViewItem::update(ICQUser *u, bool bFirst)
         m_bInvisible = m_bBirthday = false;
         m_itemState = STATE_OFFLINE;
     }
-    if (u->GrpId() == 0) m_itemState = STATE_NOTINLIST;
+    if (u->GrpId == 0) m_itemState = STATE_NOTINLIST;
     m_bMobile = false;
     m_bPhone = false;
     m_bPhoneBusy = false;
@@ -301,15 +301,15 @@ void UserViewItem::update(ICQUser *u, bool bFirst)
     m_bSecure = (u->direct != NULL) && u->direct->isSecure();
     for (PhoneBook::iterator it = u->Phones.begin(); it != u->Phones.end(); it++){
         PhoneInfo *phone = static_cast<PhoneInfo*>(*it);
-        if (phone->Type() == SMS) m_bMobile = true;
-        if (phone->Type() == PAGER) m_bPager = true;
+        if (phone->Type == SMS) m_bMobile = true;
+        if (phone->Type == PAGER) m_bPager = true;
         if (phone->Active){
-            if (u->PhoneState() == 2) m_bPhoneBusy = true;
-            if (u->PhoneState() == 1) m_bPhone = true;
+            if (u->PhoneState == 2) m_bPhoneBusy = true;
+            if (u->PhoneState == 1) m_bPhone = true;
         }
     }
     m_bItalic = u->inVisible;
-    m_bUnderline = !pClient->BypassAuth() && u->WaitAuth();
+    m_bUnderline = !pClient->BypassAuth && u->WaitAuth;
     m_bStrikeOut = u->inInvisible;
     if (bFirst){
         if (parent() && (u->uStatus != ICQ_STATUS_OFFLINE))
@@ -339,12 +339,12 @@ void UserViewItem::update(ICQUser *u, bool bFirst)
         case ICQ_STATUS_FREEFORCHAT:
             if (((u->prevStatus & 0xFF) != ICQ_STATUS_ONLINE) &&
                     ((u->prevStatus & 0xFF) != ICQ_STATUS_FREEFORCHAT) &&
-                    (((pClient->uStatus & 0xFF) == ICQ_STATUS_ONLINE) ||
-                     ((pClient->uStatus & 0xFF) == ICQ_STATUS_FREEFORCHAT)) &&
-                    ((u->prevStatus == ICQ_STATUS_OFFLINE) || pClient->AlertAway()) &&
-                    ((u->OnlineTime() > pClient->OnlineTime()) || ((u->prevStatus & 0xFFFF) != ICQ_STATUS_OFFLINE))){
-                if (!u->AlertOverride()) u = pClient;
-                if (u->AlertBlink())
+                    (((pClient->owner->uStatus & 0xFF) == ICQ_STATUS_ONLINE) ||
+                     ((pClient->owner->uStatus & 0xFF) == ICQ_STATUS_FREEFORCHAT)) &&
+                    ((u->prevStatus == ICQ_STATUS_OFFLINE) || pClient->owner->AlertAway) &&
+                    ((u->OnlineTime > pClient->owner->OnlineTime) || ((u->prevStatus & 0xFFFF) != ICQ_STATUS_OFFLINE))){
+                if (!u->AlertOverride) u = pClient->owner;
+                if (u->AlertBlink)
                     nBlink = 18;
             }
             st = 1;
@@ -363,7 +363,7 @@ void UserViewItem::update(ICQUser *u, bool bFirst)
         }
     }
     char b[32];
-    snprintf(b, sizeof(b), "%u%u1%08lX", m_itemState, st, -(u->LastActive()+1));
+    snprintf(b, sizeof(b), "%u%u1%08lX", m_itemState, st, -(u->LastActive+1));
     QString t = b;
     t += name;
     setText(1, t);
@@ -394,13 +394,13 @@ GroupViewItem::GroupViewItem(ICQGroup *g, unsigned n, UserView *parent)
     if (g == NULL){
         m_id = 0;
         setText(0, i18n("Not in list"));
-        setOpen(pClient->contacts.Expand());
+        setOpen(pClient->contacts.Expand);
         return;
     }
-    m_id = g->Id();
+    m_id = g->Id;
     CGroup grp(g);
     setText(0, grp.name());
-    setOpen(g->Expand());
+    setOpen(g->Expand);
     UserView *users = static_cast<UserView*>(listView());
     if (users->bList) setText(3, QString::number(CHECK_OFF));
 }
@@ -726,7 +726,7 @@ void UserView::fill()
         new GroupViewItem(NULL, 0x10000, this);
     }
     for (it = contacts.users.begin(); it != contacts.users.end(); it++){
-        if (bList && ((*it)->Type() != USER_TYPE_ICQ)) continue;
+        if (bList && ((*it)->Type != USER_TYPE_ICQ)) continue;
         addUserItem(*it);
     }
 }
@@ -774,8 +774,8 @@ void UserView::setOpen(bool bOpen)
 
 void UserView::addUserItem(ICQUser *u)
 {
-    if (u->inIgnore() || u->bIsTemp) return;
-    if (u->Uin() == pClient->Uin()) return;
+    if (u->inIgnore || u->bIsTemp) return;
+    if (u->Uin == pClient->owner->Uin) return;
     if (!m_bShowOffline && (u->uStatus == ICQ_STATUS_OFFLINE) && (u->unreadMsgs.size() == 0)) return;
     if (!m_bGroupMode){
         new UserViewItem(u, this);
@@ -827,7 +827,7 @@ void UserView::updateUser(unsigned long uin, bool bFull)
     if (bFloaty){
         if (item == NULL) return;
     }else{
-        if ((u == NULL) || u->inIgnore()){
+        if ((u == NULL) || u->inIgnore){
             if (item) delete item;
             return;
         }
@@ -897,7 +897,7 @@ void UserView::processEvent(ICQEvent *e)
     case EVENT_INFO_CHANGED:{
             if (bList){
                 ICQUser *u = pClient->getUser(e->Uin());
-                if ((u == NULL) || (u->Type() != USER_TYPE_ICQ)) break;
+                if ((u == NULL) || (u->Type != USER_TYPE_ICQ)) break;
             }
             updateUser(e->Uin(), e->type() == EVENT_USERGROUP_CHANGED);
             break;
@@ -1286,14 +1286,20 @@ void UserView::maybeTip ( const QPoint &p )
     tip(itemRect(item), user.toolTip());
 }
 
+cfgParam UserFloat_Params[] =
+    {
+        { "Uin", offsetof(UserFloat, Uin), PARAM_ULONG, 0 },
+        { "Left", offsetof(UserFloat, Left), PARAM_SHORT, 0 },
+        { "Top", offsetof(UserFloat, Top), PARAM_SHORT, 0 },
+        { "", 0, 0, 0 }
+    };
+
 UserFloat::UserFloat()
         : UserView(NULL, false, false,
                    QObject::WType_TopLevel | QObject::WStyle_Customize | QObject::WStyle_NoBorder |
-                   QObject::WStyle_Tool  | QObject::WStyle_StaysOnTop ),
-        Uin(this, "Uin", 0),
-        Left(this, "Left", 0),
-        Top(this, "Top", 0)
+                   QObject::WStyle_Tool  | QObject::WStyle_StaysOnTop )
 {
+    ::init(this, UserFloat_Params);
     bFloaty = true;
     transparent = new TransparentTop(this, pMain->UseTransparent, pMain->Transparent);
     m_bShowOffline = true;
@@ -1327,12 +1333,12 @@ void UserFloat::save(ostream &s)
 {
     Left = pos().x();
     Top = pos().y();
-    ConfigArray::save(s);
+    ::save(this, UserFloat_Params, s);
 }
 
 bool UserFloat::load(istream &s, string &nextPart)
 {
-    ConfigArray::load(s, nextPart);
+    ::load(this, UserFloat_Params, s, nextPart);
     if (!setUin(Uin)){
         Uin = 0;
         return false;

@@ -33,7 +33,7 @@ InterestsInfo::InterestsInfo(QWidget *p, bool readOnly)
         connect(cmbBg1, SIGNAL(activated(int)), this, SLOT(adjustEnabled(int)));
         connect(cmbBg2, SIGNAL(activated(int)), this, SLOT(adjustEnabled(int)));
         connect(cmbBg3, SIGNAL(activated(int)), this, SLOT(adjustEnabled(int)));
-        load(pClient);
+        load(pClient->owner);
         return;
     }
     edtBg1->setReadOnly(true);
@@ -109,33 +109,33 @@ void InterestsInfo::save(ICQUser*)
 void InterestsInfo::apply(ICQUser *u)
 {
     unsigned short category;
-    ExtInfoPtrList interestsList;
+    ExtInfoList interestsList;
     category = getComboValue(cmbBg1, interests);
     if (category){
         ExtInfo *info = new ExtInfo;
         info->Category = category;
-        info->Specific = edtBg1->text().local8Bit();
+        set(info->Specific, edtBg1->text());
         interestsList.push_back(info);
     }
     category = getComboValue(cmbBg2, interests);
     if (category){
         ExtInfo *info = new ExtInfo;
         info->Category = category;
-        info->Specific = edtBg2->text().local8Bit();
+        set(info->Specific, edtBg2->text());
         interestsList.push_back(info);
     }
     category = getComboValue(cmbBg3, interests);
     if (category){
         ExtInfo *info = new ExtInfo;
         info->Category = category;
-        info->Specific = edtBg3->text().local8Bit();
+        set(info->Specific, edtBg3->text());
         interestsList.push_back(info);
     }
     category = getComboValue(cmbBg4, interests);
     if (category){
         ExtInfo *info = new ExtInfo;
         info->Category = category;
-        info->Specific = edtBg4->text().local8Bit();
+        set(info->Specific, edtBg4->text());
         interestsList.push_back(info);
     }
     u->Interests = interestsList;

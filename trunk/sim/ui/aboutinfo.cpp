@@ -19,6 +19,7 @@
 #include "icqclient.h"
 #include "client.h"
 #include "icons.h"
+#include "enable.h"
 
 #include <qmultilineedit.h>
 #include <qlabel.h>
@@ -31,7 +32,7 @@ AboutInfo::AboutInfo(QWidget *p, bool readOnly)
     if (readOnly){
         edtAbout->setReadOnly(true);
     }else{
-        load(pClient);
+        load(pClient->owner);
     }
 }
 
@@ -46,7 +47,7 @@ void AboutInfo::save(ICQUser*)
 
 void AboutInfo::apply(ICQUser *u)
 {
-    u->About = edtAbout->text().local8Bit();
+    set(u->About, edtAbout->text());
 }
 
 #ifndef _WINDOWS

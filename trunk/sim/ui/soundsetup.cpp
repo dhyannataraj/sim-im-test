@@ -21,6 +21,7 @@
 #include "splash.h"
 #include "client.h"
 #include "editfile.h"
+#include "enable.h"
 
 #include <qlabel.h>
 #include <qpixmap.h>
@@ -51,13 +52,13 @@ SoundSetup::SoundSetup(QWidget *p, bool bUser)
 #else
         chkArts->hide();
 #endif
-        load(pClient);
+        load(pClient->owner);
     }
 }
 
 void SoundSetup::load(ICQUser *u)
 {
-    chkOverride->setChecked(u->SoundOverride());
+    chkOverride->setChecked(u->SoundOverride);
     edtMessage->setText(QString::fromLocal8Bit(pMain->sound(u->IncomingMessage.c_str())));
     edtURL->setText(QString::fromLocal8Bit(pMain->sound(u->IncomingURL.c_str())));
     edtSMS->setText(QString::fromLocal8Bit(pMain->sound(u->IncomingSMS.c_str())));
@@ -68,7 +69,7 @@ void SoundSetup::load(ICQUser *u)
     edtFileDone->setText(QString::fromLocal8Bit(pMain->sound(pClient->FileDone.c_str())));
     edtStartup->setText(QString::fromLocal8Bit(pMain->sound(pSplash->StartupSound.c_str())));
     edtProgram->setText(QString::fromLocal8Bit(pSplash->SoundPlayer.c_str()));
-    overrideToggled((u == pClient) ? true : chkOverride->isChecked());
+    overrideToggled((u == pClient->owner) ? true : chkOverride->isChecked());
 }
 
 void SoundSetup::overrideToggled(bool bOn)
@@ -118,7 +119,7 @@ void SoundSetup::save(ICQUser *u)
     pClient->FileDone = sound(edtFileDone);
     pSplash->StartupSound = sound(edtStartup);
     u->OnlineAlert = sound(edtAlert);
-    pSplash->SoundPlayer = edtProgram->text().local8Bit();
+    set(pSplash->SoundPlayer, edtProgram->text());
 #ifdef USE_KDE
     pSplash->UseArts = chkArts->isChecked();
 #endif
@@ -126,7 +127,7 @@ void SoundSetup::save(ICQUser *u)
 
 void SoundSetup::apply(ICQUser*)
 {
-    save(pClient);
+    save(pClient->owner);
 }
 
 #ifndef _WINDOWS

@@ -20,7 +20,6 @@
 #include "themes.h"
 #include "mainwin.h"
 #include "log.h"
-#include "cfg.h"
 
 #ifdef USE_KDE
 #include <kapp.h>

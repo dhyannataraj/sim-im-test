@@ -35,7 +35,7 @@
 #endif
 
 #ifdef WIN32
-#include <windowsx.h>
+#include <windows.h>
 #endif
 
 char _TRANSPARENT[] = "transparent";
@@ -118,7 +118,8 @@ void TransparentBg::backgroundUpdated()
 }
 
 TransparentTop::TransparentTop(QWidget *parent,
-                               ConfigBool &_useTransparent, ConfigULong &_transparent)
+                               bool &_useTransparent,
+                               unsigned long &_transparent)
         : QObject(parent, _TRANSPARENT),
         useTransparent(_useTransparent),
         transparent(_transparent)
@@ -170,7 +171,7 @@ void TransparentTop::transparentChanged()
 #ifdef WIN32
     QWidget *p = static_cast<QWidget*>(parent());
     bool bTransparent = true;
-    if (pMain->TransparentIfInactive()) bTransparent = !p->isActiveWindow();
+    if (pMain->TransparentIfInactive) bTransparent = !p->isActiveWindow();
     setTransparent(p, useTransparent && bTransparent, transparent);
 #endif
 #if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
@@ -206,13 +207,11 @@ Transparency transparency;
 
 #ifdef WIN32
 
-typedef BOOL WINAPI FN_SETLAYEREDWINDOWATTRIBUTES (
+static BOOL (WINAPI *SetLayeredWindowAttributes)(
     HWND hwnd,
     COLORREF crKey,
     BYTE bAlpha,
-    DWORD dwFlags);
-
-static FN_SETLAYEREDWINDOWATTRIBUTES *SetLayeredWindowAttributes = NULL;
+    DWORD dwFlags) = NULL;
 
 #define WS_EX_LAYERED           0x00080000
 #define LWA_COLORKEY            0x00000001

@@ -105,7 +105,7 @@ static const tag_def defs[] =
         { "", 0 }
     };
 
-QString MainWindow::ParseText(const UTFstring &text, bool bIgnoreColors)
+QString MainWindow::ParseText(const string &text, bool bIgnoreColors)
 {
 	if (text.size() == 0) return "";
     yy_current_buffer = yy_scan_string(text.c_str());
@@ -200,7 +200,7 @@ QString MainWindow::ParseText(const UTFstring &text, bool bIgnoreColors)
             break;
 		}
         default:
-			if (pMain->UseEmotional()){
+			if (pMain->UseEmotional){
 				res += "<img src=\"icon:smile";
 				r -= SMILE;
 				if (r < 10){

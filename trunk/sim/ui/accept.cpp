@@ -20,6 +20,7 @@
 #include "client.h"
 #include "icons.h"
 #include "editfile.h"
+#include "enable.h"
 
 #include <qlabel.h>
 #include <qcheckbox.h>
@@ -40,17 +41,17 @@ AcceptDialog::AcceptDialog(QWidget *p, bool _bReadOnly)
     }
     chkOverride->hide();
     edtPath->setDirMode(true);
-    load(pClient);
+    load(pClient->owner);
 }
 
 void AcceptDialog::load(ICQUser *u)
 {
     if (bReadOnly){
-        if (u->AcceptFileOverride()){
+        if (u->AcceptFileOverride){
             chkOverride->setChecked(true);
         }else{
             chkOverride->setChecked(false);
-            u = pClient;
+            u = pClient->owner;
         }
         overrideChanged(chkOverride->isChecked());
     }
@@ -65,7 +66,7 @@ void AcceptDialog::load(ICQUser *u)
     }
     edtPath->setText(QString::fromLocal8Bit(path.c_str()));
     edtDecline->setText(QString::fromLocal8Bit(u->DeclineFileMessage.c_str()));
-    switch (u->AcceptFileMode()){
+    switch (u->AcceptFileMode){
     case 1:
         btnAccept->setChecked(true);
         break;
@@ -76,8 +77,8 @@ void AcceptDialog::load(ICQUser *u)
         btnDialog->setChecked(true);
         break;
     }
-    chkWindow->setChecked(u->AcceptMsgWindow());
-    chkOverwrite->setChecked(u->AcceptFileOverwrite());
+    chkWindow->setChecked(u->AcceptMsgWindow);
+    chkOverwrite->setChecked(u->AcceptFileOverwrite);
     modeChanged(0);
 }
 
@@ -92,18 +93,18 @@ void AcceptDialog::save(ICQUser *u)
     }
     u->AcceptMsgWindow = chkWindow->isChecked();
     u->AcceptFileOverwrite = chkOverwrite->isChecked();
-    u->AcceptFilePath = edtPath->text().local8Bit();
+    set(u->AcceptFilePath, edtPath->text());
     unsigned short id = 0;
     QButton *w = grpAccept->selected();
     if (w == btnAccept) id = 1;
     if (w == btnDecline) id = 2;
     u->AcceptFileMode = id;
-    u->DeclineFileMessage = edtDecline->text().local8Bit();
+    set(u->DeclineFileMessage, edtDecline->text());
 }
 
 void AcceptDialog::apply(ICQUser*)
 {
-    save(pClient);
+    save(pClient->owner);
 }
 
 void AcceptDialog::overrideChanged(bool)

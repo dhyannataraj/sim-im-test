@@ -83,7 +83,7 @@ void TextShow::resizeEvent(QResizeEvent *e)
 void TextShow::copy()
 {
     if (!hasSelectedText()) return;
-    UTFstring text(selectedText().utf8());
+    string text(selectedText().utf8());
     text = pClient->clearHTML(text);
     QString msgText = QString::fromUtf8(text.c_str());
     QApplication::clipboard()->setText(msgText);
@@ -139,7 +139,7 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
     const char *encoding = msg->Charset.c_str();
     if (*encoding == 0)
         encoding = codec->name();
-    UTFstring msg_text;
+    string msg_text;
     switch (msg->Type()){
     case ICQ_MSGxMSG:
         msg_text = (static_cast<ICQMsg*>(msg))->Message.c_str();
@@ -151,7 +151,7 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
             s += "<a href=\"";
             s += url->URL.c_str();
             s += "\">";
-            s += quoteText(url->URL, msg->Charset.c_str());
+            s += quoteText(url->URL.c_str(), msg->Charset.c_str());
             s += "</a>";
             if (*url->Message.c_str()){
                 msg_text = url->Message.c_str();
@@ -249,9 +249,9 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
             s += MainWindow::ParseText(msg_text, true);
             if (*sms->Phone.c_str()){
                 s += "<br>";
-                s += quoteText(sms->Phone, msg->Charset.c_str());
+                s += quoteText(sms->Phone.c_str(), msg->Charset.c_str());
                 if (*sms->Network.c_str())
-                    s += " (" + quoteText(sms->Network, msg->Charset.c_str()) + ")";
+                    s += " (" + quoteText(sms->Network.c_str(), msg->Charset.c_str()) + ")";
             }
             break;
         }
@@ -300,8 +300,8 @@ MsgView::MsgView(QWidget *p)
     connect(pClient, SIGNAL(messageRead(ICQMessage*)), this, SLOT(messageRead(ICQMessage*)));
     connect(pMain, SIGNAL(colorsChanged()), this, SLOT(colorsChanged()));
     connect(pMain, SIGNAL(ownColorsChanged()), this, SLOT(ownColorsChanged()));
-    oldSendColor = pMain->ColorSend();
-    oldReceiveColor = pMain->ColorReceive();
+    oldSendColor = pMain->ColorSend;
+    oldReceiveColor = pMain->ColorReceive;
 }
 
 void MsgView::setUin(unsigned long uin)
@@ -466,9 +466,9 @@ void MsgView::colorsChanged()
     t.replace(QRegExp(c), FONT_SEND);
     c.sprintf(FONT_FORMAT, oldReceiveColor);
     t.replace(QRegExp(c), FONT_RECEIVE);
-    c.sprintf(FONT_FORMAT, pMain->ColorSend());
+    c.sprintf(FONT_FORMAT, pMain->ColorSend);
     t.replace(QRegExp(FONT_SEND), c);
-    c.sprintf(FONT_FORMAT, pMain->ColorReceive());
+    c.sprintf(FONT_FORMAT, pMain->ColorReceive);
     t.replace(QRegExp(FONT_RECEIVE), c);
     setText(t);
     setContentsPos(x, y);
@@ -534,18 +534,18 @@ void MsgView::setMessage(unsigned long uin, unsigned long msgId)
 QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
 {
     QString s;
-    s.sprintf("<nobr><a name=\"%lu.%lu\"></a>"
+    s.sprintf("<p><nobr><a name=\"%lu.%lu\"></a>"
               "<a href=\"msg://%lu.%lu\"><img src=\"icon:%s\"></a>&nbsp;",
               msg->getUin(), msg->Id, msg->getUin(), msg->Id, Client::getMessageIcon(msg->Type()));
     if (bUnread) s += "<b>";
     QString color;
-    color.sprintf(FONT_FORMAT, msg->Received ? pMain->ColorReceive() : pMain->ColorSend());
+    color.sprintf(FONT_FORMAT, msg->Received ? pMain->ColorReceive : pMain->ColorSend);
     s += color;
     if (msg->Received){
         CUser u(msg->getUin());
         s += u.name(true);
     }else{
-        CUser u(pClient);
+        CUser u(pClient->owner);
         s += u.name(true);
     }
     s += "</font>&nbsp;&nbsp;";
@@ -562,10 +562,10 @@ QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
     s += "</nobr></p>";
     unsigned long foreColor = 0;
     unsigned long backColor = 0;
-    if (!pMain->UseOwnColors() && (msg->Type() == ICQ_MSGxMSG)){
+    if (!pMain->UseOwnColors && (msg->Type() == ICQ_MSGxMSG)){
         ICQMsg *m = static_cast<ICQMsg*>(msg);
-        foreColor = m->ForeColor();
-        backColor = m->BackColor();
+        foreColor = m->ForeColor;
+        backColor = m->BackColor;
     }
     s += "<p>";
     if (foreColor != backColor){
@@ -573,9 +573,9 @@ QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
         fg.sprintf("<font color=#%06lX>", foreColor);
         s += fg;
     }
-    s += makeMessageText(msg, pMain->UseOwnColors());
+    s += makeMessageText(msg, pMain->UseOwnColors);
     if (foreColor != backColor) s += "</font>";
-    s += "</p><p>";
+    s += "</p>";
     return s;
 }
 
@@ -588,10 +588,10 @@ void MsgView::addMessage(ICQMessage *msg, bool bUnread, bool bSet)
     if (bSet) curAnchor = QString::number(msg->getUin()) + "." + QString::number(msg->Id);
     unsigned long foreColor = 0;
     unsigned long backColor = 0;
-    if (!pMain->UseOwnColors() && (msg->Type() == ICQ_MSGxMSG)){
+    if (!pMain->UseOwnColors && (msg->Type() == ICQ_MSGxMSG)){
         ICQMsg *m = static_cast<ICQMsg*>(msg);
-        foreColor = m->ForeColor();
-        backColor = m->BackColor();
+        foreColor = m->ForeColor;
+        backColor = m->BackColor;
     }
     if (bBack){
         setText(s + text(), curAnchor);
@@ -599,6 +599,7 @@ void MsgView::addMessage(ICQMessage *msg, bool bUnread, bool bSet)
             setMsgBgColor(msg->getUin(), msg->Id, backColor, 0);
     }else{
         int n = paragraphs();
+        if (n > 0) n--;
         append(s);
         setParagraphBackgroundColor(n, colorGroup().base());
         if (foreColor != backColor)
@@ -616,6 +617,7 @@ int MsgView::setMsgBgColor(unsigned long uin, unsigned long id, unsigned long rg
     QString pat;
     pat.sprintf("<a href=\"msg://%lu.%lu", uin, id);
     for (int n = start; n < paragraphs(); n++){
+        QString t = text(n);
         if (text(n).find(pat) < 0) continue;
         pat = "<a href=\"msg://";
         for (n++; n < paragraphs(); n++){

@@ -90,3 +90,9 @@ char getTZComboValue(QComboBox *cmb)
     return 24 - res;
 }
 
+void set(string &s, const QString &str)
+{
+    s = "";
+    if (str.length()) s = str.local8Bit();
+}
+

@@ -44,14 +44,14 @@ FontSetup::FontSetup(QWidget *p)
 #else
     chkSystem->hide();
 #endif
-    chkOwnColors->setChecked(pMain->UseOwnColors());
-    grpContainer->setButton(pMain->ContainerMode());
+    chkOwnColors->setChecked(pMain->UseOwnColors);
+    grpContainer->setButton(pMain->ContainerMode);
     btnSend->setColor(QColor(pMain->ColorSend));
     btnReceive->setColor(QColor(pMain->ColorReceive));
-    grpWndMode->setButton(pMain->SimpleMode() ? 1 : 0);
-    chkSplash->setChecked(pSplash->Show());
-    chkEmotional->setChecked(pMain->UseEmotional());
-    chkUserWnd->setChecked(pMain->UserWndOnTop());
+    grpWndMode->setButton(pMain->SimpleMode ? 1 : 0);
+    chkSplash->setChecked(pSplash->Show);
+    chkEmotional->setChecked(pMain->UseEmotional);
+    chkUserWnd->setChecked(pMain->UserWndOnTop);
     connect(btnModeSplit, SIGNAL(toggled(bool)), this, SLOT(modeChanged(bool)));
     connect(btnModePlain, SIGNAL(toggled(bool)), this, SLOT(modeChanged(bool)));
     modeChanged(false);
@@ -74,7 +74,7 @@ void FontSetup::apply(ICQUser*)
 {
     unsigned long colorSend = btnSend->color().rgb() & 0xFFFFFF;
     unsigned long colorReceive = btnReceive->color().rgb() & 0xFFFFFF;
-    if ((pMain->ColorSend() != colorSend) || (pMain->ColorReceive() != colorReceive)){
+    if ((pMain->ColorSend != colorSend) || (pMain->ColorReceive != colorReceive)){
         pMain->ColorSend = colorSend;
         pMain->ColorReceive = colorReceive;
         pMain->changeColors();

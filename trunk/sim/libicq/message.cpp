@@ -32,13 +32,11 @@ const unsigned short ICQ_SMS_SUCCESS = 2;
 const unsigned short ICQ_SMS_FAIL    = 3;
 
 ICQMessage::ICQMessage(unsigned short type)
-        : Time(this, "Time"),
-        Received(this, "Direction"),
-        Uin(this, "Uin"),
-        Direct(this, "Direct"),
-        Charset(this, "Charset"),
-        m_nType(type)
 {
+    Time = 0;
+    Received = false;
+    Direct = false;
+    m_nType = type;
     Id = 0;
     time_t now;
     time(&now);
@@ -53,13 +51,6 @@ ICQMessage::ICQMessage(unsigned short type)
     state = 0;
 }
 
-void ICQMessage::save(ostream &s)
-{
-    if (!strcasecmp(Charset.c_str(), ICQClient::localCharset()))
-        Charset = "";
-    ConfigArray::save(s);
-}
-
 unsigned long ICQMessage::getUin()
 {
     if (Uin.size() == 0) return 0;
@@ -67,23 +58,19 @@ unsigned long ICQMessage::getUin()
 }
 
 ICQMsg::ICQMsg()
-        : ICQMessage(ICQ_MSGxMSG),
-        Message(this, "Message"),
-        ForeColor(this, "ForeColor"),
-        BackColor(this, "BackColor")
+        : ICQMessage(ICQ_MSGxMSG)
 {
+    ForeColor = 0;
+    BackColor = 0;
 }
 
 ICQUrl::ICQUrl()
-        : ICQMessage(ICQ_MSGxURL),
-        URL(this, "URL"),
-        Message(this, "Message")
+        : ICQMessage(ICQ_MSGxURL)
 {
 }
 
 ICQAuthRequest::ICQAuthRequest()
-        : ICQMessage(ICQ_MSGxAUTHxREQUEST),
-        Message(this, "Message")
+        : ICQMessage(ICQ_MSGxAUTHxREQUEST)
 {
 }
 
@@ -93,8 +80,7 @@ ICQAuthGranted::ICQAuthGranted()
 }
 
 ICQAuthRefused::ICQAuthRefused()
-        : ICQMessage(ICQ_MSGxAUTHxREFUSED),
-        Message(this, "Message")
+        : ICQMessage(ICQ_MSGxAUTHxREFUSED)
 {
 }
 
@@ -104,34 +90,24 @@ ICQAddedToList::ICQAddedToList()
 }
 
 ICQSMS::ICQSMS()
-        : ICQMessage(ICQ_MSGxSMS),
-        Phone(this, "Phone"),
-        Message(this, "Message"),
-        Network(this, "Network")
+        : ICQMessage(ICQ_MSGxSMS)
 {
 }
 
 ICQSMSReceipt::ICQSMSReceipt()
-        : ICQMessage(ICQ_MSGxSMSxRECEIPT),
-        MessageId(this, "MessageId"),
-        Destination(this, "Destination"),
-        Delivered(this, "Delivered"),
-        Message(this, "Message")
+        : ICQMessage(ICQ_MSGxSMSxRECEIPT)
 {
 }
 
 ICQMsgExt::ICQMsgExt()
-        : ICQMessage(ICQ_MSGxEXT),
-        MessageType(this, "MessageType")
+        : ICQMessage(ICQ_MSGxEXT)
 {
 }
 
 ICQFile::ICQFile()
-        : ICQMessage(ICQ_MSGxFILE),
-        Name(this, "Name"),
-        Description(this, "Description"),
-        Size(this, "Size")
+        : ICQMessage(ICQ_MSGxFILE)
 {
+    Size = 0;
     listener = NULL;
     ft = NULL;
     p = 0;
@@ -164,9 +140,7 @@ string ICQFile::shortName()
 }
 
 ICQChat::ICQChat()
-        : ICQMessage(ICQ_MSGxCHAT),
-        Reason(this, "Reason"),
-        Clients(this, "Clients")
+        : ICQMessage(ICQ_MSGxCHAT)
 {
     listener = NULL;
     chat = NULL;
@@ -179,30 +153,22 @@ ICQChat::~ICQChat()
 }
 
 ICQWebPanel::ICQWebPanel()
-        : ICQMessage(ICQ_MSGxWEBxPANEL),
-        Name(this, "Name"),
-        Email(this, "Email"),
-        Message(this, "Message")
+        : ICQMessage(ICQ_MSGxWEBxPANEL)
 {
 }
 
 ICQEmailPager::ICQEmailPager()
-        : ICQMessage(ICQ_MSGxEMAILxPAGER),
-        Name(this, "Name"),
-        Email(this, "Email"),
-        Message(this, "Message")
+        : ICQMessage(ICQ_MSGxEMAILxPAGER)
 {
 }
 
 ICQContacts::ICQContacts()
-        : ICQMessage(ICQ_MSGxCONTACTxLIST),
-        Contacts(this, "Contact")
+        : ICQMessage(ICQ_MSGxCONTACTxLIST)
 {
 }
 
 ICQContactRequest::ICQContactRequest()
-        : ICQMessage(ICQ_MSGxCONTACTxREQUEST),
-        Message(this, "Message")
+        : ICQMessage(ICQ_MSGxCONTACTxREQUEST)
 {
 }
 
@@ -767,8 +733,8 @@ ICQEvent *ICQClient::sendMessage(ICQMessage *msg)
 {
     if (msg->Type() == ICQ_MSGxFILE){
         ICQFile *f = static_cast<ICQFile*>(msg);
-        if (f->Size() == 0){
-            f->localName = f->Name();
+        if (f->Size == 0){
+            f->localName = f->Name;
             int nSrcFiles = 0;
             f->Size = getFileSize(f->Name.c_str(), &nSrcFiles, f->files);
             if (f->files.size() == 0){
@@ -788,7 +754,7 @@ ICQEvent *ICQClient::sendMessage(ICQMessage *msg)
             }
         }
     }
-    for (ConfigULongs::iterator itUin = msg->Uin.begin(); itUin != msg->Uin.end(); ++itUin){
+    for (list<unsigned long>::iterator itUin = msg->Uin.begin(); itUin != msg->Uin.end(); ++itUin){
         ICQUser *u = getUser(*itUin);
         if (u){
             time_t now;
@@ -803,7 +769,7 @@ ICQEvent *ICQClient::sendMessage(ICQMessage *msg)
         ICQUser *u = getUser(msg->getUin(), false);
         if ((msg->Type() == ICQ_MSGxCHAT) || (msg->Type() == ICQ_MSGxFILE)){
             if (u && (u->uStatus != ICQ_STATUS_OFFLINE) &&
-                    (u->direct || (u->Port() && (u->IP() || u->RealIP())))){
+                    (u->direct || (u->Port && (u->IP || u->RealIP)))){
                 ICQEvent *e = u->addMessage(msg, this);
                 if (e){
                     for (list<ICQEvent*>::iterator it = u->msgQueue.begin(); it != u->msgQueue.end(); it++)
@@ -907,10 +873,10 @@ void ICQClient::messageReceived(ICQMessage *msg)
     bool bAddUser;
     switch (msg->Type()){
     case ICQ_MSGxMSG:
-        bAddUser = !RejectMessage();
+        bAddUser = !RejectMessage;
         break;
     case ICQ_MSGxURL:
-        bAddUser = !RejectURL();
+        bAddUser = !RejectURL;
         break;
     case ICQ_MSGxAUTHxREQUEST:
     case ICQ_MSGxAUTHxREFUSED:
@@ -921,24 +887,24 @@ void ICQClient::messageReceived(ICQMessage *msg)
         bAddUser = true;
         break;
     case ICQ_MSGxWEBxPANEL:
-        bAddUser = !RejectWeb();
+        bAddUser = !RejectWeb;
         break;
     case ICQ_MSGxEMAILxPAGER:
-        bAddUser = !RejectEmail();
+        bAddUser = !RejectEmail;
         break;
     default:
-        bAddUser = !RejectOther();
+        bAddUser = !RejectOther;
     }
     ICQUser *u = getUser(msg->getUin(), bAddUser, true);
-    if ((u== NULL) || u->inIgnore()){
+    if ((u== NULL) || u->inIgnore){
         delete msg;
         return;
     }
-    if (!bAddUser && (u->GrpId() == 0)){
+    if (!bAddUser && (u->GrpId == 0)){
         delete msg;
         return;
     }
-    if (bAddUser && (u->GrpId() == 0)){
+    if (bAddUser && (u->GrpId == 0)){
         string text;
         switch (msg->Type()){
         case ICQ_MSGxMSG:{
@@ -1003,15 +969,14 @@ void ICQClient::processMsgQueue()
 }
 
 Contact::Contact()
-        : Uin(this, "Uin"),
-        Alias(this, "Alias")
 {
+    Uin = 0;
 }
 
 string ICQClient::makeMessageText(ICQMsg *msg, ICQUser *u)
 {
     const char *encoding = localCharset(u);
-    UTFstring msg_text;
+    string msg_text;
     if (strcasecmp(msg->Charset.c_str(), "utf-8")){
         log(L_WARN, "No UTF encoding for send message");
         msg_text = msg->Message.c_str();

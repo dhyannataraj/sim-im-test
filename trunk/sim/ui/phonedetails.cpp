@@ -156,7 +156,7 @@ void PhoneDetails::fillInfo(PhoneInfo *info)
     if (edtExtension->isVisible()){
         info->Extension = edtExtension->text().local8Bit();
     }else{
-        info->Extension = 0;
+        info->Extension = "";
     }
     info->Gateway = "";
     info->Number = edtNumber->text().local8Bit();

@@ -19,6 +19,7 @@
 #include "client.h"
 #include "mainwin.h"
 #include "icons.h"
+#include "enable.h"
 
 #include <qpushbutton.h>
 #include <qmultilineedit.h>
@@ -39,19 +40,19 @@ AutoReplyDlg::AutoReplyDlg(QWidget *p, unsigned long _status)
     connect(timer, SIGNAL(timeout()), this, SLOT(tick()));
     switch (status){
     case ICQ_STATUS_AWAY:
-        edtMessage->setText(QString::fromLocal8Bit(pClient->AutoResponseAway.c_str()));
+        edtMessage->setText(QString::fromLocal8Bit(pClient->owner->AutoResponseAway.c_str()));
         break;
     case ICQ_STATUS_NA:
-        edtMessage->setText(QString::fromLocal8Bit(pClient->AutoResponseNA.c_str()));
+        edtMessage->setText(QString::fromLocal8Bit(pClient->owner->AutoResponseNA.c_str()));
         break;
     case ICQ_STATUS_OCCUPIED:
-        edtMessage->setText(QString::fromLocal8Bit(pClient->AutoResponseOccupied.c_str()));
+        edtMessage->setText(QString::fromLocal8Bit(pClient->owner->AutoResponseOccupied.c_str()));
         break;
     case ICQ_STATUS_DND:
-        edtMessage->setText(QString::fromLocal8Bit(pClient->AutoResponseDND.c_str()));
+        edtMessage->setText(QString::fromLocal8Bit(pClient->owner->AutoResponseDND.c_str()));
         break;
     case ICQ_STATUS_FREEFORCHAT:
-        edtMessage->setText(QString::fromLocal8Bit(pClient->AutoResponseFFC.c_str()));
+        edtMessage->setText(QString::fromLocal8Bit(pClient->owner->AutoResponseFFC.c_str()));
         break;
     }
     connect(edtMessage, SIGNAL(textChanged()), this, SLOT(textChanged()));
@@ -86,23 +87,23 @@ void AutoReplyDlg::apply()
 {
     switch (status){
     case ICQ_STATUS_AWAY:
-        pClient->AutoResponseAway = edtMessage->text().local8Bit();
+        set(pClient->owner->AutoResponseAway, edtMessage->text());
         pMain->NoShowAway = chkNoShow->isChecked();
         break;
     case ICQ_STATUS_NA:
-        pClient->AutoResponseNA = edtMessage->text().local8Bit();
+        set(pClient->owner->AutoResponseNA, edtMessage->text());
         pMain->NoShowNA = chkNoShow->isChecked();
         break;
     case ICQ_STATUS_DND:
-        pClient->AutoResponseDND = edtMessage->text().local8Bit();
+        set(pClient->owner->AutoResponseDND, edtMessage->text());
         pMain->NoShowDND = chkNoShow->isChecked();
         break;
     case ICQ_STATUS_OCCUPIED:
-        pClient->AutoResponseOccupied = edtMessage->text().local8Bit();
+        set(pClient->owner->AutoResponseOccupied, edtMessage->text());
         pMain->NoShowOccupied = chkNoShow->isChecked();
         break;
     case ICQ_STATUS_FREEFORCHAT:
-        pClient->AutoResponseFFC = edtMessage->text().local8Bit();
+        set(pClient->owner->AutoResponseFFC, edtMessage->text());
         pMain->NoShowFFC = chkNoShow->isChecked();
         break;
     }

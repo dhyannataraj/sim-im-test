@@ -18,6 +18,7 @@
 #include "network.h"
 #include "client.h"
 #include "icons.h"
+#include "enable.h"
 
 #include <qlabel.h>
 #include <qpixmap.h>
@@ -36,26 +37,26 @@ NetworkSetup::NetworkSetup(QWidget *p)
     edtMaxPort->setValidator(new QIntValidator(1024, 0xFFFF, edtMaxPort));
 
     edtHost->setText(QString::fromLocal8Bit(pClient->ServerHost.c_str()));
-    edtPort->setText(QString::number(pClient->ServerPort()));
+    edtPort->setText(QString::number(pClient->ServerPort));
 
-    edtMinPort->setText(QString::number(pClient->MinTCPPort()));
-    edtMaxPort->setText(QString::number(pClient->MaxTCPPort()));
+    edtMinPort->setText(QString::number(pClient->MinTCPPort));
+    edtMaxPort->setText(QString::number(pClient->MaxTCPPort));
 
     cmbProxy->insertItem(i18n("No proxy"));
     cmbProxy->insertItem(i18n("SOCKS4"));
     cmbProxy->insertItem(i18n("SOCKS5"));
     cmbProxy->insertItem(i18n("HTTP"));
     cmbProxy->insertItem(i18n("HTTPS"));
-    cmbProxy->setCurrentItem(pClient->ProxyType());
+    cmbProxy->setCurrentItem(pClient->ProxyType);
 
     edtProxyHost->setText(QString::fromLocal8Bit(pClient->ProxyHost.c_str()));
-    edtProxyPort->setText(QString::number(pClient->ProxyPort()));
+    edtProxyPort->setText(QString::number(pClient->ProxyPort));
     edtProxyPort->setValidator(new QIntValidator(1, 0xFFFF, edtProxyPort));
 
     edtProxyUser->setText(QString::fromLocal8Bit(pClient->ProxyUser.c_str()));
     edtProxyPasswd->setText(QString::fromLocal8Bit(pClient->ProxyPasswd.c_str()));
 
-    chkProxyAuth->setChecked(pClient->ProxyAuth());
+    chkProxyAuth->setChecked(pClient->ProxyAuth);
 
     connect(cmbProxy, SIGNAL(activated(int)), this, SLOT(proxyChanged(int)));
     connect(chkProxyAuth, SIGNAL(toggled(bool)), this, SLOT(proxyChanged(bool)));
@@ -65,15 +66,15 @@ NetworkSetup::NetworkSetup(QWidget *p)
 
 void NetworkSetup::apply(ICQUser*)
 {
-    pClient->ServerHost = edtHost->text().local8Bit();
+    set(pClient->ServerHost, edtHost->text());
     pClient->ServerPort = edtPort->text().toUInt();
     pClient->MinTCPPort = edtMinPort->text().toUInt();
     pClient->MaxTCPPort = edtMaxPort->text().toUInt();
     pClient->ProxyType = cmbProxy->currentItem();
-    pClient->ProxyHost = edtProxyHost->text().local8Bit();
+    set(pClient->ProxyHost, edtProxyHost->text());
     pClient->ProxyPort = edtProxyPort->text().toUInt();
-    pClient->ProxyUser = edtProxyUser->text().local8Bit();
-    pClient->ProxyPasswd = edtProxyPasswd->text().local8Bit();
+    set(pClient->ProxyUser, edtProxyUser->text());
+    set(pClient->ProxyPasswd, edtProxyPasswd->text());
     pClient->ProxyAuth = chkProxyAuth->isChecked();
 }
 

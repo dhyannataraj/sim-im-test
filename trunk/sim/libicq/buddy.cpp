@@ -46,7 +46,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
         }
     case ICQ_SNACxBDY_USERONLINE:{
             unsigned long uin = sock->readBuffer.unpackUin();
-            if (uin == Uin()) break;
+            if (uin == owner->Uin) break;
             ICQUser *user = getUser(uin);
             if (user){
                 time_t now;
@@ -96,7 +96,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 Tlv *tlvIP = tlv(0x000A);
                 if (tlvIP){
                     unsigned long ip = htonl((unsigned long)(*tlvIP));
-                    if (user->IP() != ip) user->HostName = "";
+                    if (user->IP != ip) user->HostName = "";
                     user->IP = ip;
                     changed = true;
                 }
@@ -122,7 +122,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                     >> cookie1
                     >> cookie2
                     >> cookie3;
-                    if (cookie3 != user->PhoneBookTime()){
+                    if (cookie3 != user->PhoneBookTime){
                         user->bPhoneChanged = true;
                         user->PhoneBookTime = cookie3;
                     }
@@ -213,15 +213,15 @@ void ICQClient::sendContactList()
     int nBuddies = 0;
     list<ICQUser*>::iterator it;
     for (it = contacts.users.begin(); it != contacts.users.end(); it++){
-        if (((*it)->Uin() < UIN_SPECIAL) && !(*it)->inIgnore() &&
-                ((*it)->WaitAuth() || ((*it)->GrpId() == 0))) nBuddies++;
+        if (((*it)->Uin < UIN_SPECIAL) && !(*it)->inIgnore &&
+                ((*it)->WaitAuth || ((*it)->GrpId == 0))) nBuddies++;
     }
     if (nBuddies == 0) return;
     snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_ADDxTOxLIST);
     for (it = contacts.users.begin(); it != contacts.users.end(); it++){
-        if (((*it)->Uin() < UIN_SPECIAL) && !(*it)->inIgnore() &&
-                ((*it)->WaitAuth() || ((*it)->GrpId() == 0)))
-            sock->writeBuffer.packUin((*it)->Uin());
+        if (((*it)->Uin < UIN_SPECIAL) && !(*it)->inIgnore &&
+                ((*it)->WaitAuth || ((*it)->GrpId == 0)))
+            sock->writeBuffer.packUin((*it)->Uin);
     }
     sendPacket();
 }

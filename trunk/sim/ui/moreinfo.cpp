@@ -41,7 +41,7 @@ MoreInfo::MoreInfo(QWidget *p, bool readOnly)
     connect(cmbLang2, SIGNAL(activated(int)), this, SLOT(setLang(int)));
     connect(cmbLang3, SIGNAL(activated(int)), this, SLOT(setLang(int)));
     if (!readOnly) {
-        load(pClient);
+        load(pClient->owner);
         return;
     }
     edtHomePage->setReadOnly(true);
@@ -59,8 +59,8 @@ void MoreInfo::load(ICQUser *u)
 {
     edtHomePage->setText(QString::fromLocal8Bit(u->Homepage.c_str()));
     btnHomePage->setEnabled(*(u->Homepage.c_str()));
-    initCombo(cmbGender, u->Gender(), genders);
-    spnAge->setValue(u->Age());
+    initCombo(cmbGender, u->Gender, genders);
+    spnAge->setValue(u->Age);
     if (spnAge->value() == 0) spnAge->setSpecialValueText("");
     cmbMonth->insertItem("");
     cmbMonth->insertItem(i18n("January"));
@@ -75,10 +75,10 @@ void MoreInfo::load(ICQUser *u)
     cmbMonth->insertItem(i18n("October"));
     cmbMonth->insertItem(i18n("November"));
     cmbMonth->insertItem(i18n("December"));
-    cmbMonth->setCurrentItem(u->BirthMonth());
-    spnDay->setValue(u->BirthDay());
+    cmbMonth->setCurrentItem(u->BirthMonth);
+    spnDay->setValue(u->BirthDay);
     if (spnDay->value() == 0) spnAge->setSpecialValueText("");
-    spnYear->setValue(u->BirthYear());
+    spnYear->setValue(u->BirthYear);
     if (spnYear->value() == 0) spnYear->setSpecialValueText("");
     initCombo(cmbLang1, u->Language1, languages);
     initCombo(cmbLang2, u->Language2, languages);
@@ -117,7 +117,7 @@ void MoreInfo::apply(ICQUser *u)
 {
     u->Age = spnAge->value();
     u->Gender = getComboValue(cmbGender, genders);
-    u->Homepage = edtHomePage->text().local8Bit();
+    set(u->Homepage, edtHomePage->text());
     u->BirthYear = spnYear->value();
     u->BirthMonth = cmbMonth->currentItem();
     u->BirthDay = spnDay->value();

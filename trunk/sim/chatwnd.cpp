@@ -138,11 +138,11 @@ ChatWindow::ChatWindow(ICQChat *_chat)
 
     connect(edtChat, SIGNAL(returnPressed()), this, SLOT(sendLine()));
 
-    CUser owner(pClient);
+    CUser owner(pClient->owner);
     new ChatUserItem(lstUsers, owner.name(), 0);
 
-    if (pMain->ChatWidth() && pMain->ChatHeight())
-        resize(pMain->ChatWidth(), pMain->ChatHeight());
+    if (pMain->ChatWidth && pMain->ChatHeight)
+        resize(pMain->ChatWidth, pMain->ChatHeight);
     baseColor = txtChat->color();
     bClientMode = false;
 }
@@ -183,7 +183,7 @@ void ChatWindow::sendLine()
         int pos = clientString.find("&gt;");
         clientString = chatHeader(chat->getUin()) + clientString.mid(pos+4);
     }
-    UTFstring txt(s.utf8());
+    string txt(s.utf8());
     QString line = chatHeader(0) +
                    MainWindow::ParseText(txt, false) +
                    "<br>\n";
@@ -211,11 +211,11 @@ QString ChatWindow::chatHeader(unsigned long uin)
         CUser u(uin);
         alias = u.name(true);
     }else{
-        CUser u(pClient);
+        CUser u(pClient->owner);
         alias = u.name(true);
     }
     QString color;
-    color.sprintf("%06lX", uin ? pMain->ColorReceive() : pMain->ColorSend());
+    color.sprintf("%06lX", uin ? pMain->ColorReceive : pMain->ColorSend);
     return QString("<font color=\"#%1\">&lt;%2&gt;</font> ")
            .arg(color) .arg(alias);
 }
@@ -287,7 +287,7 @@ void ChatWindow::processEvent(ICQEvent *e)
             }
             txtChat->insertParagraph("<br>", -1);
             txtChat->moveCursor(QTextEdit::MoveEnd, false);
-            UTFstring txt(clientString.utf8());
+            string txt(clientString.utf8());
             QString line = chatHeader(uin) +
                            MainWindow::ParseText(txt, false) + "<br>\n";
             txtChat->append(line);

@@ -19,11 +19,11 @@
 #define _USERVIEW_H 1
 
 #include "defs.h"
+#include "cfg.h"
 
 #include <qwidget.h>
 #include <qlistview.h>
 #include <qtooltip.h>
-#include "cfg.h"
 
 class ICQContactList;
 class ICQUser;
@@ -182,18 +182,18 @@ protected:
     friend class GroupViewItem;
 };
 
-class UserFloat : public UserView, public ConfigArray
+class UserFloat : public UserView
 {
     Q_OBJECT
 public:
     UserFloat();
     ~UserFloat();
-    ConfigULong Uin;
-    ConfigShort Left;
-    ConfigShort Top;
+    unsigned long	Uin;
+    unsigned short	Left;
+    unsigned short	Top;
     bool setUin(unsigned long uin);
-    virtual void save(ostream &s);
-    virtual bool load(istream &s, string &nextPart);
+    void save(ostream &s);
+    bool load(istream &s, string &nextPart);
     virtual void setBackgroundPixmap(const QPixmap&);
 protected:
     void userChanged();

@@ -176,7 +176,7 @@ void SetupDialog::selectionChanged()
 
 void SetupDialog::update()
 {
-    pClient->addInfoRequest(pClient->Uin, true);
+    pClient->addInfoRequest(pClient->owner->Uin, true);
 }
 
 void SetupDialog::apply()

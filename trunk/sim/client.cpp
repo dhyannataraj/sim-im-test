@@ -19,6 +19,7 @@
 #include "history.h"
 #include "mainwin.h"
 #include "chatwnd.h"
+#include "cfg.h"
 #include "log.h"
 #include "ui/filetransfer.h"
 
@@ -96,10 +97,296 @@ encoding encodingTbl[] =
 
 #endif
 
+static void *createEMail()
+{
+    return new EMailInfo;
+}
+
+static void *createExtInfo()
+{
+    return new ExtInfo;
+}
+
+static void *createPhone()
+{
+    return new PhoneInfo;
+}
+
+cfgParam EMail_Params[] =
+    {
+        { "Email", offsetof(EMailInfo, Email), PARAM_STRING, 0 },
+        { "Hide", offsetof(EMailInfo, Hide), PARAM_BOOL, 0 },
+        { "MyInfo", offsetof(EMailInfo, MyInfo), PARAM_BOOL, 0 },
+        { "", 0, 0, 0 }
+    };
+
+cfgParam ExtInfo_Params[] =
+    {
+        { "Category", offsetof(ExtInfo, Category), PARAM_USHORT, 0 },
+        { "Specific", offsetof(ExtInfo, Specific), PARAM_STRING, 0 },
+        { "", 0, 0, 0 }
+    };
+
+cfgParam PhoneInfo_Params[] =
+    {
+        { "Name", offsetof(PhoneInfo, Name), PARAM_STRING, 0 },
+        { "Type", offsetof(PhoneInfo, Type), PARAM_USHORT, 0 },
+        { "Active", offsetof(PhoneInfo, Active), PARAM_BOOL, 0 },
+        { "Country", offsetof(PhoneInfo, Country), PARAM_STRING, 0 },
+        { "AreaCode", offsetof(PhoneInfo, AreaCode), PARAM_STRING, 0 },
+        { "Number", offsetof(PhoneInfo, Number), PARAM_STRING, 0 },
+        { "Extension", offsetof(PhoneInfo, Extension), PARAM_STRING, 0 },
+        { "Provider", offsetof(PhoneInfo, Provider), PARAM_STRING, 0 },
+        { "Gateway", offsetof(PhoneInfo, Gateway), PARAM_STRING, 0 },
+        { "Publish", offsetof(PhoneInfo, Publish), PARAM_BOOL, 0 },
+        { "", 0, 0, 0 }
+    };
+
+cfgParam ICQContactList_Params[] =
+    {
+        { "Length", offsetof(ICQContactList, Len), PARAM_USHORT, 0 },
+        { "Invsible", offsetof(ICQContactList, Invisible), PARAM_USHORT, 0 },
+        { "Time", offsetof(ICQContactList, Time), PARAM_ULONG, 0 },
+        { "Expand", offsetof(ICQContactList, Expand), PARAM_BOOL, 0 },
+        { "", 0, 0, 0 }
+    };
+
+cfgParam ICQGroup_Params[] =
+    {
+        { "Name", offsetof(ICQGroup, Name), PARAM_STRING, 0 },
+        { "Id", offsetof(ICQGroup, Id), PARAM_USHORT, 0 },
+        { "Expand", offsetof(ICQGroup, Expand), PARAM_BOOL, 0 },
+        { "", 0, 0, 0 }
+    };
+
+cfgParam ICQUser_Params[] =
+    {
+        { "Type", offsetof(ICQUser, Type), PARAM_USHORT, 0 },
+        { "Alias", offsetof(ICQUser, Alias), PARAM_STRING, 0 },
+        { "Id", offsetof(ICQUser, Id), PARAM_USHORT, 0 },
+        { "GrpId", offsetof(ICQUser, GrpId), PARAM_USHORT, 0 },
+        { "UIN", offsetof(ICQUser, Uin), PARAM_ULONG, 0 },
+        { "Ignore", offsetof(ICQUser, inIgnore), PARAM_BOOL, 0 },
+        { "Visible", offsetof(ICQUser, inVisible), PARAM_BOOL, 0 },
+        { "Invisible", offsetof(ICQUser, inInvisible), PARAM_BOOL, 0 },
+        { "WaitAuth", offsetof(ICQUser, WaitAuth), PARAM_BOOL, 0 },
+        { "AutoResponseAway", offsetof(ICQUser, AutoResponseAway), PARAM_STRING, 0 },
+        { "AutoResponseNA", offsetof(ICQUser, AutoResponseNA), PARAM_STRING, 0 },
+        { "AutoResponseDND", offsetof(ICQUser, AutoResponseDND), PARAM_STRING, 0 },
+        { "AutoResponseOccupied", offsetof(ICQUser, AutoResponseOccupied), PARAM_STRING, 0 },
+        { "AutoResponseFFC", offsetof(ICQUser, AutoResponseFFC), PARAM_STRING, 0 },
+        { "UnreadMessages", offsetof(ICQUser, unreadMsgs), PARAM_ULONGS, 0 },
+        { "LastActive", offsetof(ICQUser, LastActive), PARAM_ULONG, 0 },
+        { "OnlineTime", offsetof(ICQUser, OnlineTime), PARAM_ULONG, 0 },
+        { "StatusTime", offsetof(ICQUser, StatusTime), PARAM_ULONG, 0 },
+        { "IP", offsetof(ICQUser, IP), PARAM_ULONG, 0 },
+        { "Port", offsetof(ICQUser, Port), PARAM_USHORT, 0 },
+        { "RealIP", offsetof(ICQUser, RealIP), PARAM_ULONG, 0 },
+        { "HostName", offsetof(ICQUser, HostName), PARAM_STRING, 0 },
+        { "RealHostName", offsetof(ICQUser, RealHostName), PARAM_STRING, 0 },
+        { "Version", offsetof(ICQUser, Version), PARAM_USHORT, 0 },
+        { "Mode", offsetof(ICQUser, Mode), PARAM_USHORT, 0 },
+        { "Nick", offsetof(ICQUser, Nick), PARAM_STRING, 0 },
+        { "FirstName", offsetof(ICQUser, FirstName), PARAM_STRING, 0 },
+        { "LastName", offsetof(ICQUser, LastName), PARAM_STRING, 0 },
+        { "City", offsetof(ICQUser, City), PARAM_STRING, 0 },
+        { "State", offsetof(ICQUser, State), PARAM_STRING, 0 },
+        { "Address", offsetof(ICQUser, Address), PARAM_STRING, 0 },
+        { "Zip", offsetof(ICQUser, Zip), PARAM_STRING, 0 },
+        { "Country", offsetof(ICQUser, Country), PARAM_USHORT, 0 },
+        { "TimeZone", offsetof(ICQUser, TimeZone), PARAM_CHAR, 0 },
+        { "HomePhone", offsetof(ICQUser, HomePhone), PARAM_STRING, 0 },
+        { "HomeFax", offsetof(ICQUser, HomeFax), PARAM_STRING, 0 },
+        { "PrivateCellular", offsetof(ICQUser, PrivateCellular), PARAM_STRING, 0 },
+        { "EMailInfo", offsetof(ICQUser, EMail), PARAM_STRING, 0 },
+        { "HiddenEMail", offsetof(ICQUser, HiddenEMail), PARAM_BOOL, 0 },
+        { "Notes", offsetof(ICQUser, Notes), PARAM_STRING, 0 },
+        { "EMail", offsetof(ICQUser, EMails), (unsigned)createEMail, (unsigned)EMail_Params },
+        { "Age", offsetof(ICQUser, Age), PARAM_CHAR, 0 },
+        { "Gender", offsetof(ICQUser, Gender), PARAM_CHAR, 0 },
+        { "Homepage", offsetof(ICQUser, Homepage), PARAM_STRING, 0 },
+        { "BirthYear", offsetof(ICQUser, BirthYear), PARAM_USHORT, 0 },
+        { "BirthMonth", offsetof(ICQUser, BirthMonth), PARAM_CHAR, 0 },
+        { "BirthDay", offsetof(ICQUser, BirthDay), PARAM_CHAR, 0 },
+        { "Language1", offsetof(ICQUser, Language1), PARAM_CHAR, 0 },
+        { "Language2", offsetof(ICQUser, Language2), PARAM_CHAR, 0 },
+        { "Language3", offsetof(ICQUser, Language3), PARAM_CHAR, 0 },
+        { "WorkCity", offsetof(ICQUser, WorkCity), PARAM_STRING, 0 },
+        { "WorkState", offsetof(ICQUser, WorkState), PARAM_STRING, 0 },
+        { "WorkZip", offsetof(ICQUser, WorkZip), PARAM_STRING, 0 },
+        { "WorkAddress", offsetof(ICQUser, WorkAddress), PARAM_STRING, 0 },
+        { "WorkName", offsetof(ICQUser, WorkName), PARAM_STRING, 0 },
+        { "WorkDepartment", offsetof(ICQUser, WorkDepartment), PARAM_STRING, 0 },
+        { "WorkPosition", offsetof(ICQUser, WorkPosition), PARAM_STRING, 0 },
+        { "WorkCountry", offsetof(ICQUser, WorkCountry), PARAM_USHORT, 0 },
+        { "Occupation", offsetof(ICQUser, Occupation), PARAM_USHORT, 0 },
+        { "WorkHomepage", offsetof(ICQUser, WorkHomepage), PARAM_STRING, 0 },
+        { "WorkPhone", offsetof(ICQUser, WorkPhone), PARAM_STRING, 0 },
+        { "WorkFax", offsetof(ICQUser, WorkFax), PARAM_STRING, 0 },
+        { "About", offsetof(ICQUser, About), PARAM_STRING, 0 },
+        { "Background", offsetof(ICQUser, Backgrounds), (unsigned)createExtInfo, (unsigned)ExtInfo_Params },
+        { "Affilation", offsetof(ICQUser, Affilations), (unsigned)createExtInfo, (unsigned)ExtInfo_Params },
+        { "Interest", offsetof(ICQUser, Interests), (unsigned)createExtInfo, (unsigned)ExtInfo_Params },
+        { "Phone", offsetof(ICQUser, Phones), (unsigned)createPhone, (unsigned)PhoneInfo_Params },
+        { "PhoneState", offsetof(ICQUser, PhoneState), PARAM_CHAR, 0 },
+        { "PhoneBookTime", offsetof(ICQUser, PhoneBookTime), PARAM_ULONG, 0 },
+        { "PhoneStatusTime", offsetof(ICQUser, PhoneStatusTime), PARAM_ULONG, 0 },
+        { "TimeStamp", offsetof(ICQUser, TimeStamp), PARAM_ULONG, 0 },
+        { "AlertOverride", offsetof(ICQUser, AlertOverride), PARAM_BOOL, 0 },
+        { "AlertAway", offsetof(ICQUser, AlertAway), PARAM_BOOL, 0 },
+        { "AlertBlink", offsetof(ICQUser, AlertBlink), PARAM_BOOL, 0 },
+        { "AlertSound", offsetof(ICQUser, AlertSound), PARAM_BOOL, 0 },
+        { "AlertOnScreen", offsetof(ICQUser, AlertOnScreen), PARAM_BOOL, 0 },
+        { "AlertPopup", offsetof(ICQUser, AlertPopup), PARAM_BOOL, 0 },
+        { "AlertWindow", offsetof(ICQUser, AlertWindow), PARAM_BOOL, 0 },
+        { "AcceptMsgWindow", offsetof(ICQUser, AcceptMsgWindow), PARAM_BOOL, 0 },
+        { "AcceptFileMode", offsetof(ICQUser, AcceptFileMode), PARAM_USHORT, 0 },
+        { "AcceptFileOverride", offsetof(ICQUser, AcceptFileOverride), PARAM_BOOL, 0 },
+        { "AcceptFileOverwrite", offsetof(ICQUser, AcceptFileOverwrite), PARAM_BOOL, 0 },
+        { "AcceptFilePath", offsetof(ICQUser, AcceptFilePath), PARAM_STRING, 0 },
+        { "DeclineFileMessage", offsetof(ICQUser, DeclineFileMessage), PARAM_STRING, 0 },
+        { "ClientType", offsetof(ICQUser, ClientType), PARAM_ULONG, 0 },
+        { "SoundOverride", offsetof(ICQUser, SoundOverride), PARAM_BOOL, 0 },
+        { "IncomingMessage", offsetof(ICQUser, IncomingMessage), PARAM_STRING, (unsigned)"message.wav" },
+        { "IncomingURL", offsetof(ICQUser, IncomingURL), PARAM_STRING, (unsigned)"url.wav" },
+        { "IncomingSMS", offsetof(ICQUser, IncomingSMS), PARAM_STRING, (unsigned)"sms.wav" },
+        { "IncomingAuth", offsetof(ICQUser, IncomingAuth), PARAM_STRING, (unsigned)"auth.wav" },
+        { "IncomingFile", offsetof(ICQUser, IncomingFile), PARAM_STRING, (unsigned)"file.wav" },
+        { "IncomingChat", offsetof(ICQUser, IncomingChat), PARAM_STRING, (unsigned)"chat.wav" },
+        { "OnlineAlert", offsetof(ICQUser, OnlineAlert), PARAM_STRING, (unsigned)"alert.wav" },
+        { "Encoding", offsetof(ICQUser, Encoding), PARAM_STRING, 0 },
+        { "", 0, 0, 0 }
+    };
+
+cfgParam ClientOwner_Params[] =
+    {
+        { "AutoResponseAway" ,offsetof(ICQUser, AutoResponseAway), PARAM_I18N, (unsigned)I18N_NOOP(
+              "I am currently away from ICQ.\n"
+              "Please leave your message and I will get back to you as soon as I return!\n"
+          ) },
+        { "AutoResponseNA" ,offsetof(ICQUser, AutoResponseNA), PARAM_I18N, (unsigned)I18N_NOOP(
+              "I am out'a here.\n"
+              "See you tomorrow!\n"
+          ) },
+        { "AutoResponseDND" ,offsetof(ICQUser, AutoResponseDND), PARAM_I18N, (unsigned)I18N_NOOP(
+              "Please do not disturb me now. Disturb me later.\n"
+          ) },
+        { "AutoResponseOccupied" ,offsetof(ICQUser, AutoResponseOccupied), PARAM_I18N, (unsigned)I18N_NOOP(
+              "Please do not disturb me now.\n"
+              "Disturb me later.\n"
+              "Only urgent messages, please!\n") },
+        { "AutoResponseFFC" ,offsetof(ICQUser, AutoResponseFFC), PARAM_I18N, (unsigned)I18N_NOOP(
+              "We'd love to hear what you have to say. Join our chat.\n"
+          ) },
+        { "", 0, 0, (unsigned)ICQUser_Params }
+    };
+
+cfgParam Client_Params[] =
+    {
+        { "ServerHost", offsetof(Client, ServerHost), PARAM_STRING, (unsigned)"login.icq.com" },
+        { "ServerPort", offsetof(Client, ServerPort), PARAM_USHORT, 5190 },
+        { "Password", offsetof(Client, DecryptedPassword), PARAM_STRING, 0 },
+        { "EncryptPassword", offsetof(Client, EncryptedPassword), PARAM_STRING, 0 },
+        { "WebAware", offsetof(Client, WebAware), PARAM_BOOL, 0 },
+        { "Authorize", offsetof(Client, Authorize), PARAM_BOOL, 0 },
+        { "HideIp", offsetof(Client, HideIp), PARAM_BOOL, 0 },
+        { "RejectMessage", offsetof(Client, RejectMessage), PARAM_BOOL, 0 },
+        { "RejectURL", offsetof(Client, RejectURL), PARAM_BOOL, 0 },
+        { "RejectWeb", offsetof(Client, RejectWeb), PARAM_BOOL, 0 },
+        { "RejectEmail", offsetof(Client, RejectEmail), PARAM_BOOL, 0 },
+        { "RejectOther", offsetof(Client, RejectOther), PARAM_BOOL, 0 },
+        { "RejectFilter", offsetof(Client, RejectFilter), PARAM_STRING, 0 },
+        { "DirectMode", offsetof(Client, DirectMode), PARAM_USHORT, 0 },
+        { "BirthdayReminder", offsetof(Client, BirthdayReminder), PARAM_STRING, (unsigned)"birthday.wav" },
+        { "FileDone", offsetof(Client, FileDone), PARAM_STRING, (unsigned)"filedone.wav" },
+        { "BypassAuth", offsetof(Client, BypassAuth), PARAM_BOOL, 0 },
+        { "ProxyType", offsetof(Client, ProxyType), PARAM_USHORT, 0 },
+        { "ProxyHost", offsetof(Client, ProxyHost), PARAM_STRING, (unsigned)"proxy" },
+        { "ProxyPort", offsetof(Client, ProxyPort), PARAM_USHORT, 1080 },
+        { "ProxyAuth", offsetof(Client, ProxyAuth), PARAM_BOOL, 0 },
+        { "ProxyUser", offsetof(Client, ProxyUser), PARAM_STRING, 0 },
+        { "ProxyPasswd", offsetof(Client, ProxyPasswd), PARAM_STRING, 0 },
+        { "", offsetof(Client, owner), 0, (unsigned)ICQUser_Params }
+    };
+
+void Client::save(ostream &s)
+{
+    ::save(this, Client_Params, s);
+    s << "[ContactList]\n";
+    ::save(&contacts, ICQContactList_Params, s);
+    for (vector<ICQGroup*>::iterator it_grp = contacts.groups.begin(); it_grp != contacts.groups.end(); it_grp++){
+        s << "[Group]\n";
+        ::save(*it_grp, ICQGroup_Params, s);
+    }
+    for (list<ICQUser*>::iterator it = contacts.users.begin(); it != contacts.users.end(); it++){
+        if ((*it)->bIsTemp) continue;
+        s << "[User]\n";
+        ::save(*it, ICQUser_Params, s);
+    }
+}
+
+bool Client::load(istream &s, string &nextPart)
+{
+    if (!::load(this, Client_Params, s, nextPart))
+        return false;
+    for (;;){
+        if (!strcmp(nextPart.c_str(), "ContactList")){
+            if (!::load(&contacts, ICQContactList_Params, s, nextPart)) break;
+            continue;
+        }
+        if (!strcmp(nextPart.c_str(), "Group")){
+            ICQGroup *grp = new ICQGroup;
+            if (!::load(grp, ICQGroup_Params, s, nextPart)){
+                delete grp;
+                break;
+            }
+            contacts.groups.push_back(grp);
+            continue;
+        }
+        if (!strcmp(nextPart.c_str(), "User")){
+            ICQUser *u = new ICQUser;
+            if (!::load(u, ICQUser_Params, s, nextPart)){
+                delete u;
+                break;
+            }
+            for (;;){
+                bool ok = true;
+                list<unsigned long>::iterator it;
+                for (it = u->unreadMsgs.begin(); it != u->unreadMsgs.end(); ++it){
+                    if (*it >= MSG_PROCESS_ID){
+                        u->unreadMsgs.remove(*it);
+                        ok = false;
+                        break;
+                    }
+                }
+                if (ok) break;
+            }
+            u->adjustPhones();
+            u->adjustEMails();
+            contacts.users.push_back(u);
+            continue;
+        }
+        break;
+    }
+    for (;;){
+        bool ok = true;
+        list<unsigned long>::iterator it;
+        for (it = owner->unreadMsgs.begin(); it != owner->unreadMsgs.end(); ++it){
+            if (*it >= MSG_PROCESS_ID){
+                owner->unreadMsgs.remove(*it);
+                ok = false;
+                break;
+            }
+        }
+        if (ok) break;
+    }
+    owner->adjustPhones();
+    owner->adjustEMails();
+    return true;
+}
+
 Client::Client(QObject *parent, const char *name)
-        : QObject(parent, name),
-        MinTCPPort(this, "MinTCPPort", 1024),
-        MaxTCPPort(this, "MaxTCPPort", 0xFFFF)
+        : QObject(parent, name)
 {
     QTimer *timer = new QTimer(this);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(timer()));
@@ -115,25 +402,7 @@ Client::Client(QObject *parent, const char *name)
         (*encodings).append(i18n(encodingTbl[i].language) + " ( " + encodingTbl[i].codec + " )");
     }
 #endif
-    AutoResponseAway.setDefault(i18n(
-                                    "I am currently away from ICQ.\n"
-                                    "Please leave your message and I will get back to you as soon as I return!\n"
-                                ).local8Bit());
-    AutoResponseNA.setDefault(i18n(
-                                  "I am out'a here.\n"
-                                  "See you tomorrow!\n"
-                              ).local8Bit());
-    AutoResponseDND.setDefault(i18n(
-                                   "Please do not disturb me now. Disturb me later.\n"
-                               ).local8Bit());
-    AutoResponseOccupied.setDefault(i18n(
-                                        "Please do not disturb me now.\n"
-                                        "Disturb me later.\n"
-                                        "Only urgent messages, please!\n")
-                                    .local8Bit());
-    AutoResponseFFC.setDefault(i18n(
-                                   "We'd love to hear what you have to say. Join our chat.\n"
-                               ).local8Bit());
+    ::init(this, Client_Params);
 }
 
 Client::~Client()
@@ -155,7 +424,7 @@ Socket *Client::createSocket()
 
 ServerSocket *Client::createServerSocket()
 {
-    return new QServerSocket(MinTCPPort(), MaxTCPPort());
+    return new QServerSocket(MinTCPPort, MaxTCPPort);
 }
 
 void Client::markAsRead(ICQMessage *msg)
@@ -177,7 +446,7 @@ void Client::process_event(ICQEvent *e)
     case EVENT_DONE:{
             ICQMessage *msg = e->message();
             if (msg){
-                for (ConfigULongs::iterator it = msg->Uin.begin(); it != msg->Uin.end(); ++it){
+                for (list<unsigned long>::iterator it = msg->Uin.begin(); it != msg->Uin.end(); ++it){
                     ICQUser *u = getUser(*it);
                     if (u == NULL) continue;
                     History h(*it);
@@ -209,7 +478,7 @@ void Client::process_event(ICQEvent *e)
         break;
     case EVENT_INFO_CHANGED:{
             ICQUser *u = getUser(e->Uin());
-            if (u && u->inIgnore()){
+            if (u && u->inIgnore){
                 History h(e->Uin());
                 h.remove();
             }
@@ -227,7 +496,7 @@ void Client::process_event(ICQEvent *e)
                 return;
             }
             unsigned long uin = msg->getUin();
-            if (uin == Uin) uin = 0;
+            if (uin == owner->Uin) uin = 0;
             if (e->state == ICQEvent::Fail){
                 ICQUser *u = getUser(e->Uin());
                 if (u){
@@ -249,8 +518,8 @@ void Client::process_event(ICQEvent *e)
                     case ICQ_MSGxFILE:{
                             ICQFile *f = static_cast<ICQFile*>(msg);
                             ICQUser *uFile = u;
-                            if (!uFile->AcceptFileOverride()) uFile = pClient;
-                            if (uFile->AcceptFileMode() == 1){
+                            if (!uFile->AcceptFileOverride) uFile = pClient->owner;
+                            if (uFile->AcceptFileMode== 1){
                                 string name = uFile->AcceptFilePath.c_str();
                                 if (*name.c_str() == 0)
                                     pMain->buildFileName(name, "IncomingFiles/");
@@ -267,11 +536,11 @@ void Client::process_event(ICQEvent *e)
                                 pClient->acceptMessage(f);
                                 return;
                             }
-                            if (uFile->AcceptFileMode() == 2){
+                            if (uFile->AcceptFileMode == 2){
                                 pClient->declineMessage(f, uFile->DeclineFileMessage.c_str());
                                 return;
                             }
-                            switch (uStatus & 0xFF){
+                            switch (owner->uStatus & 0xFF){
                             case ICQ_STATUS_ONLINE:
                             case ICQ_STATUS_FREEFORCHAT:
                                 break;
@@ -284,7 +553,7 @@ void Client::process_event(ICQEvent *e)
                             break;
                         }
                     case ICQ_MSGxCHAT:
-                        switch (uStatus & 0xFF){
+                        switch (owner->uStatus & 0xFF){
                         case ICQ_STATUS_ONLINE:
                         case ICQ_STATUS_FREEFORCHAT:
                             break;
@@ -307,13 +576,13 @@ void Client::process_event(ICQEvent *e)
     case EVENT_STATUS_CHANGED:{
             ICQUser *u = getUser(e->Uin());
             if (u){
-                if (u->IP() && (u->HostName.size() == 0)){
+                if (u->IP && (u->HostName.size() == 0)){
                     resolveAddr a;
                     a.uin   = e->Uin();
                     a.bReal = false;
                     resolveQueue.push_back(a);
                 }
-                if (u->RealIP() && (u->RealHostName.size() == 0)){
+                if (u->RealIP && (u->RealHostName.size() == 0)){
                     resolveAddr a;
                     a.uin   = e->Uin();
                     a.bReal = true;
@@ -357,9 +626,9 @@ void Client::start_resolve()
         }
         unsigned long ip;
         if (a.bReal){
-            ip = u->RealIP();
+            ip = u->RealIP;
         }else{
-            ip = u->IP();
+            ip = u->IP;
         }
         if (ip == 0){
             resolveQueue.erase(resolveQueue.begin());
@@ -372,7 +641,7 @@ void Client::start_resolve()
 
 QString Client::getName(bool bUseUin)
 {
-    return QString::fromLocal8Bit(ICQUser::name(bUseUin).c_str());
+    return QString::fromLocal8Bit(owner->name(bUseUin).c_str());
 }
 
 const char *Client::getMessageIcon(int type)
@@ -462,7 +731,7 @@ QString Client::getMessageText(int type, int n)
 
 const char *Client::getUserIcon(ICQUser *u)
 {
-    switch (u->Type()){
+    switch (u->Type){
     case USER_TYPE_EXT:
         return "nonim";
     }
@@ -493,16 +762,16 @@ QString Client::getStatusText(unsigned long status)
 
 const char *Client::getStatusIcon()
 {
-    if (((uStatus && 0xFF) == ICQ_STATUS_ONLINE) && inInvisible())
+    if (((owner->uStatus && 0xFF) == ICQ_STATUS_ONLINE) && owner->inInvisible)
         return "invisible";
-    return getStatusIcon(uStatus);
+    return getStatusIcon(owner->uStatus);
 }
 
 QString Client::getStatusText()
 {
-    if (((uStatus && 0xFF) == ICQ_STATUS_ONLINE) && inInvisible())
+    if (((owner->uStatus && 0xFF) == ICQ_STATUS_ONLINE) && owner->inInvisible)
         return i18n("Invisible");
-    return getStatusText(uStatus);
+    return getStatusText(owner->uStatus);
 }
 
 unsigned long Client::getFileSize(QString name, QString base, vector<fileName> &files)
@@ -643,14 +912,14 @@ bool Client::createFile(ICQFile *f, int mode)
         }
         size = info.size();
         if ((mode == FT_REPLACE) || (mode == FT_RESUME)){
-            if ((mode == FT_REPLACE) || (info.size() > f->Size())){
+            if ((mode == FT_REPLACE) || (info.size() > f->Size)){
                 bTruncate = true;
                 size = 0;
             }
         }else if (f->autoAccept){
             ICQUser *u = getUser(f->getUin());
-            if ((u == NULL) || !u->AcceptFileOverride()) u = this;
-            if (u->AcceptFileOverwrite() || (info.size() > f->Size())){
+            if ((u == NULL) || !u->AcceptFileOverride) u = owner;
+            if (u->AcceptFileOverwrite || (info.size() > f->Size)){
                 bTruncate = true;
                 size = 0;
             }
@@ -740,8 +1009,8 @@ QTextCodec *Client::codecForUser(unsigned long uin)
             }
         }
     }
-    if (pClient->Encoding.c_str()){
-        QTextCodec *res = QTextCodec::codecForName(Encoding.c_str());
+    if (owner->Encoding.c_str()){
+        QTextCodec *res = QTextCodec::codecForName(owner->Encoding.c_str());
         if (res){
             return res;
         }
@@ -784,8 +1053,8 @@ void Client::setUserEncoding(unsigned long uin, int i)
 {
     if (userEncoding(uin) == i) return;
     ICQUser *u = NULL;
-    if ((uin == 0) || (uin == pClient->Uin())){
-        u = pClient;
+    if ((uin == 0) || (uin == pClient->owner->Uin)){
+        u = pClient->owner;
     }else{
         u = getUser(uin);
     }
@@ -802,7 +1071,7 @@ void Client::setUserEncoding(unsigned long uin, int i)
     emit encodingChanged(uin);
     ICQEvent e(EVENT_INFO_CHANGED, uin);
     process_event(&e);
-    if (uin == pClient->Uin())
+    if (uin == pClient->owner->Uin)
         emit encodingChanged(0);
 }
 
@@ -840,7 +1109,7 @@ QClientSocket::QClientSocket(QSocket *s)
 #endif
 #ifdef HAVE_KEXTSOCK_H
     QObject::connect(sock, SIGNAL(connectionSuccess()), this, SLOT(slotConnected()));
-    QObject::connect(sock, SIGNAL(lookupFinished(int)), this, SLOT(slotLookupFinished(int)));    
+    QObject::connect(sock, SIGNAL(lookupFinished(int)), this, SLOT(slotLookupFinished(int)));
     QObject::connect(sock, SIGNAL(connectionFailed(int)), this, SLOT(slotError(int)));
     QObject::connect(sock, SIGNAL(closed(int)), this, SLOT(slotError(int)));
 #else
@@ -884,9 +1153,9 @@ int QClientSocket::read(char *buf, unsigned int size)
         if ((errno == EWOULDBLOCK) || (errno == 0))
             return 0;
 #endif
-	log(L_DEBUG, "QClientSocket::read error %u", errno);
+        log(L_DEBUG, "QClientSocket::read error %u", errno);
         if (notify) notify->error_state(ErrorRead);
-	return -1;
+        return -1;
     }
     return res;
 }
@@ -910,12 +1179,12 @@ void QClientSocket::connect(const char *host, int port)
 #ifdef HAVE_KEXTSOCK_H
     sock->setAddress(host, port);
     if (sock->lookup() < 0){
-	log(L_WARN, "Can't lookup");
-	if (notify) notify->error_state(ErrorConnect);
+        log(L_WARN, "Can't lookup");
+        if (notify) notify->error_state(ErrorConnect);
     }
     if (sock->startAsyncConnect() < 0){
-	log(L_WARN, "Can't connect");
-	if (notify) notify->error_state(ErrorConnect);
+        log(L_WARN, "Can't connect");
+        if (notify) notify->error_state(ErrorConnect);
     }
 #else
     sock->connectToHost(host, port);
@@ -1028,6 +1297,7 @@ QServerSocket::~QServerSocket()
 void QServerSocket::activated(int)
 {
 #ifndef HAVE_KEXTSOCK_H
+    if (sock == NULL) return;
     int fd = sock->accept();
     if (fd >= 0){
         if (notify){

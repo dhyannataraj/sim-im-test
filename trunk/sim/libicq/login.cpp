@@ -45,12 +45,12 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
             sock->readBuffer >> newUin;
             newUin = (unsigned long)htonl(newUin);
             log(L_DEBUG, "Register %u %08lX", newUin, newUin);
-            Uin = newUin;
+            owner->Uin = newUin;
             ICQEvent e(EVENT_INFO_CHANGED);
             process_event(&e);
             m_state = Connect;
             sock->setProxy(getProxy());
-            sock->connect(ServerHost.c_str(), ServerPort());
+            sock->connect(ServerHost.c_str(), ServerPort);
             break;
         }
     default:
@@ -62,9 +62,9 @@ void ICQClient::chn_login()
 {
     switch (m_state){
     case Connect:{
-            log(L_DEBUG, "Login %lu [%s]", Uin(), EncryptedPassword.c_str());
+            log(L_DEBUG, "Login %lu [%s]", owner->Uin, EncryptedPassword.c_str());
             char uin[20];
-            sprintf(uin, "%lu", Uin());
+            sprintf(uin, "%lu", owner->Uin);
 
             flap(ICQ_CHNxNEW);
             sock->writeBuffer << 0x00000001L;
