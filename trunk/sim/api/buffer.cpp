@@ -261,6 +261,11 @@ void Buffer::unpack(char &c)
     *this >> c;
 }
 
+void Buffer::unpack(unsigned char &c)
+{
+    *this >> c;
+}
+
 void Buffer::unpack(unsigned short &c)
 {
     if (unpack((char*)&c, 2) != 2) c = 0;

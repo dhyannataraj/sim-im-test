@@ -177,12 +177,12 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
                 break;
             case ICQ_SRVxOFFLINE_MSG:{
                     unsigned long uin;
-                    char type, flag;
+                    unsigned char type, flag;
                     struct tm sendTM;
                     memset(&sendTM, 0, sizeof(sendTM));
                     string message;
                     unsigned short year;
-                    char month, day, hours, min;
+                    unsigned char month, day, hours, min;
                     msg.unpack(uin);
                     msg.unpack(year);
                     msg.unpack(month);

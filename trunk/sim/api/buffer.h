@@ -88,6 +88,7 @@ public:
     Buffer &operator >> (char**);
 
     void unpack(char &c);
+    void unpack(unsigned char &c);
     void unpack(unsigned short &c);
     void unpack(unsigned long &c);
     string unpackScreen();

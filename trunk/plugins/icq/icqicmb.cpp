@@ -148,7 +148,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             screen = m_socket->readBuffer.unpackScreen();
             m_socket->readBuffer >> wrnLevel;
             m_socket->readBuffer >> nTlv;
-            for(unsigned short i = 0; i < nTlv; i++) {
+            for(unsigned i = 0; i < nTlv; i++) {
                 unsigned short num;
                 unsigned short size;
                 const char*    data;
@@ -345,7 +345,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                     TlvList tlv_msg(m);
                     Tlv *m_tlv = tlv_msg(0x101);
                     if (m_tlv == NULL){
-                        log(L_WARN, "No found generic message tlv 101");
+                        log(L_WARN, "generic message tlv 0101 not found");
                         break;
                     }
                     if (m_tlv->Size() <= 4)
@@ -392,7 +392,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             case 0x0002:{
                     TlvList tlv(m_socket->readBuffer);
                     if (!tlv(5)){
-                        log(L_WARN, "No found ICMB message tlv");
+                        log(L_WARN, "ICMB message tlv5 not found");
                         break;
                     }
                     Buffer msg(*tlv(5));
@@ -444,7 +444,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             case 0x0004:{
                     TlvList tlv(m_socket->readBuffer);
                     if (!tlv(5)){
-                        log(L_WARN, "No found advanced message tlv");
+                        log(L_WARN, "Advanced message tlv5 not found");
                         break;
                     }
                     Buffer msg(*tlv(5));
@@ -454,7 +454,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         parseAdvancedMessage(screen.c_str(), msg, tlv(6) != NULL, id);
                         return;
                     }
-                    char type, flags;
+                    unsigned char type, flags;
                     msg >> type;
                     msg >> flags;
                     string msg_str;
