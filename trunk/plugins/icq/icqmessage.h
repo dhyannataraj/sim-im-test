@@ -35,6 +35,7 @@ const unsigned MessageOpenSecure		= 0x109;
 const unsigned MessageCloseSecure		= 0x110;
 const unsigned MessageCheckInvisible	= 0x111;
 const unsigned MessageICQFile			= 0x112;
+const unsigned MessageWarning			= 0x113;
 
 class ListView;
 

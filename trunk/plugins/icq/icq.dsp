@@ -128,6 +128,14 @@ SOURCE=.\aimservices.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\encodingdlg.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\encodingdlgbase.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\homeinfo.cpp
 # End Source File
 # Begin Source File
@@ -268,6 +276,14 @@ SOURCE=.\moc_aimsearchbase.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\moc_encodingdlg.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\moc_encodingdlgbase.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\moc_homeinfo.cpp
 # End Source File
 # Begin Source File
@@ -364,6 +380,14 @@ SOURCE=.\moc_securedlgbase.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\moc_warndlg.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\moc_warndlgbase.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\moc_workinfo.cpp
 # End Source File
 # Begin Source File
@@ -440,6 +464,14 @@ SOURCE=.\securedlg.cpp
 # Begin Source File
 
 SOURCE=.\securedlgbase.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\warndlg.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\warndlgbase.cpp
 # End Source File
 # Begin Source File
 
@@ -631,6 +663,43 @@ InputName=aimsearch
 # Begin Source File
 
 SOURCE=.\aimsearchbase.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\encodingdlg.h
+
+!IF  "$(CFG)" == "icq - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\encodingdlg.h
+InputName=encodingdlg
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "icq - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\encodingdlg.h
+InputName=encodingdlg
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\encodingdlgbase.h
 # End Source File
 # Begin Source File
 
@@ -1408,6 +1477,43 @@ InputName=securedlgbase
 # End Source File
 # Begin Source File
 
+SOURCE=.\warndlg.h
+
+!IF  "$(CFG)" == "icq - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\warndlg.h
+InputName=warndlg
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "icq - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\warndlg.h
+InputName=warndlg
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\warndlgbase.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\workinfo.h
 
 !IF  "$(CFG)" == "icq - Win32 Release"
@@ -1790,6 +1896,61 @@ BuildCmds= \
 InputDir=.
 InputPath=.\aimsearchbase.ui
 InputName=aimsearchbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\encodingdlgbase.ui
+
+!IF  "$(CFG)" == "icq - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Uic'ing $(InputName).ui ...
+InputDir=.
+InputPath=.\encodingdlgbase.ui
+InputName=encodingdlgbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "icq - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Uic'ing $(InputName).ui ...
+InputDir=.
+InputPath=.\encodingdlgbase.ui
+InputName=encodingdlgbase
 
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
@@ -2321,6 +2482,61 @@ BuildCmds= \
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\warndlgbase.ui
+
+!IF  "$(CFG)" == "icq - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Uic'ing $(InputName).ui ...
+InputDir=.
+InputPath=.\warndlgbase.ui
+InputName=warndlgbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "icq - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Uic'ing $(InputName).ui ...
+InputDir=.
+InputPath=.\warndlgbase.ui
+InputName=warndlgbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 

@@ -70,8 +70,6 @@
 #define ACCEL_KEY(k) "\t" + QString("Ctrl+" #k)
 #endif
 
-#include "simapi.h"
-
 namespace Qt3{
 
 struct QUndoRedoInfoPrivate
@@ -685,6 +683,7 @@ void QTextEdit::init()
     viewport()->setFocusProxy( this );
     viewport()->setFocusPolicy( WheelFocus );
     viewport()->installEventFilter( this );
+    verticalScrollBar()->installEventFilter( this );
     installEventFilter( this );
 }
 
@@ -1928,10 +1927,11 @@ void QTextEdit::formatMore()
             lastBottom = -1;
     }
 
-    if ( bottom > contentsHeight() )
+    if ( bottom > contentsHeight() ){
         resizeContents( contentsWidth(), QMAX( doc->height(), bottom ) );
-    else if ( lastBottom != -1 && lastBottom < contentsHeight() )
+    }else if ( lastBottom != -1 && lastBottom < contentsHeight() ){
         resizeContents( contentsWidth(), QMAX( doc->height(), lastBottom ) );
+    }
 
     if ( lastFormatted )
         formatTimer->start( interval, TRUE );
@@ -1944,9 +1944,8 @@ void QTextEdit::doResize()
     if (( wrapMode != WidgetWidth ) && ( wrapMode != FixedColumnWidth ))
         return;
     doc->setMinimumWidth( -1, 0 );
-    resizeContents( 0, 0 );
-    doc->setWidth( visibleWidth() );
-    wrapWidth = visibleWidth();
+    doc->setWidth(visibleWidth());
+    wrapWidth = width() - 4 - verticalScrollBar()->width();
     doc->invalidate();
     repaintContents( visibleRect(), FALSE );
     lastFormatted = doc->firstParag();
@@ -1979,7 +1978,10 @@ bool QTextEdit::eventFilter( QObject *o, QEvent *e )
             return TRUE;
         }
     }
-
+    if (o->inherits("QScrollBar")){
+        if ((e->type() == QEvent::Show) || (e->type() == QEvent::Hide))
+            QTimer::singleShot(0, this, SLOT(doResize()));
+    }
     return QScrollView::eventFilter( o, e );
 }
 

@@ -41,8 +41,16 @@ JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig)
         edtResource->setText(QString::fromUtf8(m_client->data.owner.Resource));
     if (m_client->data.VHost)
         edtVHost->setText(QString::fromUtf8(m_client->data.VHost));
-    if (m_bConfig)
+    if (m_bConfig){
         tabCfg->removePage(tabJabber);
+    }else{
+        lblServer->hide();
+        edtServer->hide();
+        lblPort->hide();
+        edtPort->hide();
+        edtServer1->setText(i18n("jabber.org"));
+        edtPort1->setValue(m_client->getPort());
+    }
 #ifdef USE_OPENSSL
     chkSSL->setChecked(m_client->getUseSSL());
     chkPlain->setChecked(m_client->getUsePlain());
@@ -85,8 +93,13 @@ void JabberConfig::apply()
         m_client->setPassword(edtPasswd->text());
         m_client->setRegister(chkRegister->isChecked());
     }
-    m_client->setServer(edtServer->text().local8Bit());
-    m_client->setPort(atol(edtPort->text()));
+    if (m_bConfig){
+        m_client->setServer(edtServer->text().local8Bit());
+        m_client->setPort(atol(edtPort->text()));
+    }else{
+        m_client->setServer(edtServer1->text().local8Bit());
+        m_client->setPort(atol(edtPort1->text()));
+    }
 #ifdef USE_OPENSSL
     m_client->setUseSSL(chkSSL->isChecked());
     m_client->setUsePlain(chkPlain->isChecked());
@@ -99,7 +112,9 @@ void JabberConfig::apply()
 
 void JabberConfig::toggledSSL(bool bState)
 {
-    unsigned port = atol(edtPort->text());
+    unsigned port = atol(edtPort1->text());
+    if (m_bConfig)
+        port = atol(edtPort->text());
     if (port == 0)
         port = 5222;
     if (bState){
@@ -108,6 +123,7 @@ void JabberConfig::toggledSSL(bool bState)
         port--;
     }
     edtPort->setValue(port);
+    edtPort1->setValue(port);
 }
 
 void JabberConfig::toggledVHost(bool bState)
@@ -123,9 +139,16 @@ void JabberConfig::changed(const QString&)
 void JabberConfig::changed()
 {
     bool bOK =  !edtID->text().isEmpty() &&
-                !edtPasswd->text().isEmpty() &&
-                !edtServer->text().isEmpty() &&
-                atol(edtPort->text());
+                !edtPasswd->text().isEmpty();
+    if (bOK){
+        if (m_bConfig){
+            bOK = !edtServer->text().isEmpty() &&
+                  atol(edtPort->text());
+        }else{
+            bOK = !edtServer1->text().isEmpty() &&
+                  atol(edtPort1->text());
+        }
+    }
     emit okEnabled(bOK);
 }
 

@@ -47,6 +47,10 @@ icq_la_SOURCES = \
  aimsearch.cpp \
  aimsearchbase.ui \
  aimservices.cpp \
+ warndlg.cpp \
+ warndlgbase.ui \
+ encodingdlg.cpp \
+ encodingdlgbase.ui \
  rtfgen.cpp \
  rtf.ll \
  xml.cpp

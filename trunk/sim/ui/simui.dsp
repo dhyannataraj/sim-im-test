@@ -648,6 +648,10 @@ InputName=qtextedit
 # End Source File
 # Begin Source File
 
+SOURCE=.\qt3\qtextengine_p.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\textshow.h
 
 !IF  "$(CFG)" == "simui - Win32 Release"
