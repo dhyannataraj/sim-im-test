@@ -48,7 +48,7 @@ void ICQSecure::apply()
                 if (edtPswd1->text() != edtPswd2->text()){
                     errMsg = i18n("Confirm password does not match");
                     errWidget = edtPswd2;
-                }else if (edtPswd2->text() != m_client->getPassword()){
+                }else if (edtCurrent->text() != m_client->getPassword()){
                     errMsg = i18n("Invalid password");
                 }
             }
@@ -65,6 +65,10 @@ void ICQSecure::apply()
             return;
         }
         m_client->changePassword(edtPswd1->text().utf8());
+        // clear Textboxes
+        edtCurrent->clear();
+        edtPswd1->clear();
+        edtPswd2->clear();
     }
     bool bStatusChanged = false;
     if (chkHideIP->isChecked() != m_client->getHideIP()){
