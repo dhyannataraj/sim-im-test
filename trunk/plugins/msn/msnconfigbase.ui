@@ -361,7 +361,7 @@
                         </property>
                         <property>
                             <name>text</name>
-                            <string>&amp;Automatically use HTTP pooling if proxy required</string>
+                            <string>&amp;Automatically use HTTP polling if proxy required</string>
                         </property>
                     </widget>
                     <widget row="7"  column="0"  rowspan="1"  colspan="2" >
