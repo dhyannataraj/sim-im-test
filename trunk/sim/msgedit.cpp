@@ -132,7 +132,7 @@ ToolBarDef msgEditToolBar[] =
         { btnSend, "mail_send", NULL, I18N_NOOP("&Send"), BTN_PICT, SLOT(sendClick()), NULL },
         { btnNext, "message", NULL, I18N_NOOP("&Next"), BTN_PICT | BTN_HIDE, SLOT(nextClick()), NULL },
         SEPARATOR,
-        { btnMultiply, "1rightarrow", NULL, I18N_NOOP("&Multiply send"), 0, SLOT(toggleMultiply()), NULL },
+        { btnMultiply, "1rightarrow", "1leftarrow", I18N_NOOP("&Multiply send"), BTN_TOGGLE, SLOT(toggleMultiply(bool)), NULL },
         END_DEF,
         END_DEF
     };
@@ -151,7 +151,6 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     sendEvent = NULL;
     mHistory = NULL;
     msgView = NULL;
-    bMultiply = false;
     setWFlags(WDestructiveClose);
     wndEdit = new WMainWindow(this, "msgedit");
     connect(wndEdit, SIGNAL(heightChanged(int)), this, SLOT(heightChanged(int)));
@@ -265,6 +264,11 @@ void MsgEdit::save(QFile &s)
 void MsgEdit::closeToggle(bool state)
 {
     pMain->CloseAfterSend = state;
+}
+
+bool MsgEdit::isMultiply()
+{
+    return toolbar->isOn(btnMultiply);
 }
 
 SmileLabel::SmileLabel(int _id, QWidget *parent)
@@ -698,7 +702,7 @@ bool MsgEdit::canSpell()
 bool MsgEdit::canSend()
 {
     if (msg){
-        if (bMultiply){
+        if (toolbar->isOn(btnMultiply)){
             UserBox *box = static_cast<UserBox*>(topLevelWidget());
             if (box->users == NULL) return false;
             UserView *users = box->users;
@@ -922,16 +926,13 @@ void MsgEdit::forwardClick()
     newMsg->Charset = pClient->codecForUser(Uin)->name();
     setMessage(newMsg);
     edit->moveCursor(QTextEdit::MoveEnd, false);
-    bMultiply = true;
-    toolbar->setIcon(btnMultiply, "1leftarrow");
+    toolbar->setOn(btnMultiply, true);
     emit showUsers(true, 0);
     textChanged();
 }
 
-void MsgEdit::toggleMultiply()
+void MsgEdit::toggleMultiply(bool bMultiply)
 {
-    bMultiply = !bMultiply;
-    toolbar->setIcon(btnMultiply, bMultiply ? "1leftarrow" : "1rightarrow");
     emit showUsers(bMultiply, Uin);
 }
 
@@ -1040,7 +1041,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
         msg = _msg;
         bChanged = true;
     }
-    if (bMultiply) toggleMultiply();
+    toolbar->setOn(btnMultiply, false);
     if (msg == NULL){
         edit->setText("");
         edit->resetColors(false);
@@ -1631,7 +1632,7 @@ void MsgEdit::makeMessage()
     }
     if (msg->Charset.length() == 0)
         msg->Charset = pClient->codecForUser(Uin)->name();
-    if (bMultiply){
+    if (toolbar->isOn(btnMultiply)){
         msg->Uin.clear();
         UserBox *box = static_cast<UserBox*>(topLevelWidget());
         if (box->users){

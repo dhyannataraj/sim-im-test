@@ -44,7 +44,6 @@ public:
     QString text();
     void setFilter(const QString &filter);
     void setDirMode(bool bMode) { bDirMode = bMode; }
-    void setImage(bool bMode) { bIsImage = bMode; }
     void setStartDir(const QString &dir);
     void setMultiplyMode(bool bMode) { bMultiplyMode = bMode; }
 signals:

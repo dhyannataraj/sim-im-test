@@ -35,7 +35,6 @@
 EditFile::EditFile(QWidget *p, const char *name)
         : QFrame(p, name)
 {
-    bIsImage = true;
     bDirMode = false;
     bMultiplyMode = false;
     lay = new QHBoxLayout(this);
@@ -82,7 +81,6 @@ void EditFile::showFiles()
 #ifdef WIN32
     s.replace(QRegExp("\\\\"), "/");
 #endif
-    log(L_DEBUG, "Show files: %u %u", bDirMode, bMultiplyMode);
     if (bDirMode){
         s = QFileDialog::getExistingDirectory(s, this,
                                               i18n("Directory for incoming files"));
@@ -103,16 +101,7 @@ void EditFile::showFiles()
                 makedir((char*)d.c_str());
             }
         }
-#if USE_KDE
-//	if (bIsImage){
-//		KURL url = KFileDialog::getImageOpenURL(s, this);
-//		s = url.fileName();
-//	}else{
-#endif
         s = QFileDialog::getOpenFileName(s, filter, this);
-#if USE_KDE
-//	}
-#endif
     }
 #ifdef WIN32
     s.replace(QRegExp("/"), "\\");

@@ -105,7 +105,7 @@ public:
     unsigned short	EditHeight;
     bool load(QFile &s, string &part);
     void save(QFile &s);
-    bool bMultiply;
+    bool isMultiply();
 public slots:
     void realSend();
     void send();
@@ -147,7 +147,7 @@ protected slots:
     void acceptMessage();
     void declineMessage(int);
     void closeToggle(bool);
-    void toggleMultiply();
+    void toggleMultiply(bool);
     void chatChanged();
     void ftChanged();
     void modeChanged(bool);

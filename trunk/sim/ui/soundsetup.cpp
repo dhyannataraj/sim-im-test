@@ -63,7 +63,6 @@ SoundSetup::SoundSetup(QWidget *p, bool bUser)
 
 void SoundSetup::load(ICQUser *_u)
 {
-    log(L_DEBUG, "Sound setup");
     SIMUser *u = static_cast<SIMUser*>(_u);
     chkOverride->setChecked(u->SoundOverride);
     edtMessage->setText(QString::fromLocal8Bit(pMain->sound(u->IncomingMessage.c_str())));
@@ -77,7 +76,6 @@ void SoundSetup::load(ICQUser *_u)
     edtStartup->setText(QString::fromLocal8Bit(pMain->sound(pSplash->StartupSound.c_str())));
     edtProgram->setText(QString::fromLocal8Bit(pSplash->SoundPlayer.c_str()));
     overrideToggled((u == pClient->owner) ? true : chkOverride->isChecked());
-    log(L_DEBUG, "load OK");
 }
 
 void SoundSetup::overrideToggled(bool bOn)

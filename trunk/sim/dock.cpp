@@ -253,6 +253,7 @@ bool send_message(
 DockWnd::DockWnd(QWidget *main)
         : QWidget(NULL, "dock",  WType_TopLevel | WStyle_Customize | WStyle_NoBorder | WStyle_StaysOnTop)
 {
+    setMouseTracking(true);
     connect(this, SIGNAL(toggleWin()), main, SLOT(toggleShow()));
     connect(this, SIGNAL(showPopup(QPoint)), main, SLOT(showPopup(QPoint)));
     connect(this, SIGNAL(doubleClicked()), main, SLOT(dockDblClicked()));
@@ -634,6 +635,30 @@ void DockWnd::mouseDoubleClickEvent( QMouseEvent*)
     bNoToggle = true;
     log(L_DEBUG, "Double click");
     emit doubleClicked();
+}
+
+#ifndef WIN32
+extern Time qt_x_time;
+#endif
+
+void DockWnd::enterEvent( QEvent* )
+{
+#ifndef WIN32
+    // FIXME(E): Implement for Qt Embedded
+    if ( !qApp->focusWidget() ) {
+        XEvent ev;
+        memset(&ev, 0, sizeof(ev));
+        ev.xfocus.display = qt_xdisplay();
+        ev.xfocus.type = FocusIn;
+        ev.xfocus.window = winId();
+        ev.xfocus.mode = NotifyNormal;
+        ev.xfocus.detail = NotifyAncestor;
+        Time time = qt_x_time;
+        qt_x_time = 1;
+        qApp->x11ProcessEvent( &ev );
+        qt_x_time = time;
+    }
+#endif
 }
 
 #ifndef _WINDOWS

@@ -115,7 +115,6 @@ ThemeSetup::ThemeSetup(QWidget *parent)
         format += "*." + f;
 	if (f == "jpeg") format += " *.jpg";
     }
-    edtBg->setImage(true);
     edtBg->setFilter(i18n("%1|Graphics") .arg(format));
     edtBg->setStartDir(app_file("pict"));
     edtBg->setText(QString::fromLocal8Bit(pMain->BackgroundFile.c_str()));

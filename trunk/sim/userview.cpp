@@ -50,6 +50,10 @@
 #include "ui/kpopup.h"
 #endif
 
+#ifndef WIN32
+#include <X11/Xlib.h>
+#endif
+
 #if QT_VERSION < 300
 #define CHECK_OFF	QButton::Off
 #define CHECK_ON	QButton::On
@@ -164,7 +168,7 @@ void UserViewItemBase::paint(QPainter *p, const QString s, const QColorGroup &c,
             if (pix != NULL){
                 QPoint gPos = listView()->mapToGlobal(pos);
                 gPos = listView()->topLevelWidget()->mapFromGlobal(gPos);
-                pp.drawTiledPixmap(0, 0, w, h, *pix, pos.x(), pos.y());
+                pp.drawTiledPixmap(0, 0, w, h, *pix, gPos.x(), gPos.y());
             }else{
                 pp.fillRect(0, 0, w, h, cg.base());
             }
@@ -176,7 +180,7 @@ void UserViewItemBase::paint(QPainter *p, const QString s, const QColorGroup &c,
         }
         if (w < width){
             if (pix != NULL){
-                QPoint gPos = listView()->mapToGlobal(pos);
+                QPoint gPos = listView()->mapToGlobal(QPoint(w, pos.y()));
                 gPos = listView()->topLevelWidget()->mapFromGlobal(gPos);
                 p->drawTiledPixmap(w + xp, yp, width - w, h, *pix, gPos.x(), gPos.y());
             }else{
@@ -681,6 +685,7 @@ UserView::UserView (QWidget *parent, bool _bList, bool bFill, WFlags f)
     accel->insertItem(QListView::CTRL + QListView::Key_Minus, mnuGrpCollapseAll);
     bgChanged();
     pressedItem = NULL;
+    viewport()->setMouseTracking(true);
 }
 
 void UserView::accelActivated(int id)
@@ -737,8 +742,27 @@ void UserView::accelActivated(int id)
     }
 }
 
+#ifndef WIN32
+extern Time qt_x_time;
+#endif
+
 bool UserView::eventFilter(QObject *obj, QEvent *e)
 {
+#ifndef WIN32
+    if ((e->type() == QEvent::Enter) && !qApp->focusWidget()){
+        XEvent ev;
+        memset(&ev, 0, sizeof(ev));
+        ev.xfocus.display = qt_xdisplay();
+        ev.xfocus.type = FocusIn;
+        ev.xfocus.window = static_cast<QWidget*>(obj)->topLevelWidget()->winId();
+        ev.xfocus.mode = NotifyNormal;
+        ev.xfocus.detail = NotifyAncestor;
+        Time time = qt_x_time;
+        qt_x_time = 1;
+        qApp->x11ProcessEvent( &ev );
+        qt_x_time = time;
+    }
+#endif
     if (obj == menuGroup){
         if (e->type() == QEvent::Hide)
             QTimer::singleShot(0, this, SLOT(clearGroupMenu()));
@@ -987,7 +1011,9 @@ void UserView::paintEmptyArea(QPainter *p, const QRect &r)
             QPixmap bPict(w, r.height());
             QPainter pBuf(&bPict);
             if (pix){
-                QPoint pp(topLevelWidget()->mapFromGlobal(mapToGlobal(QPoint(0, r.top()))));
+		QPoint pp(w, r.top());
+		pp = viewport()->mapToParent(pp);
+                pp = topLevelWidget()->mapFromGlobal(mapToGlobal(pp));
                 pBuf.drawTiledPixmap(0, 0, w, h, *pix, pp.x(), pp.y());
             }else{
                 pBuf.fillRect(QRect(0, 0, w, h), colorGroup().base());
@@ -1001,7 +1027,9 @@ void UserView::paintEmptyArea(QPainter *p, const QRect &r)
         w += r.left();
         if (w < r.right()){
             if (pix){
-                QPoint pp(topLevelWidget()->mapFromGlobal(mapToGlobal(QPoint(w, r.top()))));
+		QPoint pp(w, r.top());
+		pp = viewport()->mapToParent(pp);
+                pp = topLevelWidget()->mapFromGlobal(mapToGlobal(pp));
                 p->drawTiledPixmap(w, r.top(), r.right() - w, r.bottom(), *pix, pp.x(), pp.y());
             }else{
                 p->fillRect(QRect(w, r.top(), r.right(), r.bottom()), colorGroup().base());
@@ -1654,7 +1682,6 @@ UserFloat::UserFloat()
     setVScrollBarMode(AlwaysOff);
     bMoveMode = false;
     setSelectionMode(NoSelection);
-    viewport()->setMouseTracking(true);
 }
 
 UserFloat::~UserFloat()

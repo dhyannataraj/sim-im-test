@@ -67,6 +67,7 @@ protected:
     unsigned m_state;
     bool    bNoToggle;
     QPixmap drawIcon;
+    virtual void enterEvent( QEvent *e);
     virtual void paintEvent( QPaintEvent *e);
     virtual void mousePressEvent( QMouseEvent *e);
     virtual void mouseReleaseEvent( QMouseEvent *e);
