@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: 0.8.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-11-17 18:12+0000\n"
-"PO-Revision-Date: 2004-11-20 19:57+0100\n"
+"PO-Revision-Date: 2004-11-21 03:42+0100\n"
 "Last-Translator: \n"
 "Language-Team: Français <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3000,7 +3000,7 @@ msgstr "Accrochage"
 
 #: plugins/dock/dock.cpp:53
 msgid "Plugin provides dock icon"
-msgstr ""
+msgstr "Ce plugin permet de minimiser la fenêtre principale."
 
 # sim.cpp:519
 #: plugins/dock/dock.cpp:111
@@ -3040,7 +3040,7 @@ msgstr "Afficher la fenêtre principale sur le bureau"
 
 #: plugins/dock/dockcfgbase.cpp:95
 msgid "current"
-msgstr ""
+msgstr "courant"
 
 # ui/msgdialogbase.cpp:72
 #: plugins/dock/dockcfgbase.cpp:96
@@ -3370,11 +3370,11 @@ msgstr "Ce plugin permet l'usage de smileys et de thèmes d'icônes JISP."
 
 #: plugins/icons/iconcfg.cpp:91
 msgid "*.jisp|Icon set"
-msgstr "Jeu d'icônes, *.jisp"
+msgstr "*.jisp|Jeu d'icônes"
 
 #: plugins/icons/iconcfg.cpp:93
 msgid "Icon set(*.jisp)"
-msgstr ""
+msgstr "Jeu d'icônes (*.jisp)"
 
 # ui/themesetupbase.cpp:110
 #: plugins/icons/iconcfg.cpp:95
@@ -3456,7 +3456,7 @@ msgstr "Vérifier le mode \"Invisible\""
 
 #: plugins/icq/icq.cpp:404
 msgid "&All"
-msgstr ""
+msgstr "Tous"
 
 # control.cpp:219
 #: plugins/icq/icq.cpp:413
@@ -3585,7 +3585,7 @@ msgstr "Requête ambigüe"
 
 #: plugins/icq/icqclient.cpp:720
 msgid "Server queue full"
-msgstr ""
+msgstr "La file d'attente du serveur est pleine."
 
 #: plugins/icq/icqclient.cpp:721
 msgid "Not while on AOL"
@@ -3746,11 +3746,11 @@ msgstr "Message de taille trop importante"
 
 #: plugins/icq/icqicmb.cpp:190
 msgid "Message rate exceeded"
-msgstr ""
+msgstr "Nombre de messages trop important"
 
 #: plugins/icq/icqicmb.cpp:196
 msgid "We are to evil :("
-msgstr ""
+msgstr "Nous sommes trop méchants :("
 
 # ui/soundsetupbase.cpp:118
 #: plugins/icq/icqicmb.cpp:685
@@ -4001,7 +4001,7 @@ msgstr "Demande de contact"
 
 #: plugins/icq/icqmessage.cpp:838
 msgid "Web panel"
-msgstr ""
+msgstr "Panneau web"
 
 # ui/maininfobase.cpp:218
 #: plugins/icq/icqmessage.cpp:844
@@ -4130,7 +4130,7 @@ msgstr "Le réseau mobile est actuellement dans l'incapacité d'envoyer votre me
 
 #: plugins/icq/icqvarious.cpp:1492
 msgid "INVALID NUMBER"
-msgstr "Nombre non valide"
+msgstr "Nombre incorrect"
 
 #: plugins/icq/icqvarious.cpp:1493
 msgid "RATE LIMIT"
@@ -4281,9 +4281,8 @@ msgstr "Activités de plein air"
 
 # libicq/country.cpp:346
 #: plugins/icq/interestsinfo.cpp:106
-#, fuzzy
 msgid "Parenting"
-msgstr "Parents"
+msgstr "Pouponner"
 
 # libicq/country.cpp:347
 #: plugins/icq/interestsinfo.cpp:107
@@ -5521,16 +5520,14 @@ msgstr "&AIM"
 # libicq/country.cpp:459
 #: plugins/icq/aiminfobase.cc:258
 #: plugins/icq/aimsearchbase.cc:165
-#, fuzzy
 msgid "Middle:"
-msgstr "Homme"
+msgstr "\"Middle name\" : "
 
 # libicq/country.cpp:459
 #: plugins/icq/aiminfobase.cc:259
 #: plugins/icq/aimsearchbase.cc:166
-#, fuzzy
 msgid "Maiden:"
-msgstr "Homme"
+msgstr "Maiden:"
 
 # ui/filetransferbase.cpp:90
 #: plugins/icq/aiminfobase.cc:261
@@ -5943,9 +5940,8 @@ msgstr "Nom complet"
 
 # libicq/country.cpp:459
 #: plugins/jabber/jidsearch.cpp:177
-#, fuzzy
 msgid "Middle Name"
-msgstr "Homme"
+msgstr "\"Middle name\""
 
 # ui/maininfobase.cpp:194
 # ui/searchbase.cpp:185
@@ -6051,9 +6047,8 @@ msgstr "ID:"
 
 # ui/pagerbase.cpp:76
 #: plugins/jabber/jabberworkinfobase.cpp:91
-#, fuzzy
 msgid "Role:"
-msgstr "Fournisseur :"
+msgstr "Fonction :"
 
 # ui/aboutinfobase.cpp:72
 #: plugins/jabber/jabberaboutinfobase.cpp:57
@@ -6071,13 +6066,11 @@ msgstr "Navigateur Ja&bber"
 
 # libicq/country.cpp:404
 #: plugins/jabber/discoinfobase.cpp:265
-#, fuzzy
 msgid "DiscoInfo"
-msgstr "Annuler"
+msgstr "DiscoInfo"
 
 # ui/workinfobase.cpp:93
 #: plugins/jabber/discoinfobase.cpp:266
-#, fuzzy
 msgid "Namespaces:"
 msgstr "Nom :"
 
@@ -6087,15 +6080,13 @@ msgstr "Catégorie :"
 
 # ui/aboutdlg.cpp:41
 #: plugins/jabber/discoinfobase.cpp:272
-#, fuzzy
 msgid "Version:"
-msgstr "%1 Version : %2"
+msgstr "Version : "
 
 # ui/themesetup.cpp:53
 #: plugins/jabber/discoinfobase.cpp:273
-#, fuzzy
 msgid "System:"
-msgstr "Système"
+msgstr "Système : "
 
 # sim.cpp:521
 #: plugins/jabber/discoinfobase.cpp:275
@@ -6153,7 +6144,7 @@ msgstr "Nom d'utilisateur incorrect"
 
 #: plugins/livejournal/livejournal.cpp:1354
 msgid "aggravated"
-msgstr ""
+msgstr "Agacé"
 
 # libicq/country.cpp:166
 #: plugins/livejournal/livejournal.cpp:1355
@@ -6162,7 +6153,7 @@ msgstr "faché"
 
 #: plugins/livejournal/livejournal.cpp:1356
 msgid "annoyed"
-msgstr ""
+msgstr "Soucieux"
 
 # libicq/country.cpp:16
 #: plugins/livejournal/livejournal.cpp:1357
@@ -6181,55 +6172,51 @@ msgstr "confus"
 
 #: plugins/livejournal/livejournal.cpp:1360
 msgid "crappy"
-msgstr ""
+msgstr "Nul"
 
 # libicq/country.cpp:150
 #: plugins/livejournal/livejournal.cpp:1361
-#, fuzzy
 msgid "cranky"
-msgstr "Allemagne"
+msgstr "Grincheux"
 
 #: plugins/livejournal/livejournal.cpp:1362
 msgid "depressed"
-msgstr ""
+msgstr "Déprimé"
 
 # libicq/country.cpp:342
 #: plugins/livejournal/livejournal.cpp:1363
-#, fuzzy
 msgid "discontent"
-msgstr "Mode de vie"
+msgstr "Mécontent"
 
 #: plugins/livejournal/livejournal.cpp:1364
 msgid "energetic"
-msgstr ""
+msgstr "Energique"
 
 #: plugins/livejournal/livejournal.cpp:1365
 msgid "enraged"
-msgstr ""
+msgstr "Enragé"
 
 # ui/setupdlg.cpp:125
 #: plugins/livejournal/livejournal.cpp:1366
-#, fuzzy
 msgid "enthralled"
-msgstr "Style"
+msgstr "Fasciné"
 
 #: plugins/livejournal/livejournal.cpp:1367
 msgid "exhausted"
-msgstr ""
+msgstr "Epuisé"
 
 #: plugins/livejournal/livejournal.cpp:1368
 msgid "happy"
-msgstr ""
+msgstr "Heureux"
 
 # mainwin.cpp:2984
 #: plugins/livejournal/livejournal.cpp:1369
-#, fuzzy
 msgid "high"
-msgstr "fin"
+msgstr "Euphorique"
 
 #: plugins/livejournal/livejournal.cpp:1370
 msgid "horny"
-msgstr ""
+msgstr "Excité"
 
 # libicq/country.cpp:166
 #: plugins/livejournal/livejournal.cpp:1371
@@ -6238,29 +6225,28 @@ msgstr "faim"
 
 #: plugins/livejournal/livejournal.cpp:1372
 msgid "infuriated"
-msgstr ""
+msgstr "Furieux"
 
 # ui/userinfobase.cpp:59
 #: plugins/livejournal/livejournal.cpp:1373
-#, fuzzy
 msgid "irate"
-msgstr "Date"
+msgstr "Irrité"
 
 #: plugins/livejournal/livejournal.cpp:1374
 msgid "jubilant"
-msgstr ""
+msgstr "Jubilant"
 
 #: plugins/livejournal/livejournal.cpp:1375
 msgid "lonely"
-msgstr ""
+msgstr "Seul"
 
 #: plugins/livejournal/livejournal.cpp:1376
 msgid "moody"
-msgstr ""
+msgstr "Morose"
 
 #: plugins/livejournal/livejournal.cpp:1377
 msgid "pissed off"
-msgstr ""
+msgstr "Emmerdé"
 
 # ui/alertdialogbase.cpp:206
 #: plugins/livejournal/livejournal.cpp:1378
@@ -6269,25 +6255,24 @@ msgstr "triste"
 
 #: plugins/livejournal/livejournal.cpp:1379
 msgid "satisfied"
-msgstr ""
+msgstr "Satisfait"
 
 # ui/filetransfer.cpp:263
 #: plugins/livejournal/livejournal.cpp:1380
-#, fuzzy
 msgid "sore"
-msgstr "R&estaurer"
+msgstr "Susceptible"
 
 #: plugins/livejournal/livejournal.cpp:1381
 msgid "stressed"
-msgstr ""
+msgstr "Stressé"
 
 #: plugins/livejournal/livejournal.cpp:1382
 msgid "thirsty"
-msgstr ""
+msgstr "Assoiffé"
 
 #: plugins/livejournal/livejournal.cpp:1383
 msgid "thoughtful"
-msgstr ""
+msgstr "Pensif"
 
 # libicq/country.cpp:434
 #: plugins/livejournal/livejournal.cpp:1384
@@ -6296,29 +6281,27 @@ msgstr "fatigué"
 
 #: plugins/livejournal/livejournal.cpp:1385
 msgid "touched"
-msgstr ""
+msgstr "Emu"
 
 # libicq/country.cpp:39
 #: plugins/livejournal/livejournal.cpp:1386
-#, fuzzy
 msgid "lazy"
-msgstr "Malaisien"
+msgstr "Flémard"
 
 #: plugins/livejournal/livejournal.cpp:1387
 msgid "drunk"
-msgstr ""
+msgstr "Bourré"
 
 # ui/homeinfobase.cpp:114
 # ui/searchbase.cpp:123
 # ui/workinfobase.cpp:57
 #: plugins/livejournal/livejournal.cpp:1388
-#, fuzzy
 msgid "ditzy"
-msgstr "Ville :"
+msgstr "Ditzy"
 
 #: plugins/livejournal/livejournal.cpp:1389
 msgid "mischievous"
-msgstr ""
+msgstr "Fripon"
 
 # libicq/country.cpp:119
 #: plugins/livejournal/livejournal.cpp:1390
@@ -6327,29 +6310,28 @@ msgstr "morose"
 
 #: plugins/livejournal/livejournal.cpp:1391
 msgid "gloomy"
-msgstr ""
+msgstr "Morose"
 
 #: plugins/livejournal/livejournal.cpp:1392
 msgid "melancholy"
-msgstr ""
+msgstr "Mélancolique"
 
 # libicq/country.cpp:296
 #: plugins/livejournal/livejournal.cpp:1393
-#, fuzzy
 msgid "drained"
-msgstr "Ukraine"
+msgstr "Epuisé"
 
 #: plugins/livejournal/livejournal.cpp:1394
 msgid "excited"
-msgstr ""
+msgstr "Excité"
 
 #: plugins/livejournal/livejournal.cpp:1395
 msgid "relieved"
-msgstr ""
+msgstr "Soulagé"
 
 #: plugins/livejournal/livejournal.cpp:1396
 msgid "hopeful"
-msgstr ""
+msgstr "Optimiste"
 
 # libicq/country.cpp:362
 #: plugins/livejournal/livejournal.cpp:1397
@@ -6363,29 +6345,28 @@ msgstr "determiné"
 
 #: plugins/livejournal/livejournal.cpp:1399
 msgid "scared"
-msgstr ""
+msgstr "Effrayé"
 
 #: plugins/livejournal/livejournal.cpp:1400
 msgid "frustrated"
-msgstr ""
+msgstr "Frustré"
 
 #: plugins/livejournal/livejournal.cpp:1401
 msgid "indescribable"
-msgstr ""
+msgstr "Indescriptible"
 
 #: plugins/livejournal/livejournal.cpp:1402
 msgid "sleepy"
-msgstr ""
+msgstr "Endormi"
 
 #: plugins/livejournal/livejournal.cpp:1403
 msgid "groggy"
-msgstr ""
+msgstr "Abattu"
 
 # ui/phonebook.cpp:78
 #: plugins/livejournal/livejournal.cpp:1404
-#, fuzzy
 msgid "hyper"
-msgstr "Type"
+msgstr "Hyper"
 
 # libicq/country.cpp:178
 #: plugins/livejournal/livejournal.cpp:1405
@@ -6394,11 +6375,11 @@ msgstr "relaxé"
 
 #: plugins/livejournal/livejournal.cpp:1406
 msgid "restless"
-msgstr ""
+msgstr "Impatient"
 
 #: plugins/livejournal/livejournal.cpp:1407
 msgid "disappointed"
-msgstr ""
+msgstr "Déçu"
 
 # libicq/country.cpp:211
 #: plugins/livejournal/livejournal.cpp:1408
@@ -6407,7 +6388,7 @@ msgstr "curieux"
 
 #: plugins/livejournal/livejournal.cpp:1409
 msgid "mellow"
-msgstr ""
+msgstr "Calme"
 
 # libicq/country.cpp:360
 #: plugins/livejournal/livejournal.cpp:1410
@@ -6416,7 +6397,7 @@ msgstr "paisible"
 
 #: plugins/livejournal/livejournal.cpp:1411
 msgid "bouncy"
-msgstr ""
+msgstr "Rebondissant"
 
 # mainwin.cpp:3003
 #: plugins/livejournal/livejournal.cpp:1412
@@ -6425,11 +6406,11 @@ msgstr "nostalgique"
 
 #: plugins/livejournal/livejournal.cpp:1413
 msgid "okay"
-msgstr ""
+msgstr "OK"
 
 #: plugins/livejournal/livejournal.cpp:1414
 msgid "rejuvenated"
-msgstr ""
+msgstr "Rajeuni"
 
 # libicq/country.cpp:335
 # libicq/country.cpp:416
@@ -6439,9 +6420,8 @@ msgstr "complaisant"
 
 # libicq/country.cpp:341
 #: plugins/livejournal/livejournal.cpp:1416
-#, fuzzy
 msgid "content"
-msgstr "Internet"
+msgstr "Satisfait"
 
 # libicq/country.cpp:341
 #: plugins/livejournal/livejournal.cpp:1417
@@ -6450,15 +6430,15 @@ msgstr "indifférent"
 
 #: plugins/livejournal/livejournal.cpp:1418
 msgid "silly"
-msgstr ""
+msgstr "Bête"
 
 #: plugins/livejournal/livejournal.cpp:1419
 msgid "flirty"
-msgstr ""
+msgstr "Chaud"
 
 #: plugins/livejournal/livejournal.cpp:1420
 msgid "calm"
-msgstr ""
+msgstr "Calme"
 
 # msgedit.cpp:121
 #: plugins/livejournal/livejournal.cpp:1421
@@ -6467,41 +6447,40 @@ msgstr "raffraîchi"
 
 #: plugins/livejournal/livejournal.cpp:1422
 msgid "optimistic"
-msgstr ""
+msgstr "Optimiste"
 
 #: plugins/livejournal/livejournal.cpp:1423
 msgid "pessimistic"
-msgstr ""
+msgstr "Pessimite"
 
 #: plugins/livejournal/livejournal.cpp:1424
 msgid "giggly"
-msgstr ""
+msgstr "Boulet"
 
 #: plugins/livejournal/livejournal.cpp:1425
 msgid "pensive"
-msgstr ""
+msgstr "Méditatif"
 
 #: plugins/livejournal/livejournal.cpp:1426
 msgid "uncomfortable"
-msgstr ""
+msgstr "Inconfortable"
 
 #: plugins/livejournal/livejournal.cpp:1427
 msgid "lethargic"
-msgstr ""
+msgstr "Léthargique"
 
 # libicq/country.cpp:337
 #: plugins/livejournal/livejournal.cpp:1428
-#, fuzzy
 msgid "listless"
-msgstr "Forme"
+msgstr "Blasé"
 
 #: plugins/livejournal/livejournal.cpp:1429
 msgid "recumbent"
-msgstr ""
+msgstr "Larvant"
 
 #: plugins/livejournal/livejournal.cpp:1430
 msgid "exanimate"
-msgstr ""
+msgstr "Inanimé"
 
 # usertbl.cpp:392
 #: plugins/livejournal/livejournal.cpp:1431
@@ -6515,7 +6494,7 @@ msgstr "envieux"
 
 #: plugins/livejournal/livejournal.cpp:1433
 msgid "sympathetic"
-msgstr ""
+msgstr "Sympathique"
 
 # ui/maininfobase.cpp:100
 #: plugins/livejournal/livejournal.cpp:1434
@@ -6534,7 +6513,7 @@ msgstr "froid"
 
 #: plugins/livejournal/livejournal.cpp:1437
 msgid "worried"
-msgstr ""
+msgstr "Inquiet"
 
 # libicq/country.cpp:264
 #: plugins/livejournal/livejournal.cpp:1438
@@ -6543,7 +6522,7 @@ msgstr "amoureux"
 
 #: plugins/livejournal/livejournal.cpp:1439
 msgid "awake"
-msgstr ""
+msgstr "Réveillé"
 
 # libicq/country.cpp:351
 # libicq/country.cpp:436
@@ -6553,11 +6532,11 @@ msgstr "au travail"
 
 #: plugins/livejournal/livejournal.cpp:1441
 msgid "productive"
-msgstr ""
+msgstr "Productif"
 
 #: plugins/livejournal/livejournal.cpp:1442
 msgid "accomplished"
-msgstr ""
+msgstr "Mature"
 
 # mainwin.cpp:2703
 #: plugins/livejournal/livejournal.cpp:1443
@@ -6566,45 +6545,44 @@ msgstr "occupé"
 
 #: plugins/livejournal/livejournal.cpp:1444
 msgid "full"
-msgstr ""
+msgstr "Rempli"
 
 #: plugins/livejournal/livejournal.cpp:1445
 msgid "grumpy"
-msgstr ""
+msgstr "Grognon"
 
 # libicq/country.cpp:434
 #: plugins/livejournal/livejournal.cpp:1446
-#, fuzzy
 msgid "weird"
-msgstr "Retraité(e)s"
+msgstr "Bizarre"
 
 #: plugins/livejournal/livejournal.cpp:1447
 msgid "nauseated"
-msgstr ""
+msgstr "Nauséeux"
 
 #: plugins/livejournal/livejournal.cpp:1448
 msgid "ecstatic"
-msgstr ""
+msgstr "Extatique"
 
 #: plugins/livejournal/livejournal.cpp:1449
 msgid "chipper"
-msgstr ""
+msgstr "Débonnaire"
 
 #: plugins/livejournal/livejournal.cpp:1450
 msgid "rushed"
-msgstr ""
+msgstr "Sous pression"
 
 #: plugins/livejournal/livejournal.cpp:1451
 msgid "contemplative"
-msgstr ""
+msgstr "Comtemplatif"
 
 #: plugins/livejournal/livejournal.cpp:1452
 msgid "nerdy"
-msgstr ""
+msgstr "Nerd"
 
 #: plugins/livejournal/livejournal.cpp:1453
 msgid "geeky"
-msgstr ""
+msgstr "Geek"
 
 # libicq/country.cpp:437
 #: plugins/livejournal/livejournal.cpp:1454
@@ -6613,11 +6591,11 @@ msgstr "cynique"
 
 #: plugins/livejournal/livejournal.cpp:1455
 msgid "quixotic"
-msgstr ""
+msgstr "Doux rêveur"
 
 #: plugins/livejournal/livejournal.cpp:1456
 msgid "crazy"
-msgstr ""
+msgstr "Fou"
 
 # ui/maininfobase.cpp:237
 #: plugins/livejournal/livejournal.cpp:1457
@@ -6637,43 +6615,41 @@ msgstr "enchanté"
 
 #: plugins/livejournal/livejournal.cpp:1460
 msgid "bitchy"
-msgstr ""
+msgstr "Allumeur"
 
 #: plugins/livejournal/livejournal.cpp:1461
 msgid "guilty"
-msgstr ""
+msgstr "Fautif"
 
 #: plugins/livejournal/livejournal.cpp:1462
 msgid "irritated"
-msgstr ""
+msgstr "Irrité"
 
 # mainwin.cpp:2996
 #: plugins/livejournal/livejournal.cpp:1463
-#, fuzzy
 msgid "blank"
-msgstr "noir"
+msgstr "Evanouï"
 
 #: plugins/livejournal/livejournal.cpp:1464
 msgid "apathetic"
-msgstr ""
+msgstr "Apathique"
 
 #: plugins/livejournal/livejournal.cpp:1465
 msgid "dorky"
-msgstr ""
+msgstr "Sale"
 
 #: plugins/livejournal/livejournal.cpp:1466
 msgid "impressed"
-msgstr ""
+msgstr "Impressionné"
 
 #: plugins/livejournal/livejournal.cpp:1467
 msgid "naughty"
-msgstr ""
+msgstr "Coquin"
 
 # sim.cpp:535
 #: plugins/livejournal/livejournal.cpp:1468
-#, fuzzy
 msgid "predatory"
-msgstr "Répertoires"
+msgstr "Prédateur"
 
 # ui/homeinfobase.cpp:114
 # ui/searchbase.cpp:123
@@ -6684,15 +6660,15 @@ msgstr "sale"
 
 #: plugins/livejournal/livejournal.cpp:1470
 msgid "giddy"
-msgstr ""
+msgstr "Etourdi"
 
 #: plugins/livejournal/livejournal.cpp:1471
 msgid "surprised"
-msgstr ""
+msgstr "Surpris"
 
 #: plugins/livejournal/livejournal.cpp:1472
 msgid "shocked"
-msgstr ""
+msgstr "Choqué"
 
 # libicq/country.cpp:153
 #: plugins/livejournal/livejournal.cpp:1473
@@ -6701,19 +6677,19 @@ msgstr "rejeté"
 
 #: plugins/livejournal/livejournal.cpp:1474
 msgid "numb"
-msgstr ""
+msgstr "Neuneu"
 
 #: plugins/livejournal/livejournal.cpp:1475
 msgid "cheerful"
-msgstr ""
+msgstr "Gai"
 
 #: plugins/livejournal/livejournal.cpp:1476
 msgid "good"
-msgstr ""
+msgstr "Bon"
 
 #: plugins/livejournal/livejournal.cpp:1477
 msgid "distressed"
-msgstr ""
+msgstr "Déstressé"
 
 #: plugins/livejournal/livejournal.cpp:1478
 msgid "intimidated"
@@ -6721,25 +6697,24 @@ msgstr "intimidé"
 
 #: plugins/livejournal/livejournal.cpp:1479
 msgid "crushed"
-msgstr ""
+msgstr "Ecrasé"
 
 # libicq/country.cpp:227
 #: plugins/livejournal/livejournal.cpp:1480
-#, fuzzy
 msgid "devious"
-msgstr "Nevis"
+msgstr "Sournois"
 
 #: plugins/livejournal/livejournal.cpp:1481
 msgid "thankful"
-msgstr ""
+msgstr "Reconnaissant"
 
 #: plugins/livejournal/livejournal.cpp:1482
 msgid "grateful"
-msgstr ""
+msgstr "Reconnaissant"
 
 #: plugins/livejournal/livejournal.cpp:1483
 msgid "jealous"
-msgstr ""
+msgstr "Jaloux"
 
 # mainwin.cpp:2037
 # mainwin.cpp:2723
@@ -6778,9 +6753,8 @@ msgstr "Changer les réglages"
 # libicq/country.cpp:351
 # libicq/country.cpp:436
 #: plugins/livejournal/livejournal.cpp:1492
-#, fuzzy
 msgid "Support"
-msgstr "Sports"
+msgstr "Support"
 
 #: plugins/livejournal/livejournal.cpp:1493
 msgid "Personal Info"
@@ -6788,9 +6762,8 @@ msgstr "Informations personnelles"
 
 # msgedit.cpp:349
 #: plugins/livejournal/livejournal.cpp:1494
-#, fuzzy
 msgid "Journal Settings"
-msgstr "Envoi"
+msgstr "Réglages du journal"
 
 # ui/enable.cpp:123
 #: plugins/livejournal/livejournalcfg.cpp:36
@@ -6800,9 +6773,8 @@ msgstr "Créer un nouveau compte"
 # mainwin.cpp:617
 # mainwin.cpp:2717
 #: plugins/livejournal/msgjournal.cpp:153
-#, fuzzy
 msgid "Remove record from journal?"
-msgstr "Ajouter Contact non-IM"
+msgstr "Supprimer l'enregistrment du journal ?"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:151
 msgid "&LiveJournal"
@@ -6829,9 +6801,8 @@ msgstr "Sujet : "
 
 # ui/setupdlg.cpp:146
 #: plugins/livejournal/msgjournalbase.cpp:83
-#, fuzzy
 msgid "Security:"
-msgstr "Sécurité"
+msgstr "Sécurité : "
 
 # ui/phonebook.cpp:81
 #: plugins/livejournal/msgjournalbase.cpp:85
@@ -6849,9 +6820,8 @@ msgstr "Privé"
 
 # libicq/country.cpp:459
 #: plugins/livejournal/msgjournalbase.cpp:88
-#, fuzzy
 msgid "Mood:"
-msgstr "Homme"
+msgstr "Humeur : "
 
 # ui/soundsetupbase.cpp:77
 #: plugins/livejournal/msgjournalbase.cpp:92
@@ -6871,9 +6841,8 @@ msgstr "Désactiver les commentaires"
 # mainwin.cpp:617
 # mainwin.cpp:2717
 #: plugins/livejournal/journalsearchbase.cpp:65
-#, fuzzy
 msgid "Add community"
-msgstr "Ajouter Contact non-IM"
+msgstr "Ajouter le communauté"
 
 # monitor.cpp:80
 #: plugins/logger/logconfig.cpp:94
@@ -6919,9 +6888,8 @@ msgstr "Fichier"
 
 # sim.cpp:536
 #: plugins/logger/logconfigbase.cpp:69
-#, fuzzy
 msgid "Log level:"
-msgstr "Loglevel"
+msgstr "Niveau de log : "
 
 # ui/setupdlg.cpp:131
 #: plugins/msn/msn.cpp:59
@@ -6961,15 +6929,13 @@ msgstr "Votre compte est utilisé depuis un autre endroit."
 # ui/themesetup.cpp:136
 #: plugins/msn/msnclient.cpp:1912
 #: plugins/msn/msnclient.cpp:1920
-#, fuzzy
 msgid "Contact go offline"
-msgstr "Contact - Gauche"
+msgstr "Le correspondant s'est déconnecté."
 
 # control.cpp:220
 #: plugins/msn/msnclient.cpp:2114
-#, fuzzy
 msgid "Send message failed"
-msgstr "Envoyer &message"
+msgstr "Echec lors de l'envoi du message"
 
 # msgedit.cpp:511
 #: plugins/msn/msnclient.cpp:2765
@@ -7025,9 +6991,8 @@ msgstr "Envoyer le mail"
 
 # ui/workinfobase.cpp:156
 #: plugins/navigate/navigate.cpp:281
-#, fuzzy
 msgid "Copy &location"
-msgstr "&Occupation :"
+msgstr "Copier &l'adresse"
 
 # ui/networkbase.cpp:163
 # ui/proxydlgbase.cpp:109
@@ -7225,9 +7190,8 @@ msgstr "Nombre de lignes de contenu à afficher : "
 # ui/setupdlg.cpp:129
 # ui/userinfo.cpp:90
 #: plugins/osd/osdconfigbase.cpp:121
-#, fuzzy
 msgid "All"
-msgstr "Alt"
+msgstr "Tous"
 
 # ui/alertdialogbase.cpp:166
 #: plugins/osd/osdifacebase.cpp:129
@@ -7267,9 +7231,8 @@ msgstr "Couleur d'arrière-plan :"
 
 # ui/acceptbase.cpp:145
 #: plugins/osd/osdifacebase.cpp:137
-#, fuzzy
 msgid "Shown on screen:"
-msgstr "Montrer la réponse"
+msgstr "Affiché à l'écran : "
 
 # mainwin.cpp:1261
 # ui/logindlg.cpp:232
@@ -7487,9 +7450,8 @@ msgstr "Erreur de port"
 
 # monitor.cpp:81
 #: plugins/sms/smssetup.cpp:56
-#, fuzzy
 msgid "Charging:"
-msgstr "&Warnings"
+msgstr "Sur secteur : "
 
 #: plugins/sms/smssetup.cpp:58
 msgid "Battery:"
@@ -8158,9 +8120,8 @@ msgid "Out to lunch"
 msgstr "Parti déjeuner"
 
 #: plugins/yahoo/yahooclient.cpp:1426
-#, fuzzy
 msgid "Stepped out"
-msgstr "Barrer"
+msgstr "En ballade"
 
 # ui/phonebookbase.cpp:114
 #: plugins/yahoo/yahoosearch.cpp:128
@@ -9722,9 +9683,8 @@ msgid "italic"
 msgstr "italique"
 
 #: sim/fontedit.cpp:123
-#, fuzzy
 msgid "strikeout"
-msgstr "Barrer"
+msgstr "Barré"
 
 # msgedit.cpp:117
 #: sim/fontedit.cpp:127
@@ -9773,9 +9733,8 @@ msgstr "French"
 
 # usertbl.cpp:115
 #: sim/simapi.cpp:692
-#, fuzzy
 msgid "Smile"
-msgstr "Exemple"
+msgstr "Souriant"
 
 #: sim/simapi.cpp:693
 msgid "Surprised"
@@ -9788,9 +9747,8 @@ msgstr "Indifférent"
 
 # libicq/country.cpp:437
 #: sim/simapi.cpp:695
-#, fuzzy
 msgid "Skeptical"
-msgstr "Spécial"
+msgstr "Sceptique"
 
 # ui/alertdialogbase.cpp:206
 #: sim/simapi.cpp:696
@@ -9803,7 +9761,7 @@ msgstr "Bisous"
 
 #: sim/simapi.cpp:698
 msgid "Annoyed"
-msgstr ""
+msgstr "Soucieux"
 
 #: sim/simapi.cpp:699
 msgid "Crying"
@@ -9811,7 +9769,7 @@ msgstr "En pleurs"
 
 #: sim/simapi.cpp:700
 msgid "Wink"
-msgstr ""
+msgstr "Clin d'oeil"
 
 # libicq/country.cpp:166
 #: sim/simapi.cpp:701
@@ -9825,31 +9783,27 @@ msgstr "Embarrassé"
 
 # mainwin.cpp:2984
 #: sim/simapi.cpp:703
-#, fuzzy
 msgid "Uptight"
-msgstr "fin"
+msgstr "Tendu"
 
 # ui/soundsetupbase.cpp:118
 #: sim/simapi.cpp:704
-#, fuzzy
 msgid "Teaser"
-msgstr "Transfert du fichier terminé."
+msgstr "Enigmatique"
 
 # libicq/country.cpp:120
 #: sim/simapi.cpp:705
-#, fuzzy
 msgid "Cool"
-msgstr "Congo"
+msgstr "Cool"
 
 # libicq/country.cpp:76
 #: sim/simapi.cpp:706
-#, fuzzy
 msgid "Angel"
-msgstr "Angola"
+msgstr "Ange"
 
 #: sim/simapi.cpp:707
 msgid "Grin"
-msgstr ""
+msgstr "Sourire"
 
 #: sim/socket.cpp:145
 #: sim/socket.cpp:163
@@ -9922,9 +9876,8 @@ msgid "Custom"
 msgstr "Personnaliser"
 
 #: sim/qt3/i18n.cpp:1
-#, fuzzy
 msgid "Hu&e:"
-msgstr "Hu&e :"
+msgstr "Tonalité :"
 
 # ui/homeinfobase.cpp:81
 # ui/searchbase.cpp:133
@@ -9934,7 +9887,6 @@ msgid "&Sat:"
 msgstr "&Saturation :"
 
 #: sim/qt3/i18n.cpp:5
-#, fuzzy
 msgid "&Val:"
 msgstr "&Val :"
 
@@ -10137,17 +10089,14 @@ msgstr "Afficher les fichiers cac&hés"
 
 # mainwin.cpp:2726
 #: sim/qt3/i18n.cpp:115
-#, fuzzy
 msgid "the file"
 msgstr "le fichier"
 
 #: sim/qt3/i18n.cpp:117
-#, fuzzy
 msgid "the directory"
 msgstr "le répertoire"
 
 #: sim/qt3/i18n.cpp:119
-#, fuzzy
 msgid "the symlink"
 msgstr "le lien symbolique"
 
