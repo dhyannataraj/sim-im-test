@@ -1,7 +1,7 @@
 /***************************************************************************
                           kabcsync.cpp  -  description
                              -------------------
-    begin                : Sun Mar 10 2002
+    begin                : Mon Dec 02 2002
     copyright            : (C) 2002 by Vladimir Shutoff (shutoff@mail.ru)
     copyright            : (C) 2002 by Stanislav Klyuhin (crz@hot.ee)
 
@@ -18,12 +18,28 @@
  
 #include "kabcsync.h"
  
-KabcSync::KabcSync(void)
+KabcSync::KabcSync(void):QObject(),m_bOpen(false)
 {
  
 }
  
 KabcSync::~KabcSync()
+{
+
+}
+
+
+bool KabcSync::open(void)
+{
+
+}
+
+void KabcSync::close(void)
+{
+	m_bOpen=false;
+}
+
+Addressee KabcSync::addresseeFromUser(SIMUser& u, Addressee* oldPers=NULL)
 {
 
 }

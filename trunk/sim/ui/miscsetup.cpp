@@ -30,6 +30,7 @@
 #include <qpixmap.h>
 #include <qcheckbox.h>
 #include <qtabwidget.h>
+#include <qmessagebox.h>
 
 MiscSetup::MiscSetup(QWidget *p)
         : MiscSetupBase(p)
