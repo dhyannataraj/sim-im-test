@@ -115,6 +115,8 @@ protected:
     bool readLine(string &s);
 };
 
+#ifdef USE_OPENSSL
+
 class HTTPS_Proxy : public HTTP_Proxy
 {
 public:
@@ -130,4 +132,5 @@ protected:
     State state;
 };
 
+#endif
 #endif

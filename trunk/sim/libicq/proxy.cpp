@@ -426,6 +426,8 @@ bool HTTP_Proxy::readLine(string &s)
     return true;
 }
 
+#ifdef USE_OPENSSL
+
 HTTPS_Proxy::HTTPS_Proxy(const char *host, unsigned short port, const char *user, const char *passwd)
         : HTTP_Proxy(host, port, user, passwd)
 {
@@ -462,3 +464,5 @@ void HTTPS_Proxy::proxy_connect_ready()
     */
     HTTP_Proxy::proxy_connect_ready();
 }
+
+#endif

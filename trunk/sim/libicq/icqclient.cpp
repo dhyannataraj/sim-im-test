@@ -579,10 +579,12 @@ Proxy *ICQClient::getProxy()
         return new HTTP_Proxy(ProxyHost.c_str(), ProxyPort,
                               ProxyAuth ? ProxyUser.c_str() : "",
                               ProxyAuth ? ProxyPasswd.c_str() : "");
+#ifdef USE_OPENSSL
     case 4:
         return new HTTPS_Proxy(ProxyHost.c_str(), ProxyPort,
                                ProxyAuth ? ProxyUser.c_str() : "",
                                ProxyAuth ? ProxyPasswd.c_str() : "");
+#endif
     default:
         log(L_WARN, "Unknown proxy type");
     }
