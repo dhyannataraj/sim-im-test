@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2002-08-21 06:26+0400\n"
-"PO-Revision-Date: 2002-08-19 10:40GMT\n"
-"Last-Translator: \n"
-"Language-Team:  <de@li.org>\n"
+"PO-Revision-Date: 2002-08-21 04:34GMT\n"
+"Last-Translator: Crissi <crissi99@gmx.de>\n"
+"Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2177,9 +2177,8 @@ msgid "Add Non-IM contact"
 msgstr "Nicht-ICQ-Kontakt hinzufügen"
 
 #: mainwin.cpp:2009
-#, fuzzy
 msgid "Send SMS"
-msgstr "&Senden"
+msgstr "SMS senden"
 
 #: mainwin.cpp:2011 ui/statussetupbase.cpp:79 usertbl.cpp:113
 msgid "Status"
@@ -3016,7 +3015,7 @@ msgstr "Globale Einstellungen überschreiben"
 
 #: ui/acceptbase.cpp:126
 msgid "Automatically open all messages"
-msgstr ""
+msgstr "Automatisch alle Nachrichten öffnen"
 
 #: ui/acceptbase.cpp:130
 msgid "Path for incoming files:"
@@ -3319,9 +3318,8 @@ msgid "Sending messages color"
 msgstr "Farbe für gesendete Nachricht"
 
 #: ui/fontsetupbase.cpp:226
-#, fuzzy
 msgid "User window stays on &top"
-msgstr "Benutzerfenstermodus"
+msgstr "Benutzerfenster immer im &Vordergrund"
 
 #: ui/fontsetupbase.cpp:230
 msgid "&Show splash window"
@@ -3482,8 +3480,7 @@ msgid "Hide main window after"
 msgstr "Hauptfenster anzeigen/verstecken nach"
 
 #: ui/statussetupbase.cpp:107
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -3616,8 +3613,7 @@ msgstr "&Andere Nachrichten ablehnen"
 
 #: ui/generalsecbase.cpp:181
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: ui/aboutinfobase.cpp:62
 msgid "Form4"
@@ -3721,8 +3717,7 @@ msgstr ";-)"
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #~ msgid "Allow others to view my &status from the Web"
 #~ msgstr "Erlaube anderen meinem &Status im Web anzusehen"
@@ -3782,3 +3777,4 @@ msgstr ""
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
