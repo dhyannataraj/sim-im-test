@@ -680,9 +680,9 @@ void MsgEdit::markAsRead()
                 if (pClient->markAsRead(msg)){
                     bChanged = true;
                     it = u->unreadMsgs.begin();
-                }else{
-                    log(L_WARN, "Mark as read failed for %u", msg->Id);
+					continue;
                 }
+                log(L_WARN, "Mark as read failed for %u", msg->Id);
                 ++it;
             }
             if (msg == NULL) return;

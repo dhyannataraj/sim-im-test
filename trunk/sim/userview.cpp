@@ -1544,11 +1544,18 @@ void UserView::contentsMouseReleaseEvent(QMouseEvent *e)
     mousePressPos = QPoint(0, 0);
 #endif
     if (!bList){
-        if (!pMain->isUseDoubleClick() && mPressedItem && (mPressedItem == itemAt(contentsToViewport(e->pos()))))
-            doubleClick(mPressedItem);
+        if (!pMain->isUseDoubleClick() && mPressedItem && (mPressedItem == itemAt(contentsToViewport(e->pos())))){
+            mClickItem = mPressedItem;
+			QTimer::singleShot(0, this, SLOT(doubleClick()));
+		}
         pressedUp();
     }
     QListView::contentsMouseReleaseEvent(e);
+}
+
+void UserView::doubleClick()
+{
+	doubleClick(mClickItem);
 }
 
 void UserView::contentsMousePressEvent(QMouseEvent *e)

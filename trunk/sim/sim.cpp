@@ -26,6 +26,10 @@
 #include "sim.h"
 #include "ui/logindlg.h"
 
+#ifdef _MSC_VER
+#include <crtdbg.h>
+#endif
+
 #ifndef WIN32
 #include <stdio.h>
 #include <pwd.h>
