@@ -9,12 +9,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-06-14 02:23+0400\n"
-"PO-Revision-Date: 2004-06-13 12:00+0100\n"
-"Last-Translator: Tobias Franz <noragen@gmx.net>\n"
+"PO-Revision-Date: 2004-06-15 12:04+0200\n"
+"Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.3.1\n"
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
@@ -1108,13 +1109,11 @@ msgstr "SSL-Fehler bei der SSL- Initialisierung"
 
 #: sim/api/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
-msgstr ""
-"Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
+msgstr "Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
 
 #: sim/api/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
 
 #: sim/api/socket.cpp:145 sim/api/socket.cpp:163
 msgid "Read socket error"
@@ -1293,47 +1292,43 @@ msgstr "%1 kann nicht geöffnet werden"
 
 #: sim/ui/qt3/i18n.cpp:1
 msgid "Hu&e:"
-msgstr ""
+msgstr "Farb&e:"
 
 #: sim/ui/qt3/i18n.cpp:3
-#, fuzzy
 msgid "&Sat:"
-msgstr "&Status"
+msgstr "&Sättigung:"
 
 #: sim/ui/qt3/i18n.cpp:5
 msgid "&Val:"
-msgstr ""
+msgstr "&Wert:"
 
 #: sim/ui/qt3/i18n.cpp:7
-#, fuzzy
 msgid "&Red:"
-msgstr "&Wiederherstellen"
+msgstr "&Rot:"
 
 #: sim/ui/qt3/i18n.cpp:9
-#, fuzzy
 msgid "&Green:"
-msgstr "Griechisch"
+msgstr "&Grün:"
 
 #: sim/ui/qt3/i18n.cpp:11
 msgid "Bl&ue:"
-msgstr ""
+msgstr "Bla&u:"
 
 #: sim/ui/qt3/i18n.cpp:13
 msgid "A&lpha channel:"
-msgstr ""
+msgstr "A&lphakanal:"
 
 #: sim/ui/qt3/i18n.cpp:15
 msgid "&Basic colors"
-msgstr ""
+msgstr "&Einfache Farben"
 
 #: sim/ui/qt3/i18n.cpp:17
-#, fuzzy
 msgid "&Custom colors"
-msgstr "Buttonfarbe:"
+msgstr "&Benutzerdefinierte Farben"
 
 #: sim/ui/qt3/i18n.cpp:19
 msgid "&Define Custom Colors >>"
-msgstr ""
+msgstr "Benutzerdefinierte Farben &definieren >>"
 
 #: plugins/_core/core.cpp:1713 plugins/_core/status.cpp:321
 #: sim/ui/qt3/i18n.cpp:21
@@ -1345,33 +1340,30 @@ msgid "Cancel"
 msgstr "Abbrechen"
 
 #: sim/ui/qt3/i18n.cpp:25
-#, fuzzy
 msgid "&Add To Custom Colors"
-msgstr "Zur Liste &hinzufügen"
+msgstr "Zur benutzerdefinierten Farben &hinzufügen"
 
 #: sim/ui/qt3/i18n.cpp:27
-#, fuzzy
 msgid "Select color"
-msgstr "Protokoll auswählen"
+msgstr "Farbe auswählen"
 
 #: sim/ui/qt3/i18n.cpp:29
 msgid "Copy or Move a File"
-msgstr ""
+msgstr "Datei kopieren oder verschieben"
 
 #: sim/ui/qt3/i18n.cpp:31
-#, fuzzy, c-format
+#, c-format
 msgid "Read: %1"
-msgstr "Suche: %1"
+msgstr "Lesen: %1"
 
 #: sim/ui/qt3/i18n.cpp:33
 #, c-format
 msgid "Write: %1"
-msgstr ""
+msgstr "Schreiben: %1"
 
 #: sim/ui/qt3/i18n.cpp:37
-#, fuzzy
 msgid "All files (*)"
-msgstr "Für alle Dateien"
+msgstr "Alle Dateien (*)"
 
 #: plugins/filter/ignorelist.cpp:27 plugins/icq/icqsecure.cpp:125
 #: plugins/jabber/discoinfo.cpp:63 plugins/jabber/jabberbrowser.cpp:114
@@ -1380,9 +1372,8 @@ msgid "Name"
 msgstr "Name"
 
 #: sim/ui/qt3/i18n.cpp:41
-#, fuzzy
 msgid "Size"
-msgstr "Lächeln"
+msgstr "Grösse"
 
 #: plugins/_core/maininfo.cpp:72 sim/ui/qt3/i18n.cpp:43
 msgid "Type"
@@ -1393,86 +1384,76 @@ msgid "Date"
 msgstr "Datum"
 
 #: sim/ui/qt3/i18n.cpp:47
-#, fuzzy
 msgid "Attributes"
-msgstr "Widder"
+msgstr "Attribute"
 
 #: sim/ui/qt3/i18n.cpp:49
-#, fuzzy
 msgid "Look &in:"
-msgstr "Login:"
+msgstr "Suchen &in:"
 
 #: sim/ui/qt3/i18n.cpp:51
-#, fuzzy
 msgid "File &name:"
-msgstr "Vorname:"
+msgstr "Datei&name:"
 
 #: sim/ui/qt3/i18n.cpp:53
-#, fuzzy
 msgid "File &type:"
-msgstr "Datei:"
+msgstr "Datei&typ:"
 
 #: sim/ui/qt3/i18n.cpp:55
-#, fuzzy
 msgid "Back"
-msgstr "&Zurück"
+msgstr "Zurück"
 
 #: sim/ui/qt3/i18n.cpp:57
-#, fuzzy
 msgid "One directory up"
-msgstr "Persönliches Verzeichnis"
+msgstr "Ein Verzeichnis hoch"
 
 #: sim/ui/qt3/i18n.cpp:59
 msgid "Create New Folder"
-msgstr ""
+msgstr "Neuen Ordner erstellen"
 
 #: sim/ui/qt3/i18n.cpp:61
-#, fuzzy
 msgid "List View"
-msgstr "Freunde-Ansicht"
+msgstr "Listenansicht"
 
 #: sim/ui/qt3/i18n.cpp:63
 msgid "Detail View"
-msgstr ""
+msgstr "Detailansicht"
 
 #: sim/ui/qt3/i18n.cpp:65
 msgid "Preview File Info"
-msgstr ""
+msgstr "Vorschau Dateiinfo"
 
 #: sim/ui/qt3/i18n.cpp:67
 msgid "Preview File Contents"
-msgstr ""
+msgstr "Vorschau Dateiinhalte"
 
 #: sim/ui/qt3/i18n.cpp:69
 msgid "Read-write"
-msgstr ""
+msgstr "Lesen/schreiben"
 
 #: sim/ui/qt3/i18n.cpp:71
 msgid "Read-only"
-msgstr ""
+msgstr "Nur lesbar"
 
 #: sim/ui/qt3/i18n.cpp:73
-#, fuzzy
 msgid "Write-only"
-msgstr "Nur Freunde"
+msgstr "Nur schreibbar"
 
 #: sim/ui/qt3/i18n.cpp:75
-#, fuzzy
 msgid "Inaccessible"
-msgstr "Unsichtbar"
+msgstr "Nicht zugreifbar"
 
 #: sim/ui/qt3/i18n.cpp:77
 msgid "Symlink to File"
-msgstr ""
+msgstr "Symbolische Verknüpfung zu Datei"
 
 #: sim/ui/qt3/i18n.cpp:79
-#, fuzzy
 msgid "Symlink to Directory"
-msgstr "Persönliches Verzeichnis auswählen"
+msgstr "Symbolische Verknüpfung zu Verzeichnis"
 
 #: sim/ui/qt3/i18n.cpp:81
 msgid "Symlink to Special"
-msgstr ""
+msgstr "Symbolische Verknüpfung zu Spezialdatei"
 
 #: plugins/_core/msgcfg.cpp:38 plugins/sound/sounduser.cpp:38
 #: sim/ui/qt3/i18n.cpp:83
@@ -1481,26 +1462,23 @@ msgstr "Datei"
 
 #: sim/ui/qt3/i18n.cpp:85
 msgid "Dir"
-msgstr ""
+msgstr "Verzeichnis"
 
 #: sim/ui/qt3/i18n.cpp:87
-#, fuzzy
 msgid "Special"
-msgstr "Skeptisch"
+msgstr "Spezialdatei"
 
 #: sim/ui/editfile.cpp:143 sim/ui/qt3/i18n.cpp:89
 msgid "Open"
 msgstr "Öffnen"
 
 #: sim/ui/qt3/i18n.cpp:91
-#, fuzzy
 msgid "Save as"
-msgstr "Passwort &speichern"
+msgstr "Speichern als"
 
 #: sim/ui/qt3/i18n.cpp:93
-#, fuzzy
 msgid "&Open"
-msgstr "Öffnen"
+msgstr "&Öffnen"
 
 #: plugins/netmonitor/monitor.cpp:60 sim/ui/qt3/i18n.cpp:95
 msgid "&Save"
@@ -1521,87 +1499,77 @@ msgstr "&Löschen"
 
 #: sim/ui/qt3/i18n.cpp:101
 msgid "R&eload"
-msgstr ""
+msgstr "&Erneut laden"
 
 #: sim/ui/qt3/i18n.cpp:103
 msgid "Sort by &Name"
-msgstr ""
+msgstr "Nach &Name sortieren"
 
 #: sim/ui/qt3/i18n.cpp:105
 msgid "Sort by &Size"
-msgstr ""
+msgstr "Nach Grö&sse sortieren"
 
 #: sim/ui/qt3/i18n.cpp:107
 msgid "Sort by &Date"
-msgstr ""
+msgstr "Nach &Datum sortieren"
 
 #: sim/ui/qt3/i18n.cpp:109
-#, fuzzy
 msgid "&Unsorted"
-msgstr "Arts &benutzen"
+msgstr "&Unsortiert"
 
 #: sim/ui/qt3/i18n.cpp:111
-#, fuzzy
 msgid "Sort"
-msgstr "Sport"
+msgstr "Sortiert"
 
 #: sim/ui/qt3/i18n.cpp:113
-#, fuzzy
 msgid "Show &hidden files"
-msgstr "Details anzeigen"
+msgstr "Ver&steckte Dateien anzeigen"
 
 #: sim/ui/qt3/i18n.cpp:115
-#, fuzzy
 msgid "the file"
-msgstr "Datei senden"
+msgstr "die Datei"
 
 #: sim/ui/qt3/i18n.cpp:117
-#, fuzzy
 msgid "the directory"
-msgstr "Persönliches Verzeichnis setzen"
+msgstr "das Verzeichnis"
 
 #: sim/ui/qt3/i18n.cpp:119
 msgid "the symlink"
-msgstr ""
+msgstr "die symbolische Verknüpfung"
 
 #: sim/ui/qt3/i18n.cpp:121
-#, fuzzy, c-format
+#, c-format
 msgid "Delete %1"
-msgstr "\"%1\" löschen?"
+msgstr "%1 löschen"
 
 #: sim/ui/qt3/i18n.cpp:123
 msgid "<qt>Do you really want to delete %1 \"%2\"?</qt>"
-msgstr ""
+msgstr "<qt>Soll %1 \"%2\" wirklich gelöscht werden?</qt>"
 
 #: sim/ui/qt3/i18n.cpp:129
-#, fuzzy
 msgid "New Folder 1"
-msgstr "Neues Profil"
+msgstr "Neuer Ordner 1"
 
 #: sim/ui/qt3/i18n.cpp:131
-#, fuzzy
 msgid "New Folder"
-msgstr "Neues Profil"
+msgstr "Neuer Ordner"
 
 #: sim/ui/qt3/i18n.cpp:133
 #, c-format
 msgid "New Folder %1"
-msgstr ""
+msgstr "Neuer Ordner %1"
 
 #: sim/ui/qt3/i18n.cpp:135
-#, fuzzy
 msgid "Find Directory"
-msgstr "Verzeichnis"
+msgstr "Verzeichnis finden"
 
 #: sim/ui/qt3/i18n.cpp:137
-#, fuzzy
 msgid "Directories"
-msgstr "Verzeichnis"
+msgstr "Verzeichnisse"
 
 #: sim/ui/qt3/i18n.cpp:139
-#, fuzzy
 msgid "Save"
-msgstr "&Speichern"
+msgstr "Speichern"
 
 #: plugins/_core/status.cpp:139 plugins/_core/statuswnd.cpp:95
 #: plugins/jabber/jabbermessage.cpp:109 plugins/jabber/jabbermessage.cpp:228
@@ -1616,34 +1584,33 @@ msgid ""
 "File not found.\n"
 "Check path and filename."
 msgstr ""
+"%1\n"
+"Datei nicht gefunden.\n"
+"Bitte Pfad und Dateiname überprüfen."
 
 #: sim/ui/qt3/i18n.cpp:148
 msgid "ERROR"
-msgstr ""
+msgstr "FEHLER"
 
 #: sim/ui/qt3/i18n.cpp:150
-#, fuzzy
 msgid "&Font"
-msgstr "Schrift:"
+msgstr "Schrif&tart:"
 
 #: sim/ui/qt3/i18n.cpp:152
-#, fuzzy
 msgid "Font st&yle"
-msgstr "Metall-Stil"
+msgstr "Schrift&stil"
 
 #: sim/ui/qt3/i18n.cpp:154
 msgid "&Size"
-msgstr ""
+msgstr "Grö&sse"
 
 #: sim/ui/qt3/i18n.cpp:156
-#, fuzzy
 msgid "Effects"
-msgstr "Ereignisse"
+msgstr "Effekte"
 
 #: sim/ui/qt3/i18n.cpp:158
-#, fuzzy
 msgid "Stri&keout"
-msgstr "Durchgestrichen"
+msgstr "Durch&gestrichen"
 
 #: plugins/_core/core.cpp:751 plugins/_core/core.cpp:848
 #: sim/ui/qt3/i18n.cpp:160
@@ -1651,34 +1618,28 @@ msgid "&Underline"
 msgstr "&Unterstrichen"
 
 #: sim/ui/qt3/i18n.cpp:162
-#, fuzzy
 msgid "&Color"
-msgstr "Farbe:"
+msgstr "&Farbe"
 
 #: sim/ui/qt3/i18n.cpp:164
-#, fuzzy
 msgid "Sample"
-msgstr "Lächeln"
+msgstr "Beispiel"
 
 #: sim/ui/qt3/i18n.cpp:166
-#, fuzzy
 msgid "Scr&ipt"
-msgstr "Sicherheit"
+msgstr "Skr&ipt"
 
 #: sim/ui/qt3/i18n.cpp:168
-#, fuzzy
 msgid "Apply"
-msgstr "Ü&bernehmen"
+msgstr "Anwenden"
 
 #: sim/ui/qt3/i18n.cpp:170
-#, fuzzy
 msgid "Close"
-msgstr "S&chließen"
+msgstr "Schließen"
 
 #: sim/ui/qt3/i18n.cpp:172
-#, fuzzy
 msgid "Select Font"
-msgstr "Schri&ftart auswählen"
+msgstr "Schriftart auswählen"
 
 #: sim/ui/qt3/i18n.cpp:177
 msgid ""
@@ -1688,31 +1649,29 @@ msgid ""
 "X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more "
 "information.</p>"
 msgstr ""
+"<h3>AÜber Qt</h3><p>Dieses Programm benutzt Qt in Version %1, ein Multiplattform-C++-GUI-Toolkit von Trolltech. Qt stellt Quellcodeportabilität zwischen Windows "
+"95/98/NT/2000, Linux, Solaris, HP-UX un vielen anderen Versionen von Unix mit "
+"X11 bereit.</p><p>Für weitere Informationen, <tt>http://www.trolltech.com/qt/</tt> besuchen.</p>"
 
 #: sim/ui/qt3/i18n.cpp:183
-#, fuzzy
 msgid "Help"
-msgstr "&Hilfe"
+msgstr "Hilfe"
 
 #: sim/ui/qt3/i18n.cpp:185
-#, fuzzy
 msgid "Defaults"
 msgstr "Standard"
 
 #: sim/ui/qt3/i18n.cpp:187
-#, fuzzy
 msgid "< Back"
-msgstr "&Zurück"
+msgstr "< Zurück"
 
 #: sim/ui/qt3/i18n.cpp:189
-#, fuzzy
 msgid "Next >"
-msgstr "&Nächster"
+msgstr "Nächster >"
 
 #: sim/ui/qt3/i18n.cpp:191
-#, fuzzy
 msgid "Finish"
-msgstr "Finnisch"
+msgstr "Abschliessen"
 
 #: plugins/shortcuts/mousecfgbase.cpp:82 sim/ui/qt3/i18n.cpp:193
 msgid "Ctrl"
@@ -1720,7 +1679,7 @@ msgstr "Strg"
 
 #: sim/ui/qt3/i18n.cpp:195
 msgid "+"
-msgstr ""
+msgstr "+"
 
 #: plugins/shortcuts/mousecfgbase.cpp:81 sim/ui/qt3/i18n.cpp:197
 msgid "Alt"
@@ -1733,22 +1692,19 @@ msgstr "Umschalt"
 #: sim/ui/qt3/i18n.cpp:201
 #, c-format
 msgid "F%1"
-msgstr ""
+msgstr "F%1"
 
 #: sim/ui/qt3/i18n.cpp:203
-#, fuzzy
 msgid "ctrl"
 msgstr "Strg"
 
 #: sim/ui/qt3/i18n.cpp:205
-#, fuzzy
 msgid "shift"
 msgstr "Umschalt"
 
 #: sim/ui/qt3/i18n.cpp:207
-#, fuzzy
 msgid "alt"
-msgstr "Malta"
+msgstr "Alt"
 
 #: sim/ui/qt3/i18n.cpp:210
 msgid ""
@@ -1757,13 +1713,19 @@ msgid ""
 "to\n"
 "%2"
 msgstr ""
+"Umbenennen nicht möglich\n"
+"%1\n"
+"in\n"
+"%2"
 
 #: sim/ui/qt3/i18n.cpp:216
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not open\n"
 "%1"
-msgstr "%1 kann nicht geöffnet werden"
+msgstr ""
+"Öffnen nicht möglich\n"
+"%1"
 
 #: sim/ui/qt3/i18n.cpp:220
 #, c-format
@@ -1771,63 +1733,59 @@ msgid ""
 "Could not write\n"
 "%1"
 msgstr ""
+"Schreiben nicht möglich\n"
+"%1"
 
 #: sim/ui/qt3/i18n.cpp:223
 msgid "Operation stopped by the user"
-msgstr ""
+msgstr "Operation vom Benutzer gestoppt"
 
 #: sim/ui/qt3/i18n.cpp:225
 msgid "(unknown)"
-msgstr ""
+msgstr "(unbekannt)"
 
 #: sim/ui/qt3/i18n.cpp:227
-#, fuzzy
 msgid "Host %1 found"
-msgstr "Ort %1 nicht gefunden"
+msgstr "Host %1 nicht gefunden"
 
 #: sim/ui/qt3/i18n.cpp:229
 msgid "Host found"
-msgstr ""
+msgstr "Host gefunden"
 
 #: sim/ui/qt3/i18n.cpp:231
-#, fuzzy, c-format
+#, c-format
 msgid "Connected to host %1"
-msgstr "Zu unbekanntem Port verbinden"
+msgstr "Verbunden zu Host %1"
 
 #: sim/ui/qt3/i18n.cpp:233
-#, fuzzy
 msgid "Connected to host"
-msgstr "Zu unbekanntem Port verbinden"
+msgstr "Zu Host verbunden"
 
 #: sim/ui/qt3/i18n.cpp:235
-#, fuzzy
 msgid "Connection to %1 closed"
-msgstr "Verbindung beendet"
+msgstr "Verbindung zu %1 geschlossen"
 
 #: sim/ui/qt3/i18n.cpp:239
-#, fuzzy
 msgid "Login Incorrect"
-msgstr "Anmeldefehler"
+msgstr "Login fehlgeschlagen"
 
 #: sim/ui/qt3/i18n.cpp:241
-#, fuzzy, c-format
+#, c-format
 msgid "Col %1"
-msgstr "an %1"
+msgstr "Spalte %1"
 
 #: sim/ui/qt3/i18n.cpp:243
-#, fuzzy, c-format
+#, c-format
 msgid "Row %1"
-msgstr "an %1"
+msgstr "Zeile %1"
 
 #: sim/ui/qt3/i18n.cpp:245
-#, fuzzy
 msgid "Undo"
-msgstr "&Rückgängig"
+msgstr "Rückgängig"
 
 #: sim/ui/qt3/i18n.cpp:247
-#, fuzzy
 msgid "Redo"
-msgstr "&Wiederherstellen"
+msgstr "Wiederherstellen"
 
 #: sim/ui/editfile.cpp:311 sim/ui/editfile.cpp:394 sim/ui/qt3/i18n.cpp:249
 msgid "Cut"
@@ -1852,98 +1810,88 @@ msgid "Select All"
 msgstr "Alles auswählen"
 
 #: sim/ui/qt3/i18n.cpp:259
-#, fuzzy
 msgid "&Left"
-msgstr "Links oben"
+msgstr "&Links"
 
 #: sim/ui/qt3/i18n.cpp:261
-#, fuzzy
 msgid "&Right"
-msgstr "Hell"
+msgstr "&Rechts"
 
 #: sim/ui/qt3/i18n.cpp:263
-#, fuzzy
 msgid "&Top"
-msgstr "&Kopieren"
+msgstr "&Oben"
 
 #: sim/ui/qt3/i18n.cpp:265
-#, fuzzy
 msgid "&Bottom"
-msgstr "&Foto"
+msgstr "&Unten"
 
 #: sim/ui/qt3/i18n.cpp:267
-#, fuzzy
 msgid "R&estore"
-msgstr "Resource:"
+msgstr "Wiederh&erstellen"
 
 #: sim/ui/qt3/i18n.cpp:269
-#, fuzzy
 msgid "&Hide"
-msgstr "Automatisch ausblenden"
+msgstr "Aus&blenden"
 
 #: sim/ui/qt3/i18n.cpp:271
 msgid "Line Up Toolbars (compact)"
-msgstr ""
+msgstr "Werkzeugleisten anordnen (kompakt)"
 
 #: sim/ui/qt3/i18n.cpp:273
 msgid "Line Up Toolbars (normal)"
-msgstr ""
+msgstr "Werkzeugleisten anordnen (normal)"
 
 #: sim/ui/qt3/i18n.cpp:275
 msgid "Paste special..."
-msgstr ""
+msgstr "Speziell einfügen..."
 
 #: sim/ui/qt3/i18n.cpp:277
 msgid "What's this?"
-msgstr ""
+msgstr "Was ist das?"
 
 #: sim/ui/qt3/i18n.cpp:279
-#, fuzzy
 msgid "&Restore"
-msgstr "&Registrieren"
+msgstr "Wiederhe&rstellen"
 
 #: sim/ui/qt3/i18n.cpp:281
-#, fuzzy
 msgid "&Move"
-msgstr "Entfe&rnen"
+msgstr "Ver&schieben"
 
 #: sim/ui/qt3/i18n.cpp:283
 msgid "Mi&nimize"
-msgstr ""
+msgstr "Mi&nimieren"
 
 #: sim/ui/qt3/i18n.cpp:285
 msgid "Ma&ximize"
-msgstr ""
+msgstr "Ma&ximieren"
 
 #: sim/ui/qt3/i18n.cpp:289
 msgid "&Roll up"
-msgstr ""
+msgstr "Nach oben &rollen"
 
 #: sim/ui/qt3/i18n.cpp:291
-#, fuzzy
 msgid "Minimize"
-msgstr "eingeschüchtert"
+msgstr "Minimieren"
 
 #: sim/ui/qt3/i18n.cpp:293
 msgid "Restore Down"
-msgstr ""
+msgstr "Unten wiedeherstellen"
 
 #: sim/ui/qt3/i18n.cpp:295
 msgid "Maximize"
-msgstr ""
+msgstr "Maximieren"
 
 #: sim/ui/qt3/i18n.cpp:297
 msgid "Roll up"
-msgstr ""
+msgstr "Nach oben rollen"
 
 #: sim/ui/qt3/i18n.cpp:299
-#, fuzzy
 msgid "Restore Up"
-msgstr "Resource:"
+msgstr "Oben wiederherstellen"
 
 #: sim/ui/qt3/i18n.cpp:301
 msgid "Roll down"
-msgstr ""
+msgstr "Nach unten rollen"
 
 #: plugins/_core/core.cpp:958 sim/ui/qt3/qtextedit.cpp:4231
 msgid "&Undo"
@@ -2108,9 +2056,8 @@ msgid "Developer"
 msgstr "Entwickler"
 
 #: xpstyle/xpstyle.cpp:62
-#, fuzzy
 msgid "Windows XP style"
-msgstr "Fenster - skaliert"
+msgstr "Windows XP-Stil"
 
 #: plugins/msn/msnclient.cpp:522 plugins/msn/msnclient.cpp:539
 msgid "MSN protocol error"
@@ -2322,8 +2269,7 @@ msgstr "&HTTP Anfragen verwenden"
 
 #: plugins/msn/msnconfigbase.cpp:177
 msgid "&Automatically use HTTP pooling if proxy required"
-msgstr ""
-"&Automatisch vereinte HTTP Anfragen benutzen, wenn ein Proxy benötigt wird"
+msgstr "&Automatisch vereinte HTTP Anfragen benutzen, wenn ein Proxy benötigt wird"
 
 #: plugins/icq/aimconfigbase.cc:151 plugins/icq/icqconfigbase.cc:273
 #: plugins/jabber/jabberconfigbase.cpp:308 plugins/msn/msnconfigbase.cpp:178
@@ -2453,9 +2399,8 @@ msgid "Path for config files:"
 msgstr "Pfad für die Konfigurationsdateien"
 
 #: plugins/styles/wood/wood.cpp:1269
-#, fuzzy
 msgid "Norwegian Wood"
-msgstr "Norwegisch"
+msgstr "Norwegischer Wald"
 
 #: plugins/styles/metal/metal.cpp:514
 msgid "Metal style"
@@ -4101,9 +4046,8 @@ msgid "Awaiting authorization"
 msgstr "Authorisierung ausstehend"
 
 #: plugins/_core/userviewcfgbase.cpp:280
-#, fuzzy
 msgid "No show scroller"
-msgstr "&Keine Gruppen anzeigen"
+msgstr "Kein Rollbalken anzeigen"
 
 #: plugins/_core/searchallbase.cpp:83 plugins/icq/aboutinfobase.cc:65
 #: plugins/jabber/jabberaboutinfobase.cpp:56
@@ -4265,8 +4209,7 @@ msgid "Set \"Offline\" status after"
 msgstr "Status \"Offline\" setzen nach"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:109
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Kein Online Alarm im \"Abwesend\", \"N/A\", \"DND\" und \"Beschäftigt\" "
 "Modus "
@@ -4417,8 +4360,7 @@ msgstr "Nachrichten nur von &Benutzern der Kontaktliste empfangen"
 
 #: plugins/filter/filtercfgbase.cpp:67
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: plugins/filter/filtercfgbase.cpp:68
 msgid ""
@@ -4660,22 +4602,20 @@ msgid "Icons"
 msgstr "Icons"
 
 #: plugins/icons/icon.cpp:31
-#, fuzzy
 msgid "Plugin provides JISP icons themes and emoticons"
-msgstr "Plugin stellt Miranda-Icon-Themen und Emoticons bereit"
+msgstr "Plugin stellt JISP-Symbolthemen und Emoticons bereit"
 
 #: plugins/icons/iconcfg.cpp:91
 msgid "*.jisp|Icon set"
-msgstr ""
+msgstr "*.jisp|Symbolsatz"
 
 #: plugins/icons/iconcfg.cpp:93
 msgid "Icon set(*.jisp)"
-msgstr ""
+msgstr "Symbolsatz(*.jisp)"
 
 #: plugins/icons/iconcfg.cpp:95
-#, fuzzy
 msgid "Select icon set"
-msgstr "Icons Bibliothek auswählen"
+msgstr "Symbolbibliothek auswählen"
 
 #: plugins/icons/smilecfgbase.cpp:63
 msgid "Smiles:"
@@ -5867,7 +5807,6 @@ msgid "Request secure channel fail"
 msgstr "Anforderung sicherer Kanal fehlgeschlagen"
 
 #: plugins/icq/icqicmb.cpp:1286 plugins/icq/warndlg.cpp:66
-#, fuzzy
 msgid "Send failed"
 msgstr "Senden fehlgeschlagen"
 
@@ -6372,8 +6311,7 @@ msgstr "Antworten auf Telefonbuch und Bilderanfragen verweigern"
 
 #: plugins/icq/icqconfigbase.cc:287
 msgid "Disable automaticaly &request autoreply on change status"
-msgstr ""
-"Automatische Anfragen nach Autoantworten bei Statusänderungen verweigern"
+msgstr "Automatische Anfragen nach Autoantworten bei Statusänderungen verweigern"
 
 #: plugins/icq/icqconfigbase.cc:288
 msgid "Disable automatically &update user info"
@@ -6571,8 +6509,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:69
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Plugin stellt Bildschirmbenachrichtigungen über Nachrichten und "
 "Kontaktstatus bereit"
@@ -6671,8 +6608,7 @@ msgstr "Bei Nachrichteneingang informieren (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:110
 msgid "Enable &status notification"
-msgstr ""
-"Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
+msgstr "Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
 
 #: plugins/jabber/jabberconfigbase.cpp:318 plugins/osd/osdconfigbase.cpp:118
 msgid "Enable &typing notification"
@@ -6768,8 +6704,7 @@ msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1153
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS/HTTP)"
-msgstr ""
-"Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
+msgstr "Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
 
 #: plugins/proxy/proxyerrorbase.cpp:78
 msgid "Proxy error"
@@ -6943,8 +6878,7 @@ msgstr "Aktualisieren"
 
 #: plugins/update/update.cpp:41
 msgid "Plugin provides notifications about update SIM software"
-msgstr ""
-"Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
+msgstr "Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
 
 #: plugins/update/update.cpp:127
 msgid "Show details"
@@ -8252,8 +8186,7 @@ msgstr "Aktion"
 
 #: plugins/action/action.cpp:34
 msgid "Plugin execute external programs on event or from contact menu"
-msgstr ""
-"Plugin führt externe Programme bei einem Ereignis oder von Kontaktmenü aus"
+msgstr "Plugin führt externe Programme bei einem Ereignis oder von Kontaktmenü aus"
 
 #: plugins/action/action.cpp:84
 msgid "&Action"
@@ -8288,8 +8221,7 @@ msgid "Navigate"
 msgstr "Navigation"
 
 #: plugins/navigate/navigate.cpp:215
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Plugin stellt Navigation von Hyperlinks bereit und ruft externe Browser- "
 "oder Mailprogramme auf"
@@ -8385,8 +8317,7 @@ msgstr "Text ersetzen"
 
 #: plugins/replace/replace.cpp:34
 msgid "Plugin provides text replacing in message edit window"
-msgstr ""
-"Dieses Plugin stellt Textersetzung im Nachrichtbearbeitung-Fenster bereit"
+msgstr "Dieses Plugin stellt Textersetzung im Nachrichtbearbeitung-Fenster bereit"
 
 #: plugins/replace/replacecfg.cpp:31
 msgid "You type"
@@ -8749,7 +8680,6 @@ msgid "%t | %c"
 msgstr "%t | %c"
 
 #: plugins/weather/weather.cpp:560
-#, fuzzy
 msgid ""
 "%l<br><br>\n"
 "<img src=\"icon:weather%i\"> %c<br>\n"
@@ -8770,7 +8700,7 @@ msgstr ""
 "Feuchtigkeit: <b>%h</b><br>\n"
 "Druck: <b>%p</b> (%q)<br>\n"
 "Wind: <b>%b</b> <b>%w %g</b><br>\n"
-"Sichtweite: <b>%v</b><br>\n"
+"Sichtbarkeit: <b>%v</b><br>\n"
 "Taupunkt: <b>%d</b><br>\n"
 "Sonnenaufgang: %r<br>\n"
 "Sonnenuntergang: %s<br>\n"
@@ -8867,8 +8797,7 @@ msgstr "User-ID:"
 
 #: plugins/weather/weathercfgbase.cpp:112
 msgid "You can enter ID as part URL for your location on weather.com"
-msgstr ""
-"Sie können eine ID als Teil-URL für Ihren Ort bei Weather.com eingeben"
+msgstr "Sie können eine ID als Teil-URL für Ihren Ort bei Weather.com eingeben"
 
 #: plugins/weather/weathercfgbase.cpp:114
 msgid "Metric"
@@ -8898,32 +8827,3 @@ msgstr "Button-Kurzinfo:"
 msgid "Forecast tip:"
 msgstr "Vorhersage Tip:"
 
-#~ msgid "Select smiles"
-#~ msgstr "Smilies auswählen"
-
-#~ msgid "*.msl *.xep|Smiles"
-#~ msgstr "*.msl *.xep|Smilies"
-
-#~ msgid "Smiles (*.msl *.xep)"
-#~ msgstr "Smilies (*.msl *.xep)"
-
-#~ msgid "Get more smiles"
-#~ msgstr "Mehr Smilies herunterladen"
-
-#~ msgid "*.dll|Icons themes"
-#~ msgstr "*.dll|Icon Themen"
-
-#~ msgid "Icons themes (*.dll)"
-#~ msgstr "Icon-Themen (*.dll)"
-
-#~ msgid "Get more icons themes"
-#~ msgstr "mehr Icon-Themen downloaden"
-
-#~ msgid "Smiles"
-#~ msgstr "Smilies"
-
-#~ msgid "Icons for protocol:"
-#~ msgstr "Icons für das jeweilige Protokoll:"
-
-#~ msgid "Wood"
-#~ msgstr "Holz"
