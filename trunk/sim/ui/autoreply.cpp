@@ -28,7 +28,7 @@
 #include <qtimer.h>
 
 AutoReplyDlg::AutoReplyDlg(QWidget *p, unsigned long _status)
-        : AutoreplyBase(p, "autoreply", WDestructiveClose), status(_status)
+        : AutoreplyBase(p, "autoreply", false, WDestructiveClose), status(_status)
 {
     setIcon(Pict(Client::getStatusIcon(status)));
     setWFlags(WDestructiveClose);
