@@ -14,8 +14,8 @@ URL: 		http://sim-icq.sourceforge.net/
 Source0: 	http://osdn.dl.sourceforge.net/sourceforge/sim-icq/%{name}-%{version}.tar.gz
 BuildRequires:	autoconf >= 2.52, automake >= 1.5
 BuildRequires:  gcc, gcc-c++, XFree86-devel, zlib-devel, libjpeg-devel, expat-devel, flex, libart_lgpl-devel, libpng-devel, gettext
-BuildRequires:  kdelibs-devel >= 3.0.0, qt-devel >= 3.0.0, openssl-devel, pcre-devel >= 3.9, arts-devel >= 1.0
-Requires:       kdebase >= 3.0.0, kdelibs >= 3.0.0, qt >= 3.0.0, openssl, arts >= 1.0
+BuildRequires:  kdelibs-devel >= 3.0.0, qt-devel >= 3.0.0, openssl-devel, pcre-devel >= 3.9, arts-devel >= 1.0, sablotron-devel >= 1.0.1
+Requires:       kdebase >= 3.0.0, kdelibs >= 3.0.0, qt >= 3.0.0, openssl, arts >= 1.0, sablotron >= 1.0.1
 BuildRoot: 	/tmp/%{name}-%{version}-root
 Distribution: 	Red Hat Linux %{rh_release}
 Prefix:         /usr
@@ -67,14 +67,13 @@ make install-strip DESTDIR=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
-rm -rf $RPM_BUILD_DIR/sim*
+rm -rf $RPM_BUILD_DIR/%{name}-%{version}
 
 %files -f %{name}.lang
 %defattr(-, root, root)
 %doc AUTHORS COPYING README TODO INSTALL
-%{_bindir}/sim
-%{_libdir}/libsimapi*
-%{_libdir}/libsimui*
+%{_bindir}/sim*
+%{_libdir}/libsim*
 %{_libdir}/menu/sim-kde.menu
 %{_datadir}/applnk-redhat/Internet/sim.desktop
 %dir %{_datadir}/apps/sim
@@ -85,11 +84,14 @@ rm -rf $RPM_BUILD_DIR/sim*
 %{_datadir}/apps/sim/pict/*
 %dir %{_datadir}/apps/sim/sounds
 %{_datadir}/apps/sim/sounds/*
+%dir %{_datadir}/apps/sim/styles
+%{_datadir}/apps/sim/styles/*
 %{_datadir}/icons/*/*/*/*
 
 %changelog
-* Sun Nov 23 2003 - Robert Scheck <sim@robert-scheck.de> - 0.9.2-1
+* Fri Dec 26 2003 - Robert Scheck <sim@robert-scheck.de> - 0.9.2-1
 - Upgrade to 0.9.2
+- Added sablotron to requirements
 
 * Wed Nov 05 2003 - Robert Scheck <sim@robert-scheck.de> - 0.9.1-1
 - Upgrade to 0.9.1
