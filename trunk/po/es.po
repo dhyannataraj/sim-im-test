@@ -1986,9 +1986,8 @@ msgid "Free for chat"
 msgstr "Libre para hablar"
 
 #: plugins/icq/icq.cpp:258
-#, fuzzy
 msgid "AIM"
-msgstr "SIM"
+msgstr "AIM"
 
 #: plugins/icq/icq.cpp:528
 msgid "Visible list"
