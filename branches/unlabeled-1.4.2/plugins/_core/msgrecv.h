@@ -34,8 +34,9 @@ class CmdButton : public QToolButton
     Q_OBJECT
 public:
     CmdButton(CToolCustom *parent, unsigned id, const char *text);
+	unsigned id() { return m_id; }
 signals:
-    void command(unsigned);
+    void command(CmdButton*);
 protected slots:
     void click();
 protected:
@@ -53,7 +54,7 @@ class MsgReceived : public QObject
 public:
     MsgReceived(CToolCustom *parent, Message *msg);
 protected slots:
-    void command(unsigned);
+    void command(CmdButton*);
     void textChanged();
     void init();
 protected:

@@ -133,7 +133,7 @@ public:
     PROP_STR(ServerText);
     PROP_ULONG(IP);
     PROP_ULONG(Port);
-    virtual QString getText();
+    virtual QString getDescription();
     virtual string  save();
 protected:
     ICQFileMessageData data;

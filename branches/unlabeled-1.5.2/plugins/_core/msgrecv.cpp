@@ -28,6 +28,7 @@
 #include <qpainter.h>
 #include <qtimer.h>
 #include <qlayout.h>
+#include <qpopupmenu.h>
 
 MsgReceived::MsgReceived(CToolCustom *parent, Message *msg)
         : QObject(parent)
@@ -68,7 +69,7 @@ MsgReceived::MsgReceived(CToolCustom *parent, Message *msg)
         for (const CommandDef *d = mdef->cmd; d->text; d++, n++){
             CmdButton *btn;
             btn = new CmdButton(parent, CmdMsgSpecial + n, d->text);
-            connect(btn, SIGNAL(command(unsigned)), this, SLOT(command(unsigned)));
+            connect(btn, SIGNAL(command(CmdButton*)), this, SLOT(command(CmdButton*)));
             btn->show();
         }
     }
@@ -115,8 +116,9 @@ MsgReceived::MsgReceived(CToolCustom *parent, Message *msg)
     }
 }
 
-void MsgReceived::command(unsigned id)
+void MsgReceived::command(CmdButton *btn)
 {
+	unsigned id = btn->id();
     Message *msg = History::load(m_id, m_client.c_str(), m_contact);
     if (msg == NULL)
         return;
@@ -138,6 +140,15 @@ void MsgReceived::command(unsigned id)
                 if (n-- == 0){
                     CommandDef cmd = *d;
                     cmd.param = msg;
+					if (d->popup_id){
+				        Event e(EventGetMenu, &cmd);
+						QPopupMenu *popup = (QPopupMenu*)(e.process());
+						if (popup){
+							QPoint pos = CToolButton::popupPos(btn, popup);
+							popup->popup(pos);
+						}
+						return;
+					}
                     Event eCmd(EventCommandExec, &cmd);
                     eCmd.process();
                     return;
@@ -236,7 +247,7 @@ QSize CmdButton::minimumSizeHint() const
 
 void CmdButton::click()
 {
-    emit command(m_id);
+    emit command(this);
 }
 
 #ifndef WIN32

@@ -653,6 +653,12 @@ typedef struct messageChange
     unsigned	old_id;
 } messageChange;
 
+typedef struct messageDecline
+{
+	Message		*msg;
+	char		*reason;
+} messageDecline;
+
 const unsigned EventMessageReceived	= 0x1100;
 const unsigned EventMessageSent		= 0x1101;
 const unsigned EventMessageCancel	= 0x1102;
@@ -662,6 +668,8 @@ const unsigned EventMessageRead		= 0x1105;
 const unsigned EventMessageAcked	= 0x1106;
 const unsigned EventMessageDeleted  = 0x1107;
 const unsigned EventMessageChanged	= 0x1108;
+const unsigned EventMessageAccept	= 0x1109;
+const unsigned EventMessageDecline	= 0x1110;
 
 const unsigned EventFetchDone		= 0x1300;
 
@@ -1018,7 +1026,7 @@ public:
     void     setSize(unsigned);
     virtual	string save();
     virtual QString presentation();
-    QString getDescription();
+    virtual QString getDescription();
     void	setDescription(const QString&);
     class EXPORT Iterator
     {
