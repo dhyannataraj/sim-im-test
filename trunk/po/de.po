@@ -2974,7 +2974,7 @@ msgstr "Gruppenmodus 2"
 
 #: plugins/_core/core.cpp:1064
 msgid "Show &empty groups"
-msgstr "Keine &leeren Gruppen anzeigen"
+msgstr "&Leere Gruppen anzeigen"
 
 #: plugins/_core/core.cpp:1071
 msgid "&Create group"
