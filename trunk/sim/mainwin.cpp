@@ -406,6 +406,11 @@ void MainWindow::setOnTop()
 #endif
 }
 
+void MainWindow::setBackgroundPixmap(const QPixmap &pm)
+{
+    transparent->updateBackground(pm);
+}
+
 void MainWindow::changeColors()
 {
     emit colorsChanged();

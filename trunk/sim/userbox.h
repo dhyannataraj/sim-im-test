@@ -96,6 +96,7 @@ public:
     QString containerName();
     unsigned count();
     UserView	*users;
+    virtual void setBackgroundPixmap(const QPixmap&);
 public slots:
     void quit();
     void typeChanged(int);

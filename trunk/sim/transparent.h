@@ -60,10 +60,10 @@ public:
     unsigned genFade;
 #endif
 #endif
+    void updateBackground(const QPixmap &pm);
 signals:
     void backgroundUpdated();
 protected slots:
-    void updateBackground(const QPixmap &pm);
     void transparentChanged();
 protected:
     ConfigBool &useTransparent;

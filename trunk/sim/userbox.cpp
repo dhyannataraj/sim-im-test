@@ -203,6 +203,11 @@ void UserBox::showUsers(bool bShow, unsigned long uin)
     }
 }
 
+void UserBox::setBackgroundPixmap(const QPixmap &pm)
+{
+    transparent->updateBackground(pm);
+}
+
 void UserBox::iconChanged()
 {
     ICQUser *u = pClient->getUser(curWnd->Uin);

@@ -28,16 +28,10 @@
 #endif
 #include <qpainter.h>
 
-#if USE_KDE
-#if HAVE_KROOTPIXMAP_H
-#if QT_VERSION >= 300
+#if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
 #include <krootpixmap.h>
 #include "ui/effect.h"
 #include <qimage.h>
-#else
-#undef HAVE_KROOTPIXMAP_H
-#endif
-#endif
 #endif
 
 #ifdef WIN32
@@ -129,12 +123,8 @@ TransparentTop::TransparentTop(QWidget *parent,
         useTransparent(_useTransparent),
         transparent(_transparent)
 {
-#ifdef USE_KDE
-#ifdef HAVE_KROOTPIXMAP_H
+#if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
     rootpixmap = new KRootPixmap(parent);
-    connect(rootpixmap, SIGNAL(backgroundUpdated(const QPixmap&)), SLOT(updateBackground(const QPixmap&)));
-    rootpixmap->setCustomPainting(true);
-#endif
 #endif
     QObjectList *l = parent->queryList("TransparentBg");
     QObjectListIt it(*l);
@@ -163,9 +153,8 @@ void TransparentTop::transparentChanged()
 #ifdef WIN32
     QWidget *p = static_cast<QWidget*>(parent());
     setTransparent(p,useTransparent, transparent);
-#else
-#ifdef USE_KDE
-#ifdef HAVE_KROOTPIXMAP_H
+#endif
+#if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
     if (useTransparent()){
         rootpixmap->start();
     }else{
@@ -175,8 +164,6 @@ void TransparentTop::transparentChanged()
 	genFade = 0;
         emit backgroundUpdated();
     }
-#endif
-#endif
 #endif
 }
 
@@ -217,10 +204,8 @@ static FN_SETLAYEREDWINDOWATTRIBUTES *SetLayeredWindowAttributes = NULL;
 Transparency::Transparency()
 {
     TransparentTop::bCanTransparent = false;
-#ifdef USE_KDE
-#ifdef HAVE_KROOTPIXMAP_H
+#if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
     TransparentTop::bCanTransparent = true;
-#endif
 #endif
 #ifdef WIN32
     HINSTANCE hLib = LoadLibraryA("user32.dll");

@@ -155,6 +155,11 @@ ChatWindow::~ChatWindow()
     pMain->chatClose();
 }
 
+void ChatWindow::setBackgroundPixmap(const QPixmap &pm)
+{
+    transparent->updateBackground(pm);    
+}
+
 void ChatWindow::sendLine()
 {
     QColor oldColor = edtChat->color();

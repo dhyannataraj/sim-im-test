@@ -1304,6 +1304,11 @@ void UserFloat::contentsMouseMoveEvent(QMouseEvent *e)
     UserView::contentsMouseMoveEvent(e);
 }
 
+void UserFloat::setBackgroundPixmap(const QPixmap &pm)
+{
+    transparent->updateBackground(pm);
+}
+
 #ifndef _WINDOWS
 #include "userview.moc"
 #endif

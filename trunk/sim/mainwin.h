@@ -238,6 +238,8 @@ public:
 
     QWidget *chatWindow(unsigned long uin);
     QWidget *ftWindow(unsigned long uin, const string &fileName);
+
+    virtual void setBackgroundPixmap(const QPixmap&);
 signals:
     void modeChanged(bool);
     void transparentChanged();

@@ -353,6 +353,18 @@ void TextShow::repeatSearch()
 void TextShow::keyPressEvent( QKeyEvent *e )
 {
 #ifdef USE_KDE
+#if QT_VERSION < 300
+    if ( KStdAccel::isEqual( e, KStdAccel::find()) ) {
+       search();  
+       e->accept();
+       return;
+    }
+    else if ( KStdAccel::isEqual( e, KStdAccel::findNext()) ) {
+       repeatSearch(); 
+       e->accept();
+       return;
+    }
+#else
     KKey key( e );
     if ( KStdAccel::find().contains( key ) ) {
         search();
@@ -364,6 +376,7 @@ void TextShow::keyPressEvent( QKeyEvent *e )
         e->accept();
         return;
     }
+#endif
 #endif
     if (e->key() == Key_F3){
         repeatSearch();
