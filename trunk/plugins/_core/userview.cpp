@@ -508,6 +508,10 @@ void *UserView::processEvent(Event *e)
                 setGroupMode(2);
             if (cmd->id == CmdGrpCreate){
                 if (CorePlugin::m_plugin->getGroupMode()){
+                    /* Show empty groups because a new group is empty... */
+                    CorePlugin::m_plugin->setShowEmptyGroup(true);
+                    m_bShowEmpty = true;
+                    fill();
                     Group *g = getContacts()->group(0, true);
                     drawUpdates();
                     QListViewItem *item = findGroupItem(g->id());
