@@ -17,7 +17,7 @@
      ***************************************************************************/
 
 #include "mainwin.h"
-#include "icqclient.h"
+#include "client.h"
 #include <stack>
 
 #define TXT		 1
@@ -94,7 +94,7 @@ static const tag_def defs[] =
         { "", 0 }
     };
 
-QString MainWindow::ParseText(const char *text, bool bIgnoreColors)
+QString MainWindow::ParseText(const char *text, bool bIgnoreColors, QTextCodec *codec)
 {
 	if (text == NULL) return "";
     yy_current_buffer = yy_scan_string(text);
@@ -105,9 +105,11 @@ QString MainWindow::ParseText(const char *text, bool bIgnoreColors)
         int r = yylex();
         if (!r) break;
         switch (r){
-        case TXT:
-            res += QString::fromLocal8Bit(yytext);
+        case TXT:{
+			string text = yytext;
+            res += Client::from8Bit(codec, text);
             break;
+		}
         case TAG:
             tag += yytext;
             break;
@@ -167,10 +169,11 @@ QString MainWindow::ParseText(const char *text, bool bIgnoreColors)
             break;
         case URL:{
 			string url = ICQClient::unquoteText(yytext);
+			string text = yytext;
             res += "<a href=\"";
-            res += 
+            res += Client::from8Bit(codec, url);
             res += "\">";
-            res += yytext;
+            res += Client::from8Bit(codec, url);
             res += "</a>";
             break;
 		}

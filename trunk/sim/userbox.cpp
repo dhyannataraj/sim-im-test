@@ -180,6 +180,7 @@ UserBox::UserBox(unsigned long grpId)
     btnEncoding->setTextLabel(i18n("Encoding"));
     btnEncoding->setPopup(menuEncoding);
     btnEncoding->setPopupDelay(0);
+    toolbar->addSeparator();
     btnQuit = new QToolButton(Icon("exit"), i18n("Close"), "", this, SLOT(quit()), toolbar);
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     connect(pClient, SIGNAL(messageRead(ICQMessage*)), this, SLOT(messageRead(ICQMessage*)));

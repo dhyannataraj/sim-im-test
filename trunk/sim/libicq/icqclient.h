@@ -1010,10 +1010,10 @@ public:
     ConfigString BirthdayReminder;
     ConfigString FileDone;
 
-    void fromServer(string &s);
-    void toServer(string &s);
-    bool translate(const char *to, const char *from, string &s);
-    const char *localCharset();
+    static void fromServer(string &s, const char *localCharset=NULL);
+    static void toServer(string &s, const char *localCharset=NULL);
+    static bool translate(const char *to, const char *from, string &s);
+    static const char *localCharset();
 
     ICQContactList contacts;
     ICQGroup *getGroup(unsigned short id, bool create = false);
@@ -1239,10 +1239,10 @@ protected:
     void sendInfoUpdate();
     void sendPhoneStatus();
 
-    const char *serverCharset();
+    static const char *serverCharset(const char *l=NULL);
 
-    void fromUTF(string &s);
-    void toUTF(string &s);
+    static void fromUTF(string &s);
+    static void toUTF(string &s);
 
     void close();
     unsigned short advCounter;

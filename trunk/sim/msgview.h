@@ -41,6 +41,7 @@ class QPopupMenu;
 class QPainter;
 class TransparentBg;
 class KEdFind;
+class QTextCodec;
 
 class TextShow : public QTextBrowser
 {
@@ -52,6 +53,7 @@ public:
     void setBackground(const QColor&);
     void resetColors();
     QString quoteText(const char*);
+    void setUin(unsigned long);
 signals:
     void goMessage(unsigned long Uin, unsigned long msgId);
     void showPopup(QPoint);
@@ -63,7 +65,10 @@ protected slots:
     void search_slot();
     void searchdone_slot();
     void searchAgain(int);
+    void encodingChanged(unsigned long);
 protected:
+    unsigned long m_nUin;
+    QTextCodec *codec;
     void keyPressEvent( QKeyEvent *e );
     virtual QPopupMenu *createPopupMenu(const QPoint&);
     TransparentBg *bg;
@@ -122,7 +127,6 @@ protected slots:
     void processEvent(ICQEvent *e);
     void fill();
 protected:
-    unsigned long m_nUin;
     bool bFill;
     ICQUser *u;
     History *h;

@@ -45,6 +45,7 @@ class ICQMessage;
 class ICQUser;
 class TransparentTop;
 class QTranslator;
+class QTextCodec;
 
 const int mnuAction = 0;
 const int mnuMessage = 1;
@@ -278,7 +279,7 @@ public:
 
     virtual void setBackgroundPixmap(const QPixmap&);
 
-    static QString ParseText(const char *t, bool bIgnoreColors);
+    static QString ParseText(const char *t, bool bIgnoreColors, QTextCodec *codec);
 
     static const char *sound(const char *wav);
 

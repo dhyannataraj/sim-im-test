@@ -643,15 +643,29 @@ QTextCodec *Client::codecForUser(unsigned long uin)
 
 string Client::to8Bit(unsigned long uin, const QString &str)
 {
-    QTextCodec *codec = codecForUser(uin);
-    int lenOut;
-    return string(codec->makeEncoder()->fromUnicode(str, lenOut));
+    return to8Bit(codecForUser(uin), str);
 }
 
 QString Client::from8Bit(unsigned long uin, const string &str)
 {
-    QTextCodec *codec = codecForUser(uin);
-    return codec->makeDecoder()->toUnicode(str.c_str(), str.size());
+    return from8Bit(codecForUser(uin), str);
+}
+
+string Client::to8Bit(QTextCodec *codec, const QString &str)
+{
+    int lenOut = str.length();
+    string res = codec->makeEncoder()->fromUnicode(str, lenOut);
+    toServer(res, codec->name());
+    return res;
+}
+
+QString Client::from8Bit(QTextCodec *codec, const string &str)
+{
+    if (!strcmp(codec->name(), serverCharset(codec->name())))
+        return codec->makeDecoder()->toUnicode(str.c_str(), str.size());
+    string s = str;
+    fromServer(s);
+    return codec->makeDecoder()->toUnicode(s.c_str(), s.size());
 }
 
 void Client::setUserEncoding(unsigned long uin, int i)

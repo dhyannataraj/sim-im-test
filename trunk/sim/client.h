@@ -72,6 +72,8 @@ public:
     QTextCodec *codecForUser(unsigned long uin);
     string to8Bit(unsigned long uin, const QString&);
     QString from8Bit(unsigned long uin, const string&);
+    static string to8Bit(QTextCodec*, const QString&);
+    static QString from8Bit(QTextCodec*, const string&);
 protected:
     QDns resolver;
     list<resolveAddr> resolveQueue;

@@ -531,6 +531,8 @@ void MsgEdit::setUin(unsigned long uin)
     if (u == NULL) return;
     bInIgnore = u->inIgnore();
     fillPhones();
+    view->setUin(uin);
+    if (msgView) msgView->setUin(uin);
 }
 
 void MsgEdit::sendClick()
@@ -1671,6 +1673,7 @@ void MsgEdit::modeChanged(bool bSimple)
     }
     if (msgView) return;
     msgView = new MsgView(this);
+    msgView->setUin(Uin());
     moveToFirst(msgView);
     connect(msgView, SIGNAL(goMessage(unsigned long, unsigned long)), topLevelWidget(), SLOT(showMessage(unsigned long, unsigned long)));
     if (isVisible())

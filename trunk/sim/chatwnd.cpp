@@ -183,7 +183,7 @@ void ChatWindow::sendLine()
         int pos = clientString.find("&gt;");
         clientString = chatHeader(chat->getUin()) + clientString.mid(pos+4);
     }
-    QString line = chatHeader(0) + MainWindow::ParseText(sLineSend, false) + "<br>\n";
+    QString line = chatHeader(0) + MainWindow::ParseText(sLineSend, false, pClient->codecForUser(uin)) + "<br>\n";
     txtChat->insertParagraph(br + line, -1);
     if (bClientMode)
         txtChat->insertParagraph(clientString, -1);
@@ -231,6 +231,7 @@ void ChatWindow::processEvent(ICQEvent *e)
             CUser u(e->Uin());
             new ChatUserItem(lstUsers, u.name(), e->Uin());
             uin = e->Uin();
+            txtChat->setUin(uin);
             QString line = chatHeader(e->Uin()) +
                            txtChat->quoteText(i18n("Enter to chat").local8Bit()) + "<br>\n";
             txtChat->insertParagraph(line, -1);
@@ -283,7 +284,7 @@ void ChatWindow::processEvent(ICQEvent *e)
             }
             txtChat->insertParagraph("<br>", -1);
             txtChat->moveCursor(QTextEdit::MoveEnd, false);
-            QString line = chatHeader(chat->getUin()) + MainWindow::ParseText(clientString.local8Bit(), false) + "<br>\n";
+            QString line = chatHeader(chat->getUin()) + MainWindow::ParseText(clientString.local8Bit(), false, pClient->codecForUser(uin)) + "<br>\n";
             txtChat->append(line);
             txtChat->scrollToBottom();
             txtChat->moveCursor(QTextEdit::MoveEnd, false);

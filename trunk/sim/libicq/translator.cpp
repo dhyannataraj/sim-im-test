@@ -103,14 +103,16 @@ void ICQClient::toUTF(string &str)
     translate("UTF-8", localCharset(), str);
 }
 
-void ICQClient::fromServer(string &str)
+void ICQClient::fromServer(string &str, const char *lclCharset)
 {
-    translate(localCharset(), serverCharset(), str);
+    if (lclCharset == NULL) lclCharset = localCharset();
+    translate(lclCharset, serverCharset(lclCharset), str);
 }
 
-void ICQClient::toServer(string &str)
+void ICQClient::toServer(string &str, const char *lclCharset)
 {
-    translate(serverCharset(), localCharset(), str);
+    if (lclCharset == NULL) lclCharset = localCharset();
+    translate(serverCharset(lclCharset), lclCharset, str);
 }
 
 const char *ICQClient::localCharset()
@@ -118,9 +120,9 @@ const char *ICQClient::localCharset()
     return QTextCodec::codecForLocale()->name();
 }
 
-const char *ICQClient::serverCharset()
+const char *ICQClient::serverCharset(const char *p)
 {
-    const char *p = localCharset();
+    if (p == NULL) p = localCharset();
     if (!strcasecmp(p, "KOI8-R")) return "CP1251";
     if (!strcasecmp(p, "KOI8-U")) return "CP1251";
     if (!strcasecmp(p, "ISO8859-5")) return "CP1251";

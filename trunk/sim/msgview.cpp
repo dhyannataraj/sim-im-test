@@ -46,6 +46,7 @@
 #include <qvaluelist.h>
 #include <qtimer.h>
 #include <qstringlist.h>
+#include <qtextcodec.h>
 
 #ifdef WIN32
 #if _MSC_VER > 1020
@@ -56,11 +57,20 @@
 TextShow::TextShow(QWidget *p, const char *name)
         : QTextBrowser(p, name)
 {
+    m_nUin = 0;
+    codec = QTextCodec::codecForLocale();
     srchdialog = NULL;
     bg = new TransparentBg(this);
     baseBG = colorGroup().color(QColorGroup::Base);
     baseFG = colorGroup().color(QColorGroup::Text);
     setTextFormat(RichText);
+    connect(pClient, SIGNAL(encodingChanged(unsigned long)), this, SLOT(encodingChanged(unsigned long)));
+}
+
+void TextShow::setUin(unsigned long uin)
+{
+    m_nUin = uin;
+    codec = pClient->codecForUser(uin);
 }
 
 void TextShow::resizeEvent(QResizeEvent *e)
@@ -122,7 +132,7 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
     QString s;
     switch (msg->Type()){
     case ICQ_MSGxMSG:
-        s += MainWindow::ParseText((static_cast<ICQMsg*>(msg))->Message, bIgnore);
+        s += MainWindow::ParseText((static_cast<ICQMsg*>(msg))->Message, bIgnore, codec);
         break;
     case ICQ_MSGxURL:{
             ICQUrl *url = static_cast<ICQUrl*>(msg);
@@ -133,7 +143,7 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
             s += "</a>";
             if (*url->Message.c_str()){
                 s += "<br>";
-                s += MainWindow::ParseText(url->Message, true);
+                s += MainWindow::ParseText(url->Message, true, codec);
             }
             break;
         }
@@ -142,7 +152,7 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
             s += i18n("Authorization request");
             if (*req->Message.c_str()){
                 s += "<br>";
-                s += MainWindow::ParseText(req->Message, true);
+                s += MainWindow::ParseText(req->Message, true, codec);
             }
             break;
         }
@@ -151,7 +161,7 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
             s += i18n("Authorization refused");
             if (*req->Message.c_str()){
                 s += "<br>";
-                s += MainWindow::ParseText(req->Message, true);
+                s += MainWindow::ParseText(req->Message, true, codec);
             }
             break;
         }
@@ -166,7 +176,7 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
             s += i18n("Contact request");
             if (*req->Message.c_str()){
                 s += "<br>";
-                s += MainWindow::ParseText(req->Message, true);
+                s += MainWindow::ParseText(req->Message, true, codec);
             }
             break;
         }
@@ -180,12 +190,12 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
             s += i18n("bytes");
             s += ")";
             s += "<br>";
-            s += MainWindow::ParseText(file->Description, true);
+            s += MainWindow::ParseText(file->Description, true, codec);
             break;
         }
     case ICQ_MSGxCHAT:{
             ICQChat *chat = static_cast<ICQChat*>(msg);
-            s += MainWindow::ParseText(chat->Reason, true);
+            s += MainWindow::ParseText(chat->Reason, true, codec);
             break;
         }
     case ICQ_MSGxCONTACTxLIST:{
@@ -204,7 +214,7 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
         }
     case ICQ_MSGxSMS:{
             ICQSMS *sms = static_cast<ICQSMS*>(msg);
-            s += MainWindow::ParseText(sms->Message, true);
+            s += MainWindow::ParseText(sms->Message, true, codec);
             if (*sms->Phone.c_str()){
                 s += "<br>";
                 s += quoteText(sms->Phone);
@@ -215,12 +225,12 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
         }
     case ICQ_MSGxWEBxPANEL:{
             ICQWebPanel *m = static_cast<ICQWebPanel*>(msg);
-            s += MainWindow::ParseText(m->Message, true);
+            s += MainWindow::ParseText(m->Message, true, codec);
             break;
         }
     case ICQ_MSGxEMAILxPAGER:{
             ICQEmailPager *m = static_cast<ICQEmailPager*>(msg);
-            s += MainWindow::ParseText(m->Message, true);
+            s += MainWindow::ParseText(m->Message, true, codec);
             break;
         }
     default:
@@ -236,8 +246,18 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
 QString TextShow::quoteText(const char *text)
 {
     string msg = ICQClient::quoteText(text);
-    QString s = QString::fromLocal8Bit(msg.c_str());
+    QString s = Client::from8Bit(codec, msg);
     return s;
+}
+
+void TextShow::encodingChanged(unsigned long _uin)
+{
+    if (m_nUin != _uin) return;
+    QTextCodec *newCodec = pClient->codecForUser(m_nUin);
+    string s = Client::to8Bit(codec, text());
+    codec = newCodec;
+    setText(Client::from8Bit(codec, s));
+    scrollToBottom();
 }
 
 MsgView::MsgView(QWidget *p)
@@ -586,8 +606,9 @@ void MsgView::ownColorsChanged()
 }
 
 HistoryView::HistoryView(QWidget *p, unsigned long uin)
-        : MsgView(p), m_nUin(uin)
+        : MsgView(p)
 {
+    setUin(uin);
     bFill = false;
     bBack = true;
     h = NULL;
