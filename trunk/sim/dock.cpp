@@ -98,9 +98,9 @@ extern char **_argv;
 class WharfIcon : public QWidget
 {
 public:
-    WharfIcon(const QIconSet&, QWidget *parent);
+    WharfIcon(QWidget *parent);
     ~WharfIcon();
-    void Set(const QIconSet &state, const QPixmap *message);
+    void set(const char *icon, const char *message);
 protected:
     virtual void enterEvent(QEvent*);
     virtual void leaveEvent(QEvent*);
@@ -113,12 +113,11 @@ protected:
     bool highlight;
 };
 
-WharfIcon::WharfIcon(const QIconSet &p, QWidget *parent)
+WharfIcon::WharfIcon(QWidget *parent)
         : QWidget(parent, "WharfIcon")
 {
     setMouseTracking(true);
     highlight = false;
-    Set(p, NULL);
     resize(32, 32);
     parentWin = 0;
     setBackgroundMode(X11ParentRelative);
@@ -133,30 +132,38 @@ WharfIcon::~WharfIcon()
     if (vish) delete vish;
 }
 
-void WharfIcon::Set(const QIconSet &state, const QPixmap *msg)
+void WharfIcon::set(const char *icon, const char *msg)
 {
-    QPixmap *nvis = new QPixmap(state.pixmap(QIconSet::Large, QIconSet::Normal));
-    QPixmap *nvish = new QPixmap(state.pixmap(QIconSet::Large, QIconSet::Active));
+    const QIconSet &icons = Icon(icon);
+    QPixmap *nvis = new QPixmap(icons.pixmap(QIconSet::Large, QIconSet::Normal));
+    QPixmap *nvish = new QPixmap(icons.pixmap(QIconSet::Large, QIconSet::Active));
+    log(L_DEBUG, "Nvis [%s %s] %u %u", icon, msg ? msg : "NULL", nvis->width(), nvis->height());
     if (msg){
+        QPixmap msgPict = Pict(msg);
         QRegion *rgn = NULL;
-        if (nvis->mask() && msg->mask()){
-            rgn = new QRegion(*msg->mask());
-            rgn->translate(nvis->width() - msg->width() - 2, nvis->height() - msg->height() - 2);
+        if (nvis->mask() && msgPict.mask()){
+            rgn = new QRegion(*msgPict.mask());
+            rgn->translate(nvis->width() - msgPict.width() - 2, 
+			nvis->height() - msgPict.height() - 2);
             *rgn += *nvis->mask();
         }
         QPainter p;
         p.begin(nvis);
-        p.drawPixmap(nvis->width() - msg->width() - 2, nvis->height() - msg->height() - 2, *msg);
+        p.drawPixmap(nvis->width() - msgPict.width() - 2, 
+		nvis->height() - msgPict.height() - 2, msgPict);
         p.end();
         p.begin(nvish);
-        p.drawPixmap(nvish->width() - msg->width() - 2, nvish->height() - msg->height() - 2, *msg);
+        p.drawPixmap(nvish->width() - msgPict.width() - 2, 
+		nvish->height() - msgPict.height() - 2, msgPict);
         p.end();
         if (rgn){
             setMask(*rgn);
             delete rgn;
         }
     }else{
-        if (nvis->mask()) setMask(*nvis->mask());
+        const QBitmap *mask = nvis->mask();
+	log(L_DEBUG, "Mask %u", (unsigned)mask);
+        if (mask) setMask(*mask);
     }
     if (vis) delete vis;
     vis = nvis;
@@ -278,7 +285,7 @@ DockWnd::DockWnd(QWidget *main)
     hide();
 #endif
     }else{
-        wharfIcon = new WharfIcon(Icon(pClient->getStatusIcon()), this);
+        wharfIcon = new WharfIcon(this);
         Display *dsp = x11Display();
         WId win = winId();
         XWMHints *hints;
@@ -301,6 +308,7 @@ DockWnd::DockWnd(QWidget *main)
     }
 #endif
     loadUnread();
+    reset();
 }
 
 void DockWnd::loadUnread()
@@ -426,20 +434,21 @@ void DockWnd::timer()
         break;
     }
 #ifndef WIN32
+    log(L_DEBUG, "Set wharf");
     if (wharfIcon == NULL) return;
-    QPixmap msg;
-    if (msgType) msg = Pict(Client::getMessageIcon(msgType));
+    const char *msg = NULL;
+    if (msgType) msg = Client::getMessageIcon(msgType);
     if (bBlinked){
         if (m_state & 1){
-            wharfIcon->Set(Icon(Client::getStatusIcon(ICQ_STATUS_ONLINE)), NULL);
+            wharfIcon->set(Client::getStatusIcon(ICQ_STATUS_ONLINE), NULL);
         }else{
-            wharfIcon->Set(Icon(pClient->getStatusIcon()), msgType ? &msg : NULL);
+            wharfIcon->set(pClient->getStatusIcon(), msg);
         }
     }else{
         if (m_state & 1){
-            wharfIcon->Set(Icon(pClient->getStatusIcon()), NULL);
+            wharfIcon->set(pClient->getStatusIcon(), NULL);
         }else{
-            wharfIcon->Set(Icon(pClient->getStatusIcon()), msgType ? &msg : NULL);
+            wharfIcon->set(pClient->getStatusIcon(), msg);
         }
     }
 #endif
