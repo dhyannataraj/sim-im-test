@@ -826,10 +826,8 @@ void JabberBgParser::tag_start(const QString &tag, const list<QString> &attrs)
             ++it;
             QString value = *it;
             if (name.lower() == "bgcolor"){
-                if (value[0] == '#'){
-                    bool bOK;
-                    bgColor = value.toUInt(&bOK, 16);
-                }
+				QColor c(value);
+				bgColor = c.rgb();
             }
         }
         return;
@@ -842,6 +840,18 @@ void JabberBgParser::tag_start(const QString &tag, const list<QString> &attrs)
         QString value = *it;
         res += " ";
         res += name;
+		if (value == "style"){
+			list<QString> styles = parseStyle(value);
+			for (list<QString>::iterator it = styles.begin(); it != styles.end(); ++it){
+		        QString name = *it;
+				++it;
+				QString value = *it;
+				if (name == "background-color"){
+					QColor c(value);
+					bgColor = c.rgb();
+				}
+			}
+		}
         if (!value.isEmpty()){
             res += "=\"";
             res += quoteString(value);

@@ -1478,6 +1478,7 @@ static const char *_tags[] =
 static const char *_styles[] =
     {
         "color",
+        "background-color",
         "font-family",
         "font-size",
         "font-style",
@@ -1752,9 +1753,18 @@ bool JabberClient::send(Message *msg, void *_data)
             << "</message>";
             sendPacket();
             if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
+				if (data->richText){
                 msg->setClient(dataName(data).c_str());
                 Event e(EventSent, msg);
                 e.process();
+				}else{
+					Message m(MessageGeneric);
+					m.setContact(msg->contact());
+					m.setClient(dataName(data).c_str());
+					m.setText(msg->getPlainText());
+					Event e(EventSent, msg);
+					e.process();
+				}
             }
             Event e(EventMessageSent, msg);
             e.process();

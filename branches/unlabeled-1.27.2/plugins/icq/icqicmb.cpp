@@ -16,11 +16,8 @@
  ***************************************************************************/
 
 #include "icqclient.h"
-
 #include "icqmessage.h"
-
 #include "icq.h"
-
 #include "core.h"
 
 #include <stdio.h>
@@ -357,20 +354,28 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         if (atol(screen.c_str())){
                             msg->setText(text);
                         }else{
-                            msg->setText(clearTags(text));
+							unsigned bgColor = clearTags(text);
+                            msg->setText(text);
+							msg->setBackground(bgColor);
                             msg->setFlags(MESSAGE_RICHTEXT);
                         }
                         messageReceived(msg, screen.c_str());
                         break;
                     }
-                    ICQMessage *msg = new ICQMessage;
+					Message *mm = NULL;
                     if (atol(screen.c_str())){
+	                    ICQMessage *msg = new ICQMessage;
                         msg->setServerText(m_data);
+						mm = msg;
                     }else{
-                        msg->setServerText(clearTags(m_data).c_str());
-                        msg->setFlags(MESSAGE_RICHTEXT);
+							mm = new Message(MessageGeneric);
+							QString text = QString::fromUtf8(m_data);
+							unsigned bgColor = clearTags(text);
+                            mm->setText(text);
+							mm->setBackground(bgColor);
+                            mm->setFlags(MESSAGE_RICHTEXT);
                     }
-                    messageReceived(msg, screen.c_str());
+                    messageReceived(mm, screen.c_str());
                     break;
                 }
             case 0x0002:{
@@ -506,7 +511,6 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
             return true;
         }
         if ((data->Uin == 0) || m_bAIM ||
-
                 (hasCap(data, CAP_AIM_BUDDYCON) && !hasCap(data, CAP_AIM_CHAT))){
             s.flags  = SEND_HTML;
             s.msg	 = msg;
@@ -1177,9 +1181,13 @@ void ICQClient::processSendQueue()
             case SEND_HTML:{
                     QString t;
                     m_send.part = getRichTextPart(m_send.text, MAX_MESSAGE_SIZE);
-                    t += "<html><body>";
+					char b[15];
+					sprintf(b, "%06X", m_send.msg->getBackground() & 0xFFFFFF);
+                    t += "<HTML><BODY BGCOLOR=\"#";
+					t += b;
+					t += "\">";
                     t += m_send.part;
-                    t += "</body></html>";
+                    t += "</BODY></HTML>";
                     bool bWide = false;
                     for (int i = 0; i < (int)(t.length()); i++){
                         if (t[i].unicode() > 0x7F){

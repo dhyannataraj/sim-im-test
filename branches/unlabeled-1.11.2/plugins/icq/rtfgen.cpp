@@ -337,6 +337,7 @@ string RTFGenParser::parse(const QString &text)
         }
     }
 #endif
+	unsigned ansicpg = 0;
     const char *send_encoding = 0;
     m_codec = NULL;
     if (charset){
@@ -344,6 +345,7 @@ string RTFGenParser::parse(const QString &text)
             if ((c->rtf_code == charset) && c->bMain){
                 send_encoding = c->codec;
                 m_codec = m_client->getCodec(send_encoding);
+				ansicpg = c->cp_code;
                 break;
             }
         }
@@ -365,7 +367,12 @@ string RTFGenParser::parse(const QString &text)
     HTMLParser::parse(text);
 
     string s;
-    s = "{\\rtf1\\ansi\\deff0\r\n";
+    s = "{\\rtf1\\ansi";
+	if (ansicpg){
+		s += "\\ansicpg";
+		s += number(ansicpg);
+	}
+	s += "\\deff0\r\n";
     s += "{\\fonttbl";
     unsigned n = 0;
     for (list<QString>::iterator it_face = m_fontFaces.begin(); it_face != m_fontFaces.end(); it_face++, n++){
@@ -755,8 +762,11 @@ protected:
     virtual void text(const QString &text);
     virtual void tag_start(const QString &tag, const list<QString> &attrs);
     virtual void tag_end(const QString &tag);
+	void startBody();
+	void endBody();
     QString res;
-    bool    m_bPara;
+	bool	 m_bBody;
+    bool     m_bPara;
     unsigned m_maxSmile;
 };
 
@@ -769,17 +779,44 @@ ImageParser::ImageParser(unsigned maxSmile)
 QString ImageParser::parse(const QString &text)
 {
     res = "";
+	startBody();
     HTMLParser::parse(text);
+	endBody();
     return res;
+}
+
+void ImageParser::startBody()
+{
+	m_bBody = true;
+	res = "";
+}
+
+void ImageParser::endBody()
+{
+	if (m_bBody)
+		m_bBody = false;
 }
 
 void ImageParser::text(const QString &text)
 {
+	if (!m_bBody)
+		return;
     res += quoteString(text);
 }
 
 void ImageParser::tag_start(const QString &tag, const list<QString> &attrs)
 {
+	if (tag == "body"){
+		startBody();
+		return;
+	}
+	if (tag == "html"){
+		res = "";
+		m_bBody = false;
+		return;
+	}
+	if (!m_bBody)
+		return;
     if (tag == "img"){
         QString src;
         for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
@@ -813,13 +850,13 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &attrs)
         return;
     }
     res += "<";
-    res += tag;
+    res += tag.upper();
     for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
         QString name = *it;
         ++it;
         QString value = *it;
         res += " ";
-        res += name;
+        res += name.upper();
         if (!value.isEmpty()){
             res += "=\"";
             res += quoteString(value);
@@ -831,12 +868,18 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &attrs)
 
 void ImageParser::tag_end(const QString &tag)
 {
+	if (tag == "body"){
+		endBody();
+		return;
+	}
+	if (!m_bBody)
+		return;
     if (tag == "p"){
         m_bPara = true;
         return;
     }
     res += "</";
-    res += tag;
+    res += tag.upper();
     res += ">";
 }
 
@@ -864,37 +907,108 @@ void remove_str_ncase(string& s, const string &str)
     remove_str(s, lo_str);
 }
 
-string ICQClient::clearTags(const char *text)
+class BgParser : public HTMLParser
 {
-    string res = text;
-    remove_str_ncase(res, "<HTML>");
-    remove_str_ncase(res, "</HTML>");
-    remove_str_ncase(res, "<BODY>");
-    remove_str_ncase(res, "</BODY>");
+public:
+    BgParser();
+    QString parse(const QString &text);
+	unsigned bgColor;
+protected:
+    virtual void text(const QString &text);
+    virtual void tag_start(const QString &tag, const list<QString> &attrs);
+    virtual void tag_end(const QString &tag);
+    QString res;
+	bool	 m_bBody;
+};
+
+BgParser::BgParser()
+{
+	bgColor = 0;
+}
+
+QString BgParser::parse(const QString &text)
+{
+    res = "";
+    HTMLParser::parse(text);
     return res;
 }
 
-static void remove_tag(QString &s, const char *tag)
+void BgParser::text(const QString &text)
 {
-    QString rs = "</?";
-    rs += tag;
-    rs += ">";
-    QRegExp re(rs, false);
-    int len;
-    for (;;){
-        int pos = re.match(s, 0, &len);
-        if (pos < 0)
-            break;
-        s = s.replace(pos, len, "");
+	if (!m_bBody)
+		return;
+    res += quoteString(text);
+}
+
+void BgParser::tag_start(const QString &tag, const list<QString> &attrs)
+{
+	if (tag == "body"){
+		m_bBody = true;
+	    for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
+		    QString name = *it;
+			++it;
+			QString value = *it;
+			if (name == "bgcolor"){
+				QColor c(value);
+				bgColor = c.rgb();
+			}
+		}
+		return;
+	}
+	if (!m_bBody)
+		return;
+	if (tag == "font"){
+		res += "<span";
+		QString style;
+	    for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
+		    QString name = *it;
+			++it;
+			QString value = *it;
+		}
+		if (!style.isEmpty()){
+			res += " style=\"";
+			res += style;
+			res += "\">";
+		}
+	}
+    res += "<";
+    res += tag;
+    for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
+        QString name = *it;
+        ++it;
+        QString value = *it;
+        res += " ";
+        res += name;
+        if (!value.isEmpty()){
+            res += "=\"";
+            res += quoteString(value);
+            res += "\"";
+        }
     }
+    res += ">";
 }
 
-QString ICQClient::clearTags(const QString &text)
+void BgParser::tag_end(const QString &tag)
 {
-    QString res = text;
-    remove_tag(res, "HTML");
-    remove_tag(res, "BODY");
-    return res;
+	if (tag == "body"){
+		m_bBody = false;
+		return;
+	}
+	if (!m_bBody)
+		return;
+	QString outTag = tag;
+	if (tag == "font")
+		outTag = "span";
+    res += "</";
+    res += outTag;
+    res += ">";
+}
+
+unsigned ICQClient::clearTags(QString &text)
+{
+	BgParser p;
+	text = p.parse(text);
+    return p.bgColor;
 }
 
 
