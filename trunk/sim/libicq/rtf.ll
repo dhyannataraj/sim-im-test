@@ -741,7 +741,7 @@ string RTF2HTML::Parse(const char *rtf, const char *_encoding)
                 cur_level.flush();
                 string s;
                 icq->utf16to8(atol(yytext + 2), s);
-                cur_level.setText(s.c_str());
+				PrintQuoted(s.c_str());
                 break;
             }
         case HEX:{
