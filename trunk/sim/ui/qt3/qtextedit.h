@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qtextedit.h,v 1.3 2003-11-16 00:29:17 shutoff Exp $
+** $Id: qtextedit.h,v 1.4 2003-12-08 06:05:07 chehrlic Exp $
 **
 ** Definition of the QTextEdit class
 **
@@ -345,7 +345,6 @@ protected:
     QTextCursor *textCursor() const;
     void setDocument( QTextDocument *doc );
     virtual QPopupMenu *createPopupMenu( const QPoint& pos );
-    virtual QPopupMenu *createPopupMenu();
     void drawCursor( bool visible );
 
     void windowActivationChange( bool );

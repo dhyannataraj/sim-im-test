@@ -1537,8 +1537,6 @@ void QTextEdit::contentsMousePressEvent( QMouseEvent *e )
 #ifndef QT_NO_POPUPMENU
         QPopupMenu *popup = createPopupMenu( e->pos() );
         if ( !popup )
-            popup = createPopupMenu();
-        if ( !popup )
             return;
         int r = popup->exec( e->globalPos() );
         delete popup;
@@ -4042,18 +4040,6 @@ d->id[ IdSelectAll ] = popup->insertItem( i18n( "Select All" ) + ACCEL_KEY( A ) 
 #else
     return 0;
 #endif
-}
-
-/*! \overload
-    This function is called to create a right mouse button popup menu.
-    If you want to create a custom popup menu, reimplement this function
-    and return the created popup menu. Ownership of the popup menu is
-    transferred to the caller.
-*/
-
-QPopupMenu *QTextEdit::createPopupMenu()
-{
-    return 0;
 }
 
 /*! \reimp */
