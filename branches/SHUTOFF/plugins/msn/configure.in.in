@@ -1,0 +1,6 @@
+compile_plugin="no"
+if test "$have_ssl" != yes; then
+  AC_MSG_WARN([OpenSSL library disabled. MSN plugin is disabled])
+  DO_NOT_COMPILE="$DO_NOT_COMPILE plugins/msn"
+fi
+
