@@ -2,15 +2,14 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:output method="html"/>
 <xsl:template match="/message">
-<div>
 <xsl:choose>
 <xsl:when test="@direction='2'">
 <font>
 <xsl:attribute name="color">#808080</xsl:attribute>
 [<xsl:value-of select="time/hour"/>:<xsl:value-of select="time/minute"/>:<xsl:value-of select="time/second"/>]
-<xsl:text> </xsl:text>
+<xsl:text> &lt;</xsl:text>
 <xsl:value-of disable-output-escaping="yes" select="from"/>
-<xsl:text> </xsl:text>
+<xsl:text>&gt; </xsl:text>
 <xsl:value-of disable-output-escaping="yes" select="body"/>
 </font>
 </xsl:when>
@@ -34,12 +33,11 @@
 </font>
 <xsl:text>&gt; </xsl:text>
 </span>
-</xsl:otherwise>
-</xsl:choose>
 <span>
 <xsl:attribute name="style"><xsl:if test="body/@bgcolor">background-color:<xsl:value-of select="body/@bgcolor"/>;</xsl:if><xsl:if test="body/@fgcolor">color:<xsl:value-of select="body/@fgcolor"/>;</xsl:if></xsl:attribute>
 <xsl:value-of disable-output-escaping="yes" select="body"/>
 </span>
-</div>
+</xsl:otherwise>
+</xsl:choose>
 </xsl:template>
 </xsl:stylesheet>

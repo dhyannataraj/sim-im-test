@@ -29,6 +29,37 @@
 static char MSG_ANCHOR[] = "<a name=\"m:";
 static char MSG_BEGIN[]  = "<a name=\"b\">";
 
+typedef struct Smile
+{
+    unsigned	nSmile;
+    int			pos;
+    int			size;
+    QRegExp		re;
+} Smile;
+
+class ViewParser : public HTMLParser
+{
+public:
+    ViewParser(bool bIgnoreColors, bool bUseSmiles);
+    QString parse(const QString &str);
+	bool RTL;
+	bool m_bParaStart;
+protected:
+    QString res;
+    bool m_bIgnoreColors;
+    bool m_bUseSmiles;
+    bool m_bInLink;
+    bool m_bInHead;
+    bool m_bFirst;
+    bool m_bSpan;
+	bool m_bPara;
+	bool m_bRTL;
+    list<Smile> m_smiles;
+    virtual void text(const QString &text);
+    virtual void tag_start(const QString &tag, const list<QString> &options);
+    virtual void tag_end(const QString &tag);
+};
+
 MsgViewBase::MsgViewBase(QWidget *parent, const char *name, unsigned id)
         : TextShow(parent, name)
 {
@@ -238,7 +269,8 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
 
     Event e(EventEncodeText, &msgText);
     e.process();
-    msgText = parseText(msgText, CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
+    ViewParser parser(CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
+    msgText = parser.parse(msgText);
     s += "<body";
 
     if ((msg->getForeground() != 0xFFFFFFFF) && (msg->getForeground() != msg->getBackground()))
@@ -267,11 +299,29 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     XSL *p = xsl;
     if (p == NULL)
         p = CorePlugin::m_plugin->historyXSL;
+
     QString res = p->process(s);
+
     QString anchor = MSG_ANCHOR;
     anchor += id;
     anchor += "\">";
     res = anchor + res;
+	int startPos = res.find(MSG_BEGIN);
+	int paraPos;
+	if (parser.m_bParaStart){
+		paraPos = res.find("<p");
+		if (paraPos >= 0)
+			res = res.left(paraPos) + "</p>" + res.mid(paraPos);
+	}
+	paraPos = res.findRev("<p", startPos);
+	QString dir = " dir=\"";
+	dir += parser.RTL ? "rtl" : "ltr";
+	dir += "\"";
+	if (paraPos >= 0){
+		res = res.left(paraPos + 2) + dir + res.mid(paraPos + 2);
+	}else{
+		res = QString("<p") + dir + ">" + res;
+	}
     return res;
 }
 
@@ -306,7 +356,8 @@ void MsgViewBase::setSource(const QString &url)
 void MsgViewBase::setBackground(unsigned n)
 {
     QColor bgcolor;
-    bool bSet = false, bInMsg = false;
+    bool bInMsg = false;
+	bool bSet   = false;
 
     QString sAnchor = QString::fromLatin1(MSG_ANCHOR),
                       sBegin = QString::fromLatin1(MSG_BEGIN);
@@ -314,9 +365,10 @@ void MsgViewBase::setBackground(unsigned n)
     for (unsigned i = n; i < (unsigned)paragraphs(); i++){
         QString s = text(i);
         int anchorPos = s.find(sAnchor);
-        if (anchorPos == 0)
+        if (anchorPos >= 0)
         {
             bInMsg = false;
+			bSet   = false;
 
             // This code could be a bit faster by making assumptions.
             // However, I prefer to be correct HTML-parser-wise.
@@ -328,23 +380,20 @@ void MsgViewBase::setBackground(unsigned n)
                 QString id = s.mid(idStart, idEnd - idStart);
 
                 // Parse the message id (msgId,backgroundColor,...)
-                int bgcolorStart = id.find(',') + 1;
-                int bgcolorEnd = id.find(',', bgcolorStart);
-
-                if ((bgcolorStart >= 0) && (bgcolorEnd >= 0))
+                int bgcolorStart = id.find(',');
+                if (bgcolorStart >= 0)
                 {
-                    QString sBgcolor = id.mid(bgcolorStart, bgcolorEnd - bgcolorStart);
-                    bgcolor = QColor(sBgcolor.toULong(&bSet));
+                    QString sBgcolor = id.mid(bgcolorStart + 1);
+					int bgcolorEnd = sBgcolor.find(',');
+					if (bgcolorEnd > 0)
+						sBgcolor = sBgcolor.left(bgcolorEnd);
+					if (!sBgcolor.isEmpty())
+						bgcolor = QColor(sBgcolor.toULong(&bSet));
                 }
             }
         }
-        else
-        {
-            if (s.find(sBegin) >= 0)
-            {
+        if (s.find(sBegin) >= 0)
                 bInMsg = true;
-            }
-        }
 
         if (bInMsg && bSet){
             setParagraphBackgroundColor(i, bgcolor);
@@ -472,7 +521,13 @@ void MsgViewBase::reload()
         Msg_Id id;
         id.id = messageId(s.left(n), client);
         id.client = client;
-        msgs.push_back(id);
+		unsigned nn;
+		for (nn = 0; nn < msgs.size(); nn++){
+			if ((msgs[nn].id == id.id) && (msgs[nn].client == id.client))
+				break;
+		}
+		if (nn >= msgs.size())
+			msgs.push_back(id);
     }
     for (i = 0; i < msgs.size(); i++){
         Message *msg = History::load(msgs[i].id, msgs[i].client.c_str(), m_id);
@@ -956,33 +1011,6 @@ void *MsgView::processEvent(Event *e)
     return MsgViewBase::processEvent(e);
 }
 
-typedef struct Smile
-{
-    unsigned	nSmile;
-    int			pos;
-    int			size;
-    QRegExp		re;
-} Smile;
-
-class ViewParser : public HTMLParser
-{
-public:
-    ViewParser(bool bIgnoreColors, bool bUseSmiles);
-    QString parse(const QString &str);
-protected:
-    QString res;
-    bool m_bIgnoreColors;
-    bool m_bUseSmiles;
-    bool m_bInLink;
-    bool m_bInHead;
-    bool m_bFirst;
-    bool m_bSpan;
-    list<Smile> m_smiles;
-    virtual void text(const QString &text);
-    virtual void tag_start(const QString &tag, const list<QString> &options);
-    virtual void tag_end(const QString &tag);
-};
-
 ViewParser::ViewParser(bool bIgnoreColors, bool bUseSmiles)
 {
     m_bIgnoreColors = bIgnoreColors;
@@ -991,6 +1019,10 @@ ViewParser::ViewParser(bool bIgnoreColors, bool bUseSmiles)
     m_bInHead       = false;
     m_bFirst		= true;
     m_bSpan			= false;
+	m_bPara			= false;
+	m_bParaStart	= false;
+	m_bRTL			= false;
+	RTL				= false;
     if (m_bUseSmiles){
         for (unsigned i = 0; ;i++){
             const smile *s = smiles(i);
@@ -1038,6 +1070,8 @@ QString ViewParser::parse(const QString &str)
 {
     res = "";
     HTMLParser::parse(str);
+	if (m_bParaStart)
+		res += "</p>";
     return res;
 }
 
@@ -1141,7 +1175,33 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
         return;
     }else if (tag == "body"){ // we display as a part of a larger document
         oTag = "span";
-    }
+    }else if (tag == "p"){
+		bool bRTL = false;
+		for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
+	        QString name = (*it).lower();
+		    ++it;
+			QString value = *it;
+			if ((name == "dir") && (value.lower() == "rtl"))
+				bRTL = true;
+		}
+		if (m_bPara){
+			if (bRTL == m_bRTL){
+				res += "<br/>";
+			}else{
+				if (m_bParaStart)
+					res += "</p>";
+				res += "<p dir=\"";
+				res += bRTL ? "rtl" : "ltr";
+				res += "\">";
+				m_bParaStart = true;
+			}
+		}else{
+			RTL     = bRTL;
+			m_bRTL  = bRTL;
+			m_bPara = true;
+		}
+		return;
+	}
     QString tagText;
     tagText += "<";
     tagText += oTag;
@@ -1220,7 +1280,9 @@ void ViewParser::tag_end(const QString &tag)
         return;
     }else if (tag == "body"){
         oTag = "span";
-    }
+    }else if (tag == "p"){
+		return;
+	}
     if (m_bInHead)
         return;
     res += "</";
