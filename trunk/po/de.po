@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2002-12-13 08:04+0300\n"
-"PO-Revision-Date: 2002-12-12 15:14GMT\n"
+"PO-Revision-Date: 2002-12-13 09:16GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1978,7 +1978,7 @@ msgstr "Über &KDE"
 
 #: mainwin.cpp:2712
 msgid "Change UIN"
-msgstr ""
+msgstr "UIN wechseln"
 
 #: mainwin.cpp:2713
 msgid "Quit"
@@ -2553,7 +2553,7 @@ msgstr "Paßwörter stimmen nicht überein"
 
 #: ui/generalsec.cpp:76
 msgid "Input current password"
-msgstr ""
+msgstr "Korrektes Paßwort eingeben"
 
 #: ui/generalsec.cpp:81 ui/logindlg.cpp:85 ui/logindlg.cpp:165
 #: ui/logindlg.cpp:199
@@ -2978,8 +2978,7 @@ msgstr "&Signatur"
 
 #: ui/forwardsetupbase.cpp:89 ui/smssetupbase.cpp:100
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-"Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
 
 #: ui/forwardsetupbase.cpp:97 ui/smssetupbase.cpp:101
 msgid ""
@@ -3008,9 +3007,8 @@ msgid "&Proxy settings"
 msgstr "&Proxy-Einstellungen"
 
 #: ui/logindlgbase.cpp:126
-#, fuzzy
 msgid "&Save password"
-msgstr "Passwort ändern"
+msgstr "Passwort &speichern"
 
 #: ui/proxydlgbase.cpp:170
 msgid "Proxy settings"
@@ -3720,8 +3718,7 @@ msgid "Hide main window after"
 msgstr "Hauptfenster anzeigen/verstecken nach"
 
 #: ui/statussetupbase.cpp:110
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -3920,8 +3917,7 @@ msgstr "&Ablehnen"
 
 #: ui/generalsecbase.cpp:220
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: ui/generalsecbase.cpp:221
 msgid ""
@@ -3950,14 +3946,12 @@ msgid "New password:"
 msgstr "Neues Paßwort:"
 
 #: ui/generalsecbase.cpp:229
-#, fuzzy
 msgid "Current password:"
-msgstr "Neues Paßwort:"
+msgstr "Aktuelles Paßwort:"
 
 #: ui/generalsecbase.cpp:230
-#, fuzzy
 msgid "S&ave password"
-msgstr "Passwort ändern"
+msgstr "Passwort s&peichern"
 
 #: ui/generalsecbase.cpp:231
 msgid "&Password"
@@ -4033,7 +4027,7 @@ msgstr "Suchfenster anzeigen"
 
 #: ui/logindlg.cpp:46
 msgid "<New UIN>"
-msgstr ""
+msgstr "<Neue UIN>"
 
 #: ui/logindlg.cpp:157
 msgid "Unknown login error"
@@ -4069,8 +4063,7 @@ msgstr ";-)"
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #: editspell.cpp:316
 msgid "Spell check"
@@ -4710,3 +4703,4 @@ msgstr "Datei %1 konnte nicht erstellt werden"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
