@@ -254,6 +254,7 @@ typedef struct LogInfo
     unsigned	log_level;
     void		*log_info;
     unsigned	packet_id;
+	const char	*add_info;
 } LogInfo;
 
 /* Init application - after load all plugins */

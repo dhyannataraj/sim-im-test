@@ -2566,10 +2566,10 @@ void ICQClient::addPluginInfoRequest(unsigned long uin, unsigned plugin_index)
             }
             data->DirectPluginInfo->addPluginInfoRequest(plugin_index);
             return;
+        case PLUGIN_QUERYxSTATUS:
         case PLUGIN_FILESERVER:
         case PLUGIN_FOLLOWME:
         case PLUGIN_ICQPHONE:
-        case PLUGIN_QUERYxSTATUS:
             if (data->DirectPluginStatus == NULL){
                 data->DirectPluginStatus = new DirectClient(data, this, PLUGIN_STATUSxMANAGER);
                 data->DirectPluginStatus->connect();

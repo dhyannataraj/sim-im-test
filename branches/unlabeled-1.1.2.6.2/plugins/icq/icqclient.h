@@ -554,6 +554,21 @@ protected:
     friend class DirectClient;
 };
 
+class DirectSocket;
+
+class DirectListener : public ServerSocketNotify
+{
+public:
+    DirectListener(DirectSocket *dsock);
+    ~DirectListener();
+    bool created() { return (m_socket != NULL); }
+    unsigned short port();
+protected:
+    virtual void accept(Socket *s);
+    ServerSocket *m_socket;
+    DirectSocket *m_dsock;
+};
+
 class DirectSocket : public ClientSocketNotify
 {
 public:
@@ -564,6 +579,8 @@ public:
         ConnectFail,
         WaitInit,
         WaitAck,
+		WaitReverse,
+		ReverseConnect,
         Logged
     };
     DirectSocket(Socket *s, ICQClient*);
@@ -587,6 +604,7 @@ protected:
     ICQUserData		*m_data;
     ClientSocket	*m_socket;
     ICQClient		*m_client;
+	DirectListener	*m_listener;
 };
 
 typedef struct SendDirectMsg
@@ -631,6 +649,7 @@ protected:
     void sendAck(unsigned short, unsigned short msgType, const char *message=NULL);
     void processMsgQueue();
     list<SendDirectMsg> m_queue;
+	const char *name();
 #ifdef USE_OPENSSL
     void secureConnect();
     void secureListen();

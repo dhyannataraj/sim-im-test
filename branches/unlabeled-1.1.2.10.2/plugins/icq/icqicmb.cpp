@@ -52,7 +52,6 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short)
         log(L_DEBUG, "Message rights granted");
         break;
     case ICQ_SNACxMSG_MTN:{
-//            m_socket->readBuffer.incReadPos(10);
             unsigned long uin = m_socket->readBuffer.unpackUin();
             unsigned short type;
             m_socket->readBuffer >> type;
@@ -555,14 +554,13 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
     msg.incReadPos(8);
     capability cap;
     msg.unpack((char*)cap, sizeof(cap));
+	if (!memcmp(cap, capabilities[CAP_DIRECT], sizeof(cap))){
+		log(L_DEBUG, "Direct packet");
+		return;
+	}
+
     if (memcmp(cap, capabilities[CAP_SRV_RELAY], sizeof(cap))){
-        string cap_str;
-        for (unsigned i = 0; i < sizeof(cap); i++){
-            char b[4];
-            sprintf(b, "%02X ", cap[i]);
-            cap_str += b;
-        }
-        log(L_DEBUG, "Unknown capability in adavansed message (%s)", cap_str.c_str());
+        log(L_DEBUG, "Unknown capability in adavansed message");
         return;
     }
 
@@ -988,6 +986,7 @@ string ICQClient::packMessage(Message *msg, ICQUserData *data, unsigned short &t
             break;
         }
 	case MessageFile:
+		res = static_cast<FileMessage*>(msg)->description().utf8();
 		type = ICQ_MSGxFILE;
 		break;
     case MessageOpenSecure:
