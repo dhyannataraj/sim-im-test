@@ -36,6 +36,7 @@ EditFile::EditFile(QWidget *p, const char *name)
         : QFrame(p, name)
 {
     bDirMode = false;
+	bMultiplyMode = false;
     lay = new QHBoxLayout(this);
     edtFile = new FileLineEdit(this);
     lay->addWidget(edtFile);
@@ -57,6 +58,16 @@ void EditFile::setText(const QString &t)
     edtFile->setText(t);
 }
 
+void EditFile::setFilter(const QString &f)
+{
+	filter = f;
+}
+
+void EditFile::setStartDir(const QString &d)
+{
+	startDir = d;
+}
+
 QString EditFile::text()
 {
     return edtFile->text();
@@ -72,7 +83,7 @@ void EditFile::showFiles()
         s = QFileDialog::getExistingDirectory(s, this,
                                               i18n("Directory for incoming files"));
     }else if (bMultiplyMode){
-        QStringList lst = QFileDialog::getOpenFileNames(QString::null, QString::null, this);
+        QStringList lst = QFileDialog::getOpenFileNames(filter, QString::null, this);
         if ((lst.count() > 1) || ((lst.count() > 0) && (lst[0].find(' ') >= 0))){
             for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
                 *it = QString("\"") + *it + QString("\"");
@@ -80,6 +91,7 @@ void EditFile::showFiles()
         }
         s = lst.join(" ");
     }else{
+		if (s.isEmpty()) s = startDir;
         s = QFileDialog::getOpenFileName(s, filter, this);
     }
 #ifdef WIN32
@@ -87,6 +99,8 @@ void EditFile::showFiles()
 #endif
     if (s.length()) edtFile->setText(s);
 }
+
+const char *app_file(const char *f);
 
 EditSound::EditSound(QWidget *p, const char *name)
         : EditFile(p, name)
@@ -96,7 +110,8 @@ EditSound::EditSound(QWidget *p, const char *name)
     lay->addWidget(btnPlay);
     btnPlay->setPixmap(Pict("1rightarrow"));
     connect(btnPlay, SIGNAL(clicked()), this, SLOT(play()));
-    filter = i18n("*.wav(Sounds)");
+    filter = i18n("Sounds (*.wav)");
+	startDir = app_file("sound");
 }
 
 void EditSound::play()

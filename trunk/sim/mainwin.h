@@ -264,6 +264,9 @@ public:
     bool			AllEncodings;
     bool			HistoryDirection;
 
+	string			BackgroundFile;
+	unsigned short	BackgroundMode;
+
     list<unsigned long>	ToolBarMain;
     list<unsigned long> ToolBarMsg;
     list<unsigned long> ToolBarHistory;
@@ -338,6 +341,7 @@ public:
     void setUserBoxOnTop();
     bool isDock();
     void saveContacts();
+	void changeBackground();
 signals:
     void searchChanged();
     void modeChanged(bool);
@@ -347,6 +351,7 @@ signals:
     void setupInit();
     void iconChanged();
     void wmChanged();
+	void bgChanged();
     void onTopChanged();
     void chatChanged();
     void ftChanged();

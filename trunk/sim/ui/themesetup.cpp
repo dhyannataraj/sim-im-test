@@ -22,6 +22,8 @@
 #include "transparent.h"
 #include "ballonmsg.h"
 #include "splash.h"
+#include "editfile.h"
+#include "enable.h"
 #include "log.h"
 
 #include <qlistbox.h>
@@ -62,6 +64,8 @@ static language langs[] =
 
 #endif
 
+const char *app_file(const char *f);
+
 ThemeSetup::ThemeSetup(QWidget *parent)
         : ThemeSetupBase(parent)
 {
@@ -92,10 +96,20 @@ ThemeSetup::ThemeSetup(QWidget *parent)
         connect(chkTransparentContainer, SIGNAL(toggled(bool)), this, SLOT(checkedTransparent(bool)));
         checkedTransparent(pMain->UseTransparent);
     }else{
-        tabWnd->setCurrentPage(2);
+        tabWnd->setCurrentPage(3);
         tabWnd->removePage(tabWnd->currentPage());
         tabWnd->setCurrentPage(0);
     }
+	edtBg->setFilter(i18n("Graphics (*.png;*.jpg;*.jpeg;*.bmp;*.xpm)"));
+	edtBg->setStartDir(app_file("pict"));
+	edtBg->setText(QString::fromLocal8Bit(pMain->BackgroundFile.c_str()));
+	cmbPos->clear();
+	cmbPos->insertItem("For contact (stretch)");
+	cmbPos->insertItem("For contact (left)");
+	cmbPos->insertItem("Tile");
+	cmbPos->insertItem("Stretch");
+	cmbPos->insertItem("Center");
+	cmbPos->setCurrentItem(pMain->BackgroundMode);
     int h = lstThemes->itemHeight();
     lstThemes->setMinimumSize(QSize(0, h * 3));
     lstIcons->setMinimumSize(QSize(0, h * 3));
@@ -196,6 +210,12 @@ void ThemeSetup::apply(ICQUser*)
         }
         pMain->changeIcons(0);
     }
+	if ((edtBg->text() != QString::fromLocal8Bit(pMain->BackgroundFile.c_str())) ||
+		(cmbPos->currentItem() != pMain->BackgroundMode)){
+		pMain->BackgroundMode = cmbPos->currentItem();
+		set(pMain->BackgroundFile, edtBg->text());
+		pMain->changeBackground();
+	}
     if (TransparentTop::bCanTransparent){
 #ifdef WIN32
         pMain->TransparentIfInactive = chkInactive->isChecked();

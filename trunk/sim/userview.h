@@ -24,6 +24,7 @@
 #include <qwidget.h>
 #include <qlistview.h>
 #include <qtooltip.h>
+#include <qimage.h>
 
 class ICQContactList;
 class ICQUser;
@@ -111,6 +112,7 @@ public slots:
 signals:
     void checked();
 protected slots:
+	void bgChanged();
     void processEvent(ICQEvent*);
     void doubleClick(QListViewItem*);
     void grpFunction(int);
@@ -156,6 +158,10 @@ protected:
     QLineEdit *edtGroup;
     QPoint mousePressPos;
     KPopupMenu *menuGroup;
+
+	QImage  bgPict;
+	QImage	bgPictScale;
+	const QImage &scalePict(int w, int h);
 
     unsigned m_counts[3];
     unsigned short grp_id;

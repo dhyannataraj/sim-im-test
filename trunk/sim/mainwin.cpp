@@ -291,6 +291,8 @@ cfgParam MainWindow_Params[] =
         { "ToolBarMsg", OFFSET_OF(MainWindow, ToolBarMsg), PARAM_ULONGS, 0 },
         { "ToolBarHistory", OFFSET_OF(MainWindow, ToolBarHistory), PARAM_ULONGS, 0 },
         { "ToolBarUserBox", OFFSET_OF(MainWindow, ToolBarUserBox), PARAM_ULONGS, 0 },
+		{ "BackgroundFile", OFFSET_OF(MainWindow, BackgroundFile), PARAM_STRING, 0 },
+		{ "BackgroundMode", OFFSET_OF(MainWindow, BackgroundMode), PARAM_USHORT, 0 },
 #ifdef WIN32
         { "BarState", OFFSET_OF(MainWindow, BarState), PARAM_USHORT, ABE_FLOAT },
         { "BarAutoHide", OFFSET_OF(MainWindow, BarAutoHide), PARAM_BOOL, 0 },
@@ -1160,6 +1162,8 @@ bool MainWindow::init()
 
     keys->unregKeys();
     keys->regKeys();
+
+	changeBackground();
 
     realSetStatus();
     if (bNeedSetup) setup();
@@ -3132,6 +3136,11 @@ void MainWindow::autoHide()
         setBarState(true);
     }
 #endif
+}
+
+void MainWindow::changeBackground()
+{
+	emit bgChanged();
 }
 
 #ifndef _WINDOWS

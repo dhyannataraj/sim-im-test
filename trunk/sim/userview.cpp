@@ -102,15 +102,60 @@ void UserViewItemBase::paint(QPainter *p, const QString s, const QColorGroup &c,
         p->setPen(cg.color(QColorGroup::Dark));
     }
 
-    if (pix != NULL){
-        QPoint pos = listView()->itemRect(this).topLeft();
-        pos = listView()->viewport()->mapToParent(pos);
-        pos = listView()->mapToGlobal(pos);
-        pos = listView()->topLevelWidget()->mapFromGlobal(pos);
-        p->drawTiledPixmap(0, 0, width, h, *pix, pos.x(), pos.y());
-    }else{
-        p->fillRect( 0, 0, width, height(), cg.base());
-    }
+	const QImage &bgPict = userView->bgPict;
+	int w = 0;
+	if (!bgPict.isNull()){
+		switch (pMain->BackgroundMode){
+		case 0:
+			w = width, height();
+			break;
+		case 1:
+			w = bgPict.width();
+			break;
+		}
+	}
+	if (w){
+		if (bgPict.hasAlphaBuffer()){
+			QPixmap bPict(w, height());
+			QPainter pp(&bPict);
+			if (pix != NULL){
+				QPoint pos = listView()->itemRect(this).topLeft();
+				pos = listView()->viewport()->mapToParent(pos);
+				pos = listView()->mapToGlobal(pos);
+				pos = listView()->topLevelWidget()->mapFromGlobal(pos);
+				pp.drawTiledPixmap(0, 0, w, h, *pix, pos.x(), pos.y());
+			}else{
+				pp.fillRect(0, 0, w, h, cg.base());
+			}
+			pp.drawImage(0, 0, userView->scalePict(w, height()), 0, 0);
+			pp.end();
+			p->drawPixmap(0, 0, bPict);
+		}else{
+			p->drawImage(0, 0, userView->scalePict(w, height()), 0, 0);
+		}
+		if (w < width){
+			if (pix != NULL){
+				QPoint pos = listView()->itemRect(this).topLeft();
+				pos.setX(pos.x() + w);
+				pos = listView()->viewport()->mapToParent(pos);
+				pos = listView()->mapToGlobal(pos);
+				pos = listView()->topLevelWidget()->mapFromGlobal(pos);
+				p->drawTiledPixmap(w, 0, width - w, h, *pix, pos.x(), pos.y());
+			}else{
+				p->fillRect(w, 0, width - w, h, cg.base());
+			}
+		}
+	}else{
+		if (pix != NULL){
+			QPoint pos = listView()->itemRect(this).topLeft();
+			pos = listView()->viewport()->mapToParent(pos);
+			pos = listView()->mapToGlobal(pos);
+			pos = listView()->topLevelWidget()->mapFromGlobal(pos);
+			p->drawTiledPixmap(0, 0, width, h, *pix, pos.x(), pos.y());
+		}else{
+			p->fillRect( 0, 0, width, height(), cg.base());
+		}
+	}
     listView()->setStaticBackground(userView->bStaticBg ||
                                     (pix && (listView()->contentsHeight() >= listView()->viewport()->height())));
     int x = 2;
@@ -530,6 +575,7 @@ UserView::UserView (QWidget *parent, bool _bList, bool bFill, WFlags f)
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     connect(pClient, SIGNAL(messageRead(ICQMessage*)), this, SLOT(messageRead(ICQMessage*)));
     connect(pClient, SIGNAL(messageReceived(ICQMessage*)), this, SLOT(messageReceived(ICQMessage*)));
+    connect(pMain, SIGNAL(bgChanged()), this, SLOT(bgChanged()));
     edtGroup = new IntLineEdit(viewport());
     edtGroup->hide();
     QFont font(QListView::font());
@@ -573,6 +619,7 @@ UserView::UserView (QWidget *parent, bool _bList, bool bFill, WFlags f)
     accel->insertItem(QListView::CTRL + QListView::Key_Down, mnuGrpDown);
     accel->insertItem(QListView::CTRL + QListView::Key_Plus, mnuGrpExpandAll);
     accel->insertItem(QListView::CTRL + QListView::Key_Minus, mnuGrpCollapseAll);
+	bgChanged();
 }
 
 void UserView::accelActivated(int id)
@@ -650,6 +697,25 @@ void UserView::clearGroupMenu()
 void UserView::iconChanged()
 {
     viewport()->repaint();
+}
+
+const QImage &UserView::scalePict(int w, int h)
+{
+	if (!bgPictScale.isNull() && (bgPictScale.width() == w) && (bgPictScale.height() == h))
+		return bgPictScale;
+	bgPictScale = bgPict.smoothScale(w, h);
+	return bgPictScale;
+}
+
+void UserView::bgChanged()
+{
+	bgPictScale = QImage();
+	if (*pMain->BackgroundFile.c_str()){
+		bgPict = QImage(QString::fromLocal8Bit(pMain->BackgroundFile.c_str()));
+	}else{
+		bgPict = QImage();
+	}
+	repaint();
 }
 
 void UserView::blink()
@@ -777,15 +843,56 @@ void UserView::doubleClick(QListViewItem *item)
 void UserView::paintEmptyArea(QPainter *p, const QRect &r)
 {
     const QPixmap *pix = transparent->background(colorGroup().base());
-    if (pix)
-    {
-        QPoint pp(topLevelWidget()->mapFromGlobal(mapToGlobal(r.topLeft())));
-        p->drawTiledPixmap(r.x(), r.y(), r.width(), r.height(), *pix, pp.x(), pp.y());
-    }
-    else
-    {
-        p->fillRect(r, colorGroup().base());
-    }
+		int w = 0;
+	if (!bgPict.isNull()){
+		switch (pMain->BackgroundMode){
+		case 0:
+			w = width();
+			break;
+		case 1:
+			w = bgPict.width();
+			break;
+		}
+	}
+		if (w){
+			int h = r.height();
+			QListViewItem *item = firstChild();
+			if (item) h = item->height();
+			for (int y = r.top(); y < r.bottom(); y += h){
+				if (bgPict.hasAlphaBuffer()){
+					QPixmap bPict(w, h);
+					QPainter pBuf(&bPict);
+					if (pix){
+						QPoint pp(topLevelWidget()->mapFromGlobal(mapToGlobal(QPoint(0, y))));
+						pBuf.drawTiledPixmap(0, y, w, h, *pix, pp.x(), pp.y());
+					}else{
+						pBuf.fillRect(QRect(0, y, w, y+h), colorGroup().base());
+					}
+					pBuf.drawImage(0, y, scalePict(w, h), 0, 0);
+					pBuf.end();
+					p->drawPixmap(0, y, bPict);
+				}else{
+					p->drawImage(0, y, bgPict);
+				}
+				if (w >= r.right()) continue;
+				if (pix){
+					QPoint pp(topLevelWidget()->mapFromGlobal(mapToGlobal(QPoint(w, y))));
+					p->drawTiledPixmap(w, y, r.right() - w, h, *pix, pp.x(), pp.y());
+				}else{
+					p->fillRect(QRect(w, y, r.right(), y+h), colorGroup().base());
+				}
+			}
+	}else{
+		if (pix)
+		{
+			QPoint pp(topLevelWidget()->mapFromGlobal(mapToGlobal(r.topLeft())));
+			p->drawTiledPixmap(r.x(), r.y(), r.width(), r.height(), *pix, pp.x(), pp.y());
+		}
+		else
+		{
+		    p->fillRect(r, colorGroup().base());
+	    }
+	}
 }
 
 void UserView::clear()
