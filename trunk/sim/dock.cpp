@@ -335,6 +335,7 @@ DockWnd::DockWnd(QWidget *main, int _useWM)
         XFree( hints );
         XSetCommand(dsp, winId(), _argv, _argc);
         resize(64, 64);
+		wharfIcon->show();
         show();
     }
 #endif
