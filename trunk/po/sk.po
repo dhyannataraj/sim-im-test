@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
 "POT-Creation-Date: 2004-04-06 04:30+0400\n"
-"PO-Revision-Date: 2004-04-06 09:32+0200\n"
+"PO-Revision-Date: 2004-04-06 09:38+0200\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -9202,9 +9202,8 @@ msgid "hungry"
 msgstr "hladný"
 
 #: plugins/livejournal/livejournal.cpp:1376
-#, fuzzy
 msgid "infuriated"
-msgstr "rozrený"
+msgstr "rozzúrený"
 
 # libicq/country.cpp:231
 #: plugins/livejournal/livejournal.cpp:1377
@@ -9378,9 +9377,8 @@ msgid "peaceful"
 msgstr "pokojný"
 
 #: plugins/livejournal/livejournal.cpp:1415
-#, fuzzy
 msgid "bouncy"
-msgstr "iv"
+msgstr "živý"
 
 # mainwin.cpp:3124
 #: plugins/livejournal/livejournal.cpp:1416
@@ -9563,9 +9561,8 @@ msgid "contemplative"
 msgstr "rozjímavý"
 
 #: plugins/livejournal/livejournal.cpp:1457
-#, fuzzy
 msgid "nerdy"
-msgstr "chrap�ky"
+msgstr "chrapúňsky"
 
 #: plugins/livejournal/livejournal.cpp:1458
 msgid "geeky"
