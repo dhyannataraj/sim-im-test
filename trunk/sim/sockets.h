@@ -106,7 +106,6 @@ protected slots:
     void resolveTimeout();
     void resultsReady();
 protected:
-    bool	bFirst;
     QDns   *resolver;
     QTimer *timer;
 };

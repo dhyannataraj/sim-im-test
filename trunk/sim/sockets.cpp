@@ -44,8 +44,7 @@
 
 SIMSockets::SIMSockets()
 {
-    bFirst = true;
-    resolver = new QDns("localhost");
+    resolver = new QDns();
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(resolveTimeout()));
     connect(resolver, SIGNAL(resultsReady()), this, SLOT(resultsReady()));
@@ -71,10 +70,6 @@ void SIMSockets::resultsReady()
         emit resolveReady(NULL);
         return;
     }
-    if (bFirst){
-        bFirst = false;
-        return;
-    }
     isActive = true;
     QString s = resolver->addresses().first().toString();
     emit resolveReady(s.latin1());
@@ -83,13 +78,20 @@ void SIMSockets::resultsReady()
 void SIMSockets::resolve(const char *host)
 {
     log(L_DEBUG, "Resolve set label %s", host);
-#ifndef WIN32
+#ifndef QT_VERSION >= 300
+    /* Workaround for Qt QDns error - no set timer for next query */
     delete resolver;
     resolver = new QDns(QString(host) + ".", QDns::A);
     connect(resolver, SIGNAL(resultsReady()), this, SLOT(resultsReady()));
 #else
-    resolver->setLabel(QString(host) + ".");
-    resolver->setRecordType(QDns::A);
+    if (resolver->isWorking()){
+        delete resolver;
+        resolver = new QDns(QString(host) + ".", QDns::A);
+        connect(resolver, SIGNAL(resultsReady()), this, SLOT(resultsReady()));
+    }else{
+        resolver->setLabel(QString(host) + ".");
+        resolver->setRecordType(QDns::A);
+    }
 #endif
     timer->start(45000);
 }

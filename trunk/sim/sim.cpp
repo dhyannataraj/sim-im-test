@@ -537,10 +537,10 @@ int main(int argc, char *argv[])
     KCmdLineArgs::init( argc, argv, &aboutData );
     KCmdLineOptions options[] =
         {
-            { "b <dir>", i18n("Directory for files"), 0 },
-            { "d <loglevel>", i18n("Loglevel"), 0 },
-            { "s <socket>", i18n("Control socket"), 0 },
-            { "nodock", i18n("No dock"), 0 },
+            { "b <dir>", I18N_NOOP("Directory for files"), 0 },
+            { "d <loglevel>", I18N_NOOP("Loglevel"), 0 },
+            { "s <socket>", I18N_NOOP("Control socket"), 0 },
+            { "nodock", I18N_NOOP("No dock"), 0 },
             { 0, 0, 0 }
         };
     KCmdLineArgs::addCmdLineOptions( options );
@@ -562,8 +562,6 @@ int main(int argc, char *argv[])
         log_level = atoi(args->getOption("d"));
     if (args->isSet("s"))
         ctrlSock = strdup(args->getOption("s"));
-    if (args->isSet("nodock"))
-        bNoDock = true;
 #else
     bool bFork = true;
     for (int i = 0; i < argc; i++){
@@ -575,7 +573,7 @@ int main(int argc, char *argv[])
             ctrlSock = argv[++i];
         if (!strcmp(argv[i], "--nofork"))
             bFork = false;
-        if (!strcmp(argv[i], "-nodock"))
+        if (!strcmp(argv[i], "--nodock"))
             bNoDock = true;
     }
 #endif
