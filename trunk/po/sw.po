@@ -5376,7 +5376,7 @@ msgstr "Berichda Se Brobleme odr Winsche"
 
 #: plugins/about/aboutdlg.cpp:47
 msgid "Note: This is english mailing list"
-msgstr "Bemerkong: Des ischd a englischschbrachige Mailinglischde"
+msgstr "Des ischd a englischschbrachige Mailinglischde"
 
 #: plugins/about/aboutdlgbase.cpp:149
 msgid "About SIM"
@@ -6885,7 +6885,7 @@ msgstr "Akzion"
 
 #: plugins/action/action.cpp:34
 msgid "Plugin execute external programs on event or from contact menu"
-msgstr "Blugin fihrd exderne Brogramme bei oim Ereignis odr von Kondakdmai aus"
+msgstr "Blugin fihrd exderne Brogramme bei oim Ereignis odr von Kondakdmeni aus"
 
 #: plugins/action/action.cpp:84
 msgid "&Action"
