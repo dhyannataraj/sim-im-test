@@ -602,8 +602,25 @@ void PluginManagerPrivate::loadState()
     m_bLoaded = true;
     string cfgName = user_file(PLUGINS_CONF);
     QFile f(QFile::decodeName(cfgName.c_str()));
+    if (!f.exists()) {
+        /* Maybe first start ? */
+        QDir dir(user_file(NULL));
+        if (!dir.exists()) {
+            log(L_WARN, "Creating directory %s",dir.absPath().ascii());
+            if (!dir.mkdir(dir.absPath())) {
+                log(L_ERROR, "Can't create directory %s",dir.absPath().ascii());
+                return;
+            } 
+        }
+        if (f.open(IO_WriteOnly)) {
+            f.close();
+        } else {
+            log(L_ERROR, "Can't create %s",f.name().ascii());
+            return;
+        }
+    }
     if (!f.open(IO_ReadOnly)){
-        log(L_ERROR, "Can't create %s", cfgName.c_str());
+        log(L_ERROR, "Can't open %s", f.name().ascii());
         return;
     }
     unsigned i = NO_PLUGIN;
