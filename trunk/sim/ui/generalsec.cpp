@@ -77,7 +77,7 @@ void GeneralSecurity::apply(ICQUser*)
         pClient->DirectMode = grpDirect->id(grpDirect->selected());
     if (pClient->m_state == ICQClient::Logged)
         pClient->setStatus(pClient->uStatus);
-    pClient->setSecurityInfo(chkAuth->isChecked, chkWeb->isChecked());
+    pClient->setSecurityInfo(chkAuth->isChecked(), chkWeb->isChecked());
 }
 
 void GeneralSecurity::rejectToggled(bool bOn)

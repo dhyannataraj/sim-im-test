@@ -235,7 +235,6 @@ bool History::iterator::operator ++()
             msgs.pop();
             f.clear();
             f.seekg(msgId, ios::beg);
-            int eof = f.eof();
             getline(f, type);
             msg = h.loadMessage(f, type, msgId);
             if (msg == NULL) continue;

@@ -579,8 +579,11 @@ void ICQClient::parseMessageText(const char *p, string &s, ICQUser *u)
 {
     if ((strlen(p) >= 5) && !memcmp(p, "{\\rtf", 5)){
         string r(p);
+	log(L_DEBUG, "1<< %s", r.c_str());
         fromServer(r, u);
+	log(L_DEBUG, "2<< %s", r.c_str());
         s = parseRTF(r.c_str(), u);
+	log(L_DEBUG, "3<< %s", s.c_str());
         return;
     }
     s = quoteText(p);
