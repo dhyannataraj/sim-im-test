@@ -28,10 +28,15 @@ using namespace std;
 #define TAG		 5
 #define TAG_END  6
 
+#define YY_STACK_USED   0
+#define YY_NEVER_INTERACTIVE    1
+#define YY_ALWAYS_INTERACTIVE   0
+#define YY_MAIN         0
+
 %}
 
-%option prefix="parse"
 %option nounput
+%option prefix="parser"
 
 %x x_tag
 %%

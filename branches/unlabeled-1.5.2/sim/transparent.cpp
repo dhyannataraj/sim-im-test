@@ -141,6 +141,7 @@ TransparentTop::TransparentTop(QWidget *parent,
 void TransparentTop::updateBackground(const QPixmap &pm)
 {
 #if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
+    if (pm.isNull()) return;
     saveBG = pm;
     genBG = QPixmap();
     genFade = 0;

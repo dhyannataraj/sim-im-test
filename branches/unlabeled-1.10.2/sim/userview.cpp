@@ -1215,7 +1215,7 @@ void UserView::maybeTip ( const QPoint &p )
 UserFloat::UserFloat()
         : UserView(NULL, false, false,
                    QObject::WType_TopLevel | QObject::WStyle_Customize | QObject::WStyle_NoBorder |
-                   QObject::WStyle_Tool | QObject::WStyle_StaysOnTop),
+                   QObject::WStyle_Tool  | QObject::WStyle_StaysOnTop ),
         Uin(this, "Uin", 0),
         Left(this, "Left", 0),
         Top(this, "Top", 0)

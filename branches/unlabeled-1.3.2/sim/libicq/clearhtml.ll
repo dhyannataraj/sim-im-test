@@ -33,10 +33,15 @@ using namespace std;
 #define SYMBOL	2
 #define BR		3
 
+#define YY_STACK_USED   0
+#define YY_NEVER_INTERACTIVE    1
+#define YY_ALWAYS_INTERACTIVE   0
+#define YY_MAIN         0
+
 %}
 
-%option prefix="html"
 %option nounput
+%option prefix="clearhtml"
 
 %x tag
 %x symbol

@@ -18,7 +18,7 @@
 
 #include <stdio.h>
 
-#if WIN32
+#ifdef WIN32
 #define vsnprintf _vsnprintf
 #endif
 
@@ -38,10 +38,15 @@
 #define IMG		6
 #define UNICODE_CHAR		7
 
+#define YY_STACK_USED	0
+#define YY_NEVER_INTERACTIVE	1
+#define YY_ALWAYS_INTERACTIVE	0
+#define YY_MAIN		0	
+
 %}
 
-%option prefix="rtf"
 %option nounput
+%option prefix="rtf"
 
 %%
 "{"		{ return UP; }

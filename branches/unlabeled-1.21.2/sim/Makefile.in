@@ -110,6 +110,7 @@ KDE_USE_FINAL_FALSE = @KDE_USE_FINAL_FALSE@
 KDE_USE_FINAL_TRUE = @KDE_USE_FINAL_TRUE@
 KDE_XSL_STYLESHEET = @KDE_XSL_STYLESHEET@
 LEX = @LEX@
+LFLAGS = @LFLAGS@
 LIBCOMPAT = @LIBCOMPAT@
 LIBCRYPT = @LIBCRYPT@
 LIBDL = @LIBDL@
@@ -226,12 +227,12 @@ x_libraries = @x_libraries@
 
 bin_PROGRAMS = sim
 
-sim_SOURCES = about.cpp xosd.cpp chatwnd.cpp fontedit.cpp transparent.cpp parse.ll intedit.cpp userview.cpp usertbl.cpp userbox.cpp toolbtn.cpp themes.cpp sim.cpp passwddlg.cpp msgview.cpp msgedit.cpp mainwin.cpp logindlg.cpp icons.cpp history.cpp editspell.cpp dock.cpp cuser.cpp client.cpp 
+sim_SOURCES = parse.ll about.cpp xosd.cpp chatwnd.cpp fontedit.cpp transparent.cpp intedit.cpp userview.cpp usertbl.cpp userbox.cpp toolbtn.cpp themes.cpp sim.cpp passwddlg.cpp msgview.cpp msgedit.cpp mainwin.cpp logindlg.cpp icons.cpp history.cpp editspell.cpp dock.cpp cuser.cpp client.cpp 
 sim_LDADD = ./libicq/liblibicq.a ./ui/libui.a ./qt3/libqt3.a  $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE)  $(LIBSOCKET)
 
 SUBDIRS = libicq ui xpm qt3 
 
-EXTRA_DIST = sim.desktop lo32-app-sim.png lo16-app-sim.png client.cpp client.h cuser.cpp cuser.h defs.h dock.cpp dock.h editspell.cpp editspell.h history.cpp history.h icons.cpp icons.h logindlg.cpp logindlg.h mainwin.cpp mainwin.h msgedit.cpp msgedit.h msgview.cpp msgview.h passwddlg.cpp passwddlg.h sim.cpp sim.h themes.cpp themes.h toolbtn.cpp toolbtn.h userbox.cpp userbox.h usertbl.cpp usertbl.h userview.cpp userview.h intedit.cpp intedit.h parse.ll transparent.cpp transparent.h fontedit.cpp fontedit.h chatwnd.cpp chatwnd.h xosd.cpp xosd.h hi16-app-sim.png hi32-app-sim.png about.cpp about.h 
+EXTRA_DIST = sim.desktop lo32-app-sim.png lo16-app-sim.png client.cpp client.h cuser.cpp cuser.h defs.h dock.cpp dock.h editspell.cpp editspell.h history.cpp history.h icons.cpp icons.h logindlg.cpp logindlg.h mainwin.cpp mainwin.h msgedit.cpp msgedit.h msgview.cpp msgview.h passwddlg.cpp passwddlg.h sim.cpp sim.h themes.cpp themes.h toolbtn.cpp toolbtn.h userbox.cpp userbox.h usertbl.cpp usertbl.h userview.cpp userview.h intedit.cpp intedit.h transparent.cpp transparent.h fontedit.cpp fontedit.h chatwnd.cpp chatwnd.h xosd.cpp xosd.h hi16-app-sim.png hi32-app-sim.png about.cpp about.h parse.ll 
 
 ####### kdevelop will overwrite this part!!! (end)############
 # this 10 paths are KDE specific. Use them:
@@ -261,8 +262,8 @@ CONFIG_CLEAN_FILES =
 bin_PROGRAMS = sim$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
-am_sim_OBJECTS = about.$(OBJEXT) xosd.$(OBJEXT) chatwnd.$(OBJEXT) \
-	fontedit.$(OBJEXT) transparent.$(OBJEXT) parse.$(OBJEXT) \
+am_sim_OBJECTS = parse.$(OBJEXT) about.$(OBJEXT) xosd.$(OBJEXT) \
+	chatwnd.$(OBJEXT) fontedit.$(OBJEXT) transparent.$(OBJEXT) \
 	intedit.$(OBJEXT) userview.$(OBJEXT) usertbl.$(OBJEXT) \
 	userbox.$(OBJEXT) toolbtn.$(OBJEXT) themes.$(OBJEXT) \
 	sim.$(OBJEXT) passwddlg.$(OBJEXT) msgview.$(OBJEXT) \
@@ -272,8 +273,8 @@ am_sim_OBJECTS = about.$(OBJEXT) xosd.$(OBJEXT) chatwnd.$(OBJEXT) \
 #>- sim_OBJECTS = $(am_sim_OBJECTS)
 #>+ 12
 sim_final_OBJECTS = parse.o sim.all_cpp.o sim.all_cc.o 
-sim_nofinal_OBJECTS = about.$(OBJEXT) xosd.$(OBJEXT) chatwnd.$(OBJEXT) \
-	fontedit.$(OBJEXT) transparent.$(OBJEXT) parse.$(OBJEXT) \
+sim_nofinal_OBJECTS = parse.$(OBJEXT) about.$(OBJEXT) xosd.$(OBJEXT) \
+	chatwnd.$(OBJEXT) fontedit.$(OBJEXT) transparent.$(OBJEXT) \
 	intedit.$(OBJEXT) userview.$(OBJEXT) usertbl.$(OBJEXT) \
 	userbox.$(OBJEXT) toolbtn.$(OBJEXT) themes.$(OBJEXT) \
 	sim.$(OBJEXT) passwddlg.$(OBJEXT) msgview.$(OBJEXT) \
@@ -566,12 +567,7 @@ GTAGS:
 distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH
 
-#>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-#>+ 4
-KDE_DIST=sim 
-
-DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
-
+DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
 top_distdir = ..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)

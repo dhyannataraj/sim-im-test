@@ -108,6 +108,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                         break;
                     }
                 case ICQ_GROUPS:{
+			if (str.size() == 0) break;
                         fromUTF(str);
                         ICQGroup *grp = getGroup(grp_id, true);
                         if (grp == NULL){

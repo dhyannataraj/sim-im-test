@@ -101,6 +101,7 @@ void Themes::setTheme(const QString &styleName)
         return;
     }
 #endif
+    if (styleName.length() == 0) return;
     string name(styleName.local8Bit());
     log(L_DEBUG, "Create style %s", name.c_str());
     QStyle *style = QStyleFactory::create(styleName);

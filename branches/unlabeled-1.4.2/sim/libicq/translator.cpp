@@ -22,12 +22,15 @@
 #include <errno.h>
 #include <string.h>
 
+#include <qtextcodec.h>
+
 #ifdef HAVE_ICONV
 
 #include <iconv.h>
 
 bool ICQClient::translate(const char *to, const char *from, string &str)
 {
+    if (strcasecmp(to, from) == 0) return true;
     string res(str.size() * 4, '\x00');
     iconv_t cnv = iconv_open(to, from);
     if (cnv == (iconv_t)(-1)){
@@ -53,8 +56,6 @@ bool ICQClient::translate(const char *to, const char *from, string &str)
 
 #else
 
-#include <qtextcodec.h>
-
 #ifndef HAVE_STRCASECMP
 int strcasecmp(const char *a, const char *b);
 #endif
@@ -77,8 +78,8 @@ bool ICQClient::translate(const char *to, const char *from, string &str)
         return true;
     if (!strcasecmp(from, to))
         return true;
-    QTextCodec *fromCodec = codecForName(from);
-    QTextCodec *toCodec = codecForName(to);
+    QTextCodec *fromCodec = (*from) ? codecForName(from) : QTextCodec::codecForLocale();
+    QTextCodec *toCodec = (*to) ? codecForName(to) : QTextCodec::codecForLocale();
     if ((fromCodec == NULL) && (toCodec == NULL) &&
             strcasecmp(from, "UTF-8") && strcasecmp(to, "UTF-8")){
         if ((*from && strcmp(from, "ascii")) || (*to && strcmp(to, "ascii")))
@@ -142,6 +143,8 @@ void ICQClient::toServer(string &str)
 
 const char *ICQClient::localCharset()
 {
+    QTextCodec *codec = QTextCodec::codecForLocale();
+    if (codec) return codec->name();
     char *p = getenv("LANGUAGE");
     if (p == NULL) p = getenv("LANG");
     if (p) {

@@ -256,6 +256,7 @@ DockWnd::DockWnd(QWidget *main)
 
 #endif
 #ifdef USE_KDE
+    log(L_DEBUG, "WM props? %u", bWMDock);
     if (!bWMDock)
         KWin::setSystemTrayWindowFor( winId(), main->topLevelWidget()->winId());
 #endif

@@ -15,8 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifdef WIN32
 #if _MSC_VER > 1020
 #pragma warning(disable:4530)
+#endif
 #endif
 
 #include "socket.h"
@@ -490,6 +492,14 @@ void Socket::remove()
     m_delete = true;
 }
 
+static string ip2s(unsigned long ip)
+{
+    if (ip == 0) return "";
+    in_addr addr;
+    addr.s_addr = ip;
+    return string(inet_ntoa(addr));
+}
+
 bool Socket::getLocalAddr(char *&host, unsigned short &port, unsigned long remote_ip)
 {
     struct sockaddr_in addr;
@@ -498,6 +508,7 @@ bool Socket::getLocalAddr(char *&host, unsigned short &port, unsigned long remot
         return false;
     host = inet_ntoa(addr.sin_addr);
     port = htons(addr.sin_port);
+    string s_remote_ip = ip2s(remote_ip);
     if (remote_ip || (addr.sin_addr.s_addr == 0x7F000001) || (addr.sin_addr.s_addr == 0)){
         char hostname[128] ;
         if(gethostname(hostname, sizeof(hostname)) >= 0){
@@ -507,6 +518,8 @@ bool Socket::getLocalAddr(char *&host, unsigned short &port, unsigned long remot
                 unsigned long res = 0;
                 for (char **p_ip = phe->h_addr_list; *p_ip; p_ip++){
                     unsigned long ip = *((unsigned long*)(*p_ip));
+                    string s_ip = ip2s(ip);
+                    log(L_DEBUG, "Match: %s %s", s_ip.c_str(), s_remote_ip.c_str());
                     unsigned n = 1 << 31;
                     int n_ip_match;
                     for (n_ip_match = 0; n_ip_match < 32; n_ip_match++, n = (n >> 1))
@@ -522,6 +535,7 @@ bool Socket::getLocalAddr(char *&host, unsigned short &port, unsigned long remot
             }
         }
     }
+    log(L_DEBUG, "Local IP: %s %u (%s)", host, port, s_remote_ip.c_str());
     return true;
 }
 
@@ -698,7 +712,7 @@ void ClientSocket::read_ready()
         log(L_DEBUG, "Connect %s:%u", inet_ntoa(remote_addr.sin_addr), port);
         if (::connect(m_fd, (struct sockaddr*)&remote_addr, sizeof(remote_addr)))
         {
-#if WIN32
+#ifdef WIN32
             int err = h_errno;
             if (h_errno != WSAEWOULDBLOCK){
 #else

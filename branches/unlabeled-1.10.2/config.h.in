@@ -69,6 +69,9 @@
 /* Have tm_gmtoff */
 #undef HAVE_TM_GMTOFF
 
+/* Have umask */
+#undef HAVE_UMASK
+
 /* Define if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
