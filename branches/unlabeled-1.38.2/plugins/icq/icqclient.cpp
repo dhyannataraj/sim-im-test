@@ -332,6 +332,10 @@ ICQClient::ICQClient(Protocol *protocol, const char *cfg, bool bAIM)
     if (data.owner.Screen && *data.owner.Screen)
         m_bAIM = true;
     if (!m_bAIM && (data.owner.Encoding == NULL)){
+		const char *default_enc = static_cast<ICQPlugin*>(protocol->plugin())->getDefaultEncoding();
+		if (default_enc && *default_enc){
+			set_str(&data.owner.Encoding, default_enc);
+		}else{
         QTextCodec *codec = _getCodec(NULL);
         if (codec && (QString(codec->name()).lower().find("utf") >= 0)){
             const char *_def_enc = I18N_NOOP("Dear translator! type this default encdoing for your language");
@@ -343,6 +347,7 @@ ICQClient::ICQClient(Protocol *protocol, const char *cfg, bool bAIM)
                 set_str(&data.owner.Encoding, def_enc.latin1());
             }
         }
+		}
     }
     m_bRosters = false;
     m_listRequest = NULL;

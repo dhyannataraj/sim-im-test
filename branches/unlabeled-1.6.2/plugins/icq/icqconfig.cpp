@@ -42,7 +42,7 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
             chkNew->setChecked(true);
         }
         edtPasswd->setText(m_client->getPassword());
-        edtUin->setValidator(new QIntValidator(1000, 0xFFFFFFFF, edtUin));
+        edtUin->setValidator(new QIntValidator(1000, 0x1FFFFFFF, edtUin));
         connect(edtUin, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
         connect(edtPasswd, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     }else{

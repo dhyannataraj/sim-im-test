@@ -117,6 +117,8 @@ void ICQInfo::apply()
             }
         }
     }
+	if (m_data == NULL)
+		static_cast<ICQPlugin*>(m_client->protocol()->plugin())->setDefaultEncoding(encoding.c_str());
     if (!set_str(&data->Encoding, encoding.c_str()))
         return;
     Contact *contact;
