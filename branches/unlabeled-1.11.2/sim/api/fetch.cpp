@@ -708,7 +708,13 @@ bool get_connection_state(bool &bState)
         return false;
     DWORD flags;
     bState = _InternetGetConnectedState(&flags, 0);
-    return true;
+	if (bState)
+		return true;
+	if (flags & 0x40){
+		bState = true;
+		return true;
+	}
+	return true;
 }
 
 #else

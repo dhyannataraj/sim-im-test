@@ -860,6 +860,18 @@ EXPORT QRect screenGeometry()
 #endif
 }
 
+static bLog = true;
+
+EXPORT bool logEnabled()
+{
+	return bLog;
+}
+
+EXPORT void setLogEnable(bool log)
+{
+	bLog = log;
+}
+
 static bool bRandInit = false;
 
 EXPORT unsigned get_random()

@@ -1803,6 +1803,9 @@ public:
     string *m_str;
 };
 
+EXPORT bool logEnabled();
+EXPORT void setLogEnable(bool);
+
 };
 
 using namespace SIM;

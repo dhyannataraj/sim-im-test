@@ -620,7 +620,6 @@ void *Container::processEvent(Event *e)
                     QTimer::singleShot(0, this, SLOT(flash()));
             }
         }
-        break;
     case EventMessageRead:
         msg = (Message*)(e->param());
         userWnd = wnd(msg->contact());
