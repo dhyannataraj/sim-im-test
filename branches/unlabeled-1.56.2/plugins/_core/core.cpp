@@ -1330,7 +1330,7 @@ QString CorePlugin::poFile(const char *lang)
     QFile f(QFile::decodeName(s.c_str()));
     if (!f.exists()) return "";
 #else
-string s = PREFIX "/share/locale/";
+    string s = PREFIX "/share/locale/";
     string l;
     if (lang)
         l = lang;
@@ -1371,7 +1371,7 @@ void CorePlugin::installTranslator()
 #ifdef USE_KDE
         return;
 #else
-char *p = getenv("LANG");
+        char *p = getenv("LANG");
         if (p){
             for (; *p; p++){
                 if (*p == '.') break;
@@ -2863,44 +2863,45 @@ void *CorePlugin::processEvent(Event *e)
                 setShowPanel((cmd->flags & COMMAND_CHECKED) != 0);
                 showPanel();
             }
-            return NULL;
         }
-    }
-    if (e->type() == EventGoURL){
-        string url = (const char*)(e->param());
-        string proto;
-        int n = url.find(':');
-        if (n < 0)
-            return NULL;
-        proto = url.substr(0, n);
-        if (proto == "sms"){
+        return NULL;
+    case EventGoURL:{
+            string url = (const char*)(e->param());
+            string proto;
+            int n = url.find(':');
+            if (n < 0)
+                return NULL;
+            proto = url.substr(0, n);
+            if (proto == "sms"){
+                url = url.substr(proto.length() + 1);
+                while (url[0] == '/')
+                    url = url.substr(1);
+                Contact *contact = getContacts()->contactByPhone(url.c_str());
+                if (contact){
+                    Command cmd;
+                    cmd->id		 = MessageSMS;
+                    cmd->menu_id = MenuMessage;
+                    cmd->param	 = (void*)(contact->id());
+                    Event eCmd(EventCommandExec, cmd);
+                    eCmd.process();
+                }
+                return e->param();
+            }
+            if (proto != "sim")
+                return NULL;
             url = url.substr(proto.length() + 1);
-            while (url[0] == '/')
-                url = url.substr(1);
-            Contact *contact = getContacts()->contactByPhone(url.c_str());
+            unsigned contact_id = atol(url.c_str());
+            Contact *contact = getContacts()->contact(contact_id);
             if (contact){
                 Command cmd;
-                cmd->id		 = MessageSMS;
+                cmd->id		 = MessageGeneric;
                 cmd->menu_id = MenuMessage;
-                cmd->param	 = (void*)(contact->id());
+                cmd->param	 = (void*)contact_id;
                 Event eCmd(EventCommandExec, cmd);
                 eCmd.process();
             }
-            return e->param();
         }
-        if (proto != "sim")
             return NULL;
-        url = url.substr(proto.length() + 1);
-        unsigned contact_id = atol(url.c_str());
-        Contact *contact = getContacts()->contact(contact_id);
-        if (contact){
-            Command cmd;
-            cmd->id		 = MessageGeneric;
-            cmd->menu_id = MenuMessage;
-            cmd->param	 = (void*)contact_id;
-            Event eCmd(EventCommandExec, cmd);
-            eCmd.process();
-        }
     }
     return NULL;
 }
@@ -3335,7 +3336,7 @@ string CorePlugin::getConfig()
 #if QT_VERSION >= 0x030200
         const QString errorMessage = f.errorString();
 #else
-const QString errorMessage = "write file fail";
+        const QString errorMessage = "write file fail";
 #endif
         f.close();
         if (status != IO_Ok) {

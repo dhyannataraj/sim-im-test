@@ -21,11 +21,6 @@
 #include "icondll.h"
 #include "buffer.h"
 
-#ifndef XML_STATUS_OK
-#define XML_STATUS_OK    1
-#define XML_STATUS_ERROR 0
-#endif
-
 #include <qfile.h>
 #include <qregexp.h>
 #include <qpainter.h>
@@ -57,32 +52,35 @@ protected:
     unsigned			m_width;
     unsigned			m_height;
     unsigned			parseNumber(const char*);
-    xmlSAXHandler		m_parser;
+    xmlSAXHandler		m_handler;
+	xmlParserCtxtPtr	m_context;
     void		element_start(const char *el, const char **attr);
     void		element_end(const char *el);
     void		char_data(const char *str, int len);
-    void		cdata(const char *data, int len);
+    void		cdata(const char *str, int len);
     static void p_element_start(void *data, const xmlChar *el, const xmlChar **attr);
     static void p_element_end(void *data, const xmlChar *el);
     static void p_char_data(void *data, const xmlChar *str, int len);
-    static void p_cdata(void *data, const xmlChar *value, int len);
+    static void p_cdata(void *data, const xmlChar *str, int len);
 };
 
 XepParser::XepParser()
 {
+    memset(&m_handler, 0, sizeof(m_handler));
+	m_handler.startElement = p_element_start;
+	m_handler.endElement   = p_element_end;
+	m_handler.characters   = p_char_data;
+	m_handler.cdataBlock   = p_cdata;
+	m_context = xmlCreatePushParserCtxt(&m_handler, this, "", 0, "");
     m_data  = NULL;
     m_bRec = false;
     m_width  = 0;
     m_height = 0;
-	memset(&m_parser, 0, sizeof(m_parser));
-	m_parser.startElement = p_element_start;
-	m_parser.endElement   = p_element_end;
-	m_parser.characters   = p_char_data;
-	m_parser.cdataBlock   = p_cdata;
 }
 
 XepParser::~XepParser()
 {
+    xmlFreeParserCtxt(m_context);
 }
 
 void XepParser::p_element_start(void *data, const xmlChar *el, const xmlChar **attr)
@@ -105,26 +103,42 @@ void XepParser::p_cdata(void *data, const xmlChar *str, int len)
     ((XepParser*)data)->cdata((char*)str, len);
 }
 
+static void replace(char *b, unsigned size, const char *str1, const char *str2)
+{
+    unsigned str_size = strlen(str1);
+    for (unsigned i = 0; i < size - str_size; i++, b++){
+        if (*b != *str1)
+            continue;
+        if (memcmp(b, str1, str_size))
+            continue;
+        memcpy(b, str2, strlen(str2));
+    }
+}
+
 bool XepParser::parse(QFile &f)
 {
-	char SMILES_START[] = "<smiles>";
-	char SMILES_END[]   = "</smiles>";
-
-	char *data = new char[f.size() + 20];
-	strcpy(data, SMILES_START);
-	char *p = data + strlen(SMILES_START);
-    int size = f.readBlock(p, f.size());
-    if (size <= 0){
-		delete[] data;
-		return false;
-	}
-	p += size;
-	strcpy(p, SMILES_END);
-	p += strlen(SMILES_END);
-	*p = 0;
-
-	xmlSAXUserParseMemory(&m_parser, this, data, strlen(data));
-	delete[] data;
+    char buf[4096];
+    char XML_START[] = "<smiles>";
+	xmlParseChunk(m_context, XML_START, strlen(XML_START), 0);
+    unsigned start = 0;
+    for (;;){
+        char s32[] = "<32bit_Icons>";
+        char e32[] = "</32bit_Icons>";
+        int size = f.readBlock(&buf[start], sizeof(buf) - start);
+        if (size <= 0)
+            break;
+        size += start;
+        replace(buf, size, s32, "<AA");
+        replace(buf, size, e32, "</AA");
+        if (size == sizeof(buf)){
+            start = strlen(e32);
+            size -= start;
+        }
+		if (xmlParseChunk(m_context, buf, size, 0))
+            return false;
+        if (start)
+            memmove(buf, &buf[sizeof(buf) - start], start);
+    }
     if ((m_pict.size() == 0) || (m_width == 0) || (m_height == 0))
         return false;
     Buffer pict;
@@ -192,9 +206,9 @@ void XepParser::char_data(const char *str, int len)
         m_data->append(str, len);
 }
 
-void XepParser::cdata(const char *data, int len)
+void XepParser::cdata(const char *str, int len)
 {
-    m_pict.pack(data, len);
+    m_pict.pack(str, len);
 }
 
 unsigned XepParser::parseNumber(const char *p)

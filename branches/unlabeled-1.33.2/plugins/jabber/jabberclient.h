@@ -356,7 +356,8 @@ protected:
     void setOffline(JabberUserData *data);
 
     static	QCString encodeXML(const QString &str);
-    xmlSAXHandler	m_parser;
+    xmlSAXHandler		m_handler;
+	xmlParserCtxtPtr	m_context;
     string		m_id;
     unsigned	m_depth;
 

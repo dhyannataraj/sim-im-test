@@ -320,10 +320,11 @@ void JabberClient::connected()
     startHandshake();
     TCPClient::connect_ready();
     if (!m_bXML){
-        memset(&m_parser, 0, sizeof(m_parser));
-		m_parser.startElement = p_element_start;
-		m_parser.endElement   = p_element_end;
-		m_parser.characters   = p_char_data;
+        memset(&m_handler, 0, sizeof(m_handler));
+		m_handler.startElement = p_element_start;
+		m_handler.endElement   = p_element_end;
+		m_handler.characters   = p_char_data;
+		m_context = xmlCreatePushParserCtxt(&m_handler, this, "", 0, "");
         m_bXML = true;
     }
 }
@@ -334,7 +335,7 @@ void JabberClient::packet_ready()
         return;
     JabberPlugin *plugin = static_cast<JabberPlugin*>(protocol()->plugin());
     log_packet(m_socket->readBuffer, false, plugin->JabberPacket);
-	if (xmlSAXUserParseMemory(&m_parser, this, m_socket->readBuffer.data(), m_socket->readBuffer.writePos()))
+	if (xmlParseChunk(m_context, m_socket->readBuffer.data(), m_socket->readBuffer.writePos(), 0))
         m_socket->error_state("XML parse error");
     m_socket->readBuffer.init(0);
     m_socket->readBuffer.packetStart();
@@ -775,6 +776,7 @@ void JabberClient::disconnected()
         m_browser = NULL;
     }
     if (m_bXML){
+	    xmlFreeParserCtxt(m_context);
         m_bXML = false;
     }
     for (list<ServerRequest*>::iterator it = m_requests.begin(); it != m_requests.end(); ++it)
