@@ -27,7 +27,7 @@ class ConnectWnd : public ConnectWndBase
 public:
     ConnectWnd();
     void setConnecting(bool bState);
-    void setError(const char *text);
+    void setErr(const QString &text);
 protected slots:
     void updateMovie();
 };

@@ -66,7 +66,7 @@ static CommandDef msn_descr =
         I18N_NOOP("MSN"),
         "MSN_online",
         "MSN_invisible",
-        NULL,
+        I18N_NOOP("http://help.microsoft.com/!data/ru_ru/data/messengerv47_xp.its51/$content$/xptroublesignin.htm"),
         0,
         0,
         0,

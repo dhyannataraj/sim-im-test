@@ -18,6 +18,7 @@
 #include "jabberconfig.h"
 #include "jabberclient.h"
 #include "jabber.h"
+#include "linklabel.h"
 
 #include <qtimer.h>
 #include <qlineedit.h>
@@ -50,6 +51,8 @@ JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig)
     chkPlain->hide();
 #endif
     chkVHost->setChecked(m_client->getUseVHost());
+	lnkPublic->setText(i18n("List of public servers"));
+    connect(lnkPublic, SIGNAL(click()), this, SLOT(showPublic()));
     connect(edtID, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(edtPasswd, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(edtServer, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
@@ -125,6 +128,13 @@ void JabberConfig::changed()
                 atol(edtPort->text());
     emit okEnabled(bOK);
 }
+
+void JabberConfig::showPublic()
+{
+    Event e(EventGoURL, "http://www.jabber.org/user/publicservers.php");
+    e.process();
+}
+
 
 #ifndef WIN32
 #include "jabberconfig.moc"

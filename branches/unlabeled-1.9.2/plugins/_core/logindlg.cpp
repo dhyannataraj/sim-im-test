@@ -19,6 +19,7 @@
 #include "core.h"
 #include "logindlg.h"
 #include "ballonmsg.h"
+#include "linklabel.h"
 
 #include <qpixmap.h>
 #include <qcheckbox.h>
@@ -31,7 +32,7 @@
 #include <qapplication.h>
 #include <qtimer.h>
 
-LoginDialog::LoginDialog(bool bInit, Client *client)
+LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text)
         : LoginDialogBase(NULL, "logindlg",
                           client ? false : true,
                           client ? WDestructiveClose : 0)
@@ -44,6 +45,7 @@ LoginDialog::LoginDialog(bool bInit, Client *client)
     SET_WNDPROC("login")
     setIcon(Pict("licq"));
     setButtonsPict(this);
+	lblMessage->setText(text);
     if (m_client){
         setCaption(caption());
     }else{
@@ -262,6 +264,10 @@ void LoginDialog::fill()
         PLayout->addWidget(pict, 2, 0);
         PLayout->addWidget(txt, 2, 1);
         PLayout->addWidget(edt, 2, 2);
+		LinkLabel *lnkHelp = new LinkLabel(this);
+		PLayout->addWidget(lnkHelp, 3, 3);
+		lnkHelp->setText(i18n("Forgot password?"));
+		connect(lnkHelp, SIGNAL(click()), this, SLOT(clickHelp()));
         pict->show();
         txt->show();
         edt->show();
@@ -370,6 +376,19 @@ void LoginDialog::loginComplete()
     close();
 }
 
+void LoginDialog::clickHelp()
+{
+	if (m_client == NULL)
+		return;
+	const char *url = m_client->protocol()->description()->accel;
+	if (url && *url){
+		string url_str;
+		url_str = i18n(url).latin1();
+	    Event e(EventGoURL, (void*)(url_str.c_str()));
+		e.process();
+	}
+}
+
 void *LoginDialog::processEvent(Event *e)
 {
     switch (e->type()){
@@ -389,6 +408,8 @@ void *LoginDialog::processEvent(Event *e)
                 QString msg;
                 if (d->err_str && *d->err_str){
                     msg = i18n(d->err_str);
+					if (d->args)
+						msg = msg.arg(QString::fromUtf8(d->args));
                 }else{
                     msg = i18n("Login failed");
                 }

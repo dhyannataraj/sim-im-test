@@ -398,12 +398,20 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             sendPacket();
             sendCapability();
             sendICMB(1, 11);
-            sendICMB(0, 3);
-            sendLogonStatus();
+            sendICMB(0, m_bAIM ? 11 : 3);
+			if (!m_bAIM)
+				sendLogonStatus();
+			setState(Connected);
+			Event e(EventClientChanged, this);
+		    e.process();
             sendClientReady();
-            sendMessageRequest();
-            if (getContactsInvisible() == 0){
-                snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_EDIT);
+			if (m_bAIM){
+				processListRequest();
+				break;
+			}
+			sendMessageRequest();
+			if (getContactsInvisible() == 0){
+				snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_EDIT);
                 sendPacket();
                 snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_CREATE, true);
                 m_socket->writeBuffer
@@ -494,10 +502,6 @@ void ICQClient::listsRequest()
     log(L_DEBUG, "lists request");
     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_REQxRIGHTS);
     sendPacket();
-    if (getContactsInvisible()){
-        setContactsTime(0);
-        setContactsLength(0);
-    }
     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_REQxROSTER);
     unsigned long	contactsTime	= getContactsTime();
     unsigned short	contactsLength	= getContactsLength();

@@ -69,6 +69,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
 
             unsigned short level, len;
             m_socket->readBuffer >> level >> len;
+			data->WarningLevel = level;
 
             TlvList tlv(m_socket->readBuffer);
 
@@ -348,7 +349,7 @@ void ICQClient::sendContactList()
         ICQUserData *data;
         while ((data = (ICQUserData*)(++it_data)) != NULL){
             if ((data->IgnoreId == 0)  && (data->WaitAuth || (data->GrpId == 0)))
-                buddies.push_back(data->Uin);
+                buddies.push_back(screen(data));
         }
     }
     if (buddies.empty()) return;
@@ -374,9 +375,9 @@ void ICQClient::addBuddy(Contact *contact)
     ICQUserData *data;
     ClientDataIterator it_data(contact->clientData, this);
     while ((data = (ICQUserData*)(++it_data)) != NULL){
-        list<unsigned long>::iterator it;
+        list<string>::iterator it;
         for (it = buddies.begin(); it != buddies.end(); ++it){
-            if (data->Uin == *it)
+            if (screen(data) == *it)
                 break;
         }
         if (it != buddies.end())
@@ -385,7 +386,7 @@ void ICQClient::addBuddy(Contact *contact)
             snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_ADDxTOxLIST);
             m_socket->writeBuffer.packScreen(screen(data).c_str());
             sendPacket();
-            buddies.push_back(data->Uin);
+            buddies.push_back(screen(data));
         }
     }
 }

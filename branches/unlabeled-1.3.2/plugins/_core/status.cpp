@@ -283,8 +283,14 @@ void *CommonStatus::processEvent(Event *e)
         break;
     case EventClientError:{
             clientErrorData *data = (clientErrorData*)(e->param());
+				QString msg;
+				if (data->err_str && *data->err_str){
+					msg = i18n(data->err_str);
+					if (data->args)
+						msg = msg.arg(QString::fromUtf8(data->args));
+				}
             if (data->code == AuthError){
-                LoginDialog *loginDlg = new LoginDialog(false, data->client);
+                LoginDialog *loginDlg = new LoginDialog(false, data->client, msg);
                 raiseWindow(loginDlg);
             }else{
                 Command cmd;
@@ -293,8 +299,8 @@ void *CommonStatus::processEvent(Event *e)
                 QWidget *widget = (QWidget*)(eWidget.process());
                 if (widget){
                     raiseWindow(widget->topLevelWidget());
-                    if (data->err_str && *data->err_str)
-                        BalloonMsg::message(i18n(data->err_str), widget);
+                    if (!msg.isEmpty())
+                        BalloonMsg::message(msg, widget);
                 }
             }
             return e->param();

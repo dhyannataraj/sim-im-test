@@ -86,8 +86,14 @@ const capability arrCapabilities[] =
         // CAP_MACICQ
         { 0xdd, 0x16, 0xf2, 0x02, 0x84, 0xe6, 0x11, 0xd4,
           0x90, 0xdb, 0x00, 0x10, 0x4b, 0x9b, 0x4b, 0x7d },
-        // CAP_AIMCHAT
+        // CAP_AIM_CHAT
         { 0x74, 0x8f, 0x24, 0x20, 0x62, 0x87, 0x11, 0xd1, cap_id },
+        // CAP_AIM_BUDDYCON
+        { 0x09, 0x46, 0x13, 0x46, cap_mid, cap_id },
+        // CAP_AIM_IMIMAGE
+        { 0x09, 0x46, 0x13, 0x45, cap_mid, cap_id },
+        // CAP_AIM_SENDFILE
+        { 0x09, 0x46, 0x13, 0x43, cap_mid, cap_id },
         // CAP_MICQ
         { 'm', 'I', 'C', 'Q', ' ', '©', 'R', '.',
           'K', ' ', '.', ' ', 0, 0, 0, 0 },
@@ -136,18 +142,31 @@ void ICQClient::sendCapability()
     os_ver = 0;
 #endif
     *(pack_ver++) = os_ver;
-    cap.pack((char*)capabilities[CAP_DIRECT], sizeof(capability));
-    cap.pack((char*)capabilities[CAP_SRV_RELAY], sizeof(capability));
-    if (getSendFormat() <= 1)
-        cap.pack((char*)capabilities[CAP_UTF], sizeof(capability));
-    if (getSendFormat() == 0)
-        cap.pack((char*)capabilities[CAP_RTF], sizeof(capability));
-    if (getTypingNotification())
-        cap.pack((char*)capabilities[CAP_TYPING], sizeof(capability));
-    cap.pack((char*)capabilities[CAP_AIM_SUPPORT], sizeof(capability));
+	if (m_bAIM){
+		cap.pack((char*)capabilities[CAP_AIM_CHAT], sizeof(capability));
+		cap.pack((char*)capabilities[CAP_AIM_BUDDYCON], sizeof(capability));
+		cap.pack((char*)capabilities[CAP_AIM_IMIMAGE], sizeof(capability));
+		cap.pack((char*)capabilities[CAP_AIM_SENDFILE], sizeof(capability));
+	}else{
+		cap.pack((char*)capabilities[CAP_DIRECT], sizeof(capability));
+		cap.pack((char*)capabilities[CAP_SRV_RELAY], sizeof(capability));
+		if (getSendFormat() <= 1)
+			cap.pack((char*)capabilities[CAP_UTF], sizeof(capability));
+		if (getSendFormat() == 0)
+			cap.pack((char*)capabilities[CAP_RTF], sizeof(capability));
+	}
+		if (getTypingNotification())
+			cap.pack((char*)capabilities[CAP_TYPING], sizeof(capability));
+	cap.pack((char*)capabilities[CAP_AIM_SUPPORT], sizeof(capability));
     cap.pack((char*)c, sizeof(c));
     snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_SETxUSERxINFO);
+	if (m_bAIM){
+		m_socket->writeBuffer.tlv(0x0001, "text/aolrtf; charset=\"us-ascii\"");
+		m_socket->writeBuffer.tlv(0x0002, "\x00", 1);
+	}
     m_socket->writeBuffer.tlv(0x0005, cap);
+	if (m_bAIM)
+		m_socket->writeBuffer.tlv(0x0006, "\x00\x04\x00\x02\x00\x02", 6);
     sendPacket();
 }
 

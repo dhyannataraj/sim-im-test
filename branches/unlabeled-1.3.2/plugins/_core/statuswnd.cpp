@@ -168,8 +168,11 @@ void *StatusWnd::processEvent(Event *e)
             if (lbl == NULL)
                 break;
             if (data->err_str && *data->err_str){
+				QString msg = i18n(data->err_str);
+				if (data->args)
+					msg = msg.arg(QString::fromUtf8(data->args));
                 raiseWindow(topLevelWidget());
-                BalloonMsg::message(i18n(data->err_str), lbl);
+                BalloonMsg::message(msg, lbl);
                 return e->param();
             }
         }

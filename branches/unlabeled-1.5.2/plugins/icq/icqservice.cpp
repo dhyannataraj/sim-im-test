@@ -36,6 +36,7 @@ const unsigned short ICQ_SNACxSRV_RATExACK      = 0x0008;
 const unsigned short ICQ_SNACxSRV_RATExCHANGE   = 0x000A;
 const unsigned short ICQ_SNACxSRV_GETxUSERxINFO = 0x000E;
 const unsigned short ICQ_SNACxSRV_NAMExINFO     = 0x000F;
+const unsigned short ICQ_SNACxSRV_EVIL			= 0x0010;
 const unsigned short ICQ_SNACxSRV_SETxIDLE      = 0x0011;
 const unsigned short ICQ_SNACxSRV_MOTD          = 0x0013;
 const unsigned short ICQ_SNACxSRV_IMxICQ        = 0x0017;
@@ -56,7 +57,6 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
         }
         break;
     case ICQ_SNACxSRV_RATExINFO:
-        log(L_DEBUG, "Rate info");
         snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_RATExACK);
         m_socket->writeBuffer << 0x00010002L << 0x00030004L << 0x0005;
         sendPacket();
@@ -69,12 +69,10 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
         bosRequest();
         break;
     case ICQ_SNACxSRV_MOTD:
-        log(L_DEBUG, "Motd");
-        snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_REQxRATExINFO);
-        sendPacket();
         break;
     case ICQ_SNACxSRV_ACKxIMxICQ:
-        log(L_DEBUG, "Ack im icq");
+        snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_REQxRATExINFO);
+        sendPacket();
         break;
     case ICQ_SNACxSRV_NAMExINFO:{
             string screen = m_socket->readBuffer.unpackScreen();
@@ -99,21 +97,54 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
     case ICQ_SNACxSRV_READYxSERVER:
         log(L_DEBUG, "Server ready");
         snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_IMxICQ);
-        m_socket->writeBuffer
-        << 0x00010004L
-        << 0x00130004L
-        << 0x00020001L
-        << 0x00030001L
-        << 0x00150001L
-        << 0x00040001L
-        << 0x00060001L
-        << 0x00090001L
-        << 0x000A0001L
-        << 0x000B0001L;
+		if (m_bAIM){
+			m_socket->writeBuffer
+			<< 0x00010003L
+			<< 0x00130003L
+			<< 0x00020001L
+			<< 0x00030001L
+			<< 0x00040001L
+			<< 0x00060001L
+			<< 0x00080001L
+			<< 0x00090001L
+			<< 0x000A0001L
+			<< 0x000B0001L;
+		}else{
+			m_socket->writeBuffer
+			<< 0x00010004L
+			<< 0x00130004L
+			<< 0x00020001L
+			<< 0x00030001L
+			<< 0x00150001L
+			<< 0x00040001L
+			<< 0x00060001L
+			<< 0x00090001L
+			<< 0x000A0001L
+			<< 0x000B0001L;
+		}
         sendPacket();
         break;
     case ICQ_SNACxSRV_ERROR:
         break;
+	case ICQ_SNACxSRV_EVIL:{
+			unsigned short level;
+			m_socket->readBuffer.unpack(level);
+			string from = m_socket->readBuffer.unpackScreen();
+			data.owner.WarningLevel = level;
+			QString f;
+			f = from.c_str();
+			if (f.isEmpty())
+				f = i18n("anonymous");
+			clientErrorData d;
+			d.client  = this;
+			d.code    = 0;
+			d.err_str = I18N_NOOP("You've been warned by %1");
+			d.args    = strdup(f.utf8());
+			Event e(EventClientError, &d);
+			e.process();
+			free(d.args);
+			break;
+		}
     default:
         log(L_WARN, "Unknown service family type %04X", type);
     }
@@ -180,9 +211,6 @@ void ICQClient::sendLogonStatus()
     sendIdleTime();
     m_status = m_logonStatus;
     QTimer::singleShot(PING_TIMEOUT * 1000, this, SLOT(ping()));
-    setState(Connected);
-    Event e(EventClientChanged, this);
-    e.process();
 }
 
 void ICQClient::setInvisible()

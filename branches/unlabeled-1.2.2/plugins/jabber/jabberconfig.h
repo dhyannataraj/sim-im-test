@@ -38,6 +38,7 @@ protected slots:
     void changed(const QString&);
     void toggledSSL(bool);
     void toggledVHost(bool);
+	void showPublic();
 protected:
     bool m_bConfig;
     JabberClient *m_client;

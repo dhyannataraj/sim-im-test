@@ -31,7 +31,7 @@ class LoginDialog : public LoginDialogBase, public EventReceiver
 {
     Q_OBJECT
 public:
-    LoginDialog(bool bInit, Client *client);
+    LoginDialog(bool bInit, Client *client, const QString &msg);
     bool isChanged() { return m_bProfileChanged; }
     Client *client() { return m_client; }
 protected slots:
@@ -41,6 +41,7 @@ protected slots:
     void pswdChanged(const QString&);
     void profileDelete();
     void loginComplete();
+	void clickHelp();
 protected:
     virtual void *processEvent(Event*);
     virtual void closeEvent(QCloseEvent *e);
