@@ -784,6 +784,12 @@ char *Buffer::getLine()
     if (readPos() >= writePos())
         return NULL;
     char *res = data(m_posRead);
+    /* handle cases when the buffer is not \n-terminated (avoid returning non-null-terminated string) */
+    if (strnlen(res, m_size-m_posRead) == m_size-m_posRead)
+    {
+        allocate(m_size + 1, 0);
+        m_data[m_size] = 0;
+    }
     char *p;
     for (p = res; (m_posRead < m_posWrite) && *p ; p++)
         m_posRead++;
