@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-08-08 03:26+0400\n"
+"POT-Creation-Date: 2002-08-09 06:42+0400\n"
 "PO-Revision-Date: 2002-08-08 02:54GMT\n"
 "Last-Translator: Crissi  <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -13,6 +13,1665 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 0.9.6\n"
+
+#: libicq/country.cpp:6
+msgid "Arabic"
+msgstr ""
+
+#: libicq/country.cpp:7
+msgid "Bhojpuri"
+msgstr ""
+
+#: libicq/country.cpp:8
+msgid "Bulgarian"
+msgstr ""
+
+#: libicq/country.cpp:9
+msgid "Burmese"
+msgstr ""
+
+#: libicq/country.cpp:10
+msgid "Cantonese"
+msgstr ""
+
+#: libicq/country.cpp:11
+msgid "Catalan"
+msgstr ""
+
+#: libicq/country.cpp:12
+msgid "Chinese"
+msgstr ""
+
+#: libicq/country.cpp:13
+msgid "Croatian"
+msgstr ""
+
+#: libicq/country.cpp:14
+msgid "Czech"
+msgstr ""
+
+#: libicq/country.cpp:15
+msgid "Danish"
+msgstr ""
+
+#: libicq/country.cpp:16
+msgid "Dutch"
+msgstr ""
+
+#: libicq/country.cpp:17
+msgid "English"
+msgstr ""
+
+#: libicq/country.cpp:18
+msgid "Esperanto"
+msgstr ""
+
+#: libicq/country.cpp:19
+#, fuzzy
+msgid "Estonian"
+msgstr "Zuletzt online"
+
+#: libicq/country.cpp:20
+msgid "Farsi"
+msgstr ""
+
+#: libicq/country.cpp:21
+msgid "Finnish"
+msgstr ""
+
+#: libicq/country.cpp:22
+msgid "French"
+msgstr ""
+
+#: libicq/country.cpp:23
+#, fuzzy
+msgid "Gaelic"
+msgstr "Kursiv"
+
+#: libicq/country.cpp:24
+#, fuzzy
+msgid "German"
+msgstr "&Bewilligung"
+
+#: libicq/country.cpp:25
+msgid "Greek"
+msgstr ""
+
+#: libicq/country.cpp:26
+msgid "Hebrew"
+msgstr ""
+
+#: libicq/country.cpp:27
+#, fuzzy
+msgid "Hindi"
+msgstr "Suchen"
+
+#: libicq/country.cpp:28
+msgid "Hungarian"
+msgstr ""
+
+#: libicq/country.cpp:29
+msgid "Icelandic"
+msgstr ""
+
+#: libicq/country.cpp:30
+msgid "Indonesian"
+msgstr ""
+
+#: libicq/country.cpp:31
+#, fuzzy
+msgid "Italian"
+msgstr "Kursiv"
+
+#: libicq/country.cpp:32
+msgid "Japanese"
+msgstr ""
+
+#: libicq/country.cpp:33
+msgid "Khmer"
+msgstr ""
+
+#: libicq/country.cpp:34
+msgid "Korean"
+msgstr ""
+
+#: libicq/country.cpp:35
+msgid "Lao"
+msgstr ""
+
+#: libicq/country.cpp:36
+msgid "Latvian"
+msgstr ""
+
+#: libicq/country.cpp:37
+msgid "Lithuanian"
+msgstr ""
+
+#: libicq/country.cpp:38
+#, fuzzy
+msgid "Malay"
+msgstr "Mai"
+
+#: libicq/country.cpp:39
+msgid "Norwegian"
+msgstr ""
+
+#: libicq/country.cpp:40
+#, fuzzy
+msgid "Polish"
+msgstr "Publizieren"
+
+#: libicq/country.cpp:41
+msgid "Portuguese"
+msgstr ""
+
+#: libicq/country.cpp:42
+msgid "Romanian"
+msgstr ""
+
+#: libicq/country.cpp:43
+msgid "Russian"
+msgstr ""
+
+#: libicq/country.cpp:44
+msgid "Serbian"
+msgstr ""
+
+#: libicq/country.cpp:45
+msgid "Slovak"
+msgstr ""
+
+#: libicq/country.cpp:46
+#, fuzzy
+msgid "Slovenian"
+msgstr "Sende"
+
+#: libicq/country.cpp:47
+msgid "Somali"
+msgstr ""
+
+#: libicq/country.cpp:48
+msgid "Spanish"
+msgstr ""
+
+#: libicq/country.cpp:49
+msgid "Swahili"
+msgstr ""
+
+#: libicq/country.cpp:50
+msgid "Swedish"
+msgstr ""
+
+#: libicq/country.cpp:51
+msgid "Tagalog"
+msgstr ""
+
+#: libicq/country.cpp:52
+msgid "Tatar"
+msgstr ""
+
+#: libicq/country.cpp:53
+msgid "Thai"
+msgstr ""
+
+#: libicq/country.cpp:54
+msgid "Turkish"
+msgstr ""
+
+#: libicq/country.cpp:55
+msgid "Ukrainian"
+msgstr ""
+
+#: libicq/country.cpp:56
+msgid "Urdu"
+msgstr ""
+
+#: libicq/country.cpp:57
+#, fuzzy
+msgid "Vietnamese"
+msgstr "Umbenennen"
+
+#: libicq/country.cpp:58
+msgid "Yiddish"
+msgstr ""
+
+#: libicq/country.cpp:59
+msgid "Yoruba"
+msgstr ""
+
+#: libicq/country.cpp:60
+msgid "Taiwanese"
+msgstr ""
+
+#: libicq/country.cpp:61
+msgid "Afrikaans"
+msgstr ""
+
+#: libicq/country.cpp:62
+msgid "Persian"
+msgstr ""
+
+#: libicq/country.cpp:63
+#, fuzzy
+msgid "Albanian"
+msgstr "Alias"
+
+#: libicq/country.cpp:64
+msgid "Armenian"
+msgstr ""
+
+#: libicq/country.cpp:70
+msgid "Afghanistan"
+msgstr ""
+
+#: libicq/country.cpp:71
+#, fuzzy
+msgid "Albania"
+msgstr "Alias"
+
+#: libicq/country.cpp:72
+#, fuzzy
+msgid "Algeria"
+msgstr "Warnung"
+
+#: libicq/country.cpp:73
+msgid "American Samoa"
+msgstr ""
+
+#: libicq/country.cpp:74
+msgid "Andorra"
+msgstr ""
+
+#: libicq/country.cpp:75
+msgid "Angola"
+msgstr ""
+
+#: libicq/country.cpp:76
+msgid "Anguilla"
+msgstr ""
+
+#: libicq/country.cpp:77
+msgid "Antigua"
+msgstr ""
+
+#: libicq/country.cpp:78
+msgid "Argentina"
+msgstr ""
+
+#: libicq/country.cpp:79
+msgid "Armenia"
+msgstr ""
+
+#: libicq/country.cpp:80
+msgid "Aruba"
+msgstr ""
+
+#: libicq/country.cpp:81
+msgid "Ascension Island"
+msgstr ""
+
+#: libicq/country.cpp:82
+msgid "Australia"
+msgstr ""
+
+#: libicq/country.cpp:83
+msgid "Australian Antarctic Territory"
+msgstr ""
+
+#: libicq/country.cpp:84
+#, fuzzy
+msgid "Austria"
+msgstr "August"
+
+#: libicq/country.cpp:85
+msgid "Azerbaijan"
+msgstr ""
+
+#: libicq/country.cpp:86
+msgid "Bahamas"
+msgstr ""
+
+#: libicq/country.cpp:87
+msgid "Bahrain"
+msgstr ""
+
+#: libicq/country.cpp:88
+msgid "Bangladesh"
+msgstr ""
+
+#: libicq/country.cpp:89
+msgid "Barbados"
+msgstr ""
+
+#: libicq/country.cpp:90
+msgid "Barbuda"
+msgstr ""
+
+#: libicq/country.cpp:91
+msgid "Belarus"
+msgstr ""
+
+#: libicq/country.cpp:92
+msgid "Belgium"
+msgstr ""
+
+#: libicq/country.cpp:93
+msgid "Belize"
+msgstr ""
+
+#: libicq/country.cpp:94
+#, fuzzy
+msgid "Benin"
+msgstr "Sende"
+
+#: libicq/country.cpp:95
+msgid "Bermuda"
+msgstr ""
+
+#: libicq/country.cpp:96
+msgid "Bhutan"
+msgstr ""
+
+#: libicq/country.cpp:97
+msgid "Bolivia"
+msgstr ""
+
+#: libicq/country.cpp:98
+msgid "Bosnia and Herzegovina"
+msgstr ""
+
+#: libicq/country.cpp:99
+msgid "Botswana"
+msgstr ""
+
+#: libicq/country.cpp:100
+msgid "Brazil"
+msgstr ""
+
+#: libicq/country.cpp:101
+msgid "British Virgin Islands"
+msgstr ""
+
+#: libicq/country.cpp:102
+msgid "Brunei"
+msgstr ""
+
+#: libicq/country.cpp:103
+msgid "Bulgaria"
+msgstr ""
+
+#: libicq/country.cpp:104
+msgid "Burkina Faso"
+msgstr ""
+
+#: libicq/country.cpp:105
+msgid "Burundi"
+msgstr ""
+
+#: libicq/country.cpp:106
+msgid "Cambodia"
+msgstr ""
+
+#: libicq/country.cpp:107
+msgid "Cameroon"
+msgstr ""
+
+#: libicq/country.cpp:108
+msgid "Canada"
+msgstr ""
+
+#: libicq/country.cpp:109
+msgid "Cape Verde Islands"
+msgstr ""
+
+#: libicq/country.cpp:110
+msgid "Cayman Islands"
+msgstr ""
+
+#: libicq/country.cpp:111
+msgid "Central African Republic"
+msgstr ""
+
+#: libicq/country.cpp:112
+msgid "Chad"
+msgstr ""
+
+#: libicq/country.cpp:113
+#, fuzzy
+msgid "Chile"
+msgstr "Datei"
+
+#: libicq/country.cpp:114
+msgid "China"
+msgstr ""
+
+#: libicq/country.cpp:115
+msgid "Christmas Island"
+msgstr ""
+
+#: libicq/country.cpp:116
+msgid "Cocos-Keeling Islands"
+msgstr ""
+
+#: libicq/country.cpp:117
+msgid "Colombia"
+msgstr ""
+
+#: libicq/country.cpp:118
+#, fuzzy
+msgid "Comoros"
+msgstr "Farben"
+
+#: libicq/country.cpp:119
+msgid "Congo"
+msgstr ""
+
+#: libicq/country.cpp:120
+msgid "Cook Islands"
+msgstr ""
+
+#: libicq/country.cpp:121
+msgid "Costa Rica"
+msgstr ""
+
+#: libicq/country.cpp:122
+msgid "Croatia"
+msgstr ""
+
+#: libicq/country.cpp:123
+msgid "Cuba"
+msgstr ""
+
+#: libicq/country.cpp:124
+msgid "Cyprus"
+msgstr ""
+
+#: libicq/country.cpp:125
+msgid "Czech Republic"
+msgstr ""
+
+#: libicq/country.cpp:126
+msgid "Denmark"
+msgstr ""
+
+#: libicq/country.cpp:127
+msgid "Diego Garcia"
+msgstr ""
+
+#: libicq/country.cpp:128
+#, fuzzy
+msgid "Djibouti"
+msgstr "Über"
+
+#: libicq/country.cpp:129
+msgid "Dominica"
+msgstr ""
+
+#: libicq/country.cpp:130
+msgid "Dominican Republic"
+msgstr ""
+
+#: libicq/country.cpp:131
+msgid "Ecuador"
+msgstr ""
+
+#: libicq/country.cpp:132
+msgid "Egypt"
+msgstr ""
+
+#: libicq/country.cpp:133
+msgid "El Salvador"
+msgstr ""
+
+#: libicq/country.cpp:134
+msgid "Equatorial Guinea"
+msgstr ""
+
+#: libicq/country.cpp:135
+msgid "Eritrea"
+msgstr ""
+
+#: libicq/country.cpp:136
+msgid "Estonia"
+msgstr ""
+
+#: libicq/country.cpp:137
+msgid "Ethiopia"
+msgstr ""
+
+#: libicq/country.cpp:138
+msgid "Faeroe Islands"
+msgstr ""
+
+#: libicq/country.cpp:139
+msgid "Falkland Islands"
+msgstr ""
+
+#: libicq/country.cpp:140
+msgid "Fiji Islands"
+msgstr ""
+
+#: libicq/country.cpp:141
+#, fuzzy
+msgid "Finland"
+msgstr "Suchen"
+
+#: libicq/country.cpp:142
+#, fuzzy
+msgid "France"
+msgstr "Abbrechen"
+
+#: libicq/country.cpp:143
+msgid "French Antilles"
+msgstr ""
+
+#: libicq/country.cpp:144
+msgid "French Guiana"
+msgstr ""
+
+#: libicq/country.cpp:145
+msgid "French Polynesia"
+msgstr ""
+
+#: libicq/country.cpp:146
+msgid "Gabon"
+msgstr ""
+
+#: libicq/country.cpp:147
+msgid "Gambia"
+msgstr ""
+
+#: libicq/country.cpp:148
+msgid "Georgia"
+msgstr ""
+
+#: libicq/country.cpp:149
+#, fuzzy
+msgid "Germany"
+msgstr "&Bewilligung"
+
+#: libicq/country.cpp:150
+msgid "Ghana"
+msgstr ""
+
+#: libicq/country.cpp:151
+msgid "Gibraltar"
+msgstr ""
+
+#: libicq/country.cpp:152
+msgid "Greece"
+msgstr ""
+
+#: libicq/country.cpp:153
+msgid "Greenland"
+msgstr ""
+
+#: libicq/country.cpp:154
+msgid "Grenada"
+msgstr ""
+
+#: libicq/country.cpp:155
+msgid "Guadeloupe"
+msgstr ""
+
+#: libicq/country.cpp:156
+msgid "Guam"
+msgstr ""
+
+#: libicq/country.cpp:157
+msgid "Guantanamo Bay"
+msgstr ""
+
+#: libicq/country.cpp:158
+msgid "Guatemala"
+msgstr ""
+
+#: libicq/country.cpp:159
+#, fuzzy
+msgid "Guinea"
+msgstr "Allgemein"
+
+#: libicq/country.cpp:160
+msgid "Guinea-Bissau"
+msgstr ""
+
+#: libicq/country.cpp:161
+msgid "Guyana"
+msgstr ""
+
+#: libicq/country.cpp:162
+msgid "Haiti"
+msgstr ""
+
+#: libicq/country.cpp:163
+msgid "Honduras"
+msgstr ""
+
+#: libicq/country.cpp:164
+msgid "Hong Kong"
+msgstr ""
+
+#: libicq/country.cpp:165
+msgid "Hungary"
+msgstr ""
+
+#: libicq/country.cpp:166
+msgid "INMARSAT (Atlantic-East)"
+msgstr ""
+
+#: libicq/country.cpp:167
+msgid "INMARSAT (Atlantic-West)"
+msgstr ""
+
+#: libicq/country.cpp:168
+msgid "INMARSAT (Indian)"
+msgstr ""
+
+#: libicq/country.cpp:169
+msgid "INMARSAT (Pacific)"
+msgstr ""
+
+#: libicq/country.cpp:170
+msgid "INMARSAT"
+msgstr ""
+
+#: libicq/country.cpp:171
+msgid "Iceland"
+msgstr ""
+
+#: libicq/country.cpp:172
+msgid "India"
+msgstr ""
+
+#: libicq/country.cpp:173
+msgid "Indonesia"
+msgstr ""
+
+#: libicq/country.cpp:174
+msgid "International Freephone Service"
+msgstr ""
+
+#: libicq/country.cpp:175
+msgid "Iran"
+msgstr ""
+
+#: libicq/country.cpp:176
+msgid "Iraq"
+msgstr ""
+
+#: libicq/country.cpp:177
+msgid "Ireland"
+msgstr ""
+
+#: libicq/country.cpp:178
+msgid "Israel"
+msgstr ""
+
+#: libicq/country.cpp:179
+#, fuzzy
+msgid "Italy"
+msgstr "Kursiv"
+
+#: libicq/country.cpp:180
+msgid "Ivory Coast"
+msgstr ""
+
+#: libicq/country.cpp:181
+msgid "Jamaica"
+msgstr ""
+
+#: libicq/country.cpp:182
+msgid "Japan"
+msgstr ""
+
+#: libicq/country.cpp:183
+msgid "Jordan"
+msgstr ""
+
+#: libicq/country.cpp:184
+msgid "Kazakhstan"
+msgstr ""
+
+#: libicq/country.cpp:185
+msgid "Kenya"
+msgstr ""
+
+#: libicq/country.cpp:186
+msgid "Kiribati Republic"
+msgstr ""
+
+#: libicq/country.cpp:187
+msgid "Korea (North)"
+msgstr ""
+
+#: libicq/country.cpp:188
+msgid "Korea (Republic of)"
+msgstr ""
+
+#: libicq/country.cpp:189
+msgid "Kuwait"
+msgstr ""
+
+#: libicq/country.cpp:190
+msgid "Kyrgyz Republic"
+msgstr ""
+
+#: libicq/country.cpp:191
+msgid "Laos"
+msgstr ""
+
+#: libicq/country.cpp:192
+msgid "Latvia"
+msgstr ""
+
+#: libicq/country.cpp:193
+msgid "Lebanon"
+msgstr ""
+
+#: libicq/country.cpp:194
+msgid "Lesotho"
+msgstr ""
+
+#: libicq/country.cpp:195
+msgid "Liberia"
+msgstr ""
+
+#: libicq/country.cpp:196
+msgid "Libya"
+msgstr ""
+
+#: libicq/country.cpp:197
+#, fuzzy
+msgid "Liechtenstein"
+msgstr "Lizenz"
+
+#: libicq/country.cpp:198
+msgid "Lithuania"
+msgstr ""
+
+#: libicq/country.cpp:199
+msgid "Luxembourg"
+msgstr ""
+
+#: libicq/country.cpp:200
+msgid "Macau"
+msgstr ""
+
+#: libicq/country.cpp:201
+msgid "Madagascar"
+msgstr ""
+
+#: libicq/country.cpp:202
+msgid "Malawi"
+msgstr ""
+
+#: libicq/country.cpp:203
+msgid "Malaysia"
+msgstr ""
+
+#: libicq/country.cpp:204
+msgid "Maldives"
+msgstr ""
+
+#: libicq/country.cpp:205
+msgid "Mali"
+msgstr ""
+
+#: libicq/country.cpp:206
+msgid "Malta"
+msgstr ""
+
+#: libicq/country.cpp:207
+msgid "Marshall Islands"
+msgstr ""
+
+#: libicq/country.cpp:208
+msgid "Martinique"
+msgstr ""
+
+#: libicq/country.cpp:209
+msgid "Mauritania"
+msgstr ""
+
+#: libicq/country.cpp:210
+msgid "Mauritius"
+msgstr ""
+
+#: libicq/country.cpp:211
+msgid "Mayotte Island"
+msgstr ""
+
+#: libicq/country.cpp:212
+msgid "Mexico"
+msgstr ""
+
+#: libicq/country.cpp:213
+msgid "Micronesia, Federated States of"
+msgstr ""
+
+#: libicq/country.cpp:214
+msgid "Moldova"
+msgstr ""
+
+#: libicq/country.cpp:215
+msgid "Monaco"
+msgstr ""
+
+#: libicq/country.cpp:216
+msgid "Mongolia"
+msgstr ""
+
+#: libicq/country.cpp:217
+msgid "Montserrat"
+msgstr ""
+
+#: libicq/country.cpp:218
+msgid "Morocco"
+msgstr ""
+
+#: libicq/country.cpp:219
+msgid "Mozambique"
+msgstr ""
+
+#: libicq/country.cpp:220
+msgid "Myanmar"
+msgstr ""
+
+#: libicq/country.cpp:221
+msgid "Namibia"
+msgstr ""
+
+#: libicq/country.cpp:222
+msgid "Nauru"
+msgstr ""
+
+#: libicq/country.cpp:223
+msgid "Nepal"
+msgstr ""
+
+#: libicq/country.cpp:224
+msgid "Netherlands Antilles"
+msgstr ""
+
+#: libicq/country.cpp:225
+msgid "Netherlands"
+msgstr ""
+
+#: libicq/country.cpp:226
+msgid "Nevis"
+msgstr ""
+
+#: libicq/country.cpp:227
+msgid "New Caledonia"
+msgstr ""
+
+#: libicq/country.cpp:228
+msgid "New Zealand"
+msgstr ""
+
+#: libicq/country.cpp:229
+msgid "Nicaragua"
+msgstr ""
+
+#: libicq/country.cpp:230
+msgid "Niger"
+msgstr ""
+
+#: libicq/country.cpp:231
+msgid "Nigeria"
+msgstr ""
+
+#: libicq/country.cpp:232
+msgid "Niue"
+msgstr ""
+
+#: libicq/country.cpp:233
+msgid "Norfolk Island"
+msgstr ""
+
+#: libicq/country.cpp:234
+msgid "Norway"
+msgstr ""
+
+#: libicq/country.cpp:235
+msgid "Oman"
+msgstr ""
+
+#: libicq/country.cpp:236
+msgid "Pakistan"
+msgstr ""
+
+#: libicq/country.cpp:237
+msgid "Palau"
+msgstr ""
+
+#: libicq/country.cpp:238
+msgid "Panama"
+msgstr ""
+
+#: libicq/country.cpp:239
+msgid "Papua New Guinea"
+msgstr ""
+
+#: libicq/country.cpp:240
+msgid "Paraguay"
+msgstr ""
+
+#: libicq/country.cpp:241
+msgid "Peru"
+msgstr ""
+
+#: libicq/country.cpp:242
+msgid "Philippines"
+msgstr ""
+
+#: libicq/country.cpp:243
+msgid "Poland"
+msgstr ""
+
+#: libicq/country.cpp:244
+#, fuzzy
+msgid "Portugal"
+msgstr "Port:"
+
+#: libicq/country.cpp:245
+msgid "Puerto Rico"
+msgstr ""
+
+#: libicq/country.cpp:246
+msgid "Qatar"
+msgstr ""
+
+#: libicq/country.cpp:247
+msgid "Republic of Macedonia"
+msgstr ""
+
+#: libicq/country.cpp:248
+msgid "Reunion Island"
+msgstr ""
+
+#: libicq/country.cpp:249
+msgid "Romania"
+msgstr ""
+
+#: libicq/country.cpp:250
+msgid "Rota Island"
+msgstr ""
+
+#: libicq/country.cpp:251
+msgid "Russia"
+msgstr ""
+
+#: libicq/country.cpp:252
+msgid "Rwanda"
+msgstr ""
+
+#: libicq/country.cpp:253
+msgid "Saint Lucia"
+msgstr ""
+
+#: libicq/country.cpp:254
+msgid "Saipan Island"
+msgstr ""
+
+#: libicq/country.cpp:255
+#, fuzzy
+msgid "San Marino"
+msgstr "Haupt-Info"
+
+#: libicq/country.cpp:256
+msgid "Sao Tome and Principe"
+msgstr ""
+
+#: libicq/country.cpp:257
+msgid "Saudi Arabia"
+msgstr ""
+
+#: libicq/country.cpp:258
+msgid "Senegal Republic"
+msgstr ""
+
+#: libicq/country.cpp:259
+msgid "Seychelle Islands"
+msgstr ""
+
+#: libicq/country.cpp:260
+msgid "Sierra Leone"
+msgstr ""
+
+#: libicq/country.cpp:261
+msgid "Singapore"
+msgstr ""
+
+#: libicq/country.cpp:262
+msgid "Slovak Republic"
+msgstr ""
+
+#: libicq/country.cpp:263
+msgid "Slovenia"
+msgstr ""
+
+#: libicq/country.cpp:264
+msgid "Solomon Islands"
+msgstr ""
+
+#: libicq/country.cpp:265
+msgid "Somalia"
+msgstr ""
+
+#: libicq/country.cpp:266
+msgid "South Africa"
+msgstr ""
+
+#: libicq/country.cpp:267
+msgid "Spain"
+msgstr ""
+
+#: libicq/country.cpp:268
+msgid "Sri Lanka"
+msgstr ""
+
+#: libicq/country.cpp:269
+msgid "St. Helena"
+msgstr ""
+
+#: libicq/country.cpp:270
+msgid "St. Kitts"
+msgstr ""
+
+#: libicq/country.cpp:271
+msgid "St. Pierre and Miquelon"
+msgstr ""
+
+#: libicq/country.cpp:272
+msgid "St. Vincent and the Grenadines"
+msgstr ""
+
+#: libicq/country.cpp:273
+msgid "Sudan"
+msgstr ""
+
+#: libicq/country.cpp:274
+msgid "Suriname"
+msgstr ""
+
+#: libicq/country.cpp:275
+msgid "Swaziland"
+msgstr ""
+
+#: libicq/country.cpp:276
+#, fuzzy
+msgid "Sweden"
+msgstr "Sende"
+
+#: libicq/country.cpp:277
+msgid "Switzerland"
+msgstr ""
+
+#: libicq/country.cpp:278
+msgid "Syria"
+msgstr ""
+
+#: libicq/country.cpp:279
+msgid "Taiwan, Republic of China"
+msgstr ""
+
+#: libicq/country.cpp:280
+msgid "Tajikistan"
+msgstr ""
+
+#: libicq/country.cpp:281
+msgid "Tanzania"
+msgstr ""
+
+#: libicq/country.cpp:282
+msgid "Thailand"
+msgstr ""
+
+#: libicq/country.cpp:283
+msgid "Tinian Island"
+msgstr ""
+
+#: libicq/country.cpp:284
+msgid "Togo"
+msgstr ""
+
+#: libicq/country.cpp:285
+msgid "Tokelau"
+msgstr ""
+
+#: libicq/country.cpp:286
+msgid "Tonga"
+msgstr ""
+
+#: libicq/country.cpp:287
+msgid "Trinidad and Tobago"
+msgstr ""
+
+#: libicq/country.cpp:288
+msgid "Tunisia"
+msgstr ""
+
+#: libicq/country.cpp:289
+msgid "Turkey"
+msgstr ""
+
+#: libicq/country.cpp:290
+msgid "Turkmenistan"
+msgstr ""
+
+#: libicq/country.cpp:291
+msgid "Turks and Caicos Islands"
+msgstr ""
+
+#: libicq/country.cpp:292
+msgid "Tuvalu"
+msgstr ""
+
+#: libicq/country.cpp:293
+msgid "USA"
+msgstr ""
+
+#: libicq/country.cpp:294
+msgid "Uganda"
+msgstr ""
+
+#: libicq/country.cpp:295
+#, fuzzy
+msgid "Ukraine"
+msgstr "Unterstrichen"
+
+#: libicq/country.cpp:296
+msgid "United Arab Emirates"
+msgstr ""
+
+#: libicq/country.cpp:297
+msgid "United Kingdom"
+msgstr ""
+
+#: libicq/country.cpp:298
+msgid "United States Virgin Islands"
+msgstr ""
+
+#: libicq/country.cpp:299
+msgid "Uruguay"
+msgstr ""
+
+#: libicq/country.cpp:300
+msgid "Uzbekistan"
+msgstr ""
+
+#: libicq/country.cpp:301
+msgid "Vanuatu"
+msgstr ""
+
+#: libicq/country.cpp:302
+msgid "Vatican City"
+msgstr ""
+
+#: libicq/country.cpp:303
+msgid "Venezuela"
+msgstr ""
+
+#: libicq/country.cpp:304
+#, fuzzy
+msgid "Vietnam"
+msgstr "Umbenennen"
+
+#: libicq/country.cpp:305
+msgid "Wallis and Futuna Islands"
+msgstr ""
+
+#: libicq/country.cpp:306
+msgid "Western Samoa"
+msgstr ""
+
+#: libicq/country.cpp:307
+msgid "Yemen"
+msgstr ""
+
+#: libicq/country.cpp:308
+msgid "Yugoslavia"
+msgstr ""
+
+#: libicq/country.cpp:309
+msgid "Zaire"
+msgstr ""
+
+#: libicq/country.cpp:310
+msgid "Zambia"
+msgstr ""
+
+#: libicq/country.cpp:311
+msgid "Zimbabwe"
+msgstr ""
+
+#: libicq/country.cpp:330
+#, fuzzy
+msgid "Art"
+msgstr "Warnung"
+
+#: libicq/country.cpp:331
+msgid "Cars"
+msgstr ""
+
+#: libicq/country.cpp:332
+msgid "Celebrity Fans"
+msgstr ""
+
+#: libicq/country.cpp:333
+#, fuzzy
+msgid "Collections"
+msgstr "Verbindung"
+
+#: libicq/country.cpp:334 libicq/country.cpp:415
+msgid "Computers"
+msgstr ""
+
+#: libicq/country.cpp:335
+msgid "Culture & Literature"
+msgstr ""
+
+#: libicq/country.cpp:336
+msgid "Fitness"
+msgstr ""
+
+#: libicq/country.cpp:337
+#, fuzzy
+msgid "Games"
+msgstr "Namen"
+
+#: libicq/country.cpp:338
+msgid "Hobbies"
+msgstr ""
+
+#: libicq/country.cpp:339 libicq/country.cpp:423
+msgid "ICQ - Providing Help"
+msgstr ""
+
+#: libicq/country.cpp:340
+#, fuzzy
+msgid "Internet"
+msgstr "Interessen"
+
+#: libicq/country.cpp:341
+#, fuzzy
+msgid "Lifestyle"
+msgstr "Lizenz"
+
+#: libicq/country.cpp:342
+msgid "Movies/TV"
+msgstr ""
+
+#: libicq/country.cpp:343
+msgid "Music"
+msgstr ""
+
+#: libicq/country.cpp:344
+msgid "Outdoor Activities"
+msgstr ""
+
+#: libicq/country.cpp:345
+#, fuzzy
+msgid "Parenting"
+msgstr "Sende"
+
+#: libicq/country.cpp:346
+msgid "Pets/Animals"
+msgstr ""
+
+#: libicq/country.cpp:347
+msgid "Religion"
+msgstr ""
+
+#: libicq/country.cpp:348
+msgid "Science/Technology"
+msgstr ""
+
+#: libicq/country.cpp:349
+msgid "Skills"
+msgstr ""
+
+#: libicq/country.cpp:350 libicq/country.cpp:435
+msgid "Sports"
+msgstr ""
+
+#: libicq/country.cpp:351
+#, fuzzy
+msgid "Web Design"
+msgstr "Webseite:"
+
+#: libicq/country.cpp:352
+msgid "Nature and Environment"
+msgstr ""
+
+#: libicq/country.cpp:353
+msgid "News & Media"
+msgstr ""
+
+#: libicq/country.cpp:354 libicq/country.cpp:420
+msgid "Government"
+msgstr ""
+
+#: libicq/country.cpp:355
+msgid "Business & Economy"
+msgstr ""
+
+#: libicq/country.cpp:356
+msgid "Mystics"
+msgstr ""
+
+#: libicq/country.cpp:357
+msgid "Travel"
+msgstr ""
+
+#: libicq/country.cpp:358
+msgid "Astronomy"
+msgstr ""
+
+#: libicq/country.cpp:359
+#, fuzzy
+msgid "Space"
+msgstr "Speichern"
+
+#: libicq/country.cpp:360
+#, fuzzy
+msgid "Clothing"
+msgstr "Verbindungsaufbau"
+
+#: libicq/country.cpp:361
+msgid "Parties"
+msgstr ""
+
+#: libicq/country.cpp:362
+msgid "Women"
+msgstr ""
+
+#: libicq/country.cpp:363
+msgid "Social science"
+msgstr ""
+
+#: libicq/country.cpp:364
+msgid "60's"
+msgstr ""
+
+#: libicq/country.cpp:365
+msgid "70's"
+msgstr ""
+
+#: libicq/country.cpp:366
+msgid "80's"
+msgstr ""
+
+#: libicq/country.cpp:367
+msgid "50's"
+msgstr ""
+
+#: libicq/country.cpp:368
+msgid "Finance and corporate"
+msgstr ""
+
+#: libicq/country.cpp:369
+#, fuzzy
+msgid "Entertainment"
+msgstr "Chat betreten"
+
+#: libicq/country.cpp:370
+msgid "Consumer electronics"
+msgstr ""
+
+#: libicq/country.cpp:371
+msgid "Retail stores"
+msgstr ""
+
+#: libicq/country.cpp:372
+msgid "Health and beauty"
+msgstr ""
+
+#: libicq/country.cpp:373
+msgid "Media"
+msgstr ""
+
+#: libicq/country.cpp:374
+msgid "Household products"
+msgstr ""
+
+#: libicq/country.cpp:375
+msgid "Mail order catalog"
+msgstr ""
+
+#: libicq/country.cpp:376
+msgid "Business services"
+msgstr ""
+
+#: libicq/country.cpp:377
+msgid "Audio and visual"
+msgstr ""
+
+#: libicq/country.cpp:378
+msgid "Sporting and athletic"
+msgstr ""
+
+#: libicq/country.cpp:379
+#, fuzzy
+msgid "Publishing"
+msgstr "Publizieren"
+
+#: libicq/country.cpp:380
+msgid "Home automation"
+msgstr ""
+
+#: libicq/country.cpp:386
+msgid "Alumni Org."
+msgstr ""
+
+#: libicq/country.cpp:387
+msgid "Charity Org."
+msgstr ""
+
+#: libicq/country.cpp:388
+msgid "Club/Social Org."
+msgstr ""
+
+#: libicq/country.cpp:389
+msgid "Community Org."
+msgstr ""
+
+#: libicq/country.cpp:390
+msgid "Cultural Org."
+msgstr ""
+
+#: libicq/country.cpp:391
+msgid "Fan Clubs"
+msgstr ""
+
+#: libicq/country.cpp:392
+msgid "Fraternity/Sorority"
+msgstr ""
+
+#: libicq/country.cpp:393
+msgid "Hobbyists Org."
+msgstr ""
+
+#: libicq/country.cpp:394
+msgid "International Org."
+msgstr ""
+
+#: libicq/country.cpp:395
+msgid "Nature and Environment Org."
+msgstr ""
+
+#: libicq/country.cpp:396
+msgid "Professional Org."
+msgstr ""
+
+#: libicq/country.cpp:397
+msgid "Scientific/Technical Org."
+msgstr ""
+
+#: libicq/country.cpp:398
+msgid "Self Improvement Group"
+msgstr ""
+
+#: libicq/country.cpp:399
+msgid "Spiritual/Religious Org."
+msgstr ""
+
+#: libicq/country.cpp:400
+msgid "Sports Org."
+msgstr ""
+
+#: libicq/country.cpp:401
+msgid "Support Org."
+msgstr ""
+
+#: libicq/country.cpp:402
+msgid "Trade and Business Org."
+msgstr ""
+
+#: libicq/country.cpp:403
+#, fuzzy
+msgid "Union"
+msgstr "UIN:"
+
+#: libicq/country.cpp:404
+msgid "Volunteer Org."
+msgstr ""
+
+#: libicq/country.cpp:405 libicq/country.cpp:451
+#, fuzzy
+msgid "Other"
+msgstr "Oktober"
+
+#: libicq/country.cpp:411
+msgid "Academic"
+msgstr ""
+
+#: libicq/country.cpp:412
+msgid "Administrative"
+msgstr ""
+
+#: libicq/country.cpp:413
+msgid "Art/Entertainment"
+msgstr ""
+
+#: libicq/country.cpp:414
+msgid "College Student"
+msgstr ""
+
+#: libicq/country.cpp:416
+msgid "Community & Social"
+msgstr ""
+
+#: libicq/country.cpp:417
+msgid "Education"
+msgstr ""
+
+#: libicq/country.cpp:418
+msgid "Engineering"
+msgstr ""
+
+#: libicq/country.cpp:419
+msgid "Financial Services"
+msgstr ""
+
+#: libicq/country.cpp:421
+msgid "High School Student"
+msgstr ""
+
+#: libicq/country.cpp:422
+#, fuzzy
+msgid "Home"
+msgstr "Heim-Info"
+
+#: libicq/country.cpp:424
+msgid "Law"
+msgstr ""
+
+#: libicq/country.cpp:425
+msgid "Managerial"
+msgstr ""
+
+#: libicq/country.cpp:426
+msgid "Manufacturing"
+msgstr ""
+
+#: libicq/country.cpp:427
+msgid "Medical/Health"
+msgstr ""
+
+#: libicq/country.cpp:428 libicq/country.cpp:448
+msgid "Military"
+msgstr ""
+
+#: libicq/country.cpp:429
+msgid "Non-Goverment Organisation"
+msgstr ""
+
+#: libicq/country.cpp:430
+msgid "Other services"
+msgstr ""
+
+#: libicq/country.cpp:431
+msgid "Professional"
+msgstr ""
+
+#: libicq/country.cpp:432
+#, fuzzy
+msgid "Retail"
+msgstr "Meine Details"
+
+#: libicq/country.cpp:433
+msgid "Retired"
+msgstr ""
+
+#: libicq/country.cpp:434
+msgid "Science & Research"
+msgstr ""
+
+#: libicq/country.cpp:436
+msgid "Technical"
+msgstr ""
+
+#: libicq/country.cpp:437
+msgid "University student"
+msgstr ""
+
+#: libicq/country.cpp:438
+msgid "Web building"
+msgstr ""
+
+#: libicq/country.cpp:444
+msgid "Elementary School"
+msgstr ""
+
+#: libicq/country.cpp:445
+msgid "High School"
+msgstr ""
+
+#: libicq/country.cpp:446
+msgid "College"
+msgstr ""
+
+#: libicq/country.cpp:447
+msgid "University"
+msgstr ""
+
+#: libicq/country.cpp:449
+msgid "Past Work Place"
+msgstr ""
+
+#: libicq/country.cpp:450
+msgid "Past Organization"
+msgstr ""
+
+#: libicq/country.cpp:457
+msgid "Female"
+msgstr ""
+
+#: libicq/country.cpp:458
+msgid "Male"
+msgstr ""
 
 #: libicq/icqclient.cpp:63
 msgid ""
@@ -172,7 +1831,7 @@ msgstr "Frei für Chat"
 msgid "N/A"
 msgstr "N/A"
 
-#: client.cpp:487 mainwin.cpp:1813
+#: client.cpp:487 mainwin.cpp:1814
 msgid "Invisible"
 msgstr "Unsichtbar"
 
@@ -315,7 +1974,7 @@ msgstr "In Unsichtbar-Liste"
 msgid "In ignore list"
 msgstr "In Ignorieren-Liste"
 
-#: mainwin.cpp:1355 mainwin.cpp:1837
+#: mainwin.cpp:1355 mainwin.cpp:1838
 msgid "Groups"
 msgstr "Gruppen"
 
@@ -370,81 +2029,81 @@ msgstr "Neu"
 msgid "To container"
 msgstr "In Container"
 
-#: mainwin.cpp:1816
+#: mainwin.cpp:1817
 msgid "Don't show"
 msgstr "Nicht anzeigen"
 
-#: mainwin.cpp:1817
+#: mainwin.cpp:1818
 msgid "Available"
 msgstr "Verfügbar"
 
-#: mainwin.cpp:1818
+#: mainwin.cpp:1819
 msgid "Busy"
 msgstr "Beschäftigt"
 
-#: mainwin.cpp:1821 userview.cpp:481
+#: mainwin.cpp:1822 userview.cpp:481
 msgid "Create group"
 msgstr "Gruppe erstellen"
 
-#: mainwin.cpp:1823 userview.cpp:486
+#: mainwin.cpp:1824 userview.cpp:486
 msgid "Expand all"
 msgstr "Alle aufklappen"
 
-#: mainwin.cpp:1824 userview.cpp:487
+#: mainwin.cpp:1825 userview.cpp:487
 msgid "Collapse all"
 msgstr "Alle zusammenklappen"
 
-#: mainwin.cpp:1828
+#: mainwin.cpp:1829
 msgid "ICQ"
 msgstr "ICQ"
 
-#: mainwin.cpp:1831
+#: mainwin.cpp:1832
 msgid "Find User"
 msgstr "Benutzer suchen"
 
-#: mainwin.cpp:1832
+#: mainwin.cpp:1833
 msgid "Add Non-IM contact"
 msgstr "Nicht-ICQ-Kontakt hinzufügen"
 
-#: mainwin.cpp:1834 ui/statussetupbase.cpp:79 usertbl.cpp:113
+#: mainwin.cpp:1835 ui/statussetupbase.cpp:79 usertbl.cpp:113
 msgid "Status"
 msgstr "Status"
 
-#: mainwin.cpp:1836 ui/setupdlg.cpp:64
+#: mainwin.cpp:1837 ui/setupdlg.cpp:64
 msgid "Setup"
 msgstr "Einrichten"
 
-#: mainwin.cpp:1838
+#: mainwin.cpp:1839
 msgid "Phone \"Follow Me\""
 msgstr "Telefonweiterleitungen"
 
-#: mainwin.cpp:1841
+#: mainwin.cpp:1842
 msgid "Always on top"
 msgstr "Immer oben"
 
-#: mainwin.cpp:1844
+#: mainwin.cpp:1845
 msgid "&Bug report"
 msgstr "Be&richten Sie Probleme oder Wünsche"
 
-#: mainwin.cpp:1845
+#: mainwin.cpp:1846
 msgid "&About SIM"
 msgstr "&Über SIM"
 
-#: mainwin.cpp:1847
+#: mainwin.cpp:1848
 msgid "About &KDE"
 msgstr "Über &KDE"
 
-#: mainwin.cpp:1850
+#: mainwin.cpp:1851
 msgid "Quit"
 msgstr "Beenden"
 
-#: _translatorinfo.cpp:1 mainwin.cpp:1980
+#: _translatorinfo.cpp:1 mainwin.cpp:1981
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
 msgstr "Crissi"
 
-#: _translatorinfo.cpp:3 mainwin.cpp:1981
+#: _translatorinfo.cpp:3 mainwin.cpp:1982
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
@@ -1301,7 +2960,9 @@ msgstr "Globalen Online-Alarm überschreiben"
 
 #: ui/alertdialogbase.cpp:95
 msgid "Activate online alert when user returns from Away or NA"
-msgstr "Online-Alarm aktivieren, wenn der Benutzer von \"NA\" oder \"Weg\" zurückkehrt"
+msgstr ""
+"Online-Alarm aktivieren, wenn der Benutzer von \"NA\" oder \"Weg\" "
+"zurückkehrt"
 
 #: ui/alertdialogbase.cpp:99
 msgid "Online alert options"
@@ -1582,7 +3243,8 @@ msgid "Spoken languages:"
 msgstr "Gesprochene Sprachen:"
 
 #: ui/statussetupbase.cpp:95
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -1663,7 +3325,8 @@ msgstr "&Andere Nachrichten ablehnen"
 
 #: ui/generalsecbase.cpp:185
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr ""
+"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: ui/maininfobase.cpp:66
 msgid "Form5"
@@ -1783,7 +3446,8 @@ msgstr ";-)"
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr ""
+"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #~ msgid "&Simple mode"
 #~ msgstr "&Einfacher Modus"
@@ -1793,4 +3457,3 @@ msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet.
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
-

@@ -228,8 +228,8 @@ x_libraries = @x_libraries@
 
 #>- POFILES = AUTO
 #>+ 2
-POFILES = de.po zh_TW.po ru.po
-GMOFILES = de.gmo zh_TW.gmo ru.gmo
+POFILES = de.po zh_TW.po ru.po tr.po
+GMOFILES = de.gmo zh_TW.gmo ru.gmo tr.gmo
 subdir = po
 mkinstalldirs = $(SHELL) $(top_srcdir)/admin/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
@@ -268,7 +268,7 @@ TAGS:
 
 #>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 #>+ 4
-KDE_DIST=ru.po de.po ru.gmo zh_TW.po de.gmo sim.pot zh_TW.gmo 
+KDE_DIST=sim.pot ru.po de.gmo tr.po de.po ru.gmo zh_TW.po zh_TW.gmo 
 
 #>- DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
 #>+ 1
@@ -382,7 +382,7 @@ uninstall-am: uninstall-info-am
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
 
-#>+ 10
+#>+ 13
 de.gmo: de.po
 	rm -f de.gmo; $(GMSGFMT) -o de.gmo $(srcdir)/de.po
 	test ! -f de.gmo || touch de.gmo
@@ -392,25 +392,29 @@ zh_TW.gmo: zh_TW.po
 ru.gmo: ru.po
 	rm -f ru.gmo; $(GMSGFMT) -o ru.gmo $(srcdir)/ru.po
 	test ! -f ru.gmo || touch ru.gmo
+tr.gmo: tr.po
+	rm -f tr.gmo; $(GMSGFMT) -o tr.gmo $(srcdir)/tr.po
+	test ! -f tr.gmo || touch tr.gmo
 
 #>+ 3
 clean-nls:
-	-rm -f  de.gmo zh_TW.gmo ru.gmo
+	-rm -f  de.gmo zh_TW.gmo ru.gmo tr.gmo
 
 #>+ 8
 install-nls:
-	@for base in de zh_TW ru ; do \
+	@for base in de zh_TW ru tr ; do \
 	  echo $(INSTALL_DATA) $$base.gmo $(DESTDIR)$(kde_locale)/$$base/LC_MESSAGES/$(PACKAGE).mo ;\
 	  $(mkinstalldirs) $(DESTDIR)$(kde_locale)/$$base/LC_MESSAGES ; \
 	  test ! -f $$base.gmo || $(INSTALL_DATA) $$base.gmo $(DESTDIR)$(kde_locale)/$$base/LC_MESSAGES/$(PACKAGE).mo ;\
 	done
 
 
-#>+ 5
+#>+ 6
 uninstall-nls:
 	rm -f $(DESTDIR)$(kde_locale)/de/LC_MESSAGES/$(PACKAGE).mo
 	rm -f $(DESTDIR)$(kde_locale)/zh_TW/LC_MESSAGES/$(PACKAGE).mo
 	rm -f $(DESTDIR)$(kde_locale)/ru/LC_MESSAGES/$(PACKAGE).mo
+	rm -f $(DESTDIR)$(kde_locale)/tr/LC_MESSAGES/$(PACKAGE).mo
 
 #>+ 2
 all-nls: $(GMOFILES)

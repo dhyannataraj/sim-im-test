@@ -1,25 +1,18 @@
-# translation of ru.po to Русский
-# translation of ru.po to
-# translation of ru.po to
-# translation of ru.po to
-# translation of ru.po to
-# translation of ru.po to
-# Copyright (C) YEAR Free Software Foundation, Inc., 2002
-# Vladimir Shutoff <shutoff@mail.ru>, 2002
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: ru\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2002-08-09 06:42+0400\n"
-"PO-Revision-Date: 2002-08-08 03:28GMT+3\n"
-"Last-Translator: Vladimir Shutoff <shutoff@mail.ru>\n"
-"Language-Team: Русский <ru@li.org>\n"
+"PO-Revision-Date: 2002-08-08 16:18+0300\n"
+"Last-Translator: ismail donmez <dawson3k@myrealbox.com>\n"
+"Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0beta2\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 :n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
+"X-Generator: KBabel 0.9.6\n"
 
 #: libicq/country.cpp:6
 msgid "Arabic"
@@ -76,7 +69,7 @@ msgstr ""
 #: libicq/country.cpp:19
 #, fuzzy
 msgid "Estonian"
-msgstr "Последний раз в сети"
+msgstr "En son bağlantı"
 
 #: libicq/country.cpp:20
 msgid "Farsi"
@@ -93,12 +86,12 @@ msgstr ""
 #: libicq/country.cpp:23
 #, fuzzy
 msgid "Gaelic"
-msgstr "Курсив"
+msgstr "Eğik"
 
 #: libicq/country.cpp:24
 #, fuzzy
 msgid "German"
-msgstr "&Авторизовать"
+msgstr "&Onayla"
 
 #: libicq/country.cpp:25
 msgid "Greek"
@@ -111,7 +104,7 @@ msgstr ""
 #: libicq/country.cpp:27
 #, fuzzy
 msgid "Hindi"
-msgstr "Поиск"
+msgstr "Bul"
 
 #: libicq/country.cpp:28
 msgid "Hungarian"
@@ -128,7 +121,7 @@ msgstr ""
 #: libicq/country.cpp:31
 #, fuzzy
 msgid "Italian"
-msgstr "Курсив"
+msgstr "Eğik"
 
 #: libicq/country.cpp:32
 msgid "Japanese"
@@ -157,17 +150,16 @@ msgstr ""
 #: libicq/country.cpp:38
 #, fuzzy
 msgid "Malay"
-msgstr "Май"
+msgstr "Mayıs"
 
 #: libicq/country.cpp:39
-#, fuzzy
 msgid "Norwegian"
-msgstr "Норвежский лес"
+msgstr ""
 
 #: libicq/country.cpp:40
 #, fuzzy
 msgid "Polish"
-msgstr "Общедоступный"
+msgstr "Yayınla"
 
 #: libicq/country.cpp:41
 msgid "Portuguese"
@@ -192,7 +184,7 @@ msgstr ""
 #: libicq/country.cpp:46
 #, fuzzy
 msgid "Slovenian"
-msgstr "Отправка"
+msgstr "Gönderiyor"
 
 #: libicq/country.cpp:47
 msgid "Somali"
@@ -237,7 +229,7 @@ msgstr ""
 #: libicq/country.cpp:57
 #, fuzzy
 msgid "Vietnamese"
-msgstr "Переименовать"
+msgstr "Adını değiştir"
 
 #: libicq/country.cpp:58
 msgid "Yiddish"
@@ -262,7 +254,7 @@ msgstr ""
 #: libicq/country.cpp:63
 #, fuzzy
 msgid "Albanian"
-msgstr "Псевдоним"
+msgstr "Kısa adı"
 
 #: libicq/country.cpp:64
 msgid "Armenian"
@@ -275,12 +267,12 @@ msgstr ""
 #: libicq/country.cpp:71
 #, fuzzy
 msgid "Albania"
-msgstr "Псевдоним"
+msgstr "Kısa adı"
 
 #: libicq/country.cpp:72
 #, fuzzy
 msgid "Algeria"
-msgstr "Уведомления"
+msgstr "Alarm"
 
 #: libicq/country.cpp:73
 msgid "American Samoa"
@@ -329,7 +321,7 @@ msgstr ""
 #: libicq/country.cpp:84
 #, fuzzy
 msgid "Austria"
-msgstr "Август"
+msgstr "Ağustos"
 
 #: libicq/country.cpp:85
 msgid "Azerbaijan"
@@ -370,7 +362,7 @@ msgstr ""
 #: libicq/country.cpp:94
 #, fuzzy
 msgid "Benin"
-msgstr "Отправка"
+msgstr "Gönderiyor"
 
 #: libicq/country.cpp:95
 msgid "Bermuda"
@@ -441,19 +433,17 @@ msgid "Central African Republic"
 msgstr ""
 
 #: libicq/country.cpp:112
-#, fuzzy
 msgid "Chad"
-msgstr "Чат"
+msgstr ""
 
 #: libicq/country.cpp:113
 #, fuzzy
 msgid "Chile"
-msgstr "Файл"
+msgstr "Dosya"
 
 #: libicq/country.cpp:114
-#, fuzzy
 msgid "China"
-msgstr "Чат"
+msgstr ""
 
 #: libicq/country.cpp:115
 msgid "Christmas Island"
@@ -470,7 +460,7 @@ msgstr ""
 #: libicq/country.cpp:118
 #, fuzzy
 msgid "Comoros"
-msgstr "Цвета"
+msgstr "Renkler"
 
 #: libicq/country.cpp:119
 msgid "Congo"
@@ -511,7 +501,7 @@ msgstr ""
 #: libicq/country.cpp:128
 #, fuzzy
 msgid "Djibouti"
-msgstr "О приложении"
+msgstr "Hakkında"
 
 #: libicq/country.cpp:129
 msgid "Dominica"
@@ -564,12 +554,12 @@ msgstr ""
 #: libicq/country.cpp:141
 #, fuzzy
 msgid "Finland"
-msgstr "Поиск"
+msgstr "Bul"
 
 #: libicq/country.cpp:142
 #, fuzzy
 msgid "France"
-msgstr "Отменить"
+msgstr "İptal"
 
 #: libicq/country.cpp:143
 msgid "French Antilles"
@@ -598,7 +588,7 @@ msgstr ""
 #: libicq/country.cpp:149
 #, fuzzy
 msgid "Germany"
-msgstr "&Авторизовать"
+msgstr "&Onayla"
 
 #: libicq/country.cpp:150
 msgid "Ghana"
@@ -639,7 +629,7 @@ msgstr ""
 #: libicq/country.cpp:159
 #, fuzzy
 msgid "Guinea"
-msgstr "Основная"
+msgstr "Genel"
 
 #: libicq/country.cpp:160
 msgid "Guinea-Bissau"
@@ -720,7 +710,7 @@ msgstr ""
 #: libicq/country.cpp:179
 #, fuzzy
 msgid "Italy"
-msgstr "Курсив"
+msgstr "Eğik"
 
 #: libicq/country.cpp:180
 msgid "Ivory Coast"
@@ -793,7 +783,7 @@ msgstr ""
 #: libicq/country.cpp:197
 #, fuzzy
 msgid "Liechtenstein"
-msgstr "Лицензия"
+msgstr "Lisans"
 
 #: libicq/country.cpp:198
 msgid "Lithuania"
@@ -820,19 +810,16 @@ msgid "Malaysia"
 msgstr ""
 
 #: libicq/country.cpp:204
-#, fuzzy
 msgid "Maldives"
-msgstr "Мужчина"
+msgstr ""
 
 #: libicq/country.cpp:205
-#, fuzzy
 msgid "Mali"
-msgstr "Мужчина"
+msgstr ""
 
 #: libicq/country.cpp:206
-#, fuzzy
 msgid "Malta"
-msgstr "Мужчина"
+msgstr ""
 
 #: libicq/country.cpp:207
 msgid "Marshall Islands"
@@ -955,9 +942,8 @@ msgid "Pakistan"
 msgstr ""
 
 #: libicq/country.cpp:237
-#, fuzzy
 msgid "Palau"
-msgstr "Платиновый"
+msgstr ""
 
 #: libicq/country.cpp:238
 msgid "Panama"
@@ -986,7 +972,7 @@ msgstr ""
 #: libicq/country.cpp:244
 #, fuzzy
 msgid "Portugal"
-msgstr "Порт:"
+msgstr "Port:"
 
 #: libicq/country.cpp:245
 msgid "Puerto Rico"
@@ -1031,7 +1017,7 @@ msgstr ""
 #: libicq/country.cpp:255
 #, fuzzy
 msgid "San Marino"
-msgstr "Основная информация"
+msgstr "Ana özellikler"
 
 #: libicq/country.cpp:256
 msgid "Sao Tome and Principe"
@@ -1116,7 +1102,7 @@ msgstr ""
 #: libicq/country.cpp:276
 #, fuzzy
 msgid "Sweden"
-msgstr "Отправка"
+msgstr "Gönderiyor"
 
 #: libicq/country.cpp:277
 msgid "Switzerland"
@@ -1193,7 +1179,7 @@ msgstr ""
 #: libicq/country.cpp:295
 #, fuzzy
 msgid "Ukraine"
-msgstr "Подчеркнутый"
+msgstr "Altını Çiz"
 
 #: libicq/country.cpp:296
 msgid "United Arab Emirates"
@@ -1230,7 +1216,7 @@ msgstr ""
 #: libicq/country.cpp:304
 #, fuzzy
 msgid "Vietnam"
-msgstr "Переименовать"
+msgstr "Adını değiştir"
 
 #: libicq/country.cpp:305
 msgid "Wallis and Futuna Islands"
@@ -1263,7 +1249,7 @@ msgstr ""
 #: libicq/country.cpp:330
 #, fuzzy
 msgid "Art"
-msgstr "Уведомления"
+msgstr "Alarm"
 
 #: libicq/country.cpp:331
 msgid "Cars"
@@ -1276,7 +1262,7 @@ msgstr ""
 #: libicq/country.cpp:333
 #, fuzzy
 msgid "Collections"
-msgstr "Соединение"
+msgstr "Bağlantı"
 
 #: libicq/country.cpp:334 libicq/country.cpp:415
 msgid "Computers"
@@ -1293,7 +1279,7 @@ msgstr ""
 #: libicq/country.cpp:337
 #, fuzzy
 msgid "Games"
-msgstr "Имена"
+msgstr "Adlar"
 
 #: libicq/country.cpp:338
 msgid "Hobbies"
@@ -1306,12 +1292,12 @@ msgstr ""
 #: libicq/country.cpp:340
 #, fuzzy
 msgid "Internet"
-msgstr "Интересы"
+msgstr "İlgi alanları"
 
 #: libicq/country.cpp:341
 #, fuzzy
 msgid "Lifestyle"
-msgstr "Лицензия"
+msgstr "Lisans"
 
 #: libicq/country.cpp:342
 msgid "Movies/TV"
@@ -1328,7 +1314,7 @@ msgstr ""
 #: libicq/country.cpp:345
 #, fuzzy
 msgid "Parenting"
-msgstr "Отправка"
+msgstr "Gönderiyor"
 
 #: libicq/country.cpp:346
 msgid "Pets/Animals"
@@ -1353,7 +1339,7 @@ msgstr ""
 #: libicq/country.cpp:351
 #, fuzzy
 msgid "Web Design"
-msgstr "WWW страница:"
+msgstr "Web Sitesi:"
 
 #: libicq/country.cpp:352
 msgid "Nature and Environment"
@@ -1386,12 +1372,12 @@ msgstr ""
 #: libicq/country.cpp:359
 #, fuzzy
 msgid "Space"
-msgstr "Cохранить"
+msgstr "Kaydet"
 
 #: libicq/country.cpp:360
 #, fuzzy
 msgid "Clothing"
-msgstr "Соединение"
+msgstr "Bağlanıyor"
 
 #: libicq/country.cpp:361
 msgid "Parties"
@@ -1428,7 +1414,7 @@ msgstr ""
 #: libicq/country.cpp:369
 #, fuzzy
 msgid "Entertainment"
-msgstr "Вошел в чат"
+msgstr "Chate Gir"
 
 #: libicq/country.cpp:370
 msgid "Consumer electronics"
@@ -1469,7 +1455,7 @@ msgstr ""
 #: libicq/country.cpp:379
 #, fuzzy
 msgid "Publishing"
-msgstr "Общедоступный"
+msgstr "Yayınla"
 
 #: libicq/country.cpp:380
 msgid "Home automation"
@@ -1546,7 +1532,7 @@ msgstr ""
 #: libicq/country.cpp:403
 #, fuzzy
 msgid "Union"
-msgstr "Uin:"
+msgstr "UIN:"
 
 #: libicq/country.cpp:404
 msgid "Volunteer Org."
@@ -1555,7 +1541,7 @@ msgstr ""
 #: libicq/country.cpp:405 libicq/country.cpp:451
 #, fuzzy
 msgid "Other"
-msgstr "Октябрь"
+msgstr "Ekim"
 
 #: libicq/country.cpp:411
 msgid "Academic"
@@ -1596,7 +1582,7 @@ msgstr ""
 #: libicq/country.cpp:422
 #, fuzzy
 msgid "Home"
-msgstr "Домашняя информация"
+msgstr "Adres"
 
 #: libicq/country.cpp:424
 msgid "Law"
@@ -1633,7 +1619,7 @@ msgstr ""
 #: libicq/country.cpp:432
 #, fuzzy
 msgid "Retail"
-msgstr "Металл"
+msgstr "Benim özelliklerim"
 
 #: libicq/country.cpp:433
 msgid "Retired"
@@ -1681,30 +1667,31 @@ msgstr ""
 
 #: libicq/country.cpp:457
 msgid "Female"
-msgstr "Женщина"
+msgstr ""
 
 #: libicq/country.cpp:458
 msgid "Male"
-msgstr "Мужчина"
+msgstr ""
 
 #: libicq/icqclient.cpp:63
 msgid ""
 "I am currently away from ICQ.\n"
 "Please leave your message and I will get back to you as soon as I return!\n"
 msgstr ""
-"Я отошел.\n"
-"Оставьте ваше сообщение, когда вернусь "
-"прочитаю\n"
+"Şu anda icqda değilim.\n"
+"Eğer mesaj bırakırsanız döner dönmez cevaplıyabilirim!\n"
 
 #: libicq/icqclient.cpp:64
 msgid ""
 "I am out'a here.\n"
 "See you tomorrow!\n"
-msgstr "Ушел далеко\n"
+msgstr ""
+"Ben Çıkıyorum.\n"
+"Yarın görüşürüz!\n"
 
 #: libicq/icqclient.cpp:65
 msgid "Please do not disturb me now. Disturb me later.\n"
-msgstr "Просьба не беспокоить меня.\n"
+msgstr "Lütfen şimdi rahatsız etmeyin , bir süre sonra gelin.\n"
 
 #: libicq/icqclient.cpp:66
 msgid ""
@@ -1712,12 +1699,12 @@ msgid ""
 "Disturb me later.\n"
 "Only urgent messages, please!\n"
 msgstr ""
-"Просьба не беспокоить меня\n"
-"Только срочные сообщения, пожалуйста\n"
+"Lütfen şimdi rahatsız etmeyin , bir süre sonra gelin.\n"
+"Sadece acil mesajlar!\n"
 
 #: libicq/icqclient.cpp:67
 msgid "We'd love to hear what you have to say. Join our chat.\n"
-msgstr "Делать нечего, присоединюсь к чату\n"
+msgstr "Seninde chatimize katılmanı çok istiyoruz.\n"
 
 #: libicq/translator.cpp:102
 msgid "UTF-8"
@@ -1725,44 +1712,44 @@ msgstr "UTF-8"
 
 #: chatwnd.cpp:74 ui/userinfobase.cpp:110
 msgid "Save"
-msgstr "Cохранить"
+msgstr "Kaydet"
 
 #: chatwnd.cpp:81 msgedit.cpp:140
 msgid "Bold"
-msgstr "Жирный"
+msgstr "Kalın"
 
 #: chatwnd.cpp:87 msgedit.cpp:152
 msgid "Italic"
-msgstr "Курсив"
+msgstr "Eğik"
 
 #: chatwnd.cpp:93 msgedit.cpp:160
 msgid "Underline"
-msgstr "Подчеркнутый"
+msgstr "Altını Çiz"
 
 #: chatwnd.cpp:98 msgedit.cpp:115
 msgid "Text color"
-msgstr "Цвет текста"
+msgstr "Yazı Rengi"
 
 #: chatwnd.cpp:233
 msgid "Enter to chat"
-msgstr "Вошел в чат"
+msgstr "Chate Gir"
 
 #: chatwnd.cpp:342
 #, c-format
 msgid "Can't create %1"
-msgstr "Не могу создать %1"
+msgstr "%1 yaratılamadı"
 
 #: client.cpp:391 ui/msgdialogbase.cpp:78
 msgid "Message"
-msgstr "Сообщение"
+msgstr "Mesaj"
 
 #: client.cpp:393
 msgid "Chat request"
-msgstr "Чат"
+msgstr "Chat İsteği"
 
 #: client.cpp:395
 msgid "File"
-msgstr "Файл"
+msgstr "Dosya"
 
 #: client.cpp:397 ui/soundsetupbase.cpp:129
 msgid "URL"
@@ -1770,39 +1757,39 @@ msgstr "URL"
 
 #: client.cpp:399 msgview.cpp:138
 msgid "Authorization request"
-msgstr "Запрос авторизации"
+msgstr "İzin İsteği"
 
 #: client.cpp:401 msgview.cpp:147
 msgid "Authorization refused"
-msgstr "Запрос на авторизацию отклонен"
+msgstr "İzin reddedildi"
 
 #: client.cpp:403 msgview.cpp:155
 msgid "Authorization granted"
-msgstr "Запрос авторизации принят"
+msgstr "İzin kabul edildi"
 
 #: client.cpp:405 msgview.cpp:158
 msgid "Added to contact list"
-msgstr "Добавление в список контактов"
+msgstr "Kontak listesine eklendi"
 
 #: client.cpp:407
 msgid "WWW-panel message"
-msgstr "WWW-панель"
+msgstr "WWW-panel Mesajı"
 
 #: client.cpp:409
 msgid "Email pager message"
-msgstr "Email пейджер"
+msgstr "Email pager mesajı"
 
 #: client.cpp:411
 msgid "Contact list"
-msgstr "Список контактов"
+msgstr "Kontak Listesi"
 
 #: client.cpp:413
 msgid "Contacts request"
-msgstr "Запрос списка контактов"
+msgstr "Kontak İsteği"
 
 #: client.cpp:415
 msgid "External unknown message"
-msgstr "Неизвестное сообщение"
+msgstr "Bilinmeyen Mesaj"
 
 #: client.cpp:417 ui/soundsetupbase.cpp:136
 msgid "SMS"
@@ -1810,262 +1797,261 @@ msgstr "SMS"
 
 #: client.cpp:419
 msgid "SMS receipt"
-msgstr "Доставка SMS"
+msgstr "SMS alıcısı"
 
 #: client.cpp:421 usertbl.cpp:116
 msgid "Email"
-msgstr "Email"
+msgstr "E-Mail"
 
 #: client.cpp:459 userview.cpp:890
 msgid "Offline"
-msgstr "Отключен"
+msgstr "Bağlı değil"
 
 #: client.cpp:462 client.cpp:474 cuser.cpp:216 userview.cpp:887
 msgid "Online"
-msgstr "В сети"
+msgstr "Bağlı"
 
 #: client.cpp:464
 msgid "Away"
-msgstr "Отошел"
+msgstr "Uzakta"
 
 #: client.cpp:466
 msgid "Do not disturb"
-msgstr "Не беспокоить"
+msgstr "Rahatsız Etmeyin"
 
 #: client.cpp:468
 msgid "Occupied"
-msgstr "Занят"
+msgstr "Meşgul"
 
 #: client.cpp:470
 msgid "Free for chat"
-msgstr "Свободен для разговора"
+msgstr "Chat için Boş"
 
 #: client.cpp:472
 msgid "N/A"
-msgstr "Неактивный"
+msgstr "N/A"
 
 #: client.cpp:487 mainwin.cpp:1814
 msgid "Invisible"
-msgstr "Невидимый"
+msgstr "Görünmez"
 
 #: cuser.cpp:208
 msgid "Last online"
-msgstr "Последний раз в сети"
+msgstr "En son bağlantı"
 
 #: dock.cpp:500
 #, c-format
 msgid "%n unread message"
-msgstr "%n непрочитанное сообщение"
+msgstr "%n okunmamış mesaj"
 
 #: dock.cpp:505 mainwin.cpp:1289
 msgid "Connecting"
-msgstr "Соединение"
+msgstr "Bağlanıyor"
 
 #: editspell.cpp:243 msgedit.cpp:176 ui/setupdlg.cpp:103
 msgid "Spell check"
-msgstr "Проверка орфографии"
+msgstr "Yazım Kontrolü"
 
 #: fontedit.cpp:57
 msgid "light"
-msgstr "легкий"
+msgstr "hafif"
 
 #: fontedit.cpp:61
 msgid "demibold"
-msgstr "полужирный"
+msgstr "hafif kalın"
 
 #: fontedit.cpp:65
 msgid "bold"
-msgstr "жирный"
+msgstr "kalın"
 
 #: fontedit.cpp:69
 msgid "black"
-msgstr "темный"
+msgstr "siyah"
 
 #: fontedit.cpp:76
 msgid "italic"
-msgstr "курсив"
+msgstr "eğik"
 
 #: logindlg.cpp:37 ui/searchbase.cpp:247
 msgid "UIN:"
-msgstr "UIN:"
+msgstr "ICQ#:"
 
 #: logindlg.cpp:44 passwddlg.cpp:34
 msgid "Password:"
-msgstr "Пароль:"
+msgstr "Şifre:"
 
 #: logindlg.cpp:51
 msgid "Use existing UIN"
-msgstr "Использовать существующий UIN"
+msgstr "Varolan UIN'i Kullan"
 
 #: logindlg.cpp:57 logindlg.cpp:122 mainwin.cpp:1372 passwddlg.cpp:44
 #: passwddlg.cpp:89 ui/searchbase.cpp:90 ui/searchdlg.cpp:106
 #: ui/setupdlgbase.cpp:95 userbox.cpp:172
 msgid "Close"
-msgstr "Закрыть"
+msgstr "Kapat"
 
 #: logindlg.cpp:61
 msgid "Register"
-msgstr "Регистрация"
+msgstr "Yeni UIN Kaydet"
 
 #: logindlg.cpp:66
 msgid "Registration"
-msgstr "Регистрация"
+msgstr "Kayıt"
 
 #: logindlg.cpp:89 passwddlg.cpp:67 ui/searchdlg.cpp:103
 msgid "Cancel"
-msgstr "Отменить"
+msgstr "İptal"
 
 #: logindlg.cpp:142
 msgid "Unknown login error"
-msgstr "Неизвестная ошибка авторизации"
+msgstr "Bilinmeyen Giriş Hatası"
 
 #: logindlg.cpp:146
 msgid "Rate limit"
-msgstr "Исчерпано количество попыток"
+msgstr "Deneme limiti"
 
 #: logindlg.cpp:150 passwddlg.cpp:53
 msgid "Invalid password"
-msgstr "Неверный пароль"
+msgstr "Geçersiz Şifre"
 
 #: mainwin.cpp:312
 msgid "Current location"
-msgstr "Текущее положение"
+msgstr "Şu andaki adres"
 
 #: mainwin.cpp:313
 msgid "Phone status"
-msgstr "Телефон"
+msgstr "Telefon statüsü"
 
 #: mainwin.cpp:315
 msgid "Phone Book"
-msgstr "Телефонная книга"
+msgstr "Telefon Defteri"
 
 #: mainwin.cpp:330
 msgid "Show offline"
-msgstr "Показывать пользователей не в сети"
+msgstr "bağlı değil göster"
 
 #: mainwin.cpp:334
 msgid "Group mode"
-msgstr "Показывать группы"
+msgstr "Grup Modu"
 
 #: mainwin.cpp:346
 msgid "Menu"
-msgstr "Меню"
+msgstr "Menü"
 
 #: mainwin.cpp:740
 msgid "%1 from %2 received"
-msgstr "%1 от %2"
+msgstr "%1 den %2 mesaj alındı"
 
 #: mainwin.cpp:805
 msgid "Your UIN used from another location"
-msgstr ""
-"Ваш UIN используется с другого компьютера"
+msgstr "UIN'niz başka bi yerden kullanıldı"
 
 #: mainwin.cpp:854
 msgid "User %1 is online"
-msgstr "Пользователь %1 в сети"
+msgstr "Kullanıcı %1  bağlı"
 
 #: mainwin.cpp:1262 mainwin.cpp:1521 msgview.cpp:298
 msgid "&Yes"
-msgstr "&Да"
+msgstr "&Evet"
 
 #: mainwin.cpp:1263 mainwin.cpp:1522 msgview.cpp:299
 msgid "&No"
-msgstr "&Нет"
+msgstr "&Hayır"
 
 #: mainwin.cpp:1264
 msgid "Add user %1 to ignore list ?"
-msgstr "Добавить \"%1\" в список игнорируемых"
+msgstr "%1 i gömezden gel listesine ekle?"
 
 #: mainwin.cpp:1332
 msgid "In visible list"
-msgstr "В списке видимости"
+msgstr "Görünürler listesinde"
 
 #: mainwin.cpp:1334
 msgid "In invisible list"
-msgstr "В списке невидимости"
+msgstr "Görünmezler listesinde"
 
 #: mainwin.cpp:1337
 msgid "In ignore list"
-msgstr "В списке игнорируемых"
+msgstr "Görmezden gel listesinde"
 
 #: mainwin.cpp:1355 mainwin.cpp:1838
 msgid "Groups"
-msgstr "Группы"
+msgstr "Gruplar"
 
 #: mainwin.cpp:1356 usertbl.cpp:391 userview.cpp:480
 msgid "Delete"
-msgstr "Удалить"
+msgstr "Sil"
 
 #: mainwin.cpp:1360 ui/userinfo.cpp:55 userbox.cpp:164 userbox.cpp:324
 #: usertbl.cpp:405
 msgid "User info"
-msgstr "Информация о пользователе"
+msgstr "Kullanıcı Bilgisi"
 
 #: mainwin.cpp:1361 userbox.cpp:169 userbox.cpp:370
 msgid "History"
-msgstr "История"
+msgstr "Geçmiş"
 
 #: mainwin.cpp:1363 ui/alertdialogbase.cpp:79 ui/setupdlg.cpp:95
 #: ui/userinfo.cpp:72
 msgid "Alert"
-msgstr "Уведомления"
+msgstr "Alarm"
 
 #: mainwin.cpp:1364 ui/acceptbase.cpp:133
 msgid "Accept mode"
-msgstr "Прием файлов"
+msgstr "Kabul Modu"
 
 #: mainwin.cpp:1365 ui/setupdlg.cpp:93 ui/soundsetupbase.cpp:106
 #: ui/userinfo.cpp:74
 msgid "Sound"
-msgstr "Звук"
+msgstr "Ses"
 
 #: mainwin.cpp:1368
 msgid "Floating off"
-msgstr "Выключить плавающее окно"
+msgstr "Floating kapalı"
 
 #: mainwin.cpp:1368
 msgid "Floating on"
-msgstr "Включить плавающее окно"
+msgstr "Floating açık"
 
 #: mainwin.cpp:1371
 msgid "Users"
-msgstr "Пользователи"
+msgstr "Kullanıcılar"
 
 #: mainwin.cpp:1523
 msgid "Delete user %1?"
-msgstr "Удалить пользователя \"%1\"?"
+msgstr " %1 i sil?"
 
 #: mainwin.cpp:1590 msgedit.cpp:770
 msgid "New"
-msgstr "Новое"
+msgstr "Yeni"
 
 #: mainwin.cpp:1593
 msgid "To container"
-msgstr "В контейнер"
+msgstr "Bölüme Taşı"
 
 #: mainwin.cpp:1817
 msgid "Don't show"
-msgstr "Не показывать"
+msgstr "Gösterme"
 
 #: mainwin.cpp:1818
 msgid "Available"
-msgstr "Доступен"
+msgstr "Ulaşılabilir"
 
 #: mainwin.cpp:1819
 msgid "Busy"
-msgstr "Занят"
+msgstr "Meşgul"
 
 #: mainwin.cpp:1822 userview.cpp:481
 msgid "Create group"
-msgstr "Создать группу"
+msgstr "Grup yarat"
 
 #: mainwin.cpp:1824 userview.cpp:486
 msgid "Expand all"
-msgstr "Развернуть все группы"
+msgstr "Hepsini Aç"
 
 #: mainwin.cpp:1825 userview.cpp:487
 msgid "Collapse all"
-msgstr "Свернуть все группы"
+msgstr "Hepsini Kapat"
 
 #: mainwin.cpp:1829
 msgid "ICQ"
@@ -2073,119 +2059,115 @@ msgstr "ICQ"
 
 #: mainwin.cpp:1832
 msgid "Find User"
-msgstr "Поиск пользователя"
+msgstr "Kullanıcı Bul"
 
 #: mainwin.cpp:1833
 msgid "Add Non-IM contact"
-msgstr "Добавить внешний контакт"
+msgstr "Icq harici kontak ekle"
 
 #: mainwin.cpp:1835 ui/statussetupbase.cpp:79 usertbl.cpp:113
 msgid "Status"
-msgstr "Статус"
+msgstr "Statü"
 
 #: mainwin.cpp:1837 ui/setupdlg.cpp:64
 msgid "Setup"
-msgstr "Настройки"
+msgstr "Ayarlar"
 
 #: mainwin.cpp:1839
 msgid "Phone \"Follow Me\""
-msgstr "Телефонный сервис"
+msgstr "Telefon"
 
 #: mainwin.cpp:1842
 msgid "Always on top"
-msgstr "Всегда наверху"
+msgstr "Daima en üstte"
 
 #: mainwin.cpp:1845
 msgid "&Bug report"
-msgstr "&Сообщения об ошибках"
+msgstr "&Hata Raporu"
 
 #: mainwin.cpp:1846
 msgid "&About SIM"
-msgstr "О &приложении SIM"
+msgstr "&SIM Hakkında"
 
 #: mainwin.cpp:1848
 msgid "About &KDE"
-msgstr "О &KDE"
+msgstr "&KDE Hakkında"
 
 #: mainwin.cpp:1851
 msgid "Quit"
-msgstr "Выход"
+msgstr "Çık"
 
 #: _translatorinfo.cpp:1 mainwin.cpp:1981
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
-msgstr "Владимир Шутов"
+msgstr "Ismail"
 
 #: _translatorinfo.cpp:3 mainwin.cpp:1982
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
-msgstr "shutoff@mail.ru"
+msgstr "dawson3k@myrealbox.com"
 
 #: msgedit.cpp:68
 msgid "Decline file without reason"
-msgstr "Отказать без объяснения причин"
+msgstr "Dosyayı sebepsiz reddet"
 
 #: msgedit.cpp:70
 msgid "Sorry, I'm busy right now, and can not respond to your request"
-msgstr ""
-"Извините, но я сейчас занят и не могу "
-"принять Ваше сообщение"
+msgstr "Şu anda meşgulüm , size cevap veremiyorum "
 
 #: msgedit.cpp:72
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
-msgstr ""
-"Извините, я сейчас занят, но смогу "
-"ответить Вам позже"
+msgstr "Üzgünüm şu anda meşgulüm , size daha sonra cevap vericem"
 
 #: msgedit.cpp:74
 msgid "Enter a decline reason"
-msgstr "Ввести причину отказа"
+msgstr "Red sebebi girin"
 
 #: msgedit.cpp:97
 msgid "Background color"
-msgstr "Цвет фона"
+msgstr "Arkaplan rengi"
 
 #: msgedit.cpp:102
 msgid "&Reply"
-msgstr "&Ответить"
+msgstr "&Cevapla"
 
 #: msgedit.cpp:106
 msgid "&Grant"
-msgstr "&Авторизовать"
+msgstr "&Onayla"
 
 #: msgedit.cpp:110
 msgid "&Accept"
-msgstr "&Принять"
+msgstr "&Kabul"
 
 #: msgedit.cpp:121
 msgid "&Quote"
-msgstr "&Цитировать"
+msgstr "&Alıntı"
 
 #: msgedit.cpp:125
 msgid "&Refuse"
-msgstr "&Отказать"
+msgstr "&Reddet"
 
 #: msgedit.cpp:135
 msgid "&Decline"
-msgstr "&Отказать"
+msgstr "&Reddet"
 
 #: msgedit.cpp:147
 msgid "&Forward"
-msgstr "&Переслать"
+msgstr "&Vorwärts"
 
 #: msgedit.cpp:168
 msgid "Text font"
-msgstr "Цвет текста"
+msgstr "Schriftart"
 
 #: msgedit.cpp:185
 msgid "C&lose after send"
-msgstr "&Закрыть после отправки"
+msgstr "Gönderdikten sonra &kapat"
 
 #: msgedit.cpp:199
 msgid "Phone:"
-msgstr "Телефон:"
+msgstr "Telefon:"
 
 #: msgedit.cpp:209
 msgid "URL:"
@@ -2193,116 +2175,116 @@ msgstr "URL:"
 
 #: msgedit.cpp:217
 msgid "File:"
-msgstr "Файл:"
+msgstr "Dosya:"
 
 #: msgedit.cpp:223
 msgid "Multiply send"
-msgstr "Отправить нескольким адресатам"
+msgstr "Çoklu gönder"
 
 #: msgedit.cpp:228
 msgid "Drag users here"
-msgstr "Перенесите пользователей сюда"
+msgstr "Kullanıcıları mousela buraya sürükleyin"
 
 #: msgedit.cpp:288
 msgid "Sending"
-msgstr "Отправка"
+msgstr "Gönderiyor"
 
 #: msgedit.cpp:295 ui/addphonebase.cpp:103 ui/emaileditbase.cpp:61
 #: ui/filetransferbase.cpp:113
 msgid "&Cancel"
-msgstr "&Отменить"
+msgstr "&İptal"
 
 #: msgedit.cpp:295
 msgid "&Send"
-msgstr "&Отправить"
+msgstr "&Gönder"
 
 #: msgedit.cpp:432
 msgid "Transfer started"
-msgstr "Передача файла начата"
+msgstr "Transfer Başladı"
 
 #: msgedit.cpp:435
 msgid "Chat started"
-msgstr "Чат начат"
+msgstr "Chat başladı"
 
 #: msgedit.cpp:479
 msgid "Message sent"
-msgstr "Сообщение отправлено"
+msgstr "Mesaj Gönderildi"
 
 #: msgedit.cpp:482
 msgid "Send failed"
-msgstr "Отправлено неудачно"
+msgstr "Gönderme başarısız"
 
 #: msgedit.cpp:767
 msgid "Next"
-msgstr "Следующее"
+msgstr "Sonraki"
 
 #: msgedit.cpp:808
 msgid "%1 (ICQ# %2) wrote:<br>\n"
-msgstr "%1 (ICQ# %2) пишет:<br>\n"
+msgstr "%1 (ICQ# %2) yazdı:<br>\n"
 
 #: msgedit.cpp:1362
 msgid "Size: %1 / Max. size: %2"
-msgstr "Длина: %1 / Максимальная: %2"
+msgstr "Büyüklük: %1 / Max. büyüklük: %2"
 
 #: msgedit.cpp:1366
 msgid "Message will be split"
-msgstr "Сообщение будет раздено на части"
+msgstr "Mesaj parçalara bölünecek"
 
 #: msgedit.cpp:1538
 msgid "Decline reason"
-msgstr "Причина отказа"
+msgstr "Reddetme nedeni"
 
 #: msgedit.cpp:1538
 msgid "Please, input decline reason:"
-msgstr "Введите причину отказа:"
+msgstr "Lütfen , reddetme sebebini girin:"
 
 #: msgview.cpp:162
 msgid "Contact request"
-msgstr "Запрос списка контактов"
+msgstr "Kontak İsteği"
 
 #: msgview.cpp:171
 msgid "File: "
-msgstr "Файл:"
+msgstr "Dosya:"
 
 #: msgview.cpp:176
 msgid "bytes"
-msgstr "байт"
+msgstr "Byte"
 
 #: msgview.cpp:189
 msgid "Contact list received"
-msgstr "Список контактов получен"
+msgstr "Kontak listesi alındı"
 
 #: msgview.cpp:189
 msgid "Contact list sent"
-msgstr "Список контактов отправлен"
+msgstr "Kontak listesi gönderildi"
 
 #: msgview.cpp:259 ui/finddlgbase.cpp:62
 msgid "&Find"
-msgstr "&Поиск"
+msgstr "&Bul"
 
 #: msgview.cpp:260
 msgid "Find &next"
-msgstr "Найти &следующее"
+msgstr "&Sonrakini bul"
 
 #: msgview.cpp:313
 msgid ""
 "End of document reached.\n"
 "Continue from the beginning?"
 msgstr ""
-"Достигнут конец.\n"
-"Начать поиск с начала?"
+"Dokümanın sonu geldi\n"
+"Dökümanın başından devam et?"
 
 #: msgview.cpp:314
 msgid ""
 "Beginning of document reached.\n"
 "Continue from the end?"
 msgstr ""
-"Достигнуто начало.\n"
-"Начать поиск с конца?"
+"Dökümanın başına ulaşıldı.\n"
+"Dökümanın sonundan devam et?"
 
 #: passwddlg.cpp:48
 msgid "Login"
-msgstr "Авторизация"
+msgstr "Giriş"
 
 #: sim.cpp:120
 msgid "SIM"
@@ -2310,39 +2292,39 @@ msgstr "SIM"
 
 #: sim.cpp:122
 msgid "ICQ client"
-msgstr "Клиент ICQ"
+msgstr "ICQ programı"
 
 #: sim.cpp:129
 msgid "Maintainer"
-msgstr "Автор"
+msgstr "Düzenleyici"
 
 #: sim.cpp:136
 msgid "Directory for files"
-msgstr "Каталог для файлов"
+msgstr "Dosyaların tutulacağı yer"
 
 #: sim.cpp:137
 msgid "Loglevel"
-msgstr "Уровень отладки"
+msgstr "Log Düzeyi"
 
 #: themes.cpp:89 themes.cpp:98
 msgid "Default style"
-msgstr "Стиль по умолчанию"
+msgstr "Standart İkonlar"
 
 #: userbox.cpp:151
 msgid "Add to ignore list"
-msgstr "Добавить в список игнорируемых"
+msgstr "Görmezden gel listesine ekle"
 
 #: userbox.cpp:158
 msgid "Move to group"
-msgstr "Переместить в группу"
+msgstr "Gruba taşı"
 
 #: userbox.cpp:280
 msgid "All users"
-msgstr "Все пользователи"
+msgstr "Tüm Kullanıcılar"
 
 #: userbox.cpp:1005
 msgid "History loading"
-msgstr "Загрузка истории"
+msgstr "Geçmiş yükleniyor..."
 
 #: ui/searchbase.cpp:254 usertbl.cpp:110
 msgid "UIN"
@@ -2350,113 +2332,113 @@ msgstr "UIN"
 
 #: usertbl.cpp:112
 msgid "Alias"
-msgstr "Псевдоним"
+msgstr "Kısa adı"
 
 #: usertbl.cpp:115
 msgid "Name"
-msgstr "Имя"
+msgstr "Adı"
 
 #: usertbl.cpp:392
 msgid "Erase"
-msgstr "Очистить"
+msgstr "Sil"
 
 #: usertbl.cpp:394
 msgid "Add group"
-msgstr "Добавить группу"
+msgstr "Grup ekle"
 
 #: usertbl.cpp:395
 msgid "Add all"
-msgstr "Добавить всех"
+msgstr "Tümünü ekle"
 
 #: usertbl.cpp:411
 msgid "Add to group"
-msgstr "Добавить в группу"
+msgstr "Gruba ekle"
 
 #: userview.cpp:371 userview.cpp:893
 msgid "Not in list"
-msgstr "Не в списке"
+msgstr "Listede kayıtlı değil"
 
 #: userview.cpp:477
 msgid "Group"
-msgstr "Группа"
+msgstr "Grup"
 
 #: userview.cpp:479
 msgid "Rename"
-msgstr "Переименовать"
+msgstr "Adını değiştir"
 
 #: userview.cpp:483
 msgid "Up"
-msgstr "Вверх"
+msgstr "Üst"
 
 #: userview.cpp:484
 msgid "Down"
-msgstr "Вниз"
+msgstr "Alt"
 
 #: userview.cpp:581 userview.cpp:594
 msgid "New group"
-msgstr "Создать группу"
+msgstr "Yeni grup"
 
 #: ui/alertmsg.cpp:39
 msgid "User "
-msgstr "Пользователь "
+msgstr "Kullanıcı"
 
 #: ui/alertmsg.cpp:39
 msgid " is online"
-msgstr " в сети"
+msgstr " şu anda bağlı"
 
 #: ui/alertmsg.cpp:49
 msgid "Close [%1 sec]"
-msgstr "Закрыть через [%1 сек]"
+msgstr "Kapat [%1 Saniye]"
 
 #: ui/autoreply.cpp:81
 msgid "Close in %1 sec"
-msgstr "Закрыть через %1 сек"
+msgstr " %1 Saniye içinde kapat"
 
 #: ui/ballonmsg.cpp:187
 msgid "&Ok"
-msgstr "&Ok"
+msgstr "&Tamam"
 
 #: ui/changepasswd.cpp:36
 msgid "Confirm password does not match"
-msgstr "Подтверждение и пароль не совпадают"
+msgstr "Onayla:Şifreler uyuşmuyor"
 
 #: ui/editfile.cpp:71
 msgid "Directory for incoming files"
-msgstr "Каталог для приема файлов"
+msgstr "Gelen dosyaların kaydedileceği yer"
 
 #: ui/filetransfer.cpp:50
 #, c-format
 msgid "Receive file from %1"
-msgstr "Прием файла от %1"
+msgstr " %1 den dosya al"
 
 #: ui/filetransfer.cpp:51 ui/filetransfer.cpp:58 ui/filetransferbase.cpp:43
 msgid "Remote file:"
-msgstr "Удаленный файл:"
+msgstr "Karşıdaki Dosya :"
 
 #: ui/filetransfer.cpp:52 ui/filetransfer.cpp:57 ui/filetransferbase.cpp:48
 msgid "Local file:"
-msgstr "Локальный файл:"
+msgstr "Gönderilen Dosya:"
 
 #: ui/filetransfer.cpp:56
 #, c-format
 msgid "Send file to %1"
-msgstr "Передача файла %1"
+msgstr " %1 e dosya gönder"
 
 #: ui/filetransfer.cpp:116
 msgid "[done]"
-msgstr "[выполнено]"
+msgstr "[işlem tamam]"
 
 #: ui/filetransfer.cpp:119
 msgid "[fail]"
-msgstr "[ошибка]"
+msgstr "[işlem başarısız]"
 
 #: ui/aboutdlgbase.cpp:131 ui/filetransfer.cpp:134 ui/finddlgbase.cpp:66
 msgid "&Close"
-msgstr "&Закрыть"
+msgstr "&Kapat"
 
 #: ui/filetransfer.cpp:183
 msgid "File %1 exist"
-msgstr "File %1 существует"
+msgstr " %1 dosyası önceden mevcut"
 
 #: ui/generalsec.cpp:47
 msgid ""
@@ -2466,82 +2448,79 @@ msgid ""
 "* - any amount of symbols (or is empty)\n"
 "? - any symbol\n"
 msgstr ""
-"Слова разделяются любым разделителем "
-"(пробел, запятая и т.д.)\n"
-"Фраза (последовательность слов) "
-"заключается в кавычки\n"
-"Слова могут содержать следующие маски:\n"
-"* - любая последовательность символов "
-"(возможно пустая)\n"
-" ? - любой символ\n"
+"Kelimeler herhangi bi şekilde ayrılabilir ( boşluk , virgül , vb. )\n"
+"Cümle ( kelimeler topluluğu ) tırnak içinde yazılmalıdır\n"
+"Kelimeler şu işaretleri taşıyabilir : \n"
+" * - örnek* örnek ile başlayan tüm msgları bloklamak için\n"
+"? - örn?k  şeklinde ise ? yerine herhangi bi kelime gelebilir örnek gibi\n"
 
 #: ui/listsec.cpp:93 ui/setupdlg.cpp:122
 msgid "Visible list"
-msgstr "Список видимости"
+msgstr "Görünürler Listesi"
 
 #: ui/listsec.cpp:111 ui/setupdlg.cpp:121
 msgid "Invisible list"
-msgstr "Список невидимости"
+msgstr "Görünmezler listesi"
 
 #: ui/listsec.cpp:129 ui/setupdlg.cpp:120
 msgid "Ignore list"
-msgstr "Список игнорируемых"
+msgstr "Görmezden gel listesi"
 
 #: ui/moreinfo.cpp:66
 msgid "January"
-msgstr "Январь"
+msgstr "Ocak"
 
 #: ui/moreinfo.cpp:67
 msgid "February"
-msgstr "Февраль"
+msgstr "Şubat"
 
 #: ui/moreinfo.cpp:68
 msgid "March"
-msgstr "Март"
+msgstr "Mart"
 
 #: ui/moreinfo.cpp:69
 msgid "April"
-msgstr "Апрель"
+msgstr "Nisan"
 
 #: ui/moreinfo.cpp:70
 msgid "May"
-msgstr "Май"
+msgstr "Mayıs"
 
 #: ui/moreinfo.cpp:71
 msgid "June"
-msgstr "Июнь"
+msgstr "Haziran"
 
 #: ui/moreinfo.cpp:72
 msgid "July"
-msgstr "Июль"
+msgstr "Temmuz"
 
 #: ui/moreinfo.cpp:73
 msgid "August"
-msgstr "Август"
+msgstr "Ağustos"
 
 #: ui/moreinfo.cpp:74
 msgid "September"
-msgstr "Сентябрь"
+msgstr "Eylül"
 
 #: ui/moreinfo.cpp:75
 msgid "October"
-msgstr "Октябрь"
+msgstr "Ekim"
 
 #: ui/moreinfo.cpp:76
 msgid "November"
-msgstr "Ноябрь"
+msgstr "Kasım"
 
 #: ui/moreinfo.cpp:77
 msgid "December"
-msgstr "Декабрь"
+msgstr "Aralık"
 
 #: ui/msgdialog.cpp:32
 msgid "Autoreply message for status \"%1\""
-msgstr "Автоответ для состояния \"%1\""
+msgstr " \"%1\" statüsü için oto mesaj"
 
 #: ui/network.cpp:44
 msgid "No proxy"
-msgstr "Нет прокси"
+msgstr "Proxy yok"
 
 #: ui/network.cpp:45
 msgid "SOCKS4"
@@ -2557,143 +2536,143 @@ msgstr "HTTP"
 
 #: ui/phonebook.cpp:49
 msgid "Yes"
-msgstr "Да"
+msgstr "Evet"
 
 #: ui/phonebook.cpp:73
 msgid "Type"
-msgstr "Тип"
+msgstr "Tür"
 
 #: ui/phonebook.cpp:75
 msgid "Number"
-msgstr "Номер"
+msgstr "Sayı"
 
 #: ui/phonebook.cpp:76
 msgid "Publish"
-msgstr "Общедоступный"
+msgstr "Yayınla"
 
 #: ui/searchdlg.cpp:212
 msgid "No users was found"
-msgstr "Ни одного пользователя не найдено"
+msgstr "Hiçbir kullanıcı bulunamadı"
 
 #: ui/setupdlg.cpp:74
 msgid "My details"
-msgstr "Моя информация"
+msgstr "Benim özelliklerim"
 
 #: ui/maininfobase.cpp:81 ui/setupdlg.cpp:77 ui/userinfo.cpp:58
 msgid "Main info"
-msgstr "Основная информация"
+msgstr "Ana özellikler"
 
 #: ui/homeinfobase.cpp:80 ui/setupdlg.cpp:78 ui/userinfo.cpp:60
 msgid "Home info"
-msgstr "Домашняя информация"
+msgstr "Adres"
 
 #: ui/setupdlg.cpp:79 ui/userinfo.cpp:61 ui/workinfobase.cpp:80
 msgid "Work info"
-msgstr "Информация о работе"
+msgstr "İş"
 
 #: ui/moreinfobase.cpp:80 ui/setupdlg.cpp:80 ui/userinfo.cpp:62
 msgid "More info"
-msgstr "Расширенная информация"
+msgstr "Daha fazla ayrıntı"
 
 #: ui/aboutinfobase.cpp:77 ui/setupdlg.cpp:81 ui/userinfo.cpp:63
 msgid "About info"
-msgstr "Дополнительная информация"
+msgstr "Hakkında"
 
 #: ui/interestsinfobase.cpp:78 ui/setupdlg.cpp:82 ui/userinfo.cpp:64
 msgid "Interests"
-msgstr "Интересы"
+msgstr "İlgi alanları"
 
 #: ui/pastinfobase.cpp:78 ui/setupdlg.cpp:83 ui/userinfo.cpp:65
 msgid "Group/Past"
-msgstr "Образование/объединения"
+msgstr "Grup/Geçmiş"
 
 #: ui/phonebookbase.cpp:80 ui/setupdlg.cpp:84 ui/userinfo.cpp:67
 msgid "Phone book"
-msgstr "Телефонная книга"
+msgstr "Telefon defteri"
 
 #: ui/setupdlg.cpp:86 ui/userinfo.cpp:70
 msgid "Preferences"
-msgstr "Предпочтения"
+msgstr "Seçenekler"
 
 #: ui/setupdlg.cpp:89
 msgid "Status mode"
-msgstr "Статус"
+msgstr "Statü modu"
 
 #: ui/setupdlg.cpp:90
 msgid "Connection"
-msgstr "Соединение"
+msgstr "Bağlantı"
 
 #: ui/setupdlg.cpp:91 ui/themesetupbase.cpp:79
 msgid "Style"
-msgstr "Стиль"
+msgstr "Stil"
 
 #: ui/fontsetupbase.cpp:111 ui/setupdlg.cpp:92
 msgid "Interface"
-msgstr "Интерфейс"
+msgstr "Arayüz"
 
 #: ui/alertdialogbase.cpp:115 ui/setupdlg.cpp:94
 msgid "On Screen notification"
-msgstr "On-Screen сообщения"
+msgstr "Ekranda Uyarı Sistemi ( OSD )"
 
 #: ui/acceptbase.cpp:110 ui/setupdlg.cpp:96 ui/userinfo.cpp:73
 msgid "Accept file"
-msgstr "Прием файлов"
+msgstr "Dosyayı kabul et"
 
 #: ui/miscsetupbase.cpp:106 ui/setupdlg.cpp:99
 msgid "Miscellaneous"
-msgstr "Различные настройки"
+msgstr "Diğerleri"
 
 #: ui/setupdlg.cpp:106
 msgid "Auto reply"
-msgstr "Автоответ"
+msgstr "Otomatik cevap"
 
 #: ui/generalsecbase.cpp:111 ui/setupdlg.cpp:115
 msgid "Security"
-msgstr "Безопасность"
+msgstr "Güvenlik"
 
 #: ui/setupdlg.cpp:118
 msgid "General"
-msgstr "Основная"
+msgstr "Genel"
 
 #: ui/setupdlg.cpp:119
 msgid "Password"
-msgstr "Пароль"
+msgstr "Şifre"
 
 #: ui/themesetup.cpp:91
 msgid "Default icons"
-msgstr "Иконки по умолчанию"
+msgstr "Standart İkonlar"
 
 #: ui/xosdsetup.cpp:44
 msgid "Left-bottom"
-msgstr "Левый нижний угол"
+msgstr "Sol alt köşe"
 
 #: ui/xosdsetup.cpp:45
 msgid "Left-top"
-msgstr "Левый верхний угол"
+msgstr "Sol üst köşe"
 
 #: ui/xosdsetup.cpp:46
 msgid "Right-bottom"
-msgstr "Правый нижний угол"
+msgstr "Sağ alt köşe"
 
 #: ui/xosdsetup.cpp:47
 msgid "Right-top"
-msgstr "Правый верхний угол"
+msgstr "Sağ üst köşe"
 
 #: ui/xosdsetup.cpp:48
 msgid "Center-bottom"
-msgstr "Посередине внизу"
+msgstr "Merkez alt"
 
 #: ui/xosdsetup.cpp:49
 msgid "Center-top"
-msgstr "Посередине вверху"
+msgstr "Merkez üst"
 
 #: ui/aboutdlg.cpp:34
 msgid "%1 Version: %2"
-msgstr "%1 Версия: %2"
+msgstr "%1 Versiyon: %2"
 
 #: ui/aboutdlg.cpp:37
 msgid "Bug report"
-msgstr "Сообщения об ошибках"
+msgstr "Hata Raporu"
 
 #: ui/acceptbase.cpp:95 ui/alertdialogbase.cpp:64 ui/fontsetupbase.cpp:96
 #: ui/generalsecbase.cpp:95 ui/homeinfobase.cpp:65 ui/miscsetupbase.cpp:90
@@ -2702,209 +2681,207 @@ msgstr "Сообщения об ошибках"
 #: ui/soundsetupbase.cpp:91 ui/spellsetupbase.cpp:63 ui/statussetupbase.cpp:63
 #: ui/themesetupbase.cpp:64 ui/userinfobase.cpp:92 ui/xosdbase.cpp:94
 msgid "Form1"
-msgstr "Домашняя"
+msgstr "Form1"
 
 #: ui/xosdbase.cpp:109
 msgid "Notify On Screen"
-msgstr "On-Screen сообщения"
+msgstr "Ekranda uyarı"
 
 #: ui/xosdbase.cpp:120
 msgid "Enable notify on screen"
-msgstr "Разрешить On-Screen сообщения"
+msgstr "Ekranda uyarı sistemini (OSD) aktifleştir"
 
 #: ui/xosdbase.cpp:127
 msgid "Background color:"
-msgstr "Цвет фона:"
+msgstr "Arkaplan rengi:"
 
 #: ui/xosdbase.cpp:141
 msgid "Color:"
-msgstr "Цвет:"
+msgstr "Renk:"
 
 #: ui/xosdbase.cpp:151
 msgid "Font:"
-msgstr "Шрифт:"
+msgstr "Font:"
 
 #: ui/xosdbase.cpp:157
 msgid "Show time:"
-msgstr "Время показа:"
+msgstr "Zamanı göster"
 
 #: ui/xosdbase.cpp:175
 msgid "Offset:"
-msgstr "Отступ:"
+msgstr "Uzaklık:"
 
 #: ui/workinfobase.cpp:196 ui/xosdbase.cpp:181
 msgid "Position:"
-msgstr "Должность:"
+msgstr "Pozisyon:"
 
 #: ui/xosdbase.cpp:193
 msgid "Shadow"
-msgstr "Тень"
+msgstr "Gölge"
 
 #: ui/xosdbase.cpp:202
 msgid "Background"
-msgstr "Фон"
+msgstr "Arkaplan"
 
 #: ui/finddlgbase.cpp:34
 msgid "Find"
-msgstr "Поиск"
+msgstr "Bul"
 
 #: ui/finddlgbase.cpp:42
 msgid "Find:"
-msgstr "Поиск:"
+msgstr "Bul:"
 
 #: ui/finddlgbase.cpp:51
 msgid "Case &sensitivy"
-msgstr "С учетом &регистра"
+msgstr "Büyük-küçük harf &ayrımı"
 
 #: ui/finddlgbase.cpp:55
 msgid "Find &backwards"
-msgstr "В &обратную сторону"
+msgstr "&Geride ara"
 
 #: ui/aboutdlgbase.cpp:67
 msgid "About SIM"
-msgstr "О приложении SIM"
+msgstr "SIM hakkında"
 
 #: ui/aboutdlgbase.cpp:94
 msgid "About"
-msgstr "О приложении"
+msgstr "Hakkında"
 
 #: ui/aboutdlgbase.cpp:102
 msgid "Authors"
-msgstr "Авторы"
+msgstr "Yazarlar"
 
 #: ui/aboutdlgbase.cpp:109
 msgid "Translation"
-msgstr "Перевод"
+msgstr "Çeviri"
 
 #: ui/aboutdlgbase.cpp:116
 msgid "License"
-msgstr "Лицензия"
+msgstr "Lisans"
 
 #: ui/networkbase.cpp:80
 msgid "Network"
-msgstr "Соединение"
+msgstr "Network"
 
 #: ui/networkbase.cpp:92
 msgid "ICQ server:"
-msgstr "ICQ сервер:"
+msgstr "ICQ-Serverı:"
 
 #: ui/networkbase.cpp:105
 msgid "Port:"
-msgstr "Порт:"
+msgstr "Port:"
 
 #: ui/networkbase.cpp:111
 msgid "Host:"
-msgstr "Сервер:"
+msgstr "Host:"
 
 #: ui/networkbase.cpp:132
 msgid "Use proxy"
-msgstr "Использовать прокси-сервер"
+msgstr "Proxy kullan"
 
 #: ui/networkbase.cpp:151
 msgid "Proxy host:"
-msgstr "Прокси IP:"
+msgstr "Proxy-Hostu:"
 
 #: ui/networkbase.cpp:157
 msgid "Proxy port:"
-msgstr "Прокси порт:"
+msgstr "Proxy-Portu:"
 
 #: ui/networkbase.cpp:171
 msgid "User proxy authorization"
-msgstr "Прокси-сервер требует авторизацию"
+msgstr "Proxy kullanıcıs şifresi"
 
 #: ui/networkbase.cpp:179
 msgid "Proxy user:"
-msgstr "Имя пользователя:"
+msgstr "Proxy-Kullanıcı adı:"
 
 #: ui/networkbase.cpp:193
 msgid "Proxy password:"
-msgstr "Пароль:"
+msgstr "Proxy-Şifresi:"
 
 #: ui/networkbase.cpp:207
 msgid "Use the following TCP listen ports:"
-msgstr ""
-"Использовать для входящих соединений "
-"порты:"
+msgstr "Şu TCP portlarını kullan:"
 
 #: ui/networkbase.cpp:213
 msgid "From:"
-msgstr "C:"
+msgstr "Gönderen:"
 
 #: ui/networkbase.cpp:221
 msgid "To:"
-msgstr "По:"
+msgstr "Alıcı:"
 
 #: ui/acceptbase.cpp:122
 msgid "Override global settings"
-msgstr "Пользовательский режим приема файлов"
+msgstr "Global ayarların üzerine yaz"
 
 #: ui/acceptbase.cpp:126
 msgid "Path for incoming files:"
-msgstr "Каталог для приема файлов:"
+msgstr "Gelen dosyaların saklanacağı yer :"
 
 #: ui/acceptbase.cpp:141
 msgid "Show response"
-msgstr "Показывать запрос"
+msgstr "Cevabı göster"
 
 #: ui/acceptbase.cpp:145
 msgid "Auto accept"
-msgstr "Автоматический прием"
+msgstr "Otomatik kabul et"
 
 #: ui/acceptbase.cpp:149
 msgid "Overwrite files"
-msgstr "Переписывать файлы"
+msgstr "Eski dosyanın üzerine yaz"
 
 #: ui/acceptbase.cpp:153
 msgid "Auto decline"
-msgstr "Автоматический отказ"
+msgstr "Otomatik reddet"
 
 #: ui/soundsetupbase.cpp:118
 msgid "&Override sounds"
-msgstr "Использовать &свои звуки"
+msgstr "Ses ayarlarının &üzerine yaz"
 
 #: ui/soundsetupbase.cpp:122
 msgid "Message:"
-msgstr "Сообщение:"
+msgstr "Mesaj:"
 
 #: ui/soundsetupbase.cpp:143
 msgid "Authorization"
-msgstr "Авторизация"
+msgstr "Onay "
 
 #: ui/soundsetupbase.cpp:150
 msgid "Online alert"
-msgstr "Уведомление"
+msgstr "bağlı alarmı"
 
 #: ui/soundsetupbase.cpp:157
 msgid "Incoming file"
-msgstr "Прием файла"
+msgstr "Gelen dosya transferi"
 
 #: ui/soundsetupbase.cpp:164
 msgid "File transfer done"
-msgstr "Передача файла завершена"
+msgstr "Dosya transferi tamamlandı"
 
 #: ui/soundsetupbase.cpp:171
 msgid "ChatRequest"
-msgstr "Чат"
+msgstr "Chatİsteği"
 
 #: ui/soundsetupbase.cpp:178
 msgid "Startup sound"
-msgstr "Звук при старте"
+msgstr "Başlangıç Sesi"
 
 #: ui/soundsetupbase.cpp:189
 msgid "UseArts"
-msgstr "Использовать звуковой сервер"
+msgstr "Arts kullan"
 
 #: ui/soundsetupbase.cpp:193
 msgid "Program for play"
-msgstr "Программа проигрыватель"
+msgstr "Sesleri çalmak için geçerli program"
 
 #: ui/filetransferbase.cpp:37
 msgid "File transfer"
-msgstr "Передача файла"
+msgstr "Dosya transferi"
 
 #: ui/filetransferbase.cpp:70
 msgid "1000000/100000"
-msgstr "1000000/1000000"
+msgstr "1000000/100000"
 
 #: ui/filetransferbase.cpp:79
 msgid "100000"
@@ -2912,107 +2889,105 @@ msgstr "100000"
 
 #: ui/filetransferbase.cpp:86
 msgid "Speed:"
-msgstr "Скорость:"
+msgstr "Hız:"
 
 #: ui/filetransferbase.cpp:107
 msgid "Close after send"
-msgstr "Закрыть после отправки"
+msgstr "Gönderdikten sonra kapat"
 
 #: ui/emaileditbase.cpp:36
 msgid "Edit Email"
-msgstr "Почтовый адрес"
+msgstr "Email'i değiştir"
 
 #: ui/emaileditbase.cpp:40
 msgid "Enter Email address:"
-msgstr "Введите email:"
+msgstr "Email adresi gir:"
 
 #: ui/emaileditbase.cpp:47
 msgid "Don't publish my Email address"
-msgstr "Не показывать мой email"
+msgstr "Email adresimi yayınlama"
 
 #: ui/addphonebase.cpp:109 ui/emaileditbase.cpp:67
 msgid "&OK"
-msgstr "&Ok"
+msgstr "&Tamam"
 
 #: ui/pastinfobase.cpp:89
 msgid "Organization, Affiliation, Group:"
-msgstr ""
-"Объединения, общественные организации:"
+msgstr "Organizasyon,Grup :"
 
 #: ui/pastinfobase.cpp:131
 msgid "Past background:"
-msgstr "Образование:"
+msgstr "Geçmiş Background:"
 
 #: ui/autoreplybase.cpp:34
 msgid "Autoreply message"
-msgstr "Автоответ"
+msgstr "Otomatik Cevap"
 
 #: ui/autoreplybase.cpp:41
 msgid "Close after ...."
-msgstr "Закрыть после ..."
+msgstr "Kapat bitince ...."
 
 #: ui/autoreplybase.cpp:45
 msgid "Don't show this dialog"
-msgstr "Больше не показывать это сообщение"
+msgstr "Bu dialoğu gösterme"
 
 #: ui/alertmsgbase.cpp:52 ui/autoreplybase.cpp:53 ui/setupdlgbase.cpp:91
 msgid "OK"
-msgstr "OK"
+msgstr "Tamam"
 
 #: ui/alertmsgbase.cpp:33 ui/alertmsgbase.cpp:37
 msgid "User is online"
-msgstr "Пользователь в сети"
+msgstr "Kullanıcı bağlı"
 
 #: ui/changepasswdbase.cpp:62 ui/interestsinfobase.cpp:63 ui/pagerbase.cpp:62
 #: ui/workinfobase.cpp:65
 msgid "Form2"
-msgstr "О работе"
+msgstr "Form 2"
 
 #: ui/msgdialogbase.cpp:90
 msgid "Customize message"
-msgstr "Специальное сообщение"
+msgstr "Mesajı değiştir"
 
 #: ui/msgdialogbase.cpp:97
 msgid "Don't show message dialog"
-msgstr "Не показывать диалог автоответа"
+msgstr "Bu mesaj dialoğunu gösterme"
 
 #: ui/alertdialogbase.cpp:91
 msgid "Override global alert"
-msgstr "Пользовательский режим уведомления"
+msgstr "Global alarm ayarlarının üzerine yaz"
 
 #: ui/alertdialogbase.cpp:95
 msgid "Activate online alert when user returns from Away or NA"
 msgstr ""
-"Уведомление если пользователь переходит "
-"из режима \"Отошел\" или \"Недоступен\""
+"Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
 
 #: ui/alertdialogbase.cpp:99
 msgid "Online alert options"
-msgstr "Режимы уведомлений"
+msgstr "bağlı-Alarm Seçenekleri"
 
 #: ui/alertdialogbase.cpp:107
 msgid "Blinking alert effect"
-msgstr "Эффект мигания"
+msgstr "Alarm efektinden sonra yanıp-sön"
 
 #: ui/alertdialogbase.cpp:111
 msgid "Play online alert sound"
-msgstr "Звуковое уведомление"
+msgstr "bağlı alarm sesi çal"
 
 #: ui/alertdialogbase.cpp:119
 msgid "Popup online alert dialog"
-msgstr "Показать диалог уведомления"
+msgstr "bağlı alarm dialoğu göster"
 
 #: ui/alertdialogbase.cpp:123
 msgid "Open user window when online"
-msgstr "Открыть окно пользователя"
+msgstr "Kullanıcı bağlı olunca mesaj penceresi aç"
 
 #: ui/phonebase.cpp:71
 msgid "Area code:"
-msgstr "Код города:"
+msgstr "Alan Kodu:"
 
 #: ui/phonebase.cpp:81
 msgid "Extension:"
-msgstr "Добавочный:"
+msgstr "Ülke Kodu:"
 
 #: ui/phonebase.cpp:101 ui/phonebase.cpp:112 ui/phonebase.cpp:123
 msgid "-"
@@ -3020,539 +2995,461 @@ msgstr "-"
 
 #: ui/pagerbase.cpp:92 ui/phonebase.cpp:106
 msgid "Number:"
-msgstr "Номер:"
+msgstr "Sayı:"
 
 #: ui/homeinfobase.cpp:117 ui/phonebase.cpp:117 ui/searchbase.cpp:148
 #: ui/workinfobase.cpp:140
 msgid "Country:"
-msgstr "Страна:"
+msgstr "Ülke:"
 
 #: ui/phonebase.cpp:132
 msgid "Publish in global directory"
-msgstr "Доступный для всех"
+msgstr "Global sistemde yayınla"
 
 #: ui/phonebase.cpp:138
 msgid "SMS service available"
-msgstr "SMS-сервис разрешен"
+msgstr "SMS servisi mevcut"
 
 #: ui/addphonebase.cpp:68
 msgid "Add phone"
-msgstr "Добавить телефон"
+msgstr "Telefon ekle"
 
 #: ui/addphonebase.cpp:72
 msgid "Number details:"
-msgstr "Номер:"
+msgstr "Numara ayrıntıları:"
 
 #: ui/addphonebase.cpp:82
 msgid "Type:"
-msgstr "Тип:"
+msgstr "Tip:"
 
 #: ui/miscsetupbase.cpp:118
 msgid "Browser program path:"
-msgstr "Путь к программе просмотра URL:"
+msgstr "Browser Program Adresi:"
 
 #: ui/miscsetupbase.cpp:125
 msgid "Email client:"
-msgstr "Почтовый клиент:"
+msgstr "Email programı:"
 
 #: ui/pagerbase.cpp:76
 msgid "Provider:"
-msgstr "Провайдер:"
+msgstr "Servis Sağlayıcı:"
 
 #: ui/pagerbase.cpp:82
 msgid "Email gateway:"
-msgstr "Email шлюз:"
+msgstr "Email Gateway:"
 
 #: ui/fontsetupbase.cpp:123
 msgid "User window mode"
-msgstr "Окно сообщений"
+msgstr "Kullanıcı penceresi modu"
 
 #: ui/fontsetupbase.cpp:131
 msgid "Split mode (&Chat style)"
-msgstr "&Чат"
+msgstr "İkili Pencere (&Chat stili)"
 
 #: ui/fontsetupbase.cpp:135
 msgid "Simple mode (&Plain style)"
-msgstr "&Простое"
+msgstr "Basit Mod (&Tekli Pencere)"
 
 #: ui/fontsetupbase.cpp:140
 msgid "Open user window"
-msgstr "Открыть окно пользователя"
+msgstr "Kullanıcı penceresi aç"
 
 #: ui/fontsetupbase.cpp:148
 msgid "&Each user in new container"
-msgstr "&Каждое окно в новом контейнере"
+msgstr "&Her kullanıcı yeni bir taşıyıcıda"
 
 #: ui/fontsetupbase.cpp:152
 msgid "&New container for group"
-msgstr "&Новый контейнер для группы"
+msgstr "Grup için &yeni bir taşıyıcı"
 
 #: ui/fontsetupbase.cpp:157
 msgid "&All users in one container"
-msgstr "&Все в одном контейнере"
+msgstr "&Tüm kullanıcılar bir taşıyıcıda"
 
 #: ui/fontsetupbase.cpp:162
 msgid "Fonts"
-msgstr "Шрифты"
+msgstr "Fontlar"
 
 #: ui/fontsetupbase.cpp:170
 msgid "&Use systems fonts"
-msgstr "&Использовать системные шрифты"
+msgstr "Sistem fontlarını &kullan"
 
 #: ui/fontsetupbase.cpp:174
 msgid "Base font"
-msgstr "Шрифт окон"
+msgstr "Temel Font"
 
 #: ui/fontsetupbase.cpp:181
 msgid "Menu font"
-msgstr "Шрифт меню"
+msgstr "Menü Fontu"
 
 #: ui/fontsetupbase.cpp:189
 msgid "Colors"
-msgstr "Цвета"
+msgstr "Renkler"
 
 #: ui/fontsetupbase.cpp:197
 msgid "Use &own colors in history"
-msgstr ""
-"Использовать &собственные цвета в истории"
+msgstr "Geçmişte &kendi renklerini kullan"
 
 #: ui/fontsetupbase.cpp:207
 msgid "Received messages color"
-msgstr "Цвет полученных сообщений"
+msgstr "Gelen mesaj rengi"
 
 #: ui/fontsetupbase.cpp:218
 msgid "Sending messages color"
-msgstr "Цвет отправленных сообщений"
+msgstr "Gönderilen mesaj rengi"
 
 #: ui/fontsetupbase.cpp:226
 msgid "&Show splash window"
-msgstr "&Показывать заставку при старте"
+msgstr "Açılış logosunu &göster"
 
 #: ui/phonebookbase.cpp:91
 msgid "User is currently available at:"
-msgstr "Пользователь сейчас доступен по:"
+msgstr "Kullanıcı şu anda ulaşılabilir :"
 
 #: ui/phonebookbase.cpp:102 ui/setupdlgbase.cpp:71 ui/userinfobase.cpp:96
 msgid "Column 1"
-msgstr "1"
+msgstr "Sütun 1"
 
 #: ui/phonebookbase.cpp:104 ui/setupdlgbase.cpp:73 ui/themesetupbase.cpp:96
 #: ui/themesetupbase.cpp:108 ui/userinfobase.cpp:98
 msgid "New Item"
-msgstr "1"
+msgstr "Yeni Element"
 
 #: ui/phonebookbase.cpp:111
 msgid "&Add"
-msgstr "&Добавить"
+msgstr "&Ekle"
 
 #: ui/phonebookbase.cpp:115
 msgid "&Edit"
-msgstr "&Редактировать"
+msgstr "&Değiştir"
 
 #: ui/phonebookbase.cpp:119
 msgid "&Delete"
-msgstr "&Удалить"
+msgstr "&Sil"
 
 #: ui/spellsetupbase.cpp:78
 msgid "Spell checking"
-msgstr "Проверка орфографии"
+msgstr "Yazım Kontrolü"
 
 #: ui/spellsetupbase.cpp:95
 msgid "Check all messages on send"
-msgstr "Проверять все сообщения при отправке"
+msgstr "Tüm mesajları gönderirken kontrol et"
 
 #: ui/setupdlgbase.cpp:85 ui/userinfobase.cpp:115
 msgid "Update"
-msgstr "Обновить"
+msgstr "Yenile"
 
 #: ui/setupdlgbase.cpp:99
 msgid "Apply"
-msgstr "Применить"
+msgstr "Uygula"
 
 #: ui/workinfobase.cpp:97
 msgid "Occupation:"
-msgstr "Деятельность:"
+msgstr "İş:"
 
 #: ui/workinfobase.cpp:111
 msgid "Div / dept:"
-msgstr "Отдел:"
+msgstr "Bölüm / Departman:"
 
 #: ui/workinfobase.cpp:117
 msgid "Name:"
-msgstr "Наименование:"
+msgstr "Ad:"
 
 #: ui/workinfobase.cpp:146
 msgid "Web site:"
-msgstr "WWW страница:"
+msgstr "Web Sitesi:"
 
 #: ui/homeinfobase.cpp:102 ui/workinfobase.cpp:168
 msgid "Address:"
-msgstr "Адрес:"
+msgstr "Adres:"
 
 #: ui/homeinfobase.cpp:129 ui/searchbase.cpp:154 ui/workinfobase.cpp:178
 msgid "City:"
-msgstr "Город:"
+msgstr "Şehir:"
 
 #: ui/homeinfobase.cpp:139 ui/workinfobase.cpp:184
 msgid "Zip code:"
-msgstr "Индекс:"
+msgstr "Posta kodu:"
 
 #: ui/homeinfobase.cpp:96 ui/searchbase.cpp:164 ui/workinfobase.cpp:190
 msgid "State:"
-msgstr "Штат:"
+msgstr "Bölge:"
 
 #: ui/themesetupbase.cpp:92
 msgid "Select style:"
-msgstr "Выберите стиль:"
+msgstr "Stil seç:"
 
 #: ui/themesetupbase.cpp:104
 msgid "Icons:"
-msgstr "Иконки:"
+msgstr "İkonlar:"
 
 #: ui/themesetupbase.cpp:112
 msgid "Transparent main window"
-msgstr "Прозрачное главное окно"
+msgstr "Transparan ana pencere"
 
 #: ui/themesetupbase.cpp:116 ui/themesetupbase.cpp:128
 msgid "Transparency"
-msgstr "Прозрачность"
+msgstr "Transparanlık"
 
 #: ui/themesetupbase.cpp:124
 msgid "Transparent container"
-msgstr "Прозрачный контейнер"
+msgstr "Transparan taşıyıcı"
 
 #: ui/themesetupbase.cpp:140
 msgid "Show main window in task manager"
-msgstr ""
-"Показывать основное окно в панели задач"
+msgstr "Ana pencereyi Task Manager'da göster"
 
 #: ui/themesetupbase.cpp:144
 msgid "Show user window in task manager"
-msgstr "Показывать контейнер в панели задач"
+msgstr "Kullanıcı penceresini Task Manager'sa göster"
 
 #: ui/listsecbase.cpp:90 ui/moreinfobase.cpp:65
 msgid "Form3"
-msgstr "Дополнительная инофрмация"
+msgstr "Form 3"
 
 #: ui/moreinfobase.cpp:99 ui/searchbase.cpp:126
 msgid "Age:"
-msgstr "Возраст:"
+msgstr "Yaş:"
 
 #: ui/moreinfobase.cpp:110 ui/searchbase.cpp:142
 msgid "Gender:"
-msgstr "Пол:"
+msgstr "Cinsiyet:"
 
 #: ui/moreinfobase.cpp:135
 msgid "Homepage:"
-msgstr "Домашняя страница:"
+msgstr "Web Adresi:"
 
 #: ui/moreinfobase.cpp:142
 msgid "Birth date:"
-msgstr "Дата рождения:"
+msgstr "Doğum tarihi:"
 
 #: ui/moreinfobase.cpp:148
 msgid "Month:"
-msgstr "Месяц:"
+msgstr "Ay:"
 
 #: ui/moreinfobase.cpp:155
 msgid "Day:"
-msgstr "День:"
+msgstr "Gün:"
 
 #: ui/moreinfobase.cpp:162
 msgid "Year:"
-msgstr "Год:"
+msgstr "Yıl:"
 
 #: ui/moreinfobase.cpp:177
 msgid "Spoken languages:"
-msgstr "Языки:"
+msgstr "Bildiği Diller:"
 
 #: ui/statussetupbase.cpp:95
 msgid ""
 "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
-"Запретить оповещение в состояниях "
-"\"Отошел\", \"Не активный\", \"Занят\""
+"\"Uzakta\", \"N/A\", \"DND\" ve \"Meşgul\"-Listelerinde bağlı alamını "
+"iptal et "
 
 #: ui/statussetupbase.cpp:102
 msgid "minutes not using computer"
-msgstr "минут не использования компьютера"
+msgstr "dakikadır bilgisayarı kullanmıyor"
 
 #: ui/statussetupbase.cpp:132
 msgid "minutes of \"Away\""
-msgstr "минут после \"Отошел\""
+msgstr "dakikadır \"Uzakta\"-Statüsünde"
 
 #: ui/statussetupbase.cpp:139
 msgid "Set \"N/A\" status after"
-msgstr "Установить статус \"Не активный\" через"
+msgstr "\"N/A\"-Statusüne geç"
 
 #: ui/statussetupbase.cpp:146
 msgid "Set \"Away\" status after"
-msgstr "Установить статус \"Отошел\" через"
+msgstr "\"Uzakta\"-Statüsüne geç"
 
 #: ui/homeinfobase.cpp:153
 msgid "Time zone:"
-msgstr "Часовой пояс:"
+msgstr "Zaman Dilimi:"
 
 #: ui/generalsecbase.cpp:124
 msgid "My &authorization is required before users add me to Contact List"
 msgstr ""
-"Для включения меня в список контактов "
-"требуется &авторизация"
+"Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
 
 #: ui/generalsecbase.cpp:128
 msgid "Allow others to view my &status from the Web"
-msgstr ""
-"Разрешить пользователям видеть мой "
-"статус через &WWW"
+msgstr "&Statümün web'den kontrol edilebilmesine izin ver"
 
 #: ui/generalsecbase.cpp:132
 msgid "Don't show my &IP-address"
-msgstr "Не показывать свой &IP-адрес"
+msgstr "&IP adresimi gizle"
 
 #: ui/generalsecbase.cpp:136
 msgid "Direct connection"
-msgstr "Прямые соединения"
+msgstr "Direk bağlantı"
 
 #: ui/generalsecbase.cpp:144
 msgid "Allow &direct connection from any user"
-msgstr ""
-"Разрешить прямые соединения от &всех "
-"пользователей"
+msgstr "Herhangi bir kullanıcıdan &direk bağlantıya izin ver"
 
 #: ui/generalsecbase.cpp:148
 msgid "Allow direct connection from user listed in &contact list"
-msgstr ""
-"Разрешить прямые соединения только от "
-"пользователей из списка &контактов"
+msgstr "&Kontak listemdeki kullanıcılara direk bağlantı izni ver"
 
 #: ui/generalsecbase.cpp:152
 msgid "Allow direct connection from user &upon authorization"
-msgstr ""
-"Разрешить прямые соединения после "
-"&авторизации"
+msgstr "Direk bağlantıya benim &onayımla birlikte izin ver"
 
 #: ui/generalsecbase.cpp:157
 msgid "Reject messages"
-msgstr "Отвергать сообщения"
+msgstr "Mesajları reddet"
 
 #: ui/generalsecbase.cpp:165
 msgid "Reject &messages from unknown users"
-msgstr ""
-"Отвергать &сообзения от неизвестных "
-"пользователей"
+msgstr "Listemde olmayan kullanıcılardan gelen &mesajları reddet"
 
 #: ui/generalsecbase.cpp:169
 msgid "Reject &URL from unknown users"
-msgstr ""
-"Отвергать &URL от неизвестных "
-"пользователей"
+msgstr "Listemde olmayan kullanıcılardan gelen &URL'leri reddet"
 
 #: ui/generalsecbase.cpp:173
 msgid "Reject &World Wide pager messages"
-msgstr "Отвергать &Web-pager "
+msgstr "&WWW-pager mesajlarını reddet"
 
 #: ui/generalsecbase.cpp:177
 msgid "Reject &EmailExpress messages"
-msgstr "Отвергать &Email пейджер"
+msgstr "&Emailexpress mesajlarını reddet"
 
 #: ui/generalsecbase.cpp:181
 msgid "Reject &other messages"
-msgstr "Отвергать &остальные сообщения"
+msgstr "&Diğer mesajları reddet"
 
 #: ui/generalsecbase.cpp:185
 msgid "Reject messages from unknown users contains this words or phrases:"
 msgstr ""
-"Отвергать сообщения от неизвестных "
-"пользователей, которые содержут слова "
-"или фразы:"
+"Bilinmeyen kullanıcılardan gelen mesajlar şu kelimeleri ya da cümleleri "
+"taşıyosa reddet : "
 
 #: ui/maininfobase.cpp:66
 msgid "Form5"
-msgstr "Основная информация"
+msgstr "Form5"
 
 #: ui/maininfobase.cpp:95 ui/searchbase.cpp:210
 msgid "Last Name:"
-msgstr "Фамилия:"
+msgstr "Soyadı:"
 
 #: ui/maininfobase.cpp:112
 msgid "Uin:"
-msgstr "Uin:"
+msgstr "UIN:"
 
 #: ui/maininfobase.cpp:118
 msgid "Nick:"
-msgstr "Псевдоним:"
+msgstr "Nick:"
 
 #: ui/maininfobase.cpp:203
 msgid "Display:"
-msgstr "Показывать:"
+msgstr "Gösteriş Şekli:"
 
 #: ui/maininfobase.cpp:209 ui/searchbase.cpp:216
 msgid "First name:"
-msgstr "Имя:"
+msgstr "Adı :"
 
 #: ui/maininfobase.cpp:221
 msgid "Email addresses:"
-msgstr "Почтовые адреса:"
+msgstr "E-Mail-Adresi:"
 
 #: ui/maininfobase.cpp:232
 msgid "Add"
-msgstr "Добавить"
+msgstr "Ekle"
 
 #: ui/maininfobase.cpp:236
 msgid "Edit"
-msgstr "Редактировать"
+msgstr "Değiştir"
 
 #: ui/maininfobase.cpp:240
 msgid "Remove"
-msgstr "Удалить"
+msgstr "Sil"
 
 #: ui/maininfobase.cpp:244
 msgid "Set as default"
-msgstr "По умолчанию"
+msgstr "Öntanımlı olarak ayarla"
 
 #: ui/maininfobase.cpp:256
 msgid "Notes"
-msgstr "Заметки"
+msgstr "Notlar"
 
 #: ui/aboutinfobase.cpp:62
 msgid "Form4"
-msgstr "О себе"
+msgstr "Form 4"
 
 #: ui/aboutinfobase.cpp:87
 msgid "Additional information about user:"
-msgstr ""
-"Дополнительная информация о "
-"пользователе:"
+msgstr "Kullanıcı hakkında ek bilgiler:"
 
 #: ui/changepasswdbase.cpp:77
 msgid "Change password"
-msgstr "Изменить пароль"
+msgstr "Şifreyi değiştir"
 
 #: ui/changepasswdbase.cpp:90
 msgid "Retype new password:"
-msgstr "Введите новый пароль еще раз:"
+msgstr "Yeni şifreyi tekrar girin:"
 
 #: ui/changepasswdbase.cpp:97
 msgid "New password:"
-msgstr "Новый пароль:"
+msgstr "Yeni Şifre:"
 
 #: ui/searchbase.cpp:69 ui/searchbase.cpp:82
 msgid "Search"
-msgstr "Поиск"
+msgstr "Arama"
 
 #: ui/searchbase.cpp:75
 msgid "Online only"
-msgstr "Только в сети"
+msgstr "Sadece bağlı olanlar"
 
 #: ui/searchbase.cpp:86
 msgid "New search"
-msgstr "Новый поиск"
+msgstr "Yeni arama"
 
 #: ui/searchbase.cpp:108
 msgid "Email:"
-msgstr "Email:"
+msgstr "E-Mail:"
 
 #: ui/searchbase.cpp:136
 msgid "Language:"
-msgstr "Язык:"
+msgstr "Dil:"
 
 #: ui/searchbase.cpp:174
 msgid "Department:"
-msgstr "Отдел:"
+msgstr "Departman:"
 
 #: ui/searchbase.cpp:184
 msgid "Company:"
-msgstr "Комапания:"
+msgstr "Firma:"
 
 #: ui/searchbase.cpp:194
 msgid "Interests:"
-msgstr "Интересы:"
+msgstr "İlgi Alanları:"
 
 #: ui/searchbase.cpp:202
 msgid "Email/Info"
-msgstr "Email/Информация"
+msgstr "Email/Bilgi"
 
 #: ui/searchbase.cpp:226
 msgid "Nickname:"
-msgstr "Псевдоним:"
+msgstr "Nick:"
 
 #: ui/searchbase.cpp:239
 msgid "Names"
-msgstr "Имена"
+msgstr "Adlar"
 
 #: about.cpp:280
 msgid "replace this with information about your translation team"
-msgstr "..."
+msgstr "SIM Rockz"
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Эта программа распространяется под "
-"лицензией GPL v2"
+msgstr "Bu program GPL v2 lisansı altında dağıtılmaktadır"
 
 #~ msgid "&Simple mode"
-#~ msgstr "&Простой режим"
+#~ msgstr "&Einfacher Modus"
 
 #~ msgid "Transfer completed"
-#~ msgstr "Передача завершена"
+#~ msgstr "Übertragung abgeschlossen"
 
 #~ msgid "Transfer failed"
-#~ msgstr "Ошибка передачи"
-
-#~ msgid "Windows"
-#~ msgstr "Windows"
-
-#~ msgid "CDE"
-#~ msgstr "CDE"
-
-#~ msgid "Motif"
-#~ msgstr "Motif"
-
-#~ msgid "Motif +"
-#~ msgstr "Motif +"
-
-#~ msgid ".Net"
-#~ msgstr ".Net"
-
-#~ msgid "Liquid"
-#~ msgstr "Liquid"
-
-#~ msgid "MegaGradient"
-#~ msgstr "Mega Gradient"
-
-#~ msgid "Web"
-#~ msgstr "Web"
-
-#~ msgid ""
-#~ "_n:%n unread message\n"
-#~ "%n unread messages"
-#~ msgstr ""
-#~ "%n непрочитанное сообщениенепрочитанных "
-#~ "сообщения %u непрочитанных сообщений"
-
-#~ msgid "Autorization granted"
-#~ msgstr "Запрос авторизации принят"
-
-#~ msgid "File decliened"
-#~ msgstr "Файл не принят"
-
-#~ msgid "Unspecified"
-#~ msgstr "Не указано"
-
-#~ msgid "to ignore list"
-#~ msgstr "в список игнорируемых"
-
-#~ msgid "sec"
-#~ msgstr "сек"
-
-#~ msgid " seconds"
-#~ msgstr " секунд"
-
-#~ msgid "exist"
-#~ msgstr "существует"
-
-#~ msgid "Login error"
-#~ msgstr "Ошибка регистрации"
-
-#~ msgid "Spell"
-#~ msgstr "Проверка орфографии"
+#~ msgstr "Übertragung fehlgeschlagen"
