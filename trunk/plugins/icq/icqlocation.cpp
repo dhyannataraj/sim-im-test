@@ -21,15 +21,20 @@
 #include <windows.h>
 #endif
 
-const unsigned short ICQ_SNACxLOC_REQUESTxRIGHTS   = 0x0002;
-const unsigned short ICQ_SNAXxLOC_RIGHTSxGRANTED   = 0x0003;
-const unsigned short ICQ_SNACxLOC_SETxUSERxINFO    = 0x0004;
+const unsigned short ICQ_SNACxLOC_ERROR             = 0x0001;
+const unsigned short ICQ_SNACxLOC_REQUESTxRIGHTS    = 0x0002;
+const unsigned short ICQ_SNAXxLOC_RIGHTSxGRANTED    = 0x0003;
+const unsigned short ICQ_SNACxLOC_SETxUSERxINFO     = 0x0004;
+const unsigned short ICQ_SNACxLOC_REQUESTxUSERxINFO = 0x0005;   // not implemented
+const unsigned short ICQ_SNACxLOC_LOCATIONxINFO     = 0x0006;   // not implemented, also in userinfo-block snac(0x03/0x0b)
 
 void ICQClient::snac_location(unsigned short type, unsigned short)
 {
     switch (type){
     case ICQ_SNAXxLOC_RIGHTSxGRANTED:
         log(L_DEBUG, "Location rights granted");
+        break;
+    case ICQ_SNACxLOC_ERROR:
         break;
     default:
         log(L_WARN, "Unknown location family type %04X", type);

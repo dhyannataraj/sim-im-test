@@ -17,12 +17,17 @@
 
 #include "icqclient.h"
 
-const unsigned short ICQ_SNACxPING_UNKNOWN = 0x0002;
+const unsigned short ICQ_SNACxPING_ERROR            = 0x0001;
+const unsigned short ICQ_SNACxPING_REPORTxINTERVALL = 0x0002;
+const unsigned short ICQ_SNACxPING_STATS            = 0x0003;   // not implemented
+const unsigned short ICQ_SNACxPING_STATSxACK        = 0x0004;   // not implemented
 
 void ICQClient::snac_ping(unsigned short type, unsigned short)
 {
     switch (type){
-    case  ICQ_SNACxPING_UNKNOWN:
+    case ICQ_SNACxPING_ERROR:
+        break;
+    case ICQ_SNACxPING_REPORTxINTERVALL:
         break;
     default:
         log(L_WARN, "Unknown ping family type %04X", type);
