@@ -1011,7 +1011,7 @@ AC_DEFUN(KDE_CHECK_LIB64,
 [
     kdelibsuff=no
     AC_ARG_ENABLE(libsuffix,
-        AC_HELP_STRING([--enable-libsuffix],
+        AS_HELP_STRING([--enable-libsuffix],
             [/lib directory suffix (64,32,none[=default])]),
             kdelibsuff=$enableval)
     # TODO: add an auto case that compiles a little C app to check

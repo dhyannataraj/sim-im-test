@@ -27,7 +27,8 @@ strip_makefile()
 
 check_autotool_versions()
 {
-AUTOCONF_VERSION=`$AUTOCONF --version | head -1`
+AUTOCONF_VERSION=`$AUTOCONF --version | head -n 1`
+echo "$AUTOCONF_VERSION" 
 case "$AUTOCONF_VERSION" in
   Autoconf*2.5* | autoconf*2.5* ) : ;;
   "" )
@@ -42,7 +43,7 @@ case "$AUTOCONF_VERSION" in
     ;;
 esac
  
-AUTOHEADER_VERSION=`$AUTOHEADER --version | head -1`
+AUTOHEADER_VERSION=`$AUTOHEADER --version | head -n 1`
 case "$AUTOHEADER_VERSION" in
   Autoconf*2.5* | autoheader*2.5* ) : ;;
   "" )
@@ -57,7 +58,7 @@ case "$AUTOHEADER_VERSION" in
     ;;
 esac
 
-AUTOMAKE_STRING=`$AUTOMAKE --version | head -1`
+AUTOMAKE_STRING=`$AUTOMAKE --version | head -n 1`
 case "$AUTOMAKE_STRING" in
   automake*1.5d* )
     echo "*** YOU'RE USING $AUTOMAKE_STRING."
@@ -234,10 +235,10 @@ fi
 echo "AC_OUTPUT" >> configure.in.new
 modulename=
 if test -f configure.in.in; then
-   if head -2 configure.in.in | egrep "^#MIN_CONFIG\(.*\)$" > /dev/null; then
+   if head -n 2 configure.in.in | egrep "^#MIN_CONFIG\(.*\)$" > /dev/null; then
       kde_use_qt_param=`cat configure.in.in | sed -n -e "s/#MIN_CONFIG(\(.*\))/\1/p"`
    fi
-   if head -2 configure.in.in | egrep "^#MIN_CONFIG" > /dev/null; then
+   if head -n 2 configure.in.in | egrep "^#MIN_CONFIG" > /dev/null; then
       line=`egrep "^AM_INIT_AUTOMAKE\(" configure.in.in`
       if test -n "$line"; then
 	  modulename=`echo $line | sed -e "s#AM_INIT_AUTOMAKE(\([^,]*\),.*#\1#"`
@@ -271,7 +272,7 @@ for i in . .. ../.. ../../..; do
 done
 rm -f configure.files
 touch configure.files
-if test -f configure.in.in && head -2 configure.in.in | egrep "^#MIN_CONFIG" > /dev/null; then
+if test -f configure.in.in && head -n 2 configure.in.in | egrep "^#MIN_CONFIG" > /dev/null; then
 	echo $admindir/configure.in.min >> configure.files
 fi
 test -f configure.in.in && echo configure.in.in >> configure.files
@@ -289,9 +290,9 @@ files=`ls -1 . | sort`
 plugins_files=`ls -1 plugins | sort | sed -e "s#.*#plugins/&#"`
 files="$files $plugins_files"
 dirs=
-compilefirst=`grep '^COMPILE_FIRST[ ]*=' $makefile_am | head -1 |
+compilefirst=`grep '^COMPILE_FIRST[ ]*=' $makefile_am | head -n 1 |
 	  sed -e 's#^COMPILE_FIRST[ ]*=[ ]*#|#' | sed -e 's#$#|#' | sed -e 's# #|#g'`
-compilelast=`grep '^COMPILE_LAST[ ]*=' $makefile_am | head -1 |
+compilelast=`grep '^COMPILE_LAST[ ]*=' $makefile_am | head -n 1 |
 	 sed -e 's#^COMPILE_LAST[ ]*=[ ]*#|#' | sed -e 's#$#|#' | sed -e 's# #|#g'`
 for i in $files; do if test -d $i; then
     if test -f $i/Makefile.am; then
@@ -460,10 +461,13 @@ fi
 
 ### KEEP IN SYNC WITH "missing"!!
 ### Handle special autoconf cases first.
+autoconf_2_57a=`type -p autoconf-2.57a`
 autoconf_2_53=`type -p autoconf-2.53`
 autoconf_2_52=`type -p autoconf-2.52`
 autoconf_2_50=`type -p autoconf2.50`
-if test -x "$autoconf_2_53" ; then
+if test -x "$autoconf_2_57a" ; then
+   AUTOCONF="$autoconf_2_57a"
+elif test -x "$autoconf_2_53" ; then
    AUTOCONF="$autoconf_2_53"
 elif test -x "$autoconf_2_52" ; then
    AUTOCONF="$autoconf_2_52"
@@ -474,11 +478,16 @@ else
 fi
 export AUTOCONF
 
+autoheader_2_57a=`type -p autoheader-2.57a`
 autoheader_2_53=`type -p autoheader-2.53`
+autom4te_2_57a=`type -p autom4te-2.57a`
 autom4te_2_53=`type -p autom4te-2.53`
 autoheader_2_52=`type -p autoheader-2.52`
 autoheader_2_50=`type -p autoheader2.50`
-if test -x "$autoheader_2_53" ; then
+if test -x "$autoheader_2_57a" ; then
+   AUTOHEADER="$autoheader_2_57a"
+   AUTOM4TE="$autom4te_2_57a"
+elif test -x "$autoheader_2_53" ; then
    AUTOHEADER="$autoheader_2_53"
    AUTOM4TE="$autom4te_2_53"
 elif test -x "$autoheader_2_52" ; then
@@ -496,6 +505,9 @@ automake_1_5=`type -p automake-1.5`
 aclocal_1_5=`type -p aclocal-1.5`
 automake_1_6=`type -p automake-1.6`
 aclocal_1_6=`type -p aclocal-1.6`
+automake_1_7=`type -p automake-1.7`
+aclocal_1_7=`type -p aclocal-1.7`
+
 if test -z "$UNSERMAKE"; then
   if test -x "$automake_1_5" ; then
      AUTOMAKE="$automake_1_5"
@@ -503,6 +515,9 @@ if test -z "$UNSERMAKE"; then
   elif test -x "$automake_1_6" ; then
      AUTOMAKE="$automake_1_6"
      ACLOCAL="$aclocal_1_6"
+   elif test -x "$automake_1_7" ; then
+      AUTOMAKE="$automake_1_7"
+      ACLOCAL="$aclocal_1_7"
   else
      AUTOMAKE="automake"
      ACLOCAL="aclocal"
