@@ -70,7 +70,7 @@ public:
     ~SIMServerSocket();
     virtual unsigned short port() { return m_nPort; }
     bool created() { return (sock != NULL); }
-    void bind(unsigned short mixPort, unsigned short maxPort, TCPClient *client);
+    void bind(unsigned short minPort, unsigned short maxPort, TCPClient *client);
 #ifndef WIN32
     void bind(const char *path);
 #endif

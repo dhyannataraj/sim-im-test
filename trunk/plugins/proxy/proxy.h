@@ -50,6 +50,7 @@ typedef struct ProxyData
 } ProxyData;
 
 class Proxy;
+class Listener;
 
 class ProxyPlugin : public Plugin, public EventReceiver
 {
@@ -65,7 +66,7 @@ public:
     PROP_STR(User);
     PROP_STR(Password);
     unsigned ProxyPacket;
-    list<Proxy*> proxies;
+    list<Proxy*>	proxies;
     ProxyData data;
     void clientData(Client*, ProxyData &data);
     static const DataDef *proxyData;
