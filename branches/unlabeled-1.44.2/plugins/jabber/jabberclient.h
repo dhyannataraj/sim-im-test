@@ -26,7 +26,6 @@
 
 class JabberProtocol;
 class JabberClient;
-class JabberBrowser;
 
 const unsigned JABBER_SIGN		= 0x0002;
 
@@ -34,10 +33,6 @@ const unsigned SUBSCRIBE_NONE	= 0;
 const unsigned SUBSCRIBE_FROM	= 1;
 const unsigned SUBSCRIBE_TO		= 2;
 const unsigned SUBSCRIBE_BOTH	= (SUBSCRIBE_FROM | SUBSCRIBE_TO);
-
-const unsigned BROWSE_DISCO		= 1;
-const unsigned BROWSE_BROWSE	= 2;
-const unsigned BROWSE_AGENTS	= 4;
 
 typedef struct JabberUserData
 {
@@ -103,15 +98,10 @@ typedef struct JabberClientData
     Data		MaxPort;
     Data		Photo;
     Data		Logo;
-    Data		browser_geo[5];
-    Data		browser_bar[7];
-    Data		BrowserHistory;
     Data		AutoSubscribe;
     Data		AutoAccept;
     Data		UseHTTP;
     Data		URL;
-    Data		AllLevels;
-    Data		BrowseType;
     JabberUserData	owner;
 } JabberClientData;
 
@@ -291,13 +281,10 @@ class MessageRequest : public ServerRequest
     PROP_USHORT(MaxPort);
     PROP_UTF8(Photo);
     PROP_UTF8(Logo);
-    PROP_UTF8(BrowserHistory);
     PROP_BOOL(AutoSubscribe);
     PROP_BOOL(AutoAccept);
     PROP_BOOL(UseHTTP);
     PROP_STR(URL);
-    PROP_BOOL(AllLevels);
-    PROP_ULONG(BrowseType);
 
     string		buildId(JabberUserData *data);
     JabberUserData	*findContact(const char *jid, const char *name, bool bCreate, Contact *&contact, string &resource);
@@ -330,7 +317,6 @@ class MessageRequest : public ServerRequest
     QString photoFile(JabberUserData*);
     QString logoFile(JabberUserData*);
     list<ServerRequest*>	m_requests;
-    JabberBrowser   *m_browser;
 
     string discoItems(const char *jid, const char *node);
     string discoInfo(const char *jid, const char *node);

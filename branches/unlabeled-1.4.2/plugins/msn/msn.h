@@ -39,6 +39,8 @@ public:
     unsigned EventAddOk;
     unsigned EventAddFail;
     unsigned MSNPacket;
+	unsigned MSNInitMail;
+	unsigned MSNNewMail;
 protected:
     Protocol *m_protocol;
 };

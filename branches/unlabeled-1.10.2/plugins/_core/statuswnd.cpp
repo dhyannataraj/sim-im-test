@@ -398,6 +398,8 @@ BalloonMsg *StatusWnd::showError(const QString &text, QStringList &buttons, Clie
     StatusLabel *lbl = m_frame->findLabel(client);
     if (lbl == NULL)
         return NULL;
+	if (lbl->x() + lbl->width() > width())
+		return NULL;
     return new BalloonMsg(NULL, text, buttons, lbl);
 }
 

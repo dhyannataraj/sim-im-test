@@ -363,6 +363,7 @@ static DataDef coreData[] =
         { "NoJoinAlert", DATA_BOOL, 1, 0 },
         { "EnableSpell", DATA_BOOL, 1, 0 },
         { "RemoveHistory", DATA_BOOL, 1, DATA(1) },
+		{ "SearchGeometry", DATA_ULONG, 5, DATA(0) },
         { NULL, 0, 0, 0 }
     };
 
@@ -1634,9 +1635,10 @@ void *CorePlugin::processEvent(Event *e)
             QStringList l;
             l.append(i18n("OK"));
             m_alert = new BalloonMsg(NULL,
+					quoteString(
                                      i18n("At loading contact list contacts with identical names were automatically joined.\n"
                                           "If it is wrong, you can separate them. "
-                                          "For this purpose in contact menu choose the necessary name and choose a command \"Separate\"."),
+                                          "For this purpose in contact menu choose the necessary name and choose a command \"Separate\".")),
                                      l, widget, NULL, false, true, 150, i18n("Don't show this message in next time"));
             connect(m_alert, SIGNAL(finished()), this, SLOT(alertFinished()));
         }
@@ -2961,6 +2963,13 @@ void *CorePlugin::processEvent(Event *e)
                 if (m_search == NULL){
                     m_search = new SearchDialog;
                     connect(m_search, SIGNAL(finished()), this, SLOT(dialogFinished()));
+					if ((data.SearchGeo[WIDTH].value == 0) || (data.SearchGeo[HEIGHT].value == 0)){
+						data.SearchGeo[WIDTH].value  = 500;
+						data.SearchGeo[HEIGHT].value = 380;
+						restoreGeometry(m_search, data.SearchGeo, false, true);
+					}else{
+						restoreGeometry(m_search, data.SearchGeo, true, true);
+					}
                 }
                 raiseWindow(m_search);
                 return NULL;

@@ -155,15 +155,10 @@ static DataDef jabberClientData[] =
         { "MaxPort", DATA_ULONG, 1, DATA(0xFFFF) },
         { "Photo", DATA_UTF, 1, 0 },
         { "Logo", DATA_UTF, 1, 0 },
-        { "Browser", DATA_ULONG, 5, 0 },
-        { "BrowserBar", DATA_LONG, 7, 0 },
-        { "BrowserHistory", DATA_UTF, 1, 0 },
         { "AutoSubscribe", DATA_BOOL, 1, DATA(1) },
         { "AutoAccept", DATA_BOOL, 1, DATA(1) },
         { "UseHTTP", DATA_BOOL, 1, 0 },
         { "URL", DATA_STRING, 1, 0 },
-        { "AllLevels", DATA_BOOL, 1, 0 },
-        { "BrowseType", DATA_ULONG, 1, DATA(BROWSE_DISCO | BROWSE_BROWSE | BROWSE_AGENTS) },
         { "", DATA_STRUCT, sizeof(JabberUserData) / sizeof(Data), DATA(jabberUserData) },
         { NULL, 0, 0, 0 }
     };
@@ -205,15 +200,12 @@ JabberClient::JabberClient(JabberProtocol *protocol, const char *cfg)
     m_bSSL		 = false;
     m_curRequest = NULL;
     m_msg_id	 = 0;
-    m_browser	 = NULL;
     m_bJoin		 = false;
     init();
 }
 
 JabberClient::~JabberClient()
 {
-    if (m_browser)
-        delete m_browser;
     TCPClient::setStatus(STATUS_OFFLINE, false);
     free_data(jabberClientData, &data);
     freeData();
@@ -252,8 +244,6 @@ string JabberClient::getConfig()
     string res = Client::getConfig();
     if (res.length())
         res += "\n";
-    if (m_browser)
-        m_browser->save();
     return res += save_data(jabberClientData, &data);
 }
 
@@ -399,144 +389,6 @@ void *JabberClient::processEvent(Event *e)
             }
         }
         return NULL;
-    }
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
-        if (cmd->id == CmdBrowser){
-            cmd->flags &= ~COMMAND_CHECKED;
-            if (getState() != Connected)
-                return NULL;
-            if (cmd->menu_id == MenuMain){
-                unsigned n = 0;
-                for (unsigned i = 0; i < getContacts()->nClients(); i++){
-                    Client *client = getContacts()->getClient(i);
-                    if (client->protocol() != protocol())
-                        continue;
-                    if (client->getState() != Connected)
-                        continue;
-                    n++;
-                }
-                if (n > 1){
-                    cmd->popup_id = MenuClients;
-                }else{
-                    cmd->popup_id = 0;
-                }
-                return e->param();
-            }
-            if (cmd->menu_id == MenuClients){
-                unsigned n = getContacts()->nClients() + 1;
-                CommandDef *cmds = new CommandDef[n];
-                memset(cmds, 0, sizeof(CommandDef) * n);
-                n = 0;
-                for (unsigned i = 0; i < getContacts()->nClients(); i++){
-                    Client *client = getContacts()->getClient(i);
-                    if (client->protocol() != protocol())
-                        continue;
-                    if (client->getState() != Connected)
-                        continue;
-                    JabberClient *jc = static_cast<JabberClient*>(client);
-                    QString url;
-                    if (jc->getUseVHost())
-                        url = QString::fromUtf8(jc->getVHost());
-                    if (url.isEmpty())
-                        url = QString::fromUtf8(jc->getServer());
-                    cmds[n].id       = CmdBrowser + i;
-                    cmds[n].text     = "_";
-                    cmds[n].text_wrk = strdup(url.utf8());
-                    n++;
-                }
-                cmd->param = cmds;
-                cmd->flags |= COMMAND_RECURSIVE;
-                return e->param();
-            }
-            Contact *contact = getContacts()->contact((unsigned)(cmd->param));
-            if (contact == NULL)
-                return NULL;
-            clientData *data;
-            ClientDataIterator it(contact->clientData, this);
-            while ((data = ++it) != NULL)
-                return e->param();
-            ClientDataIterator it1(contact->clientData);
-            while ((data = ++it1) != NULL){
-                if (isMyData(data, contact))
-                    return e->param();
-            }
-            return NULL;
-        }
-    }
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
-        if (cmd->menu_id == MenuClients){
-            unsigned n = cmd->id - CmdBrowser;
-            if (n >= getContacts()->nClients())
-                return NULL;
-            Client *client = getContacts()->getClient(n);
-            if (client->protocol() != protocol())
-                return NULL;
-            if (getState() != Connected)
-                return NULL;
-            JabberClient *jc = static_cast<JabberClient*>(client);
-            if (jc->m_browser == NULL)
-                jc->m_browser = new JabberBrowser(jc);
-            if (!jc->m_browser->isVisible()){
-                if (jc->data.browser_geo[WIDTH].value && jc->data.browser_geo[HEIGHT].value){
-                    jc->data.browser_geo[WIDTH].value  = 600;
-                    jc->data.browser_geo[HEIGHT].value = 400;
-                    restoreGeometry(jc->m_browser, jc->data.browser_geo, false, true);
-                }else{
-                    restoreGeometry(jc->m_browser, jc->data.browser_geo, true, true);
-                }
-            }
-            QString url;
-            if (jc->getUseVHost())
-                url = QString::fromUtf8(jc->getVHost());
-            if (url.isEmpty())
-                url = QString::fromUtf8(jc->getServer());
-            jc->m_browser->goUrl(url, "");
-            raiseWindow(jc->m_browser);
-            return e->param();
-        }
-        if (cmd->id == CmdBrowser){
-            if (getState() != Connected)
-                return NULL;
-            if (m_browser == NULL){
-                m_browser = new JabberBrowser(this);
-                bool bSize = (data.browser_geo[WIDTH].value && data.browser_geo[HEIGHT].value);
-                restoreGeometry(m_browser, data.browser_geo, bSize, bSize);
-            }
-            QString url;
-            if (cmd->menu_id == MenuMain){
-                if (getUseVHost())
-                    url = QString::fromUtf8(getVHost());
-                if (url.isEmpty())
-                    url = QString::fromUtf8(getServer());
-            }else{
-                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
-                if (contact){
-                    clientData *data;
-                    ClientDataIterator it(contact->clientData, this);
-                    while ((data = ++it) != NULL){
-                        JabberUserData *d = (JabberUserData*)data;
-                        url = QString::fromUtf8(d->ID.ptr);
-                    }
-                    if (url.isEmpty()){
-                        ClientDataIterator it(contact->clientData);
-                        while ((data = ++it) != NULL){
-                            if (!isMyData(data, contact))
-                                continue;
-                            JabberUserData *d = (JabberUserData*)data;
-                            url = QString::fromUtf8(d->ID.ptr);
-                        }
-                    }
-                }
-            }
-            int n = url.find("/");
-            if (n > 0)
-                url = url.left(n);
-            m_browser->goUrl(url, "");
-            raiseWindow(m_browser);
-            return e->param();
-        }
     }
     if (e->type() == EventGoURL){
         string url = (const char*)(e->param());
@@ -796,10 +648,6 @@ void JabberClient::setStatus(unsigned status, const char *ar)
 
 void JabberClient::disconnected()
 {
-    if (m_browser){
-        delete m_browser;
-        m_browser = NULL;
-    }
     if (m_bXML){
         xmlFreeParserCtxt(m_context);
         m_bXML = false;

@@ -4049,6 +4049,10 @@ SOURCE=.\xpm\cell.xpm
 # End Source File
 # Begin Source File
 
+SOURCE=.\xpm\chat.xpm
+# End Source File
+# Begin Source File
+
 SOURCE=.\xpm\collapsed.xpm
 # End Source File
 # Begin Source File

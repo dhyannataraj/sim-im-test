@@ -22,9 +22,9 @@
 #include "xpm/jabber.xpm"
 #include "xpm/register.xpm"
 
-Plugin *createJabberPlugin(unsigned base, bool, const char*)
+Plugin *createJabberPlugin(unsigned base, bool, const char *cfg)
 {
-    Plugin *plugin = new JabberPlugin(base);
+    Plugin *plugin = new JabberPlugin(base, cfg);
     return plugin;
 }
 
@@ -55,7 +55,6 @@ Client *JabberProtocol::createClient(const char *cfg)
 {
     return new JabberClient(this, cfg);
 }
-
 
 static CommandDef jabber_descr =
     {
@@ -197,13 +196,25 @@ const CommandDef *JabberProtocol::statusList()
 void qInitJpeg();
 #endif
 
-JabberPlugin::JabberPlugin(unsigned base)
+DataDef jabberData[] =
+{
+        { "BrowserBar", DATA_LONG, 7, 0 },
+        { "BrowserHistory", DATA_UTF, 1, 0 },
+        { "AllLevels", DATA_BOOL, 1, 0 },
+        { "BrowseType", DATA_ULONG, 1, DATA(BROWSE_DISCO | BROWSE_BROWSE | BROWSE_AGENTS) },
+        { NULL, 0, 0, 0 }
+};
+
+JabberPlugin *JabberPlugin::plugin = NULL;
+
+JabberPlugin::JabberPlugin(unsigned base, const char *cfg)
         : Plugin(base)
 {
 #if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
     qInitJpeg();
 #endif
-
+	plugin = this;
+	load_data(jabberData, &data, cfg);
     JabberPacket = registerType();
     getContacts()->addPacketType(JabberPacket, jabber_descr.text, true);
 
@@ -221,8 +232,6 @@ JabberPlugin::JabberPlugin(unsigned base)
     eMenuSearch.process();
     Event eMenuGroups(EventMenuCreate, (void*)MenuJabberGroups);
     eMenuGroups.process();
-    Event eMenuClients(EventMenuCreate, (void*)MenuClients);
-    eMenuClients.process();
     Event eMenuBrowser(EventMenuCreate, (void*)MenuBrowser);
     eMenuBrowser.process();
     Event eToolbar(EventToolbarCreate, (void*)BarBrowser);
@@ -254,15 +263,7 @@ JabberPlugin::JabberPlugin(unsigned base)
     cmd->id			 = CmdGroups;
     cmd->text		 = "_";
     cmd->menu_id	 = MenuJabberGroups;
-    cmd->flags		 = COMMAND_CHECK_STATE;
-    eCmd.process();
-
-    cmd->id			 = CmdBrowser;
-    cmd->text		 = I18N_NOOP("Jabber browser");
-    cmd->icon		 = "Jabber_online";
-    cmd->menu_grp	 = 0x20F0;
-    cmd->menu_id	 = MenuMain;
-    cmd->popup_id	 = 0;
+	cmd->popup_id	 = 0;
     cmd->flags		 = COMMAND_CHECK_STATE;
     eCmd.process();
 
@@ -328,21 +329,14 @@ JabberPlugin::JabberPlugin(unsigned base)
     cmd->popup_id	 = MenuBrowser;
     eCmd.process();
 
-    cmd->id			 = CmdBrowser;
-    cmd->text		 = "_";
-    cmd->icon		 = NULL;
-    cmd->menu_grp	 = 0x1000;
-    cmd->menu_id	 = MenuClients;
-    cmd->bar_grp	 = 0;
-    cmd->bar_id		 = 0;
-    cmd->popup_id	 = 0;
-    cmd->flags		 = COMMAND_CHECK_STATE;
-    eCmd.process();
-
     cmd->id			 = CmdOneLevel;
     cmd->text		 = I18N_NOOP("Load one level");
+    cmd->icon		 = NULL;
+	cmd->bar_id		 = 0;
+	cmd->bar_grp	 = 0;
     cmd->menu_id	 = MenuBrowser;
     cmd->menu_grp	 = 0x1000;
+	cmd->popup_id	 = 0;
     eCmd.process();
 
     cmd->id			 = CmdAllLevels;
@@ -379,20 +373,21 @@ JabberPlugin::~JabberPlugin()
     Event eMenuGroups(EventMenuRemove, (void*)MenuJabberGroups);
     eMenuGroups.process();
 
-    Event eMenuClients(EventMenuRemove, (void*)MenuClients);
-    eMenuClients.process();
-
     Event eMenuBrowser(EventMenuRemove, (void*)MenuBrowser);
-    eMenuClients.process();
-
-    Event eCmdBrowser(EventCommandRemove, (void*)CmdBrowser);
-    eMenuGroups.process();
+    eMenuBrowser.process();
 
     Event eToolbar(EventToolbarRemove, (void*)BarBrowser);
     eToolbar.process();
 
     delete m_protocol;
     getContacts()->removePacketType(JabberPacket);
+
+	free_data(jabberData, &data);
+}
+
+string JabberPlugin::getConfig()
+{
+	return save_data(jabberData, &data);
 }
 
 #ifdef WIN32

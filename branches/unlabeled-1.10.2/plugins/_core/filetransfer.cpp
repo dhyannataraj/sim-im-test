@@ -144,7 +144,7 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
                 buttons.append(i18n("&Skip"));
                 if (bCanResume && (ft->m_file->size() < size))
                     buttons.append(i18n("Resu&me"));
-                m_dlg->m_ask = new BalloonMsg(NULL, i18n("File %1 exists") .arg(shortName),
+                m_dlg->m_ask = new BalloonMsg(NULL, quoteString(i18n("File %1 exists") .arg(shortName)),
                                               buttons, m_dlg->lblState, NULL, false, true, 150, forAll);
                 QObject::connect(m_dlg->m_ask, SIGNAL(action(int, void*)), m_dlg, SLOT(action(int, void*)));
                 raiseWindow(m_dlg);

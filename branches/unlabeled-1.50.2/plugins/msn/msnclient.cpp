@@ -1379,6 +1379,19 @@ bool MSNClient::done(unsigned code, Buffer&, const char *headers)
 void *MSNClient::processEvent(Event *e)
 {
     TCPClient::processEvent(e);
+	if (e->type() == EventCommandExec){
+		CommandDef *cmd = (CommandDef*)(e->param());
+		if (cmd->id == static_cast<MSNPlugin*>(protocol()->plugin())->MSNInitMail){
+			Event eGo(EventGoURL, (void*)m_init_mail.c_str());
+			eGo.process();
+			return e->param();
+		}
+		if (cmd->id == static_cast<MSNPlugin*>(protocol()->plugin())->MSNNewMail){
+			Event eGo(EventGoURL, (void*)m_new_mail.c_str());
+			eGo.process();
+			return e->param();
+		}
+	}
     if (e->type() == EventAddContact){
         addContact *ac = (addContact*)(e->param());
         if (ac->proto && !strcmp(protocol()->description()->text, ac->proto)){

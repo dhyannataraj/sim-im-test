@@ -255,6 +255,8 @@ protected:
     };
     AuthState	 m_state;
     string		 m_authChallenge;
+	string		 m_init_mail;
+	string		 m_new_mail;
     bool		 m_bFirstTry;
     bool		 m_bHTTP;
     bool		 m_bFirst;

@@ -106,6 +106,7 @@ typedef struct CoreData
     Data	NoJoinAlert;
     Data	EnableSpell;
     Data	RemoveHistory;
+	Data	SearchGeo[5];
 } CoreData;
 
 const unsigned CONTAINER_SIMPLE	= 0;
