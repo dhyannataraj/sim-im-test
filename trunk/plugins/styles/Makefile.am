@@ -10,7 +10,7 @@ styles_la_SOURCES = \
 INCLUDES=-I../../sim/api -I../../sim/ui $(all_includes)
 
 styles_la_METASOURCES = AUTO
-styles_la_LIBADD = ../../sim/api/libsimapi.la ../../sim/ui/libsimui.la $(LIB_QT) $(EXTRA_LIBS) $(XSS_LIBS)
+styles_la_LIBADD = ../../sim/api/libsimapi.la ../../sim/ui/libsimui.la $(LIB_QT) $(EXTRA_LIBS) 
 styles_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 install-data-hook:
