@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-07-06 21:37+0200\n"
-"PO-Revision-Date: 2004-07-07 00:00+0100\n"
+"PO-Revision-Date: 2004-07-07 00:56+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: Deutsch\n"
 "MIME-Version: 1.0\n"
@@ -62,11 +62,12 @@ msgstr "Automatische Nachricht"
 
 #: plugins/_core/autoreply.cpp:51
 #: plugins/_core/autoreply.cpp:97
+#, c-format
 msgid ""
 "_n: Close after %n second\n"
 "Close after %n seconds"
 msgstr ""
-"Schließt in einer Sekunde\n"
+"Schließt in %n Sekunde\n"
 "Schließt in %n Sekunden"
 
 #: plugins/_core/cfgdlg.cpp:274
@@ -1122,6 +1123,14 @@ msgid "&Refuse"
 msgstr "&Ablehnen"
 
 #: plugins/_core/msgedit.cpp:728
+#, c-format
+msgid ""
+"_n: Authorization granted\n"
+"%n authorization granted"
+msgstr ""
+"Authorisierung genehmigt\n"
+"%n Authorisierungen genehmigt"
+
 #: plugins/_core/msgedit.cpp:749
 #, c-format
 msgid ""
@@ -1277,7 +1286,7 @@ msgid ""
 "%n contacts found"
 msgstr ""
 "Ein Kontakt gefunden\n"
-"%n Kontakte gefunden "
+"%n Kontakte gefunden"
 
 #: plugins/_core/status.cpp:72
 #: plugins/_core/statuswnd.cpp:88
