@@ -1285,8 +1285,19 @@ else
   qt_libdir=NONE
   for dir in $qt_libdirs; do
     try="ls -1 $dir/${LIBQT_GLOB}"
-    if test -n "`$try 2> /dev/null`"; then qt_libdir=$dir; break; else echo "tried $dir" >&AC_FD_CC ;
- fi
+    if test -n "`$try 2> /dev/null`"; then 
+	qt_libdir=$dir; break; 
+    else 
+      try="ls -1 $dir/libqt${kde_qtver}.*"
+      if test "x$kde_use_qt_mt" = "xyes"; then 
+	try="ls -1 $dir/libqt${kde_qtver}-mt.*"
+      fi
+      if test -n "`$try 2> /dev/null`"; then
+	qtlib="qt${kde_qtver}"
+	qt_libdir=$dir; break;
+      else echo "tried $dir" >&AC_FD_CC ;
+      fi
+    fi
   done
 fi
 

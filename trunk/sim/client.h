@@ -22,6 +22,8 @@
 
 #include "icqclient.h"
 
+#undef HAVE_KEXTSOCK_H
+
 class QDns;
 class QSocket;
 class QSocketDevice;
@@ -48,7 +50,7 @@ typedef struct searchResult
     bool auth;
 } searchResult;
 
-#ifdef USE_KDE
+#ifdef HAVE_KEXTSOCK_H
 class KExtendedSocket;
 #endif
 

@@ -146,6 +146,7 @@ void ICQClient::packet_ready()
         unsigned short sequence, size;
         sock->readBuffer >> sequence >> size;
         if (size){
+	    log(L_DEBUG, "? packet size=%u", size);
             sock->readBuffer.add(size);
             m_bHeader = false;
             return;

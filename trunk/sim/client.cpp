@@ -38,6 +38,8 @@
 
 #include <string>
 
+#undef HAVE_KEXTSOCK_H
+
 #ifdef USE_KDE
 #include <kglobal.h>
 #include <kcharsets.h>
@@ -876,7 +878,6 @@ void QClientSocket::slotLookupFinished(int state)
 
 int QClientSocket::read(char *buf, unsigned int size)
 {
-    int n = sock->bytesAvailable();
     int res = sock->readBlock(buf, size);
     if (res < 0){
 #ifdef HAVE_KEXTSOCK_H

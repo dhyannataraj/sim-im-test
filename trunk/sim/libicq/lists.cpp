@@ -112,15 +112,10 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                         user->GrpId = grp_id;
                         user->Alias = alias;
                         user->WaitAuth = needAuth;
-
                         Tlv *tlv_phone = NULL;
-
                         if (inf) tlv_phone = (*inf)(0x13A);
-
                         if (tlv_phone)
-
                             user->Phones.add(*tlv_phone, "Private cellular", SMS, true);
-
                         break;
                     }
                 case ICQ_GROUPS:{
@@ -171,7 +166,11 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             unsigned long time;
             sock->readBuffer >> time;
 
-            if (time == 0) break;
+            if (time == 0){
+            	snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_UNKNOWN);
+            	sendPacket();
+		break;
+	    } 
 
             contacts.Time = time;
             for (;;){
