@@ -422,6 +422,7 @@ void Container::contactSelected(int)
     cmd->flags = BTN_PICT;
     Event e(EventCommandChange, cmd);
     m_bar->processEvent(&e);
+    setMessageType(userWnd->type());
     setIcon(Pict(cmd->icon));
     setCaption(userWnd->getLongName());
     m_bar->checkState();
@@ -599,12 +600,12 @@ void *Container::processEvent(Event *e)
 #else
 #if defined(USE_KDE)
 #if KDE_IS_VERSION(3,2,0)
-if (!isActiveWindow()){
-            msg = (Message*)(e->param());
-            userWnd = wnd(msg->contact());
-            if (userWnd)
-                KWin::demandAttention(winId(), true);
-        }
+            if (!isActiveWindow()){
+                msg = (Message*)(e->param());
+                userWnd = wnd(msg->contact());
+                if (userWnd)
+                    KWin::demandAttention(winId(), true);
+            }
 #endif	/* KDE_IS_VERSION(3,2,0) */
 #endif	/* USE_KDE */
 #endif	/* ndef WIN32 */

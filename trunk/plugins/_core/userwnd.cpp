@@ -66,11 +66,16 @@ UserWnd::UserWnd(unsigned id, const char *cfg, bool bReceived)
     connect(m_edit, SIGNAL(heightChanged(int)), this, SLOT(editHeightChanged(int)));
     modeChanged();
 
-    if (data.MessageType.value == 0)
+    if (getMessageType() == 0)
         return;
-    Message *msg = new Message(MessageGeneric);
-    setMessage(msg);
-    delete msg;
+
+    if (!m_edit->adjustType()){
+        unsigned type = getMessageType();
+        Message *msg = new Message(MessageGeneric);
+        setMessage(msg);
+        delete msg;
+        setMessageType(type);
+    }
 }
 
 UserWnd::~UserWnd()
@@ -188,6 +193,11 @@ void UserWnd::toolbarChanged(QToolBar*)
     memcpy(CorePlugin::m_plugin->data.editBar, data.editBar, sizeof(data.editBar));
 }
 
+unsigned UserWnd::type()
+{
+    return m_edit->type();
+}
+
 void UserWnd::setMessage(Message *&msg)
 {
     bool bSetFocus = false;
@@ -199,7 +209,6 @@ void UserWnd::setMessage(Message *&msg)
             bSetFocus = true;
     }
 
-    data.MessageType.value = msg->type();
     if (!m_edit->setMessage(msg, bSetFocus)){
         delete msg;
         msg = new Message(MessageGeneric);

@@ -72,6 +72,8 @@ public:
     bool		m_bReceived;
     unsigned	m_flags;
     void		execCommand(CommandDef *cmd);
+    unsigned	type() { return m_type; }
+    bool		adjustType();
 signals:
     void heightChanged(int);
     void init();
@@ -101,6 +103,7 @@ protected:
     void typingStop();
     void changeTyping(Client *client, void *data);
     void setEmptyMessage();
+    bool setType(unsigned type);
     bool	m_bTyping;
     string	m_typingClient;
     bool send();

@@ -46,6 +46,7 @@ public:
     QString getName();
     QString getLongName();
     const char *getIcon();
+    unsigned type();
     void setMessage(Message*&);
     void setStatus(const QString&);
     void showListView(bool bShow);
@@ -54,6 +55,7 @@ public:
     void markAsRead();
     bool isClosed() { return m_bClosed; }
     bool m_bTyping;
+    PROP_ULONG(MessageType);
 signals:
     void closed(UserWnd*);
     void statusChanged(UserWnd*);
