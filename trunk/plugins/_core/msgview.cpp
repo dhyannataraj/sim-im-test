@@ -534,8 +534,8 @@ void MsgViewBase::sync(unsigned n)
             getCursorPosition(&savePara, &saveIndex);
             int para = n;
             int index = 0;
-            while (find(m_selectStr, false, false, true, &para, &index, false)){
-                setSelection(para, index, para, index + m_selectStr.length(), ++m_nSelection, false);
+            while (find(m_selectStr, false, false, true, &para, &index)){
+                setSelection(para, index, para, index + m_selectStr.length(), ++m_nSelection);
                 setSelectionAttributes(m_nSelection, colorGroup().highlight(), true);
                 index += m_selectStr.length();
             }
