@@ -148,12 +148,12 @@ void NewProtocol::protocolChanged(int n)
     connect(m_setup, SIGNAL(okEnabled(bool)), this, SLOT(okEnabled(bool)));
     connect(this, SIGNAL(apply()), m_setup, SLOT(apply()));
     addPage(m_setup, i18n(protocol->description()->text));
-    Event e(EventClientConfig, m_setup);
-    e.process();
     m_connectWnd = new ConnectWnd;
     addPage(m_connectWnd, i18n(protocol->description()->text));
     setNextEnabled(currentPage(), true);
     setIcon(Pict(protocol->description()->icon));
+    Event e(EventRaiseWindow, this);
+    e.process();
 }
 
 void NewProtocol::okEnabled(bool bEnable)

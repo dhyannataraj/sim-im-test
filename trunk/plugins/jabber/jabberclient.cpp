@@ -219,7 +219,8 @@ string JabberClient::getConfig()
 string JabberClient::name()
 {
     string res = "Jabber.";
-    res += data.owner.ID;
+    if (data.owner.ID)
+        res += data.owner.ID;
     return res;
 }
 

@@ -545,7 +545,7 @@ void HTTPS_Proxy::connect(const char *host, int port)
     }
     m_host = host;
     m_port = port;
-    if (!strcmp(m_client->protocol()->description()->text, "ICQ"))
+    if (m_client->protocol()->description()->flags & PROTOCOL_ANY_PORT)
         m_port = 443;
     log(L_DEBUG, "Connect to proxy HTTPS %s:%u", getHost(), getPort());
     m_sock->connect(getHost(), getPort());
@@ -1322,6 +1322,17 @@ void ProxyPlugin::clientData(Client *client, ProxyData &cdata)
     clear_list(&cdata.Clients);
 }
 
+static QObject *findObject(QObject *w, const char *className)
+{
+    QObject *res = NULL;
+    QObjectList *l = w->queryList(className);
+    QObjectListIt it(*l);
+    if (it.current() != NULL)
+        res = it.current();
+    delete l;
+    return res;
+}
+
 void *ProxyPlugin::processEvent(Event *e)
 {
     if (e->type() == EventSocketConnect){
@@ -1353,16 +1364,16 @@ void *ProxyPlugin::processEvent(Event *e)
             return e->param();
         }
     }
-    if (e->type() == EventClientConfig){
-        QTabWidget *tab = NULL;
-        NewProtocol *w = (NewProtocol*)(e->param());
-        QObjectList *l = w->queryList("QTabWidget");
-        QObjectListIt it(*l);
-        if (it.current() != NULL)
-            tab = static_cast<QTabWidget*>(it.current());
-        delete l;
+    if (e->type() == EventRaiseWindow){
+        QWidget *w = (QWidget*)(e->param());
+        if (!w->inherits("NewProtocol"))
+            return NULL;
+        ProxyConfig *cfg = static_cast<ProxyConfig*>(findObject(w, "ProxyConfig"));
+        if (cfg)
+            return NULL;
+        QTabWidget *tab  = static_cast<QTabWidget*>(findObject(w, "QTabWidget"));
         if (tab){
-            QWidget *cfg = new ProxyConfig(tab, this, tab, w->m_client);
+            cfg = new ProxyConfig(tab, this, tab, static_cast<NewProtocol*>(w)->m_client);
             QObject::connect(tab->topLevelWidget(), SIGNAL(apply()), cfg, SLOT(apply()));
         }
     }

@@ -22,12 +22,10 @@
 
 #include <stdio.h>
 
-#ifdef USE_MD5_LOGIN
 #ifdef USE_OPENSSL
 #include <openssl/md5.h>
 #else
 #include "md5.h"
-#endif
 #endif
 
 const unsigned short ICQ_SNACxLOGIN_ERROR				= 0x0001;
@@ -66,40 +64,39 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
         setState(Connecting);
         m_socket->connect(getServer(), getPort(), this);
         break;
-#ifdef USE_MD5_AUTH
-    case ICQ_SNACxLOGIN_AUTHxKEYxRESPONSE:{
-            unsigned long size;
-            m_socket->readBuffer >> size;
-            log(L_DEBUG, "Size: %u", size);
+    case ICQ_SNACxLOGIN_AUTHxKEYxRESPONSE:
+        if (data.owner.Screen){
             string md5_key;
-            md5_key.append(size, '\x00');
-            m_socket->readBuffer.unpack((char*)md5_key.c_str(), size);
-            snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_MD5xLOGIN);
-            m_socket->writeBuffer.tlv(0x0001, number(data.owner.Uin).c_str());
-            m_socket->writeBuffer.tlv(0x0003, "AOL Instant Messenger (SM)");
+            m_socket->readBuffer.unpackStr(md5_key);
+            snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_MD5xLOGIN, false, false);
+            m_socket->writeBuffer.tlv(0x0001, data.owner.Screen);
             MD5_CTX c;
             unsigned char md[MD5_DIGEST_LENGTH];
-            MD5_Init(&c);
-            MD5_Update(&c, md5_key.c_str(), size);
+            MD5_Update(&c, md5_key.c_str(), md5_key.length());
             string pswd = fromUnicode(getPassword(), &data.owner);
             MD5_Update(&c, pswd.c_str(), pswd.length());
             pswd = "AOL Instant Messenger (SM)";
             MD5_Update(&c, pswd.c_str(), pswd.length());
             MD5_Final(md, &c);
-            m_socket->writeBuffer.tlv(0x0025, (char*)md, sizeof(md));
+
+            m_socket->writeBuffer.tlv(0x0025, (char*)&md, sizeof(md));
+            m_socket->writeBuffer.tlv(0x004C);
+            m_socket->writeBuffer.tlv(0x0003, pswd.c_str());
             m_socket->writeBuffer.tlv(0x0016, (unsigned short)0x0109);
             m_socket->writeBuffer.tlv(0x0017, (unsigned short)0x0005);
-            m_socket->writeBuffer.tlv(0x0018, (unsigned short)0x0001);
+            m_socket->writeBuffer.tlv(0x0018, (unsigned short)0x0002);
             m_socket->writeBuffer.tlv(0x0019, (unsigned short)0x0000);
-            m_socket->writeBuffer.tlv(0x001A, (unsigned short)0x0BDC);
-            m_socket->writeBuffer.tlv(0x0014, (unsigned long)0x00D2);
+            m_socket->writeBuffer.tlv(0x001A, (unsigned short)0x0CDC);
+            m_socket->writeBuffer.tlv(0x0014, (unsigned long)0x00EE);
             m_socket->writeBuffer.tlv(0x000F, "en");
             m_socket->writeBuffer.tlv(0x000E, "us");
             m_socket->writeBuffer.tlv(0x004A, "\x01");
             sendPacket();
-            break;
         }
-#endif
+        break;
+    case ICQ_SNACxLOGIN_LOGINxREPLY:
+        chn_close();
+        break;
     default:
         log(L_WARN, "Unknown login family type %04X", type);
     }
@@ -116,13 +113,6 @@ void ICQClient::chn_login()
         return;
     }
     if (data.owner.Uin){
-#ifdef USE_MD5_AUTH
-        snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_AUTHxREQUEST);
-        m_socket->writeBuffer.tlv(0x0001, number(data.owner.Uin).c_str());
-        m_socket->writeBuffer.tlv(0x004B);
-        m_socket->writeBuffer.tlv(0x005A);
-        sendPacket();
-#else
         string pswd = cryptPassword();
         log(L_DEBUG, "Login %lu [%s]", data.owner.Uin, pswd.c_str());
         char uin[20];
@@ -155,9 +145,19 @@ void ICQClient::chn_login()
         m_socket->writeBuffer.tlv(0x000e, "us");
         sendPacket();
         return;
-#endif
+    }
+    if (data.owner.Screen && *data.owner.Screen){
+        flap(ICQ_CHNxNEW);
+        m_socket->writeBuffer << 0x00000001L;
+        sendPacket();
+        snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_AUTHxREQUEST, false, false);
+        m_socket->writeBuffer.tlv(0x0001, data.owner.Screen);
+        m_socket->writeBuffer.tlv(0x004B);
+        m_socket->writeBuffer.tlv(0x005A);
+        sendPacket();
         return;
     }
+
     flap(ICQ_CHNxNEW);
     m_socket->writeBuffer << 0x00000001L;
     sendPacket();

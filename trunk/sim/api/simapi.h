@@ -642,11 +642,6 @@ typedef struct ConnectParam
     unsigned short	port;
 } ConnectParam;
 
-/* Event client config
-   param is QWidget*
-*/
-const unsigned EventClientConfig	= 0x1002;
-
 /* Event send & receive message
 */
 
@@ -1227,6 +1222,7 @@ const unsigned PROTOCOL_INVISIBLE		= 0x080000;
 const unsigned PROTOCOL_AR				= 0x100000;
 const unsigned PROTOCOL_AR_USER			= 0x200000;
 const unsigned PROTOCOL_FOLLOWME		= 0x400000;
+const unsigned PROTOCOL_ANY_PORT		= 0x800000;
 
 class ContactList;
 class Client;

@@ -25,10 +25,13 @@
 #ifdef WIN32
 #include <winsock.h>
 #else
+#include <sys/socket.h>
+#include <sys/time.h>
+#include <netinet/in.h>
+#include <netdb.h>
 #include <arpa/inet.h>
 #include <ctype.h>
 #endif
-#include <time.h>
 
 #include <qtextcodec.h>
 #include <qfile.h>

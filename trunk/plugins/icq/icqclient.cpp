@@ -17,6 +17,7 @@
 
 #include "icq.h"
 #include "icqconfig.h"
+#include "aimconfig.h"
 #include "icqinfo.h"
 #include "homeinfo.h"
 #include "workinfo.h"
@@ -233,7 +234,7 @@ typedef struct ICQClientData
 
 static DataDef icqClientData[] =
     {
-        { "Server", DATA_STRING, 1, (unsigned)"login.icq.com" },
+        { "Server", DATA_STRING, 1, 0 },
         { "ServerPort", DATA_ULONG, 1, 5190 },
         { "ContactTime", DATA_ULONG, 1, 0 },
         { "ContactLength", DATA_ULONG, 1, 0 },
@@ -256,59 +257,66 @@ static DataDef icqClientData[] =
         { NULL, 0, 0, 0 }
     };
 
-ENCODING encodingTbl[] =
+static ENCODING _encodingTbl[] =
     {
-        { I18N_NOOP("Unicode"), "UTF-8", 106, true },
+        { I18N_NOOP("Unicode"), "UTF-8", 106, 0, true },
 
-        { I18N_NOOP("Arabic"), "ISO 8859-6", 82, false },
-        { I18N_NOOP("Arabic"), "CP 1256", 2256, true },
+        { I18N_NOOP("Arabic"), "ISO 8859-6", 82, 180, false },
+        { I18N_NOOP("Arabic"), "CP 1256", 2256, 180, true },
 
-        { I18N_NOOP("Baltic"), "ISO 8859-13", 109, false },
-        { I18N_NOOP("Baltic"), "CP 1257", 2257, true },
+        { I18N_NOOP("Baltic"), "ISO 8859-13", 109, 186, false },
+        { I18N_NOOP("Baltic"), "CP 1257", 2257, 186, true },
 
-        { I18N_NOOP("Central European"), "ISO 8859-2", 5, false },
-        { I18N_NOOP("Esperanto"), "ISO 8859-3", 6, false },
-        { I18N_NOOP("Central European"), "CP 1250", 2250, true },
+        { I18N_NOOP("Central European"), "ISO 8859-2", 5, 238, false },
+        { I18N_NOOP("Esperanto"), "ISO 8859-3", 6, 238, false },
+        { I18N_NOOP("Central European"), "CP 1250", 2250, 238, true },
 
-        { I18N_NOOP("Chinese "), "GBK", 2025, false },
-        { I18N_NOOP("Chinese Simplified"), "gbk2312", 2312, false },
-        { I18N_NOOP("Chinese Traditional"), "Big5", 2026, true },
+        { I18N_NOOP("Chinese "), "GBK", 2025, 134, false },
+        { I18N_NOOP("Chinese Simplified"), "gbk2312",2312, 134, false },
+        { I18N_NOOP("Chinese Traditional"), "Big5",2026, 136, true },
 
-        { I18N_NOOP("Cyrillic"), "ISO 8859-5", 8, false },
-        { I18N_NOOP("Cyrillic"), "KOI8-R", 2084, false },
-        { I18N_NOOP("Ukrainian"), "KOI8-U", 2088, false },
-        { I18N_NOOP("Cyrillic"), "CP 1251", 2251, true },
+        { I18N_NOOP("Cyrillic"), "ISO 8859-5", 8, 204, false },
+        { I18N_NOOP("Cyrillic"), "KOI8-R", 2084, 204, false },
+        { I18N_NOOP("Ukrainian"), "KOI8-U", 2088, 204, false },
+        { I18N_NOOP("Cyrillic"), "CP 1251", 2251, 204, true },
 
-        { I18N_NOOP("Greek"), "ISO 8859-7", 10, false },
-        { I18N_NOOP("Greek"), "CP 1253", 2253, true },
+        { I18N_NOOP("Greek"), "ISO 8859-7", 10, 161, false },
+        { I18N_NOOP("Greek"), "CP 1253", 2253, 161, true },
 
-        { I18N_NOOP("Hebrew"), "ISO 8859-8-I", 85, false },
-        { I18N_NOOP("Hebrew"), "CP 1255", 2255, true },
+        { I18N_NOOP("Hebrew"), "ISO 8859-8-I", 85, 177, false },
+        { I18N_NOOP("Hebrew"), "CP 1255", 2255, 177, true },
 
-        { I18N_NOOP("Japanese"), "JIS7", 16, false },
-        { I18N_NOOP("Japanese"), "eucJP", 18, false },
-        { I18N_NOOP("Japanese"), "Shift-JIS", 17, true },
+        { I18N_NOOP("Japanese"), "JIS7", 16, 128, false },
+        { I18N_NOOP("Japanese"), "eucJP", 18, 128, false },
+        { I18N_NOOP("Japanese"), "Shift-JIS", 17, 128, true },
 
-        { I18N_NOOP("Korean"), "eucKR", 38, true },
+        { I18N_NOOP("Korean"), "eucKR", 38, 0, true },
 
-        { I18N_NOOP("Western European"), "ISO 8859-1", 4, false },
-        { I18N_NOOP("Western European"), "ISO 8859-15", 111, false },
-        { I18N_NOOP("Western European"), "CP 1252", 2252, true },
+        { I18N_NOOP("Western European"), "ISO 8859-1", 4, 0, false },
+        { I18N_NOOP("Western European"), "ISO 8859-15", 111, 0, false },
+        { I18N_NOOP("Western European"), "CP 1252", 2252, 0, true },
 
-        { I18N_NOOP("Tamil"), "TSCII", 2028, true },
+        { I18N_NOOP("Tamil"), "TSCII", 2028, 0, true },
 
-        { I18N_NOOP("Thai"), "TIS-620", 2259, true },
+        { I18N_NOOP("Thai"), "TIS-620", 2259, 222, true },
 
-        { I18N_NOOP("Turkish"), "ISO 8859-9", 12, false },
-        { I18N_NOOP("Turkish"), "CP 1254", 2254, true },
+        { I18N_NOOP("Turkish"), "ISO 8859-9", 12, 162, false },
+        { I18N_NOOP("Turkish"), "CP 1254", 2254, 162, true },
 
-        { NULL, NULL, 0, false }
+        { NULL, NULL, 0, 0, false }
     };
 
-ICQClient::ICQClient(ICQProtocol *protocol, const char *cfg)
+const ENCODING *ICQClient::encodings = _encodingTbl;
+
+ICQClient::ICQClient(Protocol *protocol, const char *cfg, bool bAIM)
         : TCPClient(protocol, cfg), EventReceiver(HighPriority - 1)
 {
+    m_bAIM = bAIM;
     load_data(icqClientData, &data, cfg);
+    if (data.owner.Uin)
+        m_bAIM = false;
+    if (data.owner.Screen && *data.owner.Screen)
+        m_bAIM = true;
     m_bRosters = false;
     m_listRequest = NULL;
     data.owner.DCcookie = rand();
@@ -357,7 +365,12 @@ ICQClient::~ICQClient()
 
 const DataDef *ICQProtocol::userDataDef()
 {
-    return icqUserData;
+    return _icqUserData;
+}
+
+const DataDef *AIMProtocol::userDataDef()
+{
+    return _icqUserData;
 }
 
 bool ICQClient::compareData(void *d1, void *d2)
@@ -390,19 +403,50 @@ string ICQClient::getConfig()
 
 string ICQClient::name()
 {
-    string res = "ICQ.";
+    string res;
+    if (m_bAIM){
+        res = "AIM.";
+        if (data.owner.Screen)
+            res += data.owner.Screen;
+        return res;
+    }
+    res = "ICQ.";
     res += number(data.owner.Uin);
     return res;
 }
 
 QWidget	*ICQClient::setupWnd()
 {
+    if (m_bAIM)
+        return new AIMConfig(NULL, this, true);
     return new ICQConfig(NULL, this, true);
+}
+
+static const char aim_server[] = "login.oscar.aol.com";
+static const char icq_server[] = "login.icq.com";
+
+const char *ICQClient::getServer()
+{
+    if (data.Server && *data.Server)
+        return data.Server;
+    return m_bAIM ? aim_server : icq_server;
+}
+
+void ICQClient::setServer(const char *server)
+{
+    if (server && !strcmp(server, m_bAIM ? aim_server : icq_server))
+        server = NULL;
+    set_str(&data.Server, server);
 }
 
 void ICQClient::setUin(unsigned long uin)
 {
     data.owner.Uin = uin;
+}
+
+void ICQClient::setScreen(const char *screen)
+{
+    set_str(&data.owner.Screen, screen);
 }
 
 unsigned long ICQClient::getUin()
@@ -638,7 +682,7 @@ void ICQClient::flap(char channel)
     << 0;
 }
 
-void ICQClient::snac(unsigned short fam, unsigned short type, bool msgId)
+void ICQClient::snac(unsigned short fam, unsigned short type, bool msgId, bool bType)
 {
     flap(ICQ_CHNxDATA);
     m_socket->writeBuffer
@@ -646,7 +690,7 @@ void ICQClient::snac(unsigned short fam, unsigned short type, bool msgId)
     << type
     << 0x0000
     << (msgId ? ++m_nMsgSequence : 0x0000)
-    << type;
+    << (bType ? type : (unsigned short)0);
 }
 
 void ICQClient::sendPacket()
@@ -1167,7 +1211,7 @@ QTextCodec *ICQClient::_getCodec(const char *encoding)
     if (codec == NULL){
         codec = QTextCodec::codecForLocale();
         const ENCODING *e;
-        for (e = encodingTbl; e->language; e++){
+        for (e = encodings; e->language; e++){
             if (!strcmp(codec->name(), e->codec))
                 break;
         }
@@ -2154,7 +2198,7 @@ void *ICQClient::processEvent(Event *e)
                 QStringList nomain;
                 QStringList::Iterator it;
                 const ENCODING *enc;
-                for (enc = encodingTbl; enc->language; enc++){
+                for (enc = encodings; enc->language; enc++){
                     if (enc->bMain){
                         main.append(i18n(enc->language) + " (" + enc->codec + ")");
                         nEncoding++;
@@ -2314,7 +2358,7 @@ void *ICQClient::processEvent(Event *e)
                 QStringList nomain;
                 QStringList::Iterator it;
                 const ENCODING *enc;
-                for (enc = encodingTbl; enc->language; enc++){
+                for (enc = encodings; enc->language; enc++){
                     if (enc->bMain){
                         main.append(i18n(enc->language) + " (" + enc->codec + ")");
                         continue;
@@ -2725,24 +2769,6 @@ bool ICQClient::messageReceived(Message *msg, const char *screen)
     }
     return !bAccept;
 }
-
-rtf_charset ICQClient::rtf_charsets[] =
-    {
-        { "CP 1251", 204 },
-        { "KOI8-R", 204 },
-        { "KOI8-U", 204 },
-        { "ISO 8859-6-I", 180 },
-        { "ISO 8859-7", 161 },
-        { "ISO 8859-8-I", 177 },
-        { "ISO 8859-9", 162 },
-        { "CP 1254", 162 },
-        { "eucJP", 128 },
-        { "sjis7", 128 },
-        { "jis7", 128 },
-        { "CP 1250", 238 },
-        { "ISO 8859-2", 238 },
-        { "", 0 }
-    };
 
 QString ICQClient::ownerName()
 {

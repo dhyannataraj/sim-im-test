@@ -1,5 +1,5 @@
 /***************************************************************************
-                          icqsearch.h  -  description
+                          aimconfig.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,56 +15,30 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _ICQSEARCH_H
-#define _ICQSEARCH_H
+#ifndef _AIMCONFIG_H
+#define _AIMCONFIG_H
 
 #include "simapi.h"
-#include "icqsearchbase.h"
+#include "aimconfigbase.h"
+#include "icqclient.h"
 
-#include <qvalidator.h>
-
-class ICQSearchResult;
-class ICQClient;
-class QWizard;
-class QLineEdit;
-
-class ICQSearch : public ICQSearchBase, public EventReceiver
+class AIMConfig : public AIMConfigBase
 {
     Q_OBJECT
 public:
-    ICQSearch(ICQClient *client);
-    ~ICQSearch();
+    AIMConfig(QWidget *parent, ICQClient *client, bool bConfig);
 signals:
-    void goNext();
+    void okEnabled(bool);
+public slots:
+    void apply();
+    void apply(Client*, void*);
 protected slots:
-    void resultFinished();
     void changed();
-    void search();
-    void startSearch();
-    void currentChanged(QWidget*);
-    void textChanged(const QString&);
-    void randomFind();
-    void addContact();
-    void sendMessage();
+    void changed(const QString&);
+    void regClick();
 protected:
-    virtual void *processEvent(Event *e);
-    virtual void showEvent(QShowEvent *e);
-    void fillGroup();
-    string getString(QLineEdit*);
-    void setFindText();
-    bool m_bRandomSearch;
-    unsigned m_randomUin;
-    QString m_name;
-    ICQSearchResult *m_result;
-    QWizard	*m_wizard;
+    bool m_bConfig;
     ICQClient *m_client;
-};
-
-class AIMValidator : public QValidator
-{
-public:
-    AIMValidator(QWidget *parent);
-    virtual State validate(QString &input, int &pos) const;
 };
 
 #endif

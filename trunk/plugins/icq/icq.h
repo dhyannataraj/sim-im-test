@@ -32,6 +32,18 @@ public:
     static const DataDef *icqUserData;
 };
 
+class AIMProtocol : public Protocol
+{
+public:
+    AIMProtocol(Plugin *plugin);
+    ~AIMProtocol();
+    Client	*createClient(const char *cfg);
+    const CommandDef *description();
+    const CommandDef *statusList();
+    virtual const DataDef *userDataDef();
+    static const DataDef *icqUserData;
+};
+
 typedef struct ICQData
 {
     unsigned	ShowAllEncodings;
@@ -44,6 +56,7 @@ public:
     virtual ~ICQPlugin();
     unsigned ICQPacket;
     unsigned ICQDirectPacket;
+    unsigned AIMPacket;
     PROP_BOOL(ShowAllEncodings);
     unsigned EventSearch;
     unsigned EventSearchDone;
@@ -62,7 +75,8 @@ public:
     unsigned MenuGroups;
     unsigned RetrySendDND;
     unsigned RetrySendOccupied;
-    static Protocol *m_protocol;
+    static Protocol *m_icq;
+    static Protocol *m_aim;
     void registerMessages();
     void unregisterMessages();
 protected:

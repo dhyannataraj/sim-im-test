@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: swabian\n"
-"POT-Creation-Date: 2003-09-14 01:37+0400\n"
+"POT-Creation-Date: 2003-09-15 00:03+0400\n"
 "PO-Revision-Date: 2003-08-19 10:35GMT\n"
 "Last-Translator: Robert Scheck <sim@robert-scheck.de>\n"
 "Language-Team: schwäbisch <swabian@li.org>\n"
@@ -131,7 +131,7 @@ msgstr "OK"
 #: plugins/_core/editphonebase.cc:144 plugins/_core/editphonebase.cpp:144
 #: plugins/_core/filetransferbase.cc:130
 #: plugins/_core/filetransferbase.cpp:130 plugins/_core/logindlgbase.cc:122
-#: plugins/_core/logindlgbase.cpp:125 plugins/icq/icqclient.cpp:1980
+#: plugins/_core/logindlgbase.cpp:125 plugins/icq/icqclient.cpp:2024
 #: plugins/icq/securedlgbase.cc:78 plugins/proxy/proxyerrorbase.cpp:81
 #: sim/api/simapi.cpp:406 sim/ui/qt3/i18n.cpp:35
 msgid "&Cancel"
@@ -237,7 +237,7 @@ msgid "Group"
 msgstr "Grubbe"
 
 #: plugins/_core/core.cpp:483 plugins/_core/core.cpp:914
-#: plugins/icq/icq.cpp:464 plugins/jabber/jabber.cpp:267
+#: plugins/icq/icq.cpp:573 plugins/jabber/jabber.cpp:267
 msgid "User &info"
 msgstr "Benudzerinformazion"
 
@@ -597,8 +597,8 @@ msgstr "Schbanisch"
 msgid "French"
 msgstr "Franzesisch"
 
-#: plugins/_core/interfacecfg.cpp:52 plugins/icq/icqclient.cpp:285
-#: plugins/icq/icqclient.cpp:286 plugins/icq/moreinfo.cpp:114
+#: plugins/_core/interfacecfg.cpp:52 plugins/icq/icqclient.cpp:286
+#: plugins/icq/icqclient.cpp:287 plugins/icq/moreinfo.cpp:114
 msgid "Hebrew"
 msgstr "Hebräisch"
 
@@ -626,12 +626,12 @@ msgstr "Slovakisch"
 msgid "Swabian"
 msgstr "Schwäbisch"
 
-#: plugins/_core/interfacecfg.cpp:59 plugins/icq/icqclient.cpp:302
-#: plugins/icq/icqclient.cpp:303 plugins/icq/moreinfo.cpp:142
+#: plugins/_core/interfacecfg.cpp:59 plugins/icq/icqclient.cpp:303
+#: plugins/icq/icqclient.cpp:304 plugins/icq/moreinfo.cpp:142
 msgid "Turkish"
 msgstr "Dirkisch"
 
-#: plugins/_core/interfacecfg.cpp:60 plugins/icq/icqclient.cpp:279
+#: plugins/_core/interfacecfg.cpp:60 plugins/icq/icqclient.cpp:280
 #: plugins/icq/moreinfo.cpp:143
 msgid "Ukrainian"
 msgstr "Ukrainisch"
@@ -652,7 +652,7 @@ msgstr "Nachrichda"
 msgid "SMS"
 msgstr "SMS"
 
-#: plugins/_core/interfacecfg.cpp:89 plugins/icq/icqclient.cpp:2174
+#: plugins/_core/interfacecfg.cpp:89 plugins/icq/icqclient.cpp:2218
 msgid "System"
 msgstr "Syschdem"
 
@@ -664,9 +664,9 @@ msgstr "%1 Nachrichda vom Vrlauf kobiera"
 msgid "Select profile"
 msgstr "Brofil auswähla"
 
-#: plugins/_core/logindlg.cpp:174 plugins/icq/icqconfigbase.cc:189
-#: plugins/jabber/jabberconfigbase.cpp:183 plugins/msn/msnconfigbase.cpp:178
-#: plugins/proxy/proxycfgbase.cpp:168
+#: plugins/_core/logindlg.cpp:174 plugins/icq/aimconfigbase.cc:150
+#: plugins/icq/icqconfigbase.cc:189 plugins/jabber/jabberconfigbase.cpp:183
+#: plugins/msn/msnconfigbase.cpp:178 plugins/proxy/proxycfgbase.cpp:168
 msgid "Password:"
 msgstr "Bassword:"
 
@@ -674,7 +674,7 @@ msgstr "Bassword:"
 msgid "New profile"
 msgstr "Neies Brofil"
 
-#: plugins/_core/logindlg.cpp:393 plugins/jabber/jabberclient.cpp:748
+#: plugins/_core/logindlg.cpp:393 plugins/jabber/jabberclient.cpp:749
 #: plugins/msn/msnclient.cpp:562
 msgid "Login failed"
 msgstr "Anmeldong fehlgschlaga"
@@ -847,7 +847,7 @@ msgstr "Abbrecha"
 msgid "No such client for send message"
 msgstr "Koin derardigr Client fir des Senda dr Nachrichd vrfigbar"
 
-#: plugins/_core/msgedit.cpp:1248 plugins/icq/icq.cpp:454
+#: plugins/_core/msgedit.cpp:1248 plugins/icq/icq.cpp:563
 #: plugins/jabber/jabber.cpp:258
 msgid "&Message"
 msgstr "Nachrichd"
@@ -982,7 +982,7 @@ msgstr "Neir Kondakd"
 
 #: plugins/_core/usercfg.cpp:288 plugins/_core/userlist.cpp:967
 #: plugins/_core/userview.cpp:172 plugins/_core/userview.cpp:646
-#: plugins/_core/userview.cpp:684 plugins/icq/icqsearch.cpp:150
+#: plugins/_core/userview.cpp:684 plugins/icq/icqsearch.cpp:143
 #: plugins/icq/searchresult.cpp:240 plugins/jabber/addresult.cpp:135
 #: plugins/jabber/jabberadd.cpp:117
 msgid "Not in list"
@@ -1001,17 +1001,18 @@ msgid "Settings"
 msgstr "Oischdellonga"
 
 #: plugins/_core/userlist.cpp:572 plugins/icq/icq.cpp:111
-#: plugins/icq/icqclient.cpp:1260 plugins/icq/icqclient.cpp:1287
-#: plugins/jabber/jabber.cpp:92 plugins/jabber/jabberclient.cpp:944
-#: plugins/jabber/services.cpp:234 plugins/msn/msn.cpp:89
-#: plugins/msn/msnclient.cpp:1416
+#: plugins/icq/icq.cpp:276 plugins/icq/icqclient.cpp:1304
+#: plugins/icq/icqclient.cpp:1331 plugins/jabber/jabber.cpp:92
+#: plugins/jabber/jabberclient.cpp:945 plugins/jabber/services.cpp:234
+#: plugins/msn/msn.cpp:89 plugins/msn/msnclient.cpp:1416
 msgid "Online"
 msgstr "Online"
 
 #: plugins/_core/userlist.cpp:575 plugins/_core/userviewcfgbase.cc:183
 #: plugins/_core/userviewcfgbase.cpp:229 plugins/icq/icq.cpp:201
-#: plugins/icq/icqclient.cpp:1257 plugins/jabber/jabber.cpp:167
-#: plugins/jabber/services.cpp:231 plugins/msn/msn.cpp:194
+#: plugins/icq/icq.cpp:306 plugins/icq/icqclient.cpp:1301
+#: plugins/jabber/jabber.cpp:167 plugins/jabber/services.cpp:231
+#: plugins/msn/msn.cpp:194
 msgid "Offline"
 msgstr "Offline"
 
@@ -1063,10 +1064,10 @@ msgstr "Akdualisiera"
 #: plugins/background/bkgndcfgbase.cpp:156 plugins/dock/dockcfgbase.cpp:108
 #: plugins/filter/filtercfgbase.cpp:96 plugins/forward/forwardcfgbase.cpp:101
 #: plugins/icons/iconcfgbase.cpp:135 plugins/icons/smilecfgbase.cpp:121
-#: plugins/icq/homeinfobase.cc:174 plugins/icq/icqconfigbase.cc:188
-#: plugins/icq/icqpicturebase.cc:133 plugins/icq/icqsecurebase.cc:212
-#: plugins/icq/pastinfobase.cc:169 plugins/jabber/addresultbase.cpp:116
-#: plugins/jabber/jabberaddbase.cpp:123
+#: plugins/icq/aimconfigbase.cc:148 plugins/icq/homeinfobase.cc:174
+#: plugins/icq/icqconfigbase.cc:188 plugins/icq/icqpicturebase.cc:133
+#: plugins/icq/icqsecurebase.cc:212 plugins/icq/pastinfobase.cc:169
+#: plugins/jabber/addresultbase.cpp:116 plugins/jabber/jabberaddbase.cpp:123
 #: plugins/jabber/jabberconfigbase.cpp:182
 #: plugins/jabber/jabberinfobase.cpp:207
 #: plugins/jabber/jabberworkinfobase.cpp:127
@@ -1235,8 +1236,9 @@ msgid "Online:"
 msgstr "Online:"
 
 #: plugins/_core/userviewcfgbase.cc:184 plugins/_core/userviewcfgbase.cpp:231
-#: plugins/icq/icq.cpp:126 plugins/icq/icqclient.cpp:1263
-#: plugins/jabber/jabber.cpp:107 plugins/msn/msn.cpp:104
+#: plugins/icq/icq.cpp:126 plugins/icq/icq.cpp:291
+#: plugins/icq/icqclient.cpp:1307 plugins/jabber/jabber.cpp:107
+#: plugins/msn/msn.cpp:104
 msgid "Away"
 msgstr "Weg"
 
@@ -1899,57 +1901,57 @@ msgstr "Mehr Smilies ralada"
 msgid "Smiles:"
 msgstr "Smilies:"
 
-#: plugins/icq/icqclient.cpp:508 plugins/icq/icqicmb.cpp:78
-#: plugins/icq/icqicmb.cpp:171
+#: plugins/icq/icqclient.cpp:552 plugins/icq/icqicmb.cpp:81
+#: plugins/icq/icqicmb.cpp:174
 msgid "Unknown error"
 msgstr "Onbekanndr Fehlr"
 
-#: plugins/icq/icqclient.cpp:517 plugins/icq/icqicmb.cpp:80
+#: plugins/icq/icqclient.cpp:561 plugins/icq/icqicmb.cpp:83
 msgid "Not supported by client"
 msgstr "Ned onderschdidzd vom Cliend"
 
-#: plugins/icq/icqicmb.cpp:156
+#: plugins/icq/icqicmb.cpp:159
 msgid "Invalid message"
 msgstr "Ongildige Nachrichda"
 
-#: plugins/icq/icqicmb.cpp:159
+#: plugins/icq/icqicmb.cpp:162
 msgid "Message was too large"
 msgstr "Nachrichd war zu lang"
 
-#: plugins/icq/icqicmb.cpp:162
+#: plugins/icq/icqicmb.cpp:165
 msgid "Message rate exceeded"
 msgstr "Nachrichdenrade erreichd"
 
-#: plugins/icq/icqclient.cpp:525 plugins/icq/icqicmb.cpp:165
+#: plugins/icq/icqclient.cpp:569 plugins/icq/icqicmb.cpp:168
 msgid "Sender too evil"
 msgstr "Sendr zu bese :-("
 
-#: plugins/icq/icqicmb.cpp:168
+#: plugins/icq/icqicmb.cpp:171
 msgid "We are to evil :("
 msgstr "Mir send zu bese :-("
 
-#: plugins/icq/icqicmb.cpp:196
+#: plugins/icq/icqicmb.cpp:199
 msgid "Bad ack sequence"
 msgstr "Schlechde Beschdädigongssequenz"
 
-#: plugins/icq/icqicmb.cpp:607
+#: plugins/icq/icqicmb.cpp:610
 msgid "Message declined"
 msgstr "Nachrichd abglehnd"
 
-#: plugins/icq/icqicmb.cpp:668 plugins/icq/icqicmb.cpp:676
+#: plugins/icq/icqicmb.cpp:671 plugins/icq/icqicmb.cpp:679
 #: plugins/icq/icqvarious.cpp:1612
 msgid "Client go offline"
 msgstr "Client gehd offline"
 
-#: plugins/icq/icqicmb.cpp:956
+#: plugins/icq/icqicmb.cpp:959
 msgid "Send fail"
 msgstr "Senda fehlgschlaga"
 
-#: plugins/icq/icqicmb.cpp:1035
+#: plugins/icq/icqicmb.cpp:1038
 msgid "Send timeout"
 msgstr "Zeidiberschreidong während des Sendens"
 
-#: plugins/icq/icqicmb.cpp:1057
+#: plugins/icq/icqicmb.cpp:1060
 msgid "No contact"
 msgstr "Koin Kondakd"
 
@@ -1969,251 +1971,256 @@ msgstr "Beschäfdigd"
 msgid "Free for chat"
 msgstr "Frei fir Chat"
 
-#: plugins/icq/icq.cpp:408
+#: plugins/icq/icq.cpp:253
+#, fuzzy
+msgid "AIM"
+msgstr "SIM"
+
+#: plugins/icq/icq.cpp:517
 msgid "Visible list"
 msgstr "Sichdbarkeid-Lischde"
 
-#: plugins/icq/icq.cpp:417
+#: plugins/icq/icq.cpp:526
 msgid "Invisible list"
 msgstr "Onsichbarkeid-Lischde"
 
-#: plugins/icq/icq.cpp:428
+#: plugins/icq/icq.cpp:537
 msgid "&Show all encodings"
 msgstr "Alle Kodieronga &anzeiga"
 
-#: plugins/icq/icq.cpp:434 plugins/icq/icq.cpp:444
+#: plugins/icq/icq.cpp:543 plugins/icq/icq.cpp:553
 msgid "Change &encoding"
 msgstr "Kodierong ä&ndern"
 
-#: plugins/icq/icq.cpp:470 plugins/jabber/jabber.cpp:273
+#: plugins/icq/icq.cpp:579 plugins/jabber/jabber.cpp:273
 msgid "&Add to group"
 msgstr "Zu Grubbe hinzu&figa:"
 
-#: plugins/icq/icq.cpp:483
+#: plugins/icq/icq.cpp:592
 msgid "Check &invisible"
 msgstr "Onsichdbar &iberbrifa"
 
-#: plugins/icq/icqclient.cpp:261
+#: plugins/icq/icqclient.cpp:262
 msgid "Unicode"
 msgstr "Unicode"
 
-#: plugins/icq/icqclient.cpp:263 plugins/icq/icqclient.cpp:264
+#: plugins/icq/icqclient.cpp:264 plugins/icq/icqclient.cpp:265
 #: plugins/icq/moreinfo.cpp:94
 msgid "Arabic"
 msgstr "Arabisch"
 
-#: plugins/icq/icqclient.cpp:266 plugins/icq/icqclient.cpp:267
+#: plugins/icq/icqclient.cpp:267 plugins/icq/icqclient.cpp:268
 msgid "Baltic"
 msgstr "Baldisch"
 
-#: plugins/icq/icqclient.cpp:269 plugins/icq/icqclient.cpp:271
+#: plugins/icq/icqclient.cpp:270 plugins/icq/icqclient.cpp:272
 msgid "Central European"
 msgstr "Zendraleiroba"
 
-#: plugins/icq/icqclient.cpp:270 plugins/icq/moreinfo.cpp:106
+#: plugins/icq/icqclient.cpp:271 plugins/icq/moreinfo.cpp:106
 msgid "Esperanto"
 msgstr "Eschberando"
 
-#: plugins/icq/icqclient.cpp:273
+#: plugins/icq/icqclient.cpp:274
 msgid "Chinese "
 msgstr "Chinesisch"
 
-#: plugins/icq/icqclient.cpp:274
+#: plugins/icq/icqclient.cpp:275
 msgid "Chinese Simplified"
 msgstr "Chinesisch (vreinfachd)"
 
-#: plugins/icq/icqclient.cpp:275
+#: plugins/icq/icqclient.cpp:276
 msgid "Chinese Traditional"
 msgstr "Chinesisch (dradizionell)"
 
-#: plugins/icq/icqclient.cpp:277 plugins/icq/icqclient.cpp:278
-#: plugins/icq/icqclient.cpp:280
+#: plugins/icq/icqclient.cpp:278 plugins/icq/icqclient.cpp:279
+#: plugins/icq/icqclient.cpp:281
 msgid "Cyrillic"
 msgstr "Kyrillisch"
 
-#: plugins/icq/icqclient.cpp:282 plugins/icq/icqclient.cpp:283
+#: plugins/icq/icqclient.cpp:283 plugins/icq/icqclient.cpp:284
 #: plugins/icq/moreinfo.cpp:113
 msgid "Greek"
 msgstr "Griechisch"
 
-#: plugins/icq/icqclient.cpp:288 plugins/icq/icqclient.cpp:289
-#: plugins/icq/icqclient.cpp:290 plugins/icq/moreinfo.cpp:120
+#: plugins/icq/icqclient.cpp:289 plugins/icq/icqclient.cpp:290
+#: plugins/icq/icqclient.cpp:291 plugins/icq/moreinfo.cpp:120
 msgid "Japanese"
 msgstr "Jabanisch"
 
-#: plugins/icq/icqclient.cpp:292 plugins/icq/moreinfo.cpp:122
+#: plugins/icq/icqclient.cpp:293 plugins/icq/moreinfo.cpp:122
 msgid "Korean"
 msgstr "Koreanisch"
 
-#: plugins/icq/icqclient.cpp:294 plugins/icq/icqclient.cpp:295
-#: plugins/icq/icqclient.cpp:296
+#: plugins/icq/icqclient.cpp:295 plugins/icq/icqclient.cpp:296
+#: plugins/icq/icqclient.cpp:297
 msgid "Western European"
 msgstr "Weschdeirobäisch"
 
-#: plugins/icq/icqclient.cpp:298
+#: plugins/icq/icqclient.cpp:299
 msgid "Tamil"
 msgstr "Damil"
 
-#: plugins/icq/icqclient.cpp:300 plugins/icq/moreinfo.cpp:141
+#: plugins/icq/icqclient.cpp:301 plugins/icq/moreinfo.cpp:141
 msgid "Thai"
 msgstr "Dhai"
 
-#: plugins/icq/icqclient.cpp:348
+#: plugins/icq/icqclient.cpp:356
 msgid "Process message failed"
 msgstr "Vrarbeida dr Nachrichd fehlgschlaga"
 
-#: plugins/icq/icqclient.cpp:509
+#: plugins/icq/icqclient.cpp:553
 msgid "Invalid SNAC header"
 msgstr "Ongildige Nachrichda"
 
-#: plugins/icq/icqclient.cpp:510
+#: plugins/icq/icqclient.cpp:554
 msgid "Server rate limit exceeded"
 msgstr "Nachrichdenrade erreichd"
 
-#: plugins/icq/icqclient.cpp:511
+#: plugins/icq/icqclient.cpp:555
 msgid "Client rate limit exceeded"
 msgstr "Nachrichdenrade erreichd"
 
-#: plugins/icq/icqclient.cpp:512
+#: plugins/icq/icqclient.cpp:556
 msgid "Recipient is not logged in"
 msgstr "Embfängr ischd ned oigloggd"
 
-#: plugins/icq/icqclient.cpp:513
+#: plugins/icq/icqclient.cpp:557
 msgid "Requested service unavailable"
 msgstr "SMS-Dienschd vrfigbar"
 
-#: plugins/icq/icqclient.cpp:514
+#: plugins/icq/icqclient.cpp:558
 msgid "Requested service not defined"
 msgstr "Sichera Kanal anfordern"
 
-#: plugins/icq/icqclient.cpp:515
+#: plugins/icq/icqclient.cpp:559
 msgid "We sent an obsolete SNAC"
 msgstr "Vraldedes SNAC gsended"
 
-#: plugins/icq/icqclient.cpp:516
+#: plugins/icq/icqclient.cpp:560
 msgid "Not supported by server"
 msgstr "Ned onderschdidzd vom Servr"
 
-#: plugins/icq/icqclient.cpp:518
+#: plugins/icq/icqclient.cpp:562
 msgid "Refused by client"
 msgstr "Abglehnd vom Cliend"
 
-#: plugins/icq/icqclient.cpp:519
+#: plugins/icq/icqclient.cpp:563
 msgid "Reply too big"
 msgstr "Andword ischd zu groß"
 
-#: plugins/icq/icqclient.cpp:520
+#: plugins/icq/icqclient.cpp:564
 msgid "Responses lost"
 msgstr "Anworda vrlora"
 
-#: plugins/icq/icqclient.cpp:521
+#: plugins/icq/icqclient.cpp:565
 msgid "Request denied"
 msgstr "Anforderong abglehnd"
 
-#: plugins/icq/icqclient.cpp:522
+#: plugins/icq/icqclient.cpp:566
 msgid "Incorrect SNAC format"
 msgstr "Ongildigs SNAC-Formad"
 
-#: plugins/icq/icqclient.cpp:523
+#: plugins/icq/icqclient.cpp:567
 msgid "Insufficient rights"
 msgstr "Ognignde Rechde"
 
-#: plugins/icq/icqclient.cpp:524
+#: plugins/icq/icqclient.cpp:568
 msgid "Recipient blocked"
 msgstr "Embfängr bloggd"
 
-#: plugins/icq/icqclient.cpp:526
+#: plugins/icq/icqclient.cpp:570
 msgid "Receiver too evil"
 msgstr "Sendr zu bese :-("
 
-#: plugins/icq/icqclient.cpp:527
+#: plugins/icq/icqclient.cpp:571
 msgid "User temporarily unavailable"
 msgstr "Benudzr ischd demborär ned vrfigbar"
 
-#: plugins/icq/icqclient.cpp:528
+#: plugins/icq/icqclient.cpp:572
 msgid "No match"
 msgstr "Koine Ibereinschdemmong"
 
-#: plugins/icq/icqclient.cpp:529
+#: plugins/icq/icqclient.cpp:573
 msgid "List overflow"
 msgstr "Lischda-Iberlauf"
 
-#: plugins/icq/icqclient.cpp:530
+#: plugins/icq/icqclient.cpp:574
 msgid "Request ambiguous"
 msgstr "Mehrdeidige Anfroge"
 
-#: plugins/icq/icqclient.cpp:531
+#: plugins/icq/icqclient.cpp:575
 msgid "Server queue full"
 msgstr "Servr-Queue ischd voll"
 
-#: plugins/icq/icqclient.cpp:532
+#: plugins/icq/icqclient.cpp:576
 msgid "Not while on AOL"
 msgstr "Ned während en AOL"
 
-#: plugins/icq/icqclient.cpp:549
+#: plugins/icq/icqclient.cpp:593
 msgid "Protocol error"
 msgstr "Brodokoll-Fehlr"
 
-#: plugins/icq/icqclient.cpp:1237 plugins/icq/icqinfo.cpp:214
+#: plugins/icq/icqclient.cpp:1281 plugins/icq/icqinfo.cpp:212
 msgid "Possibly invisible"
 msgstr "Wahrscheinlich onsichdbar"
 
-#: plugins/icq/icqclient.cpp:1244
+#: plugins/icq/icqclient.cpp:1288
 #, fuzzy
 msgid "Invisible"
 msgstr "&Onsichdbar"
 
-#: plugins/icq/icqclient.cpp:1280 plugins/icq/icqinfo.cpp:229
-#: plugins/jabber/jabberclient.cpp:937 plugins/jabber/jabberinfo.cpp:103
+#: plugins/icq/icqclient.cpp:1324 plugins/icq/icqinfo.cpp:227
+#: plugins/jabber/jabberclient.cpp:938 plugins/jabber/jabberinfo.cpp:103
 #: plugins/msn/msnclient.cpp:1409 plugins/msn/msninfo.cpp:88
 msgid "Last online"
 msgstr "Zuledzd online"
 
-#: plugins/icq/icqclient.cpp:1552 plugins/icq/icqclient.cpp:1726
-#: plugins/jabber/jabberclient.cpp:997 plugins/jabber/jabberclient.cpp:1076
+#: plugins/icq/icqclient.cpp:1596 plugins/icq/icqclient.cpp:1770
+#: plugins/jabber/jabberclient.cpp:998 plugins/jabber/jabberclient.cpp:1077
 msgid "Home info"
 msgstr "Hoim-Enfo"
 
-#: plugins/icq/icqclient.cpp:1567 plugins/icq/icqclient.cpp:1741
-#: plugins/jabber/jabberclient.cpp:1012 plugins/jabber/jabberclient.cpp:1091
+#: plugins/icq/icqclient.cpp:1611 plugins/icq/icqclient.cpp:1785
+#: plugins/jabber/jabberclient.cpp:1013 plugins/jabber/jabberclient.cpp:1092
 msgid "Work info"
 msgstr "Arbeid-Enfo"
 
-#: plugins/icq/icqclient.cpp:1582 plugins/icq/icqclient.cpp:1756
+#: plugins/icq/icqclient.cpp:1626 plugins/icq/icqclient.cpp:1800
 msgid "More info"
 msgstr "Zusadz-Enfo"
 
-#: plugins/icq/icqclient.cpp:1597 plugins/icq/icqclient.cpp:1771
-#: plugins/jabber/jabberclient.cpp:1027 plugins/jabber/jabberclient.cpp:1106
+#: plugins/icq/icqclient.cpp:1641 plugins/icq/icqclient.cpp:1815
+#: plugins/jabber/jabberclient.cpp:1028 plugins/jabber/jabberclient.cpp:1107
 msgid "About info"
 msgstr "Ibr-Enfo"
 
-#: plugins/icq/icqclient.cpp:1612 plugins/icq/icqclient.cpp:1786
+#: plugins/icq/icqclient.cpp:1656 plugins/icq/icqclient.cpp:1830
 msgid "Interests"
 msgstr "Enderessa"
 
-#: plugins/icq/icqclient.cpp:1627 plugins/icq/icqclient.cpp:1801
+#: plugins/icq/icqclient.cpp:1671 plugins/icq/icqclient.cpp:1845
 msgid "Group/Past"
 msgstr "Grubbe/Gschichde"
 
-#: plugins/icq/icqclient.cpp:1642 plugins/icq/icqclient.cpp:1816
+#: plugins/icq/icqclient.cpp:1686 plugins/icq/icqclient.cpp:1860
 msgid "Picture"
 msgstr "Bild"
 
-#: plugins/icq/icqclient.cpp:1831 plugins/jabber/jabberclient.cpp:1136
+#: plugins/icq/icqclient.cpp:1875 plugins/jabber/jabberclient.cpp:1137
 #: plugins/msn/msnclient.cpp:663
 msgid "Network"
 msgstr "Nedzwerk"
 
-#: plugins/icq/icqclient.cpp:1846
+#: plugins/icq/icqclient.cpp:1890
 msgid "Security"
 msgstr "Sicherheid"
 
-#: plugins/icq/icqclient.cpp:1975
+#: plugins/icq/icqclient.cpp:2019
 msgid "Send &urgent"
 msgstr "&Dringnd senda"
 
-#: plugins/icq/icqclient.cpp:1979
+#: plugins/icq/icqclient.cpp:2023
 msgid "Send to &list"
 msgstr "Sendr zu bese :-("
 
@@ -2257,51 +2264,51 @@ msgstr "Koine Dadeia zom Iberdraga"
 msgid "Can't open file"
 msgstr "Dadei ka ned geeffned werda"
 
-#: plugins/icq/icqinfo.cpp:34
+#: plugins/icq/icqinfo.cpp:32
 msgid "General chat"
 msgstr "Chat allgmein"
 
-#: plugins/icq/icqinfo.cpp:35
+#: plugins/icq/icqinfo.cpp:33
 msgid "Romance"
 msgstr "Romanze"
 
-#: plugins/icq/icqinfo.cpp:36 plugins/icq/interestsinfo.cpp:97
+#: plugins/icq/icqinfo.cpp:34 plugins/icq/interestsinfo.cpp:97
 msgid "Games"
 msgstr "Schbiele"
 
-#: plugins/icq/icqinfo.cpp:37
+#: plugins/icq/icqinfo.cpp:35
 msgid "Students"
 msgstr "Schdudenda"
 
-#: plugins/icq/icqinfo.cpp:38
+#: plugins/icq/icqinfo.cpp:36
 msgid "20 Something"
 msgstr "Jemand om 20"
 
-#: plugins/icq/icqinfo.cpp:39
+#: plugins/icq/icqinfo.cpp:37
 msgid "30 Something"
 msgstr "Jemand om 30"
 
-#: plugins/icq/icqinfo.cpp:40
+#: plugins/icq/icqinfo.cpp:38
 msgid "40 Something"
 msgstr "Jemand om 40"
 
-#: plugins/icq/icqinfo.cpp:41
+#: plugins/icq/icqinfo.cpp:39
 msgid "50 Plus"
 msgstr "Äldr als fuffzig"
 
-#: plugins/icq/icqinfo.cpp:42
+#: plugins/icq/icqinfo.cpp:40
 msgid "Seeking Women"
 msgstr "Suche Frao"
 
-#: plugins/icq/icqinfo.cpp:43
+#: plugins/icq/icqinfo.cpp:41
 msgid "Seeking Men"
 msgstr "Suche Mann"
 
-#: plugins/icq/icqlogin.cpp:55
+#: plugins/icq/icqlogin.cpp:53
 msgid "Login error"
 msgstr "Anmeldefehlr"
 
-#: plugins/icq/icqlogin.cpp:59
+#: plugins/icq/icqlogin.cpp:57
 msgid "Registered in no register state"
 msgstr "Regischdrierd en oim ned regischdrierda Zuschdand"
 
@@ -2467,67 +2474,67 @@ msgstr "Des Bild darf ned greßr als 7 KB sei."
 msgid "Picture is not available"
 msgstr "Des Bild ischd ned vrfigbar"
 
-#: plugins/icq/icqsearch.cpp:169
+#: plugins/icq/icqsearch.cpp:162
 msgid "ICQ search results"
 msgstr "ICQ-Suchergebnisse"
 
-#: plugins/icq/icqsearch.cpp:288 plugins/jabber/jabberadd.cpp:203
+#: plugins/icq/icqsearch.cpp:281 plugins/jabber/jabberadd.cpp:203
 msgid "%1 already in contact list"
 msgstr "Delefon en Kondakdlischde schbeichern"
 
-#: plugins/icq/icqsearch.cpp:305
+#: plugins/icq/icqsearch.cpp:298
 msgid "%1 added to contact list"
 msgstr "Delefon en Kondakdlischde schbeichern"
 
-#: plugins/icq/icqsearch.cpp:325
+#: plugins/icq/icqsearch.cpp:318
 msgid "&Stop search"
 msgstr "&Suche anhalda"
 
-#: plugins/icq/icqsearch.cpp:326
+#: plugins/icq/icqsearch.cpp:319
 msgid "Find an &Online Chat Friend"
 msgstr "En Chatfreind &online fenda"
 
-#: plugins/icq/icqsearch.cpp:337
+#: plugins/icq/icqsearch.cpp:330
 msgid "Request UIN"
 msgstr "UIN anfroga"
 
-#: plugins/icq/icqsearch.cpp:354
+#: plugins/icq/icqsearch.cpp:347
 msgid "Search fail"
 msgstr "Sucha fehlgschlaga"
 
-#: plugins/icq/icqsearch.cpp:356
+#: plugins/icq/icqsearch.cpp:349
 msgid "Request user info"
 msgstr "Benudzerinformazion anfordern"
 
-#: plugins/icq/icqsearch.cpp:359
+#: plugins/icq/icqsearch.cpp:352
 msgid "<p>UIN: <b><a href=\"icq://%1\"><u>%2</u></a></b></p>"
 msgstr "<p>UIN: <b><a href=\"icq://%1\"><u>%2</u></a></b></p>"
 
-#: plugins/icq/icqsearch.cpp:383
+#: plugins/icq/icqsearch.cpp:376
 msgid "<p><b>%1</b></p>"
 msgstr "<p><b>%1</b></p>"
 
-#: plugins/icq/icqsearch.cpp:385
+#: plugins/icq/icqsearch.cpp:378
 msgid "%1<br>"
 msgstr "%1<br>"
 
-#: plugins/icq/icqsearch.cpp:386
+#: plugins/icq/icqsearch.cpp:379
 msgid "<p>Age: <b>%1</b></p>"
 msgstr "<p>Aldr: <b>%1</b></p>"
 
-#: plugins/icq/icqsearch.cpp:395
+#: plugins/icq/icqsearch.cpp:388
 msgid "<p>Gender: <b>%1</b></p>"
 msgstr "<p>Gschlechd: <b>%1</b></p>"
 
-#: plugins/icq/icqsearch.cpp:405
+#: plugins/icq/icqsearch.cpp:398
 msgid "<p>Country: <b>%1</b></p>"
 msgstr "<p>Land: <b>%1</b></p>"
 
-#: plugins/icq/icqsearch.cpp:415
+#: plugins/icq/icqsearch.cpp:408
 msgid "<p>Language: <b>%1</b></p>"
 msgstr "<p>Schbrache <b>%1</b></p>"
 
-#: plugins/icq/icqsearch.cpp:418
+#: plugins/icq/icqsearch.cpp:411
 msgid "<p>Homepage: <a href=\"%1\"><u>%2</u></a></p>"
 msgstr "<p>Homepage: <a href=\"%1\"><u>%2</u></a></p>"
 
@@ -3245,18 +3252,19 @@ msgstr "ICQ#:"
 msgid "&ICQ"
 msgstr "&ICQ"
 
-#: plugins/icq/icqconfigbase.cc:193 plugins/jabber/jabberconfigbase.cpp:187
-#: plugins/msn/msnconfigbase.cpp:180
+#: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:193
+#: plugins/jabber/jabberconfigbase.cpp:187 plugins/msn/msnconfigbase.cpp:180
 msgid "Server:"
 msgstr "Servr:"
 
-#: plugins/icq/icqconfigbase.cc:194 plugins/jabber/jabberconfigbase.cpp:188
-#: plugins/msn/msnconfigbase.cpp:181 plugins/proxy/proxycfgbase.cpp:165
+#: plugins/icq/aimconfigbase.cc:152 plugins/icq/icqconfigbase.cc:194
+#: plugins/jabber/jabberconfigbase.cpp:188 plugins/msn/msnconfigbase.cpp:181
+#: plugins/proxy/proxycfgbase.cpp:165
 msgid "Port:"
 msgstr "Bord:"
 
-#: plugins/icq/icqconfigbase.cc:195 plugins/jabber/jabberconfigbase.cpp:193
-#: plugins/msn/msnconfigbase.cpp:182
+#: plugins/icq/aimconfigbase.cc:154 plugins/icq/icqconfigbase.cc:195
+#: plugins/jabber/jabberconfigbase.cpp:193 plugins/msn/msnconfigbase.cpp:182
 msgid "&Network"
 msgstr "Nedzwerk"
 
@@ -3573,6 +3581,20 @@ msgstr ""
 "\n"
 "Sell funkzionierd nur mid andera SIM- odr Licq-Clienda."
 
+#: plugins/icq/aimconfig.cpp:45
+#, fuzzy
+msgid "Register new ScreenName"
+msgstr "Neie UIN &regischdriera"
+
+#: plugins/icq/aimconfigbase.cc:149
+#, fuzzy
+msgid "ScreenName:"
+msgstr "Niggname:"
+
+#: plugins/icq/aimconfigbase.cc:151
+msgid "&AIM"
+msgstr ""
+
 #: plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:181
 msgid "First name"
 msgstr "Vorname:"
@@ -3603,7 +3625,7 @@ msgstr "Nedzwerkmonidor oiblenda"
 msgid "Add Jabber contact"
 msgstr "Jabber-Kondakd hinzufiga"
 
-#: plugins/jabber/jabberclient.cpp:1121
+#: plugins/jabber/jabberclient.cpp:1122
 msgid "Agents"
 msgstr "Agenda"
 
