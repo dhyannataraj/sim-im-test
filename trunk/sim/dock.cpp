@@ -310,7 +310,7 @@ bool DockWnd::x11Event(XEvent *e)
             }
         }
     }
-    if ((e->type == FocusIn) && !bInit){
+    if (((e->type == FocusIn) || (e->type == Expose)) && !bInit){
         if (wharfIcon){
             delete wharfIcon;
             wharfIcon = NULL;
@@ -558,9 +558,9 @@ void DockWnd::mouseReleaseEvent( QMouseEvent *e)
     if (!inTray && (wharfIcon == NULL)){
         releaseMouse();
         move(e->globalPos().x() - mousePos.x(),  e->globalPos().y() - mousePos.y());
+	QPoint p(pMain->DockX - x(), pMain->DockY - y());
         pMain->DockX = x();
         pMain->DockY = y();
-	QPoint p(pMain->DockX - x(), pMain->DockY - y());
         if (p.manhattanLength() > 6)
             return;
     }
