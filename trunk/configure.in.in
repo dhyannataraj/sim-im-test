@@ -31,6 +31,11 @@ if test "$RELEASE_BUILD" != "yes"; then
  AC_DEFINE(CVS_BUILD, 1, [CVS build])
 fi
 
+AC_LANG_SAVE
+AC_LANG_C
+KDE_LIB_LTDL
+AC_LANG_RESTORE
+
 AC_CHECK_OPENSSL
 AC_CHECK_HEADERS(inttypes.h stdint.h unistd.h ctype.h sys/types.h)
 AC_CHECK_FUNC(strcasecmp,[AC_DEFINE(HAVE_STRCASECMP,1,[Have strcasecmp])])

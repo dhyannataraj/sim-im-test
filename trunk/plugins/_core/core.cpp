@@ -2486,7 +2486,7 @@ bool CorePlugin::init(bool bInit)
     if (!bNew){
         string containers = getContainers();
         while (!containers.empty())
-            new Container(0, getContainer(atol(getToken(containers, ',').c_str())));
+            new Container(0, getContainer(strtoul(getToken(containers, ',').c_str(), NULL, 10)));
     }
     clearContainer();
     setContainers(NULL);

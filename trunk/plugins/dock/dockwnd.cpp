@@ -43,9 +43,11 @@
 #endif
 
 #ifndef WIN32
+#ifndef QT_MACOSX_VERSION
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xatom.h>
+#endif
 #endif
 
 #ifdef WIN32
@@ -85,6 +87,8 @@ void DockWnd::callProc(unsigned long param)
 }
 
 #else
+
+#ifndef QT_MACOSX_VERSION
 
 extern Time qt_x_time;
 
@@ -548,13 +552,16 @@ set_background_properties(QWidget *w)
 }
 
 #endif
+#endif
 
 DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
         : QWidget(NULL, "dock",  WType_TopLevel | WStyle_Customize | WStyle_NoBorder | WStyle_StaysOnTop),
         EventReceiver(LowPriority)
 {
 #ifndef WIN32
+#ifndef QT_MACOSX_VERSION
     wharfIcon = NULL;
+#endif
 #endif
     m_plugin = plugin;
     setMouseTracking(true);
@@ -593,6 +600,7 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
 #else
     setMinimumSize(22, 22);
     resize(22, 22);
+#ifndef QT_MACOSX_VERSION
     bInit = false;
     inTray = false;
     inNetTray = false;
@@ -689,10 +697,11 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
     }
 
     wharfIcon = new WharfIcon(this);
-
+#endif
     setBackgroundMode(X11ParentRelative);
     setIcon(icon);
 
+#ifndef QT_MACOSX_VERSION
     XClassHint classhint;
     classhint.res_name  = (char*)"sim";
     classhint.res_class = (char*)"Wharf";
@@ -745,6 +754,7 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
         move(-21, -21);
         resize(22, 22);
     }
+#endif
     show();
 #endif
     setTip(text);
@@ -813,6 +823,7 @@ void *DockWnd::processEvent(Event *e)
 }
 
 #ifndef WIN32
+#ifndef QT_MACOSX_VERSION
 
 bool DockWnd::x11Event(XEvent *e)
 {
@@ -862,11 +873,14 @@ bool DockWnd::x11Event(XEvent *e)
 }
 
 #endif
+#endif
 
 void DockWnd::paintEvent( QPaintEvent* )
 {
 #ifndef WIN32
+#ifndef QT_MACOSX_VERSION
     if (!bInit) return;
+#endif
 #endif
     QPainter p(this);
     p.drawPixmap((width() - drawIcon.width())/2, (height() - drawIcon.height())/2, drawIcon);
@@ -875,12 +889,16 @@ void DockWnd::paintEvent( QPaintEvent* )
 void DockWnd::setIcon(const char *icon)
 {
 #ifndef WIN32
+#ifndef QT_MACOSX_VERSION
     if (wharfIcon)
         wharfIcon->set(icon, NULL);
 #endif
+#endif
     drawIcon = Pict(icon);
 #ifndef WIN32
+#ifndef QT_MACOSX_VERSION
     if (!inTray) return;
+#endif
 #endif
 #ifdef WIN32
     QWidget::setIcon(drawIcon);
@@ -906,8 +924,10 @@ void DockWnd::setIcon(const char *icon)
         Shell_NotifyIconA(NIM_MODIFY, &notifyIconData);
     }
 #else
+#ifndef QT_MACOSX_VERSION
     if (wharfIcon)
         return;
+#endif
     repaint();
 #endif
 }
@@ -945,10 +965,13 @@ void DockWnd::setTip(const char *text)
         Shell_NotifyIconA(NIM_MODIFY, &notifyIconData);
     }
 #else
+#ifndef QT_MACOSX_VERSION
     if (wharfIcon == NULL){
         if (isVisible()){
+#endif
             QToolTip::remove(this);
             QToolTip::add(this, tip);
+#ifndef QT_MACOSX_VERSION
         }
     }else{
         if (wharfIcon->isVisible()){
@@ -956,6 +979,7 @@ void DockWnd::setTip(const char *text)
             QToolTip::add(wharfIcon, tip);
         }
     }
+#endif
 #endif
 }
 
@@ -990,7 +1014,9 @@ void DockWnd::mousePressEvent( QMouseEvent *e)
 {
     QWidget::mousePressEvent(e);
 #ifndef WIN32
+#ifndef QT_MACOSX_VERSION
     if (inTray || wharfIcon) return;
+#endif
     grabMouse();
     mousePos = e->pos();
 #endif
@@ -1000,7 +1026,9 @@ void DockWnd::mouseReleaseEvent( QMouseEvent *e)
 {
     QWidget::mouseReleaseEvent(e);
 #ifndef WIN32
+#ifndef QT_MACOSX_VERSION
     if (!inTray && (wharfIcon == NULL)){
+#endif
         releaseMouse();
         if (!mousePos.isNull()){
             move(e->globalPos().x() - mousePos.x(),  e->globalPos().y() - mousePos.y());
@@ -1011,7 +1039,9 @@ void DockWnd::mouseReleaseEvent( QMouseEvent *e)
             if (p.manhattanLength() > 6)
                 return;
         }
+#ifndef QT_MACOSX_VERSION
     }
+#endif
 #endif
     mouseEvent(e);
 }
@@ -1020,7 +1050,9 @@ void DockWnd::mouseMoveEvent( QMouseEvent *e)
 {
     QWidget::mouseMoveEvent(e);
 #ifndef WIN32
+#ifndef QT_MACOSX_VERSION
     if (inTray || wharfIcon) return;
+#endif
     if (mousePos.isNull()) return;
     move(e->globalPos().x() - mousePos.x(), e->globalPos().y() - mousePos.y());
 #endif
@@ -1035,6 +1067,7 @@ void DockWnd::mouseDoubleClickEvent( QMouseEvent*)
 void DockWnd::enterEvent( QEvent* )
 {
 #ifndef WIN32
+#ifndef QT_MACOSX_VERSION
     if (wharfIcon != NULL) return;
     if ( !qApp->focusWidget() ) {
         XEvent ev;
@@ -1049,6 +1082,7 @@ void DockWnd::enterEvent( QEvent* )
         qApp->x11ProcessEvent( &ev );
         qt_x_time = time;
     }
+#endif
 #endif
 }
 

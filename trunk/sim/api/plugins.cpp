@@ -18,19 +18,12 @@
 #include "simapi.h"
 #include "sockfactory.h"
 #include "fetch.h"
+#include "ltdl.h"
 
 #ifdef WIN32
 #include <windows.h>
 #else
 #include <ctype.h>
-#endif
-
-#ifdef HAVE_DL_H
-#include <dl.h>
-#endif
-
-#ifdef HAVE_DLFCN_H
-#include <dlfcn.h>
 #endif
 
 #include <errno.h>
@@ -159,13 +152,11 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
     m_bLoaded = false;
     m_bInInit = true;
 
+    lt_dlinit();
+    
     QStringList pluginsList;
     QDir pluginDir(app_file("plugins").c_str());
-#ifdef WIN32
-    pluginsList = pluginDir.entryList("*.dll");
-#else
-    pluginsList = pluginDir.entryList("*.so");
-#endif
+    pluginsList = pluginDir.entryList("*" LTDL_SHLIB_EXT);
     m_bAbort = false;
 
     for (QStringList::Iterator it = pluginsList.begin(); it != pluginsList.end(); ++it){
@@ -300,36 +291,19 @@ void PluginManagerPrivate::load(pluginInfo &info)
         string pluginName = "plugins/";
 #endif
         pluginName += info.name;
-#ifdef WIN32
-        pluginName += ".dll";
-#else
-        pluginName += ".so";
-#endif
+        pluginName += LTDL_SHLIB_EXT;
         string fullName = app_file(pluginName.c_str());
-#ifdef WIN32
-        HINSTANCE hLib = LoadLibraryA(fullName.c_str());
-        if (hLib == NULL){
-            log(L_WARN, "Can't load plugin %s", fullName.c_str());
-            return;
-        }
-        info.module = (void*)hLib;
-#else
-        info.module = dlopen(fullName.c_str(), RTLD_LAZY);
+        info.module = (void*)lt_dlopen(fullName.c_str());
         if (info.module == NULL){
-            log(L_WARN, "Can't load plugin %s: %s", fullName.c_str(), dlerror());
+            log(L_WARN, "Can't load plugin %s: %s", fullName.c_str(), lt_dlerror());
             return;
         }
-#endif
     }
     if (info.module == NULL)
         return;
     if (info.info == NULL){
         PluginInfo* (*getInfo)() = NULL;
-#ifdef WIN32
-        (DWORD&)getInfo = (DWORD)GetProcAddress((HINSTANCE)info.module,"GetPluginInfo");
-#else
-        (void*)getInfo = dlsym(info.module, "GetPluginInfo");
-#endif
+        (void*)getInfo = (void*)lt_dlsym((lt_dlhandle)info.module, "GetPluginInfo");
         if (getInfo == NULL){
             log(L_WARN, "Plugin %s haven't entry GetInfo", info.name);
             release(info);
@@ -469,13 +443,8 @@ void PluginManagerPrivate::release(pluginInfo &info, bool bFree)
         e.process();
     }
     if (info.module){
-        if (bFree){
-#ifdef WIN32
-            FreeLibrary((HINSTANCE)(info.module));
-#else
-            dlclose(info.module);
-#endif
-        }
+        if (bFree)
+            lt_dlclose((lt_dlhandle)info.module);
         info.module = NULL;
     }
     info.info = NULL;

@@ -1,6 +1,7 @@
 lib_LTLIBRARIES = libsimapi.la
 
 libsimapi_la_SOURCES = \
+ ltdl.c \
  aboutdata.cpp \
  buffer.cpp \
  cfg.cpp \

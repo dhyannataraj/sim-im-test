@@ -325,10 +325,9 @@ void Container::init()
     m_bInit = true;
 
     showBar();
-
     string windows = getWindows();
     while (!windows.empty()){
-        unsigned long id = atol(getToken(windows, ',').c_str());
+        unsigned long id = strtoul(getToken(windows, ',').c_str(), NULL, 10);
         Contact *contact = getContacts()->contact(id);
         if (contact == NULL)
             continue;
