@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include "generalsec.h"
-#include "helpedit.h"
 #include "icons.h"
 #include "client.h"
 #include "ballonmsg.h"
@@ -29,6 +28,7 @@
 #include <qbuttongroup.h>
 #include <qpixmap.h>
 #include <qlineedit.h>
+#include <qmultilineedit.h>
 #include <qtabwidget.h>
 
 GeneralSecurity::GeneralSecurity(QWidget *p)

@@ -26,7 +26,7 @@
 #include <sys/un.h>
 #include <pwd.h>
 
-void usage(char *s)
+static void usage(char *s)
 {
     uid_t uid = getuid();
     struct passwd *pwd = getpwuid(uid);
@@ -49,11 +49,11 @@ void usage(char *s)
 
 char *local_name = NULL;
 
-void sig_handler()
+static void sig_handler()
 {
 }
 
-void sim_cleanup()
+static void sim_cleanup()
 {
     if (local_name != NULL)
         unlink(local_name);
@@ -105,8 +105,6 @@ int main(int argc, char **argv)
         exit(1);
     }
     if ((addr == NULL) || (*addr == 0)){
-        uid_t uid = getuid();
-        struct passwd *pwd = getpwuid(uid);
         if (pwd){
             snprintf(addr_buf, sizeof(addr_buf), "/tmp/sim.%s", pwd->pw_name);
         }else{

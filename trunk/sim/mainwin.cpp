@@ -1054,8 +1054,9 @@ bool MainWindow::init(bool bNoApply)
     string part;
     file = getFullPath(SIM_CONF);
     QFile fs(QString::fromLocal8Bit(file.c_str()));
-    if (fs.open(IO_ReadOnly))
+    if (fs.open(IO_ReadOnly)){
         ::load(this, MainWindow_Params, fs, part);
+    }
 
     if (bNoApply) return true;
 
@@ -1364,7 +1365,7 @@ void MainWindow::changeUIN()
 
 void MainWindow::saveState()
 {
-    if (pClient->owner->Uin == 0) return;
+    if ((pClient->owner->Uin == 0) || !bLocked) return;
     if (m_bAutoAway || m_bAutoNA) ManualStatus = (unsigned long)m_autoStatus;
     ShowOffline = toolbar->isOn(btnShowOffline);
     GroupMode = toolbar->isOn(btnGroupMode);

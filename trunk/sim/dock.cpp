@@ -413,7 +413,7 @@ ECommsGet(XEvent * ev)
         s2[i] = ev->xclient.data.b[i];
     for (i = 0; i < 12; i++)
         s[i] = ev->xclient.data.b[i + 8];
-    sscanf(s2, "%x", (int *)&win);
+    sscanf(s2, "%x", (unsigned*)&win);
     if (win == comms_win)
     {
         if (c_msg)
