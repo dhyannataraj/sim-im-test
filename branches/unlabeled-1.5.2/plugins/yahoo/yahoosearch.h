@@ -40,9 +40,11 @@ protected slots:
     void searchStop();
     void searchMail(const QString&);
     void searchName(const QString&, const QString&, const QString&);
+    void createContact(const QString&, unsigned tmpFlags, Contact *&contact);
 protected:
     YahooClient *m_client;
     void showEvent(QShowEvent*);
+	void search(const QString&, int type);
     bool done(unsigned code, Buffer &data, const char *headers);
 };
 

@@ -84,6 +84,7 @@ SearchDialog::SearchDialog()
     connect(m_result, SIGNAL(dragStart()), this, SLOT(dragStart()));
     connect(m_search->btnNew, SIGNAL(clicked()), this, SLOT(newSearch()));
     m_result->setMenu(MenuSearchItem);
+	resultShow(m_result);
 }
 
 SearchDialog::~SearchDialog()
@@ -762,6 +763,7 @@ Contact *SearchDialog::createContact(unsigned flags)
     connect(this, SIGNAL(createContact(const QString&, unsigned, Contact*&)), w, SLOT(createContact(const QString&, unsigned, Contact*&)));
     QString name = m_result->currentItem()->text(0);
     emit createContact(name, flags, contact);
+    disconnect(this, SIGNAL(createContact(const QString&, unsigned, Contact*&)), w, SLOT(createContact(const QString&, unsigned, Contact*&)));
     return contact;
 }
 

@@ -44,6 +44,7 @@ protected slots:
     void advancedClicked();
     void search();
     void searchStop();
+    void createContact(const QString&, unsigned tmpFlags, Contact *&contact);
 protected:
     void *processEvent(Event*);
     void showEvent(QShowEvent*);

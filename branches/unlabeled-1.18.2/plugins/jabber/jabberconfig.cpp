@@ -81,6 +81,10 @@ JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig)
     connect(chkVHost, SIGNAL(toggled(bool)), this, SLOT(toggledVHost(bool)));
     chkHTTP->setChecked(m_client->getUseHTTP());
     edtUrl->setText(m_client->getURL());
+	lnkRich->setText("(JEP-0071)");
+	lnkRich->setUrl("http://www.jabber.org/jeps/jep-0071.html");
+	lnkTyping->setText("(JEP-0085)");
+	lnkTyping->setUrl("http://www.jabber.org/jeps/jep-0085.html");
 }
 
 void JabberConfig::apply(Client*, void*)
