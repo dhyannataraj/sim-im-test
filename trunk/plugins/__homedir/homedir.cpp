@@ -96,15 +96,15 @@ HomeDirPlugin::HomeDirPlugin(unsigned base)
 #endif
     }
     if (m_homeDir.empty())
-         m_homeDir = defaultPath();
+        m_homeDir = defaultPath();
     QDir dir(m_homeDir.c_str());
     if (dir.exists()) {
 #ifdef WIN32
-    QString directory = dir.path();
-    directory.replace(QRegExp("/"),"\\");
-    m_homeDir = directory.latin1();
+        QString directory = dir.path();
+        directory.replace(QRegExp("/"),"\\");
+        m_homeDir = directory.latin1();
 #else
-    m_homeDir = QString(dir.path()+"/").latin1();
+        m_homeDir = QString(dir.path()+"/").latin1();
 #endif
     } else {
         m_homeDir = defaultPath();

@@ -131,8 +131,8 @@ void ClientSocket::read_ready()
             readBuffer.setWritePos(readBuffer.writePos() + readn);
             memcpy(readBuffer.data(pos), b, readn);
         }
-        if (m_notify) 
-			m_notify->packet_ready();
+        if (m_notify)
+            m_notify->packet_ready();
         return;
     }
     for (;;){
@@ -146,8 +146,8 @@ void ClientSocket::read_ready()
         if (readn == 0) break;
         readBuffer.setWritePos(readBuffer.writePos() + readn);
         if (readBuffer.writePos() < readBuffer.size()) break;
-        if (m_notify) 
-			m_notify->packet_ready();
+        if (m_notify)
+            m_notify->packet_ready();
     }
 }
 
@@ -175,7 +175,7 @@ void ClientSocket::setSocket(Socket *s)
 
 void ClientSocket::setNotify(ClientSocketNotify *notify)
 {
-	m_notify = notify;
+    m_notify = notify;
 }
 
 void ClientSocket::error_state(const char *err, unsigned code)

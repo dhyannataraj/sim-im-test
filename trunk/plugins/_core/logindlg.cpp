@@ -78,19 +78,22 @@ void LoginDialog::apply()
 {
     if (m_client)
         return;
+    getContacts()->clearClients();
     int n = cmbProfile->currentItem();
     if ((n < 0) || (n >= cmbProfile->count() - 1)){
+        CorePlugin::m_plugin->setSavePasswd(chkSave->isChecked());
+        CorePlugin::m_plugin->setNoShow(chkNoShow->isChecked());
         CorePlugin::m_plugin->setProfile(NULL);
+        CorePlugin::m_plugin->destroy();
         return;
     }
     CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n].c_str());
-    if (!m_bInit || (m_profile != CorePlugin::m_plugin->getProfile())){
+    if (m_profile != CorePlugin::m_plugin->getProfile()){
         CorePlugin::m_plugin->changeProfile();
         m_bProfileChanged = true;
     }
     CorePlugin::m_plugin->setSavePasswd(chkSave->isChecked());
     CorePlugin::m_plugin->setNoShow(chkNoShow->isChecked());
-    getContacts()->clearClients();
     ClientList clients;
     CorePlugin::m_plugin->loadClients(clients);
     clients.addToContacts();

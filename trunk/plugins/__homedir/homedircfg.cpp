@@ -39,8 +39,8 @@ void HomeDirConfig::apply()
 {
     bool bDefault;
     QString homeDir;
-    QString defPath = QString(m_plugin->defaultPath().c_str()); 
-    
+    QString defPath = QString(m_plugin->defaultPath().c_str());
+
     if (chkDefault->isChecked()){
         bDefault = true;
         homeDir = defPath;
@@ -53,8 +53,8 @@ void HomeDirConfig::apply()
     }
     QDir dir(homeDir);
     if (!dir.exists()) {
-    	homeDir = defPath;
-    	bDefault = true;
+        homeDir = defPath;
+        bDefault = true;
     }
     edtPath->setText(homeDir);
     m_plugin->m_bDefault = bDefault;

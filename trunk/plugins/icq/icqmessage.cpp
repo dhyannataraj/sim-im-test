@@ -1494,10 +1494,15 @@ void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned
         type = ICQ_MSGxSECURExCLOSE;
         break;
     }
+    unsigned short flags = ICQ_TCPxMSG_NORMAL;
+    if (msg->getFlags() & MESSAGE_URGENT)
+        flags = ICQ_TCPxMSG_URGENT;
+    if (msg->getFlags() & MESSAGE_LIST)
+        flags = ICQ_TCPxMSG_LIST;
     if (nSequence){
         b.pack(type);
-        b.pack((unsigned short)(fullStatus(getStatus()) & 0xFF));
-        b.pack((unsigned short)1);
+        b.pack(msgStatus());
+        b.pack(flags);
         b << res;
         switch (type){
         case MessageFile:
@@ -1513,8 +1518,8 @@ void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned
     }
     if (type == ICQ_MSGxEXT){
         b.pack(type);
-        b.pack((unsigned short)(this->data.owner.Status));
-        b.pack((unsigned short)1);
+        b.pack(msgStatus());
+        b.pack(flags);
     }else{
         b.pack(this->data.owner.Uin);
         b << (char)type << (char)0;

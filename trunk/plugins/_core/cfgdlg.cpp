@@ -542,18 +542,18 @@ void ConfigureDialog::showUpdate(bool bShow)
 
 void ConfigureDialog::updateInfo()
 {
-/*
-// obsolete - we don't want to update our own infos
-// because we have them already
-    if (m_nUpdates)
-        return;
-    // NULL , NULL ist wrong --> NULL Ptr Exception
-    for (unsigned i = 0; i < getContacts()->nClients(); i++){
-        m_nUpdates++;
-        getContacts()->getClient(i)->updateInfo(NULL, NULL);
-    }
-    btnUpdate->setEnabled(!m_nUpdates);
-    setTitle(); */
+    /*
+    // obsolete - we don't want to update our own infos
+    // because we have them already
+        if (m_nUpdates)
+            return;
+        // NULL , NULL ist wrong --> NULL Ptr Exception
+        for (unsigned i = 0; i < getContacts()->nClients(); i++){
+            m_nUpdates++;
+            getContacts()->getClient(i)->updateInfo(NULL, NULL);
+        }
+        btnUpdate->setEnabled(!m_nUpdates);
+        setTitle(); */
 }
 
 void ConfigureDialog::raisePage(Client *client)

@@ -51,7 +51,7 @@ PluginCfg::PluginCfg(QWidget *parent, pluginInfo *info)
     // adjust complete widget
     setMinimumSize(sizeHint());
     adjustSize();
-    if (m_info->info->description){
+    if (m_info->info && m_info->info->description){
         lblDescription->setText(i18n(m_info->info->description));
     }else{
         lblDescription->setText("");

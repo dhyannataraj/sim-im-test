@@ -385,25 +385,25 @@ void IP::set(unsigned long ip, const char *host)
         m_host = new char[strlen(host) + 1];
         strcpy(m_host, host);
     }
-	resolve();
+    resolve();
 }
 
 void IP::set(unsigned long ip)
 {
     m_ip = ip;
-	if (m_host){
-		delete[] m_host;
-		m_host = NULL;
-	}
+    if (m_host){
+        delete[] m_host;
+        m_host = NULL;
+    }
     if (m_ip == 0)
         return;
-	resolve();
+    resolve();
 }
 
 void IP::resolve()
 {
-	if (m_host)
-		return;
+    if (m_host)
+        return;
     if (pResolver == NULL)
         pResolver = new IPResolver;
     for (list<IP*>::iterator it = pResolver->queue.begin(); it != pResolver->queue.end(); ++it){
@@ -428,7 +428,7 @@ void IPResolver::resolve_ready()
     if (resolver->hostNames().count())
         m_host = resolver->hostNames().first().latin1();
     struct in_addr inaddr;
-    inaddr.s_addr = htonl(m_addr);
+    inaddr.s_addr = m_addr;
     log(L_DEBUG, "Resolver ready %s %s", inet_ntoa(inaddr), m_host.c_str());
     for (list<IP*>::iterator it = queue.begin(); it != queue.end(); ){
         if (htonl((*it)->ip()) != m_addr){
@@ -439,7 +439,7 @@ void IPResolver::resolve_ready()
         queue.erase(it);
         it = queue.begin();
     }
-//    start_resolve();
+    //    start_resolve();
 }
 
 void IPResolver::start_resolve()

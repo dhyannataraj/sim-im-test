@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>250</width>
-            <height>194</height>
+            <width>292</width>
+            <height>213</height>
         </rect>
     </property>
     <property>
@@ -317,7 +317,18 @@
                             <string>Automatically &amp;update user info</string>
                         </property>
                     </widget>
-                    <spacer row="3"  column="0" >
+                    <widget row="2"  column="0"  rowspan="1"  colspan="2" >
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkTyping</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Support &amp;typing notification</string>
+                        </property>
+                    </widget>
+                    <spacer row="5"  column="0" >
                         <property>
                             <name>name</name>
                             <cstring>Spacer4_2</cstring>
@@ -338,15 +349,26 @@
                             </size>
                         </property>
                     </spacer>
-                    <widget row="2"  column="0"  rowspan="1"  colspan="2" >
+                    <widget row="3"  column="0"  rowspan="1"  colspan="2" >
                         <class>QCheckBox</class>
                         <property stdset="1">
                             <name>name</name>
-                            <cstring>chkTyping</cstring>
+                            <cstring>chkDND</cstring>
                         </property>
                         <property>
                             <name>text</name>
-                            <string>Support &amp;typing notification</string>
+                            <string>Accept in &amp;DND mode</string>
+                        </property>
+                    </widget>
+                    <widget row="4"  column="0"  rowspan="1"  colspan="2" >
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkOccupied</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Accept in &amp;occupied mode</string>
                         </property>
                     </widget>
                 </grid>

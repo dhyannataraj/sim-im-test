@@ -60,8 +60,10 @@ public slots:
     void setInput();
     void goNext();
     void setupNext();
+    void retry(int, void*);
 protected:
     unsigned m_type;
+    unsigned m_flags;
     void *processEvent(Event*);
     void resizeEvent(QResizeEvent*);
     void stopSend(bool bCheck=true);

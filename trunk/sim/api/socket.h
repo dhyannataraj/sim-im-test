@@ -135,7 +135,7 @@ public:
     void setRaw(bool mode);
     Socket *socket() { return m_sock; }
     void setSocket(Socket *s);
-	void setNotify(ClientSocketNotify*);
+    void setNotify(ClientSocketNotify*);
     const char *errorString();
 protected:
     virtual void connect_ready();
