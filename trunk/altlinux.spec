@@ -5,13 +5,7 @@
 
 %def_enable simqt
 %def_enable simkde
-
-%if_disabled simqt
-%if_disabled simkde
-Error: one of simkde and simqt must be enabled
-%endif
-%endif
-
+%def_disable M22
 
 %if_enabled simqt
 %define simqtinstalldir %_builddir/%name/qtinstalldir/
@@ -23,8 +17,8 @@ Error: one of simkde and simqt must be enabled
 
 Name: sim
 Version: 0.9.4
-Release: alt7
-Serial:  1
+Release: alt8
+Serial: 1
 
 Group: Networking/Instant messaging
 Summary: SIM - Simple Instant Messenger (with KDE support)
@@ -37,47 +31,49 @@ Url: http://sim-icq.sf.net/
 Source: %name.tar.bz2
 
 # ALT specific patches
-Patch0: %name-alt-plugindir.patch
-Patch1: %name-alt-libnames.patch
-Patch2: %name-alt-play_wrapper.patch
+%if_disabled M22
+Patch0: %name-alt-play_wrapper.patch
+%endif
+Patch1: %name-alt-simqt.patch
 
-# fixes
-Patch10: %name-alt-groupmove-fix.patch
-Patch11: %name-alt-histpreview-apply-fix.patch
-Patch12: %name-alt-interfacecfg-fixes.patch
-Patch13: %name-alt-osd-offline-fix.patch
-Patch14: %name-alt-version-detect-fix.patch
+BuildPreReq: gcc-c++ flex libart_lgpl-devel libqt3-devel
+BuildPreReq: libssl-devel libxslt-devel zip
+BuildPreReq: XFree86-devel libpng-devel
+#libjpeg-devel
+%if_disabled M22
+BuildPreReq: libqt3-devel-cxx = %__gcc_version_base
+%endif
 
-# translations
-Patch50: %name-alt-ru-translation.patch
-
-
-BuildPreReq: gcc-c++ flex libart_lgpl-devel libssl-devel
-BuildPreReq: libxslt-devel menu-devel zip
-BuildPreReq: libqt3-devel libqt3-devel-cxx = %__gcc_version_base
 %if_enabled simkde
 BuildPreReq: xml-utils
-BuildPreReq: kdelibs-devel kdelibs-devel-cxx = %__gcc_version_base
+BuildPreReq: kdelibs-devel
+%if_disabled M22
+BuildPreReq: kdelibs-devel-cxx = %__gcc_version_base
+%endif
 %endif
 %if_enabled simqt
-BuildPreReq: libaspell-devel 
+BuildPreReq: libaspell-devel
 %endif
 
 %if_enabled simkde
 Requires: %name-common >= %version-%release
+%if_disabled M22
 Requires: sound_handler
+%endif
 Obsoletes: libsim sim-plugins
 #Provides: libsim sim-plugins
 Conflicts: libsim-qt
 Conflicts: sim-qt < 0.9.3-alt0.2
 %endif
 
+%if_disabled M22
 %if_enabled simkde
 %add_findprov_lib_path %_libdir/%name
 %endif
 
 %if_enabled simqt
 %add_findprov_lib_path %_libdir/%name-qt
+%endif
 %endif
 
 %description
@@ -89,13 +85,12 @@ This package contains version built with KDE support.
 
 %description -l ru_RU.CP1251
 Кроссплатформенный, многопротокольный клиент обмена мгновенными
-сообщениями (требует Qt, может быть собран с поддержкой KDE). 
-Поддерживаются протоколы ICQ, Jabber, MSN, AIM, YIM, а также 
+сообщениями (требует Qt, может быть собран с поддержкой KDE).
+Поддерживаются протоколы ICQ, Jabber, MSN, AIM, YIM, а также
 LiveJournal. Кроме того, имеется множество плагинов, реализующих
 дополнительные возможности.
 
 Данный пакет содержит версию, собранную с поддержкой KDE.
-
 
 %if_enabled simqt
 %package qt
@@ -103,7 +98,9 @@ Group: Networking/Instant messaging
 Summary: SIM - Simple Instant Messenger (without KDE support)
 Summary(ru_RU.CP1251): SIM - клиент ICQ/AIM/MSN/Jabber (без поддержки KDE)
 Requires: %name-common >= %version-%release
+%if_disabled M22
 Requires: sound_handler
+%endif
 Obsoletes: libsim-qt sim-qt-plugins
 #Provides: libsim-qt sim-qt-plugins
 Conflicts: libsim
@@ -118,8 +115,8 @@ This package contains version built without KDE support.
 
 %description qt -l ru_RU.CP1251
 Кроссплатформенный, многопротокольный клиент обмена мгновенными
-сообщениями (требует Qt, может быть собран с поддержкой KDE). 
-Поддерживаются протоколы ICQ, Jabber, MSN, AIM, YIM, а также 
+сообщениями (требует Qt, может быть собран с поддержкой KDE).
+Поддерживаются протоколы ICQ, Jabber, MSN, AIM, YIM, а также
 LiveJournal. Кроме того, имеется множество плагинов, реализующих
 дополнительные возможности.
 
@@ -132,7 +129,7 @@ Summary: SIM - Simple Instant Messenger (data files)
 Summary(ru_RU.CP1251): SIM - клиент ICQ/AIM/MSN/Jabber (файлы данных)
 Obsoletes: sim-data sim-qt-data
 #Provides: sim-data sim-qt-data
-Conflicts: sim < 0.9.0 
+Conflicts: sim < 0.9.0
 Conflicts: sim-qt < 0.9.0
 
 %description common
@@ -144,27 +141,31 @@ This package contains common files for both sim and sim-qt.
 
 %description common -l ru_RU.CP1251
 Кроссплатформенный, многопротокольный клиент обмена мгновенными
-сообщениями (требует Qt, может быть собран с поддержкой KDE). 
-Поддерживаются протоколы ICQ, Jabber, MSN, AIM, YIM, а также 
+сообщениями (требует Qt, может быть собран с поддержкой KDE).
+Поддерживаются протоколы ICQ, Jabber, MSN, AIM, YIM, а также
 LiveJournal. Кроме того, имеется множество плагинов, реализующих
 дополнительные возможности.
 
 Данный пакет содержит файлы данных, необходимые для sim и sim-qt.
 
 %prep
+%if_disabled simqt
+%if_disabled simkde
+echo "Error: one of simkde and simqt must be enabled"
+exit 1
+%endif
+%endif
+
+%if_enabled M22
+echo "Building for Master 2.2"
+%endif
+
 %setup -n %name
 
+%if_disabled M22
 %patch0 -p1
+%endif
 %patch1 -p1
-%patch2 -p1
-
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
-%patch14 -p1
-
-%patch50 -p1
 
 %__subst 's,\.la\>,.so,' admin/acinclude.m4.in
 %__subst "s/\-ansi /\-fPIC -DPIC /g" admin/acinclude.m4.in
@@ -183,8 +184,8 @@ export LD_LIBRARY_PATH=$QTDIR/lib:$LD_LIBRARY_PATH
     DO_NOT_COMPILE=%do_not_compile \
     --disable-kde \
     --disable-rpath
-%make_build 
-%make install DESTDIR=%simqtinstalldir
+%make_build
+%make_install install DESTDIR=%simqtinstalldir
 %endif
 
 ## With KDE ##
@@ -194,11 +195,10 @@ export LD_LIBRARY_PATH=$QTDIR/lib:$LD_LIBRARY_PATH
     DO_NOT_COMPILE=%do_not_compile \
     --disable-rpath
 %make_build
-%make install DESTDIR=%siminstalldir
+%make_install install DESTDIR=%siminstalldir
 %endif
 
 %install
-
 %if_enabled simkde
 %__cp -R %siminstalldir %buildroot
 %else
@@ -213,7 +213,7 @@ export LD_LIBRARY_PATH=$QTDIR/lib:$LD_LIBRARY_PATH
 %__subst 's,^Exec=sim$,\0-qt,' %buildroot%_datadir/applnk/Internet/%name-qt.desktop
 %__subst 's,^Name.*=Sim$,\0-qt,g' %buildroot%_datadir/applnk/Internet/%name-qt.desktop
 %__subst 's,^DocPath,#\0,' %buildroot%_datadir/applnk/Internet/%name-qt.desktop
-freedesktop2menu.pl %name-qt \
+kdedesktop2mdkmenu.pl %name-qt \
 	"Networking/Instant messaging" \
 	%buildroot%_datadir/applnk/Internet/%name-qt.desktop \
 	%buildroot%_menudir/%name-qt \
@@ -223,7 +223,7 @@ freedesktop2menu.pl %name-qt \
 
 %if_enabled simkde
 %__subst 's,^DocPath,#\0,' %buildroot%_datadir/applnk/Internet/%name.desktop
-freedesktop2menu.pl %name \
+kdedesktop2mdkmenu.pl %name \
 	"Networking/Instant messaging" \
 	%buildroot%_datadir/applnk/Internet/%name.desktop \
 	%buildroot%_menudir/%name \
@@ -281,6 +281,11 @@ freedesktop2menu.pl %name \
 %_datadir/mimelnk/application/x-icq.desktop
 
 %changelog
+* Thu Sep 09 2004 Andrey Rahmatullin <wrar@altlinux.ru> 1:0.9.4-alt8
+- CVS 20040909
+- add ability to build packages for Master 2.2 (use --enable M22)
+- all fixes gone upstream
+
 * Sat Aug 14 2004 Andrey Rahmatullin <wrar@altlinux.ru> 1:0.9.4-alt7
 - add Packager: sim@packages.a.o
 - do `make clean' between two builds (fixes some segfaults in sim-kde)
@@ -313,7 +318,7 @@ freedesktop2menu.pl %name \
 - .so files removed (#4672)
 - include all locales (see `fortune ALT -m '19 .*\?'` :))
 - Russian summaries and descriptions added
-- add ability to build only sim or sim-qt 
+- add ability to build only sim or sim-qt
   (use --disable simqt or --disable simkde)
 - do not build autoaway plugin, since it segfaults on exit
 - a lot of new features and bugs :(
@@ -363,7 +368,7 @@ freedesktop2menu.pl %name \
 - build scheme change (3 packages from 1 source RPM)
 - removed kdebase from requires (#3651)
 - removed /usr/share/locale/ru etc. from package (#3502)
-- rename libs for kde-disabled build (to make possible installing both builds 
+- rename libs for kde-disabled build (to make possible installing both builds
   simultaneously)
 - Very big thanks to Andrey Rahmatullin <wrar@altlinux.ru> for new scheme patches
 
