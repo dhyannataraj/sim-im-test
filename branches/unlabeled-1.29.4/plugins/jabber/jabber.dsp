@@ -1027,22 +1027,6 @@ SOURCE=.\jidsearchbase.h
 SOURCE=.\jabber.rc
 # End Source File
 # End Group
-# Begin Group "xpm"
-
-# PROP Default_Filter "xpm"
-# Begin Source File
-
-SOURCE=.\xpm\connect.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\jabber.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\register.xpm
-# End Source File
-# End Group
 # Begin Group "Interfaces"
 
 # PROP Default_Filter "ui"

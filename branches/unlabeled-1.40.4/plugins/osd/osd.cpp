@@ -27,8 +27,6 @@
 
 #include "fontedit.h"
 
-#include "xpm/alert.xpm"
-
 #include <qtimer.h>
 #include <qpainter.h>
 #include <qapplication.h>
@@ -142,12 +140,6 @@ OSDPlugin::OSDPlugin(unsigned base)
         : Plugin(base)
 {
     osdPlugin    = this;
-
-    IconDef icon;
-    icon.name = "alert";
-    icon.xpm = alert;
-    Event eIcon(EventAddIcon, &icon);
-    eIcon.process();
 
     user_data_id = getContacts()->registerUserData(info.title, osdUserData);
     Command cmd;

@@ -481,23 +481,6 @@ void setButtonsPict(QWidget *w)
     delete l;
 }
 
-const QIconSet *Icon(const char *name)
-{
-    Event e(EventGetIcon, (void*)name);
-    const QIconSet *res = (const QIconSet*)e.process();
-    if ((unsigned)res == (unsigned)(-1))
-        res = NULL;
-    return res;
-}
-
-QPixmap Pict(const char *name)
-{
-    const QIconSet *icons = Icon(name);
-    if (icons == NULL)
-        return QPixmap();
-    return icons->pixmap(QIconSet::Automatic, QIconSet::Normal);
-}
-
 EXPORT QString formatDateTime(unsigned long t)
 {
     if (t == 0) return "";

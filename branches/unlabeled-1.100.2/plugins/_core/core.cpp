@@ -31,7 +31,6 @@
 #include "statuswnd.h"
 #include "manager.h"
 #include "connectionsettings.h"
-#include "icons.h"
 #include "container.h"
 #include "userwnd.h"
 #include "msgedit.h"
@@ -316,6 +315,7 @@ static DataDef coreData[] =
         { "RemoveHistory", DATA_BOOL, 1, DATA(1) },
         { "SearchGeometry", DATA_ULONG, 5, DATA(0) },
         { "SearchClient", DATA_STRING, 1, DATA(0) },
+		{ "NoScroller", DATA_BOOL, 1, DATA(0) },
         { NULL, 0, 0, 0 }
     };
 
@@ -487,7 +487,6 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     loadDir();
 
     m_tmpl	= new Tmpl(this);
-    m_icons = new Icons;
     m_cmds	= new Commands;
     boundTypes();
 
@@ -1460,7 +1459,6 @@ CorePlugin::~CorePlugin()
     destroy();
     delete m_lock;
     delete m_cmds;
-    delete m_icons;
     delete m_tmpl;
     if (m_status)
         delete m_status;

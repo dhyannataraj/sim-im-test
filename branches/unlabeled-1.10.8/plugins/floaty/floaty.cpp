@@ -21,8 +21,6 @@
 
 #include "core.h"
 
-#include "xpm/floating.xpm"
-
 #include <qpopupmenu.h>
 #include <qapplication.h>
 #include <qwidgetlist.h>
@@ -75,16 +73,9 @@ FloatyPlugin::FloatyPlugin(unsigned base)
     CmdFloaty = registerType();
     user_data_id = getContacts()->registerUserData(info.title, floatyUserData);
 
-    IconDef icon;
-    icon.name = "floating";
-    icon.xpm = floating;
-
     m_bBlink = false;
     unreadTimer = new QTimer(this);
     connect(unreadTimer, SIGNAL(timeout()), this, SLOT(unreadBlink()));
-
-    Event eIcon(EventAddIcon, &icon);
-    eIcon.process();
 
     Command cmd;
     cmd->id		  = CmdFloaty;

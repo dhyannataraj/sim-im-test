@@ -409,13 +409,5 @@ BuildCmds= \
 
 # End Source File
 # End Group
-# Begin Group "xpm"
-
-# PROP Default_Filter "xpm"
-# Begin Source File
-
-SOURCE=.\xpm\ignorelist.xpm
-# End Source File
-# End Group
 # End Target
 # End Project

@@ -19,8 +19,6 @@
 #include "simapi.h"
 #include "monitor.h"
 
-#include "xpm/network.xpm"
-
 #include <qtimer.h>
 #include <qwidget.h>
 
@@ -78,13 +76,6 @@ NetmonitorPlugin::NetmonitorPlugin(unsigned base, Buffer *config)
 
     monitor = NULL;
     CmdNetMonitor = registerType();
-
-    IconDef icon;
-    icon.name = "network";
-    icon.xpm = network;
-
-    Event eIcon(EventAddIcon, &icon);
-    eIcon.process();
 
     Command cmd;
     cmd->id          = CmdNetMonitor;

@@ -19,19 +19,6 @@
 #include "icqconfig.h"
 #include "core.h"
 
-#include "xpm/birthday.xpm"
-#include "xpm/more.xpm"
-#include "xpm/interest.xpm"
-#include "xpm/past.xpm"
-#include "xpm/useronline.xpm"
-#include "xpm/useroffline.xpm"
-#include "xpm/userunknown.xpm"
-#include "xpm/web.xpm"
-#include "xpm/mailpager.xpm"
-#include "xpm/icqphone.xpm"
-#include "xpm/icqphonebusy.xpm"
-#include "xpm/sharedfiles.xpm"
-
 Plugin *createICQPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new ICQPlugin(base);
@@ -356,56 +343,6 @@ ICQPlugin::ICQPlugin(unsigned base)
     getContacts()->addPacketType(ICQDirectPacket, "ICQ.Direct");
     AIMDirectPacket = registerType();
     getContacts()->addPacketType(AIMDirectPacket, "AIM.Direct");
-
-    IconDef icon;
-    icon.name = "birthday";
-    icon.xpm = birthday;
-    Event eIcon(EventAddIcon, &icon);
-    eIcon.process();
-
-    icon.name = "more";
-    icon.xpm = more;
-    eIcon.process();
-
-    icon.name = "interest";
-    icon.xpm = interest;
-    eIcon.process();
-
-    icon.name = "past";
-    icon.xpm = past;
-    eIcon.process();
-
-    icon.name = "useronline";
-    icon.xpm = useronline;
-    eIcon.process();
-
-    icon.name = "useroffline";
-    icon.xpm = useroffline;
-    eIcon.process();
-
-    icon.name = "userunknown";
-    icon.xpm = userunknown;
-    eIcon.process();
-
-    icon.name = "web";
-    icon.xpm = web;
-    eIcon.process();
-
-    icon.name = "mailpager";
-    icon.xpm = mailpager;
-    eIcon.process();
-
-    icon.name = "icqphone";
-    icon.xpm = icqphone;
-    eIcon.process();
-
-    icon.name = "icqphonebusy";
-    icon.xpm = icqphonebusy;
-    eIcon.process();
-
-    icon.name = "sharedfiles";
-    icon.xpm = sharedfiles;
-    eIcon.process();
 
     m_icq = new ICQProtocol(this);
     m_aim = new AIMProtocol(this);

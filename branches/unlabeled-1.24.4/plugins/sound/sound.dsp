@@ -789,17 +789,5 @@ InputPath=".\sounds\vip-online.wav"
 
 # End Source File
 # End Group
-# Begin Group "xpm"
-
-# PROP Default_Filter "xpm"
-# Begin Source File
-
-SOURCE=.\xpm\nosound.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\sound.xpm
-# End Source File
-# End Group
 # End Target
 # End Project

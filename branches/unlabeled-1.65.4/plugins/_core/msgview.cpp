@@ -482,11 +482,15 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     }else{
         msgText = status;
     }
+	log(L_DEBUG, "0: %s", msgText.latin1());
 
     Event e(EventEncodeText, &msgText);
     e.process();
     ViewParser parser(CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
     msgText = parser.parse(msgText);
+
+	log(L_DEBUG, "1: %s", msgText.latin1());
+
     s += "<body";
 
     if ((msg->getForeground() != 0xFFFFFFFF) && (msg->getForeground() != msg->getBackground()))
@@ -524,6 +528,9 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     anchor += id;
     anchor += "\">";
     res = anchor + res;
+
+	log(L_DEBUG, "2: %s", res.latin1());
+
     return res;
 }
 

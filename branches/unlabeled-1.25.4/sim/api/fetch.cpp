@@ -53,7 +53,7 @@ protected:
     FetchThread	*m_thread;
     string		m_err;
     unsigned	m_errCode;
-    void customEvent(QCustomEvent* event);
+    bool event(QEvent* event);
 #endif
     virtual bool error_state(const char *err, unsigned code);
     virtual void connect_ready();
@@ -569,13 +569,15 @@ FetchClientPrivate::FetchClientPrivate(FetchClient *client)
 }
 
 #ifdef WIN32
-void FetchClientPrivate::customEvent(QCustomEvent* event)
+bool FetchClientPrivate::event(QEvent* e)
 {
-    if (event->type() == Q_EVENT_SIM_FETCH_DONE) {
+    if (e->type() == Q_EVENT_SIM_FETCH_DONE) {
         log(L_DEBUG,"customEvent!");
-        FetchClient *client = (FetchClient*)event->data();
+        FetchClient *client = (FetchClient*)((QCustomEvent*)e)->data();
         FetchManager::manager->done(client);
+		return true;
     }
+	return QObject::event(e);
 }
 #endif
 

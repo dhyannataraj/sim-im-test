@@ -167,6 +167,7 @@ EXPORT QString SIM::quoteString(const QString &_str, quoteMode mode)
     str.replace(QRegExp(">"), "&gt;");
     str.replace(QRegExp("\""), "&quot;");
     str.replace(QRegExp("\r"), "");
+	str.replace(QRegExp("\t"), "&nbsp;&nbsp;");
     switch (mode){
     case quoteHTML:
         str.replace(QRegExp("\n"), "<br>\n");

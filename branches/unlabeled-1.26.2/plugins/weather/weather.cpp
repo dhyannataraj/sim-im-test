@@ -23,56 +23,6 @@
 #include "socket.h"
 #include "toolbtn.h"
 
-#include "xpm/0.xpm"
-#include "xpm/1.xpm"
-#include "xpm/2.xpm"
-#include "xpm/3.xpm"
-#include "xpm/4.xpm"
-#include "xpm/5.xpm"
-#include "xpm/6.xpm"
-#include "xpm/7.xpm"
-#include "xpm/8.xpm"
-#include "xpm/9.xpm"
-#include "xpm/10.xpm"
-#include "xpm/11.xpm"
-#include "xpm/12.xpm"
-#include "xpm/13.xpm"
-#include "xpm/14.xpm"
-#include "xpm/15.xpm"
-#include "xpm/16.xpm"
-#include "xpm/17.xpm"
-#include "xpm/18.xpm"
-#include "xpm/19.xpm"
-#include "xpm/20.xpm"
-#include "xpm/21.xpm"
-#include "xpm/22.xpm"
-#include "xpm/23.xpm"
-#include "xpm/24.xpm"
-#include "xpm/25.xpm"
-#include "xpm/26.xpm"
-#include "xpm/27.xpm"
-#include "xpm/28.xpm"
-#include "xpm/29.xpm"
-#include "xpm/30.xpm"
-#include "xpm/31.xpm"
-#include "xpm/32.xpm"
-#include "xpm/33.xpm"
-#include "xpm/34.xpm"
-#include "xpm/35.xpm"
-#include "xpm/36.xpm"
-#include "xpm/37.xpm"
-#include "xpm/38.xpm"
-#include "xpm/39.xpm"
-#include "xpm/40.xpm"
-#include "xpm/41.xpm"
-#include "xpm/42.xpm"
-#include "xpm/43.xpm"
-#include "xpm/44.xpm"
-#include "xpm/45.xpm"
-#include "xpm/46.xpm"
-#include "xpm/47.xpm"
-#include "xpm/na.xpm"
-
 #include <time.h>
 
 #include <qapplication.h>
@@ -160,11 +110,6 @@ WeatherPlugin::WeatherPlugin(unsigned base, bool bInit, Buffer *config)
     EventWeather = registerType();
     Event eBar(EventToolbarCreate, (void*)BarWeather);
     eBar.process();
-    IconDef icon;
-    icon.name = "weather";
-    icon.xpm  = na;
-    Event eIcon(EventAddIcon, &icon);
-    eIcon.process();
     Command cmd;
     cmd->id = CmdWeather;
     cmd->text = I18N_NOOP("Not connected");
@@ -357,62 +302,11 @@ void WeatherPlugin::showBar()
     updateButton();
 }
 
-static const char **xpms[] =
-    {
-        xpm_0,
-        xpm_1,
-        xpm_2,
-        xpm_3,
-        xpm_4,
-        xpm_5,
-        xpm_6,
-        xpm_7,
-        xpm_8,
-        xpm_9,
-        xpm_10,
-        xpm_11,
-        xpm_12,
-        xpm_13,
-        xpm_14,
-        xpm_15,
-        xpm_16,
-        xpm_17,
-        xpm_18,
-        xpm_19,
-        xpm_20,
-        xpm_21,
-        xpm_22,
-        xpm_23,
-        xpm_24,
-        xpm_25,
-        xpm_26,
-        xpm_27,
-        xpm_28,
-        xpm_29,
-        xpm_30,
-        xpm_31,
-        xpm_32,
-        xpm_33,
-        xpm_34,
-        xpm_35,
-        xpm_36,
-        xpm_37,
-        xpm_38,
-        xpm_39,
-        xpm_40,
-        xpm_41,
-        xpm_42,
-        xpm_43,
-        xpm_44,
-        xpm_45,
-        xpm_46,
-        xpm_47
-    };
-
 void WeatherPlugin::updateButton()
 {
     if ((getTime() == 0) || (m_bar == NULL))
         return;
+#if 0
     const char **xpm = xpms[getIcon()];
     if (xpm){
         IconDef icon;
@@ -421,6 +315,7 @@ void WeatherPlugin::updateButton()
         Event eIcon(EventAddIcon, &icon);
         eIcon.process();
     }
+#endif
     QString text = unquoteText(getButtonText());
     QString tip = getTipText();
     QString ftip = getForecastText();
@@ -433,6 +328,7 @@ void WeatherPlugin::updateButton()
         n = getForecast();
     for (m_day = 1; m_day <= getForecast(); m_day++){
         tip += forecastReplace(ftip);
+#if 0
         const char **xpm = xpms[atol(getDayIcon(m_day))];
         if (xpm){
             string url = "weather";
@@ -443,6 +339,7 @@ void WeatherPlugin::updateButton()
             Event eIcon(EventAddIcon, &icon);
             eIcon.process();
         }
+#endif
         if (--n == 0){
             tip += "</td><td>";
             n = (getForecast() + 1) / 2;

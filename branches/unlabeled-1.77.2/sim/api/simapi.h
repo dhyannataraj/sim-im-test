@@ -406,26 +406,8 @@ const unsigned EventSaveState		= 0x0310;
 */
 const unsigned EventClientsChanged	= 0x0311;
 
-/* Add icon (param is IconDef ) */
-const unsigned EventAddIcon = 0x0401;
-
-typedef struct IconDef
-{
-    const char *name;
-    const char **xpm;
-    const char *system;
-    unsigned   flags;
-    IconDef() : name(NULL), xpm(NULL), system(NULL), flags(0) {}
-} IconDef;
-
-const unsigned ICON_COLOR_MASK	= 0x000000FF;
-
-/* Get icon (param is const char *name)
-   return const QIconSet* or NULL */
-const unsigned EventGetIcon = 0x0402;
-
 /* Event icons changed */
-const unsigned EventIconChanged = 0x0404;
+const unsigned EventIconChanged		= 0x0400;
 
 /* Toolbar (create and remove)
    param is toolbar id */

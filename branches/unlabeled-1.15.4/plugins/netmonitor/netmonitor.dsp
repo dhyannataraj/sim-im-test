@@ -183,13 +183,5 @@ InputName=netmonitor
 
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 # End Group
-# Begin Group "xpm"
-
-# PROP Default_Filter "xpm"
-# Begin Source File
-
-SOURCE=.\xpm\network.xpm
-# End Source File
-# End Group
 # End Target
 # End Project
