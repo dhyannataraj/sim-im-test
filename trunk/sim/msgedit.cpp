@@ -31,6 +31,7 @@
 #include "userview.h"
 #include "ui/editfile.h"
 #include "ui/ballonmsg.h"
+#include "ui/wndcancel.h"
 
 #include <qlayout.h>
 #include <qvgroupbox.h>
@@ -250,6 +251,7 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     setUin(uin);
     connect(pMain, SIGNAL(modeChanged(bool)), this, SLOT(modeChanged(bool)));
     modeChanged(pMain->SimpleMode());
+    wndCancel = new WndCancel(this);
 }
 
 MsgEdit::~MsgEdit()

@@ -145,7 +145,8 @@ public:
 
     ConfigULong  AutoAwayTime;
     ConfigULong  AutoNATime;
-	ConfigBool	 NoAlertAway;
+
+    ConfigBool	 NoAlertAway;
 
     ConfigULong  ManualStatus;
     ConfigShort  DivPos;

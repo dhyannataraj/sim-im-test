@@ -793,6 +793,10 @@ SOURCE=.\sim\moc_userview.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\ui\moc_wndcancel.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\ui\moc_workinfo.cpp
 # End Source File
 # Begin Source File
@@ -1080,6 +1084,10 @@ SOURCE=.\sim\userview.cpp
 # Begin Source File
 
 SOURCE=.\sim\libicq\various.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\wndcancel.cpp
 # End Source File
 # Begin Source File
 
@@ -3232,6 +3240,39 @@ InputName=userview
 InputDir=.\sim
 InputPath=.\sim\userview.h
 InputName=userview
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\wndcancel.h
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\wndcancel.h
+InputName=wndcancel
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\wndcancel.h
+InputName=wndcancel
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp

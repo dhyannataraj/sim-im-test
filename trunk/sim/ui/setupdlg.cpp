@@ -42,6 +42,7 @@
 #include "ui/network.h"
 #include "ui/xosdsetup.h"
 #include "ui/keysetup.h"
+#include "ui/wndcancel.h"
 
 #ifndef WIN32
 #include "ui/miscsetup.h"

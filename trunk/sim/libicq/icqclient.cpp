@@ -339,6 +339,9 @@ void ICQClient::idle()
 
 unsigned long ICQClient::fullStatus(unsigned long s)
 {
+    if (s & ICQ_STATUS_NA) s |= ICQ_STATUS_AWAY;
+    if (s & ICQ_STATUS_OCCUPIED) s |= ICQ_STATUS_AWAY;
+    if (s & ICQ_STATUS_DND) s |= (ICQ_STATUS_AWAY | ICQ_STATUS_OCCUPIED);
     s &= 0x0000FFFF;
     if (WebAware())
         s |= ICQ_STATUS_FxWEBxPRESENCE;
@@ -361,45 +364,35 @@ unsigned long ICQClient::fullStatus(unsigned long s)
 
 void ICQClient::getAutoResponse(unsigned long uin, string &res)
 {
+    res = "";
     ICQUser *u = getUser(uin);
-    switch (uStatus){
-    case ICQ_STATUS_AWAY:
-        if (u){
-            res = u->AutoResponseAway;
-            if (*res.c_str()) break;
-        }
-        res = AutoResponseAway;
-        break;
-    case ICQ_STATUS_NA:
-        if (u){
-            res = u->AutoResponseNA;
-            if (*res.c_str()) break;
-        }
-        res = AutoResponseNA;
-        break;
-    case ICQ_STATUS_DND:
-        if (u){
+    unsigned long status = 0;
+    if (u) status = u->uStatus;
+    if (status & ICQ_STATUS_DND){
+        if (u)
             res = u->AutoResponseDND;
-            if (*res.c_str()) break;
-        }
-        res = AutoResponseDND;
-        break;
-    case ICQ_STATUS_OCCUPIED:
-        if (u){
+        if (*res.c_str() == 0)
+            res = AutoResponseDND;
+    }else if (status & ICQ_STATUS_OCCUPIED){
+        if (u)
             res = u->AutoResponseOccupied;
-            if (*res.c_str()) break;
-        }
-        res = AutoResponseOccupied;
-        break;
-    case ICQ_STATUS_FREEFORCHAT:
-        if (u){
+        if (*res.c_str() == 0)
+            res = AutoResponseOccupied;
+    }else if (status & ICQ_STATUS_NA){
+        if (u)
+            res = u->AutoResponseNA;
+        if (*res.c_str() == 0)
+            res = AutoResponseNA;
+    }else if (status & ICQ_STATUS_FREEFORCHAT){
+        if (u)
             res = u->AutoResponseFFC;
-            if (*res.c_str()) break;
-        }
-        res = AutoResponseFFC;
-        break;
-    default:
-        res = "";
+        if (*res.c_str() == 0)
+            res = AutoResponseFFC;
+    }else{
+        if (u)
+            res = u->AutoResponseAway;
+        if (*res.c_str() == 0)
+            res = AutoResponseAway;
     }
 }
 
@@ -510,21 +503,15 @@ void ICQClient::addResponseRequest(unsigned long uin, bool bPriority)
     if (!u->CanResponse) return;
     if ((u->Version() <= 6) || (u->direct && u->direct->isLogged())){
         ICQMessage *msg = new ICQAutoResponse;
-        switch (u->uStatus & 0xFF){
-        case ICQ_STATUS_AWAY:
-            msg->setType(ICQ_READxAWAYxMSG);
-            break;
-        case ICQ_STATUS_OCCUPIED:
-            msg->setType(ICQ_READxOCCUPIEDxMSG);
-            break;
-        case ICQ_STATUS_DND:
+        msg->setType(ICQ_READxAWAYxMSG);
+        if (u->uStatus & ICQ_STATUS_DND){
             msg->setType(ICQ_READxDNDxMSG);
-            break;
-        case ICQ_STATUS_FREEFORCHAT:
-            msg->setType(ICQ_READxFFCxMSG);
-            break;
-        default:
+        }else if (u->uStatus & ICQ_STATUS_OCCUPIED){
+            msg->setType(ICQ_READxOCCUPIEDxMSG);
+        }else if (u->uStatus & ICQ_STATUS_NA){
             msg->setType(ICQ_READxNAxMSG);
+        }else if (u->uStatus & ICQ_STATUS_FREEFORCHAT){
+            msg->setType(ICQ_READxFFCxMSG);
         }
         u->addMessage(msg, this);
         return;

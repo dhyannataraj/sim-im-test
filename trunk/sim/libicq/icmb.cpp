@@ -686,20 +686,15 @@ void ICQClient::requestAutoResponse(unsigned long uin)
     if (status == 0) return;
 
     advCounter--;
-    unsigned char type = 0xEA;
-    switch (status & 0xFF){
-    case ICQ_STATUS_AWAY:
-        type = 0xE8;
-        break;
-    case ICQ_STATUS_DND:
+    unsigned char type = 0xE8;
+    if (status & ICQ_STATUS_DND){
         type = 0xEB;
-        break;
-    case ICQ_STATUS_OCCUPIED:
+    }else if (status & ICQ_STATUS_OCCUPIED){
         type = 0xE9;
-        break;
-    case ICQ_STATUS_FREEFORCHAT:
+    }else if (status & ICQ_STATUS_NA){
+        type = 0xEA;
+    }else if (status & ICQ_STATUS_FREEFORCHAT){
         type = 0xEC;
-        break;
     }
 
     Buffer msg;

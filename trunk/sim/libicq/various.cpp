@@ -481,10 +481,7 @@ bool SearchEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short nSu
     >> auth
     >> state;
     m_nUin = htonl(uin);
-    if (m_nUin == client->Uin()){
-        client->Authorize = (auth != 0);
-        client->WebAware = (state != 2);
-    }else{
+    if (m_nUin != client->Uin()){
         client->fromServer(nick, client);
         client->fromServer(firstName, client);
         client->fromServer(lastName, client);
@@ -705,7 +702,7 @@ void ICQClient::setSecurityInfo(bool bAuthorize, bool bWebAware)
     writeBuffer << ICQ_SRVxREQ_PERMISSIONS
     << (char)(bAuthorize ? 0 : 0x01)
     << (char)(bWebAware ? 0x01 : 0)
-    << (char)0x01
+    << (char)0x02
     << (char)0;
     sendServerRequest();
     SetSecurityInfo *e = new SetSecurityInfo(m_nMsgSequence, bAuthorize, bWebAware);

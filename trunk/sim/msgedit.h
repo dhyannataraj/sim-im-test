@@ -44,6 +44,7 @@ class EditFile;
 class UserTab;
 class History;
 class MsgView;
+class WndCancel;
 
 class MsgEdit : public QSplitter, public ConfigArray
 {
@@ -158,6 +159,7 @@ protected:
     bool bCloseSend;
     bool bInIgnore;
     QString msgTail;
+    WndCancel *wndCancel;
 };
 
 #endif

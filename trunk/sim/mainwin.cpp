@@ -171,7 +171,8 @@ MainWindow::MainWindow(const char *name)
         UseStyle(this, "Style"),
         AutoAwayTime(this, "AutoAwayTime", 300),
         AutoNATime(this, "AutoNATime", 900),
-		NoAlertAway(this, "AlertAway", true),
+
+        NoAlertAway(this, "AlertAway", true),
         ManualStatus(this, "ManualStatus", ICQ_STATUS_OFFLINE),
         DivPos(this, "DivPos"),
         SpellOnSend(this, "SpellOnSend", true),
@@ -924,8 +925,10 @@ void MainWindow::processEvent(ICQEvent *e)
         }else{
             ICQUser *u = pClient->getUser(e->Uin());
             if (u && !u->inIgnore() && ((NoAlertAway() == 0) ||
-					((u->uStatus & 0xFF) == ICQ_STATUS_ONLINE) ||
-					((u->uStatus & 0xFF) == ICQ_STATUS_FREEFORCHAT)) &&
+
+                                        ((u->uStatus & 0xFF) == ICQ_STATUS_ONLINE) ||
+
+                                        ((u->uStatus & 0xFF) == ICQ_STATUS_FREEFORCHAT)) &&
                     ((u->prevStatus & 0xFF) != ICQ_STATUS_ONLINE) &&
                     ((u->prevStatus & 0xFF) != ICQ_STATUS_FREEFORCHAT) &&
                     (((pClient->uStatus & 0xFF) == ICQ_STATUS_ONLINE) ||

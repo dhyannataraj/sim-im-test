@@ -527,40 +527,22 @@ const char *Client::getUserIcon(ICQUser *u)
 const char *Client::getStatusIcon(unsigned long status)
 {
     if ((status & 0xFFFF) == ICQ_STATUS_OFFLINE) return "offline";
-    switch (status & 0xFF){
-    case ICQ_STATUS_ONLINE:
-        return "online";
-    case ICQ_STATUS_AWAY:
-        return "away";
-    case ICQ_STATUS_DND:
-        return "dnd";
-    case ICQ_STATUS_OCCUPIED:
-        return "occupied";
-    case ICQ_STATUS_FREEFORCHAT:
-        return "ffc";
-    default:
-        return "na";
-    }
+    if (status & ICQ_STATUS_DND) return "dnd";
+    if (status & ICQ_STATUS_OCCUPIED) return "occupied";
+    if (status & ICQ_STATUS_NA) return "na";
+    if (status & ICQ_STATUS_FREEFORCHAT) return "ffc";
+    if (status & ICQ_STATUS_AWAY) return "away";
     return "online";
 }
 
 QString Client::getStatusText(unsigned long status)
 {
     if ((status & 0xFFFF) == ICQ_STATUS_OFFLINE) return i18n("Offline");
-    switch (status & 0xFF){
-    case ICQ_STATUS_ONLINE:
-        return i18n("Online");
-    case ICQ_STATUS_AWAY:
-        return i18n("Away");
-    case ICQ_STATUS_DND:
-        return i18n("Do not disturb");
-    case ICQ_STATUS_OCCUPIED:
-        return i18n("Occupied");
-    case ICQ_STATUS_FREEFORCHAT:
-        return i18n("Free for chat");
-    default:
-        return i18n("N/A");
-    }
+    if (status & ICQ_STATUS_DND) return i18n("Do not disturb");;
+    if (status & ICQ_STATUS_OCCUPIED) return i18n("Occupied");
+    if (status & ICQ_STATUS_NA) return i18n("N/A");
+    if (status & ICQ_STATUS_FREEFORCHAT) return i18n("Free for chat");
+    if (status & ICQ_STATUS_AWAY) return i18n("Away");
     return i18n("Online");
 }
 
