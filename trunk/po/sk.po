@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
 "POT-Creation-Date: 2003-10-26 23:04+0300\n"
-"PO-Revision-Date: 2003-10-20 11:47+0200\n"
+"PO-Revision-Date: 2003-10-28 16:57+0100\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -21,8 +21,7 @@ msgstr "Domovský adresár"
 
 #: plugins/__homedir/homedir.cpp:48
 msgid "Plugin provides select directory for store config files"
-msgstr ""
-"Zásuvny modul umožňuje vybrať miesto uloženia konfiguračných súuborov"
+msgstr "Zásuvny modul umožňuje vybrať miesto uloženia konfiguračných súuborov"
 
 # qt3/i18n.cpp:117
 #: plugins/__homedir/homedir.cpp:91
@@ -36,8 +35,7 @@ msgstr "Migrovať"
 
 #: plugins/__migrate/migrate.cpp:36
 msgid "Plugin provides convert configuration and history from SIM 0.8"
-msgstr ""
-"Zásuvny modul umožňuje konverziu konfigurácie a histórie z SIM v0.8"
+msgstr "Zásuvny modul umožňuje konverziu konfigurácie a histórie z SIM v0.8"
 
 #: plugins/__migrate/migratedlg.cpp:77
 msgid "Cancel convert?"
@@ -358,15 +356,13 @@ msgstr "Poslať viacerí&m"
 
 # msgedit.cpp:113
 #: plugins/_core/core.cpp:591 plugins/_core/core.cpp:687
-#, fuzzy
 msgid "Back&ground color"
 msgstr "Farba &pozadia"
 
 # msgedit.cpp:113
 #: plugins/_core/core.cpp:599 plugins/_core/core.cpp:696
-#, fuzzy
 msgid "&Foreground color"
-msgstr "Farba &pozadia"
+msgstr "Farba p&opredia"
 
 # chatwnd.cpp:58
 # msgedit.cpp:115
@@ -390,21 +386,18 @@ msgstr "Podčiarkn&uté"
 
 # qt3/i18n.cpp:172
 #: plugins/_core/core.cpp:626 plugins/_core/core.cpp:723
-#, fuzzy
 msgid "Select &font"
-msgstr "Vybrať štýl"
+msgstr "Výber &písma"
 
 # qt3/i18n.cpp:257
 #: plugins/_core/core.cpp:633
-#, fuzzy
 msgid "Select &file"
-msgstr "Vybrať súbor"
+msgstr "Výber &súboru"
 
 # ui/addphonebase.cpp:135
 #: plugins/_core/core.cpp:641
-#, fuzzy
 msgid "&Phone number"
-msgstr "Pridať telefónne číslo"
+msgstr " &Telefónne číslo"
 
 # msgedit.cpp:133
 #: plugins/_core/core.cpp:649 plugins/_core/msgedit.cpp:1409
@@ -621,8 +614,7 @@ msgstr ""
 
 #: plugins/_core/core.cpp:1173 plugins/_core/core.cpp:2626
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
-msgstr ""
-"Prepáčte, momentálne som zaneprázdnený ale môžem odpovedať neskôr"
+msgstr "Prepáčte, momentálne som zaneprázdnený ale môžem odpovedať neskôr"
 
 #: plugins/_core/core.cpp:1178
 msgid "Enter a decline reason"
@@ -756,15 +748,15 @@ msgstr "Nemôžem vytvoriť: %1"
 
 # qt3/i18n.cpp:257
 #: plugins/_core/filetransfer.cpp:178
-#, fuzzy, c-format
+#, c-format
 msgid "Receive file from %1"
-msgstr "Prijať súbor"
+msgstr "Prijať súbor od užívateľa %1"
 
 # msgedit.cpp:588
 #: plugins/_core/filetransfer.cpp:179
-#, fuzzy, c-format
+#, c-format
 msgid "Send file to %1"
-msgstr "Odoslať súbor"
+msgstr "Odoslať súbor užívateľovi %1"
 
 # libicq/country.cpp:342
 #: plugins/_core/filetransfer.cpp:232
@@ -2237,8 +2229,7 @@ msgstr "Nastaviť \"N/A\" status po"
 # ui/statussetupbase.cpp:142
 #: plugins/autoaway/autoawaycfgbase.cpp:125
 #: plugins/sound/soundconfigbase.cpp:166
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Zakázať online výstrahu pre \"Away\", \"N/A\", \"DND\" a \"Occupied\" "
 "zoznam"
@@ -2250,8 +2241,7 @@ msgstr "Pozadie"
 
 #: plugins/background/background.cpp:35
 msgid "Plugin provides background pictures for user list"
-msgstr ""
-"Zásuvny modul umožňuje nastaviť obrázky pozadia pre zoznam užívateľov"
+msgstr "Zásuvny modul umožňuje nastaviť obrázky pozadia pre zoznam užívateľov"
 
 #: plugins/background/bkgndcfg.cpp:45
 msgid "Select background picture"
@@ -2326,8 +2316,7 @@ msgstr "Systray"
 
 #: plugins/dock/dock.cpp:45
 msgid "Plugin provides dock main window in system tray"
-msgstr ""
-"Zásuvny modul umožňuje umiestniť (dokovať) hlavné okno v systrayi"
+msgstr "Zásuvny modul umožňuje umiestniť (dokovať) hlavné okno v systrayi"
 
 #: plugins/dock/dock.cpp:47 plugins/windock/windock.cpp:43
 msgid "Dock"
@@ -2612,9 +2601,8 @@ msgstr "Žiaden kontakt"
 # mainwin.cpp:2727
 #: plugins/icq/icqicmb.cpp:1209 plugins/icq/icqmessage.cpp:1167
 #: plugins/jabber/jabberclient.cpp:2140
-#, fuzzy
 msgid "No contacts for send"
-msgstr "Žiaden kontakt"
+msgstr "Žiadne kontakty pre odoslanie"
 
 # mainwin.cpp:2724
 #: plugins/icq/icq.cpp:87
@@ -4117,8 +4105,7 @@ msgstr "&O ..."
 # ui/generalsecbase.cpp:212
 #: plugins/icq/icqsecurebase.cc:213
 msgid "My &authorization is required before users add me to Contact List"
-msgstr ""
-"Je vyžadovaná moja &autorizácia pred pridaním mňa do zoznamu kontaktov"
+msgstr "Je vyžadovaná moja &autorizácia pred pridaním mňa do zoznamu kontaktov"
 
 # ui/generalsecbase.cpp:213
 #: plugins/icq/icqsecurebase.cc:214
@@ -4148,8 +4135,7 @@ msgstr "Povoliť &priame pripojenie pre všetkých užívateľov"
 # ui/generalsecbase.cpp:218
 #: plugins/icq/icqsecurebase.cc:220
 msgid "Allow direct connection from user listed in &contact list"
-msgstr ""
-"Povoliť priame pripojenie pre užívateľov z mojho zoznamu &kontaktov"
+msgstr "Povoliť priame pripojenie pre užívateľov z mojho zoznamu &kontaktov"
 
 # ui/generalsecbase.cpp:219
 #: plugins/icq/icqsecurebase.cc:221
@@ -4804,9 +4790,8 @@ msgstr "Nízkoúrovňová sieťová chyba"
 
 # ui/soundsetupbase.cpp:236
 #: plugins/jabber/jabber_rosters.cpp:1733
-#, fuzzy
 msgid "File transfer declined"
-msgstr "Prenos súboru dokončený:"
+msgstr "Prenos súboru upadol"
 
 # mainwin.cpp:628
 # mainwin.cpp:2727
@@ -4816,13 +4801,12 @@ msgstr "Pridať abber kontakt"
 
 #: plugins/jabber/jabberclient.cpp:1383 plugins/jabber/jabberclient.cpp:1492
 msgid "Photo"
-msgstr ""
+msgstr "Foto"
 
 # monitor.cpp:83
 #: plugins/jabber/jabberclient.cpp:1398 plugins/jabber/jabberclient.cpp:1507
-#, fuzzy
 msgid "Logo"
-msgstr "&Log"
+msgstr "Logo"
 
 # qt3/i18n.cpp:156
 #: plugins/jabber/jabberclient.cpp:1522
@@ -4832,13 +4816,11 @@ msgstr "Agenti"
 # msgedit.cpp:513
 #: plugins/jabber/jabberclient.cpp:2645 plugins/jabber/jabberclient.cpp:2685
 #: plugins/msn/msnclient.cpp:2592
-#, fuzzy
 msgid "File transfer failed"
 msgstr "Prenos skončil s chybou"
 
 # msgedit.cpp:513
 #: plugins/jabber/jabberclient.cpp:2783
-#, fuzzy
 msgid "File transfer fail"
 msgstr "Prenos skončil s chybou"
 
@@ -4979,8 +4961,7 @@ msgstr ""
 
 #: plugins/jabber/jabbersearch.cpp:194
 msgid "Fill in all of the fields to add yourself to the JUD."
-msgstr ""
-"Vyplňte všetky polia pre pridanie do uživateľského adresára Jabber."
+msgstr "Vyplňte všetky polia pre pridanie do uživateľského adresára Jabber."
 
 #: plugins/jabber/jabbersearch.cpp:195
 msgid ""
@@ -5104,9 +5085,8 @@ msgstr "Použiť &ikony protokolov pre kontakty"
 
 # ui/randomchatbase.cpp:287
 #: plugins/jabber/jabberconfigbase.cpp:314
-#, fuzzy
 msgid "Send &rich text messages if possible"
-msgstr "Nastala chyba pri odosielaní správy"
+msgstr "Odoslať sp&rávu vo formáte RTF ak je to možné"
 
 # ui/pagerbase.cpp:114
 #: plugins/jabber/jabberworkinfobase.cpp:131
@@ -5131,15 +5111,13 @@ msgstr "Služba:"
 # msgedit.cpp:184
 #: plugins/jabber/jabberpicture.cpp:47
 #: plugins/jabber/jabberpicturebase.cpp:136
-#, fuzzy
 msgid "&Photo"
-msgstr "Tele&fóny:"
+msgstr "&Foto"
 
 # monitor.cpp:83
 #: plugins/jabber/jabberpicture.cpp:47
-#, fuzzy
 msgid "&Logo"
-msgstr "&Log"
+msgstr "&Logo"
 
 # monitor.cpp:80
 #: plugins/logger/logconfig.cpp:80
@@ -5230,7 +5208,6 @@ msgstr "Nastala chyba pri odosielaní správy"
 
 # msgedit.cpp:513
 #: plugins/msn/msnclient.cpp:2425
-#, fuzzy
 msgid "Transfer canceled"
 msgstr "Prenos prerušený"
 
@@ -5285,8 +5262,7 @@ msgid "Navigate"
 msgstr "Navigácia"
 
 #: plugins/navigate/navigate.cpp:199
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Zásuvny modul umožňuje navigáciu po odkazoch, spúšťať externý "
 "prehliadač a poštový klient"
@@ -5413,8 +5389,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:48
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Zásuvny modul umožňuje zobrazovať notifikácie o správach a stave "
 "kontaktov na obrazovke (OSD)"
@@ -5562,8 +5537,7 @@ msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1234
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS and HTTP)"
-msgstr ""
-"Zásuvný modul umožňuje podporu proxy (SOCKS4, SOCKS5, HTTPS a HTTP)"
+msgstr "Zásuvný modul umožňuje podporu proxy (SOCKS4, SOCKS5, HTTPS a HTTP)"
 
 # ui/networkbase.cpp:228
 # ui/proxydlgbase.cpp:182
@@ -5758,8 +5732,7 @@ msgstr "Úvodná obrazovka"
 
 #: plugins/splash/splash.cpp:35
 msgid "Plugin provides splash screen"
-msgstr ""
-"Zásuvný modul umožňuje zobraziť úvodnú obrazovku (splash screen)"
+msgstr "Zásuvný modul umožňuje zobraziť úvodnú obrazovku (splash screen)"
 
 # ui/themesetupbase.cpp:307
 # ui/themesetupbase.cpp:309
@@ -7205,7 +7178,6 @@ msgstr "Chyba soketu"
 
 # monitor.cpp:133
 #: sim/api/sockfactory.cpp:365
-#, fuzzy
 msgid "Can't allocate port"
 msgstr "Nemôžem alokovať port"
 
@@ -8062,3 +8034,4 @@ msgstr "Vlastné"
 # ui/searchbase.cpp:294
 #~ msgid "Screen name:"
 #~ msgstr "Zobrazované meno:"
+
