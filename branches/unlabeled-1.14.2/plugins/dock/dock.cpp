@@ -305,10 +305,8 @@ void DockPlugin::showPopup(QPoint p)
     m_popup = (QPopupMenu*)e.process();
     if (m_popup){
         m_popup->installEventFilter(this);
-        if (qApp->activeWindow() == NULL)
-            dock->setFocus();
 #if QT_VERSION < 300
-        m_popup->grabMouse(0);
+        m_popup->grabMouse();
 #endif
         m_popup->popup(p);
     }

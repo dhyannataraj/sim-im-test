@@ -19,7 +19,6 @@
 #include "stylescfg.h"
 #include "simapi.h"
 #include "fontedit.h"
-#include "core.h"
 
 #include <qapplication.h>
 #include <qpopupmenu.h>
