@@ -506,7 +506,7 @@ void DockWnd::mousePressEvent( QMouseEvent *e)
     switch(e->button()){
     case QWidget::LeftButton:
         needToggle = true;
-        QTimer::singleShot(500, this, SLOT(toggle()));
+        QTimer::singleShot(700, this, SLOT(toggle()));
         break;
     case QWidget::RightButton:
         emit showPopup(e->globalPos());
