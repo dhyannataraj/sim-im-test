@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-05 15:33+0200\n"
-"PO-Revision-Date: 2004-08-30 18:09+0600\n"
+"PO-Revision-Date: 2004-09-09 23:28+0600\n"
 "Last-Translator: Andrey Rahmatullin <wrar@altlinux.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1349,7 +1349,7 @@ msgstr "Добавлено"
 # ui/maininfobase.cpp:240
 #: plugins/_core/msgedit.cpp:1731
 msgid "Removed"
-msgstr "Удален"
+msgstr "Удалён"
 
 # mainwin.cpp:2365 ui/statussetupbase.cpp:79 usertbl.cpp:113
 #: plugins/_core/msgedit.cpp:1739 plugins/_core/status.cpp:48 plugins/_core/userviewcfg.cpp:163
@@ -2188,7 +2188,7 @@ msgstr "Модуль обеспечивает вывод информации о
 # mainwin.cpp:2379
 #: plugins/about/about.cpp:61
 msgid "&Bug report"
-msgstr "&Сообщения об ошибках"
+msgstr "С&ообщение об ошибке"
 
 # mainwin.cpp:2380
 #: plugins/about/about.cpp:71
@@ -2955,7 +2955,7 @@ msgstr "Отправитель дурак"
 
 #: plugins/icq/icqclient.cpp:715
 msgid "Receiver too evil"
-msgstr "Получатель дурак"
+msgstr "Получатель слишком обозлён"
 
 # ui/phonebookbase.cpp:91
 #: plugins/icq/icqclient.cpp:716
@@ -3559,7 +3559,7 @@ msgstr "Машины"
 # libicq/country.cpp:333
 #: plugins/icq/interestsinfo.cpp:93
 msgid "Celebrity Fans"
-msgstr "Фанат"
+msgstr "Поклонник знаменитостей"
 
 # libicq/country.cpp:334
 #: plugins/icq/interestsinfo.cpp:94
@@ -3579,7 +3579,7 @@ msgstr "Культура и литература"
 # libicq/country.cpp:337
 #: plugins/icq/interestsinfo.cpp:97
 msgid "Fitness"
-msgstr "Здоровье"
+msgstr "Фитнес"
 
 # libicq/country.cpp:339
 #: plugins/icq/interestsinfo.cpp:99
@@ -3599,7 +3599,7 @@ msgstr "Интернет"
 # libicq/country.cpp:342
 #: plugins/icq/interestsinfo.cpp:102
 msgid "Lifestyle"
-msgstr "Стиль жизни"
+msgstr "Образ жизни"
 
 # libicq/country.cpp:343
 #: plugins/icq/interestsinfo.cpp:103
@@ -3619,7 +3619,7 @@ msgstr "Путешествия"
 # libicq/country.cpp:346
 #: plugins/icq/interestsinfo.cpp:106
 msgid "Parenting"
-msgstr "Дети"
+msgstr "Воспитание"
 
 # libicq/country.cpp:347
 #: plugins/icq/interestsinfo.cpp:107
@@ -3639,7 +3639,7 @@ msgstr "Наука/технологии"
 # libicq/country.cpp:350
 #: plugins/icq/interestsinfo.cpp:110
 msgid "Skills"
-msgstr "Учеба"
+msgstr "Навыки"
 
 # libicq/country.cpp:351 libicq/country.cpp:436
 #: plugins/icq/interestsinfo.cpp:111 plugins/icq/workinfo.cpp:97
@@ -3649,7 +3649,7 @@ msgstr "Спорт"
 # libicq/country.cpp:352
 #: plugins/icq/interestsinfo.cpp:112
 msgid "Web Design"
-msgstr "Веб-дизайн"
+msgstr "Web-дизайн"
 
 # libicq/country.cpp:353
 #: plugins/icq/interestsinfo.cpp:113
@@ -3664,7 +3664,7 @@ msgstr "Новости"
 # libicq/country.cpp:355 libicq/country.cpp:421
 #: plugins/icq/interestsinfo.cpp:115 plugins/icq/workinfo.cpp:82
 msgid "Government"
-msgstr "Государственная служба"
+msgstr "Правительство"
 
 # libicq/country.cpp:356
 #: plugins/icq/interestsinfo.cpp:116
@@ -3674,7 +3674,7 @@ msgstr "Бизнес"
 # libicq/country.cpp:357
 #: plugins/icq/interestsinfo.cpp:117
 msgid "Mystics"
-msgstr "Мистицизм"
+msgstr "Мистика"
 
 # libicq/country.cpp:358
 #: plugins/icq/interestsinfo.cpp:118
@@ -3704,22 +3704,22 @@ msgstr "Вечеринки"
 # libicq/country.cpp:363
 #: plugins/icq/interestsinfo.cpp:123
 msgid "Women"
-msgstr "Женщина"
+msgstr "Женщины"
 
 # libicq/country.cpp:364
 #: plugins/icq/interestsinfo.cpp:124
 msgid "Social science"
-msgstr "Общественные науки"
+msgstr "Социальная наука"
 
 # libicq/country.cpp:365
 #: plugins/icq/interestsinfo.cpp:125
 msgid "60's"
-msgstr "60-е"
+msgstr "60-ые"
 
 # libicq/country.cpp:366
 #: plugins/icq/interestsinfo.cpp:126
 msgid "70's"
-msgstr "70-е"
+msgstr "70-ые"
 
 # libicq/country.cpp:367
 #: plugins/icq/interestsinfo.cpp:127
@@ -3729,7 +3729,7 @@ msgstr "80-е"
 # libicq/country.cpp:368
 #: plugins/icq/interestsinfo.cpp:128
 msgid "50's"
-msgstr "50-е"
+msgstr "50-ые"
 
 # libicq/country.cpp:369
 #: plugins/icq/interestsinfo.cpp:129
@@ -3789,7 +3789,7 @@ msgstr "Спорт и атлетика"
 # libicq/country.cpp:380
 #: plugins/icq/interestsinfo.cpp:140
 msgid "Publishing"
-msgstr "Публицистика"
+msgstr "Публикации"
 
 # libicq/country.cpp:381
 #: plugins/icq/interestsinfo.cpp:141
@@ -3849,7 +3849,7 @@ msgstr "Финский"
 # libicq/country.cpp:24
 #: plugins/icq/moreinfo.cpp:104
 msgid "Gaelic"
-msgstr "Гаэльский"
+msgstr "Галльский"
 
 # libicq/country.cpp:28
 #: plugins/icq/moreinfo.cpp:108
@@ -4019,12 +4019,12 @@ msgstr "Военный"
 # libicq/country.cpp:450
 #: plugins/icq/pastinfo.cpp:81
 msgid "Past Work Place"
-msgstr "Прошлое место работы"
+msgstr "Предыдущее место работы"
 
 # libicq/country.cpp:451
 #: plugins/icq/pastinfo.cpp:82
 msgid "Past Organization"
-msgstr "Бывшие организации"
+msgstr "Предыдущая организация"
 
 # libicq/country.cpp:406 libicq/country.cpp:452
 #: plugins/icq/pastinfo.cpp:83 plugins/icq/pastinfo.cpp:110
@@ -4034,87 +4034,87 @@ msgstr "Другое"
 # libicq/country.cpp:387
 #: plugins/icq/pastinfo.cpp:91
 msgid "Alumni Org."
-msgstr "Общества выпускников"
+msgstr "Организации выпускников"
 
 # libicq/country.cpp:388
 #: plugins/icq/pastinfo.cpp:92
 msgid "Charity Org."
-msgstr "Благотворительное общество"
+msgstr "Благотворительные организации"
 
 # libicq/country.cpp:389
 #: plugins/icq/pastinfo.cpp:93
 msgid "Club/Social Org."
-msgstr "Клуб"
+msgstr "Клубы/общественные организации"
 
 # libicq/country.cpp:390
 #: plugins/icq/pastinfo.cpp:94
 msgid "Community Org."
-msgstr "Клуб общения"
+msgstr "Гражданские организации"
 
 # libicq/country.cpp:391
 #: plugins/icq/pastinfo.cpp:95
 msgid "Cultural Org."
-msgstr "Культурное общество"
+msgstr "Культурные организации"
 
 # libicq/country.cpp:392
 #: plugins/icq/pastinfo.cpp:96
 msgid "Fan Clubs"
-msgstr "Фан-клуб"
+msgstr "Фан-клубы"
 
 # libicq/country.cpp:393
 #: plugins/icq/pastinfo.cpp:97
 msgid "Fraternity/Sorority"
-msgstr "Братство"
+msgstr "Братства/Женские общества"
 
 # libicq/country.cpp:394
 #: plugins/icq/pastinfo.cpp:98
 msgid "Hobbyists Org."
-msgstr "Клуб по интересам"
+msgstr "Организации любителей хобби"
 
 # libicq/country.cpp:395
 #: plugins/icq/pastinfo.cpp:99
 msgid "International Org."
-msgstr "Международное общество"
+msgstr "Международные организации"
 
 # libicq/country.cpp:396
 #: plugins/icq/pastinfo.cpp:100
 msgid "Nature and Environment Org."
-msgstr "Клуб натуралистов"
+msgstr "Экологические организации"
 
 # libicq/country.cpp:397
 #: plugins/icq/pastinfo.cpp:101
 msgid "Professional Org."
-msgstr "Профессиональное объединение"
+msgstr "Профессиональные организации"
 
 # libicq/country.cpp:398
 #: plugins/icq/pastinfo.cpp:102
 msgid "Scientific/Technical Org."
-msgstr "Научное общество"
+msgstr "Научные/технические организации"
 
 # libicq/country.cpp:399
 #: plugins/icq/pastinfo.cpp:103
 msgid "Self Improvement Group"
-msgstr "Клуб самосовершенствования"
+msgstr "Группы самоусовершенствования"
 
 # libicq/country.cpp:400
 #: plugins/icq/pastinfo.cpp:104
 msgid "Spiritual/Religious Org."
-msgstr "Религиозное объединение"
+msgstr "Духовные/религиозные организации"
 
 # libicq/country.cpp:401
 #: plugins/icq/pastinfo.cpp:105
 msgid "Sports Org."
-msgstr "Спортивное общество"
+msgstr "Спортивные организации"
 
 # libicq/country.cpp:402
 #: plugins/icq/pastinfo.cpp:106
 msgid "Support Org."
-msgstr "Общество поддержки"
+msgstr "Организации поддержки"
 
 # libicq/country.cpp:403
 #: plugins/icq/pastinfo.cpp:107
 msgid "Trade and Business Org."
-msgstr "Торговое объединение"
+msgstr "Организации торговли и бизнеса"
 
 # libicq/country.cpp:404
 #: plugins/icq/pastinfo.cpp:108
@@ -4233,7 +4233,7 @@ msgstr "Наука"
 # libicq/country.cpp:437
 #: plugins/icq/workinfo.cpp:98
 msgid "Technical"
-msgstr "Техника"
+msgstr "Технические"
 
 # libicq/country.cpp:438
 #: plugins/icq/workinfo.cpp:99
@@ -4926,7 +4926,7 @@ msgstr "<p>Тема: %1</p>"
 # control.cpp:190
 #: plugins/jabber/jabbermessage.cpp:121
 msgid "Original message:"
-msgstr "Оригинальное сообщение:"
+msgstr "Первоначальное сообщение:"
 
 #: plugins/jabber/jabbermessage.cpp:133
 #, c-format
@@ -6161,7 +6161,7 @@ msgstr "&Возобновить"
 # monitor.cpp:78
 #: plugins/netmonitor/monitor.cpp:157
 msgid "&Debug"
-msgstr "&Отладка"
+msgstr "От&ладка"
 
 # monitor.cpp:79
 #: plugins/netmonitor/monitor.cpp:158
@@ -7203,25 +7203,22 @@ msgid "km/h"
 msgstr "км/ч"
 
 #: plugins/weather/weather.cpp:423
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Low"
-msgstr "Снег"
+msgstr ""
 
 #: plugins/weather/weather.cpp:424
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Moderate"
-msgstr "Вечером"
+msgstr ""
 
 #: plugins/weather/weather.cpp:425
-#, fuzzy
 msgid ""
 "_: weather\n"
 "High"
-msgstr "Туман"
+msgstr ""
 
 # libicq/country.cpp:109
 #: plugins/weather/weather.cpp:437
@@ -7278,8 +7275,10 @@ msgstr ""
 "Давление: <b>%a мм.рт.ст.</b> (%q)<br>\n"
 "Ветер: <b>%b</b> <b>%x %y</b><br>\n"
 "Видимость: <b>%v</b><br>\n"
+"Точка росы: <b>%d</b><br>\n"
 "Восход: %r<br>\n"
 "Закат: %s<br>\n"
+"UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)<br>\n"
 "<br>\n"
 "Обновлено: %u<br>\n"
 
@@ -7505,13 +7504,11 @@ msgstr "&Yahoo!"
 
 # ui/maininfobase.cpp:209 ui/searchbase.cpp:216
 #: plugins/yahoo/yahooinfobase.cpp:155
-#, fuzzy
 msgid "First name:"
 msgstr "Имя:"
 
 # ui/maininfobase.cpp:95 ui/searchbase.cpp:210
 #: plugins/yahoo/yahooinfobase.cpp:156
-#, fuzzy
 msgid "Last name:"
 msgstr "Фамилия:"
 
@@ -8231,7 +8228,7 @@ msgstr "Западная Европа"
 # client.cpp:82
 #: sim/contacts.cpp:2038
 msgid "Tamil"
-msgstr "Тайский"
+msgstr "Тамильский"
 
 # libicq/country.cpp:71
 #: sim/country.cpp:25
@@ -8301,7 +8298,7 @@ msgstr "Австралия"
 # libicq/country.cpp:84
 #: sim/country.cpp:38
 msgid "Australian Antarctic Territory"
-msgstr "Австралийская антарктическая территория"
+msgstr "Австралийские антарктические территории"
 
 # libicq/country.cpp:85
 #: sim/country.cpp:39
@@ -8391,7 +8388,7 @@ msgstr "Бразилия"
 # libicq/country.cpp:102
 #: sim/country.cpp:56
 msgid "British Virgin Islands"
-msgstr "Виргинские острова"
+msgstr "Британские Виргинские острова"
 
 # libicq/country.cpp:103
 #: sim/country.cpp:57
@@ -8431,7 +8428,7 @@ msgstr "Канада"
 # libicq/country.cpp:110
 #: sim/country.cpp:64
 msgid "Cape Verde Islands"
-msgstr "Острова Зеленого Мыса"
+msgstr "Острова зелёного мыса"
 
 # libicq/country.cpp:111
 #: sim/country.cpp:65
@@ -8461,7 +8458,7 @@ msgstr "Китай"
 # libicq/country.cpp:116
 #: sim/country.cpp:70
 msgid "Christmas Island"
-msgstr "Остров Кристмаса"
+msgstr "Остров Рождества"
 
 # libicq/country.cpp:117
 #: sim/country.cpp:71
@@ -8521,7 +8518,7 @@ msgstr "Дания"
 # libicq/country.cpp:128
 #: sim/country.cpp:82
 msgid "Diego Garcia"
-msgstr "Диего-Гарсия"
+msgstr "Диего Гарсия"
 
 # libicq/country.cpp:129
 #: sim/country.cpp:83
@@ -8576,7 +8573,7 @@ msgstr "Эфиопия"
 # libicq/country.cpp:139
 #: sim/country.cpp:93
 msgid "Faeroe Islands"
-msgstr "Ферские острова"
+msgstr "Фарерские острова"
 
 # libicq/country.cpp:140
 #: sim/country.cpp:94
@@ -8601,12 +8598,12 @@ msgstr "Франция"
 # libicq/country.cpp:144
 #: sim/country.cpp:98
 msgid "French Antilles"
-msgstr "Французские Антиллы"
+msgstr "Французские Антильские острова"
 
 # libicq/country.cpp:145
 #: sim/country.cpp:99
 msgid "French Guiana"
-msgstr "Французская Гвинея"
+msgstr "Французская Гвиана"
 
 # libicq/country.cpp:146
 #: sim/country.cpp:100
@@ -8671,7 +8668,7 @@ msgstr "Остров Гуам"
 # libicq/country.cpp:158
 #: sim/country.cpp:112
 msgid "Guantanamo Bay"
-msgstr "Бухта Гуантанамо"
+msgstr "залив Гуантанамо"
 
 # libicq/country.cpp:159
 #: sim/country.cpp:113
@@ -8756,7 +8753,7 @@ msgstr "Индонезия"
 # libicq/country.cpp:175
 #: sim/country.cpp:129
 msgid "International Freephone Service"
-msgstr "International Freephone Service"
+msgstr "Международная служба Freephone"
 
 # libicq/country.cpp:176
 #: sim/country.cpp:130
@@ -8816,17 +8813,17 @@ msgstr "Кения"
 # libicq/country.cpp:187
 #: sim/country.cpp:141
 msgid "Kiribati Republic"
-msgstr "Кирибати"
+msgstr "Республика Кирибати"
 
 # libicq/country.cpp:188
 #: sim/country.cpp:142
 msgid "Korea (North)"
-msgstr "Северная Корея"
+msgstr "Корея (Северная)"
 
 # libicq/country.cpp:189
 #: sim/country.cpp:143
 msgid "Korea (Republic of)"
-msgstr "Республика Корея"
+msgstr "Корея (Южная)"
 
 # libicq/country.cpp:190
 #: sim/country.cpp:144
@@ -8941,7 +8938,7 @@ msgstr "Маврикия"
 # libicq/country.cpp:212
 #: sim/country.cpp:166
 msgid "Mayotte Island"
-msgstr "Остров Майотта"
+msgstr "Острова Майот"
 
 # libicq/country.cpp:213
 #: sim/country.cpp:167
@@ -8951,7 +8948,7 @@ msgstr "Мексика"
 # libicq/country.cpp:214
 #: sim/country.cpp:168
 msgid "Micronesia, Federated States of"
-msgstr "Соединенные Штаты Микронезии"
+msgstr "Микронезия, Федеративные Штаты"
 
 # libicq/country.cpp:215
 #: sim/country.cpp:169
@@ -9051,7 +9048,7 @@ msgstr "Ниу"
 # libicq/country.cpp:234
 #: sim/country.cpp:188
 msgid "Norfolk Island"
-msgstr "Остров Норфолка"
+msgstr "Остров Норфолк"
 
 # libicq/country.cpp:235
 #: sim/country.cpp:189
@@ -9136,7 +9133,7 @@ msgstr "Румыния"
 # libicq/country.cpp:251
 #: sim/country.cpp:205
 msgid "Rota Island"
-msgstr "Остров Рота"
+msgstr "Острова Рота"
 
 # libicq/country.cpp:252
 #: sim/country.cpp:206
@@ -9151,7 +9148,7 @@ msgstr "Руанда"
 # libicq/country.cpp:254
 #: sim/country.cpp:208
 msgid "Saint Lucia"
-msgstr "Сант-Лучия"
+msgstr "Сент-Люсия"
 
 # libicq/country.cpp:255
 #: sim/country.cpp:209
@@ -9236,12 +9233,12 @@ msgstr "Остров Святой Елены"
 # libicq/country.cpp:271
 #: sim/country.cpp:225
 msgid "St. Kitts"
-msgstr "Остров святого Киттса"
+msgstr "Сент-Китс"
 
 # libicq/country.cpp:272
 #: sim/country.cpp:226
 msgid "St. Pierre and Miquelon"
-msgstr "Остров святого Пирра"
+msgstr "Сен-Пьер и Микелон"
 
 # libicq/country.cpp:273
 #: sim/country.cpp:227
@@ -9376,7 +9373,7 @@ msgstr "Великобритания"
 # libicq/country.cpp:299
 #: sim/country.cpp:253
 msgid "United States Virgin Islands"
-msgstr "Вирджинские острова"
+msgstr "Виргинские острова США"
 
 # libicq/country.cpp:300
 #: sim/country.cpp:254
@@ -9411,7 +9408,7 @@ msgstr "Вьетнам"
 # libicq/country.cpp:306
 #: sim/country.cpp:260
 msgid "Wallis and Futuna Islands"
-msgstr "Уэльские острова"
+msgstr "Острова Уоллис и Футуна"
 
 # libicq/country.cpp:307
 #: sim/country.cpp:261
