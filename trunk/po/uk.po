@@ -1,3 +1,4 @@
+# translation of uk.po to 
 # translation of uk.po to Ukrainian
 # translation of uk.po to Український
 # Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
@@ -8,7 +9,7 @@ msgstr ""
 "Project-Id-Version: uk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-05 15:33+0200\n"
-"PO-Revision-Date: 2004-07-25 17:09+0300\n"
+"PO-Revision-Date: 2004-08-06 16:00+0300\n"
 "Last-Translator: Ivan Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team:  <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -6266,25 +6267,22 @@ msgid "km/h"
 msgstr "км/год"
 
 #: plugins/weather/weather.cpp:423
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Low"
-msgstr "Сніг"
+msgstr "Невеликий"
 
 #: plugins/weather/weather.cpp:424
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Moderate"
-msgstr "Вечором"
+msgstr "Помірний"
 
 #: plugins/weather/weather.cpp:425
-#, fuzzy
 msgid ""
 "_: weather\n"
 "High"
-msgstr "Туман"
+msgstr "Сильний"
 
 #: plugins/weather/weather.cpp:437
 msgid "and"
@@ -6315,7 +6313,6 @@ msgid "%t | %c"
 msgstr "%t | %c"
 
 #: plugins/weather/weather.cpp:562
-#, fuzzy
 msgid ""
 "%l<br><br>\n"
 "<img src=\"icon:weather%i\"> %c<br>\n"
@@ -6337,11 +6334,12 @@ msgstr ""
 "(відчувається: <b>%f</b>)<br>\n"
 "Вологість: <b>%h%</b><br>\n"
 "Тиск: <b>%a мм.рт.ст.</b>(%q)<br>\n"
-"Вітер: <b>%b</b> <b>%x %y</b><br>\n"
+"Вітер: <b>%b</b> <b>%w %g</b><br>\n"
 "Видимість: <b>%v</b><br>\n"
 "Точка роси <b>%d</b><br>\n"
 "Схід: %r<br>\n"
 "Захід: %s<br>\n"
+"UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)<br>\n"
 "<br>\n"
 "Поновлено: %u<br>\n"
 
@@ -6550,12 +6548,10 @@ msgid "&Yahoo!"
 msgstr "&Yahoo!"
 
 #: plugins/yahoo/yahooinfobase.cpp:155
-#, fuzzy
 msgid "First name:"
 msgstr "Ім'я:"
 
 #: plugins/yahoo/yahooinfobase.cpp:156
-#, fuzzy
 msgid "Last name:"
 msgstr "Прізвище:"
 
@@ -8310,7 +8306,6 @@ msgid "Usage: %1 "
 msgstr "Використовуйте: %1"
 
 #: sim/sim.cpp:200
-#, fuzzy
 msgid "Multiprotocol Instant Messenger"
 msgstr "Багатопротокольний клієнт обміну повідомленнями"
 
@@ -8447,3 +8442,4 @@ msgstr "Власний"
 #: xpstyle/xpstyle.cpp:63
 msgid "Windows XP style"
 msgstr "Стиль Windows XP"
+
