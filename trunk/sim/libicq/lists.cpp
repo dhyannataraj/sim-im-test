@@ -93,26 +93,24 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 switch (type){
                 case 0x0000: /* User */{
                         unsigned long uin = atol(str.c_str());
-                        if (uin == 0){
-                            log(L_WARN, "Bad uin record %s\n", str.c_str());
-                            break;
-                        }
-                        Tlv *tlv_name = NULL;
-                        if (inf) tlv_name = (*inf)(0x0131);
-                        string alias = tlv_name ? (char*)(*tlv_name) : "";
-                        fromUTF(alias, owner->Encoding.c_str());
-                        bool needAuth = false;
-                        if (inf && (*inf)(0x0066)) needAuth = true;
-                        ICQUser *user = getUser(uin, true);
-                        user->Id = id;
-                        user->GrpId = grp_id;
-                        user->Alias = alias;
-                        user->WaitAuth = needAuth;
-                        Tlv *tlv_phone = NULL;
-                        if (inf) tlv_phone = (*inf)(0x13A);
-                        if (tlv_phone){
-                            user->Phones.add(*tlv_phone, "Private cellular", SMS, true, false);
-                            user->adjustPhones();
+                        if (uin){
+                            Tlv *tlv_name = NULL;
+                            if (inf) tlv_name = (*inf)(0x0131);
+                            string alias = tlv_name ? (char*)(*tlv_name) : "";
+                            fromUTF(alias, owner->Encoding.c_str());
+                            bool needAuth = false;
+                            if (inf && (*inf)(0x0066)) needAuth = true;
+                            ICQUser *user = getUser(uin, true);
+                            user->Id = id;
+                            user->GrpId = grp_id;
+                            user->Alias = alias;
+                            user->WaitAuth = needAuth;
+                            Tlv *tlv_phone = NULL;
+                            if (inf) tlv_phone = (*inf)(0x13A);
+                            if (tlv_phone){
+                                user->Phones.add(*tlv_phone, "Private cellular", SMS, true, false);
+                                user->adjustPhones();
+                            }
                         }
                         break;
                     }
@@ -151,7 +149,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     contacts.Invisible = id;
                     break;
                 case 0x0009:
-                    break;
+                case 0x0011:
                 case 0x0013:
                     break;
                 default:
@@ -419,7 +417,8 @@ void ICQClient::processListQueue()
         ICQSetListEvent *e = new ICQSetListEvent(u->Uin, lr.list_type, lr.bSet);
         sendRoster(e,
                    lr.bSet ? ICQ_SNACxLISTS_CREATE : ICQ_SNACxLISTS_DELETE,
-                   u->Uin, 0, userId, lr.list_type, alias.c_str());
+                   u->Uin, 0, userId, lr.list_type,
+                   (lr.list_type == ICQ_IGNORE_LIST) ? "" : alias.c_str());
         return;
     }
 }

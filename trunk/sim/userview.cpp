@@ -362,11 +362,15 @@ void UserViewItem::update(ICQUser *u, bool bFirst)
             st = 5;
         }
     }
-    char b[32];
-    snprintf(b, sizeof(b), "%u%u1%08lX", m_itemState, st, -(u->LastActive+1));
-    QString t = b;
-    t += name;
-    setText(1, t);
+    if (pMain->AlphabetSort){
+        setText(1, name);
+    }else{
+        char b[32];
+        snprintf(b, sizeof(b), "%u%u1%08lX", m_itemState, st, -(u->LastActive+1));
+        QString t = b;
+        t += name;
+        setText(1, t);
+    }
 }
 
 UserViewItem::~UserViewItem()
@@ -925,24 +929,6 @@ void UserView::processEvent(ICQEvent *e)
         return;
     case EVENT_GROUP_CHANGED:
         refresh();
-        return;
-    case EVENT_MESSAGE_SEND:
-        if (!bFloaty && e->message() &&
-                (e->message()->Type() == ICQ_MSGxSECURExOPEN) &&
-                (e->state == ICQEvent::Fail)){
-            UserViewItem *item = findUserItem(e->message()->getUin());
-            if (item){
-                ensureItemVisible(item);
-                QRect rc = itemRect(item);
-                QPoint p = viewport()->mapToGlobal(rc.topLeft());
-                rc = QRect(p.x(), p.y(), rc.width(), rc.height());
-                QStringList list;
-                list.append(i18n("OK"));
-                BalloonMsg *msg = new BalloonMsg(i18n("Secure channel request failed"),
-                                                 rc, list, this);
-                msg->show();
-            }
-        }
         return;
     case EVENT_MESSAGE_RECEIVED:
     case EVENT_USER_DELETED:

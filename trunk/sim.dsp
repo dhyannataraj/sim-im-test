@@ -733,6 +733,14 @@ SOURCE=.\sim\ui\moc_searchdlg.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\ui\moc_securedlg.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\moc_securedlgbase.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\ui\moc_setupdlg.cpp
 # End Source File
 # Begin Source File
@@ -1012,6 +1020,14 @@ SOURCE=.\sim\ui\searchbase.cpp
 # Begin Source File
 
 SOURCE=.\sim\ui\searchdlg.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\securedlg.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\securedlgbase.cpp
 # End Source File
 # Begin Source File
 
@@ -2893,6 +2909,43 @@ InputName=searchdlg
 
 !ENDIF 
 
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\securedlg.h
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\securedlg.h
+InputName=securedlg
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\securedlg.h
+InputName=securedlg
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\securedlgbase.h
 # End Source File
 # Begin Source File
 
@@ -5023,6 +5076,61 @@ BuildCmds= \
 InputDir=.\sim\ui
 InputPath=.\sim\ui\searchbase.ui
 InputName=searchbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\securedlgbase.ui
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Uic'ing $(InputName).ui ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\securedlgbase.ui
+InputName=securedlgbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Uic'ing $(InputName).ui ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\securedlgbase.ui
+InputName=securedlgbase
 
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \

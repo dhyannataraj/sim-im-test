@@ -41,6 +41,7 @@
 #include "ui/alertmsg.h"
 #include "ui/ballonmsg.h"
 #include "ui/filetransfer.h"
+#include "ui/securedlg.h"
 
 #include "ui/enable.h"
 #include "chatwnd.h"
@@ -266,6 +267,7 @@ cfgParam MainWindow_Params[] =
         { "SMSSignBottom", OFFSET_OF(MainWindow, SMSSignBottom), PARAM_STRING, (unsigned)"\n&MyAlias; (ICQ# &MyUin;)" },
         { "ForwardPhone", OFFSET_OF(MainWindow, ForwardPhone), PARAM_STRING, 0 },
         { "SendEnter", OFFSET_OF(MainWindow, SendEnter), PARAM_BOOL, 0 },
+        { "AlphabetSort", OFFSET_OF(MainWindow, AlphabetSort), PARAM_BOOL, 0 },
         { "DockX", OFFSET_OF(MainWindow, DockX), PARAM_SHORT, 0 },
         { "DockY", OFFSET_OF(MainWindow, DockY), PARAM_SHORT, 0 },
         { "UseDock", OFFSET_OF(MainWindow, UseDock), PARAM_BOOL, 0 },
@@ -1615,6 +1617,9 @@ void MainWindow::showUserPopup(unsigned long uin, QPoint p, QPopupMenu *popup, c
         menuUser->insertSeparator();
         menuUser->insertItem(i18n("Users"), popup);
         menuUser->insertItem(Icon("exit"), i18n("Close"), mnuClose);
+    }else{
+        menuUser->insertItem(i18n("Alphabetically sort"), mnuSort);
+        menuUser->setItemChecked(mnuSort, AlphabetSort);
     }
     adjustUserMenu(menuUser, u, true, false);
     menuUser->popup(p);
@@ -1802,8 +1807,18 @@ void MainWindow::userFunction(unsigned long uin, int function, unsigned long par
         sendMail(uin);
         return;
     case mnuSecureOn:{
-            ICQUser *u = pClient->getUser(uin);
-            if (u) u->requestSecureChannel(pClient);
+            QWidget *w = secureWindow(uin);
+            if (w == NULL)
+                w = new SecureDlg(this, uin);
+            w->show();
+#ifdef USE_KDE
+            KWin::setOnDesktop(w->winId(), KWin::currentDesktop());
+#endif
+            w->setActiveWindow();
+            w->raise();
+#ifdef USE_KDE
+            KWin::setActiveWindow(w->winId());
+#endif
             return;
         }
     case mnuSecureOff:{
@@ -1811,6 +1826,10 @@ void MainWindow::userFunction(unsigned long uin, int function, unsigned long par
             if (u) u->closeSecureChannel(pClient);
             return;
         }
+    case mnuSort:
+        AlphabetSort = !AlphabetSort;
+        users->refresh();
+        return;
     default:
         log(L_WARN, "No user function %u for %lu", function, uin);
     }
@@ -2195,6 +2214,35 @@ QWidget *MainWindow::chatWindow(unsigned long uin)
 void MainWindow::chatClose()
 {
     emit chatChanged();
+}
+
+QWidget *MainWindow::secureWindow(unsigned long uin)
+{
+    QWidget *res = NULL;
+    QWidgetList *list = QApplication::topLevelWidgets();
+    QWidgetListIt it(*list);
+    QWidget *w;
+    while ( (w=it.current()) != NULL) {
+        ++it;
+        if (w->inherits("SecureDlg")){
+            SecureDlg *s = static_cast<SecureDlg*>(w);
+            if (s->Uin == uin)
+                res = s;
+        }else{
+            QObjectList *l = w->queryList("SecureDlg");
+            QObjectListIt it(*l);
+            QObject *obj;
+            while ((obj=it.current()) != NULL){
+                ++it;
+                SecureDlg *s = static_cast<SecureDlg*>(obj);
+                if (s->Uin == uin)
+                    res = s;
+            }
+            delete l;
+        }
+    }
+    delete list;
+    return res;
 }
 
 QWidget *MainWindow::ftWindow(unsigned long uin, const string &fileName)

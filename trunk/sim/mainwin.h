@@ -85,6 +85,7 @@ const int mnuSecureOn = 36;
 const int mnuSecureOff = 37;
 const int mnuAutoResponse = 38;
 const int mnuShare = 39;
+const int mnuSort = 40;
 const int mnuGrpTitle = 0x10000;
 const int mnuPopupStatus = 0x20000;
 
@@ -233,6 +234,7 @@ public:
 
     string			ForwardPhone;
     bool			SendEnter;
+    bool			AlphabetSort;
 
     short	DockX;
     short	DockY;
@@ -284,6 +286,7 @@ public:
     void setKeys(const char *kWindow, const char *kDblClick, const char *kSearch);
 
     QWidget *chatWindow(unsigned long uin);
+    QWidget *secureWindow(unsigned long uin);
     QWidget *ftWindow(unsigned long uin, const string &fileName);
 
     virtual void setBackgroundPixmap(const QPixmap&);

@@ -627,70 +627,72 @@ void DirectClient::processPacket()
                                 delete msg;
                                 return;
                             }
+                        case ICQ_MSGxFILE:
+                        case ICQ_MSGxCHAT:
+                            msg->DeclineReason = msg_str;
+                            client->cancelMessage(msg, false);
+                            return;
                         default:
                             break;
                         }
-                        msg->DeclineReason = msg_str;
-                        client->cancelMessage(msg, false);
-                    }else{
-                        bool bToProcess = false;
-                        switch (msg->Type()){
-                        case ICQ_MSGxFILE:{
-                                bToProcess = true;
-                                ICQFile *file = static_cast<ICQFile*>(msg);
-                                file->ft = new FileTransfer(u->IP, u->RealIP, id1, u, client, file);
-                                file->ft->connect();
-                                break;
-                            }
-                        case ICQ_MSGxCHAT:{
-                                bToProcess = true;
-                                ICQChat *chat = static_cast<ICQChat*>(msg);
-                                chat->chat = new ChatSocket(u->IP, u->RealIP, id1, u, client, chat);
-                                chat->chat->connect();
-                                break;
-                            }
-                        case ICQ_MSGxMSG:
-                        case ICQ_MSGxURL:
+                    }
+                    bool bToProcess = false;
+                    switch (msg->Type()){
+                    case ICQ_MSGxFILE:{
+                            bToProcess = true;
+                            ICQFile *file = static_cast<ICQFile*>(msg);
+                            file->ft = new FileTransfer(u->IP, u->RealIP, id1, u, client, file);
+                            file->ft->connect();
                             break;
-                        case ICQ_MSGxSECURExCLOSE:
+                        }
+                    case ICQ_MSGxCHAT:{
+                            bToProcess = true;
+                            ICQChat *chat = static_cast<ICQChat*>(msg);
+                            chat->chat = new ChatSocket(u->IP, u->RealIP, id1, u, client, chat);
+                            chat->chat->connect();
+                            break;
+                        }
+                    case ICQ_MSGxMSG:
+                    case ICQ_MSGxURL:
+                        break;
+                    case ICQ_MSGxSECURExCLOSE:
+                        u->msgQueue.remove(e);
+                        delete e;
+                        delete msg;
+                        secureStop(true);
+                        return;
+                    case ICQ_MSGxSECURExOPEN:
+                        if (!msg_str.c_str()){
+                            ICQEvent eSend(EVENT_MESSAGE_SEND, msg->getUin());
+                            eSend.setMessage(msg);
+                            eSend.state = ICQEvent::Fail;
+                            client->process_event(&eSend);
                             u->msgQueue.remove(e);
                             delete e;
                             delete msg;
-                            secureStop(true);
-                            return;
-                        case ICQ_MSGxSECURExOPEN:
-                            if (!msg_str.c_str()){
-                                ICQEvent eSend(EVENT_MESSAGE_SEND, msg->getUin());
-                                eSend.setMessage(msg);
-                                eSend.state = ICQEvent::Fail;
-                                client->process_event(&eSend);
-                                u->msgQueue.remove(e);
-                                delete e;
-                                delete msg;
-                            }else{
-                                u->msgQueue.remove(e);
-                                delete e;
-                                delete msg;
-                                secureConnect();
-                            }
-                            return;
-                        default:
-                            log(L_WARN, "Unknown accept message type");
-                            client->cancelMessage(msg, false);
-                            return;
-                        }
-                        u->msgQueue.remove(e);
-                        if (bToProcess){
-                            client->processQueue.push_back(e);
-                            ICQEvent eAck(EVENT_ACKED, msg->getUin());
-                            eAck.setMessage(msg);
-                            client->process_event(&eAck);
                         }else{
-                            ICQEvent eSend(EVENT_MESSAGE_SEND, msg->getUin());
-                            eSend.setMessage(msg);
-                            eSend.state = ICQEvent::Success;
-                            client->process_event(&eSend);
+                            u->msgQueue.remove(e);
+                            delete e;
+                            delete msg;
+                            secureConnect();
                         }
+                        return;
+                    default:
+                        log(L_WARN, "Unknown accept message type");
+                        client->cancelMessage(msg, false);
+                        return;
+                    }
+                    u->msgQueue.remove(e);
+                    if (bToProcess){
+                        client->processQueue.push_back(e);
+                        ICQEvent eAck(EVENT_ACKED, msg->getUin());
+                        eAck.setMessage(msg);
+                        client->process_event(&eAck);
+                    }else{
+                        ICQEvent eSend(EVENT_MESSAGE_SEND, msg->getUin());
+                        eSend.setMessage(msg);
+                        eSend.state = ICQEvent::Success;
+                        client->process_event(&eSend);
                     }
                     break;
                 }

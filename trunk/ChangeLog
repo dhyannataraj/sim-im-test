@@ -1,4 +1,6 @@
 Version 0.8
+Add alphabticaly sorting user list
+Add secure channel dialog
 Add recognize various clients
 Fix dock window and keyboard shortcuts for QT-only version
 Add loging change status

@@ -106,11 +106,11 @@ public:
 public slots:
     void setShowOffline(bool);
     void setGroupMode(bool);
+    void refresh();
 signals:
     void checked();
 protected slots:
     void processEvent(ICQEvent*);
-    void refresh();
     void doubleClick(QListViewItem*);
     void grpFunction(int);
     void editEscape();
