@@ -2859,7 +2859,8 @@ msgstr "-"
 #: plugins/msn/msnconfigbase.cpp:178
 #: plugins/yahoo/yahoocfgbase.cpp:180
 msgid "Note: For HTTP-pooling using proxy setings for HTTP"
-msgstr "Anmerkung: Für vereinte HTTP Anfragen müssen die Einstellungen für HTTP verwendet werden."
+msgstr "Anmerkung: Vereinte HTTP-Anfragen können nur in Verbindung mit einem
+HTTP-Proxy verwendet werden."
 
 #: plugins/icq/aimconfigbase.cc:152
 #: plugins/icq/icqconfigbase.cc:274
@@ -2878,8 +2879,7 @@ msgstr "&Netzwerk"
 #: plugins/icq/icqconfigbase.cc:276
 msgid "Automatically check &invisible"
 msgstr ""
-"Einmal unsichtbar prüfen\n"
-"%n Mal unsichbar prüfen"
+"Automatisch &unsichtbar prüfen"
 
 #: plugins/icq/icqconfigbase.cc:277
 msgid "Send format:"
@@ -5594,7 +5594,7 @@ msgstr "Nicht-IM-Kontakt hinzufügen"
 #: plugins/_core/nonimbase.cpp:97
 #: plugins/jabber/jabberaddbase.cpp:99
 msgid "Nickname:"
-msgstr "Nickname:"
+msgstr "Spitzname:"
 
 #: plugins/_core/nonimbase.cpp:98
 msgid "E-Mail address:"
@@ -6084,7 +6084,7 @@ msgstr "Telefon"
 
 #: plugins/_core/core.cpp:1651
 msgid "contact nick"
-msgstr "Kontaktspitzname"
+msgstr "Spitzname"
 
 #: plugins/_core/core.cpp:1653
 msgid "number of unread messages from this contact"
