@@ -1154,10 +1154,8 @@ void UserView::hideTip()
 {
     tipTimer->stop();
     mTipItem = NULL;
-    if (m_tip){
-        delete m_tip;
-        m_tip = NULL;
-    }
+    if (m_tip)
+		m_tip->hide();
 }
 
 void UserView::showTip()

@@ -2968,6 +2968,7 @@ void *CorePlugin::processEvent(Event *e)
                     if (n-- == 0){
                         Message *msg = History::load((*it).id, (*it).client.c_str(), (*it).contact);
                         if (msg){
+							msg->setFlags(msg->getFlags() & ~MESSAGE_NORAISE);
                             Event e(EventOpenMessage, &msg);
                             e.process();
                             delete msg;
