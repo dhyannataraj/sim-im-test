@@ -1,4 +1,5 @@
 # translation of uk.po to 
+# translation of uk.po to
 # translation of uk.po to Ukrainian
 # translation of uk.po to Український
 # Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
@@ -9,7 +10,7 @@ msgstr ""
 "Project-Id-Version: uk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-05 15:33+0200\n"
-"PO-Revision-Date: 2004-08-06 16:00+0300\n"
+"PO-Revision-Date: 2004-09-01 09:45+0300\n"
 "Last-Translator: Ivan Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team:  <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -334,7 +335,7 @@ msgstr "&Наступна сторінка"
 
 #: core.cpp:820
 msgid "&Save as text"
-msgstr ""
+msgstr "&Зберегти як текст"
 
 #: plugins/_core/core.cpp:878
 msgid "&Open message"
@@ -785,19 +786,19 @@ msgstr "Історія"
 
 #: plugins/_core/historywnd.cpp:191
 msgid "File already exists. Overwrite?"
-msgstr ""
+msgstr "Файл вже є присутній. Перезаписати?"
 
 #: plugins/_core/historywnd.cpp:196
 msgid "&Overwrite"
-msgstr ""
+msgstr "&Перезаписати"
 
 #: plugins/_core/historywnd.cpp:197
 msgid "&Append"
-msgstr ""
+msgstr "&Додати"
 
 #: plugins/_core/historywnd.cpp:211
 msgid "Save failed"
-msgstr ""
+msgstr "Запис не вдався"
 
 #: plugins/_core/interfacecfg.cpp:53 plugins/icq/moreinfo.cpp:98
 msgid "English"
@@ -8461,3 +8462,4 @@ msgstr "Стиль Windows XP"
 
 #~ msgid "SSL shuwdown error"
 #~ msgstr "Помилка роз'єднання SSL"
+
