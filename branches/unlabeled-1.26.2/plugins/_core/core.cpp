@@ -1397,6 +1397,8 @@ void *CorePlugin::processEvent(Event *e)
                     break;
                 }
             }
+            Event eCmd(EventCommandRemove, (void*)id);
+            eCmd.process();
             messageTypes.erase(id);
             return e->param();
         }

@@ -326,6 +326,7 @@ ICQClient::ICQClient(Protocol *protocol, const char *cfg, bool bAIM)
         : TCPClient(protocol, cfg), EventReceiver(HighPriority - 1)
 {
     m_bAIM = bAIM;
+	m_listener = NULL;
     load_data(icqClientData, &data, cfg);
     if (data.owner.Uin)
         m_bAIM = false;
@@ -354,7 +355,6 @@ ICQClient::ICQClient(Protocol *protocol, const char *cfg, bool bAIM)
     data.owner.DCcookie = rand();
     char buff[64];
     snprintf(buff, sizeof(buff), "ICQ.%lu", data.owner.Uin);
-    m_listener = new ICQListener(this);
     m_bBirthday = false;
     m_bServerReady = false;
     m_infoTimer = new QTimer(this);
@@ -379,7 +379,8 @@ ICQClient::ICQClient(Protocol *protocol, const char *cfg, bool bAIM)
 ICQClient::~ICQClient()
 {
     setStatus(STATUS_OFFLINE, false);
-    delete m_listener;
+	if (m_listener)
+		delete m_listener;
     free_data(icqClientData, &data);
     if (m_socket)
         delete m_socket;
@@ -532,7 +533,6 @@ OscarSocket::~OscarSocket()
 
 void OscarSocket::connect_ready()
 {
-    log(L_DEBUG, "Connect ready");
     socket()->readBuffer.init(6);
     socket()->readBuffer.packetStart();
     m_bHeader = true;
@@ -540,6 +540,8 @@ void OscarSocket::connect_ready()
 
 void ICQClient::connect_ready()
 {
+	if (m_listener == NULL)
+	    m_listener = new ICQListener(this);
     OscarSocket::connect_ready();
     TCPClient::connect_ready();
 }
@@ -664,6 +666,10 @@ void ICQClient::disconnected()
         ServiceSocket *s = m_services.front();
         delete s;
     }
+	if (m_listener){
+		delete m_listener;
+		m_listener = NULL;
+	}
 }
 
 const char *icq_error_codes[] = {I18N_NOOP("Unknown error"),
@@ -1617,6 +1623,8 @@ string ICQClient::clientName(ICQUserData *data)
         res += b;
         if (data->Build & 0x80)
             res += "/win32";
+		if (data->Build & 0x40)
+			res += "/MacOS X";
         return res;
     }
 
@@ -1718,21 +1726,13 @@ string ICQClient::clientName(ICQUserData *data)
         return res;
     }
     if ((hasCap(data, CAP_STR_2001) || hasCap(data, CAP_SRV_RELAY)) && hasCap(data, CAP_IS_2001)){
-
         res += "ICQ 2001";
-
         return res;
-
     }
-
     if (hasCap(data, CAP_SRV_RELAY) && hasCap(data, CAP_DIRECT)){
-
         res += "ICQ 2001b";
-
         return res;
-
     }
-
     if ((data->Version == 7) && hasCap(data, CAP_RTF)){
         res += "GnomeICU";
         return res;
