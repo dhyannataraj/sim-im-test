@@ -2425,6 +2425,17 @@ QFont MainWindow::str2font(const char *str, const QFont &def)
     return f;
 }
 
+void MainWindow::addSearch(const QString &t)
+{
+    QStringList::Iterator it;
+    for (it = searches.begin(); it != searches.end(); ++it)
+        if ((*it) == t) break;
+    if (it != searches.end())
+        searches.remove(it);
+    searches.prepend(t);
+    emit searchChanged();
+}
+
 #ifndef _WINDOWS
 #include "mainwin.moc"
 #endif

@@ -32,6 +32,7 @@
 #include <qaccel.h>
 #include <qregexp.h>
 #include <qapplication.h>
+#include <qcombobox.h>
 
 CPushButton::CPushButton(QWidget *parent, const char *name)
         : QPushButton(parent, name)
@@ -330,6 +331,25 @@ void PictPushButton::paintEvent(QPaintEvent *e)
         rc.setLeft(4 + pict.width());
     }
     p.drawText(rc, AlignHCenter | AlignVCenter, text);
+}
+
+CToolCombo::CToolCombo(QToolBar *t, const QString &toolTip)
+        : QComboBox(t)
+{
+    QToolTip::add(this, toolTip);
+    setEditable(true);
+}
+
+QSizePolicy CToolCombo::sizePolicy() const
+{
+    QSizePolicy p = QComboBox::sizePolicy();
+    QToolBar *bar = static_cast<QToolBar*>(parent());
+    if (bar->orientation() == Vertical){
+        p.setVerData(QSizePolicy::Expanding);
+    }else{
+        p.setHorData(QSizePolicy::Expanding);
+    }
+    return p;
 }
 
 #ifndef _WINDOWS

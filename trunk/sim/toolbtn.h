@@ -22,6 +22,7 @@
 
 #include <qtoolbutton.h>
 #include <qpushbutton.h>
+#include <qcombobox.h>
 
 class QPopupMenu;
 class QAccel;
@@ -97,6 +98,15 @@ protected:
     void paintEvent(QPaintEvent*);
     QSize minimumSizeHint() const;
     QSize sizeHint() const;
+};
+
+class CToolCombo : public QComboBox
+{
+    Q_OBJECT
+public:
+    CToolCombo(QToolBar*, const QString& toolTip);
+protected:
+    virtual QSizePolicy sizePolicy() const;
 };
 
 #endif

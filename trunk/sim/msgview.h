@@ -34,14 +34,16 @@
 #endif
 #endif
 
+#include <qmainwindow.h>
+
 class ICQMessage;
 class ICQEvent;
 
 class QPopupMenu;
 class QPainter;
 class TransparentBg;
-class KEdFind;
 class QTextCodec;
+class QComboBox;
 
 class TextShow : public QTextBrowser
 {
@@ -57,13 +59,7 @@ public:
 signals:
     void goMessage(unsigned long Uin, unsigned long msgId);
     void showPopup(QPoint);
-public slots:
-    void search();
-    void repeatSearch();
 protected slots:
-    void search_slot();
-    void searchdone_slot();
-    void searchAgain(int);
     void encodingChanged(unsigned long);
 protected:
     QTextCodec *codec;
@@ -76,9 +72,6 @@ protected:
     QColor baseBG;
     QColor baseFG;
     QString curAnchor;
-    KEdFind 	*srchdialog;
-    bool doSearch(QString s_pattern, bool case_sensitive, bool forward, int *parag, int *index);
-    void startSearch(int parag, int index);
 };
 
 class MsgView : public TextShow
@@ -107,12 +100,12 @@ protected:
 class ICQUser;
 class History;
 
-class HistoryView : public MsgView
+class HistoryTextView : public MsgView
 {
     Q_OBJECT
 public:
-    HistoryView(QWidget *p, unsigned long uin);
-    ~HistoryView();
+    HistoryTextView(QWidget *p, unsigned long uin);
+    ~HistoryTextView();
 signals:
     void showProgress(int);
 protected slots:
@@ -124,6 +117,31 @@ protected:
     bool bFill;
     ICQUser *u;
     History *h;
+};
+
+class CToolButton;
+
+class HistoryView : public QMainWindow
+{
+    Q_OBJECT
+public:
+    HistoryView(QWidget *p, unsigned long uin);
+signals:
+    void showProgress(int);
+    void goMessage(unsigned long Uin, unsigned long msgId);
+protected slots:
+    void slotShowProgress(int);
+    void slotGoMessage(unsigned long uin, unsigned long msgId);
+    void slotSearch();
+    void slotSearch(int);
+    void searchTextChanged(const QString&);
+    void searchChanged();
+protected:
+    int searchParag;
+    int searchIndex;
+    HistoryTextView *view;
+    CToolButton *btnSearch;
+    QComboBox   *cmbSearch;
 };
 
 #endif

@@ -876,7 +876,7 @@ bool ICQClient::cancelMessage(ICQMessage *m, bool bSendCancel)
 void ICQClient::messageReceived(ICQMessage *msg)
 {
     bool bAddUser;
-	ICQUser *u = NULL;
+    ICQUser *u = NULL;
     switch (msg->Type()){
     case ICQ_MSGxMSG:
         bAddUser = !RejectMessage;

@@ -606,7 +606,7 @@ void MsgEdit::processEvent(ICQEvent *e)
                 }
                 if (!msgTail.isEmpty()){
                     if (msgView){
-	                    msgView->addMessage(message(), false, true);
+                        msgView->addMessage(message(), false, true);
                         msgView->setMessage(Uin, message()->Id);
                     }
                     if (e->message()->Type() == ICQ_MSGxSMS){

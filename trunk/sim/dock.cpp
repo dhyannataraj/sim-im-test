@@ -285,7 +285,7 @@ DockWnd::DockWnd(QWidget *main, bool _bWM)
     if (bWharf){
         wharfIcon = new WharfIcon(this);
         if (bWM){
-        Display *dsp = x11Display();
+            Display *dsp = x11Display();
             WId win = winId();
             XWMHints *hints;
             XClassHint classhint;
@@ -304,6 +304,8 @@ DockWnd::DockWnd(QWidget *main, bool _bWM)
             XSetCommand(dsp, winId(), _argv, _argc);
             resize(64, 64);
             show();
+        }else{
+            hide();
         }
         wharfIcon->show();
     }

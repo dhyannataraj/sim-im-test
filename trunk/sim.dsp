@@ -265,14 +265,6 @@ SOURCE=.\sim\ui\filetransferbase.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\ui\finddlg.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\ui\finddlgbase.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\sim\fontedit.cpp
 # End Source File
 # Begin Source File
@@ -534,14 +526,6 @@ SOURCE=.\sim\ui\moc_filetransfer.cpp
 # Begin Source File
 
 SOURCE=.\sim\ui\moc_filetransferbase.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\ui\moc_finddlg.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\ui\moc_finddlgbase.cpp
 # End Source File
 # Begin Source File
 
@@ -1736,43 +1720,6 @@ InputName=filetransfer
 # Begin Source File
 
 SOURCE=.\sim\ui\filetransferbase.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\ui\finddlg.h
-
-!IF  "$(CFG)" == "sim - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\sim\ui
-InputPath=.\sim\ui\finddlg.h
-InputName=finddlg
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\sim\ui
-InputPath=.\sim\ui\finddlg.h
-InputName=finddlg
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\ui\finddlgbase.h
 # End Source File
 # Begin Source File
 
@@ -4086,61 +4033,6 @@ BuildCmds= \
 InputDir=.\sim\ui
 InputPath=.\sim\ui\filetransferbase.ui
 InputName=filetransferbase
-
-BuildCmds= \
-	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
-	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
-	
-
-"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\ui\finddlgbase.ui
-
-!IF  "$(CFG)" == "sim - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
-InputDir=.\sim\ui
-InputPath=.\sim\ui\finddlgbase.ui
-InputName=finddlgbase
-
-BuildCmds= \
-	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
-	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
-	
-
-"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
-InputDir=.\sim\ui
-InputPath=.\sim\ui\finddlgbase.ui
-InputName=finddlgbase
 
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \

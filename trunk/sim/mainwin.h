@@ -27,6 +27,7 @@ using namespace std;
 
 #include <qmainwindow.h>
 #include <qtimer.h>
+#include <qstringlist.h>
 
 class Skin;
 class DockWnd;
@@ -295,7 +296,11 @@ public:
     list<unread_msg> messages;
     void setDock();
     bool isDock();
+
+    void addSearch(const QString&);
+    QStringList	searches;
 signals:
+    void searchChanged();
     void modeChanged(bool);
     void transparentChanged();
     void colorsChanged();

@@ -23,6 +23,7 @@
 #include "log.h"
 #include "icons.h"
 #include "transparent.h"
+#include "toolbtn.h"
 #include "ui/ballonmsg.h"
 
 #ifdef USE_KDE
@@ -32,8 +33,6 @@
 #ifdef HAVE_KROOTPIXMAP_H
 #include <krootpixmap.h>
 #endif
-#else
-#include "ui/finddlg.h"
 #endif
 
 #include <qdatetime.h>
@@ -47,7 +46,9 @@
 #include <qtimer.h>
 #include <qstringlist.h>
 #include <qtextcodec.h>
-
+#include <qtoolbar.h>
+#include <qlineedit.h>
+#include <qaccel.h>
 
 #ifdef WIN32
 #if _MSC_VER > 1020
@@ -60,7 +61,6 @@ TextShow::TextShow(QWidget *p, const char *name)
 {
     m_nUin = 0;
     codec = QTextCodec::codecForLocale();
-    srchdialog = NULL;
     bg = new TransparentBg(this);
     baseBG = colorGroup().color(QColorGroup::Base);
     baseFG = colorGroup().color(QColorGroup::Text);
@@ -315,93 +315,6 @@ QPopupMenu *TextShow::createPopupMenu(const QPoint &p)
     return popup;
 }
 
-void TextShow::search(){
-
-    if( srchdialog == 0 )
-    {
-        srchdialog = new KEdFind( this, "searchdialog", false);
-        connect(srchdialog,SIGNAL(search()),this,SLOT(search_slot()));
-        connect(srchdialog,SIGNAL(done()),this,SLOT(searchdone_slot()));
-    }
-    srchdialog->show();
-    srchdialog->result();
-}
-
-void TextShow::search_slot()
-{
-    if (!srchdialog) return;
-    int parag, index;
-    getCursorPosition(&parag, &index);
-    startSearch(parag, index);
-}
-
-void TextShow::startSearch(int parag, int index)
-{
-    QString to_find_string = srchdialog->getText();
-    if (doSearch(to_find_string, srchdialog->case_sensitive(), (!srchdialog->get_direction()), &parag, &index)){
-        setSelection(parag, index, parag, index + to_find_string.length());
-        setCursorPosition(parag, index + to_find_string.length());
-        ensureCursorVisible();
-        return;
-    }
-    if (!srchdialog->isVisible()){
-        QApplication::beep();
-        return;
-    }
-    QStringList btns;
-    btns.append(i18n("&Yes"));
-    btns.append(i18n("&No"));
-
-    QObjectList *l = srchdialog->queryList("QPushButton");
-    QObjectListIt it( *l );
-    if (it.current() == 0){
-        delete l;
-        QApplication::beep();
-        return;
-    }
-    QPushButton *btnOK = static_cast<QPushButton*>(it.current());
-    delete l;
-    QRect rc = btnOK->rect();
-    rc.moveTopLeft(btnOK->mapToGlobal(rc.topLeft()));
-    BalloonMsg *msg = new BalloonMsg(!srchdialog->get_direction() ?
-                                     i18n("End of document reached.\nContinue from the beginning?") :
-                                     i18n("Beginning of document reached.\nContinue from the end?"),
-                                     rc, btns, this);
-    connect(msg, SIGNAL(action(int)), this, SLOT(searchAgain(int)));
-    msg->show();
-}
-
-void TextShow::searchAgain(int n)
-{
-    if (n) return;
-    if (!srchdialog) return;
-    if (srchdialog->get_direction()){
-        startSearch(paragraphs(), 0);
-    }else{
-        startSearch(0, 0);
-    }
-}
-
-void TextShow::searchdone_slot()
-{
-    if (!srchdialog)
-        return;
-    srchdialog->hide();
-    setFocus();
-}
-
-bool TextShow::doSearch(QString s_pattern, bool case_sensitive, bool forward, int *parag, int *index)
-{
-    return QTextEdit::find(s_pattern, case_sensitive, false, forward, parag, index);
-}
-
-void TextShow::repeatSearch()
-{
-    if(!srchdialog) return;
-    search_slot();
-    setFocus();
-}
-
 void TextShow::keyPressEvent( QKeyEvent *e )
 {
 #ifdef USE_KDE
@@ -430,16 +343,6 @@ void TextShow::keyPressEvent( QKeyEvent *e )
     }
 #endif
 #endif
-    if (e->key() == Key_F3){
-        repeatSearch();
-        e->accept();
-        return;
-    }
-    if ((e->key() == Key_F) && (e->state() & ControlButton)){
-        search();
-        e->accept();
-        return;
-    }
     QTextEdit::keyPressEvent(e);
 }
 
@@ -654,7 +557,7 @@ void MsgView::ownColorsChanged()
     setText("");
 }
 
-HistoryView::HistoryView(QWidget *p, unsigned long uin)
+HistoryTextView::HistoryTextView(QWidget *p, unsigned long uin)
         : MsgView(p)
 {
     setUin(uin);
@@ -666,12 +569,12 @@ HistoryView::HistoryView(QWidget *p, unsigned long uin)
     QTimer::singleShot(100, this, SLOT(fill()));
 }
 
-HistoryView::~HistoryView()
+HistoryTextView::~HistoryTextView()
 {
     if (h) delete h;
 }
 
-void HistoryView::processEvent(ICQEvent *e)
+void HistoryTextView::processEvent(ICQEvent *e)
 {
     if (e->type() != EVENT_DONE) return;
     ICQMessage *msg = e->message();
@@ -679,7 +582,7 @@ void HistoryView::processEvent(ICQEvent *e)
     messageReceived(msg);
 }
 
-void HistoryView::messageReceived(ICQMessage *msg)
+void HistoryTextView::messageReceived(ICQMessage *msg)
 {
     if (msg->getUin() != m_nUin) return;
     if (msg->Id >= MSG_PROCESS_ID) return;
@@ -712,7 +615,7 @@ void HistoryView::messageReceived(ICQMessage *msg)
     setContentsPos(x, y);
 }
 
-void HistoryView::fill()
+void HistoryTextView::fill()
 {
     if (!bFill){
         bFill = true;
@@ -742,7 +645,7 @@ void HistoryView::fill()
     showProgress(101);
 }
 
-void HistoryView::ownColorsChanged()
+void HistoryTextView::ownColorsChanged()
 {
     MsgView::ownColorsChanged();
     bFill = false;
@@ -751,6 +654,88 @@ void HistoryView::ownColorsChanged()
         h = NULL;
     }
     QTimer::singleShot(100, this, SLOT(fill()));
+}
+
+HistoryView::HistoryView(QWidget *p, unsigned long uin)
+        : QMainWindow(p, "historyview", 0)
+{
+    connect(pMain, SIGNAL(searchChanged()), this, SLOT(searchChanged()));
+    view = new HistoryTextView(this, uin);
+    connect(view, SIGNAL(showProgress(int)), this, SLOT(slotShowProgress(int)));
+    connect(view, SIGNAL(goMessage(unsigned long, unsigned long)), this, SLOT(slotGoMessage(unsigned long, unsigned long)));
+    setCentralWidget(view);
+    QToolBar *t = new QToolBar(this);
+    t->setHorizontalStretchable(true);
+    t->setVerticalStretchable(true);
+    cmbSearch = new CToolCombo(t, i18n("Search"));
+    btnSearch = new CToolButton(t);
+    btnSearch->setTextLabel(i18n("&Search"));
+    btnSearch->setIconSet(Icon("find"));
+    connect(btnSearch, SIGNAL(clicked()), this, SLOT(slotSearch()));
+    connect(cmbSearch, SIGNAL(textChanged(const QString&)), this, SLOT(searchTextChanged(const QString&)));
+    searchTextChanged("");
+    setDockEnabled(t, Left, false);
+    setDockEnabled(t, Right, false);
+    searchChanged();
+    QAccel *accel = new QAccel(this);
+    accel->connectItem(accel->insertItem(Key_F3), this, SLOT(slotSearch(int)));
+    accel->connectItem(accel->insertItem(CTRL + Key_F), this, SLOT(slotSearch(int)));
+}
+
+void HistoryView::searchChanged()
+{
+    QLineEdit *edt = cmbSearch->lineEdit();
+    QString searchText = edt->text();
+#if QT_VERSION >= 300
+    int startPos, endPos;
+    edt->getSelection(&startPos, &endPos);
+#endif
+    int pos = edt->cursorPosition();
+    for (int n = cmbSearch->count() - 1; n >= 0; n--){
+        cmbSearch->removeItem(n);
+    }
+    cmbSearch->insertStringList(pMain->searches);
+    edt->setText(searchText);
+#if QT_VERSION >= 300
+    edt->setSelection(startPos, endPos);
+#endif
+    edt->setCursorPosition(pos);
+}
+
+void HistoryView::slotSearch(int)
+{
+    slotSearch();
+}
+
+void HistoryView::slotSearch()
+{
+    QString searchText = cmbSearch->lineEdit()->text();
+    if (searchText.isEmpty()) return;
+    pMain->addSearch(searchText);
+    if (view->find(searchText, false, false, true, &searchParag, &searchIndex)){
+        view->setSelection(searchParag, searchIndex, searchParag, searchIndex + searchText.length());
+        view->setCursorPosition(searchParag, searchIndex + searchText.length());
+        view->ensureCursorVisible();
+        return;
+    }
+    QApplication::beep();
+}
+
+void HistoryView::slotShowProgress(int n)
+{
+    emit showProgress(n);
+}
+
+void HistoryView::slotGoMessage(unsigned long uin, unsigned long msgId)
+{
+    emit goMessage(uin, msgId);
+}
+
+void HistoryView::searchTextChanged(const QString &searchText)
+{
+    btnSearch->setEnabled(!searchText.isEmpty());
+    searchParag = 0;
+    searchIndex = 0;
 }
 
 #ifndef _WINDOWS
