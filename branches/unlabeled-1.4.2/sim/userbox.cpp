@@ -515,12 +515,12 @@ bool UserBox::load(std::istream &s, string &part)
 void UserBox::adjustPos()
 {
     if ((mLeft() == 0) && (mTop() == 0)){
-	mLeft = pos().x();
-	mTop  = pos().y();
+        mLeft = pos().x();
+        mTop  = pos().y();
     }
     if ((mWidth() == 0) || (mHeight() == 0)){
-	mWidth  = pMain->UserBoxWidth();
-        mHeight = pMain->UserBoxHeight();
+        mWidth  = (short)pMain->UserBoxWidth();
+        mHeight = (short)pMain->UserBoxHeight();
     }
     if (mLeft() < 5) mLeft = 5;
     if (mTop() < 5) mTop = 5;
@@ -530,11 +530,11 @@ void UserBox::adjustPos()
     if (mHeight > QApplication::desktop()->height() - 5) mHeight = QApplication::desktop()->height() - 5;
     if (mLeft() && mTop()) move(mLeft, mTop);
     if (mWidth() && mHeight()){
-	int saveWidth = pMain->UserBoxWidth();
+        int saveWidth = pMain->UserBoxWidth();
         int saveHeight = pMain->UserBoxHeight();
-	resize(mWidth, mHeight);
-        pMain->UserBoxWidth = saveWidth;
-        pMain->UserBoxHeight = saveHeight;
+        resize(mWidth, mHeight);
+        pMain->UserBoxWidth  = (short)saveWidth;
+        pMain->UserBoxHeight = (short)saveHeight;
     }
 }
 

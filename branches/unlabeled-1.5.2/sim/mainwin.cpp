@@ -94,6 +94,12 @@
 #include <qpopupmenu.h>
 #endif
 
+#ifdef WIN32
+#define FS(a, b)	 fs(a, b);
+#else
+#define FS(a, b)	 fs(a, b, 0600);
+#endif
+
 #ifdef USE_SCRNSAVER
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -123,11 +129,11 @@ const char *app_file(const char *f)
 #if USE_KDE
     QStringList lst = KGlobal::dirs()->findDirs("data", "sim");
     for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
-	QFile f(*it + f);
-	if (f.exists()){
-		app_file_name = (const char*)f.name().local8Bit();
-		return app_file_name.c_str();
-	}
+        QFile f(*it + f);
+        if (f.exists()){
+            app_file_name = (const char*)f.name().local8Bit();
+            return app_file_name.c_str();
+        }
     }
     if (lst.size()){
         app_file_name = (const char*)lst[0].local8Bit();
@@ -603,8 +609,8 @@ bool MainWindow::init()
 
     string part;
     buildFileName(file, SIM_CONF);
-    std::ifstream ifs(file.c_str(), ios::in, 0600);
-    load(ifs, part);
+    std::ifstream FS(file.c_str(), ios::in);
+    load(fs, part);
 
     setDock(true);
 
@@ -622,14 +628,14 @@ bool MainWindow::init()
     {
         string file, part;
         buildFileName(file, ICQ_CONF);
-        ifstream ifs(file.c_str(), ios::in, 0600);
-        pClient->load(ifs, part);
+        ifstream FS(file.c_str(), ios::in);
+        pClient->load(fs, part);
     }
     for (;;){
         if (part.size() == 0) break;
         if (part == string("[Floaty]")){
             UserFloat *uFloat = new UserFloat;
-            if (!uFloat->load(ifs, part)){
+            if (!uFloat->load(fs, part)){
                 delete uFloat;
                 continue;
             }
@@ -643,7 +649,7 @@ bool MainWindow::init()
         }
         if (part == string("[UserBox]")){
             UserBox *box = new UserBox;
-            if (!box->load(ifs, part)){
+            if (!box->load(fs, part)){
                 delete box;
                 continue;
             }
@@ -870,15 +876,15 @@ void MainWindow::saveState()
     if ((stat(file.c_str(), &st) >= 0) && (st.st_mode != 0600))
         unlink(file.c_str());
 #endif
-    std::ofstream ofs(file.c_str(), ios::out, 0600);
-    save(ofs);
+    std::ofstream FS(file.c_str(), ios::out);
+    save(fs);
     for (list<UserFloat*>::iterator itFloat = floating.begin(); itFloat != floating.end(); itFloat++){
-        ofs << "[Floaty]\n";
-        (*itFloat)->save(ofs);
+        fs << "[Floaty]\n";
+        (*itFloat)->save(fs);
     }
     for (list<UserBox*>::iterator itBox = containers.begin(); itBox != containers.end(); itBox++){
-        ofs << "[UserBox]\n";
-        (*itBox)->save(ofs);
+        fs << "[UserBox]\n";
+        (*itBox)->save(fs);
     }
     saveContacts();
 }
@@ -893,9 +899,9 @@ void MainWindow::saveContacts()
     if ((stat(file.c_str(), &st) >= 0) && (st.st_mode != 0600))
         unlink(file.c_str());
 #endif
-    ofstream ofs(file.c_str(), ios::out, 0600);
-    pClient->save(ofs);
-    ofs.close();
+    ofstream FS(file.c_str(), ios::out);
+    pClient->save(fs);
+    fs.close();
 }
 
 void MainWindow::setDock(bool bUseDock)
