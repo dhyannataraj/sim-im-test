@@ -18,6 +18,7 @@
 #include "toolbtn.h"
 
 #include <qpainter.h>
+#include <qtimer.h>
 #include <qtoolbar.h>
 #include <qtooltip.h>
 #include <qlayout.h>
