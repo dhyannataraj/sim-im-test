@@ -979,6 +979,9 @@ void DockWnd::mouseEvent( QMouseEvent *e)
     case QWidget::RightButton:
         emit showPopup(e->globalPos());
         break;
+    case QWidget::MidButton:
+        emit doubleClicked();
+        break;
     default:
         break;
     }
