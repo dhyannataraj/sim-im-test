@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2003-09-04 09:27+0400\n"
-"PO-Revision-Date: 2003-09-04 16:45GMT\n"
+"PO-Revision-Date: 2003-09-04 17:01GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5848,7 +5848,7 @@ msgstr "Ausschneiden"
 
 #: sim/ui/qt3/i18n.cpp:251
 msgid "Copy"
-msgstr "Letzte"
+msgstr "Kopieren"
 
 #: sim/ui/qt3/i18n.cpp:253
 msgid "Paste"
