@@ -51,15 +51,17 @@ AC_DEFUN(AC_CHECK_OPENSSL,
     AC_MSG_RESULT(no)
   else
     AC_MSG_RESULT(yes)
-    LIBS_SSL = ""
+    LIBS_SSL=""
     AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
-    if text "x$PKG_CONFIG" != "xno" ; then
+    if test "x$PKG_CONFIG" != "xno" ; then
       if $PKG_CONFIG openssl >/dev/null 2>&1; then
-        CPPFLAGS="$CPPFLAGS `$PKG_CONFIG --cflags openssl`"
-        LIBS_SSL="`$PKG_CONFIG --libs openssl`"
+        LIBS_SSL=`$PKG_CONFIG --libs openssl 2>/dev/null`
+	if test "x$LIBS_SSL" != "x" ; then
+          CPPFLAGS="$CPPFLAGS `$PKG_CONFIG --cflags openssl`"
+	fi
       fi 
     fi
-    if text "x$LIBSS_SSL" = "x" ; then
+    if test "x$LIBS_SSL" = "x" ; then
       dnl AC_MSG_CHECKING(for the OpenSSL headers)
       temp=$CPPFLAGS
       if test "$openssl_incdir" != "no"; then
