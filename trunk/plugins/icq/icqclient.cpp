@@ -864,15 +864,9 @@ string ICQClient::cryptPassword()
             0x71, 0xa3, 0xb9, 0xe6, 0x53, 0x7a, 0x95, 0x7c
         };
     int j;
-    for (j = 0; j < 16; j++){
+    for (j = 0; j < 8; j++){
         if (p[j] == 0) break;
         char c = (char)(p[j] ^ xor_table[j]);
-        if (c == 0){
-            res += "\\";
-            c = '0';
-        }else if (c == '\\'){
-            res += "\\";
-        }
         res += c;
     }
     return res;
