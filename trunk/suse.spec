@@ -3,7 +3,7 @@
 %define release %(release="`echo "%{suse_release} * 10" | bc 2>/dev/null`" ; if test $? != 0 ; then release="" ; fi ; echo "$release")
 
 Name:           sim
-Version:        0.9.0
+Version:        0.9.1
 Release:	1.suse%{release}
 Vendor:		Vladimir Shutoff <shutoff@mail.ru>
 Packager:	Christoph Thielecke <crissi99@gmx.de>
@@ -21,11 +21,12 @@ Distribution:	SuSE Linux %{suse_release}
 # usedforbuild    aaa_base aaa_dir aaa_version arts arts-devel autoconf automake base bash bindutil binutils bison bzip compat cpio cpp cracklib cyrus-sasl db devs diffutils docbook-dsssl-stylesheets docbook_3 e2fsprogs fam file fileutils findutils flex freetype2 freetype2-devel gawk gcc gcc-c++ gdbm gdbm-devel gettext glibc glibc-devel glibc-locale gpm grep groff gzip iso_ent jade_dsl kbd kdelibs3 kdelibs3-devel less libgcc libjpeg liblcms libmng libmng-devel libpng libpng-devel libstdc++ libstdc++-devel libtiff libtool libxcrypt libxml2 libxml2-devel libxslt libxslt-devel libz m4 make man mesa mesa-devel mesaglu mesaglu-devel mesaglut mesaglut-devel mesasoft mktemp modutils ncurses ncurses-devel net-tools netcfg openssl openssl-devel pam pam-devel pam-modules patch perl ps qt3 qt3-devel rcs readline rpm sed sendmail sh-utils shadow sp sp-devel strace syslogd sysvinit tar texinfo textutils timezone unzip util-linux vim xdevel xf86 xshared
 
 %description
-SIM - Simple Instant Messenger
+SIM - Multiprotocol Instant Messenger
 
-SIM (Simple Instant Messenger) is an unpretentious
-open-source ICQ client which supports many of the
-features of Version 8 of the ICQ protocol (ICQ 2001).
+SIM (Simple Instant Messenger) is a plugins-based open-
+source instant messenger that supports various protocols
+(ICQ, Jabber, AIM, MSN). It uses the QT library and works
+on X11 (with optional KDE-support).
 
 SIM has a lot of features, many of them are listed
 at: http://sim-icq.sourceforge.net/
