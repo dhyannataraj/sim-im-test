@@ -274,9 +274,10 @@ DockWnd::DockWnd(QWidget *main, bool _bWM)
         const QPixmap &pict = Pict(pClient->getStatusIcon());
         setIcon(pict);
 #ifdef USE_KDE
+        bWharf = false;
         resize(24, 24);
         KWin::setSystemTrayWindowFor( winId(), main->topLevelWidget()->winId());
-	show();
+        show();
 #endif
     }
     if (bWharf) showWharf();
@@ -287,32 +288,32 @@ DockWnd::DockWnd(QWidget *main, bool _bWM)
 #ifndef WIN32
 void DockWnd::showWharf()
 {
-	if (wharfIcon) return;
-        wharfIcon = new WharfIcon(this);
-        if (bWM){
-            Display *dsp = x11Display();
-            WId win = winId();
-            XWMHints *hints;
-            XClassHint classhint;
-            classhint.res_name  = (char*)"sim";
-            classhint.res_class = (char*)"sim";
-            XSetClassHint(dsp, win, &classhint);
-            hints = XGetWMHints(dsp, win);
-            hints->initial_state = WithdrawnState;
-            hints->icon_x = 0;
-            hints->icon_y = 0;
-            hints->icon_window = wharfIcon->winId();
-            hints->window_group = win;
-            hints->flags = WindowGroupHint | IconWindowHint | IconPositionHint | StateHint;
-            XSetWMHints(dsp, win, hints);
-            XFree( hints );
-            XSetCommand(dsp, winId(), _argv, _argc);
-            resize(64, 64);
-            show();
-        }else{
-            hide();
-        }
-        wharfIcon->show();
+    if (wharfIcon) return;
+    wharfIcon = new WharfIcon(this);
+    if (bWM){
+        Display *dsp = x11Display();
+        WId win = winId();
+        XWMHints *hints;
+        XClassHint classhint;
+        classhint.res_name  = (char*)"sim";
+        classhint.res_class = (char*)"sim";
+        XSetClassHint(dsp, win, &classhint);
+        hints = XGetWMHints(dsp, win);
+        hints->initial_state = WithdrawnState;
+        hints->icon_x = 0;
+        hints->icon_y = 0;
+        hints->icon_window = wharfIcon->winId();
+        hints->window_group = win;
+        hints->flags = WindowGroupHint | IconWindowHint | IconPositionHint | StateHint;
+        XSetWMHints(dsp, win, hints);
+        XFree( hints );
+        XSetCommand(dsp, winId(), _argv, _argc);
+        resize(64, 64);
+        show();
+    }else{
+        hide();
+    }
+    wharfIcon->show();
 }
 #endif
 
@@ -334,9 +335,9 @@ DockWnd::~DockWnd()
 void DockWnd::paintEvent( QPaintEvent* )
 {
     if ((width() != 24) || (height() != 24)){
-	hide();
-	showWharf();
-	return;
+        hide();
+        showWharf();
+        return;
     }
     QPainter p(this);
     p.drawPixmap((width() - drawIcon.width())/2, (height() - drawIcon.height())/2, drawIcon);
