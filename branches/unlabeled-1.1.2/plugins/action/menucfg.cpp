@@ -18,6 +18,10 @@
 #include "menucfg.h"
 #include "listview.h"
 #include "action.h"
+#include "additem.h"
+
+#include <qpushbutton.h>
+#include <qlineedit.h>
 
 MenuConfig::MenuConfig(QWidget *parent, struct ActionUserData *data)
         : MenuConfigBase(parent)
@@ -29,6 +33,10 @@ MenuConfig::MenuConfig(QWidget *parent, struct ActionUserData *data)
     lstMenu->setExpandingColumn(1);
     lstMenu->adjustColumn();
     connect(lstMenu, SIGNAL(selectionChanged(QListViewItem*)), this, SLOT(selectionChanged(QListViewItem*)));
+	connect(btnAdd, SIGNAL(clicked()), this, SLOT(add()));
+	connect(btnEdit, SIGNAL(clicked()), this, SLOT(edit()));
+	connect(btnRemove, SIGNAL(clicked()), this, SLOT(remove()));
+	selectionChanged(NULL);
 }
 
 MenuConfig::~MenuConfig()
@@ -43,6 +51,45 @@ void MenuConfig::resizeEvent(QResizeEvent *e)
 
 void MenuConfig::selectionChanged(QListViewItem*)
 {
+	if (lstMenu->currentItem()){
+		btnEdit->setEnabled(true);
+		btnRemove->setEnabled(true);
+	}else{
+		btnEdit->setEnabled(false);
+		btnRemove->setEnabled(false);
+	}
+}
+
+void MenuConfig::add()
+{
+	AddItem add(topLevelWidget());
+	if (add.exec()){
+		new QListViewItem(lstMenu, add.edtItem->text(), add.edtPrg->text());
+		lstMenu->adjustColumn();
+	}
+}
+
+void MenuConfig::edit()
+{
+	QListViewItem *item = lstMenu->currentItem();
+	if (item == NULL)
+		return;
+	AddItem add(topLevelWidget());
+	add.edtItem->setText(item->text(0));
+	add.edtPrg->setText(item->text(1));
+	if (add.exec()){
+		item->setText(0, add.edtItem->text());
+		item->setText(1, add.edtPrg->text());
+		lstMenu->adjustColumn();
+	}
+}
+
+void MenuConfig::remove()
+{
+	QListViewItem *item = lstMenu->currentItem();
+	if (item == NULL)
+		return;
+	delete item;
 }
 
 void MenuConfig::apply(void*)

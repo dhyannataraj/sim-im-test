@@ -2675,33 +2675,6 @@ void *ICQClient::processEvent(Event *e)
                 return e->param();
             }
         }
-        if (cmd->id == CmdCheckInvisibleAll){
-            cmd->flags &= ~COMMAND_CHECKED;
-            if ((getState() != Connected) || m_bAIM)
-                return NULL;
-            Contact *contact;
-            ContactList::ContactIterator it;
-            bool bICQ = false;
-            while ((contact = ++it) != NULL){
-                ICQUserData *data;
-                ClientDataIterator itc(contact->clientData, this);
-                while ((data = (ICQUserData*)(++itc)) != NULL){
-                    if (data->Uin == 0)
-                        continue;
-                    if (data->Status != ICQ_STATUS_OFFLINE)
-                        continue;
-                    bICQ = true;
-                    if (data->bInvisible){
-                        cmd->popup_id = MenuCheckInvisible;
-                        return e->param();
-                    }
-                }
-            }
-            if (bICQ){
-                cmd->popup_id = 0;
-                return e->param();
-            }
-        }
         if ((cmd->bar_id == ToolBarContainer) || (cmd->bar_id == BarHistory)){
             if (cmd->id == CmdChangeEncoding){
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));
@@ -2846,33 +2819,6 @@ void *ICQClient::processEvent(Event *e)
                 eh.process();
             }
             return NULL;
-        }
-        if ((cmd->id == CmdCheckInvisible) ||
-                (cmd->id == CmdCheckInvisibleAll)){
-            if (getState() == Connected){
-                ContactList::ContactIterator it;
-                Contact *contact;
-                while ((contact = ++it) != NULL){
-                    if (contact->getIgnore())
-                        continue;
-                    ClientDataIterator itd(contact->clientData, this);
-                    ICQUserData *data;
-                    while ((data = (ICQUserData*)(++itd)) != NULL){
-                        if (data->Uin == 0)
-                            continue;
-                        if (data->Status != ICQ_STATUS_OFFLINE)
-                            continue;
-                        if ((cmd->id == CmdCheckInvisible) && (data->bInvisible == 0))
-                            continue;
-                        Message *m = new Message(MessageCheckInvisible);
-                        m->setContact(contact->id());
-                        m->setClient(dataName(data).c_str());
-                        m->setFlags(MESSAGE_NOHISTORY);
-                        if (!send(m, data))
-                            delete m;
-                    }
-                }
-            }
         }
         if (cmd->menu_id == MenuContactGroup){
             if (cmd->id == CmdVisibleList){

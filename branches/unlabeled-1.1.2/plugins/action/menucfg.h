@@ -32,6 +32,9 @@ public:
 public slots:
     void apply(void*);
     void selectionChanged(QListViewItem*);
+	void add();
+	void edit();
+	void remove();
 protected:
     void resizeEvent(QResizeEvent *e);
     struct ActionUserData	*m_data;

@@ -1204,6 +1204,20 @@ JabberClient::MessageRequest::~MessageRequest()
             msg->setFlags(MESSAGE_RICHTEXT);
             msg->setBackground(p.bgColor);
         }
+		if (m_targets.size()){
+			if ((msg->getFlags() & MESSAGE_RICHTEXT) == 0){
+				msg->setText(quoteString(msg->getText()));
+				msg->setFlags(MESSAGE_RICHTEXT);
+			}
+			QString text = msg->getText();
+			for (unsigned i = 0; i < m_targets.size(); i++){
+				text += "<br><a href=\"";
+				text += quoteString(QString::fromUtf8(m_targets[i].c_str()));
+				text += "\">";
+				text += quoteString(QString::fromUtf8(m_descs[i].c_str()));
+				text += "</a>";
+			}
+		}
     }else{
         msg->setText(QString::fromUtf8(m_body.c_str()));
     }
@@ -1259,6 +1273,14 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
         m_data = &m_id;
         return;
     }
+	if (!strcmp(el, "url-data")){
+		m_target = JabberClient::get_attr("target", attr);
+		m_desc = "";
+	}
+	if (!strcmp(el, "desc")){
+		m_data = &m_desc;
+		return;
+	}
     if (m_bRosters && !strcmp(el, "item")){
         string jid  = JabberClient::get_attr("jid", attr);
         string name = JabberClient::get_attr("name", attr);
@@ -1314,6 +1336,16 @@ void JabberClient::MessageRequest::element_end(const char *el)
     }
     if (!strcmp(el, "x"))
         m_bRosters = false;
+	if (!strcmp(el, "url-data")){
+		if (!m_target.empty()){
+			if (m_desc.empty())
+				m_desc = m_target;
+			m_targets.push_back(m_target);
+			m_descs.push_back(m_desc);
+		}
+		m_target = "";
+		m_desc = "";
+	}
     m_data = NULL;
 }
 

@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>342</width>
+            <width>338</width>
             <height>219</height>
         </rect>
     </property>
@@ -97,7 +97,7 @@
                     <class>QPushButton</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>btnDelete</cstring>
+                        <cstring>btnRemove</cstring>
                     </property>
                     <property>
                         <name>text</name>
