@@ -2,22 +2,22 @@
 # Translation to Spanish
 # This file is distributed under the same license as the SIM package.
 # Copyright (C) 2004
-# 
-# $Id: es.po,v 1.172 2004-11-17 17:14:35 noragen Exp $
+#
+# $Id: es.po,v 1.173 2004-11-23 22:49:27 jorgelt Exp $
 # Jorge Lopez Trescastro <jorge@acm.asoc.fi.upm.es>, 2002, 2003, 2004.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: sim-es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-11-17 18:12+0000\n"
-"PO-Revision-Date: 2004-10-16 13:22+0200\n"
-"Last-Translator: Jorge López Trescastro <jorge@acm.asoc.fi.upm.es>\n"
-"Language-Team: Spanish <es@li.org>\n"
+"PO-Revision-Date: 2004-11-23 23:39+0100\n"
+"Last-Translator: Jorge López <jorge@acm.asoc.fi.upm.es>\n"
+"Language-Team: ES <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.9\n"
+"X-Generator: KBabel 1.9.1\n"
 
 #: plugins/__homedir/homedir.cpp:48
 msgid "Home directory"
@@ -96,9 +96,9 @@ msgid "Autoreply message"
 msgstr "Mensaje de respuesta automática"
 
 #: plugins/_core/autoreply.cpp:51 plugins/_core/autoreply.cpp:97
-#, fuzzy, c-format
+#, c-format
 msgid "Close after %n second"
-msgstr "Cer&rar después de enviar"
+msgstr "Cer&rar después de %n segundos"
 
 #: plugins/_core/cfgdlg.cpp:275 plugins/_core/usercfg.cpp:195
 msgid "User info"
@@ -754,7 +754,7 @@ msgstr "Historial"
 
 #: plugins/_core/historywnd.cpp:189
 msgid "Textfile (*.txt)"
-msgstr ""
+msgstr "Fichero de texto (*.txt)"
 
 #: plugins/_core/historywnd.cpp:193 plugins/_core/historywnd.cpp:213 plugins/_core/status.cpp:139 plugins/_core/statuswnd.cpp:97 plugins/jabber/jabbermessage.cpp:109 plugins/jabber/jabbermessage.cpp:133 plugins/jabber/jabbermessage.cpp:228 plugins/logger/logconfig.cpp:92 plugins/netmonitor/monitor.cpp:89 plugins/windock/windock.cpp:180 sim/qt3/i18n.cpp:141
 msgid "Error"
@@ -965,9 +965,8 @@ msgid "File"
 msgstr "Archivo"
 
 #: plugins/_core/msgedit.cpp:473
-#, fuzzy
 msgid "URL"
-msgstr "URL:"
+msgstr "URL"
 
 #: plugins/_core/msgedit.cpp:590
 msgid "&Accept"
@@ -978,9 +977,8 @@ msgid "&Decline"
 msgstr "&Rechazar"
 
 #: plugins/_core/msgedit.cpp:658
-#, fuzzy
 msgid "Authorize request"
-msgstr "Petición de &autorización"
+msgstr "Petición de autorización"
 
 #: plugins/_core/msgedit.cpp:665
 msgid "&Grant"
@@ -991,24 +989,20 @@ msgid "&Refuse"
 msgstr "&Rechazar"
 
 #: plugins/_core/msgedit.cpp:728
-#, fuzzy
 msgid "Authorization granted"
-msgstr "Petición de &autorización"
+msgstr "Autorización concedida"
 
 #: plugins/_core/msgedit.cpp:749
-#, fuzzy
 msgid "Authorization refused"
-msgstr "Petición de &autorización"
+msgstr "Autorización rechazada"
 
 #: plugins/_core/msgedit.cpp:770
-#, fuzzy
 msgid "Add to contacts"
-msgstr "No hay contactos"
+msgstr "Añadir a lista de contactos"
 
 #: plugins/_core/msgedit.cpp:791
-#, fuzzy
 msgid "Removed from contacts"
-msgstr "Elimina&r del diario"
+msgstr "Eliminado de la lista de contactos"
 
 #: plugins/_core/msgedit.cpp:812 plugins/action/actioncfg.cpp:53
 msgid "Status changed"
@@ -1111,9 +1105,9 @@ msgid "Not in list"
 msgstr "No está en la lista"
 
 #: plugins/_core/search.cpp:632
-#, fuzzy, c-format
+#, c-format
 msgid "%n contact found"
-msgstr "No hay contactos para enviar"
+msgstr "Encontrados %n contactos"
 
 #: plugins/_core/status.cpp:72 plugins/_core/statuswnd.cpp:88 plugins/dock/dock.cpp:183
 msgid "Inactive"
@@ -2122,9 +2116,9 @@ msgid "Encrypt failed"
 msgstr "Encriptación fallida"
 
 #: plugins/gpg/gpg.cpp:700
-#, fuzzy, c-format
+#, c-format
 msgid "%n GPG key"
-msgstr "clave GPG"
+msgstr "%n claves GPG"
 
 #: plugins/gpg/gpg.cpp:749
 msgid "GPG key"
@@ -2571,9 +2565,9 @@ msgid "Directory"
 msgstr "Directorio"
 
 #: plugins/icq/icqicmb.cpp:989 plugins/icq/icqicmb.cpp:995
-#, fuzzy, c-format
+#, c-format
 msgid "%n file"
-msgstr "Enviar archivo"
+msgstr "%n archivos"
 
 #: plugins/icq/icqicmb.cpp:1286 plugins/icq/warndlg.cpp:66
 msgid "Send failed"
@@ -2708,14 +2702,12 @@ msgid "Bad host address"
 msgstr "Dirección del servidor erronea"
 
 #: plugins/icq/icqmessage.cpp:552
-#, fuzzy
 msgid "WWW-panel message"
-msgstr "&Abrir mensaje"
+msgstr ""
 
 #: plugins/icq/icqmessage.cpp:573
-#, fuzzy
 msgid "Email pager message"
-msgstr "mensaje de correo electrónico"
+msgstr "Mensaje de correo electrónico"
 
 #: plugins/icq/icqmessage.cpp:594 plugins/icq/icqmessage.cpp:850
 msgid "Request secure channel"
@@ -2734,7 +2726,6 @@ msgid "Warning"
 msgstr "Aviso"
 
 #: plugins/icq/icqmessage.cpp:763
-#, fuzzy
 msgid "Contact request"
 msgstr "Petición de contacto"
 
@@ -3909,9 +3900,9 @@ msgid "&Stat"
 msgstr "E&stado"
 
 #: plugins/jabber/discoinfo.cpp:251
-#, fuzzy, c-format
+#, c-format
 msgid "%n day"
-msgstr "Domingo"
+msgstr "%n días"
 
 #: plugins/jabber/jabber.cpp:59
 msgid "Jabber"
@@ -4286,9 +4277,8 @@ msgid "&Statistic"
 msgstr "&Estadística"
 
 #: plugins/livejournal/livejournal.cpp:102
-#, fuzzy
 msgid "LiveJournal post"
-msgstr "&Publicación LiveJournal"
+msgstr "Publicación LiveJournal"
 
 #: plugins/livejournal/livejournal.cpp:103 plugins/livejournal/livejournal.cpp:232
 msgid "Friends updated"
@@ -5031,9 +5021,9 @@ msgid "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 msgstr "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 
 #: plugins/msn/msnpacket.cpp:468
-#, fuzzy, c-format
+#, c-format
 msgid "You have %n unread message"
-msgstr "Tiene un nuevo correo"
+msgstr "Tiene %n correos nuevos"
 
 #: plugins/msn/msnpacket.cpp:488
 msgid "You have new mail"
@@ -5688,9 +5678,8 @@ msgid "Sunday"
 msgstr "Domingo"
 
 #: plugins/weather/weather.cpp:379 plugins/weather/weather.cpp:380 plugins/weather/weather.cpp:381 plugins/weather/weather.cpp:382 plugins/weather/weather.cpp:383 plugins/weather/weather.cpp:384 plugins/weather/weather.cpp:385 plugins/weather/weather.cpp:386 plugins/weather/weather.cpp:387 plugins/weather/weather.cpp:388 plugins/weather/weather.cpp:389 plugins/weather/weather.cpp:390 plugins/weather/weather.cpp:391 plugins/weather/weather.cpp:392 plugins/weather/weather.cpp:393 plugins/weather/weather.cpp:394 plugins/weather/weather.cpp:395 plugins/weather/weather.cpp:396 plugins/weather/weather.cpp:397 plugins/weather/weather.cpp:398 plugins/weather/weather.cpp:399 plugins/weather/weather.cpp:400 plugins/weather/weather.cpp:401 plugins/weather/weather.cpp:402 plugins/weather/weather.cpp:403 plugins/weather/weather.cpp:404 plugins/weather/weather.cpp:405 plugins/weather/weather.cpp:406 plugins/weather/weather.cpp:407 plugins/weather/weather.cpp:408 plugins/weather/weather.cpp:409 plugins/weather/weather.cpp:410 plugins/weather/weather.cpp:411 plugins/weather/weather.cpp:412 plugins/weather/weather.cpp:413 plugins/weather/weather.cpp:414 plugins/weather/weather.cpp:415 plugins/weather/weather.cpp:416 plugins/weather/weather.cpp:417 plugins/weather/weather.cpp:418 plugins/weather/weather.cpp:419 plugins/weather/weather.cpp:420 plugins/weather/weather.cpp:421 plugins/weather/weather.cpp:422 plugins/weather/weather.cpp:423 plugins/weather/weather.cpp:424 plugins/weather/weather.cpp:425 plugins/weather/weather.cpp:428 plugins/weather/weather.cpp:429 plugins/weather/weather.cpp:430 plugins/weather/weather.cpp:431 plugins/weather/weather.cpp:432 plugins/weather/weather.cpp:433 plugins/weather/weather.cpp:448 plugins/weather/weather.cpp:451 plugins/weather/weather.cpp:455 plugins/weather/weather.cpp:486 plugins/weather/weather.cpp:489 plugins/weather/weather.cpp:501 plugins/weather/weather.cpp:503 plugins/weather/weather.cpp:508
-#, fuzzy
 msgid "weather"
-msgstr "Tiempo"
+msgstr "tiempo"
 
 #: plugins/weather/weather.cpp:426
 msgid "km"
@@ -5717,7 +5706,6 @@ msgid "%t | %c"
 msgstr "%t | %c"
 
 #: plugins/weather/weather.cpp:573
-#, fuzzy
 msgid ""
 "%l<br><br>\n"
 "<img src=\"icon:weather%i\"> %c<br>\n"
@@ -5739,12 +5727,14 @@ msgstr ""
 "<img src=\"icon:weather%i\"> %c<br>\n"
 "Temperatura: <b>%t</b> (parece: <b>%f</b>)<br>\n"
 "Humedad: <b>%h</b><br>\n"
+"Precipitaciones: <b>%pp %</b><br>\n"
 "Presión: <b>%p</b> (%q)<br>\n"
 "Viento: <b>%b</b> <b>%w %g</b><br>\n"
 "Visibilidad: <b>%v</b><br>\n"
 "Punto de condensación: <b>%d</b><br>\n"
 "Amanece: %r<br>\n"
 "Anochece: %s<br>\n"
+"<img src=\"icon:moon%mi\"> %mp<br>\n"
 "La intensidad UV es <b>%ut</b> con valor <b>%ui</b> (sobre 11)<br>\n"
 "<br>\n"
 "Actualizado: %u<br>\n"
@@ -7817,576 +7807,3 @@ msgstr "Bajar"
 msgid "Windows XP style"
 msgstr "Estilo Windows XP"
 
-#~ msgid ""
-#~ "_n: Close after %n second\n"
-#~ "Close after %n seconds"
-#~ msgstr ""
-#~ "Cerrar despues de %n segundo\n"
-#~ "Cerrar despues de %n segundos"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is typing"
-#~ msgstr "%1 está tecleando"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is typing"
-#~ msgstr "%1 está tecleando"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 wrote:"
-#~ msgstr "%1 escribió:"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 wrote:"
-#~ msgstr "%1 escribió:"
-
-#~ msgid ""
-#~ "_n: Message\n"
-#~ "%n messages"
-#~ msgstr ""
-#~ "Mensaje\n"
-#~ "%n mensajes"
-
-#~ msgid ""
-#~ "_n: SMS\n"
-#~ "%n SMSs"
-#~ msgstr ""
-#~ "SMS\n"
-#~ "%n SMSs"
-
-#~ msgid ""
-#~ "_n: URL\n"
-#~ "%n URLs"
-#~ msgstr ""
-#~ "URL\n"
-#~ "%n URLs"
-
-#~ msgid ""
-#~ "_n: Contact list\n"
-#~ "%n contact lists"
-#~ msgstr ""
-#~ "Lista de contactos\n"
-#~ "%n listas de contactos"
-
-#~ msgid ""
-#~ "_n: File\n"
-#~ "%n files"
-#~ msgstr ""
-#~ "Archivo\n"
-#~ "%n archivos"
-
-#~ msgid ""
-#~ "_n: Authorize request\n"
-#~ "%n authorize requests"
-#~ msgstr ""
-#~ "Petición de autorización\n"
-#~ "%n peticiones de autorización"
-
-#~ msgid ""
-#~ "_n: Authorization granted\n"
-#~ "%n authorization granted"
-#~ msgstr ""
-#~ "Autorización concedida\n"
-#~ "%n autorizaciones concedidas"
-
-#~ msgid ""
-#~ "_n: Authorization refused\n"
-#~ "%n authorization refused"
-#~ msgstr ""
-#~ "Autorización rechazada\n"
-#~ "%n autorizaciones rechazadas"
-
-#~ msgid ""
-#~ "_n: Add to contacts\n"
-#~ "%n add to contacts"
-#~ msgstr ""
-#~ "Añadir a la lista de contactos\n"
-#~ "%n añadir a la lista de contactos"
-
-#~ msgid ""
-#~ "_n: Removed from contacts\n"
-#~ "%n removed from contacts"
-#~ msgstr ""
-#~ "Eliminado de la lista de contactos\n"
-#~ "%n eliminados de la lista de contactos"
-
-#~ msgid ""
-#~ "_n: Status changed\n"
-#~ "%n times status changed"
-#~ msgstr ""
-#~ "Estado cambiado\n"
-#~ "%n estados cambiados"
-
-#~ msgid ""
-#~ "_n: %n contact found\n"
-#~ "%n contacts found"
-#~ msgstr ""
-#~ "%n contacto encontrado\n"
-#~ "%n contactos encontrados"
-
-#~ msgid ""
-#~ "_n: %n GPG key\n"
-#~ "%n GPG keys"
-#~ msgstr ""
-#~ "%n clave GPG\n"
-#~ "%n claves GPG"
-
-#~ msgid ""
-#~ "_n: %n file\n"
-#~ "%n files"
-#~ msgstr ""
-#~ "%n archivo\n"
-#~ "%n archivos"
-
-#~ msgid ""
-#~ "_n: WWW-panel message\n"
-#~ "%n WWW-panel messages"
-#~ msgstr ""
-#~ "mensaje WWW\n"
-#~ "%n mensajes WWW"
-
-#~ msgid ""
-#~ "_n: Email pager message\n"
-#~ "%n Email pager messages"
-#~ msgstr ""
-#~ "mensaje Email\n"
-#~ "%n mensajes Email"
-
-#~ msgid ""
-#~ "_n: Request secure channel\n"
-#~ "%n requests secure channel"
-#~ msgstr ""
-#~ "Petición de canal seguro\n"
-#~ "%n peticiones de canal seguro"
-
-#~ msgid ""
-#~ "_n: Close secure channel\n"
-#~ "%n times close secure channel"
-#~ msgstr ""
-#~ "Cerrar canal seguro\n"
-#~ "cerrar %n canales seguros"
-
-#~ msgid ""
-#~ "_n: Check invisible\n"
-#~ "%n times check invisible"
-#~ msgstr ""
-#~ "Comprobar invisibilidad\n"
-#~ "comprobar %n veces invisibilidad"
-
-#~ msgid ""
-#~ "_n: Warning\n"
-#~ "%n warnings"
-#~ msgstr ""
-#~ "Alerta\n"
-#~ "%n alertas"
-
-#~ msgid ""
-#~ "_n: Contact request\n"
-#~ "%n contact requests"
-#~ msgstr ""
-#~ "Petición de contacto\n"
-#~ "%n peticiones de contacto"
-
-#~ msgid ""
-#~ "_n: %n day\n"
-#~ "%n days"
-#~ msgstr ""
-#~ "%n día\n"
-#~ "%n días"
-
-#~ msgid ""
-#~ "_n: Error\n"
-#~ "%n errors"
-#~ msgstr ""
-#~ "Error\n"
-#~ "%n errores"
-
-#~ msgid ""
-#~ "_n: LiveJournal post\n"
-#~ "%n LiveJournal posts"
-#~ msgstr ""
-#~ "publicación LiveJournal\n"
-#~ "%n publicaciones LiveJournal"
-
-#~ msgid ""
-#~ "_n: Friends updated\n"
-#~ "Friends updated %n"
-#~ msgstr ""
-#~ "Amigo actualizado\n"
-#~ "Amigos actualizados %n"
-
-#~ msgid ""
-#~ "_n: You have %n unread message\n"
-#~ "You have %n unread messages"
-#~ msgstr ""
-#~ "Tiene %n mensaje no leido\n"
-#~ "Tiene %n mensajes no leidos"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is online"
-#~ msgstr "%1 está conectado"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is online"
-#~ msgstr "%1 está conectada"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is away"
-#~ msgstr "%1 está ausente"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is away"
-#~ msgstr "%1 está ausente"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is not available"
-#~ msgstr "%1 no está disponible"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is not available"
-#~ msgstr "%1 no está disponible"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 doesn't want to be disturbed"
-#~ msgstr "%1 no quiere ser molestado"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 doesn't want to be disturbed"
-#~ msgstr "%1 no quiere ser molestada"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is occupied"
-#~ msgstr "%1 está ocupado"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is occupied"
-#~ msgstr "%1 está ocupada"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is free for chat"
-#~ msgstr "%1 está libre para hablar"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is free for chat"
-#~ msgstr "%1 está libre para hablar"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is offline"
-#~ msgstr "%1 está desconectado"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is offline"
-#~ msgstr "%1 está desconectada"
-
-#~ msgid ""
-#~ "_n: Phone call\n"
-#~ "%n phone calls"
-#~ msgstr ""
-#~ "llamada telefónica\n"
-#~ "%n llamadas telefónicas"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Overcast"
-#~ msgstr "Encapotado"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Fog"
-#~ msgstr "Niebla"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Mist"
-#~ msgstr "E"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Haze"
-#~ msgstr "Neblina"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Storm"
-#~ msgstr "Tormenta"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Rain"
-#~ msgstr "Lluvia"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Snow"
-#~ msgstr "Nieve"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Light Rain"
-#~ msgstr "Lluvia ligera"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Light Snow"
-#~ msgstr "Nieve ligera"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Few Snow"
-#~ msgstr "Poca nieve"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Scattered Snow"
-#~ msgstr "Nieve dispersa"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Clear"
-#~ msgstr "Despejado"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Showers"
-#~ msgstr "Chubasco"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Mostly Clear"
-#~ msgstr "Mayormente despejado"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Sunny"
-#~ msgstr "Soleado"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Fair"
-#~ msgstr "Bueno"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Cloudy"
-#~ msgstr "Nublado"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Mostly Cloudy"
-#~ msgstr "Mayormente nublado"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Partly Cloudy"
-#~ msgstr "Parcialmente nublado"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Wind"
-#~ msgstr "Viento"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Windy"
-#~ msgstr "Ventoso"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Drizzle"
-#~ msgstr "Llovizna"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Light Drizzle"
-#~ msgstr "Ligera llovizna"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Drifting Snow"
-#~ msgstr "Ventisquero"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Scattered"
-#~ msgstr "Disperso"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Smoke"
-#~ msgstr "Humo"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "steady"
-#~ msgstr "constante"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "rising"
-#~ msgstr "creciente"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "falling"
-#~ msgstr "decreciente"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Unlimited"
-#~ msgstr "ilimitada"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "N"
-#~ msgstr "N"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "NNW"
-#~ msgstr "NNO"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "NW"
-#~ msgstr "NO"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "WNW"
-#~ msgstr "ONO"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "W"
-#~ msgstr "O"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "WSW"
-#~ msgstr "OSO"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "SW"
-#~ msgstr "SO"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "SSW"
-#~ msgstr "SSO"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "S"
-#~ msgstr "S"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "SSE"
-#~ msgstr "SSE"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "SE"
-#~ msgstr "SE"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "ESE"
-#~ msgstr "ESE"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "E"
-#~ msgstr "E"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "ENE"
-#~ msgstr "ENE"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "NE"
-#~ msgstr "NE"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "NNE"
-#~ msgstr "NNE"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "VAR"
-#~ msgstr "VAR"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Low"
-#~ msgstr "Baja"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Moderate"
-#~ msgstr "Moderada"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "High"
-#~ msgstr "Alta"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Showers in the Vicinity"
-#~ msgstr "Chubasco"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Waning Crescent"
-#~ msgstr "Lluvia"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Waxing Crescent"
-#~ msgstr "Lluvia"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Early"
-#~ msgstr "temprano"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Late"
-#~ msgstr "tarde"
-
-#~ msgid "blah"
-#~ msgstr "blah"
-
-#~ msgid "First name:"
-#~ msgstr "Nombre:"
-
-#~ msgid "Last name:"
-#~ msgstr "Apellido:"
