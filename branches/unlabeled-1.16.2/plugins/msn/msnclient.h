@@ -189,6 +189,7 @@ public:
     bool add(const char *mail, const char *name, unsigned grp);
     list<SBSocket*> m_SBsockets;
     virtual void setupContact(Contact*, void *data);
+	bool		 m_bJoin;
 protected slots:
     void ping();
     void authOk();

@@ -128,6 +128,7 @@ MSNClient::MSNClient(Protocol *protocol, const char *cfg)
         lr.Name = item.utf8();
     }
     setListRequests("");
+	m_bJoin = false;
 }
 
 MSNClient::~MSNClient()
@@ -986,6 +987,7 @@ MSNUserData *MSNClient::findContact(const char *mail, const char *name, Contact 
             setupContact(contact, data);
             Event e(EventContactChanged, contact);
             e.process();
+			m_bJoin = true;
             return data;
         }
     }
@@ -1001,6 +1003,7 @@ MSNUserData *MSNClient::findContact(const char *mail, const char *name, Contact 
                 setupContact(contact, data);
                 Event e(EventContactChanged, contact);
                 e.process();
+				m_bJoin = true;
                 return data;
             }
         }

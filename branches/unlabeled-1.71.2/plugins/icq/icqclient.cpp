@@ -271,7 +271,7 @@ static DataDef icqClientData[] =
         { "MinPort", DATA_ULONG, 1, DATA(1024) },
         { "MaxPort", DATA_ULONG, 1, DATA(0xFFFE) },
         { "WarnAnonimously", DATA_BOOL, 1, 0 },
-        { "AckMode", DATA_ULONG, 1, DATA(2) },
+        { "ACKMode", DATA_ULONG, 1, DATA(1) },
         { "", DATA_STRUCT, sizeof(ICQUserData) / sizeof(Data), DATA(_icqUserData) },
         { NULL, 0, 0, 0 }
     };
@@ -306,10 +306,9 @@ ICQClient::ICQClient(Protocol *protocol, const char *cfg, bool bAIM)
         }
     }
     m_bRosters = false;
+	m_bJoin    = false;
     m_listRequest = NULL;
     data.owner.DCcookie.value = rand();
-    char buff[64];
-    snprintf(buff, sizeof(buff), "ICQ.%lu", data.owner.Uin.value);
     m_bBirthday = false;
     m_bServerReady = false;
     m_infoTimer = new QTimer(this);
@@ -966,6 +965,7 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
                 set_str(&data->Alias.ptr, alias);
                 Event e(EventContactChanged, contact);
                 e.process();
+				m_bJoin = true;
                 return data;
             }
         }

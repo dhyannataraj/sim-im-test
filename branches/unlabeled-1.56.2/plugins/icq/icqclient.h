@@ -689,6 +689,7 @@ protected:
     unsigned short m_advCounter;
     unsigned m_nUpdates;
     unsigned m_nSendTimeout;
+	bool     m_bJoin;
     SendMsg  m_send;
     list<Message*>     	m_processMsg;
     list<DirectSocket*>	m_sockets;

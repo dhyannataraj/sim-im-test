@@ -384,6 +384,7 @@ protected:
 #endif
     void		auth_register();
     bool		m_bSSL;
+	bool		m_bJoin;
 
     friend class ServerRequest;
     friend class RostersRequest;

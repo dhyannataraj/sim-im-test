@@ -198,6 +198,7 @@ JabberClient::JabberClient(JabberProtocol *protocol, const char *cfg)
     m_curRequest = NULL;
     m_msg_id	 = 0;
     m_browser	 = NULL;
+	m_bJoin		 = false;
     init();
 }
 
@@ -1174,6 +1175,7 @@ JabberUserData *JabberClient::findContact(const char *_jid, const char *name, bo
             info_request(data, false);
             Event e(EventContactChanged, contact);
             e.process();
+			m_bJoin = true;
             return data;
         }
     }
