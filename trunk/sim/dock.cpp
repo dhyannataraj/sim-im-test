@@ -25,6 +25,8 @@
 #include "log.h"
 
 #include <qpainter.h>
+#include <qbitmap.h>
+#include <qimage.h>
 #include <qtooltip.h>
 #include <qtimer.h>
 #include <qapplication.h>
@@ -284,6 +286,260 @@ bool send_message(
 #define SYSTEM_TRAY_BEGIN_MESSAGE   1
 #define SYSTEM_TRAY_CANCEL_MESSAGE  2
 
+// Code for enlightment support (from epplet.c)
+
+static const char        *win_name = NULL;
+static const char        *win_version = NULL;
+static const char        *win_info = NULL;
+
+static Display     *dd = NULL;
+static Window      comms_win = 0;
+static Window      my_win = 0;
+static Window      root = 0;
+
+static void
+CommsFindCommsWindow(void)
+{
+    unsigned char      *s;
+    Atom                a, ar;
+    unsigned long       num, after;
+    int                 format;
+    Window              rt;
+    int                 dint;
+    unsigned int        duint;
+
+    a = XInternAtom(dd, "ENLIGHTENMENT_COMMS", True);
+    if (a != None)
+    {
+        s = NULL;
+        XGetWindowProperty(dd, root, a, 0, 14, False, AnyPropertyType, &ar,
+                           &format, &num, &after, &s);
+        if (s)
+        {
+            sscanf((char *)s, "%*s %x", (unsigned int *)&comms_win);
+            XFree(s);
+        }
+        else
+            (comms_win = 0);
+        if (comms_win)
+        {
+            if (!XGetGeometry(dd, comms_win, &rt, &dint, &dint,
+                              &duint, &duint, &duint, &duint))
+                comms_win = 0;
+            s = NULL;
+            if (comms_win)
+            {
+                XGetWindowProperty(dd, comms_win, a, 0, 14, False,
+                                   AnyPropertyType, &ar, &format, &num,
+                                   &after, &s);
+                if (s)
+                    XFree(s);
+                else
+                    comms_win = 0;
+            }
+        }
+    }
+    if (comms_win)
+        XSelectInput(dd, comms_win, StructureNotifyMask | SubstructureNotifyMask);
+}
+
+static void
+ECommsSetup(Display * d)
+{
+    dd = d;
+    root = DefaultRootWindow(dd);
+    if (!my_win)
+    {
+        my_win = XCreateSimpleWindow(dd, root, -100, -100, 5, 5, 0, 0, 0);
+        XSelectInput(dd, my_win, StructureNotifyMask | SubstructureNotifyMask);
+    }
+    CommsFindCommsWindow();
+}
+
+#define ESYNC ECommsSend((char*)"nop");free(ECommsWaitForMessage());
+
+static void
+ECommsSend(char *s)
+{
+    char                ss[21];
+    int                 i, j, k, len;
+    XEvent              ev;
+    Atom                a = 0;
+
+    if (!s)
+        return;
+    len = strlen(s);
+    if (!a)
+        a = XInternAtom(dd, "ENL_MSG", False);
+    ev.xclient.type = ClientMessage;
+    ev.xclient.serial = 0;
+    ev.xclient.send_event = True;
+    ev.xclient.window = comms_win;
+    ev.xclient.message_type = a;
+    ev.xclient.format = 8;
+
+    for (i = 0; i < len + 1; i += 12)
+    {
+        snprintf(ss, sizeof(ss), "%8x", (int)my_win);
+        for (j = 0; j < 12; j++)
+        {
+            ss[8 + j] = s[i + j];
+            if (!s[i + j])
+                j = 12;
+        }
+        ss[20] = 0;
+        for (k = 0; k < 20; k++)
+            ev.xclient.data.b[k] = ss[k];
+        XSendEvent(dd, comms_win, False, 0, (XEvent *) & ev);
+    }
+}
+
+static char        *
+ECommsGet(XEvent * ev)
+{
+    char                s[13], s2[9], *msg = NULL;
+    int                 i;
+    Window              win = 0;
+    static char        *c_msg = NULL;
+
+    if (!ev)
+        return NULL;
+    if (ev->type != ClientMessage)
+        return NULL;
+    s[12] = 0;
+    s2[8] = 0;
+    msg = NULL;
+    for (i = 0; i < 8; i++)
+        s2[i] = ev->xclient.data.b[i];
+    for (i = 0; i < 12; i++)
+        s[i] = ev->xclient.data.b[i + 8];
+    sscanf(s2, "%x", (int *)&win);
+    if (win == comms_win)
+    {
+        if (c_msg)
+        {
+            c_msg = (char*)realloc(c_msg, strlen(c_msg) + strlen(s) + 1);
+            if (!c_msg)
+                return NULL;
+            strcat(c_msg, s);
+        }
+        else
+        {
+            c_msg = (char*)malloc(strlen(s) + 1);
+            if (!c_msg)
+                return NULL;
+            strcpy(c_msg, s);
+        }
+        if (strlen(s) < 12)
+        {
+            msg = c_msg;
+            c_msg = NULL;
+        }
+    }
+    return msg;
+}
+
+static              Bool
+ev_check(Display * d, XEvent * ev, XPointer p)
+{
+    if (((ev->type == ClientMessage) && (ev->xclient.window == my_win)) ||
+            ((ev->type == DestroyNotify) &&
+             (ev->xdestroywindow.window == comms_win)))
+        return True;
+    return False;
+    d = NULL;
+    p = NULL;
+}
+
+
+static char        *
+ECommsWaitForMessage(void)
+{
+    XEvent              ev;
+    char               *msg = NULL;
+
+    while ((!msg) && (comms_win))
+    {
+        XIfEvent(dd, &ev, ev_check, NULL);
+        if (ev.type == DestroyNotify)
+            comms_win = 0;
+        else
+            msg = ECommsGet(&ev);
+    }
+    return msg;
+}
+
+class MyPixmap : public QPixmap
+{
+public:
+    MyPixmap(Pixmap pp, int w, int h);
+};
+
+MyPixmap::MyPixmap(Pixmap pp, int w, int h)
+        : QPixmap(w, h)
+{
+    data->uninit = false;
+    Screen *screen =  XDefaultScreenOfDisplay(dd);
+    int scr = XScreenNumberOfScreen(screen);
+    x11SetScreen(scr);
+    GC gc = qt_xget_temp_gc( scr, FALSE );
+    XSetSubwindowMode( dd, gc, IncludeInferiors );
+    XCopyArea( dd, pp, handle(), gc, 0, 0, w, h, 0, 0 );
+    XSetSubwindowMode( dd, gc, ClipByChildren );
+}
+
+QPixmap
+getClassPixmap(char *iclass, char *state, QWidget *w, int width = 0, int height = 0)
+{
+    Pixmap              pp = 0, mm = 0;
+    char                s[1024], *msg;
+
+    if (width == 0) width = w->width();
+    if (height == 0) height = w->height();
+
+    QPixmap res = QPixmap();
+
+    snprintf(s, sizeof(s), "imageclass %s apply_copy 0x%x %s %i %i", iclass,
+             (unsigned)w->winId(), state, width, height);
+    ECommsSend(s);
+    msg = ECommsWaitForMessage();
+    if (msg)
+    {
+        sscanf(msg, "%x %x", (unsigned int *)&pp, (unsigned int *)&mm);
+        free(msg);
+        if (pp){
+            res = MyPixmap(pp, width, height);
+        }
+        snprintf(s, sizeof(s), "imageclass %s free_pixmap 0x%x", iclass,
+                 (unsigned int)pp);
+        ECommsSend(s);
+    }
+    return res;
+}
+
+void
+set_background_properties(QWidget *w)
+{
+    QPixmap bg = getClassPixmap((char*)"EPPLET_BACKGROUND_VERTICAL", (char*)"normal", w);
+    if (!bg.isNull()){
+	int border = 2;
+        QPixmap img = getClassPixmap((char*)"EPPLET_DRAWINGAREA", (char*)"normal", w, 
+		w->width() - border * 2, w->height() - border * 2); 
+	if (!img.isNull()){
+		QPainter p(&bg);
+		p.drawPixmap(border, border, img);
+	}
+        w->setBackgroundPixmap(bg);
+        if (bg.mask()){
+            w->setMask(*bg.mask());
+        }else{
+            w->clearMask();
+        }
+    }
+}
+
+extern bool bEnlightenment;
+
 #endif
 
 DockWnd::DockWnd(QWidget *main)
@@ -326,39 +582,10 @@ DockWnd::DockWnd(QWidget *main)
     Display *dsp = x11Display();
     WId win = winId();
 
-    Atom enlightenment_desktop = XInternAtom(dsp, "ENLIGHTENMENT_DESKTOP", false);
-    bool bEnlightenment = false;
-    WId w = pMain->winId();
-    WId p, r;
-    WId *c;
-    unsigned int nc;
-    while (XQueryTree(dsp, w, &r, &p, &c, &nc)){
-        if (c && nc > 0)
-            XFree(c);
-        if (! p) {
-            log(L_WARN, "No parent");
-            break;
-        }
-        unsigned char *data_ret = NULL;
-        Atom type_ret;
-        int i_unused;
-        unsigned long l_unused;
-        if ((XGetWindowProperty(dsp, p, enlightenment_desktop, 0, 1, False, XA_CARDINAL,
-                                &type_ret, &i_unused, &l_unused, &l_unused,
-                                &data_ret) == Success) && (type_ret == XA_CARDINAL)) {
-            if (data_ret)
-                XFree(data_ret);
-            bEnlightenment = true;
-            log(L_DEBUG, "Detect Enlightenment");
-            break;
-        }
-        if (p == r) break;
-        w = p;
-    }
-
     if (bEnlightenment){
         wharfIcon = NULL;
         bInit = true;
+	resize(48, 48);
         setFocusPolicy(NoFocus);
         move(pMain->DockX, pMain->DockY);
         reset();
@@ -390,6 +617,25 @@ DockWnd::DockWnd(QWidget *main)
         a = XInternAtom(dsp, "_WIN_HINTS", False);
         XChangeProperty(dsp, win, a, XA_CARDINAL, 32, PropModeReplace,
                         (unsigned char *)&val, 1);
+        win_name = "SIM";
+        win_version = VERSION;
+        win_info = "";
+        while (!comms_win)
+        {
+            ECommsSetup(dsp);
+            sleep(1);
+        }
+        char s[256];
+        snprintf(s, sizeof(s), "set clientname %s", win_name);
+        ECommsSend(s);
+        snprintf(s, sizeof(s), "set version %s", win_version);
+        ECommsSend(s);
+        snprintf(s, sizeof(s), "set info %s", win_info);
+        ECommsSend(s);
+        ESYNC;
+
+        set_background_properties(this);
+
         show();
         return;
     }
@@ -644,28 +890,30 @@ void DockWnd::timer()
     }
     const QIconSet &icons = Icon(icon);
     QPixmap nvis(icons.pixmap(QIconSet::Large, QIconSet::Normal));
-    resize(nvis.width(), nvis.height());
-    if (msg){
-        QPixmap msgPict = Pict(msg);
-        QRegion *rgn = NULL;
-        if (nvis.mask() && msgPict.mask()){
-            rgn = new QRegion(*msgPict.mask());
-            rgn->translate(nvis.width() - msgPict.width() - SMALL_PICT_OFFS,
-                           nvis.height() - msgPict.height() - SMALL_PICT_OFFS);
-            *rgn += *nvis.mask();
+    if (!bEnlightenment){
+	resize(nvis.width(), nvis.height());
+        if (msg){
+            QPixmap msgPict = Pict(msg);
+            QRegion *rgn = NULL;
+            if (nvis.mask() && msgPict.mask()){
+                rgn = new QRegion(*msgPict.mask());
+                rgn->translate(nvis.width() - msgPict.width() - SMALL_PICT_OFFS,
+                               nvis.height() - msgPict.height() - SMALL_PICT_OFFS);
+                *rgn += *nvis.mask();
+            }
+            QPainter p;
+            p.begin(&nvis);
+            p.drawPixmap(nvis.width() - msgPict.width() - SMALL_PICT_OFFS,
+                         nvis.height() - msgPict.height() - SMALL_PICT_OFFS, msgPict);
+            p.end();
+            if (rgn){
+                setMask(*rgn);
+                delete rgn;
+            }
+        }else{
+            const QBitmap *mask = nvis.mask();
+            if (mask) setMask(*mask);
         }
-        QPainter p;
-        p.begin(&nvis);
-        p.drawPixmap(nvis.width() - msgPict.width() - SMALL_PICT_OFFS,
-                     nvis.height() - msgPict.height() - SMALL_PICT_OFFS, msgPict);
-        p.end();
-        if (rgn){
-            setMask(*rgn);
-            delete rgn;
-        }
-    }else{
-        const QBitmap *mask = nvis.mask();
-        if (mask) setMask(*mask);
     }
     drawIcon = nvis;
     repaint();

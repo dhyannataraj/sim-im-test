@@ -32,8 +32,15 @@ using namespace std;
 #include <kiconloader.h>
 #endif
 
+#ifndef WIN32
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#include <X11/Xatom.h>
+#endif
+
 #include <qmime.h>
 #include <qpixmap.h>
+#include <qpaintdevice.h>
 #include <qimage.h>
 #include <qiconset.h>
 #include <qpainter.h>
@@ -156,6 +163,12 @@ using namespace std;
 #include "xpm/separator.xpm"
 #include "xpm/button_ok.xpm"
 #include "xpm/button_cancel.xpm"
+
+#ifndef WIN32
+
+bool bEnlightenment = false;
+
+#endif
 
 class str
 {
@@ -466,6 +479,10 @@ protected:
 
 // _____________________________________________________________________________________________
 
+#ifndef WIN32
+bool bEnligtenment = true;
+#endif
+
 static QPixmap swapRG(const QPixmap &p)
 {
     QImage image = p.convertToImage();
@@ -522,6 +539,17 @@ static QPixmap addPict(const QPixmap &pict, const QPixmap &add)
     return res;
 }
 
+#ifndef WIN32
+
+static QPixmap scalePict(const QPixmap &pict, int w, int h)
+{
+    QImage img = pict.convertToImage();
+    img = img.smoothScale(w, h);
+    return QPixmap(img);
+}
+
+#endif
+
 void Icons::addIcon(const char *name, const char **xpm, const char **bigXpm, bool isSystem,
                     QIconSet *bgIcon, const QPixmap &dllIcon)
 {
@@ -548,6 +576,12 @@ void Icons::addIcon(const char *name, const char **xpm, const char **bigXpm, boo
                     bigPict = bigIcon.pixmap(QIconSet::Large, QIconSet::Normal);
                     bigPictActive = bigIcon.pixmap(QIconSet::Large, QIconSet::Active);
                 }
+#ifndef WIN32
+	        if (bEnlightenment){
+		    bigPict = scalePict(bigPict, 40, 40);
+		    bigPictActive = scalePict(bigPictActive, 40, 40);
+		}
+#endif
                 pict.setPixmap(bigPict, QIconSet::Large);
                 pict.setPixmap(bigPictActive, QIconSet::Large, QIconSet::Active);
             }
@@ -570,8 +604,12 @@ void Icons::addIcon(const char *name, const char **xpm, const char **bigXpm, boo
         }
         if (!isSystem){
             pict = QPixmap(xpm);
-            if (bigXpm)
-                pict.setPixmap(QPixmap(bigXpm), QIconSet::Large);
+            if (bigXpm){
+		QPixmap big = QPixmap(bigXpm);
+		if (bEnlightenment)
+			big = scalePict(big, 40, 40);
+                pict.setPixmap(big, QIconSet::Large);
+	    }
         }
     }
     setIcon(name, pict);
@@ -589,6 +627,38 @@ Icons::Icons()
 
 void Icons::init(const char *name)
 {
+#ifndef WIN32
+    QWidget tmp;
+    Display *dsp = tmp.x11Display();
+    Atom enlightenment_desktop = XInternAtom(dsp, "ENLIGHTENMENT_DESKTOP", false);
+    WId w = tmp.winId();
+    WId p, r;
+    WId *c;
+    unsigned int nc;
+    while (XQueryTree(dsp, w, &r, &p, &c, &nc)){
+        if (c && nc > 0)
+            XFree(c);
+        if (! p) {
+            log(L_WARN, "No parent");
+            break;
+        }
+        unsigned char *data_ret = NULL;
+        Atom type_ret;
+        int i_unused;
+        unsigned long l_unused;
+        if ((XGetWindowProperty(dsp, p, enlightenment_desktop, 0, 1, False, XA_CARDINAL,
+                                &type_ret, &i_unused, &l_unused, &l_unused,
+                                &data_ret) == Success) && (type_ret == XA_CARDINAL)) {
+            if (data_ret)
+                XFree(data_ret);
+            bEnlightenment = true;
+            log(L_DEBUG, "Detect Enlightenment");
+            break;
+        }
+        if (p == r) break;
+        w = p;
+    }
+#endif
     IconsDLL dll(name);
     QPixmap::setDefaultOptimization( QPixmap::MemoryOptim );
     ICON(empty, 200)
