@@ -1757,6 +1757,7 @@ EXPORT unsigned wndMessage();
 #else
 #ifndef QT_MACOSX_VERSION
 EXPORT void setWndClass(QWidget*, const char*);
+EXPORT void disableWndClass(const char*);
 #define SET_WNDPROC(A)  setWndClass(this, A);
 #else
 #define SET_WNDPROC(A)

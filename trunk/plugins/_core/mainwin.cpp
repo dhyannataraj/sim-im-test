@@ -47,6 +47,7 @@ LRESULT CALLBACK wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     }
     return oldProc(hWnd, msg, wParam, lParam);
 }
+
 #endif
 
 class MainWindowWidget : public QWidget

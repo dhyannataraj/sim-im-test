@@ -410,6 +410,13 @@ void setWndClass(QWidget *w, const char *name)
     classhint.res_class = (char*)name;
     XSetClassHint(dsp, win, &classhint);
 
+    XWMHints *hints;  
+    hints = XGetWMHints(dsp, win);  
+    hints->window_group = win;  
+    hints->flags = WindowGroupHint;  
+    XSetWMHints(dsp, win, hints);  
+    XFree( hints );
+
     const char *argv[2];
     argv[0] = name;
     argv[1] = NULL;

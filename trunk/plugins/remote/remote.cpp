@@ -57,7 +57,7 @@ static DataDef remoteData[] =
         { "Path", DATA_STRING, 1, "auto:" },
         { "EnableMenu", DATA_BOOL, 1, DATA(1) },
 #else
-{ "Path", DATA_STRING, 1, "/tmp/sim.%user%" },
+        { "Path", DATA_STRING, 1, "/tmp/sim.%user%" },
 #endif
         { NULL, 0, 0, 0 }
     };
@@ -159,6 +159,12 @@ void IPC::process()
             continue;
         }
         unsigned short *mem = (unsigned short*)MapViewOfFile(hMem, FILE_MAP_ALL_ACCESS, 0, 0, 0);
+        if (mem == NULL){
+            log(L_WARN, "Map error");
+            s[i] = SLOT_NONE;
+            PulseEvent(hEventOut);
+            continue;
+        }
         unsigned short *p;
         for (p = mem; *p; p++)
             in += QChar(*p);
@@ -166,16 +172,20 @@ void IPC::process()
         bool bError = false;
         bool bRes = remote->command(in, out, bError);
         p = mem;
+        unsigned size = 0;
         if (!bError){
             if (bRes){
                 *(p++) = QChar('>').unicode();
             }else{
                 *(p++) = QChar('?').unicode();
             }
-            for (int n = 0; n < (int)(out.length()); n++)
-                *(p++) = out[n].unicode();
+            size = out.length();
+            if (size > 0x3F00)
+                size = 0x3F00;
+            memcpy(p, out.unicode(), size * sizeof(unsigned short));
+            size++;
         }
-        *(p++) = 0;
+        p[size] = 0;
         UnmapViewOfFile(mem);
         CloseHandle(hMem);
         s[i] = SLOT_OUT;

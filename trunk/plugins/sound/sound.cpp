@@ -310,7 +310,7 @@ string SoundPlugin::fullName(const char *name)
     char c = name[0];
     if (((((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z'))) && (name[1] == ':')) || ((c == '\\') && (name[1] == '\\'))){
 #else
-if (name[0] == '/'){
+    if (name[0] == '/'){
 #endif
         sound = name;
     }else{
@@ -332,7 +332,8 @@ void SoundPlugin::playSound(const char *s)
             return;
     }
     m_queue.push_back(s);
-    processQueue();
+    if (m_sound == NULL)
+        processQueue();
 }
 
 void SoundPlugin::processQueue()
@@ -356,7 +357,7 @@ void SoundPlugin::processQueue()
     }
     bool bSound = false;
 #elif WIN32
-bool bSound = true;
+    bool bSound = true;
 #else
     /* If there is an external player selected, don't use Qt
     Check first for getPlayer() since QSound::available()
@@ -369,6 +370,9 @@ bool bSound = true;
             m_current = "";
             return;
         }
+        if (m_sound)
+            delete m_sound;
+        m_sound   = NULL;
         m_sound = new QSound(sound.c_str());
         m_sound->play();
 #if COMPAT_QT_VERSION >= 0x030000

@@ -660,7 +660,7 @@ static QImage merge(const QImage &p1, const QImage &p2)
     unsigned int *data1 = (unsigned int*)img1.bits();
     unsigned int *data2 = (unsigned int*)img2.bits();
     for (int y1 = 0; y1 < img1.height(); y1++){
-        int y2 = y1 - (img1.height() - img2.height());
+        int y2 = y1 - (img1.height() - img2.height()) / 2;
         if ((y2 < 0) || (y2 >= img2.height()))
             continue;
         unsigned int *line1 = data1 + y1 * img1.width();

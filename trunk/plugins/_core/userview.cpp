@@ -197,7 +197,7 @@ static void drawImage(QPainter *p, int x, int y, const QImage &img)
     pict->convertFromImage(image);
     p->begin(pict);
 #else
-p->drawImage(x, y, img);
+    p->drawImage(x, y, img);
 #endif
 }
 

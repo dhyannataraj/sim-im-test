@@ -230,6 +230,7 @@ protected:
 WharfIcon::WharfIcon(DockWnd *parent)
         : QWidget(parent, "WharfIcon")
 {
+    setCaption("SIM Wharf");
     dock = parent;
     p_width  = 64;
     p_height = 64;
@@ -765,7 +766,7 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
 
     if (bEnlightenment){
         bInit = true;
-        resize(48, 48);
+        resize(64, 64);
         setFocusPolicy(NoFocus);
         move(m_plugin->getDockX(), m_plugin->getDockY());
         MWMHints mwm;
@@ -877,6 +878,12 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
     if (!inNetTray){
         move(-21, -21);
         resize(22, 22);
+    }
+    show();
+    QApplication::syncX();
+    if (wharfIcon){
+	resize(64, 64);
+	QApplication::syncX();
     }
 #endif
     show();
@@ -1098,8 +1105,11 @@ void DockWnd::setIcon(const char *icon)
 {
 #ifndef WIN32
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
-    if (wharfIcon)
-        wharfIcon->set(icon, NULL);
+    if (wharfIcon){
+        wharfIcon->set(m_state, bBlink ?  m_unread : NULL);
+	repaint();
+	return;
+    }
 #endif
 #endif
     drawIcon = Pict(icon);
