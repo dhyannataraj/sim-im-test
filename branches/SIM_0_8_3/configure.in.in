@@ -1,0 +1,63 @@
+#MIN_CONFIG
+
+AC_LANG_CPLUSPLUS
+AM_INIT_AUTOMAKE(sim,0.8.3)
+AC_STDC_HEADERS
+AC_C_BIGENDIAN
+AM_PROG_LEX
+LFLAGS="-o${LEX_OUTPUT_ROOT}.c"
+AC_SUBST(LFLAGS)
+AC_CYGWIN
+if "$CYGWIN" = "yes"; then
+ LDFLAGS="$LDFLAGS --enable-auto-import"
+fi
+AC_CHECK_HEADERS(inttypes.h stdint.h unistd.h ctype.h)
+AC_CHECK_FUNC(umask,[AC_DEFINE(HAVE_UMASK,1,[Have umask])])
+AC_CHECK_FUNC(gethostbyname_r,[AC_DEFINE(HAVE_GETHOSTBYNAME_R,1,[Have gethostbyname_r])]) 
+AC_CHECK_FUNC(gethostbyaddr_r,[AC_DEFINE(HAVE_GETHOSTBYADDR_R,1,[Have gethostbyaddr_r])])
+AC_CHECK_OPENSSL
+AC_TM_GMTOFF
+EXTRA_LIBS=""
+XSS_LIBS="no"
+ac_save_CPPFLAGS="$CPPFLAGS"
+ac_save_LDFLAGS="$LDFLAGS"
+LDFLAGS="$LDFLAGS $all_libraries"
+CPPFLAGS="$CPPFLAGS $X_INCLUDES"
+AC_CHECK_LIB(Xext, XScreenSaverRegister,[XSS_LIBS=""],[], [-lX11 -lXext -lm])
+AC_CHECK_LIB(Xss, XScreenSaverRegister,[XSS_LIBS="-lXss"],[],[-lX11 -lXext -lm])
+if test \! "$XSS_LIBS" = "no"; then
+  KDE_CHECK_HEADER(X11/extensions/scrnsaver.h,[AC_DEFINE(USE_SCRNSAVER,1,[Use screensaver])])
+else
+  dnl Don't include the screensaver libs if we can't find the header.
+  XSS_LIBS=""
+fi
+EXTRA_LIBS="$EXTRA_LIBS $XSS_LIBS"
+CPPFLAGS="$ac_save_CPPFLAGS"
+LDFLAGS="$ac_save_LDFLAGS"
+if test "$use_kde" = "yes" ; then
+KDE_CHECK_HEADER(krootpixmap.h,[AC_DEFINE(HAVE_KROOTPIXMAP_H,1,[Have krootpixmap.h])]
+)
+KDE_CHECK_HEADER(ktextedit.h,[AC_DEFINE(HAVE_KTEXTEDIT_H,1,[Have ktextedit.h])])
+KDE_CHECK_HEADER(ktextbrowser.h,[AC_DEFINE(HAVE_KTEXTBROWSER_H,1,[Have ktextbrowser.h])])
+KDE_CHECK_HEADER(kextsock.h,[AC_DEFINE(HAVE_KEXTSOCK_H,1,[Have kextsock.h])])
+KDE_CHECK_HEADER(kabc/stdaddressbook.h,[AC_DEFINE(HAVE_KABC,1,[Have kabc address book])])
+AC_ARG_ENABLE(kde, [  --disable-spell         don't use spell],
+        use_spell=$enableval, use_spell=yes)
+if test "${use_spell}" = "yes"; then
+EXTRA_LIBS="$EXTRA_LIBS $LIB_KSPELL"
+AC_DEFINE(USE_SPELL,1,[Use speller])
+fi
+fi
+AC_DEFINE_UNQUOTED(PREFIX, "$prefix", [Install prefix])
+AC_DEFINE(USE_QT,1,[Use QT - need for libicq])
+AC_SUBST(EXTRA_LIBS)
+if test "$WITH_OPENSSL" = "no"; then
+  echo ""
+  echo "OpenSSL support is not available.  SIM will not be able to"
+  echo "establish secure communication channels. This is not required"
+  echo "for proper function (i.e. it is optional). If you really desire this"
+  echo "functionality then install OpenSSL (libraries and headers) and"
+  echo "rebuild SIM.  OpenSSL can be found at http://www.openssl.org"
+  echo "or as RPM from your local distribution site."
+fi
+
