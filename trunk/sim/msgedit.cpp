@@ -35,6 +35,7 @@
 
 #include <qlayout.h>
 #include <qvgroupbox.h>
+#include <qhgroupbox.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
 #include <qcheckbox.h>
@@ -48,7 +49,9 @@
 #include <qstringlist.h>
 #include <qtextcodec.h>
 #include <qmainwindow.h>
+
 #include <qtoolbar.h>
+
 #ifdef USE_KDE
 #include <kcolordialog.h>
 #include <kfontdialog.h>
@@ -94,154 +97,151 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     bMultiply = false;
     setWFlags(WDestructiveClose);
     QMainWindow *w = new QMainWindow(this, "msgedit", 0);
-	frmEdit = new QFrame(w);
-	w->setCentralWidget(frmEdit);
-/*
-	QToolBar *t = new QToolBar(w);
-	t->setHorizontalStretchable(true);
-	t->setVerticalStretchable(true);
-    QToolButton *btnIgnore = new QToolButton(t);
-    btnIgnore->setIconSet(Icon("ignorelist"));
-    btnIgnore->setTextLabel(i18n("Add to ignore list"));
-*/
+    frmEdit = new QFrame(w);
+    w->setCentralWidget(frmEdit);
+    QToolBar *t = new QToolBar(w);
+    t->setHorizontalStretchable(true);
+    t->setVerticalStretchable(true);
     QVBoxLayout *lay = new QVBoxLayout(frmEdit);
-    boxSend = new QVGroupBox(frmEdit);
-    lay->addWidget(boxSend);
-    QFrame *frmHead = new QFrame(boxSend);
-    QHBoxLayout *hLay = new QHBoxLayout(frmHead);
-    btnBgColor = new CPushButton(frmHead);
-    btnBgColor->setTip(i18n("Background color"));
-    btnBgColor->setPixmap(Pict("bgcolor"));
-    connect(btnBgColor, SIGNAL(clicked()), this, SLOT(setMsgBackgroundColor()));
-    btnBgColor->hide();
-    hLay->addWidget(btnBgColor);
-    btnReply = new QPushButton(i18n("&Reply"), frmHead);
-    btnReply->hide();
-    hLay->addWidget(btnReply);
-    connect(btnReply, SIGNAL(clicked()), this, SLOT(replyClick()));
-    btnGrant = new QPushButton(i18n("&Grant"), frmHead);
-    btnGrant->hide();
-    hLay->addWidget(btnGrant);
-    connect(btnGrant, SIGNAL(clicked()), this, SLOT(grantClick()));
-    btnAccept = new QPushButton(i18n("&Accept"), frmHead);
-    btnAccept->hide();
-    hLay->addWidget(btnAccept);
-    connect(btnAccept, SIGNAL(clicked()), this, SLOT(acceptMessage()));
-    btnFgColor = new CPushButton(frmHead);
-    btnFgColor->setTip(i18n("Text color"));
-    btnFgColor->setPixmap(Pict("fgcolor"));
-    connect(btnFgColor, SIGNAL(clicked()), this, SLOT(setMsgForegroundColor()));
-    hLay->addSpacing(2);
-    btnFgColor->hide();
-    hLay->addWidget(btnFgColor);
-    btnQuote = new QPushButton(i18n("&Quote"), frmHead);
-    btnQuote->hide();
-    hLay->addWidget(btnQuote);
-    connect(btnQuote, SIGNAL(clicked()), this, SLOT(quoteClick()));
-    btnRefuse = new QPushButton(i18n("&Refuse"), frmHead);
-    btnRefuse->hide();
-    hLay->addWidget(btnRefuse);
+
     declineMenu = new QPopupMenu(this);
-    connect(btnRefuse, SIGNAL(clicked()), this, SLOT(refuseClick()));
     connect(declineMenu, SIGNAL(activated(int)), this, SLOT(declineMessage(int)));
     declineMenu->insertItem(reason_string(DECLINE_WITHOUT_REASON), DECLINE_WITHOUT_REASON);
     declineMenu->insertItem(reason_string(DECLINE_REASON_BUSY), DECLINE_REASON_BUSY);
     declineMenu->insertItem(reason_string(DECLINE_REASON_LATER), DECLINE_REASON_LATER);
     declineMenu->insertItem(reason_string(DECLINE_REASON_INPUT), DECLINE_REASON_INPUT);
-    btnDecline = new QPushButton(i18n("&Decline"), frmHead);
-    btnDecline->hide();
-    btnDecline->setPopup(declineMenu);
-    hLay->addWidget(btnDecline);
-    btnBold = new CPushButton(frmHead);
-    btnBold->setTip(i18n("Bold"));
-    btnBold->setPixmap(Pict("text_bold"));
+
+    btnBgColor = new QToolButton(t);
+    btnBgColor->setTextLabel(i18n("Background color"));
+    btnBgColor->setIconSet(Icon("bgcolor"));
+    connect(btnBgColor, SIGNAL(clicked()), this, SLOT(setMsgBackgroundColor()));
+    btnBgColor->hide();
+
+    btnFgColor = new QToolButton(t);
+    btnFgColor->setTextLabel(i18n("Text color"));
+    btnFgColor->setIconSet(Icon("fgcolor"));
+    connect(btnFgColor, SIGNAL(clicked()), this, SLOT(setMsgForegroundColor()));
+    btnFgColor->hide();
+
+    btnBold = new QToolButton(t);
+    btnBold->setTextLabel(i18n("Bold"));
+    btnBold->setIconSet(Icon("text_bold"));
     btnBold->setToggleButton(true);
     connect(btnBold, SIGNAL(toggled(bool)), this, SLOT(setBold(bool)));
-    hLay->addSpacing(2);
     btnBold->hide();
-    hLay->addWidget(btnBold);
-    btnForward = new QPushButton(i18n("&Forward"), frmHead);
-    connect(btnForward, SIGNAL(clicked()), this, SLOT(forwardClick()));
-    btnForward->hide();
-    hLay->addWidget(btnForward);
-    btnItalic = new CPushButton(frmHead);
-    btnItalic->setTip(i18n("Italic"));
-    btnItalic->setPixmap(Pict("text_italic"));
+
+    btnItalic = new QToolButton(t);
+    btnItalic->setTextLabel(i18n("Italic"));
+    btnItalic->setIconSet(Icon("text_italic"));
     btnItalic->setToggleButton(true);
     connect(btnItalic, SIGNAL(toggled(bool)), this, SLOT(setItalic(bool)));
-    hLay->addSpacing(2);
     btnItalic->hide();
-    hLay->addWidget(btnItalic);
-    btnUnder = new CPushButton(frmHead);
-    btnUnder->setTip(i18n("Underline"));
-    btnUnder->setPixmap(Pict("text_under"));
+
+    btnUnder = new QToolButton(t);
+    btnUnder->setTextLabel(i18n("Underline"));
+    btnUnder->setIconSet(Icon("text_under"));
     btnUnder->setToggleButton(true);
     connect(btnUnder, SIGNAL(toggled(bool)), this, SLOT(setUnder(bool)));
-    hLay->addSpacing(2);
     btnUnder->hide();
-    hLay->addWidget(btnUnder);
-    btnFont = new CPushButton(frmHead);
-    btnFont->setTip(i18n("Text font"));
-    btnFont->setPixmap(Pict("text"));
+
+    btnFont = new QToolButton(t);
+    btnFont->setTextLabel(i18n("Text font"));
+    btnFont->setIconSet(Icon("text"));
     connect(btnFont, SIGNAL(clicked()), this, SLOT(setFont()));
-    hLay->addSpacing(2);
     btnFont->hide();
-    hLay->addWidget(btnFont);
+
+    btnGrant = new PictButton(t);
+    btnGrant->hide();
+    btnGrant->setState("ok", i18n("&Grant"));
+    connect(btnGrant, SIGNAL(clicked()), this, SLOT(grantClick()));
+
+    btnRefuse = new PictButton(t);
+    btnRefuse->hide();
+    btnRefuse->setState("cancel", i18n("&Refuse"));
+    connect(btnRefuse, SIGNAL(clicked()), this, SLOT(refuseClick()));
+
+    btnAccept = new PictButton(t);
+    btnAccept->hide();
+    btnAccept->setState("ok", i18n("&Accept"));
+    connect(btnAccept, SIGNAL(clicked()), this, SLOT(acceptMessage()));
+
+    btnDecline = new PictButton(t);
+    btnDecline->hide();
+    btnDecline->setPopup(declineMenu);
+    btnDecline->setState("cancel", i18n("&Decline"));
+
+    btnReply = new PictButton(t);
+    btnReply->hide();
+    btnReply->setState("reply", i18n("&Reply"));
+    connect(btnReply, SIGNAL(clicked()), this, SLOT(replyClick()));
+
+    btnQuote = new PictButton(t);
+    btnQuote->hide();
+    btnQuote->setState("quote", i18n("&Quote"));
+    connect(btnQuote, SIGNAL(clicked()), this, SLOT(quoteClick()));
+
+    btnForward = new PictButton(t);
+    btnForward->hide();
+    btnForward->setState("forward", i18n("&Forward"));
+    connect(btnForward, SIGNAL(clicked()), this, SLOT(forwardClick()));
+
 #ifdef USE_SPELL
-    btnSpell = new CPushButton(frmHead);
-    btnSpell->setTip(i18n("Spell check"));
-    btnSpell->setPixmap(Pict("spellcheck"));
+    btnSpell = new QToolButton(t);
+    btnSpell->setTextLabel(i18n("Spell check"));
+    btnSpell->setIconSet(Icon("spellcheck"));
     connect(btnSpell, SIGNAL(clicked()), this, SLOT(spell()));
-    hLay->addSpacing(2);
     btnSpell->hide();
-    hLay->addWidget(btnSpell);
 #endif
-    hLay->addSpacing(2);
-    hLay->addStretch();
-    chkClose = new QCheckBox(i18n("C&lose after send"), frmHead);
-    chkClose->setChecked(pMain->CloseAfterSend());
-    connect(chkClose, SIGNAL(toggled(bool)), this, SLOT(closeToggle(bool)));
-    hLay->addWidget(chkClose);
-    btnSend = new QPushButton(frmHead);
+
+    btnCloseSend = new QToolButton(t);
+    btnCloseSend->setTextLabel(i18n("C&lose after send"));
+    btnCloseSend->setIconSet(Icon("closesend"));
+    btnCloseSend->setToggleButton(true);
+    btnCloseSend->setOn(pMain->CloseAfterSend());
+    connect(btnCloseSend, SIGNAL(toggled(bool)), this, SLOT(closeToggle(bool)));
+
+    btnSend = new PictButton(t);
+    btnSend->setState("send", i18n("&Send"));
     connect(btnSend, SIGNAL(clicked()), this, SLOT(sendClick()));
-    hLay->addWidget(btnSend);
-    btnNext = new PictPushButton(frmHead);
-    connect(btnNext, SIGNAL(clicked()), this, SLOT(nextClick()));
+
+    btnNext = new PictButton(t);
     btnNext->hide();
-    hLay->addWidget(btnNext);
-    phone = new QFrame(boxSend);
+    btnNext->setState("send", i18n("&Next"));
+    connect(btnNext, SIGNAL(clicked()), this, SLOT(nextClick()));
+
+    btnMultiply = new QToolButton(t);
+    btnMultiply->setTextLabel(i18n("Multiply send"));
+    btnMultiply->setIconSet(Icon("1rightarrow"));
+    connect(btnMultiply, SIGNAL(clicked()), this, SLOT(toggleMultiply()));
+
+    phone = new QHGroupBox(frmEdit);
     phone->hide();
-    QHBoxLayout *hlay = new QHBoxLayout(phone);
+    lay->addWidget(phone);
     QLabel *title = new QLabel(i18n("Phone:"), phone);
-    hlay->addWidget(title);
     phoneEdit = new QComboBox(phone);
     phoneEdit->setEditable(true);
     phoneEdit->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
-    hlay->addWidget(phoneEdit);
     connect(phoneEdit, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
-    url   = new QFrame(boxSend);
+
+    url   = new QHGroupBox(frmEdit);
     url->hide();
-    hlay = new QHBoxLayout(url);
+    lay->addWidget(url);
     title = new QLabel(i18n("URL:"), url);
-    hlay->addWidget(title);
     urlEdit = new QLineEdit(url);
-    hlay->addWidget(urlEdit);
     connect(urlEdit, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
-    file = new QFrame(boxSend);
+
+    file = new QHGroupBox(frmEdit);
     file->hide();
-    hlay = new QHBoxLayout(file);
+    lay->addWidget(file);
     lblFile = new QLabel(i18n("File")+":", file);
-    hlay->addWidget(lblFile);
     fileEdit = new EditFile(file);
-    hlay->addWidget(fileEdit);
     connect(fileEdit, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
-    btnMultiply = new CPushButton(frmHead);
-    btnMultiply->setTip(i18n("Multiply send"));
-    btnMultiply->setPixmap(Pict("1rightarrow"));
-    connect(btnMultiply, SIGNAL(clicked()), this, SLOT(toggleMultiply()));
-    hLay->addSpacing(2);
-    hLay->addWidget(btnMultiply);
-    lblUsers = new QLabel(i18n("Drag users here"), boxSend);
+
+    lblUsers = new QHGroupBox(frmEdit);
+    lblUsers->hide();
+    lay->addWidget(lblUsers);
+    QLabel *l = new QLabel(i18n("Drag users here"), lblUsers);
+
     edit  = new EditSpell(frmEdit);
     edit->hide();
     lay->addWidget(edit);
@@ -251,6 +251,7 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     view  = new TextShow(frmEdit);
     view->hide();
     lay->addWidget(view);
+
     connect(edit, SIGNAL(textChanged()), this, SLOT(editTextChanged()));
     connect(edit, SIGNAL(currentFontChanged(const QFont&)), this, SLOT(editFontChanged(const QFont&)));
     connect(edit, SIGNAL(ctrlEnterPressed()), this, SLOT(sendClick()));
@@ -312,7 +313,7 @@ void MsgEdit::setState()
         emit setMessageType(Client::getMessageIcon(msgType), Client::getMessageText(msgType, 1));
     }
     btnSend->setText(sendEvent ? i18n("&Cancel") : i18n("&Send"));
-    chkClose->setEnabled(sendEvent == NULL);
+    btnCloseSend->setEnabled(sendEvent == NULL);
     phone->setEnabled(sendEvent == NULL);
     url->setEnabled(sendEvent == NULL);
     edit->setEnabled(sendEvent == NULL);
@@ -582,7 +583,7 @@ void MsgEdit::sendClick()
         pClient->cancelMessage(sendEvent->message());
         return;
     }
-    bCloseSend = pMain->SimpleMode() || chkClose->isChecked();
+    bCloseSend = pMain->SimpleMode() || btnCloseSend->isOn();
     send();
 }
 
@@ -995,7 +996,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
         btnSpell->hide();
 #endif
         btnSend->hide();
-        chkClose->hide();
+        btnCloseSend->hide();
         btnAccept->hide();
         btnDecline->hide();
         btnNext->show();
@@ -1031,7 +1032,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
         btnSpell->hide();
 #endif
         btnSend->hide();
-        chkClose->hide();
+        btnCloseSend->hide();
         btnAccept->hide();
         btnDecline->hide();
         btnNext->show();
@@ -1175,9 +1176,9 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
         btnAccept->hide();
         btnDecline->hide();
         if (pMain->SimpleMode()){
-            chkClose->hide();
+            btnCloseSend->hide();
         }else{
-            chkClose->show();
+            btnCloseSend->show();
         }
         btnSend->show();
         switch (msg->Type()){

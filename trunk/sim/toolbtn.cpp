@@ -25,6 +25,9 @@
 #include <qlayout.h>
 #include <qpopupmenu.h>
 #include <qstyle.h>
+#include <qmainwindow.h>
+#include <qiconset.h>
+#include <qpalette.h>
 
 CPushButton::CPushButton(QWidget *parent, const char *name)
         : QPushButton(parent, name)
@@ -135,29 +138,43 @@ QSize PictButton::minimumSizeHint() const
     int wChar = QFontMetrics(font()).width('0');
     QSize p = QToolButton:: minimumSizeHint();
     QToolBar *bar = static_cast<QToolBar*>(parent());
-    if (bar->orientation() == Vertical){
-        p.setHeight(p.height() + 2 * wChar + 16);
+    QMainWindow::ToolBarDock tDock;
+    int index;
+    bool nl;
+    int extraOffset;
+    bar->mainWindow()->getLocation(bar, tDock, index, nl, extraOffset);
+    if (tDock == QMainWindow::TornOff){
+        if (bar->orientation() == Vertical){
+            p.setHeight(p.height() + 2 * wChar + 16);
+        }else{
+            p.setWidth(p.width() + 2 * wChar + 16);
+        }
     }else{
-        p.setWidth(p.width() + 2 * wChar + 16);
+        p = QSize(22, 22);
     }
     return p;
 }
 
 QSize PictButton::sizeHint() const
 {
-#if QT_VERSION > 300
     int wChar = QFontMetrics(font()).width('0');
-    QSize p = QToolButton:: sizeHint();
+    QSize p = QToolButton:: minimumSizeHint();
     QToolBar *bar = static_cast<QToolBar*>(parent());
-    if (bar->orientation() == Vertical){
-        p.setHeight(p.height() + 2 * wChar + 16);
+    QMainWindow::ToolBarDock tDock;
+    int index;
+    bool nl;
+    int extraOffset;
+    bar->mainWindow()->getLocation(bar, tDock, index, nl, extraOffset);
+    if (tDock == QMainWindow::TornOff){
+        if (bar->orientation() == Vertical){
+            p.setHeight(p.height() + 2 * wChar + 16);
+        }else{
+            p.setWidth(p.width() + 2 * wChar + 16);
+        }
     }else{
-        p.setWidth(p.width() + 2 * wChar + 16);
+        p = QSize(22, 22);
     }
     return p;
-#else
-    return  QToolButton:: minimumSizeHint();
-#endif
 }
 
 void PictButton::setState(const QString& _icon, const QString& _text)
@@ -186,7 +203,8 @@ void PictButton::paintEvent(QPaintEvent*)
 #endif
     QRect rc(4, 4, width() - 4, height() - 4);
     if (icon){
-        const QPixmap &pict = Pict(icon);
+        const QIconSet &icons = Icon(icon);
+        const QPixmap &pict = icons.pixmap(QIconSet::Small, isEnabled() ? QIconSet::Active : QIconSet::Disabled);
         QToolBar *bar = static_cast<QToolBar*>(parent());
         if (bar->orientation() == Vertical){
             p.drawPixmap((width() - pict.width()) / 2, 4, pict);
@@ -199,7 +217,9 @@ void PictButton::paintEvent(QPaintEvent*)
             rc = QRect(8 + pict.width(), 4, width() - 4, height() - 4);
         }
     }
-    p.drawText(rc, AlignLeft | AlignVCenter, text);
+    const QColorGroup &cg = isEnabled() ? palette().active() : palette().disabled();
+    p.setPen(cg.text());
+    p.drawText(rc, AlignLeft | AlignVCenter | ShowPrefix, text);
     p.end();
     p.begin(this);
     p.drawPixmap(0, 0, pict);

@@ -26,6 +26,7 @@
 
 class QCheckBox;
 class QVGroupBox;
+class QHGroupBox;
 class QLabel;
 class QFrame;
 class QCheckBox;
@@ -45,6 +46,8 @@ class UserTab;
 class History;
 class MsgView;
 class WndCancel;
+class QToolButton;
+class PictButton;
 
 class MsgEdit : public QSplitter, public ConfigArray
 {
@@ -122,36 +125,38 @@ protected:
     History *mHistory;
     History *history();
     ICQMessage *msg;
-    QVGroupBox *boxSend;
-    QCheckBox   *chkClose;
-    QPushButton *btnSend;
-    CPushButton *btnBgColor;
-    CPushButton *btnFgColor;
-    CPushButton *btnBold;
-    CPushButton *btnItalic;
-    CPushButton *btnUnder;
-    CPushButton *btnFont;
+
+    QToolButton	*btnCloseSend;
+    PictButton	*btnSend;
+
+    QToolButton	*btnBgColor;
+    QToolButton	*btnFgColor;
+    QToolButton	*btnBold;
+    QToolButton	*btnItalic;
+    QToolButton	*btnUnder;
+    QToolButton	*btnFont;
 #ifdef USE_SPELL
-    CPushButton *btnSpell;
+    QToolButton	*btnSpell;
 #endif
-    PictPushButton *btnNext;
-    QPushButton *btnReply;
-    QPushButton *btnForward;
-    QPushButton *btnQuote;
-    QPushButton *btnGrant;
-    QPushButton *btnRefuse;
-    QPushButton *btnAccept;
-    QPushButton *btnDecline;
-    CPushButton *btnMultiply;
+    PictButton	*btnNext;
+    PictButton	*btnReply;
+    PictButton	*btnForward;
+    PictButton	*btnQuote;
+    PictButton	*btnGrant;
+    PictButton	*btnRefuse;
+    PictButton	*btnAccept;
+    PictButton	*btnDecline;
+    QToolButton	*btnMultiply;
+
     TextShow   *view;
-    QFrame     *phone;
-    QFrame     *url;
-    QFrame	   *file;
+    QHGroupBox *phone;
+    QHGroupBox *url;
+    QHGroupBox *file;
     QLabel	   *lblFile;
     QComboBox  *phoneEdit;
     QLineEdit  *urlEdit;
     EditFile   *fileEdit;
-    QLabel	   *lblUsers;
+    QHGroupBox *lblUsers;
     QPopupMenu *declineMenu;
     UserTbl    *users;
     EditSpell *edit;

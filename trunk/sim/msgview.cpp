@@ -48,6 +48,7 @@
 #include <qstringlist.h>
 #include <qtextcodec.h>
 
+
 #ifdef WIN32
 #if _MSC_VER > 1020
 #pragma warning(disable:4786)
@@ -599,7 +600,7 @@ void MsgView::addMessage(ICQMessage *msg, bool bUnread, bool bSet)
     }else{
         int n = paragraphs();
         append(s);
-	setParagraphBackgroundColor(n, colorGroup().base());
+        setParagraphBackgroundColor(n, colorGroup().base());
         if (foreColor != backColor)
             setMsgBgColor(msg->getUin(), msg->Id, backColor, n);
     }
@@ -618,7 +619,7 @@ int MsgView::setMsgBgColor(unsigned long uin, unsigned long id, unsigned long rg
         if (text(n).find(pat) < 0) continue;
         pat = "<a href=\"msg://";
         for (n++; n < paragraphs(); n++){
-	    string s;
+            string s;
             if (!text(n).isEmpty()) s = text(n).local8Bit();
             if (text(n).isEmpty()) break;
             if (text(n).find(pat) >= 0) break;

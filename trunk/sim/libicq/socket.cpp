@@ -107,7 +107,7 @@ void ClientSocket::error(SocketError err)
         log(L_WARN, "Proxy connect error");
         break;
     case ErrorNone:
-	return;
+        return;
     }
     bInProcess = true;
     notify->error_state(err);
@@ -168,7 +168,7 @@ void ClientSocket::read_ready()
         return;
     }
     for (;;){
-	if (bClosed) break;
+        if (bClosed) break;
         int readn = m_sock->read(readBuffer.Data(readBuffer.writePos()),
                                  readBuffer.size() - readBuffer.writePos());
         if (readn < 0){

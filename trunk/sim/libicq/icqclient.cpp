@@ -202,7 +202,7 @@ void ICQClient::packet_ready()
     processInfoRequestQueue();
     processPhoneRequestQueue(0);
     processResponseRequestQueue(0);
-    sock->readBuffer.init(6);
+    if (sock) sock->readBuffer.init(6);
     m_bHeader = true;
 }
 

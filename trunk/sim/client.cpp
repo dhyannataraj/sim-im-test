@@ -828,10 +828,10 @@ QClientSocket::QClientSocket(QSocket *s)
     sock = s;
     if (sock == NULL)
 #if USE_KDE
-	sock = new KExtendedSocket;
-	sock->setBlockingMode(false);
+        sock = new KExtendedSocket;
+    sock->setBlockingMode(false);
 #else
-	sock = new QSocket(this);
+        sock = new QSocket(this);
 #endif
 #ifdef USE_KDE
     QObject::connect(sock, SIGNAL(connectionSuccess()), this, SLOT(slotConnected()));
@@ -869,9 +869,11 @@ int QClientSocket::read(char *buf, unsigned int size)
 {
     int res = sock->readBlock(buf, size);
     if (res < 0){
+
 #ifdef USE_KDE
-	if (errno == EWOULDBLOCK)
-	   return 0;
+        if (errno == EWOULDBLOCK)
+            return 0;
+
 #endif
         if (notify) notify->error_state(ErrorRead);
     }
@@ -942,9 +944,9 @@ unsigned long QClientSocket::localHost()
     unsigned long res = 0;
     const KSocketAddress *addr = sock->localAddress();
     if (addr && addr->inherits("KInetSocketAddress")){
-	const KInetSocketAddress *addr_in = static_cast<const KInetSocketAddress*>(addr);
-	const sockaddr_in *a = addr_in->addressV4();
-	if (a) res = htonl(a->sin_addr.s_addr);
+        const KInetSocketAddress *addr_in = static_cast<const KInetSocketAddress*>(addr);
+        const sockaddr_in *a = addr_in->addressV4();
+        if (a) res = htonl(a->sin_addr.s_addr);
     }
     return res;
 #else
@@ -974,17 +976,17 @@ QServerSocket::QServerSocket(unsigned short minPort, unsigned short maxPort)
     sock = new KExtendedSocket;
     connect(sock, SIGNAL(readyAccept()), this, SLOT(activated()));
     for (m_nPort = minPort; m_nPort <= maxPort; m_nPort++){
-	sock->reset();
-	sock->setBlockingMode(false);
-	sock->setSocketFlags(KExtendedSocket::passiveSocket);
-	sock->setPort(m_nPort);
-	if (sock->listen() == 0)
-	    break;
+        sock->reset();
+        sock->setBlockingMode(false);
+        sock->setSocketFlags(KExtendedSocket::passiveSocket);
+        sock->setPort(m_nPort);
+        if (sock->listen() == 0)
+            break;
     }
     if (m_nPort > maxPort){
-	delete sock;
-	sock = NULL;
-	return;
+        delete sock;
+        sock = NULL;
+        return;
     }
 #else
     sock = new QSocketDevice;
@@ -1036,9 +1038,9 @@ void QServerSocket::activated()
     log(L_DEBUG, "Accept: %u", s);
     if (s == NULL) return;
     if (notify){
-	notify->accept(new QClientSocket(s));
+        notify->accept(new QClientSocket(s));
     }else{
-	delete s;
+        delete s;
     }
 #endif
 }
