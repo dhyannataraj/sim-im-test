@@ -15,6 +15,34 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifdef WIN32
+
+#define STRICT
+#ifndef _WIN32_WINNT
+#define _WIN32_WINNT 0x0400
+#endif
+#define _ATL_APARTMENT_THREADED
+
+#include <atlbase.h>
+extern CComModule _Module;
+#include <atlcom.h>
+
+#include <initguid.h>
+#include "remoteole.h"
+
+#include "remote_i.c"
+#include "SIMRemote.h"
+
+CComModule _Module;
+
+BEGIN_OBJECT_MAP(ObjectMap)
+OBJECT_ENTRY(CLSID_SIMRemote, CSIMRemote)
+END_OBJECT_MAP()
+
+#endif
+
+#include "simapi.h"
+
 #include "remote.h"
 #include "remotecfg.h"
 #include "simapi.h"
@@ -458,19 +486,58 @@ void ControlSocket::packet_ready()
 
 #include <windows.h>
 
-/**
- * DLL's entry point
- **/
-int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
+extern "C"
+
+BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID /*lpReserved*/)
 {
-    return TRUE;
+    if (dwReason == DLL_PROCESS_ATTACH)
+    {
+        _Module.Init(ObjectMap, hInstance, &LIBID_REMOTELib);
+        DisableThreadLibraryCalls(hInstance);
+    }
+    else if (dwReason == DLL_PROCESS_DETACH)
+        _Module.Term();
+    return TRUE;    // ok
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// Used to determine whether the DLL can be unloaded by OLE
+
+STDAPI DllCanUnloadNow(void)
+{
+    return (_Module.GetLockCount()==0) ? S_OK : S_FALSE;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// Returns a class factory to create an object of the requested type
+
+STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID* ppv)
+{
+    return _Module.GetClassObject(rclsid, riid, ppv);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// DllRegisterServer - Adds entries to the system registry
+
+STDAPI DllRegisterServer(void)
+{
+    // registers object, typelib and all interfaces in typelib
+    return _Module.RegisterServer(TRUE);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// DllUnregisterServer - Removes entries from the system registry
+
+STDAPI DllUnregisterServer(void)
+{
+    return _Module.UnregisterServer(TRUE);
 }
 
 /**
  * This is to prevent the CRT from loading, thus making this a smaller
  * and faster dll.
  **/
-extern "C" BOOL __stdcall _DllMainCRTStartup( HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
+BOOL __stdcall _DllMainCRTStartup( HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
     return DllMain( hinstDLL, fdwReason, lpvReserved );
 }
 

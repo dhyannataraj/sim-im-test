@@ -106,12 +106,26 @@ SOURCE=.\remote.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\remote.def
+# End Source File
+# Begin Source File
+
+SOURCE=.\remote.idl
+# ADD MTL /nologo /h "remoteole.h" /iid "remote_i.c" /Oicf
+# SUBTRACT MTL /mktyplib203
+# End Source File
+# Begin Source File
+
 SOURCE=.\remotecfg.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=.\remotecfgbase.cpp
 # ADD CPP /W3
+# End Source File
+# Begin Source File
+
+SOURCE=.\SIMRemote.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -186,6 +200,10 @@ InputName=remotecfgbase
 !ENDIF 
 
 # End Source File
+# Begin Source File
+
+SOURCE=.\SIMRemote.h
+# End Source File
 # End Group
 # Begin Group "Resource Files"
 
@@ -193,6 +211,10 @@ InputName=remotecfgbase
 # Begin Source File
 
 SOURCE=.\remote.rc
+# End Source File
+# Begin Source File
+
+SOURCE=.\SIMRemote.rgs
 # End Source File
 # End Group
 # Begin Group "Interfaces"
