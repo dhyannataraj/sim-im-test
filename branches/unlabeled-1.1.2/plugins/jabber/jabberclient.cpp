@@ -28,6 +28,7 @@
 #include "core.h"
 
 #include <qtimer.h>
+#include <qregexp.h>
 #include <time.h>
 
 unsigned PING_TIMEOUT = 50;
@@ -1321,7 +1322,7 @@ string JabberClient::dataName(void *_data)
         res += data->VHost;
     }
     res = res.replace(QRegExp("/"), "_");
-    return res.utf8();
+    return string(res.utf8());
 }
 
 void JabberClient::listRequest(JabberUserData *data, const char *name, const char *grp, bool bDelete)
