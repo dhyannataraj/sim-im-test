@@ -22,10 +22,10 @@
 #include "socket.h"
 #include "icq.h"
 
-const unsigned MESSAGE_DIRECT	= 0x0100;
+const unsigned MESSAGE_DIRECT    = 0x0100;
 
-const unsigned STATUS_OCCUPIED	= 0x10;
-const unsigned STATUS_FFC		= 0x11;
+const unsigned STATUS_OCCUPIED    = 0x10;
+const unsigned STATUS_FFC        = 0x11;
 
 const unsigned char ICQ_TCP_VERSION = 0x08;
 
@@ -49,7 +49,7 @@ const unsigned short ICQ_SNACxFAM_BOS              = 0x0009;
 const unsigned short ICQ_SNACxFAM_PING             = 0x000B;
 const unsigned short ICQ_SNACxFAM_LISTS            = 0x0013;
 const unsigned short ICQ_SNACxFAM_VARIOUS          = 0x0015;
-const unsigned short ICQ_SNACxFAM_LOGIN			   = 0x0017;
+const unsigned short ICQ_SNACxFAM_LOGIN               = 0x0017;
 
 // Status
 const unsigned short ICQ_STATUS_OFFLINE            = 0xFFFF;
@@ -58,7 +58,7 @@ const unsigned short ICQ_STATUS_AWAY               = 0x0001;
 const unsigned short ICQ_STATUS_DND                = 0x0002;
 const unsigned short ICQ_STATUS_NA                 = 0x0004;
 const unsigned short ICQ_STATUS_OCCUPIED           = 0x0010;
-const unsigned short ICQ_STATUS_FFC				   = 0x0020;
+const unsigned short ICQ_STATUS_FFC                   = 0x0020;
 
 const unsigned long ICQ_STATUS_FxFLAGS             = 0xFFFF0000;
 const unsigned long ICQ_STATUS_FxUNKNOWNxFLAGS     = 0xCFC0FCC8;
@@ -84,40 +84,40 @@ const unsigned short ICQ_MSGxADDEDxTOxLIST     = 0x000C;
 const unsigned short ICQ_MSGxWEBxPANEL         = 0x000D;
 const unsigned short ICQ_MSGxEMAILxPAGER       = 0x000E;
 const unsigned short ICQ_MSGxCONTACTxLIST      = 0x0013;
-const unsigned short ICQ_MSGxEXT			   = 0x001A;
+const unsigned short ICQ_MSGxEXT               = 0x001A;
 
-const unsigned short ICQ_MSGxSECURExCLOSE	   = 0x00EE;
-const unsigned short ICQ_MSGxSECURExOPEN	   = 0x00EF;
+const unsigned short ICQ_MSGxSECURExCLOSE       = 0x00EE;
+const unsigned short ICQ_MSGxSECURExOPEN       = 0x00EF;
 
-const unsigned short ICQ_MSGxAR_AWAY		   = 0x03E8;
-const unsigned short ICQ_MSGxAR_OCCUPIED	   = 0x03E9;
-const unsigned short ICQ_MSGxAR_NA			   = 0x03EA;
-const unsigned short ICQ_MSGxAR_DND			   = 0x03EB;
-const unsigned short ICQ_MSGxAR_FFC			   = 0x03EC;
+const unsigned short ICQ_MSGxAR_AWAY           = 0x03E8;
+const unsigned short ICQ_MSGxAR_OCCUPIED       = 0x03E9;
+const unsigned short ICQ_MSGxAR_NA               = 0x03EA;
+const unsigned short ICQ_MSGxAR_DND               = 0x03EB;
+const unsigned short ICQ_MSGxAR_FFC               = 0x03EC;
 
 const unsigned short ICQ_TCPxACK_ONLINE         = 0x0000;
 const unsigned short ICQ_TCPxACK_AWAY           = 0x0004;
 const unsigned short ICQ_TCPxACK_OCCUPIED       = 0x0009;
 const unsigned short ICQ_TCPxACK_DND            = 0x000A;
 const unsigned short ICQ_TCPxACK_OCCUPIEDxCAR   = 0x000B;
-const unsigned short ICQ_TCPxACK_OCCUPIEDx2		= 0x000C;
+const unsigned short ICQ_TCPxACK_OCCUPIEDx2        = 0x000C;
 const unsigned short ICQ_TCPxACK_NA             = 0x000E;
 const unsigned short ICQ_TCPxACK_DNDxCAR        = 0x000F;
 const unsigned short ICQ_TCPxACK_ACCEPT         = 0x0000;
 const unsigned short ICQ_TCPxACK_REFUSE         = 0x0001;
 
 const unsigned short ICQ_TCPxMSG_AUTOxREPLY     = 0x0000;
-const unsigned short ICQ_TCPxMSG_NORMAL	        = 0x0001;
+const unsigned short ICQ_TCPxMSG_NORMAL            = 0x0001;
 const unsigned short ICQ_TCPxMSG_URGENT         = 0x0002;
 const unsigned short ICQ_TCPxMSG_LIST           = 0x0004;
 
-const unsigned short ICQ_MTN_FINISH	= 0x0000;
-const unsigned short ICQ_MTN_TYPED	= 0x0001;
-const unsigned short ICQ_MTN_START	= 0x0002;
+const unsigned short ICQ_MTN_FINISH    = 0x0000;
+const unsigned short ICQ_MTN_TYPED    = 0x0001;
+const unsigned short ICQ_MTN_START    = 0x0002;
 
-const char DIRECT_MODE_DENIED	= 0x01;
-const char DIRECT_MODE_INDIRECT	= 0x02;
-const char DIRECT_MODE_DIRECT	= 0x04;
+const char DIRECT_MODE_DENIED    = 0x01;
+const char DIRECT_MODE_INDIRECT    = 0x02;
+const char DIRECT_MODE_DIRECT    = 0x04;
 
 const unsigned MAX_MESSAGE_SIZE = 450;
 
@@ -127,125 +127,125 @@ class DirectClient;
 
 typedef struct ICQUserData
 {
-    char			*Alias;
-    char			*Cellular;
-    unsigned long	Status;
-    unsigned long	StatusTime;
-    unsigned long	OnlineTime;
-    void			*IP;
-    void			*RealIP;
-    unsigned long	Port;
-    unsigned long	DCcookie;
-    unsigned long	Caps;
-    char			*AutoReply;
-    unsigned long	Uin;
-    char			*Screen;
-    unsigned long	IcqID;
-    unsigned long	bChecked;
-    unsigned long	GrpId;
-    unsigned long	IgnoreId;
-    unsigned long	VisibleId;
-    unsigned long	ContactVisibleId;
-    unsigned long	InvisibleId;
-    unsigned long	ContactInvisibleId;
-    unsigned long	WaitAuth;
-    unsigned long	WantAuth;
-    unsigned long	WebAware;
-    unsigned long	InfoUpdateTime;
-    unsigned long	PluginInfoTime;
-    unsigned long	PluginStatusTime;
-    unsigned long	InfoFetchTime;
-    unsigned long	PluginInfoFetchTime;
-    unsigned long	PluginStatusFetchTime;
-    unsigned long	Mode;
-    unsigned long	Version;
-    unsigned long	Build;
-    char			*Nick;
-    char			*FirstName;
-    char			*LastName;
-    char			*EMail;
-    unsigned long	HiddenEMail;
-    char			*City;
-    char			*State;
-    char			*HomePhone;
-    char			*HomeFax;
-    char			*Address;
-    char			*PrivateCellular;
-    char			*Zip;
-    unsigned long	Country;
-    unsigned long	TimeZone;
-    unsigned long	Age;
-    unsigned long	Gender;
-    char			*Homepage;
-    unsigned long	BirthYear;
-    unsigned long	BirthMonth;
-    unsigned long	BirthDay;
-    unsigned long	Language;
-    char			*EMails;
-    char			*WorkCity;
-    char			*WorkState;
-    char			*WorkPhone;
-    char			*WorkFax;
-    char			*WorkAddress;
-    char			*WorkZip;
-    unsigned long	WorkCountry;
-    char			*WorkName;
-    char			*WorkDepartment;
-    char			*WorkPosition;
-    unsigned long	Occupation;
-    char			*WorkHomepage;
-    char			*About;
-    char			*Interests;
-    char			*Backgrounds;
-    char			*Affilations;
-    unsigned long	FollowMe;
-    unsigned long	SharedFiles;
-    unsigned long	ICQPhone;
-    char			*Encoding;
-    char			*Picture;
-    unsigned long	PictureWidth;
-    unsigned long	PictureHeight;
-    char			*PhoneBook;
-    unsigned long	bTyping;
-    unsigned long	bBadClient;
-    DirectClient	*Direct;
-    DirectClient	*DirectPluginInfo;
-    DirectClient	*DirectPluginStatus;
-    unsigned long	bNoDirect;
-    unsigned long	bInvisible;
+    char            *Alias;
+    char            *Cellular;
+    unsigned long    Status;
+    unsigned long    StatusTime;
+    unsigned long    OnlineTime;
+    void            *IP;
+    void            *RealIP;
+    unsigned long    Port;
+    unsigned long    DCcookie;
+    unsigned long    Caps;
+    char            *AutoReply;
+    unsigned long    Uin;
+    char            *Screen;
+    unsigned long    IcqID;
+    unsigned long    bChecked;
+    unsigned long    GrpId;
+    unsigned long    IgnoreId;
+    unsigned long    VisibleId;
+    unsigned long    ContactVisibleId;
+    unsigned long    InvisibleId;
+    unsigned long    ContactInvisibleId;
+    unsigned long    WaitAuth;
+    unsigned long    WantAuth;
+    unsigned long    WebAware;
+    unsigned long    InfoUpdateTime;
+    unsigned long    PluginInfoTime;
+    unsigned long    PluginStatusTime;
+    unsigned long    InfoFetchTime;
+    unsigned long    PluginInfoFetchTime;
+    unsigned long    PluginStatusFetchTime;
+    unsigned long    Mode;
+    unsigned long    Version;
+    unsigned long    Build;
+    char            *Nick;
+    char            *FirstName;
+    char            *LastName;
+    char            *EMail;
+    unsigned long    HiddenEMail;
+    char            *City;
+    char            *State;
+    char            *HomePhone;
+    char            *HomeFax;
+    char            *Address;
+    char            *PrivateCellular;
+    char            *Zip;
+    unsigned long    Country;
+    unsigned long    TimeZone;
+    unsigned long    Age;
+    unsigned long    Gender;
+    char            *Homepage;
+    unsigned long    BirthYear;
+    unsigned long    BirthMonth;
+    unsigned long    BirthDay;
+    unsigned long    Language;
+    char            *EMails;
+    char            *WorkCity;
+    char            *WorkState;
+    char            *WorkPhone;
+    char            *WorkFax;
+    char            *WorkAddress;
+    char            *WorkZip;
+    unsigned long    WorkCountry;
+    char            *WorkName;
+    char            *WorkDepartment;
+    char            *WorkPosition;
+    unsigned long    Occupation;
+    char            *WorkHomepage;
+    char            *About;
+    char            *Interests;
+    char            *Backgrounds;
+    char            *Affilations;
+    unsigned long    FollowMe;
+    unsigned long    SharedFiles;
+    unsigned long    ICQPhone;
+    char            *Encoding;
+    char            *Picture;
+    unsigned long    PictureWidth;
+    unsigned long    PictureHeight;
+    char            *PhoneBook;
+    unsigned long    bTyping;
+    unsigned long    bBadClient;
+    DirectClient    *Direct;
+    DirectClient    *DirectPluginInfo;
+    DirectClient    *DirectPluginStatus;
+    unsigned long    bNoDirect;
+    unsigned long    bInvisible;
 } ICQUserData;
 
 typedef struct ICQClientData
 {
-    char		*Server;
-    unsigned	Port;
-    unsigned	ContactsTime;
-    unsigned	ContactsLength;
-    unsigned	ContactsInvisible;
-    unsigned	HideIP;
-    unsigned	IgnoreAuth;
-    unsigned	DirectMode;
-    unsigned	IdleTime;
-    char		*ListRequests;
-    char		*Picture;
-    unsigned	RandomChatGroup;
-    unsigned	RandomChatGroupCurrent;
-    unsigned	SendFormat;
-    unsigned	AutoUpdate;
-    unsigned	AutoReplyUpdate;
-    unsigned	TypingNotification;
-    unsigned	AcceptInDND;
-    unsigned	AcceptInOccupied;
-    ICQUserData	owner;
+    char        *Server;
+    unsigned    Port;
+    unsigned    ContactsTime;
+    unsigned    ContactsLength;
+    unsigned    ContactsInvisible;
+    unsigned    HideIP;
+    unsigned    IgnoreAuth;
+    unsigned    DirectMode;
+    unsigned    IdleTime;
+    char        *ListRequests;
+    char        *Picture;
+    unsigned    RandomChatGroup;
+    unsigned    RandomChatGroupCurrent;
+    unsigned    SendFormat;
+    unsigned    AutoUpdate;
+    unsigned    AutoReplyUpdate;
+    unsigned    TypingNotification;
+    unsigned    AcceptInDND;
+    unsigned    AcceptInOccupied;
+    ICQUserData    owner;
 } ICQClientData;
 
 class ICQClient;
 
 typedef struct SearchResult
 {
-    ICQUserData		data;
-    unsigned short	id;
-    ICQClient		*client;
+    ICQUserData        data;
+    unsigned short    id;
+    ICQClient        *client;
 } SearchResult;
 
 class QTimer;
@@ -253,40 +253,40 @@ class QTimer;
 typedef unsigned char capability[0x10];
 typedef unsigned char plugin[0x12];
 
-const unsigned CAP_DIRECT		= 0;
-const unsigned CAP_RTF			= 1;
-const unsigned CAP_SRV_RELAY	= 2;
-const unsigned CAP_UTF			= 3;
-const unsigned CAP_TYPING		= 4;
-const unsigned CAP_AIM_SUPPORT	= 5;
-const unsigned CAP_SIM			= 6;
-const unsigned CAP_STR_2001		= 7;
-const unsigned CAP_IS_2001		= 8;
-const unsigned CAP_TRILLIAN		= 9;
-const unsigned CAP_TRIL_CRYPT	= 10;
-const unsigned CAP_MACICQ		= 11;
-const unsigned CAP_AIM_CHAT		= 12;
-const unsigned CAP_MICQ			= 13;
-const unsigned CAP_LICQ			= 14;
-const unsigned CAP_SIMOLD		= 15;
-const unsigned CAP_NULL			= 16;
+const unsigned CAP_DIRECT        = 0;
+const unsigned CAP_RTF            = 1;
+const unsigned CAP_SRV_RELAY    = 2;
+const unsigned CAP_UTF            = 3;
+const unsigned CAP_TYPING        = 4;
+const unsigned CAP_AIM_SUPPORT    = 5;
+const unsigned CAP_SIM            = 6;
+const unsigned CAP_STR_2001        = 7;
+const unsigned CAP_IS_2001        = 8;
+const unsigned CAP_TRILLIAN        = 9;
+const unsigned CAP_TRIL_CRYPT    = 10;
+const unsigned CAP_MACICQ        = 11;
+const unsigned CAP_AIM_CHAT        = 12;
+const unsigned CAP_MICQ            = 13;
+const unsigned CAP_LICQ            = 14;
+const unsigned CAP_SIMOLD        = 15;
+const unsigned CAP_NULL            = 16;
 
-const unsigned PLUGIN_PHONEBOOK			= 0;
-const unsigned PLUGIN_PICTURE			= 1;
-const unsigned PLUGIN_FILESERVER		= 2;
-const unsigned PLUGIN_FOLLOWME			= 3;
-const unsigned PLUGIN_ICQPHONE			= 4;
-const unsigned PLUGIN_QUERYxINFO		= 5;
-const unsigned PLUGIN_QUERYxSTATUS		= 6;
-const unsigned PLUGIN_INFOxMANAGER		= 7;
-const unsigned PLUGIN_STATUSxMANAGER	= 8;
-const unsigned PLUGIN_RANDOMxCHAT		= 9;
-const unsigned PLUGIN_NULL				= 10;
-const unsigned PLUGIN_FILE				= 11;
-const unsigned PLUGIN_CHAT				= 12;
-const unsigned PLUGIN_AR				= 13;
-const unsigned PLUGIN_INVISIBLE			= 14;
-const unsigned PLUGIN_REVERSE			= 15;
+const unsigned PLUGIN_PHONEBOOK            = 0;
+const unsigned PLUGIN_PICTURE            = 1;
+const unsigned PLUGIN_FILESERVER        = 2;
+const unsigned PLUGIN_FOLLOWME            = 3;
+const unsigned PLUGIN_ICQPHONE            = 4;
+const unsigned PLUGIN_QUERYxINFO        = 5;
+const unsigned PLUGIN_QUERYxSTATUS        = 6;
+const unsigned PLUGIN_INFOxMANAGER        = 7;
+const unsigned PLUGIN_STATUSxMANAGER    = 8;
+const unsigned PLUGIN_RANDOMxCHAT        = 9;
+const unsigned PLUGIN_NULL                = 10;
+const unsigned PLUGIN_FILE                = 11;
+const unsigned PLUGIN_CHAT                = 12;
+const unsigned PLUGIN_AR                = 13;
+const unsigned PLUGIN_INVISIBLE            = 14;
+const unsigned PLUGIN_REVERSE            = 15;
 
 class ICQClient;
 
@@ -294,25 +294,29 @@ typedef struct ENCODING
 {
     const char *language;
     const char *codec;
-    int			mib;
-    bool		bMain;
+    int            mib;
+    bool        bMain;
 } ENCODING;
 
-const unsigned LIST_USER_CHANGED	= 0;
-const unsigned LIST_USER_DELETED	= 1;
-const unsigned LIST_GROUP_CHANGED	= 2;
-const unsigned LIST_GROUP_DELETED	= 3;
+const unsigned LIST_USER_CHANGED    = 0;
+const unsigned LIST_USER_DELETED    = 1;
+const unsigned LIST_GROUP_CHANGED    = 2;
+const unsigned LIST_GROUP_DELETED    = 3;
 
-typedef struct ListRequest
+class ListRequest
 {
-    unsigned		type;
-    string			screen;
-    unsigned short	icq_id;
-    unsigned short	grp_id;
-    unsigned short	visible_id;
-    unsigned short	invisible_id;
-    unsigned short	ignore_id;
-} ListRequest;
+public:
+    ListRequest() : type(0),icq_id(0),grp_id(0),visible_id(0),invisible_id(0),ignore_id(0) {}
+    
+public:
+    unsigned        type;
+    string            screen;
+    unsigned short    icq_id;
+    unsigned short    grp_id;
+    unsigned short    visible_id;
+    unsigned short    invisible_id;
+    unsigned short    ignore_id;
+};
 
 class ICQListener : public ServerSocketNotify
 {
@@ -334,8 +338,8 @@ class QTextCodec;
 
 typedef struct MessageId
 {
-    unsigned long	id_l;
-    unsigned long	id_h;
+    unsigned long    id_l;
+    unsigned long    id_h;
     MessageId() : id_l(0), id_h(0) {}
 } MessageId;
 
@@ -343,40 +347,40 @@ bool operator == (const MessageId &m1, const MessageId &m2);
 
 typedef struct SendMsg
 {
-    string			screen;
-    MessageId		id;
-    Message			*msg;
-    QString			text;
-    QString			part;
-    unsigned		flags;
-    DirectSocket	*socket;
+    string            screen;
+    MessageId        id;
+    Message            *msg;
+    QString            text;
+    QString            part;
+    unsigned        flags;
+    DirectSocket    *socket;
     SendMsg() : msg(NULL), socket(NULL) {}
 } SendMsg;
 
-const unsigned SEND_PLAIN	= 0x0001;
-const unsigned SEND_UTF		= 0x0002;
-const unsigned SEND_RTF		= 0x0003;
-const unsigned SEND_RAW		= 0x0004;
-const unsigned SEND_2GO		= 0x0005;
-const unsigned SEND_MASK	= 0x000F;
-const unsigned SEND_1STPART	= 0x0010;
+const unsigned SEND_PLAIN    = 0x0001;
+const unsigned SEND_UTF        = 0x0002;
+const unsigned SEND_RTF        = 0x0003;
+const unsigned SEND_RAW        = 0x0004;
+const unsigned SEND_2GO        = 0x0005;
+const unsigned SEND_MASK    = 0x000F;
+const unsigned SEND_1STPART    = 0x0010;
 
 typedef struct rtf_charset
 {
     const char *name;
-    int			rtf_code;
+    int            rtf_code;
 } charset;
 
 typedef struct ar_request
 {
-    unsigned short	type;
-    unsigned short	flags;
-    unsigned short	ack;
-    MessageId		id;
-    unsigned short	id1;
-    unsigned short	id2;
-    string			screen;
-    bool			bDirect;
+    unsigned short    type;
+    unsigned short    flags;
+    unsigned short    ack;
+    MessageId        id;
+    unsigned short    id1;
+    unsigned short    id2;
+    string            screen;
+    bool            bDirect;
 } ar_request;
 
 class DirectSocket;
@@ -388,7 +392,7 @@ public:
     ICQClient(ICQProtocol*, const char *cfg);
     ~ICQClient();
     virtual string name();
-    virtual QWidget	*setupWnd();
+    virtual QWidget    *setupWnd();
     virtual string getConfig();
     virtual unsigned getStatus();
     void setUin(unsigned long);
@@ -412,7 +416,7 @@ public:
     PROP_BOOL(TypingNotification);
     PROP_BOOL(AcceptInDND);
     PROP_BOOL(AcceptInOccupied);
-    ICQClientData	data;
+    ICQClientData    data;
     QString toUnicode(const char *str, ICQUserData *client_data);
     string fromUnicode(const QString &str, ICQUserData *client_data);
     unsigned short findByUin(unsigned long uin);
@@ -476,9 +480,9 @@ protected:
     virtual QString ownerName();
     virtual QString contactName(void *clientData);
     string  dataName(const char *screen);
-    bool			m_bHeader;
-    char			m_nChannel;
-    Buffer			m_cookie;
+    bool            m_bHeader;
+    char            m_nChannel;
+    Buffer            m_cookie;
     void snac_service(unsigned short, unsigned short);
     void snac_location(unsigned short, unsigned short);
     void snac_buddy(unsigned short, unsigned short);
@@ -532,11 +536,11 @@ protected:
     list<ServerRequest*> varRequests;
     list<unsigned long> infoRequests;
     list<unsigned long> buddies;
-    list<ListRequest>	listRequests;
-    list<SendMsg>		smsQueue;
-    list<SendMsg>		sendQueue;
-    list<SendMsg>		replyQueue;
-    list<ar_request>	arRequests;
+    list<ListRequest>    listRequests;
+    list<SendMsg>        smsQueue;
+    list<SendMsg>        sendQueue;
+    list<SendMsg>        replyQueue;
+    list<ar_request>    arRequests;
     void addGroupRequest(Group *group);
     void addContactRequest(Contact *contact);
     void addBuddy(Contact *contact);
@@ -594,8 +598,8 @@ protected:
     unsigned m_nUpdates;
     unsigned m_nSendTimeout;
     SendMsg  m_send;
-    list<Message*>		m_processMsg;
-    list<DirectSocket*>	m_sockets;
+    list<Message*>        m_processMsg;
+    list<DirectSocket*>    m_sockets;
     friend class FullInfoRequest;
     friend class SMSRequest;
     friend class DirectSocket;
@@ -651,24 +655,24 @@ protected:
     void sendInit();
     void sendInitAck();
     void removeFromClient();
-    bool			m_bHeader;
-    bool			m_bIncoming;
-    unsigned short	m_nSequence;
-    unsigned short	m_port;
-    char			m_version;
-    unsigned long	m_nSessionId;
-    ICQUserData		*m_data;
-    ClientSocket	*m_socket;
-    ICQClient		*m_client;
-    //    DirectListener	*m_listener;
+    bool            m_bHeader;
+    bool            m_bIncoming;
+    unsigned short    m_nSequence;
+    unsigned short    m_port;
+    char            m_version;
+    unsigned long    m_nSessionId;
+    ICQUserData        *m_data;
+    ClientSocket    *m_socket;
+    ICQClient        *m_client;
+    //    DirectListener    *m_listener;
 };
 
 typedef struct SendDirectMsg
 {
-    Message		*msg;
-    unsigned	type;
-    unsigned short	seq;
-    unsigned short	icq_type;
+    Message        *msg;
+    unsigned    type;
+    unsigned short    seq;
+    unsigned short    icq_type;
 } SendDirectMsg;
 
 class DirectClient : public DirectSocket
@@ -693,8 +697,8 @@ protected:
         Logged,
         SSLconnect
     };
-    State		m_state;
-    unsigned	m_channel;
+    State        m_state;
+    unsigned    m_channel;
     void processPacket();
     void connect_ready();
     bool error_state(const char *err, unsigned code);

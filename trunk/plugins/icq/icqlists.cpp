@@ -993,7 +993,6 @@ void ICQClient::addGroupRequest(Group *group)
                 return;
         }
         ListRequest lr;
-        memset(&lr, 0, sizeof(lr));
         lr.type   = LIST_GROUP_CHANGED;
         lr.screen = number(group->id());
         listRequests.push_back(lr);
@@ -1013,7 +1012,6 @@ void ICQClient::addGroupRequest(Group *group)
     if (alias == name)
         return;
     ListRequest lr;
-    memset(&lr, 0, sizeof(lr));
     lr.type = LIST_GROUP_CHANGED;
     lr.icq_id  = data->IcqID;
     lr.screen  = number(group->id());
@@ -1079,7 +1077,6 @@ void ICQClient::addContactRequest(Contact *contact)
         }
 
         ListRequest lr;
-        memset(&lr, 0, sizeof(lr));
         lr.type   = LIST_USER_CHANGED;
         lr.screen = screen(data);
         listRequests.push_back(lr);
