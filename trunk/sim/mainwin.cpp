@@ -460,6 +460,7 @@ void setBarState(bool bAnimate = false)
         }
         slideWindow(rc, bAnimate);
     }
+	if (pMain->isShowState()){
     if ((bOnTop != pMain->isOnTop()) || bFullScreen){
         bOnTop = pMain->isOnTop();
         HWND hState = HWND_NOTOPMOST;
@@ -469,6 +470,7 @@ void setBarState(bool bAnimate = false)
     }
     if (!bFullScreen)
         appBarMessage(ABM_ACTIVATE);
+	}
 }
 
 static bool bSizing = false;
