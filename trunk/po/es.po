@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the SIM package.
 # Copyright (C) 2004
 #
-# $Id: es.po,v 1.136 2004-04-21 06:34:34 shutoff Exp $
+# $Id: es.po,v 1.137 2004-04-21 14:54:32 jorgelt Exp $
 # Jorge Lopez Trescastro <jorge@acm.asoc.fi.upm.es>, 2002, 2003, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: SIM\n"
 "POT-Creation-Date: 2004-04-21 09:50+0400\n"
-"PO-Revision-Date: 2004-04-19 12:53+0200\n"
+"PO-Revision-Date: 2004-04-21 16:50+0200\n"
 "Last-Translator: Jorge Lopez Trescastro\n"
 "Language-Team: sim-es <jorge@acm.asoc.fi.upm.es>\n"
 "MIME-Version: 1.0\n"
@@ -2445,8 +2445,7 @@ msgstr "Migrar"
 
 #: plugins/__migrate/migrate.cpp:36
 msgid "Plugin provides convert configuration and history from SIM 0.8"
-msgstr ""
-"Este plugin permite convertir la configuración y el historial de SIM 0.8"
+msgstr "Este plugin permite convertir la configuración y el historial de SIM 0.8"
 
 #: plugins/__migrate/migratedlg.cpp:78
 msgid "Cancel convert?"
@@ -2827,9 +2826,8 @@ msgid "Change &encoding"
 msgstr "&Cambiar codificación"
 
 #: plugins/_core/core.cpp:1380
-#, fuzzy
 msgid "Add to &group"
-msgstr "&Añadir al grupo"
+msgstr "Añadir al &grupo"
 
 #: plugins/_core/core.cpp:1391 plugins/_core/maininfobase.cpp:191
 #: plugins/jabber/discoinfo.cpp:179 plugins/jabber/discoinfobase.cpp:270
@@ -2838,9 +2836,8 @@ msgid "&Info"
 msgstr "&Información"
 
 #: plugins/_core/core.cpp:1401
-#, fuzzy
 msgid "Send &message"
-msgstr "Enviar mensaje:"
+msgstr "Enviar &mensaje:"
 
 #: plugins/_core/core.cpp:1634
 msgid "ip-address"
@@ -3245,9 +3242,8 @@ msgid "Non-IM contact"
 msgstr "Contacto no IM"
 
 #: plugins/_core/search.cpp:276
-#, fuzzy
 msgid "Add"
-msgstr "&Añadir"
+msgstr "Añadir"
 
 #: plugins/_core/search.cpp:313
 msgid "%1 already in contact list"
@@ -3360,9 +3356,8 @@ msgid "More &options"
 msgstr "Más &opciones"
 
 #: plugins/_core/searchbase.cpp:98
-#, fuzzy
 msgid "&New search"
-msgstr "&Buscar"
+msgstr "&Nueva búsqueda"
 
 #: plugins/_core/newprotocolbase.cpp:67
 msgid "New connection"
@@ -3448,9 +3443,8 @@ msgstr "Form4"
 
 #: plugins/_core/searchallbase.cpp:84 plugins/icq/icqsearchbase.cc:128
 #: plugins/jabber/jabberaddbase.cpp:95 plugins/yahoo/yahoosearchbase.cpp:106
-#, fuzzy
 msgid "&E-Mail"
-msgstr "EMail"
+msgstr "&EMail"
 
 #: plugins/_core/searchallbase.cpp:85 plugins/icq/icqsearchbase.cc:129
 #: plugins/jabber/jabberaddbase.cpp:96 plugins/yahoo/yahoosearchbase.cpp:107
@@ -4163,10 +4157,8 @@ msgid "Set \"Offline\" status after"
 msgstr "Establecer estado \"Desconectado\" después de"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:109
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
-msgstr ""
-"Desactivar alertas en \"Ausente\", \"N/D\", \"No molestar\" y \"Ocupado\""
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgstr "Desactivar alertas en \"Ausente\", \"N/D\", \"No molestar\" y \"Ocupado\""
 
 #: plugins/autoaway/autoaway.cpp:66
 msgid "AutoAway"
@@ -4462,8 +4454,7 @@ msgstr "GPG"
 
 #: plugins/gpg/gpg.cpp:54
 msgid "Plugin adds GnuPG encryption/decryption support for messages"
-msgstr ""
-"Este plugin añade soporte GnuPG para encriptar/desencriptar los mensajes"
+msgstr "Este plugin añade soporte GnuPG para encriptar/desencriptar los mensajes"
 
 #: plugins/gpg/gpg.cpp:78
 msgid ""
@@ -6332,19 +6323,16 @@ msgid "&UIN"
 msgstr "&UIN"
 
 #: plugins/icq/icqsearchbase.cc:127
-#, fuzzy
 msgid "&Screenname"
-msgstr "ScreenName:"
+msgstr "&ScreenName"
 
 #: plugins/icq/icqsearchbase.cc:133
-#, fuzzy
 msgid "AOL s&creenname"
-msgstr "AIM s&creenname"
+msgstr "S&creenname AOL"
 
 #: plugins/icq/icqsearchbase.cc:134
-#, fuzzy
 msgid "ICQ &UIN"
-msgstr "&UIN"
+msgstr "&UIN ICQ"
 
 #: plugins/icq/icqsearchbase.cc:135
 msgid "Advanced"
@@ -6467,10 +6455,8 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:71
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
-msgstr ""
-"Este plugin notifica por pantalla los mensajes y el estado de los contactos"
+msgid "Plugin provides on screen notification about messages and contacts status"
+msgstr "Este plugin notifica por pantalla los mensajes y el estado de los contactos"
 
 #: plugins/osd/osd.cpp:140
 msgid "&OSD"
@@ -6696,8 +6682,7 @@ msgstr "Alerta en linea"
 
 #: plugins/sound/sound.cpp:47
 msgid "Plugin provides sounds on any events"
-msgstr ""
-"Este plugin habilita la reproducción de sonidos tras producirse un evento"
+msgstr "Este plugin habilita la reproducción de sonidos tras producirse un evento"
 
 #: plugins/sound/sound.cpp:129 plugins/sound/sound.cpp:137
 msgid "&Sound"
@@ -6745,8 +6730,7 @@ msgstr "Splash"
 
 #: plugins/splash/splash.cpp:35
 msgid "Plugin provides splash screen"
-msgstr ""
-"Este plugin activa una pantalla de bienvenida al arrancar la aplicación"
+msgstr "Este plugin activa una pantalla de bienvenida al arrancar la aplicación"
 
 #: plugins/transparent/transparent.cpp:65
 msgid "Transparent"
@@ -7058,7 +7042,7 @@ msgstr ""
 
 #: plugins/jabber/discoinfobase.cpp:279
 msgid "&Statistic"
-msgstr ""
+msgstr "&Estadística"
 
 #: plugins/jabber/jabberinfobase.cpp:195
 msgid "ID:"
@@ -7197,15 +7181,15 @@ msgstr "Sólo conectados"
 
 #: plugins/jabber/jabbersearch.cpp:340
 msgid "First (Given)"
-msgstr ""
+msgstr "Nombre"
 
 #: plugins/jabber/jabbersearch.cpp:341
 msgid "Last (Family)"
-msgstr ""
+msgstr "Apellido"
 
 #: plugins/jabber/jabbersearch.cpp:342
 msgid "Nick (Alias)"
-msgstr ""
+msgstr "Apodo"
 
 #: plugins/jabber/jabbersearch.cpp:343
 msgid "Email"
@@ -7338,7 +7322,7 @@ msgstr "minutos"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:158
 msgid "Use &fast server - only for paying customers"
-msgstr ""
+msgstr "Usar servidor rápido - sólo para clientes de pago"
 
 #: plugins/livejournal/msgjournalbase.cpp:82
 msgid "Subject:"
@@ -8081,19 +8065,16 @@ msgid "Navigate"
 msgstr "Navegar"
 
 #: plugins/navigate/navigate.cpp:215
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
-msgstr ""
-"Este plugin le permite establecer el navegador y el cliente de correo a usar"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgstr "Este plugin le permite establecer el navegador y el cliente de correo a usar"
 
 #: plugins/navigate/navigate.cpp:264
 msgid "Send mail"
 msgstr "Enviar correo"
 
 #: plugins/navigate/navigate.cpp:281
-#, fuzzy
 msgid "Copy &location"
-msgstr "&Ubicación:"
+msgstr "Copiar &ubicación"
 
 #: plugins/navigate/navcfgbase.cc:69
 msgid "Browser:"
@@ -8164,14 +8145,12 @@ msgid "&Yahoo!"
 msgstr "&Yahoo!"
 
 #: plugins/yahoo/yahoosearchbase.cpp:105
-#, fuzzy
 msgid "Yahoo! &ID"
-msgstr "&Yahoo! ID"
+msgstr "&ID Yahoo!"
 
 #: plugins/yahoo/yahoosearchbase.cpp:108
-#, fuzzy
 msgid "&Keyword"
-msgstr "Palabras &clave:"
+msgstr "Palabra &clave"
 
 #: plugins/weather/wifacecfg.cpp:59 plugins/weather/wifacecfg.cpp:74
 #: plugins/yahoo/yahoosearchbase.cpp:109
@@ -8184,8 +8163,7 @@ msgstr "Reemplazar texto"
 
 #: plugins/replace/replace.cpp:34
 msgid "Plugin provides text replacing in message edit window"
-msgstr ""
-"Este plugin le permite reemplazar el texto a enviar en la ventana de mensajes"
+msgstr "Este plugin le permite reemplazar el texto a enviar en la ventana de mensajes"
 
 #: plugins/replace/replacecfg.cpp:31
 msgid "You type"
@@ -8380,11 +8358,10 @@ msgid ""
 msgstr "Disperso"
 
 #: plugins/weather/weather.cpp:485
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Smoke"
-msgstr "Nieve"
+msgstr "Humo"
 
 #: plugins/weather/weather.cpp:486
 msgid ""
@@ -8696,12 +8673,3 @@ msgstr "Días de pronóstico:"
 msgid "Units:"
 msgstr "Unidades:"
 
-#, fuzzy
-#~ msgid "JabberAdd"
-#~ msgstr "Jabber"
-
-#~ msgid "&E-Mail address"
-#~ msgstr "dirección &Email"
-
-#~ msgid "&Hotmail directory"
-#~ msgstr "directorio &Hotmail"
