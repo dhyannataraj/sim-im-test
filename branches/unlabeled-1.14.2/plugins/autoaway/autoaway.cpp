@@ -231,22 +231,22 @@ QWidget *AutoAwayPlugin::createConfigWindow(QWidget *parent)
 void AutoAwayPlugin::timeout()
 {
     unsigned long newStatus = core->getManualStatus();
-    unsigned idle_time = getIdleTime() * 60;
-    if ((bAway && getEnableAway() && (idle_time < getAwayTime() * 60000)) ||
-            (bNA && getEnableNA() && (idle_time < getNATime() * 60000)) ||
-            (bOff && getEnableOff() && (idle_time < getOffTime() * 60000))){
+    unsigned idle_time = getIdleTime() / 60;
+    if ((bAway && (idle_time < getAwayTime())) ||
+            (bNA && (idle_time < getNATime())) ||
+            (bOff && (idle_time < getOffTime()))){
         bAway = false;
         bNA   = false;
         bOff  = false;
         newStatus = oldStatus;
-    }else if (!bAway && !bNA && !bOff && getEnableAway() && (idle_time > getAwayTime() * 60000)){
+    }else if (!bAway && !bNA && !bOff && getEnableAway() && (idle_time >= getAwayTime())){
         unsigned long status = core->getManualStatus();
         if ((status == STATUS_AWAY) || (status == STATUS_NA) || (status == STATUS_OFFLINE))
             return;
         oldStatus = status;
         newStatus = STATUS_AWAY;
         bAway = true;
-    }else  if (!bNA && !bOff && getEnableNA() && (idle_time > getNATime() * 60000)){
+    }else  if (!bNA && !bOff && getEnableNA() && (idle_time >= getNATime())){
         unsigned long status = core->getManualStatus();
         if ((status == STATUS_NA) || (status == STATUS_OFFLINE))
             return;
@@ -254,7 +254,7 @@ void AutoAwayPlugin::timeout()
             oldStatus = status;
         bNA = true;
         newStatus = STATUS_NA;
-    }else if (!bOff && getEnableOff() && (idle_time > getOffTime() * 60000)){
+    }else if (!bOff && getEnableOff() && (idle_time >= getOffTime())){
         unsigned long status = core->getManualStatus();
         if (status == STATUS_OFFLINE)
             return;
