@@ -499,10 +499,8 @@ void MsgViewBase::addMessage(Message *msg, bool bUnread)
 {
     unsigned n = paragraphs() - 1;
     append(messageText(msg, bUnread));
-    if (!CorePlugin::m_plugin->getOwnColors()) {
-        // set all Backgrounds to the right colors
-        setBackground(0);
-    }
+    if (!CorePlugin::m_plugin->getOwnColors()) 
+        setBackground(n);
     if (!m_selectStr.isEmpty()){
         bool bStart = false;
         for (; n < (unsigned)paragraphs(); n++){

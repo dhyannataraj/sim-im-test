@@ -162,6 +162,8 @@ static DataDef jabberClientData[] =
         { "AutoAccept", DATA_BOOL, 1, DATA(1) },
         { "UseHTTP", DATA_BOOL, 1, 0 },
         { "URL", DATA_STRING, 1, 0 },
+		{ "AllLevels", DATA_BOOL, 1, 0 },
+		{ "BrowseType", DATA_ULONG, 1, DATA(BROWSE_DISCO | BROWSE_BROWSE | BROWSE_AGENTS) },
         { "", DATA_STRUCT, sizeof(JabberUserData) / sizeof(Data), DATA(jabberUserData) },
         { NULL, 0, 0, 0 }
     };
@@ -400,7 +402,7 @@ void *JabberClient::processEvent(Event *e)
     }
     if (e->type() == EventCheckState){
         CommandDef *cmd = (CommandDef*)(e->param());
-        if (cmd->id == static_cast<JabberPlugin*>(protocol()->plugin())->CmdBrowser){
+        if (cmd->id == CmdBrowser){
             cmd->flags &= ~COMMAND_CHECKED;
             if (getState() != Connected)
                 return NULL;
@@ -415,13 +417,13 @@ void *JabberClient::processEvent(Event *e)
                     n++;
                 }
                 if (n > 1){
-                    cmd->popup_id = static_cast<JabberPlugin*>(protocol()->plugin())->MenuClients;
+                    cmd->popup_id = MenuClients;
                 }else{
                     cmd->popup_id = 0;
                 }
                 return e->param();
             }
-            if (cmd->menu_id == static_cast<JabberPlugin*>(protocol()->plugin())->MenuClients){
+            if (cmd->menu_id == MenuClients){
                 unsigned n = getContacts()->nClients() + 1;
                 CommandDef *cmds = new CommandDef[n];
                 memset(cmds, 0, sizeof(CommandDef) * n);
@@ -438,7 +440,7 @@ void *JabberClient::processEvent(Event *e)
                         url = QString::fromUtf8(jc->getVHost());
                     if (url.isEmpty())
                         url = QString::fromUtf8(jc->getServer());
-                    cmds[n].id       = static_cast<JabberPlugin*>(protocol()->plugin())->CmdBrowser + i;
+                    cmds[n].id       = CmdBrowser + i;
                     cmds[n].text     = "_";
                     cmds[n].text_wrk = strdup(url.utf8());
                     n++;
@@ -464,8 +466,8 @@ void *JabberClient::processEvent(Event *e)
     }
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
-        if (cmd->menu_id == static_cast<JabberPlugin*>(protocol()->plugin())->MenuClients){
-            unsigned n = cmd->id - static_cast<JabberPlugin*>(protocol()->plugin())->CmdBrowser;
+        if (cmd->menu_id == MenuClients){
+            unsigned n = cmd->id - CmdBrowser;
             if (n >= getContacts()->nClients())
                 return NULL;
             Client *client = getContacts()->getClient(n);
@@ -494,7 +496,7 @@ void *JabberClient::processEvent(Event *e)
             raiseWindow(jc->m_browser);
             return e->param();
         }
-        if (cmd->id == static_cast<JabberPlugin*>(protocol()->plugin())->CmdBrowser){
+        if (cmd->id == CmdBrowser){
             if (getState() != Connected)
                 return NULL;
             if (m_browser == NULL){

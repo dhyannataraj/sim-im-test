@@ -244,24 +244,6 @@ void *StatusFrame::processEvent(Event *e)
                 lbl->setPict();
             break;
         }
-    case EventClientError:
-        if (isVisible()){
-            clientErrorData *data = (clientErrorData*)(e->param());
-            if (data->code == AuthError)
-                break;
-            StatusLabel *lbl = findLabel(data->client);
-            if (lbl == NULL)
-                break;
-            if (data->err_str && *data->err_str){
-                QString msg = i18n(data->err_str);
-                if (data->args)
-                    msg = msg.arg(QString::fromUtf8(data->args));
-                raiseWindow(topLevelWidget());
-                BalloonMsg::message(msg, lbl);
-                return e->param();
-            }
-        }
-        break;
     case EventIconChanged:{
             QObjectList *l = queryList("StatusLabel");
             QObjectListIt itObject(*l);
@@ -407,6 +389,16 @@ void StatusWnd::clicked()
         QPoint pos = CToolButton::popupPos(m_btn, popup);
         popup->popup(pos);
     }
+}
+
+BalloonMsg *StatusWnd::showError(const QString &text, QStringList &buttons, Client *client)
+{
+        if (!isVisible())
+			return NULL;
+        StatusLabel *lbl = m_frame->findLabel(client);
+        if (lbl == NULL)
+               return NULL;
+		return new BalloonMsg(NULL, text, buttons, lbl);
 }
 
 #ifndef WIN32

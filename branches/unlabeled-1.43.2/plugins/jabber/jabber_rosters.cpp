@@ -340,7 +340,7 @@ InfoRequest::~InfoRequest()
         bChanged |= set_str(&data->Phone.ptr, m_phone.c_str());
 
         if (m_bVCard){
-            Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventVCard, data);
+            Event e(EventVCard, data);
             e.process();
             free_data(jabberUserData, &u_data);
             return;
@@ -1449,11 +1449,12 @@ void JabberClient::MessageRequest::char_data(const char *str, int len)
 class AgentRequest : public JabberClient::ServerRequest
 {
 public:
-    AgentRequest(JabberClient *client);
+    AgentRequest(JabberClient *client, const char *jid);
     ~AgentRequest();
 protected:
     JabberAgentsInfo	data;
     string m_data;
+	string m_jid;
     bool   m_bError;
     virtual void element_start(const char *el, const char **attr);
     virtual void element_end(const char *el);
@@ -1528,7 +1529,7 @@ AgentDiscoRequest::~AgentDiscoRequest()
     if (data.Name.ptr){
         set_str(&data.VHost.ptr, m_client->VHost().c_str());
         data.Client = m_client;
-        Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentFound, &data);
+        Event e(EventAgentFound, &data);
         e.process();
     }
     free_data(jabberAgentsInfo, &data);
@@ -1572,11 +1573,12 @@ void AgentsDiscoRequest::element_start(const char *el, const char **attr)
     }
 }
 
-AgentRequest::AgentRequest(JabberClient *client)
-        : ServerRequest(client, _GET, NULL, client->VHost().c_str())
+AgentRequest::AgentRequest(JabberClient *client, const char *jid)
+        : ServerRequest(client, _GET, NULL, jid)
 {
     load_data(jabberAgentsInfo, &data, NULL);
     m_bError = false;
+	m_jid    = jid;
 }
 
 AgentRequest::~AgentRequest()
@@ -1614,7 +1616,7 @@ void AgentRequest::element_end(const char *el)
         if (data.ID.ptr && *data.ID.ptr){
             set_str(&data.VHost.ptr, m_client->VHost().c_str());
             data.Client = m_client;
-            Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentFound, &data);
+            Event e(EventAgentFound, &data);
             e.process();
         }
     }else if (!strcmp(el, "name")){
@@ -1627,14 +1629,15 @@ void AgentRequest::char_data(const char *el, int len)
     m_data.append(el, len);
 }
 
-void JabberClient::get_agents()
+string JabberClient::get_agents(const char *jid)
 {
-    AgentRequest *req = new AgentRequest(this);
+    AgentRequest *req = new AgentRequest(this, jid);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:agents");
     addLang(req);
     req->send();
     m_requests.push_back(req);
+    return req->m_id;
 }
 
 class AgentInfoRequest : public JabberClient::ServerRequest
@@ -1654,7 +1657,6 @@ protected:
     virtual void element_end(const char *el);
     virtual void char_data(const char *el, int len);
 };
-
 
 /*
 
@@ -1708,7 +1710,7 @@ AgentInfoRequest::~AgentInfoRequest()
     set_str(&data.ReqID.ptr, m_id.c_str());
     data.nOptions.value = m_error_code;
     set_str(&data.Label.ptr, m_error.c_str());
-    Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentInfo, &data);
+    Event e(EventAgentInfo, &data);
     e.process();
     free_data(jabberAgentInfo, &data);
 }
@@ -1742,7 +1744,7 @@ void AgentInfoRequest::element_start(const char *el, const char **attr)
         set_str(&data.Type.ptr, "x");
         set_str(&data.ReqID.ptr, m_id.c_str());
         set_str(&data.ID.ptr, m_jid.c_str());
-        Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentInfo, &data);
+        Event e(EventAgentInfo, &data);
         e.process();
         free_data(jabberAgentInfo, &data);
         load_data(jabberAgentInfo, &data, NULL);
@@ -1765,7 +1767,7 @@ void AgentInfoRequest::element_end(const char *el)
             set_str(&data.VHost.ptr, m_client->VHost().c_str());
             set_str(&data.ReqID.ptr, m_id.c_str());
             set_str(&data.ID.ptr, m_jid.c_str());
-            Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentInfo, &data);
+            Event e(EventAgentInfo, &data);
             e.process();
             free_data(jabberAgentInfo, &data);
             load_data(jabberAgentInfo, &data, NULL);
@@ -1788,7 +1790,7 @@ void AgentInfoRequest::element_end(const char *el)
         set_str(&data.ID.ptr, m_jid.c_str());
         set_str(&data.ReqID.ptr, m_id.c_str());
         set_str(&data.Type.ptr, el);
-        Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentInfo, &data);
+        Event e(EventAgentInfo, &data);
         e.process();
         free_data(jabberAgentInfo, &data);
         load_data(jabberAgentInfo, &data, NULL);
@@ -1797,7 +1799,7 @@ void AgentInfoRequest::element_end(const char *el)
         set_str(&data.ID.ptr, m_jid.c_str());
         set_str(&data.ReqID.ptr, m_id.c_str());
         set_str(&data.Type.ptr, el);
-        Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentInfo, &data);
+        Event e(EventAgentInfo, &data);
         e.process();
         free_data(jabberAgentInfo, &data);
         load_data(jabberAgentInfo, &data, NULL);
@@ -1880,7 +1882,7 @@ SearchRequest::SearchRequest(JabberClient *client, const char *jid)
 
 SearchRequest::~SearchRequest()
 {
-    Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventSearchDone, (void*)m_id.c_str());
+    Event e(EventSearchDone, (void*)m_id.c_str());
     e.process();
     free_data(jabberSearchData, &data);
 }
@@ -1929,7 +1931,7 @@ void SearchRequest::element_end(const char *el)
             set_str(&data.Fields, data.nFields.value++, value.c_str());
         }
         set_str(&data.ID.ptr, m_id.c_str());
-        Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventSearch, &data);
+        Event e(EventSearch, &data);
         e.process();
         m_fields.clear();
     }else if (!strcmp(el, "item")){
@@ -1941,7 +1943,7 @@ void SearchRequest::element_end(const char *el)
                 data.nFields.value++;
             }
             set_str(&data.ID.ptr, m_id.c_str());
-            Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventSearch, &data);
+            Event e(EventSearch, &data);
             e.process();
         }
     }else if (!strcmp(el, "value") || !strcmp(el, "field")){
@@ -2014,7 +2016,7 @@ RegisterRequest::~RegisterRequest()
     ai.id = m_id.c_str();
     ai.err_code = m_error_code;
     ai.error = m_error.c_str();
-    Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentRegister, &ai);
+    Event e(EventAgentRegister, &ai);
     e.process();
 }
 
@@ -2199,7 +2201,7 @@ DiscoItemsRequest::~DiscoItemsRequest()
         item.name	= m_error;
         item.node	= number(m_code);
     }
-    Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventDiscoItem, &item);
+    Event e(EventDiscoItem, &item);
     e.process();
 }
 
@@ -2212,7 +2214,7 @@ void DiscoItemsRequest::element_start(const char *el, const char **attr)
         item.name	= JabberClient::get_attr("name", attr);
         item.node	= JabberClient::get_attr("node", attr);
         if (!item.jid.empty()){
-            Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventDiscoItem, &item);
+            Event e(EventDiscoItem, &item);
             e.process();
         }
     }
@@ -2284,7 +2286,7 @@ DiscoInfoRequest::~DiscoInfoRequest()
 		item.category	= m_category;
 		item.type		= m_type;
 		item.features	= m_features;
-		Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventDiscoItem, &item);
+		Event e(EventDiscoItem, &item);
 	    e.process();
 	}
     DiscoItem item;
@@ -2293,7 +2295,7 @@ DiscoInfoRequest::~DiscoInfoRequest()
         item.name	= m_error;
         item.node	= number(m_code);
     }
-    Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventDiscoItem, &item);
+    Event e(EventDiscoItem, &item);
     e.process();
 }
 
@@ -2382,7 +2384,7 @@ BrowseRequest::~BrowseRequest()
 			item.type		= m_type;
 			item.category	= m_category;
 			item.features	= m_features;
-			Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventDiscoItem, &item);
+			Event e(EventDiscoItem, &item);
 		    e.process();
 		}
     DiscoItem item;
@@ -2391,7 +2393,7 @@ BrowseRequest::~BrowseRequest()
         item.name	= m_error;
         item.node	= number(m_code);
     }
-    Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventDiscoItem, &item);
+    Event e(EventDiscoItem, &item);
     e.process();
 }
 
@@ -2410,7 +2412,7 @@ void BrowseRequest::element_start(const char *el, const char **attr)
 			item.type		= m_type;
 			item.category	= m_category;
 			item.features	= m_features;
-			Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventDiscoItem, &item);
+			Event e(EventDiscoItem, &item);
 		    e.process();
 		}
 		m_jid		= JabberClient::get_attr("jid", attr).c_str();
@@ -2447,7 +2449,7 @@ void BrowseRequest::element_end(const char *el)
 			item.type		= m_type;
 			item.category	= m_category;
 			item.features	= m_features;
-			Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventDiscoItem, &item);
+			Event e(EventDiscoItem, &item);
 		    e.process();
 			m_jid = "";
 	}
@@ -2499,7 +2501,7 @@ VersionInfoRequest::~VersionInfoRequest()
     item.jid	= m_version;
     item.name	= m_name;
     item.node	= m_os;
-    Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventDiscoItem, &item);
+    Event e(EventDiscoItem, &item);
     e.process();
 }
 
@@ -2562,7 +2564,7 @@ TimeInfoRequest::~TimeInfoRequest()
     DiscoItem item;
     item.id		= m_id;
     item.jid	= m_time;
-    Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventDiscoItem, &item);
+    Event e(EventDiscoItem, &item);
     e.process();
 }
 
@@ -2616,7 +2618,7 @@ void LastInfoRequest::element_start(const char *el, const char **attr)
         DiscoItem item;
         item.id		= m_id;
         item.jid	= JabberClient::get_attr("seconds", attr);
-        Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventDiscoItem, &item);
+        Event e(EventDiscoItem, &item);
         e.process();
     }
 }
@@ -2656,7 +2658,7 @@ StatRequest::~StatRequest()
     DiscoItem item;
     item.id		= m_id;
     item.jid	= "";
-    Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventDiscoItem, &item);
+    Event e(EventDiscoItem, &item);
     e.process();
 }
 
@@ -2668,7 +2670,7 @@ void StatRequest::element_start(const char *el, const char **attr)
         item.jid	= JabberClient::get_attr("name", attr);;
         item.name	= JabberClient::get_attr("units", attr);;
         item.node	= JabberClient::get_attr("value", attr);;
-        Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventDiscoItem, &item);
+        Event e(EventDiscoItem, &item);
         e.process();
     }
 }
@@ -2699,7 +2701,7 @@ StatItemsRequest::~StatItemsRequest()
         DiscoItem item;
         item.id		= m_id;
         item.jid	= "";
-        Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventDiscoItem, &item);
+        Event e(EventDiscoItem, &item);
         e.process();
         return;
     }

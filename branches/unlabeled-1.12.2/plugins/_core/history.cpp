@@ -158,7 +158,9 @@ void HistoryFileIterator::createMessage(unsigned id, const char *type, const cha
     Message *msg = ::createMessage(id, type, cfg);
     if (msg){
         if (!m_filter.isEmpty()){
-            QString p = unquoteText(msg->presentation()).lower();
+            QString p = msg->getText().lower();
+			if (msg->getFlags() & MESSAGE_RICHTEXT)
+				p = p.replace(QRegExp("<[^.]+>"), " ");
             if (p.find(m_filter) < 0){
                 delete msg;
                 return;

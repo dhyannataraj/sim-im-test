@@ -89,9 +89,9 @@ void *AddResult::processEvent(Event *e)
 {
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
-        if (cmd->menu_id == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->MenuSearchResult){
+        if (cmd->menu_id == MenuSearchResult){
             Contact *contact;
-            if (cmd->id == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->CmdSendMessage){
+            if (cmd->id == CmdJabberMessage){
                 contact = createContact(CONTACT_TEMP);
                 if (!contact) return NULL;
                 Message *msg = new Message(MessageGeneric);
@@ -114,7 +114,7 @@ void *AddResult::processEvent(Event *e)
             }
             return e->param();
         }
-        if (cmd->menu_id == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->MenuGroups){
+        if (cmd->menu_id == MenuJabberGroups){
             Contact *contact = createContact(0);
             if (!contact) return NULL;
             contact->setGroup(cmd->id - 1);
@@ -125,8 +125,8 @@ void *AddResult::processEvent(Event *e)
     }
     if (e->type() == EventCheckState){
         CommandDef *cmd = (CommandDef*)(e->param());
-        if ((cmd->menu_id == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->MenuGroups) &&
-                (cmd->id == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->CmdGroups)){
+        if ((cmd->menu_id == MenuJabberGroups) &&
+                (cmd->id == CmdGroups)){
             unsigned n = 1;
             ContactList::GroupIterator it;
             while (++it)
@@ -201,10 +201,7 @@ void AddResult::setText(const QString &text)
 void AddResult::setSearch(JabberClient *client, const char *search_id, bool bXSearch)
 {
     m_client = client;
-    JabberPlugin *plugin = static_cast<JabberPlugin*>(m_client->protocol()->plugin());
-    EventSearch = plugin->EventSearch;
-    EventSearchDone = plugin->EventSearchDone;
-    tblUser->setMenu(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->MenuSearchResult);
+    tblUser->setMenu(MenuSearchResult);
     tblUser->clear();
     for (int i = tblUser->columns() - 1; i > 0; i--)
         tblUser->removeColumn(i);

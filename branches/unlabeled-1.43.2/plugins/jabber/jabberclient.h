@@ -35,6 +35,10 @@ const unsigned SUBSCRIBE_FROM	= 1;
 const unsigned SUBSCRIBE_TO		= 2;
 const unsigned SUBSCRIBE_BOTH	= (SUBSCRIBE_FROM | SUBSCRIBE_TO);
 
+const unsigned BROWSE_DISCO		= 1;
+const unsigned BROWSE_BROWSE	= 2;
+const unsigned BROWSE_AGENTS	= 4;
+
 typedef struct JabberUserData
 {
     clientData	base;
@@ -106,6 +110,8 @@ typedef struct JabberClientData
     Data		AutoAccept;
     Data		UseHTTP;
     Data		URL;
+	Data		AllLevels;
+	Data		BrowseType;
     JabberUserData	owner;
 } JabberClientData;
 
@@ -290,11 +296,13 @@ class MessageRequest : public ServerRequest
     PROP_BOOL(AutoAccept);
     PROP_BOOL(UseHTTP);
     PROP_STR(URL);
+	PROP_BOOL(AllLevels);
+	PROP_ULONG(BrowseType);
 
     string		buildId(JabberUserData *data);
     JabberUserData	*findContact(const char *jid, const char *name, bool bCreate, Contact *&contact, string &resource);
     bool		add_contact(const char *id, unsigned grp);
-    void		get_agents();
+    string		get_agents(const char *jid);
     string		get_agent_info(const char *jid, const char *node, const char *type);
     void		auth_request(const char *jid, unsigned type, const char *text, bool bCreate);
     string		search(const char *jid, const char *node, const char *condition);
@@ -453,20 +461,12 @@ protected:
 
 class JabberSearch;
 
-typedef struct agentInfo
-{
-    JabberSearch	*search;
-    string			name;
-} agentInfo;
-
 typedef struct agentRegisterInfo
 {
     const char		*id;
     unsigned		err_code;
     const char		*error;
 } agentRegisterInfo;
-
-typedef map<my_string, agentInfo> AGENTS_MAP;
 
 #endif
 

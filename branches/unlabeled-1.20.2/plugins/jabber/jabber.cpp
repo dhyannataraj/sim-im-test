@@ -18,7 +18,6 @@
 #include "jabber.h"
 #include "jabberclient.h"
 #include "simapi.h"
-#include "core.h"
 
 #include "xpm/jabber.xpm"
 #include "xpm/register.xpm"
@@ -208,29 +207,6 @@ JabberPlugin::JabberPlugin(unsigned base)
     JabberPacket = registerType();
     getContacts()->addPacketType(JabberPacket, jabber_descr.text, true);
 
-    EventAgentFound = registerType();
-    EventAgentInfo	= registerType();
-    EventAgentRegister = registerType();
-    EventSearch		= registerType();
-    EventSearchDone	= registerType();
-    EventVCard		= registerType();
-
-    MenuSearchResult = registerType();
-    MenuGroups		 = registerType();
-    CmdSendMessage	 = registerType();
-    CmdGroups		 = registerType();
-    CmdBrowser		 = registerType();
-    BarBrowser		 = registerType();
-    CmdBack			 = registerType();
-    CmdForward		 = registerType();
-    CmdUrl			 = registerType();
-    EventDiscoItem	 = registerType();
-    CmdInfo			 = registerType();
-    CmdRegister		 = registerType();
-    CmdSearch		 = registerType();
-    CmdNode			 = registerType();
-    MenuClients		 = registerType();
-
     IconDef icon;
     icon.name = "Jabber";
     icon.xpm  = jabber;
@@ -243,15 +219,17 @@ JabberPlugin::JabberPlugin(unsigned base)
 
     Event eMenuSearch(EventMenuCreate, (void*)MenuSearchResult);
     eMenuSearch.process();
-    Event eMenuGroups(EventMenuCreate, (void*)MenuGroups);
+    Event eMenuGroups(EventMenuCreate, (void*)MenuJabberGroups);
     eMenuGroups.process();
     Event eMenuClients(EventMenuCreate, (void*)MenuClients);
     eMenuClients.process();
+    Event eMenuBrowser(EventMenuCreate, (void*)MenuBrowser);
+    eMenuBrowser.process();
     Event eToolbar(EventToolbarCreate, (void*)BarBrowser);
     eToolbar.process();
 
     Command	cmd;
-    cmd->id			 = CmdSendMessage;
+    cmd->id			 = CmdJabberMessage;
     cmd->text		 = I18N_NOOP("&Message");
     cmd->icon		 = "message";
     cmd->menu_id	 = MenuSearchResult;
@@ -260,7 +238,7 @@ JabberPlugin::JabberPlugin(unsigned base)
     Event eCmd(EventCommandCreate, cmd);
     eCmd.process();
 
-    cmd->id			 = CmdInfo;
+    cmd->id			 = CmdBrowseInfo;
     cmd->text		 = I18N_NOOP("User &info");
     cmd->icon		 = "info";
     cmd->menu_grp	 = 0x1001;
@@ -270,12 +248,12 @@ JabberPlugin::JabberPlugin(unsigned base)
     cmd->text		 = I18N_NOOP("&Add to group");
     cmd->icon		 = NULL;
     cmd->menu_grp	 = 0x1002;
-    cmd->popup_id	 = MenuGroups;
+    cmd->popup_id	 = MenuJabberGroups;
     eCmd.process();
 
     cmd->id			 = CmdGroups;
     cmd->text		 = "_";
-    cmd->menu_id	 = MenuGroups;
+    cmd->menu_id	 = MenuJabberGroups;
     cmd->flags		 = COMMAND_CHECK_STATE;
     eCmd.process();
 
@@ -316,7 +294,7 @@ JabberPlugin::JabberPlugin(unsigned base)
     cmd->flags		 = BTN_COMBO | BTN_NO_BUTTON;
     eCmd.process();
 
-    cmd->id			 = CmdSearch;
+    cmd->id			 = CmdBrowseSearch;
     cmd->text		 = I18N_NOOP("&Search");
     cmd->icon		 = "find";
     cmd->bar_grp	 = 0x3000;
@@ -330,18 +308,24 @@ JabberPlugin::JabberPlugin(unsigned base)
     cmd->flags		 = COMMAND_CHECK_STATE;
     eCmd.process();
 
-    cmd->id			 = CmdInfo;
+    cmd->id			 = CmdBrowseInfo;
     cmd->text		 = I18N_NOOP("Info");
     cmd->icon		 = "info";
     cmd->bar_grp	 = 0x3010;
-    cmd->flags		 = COMMAND_CHECK_STATE;
     eCmd.process();
 
-    cmd->id			 = CmdConfigure;
+    cmd->id			 = CmdBrowseConfigure;
     cmd->text		 = I18N_NOOP("Configure");
     cmd->icon		 = "configure";
     cmd->bar_grp	 = 0x3020;
-    cmd->flags		 = COMMAND_CHECK_STATE;
+    eCmd.process();
+
+    cmd->id			 = CmdBrowseMode;
+    cmd->text		 = I18N_NOOP("Browser mode");
+    cmd->icon		 = "configure";
+    cmd->bar_grp	 = 0x5000;
+    cmd->flags		 = COMMAND_DEFAULT;
+	cmd->popup_id	 = MenuBrowser;
     eCmd.process();
 
     cmd->id			 = CmdBrowser;
@@ -355,6 +339,32 @@ JabberPlugin::JabberPlugin(unsigned base)
     cmd->flags		 = COMMAND_CHECK_STATE;
     eCmd.process();
 
+	cmd->id			 = CmdOneLevel;
+	cmd->text		 = I18N_NOOP("Load one level");
+	cmd->menu_id	 = MenuBrowser;
+	cmd->menu_grp	 = 0x1000;
+	eCmd.process();
+
+	cmd->id			 = CmdAllLevels;
+	cmd->text		 = I18N_NOOP("Load all levels");
+	cmd->menu_grp	 = 0x1001;
+	eCmd.process();
+
+	cmd->id			 = CmdModeDisco;
+	cmd->text		 = "Discovery";
+	cmd->menu_grp	 = 0x2000;
+	eCmd.process();
+
+	cmd->id			 = CmdModeBrowse;
+	cmd->text		 = "Browse";
+	cmd->menu_grp	 = 0x2001;
+	eCmd.process();
+
+	cmd->id			 = CmdModeAgents;
+	cmd->text		 = "Agents";
+	cmd->menu_grp	 = 0x2002;
+	eCmd.process();
+
     m_protocol = new JabberProtocol(this);
     registerMessages();
 }
@@ -366,10 +376,13 @@ JabberPlugin::~JabberPlugin()
     Event eMenuSearch(EventMenuRemove, (void*)MenuSearchResult);
     eMenuSearch.process();
 
-    Event eMenuGroups(EventMenuRemove, (void*)MenuGroups);
+    Event eMenuGroups(EventMenuRemove, (void*)MenuJabberGroups);
     eMenuGroups.process();
 
     Event eMenuClients(EventMenuRemove, (void*)MenuClients);
+    eMenuClients.process();
+
+    Event eMenuBrowser(EventMenuRemove, (void*)MenuBrowser);
     eMenuClients.process();
 
     Event eCmdBrowser(EventCommandRemove, (void*)CmdBrowser);

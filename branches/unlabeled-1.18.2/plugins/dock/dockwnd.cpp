@@ -53,9 +53,91 @@
 
 #ifdef WIN32
 
+const unsigned TIP_TIMEOUT = 24 * 60 * 60 * 1000;
+
 static WNDPROC oldDockProc;
 static DockWnd *gDock;
 static UINT	   WM_DOCK = 0;
+
+#pragma pack(push, 1)
+
+typedef struct __NOTIFYICONDATAA 
+{
+	DWORD cbSize;
+	HWND hWnd;
+	UINT uID;
+	UINT uFlags;
+	UINT uCallbackMessage;
+	HICON hIcon;
+	CHAR szTip[128];
+	DWORD dwState;
+	DWORD dwStateMask;
+	CHAR szInfo[256];
+	union {
+		UINT uTimeout;
+		UINT uVersion;
+	};
+	CHAR szInfoTitle[64];
+	DWORD dwInfoFlags;
+} __NOTIFYICONDATAA;
+
+typedef struct __NOTIFYICONDATAW 
+{
+	DWORD cbSize;
+	HWND hWnd;
+	UINT uID;
+	UINT uFlags;
+	UINT uCallbackMessage;
+	HICON hIcon;
+	WCHAR szTip[128];
+	DWORD dwState;
+	DWORD dwStateMask;
+	WCHAR szInfo[256];
+	union {
+		UINT uTimeout;
+		UINT uVersion;
+	};
+	WCHAR szInfoTitle[64];
+	DWORD dwInfoFlags;
+} __NOTIFYICONDATAW;
+
+#pragma pack(pop)
+
+#ifndef NIM_SETVERSION
+#define NIM_SETVERSION	0x4
+#endif
+
+#ifndef NIF_INFO
+#define NIF_INFO	0x10
+#endif
+
+#ifndef NIIF_INFO
+#define NIIF_INFO	0x1
+#endif
+
+#ifndef NIIF_ERROR
+#define NIIF_ERROR	0x3
+#endif
+
+#ifndef NOTIFYICON_VERSION
+#define NOTIFYICON_VERSION	0x01
+#endif
+
+#ifndef NIN_BALLOONSHOW
+#define NIN_BALLOONSHOW		(WM_USER + 2)
+#endif
+
+#ifndef NIN_BALLOONHIDE
+#define NIN_BALLOONHIDE		(WM_USER + 3)
+#endif
+
+#ifndef NIN_BALLOONTIMEOUT
+#define NIN_BALLOONTIMEOUT		(WM_USER + 4)
+#endif
+
+#ifndef NIN_BALLOONUSERCLICK
+#define NIN_BALLOONUSERCLICK	(WM_USER + 5)
+#endif
 
 LRESULT CALLBACK DockWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -69,6 +151,8 @@ LRESULT CALLBACK DockWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 void DockWnd::callProc(unsigned long param)
 {
+	unsigned id;
+	Client *client;
     switch (param){
     case WM_RBUTTONUP:
         QTimer::singleShot(0, this, SLOT(showPopup()));
@@ -81,6 +165,24 @@ void DockWnd::callProc(unsigned long param)
         if (!bNoToggle)
             QTimer::singleShot(500, this, SLOT(toggle()));
         return;
+	case NIN_BALLOONHIDE:
+	case NIN_BALLOONTIMEOUT:
+	case NIN_BALLOONUSERCLICK:
+		if (m_queue.empty())
+			return;
+		id = m_queue.front().id;
+		client = m_queue.front().client;
+		m_queue.erase(m_queue.begin());
+		if (!m_queue.empty())
+			showBalloon();
+		if (param == NIN_BALLOONUSERCLICK){
+			Command cmd;
+			cmd->id    = id;
+			cmd->param = client;
+			Event e(EventCommandExec, cmd);
+			e.process();
+		}
+		return;
     }
 }
 
@@ -567,54 +669,6 @@ set_background_properties(QWidget *w)
 #endif
 #endif
 
-#ifdef WIN32
-
-BOOL (WINAPI *_Shell_NotifyIconW)(DWORD dwMessage, PNOTIFYICONDATAW lpData) = NULL;
-
-typedef struct __NOTIFYICONDATAA 
-{
-    DWORD cbSize;
-    HWND hWnd;
-    UINT uID;
-    UINT uFlags;
-    UINT uCallbackMessage;
-    HICON hIcon;
-    CHAR szTip[64];
-    DWORD dwState;
-    DWORD dwStateMask;
-    CHAR szInfo[256];
-    union {
-        UINT uTimeout;
-        UINT uVersion;
-    };
-    CHAR szInfoTitle[64];
-    DWORD dwInfoFlags;
-    GUID guidItem;
-} __NOTIFYICONDATAA;
-
-typedef struct __NOTIFYICONDATAW 
-{
-    DWORD cbSize;
-    HWND hWnd;
-    UINT uID;
-    UINT uFlags;
-    UINT uCallbackMessage;
-    HICON hIcon;
-    WCHAR szTip[64];
-    DWORD dwState;
-    DWORD dwStateMask;
-    WCHAR szInfo[256];
-    union {
-        UINT uTimeout;
-        UINT uVersion;
-    };
-    WCHAR szInfoTitle[64];
-    DWORD dwInfoFlags;
-    GUID guidItem;
-} __NOTIFYICONDATAW;
-
-#endif
-
 DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
         : QWidget(NULL, "dock",  WType_TopLevel | WStyle_Customize | WStyle_NoBorder | WStyle_StaysOnTop),
         EventReceiver(LowPriority)
@@ -632,30 +686,36 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
     blinkTimer = new QTimer(this);
     connect(blinkTimer, SIGNAL(timeout()), this, SLOT(blink()));
 #ifdef WIN32
+	m_bBalloon = false;
     hShell = NULL;
     setIcon(icon);
     QWidget::hide();
     gDock = this;
 	WM_DOCK = RegisterWindowMessageA("SIM dock");
     if (IsWindowUnicode(winId())){
-        (HMODULE&)hShell = LoadLibraryA("shell32.dll");
-        if (hShell)
-            (DWORD&)_Shell_NotifyIconW = (DWORD)GetProcAddress((HMODULE)hShell, "Shell_NotifyIconW");
-    }
-    if (IsWindowUnicode(winId()) && _Shell_NotifyIconW){
-        __NOTIFYICONDATAW notifyIconData;
         oldDockProc = (WNDPROC)SetWindowLongW(winId(), GWL_WNDPROC, (LONG)DockWindowProc);
+	    OSVERSIONINFOA osvi;
+		osvi.dwOSVersionInfoSize = sizeof(osvi);
+		GetVersionExA(&osvi);
+		if ((osvi.dwPlatformId == VER_PLATFORM_WIN32_NT) && (osvi.dwMajorVersion > 4))
+			m_bBalloon = true;
+        __NOTIFYICONDATAW notifyIconData;
+		if (m_bBalloon){
+			memset(&notifyIconData, 0, sizeof(notifyIconData));
+			notifyIconData.cbSize = sizeof(notifyIconData);
+			notifyIconData.uVersion = NOTIFYICON_VERSION;
+			Shell_NotifyIconW(NIM_SETVERSION, (NOTIFYICONDATAW*)&notifyIconData);
+		}
 		memset(&notifyIconData, 0, sizeof(notifyIconData));
 		notifyIconData.cbSize = sizeof(notifyIconData);
         notifyIconData.hIcon = topData()->winIcon;
         notifyIconData.hWnd = winId();
         notifyIconData.uCallbackMessage = WM_DOCK;
         notifyIconData.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
-        _Shell_NotifyIconW(NIM_ADD, (NOTIFYICONDATAW*)&notifyIconData);
+        Shell_NotifyIconW(NIM_ADD, (NOTIFYICONDATAW*)&notifyIconData);
     }else{
         oldDockProc = (WNDPROC)SetWindowLongA(winId(), GWL_WNDPROC, (LONG)DockWindowProc);
 	    __NOTIFYICONDATAA notifyIconData;
-        oldDockProc = (WNDPROC)SetWindowLongW(winId(), GWL_WNDPROC, (LONG)DockWindowProc);
 		memset(&notifyIconData, 0, sizeof(notifyIconData));
 		notifyIconData.cbSize = sizeof(notifyIconData);
         notifyIconData.hIcon = topData()->winIcon;
@@ -840,26 +900,18 @@ DockWnd::~DockWnd()
 void DockWnd::quit()
 {
 #ifdef WIN32
-    if (_Shell_NotifyIconW && IsWindowUnicode(winId())){
-        NOTIFYICONDATAW notifyIconData;
+    if (IsWindowUnicode(winId())){
+        __NOTIFYICONDATAW notifyIconData;
+		memset(&notifyIconData, 0, sizeof(notifyIconData));
         notifyIconData.cbSize = sizeof(notifyIconData);
-        notifyIconData.hIcon = 0;
         notifyIconData.hWnd = winId();
-        memset(notifyIconData.szTip, 0, sizeof(notifyIconData.szTip));
-        notifyIconData.uCallbackMessage = 0;
-        notifyIconData.uFlags = 0;
-        notifyIconData.uID = 0;
-        _Shell_NotifyIconW(NIM_DELETE, &notifyIconData);
+        Shell_NotifyIconW(NIM_DELETE, (NOTIFYICONDATAW*)&notifyIconData);
     }else{
-        NOTIFYICONDATAA notifyIconData;
+        __NOTIFYICONDATAA notifyIconData;
+		memset(&notifyIconData, 0, sizeof(notifyIconData));
         notifyIconData.cbSize = sizeof(notifyIconData);
-        notifyIconData.hIcon = 0;
         notifyIconData.hWnd = winId();
-        memset(notifyIconData.szTip, 0, sizeof(notifyIconData.szTip));
-        notifyIconData.uCallbackMessage = 0;
-        notifyIconData.uFlags = 0;
-        notifyIconData.uID = 0;
-        Shell_NotifyIconA(NIM_DELETE, &notifyIconData);
+        Shell_NotifyIconA(NIM_DELETE, (NOTIFYICONDATAA*)&notifyIconData);
     }
 #endif
 }
@@ -895,9 +947,88 @@ void *DockWnd::processEvent(Event *e)
     case EventQuit:
         quit();
         break;
+#ifdef WIN32
+	case EventShowError:{
+		if (!m_bBalloon)
+			return NULL;
+		clientErrorData *data = (clientErrorData*)(e->param());
+		if (data->id == 0)
+			return NULL;
+		for (list<BalloonItem>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
+			if ((*it).id == data->id)
+				return e->param();
+		}
+		QString arg;
+		if (data->args)
+			arg = QString::fromUtf8(data->args);
+		BalloonItem item;
+		item.id   = data->id;
+		item.client = data->client;
+		item.flags  = (data->flags & ERR_INFO) ? NIIF_INFO : NIIF_ERROR;
+		item.text = i18n(data->err_str);
+		if (item.text.find("%1") >= 0)
+			item.text = item.text.arg(arg);
+		if (!m_queue.empty()){
+			m_queue.push_back(item);
+			return e->param();
+		}
+		item.title = "SIM";
+		if (getContacts()->nClients() > 1){
+			for (unsigned i = 0; i < getContacts()->nClients(); i++){
+				if (getContacts()->getClient(i) == data->client){
+					item.title = getContacts()->getClient(i)->name().c_str();
+					int n = item.title.find(".");
+					if (n > 0)
+						item.title = item.title.left(n) + " " + item.title.mid(n + 1);
+				}
+			}
+		}
+		m_queue.push_back(item);
+		if (showBalloon())
+			return e->param();
+		return NULL;
+	}
+#endif
     }
     return NULL;
 }
+
+#ifdef WIN32
+
+bool DockWnd::showBalloon()
+{
+	if (m_queue.empty())
+		return false;
+	BalloonItem &item = m_queue.front();
+
+	    __NOTIFYICONDATAW notifyIconData;
+		memset(&notifyIconData, 0, sizeof(notifyIconData));
+		notifyIconData.cbSize   = sizeof(notifyIconData);
+		notifyIconData.hWnd     = winId();
+		notifyIconData.uFlags   = NIF_INFO;
+		notifyIconData.uTimeout = TIP_TIMEOUT;
+		unsigned i;
+        unsigned size = item.text.length() + 1;
+	    if (size >= sizeof(notifyIconData.szInfo) / sizeof(wchar_t))
+		    size = sizeof(notifyIconData.szInfo) / sizeof(wchar_t) - 1;
+		for (i = 0; i < size; i++)
+			notifyIconData.szInfo[i] = item.text[(int)i].unicode();
+		notifyIconData.szInfo[size] = 0;
+        size = item.title.length() + 1;
+	    if (size >= sizeof(notifyIconData.szInfoTitle) / sizeof(wchar_t))
+		    size = sizeof(notifyIconData.szInfoTitle) / sizeof(wchar_t) - 1;
+		for (i = 0; i < size; i++)
+			notifyIconData.szInfoTitle[i] = item.title[(int)i].unicode();
+		notifyIconData.szInfoTitle[size] = 0;
+		notifyIconData.dwInfoFlags = item.flags;
+		if (!Shell_NotifyIconW(NIM_MODIFY, (NOTIFYICONDATAW*)&notifyIconData)){
+			m_queue.erase(m_queue.begin());
+			return false;
+		}
+		return true;
+}
+
+#endif
 
 #ifndef WIN32
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
@@ -983,26 +1114,22 @@ void DockWnd::setIcon(const char *icon)
 #endif
 #ifdef WIN32
     QWidget::setIcon(drawIcon);
-    if (_Shell_NotifyIconW && IsWindowUnicode(winId())){
-        NOTIFYICONDATAW notifyIconData;
+    if (IsWindowUnicode(winId())){
+        __NOTIFYICONDATAW notifyIconData;
+		memset(&notifyIconData, 0, sizeof(notifyIconData));
         notifyIconData.cbSize = sizeof(notifyIconData);
         notifyIconData.hIcon = topData()->winIcon;
         notifyIconData.hWnd = winId();
-        notifyIconData.szTip[0] = 0;
-        notifyIconData.uCallbackMessage = 0;
         notifyIconData.uFlags = NIF_ICON;
-        notifyIconData.uID = 0;
-        _Shell_NotifyIconW(NIM_MODIFY, &notifyIconData);
+        Shell_NotifyIconW(NIM_MODIFY, (NOTIFYICONDATAW*)&notifyIconData);
     }else{
-        NOTIFYICONDATAA notifyIconData;
+        __NOTIFYICONDATAA notifyIconData;
+		memset(&notifyIconData, 0, sizeof(notifyIconData));
         notifyIconData.cbSize = sizeof(notifyIconData);
         notifyIconData.hIcon = topData()->winIcon;
         notifyIconData.hWnd = winId();
-        notifyIconData.szTip[0] = 0;
-        notifyIconData.uCallbackMessage = 0;
         notifyIconData.uFlags = NIF_ICON;
-        notifyIconData.uID = 0;
-        Shell_NotifyIconA(NIM_MODIFY, &notifyIconData);
+        Shell_NotifyIconA(NIM_MODIFY, (NOTIFYICONDATAA*)&notifyIconData);
     }
 #else
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
@@ -1022,30 +1149,27 @@ void DockWnd::setTip(const char *text)
         tip = tip.replace(QRegExp("\\&"), "");
     }
 #ifdef WIN32
-    if (_Shell_NotifyIconW && IsWindowUnicode(winId())){
-        NOTIFYICONDATAW notifyIconData;
+    if (IsWindowUnicode(winId())){
+        __NOTIFYICONDATAW notifyIconData;
+		memset(&notifyIconData, 0, sizeof(notifyIconData));
         notifyIconData.cbSize = sizeof(notifyIconData);
         notifyIconData.hIcon = topData()->winIcon;
         notifyIconData.hWnd = winId();
-        memset(notifyIconData.szTip, 0, sizeof(notifyIconData.szTip));
         unsigned size = tip.length();
         if (size >= sizeof(notifyIconData.szTip) / sizeof(wchar_t))
             size = sizeof(notifyIconData.szTip) / sizeof(wchar_t) - 1;
         memcpy(notifyIconData.szTip, tip.unicode(), size * sizeof(wchar_t));
-        notifyIconData.uCallbackMessage = 0;
         notifyIconData.uFlags = NIF_TIP;
-        notifyIconData.uID = 0;
-        _Shell_NotifyIconW(NIM_MODIFY, &notifyIconData);
+        Shell_NotifyIconW(NIM_MODIFY, (NOTIFYICONDATAW*)&notifyIconData);
     }else{
-        NOTIFYICONDATAA notifyIconData;
+        __NOTIFYICONDATAA notifyIconData;
+		memset(&notifyIconData, 0, sizeof(notifyIconData));
         notifyIconData.cbSize = sizeof(notifyIconData);
         notifyIconData.hIcon = topData()->winIcon;
         notifyIconData.hWnd = winId();
         strncpy(notifyIconData.szTip, tip.local8Bit(), sizeof(notifyIconData.szTip));
-        notifyIconData.uCallbackMessage = 0;
         notifyIconData.uFlags = NIF_TIP;
-        notifyIconData.uID = 0;
-        Shell_NotifyIconA(NIM_MODIFY, &notifyIconData);
+        Shell_NotifyIconA(NIM_MODIFY, (NOTIFYICONDATAA*)&notifyIconData);
     }
 #else
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)

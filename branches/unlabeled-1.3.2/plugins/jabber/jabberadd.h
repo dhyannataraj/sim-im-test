@@ -36,7 +36,6 @@ public:
 signals:
     void goNext();
 protected slots:
-    void serviceChanged(const QString&);
     void currentChanged(QWidget*);
     void textChanged(const QString&);
     void search();
@@ -46,7 +45,6 @@ protected:
     virtual void *processEvent(Event*);
     void showEvent(QShowEvent *e);
     void fillGroup();
-    AGENTS_MAP	 m_agents;
     JabberClient *findClient(const char *host);
     AddResult	 *m_result;
     QWizard		 *m_wizard;

@@ -42,6 +42,9 @@ const unsigned COL_FEATURES			= 5;
 const unsigned COL_ID_DISCO_ITEMS	= 6;
 const unsigned COL_ID_DISCO_INFO	= 7;
 const unsigned COL_ID_BROWSE		= 8;
+const unsigned COL_MODE				= 9;
+
+class JabberSearch;
 
 class JabberWizard : public QWizard, public EventReceiver
 {
@@ -85,12 +88,17 @@ protected:
     void go(const QString &url, const QString &node);
     void addHistory(const QString &str);
     bool haveFeature(const char*);
+    bool haveFeature(const char*, const QString&);
 	QListViewItem *findItem(unsigned col, const char *id);
 	QListViewItem *findItem(unsigned col, const char *id, QListViewItem *item);
 	void setItemPict(QListViewItem *item);
 	void adjustColumn(QListViewItem *item);
+	void loadItem(QListViewItem *item);
 	void checkDone();
 	bool checkDone(QListViewItem*);
+	void startProcess();
+	void changeMode();
+	void changeMode(QListViewItem *item);
 	bool		 m_bInProcess;
     JabberClient *m_client;
     ListView	 *m_list;
@@ -106,6 +114,7 @@ protected:
     string		 m_search_id;
     string		 m_reg_id;
     string		 m_config_id;
+	bool		 m_bError;
     friend class DiscoInfo;
 };
 

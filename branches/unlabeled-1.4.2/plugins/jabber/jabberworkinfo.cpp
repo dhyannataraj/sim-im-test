@@ -55,7 +55,7 @@ void *JabberWorkInfo::processEvent(Event *e)
         if (client == m_client)
             fill(m_data);
     }
-    if (m_data && (e->type() == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventVCard)){
+    if (m_data && (e->type() == EventVCard)){
         JabberUserData *data = (JabberUserData*)(e->param());
         if (!str_cmp(m_data->ID.ptr, data->ID.ptr) && !str_cmp(m_data->Node.ptr, data->Node.ptr))
             fill(data);

@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>425</width>
+            <width>414</width>
             <height>340</height>
         </rect>
     </property>
@@ -201,6 +201,10 @@
                             <vsizetype>0</vsizetype>
                         </sizepolicy>
                     </property>
+                    <property>
+                        <name>editable</name>
+                        <bool>true</bool>
+                    </property>
                 </widget>
                 <widget>
                     <class>QPushButton</class>
@@ -265,6 +269,24 @@
                 </widget>
                 <widget>
                     <class>QComboBox</class>
+                    <item>
+                        <property>
+                            <name>text</name>
+                            <string>100</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property>
+                            <name>text</name>
+                            <string>50</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property>
+                            <name>text</name>
+                            <string>20</string>
+                        </property>
+                    </item>
                     <property stdset="1">
                         <name>name</name>
                         <cstring>cmbPage</cstring>

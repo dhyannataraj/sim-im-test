@@ -200,7 +200,7 @@ int str_cmp(const char *s1, const char *s2);
 
 void *DiscoInfo::processEvent(Event *e)
 {
-    if (e->type() == static_cast<JabberPlugin*>(m_browser->m_client->protocol()->plugin())->EventVCard){
+    if (e->type() == EventVCard){
         JabberUserData *data = (JabberUserData*)(e->param());
         if (!str_cmp(m_data.ID.ptr, data->ID.ptr) && !str_cmp(m_data.Node.ptr, data->Node.ptr)){
             edtFirstName->setText(data->FirstName.ptr ? QString::fromUtf8(data->FirstName.ptr) : QString(""));
@@ -212,7 +212,7 @@ void *DiscoInfo::processEvent(Event *e)
             edtPhone->setText(data->Phone.ptr ? QString::fromUtf8(data->Phone.ptr) : QString(""));
         }
     }
-    if (e->type() == static_cast<JabberPlugin*>(m_browser->m_client->protocol()->plugin())->EventDiscoItem){
+    if (e->type() == EventDiscoItem){
         DiscoItem *item = (DiscoItem*)(e->param());
         if (m_versionId == item->id){
             m_versionId = "";

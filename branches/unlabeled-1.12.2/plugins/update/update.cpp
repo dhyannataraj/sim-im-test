@@ -61,7 +61,7 @@ UpdatePlugin::UpdatePlugin(unsigned base, const char *config)
 	CmdGo = registerType();
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(timeout()));
-    timer->start(60000);
+    timer->start(15000);
 }
 
 UpdatePlugin::~UpdatePlugin()

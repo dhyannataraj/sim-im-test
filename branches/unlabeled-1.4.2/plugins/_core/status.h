@@ -19,9 +19,19 @@
 #define _STATUS_H
 
 #include "simapi.h"
+#include "stl.h"
 
 class QTimer;
 class CorePlugin;
+class BalloonMsg;
+
+typedef struct BalloonItem
+{
+	QString		text;
+	QStringList	buttons;
+	unsigned	id;
+	Client		*client;
+} BalloonItem;
 
 class CommonStatus : public QObject, public EventReceiver
 {
@@ -32,6 +42,9 @@ public:
 protected slots:
     void timeout();
     void setBarStatus();
+	void yes_action(void*);
+	void finished();
+	void showBalloon();
 protected:
     QTimer *m_timer;
     void *processEvent(Event*);
@@ -40,6 +53,8 @@ protected:
     bool m_bInit;
     bool m_bBlink;
     bool m_bConnected;
+	BalloonMsg		  *m_balloon;
+	list<BalloonItem> m_queue;
 };
 
 #endif

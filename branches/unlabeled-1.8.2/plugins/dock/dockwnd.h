@@ -19,6 +19,7 @@
 #define _DOCKWND_H
 
 #include "simapi.h"
+#include "stl.h"
 
 #include <qwidget.h>
 #include <qtooltip.h>
@@ -26,6 +27,19 @@
 
 class WharfIcon;
 class DockPlugin;
+
+#ifdef WIN32
+
+typedef struct BalloonItem
+{
+	QString		text;
+	QString		title;
+	unsigned	id;
+	unsigned	flags;
+	Client		*client;
+} BallonItem;
+
+#endif
 
 class DockWnd : public QWidget, public EventReceiver
 {
@@ -76,7 +90,10 @@ protected:
     bool bInit;
 #endif
 #else
-    void *hShell;
+    void				*hShell;
+	bool				m_bBalloon;
+	list<BalloonItem>	m_queue;
+	bool				showBalloon();
 #endif
     DockPlugin *m_plugin;
 };

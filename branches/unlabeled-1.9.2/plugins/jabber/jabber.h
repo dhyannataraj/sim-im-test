@@ -20,6 +20,42 @@
 
 #include "simapi.h"
 
+const unsigned JabberCmdBase	= 0x00050000;
+
+const unsigned EventAgentFound		= JabberCmdBase + 1;
+const unsigned EventAgentInfo		= JabberCmdBase + 2;
+const unsigned EventAgentRegister	= JabberCmdBase + 3;
+const unsigned EventSearch			= JabberCmdBase + 4;
+const unsigned EventSearchDone		= JabberCmdBase + 5;
+const unsigned EventDiscoItem		= JabberCmdBase + 6;
+const unsigned EventVCard			= JabberCmdBase + 7;
+
+const unsigned CmdJabberMessage		= JabberCmdBase + 1;
+const unsigned CmdGroups			= JabberCmdBase + 2;
+const unsigned CmdBrowser			= JabberCmdBase + 3;
+const unsigned CmdBack				= JabberCmdBase + 4;
+const unsigned CmdForward			= JabberCmdBase + 5;
+const unsigned CmdUrl				= JabberCmdBase + 6;
+const unsigned CmdBrowseInfo		= JabberCmdBase + 7;
+const unsigned CmdBrowseSearch		= JabberCmdBase + 8;
+const unsigned CmdRegister			= JabberCmdBase + 9;
+const unsigned CmdNode				= JabberCmdBase + 10;
+const unsigned CmdBrowseMode		= JabberCmdBase + 11;
+const unsigned CmdBrowseConfigure	= JabberCmdBase + 12;
+const unsigned CmdOneLevel			= JabberCmdBase + 13;
+const unsigned CmdAllLevels			= JabberCmdBase + 14;
+const unsigned CmdModeDisco			= JabberCmdBase + 15;
+const unsigned CmdModeBrowse		= JabberCmdBase + 16;
+const unsigned CmdModeAgents		= JabberCmdBase + 17;
+
+const unsigned MenuSearchResult		= JabberCmdBase + 1;
+const unsigned MenuJabberGroups		= JabberCmdBase + 2;
+const unsigned MenuClients			= JabberCmdBase + 3;
+const unsigned MenuBrowser			= JabberCmdBase + 4;
+    
+const unsigned BarBrowser			= JabberCmdBase + 1;
+
+
 class JabberProtocol : public Protocol
 {
 public:
@@ -37,28 +73,6 @@ public:
     JabberPlugin(unsigned base);
     virtual ~JabberPlugin();
     unsigned JabberPacket;
-    unsigned EventAgentFound;
-    unsigned EventAgentInfo;
-    unsigned EventAgentRegister;
-    unsigned EventSearch;
-    unsigned EventSearchDone;
-    unsigned EventDiscoItem;
-    unsigned EventVCard;
-    unsigned CmdSendMessage;
-    unsigned CmdGroups;
-    unsigned CmdBrowser;
-    unsigned CmdBack;
-    unsigned CmdForward;
-    unsigned CmdUrl;
-    unsigned CmdInfo;
-    unsigned CmdSearch;
-    unsigned CmdRegister;
-    unsigned CmdNode;
-    unsigned CmdConfigure;
-    unsigned MenuSearchResult;
-    unsigned MenuGroups;
-    unsigned MenuClients;
-    unsigned BarBrowser;
     void registerMessages();
     void unregisterMessages();
 protected:
