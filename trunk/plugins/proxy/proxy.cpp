@@ -621,7 +621,7 @@ void HTTPS_Proxy::read_ready()
         }
         r++;
         int code = atoi(r);
-        if (code == 401){
+        if (code == 407){
             error_state(AUTH_ERROR, m_plugin->ProxyErr);
             return;
         }
@@ -894,7 +894,7 @@ void HttpRequest::read_ready()
         }
         r++;
         int code = atoi(r);
-        if (code == 401){
+        if (code == 407){
             log_packet(bIn, false, m_proxy->m_plugin->ProxyPacket);
             m_proxy->error_state(AUTH_ERROR, m_proxy->m_plugin->ProxyErr);
             return;
