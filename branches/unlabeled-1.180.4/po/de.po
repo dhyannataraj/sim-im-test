@@ -5049,15 +5049,15 @@ msgstr "Voransicht des Datei-Inhalts"
 
 #: sim/ui/qt3/i18n.cpp:69
 msgid "Read-write"
-msgstr "Lesen-Schreiben"
+msgstr "Lesen und schreiben"
 
 #: sim/ui/qt3/i18n.cpp:71
 msgid "Read-only"
-msgstr "Nur-Lesen"
+msgstr "Nur lesen"
 
 #: sim/ui/qt3/i18n.cpp:73
 msgid "Write-only"
-msgstr "Nur-Schreiben"
+msgstr "Nur schreiben"
 
 #: sim/ui/qt3/i18n.cpp:75
 msgid "Inaccessible"
