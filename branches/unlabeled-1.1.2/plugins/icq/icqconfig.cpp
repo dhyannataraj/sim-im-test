@@ -57,6 +57,7 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
     cmbFormat->insertItem(i18n("Plain text"));
     cmbFormat->setCurrentItem(client->getSendFormat());
     chkUpdate->setChecked(client->getAutoUpdate());
+    chkTyping->setChecked(client->getTypingNotification());
 }
 
 void ICQConfig::apply(Client*, void*)
@@ -73,6 +74,7 @@ void ICQConfig::apply()
     m_client->setPort(atol(edtPort->text()));
     m_client->setSendFormat(cmbFormat->currentItem());
     m_client->setAutoUpdate(chkUpdate->isChecked());
+    m_client->setTypingNotification(chkTyping->isChecked());
 }
 
 void ICQConfig::changed(const QString&)
