@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qrichtext_p.h,v 1.7 2003-11-23 13:33:48 shutoff Exp $
+** $Id: qrichtext_p.h,v 1.7.2.1 2004-01-15 10:52:30 shutoff Exp $
 **
 ** Definition of internal rich text classes
 **
@@ -311,6 +311,7 @@ QTextParag *topParag() const { return parags.isEmpty() ? string : parags.first()
     int y() const;
 
     int nestedDepth() const { return (int)indices.count(); } //### size_t/int cast
+    void oneUp() { if ( !indices.isEmpty() ) pop(); }
 
 private:
     enum Operation { EnterBegin, EnterEnd, Next, Prev, Up, Down };
@@ -739,7 +740,7 @@ public:
     int numSelections() const { return nSelections; }
     void addSelection( int id );
 
-    QString selectedText( int id, bool withCustom = TRUE ) const;
+    QString selectedText( int id, bool asHTML = FALSE ) const;
     void copySelectedText( int id );
     void removeSelectedText( int id, QTextCursor *cursor );
     void indentSelection( int id );
@@ -856,7 +857,7 @@ private:
     QChar parseHTMLSpecialChar(const QString& doc, int& pos);
     QString parseWord(const QString& doc, int& pos, bool lower = TRUE);
     QChar parseChar(const QString& doc, int& pos, QStyleSheetItem::WhiteSpaceMode wsm );
-    void setRichTextInternal( const QString &text );
+    void setRichTextInternal( const QString &text, QTextCursor* cursor = NULL );
 
 private:
     struct Focus {

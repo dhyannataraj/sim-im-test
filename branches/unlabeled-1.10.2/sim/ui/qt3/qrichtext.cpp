@@ -1,5 +1,5 @@
 #/****************************************************************************
-** $Id: qrichtext.cpp,v 1.10 2004-01-11 23:02:00 shutoff Exp $
+** $Id: qrichtext.cpp,v 1.10.2.1 2004-01-15 10:52:30 shutoff Exp $
 **
 ** Implementation of the internal Qt classes dealing with rich text
 **
@@ -91,6 +91,9 @@ static QString debug_indent;
 #ifdef Q_WS_WIN
 #include "qt_windows.h"
 #endif
+
+static QTextCursor* richTextExportStart = 0;
+static QTextCursor* richTextExportEnd = 0;
 
 static inline bool is_printer( QPainter *p )
     {
@@ -1597,7 +1600,7 @@ int direction : 5;
         return curListStyle;
     }
 
-    void QTextDocument::setRichTextInternal( const QString &text )
+    void QTextDocument::setRichTextInternal( const QString &text, QTextCursor* cursor )
     {
         oTextValid = TRUE;
         oText = text;
@@ -1611,6 +1614,17 @@ int direction : 5;
         QString doc = text;
         bool hasNewPar = curpar->length() <= 1;
         QString lastClose;
+
+    if ( cursor ) {
+	cursor->splitAndInsertEmptyParag();
+	QTextCursor tmp = *cursor;
+	tmp.gotoPreviousLetter();
+	curpar = tmp.parag();
+	hasNewPar = TRUE;
+    } else {
+	NEWPAR;
+    }
+
         while ( pos < int( doc.length() ) ) {
             if ( hasPrefix(doc, pos, '<' ) ){
                 if ( !hasPrefix( doc, pos+1, QChar('/') ) ) {
@@ -1910,6 +1924,10 @@ int direction : 5;
                 }
             }
         }
+    if ( cursor ) {
+ 	cursor->gotoPreviousLetter();
+  	cursor->remove();
+     }
     }
 
     void QTextDocument::setText( const QString &text, const QString &context )
@@ -2353,15 +2371,13 @@ int direction : 5;
         return TRUE;
     }
 
-    QString QTextDocument::selectedText( int id, bool withCustom ) const
+    QString QTextDocument::selectedText( int id, bool asRichText ) const
     {
-        // ######## TODO: look at textFormat() and return rich text or plain text (like the text() method!)
         QMap<int, QTextDocumentSelection>::ConstIterator it = selections.find( id );
         if ( it == selections.end() )
             return QString::null;
 
         QTextDocumentSelection sel = *it;
-
 
         QTextCursor c1 = sel.startCursor;
         QTextCursor c2 = sel.endCursor;
@@ -2370,16 +2386,44 @@ int direction : 5;
             c1 = sel.endCursor;
         }
 
-        c2.restoreState();
-        c1.restoreState();
+    if ( asRichText && !parent() ) {
+	richTextExportStart = &c1;
+	richTextExportEnd = &c2;
 
+	QString sel = richText();
+	int from = sel.find( "<!--StartFragment-->" );
+	if ( from >= 0 ) {
+	    from += 20;
+	    // find the previous span and move it into the start fragment before we clip it
+	    QString prevspan;
+	    int pspan = sel.findRev( "<span", from-21 );
+	    if ( pspan > sel.findRev( "</span", from-21 ) ) {
+		int spanend = sel.find( '>', pspan );
+		prevspan = sel.mid( pspan, spanend - pspan + 1 );
+	    }
+	    int to = sel.findRev( "<!--EndFragment-->" );
+	    if ( from <= to )
+		sel = "<!--StartFragment-->" + prevspan + sel.mid( from, to - from );
+	}
+	richTextExportStart = richTextExportEnd = 0;
+	return sel;
+    }
+    while ( c2.nestedDepth() > c1.nestedDepth() )
+	c2.oneUp();
+    while ( c1.nestedDepth() > c2.nestedDepth() )
+	c1.oneUp();
+    while ( c1.nestedDepth() && c2.nestedDepth() &&
+	    c1.parag()->document() != c2.parag()->document() ) {
+	c1.oneUp();
+	c2.oneUp();
+    }
         if ( c1.parag() == c2.parag() ) {
             QString s;
             QTextParag *p = c1.parag();
             int end = c2.index();
             if ( p->at( QMAX( 0, end - 1 ) )->isCustom() )
                 ++end;
-            if ( !withCustom || !p->customItems() ) {
+            if ( !p->customItems() ) {
                 s += p->string()->toString().mid( c1.index(), end - c1.index() );
             } else {
                 for ( int i = c1.index(); i < end; ++i ) {
@@ -2395,7 +2439,6 @@ int direction : 5;
                     } else {
                         s += p->at( i )->c;
                     }
-                    s += "\n";
                 }
             }
             return s;
@@ -2408,7 +2451,7 @@ int direction : 5;
             int end = p == c2.parag() ? c2.index() : p->length() - 1;
             if ( p == c2.parag() && p->at( QMAX( 0, end - 1 ) )->isCustom() )
                 ++end;
-            if ( !withCustom || !p->customItems() ) {
+            if ( !p->customItems() ) {
                 s += p->string()->toString().mid( start, end - start );
                 if ( p != c2.parag() )
                     s += "\n";
@@ -4588,13 +4631,18 @@ formatAgain:
         QString s;
         QTextFormat *lastFormat = 0;
         QString spaces;
+    bool doStart = richTextExportStart && richTextExportStart->parag() == this;
+    bool doEnd = richTextExportEnd && richTextExportEnd->parag() == this;
         for ( int i = 0; i < length()-1; ++i ) {
+	if ( doStart && richTextExportStart->index() == i )
+	    s += "<!--StartFragment-->";
+	if ( doEnd && richTextExportEnd->index() == i )
+	    s += "<!--EndFragment-->";
             QTextStringChar *c = &str->at( i );
             if ( !lastFormat || ( lastFormat->key() != c->format()->key())) {
                 s += c->format()->makeFormatChangeTags( lastFormat );
                 lastFormat = c->format();
             }
-
             if ( c->c == ' ' || c->c == '\t' ) {
                 spaces += c->c;
                 continue;
@@ -4605,7 +4653,6 @@ formatAgain:
                     s += spaces;
                 spaces = QString::null;
             }
-
             if ( c->c == '<' ) {
                 s += "&lt;";
             } else if ( c->c == '>' ) {
@@ -4626,6 +4673,8 @@ formatAgain:
         }
         if ( lastFormat )
             s += lastFormat->makeFormatEndTags();
+	if ( doEnd && richTextExportEnd->index() == i )
+	    s += "<!--EndFragment-->";
         return s;
     }
 
@@ -5892,23 +5941,8 @@ formatAgain:
                                              QApplication::palette().color( QPalette::Active, QColorGroup::Text ) );
 
         QString tag;
-
-        if ( f ) {
-            if ( f->font() != defaultFormat->font() || f->color().rgb() != defaultFormat->color().rgb()) {
-                if ( f->font().family() != defaultFormat->font().family()
-                        || f->font().pointSize() != defaultFormat->font().pointSize()
-                        || f->color().rgb() != defaultFormat->color().rgb() )
-                    tag += "</font>";
-                if ( f->font().underline() && f->font().underline() != defaultFormat->font().underline() )
-                    tag += "</u>";
-                if ( f->font().italic() && f->font().italic() != defaultFormat->font().italic() )
-                    tag += "</i>";
-                if ( f->font().bold() && f->font().bold() != defaultFormat->font().bold() )
-                    tag += "</b>";
-            }
-            if ( f->isAnchor() && !f->anchorHref().isEmpty() )
-                tag += "</a>";
-        }
+    if ( f )
+		tag += f->makeFormatEndTags();
 
         if ( isAnchor() ) {
             if ( !anchor_href.isEmpty() )
@@ -5917,29 +5951,34 @@ formatAgain:
                 tag += "<a name=\"" + anchor_name + "\"></a>";
         }
 
-        if ( font() != defaultFormat->font() ) {
-            if ( font().bold() && font().bold() != defaultFormat->font().bold() )
-                tag += "<b>";
-            if ( font().italic() && font().italic() != defaultFormat->font().italic() )
-                tag += "<i>";
-            if ( font().underline() && font().underline() != defaultFormat->font().underline() )
-                tag += "<u>";
-        }
-        if ( font() != defaultFormat->font()
-                || color().rgb() != defaultFormat->color().rgb() ) {
-            QString f;
-            if ( font().family() != defaultFormat->font().family() )
-                f +=" face=\"" + fn.family() + "\"";
-            if ( font().pointSize() != defaultFormat->font().pointSize() ) {
-                f +=" size=\"" + QString::number( makeLogicFontSize( fn.pointSize() ) ) + "\"";
-                f +=" style=\"font-size:" + QString::number( fn.pointSize() ) + "pt\"";
-            }
-            if ( color().rgb() != defaultFormat->color().rgb() )
-                f +=" color=\"" + col.name() + "\"";
-            if ( !f.isEmpty() )
-                tag += "<font" + f + ">";
-        }
-
+    if ( font() != defaultFormat->font()
+	 || vAlign() != defaultFormat->vAlign()
+	 || color().rgb() != defaultFormat->color().rgb() ) {
+	QString s;
+	if ( font().family() != defaultFormat->font().family() )
+	    s += QString(!!s?";":"") + "font-family:" + fn.family();
+	if ( font().italic() && font().italic() != defaultFormat->font().italic() )
+	    s += QString(!!s?";":"") + "font-style:" + (font().italic() ? "italic" : "normal");
+	if ( font().pointSize() != defaultFormat->font().pointSize() )
+	    s += QString(!!s?";":"") + "font-size:" + QString::number( fn.pointSize() ) + "pt";
+	if ( font().weight() != defaultFormat->font().weight() )
+	    s += QString(!!s?";":"") + "font-weight:" + QString::number( fn.weight() * 8 );
+	if ( font().underline() != defaultFormat->font().underline() )
+	    s += QString(!!s?";":"") + "text-decoration:" + ( font().underline() ? "underline" : "none");
+	if ( vAlign() != defaultFormat->vAlign() ) {
+	    s += QString(!!s?";":"") + "vertical-align:";
+	    if ( vAlign() == QTextFormat::AlignSuperScript )
+		s += "super";
+	    else if ( vAlign() == QTextFormat::AlignSubScript )
+		s += "sub";
+	    else
+		s += "normal";
+	}
+	if ( color().rgb() != defaultFormat->color().rgb() )
+	    s += QString(!!s?";":"") + "color:" + col.name();
+	if ( !s.isEmpty() )
+	    tag += "<span style=\"" + s + "\">";
+    }
         return tag;
     }
 
@@ -5949,19 +5988,16 @@ formatAgain:
             defaultFormat = new QTextFormat( QApplication::font(),
                                              QApplication::palette().color( QPalette::Active, QColorGroup::Text ) );
 
-        QString tag;
-        if ( font() != defaultFormat->font() ) {
-            if ( font().family() != defaultFormat->font().family()
-                    || font().pointSize() != defaultFormat->font().pointSize()
-                    || color().rgb() != defaultFormat->color().rgb() )
-                tag += "</font>";
-            if ( font().underline() && font().underline() != defaultFormat->font().underline() )
-                tag += "</u>";
-            if ( font().italic() && font().italic() != defaultFormat->font().italic() )
-                tag += "</i>";
-            if ( font().bold() && font().bold() != defaultFormat->font().bold() )
-                tag += "</b>";
-        }
+    QString tag;
+    if ( font().family() != defaultFormat->font().family()
+	 || font().pointSize() != defaultFormat->font().pointSize()
+	 || font().weight() != defaultFormat->font().weight()
+	 || font().italic() != defaultFormat->font().italic()
+	 || font().underline() != defaultFormat->font().underline()
+	 || font().strikeOut() != defaultFormat->font().strikeOut()
+	 || vAlign() != defaultFormat->vAlign()
+	 || color().rgb() != defaultFormat->color().rgb() )
+	tag += "</span>";
         if ( isAnchor() && !anchorHref().isEmpty() )
             tag += "</a>";
         return tag;
