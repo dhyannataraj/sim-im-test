@@ -909,7 +909,7 @@ void UserView::editGroupEnter()
 {
     edtGroup->hide();
     Group *g = getContacts()->group(edtGroup->id);
-    if (g == NULL) return;
+    if (!(g && edtGroup->text().length())) return;
     g->setName(edtGroup->text());
     Event e(EventGroupChanged, g);
     e.process();
@@ -918,10 +918,10 @@ void UserView::editGroupEnter()
 void UserView::editContactEnter()
 {
     edtContact->hide();
-    Contact *contact = getContacts()->contact(edtContact->id);
-    if (contact == NULL) return;
-    contact->setName(edtContact->text());
-    Event e(EventContactChanged, contact);
+    Contact *c = getContacts()->contact(edtContact->id);
+    if (!(c && edtContact->text().length())) return;
+    c->setName(edtContact->text());
+    Event e(EventContactChanged, c);
     e.process();
 }
 
