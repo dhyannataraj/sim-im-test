@@ -302,6 +302,8 @@ const unsigned CMD_ADD			= 7;
 const unsigned CMD_DELETE		= 8;
 const unsigned CMD_OPEN			= 9;
 const unsigned CMD_FILE			= 10;
+const unsigned CMD_CONTACTS		= 11;
+const unsigned CMD_SENDFILE		= 12;
 
 typedef struct cmdDef
 {
@@ -325,6 +327,8 @@ static cmdDef cmds[] =
 		{ "DELETE", "delete contact", "DELETE [<address> | <nick>]", 1, 1 },
 		{ "OPEN", "open contact", "ADD <protocol> <address> [<nick>] [<group>]", 2, 4 },
 		{ "FILE", "process UIN file", "FILE <file>", 1, 1 },
+		{ "CONTACTS", "print contact list", "CONTACT", 0, 0 },
+		{ "SENDFILE", "send file", "SENDFILE <file> <contact>", 2, 2 },
         { NULL, NULL, NULL, 0, 0 }
     };
 
@@ -428,6 +432,26 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
     QWidget *w;
 	unsigned n;
     switch (nCmd){
+	case CMD_SENDFILE:{
+		FileMessage msg;
+		msg.setContact(args[1].toUInt());
+		msg.setFile(args[0]);
+		Event e(EventOpenMessage, &msg);
+		e.process();
+		return true;
+	}
+	case CMD_CONTACTS:{
+		ContactList::ContactIterator it;
+		Contact *contact;
+		while ((contact = ++it) != NULL){
+			if (!out.isEmpty())
+				out += "\n";
+			out += QString::number(contact->id());
+			out += " ";
+			out += contact->getName();
+		}
+		return true;
+	}
 	case CMD_FILE:{
 		QFile f(args[0]);
 		if (!f.open(IO_ReadOnly)){
