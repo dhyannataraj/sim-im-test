@@ -526,6 +526,7 @@ void History::add(Message *msg, const char *type)
     line += type;
     line += "]\n";
     line += msg->save();
+    line += "\n";
 
     if (msg->getFlags() & MESSAGE_TEMP){
         if (s_tempMsg == NULL)
