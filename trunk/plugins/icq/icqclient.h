@@ -280,44 +280,45 @@ class QTimer;
 typedef unsigned char capability[0x10];
 typedef unsigned char plugin[0x12];
 
-const unsigned CAP_DIRECT		= 0;
-const unsigned CAP_RTF          = 1;
-const unsigned CAP_SRV_RELAY    = 2;
-const unsigned CAP_UTF          = 3;
-const unsigned CAP_TYPING       = 4;
-const unsigned CAP_AIM_SUPPORT  = 5;
-const unsigned CAP_SIM          = 6;
-const unsigned CAP_STR_2001     = 7;
-const unsigned CAP_IS_2001      = 8;
-const unsigned CAP_TRILLIAN     = 9;
-const unsigned CAP_TRIL_CRYPT   = 10;
-const unsigned CAP_MACICQ       = 11;
-const unsigned CAP_AIM_CHAT     = 12;
-const unsigned CAP_AIM_BUDDYCON = 13;
-const unsigned CAP_AIM_IMIMAGE  = 14;
-const unsigned CAP_AIM_SENDFILE = 15;
-const unsigned CAP_AIM_BUDDYLIST = 16;
-const unsigned CAP_MICQ         = 17;
-const unsigned CAP_LICQ         = 18;
-const unsigned CAP_SIMOLD       = 19;
-const unsigned CAP_NULL         = 20;
+const unsigned CAP_DIRECT			= 0;
+const unsigned CAP_RTF				= 1;
+const unsigned CAP_SRV_RELAY		= 2;
+const unsigned CAP_UTF				= 3;
+const unsigned CAP_TYPING			= 4;
+const unsigned CAP_AIM_SUPPORT		= 5;
+const unsigned CAP_SIM				= 6;
+const unsigned CAP_STR_2001			= 7;
+const unsigned CAP_IS_2001			= 8;
+const unsigned CAP_TRILLIAN			= 9;
+const unsigned CAP_TRIL_CRYPT		= 10;
+const unsigned CAP_MACICQ			= 11;
+const unsigned CAP_AIM_CHAT			= 12;
+const unsigned CAP_AIM_BUDDYCON		= 13;
+const unsigned CAP_AIM_IMIMAGE		= 14;
+const unsigned CAP_AIM_SENDFILE		= 15;
+const unsigned CAP_AIM_BUDDYLIST	= 16;
+const unsigned CAP_MICQ				= 17;
+const unsigned CAP_LICQ				= 18;
+const unsigned CAP_SIMOLD			= 19;
+const unsigned CAP_NULL				= 20;
 
-const unsigned PLUGIN_PHONEBOOK            = 0;
+const unsigned PLUGIN_PHONEBOOK          = 0;
 const unsigned PLUGIN_PICTURE            = 1;
-const unsigned PLUGIN_FILESERVER        = 2;
-const unsigned PLUGIN_FOLLOWME            = 3;
-const unsigned PLUGIN_ICQPHONE            = 4;
-const unsigned PLUGIN_QUERYxINFO        = 5;
-const unsigned PLUGIN_QUERYxSTATUS        = 6;
-const unsigned PLUGIN_INFOxMANAGER        = 7;
-const unsigned PLUGIN_STATUSxMANAGER    = 8;
+const unsigned PLUGIN_FILESERVER         = 2;
+const unsigned PLUGIN_FOLLOWME           = 3;
+const unsigned PLUGIN_ICQPHONE           = 4;
+const unsigned PLUGIN_QUERYxINFO         = 5;
+const unsigned PLUGIN_QUERYxSTATUS       = 6;
+const unsigned PLUGIN_INFOxMANAGER       = 7;
+const unsigned PLUGIN_STATUSxMANAGER     = 8;
 const unsigned PLUGIN_RANDOMxCHAT        = 9;
-const unsigned PLUGIN_NULL                = 10;
-const unsigned PLUGIN_FILE                = 11;
-const unsigned PLUGIN_CHAT                = 12;
-const unsigned PLUGIN_AR                = 13;
-const unsigned PLUGIN_INVISIBLE            = 14;
+const unsigned PLUGIN_NULL               = 10;
+const unsigned PLUGIN_FILE               = 11;
+const unsigned PLUGIN_CHAT               = 12;
+const unsigned PLUGIN_AR                 = 13;
+const unsigned PLUGIN_INVISIBLE          = 14;
 const unsigned PLUGIN_REVERSE            = 15;
+const unsigned PLUGIN_AIM_FT			 = 16;
 
 class ICQClient;
 
@@ -668,7 +669,7 @@ protected:
     bool sendAuthGranted(Message *msg, void *data);
     bool sendAuthRefused(Message *msg, void *data);
     void sendAdvMessage(const char *screen, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bPeek, bool bDirect, unsigned short cookie1=0, unsigned short cookie2=0, unsigned short type=1);
-    void sendType2(const char *screen, Buffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, bool bPeek, bool bDirect, unsigned short type=1);
+    void sendType2(const char *screen, Buffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, unsigned short port, TlvList *tlvs=NULL, unsigned short type=1);
     void sendType1(const QString &text, bool bWide, ICQUserData *data);
     void parseAdvancedMessage(const char *screen, Buffer &msg, bool needAck, MessageId id);
     void sendAutoReply(const char *screen, MessageId id,
@@ -707,6 +708,7 @@ protected:
     friend class DirectSocket;
     friend class DirectClient;
     friend class ICQListener;
+    friend class AIMFileTransfer;
 };
 
 class ServiceSocket : public ClientSocketNotify, public OscarSocket
@@ -872,6 +874,32 @@ protected:
     void startPacket(char cmd);
     void sendPacket(bool dump=true);
     void sendFileInfo();
+
+    friend class ICQClient;
+};
+
+class AIMFileTransfer : public FileTransfer, public DirectSocket, public ServerSocketNotify
+{
+public:
+    AIMFileTransfer(FileMessage *msg, ICQUserData *data, ICQClient *client);
+    ~AIMFileTransfer();
+    void listen();
+protected:
+    enum State
+    {
+        None,
+        Listen
+    };
+    State m_state;
+
+    virtual void processPacket();
+    virtual void connect_ready();
+    virtual bool error_state(const char *err, unsigned code);
+    virtual void write_ready();
+    virtual void startReceive(unsigned pos);
+    virtual void bind_ready(unsigned short port);
+    virtual bool accept(Socket *s, unsigned long ip);
+    virtual bool error(const char *err);
 
     friend class ICQClient;
 };

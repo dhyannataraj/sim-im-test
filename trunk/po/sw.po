@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: swabian\n"
-"POT-Creation-Date: 2003-10-26 23:04+0300\n"
+"POT-Creation-Date: 2003-10-29 12:47+0300\n"
 "PO-Revision-Date: 2003-08-19 10:35GMT\n"
 "Last-Translator: Robert Scheck <sim@robert-scheck.de>\n"
 "Language-Team: schwäbisch <swabian@li.org>\n"
@@ -102,14 +102,14 @@ msgstr "Audomadische Andword"
 msgid "Plugins"
 msgstr "Blugins"
 
-#: plugins/_core/cfgdlg.cpp:466 plugins/_core/cfgdlgbase.cc:125
+#: plugins/_core/cfgdlg.cpp:484 plugins/_core/cfgdlgbase.cc:125
 #: plugins/_core/cfgdlgbase.cpp:125 plugins/_core/toolsetupbase.cc:134
 #: plugins/_core/toolsetupbase.cpp:134 sim/api/simapi.cpp:408
 msgid "&Apply"
 msgstr "&Anwenda"
 
 #: plugins/_core/autoreplybase.cc:86 plugins/_core/autoreplybase.cpp:86
-#: plugins/_core/cfgdlg.cpp:467 plugins/_core/cfgdlgbase.cc:126
+#: plugins/_core/cfgdlg.cpp:485 plugins/_core/cfgdlgbase.cc:126
 #: plugins/_core/cfgdlgbase.cpp:126
 #: plugins/_core/connectionsettingsbase.cc:106
 #: plugins/_core/connectionsettingsbase.cpp:106
@@ -124,7 +124,7 @@ msgid "&OK"
 msgstr "&OK"
 
 #: plugins/_core/autoreplybase.cc:87 plugins/_core/autoreplybase.cpp:87
-#: plugins/_core/cfgdlg.cpp:468 plugins/_core/cfgdlgbase.cc:127
+#: plugins/_core/cfgdlg.cpp:486 plugins/_core/cfgdlgbase.cc:127
 #: plugins/_core/cfgdlgbase.cpp:127
 #: plugins/_core/connectionsettingsbase.cc:107
 #: plugins/_core/connectionsettingsbase.cpp:107
@@ -139,17 +139,17 @@ msgstr "&OK"
 msgid "&Cancel"
 msgstr "A&bbrecha"
 
-#: plugins/_core/cfgdlg.cpp:469 plugins/_core/cfgdlgbase.cc:122
+#: plugins/_core/cfgdlg.cpp:487 plugins/_core/cfgdlgbase.cc:122
 #: plugins/_core/cfgdlgbase.cpp:122 plugins/_core/core.cpp:411
 #: plugins/_core/core.cpp:993 plugins/_core/core.cpp:1075
 msgid "Setup"
 msgstr "Oirichda"
 
-#: plugins/_core/cfgdlg.cpp:514
+#: plugins/_core/cfgdlg.cpp:532
 msgid "Configure"
 msgstr "Konfiguriera"
 
-#: plugins/_core/cfgdlg.cpp:517
+#: plugins/_core/cfgdlg.cpp:535
 msgid "Update info"
 msgstr "Enformazion akdualisiera"
 
@@ -255,7 +255,7 @@ msgstr "&Vrlauf"
 msgid "&Close"
 msgstr "S&chließa"
 
-#: plugins/_core/core.cpp:550 plugins/_core/msgedit.cpp:1011
+#: plugins/_core/core.cpp:550 plugins/_core/msgedit.cpp:1009
 msgid "&Send"
 msgstr "&Senda"
 
@@ -268,11 +268,11 @@ msgstr "Smiley oi&figa"
 msgid "Send in &translit"
 msgstr "&Dexd en Ladin-Symbole konvrdiera ond senda"
 
-#: plugins/_core/core.cpp:575 plugins/_core/msgedit.cpp:265
+#: plugins/_core/core.cpp:575 plugins/_core/msgedit.cpp:263
 msgid "C&lose after send"
 msgstr "&Nach beendedr Iberdragong schließa"
 
-#: plugins/_core/core.cpp:583 plugins/_core/msgedit.cpp:1000
+#: plugins/_core/core.cpp:583 plugins/_core/msgedit.cpp:998
 msgid "&Multiply send"
 msgstr "An &mehrere senda"
 
@@ -314,7 +314,7 @@ msgstr "Dadei auswähla"
 msgid "&Phone number"
 msgstr "Telefonnummer hinzufiga"
 
-#: plugins/_core/core.cpp:649 plugins/_core/msgedit.cpp:1409
+#: plugins/_core/core.cpp:649 plugins/_core/msgedit.cpp:1441
 msgid "&Next"
 msgstr "&Nächschdr"
 
@@ -385,7 +385,7 @@ msgstr "Alles auswähla"
 msgid "&Messages"
 msgstr "&Nachrichda"
 
-#: plugins/_core/core.cpp:900 plugins/_core/msgedit.cpp:1568
+#: plugins/_core/core.cpp:900 plugins/_core/msgedit.cpp:1600
 msgid "&SMS"
 msgstr "&SMS"
 
@@ -476,11 +476,11 @@ msgstr "&Beschäfdigd"
 msgid "Decline file without reason"
 msgstr ""
 
-#: plugins/_core/core.cpp:1168 plugins/_core/core.cpp:2617
+#: plugins/_core/core.cpp:1168 plugins/_core/core.cpp:2611
 msgid "Sorry, I'm busy right now, and can not respond to your request"
 msgstr ""
 
-#: plugins/_core/core.cpp:1173 plugins/_core/core.cpp:2626
+#: plugins/_core/core.cpp:1173 plugins/_core/core.cpp:2620
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
 msgstr ""
 
@@ -501,49 +501,49 @@ msgstr "%1 von %2"
 msgid "&New"
 msgstr "&Nei"
 
-#: plugins/_core/core.cpp:2081
+#: plugins/_core/core.cpp:2075
 msgid "Not available"
 msgstr "Ned vrfigbar"
 
-#: plugins/_core/core.cpp:2180 plugins/dock/dockwnd.cpp:1173
+#: plugins/_core/core.cpp:2174 plugins/dock/dockwnd.cpp:1173
 #: plugins/osd/osd.cpp:324
 msgid "%1 from %2"
 msgstr "%1 von %2"
 
-#: plugins/_core/core.cpp:2315
+#: plugins/_core/core.cpp:2309
 msgid "%1 wrote:"
 msgstr "%1 schrieb:"
 
-#: plugins/_core/core.cpp:2403
+#: plugins/_core/core.cpp:2397
 msgid "Send SMS"
 msgstr "SMS senda"
 
-#: plugins/_core/core.cpp:3355 plugins/_core/core.cpp:3377
+#: plugins/_core/core.cpp:3349 plugins/_core/core.cpp:3371
 #: plugins/_core/managerbase.cc:103 plugins/_core/managerbase.cpp:103
 msgid "Connection manager"
 msgstr "Benudzerkondenmanagr"
 
-#: plugins/_core/core.cpp:3363
+#: plugins/_core/core.cpp:3357
 msgid "Show status panel"
 msgstr "Schdadusleischde anzeiga"
 
-#: plugins/_core/core.cpp:3370
+#: plugins/_core/core.cpp:3364
 msgid "Connections"
 msgstr "Vrbendonga"
 
-#: plugins/_core/core.cpp:3385
+#: plugins/_core/core.cpp:3379
 msgid "Change profile"
 msgstr "Brofil wechseln"
 
-#: plugins/_core/core.cpp:3414
+#: plugins/_core/core.cpp:3408
 msgid "Common status"
 msgstr "Gmeinsamr Schdadus"
 
-#: plugins/_core/core.cpp:3420
+#: plugins/_core/core.cpp:3414
 msgid "Configure client"
 msgstr "Client konfiguriera"
 
-#: plugins/_core/core.cpp:3444 plugins/_core/status.cpp:152
+#: plugins/_core/core.cpp:3438 plugins/_core/status.cpp:152
 #: plugins/_core/status.cpp:220
 msgid "&Invisible"
 msgstr "&Onsichdbar"
@@ -649,7 +649,7 @@ msgstr "%1 Nachrichda bro Seide anzeiga"
 msgid "Loading"
 msgstr "Wird glada"
 
-#: plugins/_core/historywnd.cpp:117 plugins/_core/interfacecfg.cpp:77
+#: plugins/_core/historywnd.cpp:117 plugins/_core/interfacecfg.cpp:78
 msgid "History"
 msgstr "Vrlauf"
 
@@ -698,54 +698,58 @@ msgstr "Holländisch"
 msgid "Polish"
 msgstr "Bolnisch"
 
-#: plugins/_core/interfacecfg.cpp:57 plugins/icq/moreinfo.cpp:131
+#: plugins/_core/interfacecfg.cpp:57 plugins/icq/moreinfo.cpp:129
+msgid "Portuguese"
+msgstr "Bordugiesisch"
+
+#: plugins/_core/interfacecfg.cpp:58 plugins/icq/moreinfo.cpp:131
 msgid "Russian"
 msgstr "Russisch"
 
-#: plugins/_core/interfacecfg.cpp:58 plugins/icq/moreinfo.cpp:133
+#: plugins/_core/interfacecfg.cpp:59 plugins/icq/moreinfo.cpp:133
 msgid "Slovak"
 msgstr "Slovakisch"
 
-#: plugins/_core/interfacecfg.cpp:59
+#: plugins/_core/interfacecfg.cpp:60
 msgid "Swabian"
 msgstr "Schwäbisch"
 
-#: plugins/_core/interfacecfg.cpp:60 plugins/icq/icqclient.cpp:317
+#: plugins/_core/interfacecfg.cpp:61 plugins/icq/icqclient.cpp:317
 #: plugins/icq/icqclient.cpp:318 plugins/icq/moreinfo.cpp:142
 msgid "Turkish"
 msgstr "Dirkisch"
 
-#: plugins/_core/interfacecfg.cpp:61 plugins/icq/icqclient.cpp:294
+#: plugins/_core/interfacecfg.cpp:62 plugins/icq/icqclient.cpp:294
 #: plugins/icq/moreinfo.cpp:143
 msgid "Ukrainian"
 msgstr "Ukrainisch"
 
-#: plugins/_core/interfacecfg.cpp:62 plugins/icq/moreinfo.cpp:100
+#: plugins/_core/interfacecfg.cpp:63 plugins/icq/moreinfo.cpp:100
 msgid "Chinese"
 msgstr "Chinesisch"
 
-#: plugins/_core/interfacecfg.cpp:75
+#: plugins/_core/interfacecfg.cpp:76
 msgid "Contact list"
 msgstr "Kondakdlischde"
 
-#: plugins/_core/interfacecfg.cpp:80
+#: plugins/_core/interfacecfg.cpp:81
 msgid "Messages"
 msgstr "Nachrichda"
 
-#: plugins/_core/interfacecfg.cpp:83
+#: plugins/_core/interfacecfg.cpp:84
 msgid "SMS"
 msgstr "SMS"
 
-#: plugins/_core/interfacecfg.cpp:85
+#: plugins/_core/interfacecfg.cpp:86
 #, fuzzy
 msgid "Fonts"
 msgstr "Schrifdard:"
 
-#: plugins/_core/interfacecfg.cpp:92 plugins/icq/icqclient.cpp:2567
+#: plugins/_core/interfacecfg.cpp:93 plugins/icq/icqclient.cpp:2576
 msgid "System"
 msgstr "Syschdem"
 
-#: plugins/_core/interfacecfg.cpp:126
+#: plugins/_core/interfacecfg.cpp:127
 msgid "Copy %1 messages from history"
 msgstr "%1 Nachrichda vom Vrlauf kobiera"
 
@@ -768,7 +772,7 @@ msgid "New profile"
 msgstr "Neies Brofil"
 
 #: plugins/_core/logindlg.cpp:443 plugins/jabber/jabberclient.cpp:914
-#: plugins/msn/msnclient.cpp:614
+#: plugins/msn/msnclient.cpp:612
 msgid "Login failed"
 msgstr "Anmeldong fehlgschlaga"
 
@@ -838,7 +842,7 @@ msgstr "Dr Benudzr ischd akduell bei:"
 msgid "Yes"
 msgstr "Jo"
 
-#: plugins/_core/msgedit.cpp:441 plugins/update/update.cpp:103
+#: plugins/_core/msgedit.cpp:439 plugins/update/update.cpp:103
 #, c-format
 msgid ""
 "_n: Message\n"
@@ -847,7 +851,7 @@ msgstr ""
 "Nachrichd\n"
 "%n Nachrichda"
 
-#: plugins/_core/msgedit.cpp:467
+#: plugins/_core/msgedit.cpp:465
 #, c-format
 msgid ""
 "_n: SMS\n"
@@ -856,7 +860,7 @@ msgstr ""
 "SMS\n"
 "%n SMS"
 
-#: plugins/_core/msgedit.cpp:483
+#: plugins/_core/msgedit.cpp:481
 #, c-format
 msgid ""
 "_n: URL\n"
@@ -865,7 +869,7 @@ msgstr ""
 "URL\n"
 "%n URLs"
 
-#: plugins/_core/msgedit.cpp:546
+#: plugins/_core/msgedit.cpp:544
 #, c-format
 msgid ""
 "_n: Contact list\n"
@@ -874,7 +878,7 @@ msgstr ""
 "Kondakdlischde\n"
 "%n Kondakdlischda"
 
-#: plugins/_core/msgedit.cpp:593
+#: plugins/_core/msgedit.cpp:591
 #, c-format
 msgid ""
 "_n: File\n"
@@ -883,17 +887,17 @@ msgstr ""
 "Dadei\n"
 "%n Dadeia"
 
-#: plugins/_core/msgedit.cpp:600
+#: plugins/_core/msgedit.cpp:598
 #, fuzzy
 msgid "&Accept"
 msgstr "Akzebdiera-Modus"
 
-#: plugins/_core/msgedit.cpp:615
+#: plugins/_core/msgedit.cpp:613
 #, fuzzy
 msgid "&Decline"
 msgstr "&Richdong"
 
-#: plugins/_core/msgedit.cpp:668
+#: plugins/_core/msgedit.cpp:666
 #, c-format
 msgid ""
 "_n: Authorize request\n"
@@ -902,15 +906,15 @@ msgstr ""
 "Audhorisierongsanfroge\n"
 "%n Audhorisierongsanfroga"
 
-#: plugins/_core/msgedit.cpp:675
+#: plugins/_core/msgedit.cpp:673
 msgid "&Grant"
 msgstr "&Bewilligong"
 
-#: plugins/_core/msgedit.cpp:690
+#: plugins/_core/msgedit.cpp:688
 msgid "&Refuse"
 msgstr "&Ablehna"
 
-#: plugins/_core/msgedit.cpp:738
+#: plugins/_core/msgedit.cpp:736
 #, c-format
 msgid ""
 "_n: Authorization granted\n"
@@ -919,7 +923,7 @@ msgstr ""
 "Audhorisierong gnehmigd\n"
 "%n Audhorisieronga gnehmigd"
 
-#: plugins/_core/msgedit.cpp:759
+#: plugins/_core/msgedit.cpp:757
 #, c-format
 msgid ""
 "_n: Authorization refused\n"
@@ -928,7 +932,7 @@ msgstr ""
 "Audhorisierong abglehnd\n"
 "%n Audhorisieronga abglehnd"
 
-#: plugins/_core/msgedit.cpp:780
+#: plugins/_core/msgedit.cpp:778
 #, c-format
 msgid ""
 "_n: Add to contacts\n"
@@ -937,7 +941,7 @@ msgstr ""
 "Hinzugfigd zur Kondakdlischde\n"
 "%n Mol hinzugfigd zur Kondakdlischde"
 
-#: plugins/_core/msgedit.cpp:801
+#: plugins/_core/msgedit.cpp:799
 #, c-format
 msgid ""
 "_n: Removed from contacts\n"
@@ -946,7 +950,7 @@ msgstr ""
 "Hinzugfigd zur Kondakdlischde\n"
 "%n Mol hinzugfigd zur Kondakdlischde"
 
-#: plugins/_core/msgedit.cpp:822
+#: plugins/_core/msgedit.cpp:820
 #, c-format
 msgid ""
 "_n: Status changed\n"
@@ -955,40 +959,40 @@ msgstr ""
 "Schdadus geänderd\n"
 "%n Mol Schdadus geänderd"
 
-#: plugins/_core/msgedit.cpp:923 sim/ui/qt3/i18n.cpp:23
+#: plugins/_core/msgedit.cpp:921 sim/ui/qt3/i18n.cpp:23
 msgid "Cancel"
 msgstr "Abbrecha"
 
-#: plugins/_core/msgedit.cpp:988
+#: plugins/_core/msgedit.cpp:986
 msgid "No such client for send message"
 msgstr "Koin derardigr Client fir des Senda dr Nachrichd vrfigbar"
 
-#: plugins/_core/msgedit.cpp:1540 plugins/icq/icq.cpp:550
+#: plugins/_core/msgedit.cpp:1572 plugins/icq/icq.cpp:550
 #: plugins/jabber/jabber.cpp:346
 msgid "&Message"
 msgstr "&Nachrichd"
 
-#: plugins/_core/msgedit.cpp:1550 plugins/netmonitor/monitor.cpp:64
+#: plugins/_core/msgedit.cpp:1582 plugins/netmonitor/monitor.cpp:64
 msgid "&File"
 msgstr "&Dadei"
 
-#: plugins/_core/msgedit.cpp:1559 plugins/icq/icqmessage.cpp:987
+#: plugins/_core/msgedit.cpp:1591 plugins/icq/icqmessage.cpp:1006
 msgid "&URL"
 msgstr "&URL:"
 
-#: plugins/_core/msgedit.cpp:1577
+#: plugins/_core/msgedit.cpp:1609
 msgid "&Contact list"
 msgstr "&Kondakdlischde"
 
-#: plugins/_core/msgedit.cpp:1585
+#: plugins/_core/msgedit.cpp:1617
 msgid "&Authorization request"
 msgstr "&Audhorisierongsanfroge"
 
-#: plugins/_core/msgedit.cpp:1594
+#: plugins/_core/msgedit.cpp:1626
 msgid "&Grant autorization"
 msgstr "Audhorisierong &gewähra"
 
-#: plugins/_core/msgedit.cpp:1603
+#: plugins/_core/msgedit.cpp:1635
 msgid "&Refuse autorization"
 msgstr "Benudzeraudhorisierong &ablehna"
 
@@ -1086,7 +1090,7 @@ msgstr "Oischdellonga"
 #: plugins/icq/icq.cpp:280 plugins/icq/icqclient.cpp:1482
 #: plugins/icq/icqclient.cpp:1516 plugins/jabber/jabber.cpp:108
 #: plugins/jabber/jabberclient.cpp:1222 plugins/jabber/services.cpp:234
-#: plugins/msn/msn.cpp:89 plugins/msn/msnclient.cpp:1518
+#: plugins/msn/msn.cpp:89 plugins/msn/msnclient.cpp:1516
 msgid "Online"
 msgstr "Online"
 
@@ -2023,57 +2027,76 @@ msgstr "Mehr Smilies ralada"
 msgid "Smiles:"
 msgstr "Smilies:"
 
-#: plugins/icq/icqclient.cpp:687 plugins/icq/icqicmb.cpp:87
-#: plugins/icq/icqicmb.cpp:180
+#: plugins/icq/icqclient.cpp:687 plugins/icq/icqicmb.cpp:85
+#: plugins/icq/icqicmb.cpp:178
 msgid "Unknown error"
 msgstr "Onbekanndr Fehlr"
 
-#: plugins/icq/icqclient.cpp:696 plugins/icq/icqicmb.cpp:89
+#: plugins/icq/icqclient.cpp:696 plugins/icq/icqicmb.cpp:87
 msgid "Not supported by client"
 msgstr "Ned onderschdidzd vom Cliend"
 
-#: plugins/icq/icqicmb.cpp:165
+#: plugins/icq/icqicmb.cpp:163
 msgid "Invalid message"
 msgstr "Ongildige Nachrichda"
 
-#: plugins/icq/icqicmb.cpp:168
+#: plugins/icq/icqicmb.cpp:166
 msgid "Message was too large"
 msgstr "Nachrichd war zu lang"
 
-#: plugins/icq/icqicmb.cpp:171
+#: plugins/icq/icqicmb.cpp:169
 msgid "Message rate exceeded"
 msgstr "Nachrichdenrade erreichd"
 
-#: plugins/icq/icqclient.cpp:704 plugins/icq/icqicmb.cpp:174
+#: plugins/icq/icqclient.cpp:704 plugins/icq/icqicmb.cpp:172
 msgid "Sender too evil"
 msgstr "Sendr zu bese :-("
 
-#: plugins/icq/icqicmb.cpp:177
+#: plugins/icq/icqicmb.cpp:175
 msgid "We are to evil :("
 msgstr "Mir send zu bese :-("
 
-#: plugins/icq/icqicmb.cpp:671 plugins/msn/msnclient.cpp:2083
+#: plugins/icq/icqicmb.cpp:625 plugins/jabber/jabber_rosters.cpp:1733
+#, fuzzy
+msgid "File transfer declined"
+msgstr "Dadeiiberdragong beended:"
+
+#: plugins/icq/icqicmb.cpp:683 plugins/msn/msnclient.cpp:2081
 msgid "Message declined"
 msgstr "Nachrichd abglehnd"
 
-#: plugins/icq/icqicmb.cpp:737 plugins/icq/icqicmb.cpp:745
+#: plugins/icq/icqicmb.cpp:765 plugins/icq/icqicmb.cpp:773
 #: plugins/icq/icqvarious.cpp:1616 plugins/jabber/jabberclient.cpp:615
 msgid "Client go offline"
 msgstr "Client gehd offline"
 
-#: plugins/icq/icqicmb.cpp:1085 plugins/icq/warndlg.cpp:66
+#: plugins/icq/icqicmb.cpp:893
+#, fuzzy
+msgid "Directory"
+msgstr "Vrzeichnisse"
+
+#: plugins/icq/icqicmb.cpp:897 plugins/icq/icqicmb.cpp:903
+#, fuzzy, c-format
+msgid ""
+"_n: %n file\n"
+"%n files"
+msgstr ""
+"Dadei\n"
+"%n Dadeia"
+
+#: plugins/icq/icqicmb.cpp:1172 plugins/icq/warndlg.cpp:66
 msgid "Send fail"
 msgstr "Senda fehlgschlaga"
 
-#: plugins/icq/icqicmb.cpp:1164
+#: plugins/icq/icqicmb.cpp:1251
 msgid "Send timeout"
 msgstr "Zeidiberschreidong während des Sendens"
 
-#: plugins/icq/icqicmb.cpp:1188
+#: plugins/icq/icqicmb.cpp:1275
 msgid "No contact"
 msgstr "Koin Kondakd"
 
-#: plugins/icq/icqicmb.cpp:1209 plugins/icq/icqmessage.cpp:1167
+#: plugins/icq/icqicmb.cpp:1296 plugins/icq/icqmessage.cpp:1186
 #: plugins/jabber/jabberclient.cpp:2140
 #, fuzzy
 msgid "No contacts for send"
@@ -2136,7 +2159,7 @@ msgstr "Wahrscheinlich onsichdbar"
 msgid "Connect to unknown port"
 msgstr "Zu onbekanndem Bord vrbenda"
 
-#: plugins/icq/icqdirect.cpp:223 plugins/msn/msnclient.cpp:2391
+#: plugins/icq/icqdirect.cpp:223 plugins/msn/msnclient.cpp:2389
 msgid "Can't established direct connection"
 msgstr "Direkdvrbendong ka ned hergschdelld werda"
 
@@ -2152,7 +2175,7 @@ msgstr "Nachrichd &Senda fehlgschlaga"
 msgid "Unknown message type"
 msgstr "Onbekanndr Nachrichdendyb"
 
-#: plugins/icq/icqdirect.cpp:1817
+#: plugins/icq/icqdirect.cpp:1825
 msgid "No files for transfer"
 msgstr "Koine Dadeia zom Iberdraga"
 
@@ -2202,7 +2225,7 @@ msgstr "Wahrscheinlich onsichdbar"
 
 #: plugins/icq/aiminfo.cpp:166 plugins/icq/icqclient.cpp:1509
 #: plugins/icq/icqinfo.cpp:229 plugins/jabber/jabberclient.cpp:1215
-#: plugins/jabber/jabberinfo.cpp:103 plugins/msn/msnclient.cpp:1511
+#: plugins/jabber/jabberinfo.cpp:103 plugins/msn/msnclient.cpp:1509
 #: plugins/msn/msninfo.cpp:88
 msgid "Last online"
 msgstr "Zuledzd online"
@@ -2243,7 +2266,7 @@ msgstr "Baked vom Servr schließa"
 msgid "Bad host address"
 msgstr "Fehlerhafde Hoschdadresse"
 
-#: plugins/icq/icqmessage.cpp:632
+#: plugins/icq/icqmessage.cpp:651
 #, c-format
 msgid ""
 "_n: WWW-panel message\n"
@@ -2252,7 +2275,7 @@ msgstr ""
 "WWW-Nachrichd\n"
 "%n WWW-Nachrichda"
 
-#: plugins/icq/icqmessage.cpp:653
+#: plugins/icq/icqmessage.cpp:672
 #, c-format
 msgid ""
 "_n: Email pager message\n"
@@ -2261,7 +2284,7 @@ msgstr ""
 "E-Mail-Pager-Nachrichd\n"
 "%n E-Mail-Pager-Nachrichda"
 
-#: plugins/icq/icqmessage.cpp:674
+#: plugins/icq/icqmessage.cpp:693
 #, c-format
 msgid ""
 "_n: Request secure channel\n"
@@ -2270,7 +2293,7 @@ msgstr ""
 "Anfroge sicherer Kanal\n"
 "%n Anfroga sicherer Kanal"
 
-#: plugins/icq/icqmessage.cpp:695
+#: plugins/icq/icqmessage.cpp:714
 #, c-format
 msgid ""
 "_n: Close secure channel\n"
@@ -2279,7 +2302,7 @@ msgstr ""
 "sicherera Kanal schließa\n"
 "%n Mol sicherera Kanal schließa"
 
-#: plugins/icq/icqmessage.cpp:716
+#: plugins/icq/icqmessage.cpp:735
 #, c-format
 msgid ""
 "_n: Check invisible\n"
@@ -2288,14 +2311,14 @@ msgstr ""
 "Oimol onsichdbar brifa\n"
 "%n Mol onsichbar brifa"
 
-#: plugins/icq/icqmessage.cpp:737
+#: plugins/icq/icqmessage.cpp:756
 #, c-format
 msgid ""
 "_n: Warning\n"
 "%n warnings"
 msgstr ""
 
-#: plugins/icq/icqmessage.cpp:843
+#: plugins/icq/icqmessage.cpp:862
 #, c-format
 msgid ""
 "_n: Contact request\n"
@@ -2304,31 +2327,31 @@ msgstr ""
 "Kondakdanfroge\n"
 "%n Kondakdanfroga"
 
-#: plugins/icq/icqmessage.cpp:922
+#: plugins/icq/icqmessage.cpp:941
 msgid "Contact Request"
 msgstr "Kondakdanfroge"
 
-#: plugins/icq/icqmessage.cpp:947
+#: plugins/icq/icqmessage.cpp:966
 msgid "Web panel"
 msgstr "Webbedienoberfläche"
 
-#: plugins/icq/icqmessage.cpp:953
+#: plugins/icq/icqmessage.cpp:972
 msgid "Email pager"
 msgstr "E-Mail Pager"
 
-#: plugins/icq/icqmessage.cpp:959
+#: plugins/icq/icqmessage.cpp:978
 msgid "Request secure channel"
 msgstr "Sichera Kanal anfordern"
 
-#: plugins/icq/icqmessage.cpp:966
+#: plugins/icq/icqmessage.cpp:985
 msgid "Close secure channel"
 msgstr "Sichera Kanal schließa"
 
-#: plugins/icq/icqmessage.cpp:973
+#: plugins/icq/icqmessage.cpp:992
 msgid "Check invisible"
 msgstr "Onsichdbar iberbrifa"
 
-#: plugins/icq/icqmessage.cpp:980 plugins/logger/logconfig.cpp:79
+#: plugins/icq/icqmessage.cpp:999 plugins/logger/logconfig.cpp:79
 #, fuzzy
 msgid "Warning"
 msgstr "&Warnonga"
@@ -2761,10 +2784,6 @@ msgstr "Molaysisch"
 #: plugins/icq/moreinfo.cpp:127
 msgid "Norwegian"
 msgstr "Norwegisch"
-
-#: plugins/icq/moreinfo.cpp:129
-msgid "Portuguese"
-msgstr "Bordugiesisch"
 
 #: plugins/icq/moreinfo.cpp:130
 msgid "Romanian"
@@ -3767,7 +3786,7 @@ msgid "Picture"
 msgstr "Bild"
 
 #: plugins/icq/icqclient.cpp:2094 plugins/icq/icqclient.cpp:2173
-#: plugins/jabber/jabberclient.cpp:1537 plugins/msn/msnclient.cpp:715
+#: plugins/jabber/jabberclient.cpp:1537 plugins/msn/msnclient.cpp:713
 msgid "Network"
 msgstr "Nedzwerk"
 
@@ -3823,11 +3842,6 @@ msgstr "Bassword schdemmd ned"
 msgid "Low level network error"
 msgstr "Nedzwerkfehlr uff niedrigr Ebene"
 
-#: plugins/jabber/jabber_rosters.cpp:1733
-#, fuzzy
-msgid "File transfer declined"
-msgstr "Dadeiiberdragong beended:"
-
 #: plugins/jabber/jabberadd.cpp:163
 msgid "Add Jabber contact"
 msgstr "Jabber-Kondakd hinzufiga"
@@ -3846,7 +3860,7 @@ msgid "Agents"
 msgstr "Agenda"
 
 #: plugins/jabber/jabberclient.cpp:2645 plugins/jabber/jabberclient.cpp:2685
-#: plugins/msn/msnclient.cpp:2592
+#: plugins/msn/msnclient.cpp:2590
 #, fuzzy
 msgid "File transfer failed"
 msgstr "Iberdragong fehlgschlaga"
@@ -4185,23 +4199,23 @@ msgstr "Bin am delefoniera"
 msgid "On the lunch"
 msgstr "Zom Middag"
 
-#: plugins/msn/msnclient.cpp:363 plugins/msn/msnclient.cpp:380
+#: plugins/msn/msnclient.cpp:361 plugins/msn/msnclient.cpp:378
 msgid "MSN protocol error"
 msgstr "MSN-Brodokoll-Fehlr"
 
-#: plugins/msn/msnclient.cpp:544
+#: plugins/msn/msnclient.cpp:542
 msgid "Youur account is being used from another location"
 msgstr "Ihre UIN wird grade von oim andera Ord aus benudzd"
 
-#: plugins/msn/msnclient.cpp:1579 plugins/msn/msnclient.cpp:1587
+#: plugins/msn/msnclient.cpp:1577 plugins/msn/msnclient.cpp:1585
 msgid "Contact go offline"
 msgstr "Benudzr hodd sich abgmelded"
 
-#: plugins/msn/msnclient.cpp:1781
+#: plugins/msn/msnclient.cpp:1779
 msgid "Send message failed"
 msgstr "Senda dr Nachrichd fehlgschlaga"
 
-#: plugins/msn/msnclient.cpp:2425
+#: plugins/msn/msnclient.cpp:2423
 #, fuzzy
 msgid "Transfer canceled"
 msgstr "Iberdragong fehlgschlaga"

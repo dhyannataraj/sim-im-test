@@ -357,11 +357,11 @@ bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
     return true;
 }
 
-Client *MsgEdit::client(void *&data, bool bCreate, bool bTyping, unsigned contact_id)
+Client *MsgEdit::client(void *&data, bool bCreate, bool bTyping, unsigned contact_id, bool bUseClient)
 {
     data = NULL;
     Contact *contact = getContacts()->contact(contact_id);
-    if (m_client.empty()){
+    if (!bUseClient || m_client.empty()){
         if (contact == NULL)
             return NULL;
         vector<ClientStatus> cs;
@@ -404,7 +404,7 @@ Client *MsgEdit::client(void *&data, bool bCreate, bool bTyping, unsigned contac
     void *d;
     ClientDataIterator it(contact->clientData);
     while ((d = ++it) != NULL){
-        if (m_client == it.client()->dataName(d)){
+        if (it.client()->dataName(d) == m_client){
             data = d;
             if (bTyping)
                 changeTyping(it.client(), data);
@@ -937,7 +937,7 @@ bool MsgEdit::send()
     void *data = NULL;
     if (contact){
         if (client_str.empty()){
-            Client *c = client(data, true, false, m_msg->contact());
+            Client *c = client(data, true, false, m_msg->contact(), (m_msg->getFlags() & MESSAGE_MULTIPLY) == 0);
             if (c){
                 m_msg->setClient(c->dataName(data).c_str());
                 bSent = c->send(m_msg, data);
@@ -1264,6 +1264,7 @@ void MsgEdit::setEmptyMessage()
         Command cmd;
         cmd->id      = MessageGeneric;
         cmd->menu_id = MenuMessage;
+        cmd->param   = (void*)(m_userWnd->id());
         Event e(EventCheckState, cmd);
         if (e.process() == NULL){
             QString phones = contact->getPhones();
@@ -1311,7 +1312,7 @@ void MsgEdit::typingStart()
 {
     typingStop();
     void *data = NULL;
-    Client *cl = client(data, false, false, m_userWnd->id());
+    Client *cl = client(data, false, false, m_userWnd->id(), m_userWnd->m_list == NULL);
     if (cl == NULL)
         return;
     Message *msg = new Message(MessageTypingStart);

@@ -53,7 +53,7 @@ public:
     bool		sendMessage(Message *msg);
     static void setupMessages();
     void		getWays(vector<ClientStatus> &cs, Contact *contact);
-    Client		*client(void *&data, bool bCreate, bool bSendTyping, unsigned contact_id);
+    Client		*client(void *&data, bool bCreate, bool bSendTyping, unsigned contact_id, bool bUseClient=true);
     bool		m_bReceived;
     unsigned	m_flags;
     void		execCommand(CommandDef *cmd);

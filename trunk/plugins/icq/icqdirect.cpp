@@ -1985,4 +1985,80 @@ void ICQFileTransfer::startReceive(unsigned pos)
         m_notify->transfer(true);
 }
 
+AIMFileTransfer::AIMFileTransfer(FileMessage *msg, ICQUserData *data, ICQClient *client)
+        : FileTransfer(msg), DirectSocket(data, client)
+{
+    m_msg		= msg;
+    m_client	= client;
+    m_state		= None;
+}
+
+AIMFileTransfer::~AIMFileTransfer()
+{
+}
+
+void AIMFileTransfer::listen()
+{
+    m_state = Listen;
+    bind(m_client->getMinPort(), m_client->getMaxPort(), m_client);
+}
+
+void AIMFileTransfer::processPacket()
+{
+}
+
+void AIMFileTransfer::connect_ready()
+{
+}
+
+bool AIMFileTransfer::error_state(const char *err, unsigned)
+{
+    m_msg->setError(err);
+    Event e(EventMessageSent, m_msg);
+    e.process();
+    return true;
+}
+
+void AIMFileTransfer::write_ready()
+{
+}
+
+void AIMFileTransfer::startReceive(unsigned)
+{
+}
+
+void AIMFileTransfer::bind_ready(unsigned short port)
+{
+    for (list<Message*>::iterator it = m_client->m_processMsg.begin(); it != m_client->m_processMsg.end(); ++it){
+        if ((*it) == m_msg){
+            m_client->m_processMsg.erase(it);
+            break;
+        }
+    }
+    m_port = port;
+    SendMsg s;
+    s.flags  = PLUGIN_AIM_FT;
+    s.socket = this;
+    s.screen = m_client->screen(m_data);
+    s.msg	 = m_msg;
+    m_client->sendQueue.push_front(s);
+    m_client->send(false);
+}
+
+bool AIMFileTransfer::accept(Socket *s, unsigned long)
+{
+    log(L_DEBUG, "Accept file transfer");
+    m_socket->setSocket(s);
+    init();
+    FileTransfer::m_state = FileTransfer::Negotiation;
+    if (m_notify)
+        m_notify->process();
+    return true;
+}
+
+bool AIMFileTransfer::error(const char *err)
+{
+    error_state(err, 0);
+    return true;
+}
 

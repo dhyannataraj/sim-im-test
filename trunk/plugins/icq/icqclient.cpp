@@ -2522,9 +2522,18 @@ void *ICQClient::processEvent(Event *e)
                 send(true);
                 return msg;
             }
-            for (list<SendMsg>::iterator it = sendQueue.begin(); it != sendQueue.end(); ++it){
+            list<SendMsg>::iterator it;
+            for (it = sendQueue.begin(); it != sendQueue.end(); ++it){
                 if ((*it).msg == msg){
                     sendQueue.erase(it);
+                    delete msg;
+                    return msg;
+                }
+            }
+            for (it = replyQueue.begin(); it != replyQueue.end(); ++it){
+                if ((*it).msg == msg){
+                    replyQueue.erase(it);
+                    delete msg;
                     return msg;
                 }
             }
@@ -2981,11 +2990,19 @@ bool ICQClient::send(Message *msg, void *_data)
                sendThruServer(msg, data);
     case MessageFile:
         if (data && ((data->Status & 0xFFFF) != ICQ_STATUS_OFFLINE)){
-            if (data->Direct == NULL){
-                data->Direct = new DirectClient(data, this, PLUGIN_NULL);
-                data->Direct->connect();
+            if (data->Uin){
+                if (data->Direct == NULL){
+                    data->Direct = new DirectClient(data, this, PLUGIN_NULL);
+                    data->Direct->connect();
+                }
+                return data->Direct->sendMessage(msg);
             }
-            return data->Direct->sendMessage(msg);
+            if (!hasCap(data, CAP_AIM_SENDFILE))
+                return false;
+            m_processMsg.push_back(msg);
+            AIMFileTransfer *ft = new AIMFileTransfer(static_cast<FileMessage*>(msg), data, this);
+            ft->listen();
+            return true;
         }
         return false;
     case MessageTypingStart:
@@ -3081,7 +3098,7 @@ bool ICQClient::canSend(unsigned type, void *_data)
     case MessageCheckInvisible:
         return data && data->Uin && !m_bAIM && ((data->Status & 0xFFFF) == ICQ_STATUS_OFFLINE);
     case MessageFile:
-        return data && ((data->Status & 0xFFFF) != ICQ_STATUS_OFFLINE);
+        return data && ((data->Status & 0xFFFF) != ICQ_STATUS_OFFLINE) && ((data->Uin == 0) || hasCap(data, CAP_AIM_SENDFILE));
     case MessageWarning:
         return data && (m_bAIM || (data->Uin == 0));
 #ifdef USE_OPENSSL

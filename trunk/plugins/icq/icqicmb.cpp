@@ -621,6 +621,16 @@ void packCap(Buffer &b, const capability &c)
 
 void ICQClient::ackMessage(SendMsg &s)
 {
+    if (s.flags == PLUGIN_AIM_FT){
+        s.msg->setError(I18N_NOOP("File transfer declined"));
+        Event e(EventMessageSent, s.msg);
+        e.process();
+        delete s.msg;
+        s.msg = NULL;
+        s.screen = "";
+        send(true);
+        return;
+    }
     if ((s.msg->getFlags() & MESSAGE_NOHISTORY) == 0){
         if ((s.flags & SEND_MASK) == SEND_RAW){
             s.msg->setClient(dataName(m_send.screen.c_str()).c_str());
@@ -705,25 +715,41 @@ void ICQClient::sendAdvMessage(const char *screen, Buffer &msgText, unsigned plu
     msgBuf.pack(0x00000000L);
     msgBuf.pack(0x00000000L);
     msgBuf.pack(msgText.data(0), msgText.size());
-    sendType2(screen, msgBuf, id, CAP_SRV_RELAY, bOffline, bPeek, bDirect, type);
+    TlvList tlvs;
+    if (bPeek)
+        tlvs + new Tlv(0x03, 0, NULL);
+    sendType2(screen, msgBuf, id, CAP_SRV_RELAY, bOffline, bDirect ? data.owner.Port : 0, &tlvs, type);
 }
 
-void ICQClient::sendType2(const char *screen, Buffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, bool bPeek, bool bDirect, unsigned short type)
+static void copyTlv(Buffer &b, TlvList *tlvs, unsigned nTlv)
+{
+    if (tlvs == NULL)
+        return;
+    Tlv *tlv = (*tlvs)(nTlv);
+    if (tlv == NULL)
+        return;
+    b.tlv(nTlv, *tlv, tlv->Size());
+}
+
+void ICQClient::sendType2(const char *screen, Buffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, unsigned short port, TlvList *tlvs, unsigned short type)
 {
     Buffer b;
     b << (unsigned short)0;
     b << id.id_l << id.id_h;
     b.pack((char*)capabilities[cap], sizeof(capability));
     b.tlv(0x0A, (unsigned short)type);
-    if (bDirect){
+    if (port){
         b.tlv(0x03, (unsigned long)htonl(get_ip(data.owner.RealIP)));
         b.tlv(0x04, (unsigned long)htonl(get_ip(data.owner.IP)));
-        b.tlv(0x05, (unsigned short)data.owner.Port);
+        b.tlv(0x05, port);
     }
     b.tlv(0x0F);
+    copyTlv(b, tlvs, 0x0E);
+    copyTlv(b, tlvs, 0x0D);
+    copyTlv(b, tlvs, 0x0C);
     b.tlv(0x2711, msgBuf);
-    if (bPeek)
-        b.tlv(0x03);
+    copyTlv(b, tlvs, 0x2712);
+    copyTlv(b, tlvs, 0x03);
     sendThroughServer(screen, 2, b, id, bOffline);
 }
 
@@ -1256,7 +1282,7 @@ void ICQClient::processSendQueue()
             continue;
         }
 
-        if (m_send.msg){
+        if (m_send.msg && (m_send.socket == NULL)){
             unsigned short type;
             Buffer b;
             m_send.id.id_l = rand();
@@ -1433,6 +1459,65 @@ void ICQClient::processSendQueue()
             Buffer msgBuf;
             m_send.id.id_l = rand();
             m_send.id.id_h = rand();
+            if (m_send.flags == PLUGIN_AIM_FT){
+                TlvList tlvs;
+                tlvs + new Tlv(0x0E, 2, "en");
+                char b[15];
+                sprintf(b, "%06X", m_send.msg->getBackground() & 0xFFFFFF);
+                QString text = QString("<HTML><BODY BGCOLOR=\"#%1\">%2</BODY></HTML>")
+                               .arg(b)
+                               .arg(removeImages(m_send.msg->getRichText(), 0));
+                bool bWide = false;
+                int i;
+                for (i = 0; i < (int)(text.length()); i++){
+                    if (text[i].unicode() > 0x7F){
+                        bWide = true;
+                        break;
+                    }
+                }
+                string charset = bWide ? "unicode-2-0" : "us-ascii";
+                tlvs + new Tlv(0x0D, charset.length(), charset.c_str());
+                string st;
+                if (bWide){
+                    for (i = 0; i < (int)(text.length()); i++){
+                        unsigned short s = text[i].unicode();
+                        st += (char)((s >> 8) & 0xFF);
+                        st += (char)(s & 0xFF);
+                    }
+                }else{
+                    st = text.utf8();
+                }
+                tlvs + new Tlv(0x0C, st.length(), st.c_str());
+                FileMessage *msg = static_cast<FileMessage*>(m_send.msg);
+                FileMessage::Iterator it(*msg);
+                msgBuf
+                << (unsigned short)0x0001
+                << (unsigned short)(it.count())
+                << (unsigned long)(it.size());
+                QString fname;
+                if (it.count() == 1){
+                    fname = *(it[0]);
+                    fname = fname.replace(QRegExp("\\\\"), "/");
+                    int n = fname.findRev("/");
+                    if (n >= 0)
+                        fname = fname.mid(n + 1);
+                }else{
+                    fname = QString::number(it.count());
+                    fname += " files";
+                }
+                bWide = false;
+                for (i = 0; i < (int)(fname.length()); i++){
+                    if (fname[i].unicode() > 0x7F){
+                        bWide = true;
+                        break;
+                    }
+                }
+                charset = bWide ? "utf8" : "us-ascii";
+                tlvs + new Tlv(0x2712, charset.length(), charset.c_str());
+                msgBuf << (const char*)(fname.utf8()) << (char)0;
+                sendType2(m_send.screen.c_str(), msgBuf, m_send.id, CAP_AIM_SENDFILE, false, m_send.socket->localPort(), &tlvs);
+                return;
+            }
             msgBuf.pack(this->data.owner.Uin);
             unsigned long ip = get_ip(this->data.owner.IP);
             if (ip == get_ip(m_send.socket->m_data->IP))
@@ -1647,12 +1732,17 @@ void ICQClient::decline(Message *msg, const char *reason)
             id.id_h = static_cast<ICQFileMessage*>(msg)->getID_H();
             cookie  = static_cast<ICQFileMessage*>(msg)->getCookie();
             break;
+        case MessageFile:
+            id.id_l = static_cast<AIMFileMessage*>(msg)->getID_L();
+            id.id_h = static_cast<AIMFileMessage*>(msg)->getID_H();
+            break;
         default:
             log(L_WARN, "Bad type %u for decline");
         }
         ICQUserData *data = NULL;
+        Contact *contact = NULL;
         if (msg->client()){
-            Contact *contact = getContacts()->contact(msg->contact());
+            contact = getContacts()->contact(msg->contact());
             if (contact){
                 ClientDataIterator it(contact->clientData, this);
                 while ((data = ((ICQUserData*)(++it))) != NULL){
@@ -1663,14 +1753,30 @@ void ICQClient::decline(Message *msg, const char *reason)
             }
         }
         if (data && (id.id_l || id.id_h)){
-            Buffer buf, msgBuf;
-            Buffer b;
-            packExtendedMessage(msg, buf, msgBuf, data);
-            b.pack((unsigned short)buf.size());
-            b.pack(buf.data(0), buf.size());
-            b.pack32(msgBuf);
-            unsigned short type = ICQ_MSGxEXT;
-            sendAutoReply(screen(data).c_str(), id, plugins[PLUGIN_NULL], (unsigned short)(cookie & 0xFFFF), (unsigned short)((cookie >> 16) & 0xFFFF), type, 1, 0, reason, 2, b);
+            if (msg->type() == MessageICQFile){
+                Buffer buf, msgBuf;
+                Buffer b;
+                packExtendedMessage(msg, buf, msgBuf, data);
+                b.pack((unsigned short)buf.size());
+                b.pack(buf.data(0), buf.size());
+                b.pack32(msgBuf);
+                unsigned short type = ICQ_MSGxEXT;
+                sendAutoReply(screen(data).c_str(), id, plugins[PLUGIN_NULL], (unsigned short)(cookie & 0xFFFF), (unsigned short)((cookie >> 16) & 0xFFFF), type, 1, 0, reason, 2, b);
+            }else{
+                snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_AUTOREPLY);
+                m_socket->writeBuffer << id.id_l << id.id_h << 0x0002;
+                m_socket->writeBuffer.packScreen(screen(data).c_str());
+                m_socket->writeBuffer << 0x0003 << 0x0002 << 0x0001;
+                sendPacket();
+                if (reason && *reason){
+                    Message *msg = new Message(MessageGeneric);
+                    msg->setText(QString::fromUtf8(reason));
+                    msg->setFlags(MESSAGE_NOHISTORY);
+                    msg->setContact(contact->id());
+                    if (!send(msg, data))
+                        delete msg;
+                }
+            }
         }
     }
     Event e(EventMessageDeleted, msg);
