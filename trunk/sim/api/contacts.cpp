@@ -1674,6 +1674,11 @@ void ContactList::save()
         if (line.length()){
             f.writeBlock(line.c_str(), line.length());
             f.writeBlock("\n", 1);
+        } else {
+            /* Group has no name --> Not In List
+               since the load_data seems to have problems with totally empty
+               entries, this must be ...*/
+            f.writeBlock("Name=\"NIL\"\n", 11);
         }
         line = grp->userData.save();
         if (line.length()){

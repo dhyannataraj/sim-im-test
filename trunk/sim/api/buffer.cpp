@@ -657,6 +657,7 @@ string Buffer::getSection(bool bSkip)
     unsigned posRead = m_posRead;
     char *p = data(m_posRead);
     if (bSkip){
+        /* skip until next '[' */
         for (;;){
             for (; m_posRead < m_size; p++, m_posRead++)
                 if ((*p == '\n') || (*p == 0))
@@ -672,6 +673,7 @@ string Buffer::getSection(bool bSkip)
         }
     }
     for (;;){
+        /* Search for '[' */
         if (m_posRead >= m_size){
             m_posRead = posRead;
             return "";
@@ -693,12 +695,14 @@ string Buffer::getSection(bool bSkip)
     p++;
     string section;
     char *s = p;
+    /* Search for ']' and get section name when found */
     for (; m_posRead < m_size; p++, m_posRead++){
         if (*p == ']'){
             *p = 0;
             section = s;
             *p = ']';
         }
+        /* no ']' or end of stream */
         if ((*p == '\n') || (*p == 0))
             break;
     }
@@ -706,23 +710,30 @@ string Buffer::getSection(bool bSkip)
         m_posRead = posRead;
         return "";
     }
+    /* next line with data */
     for (;m_posRead < m_size; p++, m_posRead++){
         if ((*p != '\n') || (*p == 0))
             break;
     }
     m_posWrite = m_posRead;
+    /* when current line starts with '[' we have a section
+       without any data */
+    if (*p == '[') {
+    	return section;
+    }
+    /* put m_posWrite to (next section start) - 1 */
     for (; m_posWrite < m_size; p++, m_posWrite++){
         if ((*p == '\r') || (*p == '\n') || (*p == 0)){
             *p = 0;
             if ((m_posWrite + 1 < m_size) && (p[1] == '[')){
                 m_posWrite++;
-		break;
+                break;
             }
         }
     }
     if (m_posWrite >= m_size){
-	allocate(m_size + 1, 0);
-	m_data[m_size] = 0;
+        allocate(m_size + 1, 0);
+        m_data[m_size] = 0;
     }
     return section;
 }
