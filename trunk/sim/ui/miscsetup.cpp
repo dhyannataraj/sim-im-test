@@ -152,18 +152,15 @@ void MiscSetup::clickedSync()
             Addressee newPers;
             if (!user.strKabUid.empty())
             {
-                qDebug("not empty %s",user.strKabUid.c_str());
                 Addressee pers=ab.findByUid(QString::fromLocal8Bit(user.strKabUid.c_str()));
                 if (!pers.isEmpty())
                 {
-                    qDebug("but not found in addressbook");
                     bFound=true;
                     newPers=pers;
                 }
             }
             else
             {
-                qDebug("empty, adding %lu",user.Uin);
                 list<EMailInfo*>::iterator it=user.EMails.begin();
                 while (it!=user.EMails.end())
                 {
@@ -171,7 +168,6 @@ void MiscSetup::clickedSync()
                     Addressee::List::iterator lit=li.begin();
                     if (lit!=li.end())
                     {
-                        qDebug("email found, actualy updating");
                         bFound=true;
                         newPers=(*lit);
                         break;
