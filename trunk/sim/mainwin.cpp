@@ -1462,7 +1462,7 @@ void MainWindow::saveState()
             (*itBox)->save(fs);
         }
     }
-	fs.flush();
+    fs.flush();
     saveContacts();
     pSplash->save();
 }

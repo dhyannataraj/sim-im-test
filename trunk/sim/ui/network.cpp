@@ -20,6 +20,7 @@
 #include "client.h"
 #include "icons.h"
 #include "enable.h"
+#include "mainwin.h"
 
 #include <qlabel.h>
 #include <qpixmap.h>
@@ -76,12 +77,16 @@ void NetworkSetup::apply(ICQUser*)
     SocketFactory *factory = pClient->factory();
     factory->MinTCPPort = edtMinPort->text().toUInt();
     factory->MaxTCPPort = edtMaxPort->text().toUInt();
-    factory->ProxyType = (PROXY_TYPE)(cmbProxy->currentItem());
     set(factory->ProxyHost, edtProxyHost->text());
     factory->ProxyPort = edtProxyPort->text().toUInt();
     set(factory->ProxyUser, edtProxyUser->text());
     set(factory->ProxyPasswd, edtProxyPasswd->text());
     factory->ProxyAuth = chkProxyAuth->isChecked();
+    if (factory->ProxyType != (PROXY_TYPE)(cmbProxy->currentItem())){
+        pClient->setStatus(ICQ_STATUS_OFFLINE);
+        factory->ProxyType = (PROXY_TYPE)(cmbProxy->currentItem());
+        pMain->realSetStatus();
+    }
 }
 
 void NetworkSetup::proxyChanged(bool)

@@ -380,7 +380,7 @@ QString TextShow::selectedText()
         if ((i < paraTo) && (i < paragraphs()))
             res += "\n";
     }
-	return res;
+    return res;
 }
 
 void TextShow::copy()

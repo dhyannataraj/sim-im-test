@@ -544,9 +544,9 @@ public slots:
     void setDock();
     void setupClosed();
     void deleteLogin();
+    void realSetStatus();
 protected slots:
     void toggleWindow();
-    void realSetStatus();
     void autoAway();
     void setToggle();
     void blink();
