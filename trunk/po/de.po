@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2002-11-30 01:58+0300\n"
-"PO-Revision-Date: 2002-11-30 01:45GMT\n"
-"Last-Translator: Crissi <crissi99@gmx.de>\n"
-"Language-Team: Deutsch <de@li.org>\n"
+"PO-Revision-Date: 2002-12-01 21:08GMT\n"
+"Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
+"Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "<<<<<<< de.poPOT-Creation-Date: 2002-11-09 04:37+0300\n"
 "=======POT-Creation-Date: 2002-11-12 09:51+0300\n"
 ">>>>>>> 1.109MIME-Version: 1.0\n"
-"X-Generator: KBabel 0.9.6\n"
+"X-Generator: KBabel 1.0\n"
 
 #: client.cpp:57 client.cpp:58 libicq/country.cpp:7
 msgid "Arabic"
@@ -3770,9 +3770,7 @@ msgstr "&Heim-Info"
 
 #: ui/generalsecbase.cpp:186
 msgid "My &authorization is required before users add me to Contact List"
-msgstr ""
-"&Meine Authorisierung ist erforderlich, bevor Benutzer mich zu Ihrer "
-"Kontaktliste hinzufügen können"
+msgstr "&Meine Authorisierung ist zum Hinzufügen erforderlich"
 
 #: ui/generalsecbase.cpp:187
 msgid "Don't show my &IP-address"
