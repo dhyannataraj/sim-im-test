@@ -440,7 +440,8 @@ void History::iterator::loadBlock()
         if (start > BLOCK_SIZE){
             start -= BLOCK_SIZE;
             f.seekg(start, ios::beg);
-	    log(L_DEBUG, ">> getline %u", f.tellg());
+	    int pos = f.tellg();
+	    log(L_DEBUG, ">> getline %u", pos);
             getline(f, type);
             log(L_DEBUG, "<< %s", type.c_str());		
             if ((f.tellg() > start_block) || f.eof())
@@ -451,7 +452,8 @@ void History::iterator::loadBlock()
         }
         string line;
         for (;;){
-	    log(L_DEBUG, "> getline %u", f.tellg());
+	    int pos = f.tellg();
+	    log(L_DEBUG, "> getline %u", pos);
             getline(f, line);
 	    log(L_DEBUG, "< %s", line.c_str());
             if ((f.tellg() > start_block) || f.eof())
@@ -496,7 +498,8 @@ void History::iterator::loadBlock()
                 for (;;){
                     string line;
                     if (f.eof()) break;
-		    log(L_DEBUG, ">>> %u", f.tellg());
+		    int pos = f.tellg();
+		    log(L_DEBUG, ">>> %u", pos);
                     getline(f, line);
 		    log(L_DEBUG, "<<< %s");
                     if (*line.c_str() == '[') break;

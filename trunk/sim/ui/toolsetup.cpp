@@ -91,13 +91,11 @@ void ToolBarSetup::applyClick()
 		snprintf(b, sizeof(b), "%li ", *it);
 		s += b;
 	}
-	log(L_DEBUG, "W: %s", s.c_str());
 	s = "";
         for (it = active.begin(); it != active.end(); ++it){
                 snprintf(b, sizeof(b), "%li ", *it);
                 s += b;
         }
-        log(L_DEBUG, "S: %s", s.c_str());
 
 	s = "";
         *m_active = active;
@@ -105,7 +103,6 @@ void ToolBarSetup::applyClick()
                 snprintf(b, sizeof(b), "%li ", *it);
                 s += b;
         }
-        log(L_DEBUG, "N: %s", s.c_str());
 
         pMain->changeToolBar(def);
     }

@@ -261,10 +261,14 @@ char **_argv;
 
 KAboutData *appAboutData = NULL;
 
+#ifndef WIN32
+
 void simMessageOutput( QtMsgType, const char *msg )
 {
     log(L_DEBUG, "QT: %s", msg); 
 }
+
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -276,7 +280,9 @@ int main(int argc, char *argv[])
 #endif
 
     QApplication::setColorSpec( QApplication::ManyColor );
+#ifndef WIN32
     qInstallMsgHandler(simMessageOutput);
+#endif
 
     KAboutData aboutData(PACKAGE,
                          I18N_NOOP("SIM"),

@@ -116,8 +116,8 @@ signals:
     void showPopup(QPoint);
 };
 
-const unsigned long BTN_SEPARATOR	= (unsigned long)(-1);
-const unsigned long BTN_END_DEF		= (unsigned long)(-2);
+const unsigned long BTN_SEPARATOR	= 0xFFFE;
+const unsigned long BTN_END_DEF		= 0xFFFF;
 
 const int BTN_TOGGLE		= 0x0001;
 const int BTN_TOGGLE_PICT	= 0x0002;

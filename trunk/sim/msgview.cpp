@@ -881,6 +881,7 @@ void HistoryView::searchChanged()
     QComboBox *cmb = static_cast<QComboBox*>(toolbar->getWidget(cmbSearch));
     QLineEdit *edt = cmb->lineEdit();
     QString searchText = edt->text();
+    if (searchText.length() == 0) return;
 #if QT_VERSION >= 300
     int startPos, endPos;
     edt->getSelection(&startPos, &endPos);
@@ -892,7 +893,8 @@ void HistoryView::searchChanged()
     cmb->insertStringList(pMain->searches);
     edt->setText(searchText);
 #if QT_VERSION >= 300
-    edt->setSelection(startPos, endPos);
+    if ((startPos < endPos) && (startPos >= 0) && (endPos >= 0))
+    	edt->setSelection(startPos, endPos);
 #endif
     edt->setCursorPosition(pos);
     searchParag = safeParag;

@@ -445,9 +445,7 @@ CToolBar::~CToolBar()
 void CToolBar::toolBarChanged(const ToolBarDef *def)
 {
     if (def != m_def) return;
-    log(L_DEBUG, "Changed");
     clear();
-    log(L_DEBUG, "Clear");
     int i;
     for (i = 0; i < (int)(states->size()); i++){
         if ((*states)[i].button == NULL) continue;
@@ -464,10 +462,11 @@ void CToolBar::toolBarChanged(const ToolBarDef *def)
             m_active->push_back(def->id);
     }
 
-    for (list<unsigned long>::iterator it = m_active->begin(); it != m_active->end(); ++it){
+    for (list<unsigned long>::iterator it = m_active->begin(); it != m_active->end(); ){
         unsigned long id = *it;
         if (id == BTN_SEPARATOR){
             addSeparator();
+	    ++it;
             continue;
         }
         const ToolBarDef *def;
@@ -476,7 +475,12 @@ void CToolBar::toolBarChanged(const ToolBarDef *def)
         if (def->id == BTN_END_DEF){
             for (def++; def->id != BTN_END_DEF; def++)
                 if (def->id == id) break;
-            if (def->id == BTN_END_DEF) continue;
+            if (def->id == BTN_END_DEF){
+		m_active->remove(id);
+		clear();
+		it = m_active->begin();
+		continue;
+	    }
         }
 
         QWidget *w;
@@ -532,6 +536,7 @@ void CToolBar::toolBarChanged(const ToolBarDef *def)
         }else{
             connect(w, SIGNAL(showPopup(QPoint)), this, SLOT(showPopup(QPoint)));
         }
+	++it;
     }
 }
 
