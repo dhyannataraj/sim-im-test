@@ -13,7 +13,12 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- ***************************************************************************/
+ ***************************************************************************
+
+ Check screen saver state from xscreensaver-command, Copyright (c) 1991-1998
+	by Jamie Zawinski <jwz@jwz.org>
+
+*/
 
 #include "osd.h"
 #include "osdconfig.h"
@@ -32,6 +37,21 @@
 #include <qregion.h>
 #include <qstyle.h>
 #include <qregexp.h>
+
+#ifdef WIN32
+#include <windows.h>
+
+#ifndef SPI_GETSCREENSAVERRUNNING 
+#define SPI_GETSCREENSAVERRUNNING 114
+#endif
+
+#else
+#ifndef QT_MACOSX_VERSION
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#include <X11/Xatom.h>
+#endif
+#endif
 
 const unsigned SHADOW_OFFS	= 2;
 const unsigned XOSD_MARGIN	= 5;
@@ -167,8 +187,96 @@ OSDWidget::OSDWidget()
 
 QPixmap& intensity(QPixmap &pict, float percent);
 
+#ifndef WIN32
+#ifndef QT_MACOSX_VERSION
+
+static XErrorHandler old_handler = 0;
+static Bool got_badwindow = False;
+static int
+BadWindow_ehandler (Display *dpy, XErrorEvent *error)
+{
+    if (error->error_code == BadWindow)
+    {
+        got_badwindow = True;
+        return 0;
+    }
+    else
+    {
+        return (*old_handler) (dpy, error);
+    }
+}
+
+#endif
+#endif
+
+bool OSDWidget::isScreenSaverActive()
+{
+#ifdef WIN32
+    BOOL pvParam;
+    if (SystemParametersInfo(SPI_GETSCREENSAVERRUNNING, 0, &pvParam, 0)){
+        if (pvParam)
+            return true;
+    }
+#else
+#ifndef QT_MACOSX_VERSION
+    Display *dsp = x11Display();
+    Atom XA_SCREENSAVER_VERSION = XInternAtom(dsp, "_SCREENSAVER_VERSION", false);
+    Window root = RootWindowOfScreen(DefaultScreenOfDisplay(dsp));
+    Window root2, parent, *kids;
+    unsigned int nkids;
+    if (!XQueryTree(dsp, root, &root2, &parent, &kids, &nkids))
+        return false;
+    if (root != root2)
+        return false;
+    if (parent)
+        return false;
+    if (!(kids && nkids))
+        return false;
+    for (unsigned i = 0; i < nkids; i++){
+        Atom type;
+        int format;
+        unsigned long nitems, bytesafter;
+        char *v;
+        int status;
+
+        XSync (dsp, False);
+        if (old_handler)
+            break;
+        got_badwindow = False;
+        old_handler = XSetErrorHandler (BadWindow_ehandler);
+        status = XGetWindowProperty (dsp, kids[i],
+                                     XA_SCREENSAVER_VERSION,
+                                     0, 200, False, XA_STRING,
+                                     &type, &format, &nitems, &bytesafter,
+                                     (unsigned char **) &v);
+        XSync(dsp, False);
+        XSetErrorHandler (old_handler);
+        old_handler = 0;
+
+        if (got_badwindow)
+        {
+            status = BadWindow;
+            got_badwindow = False;
+        }
+
+        if (status == Success && type != None){
+            XFree (kids);
+            return true;
+        }
+    }
+    if (kids)
+        XFree(kids);
+#endif
+#endif
+    return false;
+}
+
 void OSDWidget::showOSD(const QString &str, OSDUserData *data)
 {
+    if (isScreenSaverActive()){
+        hide();
+        return;
+    }
     setFont(FontEdit::str2font(data->Font.ptr, baseFont));
     QPainter p(this);
     p.setFont(font());

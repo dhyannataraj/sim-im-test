@@ -391,7 +391,7 @@ void Container::init()
         Contact *contact = getContacts()->contact(id);
         if (contact == NULL)
             continue;
-        addUserWnd(new UserWnd(id, getWndConfig(id), false), true);
+        addUserWnd(new UserWnd(id, getWndConfig(id), false, true), true);
     }
     if (m_tabBar->count() == 0)
         QTimer::singleShot(0, this, SLOT(close()));

@@ -62,6 +62,7 @@ public:
 signals:
     void dblClick();
 protected:
+    bool isScreenSaverActive();
     void paintEvent(QPaintEvent*);
     void mouseDoubleClickEvent(QMouseEvent *e);
     QFont	baseFont;

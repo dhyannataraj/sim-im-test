@@ -1443,7 +1443,7 @@ void CorePlugin::installTranslator()
 #ifdef USE_KDE
         return;
 #else
-char *p = getenv("LANG");
+        char *p = getenv("LANG");
         if (p){
             for (; *p; p++){
                 if (*p == '.') break;
@@ -2007,7 +2007,7 @@ void *CorePlugin::processEvent(Event *e)
             }
             delete list;
             if (userWnd == NULL){
-                userWnd = new UserWnd(contact->id(), NULL, (*msg)->getFlags() & MESSAGE_RECEIVED);
+                userWnd = new UserWnd(contact->id(), NULL, (*msg)->getFlags() & MESSAGE_RECEIVED, false);
                 if (getContainerMode() == 3){
                     QWidgetList  *list = QApplication::topLevelWidgets();
                     QWidgetListIt it(*list);

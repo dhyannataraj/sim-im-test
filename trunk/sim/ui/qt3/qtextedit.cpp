@@ -988,7 +988,7 @@ void QTextEdit::keyPressEvent( QKeyEvent *e )
 #if defined(Q_WS_X11)
                     moveCursor( MoveLineStart, e->state() & ShiftButton );
 #else
-selectAll( TRUE );
+                    selectAll( TRUE );
 #endif
                     break;
                 case Key_B:
@@ -3761,67 +3761,82 @@ void QTextEdit::pasteSubType( const QCString& subtype, QMimeSource *m )
     st.prepend( "application/" );
     if ( !m )
         return;
-    if ( doc->hasSelection( QTextDocument::Standard ) )
-        removeSelectedText();
     if ( !QRichTextDrag::canDecode( m ) )
         return;
     QString t;
     if ( !QRichTextDrag::decode( m, t, st.data(), subtype ) )
         return;
-    int start;
-    if ((start = t.find( "<!--StartFragment-->" )) != -1 ) {
-        start += 20;
-        int end = t.find( "<!--EndFragment-->" );
-        if ( start < end )
-            t = t.mid( start, end - start );
-        else
-            t = t.mid( start );
-    }
-    QTextCursor oldC = *cursor;
-    oldC.gotoPreviousLetter();
-    bool couldGoBack = oldC != *cursor;
-    bool wasAtFirst = oldC.parag() == doc->firstParag();
-    lastFormatted = cursor->parag();
-    if ( lastFormatted->prev() )
-        lastFormatted = lastFormatted->prev();
-    doc->setRichTextInternal(t, cursor);
-    if ( wasAtFirst ) {
-        int index = oldC.index();
-        oldC.setParag( doc->firstParag() );
-        oldC.setIndex( index );
-    }
-    if ( couldGoBack )
-        oldC.gotoNextLetter();
+    if ( st == "application/x-qrichtext" ) {
+        int start;
+        if ((start = t.find( "<!--StartFragment-->" )) != -1 ) {
+            start += 20;
+            int end = t.find( "<!--EndFragment-->" );
+            if ( start < end )
+                t = t.mid( start, end - start );
+            else
+                t = t.mid( start );
+        }
+        QTextCursor oldC = *cursor;
+        oldC.gotoPreviousLetter();
+        bool couldGoBack = oldC != *cursor;
+        bool wasAtFirst = oldC.parag() == doc->firstParag();
+        lastFormatted = cursor->parag();
+        if ( lastFormatted->prev() )
+            lastFormatted = lastFormatted->prev();
+        doc->setRichTextInternal(t, cursor);
+        if ( wasAtFirst ) {
+            int index = oldC.index();
+            oldC.setParag( doc->firstParag() );
+            oldC.setIndex( index );
+        }
+        if ( couldGoBack )
+            oldC.gotoNextLetter();
 
-    if ( undoEnabled && !isReadOnly() ) {
-        doc->setSelectionStart( QTextDocument::Temp, &oldC );
-        doc->setSelectionEnd( QTextDocument::Temp, cursor );
-        checkUndoRedoInfo( UndoRedoInfo::Insert );
-        if ( !undoRedoInfo.valid() ) {
-            undoRedoInfo.id = oldC.parag()->paragId();
-            undoRedoInfo.index = oldC.index();
-            undoRedoInfo.d->text = QString::null;
-        }
-        int oldLen = undoRedoInfo.d->text.length();
-        if ( !doc->preProcessor() ) {
-            QString txt = doc->selectedText( QTextDocument::Temp );
-            undoRedoInfo.d->text += txt;
-            for ( int i = 0; i < (int)txt.length(); ++i ) {
-                if ( txt[ i ] != '\n' && oldC.parag()->at( oldC.index() )->format() ) {
-                    oldC.parag()->at( oldC.index() )->format()->addRef();
-                    undoRedoInfo.d->text.
-                    setFormat( oldLen + i, oldC.parag()->at( oldC.index() )->format(), TRUE );
-                }
-                oldC.gotoNextLetter();
+        if ( undoEnabled && !isReadOnly() ) {
+            doc->setSelectionStart( QTextDocument::Temp, &oldC );
+            doc->setSelectionEnd( QTextDocument::Temp, cursor );
+            checkUndoRedoInfo( UndoRedoInfo::Insert );
+            if ( !undoRedoInfo.valid() ) {
+                undoRedoInfo.id = oldC.parag()->paragId();
+                undoRedoInfo.index = oldC.index();
+                undoRedoInfo.d->text = QString::null;
             }
+            int oldLen = undoRedoInfo.d->text.length();
+            if ( !doc->preProcessor() ) {
+                QString txt = doc->selectedText( QTextDocument::Temp );
+                undoRedoInfo.d->text += txt;
+                for ( int i = 0; i < (int)txt.length(); ++i ) {
+                    if ( txt[ i ] != '\n' && oldC.parag()->at( oldC.index() )->format() ) {
+                        oldC.parag()->at( oldC.index() )->format()->addRef();
+                        undoRedoInfo.d->text.
+                        setFormat( oldLen + i, oldC.parag()->at( oldC.index() )->format(), TRUE );
+                    }
+                    oldC.gotoNextLetter();
+                }
+            }
+            undoRedoInfo.clear();
         }
-        undoRedoInfo.clear();
+        formatMore();
+        setModified();
+        emit textChanged();
+        repaintChanged();
+        ensureCursorVisible();
+    } else {
+#if defined(Q_OS_WIN32)
+        // Need to convert CRLF to LF
+        t.replace( "\r\n", "\n" );
+#elif defined(Q_OS_MAC)
+        //need to convert CR to LF
+        t.replace( '\r', '\n' );
+#endif
+        QChar *uc = (QChar *)t.unicode();
+        for ( int i=0; (uint) i<t.length(); i++ ) {
+            if ( uc[ i ] < ' ' && uc[ i ] != '\n' && uc[ i ] != '\t' )
+                uc[ i ] = ' ';
+        }
+        if ( !t.isEmpty() )
+            insert( t, FALSE, TRUE );
     }
-    formatMore();
-    setModified();
-    emit textChanged();
-    repaintChanged();
-    ensureCursorVisible();
 }
 
 #ifndef QT_NO_MIMECLIPBOARD
@@ -3866,7 +3881,7 @@ QCString QTextEdit::pickSpecial( QMimeSource* ms, bool always_ask, const QPoint&
                 return popup.text(i).latin1();
         }
 #else
-QString fmt;
+        QString fmt;
         for (int i = 0; !( fmt = ms->format( i ) ).isNull(); i++) {
             int semi = fmt.find( ";" );
             if ( semi >= 0 )
@@ -4220,7 +4235,7 @@ QPopupMenu *QTextEdit::createPopupMenu( const QPoint& )
 #if defined(Q_WS_X11)
     d->id[ IdSelectAll ] = popup->insertItem( i18n( "Select All" ) );
 #else
-d->id[ IdSelectAll ] = popup->insertItem( i18n( "Select All" ) + ACCEL_KEY( A ) );
+    d->id[ IdSelectAll ] = popup->insertItem( i18n( "Select All" ) + ACCEL_KEY( A ) );
 #endif
     popup->setItemEnabled( d->id[ IdUndo ], !isReadOnly() && doc->commands()->isUndoAvailable() );
     popup->setItemEnabled( d->id[ IdRedo ], !isReadOnly() && doc->commands()->isRedoAvailable() );

@@ -35,7 +35,7 @@ static DataDef userWndData[] =
         { NULL, 0, 0, 0 }
     };
 
-UserWnd::UserWnd(unsigned id, const char *cfg, bool bReceived)
+UserWnd::UserWnd(unsigned id, const char *cfg, bool bReceived, bool bAdjust)
         : QSplitter(Horizontal, NULL)
 {
     load_data(userWndData, &data, cfg);
@@ -66,7 +66,7 @@ UserWnd::UserWnd(unsigned id, const char *cfg, bool bReceived)
     connect(m_edit, SIGNAL(heightChanged(int)), this, SLOT(editHeightChanged(int)));
     modeChanged();
 
-    if (getMessageType() == 0)
+    if (!bAdjust && getMessageType() == 0)
         return;
 
     if (!m_edit->adjustType()){

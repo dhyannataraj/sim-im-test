@@ -167,7 +167,8 @@ const QMimeSource *MyMimeSourceFactory::data(const QString &abs_name) const
         name = name.mid(5);
         const QIconSet *icons = Icon(name.latin1());
         if (icons){
-            ((MyMimeSourceFactory*)this)->setDrag(new QImageDrag(icons->pixmap(QIconSet::Small, QIconSet::Normal).convertToImage()));
+            QImage img = icons->pixmap(QIconSet::Small, QIconSet::Normal).convertToImage();
+            ((MyMimeSourceFactory*)this)->setDrag(new QImageDrag(img));
             return drag;
         }
     }
@@ -279,6 +280,7 @@ Icons::Icons()
 
 Icons::~Icons()
 {
+    QMimeSourceFactory::setDefaultFactory(new QMimeSourceFactory);
 }
 
 void *Icons::processEvent(Event *e)

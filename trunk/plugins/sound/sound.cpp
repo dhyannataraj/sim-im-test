@@ -78,7 +78,6 @@ static DataDef soundData[] =
         { "StartUp", DATA_STRING, 1, "startup.wav" },
         { "FileDone", DATA_STRING, 1, "filedone.wav" },
         { "MessageSent", DATA_STRING, 1, "msgsent.wav" },
-        { "DisableAlert", DATA_BOOL, 1, DATA(1) },
         { NULL, 0, 0, 0 }
     };
 
@@ -223,11 +222,7 @@ void *SoundPlugin::processEvent(Event *e)
     if (e->type() == EventContactOnline){
         Contact *contact = (Contact*)(e->param());
         SoundUserData *data = (SoundUserData*)(contact->getUserData(user_data_id));
-        if (data && data->Alert.ptr && *data->Alert.ptr && !data->Disable.bValue &&
-                (!getDisableAlert() ||
-                 (core &&
-                  ((core->getManualStatus() == STATUS_ONLINE) ||
-                   (core->getManualStatus() == STATUS_OFFLINE))))){
+        if (data && data->Alert.ptr && *data->Alert.ptr && !data->Disable.bValue){
             Event eSound(EventPlaySound, data->Alert.ptr);
             eSound.process();
         }
@@ -246,8 +241,7 @@ void *SoundPlugin::processEvent(Event *e)
                 return NULL;
             sound = getMessageSent();
         }
-        if (sound && *sound &&
-                (!getDisableAlert() || (core && (core->getManualStatus() == STATUS_ONLINE)))){
+        if (sound && *sound){
             Event eSound(EventPlaySound, (void*)sound);
             eSound.process();
         }
@@ -256,8 +250,6 @@ void *SoundPlugin::processEvent(Event *e)
     if (e->type() == EventMessageReceived){
         Message *msg = (Message*)(e->param());
         if (msg->type() == MessageStatus)
-            return NULL;
-        if (getDisableAlert() && core && (core->getManualStatus() != STATUS_ONLINE))
             return NULL;
         if (msg->getFlags() & MESSAGE_LIST)
             return NULL;
@@ -325,7 +317,7 @@ string SoundPlugin::fullName(const char *name)
     if (((((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z'))) && (name[1] == ':')) ||
             ((c == '\\') && (name[1] == '\\'))){
 #else
-if (name[0] == '/'){
+    if (name[0] == '/'){
 #endif
         sound = name;
     }else{

@@ -184,7 +184,7 @@ AutoAwayPlugin::AutoAwayPlugin(unsigned base, const char *config)
     }
 #else
 #ifdef HAVE_CARBON_CARBNON_H
-CFBundleRef carbonBundle;
+    CFBundleRef carbonBundle;
     if (LoadFrameworkBundle( CFSTR("Carbon.framework"), &carbonBundle ) == noErr) {
         InstallEventLoopIdleTimerPtr myInstallEventLoopIdleTimer = (InstallEventLoopIdleTimerPtr)CFBundleGetFunctionPointerForName(carbonBundle, CFSTR("InstallEventLoopIdleTimer"));
         if (myInstallEventLoopIdleTimer){
@@ -283,7 +283,11 @@ void AutoAwayPlugin::timeout()
 
 void *AutoAwayPlugin::processEvent(Event *e)
 {
-    if ((e->type() == EventContactOnline) && getDisableAlert()){
+    if (e->type() == EventPlaySound){
+        if (getDisableAlert() && (bAway || bNA || bOff))
+            return e->param();
+    }
+    if (e->type() == EventContactOnline){
         unsigned commonStatus = STATUS_UNKNOWN;
         for (unsigned i = 0; i < getContacts()->nClients(); i++){
             Client *client = getContacts()->getClient(i);
@@ -316,7 +320,7 @@ unsigned AutoAwayPlugin::getIdleTime()
 #ifdef HAVE_CARBON_CARBON_H
     return mSecondsIdle;
 #else
-QWidgetList *list = QApplication::topLevelWidgets();
+    QWidgetList *list = QApplication::topLevelWidgets();
     QWidgetListIt it(*list);
     QWidget *w = it.current();
     delete list;

@@ -31,7 +31,6 @@ typedef struct SoundData
     Data	StartUp;
     Data	FileDone;
     Data	MessageSent;
-    Data	DisableAlert;
 } SoundData;
 
 typedef struct SoundUserData
@@ -58,7 +57,6 @@ public:
     PROP_STR(StartUp);
     PROP_STR(FileDone);
     PROP_STR(MessageSent);
-    PROP_BOOL(DisableAlert);
     unsigned CmdSoundDisable;
     unsigned EventSoundChanged;
 protected:
