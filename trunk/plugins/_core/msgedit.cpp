@@ -1695,7 +1695,7 @@ void MsgEdit::setupMessages()
     cmd->id			= MessageAuthRequest;
     cmd->text		= I18N_NOOP("&Authorization request");
     cmd->icon		= "auth";
-    cmd->accel		= "Ctrl+R";
+    cmd->accel		= "Ctrl+Q";
     cmd->menu_grp	= 0x3060;
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defAuthRequest;
