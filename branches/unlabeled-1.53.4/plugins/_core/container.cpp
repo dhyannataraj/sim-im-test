@@ -303,6 +303,8 @@ string Container::getState()
 {
     clearWndConfig();
     string windows;
+	if (m_tabBar == NULL)
+	    return save_data(containerData, &data);
     list<UserWnd*> userWnds = m_tabBar->windows();
     for (list<UserWnd*>::iterator it = userWnds.begin(); it != userWnds.end(); ++it){
         if (!windows.empty())

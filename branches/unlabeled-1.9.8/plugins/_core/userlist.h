@@ -43,6 +43,7 @@ public:
     UserViewItemBase(UserListBase *view);
     UserViewItemBase(UserViewItemBase *parent);
     virtual unsigned type() = 0;
+	virtual void setup();
     virtual void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align);
     virtual void paintFocus(QPainter*, const QColorGroup&, const QRect & );
     int drawText(QPainter *p, int x, int width, const QString &text);
@@ -113,6 +114,7 @@ protected:
     unsigned m_bShowEmpty;
     void *processEvent(Event*);
     virtual void drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin);
+	virtual int heightItem(UserViewItemBase *base);
     unsigned getUserStatus(Contact *contact, unsigned &style, string &icons);
     virtual unsigned getUnread(unsigned contact_id);
     GroupItem *findGroupItem(unsigned id, QListViewItem *p = NULL);
