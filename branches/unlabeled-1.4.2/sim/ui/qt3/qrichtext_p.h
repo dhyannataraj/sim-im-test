@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qrichtext_p.h,v 1.4 2003-10-05 18:56:11 shutoff Exp $
+** $Id: qrichtext_p.h,v 1.4.2.1 2003-11-15 19:08:15 shutoff Exp $
 **
 ** Definition of internal rich text classes
 **
@@ -80,6 +80,8 @@
 
 //#define DEBUG_COLLECTION
 
+class QSyntaxHighlighter;
+
 namespace Qt3
 {
 
@@ -102,6 +104,7 @@ struct QBidiContext;
 class QTextStringChar
 {
     friend class QTextString;
+	friend class QSyntaxHighlighter;
 
 public:
     // this is never called, initialize variables in QTextString::insert()!!!
@@ -1081,6 +1084,7 @@ class QTextParag
 {
     friend class QTextDocument;
     friend class QTextCursor;
+	friend class QSyntaxHighlighter;
 
 public:
     QTextParag( QTextDocument *d, QTextParag *pr = 0, QTextParag *nx = 0, bool updateIds = TRUE );

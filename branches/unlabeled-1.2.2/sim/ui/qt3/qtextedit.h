@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qtextedit.h,v 1.2 2003-08-02 19:22:05 shutoff Exp $
+** $Id: qtextedit.h,v 1.2.2.1 2003-11-15 19:08:15 shutoff Exp $
 **
 ** Definition of the QTextEdit class
 **
@@ -78,7 +78,6 @@ class QTextFormat;
 class QTextString;
 struct QUndoRedoInfoPrivate;
 class QTextEditPrivate;
-
 }
 
 using namespace Qt3;
@@ -86,6 +85,7 @@ using namespace Qt3;
 class UI_EXPORT QTextEdit : public QScrollView
 {
     friend class QTextBrowser;
+	friend class QSyntaxHighlighter;
 
     Q_OBJECT
     Q_ENUMS( WordWrap WrapPolicy )

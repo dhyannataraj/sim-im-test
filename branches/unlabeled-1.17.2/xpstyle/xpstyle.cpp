@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "simapi.h"
 #include "xpstyle.h"
 #include "kpopup.h"
 
@@ -41,6 +42,22 @@
 #include <qprogressbar.h>
 
 #define Q_ASSERT ASSERT
+
+static QStyle *createXPstyle()
+{
+	return new QWindowsXPStyle;
+}
+
+static StyleInfo info = 
+{
+	I18N_NOOP("Windows XP style"),
+	createXPstyle
+};
+
+EXPORT_PROC StyleInfo  *GetStyleInfo()
+{
+	return &info;
+}
 
 static ulong ref = 0;
 static bool use_xp  = FALSE;
@@ -1550,11 +1567,6 @@ void QWindowsXPStyle::activeTabChanged()
         return;
 
     ((QWidget *)s)->repaint( FALSE );
-}
-
-extern "C" __declspec(dllexport) QStyle* WINAPI createXpStyle()
-{
-    return new QWindowsXPStyle;
 }
 
 /**

@@ -25,7 +25,6 @@ class UserViewConfig;
 class HistoryConfig;
 class MessageConfig;
 class SMSConfig;
-class FontConfig;
 
 class InterfaceConfig : public InterfaceConfigBase
 {
@@ -44,7 +43,6 @@ protected:
     HistoryConfig	*history_cfg;
     MessageConfig	*msg_cfg;
     SMSConfig		*sms_cfg;
-    FontConfig		*font_cfg;
 };
 
 #endif

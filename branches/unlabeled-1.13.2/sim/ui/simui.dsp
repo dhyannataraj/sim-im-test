@@ -218,6 +218,10 @@ SOURCE=.\qt3\qstylesheet.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\qt3\qsyntaxhighlighter.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\qt3\qtextedit.cpp
 # ADD CPP /W3
 # End Source File
@@ -582,6 +586,10 @@ InputName=qstylesheet
 
 !ENDIF 
 
+# End Source File
+# Begin Source File
+
+SOURCE=.\qt3\qsyntaxhighlighter.h
 # End Source File
 # Begin Source File
 
