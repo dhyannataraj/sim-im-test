@@ -2362,6 +2362,7 @@ bool CorePlugin::init(bool bInit)
         Client *client = getContacts()->getClient(0);
         setProfile(client->name().c_str());
         bLoaded = true;
+		getContacts()->save();
     }
     if (!bLoaded){
         ClientList clients;
