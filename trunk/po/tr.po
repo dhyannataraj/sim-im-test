@@ -9,13 +9,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "POT-Creation-Date: 2002-10-10 11:17+0400\n"
-"PO-Revision-Date: 2002-10-05 19:36+0300\n"
+"PO-Revision-Date: 2002-10-10 16:46+0300\n"
 "Last-Translator: ismail donmez <voidcartman@yahoo.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0beta2\n"
+"X-Generator: KBabel 1.0\n"
 
 #: client.cpp:89 libicq/country.cpp:7
 msgid "Arabic"
@@ -1731,9 +1731,8 @@ msgid "Your UIN used from another location"
 msgstr "UIN'niz başka bi yerden kullanıldı"
 
 #: mainwin.cpp:1023
-#, fuzzy
 msgid "%1 is online"
-msgstr " şu anda bağlı"
+msgstr "%1 şu anda bağlı"
 
 #: mainwin.cpp:1541 mainwin.cpp:1799 msgview.cpp:352
 msgid "&Yes"
@@ -1744,7 +1743,6 @@ msgid "&No"
 msgstr "&Hayır"
 
 #: mainwin.cpp:1543
-#, fuzzy
 msgid "Add %1 to ignore list ?"
 msgstr "%1 i umursama listesine ekle?"
 
@@ -1810,7 +1808,6 @@ msgid "Close"
 msgstr "Kapat"
 
 #: mainwin.cpp:1801
-#, fuzzy
 msgid "Delete %1?"
 msgstr " %1 i sil?"
 
@@ -2108,7 +2105,7 @@ msgstr "Kontak İsteği"
 msgid ""
 "_n: File\n"
 "%n files"
-msgstr "%n dosya"
+msgstr "Dosya"
 
 #: msgview.cpp:207
 msgid "bytes"
@@ -2344,13 +2341,13 @@ msgstr "*.wav(Sesler)"
 msgid ""
 "_n: Receive file from %1\n"
 "Receive %n files from %1"
-msgstr "%1 den %n dosya"
+msgstr "%1 den dosya"
 
 #: ui/filetransfer.cpp:75
 msgid ""
 "_n: Send file to %1\n"
 "Send %n files to %1"
-msgstr "%1 e %n dosya gönder"
+msgstr "%1 e  dosya gönder"
 
 #: ui/filetransfer.cpp:137
 msgid "[done]"
@@ -3137,8 +3134,7 @@ msgstr "Global alarm ayarlarının üzerine yaz"
 
 #: ui/alertdialogbase.cpp:97
 msgid "Activate online alert when user returns from Away or NA"
-msgstr ""
-"Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
+msgstr "Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
 
 #: ui/alertdialogbase.cpp:102
 msgid "Online alert options"
@@ -3162,7 +3158,7 @@ msgstr "Kullanıcı bağlı olunca mesaj penceresi aç"
 
 #: ui/alertdialogbase.cpp:130
 msgid "Write to history"
-msgstr ""
+msgstr "Geçmişe yaz"
 
 #: ui/keysetup.cpp:34
 msgid "Action"
@@ -3406,21 +3402,19 @@ msgid "Show user window in task manager"
 msgstr "Kullanıcı penceresini Task Manager'sa göster"
 
 #: ui/themesetupbase.cpp:162
-#, fuzzy
 msgid "Use dock"
-msgstr "Kullanıcı"
+msgstr "Dock kullan"
 
 #: ui/themesetupbase.cpp:166
 msgid "Use WindowMaker applet"
-msgstr ""
+msgstr "WindowMaker applet kullan"
 
 #: ui/statussetupbase.cpp:94
 msgid "Hide main window after"
 msgstr "Ana menüyü sakla"
 
 #: ui/statussetupbase.cpp:107
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "\"Uzakta\", \"N/A\", \"DND\" ve \"Meşgul\"-Listelerinde bağlı alamını "
 "iptal et "
@@ -3519,8 +3513,7 @@ msgstr "Zaman Dilimi:"
 
 #: ui/generalsecbase.cpp:124
 msgid "My &authorization is required before users add me to Contact List"
-msgstr ""
-"Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
+msgstr "Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
 
 #: ui/generalsecbase.cpp:128
 msgid "Don't show my &IP-address"
@@ -3690,126 +3683,126 @@ msgstr "Seninde chatimize katılmanı çok istiyoruz.\n"
 msgid ""
 "_n: Message\n"
 "%n messages"
-msgstr "%n Mesaj "
+msgstr "Mesaj "
 
 #: client.cpp:857
 #, c-format
 msgid ""
 "_n: Chat request\n"
 "%n chat requests"
-msgstr "%n chat isteği"
+msgstr "Chat isteği"
 
 #: client.cpp:861
 #, c-format
 msgid ""
 "_n: URL\n"
 "%n URL"
-msgstr "%n URL"
+msgstr "URL"
 
 #: client.cpp:863
 #, c-format
 msgid ""
 "_n: Authorization request\n"
 "%n authorization requests"
-msgstr "%n izin isteği"
+msgstr "İzin isteği"
 
 #: client.cpp:865
 #, c-format
 msgid ""
 "_n: Authorization refused\n"
 "%n authorizations refused"
-msgstr "%n izin isteği reddedildi"
+msgstr "İzin isteği reddedildi"
 
 #: client.cpp:867
 #, c-format
 msgid ""
 "_n: Authorization granted\n"
 "%n authorizations granted"
-msgstr "%n izin kabul edildi"
+msgstr "İzin kabul edildi"
 
 #: client.cpp:869
 #, c-format
 msgid ""
 "_n: Added to contact list\n"
 "%n times added to contact list"
-msgstr "%n kontak listesine ekledi"
+msgstr "Kontak listesine ekledi"
 
 #: client.cpp:871
 #, c-format
 msgid ""
 "_n: WWW-panel message\n"
 "%n WWW-panel messages"
-msgstr "%n WWW-panel mesajı"
+msgstr "WWW-panel mesajı"
 
 #: client.cpp:873
 #, c-format
 msgid ""
 "_n: Email pager message\n"
 "%n Email pager messages"
-msgstr "%n Email pager mesajı"
+msgstr "Email pager mesajı"
 
 #: client.cpp:875
 #, c-format
 msgid ""
 "_n: Contact list\n"
 "%n contact lists"
-msgstr "%n kontak listesi"
+msgstr "Kontak listesi"
 
 #: client.cpp:877
 #, c-format
 msgid ""
 "_n: Contacts request\n"
 "%n contacts requests"
-msgstr "%n kontak isteği"
+msgstr "Kontak isteği"
 
 #: client.cpp:879
 #, c-format
 msgid ""
 "_n: External unknown message\n"
 "%n unknown messages"
-msgstr "%n bilinmeyen dış mesaj"
+msgstr "Bilinmeyen dış mesaj"
 
 #: client.cpp:881
 #, c-format
 msgid ""
 "_n: SMS\n"
 "%n SMS"
-msgstr "%n SMS"
+msgstr "SMS"
 
 #: client.cpp:883
 #, c-format
 msgid ""
 "_n: SMS receipt\n"
 "%n SMS receipts"
-msgstr "%n SMS alıcısı"
+msgstr "SMS alıcısı"
 
 #: client.cpp:885
 #, c-format
 msgid ""
 "_n: Email\n"
 "%n emails"
-msgstr "%n Email"
+msgstr "Email"
 
 #: client.cpp:887
 #, c-format
 msgid ""
 "_n: Request secure channel\n"
 "%n requests sequre channel"
-msgstr "%n güvenli kanal iste"
+msgstr "Güvenli kanal iste"
 
 #: client.cpp:889
 #, c-format
 msgid ""
 "_n: Close secure channel\n"
 "%n times close sequre channel"
-msgstr "%n güvenli kanalı kapat"
+msgstr "Güvenli kanalı kapat"
 
 #: client.cpp:893
 #, c-format
 msgid ""
 "_n: Unknown message\n"
 "%n unknown messages"
-msgstr "%n bilinmeyen mesaj"
+msgstr "Bilinmeyen mesaj"
 
 #: client.cpp:919
 msgid "Do not disturb"
@@ -3886,3 +3879,4 @@ msgstr "Uzakta"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
