@@ -282,7 +282,7 @@ msgstr "Profil auswählen"
 #: plugins/jabber/jabberconfigbase.cpp:183 plugins/msn/msnconfigbase.cpp:178
 #: plugins/proxy/proxycfgbase.cpp:152
 msgid "Password:"
-msgstr "Paßwort:"
+msgstr "Passwort:"
 
 #: plugins/_core/logindlg.cpp:282
 msgid "New profile"
@@ -1004,7 +1004,7 @@ msgstr "Profile:"
 
 #: plugins/_core/logindlgbase.cc:117
 msgid "Passwords:"
-msgstr "Paßwörter:"
+msgstr "Passwörter:"
 
 #: plugins/_core/logindlgbase.cc:119
 msgid "&Save password"
@@ -2037,15 +2037,15 @@ msgstr "<p>Homepage: <a href=\"%1\"><u>%2</u></a></p>"
 
 #: plugins/icq/icqsecure.cpp:45
 msgid "Input current password"
-msgstr "Korrektes Paßwort eingeben"
+msgstr "Korrektes Passwort eingeben"
 
 #: plugins/icq/icqsecure.cpp:48
 msgid "Confirm password does not match"
-msgstr "Paßwörter stimmen nicht überein"
+msgstr "Passwörter stimmen nicht überein"
 
 #: plugins/icq/icqsecure.cpp:51
 msgid "Invalid password"
-msgstr "Ungültiges Paßwort"
+msgstr "Ungültiges Passwort"
 
 #: plugins/icq/icqsecure.cpp:119 plugins/jabber/addresult.cpp:30
 msgid "Nick"
@@ -3051,19 +3051,19 @@ msgstr "&Sicherheit"
 
 #: plugins/icq/icqsecurebase.cc:223
 msgid "Current password:"
-msgstr "Aktuelles Paßwort:"
+msgstr "Aktuelles Passwort:"
 
 #: plugins/icq/icqsecurebase.cc:224
 msgid "New password:"
-msgstr "Neues Paßwort:"
+msgstr "Neues Passwort:"
 
 #: plugins/icq/icqsecurebase.cc:225
 msgid "Retype new password:"
-msgstr "Paßwort wiederholen:"
+msgstr "Passwort wiederholen:"
 
 #: plugins/icq/icqsecurebase.cc:226
 msgid "&Password"
-msgstr "&Paßwort"
+msgstr "&Passwort"
 
 #: plugins/icq/icqsecurebase.cc:227
 msgid "&Visible list"
@@ -5602,7 +5602,7 @@ msgstr "Unterstrichen"
 #~ msgstr "Kann nicht zum Proxyserver verbinden"
 
 #~ msgid "Invalid password for proxy"
-#~ msgstr "Ungültiges Paßwort für Proxyserver"
+#~ msgstr "Ungültiges Passwort für Proxyserver"
 
 #~ msgid "Add %1 to ignore list ?"
 #~ msgstr "Benutzer %1 zur Ignorierenliste hinzufügen?"
@@ -5988,7 +5988,7 @@ msgstr "Unterstrichen"
 #~ msgstr "Proxy-Server benutzen"
 
 #~ msgid "Proxy password:"
-#~ msgstr "Proxy-Paßwort:"
+#~ msgstr "Proxy-Passwort:"
 
 #~ msgid "Proxy port:"
 #~ msgstr "Proxy-Port:"
