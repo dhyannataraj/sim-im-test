@@ -39,5 +39,5 @@ INCLUDES=-Iapi $(all_includes)
 METASOURCES = AUTO
 
 # the library search path. 
-AM_LDFLAGS = $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
+sim_LDFLAGS = $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 

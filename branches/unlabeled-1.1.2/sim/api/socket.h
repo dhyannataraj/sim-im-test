@@ -135,13 +135,14 @@ public:
     void setRaw(bool mode);
     Socket *socket() { return m_sock; }
     void setSocket(Socket *s);
+	void setNotify(ClientSocketNotify*);
     const char *errorString();
 protected:
     virtual void connect_ready();
     virtual void write_ready();
 
     Socket *m_sock;
-    ClientSocketNotify *notify;
+    ClientSocketNotify *m_notify;
     bool bRawMode;
     bool bClosed;
 

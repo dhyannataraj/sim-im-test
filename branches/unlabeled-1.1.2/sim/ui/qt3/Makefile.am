@@ -22,6 +22,6 @@ INCLUDES=-I../../api $(all_includes)
 METASOURCES = AUTO
 
 # the library search path. 
-AM_LDFLAGS = -no-undefined $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
+libsimuiqt_la_LDFLAGS = -no-undefined $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 

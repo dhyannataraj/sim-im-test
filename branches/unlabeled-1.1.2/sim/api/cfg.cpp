@@ -333,8 +333,10 @@ bool set_ip(void **p, unsigned long value)
     }
     if (*ip == NULL)
         *ip = new IP;
-    if ((*ip)->ip() == value)
+    if ((*ip)->ip() == value){
+        (*ip)->resolve();
         return false;
+    }
     (*ip)->set(value);
     return true;
 }

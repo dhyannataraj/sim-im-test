@@ -203,7 +203,7 @@ void ICQClient::sendStatus()
 void ICQClient::sendPluginInfoUpdate(unsigned plugin_id)
 {
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
-    m_socket->writeBuffer.tlv(0x0006, fullStatus(m_logonStatus));
+    m_socket->writeBuffer.tlv(0x0006, fullStatus(m_status));
     Buffer directInfo(25);
     fillDirectInfo(directInfo);
     m_socket->writeBuffer.tlv(0x000C, directInfo);
@@ -265,6 +265,7 @@ void ICQClient::sendUpdate()
 
 void ICQClient::fillDirectInfo(Buffer &directInfo)
 {
+    data.owner.Port = m_listener ? m_listener->port() : 0;
     set_ip(&data.owner.RealIP, m_socket->localHost());
     if (getHideIP()){
         directInfo
@@ -274,7 +275,7 @@ void ICQClient::fillDirectInfo(Buffer &directInfo)
         directInfo
         << (unsigned long)htonl(get_ip(data.owner.RealIP))
         << (unsigned short)0
-        << (unsigned short)(m_listener ? m_listener->port() : 0);
+        << (unsigned short)data.owner.Port;
     }
 
     char mode = DIRECT_MODE_DIRECT;
@@ -290,7 +291,7 @@ void ICQClient::fillDirectInfo(Buffer &directInfo)
         mode = DIRECT_MODE_DENIED;
         break;
     default:
-	break;
+        break;
     }
     directInfo
     << mode

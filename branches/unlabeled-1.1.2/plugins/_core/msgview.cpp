@@ -629,6 +629,14 @@ void *MsgView::processEvent(Event *e)
                     bAdd = true;
             }
         }
+        if (bAdd && (e->type() == EventMessageReceived)){
+            Contact *contact = getContacts()->contact(msg->contact());
+            if (contact){
+                CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
+                if (data->OpenOnReceive)
+                    bAdd = false;
+            }
+        }
         if (bAdd){
             addMessage(msg);
             if (!hasSelectedText())

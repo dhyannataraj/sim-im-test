@@ -1046,7 +1046,7 @@ void MsgEdit::insertSmile(int id)
     QString img_src = QString("<img src=icon:smile%1>").arg(id,0,16);
     int pos = txt.find('\255');
     if (pos != -1) {
-    	txt.replace(pos,1,img_src);
+        txt.replace(pos,1,img_src);
     } else {
         txt.append(img_src);
     }

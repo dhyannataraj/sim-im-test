@@ -327,9 +327,9 @@ void UserConfig::fill()
     parentItem = NULL;
     ClientUserData* data;
     if (m_contact) {
-    	data = &m_contact->clientData;
+        data = &m_contact->clientData;
     } else {
-    	data = &m_group->clientData;
+        data = &m_group->clientData;
     }
     ClientDataIterator it(*data);
     list<unsigned> st;

@@ -681,8 +681,7 @@ Message *ICQClient::parseExtendedMessage(unsigned long uin, Buffer &packet)
 }
 
 Message *ICQClient::parseMessage(unsigned short type, unsigned long uin, string &p, Buffer &packet,
-                                 unsigned short, unsigned short,
-                                 unsigned long, unsigned long)
+                                 unsigned short, unsigned short, MessageId id)
 {
     if (uin == 0x0A){
         vector<string> l;
@@ -1328,7 +1327,7 @@ void ICQPlugin::registerMessages()
     eMsg.process();
 
     cmd->id			= MessageICQ;
-    cmd->text		= "ICQ";
+    cmd->text		= "";
     cmd->icon		= "message";
     cmd->accel		= NULL;
     cmd->menu_grp	= 0;
@@ -1343,7 +1342,7 @@ void ICQPlugin::registerMessages()
     eMsg.process();
 
     cmd->id         = MessageICQAuthRequest;
-    cmd->text       = I18N_NOOP("ICQ AuthRequest");
+    cmd->text       = "";
     cmd->icon       = "auth";
     cmd->menu_grp   = 0;
     cmd->param      = &defIcqAuthRequest;
@@ -1351,14 +1350,14 @@ void ICQPlugin::registerMessages()
 
 
     cmd->id			= MessageICQAuthGranted;
-    cmd->text		= I18N_NOOP("ICQ AuthGranted");
+    cmd->text		= "";
     cmd->icon		= "auth";
     cmd->menu_grp	= 0;
     cmd->param		= &defIcqAuthGranted;
     eMsg.process();
 
     cmd->id			= MessageICQAuthRefused;
-    cmd->text		= I18N_NOOP("ICQ AuthRefused");
+    cmd->text		= "";
     cmd->icon		= "auth";
     cmd->menu_grp	= 0;
     cmd->param		= &defIcqAuthRefused;
@@ -1437,6 +1436,95 @@ void ICQPlugin::unregisterMessages()
 
     Event eCheckInvisible(EventRemoveMessageType, (void*)MessageCheckInvisible);
     eCheckInvisible.process();
+}
+
+void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned short &type, unsigned short nSequence)
+{
+    Buffer msgBuf;
+    Buffer buf;
+    string res;
+    switch (msg->type()){
+    case MessageURL:
+        res = fromUnicode(msg->getPlainText(), data);
+        res += (char)0xFE;
+        res += fromUnicode(static_cast<URLMessage*>(msg)->getUrl(), data);
+        type = ICQ_MSGxURL;
+        break;
+    case MessageContact:{
+            unsigned nContacts = 0;
+            QString contacts = static_cast<ContactMessage*>(msg)->getContacts();
+            while (!contacts.isEmpty()){
+                QString contact = getToken(contacts, ';');
+                nContacts++;
+            }
+            res = number(nContacts);
+            contacts = static_cast<ContactMessage*>(msg)->getContacts();
+            while (!contacts.isEmpty()){
+                QString contact = getToken(contacts, ';');
+                QString uin = getToken(contact, ',');
+                res += (char)0xFE;
+                res += uin.latin1();
+                res += (char)0xFE;
+                res += fromUnicode(contact, data);
+            }
+            res += (char)0xFE;
+            type = ICQ_MSGxCONTACTxLIST;
+            break;
+        }
+    case MessageFile:
+        if (nSequence){
+            res = fromUnicode(msg->getPlainText(), data);
+            type = ICQ_MSGxFILE;
+        }else{
+            type = ICQ_MSGxEXT;
+            buf.pack((char*)plugins[PLUGIN_FILE], sizeof(plugin));
+            buf.packStr32("File");
+            buf << 0x00000100L << 0x00010000L << 0x00000000L << (unsigned short)0 << (char)0;
+            msgBuf.packStr32(fromUnicode(msg->getPlainText(), data).c_str());
+            msgBuf << 0x00000000L;
+            msgBuf << fromUnicode(static_cast<FileMessage*>(msg)->getDescription(), data);
+            msgBuf.pack((unsigned long)(static_cast<FileMessage*>(msg)->getSize()));
+            msgBuf << 0x00000000L;
+        }
+        break;
+    case MessageOpenSecure:
+        type = ICQ_MSGxSECURExOPEN;
+        break;
+    case MessageCloseSecure:
+        type = ICQ_MSGxSECURExCLOSE;
+        break;
+    }
+    if (nSequence){
+        b.pack(type);
+        b.pack((unsigned short)(fullStatus(getStatus()) & 0xFF));
+        b.pack((unsigned short)1);
+        b << res;
+        switch (type){
+        case MessageFile:
+            b << nSequence
+            << (unsigned short)0
+            << fromUnicode(static_cast<FileMessage*>(msg)->getDescription(), data);
+            b.pack((unsigned long)(static_cast<FileMessage*>(msg)->getSize()));
+            b.pack(nSequence);
+            b << (unsigned short)0;
+            break;
+        }
+        return;
+    }
+    if (type == ICQ_MSGxEXT){
+        b.pack(type);
+        b.pack((unsigned short)(this->data.owner.Status));
+        b.pack((unsigned short)1);
+    }else{
+        b.pack(this->data.owner.Uin);
+        b << (char)type << (char)0;
+    }
+    b << res;
+    if (buf.size()){
+        b.pack((unsigned short)buf.size());
+        b.pack(buf.data(0), buf.size());
+        b.pack32(msgBuf);
+    }
 }
 
 void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *data, unsigned uin, bool bDirect)

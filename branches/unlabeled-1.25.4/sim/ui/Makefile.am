@@ -22,5 +22,5 @@ METASOURCES = AUTO
 SUBDIRS=qt3
 
 # the library search path. 
-AM_LDFLAGS = -no-undefined $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
+libsimui_la_LDFLAGS = -no-undefined $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 

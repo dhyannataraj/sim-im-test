@@ -117,7 +117,8 @@ public:
     ~IP();
     void set(unsigned long ip);
     void set(unsigned long ip, const char *host);
-unsigned long ip() { return m_ip; }
+	void resolve();
+	unsigned long ip() { return m_ip; }
     const char *host() { return m_host; }
 protected:
     unsigned long m_ip;
