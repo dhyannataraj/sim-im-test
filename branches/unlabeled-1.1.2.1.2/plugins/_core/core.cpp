@@ -1921,6 +1921,7 @@ void *CorePlugin::processEvent(Event *e)
                     p = l.join("\n");
                     Message *m = new Message(MessageGeneric);
                     m->setContact(msg->contact());
+					m->setClient(msg->client());
                     if (cmd->id == CmdMsgForward){
                         QString name;
                         Contact *contact = getContacts()->contact(msg->contact());

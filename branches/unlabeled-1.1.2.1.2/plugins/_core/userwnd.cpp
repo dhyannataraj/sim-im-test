@@ -101,9 +101,16 @@ QString UserWnd::getName()
 const char *UserWnd::getIcon()
 {
     Contact *contact = getContacts()->contact(m_id);
+	unsigned long status = STATUS_UNKNOWN;
     unsigned style;
     const char *statusIcon;
-    contact->contactInfo(style, statusIcon);
+	void *data;
+	Client *client = m_edit->client(data);
+	if (client){
+		client->contactInfo(data, status, style, statusIcon); 
+	}else{
+		contact->contactInfo(style, statusIcon);
+	}
     return statusIcon;
 }
 

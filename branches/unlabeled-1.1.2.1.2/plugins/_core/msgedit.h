@@ -46,6 +46,7 @@ public:
     QFrame		*m_frame;
     bool sendMessage(Message *msg);
     static void setupMessages();
+	Client		*client(void *&data);
 signals:
     void heightChanged(int);
     void init();
@@ -69,6 +70,7 @@ protected:
     list<unsigned> multiply;
     list<unsigned>::iterator multiply_it;
     Message		*m_msg;
+	string m_client;
 };
 
 class SmileLabel : public QLabel
