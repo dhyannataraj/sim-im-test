@@ -401,7 +401,7 @@ protected:
         SSLShutdown_Read,
         SSLShutdown_Write,
         SSLRead_Write,
-        SSLWrite_Read,
+        SSLWrite_Read
     };
     void processPacket();
     void connected();

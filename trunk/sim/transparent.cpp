@@ -148,6 +148,8 @@ bool TransparentTop::eventFilter(QObject*, QEvent *e)
     case QEvent::WindowDeactivate:
         transparentChanged();
         break;
+    default:
+	break;
     }
     return false;
 }
