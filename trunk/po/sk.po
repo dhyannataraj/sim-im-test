@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
 "POT-Creation-Date: 2004-07-24 22:15+0200\n"
-"PO-Revision-Date: 2004-06-28 12:51+0200\n"
+"PO-Revision-Date: 2004-07-27 13:47+0200\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Report-Msgid-Bugs-To: \n"
-"X-Generator: KBabel 1.3\n"
+"X-Generator: KBabel 1.3.1\n"
 "Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 # qt3/i18n.cpp:117
@@ -725,19 +725,17 @@ msgid "time from set status"
 msgstr "čas od nastavenia stavu"
 
 #: plugins/_core/core.cpp:1676
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 wrote:"
-msgstr "%1 napísala:"
+msgstr "%1 napísal:"
 
 # mainwin.cpp:1380
 #: plugins/_core/core.cpp:1677
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 wrote:"
-msgstr "%1 je pripojená"
+msgstr "%1 je napísala:"
 
 # qt3/i18n.cpp:21
 #: plugins/_core/core.cpp:1714 plugins/_core/status.cpp:321 sim/qt3/i18n.cpp:21
@@ -1528,7 +1526,7 @@ msgstr "Nie s v zozname"
 
 # client.cpp:1156
 #: plugins/_core/search.cpp:632
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: %n contact found\n"
 "%n contacts found"
@@ -1881,7 +1879,7 @@ msgstr "Očakávaná autorizácia"
 #: plugins/_core/userviewcfgbase.cpp:339
 #, fuzzy
 msgid "No show scroller"
-msgstr "Žiad&ne zobrazené skupiny"
+msgstr "Žiad&ne zobrazené skrolovátko"
 
 # ui/fontsetupbase.cpp:236
 #: plugins/_core/historycfgbase.cpp:226
@@ -1935,7 +1933,6 @@ msgstr "&Zdroj"
 # ui/maininfobase.cpp:319
 # ui/searchbase.cpp:294
 #: plugins/_core/maininfobase.cpp:246 plugins/_core/nonimbase.cpp:126 plugins/icq/aiminfobase.cc:287 plugins/icq/icqinfobase.cc:343 plugins/jabber/discoinfobase.cpp:314 plugins/jabber/jabberinfobase.cpp:299 plugins/yahoo/yahooinfobase.cpp:186
-#, fuzzy
 msgid "First Name:"
 msgstr "Meno:"
 
@@ -2374,7 +2371,7 @@ msgid ""
 "Your names"
 msgstr ""
 "Tomáš Oláh (Griffin)\n"
-"Griffin ľúbi Micku! :-*"
+"Griffin ľúbi Micku! :-*,Tomas Olah"
 
 # _translatorinfo.cpp:3
 # mainwin.cpp:3079
@@ -2826,7 +2823,7 @@ msgstr "Šifrovanie skončilo s chybou"
 # msgview.cpp:205
 # msgview.cpp:1245
 #: plugins/gpg/gpg.cpp:700
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: %n GPG key\n"
 "%n GPG keys"
@@ -3008,23 +3005,21 @@ msgid "Icons"
 msgstr "Ikony"
 
 #: plugins/icons/icon.cpp:31
-#, fuzzy
 msgid "Plugin provides JISP icons themes and emoticons"
-msgstr "Zásuvný modul umožňuje používať štýly ikon a emotikony z programu Miranda"
+msgstr "Zásuvný modul umožňuje používať JISP štýly ikon a emotikony"
 
 #: plugins/icons/iconcfg.cpp:91
 msgid "*.jisp|Icon set"
-msgstr ""
+msgstr "*.jisp|Sada ikon"
 
 #: plugins/icons/iconcfg.cpp:93
 msgid "Icon set(*.jisp)"
-msgstr ""
+msgstr "Sada ikon (*.jisp)"
 
 # qt3/i18n.cpp:172
 #: plugins/icons/iconcfg.cpp:95
-#, fuzzy
 msgid "Select icon set"
-msgstr "Vybrať ikony DLL"
+msgstr "Vybrať sadu ikon"
 
 # ui/enable.cpp:134
 #: plugins/icq/aimconfig.cpp:43
@@ -3370,7 +3365,7 @@ msgstr "Adresár"
 # msgview.cpp:205
 # msgview.cpp:1245
 #: plugins/icq/icqicmb.cpp:989 plugins/icq/icqicmb.cpp:995
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: %n file\n"
 "%n files"
@@ -3380,7 +3375,6 @@ msgstr ""
 
 # msgedit.cpp:588
 #: plugins/icq/icqicmb.cpp:1286 plugins/icq/warndlg.cpp:66
-#, fuzzy
 msgid "Send failed"
 msgstr "Chyba pri odosielaní"
 
@@ -3654,16 +3648,14 @@ msgstr "Prezývka (Nick)"
 # ui/maininfobase.cpp:319
 # ui/searchbase.cpp:294
 #: plugins/icq/icqsearch.cpp:299 plugins/jabber/jabberadd.cpp:279 plugins/jabber/jabbersearch.cpp:104 plugins/jabber/jabbersearch.cpp:304
-#, fuzzy
 msgid "First Name"
 msgstr "Meno"
 
 # ui/maininfobase.cpp:315
 # ui/searchbase.cpp:293
 #: plugins/icq/icqsearch.cpp:301 plugins/jabber/jabberadd.cpp:280 plugins/jabber/jabbersearch.cpp:105 plugins/jabber/jabbersearch.cpp:305
-#, fuzzy
 msgid "Last Name"
-msgstr "Priezvisko:"
+msgstr "Priezvisko"
 
 # ui/homeinfobase.cpp:167
 # ui/searchbase.cpp:287
@@ -4553,7 +4545,7 @@ msgstr "&ICQ"
 
 #: plugins/icq/aimconfigbase.cc:181 plugins/icq/icqconfigbase.cc:298 plugins/msn/msnconfigbase.cpp:236 plugins/yahoo/yahoocfgbase.cpp:240
 msgid "&Automatically use HTTP polling if proxy required"
-msgstr ""
+msgstr "&Automaticky použiť  HTTP polling ak to proxy vyžaduje"
 
 #: plugins/icq/aimconfigbase.cc:180 plugins/icq/icqconfigbase.cc:299 plugins/jabber/jabberconfigbase.cpp:366 plugins/msn/msnconfigbase.cpp:235 plugins/yahoo/yahoocfgbase.cpp:241
 msgid "Use &HTTP polling"
@@ -4577,7 +4569,7 @@ msgstr "Rozsah portov pre priame pripojenie:"
 
 #: plugins/icq/aimconfigbase.cc:182 plugins/icq/icqconfigbase.cc:304 plugins/jabber/jabberconfigbase.cpp:367 plugins/msn/msnconfigbase.cpp:237 plugins/yahoo/yahoocfgbase.cpp:239
 msgid "Note: For HTTP-polling using proxy settings for HTTP"
-msgstr ""
+msgstr "Poznámka: pre HTTP polling použite nastavenie proxy pre HTTP"
 
 # ui/generalsecbase.cpp:216
 #: plugins/icq/aimconfigbase.cc:183 plugins/icq/icqconfigbase.cc:305
@@ -4641,7 +4633,6 @@ msgid "Disable answer on phonebook and &picture requests"
 msgstr "Zakázať od&poveď na žiadosti o telefónny zoznam a obrázok"
 
 #: plugins/icq/icqconfigbase.cc:318
-#, fuzzy
 msgid "Disable automatically &request autoreply on change status"
 msgstr "Zakázať automaticky žiadať o automatickú odpoveď p&ri zmene statusu"
 
@@ -5521,12 +5512,10 @@ msgid "Use protocol &icons for agents contacts"
 msgstr "Použiť &ikony protokolov pre kontakty"
 
 #: plugins/jabber/jabberconfigbase.cpp:374
-#, fuzzy
 msgid "Automatically send &subscribe request"
-msgstr "Automaticky odoslať podpísanú požiadavku"
+msgstr "Automaticky odoslať podpí&sanú požiadavku"
 
 #: plugins/jabber/jabberconfigbase.cpp:375
-#, fuzzy
 msgid "Automatically &accept subscribe requests"
 msgstr "Automaticky &akceptovať podpísané požiadavky"
 
@@ -6463,7 +6452,7 @@ msgid "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 msgstr "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 
 #: plugins/msn/msnpacket.cpp:468
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: You have %n unread message\n"
 "You have %n unread messages"
@@ -6914,7 +6903,6 @@ msgid "Use &TCP socket"
 msgstr "Použiť  &TCP socket"
 
 #: plugins/remote/remotecfgbase.cpp:140
-#, fuzzy
 msgid "Enable IE context menu extension"
 msgstr "Povoliť rozširenie kontextového menu IE"
 
@@ -7228,9 +7216,8 @@ msgstr "Fonty a farby"
 
 # libicq/country.cpp:40
 #: plugins/styles/wood/wood.cpp:1269
-#, fuzzy
 msgid "Norwegian Wood"
-msgstr "Nórsky"
+msgstr "Nórske drevo"
 
 # ui/themesetupbase.cpp:302
 #: plugins/styles/fontconfigbase.cpp:159
@@ -7697,7 +7684,6 @@ msgid "%t | %c"
 msgstr "%t | %c"
 
 #: plugins/weather/weather.cpp:556
-#, fuzzy
 msgid ""
 "%l<br><br>\n"
 "<img src=\"icon:weather%i\"> %c<br>\n"
@@ -7714,7 +7700,7 @@ msgid ""
 msgstr ""
 "%l<br><br>\n"
 "<img src=\"icon:weather\"> %c<br>\n"
-"Teplota: <b>%t</b> (feels like: <b>%f</b>)<br>\n"
+"Teplota: <b>%t</b> (ako keby: <b>%f</b>)<br>\n"
 "Vlhkosť: <b>%h</b><br>\n"
 "Tlak: <b>%p</b> (%q)<br>\n"
 "Vietor: <b>%b</b> <b>%w %g</b><br>\n"
@@ -7967,9 +7953,8 @@ msgid "Zodiak"
 msgstr "Znamenie zverokruhu"
 
 #: plugins/zodiak/zodiak.cpp:51
-#, fuzzy
 msgid "Plugin provides show zodiak pictures for date edit"
-msgstr "Zásuvný modul umožňuje nastaviť obrázky pozadia pre zoznam užívateľov"
+msgstr "Zásuvný modul umožňuje zobrazovať znamenia zverokruhu podľa zadaného dátumu"
 
 #: plugins/zodiak/zodiak.cpp:158
 msgid "View horoscope"
@@ -9695,14 +9680,13 @@ msgstr "Vlastné"
 
 #: sim/qt3/i18n.cpp:1
 msgid "Hu&e:"
-msgstr ""
+msgstr "Farba:"
 
 # ui/maininfobase.cpp:334
 # ui/statussetupbase.cpp:148
 #: sim/qt3/i18n.cpp:3
-#, fuzzy
 msgid "&Sat:"
-msgstr "&Stav"
+msgstr "&Sítosť:"
 
 #: sim/qt3/i18n.cpp:5
 msgid "&Val:"
@@ -9819,9 +9803,8 @@ msgstr "Vytvoriť nový adresár"
 
 # qt3/i18n.cpp:61
 #: sim/qt3/i18n.cpp:61
-#, fuzzy
 msgid "List View"
-msgstr "Pohľad na priateľov"
+msgstr "Pohľad typu zoznam"
 
 #: sim/qt3/i18n.cpp:63
 msgid "Detail View"
@@ -9829,11 +9812,11 @@ msgstr "Detailný pohľad"
 
 #: sim/qt3/i18n.cpp:65
 msgid "Preview File Info"
-msgstr ""
+msgstr "Náhľad na informácie o súbore"
 
 #: sim/qt3/i18n.cpp:67
 msgid "Preview File Contents"
-msgstr ""
+msgstr "Náhľad na obsah súboru"
 
 #: sim/qt3/i18n.cpp:69
 msgid "Read-write"
@@ -10026,7 +10009,7 @@ msgstr "Príklad"
 # ui/setupdlg.cpp:149
 #: sim/qt3/i18n.cpp:166
 msgid "Scr&ipt"
-msgstr ""
+msgstr "Skr&ipt"
 
 # ui/enable.cpp:134
 # ui/randomchatbase.cpp:306
@@ -10160,174 +10143,148 @@ msgstr "Server %1 bol nájdený"
 # mainwin.cpp:628
 # mainwin.cpp:2727
 #: sim/qt3/i18n.cpp:229
-#, fuzzy
 msgid "Host found"
-msgstr "Žiadne kontakty pre odoslanie"
+msgstr "Server nájdený"
 
 # qt3/i18n.cpp:233
 #: sim/qt3/i18n.cpp:231
-#, fuzzy, c-format
+#, c-format
 msgid "Connected to host %1"
-msgstr "Pripojený na neznámy port"
+msgstr "Pripojený na serveru %1"
 
 # qt3/i18n.cpp:233
 #: sim/qt3/i18n.cpp:233
-#, fuzzy
 msgid "Connected to host"
-msgstr "Pripojený na neznámy port"
+msgstr "Pripojený k serveru"
 
 # qt3/i18n.cpp:237
 #: sim/qt3/i18n.cpp:235
-#, fuzzy
 msgid "Connection to %1 closed"
-msgstr "Spojenie bolo ukončené"
+msgstr "Spojenie k %1 bolo ukončené"
 
 # ui/setupdlg.cpp:127
 #: sim/qt3/i18n.cpp:239
-#, fuzzy
 msgid "Login Incorrect"
 msgstr "Chyba pri prihlasovaní"
 
 # qt3/i18n.cpp:241
 #: sim/qt3/i18n.cpp:241
-#, fuzzy, c-format
+#, c-format
 msgid "Col %1"
-msgstr "užívateľovi %1"
+msgstr "Stĺpec %1"
 
 # qt3/i18n.cpp:241
 #: sim/qt3/i18n.cpp:243
-#, fuzzy, c-format
+#, c-format
 msgid "Row %1"
-msgstr "užívateľovi %1"
+msgstr "Riadok %1"
 
 # qt3/i18n.cpp:245
 #: sim/qt3/i18n.cpp:245
-#, fuzzy
 msgid "Undo"
 msgstr "Vrátiť späť"
 
 # qt3/i18n.cpp:247
 #: sim/qt3/i18n.cpp:247
-#, fuzzy
 msgid "Redo"
 msgstr "Urobiť znovu"
 
 # ui/alertdialog.cpp:56
 #: sim/qt3/i18n.cpp:259
-#, fuzzy
 msgid "&Left"
-msgstr "Vľavo hore"
+msgstr "Vľavo"
 
 # mainwin.cpp:3105
 #: sim/qt3/i18n.cpp:261
-#, fuzzy
 msgid "&Right"
-msgstr "svetlosť"
+msgstr "Vp&ravo"
 
 # monitor.cpp:73
 #: sim/qt3/i18n.cpp:263
-#, fuzzy
 msgid "&Top"
-msgstr "&Kopírovať"
+msgstr "Hore"
 
 # msgedit.cpp:184
 #: sim/qt3/i18n.cpp:265
-#, fuzzy
 msgid "&Bottom"
-msgstr "&Foto"
+msgstr "Dole"
 
 # qt3/i18n.cpp:267
 #: sim/qt3/i18n.cpp:267
-#, fuzzy
 msgid "R&estore"
-msgstr "Zdroj:"
+msgstr "O&bnoviť"
 
 # mainwin.cpp:883
 #: sim/qt3/i18n.cpp:269
-#, fuzzy
 msgid "&Hide"
-msgstr "Automaticky skry"
+msgstr "Skryť"
 
 #: sim/qt3/i18n.cpp:271
 msgid "Line Up Toolbars (compact)"
-msgstr ""
+msgstr "Zarovnať nástrojové lišty (kompaktne)"
 
 #: sim/qt3/i18n.cpp:273
 msgid "Line Up Toolbars (normal)"
-msgstr ""
+msgstr "Zarovnať nástrojové lišty (normálne)"
 
 #: sim/qt3/i18n.cpp:275
 msgid "Paste special..."
-msgstr ""
+msgstr "Vložiť špeciálne..."
 
 #: sim/qt3/i18n.cpp:277
 msgid "What's this?"
-msgstr ""
+msgstr "Čo je to?"
 
 # ui/enable.cpp:134
 #: sim/qt3/i18n.cpp:279
-#, fuzzy
 msgid "&Restore"
-msgstr "&Registrácia"
+msgstr "O&bnoviť"
 
 # ui/maininfobase.cpp:325
 #: sim/qt3/i18n.cpp:281
-#, fuzzy
 msgid "&Move"
-msgstr "Odst&rániť"
+msgstr "Pres&unúť"
 
 #: sim/qt3/i18n.cpp:283
 msgid "Mi&nimize"
-msgstr ""
+msgstr "Mi&nimalizovať"
 
 #: sim/qt3/i18n.cpp:285
 msgid "Ma&ximize"
-msgstr ""
+msgstr "Ma&ximalizovať"
 
 #: sim/qt3/i18n.cpp:289
 msgid "&Roll up"
-msgstr ""
+msgstr "Z&rolovať"
 
 # qt3/i18n.cpp:291
 #: sim/qt3/i18n.cpp:291
-#, fuzzy
 msgid "Minimize"
-msgstr "vystrašený"
+msgstr "Minimalizovať"
 
 #: sim/qt3/i18n.cpp:293
 msgid "Restore Down"
-msgstr ""
+msgstr "Vyrolovať"
 
 #: sim/qt3/i18n.cpp:295
 msgid "Maximize"
-msgstr ""
+msgstr "Maximalizovať"
 
 #: sim/qt3/i18n.cpp:297
 msgid "Roll up"
-msgstr ""
+msgstr "Vyrolovať"
 
 # qt3/i18n.cpp:267
 #: sim/qt3/i18n.cpp:299
-#, fuzzy
 msgid "Restore Up"
-msgstr "Zdroj:"
+msgstr "Vyrolovať"
 
 #: sim/qt3/i18n.cpp:301
 msgid "Roll down"
-msgstr ""
+msgstr "Zrolovať"
 
 # ui/themesetup.cpp:144
 #: xpstyle/xpstyle.cpp:63
-#, fuzzy
 msgid "Windows XP style"
-msgstr "Okno - prispôsobiť"
+msgstr "Štýl \"Windows XP\""
 
-# ui/maininfobase.cpp:315
-# ui/searchbase.cpp:293
-#~ msgid "Last name"
-#~ msgstr "Priezvisko"
-
-# ui/maininfobase.cpp:315
-# ui/searchbase.cpp:293
-#~ msgid "Last name:"
-#~ msgstr "Priezvisko:"
