@@ -601,10 +601,10 @@ void PluginManagerPrivate::loadState()
                 return;
             }
         }
-        if (f.open(IO_WriteOnly)) {
+        if (f.open(IO_WriteOnly)) 
             f.close();
-        } else {
-            log(L_ERROR, "Can't create %s",f.name().ascii());
+        else {
+			log(L_ERROR, "Can't create %s",f.name().ascii());
             return;
         }
     }
@@ -624,12 +624,12 @@ void PluginManagerPrivate::loadState()
         if (section.empty())
             return;
         unsigned i = NO_PLUGIN;
-        for (unsigned n = 0; n < plugins.size(); n++){
+        for (unsigned n = 0; n < plugins.size(); n++)
             if (section == plugins[n].name){
                 i = n;
                 break;
             }
-        }
+       
         if (i == NO_PLUGIN)
             continue;
         pluginInfo &info = plugins[i];
@@ -640,12 +640,14 @@ void PluginManagerPrivate::loadState()
         if (token == ENABLE){
             info.bDisabled = false;
             info.bFromCfg  = true;
-        }else if (token == DISABLE){
+        }
+		else if (token == DISABLE){
             info.bDisabled = true;
             info.bFromCfg  = true;
-        }else{
-            continue;
         }
+		else
+            continue;
+        
         info.base = atol(line);
         if (info.base > m_base)
             m_base = info.base;
