@@ -77,6 +77,8 @@ public:
 signals:
     void ctrlEnterPressed();
     void lostFocus();
+protected slots:
+	void slotColorChanged(const QColor &c);
 protected:
     bool eventFilter(QObject *o, QEvent *e);
     void keyPressEvent(QKeyEvent *e);
@@ -117,8 +119,10 @@ class UI_EXPORT ColorToolButton : public QToolButton
     Q_OBJECT
 public:
     ColorToolButton(QWidget *parent, QColor color);
+	void setColor(QColor c);
 signals:
     void colorChanged(QColor color);
+	void aboutToShow();
 protected slots:
     void btnClicked();
     void selectColor(QColor);
@@ -146,11 +150,14 @@ protected slots:
     void toggleUnderline(bool);
     void bgColorChanged(QColor);
     void fgColorChanged(QColor);
+	void showFgPopup();
     void fontChanged(const QFont&);
     void selectFont();
 protected:
     TextEdit	*m_edit;
     QToolBar	*m_bar;
+	ColorToolButton *btnBG;
+	ColorToolButton *btnFG;
     QToolButton	*btnBold;
     QToolButton	*btnItalic;
     QToolButton	*btnUnderline;

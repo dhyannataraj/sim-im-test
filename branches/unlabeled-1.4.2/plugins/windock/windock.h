@@ -27,22 +27,31 @@ typedef struct WinDockData
     unsigned long	Height;
 } WinDocData;
 
-class WinDockPlugin : public Plugin, public EventReceiver
+class QTimer;
+
+class WinDockPlugin : public QObject, public Plugin, public EventReceiver
 {
+Q_OBJECT
 public:
     WinDockPlugin(unsigned, const char*);
     virtual ~WinDockPlugin();
     PROP_BOOL(AutoHide);
     PROP_USHORT(State);
     PROP_ULONG(Height);
+	void enableAutoHide(bool);
+protected slots:
+	void slotSetState();
+	void slotAutoHide();
 protected:
     virtual void *processEvent(Event*);
+	virtual bool eventFilter(QObject*, QEvent*);
     virtual string getConfig();
     QWidget *getMainWindow();
     unsigned CmdAutoHide;
     bool m_bInit;
     void init();
     void uninit();
+	QTimer *m_autoHide;
     WinDockData data;
 };
 

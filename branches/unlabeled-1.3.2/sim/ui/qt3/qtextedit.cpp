@@ -858,7 +858,8 @@ void QTextEdit::keyPressEvent( QKeyEvent *e )
     case Key_Next:
         moveCursor( MovePgDown, e->state() & ShiftButton );
         break;
-case Key_Return: case Key_Enter:
+case Key_Return: 
+case Key_Enter:
         if ( doc->hasSelection( QTextDocument::Standard, FALSE ) )
             removeSelectedText();
 #ifndef QT_NO_CURSOR
@@ -928,7 +929,8 @@ case Key_Return: case Key_Enter:
             }
             if ( e->state() & ControlButton ) {
                 switch ( e->key() ) {
-            case Key_C: case Key_F16: // Copy key on Sun keyboards
+            case Key_C: 
+			case Key_F16: // Copy key on Sun keyboards
                     copy();
                     break;
                 case Key_V:
@@ -937,7 +939,9 @@ case Key_Return: case Key_Enter:
                 case Key_X:
                     cut();
                     break;
-        case Key_I: case Key_T: case Key_Tab:
+        case Key_I: 
+		case Key_T: 
+		case Key_Tab:
                     indent();
                     break;
                 case Key_A:
