@@ -40,19 +40,19 @@
 MiscSetup::MiscSetup(QWidget *p)
         : MiscSetupBase(p)
 {
-    edtBrowser->setText(QString::fromLocal8Bit(pMain->UrlViewer.c_str()));
-    edtMail->setText(QString::fromLocal8Bit(pMain->MailClient.c_str()));
+    edtBrowser->setText(QString::fromLocal8Bit(pMain->getUrlViewer()));
+    edtMail->setText(QString::fromLocal8Bit(pMain->getMailClient()));
 #ifdef USE_SPELL
     QVBoxLayout *lay = new QVBoxLayout(widget);
     KSpellConfig *spell = new KSpellConfig(widget);
     lay->addWidget(spell);
-    chkSpell->setChecked(pMain->SpellOnSend);
+    chkSpell->setChecked(pMain->isSpellOnSend());
 #else
     tabWnd->setCurrentPage(2);
     tabWnd->removePage(tabWnd->currentPage());
 #endif
 #if defined(USE_KDE) && defined(HAVE_KABC)
-    chkSync->setChecked(pMain->AutoSync);
+    chkSync->setChecked(pMain->isAutoSync());
     connect(btnSync,SIGNAL(clicked()),SLOT(clickedSync()));
 #else
     tabWnd->setCurrentPage(1);
@@ -62,13 +62,13 @@ MiscSetup::MiscSetup(QWidget *p)
 
 void MiscSetup::apply(ICQUser*)
 {
-    set(pMain->UrlViewer, edtBrowser->text());
-    set(pMain->MailClient, edtMail->text());
+    set(pMain->_UrlViewer(), edtBrowser->text());
+    set(pMain->_MailClient(), edtMail->text());
 #if defined(USE_KDE) && defined(HAVE_KABC)
-    pMain->AutoSync=chkSync->isChecked();
+    pMain->setAutoSync(chkSync->isChecked());
 #endif
 #ifdef USE_SPELL
-    pMain->SpellOnSend = chkSpell->isChecked();
+    pMain->setSpellOnSend(chkSpell->isChecked());
 #endif
 }
 

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
-"POT-Creation-Date: 2002-12-18 11:44+0300\n"
+"POT-Creation-Date: 2002-12-23 13:00+0300\n"
 "PO-Revision-Date: 2002-12-20 01:15+0100\n"
 "Last-Translator: Pavel Rousar <rousarp@fel.cvut.cz>\n"
 "Language-Team: Čeština <cs@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.1\n"
 
-#: client.cpp:57 client.cpp:58 libicq/country.cpp:7
+#: client.cpp:59 client.cpp:60 libicq/country.cpp:7
 msgid "Arabic"
 msgstr "Arabsky"
 
@@ -64,7 +64,7 @@ msgstr "Holandsky"
 msgid "English"
 msgstr "Anglicky"
 
-#: client.cpp:74 libicq/country.cpp:19
+#: client.cpp:76 libicq/country.cpp:19
 msgid "Esperanto"
 msgstr "Esperanto"
 
@@ -92,11 +92,11 @@ msgstr "Gaelic"
 msgid "German"
 msgstr "Německy"
 
-#: client.cpp:76 client.cpp:77 libicq/country.cpp:26
+#: client.cpp:78 client.cpp:79 libicq/country.cpp:26
 msgid "Greek"
 msgstr "Řecky"
 
-#: client.cpp:79 client.cpp:80 libicq/country.cpp:27
+#: client.cpp:81 client.cpp:82 libicq/country.cpp:27
 msgid "Hebrew"
 msgstr "Hebrejsky"
 
@@ -120,7 +120,7 @@ msgstr "Indonésky"
 msgid "Italian"
 msgstr "Italsky"
 
-#: client.cpp:82 client.cpp:83 client.cpp:84 libicq/country.cpp:33
+#: client.cpp:84 client.cpp:85 client.cpp:86 libicq/country.cpp:33
 msgid "Japanese"
 msgstr "Japonsky"
 
@@ -128,7 +128,7 @@ msgstr "Japonsky"
 msgid "Khmer"
 msgstr "Khmer"
 
-#: client.cpp:86 libicq/country.cpp:35
+#: client.cpp:88 libicq/country.cpp:35
 msgid "Korean"
 msgstr "Korejsky"
 
@@ -204,15 +204,15 @@ msgstr "Tagalog"
 msgid "Tatar"
 msgstr "Tatarsky"
 
-#: client.cpp:94 libicq/country.cpp:54
+#: client.cpp:96 libicq/country.cpp:54
 msgid "Thai"
 msgstr "Thaisky"
 
-#: client.cpp:96 client.cpp:97 libicq/country.cpp:55 ui/themesetup.cpp:63
+#: client.cpp:98 client.cpp:99 libicq/country.cpp:55 ui/themesetup.cpp:63
 msgid "Turkish"
 msgstr "Turecky"
 
-#: client.cpp:99 libicq/country.cpp:56 ui/themesetup.cpp:64
+#: client.cpp:101 libicq/country.cpp:56 ui/themesetup.cpp:64
 msgid "Ukrainian"
 msgstr "Ukrajinsky"
 
@@ -1642,7 +1642,7 @@ msgstr ""
 msgid "This program is distributed under the terms of the GPL v2."
 msgstr "Tento program je šířen pod GPL v2."
 
-#: chatwnd.cpp:75 ui/userinfobase.cpp:54
+#: chatwnd.cpp:75 ui/userinfobase.cpp:94
 msgid "Save"
 msgstr "Uložit"
 
@@ -1671,43 +1671,43 @@ msgstr "Vstupit do chatu"
 msgid "Can't create %1"
 msgstr "Nemohu vytvořit %1"
 
-#: client.cpp:55
+#: client.cpp:57
 msgid "Unicode"
 msgstr "Unicode"
 
-#: client.cpp:60 client.cpp:61
+#: client.cpp:62 client.cpp:63
 msgid "Baltic"
 msgstr "Baltský"
 
-#: client.cpp:63 client.cpp:64
+#: client.cpp:65 client.cpp:66
 msgid "Central European"
 msgstr "Středoevropský"
 
-#: client.cpp:66
+#: client.cpp:68
 msgid "Chinese "
 msgstr "Čínský"
 
-#: client.cpp:67
+#: client.cpp:69
 msgid "Chinese Simplified"
 msgstr "Čínský (zjednodušený)"
 
-#: client.cpp:68
+#: client.cpp:70
 msgid "Chinese Traditional"
 msgstr "Čínský (tradiční)"
 
-#: client.cpp:70 client.cpp:71 client.cpp:72
+#: client.cpp:72 client.cpp:73 client.cpp:74
 msgid "Cyrillic"
 msgstr "Cyrilika"
 
-#: client.cpp:88 client.cpp:89 client.cpp:90
+#: client.cpp:90 client.cpp:91 client.cpp:92
 msgid "Western European"
 msgstr "Západoevropský"
 
-#: client.cpp:92
+#: client.cpp:94
 msgid "Tamil"
 msgstr "Tamil"
 
-#: client.cpp:294
+#: client.cpp:296
 msgid ""
 "I am currently away from ICQ.\n"
 "Please leave your message and I will get back to you as soon as I return!\n"
@@ -1715,7 +1715,7 @@ msgstr ""
 "Teď jsem pryč.\n"
 "Pošlete mi zprávu a já Vám odpovím jakmile se vrátím!\n"
 
-#: client.cpp:298
+#: client.cpp:300
 msgid ""
 "I am out'a here.\n"
 "See you tomorrow!\n"
@@ -1723,11 +1723,11 @@ msgstr ""
 "Jsem pryč.\n"
 "Uvidíme se zítra!\n"
 
-#: client.cpp:302
+#: client.cpp:304
 msgid "Please do not disturb me now. Disturb me later.\n"
 msgstr "Teď mě, prosím, nevyrušjte. Zkuste to později.\n"
 
-#: client.cpp:305
+#: client.cpp:307
 msgid ""
 "Please do not disturb me now.\n"
 "Disturb me later.\n"
@@ -1736,11 +1736,11 @@ msgstr ""
 "Teď mě, prosím, nevyrušujte.\n"
 "Posílejte pouze urgentní zprávy!\n"
 
-#: client.cpp:309
+#: client.cpp:311
 msgid "We'd love to hear what you have to say. Join our chat.\n"
 msgstr "Zkus náš chat.\n"
 
-#: client.cpp:1006
+#: client.cpp:1008
 #, c-format
 msgid ""
 "_n: Message\n"
@@ -1750,7 +1750,7 @@ msgstr ""
 "%n zpráv\n"
 "."
 
-#: client.cpp:1008
+#: client.cpp:1010
 #, c-format
 msgid ""
 "_n: Chat request\n"
@@ -1760,7 +1760,7 @@ msgstr ""
 "%n žádostí o chat\n"
 "."
 
-#: client.cpp:1010 msgview.cpp:200
+#: client.cpp:1012 msgview.cpp:200
 #, c-format
 msgid ""
 "_n: File\n"
@@ -1770,7 +1770,7 @@ msgstr ""
 "%n souborů\n"
 "."
 
-#: client.cpp:1012
+#: client.cpp:1014
 #, c-format
 msgid ""
 "_n: URL\n"
@@ -1780,7 +1780,7 @@ msgstr ""
 "%n URL\n"
 "."
 
-#: client.cpp:1014
+#: client.cpp:1016
 #, c-format
 msgid ""
 "_n: Authorization request\n"
@@ -1790,7 +1790,7 @@ msgstr ""
 "%n požadavků na autorizaci\n"
 "."
 
-#: client.cpp:1016
+#: client.cpp:1018
 #, c-format
 msgid ""
 "_n: Authorization refused\n"
@@ -1800,7 +1800,7 @@ msgstr ""
 "%n autorizací odmítnuto\n"
 "."
 
-#: client.cpp:1018
+#: client.cpp:1020
 #, c-format
 msgid ""
 "_n: Authorization granted\n"
@@ -1810,7 +1810,7 @@ msgstr ""
 "%n autorizací úspěšných\n"
 "."
 
-#: client.cpp:1020
+#: client.cpp:1022
 #, c-format
 msgid ""
 "_n: Added to contact list\n"
@@ -1820,7 +1820,7 @@ msgstr ""
 "%n přidáno do kontaktlistun\n"
 "."
 
-#: client.cpp:1022
+#: client.cpp:1024
 #, c-format
 msgid ""
 "_n: WWW-panel message\n"
@@ -1830,7 +1830,7 @@ msgstr ""
 "%n WWW-zpráv\n"
 "."
 
-#: client.cpp:1024
+#: client.cpp:1026
 #, c-format
 msgid ""
 "_n: Email pager message\n"
@@ -1840,7 +1840,7 @@ msgstr ""
 "%n Email-Pager-zpráv\n"
 "."
 
-#: client.cpp:1026
+#: client.cpp:1028
 #, c-format
 msgid ""
 "_n: Contact list\n"
@@ -1850,7 +1850,7 @@ msgstr ""
 "%n kontaktlistů\n"
 "."
 
-#: client.cpp:1028
+#: client.cpp:1030
 #, c-format
 msgid ""
 "_n: Contacts request\n"
@@ -1860,7 +1860,7 @@ msgstr ""
 "%n požadavků na kontakty\n"
 "."
 
-#: client.cpp:1030
+#: client.cpp:1032
 #, c-format
 msgid ""
 "_n: External unknown message\n"
@@ -1870,7 +1870,7 @@ msgstr ""
 "%n neznámých zpráv\n"
 "."
 
-#: client.cpp:1032
+#: client.cpp:1034
 #, c-format
 msgid ""
 "_n: SMS\n"
@@ -1880,7 +1880,7 @@ msgstr ""
 "%n SMS\n"
 "."
 
-#: client.cpp:1034
+#: client.cpp:1036
 #, c-format
 msgid ""
 "_n: SMS receipt\n"
@@ -1890,7 +1890,7 @@ msgstr ""
 "%n SMS příjemců\n"
 "."
 
-#: client.cpp:1036
+#: client.cpp:1038
 #, c-format
 msgid ""
 "_n: Email\n"
@@ -1900,7 +1900,7 @@ msgstr ""
 "%n Emailů\n"
 "."
 
-#: client.cpp:1038
+#: client.cpp:1040
 #, c-format
 msgid ""
 "_n: Request secure channel\n"
@@ -1910,7 +1910,7 @@ msgstr ""
 "%n Požadavků na bezpečný kanál\n"
 "."
 
-#: client.cpp:1040
+#: client.cpp:1042
 #, c-format
 msgid ""
 "_n: Close secure channel\n"
@@ -1920,7 +1920,7 @@ msgstr ""
 "%n Zavření bezpečných kanálu\n"
 "."
 
-#: client.cpp:1044
+#: client.cpp:1046
 #, c-format
 msgid ""
 "_n: Unknown message\n"
@@ -1930,83 +1930,83 @@ msgstr ""
 "%n neznámých zpráv\n"
 "."
 
-#: client.cpp:1051
+#: client.cpp:1053
 msgid ""
 "_: Ctrl+N\n"
 "new"
 msgstr "Ctrl+M"
 
-#: client.cpp:1053
+#: client.cpp:1055
 msgid ""
 "_: Ctrl+B\n"
 "chat msg"
 msgstr "Ctrl+M"
 
-#: client.cpp:1055
+#: client.cpp:1057
 msgid ""
 "_: Ctrl+F\n"
 "File"
 msgstr "Ctrl+F"
 
-#: client.cpp:1057
+#: client.cpp:1059
 msgid ""
 "_: Ctrl+L\n"
 "URL"
 msgstr "Ctrl+L"
 
-#: client.cpp:1059
+#: client.cpp:1061
 msgid ""
 "_: Ctrl+R\n"
 "AuthRequest"
 msgstr "Ctrl+R"
 
-#: client.cpp:1061
+#: client.cpp:1063
 msgid ""
 "_: Ctrl+T\n"
 "Contacts"
 msgstr "Ctrl+T"
 
-#: client.cpp:1063
+#: client.cpp:1065
 msgid ""
 "_: Ctrl+S\n"
 "SMS"
 msgstr "Ctrl+S"
 
-#: client.cpp:1065
+#: client.cpp:1067
 msgid ""
 "_: Ctrl+E\n"
 "EMail"
 msgstr "Ctrl+E"
 
-#: client.cpp:1094 userview.cpp:1297
+#: client.cpp:1096 userview.cpp:1297
 msgid "Offline"
 msgstr "Offline"
 
-#: client.cpp:1095
+#: client.cpp:1097
 msgid "Do not disturb"
 msgstr "Nevyrušovat (DND)"
 
-#: client.cpp:1096
+#: client.cpp:1098
 msgid "Occupied"
 msgstr "Zaneprázdněný (Occupied)"
 
-#: client.cpp:1097
+#: client.cpp:1099
 msgid "N/A"
 msgstr "Nedostupný (N/A)"
 
-#: client.cpp:1098
+#: client.cpp:1100
 msgid "Free for chat"
 msgstr "Chci chatovat (FFC)"
 
-#: client.cpp:1099
+#: client.cpp:1101
 msgid "Away"
 msgstr "Pryč (Away)"
 
-#: client.cpp:1100 cuser.cpp:216 userview.cpp:1294
+#: client.cpp:1102 cuser.cpp:216 userview.cpp:1294
 msgid "Online"
 msgstr "Online"
 
-#: client.cpp:1113 mainwin.cpp:2698
+#: client.cpp:1115 mainwin.cpp:2723
 msgid "Invisible"
 msgstr "Neviditelný"
 
@@ -2069,11 +2069,11 @@ msgstr "Neznámé"
 msgid "Last online"
 msgstr "Naposledy online"
 
-#: dock.cpp:942 mainwin.cpp:871
+#: dock.cpp:942 mainwin.cpp:872
 msgid "%1 from %2"
 msgstr "%1 (%2)"
 
-#: dock.cpp:955 mainwin.cpp:1974
+#: dock.cpp:955 mainwin.cpp:1999
 msgid "Connecting"
 msgstr "Připojování"
 
@@ -2085,11 +2085,11 @@ msgstr "Pravopis"
 msgid "IM Address"
 msgstr "IM Adresa"
 
-#: mainwin.cpp:442 monitor.cpp:133
+#: mainwin.cpp:443 monitor.cpp:133
 msgid "Error"
 msgstr "Chyba"
 
-#: mainwin.cpp:443
+#: mainwin.cpp:444
 msgid ""
 "There is already an auto hidden window on this edge.\n"
 "Only one auto hidden window is allowed on each edge."
@@ -2097,115 +2097,115 @@ msgstr ""
 "Toto je právě automaticky schovávané okno tohoto rohu.\n"
 "Pouze jedno takové okno může být v každém rohu."
 
-#: mainwin.cpp:610
+#: mainwin.cpp:611
 msgid "Show &offline"
 msgstr "Ukázat &Offline"
 
-#: mainwin.cpp:611
+#: mainwin.cpp:612
 msgid "&Group mode"
 msgstr "&Skupinový mód"
 
-#: mainwin.cpp:613 mainwin.cpp:2720 usertbl.cpp:113
+#: mainwin.cpp:614 mainwin.cpp:2745 usertbl.cpp:113
 msgid "Status"
 msgstr "Stav"
 
-#: mainwin.cpp:614
+#: mainwin.cpp:615
 msgid "&Menu"
 msgstr "&Menu"
 
-#: mainwin.cpp:616 mainwin.cpp:2716
+#: mainwin.cpp:617 mainwin.cpp:2741
 msgid "Find User"
 msgstr "Vyhledat uživatele"
 
-#: mainwin.cpp:617 mainwin.cpp:2717
+#: mainwin.cpp:618 mainwin.cpp:2742
 msgid "Add Non-IM contact"
 msgstr "Přidat kontakt"
 
-#: mainwin.cpp:618 mainwin.cpp:2718
+#: mainwin.cpp:619 mainwin.cpp:2743
 msgid "Send SMS"
 msgstr "Poslat SMS"
 
-#: mainwin.cpp:619 mainwin.cpp:2722 ui/setupdlg.cpp:97
+#: mainwin.cpp:620 mainwin.cpp:2747 ui/setupdlg.cpp:101
 msgid "Setup"
 msgstr "Nastavení"
 
-#: mainwin.cpp:620 mainwin.cpp:2733 monitor.cpp:59
+#: mainwin.cpp:621 mainwin.cpp:2758 monitor.cpp:59
 msgid "Network monitor"
 msgstr "Síťový monitor"
 
-#: mainwin.cpp:708
+#: mainwin.cpp:709
 msgid "Current location"
 msgstr "Aktuální umístění"
 
-#: mainwin.cpp:709
+#: mainwin.cpp:710
 msgid "Phone status"
 msgstr "Stav telefonu"
 
-#: mainwin.cpp:711
+#: mainwin.cpp:712
 msgid "Phone Book"
 msgstr "Telefonní seznam"
 
-#: mainwin.cpp:884
+#: mainwin.cpp:885
 msgid "AutoHide"
 msgstr "Automaticky skrýt"
 
-#: mainwin.cpp:1222
+#: mainwin.cpp:1232
 msgid "%1 from %2 received"
 msgstr "%1 (%2)"
 
-#: mainwin.cpp:1261 ui/logindlg.cpp:232
+#: mainwin.cpp:1272 ui/logindlg.cpp:234
 msgid "Can't connect to proxy server"
 msgstr "Nelze se spojit s proxy serverem"
 
-#: mainwin.cpp:1268 ui/logindlg.cpp:239
+#: mainwin.cpp:1280 ui/logindlg.cpp:241
 msgid "Proxy server require authorization"
 msgstr "Proxy server vyžaduje autorizaci"
 
-#: mainwin.cpp:1269 ui/logindlg.cpp:240
+#: mainwin.cpp:1281 ui/logindlg.cpp:242
 msgid "Invalid password for proxy"
 msgstr "Chybné heslo pro proxy"
 
-#: mainwin.cpp:1282
+#: mainwin.cpp:1295
 msgid "Your UIN used from another location"
 msgstr "Vaše UIN je použité z jiného místa"
 
-#: mainwin.cpp:1337
+#: mainwin.cpp:1350
 msgid "%1 is online"
 msgstr "%1 je online"
 
-#: mainwin.cpp:1950 mainwin.cpp:2281 ui/enable.cpp:122 ui/logindlg.cpp:298
+#: mainwin.cpp:1975 mainwin.cpp:2306 ui/enable.cpp:127 ui/logindlg.cpp:301
 msgid "&Yes"
 msgstr "&Ano"
 
-#: mainwin.cpp:1951 mainwin.cpp:2282 ui/enable.cpp:126 ui/logindlg.cpp:299
+#: mainwin.cpp:1976 mainwin.cpp:2307 ui/enable.cpp:131 ui/logindlg.cpp:302
 msgid "&No"
 msgstr "&Ne"
 
-#: mainwin.cpp:1952
+#: mainwin.cpp:1977
 msgid "Add %1 to ignore list ?"
 msgstr "Přidat %1 mezi ignorované?"
 
-#: mainwin.cpp:2016
+#: mainwin.cpp:2041
 msgid "In visible list"
 msgstr "Do viditelných"
 
-#: mainwin.cpp:2018
+#: mainwin.cpp:2043
 msgid "In invisible list"
 msgstr "Do neviditelných"
 
-#: mainwin.cpp:2021
+#: mainwin.cpp:2046
 msgid "In ignore list"
 msgstr "Mezi ignorované"
 
-#: mainwin.cpp:2037 mainwin.cpp:2723
+#: mainwin.cpp:2062 mainwin.cpp:2748
 msgid "Groups"
 msgstr "Skupiny"
 
-#: mainwin.cpp:2038 usertbl.cpp:391 userview.cpp:1683
+#: mainwin.cpp:2063 usertbl.cpp:391 userview.cpp:1687
 msgid "Delete"
 msgstr "Odebrat"
 
-#: mainwin.cpp:2039 userview.cpp:681 userview.cpp:1684
+#: mainwin.cpp:2064 userview.cpp:681 userview.cpp:1688
 msgid ""
 "_: Del\n"
 "Delete"
@@ -2213,11 +2213,11 @@ msgstr ""
 "Smazat\n"
 "Smazat"
 
-#: mainwin.cpp:2043
+#: mainwin.cpp:2068
 msgid "&User info"
 msgstr "&Informace o uživateli"
 
-#: mainwin.cpp:2044
+#: mainwin.cpp:2069
 msgid ""
 "_: Ctrl+U\n"
 "UserInfo"
@@ -2225,11 +2225,11 @@ msgstr ""
 "Informace o uživateli\n"
 "Informace o uživateli"
 
-#: mainwin.cpp:2045
+#: mainwin.cpp:2070
 msgid "&History"
 msgstr "&Historie"
 
-#: mainwin.cpp:2046
+#: mainwin.cpp:2071
 msgid ""
 "_: Ctrl+H\n"
 "History"
@@ -2237,11 +2237,11 @@ msgstr ""
 "Historie\n"
 "Historie"
 
-#: mainwin.cpp:2048 ui/setupdlg.cpp:129 ui/userinfo.cpp:90
+#: mainwin.cpp:2073 ui/setupdlg.cpp:133 ui/userinfo.cpp:90
 msgid "Alert"
 msgstr "Výstraha"
 
-#: mainwin.cpp:2049
+#: mainwin.cpp:2074
 msgid ""
 "_: Ctrl+L\n"
 "Alert"
@@ -2249,176 +2249,176 @@ msgstr ""
 "Varování\n"
 "Varování"
 
-#: mainwin.cpp:2050 ui/acceptbase.cpp:137
+#: mainwin.cpp:2075 ui/acceptbase.cpp:120
 msgid "Accept mode"
 msgstr "Přenos souboru"
 
-#: mainwin.cpp:2051
+#: mainwin.cpp:2076
 msgid ""
 "_: Ctrl+A\n"
 "Accept"
 msgstr "Ctrl+A"
 
-#: mainwin.cpp:2052 ui/setupdlg.cpp:128 ui/userinfo.cpp:92
+#: mainwin.cpp:2077 ui/setupdlg.cpp:132 ui/userinfo.cpp:92
 msgid "Sound"
 msgstr "Zvuk"
 
-#: mainwin.cpp:2053
+#: mainwin.cpp:2078
 msgid ""
 "_: Ctrl+S\n"
 "Sound"
 msgstr "Zvuk"
 
-#: mainwin.cpp:2056
+#: mainwin.cpp:2081
 msgid "Floating off"
 msgstr "Plovoucí kontakt vypnout"
 
-#: mainwin.cpp:2056
+#: mainwin.cpp:2081
 msgid "Floating on"
 msgstr "Plovoucí kontakt zapnout"
 
-#: mainwin.cpp:2057
+#: mainwin.cpp:2082
 msgid ""
 "_: Ctrl+T\n"
 "Floating"
 msgstr "Ctrl+T"
 
-#: mainwin.cpp:2060
+#: mainwin.cpp:2085
 msgid "Users"
 msgstr "Uživatelé"
 
-#: mainwin.cpp:2061 ui/aboutdlgbase.cpp:131 ui/enable.cpp:125
-#: ui/filetransfer.cpp:156 ui/logindlgbase.cpp:94 ui/proxydlgbase.cpp:58
-#: ui/securedlg.cpp:62 ui/setupdlgbase.cpp:71 ui/toolsetupbase.cpp:113
+#: mainwin.cpp:2086 ui/aboutdlgbase.cpp:125 ui/enable.cpp:130
+#: ui/filetransfer.cpp:156 ui/logindlgbase.cpp:130 ui/proxydlgbase.cpp:172
+#: ui/securedlg.cpp:62 ui/setupdlgbase.cpp:91 ui/toolsetupbase.cpp:136
 #: ui/userautoreply.cpp:76
 msgid "&Close"
 msgstr "&Zavřít"
 
-#: mainwin.cpp:2062
+#: mainwin.cpp:2087
 msgid ""
 "_: Ctrl+C\n"
 "Close"
 msgstr "Ctrl+C"
 
-#: mainwin.cpp:2064
+#: mainwin.cpp:2089
 msgid "Alphabetically sort"
 msgstr "Seřadit abecedně"
 
-#: mainwin.cpp:2065
+#: mainwin.cpp:2090
 msgid ""
 "_: Ctrl+B\n"
 "Alphabetically sort"
 msgstr "Ctrl+B"
 
-#: mainwin.cpp:2283
+#: mainwin.cpp:2308
 msgid "Delete %1?"
 msgstr "Smazat %1 ?"
 
-#: mainwin.cpp:2462
+#: mainwin.cpp:2487
 msgid "New"
 msgstr "Nový"
 
-#: mainwin.cpp:2465
+#: mainwin.cpp:2490
 msgid "To container"
 msgstr "Do kontejneru"
 
-#: mainwin.cpp:2470
+#: mainwin.cpp:2495
 msgid "Read %1 message"
 msgstr "Číst zprávu %1"
 
-#: mainwin.cpp:2701
+#: mainwin.cpp:2726
 msgid "Don't show"
 msgstr "Neukazovat"
 
-#: mainwin.cpp:2702
+#: mainwin.cpp:2727
 msgid "Available"
 msgstr "Dostupný"
 
-#: mainwin.cpp:2703
+#: mainwin.cpp:2728
 msgid "Busy"
 msgstr "Obsazeno"
 
-#: mainwin.cpp:2706 userview.cpp:1685
+#: mainwin.cpp:2731 userview.cpp:1689
 msgid "Create group"
 msgstr "Vyvořit skupinu"
 
-#: mainwin.cpp:2708 userview.cpp:1694
+#: mainwin.cpp:2733 userview.cpp:1698
 msgid "Expand all"
 msgstr "Všechno rozbalit"
 
-#: mainwin.cpp:2709 userview.cpp:1696
+#: mainwin.cpp:2734 userview.cpp:1700
 msgid "Collapse all"
 msgstr "Všechno sbalit"
 
-#: mainwin.cpp:2711 toolbtn.cpp:688
+#: mainwin.cpp:2736 toolbtn.cpp:701
 msgid "Customize toolbar..."
 msgstr "Přizpůsobit nástrojovou lištu"
 
-#: mainwin.cpp:2714
+#: mainwin.cpp:2739
 msgid "ICQ"
 msgstr "ICQ"
 
-#: mainwin.cpp:2724
+#: mainwin.cpp:2749
 msgid "Phone \"Follow Me\""
 msgstr "Telefon"
 
-#: mainwin.cpp:2726
+#: mainwin.cpp:2751
 msgid "Shared files"
 msgstr "Sdílené soubory"
 
-#: mainwin.cpp:2730
+#: mainwin.cpp:2755
 msgid "Always on top"
 msgstr "Viditelný neustále"
 
-#: mainwin.cpp:2734
+#: mainwin.cpp:2759
 msgid "&Bug report"
 msgstr "&Nahlášení chyb"
 
-#: mainwin.cpp:2735
+#: mainwin.cpp:2760
 msgid "&About SIM"
 msgstr "&O aplikaci SIM"
 
-#: mainwin.cpp:2737
+#: mainwin.cpp:2762
 msgid "About &KDE"
 msgstr "Informace o prostředí &KDE"
 
-#: mainwin.cpp:2740
+#: mainwin.cpp:2765
 msgid "Change UIN"
 msgstr "Změnit UIN"
 
-#: mainwin.cpp:2741
+#: mainwin.cpp:2766
 msgid "Quit"
 msgstr "Ukončit"
 
-#: _translatorinfo.cpp:1 mainwin.cpp:2957
+#: _translatorinfo.cpp:1 mainwin.cpp:2982
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
 msgstr "Pavel Roušar (toTem)"
 
-#: _translatorinfo.cpp:3 mainwin.cpp:2958
+#: _translatorinfo.cpp:3 mainwin.cpp:2983
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
 msgstr "rousarp@fel.cvut.cz "
 
-#: mainwin.cpp:2984
+#: mainwin.cpp:3009
 msgid "light"
 msgstr "světlé"
 
-#: mainwin.cpp:2988
+#: mainwin.cpp:3013
 msgid "demibold"
 msgstr "polotučné"
 
-#: mainwin.cpp:2992
+#: mainwin.cpp:3017
 msgid "bold"
 msgstr "tučné"
 
-#: mainwin.cpp:2996
+#: mainwin.cpp:3021
 msgid "black"
 msgstr "černé"
 
-#: mainwin.cpp:3003
+#: mainwin.cpp:3028
 msgid "italic"
 msgstr "kurziva"
 
@@ -2430,7 +2430,7 @@ msgstr "U&ložit"
 msgid "E&xit"
 msgstr "Ukonči&t"
 
-#: monitor.cpp:70 ui/acceptbase.cpp:163
+#: monitor.cpp:70 ui/acceptbase.cpp:125
 msgid "&File"
 msgstr "S&oubor"
 
@@ -2539,7 +2539,7 @@ msgstr "&Odpovědět"
 msgid "&Quote"
 msgstr "&Citace"
 
-#: msgedit.cpp:126 ui/smssetupbase.cpp:82
+#: msgedit.cpp:126 ui/smssetupbase.cpp:103
 msgid "&Forward"
 msgstr "Přepos&lat"
 
@@ -2563,19 +2563,19 @@ msgstr "&Další"
 msgid "&Multiply send"
 msgstr "Poslat &několika"
 
-#: msgedit.cpp:177
+#: msgedit.cpp:184
 msgid "Phone:"
 msgstr "Telefon:"
 
-#: msgedit.cpp:186 ui/soundsetupbase.cpp:88
+#: msgedit.cpp:193 ui/soundsetupbase.cpp:172
 msgid "URL:"
 msgstr "URL:"
 
-#: msgedit.cpp:193 msgedit.cpp:1363 msgview.cpp:202
+#: msgedit.cpp:200 msgedit.cpp:1363 msgview.cpp:202
 msgid "File"
 msgstr "Soubor"
 
-#: msgedit.cpp:200
+#: msgedit.cpp:207
 msgid "Drag users here"
 msgstr "Sem přesuňte uživatele"
 
@@ -2583,9 +2583,9 @@ msgstr "Sem přesuňte uživatele"
 msgid "Sending"
 msgstr "Zasílání"
 
-#: msgedit.cpp:357 ui/addphonebase.cpp:106 ui/emaileditbase.cpp:64
-#: ui/enable.cpp:125 ui/filetransfer.cpp:246 ui/filetransferbase.cpp:117
-#: ui/securedlgbase.cpp:47
+#: msgedit.cpp:357 ui/addphonebase.cpp:107 ui/emaileditbase.cpp:92
+#: ui/enable.cpp:130 ui/filetransfer.cpp:246 ui/filetransferbase.cpp:145
+#: ui/securedlgbase.cpp:70
 msgid "&Cancel"
 msgstr "&Zrušit"
 
@@ -2673,7 +2673,7 @@ msgstr "Kontaktlist byl přijat"
 msgid "Contact list sent"
 msgstr "Kontaktlist odeslaný"
 
-#: msgview.cpp:828 ui/searchbase.cpp:38 ui/searchbase.cpp:51
+#: msgview.cpp:828 ui/searchbase.cpp:245 ui/searchbase.cpp:247
 msgid "Search"
 msgstr "Hledání"
 
@@ -2766,27 +2766,27 @@ msgstr "&Kódování"
 msgid "Close user &window"
 msgstr "Zavřít &okno"
 
-#: userbox.cpp:264
+#: userbox.cpp:253
 msgid "All encodings"
 msgstr "Kódování"
 
-#: userbox.cpp:358
+#: userbox.cpp:347
 msgid "All users"
 msgstr "Všichni uživatelé"
 
-#: ui/userinfo.cpp:73 userbox.cpp:407 usertbl.cpp:405
+#: ui/userinfo.cpp:73 userbox.cpp:397 usertbl.cpp:405
 msgid "User info"
 msgstr "Informace o uživateli"
 
-#: userbox.cpp:458
+#: userbox.cpp:448
 msgid "History"
 msgstr "Historie"
 
-#: userbox.cpp:1117
+#: userbox.cpp:1111
 msgid "History loading"
 msgstr "Načítám historii"
 
-#: ui/searchbase.cpp:223 usertbl.cpp:110
+#: ui/searchbase.cpp:266 usertbl.cpp:110
 msgid "UIN"
 msgstr "UIN"
 
@@ -2822,7 +2822,7 @@ msgstr "Přidat do skupiny"
 msgid "Not in list"
 msgstr "Neuložené"
 
-#: userview.cpp:683 userview.cpp:1686
+#: userview.cpp:683 userview.cpp:1690
 msgid ""
 "_: Ctrl+N\n"
 "Create group"
@@ -2834,15 +2834,15 @@ msgstr ""
 msgid "New group"
 msgstr "Nová skupina"
 
-#: userview.cpp:1681
+#: userview.cpp:1685
 msgid "Rename"
 msgstr "Přejmenovat"
 
-#: userview.cpp:1689
+#: userview.cpp:1693
 msgid "Up"
 msgstr "Nahoru"
 
-#: userview.cpp:1691
+#: userview.cpp:1695
 msgid "Down"
 msgstr "Dolů"
 
@@ -2918,10 +2918,10 @@ msgstr "Zavírání [%1 Sek]"
 msgid "Close in %1 sec"
 msgstr "Zavřít po %1 sek."
 
-#: ui/addphonebase.cpp:112 ui/alertmsgbase.cpp:52 ui/autoreplybase.cpp:53
-#: ui/ballonmsg.cpp:194 ui/emaileditbase.cpp:70 ui/enable.cpp:122
-#: ui/logindlgbase.cpp:98 ui/proxydlgbase.cpp:53 ui/setupdlgbase.cpp:63
-#: ui/toolsetupbase.cpp:102
+#: ui/addphonebase.cpp:108 ui/alertmsgbase.cpp:75 ui/autoreplybase.cpp:76
+#: ui/ballonmsg.cpp:194 ui/emaileditbase.cpp:93 ui/enable.cpp:127
+#: ui/logindlgbase.cpp:131 ui/proxydlgbase.cpp:171 ui/setupdlgbase.cpp:89
+#: ui/toolsetupbase.cpp:134
 msgid "&Ok"
 msgstr "&Ok"
 
@@ -2937,11 +2937,11 @@ msgstr "*.wav|(Zvuky)"
 msgid "Sounds(*.wav)"
 msgstr "Zvuky(*.wav)"
 
-#: ui/enable.cpp:123 ui/setupdlgbase.cpp:67 ui/toolsetupbase.cpp:107
+#: ui/enable.cpp:128 ui/setupdlgbase.cpp:90 ui/toolsetupbase.cpp:135
 msgid "&Apply"
 msgstr "&Použít"
 
-#: ui/enable.cpp:123
+#: ui/enable.cpp:128
 msgid "&Register"
 msgstr "&Registrace"
 
@@ -3007,7 +3007,7 @@ msgstr "Vložte aktuální heslo"
 msgid "Confirm password does not match"
 msgstr "Potvrzené heslo neodpovídá"
 
-#: ui/generalsec.cpp:88 ui/logindlg.cpp:227 ui/logindlg.cpp:292
+#: ui/generalsec.cpp:88 ui/logindlg.cpp:229 ui/logindlg.cpp:295
 msgid "Invalid password"
 msgstr "Chybné heslo"
 
@@ -3031,15 +3031,15 @@ msgstr "Dvojitý klik na zadokované ikoně"
 msgid "Show search window"
 msgstr "Zobrazit okno pro hledání"
 
-#: ui/listsec.cpp:95 ui/setupdlg.cpp:152
+#: ui/listsec.cpp:95 ui/setupdlg.cpp:156
 msgid "Visible list"
 msgstr "Seznam viditelných"
 
-#: ui/listsec.cpp:113 ui/setupdlg.cpp:151
+#: ui/listsec.cpp:113 ui/setupdlg.cpp:155
 msgid "Invisible list"
 msgstr "Seznam neviditelných"
 
-#: ui/listsec.cpp:131 ui/setupdlg.cpp:150
+#: ui/listsec.cpp:131 ui/setupdlg.cpp:154
 msgid "Ignore list"
 msgstr "Seznam ignorovaných"
 
@@ -3047,27 +3047,27 @@ msgstr "Seznam ignorovaných"
 msgid "<New UIN>"
 msgstr "<Nový UIN>"
 
-#: ui/logindlg.cpp:141 ui/logindlg.cpp:208
+#: ui/logindlg.cpp:142 ui/logindlg.cpp:210
 msgid "Can't initialize main window"
 msgstr "Nelze inicializovat hlavní okno"
 
-#: ui/logindlg.cpp:150 ui/searchdlg.cpp:107
+#: ui/logindlg.cpp:151 ui/searchdlg.cpp:107
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: ui/logindlg.cpp:188 ui/searchbase.cpp:59 ui/searchdlg.cpp:110
+#: ui/logindlg.cpp:190 ui/searchbase.cpp:249 ui/searchdlg.cpp:110
 msgid "Close"
 msgstr "Zavřít"
 
-#: ui/logindlg.cpp:219
+#: ui/logindlg.cpp:221
 msgid "Unknown login error"
 msgstr "Neznámá chyba při logování"
 
-#: ui/logindlg.cpp:223
+#: ui/logindlg.cpp:225
 msgid "Rate limit"
 msgstr "Limit rychlosti"
 
-#: ui/logindlg.cpp:300
+#: ui/logindlg.cpp:303
 #, c-format
 msgid "Delete history and incoming files for %u?"
 msgstr "Smazat historii a příchozí soubory pro %u?"
@@ -3176,87 +3176,87 @@ msgstr "Uživatel nebyl nalezen"
 msgid "[Failed]"
 msgstr "[chyba]"
 
-#: ui/setupdlg.cpp:108
+#: ui/setupdlg.cpp:112
 msgid "My details"
 msgstr "Moje detaily"
 
-#: ui/setupdlg.cpp:111 ui/userinfo.cpp:76
+#: ui/setupdlg.cpp:115 ui/userinfo.cpp:76
 msgid "Main info"
 msgstr "Osobní informace"
 
-#: ui/setupdlg.cpp:112 ui/userinfo.cpp:78
+#: ui/setupdlg.cpp:116 ui/userinfo.cpp:78
 msgid "Home info"
 msgstr "Domov"
 
-#: ui/setupdlg.cpp:113 ui/userinfo.cpp:79
+#: ui/setupdlg.cpp:117 ui/userinfo.cpp:79
 msgid "Work info"
 msgstr "Práce"
 
-#: ui/setupdlg.cpp:114 ui/userinfo.cpp:80
+#: ui/setupdlg.cpp:118 ui/userinfo.cpp:80
 msgid "More info"
 msgstr "Ostatní"
 
-#: ui/setupdlg.cpp:115 ui/userinfo.cpp:81
+#: ui/setupdlg.cpp:119 ui/userinfo.cpp:81
 msgid "About info"
 msgstr "Informace o..."
 
-#: ui/setupdlg.cpp:116 ui/userinfo.cpp:82
+#: ui/setupdlg.cpp:120 ui/userinfo.cpp:82
 msgid "Interests"
 msgstr "Zájmy"
 
-#: ui/setupdlg.cpp:117 ui/userinfo.cpp:83
+#: ui/setupdlg.cpp:121 ui/userinfo.cpp:83
 msgid "Group/Past"
 msgstr "Spolky/Minulost"
 
-#: ui/setupdlg.cpp:118 ui/userinfo.cpp:85
+#: ui/setupdlg.cpp:122 ui/userinfo.cpp:85
 msgid "Phone book"
 msgstr "Telefonní seznam"
 
-#: ui/setupdlg.cpp:120 ui/userinfo.cpp:88
+#: ui/setupdlg.cpp:124 ui/userinfo.cpp:88
 msgid "Preferences"
 msgstr "Preference"
 
-#: ui/setupdlg.cpp:123
+#: ui/setupdlg.cpp:127
 msgid "Status mode"
 msgstr "Status mód"
 
-#: ui/setupdlg.cpp:124
+#: ui/setupdlg.cpp:128
 msgid "Connection"
 msgstr "Připojení"
 
-#: ui/setupdlg.cpp:125
+#: ui/setupdlg.cpp:129
 msgid "Style"
 msgstr "Styl"
 
-#: ui/setupdlg.cpp:126
+#: ui/setupdlg.cpp:130
 msgid "Interface"
 msgstr "Rozhraní"
 
-#: ui/setupdlg.cpp:127
+#: ui/setupdlg.cpp:131
 msgid "Key shortcuts"
 msgstr "Klávesové zkratky"
 
-#: ui/setupdlg.cpp:130 ui/userinfo.cpp:91
+#: ui/setupdlg.cpp:134 ui/userinfo.cpp:91
 msgid "Accept"
 msgstr "Akceptovat"
 
-#: ui/setupdlg.cpp:131
+#: ui/setupdlg.cpp:135
 msgid "SMS"
 msgstr "SMS"
 
-#: ui/setupdlg.cpp:134
+#: ui/setupdlg.cpp:138
 msgid "Miscellaneous"
 msgstr "Různé"
 
-#: ui/setupdlg.cpp:137
+#: ui/setupdlg.cpp:141
 msgid "Auto reply"
 msgstr "Automatická odpověď"
 
-#: ui/setupdlg.cpp:146
+#: ui/setupdlg.cpp:150
 msgid "Security"
 msgstr "Bezpečnost"
 
-#: ui/setupdlg.cpp:149
+#: ui/setupdlg.cpp:153
 msgid "General"
 msgstr "Obecné"
 
@@ -3304,7 +3304,7 @@ msgstr "Pro změnu jazyka je třeba restartovat SIM"
 msgid "Default icons"
 msgstr "Standardní ikony"
 
-#: ui/toolsetup.cpp:63 ui/toolsetup.cpp:132 ui/toolsetup.cpp:159
+#: ui/toolsetup.cpp:80 ui/toolsetup.cpp:176 ui/toolsetup.cpp:213
 msgid "Separator"
 msgstr "Oddělovač"
 
@@ -3316,118 +3316,118 @@ msgstr "%1 automatická odpověď pro %2"
 msgid "&Check again"
 msgstr "&Kontrolovat znovu"
 
-#: ui/searchbase.cpp:44
+#: ui/searchbase.cpp:246
 msgid "Online only"
 msgstr "Jenom online"
 
-#: ui/searchbase.cpp:55
+#: ui/searchbase.cpp:248
 msgid "New search"
 msgstr "Nové hledání"
 
-#: ui/searchbase.cpp:77
+#: ui/searchbase.cpp:250
 msgid "Email:"
 msgstr "Email:"
 
-#: ui/moreinfobase.cpp:107 ui/searchbase.cpp:95
+#: ui/moreinfobase.cpp:158 ui/searchbase.cpp:251
 msgid "Age:"
 msgstr "Stáří:"
 
-#: ui/searchbase.cpp:105 ui/themesetupbase.cpp:289
+#: ui/searchbase.cpp:252 ui/themesetupbase.cpp:259
 msgid "Language:"
 msgstr "Jazyk:"
 
-#: ui/moreinfobase.cpp:94 ui/searchbase.cpp:111
+#: ui/moreinfobase.cpp:157 ui/searchbase.cpp:253
 msgid "Gender:"
 msgstr "Pohlaví:"
 
-#: ui/homeinfobase.cpp:102 ui/phonebase.cpp:117 ui/searchbase.cpp:117
-#: ui/workinfobase.cpp:83
+#: ui/homeinfobase.cpp:132 ui/phonebase.cpp:127 ui/searchbase.cpp:254
+#: ui/workinfobase.cpp:181
 msgid "Country:"
 msgstr "Země:"
 
-#: ui/homeinfobase.cpp:114 ui/searchbase.cpp:123 ui/workinfobase.cpp:57
+#: ui/homeinfobase.cpp:133 ui/searchbase.cpp:255 ui/workinfobase.cpp:178
 msgid "City:"
 msgstr "Město:"
 
-#: ui/homeinfobase.cpp:81 ui/searchbase.cpp:133 ui/workinfobase.cpp:67
+#: ui/homeinfobase.cpp:130 ui/searchbase.cpp:256 ui/workinfobase.cpp:179
 msgid "State:"
 msgstr "Stav:"
 
-#: ui/searchbase.cpp:143
+#: ui/searchbase.cpp:257
 msgid "Department:"
 msgstr "Oddělení:"
 
-#: ui/searchbase.cpp:153
+#: ui/searchbase.cpp:258
 msgid "Company:"
 msgstr "Firma:"
 
-#: ui/searchbase.cpp:163
+#: ui/searchbase.cpp:259
 msgid "Interests:"
 msgstr "Zájmy:"
 
-#: ui/searchbase.cpp:171
+#: ui/searchbase.cpp:260
 msgid "Email/Info"
 msgstr "Email/Informace"
 
-#: ui/maininfobase.cpp:77 ui/searchbase.cpp:179
+#: ui/maininfobase.cpp:284 ui/searchbase.cpp:261
 msgid "Last Name:"
 msgstr "Příjmení:"
 
-#: ui/maininfobase.cpp:194 ui/searchbase.cpp:185
+#: ui/maininfobase.cpp:288 ui/searchbase.cpp:262
 msgid "First name:"
 msgstr "Jméno:"
 
-#: ui/searchbase.cpp:195
+#: ui/searchbase.cpp:263
 msgid "Nickname:"
 msgstr "Přezdívka (Nick):"
 
-#: ui/searchbase.cpp:208
+#: ui/searchbase.cpp:264
 msgid "Names"
 msgstr "Jména"
 
-#: ui/logindlgbase.cpp:55 ui/searchbase.cpp:216
+#: ui/logindlgbase.cpp:127 ui/searchbase.cpp:265
 msgid "UIN:"
 msgstr "UIN:"
 
-#: ui/toolsetupbase.cpp:34
+#: ui/toolsetupbase.cpp:123
 msgid "Toolbar setup"
 msgstr "Nastavení nástrojových lišt"
 
-#: ui/toolsetupbase.cpp:42
+#: ui/toolsetupbase.cpp:124
 msgid "All buttons:"
 msgstr "Všechna tlačítka"
 
-#: ui/keysetupbase.cpp:109 ui/phonebookbase.cpp:87 ui/setupdlgbase.cpp:45
-#: ui/themesetupbase.cpp:114 ui/themesetupbase.cpp:126 ui/toolsetupbase.cpp:46
-#: ui/toolsetupbase.cpp:72 ui/userinfobase.cpp:42
+#: ui/keysetupbase.cpp:89 ui/phonebookbase.cpp:97 ui/setupdlgbase.cpp:86
+#: ui/themesetupbase.cpp:233 ui/themesetupbase.cpp:237
+#: ui/toolsetupbase.cpp:126 ui/toolsetupbase.cpp:131 ui/userinfobase.cpp:92
 msgid "New Item"
 msgstr "Nová položka"
 
-#: ui/toolsetupbase.cpp:55
+#: ui/toolsetupbase.cpp:127
 msgid "&Add ->"
 msgstr "&Přidat ->"
 
-#: ui/toolsetupbase.cpp:59
+#: ui/toolsetupbase.cpp:128
 msgid "<- &Remove"
 msgstr "<- Odeb&rat"
 
-#: ui/toolsetupbase.cpp:68
+#: ui/toolsetupbase.cpp:129
 msgid "Active:"
 msgstr "Aktivní:"
 
-#: ui/toolsetupbase.cpp:81
+#: ui/toolsetupbase.cpp:132
 msgid "&Up"
 msgstr "Nahor&u"
 
-#: ui/toolsetupbase.cpp:85
+#: ui/toolsetupbase.cpp:133
 msgid "&Down"
 msgstr "&Dolů"
 
-#: ui/securedlgbase.cpp:32
+#: ui/securedlgbase.cpp:66
 msgid "Secure chanel request"
 msgstr "Žádost o zabezpečený kanál"
 
-#: ui/securedlgbase.cpp:36
+#: ui/securedlgbase.cpp:67
 msgid ""
 "Secure channel is established using SSL with Diffie-Hellman key exchange and "
 " the TLS version 1 protocol.\n"
@@ -3439,24 +3439,24 @@ msgstr ""
 "\n"
 "Funguje pouze s ostatními SIM a Licq klienty"
 
-#: ui/acceptbase.cpp:96 ui/alertdialogbase.cpp:96 ui/fontsetupbase.cpp:96
-#: ui/generalsecbase.cpp:68 ui/homeinfobase.cpp:66 ui/keysetupbase.cpp:94
-#: ui/miscsetupbase.cpp:33 ui/msgdialogbase.cpp:63 ui/networkbase.cpp:65
-#: ui/pastinfobase.cpp:64 ui/phonebase.cpp:65 ui/phonebookbase.cpp:65
-#: ui/setupdlgbase.cpp:37 ui/smssetupbase.cpp:33 ui/soundsetupbase.cpp:33
-#: ui/statussetupbase.cpp:33 ui/themesetupbase.cpp:101 ui/userinfobase.cpp:36
+#: ui/acceptbase.cpp:113 ui/alertdialogbase.cpp:170 ui/fontsetupbase.cpp:162
+#: ui/generalsecbase.cpp:180 ui/homeinfobase.cpp:129 ui/keysetupbase.cpp:84
+#: ui/miscsetupbase.cpp:103 ui/msgdialogbase.cpp:67 ui/networkbase.cpp:194
+#: ui/pastinfobase.cpp:123 ui/phonebase.cpp:121 ui/phonebookbase.cpp:92
+#: ui/setupdlgbase.cpp:82 ui/smssetupbase.cpp:91 ui/soundsetupbase.cpp:168
+#: ui/statussetupbase.cpp:108 ui/themesetupbase.cpp:230 ui/userinfobase.cpp:88
 msgid "Form1"
 msgstr "Form1"
 
-#: ui/smssetupbase.cpp:42
+#: ui/smssetupbase.cpp:92
 msgid "Text before cursor:"
 msgstr "Text před kurzorem:"
 
-#: ui/smssetupbase.cpp:49
+#: ui/smssetupbase.cpp:93
 msgid "Text after cursor:"
 msgstr "Text za kurzorem:"
 
-#: ui/smssetupbase.cpp:56
+#: ui/smssetupbase.cpp:94
 msgid ""
 "You case use:\n"
 "&Alias; -  receipent name\n"
@@ -3470,15 +3470,15 @@ msgstr ""
 "&MyAlias; - vlastní jméno\n"
 "&MyUin; - vlastní UIN"
 
-#: ui/smssetupbase.cpp:62
+#: ui/smssetupbase.cpp:99
 msgid "&Signature"
 msgstr "Podpi&s"
 
-#: ui/smssetupbase.cpp:68
+#: ui/smssetupbase.cpp:100
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
 msgstr "Všechny zprávy na mobil posílat jako  \"Away\" a \"N/A\" "
 
-#: ui/smssetupbase.cpp:76
+#: ui/smssetupbase.cpp:101
 msgid ""
 "For the answer or sending of the new message you can answer on SMS having "
 "specified in the beginning of the message a line:\n"
@@ -3488,568 +3488,574 @@ msgstr ""
 "na číslaspecifikované na začátku zprávy:\n"
 "<UIN>:"
 
-#: ui/proxydlgbase.cpp:37
+#: ui/proxydlgbase.cpp:170
 msgid "Proxy settings"
 msgstr "Nastavení proxy"
 
-#: ui/proxydlgbase.cpp:63
+#: ui/proxydlgbase.cpp:173
 msgid "Proxy"
 msgstr "Proxy"
 
-#: ui/networkbase.cpp:116 ui/proxydlgbase.cpp:73
+#: ui/networkbase.cpp:199 ui/proxydlgbase.cpp:174
 msgid "Use proxy"
 msgstr "Používat proxy"
 
-#: ui/networkbase.cpp:135 ui/proxydlgbase.cpp:85
+#: ui/networkbase.cpp:200 ui/proxydlgbase.cpp:175
 msgid "Proxy host:"
 msgstr "Proxy host:"
 
-#: ui/networkbase.cpp:177 ui/proxydlgbase.cpp:95
+#: ui/networkbase.cpp:204 ui/proxydlgbase.cpp:176
 msgid "Proxy password:"
 msgstr "Proxy - heslo:"
 
-#: ui/networkbase.cpp:163 ui/proxydlgbase.cpp:109
+#: ui/networkbase.cpp:203 ui/proxydlgbase.cpp:177
 msgid "Proxy user:"
 msgstr "Proxy - uživatel:"
 
-#: ui/proxydlgbase.cpp:115
+#: ui/proxydlgbase.cpp:178
 msgid "User proxy authorization"
 msgstr "Autorizace uživatele na proxy"
 
-#: ui/networkbase.cpp:141 ui/proxydlgbase.cpp:124
+#: ui/networkbase.cpp:201 ui/proxydlgbase.cpp:179
 msgid "Proxy port:"
 msgstr "Proxy-port:"
 
-#: ui/proxydlgbase.cpp:132
+#: ui/proxydlgbase.cpp:180
 msgid "Server"
 msgstr "Server"
 
-#: ui/networkbase.cpp:93 ui/proxydlgbase.cpp:142
+#: ui/networkbase.cpp:197 ui/proxydlgbase.cpp:181
 msgid "Host:"
 msgstr "Host:"
 
-#: ui/networkbase.cpp:87 ui/proxydlgbase.cpp:148
+#: ui/networkbase.cpp:196 ui/proxydlgbase.cpp:182
 msgid "Port:"
 msgstr "Port:"
 
-#: ui/logindlgbase.cpp:36
+#: ui/logindlgbase.cpp:123
 msgid "Login"
 msgstr "Login"
 
-#: ui/logindlgbase.cpp:40
+#: ui/logindlgbase.cpp:124
 msgid "&Do not show this window"
 msgstr "Nezobrazovat tento &dialog"
 
-#: ui/logindlgbase.cpp:45 ui/phonebookbase.cpp:104
+#: ui/logindlgbase.cpp:125 ui/phonebookbase.cpp:101
 msgid "&Delete"
 msgstr "&Smazat"
 
-#: ui/logindlgbase.cpp:50
+#: ui/logindlgbase.cpp:126
 msgid "&Proxy settings"
 msgstr "&Proxy-nastavení"
 
-#: ui/logindlgbase.cpp:61
+#: ui/logindlgbase.cpp:128
 msgid "&Save password"
 msgstr "Uložit he&slo"
 
-#: ui/logindlgbase.cpp:80
+#: ui/logindlgbase.cpp:129
 msgid "Password:"
 msgstr "Heslo:"
 
-#: ui/keysetupbase.cpp:103
-msgid "Actions:"
-msgstr "Akce:"
-
-#: ui/keysetupbase.cpp:107 ui/phonebookbase.cpp:85 ui/setupdlgbase.cpp:43
-#: ui/userinfobase.cpp:40
+#: ui/keysetupbase.cpp:46 ui/keysetupbase.cpp:86 ui/phonebookbase.cpp:52
+#: ui/phonebookbase.cpp:94 ui/setupdlgbase.cpp:40 ui/setupdlgbase.cpp:83
+#: ui/userinfobase.cpp:36 ui/userinfobase.cpp:89
 msgid "Column 1"
 msgstr "Sloupec 1"
 
-#: ui/keysetupbase.cpp:116
+#: ui/keysetupbase.cpp:85
+msgid "Actions:"
+msgstr "Akce:"
+
+#: ui/keysetupbase.cpp:91
 msgid "&Enable"
 msgstr "&Povolit"
 
-#: ui/keysetupbase.cpp:126
+#: ui/keysetupbase.cpp:92
 msgid "Send messages on \"Enter\""
 msgstr "Poslat zprávu stiskem \"Enter\""
 
-#: ui/keysetupbase.cpp:130
+#: ui/keysetupbase.cpp:93
 msgid "&Key"
 msgstr "&Klávesy"
 
-#: ui/aboutdlgbase.cpp:67
+#: ui/aboutdlgbase.cpp:118
 msgid "About SIM"
 msgstr "O SIMu"
 
-#: ui/aboutdlgbase.cpp:94
+#: ui/aboutdlgbase.cpp:121
 msgid "About"
 msgstr "O ..."
 
-#: ui/aboutdlgbase.cpp:102
+#: ui/aboutdlgbase.cpp:122
 msgid "Authors"
 msgstr "Autoři"
 
-#: ui/aboutdlgbase.cpp:109
+#: ui/aboutdlgbase.cpp:123
 msgid "Translation"
 msgstr "Překlad"
 
-#: ui/aboutdlgbase.cpp:116
+#: ui/aboutdlgbase.cpp:124
 msgid "License"
 msgstr "Licence"
 
-#: ui/networkbase.cpp:74
+#: ui/networkbase.cpp:195
 msgid "ICQ server:"
 msgstr "ICQ-Server:"
 
-#: ui/networkbase.cpp:108
+#: ui/networkbase.cpp:198
 msgid "&Server"
 msgstr "&Server"
 
-#: ui/networkbase.cpp:155
+#: ui/networkbase.cpp:202
 msgid "Use proxy authorization"
 msgstr "Na proxy použít autorizaci"
 
-#: ui/networkbase.cpp:187
+#: ui/networkbase.cpp:205
 msgid "&Proxy"
 msgstr "&Proxy"
 
-#: ui/networkbase.cpp:193
+#: ui/networkbase.cpp:206
 msgid "Use the following TCP listen ports:"
 msgstr "Použít následující TCP porty:"
 
-#: ui/networkbase.cpp:199
+#: ui/networkbase.cpp:207
 msgid "From:"
 msgstr "Od:"
 
-#: ui/networkbase.cpp:207
+#: ui/networkbase.cpp:208
 msgid "To:"
 msgstr "Do:"
 
-#: ui/networkbase.cpp:218
+#: ui/networkbase.cpp:209
 msgid "P&orts"
 msgstr "P&orty"
 
-#: ui/filetransferbase.cpp:37
+#: ui/filetransferbase.cpp:137
 msgid "File transfer"
 msgstr "Transfer souboru"
 
-#: ui/filetransferbase.cpp:43
+#: ui/filetransferbase.cpp:138
 msgid "File:"
 msgstr "Soubor:"
 
-#: ui/filetransferbase.cpp:57
+#: ui/filetransferbase.cpp:139
 msgid "Batch"
 msgstr "Celkem"
 
-#: ui/filetransferbase.cpp:74
+#: ui/filetransferbase.cpp:141
 msgid "1000000/100000"
 msgstr "1000000/100000"
 
-#: ui/filetransferbase.cpp:83
+#: ui/filetransferbase.cpp:142
 msgid "100000"
 msgstr "100000"
 
-#: ui/filetransferbase.cpp:90
+#: ui/filetransferbase.cpp:143
 msgid "Speed:"
 msgstr "Rychlost:"
 
-#: ui/filetransferbase.cpp:111
+#: ui/filetransferbase.cpp:144
 msgid "Close after send"
 msgstr "Po odeslání zavřít"
 
-#: ui/acceptbase.cpp:105
+#: ui/filetransferbase.cpp:146
+#, fuzzy
+msgid "&Details"
+msgstr "Maloobchod"
+
+#: ui/acceptbase.cpp:114
 msgid "Automaitcaly open window"
 msgstr "Automaticky otevřít okno"
 
-#: ui/acceptbase.cpp:109 ui/acceptbase.cpp:126
+#: ui/acceptbase.cpp:115 ui/acceptbase.cpp:118
 msgid "Override global settings"
 msgstr "Potlačit globální nastavení"
 
-#: ui/acceptbase.cpp:113
+#: ui/acceptbase.cpp:116
 msgid "Run external program"
 msgstr "Spustit externí program"
 
-#: ui/acceptbase.cpp:120
+#: ui/acceptbase.cpp:117
 msgid "&Message"
 msgstr "&Zpráva"
 
-#: ui/acceptbase.cpp:130
+#: ui/acceptbase.cpp:119
 msgid "Path for incoming files:"
 msgstr "Cesta pro přichozí soubory:"
 
-#: ui/acceptbase.cpp:145
+#: ui/acceptbase.cpp:121
 msgid "Show response"
 msgstr "Ukázat odpověď"
 
-#: ui/acceptbase.cpp:149
+#: ui/acceptbase.cpp:122
 msgid "Auto accept"
 msgstr "Automatické přijetí"
 
-#: ui/acceptbase.cpp:153
+#: ui/acceptbase.cpp:123
 msgid "Overwrite files"
 msgstr "Přepsat soubory"
 
-#: ui/acceptbase.cpp:157
+#: ui/acceptbase.cpp:124
 msgid "Auto decline"
 msgstr "Automatické odmítnutí"
 
-#: ui/fontsetupbase.cpp:105
+#: ui/fontsetupbase.cpp:163
 msgid "Mode"
 msgstr "Mód"
 
-#: ui/fontsetupbase.cpp:113
+#: ui/fontsetupbase.cpp:164
 msgid "Split mode (&Chat style)"
 msgstr "Chat mód (styl &dvou oken)"
 
-#: ui/fontsetupbase.cpp:117
+#: ui/fontsetupbase.cpp:165
 msgid "Simple mode (&Plain style)"
 msgstr "Jednoduchý mód (styl &jednoho okna)"
 
-#: ui/fontsetupbase.cpp:123
+#: ui/fontsetupbase.cpp:166
 msgid "Copy"
 msgstr "Zkopírovat"
 
-#: ui/fontsetupbase.cpp:130
+#: ui/fontsetupbase.cpp:167
 msgid "last messages from history to conversation"
 msgstr "poslední zprávy(u) z historie do konverzace"
 
-#: ui/fontsetupbase.cpp:138
+#: ui/fontsetupbase.cpp:168
 msgid "Open"
 msgstr "Otevřít"
 
-#: ui/fontsetupbase.cpp:146
+#: ui/fontsetupbase.cpp:169
 msgid "&Each user in new container"
 msgstr "&Každý uživatel do nového kontejneru"
 
-#: ui/fontsetupbase.cpp:150
+#: ui/fontsetupbase.cpp:170
 msgid "&New container for group"
 msgstr "&Nový kontejner pro skupinu"
 
-#: ui/fontsetupbase.cpp:154
+#: ui/fontsetupbase.cpp:171
 msgid "&All users in one container"
 msgstr "&Všichni uživatelé v jednom kontejneru"
 
-#: ui/fontsetupbase.cpp:159
+#: ui/fontsetupbase.cpp:172
 msgid "&User window"
 msgstr "Okno &uživatele"
 
-#: ui/fontsetupbase.cpp:165
+#: ui/fontsetupbase.cpp:173
 msgid "&Use systems fonts"
 msgstr "Po&užít systémová písma"
 
-#: ui/fontsetupbase.cpp:169
+#: ui/fontsetupbase.cpp:174
 msgid "Base font"
 msgstr "Základní písmo"
 
-#: ui/fontsetupbase.cpp:176
+#: ui/fontsetupbase.cpp:175
 msgid "Menu font"
 msgstr "Písmo nabídek"
 
-#: ui/fontsetupbase.cpp:183
+#: ui/fontsetupbase.cpp:176
 msgid "Fonts"
 msgstr "Písma"
 
-#: ui/fontsetupbase.cpp:189
+#: ui/fontsetupbase.cpp:177
 msgid "Use &own colors and fonts settings"
 msgstr "P&oužít vlastní barvy"
 
-#: ui/fontsetupbase.cpp:199
+#: ui/fontsetupbase.cpp:178
 msgid "Received messages color"
 msgstr "Barva přijatých zpráv"
 
-#: ui/fontsetupbase.cpp:210
+#: ui/fontsetupbase.cpp:179
 msgid "Sending messages color"
 msgstr "Barva zasílaných zpráv"
 
-#: ui/fontsetupbase.cpp:217
+#: ui/fontsetupbase.cpp:180
 msgid "&Colors"
 msgstr "&Barvy"
 
-#: ui/emaileditbase.cpp:36
+#: ui/emaileditbase.cpp:89
 msgid "Edit Email"
 msgstr "Upravit Email"
 
-#: ui/emaileditbase.cpp:40
+#: ui/emaileditbase.cpp:90
 msgid "Enter Email address:"
 msgstr "Vložit Emailovou adresu"
 
-#: ui/emaileditbase.cpp:47
+#: ui/emaileditbase.cpp:91
 msgid "Don't publish my Email address"
 msgstr "Nezveřejňovat mojí Emailovou adresu"
 
-#: ui/pastinfobase.cpp:73
+#: ui/pastinfobase.cpp:124
 msgid "Organization, Affiliation, Group:"
 msgstr "Organizace, Spolky, Skupiny:"
 
-#: ui/pastinfobase.cpp:102
+#: ui/pastinfobase.cpp:125
 msgid "A&ffilation"
 msgstr "&Spolky"
 
-#: ui/pastinfobase.cpp:108
+#: ui/pastinfobase.cpp:126
 msgid "Past background:"
 msgstr "V minulosti"
 
-#: ui/pastinfobase.cpp:137
+#: ui/pastinfobase.cpp:127
 msgid "&Background"
 msgstr "&Minulost"
 
-#: ui/autoreplybase.cpp:34
+#: ui/autoreplybase.cpp:73
 msgid "Autoreply message"
 msgstr "Zpráva automatické odpovědi"
 
-#: ui/autoreplybase.cpp:41
+#: ui/autoreplybase.cpp:74
 msgid "Close after ...."
 msgstr "Zavřít po..."
 
-#: ui/autoreplybase.cpp:45
+#: ui/autoreplybase.cpp:75
 msgid "Don't show this dialog"
 msgstr "Nezobrazovat tento dialog"
 
-#: ui/alertmsgbase.cpp:33 ui/alertmsgbase.cpp:37
+#: ui/alertmsgbase.cpp:73 ui/alertmsgbase.cpp:74
 msgid "User is online"
 msgstr "Uživatel je online"
 
-#: ui/interestsinfobase.cpp:63 ui/pagerbase.cpp:62 ui/workinfobase.cpp:34
+#: ui/interestsinfobase.cpp:107 ui/pagerbase.cpp:82 ui/workinfobase.cpp:176
 msgid "Form2"
 msgstr "Form 2"
 
-#: ui/interestsinfobase.cpp:110
+#: ui/interestsinfobase.cpp:108
 msgid "&Interests"
 msgstr "Zájm&y"
 
-#: ui/msgdialogbase.cpp:72
+#: ui/msgdialogbase.cpp:68
 msgid "Customize message"
 msgstr "Přizpůsobit zprávu"
 
-#: ui/msgdialogbase.cpp:79
+#: ui/msgdialogbase.cpp:69
 msgid "Don't show message dialog"
 msgstr "Nezobrazovat dialog se zprávou"
 
-#: ui/listsecbase.cpp:101 ui/msgdialogbase.cpp:81
+#: ui/listsecbase.cpp:62 ui/msgdialogbase.cpp:70
 msgid "Tab 1"
 msgstr "Tab 1"
 
-#: ui/alertdialogbase.cpp:105
+#: ui/alertdialogbase.cpp:171
 msgid "Override global alert"
 msgstr "Potlačit globální výstrahy"
 
-#: ui/alertdialogbase.cpp:109
+#: ui/alertdialogbase.cpp:172
 msgid "Activate online alert when user returns from Away or NA"
 msgstr "Aktivovat online výstrahu když se uživatel vrací z Away nebo NA"
 
-#: ui/alertdialogbase.cpp:114
+#: ui/alertdialogbase.cpp:173
 msgid "Online alert options"
 msgstr "Volby online výstrah"
 
-#: ui/alertdialogbase.cpp:122
+#: ui/alertdialogbase.cpp:174
 msgid "Blinking alert effect"
 msgstr "Blikající výstraha"
 
-#: ui/alertdialogbase.cpp:126
+#: ui/alertdialogbase.cpp:175
 msgid "Play online alert sound"
 msgstr "Přehrát zvuk online výstrahy"
 
-#: ui/alertdialogbase.cpp:130
+#: ui/alertdialogbase.cpp:176
 msgid "On Screen notification"
 msgstr "Oznamování na obrazovce (OSD)"
 
-#: ui/alertdialogbase.cpp:134
+#: ui/alertdialogbase.cpp:177
 msgid "Popup online alert dialog"
 msgstr "Překryvný online výstražný dialog"
 
-#: ui/alertdialogbase.cpp:138
+#: ui/alertdialogbase.cpp:178
 msgid "Open user window when online"
 msgstr "Otevřít uživatelovo okno když je online"
 
-#: ui/alertdialogbase.cpp:142
+#: ui/alertdialogbase.cpp:179
 msgid "Write to history"
 msgstr "Zapisovat do historie"
 
-#: ui/alertdialogbase.cpp:145
+#: ui/alertdialogbase.cpp:180
 msgid "&Alert"
 msgstr "Výstrah&a"
 
-#: ui/alertdialogbase.cpp:151
+#: ui/alertdialogbase.cpp:181
 msgid "Enable notify on screen"
 msgstr "Povolit oznamování na obrazovce (OSD)"
 
-#: ui/alertdialogbase.cpp:156 ui/themesetupbase.cpp:159
+#: ui/alertdialogbase.cpp:182 ui/themesetupbase.cpp:242
 msgid "Place:"
 msgstr "Umístění:"
 
-#: ui/alertdialogbase.cpp:166
+#: ui/alertdialogbase.cpp:183
 msgid "Offset:"
 msgstr "Posunutí:"
 
-#: ui/alertdialogbase.cpp:176
+#: ui/alertdialogbase.cpp:184
 msgid "Show time:"
 msgstr "Zobrazit na (sekund)"
 
-#: ui/alertdialogbase.cpp:186
+#: ui/alertdialogbase.cpp:185
 msgid "Color:"
 msgstr "Barva:"
 
-#: ui/alertdialogbase.cpp:196
+#: ui/alertdialogbase.cpp:186
 msgid "Font:"
 msgstr "Písmo:"
 
-#: ui/alertdialogbase.cpp:206
+#: ui/alertdialogbase.cpp:187
 msgid "Shadow"
 msgstr "Stín"
 
-#: ui/alertdialogbase.cpp:211
+#: ui/alertdialogbase.cpp:188
 msgid "Background"
 msgstr "Pozadí"
 
-#: ui/alertdialogbase.cpp:216
+#: ui/alertdialogbase.cpp:189
 msgid "Background color:"
 msgstr "Barva pozadí:"
 
-#: ui/alertdialogbase.cpp:228
+#: ui/alertdialogbase.cpp:190
 msgid "On Screen"
 msgstr "Na obrazovce"
 
-#: ui/phonebase.cpp:71
+#: ui/phonebase.cpp:122
 msgid "Area code:"
 msgstr "Směrové číslo:"
 
-#: ui/phonebase.cpp:81
+#: ui/phonebase.cpp:123
 msgid "Extension:"
 msgstr "Provolba:"
 
-#: ui/phonebase.cpp:101 ui/phonebase.cpp:112 ui/phonebase.cpp:123
+#: ui/phonebase.cpp:124 ui/phonebase.cpp:126 ui/phonebase.cpp:128
 msgid "-"
 msgstr "-"
 
-#: ui/pagerbase.cpp:92 ui/phonebase.cpp:106
+#: ui/pagerbase.cpp:85 ui/phonebase.cpp:125
 msgid "Number:"
 msgstr "Číslo:"
 
-#: ui/phonebase.cpp:132
+#: ui/phonebase.cpp:129
 msgid "Publish in global directory"
 msgstr "Uveřejnit do globálního adresáře"
 
-#: ui/phonebase.cpp:138
+#: ui/phonebase.cpp:130
 msgid "SMS service available"
 msgstr "SMS služba je použitelná"
 
-#: ui/pagerbase.cpp:76
+#: ui/pagerbase.cpp:83
 msgid "Provider:"
 msgstr "Poskytovatel:"
 
-#: ui/pagerbase.cpp:82
+#: ui/pagerbase.cpp:84
 msgid "Email gateway:"
 msgstr "Email brána:"
 
-#: ui/addphonebase.cpp:68
+#: ui/addphonebase.cpp:104
 msgid "Add phone"
 msgstr "Přidat telefon"
 
-#: ui/addphonebase.cpp:72
+#: ui/addphonebase.cpp:105
 msgid "Number details:"
 msgstr "Detail čísla:"
 
-#: ui/addphonebase.cpp:82
+#: ui/addphonebase.cpp:106
 msgid "Type:"
 msgstr "Typ:"
 
-#: ui/miscsetupbase.cpp:42
+#: ui/miscsetupbase.cpp:104
 msgid "Browser program path:"
 msgstr "Web prohlížeč:"
 
-#: ui/miscsetupbase.cpp:49
+#: ui/miscsetupbase.cpp:105
 msgid "Email client:"
 msgstr "Email klient:"
 
-#: ui/miscsetupbase.cpp:56 ui/themesetupbase.cpp:298
+#: ui/miscsetupbase.cpp:106 ui/themesetupbase.cpp:261
 msgid "&Miscellaneous"
 msgstr "&Různé"
 
-#: ui/miscsetupbase.cpp:62
+#: ui/miscsetupbase.cpp:107
 msgid "A&utomatically add new user to KAddressBook"
 msgstr "A&utomaticky přidat nového uživatele do KAdresáře"
 
-#: ui/miscsetupbase.cpp:70
+#: ui/miscsetupbase.cpp:108
 msgid "&Synchronize now"
 msgstr "&Synchronizovat teď"
 
-#: ui/miscsetupbase.cpp:75
+#: ui/miscsetupbase.cpp:109
 msgid "&Addressbook synchronization"
 msgstr "Synchronizace &adresáře"
 
-#: ui/miscsetupbase.cpp:81
+#: ui/miscsetupbase.cpp:110
 msgid "Check &all messages on send"
 msgstr "Kontrolov&at všechny zprávy před odesláním"
 
-#: ui/miscsetupbase.cpp:89
+#: ui/miscsetupbase.cpp:111
 msgid "&Spell check"
 msgstr "&Pravopis"
 
-#: ui/soundsetupbase.cpp:72
+#: ui/soundsetupbase.cpp:169
 msgid "&Override sounds"
 msgstr "Potlačit &zvuky"
 
-#: ui/soundsetupbase.cpp:77
+#: ui/soundsetupbase.cpp:170
 msgid "&Disable all sounds"
 msgstr "&Zakázat všechny zvuky"
 
-#: ui/soundsetupbase.cpp:82
+#: ui/soundsetupbase.cpp:171
 msgid "Message:"
 msgstr "Zpráva:"
 
-#: ui/soundsetupbase.cpp:94
+#: ui/soundsetupbase.cpp:173
 msgid "SMS:"
 msgstr "SMS:"
 
-#: ui/soundsetupbase.cpp:100
+#: ui/soundsetupbase.cpp:174
 msgid "Authorization:"
 msgstr "Autorizace:"
 
-#: ui/soundsetupbase.cpp:106
+#: ui/soundsetupbase.cpp:175
 msgid "Online alert:"
 msgstr "Online výstraha:"
 
-#: ui/soundsetupbase.cpp:112
+#: ui/soundsetupbase.cpp:176
 msgid "Incoming file:"
 msgstr "Přijímaný soubor:"
 
-#: ui/soundsetupbase.cpp:118
+#: ui/soundsetupbase.cpp:177
 msgid "File transfer done:"
 msgstr "Přenos souboru dokončen:"
 
-#: ui/soundsetupbase.cpp:124
+#: ui/soundsetupbase.cpp:178
 msgid "Chat Request:"
 msgstr "Žádost chatu:"
 
-#: ui/soundsetupbase.cpp:130
+#: ui/soundsetupbase.cpp:179
 msgid "Startup sound:"
 msgstr "Startovací zvuk:"
 
-#: ui/soundsetupbase.cpp:142
+#: ui/soundsetupbase.cpp:180
 msgid "&Sounds"
 msgstr "&Zvuky"
 
-#: ui/soundsetupbase.cpp:152
+#: ui/soundsetupbase.cpp:181
 msgid "Program for play:"
 msgstr "Program pro přehrávání:"
 
-#: ui/soundsetupbase.cpp:157
+#: ui/soundsetupbase.cpp:182
 msgid "UseArts"
 msgstr "Použít Arts"
 
-#: ui/soundsetupbase.cpp:162
+#: ui/soundsetupbase.cpp:183
 msgid "&Programm"
 msgstr "&Program"
 
-#: ui/phonebookbase.cpp:76
+#: ui/phonebookbase.cpp:93
 msgid "User is currently available at:"
 msgstr "Uživatel je právě dostupný na:"
 
-#: ui/phonebookbase.cpp:96
+#: ui/phonebookbase.cpp:99
 msgid "&Add"
 msgstr "&Přidat"
 
-#: ui/phonebookbase.cpp:109
+#: ui/phonebookbase.cpp:102
 msgid ""
 "Note:\n"
 "You can change only those numbers which have entered.\n"
@@ -4059,115 +4065,115 @@ msgstr ""
 "Můžete změnit pouze ta čísla, která jste zadali.\n"
 "Není možné měnit čísla přijatá od ostatních uživatelů."
 
-#: ui/phonebookbase.cpp:114
+#: ui/phonebookbase.cpp:105
 msgid "&Phonebook"
 msgstr "&Telefonní seznam"
 
-#: ui/userinfobase.cpp:59
+#: ui/userinfobase.cpp:95
 msgid "Update"
 msgstr "Aktualizace"
 
-#: ui/setupdlgbase.cpp:57
+#: ui/setupdlgbase.cpp:88
 msgid "&Update"
 msgstr "Akt&ualizace"
 
-#: ui/homeinfobase.cpp:87 ui/workinfobase.cpp:47
+#: ui/homeinfobase.cpp:131 ui/workinfobase.cpp:177
 msgid "Address:"
 msgstr "Adresa:"
 
-#: ui/homeinfobase.cpp:124 ui/workinfobase.cpp:77
+#: ui/homeinfobase.cpp:134 ui/workinfobase.cpp:180
 msgid "Zip code:"
 msgstr "PSČ:"
 
-#: ui/workinfobase.cpp:93
+#: ui/workinfobase.cpp:182
 msgid "Name:"
 msgstr "Jméno:"
 
-#: ui/workinfobase.cpp:116
+#: ui/workinfobase.cpp:184
 msgid "Web site:"
 msgstr "Web:"
 
-#: ui/workinfobase.cpp:120
+#: ui/workinfobase.cpp:185
 msgid "&Company"
 msgstr "&Firma:"
 
-#: ui/workinfobase.cpp:126
+#: ui/workinfobase.cpp:186
 msgid "Occupation:"
 msgstr "Povolání:"
 
-#: ui/workinfobase.cpp:132
+#: ui/workinfobase.cpp:187
 msgid "Div / dept:"
 msgstr "Oddělení/Divize:"
 
-#: ui/workinfobase.cpp:146
+#: ui/workinfobase.cpp:188
 msgid "Position:"
 msgstr "Pozice:"
 
-#: ui/workinfobase.cpp:156
+#: ui/workinfobase.cpp:189
 msgid "&Occupation"
 msgstr "P&ovolání:"
 
-#: ui/themesetupbase.cpp:110
+#: ui/themesetupbase.cpp:231
 msgid "Select style:"
 msgstr "Vybrat styl:"
 
-#: ui/themesetupbase.cpp:116
+#: ui/themesetupbase.cpp:234
 msgid "&Style"
 msgstr "&Styl"
 
-#: ui/themesetupbase.cpp:122
+#: ui/themesetupbase.cpp:235
 msgid "Icons:"
 msgstr "Ikony:"
 
-#: ui/themesetupbase.cpp:134
+#: ui/themesetupbase.cpp:238
 msgid "Add icons"
 msgstr "Přidat ikony"
 
-#: ui/themesetupbase.cpp:137
+#: ui/themesetupbase.cpp:239
 msgid "&Icons"
 msgstr "&Ikony"
 
-#: ui/themesetupbase.cpp:143
+#: ui/themesetupbase.cpp:240
 msgid "Main window background:"
 msgstr "Pozadí okna:"
 
-#: ui/themesetupbase.cpp:153
+#: ui/themesetupbase.cpp:241
 msgid "Icon margin:"
 msgstr "Okraj ikon:"
 
-#: ui/themesetupbase.cpp:178
+#: ui/themesetupbase.cpp:243
 msgid "Use &system colors"
 msgstr "Použít &systémové barvy"
 
-#: ui/themesetupbase.cpp:185
+#: ui/themesetupbase.cpp:244
 msgid "Online contact color:"
 msgstr "Barva online uživatele:"
 
-#: ui/themesetupbase.cpp:200
+#: ui/themesetupbase.cpp:245
 msgid "Offline contact color:"
 msgstr "Barva offline uživatele:"
 
-#: ui/themesetupbase.cpp:213
+#: ui/themesetupbase.cpp:246
 msgid "B&ackground"
 msgstr "Poz&adí"
 
-#: ui/themesetupbase.cpp:219
+#: ui/themesetupbase.cpp:247
 msgid "Transparent main window"
 msgstr "Hlavní okno průhledné"
 
-#: ui/themesetupbase.cpp:223 ui/themesetupbase.cpp:235
+#: ui/themesetupbase.cpp:248 ui/themesetupbase.cpp:250
 msgid "Transparency"
 msgstr "Průhlednost"
 
-#: ui/themesetupbase.cpp:231
+#: ui/themesetupbase.cpp:249
 msgid "Transparent container"
 msgstr "Průhledný kontejner"
 
-#: ui/themesetupbase.cpp:243
+#: ui/themesetupbase.cpp:251
 msgid "Transparent only if inactive"
 msgstr "Průhlednost pouze při neaktivitě"
 
-#: ui/themesetupbase.cpp:247
+#: ui/themesetupbase.cpp:252
 msgid "&Transparency"
 msgstr "Průhlednos&t"
 
@@ -4175,243 +4181,245 @@ msgstr "Průhlednos&t"
 msgid "Show main window in task manager"
 msgstr "Zobrazovat hlavní okno v pruhu úloh"
 
-#: ui/themesetupbase.cpp:258
+#: ui/themesetupbase.cpp:254
 msgid "Show user window in task manager"
 msgstr "Zobrazovat uživatelská okna v pruhu úloh"
 
-#: ui/themesetupbase.cpp:263
+#: ui/themesetupbase.cpp:255
 msgid "User window stays on &top"
 msgstr "Okno uživatelů zůs&tává nahoře"
 
-#: ui/themesetupbase.cpp:268
+#: ui/themesetupbase.cpp:256
 msgid "&Show splash window"
 msgstr "Zobrazovat &startovací okno"
 
-#: ui/themesetupbase.cpp:273
+#: ui/themesetupbase.cpp:257
 msgid "Use emotional &icons"
 msgstr "Použít emocionální &ikony (smajlíky)"
 
-#: ui/themesetupbase.cpp:278
+#: ui/themesetupbase.cpp:258
 msgid "Use &dock"
 msgstr "Použít &dokování"
 
-#: ui/themesetupbase.cpp:295
+#: ui/themesetupbase.cpp:260
 msgid "Use double c&lick"
 msgstr "Použít &dvojklik"
 
-#: ui/statussetupbase.cpp:44
+#: ui/statussetupbase.cpp:109
 msgid "Hide main window after"
 msgstr "Schovat hlavní okno po"
 
-#: ui/statussetupbase.cpp:57
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+#: ui/statussetupbase.cpp:110
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Zakázat online výstrahu pro \"Away\", \"N/A\", \"DND\" a \"Occupied\" "
 "seznam"
 
-#: ui/statussetupbase.cpp:62
+#: ui/statussetupbase.cpp:111
 msgid "Set \"Away\" status after"
 msgstr "Nastavit \"Away\" status po"
 
-#: ui/statussetupbase.cpp:68
+#: ui/statussetupbase.cpp:112
 msgid "minutes not using computer"
 msgstr "minutách nepoužívání počítače"
 
-#: ui/statussetupbase.cpp:75
+#: ui/statussetupbase.cpp:113
 msgid "minutes of \"Away\""
 msgstr "minutách \"Away\""
 
-#: ui/statussetupbase.cpp:81
+#: ui/statussetupbase.cpp:114
 msgid "seconds inactive"
 msgstr "sekundách neaktivity"
 
-#: ui/statussetupbase.cpp:90
+#: ui/statussetupbase.cpp:115
 msgid "Set \"N/A\" status after"
 msgstr "Nastavit \"N/A\" status po"
 
-#: ui/maininfobase.cpp:312 ui/statussetupbase.cpp:96
+#: ui/maininfobase.cpp:303 ui/statussetupbase.cpp:116
 msgid "&Status"
 msgstr "&Stav"
 
-#: ui/listsecbase.cpp:90 ui/moreinfobase.cpp:66
+#: ui/listsecbase.cpp:61 ui/moreinfobase.cpp:154
 msgid "Form3"
 msgstr "Form 3"
 
-#: ui/moreinfobase.cpp:75
+#: ui/moreinfobase.cpp:155
 msgid "Homepage:"
 msgstr "Domovská stránka:"
 
-#: ui/moreinfobase.cpp:126
+#: ui/moreinfobase.cpp:159
 msgid "Month:"
 msgstr "Měsíc:"
 
-#: ui/moreinfobase.cpp:133
+#: ui/moreinfobase.cpp:160
 msgid "Day:"
 msgstr "Den:"
 
-#: ui/moreinfobase.cpp:140
+#: ui/moreinfobase.cpp:161
 msgid "Year:"
 msgstr "Rok:"
 
-#: ui/moreinfobase.cpp:151
+#: ui/moreinfobase.cpp:162
 msgid "Birth date:"
 msgstr "Datum narození:"
 
-#: ui/moreinfobase.cpp:156
+#: ui/moreinfobase.cpp:163
 msgid "&More info"
 msgstr "&Ostatní"
 
-#: ui/moreinfobase.cpp:162
+#: ui/moreinfobase.cpp:164
 msgid "Spoken languages:"
 msgstr "Jazyky:"
 
-#: ui/moreinfobase.cpp:175
+#: ui/moreinfobase.cpp:165
 msgid "&Languages"
 msgstr "&Jazyk:"
 
-#: ui/maininfobase.cpp:66
+#: ui/maininfobase.cpp:283
 msgid "Form5"
 msgstr "Form5"
 
-#: ui/maininfobase.cpp:94
+#: ui/maininfobase.cpp:285
 msgid "Uin:"
 msgstr "UIN:"
 
-#: ui/maininfobase.cpp:100
+#: ui/maininfobase.cpp:286
 msgid "Nick:"
 msgstr "Nickname:"
 
-#: ui/maininfobase.cpp:188
+#: ui/maininfobase.cpp:287
 msgid "Display:"
 msgstr "Zobrazit:"
 
-#: ui/maininfobase.cpp:203
+#: ui/maininfobase.cpp:289
 msgid "Encoding:"
 msgstr "Kódování:"
 
-#: ui/maininfobase.cpp:212
+#: ui/maininfobase.cpp:290
 msgid "&Names"
 msgstr "&Jména"
 
-#: ui/maininfobase.cpp:218
+#: ui/maininfobase.cpp:291
 msgid "Email addresses:"
 msgstr "Email adresy:"
 
-#: ui/maininfobase.cpp:229
+#: ui/maininfobase.cpp:292
 msgid "Add"
 msgstr "Přidat"
 
-#: ui/maininfobase.cpp:233
+#: ui/maininfobase.cpp:293
 msgid "Edit"
 msgstr "Upravit"
 
-#: ui/maininfobase.cpp:237
+#: ui/maininfobase.cpp:294
 msgid "Remove"
 msgstr "Odebrat"
 
-#: ui/maininfobase.cpp:241
+#: ui/maininfobase.cpp:295
 msgid "Set as default"
 msgstr "Nastavit jako výchozí"
 
-#: ui/maininfobase.cpp:246
+#: ui/maininfobase.cpp:296
 msgid "&EMail"
 msgstr "&Email"
 
-#: ui/maininfobase.cpp:252
+#: ui/maininfobase.cpp:297
 msgid "Status:"
 msgstr "Stav:"
 
-#: ui/maininfobase.cpp:262
+#: ui/maininfobase.cpp:298
 msgid "Online:"
 msgstr "Online:"
 
-#: ui/maininfobase.cpp:282
+#: ui/maininfobase.cpp:300
 msgid "External IP:"
 msgstr "Externí IP:"
 
-#: ui/maininfobase.cpp:292
+#: ui/maininfobase.cpp:301
 msgid "Internal IP:"
 msgstr "Interní IP:"
 
-#: ui/maininfobase.cpp:304
+#: ui/maininfobase.cpp:302
 msgid "Client:"
 msgstr "Klient:"
 
-#: ui/homeinfobase.cpp:138
+#: ui/homeinfobase.cpp:135
 msgid "Time zone:"
 msgstr "Časová zóna:"
 
-#: ui/homeinfobase.cpp:147
+#: ui/homeinfobase.cpp:136
 msgid "&Home info"
 msgstr "&Domov"
 
-#: ui/generalsecbase.cpp:77
+#: ui/generalsecbase.cpp:181
 msgid "My &authorization is required before users add me to Contact List"
-msgstr "Má &autorizace je vyžadována před přidáním uživatele do kontaktlistu"
+msgstr ""
+"Má &autorizace je vyžadována před přidáním uživatele do kontaktlistu"
 
-#: ui/generalsecbase.cpp:81
+#: ui/generalsecbase.cpp:182
 msgid "Don't show my &IP-address"
 msgstr "Neukazovat moji &IP adresu"
 
-#: ui/generalsecbase.cpp:85
+#: ui/generalsecbase.cpp:183
 msgid "Allow other to view my &status from the Web"
 msgstr "Povolit zjišťování &stavu přez Web"
 
-#: ui/generalsecbase.cpp:89
+#: ui/generalsecbase.cpp:184
 msgid "I&gnore user authorization"
 msgstr "I&gnorovat uživatelovu autorizaci"
 
-#: ui/generalsecbase.cpp:93
+#: ui/generalsecbase.cpp:185
 msgid "Direct connection"
 msgstr "Připojit přímo"
 
-#: ui/generalsecbase.cpp:101
+#: ui/generalsecbase.cpp:186
 msgid "Allow &direct connection from any user"
 msgstr "Povolit &přímé připojení pro všechny uživatele"
 
-#: ui/generalsecbase.cpp:105
+#: ui/generalsecbase.cpp:187
 msgid "Allow direct connection from user listed in &contact list"
 msgstr "Povolit přímé připojení pro uživatele z mého &kontaktlistu"
 
-#: ui/generalsecbase.cpp:109
+#: ui/generalsecbase.cpp:188
 msgid "Allow direct connection from user &upon authorization"
 msgstr "Povolit přímé připojení uživatelů po &autorizaci"
 
-#: ui/generalsecbase.cpp:114
+#: ui/generalsecbase.cpp:189
 msgid "&Security"
 msgstr "&Bezpečnost"
 
-#: ui/generalsecbase.cpp:120
+#: ui/generalsecbase.cpp:190
 msgid "Reject &messages from unknown users"
 msgstr "Odmítnout &zprávy od neznámých uživatelů"
 
-#: ui/generalsecbase.cpp:124
+#: ui/generalsecbase.cpp:191
 msgid "Reject &URL from unknown users"
 msgstr "Odmítnout &URL od neznámých uživatelů"
 
-#: ui/generalsecbase.cpp:128
+#: ui/generalsecbase.cpp:192
 msgid "Reject &World Wide pager messages"
 msgstr "Odmítnout zprávy od &World Wide pagerů"
 
-#: ui/generalsecbase.cpp:132
+#: ui/generalsecbase.cpp:193
 msgid "Reject &EmailExpress messages"
 msgstr "Odmítnout zprávy &EmailExpress"
 
-#: ui/generalsecbase.cpp:136
+#: ui/generalsecbase.cpp:194
 msgid "Reject &other messages"
 msgstr "Odmítnout &ostatní zprávy"
 
-#: ui/generalsecbase.cpp:140
+#: ui/generalsecbase.cpp:195
 msgid "&Reject"
 msgstr "&Odmítnout"
 
-#: ui/generalsecbase.cpp:146
+#: ui/generalsecbase.cpp:196
 msgid "Reject messages from unknown users contains this words or phrases:"
 msgstr ""
 "Odmítnout zprávy od neznámých uživatelů obsahující tato slova nebo "
 "výrazy:"
 
-#: ui/generalsecbase.cpp:153
+#: ui/generalsecbase.cpp:197
 msgid ""
 "Words are divided by any separators (space, comma, i.e.)\n"
 "Phrase (sequence of words) consists in quotas\n"
@@ -4424,51 +4432,51 @@ msgstr ""
 "* - jeden ze znaků (nebo \"prázdý znak\")\n"
 "? - jakýkoli symbol"
 
-#: ui/generalsecbase.cpp:160
+#: ui/generalsecbase.cpp:202
 msgid "Spam &filter"
 msgstr "Spam &filtr"
 
-#: ui/generalsecbase.cpp:167
+#: ui/generalsecbase.cpp:203
 msgid "Retype new password:"
 msgstr "Nové heslo (znovu):"
 
-#: ui/generalsecbase.cpp:174
+#: ui/generalsecbase.cpp:204
 msgid "New password:"
 msgstr "Nové heslo:"
 
-#: ui/generalsecbase.cpp:188
+#: ui/generalsecbase.cpp:205
 msgid "Current password:"
 msgstr "Aktuální heslo:"
 
-#: ui/generalsecbase.cpp:202
+#: ui/generalsecbase.cpp:206
 msgid "S&ave password"
 msgstr "Uložit hes&lo"
 
-#: ui/generalsecbase.cpp:213
+#: ui/generalsecbase.cpp:207
 msgid "&Do not show login dialog at start"
 msgstr "Nezobrazovat tento &dialog při startu"
 
-#: ui/generalsecbase.cpp:216
+#: ui/generalsecbase.cpp:208
 msgid "&Password"
 msgstr "&Heslo"
 
-#: ui/aboutinfobase.cpp:63
+#: ui/aboutinfobase.cpp:74
 msgid "Form4"
 msgstr "Form 4"
 
-#: ui/aboutinfobase.cpp:72
+#: ui/aboutinfobase.cpp:75
 msgid "Additional information about user:"
 msgstr "Doplňující informace o uživateli:"
 
-#: ui/aboutinfobase.cpp:77
+#: ui/aboutinfobase.cpp:76
 msgid "A&bout"
 msgstr "&O ..."
 
-#: ui/aboutinfobase.cpp:83
+#: ui/aboutinfobase.cpp:77
 msgid "My notes:"
 msgstr "Moje poznámky"
 
-#: ui/aboutinfobase.cpp:88
+#: ui/aboutinfobase.cpp:78
 msgid "&Notes"
 msgstr "Poz&námky"
 
@@ -4696,4 +4704,3 @@ msgstr "Poz&námky"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
-
