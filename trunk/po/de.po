@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-03-15 11:35+0300\n"
-"PO-Revision-Date: 2004-03-15 15:22+0100\n"
+"PO-Revision-Date: 2004-03-17 20:05+0100\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -8182,145 +8182,109 @@ msgstr "Sonntag"
 msgid ""
 "_: weather\n"
 "Overcast"
-msgstr ""
-"Wetter\n"
-"bewölkt"
+msgstr "Bewölkt"
 
 #: plugins/weather/weather.cpp:460
 msgid ""
 "_: weather\n"
 "Fog"
-msgstr ""
-"Wetter\n"
-"Nebel"
+msgstr "Nebel"
 
 #: plugins/weather/weather.cpp:461
 msgid ""
 "_: weather\n"
 "Haze"
-msgstr ""
-"Wetter\n"
-"Nebel"
+msgstr "Nebel"
 
 #: plugins/weather/weather.cpp:462
 msgid ""
 "_: weather\n"
 "Storm"
-msgstr ""
-"Wetter\n"
-"Sturm"
+msgstr "Sturm"
 
 #: plugins/weather/weather.cpp:463
 msgid ""
 "_: weather\n"
 "Rain"
-msgstr ""
-"Wetter\n"
-"Regen"
+msgstr "Regen"
 
 #: plugins/weather/weather.cpp:464
 msgid ""
 "_: weather\n"
 "Snow"
-msgstr ""
-"Wetter\n"
-"Schnee"
+msgstr "Schnee"
 
 #: plugins/weather/weather.cpp:465
 msgid ""
 "_: weather\n"
 "Light Rain"
-msgstr ""
-"Wetter\n"
-"Leichter Regen"
+msgstr "Leichter Regen"
 
 #: plugins/weather/weather.cpp:466
 msgid ""
 "_: weather\n"
 "Light Snow"
-msgstr ""
-"Wetter\n"
-"Leichter Schnee"
+msgstr "Leichter Schnee"
 
 #: plugins/weather/weather.cpp:467
 msgid ""
 "_: weather\n"
 "Few Snow"
-msgstr ""
-"Wetter\n"
-"Etwas Schnee"
+msgstr "Etwas Schnee"
 
 #: plugins/weather/weather.cpp:468
 msgid ""
 "_: weather\n"
 "Scattered Snow"
-msgstr ""
-"Wetter\n"
-"Vereinzelter Schnee"
+msgstr "Vereinzelter Schnee"
 
 #: plugins/weather/weather.cpp:469
 msgid ""
 "_: weather\n"
 "Clear"
-msgstr ""
-"Wetter\n"
-"Klar"
+msgstr "Klar"
 
 #: plugins/weather/weather.cpp:470
 msgid ""
 "_: weather\n"
 "Showers"
-msgstr ""
-"Wetter\n"
-"Schauer"
+msgstr "Schauer"
 
 #: plugins/weather/weather.cpp:471
 msgid ""
 "_: weather\n"
 "Mostly Clear"
-msgstr ""
-"Wetter\n"
-"Meist Klar"
+msgstr "Meist Klar"
 
 #: plugins/weather/weather.cpp:472
 msgid ""
 "_: weather\n"
 "Sunny"
-msgstr ""
-"Wetter\n"
-"Sonning"
+msgstr "Sonning"
 
 #: plugins/weather/weather.cpp:473
 msgid ""
 "_: weather\n"
 "Fair"
-msgstr ""
-"Wetter\n"
-"Mittelmässig"
+msgstr "Mittelmässig"
 
 #: plugins/weather/weather.cpp:474
 msgid ""
 "_: weather\n"
 "Cloudy"
-msgstr ""
-"Wetter\n"
-"Bewölkt"
+msgstr "Bewölkt"
 
 #: plugins/weather/weather.cpp:475
 msgid ""
 "_: weather\n"
 "Mostly Cloudy"
-msgstr ""
-"Wetter\n"
-"Meist Bewölkt"
+msgstr "Meist bewölkt"
 
 #: plugins/weather/weather.cpp:476
 msgid ""
 "_: weather\n"
 "Partly Cloudy"
-msgstr ""
-"Wetter\n"
-"Teilweise bewölkt"
+msgstr "Teilweise bewölkt"
 
 #: plugins/weather/weather.cpp:477
 msgid ""
@@ -8332,49 +8296,37 @@ msgstr "Wind"
 msgid ""
 "_: weather\n"
 "Drizzle"
-msgstr ""
-"Wetter\n"
-"Nieselregen"
+msgstr "Nieselregen"
 
 #: plugins/weather/weather.cpp:479
 msgid ""
 "_: weather\n"
 "steady"
-msgstr ""
-"Wetter\n"
-"Beständig"
+msgstr "Beständig"
 
 #: plugins/weather/weather.cpp:480
 msgid ""
 "_: weather\n"
 "rising"
-msgstr ""
-"Wetter\n"
-"Ansteigend"
+msgstr "Ansteigend"
 
 #: plugins/weather/weather.cpp:481
 msgid ""
 "_: weather\n"
 "falling"
-msgstr ""
-"Wetter\n"
-"Falled"
+msgstr "Fallend"
 
 #: plugins/weather/weather.cpp:482
 msgid ""
 "_: weather\n"
 "Unlimited"
-msgstr ""
-"Wetter\n"
-"unbegrenzt"
+msgstr "Unbegrenzt"
 
 #: plugins/weather/weather.cpp:483
 msgid ""
 "_: weather\n"
 "N"
-msgstr ""
-"Wetter\n"
-"N"
+msgstr "N"
 
 #: plugins/weather/weather.cpp:484
 msgid ""
@@ -8474,17 +8426,13 @@ msgstr "und"
 msgid ""
 "_: weather\n"
 "Early"
-msgstr ""
-"Wetter\n"
-"Früh"
+msgstr "Früh"
 
 #: plugins/weather/weather.cpp:516
 msgid ""
 "_: weather\n"
 "Late"
-msgstr ""
-"Wetter\n"
-"Spät"
+msgstr "Spät"
 
 #: plugins/weather/weather.cpp:531 plugins/weather/weather.cpp:533
 msgid "m/s"
@@ -8560,7 +8508,7 @@ msgstr "Standard"
 
 #: plugins/weather/weathercfgbase.cpp:116
 msgid "Forecast days:"
-msgstr "Vorhersage Tage:"
+msgstr "Vorhersage für Tage:"
 
 #: plugins/weather/weathercfgbase.cpp:117
 msgid "Units:"
@@ -8640,7 +8588,7 @@ msgstr "Nummer"
 
 #: plugins/weather/wifacecfg.cpp:70
 msgid "Day of week"
-msgstr "Tag der Week"
+msgstr "Tag der Woche"
 
 #: plugins/weather/wifacecfgbase.cpp:81
 msgid "Button text:"
