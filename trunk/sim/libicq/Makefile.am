@@ -1,6 +1,8 @@
 ####### kdevelop will overwrite this part!!! (begin)##########
 noinst_LIBRARIES = liblibicq.a
 
+## INCLUDES were found outside kdevelop specific part
+
 liblibicq_a_METASOURCES = AUTO
 
 liblibicq_a_SOURCES = direct.cpp genrtf.ll clearhtml.ll country.cpp rtf.ll xml.cpp various.cpp translator.cpp socket.cpp service.cpp ping.cpp message.cpp login.cpp log.cpp location.cpp lists.cpp icqclient.cpp icmb.cpp contactlist.cpp cfg.cpp buffer.cpp buddy.cpp bos.cpp 
