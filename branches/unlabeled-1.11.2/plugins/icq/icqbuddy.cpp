@@ -212,6 +212,8 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                     addFullInfoRequest(data->Uin.value);
                     break;
                 case 2:
+					if		((getInvisible() && data->VisibleId.value) ||
+						(!getInvisible() && (data->InvisibleId.value == 0))){
                     info.incReadPos(6);
                     info.unpack((char*)p, sizeof(p));
                     data->PluginInfoTime.value = time;
@@ -235,6 +237,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                         if (plugin_index >= PLUGIN_NULL)
                             log(L_WARN, "Unknown plugin sign");
                     }
+					}
                     break;
                 case 3:
                     info.incReadPos(6);
@@ -275,7 +278,9 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 data->InfoUpdateTime.value   = infoUpdateTime;
                 data->PluginInfoTime.value   = pluginInfoTime;
                 data->PluginStatusTime.value = pluginStatusTime;
-                if (getAutoUpdate()){
+                if (getAutoUpdate() &&
+							((getInvisible() && data->VisibleId.value) ||
+							(!getInvisible() && (data->InvisibleId.value == 0)))){
                     if (infoUpdateTime == 0)
                         infoUpdateTime = 1;
                     if (infoUpdateTime != data->InfoFetchTime.value)

@@ -170,8 +170,6 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
                 sendServerRequest();
                 setChatGroup();
                 addFullInfoRequest(data.owner.Uin.value, false);
-                infoRequest();
-                processListRequest();
 				m_bReady = true;
 				processSendQueue();
                 break;
@@ -511,13 +509,15 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
     return false;
 }
 
-void ICQClient::infoRequest()
+bool ICQClient::infoRequest()
 {
     m_infoTimer->stop();
     if ((getState() != Connected) || infoRequests.empty())
-        return;
+        return false;
     if (m_infoRequestId == PAUSE_ID)
-        return;
+        return false;
+	if (delayTime())
+		return true;
     unsigned long uin = infoRequests.front();
     serverRequest(ICQ_SRVxREQ_MORE);
     m_socket->writeBuffer << ((uin == data.owner.Uin.value) ? ICQ_SRVxREQ_OWN_INFO : ICQ_SRVxREQ_FULL_INFO);
@@ -526,6 +526,7 @@ void ICQClient::infoRequest()
     m_infoTimer->start(INFO_REQUEST_TIMEOUT * 1000);
     m_infoRequestId = m_nMsgSequence;
     varRequests.push_back(new FullInfoRequest(this, m_infoRequestId, uin));
+	return true;
 }
 
 void ICQClient::infoRequestFail()
@@ -533,7 +534,7 @@ void ICQClient::infoRequestFail()
     m_infoTimer->stop();
     if (m_infoRequestId == PAUSE_ID){
         m_infoRequestId = 0;
-        infoRequest();
+		processSendQueue();
         return;
     }
     ServerRequest *req = findServerRequest(m_infoRequestId);
@@ -550,7 +551,6 @@ void ICQClient::infoRequestPause()
 
 void ICQClient::addFullInfoRequest(unsigned long uin, bool bInLast)
 {
-    bool bCanStart = infoRequests.empty();
     if (bInLast){
         list<unsigned long>::iterator it;
         for (it = infoRequests.begin(); it != infoRequests.end(); ++it){
@@ -570,8 +570,7 @@ void ICQClient::addFullInfoRequest(unsigned long uin, bool bInLast)
         }
         infoRequests.push_front(uin);
     }
-    if (bCanStart)
-        infoRequest();
+	processSendQueue();
 }
 
 void ICQClient::removeFullInfoRequest(unsigned long uin)
@@ -586,7 +585,7 @@ void ICQClient::removeFullInfoRequest(unsigned long uin)
     }
     if (infoRequests.empty())
         return;
-    QTimer::singleShot(1000, this, SLOT(infoRequest()));
+	processSendQueue();
 }
 
 // _________________________________________________________________________________________
@@ -1521,7 +1520,7 @@ bool SMSRequest::answer(Buffer &b, unsigned short code)
             }
         }
     }
-    m_client->processSMSQueue();
+    m_client->processSendQueue();
     return true;
 }
 
@@ -1537,7 +1536,7 @@ void SMSRequest::fail(unsigned short)
     e.process();
     delete sms;
     m_client->m_sendSmsId = 0;
-    m_client->processSMSQueue();
+    m_client->processSendQueue();
 }
 
 const unsigned MAX_SMS_LEN_LATIN1	= 160;
@@ -1570,13 +1569,15 @@ static const char *months[] =
         I18N_NOOP("Dec")
     };
 
-void ICQClient::processSMSQueue()
+bool ICQClient::processSMSQueue()
 {
     if (m_sendSmsId)
-        return;
+        return false;
     for (;;){
         if (smsQueue.empty())
             break;
+		if (delayTime())
+			break;
         SendMsg &s = smsQueue.front();
         if (s.text.isEmpty() || (!(s.flags & SEND_1STPART) && (s.msg->getFlags() & MESSAGE_1ST_PART))){
             Event e(EventMessageSent, s.msg);
@@ -1630,8 +1631,9 @@ void ICQClient::processSMSQueue()
         sendServerRequest();
         varRequests.push_back(new SMSRequest(this, m_nMsgSequence));
         m_sendSmsId = m_nMsgSequence;
-        return;
+        return true;
     }
+	return false;
 }
 
 void ICQClient::clearSMSQueue()

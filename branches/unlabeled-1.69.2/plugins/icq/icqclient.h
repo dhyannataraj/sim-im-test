@@ -534,7 +534,7 @@ public:
     static QString ICQClient::addCRLF(const QString &str);
 protected slots:
     void ping();
-    void infoRequest();
+    bool infoRequest();
     void infoRequestFail();
     void processSendQueue();
 	void sendTimeout();
@@ -591,8 +591,7 @@ protected:
     void setServiceSocket(Tlv *tlv_addr, Tlv *tlv_cookie, unsigned short service);
     void serverRequest(unsigned short cmd, unsigned short seq=0);
     void sendServerRequest();
-    void sendVisibleList();
-    void sendInvisibleList();
+    void sendInvisible(bool bState);
     void sendContactList();
     void setInvisible();
     void setOffline(ICQUserData*);
@@ -606,8 +605,8 @@ protected:
     const char* error_message(unsigned short error);
     ICQListener		*m_listener;
     list<ServiceSocket*> m_services;
-    QTimer *m_sendTimer;
 	QTimer *m_processTimer;
+    QTimer *m_sendTimer;
     QTimer *m_infoTimer;
     unsigned short m_infoRequestId;
     unsigned short m_sendSmsId;
@@ -636,8 +635,8 @@ protected:
     void clearListServerRequest();
     void clearSMSQueue();
     void clearMsgQueue();
-    void processListRequest();
-    void processSMSQueue();
+    bool processListRequest();
+    bool processSMSQueue();
     void infoRequestPause();
     void sendIdleTime();
     void sendPluginInfoUpdate(unsigned plugin_id);
@@ -684,7 +683,7 @@ protected:
     Message *parseExtendedMessage(const char *screen, Buffer &packet, MessageId &id, unsigned cookie);
     void parsePluginPacket(Buffer &b, unsigned plugin_index, ICQUserData *data, unsigned uin, bool bDirect);
     void pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &b);
-    void packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned short &type, unsigned short flags=ICQ_TCPxMSG_NORMAL);
+    void packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned short &type, bool bDirect, unsigned short flags=ICQ_TCPxMSG_NORMAL);
     void packExtendedMessage(Message *msg, Buffer &buf, Buffer &msgBuf, ICQUserData *data);
     bool ackMessage(Message *msg, unsigned short ackFlags, const char *str);
     void fetchProfile(ICQUserData *data);

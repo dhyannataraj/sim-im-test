@@ -538,7 +538,7 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
 			}
 		}
 		tags.push(tag);
-		tags.push(option);
+		options.push(option);
 	}
 
     if (tagName == "b"){

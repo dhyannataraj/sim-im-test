@@ -243,7 +243,9 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         ICQUserData *data = findContact(screen.c_str(), NULL, false, contact);
                         if (((data == NULL) || (data->Status.value == ICQ_STATUS_OFFLINE) || (getAckMode() == 1)) &&
                                 (m_send.msg->type() != MessageFile)){
+							m_sendTimer->stop();
                             ackMessage(m_send);
+							return;
                         }else{
                             replyQueue.push_back(m_send);
                         }
@@ -722,7 +724,7 @@ void ICQClient::ackMessage(SendMsg &s)
         s.msg = NULL;
         s.screen = "";
     }else{
-        sendBgQueue.push_back(s);
+        sendFgQueue.push_front(s);
     }
 	m_sendTimer->stop();
 	processSendQueue();
@@ -1505,30 +1507,31 @@ void ICQClient::processSendQueue()
 	m_processTimer->stop();
 	if (m_bNoSend)
 		return;
-    m_sendTimer->start(SEND_TIMEOUT);
     if (getState() != Connected){
         m_sendTimer->stop();
         return;
     }
-	unsigned delay = delayTime();
-	if (delay){
-		log(L_DEBUG, "Delay: %u", delay);
-		m_processTimer->start(delay);
-		return;
-	}
 	if (m_bReady){
 		while (!sendFgQueue.empty()){
+			unsigned delay = delayTime();
+			if (delay){
+				log(L_DEBUG, "Delay: %u", delay);
+				m_processTimer->start(delay);
+				return;
+			}
 			log(L_DEBUG, "Process fg queue");
 			m_send = sendFgQueue.front();
 			sendFgQueue.pop_front();
+		    m_sendTimer->start(SEND_TIMEOUT);
 			if (processMsg())
 				return;
+			m_sendTimer->stop();
 		}
     }
 	for (;;){
         if (delayed.readPos() == delayed.writePos())
             break;
-		delay = delayTime();
+		unsigned delay = delayTime();
 		if (delay){
 			log(L_DEBUG, "Delay: %u", delay);
 			m_processTimer->start(delay);
@@ -1551,16 +1554,47 @@ void ICQClient::processSendQueue()
 		m_processTimer->start(RATE_PAUSE * 1000);
 		return;
     }
+	if (processSMSQueue()){
+			unsigned delay = delayTime();
+			if (delay){
+				log(L_DEBUG, "Delay: %u", delay);
+				m_processTimer->start(delay);
+				return;
+			}
+	}
+	if (infoRequest()){
+			unsigned delay = delayTime();
+			if (delay){
+				log(L_DEBUG, "Delay: %u", delay);
+				m_processTimer->start(delay);
+				return;
+			}
+	}
+	if (processListRequest()){
+			unsigned delay = delayTime();
+			if (delay){
+				log(L_DEBUG, "Delay: %u", delay);
+				m_processTimer->start(delay);
+				return;
+			}
+	}
 	if (m_bReady){
 		while (!sendBgQueue.empty()){
+			unsigned delay = delayTime();
+			if (delay){
+				log(L_DEBUG, "Delay: %u", delay);
+				m_processTimer->start(delay);
+				return;
+			}
  			log(L_DEBUG, "Process bg queue");
 			m_send = sendBgQueue.front();
 			sendBgQueue.pop_front();
+		    m_sendTimer->start(SEND_TIMEOUT);
 			if (processMsg())
 				return;
+			m_sendTimer->stop();
 		}
     }
-	m_sendTimer->stop();
 }
 
 static QString getUtf8Part(QString &str, unsigned size)
@@ -1699,7 +1733,7 @@ bool ICQClient::processMsg()
             case MessageUrl:{
                     if (data->Uin.value == 0)
                         break;
-                    packMessage(b, m_send.msg, data, type);
+                    packMessage(b, m_send.msg, data, type, false);
                     const char *err = m_send.msg->getError();
                     if (err && *err){
                         Event e(EventMessageSent, m_send.msg);
@@ -1709,13 +1743,15 @@ bool ICQClient::processMsg()
                         m_send.screen = "";
                         return false;
                     }
-                    sendThroughServer(screen(data).c_str(), 4, b, m_send.id, true, true);
-                    if ((data->Status.value != ICQ_STATUS_OFFLINE) || (getAckMode() == 0))
+                    sendThroughServer(screen(data).c_str(), 4, b, m_send.id, true, false);
+					if (data->Status.value != ICQ_STATUS_OFFLINE)
+						m_sendTimer->stop();
+					if ((data->Status.value != ICQ_STATUS_OFFLINE) || (getAckMode() == 0))
                         ackMessage(m_send);
                     return true;
                 }
             case MessageFile:
-                packMessage(b, m_send.msg, data, type);
+                packMessage(b, m_send.msg, data, type, false);
                 sendAdvMessage(screen(data).c_str(), b, PLUGIN_NULL, m_send.id, false, true);
                 return true;
             case MessageCheckInvisible:{
@@ -2045,7 +2081,7 @@ void ICQClient::accept(Message *msg, ICQUserData *data)
         id.id_h = static_cast<ICQFileMessage*>(msg)->getID_H();
         Buffer b;
         unsigned short type = ICQ_MSGxEXT;
-        packMessage(b, msg, data, type, 0);
+        packMessage(b, msg, data, type, false, 0);
         unsigned cookie  = static_cast<ICQFileMessage*>(msg)->getCookie();
         sendAdvMessage(screen(data).c_str(), b, PLUGIN_NULL, id, false, true, (unsigned short)(cookie & 0xFFFF), (unsigned short)((cookie >> 16) & 0xFFFF), 2);
     }

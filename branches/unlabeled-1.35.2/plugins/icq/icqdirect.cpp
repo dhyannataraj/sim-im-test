@@ -1339,7 +1339,7 @@ void DirectClient::processMsgQueue()
             case MessageOpenSecure:
             case MessageCloseSecure:
                 startPacket(TCP_START, 0);
-                m_client->packMessage(mb, sm.msg, m_data, sm.icq_type);
+                m_client->packMessage(mb, sm.msg, m_data, sm.icq_type, true);
                 sendPacket();
                 sm.seq = m_nSequence;
                 break;

@@ -309,7 +309,7 @@ void ICQClient::sendLogonStatus()
 {
     log(L_DEBUG, "Logon status %u", m_logonStatus);
     if (getInvisible())
-        sendVisibleList();
+        sendInvisible(false);
     sendContactList();
 
     unsigned long now;
@@ -344,7 +344,7 @@ void ICQClient::sendLogonStatus()
 
     sendPacket(true);
     if (!getInvisible())
-        sendInvisibleList();
+        sendInvisible(true);
     sendIdleTime();
     m_status = m_logonStatus;
 }
@@ -352,12 +352,12 @@ void ICQClient::sendLogonStatus()
 void ICQClient::setInvisible()
 {
     if (getInvisible())
-        sendVisibleList();
+        sendInvisible(false);
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
     m_socket->writeBuffer.tlv(0x0006, fullStatus(m_status));
     sendPacket(true);
     if (!getInvisible())
-        sendInvisibleList();
+        sendInvisible(true);
 }
 
 void ICQClient::sendStatus()

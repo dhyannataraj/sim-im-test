@@ -250,9 +250,9 @@ static DataDef icqClientData[] =
     {
         { "Server", DATA_STRING, 1, 0 },
         { "ServerPort", DATA_ULONG, 1, DATA(5190) },
-        { "ContactTime", DATA_ULONG, 1, 0 },
-        { "ContactLength", DATA_ULONG, 1, 0 },
-        { "ContactInvisible", DATA_ULONG, 1, 0 },
+        { "", DATA_ULONG, 1, 0 },
+        { "", DATA_ULONG, 1, 0 },
+        { "", DATA_ULONG, 1, 0 },
         { "HideIP", DATA_BOOL, 1, 0 },
         { "IgnoreAuth", DATA_BOOL, 1, 0 },
         { "DirectMode", DATA_ULONG, 1, 0 },
@@ -2388,7 +2388,7 @@ void *ICQClient::processEvent(Event *e)
                     sendCapability(t->tmpl.utf8());
                     sendICMB(1, 11);
                     sendICMB(0, 11);
-                    processListRequest();
+					processSendQueue();
                     fetchProfiles();
                 }
             }
@@ -2477,7 +2477,7 @@ void *ICQClient::processEvent(Event *e)
             lr.invisible_id = (unsigned short)(data->ContactInvisibleId.value);
             lr.ignore_id    = (unsigned short)(data->IgnoreId.value);
             listRequests.push_back(lr);
-            processListRequest();
+            processSendQueue();
         }
         removeBuddy(contact);
     }
@@ -2495,7 +2495,7 @@ void *ICQClient::processEvent(Event *e)
                 lr.type   = LIST_GROUP_DELETED;
                 lr.icq_id = (unsigned short)(data->IcqID.value);
                 listRequests.push_back(lr);
-                processListRequest();
+                processSendQueue();
             }
         }
     }
