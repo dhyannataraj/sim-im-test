@@ -1918,8 +1918,11 @@ void ICQClient::send(bool bTimer)
             m_sendTimer->stop();
         return;
     }
-    if (!m_send.screen.empty())
+    if (!m_send.screen.empty()){
+	    if (!m_sendTimer->isActive())
+		    m_sendTimer->start(20000);
         return;
+	}
     if (!bTimer){
         processSendQueue();
         return;

@@ -1160,6 +1160,54 @@ void UserView::showTip()
     if (contact == NULL)
         return;
     QString tip = contact->tipText();
+    unsigned style = 0;
+    const char *statusIcon;
+    contact->contactInfo(style, statusIcon);
+	unsigned my_style = 0;
+        if (style & CONTACT_ITALIC){
+            if (CorePlugin::m_plugin->getVisibleStyle()  & STYLE_ITALIC)
+                my_style |= STYLE_ITALIC;
+            if (CorePlugin::m_plugin->getVisibleStyle()  & STYLE_UNDER)
+                my_style |= STYLE_UNDER;
+            if (CorePlugin::m_plugin->getVisibleStyle()  & STYLE_STRIKE)
+                my_style |= STYLE_STRIKE;
+        }
+        if (style & CONTACT_UNDERLINE){
+            if (CorePlugin::m_plugin->getAuthStyle()  & STYLE_ITALIC)
+                my_style |= STYLE_ITALIC;
+            if (CorePlugin::m_plugin->getAuthStyle()  & STYLE_UNDER)
+                my_style |= STYLE_UNDER;
+            if (CorePlugin::m_plugin->getAuthStyle()  & STYLE_STRIKE)
+                my_style |= STYLE_STRIKE;
+        }
+        if (style & CONTACT_STRIKEOUT){
+            if (CorePlugin::m_plugin->getInvisibleStyle()  & STYLE_ITALIC)
+                my_style |= STYLE_ITALIC;
+            if (CorePlugin::m_plugin->getInvisibleStyle()  & STYLE_UNDER)
+                my_style |= STYLE_UNDER;
+            if (CorePlugin::m_plugin->getInvisibleStyle()  & STYLE_STRIKE)
+                my_style |= STYLE_STRIKE;
+        }
+		if (my_style){
+			QString startTag, endTag;
+			if (my_style & STYLE_ITALIC){
+				startTag = "<i>";
+				endTag   = "</i>";
+			}
+			if (my_style & STYLE_UNDER){
+				startTag += "<u>";
+				endTag   = QString("</u>") + endTag;
+			}
+			if (my_style & STYLE_ITALIC){
+				startTag = "<s>";
+				endTag   = QString("</s>") + endTag;
+			}
+			QString name = quoteString(contact->getName());
+			int n = tip.find(name);
+			if (n >= 0)
+				tip = tip.left(n) + startTag + name + endTag + tip.mid(n + name.length());
+		}
+
     if (m_tip){
         m_tip->setText(tip);
     }else{
