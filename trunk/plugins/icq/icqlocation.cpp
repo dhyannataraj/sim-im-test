@@ -144,6 +144,7 @@ void ICQClient::sendCapability()
         cap.pack((char*)capabilities[CAP_RTF], sizeof(capability));
     if (getTypingNotification())
         cap.pack((char*)capabilities[CAP_TYPING], sizeof(capability));
+    cap.pack((char*)capabilities[CAP_AIM_SUPPORT], sizeof(capability));
     cap.pack((char*)c, sizeof(c));
     snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_SETxUSERxINFO);
     m_socket->writeBuffer.tlv(0x0005, cap);

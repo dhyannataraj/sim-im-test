@@ -142,6 +142,8 @@ void FileTransferDlg::process()
             if (m_msg->getError())
                 status = i18n(m_msg->getError());
             break;
+	default:
+	    break;
         }
         if (bName && (m_files > 1)){
             FileMessage::Iterator it(*m_msg);
@@ -165,7 +167,7 @@ void FileTransferDlg::process()
         setBars();
     }
     calcSpeed();
-    if (m_msg->m_transfer->speed() != sldSpeed->value())
+    if ((int)(m_msg->m_transfer->speed()) != sldSpeed->value())
         sldSpeed->setValue(m_msg->m_transfer->speed());
     if (m_msg->m_transfer->files() != m_files){
         m_files = m_msg->m_transfer->files();
@@ -251,7 +253,7 @@ void FileTransferDlg::calcSpeed()
         return;
     time_t now;
     time(&now);
-    if (now == m_transferTime)
+    if ((unsigned)now == m_transferTime)
         return;
     if (m_nAverage < MAX_AVERAGE)
         m_nAverage++;

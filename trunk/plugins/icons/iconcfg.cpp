@@ -130,7 +130,8 @@ IconCfg::IconCfg(QWidget *parent, IconsPlugin *plugin)
         if (n <= 0)
             continue;
         name = name.substr(0, n);
-        for (list<string>::iterator its = protocols.begin(); its != protocols.end(); ++its)
+	list<string>::iterator its;
+        for (its = protocols.begin(); its != protocols.end(); ++its)
             if ((*its) == name)
                 break;
         if (its != protocols.end())

@@ -102,6 +102,8 @@ protected:
     virtual void paintEvent(QPaintEvent *);
     virtual void enterEvent(QEvent*);
     virtual bool x11Event(XEvent*);
+    unsigned p_width;
+    unsigned p_height;
     Window  parentWin;
     QPixmap *vis;
 };
@@ -110,6 +112,8 @@ WharfIcon::WharfIcon(DockWnd *parent)
         : QWidget(parent, "WharfIcon")
 {
     dock = parent;
+    p_width  = 64;
+    p_height = 64;
     setMouseTracking(true);
     const QIconSet *icon = BigIcon("inactive");
     if (icon){
@@ -131,8 +135,15 @@ WharfIcon::~WharfIcon()
 bool WharfIcon::x11Event(XEvent *e)
 {
     if ((e->type == ReparentNotify) && !bActivated){
+        XWindowAttributes a;
+        XGetWindowAttributes(qt_xdisplay(), e->xreparent.parent, &a);
+        p_width  = a.width;
+        p_height = a.height;
         bActivated = true;
-        if (vis) resize(vis->width(), vis->height());
+        if (vis){
+            resize(vis->width(), vis->height());
+            move((p_width - vis->width()) / 2, (p_height - vis->height()) / 2);
+        }
         repaint(false);
     }
     if ((e->type == Expose) && !bActivated)
@@ -165,7 +176,10 @@ void WharfIcon::set(const char *icon, const char *msg)
     if (icons == NULL)
         return;
     QPixmap *nvis = new QPixmap(icons->pixmap(QIconSet::Large, QIconSet::Normal));
-    if (bActivated) resize(nvis->width(), nvis->height());
+    if (bActivated){
+        resize(nvis->width(), nvis->height());
+        move((p_width - nvis->width()) / 2, (p_height - nvis->height()) / 2);
+    }
     if (msg){
         QPixmap msgPict = Pict(msg);
         QRegion *rgn = NULL;
