@@ -1,1 +1,2 @@
-KDE_ICON=auto
+KDE_ICON=AUTO
+sim_ICON=AUTO
