@@ -125,10 +125,13 @@ const unsigned LR_CONTACTxREMOVED_BL	= 2;
 const unsigned LR_GROUPxCHANGED			= 3;
 const unsigned LR_GROUPxREMOVED			= 4;
 
+const unsigned NO_GROUP					= (unsigned)(-1);
+
 typedef struct MSNListRequest
 {
     unsigned	Type;
     string		Name;
+	unsigned	Group;
 } MSNListRequest;
 
 class MSNPacket;
@@ -165,6 +168,7 @@ public:
     MSNListRequest *findRequest(const char *name, unsigned type, bool bDelete=false);
     bool add(const char *mail, const char *name, unsigned grp);
     list<SBSocket*> m_SBsockets;
+    virtual void setupContact(Contact*, void *data);
 protected slots:
     void ping();
     void authOk();
@@ -181,7 +185,6 @@ protected:
     virtual QWidget *configWindow(QWidget *parent, unsigned id);
     virtual bool send(Message*, void*);
     virtual bool canSend(unsigned, void*);
-    virtual void setupContact(Contact*, void *data);
     virtual void *processEvent(Event*);
     virtual QWidget *searchWindow();
     virtual bool isMyData(clientData*&, Contact*&);
@@ -189,7 +192,6 @@ protected:
     void getLine(const char*);
     void clearPackets();
     void sendStatus();
-	void clearPacket();
     virtual void	packet_ready();
     virtual void	connect_ready();
     virtual void	setStatus(unsigned status);

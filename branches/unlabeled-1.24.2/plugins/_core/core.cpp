@@ -1589,17 +1589,11 @@ void *CorePlugin::processEvent(Event *e)
         }
     case EventCheckState:{
             CommandDef *cmd = (CommandDef*)(e->param());
-
 			if (cmd->id == CmdSendClose){
-
 				cmd->flags &= COMMAND_CHECKED;
-
 				if (getCloseSend())
-
 					cmd->flags |= COMMAND_CHECKED;
-
 				return e->param();
-
 			}
             if (cmd->id == CmdContactClients){
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));

@@ -17,6 +17,7 @@
 
 #include "msnpacket.h"
 #include "msnclient.h"
+#include "msn.h"
 
 #include <qtimer.h>
 #include <openssl/md5.h>
@@ -319,9 +320,9 @@ bool SynPacket::answer(const char *_cmd, vector<string> &args)
 			m_client->data.owner.Mobile = (args[1].c_str() == "Y");
 		return true;
 	}
-	if (cmd == "BRP"){
+	if (cmd == "BPR"){
 		if (args.size() < 2){
-			log(L_WARN, "Bad BRP size");
+			log(L_WARN, "Bad BPR size");
 			return true;
 		}
 		if (m_data == NULL){
@@ -368,6 +369,7 @@ bool SynPacket::answer(const char *_cmd, vector<string> &args)
 		if (m_data){
 			Contact *contact;
 			if (m_client->findContact(m_data->EMail, contact)){
+				m_client->setupContact(contact, m_data);
 				Event e(EventContactChanged, contact);
 				e.process();
 			}
@@ -397,7 +399,7 @@ bool SynPacket::answer(const char *_cmd, vector<string> &args)
         }
         m_data->sFlags |= MSN_CHECKED;
         lr = m_client->findRequest(mail.c_str(), LR_CONTACTxCHANGED);
-        unsigned grp = 0;
+        unsigned grp = NO_GROUP;
         if (args.size() > 3)
             grp = atol(args[3].c_str());
         m_data->Group = grp;
@@ -407,7 +409,7 @@ bool SynPacket::answer(const char *_cmd, vector<string> &args)
 		set_str(&m_data->PhoneMobile, NULL);
 		m_data->Mobile = false;
         Group *group = NULL;
-        if (grp == 0){
+        if ((grp == 0) || (grp == NO_GROUP)){
             group = getContacts()->group(0);
         }else{
             m_client->findGroup(grp, NULL, group);
@@ -512,11 +514,33 @@ AddPacket::AddPacket(MSNClient *client, const char *listType, const char *mail, 
         addArg(number(grp).c_str());
 }
 
-RemPacket::RemPacket(MSNClient *client, const char *listType, const char *mail)
+void AddPacket::error(unsigned code)
+{
+	Contact *contact;
+	MSNUserData *data = m_client->findContact(m_mail.c_str(), contact);
+	if (data){
+		contact->clientData.freeData(data);
+		if (contact->clientData.size() == 0)
+			delete contact;
+	}
+	Event e(static_cast<MSNPlugin*>(m_client->protocol()->plugin())->EventAddFail, (void*)(m_mail.c_str()));
+	e.process();
+}
+
+bool AddPacket::answer(const char *cmd, vector<string> &args)
+{
+	Event e(static_cast<MSNPlugin*>(m_client->protocol()->plugin())->EventAddOk, (void*)(m_mail.c_str()));
+	e.process();
+	return MSNPacket::answer(cmd, args);
+}
+
+RemPacket::RemPacket(MSNClient *client, const char *listType, const char *mail, unsigned group)
         : MSNPacket(client, "REM")
 {
     addArg(listType);
     addArg(mail);
+	if (!strcmp(listType, "FL"))
+		addArg(number(group).c_str());
 }
 
 ReaPacket::ReaPacket(MSNClient *client, const char *mail, const char *name)
@@ -524,6 +548,13 @@ ReaPacket::ReaPacket(MSNClient *client, const char *mail, const char *name)
 {
     addArg(mail);
     addArg(name);
+}
+
+void ReaPacket::error(unsigned code)
+{
+	if (code == 216)
+		return;
+	MSNPacket::error(code);
 }
 
 BlpPacket::BlpPacket(MSNClient *client)

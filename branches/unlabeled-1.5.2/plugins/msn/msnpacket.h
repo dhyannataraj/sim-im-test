@@ -123,19 +123,22 @@ class AddPacket : public MSNPacket
 public:
     AddPacket(MSNClient *client, const char *listType, const char *mail, const char *name, unsigned grp=0);
 protected:
+    bool answer(const char *cmd, vector<string> &args);
+    virtual void	error(unsigned code);
     string m_mail;
 };
 
 class RemPacket : public MSNPacket
 {
 public:
-    RemPacket(MSNClient *client, const char *listType, const char *mail);
+    RemPacket(MSNClient *client, const char *listType, const char *mail, unsigned grp);
 };
 
 class ReaPacket : public MSNPacket
 {
 public:
     ReaPacket(MSNClient *client, const char *mail, const char *name);
+    virtual void	error(unsigned code);
 };
 
 class BlpPacket : public MSNPacket
