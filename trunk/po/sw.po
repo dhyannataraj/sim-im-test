@@ -3445,7 +3445,7 @@ msgstr "&Dobbelkligg benudza"
 
 #: plugins/_core/userviewcfgbase.cpp:273
 msgid "Use small &font for group"
-msgstr ""
+msgstr "Kleine &Schrifdard fir &Grubbe benudza"
 
 #: plugins/_core/userviewcfgbase.cpp:274
 msgid "Show group &separator"
@@ -6690,6 +6690,8 @@ msgid ""
 "_n: Phone call\n"
 "%n phone calls"
 msgstr ""
+"1 Delefonanruf\n"
+"%n Delefonanrufe"
 
 #: plugins/sms/sms.cpp:108
 msgid "Phone call"
