@@ -11,6 +11,6 @@ update_la_LIBADD = ../../sim/api/libsimapi.la $(LIBUI) $(LIB_KDECORE) $(LIB_KDEU
 update_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 install-data-hook:
-	rm -rf $(sim_plugindir)/update.la
+	rm -rf $(DESTDIR)$(sim_plugindir)/update.la
 
 

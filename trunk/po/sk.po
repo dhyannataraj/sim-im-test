@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
-"POT-Creation-Date: 2003-11-26 10:03+0300\n"
+"POT-Creation-Date: 2003-11-27 09:56+0300\n"
 "PO-Revision-Date: 2003-11-25 10:55+0100\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
@@ -1348,7 +1348,7 @@ msgstr "&Zrušiť"
 # ui/toolsetupbase.cpp:136
 # ui/userautoreply.cpp:76
 # ui/userinfobase.cpp:153
-#: plugins/_core/core.cpp:547 plugins/_core/filetransfer.cpp:310
+#: plugins/_core/core.cpp:563 plugins/_core/filetransfer.cpp:310
 #: plugins/_core/managerbase.cpp:110 plugins/_core/toolsetupbase.cpp:136
 #: plugins/about/aboutdlgbase.cpp:156 plugins/icq/securedlg.cpp:92
 #: sim/api/simapi.cpp:427 sim/ui/qt3/i18n.cpp:287
@@ -1759,7 +1759,7 @@ msgid "&Save"
 msgstr "U&ložiť"
 
 # qt3/i18n.cpp:97
-#: plugins/_core/core.cpp:1047 plugins/_core/historycfgbase.cpp:173
+#: plugins/_core/core.cpp:1071 plugins/_core/historycfgbase.cpp:234
 #: sim/ui/qt3/i18n.cpp:97
 msgid "&Rename"
 msgstr "&Premenovať"
@@ -1767,7 +1767,7 @@ msgstr "&Premenovať"
 # qt3/i18n.cpp:99
 # ui/logindlgbase.cpp:125
 # ui/phonebookbase.cpp:139
-#: plugins/_core/core.cpp:1056 plugins/_core/historycfgbase.cpp:174
+#: plugins/_core/core.cpp:1080 plugins/_core/historycfgbase.cpp:235
 #: plugins/_core/logindlgbase.cpp:129 plugins/_core/maininfobase.cpp:237
 #: plugins/_core/maininfobase.cpp:247 sim/ui/listview.cpp:37
 #: sim/ui/qt3/i18n.cpp:99
@@ -1921,7 +1921,7 @@ msgstr "Prečiar&knuté"
 # chatwnd.cpp:60
 # msgedit.cpp:117
 # qt3/i18n.cpp:160
-#: plugins/_core/core.cpp:650 plugins/_core/core.cpp:747
+#: plugins/_core/core.cpp:666 plugins/_core/core.cpp:763
 #: sim/ui/qt3/i18n.cpp:160
 msgid "&Underline"
 msgstr "Podčiarkn&uté"
@@ -2153,13 +2153,13 @@ msgid "Paste"
 msgstr "Vložiť"
 
 # qt3/i18n.cpp:255
-#: plugins/_core/core.cpp:888 sim/ui/qt3/i18n.cpp:255
+#: plugins/_core/core.cpp:904 sim/ui/qt3/i18n.cpp:255
 #: sim/ui/qt3/qtextedit.cpp:4023
 msgid "Clear"
 msgstr "Odznačiť"
 
 # qt3/i18n.cpp:257
-#: plugins/_core/core.cpp:896 sim/ui/qt3/i18n.cpp:257
+#: plugins/_core/core.cpp:912 sim/ui/qt3/i18n.cpp:257
 #: sim/ui/qt3/qtextedit.cpp:4027 sim/ui/qt3/qtextedit.cpp:4029
 msgid "Select All"
 msgstr "Vybrať všetko"
@@ -2270,29 +2270,29 @@ msgid "Roll down"
 msgstr "Zrolovať"
 
 # qt3/i18n.cpp:245
-#: plugins/_core/core.cpp:845 sim/ui/qt3/qtextedit.cpp:4011
+#: plugins/_core/core.cpp:861 sim/ui/qt3/qtextedit.cpp:4011
 msgid "&Undo"
 msgstr "Vrátiť späť"
 
 # qt3/i18n.cpp:247
-#: plugins/_core/core.cpp:856 sim/ui/qt3/qtextedit.cpp:4012
+#: plugins/_core/core.cpp:872 sim/ui/qt3/qtextedit.cpp:4012
 msgid "&Redo"
 msgstr "Urobiť znovu"
 
 # qt3/i18n.cpp:249
-#: plugins/_core/core.cpp:864 sim/ui/qt3/qtextedit.cpp:4017
+#: plugins/_core/core.cpp:880 sim/ui/qt3/qtextedit.cpp:4017
 msgid "Cu&t"
 msgstr "Vystrihnúť"
 
 # monitor.cpp:73
-#: plugins/_core/core.cpp:792 plugins/_core/core.cpp:872
-#: plugins/_core/historycfgbase.cpp:172 plugins/netmonitor/monitor.cpp:67
+#: plugins/_core/core.cpp:808 plugins/_core/core.cpp:888
+#: plugins/_core/historycfgbase.cpp:233 plugins/netmonitor/monitor.cpp:67
 #: sim/ui/qt3/qtextedit.cpp:4018
 msgid "&Copy"
 msgstr "&Kopírovať"
 
 # qt3/i18n.cpp:253
-#: plugins/_core/core.cpp:880 sim/ui/qt3/qtextedit.cpp:4020
+#: plugins/_core/core.cpp:896 sim/ui/qt3/qtextedit.cpp:4020
 msgid "&Paste"
 msgstr "Vložiť"
 
@@ -2500,7 +2500,7 @@ msgid "&Message"
 msgstr "&Správa"
 
 # userbox.cpp:112
-#: plugins/_core/core.cpp:533 plugins/_core/core.cpp:1072
+#: plugins/_core/core.cpp:549 plugins/_core/core.cpp:1096
 #: plugins/icq/icq.cpp:562 plugins/jabber/jabber.cpp:355
 msgid "User &info"
 msgstr "&Informácie o užívateľovi"
@@ -4234,10 +4234,11 @@ msgstr "Webmaster"
 # ui/themesetupbase.cpp:289
 # ui/userinfobase.cpp:144
 #: plugins/_core/arcfgbase.cpp:99 plugins/_core/fontconfigbase.cpp:128
-#: plugins/_core/historycfgbase.cpp:167 plugins/_core/interfacecfgbase.cpp:146
+#: plugins/_core/historycfgbase.cpp:224 plugins/_core/interfacecfgbase.cpp:146
 #: plugins/_core/maininfobase.cpp:229 plugins/_core/msgcfgbase.cpp:163
 #: plugins/_core/phonebase.cpp:144 plugins/_core/plugincfgbase.cpp:101
 #: plugins/_core/prefcfgbase.cpp:96 plugins/_core/smscfgbase.cpp:95
+#: plugins/_core/userhistorycfgbase.cpp:122
 #: plugins/autoaway/autoawaycfgbase.cpp:120
 #: plugins/background/bkgndcfgbase.cpp:156 plugins/dock/dockcfgbase.cpp:108
 #: plugins/filter/filtercfgbase.cpp:96 plugins/forward/forwardcfgbase.cpp:101
@@ -4444,7 +4445,7 @@ msgstr "Klient:"
 
 # ui/maininfobase.cpp:334
 # ui/statussetupbase.cpp:148
-#: plugins/_core/core.cpp:1127 plugins/icq/aiminfobase.cc:305
+#: plugins/_core/core.cpp:1151 plugins/icq/aiminfobase.cc:305
 #: plugins/icq/icqinfobase.cc:319 plugins/jabber/jabberinfobase.cpp:219
 #: plugins/msn/msninfobase.cpp:167
 msgid "&Status"
@@ -5108,8 +5109,8 @@ msgstr "Pluginy"
 # mainwin.cpp:2733
 # ui/setupdlg.cpp:100
 #: plugins/_core/cfgdlg.cpp:489 plugins/_core/cfgdlgbase.cpp:122
-#: plugins/_core/core.cpp:442 plugins/_core/core.cpp:1005
-#: plugins/_core/core.cpp:1087
+#: plugins/_core/core.cpp:458 plugins/_core/core.cpp:1029
+#: plugins/_core/core.cpp:1111
 msgid "Setup"
 msgstr "Nastavenie"
 
@@ -5147,17 +5148,17 @@ msgid "Contact typed message"
 msgstr "Užívatel píše správu"
 
 # ui/setupdlg.cpp:129
-#: plugins/_core/core.cpp:74
+#: plugins/_core/core.cpp:75
 msgid "Interface"
 msgstr "Rozhranie"
 
 # ui/themesetup.cpp:53
-#: plugins/_core/core.cpp:75
+#: plugins/_core/core.cpp:76
 msgid "System interface"
 msgstr "Systémové rozhranie"
 
 # client.cpp:320
-#: plugins/_core/core.cpp:370
+#: plugins/_core/core.cpp:385
 msgid ""
 "I am currently away from ICQ.\n"
 "Please leave your message and I will get back to you as soon as I return!\n"
@@ -5166,7 +5167,7 @@ msgstr ""
 "Pošlite mi správu, odpoviem Vám, keď sa vrátim!\n"
 
 # client.cpp:324
-#: plugins/_core/core.cpp:374
+#: plugins/_core/core.cpp:389
 msgid ""
 "I am out'a here.\n"
 "See you tomorrow!\n"
@@ -5175,368 +5176,369 @@ msgstr ""
 "Uvidíme se zajtra!\n"
 
 # client.cpp:328
-#: plugins/_core/core.cpp:378
+#: plugins/_core/core.cpp:393
 msgid "Please do not disturb me now. Disturb me later.\n"
 msgstr "Teraz ma, prosím, nevyrušujte. Skúste neskôr.\n"
 
 # client.cpp:335
-#: plugins/_core/core.cpp:381
+#: plugins/_core/core.cpp:396
 msgid "We'd love to hear what you have to say. Join our chat.\n"
 msgstr "Skús náš chat.\n"
 
 # control.cpp:241
-#: plugins/_core/core.cpp:452
+#: plugins/_core/core.cpp:468
 msgid "Unread messages"
 msgstr "Neprečítane správy"
 
 # mainwin.cpp:2752
 # mainwin.cpp:2759
-#: plugins/_core/core.cpp:460
+#: plugins/_core/core.cpp:476
 msgid "Quit"
 msgstr "Ukončit"
 
 # mainwin.cpp:625
-#: plugins/_core/core.cpp:469
+#: plugins/_core/core.cpp:485
 msgid "&Menu"
 msgstr "&Menu"
 
-#: plugins/_core/core.cpp:479 plugins/_core/searchbase.cpp:73
+#: plugins/_core/core.cpp:495 plugins/_core/searchbase.cpp:73
 msgid "Search / Add contact"
 msgstr "Hľadať/Pridať kontakt"
 
 # mainwin.cpp:629
 # mainwin.cpp:2728
-#: plugins/_core/core.cpp:490
+#: plugins/_core/core.cpp:506
 msgid "&Send SMS"
 msgstr "Odo&slať SMS"
 
 # libicq/country.cpp:431
-#: plugins/_core/core.cpp:497
+#: plugins/_core/core.cpp:513
 msgid "&Phone service"
 msgstr "Telefónne služby"
 
 # userbox.cpp:105
-#: plugins/_core/core.cpp:507
+#: plugins/_core/core.cpp:523
 msgid "Message"
 msgstr "Správa"
 
 # msgview.cpp:231
 # msgview.cpp:1273
-#: plugins/_core/core.cpp:518 plugins/filter/ignorelist.cpp:26
+#: plugins/_core/core.cpp:534 plugins/filter/ignorelist.cpp:26
 msgid "Contact"
 msgstr "Kontakt"
 
 # ui/randomchatbase.cpp:289
 # ui/randomchatbase.cpp:295
-#: plugins/_core/core.cpp:525 plugins/_core/core.cpp:1039
+#: plugins/_core/core.cpp:541 plugins/_core/core.cpp:1063
 msgid "Group"
 msgstr "Skupina"
 
 # mainwin.cpp:2067
-#: plugins/_core/core.cpp:540 plugins/_core/core.cpp:1080
+#: plugins/_core/core.cpp:556 plugins/_core/core.cpp:936
+#: plugins/_core/core.cpp:1104
 msgid "&History"
 msgstr "&Historie"
 
 # msgedit.cpp:132
 # msgedit.cpp:358
-#: plugins/_core/core.cpp:581 plugins/_core/msgedit.cpp:979
+#: plugins/_core/core.cpp:597 plugins/_core/msgedit.cpp:979
 msgid "&Send"
 msgstr "Odo&slať"
 
 # msgedit.cpp:119
-#: plugins/_core/core.cpp:591
+#: plugins/_core/core.cpp:607
 msgid "&Insert smile"
 msgstr "Vložiť emo&tikon"
 
-#: plugins/_core/core.cpp:598 plugins/forward/forwardcfgbase.cpp:106
+#: plugins/_core/core.cpp:614 plugins/forward/forwardcfgbase.cpp:106
 msgid "Send in &translit"
 msgstr "Odoslať preložené"
 
 # msgedit.cpp:130
-#: plugins/_core/core.cpp:606 plugins/_core/msgedit.cpp:240
+#: plugins/_core/core.cpp:622 plugins/_core/msgedit.cpp:240
 msgid "C&lose after send"
 msgstr "Po odoslaní &zavrieť"
 
 # msgedit.cpp:135
-#: plugins/_core/core.cpp:614 plugins/_core/msgedit.cpp:968
+#: plugins/_core/core.cpp:630 plugins/_core/msgedit.cpp:968
 msgid "&Multiply send"
 msgstr "Poslať viacerí&m"
 
 # msgedit.cpp:113
-#: plugins/_core/core.cpp:622 plugins/_core/core.cpp:718
+#: plugins/_core/core.cpp:638 plugins/_core/core.cpp:734
 msgid "Back&ground color"
 msgstr "Farba &pozadia"
 
 # msgedit.cpp:113
-#: plugins/_core/core.cpp:630 plugins/_core/core.cpp:727
+#: plugins/_core/core.cpp:646 plugins/_core/core.cpp:743
 msgid "&Foreground color"
 msgstr "Farba p&opredia"
 
 # chatwnd.cpp:58
 # msgedit.cpp:115
-#: plugins/_core/core.cpp:636 plugins/_core/core.cpp:733
+#: plugins/_core/core.cpp:652 plugins/_core/core.cpp:749
 msgid "&Bold"
 msgstr "&Tučné"
 
 # chatwnd.cpp:59
 # msgedit.cpp:116
-#: plugins/_core/core.cpp:643 plugins/_core/core.cpp:740
+#: plugins/_core/core.cpp:659 plugins/_core/core.cpp:756
 msgid "&Italic"
 msgstr "&Kurzíva"
 
 # qt3/i18n.cpp:172
-#: plugins/_core/core.cpp:657 plugins/_core/core.cpp:754
+#: plugins/_core/core.cpp:673 plugins/_core/core.cpp:770
 msgid "Select &font"
 msgstr "Výber &písma"
 
 # qt3/i18n.cpp:257
-#: plugins/_core/core.cpp:664
+#: plugins/_core/core.cpp:680
 msgid "Select &file"
 msgstr "Výber &súboru"
 
 # ui/addphonebase.cpp:135
-#: plugins/_core/core.cpp:672
+#: plugins/_core/core.cpp:688
 msgid "&Phone number"
 msgstr " &Telefónne číslo"
 
 # msgedit.cpp:133
-#: plugins/_core/core.cpp:680 plugins/_core/msgedit.cpp:1411
+#: plugins/_core/core.cpp:696 plugins/_core/msgedit.cpp:1411
 msgid "&Next"
 msgstr "&Ďalší"
 
 # qt3/i18n.cpp:137
-#: plugins/_core/core.cpp:687
+#: plugins/_core/core.cpp:703
 msgid "&Direction"
 msgstr "Smer"
 
 # msgview.cpp:855
-#: plugins/_core/core.cpp:696 plugins/filter/filter.cpp:110
+#: plugins/_core/core.cpp:712 plugins/filter/filter.cpp:110
 msgid "&Filter"
 msgstr "&Filter"
 
 # msgview.cpp:857
-#: plugins/_core/core.cpp:704
+#: plugins/_core/core.cpp:720
 msgid "&Previous page"
 msgstr "&Predošlá stránka"
 
 # msgview.cpp:858
-#: plugins/_core/core.cpp:712
+#: plugins/_core/core.cpp:728
 msgid "&Next page"
 msgstr "Ďalšia strá&nka"
 
 # control.cpp:234
-#: plugins/_core/core.cpp:776
+#: plugins/_core/core.cpp:792
 msgid "&Open message"
 msgstr "&Otvoriť správu"
 
 # msgedit.cpp:125
-#: plugins/_core/core.cpp:798
+#: plugins/_core/core.cpp:814
 msgid "&Quote"
 msgstr "&Citácia"
 
 # msgedit.cpp:126
 # ui/smssetupbase.cpp:134
-#: plugins/_core/core.cpp:815 plugins/forward/forward.cpp:65
+#: plugins/_core/core.cpp:831 plugins/forward/forward.cpp:65
 msgid "&Forward"
 msgstr "Prepos&lať"
 
 # ui/filetransferbase.cpp:128
-#: plugins/_core/core.cpp:830
+#: plugins/_core/core.cpp:846
 msgid "&Answer"
 msgstr "Odpoved&ať"
 
 # ui/acceptbase.cpp:176
-#: plugins/_core/core.cpp:903
+#: plugins/_core/core.cpp:919
 msgid "&Messages"
 msgstr "&Správy"
 
 # ui/setupdlg.cpp:134
-#: plugins/_core/core.cpp:912 plugins/_core/msgedit.cpp:1562
+#: plugins/_core/core.cpp:928 plugins/_core/msgedit.cpp:1562
 msgid "&SMS"
 msgstr "SMS"
 
 # mainwin.cpp:621
-#: plugins/_core/core.cpp:920 plugins/_core/core.cpp:951
+#: plugins/_core/core.cpp:944 plugins/_core/core.cpp:975
 msgid "Show &offline"
 msgstr "Ukázať neprip&ojených"
 
 # userview.cpp:889
 # userview.cpp:905
-#: plugins/_core/core.cpp:932
+#: plugins/_core/core.cpp:956
 msgid "&No show groups"
 msgstr "Žiad&ne zobrazené skupiny"
 
 # mainwin.cpp:622
-#: plugins/_core/core.cpp:942
+#: plugins/_core/core.cpp:966
 msgid "Group mode 1"
 msgstr "Mód skupiny 1"
 
 # mainwin.cpp:622
-#: plugins/_core/core.cpp:947
+#: plugins/_core/core.cpp:971
 msgid "Group mode 2"
 msgstr "Mód skupiny 2"
 
 # mainwin.cpp:2716
 # userview.cpp:1831
-#: plugins/_core/core.cpp:958
+#: plugins/_core/core.cpp:982
 msgid "&Create group"
 msgstr "Vytvoriť skupinu"
 
 # mainwin.cpp:2716
 # userview.cpp:1831
-#: plugins/_core/core.cpp:969
+#: plugins/_core/core.cpp:993
 msgid "&Rename group"
 msgstr "Premenovať skupinu"
 
 # mainwin.cpp:2716
 # userview.cpp:1831
-#: plugins/_core/core.cpp:976
+#: plugins/_core/core.cpp:1000
 msgid "&Delete group"
 msgstr "Zmazať skupinu"
 
 # userview.cpp:1835
-#: plugins/_core/core.cpp:983
+#: plugins/_core/core.cpp:1007
 msgid "Up"
 msgstr "Hore"
 
 # userview.cpp:1837
-#: plugins/_core/core.cpp:990
+#: plugins/_core/core.cpp:1014
 msgid "Down"
 msgstr "Dole"
 
-#: plugins/_core/core.cpp:1064
+#: plugins/_core/core.cpp:1088
 msgid "Show &always"
 msgstr "Ukáz&ať vždy"
 
 # mainwin.cpp:2464
-#: plugins/_core/core.cpp:1094
+#: plugins/_core/core.cpp:1118
 msgid "To container"
 msgstr "Do kontajneru"
 
 # ui/workinfobase.cpp:220
-#: plugins/_core/core.cpp:1119
+#: plugins/_core/core.cpp:1143
 msgid "&Location"
 msgstr "Umiestnenie"
 
 # ui/setupdlg.cpp:121
 # ui/userinfo.cpp:99
-#: plugins/_core/core.cpp:1134
+#: plugins/_core/core.cpp:1158
 msgid "&Phone book"
 msgstr "Telefónny zoznam"
 
 # userview.cpp:889
 # userview.cpp:905
-#: plugins/_core/core.cpp:1141
+#: plugins/_core/core.cpp:1165
 msgid "&No show"
 msgstr "Nezobrazovať"
 
 # mainwin.cpp:2712
-#: plugins/_core/core.cpp:1148
+#: plugins/_core/core.cpp:1172
 msgid "&Available"
 msgstr "Dostupný"
 
 # mainwin.cpp:2713
-#: plugins/_core/core.cpp:1156
+#: plugins/_core/core.cpp:1180
 msgid "&Busy"
 msgstr "Obsadený"
 
-#: plugins/_core/core.cpp:1172
+#: plugins/_core/core.cpp:1196
 msgid "Decline file without reason"
 msgstr "Odmietnuť súbor bez príčiny"
 
-#: plugins/_core/core.cpp:1180 plugins/_core/core.cpp:2600
+#: plugins/_core/core.cpp:1204 plugins/_core/core.cpp:2625
 msgid "Sorry, I'm busy right now, and can not respond to your request"
 msgstr ""
 "Prepáčte, ale momentálne som zaneprázdnený a nemôžem odpovedať na "
 "požiadavku"
 
-#: plugins/_core/core.cpp:1185 plugins/_core/core.cpp:2609
+#: plugins/_core/core.cpp:1209 plugins/_core/core.cpp:2634
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
 msgstr ""
 "Prepáčte, momentálne som zaneprázdnený ale môžem odpovedať neskôr"
 
-#: plugins/_core/core.cpp:1190
+#: plugins/_core/core.cpp:1214
 msgid "Enter a decline reason"
 msgstr "Vložiť dôvod odmietnutia"
 
 # ui/toolsetup.cpp:76
 # ui/toolsetup.cpp:172
 # ui/toolsetup.cpp:209
-#: plugins/_core/core.cpp:1886
+#: plugins/_core/core.cpp:1911
 msgid "&Separate"
 msgstr "Oddeliť"
 
 # control.cpp:577
 # dock.cpp:944
 # mainwin.cpp:911
-#: plugins/_core/core.cpp:1924 plugins/_core/userwnd.cpp:124
+#: plugins/_core/core.cpp:1949 plugins/_core/userwnd.cpp:124
 #, c-format
 msgid "from %1"
 msgstr "od užívateľa %1"
 
 # mainwin.cpp:2461
-#: plugins/_core/core.cpp:2006
+#: plugins/_core/core.cpp:2031
 msgid "&New"
 msgstr "&Nový"
 
 # mainwin.cpp:2712
-#: plugins/_core/core.cpp:2070
+#: plugins/_core/core.cpp:2095
 msgid "Not available"
 msgstr "Nedostupný"
 
 # control.cpp:577
 # dock.cpp:944
 # mainwin.cpp:911
-#: plugins/_core/core.cpp:2163 plugins/dock/dockwnd.cpp:1168
+#: plugins/_core/core.cpp:2188 plugins/dock/dockwnd.cpp:1168
 #: plugins/osd/osd.cpp:323
 msgid "%1 from %2"
 msgstr "%1 od užívateľa %2"
 
-#: plugins/_core/core.cpp:2298
+#: plugins/_core/core.cpp:2323
 msgid "%1 wrote:"
 msgstr "%1 napísal:"
 
 # mainwin.cpp:629
 # mainwin.cpp:2728
-#: plugins/_core/core.cpp:2386
+#: plugins/_core/core.cpp:2411
 msgid "Send SMS"
 msgstr "Poslať SMS"
 
 # client.cpp:1250
 # dock.cpp:957
-#: plugins/_core/core.cpp:3313 plugins/_core/core.cpp:3335
+#: plugins/_core/core.cpp:3338 plugins/_core/core.cpp:3360
 #: plugins/_core/managerbase.cpp:103
 msgid "Connection manager"
 msgstr "Správca pripojenia"
 
 # mainwin.cpp:718
-#: plugins/_core/core.cpp:3321
+#: plugins/_core/core.cpp:3346
 msgid "Show status panel"
 msgstr "Zobraziť status panel"
 
 # ui/setupdlg.cpp:127
-#: plugins/_core/core.cpp:3328
+#: plugins/_core/core.cpp:3353
 msgid "Connections"
 msgstr "Pripojenia"
 
 # qt3/i18n.cpp:115
-#: plugins/_core/core.cpp:3343
+#: plugins/_core/core.cpp:3368
 msgid "Change profile"
 msgstr "Zmeniť profil"
 
 # control.cpp:232
-#: plugins/_core/core.cpp:3372
+#: plugins/_core/core.cpp:3397
 msgid "Common status"
 msgstr "Bežný stav"
 
 # sim.cpp:527
-#: plugins/_core/core.cpp:3378
+#: plugins/_core/core.cpp:3403
 msgid "Configure client"
 msgstr "Konfigurovať klienta"
 
 # client.cpp:1252
 # mainwin.cpp:2708
-#: plugins/_core/core.cpp:3402 plugins/_core/status.cpp:152
+#: plugins/_core/core.cpp:3427 plugins/_core/status.cpp:152
 #: plugins/_core/status.cpp:220
 msgid "&Invisible"
 msgstr "Neviditeľný"
@@ -5648,23 +5650,23 @@ msgstr "kb/s"
 msgid "b/s"
 msgstr "b/s"
 
-#: plugins/_core/historycfg.cpp:188
+#: plugins/_core/historycfg.cpp:189
 msgid "Show %1 messages per page"
 msgstr "Ukázať  %1 správ na stranu"
 
-#: plugins/_core/historycfg.cpp:387
+#: plugins/_core/historycfg.cpp:402
 msgid "Remove style '%1'?"
 msgstr "Odstrániť štýl '%1'?"
 
-#: plugins/_core/historycfg.cpp:559
+#: plugins/_core/historycfg.cpp:574
 msgid "Hi! ;)"
 msgstr "Ahoj! ;]"
 
-#: plugins/_core/historycfg.cpp:565
+#: plugins/_core/historycfg.cpp:580
 msgid "Hi!"
 msgstr "Ahoj!"
 
-#: plugins/_core/historycfg.cpp:571
+#: plugins/_core/historycfg.cpp:586
 msgid ""
 "<b><font color=\"#FF0000\">C</font><font color=\"#FFFF00\">olored</font></b> "
 "message"
@@ -5673,7 +5675,7 @@ msgstr ""
 "</font></b> správa"
 
 # ui/randomchatbase.cpp:287
-#: plugins/_core/historycfg.cpp:580
+#: plugins/_core/historycfg.cpp:595
 msgid "New message"
 msgstr "Nová správa"
 
@@ -6134,6 +6136,27 @@ msgstr "Email brána:"
 msgid "Number:"
 msgstr "Číslo:"
 
+#: plugins/_core/historycfgbase.cpp:229
+#: plugins/_core/userhistorycfgbase.cpp:123
+#, fuzzy
+msgid "Mb"
+msgstr "Mb/s"
+
+#: plugins/_core/historycfgbase.cpp:227
+#: plugins/_core/userhistorycfgbase.cpp:125
+msgid "Max history file size"
+msgstr ""
+
+#: plugins/_core/historycfgbase.cpp:232
+#: plugins/_core/userhistorycfgbase.cpp:126
+msgid "days"
+msgstr ""
+
+#: plugins/_core/historycfgbase.cpp:231
+#: plugins/_core/userhistorycfgbase.cpp:127
+msgid "Keep history "
+msgstr ""
+
 # ui/setupdlg.cpp:127
 #: plugins/_core/managerbase.cpp:46 plugins/_core/managerbase.cpp:106
 msgid "Connection"
@@ -6414,22 +6437,22 @@ msgid "Groups"
 msgstr "Skupiny"
 
 # ui/fontsetupbase.cpp:236
-#: plugins/_core/historycfgbase.cpp:168
+#: plugins/_core/historycfgbase.cpp:225
 msgid "Use &own colors and fonts settings"
 msgstr "P&oužiť vlastné farby"
 
 # ui/themesetupbase.cpp:316
-#: plugins/_core/historycfgbase.cpp:169
+#: plugins/_core/historycfgbase.cpp:226
 msgid "Use emotional &icons"
 msgstr "Použiť emot&ikony"
 
 # msgview.cpp:857
-#: plugins/_core/historycfgbase.cpp:175
+#: plugins/_core/historycfgbase.cpp:238
 msgid "&Preview"
 msgstr "&Náhľad"
 
 # qt3/i18n.cpp:267
-#: plugins/_core/historycfgbase.cpp:176
+#: plugins/_core/historycfgbase.cpp:239
 msgid "&Source"
 msgstr "&Zdroj"
 

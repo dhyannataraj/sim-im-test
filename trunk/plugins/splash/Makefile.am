@@ -16,5 +16,5 @@ install-data-local:
 	$(INSTALL_DATA) $(EXTRA_DIST) $(kde_datadir)/sim/pict/
 
 install-data-hook:
-	rm -rf $(sim_plugindir)/splash.la
+	rm -rf $(DESTDIR)$(sim_plugindir)/splash.la
 

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
-"POT-Creation-Date: 2003-11-26 10:03+0300\n"
+"POT-Creation-Date: 2003-11-27 09:56+0300\n"
 "PO-Revision-Date: 2003-11-07 14:23-0000\n"
 "Last-Translator: K�roly Barcza (VectoR) <vector@vstart.hu>\n"
 "Language-Team: hungarian <translator@vgroup.hu>\n"
@@ -1065,7 +1065,7 @@ msgstr "Regiszter"
 msgid "&Cancel"
 msgstr "&Mégsem"
 
-#: plugins/_core/core.cpp:547 plugins/_core/filetransfer.cpp:310
+#: plugins/_core/core.cpp:563 plugins/_core/filetransfer.cpp:310
 #: plugins/_core/managerbase.cpp:110 plugins/_core/toolsetupbase.cpp:136
 #: plugins/about/aboutdlgbase.cpp:156 plugins/icq/securedlg.cpp:92
 #: sim/api/simapi.cpp:427 sim/ui/qt3/i18n.cpp:287
@@ -1387,12 +1387,12 @@ msgstr "&Megnyitás"
 msgid "&Save"
 msgstr "M&entés"
 
-#: plugins/_core/core.cpp:1047 plugins/_core/historycfgbase.cpp:173
+#: plugins/_core/core.cpp:1071 plugins/_core/historycfgbase.cpp:234
 #: sim/ui/qt3/i18n.cpp:97
 msgid "&Rename"
 msgstr "Átnevez&és"
 
-#: plugins/_core/core.cpp:1056 plugins/_core/historycfgbase.cpp:174
+#: plugins/_core/core.cpp:1080 plugins/_core/historycfgbase.cpp:235
 #: plugins/_core/logindlgbase.cpp:129 plugins/_core/maininfobase.cpp:237
 #: plugins/_core/maininfobase.cpp:247 sim/ui/listview.cpp:37
 #: sim/ui/qt3/i18n.cpp:99
@@ -1513,7 +1513,7 @@ msgstr "Effektek"
 msgid "Stri&keout"
 msgstr "á&thúzás"
 
-#: plugins/_core/core.cpp:650 plugins/_core/core.cpp:747
+#: plugins/_core/core.cpp:666 plugins/_core/core.cpp:763
 #: sim/ui/qt3/i18n.cpp:160
 msgid "&Underline"
 msgstr "Alá&húzott"
@@ -1694,12 +1694,12 @@ msgstr "Másol"
 msgid "Paste"
 msgstr "Beillesztés"
 
-#: plugins/_core/core.cpp:888 sim/ui/qt3/i18n.cpp:255
+#: plugins/_core/core.cpp:904 sim/ui/qt3/i18n.cpp:255
 #: sim/ui/qt3/qtextedit.cpp:4023
 msgid "Clear"
 msgstr "Törlés"
 
-#: plugins/_core/core.cpp:896 sim/ui/qt3/i18n.cpp:257
+#: plugins/_core/core.cpp:912 sim/ui/qt3/i18n.cpp:257
 #: sim/ui/qt3/qtextedit.cpp:4027 sim/ui/qt3/qtextedit.cpp:4029
 msgid "Select All"
 msgstr "Mindent kijelöl"
@@ -1788,25 +1788,25 @@ msgstr "Mozgatás felfelé"
 msgid "Roll down"
 msgstr "Mozgatás le"
 
-#: plugins/_core/core.cpp:845 sim/ui/qt3/qtextedit.cpp:4011
+#: plugins/_core/core.cpp:861 sim/ui/qt3/qtextedit.cpp:4011
 msgid "&Undo"
 msgstr "&Visszavonás"
 
-#: plugins/_core/core.cpp:856 sim/ui/qt3/qtextedit.cpp:4012
+#: plugins/_core/core.cpp:872 sim/ui/qt3/qtextedit.cpp:4012
 msgid "&Redo"
 msgstr "Újra vé&grehajtás"
 
-#: plugins/_core/core.cpp:864 sim/ui/qt3/qtextedit.cpp:4017
+#: plugins/_core/core.cpp:880 sim/ui/qt3/qtextedit.cpp:4017
 msgid "Cu&t"
 msgstr "Ki&vágás"
 
-#: plugins/_core/core.cpp:792 plugins/_core/core.cpp:872
-#: plugins/_core/historycfgbase.cpp:172 plugins/netmonitor/monitor.cpp:67
+#: plugins/_core/core.cpp:808 plugins/_core/core.cpp:888
+#: plugins/_core/historycfgbase.cpp:233 plugins/netmonitor/monitor.cpp:67
 #: sim/ui/qt3/qtextedit.cpp:4018
 msgid "&Copy"
 msgstr "&Másolás"
 
-#: plugins/_core/core.cpp:880 sim/ui/qt3/qtextedit.cpp:4020
+#: plugins/_core/core.cpp:896 sim/ui/qt3/qtextedit.cpp:4020
 msgid "&Paste"
 msgstr "&Beillesztés"
 
@@ -1963,7 +1963,7 @@ msgstr "A kó&dolás beállítása"
 msgid "&Message"
 msgstr "Ü&zenet"
 
-#: plugins/_core/core.cpp:533 plugins/_core/core.cpp:1072
+#: plugins/_core/core.cpp:549 plugins/_core/core.cpp:1096
 #: plugins/icq/icq.cpp:562 plugins/jabber/jabber.cpp:355
 msgid "User &info"
 msgstr "Felhasználói információ"
@@ -3337,10 +3337,11 @@ msgid "Web building"
 msgstr "Webszerkesztő"
 
 #: plugins/_core/arcfgbase.cpp:99 plugins/_core/fontconfigbase.cpp:128
-#: plugins/_core/historycfgbase.cpp:167 plugins/_core/interfacecfgbase.cpp:146
+#: plugins/_core/historycfgbase.cpp:224 plugins/_core/interfacecfgbase.cpp:146
 #: plugins/_core/maininfobase.cpp:229 plugins/_core/msgcfgbase.cpp:163
 #: plugins/_core/phonebase.cpp:144 plugins/_core/plugincfgbase.cpp:101
 #: plugins/_core/prefcfgbase.cpp:96 plugins/_core/smscfgbase.cpp:95
+#: plugins/_core/userhistorycfgbase.cpp:122
 #: plugins/autoaway/autoawaycfgbase.cpp:120
 #: plugins/background/bkgndcfgbase.cpp:156 plugins/dock/dockcfgbase.cpp:108
 #: plugins/filter/filtercfgbase.cpp:96 plugins/forward/forwardcfgbase.cpp:101
@@ -3504,7 +3505,7 @@ msgstr "Belső IP-cím"
 msgid "Client:"
 msgstr "Kliens:"
 
-#: plugins/_core/core.cpp:1127 plugins/icq/aiminfobase.cc:305
+#: plugins/_core/core.cpp:1151 plugins/icq/aiminfobase.cc:305
 #: plugins/icq/icqinfobase.cc:319 plugins/jabber/jabberinfobase.cpp:219
 #: plugins/msn/msninfobase.cpp:167
 msgid "&Status"
@@ -4032,8 +4033,8 @@ msgid "Plugins"
 msgstr "Bővítmények"
 
 #: plugins/_core/cfgdlg.cpp:489 plugins/_core/cfgdlgbase.cpp:122
-#: plugins/_core/core.cpp:442 plugins/_core/core.cpp:1005
-#: plugins/_core/core.cpp:1087
+#: plugins/_core/core.cpp:458 plugins/_core/core.cpp:1029
+#: plugins/_core/core.cpp:1111
 msgid "Setup"
 msgstr "Beállítások"
 
@@ -4061,15 +4062,15 @@ msgstr "Tároló"
 msgid "Contact typed message"
 msgstr "Contact typed message"
 
-#: plugins/_core/core.cpp:74
+#: plugins/_core/core.cpp:75
 msgid "Interface"
 msgstr "Felület"
 
-#: plugins/_core/core.cpp:75
+#: plugins/_core/core.cpp:76
 msgid "System interface"
 msgstr "Rendszerinterfész"
 
-#: plugins/_core/core.cpp:370
+#: plugins/_core/core.cpp:385
 msgid ""
 "I am currently away from ICQ.\n"
 "Please leave your message and I will get back to you as soon as I return!\n"
@@ -4077,7 +4078,7 @@ msgstr ""
 "Jelenleg nem vagyok az ICQ. elött\n"
 "Please leave your message and I will get back to you as soon as I return!\n"
 
-#: plugins/_core/core.cpp:374
+#: plugins/_core/core.cpp:389
 msgid ""
 "I am out'a here.\n"
 "See you tomorrow!\n"
@@ -4085,282 +4086,283 @@ msgstr ""
 "I am out'a here.\n"
 "See you tomorrow!\n"
 
-#: plugins/_core/core.cpp:378
+#: plugins/_core/core.cpp:393
 msgid "Please do not disturb me now. Disturb me later.\n"
 msgstr "Kérlek most nem zavarjatok.\n"
 
-#: plugins/_core/core.cpp:381
+#: plugins/_core/core.cpp:396
 msgid "We'd love to hear what you have to say. Join our chat.\n"
 msgstr "Nagyon szeretnék veled beszélni. Lépj be a csevegőbe.\n"
 
-#: plugins/_core/core.cpp:452
+#: plugins/_core/core.cpp:468
 msgid "Unread messages"
 msgstr "Olvasatlan üzenetek"
 
-#: plugins/_core/core.cpp:460
+#: plugins/_core/core.cpp:476
 msgid "Quit"
 msgstr "Kilépés"
 
-#: plugins/_core/core.cpp:469
+#: plugins/_core/core.cpp:485
 msgid "&Menu"
 msgstr "&Menü"
 
-#: plugins/_core/core.cpp:479 plugins/_core/searchbase.cpp:73
+#: plugins/_core/core.cpp:495 plugins/_core/searchbase.cpp:73
 msgid "Search / Add contact"
 msgstr "Keres / Hozzáad"
 
-#: plugins/_core/core.cpp:490
+#: plugins/_core/core.cpp:506
 msgid "&Send SMS"
 msgstr "SMS &Küldése"
 
-#: plugins/_core/core.cpp:497
+#: plugins/_core/core.cpp:513
 msgid "&Phone service"
 msgstr "&Telefon funkc."
 
-#: plugins/_core/core.cpp:507
+#: plugins/_core/core.cpp:523
 msgid "Message"
 msgstr "Üzenet"
 
-#: plugins/_core/core.cpp:518 plugins/filter/ignorelist.cpp:26
+#: plugins/_core/core.cpp:534 plugins/filter/ignorelist.cpp:26
 msgid "Contact"
 msgstr "Kapcsolat"
 
-#: plugins/_core/core.cpp:525 plugins/_core/core.cpp:1039
+#: plugins/_core/core.cpp:541 plugins/_core/core.cpp:1063
 msgid "Group"
 msgstr "Csoport"
 
-#: plugins/_core/core.cpp:540 plugins/_core/core.cpp:1080
+#: plugins/_core/core.cpp:556 plugins/_core/core.cpp:936
+#: plugins/_core/core.cpp:1104
 msgid "&History"
 msgstr "&Napló"
 
-#: plugins/_core/core.cpp:581 plugins/_core/msgedit.cpp:979
+#: plugins/_core/core.cpp:597 plugins/_core/msgedit.cpp:979
 msgid "&Send"
 msgstr "&Küldés"
 
-#: plugins/_core/core.cpp:591
+#: plugins/_core/core.cpp:607
 msgid "&Insert smile"
 msgstr "Elem beszúrása"
 
-#: plugins/_core/core.cpp:598 plugins/forward/forwardcfgbase.cpp:106
+#: plugins/_core/core.cpp:614 plugins/forward/forwardcfgbase.cpp:106
 msgid "Send in &translit"
 msgstr "Send in &translit"
 
-#: plugins/_core/core.cpp:606 plugins/_core/msgedit.cpp:240
+#: plugins/_core/core.cpp:622 plugins/_core/msgedit.cpp:240
 msgid "C&lose after send"
 msgstr "&Küldés után bezárja"
 
-#: plugins/_core/core.cpp:614 plugins/_core/msgedit.cpp:968
+#: plugins/_core/core.cpp:630 plugins/_core/msgedit.cpp:968
 msgid "&Multiply send"
 msgstr "Másolat kül&dése"
 
-#: plugins/_core/core.cpp:622 plugins/_core/core.cpp:718
+#: plugins/_core/core.cpp:638 plugins/_core/core.cpp:734
 msgid "Back&ground color"
 msgstr "Háttérszín-jellemző"
 
-#: plugins/_core/core.cpp:630 plugins/_core/core.cpp:727
+#: plugins/_core/core.cpp:646 plugins/_core/core.cpp:743
 msgid "&Foreground color"
 msgstr "Az előtér színe"
 
-#: plugins/_core/core.cpp:636 plugins/_core/core.cpp:733
+#: plugins/_core/core.cpp:652 plugins/_core/core.cpp:749
 msgid "&Bold"
 msgstr "&Félkövér"
 
-#: plugins/_core/core.cpp:643 plugins/_core/core.cpp:740
+#: plugins/_core/core.cpp:659 plugins/_core/core.cpp:756
 msgid "&Italic"
 msgstr "&Dőlt"
 
-#: plugins/_core/core.cpp:657 plugins/_core/core.cpp:754
+#: plugins/_core/core.cpp:673 plugins/_core/core.cpp:770
 msgid "Select &font"
 msgstr "Betűtípus-választás"
 
-#: plugins/_core/core.cpp:664
+#: plugins/_core/core.cpp:680
 msgid "Select &file"
 msgstr "Fájl kiválasztása"
 
-#: plugins/_core/core.cpp:672
+#: plugins/_core/core.cpp:688
 msgid "&Phone number"
 msgstr "Telefonszám"
 
-#: plugins/_core/core.cpp:680 plugins/_core/msgedit.cpp:1411
+#: plugins/_core/core.cpp:696 plugins/_core/msgedit.cpp:1411
 msgid "&Next"
 msgstr "&Következő "
 
-#: plugins/_core/core.cpp:687
+#: plugins/_core/core.cpp:703
 msgid "&Direction"
 msgstr "Irány"
 
-#: plugins/_core/core.cpp:696 plugins/filter/filter.cpp:110
+#: plugins/_core/core.cpp:712 plugins/filter/filter.cpp:110
 msgid "&Filter"
 msgstr "&Szűrő"
 
-#: plugins/_core/core.cpp:704
+#: plugins/_core/core.cpp:720
 msgid "&Previous page"
 msgstr "E&lőző oldal"
 
-#: plugins/_core/core.cpp:712
+#: plugins/_core/core.cpp:728
 msgid "&Next page"
 msgstr "&Következő oldal"
 
-#: plugins/_core/core.cpp:776
+#: plugins/_core/core.cpp:792
 msgid "&Open message"
 msgstr "Üzenet megnyitása"
 
-#: plugins/_core/core.cpp:798
+#: plugins/_core/core.cpp:814
 msgid "&Quote"
 msgstr "&Idézés"
 
-#: plugins/_core/core.cpp:815 plugins/forward/forward.cpp:65
+#: plugins/_core/core.cpp:831 plugins/forward/forward.cpp:65
 msgid "&Forward"
 msgstr "&Tovább"
 
-#: plugins/_core/core.cpp:830
+#: plugins/_core/core.cpp:846
 msgid "&Answer"
 msgstr "Válasz"
 
-#: plugins/_core/core.cpp:903
+#: plugins/_core/core.cpp:919
 msgid "&Messages"
 msgstr "Ü&zenetek"
 
-#: plugins/_core/core.cpp:912 plugins/_core/msgedit.cpp:1562
+#: plugins/_core/core.cpp:928 plugins/_core/msgedit.cpp:1562
 msgid "&SMS"
 msgstr "&SMS"
 
-#: plugins/_core/core.cpp:920 plugins/_core/core.cpp:951
+#: plugins/_core/core.cpp:944 plugins/_core/core.cpp:975
 msgid "Show &offline"
 msgstr "&Offline is látszik"
 
-#: plugins/_core/core.cpp:932
+#: plugins/_core/core.cpp:956
 msgid "&No show groups"
 msgstr "&Nem látszanak a csoportok"
 
-#: plugins/_core/core.cpp:942
+#: plugins/_core/core.cpp:966
 msgid "Group mode 1"
 msgstr "Csoport mód 1"
 
-#: plugins/_core/core.cpp:947
+#: plugins/_core/core.cpp:971
 msgid "Group mode 2"
 msgstr "Csoport mód 2"
 
-#: plugins/_core/core.cpp:958
+#: plugins/_core/core.cpp:982
 msgid "&Create group"
 msgstr "Új csoport létrehozása"
 
-#: plugins/_core/core.cpp:969
+#: plugins/_core/core.cpp:993
 msgid "&Rename group"
 msgstr "A csoport átneve&zése"
 
-#: plugins/_core/core.cpp:976
+#: plugins/_core/core.cpp:1000
 msgid "&Delete group"
 msgstr "&Csoport törlése"
 
-#: plugins/_core/core.cpp:983
+#: plugins/_core/core.cpp:1007
 msgid "Up"
 msgstr "Fel"
 
-#: plugins/_core/core.cpp:990
+#: plugins/_core/core.cpp:1014
 msgid "Down"
 msgstr "Le"
 
-#: plugins/_core/core.cpp:1064
+#: plugins/_core/core.cpp:1088
 msgid "Show &always"
 msgstr "A mindig látható"
 
-#: plugins/_core/core.cpp:1094
+#: plugins/_core/core.cpp:1118
 msgid "To container"
 msgstr "Tárolóba"
 
-#: plugins/_core/core.cpp:1119
+#: plugins/_core/core.cpp:1143
 msgid "&Location"
 msgstr "Hel&y"
 
-#: plugins/_core/core.cpp:1134
+#: plugins/_core/core.cpp:1158
 msgid "&Phone book"
 msgstr "A telefonkönyv"
 
-#: plugins/_core/core.cpp:1141
+#: plugins/_core/core.cpp:1165
 msgid "&No show"
 msgstr "&Nem látszik"
 
-#: plugins/_core/core.cpp:1148
+#: plugins/_core/core.cpp:1172
 msgid "&Available"
 msgstr "Elérhető"
 
-#: plugins/_core/core.cpp:1156
+#: plugins/_core/core.cpp:1180
 msgid "&Busy"
 msgstr "Foglalt"
 
-#: plugins/_core/core.cpp:1172
+#: plugins/_core/core.cpp:1196
 msgid "Decline file without reason"
 msgstr "Decline file without reason"
 
-#: plugins/_core/core.cpp:1180 plugins/_core/core.cpp:2600
+#: plugins/_core/core.cpp:1204 plugins/_core/core.cpp:2625
 msgid "Sorry, I'm busy right now, and can not respond to your request"
 msgstr "Sorry, I'm busy right now, and can not respond to your request"
 
-#: plugins/_core/core.cpp:1185 plugins/_core/core.cpp:2609
+#: plugins/_core/core.cpp:1209 plugins/_core/core.cpp:2634
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
 msgstr "Sorry, I'm busy right now, but I'll be able to respond to you later"
 
-#: plugins/_core/core.cpp:1190
+#: plugins/_core/core.cpp:1214
 msgid "Enter a decline reason"
 msgstr "Enter a decline reason"
 
-#: plugins/_core/core.cpp:1886
+#: plugins/_core/core.cpp:1911
 msgid "&Separate"
 msgstr "&Elválaszt"
 
-#: plugins/_core/core.cpp:1924 plugins/_core/userwnd.cpp:124
+#: plugins/_core/core.cpp:1949 plugins/_core/userwnd.cpp:124
 #, c-format
 msgid "from %1"
 msgstr " %1 -től"
 
-#: plugins/_core/core.cpp:2006
+#: plugins/_core/core.cpp:2031
 msgid "&New"
 msgstr "Ú&j"
 
-#: plugins/_core/core.cpp:2070
+#: plugins/_core/core.cpp:2095
 msgid "Not available"
 msgstr "Nem érhető el"
 
-#: plugins/_core/core.cpp:2163 plugins/dock/dockwnd.cpp:1168
+#: plugins/_core/core.cpp:2188 plugins/dock/dockwnd.cpp:1168
 #: plugins/osd/osd.cpp:323
 msgid "%1 from %2"
 msgstr "%1 %2 től..."
 
-#: plugins/_core/core.cpp:2298
+#: plugins/_core/core.cpp:2323
 msgid "%1 wrote:"
 msgstr "%1 írta:"
 
-#: plugins/_core/core.cpp:2386
+#: plugins/_core/core.cpp:2411
 msgid "Send SMS"
 msgstr "SMS &Küldése"
 
-#: plugins/_core/core.cpp:3313 plugins/_core/core.cpp:3335
+#: plugins/_core/core.cpp:3338 plugins/_core/core.cpp:3360
 #: plugins/_core/managerbase.cpp:103
 msgid "Connection manager"
 msgstr "Kapcsolat kezelő"
 
-#: plugins/_core/core.cpp:3321
+#: plugins/_core/core.cpp:3346
 msgid "Show status panel"
 msgstr "Mini &státusz látható"
 
-#: plugins/_core/core.cpp:3328
+#: plugins/_core/core.cpp:3353
 msgid "Connections"
 msgstr "Kapcsolatok"
 
-#: plugins/_core/core.cpp:3343
+#: plugins/_core/core.cpp:3368
 msgid "Change profile"
 msgstr "Profilszerkesztő"
 
-#: plugins/_core/core.cpp:3372
+#: plugins/_core/core.cpp:3397
 msgid "Common status"
 msgstr "Jelenlegi állapot:"
 
-#: plugins/_core/core.cpp:3378
+#: plugins/_core/core.cpp:3403
 msgid "Configure client"
 msgstr "A kliensprogram beállításai..."
 
-#: plugins/_core/core.cpp:3402 plugins/_core/status.cpp:152
+#: plugins/_core/core.cpp:3427 plugins/_core/status.cpp:152
 #: plugins/_core/status.cpp:220
 msgid "&Invisible"
 msgstr "Láthatatlan"
@@ -4456,29 +4458,29 @@ msgstr "KB/s"
 msgid "b/s"
 msgstr "B/s"
 
-#: plugins/_core/historycfg.cpp:188
+#: plugins/_core/historycfg.cpp:189
 msgid "Show %1 messages per page"
 msgstr " %1 üzenet megjelenítése oldalanként"
 
-#: plugins/_core/historycfg.cpp:387
+#: plugins/_core/historycfg.cpp:402
 msgid "Remove style '%1'?"
 msgstr ""
 
-#: plugins/_core/historycfg.cpp:559
+#: plugins/_core/historycfg.cpp:574
 msgid "Hi! ;)"
 msgstr ""
 
-#: plugins/_core/historycfg.cpp:565
+#: plugins/_core/historycfg.cpp:580
 msgid "Hi!"
 msgstr ""
 
-#: plugins/_core/historycfg.cpp:571
+#: plugins/_core/historycfg.cpp:586
 msgid ""
 "<b><font color=\"#FF0000\">C</font><font color=\"#FFFF00\">olored</font></b> "
 "message"
 msgstr ""
 
-#: plugins/_core/historycfg.cpp:580
+#: plugins/_core/historycfg.cpp:595
 #, fuzzy
 msgid "New message"
 msgstr "Üzenet &küldése..."
@@ -4843,6 +4845,27 @@ msgstr "E-Mail átjáró:"
 msgid "Number:"
 msgstr "Szám:"
 
+#: plugins/_core/historycfgbase.cpp:229
+#: plugins/_core/userhistorycfgbase.cpp:123
+#, fuzzy
+msgid "Mb"
+msgstr "MB/s"
+
+#: plugins/_core/historycfgbase.cpp:227
+#: plugins/_core/userhistorycfgbase.cpp:125
+msgid "Max history file size"
+msgstr ""
+
+#: plugins/_core/historycfgbase.cpp:232
+#: plugins/_core/userhistorycfgbase.cpp:126
+msgid "days"
+msgstr ""
+
+#: plugins/_core/historycfgbase.cpp:231
+#: plugins/_core/userhistorycfgbase.cpp:127
+msgid "Keep history "
+msgstr ""
+
 #: plugins/_core/managerbase.cpp:46 plugins/_core/managerbase.cpp:106
 msgid "Connection"
 msgstr "Kapcsolat"
@@ -5068,20 +5091,20 @@ msgstr "Ne Zavarj"
 msgid "Groups"
 msgstr "Csoportok"
 
-#: plugins/_core/historycfgbase.cpp:168
+#: plugins/_core/historycfgbase.cpp:225
 msgid "Use &own colors and fonts settings"
 msgstr "Use &own colors and fonts settings"
 
-#: plugins/_core/historycfgbase.cpp:169
+#: plugins/_core/historycfgbase.cpp:226
 msgid "Use emotional &icons"
 msgstr "Egyéni ikonok &használata"
 
-#: plugins/_core/historycfgbase.cpp:175
+#: plugins/_core/historycfgbase.cpp:238
 #, fuzzy
 msgid "&Preview"
 msgstr "E&lőző oldal"
 
-#: plugins/_core/historycfgbase.cpp:176
+#: plugins/_core/historycfgbase.cpp:239
 #, fuzzy
 msgid "&Source"
 msgstr "Forrás:"

@@ -19,10 +19,18 @@
 #define _MSGVIEW_H
 
 #include "simapi.h"
+#include "stl.h"
 #include "textshow.h"
 
 class CorePlugin;
 class XSL;
+
+typedef struct CutHistory
+{
+    string		client;
+    unsigned	from;
+    unsigned	size;
+} CutHistory;
 
 class MsgViewBase : public TextShow, public EventReceiver
 {
@@ -48,6 +56,7 @@ protected:
     unsigned	m_id;
     unsigned	m_nSelection;
     XSL			*xsl;
+    vector<CutHistory>	m_cut;
 };
 
 class MsgView : public MsgViewBase

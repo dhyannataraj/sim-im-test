@@ -1,5 +1,5 @@
 /***************************************************************************
-                          historycfg.h  -  description
+                          userhistorycfg.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,54 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _HISTORYCFG_H
-#define _HISTORYCFG_H
+#ifndef _USERHISTORYCFG_H
+#define _USERHISTORYCFG_H
 
 #include "simapi.h"
-#include "stl.h"
 
-#include "qcolorbutton.h"
-#include "historycfgbase.h"
+#include "userhistorycfgbase.h"
 
-class CorePlugin;
-
-typedef struct StyleDef
-{
-    QString name;
-    QString text;
-    bool	bCustom;
-    bool	operator < (const StyleDef &s) const { return name < s.name; }
-} StyleDef;
-
-class HistoryConfig : public HistoryConfigBase
+class UserHistoryCfg : public UserHistoryCfgBase
 {
     Q_OBJECT
 public:
-    HistoryConfig(QWidget *parent);
-    ~HistoryConfig();
+    UserHistoryCfg(QWidget *parent, void *data);
+    ~UserHistoryCfg();
 public slots:
-    void apply();
-    void styleSelected(int);
-    void copy();
-    void rename();
-    void del();
-    void realDelete();
-    void realRename();
-    void cancelRename();
-    void viewChanged(QWidget*);
-    void textChanged();
-    void sync();
-    void toggled(bool);
+    void apply(void *data);
     void toggledDays(bool);
     void toggledSize(bool);
 protected:
-    void fillPreview();
-    bool eventFilter(QObject *o, QEvent *e);
-    void addStyles(const char *dir, bool bName);
-    void fillCombo(const char *current);
-    bool m_bDirty;
-    int  m_cur;
-    vector<StyleDef> m_styles;
+    void *m_data;
 };
 
 #endif

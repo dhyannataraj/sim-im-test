@@ -13,6 +13,6 @@ dock_la_LIBADD = ../../sim/api/libsimapi.la $(LIB_QT) $(EXTRA_LIBS)
 dock_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 install-data-hook:
-	rm -rf $(sim_plugindir)/dock.la
+	rm -rf $(DESTDIR)$(sim_plugindir)/dock.la
 
 

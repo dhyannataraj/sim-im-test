@@ -46,6 +46,7 @@
 #include "filetransfer.h"
 #include "declinedlg.h"
 #include "xsl.h"
+#include "userhistorycfg.h"
 
 #include <qtimer.h>
 #include <qapplication.h>
@@ -346,6 +347,15 @@ static DataDef translitUserData[] =
         { NULL, 0, 0, 0 }
     };
 
+static DataDef historyUserData[] =
+    {
+        { "CutSize", DATA_BOOL, 1, 0 },
+        { "MaxSize", DATA_ULONG, 1, 2 },
+        { "CutDays", DATA_BOOL, 1, 0 },
+        { "Days", DATA_ULONG, 1, 90 },
+        { NULL, 0, 0, 0 }
+    };
+
 CorePlugin *CorePlugin::m_plugin = NULL;
 
 static QWidget *getInterfaceSetup(QWidget *parent, void *data)
@@ -356,6 +366,11 @@ static QWidget *getInterfaceSetup(QWidget *parent, void *data)
 static QWidget *getSMSSetup(QWidget *parent, void *data)
 {
     return new SMSConfig(parent, data);
+}
+
+static QWidget *getHistorySetup(QWidget *parent, void *data)
+{
+    return new UserHistoryCfg(parent, data);
 }
 
 typedef struct autoReply
@@ -391,11 +406,12 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
 
     load_data(coreData, &data, config);
 
-    user_data_id = getContacts()->registerUserData("core", coreUserData);
-    sms_data_id  = getContacts()->registerUserData("sms", smsUserData);
-    ar_data_id   = getContacts()->registerUserData("ar", arUserData);
-    list_data_id   = getContacts()->registerUserData("list", listUserData);
-    translit_data_id   = getContacts()->registerUserData("translit", translitUserData);
+    user_data_id	 = getContacts()->registerUserData("core", coreUserData);
+    sms_data_id		 = getContacts()->registerUserData("sms", smsUserData);
+    ar_data_id		 = getContacts()->registerUserData("ar", arUserData);
+    list_data_id	 = getContacts()->registerUserData("list", listUserData);
+    translit_data_id = getContacts()->registerUserData("translit", translitUserData);
+    history_data_id  = getContacts()->registerUserData("history", historyUserData);
 
     m_translator = NULL;
     m_statusWnd  = NULL;
@@ -916,6 +932,14 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     Event ePrefSMS(EventAddPreferences, cmd);
     ePrefSMS.process();
 
+    cmd->id			= history_data_id + 1;
+    cmd->text		= I18N_NOOP("&History");
+    cmd->icon		= "history";
+    cmd->icon_on	= NULL;
+    cmd->param		= (void*)getHistorySetup;
+    Event ePrefHistory(EventAddPreferences, cmd);
+    ePrefHistory.process();
+
     cmd->id          = CmdOnline;
     cmd->text        = I18N_NOOP("Show &offline");
     cmd->icon        = "online_off";
@@ -1232,6 +1256,7 @@ CorePlugin::~CorePlugin()
     if (historyXSL)
         delete historyXSL;
 
+    getContacts()->unregisterUserData(history_data_id);
     getContacts()->unregisterUserData(translit_data_id);
     getContacts()->unregisterUserData(list_data_id);
     getContacts()->unregisterUserData(ar_data_id);

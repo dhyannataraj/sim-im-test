@@ -43,6 +43,7 @@
 #include <qregexp.h>
 #include <qtimer.h>
 #include <qtabwidget.h>
+#include <qspinbox.h>
 
 #ifdef WIN32
 static char STYLES[] = "styles\\";
@@ -209,6 +210,15 @@ HistoryConfig::HistoryConfig(QWidget *parent)
     connect(edtStyle, SIGNAL(textChanged()), this, SLOT(textChanged()));
     connect(chkOwn, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
     connect(chkSmile, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
+    connect(chkDays, SIGNAL(toggled(bool)), this, SLOT(toggledDays(bool)));
+    connect(chkSize, SIGNAL(toggled(bool)), this, SLOT(toggledSize(bool)));
+    HistoryUserData *data = (HistoryUserData*)(getContacts()->getUserData(CorePlugin::m_plugin->history_data_id));
+    chkDays->setChecked(data->CutDays != 0);
+    chkSize->setChecked(data->CutSize != 0);
+    edtDays->setValue(data->Days);
+    edtSize->setValue(data->MaxSize);
+    toggledDays(chkDays->isChecked());
+    toggledSize(chkSize->isChecked());
 }
 
 HistoryConfig::~HistoryConfig()
@@ -258,6 +268,11 @@ void HistoryConfig::apply()
         e.process();
         fillPreview();
     }
+    HistoryUserData *data = (HistoryUserData*)(getContacts()->getUserData(CorePlugin::m_plugin->history_data_id));
+    data->CutDays = chkDays->isChecked();
+    data->CutSize = chkSize->isChecked();
+    data->Days    = atol(edtDays->text());
+    data->MaxSize = atol(edtSize->text());
 }
 
 void HistoryConfig::addStyles(const char *dir, bool bCustom)
@@ -268,7 +283,7 @@ void HistoryConfig::addStyles(const char *dir, bool bCustom)
         QString name = *it;
         int n = name.findRev(".");
         name = name.left(n);
-	vector<StyleDef>::iterator its;
+        vector<StyleDef>::iterator its;
         for (its = m_styles.begin(); its != m_styles.end(); ++its){
             if (name == (*its).name)
                 break;
@@ -593,6 +608,20 @@ void HistoryConfig::fillPreview()
     delete contact;
     CorePlugin::m_plugin->setUseSmiles(saveSmiles);
     CorePlugin::m_plugin->setOwnColors(saveOwn);
+}
+
+void HistoryConfig::toggledDays(bool bState)
+{
+    lblDays->setEnabled(bState);
+    lblDays1->setEnabled(bState);
+    edtDays->setEnabled(bState);
+}
+
+void HistoryConfig::toggledSize(bool bState)
+{
+    lblSize->setEnabled(bState);
+    lblSize1->setEnabled(bState);
+    edtSize->setEnabled(bState);
 }
 
 #ifndef WIN32

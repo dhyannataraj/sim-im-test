@@ -25,6 +25,8 @@ _core_la_SOURCES = \
  userviewcfgbase.ui \
  historycfg.cpp \
  historycfgbase.ui \
+ userhistorycfg.cpp \
+ userhistorycfgbase.ui \
  maininfo.cpp \
  maininfobase.ui \
  editmail.cpp \
@@ -88,6 +90,6 @@ _core_la_LIBADD = ../../sim/api/libsimapi.la $(LIBUI) $(LIB_QT) $(EXTRA_LIBS) $(
 _core_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 install-data-hook:
-	rm -rf $(sim_plugindir)/_core.la
+	rm -rf $(DESTDIR)$(sim_plugindir)/_core.la
 
 

@@ -3,6 +3,7 @@ Add styles plugin
 Add customizable history styles
 ICQ: Fix receive messages from icq2003b
 Jabber: Add disco request fro search agents
+Add history size config
 
 Version 0.9.1
 ICQ: Fix login

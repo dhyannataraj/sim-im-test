@@ -143,6 +143,14 @@ typedef struct TranslitUserData
     unsigned	Translit;
 } TranslitUserData;
 
+typedef struct HistoryUserData
+{
+    unsigned	CutSize;
+    unsigned	MaxSize;
+    unsigned	CutDays;
+    unsigned	Days;
+} HistoryUserData;
+
 class ClientList : public vector<Client*>
 {
 public:
@@ -233,6 +241,7 @@ const unsigned	CmdFileName				= (CmdBase + 86);
 const unsigned	CmdPhoneNumber			= (CmdBase + 87);
 const unsigned	CmdTranslit				= (CmdBase + 88);
 const unsigned  CmdUrlInput				= (CmdBase + 89);
+const unsigned	CmdCutHistory			= (CmdBase + 90);
 
 const unsigned	CmdContactGroup			= (CmdBase + 0x100);
 const unsigned	CmdUnread				= (CmdBase + 0x200);
@@ -271,6 +280,7 @@ const unsigned	EventMessageRetry		= (CmdBase + 15);
 const unsigned	EventHistoryColors		= (CmdBase + 16);
 const unsigned	EventHistoryFont		= (CmdBase + 17);
 const unsigned  EventCheckSend			= (CmdBase + 18);
+const unsigned	EventCutHistory			= (CmdBase + 19);
 
 const unsigned	BarHistory				= (CmdBase + 1);
 
@@ -398,6 +408,7 @@ public:
     unsigned ar_data_id;
     unsigned list_data_id;
     unsigned translit_data_id;
+    unsigned history_data_id;
 
     CommandsMap	preferences;
     CommandsMap	messageTypes;

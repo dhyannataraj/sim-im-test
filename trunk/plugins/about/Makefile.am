@@ -12,6 +12,6 @@ about_la_LIBADD = ../../sim/api/libsimapi.la $(LIBUI) $(LIB_QT) $(EXTRA_LIBS)
 about_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 install-data-hook:
-	rm -rf $(sim_plugindir)/about.la
+	rm -rf $(DESTDIR)$(sim_plugindir)/about.la
 
 
