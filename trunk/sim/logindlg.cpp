@@ -18,6 +18,7 @@
 #include "logindlg.h"
 #include "ui/ballonmsg.h"
 #include "client.h"
+#include "icons.h"
 
 #include <qlayout.h>
 #include <qlineedit.h>
@@ -30,6 +31,7 @@
 LoginDialog::LoginDialog()
         : QDialog(NULL, NULL, true)
 {
+    setIcon(Pict("licq"));
     bLogin = false;
     QGridLayout *lay = new QGridLayout(this, 4, 2, 10, 5);
     lblUIN = new QLabel(i18n("UIN:"), this);

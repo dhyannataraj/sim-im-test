@@ -18,7 +18,7 @@
 
 #include <stdio.h>
 
-#if WIN32
+#ifndef WIN32
 #define vsnprintf _vsnprintf
 #endif
 #include "icqclient.h"
@@ -26,9 +26,11 @@
 
 #include <stack>
 
+#ifdef WIN32
 #if _MSC_VER > 1020
 using namespace std;
 #pragma warning(disable:4786)
+#endif
 #endif
 
 #define TXT		1

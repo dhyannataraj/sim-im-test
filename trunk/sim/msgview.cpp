@@ -24,9 +24,9 @@
 #include "icons.h"
 #include "transparent.h"
 
-#if USE_KDE
+#ifdef USE_KDE
 #include <kglobal.h>
-#if HAVE_KROOTPIXMAP_H
+#ifdef HAVE_KROOTPIXMAP_H
 #include <krootpixmap.h>
 #endif
 #endif
@@ -38,8 +38,10 @@
 #include <qpainter.h>
 #include <qregexp.h>
 
+#ifdef WIN32
 #if _MSC_VER > 1020
 #pragma warning(disable:4786)
+#endif
 #endif
 
 QString ParseText(const char *text);

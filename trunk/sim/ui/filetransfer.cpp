@@ -199,11 +199,11 @@ void FileTransferDlg::action(int n)
     case 2:		// New
         {
             QString s = QString::fromLocal8Bit(file->localName.c_str());
-#if WIN32
+#ifdef WIN32
             s.replace(QRegExp("\\\\"), "/");
 #endif
             s = QFileDialog::getSaveFileName(s, QString::null, this);
-#if WIN32
+#ifdef WIN32
             s.replace(QRegExp("/"), "\\");
 #endif
             if (s.length()){

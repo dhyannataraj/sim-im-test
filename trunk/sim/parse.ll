@@ -54,7 +54,7 @@
 .							{ return TEXT; }
 %%
 
-#if WIN32
+#ifdef WIN32
 #define vsnprintf _vsnprintf
 #endif
 

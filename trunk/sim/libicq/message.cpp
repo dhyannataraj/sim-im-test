@@ -141,7 +141,7 @@ string ICQFile::shortName()
 {
     string res = Name;
     const char *name = Name.c_str();
-#if WIN32
+#ifdef WIN32
     char *p = strrchr(name, '\\');
 #else
     char *p = strrchr(name, '/');

@@ -34,7 +34,7 @@
 
 MainWindow *pMain = NULL;
 
-#if USE_KDE
+#ifdef USE_KDE
 
 KApplication *kApp = NULL;
 
@@ -65,14 +65,27 @@ QString i18n(const char *text)
     return QObject::tr(text);
 }
 
+class SimApp : public QApplication
+{
+	public:
+		    SimApp(int &argc, char **argv)
+			                : QApplication(argc, argv) {}
+	protected:
+		        void saveState(QSessionManager&);
+};
+
+#endif
+
+#if !defined(USE_KDE) || (QT_VERSION < 300)
+
 QString put_n_in(const QString &orig, unsigned long n)
 {
-    QString ret = orig;
-    int index = ret.find("%n");
-    if (index == -1)
-        return ret;
-    ret.replace(index, 2, QString::number(n));
-    return ret;
+	    QString ret = orig;
+	        int index = ret.find("%n");
+		    if (index == -1)
+			            return ret;
+		        ret.replace(index, 2, QString::number(n));
+			    return ret;
 }
 
 QString i18n(const char *singular, const char *plural, unsigned long n)
@@ -81,15 +94,6 @@ QString i18n(const char *singular, const char *plural, unsigned long n)
         return put_n_in(QObject::tr(singular), n);
     return put_n_in(QObject::tr(plural), n);
 }
-
-class SimApp : public QApplication
-{
-public:
-    SimApp(int &argc, char **argv)
-            : QApplication(argc, argv) {}
-protected:
-    void saveState(QSessionManager&);
-};
 
 #endif
 

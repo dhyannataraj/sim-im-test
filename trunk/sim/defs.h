@@ -50,6 +50,9 @@ class QKeySequence;
 #define QListBox  KListBox
 #define QComboBox KComboBox
 #define QColorButton KColorButton
+#if QT_VERSION < 300
+QString i18n(const char *singular, const char *plural, unsigned long n);
+#endif
 #else
 #include <qobject.h>
 QString i18n(const char *text);

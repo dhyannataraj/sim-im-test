@@ -109,15 +109,11 @@
 static char ICQ_CONF[] = "icq.conf";
 static char SIM_CONF[] = "sim.conf";
 
-#if WIN32
-
-#endif
-
 static string app_file_name;
 const char *app_file(const char *f)
 {
     app_file_name = "";
-#if WIN32
+#ifdef WIN32
     char buff[256];
     GetModuleFileNameA(NULL, buff, sizeof(buff));
     char *p = strrchr(buff, '\\');
@@ -135,7 +131,7 @@ const char *app_file(const char *f)
             return app_file_name.c_str();
         }
     }
-    if (lst.size()){
+    if (!lst.isEmpty()){
         app_file_name = (const char*)lst[0].local8Bit();
     }
 #else
@@ -149,7 +145,7 @@ const char *app_file(const char *f)
 static const char *sound(const char *vaw)
 {
     string s = "sounds";
-#if WIN32
+#ifdef WIN32
     s += "\\";
 #else
     s += "/";
@@ -341,10 +337,10 @@ MainWindow::MainWindow(const char *name)
     blinkTimer = new QTimer(this);
     connect(blinkTimer, SIGNAL(timeout()), this, SLOT(blink()));
     blinkTimer->start(800);
-#if WIN32
+#ifdef WIN32
     IdleTrackerInit();
 #endif
-#if USE_KDE
+#ifdef USE_KDE
     connect(kapp, SIGNAL(iconChanged(int)), this, SLOT(changeIcons(int)));
     kapp->addKipcEventMask(KIPC::IconChanged);
 #endif
@@ -408,7 +404,7 @@ MainWindow::~MainWindow()
     if (lockFile != -1) ::close(lockFile);
 #endif
     if (dock) delete dock;
-#if WIN32
+#ifdef WIN32
     IdleTrackerTerm();
 #endif
     pMain = NULL;
@@ -1106,7 +1102,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
 void MainWindow::autoAway()
 {
-#if WIN32
+#ifdef WIN32
     unsigned long idle_time = (GetTickCount() - IdleTrackerGetLastTickCount()) / 1000;
 #endif
 #ifdef USE_SCRNSAVER
@@ -1129,7 +1125,7 @@ void MainWindow::autoAway()
     }
     unsigned long idle_time = (mit_info->idle / 1000);
 #endif
-#if USE_SCRNSAVER || WIN32
+#if defined(USE_SCRNSAVER) || defined(WIN32)
     if ((m_bAutoAway && (idle_time < AutoAwayTime)) ||
             (m_bAutoNA && (idle_time < AutoNATime))){
         m_bAutoAway = m_bAutoNA = false;
@@ -1566,7 +1562,7 @@ void MainWindow::adjustUserMenu(QPopupMenu *menu, ICQUser *u, bool haveTitle)
 
 void MainWindow::goURL(const char *url)
 {
-#if WIN32
+#ifdef WIN32
     ShellExecuteA(winId(), NULL, url, NULL, NULL, SW_SHOWNORMAL);
 #else
     if (*(UrlViewer.c_str()) == 0) return;
@@ -1599,7 +1595,7 @@ void MainWindow::sendMail(unsigned long uin)
     }
     if (mail == NULL) return;
 
-#if WIN32
+#ifdef WIN32
     string s = "mailto:";
     s += mail;
     ShellExecuteA(winId(), NULL, s.c_str(), NULL, NULL, SW_SHOWNORMAL);
@@ -1621,7 +1617,7 @@ void MainWindow::sendMail(unsigned long uin)
 
 void MainWindow::playSound(const char *wav)
 {
-#if WIN32
+#ifdef WIN32
     sndPlaySoundA(wav, SND_ASYNC | SND_NODEFAULT);
 #else
 #if USE_KDE

@@ -15,8 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifdef WIN32
 #if _MSC_VER > 1020
 #pragma warning(disable:4530)
+#endif
 #endif
 
 #include <fstream>
@@ -28,9 +30,11 @@
 
 #include <stdio.h>
 
+#ifdef WIN32
 #if _MSC_VER > 1020
 using namespace std;
 #define ios	ios_base
+#endif
 #endif
 
 #ifdef WIN32

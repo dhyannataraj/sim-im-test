@@ -362,6 +362,9 @@ uninstall-am: uninstall-info-am
 ####### kdevelop will overwrite this part!!! (end)############
 
 install-data-local:
+#>- 	$(mkinstalldirs) $(kde_datadir)/sim/icons/
+#>+ 1
+	$(mkinstalldirs) $(DESTDIR)$(kde_datadir)/sim/icons/
 #>- 	$(mkinstalldirs) $(kde_datadir)/sim/sounds/
 #>+ 1
 	$(mkinstalldirs) $(DESTDIR)$(kde_datadir)/sim/sounds/

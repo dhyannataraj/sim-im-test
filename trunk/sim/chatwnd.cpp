@@ -304,11 +304,11 @@ void ChatWindow::openLog()
         pMain->buildFileName(name, "ChatLog/");
         fname = QString::fromLocal8Bit(name.c_str());
     }
-#if WIN32
+#ifdef WIN32
     fname.replace(QRegExp("\\\\"), "/");
 #endif
     fname = QFileDialog::getSaveFileName(fname, QString::null, this);
-#if WIN32
+#ifdef WIN32
     fname.replace(QRegExp("/"), "\\");
 #endif
     if (fname.length() == 0) return;

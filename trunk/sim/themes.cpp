@@ -23,7 +23,7 @@
 #include "cfg.h"
 
 #if USE_KDE
-#include <kapplication.h>
+#include <kapp.h>
 extern KApplication *kApp;
 #endif
 

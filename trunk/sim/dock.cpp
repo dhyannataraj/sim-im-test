@@ -28,7 +28,7 @@
 #include <qtimer.h>
 #include <qapplication.h>
 
-#if WIN32
+#ifdef WIN32
 #include <windowsx.h>
 #include <shellapi.h>
 #endif
@@ -221,7 +221,6 @@ DockWnd::DockWnd(QWidget *main)
     connect(pMain, SIGNAL(iconChanged()), this, SLOT(reset()));
     m_state = 0;
     showIcon = State;
-    drawIcon = NULL;
     QTimer *t = new QTimer(this);
     connect(t, SIGNAL(timeout()), this, SLOT(timer()));
     t->start(800);
@@ -332,7 +331,7 @@ void DockWnd::loadUnread()
 
 DockWnd::~DockWnd()
 {
-#if WIN32
+#ifdef WIN32
     NOTIFYICONDATAA notifyIconData;
     notifyIconData.cbSize = sizeof(notifyIconData);
     notifyIconData.hIcon = 0;
@@ -354,7 +353,7 @@ void DockWnd::paintEvent( QPaintEvent* )
 void DockWnd::setIcon(const QPixmap &p)
 {
     drawIcon = p;
-#if WIN32
+#ifdef WIN32
     QWidget::setIcon(p);
     NOTIFYICONDATAA notifyIconData;
     notifyIconData.cbSize = sizeof(notifyIconData);
@@ -372,7 +371,7 @@ void DockWnd::setIcon(const QPixmap &p)
 
 void DockWnd::setTip(const QString &tip)
 {
-#if WIN32
+#ifdef WIN32
     NOTIFYICONDATAA notifyIconData;
     notifyIconData.cbSize = sizeof(notifyIconData);
     notifyIconData.hIcon = topData()->winIcon;

@@ -911,6 +911,7 @@ if test "$use_kde" = "yes" ; then
   KDE_FIND_PATH(kde-config, KDECONFIG, [$kde_default_bindirs])
   if test -z "$KDECONFIG" ; then
 	use_kde="no"
+	$default_prefix=`${KDECONFIG} --prefix` 
   fi
 fi
 
@@ -2368,7 +2369,7 @@ AC_DEFUN(AC_CHECK_COMPILERS,
     [kde_use_debug_code="no"
       kde_use_debug_define=no
   ])
-  if test kde_use_debug_code = "yes" ; then
+  if test "$kde_use_debug_code" = "yes" ; then
 	AC_DEFINE(DEBUG,1,[Debug verion])
   fi
 
@@ -2559,11 +2560,13 @@ AC_DEFUN(KDE_CHECK_TYPES,
 
 AC_DEFUN(KDE_DO_IT_ALL,
 [
+echo "DO it all"
 AC_CANONICAL_SYSTEM
 AC_ARG_PROGRAM
+echo "init automake"
 AM_INIT_AUTOMAKE($1, $2)
 AM_DISABLE_LIBRARIES
-AC_PREFIX_DEFAULT(${KDEDIR:-/usr/local/kde})
+AC_PREFIX_DEFAULT("$default_prefix")
 AC_CHECK_COMPILERS
 KDE_PROG_LIBTOOL
 AM_KDE_WITH_NLS
@@ -4116,8 +4119,20 @@ AC_DEFUN(KDE_CONF_FILES,
 AC_DEFUN(KDE_SET_PREFIX,
 [
   unset CDPATH
+  KDE_USE_QT
+  default_prefix=/usr/local
+  if test "$use_kde" = "yes" ; then
+   default_prefix="$KDEDIR"
+    if test "$default_prefix" = "" ; then
+      default_prefix=`$KDECONFIG --prefix`
+      if test "$default_prefix" = "" ; then
+        default_prefix="/usr/local/kde" 
+      fi
+    fi
+  fi
   dnl make $KDEDIR the default for the installation
-  AC_PREFIX_DEFAULT(${KDEDIR:-/usr/local/kde})
+  AC_PREFIX_DEFAULT("$default_prefix")
+  ac_default_prefix=$default_prefix
 
   if test "x$prefix" = "xNONE"; then
     prefix=$ac_default_prefix
