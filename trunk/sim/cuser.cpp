@@ -261,9 +261,10 @@ QString CUser::toolTip()
         r += "<br>_____________<br>";
         r += sAutoReply;
     }
-    if (u->Version){
+    if (u->Version || u->ClientType){
         r += "<br>_____________<br>";
-        r += "v" + QString::number(u->Version) + " ";
+		if (u->Version)
+			r += "v" + QString::number(u->Version) + " ";
         if (u->InfoUpdateTime == 0xFFFFFFFF){
             r += "MIRANDA";
         }else if((u->InfoUpdateTime & 0xFFFF0000) == LICQ_WITHSSL){

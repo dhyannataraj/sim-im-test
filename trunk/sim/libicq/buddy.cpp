@@ -134,8 +134,6 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                     user->Mode = (unsigned short)mode;
                     user->Version = (unsigned short)version;
                     changed = true;
-                    if (user->DCcookie == 0)
-                        user->ClientType = 4;
                     if ((user->DCcookie == cookie1) && (cookie1 == cookie2))
                         user->ClientType = 5;
                     if (cookie1 == 0x279c6996)
@@ -164,6 +162,8 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                             user->ClientType = 1;
                         if (!memcmp(cap, capabilities[6], sizeof(capability)))
                             user->ClientType = 6;
+                        if (!memcmp(cap, capabilities[7], sizeof(capability)))
+                            user->ClientType = 4;
                         if (!memcmp(cap, capabilities[4], sizeof(capability)-1) &&
                                 (cap[sizeof(capability)-1] > (1 << 6)) &&
                                 (cap[sizeof(capability)-1] != 0x92))

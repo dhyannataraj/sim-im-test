@@ -740,8 +740,11 @@ void UserBox::processEvent(ICQEvent *e)
             setGroupButtons();
         break;
     case EVENT_INFO_CHANGED:{
-            if (curWnd && (e->Uin() == curWnd->Uin))
+			if (curWnd && (e->Uin() == curWnd->Uin)){
                 setGroupButtons();
+		        CUser u(e->Uin());
+	            setTitle(u.name());
+			}
             statusChanged(e->Uin());
             MsgEdit *wnd = getChild(e->Uin(), false);
             if (wnd == NULL) break;
