@@ -56,7 +56,7 @@
 #endif
 #endif
 
-#define MAX_HISTORY	100
+#define MAX_HISTORY	10
 
 TextShow::TextShow(QWidget *p, const char *name)
         : QTextBrowser(p, name)
@@ -629,8 +629,9 @@ void HistoryTextView::fill()
 
     if (++it){
         if (findId){
-            msgs.push_back((*it)->Id);
-            if ((*it)->Id == findId)
+			unsigned long msgId = (*it)->Id;
+            msgs.push_back(msgId);
+            if (msgId == findId)
                 findId = 0;
         }else{
             for (unreadIt = u->unreadMsgs.begin(); unreadIt != u->unreadMsgs.end(); unreadIt++)
@@ -810,7 +811,7 @@ void HistoryView::slotSearch()
     }
     History h(view->Uin());
     History::iterator &it = h.messages();
-    it.setOffs(curId);
+    it.setOffs(curId-1);
     it.setFilter(filter);
     it.setCondition(searchText);
     if (++it){

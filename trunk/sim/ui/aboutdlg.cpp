@@ -110,7 +110,7 @@ QString KAboutApplication::quote(const QString &s)
 {
     QString res = s;
     res.replace(QRegExp("&"), "&amp;");
-    res.replace(QRegExp(";"), "&quot;");
+    res.replace(QRegExp("\""), "&quot;");
     res.replace(QRegExp("<"), "&lt;");
     res.replace(QRegExp(">"), "&gt;");
     res.replace(QRegExp("\\n"), "<br>");

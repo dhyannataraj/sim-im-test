@@ -164,6 +164,7 @@ cfgParam ICQStatus_Params[] =
 History::History(unsigned long uin)
         : it(*this), m_nUin(uin)
 {
+	codec = NULL;
 }
 
 void History::remove()
@@ -357,7 +358,7 @@ History::iterator::iterator(History &_h)
 
 void History::iterator::setFilter(const QString &_filter)
 {
-    filter = _filter;
+    filter = quote(_filter);
     if (grepFilter) delete grepFilter;
     grepFilter = NULL;
     if (!filter.isEmpty())
@@ -366,11 +367,22 @@ void History::iterator::setFilter(const QString &_filter)
 
 void History::iterator::setCondition(const QString &_condition)
 {
-    condition = _condition;
+    condition = quote(_condition);
     if (grepCondition) delete grepCondition;
     grepCondition = NULL;
     if (!condition.isEmpty())
         grepCondition = new Grep(condition, pClient->codecForUser(h.m_nUin));
+}
+
+QString History::iterator::quote(const QString &s)
+{
+	QString res = s;
+    res.replace(QRegExp("&"), "&amp;");
+    res.replace(QRegExp("\""), "&quot;");
+    res.replace(QRegExp("<"), "&lt;");
+    res.replace(QRegExp(">"), "&gt;");
+    res.replace(QRegExp("\\n"), "<br>");
+	return res;
 }
 
 void History::iterator::setOffs(unsigned long offs)
@@ -470,11 +482,8 @@ void History::iterator::loadBlock()
                 bool bMatch = false;
                 for (;;){
                     string line;
+					if (f.eof()) break;
                     getline(f, line);
-                    if ((unsigned long)f.tellg() > start_block){
-                        start_block = start;
-                        return;
-                    }
                     if (*line.c_str() == '[') break;
                     char *p = strchr(line.c_str(), '=');
                     if (p == NULL) continue;
@@ -487,21 +496,17 @@ void History::iterator::loadBlock()
                     type = line;
                     continue;
                 }
+                string line;
+                f.seekg(msgId);
+				if (!f.eof())
+					getline(f, line);
             }
             if (grepCondition){
-                if (grepFilter){
-                    string line;
-                    f.seekg(msgId);
-                    getline(f, line);
-                }
                 bool bMatch = false;
                 for (;;){
                     string line;
+					if (f.eof()) break;
                     getline(f, line);
-                    if ((unsigned long)f.tellg() > start_block){
-                        start_block = start;
-                        return;
-                    }
                     if (*line.c_str() == '[') break;
                     char *p = strchr(line.c_str(), '=');
                     if (p == NULL) continue;
@@ -514,13 +519,17 @@ void History::iterator::loadBlock()
                     type = line;
                     continue;
                 }
+                string line;
+                f.seekg(msgId);
+				if (!f.eof())
+					getline(f, line);
             }
             msg = h.loadMessage(f, type, msgId);
-            if (msg && grepFilter && !History::matchMessage(msg, filter)){
+            if (msg && grepFilter && !h.matchMessage(msg, filter)){
                 delete msg;
                 msg = NULL;
             }
-            if (msg && grepCondition && !History::matchMessage(msg, condition)){
+            if (msg && grepCondition && !h.matchMessage(msg, condition)){
                 delete msg;
                 msg = NULL;
             }
@@ -553,47 +562,55 @@ int History::iterator::progress()
     return res;
 }
 
+bool History::match(const string &s, const QString &pattern, const char *srcCharset)
+{
+	if (codec == NULL) codec = pClient->codecForUser(m_nUin);
+	QString str = pClient->from8Bit(codec, s, srcCharset);
+	return str.find(pattern) >= 0;
+}
+
 bool History::matchMessage(ICQMessage *msg, const QString &filter)
 {
+	const char *charset = msg->Charset.c_str();
     if (msg->Type() == ICQ_MSGxMSG){
         ICQMsg *m = static_cast<ICQMsg*>(msg);
-        return (m->Message.find(filter) != string::npos);
+        return match(m->Message, filter, charset);
     }
     if (msg->Type() == ICQ_MSGxURL){
         ICQUrl *m = static_cast<ICQUrl*>(msg);
-        return (m->Message.find(filter) != string::npos) ||
-               (m->URL.find(filter) != string::npos);
+        return match(m->Message, filter, charset) ||
+               match(m->URL, filter, charset);
     }
     if (msg->Type() == ICQ_MSGxAUTHxREQUEST){
         ICQAuthRequest *m = static_cast<ICQAuthRequest*>(msg);
-        return (m->Message.find(filter) != string::npos);
+        return match(m->Message, filter, charset);
     }
     if (msg->Type() == ICQ_MSGxAUTHxREFUSED){
         ICQAuthRefused *m = static_cast<ICQAuthRefused*>(msg);
-        return (m->Message.find(filter) != string::npos);
+        return match(m->Message, filter, charset);
     }
     if (msg->Type() == ICQ_MSGxSMS){
         ICQSMS *m = static_cast<ICQSMS*>(msg);
-        return (m->Message.find(filter) != string::npos) ||
-               (m->Phone.find(filter) != string::npos) ||
-               (m->Network.find(filter) != string::npos);
+        return match(m->Message, filter, charset) ||
+               match(m->Phone, filter, charset) ||
+               match(m->Network, filter, charset);
     }
     if (msg->Type() == ICQ_MSGxFILE){
         ICQFile *m = static_cast<ICQFile*>(msg);
-        return (m->Name.find(filter) != string::npos) ||
-               (m->Description.find(filter) != string::npos);
+        return match(m->Name, filter, charset) ||
+               match(m->Description, filter, charset);
     }
     if (msg->Type() == ICQ_MSGxCHAT){
         ICQChat *m = static_cast<ICQChat*>(msg);
-        return (m->Reason.find(filter) != string::npos);
+        return match(m->Reason, filter, charset);
     }
     if (msg->Type() == ICQ_MSGxWEBxPANEL){
         ICQWebPanel *m = static_cast<ICQWebPanel*>(msg);
-        return (m->Message.find(filter) != string::npos);
+        return match(m->Message, filter, charset);
     }
     if (msg->Type() == ICQ_MSGxEMAILxPAGER){
         ICQEmailPager *m = static_cast<ICQEmailPager*>(msg);
-        return (m->Message.find(filter) != string::npos);
+        return match(m->Message, filter, charset);
     }
     return false;
 }
