@@ -1,0 +1,13 @@
+[Project:General]
+Version=3
+SubVersion=1
+
+[Project:Properties:General]
+CurrentMedia=
+CurrentLanguage=9
+
+[Project:Properties:DepManager]
+Component=Default
+LogResults=Yes
+Mode=0
+

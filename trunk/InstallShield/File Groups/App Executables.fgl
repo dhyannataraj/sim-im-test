@@ -1,0 +1,8 @@
+[General]
+Type=FILELIST
+Version=1.10.000
+
+[TopDir]
+file0=D:\cygwin\home\Vova\sim\Debug\IdleTrac.dll
+file1=D:\cygwin\home\Vova\sim\Release\sim.exe
+
