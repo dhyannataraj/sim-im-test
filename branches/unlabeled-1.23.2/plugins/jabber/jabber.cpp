@@ -337,6 +337,7 @@ JabberPlugin::JabberPlugin(unsigned base, const char *cfg)
     cmd->menu_id	 = MenuBrowser;
     cmd->menu_grp	 = 0x1000;
     cmd->popup_id	 = 0;
+    cmd->flags		 = COMMAND_CHECK_STATE;
     eCmd.process();
 
     cmd->id			 = CmdAllLevels;

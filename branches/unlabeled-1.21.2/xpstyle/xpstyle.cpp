@@ -493,6 +493,10 @@ void QWindowsXPStyle::polish( QWidget *widget )
                     p->parentWidget() &&
                     p->parentWidget()->inherits("QTabWidget"))
                 break;
+			if (p == widget->topLevelWidget()){
+				p = NULL;
+				break;
+			}
         }
         if (p){
             //            widget->setBackgroundMode(QWidget::NoBackground);

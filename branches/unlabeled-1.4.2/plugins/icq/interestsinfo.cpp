@@ -217,6 +217,7 @@ void InterestsInfo::cmbChanged(int)
                 edts[n]->setText(edts[i]->text());
             }
             edts[n]->setEnabled(true);
+			edts[n]->setReadOnly(false);
             n++;
         }
     }

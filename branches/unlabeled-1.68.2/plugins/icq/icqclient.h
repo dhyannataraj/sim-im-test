@@ -305,7 +305,8 @@ const unsigned CAP_AIM_BUDDYLIST	= 16;
 const unsigned CAP_MICQ				= 17;
 const unsigned CAP_LICQ				= 18;
 const unsigned CAP_SIMOLD			= 19;
-const unsigned CAP_NULL				= 20;
+const unsigned CAP_KOPETE			= 20;
+const unsigned CAP_NULL				= 21;
 
 const unsigned PLUGIN_PHONEBOOK          = 0;
 const unsigned PLUGIN_PICTURE            = 1;

@@ -61,6 +61,7 @@ protected slots:
     void slotSelected(const QString&);
 protected:
     void *processEvent(Event *e);
+	void accept();
     string m_type;
     string m_id;
 };

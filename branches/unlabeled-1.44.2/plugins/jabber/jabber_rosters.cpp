@@ -1933,18 +1933,20 @@ void SearchRequest::element_end(const char *el)
         set_str(&data.ID.ptr, m_id.c_str());
         Event e(EventSearch, &data);
         e.process();
-        m_fields.clear();
     }else if (!strcmp(el, "item")){
         if (data.JID.ptr && *data.JID.ptr){
             for (list<string>::iterator it = m_fields.begin(); it != m_fields.end(); ++it){
                 VALUE_MAP::iterator itv = m_values.find((*it).c_str());
-                if (itv != m_values.end())
-                    set_str(&data.Fields, data.nFields.value, (*itv).second.c_str());
+                if (itv != m_values.end()){
+					string val = (*itv).second.c_str();
+                    set_str(&data.Fields, data.nFields.value, val.c_str());
+				}
                 data.nFields.value++;
             }
             set_str(&data.ID.ptr, m_id.c_str());
             Event e(EventSearch, &data);
             e.process();
+			m_values.clear();
         }
     }else if (!strcmp(el, "value") || !strcmp(el, "field")){
         if (!m_attr.empty() && !m_data.empty()){

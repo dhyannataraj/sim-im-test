@@ -1649,10 +1649,6 @@ string ICQClient::clientName(ICQUserData *data)
     {
         int hiVersion = (data->Build.value >> 6) - 1;
         unsigned loVersion = data->Build.value & 0x1F;
-        if ((hiVersion < 0) || ((hiVersion == 0) && (loVersion == 0))){
-            res += "Kopete";
-            return res;
-        }
         snprintf(b, sizeof(b), "SIM %u.%u", (unsigned)hiVersion, loVersion);
         res += b;
         return res;
@@ -1691,6 +1687,31 @@ string ICQClient::clientName(ICQUserData *data)
         res += b;
         if (data->Build.value & 0xFF)
             res += "/SSL";
+        return res;
+    }
+    if (hasCap(data, CAP_KOPETE))
+    {
+        unsigned ver1 = (data->Build.value >> 24) & 0xFF;
+        unsigned ver2 = (data->Build.value >> 16) & 0xFF;
+        unsigned ver3 = (data->Build.value >> 8) & 0xFF;
+		unsigned ver4 = (data->Build.value) & 0xFF;
+		string ver;
+        if (ver4){
+			snprintf(b, sizeof(b), "%u", ver4);
+			ver = b;
+        }
+		if (ver3 || !res.empty()){
+			snprintf(b, sizeof(b), "%u", ver3);
+			ver += b;
+		}
+		if (ver2 || !res.empty()){
+			snprintf(b, sizeof(b), "%u", ver2);
+			ver += b;
+		}
+		snprintf(b, sizeof(b), "%u", ver1);
+		ver += b;
+		res = "Kopete ";
+		res += ver;
         return res;
     }
     if (hasCap(data, CAP_MACICQ)){

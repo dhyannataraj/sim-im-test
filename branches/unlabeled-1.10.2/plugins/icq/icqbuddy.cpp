@@ -145,14 +145,14 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                         if (*capabilities[i] == 0) break;
                         unsigned size = sizeof(capability);
                         if (i == CAP_SIMOLD) size--;
-                        if ((i == CAP_MICQ) || (i == CAP_LICQ) || (i == CAP_SIM)) size -= 4;
+                        if ((i == CAP_MICQ) || (i == CAP_LICQ) || (i == CAP_SIM) || (i == CAP_KOPETE)) size -= 4;
                         if (!memcmp(cap, capabilities[i], size)){
                             if (i == CAP_SIMOLD){
                                 unsigned char build = cap[sizeof(capability)-1];
                                 if (build && ((build == 0x92) || (build < (1 << 6)))) continue;
                                 data->Build.value = build;
                             }
-                            if ((i == CAP_MICQ) || (i == CAP_LICQ) || (i == CAP_SIM)){
+                            if ((i == CAP_MICQ) || (i == CAP_LICQ) || (i == CAP_SIM) || (i == CAP_KOPETE)){
                                 unsigned char *p = (unsigned char*)cap;
                                 p += 12;
                                 data->Build.value = (p[0] << 24) + (p[1] << 16) + (p[2] << 8) + p[3];

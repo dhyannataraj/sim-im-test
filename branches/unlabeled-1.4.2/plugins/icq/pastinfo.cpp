@@ -237,6 +237,7 @@ void PastInfo::cmbAfChanged(int)
                 edts[n]->setText(edts[i]->text());
             }
             edts[n]->setEnabled(true);
+			edts[n]->setReadOnly(false);
             n++;
         }
     }

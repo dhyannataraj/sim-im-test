@@ -46,7 +46,7 @@ private:
     friend class FetchManager;
 };
 
-class FetchManager : public QObject
+class EXPORT FetchManager : public QObject
 {
     Q_OBJECT
 public:
@@ -54,12 +54,14 @@ public:
     ~FetchManager();
     static FetchManager *manager;
     void done(FetchClient *client);
+	string user_agent;
 protected slots:
     void timeout();
 };
 
 EXPORT string basic_auth(const char *user, const char *pass);
 EXPORT bool get_connection_state(bool &state);
+EXPORT string get_user_agent();
 
 #endif
 
