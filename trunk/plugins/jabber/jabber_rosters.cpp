@@ -19,6 +19,7 @@
 #include "jabber.h"
 #include "jabbermessage.h"
 #include "html.h"
+#include "core.h"
 
 #include <time.h>
 
@@ -65,6 +66,7 @@ RostersRequest::RostersRequest(JabberClient *client)
         while ((data = (JabberUserData*)(++it)) != NULL)
             data->bChecked.bValue = false;
     }
+    client->m_bJoin = false;
 }
 
 RostersRequest::~RostersRequest()
@@ -96,6 +98,10 @@ RostersRequest::~RostersRequest()
     for (list<Contact*>::iterator itr = contactRemoved.begin(); itr != contactRemoved.end(); ++itr)
         delete *itr;
     m_client->processList();
+    if (m_client->m_bJoin){
+        Event e(EventJoinAlert, m_client);
+        e.process();
+    }
 }
 
 void RostersRequest::element_start(const char *el, const char **attr)

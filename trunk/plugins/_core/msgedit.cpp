@@ -59,7 +59,7 @@ MsgTextEdit::MsgTextEdit(MsgEdit *edit, QWidget *parent)
     setForeground(CorePlugin::m_plugin->getEditForeground(), true);
 #if defined(USE_KDE)
 #if KDE_IS_VERSION(3,2,0)
-    setCheckSpellingEnabled(false);
+    setCheckSpellingEnabled(CorePlugin::m_plugin->getEnableSpell());
 #endif
 #endif
 }
@@ -1164,6 +1164,18 @@ void *MsgEdit::processEvent(Event *e)
     }
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
+#if defined(USE_KDE)
+#if KDE_IS_VERSION(3,2,0)
+        if (cmd->id == CmdEnableSpell){
+            m_edit->setCheckSpellingEnabled(cmd->flags & COMMAND_CHECKED);
+            return NULL;
+        }
+        if ((cmd->id == CmdSpell) && (cmd->param == this)){
+            m_edit->checkSpelling();
+            return e->param();
+        }
+#endif
+#endif
         if ((cmd->id == CmdSmile) && (cmd->param == this)){
             Event eBtn(EventCommandWidget, cmd);
             QToolButton *btnSmile = (QToolButton*)(eBtn.process());

@@ -18,6 +18,7 @@
 #include "msnpacket.h"
 #include "msnclient.h"
 #include "msn.h"
+#include "core.h"
 
 #ifdef WIN32
 #include <winsock.h>
@@ -220,6 +221,7 @@ SynPacket::SynPacket(MSNClient *client)
     bDone	= false;
     m_data	= NULL;
     client->data.ListVer.value = 0;
+    client->m_bJoin = false;
     addArg(number(client->data.ListVer.value).c_str());
 }
 
@@ -278,6 +280,10 @@ SynPacket::~SynPacket()
             delete *rc;
         for (list<Group*>::iterator rg = grpRemove.begin(); rg != grpRemove.end(); ++rg)
             delete *rg;
+        if (m_client->m_bJoin){
+            Event e(EventJoinAlert, m_client);
+            e.process();
+        }
     }
     if (m_client->getState() == Client::Connecting){
         m_client->setState(Client::Connected);

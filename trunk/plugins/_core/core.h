@@ -103,6 +103,7 @@ typedef struct CoreData
     Data	DefaultEncoding;
     Data	ShowEmptyGroup;
     Data	NoJoinAlert;
+    Data	EnableSpell;
 } CoreData;
 
 const unsigned CONTAINER_SIMPLE	= 0;
@@ -259,17 +260,19 @@ const unsigned	CmdDeclineWithoutReason	= (CmdBase + 81);
 const unsigned	CmdDeclineReasonInput	= (CmdBase + 82);
 const unsigned	CmdDeclineReasonBusy	= (CmdBase + 83);
 const unsigned	CmdDeclineReasonLater	= (CmdBase + 84);
-const unsigned	CmdHistoryFind			= (CmdBase + 85);
-const unsigned	CmdFileName				= (CmdBase + 86);
-const unsigned	CmdPhoneNumber			= (CmdBase + 87);
-const unsigned	CmdTranslit				= (CmdBase + 88);
-const unsigned  CmdUrlInput				= (CmdBase + 89);
-const unsigned	CmdCutHistory			= (CmdBase + 90);
+const unsigned	CmdHistoryFind		= (CmdBase + 85);
+const unsigned	CmdFileName		= (CmdBase + 86);
+const unsigned	CmdPhoneNumber		= (CmdBase + 87);
+const unsigned	CmdTranslit		= (CmdBase + 88);
+const unsigned  CmdUrlInput		= (CmdBase + 89);
+const unsigned	CmdCutHistory		= (CmdBase + 90);
 const unsigned	CmdDeleteMessage		= (CmdBase + 91);
 const unsigned	CmdEditList				= (CmdBase + 92);
 const unsigned	CmdRemoveList			= (CmdBase + 93);
 const unsigned	CmdStatusWnd			= (CmdBase + 94);
 const unsigned	CmdEmptyGroup			= (CmdBase + 95);
+const unsigned	CmdEnableSpell			= (CmdBase + 96);
+const unsigned	CmdSpell			= (CmdBase + 97);
 
 const unsigned	CmdContactGroup			= (CmdBase + 0x100);
 const unsigned	CmdUnread				= (CmdBase + 0x200);
@@ -455,6 +458,7 @@ public:
     PROP_STR(DefaultEncoding);
     PROP_BOOL(ShowEmptyGroup);
     PROP_BOOL(NoJoinAlert);
+    PROP_BOOL(EnableSpell);
 
     unsigned user_data_id;
     unsigned sms_data_id;

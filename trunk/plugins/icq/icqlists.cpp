@@ -155,6 +155,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             bool bIgnoreTime = false;
             if (!m_bRosters){
                 m_bRosters = true;
+                m_bJoin    = false;
                 setContactsInvisible(0);
                 Group *grp;
                 ContactList::GroupIterator it_g;
@@ -433,6 +434,11 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             }
         }
         getContacts()->save();
+        if (m_bJoin){
+            Event e(EventJoinAlert, this);
+            e.process();
+            m_bJoin = false;
+        }
     case ICQ_SNACxLISTS_ROSTERxOK:	// FALLTHROUGH
         {
             log(L_DEBUG, "Rosters OK");

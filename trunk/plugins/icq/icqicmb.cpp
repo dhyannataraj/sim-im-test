@@ -123,7 +123,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         Event e(EventContactStatus, contact);
                         e.process();
                     }
-                } else {
+                }else{
                     m_send.msg->setError(err_str);
                     Event e(EventMessageSent, m_send.msg);
                     e.process();
@@ -222,7 +222,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                     }else{
                         Contact *contact;
                         ICQUserData *data = findContact(screen.c_str(), NULL, false, contact);
-                        if ((data == NULL) || (data->Status.value == ICQ_STATUS_OFFLINE)){
+                        if ((data == NULL) || (data->Status.value == ICQ_STATUS_OFFLINE) || (getAckMode() == 1)){
                             ackMessage(m_send);
                         }else{
                             replyQueue.push_back(m_send);
@@ -1423,7 +1423,7 @@ void ICQClient::processSendQueue()
                         continue;
                     }
                     sendThroughServer(screen(data).c_str(), 4, b, m_send.id, true, true);
-                    if (data->Status.value != ICQ_STATUS_OFFLINE)
+                    if ((data->Status.value != ICQ_STATUS_OFFLINE) || (getAckMode() == 0))
                         ackMessage(m_send);
                     return;
                 }
@@ -1734,7 +1734,7 @@ void ICQClient::sendType1(const QString &text, bool bWide, ICQUserData *data)
     b.tlv(0x0501, "\x01", 1);
     b.tlv(0x0101, msgBuf);
     sendThroughServer(m_send.screen.c_str(), 1, b, m_send.id, true, true);
-    if (data->Status.value != ICQ_STATUS_OFFLINE)
+    if ((data->Status.value != ICQ_STATUS_OFFLINE) || (getAckMode() == 0))
         ackMessage(m_send);
 }
 

@@ -48,6 +48,7 @@
 #include "xsl.h"
 #include "userhistorycfg.h"
 #include "ballonmsg.h"
+#include "kdeisversion.h"
 
 #include <qtimer.h>
 #include <qapplication.h>
@@ -330,6 +331,7 @@ static DataDef coreData[] =
         { "DefaultEncoding", DATA_STRING, 1, 0 },
         { "ShowEmptyGroup", DATA_BOOL, 1, DATA(1) },
         { "NoJoinAlert", DATA_BOOL, 1, 0 },
+        { "EnableSpell", DATA_BOOL, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -955,7 +957,6 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     cmd->text		= I18N_NOOP("&Redo");
     cmd->accel		= "Ctrl+Y";
     cmd->icon		= "redo";
-    cmd->menu_id	= MenuTextEdit;
     cmd->menu_grp	= 0x1001;
     eCmd.process();
 
@@ -963,7 +964,6 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     cmd->text		= I18N_NOOP("Cu&t");
     cmd->icon		= "editcut";
     cmd->accel		= "Ctrl+X";
-    cmd->menu_id	= MenuTextEdit;
     cmd->menu_grp	= 0x2000;
     eCmd.process();
 
@@ -971,7 +971,6 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     cmd->text		= I18N_NOOP("&Copy");
     cmd->icon		= "editcopy";
     cmd->accel		= "Ctrl+C";
-    cmd->menu_id	= MenuTextEdit;
     cmd->menu_grp	= 0x2001;
     eCmd.process();
 
@@ -979,7 +978,6 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     cmd->text		= I18N_NOOP("&Paste");
     cmd->icon		= "editpaste";
     cmd->accel		= "Ctrl+V";
-    cmd->menu_id	= MenuTextEdit;
     cmd->menu_grp	= 0x2002;
     eCmd.process();
 
@@ -987,16 +985,30 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     cmd->text		= I18N_NOOP("Clear");
     cmd->icon		= NULL;
     cmd->accel		= NULL;
-    cmd->menu_id	= MenuTextEdit;
     cmd->menu_grp	= 0x3000;
     eCmd.process();
 
     cmd->id			= CmdSelectAll;
     cmd->text		= I18N_NOOP("Select All");
     cmd->accel		= "Ctrl+A";
-    cmd->menu_id	= MenuTextEdit;
     cmd->menu_grp	= 0x3001;
     eCmd.process();
+
+#ifdef USE_KDE
+#if KDE_IS_VERSION(3,2,0)
+    cmd->id		= CmdEnableSpell;
+    cmd->text		= I18N_NOOP("Enable spell check");
+    cmd->accel		= NULL;
+    cmd->menu_grp	= 0x4000;
+    eCmd.process();
+
+    cmd->id		= CmdSpell;
+    cmd->text		= I18N_NOOP("Spell check");
+    cmd->menu_grp	= 0x4001;
+    cmd->flags		= COMMAND_DEFAULT;
+    eCmd.process();
+#endif
+#endif
 
     cmd->id			= user_data_id + 1;
     cmd->text		= I18N_NOOP("&Messages");
@@ -1402,7 +1414,7 @@ QString CorePlugin::poFile(const char *lang)
     QFile f(QFile::decodeName(s.c_str()));
     if (!f.exists()) return "";
 #else
-    string s = PREFIX "/share/locale/";
+string s = PREFIX "/share/locale/";
     string l;
     if (lang)
         l = lang;
@@ -1443,7 +1455,7 @@ void CorePlugin::installTranslator()
 #ifdef USE_KDE
         return;
 #else
-        char *p = getenv("LANG");
+char *p = getenv("LANG");
         if (p){
             for (; *p; p++){
                 if (*p == '.') break;
@@ -2100,6 +2112,13 @@ void *CorePlugin::processEvent(Event *e)
         }
     case EventCheckState:{
             CommandDef *cmd = (CommandDef*)(e->param());
+            if (cmd->id == CmdEnableSpell){
+                cmd->icon = NULL;
+                cmd->flags &= ~COMMAND_CHECKED;
+                if (getEnableSpell())
+                    cmd->flags |= COMMAND_CHECKED;
+                return e->param();
+            }
             if (cmd->id == CmdSendClose){
                 cmd->flags &= ~COMMAND_CHECKED;
                 if (getCloseSend())
@@ -2520,6 +2539,10 @@ void *CorePlugin::processEvent(Event *e)
         }
     case EventCommandExec:{
             CommandDef *cmd = (CommandDef*)(e->param());
+            if (cmd->id == CmdEnableSpell){
+                setEnableSpell(cmd->flags & COMMAND_CHECKED);
+                return NULL;
+            }
             if (cmd->menu_id == MenuMessage){
                 Message *msg;
                 CommandDef *def = messageTypes.find(cmd->id);
