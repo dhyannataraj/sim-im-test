@@ -70,7 +70,8 @@ static MessageDef defJabber =
         NULL,
         createJabberMessage,
         NULL,
-        NULL
+        NULL,
+		NULL
     };
 
 void JabberPlugin::registerMessages()

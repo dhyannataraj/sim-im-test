@@ -50,14 +50,20 @@ const unsigned NO_TYPE = (unsigned)(-1);
 class MsgTextEdit : public TextEdit
 {
 public:
-    MsgTextEdit(QWidget *parent);
+    MsgTextEdit(MsgEdit *edit, QWidget *parent);
 protected:
     virtual QPopupMenu *createPopupMenu(const QPoint& pos);
+    virtual void contentsDropEvent(QDropEvent*);
+    virtual void contentsDragEnterEvent(QDragEnterEvent*);
+	virtual void contentsDragMoveEvent(QDragMoveEvent*);
+    Message *createMessage(QMimeSource*);
+    MsgEdit *m_edit;
 };
 
-MsgTextEdit::MsgTextEdit(QWidget *parent)
+MsgTextEdit::MsgTextEdit(MsgEdit *edit, QWidget *parent)
         : TextEdit(parent)
 {
+    m_edit = edit;
 }
 
 QPopupMenu *MsgTextEdit::createPopupMenu(const QPoint&)
@@ -68,6 +74,82 @@ QPopupMenu *MsgTextEdit::createPopupMenu(const QPoint&)
     cmd->flags		= COMMAND_NEW_POPUP;
     Event e(EventGetMenu, cmd);
     return (QPopupMenu*)(e.process());
+}
+
+Message *MsgTextEdit::createMessage(QMimeSource *src)
+{
+    Message *msg = NULL;
+    CommandDef *cmd;
+    CommandsMapIterator it(CorePlugin::m_plugin->messageTypes);
+    while ((cmd = ++it) != NULL){
+        MessageDef *def = (MessageDef*)(cmd->param);
+        if (def && def->drag){
+            msg = def->drag(src);
+            if (msg){
+                unsigned type = cmd->id;
+                if (def->base_type){
+                    type = def->base_type;
+                    for (;;){
+                        const CommandDef *c = CorePlugin::m_plugin->messageTypes.find(type);
+                        if (c == NULL)
+                            break;
+                        MessageDef *def = (MessageDef*)(cmd->param);
+                        if (def->base_type == 0)
+                            break;
+                        type = def->base_type;
+                    }
+                }
+                Command cmd;
+                cmd->id      = type;
+                cmd->menu_id = MenuMessage;
+                cmd->param	 = (void*)(m_edit->m_userWnd->id());
+                Event e(EventCheckState, cmd);
+                if (e.process())
+                    break;
+				delete msg;
+            }
+        }
+    }
+    return msg;
+}
+
+void MsgTextEdit::contentsDropEvent(QDropEvent *e)
+{
+    Message *msg = createMessage(e);
+	log(L_DEBUG, "Drop %u", (unsigned)msg);
+    if (msg){
+        e->accept();
+		msg->setContact(m_edit->m_userWnd->id());
+        Event eOpen(EventOpenMessage, msg);
+        eOpen.process();
+        delete msg;
+        return;
+    }
+    TextEdit::contentsDropEvent(e);
+}
+
+void MsgTextEdit::contentsDragEnterEvent(QDragEnterEvent *e)
+{
+    Message *msg = createMessage(e);
+	log(L_DEBUG, "Drag enter %u", (unsigned)msg);
+    if (msg){
+        delete msg;
+        e->acceptAction();
+        return;
+    }
+    TextEdit::contentsDragEnterEvent(e);
+}
+
+void MsgTextEdit::contentsDragMoveEvent(QDragMoveEvent *e)
+{
+    Message *msg = createMessage(e);
+	log(L_DEBUG, "Drag enter %u", (unsigned)msg);
+    if (msg){
+        delete msg;
+        e->acceptAction();
+        return;
+    }
+    TextEdit::contentsDragMoveEvent(e);
 }
 
 MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd, bool bReceived)
@@ -84,7 +166,7 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd, bool bReceived)
     setCentralWidget(m_frame);
     m_layout = new QVBoxLayout(m_frame);
 
-    m_edit = new MsgTextEdit(m_frame);
+    m_edit = new MsgTextEdit(this, m_frame);
     m_edit->setBackground(QColor(CorePlugin::m_plugin->getEditBackground()));
     m_edit->setForeground(QColor(CorePlugin::m_plugin->getEditForeground()));
     m_edit->setFont(CorePlugin::m_plugin->editFont);
@@ -298,7 +380,8 @@ static MessageDef defGeneric =
         "%n messages",
         createGeneric,
         NULL,
-        generateGeneric
+        generateGeneric,
+        NULL
     };
 
 static Message *createSMS(const char *cfg)
@@ -324,7 +407,8 @@ static MessageDef defSMS =
         "SMSs",
         createSMS,
         NULL,
-        generateSMS
+        generateSMS,
+        NULL
     };
 
 static Message *createFile(const char *cfg)
@@ -335,6 +419,27 @@ static Message *createFile(const char *cfg)
 static QObject* generateFile(QWidget *w, Message *msg)
 {
     return new MsgFile(static_cast<CToolCustom*>(w), msg);
+}
+
+Message *dropFile(QMimeSource *src)
+{
+    if (QUriDrag::canDecode(src)){
+        QStringList files;
+        if (QUriDrag::decodeLocalFiles(src, files) && files.count()){
+            QString fileName;
+            for (QStringList::Iterator it = files.begin(); it != files.end(); ++it){
+                if (!fileName.isEmpty())
+                    fileName += ",";
+                fileName += "\"";
+                fileName += *it;
+                fileName += "\"";
+            }
+            FileMessage *m = new FileMessage;
+            m->setFile(fileName);
+            return m;
+        }
+    }
+    return NULL;
 }
 
 #if 0
@@ -350,7 +455,8 @@ static MessageDef defFile =
         "%n files",
         createFile,
         NULL,
-        generateFile
+        generateFile,
+        dropFile
     };
 
 static Message *createAuthRequest(const char *cfg)
@@ -425,7 +531,8 @@ static MessageDef defAuthRequest =
         "%n authorize requests",
         createAuthRequest,
         NULL,
-        generateAuthRequest
+        generateAuthRequest,
+        NULL
     };
 
 static Message *createAuthGranted(const char *cfg)
@@ -451,7 +558,8 @@ static MessageDef defAuthGranted =
         "%n authorization granted",
         createAuthGranted,
         NULL,
-        generateAuthGranted
+        generateAuthGranted,
+        NULL
     };
 
 static Message *createAuthRefused(const char *cfg)
@@ -477,7 +585,8 @@ static MessageDef defAuthRefused =
         "%n authorization refused",
         createAuthRefused,
         NULL,
-        generateAuthRefused
+        generateAuthRefused,
+        NULL
     };
 
 static Message *createAdded(const char *cfg)
@@ -497,6 +606,7 @@ static MessageDef defAdded =
         "Add to contacts",
         "%n add to contacts",
         createAdded,
+        NULL,
         NULL,
         NULL
     };
@@ -519,6 +629,7 @@ static MessageDef defRemoved =
         "%n removed from contacts",
         createRemoved,
         NULL,
+        NULL,
         NULL
     };
 
@@ -539,6 +650,7 @@ static MessageDef defStatus =
         "Status changed",
         "%n times status changed",
         createStatus,
+        NULL,
         NULL,
         NULL
     };

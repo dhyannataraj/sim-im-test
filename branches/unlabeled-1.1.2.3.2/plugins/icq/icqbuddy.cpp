@@ -46,7 +46,16 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
     case ICQ_SNACxBDY_USEROFFLINE:
         uin = m_socket->readBuffer.unpackUin();
         data = findContact(uin, NULL, false, contact);
-        setOffline(data);
+            if (data && (data->Status != ICQ_STATUS_OFFLINE)){
+                setOffline(data);
+                StatusMessage m;
+                m.setContact(contact->id());
+                m.setClient(dataName(data).c_str());
+                m.setStatus(STATUS_OFFLINE);
+                m.setFlags(MESSAGE_RECEIVED);
+                Event e(EventMessageReceived, &m);
+                e.process();
+            }
         break;
     case ICQ_SNACxBDY_USERONLINE:
         uin = m_socket->readBuffer.unpackUin();

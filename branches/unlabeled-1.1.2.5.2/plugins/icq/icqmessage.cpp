@@ -707,6 +707,7 @@ static MessageDef defIcq =
         NULL,
         createIcq,
         NULL,
+        NULL,
         NULL
     };
 
@@ -727,6 +728,7 @@ static MessageDef defWebPanel =
         "WWW-panel message",
         "%n WWW-panel messages",
         createWebPanel,
+        NULL,
         NULL,
         NULL
     };
@@ -749,6 +751,7 @@ static MessageDef defEmailPager =
         "%n Email pager messages",
         createEmailPager,
         NULL,
+        NULL,
         NULL
     };
 
@@ -769,6 +772,7 @@ static MessageDef defOpenSecure =
         "Request secure channel",
         "%n requests secure channel",
         createOpenSecure,
+        NULL,
         NULL,
         NULL
     };
@@ -791,6 +795,7 @@ static MessageDef defCloseSecure =
         "%n times close secure channel",
         createCloseSecure,
         NULL,
+        NULL,
         NULL
     };
 
@@ -812,6 +817,7 @@ static MessageDef defCheckInvisible =
         "%n times checkInvisible",
         createCheckInvisible,
         NULL,
+        NULL,
         NULL
     };
 
@@ -828,6 +834,7 @@ static MessageDef defIcqAuthRequest =
         NULL,
         NULL,
         createIcqAuthRequest,
+        NULL,
         NULL,
         NULL
     };
@@ -846,6 +853,7 @@ static MessageDef defIcqAuthGranted =
         NULL,
         createIcqAuthGranted,
         NULL,
+        NULL,
         NULL
     };
 
@@ -862,6 +870,7 @@ static MessageDef defIcqAuthRefused =
         NULL,
         NULL,
         createIcqAuthRefused,
+        NULL,
         NULL,
         NULL
     };
@@ -884,6 +893,7 @@ static MessageDef defContactRequest =
         "%n contact requests",
         createContactRequest,
         NULL,
+        NULL,
         NULL
     };
 
@@ -895,6 +905,21 @@ static Message *createUrl(const char *cfg)
 static QObject *generateUrl(QWidget *p, Message *msg)
 {
     return new MsgUrl(static_cast<CToolCustom*>(p), msg);
+}
+
+static Message *dropUrl(QMimeSource *src)
+{
+	if (QUriDrag::canDecode(src)){
+		QStringList l;
+		if (QUriDrag::decodeLocalFiles(src, l))
+			return NULL;
+		if (!QUriDrag::decodeToUnicodeUris(src, l) || (l.count() < 1))
+			return NULL;
+		URLMessage *msg = new URLMessage;
+		msg->setUrl(l[0]);
+		return msg;
+	}
+    return NULL;
 }
 
 #if 0
@@ -910,7 +935,8 @@ static MessageDef defUrl =
         "%n URLs",
         createUrl,
         NULL,
-        generateUrl
+        generateUrl,
+        dropUrl
     };
 
 static Message *createContact(const char *cfg)
@@ -921,6 +947,26 @@ static Message *createContact(const char *cfg)
 static QObject *generateContact(QWidget *p, Message *msg)
 {
     return new MsgContacts(static_cast<CToolCustom*>(p), msg, ICQPlugin::m_protocol);
+}
+
+static Message *dropContact(QMimeSource *src)
+{
+    if (ContactDragObject::canDecode(src)){
+        Contact *contact = ContactDragObject::decode(src);
+		void *data = NULL;
+		ClientDataIterator it(contact->clientData);
+		while ((data = ++it) != NULL){
+			if (it.client()->protocol() == ICQPlugin::m_protocol)
+				break;
+		}
+		if (data == NULL)
+			return NULL;
+		ContactMessage *msg = new ContactMessage;
+		ICQUserData *d = (ICQUserData*)data;
+		msg->setContacts(QString::number(d->Uin) + "," + getToken(contact->getName(), '/'));
+        return msg;
+    }
+    return NULL;
 }
 
 #if 0
@@ -936,7 +982,8 @@ static MessageDef defContact =
         "%n contact lists",
         createContact,
         NULL,
-        generateContact
+        generateContact,
+        dropContact
     };
 
 MsgUrl::MsgUrl(CToolCustom *parent, Message *msg)
@@ -1103,7 +1150,7 @@ void MsgContacts::contactsDrop(QMimeSource *s)
         QListViewItem *item;
         for (item = m_contacts->firstChild(); item; item = item->nextSibling()){
             if (item->text(0).toUInt() == data->Uin)
-                break;;
+                break;
         }
         if (item)
             continue;

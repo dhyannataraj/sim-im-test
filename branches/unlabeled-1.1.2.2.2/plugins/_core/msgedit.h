@@ -19,18 +19,19 @@
 #define _MSGEDIT_H
 
 #include "simapi.h"
+
 #include <qmainwindow.h>
 #include <qlabel.h>
 
 #include <list>
 using namespace std;
 
-class TextEdit;
 class CorePlugin;
 class UserWnd;
 class CToolBar;
 class QVBoxLayout;
 class QFrame;
+class TextEdit;
 
 class MsgEdit : public QMainWindow, public EventReceiver
 {
