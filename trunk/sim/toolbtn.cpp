@@ -446,7 +446,8 @@ void CToolBar::toolBarChanged(const ToolBarDef *def)
 {
     if (def != m_def) return;
     clear();
-    for (int i = 0; i < states->size(); i++){
+	int i;
+    for (i = 0; i < states->size(); i++){
 		if ((*states)[i].button == NULL) continue;
 		ToolBarState &s = (*states)[i];
 		QWidget *w = s.button;
