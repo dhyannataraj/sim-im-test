@@ -228,8 +228,9 @@ typedef struct WordWeight
 {
     QString		word;
     unsigned	weight;
-    bool		operator < (const struct WordWeight &w) { return weight > w.weight; }
 } WordWeight;
+
+bool operator < (const WordWeight &w1, const WordWeight &w2) { return w1.weight > w2.weight; }
 
 static unsigned weight(const QString &s1, const QString &s2)
 {
