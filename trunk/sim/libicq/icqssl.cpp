@@ -40,6 +40,7 @@ static SSL_CTX *gSSL_CTX_HTTPS = NULL;
 
 #if DEBUG
 
+#ifdef SSL_DEBUG
 void ssl_info_callback(SSL *s, int where, int ret)
 {
     const char *str;
@@ -91,6 +92,7 @@ void ssl_info_callback(SSL *s, int where, int ret)
         }
     }
 }
+#endif
 
 #endif
 
@@ -155,8 +157,10 @@ void SSLClient::initSSL()
 #else
         SSL_CTX_set_cipher_list(gSSL_CTX, "ADH");
 #endif
-#ifdef DEBUG        
+#if OPENSSL_VERSION_NUMBER < 0x00907000L        
         (gSSL_CTX, (void (*)())ssl_info_callback);
+#else
+        (gSSL_CTX, ssl_info_callback);
 #endif
         DH *dh = get_dh512();
         SSL_CTX_set_tmp_dh(gSSL_CTX, dh);
