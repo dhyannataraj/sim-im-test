@@ -21,6 +21,7 @@
 #include <qfile.h>
 #include <qfileinfo.h>
 #include <qdir.h>
+#include <qstringlist.h>
 
 #include <list>
 

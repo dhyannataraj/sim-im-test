@@ -1117,8 +1117,8 @@ void DirectClient::addPluginInfoRequest(unsigned plugin_index)
         SendDirectMsg &sm = *it;
         if (sm.msg)
             continue;
-//        if (sm.type == plugin_index)
-//            return;
+        if (sm.type == plugin_index)
+            return;
     }
     SendDirectMsg sm;
     sm.msg = NULL;
