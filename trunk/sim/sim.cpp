@@ -300,6 +300,7 @@ int main(int argc, char *argv[])
 #ifdef WIN32
     CloseHandle(hMutex);
 #endif
+	return 0;
 }
 
 
