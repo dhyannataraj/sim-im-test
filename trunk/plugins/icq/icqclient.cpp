@@ -991,7 +991,9 @@ void ICQClient::ping()
             time_t now;
             time(&now);
             struct tm *tm = localtime(&now);
-            if (((tm->tm_mon + 1) == month) && ((tm->tm_mday + 1) == day))
+	    // removed +1 on tm_day because the notification was one
+	    // day before the real birthday
+            if (((tm->tm_mon + 1) == month) && ((tm->tm_mday) == day))
                 bBirthday = true;
         }
         if (bBirthday != m_bBirthday){
