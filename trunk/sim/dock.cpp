@@ -94,6 +94,8 @@ void DockWnd::callProc(unsigned long param)
 
 #else
 
+extern Time qt_x_time;
+
 extern int _argc;
 extern char **_argv;
 
@@ -109,6 +111,7 @@ protected:
     virtual void mouseReleaseEvent(QMouseEvent *);
     virtual void mouseDoubleClickEvent(QMouseEvent *e);
     virtual void paintEvent(QPaintEvent *);
+    virtual void enterEvent(QEvent*);
     virtual bool x11Event(XEvent*);
     Window  parentWin;
     QPixmap *vis;
@@ -120,8 +123,9 @@ WharfIcon::WharfIcon(DockWnd *parent)
     dock = parent;
     setMouseTracking(true);
     QIconSet icon = Icon("offline");
-    setIcon(icon.pixmap(QIconSet::Large, QIconSet::Normal));
-    resize(48, 48);
+    const QPixmap &pict = icon.pixmap(QIconSet::Large, QIconSet::Normal);
+    setIcon(pict);
+    resize(pict.width(), pict.height());
     parentWin = 0;
     setBackgroundMode(X11ParentRelative);
     vis = NULL;
@@ -143,6 +147,23 @@ bool WharfIcon::x11Event(XEvent *e)
     if ((e->type == Expose) && !bActivated)
         return false;
     return QWidget::x11Event(e);
+}
+
+void WharfIcon::enterEvent( QEvent* )
+{
+    if ( !qApp->focusWidget() ) {
+        XEvent ev;
+        memset(&ev, 0, sizeof(ev));
+        ev.xfocus.display = qt_xdisplay();
+        ev.xfocus.type = FocusIn;
+        ev.xfocus.window = winId();
+        ev.xfocus.mode = NotifyNormal;
+        ev.xfocus.detail = NotifyAncestor;
+        Time time = qt_x_time;
+        qt_x_time = 1;
+        qApp->x11ProcessEvent( &ev );
+        qt_x_time = time;
+    }
 }
 
 #define SMALL_PICT_OFFS	8
@@ -679,10 +700,6 @@ void DockWnd::mouseDoubleClickEvent( QMouseEvent*)
     bNoToggle = true;
     emit doubleClicked();
 }
-
-#ifndef WIN32
-extern Time qt_x_time;
-#endif
 
 void DockWnd::enterEvent( QEvent* )
 {
