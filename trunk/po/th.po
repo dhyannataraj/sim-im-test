@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: newww\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-04-26 11:31+0400\n"
-"PO-Revision-Date: 2004-05-05 09:29+0700\n"
+"PO-Revision-Date: 2004-05-05 15:20+0700\n"
 "Last-Translator: Narachai Sakorn <narachai@opentle.org>\n"
 "Language-Team: Thai <th@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -6733,7 +6733,7 @@ msgstr "เตือนเมื่อออนไลน์"
 
 #: plugins/sound/sound.cpp:47
 msgid "Plugin provides sounds on any events"
-msgstr ""
+msgstr "ปลั๊กอินนี้จะรวบรวมเสียงในเหตุการณ์ต่างๆ"
 
 #: plugins/sound/sound.cpp:129 plugins/sound/sound.cpp:137
 msgid "&Sound"
@@ -6741,7 +6741,7 @@ msgstr "เ&สียง"
 
 #: plugins/sound/sounduserbase.cpp:63
 msgid "&Disable all sounds"
-msgstr ""
+msgstr "ปิ&ดเสียง"
 
 #: plugins/sound/sounduserbase.cpp:64
 msgid "No sound if windows has &focus"
@@ -6759,7 +6759,7 @@ msgstr "ใช้ &artsd"
 
 #: plugins/sound/soundconfigbase.cpp:98
 msgid "Player:"
-msgstr ""
+msgstr "ตัวเล่น:"
 
 #: plugins/sound/soundconfigbase.cpp:99
 msgid "File transfer done:"
@@ -6767,7 +6767,7 @@ msgstr "รับ-ส่งแฟ้มเรียบร้อย"
 
 #: plugins/sound/soundconfigbase.cpp:100
 msgid "Message sent:"
-msgstr ""
+msgstr "ส่งข้อความ:"
 
 #: plugins/sound/soundconfigbase.cpp:101
 msgid "Sound on startup:"
@@ -6783,21 +6783,23 @@ msgstr ""
 
 #: plugins/transparent/transparent.cpp:65
 msgid "Transparent"
-msgstr ""
+msgstr "โปร่งใส"
 
 #: plugins/transparent/transparent.cpp:67
 msgid ""
 "Plugin provides windows transparency\n"
 "This plugin works only on Windows 2000 or Windows XP"
 msgstr ""
+"ปลั๊กอินนี้จะแสดงหน้าต่างแบบโปร่งใส\n"
+"แต่จะสามารถทำงานได้บน windows 2000 หรือ Windows XP เท่านั้น"
 
 #: plugins/transparent/transparent.cpp:70
 msgid "Plugin provides windows transparency"
-msgstr ""
+msgstr "ปลัี๊กอินนี้จะแสดงหน้าต่างแบบโปร่งใส"
 
 #: plugins/transparent/transparentcfgbase.cpp:71
 msgid "Transparency of main window:"
-msgstr ""
+msgstr "ความโปร่งใสของหน้าต่างหลัก:"
 
 #: plugins/transparent/transparentcfgbase.cpp:72
 msgid "Transparent only if inactive"
@@ -6805,23 +6807,23 @@ msgstr ""
 
 #: plugins/update/update.cpp:40
 msgid "Update"
-msgstr ""
+msgstr "ปรับปรุง"
 
 #: plugins/update/update.cpp:41
 msgid "Plugin provides notifications about update SIM software"
-msgstr ""
+msgstr "ปลั๊กอินนี้จะเตือนเมื่อโปรแกรม SIM มีการอัพเดต"
 
 #: plugins/update/update.cpp:127
 msgid "Show details"
-msgstr ""
+msgstr "แสดงรายละเอียด"
 
 #: plugins/update/update.cpp:128
 msgid "Remind later"
-msgstr ""
+msgstr "เตือนใหม่ภายหลัง"
 
 #: plugins/update/update.cpp:144
 msgid "New version SIM is released"
-msgstr ""
+msgstr "เวอร์ชั่นใหม่ของ SIM ออกแล้ว"
 
 #: plugins/sms/sms.cpp:87
 #, c-format
@@ -8064,11 +8066,11 @@ msgstr "โปรแกรม"
 
 #: plugins/action/actioncfg.cpp:179 plugins/action/additem.cpp:54
 msgid "In command line you can use:"
-msgstr ""
+msgstr "ในบรรทัดคำสั่งคุณสามารถใช้งาน:"
 
 #: plugins/action/actioncfg.cpp:41
 msgid "Event"
-msgstr ""
+msgstr "เหตุการณ์"
 
 #: plugins/action/actioncfg.cpp:47
 msgid "Contact online"
@@ -8141,9 +8143,8 @@ msgid "Send mail"
 msgstr "ส่งเมล"
 
 #: plugins/navigate/navigate.cpp:281
-#, fuzzy
 msgid "Copy &location"
-msgstr "ที่&อยู่"
+msgstr "คัดลอกที่&อยู่"
 
 #: plugins/yahoo/yahoo.cpp:81
 msgid "Yahoo!"
@@ -8159,7 +8160,7 @@ msgstr ""
 
 #: plugins/yahoo/yahoocfg.cpp:46
 msgid "Get a Yahoo! ID"
-msgstr ""
+msgstr "สมัคร Yahoo! ID"
 
 #: plugins/yahoo/yahooclient.cpp:337
 msgid "Yahoo! login lock"
@@ -8198,14 +8199,12 @@ msgid "&Yahoo!"
 msgstr "&Yahoo!"
 
 #: plugins/yahoo/yahoosearchbase.cpp:98
-#, fuzzy
 msgid "Yahoo! &ID"
-msgstr "&Yahoo! ID"
+msgstr "Yahoo! &ID"
 
 #: plugins/yahoo/yahoosearchbase.cpp:100
-#, fuzzy
 msgid "&Keyword"
-msgstr "เ&ครือข่าย"
+msgstr "คำค้น&หา"
 
 #: plugins/weather/wifacecfg.cpp:59 plugins/weather/wifacecfg.cpp:74
 #: plugins/yahoo/yahoosearchbase.cpp:101
@@ -8213,19 +8212,16 @@ msgid "Conditions"
 msgstr ""
 
 #: plugins/yahoo/yahoosearch.cpp:44
-#, fuzzy
 msgid "male"
-msgstr "หญิง"
+msgstr "สุภาพบุรุษ"
 
 #: plugins/yahoo/yahoosearch.cpp:45
-#, fuzzy
 msgid "female"
-msgstr "หญิง"
+msgstr "สุภาพสตรี"
 
 #: plugins/yahoo/yahoosearch.cpp:128
-#, fuzzy
 msgid "Yahoo! ID"
-msgstr "&Yahoo! ID"
+msgstr "Yahoo! ID"
 
 #: plugins/replace/replace.cpp:33
 msgid "Replace text"
@@ -8401,9 +8397,7 @@ msgstr ""
 msgid ""
 "_: weather\n"
 "Windy"
-msgstr ""
-"_: สภาพภูมิอากาศ\n"
-"ลมแรง"
+msgstr "ลมแรง"
 
 #: plugins/weather/weather.cpp:481
 msgid ""
@@ -8418,31 +8412,22 @@ msgid ""
 msgstr ""
 
 #: plugins/weather/weather.cpp:483
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Drifting Snow"
 msgstr ""
-"_: weather\n"
-"ทิศเหนือ-ลมเหนือ"
 
 #: plugins/weather/weather.cpp:484
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Scattered"
 msgstr ""
-"_: weather\n"
-"ทิศเหนือ-ลมเหนือ"
 
 #: plugins/weather/weather.cpp:485
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Smoke"
 msgstr ""
-"_: weather\n"
-"ทิศเหนือ-ลมเหนือ"
 
 #: plugins/weather/weather.cpp:486
 msgid ""
@@ -8567,13 +8552,10 @@ msgid ""
 msgstr ""
 
 #: plugins/weather/weather.cpp:506
-#, fuzzy
 msgid ""
 "_: weather\n"
 "VAR"
 msgstr ""
-"_: weather\n"
-"ทิศเหนือ-ลมเหนือ"
 
 #: plugins/weather/weather.cpp:507
 msgid "km"
@@ -8721,7 +8703,7 @@ msgstr "วันของสัปดาห์"
 
 #: plugins/weather/weathercfgbase.cpp:110
 msgid "Location ID:"
-msgstr ""
+msgstr "รหัสพื้นที่:"
 
 #: plugins/weather/weathercfgbase.cpp:112
 msgid "You can enter ID as part URL for your location on weather.com"
