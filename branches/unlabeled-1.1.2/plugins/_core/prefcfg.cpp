@@ -48,9 +48,11 @@ PrefConfig::PrefConfig(QWidget *parent, CommandDef *cmd, Contact *contact, Group
         lay->addWidget(w);
         connect(this, SIGNAL(apply(void*)), w, SLOT(apply(void*)));
         addWnd->setMinimumSize(w->minimumSizeHint());
+        setMinimumSize(sizeHint());
     }
     tabWnd->setCurrentPage(0);
     tabWnd->changeTab(tabWnd->currentPage(), i18n(m_cmd->text));
+    tabWnd->adjustSize();
     connect(chkOverride, SIGNAL(toggled(bool)), this, SLOT(overrideToggled(bool)));
     overrideToggled(chkOverride->isChecked());
 }
