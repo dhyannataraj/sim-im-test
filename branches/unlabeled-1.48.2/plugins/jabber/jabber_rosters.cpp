@@ -911,6 +911,8 @@ JabberClient::PresenceRequest::~PresenceRequest()
                     }
                     data->nResources.value = resources.size();
                 }
+				if (data->nResources.value == 0)
+					set_str(&data->AutoReply.ptr, m_status.c_str());
             }else{
                 if (i > data->nResources.value){
                     bChanged = true;

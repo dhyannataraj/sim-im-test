@@ -121,6 +121,7 @@ DataDef jabberUserData[] =
         { "", DATA_STRLIST, 1, 0 },			// ResourceReply
         { "", DATA_STRLIST, 1, 0 },			// ResourceStatusTime
         { "", DATA_STRLIST, 1, 0 },			// ResourceOnlineTime
+		{ "AutoReply", DATA_UTF, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -1287,6 +1288,13 @@ QString JabberClient::contactTip(void *_data)
             res += ": </font>";
             res += formatDateTime(data->StatusTime.value);
         }
+            const char *reply = data->AutoReply.ptr;
+            if (reply && *reply){
+                res += "<br/>";
+                QString r = QString::fromUtf8(reply);
+                r = r.replace(QRegExp("\n"), "<br/>");
+                res += r;
+            }
     }else{
         for (unsigned i = 1; i <= data->nResources.value; i++){
             unsigned status = atol(get_str(data->ResourceStatus, i));

@@ -458,7 +458,7 @@ void MsgViewBase::setBackground(unsigned n)
         if (s.find(sAnchor) >= 0)
             break;
     }
-    for (; i < (unsigned)paragraphs(); i++){
+    for (; i < paragraphs(); i++){
         QString s = text(i);
         int anchorPos = s.find(sAnchor);
         if (anchorPos >= 0)

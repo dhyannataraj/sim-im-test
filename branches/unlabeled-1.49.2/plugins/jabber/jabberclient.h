@@ -78,6 +78,7 @@ typedef struct JabberUserData
     Data		ResourceReply;
     Data		ResourceStatusTime;
     Data		ResourceOnlineTime;
+	Data		AutoReply;
 } JabberUserData;
 
 typedef struct JabberClientData
