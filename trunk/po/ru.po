@@ -3834,7 +3834,7 @@ msgstr "По:"
 # ui/networkbase.cpp:105 ui/proxydlgbase.cpp:145
 #: ui/networkbase.cpp:240
 msgid "P&orts"
-msgstr "П&орт:"
+msgstr "П&орт"
 
 # ui/filetransferbase.cpp:37
 #: ui/filetransferbase.cpp:130
