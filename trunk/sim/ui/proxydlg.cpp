@@ -58,11 +58,17 @@ ProxyDialog::ProxyDialog(QWidget *p, const QString &msg)
     connect(cmbProxy, SIGNAL(activated(int)), this, SLOT(proxyChanged(int)));
     connect(chkProxyAuth, SIGNAL(toggled(bool)), this, SLOT(proxyChanged(bool)));
 
+    edtPort->setValidator(new QIntValidator(1024, 0xFFFF, edtPort));
+    edtHost->setText(QString::fromLocal8Bit(pClient->ServerHost.c_str()));
+    edtPort->setText(QString::number(pClient->ServerPort));
+
     proxyChanged(0);
 }
 
 void ProxyDialog::apply()
 {
+    set(pClient->ServerHost, edtHost->text());
+    pClient->ServerPort = edtPort->text().toUInt();
     pClient->ProxyType = cmbProxy->currentItem();
     set(pClient->ProxyHost, edtProxyHost->text());
     pClient->ProxyPort = edtProxyPort->text().toUInt();
