@@ -110,9 +110,16 @@ void IgnoreList::deleteItem(QListViewItem *item)
         contact->setIgnore(false);
         Event e1(EventContactChanged, contact);
         e1.process();
+/*      Don't delete user - move them to NotInList
+        Maybe add a second menuitem  - one with delete, one with remove
+        delete - real delete
+        remove - move to NotInList
+        But I don't know how to create a second item
+        Christian
+        
         Event e2(EventContactDeleted, contact);
         e2.process();
-        delete contact;
+        delete contact; */
     }
 }
 
