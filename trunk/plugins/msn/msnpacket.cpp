@@ -137,25 +137,29 @@ ChgPacket::ChgPacket(MSNClient *client)
         : MSNPacket(client, "CHG")
 {
     const char *status = "NLN";
-    switch (m_client->getStatus()){
-    case STATUS_NA:
-        status = "IDL";
-        break;
-    case STATUS_AWAY:
-        status = "AWY";
-        break;
-    case STATUS_DND:
-        status = "BSY";
-        break;
-    case STATUS_BRB:
-        status = "BRB";
-        break;
-    case STATUS_PHONE:
-        status = "PHN";
-        break;
-    case STATUS_LUNCH:
-        status = "LUN";
-        break;
+    if (m_client->getInvisible()){
+        status = "HDN";
+    }else{
+        switch (m_client->getStatus()){
+        case STATUS_NA:
+            status = "IDL";
+            break;
+        case STATUS_AWAY:
+            status = "AWY";
+            break;
+        case STATUS_DND:
+            status = "BSY";
+            break;
+        case STATUS_BRB:
+            status = "BRB";
+            break;
+        case STATUS_PHONE:
+            status = "PHN";
+            break;
+        case STATUS_LUNCH:
+            status = "LUN";
+            break;
+        }
     }
     addArg(status);
 }

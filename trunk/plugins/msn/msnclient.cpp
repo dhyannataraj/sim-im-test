@@ -188,6 +188,17 @@ void MSNClient::setStatus(unsigned status)
     packet->send();
 }
 
+void MSNClient::setInvisible(bool bState)
+{
+    if (bState == getInvisible())
+        return;
+    TCPClient::setInvisible(bState);
+    if (getStatus() == STATUS_OFFLINE)
+        return;
+    MSNPacket *packet = new ChgPacket(this);
+    packet->send();
+}
+
 void MSNClient::disconnected()
 {
     if (m_curPacket){
@@ -1176,13 +1187,6 @@ bool MSNClient::add(const char *mail, const char *name, unsigned grp)
     Event e(EventContactChanged, contact);
     e.process();
     return true;
-}
-
-void MSNClient::setInvisible(bool bState)
-{
-    MSNPacket *packet = new BlpPacket(this, bState);
-    packet->send();
-    Client::setInvisible(bState);
 }
 
 bool MSNClient::compareData(void *d1, void *d2)

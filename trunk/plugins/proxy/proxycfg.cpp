@@ -23,8 +23,11 @@
 #include <qcheckbox.h>
 #include <qspinbox.h>
 #include <qlabel.h>
+#include <qlayout.h>
+#include <qpainter.h>
+#include <qtabwidget.h>
 
-ProxyConfig::ProxyConfig(QWidget *parent, ProxyPlugin *plugin)
+ProxyConfig::ProxyConfig(QWidget *parent, ProxyPlugin *plugin, QTabWidget *tab)
         : ProxyConfigBase(parent)
 {
     m_plugin = plugin;
@@ -39,6 +42,19 @@ ProxyConfig::ProxyConfig(QWidget *parent, ProxyPlugin *plugin)
     chkAuth->setChecked(plugin->getAuth());
     edtUser->setText(QString::fromLocal8Bit(plugin->getUser()));
     edtPswd->setText(QString::fromLocal8Bit(plugin->getPassword()));
+    if (tab){
+        tab->addTab(this, i18n("&Proxy"));
+        for (QWidget *p = this; p; p = p->parentWidget()){
+            QSize s  = p->sizeHint();
+            QSize s1 = QSize(p->width(), p->height());
+            p->setMinimumSize(s);
+            p->resize(QMAX(s.width(), s1.width()), QMAX(s.height(), s1.height()));
+            if (p->layout())
+                p->layout()->invalidate();
+            if (p == topLevelWidget())
+                break;
+        }
+    }
     typeChanged(plugin->getType());
     connect(cmbType, SIGNAL(activated(int)), this, SLOT(typeChanged(int)));
     connect(chkAuth, SIGNAL(toggled(bool)), this, SLOT(authToggled(bool)));
@@ -94,6 +110,22 @@ void ProxyConfig::authToggled(bool bState)
     edtPswd->setEnabled(bState);
     lblUser->setEnabled(bState);
     lblPswd->setEnabled(bState);
+}
+
+void ProxyConfig::paintEvent(QPaintEvent*)
+{
+    for (QWidget *p = parentWidget(); p; p = p->parentWidget()){
+        const QPixmap *bg = p->backgroundPixmap();
+        if (bg){
+            QPoint pos = mapToGlobal(QPoint(0, 0));
+            pos = p->mapFromGlobal(pos);
+            QPainter pp(this);
+            pp.drawTiledPixmap(0, 0, width(), height(), *bg, pos.x(), pos.y());
+            return;
+        }
+    }
+    QPainter pp(this);
+    pp.eraseRect(0, 0, width(), height());
 }
 
 #ifndef WIN32

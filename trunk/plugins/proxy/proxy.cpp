@@ -1229,8 +1229,7 @@ void *ProxyPlugin::processEvent(Event *e)
             tab = static_cast<QTabWidget*>(it.current());
         delete l;
         if (tab){
-            QWidget *w = new ProxyConfig(tab, this);
-            tab->addTab(w, i18n("&Proxy"));
+            QWidget *w = new ProxyConfig(tab, this, tab);
             QObject::connect(tab->topLevelWidget(), SIGNAL(apply()), w, SLOT(apply()));
         }
     }
@@ -1244,7 +1243,7 @@ string ProxyPlugin::getConfig()
 
 QWidget *ProxyPlugin::createConfigWindow(QWidget *parent)
 {
-    return new ProxyConfig(parent, this);
+    return new ProxyConfig(parent, this, NULL);
 }
 
 #ifdef WIN32
