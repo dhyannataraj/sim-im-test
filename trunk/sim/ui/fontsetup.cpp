@@ -77,20 +77,20 @@ void FontSetup::modeChanged(bool)
 
 void FontSetup::useOwnColorsChanged(bool AToggled)
 {
-	btnSend->setEnabled(AToggled);
-	btnReceive->setEnabled(AToggled);
-	btnSender->setEnabled(AToggled);
-	btnReceiver->setEnabled(AToggled);
+    btnSend->setEnabled(AToggled);
+    btnReceive->setEnabled(AToggled);
+    btnSender->setEnabled(AToggled);
+    btnReceiver->setEnabled(AToggled);
 }
 
 void FontSetup::apply(ICQUser*)
 {
     unsigned long colorSend = btnSend->color().rgb() & 0xFFFFFF;
     unsigned long colorReceive = btnReceive->color().rgb() & 0xFFFFFF;
-	unsigned long colorSender = btnSender->color().rgb() & 0xFFFFFF;
-	unsigned long colorReceiver = btnReceiver->color().rgb() & 0xFFFFFF;
-	if ((pMain->getColorSend() != colorSend)     || (pMain->getColorReceive() != colorReceive) ||
-		(pMain->getColorSender() != colorSender) || (pMain->getColorReceiver() != colorReceiver))
+    unsigned long colorSender = btnSender->color().rgb() & 0xFFFFFF;
+    unsigned long colorReceiver = btnReceiver->color().rgb() & 0xFFFFFF;
+    if ((pMain->getColorSend() != colorSend)     || (pMain->getColorReceive() != colorReceive) ||
+            (pMain->getColorSender() != colorSender) || (pMain->getColorReceiver() != colorReceiver))
     {
         pMain->setColorSend(colorSend);
         pMain->setColorReceive(colorReceive);

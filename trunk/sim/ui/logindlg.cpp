@@ -84,7 +84,7 @@ LoginDialog::LoginDialog()
 };
 
 LoginDialog::~LoginDialog() {
-	pLoginDlg = NULL;	
+    pLoginDlg = NULL;
 }
 
 void LoginDialog::loadUins()

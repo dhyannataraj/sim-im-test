@@ -447,7 +447,7 @@ void MsgView::colorsChanged()
     char FONT_RECEIVE[] = "<##FontReceive##>";
     char FONT_SENDER[] = "<##FontSender##>";
     char FONT_RECEIVER[] = "<##FontReceiver##>";
-    
+
     QString t = text();
     QString c;
     c.sprintf(FONT_FORMAT, oldSendColor);
@@ -547,9 +547,9 @@ QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
     if (bUnread) s += "<b>";
     QString color;
     if (pMain->isUseOwnColors()) {
-    	color.sprintf(FONT_FORMAT, msg->Received ? pMain->getColorReceiver() : pMain->getColorSender());
+        color.sprintf(FONT_FORMAT, msg->Received ? pMain->getColorReceiver() : pMain->getColorSender());
     } else {
-    	color.sprintf(FONT_FORMAT, msg->Received ? 0xB00000 : 0x0000B0);
+        color.sprintf(FONT_FORMAT, msg->Received ? 0xB00000 : 0x0000B0);
     }
     s += color;
     if (msg->Received){
@@ -583,7 +583,7 @@ QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
         foreColor = m->ForeColor;
         backColor = m->BackColor;
     } else if (msg->Type() == ICQ_MSGxMSG) {
-    	foreColor = (msg->Received ? pMain->getColorReceive() : pMain->getColorSend());
+        foreColor = (msg->Received ? pMain->getColorReceive() : pMain->getColorSend());
     }
     if (msg->Type() != ICQ_MSGxSTATUS){
         s += "<p>";
