@@ -93,6 +93,7 @@ public:
     bool acceptMessage(Message *msg, const char *dir, OverwriteMode mode);
     bool declineMessage(Message *msg, const char *reason);
 	void acceptMessage(unsigned short port, unsigned cookie, unsigned auth_cookie);
+	void declineMessage(unsigned cookie);
 protected:
     enum State
     {
@@ -270,8 +271,9 @@ protected:
         Wait,
         Listen,
         Receive,
-        ReceiveWait,
-        Incoming
+        Incoming,
+		WaitDisconnect,
+		WaitBye
     };
     virtual bool    error_state(const char *err, unsigned code);
     virtual void	packet_ready();
@@ -285,7 +287,6 @@ protected:
     bool			getLine(const char *line);
     bool			m_bHeader;
     unsigned		m_size;
-    Buffer			m_readBuffer;
     State			m_state;
     ClientSocket    *m_socket;
     MSNClient		*m_client;

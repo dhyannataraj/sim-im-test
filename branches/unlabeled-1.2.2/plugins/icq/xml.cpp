@@ -100,11 +100,12 @@ XmlNode *XmlNode::parse(string::iterator& curr, string::iterator end) {
             skipWS(curr,end);
             if(curr == end || *curr != '<') {
                 if (p != NULL) delete p;
-                return NULL;
+                
             }
         }
+		return NULL;
 
-    } else {
+    }
         // XmlLeaf
         string value;
         while (curr != end && *curr != '<') {
@@ -116,14 +117,9 @@ XmlNode *XmlNode::parse(string::iterator& curr, string::iterator end) {
         if (nexttag.empty() || nexttag[0] != '/') return NULL;
         if (nexttag.size() == tag.size()+1 && nexttag.find(tag,1) == 1) {
             return new XmlLeaf(unquote(tag),unquote(value));
-        } else {
+        }
             // error
             return NULL;
-        }
-    }
-
-    // should never get here
-    return NULL;
 }
 
 string XmlNode::parseTag(string::iterator& curr, string::iterator end) {

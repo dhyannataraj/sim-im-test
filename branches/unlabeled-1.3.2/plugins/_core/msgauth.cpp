@@ -31,8 +31,11 @@ MsgAuth::MsgAuth(MsgEdit *parent, Message *msg)
     m_client = msg->client();
     m_type   = msg->type();
     m_edit   = parent;
-    parent->m_edit->setTextFormat(PlainText);
-    parent->m_edit->setReadOnly(false);
+	if (m_edit->m_edit->isReadOnly()){
+		m_edit->m_edit->setText("");
+        m_edit->m_edit->setReadOnly(false);
+	}
+    m_edit->m_edit->setTextFormat(PlainText);
     QString text = msg->getPlainText();
     if (!text.isEmpty())
         parent->m_edit->setText(text);
@@ -64,12 +67,14 @@ void *MsgAuth::processEvent(Event *e)
             case CmdSmile:
             case CmdSend:
             case CmdSendClose:
+				e->process(this);
                 cmd->flags &= ~BTN_HIDE;
-                return NULL;
+                return e->param();
             case CmdNextMessage:
             case CmdMsgAnswer:
+				e->process(this);
                 cmd->flags |= BTN_HIDE;
-                return NULL;
+                return e->param();
             }
         }
     }

@@ -1404,35 +1404,153 @@ bool JabberClient::canSend(unsigned type, void *_data)
 class JabberImageParser : public HTMLParser
 {
 public:
-    JabberImageParser();
+    JabberImageParser(unsigned bgColor);
     QString parse(const QString &text);
 protected:
     virtual void text(const QString &text);
     virtual void tag_start(const QString &tag, const list<QString> &attrs);
     virtual void tag_end(const QString &tag);
+	void startBody(const list<QString> &attrs);
+	void endBody();
     QString res;
-    bool    m_bPara;
+    bool		m_bPara;
+	bool		m_bBody;
+	unsigned	m_bgColor;
 };
 
-JabberImageParser::JabberImageParser()
+JabberImageParser::JabberImageParser(unsigned bgColor)
 {
     m_bPara    = false;
+	m_bBody    = true;
+	m_bgColor  = bgColor;
 }
 
 QString JabberImageParser::parse(const QString &text)
 {
-    res = "";
+	list<QString> attrs;
+    startBody(attrs);
     HTMLParser::parse(text);
+	endBody();
     return res;
 }
 
 void JabberImageParser::text(const QString &text)
 {
-    res += quoteString(text);
+	if (m_bBody)
+		res += quoteString(text);
+}
+
+static const char *_tags[] =
+{
+	"abbr",
+	"acronym",
+	"address",
+	"blockquote",
+	"cite",
+	"code",
+	"dfn",
+	"div",
+	"em",
+	"h1",
+	"h2",
+	"h3",
+	"h4",
+	"h5",
+	"h6",
+	"kbd",
+	"p",
+	"pre",
+	"q",
+	"samp",
+	"span",
+	"strong",
+	"var",
+	"a",
+	"dl",
+	"dt",
+	"dd",
+	"ol",
+	"ul",
+	"li",
+	NULL
+};
+
+static const char *_styles[] =
+{
+	"color",
+	"font-family",
+	"font-size",
+	"font-style",
+	"font-weight",
+	"text-align",
+	"text-decoration",
+	NULL
+};
+
+void JabberImageParser::startBody(const list<QString> &attrs)
+{
+		m_bBody = true;
+		res = "<body>";
+		list<QString> newStyles;
+		list<QString>::const_iterator it;
+		for (it = attrs.begin(); it != attrs.end(); ++it){
+			QString name = *it;
+			++it;
+			QString value = *it;
+			if (name == "style"){
+				list<QString> styles = parseStyle(value);
+				for (list<QString>::iterator it = styles.begin(); it != styles.end(); ++it){
+					QString name = *it;
+					++it;
+					QString value = *it;
+					for (const char **s = _styles; *s; s++){
+						if (name == *s){
+							newStyles.push_back(name);
+							newStyles.push_back(value);
+							break;
+						}
+					}
+				}
+			}
+		}
+		for (it = newStyles.begin(); it != newStyles.end(); ++it){
+			QString name = *it;
+			++it;
+			if (name == "background-color")
+				break;
+		}
+		if (it == newStyles.end()){
+			char b[15];
+			sprintf(b, "#%06X", m_bgColor & 0xFFFFFF);
+			newStyles.push_back("background-color");
+			newStyles.push_back(b);
+		}
+		res += "<span style=\'";
+		res += makeStyle(newStyles);
+		res += "\'>";
+}
+
+void JabberImageParser::endBody()
+{
+	if (m_bBody){
+		res += "</span></body>";
+		m_bBody = false;
+	}
 }
 
 void JabberImageParser::tag_start(const QString &tag, const list<QString> &attrs)
 {
+	if (tag == "html"){
+		m_bBody = false;
+		res = "";
+		return;
+	}
+	if (tag == "body"){
+		startBody(attrs);
+		return;
+	}
+	if (!m_bBody)
+		return;
     if (tag == "img"){
         QString src;
         for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
@@ -1467,37 +1585,112 @@ void JabberImageParser::tag_start(const QString &tag, const list<QString> &attrs
         res += "<br/>";
         return;
     }
-    res += "<";
-    res += tag;
-    for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
-        QString name = *it;
-        ++it;
-        QString value = *it;
-        res += " ";
-        res += name;
-        if (!value.isEmpty()){
-            res += "=\"";
-            res += quoteString(value);
-            res += "\"";
-        }
-    }
-    res += ">";
+	for (const char **t = _tags; *t; t++){
+		if (tag == *t){
+		    res += "<";
+			res += tag;
+			for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
+				QString name = *it;
+				++it;
+				QString value = *it;
+				if (name == "style"){
+					list<QString> styles = parseStyle(value);
+					list<QString> newStyles;
+					for (list<QString>::iterator it = styles.begin(); it != styles.end(); ++it){
+						QString name = *it;
+						++it;
+						QString value = *it;
+						for (const char **s = _styles; *s; s++){
+							if (name == *s){
+								newStyles.push_back(name);
+								newStyles.push_back(value);
+								break;
+							}
+						}
+					}
+					value = makeStyle(newStyles);
+				}
+				if ((name != "style") && (name != "href"))
+					continue;
+				res += " ";
+				res += name;
+				if (!value.isEmpty()){
+					res += "=\'";
+					res += quoteString(value);
+					res += "\'";
+				}
+			}
+			res += ">";
+			return;
+		}
+	}
+	if (tag == "b"){
+		res += "<span style=\'font-weight:bold\'>";
+		return;
+	}
+	if (tag == "i"){
+		res += "<span style=\'font-style:italic\'>";
+		return;
+	}
+	if (tag == "u"){
+		res += "<span style=\'text-decoration:underline\'>";
+		return;
+	}
+	if (tag == "font"){
+		res += "<span";
+		string style;
+		for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
+			QString name = *it;
+			++it;
+			QString value = *it;
+			if (name == "color"){
+				if (!style.empty())
+					style += ";";
+				style += "color: ";
+				style += value.utf8();
+				continue;
+			}
+		}
+		if (!style.empty()){
+			res += " style=\'";
+			res += style.c_str();
+			res += "\'";
+		}
+		res += ">";
+		return;
+	}
+	return;
 }
 
 void JabberImageParser::tag_end(const QString &tag)
 {
+	if (tag == "body"){
+		endBody();
+		return;
+	}
+	if (!m_bBody)
+		return;
     if (tag == "p"){
         m_bPara = true;
         return;
     }
-    res += "</";
-    res += tag;
-    res += ">";
+	for (const char **t = _tags; *t; t++){
+		if (tag == *t){
+		    res += "</";
+			res += tag;
+			res += ">";
+			return;
+		}
+	}
+	if ((tag == "b") || (tag == "i") || (tag == "u") || (tag == "font")){
+		res += "</span>";
+		return;
+	}
 }
 
-static QString removeImages(const QString &text)
+static QString removeImages(const QString &text, unsigned bgColor)
 {
-    JabberImageParser p;
+    JabberImageParser p(bgColor);
     return p.parse(text);
 }
 
@@ -1550,13 +1743,10 @@ bool JabberClient::send(Message *msg, void *_data)
             << (const char*)msg->getPlainText().utf8()
             << "</body>";
             if (data->richText){
-                char bgColor[8];
-                sprintf(bgColor, "%06X", msg->getBackground() & 0xFFFFFF);
                 m_socket->writeBuffer
                 << "<html xmlns='http://jabber.org/protocol/xhtml-im'>"
-                << "<body bgcolor=\"#" << bgColor << "\">"
-                << removeImages(msg->getRichText()).utf8()
-                << "</body></html>";
+                << removeImages(msg->getRichText(), msg->getBackground()).utf8()
+                << "</html>";
             }
             m_socket->writeBuffer
             << "</message>";
@@ -1720,17 +1910,11 @@ JabberListRequest *JabberClient::findRequest(const char *jid, bool bRemove)
 
 
 bool JabberClient::isAgent(const char *jid)
-
 {
-
     const char *p = strrchr(jid, '/');
-
     if (p && !strcmp(p + 1, "registered"))
-
         return true;
-
     return false;
-
 }
 
 

@@ -61,7 +61,7 @@ public:
     static QPoint popupPos(QToolButton*, QWidget*);
 signals:
     void showPopup(QPoint);
-    void destroyed();
+    void buttonDestroyed();
 protected slots:
     void btnClicked();
     void btnToggled(bool);
@@ -135,11 +135,11 @@ public:
     CommandsDef *m_def;
     void *param()				{ return m_param; }
     void setParam(void *param)	{ m_param = param; }
-    void checkState();
-    void	*processEvent(Event*);
+    void *processEvent(Event*);
 public slots:
     void showPopup(QPoint p);
     void toolBarChanged();
+    void checkState();
 protected:
     void	mousePressEvent(QMouseEvent *e);
     void	contextMenuEvent(QContextMenuEvent *e);

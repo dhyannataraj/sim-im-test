@@ -67,7 +67,7 @@ TextEdit::TextEdit(QWidget *p, const char *name)
         : TextShow(p, name)
 {
     m_param = NULL;
-    m_bEmpty = false;
+    m_bEmpty = true;
     m_bBold  = false;
     m_bItalic = false;
     m_bUnderline = false;
@@ -105,7 +105,7 @@ bool TextEdit::isEmpty()
             t = unquoteText(t);
         return t.isEmpty();
     }
-    return true;
+    return false;
 }
 
 void TextEdit::setParam(void *param)

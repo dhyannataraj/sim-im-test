@@ -45,7 +45,7 @@ public:
     MsgEdit(QWidget *parent, UserWnd *userWnd);
     ~MsgEdit();
     CToolBar	*m_bar;
-    bool		setMessage(Message *msg, bool bSetFocus, bool bOpen=true);
+    bool		setMessage(Message *msg, bool bSetFocus);
     UserWnd		*m_userWnd;
     TextEdit	*m_edit;
     QVBoxLayout	*m_layout;
@@ -56,6 +56,7 @@ public:
     Client		*client(void *&data, bool bCreate, bool bSendTyping, unsigned contact_id);
     bool		m_bReceived;
     unsigned	m_flags;
+	void		execCommand(CommandDef *cmd);
 signals:
     void heightChanged(int);
     void init();
@@ -69,6 +70,7 @@ public slots:
     void goNext();
     void setupNext();
     void colorsChanged();
+	void execCommand();
 protected:
     QObject  *m_processor;
     QObject	 *m_recvProcessor;
@@ -85,6 +87,7 @@ protected:
     bool send();
     list<unsigned> multiply;
     list<unsigned>::iterator multiply_it;
+	CommandDef	m_cmd;
     Message		*m_msg;
     MsgSend		m_retry;
     string m_client;

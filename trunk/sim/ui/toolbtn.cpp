@@ -140,7 +140,7 @@ CToolButton::CToolButton (QWidget * parent, CommandDef *def)
 
 CToolButton::~CToolButton()
 {
-    emit destroyed();
+    emit buttonDestroyed();
 }
 
 void CToolButton::setTextLabel()
@@ -438,7 +438,7 @@ CToolCombo::CToolCombo(QToolBar* parent, CommandDef *def, bool bCheck)
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
     if ((def->flags & BTN_NO_BUTTON) == 0){
         m_btn = new CToolButton(parent, def);
-        connect(m_btn, SIGNAL(destroyed()), this, SLOT(btnDestroyed()));
+        connect(m_btn, SIGNAL(buttonDestroyed()), this, SLOT(btnDestroyed()));
         if (bCheck)
             connect(lineEdit(), SIGNAL(textChanged(const QString&)), this, SLOT(slotTextChanged(const QString&)));
     }
@@ -485,7 +485,7 @@ CToolEdit::CToolEdit(QToolBar* parent, CommandDef *def)
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
     if ((def->flags & BTN_NO_BUTTON) == 0){
         m_btn = new CToolButton(parent, def);
-        connect(m_btn, SIGNAL(destroyed()), this, SLOT(btnDestroyed()));
+        connect(m_btn, SIGNAL(buttonDestroyed()), this, SLOT(btnDestroyed()));
     }
     setState();
 }
@@ -659,6 +659,7 @@ void CToolBar::toolBarChanged()
         buttons->add(s->id, btn);
     }
     bChanged = false;
+	QTimer::singleShot(0, this, SLOT(checkState()));
 }
 
 void CToolBar::showPopup(QPoint p)

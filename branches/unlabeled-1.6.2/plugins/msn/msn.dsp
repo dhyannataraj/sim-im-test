@@ -142,6 +142,15 @@ SOURCE=.\msn.cpp
 # Begin Source File
 
 SOURCE=.\msnclient.cpp
+
+!IF  "$(CFG)" == "msn - Win32 Release"
+
+# ADD CPP /W3
+
+!ELSEIF  "$(CFG)" == "msn - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 

@@ -41,21 +41,6 @@ MsgReceived::MsgReceived(MsgEdit *parent, Message *msg, bool bOpen)
     m_msg	  = msg;
     m_type	  = msg->type();
 
-#if 0
-    Event eMenu(EventGetMenuDef, (void*)MenuMsgCommand);
-    CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());
-
-    CommandsList it(*cmdsMsg, true);
-    CommandDef *c;
-    while ((c = ++it) != NULL){
-        c->param = msg;
-        Event e(EventCheckState, c);
-        if (!e.process())
-            continue;
-        // !!!
-    }
-#endif
-
     if (m_bOpen){
         m_edit->m_edit->setReadOnly(true);
         m_edit->m_edit->setTextFormat(QTextEdit::RichText);
@@ -110,10 +95,8 @@ void *MsgReceived::processEvent(Event *e)
                         if (msg){
                             CommandDef c = *cmd;
                             c.param = msg;
-                            Event e(EventCommandExec, &c);
-                            e.process(this);
+							m_edit->execCommand(&c);
                         }
-                        QTimer::singleShot(0, m_edit, SLOT(goNext()));
                         return e->param();
                     }
                 }
@@ -123,17 +106,9 @@ void *MsgReceived::processEvent(Event *e)
                 Message *msg = History::load(m_id, m_client.c_str(), m_contact);
                 if (msg){
                     CommandDef c = *cmd;
+					c.id   -= CmdReceived;
                     c.param = msg;
-                    Event e(EventCommandExec, &c);
-                    e.process(this);
-                    delete msg;
-                    switch (cmd->id){
-                    case CmdMsgQuote:
-                    case CmdMsgForward:
-                        break;
-                    default:
-                        QTimer::singleShot(0, m_edit, SLOT(goNext()));
-                    }
+					m_edit->execCommand(&c);
                 }
                 return e->param();
             }
@@ -145,7 +120,7 @@ void *MsgReceived::processEvent(Event *e)
             unsigned id = cmd->bar_grp;
             if ((id >= 0x1000) && (id < MAX_INPUT_BAR_ID)){
                 cmd->flags |= BTN_HIDE;
-                switch (cmd->id){
+                switch (cmd->id - CmdReceived){
                 case CmdMsgQuote:
                 case CmdMsgForward:{
                         CommandDef c = *cmd;
@@ -153,6 +128,7 @@ void *MsgReceived::processEvent(Event *e)
                         if (msg == NULL)
                             msg = History::load(m_id, m_client.c_str(), m_contact);
                         if (msg){
+							c.id   -= CmdReceived;
                             c.param = msg;
                             Event e(EventCheckState, &c);
                             if (e.process())
@@ -176,7 +152,7 @@ void *MsgReceived::processEvent(Event *e)
                 }
                 if (mdef && mdef->cmd){
                     for (const CommandDef *d = mdef->cmd; d->text; d++){
-                        if (d->id == cmd->id){
+                        if (d->id + CmdReceived == cmd->id){
                             Message *msg = m_msg;
                             if (msg == NULL)
                                 msg = History::load(m_id, m_client.c_str(), m_contact);
@@ -195,24 +171,31 @@ void *MsgReceived::processEvent(Event *e)
                 }
                 return e->param();
             }
+			if (cmd->id == CmdMsgAnswer){
+				e->process(this);
+                cmd->flags |= BTN_HIDE;
+                if (CorePlugin::m_plugin->getContainerMode() == 0)
+                    cmd->flags &= ~BTN_HIDE;
+                return e->param();
+			}
+
+			if (m_bOpen){
             switch (cmd->id){
             case CmdTranslit:
             case CmdSmile:
             case CmdSend:
             case CmdSendClose:
+				e->process(this);
                 cmd->flags |= BTN_HIDE;
-                return NULL;
+                return e->param();
             case CmdNextMessage:
+				e->process(this);
                 cmd->flags |= BTN_HIDE;
                 if (CorePlugin::m_plugin->getContainerMode() == 0)
                     cmd->flags &= ~BTN_HIDE;
-                return NULL;
-            case CmdMsgAnswer:
-                cmd->flags |= BTN_HIDE;
-                if (m_bOpen)
-                    cmd->flags &= ~BTN_HIDE;
-                return NULL;
+                return e->param();;
             }
+			}
         }
     }
     if (e->type() == EventMessageDeleted){

@@ -38,8 +38,11 @@ MsgFile::MsgFile(MsgEdit *parent, Message *msg)
     m_client   = msg->client();
     m_edit     = parent;
     m_bCanSend = false;
+	if (m_edit->m_edit->isReadOnly()){
+		m_edit->m_edit->setText("");
+        m_edit->m_edit->setReadOnly(false);
+	}
     m_edit->m_edit->setTextFormat(PlainText);
-    m_edit->m_edit->setReadOnly(false);
     QString t = msg->getPlainText();
     if (!t.isEmpty())
         m_edit->m_edit->setText(t);
@@ -80,7 +83,7 @@ void MsgFile::changed(const QString &str)
     Command cmd;
     cmd->id    = CmdSend;
     cmd->flags = m_bCanSend ? 0 : COMMAND_DISABLED;
-    cmd->param = this;
+    cmd->param = m_edit;
     Event e(EventCommandDisabled, cmd);
     e.process();
 }
@@ -134,12 +137,14 @@ void *MsgFile::processEvent(Event *e)
             case CmdSmile:
             case CmdSend:
             case CmdSendClose:
+				e->process(this);
                 cmd->flags &= ~BTN_HIDE;
-                return NULL;
+                return e->param();
             case CmdNextMessage:
             case CmdMsgAnswer:
+				e->process(this);
                 cmd->flags |= BTN_HIDE;
-                return NULL;
+                return e->param();
             }
         }
     }

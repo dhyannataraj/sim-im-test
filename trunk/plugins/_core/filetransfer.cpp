@@ -46,7 +46,7 @@ public:
 protected:
     void process();
     void transfer(bool);
-    void createFile(const QString &name, unsigned size);
+    void createFile(const QString &name, unsigned size, bool bCanResume);
     QString m_name;
     unsigned m_size;
     FileTransferDlg *m_dlg;
@@ -72,7 +72,7 @@ void FileTransferDlgNotify::transfer(bool bState)
     m_dlg->transfer(bState);
 }
 
-void FileTransferDlgNotify::createFile(const QString &name, unsigned size)
+void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool bCanResume)
 {
     m_name = name;
     m_size = size;
@@ -110,7 +110,7 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size)
                 QStringList buttons;
                 buttons.append(i18n("&Replace"));
                 buttons.append(i18n("&Skip"));
-                if (ft->m_file->size() < size)
+                if (bCanResume && (ft->m_file->size() < size))
                     buttons.append(i18n("Resu&me"));
                 BalloonMsg *ask = new BalloonMsg(NULL,
                                                  i18n("File %1 exists") .arg(shortName), buttons, m_dlg->lblState);
@@ -249,7 +249,7 @@ void FileTransferDlg::process()
         default:
             break;
         }
-        if (bName && (m_files > 1)){
+        if (bName){
             FileMessage::Iterator it(*m_msg);
             status += " ";
             const QString *n = it[m_file];
@@ -260,6 +260,7 @@ void FileTransferDlg::process()
                 if (n >= 0)
                     shortName = shortName.mid(n + 1);
                 status += shortName;
+				if (m_files > 1)
                 status += QString(" %1/%2")
                           .arg(m_file + 1)
                           .arg(m_msg->m_transfer->files());
@@ -428,14 +429,14 @@ void FileTransferDlg::action(int nAct, void*)
 {
     FileTransferDlgNotify *notify = static_cast<FileTransferDlgNotify*>(m_msg->m_transfer->notify());
     switch (nAct){
-    case 0:
-        notify->replace();
-        break;
     case 1:
         notify->skip();
         break;
     case 2:
         notify->resume();
+        break;
+	default:
+        notify->replace();
         break;
     }
 }

@@ -1137,8 +1137,11 @@ MsgUrl::MsgUrl(MsgEdit *parent, Message *msg)
 {
     m_client = msg->client();
     m_edit   = parent;
-    m_edit->m_edit->setTextFormat(QTextEdit::PlainText);
-    m_edit->m_edit->setReadOnly(false);
+	if (m_edit->m_edit->isReadOnly()){
+		m_edit->m_edit->setText("");
+        m_edit->m_edit->setReadOnly(false);
+	}
+    m_edit->m_edit->setTextFormat(PlainText);
     QString t = msg->getPlainText();
     if (!t.isEmpty())
         m_edit->m_edit->setText(t);
@@ -1199,12 +1202,14 @@ void *MsgUrl::processEvent(Event *e)
             case CmdSmile:
             case CmdSend:
             case CmdSendClose:
+				e->process(this);
                 cmd->flags &= ~BTN_HIDE;
-                return NULL;
+                return e->param();
             case CmdNextMessage:
             case CmdMsgAnswer:
+				e->process(this);
                 cmd->flags |= BTN_HIDE;
-                return NULL;
+                return e->param();
             }
         }
     }
@@ -1369,14 +1374,16 @@ void *MsgContacts::processEvent(Event *e)
             switch (cmd->id){
             case CmdSend:
             case CmdSendClose:
+				e->process(this);
                 cmd->flags &= ~BTN_HIDE;
-                return NULL;
+                return e->param();
             case CmdTranslit:
             case CmdSmile:
             case CmdNextMessage:
             case CmdMsgAnswer:
+				e->process(this);
                 cmd->flags |= BTN_HIDE;
-                return NULL;
+                return e->param();
             }
         }
     }

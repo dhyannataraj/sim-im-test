@@ -884,7 +884,7 @@ static void remove_tag(QString &s, const char *tag)
     for (;;){
         int pos = re.match(s, 0, &len);
         if (pos < 0)
-            return;
+            break;
         s = s.replace(pos, len, "");
     }
 }

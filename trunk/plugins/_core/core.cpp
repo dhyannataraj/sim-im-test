@@ -768,15 +768,31 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     cmd->icon		= "empty";
     cmd->menu_id	= MenuMsgCommand;
     cmd->menu_grp	= 0x1002;
+	cmd->bar_id		= 0;
+	cmd->bar_grp	= 0;
+    cmd->flags		= COMMAND_CHECK_STATE;
+    eCmd.process();
+
+    cmd->id			= CmdMsgQuote + CmdReceived;
     cmd->bar_id		= ToolBarMsgEdit;
     cmd->bar_grp	= 0x1041;
     cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
     eCmd.process();
 
+
     cmd->id			= CmdMsgForward;
     cmd->text		= I18N_NOOP("&Forward");
+    cmd->menu_id	= MenuMsgCommand;
     cmd->menu_grp	= 0x1003;
+	cmd->bar_id		= 0;
+	cmd->bar_grp	= 0;
+    cmd->flags		= COMMAND_CHECK_STATE;
+    eCmd.process();
+
+    cmd->id			= CmdMsgForward + CmdReceived;
+    cmd->bar_id		= ToolBarMsgEdit;
     cmd->bar_grp	= 0x1042;
+    cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
     eCmd.process();
 
     cmd->id			= CmdMsgAnswer;
@@ -1505,6 +1521,7 @@ void *CorePlugin::processEvent(Event *e)
                         CommandDef cmd = *c;
                         if (cmd.icon == NULL)
                             cmd.icon = "empty";
+						cmd.id += CmdReceived;
                         cmd.menu_id  = 0;
                         cmd.menu_grp = 0;
                         cmd.flags	 = BTN_PICT | COMMAND_CHECK_STATE;
@@ -1809,10 +1826,10 @@ void *CorePlugin::processEvent(Event *e)
     case EventCheckState:{
             CommandDef *cmd = (CommandDef*)(e->param());
             if (cmd->id == CmdSendClose){
-                cmd->flags &= COMMAND_CHECKED;
+                cmd->flags &= ~COMMAND_CHECKED;
                 if (getCloseSend())
                     cmd->flags |= COMMAND_CHECKED;
-                return e->param();
+                return NULL;
             }
             if ((cmd->id == CmdFileAccept) || (cmd->id == CmdFileDecline)){
                 Message *msg = (Message*)(cmd->param);

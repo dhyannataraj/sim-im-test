@@ -29,7 +29,7 @@ class MsgReceived : public QObject, public EventReceiver
     Q_OBJECT
 public:
     MsgReceived(MsgEdit *parent, Message *msg, bool bOpen);
-protected slots:
+public slots:
     void init();
 protected:
     void		*processEvent(Event*);

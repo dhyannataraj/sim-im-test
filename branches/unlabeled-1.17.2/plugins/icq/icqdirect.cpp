@@ -1683,7 +1683,7 @@ void ICQFileTransfer::processPacket()
             m_state = Wait;
             FileTransfer::m_state = FileTransfer::Read;
             if (m_notify)
-                m_notify->createFile(fName, n);
+                m_notify->createFile(fName, n, true);
             break;
         }
     case Receive:{

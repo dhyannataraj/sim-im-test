@@ -37,12 +37,15 @@ MsgSMS::MsgSMS(MsgEdit *parent, Message *msg)
     m_edit     = parent;
     m_bExpand  = false;
     m_bCanSend = false;
-    QString t  = msg->getPlainText();
+	if (m_edit->m_edit->isReadOnly()){
+		m_edit->m_edit->setText("");
+        m_edit->m_edit->setReadOnly(false);
+	}
+    m_edit->m_edit->setTextFormat(PlainText);
+	QString t = msg->getPlainText();
     if (!t.isEmpty())
         m_edit->m_edit->setText(t);
     m_panel	= NULL;
-    m_edit->m_edit->setTextFormat(PlainText);
-    m_edit->m_edit->setReadOnly(false);
     Command cmd;
     cmd->id    = CmdPhoneNumber;
     cmd->param = m_edit;
@@ -184,12 +187,14 @@ void *MsgSMS::processEvent(Event *e)
             case CmdSmile:
             case CmdSend:
             case CmdSendClose:
+				e->process(this);
                 cmd->flags &= ~BTN_HIDE;
-                return NULL;
+                return e->param();
             case CmdNextMessage:
             case CmdMsgAnswer:
+				e->process(this);
                 cmd->flags |= BTN_HIDE;
-                return NULL;
+                return e->param();
             }
         }
     }

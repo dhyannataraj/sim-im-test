@@ -167,6 +167,7 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd)
     m_bReceived = false;
     m_processor = NULL;
     m_recvProcessor = NULL;
+	m_cmd.param = NULL;
 
     connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
 
@@ -220,6 +221,34 @@ MsgEdit::~MsgEdit()
         delete m_retry.msg;
 }
 
+void MsgEdit::execCommand(CommandDef *cmd)
+{
+	if (m_cmd.param){
+		Message *msg = (Message*)(m_cmd.param);
+		delete msg;
+	}
+	m_cmd = *cmd;
+	QTimer::singleShot(0, this, SLOT(execCommand()));
+}
+
+void MsgEdit::execCommand()
+{
+	if (m_cmd.param == NULL)
+		return;
+	Message *msg = (Message*)(m_cmd.param);
+	Event e(EventCommandExec, &m_cmd);
+	e.process();
+	delete msg;
+	m_cmd.param = NULL;
+    switch (m_cmd.id){
+    case CmdMsgQuote:
+    case CmdMsgForward:
+		break;
+    default:
+		goNext();
+	}
+}
+
 void MsgEdit::showCloseSend(bool bState)
 {
     Command cmd;
@@ -242,18 +271,22 @@ void MsgEdit::resizeEvent(QResizeEvent *e)
     emit heightChanged(height());
 }
 
-bool MsgEdit::setMessage(Message *msg, bool bSetFocus, bool bOpen)
+bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
 {
     m_type = msg->type();
     unsigned type = m_type;
     m_bReceived = msg->getFlags() & MESSAGE_RECEIVED;
     QObject *processor = NULL;
+	MsgReceived *rcv = NULL;
     if (m_bReceived){
-        if (bOpen){
-            processor = new MsgReceived(this, msg, true);
+        if ((msg->getFlags() & MESSAGE_OPEN) || (CorePlugin::m_plugin->getContainerMode() == 0)){
+            rcv = new MsgReceived(this, msg, true);
+			processor = rcv;
         }else{
-            if (m_recvProcessor == NULL)
-                m_recvProcessor = new MsgReceived(this, msg, false);
+            if (m_recvProcessor == NULL){
+                rcv = new MsgReceived(this, msg, false);
+				m_recvProcessor = rcv;
+			}
         }
     }else{
         QObject *(*create)(MsgEdit *custom, Message *msg) = NULL;
@@ -299,6 +332,8 @@ bool MsgEdit::setMessage(Message *msg, bool bSetFocus, bool bOpen)
     }
 
     m_bar->checkState();
+	if (rcv)
+		rcv->init();
     Command cmd;
     cmd->id			= CmdMultiply;
     cmd->flags		= COMMAND_DEFAULT;
@@ -917,7 +952,7 @@ void *MsgEdit::processEvent(Event *e)
                     if (container->wnd() == m_userWnd)
                         bSetFocus = true;
                 }
-                setMessage(msg, bSetFocus, false);
+                setMessage(msg, bSetFocus);
             }else{
                 if (m_edit->isReadOnly())
                     QTimer::singleShot(0, this, SLOT(setupNext()));

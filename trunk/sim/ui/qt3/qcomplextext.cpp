@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qcomplextext.cpp,v 1.3 2003-10-20 08:39:29 shutoff Exp $
+** $Id: qcomplextext.cpp,v 1.4 2003-10-21 18:29:41 shutoff Exp $
 **
 ** Implementation of some internal classes
 **
@@ -572,7 +572,6 @@ QString QComplexText::shapedString(const QString& uc, int from, int len, const Q
     // we have to ignore NSMs at the beginning and add at the end.
     const QChar *ch = uc.unicode() + from + len;
     ch = uc.unicode() + from;
-    if ( len == 0 ) return QString::null;
 
     if( !shapeBuffer || len > shapeBufSize ) {
         if( shapeBuffer ) free( (void *) shapeBuffer );

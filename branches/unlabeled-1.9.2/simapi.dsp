@@ -164,9 +164,11 @@ SOURCE=.\sim\api\ltdl.c
 
 !IF  "$(CFG)" == "simapi - Win32 Release"
 
+# ADD CPP /W3 /WX
+
 !ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
 
-# ADD CPP /W3
+# ADD CPP /W3 /WX
 
 !ENDIF 
 
@@ -191,6 +193,15 @@ SOURCE=.\sim\api\plugins.cpp
 # Begin Source File
 
 SOURCE=.\sim\api\simapi.cpp
+
+!IF  "$(CFG)" == "simapi - Win32 Release"
+
+# ADD CPP /W3
+
+!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 

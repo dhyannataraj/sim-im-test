@@ -92,6 +92,8 @@ public:
     bool cancelMessage(Message *msg);
     bool acceptMessage(Message *msg, const char *dir, OverwriteMode mode);
     bool declineMessage(Message *msg, const char *reason);
+	void acceptMessage(unsigned short port, unsigned cookie, unsigned auth_cookie);
+	void declineMessage(unsigned cookie);
 protected:
     enum State
     {
@@ -238,7 +240,7 @@ protected:
     friend class SBSocket;
 };
 
-class MSNFileTransfer : public QObject, public FileTransfer, public ClientSocketNotify
+class MSNFileTransfer : public QObject, public FileTransfer, public ClientSocketNotify, public ServerSocketNotify
 {
     Q_OBJECT
 public:
@@ -252,6 +254,7 @@ public:
     unsigned short port1;
     unsigned short port2;
     unsigned auth_cookie;
+	unsigned cookie;
 
 protected slots:
 
@@ -268,19 +271,22 @@ protected:
         Wait,
         Listen,
         Receive,
-        ReceiveWait,
-        Incoming
+        Incoming,
+		WaitDisconnect,
+		WaitBye
     };
     virtual bool    error_state(const char *err, unsigned code);
     virtual void	packet_ready();
     virtual void	connect_ready();
     virtual void	write_ready();
     virtual void	startReceive(unsigned pos);
+    virtual bool	accept(Socket*, unsigned long ip);
+    virtual void	bind_ready(unsigned short port);
+    virtual bool	error(const char *err);
     void			send(const char *line);
-    void			getLine(const char *line);
+    bool			getLine(const char *line);
     bool			m_bHeader;
     unsigned		m_size;
-    Buffer			m_readBuffer;
     State			m_state;
     ClientSocket    *m_socket;
     MSNClient		*m_client;

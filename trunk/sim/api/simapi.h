@@ -44,8 +44,10 @@
 #if _MSC_VER > 1020
 #include <yvals.h>              
 #pragma warning(disable: 4097)
+#pragma warning(disable: 4244)  
 #pragma warning(disable: 4275)
 #pragma warning(disable: 4514)
+#pragma warning(disable: 4710)  
 #pragma warning(disable: 4786)  
 #pragma warning(push)
 #pragma warning(disable: 4018)  
@@ -941,6 +943,7 @@ const unsigned	MESSAGE_LAST		= 0x00080000;
 const unsigned	MESSAGE_MULTIPLY	= 0x00100000;
 const unsigned	MESSAGE_FORWARD		= 0x00200000;
 const unsigned	MESSAGE_INSERT		= 0x00400000;
+const unsigned	MESSAGE_OPEN		= 0x00800000;
 const unsigned	MESSAGE_TEMP		= 0x10000000;
 
 typedef struct MessageData
@@ -1024,7 +1027,7 @@ public:
     virtual ~FileTransferNotify() {}
     virtual void process() = 0;
     virtual void transfer(bool) = 0;
-    virtual void createFile(const QString &name, unsigned size) = 0;
+    virtual void createFile(const QString &name, unsigned size, bool bCanResume) = 0;
 };
 
 const unsigned NO_FILE	= (unsigned)(-1);
