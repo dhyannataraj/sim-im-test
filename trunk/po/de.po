@@ -130,13 +130,13 @@ msgstr "Nachrichtenfenster"
 msgid ""
 "_: male\n"
 "%1 is typing"
-msgstr ""
+msgstr "%1 schreibt gerade"
 
 #: plugins/_core/container.cpp:591 plugins/osd/osd.cpp:422
 msgid ""
 "_: female\n"
 "%1 is typing"
-msgstr ""
+msgstr "%1 schreibt gerade"
 
 #: plugins/_core/core.cpp:108 plugins/weather/weathercfg.cpp:49
 msgid "Interface"
@@ -533,13 +533,13 @@ msgstr "Zeit, die seit dem Setzen des Status vergangen ist"
 msgid ""
 "_: male\n"
 "%1 wrote:"
-msgstr ""
+msgstr "%1 schrieb:"
 
 #: plugins/_core/core.cpp:1676
 msgid ""
 "_: female\n"
 "%1 wrote:"
-msgstr ""
+msgstr "%1 schrieb:"
 
 #: plugins/_core/core.cpp:1713 plugins/_core/status.cpp:321
 #: sim/qt3/i18n.cpp:21
@@ -975,14 +975,14 @@ msgstr "Ungelesene Nachrichten"
 msgid ""
 "_n: SMS\n"
 "%n SMSs"
-msgstr ""
+msgstr "%n SMS"
 
 #: plugins/_core/msgedit.cpp:473
 #, c-format
 msgid ""
 "_n: URL\n"
 "%n URLs"
-msgstr ""
+msgstr "%n URLs"
 
 #: plugins/_core/msgedit.cpp:536
 #, fuzzy, c-format
@@ -996,7 +996,7 @@ msgstr "Telefon in Kontaktliste speichern"
 msgid ""
 "_n: File\n"
 "%n files"
-msgstr ""
+msgstr "%n Dateien"
 
 #: plugins/_core/msgedit.cpp:590
 msgid "&Accept"
@@ -1011,7 +1011,7 @@ msgstr "&Ablehnen"
 msgid ""
 "_n: Authorize request\n"
 "%n authorize requests"
-msgstr ""
+msgstr "%n Autorisierungsanfragen"
 
 #: plugins/_core/msgedit.cpp:665
 msgid "&Grant"
@@ -1026,14 +1026,14 @@ msgstr "&Ablehnen"
 msgid ""
 "_n: Authorization granted\n"
 "%n authorization granted"
-msgstr ""
+msgstr "%n Autorisierung gewährt"
 
 #: plugins/_core/msgedit.cpp:749
 #, c-format
 msgid ""
 "_n: Authorization refused\n"
 "%n authorization refused"
-msgstr ""
+msgstr "%n Autorisierung abgelehnt"
 
 #: plugins/_core/msgedit.cpp:770
 #, c-format
