@@ -1062,9 +1062,7 @@ void MsgEdit::insertSmile(int id)
         m_edit->insert(smiles(id), false, true, true);
         return;
     }
-    QString id_str  = QString("%1").arg(id);
-    id_str = id_str.upper();
-    QString img_src = QString("<img src=icon:smile%1>").arg(id_str);
+    QString img_src = QString("<img src=icon:smile%1>").arg(QString::number(id, 16).upper());
     int para;
     int index;
     QFont saveFont = m_edit->font();
@@ -1177,9 +1175,9 @@ SmileLabel::SmileLabel(int _id, const char *tip, QWidget *parent)
         : QLabel(parent)
 {
     id = _id;
-    string b = "smile";
-    b += number(id);
-    setPixmap(Pict(b.c_str()));
+	char b[20];
+	sprintf(b, "smile%X", id);
+    setPixmap(Pict(b));
     if (tip && *tip)
         QToolTip::add(this, i18n(tip));
 }

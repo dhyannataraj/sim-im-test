@@ -30,6 +30,7 @@
 #include <qcheckbox.h>
 #include <qspinbox.h>
 #include <qlabel.h>
+#include <qdir.h>
 
 #ifndef USE_KDE
 
@@ -86,28 +87,25 @@ InterfaceConfig::InterfaceConfig(QWidget *parent)
         cur = NULL;
 #ifndef USE_KDE
     cmbLang->insertItem(i18n("System"));
-
-    QStringList items;
-    QString current;
-    for (const language *l = langs; l->code; l++){
-        items.append(i18n(l->name));
-        if (cur && !strcmp(l->code, cur))
-            current = i18n(l->name);
-    }
-
-    items.sort();
+	QStringList items = getLangItems();
     cmbLang->insertStringList(items);
-    if (!current.isEmpty()){
-        unsigned n = 1;
-        for (QStringList::Iterator it = items.begin(); it != items.end(); ++it, n++){
-            if ((*it) == current){
-                cmbLang->setCurrentItem(n);
-                break;
-            }
+	int nCurrent = 0;
+    if (*cur){
+		const language *l;
+	    for (l = langs; l->code; l++)
+			if (!strcmp(cur, l->code))
+				break;
+		if (l->code){
+			QString name = i18n(l->name);
+			nCurrent = 1;
+			for (QStringList::Iterator it = items.begin(); it != items.end(); ++it, nCurrent++)
+				if ((*it) == name)
+					break;
+			if (it == items.end())
+				nCurrent = 0;
         }
-    }else{
-        cmbLang->setCurrentItem(0);
     }
+    cmbLang->setCurrentItem(nCurrent);
 #else
     cmbLang->hide();
 #endif
@@ -136,6 +134,34 @@ InterfaceConfig::~InterfaceConfig()
 {
 }
 
+#ifndef USE_KDE
+
+QStringList InterfaceConfig::getLangItems()
+{
+    QStringList items;
+    QString current;
+	QDir poDir(QFile::decodeName(app_file("po").c_str()));
+	QStringList pl = poDir.entryList("*.qm");
+	for (QStringList::Iterator it = pl.begin(); it != pl.end(); ++it){
+		QString po = *it;
+		int pos = po.find('.');
+		if (pos < 0)
+			continue;
+		po = po.left(pos);
+		const language *l;
+	    for (l = langs; l->code; l++)
+			if (po == l->code)
+				break;
+		if (l->code == NULL)
+			continue;
+        items.append(i18n(l->name));
+    }
+    items.sort();
+	return items;
+}
+
+#endif
+
 void InterfaceConfig::modeChanged(int mode)
 {
     if (mode){
@@ -160,20 +186,17 @@ void InterfaceConfig::apply()
     sms_cfg->apply(data);
 #ifndef USE_KDE
     int res = cmbLang->currentItem();
-    const char *lang = "";
+    const char *lang = NULL;
     if (res > 0){
-        QStringList items;
-        const language *l;
-        for (l = langs; l->code; l++)
-            items.append(i18n(l->name));
-        items.sort();
-        res--;
-        QString current = items[res];
-        for (l = langs; l->code; l++)
-            if (i18n(l->name) == current){
-                lang = l->code;
-                break;
-            }
+		QStringList items = getLangItems();
+		QString name = items[res - 1];
+		const language *l;
+		for (l = langs; l->code; l++){
+			if (name == i18n(l->name)){
+				lang = l->code;
+				break;
+			}
+		}
     }
 #endif
     if (grpMode->selected()){

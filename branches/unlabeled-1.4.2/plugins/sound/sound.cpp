@@ -92,6 +92,7 @@ static DataDef soundUserData[] =
         { "Alert", DATA_STRING, 1, (unsigned)"alert.wav" },
         { "Receive", DATA_STRLIST, 1, 0 },
         { "NoSoundIfActive", DATA_BOOL, 1, 0 },
+		{ "Diasble", DATA_BOOL, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -157,7 +158,7 @@ void *SoundPlugin::processEvent(Event *e)
     if (e->type() == EventContactOnline){
         Contact *contact = (Contact*)(e->param());
         SoundUserData *data = (SoundUserData*)(contact->getUserData(user_data_id));
-        if (data && data->Alert && *data->Alert &&
+        if (data && data->Alert && *data->Alert && (data->Disable == 0) &&
                 (!getDisableAlert() ||
                  (core &&
                   ((core->getManualStatus() == STATUS_ONLINE) ||
@@ -199,9 +200,11 @@ void *SoundPlugin::processEvent(Event *e)
         if (contact == NULL)
             return NULL;
         SoundUserData *data = (SoundUserData*)(contact->getUserData(user_data_id));
-        string sound = messageSound(msg->type(), data);
-        if (!sound.empty())
-            playSound(sound.c_str());
+		if (data->Disable == 0){
+			string sound = messageSound(msg->type(), data);
+			if (!sound.empty())
+				playSound(sound.c_str());
+		}
         return NULL;
     }
     if (e->type() == EventPlaySound){

@@ -35,6 +35,7 @@ public:
     SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugin);
 public slots:
     void apply(void *data);
+	void toggled(bool);
 protected:
     MAP_SOUND		m_sounds;
     SoundPlugin *m_plugin;

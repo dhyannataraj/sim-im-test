@@ -162,6 +162,11 @@ extern "C" {
 
 #endif
 
+#ifdef CVS_BUILD
+#define _VERSION	VERSION " CVS " __DATE__
+#else
+#define _VERSION	VERSION
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -175,7 +180,7 @@ int main(int argc, char *argv[])
 #endif
     KAboutData aboutData(PACKAGE,
                          I18N_NOOP("SIM"),
-                         VERSION,
+                         _VERSION,
                          I18N_NOOP("ICQ client"),
                          KAboutData::License_GPL,
                          "Copyright (C) 2002-2003, Vladimir Shutoff",

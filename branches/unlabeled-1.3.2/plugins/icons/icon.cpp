@@ -218,15 +218,7 @@ void *IconsPlugin::processEvent(Event *e)
         }
         char _SMILE[] = "smile";
         if (smiles && (strlen(name) > strlen(_SMILE)) && (memcmp(name, _SMILE, strlen(_SMILE)) == 0)){
-            unsigned nIcon = 0;
-            p = name + strlen(_SMILE);
-            for (; *p; p++){
-                if ((*p >= '0') && (*p <= '9')){
-                    nIcon = (nIcon * 10) + (*p - '0');
-                    continue;
-                }
-                return NULL;
-            }
+            unsigned nIcon = strtol(name + strlen(_SMILE), NULL, 16);
             const QIconSet *is = smiles->get(nIcon);
             if (is)
                 return (void*)is;

@@ -55,6 +55,9 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
     }
     lay->addItem(new QSpacerItem(n, 1, QSizePolicy::Minimum, QSizePolicy::Expanding));
     chkActive->setChecked(user_data->NoSoundIfActive);
+	chkDisable->setChecked(user_data->Disable);
+	connect(chkDisable, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
+	toggled(user_data->Disable);
 }
 
 void SoundUserConfig::apply(void *data)
@@ -77,6 +80,13 @@ void SoundUserConfig::apply(void *data)
         set_str(&user_data->Receive, cmd->id, QFile::encodeName(text));
     }
     user_data->NoSoundIfActive = chkActive->isChecked();
+	user_data->Disable = chkDisable->isChecked();
+}
+
+void SoundUserConfig::toggled(bool bState)
+{
+	for (MAP_SOUND::iterator it = m_sounds.begin(); it != m_sounds.end(); ++it)
+        (*it).second->setEnabled(!bState);
 }
 
 #ifndef WIN32

@@ -39,6 +39,7 @@ typedef struct SoundUserData
     char		*Alert;
     void		*Receive;
     unsigned	NoSoundIfActive;
+	unsigned	Disable;
 } SoundUserData;
 
 class CorePlugin;

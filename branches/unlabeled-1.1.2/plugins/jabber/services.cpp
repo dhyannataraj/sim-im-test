@@ -135,6 +135,7 @@ void Services::statusChanged()
 void Services::selectAgent(int index)
 {
     wndInfo->raiseWidget(index + 1);
+	textChanged("");
 }
 
 void Services::selectChanged(QListViewItem *item)
@@ -153,6 +154,10 @@ void Services::selectChanged(QListViewItem *item)
 
 void Services::regAgent()
 {
+	QWidget *w = wndInfo->visibleWidget();
+	if (w == NULL)
+		return;
+    QString condition = static_cast<JabberSearch*>(w)->condition();
 }
 
 void Services::unregAgent()
@@ -177,6 +182,11 @@ void Services::apply()
 
 void Services::textChanged(const QString&)
 {
+	bool bEnable = false;
+	QWidget *w = wndInfo->visibleWidget();
+	if (w)
+		bEnable = static_cast<JabberSearch*>(w);
+	btnRegister->setEnabled(bEnable);
 }
 
 void Services::search()
