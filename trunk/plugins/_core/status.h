@@ -20,10 +20,6 @@
 
 #include "simapi.h"
 
-#include <list>
-
-using namespace std;
-
 class QTimer;
 class CorePlugin;
 
@@ -36,7 +32,6 @@ public:
 protected slots:
     void timeout();
 protected:
-    list<Client*> errClients;
     QTimer *m_timer;
     void *processEvent(Event*);
     void setBarStatus(bool bFirst);

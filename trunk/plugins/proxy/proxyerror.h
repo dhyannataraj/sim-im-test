@@ -1,5 +1,5 @@
 /***************************************************************************
-                          proxycfg.h  -  description
+                          proxyerror.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,40 +15,29 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _PROXYCFG_H
-#define _PROXYCFG_H
+#ifndef _PROXYERROR_H
+#define _PROXYERROR_H
 
 #include "simapi.h"
-#include "proxy.h"
-#include "proxycfgbase.h"
+#include "socket.h"
+#include "proxyerrorbase.h"
 
-#include <vector>
-using namespace std;
-
+class ProxyConfig;
 class ProxyPlugin;
-class QTabWidget;
 
-class ProxyConfig : public ProxyConfigBase, public EventReceiver
+class ProxyError : public ProxyErrorBase, public EventReceiver
 {
     Q_OBJECT
 public:
-    ProxyConfig(QWidget *parent, ProxyPlugin *plugin, QTabWidget *tab, Client *client);
-public slots:
+    ProxyError(ProxyPlugin *plugin, TCPClient *client, const char *msg);
+    ~ProxyError();
+signals:
     void apply();
-protected slots:
-    void clientChanged(int client);
-    void typeChanged(int type);
-    void authToggled(bool auth);
 protected:
-    void paintEvent(QPaintEvent*);
     void *processEvent(Event*);
-    void fillClients();
-    void fill(ProxyData*);
-    void get(ProxyData*);
-    vector<ProxyData> m_data;
-    Client *m_client;
+    virtual void accept();
     ProxyPlugin *m_plugin;
-    unsigned m_current;
+    TCPClient	*m_client;
 };
 
 #endif

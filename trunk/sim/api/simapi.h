@@ -632,11 +632,12 @@ const unsigned EventNetworkChanged	= 0x1000;
 const unsigned EventSocketConnect	= 0x1001;
 
 class ClientSocket;
+class TCPClient;
 
 typedef struct ConnectParam
 {
     ClientSocket	*socket;
-    const char		*proto;
+    TCPClient		*client;
     const char		*host;
     unsigned short	port;
 } ConnectParam;
@@ -883,7 +884,7 @@ typedef struct MessageData
     unsigned	Time;
     char		*Font;
     char		*Error;
-    unsigned	Retry;
+    unsigned	RetryCode;
 } MessageData;
 
 class EXPORT Message
@@ -907,7 +908,7 @@ public:
     PROP_ULONG(Time)
     PROP_STR(Error);
     PROP_STR(Font);
-    PROP_ULONG(Retry);
+    PROP_ULONG(RetryCode);
     const char *client() { return m_client.c_str(); }
     void setClient(const char *client);
     virtual QString presentation();
@@ -1253,6 +1254,8 @@ typedef struct ClientData
     unsigned	Invisible;
 } ClientData;
 
+const unsigned AuthError = 1;
+
 class EXPORT Client
 {
 public:
@@ -1263,8 +1266,7 @@ public:
         Offline,
         Connecting,
         Connected,
-        Error,
-        AuthError
+        Error
     };
     virtual string name() = 0;
     virtual string dataName(void*) = 0;
@@ -1287,7 +1289,7 @@ public:
     virtual void updateInfo(Contact *contact, void *clientData);
     virtual void setClientInfo(void *data);
     virtual QWidget *searchWindow();
-    void    setState(State, const char *text = NULL);
+    void    setState(State, const char *text = NULL, unsigned code = 0);
     State   getState() { return m_state; }
     virtual unsigned getStatus();
     PROP_ULONG(ManualStatus)
@@ -1296,7 +1298,6 @@ public:
     PROP_BOOL(SavePassword)
     bool getInvisible() { return data.Invisible; }
     virtual void setInvisible(bool bInvisible) { data.Invisible = bInvisible; }
-    string errorString;
 protected:
     State m_state;
     unsigned m_status;
@@ -1466,7 +1467,7 @@ EXPORT const pager_provider *getProviders();
 // _____________________________________________________________________________________
 // Fetch Data
 
-EXPORT unsigned fetch(const char *url, Buffer *postData=NULL, const char *headers=NULL);
+EXPORT unsigned fetch(TCPClient *client, const char *url, Buffer *postData=NULL, const char *headers=NULL);
 
 // _____________________________________________________________________________________
 // User interface

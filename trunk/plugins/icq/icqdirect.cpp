@@ -221,7 +221,7 @@ void DirectSocket::connect()
         if (ip){
             struct in_addr addr;
             addr.s_addr = ip;
-            m_socket->connect(inet_ntoa(addr), m_port, m_client->protocol()->description()->text);
+            m_socket->connect(inet_ntoa(addr), m_port, m_client);
             return;
         }
     }

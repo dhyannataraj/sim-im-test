@@ -3,9 +3,11 @@ sim_plugin_LTLIBRARIES = proxy.la
 proxy_la_SOURCES = \
  proxy.cpp \
  proxycfg.cpp \
- proxycfgbase.ui 
+ proxycfgbase.ui \
+ proxyerror.cpp \
+ proxyerrorbase.ui
 
-INCLUDES=-I../../sim/api $(all_includes)
+INCLUDES=-I../../sim/api -I../_core $(all_includes)
 
 proxy_la_METASOURCES = AUTO
 proxy_la_LIBADD = ../../sim/api/libsimapi.la $(LIB_QT) $(EXTRA_LIBS)

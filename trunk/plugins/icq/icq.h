@@ -60,6 +60,8 @@ public:
     unsigned MenuEncoding;
     unsigned MenuSearchResult;
     unsigned MenuGroups;
+    unsigned RetrySendDND;
+    unsigned RetrySendOccupied;
     static Protocol *m_protocol;
     void registerMessages();
     void unregisterMessages();

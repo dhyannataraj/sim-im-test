@@ -33,6 +33,7 @@ class NewProtocol : public NewProtocolBase, public EventReceiver
 public:
     NewProtocol(QWidget *parent);
     ~NewProtocol();
+    Client	*m_client;
 signals:
     void apply();
 protected slots:
@@ -46,7 +47,6 @@ protected:
     vector<Protocol*>	m_protocols;
     ConnectWnd	*m_connectWnd;
     QWidget *m_setup;
-    Client	*m_client;
     bool	m_bConnect;
 };
 

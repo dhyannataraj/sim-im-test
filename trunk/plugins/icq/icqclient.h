@@ -461,6 +461,7 @@ protected slots:
     void infoRequest();
     void infoRequestFail();
     void processSendQueue();
+	void retry(int n, void*);
 protected:
     virtual void setInvisible(bool bState);
     virtual void setStatus(unsigned status, bool bCommon);

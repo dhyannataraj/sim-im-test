@@ -18,6 +18,8 @@
 #include "proxy.h"
 #include "proxycfg.h"
 #include "socket.h"
+#include "newprotocol.h"
+#include "proxyerror.h"
 
 #include <qtabwidget.h>
 #include <qobjectlist.h>
@@ -36,10 +38,115 @@
 #define INADDR_NONE	0xFFFFFFFF
 #endif
 
+static const char *CONNECT_ERROR = I18N_NOOP("Can't connect to proxy");
+static const char *ANSWER_ERROR  = I18N_NOOP("Bad proxy answer");
+static const char *AUTH_ERROR    = I18N_NOOP("Proxy authorization failed");
+static const char *STATE_ERROR	 = "Connect in bad state";
+
+/*
+typedef struct ProxyData
+{
+    unsigned long	Type;
+	char			*Host;
+	unsigned long	Port;
+	unsigned		Auth;
+	char			*User;
+	char			*Password;
+} ProxyData;
+*/
+
+static DataDef _proxyData[] =
+    {
+        { "Client", DATA_STRING, 1, 0 },
+        { "Clients", DATA_STRLIST, 1, 0 },
+        { "Type", DATA_ULONG, 1, PROXY_NONE },
+        { "Host", DATA_STRING, 1, (unsigned)"proxy" },
+        { "Port", DATA_ULONG, 1, 1080 },
+        { "Auth", DATA_BOOL, 1, 0 },
+        { "User", DATA_STRING, 1, 0 },
+        { "Password", DATA_STRING, 1, 0 },
+        { "", DATA_BOOL, 1, 0 },
+        { NULL, 0, 0, 0 }
+    };
+
+ProxyData::ProxyData()
+{
+    bInit = false;
+}
+
+ProxyData::ProxyData(const ProxyData &d)
+{
+    bInit = false;
+    *this = d;
+}
+
+ProxyData::ProxyData(const char *cfg)
+{
+    load_data(_proxyData, this, cfg);
+    bInit = true;
+}
+
+ProxyData::~ProxyData()
+{
+    if (bInit)
+        free_data(_proxyData, this);
+}
+
+static bool _cmp(const char *s1, const char *s2)
+{
+    if (s1 == NULL)
+        return (s2 == NULL);
+    if (s2 == NULL)
+        return false;
+    return strcmp(s1, s2) == 0;
+}
+
+bool ProxyData::operator == (const ProxyData &d) const
+{
+    if (Type != d.Type)
+        return false;
+    if (Type == PROXY_NONE)
+        return true;
+    if ((Port != d.Port) && !_cmp(Host, d.Host))
+        return false;
+    if (Type == PROXY_SOCKS4)
+        return true;
+    if (Auth != d.Auth)
+        return false;
+    if (d.Auth == 0)
+        return true;
+    return _cmp(User, d.User) && _cmp(Password, d.Password);
+}
+
+ProxyData& ProxyData::operator = (const ProxyData &d)
+{
+    if (bInit){
+        free_data(_proxyData, this);
+        bInit = false;
+    }
+    if (d.bInit){
+        load_data(_proxyData, this, save_data(_proxyData, (void*)(&d)).c_str());
+        bInit = true;
+        Default = d.Default;
+    }
+    return *this;
+}
+
+ProxyData& ProxyData::operator = (const char *cfg)
+{
+    if (bInit){
+        free_data(_proxyData, this);
+        bInit = false;
+    }
+    load_data(_proxyData, this, cfg);
+    bInit = true;
+    return *this;
+}
+
 class Proxy : public Socket, public SocketNotify
 {
 public:
-    Proxy(ProxyPlugin *plugin);
+    Proxy(ProxyPlugin *plugin, ProxyData *data, TCPClient *client);
     ~Proxy();
     virtual int read(char *buf, unsigned int size);
     virtual void write(const char *buf, unsigned int size);
@@ -48,6 +155,13 @@ public:
     virtual unsigned long localHost();
     virtual void pause(unsigned);
     virtual Mode mode() { return Indirect; }
+    PROP_ULONG(Type);
+    PROP_STR(Host);
+    PROP_ULONG(Port);
+    PROP_BOOL(Auth);
+    PROP_STR(User);
+    PROP_STR(Password);
+    ProxyPlugin *m_plugin;
 protected:
     virtual void write();
     virtual void write_ready();
@@ -55,16 +169,19 @@ protected:
     virtual void proxy_connect_ready();
     void read(unsigned size, unsigned minsize=0);
     bool		m_bClosed;
+    TCPClient	*m_client;
     Socket		*m_sock;
-    ProxyPlugin	*m_plugin;
     Buffer		bOut;
     Buffer		bIn;
+    ProxyData	data;
 };
 
-Proxy::Proxy(ProxyPlugin *plugin)
+Proxy::Proxy(ProxyPlugin *plugin, ProxyData *d, TCPClient *client)
 {
+    data = *d;
     m_plugin   = plugin;
     m_sock     = NULL;
+    m_client   = client;
     m_bClosed  = false;
     m_plugin->proxies.push_back(this);
     bIn.packetStart();
@@ -99,7 +216,7 @@ void Proxy::write(const char*, unsigned int)
 {
     log(L_WARN, "Proxy can't write");
     if (notify)
-        notify->error_state(I18N_NOOP("Error proxy write"));
+        notify->error_state("Error proxy write");
 }
 
 void Proxy::close()
@@ -129,8 +246,11 @@ void Proxy::write_ready()
 
 void Proxy::error_state(const char *err, unsigned code)
 {
-    if (notify)
+    if (notify){
+        if (code == m_plugin->ProxyErr)
+            m_client->m_reconnect = NO_RECONNECT;
         notify->error_state(err, code);
+    }
 }
 
 void Proxy::read(unsigned size, unsigned minsize)
@@ -139,7 +259,7 @@ void Proxy::read(unsigned size, unsigned minsize)
     bIn.packetStart();
     int readn = m_sock->read(bIn.data(0), size);
     if ((readn != (int)size) || (minsize && (readn < (int)minsize))){
-        if (notify) notify->error_state(I18N_NOOP("Error proxy read"));
+        if (notify) notify->error_state("Error proxy read");
         return;
     }
     log_packet(bIn, false, m_plugin->ProxyPacket);
@@ -167,11 +287,12 @@ void Proxy::proxy_connect_ready()
 class SOCKS4_Proxy : public Proxy
 {
 public:
-    SOCKS4_Proxy(ProxyPlugin *plugin);
+    SOCKS4_Proxy(ProxyPlugin *plugin, ProxyData *data, TCPClient *client);
     virtual void connect(const char *host, int port);
 protected:
     virtual void connect_ready();
     virtual void read_ready();
+    virtual void error_state(const char *text, unsigned code);
 
     string			m_host;
     unsigned short	m_port;
@@ -185,8 +306,8 @@ protected:
     State m_state;
 };
 
-SOCKS4_Proxy::SOCKS4_Proxy(ProxyPlugin *plugin)
-        : Proxy(plugin)
+SOCKS4_Proxy::SOCKS4_Proxy(ProxyPlugin *plugin, ProxyData *data, TCPClient *client)
+        : Proxy(plugin, data, client)
 {
     m_state = None;
 }
@@ -194,22 +315,29 @@ SOCKS4_Proxy::SOCKS4_Proxy(ProxyPlugin *plugin)
 void SOCKS4_Proxy::connect(const char *host, int port)
 {
     if (m_state != None){
-        log(L_WARN, "Proxy::connect in bad state");
-        if (notify) notify->error_state(I18N_NOOP("Error proxy connect"));
+        if (notify) notify->error_state(STATE_ERROR);
         return;
     }
     m_host = host;
     m_port = port;
-    log(L_DEBUG, "Connect to proxy SOCKS4 %s:%u", m_plugin->getHost(), m_plugin->getPort());
-    m_sock->connect(m_plugin->getHost(), m_plugin->getPort());
+    log(L_DEBUG, "Connect to proxy SOCKS4 %s:%u", getHost(), getPort());
+    m_sock->connect(getHost(), getPort());
     m_state = Connect;
+}
+
+void SOCKS4_Proxy::error_state(const char *text, unsigned code)
+{
+    if (m_state == Connect){
+        text = CONNECT_ERROR;
+        code = m_plugin->ProxyErr;
+    }
+    Proxy::error_state(text, code);
 }
 
 void SOCKS4_Proxy::connect_ready()
 {
     if (m_state != Connect){
-        log(L_WARN, "Proxy::connect_ready in bad state");
-        if (notify) notify->error_state(I18N_NOOP("Error proxy connect"));
+        error_state(STATE_ERROR, 0);
         return;
     }
     unsigned long addr = inet_addr(m_host.c_str());
@@ -233,7 +361,7 @@ void SOCKS4_Proxy::read_ready()
     char b1, b2;
     bIn >> b1 >> b2;
     if (b2 != 90){
-        if (notify) notify->error_state(I18N_NOOP("Error proxy connect"));
+        error_state(ANSWER_ERROR, m_plugin->ProxyErr);
         return;
     }
     proxy_connect_ready();
@@ -244,11 +372,12 @@ void SOCKS4_Proxy::read_ready()
 class SOCKS5_Proxy : public Proxy
 {
 public:
-    SOCKS5_Proxy(ProxyPlugin*);
+    SOCKS5_Proxy(ProxyPlugin*, ProxyData*, TCPClient*);
     virtual void connect(const char *host, int port);
 protected:
     virtual void connect_ready();
     virtual void read_ready();
+    virtual void error_state(const char *text, unsigned code);
     string m_host;
     unsigned short m_port;
     enum State
@@ -263,8 +392,8 @@ protected:
     void send_connect();
 };
 
-SOCKS5_Proxy::SOCKS5_Proxy(ProxyPlugin *plugin)
-        : Proxy(plugin)
+SOCKS5_Proxy::SOCKS5_Proxy(ProxyPlugin *plugin, ProxyData *d, TCPClient *client)
+        : Proxy(plugin, d, client)
 {
     m_state = None;
 }
@@ -272,27 +401,24 @@ SOCKS5_Proxy::SOCKS5_Proxy(ProxyPlugin *plugin)
 void SOCKS5_Proxy::connect(const char *host, int port)
 {
     if (m_state != None){
-        log(L_WARN, "Proxy::connect in bad state");
-        if (notify) notify->error_state(I18N_NOOP("Error proxy connect"));
+        error_state(STATE_ERROR, 0);
         return;
     }
     m_host = host;
     m_port = port;
-    log(L_DEBUG, "Connect to proxy SOCKS5 %s:%u", m_plugin->getHost(), m_plugin->getPort());
-    m_sock->connect(m_plugin->getHost(), m_plugin->getPort());
+    log(L_DEBUG, "Connect to proxy SOCKS5 %s:%u", getHost(), getPort());
+    m_sock->connect(getHost(), getPort());
     m_state = Connect;
 }
 
 void SOCKS5_Proxy::connect_ready()
 {
     if (m_state != Connect){
-        log(L_WARN, "Proxy::connect_ready in bad state");
-        if (notify)
-            notify->error_state(I18N_NOOP("Error proxy connect"));
+        error_state(STATE_ERROR, 0);
         return;
     }
     bOut << (char)0x05;
-    if (m_plugin->getAuth()) {
+    if (getAuth()) {
         bOut	<< (char)0x02
         << (char)0x00
         << (char)0x02;
@@ -312,13 +438,12 @@ void SOCKS5_Proxy::read_ready()
         read(2);
         bIn >> b1 >> b2;
         if ((b1 != 0x05) || (b2 == (char)0xFF)) {
-            if (notify)
-                notify->error_state(I18N_NOOP("Error proxy connect"));
+            error_state(ANSWER_ERROR, m_plugin->ProxyErr);
             return;
         }
         if (b2 == 0x02) {
-            const char *user = m_plugin->getUser();
-            const char *pswd = m_plugin->getPassword();
+            const char *user = getUser();
+            const char *pswd = getPassword();
             bOut
             << (char)0x01
             << (char)strlen(user)
@@ -335,8 +460,7 @@ void SOCKS5_Proxy::read_ready()
         read(2);
         bIn >> b1 >> b2;
         if ((b1 != 0x01) || (b2 != 0x00)) {
-            if (notify)
-                notify->error_state(I18N_NOOP("Error proxy authorization"));
+            error_state(AUTH_ERROR, m_plugin->ProxyErr);
             return;
         }
         send_connect();
@@ -345,8 +469,7 @@ void SOCKS5_Proxy::read_ready()
         read(10);
         bIn >> b1 >> b2;
         if ((b1 != 0x05) || (b2 != 0x00)) {
-            if (notify)
-                notify->error_state(I18N_NOOP("Error proxy connect"));
+            error_state(ANSWER_ERROR, m_plugin->ProxyErr);
             return;
         }
         proxy_connect_ready();
@@ -354,6 +477,15 @@ void SOCKS5_Proxy::read_ready()
     default:
         break;
     }
+}
+
+void SOCKS5_Proxy::error_state(const char *text, unsigned code)
+{
+    if (m_state == Connect){
+        text = CONNECT_ERROR;
+        code = m_plugin->ProxyErr;
+    }
+    Proxy::error_state(text, code);
 }
 
 void SOCKS5_Proxy::send_connect()
@@ -380,11 +512,12 @@ void SOCKS5_Proxy::send_connect()
 class HTTPS_Proxy : public Proxy
 {
 public:
-    HTTPS_Proxy(ProxyPlugin *plugin);
+    HTTPS_Proxy(ProxyPlugin *plugin, ProxyData*, TCPClient *client);
     virtual void connect(const char *host, int port);
 protected:
     virtual void connect_ready();
     virtual void read_ready();
+    void error_state(const char *text, unsigned code);
     string m_host;
     unsigned short m_port;
     enum State
@@ -398,8 +531,8 @@ protected:
     bool readLine(string &s);
 };
 
-HTTPS_Proxy::HTTPS_Proxy(ProxyPlugin *plugin)
-        : Proxy(plugin)
+HTTPS_Proxy::HTTPS_Proxy(ProxyPlugin *plugin, ProxyData *d, TCPClient *client)
+        : Proxy(plugin, d, client)
 {
     m_state = None;
 }
@@ -407,15 +540,15 @@ HTTPS_Proxy::HTTPS_Proxy(ProxyPlugin *plugin)
 void HTTPS_Proxy::connect(const char *host, int port)
 {
     if (m_state != None){
-        log(L_WARN, "Proxy::connect in bad state");
-        if (notify)
-            notify->error_state(I18N_NOOP("Error proxy connect"));
+        error_state(STATE_ERROR, 0);
         return;
     }
     m_host = host;
     m_port = port;
-    log(L_DEBUG, "Connect to proxy HTTPS %s:%u", m_plugin->getHost(), m_plugin->getPort());
-    m_sock->connect(m_plugin->getHost(), m_plugin->getPort());
+    if (!strcmp(m_client->protocol()->description()->text, "ICQ"))
+        m_port = 443;
+    log(L_DEBUG, "Connect to proxy HTTPS %s:%u", getHost(), getPort());
+    m_sock->connect(getHost(), getPort());
     m_state = Connect;
 }
 
@@ -469,20 +602,21 @@ void HTTPS_Proxy::connect_ready()
 {
     if (m_state != Connect){
         log(L_WARN, "Proxy::connect_ready in bad state");
-        if (notify)
-            notify->error_state(I18N_NOOP("Error proxy connect"));
+        error_state(CONNECT_ERROR, 0);
         return;
     }
     bIn.packetStart();
     bOut << "CONNECT "
     << m_host.c_str()
-    << ":443 HTTP/1.0\r\n"
+    << ":"
+    << number(m_port).c_str()
+    << " HTTP/1.0\r\n"
     << "User-Agent: Mozilla/4.08 [en]] (WinNT; U ;Nav)\r\n";
-    if (m_plugin->getAuth()){
+    if (getAuth()){
         string s;
-        s = m_plugin->getUser();
+        s = getUser();
         s += ":";
-        s += m_plugin->getPassword();
+        s += getPassword();
         s = tobase64(s.c_str());
         bOut << "Proxy-Authorization: basic ";
         bOut << s.c_str();
@@ -498,32 +632,37 @@ void HTTPS_Proxy::connect_ready()
 
 static char HTTP[] = "HTTP/";
 
+void HTTPS_Proxy::error_state(const char *text, unsigned code)
+{
+    if (m_state == Connect){
+        text = CONNECT_ERROR;
+        code = m_plugin->ProxyErr;
+    }
+    Proxy::error_state(text, code);
+}
+
 void HTTPS_Proxy::read_ready()
 {
     if (m_state == WaitConnect){
         string s;
         if (!readLine(s)) return;
         if (s.length() < strlen(HTTP)){
-            if (notify)
-                notify->error_state(I18N_NOOP("Error proxy connect"));
+            error_state(ANSWER_ERROR, m_plugin->ProxyErr);
             return;
         }
         const char *r = strchr(s.c_str(), ' ');
         if (r == NULL){
-            if (notify)
-                notify->error_state(I18N_NOOP("Error proxy connect"));
+            error_state(ANSWER_ERROR, m_plugin->ProxyErr);
             return;
         }
         r++;
         int code = atoi(r);
         if (code == 401){
-            if (notify)
-                notify->error_state(I18N_NOOP("Error proxy authorization"));
+            error_state(AUTH_ERROR, m_plugin->ProxyErr);
             return;
         }
         if (code != 200){
-            if (notify)
-                notify->error_state(I18N_NOOP("Error proxy connect"));
+            error_state(ANSWER_ERROR, m_plugin->ProxyErr);
             return;
         }
         m_state = WaitEmpty;
@@ -544,8 +683,7 @@ bool HTTPS_Proxy::readLine(string &s)
         char c;
         int n = m_sock->read(&c, 1);
         if (n < 0){
-            if (notify)
-                notify->error_state(I18N_NOOP("Error proxy read"));
+            error_state(ANSWER_ERROR, m_plugin->ProxyErr);
             return false;
         }
         if (n == 0) return false;
@@ -610,7 +748,7 @@ class HttpRequest;
 class HTTP_Proxy : public Proxy
 {
 public:
-    HTTP_Proxy(ProxyPlugin *plugin);
+    HTTP_Proxy(ProxyPlugin *plugin, ProxyData *d, TCPClient *client);
     ~HTTP_Proxy();
     virtual void connect(const char *host, int port);
     virtual int read(char *buf, unsigned int size);
@@ -685,7 +823,7 @@ HttpRequest::HttpRequest(HTTP_Proxy *proxy)
     m_sock = getSocketFactory()->createSocket();
     m_sock->setNotify(this);
     state = WaitConnect;
-    m_sock->connect(proxy->m_plugin->getHost(), proxy->m_plugin->getPort());
+    m_sock->connect(proxy->getHost(), proxy->getPort());
     bIn.packetStart();
 }
 
@@ -722,11 +860,11 @@ void HttpRequest::connect_ready()
         bOut << "Content-Length: " << b << "\r\n";
     }
 
-    if (m_proxy->m_plugin->getAuth()){
+    if (m_proxy->getAuth()){
         string s;
-        s = m_proxy->m_plugin->getUser();
+        s = m_proxy->getUser();
         s += ":";
-        s += m_proxy->m_plugin->getPassword();
+        s += m_proxy->getPassword();
         s = tobase64(s.c_str());
         bOut << "Proxy-Authorization: basic ";
         bOut << s.c_str();
@@ -757,7 +895,7 @@ bool HttpRequest::readLine(string &s)
         char c;
         int n = m_sock->read(&c, 1);
         if (n < 0){
-            error_state(I18N_NOOP("Error proxy connect"));
+            m_proxy->error_state(CONNECT_ERROR, m_proxy->m_plugin->ProxyErr);
             return false;
         }
         if (n == 0) return false;
@@ -782,29 +920,29 @@ void HttpRequest::read_ready()
         string s;
         if (!readLine(s)) return;
         if (s.length() < strlen(HTTP)){
-            error_state(I18N_NOOP("Error proxy read"));
+            m_proxy->error_state(ANSWER_ERROR, m_proxy->m_plugin->ProxyErr);
             return;
         }
         const char *r = strchr(s.c_str(), ' ');
         if (r == NULL){
-            error_state(I18N_NOOP("Error proxy read"));
+            m_proxy->error_state(ANSWER_ERROR, m_proxy->m_plugin->ProxyErr);
             return;
         }
         r++;
         int code = atoi(r);
         if (code == 401){
             log_packet(bIn, false, m_proxy->m_plugin->ProxyPacket);
-            error_state(I18N_NOOP("Error proxy authorization"), 401);
+            m_proxy->error_state(AUTH_ERROR, m_proxy->m_plugin->ProxyErr);
             return;
         }
         if (code == 502){
             log_packet(bIn, false, m_proxy->m_plugin->ProxyPacket);
-            error_state(I18N_NOOP("Error proxy read"));
+            m_proxy->error_state(ANSWER_ERROR, 0);
             return;
         }
         if (code != 200){
             log_packet(bIn, false, m_proxy->m_plugin->ProxyPacket);
-            error_state(I18N_NOOP("Error proxy connect"));
+            m_proxy->error_state(ANSWER_ERROR, m_proxy->m_plugin->ProxyErr);
             return;
         }
         state = ReadHeader;
@@ -837,7 +975,7 @@ void HttpRequest::read_ready()
             int n = m_sock->read(b, tail);
             if (n < 0){
                 log_packet(bIn, false, m_proxy->m_plugin->ProxyPacket);
-                error_state(I18N_NOOP("Error proxy connect"));
+                m_proxy->error_state(ANSWER_ERROR, m_proxy->m_plugin->ProxyErr);
                 return;
             }
             if (n == 0) break;
@@ -949,13 +1087,11 @@ void MonitorRequest::data_ready()
         bIn.incReadPos(8);
         len -= 12;
         if (len > (bIn.size() - bIn.readPos())){
-            log(L_WARN, "Bad HTTP packet size %u (%u)", len, bIn.size() - bIn.readPos());
-            error_state(I18N_NOOP("Error proxy read"));
+            m_proxy->error_state(ANSWER_ERROR, m_proxy->m_plugin->ProxyErr);
             return;
         }
         if (ver != HTTP_PROXY_VERSION){
-            log(L_WARN, "Bad HTTP packet version %X (%X)", ver, HTTP_PROXY_VERSION);
-            error_state(I18N_NOOP("Error proxy read"));
+            m_proxy->error_state(ANSWER_ERROR, m_proxy->m_plugin->ProxyErr);
             return;
         }
         switch (type){
@@ -973,8 +1109,7 @@ void MonitorRequest::data_ready()
                 bIn.incReadPos(len);
             break;
         default:
-            log(L_WARN, "Bad HTTP packet type %u", type);
-            error_state(I18N_NOOP("Error proxy read"));
+            m_proxy->error_state(ANSWER_ERROR, m_proxy->m_plugin->ProxyErr);
             return;
         }
     }
@@ -1029,8 +1164,8 @@ void PostRequest::data_ready()
 
 // ______________________________________________________________________________________
 
-HTTP_Proxy::HTTP_Proxy(ProxyPlugin *plugin)
-        : Proxy(plugin)
+HTTP_Proxy::HTTP_Proxy(ProxyPlugin *plugin, ProxyData *d, TCPClient *client)
+        : Proxy(plugin, d, client)
 {
     hello = NULL;
     monitor = NULL;
@@ -1150,34 +1285,12 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-/*
-typedef struct ProxyData
-{
-    unsigned long	Type;
-	char			*Host;
-	unsigned long	Port;
-	unsigned		Auth;
-	char			*User;
-	char			*Password;
-} ProxyData;
-*/
-
-static DataDef proxyData[] =
-    {
-        { "Type", DATA_ULONG, 1, PROXY_NONE },
-        { "Host", DATA_STRING, 1, (unsigned)"proxy" },
-        { "Port", DATA_ULONG, 1, 1080 },
-        { "Auth", DATA_BOOL, 1, 0 },
-        { "User", DATA_STRING, 1, 0 },
-        { "Password", DATA_STRING, 1, 0 },
-        { NULL, 0, 0, 0 }
-    };
-
 ProxyPlugin::ProxyPlugin(unsigned base, const char *config)
         : Plugin(base)
 {
-    load_data(proxyData, &data, config);
+    data = config;
     ProxyPacket = registerType();
+    ProxyErr    = registerType();
     getContacts()->addPacketType(ProxyPacket, info.title);
 }
 
@@ -1187,7 +1300,26 @@ ProxyPlugin::~ProxyPlugin()
         delete proxies.front();
     }
     getContacts()->removePacketType(ProxyPacket);
-    free_data(proxyData, &data);
+}
+
+void ProxyPlugin::clientData(Client *client, ProxyData &cdata)
+{
+    for (unsigned i = 1;; i++){
+        const char *proxyCfg = getClients(i);
+        if ((proxyCfg == NULL) || (*proxyCfg == 0))
+            break;
+        ProxyData wdata(proxyCfg);
+        if (wdata.Client && (client->name() == wdata.Client)){
+            cdata = wdata;
+            cdata.Default = false;
+            set_str(&cdata.Client, client->name().c_str());
+            return;
+        }
+    }
+    cdata = data;
+    set_str(&cdata.Client, client->name().c_str());
+    cdata.Default = true;
+    clear_list(&cdata.Clients);
 }
 
 void *ProxyPlugin::processEvent(Event *e)
@@ -1199,20 +1331,22 @@ void *ProxyPlugin::processEvent(Event *e)
             if ((*it)->notify == p->socket)
                 return NULL;
         }
+        ProxyData data;
+        clientData(p->client, data);
         Proxy *proxy = NULL;
-        switch (getType()){
+        switch (data.Type){
         case PROXY_SOCKS4:
-            proxy = new SOCKS4_Proxy(this);
+            proxy = new SOCKS4_Proxy(this, &data, p->client);
             break;
         case PROXY_SOCKS5:
-            proxy = new SOCKS5_Proxy(this);
+            proxy = new SOCKS5_Proxy(this, &data, p->client);
             break;
         case PROXY_HTTPS:
-            proxy = new HTTPS_Proxy(this);
+            proxy = new HTTPS_Proxy(this, &data, p->client);
             break;
         case PROXY_HTTP:
-            if (!strcmp(p->proto, "ICQ"))
-                proxy = new HTTP_Proxy(this);
+            if (!strcmp(p->client->protocol()->description()->text, "ICQ"))
+                proxy = new HTTP_Proxy(this, &data, p->client);
         }
         if (proxy){
             proxy->setSocket(p->socket);
@@ -1221,15 +1355,23 @@ void *ProxyPlugin::processEvent(Event *e)
     }
     if (e->type() == EventClientConfig){
         QTabWidget *tab = NULL;
-        QWidget *w = (QWidget*)(e->param());
+        NewProtocol *w = (NewProtocol*)(e->param());
         QObjectList *l = w->queryList("QTabWidget");
         QObjectListIt it(*l);
         if (it.current() != NULL)
             tab = static_cast<QTabWidget*>(it.current());
         delete l;
         if (tab){
-            QWidget *w = new ProxyConfig(tab, this, tab);
-            QObject::connect(tab->topLevelWidget(), SIGNAL(apply()), w, SLOT(apply()));
+            QWidget *cfg = new ProxyConfig(tab, this, tab, w->m_client);
+            QObject::connect(tab->topLevelWidget(), SIGNAL(apply()), cfg, SLOT(apply()));
+        }
+    }
+    if (e->type() == EventClientError){
+        clientErrorData *data = (clientErrorData*)(e->param());
+        if (data->code == ProxyErr){
+            ProxyError *err = new ProxyError(this, static_cast<TCPClient*>(data->client), data->err_str);
+            raiseWindow(err);
+            return e->param();
         }
     }
     return NULL;
@@ -1237,13 +1379,15 @@ void *ProxyPlugin::processEvent(Event *e)
 
 string ProxyPlugin::getConfig()
 {
-    return save_data(proxyData, &data);
+    return save_data(_proxyData, &data);
 }
 
 QWidget *ProxyPlugin::createConfigWindow(QWidget *parent)
 {
-    return new ProxyConfig(parent, this, NULL);
+    return new ProxyConfig(parent, this, NULL, NULL);
 }
+
+const DataDef *ProxyPlugin::proxyData = _proxyData;
 
 #ifdef WIN32
 

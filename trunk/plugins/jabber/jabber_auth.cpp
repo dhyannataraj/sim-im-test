@@ -28,7 +28,7 @@ class AuthRequest : public JabberClient::ServerRequest
 public:
     AuthRequest(JabberClient *client);
 protected:
-    unsigned m_errorCode;
+    bool m_bFail;
     virtual void element_start(const char *el, const char **attr);
     virtual void element_end(const char *el);
 };
@@ -36,18 +36,15 @@ protected:
 AuthRequest::AuthRequest(JabberClient *client)
         : JabberClient::ServerRequest(client, _SET, NULL, client->VHost().c_str())
 {
-    m_errorCode = (unsigned)(-1);
+    m_bFail = true;
 }
 
 void AuthRequest::element_end(const char *el)
 {
     if (strcmp(el, "iq"))
         return;
-    if (m_errorCode){
-        if (m_errorCode != (unsigned)(-1)){
-            m_client->m_authCode = m_errorCode;
-            QTimer::singleShot(0, m_client, SLOT(auth_failed()));
-        }
+    if (m_bFail){
+        QTimer::singleShot(0, m_client, SLOT(auth_failed()));
     }else{
         QTimer::singleShot(0, m_client, SLOT(auth_ok()));
     }
@@ -57,17 +54,8 @@ void AuthRequest::element_start(const char *el, const char **attr)
 {
     if (!strcmp(el, "iq")){
         string value = JabberClient::to_lower(JabberClient::get_attr("type", attr).c_str());
-        if (value == "result"){
-            m_errorCode = 0;
-        }else{
-            m_errorCode = LOGIN_ERROR;
-        }
-    }
-    if (!strcmp(el, "error")){
-        string error = JabberClient::get_attr("code", attr);
-        unsigned code = atol(error.c_str());
-        if (code)
-            m_errorCode = code;
+        if (value == "result")
+            m_bFail = false;
     }
 }
 

@@ -45,6 +45,7 @@ protected:
     QHBoxLayout	*h_lay;
     QSizeGrip	*m_grip;
     void *processEvent(Event*);
+    void focusInEvent(QFocusEvent*);
     void setTitle();
     void closeEvent(QCloseEvent *e);
     bool eventFilter(QObject *o, QEvent *e);

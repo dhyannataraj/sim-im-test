@@ -34,6 +34,7 @@ using namespace std;
 typedef map<unsigned, unsigned> MAP_STATUS;
 
 CommonStatus::CommonStatus()
+        : EventReceiver(LowPriority + 2)
 {
     m_bBlink = false;
     m_timer  = NULL;
@@ -70,7 +71,18 @@ void CommonStatus::setBarStatus(bool bFirst)
     const char *icon = "inactive";
 
     m_bConnected = false;
-    if (getSocketFactory()->isActive()){
+    bool bActive = getSocketFactory()->isActive();
+    if (!bActive){
+        for (unsigned i = 0; i < getContacts()->nClients(); i++){
+            Client *client = getContacts()->getClient(i);
+            if (client->getState() == Client::Connected){
+                bActive = true;
+                break;
+            }
+        }
+    }
+
+    if (bActive){
         m_bConnected = false;
         for (unsigned i = 0; i < getContacts()->nClients(); i++){
             Client *client = getContacts()->getClient(i);
@@ -114,50 +126,41 @@ void CommonStatus::setBarStatus(bool bFirst)
                 delete m_timer;
                 m_timer = NULL;
             }
-            for (unsigned i = 0; i < getContacts()->nClients(); i++){
+            unsigned status = STATUS_OFFLINE;
+            unsigned i;
+            for (i = 0; i < getContacts()->nClients(); i++){
                 Client *client = getContacts()->getClient(i);
                 if (!client->getCommonStatus())
                     continue;
-                if ((client->getState() == Client::Error) || (client->getState() == Client::AuthError)){
+                if (client->getState() == Client::Error){
                     icon = "error";
                     text = I18N_NOOP("Error");
-                }else{
-                    Client *client = getContacts()->getClient(0);
-                    if (client){
-                        const CommandDef *d;
-                        unsigned status = CorePlugin::m_plugin->getManualStatus();
-                        unsigned i = getContacts()->nClients();
-                        if ((status == STATUS_ONLINE) && CorePlugin::m_plugin->getInvisible()){
-                            for (i = 0; i < getContacts()->nClients(); i++){
-                                Client *client = getContacts()->getClient(i);
-                                if (client->protocol()->description()->flags & PROTOCOL_INVISIBLE){
-                                    icon = client->protocol()->description()->icon_on;
-                                    text = I18N_NOOP("&Invisible");
-                                    break;
-                                }
-                            }
-                        }
-                        if (i >= getContacts()->nClients()){
-                            for (d = client->protocol()->statusList(); d->text; d++){
-                                if (d->id == status){
-                                    icon = d->icon;
-                                    text = d->text;
-                                    break;
-                                }
+                    break;
+                }
+                status = client->getStatus();
+            }
+            if (i >= getContacts()->nClients()){
+                Client *client = getContacts()->getClient(0);
+                if (client){
+                    const CommandDef *d;
+                    unsigned i = getContacts()->nClients();
+                    if ((status == STATUS_ONLINE) && CorePlugin::m_plugin->getInvisible()){
+                        for (i = 0; i < getContacts()->nClients(); i++){
+                            Client *client = getContacts()->getClient(i);
+                            if (client->protocol()->description()->flags & PROTOCOL_INVISIBLE){
+                                icon = client->protocol()->description()->icon_on;
+                                text = I18N_NOOP("&Invisible");
+                                break;
                             }
                         }
                     }
-                }
-            }
-            if (icon == "inactive"){
-                icon = "offline";
-                Client *client = getContacts()->getClient(0);
-                if (client){
-                    for (const CommandDef *d = client->protocol()->statusList(); d->text; d++){
-                        if (d->id == STATUS_OFFLINE){
-                            icon = d->icon;
-                            text = d->text;
-                            break;
+                    if (i >= getContacts()->nClients()){
+                        for (d = client->protocol()->statusList(); d->text; d++){
+                            if (d->id == status){
+                                icon = d->icon;
+                                text = d->text;
+                                break;
+                            }
                         }
                     }
                 }
@@ -274,60 +277,27 @@ void CommonStatus::checkInvisible()
 void *CommonStatus::processEvent(Event *e)
 {
     switch (e->type()){
-    case EventClientChanged:{
-            Client *client = (Client*)(e->param());
-            list<Client*>::iterator it;
-            if (client->getState() == Client::AuthError){
-                setBarStatus(false);
-                LoginDialog *loginDlg = NULL;
-                QWidgetList  *list = QApplication::topLevelWidgets();
-                QWidgetListIt it( *list );
-                QWidget *w;
-                while ( (w=it.current()) != 0 ) {
-                    ++it;
-                    if (w->inherits("LoginDialog")){
-                        loginDlg = static_cast<LoginDialog*>(w);
-                        if (loginDlg->client() == client)
-                            break;
-                        loginDlg = NULL;
-                    }
-                }
-                delete list;
-                if (loginDlg == NULL){
-                    loginDlg = new LoginDialog(false, client);
-                    raiseWindow(loginDlg);
-                }
-            }
-            if (client->getState() == Client::Error){
-                for (it = errClients.begin(); it != errClients.end(); ++it){
-                    if ((*it) == client)
-                        break;
-                }
-                if (it == errClients.end()){
-                    errClients.push_back(client);
-                    if (client->errorString.length() &&
-                            ((CorePlugin::m_plugin->m_statusWnd == NULL) || !CorePlugin::m_plugin->m_statusWnd->isVisible())){
-                        Command cmd;
-                        cmd->id = CmdStatusBar;
-                        Event eWidget(EventCommandWidget, cmd);
-                        QWidget *widget = (QWidget*)(eWidget.process());
-                        if (widget){
-                            raiseWindow(widget->topLevelWidget());
-                            BalloonMsg::message(i18n(client->errorString.c_str()), widget);
-                        }
-                    }
-                }
+    case EventClientChanged:
+        checkInvisible();
+        setBarStatus(false);
+        break;
+    case EventClientError:{
+            clientErrorData *data = (clientErrorData*)(e->param());
+            if (data->code == AuthError){
+                LoginDialog *loginDlg = new LoginDialog(false, data->client);
+                raiseWindow(loginDlg);
             }else{
-                for (it = errClients.begin(); it != errClients.end(); ++it){
-                    if ((*it) == client){
-                        errClients.erase(it);
-                        break;
-                    }
+                Command cmd;
+                cmd->id = CmdStatusBar;
+                Event eWidget(EventCommandWidget, cmd);
+                QWidget *widget = (QWidget*)(eWidget.process());
+                if (widget){
+                    raiseWindow(widget->topLevelWidget());
+                    if (data->err_str && *data->err_str)
+                        BalloonMsg::message(i18n(data->err_str), widget);
                 }
             }
-            checkInvisible();
-            setBarStatus(false);
-            break;
+            return e->param();
         }
     case EventClientStatus:
     case EventSocketActive:

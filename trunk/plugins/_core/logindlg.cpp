@@ -372,26 +372,34 @@ void LoginDialog::loginComplete()
 
 void *LoginDialog::processEvent(Event *e)
 {
-    if ((e->type() == EventClientChanged) && ((Client*)(e->param()) == m_client)){
-        if (m_client->getState() == Client::Connected){
-            QTimer::singleShot(0, this, SLOT(loginComplete()));
-            return NULL;
-        }
+    switch (e->type()){
+    case EventClientChanged:
+            if ((Client*)(e->param()) == m_client){
+                if (m_client->getState() == Client::Connected){
+                    QTimer::singleShot(0, this, SLOT(loginComplete()));
+                    return NULL;
+                }
+            }
+        break;
+    case EventClientError:
         if (m_bLogin){
-            QString msg;
-            if (m_client->getState() == Client::Error){
+            clientErrorData *d = (clientErrorData*)(e->param());
+            if (d->client == m_client){
                 stopLogin();
-                msg = i18n(m_client->errorString.c_str());
-            }
-            if (m_client->getState() == Client::AuthError){
-                stopLogin();
-                msg = i18n("Login failed");
-            }
-            if (msg.length()){
-                raiseWindow(this);
-                BalloonMsg::message(msg, buttonOk);
+                QString msg;
+                if (d->err_str && *d->err_str){
+                    msg = i18n(d->err_str);
+                }else{
+                    msg = i18n("Login failed");
+                }
+                if (msg.length()){
+                    raiseWindow(this);
+                    BalloonMsg::message(msg, buttonOk);
+                }
+                return e->param();
             }
         }
+        break;
     }
     return NULL;
 }

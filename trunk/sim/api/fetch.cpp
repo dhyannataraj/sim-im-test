@@ -102,7 +102,29 @@ FetchManager::~FetchManager()
     getContacts()->removePacketType(HTTPPacket);
 }
 
-FetchClient::FetchClient(const char *url_str, Buffer *postData, const char *headers)
+void *FetchManager::processEvent(Event *e)
+{
+    if (e->type() == EventClientsChanged){
+        for (list<FetchClient*>::iterator it = m_clients.begin(); it != m_clients.end();){
+            if ((*it)->m_client){
+		unsigned i;
+                for (i = 0; i < getContacts()->nClients(); i++){
+                    if (getContacts()->getClient(i) == (*it)->m_client)
+                        break;
+                }
+                if (i >= getContacts()->nClients()){
+                    delete (*it);
+                    it = m_clients.begin();
+                    continue;
+                }
+            }
+            ++it;
+        }
+    }
+    return NULL;
+}
+
+FetchClient::FetchClient(TCPClient *client, const char *url_str, Buffer *postData, const char *headers)
 {
     m_id = 0;
     m_socket = NULL;
@@ -112,6 +134,7 @@ FetchClient::FetchClient(const char *url_str, Buffer *postData, const char *head
     m_state  = None;
     m_code   = 0;
     m_size   = UNKNOWN_SIZE;
+    m_client = client;
 #ifdef USE_OPENSSL
     m_bHTTPS = false;
 #endif
@@ -159,7 +182,7 @@ FetchClient::FetchClient(const char *url_str, Buffer *postData, const char *head
     FetchManager::manager->m_clients.push_back(this);
     m_socket = new ClientSocket(this);
     log(L_DEBUG, "Start connect %s:%u", m_host.c_str(), m_port);
-    m_socket->connect(m_host.c_str(), m_port, _HTTP);
+    m_socket->connect(m_host.c_str(), m_port, m_client);
 }
 
 FetchClient::~FetchClient()
@@ -321,9 +344,9 @@ bool FetchClient::read_line(string &s)
 }
 
 
-unsigned SIM::fetch(const char *url, Buffer *postData, const char *headers)
+unsigned SIM::fetch(TCPClient *cl, const char *url, Buffer *postData, const char *headers)
 {
-    FetchClient *client = new FetchClient(url, postData, headers);
+    FetchClient *client = new FetchClient(cl, url, postData, headers);
     if (client->id())
         return client->id();
     delete client;

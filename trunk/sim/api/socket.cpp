@@ -82,14 +82,14 @@ const char *ClientSocket::errorString()
     return NULL;
 }
 
-void ClientSocket::connect(const char *host, int port, const char *proto)
+void ClientSocket::connect(const char *host, int port, TCPClient *client)
 {
-    if (proto){
+    if (client){
         ConnectParam p;
         p.socket = this;
         p.host = host;
         p.port = port;
-        p.proto = proto;
+        p.client = client;
         Event e(EventSocketConnect, &p);
         e.process();
     }
@@ -254,7 +254,7 @@ TCPClient::TCPClient(Protocol *protocol, const char *cfg)
 {
     m_socket = NULL;
     m_timer  = new QTimer(this);
-    m_reconnectTime = RECONNECT_TIME;
+    m_reconnect = RECONNECT_TIME;
     m_bWaitReconnect = false;
     connect(m_timer, SIGNAL(timeout()), this, SLOT(reconnect()));
 }
@@ -262,20 +262,20 @@ TCPClient::TCPClient(Protocol *protocol, const char *cfg)
 bool TCPClient::error_state(const char *err, unsigned code)
 {
     log(L_DEBUG, "Socket error %s (%u)", err, code);
-    if (m_reconnectTime == NO_RECONNECT){
+    if (m_reconnect == NO_RECONNECT){
         m_timer->stop();
         setStatus(STATUS_OFFLINE, getCommonStatus());
-        setState((code == LOGIN_ERROR) ? AuthError : Error, err);
+        setState(Error, err, code);
         return false;
     }
     if (!m_timer->isActive()){
-        unsigned reconnectTime = m_reconnectTime;
+        unsigned reconnectTime = m_reconnect;
         if (!getSocketFactory()->isActive()){
             if (reconnectTime < RECONNECT_IFINACTIVE)
                 reconnectTime = RECONNECT_IFINACTIVE;
         }
         setClientStatus(STATUS_OFFLINE);
-        setState((m_reconnectTime > RECONNECT_TIME) ? Error : Connecting, err);
+        setState((m_reconnect == NO_RECONNECT) ? Error : Connecting, err, code);
         m_bWaitReconnect = true;
         log(L_DEBUG, "Wait reconnect %u sec", reconnectTime);
         m_timer->start(reconnectTime * 1000);
@@ -317,8 +317,8 @@ void TCPClient::setClientStatus(unsigned status)
                 m_socket = new ClientSocket(this);
             log(L_DEBUG, "Start connect %s:%u", getServer(), getPort());
             setState(Connecting, NULL);
-            m_socket->connect(getServer(), getPort(), protocol()->description()->text);
-            m_reconnectTime = RECONNECT_TIME;
+            m_socket->connect(getServer(), getPort(), this);
+            m_reconnect = RECONNECT_TIME;
             m_bWaitReconnect = false;
             setState(Connecting);
         }

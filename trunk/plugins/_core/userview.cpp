@@ -34,12 +34,8 @@
 #include <qapplication.h>
 #include <qwidgetlist.h>
 
-
-
 #ifdef WIN32
-
 #include <windows.h>
-
 #endif
 
 const unsigned BLINK_TIMEOUT	= 500;
@@ -65,6 +61,7 @@ UserView::UserView()
 
     mTipItem = NULL;
     m_tip = NULL;
+    m_searchTip = NULL;
     m_current = NULL;
 
     setTreeStepSize(0);
@@ -81,6 +78,7 @@ UserView::UserView()
 
     m_dropContactId = 0;
     m_dropItem = NULL;
+    m_searchItem = NULL;
 
     setFrameStyle(QFrame::Panel);
     setFrameShadow(QFrame::Sunken);
@@ -119,6 +117,8 @@ UserView::~UserView()
 {
     if (m_tip)
         delete m_tip;
+    if (m_searchTip)
+        delete m_searchTip;
 }
 
 void UserView::paintEmptyArea(QPainter *p, const QRect &r)
@@ -253,8 +253,36 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
                 }
             }
         }
-        x = item->drawText(p, x, width, item->text(CONTACT_TEXT));
+        QString highlight;
+        QString text = item->text(CONTACT_TEXT);
+        if (!m_search.isEmpty()){
+            if (text.left(m_search.length()).upper() == m_search.upper())
+                highlight = text.left(m_search.length());
+        }
+        int save_x = x;
+        x = item->drawText(p, x, width, text);
         x += 2;
+        if (!highlight.isEmpty()){
+            QPen oldPen = p->pen();
+            QColor oldBg = p->backgroundColor();
+            p->setBackgroundMode(OpaqueMode);
+            if (item == m_searchItem){
+                if ((item == currentItem()) && CorePlugin::m_plugin->getUseDblClick()){
+                    p->setBackgroundColor(cg.highlightedText());
+                    p->setPen(cg.highlight());
+                }else{
+                    p->setBackgroundColor(cg.highlight());
+                    p->setPen(cg.highlightedText());
+                }
+            }else{
+                p->setBackgroundColor(oldPen.color());
+                p->setPen(oldBg);
+            }
+            item->drawText(p, save_x, width, highlight);
+            p->setPen(oldPen);
+            p->setBackgroundColor(oldBg);
+            p->setBackgroundMode(TransparentMode);
+        }
         unsigned xIcon = width;
         while (icons.length()){
             icon = getToken(icons, ',');
@@ -778,23 +806,20 @@ bool UserView::eventFilter(QObject *obj, QEvent *e)
 void UserView::contentsMousePressEvent(QMouseEvent *e)
 {
     hideTip();
+    stopSearch();
     UserListBase::contentsMousePressEvent(e);
+}
+
+void UserView::focusOutEvent(QFocusEvent *e)
+{
+    stopSearch();
+    UserListBase::focusOutEvent(e);
 }
 
 void UserView::contentsMouseMoveEvent(QMouseEvent *e)
 {
     QListViewItem *list_item = itemAt(contentsToViewport(e->pos()));
-    if (list_item != mTipItem){
-        hideTip();
-        mTipItem = NULL;
-        if (list_item){
-            UserViewItemBase *base_item = static_cast<UserViewItemBase*>(list_item);
-            if (base_item->type() == USR_ITEM){
-                mTipItem = list_item;
-                tipTimer->start(1000, true);
-            }
-        }
-    }
+    showTip(list_item);
     ListView::contentsMouseMoveEvent(e);
 }
 
@@ -833,17 +858,167 @@ void UserView::doClick()
 
 void UserView::keyPressEvent(QKeyEvent *e)
 {
-    if (CorePlugin::m_plugin->getUseDblClick()){
+    if (CorePlugin::m_plugin->getUseDblClick() || m_searchItem){
+        if (m_searchItem)
+            setCurrentItem(m_searchItem);
         switch (e->key()){
         case Key_Return:
         case Key_Enter:
             m_current = currentItem();
             QTimer::singleShot(0, this, SLOT(doClick()));
             return;
-
         }
     }
-    UserListBase::keyPressEvent(e);
+    bool bTip = false;
+    if (m_searchItem && (m_searchItem == mTipItem))
+        bTip = true;
+    list<QListViewItem*> old_items;
+    list<QListViewItem*> new_items;
+    switch (e->key()){
+    case Key_BackSpace:
+        if (m_search.isEmpty()){
+            UserListBase::keyPressEvent(e);
+            return;
+        }
+        search(old_items);
+        m_search = m_search.left(m_search.length() - 1);
+        if (m_search.isEmpty()){
+            m_searchItem = NULL;
+        }else{
+            search(new_items);
+            if (new_items.empty()){
+                m_search = "";
+                m_searchItem = NULL;
+            }else{
+                m_searchItem = new_items.front();
+            }
+        }
+        break;
+    case Key_Escape:
+        if (m_search.isEmpty()){
+            UserListBase::keyPressEvent(e);
+            return;
+        }
+        stopSearch();
+        return;
+    case Key_Up:
+        if (m_search.isEmpty()){
+            UserListBase::keyPressEvent(e);
+            return;
+        }
+        if (m_searchItem){
+            search(old_items);
+            list<QListViewItem*>::iterator it_old;
+            for (it_old = old_items.begin(); it_old != old_items.end(); ++it_old)
+                if ((*it_old) == m_searchItem)
+                    break;
+            if (it_old == old_items.end())
+                return;
+            if (it_old == old_items.begin()){
+                QApplication::beep();
+                return;
+            }
+            --it_old;
+            m_searchItem = *it_old;
+        }
+        break;
+    case Key_Down:
+        if (m_search.isEmpty()){
+            UserListBase::keyPressEvent(e);
+            return;
+        }
+        if (m_searchItem){
+            search(old_items);
+            list<QListViewItem*>::iterator it_old;
+            for (it_old = old_items.begin(); it_old != old_items.end(); ++it_old)
+                if ((*it_old) == m_searchItem)
+                    break;
+            if (it_old != old_items.end())
+                it_old++;
+            if (it_old == old_items.end()){
+                QApplication::beep();
+                return;
+            }
+            m_searchItem = *it_old;
+        }
+        break;
+    case Key_Plus:
+    case Key_Minus:
+        if (m_search.isEmpty()){
+            QListViewItem *item = currentItem();
+            if (item && item->isExpandable()){
+                UserListBase::keyPressEvent(e);
+                return;
+            }
+        }
+    default:
+        QString t = e->text();
+        if (t.isEmpty()){
+            UserListBase::keyPressEvent(e);
+            return;
+        }
+        QString save_search = m_search;
+        search(old_items);
+        m_search += t;
+        search(new_items);
+        if (new_items.empty()){
+            m_search = save_search;
+            QApplication::beep();
+            return;
+        }else{
+            m_searchItem = new_items.front();
+        }
+    }
+    list<QListViewItem*>::iterator it_old;
+    list<QListViewItem*>::iterator it_new;
+    for (it_old = old_items.begin(); it_old != old_items.end(); ++it_old){
+        for (it_new = new_items.begin(); it_new != new_items.end(); ++it_new)
+            if (*it_new == *it_old)
+                break;
+        if (it_new == new_items.end())
+            new_items.push_back(*it_old);
+    }
+    for (it_new = new_items.begin(); it_new != new_items.end(); ++it_new)
+        (*it_new)->repaint();
+    setCurrentItem(m_searchItem);
+    if (m_searchItem){
+        ensureItemVisible(m_searchItem);
+        showTip(m_searchItem);
+    }
+    if (m_search.isEmpty() || (m_searchItem == NULL)){
+        if (m_searchTip)
+            m_searchTip->hide();
+        if (bTip)
+            hideTip();
+    }else{
+        QString tip = i18n("Search: %1") .arg(m_search);
+        if (m_searchTip){
+            m_searchTip->setText(tip);
+        }else{
+            m_searchTip = new TipLabel( tip);
+            connect(m_searchTip, SIGNAL(finished()), this, SLOT(searchTipDestroyed()));
+        }
+        QRect tipRect = itemRect(m_searchItem);
+        QPoint p = viewport()->mapToGlobal(tipRect.topLeft());
+        m_searchTip->show(QRect(p.x(), p.y(), tipRect.width(), tipRect.height()), true);
+    }
+}
+
+void UserView::stopSearch()
+{
+    if (m_search.isEmpty())
+        return;
+    if (m_searchItem == mTipItem)
+        hideTip();
+    list<QListViewItem*> old_items;
+    search(old_items);
+    m_search = "";
+    m_searchItem = NULL;
+    list<QListViewItem*>::iterator it_old;
+    for (it_old = old_items.begin(); it_old != old_items.end(); ++it_old)
+        (*it_old)->repaint();
+    if (m_searchTip)
+        m_searchTip->hide();
 }
 
 ProcessMenuParam *UserView::getMenu(QListViewItem *list_item)
@@ -919,6 +1094,26 @@ void UserView::fill()
 void UserView::tipDestroyed()
 {
     m_tip = NULL;
+}
+
+void UserView::searchTipDestroyed()
+{
+    m_searchTip = NULL;
+}
+
+void UserView::showTip(QListViewItem *list_item)
+{
+    if (list_item != mTipItem){
+        hideTip();
+        mTipItem = NULL;
+        if (list_item){
+            UserViewItemBase *base_item = static_cast<UserViewItemBase*>(list_item);
+            if (base_item->type() == USR_ITEM){
+                mTipItem = list_item;
+                tipTimer->start(1000, true);
+            }
+        }
+    }
 }
 
 void UserView::hideTip()
@@ -1050,6 +1245,8 @@ void UserView::deleteItem(QListViewItem *item)
         hideTip();
     if (item == m_pressedItem)
         m_pressedItem = NULL;
+    if (item == m_searchItem)
+        stopSearch();
     UserListBase::deleteItem(item);
 }
 
@@ -1255,6 +1452,27 @@ void UserView::sortAll(QListViewItem *item)
     item->sort();
     for (item = item->firstChild(); item; item = item->nextSibling())
         sortAll(item);
+}
+
+void UserView::search(list<QListViewItem*> &items)
+{
+    if (m_search.isEmpty())
+        return;
+    for (QListViewItem *item = firstChild(); item; item = item->nextSibling())
+        search(item, items);
+}
+
+void UserView::search(QListViewItem *item, list<QListViewItem*> &items)
+{
+    if (item->isExpandable() && item->isOpen()){
+        for (QListViewItem *child = item->firstChild(); child; child = child->nextSibling())
+            search(child, items);
+    }
+    if (static_cast<UserViewItemBase*>(item)->type() != USR_ITEM)
+        return;
+    QString name = item->text(CONTACT_TEXT);
+    if (name.left(m_search.length()).upper() == m_search.upper())
+        items.push_back(item);
 }
 
 #ifndef WIN32

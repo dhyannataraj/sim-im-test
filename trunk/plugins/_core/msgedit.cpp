@@ -973,16 +973,12 @@ void *MsgEdit::processEvent(Event *e)
                 QWidget *msgWidget = (QWidget*)(e.process());
                 if (msgWidget == NULL)
                     msgWidget = this;
-                if (msg->getRetry()){
-                    QStringList btns;
-                    if (msg->getRetry() & MESSAGE_URGENT)
-                        btns.append(i18n("Send &urgent"));
-                    if (msg->getRetry() & MESSAGE_LIST)
-                        btns.append(i18n("Send to &list"));
-                    btns.append(i18n("&Cancel"));
-                    BalloonMsg *msg = new BalloonMsg(NULL, err, btns, msgWidget, NULL, false);
-                    connect(msg, SIGNAL(action(int, void*)), this, SLOT(retry(int, void*)));
-                    msg->show();
+                if (msg->getRetryCode()){
+                    m_retry.edit = this;
+                    m_retry.msg = msg;
+                    Event e(EventMessageRetry, &m_retry);
+                    if (e.process())
+                        return NULL;
                 }else{
                     BalloonMsg::message(err, msgWidget);
                 }
@@ -1143,25 +1139,6 @@ void MsgEdit::setupNext()
         c.flags |= COMMAND_DISABLED;
     }
     btnNext->setCommand(&c);
-}
-
-void MsgEdit::retry(int n, void*)
-{
-    switch (n){
-    case 0:
-        m_flags = MESSAGE_URGENT;
-        break;
-    case 1:
-        m_flags = MESSAGE_LIST;
-        break;
-    default:
-        return;
-    }
-    Command cmd;
-    cmd->id   = CmdSend;
-    cmd->param = this;
-    Event e(EventCommandExec, cmd);
-    e.process();
 }
 
 void MsgEdit::editEnterPressed()

@@ -224,7 +224,6 @@ QString getID() { return QString::fromUtf8(data.owner.ID ? data.owner.ID : ""); 
     string dataName(void*);
 
     JabberListRequest *findRequest(const char *jid, bool bRemove);
-    unsigned m_authCode;
 
     string VHost();
     bool isAgent(const char *jid);

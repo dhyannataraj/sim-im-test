@@ -41,6 +41,8 @@
 #define INADDR_NONE     0xFFFFFFFF
 #endif
 
+const unsigned CONNECT_TIMEOUT = 60;
+
 namespace SIM
 {
 
@@ -153,6 +155,7 @@ SIMClientSocket::SIMClientSocket(QSocket *s)
     QObject::connect(sock, SIGNAL(readyRead()), this, SLOT(slotReadReady()));
     QObject::connect(sock, SIGNAL(bytesWritten(int)), this, SLOT(slotBytesWritten(int)));
     bInWrite = false;
+    timer = NULL;
 }
 
 SIMClientSocket::~SIMClientSocket()
@@ -163,7 +166,16 @@ SIMClientSocket::~SIMClientSocket()
 
 void SIMClientSocket::close()
 {
+    timerStop();
     sock->close();
+}
+
+void SIMClientSocket::timerStop()
+{
+    if (timer){
+        delete timer;
+        timer = NULL;
+    }
 }
 
 void SIMClientSocket::slotLookupFinished(int state)
@@ -231,12 +243,17 @@ void SIMClientSocket::resolveReady(unsigned long addr, const char *_host)
     a.s_addr = addr;
     host = inet_ntoa(a);
     log(L_DEBUG, "Resolve ready %s", host.c_str());
+    timerStop();
+    timer = new QTimer(this);
+    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(timeout()));
+    timer->start(CONNECT_TIMEOUT * 1000);
     sock->connectToHost(host.c_str(), port);
 }
 
 void SIMClientSocket::slotConnected()
 {
     log(L_DEBUG, "Connected");
+    timerStop();
     if (notify) notify->connect_ready();
     getSocketFactory()->setActive(true);
 }
@@ -244,7 +261,13 @@ void SIMClientSocket::slotConnected()
 void SIMClientSocket::slotConnectionClosed()
 {
     log(L_WARN, "Connection closed");
+    timerStop();
     if (notify) notify->error_state(I18N_NOOP("Connection closed"));
+}
+
+void SIMClientSocket::timeout()
+{
+    QTimer::singleShot(0, this, SLOT(slotConnectionClosed()));
 }
 
 void SIMClientSocket::slotReadReady()
@@ -291,6 +314,7 @@ unsigned long SIMClientSocket::localHost()
 void SIMClientSocket::slotError(int err)
 {
     log(L_DEBUG, "Slot error %u", err);
+    timerStop();
     if (notify) notify->error_state(I18N_NOOP("Socket error"));
 }
 

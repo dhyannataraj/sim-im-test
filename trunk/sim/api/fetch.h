@@ -39,53 +39,55 @@ typedef map<my_string, string> HEADERS_MAP;
 class FetchClient : public ClientSocketNotify
 {
 public:
-	FetchClient(const char *url, Buffer *postData, const char *headers);
-	~FetchClient();
-	unsigned id() { return m_id; }
-	bool	 done()	{ return m_bDone; }
-	void	 fail();
+    FetchClient(TCPClient *client, const char *url, Buffer *postData, const char *headers);
+    ~FetchClient();
+    unsigned id() { return m_id; }
+    bool	 done()	{ return m_bDone; }
+    void	 fail();
+    TCPClient	 *m_client;
 protected:
     virtual bool error_state(const char *err, unsigned code);
     virtual void connect_ready();
     virtual void packet_ready();
-	bool read_line(string&);
-	ClientSocket *m_socket;
-	unsigned	m_id;
-	HEADERS_MAP	m_hOut;
-	string		m_hIn;
-	bool		m_bDone;
-	unsigned	m_port;
-	unsigned	m_size;
-	string		m_host;
-	string		m_uri;
-	void		addHeader(const char *key, const char *value);
-	Buffer		*m_post;
-	Buffer		m_res;
-	enum State{
+    bool read_line(string&);
+    ClientSocket *m_socket;
+    unsigned	m_id;
+    HEADERS_MAP	m_hOut;
+    string		m_hIn;
+    bool		m_bDone;
+    unsigned	m_port;
+    unsigned	m_size;
+    string		m_host;
+    string		m_uri;
+    void		addHeader(const char *key, const char *value);
+    Buffer		*m_post;
+    Buffer		m_res;
+    enum State{
 #ifdef USE_OPENSSL
-		SSLConnect,
+        SSLConnect,
 #endif
-		None,
-		Header,
-		Data
-	};
-	State		m_state;
-	unsigned	m_code;
+        None,
+        Header,
+        Data
+    };
+    State		m_state;
+    unsigned	m_code;
 #ifdef USE_OPENSSL
-	bool		m_bHTTPS;
+    bool		m_bHTTPS;
 #endif
 };
 
-class FetchManager
+class FetchManager : public EventReceiver
 {
 public:
-	FetchManager();
-	~FetchManager();
-	static FetchManager *manager;
+    FetchManager();
+    ~FetchManager();
+    static FetchManager *manager;
 protected:
-	list<FetchClient*> m_clients;
-	unsigned m_id;
-	friend class FetchClient;
+    void *processEvent(Event*);
+    list<FetchClient*> m_clients;
+    unsigned m_id;
+    friend class FetchClient;
 };
 
 #endif

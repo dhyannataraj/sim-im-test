@@ -34,7 +34,6 @@ StatusLabel::StatusLabel(QWidget *parent, Client *client, unsigned id)
     m_bBlink = false;
     m_id = id;
     m_timer = NULL;
-    m_bError = false;
     setPict();
 }
 
@@ -72,7 +71,7 @@ void StatusLabel::setPict()
             delete m_timer;
             m_timer = NULL;
         }
-        if ((m_client->getState() == Client::Error) || (m_client->getState() == Client::AuthError)){
+        if (m_client->getState() == Client::Error){
             icon = "error";
             text = I18N_NOOP("Error");
         }else{
@@ -105,26 +104,6 @@ void StatusLabel::timeout()
     setPict();
 }
 
-void *StatusLabel::processEvent(Event *e)
-{
-    if ((e->type() == EventClientChanged) &&
-            ((Client*)(e->param()) == m_client)){
-        if (m_client->getState() == Client::Error){
-            if (!m_bError && *m_client->errorString.c_str()){
-                raiseWindow(topLevelWidget());
-                BalloonMsg::message(i18n(m_client->errorString.c_str()), this);
-            }
-            m_bError = true;
-        }else{
-            m_bError = false;
-        }
-        setPict();
-    }
-    if (e->type() == EventIconChanged)
-        setPict();
-    return NULL;
-}
-
 void StatusLabel::mousePressEvent(QMouseEvent *me)
 {
     if (me->button() == RightButton){
@@ -140,6 +119,7 @@ void StatusLabel::mousePressEvent(QMouseEvent *me)
 }
 
 StatusWnd::StatusWnd()
+        :EventReceiver(LowPriority + 1)
 {
     setFrameStyle(NoFrame);
     WindowDef wnd;
@@ -169,22 +149,59 @@ void StatusWnd::mousePressEvent(QMouseEvent *me)
 
 void *StatusWnd::processEvent(Event *e)
 {
-    if (e->type() == EventClientsChanged){
+    switch (e->type()){
+    case EventClientsChanged:
         addClients();
+        break;
+    case EventClientChanged:{
+            StatusLabel *lbl = findLabel((Client*)(e->param()));
+            if (lbl)
+                lbl->setPict();
+            break;
+        }
+    case EventClientError:
+        if (isVisible()){
+            clientErrorData *data = (clientErrorData*)(e->param());
+            if (data->code == AuthError)
+                break;
+            StatusLabel *lbl = findLabel(data->client);
+            if (lbl == NULL)
+                break;
+            if (data->err_str && *data->err_str){
+                raiseWindow(topLevelWidget());
+                BalloonMsg::message(i18n(data->err_str), lbl);
+                return e->param();
+            }
+        }
+        break;
+    case EventIconChanged:{
+            QObjectList *l = queryList("StatusLabel");
+            QObjectListIt itObject(*l);
+            QObject *obj;
+            while ((obj=itObject.current()) != NULL) {
+                ++itObject;
+                static_cast<StatusLabel*>(obj)->setPict();
+            }
+            delete l;
+            break;
+        }
     }
     return NULL;
 }
 
 void StatusWnd::addClients()
 {
-    QObjectList * l = queryList("QWidget");
-    QObjectListIt itObject( *l );
-    QObject * obj;
-    while ( (obj=itObject.current()) != 0 ) {
+    list<StatusLabel*> lbls;
+    QObjectList* l = queryList("StatusLabel");
+    QObjectListIt itObject(*l);
+    QObject *obj;
+    while ((obj=itObject.current()) != NULL){
         ++itObject;
-        delete obj;
+        lbls.push_back(static_cast<StatusLabel*>(obj));
     }
     delete l;
+    for (list<StatusLabel*>::iterator it = lbls.begin(); it != lbls.end(); ++it)
+        delete *it;
     for (unsigned i = 0; i < getContacts()->nClients(); i++){
         Client *client = getContacts()->getClient(i);
         QWidget *w = new StatusLabel(this, client, CmdClient + i);
@@ -192,6 +209,22 @@ void StatusWnd::addClients()
         w->show();
     }
     repaint();
+}
+
+StatusLabel *StatusWnd::findLabel(Client *client)
+{
+    QObjectList* l = queryList("StatusLabel");
+    QObjectListIt itObject(*l);
+    QObject *obj;
+    while ((obj=itObject.current()) != NULL){
+        ++itObject;
+        if (static_cast<StatusLabel*>(obj)->m_client == client){
+            delete l;
+            return static_cast<StatusLabel*>(obj);
+        }
+    }
+    delete l;
+    return NULL;
 }
 
 #ifndef WIN32

@@ -61,7 +61,7 @@ void TipLabel::setText(const QString &text)
     QLabel::setText(QString("<div align=\"left\">") + text);
 }
 
-void TipLabel::show(const QRect &tipRect)
+void TipLabel::show(const QRect &tipRect, bool bState)
 {
     setAlignment( WordBreak | AlignCenter );
     QRect rc = screenGeometry();
@@ -73,7 +73,14 @@ void TipLabel::show(const QRect &tipRect)
         x = tipRect.left() + tipRect.width() / 2;
     if (x + width() > rc.width() - 2)
         x = rc.width() - 2 - width();
-    int y = tipRect.top() + tipRect.height() + 4;
+    int y;
+	if (bState){
+        y = tipRect.top() - 4 - height();
+		if (y < 0)
+			bState = false;
+	}
+	if (!bState)
+		y = tipRect.top() + tipRect.height() + 4;
     if (y + height() > rc.height())
         y = tipRect.top() - 4 - height();
     if (y < 0)

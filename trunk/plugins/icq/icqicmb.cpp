@@ -608,10 +608,10 @@ bool ICQClient::ackMessage(Message *msg, unsigned short ackFlags, const char *st
         msg->setError(msg_str.c_str());
         switch (ackFlags){
         case ICQ_TCPxACK_OCCUPIED:
-            msg->setRetry(MESSAGE_LIST | MESSAGE_URGENT);
+            msg->setRetryCode(static_cast<ICQPlugin*>(protocol()->plugin())->RetrySendOccupied);
             break;
         case ICQ_TCPxACK_DND:
-            msg->setRetry(MESSAGE_LIST);
+            msg->setRetryCode(static_cast<ICQPlugin*>(protocol()->plugin())->RetrySendDND);
             break;
         }
         return false;
