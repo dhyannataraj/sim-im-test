@@ -23,9 +23,9 @@
 
 typedef struct ShortcutsData
 {
-    void	*Key;
-    void	*Global;
-    void	*Mouse;
+    Data	Key;
+    Data	Global;
+    Data	Mouse;
 } ShortcutsData;
 
 typedef map<unsigned, const char*>	MAP_STR;

@@ -22,7 +22,7 @@
 
 typedef struct UpdateData
 {
-    unsigned long	Time;
+    Data	Time;
 } UpdateData;
 
 class UpdatePlugin : public QObject, public Plugin, public EventReceiver

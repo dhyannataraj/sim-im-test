@@ -24,8 +24,8 @@
 
 typedef struct NavigateData
 {
-    char *Browser;
-    char *Mailer;
+    Data Browser;
+    Data Mailer;
 } NavigateData;
 
 #endif

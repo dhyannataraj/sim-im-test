@@ -56,9 +56,9 @@ typedef struct NetMonitorData
 */
 static DataDef monitorData[] =
     {
-        { "LogLevel", DATA_ULONG, 1, L_ERROR | L_WARN | L_DEBUG },
+        { "LogLevel", DATA_ULONG, 1, DATA(7) },
         { "LogPackets", DATA_STRING, 1, 0 },
-        { "Geometry", DATA_LONG, 5, (unsigned)(-1) },
+        { "Geometry", DATA_LONG, 5, DATA(-1) },
         { "Show", DATA_BOOL, 1, 0 },
         { NULL, 0, 0, 0 }
     };
@@ -154,13 +154,16 @@ void NetmonitorPlugin::setLogType(unsigned id, bool bLog)
             m_packets.erase(it);
     }
 }
+
+const unsigned NO_DATA = (unsigned)(-1);
+
 void NetmonitorPlugin::showMonitor()
 {
     if (monitor == NULL)
     {
         monitor = new MonitorWindow(this);
-        bool bPos = (data.geometry[LEFT] != -1) && (data.geometry[TOP] != -1);
-        bool bSize = (data.geometry[WIDTH] != -1) && (data.geometry[HEIGHT] != -1);
+        bool bPos = (data.geometry[LEFT].value != NO_DATA) && (data.geometry[TOP].value != NO_DATA);
+        bool bSize = (data.geometry[WIDTH].value != NO_DATA) && (data.geometry[HEIGHT].value != NO_DATA);
         restoreGeometry(monitor, data.geometry, bPos, bSize);
         connect(monitor, SIGNAL(finished()), this, SLOT(finished()));
     }

@@ -42,7 +42,7 @@ class ListView;
 
 typedef struct ICQMessageData
 {
-    char	*ServerText;
+    Data	ServerText;
 } ICQMessageData;
 
 class ICQMessage : public Message
@@ -61,8 +61,8 @@ protected:
 
 typedef struct IcqUrlMessageData
 {
-    char	*ServerUrl;
-    char	*ServerText;
+    Data	ServerUrl;
+    Data	ServerText;
 } UrlMessageData;
 
 class IcqUrlMessage : public UrlMessage
@@ -82,7 +82,7 @@ protected:
 
 typedef struct IcqContactsMessageData
 {
-    char	*ServerText;
+    Data	ServerText;
 } IcqContactsMessageData;
 
 class IcqContactsMessage : public ContactsMessage
@@ -100,8 +100,8 @@ protected:
 
 typedef struct ICQAuthMessageData
 {
-    char	*ServerText;
-    char	*Charset;
+    Data	ServerText;
+    Data	Charset;
 } ICQAuthMessageData;
 
 class ICQAuthMessage : public AuthMessage
@@ -121,14 +121,14 @@ protected:
 
 typedef struct ICQFileMessageData
 {
-    char			*ServerText;
-    char			*ServerDescr;
-    unsigned long	IP;
-    unsigned long	Port;
-    unsigned long	ID_L;
-    unsigned long	ID_H;
-    unsigned long	Cookie;
-    unsigned long	Extended;
+    Data	ServerText;
+    Data	ServerDescr;
+    Data	IP;
+    Data	Port;
+    Data	ID_L;
+    Data	ID_H;
+    Data	Cookie;
+    Data	Extended;
 } ICQFileMessageData;
 
 class ICQFileMessage : public FileMessage
@@ -154,9 +154,9 @@ protected:
 
 typedef struct AIMFileMessageData
 {
-    unsigned long	Port;
-    unsigned long	ID_L;
-    unsigned long	ID_H;
+    Data	Port;
+    Data	ID_L;
+    Data	ID_H;
 } AIMFileMessageData;
 
 class AIMFileMessage : public FileMessage
@@ -174,9 +174,9 @@ protected:
 
 typedef struct MessageWarningData
 {
-    unsigned	Anonymous;
-    unsigned	OldLevel;
-    unsigned	NewLevel;
+    Data	Anonymous;
+    Data	OldLevel;
+    Data	NewLevel;
 } MessageWarningData;
 
 class WarningMessage : public AuthMessage

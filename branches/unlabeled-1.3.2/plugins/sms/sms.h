@@ -57,13 +57,13 @@ public:
 
 typedef struct SMSClientData
 {
-    char		*Device;
-    char		*InitString;
-    unsigned	BaudRate;
-    unsigned	XonXoff;
-    unsigned	Charge;
-    unsigned	Charging;
-    unsigned	Quality;
+    Data	Device;
+    Data	InitString;
+    Data	BaudRate;
+    Data	XonXoff;
+    Data	Charge;
+    Data	Charging;
+    Data	Quality;
 } SMSClientData;
 
 const unsigned SMS_SIGN	= 6;
@@ -71,10 +71,10 @@ const unsigned SMS_SIGN	= 6;
 typedef struct smsUserData
 {
     clientData	base;
-    char		*Name;
-    char		*Phone;
-    unsigned	Index;
-    unsigned	Type;
+    Data	Name;
+    Data	Phone;
+    Data	Index;
+    Data	Type;
 } smsUserData;
 
 class SMSClient : public TCPClient
@@ -102,8 +102,8 @@ protected slots:
     void phonebookEntry(int, int, const QString&, const QString&);
     void callTimeout();
 protected:
-    virtual const char		*getServer();
-    virtual unsigned short	getPort();
+    virtual const char		*getServer() const;
+    virtual unsigned short	getPort() const;
     virtual void	setStatus(unsigned status);
     virtual void	disconnected();
     virtual string	getConfig();

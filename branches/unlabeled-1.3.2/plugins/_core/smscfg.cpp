@@ -25,17 +25,17 @@ SMSConfig::SMSConfig(QWidget *parent, void *_data)
         : SMSConfigBase(parent)
 {
     SMSUserData *data = (SMSUserData*)(_data);
-    if (data->SMSSignatureBefore)
-        edtBefore->setText(QString::fromUtf8(data->SMSSignatureBefore));
-    if (data->SMSSignatureAfter)
-        edtAfter->setText(QString::fromUtf8(data->SMSSignatureAfter));
+    if (data->SMSSignatureBefore.ptr)
+        edtBefore->setText(QString::fromUtf8(data->SMSSignatureBefore.ptr));
+    if (data->SMSSignatureAfter.ptr)
+        edtAfter->setText(QString::fromUtf8(data->SMSSignatureAfter.ptr));
 }
 
 void SMSConfig::apply(void *_data)
 {
     SMSUserData *data = (SMSUserData*)(_data);
-    set_str(&data->SMSSignatureBefore, edtBefore->text().utf8());
-    set_str(&data->SMSSignatureAfter, edtAfter->text().utf8());
+    set_str(&data->SMSSignatureBefore.ptr, edtBefore->text().utf8());
+    set_str(&data->SMSSignatureAfter.ptr, edtAfter->text().utf8());
 }
 
 #ifndef WIN32

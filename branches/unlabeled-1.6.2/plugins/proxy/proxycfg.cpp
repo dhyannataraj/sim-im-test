@@ -71,7 +71,7 @@ void ProxyConfig::apply()
     if (m_client){
         ProxyData nd(NULL);
         get(&nd);
-        set_str(&nd.Client, NULL);
+        set_str(&nd.Client.ptr, NULL);
         if (getContacts()->nClients() <= 1){
             m_plugin->clearClients();
             m_plugin->data = nd;
@@ -80,7 +80,7 @@ void ProxyConfig::apply()
         ProxyData d;
         m_plugin->clientData(m_client, d);
         m_data.clear();
-        if (d.Default){
+        if (d.Default.bValue){
             d = nd;
         }else{
             d = m_plugin->data;
@@ -89,7 +89,7 @@ void ProxyConfig::apply()
         for (unsigned i = 0; i < getContacts()->nClients(); i++){
             Client *client = getContacts()->getClient(i);
             if (client == m_client){
-                set_str(&nd.Client, m_client->name().c_str());
+                set_str(&nd.Client.ptr, m_client->name().c_str());
                 m_data.push_back(nd);
             }else{
                 ProxyData d;
@@ -174,19 +174,19 @@ void ProxyConfig::clientChanged(int)
         get(&m_data[m_current]);
         if (m_current == 0){
             for (unsigned i = 1; i < m_data.size(); i++){
-                if (m_data[i].Default){
-                    string client = m_data[i].Client;
+                if (m_data[i].Default.bValue){
+                    string client = m_data[i].Client.ptr;
                     m_data[i] = m_data[0];
-                    m_data[i].Default = true;
-                    set_str(&m_data[i].Client, client.c_str());
+                    m_data[i].Default.bValue = true;
+                    set_str(&m_data[i].Client.ptr, client.c_str());
                 }else{
                     if (m_data[i] == m_data[0])
-                        m_data[i].Default = true;
+                        m_data[i].Default.bValue = true;
                 }
             }
         }else{
             ProxyData &d = m_data[m_current];
-            d.Default = (d == m_data[0]);
+            d.Default.bValue = (d == m_data[0]);
         }
     }
     m_current = cmbClient->currentItem();
@@ -228,37 +228,37 @@ void ProxyConfig::fillClients()
 
 void ProxyConfig::fill(ProxyData *data)
 {
-    cmbType->setCurrentItem(data->Type);
-    if (data->Host){
-        edtHost->setText(QString::fromLocal8Bit(data->Host));
+    cmbType->setCurrentItem(data->Type.value);
+    if (data->Host.ptr){
+        edtHost->setText(QString::fromLocal8Bit(data->Host.ptr));
     }else{
         edtHost->setText("");
     }
-    edtPort->setValue(data->Port);
-    chkAuth->setChecked(data->Auth != 0);
-    if (data->User){
-        edtUser->setText(QString::fromLocal8Bit(data->User));
+    edtPort->setValue(data->Port.value);
+    chkAuth->setChecked(data->Auth.bValue);
+    if (data->User.ptr){
+        edtUser->setText(QString::fromLocal8Bit(data->User.ptr));
     }else{
         edtUser->setText("");
     }
-    if (data->Password){
-        edtPswd->setText(QString::fromLocal8Bit(data->Password));
+    if (data->Password.ptr){
+        edtPswd->setText(QString::fromLocal8Bit(data->Password.ptr));
     }else{
         edtPswd->setText("");
     }
-    typeChanged(data->Type);
-    chkNoShow->setChecked(data->NoShow != 0);
+    typeChanged(data->Type.value);
+    chkNoShow->setChecked(data->NoShow.bValue);
 }
 
 void ProxyConfig::get(ProxyData *data)
 {
-    data->Type = cmbType->currentItem();
-    set_str(&data->Host, edtHost->text().local8Bit());
-    data->Port = atol(edtPort->text().latin1());
-    data->Auth = chkAuth->isChecked();
-    set_str(&data->User, edtUser->text().local8Bit());
-    set_str(&data->Password, edtPswd->text().local8Bit());
-    data->NoShow = chkNoShow->isChecked();
+    data->Type.value = cmbType->currentItem();
+    set_str(&data->Host.ptr, edtHost->text().local8Bit());
+    data->Port.value = atol(edtPort->text().latin1());
+    data->Auth.bValue = chkAuth->isChecked();
+    set_str(&data->User.ptr, edtUser->text().local8Bit());
+    set_str(&data->Password.ptr, edtPswd->text().local8Bit());
+    data->NoShow.bValue = chkNoShow->isChecked();
 }
 
 #ifndef WIN32

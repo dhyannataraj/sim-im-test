@@ -110,39 +110,39 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
 {
     QWidget *widget = NULL;
     bool bJoin = false;
-    if (data->Type){
-        if (!strcmp(data->Type, "x")){
+    if (data->Type.ptr){
+        if (!strcmp(data->Type.ptr, "x")){
             m_bXData = true;
-        }else if (!strcmp(data->Type, "title")){
-            if (data->Value && *data->Value)
-                m_title = QString::fromUtf8(data->Value);
-        }else if (!strcmp(data->Type, "text-single")){
-            widget = new QLineEdit(this, data->Field);
+        }else if (!strcmp(data->Type.ptr, "title")){
+            if (data->Value.ptr && *data->Value.ptr)
+                m_title = QString::fromUtf8(data->Value.ptr);
+        }else if (!strcmp(data->Type.ptr, "text-single")){
+            widget = new QLineEdit(this, data->Field.ptr);
             connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
             connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
-            if (data->Value && *data->Value)
-                static_cast<QLineEdit*>(widget)->setText(QString::fromUtf8(data->Value));
-        }else if (!strcmp(data->Type, "text-private")){
-            widget = new QLineEdit(this, data->Field);
+            if (data->Value.ptr && *data->Value.ptr)
+                static_cast<QLineEdit*>(widget)->setText(QString::fromUtf8(data->Value.ptr));
+        }else if (!strcmp(data->Type.ptr, "text-private")){
+            widget = new QLineEdit(this, data->Field.ptr);
             static_cast<QLineEdit*>(widget)->setEchoMode(QLineEdit::Password);
             connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
             connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
-            if (data->Value && *data->Value)
-                static_cast<QLineEdit*>(widget)->setText(QString::fromUtf8(data->Value));
-        }else if (!strcmp(data->Type, "text-multi")){
-            widget = new QMultiLineEdit(this, data->Field);
+            if (data->Value.ptr && *data->Value.ptr)
+                static_cast<QLineEdit*>(widget)->setText(QString::fromUtf8(data->Value.ptr));
+        }else if (!strcmp(data->Type.ptr, "text-multi")){
+            widget = new QMultiLineEdit(this, data->Field.ptr);
             connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
-            if (data->Value && *data->Value)
-                static_cast<QMultiLineEdit*>(widget)->setText(QString::fromUtf8(data->Value));
-        }else if (!strcmp(data->Type, "boolean") && data->Label){
-            widget = new QCheckBox(QString::fromUtf8(data->Label), this, data->Field);
-            if (data->Value && *data->Value && (*data->Value != '0'))
+            if (data->Value.ptr && *data->Value.ptr)
+                static_cast<QMultiLineEdit*>(widget)->setText(QString::fromUtf8(data->Value.ptr));
+        }else if (!strcmp(data->Type.ptr, "boolean") && data->Label.ptr){
+            widget = new QCheckBox(QString::fromUtf8(data->Label.ptr), this, data->Field.ptr);
+            if (data->Value.ptr && *data->Value.ptr && (*data->Value.ptr != '0'))
                 static_cast<QCheckBox*>(widget)->setChecked(true);
-            set_str(&data->Label, NULL);
+            set_str(&data->Label.ptr, NULL);
             bJoin = true;
-        }else if (!strcmp(data->Type, "fixed")){
-            if (data->Value){
-                QString text = i18(data->Value);
+        }else if (!strcmp(data->Type.ptr, "fixed")){
+            if (data->Value.ptr){
+                QString text = i18(data->Value.ptr);
                 text = text.replace(QRegExp("  +"), "\n");
                 if (m_bFirst){
                     if (!m_label.isEmpty())
@@ -155,70 +155,70 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
                     bJoin = true;
                 }
             }
-        }else if (!strcmp(data->Type, "instructions")){
-            if (data->Value){
-                QString text = i18(data->Value);
+        }else if (!strcmp(data->Type.ptr, "instructions")){
+            if (data->Value.ptr){
+                QString text = i18(data->Value.ptr);
                 text = text.replace(QRegExp("  +"), "\n");
                 if (!m_instruction.isEmpty())
                     m_instruction += "\n";
                 m_instruction += text;
             }
-        }else if (!strcmp(data->Type, "list-single")){
-            CComboBox *box = new CComboBox(this, data->Field);
+        }else if (!strcmp(data->Type.ptr, "list-single")){
+            CComboBox *box = new CComboBox(this, data->Field.ptr);
             int cur = 0;
             int n = 0;
-            for (unsigned i = 0; i < data->nOptions; i++){
+            for (unsigned i = 0; i < data->nOptions.value; i++){
                 const char *label = get_str(data->OptionLabels, i);
                 const char *val   = get_str(data->Options, i);
                 if (label && val){
                     box->addItem(i18(label), val);
-                    if (data->Value && !strcmp(data->Value, val))
+                    if (data->Value.ptr && !strcmp(data->Value.ptr, val))
                         cur = n;
                     n++;
                 }
             }
             box->setCurrentItem(cur);
             widget = box;
-        }else if (!strcmp(data->Type, "key")){
-            if (data->Value)
-                m_key = data->Value;
-        }else if (!strcmp(data->Type, "password")){
+        }else if (!strcmp(data->Type.ptr, "key")){
+            if (data->Value.ptr)
+                m_key = data->Value.ptr;
+        }else if (!strcmp(data->Type.ptr, "password")){
             widget = new QLineEdit(this, "password");
             static_cast<QLineEdit*>(widget)->setEchoMode(QLineEdit::Password);
             connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
             connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
-            set_str(&data->Label, "Password");
-        }else if (!strcmp(data->Type, "online")){
+            set_str(&data->Label.ptr, "Password");
+        }else if (!strcmp(data->Type.ptr, "online")){
             widget = new QCheckBox(this, "online");
             static_cast<QCheckBox*>(widget)->setText(i18n("Online only"));
             bJoin = true;
-        }else if (!strcmp(data->Type, "sex")){
-            CComboBox *box = new CComboBox(this, data->Field);
+        }else if (!strcmp(data->Type.ptr, "sex")){
+            CComboBox *box = new CComboBox(this, data->Field.ptr);
             box->addItem("", "0");
             box->addItem(i18n("Male"), "1");
             box->addItem(i18n("Female"), "2");
-            set_str(&data->Label, I18N_NOOP("Gender"));
+            set_str(&data->Label.ptr, I18N_NOOP("Gender"));
             widget = box;
         }else{
             defFlds *f;
             for (f = fields; f->tag; f++)
-                if (!strcmp(data->Type, f->tag))
+                if (!strcmp(data->Type.ptr, f->tag))
                     break;
             if (f->tag){
                 widget = new QLineEdit(this, f->tag);
                 connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
                 connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
-                if (data->Value && *data->Value)
-                    static_cast<QLineEdit*>(widget)->setText(QString::fromUtf8(data->Value));
-                set_str(&data->Label, f->name);
+                if (data->Value.ptr && *data->Value.ptr)
+                    static_cast<QLineEdit*>(widget)->setText(QString::fromUtf8(data->Value.ptr));
+                set_str(&data->Label.ptr, f->name);
                 if (f->bRequired && m_bRegister)
-                    data->bRequired = true;
-            }else if (data->Label){
-                widget = new QLineEdit(this, data->Field);
+                    data->bRequired.bValue = true;
+            }else if (data->Label.ptr){
+                widget = new QLineEdit(this, data->Field.ptr);
                 connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
                 connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
-                if (data->Value && *data->Value)
-                    static_cast<QLineEdit*>(widget)->setText(QString::fromUtf8(data->Value));
+                if (data->Value.ptr && *data->Value.ptr)
+                    static_cast<QLineEdit*>(widget)->setText(QString::fromUtf8(data->Value.ptr));
             }
         }
     }else{
@@ -264,11 +264,11 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
     }
     if (widget){
         m_bFirst = false;
-        if (data->bRequired)
+        if (data->bRequired.bValue)
             m_required.push_back(widget);
         QLabel *label = NULL;
-        if (!bJoin && data->Label){
-            label = new QLabel(i18(data->Label), this);
+        if (!bJoin && data->Label.ptr){
+            label = new QLabel(i18(data->Label.ptr), this);
             label->setAlignment(AlignRight);
         }
         m_labels.push_back(label);

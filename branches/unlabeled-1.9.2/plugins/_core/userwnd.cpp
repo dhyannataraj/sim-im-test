@@ -31,7 +31,7 @@ static DataDef userWndData[] =
     {
         { "EditHeight", DATA_ULONG, 1, 0 },
         { "EditBar", DATA_ULONG, 7, 0 },
-        { "MessageType", DATA_ULONG, 1, MessageGeneric },
+        { "MessageType", DATA_ULONG, 1, DATA(1) },
         { NULL, 0, 0, 0 }
     };
 
@@ -66,7 +66,7 @@ UserWnd::UserWnd(unsigned id, const char *cfg, bool bReceived)
     connect(m_edit, SIGNAL(heightChanged(int)), this, SLOT(editHeightChanged(int)));
     modeChanged();
 
-    if (data.MessageType == 0)
+    if (data.MessageType.value == 0)
         return;
     Message *msg = new Message(MessageGeneric);
     setMessage(msg);
@@ -199,7 +199,7 @@ void UserWnd::setMessage(Message *&msg)
             bSetFocus = true;
     }
 
-    data.MessageType = msg->type();
+    data.MessageType.value = msg->type();
     if (!m_edit->setMessage(msg, bSetFocus)){
         delete msg;
         msg = new Message(MessageGeneric);

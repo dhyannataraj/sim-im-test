@@ -22,9 +22,9 @@
 
 typedef struct WinDockData
 {
-    unsigned long	AutoHide;
-    unsigned long	State;
-    unsigned long	Height;
+    Data	AutoHide;
+    Data	State;
+    Data	Height;
 } WinDocData;
 
 class QTimer;

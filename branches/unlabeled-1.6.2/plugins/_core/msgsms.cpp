@@ -81,8 +81,8 @@ MsgSMS::MsgSMS(MsgEdit *parent, Message *msg)
     }
     if (m_edit->m_edit->text().isEmpty()){
         TemplateExpand t;
-        if (data->SMSSignatureBefore){
-            t.tmpl = QString::fromUtf8(data->SMSSignatureBefore);
+        if (data->SMSSignatureBefore.ptr){
+            t.tmpl = QString::fromUtf8(data->SMSSignatureBefore.ptr);
             t.contact  = contact;
             t.receiver = this;
             t.param    = NULL;
@@ -90,8 +90,8 @@ MsgSMS::MsgSMS(MsgEdit *parent, Message *msg)
             eTmpl.process();
         }else{
             m_bExpand = true;
-            if (data->SMSSignatureAfter){
-                t.tmpl = QString::fromUtf8(data->SMSSignatureAfter);
+            if (data->SMSSignatureAfter.ptr){
+                t.tmpl = QString::fromUtf8(data->SMSSignatureAfter.ptr);
                 t.contact = contact;
                 t.receiver = this;
                 t.param = NULL;
@@ -209,8 +209,8 @@ void *MsgSMS::processEvent(Event *e)
             Contact *contact = getContacts()->contact(m_id);
             if (contact){
                 SMSUserData *data = (SMSUserData*)(contact->getUserData(CorePlugin::m_plugin->sms_data_id));
-                if (data->SMSSignatureAfter){
-                    t->tmpl = QString::fromUtf8(data->SMSSignatureAfter);
+                if (data->SMSSignatureAfter.ptr){
+                    t->tmpl = QString::fromUtf8(data->SMSSignatureAfter.ptr);
                     Event eTmpl(EventTemplateExpand, t);
                     eTmpl.process();
                 }

@@ -70,8 +70,8 @@ public:
 
 typedef struct ICQData
 {
-    unsigned	ShowAllEncodings;
-    char		*DefaultEncoding;
+    Data	ShowAllEncodings;
+    Data	DefaultEncoding;
 } ICQData;
 
 class ICQPlugin : public Plugin

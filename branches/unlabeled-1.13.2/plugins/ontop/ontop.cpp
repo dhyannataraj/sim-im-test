@@ -61,7 +61,7 @@ typedef struct OnTopData
 */
 static DataDef onTopData[] =
     {
-        { "OnTop", DATA_BOOL, 1, 1 },
+        { "OnTop", DATA_BOOL, 1, DATA(1) },
         { "InTask", DATA_BOOL, 1, 0 },
         { "ContainerOnTop", DATA_BOOL, 1, 0 },
         { NULL, 0, 0, 0 }

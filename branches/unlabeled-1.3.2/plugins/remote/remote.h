@@ -24,7 +24,7 @@
 
 typedef struct RemoteData
 {
-    char *Path;
+    Data	Path;
 } RemoteData;
 
 class ControlSocket;

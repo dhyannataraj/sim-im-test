@@ -34,14 +34,14 @@ const unsigned COL_LAST		= 4;
 UserTblItem::UserTblItem(QListView *parent, ICQClient *client, ICQUserData *data)
         : QListViewItem(parent)
 {
-    mUin = data->Uin;
+    mUin = data->Uin.value;
     mState = 0;
     if (mUin){
         QString s;
         s.setNum(mUin);
         setText(COL_SCREEN, s);
     }else{
-        setText(COL_SCREEN, data->Screen);
+        setText(COL_SCREEN, data->Screen.ptr);
     }
     init(client, data);
 }
@@ -84,10 +84,10 @@ QString UserTblItem::key(int column, bool bDirect) const
 
 void UserTblItem::init(ICQClient *client, ICQUserData *data)
 {
-    QString nick  = client->toUnicode(data->Nick, data);
-    QString first = client->toUnicode(data->FirstName, data);
-    QString last  = client->toUnicode(data->LastName, data);
-    QString mail  = client->toUnicode(data->EMail, data);
+    QString nick  = client->toUnicode(data->Nick.ptr, data);
+    QString first = client->toUnicode(data->FirstName.ptr, data);
+    QString last  = client->toUnicode(data->LastName.ptr, data);
+    QString mail  = client->toUnicode(data->EMail.ptr, data);
     setText(COL_NICK, nick);
     setText(COL_FIRST, first);
     setText(COL_LAST, last);
@@ -98,10 +98,10 @@ void UserTblItem::init(ICQClient *client, ICQUserData *data)
     }
     setText(COL_NAME, first);
     if (mUin){
-        if (data->Status == STATUS_OFFLINE){
+        if (data->Status.value == STATUS_OFFLINE){
             setPixmap(COL_SCREEN, Pict("useroffline"));
             mState = 1;
-        }else if (data->Status == STATUS_ONLINE){
+        }else if (data->Status.value == STATUS_ONLINE){
             setPixmap(COL_SCREEN, Pict("useronline"));
             mState = 2;
         }else{

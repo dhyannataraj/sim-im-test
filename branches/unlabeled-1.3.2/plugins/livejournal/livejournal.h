@@ -35,19 +35,19 @@ const unsigned LIVEJOURNAL_SIGN	= 5;
 typedef struct LiveJournalUserData
 {
     clientData		base;
-    char			*User;
-    unsigned		Shared;
-    unsigned		bChecked;
+    Data	User;
+    Data	Shared;
+    Data	bChecked;
 } LiveJournalUserData;
 
 typedef struct JournalMessageData
 {
-    char			*Subject;
-    unsigned		Private;
-    unsigned		Time;
-    unsigned		ID;
-    unsigned		OldID;
-    unsigned		Mood;
+    Data	Subject;
+    Data	Private;
+    Data	Time;
+    Data	ID;
+    Data	OldID;
+    Data	Mood;
 } JournalMessageData;
 
 class JournalMessage : public Message
@@ -93,16 +93,16 @@ public:
 
 typedef struct LiveJournalClientData
 {
-    char		*Server;
-    char		*URL;
-    unsigned	Port;
-    unsigned	Interval;
-    void		*Mood;
-    unsigned	Moods;
-    void		*Menu;
-    void		*MenuUrl;
-    unsigned	FastServer;
-    char		*LastUpdate;
+    Data	Server;
+    Data	URL;
+    Data	Port;
+    Data	Interval;
+    Data	Mood;
+    Data	Moods;
+    Data	Menu;
+    Data	MenuUrl;
+    Data	FastServer;
+    Data	LastUpdate;
     LiveJournalUserData	owner;
 } LiveJournalClientData;
 

@@ -144,10 +144,10 @@ void *FloatyPlugin::processEvent(Event *e)
             ContactList::ContactIterator it;
             while ((contact = ++it) != NULL){
                 FloatyUserData *data = (FloatyUserData*)(contact->userData.getUserData(user_data_id, false));
-                if ((data == NULL) || !data->Floaty)
+                if (data == NULL)
                     continue;
                 FloatyWnd *wnd = new FloatyWnd(this, contact->id());
-                wnd->move(data->X, data->Y);
+                wnd->move(data->X.value, data->Y.value);
                 wnd->show();
             }
             break;
@@ -158,7 +158,7 @@ void *FloatyPlugin::processEvent(Event *e)
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));
                 if (contact){
                     FloatyUserData *data = (FloatyUserData*)(contact->userData.getUserData(user_data_id, false));
-                    if (data && data->Floaty){
+                    if (data){
                         cmd->text = I18N_NOOP("Floating off");
                         cmd->flags |= COMMAND_CHECKED;
                     }else{
@@ -175,16 +175,14 @@ void *FloatyPlugin::processEvent(Event *e)
             if (cmd->id == CmdFloaty){
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));
                 if (contact){
-                    FloatyUserData *data = (FloatyUserData*)(contact->userData.getUserData(user_data_id, true));
-                    if (data->Floaty){
-                        data->Floaty = 0;
-                        data->X = 0;
-                        data->Y = 0;
+                    FloatyUserData *data = (FloatyUserData*)(contact->userData.getUserData(user_data_id, false));
+                    if (data){
                         FloatyWnd *wnd = findFloaty(contact->id());
                         if (wnd)
                             delete wnd;
+						contact->userData.freeUserData(user_data_id);
                     }else{
-                        data->Floaty = (unsigned)(-1);
+	                    data = (FloatyUserData*)(contact->userData.getUserData(user_data_id, true));
                         FloatyWnd *wnd = new FloatyWnd(this, (unsigned)(cmd->param));
                         wnd->move(0, 0);
                         wnd->show();

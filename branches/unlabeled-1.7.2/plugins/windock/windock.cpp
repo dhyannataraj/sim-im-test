@@ -310,7 +310,7 @@ typedef struct WinDockData
 static DataDef winDockData[] =
     {
         { "AutoHide", DATA_BOOL, 1, 0 },
-        { "State", DATA_ULONG, 1, ABE_FLOAT },
+        { "State", DATA_ULONG, 1, DATA(-1) },
         { "Height", DATA_ULONG, 1, 0 },
         { NULL, 0, 0, 0 }
     };

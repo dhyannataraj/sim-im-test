@@ -67,7 +67,7 @@ void *JabberHomeInfo::processEvent(Event *e)
     }
     if (m_data && (e->type() == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventVCard)){
         JabberUserData *data = (JabberUserData*)(e->param());
-        if (!str_cmp(m_data->ID, data->ID) && !str_cmp(m_data->Node, data->Node))
+        if (!str_cmp(m_data->ID.ptr, data->ID.ptr) && !str_cmp(m_data->Node.ptr, data->Node.ptr))
             fill(data);
     }
     return NULL;
@@ -76,12 +76,12 @@ void *JabberHomeInfo::processEvent(Event *e)
 void JabberHomeInfo::fill(JabberUserData *data)
 {
     if (data == NULL) data = &m_client->data.owner;
-    edtStreet->setText(data->Street ? QString::fromUtf8(data->Street) : QString(""));
-    edtExt->setText(data->ExtAddr ? QString::fromUtf8(data->ExtAddr) : QString(""));
-    edtCity->setText(data->City ? QString::fromUtf8(data->City) : QString(""));
-    edtState->setText(data->Region ? QString::fromUtf8(data->Region) : QString(""));
-    edtZip->setText(data->PCode ? QString::fromUtf8(data->PCode) : QString(""));
-    edtCountry->setText(data->Country ? QString::fromUtf8(data->Country) : QString(""));
+    edtStreet->setText(data->Street.ptr ? QString::fromUtf8(data->Street.ptr) : QString(""));
+    edtExt->setText(data->ExtAddr.ptr ? QString::fromUtf8(data->ExtAddr.ptr) : QString(""));
+    edtCity->setText(data->City.ptr ? QString::fromUtf8(data->City.ptr) : QString(""));
+    edtState->setText(data->Region.ptr ? QString::fromUtf8(data->Region.ptr) : QString(""));
+    edtZip->setText(data->PCode.ptr ? QString::fromUtf8(data->PCode.ptr) : QString(""));
+    edtCountry->setText(data->Country.ptr ? QString::fromUtf8(data->Country.ptr) : QString(""));
 }
 
 void JabberHomeInfo::apply(Client *client, void *_data)
@@ -89,12 +89,12 @@ void JabberHomeInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     JabberUserData *data = (JabberUserData*)_data;
-    set_str(&data->Street, edtStreet->text().utf8());
-    set_str(&data->ExtAddr, edtExt->text().utf8());
-    set_str(&data->City, edtCity->text().utf8());
-    set_str(&data->Region, edtState->text().utf8());
-    set_str(&data->PCode, edtZip->text().utf8());
-    set_str(&data->Country, edtCountry->text().utf8());
+    set_str(&data->Street.ptr, edtStreet->text().utf8());
+    set_str(&data->ExtAddr.ptr, edtExt->text().utf8());
+    set_str(&data->City.ptr, edtCity->text().utf8());
+    set_str(&data->Region.ptr, edtState->text().utf8());
+    set_str(&data->PCode.ptr, edtZip->text().utf8());
+    set_str(&data->Country.ptr, edtCountry->text().utf8());
 }
 
 #ifndef WIN32

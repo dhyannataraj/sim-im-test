@@ -44,8 +44,8 @@ FilterConfig::FilterConfig(QWidget *parent, FilterUserData *data, FilterPlugin *
         chkFromList->hide();
         lblFilter->hide();
     }
-    if (data->SpamList)
-        edtFilter->setText(QString::fromUtf8(data->SpamList));
+    if (data->SpamList.ptr)
+        edtFilter->setText(QString::fromUtf8(data->SpamList.ptr));
 }
 
 FilterConfig::~FilterConfig()
@@ -63,7 +63,7 @@ void FilterConfig::apply()
 void FilterConfig::apply(void *_data)
 {
     FilterUserData *data = (FilterUserData*)_data;
-    set_str(&data->SpamList, edtFilter->text().utf8());
+    set_str(&data->SpamList.ptr, edtFilter->text().utf8());
 }
 
 #ifndef WIN32

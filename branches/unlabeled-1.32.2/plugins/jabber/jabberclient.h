@@ -38,105 +38,105 @@ const unsigned SUBSCRIBE_BOTH	= (SUBSCRIBE_FROM | SUBSCRIBE_TO);
 typedef struct JabberUserData
 {
     clientData	base;
-    char		*ID;
-    char		*Node;
-    char		*Resource;
-    char		*Name;
-    unsigned	Status;
-    char		*FirstName;
-    char		*Nick;
-    char		*Desc;
-    char		*Bday;
-    char		*Url;
-    char		*OrgName;
-    char		*OrgUnit;
-    char		*Title;
-    char		*Role;
-    char		*Street;
-    char		*ExtAddr;
-    char		*City;
-    char		*Region;
-    char		*PCode;
-    char		*Country;
-    char		*EMail;
-    char		*Phone;
-    char		*AutoReply;
-    unsigned	StatusTime;
-    unsigned	OnlineTime;
-    unsigned	Subscribe;
-    char		*Group;
-    unsigned	bChecked;
-    char		*TypingId;
-    unsigned	composeId;
-    unsigned	richText;
-    unsigned	invisible;
-    unsigned long    PhotoWidth;
-    unsigned long    PhotoHeight;
-    unsigned long    LogoWidth;
-    unsigned long    LogoHeight;
+    Data		ID;
+    Data		Node;
+    Data		Resource;
+    Data		Name;
+    Data		Status;
+    Data		FirstName;
+    Data		Nick;
+    Data		Desc;
+    Data		Bday;
+    Data		Url;
+    Data		OrgName;
+    Data		OrgUnit;
+    Data		Title;
+    Data		Role;
+    Data		Street;
+    Data		ExtAddr;
+    Data		City;
+    Data		Region;
+    Data		PCode;
+    Data		Country;
+    Data		EMail;
+    Data		Phone;
+    Data		AutoReply;
+    Data		StatusTime;
+    Data		OnlineTime;
+    Data		Subscribe;
+    Data		Group;
+    Data		bChecked;
+    Data		TypingId;
+    Data		composeId;
+    Data		richText;
+    Data		invisible;
+    Data		PhotoWidth;
+    Data		PhotoHeight;
+    Data		LogoWidth;
+    Data		LogoHeight;
 } JabberUserData;
 
 typedef struct JabberClientData
 {
-    char			*Server;
-    unsigned		Port;
-    unsigned		UseSSL;
-    unsigned		UsePlain;
-    unsigned		UseVHost;
-    unsigned		Register;
-    unsigned		Priority;
-    char			*ListRequest;
-    char			*VHost;
-    unsigned		Typing;
-    unsigned		RichText;
-    unsigned		ProtocolIcons;
-    unsigned		MinPort;
-    unsigned		MaxPort;
-    char			*Photo;
-    char			*Logo;
-    long			browser_geo[5];
-    long			browser_bar[7];
-    char			*BrowserHistory;
-    unsigned		AutoSubscribe;
-    unsigned		AutoAccept;
+    Data		Server;
+    Data		Port;
+    Data		UseSSL;
+    Data		UsePlain;
+    Data		UseVHost;
+    Data		Register;
+    Data		Priority;
+    Data		ListRequest;
+    Data		VHost;
+    Data		Typing;
+    Data		RichText;
+    Data		ProtocolIcons;
+    Data		MinPort;
+    Data		MaxPort;
+    Data		Photo;
+    Data		Logo;
+    Data		browser_geo[5];
+    Data		browser_bar[7];
+    Data		BrowserHistory;
+    Data		AutoSubscribe;
+    Data		AutoAccept;
     JabberUserData	owner;
 } JabberClientData;
 
 typedef struct JabberAgentsInfo
 {
-    char			*VHost;
-    char			*ID;
-    char			*Name;
-    unsigned		Search;
-    unsigned		Register;
+    Data		VHost;
+    Data		ID;
+    Data		Name;
+    Data		Search;
+    Data		Register;
     JabberClient	*Client;
 } JabberAgentsInfo;
 
 typedef struct JabberAgentInfo
 {
-    char			*ReqID;
-    char			*VHost;
-    char			*ID;
-    char			*Field;
-    char			*Type;
-    char			*Label;
-    char			*Value;
-    void			*Options;
-    void			*OptionLabels;
-    unsigned		nOptions;
-    unsigned		bRequired;
+    Data		ReqID;
+    Data		VHost;
+    Data		ID;
+    Data		Field;
+    Data		Type;
+    Data		Label;
+    Data		Value;
+    Data		Options;
+    Data		OptionLabels;
+    Data		nOptions;
+    Data		bRequired;
 } JabberAgentInfo;
 
 typedef struct JabberSearchData
 {
-    char			*ID;
-    char			*JID;
-    char			*First;
-    char			*Last;
-    char			*Nick;
-    char			*EMail;
-    void			*Fields;
-    unsigned		nFields;
+    Data		ID;
+    Data		JID;
+    Data		First;
+    Data		Last;
+    Data		Nick;
+    Data		EMail;
+    Data		Fields;
+    Data		nFields;
 } JabberSearchData;
 
 typedef struct JabberListRequest
@@ -256,7 +256,7 @@ class MessageRequest : public ServerRequest
     void setID(const QString &id);
     QString getID()
     {
-        return QString::fromUtf8(data.owner.ID ? data.owner.ID : "");
+        return QString::fromUtf8(data.owner.ID.ptr ? data.owner.ID.ptr : "");
     }
     PROP_STR(Server);
     PROP_STR(VHost);

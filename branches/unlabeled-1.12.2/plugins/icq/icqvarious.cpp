@@ -170,7 +170,7 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
                 serverRequest(ICQ_SRVxREQ_ACK_OFFLINE_MSG);
                 sendServerRequest();
                 setChatGroup();
-                addFullInfoRequest(data.owner.Uin, false);
+                addFullInfoRequest(data.owner.Uin.value, false);
                 m_bServerReady = true;
                 infoRequest();
                 processListRequest();
@@ -255,7 +255,7 @@ void ICQClient::serverRequest(unsigned short cmd, unsigned short seq)
 {
     snac(ICQ_SNACxFAM_VARIOUS, ICQ_SNACxVAR_REQxSRV, true);
     m_socket->writeBuffer.tlv(0x0001, 0);
-    m_socket->writeBuffer.pack(data.owner.Uin);
+    m_socket->writeBuffer.pack(data.owner.Uin.value);
     m_socket->writeBuffer << cmd;
     m_socket->writeBuffer.pack((unsigned short)(seq ? seq : m_nMsgSequence));
 }
@@ -308,7 +308,7 @@ void FullInfoRequest::fail(unsigned short error_code)
 {
     Contact *contact = NULL;
     if (m_nParts){
-        if (m_client->data.owner.Uin == m_uin){
+        if (m_client->data.owner.Uin.value == m_uin){
             Event e(EventClientChanged, m_client);
             e.process();
         }else{
@@ -354,7 +354,7 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
 {
     Contact *contact = NULL;
     ICQUserData *data;
-    if (m_client->data.owner.Uin == m_uin){
+    if (m_client->data.owner.Uin.value == m_uin){
         data = &m_client->data.owner;
     }else{
         data = m_client->findContact(number(m_uin).c_str(), NULL, false, contact);
@@ -370,47 +370,47 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
             char hideEmail;
             char TimeZone;
             b
-            >> &data->Nick
-            >> &data->FirstName
-            >> &data->LastName
-            >> &data->EMail
-            >> &data->City
-            >> &data->State
-            >> &data->HomePhone
-            >> &data->HomeFax
-            >> &data->Address
-            >> &data->PrivateCellular
-            >> &data->Zip;
+            >> &data->Nick.ptr
+            >> &data->FirstName.ptr
+            >> &data->LastName.ptr
+            >> &data->EMail.ptr
+            >> &data->City.ptr
+            >> &data->State.ptr
+            >> &data->HomePhone.ptr
+            >> &data->HomeFax.ptr
+            >> &data->Address.ptr
+            >> &data->PrivateCellular.ptr
+            >> &data->Zip.ptr;
             b.unpack(n);
-            data->Country = n;
+            data->Country.value = n;
             b
             >> TimeZone
             >> hideEmail;
-            data->TimeZone = TimeZone;
-            data->HiddenEMail = hideEmail;
+            data->TimeZone.value    = TimeZone;
+            data->HiddenEMail.value = hideEmail;
             break;
         }
     case ICQ_SRVxMORE_INFO:{
             char c;
             b >> c;
-            data->Age = c;
+            data->Age.value = c;
             b >> c;
             b >> c;
-            data->Gender = c;
-            b >> &data->Homepage;
+            data->Gender.value = c;
+            b >> &data->Homepage.ptr;
             unsigned short year;
             b.unpack(year);
-            data->BirthYear = year;
+            data->BirthYear.value = year;
             b >> c;
-            data->BirthMonth = c;
+            data->BirthMonth.value = c;
             b >> c;
-            data->BirthDay = c;
+            data->BirthDay.value = c;
             unsigned char lang[3];
             b
             >> lang[0]
             >> lang[1]
             >> lang[2];
-            data->Language = (lang[2] << 16) + (lang[1] << 8) + lang[0];
+            data->Language.value = (lang[2] << 16) + (lang[1] << 8) + lang[0];
             break;
         }
     case ICQ_SRVxEMAIL_INFO:{
@@ -430,38 +430,38 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
                 if (d)
                     mail += '-';
             }
-            set_str(&data->EMails, mail.c_str());
+            set_str(&data->EMails.ptr, mail.c_str());
             break;
         }
     case ICQ_SRVxWORK_INFO:{
             unsigned short n;
             b
-            >> &data->WorkCity
-            >> &data->WorkState
-            >> &data->WorkPhone
-            >> &data->WorkFax
-            >> &data->WorkAddress
-            >> &data->WorkZip;
+            >> &data->WorkCity.ptr
+            >> &data->WorkState.ptr
+            >> &data->WorkPhone.ptr
+            >> &data->WorkFax.ptr
+            >> &data->WorkAddress.ptr
+            >> &data->WorkZip.ptr;
             b.unpack(n);
-            data->WorkCountry = n;
+            data->WorkCountry.value = n;
             b
-            >> &data->WorkName
-            >> &data->WorkDepartment
-            >> &data->WorkPosition;
+            >> &data->WorkName.ptr
+            >> &data->WorkDepartment.ptr
+            >> &data->WorkPosition.ptr;
             b.unpack(n);
-            data->Occupation = n;
-            b >> &data->WorkHomepage;
+            data->Occupation.value = n;
+            b >> &data->WorkHomepage.ptr;
             break;
         }
     case ICQ_SRVxABOUT_INFO:
-        b >> &data->About;
+        b >> &data->About.ptr;
         break;
     case ICQ_SRVxINTERESTS_INFO:
-        set_str(&data->Interests, unpack_list(b).c_str());
+        set_str(&data->Interests.ptr, unpack_list(b).c_str());
         break;
     case ICQ_SRVxBACKGROUND_INFO:
-        set_str(&data->Backgrounds, unpack_list(b).c_str());
-        set_str(&data->Affilations, unpack_list(b).c_str());
+        set_str(&data->Backgrounds.ptr, unpack_list(b).c_str());
+        set_str(&data->Affilations.ptr, unpack_list(b).c_str());
         break;
     case ICQ_SRVxUNKNOWN_INFO:
         break;
@@ -470,7 +470,7 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
     }
     m_nParts++;
     if (m_nParts >= 8){
-        data->InfoFetchTime = data->InfoUpdateTime ? data->InfoUpdateTime : 1;
+        data->InfoFetchTime.value = data->InfoUpdateTime.value ? data->InfoUpdateTime.value : 1;
         if (contact != NULL){
             m_client->setupContact(contact, data);
             Event e(EventContactChanged, contact);
@@ -487,8 +487,8 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
             if (tm->tm_isdst) tz -= (60 * 60);
 #endif
             tz = - tz / (30 * 60);
-            if (data->TimeZone != (unsigned)tz){
-                data->TimeZone = tz;
+            if (data->TimeZone.value != (unsigned)tz){
+                data->TimeZone.value = tz;
                 m_client->setMainInfo(data);
             }
             m_client->setupContact(getContacts()->owner(), data);
@@ -512,7 +512,7 @@ void ICQClient::infoRequest()
         return;
     unsigned long uin = infoRequests.front();
     serverRequest(ICQ_SRVxREQ_MORE);
-    m_socket->writeBuffer << ((uin == data.owner.Uin) ? ICQ_SRVxREQ_OWN_INFO : ICQ_SRVxREQ_FULL_INFO);
+    m_socket->writeBuffer << ((uin == data.owner.Uin.value) ? ICQ_SRVxREQ_OWN_INFO : ICQ_SRVxREQ_FULL_INFO);
     m_socket->writeBuffer.pack(uin);
     sendServerRequest();
     m_infoTimer->start(INFO_REQUEST_TIMEOUT * 1000);
@@ -619,28 +619,28 @@ bool SearchWPRequest::answer(Buffer &b, unsigned short nSubType)
 
     unsigned short n;
     b >> n;
-    b.unpack(res.data.Uin);
+    b.unpack(res.data.Uin.value);
     char waitAuth;
     char state;
     b
-    >> &res.data.Nick
-    >> &res.data.FirstName
-    >> &res.data.LastName
-    >> &res.data.EMail
+    >> &res.data.Nick.ptr
+    >> &res.data.FirstName.ptr
+    >> &res.data.LastName.ptr
+    >> &res.data.EMail.ptr
     >> waitAuth
     >> state;
 
     if (waitAuth)
-        res.data.WaitAuth = true;
+        res.data.WaitAuth.bValue = true;
     switch (state){
     case SEARCH_STATE_OFFLINE:
-        res.data.Status = STATUS_OFFLINE;
+        res.data.Status.value = STATUS_OFFLINE;
         break;
     case SEARCH_STATE_ONLINE:
-        res.data.Status = STATUS_ONLINE;
+        res.data.Status.value = STATUS_ONLINE;
         break;
     case SEARCH_STATE_DISABLED:
-        res.data.Status = STATUS_UNKNOWN;
+        res.data.Status.value = STATUS_UNKNOWN;
         break;
     }
 
@@ -787,7 +787,7 @@ protected:
     string m_homePhone;
     string m_homeFax;
     string m_privateCellular;
-    unsigned m_hiddenEMail;
+    bool   m_hiddenEMail;
     unsigned m_country;
     unsigned m_tz;
     ICQClient *m_client;
@@ -797,49 +797,49 @@ SetMainInfoRequest::SetMainInfoRequest(ICQClient *client, unsigned short id, ICQ
         : ServerRequest(id)
 {
     m_client = client;
-    if (data->Nick)
-        m_nick = data->Nick;
-    if (data->FirstName)
-        m_firstName = data->FirstName;
-    if (data->LastName)
-        m_lastName = data->LastName;
-    if (data->City)
-        m_city = data->City;
-    if (data->State)
-        m_state = data->State;
-    if (data->Address)
-        m_address = data->Address;
-    if (data->Zip)
-        m_zip = data->Zip;
-    if (data->EMail)
-        m_email = data->EMail;
-    if (data->HomePhone)
-        m_homePhone = data->HomePhone;
-    if (data->HomeFax)
-        m_homeFax = data->HomeFax;
-    if (data->PrivateCellular)
-        m_privateCellular = data->PrivateCellular;
-    m_country = data->Country;
-    m_tz = data->TimeZone;
-    m_hiddenEMail = data->HiddenEMail;
+    if (data->Nick.ptr)
+        m_nick = data->Nick.ptr;
+    if (data->FirstName.ptr)
+        m_firstName = data->FirstName.ptr;
+    if (data->LastName.ptr)
+        m_lastName = data->LastName.ptr;
+    if (data->City.ptr)
+        m_city = data->City.ptr;
+    if (data->State.ptr)
+        m_state = data->State.ptr;
+    if (data->Address.ptr)
+        m_address = data->Address.ptr;
+    if (data->Zip.ptr)
+        m_zip = data->Zip.ptr;
+    if (data->EMail.ptr)
+        m_email = data->EMail.ptr;
+    if (data->HomePhone.ptr)
+        m_homePhone = data->HomePhone.ptr;
+    if (data->HomeFax.ptr)
+        m_homeFax = data->HomeFax.ptr;
+    if (data->PrivateCellular.ptr)
+        m_privateCellular = data->PrivateCellular.ptr;
+    m_country = data->Country.value;
+    m_tz = data->TimeZone.value;
+    m_hiddenEMail = data->HiddenEMail.bValue;
 }
 
 bool SetMainInfoRequest::answer(Buffer&, unsigned short)
 {
-    set_str(&m_client->data.owner.Nick, m_nick.c_str());
-    set_str(&m_client->data.owner.FirstName, m_firstName.c_str());
-    set_str(&m_client->data.owner.LastName, m_lastName.c_str());
-    set_str(&m_client->data.owner.City, m_city.c_str());
-    set_str(&m_client->data.owner.State, m_state.c_str());
-    set_str(&m_client->data.owner.Address, m_address.c_str());
-    set_str(&m_client->data.owner.Zip, m_zip.c_str());
-    set_str(&m_client->data.owner.EMail, m_email.c_str());
-    set_str(&m_client->data.owner.HomePhone, m_homePhone.c_str());
-    set_str(&m_client->data.owner.HomeFax, m_homeFax.c_str());
-    set_str(&m_client->data.owner.PrivateCellular, m_privateCellular.c_str());
-    m_client->data.owner.Country = m_country;
-    m_client->data.owner.TimeZone = m_tz;
-    m_client->data.owner.HiddenEMail = m_hiddenEMail;
+    set_str(&m_client->data.owner.Nick.ptr, m_nick.c_str());
+    set_str(&m_client->data.owner.FirstName.ptr, m_firstName.c_str());
+    set_str(&m_client->data.owner.LastName.ptr, m_lastName.c_str());
+    set_str(&m_client->data.owner.City.ptr, m_city.c_str());
+    set_str(&m_client->data.owner.State.ptr, m_state.c_str());
+    set_str(&m_client->data.owner.Address.ptr, m_address.c_str());
+    set_str(&m_client->data.owner.Zip.ptr, m_zip.c_str());
+    set_str(&m_client->data.owner.EMail.ptr, m_email.c_str());
+    set_str(&m_client->data.owner.HomePhone.ptr, m_homePhone.c_str());
+    set_str(&m_client->data.owner.HomeFax.ptr, m_homeFax.c_str());
+    set_str(&m_client->data.owner.PrivateCellular.ptr, m_privateCellular.c_str());
+    m_client->data.owner.Country.value = m_country;
+    m_client->data.owner.TimeZone.value = m_tz;
+    m_client->data.owner.HiddenEMail.bValue = m_hiddenEMail;
     Event e(EventClientChanged, m_client);
     e.process();
     m_client->sendUpdate();
@@ -871,44 +871,44 @@ SetWorkInfoRequest::SetWorkInfoRequest(ICQClient *client, unsigned short id, ICQ
         : ServerRequest(id)
 {
     m_client = client;
-    if (data->WorkCity)
-        m_workCity = data->WorkCity;
-    if (data->WorkState)
-        m_workState = data->WorkState;
-    if (data->WorkAddress)
-        m_workAddress = data->WorkAddress;
-    if (data->WorkZip)
-        m_workZip = data->WorkZip;
-    m_workCountry = data->WorkCountry;
-    if (data->WorkName)
-        m_workName = data->WorkName;
-    if (data->WorkDepartment)
-        m_workDepartment = data->WorkDepartment;
-    if (data->WorkPosition)
-        m_workPosition = data->WorkPosition;
-    m_occupation = data->Occupation;
-    if (data->WorkHomepage)
-        m_workHomepage = data->WorkHomepage;
-    if (data->WorkPhone)
-        m_workPhone = data->WorkPhone;
-    if (data->WorkFax)
-        m_workFax = data->WorkFax;
+    if (data->WorkCity.ptr)
+        m_workCity = data->WorkCity.ptr;
+    if (data->WorkState.ptr)
+        m_workState = data->WorkState.ptr;
+    if (data->WorkAddress.ptr)
+        m_workAddress = data->WorkAddress.ptr;
+    if (data->WorkZip.ptr)
+        m_workZip = data->WorkZip.ptr;
+    m_workCountry = data->WorkCountry.value;
+    if (data->WorkName.ptr)
+        m_workName = data->WorkName.ptr;
+    if (data->WorkDepartment.ptr)
+        m_workDepartment = data->WorkDepartment.ptr;
+    if (data->WorkPosition.ptr)
+        m_workPosition = data->WorkPosition.ptr;
+    m_occupation = data->Occupation.value;
+    if (data->WorkHomepage.ptr)
+        m_workHomepage = data->WorkHomepage.ptr;
+    if (data->WorkPhone.ptr)
+        m_workPhone = data->WorkPhone.ptr;
+    if (data->WorkFax.ptr)
+        m_workFax = data->WorkFax.ptr;
 }
 
 bool SetWorkInfoRequest::answer(Buffer&, unsigned short)
 {
-    set_str(&m_client->data.owner.WorkCity, m_workCity.c_str());
-    set_str(&m_client->data.owner.WorkState, m_workState.c_str());
-    set_str(&m_client->data.owner.WorkAddress, m_workAddress.c_str());
-    set_str(&m_client->data.owner.WorkZip, m_workZip.c_str());
-    set_str(&m_client->data.owner.WorkName, m_workName.c_str());
-    set_str(&m_client->data.owner.WorkDepartment, m_workDepartment.c_str());
-    set_str(&m_client->data.owner.WorkPosition, m_workPosition.c_str());
-    set_str(&m_client->data.owner.WorkHomepage, m_workHomepage.c_str());
-    set_str(&m_client->data.owner.WorkPhone, m_workPhone.c_str());
-    set_str(&m_client->data.owner.WorkFax, m_workFax.c_str());
-    m_client->data.owner.WorkCountry = m_workCountry;
-    m_client->data.owner.Occupation = m_occupation;
+    set_str(&m_client->data.owner.WorkCity.ptr, m_workCity.c_str());
+    set_str(&m_client->data.owner.WorkState.ptr, m_workState.c_str());
+    set_str(&m_client->data.owner.WorkAddress.ptr, m_workAddress.c_str());
+    set_str(&m_client->data.owner.WorkZip.ptr, m_workZip.c_str());
+    set_str(&m_client->data.owner.WorkName.ptr, m_workName.c_str());
+    set_str(&m_client->data.owner.WorkDepartment.ptr, m_workDepartment.c_str());
+    set_str(&m_client->data.owner.WorkPosition.ptr, m_workPosition.c_str());
+    set_str(&m_client->data.owner.WorkHomepage.ptr, m_workHomepage.c_str());
+    set_str(&m_client->data.owner.WorkPhone.ptr, m_workPhone.c_str());
+    set_str(&m_client->data.owner.WorkFax.ptr, m_workFax.c_str());
+    m_client->data.owner.WorkCountry.value = m_workCountry;
+    m_client->data.owner.Occupation.value = m_occupation;
     Event e(EventClientChanged, m_client);
     e.process();
     m_client->sendUpdate();
@@ -935,26 +935,26 @@ SetMoreInfoRequest::SetMoreInfoRequest(ICQClient *client, unsigned short id, ICQ
         : ServerRequest(id)
 {
     m_client = client;
-    m_age = data->Age;
-    m_gender = data->Gender;
-    m_birthYear = data->BirthYear;
-    m_birthMonth = data->BirthMonth;
-    m_birthDay = data->BirthDay;
-    m_language = data->Language;
+    m_age = data->Age.value;
+    m_gender = data->Gender.value;
+    m_birthYear = data->BirthYear.value;
+    m_birthMonth = data->BirthMonth.value;
+    m_birthDay = data->BirthDay.value;
+    m_language = data->Language.value;
     string   m_homepage;
-    if (data->Homepage)
-        m_homepage = data->Homepage;
+    if (data->Homepage.ptr)
+        m_homepage = data->Homepage.ptr;
 }
 
 bool SetMoreInfoRequest::answer(Buffer&, unsigned short)
 {
-    set_str(&m_client->data.owner.Homepage, m_homepage.c_str());
-    m_client->data.owner.Age = m_age;
-    m_client->data.owner.Gender = m_gender;
-    m_client->data.owner.BirthYear = m_birthYear;
-    m_client->data.owner.BirthMonth = m_birthMonth;
-    m_client->data.owner.BirthDay = m_birthDay;
-    m_client->data.owner.Language = m_language;
+    set_str(&m_client->data.owner.Homepage.ptr, m_homepage.c_str());
+    m_client->data.owner.Age.value = m_age;
+    m_client->data.owner.Gender.value = m_gender;
+    m_client->data.owner.BirthYear.value = m_birthYear;
+    m_client->data.owner.BirthMonth.value = m_birthMonth;
+    m_client->data.owner.BirthDay.value = m_birthDay;
+    m_client->data.owner.Language.value = m_language;
     Event e(EventClientChanged, m_client);
     e.process();
     m_client->sendUpdate();
@@ -975,13 +975,13 @@ SetAboutInfoRequest::SetAboutInfoRequest(ICQClient *client, unsigned short id, I
         : ServerRequest(id)
 {
     m_client = client;
-    if (data->About)
-        m_about = data->About;
+    if (data->About.ptr)
+        m_about = data->About.ptr;
 }
 
 bool SetAboutInfoRequest::answer(Buffer&, unsigned short)
 {
-    set_str(&m_client->data.owner.About, m_about.c_str());
+    set_str(&m_client->data.owner.About.ptr, m_about.c_str());
     Event e(EventClientChanged, m_client);
     e.process();
     m_client->sendUpdate();
@@ -1002,13 +1002,13 @@ SetMailInfoRequest::SetMailInfoRequest(ICQClient *client, unsigned short id, ICQ
         : ServerRequest(id)
 {
     m_client = client;
-    if (data->EMails)
-        m_emails = data->EMails;
+    if (data->EMails.ptr)
+        m_emails = data->EMails.ptr;
 }
 
 bool SetMailInfoRequest::answer(Buffer&, unsigned short)
 {
-    set_str(&m_client->data.owner.EMails, m_emails.c_str());
+    set_str(&m_client->data.owner.EMails.ptr, m_emails.c_str());
     Event e(EventClientChanged, m_client);
     e.process();
     m_client->sendUpdate();
@@ -1029,13 +1029,13 @@ SetInterestsInfoRequest::SetInterestsInfoRequest(ICQClient *client, unsigned sho
         : ServerRequest(id)
 {
     m_client = client;
-    if (data->Interests)
-        m_interests = data->Interests;
+    if (data->Interests.ptr)
+        m_interests = data->Interests.ptr;
 }
 
 bool SetInterestsInfoRequest::answer(Buffer&, unsigned short)
 {
-    set_str(&m_client->data.owner.Interests, m_interests.c_str());
+    set_str(&m_client->data.owner.Interests.ptr, m_interests.c_str());
     Event e(EventClientChanged, m_client);
     e.process();
     m_client->sendUpdate();
@@ -1057,16 +1057,16 @@ SetBackgroundsInfoRequest::SetBackgroundsInfoRequest(ICQClient *client, unsigned
         : ServerRequest(id)
 {
     m_client = client;
-    if (data->Backgrounds)
-        m_backgrounds = data->Backgrounds;
-    if (data->Affilations)
-        m_affilations = data->Affilations;
+    if (data->Backgrounds.ptr)
+        m_backgrounds = data->Backgrounds.ptr;
+    if (data->Affilations.ptr)
+        m_affilations = data->Affilations.ptr;
 }
 
 bool SetBackgroundsInfoRequest::answer(Buffer&, unsigned short)
 {
-    set_str(&m_client->data.owner.Backgrounds, m_backgrounds.c_str());
-    set_str(&m_client->data.owner.Affilations, m_affilations.c_str());
+    set_str(&m_client->data.owner.Backgrounds.ptr, m_backgrounds.c_str());
+    set_str(&m_client->data.owner.Affilations.ptr, m_affilations.c_str());
     Event e(EventClientChanged, m_client);
     e.process();
     m_client->sendUpdate();
@@ -1088,17 +1088,17 @@ SetSecurityInfoRequest::SetSecurityInfoRequest(ICQClient *client, unsigned short
         : ServerRequest(id)
 {
     m_client  = client;
-    m_bWebAware = (data->WebAware != 0);
-    m_bWaitAuth = (data->WaitAuth != 0);
+    m_bWebAware = data->WebAware.bValue;
+    m_bWaitAuth = data->WaitAuth.bValue;
 }
 
 bool SetSecurityInfoRequest::answer(Buffer&, unsigned short)
 {
-    if ((m_client->data.owner.WebAware != 0) != m_bWebAware){
-        m_client->data.owner.WebAware = m_bWebAware;
+    if (m_client->data.owner.WebAware.bValue != m_bWebAware){
+        m_client->data.owner.WebAware.bValue = m_bWebAware;
         m_client->sendStatus();
     }
-    m_client->data.owner.WaitAuth = m_bWaitAuth;
+    m_client->data.owner.WaitAuth.bValue = m_bWaitAuth;
     Event e(EventClientChanged, m_client);
     e.process();
     return true;
@@ -1108,20 +1108,20 @@ void ICQClient::setMainInfo(ICQUserData *d)
 {
     serverRequest(ICQ_SRVxREQ_MORE);
     m_socket->writeBuffer << ICQ_SRVxREQ_MODIFY_MAIN
-    << &d->Nick
-    << &d->FirstName
-    << &d->LastName
-    << &d->EMail
-    << &d->City
-    << &d->State
-    << &d->HomePhone
-    << &d->HomeFax
-    << &d->Address
-    << &d->PrivateCellular
-    << &d->Zip;
-    m_socket->writeBuffer.pack((unsigned short)(d->Country));
-    m_socket->writeBuffer.pack((char)(d->TimeZone));
-    m_socket->writeBuffer.pack((char)(d->HiddenEMail ? 1 : 0));
+    << &d->Nick.ptr
+    << &d->FirstName.ptr
+    << &d->LastName.ptr
+    << &d->EMail.ptr
+    << &d->City.ptr
+    << &d->State.ptr
+    << &d->HomePhone.ptr
+    << &d->HomeFax.ptr
+    << &d->Address.ptr
+    << &d->PrivateCellular.ptr
+    << &d->Zip.ptr;
+    m_socket->writeBuffer.pack((unsigned short)(d->Country.value));
+    m_socket->writeBuffer.pack((char)(d->TimeZone.value));
+    m_socket->writeBuffer.pack((char)(d->HiddenEMail.bValue ? 1 : 0));
     sendServerRequest();
 
     varRequests.push_back(new SetMainInfoRequest(this, m_nMsgSequence, d));
@@ -1162,20 +1162,20 @@ void ICQClient::setClientInfo(void *_data)
     ICQUserData *d = (ICQUserData*)_data;
 
     if (m_bAIM){
-        d->ProfileFetch = 1;
-        set_str(&data.owner.About, d->About);
+        d->ProfileFetch.bValue = true;
+        set_str(&data.owner.About.ptr, d->About.ptr);
         setAIMInfo(d);
         setProfile(d);
         return;
     }
 
-    set_str(&d->HomePhone, NULL);
-    set_str(&d->HomeFax, NULL);
-    set_str(&d->WorkPhone, NULL);
-    set_str(&d->WorkFax, NULL);
-    set_str(&d->PrivateCellular, NULL);
-    set_str(&d->EMail, NULL);
-    set_str(&d->EMails, NULL);
+    set_str(&d->HomePhone.ptr, NULL);
+    set_str(&d->HomeFax.ptr, NULL);
+    set_str(&d->WorkPhone.ptr, NULL);
+    set_str(&d->WorkFax.ptr, NULL);
+    set_str(&d->PrivateCellular.ptr, NULL);
+    set_str(&d->EMail.ptr, NULL);
+    set_str(&d->EMails.ptr, NULL);
 
     QString phones = getContacts()->owner()->getPhones();
     while (phones.length()){
@@ -1186,19 +1186,19 @@ void ICQClient::setClientInfo(void *_data)
         QString number = getToken(phoneValue, ',');
         QString type = getToken(phoneValue, ',');
         if (type == "Home Phone"){
-            set_str(&d->HomePhone, fromUnicode(number, NULL).c_str());
+            set_str(&d->HomePhone.ptr, fromUnicode(number, NULL).c_str());
         }else if (type == "Home Fax"){
-            set_str(&d->HomeFax, fromUnicode(number, NULL).c_str());
+            set_str(&d->HomeFax.ptr, fromUnicode(number, NULL).c_str());
         }else if (type == "Work Phone"){
-            set_str(&d->WorkPhone, fromUnicode(number, NULL).c_str());
+            set_str(&d->WorkPhone.ptr, fromUnicode(number, NULL).c_str());
         }else if (type == "Work Fax"){
-            set_str(&d->WorkFax, fromUnicode(number, NULL).c_str());
+            set_str(&d->WorkFax.ptr, fromUnicode(number, NULL).c_str());
         }else if (type == "Private Cellular"){
             number += " SMS";
-            set_str(&d->PrivateCellular, fromUnicode(number, NULL).c_str());
+            set_str(&d->PrivateCellular.ptr, fromUnicode(number, NULL).c_str());
         }
     }
-    d->HiddenEMail = false;
+    d->HiddenEMail.bValue = false;
     QString mails = getContacts()->owner()->getEMails();
     string s;
     while (mails.length()){
@@ -1210,107 +1210,107 @@ void ICQClient::setClientInfo(void *_data)
         s += '/';
         if (mailItem.length())
             s += '-';
-        if (d->EMail == NULL){
-            set_str(&d->EMail, fromUnicode(mail, NULL).c_str());
-            d->HiddenEMail = !mailItem.isEmpty();
+        if (d->EMail.ptr == NULL){
+            set_str(&d->EMail.ptr, fromUnicode(mail, NULL).c_str());
+            d->HiddenEMail.bValue = !mailItem.isEmpty();
         }
     }
-    set_str(&d->EMails, s.c_str());
+    set_str(&d->EMails.ptr, s.c_str());
 
-    if ((d->Country != data.owner.Country) ||
-            (d->HiddenEMail != data.owner.HiddenEMail) ||
-            cmp(d->Nick, data.owner.Nick) ||
-            cmp(d->FirstName, data.owner.FirstName) ||
-            cmp(d->LastName, data.owner.LastName) ||
-            cmp(d->EMail, data.owner.EMail) ||
-            cmp(d->HomePhone, data.owner.HomePhone) ||
-            cmp(d->HomeFax, data.owner.HomeFax) ||
-            cmp(d->PrivateCellular, data.owner.PrivateCellular) ||
-            cmp(d->City, data.owner.City) ||
-            cmp(d->State, data.owner.State) ||
-            cmp(d->Address, data.owner.Address) ||
-            cmp(d->Zip, data.owner.Zip)){
+    if ((d->Country.value != data.owner.Country.value) ||
+            (d->HiddenEMail.bValue != data.owner.HiddenEMail.bValue) ||
+            cmp(d->Nick.ptr, data.owner.Nick.ptr) ||
+            cmp(d->FirstName.ptr, data.owner.FirstName.ptr) ||
+            cmp(d->LastName.ptr, data.owner.LastName.ptr) ||
+            cmp(d->EMail.ptr, data.owner.EMail.ptr) ||
+            cmp(d->HomePhone.ptr, data.owner.HomePhone.ptr) ||
+            cmp(d->HomeFax.ptr, data.owner.HomeFax.ptr) ||
+            cmp(d->PrivateCellular.ptr, data.owner.PrivateCellular.ptr) ||
+            cmp(d->City.ptr, data.owner.City.ptr) ||
+            cmp(d->State.ptr, data.owner.State.ptr) ||
+            cmp(d->Address.ptr, data.owner.Address.ptr) ||
+            cmp(d->Zip.ptr, data.owner.Zip.ptr)){
         setMainInfo(d);
         m_nUpdates++;
     }
 
-    if ((d->WorkCountry != data.owner.WorkCountry) ||
-            (d->Occupation != data.owner.Occupation) ||
-            cmp(d->WorkCity, data.owner.WorkCity) ||
-            cmp(d->WorkState, data.owner.WorkState) ||
-            cmp(d->WorkAddress, data.owner.WorkAddress) ||
-            cmp(d->WorkZip, data.owner.WorkZip) ||
-            cmp(d->WorkName, data.owner.WorkName) ||
-            cmp(d->WorkDepartment, data.owner.WorkDepartment) ||
-            cmp(d->WorkPosition, data.owner.WorkPosition) ||
-            cmp(d->WorkPhone, data.owner.WorkPhone) ||
-            cmp(d->WorkFax, data.owner.WorkFax) ||
-            cmp(d->WorkHomepage, data.owner.WorkHomepage)){
+    if ((d->WorkCountry.value != data.owner.WorkCountry.value) ||
+            (d->Occupation.value != data.owner.Occupation.value) ||
+            cmp(d->WorkCity.ptr, data.owner.WorkCity.ptr) ||
+            cmp(d->WorkState.ptr, data.owner.WorkState.ptr) ||
+            cmp(d->WorkAddress.ptr, data.owner.WorkAddress.ptr) ||
+            cmp(d->WorkZip.ptr, data.owner.WorkZip.ptr) ||
+            cmp(d->WorkName.ptr, data.owner.WorkName.ptr) ||
+            cmp(d->WorkDepartment.ptr, data.owner.WorkDepartment.ptr) ||
+            cmp(d->WorkPosition.ptr, data.owner.WorkPosition.ptr) ||
+            cmp(d->WorkPhone.ptr, data.owner.WorkPhone.ptr) ||
+            cmp(d->WorkFax.ptr, data.owner.WorkFax.ptr) ||
+            cmp(d->WorkHomepage.ptr, data.owner.WorkHomepage.ptr)){
 
         serverRequest(ICQ_SRVxREQ_MORE);
         m_socket->writeBuffer
         << ICQ_SRVxREQ_MODIFY_WORK
-        << &d->WorkCity
-        << &d->WorkState
-        << &d->WorkPhone
-        << &d->WorkFax
-        << &d->WorkAddress
-        << &d->WorkZip;
-        m_socket->writeBuffer.pack((unsigned short)d->WorkCountry);
+        << &d->WorkCity.ptr
+        << &d->WorkState.ptr
+        << &d->WorkPhone.ptr
+        << &d->WorkFax.ptr
+        << &d->WorkAddress.ptr
+        << &d->WorkZip.ptr;
+        m_socket->writeBuffer.pack((unsigned short)d->WorkCountry.value);
         m_socket->writeBuffer
-        << &d->WorkName
-        << &d->WorkDepartment
-        << &d->WorkPosition;
-        m_socket->writeBuffer.pack((unsigned short)d->Occupation);
+        << &d->WorkName.ptr
+        << &d->WorkDepartment.ptr
+        << &d->WorkPosition.ptr;
+        m_socket->writeBuffer.pack((unsigned short)d->Occupation.value);
         m_socket->writeBuffer
-        << &d->WorkHomepage;
+        << &d->WorkHomepage.ptr;
         sendServerRequest();
         varRequests.push_back(new SetWorkInfoRequest(this, m_nMsgSequence, d));
         m_nUpdates++;
     }
-    if ((d->Age != data.owner.Age) ||
-            (d->Gender != data.owner.Gender) ||
-            (d->BirthYear != data.owner.BirthYear) ||
-            (d->BirthMonth != data.owner.BirthMonth) ||
-            (d->BirthDay != data.owner.BirthDay) ||
-            (d->Language != data.owner.Language) ||
-            cmp(d->Homepage, data.owner.Homepage)){
+    if ((d->Age.value != data.owner.Age.value) ||
+            (d->Gender.value != data.owner.Gender.value) ||
+            (d->BirthYear.value != data.owner.BirthYear.value) ||
+            (d->BirthMonth.value != data.owner.BirthMonth.value) ||
+            (d->BirthDay.value != data.owner.BirthDay.value) ||
+            (d->Language.value != data.owner.Language.value) ||
+            cmp(d->Homepage.ptr, data.owner.Homepage.ptr)){
 
         serverRequest(ICQ_SRVxREQ_MORE);
         m_socket->writeBuffer << ICQ_SRVxREQ_MODIFY_MORE
-        << (char)(d->Age)
+        << (char)(d->Age.value)
         << (char)0
-        << (char)(d->Gender)
-        << &d->Homepage;
-        m_socket->writeBuffer.pack((unsigned short)d->BirthYear);
+        << (char)(d->Gender.value)
+        << &d->Homepage.ptr;
+        m_socket->writeBuffer.pack((unsigned short)d->BirthYear.value);
         m_socket->writeBuffer
-        << (char)(d->BirthMonth)
-        << (char)(d->BirthDay)
-        << (char)(d->Language & 0xFF)
-        << (char)((d->Language >> 8) & 0xFF)
-        << (char)((d->Language >> 16) & 0xFF);
+        << (char)(d->BirthMonth.value)
+        << (char)(d->BirthDay.value)
+        << (char)(d->Language.value & 0xFF)
+        << (char)((d->Language.value >> 8) & 0xFF)
+        << (char)((d->Language.value >> 16) & 0xFF);
         sendServerRequest();
         varRequests.push_back(new SetMoreInfoRequest(this, m_nMsgSequence, d));
         m_nUpdates++;
     }
 
-    if (cmp(d->About, data.owner.About)){
+    if (cmp(d->About.ptr, data.owner.About.ptr)){
         serverRequest(ICQ_SRVxREQ_MORE);
         m_socket->writeBuffer   << ICQ_SRVxREQ_MODIFY_ABOUT
-        << &d->About;
+        << &d->About.ptr;
         sendServerRequest();
         varRequests.push_back(new SetAboutInfoRequest(this, m_nMsgSequence, d));
         m_nUpdates++;
     }
 
-    if (cmp(d->EMails, data.owner.EMails)){
+    if (cmp(d->EMails.ptr, data.owner.EMails.ptr)){
         serverRequest(ICQ_SRVxREQ_MORE);
         m_socket->writeBuffer   << ICQ_SRVxREQ_MODIFY_MAIL;
         string emails;
         list<string> mails;
         list<bool> hiddens;
-        if (d->EMails){
-            emails = d->EMails;
+        if (d->EMails.ptr){
+            emails = d->EMails.ptr;
             while (emails.length()){
                 string mailItem = getToken(emails, ';', false);
                 string mail = getToken(mailItem, '/');
@@ -1330,33 +1330,33 @@ void ICQClient::setClientInfo(void *_data)
         m_nUpdates++;
     }
 
-    if (cmp(d->Interests, data.owner.Interests)){
+    if (cmp(d->Interests.ptr, data.owner.Interests.ptr)){
         varRequests.push_back(new SetInterestsInfoRequest(this, m_nMsgSequence, d));
         serverRequest(ICQ_SRVxREQ_MORE);
         m_socket->writeBuffer << ICQ_SRVxREQ_MODIFY_INTERESTS;
-        packInfoList(d->Interests);
+        packInfoList(d->Interests.ptr);
         sendServerRequest();
         varRequests.push_back(new SetInterestsInfoRequest(this, m_nMsgSequence, d));
         m_nUpdates++;
     }
 
-    if (cmp(d->Backgrounds, data.owner.Backgrounds) ||
-            cmp(d->Affilations, data.owner.Affilations)){
+    if (cmp(d->Backgrounds.ptr, data.owner.Backgrounds.ptr) ||
+            cmp(d->Affilations.ptr, data.owner.Affilations.ptr)){
         serverRequest(ICQ_SRVxREQ_MORE);
         m_socket->writeBuffer << ICQ_SRVxREQ_MODIFY_BACKGROUND;
-        packInfoList(d->Backgrounds);
-        packInfoList(d->Affilations);
+        packInfoList(d->Backgrounds.ptr);
+        packInfoList(d->Affilations.ptr);
         sendServerRequest();
         varRequests.push_back(new SetBackgroundsInfoRequest(this, m_nMsgSequence, d));
         m_nUpdates++;
     }
 
-    if (((d->WaitAuth != 0) != (data.owner.WaitAuth != 0)) ||
-            ((d->WebAware != 0) != (data.owner.WebAware != 0))){
+    if ((d->WaitAuth.bValue != data.owner.WaitAuth.bValue) ||
+            (d->WebAware.bValue != data.owner.WebAware.bValue)){
         serverRequest(ICQ_SRVxREQ_MORE);
         m_socket->writeBuffer  << ICQ_SRVxREQ_PERMISSIONS
-        << (char)(d->WaitAuth ? 0 : 0x01)
-        << (char)(d->WebAware ? 0x01 : 0)
+        << (char)(d->WaitAuth.bValue ? 0 : 0x01)
+        << (char)(d->WebAware.bValue ? 0x01 : 0)
         << (char)0x02
         << (char)0;
         sendServerRequest();
@@ -1583,7 +1583,7 @@ void ICQClient::processSMSQueue()
         xmltree.pushnode(new XmlLeaf("text",(const char*)(part.utf8())));
         xmltree.pushnode(new XmlLeaf("codepage","1252"));
         xmltree.pushnode(new XmlLeaf("encoding","utf8"));
-        xmltree.pushnode(new XmlLeaf("senders_UIN",number(data.owner.Uin).c_str()));
+        xmltree.pushnode(new XmlLeaf("senders_UIN",number(data.owner.Uin.value).c_str()));
         xmltree.pushnode(new XmlLeaf("senders_name",""));
         xmltree.pushnode(new XmlLeaf("delivery_receipt","Yes"));
 

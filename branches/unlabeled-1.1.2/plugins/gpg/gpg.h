@@ -26,22 +26,22 @@ const unsigned MessageGPGUse	= 0x5001;
 
 typedef struct GpgData
 {
-    char	*GPG;
-    char	*Home;
-    char	*GenKey;
-    char	*PublicList;
-    char	*SecretList;
-    char	*Import;
-    char	*Export;
-    char	*Encrypt;
-    char	*Decrypt;
-    char	*Key;
+    Data	GPG;
+    Data	Home;
+    Data	GenKey;
+    Data	PublicList;
+    Data	SecretList;
+    Data	Import;
+    Data	Export;
+    Data	Encrypt;
+    Data	Decrypt;
+    Data	Key;
 } GpgData;
 
 typedef struct GpgUserData
 {
-    char		*Key;
-    unsigned	Use;
+    Data	Key;
+    Data	Use;
 } GpgUserData;
 
 class Exec;

@@ -80,15 +80,15 @@ void JabberInfo::fill()
 {
     JabberUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
-    edtID->setText(QString::fromUtf8(data->ID));
-    edtFirstName->setText(data->FirstName ? QString::fromUtf8(data->FirstName) : QString(""));
-    edtNick->setText(data->Nick ? QString::fromUtf8(data->Nick) : QString(""));
-    edtDate->setText(data->Bday ? QString::fromUtf8(data->Bday) : QString(""));
-    edtUrl->setText(data->Url ? QString::fromUtf8(data->Url) : QString(""));
+    edtID->setText(QString::fromUtf8(data->ID.ptr));
+    edtFirstName->setText(data->FirstName.ptr ? QString::fromUtf8(data->FirstName.ptr) : QString(""));
+    edtNick->setText(data->Nick.ptr ? QString::fromUtf8(data->Nick.ptr) : QString(""));
+    edtDate->setText(data->Bday.ptr ? QString::fromUtf8(data->Bday.ptr) : QString(""));
+    edtUrl->setText(data->Url.ptr ? QString::fromUtf8(data->Url.ptr) : QString(""));
     urlChanged(edtUrl->text());
     int current = 0;
     const char *text = NULL;
-    unsigned status = m_data ? m_data->Status : m_client->getStatus();
+    unsigned status = m_data ? m_data->Status.value : m_client->getStatus();
     for (const CommandDef *cmd = m_client->protocol()->statusList(); cmd->id; cmd++){
         if (cmd->flags & COMMAND_CHECK_STATE)
             continue;
@@ -102,12 +102,12 @@ void JabberInfo::fill()
     disableWidget(cmbStatus);
     if (status == STATUS_OFFLINE){
         lblOnline->setText(i18n("Last online") + ":");
-        edtOnline->setText(formatDateTime(data->StatusTime));
+        edtOnline->setText(formatDateTime(data->StatusTime.value));
         lblNA->hide();
         edtNA->hide();
     }else{
-        if (data->OnlineTime){
-            edtOnline->setText(formatDateTime(data->OnlineTime));
+        if (data->OnlineTime.value){
+            edtOnline->setText(formatDateTime(data->OnlineTime.value));
         }else{
             lblOnline->hide();
             edtOnline->hide();
@@ -117,18 +117,18 @@ void JabberInfo::fill()
             edtNA->hide();
         }else{
             lblNA->setText(i18n(text));
-            edtNA->setText(formatDateTime(data->StatusTime));
+            edtNA->setText(formatDateTime(data->StatusTime.value));
         }
     }
     if ((status != STATUS_ONLINE) && (status != STATUS_OFFLINE) && m_data){
         QString autoReply;
-        if (m_data->AutoReply)
-            autoReply = QString::fromUtf8(m_data->AutoReply);
+        if (m_data->AutoReply.ptr)
+            autoReply = QString::fromUtf8(m_data->AutoReply.ptr);
         edtAutoReply->setText(autoReply);
     }else{
         edtAutoReply->hide();
     }
-    edtResource->setText(data->Resource ? QString::fromUtf8(data->Resource) : QString(""));
+    edtResource->setText(data->Resource.ptr ? QString::fromUtf8(data->Resource.ptr) : QString(""));
 }
 
 void JabberInfo::apply(Client *client, void *_data)
@@ -136,10 +136,10 @@ void JabberInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     JabberUserData *data = (JabberUserData*)_data;
-    set_str(&data->FirstName, edtFirstName->text().utf8());
-    set_str(&data->Nick, edtNick->text().utf8());
-    set_str(&data->Bday, edtDate->text().utf8());
-    set_str(&data->Url, edtUrl->text().utf8());
+    set_str(&data->FirstName.ptr, edtFirstName->text().utf8());
+    set_str(&data->Nick.ptr, edtNick->text().utf8());
+    set_str(&data->Bday.ptr, edtDate->text().utf8());
+    set_str(&data->Url.ptr, edtUrl->text().utf8());
 }
 
 void JabberInfo::goUrl()

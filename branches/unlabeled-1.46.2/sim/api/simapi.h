@@ -879,6 +879,103 @@ private:
     CommandsMapIteratorPrivate *p;
 };
 
+// ____________________________________________________________________________________
+// Configuration
+
+typedef struct DataDef
+{
+    const char	*name;
+    unsigned	type;
+    unsigned	n_values;
+    const char	*def_value;
+} DataDef;
+
+typedef union Data
+{
+	char			*ptr;
+	unsigned long	value;
+	bool			bValue;
+} Data;
+
+#define DATA(A)	((const char*)(A))
+
+const unsigned DATA_STRING		= 0;
+const unsigned DATA_LONG		= 1;
+const unsigned DATA_ULONG		= 2;
+const unsigned DATA_BOOL		= 3;
+const unsigned DATA_STRLIST		= 4;
+const unsigned DATA_UTF			= 5;
+const unsigned DATA_IP			= 6;
+const unsigned DATA_STRUCT		= 7;
+const unsigned DATA_UTFLIST		= 8;
+const unsigned DATA_OBJECT		= 9;
+
+EXPORT void free_data(const DataDef *def, void *data);
+EXPORT void load_data(const DataDef *def, void *data, const char *config);
+EXPORT string save_data(const DataDef *def, void *data);
+
+EXPORT bool set_str(char **str, const char *value);
+EXPORT const char *get_str(const Data &strlist, unsigned index);
+EXPORT void clear_list(Data *strlist);
+EXPORT void set_str(Data *strlist, unsigned index, const char *value);
+EXPORT unsigned long get_ip(Data &ip);
+EXPORT const char *get_host(Data &ip);
+EXPORT bool set_ip(Data *ip, unsigned long value, const char *host=NULL);
+
+#define PROP_STRLIST(A)	\
+	const char *get##A(unsigned index) const { return get_str(data.A, index); } \
+	void set##A(unsigned index, const char *value) { set_str(&data.A, index, value); } \
+	void clear##A()	{ clear_list(&data.A); }
+
+#define PROP_STR(A) \
+	const char *get##A() const { return data.A.ptr ? data.A.ptr : ""; } \
+	bool set##A(const char *r) { return set_str(&data.A.ptr, r); }
+
+#define PROP_UTF8(A) \
+	QString get##A() const { return data.A.ptr ? QString::fromUtf8(data.A.ptr) : QString(""); } \
+	bool set##A(const QString &r) { return set_str(&data.A.ptr, r.utf8()); }
+
+#define VPROP_UTF8(A) \
+	virtual QString get##A() const { return data.A.ptr ? QString::fromUtf8(data.A.ptr) : QString(""); } \
+	bool set##A(const QString &r) { return set_str(&data.A.ptr, r.utf8()); }
+
+#define PROP_LONG(A) \
+	unsigned long get##A() const { return data.A.value; } \
+	void set##A(unsigned long r) { data.A.value = r; }
+
+#define PROP_ULONG(A) \
+	unsigned long get##A() const { return data.A.value; } \
+	void set##A(unsigned long r) { data.A.value = r; }
+
+#define PROP_USHORT(A) \
+	unsigned short get##A() const { return (unsigned short)(data.A.value); } \
+	void set##A(unsigned short r) { data.A.value = r; }
+
+#define PROP_BOOL(A) \
+	bool get##A() const { return data.A.bValue; } \
+	void set##A(bool r) { data.A.bValue = r; }
+
+#define VPROP_BOOL(A) \
+	bool get##A() const { return data.A.bValue; } \
+	virtual void set##A(bool r) { data.A.bValue = r; }
+
+#define PROP_IP(A)	\
+	unsigned long get##A()	const { return get_ip(data.A); } \
+	const char *host##A() { return get_host(data.A); } \
+	void set##A(unsigned long r) { set_ip(&data.A, r); }
+
+const int LEFT		= 0;
+const int TOP		= 1;
+const int WIDTH		= 2;
+const int HEIGHT	= 3;
+const int DESKTOP	= 4;
+
+EXPORT void saveGeometry(QWidget*, Data[5]);
+EXPORT void restoreGeometry(QWidget*, Data[5], bool bPos, bool bSize);
+EXPORT void saveToolbar(QToolBar*, Data[7]);
+EXPORT void restoreToolbar(QToolBar*, Data[7]);
+EXPORT bool cmp(char *s1, char *s2);
+
 // _____________________________________________________________________________________
 // Utilities
 
@@ -899,7 +996,7 @@ EXPORT string trim(const char *str);
 EXPORT QString trim(const QString &str);
 EXPORT QString formatDateTime(unsigned long t);
 EXPORT QString formatDate(unsigned long t);
-EXPORT QString formatAddr(void *addr, unsigned port);
+EXPORT QString formatAddr(Data &addr, unsigned port);
 EXPORT bool getLine(QFile &f, string &s);
 EXPORT string getToken(string &from, char c, bool bUnEscape=true);
 EXPORT QString getToken(QString &from, char c, bool bUnEsacpe=true);
@@ -908,88 +1005,6 @@ EXPORT QString quoteChars(const QString &from, const char *chars, bool bQuoteSla
 EXPORT char fromHex(char);
 EXPORT string unquoteString(const char *p);
 
-// ____________________________________________________________________________________
-// Configuration
-
-typedef struct DataDef
-{
-    const char	*name;
-    unsigned	type;
-    unsigned	n_values;
-    unsigned	def_value;
-} DataDef;
-
-const unsigned DATA_STRING		= 0;
-const unsigned DATA_LONG		= 1;
-const unsigned DATA_ULONG		= 2;
-const unsigned DATA_BOOL		= 3;
-const unsigned DATA_STRLIST		= 4;
-const unsigned DATA_UTF			= 5;
-const unsigned DATA_IP			= 6;
-const unsigned DATA_STRUCT		= 7;
-const unsigned DATA_UTFLIST		= 8;
-const unsigned DATA_OBJECT		= 9;
-
-EXPORT void free_data(const DataDef *def, void *data);
-EXPORT void load_data(const DataDef *def, void *data, const char *config);
-EXPORT string save_data(const DataDef *def, void *data);
-EXPORT bool set_str(char **str, const char *value);
-EXPORT const char *get_str(void *strlist, unsigned index);
-EXPORT void clear_list(void **strlist);
-EXPORT void set_str(void **strlist, unsigned index, const char *value);
-EXPORT unsigned long get_ip(void *ip);
-EXPORT const char *get_host(void *ip);
-EXPORT bool set_ip(void **ip, unsigned long value);
-
-#define PROP_STRLIST(A)	\
-	const char *get##A(unsigned index) { return get_str(data.A, index); } const	\
-	void set##A(unsigned index, const char *value) { set_str(&data.A, index, value); } \
-	void clear##A()	{ clear_list(&data.A); }
-
-#define PROP_STR(A) \
-	const char *get##A() { return data.A ? data.A : ""; } const \
-	bool set##A(const char *r) { return set_str(&data.A, r); }
-
-#define PROP_UTF8(A) \
-	QString get##A() { return data.A ? QString::fromUtf8(data.A) : QString(""); } const \
-	bool set##A(const QString &r) { return set_str(&data.A, r.utf8()); }
-
-#define VPROP_UTF8(A) \
-	virtual QString get##A() { return data.A ? QString::fromUtf8(data.A) : QString(""); } const \
-	bool set##A(const QString &r) { return set_str(&data.A, r.utf8()); }
-
-#define PROP_LONG(A) \
-	unsigned long get##A() { return data.A; } const \
-	void set##A(unsigned long r) { data.A = r; }
-
-#define PROP_ULONG(A) \
-	unsigned long get##A() { return data.A; } const \
-	void set##A(unsigned long r) { data.A = r; }
-
-#define PROP_USHORT(A) \
-	unsigned short get##A() { return (unsigned short)(data.A); } const \
-	void set##A(unsigned short r) { data.A = r; }
-
-#define PROP_BOOL(A) \
-	bool get##A() { return data.A != 0; } const \
-	void set##A(bool r) { data.A = r ? -1 : 0; }
-
-#define PROP_IP(A)	\
-	unsigned long get##A()	{ return get_ip(data.A); } const \
-	const char *host##A() { return get_host(data.A); } \
-	void set##A(unsigned long r) { set_ip(&data.A, r); }
-
-const int LEFT		= 0;
-const int TOP		= 1;
-const int WIDTH		= 2;
-const int HEIGHT	= 3;
-const int DESKTOP	= 4;
-
-EXPORT void saveGeometry(QWidget*, long[5]);
-EXPORT void restoreGeometry(QWidget*, long[5], bool bPos, bool bSize);
-EXPORT void saveToolbar(QToolBar*, long[7]);
-EXPORT void restoreToolbar(QToolBar*, long[7]);
-EXPORT bool cmp(char *s1, char *s2);
 
 // _____________________________________________________________________________________
 // Message
@@ -1032,14 +1047,14 @@ const unsigned	MESSAGE_TEMP		= 0x10000000;
 
 typedef struct MessageData
 {
-    char		*Text;			// Message text (UTF-8)
-    unsigned	Flags;			//
-    unsigned	Background;
-    unsigned	Foreground;
-    unsigned	Time;
-    char		*Font;
-    char		*Error;
-    unsigned	RetryCode;
+    Data		Text;			// Message text (UTF-8)
+    Data		Flags;			//
+    Data		Background;
+    Data		Foreground;
+    Data		Time;
+    Data		Font;
+    Data		Error;
+    Data		RetryCode;
 } MessageData;
 
 class EXPORT Message
@@ -1078,8 +1093,8 @@ protected:
 
 typedef struct MessageSMSData
 {
-    char	*Phone;
-    char	*Network;
+    Data	Phone;
+    Data	Network;
 } MessageSMSData;
 
 class EXPORT SMSMessage : public Message
@@ -1097,9 +1112,9 @@ protected:
 
 typedef struct MessageFileData
 {
-    char		*File;
-    char		*Description;
-    unsigned	Size;
+    Data		File;
+    Data		Description;
+    Data		Size;
 } MessageFileData;
 
 class FileMessageIteratorPrivate;
@@ -1223,7 +1238,7 @@ public:
 
 typedef struct MessageUrlData
 {
-    char	*Url;
+    Data	Url;
 } MessageUrlData;
 
 class EXPORT UrlMessage : public Message
@@ -1240,7 +1255,7 @@ protected:
 
 typedef struct MessageContactsData
 {
-    char	*Contacts;
+    Data	Contacts;
 } MessageContactsData;
 
 class EXPORT ContactsMessage : public Message
@@ -1257,7 +1272,7 @@ protected:
 
 typedef struct MessageStatusData
 {
-    unsigned long Status;
+    Data	Status;
 } MessageStatusData;
 
 class EXPORT StatusMessage : public Message
@@ -1270,7 +1285,6 @@ public:
 protected:
     MessageStatusData data;
 };
-
 
 // _____________________________________________________________________________________
 // Contact list
@@ -1296,8 +1310,8 @@ class ClientDataIteratorPrivate;
 
 typedef struct clientData		// Base struct for all clientData
 {
-    unsigned	Sign;
-    unsigned	LastSend;
+    Data	Sign;
+    Data	LastSend;
 } clientData;
 
 class EXPORT ClientUserData
@@ -1355,17 +1369,17 @@ const unsigned PAGER	= 3;
 
 typedef struct ContactData
 {
-    unsigned long	Group;		// Group ID
-    char			*Name;		// Contact Display Name (UTF-8)
-    unsigned long	Ignore;		// In ignore list
-    unsigned long	LastActive;
-    char			*EMails;
-    char			*Phones;
-    unsigned long	PhoneStatus;
-    char			*FirstName;
-    char			*LastName;
-    char			*Notes;
-    unsigned long	Temporary;
+    Data			Group;		// Group ID
+    Data			Name;		// Contact Display Name (UTF-8)
+    Data			Ignore;		// In ignore list
+    Data			LastActive;
+    Data			EMails;
+    Data			Phones;
+    Data			PhoneStatus;
+    Data			FirstName;
+    Data			LastName;
+    Data			Notes;
+    Data			Temporary;
 } ContactData;
 
 const unsigned CONTACT_TEMP	= 1;
@@ -1408,7 +1422,7 @@ protected:
 
 typedef struct GroupData
 {
-    char			*Name;		// Display name (UTF-8)
+    Data		Name;		// Display name (UTF-8)
 } GroupData;
 
 class EXPORT Group
@@ -1472,13 +1486,13 @@ protected:
 
 typedef struct ClientData
 {
-    unsigned	ManualStatus;
-    unsigned	CommonStatus;
-    char		*Password;
-    unsigned	SavePassword;
-    char		*PreviousPassword;
-    unsigned	Invisible;
-    void		*LastSend;
+    Data	ManualStatus;
+    Data	CommonStatus;
+    Data	Password;
+    Data	SavePassword;
+    Data	PreviousPassword;
+    Data	Invisible;
+    Data	LastSend;
 } ClientData;
 
 const unsigned AuthError = 1;
@@ -1527,8 +1541,7 @@ public:
     PROP_BOOL(SavePassword)
     PROP_UTF8(PreviousPassword)
     PROP_STRLIST(LastSend)
-    bool getInvisible() { return data.Invisible != 0; }
-    virtual void setInvisible(bool bInvisible) { data.Invisible = bInvisible; }
+	VPROP_BOOL(Invisible)
 protected:
     void  freeData();
     State m_state;

@@ -316,21 +316,21 @@ void SearchSocket::snac_search(unsigned short type, unsigned short seq)
                 Tlv *tlv = tlvs(0x09);
                 if (tlv){
                     load_data(ICQProtocol::icqUserData, &res.data, NULL);
-                    set_str(&res.data.Screen, *tlv);
+                    set_str(&res.data.Screen.ptr, *tlv);
                     tlv = tlvs(0x01);
                     if (tlv){
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);
-                        set_str(&res.data.FirstName, str.utf8());
+                        set_str(&res.data.FirstName.ptr, str.utf8());
                     }
                     tlv = tlvs(0x02);
                     if (tlv){
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);
-                        set_str(&res.data.LastName, str.utf8());
+                        set_str(&res.data.LastName.ptr, str.utf8());
                     }
                     tlv = tlvs(0x0C);
                     if (tlv){
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);
-                        set_str(&res.data.Nick, str.utf8());
+                        set_str(&res.data.Nick.ptr, str.utf8());
                     }
                     Event e(EventSearch, &res);
                     e.process();

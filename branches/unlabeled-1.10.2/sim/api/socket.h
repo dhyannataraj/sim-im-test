@@ -170,8 +170,8 @@ class EXPORT TCPClient : public QObject, public Client, public ClientSocketNotif
     Q_OBJECT
 public:
     TCPClient(Protocol *protocol, const char *cfg);
-    virtual const char		*getServer() = 0;
-    virtual unsigned short	getPort() = 0;
+    virtual const char		*getServer() const = 0;
+    virtual unsigned short	getPort() const = 0;
     unsigned		m_reconnect;
     virtual void	setStatus(unsigned status, bool bCommon);
 protected slots:

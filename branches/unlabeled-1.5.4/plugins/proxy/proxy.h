@@ -29,17 +29,17 @@ const unsigned PROXY_HTTP	= 4;
 
 typedef struct ProxyData
 {
-    char			*Client;
-    void			*Clients;
-    unsigned long	Type;
-    char			*Host;
-    unsigned long	Port;
-    unsigned		Auth;
-    char			*User;
-    char			*Password;
-    unsigned		Default;
-    unsigned		NoShow;
-    bool			bInit;
+    Data	Client;
+    Data	Clients;
+    Data	Type;
+    Data	Host;
+    Data	Port;
+    Data	Auth;
+    Data	User;
+    Data	Password;
+    Data	Default;
+    Data	NoShow;
+    bool	bInit;
     ProxyData();
     ProxyData(const ProxyData&);
     ProxyData(const char *cfg);

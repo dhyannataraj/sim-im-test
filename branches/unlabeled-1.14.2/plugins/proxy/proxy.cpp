@@ -59,9 +59,9 @@ static DataDef _proxyData[] =
     {
         { "Client", DATA_STRING, 1, 0 },
         { "Clients", DATA_STRLIST, 1, 0 },
-        { "Type", DATA_ULONG, 1, PROXY_NONE },
-        { "Host", DATA_STRING, 1, (unsigned)"proxy" },
-        { "Port", DATA_ULONG, 1, 1080 },
+        { "Type", DATA_ULONG, 1, DATA(0) },
+        { "Host", DATA_STRING, 1, "proxy" },
+        { "Port", DATA_ULONG, 1, DATA(1080) },
         { "Auth", DATA_BOOL, 1, 0 },
         { "User", DATA_STRING, 1, 0 },
         { "Password", DATA_STRING, 1, 0 },
@@ -104,19 +104,19 @@ static bool _cmp(const char *s1, const char *s2)
 
 bool ProxyData::operator == (const ProxyData &d) const
 {
-    if (Type != d.Type)
+    if (Type.value != d.Type.value)
         return false;
-    if (Type == PROXY_NONE)
+    if (Type.value == PROXY_NONE)
         return true;
-    if ((Port != d.Port) && !_cmp(Host, d.Host))
+    if ((Port.value != d.Port.value) && !_cmp(Host.ptr, d.Host.ptr))
         return false;
-    if (Type == PROXY_SOCKS4)
+    if (Type.value == PROXY_SOCKS4)
         return true;
-    if (Auth != d.Auth)
+    if (Auth.bValue != d.Auth.bValue)
         return false;
-    if (d.Auth == 0)
+    if (!d.Auth.bValue)
         return true;
-    return _cmp(User, d.User) && _cmp(Password, d.Password);
+    return _cmp(User.ptr, d.User.ptr) && _cmp(Password.ptr, d.Password.ptr);
 }
 
 ProxyData& ProxyData::operator = (const ProxyData &d)
@@ -1276,16 +1276,16 @@ void ProxyPlugin::clientData(Client *client, ProxyData &cdata)
         if ((proxyCfg == NULL) || (*proxyCfg == 0))
             break;
         ProxyData wdata(proxyCfg);
-        if (wdata.Client && (client->name() == wdata.Client)){
+        if (wdata.Client.ptr && (client->name() == wdata.Client.ptr)){
             cdata = wdata;
-            cdata.Default = false;
-            set_str(&cdata.Client, client->name().c_str());
+            cdata.Default.bValue = false;
+            set_str(&cdata.Client.ptr, client->name().c_str());
             return;
         }
     }
     cdata = data;
-    set_str(&cdata.Client, client->name().c_str());
-    cdata.Default = true;
+    set_str(&cdata.Client.ptr, client->name().c_str());
+    cdata.Default.bValue = true;
     clear_list(&cdata.Clients);
 }
 
@@ -1312,7 +1312,7 @@ void *ProxyPlugin::processEvent(Event *e)
         ProxyData data;
         clientData(p->client, data);
         Proxy *proxy = NULL;
-        switch (data.Type){
+        switch (data.Type.value){
         case PROXY_SOCKS4:
             proxy = new SOCKS4_Proxy(this, &data, p->client);
             break;

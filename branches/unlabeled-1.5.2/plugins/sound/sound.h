@@ -24,22 +24,22 @@ typedef struct SoundData
 {
 #ifndef WIN32
 #ifdef USE_KDE
-    unsigned	UseArts;
+    Data	UseArts;
 #endif
-    char		*Player;
+    Data	Player;
 #endif
-    char		*StartUp;
-    char		*FileDone;
-    char		*MessageSent;
-    unsigned	DisableAlert;
+    Data	StartUp;
+    Data	FileDone;
+    Data	MessageSent;
+    Data	DisableAlert;
 } SoundData;
 
 typedef struct SoundUserData
 {
-    char		*Alert;
-    void		*Receive;
-    unsigned	NoSoundIfActive;
-    unsigned	Disable;
+    Data	Alert;
+    Data	Receive;
+    Data	NoSoundIfActive;
+    Data	Disable;
 } SoundUserData;
 
 class CorePlugin;

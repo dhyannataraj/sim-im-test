@@ -59,7 +59,7 @@ typedef struct LoggerData
 */
 static DataDef loggerData[] =
     {
-        { "LogLevel", DATA_ULONG, 1, L_ERROR | L_WARN },
+        { "LogLevel", DATA_ULONG, 1, DATA(3) },
         { "LogPackets", DATA_STRING, 1, 0 },
         { "File", DATA_STRING, 1, 0 },
         { NULL, 0, 0, 0 }

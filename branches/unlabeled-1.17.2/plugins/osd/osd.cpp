@@ -76,15 +76,15 @@ typedef struct OSDUserData
 
 static DataDef osdUserData[] =
     {
-        { "EnableMessage", DATA_BOOL, 1, 1 },
-        { "EnableAlert", DATA_BOOL, 1, 1 },
+        { "EnableMessage", DATA_BOOL, 1, DATA(1) },
+        { "EnableAlert", DATA_BOOL, 1, DATA(1) },
         { "EnableTyping", DATA_BOOL, 1, 0 },
         { "Position", DATA_ULONG, 1, 0 },
-        { "Offset", DATA_ULONG, 1, 30 },
-        { "Color", DATA_ULONG, 1, 0x00E000 },
+        { "Offset", DATA_ULONG, 1, DATA(30) },
+        { "Color", DATA_ULONG, 1, DATA(0x00E000) },
         { "Font", DATA_STRING, 1, 0 },
-        { "Timeout", DATA_ULONG, 1, 7 },
-        { "Shadow", DATA_BOOL, 1, 1 },
+        { "Timeout", DATA_ULONG, 1, DATA(7) },
+        { "Shadow", DATA_BOOL, 1, DATA(1) },
         { "Background", DATA_BOOL, 1, 0 },
         { "BgColor", DATA_ULONG, 1, 0 },
         { "Screen", DATA_ULONG, 1, 0 },
@@ -170,55 +170,55 @@ QPixmap& intensity(QPixmap &pict, float percent);
 
 void OSDWidget::showOSD(const QString &str, OSDUserData *data)
 {
-    setFont(FontEdit::str2font(data->Font, baseFont));
+    setFont(FontEdit::str2font(data->Font.ptr, baseFont));
     QPainter p(this);
     p.setFont(font());
-    unsigned nScreen = data->Screen;
+    unsigned nScreen = data->Screen.value;
     unsigned nScreens = screens();
     if (nScreen >= nScreens)
         nScreen = 0;
     QRect rcScreen = screenGeometry(nScreen);
     rcScreen = QRect(0, 0,
-                     rcScreen.width() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset,
-                     rcScreen.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset);
+                     rcScreen.width() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.value,
+                     rcScreen.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.value);
     QRect rc = p.boundingRect(rcScreen, AlignLeft | AlignTop | WordBreak, str);
     p.end();
     int x = rcScreen.left();
     int y = rcScreen.top();
     int w = rc.width() + 1;
     int h = rc.height() + 1;
-    if (data->Shadow){
+    if (data->Shadow.bValue){
         w += SHADOW_OFFS;
         h += SHADOW_OFFS;
     }
-    if (data->Background){
+    if (data->Background.bValue){
         w += XOSD_MARGIN * 2;
         h += XOSD_MARGIN * 2;
     }
     resize(QSize(w, h));
-    switch (data->Position){
+    switch (data->Position.value){
     case 1:
-        move(x + data->Offset, y + data->Offset);
+        move(x + data->Offset.value, y + data->Offset.value);
         break;
     case 2:
-        move(x + rcScreen.width() - data->Offset - w, y + rcScreen.height() - data->Offset - h);
+        move(x + rcScreen.width() - data->Offset.value - w, y + rcScreen.height() - data->Offset.value - h);
         break;
     case 3:
-        move(x + rcScreen.width() - data->Offset - w, y + data->Offset);
+        move(x + rcScreen.width() - data->Offset.value - w, y + data->Offset.value);
         break;
     case 4:
-        move(x + (rcScreen.width() - w) / 2, y + rcScreen.height() - data->Offset - h);
+        move(x + (rcScreen.width() - w) / 2, y + rcScreen.height() - data->Offset.value - h);
         break;
     case 5:
-        move(x + (rcScreen.width() - w) / 2, y + data->Offset);
+        move(x + (rcScreen.width() - w) / 2, y + data->Offset.value);
         break;
     case 6:
         move(x + (rcScreen.width() - w) / 2, y + (rcScreen.height() - h) /2);
         break;
     default:
-        move(x + data->Offset, y + rcScreen.height() - data->Offset - h);
+        move(x + data->Offset.value, y + rcScreen.height() - data->Offset.value - h);
     }
-    if (!data->Background || data->Shadow){
+    if (!data->Background.bValue || data->Shadow.bValue){
         QBitmap mask(w, h);
         p.begin(&mask);
 #ifdef WIN32
@@ -229,13 +229,13 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
         QColor fg(255, 255, 255);
 #endif
         p.fillRect(0, 0, w, h, bg);
-        if (data->Background){
+        if (data->Background.bValue){
             p.fillRect(0, 0, w - SHADOW_OFFS, h - SHADOW_OFFS, fg);
             p.fillRect(SHADOW_OFFS, SHADOW_OFFS, w - SHADOW_OFFS, h - SHADOW_OFFS, fg);
         }else{
             p.setPen(fg);
             p.setFont(font());
-            if (data->Shadow){
+            if (data->Shadow.bValue){
                 rc = QRect(SHADOW_OFFS, SHADOW_OFFS, w - SHADOW_OFFS, h - SHADOW_OFFS);
                 p.drawText(rc, AlignLeft | AlignTop | WordBreak, str);
 				rc = QRect(0, 0, w - SHADOW_OFFS, h - SHADOW_OFFS);
@@ -253,13 +253,13 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     intensity(pict, -0.50f);
     p.begin(&pict);
     rc = QRect(0, 0, w, h);
-    if (data->Background){
-        if (data->Shadow){
+    if (data->Background.bValue){
+        if (data->Shadow.bValue){
             w -= SHADOW_OFFS;
             h -= SHADOW_OFFS;
             rc = QRect(0, 0, w, h);
         }
-        QBrush bg(data->BgColor);
+        QBrush bg(data->BgColor.value);
         p.fillRect(rc, bg);
 #if QT_VERSION < 300
         style().drawPopupPanel(&p, 0, 0, w, h, colorGroup(), 2, &bg);
@@ -269,7 +269,7 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
         rc = QRect(XOSD_MARGIN, XOSD_MARGIN, w - XOSD_MARGIN * 2, h - XOSD_MARGIN * 2);
     }
     p.setFont(font());
-    p.setPen(QColor(data->Color));
+    p.setPen(QColor(data->Color.value));
     p.drawText(rc, AlignLeft | AlignTop | WordBreak, str);
     p.end();
     bgPict = pict;
@@ -305,15 +305,15 @@ void OSDPlugin::processQueue()
         }
         switch (m_request.type){
         case OSD_ALERT:
-            if (data->EnableAlert && contact)
+            if (data->EnableAlert.bValue && contact)
                 text = i18n("%1 is online") .arg(contact->getName());
             break;
         case OSD_TYPING:
-            if (data->EnableTyping && contact)
+            if (data->EnableTyping.bValue && contact)
                 text = i18n("%1 typed") .arg(contact->getName());
             break;
         default:
-            if (data->EnableMessage && core){
+            if (data->EnableMessage.bValue && core){
                 unsigned type = m_request.type;
                 CommandDef *cmd = core->messageTypes.find(type);
                 if (cmd){
@@ -339,7 +339,7 @@ void OSDPlugin::processQueue()
                 connect(m_osd, SIGNAL(dblClick()), this, SLOT(dblClick()));
             }
             static_cast<OSDWidget*>(m_osd)->showOSD(text, data);
-            m_timer->start(data->Timeout * 1000);
+            m_timer->start(data->Timeout.value * 1000);
             queue.erase(queue.begin());
             break;
         }

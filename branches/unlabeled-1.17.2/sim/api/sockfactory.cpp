@@ -504,28 +504,27 @@ IP::~IP()
 
 void IP::set(unsigned long ip, const char *host)
 {
-    m_ip = ip;
-    if (m_host){
-        delete[] m_host;
-        m_host = NULL;
-    }
+	bool bResolve = false;
+	if (ip != m_ip){
+		m_ip = ip;
+		if (m_host){
+			delete[] m_host;
+			m_host = NULL;
+		}
+		bResolve = true;
+	}
     if (host && *host){
+		if (m_host){
+			if (!strcmp(m_host, host))
+				return;
+			delete[] m_host;
+			m_host = NULL;
+		}
         m_host = new char[strlen(host) + 1];
         strcpy(m_host, host);
     }
-    resolve();
-}
-
-void IP::set(unsigned long ip)
-{
-    m_ip = ip;
-    if (m_host){
-        delete[] m_host;
-        m_host = NULL;
-    }
-    if (m_ip == 0)
-        return;
-    resolve();
+	if (bResolve && m_host)
+		resolve();
 }
 
 void IP::resolve()

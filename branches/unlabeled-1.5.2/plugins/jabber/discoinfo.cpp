@@ -88,8 +88,8 @@ void DiscoInfo::reset()
         m_node = QString::fromUtf8(m_browser->m_nodes[m_browser->m_historyPos].c_str());
     free_data(jabberUserData, &m_data);
     load_data(jabberUserData, &m_data, NULL);
-    set_str(&m_data.ID, m_url.utf8());
-    set_str(&m_data.Node, m_node.utf8());
+    set_str(&m_data.ID.ptr, m_url.utf8());
+    set_str(&m_data.Node.ptr, m_node.utf8());
     setTitle();
     edtJName->setText(m_browser->m_name);
     edtType->setText(m_browser->m_type);
@@ -197,14 +197,14 @@ void *DiscoInfo::processEvent(Event *e)
 {
     if (e->type() == static_cast<JabberPlugin*>(m_browser->m_client->protocol()->plugin())->EventVCard){
         JabberUserData *data = (JabberUserData*)(e->param());
-        if (!str_cmp(m_data.ID, data->ID) && !str_cmp(m_data.Node, data->Node)){
-            edtFirstName->setText(data->FirstName ? QString::fromUtf8(data->FirstName) : QString(""));
-            edtNick->setText(data->Nick ? QString::fromUtf8(data->Nick) : QString(""));
-            edtBirthday->setText(data->Bday ? QString::fromUtf8(data->Bday) : QString(""));
-            edtUrl->setText(data->Url ? QString::fromUtf8(data->Url) : QString(""));
+        if (!str_cmp(m_data.ID.ptr, data->ID.ptr) && !str_cmp(m_data.Node.ptr, data->Node.ptr)){
+            edtFirstName->setText(data->FirstName.ptr ? QString::fromUtf8(data->FirstName.ptr) : QString(""));
+            edtNick->setText(data->Nick.ptr ? QString::fromUtf8(data->Nick.ptr) : QString(""));
+            edtBirthday->setText(data->Bday.ptr ? QString::fromUtf8(data->Bday.ptr) : QString(""));
+            edtUrl->setText(data->Url.ptr ? QString::fromUtf8(data->Url.ptr) : QString(""));
             urlChanged(edtUrl->text());
-            edtEMail->setText(data->EMail ? QString::fromUtf8(data->EMail) : QString(""));
-            edtPhone->setText(data->Phone ? QString::fromUtf8(data->Phone) : QString(""));
+            edtEMail->setText(data->EMail.ptr ? QString::fromUtf8(data->EMail.ptr) : QString(""));
+            edtPhone->setText(data->Phone.ptr ? QString::fromUtf8(data->Phone.ptr) : QString(""));
         }
     }
     if (e->type() == static_cast<JabberPlugin*>(m_browser->m_client->protocol()->plugin())->EventDiscoItem){
@@ -272,12 +272,12 @@ void DiscoInfo::apply()
 {
     if (m_bVCard && m_about){
         m_about->apply(m_browser->m_client, &m_data);
-        set_str(&m_data.FirstName, edtFirstName->text().utf8());
-        set_str(&m_data.Nick, edtNick->text().utf8());
-        set_str(&m_data.Bday, edtBirthday->text().utf8());
-        set_str(&m_data.Url, edtUrl->text().utf8());
-        set_str(&m_data.EMail, edtEMail->text().utf8());
-        set_str(&m_data.Phone, edtPhone->text().utf8());
+        set_str(&m_data.FirstName.ptr, edtFirstName->text().utf8());
+        set_str(&m_data.Nick.ptr, edtNick->text().utf8());
+        set_str(&m_data.Bday.ptr, edtBirthday->text().utf8());
+        set_str(&m_data.Url.ptr, edtUrl->text().utf8());
+        set_str(&m_data.EMail.ptr, edtEMail->text().utf8());
+        set_str(&m_data.Phone.ptr, edtPhone->text().utf8());
         m_browser->m_client->setClientInfo(&m_data);
     }
 }

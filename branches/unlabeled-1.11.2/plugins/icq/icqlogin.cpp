@@ -53,7 +53,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
         m_socket->error_state(I18N_NOOP("Login error"), AuthError);
         break;
     case ICQ_SNACxLOGIN_REGISTER:
-        if (data.owner.Uin){
+        if (data.owner.Uin.value){
             m_socket->error_state(I18N_NOOP("Registered in no register state"));
             break;
         }
@@ -65,11 +65,11 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
         m_socket->connect(getServer(), getPort(), this);
         break;
     case ICQ_SNACxLOGIN_AUTHxKEYxRESPONSE:
-        if (data.owner.Screen){
+        if (data.owner.Screen.ptr){
             string md5_key;
             m_socket->readBuffer.unpackStr(md5_key);
             snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_MD5xLOGIN, false, false);
-            m_socket->writeBuffer.tlv(0x0001, data.owner.Screen);
+            m_socket->writeBuffer.tlv(0x0001, data.owner.Screen.ptr);
             MD5_CTX c;
             MD5_Init(&c);
             unsigned char md[MD5_DIGEST_LENGTH];
@@ -112,7 +112,7 @@ void ICQClient::chn_login()
         sendPacket();
         return;
     }
-    if (data.owner.Uin){
+    if (data.owner.Uin.value){
         string pswd = cryptPassword();
         log(L_DEBUG, "Login %lu [%s]", data.owner.Uin, pswd.c_str());
         char uin[20];
@@ -134,12 +134,12 @@ void ICQClient::chn_login()
         sendPacket();
         return;
     }
-    if (data.owner.Screen && *data.owner.Screen){
+    if (data.owner.Screen.ptr && *data.owner.Screen.ptr){
         flap(ICQ_CHNxNEW);
         m_socket->writeBuffer << 0x00000001L;
         sendPacket();
         snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_AUTHxREQUEST, false, false);
-        m_socket->writeBuffer.tlv(0x0001, data.owner.Screen);
+        m_socket->writeBuffer.tlv(0x0001, data.owner.Screen.ptr);
         m_socket->writeBuffer.tlv(0x004B);
         m_socket->writeBuffer.tlv(0x005A);
         sendPacket();

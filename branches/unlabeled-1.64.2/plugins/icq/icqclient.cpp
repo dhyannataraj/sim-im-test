@@ -134,11 +134,11 @@ typedef struct ICQUserData
 */
 static DataDef _icqUserData[] =
     {
-        { "", DATA_ULONG, 1, ICQ_SIGN },		// Sign
+        { "", DATA_ULONG, 1, DATA(1) },		// Sign
         { "LastSend", DATA_ULONG, 1, 0 },
         { "", DATA_UTF, 1, 0 },					// Alias
         { "", DATA_UTF, 1, 0 },					// Cellular
-        { "", DATA_ULONG, 1, ICQ_STATUS_OFFLINE },		// Status
+        { "", DATA_ULONG, 1, DATA(0xFFFF) },		// Status
         { "", DATA_ULONG, 1, 0 },				// Class
         { "StatusTime", DATA_ULONG, 1, 0 },
         { "", DATA_ULONG, 1, 0 },				// OnlineTime
@@ -152,7 +152,7 @@ static DataDef _icqUserData[] =
         { "Uin", DATA_ULONG, 1, 0 },
         { "Screen", DATA_STRING, 1, 0 },
         { "ID", DATA_ULONG, 1, 0 },
-        { "", DATA_BOOL, 1, 1 },				// bChecked
+        { "", DATA_BOOL, 1, DATA(1) },				// bChecked
         { "GroupID", DATA_ULONG, 1, 0 },
         { "Ignore", DATA_ULONG, 1, 0 },
         { "Visible", DATA_ULONG, 1, 0 },
@@ -161,7 +161,7 @@ static DataDef _icqUserData[] =
         { "", DATA_ULONG, 1, 0 },				// ContactInvisibleId
         { "WaitAuth", DATA_BOOL, 1, 0 },
         { "WantAuth", DATA_BOOL, 1, 0 },
-        { "WebAware", DATA_BOOL, 1, 1 },
+        { "WebAware", DATA_BOOL, 1, DATA(1) },
         { "InfoUpdateTime", DATA_ULONG, 1, 0 },
         { "PluginInfoTime", DATA_ULONG, 1, 0 },
         { "PluginStatusTime", DATA_ULONG, 1, 0 },
@@ -250,7 +250,7 @@ typedef struct ICQClientData
 static DataDef icqClientData[] =
     {
         { "Server", DATA_STRING, 1, 0 },
-        { "ServerPort", DATA_ULONG, 1, 5190 },
+        { "ServerPort", DATA_ULONG, 1, DATA(5190) },
         { "ContactTime", DATA_ULONG, 1, 0 },
         { "ContactLength", DATA_ULONG, 1, 0 },
         { "ContactInvisible", DATA_ULONG, 1, 0 },
@@ -263,15 +263,15 @@ static DataDef icqClientData[] =
         { "RandomChatGroup", DATA_ULONG, 1, 0 },
         { "", DATA_ULONG, 1, 0 },			// RandomChatGroupCurrent
         { "SendFormat", DATA_ULONG, 1, 0 },
-        { "AutoUpdate", DATA_BOOL, 1, 1 },
-        { "AutoReplyUpdate", DATA_BOOL, 1, 1 },
-        { "TypingNotification", DATA_BOOL, 1, 1 },
+        { "AutoUpdate", DATA_BOOL, 1, DATA(1) },
+        { "AutoReplyUpdate", DATA_BOOL, 1, DATA(1) },
+        { "TypingNotification", DATA_BOOL, 1, DATA(1) },
         { "AcceptInDND", DATA_BOOL, 1, 0 },
         { "AcceptInOccupied", DATA_BOOL, 1, 0 },
-        { "MinPort", DATA_ULONG, 1, 1024 },
-        { "MaxPort", DATA_ULONG, 1, 0xFFFE },
+        { "MinPort", DATA_ULONG, 1, DATA(1024) },
+        { "MaxPort", DATA_ULONG, 1, DATA(0xFFFE) },
         { "WarnAnonimously", DATA_BOOL, 1, 0 },
-        { "", DATA_STRUCT, sizeof(ICQUserData) / sizeof(unsigned), (unsigned)_icqUserData },
+        { "", DATA_STRUCT, sizeof(ICQUserData) / sizeof(Data), DATA(_icqUserData) },
         { NULL, 0, 0, 0 }
     };
 
@@ -333,14 +333,14 @@ ICQClient::ICQClient(Protocol *protocol, const char *cfg, bool bAIM)
 
     m_listener = NULL;
     load_data(icqClientData, &data, cfg);
-    if (data.owner.Uin)
+    if (data.owner.Uin.value != 0)
         m_bAIM = false;
-    if (data.owner.Screen && *data.owner.Screen)
+    if (data.owner.Screen.ptr && *data.owner.Screen.ptr)
         m_bAIM = true;
-    if (!m_bAIM && (data.owner.Encoding == NULL)){
+    if (!m_bAIM && (data.owner.Encoding.ptr == NULL)){
         const char *default_enc = static_cast<ICQPlugin*>(protocol->plugin())->getDefaultEncoding();
         if (default_enc && *default_enc){
-            set_str(&data.owner.Encoding, default_enc);
+            set_str(&data.owner.Encoding.ptr, default_enc);
         }else{
             QTextCodec *codec = _getCodec(NULL);
             if (codec && (QString(codec->name()).lower().find("utf") >= 0)){
@@ -350,14 +350,14 @@ ICQClient::ICQClient(Protocol *protocol, const char *cfg, bool bAIM)
                     EncodingDlg dlg(NULL, this);
                     dlg.exec();
                 }else{
-                    set_str(&data.owner.Encoding, def_enc.latin1());
+                    set_str(&data.owner.Encoding.ptr, def_enc.latin1());
                 }
             }
         }
     }
     m_bRosters = false;
     m_listRequest = NULL;
-    data.owner.DCcookie = rand();
+    data.owner.DCcookie.value = rand();
     char buff[64];
     snprintf(buff, sizeof(buff), "ICQ.%lu", data.owner.Uin);
     m_bBirthday = false;
@@ -417,11 +417,11 @@ bool ICQClient::compareData(void *d1, void *d2)
 {
     ICQUserData *data1 = (ICQUserData*)d1;
     ICQUserData *data2 = (ICQUserData*)d2;
-    if (data1->Uin)
-        return data1->Uin == data2->Uin;
-    if (data2->Uin)
+    if (data1->Uin.value)
+        return data1->Uin.value == data2->Uin.value;
+    if (data2->Uin.value)
         return false;
-    return strcmp(data1->Screen, data2->Screen) == 0;
+    return strcmp(data1->Screen.ptr, data2->Screen.ptr) == 0;
 }
 
 string ICQClient::getConfig()
@@ -446,12 +446,12 @@ string ICQClient::name()
     string res;
     if (m_bAIM){
         res = "AIM.";
-        if (data.owner.Screen)
-            res += data.owner.Screen;
+        if (data.owner.Screen.ptr)
+            res += data.owner.Screen.ptr;
         return res;
     }
     res = "ICQ.";
-    res += number(data.owner.Uin);
+    res += number(data.owner.Uin.value);
     return res;
 }
 
@@ -465,10 +465,10 @@ QWidget	*ICQClient::setupWnd()
 static const char aim_server[] = "login.oscar.aol.com";
 static const char icq_server[] = "login.icq.com";
 
-const char *ICQClient::getServer()
+const char *ICQClient::getServer() const
 {
-    if (data.Server && *data.Server)
-        return data.Server;
+    if (data.Server.ptr && *data.Server.ptr)
+        return data.Server.ptr;
     return m_bAIM ? aim_server : icq_server;
 }
 
@@ -476,35 +476,35 @@ void ICQClient::setServer(const char *server)
 {
     if (server && !strcmp(server, m_bAIM ? aim_server : icq_server))
         server = NULL;
-    set_str(&data.Server, server);
+    set_str(&data.Server.ptr, server);
 }
 
 void ICQClient::setUin(unsigned long uin)
 {
-    data.owner.Uin = uin;
+    data.owner.Uin.value = uin;
 }
 
 void ICQClient::setScreen(const char *screen)
 {
-    set_str(&data.owner.Screen, screen);
+    set_str(&data.owner.Screen.ptr, screen);
 }
 
 unsigned long ICQClient::getUin()
 {
-    return data.owner.Uin;
+    return data.owner.Uin.value;
 }
 
 bool ICQClient::isMyData(clientData *&_data, Contact *&contact)
 {
-    if (_data->Sign != ICQ_SIGN)
+    if (_data->Sign.value != ICQ_SIGN)
         return false;
     ICQUserData *data = (ICQUserData*)_data;
     if (m_bAIM){
-        if (data->Screen && this->data.owner.Screen &&
-                (QString(data->Screen).lower() == QString(this->data.owner.Screen).lower()))
+        if (data->Screen.ptr && this->data.owner.Screen.ptr &&
+                (QString(data->Screen.ptr).lower() == QString(this->data.owner.Screen.ptr).lower()))
             return false;
     }else{
-        if (data->Uin == this->data.owner.Uin)
+        if (data->Uin.value == this->data.owner.Uin.value)
             return false;
     }
     ICQUserData *my_data = findContact(screen(data).c_str(), NULL, false, contact);
@@ -523,7 +523,7 @@ bool ICQClient::createData(clientData *&_data, Contact *contact)
     ICQUserData *data = (ICQUserData*)_data;
     ICQUserData *new_data = (ICQUserData*)(contact->clientData.createData(this));
     new_data->Uin = data->Uin;
-    set_str(&new_data->Screen, data->Screen);
+    set_str(&new_data->Screen.ptr, data->Screen.ptr);
     _data = (clientData*)new_data;
     return true;
 }
@@ -647,7 +647,7 @@ void ICQClient::disconnected()
         ICQUserData *data;
         ClientDataIterator it(contact->clientData, this);
         while ((data = (ICQUserData*)(++it)) != NULL){
-            if ((data->Status != ICQ_STATUS_OFFLINE) || data->bInvisible){
+            if ((data->Status.value != ICQ_STATUS_OFFLINE) || data->bInvisible.value){
                 setOffline(data);
                 StatusMessage m;
                 m.setContact(contact->id());
@@ -900,7 +900,7 @@ unsigned long ICQClient::fullStatus(unsigned s)
         status = ICQ_STATUS_FFC;
         break;
     }
-    if (data.owner.WebAware)
+    if (data.owner.WebAware.bValue)
         status |= ICQ_STATUS_FxWEBxPRESENCE;
     if (getHideIP()){
         status |= ICQ_STATUS_FxHIDExIP | ICQ_STATUS_FxDIRECTxAUTH;
@@ -934,10 +934,10 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
     while ((contact = ++it) != NULL){
         ClientDataIterator it(contact->clientData, this);
         while ((data = (ICQUserData*)(++it)) != NULL){
-            if (uin && (data->Uin != uin))
+            if (uin && (data->Uin.value != uin))
                 continue;
             if ((uin == 0) &&
-                    ((data->Screen == NULL) || (s != data->Screen)))
+                    ((data->Screen.ptr == NULL) || (s != data->Screen.ptr)))
                 continue;
             bool bChanged = false;
             if (alias){
@@ -945,7 +945,7 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
                     QString name = QString::fromUtf8(alias);
                     bChanged = contact->setName(name);
                 }
-                set_str(&data->Alias, alias);
+                set_str(&data->Alias.ptr, alias);
             }
             if (grp){
                 if (contact->getGroup() != grp->id()){
@@ -973,22 +973,22 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
         while ((contact = ++it) != NULL){
             ClientDataIterator it(contact->clientData, c);
             while ((data = (ICQUserData*)(++it)) != NULL){
-                if (uin && (data->Uin != uin))
+                if (uin && (data->Uin.value != uin))
                     continue;
                 if ((uin == 0) &&
-                        ((data->Screen == NULL) || (s != data->Screen)))
+                        ((data->Screen.ptr == NULL) || (s != data->Screen.ptr)))
                     continue;
                 data = (ICQUserData*)(contact->clientData.createData(this));
-                data->Uin = uin;
+                data->Uin.value = uin;
                 if (uin == 0)
-                    set_str(&data->Screen, s.c_str());
+                    set_str(&data->Screen.ptr, s.c_str());
                 bool bChanged = false;
                 if (alias){
                     if (*alias){
                         QString name = QString::fromUtf8(alias);
                         bChanged = contact->setName(name);
                     }
-                    set_str(&data->Alias, alias);
+                    set_str(&data->Alias.ptr, alias);
                 }
                 if (grp){
                     if (grp->id() != contact->getGroup()){
@@ -1010,10 +1010,10 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
         while ((contact = ++it) != NULL){
             if (contact->getName().lower() == name){
                 ICQUserData *data = (ICQUserData*)(contact->clientData.createData(this));
-                data->Uin = uin;
+                data->Uin.value = uin;
                 if (uin == 0)
-                    set_str(&data->Screen, screen);
-                set_str(&data->Alias, alias);
+                    set_str(&data->Screen.ptr, screen);
+                set_str(&data->Alias.ptr, alias);
                 Event e(EventContactChanged, contact);
                 e.process();
                 return data;
@@ -1022,9 +1022,9 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
     }
     contact = getContacts()->contact(0, true);
     data = (ICQUserData*)(contact->clientData.createData(this));
-    data->Uin = uin;
+    data->Uin.value = uin;
     if (uin == 0)
-        set_str(&data->Screen, s.c_str());
+        set_str(&data->Screen.ptr, s.c_str());
     QString name;
     if (alias && *alias){
         name = QString::fromUtf8(alias);
@@ -1033,7 +1033,7 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
     }else{
         name = screen;
     }
-    set_str(&data->Alias, alias);
+    set_str(&data->Alias.ptr, alias);
     contact->setName(name);
     if (grp)
         contact->setGroup(grp->id());
@@ -1048,9 +1048,9 @@ ICQUserData *ICQClient::findGroup(unsigned id, const char *alias, Group *&grp)
     ICQUserData *data;
     while ((grp = ++it) != NULL){
         data = (ICQUserData*)(grp->clientData.getData(this));
-        if (data && (data->IcqID == id)){
+        if (data && (data->IcqID.value == id)){
             if (alias)
-                set_str(&data->Alias, alias);
+                set_str(&data->Alias.ptr, alias);
             return data;
         }
     }
@@ -1061,16 +1061,16 @@ ICQUserData *ICQClient::findGroup(unsigned id, const char *alias, Group *&grp)
     while ((grp = ++it) != NULL){
         if (grp->getName() == name){
             data = (ICQUserData*)(grp->clientData.createData(this));
-            data->IcqID = id;
-            set_str(&data->Alias, alias);
+            data->IcqID.value = id;
+            set_str(&data->Alias.ptr, alias);
             return data;
         }
     }
     grp = getContacts()->group(0, true);
     grp->setName(QString::fromUtf8(alias));
     data = (ICQUserData*)(grp->clientData.createData(this));
-    data->IcqID = id;
-    set_str(&data->Alias, alias);
+    data->IcqID.value = id;
+    set_str(&data->Alias.ptr, alias);
     Event e(EventGroupChanged, grp);
     e.process();
     return data;
@@ -1090,28 +1090,28 @@ void ICQClient::setOffline(ICQUserData *data)
         }
         ++it;
     }
-    if (data->Direct){
-        delete data->Direct;
-        data->Direct = NULL;
+    if (data->Direct.ptr){
+        delete (QObject*)data->Direct.ptr;
+        data->Direct.ptr = NULL;
     }
-    if (data->DirectPluginInfo){
-        delete data->DirectPluginInfo;
-        data->DirectPluginInfo = NULL;
+    if (data->DirectPluginInfo.ptr){
+        delete (QObject*)data->DirectPluginInfo.ptr;
+        data->DirectPluginInfo.ptr = NULL;
     }
-    if (data->DirectPluginStatus){
-        delete data->DirectPluginStatus;
-        data->DirectPluginStatus = NULL;
+    if (data->DirectPluginStatus.ptr){
+        delete (QObject*)data->DirectPluginStatus.ptr;
+        data->DirectPluginStatus.ptr = NULL;
     }
-    data->bNoDirect = false;
-    data->Status = ICQ_STATUS_OFFLINE;
-    data->Class  = 0;
-    data->bTyping = false;
-    data->bBadClient = false;
-    data->bInvisible = false;
+    data->bNoDirect.bValue = false;
+    data->Status.value = ICQ_STATUS_OFFLINE;
+    data->Class.value  = 0;
+    data->bTyping.bValue = false;
+    data->bBadClient.bValue = false;
+    data->bInvisible.bValue = false;
     time_t now;
     time(&now);
-    data->StatusTime  = now;
-    set_str(&data->AutoReply, NULL);
+    data->StatusTime.value  = now;
+    set_str(&data->AutoReply.ptr, NULL);
 }
 
 static void addIcon(string *s, const char *icon, const char *statusIcon)
@@ -1137,7 +1137,7 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
 {
     ICQUserData *data = (ICQUserData*)(_data);
     unsigned status = STATUS_ONLINE;
-    unsigned s = data->Status;
+    unsigned s = data->Status.value;
     if (s == ICQ_STATUS_OFFLINE){
         status = STATUS_OFFLINE;
     }else if (s & ICQ_STATUS_DND){
@@ -1153,7 +1153,7 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
     }
     unsigned iconStatus = status;
     const char *dicon = NULL;
-    if (data->Uin){
+    if (data->Uin.value){
         if ((iconStatus == STATUS_ONLINE) && (s & ICQ_STATUS_FxPRIVATE)){
             dicon = "ICQ_invisible";
         }else{
@@ -1171,7 +1171,7 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
         }else{
             status = STATUS_ONLINE;
             dicon = "AIM_online";
-            if (data->Class & CLASS_AWAY){
+            if (data->Class.value & CLASS_AWAY){
                 status = STATUS_AWAY;
                 dicon = "AIM_away";
             }
@@ -1199,7 +1199,7 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
             statusIcon = dicon;
         }
     }
-    if ((status == STATUS_OFFLINE) && data->bInvisible){
+    if ((status == STATUS_OFFLINE) && data->bInvisible.bValue){
         status = STATUS_INVISIBLE;
         if (status > curStatus)
             curStatus = status;
@@ -1207,32 +1207,32 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
     if (icons){
         if ((iconStatus != STATUS_ONLINE) && (iconStatus != STATUS_OFFLINE) && (s & ICQ_STATUS_FxPRIVATE))
             addIcon(icons, "ICQ_invisible", statusIcon);
-        if (data->bInvisible)
+        if (data->bInvisible.bValue)
             addIcon(icons, "ICQ_invisible", statusIcon);
-        if (data->Status & ICQ_STATUS_FxBIRTHDAY)
+        if (data->Status.value & ICQ_STATUS_FxBIRTHDAY)
             addIcon(icons, "birthday", statusIcon);
-        if (data->FollowMe == 1)
+        if (data->FollowMe.value == 1)
             addIcon(icons, "phone", statusIcon);
-        if (data->FollowMe == 2)
+        if (data->FollowMe.value == 2)
             addIcon(icons, "nophone", statusIcon);
         if (status != STATUS_OFFLINE){
-            if (data->SharedFiles)
+            if (data->SharedFiles.bValue)
                 addIcon(icons, "sharedfiles", statusIcon);
-            if (data->ICQPhone == 1)
+            if (data->ICQPhone.value == 1)
                 addIcon(icons, "icqphone", statusIcon);
-            if (data->ICQPhone == 2)
+            if (data->ICQPhone.value == 2)
                 addIcon(icons, "icqphonebusy", statusIcon);
         }
-        if (data->bTyping)
+        if (data->bTyping.bValue)
             addIcon(icons, "typing", statusIcon);
-        if (data->Direct && data->Direct->isSecure())
+        if (data->Direct.ptr && ((DirectClient*)(data->Direct.ptr))->isSecure())
             addIcon(icons, "encrypted", statusIcon);
     }
-    if (data->InvisibleId)
+    if (data->InvisibleId.value)
         style |= CONTACT_STRIKEOUT;
-    if (data->VisibleId)
+    if (data->VisibleId.value)
         style |= CONTACT_ITALIC;
-    if (data->WaitAuth)
+    if (data->WaitAuth.bValue)
         style |= CONTACT_UNDERLINE;
 }
 
@@ -1241,9 +1241,9 @@ void ICQClient::ping()
     if (getState() == Connected){
         bool bBirthday = false;
         if (!m_bAIM){
-            int year  = data.owner.BirthYear;
-            int month = data.owner.BirthMonth;
-            int day   = data.owner.BirthDay;
+            int year  = data.owner.BirthYear.value;
+            int month = data.owner.BirthMonth.value;
+            int day   = data.owner.BirthDay.value;
             if (day && month && year){
                 time_t now;
                 time(&now);
@@ -1273,52 +1273,52 @@ void ICQClient::setupContact(Contact *contact, void *_data)
 {
     ICQUserData *data = (ICQUserData*)_data;
     QString phones;
-    if (data->HomePhone){
-        phones += toUnicode(trimPhone(data->HomePhone).c_str(), data);
+    if (data->HomePhone.ptr){
+        phones += toUnicode(trimPhone(data->HomePhone.ptr).c_str(), data);
         phones += ",Home Phone,";
         phones += number(PHONE).c_str();
     }
-    if (data->HomeFax){
+    if (data->HomeFax.ptr){
         if (phones.length())
             phones += ";";
-        phones += toUnicode(trimPhone(data->HomeFax).c_str(), data);
+        phones += toUnicode(trimPhone(data->HomeFax.ptr).c_str(), data);
         phones += ",Home Fax,";
         phones += number(FAX).c_str();
     }
-    if (data->WorkPhone){
+    if (data->WorkPhone.ptr){
         if (phones.length())
             phones += ";";
-        phones += toUnicode(trimPhone(data->WorkPhone).c_str(), data);
+        phones += toUnicode(trimPhone(data->WorkPhone.ptr).c_str(), data);
         phones += ",Work Phone,";
         phones += number(PHONE).c_str();
     }
-    if (data->WorkFax){
+    if (data->WorkFax.ptr){
         if (phones.length())
             phones += ";";
-        phones += toUnicode(trimPhone(data->WorkFax).c_str(), data);
+        phones += toUnicode(trimPhone(data->WorkFax.ptr).c_str(), data);
         phones += ",Work Fax,";
         phones += number(FAX).c_str();
     }
-    if (data->PrivateCellular){
+    if (data->PrivateCellular.ptr){
         if (phones.length())
             phones += ";";
-        phones += toUnicode(trimPhone(data->PrivateCellular).c_str(), data);
+        phones += toUnicode(trimPhone(data->PrivateCellular.ptr).c_str(), data);
         phones += ",Private Cellular,";
         phones += number(CELLULAR).c_str();
     }
-    if (data->PhoneBook){
+    if (data->PhoneBook.ptr){
         if (phones.length())
             phones += ";";
-        phones += toUnicode(data->PhoneBook, data);
+        phones += toUnicode(data->PhoneBook.ptr, data);
     }
     string n = name();
     if (contact != getContacts()->owner()){
         contact->setPhones(phones, n.c_str());
         QString mails;
-        if (data->EMail)
-            mails += toUnicode(trim(data->EMail).c_str(), data);
-        if (data->EMails){
-            string emails = data->EMails;
+        if (data->EMail.ptr)
+            mails += toUnicode(trim(data->EMail.ptr).c_str(), data);
+        if (data->EMails.ptr){
+            string emails = data->EMails.ptr;
             while (emails.length()){
                 string mailItem = getToken(emails, ';', false);
                 string mail = trim(getToken(mailItem, '/').c_str());
@@ -1331,19 +1331,19 @@ void ICQClient::setupContact(Contact *contact, void *_data)
         }
         contact->setEMails(mails, n.c_str());
     }
-    QString firstName = toUnicode(data->FirstName, data);
+    QString firstName = toUnicode(data->FirstName.ptr, data);
     if (firstName.length())
         contact->setFirstName(firstName, n.c_str());
-    QString lastName = toUnicode(data->LastName, data);
+    QString lastName = toUnicode(data->LastName.ptr, data);
     if (lastName.length())
         contact->setLastName(lastName, n.c_str());
     if (contact->getName().isEmpty())
-        contact->setName(QString::number(data->Uin));
-    QString nick = toUnicode(data->Nick, data);
+        contact->setName(QString::number(data->Uin.value));
+    QString nick = toUnicode(data->Nick.ptr, data);
     if (nick.isEmpty())
-        nick = QString::fromUtf8(data->Alias);
+        nick = QString::fromUtf8(data->Alias.ptr);
     if (!nick.isEmpty()){
-        QString name = QString::number(data->Uin);
+        QString name = QString::number(data->Uin.value);
         if (name == contact->getName())
             contact->setName(nick);
     }
@@ -1364,7 +1364,7 @@ string ICQClient::trimPhone(const char *from)
 QTextCodec *ICQClient::getCodec(const char *encoding)
 {
     if ((encoding == NULL) || (*encoding == 0))
-        encoding = data.owner.Encoding;
+        encoding = data.owner.Encoding.ptr;
     return _getCodec(encoding);
 }
 
@@ -1418,11 +1418,11 @@ QString ICQClient::toUnicode(const char *str, ICQUserData *client_data)
         return QString();
     if (client_data != NULL)
     {
-        if (client_data->Uin == 0)
+        if (client_data->Uin.value == 0)
             return QString::fromUtf8(str);
         else
         {
-            QTextCodec *codec = getCodec(client_data->Encoding);
+            QTextCodec *codec = getCodec(client_data->Encoding.ptr);
             return codec->toUnicode(str, strlen(str));
         }
     }
@@ -1441,7 +1441,7 @@ string ICQClient::fromUnicode(const QString &str, ICQUserData *client_data)
     QString s = str;
     s.replace(QRegExp("\r"), "");
     s.replace(QRegExp("\n"), "\r\n");
-    QTextCodec *codec = getCodec(client_data ? client_data->Encoding : NULL);
+    QTextCodec *codec = getCodec(client_data ? client_data->Encoding.ptr : NULL);
     QCString cstr = codec->fromUnicode(s);
     res = (const char*)cstr;
     return res;
@@ -1466,7 +1466,7 @@ QString ICQClient::contactTip(void *_data)
         if (!strcmp(statusIcon, "ICQ_invisible")){
             res += " ";
             res += i18n("Invisible");
-        }else  if (data->Uin){
+        }else  if (data->Uin.value){
             for (const CommandDef *cmd = ICQProtocol::_statusList(); cmd->text; cmd++){
                 if (!strcmp(cmd->icon, statusIcon)){
                     res += " ";
@@ -1489,57 +1489,57 @@ QString ICQClient::contactTip(void *_data)
         }
     }
     res += "<br>";
-    if (data->Uin){
+    if (data->Uin.value){
         res += "UIN: <b>";
-        res += number(data->Uin).c_str();
+        res += number(data->Uin.value).c_str();
         res += "</b>";
     }else{
         res += "<b>";
-        res += data->Screen;
+        res += data->Screen.ptr;
         res += "</b>";
     }
-    if (data->WarningLevel){
+    if (data->WarningLevel.value){
         res += "<br>";
         res += i18n("Warning level");
         res += ": <b>";
-        res += QString::number(warnLevel((unsigned short)(data->WarningLevel)));
+        res += QString::number(warnLevel((unsigned short)(data->WarningLevel.value)));
         res += "% </b></br>";
     }
-    if (data->Status == ICQ_STATUS_OFFLINE){
-        if (data->StatusTime){
+    if (data->Status.value == ICQ_STATUS_OFFLINE){
+        if (data->StatusTime.value){
             res += "<br><font size=-1>";
             res += i18n("Last online");
             res += ": </font>";
-            res += formatDateTime(data->StatusTime);
+            res += formatDateTime(data->StatusTime.value);
         }
     }else{
-        if (data->OnlineTime){
+        if (data->OnlineTime.value){
             res += "<br><font size=-1>";
             res += i18n("Online");
             res += ": </font>";
-            res += formatDateTime(data->OnlineTime);
+            res += formatDateTime(data->OnlineTime.value);
         }
-        if (data->Status & (ICQ_STATUS_AWAY | ICQ_STATUS_NA)){
+        if (data->Status.value & (ICQ_STATUS_AWAY | ICQ_STATUS_NA)){
             res += "<br><font size=-1>";
             res += statusText;
             res += ": </font>";
-            res += formatDateTime(data->StatusTime);
+            res += formatDateTime(data->StatusTime.value);
         }
     }
-    if (data->IP){
+    if (data->IP.ptr){
         res += "<br>";
-        res += formatAddr(data->IP, data->Port);
+        res += formatAddr(data->IP, data->Port.value);
     }
-    if ((data->RealIP) && ((data->IP == NULL) || (get_ip(data->IP) != get_ip(data->RealIP)))){
+    if ((data->RealIP.ptr) && ((data->IP.ptr == NULL) || (get_ip(data->IP) != get_ip(data->RealIP)))){
         res += "<br>";
-        res += formatAddr(data->RealIP, data->Port);
+        res += formatAddr(data->RealIP, data->Port.value);
     }
     string client_name = clientName(data);
     if (client_name.length()){
         res += "<br>";
         res += quoteString(client_name.c_str());
     }
-    if (data->PictureWidth && data->PictureHeight){
+    if (data->PictureWidth.value && data->PictureHeight.value){
         QImage img(pictureFile(data));
         if (!img.isNull()){
             QPixmap pict;
@@ -1565,9 +1565,9 @@ QString ICQClient::contactTip(void *_data)
             res += "\">";
         }
     }
-    if (data->AutoReply && *data->AutoReply){
+    if (data->AutoReply.ptr && *data->AutoReply.ptr){
         res += "<br><br>";
-        res += quoteString(toUnicode(data->AutoReply, data));
+        res += quoteString(toUnicode(data->AutoReply.ptr, data));
     }
     return res;
 }
@@ -1582,7 +1582,7 @@ unsigned ICQClient::warnLevel(unsigned short level)
 
 bool ICQClient::hasCap(ICQUserData *data, int n)
 {
-    return (data->Caps & (1 << n)) != 0;
+    return (data->Caps.value & (1 << n)) != 0;
 }
 
 static string verString(unsigned ver)
@@ -1614,9 +1614,9 @@ string ICQClient::clientName(ICQUserData *data)
 {
     string res;
     char b[32];
-    if (data->Version)
+    if (data->Version.value)
     {
-        snprintf(b, sizeof(b), "v%lu ", data->Version);
+        snprintf(b, sizeof(b), "v%lu ", data->Version.value);
         res = b;
     }
     if (hasCap(data, CAP_TRIL_CRYPT) || hasCap(data, CAP_TRILLIAN))
@@ -1627,8 +1627,8 @@ string ICQClient::clientName(ICQUserData *data)
 
     if (hasCap(data, CAP_SIMOLD))
     {
-        int hiVersion = (data->Build >> 6) - 1;
-        unsigned loVersion = data->Build & 0x1F;
+        int hiVersion = (data->Build.value >> 6) - 1;
+        unsigned loVersion = data->Build.value & 0x1F;
         if ((hiVersion < 0) || ((hiVersion == 0) && (loVersion == 0))){
             res += "Kopete";
             return res;
@@ -1640,19 +1640,19 @@ string ICQClient::clientName(ICQUserData *data)
 
     if (hasCap(data, CAP_SIM))
     {
-        unsigned ver1 = (data->Build >> 24) & 0xFF;
-        unsigned ver2 = (data->Build >> 16) & 0xFF;
-        unsigned ver3 = (data->Build >> 8) & 0xFF;
+        unsigned ver1 = (data->Build.value >> 24) & 0xFF;
+        unsigned ver2 = (data->Build.value >> 16) & 0xFF;
+        unsigned ver3 = (data->Build.value >> 8) & 0xFF;
         if (ver3){
             snprintf(b, sizeof(b), "SIM %u.%u.%u", ver1, ver2, ver3);
         }else{
             snprintf(b, sizeof(b), "SIM %u.%u", ver1, ver2);
         }
         res += b;
-        if (data->Build & 0x80)
+        if (data->Build.value & 0x80)
             res += "/win32";
 
-        if (data->Build & 0x40)
+        if (data->Build.value & 0x40)
 
             res += "/MacOS X";
         return res;
@@ -1660,22 +1660,22 @@ string ICQClient::clientName(ICQUserData *data)
 
     if (hasCap(data, CAP_LICQ))
     {
-        unsigned ver1 = (data->Build >> 24) & 0xFF;
-        unsigned ver2 = (data->Build >> 16) & 0xFF;
-        unsigned ver3 = (data->Build >> 8) & 0xFF;
+        unsigned ver1 = (data->Build.value >> 24) & 0xFF;
+        unsigned ver2 = (data->Build.value >> 16) & 0xFF;
+        unsigned ver3 = (data->Build.value >> 8) & 0xFF;
         if (ver3){
             snprintf(b, sizeof(b), "Licq %u.%u.%u", ver1, ver2, ver3);
         }else{
             snprintf(b, sizeof(b), "Licq %u.%u", ver1, ver2);
         }
         res += b;
-        if (data->Build & 0xFF)
+        if (data->Build.value & 0xFF)
             res += "/SSL";
         return res;
     }
     if (hasCap(data, CAP_TYPING))
     {
-        switch (data->Version){
+        switch (data->Version.value){
         case 10:
             res += "ICQ 2003b";
             break;
@@ -1699,54 +1699,54 @@ string ICQClient::clientName(ICQUserData *data)
         res += "gaim";
         return res;
     }
-    if ((data->InfoUpdateTime & 0xFF7F0000L) == 0x7D000000L){
-        unsigned ver = data->InfoUpdateTime & 0xFFFF;
+    if ((data->InfoUpdateTime.value & 0xFF7F0000L) == 0x7D000000L){
+        unsigned ver = data->InfoUpdateTime.value & 0xFFFF;
         if (ver % 10){
             snprintf(b, sizeof(b), "Licq %u.%u.%u", ver / 1000, (ver / 10) % 100, ver % 10);
         }else{
             snprintf(b, sizeof(b), "Licq %u.%u", ver / 1000, (ver / 10) % 100);
         }
         res += b;
-        if (data->InfoUpdateTime & 0x00800000L)
+        if (data->InfoUpdateTime.value & 0x00800000L)
             res += "/SSL";
         return res;
     }
-    switch (data->InfoUpdateTime){
+    switch (data->InfoUpdateTime.value){
     case 0xFFFFFFFFL:
-        if ((data->PluginStatusTime == 0xFFFFFFFFL) && (data->PluginInfoTime == 0xFFFFFFFFL)){
+        if ((data->PluginStatusTime.value == 0xFFFFFFFFL) && (data->PluginInfoTime.value == 0xFFFFFFFFL)){
             res += "GAIM";
             return res;
         }
         res += "MIRANDA";
-        res += verString(data->PluginInfoTime & 0xFFFFFF);
-        if (data->PluginInfoTime & 0x80000000)
+        res += verString(data->PluginInfoTime.value & 0xFFFFFF);
+        if (data->PluginInfoTime.value & 0x80000000)
             res += " alpha";
         return res;
     case 0xFFFFFF8FL:
         res += "StrICQ";
-        res += verString(data->PluginInfoTime & 0xFFFFFF);
+        res += verString(data->PluginInfoTime.value & 0xFFFFFF);
         return res;
     case 0xFFFFFF42L:
         res += "mICQ";
         return res;
     case 0xFFFFFFBEL:
         res += "alicq";
-        res += verString(data->PluginInfoTime & 0xFFFF);
+        res += verString(data->PluginInfoTime.value & 0xFFFF);
         return res;
     case 0xFFFFFF7FL:
         res += "&RQ";
-        res += verString(data->PluginInfoTime & 0xFFFF);
+        res += verString(data->PluginInfoTime.value & 0xFFFF);
         return res;
     case 0xFFFFFFABL:
         res += "YSM";
-        res += verString(data->PluginInfoTime & 0xFFFF);
+        res += verString(data->PluginInfoTime.value & 0xFFFF);
         return res;
     case 0x04031980L:
-        snprintf(b, sizeof(b), "vICQ 0.43.%lu.%lu", data->PluginInfoTime & 0xffff, data->PluginInfoTime & (0x7fff0000) >> 16);
+        snprintf(b, sizeof(b), "vICQ 0.43.%lu.%lu", data->PluginInfoTime.value & 0xffff, data->PluginInfoTime.value & (0x7fff0000) >> 16);
         res += b;
         return res;
     case 0x3AA773EEL:
-        if ((data->PluginStatusTime == 0x3AA66380L) && (data->PluginInfoTime == 0x3A877A42L))
+        if ((data->PluginStatusTime.value == 0x3AA66380L) && (data->PluginInfoTime.value == 0x3A877A42L))
         {
             res += "libicq2000";
             return res;
@@ -1754,9 +1754,9 @@ string ICQClient::clientName(ICQUserData *data)
         break;
     }
 
-    if (data->InfoUpdateTime &&
-            (data->InfoUpdateTime == data->PluginStatusTime) &&
-            (data->PluginStatusTime == data->PluginInfoTime) && (data->Caps == 0)){
+    if (data->InfoUpdateTime.value &&
+            (data->InfoUpdateTime.value == data->PluginStatusTime.value) &&
+            (data->PluginStatusTime.value == data->PluginInfoTime.value) && (data->Caps.value == 0)){
         res += "vICQ";
         return res;
     }
@@ -1772,7 +1772,7 @@ string ICQClient::clientName(ICQUserData *data)
         res += "ICQ 2001b";
         return res;
     }
-    if ((data->Version == 7) && hasCap(data, CAP_RTF)){
+    if ((data->Version.value == 7) && hasCap(data, CAP_RTF)){
         res += "GnomeICU";
         return res;
     }
@@ -2214,13 +2214,13 @@ static CommandDef aimConfigWnd[] =
 CommandDef *ICQClient::infoWindows(Contact*, void *_data)
 {
     ICQUserData *data = (ICQUserData*)_data;
-    CommandDef *def = data->Uin ? icqWnd : aimWnd;
+    CommandDef *def = data->Uin.value ? icqWnd : aimWnd;
     QString name = i18n(protocol()->description()->text);
     name += " ";
-    if (data->Uin){
-        name += QString::number(data->Uin);
+    if (data->Uin.value){
+        name += QString::number(data->Uin.value);
     }else{
-        name += data->Screen;
+        name += data->Screen.ptr;
     }
     def->text_wrk = strdup(name.utf8());
     return def;
@@ -2232,10 +2232,10 @@ CommandDef *ICQClient::configWindows()
     QString name = i18n(protocol()->description()->text);
     name += " ";
     if (m_bAIM){
-        name += QString::fromUtf8(data.owner.Screen);
+        name += QString::fromUtf8(data.owner.Screen.ptr);
         def = aimConfigWnd;
     }else{
-        name += QString::number(data.owner.Uin);
+        name += QString::number(data.owner.Uin.value);
     }
     def->text_wrk = strdup(name.utf8());
     return def;
@@ -2246,7 +2246,7 @@ QWidget *ICQClient::infoWindow(QWidget *parent, Contact*, void *_data, unsigned 
     ICQUserData *data = (ICQUserData*)_data;
     switch (id){
     case MAIN_INFO:
-        if (data->Uin)
+        if (data->Uin.value)
             return new ICQInfo(parent, data, this);
         return new AIMInfo(parent, data, this);
     case HOME_INFO:
@@ -2314,11 +2314,11 @@ void ICQClient::updateInfo(Contact *contact, void *_data)
     }
     if (data == NULL)
         data = &this->data.owner;
-    if (data->Uin){
-        addFullInfoRequest(data->Uin, false);
-        addPluginInfoRequest(data->Uin, PLUGIN_QUERYxINFO);
-        addPluginInfoRequest(data->Uin, PLUGIN_QUERYxSTATUS);
-        addPluginInfoRequest(data->Uin, PLUGIN_AR);
+    if (data->Uin.value){
+        addFullInfoRequest(data->Uin.value, false);
+        addPluginInfoRequest(data->Uin.value, PLUGIN_QUERYxINFO);
+        addPluginInfoRequest(data->Uin.value, PLUGIN_QUERYxSTATUS);
+        addPluginInfoRequest(data->Uin.value, PLUGIN_AR);
     }else{
         fetchProfile(data);
     }
@@ -2344,7 +2344,7 @@ void *ICQClient::processEvent(Event *e)
             ICQUserData *data;
             ClientDataIterator itc(contact->clientData, this);
             while ((data = (ICQUserData*)(++itc)) != NULL){
-                if (!strcmp(data->Screen, addr)){
+                if (!strcmp(data->Screen.ptr, addr)){
                     contact->clientData.freeData(data);
                     ClientDataIterator itc(contact->clientData);
                     if (++itc == NULL)
@@ -2360,10 +2360,10 @@ void *ICQClient::processEvent(Event *e)
         ICQUserData *data;
         ClientDataIterator it(contact->clientData, this);
         while ((data = (ICQUserData*)(++it)) != NULL){
-            if (data->RealIP)
-                return (void*)(data->RealIP);
-            if (data->IP)
-                return (void*)(data->IP);
+            if (data->RealIP.ptr)
+                return (void*)(data->RealIP.ptr);
+            if (data->IP.ptr)
+                return (void*)(data->IP.ptr);
         }
         return NULL;
     }
@@ -2443,14 +2443,14 @@ void *ICQClient::processEvent(Event *e)
         if (ar.bDirect){
             Contact *contact;
             ICQUserData *data = findContact(ar.screen.c_str(), NULL, false, contact);
-            if (data && data->Direct){
+            if (data && data->Direct.ptr){
                 QString answer;
-                if (data->Version >= 10){
+                if (data->Version.value >= 10){
                     answer = t->tmpl.utf8();
                 }else{
                     answer = fromUnicode(t->tmpl, data).c_str();
                 }
-                data->Direct->sendAck((unsigned short)(ar.id.id_l), ar.type, ar.flags, answer);
+                ((DirectClient*)(data->Direct.ptr))->sendAck((unsigned short)(ar.id.id_l), ar.type, ar.flags, answer);
             }
         }else{
             Buffer copy;
@@ -2470,27 +2470,27 @@ void *ICQClient::processEvent(Event *e)
             if (contact == getContacts()->owner()){
                 time_t now;
                 time(&now);
-                if (getContacts()->owner()->getPhones() != QString::fromUtf8(data.owner.PhoneBook)){
-                    set_str(&data.owner.PhoneBook, getContacts()->owner()->getPhones().utf8());
-                    data.owner.PluginInfoTime = now;
+                if (getContacts()->owner()->getPhones() != QString::fromUtf8(data.owner.PhoneBook.ptr)){
+                    set_str(&data.owner.PhoneBook.ptr, getContacts()->owner()->getPhones().utf8());
+                    data.owner.PluginInfoTime.value = now;
                     sendPluginInfoUpdate(PLUGIN_PHONEBOOK);
                 }
-                if (getPicture() != QString::fromUtf8(data.owner.Picture)){
-                    set_str(&data.owner.Picture, getPicture().utf8());
-                    data.owner.PluginInfoTime = now;
+                if (getPicture() != QString::fromUtf8(data.owner.Picture.ptr)){
+                    set_str(&data.owner.Picture.ptr, getPicture().utf8());
+                    data.owner.PluginInfoTime.value = now;
                     sendPluginInfoUpdate(PLUGIN_PICTURE);
                 }
-                if (getContacts()->owner()->getPhoneStatus() != data.owner.FollowMe){
-                    data.owner.FollowMe = getContacts()->owner()->getPhoneStatus();
-                    data.owner.PluginStatusTime = now;
-                    sendPluginStatusUpdate(PLUGIN_FOLLOWME, data.owner.FollowMe);
+                if (getContacts()->owner()->getPhoneStatus() != data.owner.FollowMe.value){
+                    data.owner.FollowMe.value = getContacts()->owner()->getPhoneStatus();
+                    data.owner.PluginStatusTime.value = now;
+                    sendPluginStatusUpdate(PLUGIN_FOLLOWME, data.owner.FollowMe.value);
                 }
                 return NULL;
             }
             ICQUserData *data;
             ClientDataIterator it(contact->clientData, this);
             while ((data = (ICQUserData*)(++it)) != NULL){
-                if (data->Uin || data->ProfileFetch)
+                if (data->Uin.value || data->ProfileFetch.bValue)
                     continue;
                 fetchProfile(data);
             }
@@ -2502,7 +2502,7 @@ void *ICQClient::processEvent(Event *e)
         ICQUserData *data;
         ClientDataIterator it(contact->clientData, this);
         while ((data = (ICQUserData*)(++it)) != NULL){
-            if (data->IcqID == 0)
+            if (data->IcqID.value == 0)
                 continue;
             list<ListRequest>::iterator it;
             for (it = listRequests.begin(); it != listRequests.end(); it++){
@@ -2516,11 +2516,11 @@ void *ICQClient::processEvent(Event *e)
             ListRequest lr;
             lr.type = LIST_USER_DELETED;
             lr.screen = screen(data);
-            lr.icq_id = (unsigned short)(data->IcqID);
-            lr.grp_id = (unsigned short)(data->GrpId);
-            lr.visible_id   = (unsigned short)(data->ContactVisibleId);
-            lr.invisible_id = (unsigned short)(data->ContactInvisibleId);
-            lr.ignore_id    = (unsigned short)(data->IgnoreId);
+            lr.icq_id = (unsigned short)(data->IcqID.value);
+            lr.grp_id = (unsigned short)(data->GrpId.value);
+            lr.visible_id   = (unsigned short)(data->ContactVisibleId.value);
+            lr.invisible_id = (unsigned short)(data->ContactInvisibleId.value);
+            lr.ignore_id    = (unsigned short)(data->IgnoreId.value);
             listRequests.push_back(lr);
             processListRequest();
         }
@@ -2537,7 +2537,7 @@ void *ICQClient::processEvent(Event *e)
             if (data){
                 ListRequest lr;
                 lr.type   = LIST_GROUP_DELETED;
-                lr.icq_id = (unsigned short)(data->IcqID);
+                lr.icq_id = (unsigned short)(data->IcqID.value);
                 listRequests.push_back(lr);
                 processListRequest();
             }
@@ -2571,7 +2571,7 @@ void *ICQClient::processEvent(Event *e)
                 ICQUserData *data;
                 ClientDataIterator it(contact->clientData, this);
                 while ((data = (ICQUserData*)(++it)) != NULL){
-                    if (data->Direct && data->Direct->cancelMessage(msg))
+                    if (data->Direct.ptr && ((DirectClient*)(data->Direct.ptr))->cancelMessage(msg))
                         return msg;
                 }
             }
@@ -2633,7 +2633,7 @@ void *ICQClient::processEvent(Event *e)
                 nEncoding = 0;
                 cmds[nEncoding].id = 1;
                 cmds[nEncoding].text = I18N_NOOP("System");
-                if (data->Encoding == NULL)
+                if (data->Encoding.ptr == NULL)
                     cmds[nEncoding].flags = COMMAND_CHECKED;
                 nEncoding++;
                 main.sort();
@@ -2643,7 +2643,7 @@ void *ICQClient::processEvent(Event *e)
                     str = str.mid(n + 1);
                     n = str.find(')');
                     str = str.left(n);
-                    if (data->Encoding && !strcmp(data->Encoding, str.latin1()))
+                    if (data->Encoding.ptr && !strcmp(data->Encoding.ptr, str.latin1()))
                         cmds[nEncoding].flags = COMMAND_CHECKED;
                     cmds[nEncoding].id = nEncoding + 1;
                     cmds[nEncoding].text = "_";
@@ -2660,7 +2660,7 @@ void *ICQClient::processEvent(Event *e)
                     str = str.mid(n + 1);
                     n = str.find(')');
                     str = str.left(n);
-                    if (data->Encoding && !strcmp(data->Encoding, str.latin1()))
+                    if (data->Encoding.ptr && !strcmp(data->Encoding.ptr, str.latin1()))
                         cmds[nEncoding].flags = COMMAND_CHECKED;
                     cmds[nEncoding].id = nEncoding;
                     cmds[nEncoding].text = "_";
@@ -2687,12 +2687,12 @@ void *ICQClient::processEvent(Event *e)
                 ICQUserData *data;
                 ClientDataIterator itc(contact->clientData, this);
                 while ((data = (ICQUserData*)(++itc)) != NULL){
-                    if (data->Uin == 0)
+                    if (data->Uin.value == 0)
                         continue;
-                    if (data->Status != ICQ_STATUS_OFFLINE)
+                    if (data->Status.value != ICQ_STATUS_OFFLINE)
                         continue;
                     bICQ = true;
-                    if (data->bInvisible){
+                    if (data->bInvisible.bValue){
                         cmd->popup_id = MenuCheckInvisible;
                         return e->param();
                     }
@@ -2746,7 +2746,7 @@ void *ICQClient::processEvent(Event *e)
                 ClientDataIterator it(contact->clientData, this);
                 while ((data = (ICQUserData*)(++it)) != NULL){
                     bOK = true;
-                    if (data->VisibleId)
+                    if (data->VisibleId.value)
                         cmd->flags |= COMMAND_CHECKED;
                 }
                 return bOK ? e->param() : NULL;
@@ -2769,7 +2769,7 @@ void *ICQClient::processEvent(Event *e)
                 ClientDataIterator it(contact->clientData, this);
                 while ((data = (ICQUserData*)(++it)) != NULL){
                     bOK = true;
-                    if (data->InvisibleId)
+                    if (data->InvisibleId.value)
                         cmd->flags |= COMMAND_CHECKED;
                 }
                 return bOK ? e->param() : NULL;
@@ -2837,7 +2837,7 @@ void *ICQClient::processEvent(Event *e)
             ClientDataIterator it(contact->clientData, this);
             bool bChanged = false;
             while ((data = (ICQUserData*)(++it)) != NULL){
-                if (set_str(&data->Encoding, codec))
+                if (set_str(&data->Encoding.ptr, codec))
                     bChanged = true;
             }
             if (bChanged){
@@ -2859,11 +2859,11 @@ void *ICQClient::processEvent(Event *e)
                     ClientDataIterator itd(contact->clientData, this);
                     ICQUserData *data;
                     while ((data = (ICQUserData*)(++itd)) != NULL){
-                        if (data->Uin == 0)
+                        if (data->Uin.value == 0)
                             continue;
-                        if (data->Status != ICQ_STATUS_OFFLINE)
+                        if (data->Status.value != ICQ_STATUS_OFFLINE)
                             continue;
-                        if ((cmd->id == CmdCheckInvisible) && (data->bInvisible == 0))
+                        if ((cmd->id == CmdCheckInvisible) && (data->bInvisible.bValue == 0))
                             continue;
                         Message *m = new Message(MessageCheckInvisible);
                         m->setContact(contact->id());
@@ -2884,7 +2884,7 @@ void *ICQClient::processEvent(Event *e)
                 ClientDataIterator it(contact->clientData, this);
                 bool bChanged = false;
                 while ((data = (ICQUserData*)(++it)) != NULL){
-                    data->VisibleId = (cmd->flags & COMMAND_CHECKED) ? getListId() : 0;
+                    data->VisibleId.value = (cmd->flags & COMMAND_CHECKED) ? getListId() : 0;
                     bChanged = true;
                 }
                 if (bChanged){
@@ -2901,7 +2901,7 @@ void *ICQClient::processEvent(Event *e)
                 ClientDataIterator it(contact->clientData, this);
                 bool bChanged = false;
                 while ((data = (ICQUserData*)(++it)) != NULL){
-                    data->InvisibleId = (cmd->flags & COMMAND_CHECKED) ? getListId() : 0;
+                    data->InvisibleId.value = (cmd->flags & COMMAND_CHECKED) ? getListId() : 0;
                     bChanged = true;
                 }
                 if (bChanged){
@@ -2997,19 +2997,19 @@ void *ICQClient::processEvent(Event *e)
             return e->param();
         }
         if (msg->type() == MessageWarning){
-            if (data && (m_bAIM || (data->Uin == 0))){
+            if (data && (m_bAIM || (data->Uin.value == 0))){
                 WarnDlg *dlg = new WarnDlg(NULL, data, this);
                 raiseWindow(dlg);
                 return e->param();
             }
             return NULL;
         }
-        if (data->Direct && data->Direct->isSecure()){
+        if (data->Direct.ptr && ((DirectClient*)(data->Direct.ptr))->isSecure()){
             Message *m = new Message(MessageCloseSecure);
             m->setContact(msg->contact());
             m->setClient(msg->client());
             m->setFlags(MESSAGE_NOHISTORY);
-            if (!data->Direct->sendMessage(m))
+            if (!((DirectClient*)(data->Direct.ptr))->sendMessage(m))
                 delete m;
             return e->param();
         }
@@ -3032,29 +3032,29 @@ bool ICQClient::send(Message *msg, void *_data)
         processSMSQueue();
         return true;
     case MessageAuthRequest:
-        if (data && data->WaitAuth)
+        if (data && data->WaitAuth.bValue)
             return sendAuthRequest(msg, data);
         return false;
     case MessageAuthGranted:
-        if (data && data->WantAuth)
+        if (data && data->WantAuth.bValue)
             return sendAuthGranted(msg, data);
         return false;
     case MessageAuthRefused:
-        if (data && data->WantAuth)
+        if (data && data->WantAuth.bValue)
             return sendAuthRefused(msg, data);
         return false;
     case MessageCheckInvisible:
         return data &&
-               ((data->Status & 0xFFFF) == ICQ_STATUS_OFFLINE) &&
+               ((data->Status.value & 0xFFFF) == ICQ_STATUS_OFFLINE) &&
                sendThruServer(msg, data);
     case MessageFile:
-        if (data && ((data->Status & 0xFFFF) != ICQ_STATUS_OFFLINE)){
-            if (data->Uin){
-                if (data->Direct == NULL){
-                    data->Direct = new DirectClient(data, this, PLUGIN_NULL);
-                    data->Direct->connect();
+        if (data && ((data->Status.value & 0xFFFF) != ICQ_STATUS_OFFLINE)){
+            if (data->Uin.value){
+                if (data->Direct.ptr == NULL){
+                    data->Direct.ptr = (char*)(new DirectClient(data, this, PLUGIN_NULL));
+                    ((DirectClient*)(data->Direct.ptr))->connect();
                 }
-                return data->Direct->sendMessage(msg);
+                return ((DirectClient*)(data->Direct.ptr))->sendMessage(msg);
             }
             if (!hasCap(data, CAP_AIM_SENDFILE))
                 return false;
@@ -3068,10 +3068,10 @@ bool ICQClient::send(Message *msg, void *_data)
         if ((data == NULL) || !getTypingNotification())
             return false;
         if (getInvisible()){
-            if (data->VisibleId == 0)
+            if (data->VisibleId.value == 0)
                 return false;
         }else{
-            if (data->InvisibleId)
+            if (data->InvisibleId.value)
                 return false;
         }
         if (!hasCap(data, CAP_TYPING) && !hasCap(data, CAP_AIM_BUDDYCON))
@@ -3089,55 +3089,55 @@ bool ICQClient::send(Message *msg, void *_data)
     case MessageOpenSecure:
         if (data == NULL)
             return false;
-        if (data && data->Direct && data->Direct->isSecure())
+        if (data && data->Direct.ptr && ((DirectClient*)(data->Direct.ptr))->isSecure())
             return false;
-        if (data->Direct == NULL){
-            data->Direct = new DirectClient(data, this, PLUGIN_NULL);
-            data->Direct->connect();
+        if (data->Direct.ptr == NULL){
+            data->Direct.ptr = (char*)(new DirectClient(data, this, PLUGIN_NULL));
+            ((DirectClient*)(data->Direct.ptr))->connect();
         }
-        return data->Direct->sendMessage(msg);
+        return ((DirectClient*)(data->Direct.ptr))->sendMessage(msg);
     case MessageCloseSecure:
-        if (data && data->Direct && data->Direct->isSecure())
-            return data->Direct->sendMessage(msg);
+        if (data && data->Direct.ptr && ((DirectClient*)(data->Direct.ptr))->isSecure())
+            return ((DirectClient*)(data->Direct.ptr))->sendMessage(msg);
         return false;
 #endif
     case MessageWarning:
         return sendThruServer(msg, data);
     case MessageContacts:
-        if ((data == NULL) || ((data->Uin == 0) && !hasCap(data, CAP_AIM_BUDDYLIST)))
+        if ((data == NULL) || ((data->Uin.value == 0) && !hasCap(data, CAP_AIM_BUDDYLIST)))
             return false;
     }
     if (data == NULL)
         return false;
-    if (data->Uin){
+    if (data->Uin.value){
         bool bCreateDirect = false;
-        if ((data->Direct == NULL) &&
-                !data->bNoDirect &&
-                (data->Status != ICQ_STATUS_OFFLINE) &&
+        if ((data->Direct.ptr == NULL) &&
+                !data->bNoDirect.bValue &&
+                (data->Status.value != ICQ_STATUS_OFFLINE) &&
                 (get_ip(data->IP) == get_ip(this->data.owner.IP)))
             bCreateDirect = true;
         if (!bCreateDirect &&
                 (msg->type() == MessageGeneric) &&
-                (data->Status != ICQ_STATUS_OFFLINE) &&
+                (data->Status.value != ICQ_STATUS_OFFLINE) &&
                 get_ip(data->IP) &&
                 (msg->getPlainText().length() >= MAX_TYPE2_MESSAGE_SIZE))
             bCreateDirect = true;
-        if ((getInvisible() && (data->VisibleId == 0)) ||
-                (!getInvisible() && data->InvisibleId))
+        if ((getInvisible() && (data->VisibleId.value == 0)) ||
+                (!getInvisible() && data->InvisibleId.value))
             bCreateDirect = false;
         if (bCreateDirect){
-            data->Direct = new DirectClient(data, this, PLUGIN_NULL);
-            data->Direct->connect();
+            data->Direct.ptr = (char*)(new DirectClient(data, this, PLUGIN_NULL));
+            ((DirectClient*)(data->Direct.ptr))->connect();
         }
-        if (data->Direct)
-            return data->Direct->sendMessage(msg);
+        if (data->Direct.ptr)
+            return ((DirectClient*)(data->Direct.ptr))->sendMessage(msg);
     }
     return sendThruServer(msg, data);
 }
 
 bool ICQClient::canSend(unsigned type, void *_data)
 {
-    if (_data && (((clientData*)_data)->Sign != ICQ_SIGN))
+    if (_data && (((clientData*)_data)->Sign.value != ICQ_SIGN))
         return false;
     if (getState() != Connected)
         return false;
@@ -3149,34 +3149,34 @@ bool ICQClient::canSend(unsigned type, void *_data)
     case MessageUrl:
         return (data != NULL);
     case MessageContacts:
-        return (data != NULL) && (data->Uin || hasCap(data, CAP_AIM_BUDDYLIST));
+        return (data != NULL) && (data->Uin.value || hasCap(data, CAP_AIM_BUDDYLIST));
     case MessageAuthRequest:
-        return data && (data->WaitAuth);
+        return data && (data->WaitAuth.bValue);
     case MessageAuthGranted:
-        return data && (data->WantAuth);
+        return data && (data->WantAuth.bValue);
     case MessageCheckInvisible:
-        return data && data->Uin && !m_bAIM && ((data->Status & 0xFFFF) == ICQ_STATUS_OFFLINE);
+        return data && data->Uin.value && !m_bAIM && ((data->Status.value & 0xFFFF) == ICQ_STATUS_OFFLINE);
     case MessageFile:
         return data &&
-               ((data->Status & 0xFFFF) != ICQ_STATUS_OFFLINE) &&
-               (data->Uin || hasCap(data, CAP_AIM_SENDFILE));
+               ((data->Status.value & 0xFFFF) != ICQ_STATUS_OFFLINE) &&
+               (data->Uin.value || hasCap(data, CAP_AIM_SENDFILE));
     case MessageWarning:
-        return data && (m_bAIM || (data->Uin == 0));
+        return data && (m_bAIM || (data->Uin.value == 0));
 #ifdef USE_OPENSSL
     case MessageOpenSecure:
-        if ((data == NULL) || ((data->Status & 0xFFFF) == ICQ_STATUS_OFFLINE))
+        if ((data == NULL) || ((data->Status.value & 0xFFFF) == ICQ_STATUS_OFFLINE))
             return false;
         if (hasCap(data, CAP_LICQ) ||
                 hasCap(data, CAP_SIM) ||
                 hasCap(data, CAP_SIMOLD) ||
-                ((data->InfoUpdateTime & 0xFF7F0000L) == 0x7D000000L)){
-            if (data->Direct)
-                return !data->Direct->isSecure();
+                ((data->InfoUpdateTime.value & 0xFF7F0000L) == 0x7D000000L)){
+            if (data->Direct.ptr)
+                return !((DirectClient*)(data->Direct.ptr))->isSecure();
             return get_ip(data->IP) || get_ip(data->RealIP);
         }
         return false;
     case MessageCloseSecure:
-        return data && data->Direct && data->Direct->isSecure();
+        return data && data->Direct.ptr && ((DirectClient*)(data->Direct.ptr))->isSecure();
 #endif
     }
     return false;
@@ -3197,9 +3197,9 @@ string ICQClient::dataName(const char *screen)
 
 string ICQClient::screen(ICQUserData *data)
 {
-    if (data->Uin == 0)
-        return data->Screen ? data->Screen : "";
-    return number(data->Uin);
+    if (data->Uin.value == 0)
+        return data->Screen.ptr ? data->Screen.ptr : "";
+    return number(data->Uin.value);
 }
 
 bool ICQClient::messageReceived(Message *msg, const char *screen)
@@ -3220,8 +3220,8 @@ bool ICQClient::messageReceived(Message *msg, const char *screen)
         }
         msg->setClient(dataName(data).c_str());
         msg->setContact(contact->id());
-        if (data->bTyping){
-            data->bTyping = false;
+        if (data->bTyping.bValue){
+            data->bTyping.bValue = false;
             Event e(EventContactStatus, contact);
             e.process();
         }
@@ -3261,22 +3261,22 @@ QString ICQClient::contactName(void *clientData)
 {
     QString res;
     ICQUserData *data = (ICQUserData*)clientData;
-    res = data->Uin ? "ICQ: " : "AIM: ";
-    if (data->Nick && *data->Nick){
-        res += toUnicode(data->Nick, data);
+    res = data->Uin.value ? "ICQ: " : "AIM: ";
+    if (data->Nick.ptr && *data->Nick.ptr){
+        res += toUnicode(data->Nick.ptr, data);
         res += " (";
     }
-    res += data->Uin ? QString::number(data->Uin) : QString(data->Screen);
-    if (data->Nick && *data->Nick)
+    res += data->Uin.value ? QString::number(data->Uin.value) : QString(data->Screen.ptr);
+    if (data->Nick.ptr && *data->Nick.ptr)
         res += ")";
     return res;
 }
 
-static bool isSupportPlugins(ICQUserData *data)
+bool ICQClient::isSupportPlugins(ICQUserData *data)
 {
-    if (data->Version < 7)
+    if (data->Version.value < 7)
         return false;
-    switch (data->InfoUpdateTime){
+    switch (data->InfoUpdateTime.value){
     case 0xFFFFFF42:
     case 0xFFFFFFFF:
     case 0xFFFFFF7F:
@@ -3291,9 +3291,9 @@ static bool isSupportPlugins(ICQUserData *data)
     case 0x3BFF8C98:
         return false;
     }
-    if ((data->InfoUpdateTime & 0xFF7F0000L) == 0x7D000000L)
+    if ((data->InfoUpdateTime.value & 0xFF7F0000L) == 0x7D000000L)
         return false;
-    if ((data->Caps & (1 << CAP_TRIL_CRYPT)) || (data->Caps & (1 << CAP_TRILLIAN)))
+    if (hasCap(data, CAP_TRIL_CRYPT) || hasCap(data, CAP_TRILLIAN))
         return false;
     return true;
 }
@@ -3302,18 +3302,18 @@ void ICQClient::addPluginInfoRequest(unsigned long uin, unsigned plugin_index)
 {
     Contact *contact;
     ICQUserData *data = findContact(number(uin).c_str(), NULL, false, contact);
-    if (data && !data->bNoDirect &&
+    if (data && !data->bNoDirect.bValue &&
             (get_ip(data->IP) == get_ip(this->data.owner.IP)) &&
-            ((getInvisible() && data->VisibleId) ||
-             (!getInvisible() && (data->InvisibleId == 0)))){
+            ((getInvisible() && data->VisibleId.value) ||
+             (!getInvisible() && (data->InvisibleId.value == 0)))){
         switch (plugin_index){
         case PLUGIN_AR:
-            if ((data->Direct == NULL) && !getHideIP()){
-                data->Direct = new DirectClient(data, this, PLUGIN_NULL);
-                data->Direct->connect();
+            if ((data->Direct.ptr == NULL) && !getHideIP()){
+                data->Direct.ptr = (char*)(new DirectClient(data, this, PLUGIN_NULL));
+                ((DirectClient*)(data->Direct.ptr))->connect();
             }
-            if (data->Direct){
-                data->Direct->addPluginInfoRequest(plugin_index);
+            if (data->Direct.ptr){
+                ((DirectClient*)(data->Direct.ptr))->addPluginInfoRequest(plugin_index);
                 return;
             }
             break;
@@ -3322,12 +3322,12 @@ void ICQClient::addPluginInfoRequest(unsigned long uin, unsigned plugin_index)
         case PLUGIN_PICTURE:
             if (!isSupportPlugins(data))
                 return;
-            if ((data->DirectPluginInfo == NULL) && !getHideIP()){
-                data->DirectPluginInfo = new DirectClient(data, this, PLUGIN_INFOxMANAGER);
-                data->DirectPluginInfo->connect();
+            if ((data->DirectPluginInfo.ptr == NULL) && !getHideIP()){
+                data->DirectPluginInfo.ptr = (char*)(new DirectClient(data, this, PLUGIN_INFOxMANAGER));
+                ((DirectClient*)(data->DirectPluginInfo.ptr))->connect();
             }
-            if (data->DirectPluginInfo){
-                data->DirectPluginInfo->addPluginInfoRequest(plugin_index);
+            if (data->DirectPluginInfo.ptr){
+                ((DirectClient*)(data->DirectPluginInfo.ptr))->addPluginInfoRequest(plugin_index);
                 return;
             }
             break;
@@ -3337,12 +3337,12 @@ void ICQClient::addPluginInfoRequest(unsigned long uin, unsigned plugin_index)
         case PLUGIN_ICQPHONE:
             if (!isSupportPlugins(data))
                 return;
-            if ((data->DirectPluginStatus == NULL) && !getHideIP()){
-                data->DirectPluginStatus = new DirectClient(data, this, PLUGIN_STATUSxMANAGER);
-                data->DirectPluginStatus->connect();
+            if ((data->DirectPluginStatus.ptr == NULL) && !getHideIP()){
+                data->DirectPluginStatus.ptr = (char*)(new DirectClient(data, this, PLUGIN_STATUSxMANAGER));
+                ((DirectClient*)(data->DirectPluginStatus.ptr))->connect();
             }
-            if (data->DirectPluginStatus){
-                data->DirectPluginStatus->addPluginInfoRequest(plugin_index);
+            if (data->DirectPluginStatus.ptr){
+                ((DirectClient*)(data->DirectPluginStatus.ptr))->addPluginInfoRequest(plugin_index);
                 return;
             }
             break;
@@ -3383,7 +3383,7 @@ QString ICQClient::pictureFile(ICQUserData *data)
 {
     string f = PICT_PATH;
     f += "icq.";
-    f += number(data->Uin);
+    f += number(data->Uin.value);
     f = user_file(f.c_str());
     return QFile::decodeName(f.c_str());
 }
@@ -3420,10 +3420,10 @@ void ICQClient::retry(int n, void *p)
 
 bool ICQClient::isOwnData(const char *screen)
 {
-    if ((screen == NULL) || (data.owner.Screen == NULL))
+    if ((screen == NULL) || (data.owner.Screen.ptr == NULL))
         return false;
     QString s1(screen);
-    QString s2(data.owner.Screen);
+    QString s2(data.owner.Screen.ptr);
     return (s1.lower() == s2.lower());
 }
 

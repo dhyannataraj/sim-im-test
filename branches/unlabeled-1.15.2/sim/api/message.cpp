@@ -59,7 +59,7 @@ Message::~Message()
 
 bool Message::setText(const char *text)
 {
-    return set_str(&data.Text, text);
+    return set_str(&data.Text.ptr, text);
 }
 
 QString Message::getPlainText()
@@ -390,14 +390,14 @@ FileMessage::~FileMessage()
 
 unsigned FileMessage::getSize()
 {
-    if (data.Size)
-        return data.Size;
+    if (data.Size.value)
+        return data.Size.value;
     Iterator it(*this);
     const QString *name;
     while ((name = ++it) != NULL){
-        data.Size += it.size();
+        data.Size.value += it.size();
     }
-    return data.Size;
+    return data.Size.value;
 }
 
 void FileMessage::addFile(const QString &file, unsigned size)
@@ -416,13 +416,13 @@ void FileMessage::addFile(const QString &file, unsigned size)
 
 void FileMessage::setSize(unsigned size)
 {
-    data.Size = size;
+    data.Size.value = size;
 }
 
 QString FileMessage::getDescription()
 {
-    if (data.Description && *data.Description)
-        return QString::fromUtf8(data.Description);
+    if (data.Description.ptr && *data.Description.ptr)
+        return QString::fromUtf8(data.Description.ptr);
     Iterator it(*this);
     if (it.count() <= 1){
         const QString *name = ++it;
@@ -440,7 +440,7 @@ QString FileMessage::getDescription()
 
 bool FileMessage::setDescription(const QString &str)
 {
-    return set_str(&data.Description, str.utf8());
+    return set_str(&data.Description.ptr, str.utf8());
 }
 
 string FileMessage::save()

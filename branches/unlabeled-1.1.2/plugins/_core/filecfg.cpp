@@ -30,10 +30,10 @@ FileConfig::FileConfig(QWidget *parent, void *_data)
 {
     CoreUserData *data = (CoreUserData*)_data;
     edtPath->setDirMode(true);
-    QString incoming = QFile::encodeName(data->IncomingPath ? user_file(data->IncomingPath).c_str() : "");
+    QString incoming = QFile::encodeName(data->IncomingPath.ptr ? user_file(data->IncomingPath.ptr).c_str() : "");
     edtPath->setText(incoming);
     connect(grpAccept, SIGNAL(clicked(int)), this, SLOT(acceptClicked(int)));
-    switch (data->AcceptMode){
+    switch (data->AcceptMode.value){
     case 0:
         btnDialog->setChecked(true);
         break;
@@ -44,10 +44,10 @@ FileConfig::FileConfig(QWidget *parent, void *_data)
         btnDecline->setChecked(true);
         break;
     }
-    chkOverwrite->setChecked((data->OverwriteFiles) != 0);
-    if (data->DeclineMessage)
-        edtDecline->setText(QString::fromUtf8(data->DeclineMessage));
-    acceptClicked(data->AcceptMode);
+    chkOverwrite->setChecked(data->OverwriteFiles.bValue);
+    if (data->DeclineMessage.ptr)
+        edtDecline->setText(QString::fromUtf8(data->DeclineMessage.ptr));
+    acceptClicked(data->AcceptMode.value);
 }
 
 void FileConfig::apply(void *_data)
@@ -59,16 +59,16 @@ void FileConfig::apply(void *_data)
     } else {
         def = edtPath->text();
     }
-    set_str(&data->IncomingPath, QFile::encodeName(def));
-    edtPath->setText(QFile::decodeName(data->IncomingPath ? user_file(data->IncomingPath).c_str() : ""));
-    data->AcceptMode = 0;
+    set_str(&data->IncomingPath.ptr, QFile::encodeName(def));
+    edtPath->setText(QFile::decodeName(data->IncomingPath.ptr ? user_file(data->IncomingPath.ptr).c_str() : ""));
+    data->AcceptMode.value = 0;
     if (btnAccept->isOn()){
-        data->AcceptMode = 1;
-        data->OverwriteFiles = chkOverwrite->isChecked();
+        data->AcceptMode.value = 1;
+        data->OverwriteFiles.bValue = chkOverwrite->isChecked();
     }
     if (btnDecline->isOn()){
-        data->AcceptMode = 2;
-        set_str(&data->DeclineMessage, edtDecline->text().utf8());
+        data->AcceptMode.value = 2;
+        set_str(&data->DeclineMessage.ptr, edtDecline->text().utf8());
     }
 }
 

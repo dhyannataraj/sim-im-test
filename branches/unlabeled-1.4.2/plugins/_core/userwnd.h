@@ -30,9 +30,9 @@ class UserList;
 
 typedef struct UserWndData
 {
-    unsigned	EditHeight;
-    long		editBar[7];
-    unsigned	MessageType;
+    Data	EditHeight;
+    Data	editBar[7];
+    Data	MessageType;
 } UserWndData;
 
 class UserWnd : public QSplitter

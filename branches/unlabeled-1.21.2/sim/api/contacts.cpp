@@ -397,9 +397,9 @@ typedef struct sortClientData
 
 static bool cmp_sd(sortClientData p1, sortClientData p2)
 {
-    if (((clientData*)(p1.data))->LastSend > ((clientData*)(p2.data))->LastSend)
+    if (((clientData*)(p1.data))->LastSend.value > ((clientData*)(p2.data))->LastSend.value)
         return true;
-    if (((clientData*)(p1.data))->LastSend < ((clientData*)(p2.data))->LastSend)
+    if (((clientData*)(p1.data))->LastSend.value < ((clientData*)(p2.data))->LastSend.value)
         return false;
     return p1.nClient < p2.nClient;
 }
@@ -1021,11 +1021,11 @@ typedef struct ClientData
 
 static DataDef _clientData[] =
     {
-        { "ManualStatus", DATA_LONG, 1, STATUS_OFFLINE },
-        { "CommonStatus", DATA_BOOL, 1, 1 },
+        { "ManualStatus", DATA_LONG, 1, DATA(1) },
+        { "CommonStatus", DATA_BOOL, 1, DATA(1) },
         { "Password", DATA_UTF, 1, 0 },
-        { "", DATA_BOOL, 1, 1 },		// SavePassword
-        { "", DATA_UTF, 1, 0 },			// PreviousPassword
+        { "", DATA_BOOL, 1, DATA(1) },		// SavePassword
+        { "", DATA_UTF, 1, 0 },				// PreviousPassword
         { "Invisible", DATA_BOOL, 1, 0 },
         { "LastSend", DATA_STRLIST, 1, 0 },
         { NULL, 0, 0, 0 }
@@ -1249,7 +1249,7 @@ Client *ClientUserData::activeClient(void *&data, Client *client)
     for (it = p->begin(); it != p->end(); ++it){
         if (((*it).client == client) && ((*it).data == data))
             break;
-        if (((clientData*)((*it).data))->Sign != ((clientData*)data)->Sign)
+        if (((clientData*)((*it).data))->Sign.value != ((clientData*)data)->Sign.value)
             continue;
         if (client->compareData(data, (*it).data))
             return NULL;
@@ -1261,7 +1261,7 @@ Client *ClientUserData::activeClient(void *&data, Client *client)
     for (++it; it != p->end(); ++it){
         if (client->getState() != Client::Connected)
             continue;
-        if (((clientData*)((*it).data))->Sign != ((clientData*)data)->Sign)
+        if (((clientData*)((*it).data))->Sign.value != ((clientData*)data)->Sign.value)
             continue;
         if (client->compareData(data, (*it).data)){
             data = (*it).data;

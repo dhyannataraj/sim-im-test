@@ -27,9 +27,9 @@
 typedef struct SpellData
 {
 #ifdef WIN32
-    char	*Path;
+    Data	Path;
 #endif
-    char	*Lang;
+    Data	Lang;
 } SpellData;
 
 class TextEdit;

@@ -63,11 +63,11 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 static DataDef stylesData[] =
     {
         { "Style", DATA_STRING, 1, 0 },
-        { "SystemFonts", DATA_BOOL, 1, 1 },
+        { "SystemFonts", DATA_BOOL, 1, DATA(1) },
         { "BaseFont", DATA_STRING, 1, 0 },
         { "MenuFont", DATA_STRING, 1, 0 },
         { "MessageFont", DATA_STRING, 1, 0 },
-        { "SystemColors", DATA_BOOL, 1, 1 },
+        { "SystemColors", DATA_BOOL, 1, DATA(1) },
         { "BtnColor", DATA_ULONG, 1, 0 },
         { "BgColor", DATA_ULONG, 1, 0 },
         { NULL, 0, 0, 0 }

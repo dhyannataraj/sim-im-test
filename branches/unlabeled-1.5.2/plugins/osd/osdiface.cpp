@@ -37,23 +37,23 @@ OSDIface::OSDIface(QWidget *parent, void *d, OSDPlugin *plugin)
     cmbPos->insertItem(i18n("Center-bottom"));
     cmbPos->insertItem(i18n("Center-top"));
     cmbPos->insertItem(i18n("Center"));
-    cmbPos->setCurrentItem(data->Position);
+    cmbPos->setCurrentItem(data->Position.value);
     spnOffs->setMinValue(0);
     spnOffs->setMaxValue(500);
-    spnOffs->setValue(data->Offset);
+    spnOffs->setValue(data->Offset.value);
     spnTimeout->setMinValue(1);
     spnTimeout->setMaxValue(60);
-    spnTimeout->setValue(data->Timeout);
-    btnColor->setColor(data->Color);
-    edtFont->setFont(data->Font);
-    chkShadow->setChecked(data->Shadow != 0);
-    if (data->Background){
+    spnTimeout->setValue(data->Timeout.value);
+    btnColor->setColor(data->Color.value);
+    edtFont->setFont(data->Font.ptr);
+    chkShadow->setChecked(data->Shadow.bValue);
+    if (data->Background.bValue){
         chkBackground->setChecked(true);
-        btnBgColor->setColor(data->BgColor);
+        btnBgColor->setColor(data->BgColor.value);
     }else{
         chkBackground->setChecked(false);
     }
-    bgToggled(data->Background != 0);
+    bgToggled(data->Background.bValue);
     connect(chkBackground, SIGNAL(toggled(bool)), this, SLOT(bgToggled(bool)));
     unsigned nScreens = screens();
     if (nScreens <= 1){
@@ -62,7 +62,7 @@ OSDIface::OSDIface(QWidget *parent, void *d, OSDPlugin *plugin)
     }else{
         for (unsigned i = 0; i < nScreens; i++)
             cmbScreen->insertItem(QString::number(i));
-        unsigned curScreen = data->Screen;
+        unsigned curScreen = data->Screen.value;
         if (curScreen >= nScreens)
             curScreen = 0;
         cmbScreen->setCurrentItem(curScreen);
@@ -82,27 +82,27 @@ void OSDIface::bgToggled(bool bState)
 void OSDIface::apply(void *d)
 {
     OSDUserData *data = (OSDUserData*)d;
-    data->Position = cmbPos->currentItem();
-    data->Offset = atol(spnOffs->text().latin1());
-    data->Timeout = atol(spnTimeout->text().latin1());
-    data->Color = btnColor->color().rgb();
+    data->Position.value = cmbPos->currentItem();
+    data->Offset.value = atol(spnOffs->text().latin1());
+    data->Timeout.value = atol(spnTimeout->text().latin1());
+    data->Color.value = btnColor->color().rgb();
     string f = edtFont->getFont();
     string base = FontEdit::font2str(font(), false).latin1();
     if (f == base)
         f = "";
-    set_str(&data->Font, f.c_str());
-    data->Shadow = chkShadow->isChecked();
-    data->Background = chkBackground->isChecked();
-    if (data->Background){
-        data->BgColor = btnBgColor->color().rgb();
+    set_str(&data->Font.ptr, f.c_str());
+    data->Shadow.bValue = chkShadow->isChecked();
+    data->Background.bValue = chkBackground->isChecked();
+    if (data->Background.bValue){
+        data->BgColor.value = btnBgColor->color().rgb();
     }else{
-        data->BgColor = 0;
+        data->BgColor.value = 0;
     }
     unsigned nScreens = screens();
     if (nScreens <= 1){
-        data->Screen = 0;
+        data->Screen.value = 0;
     }else{
-        data->Screen = cmbScreen->currentItem();
+        data->Screen.value = cmbScreen->currentItem();
     }
 }
 

@@ -41,9 +41,9 @@ MessageConfig::MessageConfig(QWidget *parent, void *_data)
     }
 
     CoreUserData *data = (CoreUserData*)_data;
-    chkOnline->setChecked((data->OpenOnOnline) != 0);
-    chkStatus->setChecked((data->LogStatus) != 0);
-    switch (data->OpenNewMessage){
+    chkOnline->setChecked(data->OpenOnOnline.bValue);
+    chkStatus->setChecked(data->LogStatus.bValue);
+    switch (data->OpenNewMessage.value){
     case NEW_MSG_NOOPEN:
         btnNoOpen->setChecked(true);
         break;
@@ -62,13 +62,13 @@ void MessageConfig::apply(void *_data)
         m_file->apply(_data);
 
     CoreUserData *data = (CoreUserData*)_data;
-    data->OpenOnOnline  = chkOnline->isChecked();
-    data->LogStatus     = chkStatus->isChecked();
-    data->OpenNewMessage = NEW_MSG_NOOPEN;
+    data->OpenOnOnline.bValue  = chkOnline->isChecked();
+    data->LogStatus.bValue     = chkStatus->isChecked();
+    data->OpenNewMessage.value = NEW_MSG_NOOPEN;
     if (btnMinimize->isOn())
-        data->OpenNewMessage = NEW_MSG_MINIMIZE;
+        data->OpenNewMessage.value = NEW_MSG_MINIMIZE;
     if (btnRaise->isOn())
-        data->OpenNewMessage = NEW_MSG_RAISE;
+        data->OpenNewMessage.value = NEW_MSG_RAISE;
 }
 
 void MessageConfig::setEnabled(bool state)
