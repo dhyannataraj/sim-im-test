@@ -28,6 +28,7 @@
 #include <qtimer.h>
 #include <qapplication.h>
 #include <qvaluelist.h>
+#include <qregexp.h>
 
 #ifdef WIN32
 #include <windows.h>
@@ -973,8 +974,10 @@ void DockWnd::setTip(const char *text)
 {
     m_tip = text;
     QString tip = m_unreadText;
-    if (tip.isEmpty())
+    if (tip.isEmpty()){
         tip = i18n(text);
+		tip = tip.replace(QRegExp("\\&"), "");
+	}
 #ifdef WIN32
     if (_Shell_NotifyIconW && IsWindowUnicode(winId())){
         NOTIFYICONDATAW notifyIconData;
