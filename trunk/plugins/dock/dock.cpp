@@ -275,6 +275,7 @@ void *DockPlugin::processEvent(Event *e)
             }else{
                 setShowMain(true);
                 raiseWindow(main);
+				inactiveTime = 0;
             }
             return e->param();
         }
