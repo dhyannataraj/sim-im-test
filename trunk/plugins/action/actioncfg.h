@@ -36,6 +36,7 @@ public slots:
     void apply();
     void apply(void*);
     void selectionChanged(QListViewItem*);
+    void help();
 protected:
     QLineEdit		*m_edit;
     QListViewItem	*m_editItem;

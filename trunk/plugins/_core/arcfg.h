@@ -29,6 +29,7 @@ public:
 public slots:
     void apply();
     void toggled(bool);
+	void help();
 protected:
     unsigned m_status;
     Contact	 *m_contact;

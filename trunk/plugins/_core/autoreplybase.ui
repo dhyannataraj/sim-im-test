@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>363</width>
+            <width>359</width>
             <height>247</height>
         </rect>
     </property>
@@ -54,7 +54,7 @@
             <class>QLayoutWidget</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>Layout5</cstring>
+                <cstring>Layout2</cstring>
             </property>
             <hbox>
                 <property>
@@ -65,6 +65,21 @@
                     <name>spacing</name>
                     <number>6</number>
                 </property>
+                <widget>
+                    <class>QPushButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>btnHelp</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>&amp;Help</string>
+                    </property>
+                    <property>
+                        <name>accel</name>
+                        <number>4144</number>
+                    </property>
+                </widget>
                 <widget>
                     <class>QLabel</class>
                     <property stdset="1">

@@ -14,6 +14,7 @@ Jabber: Fix send multiline message
 Jabber: Add configure to jabber browser
 Jabber: Add headline support
 ICQ: Remove check invisible
+Add action plugin - for call external programs
 
 Version 0.9.1
 ICQ: Fix login

@@ -439,6 +439,8 @@ void setButtonsPict(QWidget *w)
         }else if ((text == i18n("&Cancel")) || (text == i18n("&Close")) ||
                   (text == i18n("&No"))){
             icon = "button_cancel";
+        }else if (text == i18n("&Help")){
+            icon = "help";
         }
         if (icon == NULL) continue;
         const QIconSet *iconSet = Icon(icon);
@@ -777,7 +779,7 @@ EXPORT unsigned screens()
     }
     return rc.size();
 #else
-    return 1;
+return 1;
 #endif
 #endif
 }

@@ -29,6 +29,7 @@ public:
 public slots:
     void changed();
     void changed(const QString&);
+    void help();
 };
 
 #endif

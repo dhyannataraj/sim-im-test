@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include "additem.h"
+#include "ballonmsg.h"
+#include "core.h"
 
 #include <qpixmap.h>
 #include <qtimer.h>
@@ -32,6 +34,7 @@ AddItem::AddItem(QWidget *parent)
 	QTimer::singleShot(0, this, SLOT(changed()));
 	connect(edtItem, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
 	connect(edtPrg, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
+	connect(buttonHelp, SIGNAL(clicked()), this, SLOT(help()));
 }
 
 void AddItem::changed()
@@ -42,6 +45,15 @@ void AddItem::changed()
 void AddItem::changed(const QString&)
 {
 	changed();
+}
+
+void AddItem::help()
+{
+	QString helpString = i18n("In command line you can use:");
+	helpString += "\n";
+	Event e(EventTmplHelp, &helpString);
+	e.process();
+	BalloonMsg::message(helpString, buttonHelp, false, 400);
 }
 
 #ifndef WIN32

@@ -120,6 +120,10 @@ SOURCE=.\menucfgbase.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\moc_action.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\moc_actioncfg.cpp
 # End Source File
 # Begin Source File
@@ -149,7 +153,35 @@ SOURCE=.\moc_menucfgbase.cpp
 # Begin Source File
 
 SOURCE=.\action.h
+
+!IF  "$(CFG)" == "action - Win32 Release"
+
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\action.h
+InputName=action
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "action - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\action.h
+InputName=action
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 

@@ -1434,6 +1434,17 @@ void CorePlugin::getWays(vector<clientContact> &ways, Contact *contact)
 void *CorePlugin::processEvent(Event *e)
 {
     switch (e->type()){
+	case EventTmplHelp:{
+		QString *str = (QString*)(e->param());
+		*str += i18n("&IP; - ip-address\n"
+			"&Mail; - e-mail\n"
+			"&Phone; - phone\n"
+			"&Nick; - contact nick\n"
+			"&Unread; - number of unread messages from this contact\n"
+			"&Status; - contact status\n\n"
+			"`<command>` - call <command> and substitute command output\n");
+		return e->param();
+	}
     case EventARRequest:{
             ARRequest *r = (ARRequest*)(e->param());
             ARUserData *ar;

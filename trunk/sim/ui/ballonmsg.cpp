@@ -28,12 +28,11 @@
 #include <qimage.h>
 #include <qframe.h>
 
-#define BALLOON_R		10
-#define BALLOON_WIDTH	150
+#define BALLOON_R			10
 #define BALLOON_TAIL		20
-#define BALLOON_TAIL_WIDTH 12
-#define BALLOON_SHADOW	2
-#define BALLOON_MARGIN	8
+#define BALLOON_TAIL_WIDTH	12
+#define BALLOON_SHADOW		2
+#define BALLOON_MARGIN		8
 
 UI_EXPORT QPixmap& intensity(QPixmap &pict, float percent)
 {
@@ -95,13 +94,14 @@ UI_EXPORT QPixmap& intensity(QPixmap &pict, float percent)
     return pict;
 }
 
-BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWidget *parent, const QRect *rcParent, bool bModal, bool bAutoHide)
+BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWidget *parent, const QRect *rcParent, bool bModal, bool bAutoHide, unsigned bwidth)
         : QDialog(parent, "ballon", bModal,
                   (bAutoHide ? WType_Popup : WType_TopLevel | WStyle_StaysOnTop)
                   | WStyle_Customize | WStyle_NoBorderEx | WStyle_Tool | WDestructiveClose | WX11BypassWM)
 {
     m_param = param;
     m_parent = parent;
+    m_width = bwidth;
     m_bAutoHide = bAutoHide;
     m_bYes = false;
     bool bTailDown = true;
@@ -129,7 +129,7 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     lay->addStretch();
     int wndWidth = frm->minimumSizeHint().width();
 
-    int txtWidth = BALLOON_WIDTH;
+    int txtWidth = bwidth;
     QRect rc;
     if (rcParent){
         rc = *rcParent;
@@ -262,7 +262,7 @@ bool BalloonMsg::eventFilter(QObject *o, QEvent *e)
 void BalloonMsg::paintEvent(QPaintEvent*)
 {
     QPainter p(this);
-    p.drawText(textRect, (m_bAutoHide ? AlignHCenter : AlignLeft) | AlignTop | WordBreak, text);
+    p.drawText(textRect, ((m_bAutoHide && (m_width == 150)) ? AlignHCenter : AlignLeft) | AlignTop | WordBreak, text);
     p.end();
 }
 
@@ -286,11 +286,11 @@ void BalloonMsg::action(int id)
     }
 }
 
-void BalloonMsg::message(const QString &text, QWidget *parent, bool bModal)
+void BalloonMsg::message(const QString &text, QWidget *parent, bool bModal, unsigned width)
 {
     QStringList btns;
     btns.append(i18n("&Ok"));
-    BalloonMsg *msg = new BalloonMsg(NULL, text, btns, parent, NULL, bModal);
+    BalloonMsg *msg = new BalloonMsg(NULL, text, btns, parent, NULL, bModal, true, width);
     if (bModal){
         msg->exec();
     }else{
