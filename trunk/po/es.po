@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the SIM package.
 # Copyright (C) 2004
 #
-# $Id: es.po,v 1.169 2004-08-30 12:44:06 wrar Exp $
+# $Id: es.po,v 1.170 2004-10-16 13:04:40 jorgelt Exp $
 # Jorge Lopez Trescastro <jorge@acm.asoc.fi.upm.es>, 2002, 2003, 2004.
 #
 msgid ""
@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: sim-es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-05 15:33+0200\n"
-"PO-Revision-Date: 2004-08-08 21:34+0200\n"
+"PO-Revision-Date: 2004-10-16 13:22+0200\n"
 "Last-Translator: Jorge López Trescastro <jorge@acm.asoc.fi.upm.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -335,7 +335,7 @@ msgstr "Página siguie&nte"
 
 #: core.cpp:820
 msgid "&Save as text"
-msgstr ""
+msgstr "Almacenar como te&xto"
 
 #: plugins/_core/core.cpp:878
 msgid "&Open message"
@@ -780,19 +780,19 @@ msgstr "Historial"
 
 #: plugins/_core/historywnd.cpp:191
 msgid "File already exists. Overwrite?"
-msgstr ""
+msgstr "El archivo ya existe. ¿Sobrescribir?"
 
 #: plugins/_core/historywnd.cpp:196
 msgid "&Overwrite"
-msgstr ""
+msgstr "S&obrescribir"
 
 #: plugins/_core/historywnd.cpp:197
 msgid "&Append"
-msgstr ""
+msgstr "&Añadir"
 
 #: plugins/_core/historywnd.cpp:211
 msgid "Save failed"
-msgstr ""
+msgstr "Error al guardar"
 
 #: plugins/_core/interfacecfg.cpp:53 plugins/icq/moreinfo.cpp:98
 msgid "English"
@@ -4448,7 +4448,7 @@ msgstr "Hora UTC del cliente:"
 
 #: plugins/jabber/discoinfobase.cpp:276
 msgid "Last activity, idle response:"
-msgstr ""
+msgstr "Tiempo de inactividad:"
 
 #: plugins/jabber/discoinfobase.cpp:279
 msgid "&Statistic"
@@ -4469,6 +4469,8 @@ msgid ""
 "_n: Friends updated\n"
 "Friends updated %n"
 msgstr ""
+"Amigo actualizado\n"
+"Amigos actualizados %n"
 
 #: plugins/livejournal/livejournal.cpp:120
 msgid "&Remove from journal"
@@ -4484,7 +4486,7 @@ msgstr "&WWW LiveJournal"
 
 #: plugins/livejournal/livejournal.cpp:232
 msgid "Friends updated"
-msgstr ""
+msgstr "Amigos actualizados"
 
 #: plugins/livejournal/livejournal.cpp:276
 msgid "LiveJournal"
@@ -4860,7 +4862,7 @@ msgstr "ocupado"
 
 #: plugins/livejournal/livejournal.cpp:1444
 msgid "blah"
-msgstr ""
+msgstr "blah"
 
 #: plugins/livejournal/livejournal.cpp:1445
 msgid "full"
@@ -6427,7 +6429,7 @@ msgstr "ID Ubicación:"
 
 #: plugins/weather/weathercfgbase.cpp:112
 msgid "You can enter ID as part URL for your location on weather.com"
-msgstr ""
+msgstr "Puede introducir ID como parte de la URL para su localización en weather.com"
 
 #: plugins/weather/weathercfgbase.cpp:114
 msgid "Metric"
@@ -6451,11 +6453,11 @@ msgstr "Texto del botón"
 
 #: plugins/weather/wifacecfgbase.cpp:82
 msgid "Button tip:"
-msgstr ""
+msgstr "Hoy:"
 
 #: plugins/weather/wifacecfgbase.cpp:83
 msgid "Forecast tip:"
-msgstr ""
+msgstr "Próximos días:"
 
 #: plugins/windock/windock.cpp:44
 msgid "Plugin provides dock main window to left or right side of screen"
@@ -8425,5 +8427,3 @@ msgstr "Personalizar"
 msgid "Windows XP style"
 msgstr "Estilo Windows XP"
 
-#~ msgid "SSL shuwdown error"
-#~ msgstr "Error cerrar SSL"
