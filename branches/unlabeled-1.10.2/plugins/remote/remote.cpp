@@ -108,15 +108,12 @@ IPC::IPC()
     name = prefix() + "out";
     hEventOut = CreateEventA(NULL, TRUE, FALSE, name.c_str());
     bExit = false;
-
-//    hThread = CreateThread(NULL, 0, IPCThread, this, 0, &threadId);
 }
 
 IPC::~IPC()
 {
     bExit = true;
     SetEvent(hEventIn);
-//    WaitForSingleObject(hThread, INFINITE);
     if (s)
         UnmapViewOfFile(s);
     if (hMem)

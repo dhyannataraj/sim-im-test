@@ -18,6 +18,7 @@
 #include "simapi.h"
 #include "fetch.h"
 
+#include <qthread.h>
 #include <qtimer.h>
 
 #ifdef WIN32
@@ -47,24 +48,35 @@ static BOOL (WINAPI *_InternetQueryOption)(HINTERNET hInternet, DWORD dwOption,
 
 static HINTERNET hInet = NULL;
 
-DWORD __stdcall fetchThread(LPVOID lpParameter)
+class FetchThread : public QThread
 {
-    FetchClient *client = (FetchClient*)lpParameter;
+public:
+	FetchThread(FetchClient *client);
+protected:
+	void run();
+	FetchClient *m_client;
+};
+
+FetchThread::FetchThread(FetchClient *client)
+{
+	m_client = client;
+}
+
+void FetchThread::run()
+{
     string headers;
-    DWORD flags = INTERNET_FLAG_KEEP_CONNECTION | INTERNET_FLAG_NO_UI;
-    if (client->m_bRedirect)
+    DWORD flags = INTERNET_FLAG_KEEP_CONNECTION | INTERNET_FLAG_PRAGMA_NOCACHE | INTERNET_FLAG_NO_UI | INTERNET_FLAG_NO_AUTH | INTERNET_FLAG_SECURE;
+    if (!m_client->m_bRedirect)
         flags |= INTERNET_FLAG_NO_AUTO_REDIRECT;
-    for (HEADERS_MAP::iterator it = client->m_hOut.begin(); it != client->m_hOut.end(); ++it){
+    for (HEADERS_MAP::iterator it = m_client->m_hOut.begin(); it != m_client->m_hOut.end(); ++it){
         if (!headers.empty())
             headers += "\r\n";
         string h = (*it).first.c_str();
         headers += h;
         headers += ": ";
         headers += (*it).second.c_str();
-        if (h == "Authorzation")
-            flags |= INTERNET_FLAG_NO_AUTH;
     }
-    log(L_DEBUG, "URL: %s", client->m_uri.c_str());
+    log(L_DEBUG, "URL: %s", m_client->m_uri.c_str());
     URL_COMPONENTSA url;
     memset(&url, 0, sizeof(url));
     url.dwStructSize = sizeof(url);
@@ -83,30 +95,30 @@ DWORD __stdcall fetchThread(LPVOID lpParameter)
     char extra[1024];
     url.lpszExtraInfo	  = extra;
     url.dwExtraInfoLength = sizeof(extra);
-    if (!_InternetCrackUrl(client->m_uri.c_str(), 0, ICU_DECODE, &url)){
+    if (!_InternetCrackUrl(m_client->m_uri.c_str(), 0, ICU_DECODE, &url)){
         log(L_WARN, "InternetCrackUrl error %u", GetLastError());
-        FetchManager::manager->remove(client);
-        return 0;
+        FetchManager::manager->remove(m_client);
+        return;
     }
     if ((url.nScheme != INTERNET_SCHEME_HTTP) && (url.nScheme != INTERNET_SCHEME_HTTPS)){
         log(L_WARN, "Unsupported scheme", GetLastError());
-        FetchManager::manager->remove(client);
-        return 0;
+        FetchManager::manager->remove(m_client);
+        return;
     }
     HINTERNET hCon = _InternetConnect(hInet, url.lpszHostName, url.nPort,
                                       url.lpszUserName, url.lpszPassword, INTERNET_SERVICE_HTTP, 0, 0);
     if (hCon == NULL){
         log(L_WARN, "InternetConnect error %u", GetLastError());
-        FetchManager::manager->remove(client);
-        return 0;
+        FetchManager::manager->remove(m_client);
+        return;
     }
     const char *verb = "GET";
     char *post_data = NULL;
     DWORD post_size = 0;
-    if (client->m_post){
+    if (m_client->m_post){
         verb = "POST";
-        post_data = client->m_post->data();
-        post_size = client->m_post->size();
+        post_data = m_client->m_post->data();
+        post_size = m_client->m_post->size();
     }
     string uri = url.lpszUrlPath;
     if (url.lpszExtraInfo)
@@ -116,15 +128,15 @@ DWORD __stdcall fetchThread(LPVOID lpParameter)
     if (hReq == NULL){
         log(L_WARN, "HttpOpenRequest error %u", GetLastError());
         _InternetCloseHandle(hCon);
-        FetchManager::manager->remove(client);
-        return 0;
+        FetchManager::manager->remove(m_client);
+        return;
     }
     if (!_HttpSendRequest(hReq, headers.c_str(), headers.length(), post_data, post_size)){
         log(L_WARN, "HttpSendRequest error %u", GetLastError());
         _InternetCloseHandle(hReq);
         _InternetCloseHandle(hCon);
-        FetchManager::manager->remove(client);
-        return 0;
+        FetchManager::manager->remove(m_client);
+        return;
     }
     DWORD size = 0;
     DWORD err  = 0;
@@ -134,8 +146,8 @@ DWORD __stdcall fetchThread(LPVOID lpParameter)
         log(L_WARN, "HttpQueryInfo error %u", err);
         _InternetCloseHandle(hReq);
         _InternetCloseHandle(hCon);
-        FetchManager::manager->remove(client);
-        return 0;
+        FetchManager::manager->remove(m_client);
+        return;
     }
     Buffer in_headers;
     in_headers.init(size);
@@ -143,8 +155,8 @@ DWORD __stdcall fetchThread(LPVOID lpParameter)
         log(L_WARN, "HttpQueryInfo error %u", err);
         _InternetCloseHandle(hReq);
         _InternetCloseHandle(hCon);
-        FetchManager::manager->remove(client);
-        return 0;
+        FetchManager::manager->remove(m_client);
+        return;
     }
     in_headers.setWritePos(size);
     string line;
@@ -161,18 +173,18 @@ DWORD __stdcall fetchThread(LPVOID lpParameter)
         if (bFirst){
             bFirst = false;
             getToken(line, ' ');
-            client->m_code = atol(line.c_str());
+            m_client->m_code = atol(line.c_str());
             continue;
         }
-        client->m_hIn += line;
-        client->m_hIn += '\x00';
+        m_client->m_hIn += line;
+        m_client->m_hIn += '\x00';
     }
     if (bFirst){
         log(L_WARN, "Bad http answer", err);
         _InternetCloseHandle(hReq);
         _InternetCloseHandle(hCon);
-        FetchManager::manager->remove(client);
-        return 0;
+        FetchManager::manager->remove(m_client);
+        return;
     }
     for (;;){
         DWORD readn;
@@ -181,17 +193,16 @@ DWORD __stdcall fetchThread(LPVOID lpParameter)
             log(L_WARN, "InternetReadFile error %u", err);
             _InternetCloseHandle(hReq);
             _InternetCloseHandle(hCon);
-            FetchManager::manager->remove(client);
-            return 0;
+            FetchManager::manager->remove(m_client);
+            return;
         }
         if (readn == 0)
             break;
-        client->m_res.pack(buff, readn);
+        m_client->m_res.pack(buff, readn);
     }
     _InternetCloseHandle(hReq);
     _InternetCloseHandle(hCon);
-    FetchManager::manager->remove(client);
-    return 0;
+    FetchManager::manager->remove(m_client);
 }
 
 #endif
@@ -304,7 +315,7 @@ void *FetchManager::processEvent(Event*)
 void FetchManager::remove(FetchClient *client)
 {
     m_remove.push_back(client);
-    QTimer::singleShot(0, this, SLOT(remove()));
+	QTimer::singleShot(0, this, SLOT(remove()));
 }
 
 void FetchManager::remove()
@@ -325,7 +336,8 @@ FetchClient::FetchClient(const char *url_str, Buffer *postData, const char *head
     m_code   = 0;
     m_size   = UNKNOWN_SIZE;
     m_bRedirect = bRedirect;
-    m_uri    = url_str;
+    m_uri		= url_str;
+	m_thread	= NULL;
     if (headers){
         for (const char *h = headers; *h; h += strlen(h) + 1){
             string header = h;
@@ -340,8 +352,8 @@ FetchClient::FetchClient(const char *url_str, Buffer *postData, const char *head
     }
 #ifdef WIN32
     if (hInet){
-        DWORD threadId;
-        CreateThread(NULL, 0, fetchThread, this, 0, &threadId);
+		m_thread = new FetchThread(this);
+		m_thread->start();
         return;
     }
 #endif
@@ -401,6 +413,10 @@ FetchClient::~FetchClient()
         if (it != FetchManager::manager->m_clients.end())
             FetchManager::manager->m_clients.erase(it);
     }
+#ifdef WIN32
+	if (m_thread)
+		delete m_thread;
+#endif
     if (m_socket)
         delete m_socket;
     if (m_post)

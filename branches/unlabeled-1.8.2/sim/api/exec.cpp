@@ -21,6 +21,7 @@
 #include <qsocketnotifier.h>
 
 #ifdef WIN32
+#include <qthread.h>
 #include <windows.h>
 #include <process.h>
 
@@ -44,9 +45,9 @@ Exec::Exec()
 {
     result = -1;
 #ifdef WIN32
-    hThread    = NULL;
-    hOutThread = NULL;
-    hErrThread = NULL;
+    thread     = NULL;
+    outThread  = NULL;
+    errThread  = NULL;
 #else
     hIn = -1;
     hOut = -1;
@@ -61,47 +62,36 @@ Exec::Exec()
 Exec::~Exec()
 {
 #ifdef WIN32
-    HANDLE h[4];
-    unsigned n = 0;
-    if (hErrThread){
-        h[n++] = hErrThread;
-        TerminateThread((HANDLE)hErrThread, 1);
-    }
-    if (hOutThread){
-        h[n++] = hOutThread;
-        TerminateThread((HANDLE)hOutThread, 1);
-    }
-    if (hThread){
-        h[n++] = hThread;
-        TerminateThread((HANDLE)hThread, 1);
-    }
-    if (n)
-        WaitForMultipleObjects(n, h, TRUE, INFINITE);
+	if (errThread)
+		delete errThread;
+	if (outThread)
+		delete outThread;
+	if (thread)
+		delete thread;
 #endif
 }
 
 #ifdef WIN32
 
-typedef struct PIPE_READ
+class ReadPipeThread : public QThread
 {
-    HANDLE	pipe;
+public:
+	ReadPipeThread() {}
+	void run();
+	HANDLE	pipe;
     Buffer	*b;
-    void	**hThread;
-} PIPE_READ;
+};
 
-DWORD __stdcall ReadPipeThread(LPVOID lpParameter)
+void ReadPipeThread::run()
 {
-    PIPE_READ *p = (PIPE_READ*)lpParameter;
     for (;;){
         char buff[PIPE_SIZE];
         unsigned long r = PIPE_SIZE;
-        if (ReadFile(p->pipe, buff, r, &r,NULL)== 0)
+        if (ReadFile(pipe, buff, r, &r,NULL)== 0)
             break;
-        p->b->pack(buff, r);
+        b->pack(buff, r);
     }
-    CloseHandle(p->pipe);
-    *(p->hThread) = NULL;
-    return 0;
+    CloseHandle(pipe);
 }
 
 static bool isWindowsNT()
@@ -115,10 +105,22 @@ static bool isWindowsNT()
     return (ovi.dwPlatformId==VER_PLATFORM_WIN32_NT);
 }
 
-DWORD __stdcall ExecProcThread(LPVOID lpParameter)
+class ExecThread : public QThread
 {
-    Exec *exec = (Exec*)lpParameter;
+public:
+	ExecThread(Exec*);
+protected:
+	void run();
+	Exec *exec;
+};
 
+ExecThread::ExecThread(Exec *_exec)
+{
+	exec = _exec;
+}
+
+void ExecThread::run()
+{
     HANDLE inPipe[2] = { NULL, NULL };
     HANDLE outPipe[2] = { NULL, NULL };
     HANDLE errPipe[2] = { NULL, NULL };
@@ -145,8 +147,7 @@ DWORD __stdcall ExecProcThread(LPVOID lpParameter)
         if (errPipe[READ]) CloseHandle(errPipe[READ]);
         if (errPipe[WRITE]) CloseHandle(errPipe[WRITE]);
         QTimer::singleShot(0, exec, SLOT(finished()));
-        exec->hThread = NULL;
-        return 0;
+        return;
     }
 
     _STARTUPINFOA si;
@@ -210,27 +211,23 @@ DWORD __stdcall ExecProcThread(LPVOID lpParameter)
         CloseHandle(outPipe[WRITE]);
         CloseHandle(errPipe[READ]);
         CloseHandle(errPipe[WRITE]);
-        exec->hThread = NULL;
         QTimer::singleShot(0, exec, SLOT(finished()));
-        return 0;
+        return;
     }
     CloseHandle(outPipe[WRITE]);
     CloseHandle(errPipe[WRITE]);
     CloseHandle(inPipe[READ]);
 
-    DWORD threadId;
-
-    PIPE_READ pOut;
+	ReadPipeThread pOut;
     pOut.pipe    = outPipe[READ];
     pOut.b       = &exec->bOut;
-    pOut.hThread = &exec->hOutThread;
-    exec->hOutThread = CreateThread(NULL, 0, ReadPipeThread, &pOut, 0, &threadId);
 
-    PIPE_READ pErr;
+    ReadPipeThread pErr;
     pErr.pipe	 = errPipe[READ];
     pErr.b		 = &exec->bErr;
-    pErr.hThread = &exec->hErrThread;
-    exec->hErrThread = CreateThread(NULL, 0, ReadPipeThread, &pErr, 0, &threadId);
+
+	pOut.start();
+	pErr.start();
 
     DWORD exitCode = 0;
     unsigned long wrtn;
@@ -250,16 +247,7 @@ DWORD __stdcall ExecProcThread(LPVOID lpParameter)
     if (!success || (exitCode == STILL_ACTIVE))
         WriteFile(inPipe[WRITE], "", 0, &wrtn, NULL);
 
-    unsigned n = 0;
-    HANDLE h[4];
-    if (exec->hOutThread)
-        h[n++] = exec->hOutThread;
-    if (exec->hErrThread)
-        h[n++] = exec->hErrThread;
-    if (!success)
-        h[n++] = pi.hProcess;
-    if (n)
-        WaitForMultipleObjects(n, h, TRUE, INFINITE);
+    WaitForSingleObject(pi.hProcess, INFINITE);
     if (!success)
         GetExitCodeProcess(pi.hProcess, &exitCode);
 
@@ -267,11 +255,11 @@ DWORD __stdcall ExecProcThread(LPVOID lpParameter)
     CloseHandle(pi.hThread);
     CloseHandle(pi.hProcess);
 
+	pOut.wait();
+	pErr.wait();
+
     exec->result = exitCode;
     QTimer::singleShot(0, exec, SLOT(finished()));
-
-    exec->hThread = NULL;
-    return 0;
 }
 
 #endif
@@ -296,10 +284,10 @@ void Exec::execute(const char *prg, const char *input, bool bSync)
     if (input)
         bIn.pack(input, strlen(input));
 #ifdef WIN32
-    DWORD threadId;
-    hThread = (void*)CreateThread(NULL, 0, ExecProcThread, this, 0, &threadId);
-    if (bSync && hThread)
-        WaitForSingleObject((void*)hThread, INFINITE);
+    ExecThread thread(this);
+	thread.start();
+    if (bSync)
+		thread.wait();
 #else
     int inPipe[2] = { -1, - 1};
     int outPipe[2] = { -1, -1 };
