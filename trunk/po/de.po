@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-08-05 15:33+0200\n"
-"PO-Revision-Date: 2004-08-30 18:12+0600\n"
-"Last-Translator: Tobias Franz <noragen@gmx.net>\n"
+"PO-Revision-Date: 2004-08-30 19:44+0100\n"
+"Last-Translator: Noragen <noragen@gmx.net>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -483,9 +483,9 @@ msgstr "&Vorherige Seite"
 msgid "&Next page"
 msgstr "&Nächste Seite"
 
-#: plugins/_core/core.cpp:820
+#: core.cpp:820
 msgid "&Save as text"
-msgstr ""
+msgstr "Speichern als Text"
 
 #: plugins/_core/core.cpp:878
 msgid "&Open message"
@@ -993,19 +993,19 @@ msgstr "Verlauf"
 
 #: plugins/_core/historywnd.cpp:191
 msgid "File already exists. Overwrite?"
-msgstr ""
+msgstr "Die Datei ist bereits vorhanden. Überschreiben?"
 
 #: plugins/_core/historywnd.cpp:196
 msgid "&Overwrite"
-msgstr ""
+msgstr "Über&schreiben"
 
 #: plugins/_core/historywnd.cpp:197
 msgid "&Append"
-msgstr ""
+msgstr "&Anfügen"
 
 #: plugins/_core/historywnd.cpp:211
 msgid "Save failed"
-msgstr ""
+msgstr "Speichern schlug fehl"
 
 #: plugins/_core/interfacecfg.cpp:53
 #: plugins/icq/moreinfo.cpp:98
@@ -9127,6 +9127,8 @@ msgid "SSL connect error"
 msgstr "SSL-Verbindungsfehler"
 
 #: sim/sslclient.cpp:177
+#: sim/sslclient.cpp:198
+#: sim/sslclient.cpp:206
 msgid "SSL shutdown error"
 msgstr "SSL-Fehler beim SSL-Shutdown"
 
