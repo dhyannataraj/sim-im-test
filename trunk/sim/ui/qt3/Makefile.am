@@ -5,6 +5,7 @@ lib_LTLIBRARIES = libsimuiqt.la
 libsimuiqt_la_SOURCES = \
 	qcomplextext.cpp \
 	qkeysequence.cpp \
+	qregexp.cpp \
 	qrichtext.cpp \
 	qrichtext_p.cpp \
 	qsimplerichtext.cpp \
