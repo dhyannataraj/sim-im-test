@@ -47,6 +47,7 @@ public:
                  const char * name = 0 );
     CToolButton ( QWidget * parent, const char * name = 0 );
     void setPopup(QPopupMenu *popup);
+    void setTextLabel(const QString &label);
 signals:
     void showPopup(QPoint);
 protected slots:

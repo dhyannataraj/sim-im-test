@@ -112,40 +112,40 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     declineMenu->insertItem(reason_string(DECLINE_REASON_LATER), DECLINE_REASON_LATER);
     declineMenu->insertItem(reason_string(DECLINE_REASON_INPUT), DECLINE_REASON_INPUT);
 
-    btnBgColor = new QToolButton(t);
+    btnBgColor = new CToolButton(t);
     btnBgColor->setTextLabel(i18n("Background color"));
     btnBgColor->setIconSet(Icon("bgcolor"));
     connect(btnBgColor, SIGNAL(clicked()), this, SLOT(setMsgBackgroundColor()));
     btnBgColor->hide();
 
-    btnFgColor = new QToolButton(t);
+    btnFgColor = new CToolButton(t);
     btnFgColor->setTextLabel(i18n("Text color"));
     btnFgColor->setIconSet(Icon("fgcolor"));
     connect(btnFgColor, SIGNAL(clicked()), this, SLOT(setMsgForegroundColor()));
     btnFgColor->hide();
 
-    btnBold = new QToolButton(t);
+    btnBold = new CToolButton(t);
     btnBold->setTextLabel(i18n("Bold"));
     btnBold->setIconSet(Icon("text_bold"));
     btnBold->setToggleButton(true);
     connect(btnBold, SIGNAL(toggled(bool)), this, SLOT(setBold(bool)));
     btnBold->hide();
 
-    btnItalic = new QToolButton(t);
+    btnItalic = new CToolButton(t);
     btnItalic->setTextLabel(i18n("Italic"));
     btnItalic->setIconSet(Icon("text_italic"));
     btnItalic->setToggleButton(true);
     connect(btnItalic, SIGNAL(toggled(bool)), this, SLOT(setItalic(bool)));
     btnItalic->hide();
 
-    btnUnder = new QToolButton(t);
+    btnUnder = new CToolButton(t);
     btnUnder->setTextLabel(i18n("Underline"));
     btnUnder->setIconSet(Icon("text_under"));
     btnUnder->setToggleButton(true);
     connect(btnUnder, SIGNAL(toggled(bool)), this, SLOT(setUnder(bool)));
     btnUnder->hide();
 
-    btnFont = new QToolButton(t);
+    btnFont = new CToolButton(t);
     btnFont->setTextLabel(i18n("Text font"));
     btnFont->setIconSet(Icon("text"));
     connect(btnFont, SIGNAL(clicked()), this, SLOT(setFont()));
@@ -187,14 +187,14 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
     connect(btnForward, SIGNAL(clicked()), this, SLOT(forwardClick()));
 
 #ifdef USE_SPELL
-    btnSpell = new QToolButton(t);
+    btnSpell = new CToolButton(t);
     btnSpell->setTextLabel(i18n("Spell check"));
     btnSpell->setIconSet(Icon("spellcheck"));
     connect(btnSpell, SIGNAL(clicked()), this, SLOT(spell()));
     btnSpell->hide();
 #endif
 
-    btnCloseSend = new QToolButton(t);
+    btnCloseSend = new CToolButton(t);
     btnCloseSend->setTextLabel(i18n("C&lose after send"));
     btnCloseSend->setIconSet(Icon("fileclose"));
     btnCloseSend->setToggleButton(true);
@@ -214,7 +214,7 @@ MsgEdit::MsgEdit(QWidget *p, unsigned long uin)
 
     t->addSeparator();
 
-    btnMultiply = new QToolButton(t);
+    btnMultiply = new CToolButton(t);
     btnMultiply->setTextLabel(i18n("Multiply send"));
     btnMultiply->setIconSet(Icon("1rightarrow"));
     connect(btnMultiply, SIGNAL(clicked()), this, SLOT(toggleMultiply()));
@@ -929,6 +929,7 @@ void MsgEdit::forwardClick()
         nMsg->Message = pClient->to8Bit(Uin, msgText);
         newMsg = nMsg;
     }
+    newMsg->Charset = pClient->codecForUser(Uin)->name();
     setMessage(newMsg);
     edit->moveCursor(QTextEdit::MoveEnd, false);
     bMultiply = true;
@@ -963,7 +964,10 @@ void MsgEdit::quoteClick()
             msgText = view->text();
         }
     }
-    string text(msgText.utf8());
+    string s;
+    s = msgText.local8Bit();
+    string text;
+    if (!msgText.isEmpty()) text = msgText.utf8();
     text = pClient->clearHTML(text);
     msgText = QString::fromUtf8(text.c_str());
     QStringList l = QStringList::split('\n', msgText, true);
@@ -972,9 +976,11 @@ void MsgEdit::quoteClick()
         *it = QString("<p>&gt;") + *it + "</p>\n";
     }
     msgText = l.join("");
+    s = msgText.local8Bit();
     ICQMsg *msg = new ICQMsg;
     msg->Uin.push_back(Uin);
     msg->Message = pClient->to8Bit(Uin, msgText);
+    msg->Charset = pClient->codecForUser(Uin)->name();
     setMessage(msg);
     edit->moveCursor(QTextEdit::MoveEnd, false);
 }
@@ -1250,6 +1256,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                         edit->resetColors(true);
                     }
                     edit->setFocus();
+		    edit->moveCursor(QTextEdit::MoveEnd, false);
                 }
                 break;
             }
@@ -1279,6 +1286,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                     urlEdit->setText(pClient->from8Bit(Uin, m->URL, m->Charset.c_str()));
                 }
                 urlEdit->setFocus();
+		urlEdit->end(true);
                 break;
             }
         case ICQ_MSGxFILE:{

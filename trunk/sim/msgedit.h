@@ -45,7 +45,7 @@ class UserTab;
 class History;
 class MsgView;
 class WndCancel;
-class QToolButton;
+class CToolButton;
 class PictButton;
 
 class MsgEdit : public QSplitter
@@ -127,17 +127,17 @@ protected:
     History *history();
     ICQMessage *msg;
 
-    QToolButton	*btnCloseSend;
+    CToolButton	*btnCloseSend;
     PictButton	*btnSend;
 
-    QToolButton	*btnBgColor;
-    QToolButton	*btnFgColor;
-    QToolButton	*btnBold;
-    QToolButton	*btnItalic;
-    QToolButton	*btnUnder;
-    QToolButton	*btnFont;
+    CToolButton	*btnBgColor;
+    CToolButton	*btnFgColor;
+    CToolButton	*btnBold;
+    CToolButton	*btnItalic;
+    CToolButton	*btnUnder;
+    CToolButton	*btnFont;
 #ifdef USE_SPELL
-    QToolButton	*btnSpell;
+    CToolButton	*btnSpell;
 #endif
     PictButton	*btnNext;
     PictButton	*btnReply;
@@ -147,7 +147,7 @@ protected:
     PictButton	*btnRefuse;
     PictButton	*btnAccept;
     PictButton	*btnDecline;
-    QToolButton	*btnMultiply;
+    CToolButton	*btnMultiply;
 
     TextShow   *view;
     QHGroupBox *phone;
