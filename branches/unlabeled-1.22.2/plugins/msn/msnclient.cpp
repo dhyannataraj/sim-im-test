@@ -40,6 +40,7 @@
 #include <time.h>
 #include <qtimer.h>
 #include <qregexp.h>
+#include <qfile.h>
 
 #include <map>
 #include <algorithm>
@@ -106,6 +107,8 @@ static DataDef msnClientData[] =
         { "ListVer", DATA_ULONG, 1, 0 },
         { "ListRequests", DATA_UTF, 1, 0 },
         { "Version", DATA_STRING, 1, (unsigned)"5.0.0540" },
+		{ "MinPort", DATA_ULONG, 1, 1024 },
+		{ "MaxPort", DATA_ULONG, 1, 0xFFFF },
         { "", DATA_STRUCT, sizeof(MSNUserData) / sizeof(unsigned), (unsigned)msnUserData },
         { NULL, 0, 0, 0 }
     };
@@ -130,6 +133,7 @@ MSNClient::~MSNClient()
 {
     TCPClient::setStatus(STATUS_OFFLINE, false);
     free_data(msnClientData, &data);
+	freeData();
 }
 
 string MSNClient::name()

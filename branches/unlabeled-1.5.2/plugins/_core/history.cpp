@@ -539,6 +539,9 @@ void History::add(Message *msg, const char *type)
         msg->setId(s_tempId);
         return;
     }
+	if (!line.empty() && (line[line.length() - 1] != '\n'))
+		line += '\n';
+
     string name = msg->client();
     if (name.empty())
         name = number(msg->contact());

@@ -2105,42 +2105,6 @@ void *CorePlugin::processEvent(Event *e)
             CommandDef *cmd = (CommandDef*)(e->param());
             if (cmd->menu_id == MenuMessage){
                 Message *msg;
-                if (cmd->id == CmdGrantAuth){
-                    Message *from = (Message*)(cmd->param);
-                    msg = new AuthMessage(MessageAuthGranted);
-                    const char *client_str = from->client();
-                    if (client_str == NULL)
-                        client_str = "";
-                    msg->setContact(from->contact());
-                    msg->setClient(client_str);
-                    Contact *contact = getContacts()->contact(msg->contact());
-                    if (contact){
-                        void *data;
-                        ClientDataIterator it(contact->clientData);
-                        while ((data = ++it) != NULL){
-                            Client *client = it.client();
-                            if (*client_str){
-                                if ((client->dataName(data) == client_str) && client->send(msg, data))
-                                    return e->param();
-                            }else{
-                                if (client->canSend(MessageAuthGranted, data) && client->send(msg, data))
-                                    return e->param();
-                            }
-                        }
-                    }
-                    delete msg;
-                    return e->param();
-                }
-                if (cmd->id == CmdRefuseAuth){
-                    Message *from = (Message*)(cmd->param);
-                    msg = new AuthMessage(MessageAuthRefused);
-                    msg->setContact(from->contact());
-                    msg->setClient(from->client());
-                    Event eOpen(EventOpenMessage, msg);
-                    eOpen.process();
-                    delete msg;
-                    return e->param();
-                }
                 CommandDef *def = messageTypes.find(cmd->id);
                 if (def == NULL)
                     return NULL;
@@ -2206,6 +2170,42 @@ void *CorePlugin::processEvent(Event *e)
                 }
                 return NULL;
             }
+                if (cmd->id == CmdGrantAuth){
+                    Message *from = (Message*)(cmd->param);
+                    Message *msg = new AuthMessage(MessageAuthGranted);
+                    const char *client_str = from->client();
+                    if (client_str == NULL)
+                        client_str = "";
+                    msg->setContact(from->contact());
+                    msg->setClient(client_str);
+                    Contact *contact = getContacts()->contact(msg->contact());
+                    if (contact){
+                        void *data;
+                        ClientDataIterator it(contact->clientData);
+                        while ((data = ++it) != NULL){
+                            Client *client = it.client();
+                            if (*client_str){
+                                if ((client->dataName(data) == client_str) && client->send(msg, data))
+                                    return e->param();
+                            }else{
+                                if (client->canSend(MessageAuthGranted, data) && client->send(msg, data))
+                                    return e->param();
+                            }
+                        }
+                    }
+                    delete msg;
+                    return e->param();
+                }
+                if (cmd->id == CmdRefuseAuth){
+                    Message *from = (Message*)(cmd->param);
+                    Message *msg = new AuthMessage(MessageAuthRefused);
+                    msg->setContact(from->contact());
+                    msg->setClient(from->client());
+                    Event eOpen(EventOpenMessage, msg);
+                    eOpen.process();
+                    delete msg;
+                    return e->param();
+                }
             if (cmd->id == CmdSeparate){
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));
                 if (contact == NULL)

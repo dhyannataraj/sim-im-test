@@ -694,8 +694,12 @@ JabberClient::PresenceRequest::~PresenceRequest()
                         ((now - m_client->data.owner.OnlineTime > 60) ||
                          (data->Status != STATUS_OFFLINE)))
                     bOnLine = true;
-                if (data->Status == STATUS_OFFLINE)
+                if (data->Status == STATUS_OFFLINE){
                     data->OnlineTime = now;
+					DiscoRequest *req = new DiscoRequest(m_client, data);
+					req->send();
+					m_client->m_requests.push_back(req);
+				}
                 data->Status = status;
                 data->StatusTime = now;
             }
@@ -883,7 +887,7 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
         m_data = &m_error;
         return;
     }
-    if (!strcmp(el, "compose")){
+    if (!strcmp(el, "composing")){
         m_bCompose = true;
         return;
     }
@@ -1250,7 +1254,7 @@ protected:
 };
 
 RegisterRequest::RegisterRequest(JabberClient *client, const char *jid)
-        : ServerRequest(client, _SET, NULL, jid)
+        : ServerRequest(client, _GET, NULL, jid)
 {
     m_data = NULL;
     m_bOK  = false;
@@ -1325,4 +1329,26 @@ void JabberClient::processList()
     m_listRequests.clear();
 }
 
+JabberClient::DiscoRequest::DiscoRequest(JabberClient *client, JabberUserData *data)
+        : ServerRequest(client, _SET, NULL, data->ID)
+{
+	m_data = data;
+	m_bRichText = false;
+    start_element("query");
+    add_attribute("xmlns", "http://jabber.org/protocol/disco#info");
+}
+
+JabberClient::DiscoRequest::~DiscoRequest()
+{
+	m_data->richText = m_bRichText ? RICH_TEXT_ON : RICH_TEXT_OFF;
+}
+
+void JabberClient::DiscoRequest::element_start(const char *el, const char **attr)
+{
+	if (!strcmp(el, "feature")){
+		string var = JabberClient::get_attr("var", attr);
+		if (var == "http://jabber.org/protocol/xhtml-im")
+			m_bRichText = true;
+	}
+}
 

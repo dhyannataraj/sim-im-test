@@ -380,7 +380,6 @@ ICQClient::ICQClient(Protocol *protocol, const char *cfg, bool bAIM)
 ICQClient::~ICQClient()
 {
     setStatus(STATUS_OFFLINE, false);
-
     if (m_listener)
         delete m_listener;
     free_data(icqClientData, &data);
@@ -396,6 +395,7 @@ ICQClient::~ICQClient()
     while (!m_sockets.empty())
         delete m_sockets.front();
     m_processMsg.clear();
+	freeData();
 }
 
 const DataDef *ICQProtocol::userDataDef()

@@ -18,7 +18,6 @@
 #include "msn.h"
 #include "msnclient.h"
 #include "simapi.h"
-#include "core.h"
 
 #include "xpm/msn_online.xpm"
 #include "xpm/msn_offline.xpm"

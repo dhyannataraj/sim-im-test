@@ -100,6 +100,7 @@ static DataDef jabberUserData[] =
         { "", DATA_BOOL, 1, 0 },			// bChecked
         { "", DATA_STRING, 1, 0 },			// TypingId
         { "", DATA_ULONG, 1, 0 },			// ComposeId
+		{ "", DATA_ULONG, 1, 0 },			// richText
         { NULL, 0, 0, 0 }
     };
 
@@ -185,6 +186,7 @@ JabberClient::~JabberClient()
 {
     TCPClient::setStatus(STATUS_OFFLINE, false);
     free_data(jabberClientData, &data);
+	freeData();
 }
 
 const DataDef *JabberProtocol::userDataDef()
@@ -1104,6 +1106,7 @@ void JabberClient::setOffline(JabberUserData *data)
 {
     data->Status = STATUS_OFFLINE;
     data->composeId = 0;
+	data->richText = RICH_TEXT_UNKNOWN;
     if (data->TypingId && *data->TypingId){
         set_str(&data->TypingId, NULL);
         Contact *contact;
@@ -1625,9 +1628,7 @@ void JabberClient::auth_request(const char *jid, unsigned type, const char *text
     Contact *contact;
     JabberUserData *data = findContact(jid, NULL, false, contact);
     if (isAgent(jid)){
-
         switch (type){
-
         case MessageAuthRequest:{
                 if (data == NULL)
                     data = findContact(jid, NULL, true, contact);

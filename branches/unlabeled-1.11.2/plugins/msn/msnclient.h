@@ -66,6 +66,8 @@ typedef struct MSNClientData
     unsigned	ListVer;
     char		*ListRequests;
     char		*Version;
+	unsigned	MinPort;
+	unsigned	MaxPort;
     MSNUserData	owner;
 } MSNClientData;
 
@@ -166,6 +168,8 @@ public:
     PROP_ULONG(ListVer);
     PROP_UTF8(ListRequests);
     PROP_STR(Version);
+	PROP_ULONG(MinPort);
+	PROP_ULONG(MaxPort);
     QString getLogin();
     QString unquote(const QString&);
     QString quote(const QString&);

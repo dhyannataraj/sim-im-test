@@ -503,7 +503,8 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
             send(false);
             return true;
         }
-        if ((data->Uin == 0) || m_bAIM || hasCap(data, CAP_AIM_CHAT) || hasCap(data, CAP_AIM_BUDDYCON)){
+        if ((data->Uin == 0) || m_bAIM || 
+			(hasCap(data, CAP_AIM_BUDDYCON) && !hasCap(data, CAP_AIM_CHAT))){
             s.flags  = SEND_HTML;
             s.msg	 = msg;
             s.text	 = removeImages(msg->getRichText(), 0);
