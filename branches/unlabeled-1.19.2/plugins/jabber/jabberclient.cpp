@@ -98,6 +98,7 @@ static DataDef jabberUserData[] =
         { "Subscribe", DATA_ULONG, 1, 0 },
         { "Group", DATA_UTF, 1, 0 },
         { "", DATA_BOOL, 1, 0 },			// bChecked
+		{ "", DATA_STRING, 1, 0 },			// TypingId
         { NULL, 0, 0, 0 }
     };
 
@@ -125,6 +126,8 @@ static DataDef jabberClientData[] =
         { "Priority", DATA_ULONG, 1, 5 },
         { "ListRequest", DATA_UTF, 1, 0 },
         { "VHost", DATA_UTF, 1, 0 },
+		{ "Typing", DATA_BOOL, 1, 1 },
+		{ "ProtocolIcons", DATA_BOOL, 1, 1 },
         { "", DATA_STRUCT, sizeof(JabberUserData) / sizeof(unsigned), (unsigned)jabberUserData },
         { NULL, 0, 0, 0 }
     };
@@ -994,6 +997,14 @@ QString JabberClient::contactTip(void *_data)
 void JabberClient::setOffline(JabberUserData *data)
 {
     data->Status = STATUS_OFFLINE;
+	if (data->TypingId && *data->TypingId){
+		set_str(&data->TypingId, NULL);
+		Contact *contact;
+		if (findContact(data->ID, NULL, false, contact)){
+			Event e(EventContactStatus, contact);
+			e.process();
+		}
+	}
 }
 
 const unsigned MAIN_INFO = 1;

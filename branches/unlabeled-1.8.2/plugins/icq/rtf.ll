@@ -75,7 +75,7 @@ struct FontDef
 
 class RTF2HTML;
 
-enum Tag
+enum TagEnum
 {
     TAG_ALL = 0,
     TAG_FONT_SIZE,
@@ -131,7 +131,7 @@ public:
     void addLineBreak();
     void flush();
     void reset();
-    void resetTag(Tag tag);
+    void resetTag(TagEnum tag);
 protected:
     string text;
     void Init();
@@ -169,8 +169,8 @@ protected:
 class OutTag
 {
 public:
-    OutTag(Tag _tag, unsigned _param) : tag(_tag), param(_param) {}
-    Tag tag;
+    OutTag(TagEnum _tag, unsigned _param) : tag(_tag), param(_param) {}
+    TagEnum tag;
     unsigned param;
 };
 
@@ -191,13 +191,13 @@ public:
     // Writes down the tags from oTags into the paragraph buffer.
     void FlushOutTags();
     // Retrieves the top not-yet-written tag.
-    OutTag* getTopOutTag(Tag tagType);
+    OutTag* getTopOutTag(TagEnum tagType);
     // Writes down the paragraph buffer and resets the paragraph state.
     void FlushParagraph();
 
 // Document-wide functions:
 
-    void PutTag(Tag n)
+    void PutTag(TagEnum n)
     {
        tags.push(n);
     }
@@ -223,8 +223,8 @@ protected:
     vector<FontDef> fonts;
     // Colors table.
     vector<QColor> colors;
-    // All tags.
-    stack<Tag> tags;
+    // Stack of tags (across all levels, not just current level)
+    stack<TagEnum> tags;
 
 // RTF parser internals
 
@@ -234,7 +234,7 @@ protected:
     stack<Level> levels;
 };
 
-OutTag* RTF2HTML::getTopOutTag(Tag tagType)
+OutTag* RTF2HTML::getTopOutTag(TagEnum tagType)
 {
     vector<OutTag>::iterator it, it_end;
     for(it = oTags.begin(), it_end = oTags.end(); it != it_end; ++it)
@@ -291,15 +291,15 @@ void RTF2HTML::FlushOutTags()
 // This function will close the already-opened tag 'tag'. It will take
 // care of closing the tags which 'tag' contains first (ie. it will unroll
 // the stack till the point where 'tag' is).
-void Level::resetTag(Tag tag)
+void Level::resetTag(TagEnum tag)
 {
     // A stack which'll keep tags we had to close in order to reach 'tag'.
     // After we close 'tag', we will reopen them.
-    stack<Tag> s;
+    stack<TagEnum> s;
     
     while (p->tags.size() > m_nTagsStartPos){ // Don't go further than the point where this level starts.
  
-        Tag nTag = p->tags.top();
+        TagEnum nTag = p->tags.top();
 
         /* A tag will be located in oTags if it still wasn't printed out.
            A tag will get printed out only if necessary (e.g. <I></I> will
@@ -340,7 +340,7 @@ void Level::resetTag(Tag tag)
     if (tag == TAG_ALL) return;
 
     while (!s.empty()){
-        Tag nTag = s.top();
+        TagEnum nTag = s.top();
         switch (nTag){
         case TAG_FONT_COLOR:{
                 unsigned nFontColor = m_nFontColor;

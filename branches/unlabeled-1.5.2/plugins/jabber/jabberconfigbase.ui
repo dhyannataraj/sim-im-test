@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>371</width>
-            <height>287</height>
+            <width>431</width>
+            <height>340</height>
         </rect>
     </property>
     <property>
@@ -361,27 +361,6 @@
                             <cstring>edtResource</cstring>
                         </property>
                     </widget>
-                    <spacer row="8"  column="0" >
-                        <property>
-                            <name>name</name>
-                            <cstring>Spacer4</cstring>
-                        </property>
-                        <property>
-                            <name>orientation</name>
-                            <enum>Vertical</enum>
-                        </property>
-                        <property>
-                            <name>sizeType</name>
-                            <enum>Expanding</enum>
-                        </property>
-                        <property>
-                            <name>sizeHint</name>
-                            <size>
-                                <width>20</width>
-                                <height>20</height>
-                            </size>
-                        </property>
-                    </spacer>
                     <widget row="7"  column="0"  rowspan="1"  colspan="3" >
                         <class>QLineEdit</class>
                         <property stdset="1">
@@ -457,6 +436,49 @@
                             </size>
                         </property>
                     </spacer>
+                    <spacer row="10"  column="0" >
+                        <property>
+                            <name>name</name>
+                            <cstring>Spacer4</cstring>
+                        </property>
+                        <property>
+                            <name>orientation</name>
+                            <enum>Vertical</enum>
+                        </property>
+                        <property>
+                            <name>sizeType</name>
+                            <enum>Expanding</enum>
+                        </property>
+                        <property>
+                            <name>sizeHint</name>
+                            <size>
+                                <width>20</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
+                    <widget row="9"  column="0"  rowspan="1"  colspan="3" >
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkIcons</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Use protocol &amp;icons for agents contacts</string>
+                        </property>
+                    </widget>
+                    <widget row="8"  column="0"  rowspan="1"  colspan="3" >
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkTyping</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Enable &amp;typing notification</string>
+                        </property>
+                    </widget>
                 </grid>
             </widget>
         </widget>

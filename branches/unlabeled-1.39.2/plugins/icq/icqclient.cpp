@@ -1378,10 +1378,21 @@ QString ICQClient::toUnicode(const char *str, ICQUserData *client_data)
 {
     if ((str == NULL) || (*str == 0))
         return QString();
-    if (client_data->Uin == 0)
-        return QString::fromUtf8(str);
-    QTextCodec *codec = getCodec(client_data ? client_data->Encoding : NULL);
-    return codec->toUnicode(str, strlen(str));
+    if (client_data != NULL)
+    {
+        if (client_data->Uin == 0)
+            return QString::fromUtf8(str);
+        else
+        {
+            QTextCodec *codec = getCodec(client_data->Encoding);
+            return codec->toUnicode(str, strlen(str));
+        }
+    }
+    else
+    {
+        QTextCodec *codec = getCodec(NULL);
+        return codec->toUnicode(str, strlen(str));
+    }
 }
 
 string ICQClient::fromUnicode(const QString &str, ICQUserData *client_data)
