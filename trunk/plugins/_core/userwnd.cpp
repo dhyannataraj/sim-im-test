@@ -188,7 +188,7 @@ void UserWnd::showListView(bool bShow, bool bAdd)
     if (bShow){
         if (m_list == NULL){
             m_list = new UserList(m_hSplitter);
-            m_hSplitter->setResizeMode(m_list, QSplitter::KeepSize);
+            m_hSplitter->setResizeMode(m_list, QSplitter::Stretch);
             connect(m_list, SIGNAL(selectChanged()), this, SLOT(selectChanged()));
             if (bAdd)
                 m_list->selected.push_back(m_id);
