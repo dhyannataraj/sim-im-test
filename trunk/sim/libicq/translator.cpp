@@ -113,16 +113,13 @@ char const *ICQClient::localCharset(ICQUser *u)
 
 void ICQClient::fromServer(string &str, ICQUser *u)
 {
-    log(L_DEBUG, "From %lu", u ? u->Uin() : 0);
     fromServer(str, localCharset(u));
 }
 
 void ICQClient::fromServer(string &str, const char *lclCharset)
 {
     if (lclCharset == NULL) lclCharset = localCharset();
-    log(L_DEBUG, "From server %s -> %s [%s]", lclCharset, serverCharset(lclCharset), str.c_str());
     translate(lclCharset, serverCharset(lclCharset), str);
-    log(L_DEBUG, "<< %s", str.c_str());
 }
 
 void ICQClient::toServer(string &str, ICQUser *u)

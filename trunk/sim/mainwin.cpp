@@ -36,6 +36,7 @@
 #include "ui/searchdlg.h"
 #include "ui/setupdlg.h"
 #include "ui/autoreply.h"
+#include "ui/userautoreply.h"
 #include "ui/alertmsg.h"
 #include "ui/ballonmsg.h"
 #include "ui/filetransfer.h"
@@ -738,7 +739,7 @@ bool MainWindow::init()
         dlg.exec();
         bInLogin = false;
         ManualStatus = ICQ_STATUS_ONLINE;
-	bNeedSetup = true;
+        bNeedSetup = true;
     }
     if (pClient->Uin == 0)
         return false;
@@ -1534,13 +1535,19 @@ void MainWindow::showUserPopup(unsigned long uin, QPoint p, QPopupMenu *popup, c
     menuUser->popup(p);
 }
 
-void MainWindow::addMessageType(QPopupMenu *menuUser, int type, int id, bool bAdd,
+void MainWindow::addMessageType(QPopupMenu *menuUser, int type, int id, bool bAdd, bool bHaveTitle)
+{
+    addMenuItem(menuUser, Client::getMessageIcon(type), Client::getMessageText(type, 1),
+                id, bAdd, bHaveTitle);
+}
+
+void MainWindow::addMenuItem(QPopupMenu *menuUser, const char *icon, const QString &n, int id, bool bAdd,
 #ifdef USE_KDE
-                                bool bHaveTitle
+                             bool bHaveTitle
 #else
-                                bool
+                             bool
 #endif
-                               )
+                            )
 {
     if (bAdd){
         int pos = 0;
@@ -1551,7 +1558,7 @@ void MainWindow::addMessageType(QPopupMenu *menuUser, int type, int id, bool bAd
             if (menuUser->indexOf(id) == pos) return;
             menuUser->removeItem(id);
         }
-        menuUser->insertItem(Icon(Client::getMessageIcon(type)), Client::getMessageText(type, 1), id, pos);
+        menuUser->insertItem(Icon(icon), n, id, pos);
         return;
     }
     if (menuUser->findItem(id) == NULL) return;
@@ -1686,6 +1693,30 @@ void MainWindow::userFunction(unsigned long uin, int function, unsigned long par
             }
             return;
         }
+    case mnuAutoResponse:{
+            QWidgetList  *list = QApplication::topLevelWidgets();
+            QWidgetListIt it( *list );
+            QWidget * w;
+            while ( (w=it.current()) != 0 ) {   // for each top level widget...
+                ++it;
+                if (!w->inherits("UserAutoReplyDlg")) continue;
+                UserAutoReplyDlg *dlg = static_cast<UserAutoReplyDlg*>(w);
+                if (dlg->uin == uin) break;
+            }
+            if (w == NULL)
+                w = new UserAutoReplyDlg(uin);
+            w->show();
+#ifdef USE_KDE
+            KWin::setOnDesktop(w->winId(), KWin::currentDesktop());
+#endif
+            w->setActiveWindow();
+            w->raise();
+#ifdef USE_KDE
+            KWin::setActiveWindow(w->winId());
+#endif
+            delete list;
+            return;
+        }
     case mnuMail:
         sendMail(uin);
         return;
@@ -1774,6 +1805,10 @@ void MainWindow::adjustUserMenu(QPopupMenu *menu, ICQUser *u, bool haveTitle, bo
             break;
         }
     }
+    addMenuItem(menu, Client::getStatusIcon(u->uStatus),
+                i18n("Read %1 message") .arg(Client::getStatusText(u->uStatus)),
+                mnuAutoResponse,
+                (u->uStatus != ICQ_STATUS_OFFLINE) && ((u->uStatus & 0xFF) != ICQ_STATUS_ONLINE), haveTitle);
     addMessageType(menu, ICQ_MSGxMAIL, mnuMail, haveEmail, haveTitle);
     addMessageType(menu, ICQ_MSGxAUTHxREQUEST, mnuAuth, u->WaitAuth, haveTitle);
     addMessageType(menu, ICQ_MSGxCHAT, mnuChat, (u->Type() == USER_TYPE_ICQ) && u->isOnline(), haveTitle);

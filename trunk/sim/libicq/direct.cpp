@@ -68,6 +68,14 @@ const unsigned short TCP_START  = 0x07EE;
 const unsigned short TCP_ACK    = 0x07DA;
 const unsigned short TCP_CANCEL	= 0x07D0;
 
+const unsigned short ICQ_TCPxACK_ONLINE            = 0x0000;
+const unsigned short ICQ_TCPxACK_AWAY              = 0x0004;
+const unsigned short ICQ_TCPxACK_OCCUPIED          = 0x0009;
+const unsigned short ICQ_TCPxACK_DND               = 0x000A;
+const unsigned short ICQ_TCPxACK_OCCUPIEDxCAR      = 0x000B;
+const unsigned short ICQ_TCPxACK_NA                = 0x000E;
+const unsigned short ICQ_TCPxACK_DNDxCAR           = 0x000F;
+
 DirectSocket::DirectSocket(int fd, const char *host, unsigned short port, ICQClient *_client)
         : ClientSocket(fd, host, port)
 {
@@ -779,21 +787,57 @@ void DirectClient::processPacket()
         }
         m->Received = true;
         m->Direct = true;
-        if ((m->Type() == ICQ_MSGxSECURExOPEN) || (m->Type() == ICQ_MSGxSECURExCLOSE)){
-            startPacket(TCP_ACK, seq);
-            const char *answer = NULL;
+        switch (m->Type()){
+        case ICQ_MSGxSECURExOPEN:
+        case ICQ_MSGxSECURExCLOSE:{
+                startPacket(TCP_ACK, seq);
+                const char *answer = NULL;
 #ifdef USE_OPENSSL
-            answer = "1";
+                answer = "1";
 #endif
-            client->packMessage(writeBuffer, m, answer, 0, 0, 0, true, true);
-            sendPacket();
-            if (m->Type() == ICQ_MSGxSECURExOPEN){
-                secureListen();
-            }else{
-                secureStop(true);
+                client->packMessage(writeBuffer, m, answer, 0, 0, 0, true, true);
+                sendPacket();
+                if (m->Type() == ICQ_MSGxSECURExOPEN){
+                    secureListen();
+                }else{
+                    secureStop(true);
+                }
+                delete m;
+                break;
             }
-            delete m;
-        }else{
+        case ICQ_READxAWAYxMSG:
+        case ICQ_READxOCCUPIEDxMSG:
+        case ICQ_READxNAxMSG:
+        case ICQ_READxDNDxMSG:
+        case ICQ_READxFFCxMSG:{
+                startPacket(TCP_ACK, seq);
+                writeBuffer.pack(m->Type());
+                unsigned short status = 0;
+                switch (client->uStatus & 0xFF){
+                case ICQ_STATUS_AWAY:
+                    status = ICQ_TCPxACK_AWAY;
+                    break;
+                case ICQ_STATUS_OCCUPIED:
+                    status = ICQ_TCPxACK_OCCUPIEDxCAR;
+                    break;
+                case ICQ_STATUS_DND:
+                    status = ICQ_TCPxACK_DNDxCAR;
+                    break;
+                default:
+                    status = ICQ_TCPxACK_NA;
+                }
+                writeBuffer.pack(status);
+                writeBuffer.pack((unsigned short)0);
+                string response;
+                client->getAutoResponse(u->Uin(), response);
+                client->toServer(response, u);
+                writeBuffer << response;
+                writeBuffer << 0x00000000L << 0x00000000L;
+                sendPacket();
+                delete m;
+                break;
+            }
+        default:
             if ((m->Type() != ICQ_MSGxFILE) && (m->Type() != ICQ_MSGxCHAT))
                 sendAck(seq, m->Type());
             client->messageReceived(m);
@@ -819,6 +863,23 @@ void DirectClient::processPacket()
                 if (msg->id2 == seq){
                     if (ackFlags){
                         client->fromServer(msg_str, u);
+                        switch (msg->Type()){
+                        case ICQ_READxAWAYxMSG:
+                        case ICQ_READxOCCUPIEDxMSG:
+                        case ICQ_READxNAxMSG:
+                        case ICQ_READxDNDxMSG:
+                        case ICQ_READxFFCxMSG:{
+                                u->AutoReply = msg_str;
+                                ICQEvent eInfo(EVENT_INFO_CHANGED, uin, EVENT_SUBTYPE_AUTOREPLY);
+                                client->process_event(&eInfo);
+                                u->msgQueue.remove(e);
+                                delete e;
+                                delete msg;
+                                return;
+                            }
+                        default:
+                            break;
+                        }
                         msg->DeclineReason = msg_str;
                         client->cancelMessage(msg, false);
                     }else{
@@ -1119,6 +1180,11 @@ unsigned short DirectClient::sendMessage(ICQMessage *msg)
         }
     case ICQ_MSGxSECURExOPEN:
     case ICQ_MSGxSECURExCLOSE:
+    case ICQ_READxAWAYxMSG:
+    case ICQ_READxOCCUPIEDxMSG:
+    case ICQ_READxNAxMSG:
+    case ICQ_READxDNDxMSG:
+    case ICQ_READxFFCxMSG:
         break;
     default:
         log(L_WARN, "Unknown type %u for direct send", msg->Type());

@@ -83,7 +83,7 @@ void ICQClient::snac_message(unsigned short type, unsigned short)
                     log(L_DEBUG, "[%X] Autoreply from %u %s", seq, uin, answer.c_str());
                     ICQUser *u = getUser(uin);
                     if (u) u->AutoReply = answer;
-                    ICQEvent e(EVENT_STATUS_CHANGED, uin);
+                    ICQEvent e(EVENT_INFO_CHANGED, uin, EVENT_SUBTYPE_AUTOREPLY);
                     process_event(&e);
                     processResponseRequestQueue(seq);
                 }
@@ -814,6 +814,13 @@ void ICQClient::packMessage(Buffer &mb, ICQMessage *m, const char *msg,
             }
         case ICQ_MSGxSECURExOPEN:
         case ICQ_MSGxSECURExCLOSE:
+            break;
+        case ICQ_READxAWAYxMSG:
+        case ICQ_READxOCCUPIEDxMSG:
+        case ICQ_READxNAxMSG:
+        case ICQ_READxDNDxMSG:
+        case ICQ_READxFFCxMSG:
+            mb << 0xFFFFFFFFL << 0xFFFFFFFFL;
             break;
         default:
             log(L_WARN, "Unknow type %u in pack message", m->Type());

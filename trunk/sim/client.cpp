@@ -160,24 +160,24 @@ Client::Client(QObject *parent, const char *name)
     }
 #endif
     AutoResponseAway.setDefault(i18n(
-		"I am currently away from ICQ.\n"
-		"Please leave your message and I will get back to you as soon as I return!\n"
-		).local8Bit());
+                                    "I am currently away from ICQ.\n"
+                                    "Please leave your message and I will get back to you as soon as I return!\n"
+                                ).local8Bit());
     AutoResponseNA.setDefault(i18n(
-		"I am out'a here.\n"
-		"See you tomorrow!\n"
-		).local8Bit());
+                                  "I am out'a here.\n"
+                                  "See you tomorrow!\n"
+                              ).local8Bit());
     AutoResponseDND.setDefault(i18n(
-		"Please do not disturb me now. Disturb me later.\n"
-		).local8Bit());
+                                   "Please do not disturb me now. Disturb me later.\n"
+                               ).local8Bit());
     AutoResponseOccupied.setDefault(i18n(
-		"Please do not disturb me now.\n"
-		"Disturb me later.\n"
-		"Only urgent messages, please!\n")
-		.local8Bit());
+                                        "Please do not disturb me now.\n"
+                                        "Disturb me later.\n"
+                                        "Only urgent messages, please!\n")
+                                    .local8Bit());
     AutoResponseFFC.setDefault(i18n(
-		"We'd love to hear what you have to say. Join our chat.\n"
-		).local8Bit());
+                                   "We'd love to hear what you have to say. Join our chat.\n"
+                               ).local8Bit());
 }
 
 Client::~Client()

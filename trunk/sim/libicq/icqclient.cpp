@@ -507,6 +507,27 @@ void ICQClient::addResponseRequest(unsigned long uin, bool bPriority)
     ICQUser *u = getUser(uin);
     if (u == NULL) return;
     if (!u->CanResponse) return;
+    if ((u->Version() <= 6) || (u->direct && u->direct->isLogged())){
+        ICQMessage *msg = new ICQAutoResponse;
+        switch (u->uStatus & 0xFF){
+        case ICQ_STATUS_AWAY:
+            msg->setType(ICQ_READxAWAYxMSG);
+            break;
+        case ICQ_STATUS_OCCUPIED:
+            msg->setType(ICQ_READxOCCUPIEDxMSG);
+            break;
+        case ICQ_STATUS_DND:
+            msg->setType(ICQ_READxDNDxMSG);
+            break;
+        case ICQ_STATUS_FREEFORCHAT:
+            msg->setType(ICQ_READxFFCxMSG);
+            break;
+        default:
+            msg->setType(ICQ_READxNAxMSG);
+        }
+        u->addMessage(msg, this);
+        return;
+    }
     for (list<unsigned long>::iterator it = responseRequestQueue.begin(); it != responseRequestQueue.end(); it++){
         if ((*it) != uin) continue;
         if (!bPriority) return;

@@ -216,257 +216,99 @@ ICQSecureOff::ICQSecureOff()
 {
 }
 
+ICQAutoResponse::ICQAutoResponse()
+        : ICQMessage(ICQ_READxAWAYxMSG)
+{
+}
+
 ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, string &p, Buffer &packet,
                                     unsigned short cookie1, unsigned short cookie2,
                                     unsigned long timestamp1, unsigned long timestamp2)
 {
     log(L_DEBUG, "Parse message [type=%u]", type);
     ICQUser *u = getUser(uin);
-    if (type == ICQ_MSGxMSG){
-        if (uin < 1000){
-            log(L_WARN, "Strange UIN %lu in message", uin);
-            return NULL;
-        }
-        if (*(p.c_str()) == 0) return NULL;
-        ICQMsg *msg = new ICQMsg;
-        msg->Uin.push_back(uin);
-        parseMessageText(p.c_str(), msg->Message, u);
-        unsigned long forecolor, backcolor;
-        packet >> forecolor >> backcolor;
-        if (forecolor != backcolor){
-            msg->ForeColor = forecolor >> 8;
-            msg->BackColor = backcolor >> 8;
-        }
-        return msg;
-    }
-    if (type == ICQ_MSGxURL){
-        if (uin < 1000){
-            log(L_WARN, "Strange UIN %lu in URL message", uin);
-            return NULL;
-        }
-        vector<string> l;
-        if (!parseFE(p.c_str(), l, 2)){
-            log(L_WARN, "Parse error URL message");
-            return NULL;
-        }
-        ICQUrl *msg = new ICQUrl;
-        msg->Uin.push_back(uin);
-        parseMessageText(l[0].c_str(), msg->Message, u);
-        msg->URL = l[1];
-        return msg;
-    }
-    if (type == ICQ_MSGxAUTHxREQUEST){
-        if (uin < 1000){
-            log(L_WARN, "Strange UIN %lu in auth request message", uin);
-            return NULL;
-        }
-        vector<string> l;
-        if (!parseFE(p.c_str(), l, 6)){
-            log(L_WARN, "Parse error auth request message");
-            return NULL;
-        }
-        ICQAuthRequest *msg = new ICQAuthRequest;
-        msg->Uin.push_back(uin);
-        parseMessageText(l[4].c_str(), msg->Message, u);
-        return msg;
-    }
-    if (type == ICQ_MSGxAUTHxGRANTED){
-        if (uin < 1000){
-            log(L_WARN, "Strange UIN %lu in auth granted message", uin);
-            return NULL;
-        }
-        ICQAuthGranted *msg = new ICQAuthGranted;
-        msg->Uin.push_back(uin);
-        return msg;
-    }
-    if (type == ICQ_MSGxAUTHxREFUSED){
-        if (uin < 1000){
-            log(L_WARN, "Strange UIN %lu in auth refused message", uin);
-            return NULL;
-        }
-        ICQAuthRefused *msg = new ICQAuthRefused;
-        msg->Uin.push_back(uin);
-        parseMessageText(p.c_str(), msg->Message, u);
-        return msg;
-    }
-    if (type == ICQ_MSGxADDEDxTOxLIST){
-        if (uin < 1000){
-            log(L_WARN, "Strange UIN %lu in added to list message", uin);
-            return NULL;
-        }
-        ICQAddedToList *msg = new ICQAddedToList;
-        msg->Uin.push_back(uin);
-        return msg;
-    }
-    if (type == ICQ_MSGxCONTACTxLIST){
-        if (uin < 1000){
-            log(L_WARN, "Strange UIN %lu in contact message", uin);
-            return NULL;
-        }
-        vector<string> l;
-        if (!parseFE(p.c_str(), l, 2)){
-            log(L_WARN, "Parse error contacts message");
-            return NULL;
-        }
-        unsigned nContacts = atol(l[0].c_str());
-        if (nContacts == 0){
-            log(L_WARN, "No contacts found");
-            return NULL;
-        }
-        vector<string> c;
-        if (!parseFE(l[1].c_str(), c, nContacts*2+1)){
-            log(L_WARN, "Parse error contacts message");
-            return NULL;
-        }
-        ICQContacts *msg = new ICQContacts;
-        msg->Uin.push_back(uin);
-        for (unsigned i = 0; i < nContacts; i++){
-            Contact *contact = new Contact;
-            contact->Uin = atol(c[i*2].c_str());
-            fromServer(c[i*2+1], u);
-            contact->Alias = c[i*2+1];
-            msg->Contacts.push_back(contact);
-        }
-        return msg;
-    }
-    if (type == ICQ_MSGxCHAT){
-        unsigned short port;
-        unsigned short junk;
-        string name;
-        packet
-        >> name
-        >> port >> junk
-        >> junk >> junk;
-        fromServer(p, u);
-        ICQChat *msg = new ICQChat();
-        msg->Uin.push_back(uin);
-        msg->Reason = p;
-        msg->id1 = port;
-        msg->timestamp1 = timestamp1;
-        return msg;
-    }
-    if (type == ICQ_MSGxFILE){
-        unsigned short port;
-        unsigned short junk;
-        unsigned long fileSize;
-        string fileName;
-        packet
-        >> port
-        >> junk
-        >> fileName
-        >> fileSize
-        >> junk >> junk;
-        fromServer(p, u);
-        fromServer(fileName, u);
-        const char *shortName = strrchr(fileName.c_str(), '\\');
-        if (shortName){
-            shortName++;
-        }else{
-            shortName = fileName.c_str();
-        }
-        ICQFile *msg = new ICQFile();
-        msg->Uin.push_back(uin);
-        msg->Name = shortName;
-        msg->Description = p;
-        msg->Size = htonl(fileSize);
-        msg->id1 = port;
-        msg->timestamp1 = timestamp1;
-        return msg;
-    }
-    if (type == ICQ_MSGxSECURExOPEN){
-        ICQSecureOn *msg = new ICQSecureOn;
-        msg->Uin.push_back(uin);
-        return msg;
-    }
-    if (type == ICQ_MSGxSECURExCLOSE){
-        ICQSecureOff *msg = new ICQSecureOff;
-        msg->Uin.push_back(uin);
-        return msg;
-    }
-    if (type == ICQ_MSGxEXT){
-        string header;
-        packet >> header;
-        Buffer h(header.size());
-        h.pack(header.c_str(), header.size());
-        h.incReadPos(16);
-        unsigned short msg_type;
-        h >> msg_type;
-        string msgType;
-        h.unpackStr32(msgType);
-        string info;
-        packet.unpackStr32(info);
-        Buffer b(info.size());
-        b.pack(info.c_str(), info.size());
-        log(L_DEBUG, "Extended message %s [%04X] %u", msgType.c_str(), msg_type, info.size());
-        if (strstr(msgType.c_str(), "File")){
-            string fileDescr;
-            b.unpackStr32(fileDescr);
-            unsigned short id1, id2;
-            b >> id1 >> id2;
-            string fileName;
-            b >> fileName;
-            unsigned long fileSize;
-            b >> fileSize;
-            fileSize = htonl(fileSize);
-            fromServer(fileDescr, u);
-            fromServer(fileName, u);
-            ICQFile *msg = new ICQFile();
-            msg->isExt = true;
-            msg->Uin.push_back(uin);
-            msg->Name = fileName;
-            msg->Description = fileDescr;
-            msg->Size = fileSize;
-            msg->id1 = id1;
-            msg->id2 = id2;
-            msg->cookie1 = cookie1;
-            msg->cookie2 = cookie2;
-            msg->timestamp1 = timestamp1;
-            msg->timestamp2 = timestamp2;
-            return msg;
-        }
-        if (strstr(msgType.c_str(), "Web Page Address (URL)")){
-            string info;
-            b.unpackStr32(info);
-            vector<string> l;
-            if (!parseFE(info.c_str(), l, 2)){
-                log(L_DEBUG, "Parse error extended URL message");
+    switch (type){
+    case ICQ_MSGxMSG:{
+            if (uin < 1000){
+                log(L_WARN, "Strange UIN %lu in message", uin);
                 return NULL;
             }
-            ICQUrl *msg = new ICQUrl();
+            if (*(p.c_str()) == 0) return NULL;
+            ICQMsg *msg = new ICQMsg;
+            msg->Uin.push_back(uin);
+            parseMessageText(p.c_str(), msg->Message, u);
+            unsigned long forecolor, backcolor;
+            packet >> forecolor >> backcolor;
+            if (forecolor != backcolor){
+                msg->ForeColor = forecolor >> 8;
+                msg->BackColor = backcolor >> 8;
+            }
+            return msg;
+        }
+    case ICQ_MSGxURL:{
+            if (uin < 1000){
+                log(L_WARN, "Strange UIN %lu in URL message", uin);
+                return NULL;
+            }
+            vector<string> l;
+            if (!parseFE(p.c_str(), l, 2)){
+                log(L_WARN, "Parse error URL message");
+                return NULL;
+            }
+            ICQUrl *msg = new ICQUrl;
             msg->Uin.push_back(uin);
             parseMessageText(l[0].c_str(), msg->Message, u);
             msg->URL = l[1];
             return msg;
         }
-        if (!strcmp(msgType.c_str(), "Request For Contacts")){
-            string info;
-            b.unpackStr32(info);
-            ICQContactRequest *msg = new ICQContactRequest();
-            msg->Uin.push_back(uin);
-            parseMessageText(info.c_str(), msg->Message, u);
-            return msg;
-        }
-        if (!strcmp(msgType.c_str(), "Send / Start ICQ Chat")){
-            string reason;
-            b.unpackStr32(reason);
-            ICQChat *msg = new ICQChat;
-            parseMessageText(reason.c_str(), msg->Reason, u);
-            char flag;
-            b >> flag;
-            if (flag){
-                b.incReadPos(2);
-                b >> msg->id1 >> msg->id2;
+    case ICQ_MSGxAUTHxREQUEST:{
+            if (uin < 1000){
+                log(L_WARN, "Strange UIN %lu in auth request message", uin);
+                return NULL;
             }
+            vector<string> l;
+            if (!parseFE(p.c_str(), l, 6)){
+                log(L_WARN, "Parse error auth request message");
+                return NULL;
+            }
+            ICQAuthRequest *msg = new ICQAuthRequest;
             msg->Uin.push_back(uin);
-            msg->cookie1 = cookie1;
-            msg->cookie2 = cookie2;
-            msg->timestamp1 = timestamp1;
-            msg->timestamp2 = timestamp2;
+            parseMessageText(l[4].c_str(), msg->Message, u);
             return msg;
         }
-        if (!strcmp(msgType.c_str(), "Contacts")){
-            string p;
-            b.unpackStr32(p);
+    case ICQ_MSGxAUTHxGRANTED:{
+            if (uin < 1000){
+                log(L_WARN, "Strange UIN %lu in auth granted message", uin);
+                return NULL;
+            }
+            ICQAuthGranted *msg = new ICQAuthGranted;
+            msg->Uin.push_back(uin);
+            return msg;
+        }
+    case ICQ_MSGxAUTHxREFUSED:{
+            if (uin < 1000){
+                log(L_WARN, "Strange UIN %lu in auth refused message", uin);
+                return NULL;
+            }
+            ICQAuthRefused *msg = new ICQAuthRefused;
+            msg->Uin.push_back(uin);
+            parseMessageText(p.c_str(), msg->Message, u);
+            return msg;
+        }
+    case ICQ_MSGxADDEDxTOxLIST:{
+            if (uin < 1000){
+                log(L_WARN, "Strange UIN %lu in added to list message", uin);
+                return NULL;
+            }
+            ICQAddedToList *msg = new ICQAddedToList;
+            msg->Uin.push_back(uin);
+            return msg;
+        }
+    case ICQ_MSGxCONTACTxLIST:{
+            if (uin < 1000){
+                log(L_WARN, "Strange UIN %lu in contact message", uin);
+                return NULL;
+            }
             vector<string> l;
             if (!parseFE(p.c_str(), l, 2)){
                 log(L_WARN, "Parse error contacts message");
@@ -493,85 +335,260 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
             }
             return msg;
         }
-        if (!strcmp(msgType.c_str(), "ICQSMS")){
-            string xmlstring;
-            b.unpackStr32(xmlstring);
-            string::iterator s = xmlstring.begin();
-            auto_ptr<XmlNode> top(XmlNode::parse(s, xmlstring.end()));
-            if (top.get() == NULL){
-                log(L_WARN, "Parse SMS XML error");
-                return NULL;
-            }
-            switch (msg_type){
-            case ICQ_SMS_MESSAGE:{
-                    if (top->getTag() != "sms_message"){
-                        log(L_WARN, "No sms_message tag in SMS message");
-                        return NULL;
-                    }
-                    XmlNode *n = top.get();
-                    if ((n == NULL) || !n->isBranch()){
-                        log(L_WARN, "Parse no branch");
-                        return NULL;
-                    }
-                    XmlBranch *sms_message = static_cast<XmlBranch*>(n);
-                    XmlLeaf *text = sms_message->getLeaf("text");
-                    if (text == NULL){
-                        log(L_WARN, "No <text> in SMS message");
-                        return NULL;
-                    }
-                    ICQSMS *m = new ICQSMS;
-                    m->Message = text->getValue();
-                    fromUTF(m->Message);
-
-                    XmlLeaf *sender = sms_message->getLeaf("sender");
-                    if (sender != NULL) m->Phone = sender->getValue();
-                    fromUTF(m->Phone);
-
-                    XmlLeaf *senders_network = sms_message->getLeaf("senders_network");
-                    if (senders_network != NULL) m->Network = senders_network->getValue();
-
-                    m->Uin.push_back(contacts.findByPhone(m->Phone));
-                    return m;
-                }
-            case ICQ_SMS_SUCCESS:
-            case ICQ_SMS_FAIL:{
-                    if (top->getTag() != "sms_delivery_receipt"){
-                        log(L_WARN, "No sms_delivery_receipt tag in SMS message");
-                        return NULL;
-                    }
-                    XmlNode *n = top.get();
-                    if ((n == NULL) || !n->isBranch()){
-                        log(L_WARN, "Parse no branch");
-                        return NULL;
-                    }
-                    XmlBranch *sms_message = static_cast<XmlBranch*>(n);
-                    ICQSMSReceipt *m = new ICQSMSReceipt;
-
-                    XmlLeaf *message_id = sms_message->getLeaf("message_id");
-                    if (message_id != NULL) m->MessageId = message_id->getValue();
-
-                    XmlLeaf *destination = sms_message->getLeaf("destination");
-                    if (destination != NULL) m->Destination = destination->getValue();
-
-                    XmlLeaf *delivered = sms_message->getLeaf("delivered");
-                    if (delivered != NULL) m->Delivered = delivered->getValue();
-
-                    XmlLeaf *text = sms_message->getLeaf("text");
-                    if (text != NULL) m->Message = text->getValue();
-
-                    return m;
-                }
-            default:
-                log(L_WARN, "Unknown delivery status for SMS %04X", msg_type);
-                return NULL;
-            }
+    case ICQ_MSGxCHAT:{
+            unsigned short port;
+            unsigned short junk;
+            string name;
+            packet
+            >> name
+            >> port >> junk
+            >> junk >> junk;
+            fromServer(p, u);
+            ICQChat *msg = new ICQChat();
+            msg->Uin.push_back(uin);
+            msg->Reason = p;
+            msg->id1 = port;
+            msg->timestamp1 = timestamp1;
+            return msg;
         }
-        ICQMsgExt *m = new ICQMsgExt;
-        m->Uin.push_back(uin);
-        m->MessageType = msgType;
-        return m;
+    case ICQ_MSGxFILE:{
+            unsigned short port;
+            unsigned short junk;
+            unsigned long fileSize;
+            string fileName;
+            packet
+            >> port
+            >> junk
+            >> fileName
+            >> fileSize
+            >> junk >> junk;
+            fromServer(p, u);
+            fromServer(fileName, u);
+            const char *shortName = strrchr(fileName.c_str(), '\\');
+            if (shortName){
+                shortName++;
+            }else{
+                shortName = fileName.c_str();
+            }
+            ICQFile *msg = new ICQFile();
+            msg->Uin.push_back(uin);
+            msg->Name = shortName;
+            msg->Description = p;
+            msg->Size = htonl(fileSize);
+            msg->id1 = port;
+            msg->timestamp1 = timestamp1;
+            return msg;
+        }
+    case ICQ_MSGxSECURExOPEN:{
+            ICQSecureOn *msg = new ICQSecureOn;
+            msg->Uin.push_back(uin);
+            return msg;
+        }
+    case ICQ_MSGxSECURExCLOSE:{
+            ICQSecureOff *msg = new ICQSecureOff;
+            msg->Uin.push_back(uin);
+            return msg;
+        }
+    case ICQ_READxAWAYxMSG:
+    case ICQ_READxOCCUPIEDxMSG:
+    case ICQ_READxNAxMSG:
+    case ICQ_READxDNDxMSG:
+    case ICQ_READxFFCxMSG:{
+            ICQAutoResponse *msg = new ICQAutoResponse;
+            msg->setType(type);
+            return msg;
+        }
+    case ICQ_MSGxEXT:{
+            string header;
+            packet >> header;
+            Buffer h(header.size());
+            h.pack(header.c_str(), header.size());
+            h.incReadPos(16);
+            unsigned short msg_type;
+            h >> msg_type;
+            string msgType;
+            h.unpackStr32(msgType);
+            string info;
+            packet.unpackStr32(info);
+            Buffer b(info.size());
+            b.pack(info.c_str(), info.size());
+            log(L_DEBUG, "Extended message %s [%04X] %u", msgType.c_str(), msg_type, info.size());
+            if (strstr(msgType.c_str(), "File")){
+                string fileDescr;
+                b.unpackStr32(fileDescr);
+                unsigned short id1, id2;
+                b >> id1 >> id2;
+                string fileName;
+                b >> fileName;
+                unsigned long fileSize;
+                b >> fileSize;
+                fileSize = htonl(fileSize);
+                fromServer(fileDescr, u);
+                fromServer(fileName, u);
+                ICQFile *msg = new ICQFile();
+                msg->isExt = true;
+                msg->Uin.push_back(uin);
+                msg->Name = fileName;
+                msg->Description = fileDescr;
+                msg->Size = fileSize;
+                msg->id1 = id1;
+                msg->id2 = id2;
+                msg->cookie1 = cookie1;
+                msg->cookie2 = cookie2;
+                msg->timestamp1 = timestamp1;
+                msg->timestamp2 = timestamp2;
+                return msg;
+            }
+            if (strstr(msgType.c_str(), "Web Page Address (URL)")){
+                string info;
+                b.unpackStr32(info);
+                vector<string> l;
+                if (!parseFE(info.c_str(), l, 2)){
+                    log(L_DEBUG, "Parse error extended URL message");
+                    return NULL;
+                }
+                ICQUrl *msg = new ICQUrl();
+                msg->Uin.push_back(uin);
+                parseMessageText(l[0].c_str(), msg->Message, u);
+                msg->URL = l[1];
+                return msg;
+            }
+            if (!strcmp(msgType.c_str(), "Request For Contacts")){
+                string info;
+                b.unpackStr32(info);
+                ICQContactRequest *msg = new ICQContactRequest();
+                msg->Uin.push_back(uin);
+                parseMessageText(info.c_str(), msg->Message, u);
+                return msg;
+            }
+            if (!strcmp(msgType.c_str(), "Send / Start ICQ Chat")){
+                string reason;
+                b.unpackStr32(reason);
+                ICQChat *msg = new ICQChat;
+                parseMessageText(reason.c_str(), msg->Reason, u);
+                char flag;
+                b >> flag;
+                if (flag){
+                    b.incReadPos(2);
+                    b >> msg->id1 >> msg->id2;
+                }
+                msg->Uin.push_back(uin);
+                msg->cookie1 = cookie1;
+                msg->cookie2 = cookie2;
+                msg->timestamp1 = timestamp1;
+                msg->timestamp2 = timestamp2;
+                return msg;
+            }
+            if (!strcmp(msgType.c_str(), "Contacts")){
+                string p;
+                b.unpackStr32(p);
+                vector<string> l;
+                if (!parseFE(p.c_str(), l, 2)){
+                    log(L_WARN, "Parse error contacts message");
+                    return NULL;
+                }
+                unsigned nContacts = atol(l[0].c_str());
+                if (nContacts == 0){
+                    log(L_WARN, "No contacts found");
+                    return NULL;
+                }
+                vector<string> c;
+                if (!parseFE(l[1].c_str(), c, nContacts*2+1)){
+                    log(L_WARN, "Parse error contacts message");
+                    return NULL;
+                }
+                ICQContacts *msg = new ICQContacts;
+                msg->Uin.push_back(uin);
+                for (unsigned i = 0; i < nContacts; i++){
+                    Contact *contact = new Contact;
+                    contact->Uin = atol(c[i*2].c_str());
+                    fromServer(c[i*2+1], u);
+                    contact->Alias = c[i*2+1];
+                    msg->Contacts.push_back(contact);
+                }
+                return msg;
+            }
+            if (!strcmp(msgType.c_str(), "ICQSMS")){
+                string xmlstring;
+                b.unpackStr32(xmlstring);
+                string::iterator s = xmlstring.begin();
+                auto_ptr<XmlNode> top(XmlNode::parse(s, xmlstring.end()));
+                if (top.get() == NULL){
+                    log(L_WARN, "Parse SMS XML error");
+                    return NULL;
+                }
+                switch (msg_type){
+                case ICQ_SMS_MESSAGE:{
+                        if (top->getTag() != "sms_message"){
+                            log(L_WARN, "No sms_message tag in SMS message");
+                            return NULL;
+                        }
+                        XmlNode *n = top.get();
+                        if ((n == NULL) || !n->isBranch()){
+                            log(L_WARN, "Parse no branch");
+                            return NULL;
+                        }
+                        XmlBranch *sms_message = static_cast<XmlBranch*>(n);
+                        XmlLeaf *text = sms_message->getLeaf("text");
+                        if (text == NULL){
+                            log(L_WARN, "No <text> in SMS message");
+                            return NULL;
+                        }
+                        ICQSMS *m = new ICQSMS;
+                        m->Message = text->getValue();
+                        fromUTF(m->Message);
+
+                        XmlLeaf *sender = sms_message->getLeaf("sender");
+                        if (sender != NULL) m->Phone = sender->getValue();
+                        fromUTF(m->Phone);
+
+                        XmlLeaf *senders_network = sms_message->getLeaf("senders_network");
+                        if (senders_network != NULL) m->Network = senders_network->getValue();
+
+                        m->Uin.push_back(contacts.findByPhone(m->Phone));
+                        return m;
+                    }
+                case ICQ_SMS_SUCCESS:
+                case ICQ_SMS_FAIL:{
+                        if (top->getTag() != "sms_delivery_receipt"){
+                            log(L_WARN, "No sms_delivery_receipt tag in SMS message");
+                            return NULL;
+                        }
+                        XmlNode *n = top.get();
+                        if ((n == NULL) || !n->isBranch()){
+                            log(L_WARN, "Parse no branch");
+                            return NULL;
+                        }
+                        XmlBranch *sms_message = static_cast<XmlBranch*>(n);
+                        ICQSMSReceipt *m = new ICQSMSReceipt;
+
+                        XmlLeaf *message_id = sms_message->getLeaf("message_id");
+                        if (message_id != NULL) m->MessageId = message_id->getValue();
+
+                        XmlLeaf *destination = sms_message->getLeaf("destination");
+                        if (destination != NULL) m->Destination = destination->getValue();
+
+                        XmlLeaf *delivered = sms_message->getLeaf("delivered");
+                        if (delivered != NULL) m->Delivered = delivered->getValue();
+
+                        XmlLeaf *text = sms_message->getLeaf("text");
+                        if (text != NULL) m->Message = text->getValue();
+
+                        return m;
+                    }
+                default:
+                    log(L_WARN, "Unknown delivery status for SMS %04X", msg_type);
+                    return NULL;
+                }
+            }
+            ICQMsgExt *m = new ICQMsgExt;
+            m->Uin.push_back(uin);
+            m->MessageType = msgType;
+            return m;
+        }
+    default:
+        log(L_WARN, "Unknown message type %04X", type);
     }
-    log(L_WARN, "Unknown message type %04X", type);
     return NULL;
 }
 
@@ -579,11 +596,11 @@ void ICQClient::parseMessageText(const char *p, string &s, ICQUser *u)
 {
     if ((strlen(p) >= 5) && !memcmp(p, "{\\rtf", 5)){
         string r(p);
-	log(L_DEBUG, "1<< %s", r.c_str());
+        log(L_DEBUG, "1<< %s", r.c_str());
         fromServer(r, u);
-	log(L_DEBUG, "2<< %s", r.c_str());
+        log(L_DEBUG, "2<< %s", r.c_str());
         s = parseRTF(r.c_str(), u);
-	log(L_DEBUG, "3<< %s", s.c_str());
+        log(L_DEBUG, "3<< %s", s.c_str());
         return;
     }
     s = quoteText(p);

@@ -769,6 +769,10 @@ SOURCE=.\sim\moc_transparent.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\ui\moc_userautoreply.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\moc_userbox.cpp
 # End Source File
 # Begin Source File
@@ -1048,6 +1052,10 @@ SOURCE=.\sim\libicq\translator.cpp
 # Begin Source File
 
 SOURCE=.\sim\transparent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\userautoreply.cpp
 # End Source File
 # Begin Source File
 
@@ -3055,6 +3063,39 @@ InputName=transparent
 InputDir=.\sim
 InputPath=.\sim\transparent.h
 InputName=transparent
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\userautoreply.h
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\userautoreply.h
+InputName=userautoreply
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\userautoreply.h
+InputName=userautoreply
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp

@@ -116,8 +116,14 @@ const unsigned short ICQ_MSGxSMS               = 0x00E1;
 const unsigned short ICQ_MSGxSMSxRECEIPT       = 0x00E2;
 const unsigned short ICQ_MSGxCONTACTxREQUEST   = 0x00E3;
 
-const unsigned short ICQ_MSGxSECURExCLOSE  = 0x00EE;
-const unsigned short ICQ_MSGxSECURExOPEN   = 0x00EF;
+const unsigned short ICQ_MSGxSECURExCLOSE	= 0x00EE;
+const unsigned short ICQ_MSGxSECURExOPEN	= 0x00EF;
+
+const unsigned short ICQ_READxAWAYxMSG		= 0x03E8;
+const unsigned short ICQ_READxOCCUPIEDxMSG	= 0x03E9;
+const unsigned short ICQ_READxNAxMSG		= 0x03EA;
+const unsigned short ICQ_READxDNDxMSG		= 0x03EB;
+const unsigned short ICQ_READxFFCxMSG		= 0x03EC;
 
 const unsigned long  UIN_SPECIAL    = 0xF0000000L;
 
@@ -263,6 +269,7 @@ const int EVENT_DONE			    = 16;
 const int EVENT_CHAT				= 17;
 
 const int EVENT_SUBTYPE_FULLINFO	= 1;
+const int EVENT_SUBTYPE_AUTOREPLY	= 2;
 
 class ICQEvent
 {
@@ -775,6 +782,7 @@ public:
     ICQMessage(unsigned short type);
     virtual ~ICQMessage() {}
     unsigned short Type() { return m_nType; }
+    void setType(unsigned short type) { m_nType = type; }
     ConfigULong Time;
     ConfigBool Received;
     ConfigULongs Uin;
@@ -876,6 +884,12 @@ class ICQSecureOff : public ICQMessage
 {
 public:
     ICQSecureOff();
+};
+
+class ICQAutoResponse : public ICQMessage
+{
+public:
+    ICQAutoResponse();
 };
 
 const unsigned long ICQ_ACCEPTED = 0;

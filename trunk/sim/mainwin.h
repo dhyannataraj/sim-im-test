@@ -80,6 +80,7 @@ const int mnuAccept = 34;
 const int mnuSound = 35;
 const int mnuSecureOn = 36;
 const int mnuSecureOff = 37;
+const int mnuAutoResponse = 38;
 const int mnuGrpTitle = 0x10000;
 const int mnuPopupStatus = 0x20000;
 
@@ -378,6 +379,7 @@ protected:
     virtual bool event(QEvent*);
     virtual void closeEvent(QCloseEvent*);
     void addMessageType(QPopupMenu *menu, int type, int id, bool bAdd, bool bHaveTitle);
+    void addMenuItem(QPopupMenu *menuUser, const char *icon, const QString &n, int id, bool bAdd, bool bHaveTitle);
     QToolBar *toolbar;
     list<UserBox*> containers;
     SearchDialog *searchDlg;
