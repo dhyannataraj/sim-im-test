@@ -258,11 +258,11 @@ ICQFileMessage::~ICQFileMessage()
     free_data(icqFileMessageData, &data);
 }
 
-QString ICQFileMessage::getText()
+QString ICQFileMessage::getDescription()
 {
     const char *serverText = getServerText();
     if ((serverText == NULL) || (*serverText == 0))
-        return FileMessage::getText();
+        return FileMessage::getDescription();
     return ICQClient::toUnicode(serverText, client(), contact());
 }
 
@@ -634,9 +634,10 @@ Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet)
         ICQUserData *data = findContact(screen, NULL, false, contact);
         ICQFileMessage *m = new ICQFileMessage;
         m->setServerText(fileDescr.c_str());
-        m->setDescription(toUnicode(fileName.c_str(), data));
+        m->setFile(toUnicode(fileName.c_str(), data));
         m->setSize(fileSize);
         m->setPort(port);
+        m->setFlags(MESSAGE_TEMP);
         return m;
     }
     if (msgType == "ICQSMS"){
@@ -783,6 +784,24 @@ static MessageDef defIcq =
         NULL,
         NULL,
         createIcq,
+        NULL,
+        NULL,
+        NULL
+    };
+
+static Message *createIcqFile(const char *cfg)
+{
+    return new ICQFileMessage(cfg);
+}
+
+static MessageDef defIcqFile =
+    {
+        NULL,
+        MESSAGE_DEFAULT,
+        MessageFile,
+        NULL,
+        NULL,
+        createIcqFile,
         NULL,
         NULL,
         NULL
@@ -1386,6 +1405,14 @@ void ICQPlugin::registerMessages()
     cmd->param		= &defIcq;
     eMsg.process();
 
+    cmd->id			= MessageICQFile;
+    cmd->text		= "ICQFile";
+    cmd->icon		= "file";
+    cmd->accel		= NULL;
+    cmd->menu_grp	= 0;
+    cmd->param		= &defIcqFile;
+    eMsg.process();
+
     cmd->id			= MessageContactRequest;
     cmd->text		= I18N_NOOP("Contact Request");
     cmd->icon		= "contacts";
@@ -1468,6 +1495,9 @@ void ICQPlugin::unregisterMessages()
 
     Event eIcq(EventRemoveMessageType, (void*)MessageICQ);
     eIcq.process();
+
+    Event eIcqFile(EventRemoveMessageType, (void*)MessageICQFile);
+    eIcqFile.process();
 
     Event eAuthRequest(EventRemoveMessageType, (void*)MessageICQAuthRequest);
     eAuthRequest.process();

@@ -392,6 +392,8 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     eMenuLocation.process();
     Event eMenuPhoneState(EventMenuCreate, (void*)MenuPhoneState);
     eMenuPhoneState.process();
+    Event eMenuFileDecline(EventMenuCreate, (void*)MenuFileDecline);
+    eMenuFileDecline.process();
 
     Command cmd;
     cmd->id          = CmdConfigure;
@@ -1012,6 +1014,29 @@ CorePlugin::CorePlugin(unsigned base, const char *config)
     cmd->menu_id	= MenuLocation;
     cmd->menu_grp   = 0x1000;
     cmd->flags		= COMMAND_CHECK_STATE;
+    eCmd.process();
+
+    cmd->id			= CmdDeclineWithoutReason;
+    cmd->text		= I18N_NOOP("Decline file without reason");
+    cmd->icon		= NULL;
+    cmd->menu_id	= MenuFileDecline;
+    cmd->menu_grp   = 0x1000;
+    cmd->flags		= COMMAND_DEFAULT;
+    eCmd.process();
+
+    cmd->id			= CmdDeclineReasonBusy;
+    cmd->text		= I18N_NOOP("Sorry, I'm busy right now, and can not respond to your request");
+    cmd->menu_grp   = 0x1001;
+    eCmd.process();
+
+    cmd->id			= CmdDeclineReasonLater;
+    cmd->text		= I18N_NOOP("Sorry, I'm busy right now, but I'll be able to respond to you later");
+    cmd->menu_grp   = 0x1002;
+    eCmd.process();
+
+    cmd->id			= CmdDeclineReasonInput;
+    cmd->text		= I18N_NOOP("Enter a decline reason");
+    cmd->menu_grp   = 0x1004;
     eCmd.process();
 }
 
@@ -1777,10 +1802,25 @@ void *CorePlugin::processEvent(Event *e)
                     if ((msg->getFlags() & MESSAGE_RECEIVED) == 0)
                         return NULL;
                     QString p = msg->presentation();
-                    if (p.isEmpty())
-                        return NULL;
-                    cmd->flags &= ~COMMAND_CHECKED;
-                    return e->param();
+                    if (!p.isEmpty()){
+                        unsigned type = msg->type();
+                        for (;;){
+                            CommandDef *def = messageTypes.find(type);
+                            if (def == NULL)
+                                return NULL;
+                            MessageDef *mdef = (MessageDef*)(def->param);
+                            if (mdef->base_type == 0)
+                                break;
+                            type = mdef->base_type;
+                        }
+                        switch (type){
+                        case MessageFile:
+                            return NULL;
+                        }
+                        cmd->flags &= ~COMMAND_CHECKED;
+                        return e->param();
+                    }
+                    break;
                 }
                 return NULL;
             }

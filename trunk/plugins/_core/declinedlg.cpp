@@ -1,5 +1,5 @@
 /***************************************************************************
-                          msgrecv.h  -  description
+                          declinedlg.cpp  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,54 +15,24 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _MSGRECV_H
-#define _MSGRECV_H
+#include "declinedlg.h"
 
-#include "simapi.h"
+#include <qpixmap.h>
 
-#include <qtoolbutton.h>
-
-#include <list>
-using namespace std;
-
-class CToolCustom;
-class MsgEdit;
-class QBoxLayout;
-
-class CmdButton : public QToolButton
+DeclineDlg::DeclineDlg(Message *msg)
 {
-    Q_OBJECT
-public:
-    CmdButton(CToolCustom *parent, unsigned id, const char *text);
-    unsigned id() { return m_id; }
-signals:
-    void command(CmdButton*);
-protected slots:
-    void click();
-protected:
-    QSize sizeHint() const;
-    QSize minimumSizeHint() const;
-    void paintEvent(QPaintEvent*);
-    void setText();
-    const char *m_text;
-    unsigned   m_id;
-};
+    m_msg = msg;
+    SET_WNDPROC("configure")
+    setIcon(Pict("configure"));
+    setButtonsPict(this);
+    setCaption(caption());
+}
 
-class MsgReceived : public QObject
+DeclineDlg::~DeclineDlg()
 {
-    Q_OBJECT
-public:
-    MsgReceived(CToolCustom *parent, Message *msg);
-protected slots:
-    void command(CmdButton*);
-    void textChanged();
-    void init();
-protected:
-    unsigned	m_id;
-    unsigned	m_contact;
-    string		m_client;
-    MsgEdit	*m_edit;
-};
+}
 
+#ifndef WIN32
+#include "declinedlg.moc"
 #endif
 

@@ -509,9 +509,58 @@ Message *dropFile(QMimeSource *src)
 i18n("File", "%n files", 1);
 #endif
 
+static CommandDef fileCommands[] =
+    {
+        {
+            CmdFileAccept,
+            I18N_NOOP("&Accept"),
+            NULL,
+            NULL,
+            NULL,
+            0,
+            0,
+            MenuMessage,
+            0,
+            0,
+            COMMAND_DEFAULT,
+            NULL,
+            NULL
+        },
+        {
+            CmdFileDecline,
+            I18N_NOOP("&Decline"),
+            NULL,
+            NULL,
+            NULL,
+            0,
+            0,
+            MenuMessage,
+            0,
+            MenuFileDecline,
+            COMMAND_DEFAULT,
+            NULL,
+            NULL
+        },
+        {
+            0,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            0,
+            0,
+            0,
+            0,
+            0,
+            COMMAND_DEFAULT,
+            NULL,
+            NULL
+        }
+    };
+
 static MessageDef defFile =
     {
-        NULL,
+        fileCommands,
         MESSAGE_DEFAULT,
         0,
         "File",

@@ -1,5 +1,5 @@
 /***************************************************************************
-                          msgrecv.h  -  description
+                          declinedlg.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,53 +15,20 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _MSGRECV_H
-#define _MSGRECV_H
+#ifndef _DECLINEDLG_H
+#define _DECLINEDLG_H
 
 #include "simapi.h"
+#include "declinedlgbase.h"
 
-#include <qtoolbutton.h>
-
-#include <list>
-using namespace std;
-
-class CToolCustom;
-class MsgEdit;
-class QBoxLayout;
-
-class CmdButton : public QToolButton
+class DeclineDlg : public DeclineDlgBase
 {
     Q_OBJECT
 public:
-    CmdButton(CToolCustom *parent, unsigned id, const char *text);
-    unsigned id() { return m_id; }
-signals:
-    void command(CmdButton*);
-protected slots:
-    void click();
+    DeclineDlg(Message *msg);
+    ~DeclineDlg();
 protected:
-    QSize sizeHint() const;
-    QSize minimumSizeHint() const;
-    void paintEvent(QPaintEvent*);
-    void setText();
-    const char *m_text;
-    unsigned   m_id;
-};
-
-class MsgReceived : public QObject
-{
-    Q_OBJECT
-public:
-    MsgReceived(CToolCustom *parent, Message *msg);
-protected slots:
-    void command(CmdButton*);
-    void textChanged();
-    void init();
-protected:
-    unsigned	m_id;
-    unsigned	m_contact;
-    string		m_client;
-    MsgEdit	*m_edit;
+    Message *m_msg;
 };
 
 #endif

@@ -74,7 +74,9 @@ _core_la_SOURCES = \
  arcfgbase.ui \
  tmpl.cpp \
  filetransfer.cpp \
- filetransferbase.ui
+ filetransferbase.ui \
+ declinedlg.cpp \
+ declinedlgbase.ui
 
 SUBDIRS=pict
 

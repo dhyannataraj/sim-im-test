@@ -232,6 +232,12 @@ const unsigned	CmdPhoneAvailable		= (CmdBase + 75);
 const unsigned	CmdPhoneBusy			= (CmdBase + 76);
 const unsigned  CmdPhoneBook			= (CmdBase + 77);
 const unsigned	CmdShowAlways			= (CmdBase + 78);
+const unsigned	CmdFileAccept			= (CmdBase + 79);
+const unsigned	CmdFileDecline			= (CmdBase + 80);
+const unsigned	CmdDeclineWithoutReason	= (CmdBase + 81);
+const unsigned	CmdDeclineReasonInput	= (CmdBase + 82);
+const unsigned	CmdDeclineReasonBusy	= (CmdBase + 83);
+const unsigned	CmdDeclineReasonLater	= (CmdBase + 84);
 
 const unsigned	CmdContactGroup			= (CmdBase + 0x100);
 const unsigned	CmdUnread				= (CmdBase + 0x200);
@@ -249,6 +255,7 @@ const unsigned	MenuMsgCommand			= (CmdBase + 7);
 const unsigned	MenuPhones				= (CmdBase + 8);
 const unsigned	MenuLocation			= (CmdBase + 9);
 const unsigned	MenuPhoneState			= (CmdBase + 10);
+const unsigned	MenuFileDecline			= (CmdBase + 11);
 
 const unsigned	EventCreateMessageType	= (CmdBase + 1);
 const unsigned	EventRemoveMessageType	= (CmdBase + 2);

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.1\n"
-"POT-Creation-Date: 2003-10-08 12:39+0400\n"
+"POT-Creation-Date: 2003-10-10 11:13+0400\n"
 "PO-Revision-Date: 2003-03-01 10:24+0100\n"
 "Last-Translator: Roméo VIU-BERGES <apostledemencia@free.fr>\n"
 "Language-Team: Français <fr@li.org>\n"
@@ -135,13 +135,13 @@ msgstr "&Appliquer"
 #: plugins/_core/cfgdlgbase.cpp:126
 #: plugins/_core/connectionsettingsbase.cc:106
 #: plugins/_core/connectionsettingsbase.cpp:106
-#: plugins/_core/editmailbase.cc:97 plugins/_core/editmailbase.cpp:97
-#: plugins/_core/editphonebase.cc:143 plugins/_core/editphonebase.cpp:143
-#: plugins/_core/logindlgbase.cc:121 plugins/_core/logindlgbase.cpp:132
-#: plugins/_core/toolsetupbase.cc:135 plugins/_core/toolsetupbase.cpp:135
-#: plugins/icq/encodingdlgbase.cc:87 plugins/icq/warndlgbase.cc:88
-#: plugins/proxy/proxyerrorbase.cpp:80 sim/api/simapi.cpp:408
-#: sim/ui/qt3/i18n.cpp:174
+#: plugins/_core/declinedlgbase.cpp:82 plugins/_core/editmailbase.cc:97
+#: plugins/_core/editmailbase.cpp:97 plugins/_core/editphonebase.cc:143
+#: plugins/_core/editphonebase.cpp:143 plugins/_core/logindlgbase.cc:121
+#: plugins/_core/logindlgbase.cpp:132 plugins/_core/toolsetupbase.cc:135
+#: plugins/_core/toolsetupbase.cpp:135 plugins/icq/encodingdlgbase.cc:87
+#: plugins/icq/warndlgbase.cc:88 plugins/proxy/proxyerrorbase.cpp:80
+#: sim/api/simapi.cpp:408 sim/ui/qt3/i18n.cpp:174
 msgid "&OK"
 msgstr "&OK"
 
@@ -157,12 +157,12 @@ msgstr "&OK"
 #: plugins/_core/cfgdlgbase.cpp:127
 #: plugins/_core/connectionsettingsbase.cc:107
 #: plugins/_core/connectionsettingsbase.cpp:107
-#: plugins/_core/editmailbase.cc:98 plugins/_core/editmailbase.cpp:98
-#: plugins/_core/editphonebase.cc:144 plugins/_core/editphonebase.cpp:144
-#: plugins/_core/filetransferbase.cc:130
+#: plugins/_core/declinedlgbase.cpp:83 plugins/_core/editmailbase.cc:98
+#: plugins/_core/editmailbase.cpp:98 plugins/_core/editphonebase.cc:144
+#: plugins/_core/editphonebase.cpp:144 plugins/_core/filetransferbase.cc:130
 #: plugins/_core/filetransferbase.cpp:130 plugins/_core/logindlgbase.cc:122
 #: plugins/_core/logindlgbase.cpp:133 plugins/icq/encodingdlgbase.cc:88
-#: plugins/icq/icqclient.cpp:2291 plugins/icq/securedlgbase.cc:78
+#: plugins/icq/icqclient.cpp:2299 plugins/icq/securedlgbase.cc:78
 #: plugins/icq/warndlgbase.cc:89 plugins/proxy/proxyerrorbase.cpp:81
 #: sim/api/simapi.cpp:411 sim/ui/qt3/i18n.cpp:35
 msgid "&Cancel"
@@ -172,7 +172,7 @@ msgstr "(&c) Annuler"
 # mainwin.cpp:2722
 # ui/setupdlg.cpp:97
 #: plugins/_core/cfgdlg.cpp:473 plugins/_core/cfgdlgbase.cc:122
-#: plugins/_core/cfgdlgbase.cpp:122 plugins/_core/core.cpp:398
+#: plugins/_core/cfgdlgbase.cpp:122 plugins/_core/core.cpp:400
 #: plugins/_core/core.cpp:853 plugins/_core/core.cpp:935
 msgid "Setup"
 msgstr "Préférences"
@@ -251,65 +251,65 @@ msgid "We'd love to hear what you have to say. Join our chat.\n"
 msgstr "Nous aimerions savoir ce que vous avez à dire. Rejoignez-nous.\n"
 
 # control.cpp:220
-#: plugins/_core/core.cpp:408
+#: plugins/_core/core.cpp:410
 #, fuzzy
 msgid "Unread messages"
 msgstr "Ouvrir message lu"
 
 # mainwin.cpp:2741
-#: plugins/_core/core.cpp:416
+#: plugins/_core/core.cpp:418
 msgid "Quit"
 msgstr "Quitter"
 
 # mainwin.cpp:614
-#: plugins/_core/core.cpp:425
+#: plugins/_core/core.cpp:427
 msgid "&Menu"
 msgstr "&Menu"
 
-#: plugins/_core/core.cpp:435 plugins/_core/searchbase.cc:73
+#: plugins/_core/core.cpp:437 plugins/_core/searchbase.cc:73
 #: plugins/_core/searchbase.cpp:73
 msgid "Search / Add contact"
 msgstr ""
 
 # mainwin.cpp:618
 # mainwin.cpp:2718
-#: plugins/_core/core.cpp:446
+#: plugins/_core/core.cpp:448
 #, fuzzy
 msgid "&Send SMS"
 msgstr "Envoyer SMS"
 
 # libicq/country.cpp:431
-#: plugins/_core/core.cpp:453
+#: plugins/_core/core.cpp:455
 #, fuzzy
 msgid "&Phone service"
 msgstr "Autres Services"
 
 # userbox.cpp:106
-#: plugins/_core/core.cpp:463
+#: plugins/_core/core.cpp:465
 msgid "Message"
 msgstr "Message"
 
 # ui/themesetup.cpp:136
-#: plugins/_core/core.cpp:474 plugins/filter/ignorelist.cpp:26
+#: plugins/_core/core.cpp:476 plugins/filter/ignorelist.cpp:26
 #, fuzzy
 msgid "Contact"
 msgstr "Contact - Gauche"
 
 # mainwin.cpp:2037
 # mainwin.cpp:2723
-#: plugins/_core/core.cpp:481 plugins/_core/core.cpp:887
+#: plugins/_core/core.cpp:483 plugins/_core/core.cpp:887
 #, fuzzy
 msgid "Group"
 msgstr "Groupes"
 
 # userbox.cpp:113
-#: plugins/_core/core.cpp:489 plugins/_core/core.cpp:920
+#: plugins/_core/core.cpp:491 plugins/_core/core.cpp:920
 #: plugins/icq/icq.cpp:585 plugins/jabber/jabber.cpp:337
 msgid "User &info"
 msgstr "&Infos Utilisateur"
 
 # mainwin.cpp:2045
-#: plugins/_core/core.cpp:496 plugins/_core/core.cpp:928
+#: plugins/_core/core.cpp:498 plugins/_core/core.cpp:928
 msgid "&History"
 msgstr "&Historique"
 
@@ -323,7 +323,7 @@ msgstr "&Historique"
 # ui/setupdlgbase.cpp:71
 # ui/toolsetupbase.cpp:113
 # ui/userautoreply.cpp:76
-#: plugins/_core/core.cpp:503 plugins/_core/filetransfer.cpp:199
+#: plugins/_core/core.cpp:505 plugins/_core/filetransfer.cpp:199
 #: plugins/_core/managerbase.cc:110 plugins/_core/managerbase.cpp:110
 #: plugins/_core/toolsetupbase.cc:136 plugins/_core/toolsetupbase.cpp:136
 #: plugins/about/aboutdlgbase.cpp:156 plugins/icq/securedlg.cpp:92
@@ -333,24 +333,24 @@ msgstr "&Clore"
 
 # msgedit.cpp:132
 # msgedit.cpp:359
-#: plugins/_core/core.cpp:537 plugins/_core/msgedit.cpp:878
+#: plugins/_core/core.cpp:539 plugins/_core/msgedit.cpp:939
 msgid "&Send"
 msgstr "(&s) Envoyer"
 
 # msgedit.cpp:119
-#: plugins/_core/core.cpp:547
+#: plugins/_core/core.cpp:549
 #, fuzzy
 msgid "&Insert smile"
 msgstr "Met&tre un smiley"
 
 # msgedit.cpp:130
-#: plugins/_core/core.cpp:554 plugins/_core/msgedit.cpp:233
+#: plugins/_core/core.cpp:556 plugins/_core/msgedit.cpp:233
 msgid "C&lose after send"
 msgstr "Fermer après &l'envoi"
 
 # msgedit.cpp:135
 #: plugins/_core/core.cpp:564 plugins/_core/msgedit.cpp:325
-#: plugins/_core/msgedit.cpp:867
+#: plugins/_core/msgedit.cpp:928
 msgid "&Multiply send"
 msgstr "Envoi &massif"
 
@@ -365,7 +365,7 @@ msgid "Receive"
 msgstr "Retirer"
 
 # msgedit.cpp:133
-#: plugins/_core/core.cpp:591 plugins/_core/msgedit.cpp:1239
+#: plugins/_core/core.cpp:591 plugins/_core/msgedit.cpp:1301
 msgid "&Next"
 msgstr "Suiva&nt"
 
@@ -464,7 +464,7 @@ msgid "&Messages"
 msgstr "&Message"
 
 # ui/setupdlg.cpp:131
-#: plugins/_core/core.cpp:760 plugins/_core/msgedit.cpp:1389
+#: plugins/_core/core.cpp:760 plugins/_core/msgedit.cpp:1451
 #, fuzzy
 msgid "&SMS"
 msgstr "SMS"
@@ -588,91 +588,113 @@ msgstr "Disponible"
 msgid "&Busy"
 msgstr "Occupé"
 
+# msgedit.cpp:78
+#: plugins/_core/core.cpp:1020
+msgid "Decline file without reason"
+msgstr "Refuser le fichier sans raison"
+
+# msgedit.cpp:80
+#: plugins/_core/core.cpp:1028
+msgid "Sorry, I'm busy right now, and can not respond to your request"
+msgstr ""
+"Désolé, je suis occupé en ce moment et je ne peux répondre à votre demande."
+
+# msgedit.cpp:82
+#: plugins/_core/core.cpp:1033
+msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
+msgstr ""
+"Désolé, je suis occupé en ce moment mais je pourrai vous répondre plus tard."
+
+# msgedit.cpp:84
+#: plugins/_core/core.cpp:1038
+msgid "Enter a decline reason"
+msgstr "Entrer une raison de refus"
+
 # ui/toolsetup.cpp:63
 # ui/toolsetup.cpp:132
 # ui/toolsetup.cpp:159
-#: plugins/_core/core.cpp:1625
+#: plugins/_core/core.cpp:1654
 #, fuzzy
 msgid "&Separate"
 msgstr "Séparation"
 
 # dock.cpp:942
 # mainwin.cpp:871
-#: plugins/_core/core.cpp:1663 plugins/_core/userwnd.cpp:128
+#: plugins/_core/core.cpp:1692 plugins/_core/userwnd.cpp:128
 #, fuzzy, c-format
 msgid "from %1"
 msgstr "%1 sur %2"
 
 # ui/filetransfer.cpp:245
 # ui/filetransfer.cpp:264
-#: plugins/_core/core.cpp:1738
+#: plugins/_core/core.cpp:1767
 msgid "&New"
 msgstr "&Nouveau"
 
 # mainwin.cpp:2702
-#: plugins/_core/core.cpp:1800
+#: plugins/_core/core.cpp:1844
 #, fuzzy
 msgid "Not available"
 msgstr "Disponible"
 
 # dock.cpp:942
 # mainwin.cpp:871
-#: plugins/_core/core.cpp:1899 plugins/dock/dockwnd.cpp:1158
+#: plugins/_core/core.cpp:1943 plugins/dock/dockwnd.cpp:1158
 #: plugins/osd/osd.cpp:324
 msgid "%1 from %2"
 msgstr "%1 sur %2"
 
-#: plugins/_core/core.cpp:2070
+#: plugins/_core/core.cpp:2114
 msgid "%1 wrote:"
 msgstr ""
 
 # mainwin.cpp:618
 # mainwin.cpp:2718
-#: plugins/_core/core.cpp:2119
+#: plugins/_core/core.cpp:2165
 msgid "Send SMS"
 msgstr "Envoyer SMS"
 
 # dock.cpp:955
 # mainwin.cpp:1974
-#: plugins/_core/core.cpp:2993 plugins/_core/core.cpp:3015
+#: plugins/_core/core.cpp:3039 plugins/_core/core.cpp:3061
 #: plugins/_core/managerbase.cc:103 plugins/_core/managerbase.cpp:103
 #, fuzzy
 msgid "Connection manager"
 msgstr "Connexion"
 
 # mainwin.cpp:709
-#: plugins/_core/core.cpp:3001
+#: plugins/_core/core.cpp:3047
 #, fuzzy
 msgid "Show status panel"
 msgstr "Etat Téléphone"
 
 # ui/setupdlg.cpp:124
-#: plugins/_core/core.cpp:3008
+#: plugins/_core/core.cpp:3054
 #, fuzzy
 msgid "Connections"
 msgstr "Connexion"
 
 # mainwin.cpp:2726
-#: plugins/_core/core.cpp:3023
+#: plugins/_core/core.cpp:3069
 #, fuzzy
 msgid "Change profile"
 msgstr "le fichier"
 
 # mainwin.cpp:709
-#: plugins/_core/core.cpp:3052
+#: plugins/_core/core.cpp:3098
 #, fuzzy
 msgid "Common status"
 msgstr "Etat Téléphone"
 
 # sim.cpp:521
-#: plugins/_core/core.cpp:3058
+#: plugins/_core/core.cpp:3104
 #, fuzzy
 msgid "Configure client"
 msgstr "Client ICQ"
 
 # client.cpp:1113
 # mainwin.cpp:2698
-#: plugins/_core/core.cpp:3082 plugins/_core/status.cpp:152
+#: plugins/_core/core.cpp:3128 plugins/_core/status.cpp:152
 #: plugins/_core/status.cpp:220
 #, fuzzy
 msgid "&Invisible"
@@ -915,7 +937,7 @@ msgid "Fonts"
 msgstr "Polices"
 
 # ui/themesetup.cpp:53
-#: plugins/_core/interfacecfg.cpp:92 plugins/icq/icqclient.cpp:2507
+#: plugins/_core/interfacecfg.cpp:92 plugins/icq/icqclient.cpp:2515
 msgid "System"
 msgstr "Système"
 
@@ -953,7 +975,7 @@ msgstr "Nouveau Dossier"
 
 # msgedit.cpp:586
 #: plugins/_core/logindlg.cpp:443 plugins/jabber/jabberclient.cpp:781
-#: plugins/msn/msnclient.cpp:564
+#: plugins/msn/msnclient.cpp:584
 #, fuzzy
 msgid "Login failed"
 msgstr "Echec de l'envoi"
@@ -1044,8 +1066,8 @@ msgstr "cet utilisateur est actuellement disponible sur :"
 msgid "Yes"
 msgstr "Oui"
 
-#: plugins/_core/msgauth.cpp:39 plugins/_core/msggen.cpp:70
-#: plugins/_core/msgrecv.cpp:47
+#: plugins/_core/msgauth.cpp:39 plugins/_core/msggen.cpp:71
+#: plugins/_core/msgrecv.cpp:48
 msgid " "
 msgstr ""
 
@@ -1080,8 +1102,19 @@ msgstr ""
 "_n : Fichier\n"
 "%n fichiers"
 
+# msgedit.cpp:122
+#: plugins/_core/msgedit.cpp:516
+msgid "&Accept"
+msgstr "&Accepter"
+
+# msgedit.cpp:123
+#: plugins/_core/msgedit.cpp:531
+#, fuzzy
+msgid "&Decline"
+msgstr "&Décliner"
+
 # client.cpp:1014
-#: plugins/_core/msgedit.cpp:536
+#: plugins/_core/msgedit.cpp:585
 #, fuzzy, c-format
 msgid ""
 "_n: Authorize request\n"
@@ -1091,17 +1124,17 @@ msgstr ""
 "%n demandes d'autorisation"
 
 # msgedit.cpp:120
-#: plugins/_core/msgedit.cpp:543
+#: plugins/_core/msgedit.cpp:592
 msgid "&Grant"
 msgstr "(&g) Autoriser"
 
 # msgedit.cpp:121
-#: plugins/_core/msgedit.cpp:558
+#: plugins/_core/msgedit.cpp:607
 msgid "&Refuse"
 msgstr "&Refuser"
 
 # client.cpp:1018
-#: plugins/_core/msgedit.cpp:612
+#: plugins/_core/msgedit.cpp:661
 #, fuzzy, c-format
 msgid ""
 "_n: Authorization granted\n"
@@ -1111,7 +1144,7 @@ msgstr ""
 "%n autorisations acceptées"
 
 # client.cpp:1016
-#: plugins/_core/msgedit.cpp:639
+#: plugins/_core/msgedit.cpp:688
 #, fuzzy, c-format
 msgid ""
 "_n: Authorization refused\n"
@@ -1121,7 +1154,7 @@ msgstr ""
 "%n autorisations refusées"
 
 # client.cpp:1020
-#: plugins/_core/msgedit.cpp:661
+#: plugins/_core/msgedit.cpp:710
 #, fuzzy, c-format
 msgid ""
 "_n: Add to contacts\n"
@@ -1131,7 +1164,7 @@ msgstr ""
 "%n ajoutés à la liste de contacts"
 
 # client.cpp:1020
-#: plugins/_core/msgedit.cpp:683
+#: plugins/_core/msgedit.cpp:732
 #, fuzzy, c-format
 msgid ""
 "_n: Removed from contacts\n"
@@ -1141,7 +1174,7 @@ msgstr ""
 "%n ajoutés à la liste de contacts"
 
 # client.cpp:1040
-#: plugins/_core/msgedit.cpp:705
+#: plugins/_core/msgedit.cpp:754
 #, fuzzy, c-format
 msgid ""
 "_n: Status changed\n"
@@ -1152,40 +1185,40 @@ msgstr ""
 
 # ui/logindlg.cpp:150
 # ui/searchdlg.cpp:107
-#: plugins/_core/msgedit.cpp:789 sim/ui/qt3/i18n.cpp:23
+#: plugins/_core/msgedit.cpp:850 sim/ui/qt3/i18n.cpp:23
 msgid "Cancel"
 msgstr "Annuler"
 
-#: plugins/_core/msgedit.cpp:855
+#: plugins/_core/msgedit.cpp:916
 msgid "No such client for send message"
 msgstr ""
 
 # ui/acceptbase.cpp:120
-#: plugins/_core/msgedit.cpp:1370 plugins/icq/icq.cpp:575
+#: plugins/_core/msgedit.cpp:1432 plugins/icq/icq.cpp:575
 #: plugins/jabber/jabber.cpp:328
 msgid "&Message"
 msgstr "&Message"
 
 # monitor.cpp:70
 # ui/acceptbase.cpp:163
-#: plugins/_core/msgedit.cpp:1380 plugins/netmonitor/monitor.cpp:64
+#: plugins/_core/msgedit.cpp:1442 plugins/netmonitor/monitor.cpp:64
 msgid "&File"
 msgstr "&Fichier"
 
 # msgview.cpp:159
-#: plugins/_core/msgedit.cpp:1398
+#: plugins/_core/msgedit.cpp:1460
 #, fuzzy
 msgid "&Authorization request"
 msgstr "Demande d'autorisation"
 
 # ui/networkbase.cpp:155
-#: plugins/_core/msgedit.cpp:1407
+#: plugins/_core/msgedit.cpp:1469
 #, fuzzy
 msgid "&Grant autorization"
 msgstr "Utiliser l'autorisation proxy"
 
 # ui/generalsecbase.cpp:89
-#: plugins/_core/msgedit.cpp:1416
+#: plugins/_core/msgedit.cpp:1478
 #, fuzzy
 msgid "&Refuse autorization"
 msgstr "I&gnorer les autorisations utilisateurs"
@@ -1230,33 +1263,33 @@ msgid "Save phone in contact list"
 msgstr "Ajouté à la liste de contacts"
 
 # msgedit.cpp:113
-#: plugins/_core/msggen.cpp:88 sim/ui/textshow.cpp:496
+#: plugins/_core/msggen.cpp:94 sim/ui/textshow.cpp:496
 msgid "Bac&kground color"
 msgstr "(&k) Couleur Arrière-plan"
 
 # msgedit.cpp:114
-#: plugins/_core/msggen.cpp:94 sim/ui/textshow.cpp:500
+#: plugins/_core/msggen.cpp:100 sim/ui/textshow.cpp:500
 msgid "&Text color"
 msgstr "Couleur de &texte"
 
 # msgedit.cpp:115
-#: plugins/_core/msggen.cpp:101 sim/ui/textshow.cpp:507
+#: plugins/_core/msggen.cpp:107 sim/ui/textshow.cpp:507
 msgid "&Bold"
 msgstr "(&b) Gras"
 
 # msgedit.cpp:116
-#: plugins/_core/msggen.cpp:108 sim/ui/textshow.cpp:512
+#: plugins/_core/msggen.cpp:114 sim/ui/textshow.cpp:512
 msgid "&Italic"
 msgstr "&Italique"
 
 # msgedit.cpp:117
-#: plugins/_core/msggen.cpp:115 sim/ui/qt3/i18n.cpp:160
+#: plugins/_core/msggen.cpp:121 sim/ui/qt3/i18n.cpp:160
 #: sim/ui/textshow.cpp:517
 msgid "&Underline"
 msgstr "So&uligné"
 
 # msgedit.cpp:118
-#: plugins/_core/msggen.cpp:122 sim/ui/textshow.cpp:524
+#: plugins/_core/msggen.cpp:128 sim/ui/textshow.cpp:524
 msgid "Text &font"
 msgstr "(&f) Police de texte"
 
@@ -1387,7 +1420,7 @@ msgstr "Envoi"
 #: plugins/icq/icq.cpp:281 plugins/icq/icqclient.cpp:1450
 #: plugins/icq/icqclient.cpp:1484 plugins/jabber/jabber.cpp:106
 #: plugins/jabber/jabberclient.cpp:1081 plugins/jabber/services.cpp:234
-#: plugins/msn/msn.cpp:89 plugins/msn/msnclient.cpp:1465
+#: plugins/msn/msn.cpp:89 plugins/msn/msnclient.cpp:1506
 msgid "Online"
 msgstr "Connecté"
 
@@ -2154,6 +2187,17 @@ msgstr "Police de base"
 msgid "Menu font:"
 msgstr "Police du mennu"
 
+# msgedit.cpp:1738
+#: plugins/_core/declinedlgbase.cpp:80
+msgid "Decline reason"
+msgstr "Raison"
+
+# msgedit.cpp:84
+#: plugins/_core/declinedlgbase.cpp:81
+#, fuzzy
+msgid "Enter decline reason:"
+msgstr "Entrer une raison de refus"
+
 # ui/aboutdlgbase.cpp:94
 #: plugins/about/about.cpp:38 plugins/about/aboutdlgbase.cpp:152
 msgid "About"
@@ -2432,7 +2476,7 @@ msgid "Add %1 to ignore list?"
 msgstr "Ajouter %1 à la liste des ignorés ?"
 
 # usertbl.cpp:115
-#: plugins/filter/ignorelist.cpp:27 plugins/icq/icqmessage.cpp:1224
+#: plugins/filter/ignorelist.cpp:27 plugins/icq/icqmessage.cpp:1243
 #: plugins/icq/icqsecure.cpp:126 plugins/icq/searchresult.cpp:128
 #: sim/ui/qt3/i18n.cpp:39
 msgid "Name"
@@ -2813,7 +2857,7 @@ msgstr "Régler Mode Invisible"
 # ui/maininfo.cpp:136
 #: plugins/icq/aiminfo.cpp:166 plugins/icq/icqclient.cpp:1477
 #: plugins/icq/icqinfo.cpp:229 plugins/jabber/jabberclient.cpp:1074
-#: plugins/jabber/jabberinfo.cpp:103 plugins/msn/msnclient.cpp:1458
+#: plugins/jabber/jabberinfo.cpp:103 plugins/msn/msnclient.cpp:1499
 #: plugins/msn/msninfo.cpp:88
 msgid "Last online"
 msgstr "Dernier connecté"
@@ -2864,7 +2908,7 @@ msgid "Bad host address"
 msgstr ""
 
 # client.cpp:1022
-#: plugins/icq/icqmessage.cpp:792
+#: plugins/icq/icqmessage.cpp:811
 #, c-format
 msgid ""
 "_n: WWW-panel message\n"
@@ -2874,7 +2918,7 @@ msgstr ""
 "%n messages WWW"
 
 # client.cpp:1024
-#: plugins/icq/icqmessage.cpp:814
+#: plugins/icq/icqmessage.cpp:833
 #, c-format
 msgid ""
 "_n: Email pager message\n"
@@ -2884,7 +2928,7 @@ msgstr ""
 "%n messages Pager email"
 
 # client.cpp:1038
-#: plugins/icq/icqmessage.cpp:836
+#: plugins/icq/icqmessage.cpp:855
 #, c-format
 msgid ""
 "_n: Request secure channel\n"
@@ -2894,7 +2938,7 @@ msgstr ""
 "%n demandes de transmissions sécurisées"
 
 # client.cpp:1038
-#: plugins/icq/icqmessage.cpp:858
+#: plugins/icq/icqmessage.cpp:877
 #, fuzzy, c-format
 msgid ""
 "_n: Close secure channel\n"
@@ -2903,7 +2947,7 @@ msgstr ""
 "_n : Demande de transmission sécurisée\n"
 "%n demandes de transmissions sécurisées"
 
-#: plugins/icq/icqmessage.cpp:880
+#: plugins/icq/icqmessage.cpp:899
 #, c-format
 msgid ""
 "_n: Check invisible\n"
@@ -2911,7 +2955,7 @@ msgid ""
 msgstr ""
 
 # client.cpp:1036
-#: plugins/icq/icqmessage.cpp:902
+#: plugins/icq/icqmessage.cpp:921
 #, fuzzy, c-format
 msgid ""
 "_n: Warning\n"
@@ -2921,7 +2965,7 @@ msgstr ""
 "%n Emails"
 
 # client.cpp:1028
-#: plugins/icq/icqmessage.cpp:1012
+#: plugins/icq/icqmessage.cpp:1031
 #, fuzzy, c-format
 msgid ""
 "_n: Contact request\n"
@@ -2931,7 +2975,7 @@ msgstr ""
 "%n demandes de contacts"
 
 # client.cpp:1012
-#: plugins/icq/icqmessage.cpp:1054
+#: plugins/icq/icqmessage.cpp:1073
 #, fuzzy, c-format
 msgid ""
 "_n: URL\n"
@@ -2941,7 +2985,7 @@ msgstr ""
 "%n URL"
 
 # client.cpp:1026
-#: plugins/icq/icqmessage.cpp:1102
+#: plugins/icq/icqmessage.cpp:1121
 #, c-format
 msgid ""
 "_n: Contact list\n"
@@ -2952,58 +2996,58 @@ msgstr ""
 
 # msgedit.cpp:186
 # ui/soundsetupbase.cpp:88
-#: plugins/icq/icqmessage.cpp:1134
+#: plugins/icq/icqmessage.cpp:1153
 msgid "URL:"
 msgstr "URL :"
 
 # msgedit.cpp:200
-#: plugins/icq/icqmessage.cpp:1206
+#: plugins/icq/icqmessage.cpp:1225
 msgid "Drag users here"
 msgstr "Glisser les utilisateurs ici"
 
 # ui/searchbase.cpp:223
 # usertbl.cpp:110
-#: plugins/icq/icqmessage.cpp:1220 plugins/icq/icqsearchbase.cc:339
+#: plugins/icq/icqmessage.cpp:1239 plugins/icq/icqsearchbase.cc:339
 #: plugins/icq/icqsecure.cpp:124
 msgid "UIN"
 msgstr "UIN"
 
 # usertbl.cpp:112
-#: plugins/icq/icqmessage.cpp:1222 plugins/icq/searchresult.cpp:127
+#: plugins/icq/icqmessage.cpp:1241 plugins/icq/searchresult.cpp:127
 msgid "Alias"
 msgstr "Alias"
 
 # usertbl.cpp:116
-#: plugins/icq/icqmessage.cpp:1225 plugins/jabber/addresult.cpp:33
+#: plugins/icq/icqmessage.cpp:1244 plugins/jabber/addresult.cpp:33
 #: plugins/jabber/jabbersearch.cpp:175
 msgid "Email"
 msgstr "Email"
 
 # msgedit.cpp:186
 # ui/soundsetupbase.cpp:88
-#: plugins/icq/icqmessage.cpp:1364
+#: plugins/icq/icqmessage.cpp:1383
 #, fuzzy
 msgid "&URL"
 msgstr "URL :"
 
 # msgview.cpp:226
-#: plugins/icq/icqmessage.cpp:1374
+#: plugins/icq/icqmessage.cpp:1393
 #, fuzzy
 msgid "&Contact list"
 msgstr "Liste de contacts envoyée"
 
 # msgview.cpp:187
-#: plugins/icq/icqmessage.cpp:1390
+#: plugins/icq/icqmessage.cpp:1417
 #, fuzzy
 msgid "Contact Request"
 msgstr "Demande de contact"
 
-#: plugins/icq/icqmessage.cpp:1419
+#: plugins/icq/icqmessage.cpp:1446
 msgid "Web panel"
 msgstr ""
 
 # ui/maininfobase.cpp:218
-#: plugins/icq/icqmessage.cpp:1426
+#: plugins/icq/icqmessage.cpp:1453
 #, fuzzy
 msgid "Email pager"
 msgstr "Adresses Email :"
@@ -3011,7 +3055,7 @@ msgstr "Adresses Email :"
 # ui/userinfo.cpp:73
 # userbox.cpp:407
 # usertbl.cpp:405
-#: plugins/icq/icqmessage.cpp:1433
+#: plugins/icq/icqmessage.cpp:1460
 #, fuzzy
 msgid "Request secure channel"
 msgstr "Demander Infos utilisateur"
@@ -3019,20 +3063,20 @@ msgstr "Demander Infos utilisateur"
 # ui/userinfo.cpp:73
 # userbox.cpp:407
 # usertbl.cpp:405
-#: plugins/icq/icqmessage.cpp:1440
+#: plugins/icq/icqmessage.cpp:1467
 #, fuzzy
 msgid "Close secure channel"
 msgstr "Demander Infos utilisateur"
 
 # client.cpp:1113
 # mainwin.cpp:2698
-#: plugins/icq/icqmessage.cpp:1447
+#: plugins/icq/icqmessage.cpp:1474
 #, fuzzy
 msgid "Check invisible"
 msgstr "Invisible"
 
 # monitor.cpp:81
-#: plugins/icq/icqmessage.cpp:1454 plugins/logger/logconfig.cpp:79
+#: plugins/icq/icqmessage.cpp:1481 plugins/logger/logconfig.cpp:79
 #, fuzzy
 msgid "Warning"
 msgstr "&Warnings"
@@ -4810,69 +4854,69 @@ msgstr "&Warnings"
 
 # ui/setupdlg.cpp:112
 # ui/userinfo.cpp:78
-#: plugins/icq/icqclient.cpp:1765 plugins/icq/icqclient.cpp:1953
+#: plugins/icq/icqclient.cpp:1773 plugins/icq/icqclient.cpp:1961
 #: plugins/jabber/jabberclient.cpp:1143 plugins/jabber/jabberclient.cpp:1222
 msgid "Home info"
 msgstr "Infos Lieu"
 
 # ui/setupdlg.cpp:113
 # ui/userinfo.cpp:79
-#: plugins/icq/icqclient.cpp:1780 plugins/icq/icqclient.cpp:1968
+#: plugins/icq/icqclient.cpp:1788 plugins/icq/icqclient.cpp:1976
 #: plugins/jabber/jabberclient.cpp:1158 plugins/jabber/jabberclient.cpp:1237
 msgid "Work info"
 msgstr "Infos Travail"
 
 # ui/setupdlg.cpp:114
 # ui/userinfo.cpp:80
-#: plugins/icq/icqclient.cpp:1795 plugins/icq/icqclient.cpp:1983
+#: plugins/icq/icqclient.cpp:1803 plugins/icq/icqclient.cpp:1991
 msgid "More info"
 msgstr "Plus d'infos"
 
 # ui/setupdlg.cpp:115
 # ui/userinfo.cpp:81
-#: plugins/icq/icqclient.cpp:1810 plugins/icq/icqclient.cpp:1904
-#: plugins/icq/icqclient.cpp:1998 plugins/icq/icqclient.cpp:2122
+#: plugins/icq/icqclient.cpp:1818 plugins/icq/icqclient.cpp:1912
+#: plugins/icq/icqclient.cpp:2006 plugins/icq/icqclient.cpp:2130
 #: plugins/jabber/jabberclient.cpp:1173 plugins/jabber/jabberclient.cpp:1252
 msgid "About info"
 msgstr "Infos A propos"
 
 # ui/setupdlg.cpp:116
 # ui/userinfo.cpp:82
-#: plugins/icq/icqclient.cpp:1825 plugins/icq/icqclient.cpp:2013
+#: plugins/icq/icqclient.cpp:1833 plugins/icq/icqclient.cpp:2021
 msgid "Interests"
 msgstr "Intérêts"
 
 # ui/setupdlg.cpp:117
 # ui/userinfo.cpp:83
-#: plugins/icq/icqclient.cpp:1840 plugins/icq/icqclient.cpp:2028
+#: plugins/icq/icqclient.cpp:1848 plugins/icq/icqclient.cpp:2036
 msgid "Group/Past"
 msgstr "Groupe"
 
-#: plugins/icq/icqclient.cpp:1855 plugins/icq/icqclient.cpp:2043
+#: plugins/icq/icqclient.cpp:1863 plugins/icq/icqclient.cpp:2051
 msgid "Picture"
 msgstr ""
 
 # mainwin.cpp:620
 # mainwin.cpp:2733
 # monitor.cpp:59
-#: plugins/icq/icqclient.cpp:2058 plugins/icq/icqclient.cpp:2137
-#: plugins/jabber/jabberclient.cpp:1282 plugins/msn/msnclient.cpp:667
+#: plugins/icq/icqclient.cpp:2066 plugins/icq/icqclient.cpp:2145
+#: plugins/jabber/jabberclient.cpp:1282 plugins/msn/msnclient.cpp:685
 #, fuzzy
 msgid "Network"
 msgstr "Moniteur réseau"
 
 # ui/setupdlg.cpp:146
-#: plugins/icq/icqclient.cpp:2073
+#: plugins/icq/icqclient.cpp:2081
 msgid "Security"
 msgstr "Sécurité"
 
 # control.cpp:220
-#: plugins/icq/icqclient.cpp:2286
+#: plugins/icq/icqclient.cpp:2294
 #, fuzzy
 msgid "Send &urgent"
 msgstr "Envoyer &message"
 
-#: plugins/icq/icqclient.cpp:2290
+#: plugins/icq/icqclient.cpp:2298
 #, fuzzy
 msgid "Send to &list"
 msgstr "Barrer"
@@ -5292,24 +5336,24 @@ msgstr ""
 msgid "On the lunch"
 msgstr ""
 
-#: plugins/msn/msnclient.cpp:323 plugins/msn/msnclient.cpp:340
+#: plugins/msn/msnclient.cpp:337 plugins/msn/msnclient.cpp:354
 msgid "MSN protocol error"
 msgstr ""
 
 # mainwin.cpp:1282
-#: plugins/msn/msnclient.cpp:493
+#: plugins/msn/msnclient.cpp:511
 #, fuzzy
 msgid "Youur account is being used from another location"
 msgstr "Votre UIN est utilisé depuis un autre endroit"
 
 # ui/themesetup.cpp:136
-#: plugins/msn/msnclient.cpp:1515
+#: plugins/msn/msnclient.cpp:1556
 #, fuzzy
 msgid "Contact go offline"
 msgstr "Contact - Gauche"
 
 # control.cpp:220
-#: plugins/msn/msnclient.cpp:1701
+#: plugins/msn/msnclient.cpp:1742
 #, fuzzy
 msgid "Send message failed"
 msgstr "Envoyer &message"
@@ -5322,14 +5366,20 @@ msgstr ""
 msgid "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 msgstr ""
 
-#: plugins/msn/msnsearch.cpp:58
-msgid "MSN search results"
-msgstr ""
-
-#: plugins/msn/msnsearch.cpp:124
+#: plugins/msn/msnresult.cpp:59
 #, fuzzy
 msgid "Contact %1 added to list"
 msgstr "Connecté à l'hôte"
+
+# control.cpp:220
+#: plugins/msn/msnresult.cpp:63
+#, fuzzy, c-format
+msgid "Invalid address: %1"
+msgstr "Ouvrir message lu"
+
+#: plugins/msn/msnsearch.cpp:58
+msgid "MSN search results"
+msgstr ""
 
 #: plugins/msn/msnsearch.cpp:126
 msgid "Contact %1 allready in list"
@@ -9069,28 +9119,6 @@ msgstr "Couper"
 #~ msgid "&Packets"
 #~ msgstr "&Paquets"
 
-# msgedit.cpp:78
-#~ msgid "Decline file without reason"
-#~ msgstr "Refuser le fichier sans raison"
-
-# msgedit.cpp:80
-#~ msgid "Sorry, I'm busy right now, and can not respond to your request"
-#~ msgstr ""
-#~ "Désolé, je suis occupé en ce moment et je ne peux répondre à votre demande."
-
-# msgedit.cpp:82
-#~ msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
-#~ msgstr ""
-#~ "Désolé, je suis occupé en ce moment mais je pourrai vous répondre plus tard."
-
-# msgedit.cpp:84
-#~ msgid "Enter a decline reason"
-#~ msgstr "Entrer une raison de refus"
-
-# msgedit.cpp:122
-#~ msgid "&Accept"
-#~ msgstr "&Accepter"
-
 # msgedit.cpp:124
 #~ msgid "&Reply"
 #~ msgstr "&Répondre"
@@ -9118,10 +9146,6 @@ msgstr "Couper"
 # msgedit.cpp:1173
 #~ msgid "Save to"
 #~ msgstr "Enregistrer sous"
-
-# msgedit.cpp:1738
-#~ msgid "Decline reason"
-#~ msgstr "Raison"
 
 # msgedit.cpp:1738
 #~ msgid "Please, input decline reason:"
