@@ -85,6 +85,8 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             break;
         }
     case ICQ_SNACxMSG_ERROR:{
+		if (seq == 0)
+			break;
             unsigned short error;
             m_socket->readBuffer >> error;
             const char *err_str = I18N_NOOP("Unknown error");
@@ -628,7 +630,7 @@ void ICQClient::sendThroughServer(const char *screen, unsigned short channel, Bu
 {
     // we need informations about channel 2 tlvs !
     unsigned short tlv_type = 5;
-    snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_SENDxSERVER);
+    snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_SENDxSERVER, true, true);
     m_socket->writeBuffer << id.id_l << id.id_h;
     m_socket->writeBuffer << channel;
     m_socket->writeBuffer.packScreen(screen);
