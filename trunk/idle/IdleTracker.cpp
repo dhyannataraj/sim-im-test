@@ -80,11 +80,16 @@ __declspec(dllexport) LRESULT CALLBACK MouseTracker(int code, WPARAM wParam, LPA
  **/
 __declspec(dllexport) BOOL IdleTrackerInit()
 {
+	int err;
 	if (g_hHkKeyboard == NULL) {
 		g_hHkKeyboard = SetWindowsHookEx(WH_KEYBOARD, KeyboardTracker, g_hInstance, 0);
+		if (g_hHkKeyboard == NULL)
+			err = GetLastError();
 	}
 	if (g_hHkMouse == NULL) {
 		g_hHkMouse = SetWindowsHookEx(WH_MOUSE, MouseTracker, g_hInstance, 0);
+		if (g_hHkMouse == NULL)
+			err = GetLastError();
 	}
 
 	_ASSERT(g_hHkKeyboard);

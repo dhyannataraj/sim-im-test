@@ -75,6 +75,20 @@ void EditSpell::keyPressEvent(QKeyEvent *e)
 {
     if (pMain->SendEnter && ((e->key() == Key_Enter) || (e->key() == Key_Return)))
         return;
+    if (e->state() == ControlButton){
+        switch (e->key()){
+        case Key_Insert:
+            copy();
+            return;
+        case Key_Delete:
+            cut();
+            return;
+        }
+    }
+    if ((e->state() == ShiftButton) && (e->key() == Key_Insert)){
+        paste();
+        return;
+    }
     QTextEdit::keyPressEvent(e);
 }
 

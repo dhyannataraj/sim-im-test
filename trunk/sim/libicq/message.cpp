@@ -37,7 +37,6 @@ const unsigned short ICQ_SMS_FAIL    = 3;
 
 ICQMessage::ICQMessage(unsigned short type)
 {
-    Time = 0;
     Received = false;
     Direct = false;
     m_nType = type;

@@ -1414,15 +1414,19 @@ void SIMClient::getAutoResponse(unsigned long uin, ICQMessage *msg)
     ar.tmpl = new Tmpl(this);
     connect(ar.tmpl, SIGNAL(ready(Tmpl*, const QString&)), this, SLOT(tmpl_ready(Tmpl*, const QString&)));
     responses.push_back(ar);
-    ar.tmpl->expand(res.c_str(), uin);
+    QString str = QString::fromLocal8Bit(res.c_str());
+    ar.tmpl->expand(str, uin);
 }
 
 void SIMClient::tmpl_ready(Tmpl *t, const QString &res)
 {
     for (list<autoResponse>::iterator it = responses.begin(); it != responses.end(); ++it){
         if ((*it).tmpl == t){
-            if ((*it).msg)
-                pClient->declineMessage((*it).msg, res.local8Bit());
+            if ((*it).msg){
+                QString str = res;
+                str.replace(QRegExp("\\r?\\n"), "\r\n");
+                pClient->declineMessage((*it).msg, str.local8Bit());
+            }
             (*it).bDelete = true;
             QTimer::singleShot(0, this, SLOT(tmpl_clear()));
             break;

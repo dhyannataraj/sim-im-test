@@ -446,6 +446,12 @@ protected:
 #ifdef USE_KDE
     KAboutKDE    *mAboutKDE;
 #endif
+#ifdef WIN32
+    bool	bHookInit;
+    int		oldX;
+    int		oldY;
+    int		lastTime;
+#endif
     QTranslator	 *translator;
     void initTranslator();
 };

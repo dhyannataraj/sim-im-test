@@ -446,7 +446,7 @@ MainWindow::MainWindow(const char *name)
     if (hLib != NULL)
         (DWORD&)_GetLastInputInfo = (DWORD)GetProcAddress(hLib,"GetLastInputInfo");
     if (_GetLastInputInfo == NULL)
-        IdleTrackerInit();
+        bHookInit = IdleTrackerInit();
 #endif
 #ifdef USE_KDE
     connect(kapp, SIGNAL(iconChanged(int)), this, SLOT(changeIcons(int)));
@@ -1479,7 +1479,20 @@ void MainWindow::autoAway()
 #ifdef WIN32
     unsigned long idle_time = 0;
     if (_GetLastInputInfo == NULL){
-        idle_time = (GetTickCount() - IdleTrackerGetLastTickCount()) / 1000;
+        if (bHookInit){
+            idle_time = (GetTickCount() - IdleTrackerGetLastTickCount()) / 1000;
+        }else{
+            POINT p;
+            GetCursorPos(&p);
+            time_t now;
+            time(&now);
+            if ((p.x != oldX) || (p.y != oldY)){
+                oldX = p.x;
+                oldY = p.y;
+                lastTime = now;
+            }
+            idle_time = now - lastTime;
+        }
     }else{
         LASTINPUTINFO lii;
         ZeroMemory(&lii,sizeof(lii));

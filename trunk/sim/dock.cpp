@@ -489,7 +489,7 @@ void DockWnd::reset()
         s = str.join("<br>");
 #endif
     }else{
-        if (pClient->isConnecting()){
+        if (!pClient->isConnecting()){
             s = pClient->getStatusText();
         }else{
             s = i18n("Connecting");

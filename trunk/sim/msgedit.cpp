@@ -1803,6 +1803,7 @@ string MsgEdit::smsChunk()
     part = part.replace(QRegExp("\""), "&quot;");
     part = part.replace(QRegExp("<"), "&lt;");
     part = part.replace(QRegExp(">"), "&gt;");
+    part = part.replace(QRegExp("\n"), "<br>");
     res = pClient->to8Bit(Uin, part);
     return res;
 }

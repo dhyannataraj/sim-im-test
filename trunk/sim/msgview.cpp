@@ -271,7 +271,8 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
 
 void TextShow::keyPressEvent(QKeyEvent *e)
 {
-    if ((e->key() == Key_C) && (e->state() == ControlButton)){
+    if (((e->state() == ControlButton) && (e->key() == Key_C)) ||
+            ((e->state() == ShiftButton) && (e->key() == Key_Insert))){
         copy();
         return;
     }
