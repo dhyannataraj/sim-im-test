@@ -1013,6 +1013,7 @@ public:
         Read,
         Write,
         Done,
+		Wait,
         Error
     };
     State state()	{ return m_state; }

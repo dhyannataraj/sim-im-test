@@ -1450,37 +1450,21 @@ bool MSNClient::compareData(void *d1, void *d2)
 }
 
 static void addIcon(string *s, const char *icon, const char *statusIcon)
-
 {
-
     if (s == NULL)
-
         return;
-
     if (statusIcon && !strcmp(statusIcon, icon))
-
         return;
-
     string str = *s;
-
     while (!str.empty()){
-
         string item = getToken(str, ',');
-
         if (item == icon)
-
             return;
-
     }
-
     if (!s->empty())
-
         *s += ',';
-
     *s += icon;
-
 }
-
 
 void MSNClient::contactInfo(void *_data, unsigned long &curStatus, unsigned&, const char *&statusIcon, string *icons)
 {
@@ -1494,37 +1478,21 @@ void MSNClient::contactInfo(void *_data, unsigned long &curStatus, unsigned&, co
     if ((cmp_status == STATUS_BRB) || (cmp_status == STATUS_PHONE) || (cmp_status == STATUS_LUNCH))
         cmp_status = STATUS_AWAY;
     if (data->Status > curStatus){
-
         curStatus = data->Status;
-
         if (statusIcon && icons){
-
             string iconSave = *icons;
-
             *icons = statusIcon;
-
             if (iconSave.length())
-
                 addIcon(icons, iconSave.c_str(), statusIcon);
-
         }
-
         statusIcon = def->icon;
-
     }else{
-
         if (statusIcon){
-
             addIcon(icons, def->icon, statusIcon);
-
         }else{
-
             statusIcon = def->icon;
-
         }
-
     }
-
     if (icons && data->typing_time)
         addIcon(icons, "typing", statusIcon);
 }
@@ -2518,8 +2486,12 @@ void MSNFileTransfer::write_ready()
 				m_notify->transfer(false);
 			return;
 		}
+		m_state = Wait;
+		FileTransfer::m_state = FileTransfer::Wait;
 		if (m_notify)
 			m_notify->transfer(false);
+		if (!m_client->send(msg, m_data))
+			set_error(I18N_NOOP("File transfer failed"), 0);
         return;
     }
     time_t now;

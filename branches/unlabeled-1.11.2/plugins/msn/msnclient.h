@@ -257,7 +257,8 @@ protected:
 		ConnectIP1,
 		ConnectIP2,
 		Connected,
-		Send
+		Send,
+		Wait
 	};
     virtual bool    error_state(const char *err, unsigned code);
     virtual void	packet_ready();
