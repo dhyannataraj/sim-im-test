@@ -23,7 +23,7 @@
 
 #include "icqclient.h"
 
-// #undef HAVE_KEXTSOCK_H
+#undef HAVE_KEXTSOCK_H
 
 class QDns;
 class QSocket;
