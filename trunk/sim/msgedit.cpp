@@ -402,6 +402,7 @@ QString MsgEdit::userName()
 
 void MsgEdit::fillPhones()
 {
+    QString phoneNumber = phoneEdit->lineEdit()->text();
     phoneEdit->clear();
     ICQUser *u = pClient->getUser(Uin);
     if (u == NULL) return;
@@ -410,9 +411,10 @@ void MsgEdit::fillPhones()
         if (phone->Type != SMS) continue;
         phoneEdit->insertItem(phone->getNumber().c_str());
         QString t = phoneEdit->lineEdit()->text();
-        if (phoneEdit->lineEdit()->text().length() == 0)
-            phoneEdit->lineEdit()->setText(QString::fromLocal8Bit(phone->getNumber().c_str()));
+        if (phoneNumber.isEmpty())
+            phoneNumber = QString::fromLocal8Bit(phone->getNumber().c_str());
     }
+    phoneEdit->lineEdit()->setText(phoneNumber);
 }
 
 void MsgEdit::processEvent(ICQEvent *e)
@@ -996,7 +998,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                         if ((u == NULL) || !u->AcceptFileOverride()) u = pClient;
                         string path = u->AcceptFilePath.c_str();
                         if (*path.c_str() == 0)
-                            pMain->buildFileName(path, "IncommingFiles/");
+                            pMain->buildFileName(path, "IncomingFiles/");
                         QString name = QString::fromLocal8Bit(path.c_str());
 #ifdef WIN32
                         name.replace(QRegExp("/"), "\\");

@@ -657,6 +657,15 @@ bool SMSSendEvent::parseResponse(string &xmlstring)
     XmlLeaf *network = sms_response->getLeaf("network");
     if (network)
         sms->Network = network->getValue();
+    XmlBranch *error = sms_response->getBranch("error");
+    if (error){
+        XmlBranch *params = error->getBranch("params");
+        if (params){
+            XmlLeaf *param = params->getLeaf("param");
+            if (param)
+                sms->DeclineReason = param->getValue();
+        }
+    }
     return res;
 }
 

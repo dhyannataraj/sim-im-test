@@ -57,9 +57,9 @@ void AcceptDialog::load(ICQUser *u)
     string path = u->AcceptFilePath.c_str();
     if (*(path.c_str()) == 0){
 #ifdef _WINDOWS
-        pMain->buildFileName(path, "IncommingFiles\\");
+        pMain->buildFileName(path, "IncomingFiles\\");
 #else
-        pMain->buildFileName(path, "IncommingFiles/");
+        pMain->buildFileName(path, "IncomingFiles/");
 #endif
         path = path.substr(0, path.size() - 1);
     }

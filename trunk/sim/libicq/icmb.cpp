@@ -208,7 +208,7 @@ void ICQClient::snac_message(unsigned short type, unsigned short)
                 break;
             }
             if (uin == 1002)
-                log(L_DEBUG, "Incomming SMS");
+                log(L_DEBUG, "Incoming SMS");
             unsigned short level, nTLV;
             readBuffer >> level >> nTLV;
             switch (mFormat){

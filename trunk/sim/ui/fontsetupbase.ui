@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>341</width>
-            <height>456</height>
+            <width>339</width>
+            <height>493</height>
         </rect>
     </property>
     <property>
@@ -388,6 +388,17 @@
             <property>
                 <name>text</name>
                 <string>&amp;Show splash window</string>
+            </property>
+        </widget>
+        <widget>
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkEmotional</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Use emotional &amp;icons</string>
             </property>
         </widget>
         <spacer>

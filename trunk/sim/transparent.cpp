@@ -135,7 +135,21 @@ TransparentTop::TransparentTop(QWidget *parent,
         ++it;
     }
     connect(pMain, SIGNAL(transparentChanged()), this, SLOT(transparentChanged()));
+#ifdef WIN32
+    parent->installEventFilter(this);
+#endif
     transparentChanged();
+}
+
+bool TransparentTop::eventFilter(QObject*, QEvent *e)
+{
+    switch (e->type()){
+    case QEvent::WindowActivate:
+    case QEvent::WindowDeactivate:
+        transparentChanged();
+        break;
+    }
+    return false;
 }
 
 void TransparentTop::updateBackground(const QPixmap &pm)
@@ -153,7 +167,9 @@ void TransparentTop::transparentChanged()
 {
 #ifdef WIN32
     QWidget *p = static_cast<QWidget*>(parent());
-    setTransparent(p,useTransparent, transparent);
+    bool bTransparent = true;
+    if (pMain->TransparentIfInactive()) bTransparent = !p->isActiveWindow();
+    setTransparent(p, useTransparent && bTransparent, transparent);
 #endif
 #if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
     if (useTransparent()){

@@ -50,6 +50,7 @@ FontSetup::FontSetup(QWidget *p)
     btnReceive->setColor(QColor(pMain->ColorReceive));
     grpWndMode->setButton(pMain->SimpleMode() ? 1 : 0);
     chkSplash->setChecked(pSplash->Show());
+    chkEmotional->setChecked(pMain->UseEmotional());
 }
 
 void FontSetup::systemToggled(bool)
@@ -97,6 +98,7 @@ void FontSetup::apply(ICQUser*)
         pMain->ContainerMode = ContainerModeAll;
     pMain->changeMode(grpWndMode->selected() == btnModePlain);
     pSplash->Show = chkSplash->isChecked();
+    pMain->UseEmotional = chkEmotional->isChecked();
 }
 
 #ifndef _WINDOWS

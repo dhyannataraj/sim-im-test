@@ -42,6 +42,7 @@
 #include "chatwnd.h"
 #include "about.h"
 #include "splash.h"
+#include "keys.h"
 
 #ifndef _WINDOWS
 #include <pwd.h>
@@ -191,6 +192,7 @@ MainWindow::MainWindow(const char *name)
         Transparent(this, "TransparencyMain", 80),
         UseTransparentContainer(this, "TransparentContainer"),
         TransparentContainer(this, "TransparencyContainer", 80),
+        TransparentIfInactive(this, "TransparentIfInactive", true),
         NoShowAway(this, "NoShowAway"),
         NoShowNA(this, "NoShowNA"),
         NoShowOccupied(this, "NoShowOccupied"),
@@ -241,7 +243,11 @@ MainWindow::MainWindow(const char *name)
         MessageBgColor(this, "MessageBgColor"),
         MessageFgColor(this, "MessageFgColor"),
         SimpleMode(this, "SimpleMode"),
-        UseOwnColors(this, "UseOwnColors")
+        UseOwnColors(this, "UseOwnColors"),
+        KeyWindow(this, "KeyWindow", "CTRL-SHIFT-A"),
+        KeyDblClick(this, "KeyDblClick", "CTRL-SHIFT-I"),
+        KeySearch(this, "KeySearch", "CTRL-SHIFT-S"),
+        UseEmotional(this, "UseEmotional", true)
 {
     pMain = this;
     bQuit = false;
@@ -371,6 +377,10 @@ MainWindow::MainWindow(const char *name)
     transparent = new TransparentTop(this, UseTransparent, Transparent);
     setOnTop();
     loadMenu();
+    keys = new HotKeys(this);
+    connect(keys, SIGNAL(toggleWindow()), this, SLOT(toggleWindow()));
+    connect(keys, SIGNAL(dblClick()), this, SLOT(dockDblClicked()));
+    connect(keys, SIGNAL(showSearch()), this, SLOT(search()));
 }
 
 void MainWindow::changeMode(bool bSimple)
@@ -728,8 +738,23 @@ bool MainWindow::init()
     setShowOffline(ShowOffline);
     setGroupMode(GroupMode);
 
+    keys->unregKeys();
+    keys->regKeys();
+
     realSetStatus();
     return true;
+}
+
+void MainWindow::setKeys(const char *kWindow, const char *kDblClick, const char *kSearch)
+{
+    if (!strcmp(kWindow, KeyWindow.c_str()) &&
+            !strcmp(kDblClick, KeyDblClick.c_str()) &&
+            !strcmp(kSearch, KeySearch.c_str())) return;
+    KeyWindow = kWindow;
+    KeyDblClick = kDblClick;
+    KeySearch = kSearch;
+    keys->unregKeys();
+    keys->regKeys();
 }
 
 void MainWindow::messageReceived(ICQMessage *msg)
@@ -1040,7 +1065,6 @@ void MainWindow::showUser(unsigned long uin, int function, unsigned long param)
 
 void MainWindow::setShow(bool bShow)
 {
-    log(L_DEBUG, "Set show %u", bShow);
     if (!bShow){
         hide();
         return;
@@ -1066,6 +1090,11 @@ bool MainWindow::isShow()
 #else
     return true;
 #endif
+}
+
+void MainWindow::toggleWindow()
+{
+    setShow(!isShow());
 }
 
 void MainWindow::toggleShow()

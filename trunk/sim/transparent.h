@@ -64,6 +64,7 @@ signals:
 protected slots:
     void transparentChanged();
 protected:
+    bool eventFilter(QObject *obj, QEvent *e);
     ConfigBool &useTransparent;
     ConfigULong &transparent;
 };

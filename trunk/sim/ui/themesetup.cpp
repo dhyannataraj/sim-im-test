@@ -77,6 +77,11 @@ ThemeSetup::ThemeSetup(QWidget *parent)
     chkUserWnd->hide();
     chkMainWnd->hide();
 #endif
+#ifdef WIN32
+    chkInactive->setChecked(pMain->TransparentIfInactive());
+#else
+    chkInactive->hide();
+#endif
     setupInit();
 }
 
@@ -121,6 +126,9 @@ void ThemeSetup::apply(ICQUser*)
         pMain->changeIcons(0);
     }
     if (!TransparentTop::bCanTransparent) return;
+#ifdef WIN32
+    pMain->TransparentIfInactive = chkInactive->isChecked();
+#endif
     pMain->UseTransparent = chkTransparent->isChecked();
     pMain->Transparent = sldTransparent->value();
     pMain->UseTransparentContainer = chkTransparentContainer->isChecked();

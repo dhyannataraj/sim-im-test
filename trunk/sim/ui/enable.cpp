@@ -50,7 +50,7 @@ unsigned short getComboValue(QComboBox *cmb, const ext_info *tbl)
     int res = cmb->currentItem();
     if (res <= 0) return 0;
     QStringList items;
-	const ext_info *i;
+    const ext_info *i;
     for (i = tbl; i->nCode; i++)
         items.append(i18n(i->szName));
     items.sort();

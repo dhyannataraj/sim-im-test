@@ -94,6 +94,7 @@ class XOSD;
 class ICQEvent;
 class QDialog;
 class KAboutKDE;
+class HotKeys;
 
 class MainWindow : public QMainWindow, public ConfigArray
 {
@@ -134,6 +135,7 @@ public:
     ConfigULong  Transparent;
     ConfigBool	 UseTransparentContainer;
     ConfigULong	 TransparentContainer;
+    ConfigBool	 TransparentIfInactive;
 
     ConfigBool	 NoShowAway;
     ConfigBool	 NoShowNA;
@@ -198,6 +200,12 @@ public:
     ConfigBool	 SimpleMode;
     ConfigBool	 UseOwnColors;
 
+    ConfigString KeyWindow;
+    ConfigString KeyDblClick;
+    ConfigString KeySearch;
+
+    ConfigBool	 UseEmotional;
+
     bool 	     init();
 
     QPopupMenu   *menuStatus;
@@ -236,6 +244,7 @@ public:
     void changeOwnColors(bool bUse);
     void changeWm();
     void changeMode(bool bSample);
+    void setKeys(const char *kWindow, const char *kDblClick, const char *kSearch);
 
     QWidget *chatWindow(unsigned long uin);
     QWidget *ftWindow(unsigned long uin, const string &fileName);
@@ -281,6 +290,7 @@ public slots:
     void chatClose();
     void ftClose();
 protected slots:
+    void toggleWindow();
     void realSetStatus();
     void autoAway();
     void setToggle();
@@ -328,6 +338,7 @@ protected:
     void setStatusItem(int status);
     bool	bQuit;
     DockWnd	*dock;
+    HotKeys *keys;
     virtual void closeEvent(QCloseEvent*);
     void addMessageType(QPopupMenu *menu, int type, int id, bool bAdd, bool bHaveTitle);
     QToolBar *toolbar;

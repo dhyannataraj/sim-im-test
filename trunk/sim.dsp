@@ -357,6 +357,18 @@ SOURCE=.\sim\ui\interestsinfobase.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\keys.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\keysetup.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\keysetupbase.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\libicq\lists.cpp
 # End Source File
 # Begin Source File
@@ -557,6 +569,18 @@ SOURCE=.\sim\ui\moc_interestsinfobase.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\moc_keys.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\moc_keysetup.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\moc_keysetupbase.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\ui\moc_listsec.cpp
 # End Source File
 # Begin Source File
@@ -650,6 +674,10 @@ SOURCE=.\sim\ui\moc_phonedetails.cpp
 # Begin Source File
 
 SOURCE=.\sim\ui\moc_qcolorbutton.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\moc_qkeybutton.cpp
 # End Source File
 # Begin Source File
 
@@ -863,6 +891,10 @@ SOURCE=.\sim\ui\qcolorbutton.cpp
 # Begin Source File
 
 SOURCE=.\sim\qt3\qcomplextext.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\qkeybutton.cpp
 # End Source File
 # Begin Source File
 
@@ -1911,6 +1943,76 @@ SOURCE=.\sim\ui\interestsinfobase.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\keys.h
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\keys.h
+InputName=keys
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim
+InputPath=.\sim\keys.h
+InputName=keys
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\keysetup.h
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\keysetup.h
+InputName=keysetup
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\keysetup.h
+InputName=keysetup
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\keysetupbase.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\ui\listsec.h
 
 !IF  "$(CFG)" == "sim - Win32 Release"
@@ -2431,6 +2533,39 @@ InputName=qcolorbutton
 InputDir=.\sim\ui
 InputPath=.\sim\ui\qcolorbutton.h
 InputName=qcolorbutton
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\qkeybutton.h
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\qkeybutton.h
+InputName=qkeybutton
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\qkeybutton.h
+InputName=qkeybutton
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
@@ -3924,6 +4059,61 @@ BuildCmds= \
 InputDir=.\sim\ui
 InputPath=.\sim\ui\interestsinfobase.ui
 InputName=interestsinfobase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\keysetupbase.ui
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Uic'ing $(InputName).ui ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\keysetupbase.ui
+InputName=keysetupbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Uic'ing $(InputName).ui ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\keysetupbase.ui
+InputName=keysetupbase
 
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \

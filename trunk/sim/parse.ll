@@ -169,14 +169,18 @@ QString MainWindow::ParseText(const char *text, bool bIgnoreColors)
             res += "</a>";
             break;
         default:
-            res += "<img src=\"icon:smile";
-            r -= SMILE;
-            if (r < 10){
-                res += (char)(r + '0');
-            }else{
-                res += (char)(r - 10 + 'A');
-            }
-            res += "\">";
+			if (pMain->UseEmotional()){
+				res += "<img src=\"icon:smile";
+				r -= SMILE;
+				if (r < 10){
+					res += (char)(r + '0');
+				}else{
+					res += (char)(r - 10 + 'A');
+				}
+				res += "\">";
+			}else{
+				res += yytext;
+			}
         }
     }
     for (; !tags.empty(); tags.pop()){
