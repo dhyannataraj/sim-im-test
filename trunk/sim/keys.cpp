@@ -33,6 +33,12 @@ using namespace std;
 #if QT_VERSION >= 300
 #include <kshortcut.h>
 #endif
+#else
+#define XK_MISCELLANY 1
+#include <X11/X.h>
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#include <X11/keysymdef.h>
 #endif
 #endif
 
@@ -344,7 +350,6 @@ static void getKey(const char *key_str, int &mod, int &key)
 }
 
 #else
-#ifdef USE_KDE
 
 int str2key(const char *key_str)
 {
@@ -384,7 +389,6 @@ int str2key(const char *key_str)
 }
 
 #endif
-#endif
 
 HotKeys::HotKeys(QWidget *parent, const char *name)
         : QObject(parent, name)
@@ -402,6 +406,10 @@ HotKeys::HotKeys(QWidget *parent, const char *name)
 #else
 #ifdef USE_KDE
     accel = NULL;
+#else
+    grabWindow = NULL;
+    grabDblClick = NULL;
+    grabSearch = NULL;
 #endif
 #endif
     regKeys();
@@ -412,6 +420,12 @@ HotKeys::~HotKeys()
     unregKeys();
 #ifdef WIN32
     delete wnd;
+#else
+#ifndef USE_KDE
+    if (grabWindow) delete grabWindow;
+    if (grabDblClick) delete grabDblClick;
+    if (grabSearch) delete grabSearch;
+#endif
 #endif
 }
 
@@ -482,6 +496,31 @@ void HotKeys::regKeys()
     }
     accel->readSettings();
 #endif
+#else
+    if (grabWindow){
+        delete grabWindow;
+        grabWindow = NULL;
+    }
+    if (grabDblClick){
+        delete grabDblClick;
+        grabDblClick = NULL;
+    }
+    if (grabSearch){
+        delete grabSearch;
+        grabSearch = NULL;
+    }
+    if (*pMain->KeyWindow.c_str()){
+        grabWindow = new KeyGrab(pMain->KeyWindow.c_str());
+        connect(grabWindow, SIGNAL(activated()), this, SLOT(slotToggleWindow()));
+    }
+    if (*pMain->KeyDblClick.c_str()){
+        grabDblClick = new KeyGrab(pMain->KeyDblClick.c_str());
+        connect(grabDblClick, SIGNAL(activated()), this, SLOT(slotDblClick()));
+    }
+    if (*pMain->KeySearch.c_str()){
+        grabSearch = new KeyGrab(pMain->KeySearch.c_str());
+        connect(grabSearch, SIGNAL(activated()), this, SLOT(slotShowSearch()));
+    }
 #endif
 #endif
 }
@@ -509,6 +548,19 @@ void HotKeys::unregKeys()
     if (accel){
         delete accel;
         accel = NULL;
+    }
+#else
+    if (grabWindow){
+        delete grabWindow;
+        grabWindow = NULL;
+    }
+    if (grabDblClick){
+        delete grabDblClick;
+        grabDblClick = NULL;
+    }
+    if (grabSearch){
+        delete grabSearch;
+        grabSearch = NULL;
     }
 #endif
 #endif
@@ -540,6 +592,140 @@ void HotKeys::slotShowSearch()
 {
     emit showSearch();
 }
+
+#if !defined(WIN32) && !defined(USE_KDE)
+
+typedef struct TransKey
+{
+    unsigned char qt_key;
+    unsigned x_key;
+} TransKey;
+
+static const TransKey g_rgQtToSymX[] =
+    {
+        { Qt::Key_Escape,     XK_Escape },
+        { Qt::Key_Tab,        XK_Tab },
+        { Qt::Key_Backspace,  XK_BackSpace },
+        { Qt::Key_Return,     XK_Return },
+        { Qt::Key_Enter,      XK_KP_Enter },
+        { Qt::Key_Insert,     XK_Insert },
+        { Qt::Key_Delete,     XK_Delete },
+        { Qt::Key_Pause,      XK_Pause },
+        { Qt::Key_Print,      XK_Print },
+        { Qt::Key_SysReq,     XK_Sys_Req },
+        { Qt::Key_Home,       XK_Home },
+        { Qt::Key_End,        XK_End },
+        { Qt::Key_Left,       XK_Left },
+        { Qt::Key_Up,         XK_Up },
+        { Qt::Key_Right,      XK_Right },
+        { Qt::Key_Down,       XK_Down },
+        { Qt::Key_Prior,      XK_Prior },
+        { Qt::Key_Next,       XK_Next },
+        { Qt::Key_CapsLock,   XK_Caps_Lock },
+        { Qt::Key_NumLock,    XK_Num_Lock },
+        { Qt::Key_ScrollLock, XK_Scroll_Lock },
+        { Qt::Key_F1,         XK_F1 },
+        { Qt::Key_F2,         XK_F2 },
+        { Qt::Key_F3,         XK_F3 },
+        { Qt::Key_F4,         XK_F4 },
+        { Qt::Key_F5,         XK_F5 },
+        { Qt::Key_F6,         XK_F6 },
+        { Qt::Key_F7,         XK_F7 },
+        { Qt::Key_F8,         XK_F8 },
+        { Qt::Key_F9,         XK_F9 },
+        { Qt::Key_F10,        XK_F10 },
+        { Qt::Key_F11,        XK_F11 },
+        { Qt::Key_F12,        XK_F12 },
+        { Qt::Key_F13,        XK_F13 },
+        { Qt::Key_F14,        XK_F14 },
+        { Qt::Key_F15,        XK_F15 },
+        { Qt::Key_F16,        XK_F16 },
+        { Qt::Key_F17,        XK_F17 },
+        { Qt::Key_F18,        XK_F18 },
+        { Qt::Key_F19,        XK_F19 },
+        { Qt::Key_F20,        XK_F20 },
+        { Qt::Key_F21,        XK_F21 },
+        { Qt::Key_F22,        XK_F22 },
+        { Qt::Key_F23,        XK_F23 },
+        { Qt::Key_F24,        XK_F24 },
+        { Qt::Key_F25,        XK_F25 },
+        { Qt::Key_F26,        XK_F26 },
+        { Qt::Key_F27,        XK_F27 },
+        { Qt::Key_F28,        XK_F28 },
+        { Qt::Key_F29,        XK_F29 },
+        { Qt::Key_F30,        XK_F30 },
+        { Qt::Key_F31,        XK_F31 },
+        { Qt::Key_F32,        XK_F32 },
+        { Qt::Key_F33,        XK_F33 },
+        { Qt::Key_F34,        XK_F34 },
+        { Qt::Key_F35,        XK_F35 },
+        { Qt::Key_Super_L,    XK_Super_L },
+        { Qt::Key_Super_R,    XK_Super_R },
+        { Qt::Key_Menu,       XK_Menu },
+        { Qt::Key_Hyper_L,    XK_Hyper_L },
+        { Qt::Key_Hyper_R,    XK_Hyper_R },
+        { Qt::Key_Help,       XK_Help },
+        { '/',                XK_KP_Divide },
+        { '*',                XK_KP_Multiply },
+        { '-',                XK_KP_Subtract },
+        { '+',                XK_KP_Add },
+        { Qt::Key_Return,     XK_KP_Enter },
+        { 0, 0 }
+    };
+#endif
+
+KeyGrab::KeyGrab(const char *key)
+        : QWidget(NULL)
+{
+    m_key = str2key(key);
+    m_state = 0;
+    if (m_key & Qt::SHIFT){
+        m_key &= ~Qt::SHIFT;
+        m_state |= 1;
+    }
+    if (m_key & Qt::CTRL){
+        m_key &= ~Qt::CTRL;
+        m_state |= 2;
+    }
+    if (m_key & Qt::ALT){
+        m_key &= ~Qt::ALT;
+        m_state |= 1;
+    }
+#if !defined(WIN32) && !defined(USE_KDE)
+    for (const TransKey *t = g_rgQtToSymX; t->qt_key; t++){
+        if (t->qt_key == m_key){
+            m_key = t->x_key;
+            break;
+        }
+    }
+    XSync( qt_xdisplay(), 0 );
+    XGrabKey( qt_xdisplay(), m_key, m_state,
+              qt_xrootwin(), True, GrabModeAsync, GrabModeSync);
+#endif
+    hide();
+}
+
+KeyGrab::~KeyGrab()
+{
+#if !defined(WIN32) && !defined(USE_KDE)
+    XUngrabKey( qt_xdisplay(), m_key, m_state, qt_xrootwin());
+#endif
+}
+
+#if !defined(WIN32) && !defined(USE_KDE)
+
+bool KeyGrab::x11Event(XEvent *e)
+{
+    if ((e->type == KeyPress) &&
+            (e->xkey.keycode == m_key) &&
+            (e->xkey.state == m_state)){
+        emit activated();
+        return true;
+    }
+    return QWidget::x11Event(e);
+}
+
+#endif
 
 #ifndef _WINDOWS
 #include "keys.moc"

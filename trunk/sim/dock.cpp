@@ -100,24 +100,29 @@ extern char **_argv;
 class WharfIcon : public QWidget
 {
 public:
-    WharfIcon(QWidget *parent);
+    WharfIcon(DockWnd *parent);
     ~WharfIcon();
     void set(const char *icon, const char *message);
 protected:
+    DockWnd *dock;
     virtual void enterEvent(QEvent*);
     virtual void leaveEvent(QEvent*);
     virtual void mousePressEvent(QMouseEvent *);
+    virtual void mouseReleaseEvent(QMouseEvent *);
+    virtual void mouseMoveEvent(QMouseEvent *);
     virtual void mouseDoubleClickEvent(QMouseEvent *e);
     virtual void paintEvent(QPaintEvent *);
     Window  parentWin;
+    QPoint  mousePos;
     QPixmap *vis;
     QPixmap *vish;
     bool highlight;
 };
 
-WharfIcon::WharfIcon(QWidget *parent)
-        : QWidget(parent, "WharfIcon")
+WharfIcon::WharfIcon(DockWnd *parent)
+        : QWidget(parent, "WharfIcon", WType_TopLevel | WStyle_Customize | WStyle_Tool | WStyle_NoBorder | WX11BypassWM)
 {
+    dock = parent;
     setMouseTracking(true);
     highlight = false;
     resize(32, 32);
@@ -125,6 +130,8 @@ WharfIcon::WharfIcon(QWidget *parent)
     setBackgroundMode(X11ParentRelative);
     vis = NULL;
     vish = NULL;
+    if (!dock->useWM)
+    	move(pMain->DockX, pMain->DockY);
     show();
 }
 
@@ -175,12 +182,32 @@ void WharfIcon::set(const char *icon, const char *msg)
 
 void WharfIcon::mousePressEvent( QMouseEvent *e)
 {
-    static_cast<DockWnd*>(parent())->mousePressEvent(e);
+    if (!dock->useWM){
+	mousePos = e->pos();
+	grabMouse();
+    }
+}
+
+void WharfIcon::mouseReleaseEvent( QMouseEvent *e)
+{
+    if (!dock->useWM){
+	mousePos = QPoint(0,0);
+	pMain->DockX = x();
+	pMain->DockY = y();
+	releaseMouse();
+    }
+    dock->mousePressEvent(e);
+}
+
+void WharfIcon::mouseMoveEvent( QMouseEvent *e)
+{
+    if (!dock->useWM && !mousePos.isNull())
+	move(e->globalPos() - mousePos);
 }
 
 void WharfIcon::mouseDoubleClickEvent( QMouseEvent *e)
 {
-    static_cast<DockWnd*>(parent())->mouseDoubleClickEvent(e);
+    dock->mouseDoubleClickEvent(e);
 }
 
 void WharfIcon::paintEvent( QPaintEvent * )
@@ -209,11 +236,12 @@ void WharfIcon::leaveEvent( QEvent *)
 
 #define XA_WIN_SUPPORTING_WM_CHECK      "_WIN_SUPPORTING_WM_CHECK"
 
-DockWnd::DockWnd(QWidget *main)
-        : QWidget(NULL)
+DockWnd::DockWnd(QWidget *main, int _useWM)
+        : QWidget(NULL, "dock")
 {
 #ifndef WIN32
     wharfIcon = NULL;
+    useWM = _useWM;
 #endif
     connect(this, SIGNAL(toggleWin()), main, SLOT(toggleShow()));
     connect(this, SIGNAL(showPopup(QPoint)), main, SLOT(showPopup(QPoint)));
@@ -224,40 +252,40 @@ DockWnd::DockWnd(QWidget *main)
     QTimer *t = new QTimer(this);
     connect(t, SIGNAL(timeout()), this, SLOT(timer()));
     t->start(800);
-    bool bWMDock = false;
 #ifndef WIN32
-    Atom r_type;
-    int r_format;
-    unsigned long count, bytes_remain;
-    unsigned char *prop = NULL, *prop2 = NULL;
-    Atom _XA_WIN_SUPPORTING_WM_CHECK = XInternAtom(qt_xdisplay(), XA_WIN_SUPPORTING_WM_CHECK, False);
-    int p = XGetWindowProperty(qt_xdisplay(), qt_xrootwin(), _XA_WIN_SUPPORTING_WM_CHECK,
-                               0, 1, False, XA_CARDINAL, &r_type, &r_format,
-                               &count, &bytes_remain, &prop);
+    if (useWM == -1){
+        useWM = 0;
+        Atom r_type;
+        int r_format;
+        unsigned long count, bytes_remain;
+        unsigned char *prop = NULL, *prop2 = NULL;
+        Atom _XA_WIN_SUPPORTING_WM_CHECK = XInternAtom(qt_xdisplay(), XA_WIN_SUPPORTING_WM_CHECK, False);
+        int p = XGetWindowProperty(qt_xdisplay(), qt_xrootwin(), _XA_WIN_SUPPORTING_WM_CHECK,
+                                   0, 1, False, XA_CARDINAL, &r_type, &r_format,
+                                   &count, &bytes_remain, &prop);
 
-    if (p == Success && prop && r_type == XA_CARDINAL &&
-            r_format == 32 && count == 1)
-    {
-        Window n = *(long *) prop;
-
-        p = XGetWindowProperty(qt_xdisplay(), n, _XA_WIN_SUPPORTING_WM_CHECK, 0, 1,
-                               False, XA_CARDINAL, &r_type, &r_format,
-                               &count, &bytes_remain, &prop2);
-
-        if (p == Success && prop2 && r_type == XA_CARDINAL &&
+        if (p == Success && prop && r_type == XA_CARDINAL &&
                 r_format == 32 && count == 1)
-            bWMDock = true;
+        {
+            Window n = *(long *) prop;
+
+            p = XGetWindowProperty(qt_xdisplay(), n, _XA_WIN_SUPPORTING_WM_CHECK, 0, 1,
+                                   False, XA_CARDINAL, &r_type, &r_format,
+                                   &count, &bytes_remain, &prop2);
+
+            if (p == Success && prop2 && r_type == XA_CARDINAL &&
+                    r_format == 32 && count == 1)
+                useWM = 1;
+        }
+
+        if (prop)
+            XFree(prop);
+        if (prop2)
+            XFree(prop2);
     }
-
-    if (prop)
-        XFree(prop);
-    if (prop2)
-        XFree(prop2);
-
 #endif
 #ifdef USE_KDE
-    log(L_DEBUG, "WM props? %u", bWMDock);
-    if (!bWMDock)
+    if (useWM)
         KWin::setSystemTrayWindowFor( winId(), main->topLevelWidget()->winId());
 #endif
     needToggle = false;
@@ -278,15 +306,16 @@ DockWnd::DockWnd(QWidget *main)
     notifyIconData.uID = 0;
     Shell_NotifyIconA(NIM_ADD, &notifyIconData);
 #else
-    if (!bWMDock){
+    bool bWharf = true;
+    if (useWM == 0){
         setBackgroundMode(X11ParentRelative);
         setIcon(Pict(pClient->getStatusIcon()));
 #ifdef USE_KDE
+	bWharf = false;
         show();
-#else
-    hide();
 #endif
-    }else{
+    }
+    if (bWharf){
         wharfIcon = new WharfIcon(this);
         Display *dsp = x11Display();
         WId win = winId();

@@ -233,6 +233,9 @@ public:
     string			ForwardPhone;
     bool			SendEnter;
 
+    short	DockX;
+    short	DockY;
+
     bool 	     init();
 
     QPopupMenu   *menuStatus;
@@ -252,6 +255,8 @@ public:
     PictButton   *btnStatus;
     Themes *themes;
     XOSD	*xosd;
+
+    int		useWM;
 
     void setShow(bool bState);
     bool isShow();

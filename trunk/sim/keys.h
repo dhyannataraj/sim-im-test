@@ -25,6 +25,22 @@
 class KGlobalAccel;
 #endif
 
+class KeyGrab : public QWidget
+{
+    Q_OBJECT
+public:
+    KeyGrab(const char *key);
+    ~KeyGrab();
+signals:
+    void activated();
+protected:
+#if !defined(WIN32) && !defined(USE_KDE)
+    virtual bool x11Event(XEvent*);
+#endif
+    unsigned m_key;
+    unsigned m_state;
+};
+
 class HotKeys : public QObject
 {
     Q_OBJECT
@@ -54,6 +70,10 @@ protected:
 #else
 #ifdef USE_KDE
     KGlobalAccel *accel;
+#else
+    KeyGrab *grabWindow;
+    KeyGrab *grabDblClick;
+    KeyGrab *grabSearch;
 #endif
 #endif
 };

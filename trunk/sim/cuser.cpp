@@ -288,7 +288,11 @@ QString CUser::toolTip()
                 r += "vICQ";
                 break;
             case 6:
-                r += "ICQ2Go!";
+		if (u->Version < 9){
+                	r += "ICQ2Go!";
+		}else{
+			r += "ICQLite";
+		}
                 break;
             default:
                 if ((unsigned char)(u->ClientType) >= (1 << 6)){

@@ -259,6 +259,8 @@ cfgParam MainWindow_Params[] =
         { "SMSSignBottom", offsetof(MainWindow, SMSSignBottom), PARAM_STRING, (unsigned)"\n&MyAlias; (ICQ# &MyUin;)" },
         { "ForwardPhone", offsetof(MainWindow, ForwardPhone), PARAM_STRING, 0 },
         { "SendEnter", offsetof(MainWindow, SendEnter), PARAM_BOOL, 0 },
+	{ "DockX", offsetof(MainWindow, DockX), PARAM_SHORT, 0 },
+	{ "DockY", offsetof(MainWindow, DockY), PARAM_SHORT, 0 },
         { "", 0, 0, 0 }
     };
 
@@ -278,6 +280,7 @@ MainWindow::MainWindow(const char *name)
     translator = NULL;
     mAboutApp = NULL;
     hideTime = 0;
+    useWM = -1;
 
 #ifdef HAVE_UMASK
     umask(0077);
@@ -1087,7 +1090,7 @@ void MainWindow::setDock(bool bUseDock)
     log(L_DEBUG, "Set dock %u", bUseDock);
     if (bUseDock){
         if (dock == NULL){
-            dock = new DockWnd(this);
+            dock = new DockWnd(this, useWM);
             connect(dock, SIGNAL(showPopup(QPoint)), this, SLOT(showPopup(QPoint)));
             connect(dock, SIGNAL(toggleWin()), this, SLOT(toggleShow()));
             connect(dock, SIGNAL(doubleClicked()), this, SLOT(dockDblClicked()));
