@@ -126,8 +126,10 @@ CToolButton::CToolButton (QWidget * parent, CommandDef *def)
 void CToolButton::setTextLabel()
 {
     QString text = m_text;
-    if (text.isEmpty())
+    if (text.isEmpty()) {
+        if(!strlen(m_def.text)) return;
         text = i18n(m_def.text);
+    }
     int key = QAccel::shortcutKey(text);
     setAccel(key);
     QString t = text;
