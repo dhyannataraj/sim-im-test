@@ -143,7 +143,7 @@ const char *UserWnd::getIcon()
     Contact *contact = getContacts()->contact(m_id);
     unsigned long status = STATUS_UNKNOWN;
     unsigned style;
-    const char *statusIcon;
+    const char *statusIcon = NULL;
     void *data;
     Client *client = m_edit->client(data, false, true, id());
     if (client){
