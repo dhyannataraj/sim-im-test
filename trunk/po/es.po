@@ -1,15 +1,16 @@
+# translation of es.po to 
 # translation of es.po to spain
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# Jorge Lopez <jorgelt@terra.es>, 2002
+# Jorge Lopez <jorgelt@terra.es>, 2002,2003
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "POT-Creation-Date: 2003-02-05 13:49+0300\n"
-"PO-Revision-Date: 2002-12-19 19:42+0000\n"
-"Last-Translator: Jorge Lopez <jorgelt@terra.es>\n"
-"Language-Team: spain <es@li.org>\n"
+"PO-Revision-Date: 2003-03-27 20:53+0000\n"
+"Last-Translator: \n"
+"Language-Team:  <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -253,11 +254,11 @@ msgstr ""
 
 #: libicq/country.cpp:71
 msgid "Afghanistan"
-msgstr ""
+msgstr "Afganistán"
 
 #: libicq/country.cpp:72
 msgid "Albania"
-msgstr ""
+msgstr "Albania"
 
 #: libicq/country.cpp:73
 msgid "Algeria"
@@ -269,67 +270,67 @@ msgstr ""
 
 #: libicq/country.cpp:75
 msgid "Andorra"
-msgstr ""
+msgstr "Andorra"
 
 #: libicq/country.cpp:76
 msgid "Angola"
-msgstr ""
+msgstr "Angola"
 
 #: libicq/country.cpp:77
 msgid "Anguilla"
-msgstr ""
+msgstr "Anguilla"
 
 #: libicq/country.cpp:78
 msgid "Antigua"
-msgstr ""
+msgstr "Antigua"
 
 #: libicq/country.cpp:79
 msgid "Argentina"
-msgstr ""
+msgstr "Argentina"
 
 #: libicq/country.cpp:80
 msgid "Armenia"
-msgstr ""
+msgstr "Armenia"
 
 #: libicq/country.cpp:81
 msgid "Aruba"
-msgstr ""
+msgstr "Aruba"
 
 #: libicq/country.cpp:82
 msgid "Ascension Island"
-msgstr ""
+msgstr "Isla Ascensión"
 
 #: libicq/country.cpp:83
 msgid "Australia"
-msgstr ""
+msgstr "Australia"
 
 #: libicq/country.cpp:84
 msgid "Australian Antarctic Territory"
-msgstr ""
+msgstr "Australia"
 
 #: libicq/country.cpp:85
 msgid "Austria"
-msgstr ""
+msgstr "Austria"
 
 #: libicq/country.cpp:86
 msgid "Azerbaijan"
-msgstr ""
+msgstr "Azerbaiyán"
 
 #: libicq/country.cpp:87
 msgid "Bahamas"
-msgstr ""
+msgstr "Bahamas"
 
 #: libicq/country.cpp:88
 msgid "Bahrain"
-msgstr ""
+msgstr "Bahrein"
 
 #: libicq/country.cpp:89
 msgid "Bangladesh"
-msgstr ""
+msgstr "Bangladesh"
 
 #: libicq/country.cpp:90
 msgid "Barbados"
-msgstr ""
+msgstr "Barbados"
 
 #: libicq/country.cpp:91
 msgid "Barbuda"
@@ -341,19 +342,19 @@ msgstr ""
 
 #: libicq/country.cpp:93
 msgid "Belgium"
-msgstr ""
+msgstr "Bélgica"
 
 #: libicq/country.cpp:94
 msgid "Belize"
-msgstr ""
+msgstr "Belice"
 
 #: libicq/country.cpp:95
 msgid "Benin"
-msgstr ""
+msgstr "Benín"
 
 #: libicq/country.cpp:96
 msgid "Bermuda"
-msgstr ""
+msgstr "Bermudas"
 
 #: libicq/country.cpp:97
 msgid "Bhutan"
@@ -361,23 +362,23 @@ msgstr ""
 
 #: libicq/country.cpp:98
 msgid "Bolivia"
-msgstr ""
+msgstr "Bolivia"
 
 #: libicq/country.cpp:99
 msgid "Bosnia and Herzegovina"
-msgstr ""
+msgstr "Bosnia-Herzegovina"
 
 #: libicq/country.cpp:100
 msgid "Botswana"
-msgstr ""
+msgstr "Botsuana"
 
 #: libicq/country.cpp:101
 msgid "Brazil"
-msgstr ""
+msgstr "Brasil"
 
 #: libicq/country.cpp:102
 msgid "British Virgin Islands"
-msgstr ""
+msgstr "Islas Vírgenes Británicas"
 
 #: libicq/country.cpp:103
 msgid "Brunei"
@@ -385,67 +386,67 @@ msgstr ""
 
 #: libicq/country.cpp:104
 msgid "Bulgaria"
-msgstr ""
+msgstr "Bulgaria"
 
 #: libicq/country.cpp:105
 msgid "Burkina Faso"
-msgstr ""
+msgstr "Burkina Faso"
 
 #: libicq/country.cpp:106
 msgid "Burundi"
-msgstr ""
+msgstr "Burundi"
 
 #: libicq/country.cpp:107
 msgid "Cambodia"
-msgstr ""
+msgstr "Camboya"
 
 #: libicq/country.cpp:108
 msgid "Cameroon"
-msgstr ""
+msgstr "Camerún"
 
 #: libicq/country.cpp:109
 msgid "Canada"
-msgstr ""
+msgstr "Canada"
 
 #: libicq/country.cpp:110
 msgid "Cape Verde Islands"
-msgstr ""
+msgstr "Islas de Cabo Verde"
 
 #: libicq/country.cpp:111
 msgid "Cayman Islands"
-msgstr ""
+msgstr "Islas Caimán"
 
 #: libicq/country.cpp:112
 msgid "Central African Republic"
-msgstr ""
+msgstr "República Centroafricana"
 
 #: libicq/country.cpp:113
 msgid "Chad"
-msgstr ""
+msgstr "Chad"
 
 #: libicq/country.cpp:114
 msgid "Chile"
-msgstr ""
+msgstr "Chile"
 
 #: libicq/country.cpp:115
 msgid "China"
-msgstr ""
+msgstr "China"
 
 #: libicq/country.cpp:116
 msgid "Christmas Island"
-msgstr ""
+msgstr "Isla Christmas"
 
 #: libicq/country.cpp:117
 msgid "Cocos-Keeling Islands"
-msgstr ""
+msgstr "Islas Cocos (Keeling)"
 
 #: libicq/country.cpp:118
 msgid "Colombia"
-msgstr ""
+msgstr "Colombia"
 
 #: libicq/country.cpp:119
 msgid "Comoros"
-msgstr ""
+msgstr "Comores"
 
 #: libicq/country.cpp:120
 msgid "Congo"
@@ -453,19 +454,19 @@ msgstr ""
 
 #: libicq/country.cpp:121
 msgid "Cook Islands"
-msgstr ""
+msgstr "Islas Cook"
 
 #: libicq/country.cpp:122
 msgid "Costa Rica"
-msgstr ""
+msgstr "Costa Rica"
 
 #: libicq/country.cpp:123
 msgid "Croatia"
-msgstr ""
+msgstr "Croacia"
 
 #: libicq/country.cpp:124
 msgid "Cuba"
-msgstr ""
+msgstr "Cuba"
 
 #: libicq/country.cpp:125
 msgid "Cyprus"
@@ -477,11 +478,11 @@ msgstr ""
 
 #: libicq/country.cpp:127
 msgid "Denmark"
-msgstr ""
+msgstr "Dinamarca"
 
 #: libicq/country.cpp:128
 msgid "Diego Garcia"
-msgstr ""
+msgstr "Diego García"
 
 #: libicq/country.cpp:129
 msgid "Djibouti"
@@ -489,43 +490,43 @@ msgstr ""
 
 #: libicq/country.cpp:130
 msgid "Dominica"
-msgstr ""
+msgstr "Dominica"
 
 #: libicq/country.cpp:131
 msgid "Dominican Republic"
-msgstr ""
+msgstr "República Dominicana"
 
 #: libicq/country.cpp:132
 msgid "Ecuador"
-msgstr ""
+msgstr "Ecuador"
 
 #: libicq/country.cpp:133
 msgid "Egypt"
-msgstr ""
+msgstr "Egipto"
 
 #: libicq/country.cpp:134
 msgid "El Salvador"
-msgstr ""
+msgstr "El Salvador"
 
 #: libicq/country.cpp:135
 msgid "Equatorial Guinea"
-msgstr ""
+msgstr "Guinea Ecuatorial"
 
 #: libicq/country.cpp:136
 msgid "Eritrea"
-msgstr ""
+msgstr "Eritrea"
 
 #: libicq/country.cpp:137
 msgid "Estonia"
-msgstr ""
+msgstr "Estonia"
 
 #: libicq/country.cpp:138
 msgid "Ethiopia"
-msgstr ""
+msgstr "Etiopía"
 
 #: libicq/country.cpp:139
 msgid "Faeroe Islands"
-msgstr ""
+msgstr "Islas Feroe"
 
 #: libicq/country.cpp:140
 msgid "Falkland Islands"
@@ -537,11 +538,11 @@ msgstr ""
 
 #: libicq/country.cpp:142
 msgid "Finland"
-msgstr ""
+msgstr "Finlandia"
 
 #: libicq/country.cpp:143
 msgid "France"
-msgstr ""
+msgstr "Francia"
 
 #: libicq/country.cpp:144
 msgid "French Antilles"
@@ -557,31 +558,31 @@ msgstr ""
 
 #: libicq/country.cpp:147
 msgid "Gabon"
-msgstr ""
+msgstr "Gabón"
 
 #: libicq/country.cpp:148
 msgid "Gambia"
-msgstr ""
+msgstr "Gambia"
 
 #: libicq/country.cpp:149
 msgid "Georgia"
-msgstr ""
+msgstr "Georgia"
 
 #: libicq/country.cpp:150
 msgid "Germany"
-msgstr ""
+msgstr "Alemania"
 
 #: libicq/country.cpp:151
 msgid "Ghana"
-msgstr ""
+msgstr "Ghana"
 
 #: libicq/country.cpp:152
 msgid "Gibraltar"
-msgstr ""
+msgstr "Gibraltar"
 
 #: libicq/country.cpp:153
 msgid "Greece"
-msgstr ""
+msgstr "Grecia"
 
 #: libicq/country.cpp:154
 msgid "Greenland"
@@ -589,11 +590,11 @@ msgstr ""
 
 #: libicq/country.cpp:155
 msgid "Grenada"
-msgstr ""
+msgstr "Granada"
 
 #: libicq/country.cpp:156
 msgid "Guadeloupe"
-msgstr ""
+msgstr "Guadalupe"
 
 #: libicq/country.cpp:157
 msgid "Guam"
@@ -605,35 +606,35 @@ msgstr ""
 
 #: libicq/country.cpp:159
 msgid "Guatemala"
-msgstr ""
+msgstr "Guatemala"
 
 #: libicq/country.cpp:160
 msgid "Guinea"
-msgstr ""
+msgstr "Guinea"
 
 #: libicq/country.cpp:161
 msgid "Guinea-Bissau"
-msgstr ""
+msgstr "Guinea-Bissau"
 
 #: libicq/country.cpp:162
 msgid "Guyana"
-msgstr ""
+msgstr "Guayana"
 
 #: libicq/country.cpp:163
 msgid "Haiti"
-msgstr ""
+msgstr "Haití"
 
 #: libicq/country.cpp:164
 msgid "Honduras"
-msgstr ""
+msgstr "Honduras"
 
 #: libicq/country.cpp:165
 msgid "Hong Kong"
-msgstr ""
+msgstr "Hong kong"
 
 #: libicq/country.cpp:166
 msgid "Hungary"
-msgstr ""
+msgstr "Hungría"
 
 #: libicq/country.cpp:167
 msgid "INMARSAT (Atlantic-East)"
@@ -661,11 +662,11 @@ msgstr ""
 
 #: libicq/country.cpp:173
 msgid "India"
-msgstr ""
+msgstr "India"
 
 #: libicq/country.cpp:174
 msgid "Indonesia"
-msgstr ""
+msgstr "Indonesia"
 
 #: libicq/country.cpp:175
 msgid "International Freephone Service"
@@ -673,23 +674,23 @@ msgstr ""
 
 #: libicq/country.cpp:176
 msgid "Iran"
-msgstr ""
+msgstr "Iran"
 
 #: libicq/country.cpp:177
 msgid "Iraq"
-msgstr ""
+msgstr "Irak"
 
 #: libicq/country.cpp:178
 msgid "Ireland"
-msgstr ""
+msgstr "Irlanda"
 
 #: libicq/country.cpp:179
 msgid "Israel"
-msgstr ""
+msgstr "Israel"
 
 #: libicq/country.cpp:180
 msgid "Italy"
-msgstr ""
+msgstr "Italia"
 
 #: libicq/country.cpp:181
 msgid "Ivory Coast"
@@ -697,23 +698,23 @@ msgstr ""
 
 #: libicq/country.cpp:182
 msgid "Jamaica"
-msgstr ""
+msgstr "Jamaica"
 
 #: libicq/country.cpp:183
 msgid "Japan"
-msgstr ""
+msgstr "Japón"
 
 #: libicq/country.cpp:184
 msgid "Jordan"
-msgstr ""
+msgstr "Jordán"
 
 #: libicq/country.cpp:185
 msgid "Kazakhstan"
-msgstr ""
+msgstr "Kazajistán"
 
 #: libicq/country.cpp:186
 msgid "Kenya"
-msgstr ""
+msgstr "Kenia"
 
 #: libicq/country.cpp:187
 msgid "Kiribati Republic"
@@ -725,11 +726,11 @@ msgstr ""
 
 #: libicq/country.cpp:189
 msgid "Korea (Republic of)"
-msgstr ""
+msgstr "República de Corea"
 
 #: libicq/country.cpp:190
 msgid "Kuwait"
-msgstr ""
+msgstr "Kuwait"
 
 #: libicq/country.cpp:191
 msgid "Kyrgyz Republic"
@@ -745,7 +746,7 @@ msgstr ""
 
 #: libicq/country.cpp:194
 msgid "Lebanon"
-msgstr ""
+msgstr "Líbano"
 
 #: libicq/country.cpp:195
 msgid "Lesotho"
@@ -753,7 +754,7 @@ msgstr ""
 
 #: libicq/country.cpp:196
 msgid "Liberia"
-msgstr ""
+msgstr "Liberia"
 
 #: libicq/country.cpp:197
 msgid "Libya"
@@ -761,67 +762,67 @@ msgstr ""
 
 #: libicq/country.cpp:198
 msgid "Liechtenstein"
-msgstr ""
+msgstr "Liechtenstein"
 
 #: libicq/country.cpp:199
 msgid "Lithuania"
-msgstr ""
+msgstr "Lituania"
 
 #: libicq/country.cpp:200
 msgid "Luxembourg"
-msgstr ""
+msgstr "Luxemburgo"
 
 #: libicq/country.cpp:201
 msgid "Macau"
-msgstr ""
+msgstr "Macao"
 
 #: libicq/country.cpp:202
 msgid "Madagascar"
-msgstr ""
+msgstr "Madagascar"
 
 #: libicq/country.cpp:203
 msgid "Malawi"
-msgstr ""
+msgstr "Malaui"
 
 #: libicq/country.cpp:204
 msgid "Malaysia"
-msgstr ""
+msgstr "Malasia"
 
 #: libicq/country.cpp:205
 msgid "Maldives"
-msgstr ""
+msgstr "Maldivas"
 
 #: libicq/country.cpp:206
 msgid "Mali"
-msgstr ""
+msgstr "Malí"
 
 #: libicq/country.cpp:207
 msgid "Malta"
-msgstr ""
+msgstr "Malta"
 
 #: libicq/country.cpp:208
 msgid "Marshall Islands"
-msgstr ""
+msgstr "Islas Marshall"
 
 #: libicq/country.cpp:209
 msgid "Martinique"
-msgstr ""
+msgstr "Martinica"
 
 #: libicq/country.cpp:210
 msgid "Mauritania"
-msgstr ""
+msgstr "Mauritania"
 
 #: libicq/country.cpp:211
 msgid "Mauritius"
-msgstr ""
+msgstr "Mauricio"
 
 #: libicq/country.cpp:212
 msgid "Mayotte Island"
-msgstr ""
+msgstr "Isla Mayotte"
 
 #: libicq/country.cpp:213
 msgid "Mexico"
-msgstr ""
+msgstr "México"
 
 #: libicq/country.cpp:214
 msgid "Micronesia, Federated States of"
@@ -833,47 +834,47 @@ msgstr ""
 
 #: libicq/country.cpp:216
 msgid "Monaco"
-msgstr ""
+msgstr "Mónaco"
 
 #: libicq/country.cpp:217
 msgid "Mongolia"
-msgstr ""
+msgstr "Mongolia"
 
 #: libicq/country.cpp:218
 msgid "Montserrat"
-msgstr ""
+msgstr "Montserrat"
 
 #: libicq/country.cpp:219
 msgid "Morocco"
-msgstr ""
+msgstr "Marruecos"
 
 #: libicq/country.cpp:220
 msgid "Mozambique"
-msgstr ""
+msgstr "Mozambique"
 
 #: libicq/country.cpp:221
 msgid "Myanmar"
-msgstr ""
+msgstr "Myanmar"
 
 #: libicq/country.cpp:222
 msgid "Namibia"
-msgstr ""
+msgstr "Namibia"
 
 #: libicq/country.cpp:223
 msgid "Nauru"
-msgstr ""
+msgstr "Nauru"
 
 #: libicq/country.cpp:224
 msgid "Nepal"
-msgstr ""
+msgstr "Nepal"
 
 #: libicq/country.cpp:225
 msgid "Netherlands Antilles"
-msgstr ""
+msgstr "Antillas Neerlandesas"
 
 #: libicq/country.cpp:226
 msgid "Netherlands"
-msgstr ""
+msgstr "Países Bajos"
 
 #: libicq/country.cpp:227
 msgid "Nevis"
@@ -885,127 +886,127 @@ msgstr ""
 
 #: libicq/country.cpp:229
 msgid "New Zealand"
-msgstr ""
+msgstr "Nueva Zelanda"
 
 #: libicq/country.cpp:230
 msgid "Nicaragua"
-msgstr ""
+msgstr "Nicaragua"
 
 #: libicq/country.cpp:231
 msgid "Niger"
-msgstr ""
+msgstr "Níger"
 
 #: libicq/country.cpp:232
 msgid "Nigeria"
-msgstr ""
+msgstr "Nigeria"
 
 #: libicq/country.cpp:233
 msgid "Niue"
-msgstr ""
+msgstr "Niue"
 
 #: libicq/country.cpp:234
 msgid "Norfolk Island"
-msgstr ""
+msgstr "Norfok"
 
 #: libicq/country.cpp:235
 msgid "Norway"
-msgstr ""
+msgstr "Noruega"
 
 #: libicq/country.cpp:236
 msgid "Oman"
-msgstr ""
+msgstr "Omán"
 
 #: libicq/country.cpp:237
 msgid "Pakistan"
-msgstr ""
+msgstr "Pakistán"
 
 #: libicq/country.cpp:238
 msgid "Palau"
-msgstr ""
+msgstr "Palau"
 
 #: libicq/country.cpp:239
 msgid "Panama"
-msgstr ""
+msgstr "Panamá"
 
 #: libicq/country.cpp:240
 msgid "Papua New Guinea"
-msgstr ""
+msgstr "Papúa-Nueva Guinea"
 
 #: libicq/country.cpp:241
 msgid "Paraguay"
-msgstr ""
+msgstr "Paraguay"
 
 #: libicq/country.cpp:242
 msgid "Peru"
-msgstr ""
+msgstr "Perú"
 
 #: libicq/country.cpp:243
 msgid "Philippines"
-msgstr ""
+msgstr "Filipinas"
 
 #: libicq/country.cpp:244
 msgid "Poland"
-msgstr ""
+msgstr "Polonia"
 
 #: libicq/country.cpp:245
 msgid "Portugal"
-msgstr ""
+msgstr "Portugal"
 
 #: libicq/country.cpp:246
 msgid "Puerto Rico"
-msgstr ""
+msgstr "Puerto Rico"
 
 #: libicq/country.cpp:247
 msgid "Qatar"
-msgstr ""
+msgstr "Qatar"
 
 #: libicq/country.cpp:248
 msgid "Republic of Macedonia"
-msgstr ""
+msgstr "República de Macedonia"
 
 #: libicq/country.cpp:249
 msgid "Reunion Island"
-msgstr ""
+msgstr "Isla Reunión"
 
 #: libicq/country.cpp:250
 msgid "Romania"
-msgstr ""
+msgstr "Rumania"
 
 #: libicq/country.cpp:251
 msgid "Rota Island"
-msgstr ""
+msgstr "Isla Rota"
 
 #: libicq/country.cpp:252
 msgid "Russia"
-msgstr ""
+msgstr "Rusia"
 
 #: libicq/country.cpp:253
 msgid "Rwanda"
-msgstr ""
+msgstr "Ruanda"
 
 #: libicq/country.cpp:254
 msgid "Saint Lucia"
-msgstr ""
+msgstr "Santa Lucía"
 
 #: libicq/country.cpp:255
 msgid "Saipan Island"
-msgstr ""
+msgstr "Isla Saipan"
 
 #: libicq/country.cpp:256
 msgid "San Marino"
-msgstr ""
+msgstr "San Marino"
 
 #: libicq/country.cpp:257
 msgid "Sao Tome and Principe"
-msgstr ""
+msgstr "Santo Tomé y Príncipe"
 
 #: libicq/country.cpp:258
 msgid "Saudi Arabia"
-msgstr ""
+msgstr "Arabia Saudi"
 
 #: libicq/country.cpp:259
 msgid "Senegal Republic"
-msgstr ""
+msgstr "Senegal"
 
 #: libicq/country.cpp:260
 msgid "Seychelle Islands"
@@ -1013,11 +1014,11 @@ msgstr ""
 
 #: libicq/country.cpp:261
 msgid "Sierra Leone"
-msgstr ""
+msgstr "Sierra Leona"
 
 #: libicq/country.cpp:262
 msgid "Singapore"
-msgstr ""
+msgstr "Singapur"
 
 #: libicq/country.cpp:263
 msgid "Slovak Republic"
@@ -1025,31 +1026,31 @@ msgstr ""
 
 #: libicq/country.cpp:264
 msgid "Slovenia"
-msgstr ""
+msgstr "Eslovenia"
 
 #: libicq/country.cpp:265
 msgid "Solomon Islands"
-msgstr ""
+msgstr "Islas Salomón"
 
 #: libicq/country.cpp:266
 msgid "Somalia"
-msgstr ""
+msgstr "Somalia"
 
 #: libicq/country.cpp:267
 msgid "South Africa"
-msgstr ""
+msgstr "Sudáfrica"
 
 #: libicq/country.cpp:268
 msgid "Spain"
-msgstr ""
+msgstr "España"
 
 #: libicq/country.cpp:269
 msgid "Sri Lanka"
-msgstr ""
+msgstr "Sri Lanka"
 
 #: libicq/country.cpp:270
 msgid "St. Helena"
-msgstr ""
+msgstr "Santa Elena"
 
 #: libicq/country.cpp:271
 msgid "St. Kitts"
@@ -1057,7 +1058,7 @@ msgstr ""
 
 #: libicq/country.cpp:272
 msgid "St. Pierre and Miquelon"
-msgstr ""
+msgstr "San Pedro y Migueló"
 
 #: libicq/country.cpp:273
 msgid "St. Vincent and the Grenadines"
@@ -1065,11 +1066,11 @@ msgstr ""
 
 #: libicq/country.cpp:274
 msgid "Sudan"
-msgstr ""
+msgstr "Sudán"
 
 #: libicq/country.cpp:275
 msgid "Suriname"
-msgstr ""
+msgstr "Surinam"
 
 #: libicq/country.cpp:276
 msgid "Swaziland"
@@ -1077,11 +1078,11 @@ msgstr ""
 
 #: libicq/country.cpp:277
 msgid "Sweden"
-msgstr ""
+msgstr "Suecia"
 
 #: libicq/country.cpp:278
 msgid "Switzerland"
-msgstr ""
+msgstr "Suiza"
 
 #: libicq/country.cpp:279
 msgid "Syria"
@@ -1089,11 +1090,11 @@ msgstr ""
 
 #: libicq/country.cpp:280
 msgid "Taiwan, Republic of China"
-msgstr ""
+msgstr "Taiwán"
 
 #: libicq/country.cpp:281
 msgid "Tajikistan"
-msgstr ""
+msgstr "Tayikistán"
 
 #: libicq/country.cpp:282
 msgid "Tanzania"
@@ -1101,39 +1102,39 @@ msgstr ""
 
 #: libicq/country.cpp:283
 msgid "Thailand"
-msgstr ""
+msgstr "Tailandia"
 
 #: libicq/country.cpp:284
 msgid "Tinian Island"
-msgstr ""
+msgstr "Isla Tinian"
 
 #: libicq/country.cpp:285
 msgid "Togo"
-msgstr ""
+msgstr "Togo"
 
 #: libicq/country.cpp:286
 msgid "Tokelau"
-msgstr ""
+msgstr "Tokelau"
 
 #: libicq/country.cpp:287
 msgid "Tonga"
-msgstr ""
+msgstr "Tonga"
 
 #: libicq/country.cpp:288
 msgid "Trinidad and Tobago"
-msgstr ""
+msgstr "Trinidad y Tobago"
 
 #: libicq/country.cpp:289
 msgid "Tunisia"
-msgstr ""
+msgstr "Túnez"
 
 #: libicq/country.cpp:290
 msgid "Turkey"
-msgstr ""
+msgstr "Turquía"
 
 #: libicq/country.cpp:291
 msgid "Turkmenistan"
-msgstr ""
+msgstr "Turkmenistán"
 
 #: libicq/country.cpp:292
 msgid "Turks and Caicos Islands"
@@ -1141,55 +1142,55 @@ msgstr ""
 
 #: libicq/country.cpp:293
 msgid "Tuvalu"
-msgstr ""
+msgstr "Tuvalu"
 
 #: libicq/country.cpp:294
 msgid "USA"
-msgstr ""
+msgstr "E.E.U.U."
 
 #: libicq/country.cpp:295
 msgid "Uganda"
-msgstr ""
+msgstr "Uganda"
 
 #: libicq/country.cpp:296
 msgid "Ukraine"
-msgstr ""
+msgstr "Ucrania"
 
 #: libicq/country.cpp:297
 msgid "United Arab Emirates"
-msgstr ""
+msgstr "Emiratos Arabes Unidos"
 
 #: libicq/country.cpp:298
 msgid "United Kingdom"
-msgstr ""
+msgstr "Reino Unido"
 
 #: libicq/country.cpp:299
 msgid "United States Virgin Islands"
-msgstr ""
+msgstr "Islas Vírgenes de Estados Unidos"
 
 #: libicq/country.cpp:300
 msgid "Uruguay"
-msgstr ""
+msgstr "Uruguay"
 
 #: libicq/country.cpp:301
 msgid "Uzbekistan"
-msgstr ""
+msgstr "Uzbekistán"
 
 #: libicq/country.cpp:302
 msgid "Vanuatu"
-msgstr ""
+msgstr "Vanatu"
 
 #: libicq/country.cpp:303
 msgid "Vatican City"
-msgstr ""
+msgstr "Ciudad del Vaticano"
 
 #: libicq/country.cpp:304
 msgid "Venezuela"
-msgstr ""
+msgstr "Venezuela"
 
 #: libicq/country.cpp:305
 msgid "Vietnam"
-msgstr ""
+msgstr "Vietnam"
 
 #: libicq/country.cpp:306
 msgid "Wallis and Futuna Islands"
@@ -1197,15 +1198,15 @@ msgstr ""
 
 #: libicq/country.cpp:307
 msgid "Western Samoa"
-msgstr ""
+msgstr "Samoa Occidental"
 
 #: libicq/country.cpp:308
 msgid "Yemen"
-msgstr ""
+msgstr "Yemen"
 
 #: libicq/country.cpp:309
 msgid "Yugoslavia"
-msgstr ""
+msgstr "Yugoslavia"
 
 #: libicq/country.cpp:310
 msgid "Zaire"
@@ -1213,11 +1214,11 @@ msgstr ""
 
 #: libicq/country.cpp:311
 msgid "Zambia"
-msgstr ""
+msgstr "Zambia"
 
 #: libicq/country.cpp:312
 msgid "Zimbabwe"
-msgstr ""
+msgstr "Zimbabue"
 
 #: libicq/country.cpp:331
 msgid "Art"
@@ -1229,7 +1230,7 @@ msgstr "Coches"
 
 #: libicq/country.cpp:333
 msgid "Celebrity Fans"
-msgstr "Famosos-Fans"
+msgstr "Admiradores de famosos"
 
 #: libicq/country.cpp:334
 msgid "Collections"
@@ -1237,7 +1238,7 @@ msgstr "Colecciones"
 
 #: libicq/country.cpp:335 libicq/country.cpp:416
 msgid "Computers"
-msgstr "Informatica"
+msgstr "Informática"
 
 #: libicq/country.cpp:336
 msgid "Culture & Literature"
@@ -1245,7 +1246,7 @@ msgstr "Cultura y literatura"
 
 #: libicq/country.cpp:337
 msgid "Fitness"
-msgstr "Hacer ejercicio"
+msgstr "Forma física"
 
 #: libicq/country.cpp:338 libicq/country.cpp:478
 msgid "Games"
@@ -1253,11 +1254,11 @@ msgstr "Juegos"
 
 #: libicq/country.cpp:339
 msgid "Hobbies"
-msgstr "Hobbies"
+msgstr "Aficiones"
 
 #: libicq/country.cpp:340 libicq/country.cpp:424
 msgid "ICQ - Providing Help"
-msgstr "ICQ--Ayudar"
+msgstr "ICQ--Ofrecer Ayuda"
 
 #: libicq/country.cpp:341
 msgid "Internet"
@@ -1265,7 +1266,7 @@ msgstr "Internet"
 
 #: libicq/country.cpp:342
 msgid "Lifestyle"
-msgstr "Forma de vida"
+msgstr "Estilo de vida"
 
 #: libicq/country.cpp:343
 msgid "Movies/TV"
@@ -1277,7 +1278,7 @@ msgstr "Música"
 
 #: libicq/country.cpp:345
 msgid "Outdoor Activities"
-msgstr "Actividades exteriores"
+msgstr "Actividades al aire libre"
 
 #: libicq/country.cpp:346
 msgid "Parenting"
@@ -1289,7 +1290,7 @@ msgstr "Mascotas/Animales"
 
 #: libicq/country.cpp:348
 msgid "Religion"
-msgstr "Religion"
+msgstr "Religión"
 
 #: libicq/country.cpp:349
 msgid "Science/Technology"
@@ -1325,7 +1326,7 @@ msgstr "Negocios y economía"
 
 #: libicq/country.cpp:357
 msgid "Mystics"
-msgstr "Mística"
+msgstr "Místico"
 
 #: libicq/country.cpp:358
 msgid "Travel"
@@ -1345,11 +1346,11 @@ msgstr "Ropa"
 
 #: libicq/country.cpp:362
 msgid "Parties"
-msgstr ""
+msgstr "Fiestas"
 
 #: libicq/country.cpp:363
 msgid "Women"
-msgstr "Mujer"
+msgstr "Mujeres"
 
 #: libicq/country.cpp:364
 msgid "Social science"
@@ -1357,23 +1358,23 @@ msgstr "Ciencia social"
 
 #: libicq/country.cpp:365
 msgid "60's"
-msgstr "60's"
+msgstr "La década de los 60"
 
 #: libicq/country.cpp:366
 msgid "70's"
-msgstr "70's"
+msgstr "La década de los 70"
 
 #: libicq/country.cpp:367
 msgid "80's"
-msgstr "80's"
+msgstr "La década de los 80"
 
 #: libicq/country.cpp:368
 msgid "50's"
-msgstr "50's"
+msgstr "La década de los 50"
 
 #: libicq/country.cpp:369
 msgid "Finance and corporate"
-msgstr "Financias"
+msgstr "Finanzas y empresas"
 
 #: libicq/country.cpp:370
 msgid "Entertainment"
@@ -1393,7 +1394,7 @@ msgstr "Salud y Belleza"
 
 #: libicq/country.cpp:374
 msgid "Media"
-msgstr "Media"
+msgstr "Medios de comunicación"
 
 #: libicq/country.cpp:375
 msgid "Household products"
@@ -1417,11 +1418,11 @@ msgstr "Deporte y Athletismo"
 
 #: libicq/country.cpp:380
 msgid "Publishing"
-msgstr ""
+msgstr "Ámbito editorial"
 
 #: libicq/country.cpp:381
 msgid "Home automation"
-msgstr "Automatización"
+msgstr "Automatización de tareas"
 
 #: libicq/country.cpp:387
 msgid "Alumni Org."
@@ -1505,7 +1506,7 @@ msgstr "Otro"
 
 #: libicq/country.cpp:412
 msgid "Academic"
-msgstr "Academico"
+msgstr "Académico"
 
 #: libicq/country.cpp:413
 msgid "Administrative"
@@ -1521,19 +1522,19 @@ msgstr "Universitario"
 
 #: libicq/country.cpp:417
 msgid "Community & Social"
-msgstr "Social"
+msgstr "Servicios sociales"
 
 #: libicq/country.cpp:418
 msgid "Education"
-msgstr "Educacion"
+msgstr "Educación"
 
 #: libicq/country.cpp:419
 msgid "Engineering"
-msgstr "Ingeniero"
+msgstr "Ingeniería"
 
 #: libicq/country.cpp:420
 msgid "Financial Services"
-msgstr "Servicios Financieros"
+msgstr "Servicios financieros"
 
 #: libicq/country.cpp:422
 msgid "High School Student"
@@ -1553,15 +1554,15 @@ msgstr "Directivo"
 
 #: libicq/country.cpp:427
 msgid "Manufacturing"
-msgstr "Obrero"
+msgstr "Industrial"
 
 #: libicq/country.cpp:428
 msgid "Medical/Health"
-msgstr "Médico"
+msgstr "Medicina o salud"
 
 #: libicq/country.cpp:429 libicq/country.cpp:449
 msgid "Military"
-msgstr "Militar"
+msgstr "Ejército"
 
 #: libicq/country.cpp:430
 msgid "Non-Goverment Organisation"
@@ -1632,19 +1633,16 @@ msgid "Male"
 msgstr "Masculino"
 
 #: libicq/country.cpp:476
-#, fuzzy
 msgid "General chat"
-msgstr "General"
+msgstr "Chat Global"
 
 #: libicq/country.cpp:477
-#, fuzzy
 msgid "Romance"
-msgstr "Cancelar"
+msgstr "Romantico"
 
 #: libicq/country.cpp:479
-#, fuzzy
 msgid "Students"
-msgstr "Universitario"
+msgstr "Estudiantes"
 
 #: libicq/country.cpp:480
 msgid "20 Something"
@@ -1672,7 +1670,7 @@ msgstr ""
 
 #: about.cpp:280
 msgid "replace this with information about your translation team"
-msgstr "Jorge López"
+msgstr "Jorge López Trescastro"
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
@@ -1850,22 +1848,18 @@ msgstr ""
 "%n veces añadido a la lista de contactos"
 
 #: client.cpp:1150
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: WWW-panel message\n"
 "%n WWW-panel messages"
 msgstr ""
-"Mensaje\n"
-"%n mensajes"
 
 #: client.cpp:1152
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Email pager message\n"
 "%n Email pager messages"
 msgstr ""
-"Mensaje\n"
-"%n mensajes"
 
 #: client.cpp:1154
 #, c-format
@@ -1877,13 +1871,11 @@ msgstr ""
 "%n contactos"
 
 #: client.cpp:1156
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Contacts request\n"
 "%n contacts requests"
 msgstr ""
-"Petición de Chat\n"
-"%n peticiones de chat"
 
 #: client.cpp:1158
 #, c-format
@@ -1904,13 +1896,11 @@ msgstr ""
 "%n SMS"
 
 #: client.cpp:1162
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: SMS receipt\n"
 "%n SMS receipts"
 msgstr ""
-"SMS\n"
-"%n SMS"
 
 #: client.cpp:1164
 #, c-format
@@ -2025,9 +2015,8 @@ msgid "Online"
 msgstr "Conectado"
 
 #: client.cpp:1249
-#, fuzzy
 msgid "Inactive"
-msgstr "Activo:"
+msgstr "Inactivo:"
 
 #: client.cpp:1250 dock.cpp:957
 msgid "Connecting"
@@ -2066,18 +2055,16 @@ msgid "show/hide dock"
 msgstr "mostrar/esconder bandeja del sistema"
 
 #: control.cpp:239
-#, fuzzy
 msgid "set notify mode"
-msgstr "establecer modo invisible"
+msgstr ""
 
 #: control.cpp:240
 msgid "get icon in xpm fomrat"
-msgstr ""
+msgstr "obtener icono en formato xpm"
 
 #: control.cpp:241
-#, fuzzy
 msgid "open upread message"
-msgstr "enviar mensaje"
+msgstr ""
 
 #: control.cpp:242
 msgid "show popup"
@@ -2197,14 +2184,12 @@ msgid "AutoHide"
 msgstr "Esconder automaticamente"
 
 #: mainwin.cpp:893
-#, fuzzy
 msgid "Close main window"
-msgstr "Cerrar &ventana de usuario"
+msgstr "Cerrar ventana principal"
 
 #: mainwin.cpp:894
-#, fuzzy
 msgid "Open main window"
-msgstr "Ventana principal transparente"
+msgstr "Abrir ventana principal"
 
 #: mainwin.cpp:1259
 msgid "%1 from %2 received"
@@ -2359,11 +2344,10 @@ msgid "Alphabetically sort"
 msgstr "Ordenar alfabeticamente"
 
 #: mainwin.cpp:2087
-#, fuzzy
 msgid ""
 "_: Ctrl+B\n"
 "Alphabetically sort"
-msgstr "Ordenar alfabeticamente"
+msgstr ""
 
 #: mainwin.cpp:2296
 msgid "Delete %1?"
@@ -2731,29 +2715,31 @@ msgstr "Pagina siguie&nte"
 
 #: msgview.cpp:860
 msgid "&Sort order"
-msgstr ""
+msgstr "Ordenar al&fabeticamente"
 
 #: msgview.cpp:1101
 msgid ""
 "text/plain|Text file\n"
 "text/html|HTML file"
 msgstr ""
+"texto/plano|Fichero de texto\n"
+"texto/html|Fichero HTML"
 
 #: msgview.cpp:1103
 msgid "Text file(*.txt);;HTML file(*.htm *.html)"
-msgstr ""
+msgstr "Fichero de texto(*.txt);;Fichero HTML(*.htm *.html)"
 
 #: msgview.cpp:1105
-#, fuzzy
 msgid "Save history"
-msgstr "Guardar como"
+msgstr "Guardar historial"
 
 #: msgview.cpp:1120
-#, fuzzy
 msgid ""
 "File %1 exists\n"
 "Overwrite?"
-msgstr "El archivo %1 existe"
+msgstr ""
+"El archivo %1 existe\n"
+"Sobreescribir?"
 
 #: sim.cpp:117
 msgid ""
@@ -2789,9 +2775,8 @@ msgid "Control socket"
 msgstr ""
 
 #: sim.cpp:544
-#, fuzzy
 msgid "No dock"
-msgstr "En &bandeja de sistema"
+msgstr ""
 
 #: themes.cpp:132 themes.cpp:141
 msgid "Default style"
@@ -2886,11 +2871,10 @@ msgid "Not in list"
 msgstr "No esta en lista"
 
 #: userview.cpp:692 userview.cpp:1832
-#, fuzzy
 msgid ""
 "_: Ctrl+N\n"
 "Create group"
-msgstr "Crear grupo"
+msgstr ""
 
 #: userview.cpp:889 userview.cpp:905
 msgid "New group"
@@ -2914,50 +2898,47 @@ msgstr "Auto respuesta"
 
 #: qt3/i18n.cpp:1
 msgid "Hu&e:"
-msgstr ""
+msgstr "Hu&e:"
 
 #: qt3/i18n.cpp:3
-#, fuzzy
 msgid "&Sat:"
-msgstr "Estado:"
+msgstr "&Sat:"
 
 #: qt3/i18n.cpp:5
 msgid "&Val:"
-msgstr ""
+msgstr "&Val:"
 
 #: qt3/i18n.cpp:7
 msgid "&Red:"
-msgstr ""
+msgstr "&Rojo"
 
 #: qt3/i18n.cpp:9
-#, fuzzy
 msgid "&Green:"
-msgstr "&Conceder"
+msgstr "Ver&de"
 
 #: qt3/i18n.cpp:11
 msgid "Bl&ue:"
-msgstr ""
+msgstr "Az&ul"
 
 #: qt3/i18n.cpp:13
 msgid "A&lpha channel:"
-msgstr ""
+msgstr "Canal a&lpha"
 
 #: qt3/i18n.cpp:15
 msgid "&Basic colors"
-msgstr ""
+msgstr "Colores &Basicos"
 
 #: qt3/i18n.cpp:17
-#, fuzzy
 msgid "&Custom colors"
-msgstr "&Usar colores del sistema"
+msgstr "&Colores personalizados"
 
 #: qt3/i18n.cpp:19
 msgid "&Define Custom Colors >>"
-msgstr ""
+msgstr "&Definir colores personalizados >>"
 
 #: qt3/i18n.cpp:21
 msgid "OK"
-msgstr "Ok"
+msgstr "OK"
 
 #: qt3/i18n.cpp:23 ui/logindlg.cpp:154 ui/searchdlg.cpp:107
 msgid "Cancel"
@@ -2965,34 +2946,33 @@ msgstr "Cancelar"
 
 #: qt3/i18n.cpp:25
 msgid "&Add To Custom Colors"
-msgstr ""
+msgstr "&Añadir a colores personalizados"
 
 #: qt3/i18n.cpp:27
-#, fuzzy
 msgid "Select color"
-msgstr "Color del texto"
+msgstr "Seleccionar color"
 
 #: qt3/i18n.cpp:29
 msgid "Copy or Move a File"
-msgstr ""
+msgstr "Copiar o mover un fichero"
 
 #: qt3/i18n.cpp:31
-#, fuzzy, c-format
+#, c-format
 msgid "Read: %1"
-msgstr "Leer %1 mensaje"
+msgstr "Leer %1"
 
 #: qt3/i18n.cpp:33
 #, c-format
 msgid "Write: %1"
-msgstr ""
+msgstr "Escribir %1"
 
 #: qt3/i18n.cpp:37
 msgid "All files (*)"
-msgstr ""
+msgstr "Todos los ficheros (*)"
 
 #: qt3/i18n.cpp:41
 msgid "Size"
-msgstr ""
+msgstr "Tamaño"
 
 #: qt3/i18n.cpp:43 ui/phonebook.cpp:78
 msgid "Type"
@@ -3000,72 +2980,67 @@ msgstr "Tipo"
 
 #: qt3/i18n.cpp:45
 msgid "Date"
-msgstr ""
+msgstr "Fecha"
 
 #: qt3/i18n.cpp:47
 msgid "Attributes"
-msgstr ""
+msgstr "Atributos"
 
 #: qt3/i18n.cpp:49
 msgid "Look &in:"
 msgstr ""
 
 #: qt3/i18n.cpp:51
-#, fuzzy
 msgid "File &name:"
-msgstr "Nombre:"
+msgstr "&Nombre fichero:"
 
 #: qt3/i18n.cpp:53
-#, fuzzy
 msgid "File &type:"
-msgstr "Fichero:"
+msgstr "&Tipo fichero:"
 
 #: qt3/i18n.cpp:55
-#, fuzzy
 msgid "Back"
-msgstr "negro"
+msgstr ""
 
 #: qt3/i18n.cpp:57
 msgid "One directory up"
-msgstr ""
+msgstr "Subir un directorio"
 
 #: qt3/i18n.cpp:59
 msgid "Create New Folder"
-msgstr ""
+msgstr "Crear nueva carpeta"
 
 #: qt3/i18n.cpp:61
 msgid "List View"
-msgstr ""
+msgstr "Vista de lista"
 
 #: qt3/i18n.cpp:63
-#, fuzzy
 msgid "Detail View"
-msgstr "Venta al por menor"
+msgstr "Vista detallada"
 
 #: qt3/i18n.cpp:65
 msgid "Preview File Info"
-msgstr ""
+msgstr "Previsualizar información del fichero"
 
 #: qt3/i18n.cpp:67
 msgid "Preview File Contents"
-msgstr ""
+msgstr "Previsualizar contenidos del fichero"
 
 #: qt3/i18n.cpp:69
 msgid "Read-write"
-msgstr ""
+msgstr "Lectura-Escritura"
 
 #: qt3/i18n.cpp:71
 msgid "Read-only"
-msgstr ""
+msgstr "Solo lectura"
 
 #: qt3/i18n.cpp:73
 msgid "Write-only"
-msgstr ""
+msgstr "Solo escritura"
 
 #: qt3/i18n.cpp:75
-#, fuzzy
 msgid "Inaccessible"
-msgstr "Invisible"
+msgstr "Inaccesible"
 
 #: qt3/i18n.cpp:77
 msgid "Symlink to File"
@@ -3084,28 +3059,24 @@ msgid "Dir"
 msgstr ""
 
 #: qt3/i18n.cpp:87
-#, fuzzy
 msgid "Special"
-msgstr "Técnico"
+msgstr "Especial"
 
 #: qt3/i18n.cpp:89 ui/fontsetupbase.cpp:227
 msgid "Open"
 msgstr "Abrir"
 
 #: qt3/i18n.cpp:91
-#, fuzzy
 msgid "Save as"
-msgstr "Guardar"
+msgstr "Guardar como"
 
 #: qt3/i18n.cpp:93
-#, fuzzy
 msgid "&Open"
-msgstr "Abrir"
+msgstr "&Abrir"
 
 #: qt3/i18n.cpp:97
-#, fuzzy
 msgid "&Rename"
-msgstr "Renombrar"
+msgstr "&Renombrar"
 
 #: qt3/i18n.cpp:99 ui/logindlgbase.cpp:125 ui/phonebookbase.cpp:139
 msgid "&Delete"
@@ -3113,37 +3084,35 @@ msgstr "Elimi&nar"
 
 #: qt3/i18n.cpp:101
 msgid "R&eload"
-msgstr ""
+msgstr "R&ecargar"
 
 #: qt3/i18n.cpp:103
 msgid "Sort by &Name"
-msgstr ""
+msgstr "Ordenar por &Nombre"
 
 #: qt3/i18n.cpp:105
 msgid "Sort by &Size"
-msgstr ""
+msgstr "Ordenar por tama&ño"
 
 #: qt3/i18n.cpp:107
 msgid "Sort by &Date"
-msgstr ""
+msgstr "Ordenar por &fecha"
 
 #: qt3/i18n.cpp:109
 msgid "&Unsorted"
 msgstr ""
 
 #: qt3/i18n.cpp:111
-#, fuzzy
 msgid "Sort"
-msgstr "Deportes"
+msgstr ""
 
 #: qt3/i18n.cpp:113
 msgid "Show &hidden files"
-msgstr ""
+msgstr "Mostrar ficheros &ocultos"
 
 #: qt3/i18n.cpp:115
-#, fuzzy
 msgid "the file"
-msgstr "Ficheros compartidos"
+msgstr ""
 
 #: qt3/i18n.cpp:117
 msgid "the directory"
@@ -3154,36 +3123,34 @@ msgid "the symlink"
 msgstr ""
 
 #: qt3/i18n.cpp:121
-#, fuzzy, c-format
+#, c-format
 msgid "Delete %1"
-msgstr "¿Eliminar %1?"
+msgstr "Eliminar %1"
 
 #: qt3/i18n.cpp:123
 msgid "<qt>Do you really want to delete %1 \"%2\"?</qt>"
-msgstr ""
+msgstr "<qt>¿Esta seguro de querer eliminar %1 \"%2\"?</qt>"
 
 #: qt3/i18n.cpp:129
 msgid "New Folder 1"
-msgstr ""
+msgstr "Nueva carpeta 1"
 
 #: qt3/i18n.cpp:131
 msgid "New Folder"
-msgstr ""
+msgstr "Nueva carpeta"
 
 #: qt3/i18n.cpp:133
 #, c-format
 msgid "New Folder %1"
-msgstr ""
+msgstr "Nueva carpeta %1"
 
 #: qt3/i18n.cpp:135
-#, fuzzy
 msgid "Find Directory"
-msgstr "Buscar usuario"
+msgstr "Buscar Directorio"
 
 #: qt3/i18n.cpp:137
-#, fuzzy
 msgid "Directories"
-msgstr "Directorio para los ficheros"
+msgstr "Directorios"
 
 #: qt3/i18n.cpp:144
 msgid ""
@@ -3191,51 +3158,49 @@ msgid ""
 "File not found.\n"
 "Check path and filename."
 msgstr ""
+"%1\n"
+"Fichero no encontrado.\n"
+"Compruebe la ruta y el nombre del fichero."
 
 #: qt3/i18n.cpp:148
 msgid "ERROR"
-msgstr ""
+msgstr "ERROR"
 
 #: qt3/i18n.cpp:150
-#, fuzzy
 msgid "&Font"
-msgstr "Fuentes"
+msgstr "&Fuente"
 
 #: qt3/i18n.cpp:152
-#, fuzzy
 msgid "Font st&yle"
-msgstr "Fuentes"
+msgstr "Est&ilo de fuente"
 
 #: qt3/i18n.cpp:154
 msgid "&Size"
-msgstr ""
+msgstr "Tama&ño"
 
 #: qt3/i18n.cpp:156
 msgid "Effects"
-msgstr ""
+msgstr "Efectos"
 
 #: qt3/i18n.cpp:158
 msgid "Stri&keout"
 msgstr ""
 
 #: qt3/i18n.cpp:162
-#, fuzzy
 msgid "&Color"
-msgstr "&Colores"
+msgstr "&Color"
 
 #: qt3/i18n.cpp:164
 msgid "Sample"
 msgstr ""
 
 #: qt3/i18n.cpp:166
-#, fuzzy
 msgid "Scr&ipt"
-msgstr "Seguridad"
+msgstr "Scr&ipt"
 
 #: qt3/i18n.cpp:168
-#, fuzzy
 msgid "Apply"
-msgstr "&Aplicar"
+msgstr "Aplicar"
 
 #: qt3/i18n.cpp:170 ui/logindlg.cpp:195 ui/searchbase.cpp:281
 #: ui/searchdlg.cpp:110
@@ -3243,9 +3208,8 @@ msgid "Close"
 msgstr "Cerrar"
 
 #: qt3/i18n.cpp:172
-#, fuzzy
 msgid "Select Font"
-msgstr "Seleccionar estilo:"
+msgstr "Seleccionar fuente"
 
 #: qt3/i18n.cpp:174
 msgid "&OK"
@@ -3259,63 +3223,64 @@ msgid ""
 "X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more "
 "information.</p>"
 msgstr ""
+"<h3>Acerca de Qt</h3><p>This program uses Qt version %1, a multiplatform C++ GUI "
+"toolkit from Trolltech. Qt provides single-source portability across Windows "
+"95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix with "
+"X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more "
+"information.</p>"
 
 #: qt3/i18n.cpp:183
 msgid "Help"
-msgstr ""
+msgstr "Ayuda"
 
 #: qt3/i18n.cpp:185
-#, fuzzy
 msgid "Defaults"
 msgstr "Por defecto"
 
 #: qt3/i18n.cpp:187
 msgid "< Back"
-msgstr ""
+msgstr "< Atras"
 
 #: qt3/i18n.cpp:189
-#, fuzzy
 msgid "Next >"
-msgstr "Siguiente"
+msgstr "Siguiente >"
 
 #: qt3/i18n.cpp:191
-#, fuzzy
 msgid "Finish"
-msgstr "Hacer ejercicio"
+msgstr "Terminar"
 
 #: qt3/i18n.cpp:193
 msgid "Ctrl"
-msgstr ""
+msgstr "Ctrl"
 
 #: qt3/i18n.cpp:195
 msgid "+"
-msgstr ""
+msgstr "+"
 
 #: qt3/i18n.cpp:197
-#, fuzzy
 msgid "Alt"
-msgstr "Alerta"
+msgstr "Alt"
 
 #: qt3/i18n.cpp:199
 msgid "Shift"
-msgstr ""
+msgstr "Shift"
 
 #: qt3/i18n.cpp:201
 #, c-format
 msgid "F%1"
-msgstr ""
+msgstr "F%1"
 
 #: qt3/i18n.cpp:203
 msgid "ctrl"
-msgstr ""
+msgstr "ctrl"
 
 #: qt3/i18n.cpp:205
 msgid "shift"
-msgstr ""
+msgstr "shift"
 
 #: qt3/i18n.cpp:207
 msgid "alt"
-msgstr ""
+msgstr "alt"
 
 #: qt3/i18n.cpp:210
 msgid ""
@@ -3324,6 +3289,10 @@ msgid ""
 "to\n"
 "%2"
 msgstr ""
+"No se puede renombrar\n"
+"%1\n"
+"a\n"
+"%2"
 
 #: qt3/i18n.cpp:216
 #, c-format
@@ -3331,6 +3300,8 @@ msgid ""
 "Could not open\n"
 "%1"
 msgstr ""
+"No se puede abrir\n"
+"%1"
 
 #: qt3/i18n.cpp:220
 #, c-format
@@ -3338,69 +3309,67 @@ msgid ""
 "Could not write\n"
 "%1"
 msgstr ""
+"No se puede escribir\n"
+"%1"
 
 #: qt3/i18n.cpp:223
 msgid "Operation stopped by the user"
-msgstr ""
+msgstr "Operación detenida por el usuario"
 
 #: qt3/i18n.cpp:225
-#, fuzzy
 msgid "(unknown)"
-msgstr "Desconocido"
+msgstr "(desconocido)"
 
 #: qt3/i18n.cpp:227
 msgid "Host %1 found"
-msgstr ""
+msgstr "Host %1 encontrado"
 
 #: qt3/i18n.cpp:229
 msgid "Host found"
-msgstr ""
+msgstr "Host encontrado"
 
 #: qt3/i18n.cpp:231
 #, c-format
 msgid "Connected to host %1"
-msgstr ""
+msgstr "Conectado al host %1"
 
 #: qt3/i18n.cpp:233
 msgid "Connected to host"
-msgstr ""
+msgstr "Conectado al host"
 
 #: qt3/i18n.cpp:235
-#, fuzzy
 msgid "Connection to %1 closed"
-msgstr "Conexión"
+msgstr "Conexión a %1 cerrada"
 
 #: qt3/i18n.cpp:237
-#, fuzzy
 msgid "Connection closed"
-msgstr "Conexión"
+msgstr "Conexión cerrada"
 
 #: qt3/i18n.cpp:239
 msgid "Login Incorrect"
-msgstr ""
+msgstr "Login incorrecto"
 
 #: qt3/i18n.cpp:241
 #, c-format
 msgid "Col %1"
-msgstr ""
+msgstr "Columna %1"
 
 #: qt3/i18n.cpp:243
 #, c-format
 msgid "Row %1"
-msgstr ""
+msgstr "Fila %1"
 
 #: qt3/i18n.cpp:245
-#, fuzzy
 msgid "Undo"
-msgstr "Unión"
+msgstr "Deshacer"
 
 #: qt3/i18n.cpp:247
 msgid "Redo"
-msgstr ""
+msgstr "Rehacer"
 
 #: qt3/i18n.cpp:249
 msgid "Cut"
-msgstr ""
+msgstr "Cortar"
 
 #: qt3/i18n.cpp:251 ui/fontsetupbase.cpp:225
 msgid "Copy"
@@ -3408,46 +3377,39 @@ msgstr "Copiar"
 
 #: qt3/i18n.cpp:253
 msgid "Paste"
-msgstr ""
+msgstr "Pegar"
 
 #: qt3/i18n.cpp:255
-#, fuzzy
 msgid "Clear"
-msgstr "Coches"
+msgstr "Limpiar"
 
 #: qt3/i18n.cpp:257
-#, fuzzy
 msgid "Select All"
-msgstr "Seleccionar estilo:"
+msgstr "Seleccionar todo"
 
 #: qt3/i18n.cpp:259
-#, fuzzy
 msgid "&Left"
-msgstr "Arriba izquierda"
+msgstr "&Izquierda"
 
 #: qt3/i18n.cpp:261
-#, fuzzy
 msgid "&Right"
-msgstr "luz"
+msgstr "De&recha"
 
 #: qt3/i18n.cpp:263
-#, fuzzy
 msgid "&Top"
-msgstr "&Copiar"
+msgstr "&Arriba"
 
 #: qt3/i18n.cpp:265
 msgid "&Bottom"
-msgstr ""
+msgstr "A&bajo"
 
 #: qt3/i18n.cpp:267
-#, fuzzy
 msgid "R&estore"
-msgstr "Tiendas al por menor"
+msgstr "R&estaurar"
 
 #: qt3/i18n.cpp:269
-#, fuzzy
 msgid "&Hide"
-msgstr "Esconder automaticamente"
+msgstr "&Esconder"
 
 #: qt3/i18n.cpp:271
 msgid "Line Up Toolbars (compact)"
@@ -3459,29 +3421,27 @@ msgstr ""
 
 #: qt3/i18n.cpp:275
 msgid "Paste special..."
-msgstr ""
+msgstr "Pegado especial"
 
 #: qt3/i18n.cpp:277
 msgid "What's this?"
-msgstr ""
+msgstr "¿Qué es esto?"
 
 #: qt3/i18n.cpp:279
-#, fuzzy
 msgid "&Restore"
-msgstr "&Registrar"
+msgstr "&Restaurar"
 
 #: qt3/i18n.cpp:281
-#, fuzzy
 msgid "&Move"
-msgstr "Modo"
+msgstr "&Mover"
 
 #: qt3/i18n.cpp:283
 msgid "Mi&nimize"
-msgstr ""
+msgstr "Mi&nimizar"
 
 #: qt3/i18n.cpp:285
 msgid "Ma&ximize"
-msgstr ""
+msgstr "Ma&ximizar"
 
 #: qt3/i18n.cpp:289
 msgid "&Roll up"
@@ -3489,7 +3449,7 @@ msgstr ""
 
 #: qt3/i18n.cpp:291
 msgid "Minimize"
-msgstr ""
+msgstr "Minimizar"
 
 #: qt3/i18n.cpp:293
 msgid "Restore Down"
@@ -3497,16 +3457,15 @@ msgstr ""
 
 #: qt3/i18n.cpp:295
 msgid "Maximize"
-msgstr ""
+msgstr "Maximizar"
 
 #: qt3/i18n.cpp:297
 msgid "Roll up"
 msgstr ""
 
 #: qt3/i18n.cpp:299
-#, fuzzy
 msgid "Restore Up"
-msgstr "Tiendas al por menor"
+msgstr ""
 
 #: qt3/i18n.cpp:301
 msgid "Roll down"
@@ -3569,9 +3528,8 @@ msgid "Center-top"
 msgstr "Arriba"
 
 #: ui/alertdialog.cpp:61
-#, fuzzy
 msgid "Center"
-msgstr "Arriba"
+msgstr "Centrar"
 
 #: ui/alertmsg.cpp:41
 msgid "User "
@@ -3618,22 +3576,20 @@ msgid "&Register"
 msgstr "&Registrar"
 
 #: ui/filetransfer.cpp:74
-#, fuzzy
 msgid ""
 "_n: Receive %2 from %1\n"
 "Receive %n files from %1"
 msgstr ""
-"Recibir archivo de %1\n"
-"Recibir %n archivos de %1"
+"Recibir %2 de %1\n"
+"Recibir %n ficheros de %1"
 
 #: ui/filetransfer.cpp:78
-#, fuzzy
 msgid ""
 "_n: Send %2 to %1\n"
 "Send %n files to %1"
 msgstr ""
-"Enviar archivo a %1\n"
-"Enviar %n archivos a %1"
+"Enviar %2 a %1\n"
+"Envia %n ficheros a %1"
 
 #: ui/filetransfer.cpp:137
 msgid "No files for transfer"
@@ -3641,21 +3597,20 @@ msgstr "No hay ficheros para transferir"
 
 #: ui/filetransfer.cpp:155
 msgid "Connect to %1 [%2]"
-msgstr ""
+msgstr "Conectar a %1 [·%2]"
 
 #: ui/filetransfer.cpp:160
 msgid "Wait connect to %1 [%2]"
 msgstr ""
 
 #: ui/filetransfer.cpp:165
-#, fuzzy, c-format
+#, c-format
 msgid "Send thru server to %1"
-msgstr "Falló el envio"
+msgstr ""
 
 #: ui/filetransfer.cpp:177
-#, fuzzy
 msgid "File transfer done"
-msgstr "Transferencia de fichero realizada:"
+msgstr "Transferencia de fichero realizada"
 
 #: ui/filetransfer.cpp:179
 msgid "[done]"
@@ -3666,14 +3621,13 @@ msgid "[fail]"
 msgstr "[fracasar]"
 
 #: ui/filetransfer.cpp:185
-#, fuzzy, c-format
+#, c-format
 msgid "File transfer declined with reason %1"
-msgstr "Rechazar con motivo"
+msgstr "Transferencia de fichero rechazada con motivo %1"
 
 #: ui/filetransfer.cpp:202
-#, fuzzy
 msgid "File transfer acked"
-msgstr "Transferencia de fichero"
+msgstr ""
 
 #: ui/filetransfer.cpp:257
 msgid "Receive file %1 of %2 files from %3"
@@ -3700,7 +3654,6 @@ msgid "&Skip"
 msgstr "&Saltar"
 
 #: ui/filetransfer.cpp:319
-#, fuzzy
 msgid "File %1 exists"
 msgstr "El archivo %1 existe"
 
@@ -4006,9 +3959,8 @@ msgid "&Check again"
 msgstr "&Comprobar de nuevo"
 
 #: ui/userinfo.cpp:147
-#, fuzzy
 msgid "User info - '%1'"
-msgstr "Informacion usuario"
+msgstr "Información usuario - '%1'"
 
 #: ui/userinfo.cpp:154
 msgid "Settings - group '%1'"
@@ -4345,14 +4297,12 @@ msgid "Speed:"
 msgstr "Velocidad:"
 
 #: ui/filetransferbase.cpp:128
-#, fuzzy
 msgid "&Transfer"
-msgstr "&Borrar"
+msgstr "&Transferir"
 
 #: ui/filetransferbase.cpp:129 ui/randomchatbase.cpp:304
-#, fuzzy
 msgid "&Details"
-msgstr "Venta al por menor"
+msgstr "&Detalles"
 
 #: ui/filetransferbase.cpp:130
 msgid "Close after send"
@@ -4897,8 +4847,7 @@ msgid "Hide main window after"
 msgstr "Esconder ventana principal despues de"
 
 #: ui/statussetupbase.cpp:142
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Desactivar alertas online en \"Ausente\", \"N/A\", \"No molestar\" y "
 "\"Ocupado\""
@@ -5167,9 +5116,8 @@ msgid "&Notes"
 msgstr "&Notas"
 
 #: ui/randomchat.cpp:167
-#, fuzzy
 msgid "&Stop search"
-msgstr "&Busqueda"
+msgstr "Parar bu&squeda"
 
 #: ui/randomchat.cpp:168
 msgid "Find an &Online Chat Friend"
@@ -5177,54 +5125,47 @@ msgstr ""
 
 #: ui/randomchat.cpp:196
 msgid "Request UIN"
-msgstr ""
+msgstr "Solicitar UIN"
 
 #: ui/randomchat.cpp:217
-#, fuzzy
 msgid "Request user info"
-msgstr "Informacion usuario"
+msgstr "Solicitar informacion del usuario"
 
 #: ui/randomchat.cpp:230
-#, fuzzy
 msgid "Ready"
-msgstr "Leer %1 mensaje"
+msgstr "Preparado"
 
 #: ui/randomchatbase.cpp:285
-#, fuzzy
 msgid "Chat Topic/Interests:"
-msgstr "Intereses:"
+msgstr "Chat Topic/Intereses:"
 
 #: ui/randomchatbase.cpp:286
 msgid "&Request chat"
-msgstr ""
+msgstr "Solicita&r chat"
 
 #: ui/randomchatbase.cpp:287
-#, fuzzy
 msgid "Send &message"
-msgstr "enviar mensaje"
+msgstr "Enviar &mensaje"
 
 #: ui/randomchatbase.cpp:288
 msgid "Send &URL"
-msgstr ""
+msgstr "Enviar &URL"
 
 #: ui/randomchatbase.cpp:289 ui/randomchatbase.cpp:295
-#, fuzzy
 msgid "Group:"
-msgstr "Grupos"
+msgstr "Grupo:"
 
 #: ui/randomchatbase.cpp:293
-#, fuzzy
 msgid "&Finding"
-msgstr "&Buscar"
+msgstr "&Buscando"
 
 #: ui/randomchatbase.cpp:294
 msgid "I want to be available to chat with a friend"
-msgstr ""
+msgstr "Disponible para chatear con un amigo"
 
 #: ui/randomchatbase.cpp:296
-#, fuzzy
 msgid "Chat topic/Interests:"
-msgstr "Intereses:"
+msgstr "Chat topic/Intereses:"
 
 #, fuzzy
 #~ msgid "URL: "
@@ -5396,3 +5337,4 @@ msgstr "Intereses:"
 
 #~ msgid "Reject messages"
 #~ msgstr "Rechazar mensajes"
+
