@@ -45,6 +45,7 @@ ICQClient::ICQClient()
         RejectWeb(this, "RejectWeb"),
         RejectEmail(this, "RejectEmail"),
         RejectOther(this, "RejectOther"),
+		RejectFilter(this, "RejectFilter"),
         ProxyType(this, "ProxyType"),
         ProxyHost(this, "ProxyHost", "proxy"),
         ProxyPort(this, "ProxyPort", 1080),
@@ -76,6 +77,7 @@ ICQClient::ICQClient()
     PhoneStatusTime = now;
     DCcookie = rand();
     bMyInfo = true;
+	m_bRosters = false;
 }
 
 ICQClient::~ICQClient()
@@ -258,6 +260,7 @@ void ICQClient::setStatus(unsigned short status)
         return;
     }
     if (m_fd == -1){
+		m_bRosters = false;
         m_nSequence = rand() & 0x7FFFF;
         m_nMsgSequence = 1;
         m_reconnectTime = 0;

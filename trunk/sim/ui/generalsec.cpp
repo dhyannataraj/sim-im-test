@@ -24,6 +24,7 @@
 #include <qcheckbox.h>
 #include <qbuttongroup.h>
 #include <qpixmap.h>
+#include <qlineedit.h>
 
 GeneralSecurity::GeneralSecurity(QWidget *p)
         : GeneralSecurityBase(p)
@@ -37,7 +38,10 @@ GeneralSecurity::GeneralSecurity(QWidget *p)
     chkRejectWeb->setChecked(pClient->RejectWeb());
     chkRejectEmail->setChecked(pClient->RejectEmail());
     chkRejectOther->setChecked(pClient->RejectOther());
+	edtFilter->setText(QString::fromLocal8Bit(pClient->RejectFilter.c_str()));
     grpDirect->setButton(pClient->DirectMode());
+	rejectToggled(chkRejectMsg->isEnabled());
+	connect(chkRejectMsg, SIGNAL(toggled(bool)), this, SLOT(rejectToggled(bool)));
 }
 
 void GeneralSecurity::apply(ICQUser*)
@@ -49,10 +53,17 @@ void GeneralSecurity::apply(ICQUser*)
     pClient->RejectWeb = chkRejectWeb->isChecked();
     pClient->RejectEmail = chkRejectEmail->isChecked();
     pClient->RejectOther = chkRejectOther->isChecked();
+	pClient->setRejectFilter(edtFilter->text().local8Bit());
     if (grpDirect->selected())
         pClient->DirectMode = grpDirect->id(grpDirect->selected());
     if (pClient->m_state == ICQClient::Logged)
         pClient->setStatus(pClient->uStatus);
+}
+
+void GeneralSecurity::rejectToggled(bool bOn)
+{
+	lblFilter->setEnabled(!bOn);
+	edtFilter->setEnabled(!bOn);
 }
 
 #ifndef _WINDOWS

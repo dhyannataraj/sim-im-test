@@ -922,6 +922,7 @@ public:
     ConfigBool	 RejectWeb;
     ConfigBool	 RejectEmail;
     ConfigBool	 RejectOther;
+	ConfigString RejectFilter;
 
     ConfigShort		ProxyType;
     ConfigString	ProxyHost;
@@ -1005,6 +1006,8 @@ public:
     void setupProxy();
     void storePassword(const char*);
 
+	void setRejectFilter(const char*);
+
 protected:
     ICQListener *listener;
 
@@ -1035,6 +1038,7 @@ protected:
     void chn_close();
 
     bool m_bBirthday;
+	bool m_bRosters;
 
     list<unsigned long> infoRequestQueue;
     list<unsigned long> phoneRequestQueue;
@@ -1145,6 +1149,8 @@ protected:
     bool setInterestsInfo(ICQUser *u);
     bool setBackgroundInfo(ICQUser *u);
     bool setMailInfo(ICQUser *u);
+
+	bool match(const char *str, const char *pat);
 
     void sendInfoUpdate();
     void sendPhoneStatus();

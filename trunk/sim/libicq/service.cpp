@@ -202,7 +202,7 @@ void ICQClient::fillDirectInfo(Buffer &directInfo, unsigned long t1, unsigned lo
     directInfo
     << (unsigned long)htonl(RealIP())
     << (unsigned short)0
-    << (unsigned short)listener->port()
+    << (unsigned short)(listener ? listener->port() : 0)
 
     << (char)0x01	// Mode
     << (char)0x00

@@ -30,6 +30,7 @@ public:
     GeneralSecurity(QWidget *p);
 public slots:
     void apply(ICQUser*);
+	void rejectToggled(bool);
 };
 
 #endif
