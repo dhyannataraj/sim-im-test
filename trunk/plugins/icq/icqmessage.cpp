@@ -1124,11 +1124,6 @@ void ICQClient::packExtendedMessage(Message *msg, Buffer &buf, Buffer &msgBuf, I
     }
 }
 
-bool my_string::operator < (const my_string &a) const
-{
-    return strcmp(c_str(), a.c_str()) < 0;
-}
-
 QString ICQClient::packContacts(ContactsMessage *msg, ICQUserData *data, CONTACTS_MAP &c)
 {
     QString contacts = msg->getContacts();

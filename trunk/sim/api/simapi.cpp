@@ -26,7 +26,7 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <arpa/inet.h>
-#ifndef QT_MACOSX_VERSION
+#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -387,7 +387,7 @@ void mySetCaption(QWidget *w, const QString &caption)
 }
 
 #else
-#ifndef QT_MACOSX_VERSION
+#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
 
 void setWndClass(QWidget *w, const char *name)
 {
@@ -398,6 +398,12 @@ void setWndClass(QWidget *w, const char *name)
     classhint.res_name  = (char*)"sim";
     classhint.res_class = (char*)name;
     XSetClassHint(dsp, win, &classhint);
+}
+
+#else
+
+void setWndClass(QWidget*, const char*)
+{
 }
 
 #endif

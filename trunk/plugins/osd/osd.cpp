@@ -46,7 +46,7 @@
 #endif
 
 #else
-#ifndef QT_MACOSX_VERSION
+#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xatom.h>
@@ -189,7 +189,7 @@ OSDWidget::OSDWidget()
 QPixmap& intensity(QPixmap &pict, float percent);
 
 #ifndef WIN32
-#ifndef QT_MACOSX_VERSION
+#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
 
 static XErrorHandler old_handler = 0;
 static Bool got_badwindow = False;

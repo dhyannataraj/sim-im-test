@@ -72,10 +72,10 @@ QWidget *ReplacePlugin::createConfigWindow(QWidget *parent)
     return new ReplaceCfg(parent, this);
 }
 
-class UnquoteParser : public HTMLParser
+class _UnquoteParser : public HTMLParser
 {
 public:
-    UnquoteParser(const QString &text);
+    _UnquoteParser(const QString &text);
     QString m_text;
 protected:
     virtual void text(const QString &text);
@@ -83,17 +83,17 @@ protected:
     virtual void tag_end(const QString &tag);
 };
 
-UnquoteParser::UnquoteParser(const QString &text)
+_UnquoteParser::_UnquoteParser(const QString &text)
 {
     parse(text);
 }
 
-void UnquoteParser::text(const QString &text)
+void _UnquoteParser::text(const QString &text)
 {
     m_text += text;
 }
 
-void UnquoteParser::tag_start(const QString &tag, const list<QString>&)
+void _UnquoteParser::tag_start(const QString &tag, const list<QString>&)
 {
     if (tag == "img")
         m_text += " ";
@@ -101,7 +101,7 @@ void UnquoteParser::tag_start(const QString &tag, const list<QString>&)
         m_text += "\n";
 }
 
-void UnquoteParser::tag_end(const QString&)
+void _UnquoteParser::tag_end(const QString&)
 {
 }
 
@@ -116,7 +116,7 @@ bool ReplacePlugin::eventFilter(QObject *o, QEvent *e)
             if ((paraFrom == paraTo) && (indexFrom == indexTo)){
                 int parag, index;
                 edit->getCursorPosition(&parag, &index);
-                UnquoteParser p(edit->text(parag));
+                _UnquoteParser p(edit->text(parag));
                 QString text = p.m_text.left(index);
                 for (unsigned i = 1; i <= getKeys(); i++){
                     QString key = getKey(i);

@@ -277,11 +277,6 @@ void *JabberAdd::processEvent(Event *e)
     return NULL;
 }
 
-bool my_string::operator < (const my_string &a) const
-{
-    return strcmp(c_str(), a.c_str()) < 0;
-}
-
 #ifndef WIN32
 #include "jabberadd.moc"
 #endif

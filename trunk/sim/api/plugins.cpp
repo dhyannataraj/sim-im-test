@@ -31,6 +31,10 @@
 #include <ctype.h>
 #endif
 
+#ifndef  LTDL_SHLIB_EXT
+#define  LTDL_SHLIB_EXT "so"
+#endif
+
 #include <errno.h>
 #include <qdir.h>
 #include <qstringlist.h>
