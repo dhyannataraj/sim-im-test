@@ -157,11 +157,14 @@ void RTF2HTML::FlushOut()
     {
         OutTag &t = *iter;
         switch (t.tag){
-        case 1:{
-                color &c = colors[t.param];
+        case 1:
+	    if (t.param && ((unsigned)t.param <= (unsigned)colors.size())){	
+                color &c = colors[t.param-1];
                 PrintUnquoted("<font color=\"#%02X%02X%02X\">", c.red, c.green, c.blue);
-                break;
-            }
+            }else{
+		t.tag = 100;
+	    }
+            break;
         case 2:
             PrintUnquoted("<font size=%u>", t.param);
             break;

@@ -253,14 +253,14 @@ QString CUser::client()
         res = "SIM";
         v1 = (u->Build >> 6) - 1;
         v2 = u->Build & 0x1F;
-        if (v1 == 0xFF){
+        if (u->Build == 0){
             res = "Kopete";
             v1 = v2 = 0;
         }
     }
     else if (u->hasCap(CAP_STR_2002) && u->hasCap(CAP_IS_2002))
         res = "ICQ 2002";
-    else if (u->hasCap(CAP_STR_2001) && u->hasCap(CAP_IS_2001))
+    else if ((u->hasCap(CAP_STR_2001) || u->hasCap(CAP_STR_2002)) && u->hasCap(CAP_IS_2001))
         res = "ICQ 2001";
     else if (u->hasCap(CAP_MACICQ))
         res = "ICQ for Mac";
