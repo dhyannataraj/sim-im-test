@@ -84,6 +84,10 @@ OnTopPlugin::OnTopPlugin(unsigned base, const char *config)
     Event eCmd(EventCommandCreate, cmd);
     eCmd.process();
 
+#ifdef WIN32
+    m_state = HWND_NOTOPMOST;
+#endif
+
 #if defined(WIN32) || defined (USE_KDE)
     qApp->installEventFilter(this);
 #endif
@@ -130,7 +134,10 @@ void *OnTopPlugin::processEvent(Event *e)
         HWND hState = HWND_NOTOPMOST;
         if (getOnTop()) hState = HWND_TOPMOST;
         if (e->param()) hState = HWND_BOTTOM;
-        SetWindowPos(main->winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        if (m_state != hState){
+            SetWindowPos(main->winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+            m_state = hState;
+        }
 #endif
     }
     if (e->type() == EventInTaskManager){

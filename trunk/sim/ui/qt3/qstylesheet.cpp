@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qstylesheet.cpp,v 1.2 2003-08-02 19:22:05 shutoff Exp $
+** $Id: qstylesheet.cpp,v 1.3 2003-10-05 00:45:31 shutoff Exp $
 **
 ** Implementation of the QStyleSheet class
 **
@@ -988,6 +988,7 @@ int QStyleSheetItem::lineSpacing() const
 QStyleSheet::QStyleSheet( QObject *parent, const char *name )
         : QObject( parent, name )
 {
+    pStyles = new QDict<QStyleSheetItem>;
     init();
 }
 
@@ -997,6 +998,7 @@ QStyleSheet::QStyleSheet( QObject *parent, const char *name )
 */
 QStyleSheet::~QStyleSheet()
 {
+    delete pStyles;
 }
 
 /*!
@@ -1005,11 +1007,8 @@ QStyleSheet::~QStyleSheet()
 */
 void QStyleSheet::init()
 {
-    styles.setAutoDelete( TRUE );
-
-    nullstyle  = new QStyleSheetItem( this,
-                                      QString::fromLatin1("") );
-
+    pStyles->setAutoDelete( TRUE );
+    nullstyle  = new QStyleSheetItem( this, QString::fromLatin1("") );
     QStyleSheetItem*  style;
 
     style = new QStyleSheetItem( this, "qml" ); // compatibility
@@ -1216,7 +1215,7 @@ void QStyleSheet::setDefaultSheet( QStyleSheet* sheet)
 */
 void QStyleSheet::insert( QStyleSheetItem* style )
 {
-    styles.insert(style->name(), style);
+    pStyles->insert(style->name(), style);
 }
 
 
@@ -1227,7 +1226,7 @@ QStyleSheetItem* QStyleSheet::item( const QString& name)
 {
     if ( name.isNull() )
         return 0;
-    return styles[name];
+    return (*pStyles)[name];
 }
 
 /*!
@@ -1238,7 +1237,7 @@ const QStyleSheetItem* QStyleSheet::item( const QString& name) const
 {
     if ( name.isNull() )
         return 0;
-    return styles[name];
+    return (*pStyles)[name];
 }
 
 

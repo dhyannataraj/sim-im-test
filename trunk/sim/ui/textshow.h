@@ -26,18 +26,18 @@
 #include <qlabel.h>
 
 #if QT_VERSION < 300
-#include "qt3/qtextbrowser.h"
+#include "qt3/qtextedit.h"
 #else
-#include <qtextbrowser.h>
+#include <qtextedit.h>
 #ifdef USE_KDE
-#ifdef HAVE_KTEXTBROWSER_H
-#include <ktextbrowser.h>
+#ifdef HAVE_KTEXTEDIT_H
+#include <ktextedit.h>
 #define QTextBrowser KTextBrowser
 #endif
 #endif
 #endif
 
-class UI_EXPORT TextShow : public QTextBrowser
+class UI_EXPORT TextShow : public QTextEdit
 {
     Q_OBJECT
 public:
@@ -48,6 +48,7 @@ public:
     QString selectedText();
     QString plainText(int paraFrom=0, int paraTo=0x7FFFFFFF, int indexFrom=0, int indexTo=0);
     void setText(const QString &text);
+    void setSource(const QString &url);
     static unsigned textPosition(const QString &text, unsigned pos);
     static QString unquoteString(const QString &s, int from, int to);
 signals:
@@ -56,7 +57,8 @@ protected:
     void startDrag();
     void keyPressEvent(QKeyEvent *e);
     void resizeEvent(QResizeEvent *e);
-    void setSource(const QString&);
+    void emitLinkClicked(const QString&);
+    bool linksEnabled() const { return true; }
 };
 
 class UI_EXPORT TextEdit : public TextShow

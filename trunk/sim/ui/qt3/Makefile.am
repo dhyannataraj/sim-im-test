@@ -9,7 +9,6 @@ libsimuiqt_la_SOURCES = \
  qrichtext_p.cpp \
  qsimplerichtext.cpp \
  qstylesheet.cpp \
- qtextbrowser.cpp \
  qtextedit.cpp
 
 libsimuiqt_la_LIBADD = $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(EXTRA_LIBS) $(LIBLD)

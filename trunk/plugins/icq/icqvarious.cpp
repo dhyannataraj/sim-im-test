@@ -137,12 +137,21 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
     case ICQ_SNACxVAR_ERROR:{
             unsigned short error_code;
             m_socket->readBuffer >> error_code;
-            ServerRequest *req = findServerRequest(id);
-            if (req == NULL){
-                log(L_WARN, "Various event ID %04X not found for error %04X", id, error_code);
-                break;
+            if (id == m_offlineMessagesRequestId)
+            {
+                log(L_WARN, "Server responded with error %04X for offline messages request.", error_code);
+                // We'll never get ICQ_SRVxEND_OFFLINE_MSG, so we finish initing here instead.
+                m_bServerReady = true;
             }
-            req->fail(error_code);
+            else
+            {
+                ServerRequest *req = findServerRequest(id);
+                if (req == NULL){
+                    log(L_WARN, "Various event ID %04X not found for error %04X", id, error_code);
+                    break;
+                }
+                req->fail(error_code);
+            }
             break;
         }
     case ICQ_SNACxVAR_DATA:{
@@ -281,6 +290,7 @@ void ICQClient::sendPhoneStatus()
 void ICQClient::sendMessageRequest()
 {
     serverRequest(ICQ_SRVxREQ_OFFLINE_MSG);
+    m_offlineMessagesRequestId = m_nMsgSequence;
     sendServerRequest();
 }
 

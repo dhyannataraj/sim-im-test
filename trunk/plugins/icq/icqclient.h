@@ -588,6 +588,7 @@ protected:
     QTimer *m_infoTimer;
     unsigned short m_infoRequestId;
     unsigned short m_sendSmsId;
+    unsigned short m_offlineMessagesRequestId;
     ListServerRequest *m_listRequest;
     bool m_bRosters;
     bool m_bBirthday;

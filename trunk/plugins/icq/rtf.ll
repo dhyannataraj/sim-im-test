@@ -66,33 +66,41 @@
 .				{ return TXT; }
 %%
 
-typedef struct color
-{
-    unsigned char red;
-    unsigned char green;
-    unsigned char blue;
-} color;
-
-typedef struct fontDef
+struct FontDef
 {
     int		charset;
-    string	name;
-} fontDef;
+    string	taggedName;
+    string	nonTaggedName;
+};
 
 class RTF2HTML;
 
 enum Tag
 {
+    TAG_ALL = 0,
     TAG_FONT_SIZE,
     TAG_FONT_COLOR,
+    TAG_FONT_FAMILY,
     TAG_BG_COLOR,
     TAG_BOLD,
     TAG_ITALIC,
-    TAG_UNDERLINE,
-    TAG_PARAGRAPH,
-    TAG_NONE,
-    TAG_ALL
+    TAG_UNDERLINE
 };
+
+class ParStyle
+{
+public:
+    void clearFormatting();
+
+public:
+    enum {DirLTR, DirRTL} dir;
+};
+
+void ParStyle::clearFormatting()
+{
+   // For now, do nothing.
+   // dir is not a formatting item.
+}
 
 class Level
 {
@@ -116,12 +124,14 @@ public:
     void setItalic(bool);
     void setUnderline(bool);
     void startParagraph();
+    bool isParagraphOpen() const;
     void clearParagraphFormatting();
     void setParagraphDirLTR();
     void setParagraphDirRTL();
+    void addLineBreak();
     void flush();
     void reset();
-    void resetTag(Tag, bool restoreTags = true);
+    void resetTag(Tag tag);
 protected:
     string text;
     void Init();
@@ -129,24 +139,31 @@ protected:
     void resetColors() { m_nRed = m_nGreen = m_nBlue = 0; m_bColorInit = false; }
     void setColor(unsigned char val, unsigned char *p)
     { *p = val; m_bColorInit=true; }
+
+    // Marks the position in m_tags where this level begun.
+    unsigned m_nTagsStartPos;
+    
+    // True when parsing the fonts table
     bool m_bFontTbl;
+    // True when parsing the colors table.
     bool m_bColors;
+    // True when inside a 'fname' block.
+    bool m_bFontName;
+    // False until we get the tagged font name.
+    bool m_bTaggedFontNameOk;
+    
     unsigned char m_nRed;
     unsigned char m_nGreen;
     unsigned char m_nBlue;
     bool m_bColorInit;
-    unsigned m_nFontColor;
-    unsigned m_nFontSize;
-    unsigned m_nFontBgColor;
-    unsigned m_nTags;
+    unsigned m_nFont; // 1-based
     unsigned m_nEncoding;
-    unsigned m_nFontIndex;
-    bool m_bFontName;
+    unsigned m_nFontColor; // 1-based
+    unsigned m_nFontSize;
+    unsigned m_nFontBgColor; // 1-based
     bool m_bBold;
     bool m_bItalic;
     bool m_bUnderline;
-    bool m_bInParagraph;
-    enum {LTR, RTL} m_paragraphDir;
 };
 
 class OutTag
@@ -159,25 +176,62 @@ public:
 
 class RTF2HTML
 {
+    friend class Level;
+
 public:
     RTF2HTML() : rtf_ptr(NULL), cur_level(this) {}
     QString Parse(const char *rtf, const char *encoding);
+
+// Paragraph-specific functions:
+
+    // Appends a string with formatting into the paragraph buffer.
     void PrintUnquoted(const char *str, ...);
+    // Quotes and appends a string to the paragraph buffer.
     void PrintQuoted(const QString &str);
+    // Writes down the tags from oTags into the paragraph buffer.
+    void FlushOutTags();
+    // Retrieves the top not-yet-written tag.
+    OutTag* getTopOutTag(Tag tagType);
+    // Writes down the paragraph buffer and resets the paragraph state.
+    void FlushParagraph();
+
+// Document-wide functions:
+
+    void PutTag(Tag n)
+    {
+       tags.push(n);
+    }
+
 protected:
+
+// Paragraph members
+
+    // True if the paragraph was opened explicitly.
+    bool bExplicitParagraph;
+    // The paragraph's HTML buffer.
+    QString sParagraph;
+    // Defines the paragraph's formatting.
+    ParStyle parStyle;
+    // Tags which weren't yet printed out.
+    vector<OutTag> oTags;
+
+// Document members
+
+    // The document HTML buffer.
     QString s;
+    // Fonts table.
+    vector<FontDef> fonts;
+    // Colors table.
+    vector<QColor> colors;
+    // All tags.
+    stack<Tag> tags;
+
+// RTF parser internals
+
     const char *rtf_ptr;
     const char *encoding;
-    void PutTag(Tag n) { tags.push(n); }
-    OutTag* getTopOutTag(Tag tagType);
-    vector<OutTag> oTags;
-	Level cur_level;
-    stack<Tag> tags;
-    stack<Level> stack;
-    vector<fontDef> fonts;
-    vector<color>   colors;
-    void FlushOut();
-    friend class Level;
+    Level cur_level;
+    stack<Level> levels;
 };
 
 OutTag* RTF2HTML::getTopOutTag(Tag tagType)
@@ -189,7 +243,7 @@ OutTag* RTF2HTML::getTopOutTag(Tag tagType)
     return NULL;
 }
 
-void RTF2HTML::FlushOut()
+void RTF2HTML::FlushOutTags()
 {
     vector<OutTag>::iterator iter;
     for (iter = oTags.begin(); iter != oTags.end(); iter++)
@@ -197,19 +251,25 @@ void RTF2HTML::FlushOut()
         OutTag &t = *iter;
         switch (t.tag){
         case TAG_FONT_COLOR:
-            if ((unsigned)t.param < (unsigned)colors.size()){
-                color &c = colors[t.param];
-                PrintUnquoted("<span style=\"font-color:#%02X%02X%02X\">", c.red, c.green, c.blue);
-            }else{
-                t.tag = TAG_NONE;
+            {
+               // RTF colors are 1-based; colors[] is a 0-based array.
+               QColor &c = colors[t.param-1];
+               PrintUnquoted("<span style=\"color:#%02X%02X%02X\">", c.red(), c.green(), c.blue());
             }
             break;
         case TAG_FONT_SIZE:
             PrintUnquoted("<span style=\"font-size:%upt\">", t.param);
             break;
+        case TAG_FONT_FAMILY:
+            {
+               FontDef &f = fonts[t.param-1];
+               string name = (!f.nonTaggedName.empty()) ? f.nonTaggedName : f.taggedName;
+               PrintUnquoted("<span style=\"font-family:%s\">", name.c_str());
+            }
+            break;
         case TAG_BG_COLOR:{
-                color &c = colors[t.param];
-                PrintUnquoted("<span style=\"bgcolor:#%02X%02X%02X;\">", c.red, c.green, c.blue);
+                QColor &c = colors[t.param];
+                PrintUnquoted("<span style=\"bgcolor:#%02X%02X%02X;\">", c.red(), c.green(), c.blue());
                 break;
             }
         case TAG_BOLD:
@@ -221,24 +281,6 @@ void RTF2HTML::FlushOut()
         case TAG_UNDERLINE:
             PrintUnquoted("<u>");
             break;
-        case TAG_PARAGRAPH:
-            // Margin styles are added to avoid Qt's default paragraph margins.
-            // In other words, we don't want spacing between paragraphs more than
-            // there is between regular lines.
-            PrintUnquoted("<p style=\"margin-top:0px;margin-bottom:0px;\"");
-            switch(t.param)
-            {
-              case 1: // LTR
-                // ltr must be lowercase (Qt is case-sensitive)
-                PrintUnquoted(" dir=\"ltr\"");
-                break;
-              case 2: // RTL
-                // rtl must be lowercase (Qt is case-sensitive)
-                PrintUnquoted(" dir=\"rtl\"");
-                break;
-            }
-            PrintUnquoted(">");
-            break;
         default:
             break;
         }
@@ -249,26 +291,29 @@ void RTF2HTML::FlushOut()
 // This function will close the already-opened tag 'tag'. It will take
 // care of closing the tags which 'tag' contains first (ie. it will unroll
 // the stack till the point where 'tag' is).
-void Level::resetTag(Tag tag, bool restoreTags)
+void Level::resetTag(Tag tag)
 {
     // A stack which'll keep tags we had to close in order to reach 'tag'.
     // After we close 'tag', we will reopen them.
     stack<Tag> s;
     
-    while (p->tags.size() > m_nTags){ // Don't go further than the point where this level starts.
+    while (p->tags.size() > m_nTagsStartPos){ // Don't go further than the point where this level starts.
  
         Tag nTag = p->tags.top();
-        // A tag will be located in oTags if it still wasn't printed out.
-        // A tag will get printed out only if necessary (e.g. <I></I> will
-        // be optimized away).
-        // Thus, for each tag we remove from the actual tag stack, we also
-        // try to remove a yet-to-be-printed tag, and only if there are no
-        // yet-to-be-printed tags left, we start closing the tags we pop.
+
+        /* A tag will be located in oTags if it still wasn't printed out.
+           A tag will get printed out only if necessary (e.g. <I></I> will
+           be optimized away).
+           Thus, for each tag we remove from the actual tag stack, we also
+           try to remove a yet-to-be-printed tag, and only if there are no
+           yet-to-be-printed tags left, we start closing the tags we pop.
+        */
         if (p->oTags.empty()){
             switch (nTag){
             case TAG_FONT_COLOR:
             case TAG_FONT_SIZE:
             case TAG_BG_COLOR:
+            case TAG_FONT_FAMILY:
                 p->PrintUnquoted("</span>");
                 break;
             case TAG_BOLD:
@@ -280,25 +325,20 @@ void Level::resetTag(Tag tag, bool restoreTags)
             case TAG_UNDERLINE:
                 p->PrintUnquoted("</u>");
                 break;
-            case TAG_PARAGRAPH:
-                // A paragraph tag should not be silently ignored, even if
-                // it has no content inside.
-                p->FlushOut();
-            	p->PrintUnquoted("</p>");
-            	break;
             default:
                 break;
             }
         }else{
             p->oTags.pop_back();
         }
+
         p->tags.pop();
         if (nTag == tag) break; // if we reached the tag we were looking to close.
         s.push(nTag); // remember to reopen this tag
     }
     
-    if (!restoreTags) return;
-    if (tag == 0) return;
+    if (tag == TAG_ALL) return;
+
     while (!s.empty()){
         Tag nTag = s.top();
         switch (nTag){
@@ -318,6 +358,12 @@ void Level::resetTag(Tag tag, bool restoreTags)
                 unsigned nFontBgColor = m_nFontBgColor;
                 m_nFontBgColor = 0;
                 setFontBgColor(nFontBgColor);
+                break;
+            }
+        case TAG_FONT_FAMILY:{
+                unsigned nFont = m_nFont;
+                m_nFont = 0;
+                setFont(nFont);
                 break;
             }
         case TAG_BOLD:{
@@ -345,19 +391,29 @@ void Level::resetTag(Tag tag, bool restoreTags)
     }
 }
 
-Level::Level(RTF2HTML *_p)
-        : p(_p),  m_bFontTbl(false), m_bColors(false),
-        m_nEncoding(0), m_nFontIndex((unsigned)(-1))
+Level::Level(RTF2HTML *_p) :
+        p(_p),
+        m_bFontTbl(false),
+        m_bColors(false),
+        m_bFontName(false),
+        m_bTaggedFontNameOk(false),
+        m_nFont(0),
+        m_nEncoding(0)
 {
-    m_nTags = p->tags.size();
+    m_nTagsStartPos = p->tags.size();
     Init();
 }
 
-Level::Level(const Level &l)
-        : p(l.p), m_bFontTbl(l.m_bFontTbl), m_bColors(l.m_bColors),
-        m_nEncoding(l.m_nEncoding), m_nFontIndex(l.m_nFontIndex)
+Level::Level(const Level &l) :
+        p(l.p),
+        m_bFontTbl(l.m_bFontTbl),
+        m_bColors(l.m_bColors),
+        m_bFontName(false),
+        m_bTaggedFontNameOk(l.m_bTaggedFontNameOk),
+        m_nFont(l.m_nFont),
+        m_nEncoding(l.m_nEncoding)
 {
-    m_nTags = p->tags.size();
+    m_nTagsStartPos = p->tags.size();
     Init();
 }
 
@@ -370,7 +426,6 @@ void Level::Init()
     m_bBold = false;
     m_bItalic = false;
     m_bUnderline = false;
-    m_bInParagraph = false;
 }
 
 void RTF2HTML::PrintUnquoted(const char *str, ...)
@@ -380,38 +435,71 @@ void RTF2HTML::PrintUnquoted(const char *str, ...)
     va_start(ap, str);
     vsnprintf(buff, sizeof(buff), str, ap);
     va_end(ap);
-    s += buff;
+    sParagraph += buff;
 }
 
 void RTF2HTML::PrintQuoted(const QString &str)
 {
-	s += quoteString(str);
+    sParagraph += quoteString(str);
+}
+
+void RTF2HTML::FlushParagraph()
+{
+    if (!bExplicitParagraph || sParagraph.isEmpty())
+       return;
+
+    s += "<p dir=\"";
+    // Note: Lower-case 'ltr' and 'rtl' are important for Qt.
+    s += (parStyle.dir == ParStyle::DirRTL ? "rtl" : "ltr");
+    s += "\">";
+    s += sParagraph;
+    s += "</p>";
+
+    // Clear up the paragraph members
+    sParagraph = "";
+    bExplicitParagraph = false;
 }
 
 void Level::setFont(unsigned nFont)
 {
+    if (nFont <= 0)
+        return;
+
     if (m_bFontTbl){
-        m_nFontIndex = (unsigned)(-1);
-        if (nFont > p->fonts.size()){
-            log(L_WARN, "Bad font number in tbl %u", nFont);
+        if (nFont > p->fonts.size() +1){
+            log(L_WARN, "Invalid font index (%u) while parsing font table.", nFont);
+            return;
         }
-        if (nFont == p->fonts.size()){
-            fontDef f;
+        if (nFont > p->fonts.size()){
+            FontDef f;
             f.charset = 0;
             p->fonts.push_back(f);
         }
-        m_nFontIndex = nFont;
-        return;
+        m_nFont = nFont;
     }
-    if (nFont >= p->fonts.size())
-        return;
-    m_nEncoding = p->fonts[nFont].charset;
+    else
+    {
+        if (nFont > p->fonts.size())
+        {
+           log(L_WARN, "Invalid font index (%u).");
+           return;
+        }
+        if (m_nFont == nFont)
+           return;
+        m_nFont = nFont;
+        if (m_nFont) resetTag(TAG_FONT_FAMILY);
+        m_nEncoding = p->fonts[nFont-1].charset;
+        p->oTags.push_back(OutTag(TAG_FONT_FAMILY, nFont));
+        p->PutTag(TAG_FONT_FAMILY);
+    }
 }
 
 void Level::setFontName()
 {
+    // This function is only valid during font table parsing.
     if (m_bFontTbl){
-        if (m_nFontIndex < p->fonts.size())
+        if ((m_nFont > 0) && (m_nFont <= p->fonts.size()))
+            // Be prepared to accept a font name.
             m_bFontName = true;
     }
 }
@@ -419,8 +507,8 @@ void Level::setFontName()
 void Level::setEncoding(unsigned nEncoding)
 {
     if (m_bFontTbl){
-        if (m_nFontIndex < p->fonts.size())
-            p->fonts[m_nFontIndex].charset = nEncoding;
+        if ((m_nFont > 0) && (m_nFont <= p->fonts.size()))
+            p->fonts[m_nFont-1].charset = nEncoding;
         return;
     }
     m_nEncoding = nEncoding;
@@ -452,6 +540,7 @@ void Level::setUnderline(bool bUnderline)
     if (m_bUnderline) resetTag(TAG_UNDERLINE);
     m_bUnderline = bUnderline;
     if (!m_bUnderline) return;
+    p->oTags.push_back(OutTag(TAG_UNDERLINE, 0));
     p->PutTag(TAG_UNDERLINE);
 }
 
@@ -459,26 +548,20 @@ void Level::setFontColor(unsigned short nColor)
 {
     if (m_nFontColor == nColor) return;
     if (m_nFontColor) resetTag(TAG_FONT_COLOR);
-    m_nFontColor = 0;
-    if (nColor == 0) return;
-    nColor--;
     if (nColor > p->colors.size()) return;
-    p->oTags.push_back(OutTag(TAG_FONT_COLOR, nColor));
+    m_nFontColor = nColor;
+    p->oTags.push_back(OutTag(TAG_FONT_COLOR, m_nFontColor));
     p->PutTag(TAG_FONT_COLOR);
-    m_nFontColor = nColor + 1;
 }
 
 void Level::setFontBgColor(unsigned short nColor)
 {
     if (m_nFontBgColor == nColor) return;
-    if (m_nFontBgColor) resetTag(TAG_BG_COLOR);
-    m_nFontBgColor = 0;
-    if (nColor == 0) return;
-    nColor--;
+    if (m_nFontBgColor != 0) resetTag(TAG_BG_COLOR);
     if (nColor > p->colors.size()) return;
-    p->oTags.push_back(OutTag(TAG_BG_COLOR, nColor));
+    m_nFontBgColor = nColor;
+    p->oTags.push_back(OutTag(TAG_BG_COLOR, m_nFontBgColor));
     p->PutTag(TAG_BG_COLOR);
-    m_nFontBgColor = nColor + 1;
 }
 
 void Level::setFontSizeHalfPoints(unsigned short nSize)
@@ -497,77 +580,82 @@ void Level::setFontSize(unsigned short nSize)
 
 void Level::startParagraph()
 {
-    if (m_bInParagraph) resetTag(TAG_PARAGRAPH, false);
-    m_bInParagraph = true;
-    
-    p->oTags.push_back(OutTag(TAG_PARAGRAPH, (m_paragraphDir == RTL) ? 2 : 1));
-    p->PutTag(TAG_PARAGRAPH);
+    // Whatever tags we have open now, close them.
+    // We cannot carry let character formatting tags wrap paragraphs,
+    // since a formatting tag can close at any time and we cannot
+    // close the paragraph any time we want.
+    resetTag(TAG_ALL);
+
+    // Flush the current paragraph HTML to the document HTML.
+    p->FlushParagraph();
+
+    // Mark this new paragraph as an explicit one (from \par etc.).
+    p->bExplicitParagraph = true;
     
     // Restore character formatting
+    p->oTags.push_back(OutTag(TAG_FONT_SIZE, m_nFontSize));
+    p->PutTag(TAG_FONT_SIZE);
+    p->oTags.push_back(OutTag(TAG_FONT_COLOR, m_nFontColor));
+    p->PutTag(TAG_FONT_COLOR);
+    p->oTags.push_back(OutTag(TAG_FONT_FAMILY, m_nFont));
+    p->PutTag(TAG_FONT_FAMILY);
+    if (m_nFontBgColor != 0)
     {
-       unsigned fontSize = m_nFontSize;
-       m_nFontSize = 0;
-       setFontSize(fontSize);
+       p->oTags.push_back(OutTag(TAG_BG_COLOR, m_nFontBgColor));
+       p->PutTag(TAG_BG_COLOR);
     }
+    if (m_bBold)
     {
-       unsigned fontBgColor = m_nFontBgColor;
-       m_nFontBgColor = 0;
-       setFontBgColor(fontBgColor);
+       p->oTags.push_back(OutTag(TAG_BOLD, 0));
+       p->PutTag(TAG_BOLD);
     }
+    if (m_bItalic)
     {
-       unsigned fontColor = m_nFontColor;
-       m_nFontColor = 0;
-       setFontColor(fontColor);
-    }
+       p->PutTag(TAG_ITALIC);
+       p->oTags.push_back(OutTag(TAG_ITALIC, 0));
+    }    
+    if (m_bUnderline)
     {
-       bool italic = m_bItalic;
-       m_bItalic = false;
-       setItalic(italic);
+       p->oTags.push_back(OutTag(TAG_UNDERLINE, 0));
+       p->PutTag(TAG_UNDERLINE);
     }
-    {
-       bool bold = m_bBold;
-       m_bBold = false;
-       setBold(bold);
-    }
-    {
-       bool underline = m_bUnderline;
-       m_bUnderline = false;
-       setUnderline(underline);
-    }
+}
+
+bool Level::isParagraphOpen() const
+{
+   return p->bExplicitParagraph;
 }
 
 void Level::clearParagraphFormatting()
 {
     // implicitly start a paragraph
-    if (!m_bInParagraph) 
-      startParagraph();
-   // Since we don't implement any of the paragraph formatting tags (e.g. alignment),
-   // we don't clean up anything here. Note that \pard does NOT clean character
-   // formatting (such as font size, font weight, italics...).
+    if (!isParagraphOpen())
+       startParagraph();
+    // Since we don't implement any of the paragraph formatting tags (e.g. alignment),
+    // we don't clean up anything here. Note that \pard does NOT clean character
+    // formatting (such as font size, font weight, italics...).
+    p->parStyle.clearFormatting();
 }
-
 
 void Level::setParagraphDirLTR()
 {
     // implicitly start a paragraph
-    if (!m_bInParagraph) 
+    if (!isParagraphOpen())
       startParagraph();
-    m_paragraphDir = LTR;
-    OutTag* tag = p->getTopOutTag(TAG_PARAGRAPH);
-    if (tag != NULL)
-       tag->param = 1;
+    p->parStyle.dir = ParStyle::DirLTR;
 }
-
 
 void Level::setParagraphDirRTL()
 {
     // implicitly start a paragraph
-    if (!m_bInParagraph) 
+    if (!isParagraphOpen()) 
       startParagraph();
-    m_paragraphDir = RTL;
-    OutTag* tag = p->getTopOutTag(TAG_PARAGRAPH);
-    if (tag != NULL)
-       tag->param = 2;
+    p->parStyle.dir = ParStyle::DirRTL;
+}
+
+void Level::addLineBreak()
+{
+    p->PrintUnquoted("<br/>");
 }
 
 void Level::reset()
@@ -575,10 +663,7 @@ void Level::reset()
     resetTag(TAG_ALL);
     if (m_bColors){
         if (m_bColorInit){
-            color c;
-            c.red = m_nRed;
-            c.green = m_nGreen;
-            c.blue = m_nBlue;
+            QColor c(m_nRed, m_nGreen, m_nBlue);
             p->colors.push_back(c);
             resetColors();
         }
@@ -588,27 +673,46 @@ void Level::reset()
 
 void Level::setText(const char *str)
 {
-    if (m_bColors){
+    if (m_bColors)
+    {
         reset();
-        return;
     }
-    if (m_bFontName){
+    else if (m_bFontTbl)
+    {
+        if ((m_nFont <= 0) || (m_nFont > p->fonts.size()))
+           return;
+           
+        FontDef& def = p->fonts[m_nFont-1];
+           
         char *pp = strchr(str, ';');
-        unsigned size = strlen(pp);
-        if (pp){
-            size = (pp - str);
-            m_bFontName = false;
+        unsigned size;
+        if (pp != NULL)
+           size = (pp - str);
+        else
+           size = strlen(str);
+        
+        if (m_bFontName)
+        {
+            def.nonTaggedName.append(str, size);
+            // We know we have the entire name
+            if (pp != NULL)
+               m_bFontName = false;
         }
-        if (m_nFontIndex < p->fonts.size())
-            p->fonts[m_nFontIndex].name.append(str, size);
-        return;
+        else if (!m_bTaggedFontNameOk)
+        {
+            def.taggedName.append(str, size);
+            if (pp != NULL)
+               m_bTaggedFontNameOk = true;
+        }
     }
-    if (m_bFontTbl) return;
-    for (; *str; str++)
-        if ((unsigned char)(*str) >= ' ') break;
-    if (!*str) return;
-    p->FlushOut();
-    text += str;
+    else
+    {
+        for (; *str; str++)
+            if ((unsigned char)(*str) >= ' ') break;
+        if (!*str) return;
+        p->FlushOutTags();
+        text += str;
+    }
 }
 
 void Level::flush()
@@ -651,6 +755,7 @@ const unsigned FNAME		= 15;
 const unsigned ULNONE		= 16;
 const unsigned LTRPAR		= 17;
 const unsigned RTLPAR		= 18;
+const unsigned LINE             = 19;
 
 static char cmds[] =
     "fonttbl\x00"
@@ -672,6 +777,7 @@ static char cmds[] =
     "ulnone\x00"
     "ltrpar\x00"
     "rtlpar\x00"
+    "line\x00"
     "\x00";
 
 int yywrap() { return 1; }
@@ -698,16 +804,16 @@ QString RTF2HTML::Parse(const char *rtf, const char *_encoding)
         switch (res){
         case UP:{
                 cur_level.flush();
-                stack.push(cur_level);
+                levels.push(cur_level);
                 break;
             }
         case DOWN:{
-				if (stack.size()){
-                cur_level.flush();
-                cur_level.reset();
-                cur_level = stack.top();
-                stack.pop();
-				}
+                if (!levels.empty()){
+                   cur_level.flush();
+                   cur_level.reset();
+                   cur_level = levels.top();
+                   levels.pop();
+                }
                 break;
             }
         case IMG:{
@@ -750,11 +856,9 @@ QString RTF2HTML::Parse(const char *rtf, const char *_encoding)
             cur_level.setText(yytext);
             break;
         case UNICODE_CHAR:{
-                cur_level.flush();
-				QString s;
-                s += QChar((unsigned short)(atol(yytext + 2)));
-                PrintQuoted(s);
-                break;
+                 cur_level.flush();
+                 sParagraph += QChar((unsigned short)(atol(yytext + 2)));
+                 break;
             }
         case HEX:{
                 char s[2];
@@ -823,7 +927,8 @@ QString RTF2HTML::Parse(const char *rtf, const char *_encoding)
                     cur_level.setUnderline(false);
                     break;
                 case F:
-                    cur_level.setFont(cmd_value);
+                    // RTF fonts are 0-based; our font index is 1-based.
+                    cur_level.setFont(cmd_value+1);
                     break;
                 case FCHARSET:
                     cur_level.setEncoding(cmd_value);
@@ -837,6 +942,8 @@ QString RTF2HTML::Parse(const char *rtf, const char *_encoding)
                 case RTLPAR:
                     cur_level.setParagraphDirRTL();
                     break;
+                case LINE:
+                    cur_level.addLineBreak();
                 }
                 break;
             }
@@ -844,6 +951,7 @@ QString RTF2HTML::Parse(const char *rtf, const char *_encoding)
     }
     yy_delete_buffer(yy_current_buffer);
     yy_current_buffer = NULL;
+    FlushParagraph();
     return s;
 }
 

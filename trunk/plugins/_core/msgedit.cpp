@@ -180,6 +180,15 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd, bool bReceived)
     m_edit->setFont(CorePlugin::m_plugin->editFont);
     m_edit->setCtrlMode(!CorePlugin::m_plugin->getSendOnEnter());
 
+    QStyleSheet *style = new QStyleSheet(m_edit);
+    QStyleSheetItem *style_p = style->item("p");
+    // Disable top and bottom margins for P tags. This will make sure
+    // paragraphs have no more spacing than regular lines, thus matching
+    // RTF's defaut look for paragraphs.
+    style_p->setMargin(QStyleSheetItem::MarginTop, 0);
+    style_p->setMargin(QStyleSheetItem::MarginBottom, 0);
+    m_edit->setStyleSheet(style);
+
     connect(m_edit, SIGNAL(lostFocus()), this, SLOT(editLostFocus()));
     connect(m_edit, SIGNAL(textChanged()), this, SLOT(editTextChanged()));
     connect(m_edit, SIGNAL(ctrlEnterPressed()), this, SLOT(editEnterPressed()));
