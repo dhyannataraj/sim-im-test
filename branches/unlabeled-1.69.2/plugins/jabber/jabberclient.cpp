@@ -160,6 +160,7 @@ static DataDef jabberClientData[] =
         { "AutoAccept", DATA_BOOL, 1, DATA(1) },
         { "UseHTTP", DATA_BOOL, 1, 0 },
         { "URL", DATA_STRING, 1, 0 },
+		{ "InfoUpdated", DATA_BOOL, 1, 0 },
         { "", DATA_STRUCT, sizeof(JabberUserData) / sizeof(Data), DATA(jabberUserData) },
         { NULL, 0, 0, 0 }
     };
@@ -972,7 +973,11 @@ void JabberClient::auth_ok()
     setState(Connected);
     setPreviousPassword(NULL);
     rosters_request();
-    info_request(NULL, false);
+	if (getInfoUpdated()){
+		setClientInfo(&data.owner);
+	}else{
+		info_request(NULL, false);
+	}
     setStatus(m_logonStatus);
     QTimer::singleShot(PING_TIMEOUT * 1000, this, SLOT(ping()));
 }
@@ -1219,6 +1224,16 @@ void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &
 string JabberClient::buildId(JabberUserData *data)
 {
     string res = data->ID.ptr;
+	int n = res.find('@');
+	if (n < 0){
+		res += "@";
+	    string server;
+		if (getUseVHost())
+			server = getVHost();
+		if (server.empty())
+			server = getServer();
+		res += server;
+	}
     return res;
 }
 

@@ -103,6 +103,7 @@ typedef struct JabberClientData
     Data		AutoAccept;
     Data		UseHTTP;
     Data		URL;
+	Data		InfoUpdated;
     JabberUserData	owner;
 } JabberClientData;
 
@@ -293,6 +294,7 @@ class MessageRequest : public ServerRequest
     PROP_BOOL(AutoAccept);
     PROP_BOOL(UseHTTP);
     PROP_STR(URL);
+	PROP_BOOL(InfoUpdated);
 
     string		buildId(JabberUserData *data);
     JabberUserData	*findContact(const char *jid, const char *name, bool bCreate, Contact *&contact, string &resource, bool bJoin=true);
