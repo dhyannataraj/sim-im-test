@@ -98,7 +98,8 @@ InterfaceConfig::InterfaceConfig(QWidget *parent)
         if (l->code){
             QString name = i18n(l->name);
             nCurrent = 1;
-            for (QStringList::Iterator it = items.begin(); it != items.end(); ++it, nCurrent++)
+	    QStringList::Iterator it;
+            for (it = items.begin(); it != items.end(); ++it, nCurrent++)
                 if ((*it) == name)
                     break;
             if (it == items.end())
