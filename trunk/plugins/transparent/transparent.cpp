@@ -117,6 +117,10 @@ TransparentPlugin::TransparentPlugin(unsigned base, const char *config)
     setState();
 }
 
+void TransparentPlugin::topDestroyed() {
+    top = NULL;
+}
+
 TransparentPlugin::~TransparentPlugin()
 {
 #ifdef WIN32
@@ -208,8 +212,10 @@ void TransparentPlugin::setState()
     startTime = GetTickCount();
     timer->start(10);
 #else
-    if (top == NULL)
+    if (!top) {
         top = new TransparentTop(main, getTransparency());
+        connect(top,SIGNAL(destroyed()),this,SLOT(topDestroyed()));
+    }
     top->setTransparent(getTransparency());
 #endif
 }

@@ -44,6 +44,7 @@ public:
     void	setState();
 public slots:
     void tick();
+    void topDestroyed();
 protected:
     virtual string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);

@@ -37,9 +37,7 @@ TransparentTop::TransparentTop(QWidget *parent, unsigned transparent)
 }
 
 TransparentTop::~TransparentTop()
-{
-    log(L_DEBUG,"TransparentTop deleted!");
-}
+{}
 
 void TransparentTop::transparentChanged()
 {
