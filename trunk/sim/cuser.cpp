@@ -184,7 +184,7 @@ QString CUser::realAddr()
             res += s.sprintf(":%u", u->Port);
         }
     }
-	return res;
+    return res;
 }
 
 QString CUser::client()

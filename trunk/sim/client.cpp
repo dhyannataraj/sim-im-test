@@ -628,7 +628,7 @@ void SIMClient::process_event(ICQEvent *e)
         }
         switch (e->message()->Type()){
         case ICQ_MSGxFILE:{
-				if (!e->message()->Received) break;
+                if (!e->message()->Received) break;
                 FileTransferDlg *dlg = new FileTransferDlg(NULL, static_cast<ICQFile*>(e->message()));
                 dlg->show();
                 break;
@@ -1186,26 +1186,23 @@ unsigned long SIMClient::getFileSize(const char *name, vector<fileName> &files)
     for (int i = 0; i < (int)file.length(); i++){
         if (file[i] == '\"'){
             QString fname = file.mid(start, i - start);
-            if (!fname.isEmpty()){
+            if (!fname.isEmpty())
                 res += getFileSize(fname, files);
-            }
             bInQuote = !bInQuote;
             start = i + 1;
             continue;
         }
         if ((file[i].isSpace() || (file[i] == ',')) && !bInQuote){
             QString fname = file.mid(start, i - start);
-            if (!fname.isEmpty()){
+            if (!fname.isEmpty())
                 res += getFileSize(fname, files);
-            }
             start = i + 1;
             continue;
         }
     }
     QString fname = file.mid(start);
-    if (!fname.isEmpty()){
+    if (!fname.isEmpty())
         res += getFileSize(fname, files);
-    }
     return res;
 }
 

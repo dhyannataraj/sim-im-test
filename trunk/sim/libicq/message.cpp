@@ -117,7 +117,7 @@ ICQFile::ICQFile()
     client = NULL;
     autoAccept = false;
     wait = false;
-	ftState = Unknown;
+    ftState = Unknown;
 }
 
 ICQFile::~ICQFile()
@@ -870,20 +870,20 @@ ICQEvent *ICQClient::sendMessage(ICQMessage *msg)
         if ((msg->Type() == ICQ_MSGxCHAT) || (msg->Type() == ICQ_MSGxFILE)){
             if (u && (u->uStatus != ICQ_STATUS_OFFLINE) &&
                     (u->direct || (u->Port && (u->IP || u->RealIP)))){
-				if (msg->Type() == ICQ_MSGxFILE){
-					ICQFile *f = static_cast<ICQFile*>(msg);
-					if (u->direct){
-						if (!u->direct->isLogged())
-							f->ftState = ICQFile::DirectWait;
-					}else{
-						f->ftState = ICQFile::DirectConnect;
-					}
-					if (f->ftState != ICQFile::Unknown){
-						ICQEvent e(EVENT_FILETRANSFER);
-						e.setMessage(f);
-						process_event(&e);
-					}
-				}
+                if (msg->Type() == ICQ_MSGxFILE){
+                    ICQFile *f = static_cast<ICQFile*>(msg);
+                    if (u->direct){
+                        if (!u->direct->isLogged())
+                            f->ftState = ICQFile::DirectWait;
+                    }else{
+                        f->ftState = ICQFile::DirectConnect;
+                    }
+                    if (f->ftState != ICQFile::Unknown){
+                        ICQEvent e(EVENT_FILETRANSFER);
+                        e.setMessage(f);
+                        process_event(&e);
+                    }
+                }
                 ICQEvent *e = u->addMessage(msg, p);
                 if (e){
                     for (list<ICQEvent*>::iterator it = u->msgQueue.begin(); it != u->msgQueue.end(); it++)

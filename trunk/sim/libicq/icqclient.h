@@ -648,18 +648,18 @@ public:
     void setPos(unsigned long);
     void setSpeed(unsigned short);
 
-	enum State{
-		Unknown,
-		ThruServerSend,
-		DirectConnect,
-		DirectWait,
-		Negotiate,
-		DirectSend,
-		DataConnect,
-		Listen,
-		Process
-	};
-	State			ftState;
+    enum State{
+        Unknown,
+        ThruServerSend,
+        DirectConnect,
+        DirectWait,
+        Negotiate,
+        DirectSend,
+        DataConnect,
+        Listen,
+        Process
+    };
+    State			ftState;
 };
 
 class ChatListener;

@@ -608,20 +608,19 @@ void MsgEdit::closeEvent(QCloseEvent *e)
 
 void MsgEdit::realSend()
 {
-	if (message()->Type() == ICQ_MSGxFILE){
-		ICQFile *f = static_cast<ICQFile*>(message());
-		msg = NULL;
-		FileTransferDlg *dlg = new FileTransferDlg(NULL, f);
+    if (message()->Type() == ICQ_MSGxFILE){
+        ICQFile *file = static_cast<ICQFile*>(message());
+        msg = NULL;
+        FileTransferDlg *dlg = new FileTransferDlg(NULL, file);
         dlg->show();
-		if (bCloseSend){
-			close();
+        if (bCloseSend){
+            close();
             return;
         }
         setMessage();
-        sendEvent = NULL;
         action(mnuAction);
-		return;
-	}
+        return;
+    }
     sendEvent = pClient->sendMessage(message());
     if (sendEvent) setState();
 }

@@ -1047,12 +1047,12 @@ bool MainWindow::init(bool bNoApply)
         char mutex_name[32];
         snprintf(mutex_name, sizeof(mutex_name), "sim_%lu", pClient->owner->Uin);
         HANDLE mutex;
-		mutex = OpenMutexA(NULL, FALSE, mutex_name);
-		if (mutex){
-			CloseHandle(mutex);
-			return false;
-		}
-		mutex = CreateMutexA(NULL, TRUE, mutex_name);
+        mutex = OpenMutexA(NULL, FALSE, mutex_name);
+        if (mutex){
+            CloseHandle(mutex);
+            return false;
+        }
+        mutex = CreateMutexA(NULL, TRUE, mutex_name);
         if (mutex == NULL) return false;
         lockFile = (int)mutex;
 #endif

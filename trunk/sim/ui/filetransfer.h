@@ -41,14 +41,14 @@ protected slots:
     void speedChanged(int);
     void timeout();
     void closeToggled(bool);
-	void send();
+    void send();
 protected:
     int  nProgress;
     unsigned nCurFile;
     QString title;
     void closeEvent(QCloseEvent*);
     void setProgress(bool bChangeTitle);
-	void setLog(const QString&);
+    void setLog(const QString&);
     bool bDirty;
     bool bSending;
     bool bCanResume;

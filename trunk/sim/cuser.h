@@ -36,7 +36,7 @@ public:
     QString email(bool quoted=false);
     QString autoReply(bool quoted=false);
     QString addr();
-	QString realAddr();
+    QString realAddr();
     QString statusTime();
     QString onlineTime();
     QString client();
