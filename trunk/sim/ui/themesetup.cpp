@@ -171,6 +171,7 @@ ThemeSetup::ThemeSetup(QWidget *parent)
     lblLang->hide();
     cmbLang->hide();
 #endif
+	chkDblClick->setChecked(pMain->UseDoubleClick);
     chkDock->setChecked(pMain->UseDock);
     chkSplash->setChecked(pSplash->Show);
     chkEmotional->setChecked(pMain->UseEmotional);
@@ -303,6 +304,7 @@ void ThemeSetup::apply(ICQUser*)
     }
     if (bChange) pMain->changeWm();
 #endif
+	pMain->UseDoubleClick = chkDblClick->isChecked();
     if (pMain->UseDock != chkDock->isChecked()){
         pMain->UseDock = chkDock->isChecked();
         pMain->setDock();

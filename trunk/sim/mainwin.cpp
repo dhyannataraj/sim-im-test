@@ -277,6 +277,7 @@ cfgParam MainWindow_Params[] =
         { "ForwardPhone", OFFSET_OF(MainWindow, ForwardPhone), PARAM_STRING, 0 },
         { "SendEnter", OFFSET_OF(MainWindow, SendEnter), PARAM_BOOL, 0 },
         { "AlphabetSort", OFFSET_OF(MainWindow, AlphabetSort), PARAM_BOOL, 0 },
+		{ "UseDoubleClick", OFFSET_OF(MainWindow, UseDoubleClick), PARAM_BOOL, 0 },
         { "UseDock", OFFSET_OF(MainWindow, UseDock), PARAM_BOOL, 1 },
         { "DockX", OFFSET_OF(MainWindow, DockX), PARAM_SHORT, 0 },
         { "DockY", OFFSET_OF(MainWindow, DockY), PARAM_SHORT, 0 },
@@ -1748,7 +1749,7 @@ void MainWindow::setup()
 void MainWindow::setupClosed()
 {
     if (setupDlg)
-	delete setupDlg;
+		delete setupDlg;
     setupDlg = NULL;
 }
 

@@ -262,12 +262,12 @@ void UserViewItemBase::paint(QPainter *p, const QString s, const QColorGroup &c,
         p->setPen(cg.color(QColorGroup::Text));
         p->moveTo(0, h - 1);
         p->lineTo(0, 0);
-        p->lineTo(width - 3, 0);
+        p->lineTo(width - 4, 0);
         p->setPen(cg.color(QColorGroup::Dark));
-        p->moveTo(width - 2, h - 1);
+        p->moveTo(width - 3, h - 1);
         p->lineTo(1, h - 1);
         p->lineTo(1, 1);
-        p->lineTo(width - 2, 1);
+        p->lineTo(width - 3, 1);
     }
 }
 
@@ -957,9 +957,16 @@ void UserView::doubleClick(QListViewItem *item)
 {
     if (bList) return;
     UserViewItemBase *item_base = static_cast<UserViewItemBase*>(item);
-    if (item_base->type() != 1) return;
-    UserViewItem *ui = static_cast<UserViewItem*>(item);
-    pMain->userFunction(ui->m_uin, mnuAction);
+    switch (item_base->type()){
+	case 1:{
+		UserViewItem *ui = static_cast<UserViewItem*>(item);
+		pMain->userFunction(ui->m_uin, mnuAction);
+		break;
+		   }
+	case 2:
+		item->setOpen(!item->isOpen());
+		break;
+	}
 }
 
 void UserView::paintEmptyArea(QPainter *p, const QRect &r)
@@ -1469,6 +1476,13 @@ void UserView::itemClicked(QListViewItem *list_item)
     }
 }
 
+void UserView::contentsMouseDoubleClickEvent(QMouseEvent *e)
+{
+	if (!pMain->UseDoubleClick) return;
+    QListViewItem *list_item = itemAt(contentsToViewport(e->pos()));
+    if (list_item) doubleClick(list_item);
+}
+
 void UserView::contentsMouseReleaseEvent(QMouseEvent *e)
 {
     if (bList){
@@ -1486,7 +1500,7 @@ void UserView::contentsMouseReleaseEvent(QMouseEvent *e)
 #endif
     if (!bList){
         clearSelection();
-        if (pressedItem && (pressedItem == itemAt(contentsToViewport(e->pos()))))
+        if (!pMain->UseDoubleClick && pressedItem && (pressedItem == itemAt(contentsToViewport(e->pos()))))
             doubleClick(pressedItem);
         pressedItem = NULL;
     }
@@ -1777,7 +1791,6 @@ void UserFloat::contentsMouseDoubleClickEvent(QMouseEvent *e)
         viewport()->releaseMouse();
     }
     mousePos = QPoint();
-    UserView::contentsMouseDoubleClickEvent(e);
 }
 
 void UserFloat::contentsMousePressEvent(QMouseEvent *e)

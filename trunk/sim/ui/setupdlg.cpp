@@ -85,7 +85,7 @@ PAGE(VisibleListSetup)
 static QWidget *p_MsgDialog(QWidget *p, unsigned param) { return new MsgDialog(p, param); }
 
 SetupDialog::SetupDialog(QWidget*, int nWin)
-        : SetupDialogBase(NULL, "setup", false, WStyle_Minimize | WDestructiveClose )
+        : SetupDialogBase(NULL, "setup", false, WStyle_Minimize )
 {
     SET_WNDPROC
 

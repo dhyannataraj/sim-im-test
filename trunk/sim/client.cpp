@@ -159,7 +159,7 @@ cfgParam ICQContactList_Params[] =
         { "Length", OFFSET_OF(ICQContactList, Len), PARAM_USHORT, 0 },
         { "Invsible", OFFSET_OF(ICQContactList, Invisible), PARAM_USHORT, 0 },
         { "Time", OFFSET_OF(ICQContactList, Time), PARAM_ULONG, 0 },
-        { "Expand", OFFSET_OF(ICQContactList, Expand), PARAM_BOOL, 0 },
+        { "Expand", OFFSET_OF(ICQContactList, Expand), PARAM_BOOL, 1 },
         { "", 0, 0, 0 }
     };
 
@@ -167,7 +167,7 @@ cfgParam ICQGroup_Params[] =
     {
         { "Name", OFFSET_OF(ICQGroup, Name), PARAM_STRING, 0 },
         { "Id", OFFSET_OF(ICQGroup, Id), PARAM_USHORT, 0 },
-        { "Expand", OFFSET_OF(ICQGroup, Expand), PARAM_BOOL, 0 },
+        { "Expand", OFFSET_OF(ICQGroup, Expand), PARAM_BOOL, 1 },
         { "", 0, 0, 0 }
     };
 
