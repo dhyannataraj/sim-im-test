@@ -1380,7 +1380,12 @@ void *ProxyPlugin::processEvent(Event *e)
     if (e->type() == EventClientError){
         clientErrorData *data = (clientErrorData*)(e->param());
         if (data->code == ProxyErr){
-            ProxyError *err = new ProxyError(this, static_cast<TCPClient*>(data->client), data->err_str);
+            QString msg = i18n(data->err_str);
+            if (data->err_str && *data->err_str){
+                if (data->args)
+                    msg = msg.arg(QString::fromUtf8(data->args));
+            }
+            ProxyError *err = new ProxyError(this, static_cast<TCPClient*>(data->client), msg);
             raiseWindow(err);
             return e->param();
         }

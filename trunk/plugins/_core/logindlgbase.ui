@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>357</width>
-            <height>166</height>
+            <width>365</width>
+            <height>194</height>
         </rect>
     </property>
     <property>
@@ -32,6 +32,30 @@
             <name>spacing</name>
             <number>6</number>
         </property>
+        <widget>
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>lblMessage</cstring>
+            </property>
+            <property>
+                <name>font</name>
+                <font>
+                    <bold>1</bold>
+                </font>
+            </property>
+            <property>
+                <name>text</name>
+                <string></string>
+            </property>
+            <property>
+                <name>alignment</name>
+                <set>AlignCenter</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
         <widget>
             <class>QLayoutWidget</class>
             <property stdset="1">

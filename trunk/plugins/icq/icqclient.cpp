@@ -131,6 +131,7 @@ static DataDef _icqUserData[] =
         { "", DATA_ULONG, 1, ICQ_STATUS_OFFLINE },		// Status
         { "StatusTime", DATA_ULONG, 1, 0 },
         { "", DATA_ULONG, 1, 0 },				// OnlineTime
+        { "WarningLevel", DATA_ULONG, 1, 0 },
         { "IP", DATA_IP, 1, 0 },
         { "RealIP", DATA_IP, 1, 0 },
         { "Port", DATA_ULONG, 1, 0 },
@@ -603,7 +604,7 @@ void ICQClient::packet_ready()
         }
     }
     ICQPlugin *plugin = static_cast<ICQPlugin*>(protocol()->plugin());
-    log_packet(m_socket->readBuffer, false, plugin->ICQPacket);
+    log_packet(m_socket->readBuffer, false, m_bAIM ? plugin->AIMPacket : plugin->ICQPacket);
     switch (m_nChannel){
     case ICQ_CHNxNEW:
         chn_login();
@@ -699,7 +700,7 @@ void ICQClient::sendPacket()
     char *packet = writeBuffer.data(writeBuffer.packetStartPos());
     *((unsigned short*)(packet + 4)) = htons(writeBuffer.size() - writeBuffer.packetStartPos() - 6);
     ICQPlugin *plugin = static_cast<ICQPlugin*>(protocol()->plugin());
-    log_packet(m_socket->writeBuffer, true, plugin->ICQPacket);
+    log_packet(m_socket->writeBuffer, true, m_bAIM ? plugin->AIMPacket : plugin->ICQPacket);
     m_socket->write();
 }
 
@@ -1317,6 +1318,16 @@ QString ICQClient::contactTip(void *_data)
         res += "<b>";
         res += data->Screen;
         res += "</b>";
+    }
+    if (data->WarningLevel){
+        unsigned level = data->WarningLevel * 10 / 3;
+        if (level > 100)
+            level = 100;
+        res += "<br>";
+        res += i18n("Warning level");
+        res += ": <b>";
+        res += QString::number(level);
+        res += "% </b></br>";
     }
     if (data->Status == ICQ_STATUS_OFFLINE){
         if (data->StatusTime){
@@ -2065,7 +2076,8 @@ void *ICQClient::processEvent(Event *e)
     if (e->type() == EventContactChanged){
         Contact *contact = (Contact*)(e->param());
         if (getState() == Connected){
-            addBuddy(contact);
+            if (!m_bAIM)
+                addBuddy(contact);
             if (contact == getContacts()->owner()){
                 time_t now;
                 time(&now);

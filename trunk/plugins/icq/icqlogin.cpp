@@ -71,6 +71,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
             snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_MD5xLOGIN, false, false);
             m_socket->writeBuffer.tlv(0x0001, data.owner.Screen);
             MD5_CTX c;
+            MD5_Init(&c);
             unsigned char md[MD5_DIGEST_LENGTH];
             MD5_Update(&c, md5_key.c_str(), md5_key.length());
             string pswd = fromUnicode(getPassword(), &data.owner);
@@ -80,14 +81,13 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
             MD5_Final(md, &c);
 
             m_socket->writeBuffer.tlv(0x0025, (char*)&md, sizeof(md));
-            m_socket->writeBuffer.tlv(0x004C);
-            m_socket->writeBuffer.tlv(0x0003, pswd.c_str());
+            m_socket->writeBuffer.tlv(0x0003, "AOL Instant Messenger, version 5.1.3036/WIN32");
             m_socket->writeBuffer.tlv(0x0016, (unsigned short)0x0109);
             m_socket->writeBuffer.tlv(0x0017, (unsigned short)0x0005);
-            m_socket->writeBuffer.tlv(0x0018, (unsigned short)0x0002);
+            m_socket->writeBuffer.tlv(0x0018, (unsigned short)0x0001);
             m_socket->writeBuffer.tlv(0x0019, (unsigned short)0x0000);
-            m_socket->writeBuffer.tlv(0x001A, (unsigned short)0x0CDC);
-            m_socket->writeBuffer.tlv(0x0014, (unsigned long)0x00EE);
+            m_socket->writeBuffer.tlv(0x001A, (unsigned short)0x0BDC);
+            m_socket->writeBuffer.tlv(0x0014, 0x000000D2L);
             m_socket->writeBuffer.tlv(0x000F, "en");
             m_socket->writeBuffer.tlv(0x000E, "us");
             m_socket->writeBuffer.tlv(0x004A, "\x01");

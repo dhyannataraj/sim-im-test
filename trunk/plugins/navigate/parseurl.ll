@@ -93,8 +93,11 @@ QString NavigatePlugin::parseUrl(const QString &text)
 			link = QString("http://") + link;
 			break;
 		}
-		res += QString("<a href=\"%1\"><u>%2</u></a>")
-			.arg(link) .arg(url);
+		res += "<a href=\"";
+		res += link;
+		res += "\"><u>";
+		res += url;
+		res += "</u></a>";
     }
     yy_delete_buffer(yy_current_buffer);
     return res;

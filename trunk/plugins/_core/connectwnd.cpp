@@ -57,12 +57,12 @@ void ConnectWnd::setConnecting(bool bState)
     }
 }
 
-void ConnectWnd::setError(const char *text)
+void ConnectWnd::setErr(const QString &text)
 {
     lblConnect->hide();
     lblMovie->hide();
     lblComplete->hide();
-    lblError->setText(i18n(text));
+    lblError->setText(text);
     frmError->show();
 }
 

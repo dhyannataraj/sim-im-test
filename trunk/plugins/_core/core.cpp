@@ -2404,7 +2404,7 @@ bool CorePlugin::init(bool bInit)
         if (!bInit || m_profiles.size()){
             if (bInit)
                 hideWindows();
-            LoginDialog dlg(bInit, NULL);
+            LoginDialog dlg(bInit, NULL, "");
             if (dlg.exec() == 0){
                 if (bInit || dlg.isChanged()){
                     Event eAbort(EventPluginsLoad, (void*)ABORT_LOADING);

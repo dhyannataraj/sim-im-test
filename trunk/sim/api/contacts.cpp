@@ -1127,6 +1127,7 @@ void Client::setState(State state, const char *text, unsigned code)
         d.client  = this;
         d.err_str = text;
         d.code	  = code;
+        d.args    = NULL;
         Event e(EventClientError, &d);
         e.process();
     }

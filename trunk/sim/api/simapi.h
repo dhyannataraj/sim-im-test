@@ -672,6 +672,7 @@ typedef struct clientErrorData
 {
     Client		*client;
     const char	*err_str;
+    char		*args;
     unsigned	code;
 } clientErrorData;
 
