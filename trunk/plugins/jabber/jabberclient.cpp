@@ -151,7 +151,7 @@ static DataDef jabberClientData[] =
         { "MaxPort", DATA_ULONG, 1, 0xFFFF },
         { "Photo", DATA_UTF, 1, 0 },
         { "Logo", DATA_UTF, 1, 0 },
-        { "Browser", DATA_ULONG, 4, 0 },
+        { "Browser", DATA_ULONG, 5, 0 },
         { "BrowserBar", DATA_ULONG, 7, 0 },
         { "BrowserHistory", DATA_UTF, 1, 0 },
         { "", DATA_STRUCT, sizeof(JabberUserData) / sizeof(unsigned), (unsigned)jabberUserData },

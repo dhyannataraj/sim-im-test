@@ -1156,22 +1156,26 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
                     bool bAccept = true;
                     unsigned short ackFlags = 0;
                     if (m->type() != MessageICQFile){
-                        switch (getStatus()){
-                        case STATUS_DND:
-                            if (getAcceptInDND())
-                                break;
-                            ackFlags = ICQ_TCPxACK_DND;
+                        if (m->type() == MessageStatus){
                             bAccept = false;
-                            break;
-                        case STATUS_OCCUPIED:
-                            if (getAcceptInOccupied())
+                        }else{
+                            switch (getStatus()){
+                            case STATUS_DND:
+                                if (getAcceptInDND())
+                                    break;
+                                ackFlags = ICQ_TCPxACK_DND;
+                                bAccept = false;
                                 break;
-                            ackFlags = ICQ_TCPxACK_OCCUPIED;
-                            bAccept = false;
-                            break;
+                            case STATUS_OCCUPIED:
+                                if (getAcceptInOccupied())
+                                    break;
+                                ackFlags = ICQ_TCPxACK_OCCUPIED;
+                                bAccept = false;
+                                break;
+                            }
+                            if (msgFlags & (ICQ_TCPxMSG_URGENT | ICQ_TCPxMSG_LIST))
+                                bAccept = true;
                         }
-                        if (msgFlags & (ICQ_TCPxMSG_URGENT | ICQ_TCPxMSG_LIST))
-                            bAccept = true;
                         if (!bAccept){
                             Contact *contact;
                             ICQUserData *data = findContact(screen, NULL, false, contact);
@@ -1256,7 +1260,8 @@ void ICQClient::sendAutoReply(const char *screen, MessageId id,
     if (response){
         Contact *contact;
         ICQUserData *data = findContact(screen, NULL, false, contact);
-        string r = fromUnicode(QString::fromUtf8(response), data);
+        string r;
+        r = fromUnicode(QString::fromUtf8(response), data);
         unsigned short size = (unsigned short)(r.length() + 1);
         m_socket->writeBuffer.pack(size);
         m_socket->writeBuffer.pack(r.c_str(), size);

@@ -45,6 +45,7 @@
 #include <qapplication.h>
 #include <kglobal.h>
 #include <kstddirs.h>
+#include <kwin.h>
 #endif
 
 #ifdef WIN32
@@ -998,7 +999,7 @@ EXPORT string save_data(const DataDef *def, void *data)
 #endif
 #endif
 
-EXPORT void saveGeometry(QWidget *w, long geo[4])
+EXPORT void saveGeometry(QWidget *w, long geo[5])
 {
     if (w == NULL)
         return;
@@ -1016,9 +1017,15 @@ EXPORT void saveGeometry(QWidget *w, long geo[4])
         geo[3] -= (dc - ds);
     }
 #endif
+#ifdef USE_KDE
+    KWin::Info info = KWin::info(w->winId());
+    geo[4] = info.desktop;
+    if (info.onAllDesktops)
+       geo[4] = -1;
+#endif
 }
 
-EXPORT void restoreGeometry(QWidget *w, long geo[4], bool bPos, bool bSize)
+EXPORT void restoreGeometry(QWidget *w, long geo[5], bool bPos, bool bSize)
 {
     if (w == NULL)
         return;
@@ -1039,6 +1046,14 @@ EXPORT void restoreGeometry(QWidget *w, long geo[4], bool bPos, bool bSize)
         w->move(geo[LEFT], geo[TOP]);
     if (bSize)
         w->resize(geo[WIDTH], geo[HEIGHT]);
+#ifdef USE_KDE
+    if (geo[4] == -1){
+        KWin::setOnAllDesktops(w->winId(), true);
+    }else{
+	KWin::setOnAllDesktops(w->winId(), false);
+        KWin::setOnDesktop(w->winId(), geo[4]);
+    }
+#endif
 }
 
 EXPORT void saveToolbar(QToolBar *bar, long state[7])

@@ -113,6 +113,9 @@ void *MsgGen::processEvent(Event *e)
         if ((cmd->id == CmdSend) && (cmd->param == m_edit)){
             QString msgText = m_edit->m_edit->text();
             if (!msgText.isEmpty()){
+                string s;
+                s = msgText.local8Bit();
+                log(L_DEBUG, "Send: %s", s.c_str());
                 Message *msg = new Message;
                 msg->setText(msgText);
                 msg->setContact(m_edit->m_userWnd->id());

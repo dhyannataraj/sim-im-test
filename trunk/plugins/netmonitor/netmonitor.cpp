@@ -50,7 +50,7 @@ typedef struct NetMonitorData
 {
     unsigned long	LogLevel;
 	char			*LogPackets;
-    long			geometry[4];
+    long			geometry[5];
     bool			Show;
 } NetMonitorData;
 */
@@ -58,7 +58,7 @@ static DataDef monitorData[] =
     {
         { "LogLevel", DATA_ULONG, 1, L_ERROR | L_WARN | L_DEBUG },
         { "LogPackets", DATA_STRING, 1, 0 },
-        { "Geometry", DATA_LONG, 4, (unsigned)(-1) },
+        { "Geometry", DATA_LONG, 5, (unsigned)(-1) },
         { "Show", DATA_BOOL, 1, 0 },
         { NULL, 0, 0, 0 }
     };

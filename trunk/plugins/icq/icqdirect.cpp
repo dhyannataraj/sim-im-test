@@ -491,7 +491,7 @@ bool DirectClient::isSecure()
 #ifdef USE_OPENSSL
     return m_ssl && m_ssl->connected();
 #else
-    return false;
+return false;
 #endif
 }
 
@@ -790,10 +790,12 @@ void DirectClient::processPacket()
         for (it = m_queue.begin(); it != m_queue.end(); ++it){
             if ((*it).seq != seq)
                 continue;
-
             if ((*it).msg == NULL){
-                if ((*it).type == PLUGIN_AR)
+                if ((*it).type == PLUGIN_AR){
                     set_str(&m_data->AutoReply, msg_str.c_str());
+                    m_queue.erase(it);
+                    break;
+                }
                 unsigned plugin_index = (*it).type;
                 m_queue.erase(it);
                 switch (plugin_index){

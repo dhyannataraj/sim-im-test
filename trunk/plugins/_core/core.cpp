@@ -176,7 +176,7 @@ typedef struct CoreData
     unsigned	ShowPanel;
     unsigned	ManualStatus;
     unsigned	Invisible;
-    long		geometry[4];
+    long		geometry[5];
     long		toolBarState[7];
     void		*Buttons;
     void		*Menues;
@@ -194,7 +194,7 @@ typedef struct CoreData
     char		*Lang;
     unsigned	ContainerMode;
     unsigned	SendOnEnter;
-    unsigned	containerGeo[4];
+    unsigned	containerGeo[5];
     unsigned	containerBar[7];
     unsigned	ContainerStatusSize;
     char		*Containers;
@@ -228,7 +228,7 @@ static DataDef coreData[] =
         { "ShowPanel", DATA_BOOL, 1, 1 },
         { "ManualStatus", DATA_ULONG, 1, STATUS_ONLINE },
         { "Invisible", DATA_BOOL, 1, 0 },
-        { "Geometry", DATA_LONG, 4, (unsigned)(-1) },
+        { "Geometry", DATA_LONG, 5, (unsigned)(-1) },
         { "ToolBar", DATA_LONG, 7, 0 },
         { "Buttons", DATA_STRLIST, 1, 0 },
         { "Menues", DATA_STRLIST, 1, 0 },
@@ -246,7 +246,7 @@ static DataDef coreData[] =
         { "Lang", DATA_STRING, 1, 0 },
         { "ContainerMode", DATA_ULONG, 1, CONTAINER_GROUP },
         { "SendOnEnter", DATA_BOOL, 1, 0 },
-        { "ContainerGeometry", DATA_ULONG, 4, (unsigned)(-1) },
+        { "ContainerGeometry", DATA_ULONG, 5, (unsigned)(-1) },
         { "ContainerBar", DATA_ULONG, 7, 0 },
         { "ContainerStatusSize", DATA_ULONG, 1, 0 },
         { "Containers", DATA_STRING, 1, 0 },
@@ -298,7 +298,7 @@ static DataDef coreUserData[] =
     {
         { "LogStatus", DATA_BOOL, 1, 0 },
         { "LogMessage", DATA_BOOL, 1, 1 },
-        { "OpenOnReceive", DATA_BOOL, 1, 0 },
+        { "OpenNewMessage", DATA_ULONG, 1, NEW_MSG_MINIMIZE },
         { "OpenOnOnline", DATA_BOOL, 1, 0 },
         { "IncomingPath", DATA_UTF, 1, (unsigned)"Incoming Files" },
         { "AcceptMode", DATA_ULONG, 1, 0 },
@@ -1323,7 +1323,7 @@ void CorePlugin::installTranslator()
 #ifdef USE_KDE
         return;
 #else
-        char *p = getenv("LANG");
+char *p = getenv("LANG");
         if (p){
             for (; *p; p++){
                 if (*p == '.') break;
@@ -1721,7 +1721,9 @@ void *CorePlugin::processEvent(Event *e)
                     }
                     if (contact){
                         CoreUserData *data = (CoreUserData*)(contact->getUserData(user_data_id));
-                        if (data->OpenOnReceive){
+                        if (data->OpenNewMessage){
+                            if (data->OpenNewMessage == NEW_MSG_MINIMIZE)
+                                msg->setFlags(msg->getFlags() | MESSAGE_NORAISE);
                             Event e(EventOpenMessage, msg);
                             e.process();
                         }
@@ -1773,6 +1775,7 @@ void *CorePlugin::processEvent(Event *e)
             QWidgetList  *list = QApplication::topLevelWidgets();
             QWidgetListIt itw(*list);
             QWidget * w;
+            bool bNew = false;
             while ((w = itw.current()) != NULL){
                 if (w->inherits("Container")){
                     container =  static_cast<Container*>(w);
@@ -1805,8 +1808,10 @@ void *CorePlugin::processEvent(Event *e)
                         ++it;
                     }
                     delete list;
-                    if (container == NULL)
+                    if (container == NULL){
                         container = new Container(1);
+                        bNew = true;
+                    }
                 }else if (getContainerMode() == 2){
                     unsigned id = contact->getGroup() + CONTAINER_GRP;
                     QWidgetList  *list = QApplication::topLevelWidgets();
@@ -1822,8 +1827,10 @@ void *CorePlugin::processEvent(Event *e)
                         ++it;
                     }
                     delete list;
-                    if (container == NULL)
+                    if (container == NULL){
                         container = new Container(id);
+                        bNew = true;
+                    }
                 }else{
                     unsigned max_id = 0;
                     QWidgetList  *list = QApplication::topLevelWidgets();
@@ -1841,6 +1848,7 @@ void *CorePlugin::processEvent(Event *e)
                     }
                     delete list;
                     container = new Container(max_id + 1);
+                    bNew = true;
                     if (getContainerMode() == 0)
                         container->setReceived(msg->getFlags() & MESSAGE_RECEIVED);
                 }
@@ -1849,9 +1857,14 @@ void *CorePlugin::processEvent(Event *e)
                 container->raiseUserWnd(userWnd);
             }
             container->setNoSwitch();
-            container->show();
             userWnd->setMessage(msg);
-            raiseWindow(container);
+            if (msg->getFlags() & MESSAGE_NORAISE){
+                if (bNew)
+                    container->showMinimized();
+            }else{
+                container->show();
+                raiseWindow(container);
+            }
             return e->param();
         }
     case EventContactOnline:{

@@ -25,7 +25,7 @@ typedef struct NetMonitorData
 {
     unsigned long	LogLevel;
     char			*LogPackets;
-    long			geometry[4];
+    long			geometry[5];
     unsigned long	Show;
 } NetMonitorData;
 

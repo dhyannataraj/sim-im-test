@@ -111,7 +111,7 @@ static DataDef containerData[] =
         { "Id", DATA_ULONG, 1, 0 },
         { "Windows", DATA_STRING, 1, 0 },
         { "ActiveWindow", DATA_ULONG, 1, 0 },
-        { "Geometry", DATA_ULONG, 4, 0 },
+        { "Geometry", DATA_ULONG, 5, 0 },
         { "BarState", DATA_ULONG, 7, 0 },
         { "StatusSize", DATA_ULONG, 1, 0 },
         { "WndConfig", DATA_STRLIST, 1, 0 },

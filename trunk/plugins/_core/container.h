@@ -41,7 +41,7 @@ typedef struct ContainerData
     unsigned	Id;
     char		*Windows;
     unsigned	ActiveWindow;
-    long		geometry[4];
+    long		geometry[5];
     long		barState[7];
     long		StatusSize;
     void		*WndConfig;

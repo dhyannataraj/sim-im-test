@@ -392,7 +392,9 @@ bool raiseWindow(QWidget *w)
     if (e.process())
         return false;
 #ifdef USE_KDE
-    KWin::setOnDesktop(w->winId(), KWin::currentDesktop());
+    KWin::Info info = KWin::info(w->winId());
+    if (!info.onAllDesktops)
+        KWin::setCurrentDesktop(info.desktop);
 #endif
     w->show();
     w->showNormal();

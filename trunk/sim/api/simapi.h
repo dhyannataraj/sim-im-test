@@ -949,9 +949,10 @@ const int LEFT		= 0;
 const int TOP		= 1;
 const int WIDTH		= 2;
 const int HEIGHT	= 3;
+const int DESKTOP	= 4;
 
-EXPORT void saveGeometry(QWidget*, long[4]);
-EXPORT void restoreGeometry(QWidget*, long[4], bool bPos, bool bSize);
+EXPORT void saveGeometry(QWidget*, long[5]);
+EXPORT void restoreGeometry(QWidget*, long[5], bool bPos, bool bSize);
 EXPORT void saveToolbar(QToolBar*, long[7]);
 EXPORT void restoreToolbar(QToolBar*, long[7]);
 EXPORT bool cmp(char *s1, char *s2);
@@ -991,6 +992,7 @@ const unsigned	MESSAGE_MULTIPLY	= 0x00100000;
 const unsigned	MESSAGE_FORWARD		= 0x00200000;
 const unsigned	MESSAGE_INSERT		= 0x00400000;
 const unsigned	MESSAGE_OPEN		= 0x00800000;
+const unsigned  MESSAGE_NORAISE		= 0x01000000;
 const unsigned	MESSAGE_TEMP		= 0x10000000;
 
 typedef struct MessageData

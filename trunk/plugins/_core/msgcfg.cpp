@@ -29,9 +29,19 @@ MessageConfig::MessageConfig(QWidget *parent, void *_data)
         : MessageConfigBase(parent)
 {
     CoreUserData *data = (CoreUserData*)_data;
-    chkWindow->setChecked((data->OpenOnReceive) != 0);
     chkOnline->setChecked((data->OpenOnOnline) != 0);
     chkStatus->setChecked((data->LogStatus) != 0);
+    switch (data->OpenNewMessage){
+    case NEW_MSG_NOOPEN:
+        btnNoOpen->setChecked(true);
+        break;
+    case NEW_MSG_MINIMIZE:
+        btnMinimize->setChecked(true);
+        break;
+    case NEW_MSG_RAISE:
+        btnRaise->setChecked(true);
+        break;
+    }
     edtPath->setDirMode(true);
     QString incoming = QFile::encodeName(data->IncomingPath ? user_file(data->IncomingPath).c_str() : "");
     edtPath->setText(incoming);
@@ -56,8 +66,7 @@ MessageConfig::MessageConfig(QWidget *parent, void *_data)
 void MessageConfig::apply(void *_data)
 {
     CoreUserData *data = (CoreUserData*)_data;
-    data->OpenOnReceive = chkWindow->isChecked();
-    data->OpenOnOnline  = chkWindow->isChecked();
+    data->OpenOnOnline  = chkOnline->isChecked();
     data->LogStatus     = chkStatus->isChecked();
     QString def;
     if (edtPath->text().isEmpty()) {
@@ -76,6 +85,11 @@ void MessageConfig::apply(void *_data)
         data->AcceptMode = 2;
         set_str(&data->DeclineMessage, edtDecline->text().utf8());
     }
+    data->OpenNewMessage = NEW_MSG_NOOPEN;
+    if (btnMinimize->isOn())
+        data->OpenNewMessage = NEW_MSG_MINIMIZE;
+    if (btnRaise->isOn())
+        data->OpenNewMessage = NEW_MSG_RAISE;
 }
 
 void MessageConfig::acceptClicked(int id)

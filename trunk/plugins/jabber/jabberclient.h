@@ -94,7 +94,7 @@ typedef struct JabberClientData
     unsigned		MaxPort;
     char			*Photo;
     char			*Logo;
-    long			browser_geo[4];
+    long			browser_geo[5];
     long			browser_bar[7];
     char			*BrowserHistory;
     JabberUserData	owner;

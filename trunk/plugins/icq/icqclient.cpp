@@ -2401,8 +2401,15 @@ void *ICQClient::processEvent(Event *e)
         if (ar.bDirect){
             Contact *contact;
             ICQUserData *data = findContact(ar.screen.c_str(), NULL, false, contact);
-            if (data && data->Direct)
-                data->Direct->sendAck((unsigned short)(ar.id.id_l), ar.type, ar.flags, fromUnicode(t->tmpl, data).c_str());
+            if (data && data->Direct){
+                QString answer;
+                if (data->Version >= 10){
+                    answer = t->tmpl.utf8();
+                }else{
+                    answer = fromUnicode(t->tmpl, data).c_str();
+                }
+                data->Direct->sendAck((unsigned short)(ar.id.id_l), ar.type, ar.flags, answer);
+            }
         }else{
             Buffer copy;
             string response;

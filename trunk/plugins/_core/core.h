@@ -51,7 +51,7 @@ typedef struct CoreData
     unsigned	ShowPanel;
     unsigned	ManualStatus;
     unsigned	Invisible;
-    long		geometry[4];
+    long		geometry[5];
     long		toolBarState[7];
     void		*Buttons;
     void		*Menues;
@@ -69,7 +69,7 @@ typedef struct CoreData
     char		*Lang;
     unsigned	ContainerMode;
     unsigned	SendOnEnter;
-    unsigned	containerGeo[4];
+    unsigned	containerGeo[5];
     unsigned	containerBar[7];
     unsigned	ContainerStatusSize;
     char		*Containers;
@@ -111,11 +111,15 @@ const unsigned char SORT_STATUS	= 1;
 const unsigned char SORT_ACTIVE	= 2;
 const unsigned char SORT_NAME	= 3;
 
+const unsigned NEW_MSG_NOOPEN	= 0;
+const unsigned NEW_MSG_MINIMIZE	= 1;
+const unsigned NEW_MSG_RAISE	= 2;
+
 typedef struct CoreUserData
 {
     unsigned	LogStatus;
     unsigned	LogMessage;
-    unsigned	OpenOnReceive;
+    unsigned	OpenNewMessage;
     unsigned	OpenOnOnline;
     char		*IncomingPath;
     unsigned	AcceptMode;
