@@ -38,7 +38,7 @@ protected:
     void mousePressEvent(QMouseEvent*);
     void startGrab();
     void endGrab();
-    void setKey(QKeyEvent*);
+    void setKey(QKeyEvent*, bool bPress);
     bool m_bGrab;
 };
 

@@ -78,7 +78,7 @@ void ShortcutsConfig::loadMenu(unsigned id, bool bCanGlobal)
             if (key)
                 accel = QAccel::keyToString(key);
             QString global;
-            bool bGlobal = s->flags & COMMAND_GLOBAL_ACCEL;
+            bool bGlobal = m_plugin->getOldGlobal(s);
             const char *cfg_global = m_plugin->getGlobal(s->id);
             if (cfg_global && *cfg_global)
                 bGlobal = !bGlobal;

@@ -461,7 +461,7 @@ void IPResolver::start_resolve()
     resolver = new QDns(QHostAddress(htonl(m_addr)), QDns::Ptr);
     connect(resolver, SIGNAL(resultsReady()), this, SLOT(resolve_ready()));
 #else
-    resolver->setLabel(QHostAddress(m_addr));
+    resolver->setLabel(QHostAddress(htonl(m_addr)));
 #endif
 }
 

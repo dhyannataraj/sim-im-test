@@ -77,26 +77,51 @@ void QKeyButton::mousePressEvent(QMouseEvent *e)
 
 void QKeyButton::keyPressEvent(QKeyEvent *e)
 {
-    setKey(e);
+    setKey(e, true);
 }
 
 void QKeyButton::keyReleaseEvent(QKeyEvent *e)
 {
-    setKey(e);
+    setKey(e, false);
 }
 
-void QKeyButton::setKey(QKeyEvent *e)
+void QKeyButton::setKey(QKeyEvent *e, bool bPress)
 {
     if (!m_bGrab) return;
     QStringList btns;
-    ButtonState state = e->state();
+    unsigned state = e->state();
+    unsigned key_state = 0;
     QString keyName;
+    QString name;
+    log(L_DEBUG, "-> %X %X", e->key(), e->state());
+    switch (e->key()){
+    case Key_Shift:
+        key_state = ShiftButton;
+        break;
+    case Key_Control:
+        key_state = ControlButton;
+        break;
+    case Key_Alt:
+        key_state = AltButton;
+        break;
+    case Key_Meta:
+        key_state = MetaButton;
+        break;
+    default:
+        name = QAccel::keyToString(e->key());
+        if ((name[0] == '<') && (name[(int)(name.length()-1)] == '>'))
+            return;
+    }
+    if (bPress){
+	    state |= key_state;
+    }else{
+	    state &= ~key_state;
+    }
     if (state & AltButton) keyName += "Alt+";
     if (state & ControlButton) keyName += "Ctrl+";
     if (state & ShiftButton) keyName += "Shift+";
-    QString name = QAccel::keyToString(e->key());
-    if ((name[0] == '<') && (name[(int)(name.length()-1)] == '>'))
-        return;
+    if (state & MetaButton) keyName += "Meta+";
+
     setText(keyName + name);
     if (name.length()){
         endGrab();

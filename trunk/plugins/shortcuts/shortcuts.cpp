@@ -79,10 +79,8 @@ static DataDef shortcutsData[] =
 
 void GlobalKey::execute()
 {
-    log(L_DEBUG, "Execute %u", m_cmd.id);
     Event e(EventCommandExec, &m_cmd);
     e.process();
-    log(L_DEBUG, "Execute OK");
 }
 
 list<GlobalKey*> *globalKeys = NULL;
@@ -250,16 +248,17 @@ LRESULT CALLBACK keysWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 GlobalKey::GlobalKey(CommandDef *cmd)
 {
+    m_cmd = *cmd;
 #if QT_VERSION >= 300
-    int keys = QAccel::stringToKey(cmd->accel);
-    log(L_DEBUG, "Key %s %u", cmd->accel, keys);
-    if (keys){
+    QKeySequence keys = QAccel::stringToKey(cmd->accel);
+    if (!keys.isEmpty()){
         string shortName = "sim_";
         shortName += number(cmd->id);
         accel = new KGlobalAccel(this);
         accel->insert(shortName.c_str(),
                       i18n(cmd->text), i18n(cmd->text),
                       keys, keys, this, SLOT(execute()));
+	accel->updateConnections();
     }
 #else
     accel = new KGlobalAccel(this);
@@ -431,8 +430,8 @@ ShortcutsPlugin::ShortcutsPlugin(unsigned base, const char *config)
     m_bInit = false;
     init();
 #else
-#ifndef USE_KDE
     applyKeys();
+#ifndef USE_KDE
     oldFilter = qt_set_x11_event_filter(X11EventFilter);
 #endif
 #endif

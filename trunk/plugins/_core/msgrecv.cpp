@@ -202,16 +202,14 @@ void CmdButton::paintEvent(QPaintEvent*)
     QPixmap pict(width(), height());
     QPainter p(&pict);
     QWidget *pw;
-    for (pw = parentWidget(); pw; pw = pw->parentWidget())
-        if (pw->inherits("QToolBar"))
-            break;
-    if (pw){
+    for (pw = parentWidget(); pw; pw = pw->parentWidget()){
         if (pw->backgroundPixmap()){
             p.drawTiledPixmap(0, 0, width(), height(), *pw->backgroundPixmap(), x(), y());
-        }else{
-            p.fillRect(0, 0, width(), height(), colorGroup().button());
+	    break;
         }
     }
+    if (pw == NULL)
+    	p.fillRect(0, 0, width(), height(), colorGroup().button());
 #if QT_VERSION < 300
     style().drawToolButton(this, &p);
 #else
