@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: 0.8.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-05 15:33+0200\n"
-"PO-Revision-Date: 2004-10-08 23:59+0100\n"
+"PO-Revision-Date: 2004-10-09 00:46+0100\n"
 "Last-Translator: \n"
 "Language-Team: Français <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2951,7 +2951,7 @@ msgstr "Actions"
 
 #: plugins/action/action.cpp:34
 msgid "Plugin execute external programs on event or from contact menu"
-msgstr "Ce plugin exécute des programmes externes lors d'évènements ou à partir du menu de contact."
+msgstr "Ce plugin permet l'exécution de programmes externes lors d'évènements ou à partir du menu de contact."
 
 # ui/keysetup.cpp:33
 #: plugins/action/action.cpp:84
@@ -3261,7 +3261,7 @@ msgstr "&Filtre"
 
 #: plugins/filter/filter.cpp:38
 msgid "Plugin provides message filter"
-msgstr ""
+msgstr "Ce plugin permet "
 
 # ui/listsec.cpp:131
 # ui/setupdlg.cpp:150
@@ -3346,9 +3346,8 @@ msgstr "Flottant déactivé"
 # msgedit.cpp:126
 # ui/smssetupbase.cpp:82
 #: plugins/forward/forward.cpp:31
-#, fuzzy
 msgid "Forward"
-msgstr "&Faire suivre"
+msgstr "Faire suivre"
 
 #: plugins/forward/forward.cpp:32
 msgid "Plugin provides messages forwarding on cellular"
@@ -3374,7 +3373,7 @@ msgstr ""
 
 #: plugins/gpg/gpg.cpp:53
 msgid "GPG"
-msgstr ""
+msgstr "GPG"
 
 #: plugins/gpg/gpg.cpp:54
 msgid "Plugin adds GnuPG encryption/decryption support for messages"
