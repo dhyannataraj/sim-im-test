@@ -431,6 +431,8 @@ i18n("weather", "High")
 i18n("weather", "Showers in the Vicinity")
 i18n("weather", "Waning Crescent")
 i18n("weather", "Waxing Crescent")
+i18n("weather", "Waxing Gibbous")
+i18n("weather", "Waning Gibbous")
 #endif
 
 static QString i18n_conditions(const QString &str)
