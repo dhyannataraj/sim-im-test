@@ -832,12 +832,13 @@ QClientSocket::QClientSocket(QSocket *s)
     if (sock == NULL)
 #if HAVE_KEXTSOCK_H
         sock = new KExtendedSocket;
-    sock->setBlockingMode(false);
+    sock->setSocketFlags(KExtendedSocket::outputBufferedSocket );
 #else
         sock = new QSocket(this);
 #endif
 #ifdef HAVE_KEXTSOCK_H
     QObject::connect(sock, SIGNAL(connectionSuccess()), this, SLOT(slotConnected()));
+    QObject::connect(sock, SIGNAL(lookupFinished(int)), this, SLOT(slotLookupFinished(int)));    
     QObject::connect(sock, SIGNAL(connectionFailed(int)), this, SLOT(slotError(int)));
     QObject::connect(sock, SIGNAL(closed(int)), this, SLOT(slotError(int)));
 #else
@@ -868,17 +869,23 @@ void QClientSocket::close()
 #endif
 }
 
+void QClientSocket::slotLookupFinished(int state)
+{
+    log(L_DEBUG, "Lookup finished %u", state);
+}
+
 int QClientSocket::read(char *buf, unsigned int size)
 {
+    int n = sock->bytesAvailable();
     int res = sock->readBlock(buf, size);
     if (res < 0){
-
 #ifdef HAVE_KEXTSOCK_H
-        if (errno == EWOULDBLOCK)
+        if ((errno == EWOULDBLOCK) || (errno == 0))
             return 0;
-
 #endif
+	log(L_DEBUG, "QClientSocket::read error %u", errno);
         if (notify) notify->error_state(ErrorRead);
+	return -1;
     }
     return res;
 }
@@ -901,7 +908,14 @@ void QClientSocket::connect(const char *host, int port)
     log(L_DEBUG, "Connect to %s:%u", host, port);
 #ifdef HAVE_KEXTSOCK_H
     sock->setAddress(host, port);
-    sock->startAsyncConnect();
+    if (sock->lookup() < 0){
+	log(L_WARN, "Can't lookup");
+	if (notify) notify->error_state(ErrorConnect);
+    }
+    if (sock->startAsyncConnect() < 0){
+	log(L_WARN, "Can't connect");
+	if (notify) notify->error_state(ErrorConnect);
+    }
 #else
     sock->connectToHost(host, port);
 #endif
@@ -928,7 +942,7 @@ void QClientSocket::slotReadReady()
     if (notify) notify->read_ready();
 }
 
-void QClientSocket::slotBytesWritten(int)
+void QClientSocket::slotBytesWritten(int n)
 {
     slotBytesWritten();
 }

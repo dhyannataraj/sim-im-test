@@ -75,6 +75,7 @@ protected slots:
     void slotBytesWritten(int);
     void slotBytesWritten();
     void slotError(int);
+    void slotLookupFinished(int);
 protected:
 #ifdef HAVE_KEXTSOCK_H
     KExtendedSocket *sock;
