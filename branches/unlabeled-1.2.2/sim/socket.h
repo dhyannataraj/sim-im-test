@@ -206,6 +206,7 @@ protected:
 
 EXPORT string md5(const char*, int size = -1);
 EXPORT string sha1(const char*, int size = -1);
+EXPORT string sha1(const char *str, int size, int first, int lo);
 
 class EXPORT SSLClient : public SocketNotify, public Socket
 {

@@ -96,6 +96,10 @@ SOURCE=.\crypt.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\md5.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\moc_yahoocfg.cpp
 # End Source File
 # Begin Source File
@@ -121,6 +125,10 @@ SOURCE=.\moc_yahoosearch.cpp
 # Begin Source File
 
 SOURCE=.\moc_yahoosearchbase.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sha.c
 # End Source File
 # Begin Source File
 
@@ -170,6 +178,14 @@ SOURCE=.\yahootransformtables.c
 # Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
+# Begin Source File
+
+SOURCE=.\md5.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\sha.h
+# End Source File
 # Begin Source File
 
 SOURCE=.\yahoo.h

@@ -452,6 +452,22 @@ string SIM::sha1(const char *str, int size)
     return res;
 }
 
+string SIM::sha1(const char *str, int size, int first, int lo)
+{
+    unsigned char digest[20];
+    SHA_CTX ctx;
+    if (size < 0)
+        size = strlen(str);
+    SHA1_Init(&ctx);
+    SHA1_Update(&ctx, str, first);
+	ctx.Nl = lo;
+	SHA1_Update(&ctx, str + first, size - first);
+    SHA1_Final(digest, &ctx);
+    string res;
+    res.append((char*)digest, sizeof(digest));
+    return res;
+}
+
 #endif
 
 

@@ -128,6 +128,8 @@ static BOOL (WINAPI *_InternetQueryOption)(HINTERNET hInternet, DWORD dwOption,
         LPVOID lpBuffer, LPDWORD lpdwBufferLength);
 static BOOL (WINAPI *_HttpEndRequest)(HINTERNET hRequest, LPINTERNET_BUFFERS lpBuffersOut,
                                       DWORD dwFlags, DWORD dwContext);
+static DWORD (WINAPI *_InternetErrorDlg)(HWND hWnd, HINTERNET hRequest, DWORD dwError,
+		DWORD dwFlags, LPVOID * lppvData);
 
 static HINTERNET hInet = NULL;
 
@@ -243,6 +245,7 @@ void FetchThread::run()
     b.packetStart();
     b << verb << " " << uri.c_str() << " HTTP/1.0\r\n" << headers.c_str() << "\r\n";
     log_packet(b, true, HTTPPacket);
+	for (;;){
     if (postSize != NO_POSTSIZE){
         INTERNET_BUFFERSA BufferIn;
         memset(&BufferIn, 0, sizeof(BufferIn));
@@ -255,9 +258,10 @@ void FetchThread::run()
             error("HttpSendRequestEx");
             return;
         }
-        while (postSize){
+		unsigned size = postSize;
+        while (size){
             char buff[4096];
-            unsigned tail = postSize;
+            unsigned tail = size;
             if (tail > sizeof(buff))
                 tail = sizeof(buff);
             const char *data = m_client->m_client->read_data(buff, tail);
@@ -285,7 +289,7 @@ void FetchThread::run()
                     return;
                 }
             }
-            postSize -= tail;
+            size -= tail;
         }
         if (m_bClose)
             return;
@@ -299,6 +303,20 @@ void FetchThread::run()
             return;
         }
     }
+	DWORD dwCode;
+	DWORD dwSize = sizeof(dwCode);
+	_HttpQueryInfo (hReq, HTTP_QUERY_STATUS_CODE | HTTP_QUERY_FLAG_NUMBER, &dwCode, &dwSize, NULL);
+	if (dwCode != HTTP_STATUS_PROXY_AUTH_REQ) 
+		break;
+	DWORD res = _InternetErrorDlg (GetDesktopWindow(),
+      hReq, ERROR_INTERNET_INCORRECT_PASSWORD,
+      FLAGS_ERROR_UI_FILTER_FOR_ERRORS |
+      FLAGS_ERROR_UI_FLAGS_GENERATE_DATA |
+      FLAGS_ERROR_UI_FLAGS_CHANGE_OPTIONS, NULL);
+	if (res != ERROR_INTERNET_FORCE_RETRY)
+		break;
+	}
+
     DWORD size = 0;
     DWORD err  = 0;
     _HttpQueryInfo(hReq, HTTP_QUERY_RAW_HEADERS_CRLF, NULL, &size, 0);
@@ -488,6 +506,7 @@ FetchManager::FetchManager()
         (DWORD&)_InternetReadFile = (DWORD)GetProcAddress(hLib, "InternetReadFile");
         (DWORD&)_InternetWriteFile = (DWORD)GetProcAddress(hLib, "InternetWriteFile");
         (DWORD&)_InternetQueryOption = (DWORD)GetProcAddress(hLib, "InternetQueryOptionA");
+        (DWORD&)_InternetErrorDlg = (DWORD)GetProcAddress(hLib, "InternetErrorDlg");
     }
     if (_InternetOpen && _HttpSendRequestEx){
         hInet = _InternetOpen(user_agent.c_str(), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
