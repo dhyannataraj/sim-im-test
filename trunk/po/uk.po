@@ -1,4 +1,3 @@
-# translation of uk.po to 
 # translation of uk.po to Ukrainian
 # translation of uk.po to Український
 # Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
@@ -29,7 +28,8 @@ msgstr "Модуль вказує каталог, в якому будуть з�
 msgid "Set home directory"
 msgstr "Встановити домашній каталог"
 
-#: plugins/__homedir/homedircfgbase.cpp:121 plugins/_core/arcfgbase.cpp:137 plugins/_core/filecfgbase.cpp:145 plugins/_core/historycfgbase.cpp:225 plugins/_core/interfacecfgbase.cpp:153 plugins/_core/maininfobase.cpp:245 plugins/_core/msgcfgbase.cpp:114 plugins/_core/phonebase.cpp:144 plugins/_core/plugincfgbase.cpp:101 plugins/_core/prefcfgbase.cpp:96 plugins/_core/smscfgbase.cpp:95 plugins/_core/userhistorycfgbase.cpp:122 plugins/action/actioncfgbase.cpp:120 plugins/action/menucfgbase.cpp:126 plugins/autoaway/autoawaycfgbase.cpp:133 plugins/background/bkgndcfgbase.cpp:172 plugins/dock/dockcfgbase.cpp:122 plugins/filter/filtercfgbase.cpp:96 plugins/forward/forwardcfgbase.cpp:101 plugins/gpg/gpgadvbase.cpp:155 plugins/gpg/gpgcfgbase.cpp:164 plugins/gpg/gpguserbase.cpp:98 plugins/icons/iconcfgbase.cpp:104 plugins/icq/advsearchbase.cc:276 plugins/icq/aimconfigbase.cc:174 plugins/icq/aiminfobase.cc:286 plugins/icq/aimsearchbase.cc:192 plugins/icq/homeinfobase.cc:174 plugins/icq/icqconfigbase.cc:293 plugins/icq/icqpicturebase.cc:133 plugins/icq/icqsearchbase.cc:184 plugins/icq/icqsecurebase.cc:165 plugins/icq/pastinfobase.cc:169 plugins/jabber/infoproxybase.cpp:86 plugins/jabber/jabberconfigbase.cpp:352 plugins/jabber/jabberinfobase.cpp:297 plugins/jabber/jabberpicturebase.cpp:133 plugins/jabber/jabberworkinfobase.cpp:119 plugins/jabber/jidadvsearchbase.cpp:94 plugins/jabber/jidsearchbase.cpp:133 plugins/livejournal/journalsearchbase.cpp:95 plugins/livejournal/livejournalcfgbase.cpp:207 plugins/livejournal/msgjournalbase.cpp:112 plugins/logger/logconfigbase.cpp:126 plugins/msn/msninfobase.cpp:160 plugins/msn/msnsearchbase.cpp:130 plugins/navigate/navcfgbase.cc:99 plugins/ontop/ontopcfgbase.cpp:88 plugins/osd/osdconfigbase.cpp:139 plugins/proxy/proxycfgbase.cpp:161 plugins/remote/remotecfgbase.cpp:134 plugins/replace/replacecfgbase.cpp:111 plugins/shortcuts/mousecfgbase.cpp:108 plugins/shortcuts/shortcutcfgbase.cpp:138 plugins/sound/soundconfigbase.cpp:155 plugins/sound/sounduserbase.cpp:121 plugins/styles/fontconfigbase.cpp:158 plugins/styles/stylescfgbase.cpp:83 plugins/transparent/transparentcfgbase.cpp:101 plugins/weather/weathercfgbase.cpp:168 plugins/weather/wifacecfgbase.cpp:139 plugins/yahoo/yahooinfobase.cpp:183 plugins/yahoo/yahoosearchbase.cpp:156
+#: plugins/__homedir/homedircfgbase.cpp:121 plugins/_core/arcfgbase.cpp:137 plugins/_core/filecfgbase.cpp:145 plugins/_core/historycfgbase.cpp:225 plugins/_core/interfacecfgbase.cpp:153 plugins/_core/maininfobase.cpp:245 plugins/_core/msgcfgbase.cpp:114 plugins/_core/phonebase.cpp:144 plugins/_core/plugincfgbase.cpp:101 plugins/_core/prefcfgbase.cpp:96 plugins/_core/smscfgbase.cpp:95 plugins/_core/userhistorycfgbase.cpp:122 plugins/action/actioncfgbase.cpp:120 plugins/action/menucfgbase.cpp:126 plugins/autoaway/autoawaycfgbase.cpp:133 plugins/background/bkgndcfgbase.cpp:172 plugins/dock/dockcfgbase.cpp:122 plugins/filter/filtercfgbase.cpp:96 plugins/forward/forwardcfgbase.cpp:101 plugins/gpg/gpgadvbase.cpp:155 plugins/gpg/gpgcfgbase.cpp:164 plugins/gpg/gpguserbase.cpp:98 plugins/icons/iconcfgbase.cpp:104 plugins/icq/advsearchbase.cc:276 plugins/icq/aimconfigbase.cc:174 plugins/icq/aiminfobase.cc:286 plugins/icq/aimsearchbase.cc:192 plugins/icq/homeinfobase.cc:174 plugins/icq/icqconfigbase.cc:293 plugins/icq/icqpicturebase.cc:133 plugins/icq/icqsearchbase.cc:184 plugins/icq/icqsecurebase.cc:165 plugins/icq/pastinfobase.cc:169 plugins/jabber/infoproxybase.cpp:86 plugins/jabber/jabberconfigbase.cpp:352 plugins/jabber/jabberinfobase.cpp:297 plugins/jabber/jabberpicturebase.cpp:133 plugins/jabber/jabberworkinfobase.cpp:119 plugins/jabber/jidadvsearchbase.cpp:94 plugins/jabber/jidsearchbase.cpp:133 plugins/livejournal/journalsearchbase.cpp:95 plugins/livejournal/livejournalcfgbase.cpp:207 plugins/livejournal/msgjournalbase.cpp:112 plugins/logger/logconfigbase.cpp:126 plugins/msn/msninfobase.cpp:160 plugins/msn/msnsearchbase.cpp:130 plugins/navigate/navcfgbase.cc:99 plugins/ontop/ontopcfgbase.cpp:88 plugins/osd/osdconfigbase.cpp:139 plugins/proxy/proxycfgbase.cpp:161 plugins/remote/remotecfgbase.cpp:134 plugins/replace/replacecfgbase.cpp:111 plugins/shortcuts/mousecfgbase.cpp:108 plugins/shortcuts/shortcutcfgbase.cpp:138 plugins/sound/soundconfigbase.cpp:155 plugins/sound/sounduserbase.cpp:121 plugins/styles/fontconfigb
+ase.cpp:158 plugins/styles/stylescfgbase.cpp:83 plugins/transparent/transparentcfgbase.cpp:101 plugins/weather/weathercfgbase.cpp:168 plugins/weather/wifacecfgbase.cpp:139 plugins/yahoo/yahooinfobase.cpp:183 plugins/yahoo/yahoosearchbase.cpp:156
 msgid "Form1"
 msgstr "Домашня"
 
@@ -8414,126 +8414,3 @@ msgstr "Розкрутити"
 #: xpstyle/xpstyle.cpp:63
 msgid "Windows XP style"
 msgstr "Стиль Windows XP"
-
-#~ msgid "Last name"
-#~ msgstr "Прізвище"
-
-#~ msgid "Close after %n second"
-#~ msgstr "Закрити після %n секунд"
-
-#~ msgid "URL"
-#~ msgstr "URL"
-
-#~ msgid "Authorize request"
-#~ msgstr "Запит авторизації"
-
-#~ msgid "Authorization granted"
-#~ msgstr "Авторизація підтверджена"
-
-#~ msgid "Authorization refused"
-#~ msgstr "Авторизація відмовлена"
-
-#~ msgid "Add to contacts"
-#~ msgstr "Додати до контактів"
-
-#~ msgid "Removed from contacts"
-#~ msgstr "Знищити з контактів"
-
-#~ msgid "%n contact found"
-#~ msgstr "%n контакт знайдено"
-
-#~ msgid "Last name:"
-#~ msgstr "Прізвище:"
-
-#~ msgid "%n GPG key"
-#~ msgstr "%n GPG ключ"
-
-#~ msgid "%n file"
-#~ msgstr "%n файл"
-
-#~ msgid "WWW-panel message"
-#~ msgstr "WWW-панель повідомлення"
-
-#~ msgid "Email pager message"
-#~ msgstr "Email пейджер повідомлення"
-
-#~ msgid "Contact request"
-#~ msgstr "Запит контакту"
-
-#~ msgid "%n day"
-#~ msgstr "%n день"
-
-#~ msgid "LiveJournal post"
-#~ msgstr "Запис в LiveJournal"
-
-#~ msgid "You have %n unread message"
-#~ msgstr "Вам надійшло %n непрочитаних повідомлень"
-
-#~ msgid "weather"
-#~ msgstr "погода"
-
-#~ msgid "Smiles:"
-#~ msgstr "Смайлики:"
-
-#~ msgid "Jabber agents are available online after login"
-#~ msgstr "Агенти Jabber доступні тільки після входу в мережу"
-
-#~ msgid "Registered agents:"
-#~ msgstr "Зареєстровані агенти:"
-
-#~ msgid "Log &On"
-#~ msgstr "Ввійти &в мережу"
-
-#~ msgid "Log O&ff"
-#~ msgstr "Вийти &з мережі"
-
-#~ msgid "&Unregister"
-#~ msgstr "&Розреєстрація"
-
-#~ msgid "&Registered agents"
-#~ msgstr "&Зареєстровані агенти"
-
-#~ msgid "&Agents"
-#~ msgstr "&Агенти"
-
-#~ msgid "Select smiles"
-#~ msgstr "Виберіть смайлики"
-
-#~ msgid "*.msl *.xep|Smiles"
-#~ msgstr "*.msl *.xep|Смайлики"
-
-#~ msgid "Smiles (*.msl *.xep)"
-#~ msgstr "Смайлики (*.msl *.xep)"
-
-#~ msgid "Get more smiles"
-#~ msgstr "Дістати більше смайликів"
-
-#~ msgid "*.dll|Icons themes"
-#~ msgstr "*.dll|Іконки"
-
-#~ msgid "Icons themes (*.dll)"
-#~ msgstr "Іконки (*.dll)"
-
-#~ msgid "Get more icons themes"
-#~ msgstr "Дістати більше тем іконок"
-
-#~ msgid "Smiles"
-#~ msgstr "Смайлики"
-
-#~ msgid "Icons for protocol:"
-#~ msgstr "Іконки для протоколу:"
-
-#~ msgid "Wood"
-#~ msgstr "Дерево"
-
-#~ msgid ""
-#~ "_: %1 wrote:\n"
-#~ "female"
-#~ msgstr ""
-#~ "написала:\n"
-#~ "%1 написали:\n"
-#~ "%1 написали:"
-
-#~ msgid "%1 wrote:"
-#~ msgstr "%1 написав:"
-

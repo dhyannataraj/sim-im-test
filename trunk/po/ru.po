@@ -1,10 +1,5 @@
 # translation of ru.po to Russian
 # translation of ru.po to Русский
-# translation of ru.po to
-# translation of ru.po to
-# translation of ru.po to
-# translation of ru.po to
-# translation of ru.po to
 # Copyright (C) 2002 Free Software Foundation, Inc., 2002,2003, 2004
 # Vladimir Shutoff <vovan@shutoff.ru>, 2002,2003, 2004.
 # Albert R. Valiev <darkstar@altlinux.ru>, 2003.
@@ -44,7 +39,8 @@ msgstr "Установить домашний каталог"
 # ui/smssetupbase.cpp:30 ui/soundsetupbase.cpp:91 ui/spellsetupbase.cpp:63
 # ui/statussetupbase.cpp:63 ui/themesetupbase.cpp:65 ui/userinfobase.cpp:92
 # ui/xosdbase.cpp:94
-#: plugins/__homedir/homedircfgbase.cpp:121 plugins/_core/arcfgbase.cpp:137 plugins/_core/filecfgbase.cpp:145 plugins/_core/historycfgbase.cpp:225 plugins/_core/interfacecfgbase.cpp:153 plugins/_core/maininfobase.cpp:245 plugins/_core/msgcfgbase.cpp:114 plugins/_core/phonebase.cpp:144 plugins/_core/plugincfgbase.cpp:101 plugins/_core/prefcfgbase.cpp:96 plugins/_core/smscfgbase.cpp:95 plugins/_core/userhistorycfgbase.cpp:122 plugins/action/actioncfgbase.cpp:120 plugins/action/menucfgbase.cpp:126 plugins/autoaway/autoawaycfgbase.cpp:133 plugins/background/bkgndcfgbase.cpp:172 plugins/dock/dockcfgbase.cpp:122 plugins/filter/filtercfgbase.cpp:96 plugins/forward/forwardcfgbase.cpp:101 plugins/gpg/gpgadvbase.cpp:155 plugins/gpg/gpgcfgbase.cpp:164 plugins/gpg/gpguserbase.cpp:98 plugins/icons/iconcfgbase.cpp:104 plugins/icq/advsearchbase.cc:276 plugins/icq/aimconfigbase.cc:174 plugins/icq/aiminfobase.cc:286 plugins/icq/aimsearchbase.cc:192 plugins/icq/homeinfobase.cc:174 plugins/icq/icqconfigbase.cc:293 plugins/icq/icqpicturebase.cc:133 plugins/icq/icqsearchbase.cc:184 plugins/icq/icqsecurebase.cc:165 plugins/icq/pastinfobase.cc:169 plugins/jabber/infoproxybase.cpp:86 plugins/jabber/jabberconfigbase.cpp:352 plugins/jabber/jabberinfobase.cpp:297 plugins/jabber/jabberpicturebase.cpp:133 plugins/jabber/jabberworkinfobase.cpp:119 plugins/jabber/jidadvsearchbase.cpp:94 plugins/jabber/jidsearchbase.cpp:133 plugins/livejournal/journalsearchbase.cpp:95 plugins/livejournal/livejournalcfgbase.cpp:207 plugins/livejournal/msgjournalbase.cpp:112 plugins/logger/logconfigbase.cpp:126 plugins/msn/msninfobase.cpp:160 plugins/msn/msnsearchbase.cpp:130 plugins/navigate/navcfgbase.cc:99 plugins/ontop/ontopcfgbase.cpp:88 plugins/osd/osdconfigbase.cpp:139 plugins/proxy/proxycfgbase.cpp:161 plugins/remote/remotecfgbase.cpp:134 plugins/replace/replacecfgbase.cpp:111 plugins/shortcuts/mousecfgbase.cpp:108 plugins/shortcuts/shortcutcfgbase.cpp:138 plugins/sound/soundconfigbase.cpp:155 plugins/sound/sounduserbase.cpp:121 plugins/styles/fontconfigbase.cpp:158 plugins/styles/stylescfgbase.cpp:83 plugins/transparent/transparentcfgbase.cpp:101 plugins/weather/weathercfgbase.cpp:168 plugins/weather/wifacecfgbase.cpp:139 plugins/yahoo/yahooinfobase.cpp:183 plugins/yahoo/yahoosearchbase.cpp:156
+#: plugins/__homedir/homedircfgbase.cpp:121 plugins/_core/arcfgbase.cpp:137 plugins/_core/filecfgbase.cpp:145 plugins/_core/historycfgbase.cpp:225 plugins/_core/interfacecfgbase.cpp:153 plugins/_core/maininfobase.cpp:245 plugins/_core/msgcfgbase.cpp:114 plugins/_core/phonebase.cpp:144 plugins/_core/plugincfgbase.cpp:101 plugins/_core/prefcfgbase.cpp:96 plugins/_core/smscfgbase.cpp:95 plugins/_core/userhistorycfgbase.cpp:122 plugins/action/actioncfgbase.cpp:120 plugins/action/menucfgbase.cpp:126 plugins/autoaway/autoawaycfgbase.cpp:133 plugins/background/bkgndcfgbase.cpp:172 plugins/dock/dockcfgbase.cpp:122 plugins/filter/filtercfgbase.cpp:96 plugins/forward/forwardcfgbase.cpp:101 plugins/gpg/gpgadvbase.cpp:155 plugins/gpg/gpgcfgbase.cpp:164 plugins/gpg/gpguserbase.cpp:98 plugins/icons/iconcfgbase.cpp:104 plugins/icq/advsearchbase.cc:276 plugins/icq/aimconfigbase.cc:174 plugins/icq/aiminfobase.cc:286 plugins/icq/aimsearchbase.cc:192 plugins/icq/homeinfobase.cc:174 plugins/icq/icqconfigbase.cc:293 plugins/icq/icqpicturebase.cc:133 plugins/icq/icqsearchbase.cc:184 plugins/icq/icqsecurebase.cc:165 plugins/icq/pastinfobase.cc:169 plugins/jabber/infoproxybase.cpp:86 plugins/jabber/jabberconfigbase.cpp:352 plugins/jabber/jabberinfobase.cpp:297 plugins/jabber/jabberpicturebase.cpp:133 plugins/jabber/jabberworkinfobase.cpp:119 plugins/jabber/jidadvsearchbase.cpp:94 plugins/jabber/jidsearchbase.cpp:133 plugins/livejournal/journalsearchbase.cpp:95 plugins/livejournal/livejournalcfgbase.cpp:207 plugins/livejournal/msgjournalbase.cpp:112 plugins/logger/logconfigbase.cpp:126 plugins/msn/msninfobase.cpp:160 plugins/msn/msnsearchbase.cpp:130 plugins/navigate/navcfgbase.cc:99 plugins/ontop/ontopcfgbase.cpp:88 plugins/osd/osdconfigbase.cpp:139 plugins/proxy/proxycfgbase.cpp:161 plugins/remote/remotecfgbase.cpp:134 plugins/replace/replacecfgbase.cpp:111 plugins/shortcuts/mousecfgbase.cpp:108 plugins/shortcuts/shortcutcfgbase.cpp:138 plugins/sound/soundconfigbase.cpp:155 plugins/sound/sounduserbase.cpp:121 plugins/styles/fontconfigb
+ase.cpp:158 plugins/styles/stylescfgbase.cpp:83 plugins/transparent/transparentcfgbase.cpp:101 plugins/weather/weathercfgbase.cpp:168 plugins/weather/wifacecfgbase.cpp:139 plugins/yahoo/yahooinfobase.cpp:183 plugins/yahoo/yahoosearchbase.cpp:156
 msgid "Form1"
 msgstr "Домашняя"
 
@@ -9720,118 +9716,3 @@ msgstr ""
 #: xpstyle/xpstyle.cpp:63
 msgid "Windows XP style"
 msgstr "Стиль XP"
-
-# ui/maininfobase.cpp:95 ui/searchbase.cpp:210
-#~ msgid "Last name"
-#~ msgstr "Фамилия"
-
-# msgedit.cpp:211
-#, fuzzy
-#~ msgid "Close after %n second"
-#~ msgstr "&Закрыть после отправки"
-
-# ui/soundsetupbase.cpp:133
-#, fuzzy
-#~ msgid "URL"
-#~ msgstr "&URL"
-
-# msgview.cpp:159
-#, fuzzy
-#~ msgid "Authorize request"
-#~ msgstr "Запрос &авторизации"
-
-# msgview.cpp:159
-#, fuzzy
-#~ msgid "Authorization granted"
-#~ msgstr "Запрос &авторизации"
-
-# msgview.cpp:159
-#, fuzzy
-#~ msgid "Authorization refused"
-#~ msgstr "Запрос &авторизации"
-
-# mainwin.cpp:2362
-#, fuzzy
-#~ msgid "Add to contacts"
-#~ msgstr "Нет контакта"
-
-#, fuzzy
-#~ msgid "Removed from contacts"
-#~ msgstr "&Удалить из журнала"
-
-# mainwin.cpp:2362
-#, fuzzy
-#~ msgid "%n contact found"
-#~ msgstr "Нет контактов для отправки"
-
-# ui/maininfobase.cpp:95 ui/searchbase.cpp:210
-#~ msgid "Last name:"
-#~ msgstr "Фамилия:"
-
-#, fuzzy
-#~ msgid "%n GPG key"
-#~ msgstr "GnuPG ключ"
-
-# msgedit.cpp:648
-#, fuzzy
-#~ msgid "%n file"
-#~ msgstr "Передача файла"
-
-# control.cpp:190
-#, fuzzy
-#~ msgid "WWW-panel message"
-#~ msgstr "&Открыть сообщение"
-
-# ui/maininfobase.cpp:221
-#, fuzzy
-#~ msgid "Email pager message"
-#~ msgstr "EMail Пейджер"
-
-# msgview.cpp:187
-#, fuzzy
-#~ msgid "Contact request"
-#~ msgstr "Запрос списка контактов"
-
-# libicq/country.cpp:216
-#, fuzzy
-#~ msgid "%n day"
-#~ msgstr "Понедельник"
-
-#, fuzzy
-#~ msgid "LiveJournal post"
-#~ msgstr "&Запись в живой журнал"
-
-#, fuzzy
-#~ msgid "You have %n unread message"
-#~ msgstr "Вам пришло письмо"
-
-# libicq/country.cpp:406 libicq/country.cpp:452
-#, fuzzy
-#~ msgid "weather"
-#~ msgstr "Погода"
-
-#~ msgid "Smiles:"
-#~ msgstr "Смайлики:"
-
-#~ msgid "Jabber agents are available online after login"
-#~ msgstr "Агенты Jabber доступны только после входа в сеть"
-
-#~ msgid "Registered agents:"
-#~ msgstr "Зарегистрированные агенты:"
-
-# passwddlg.cpp:48
-#~ msgid "Log &On"
-#~ msgstr "Войти в &сеть"
-
-#~ msgid "Log O&ff"
-#~ msgstr "В&ыйти из сети"
-
-# ui/logindlgbase.cpp:87
-#~ msgid "&Unregister"
-#~ msgstr "Удалить &регистрацию"
-
-#~ msgid "&Registered agents"
-#~ msgstr "&Зарегистрированные агенты"
-
-#~ msgid "&Agents"
-#~ msgstr "&Агенты"

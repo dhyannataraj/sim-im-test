@@ -1,8 +1,9 @@
 # translation of nl.po to Dutch
-# translation of nl.po to dutch
 # Copyright (C) 2002 Free Software Foundation, Inc.
 # Arend van Beelen jr. <junior@vergeetalles.nl>, 2002
-#
+
+# Try with Mail-Address: <arend@auton.nl>, 2004, found by Noragen
+
 # Email adress from Arend van Beelen jr. is out of date and so there is no
 # translator for dutch :-(
 # Christian, 17.04.2004
@@ -33,7 +34,8 @@ msgstr ""
 msgid "Set home directory"
 msgstr "Gebruiker zoeken"
 
-#: plugins/__homedir/homedircfgbase.cpp:121 plugins/_core/arcfgbase.cpp:137 plugins/_core/filecfgbase.cpp:145 plugins/_core/historycfgbase.cpp:225 plugins/_core/interfacecfgbase.cpp:153 plugins/_core/maininfobase.cpp:245 plugins/_core/msgcfgbase.cpp:114 plugins/_core/phonebase.cpp:144 plugins/_core/plugincfgbase.cpp:101 plugins/_core/prefcfgbase.cpp:96 plugins/_core/smscfgbase.cpp:95 plugins/_core/userhistorycfgbase.cpp:122 plugins/action/actioncfgbase.cpp:120 plugins/action/menucfgbase.cpp:126 plugins/autoaway/autoawaycfgbase.cpp:133 plugins/background/bkgndcfgbase.cpp:172 plugins/dock/dockcfgbase.cpp:122 plugins/filter/filtercfgbase.cpp:96 plugins/forward/forwardcfgbase.cpp:101 plugins/gpg/gpgadvbase.cpp:155 plugins/gpg/gpgcfgbase.cpp:164 plugins/gpg/gpguserbase.cpp:98 plugins/icons/iconcfgbase.cpp:104 plugins/icq/advsearchbase.cc:276 plugins/icq/aimconfigbase.cc:174 plugins/icq/aiminfobase.cc:286 plugins/icq/aimsearchbase.cc:192 plugins/icq/homeinfobase.cc:174 plugins/icq/icqconfigbase.cc:293 plugins/icq/icqpicturebase.cc:133 plugins/icq/icqsearchbase.cc:184 plugins/icq/icqsecurebase.cc:165 plugins/icq/pastinfobase.cc:169 plugins/jabber/infoproxybase.cpp:86 plugins/jabber/jabberconfigbase.cpp:352 plugins/jabber/jabberinfobase.cpp:297 plugins/jabber/jabberpicturebase.cpp:133 plugins/jabber/jabberworkinfobase.cpp:119 plugins/jabber/jidadvsearchbase.cpp:94 plugins/jabber/jidsearchbase.cpp:133 plugins/livejournal/journalsearchbase.cpp:95 plugins/livejournal/livejournalcfgbase.cpp:207 plugins/livejournal/msgjournalbase.cpp:112 plugins/logger/logconfigbase.cpp:126 plugins/msn/msninfobase.cpp:160 plugins/msn/msnsearchbase.cpp:130 plugins/navigate/navcfgbase.cc:99 plugins/ontop/ontopcfgbase.cpp:88 plugins/osd/osdconfigbase.cpp:139 plugins/proxy/proxycfgbase.cpp:161 plugins/remote/remotecfgbase.cpp:134 plugins/replace/replacecfgbase.cpp:111 plugins/shortcuts/mousecfgbase.cpp:108 plugins/shortcuts/shortcutcfgbase.cpp:138 plugins/sound/soundconfigbase.cpp:155 plugins/sound/sounduserbase.cpp:121 plugins/styles/fontconfigbase.cpp:158 plugins/styles/stylescfgbase.cpp:83 plugins/transparent/transparentcfgbase.cpp:101 plugins/weather/weathercfgbase.cpp:168 plugins/weather/wifacecfgbase.cpp:139 plugins/yahoo/yahooinfobase.cpp:183 plugins/yahoo/yahoosearchbase.cpp:156
+#: plugins/__homedir/homedircfgbase.cpp:121 plugins/_core/arcfgbase.cpp:137 plugins/_core/filecfgbase.cpp:145 plugins/_core/historycfgbase.cpp:225 plugins/_core/interfacecfgbase.cpp:153 plugins/_core/maininfobase.cpp:245 plugins/_core/msgcfgbase.cpp:114 plugins/_core/phonebase.cpp:144 plugins/_core/plugincfgbase.cpp:101 plugins/_core/prefcfgbase.cpp:96 plugins/_core/smscfgbase.cpp:95 plugins/_core/userhistorycfgbase.cpp:122 plugins/action/actioncfgbase.cpp:120 plugins/action/menucfgbase.cpp:126 plugins/autoaway/autoawaycfgbase.cpp:133 plugins/background/bkgndcfgbase.cpp:172 plugins/dock/dockcfgbase.cpp:122 plugins/filter/filtercfgbase.cpp:96 plugins/forward/forwardcfgbase.cpp:101 plugins/gpg/gpgadvbase.cpp:155 plugins/gpg/gpgcfgbase.cpp:164 plugins/gpg/gpguserbase.cpp:98 plugins/icons/iconcfgbase.cpp:104 plugins/icq/advsearchbase.cc:276 plugins/icq/aimconfigbase.cc:174 plugins/icq/aiminfobase.cc:286 plugins/icq/aimsearchbase.cc:192 plugins/icq/homeinfobase.cc:174 plugins/icq/icqconfigbase.cc:293 plugins/icq/icqpicturebase.cc:133 plugins/icq/icqsearchbase.cc:184 plugins/icq/icqsecurebase.cc:165 plugins/icq/pastinfobase.cc:169 plugins/jabber/infoproxybase.cpp:86 plugins/jabber/jabberconfigbase.cpp:352 plugins/jabber/jabberinfobase.cpp:297 plugins/jabber/jabberpicturebase.cpp:133 plugins/jabber/jabberworkinfobase.cpp:119 plugins/jabber/jidadvsearchbase.cpp:94 plugins/jabber/jidsearchbase.cpp:133 plugins/livejournal/journalsearchbase.cpp:95 plugins/livejournal/livejournalcfgbase.cpp:207 plugins/livejournal/msgjournalbase.cpp:112 plugins/logger/logconfigbase.cpp:126 plugins/msn/msninfobase.cpp:160 plugins/msn/msnsearchbase.cpp:130 plugins/navigate/navcfgbase.cc:99 plugins/ontop/ontopcfgbase.cpp:88 plugins/osd/osdconfigbase.cpp:139 plugins/proxy/proxycfgbase.cpp:161 plugins/remote/remotecfgbase.cpp:134 plugins/replace/replacecfgbase.cpp:111 plugins/shortcuts/mousecfgbase.cpp:108 plugins/shortcuts/shortcutcfgbase.cpp:138 plugins/sound/soundconfigbase.cpp:155 plugins/sound/sounduserbase.cpp:121 plugins/styles/fontconfigb
+ase.cpp:158 plugins/styles/stylescfgbase.cpp:83 plugins/transparent/transparentcfgbase.cpp:101 plugins/weather/weathercfgbase.cpp:168 plugins/weather/wifacecfgbase.cpp:139 plugins/yahoo/yahooinfobase.cpp:183 plugins/yahoo/yahoosearchbase.cpp:156
 msgid "Form1"
 msgstr "Form1"
 
@@ -9158,121 +9160,3 @@ msgstr ""
 #, fuzzy
 msgid "Windows XP style"
 msgstr "Contactlijst verzonden"
-
-#, fuzzy
-#~ msgid "Close after %n second"
-#~ msgstr "&Sluiten na verzenden"
-
-#, fuzzy
-#~ msgid "URL"
-#~ msgstr "URL:"
-
-#, fuzzy
-#~ msgid "Authorize request"
-#~ msgstr "Authorisatieverzoek"
-
-#, fuzzy
-#~ msgid "Authorization granted"
-#~ msgstr "Authorisatieverzoek"
-
-#, fuzzy
-#~ msgid "Authorization refused"
-#~ msgstr "Authorisatieverzoek"
-
-#, fuzzy
-#~ msgid "Add to contacts"
-#~ msgstr "Niet-ICQ contact toevoegen"
-
-#, fuzzy
-#~ msgid "Removed from contacts"
-#~ msgstr "Niet-ICQ contact toevoegen"
-
-#, fuzzy
-#~ msgid "%n contact found"
-#~ msgstr "Niet-ICQ contact toevoegen"
-
-#, fuzzy
-#~ msgid "%n file"
-#~ msgstr "Verzonden gefaald"
-
-#, fuzzy
-#~ msgid "WWW-panel message"
-#~ msgstr "&Nieuw bericht"
-
-#, fuzzy
-#~ msgid "Email pager message"
-#~ msgstr "Email Pager-Nachricht"
-
-#, fuzzy
-#~ msgid "Contact request"
-#~ msgstr "Contact verzoek"
-
-#, fuzzy
-#~ msgid "%n day"
-#~ msgstr "Soedan"
-
-#, fuzzy
-#~ msgid "You have %n unread message"
-#~ msgstr "&Nieuw bericht"
-
-#, fuzzy
-#~ msgid "weather"
-#~ msgstr "Overig"
-
-#, fuzzy
-#~ msgid "Smiles:"
-#~ msgstr "Datei:"
-
-#, fuzzy
-#~ msgid "Registered agents:"
-#~ msgstr "&Registreren"
-
-#, fuzzy
-#~ msgid "Log &On"
-#~ msgstr "Inloggen"
-
-#, fuzzy
-#~ msgid "Log O&ff"
-#~ msgstr "Inloggen"
-
-#, fuzzy
-#~ msgid "&Unregister"
-#~ msgstr "&Registreren"
-
-#, fuzzy
-#~ msgid "&Registered agents"
-#~ msgstr "&Registreren"
-
-#, fuzzy
-#~ msgid "&Agents"
-#~ msgstr "Argentinië"
-
-#, fuzzy
-#~ msgid "Select smiles"
-#~ msgstr "Stijl selecteren:"
-
-#, fuzzy
-#~ msgid "Smiles"
-#~ msgstr "Vaardigheden"
-
-#, fuzzy
-#~ msgid "Wood"
-#~ msgstr "Verwijderen"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: %1 wrote:\n"
-#~ "female"
-#~ msgstr "%1 is online"
-
-#, fuzzy
-#~ msgid "%1 wrote:"
-#~ msgstr "%1 is online"
-
-#, fuzzy
-#~ msgid "Last name"
-#~ msgstr "Achternaam:"
-
-#, fuzzy
-#~ msgid "Last name:"
-#~ msgstr "Achternaam:"
