@@ -18,6 +18,7 @@ AppMutex=SIM_Mutex
 AppCopyright=Copyright © 2002-2003, Vladimir Shutoff
 DetectLanguageUsingLocale=yes
 ShowLanguageDialog=no
+ChangesAssociations=yes
 
 [Tasks]
 Name: startup; Description: "Launch SIM on &startup"; GroupDescription: "Startup:"
@@ -70,7 +71,7 @@ Source: "..\Release\plugins\netmonitor.dll"; DestDir: "{app}\plugins"; Flags: ig
 Source: "..\Release\plugins\ontop.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\osd.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\proxy.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
-Source: "..\Release\plugins\remote.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
+Source: "..\Release\plugins\remote.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion regserver
 Source: "..\Release\plugins\shortcuts.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\splash.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\sound.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
@@ -131,6 +132,17 @@ Filename: "{app}\sim.exe"; Description: "Launch Simple Instant Messenger"; Flags
 
 [UninstallDelete]
 Type: filesandordirs; Name: {userappdata}\sim
+
+[Registry]
+Root: HKCR; Subkey: ".uin"; ValueType: string; ValueName: ""; ValueData: "sim"; Flags: uninsdeletevalue
+Root: HKCR; Subkey: ".uin"; ValueType: string; ValueName: "Content Type"; ValueData: "application/x-icq"; Flags: uninsdeletevalue
+Root: HKCR; Subkey: "sim"; ValueType: string; ValueName: ""; ValueData: "SIM File"; Flags: uninsdeletekey
+Root: HKCR; Subkey: "sim\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\sim.exe,0"; Flags: uninsdeletevalue
+Root: HKCR; Subkey: "sim\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\simctrl.exe"" ""-f %1"""; Flags: uninsdeletevalue
+
+
+
+
 
 
 
