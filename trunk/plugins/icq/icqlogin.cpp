@@ -50,11 +50,13 @@ const unsigned ICQ_LOGIN_ERRxUNAVAILABLE4			= 0x0013;
 const unsigned ICQ_LOGIN_ERRxUNAVAILABLE5			= 0x0014;
 const unsigned ICQ_LOGIN_ERRxUNAVAILABLE6			= 0x0015;
 const unsigned ICQ_LOGIN_ERRxIP_RATE_LIMIT1			= 0x0016;
+const unsigned ICQ_LOGIN_ERRxIP_RATE_LIMIT2			= 0x0017;
 const unsigned ICQ_LOGIN_ERRxRATE_LIMIT1			= 0x0018;
 const unsigned ICQ_LOGIN_ERRxUNAVAILABLE7			= 0x001a;
 const unsigned ICQ_LOGIN_ERRxOLDCLIENT1				= 0x001b;
 const unsigned ICQ_LOGIN_ERRxOLDCLIENT2				= 0x001c;
 const unsigned ICQ_LOGIN_ERRxRATE_LIMIT2			= 0x001d;
+const unsigned ICQ_LOGIN_ERRxCANT_REGISTER			= 0x001e;
 const unsigned ICQ_LOGIN_ERRxUNAVAILABLE8			= 0x001f;
 const unsigned ICQ_LOGIN_ERRxINVALID_ID 			= 0x0020;
 const unsigned ICQ_LOGIN_ERRxTOO_YOUNG				= 0x0022;
@@ -195,6 +197,7 @@ void ICQClient::chn_close()
             m_reconnect = NO_RECONNECT;
             break;
         case ICQ_LOGIN_ERRxIP_RATE_LIMIT1:
+        case ICQ_LOGIN_ERRxIP_RATE_LIMIT2:
             errString = I18N_NOOP("Too many clients from same IP");
             m_reconnect = NO_RECONNECT;
             break;
