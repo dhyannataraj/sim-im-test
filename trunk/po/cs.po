@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "POT-Creation-Date: 2004-04-26 11:31+0400\n"
-"PO-Revision-Date: 2004-05-02 14:27+0100\n"
-"Last-Translator: Tobias Franz <noragen@gmx.net>\n"
+"PO-Revision-Date: 2004-05-04 10:40+0100\n"
+"Last-Translator: Jiří Jureček <jjure@users.sourceforge.net>\n"
 "Language-Team:  <C@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3087,7 +3087,6 @@ msgid "&Info"
 msgstr "&Informace"
 
 #: plugins/_core/core.cpp:1415
-#, fuzzy
 msgid "Send &message"
 msgstr "Poslat zprávu"
 
@@ -3384,7 +3383,7 @@ msgstr "Pager"
 
 #: plugins/_core/maininfo.cpp:73
 msgid "Phone"
-msgstr "Telefon"
+msgstr "Číslo"
 
 #: plugins/_core/maininfo.cpp:77
 #: plugins/_core/maininfo.cpp:78
@@ -3485,7 +3484,6 @@ msgstr "Hledání"
 
 #: plugins/_core/search.cpp:69
 #: plugins/_core/search.cpp:812
-#, fuzzy
 msgid "Results"
 msgstr "Výsledky"
 
@@ -3514,12 +3512,10 @@ msgid "Non-IM contact"
 msgstr "Přidat jiný kontakt"
 
 #: plugins/_core/search.cpp:290
-#, fuzzy
 msgid "Add"
 msgstr "Přidat"
 
 #: plugins/_core/search.cpp:329
-#, fuzzy
 msgid "%1 already in contact list"
 msgstr "%1 již v kontaktlistu je"
 
@@ -3629,17 +3625,14 @@ msgid "Contact name"
 msgstr "Jméno kontaktu"
 
 #: plugins/_core/searchbase.cpp:96
-#, fuzzy
 msgid "&Add to list"
-msgstr "Přidat do seznamu"
+msgstr "Přidat do skupiny"
 
 #: plugins/_core/searchbase.cpp:98
-#, fuzzy
 msgid "More &options"
-msgstr "Další &volby"
+msgstr "Další možnosti"
 
 #: plugins/_core/searchbase.cpp:99
-#, fuzzy
 msgid "&New search"
 msgstr "&Nové hledání"
 
@@ -3731,7 +3724,6 @@ msgstr "Form 4"
 #: plugins/_core/searchallbase.cpp:84
 #: plugins/icq/icqsearchbase.cc:128
 #: plugins/jabber/jabberaddbase.cpp:95
-#, fuzzy
 msgid "&E-Mail"
 msgstr "E-Mail"
 
@@ -3754,7 +3746,7 @@ msgstr "Jméno:"
 #: plugins/icq/icqsearchbase.cc:131
 #: plugins/jabber/jabberaddbase.cpp:98
 msgid "Last:"
-msgstr "Příjmení"
+msgstr "Příjmení:"
 
 #: plugins/_core/arcfgbase.cpp:79
 #: plugins/_core/prefcfgbase.cpp:66
@@ -4339,7 +4331,7 @@ msgstr ""
 
 #: plugins/_core/maininfobase.cpp:209
 msgid "&Phones"
-msgstr "&Telefony:"
+msgstr "&Telefony"
 
 #: plugins/_core/maininfobase.cpp:210
 msgid "&Notes"
@@ -4348,7 +4340,7 @@ msgstr "Poz&námky"
 #: plugins/_core/nonimbase.cpp:97
 #: plugins/jabber/jabberaddbase.cpp:99
 msgid "Nickname:"
-msgstr "Přezdívka (Nick):"
+msgstr "Přezdívka:"
 
 #: plugins/_core/nonimbase.cpp:98
 msgid "E-Mail address:"
@@ -5341,7 +5333,7 @@ msgstr "Ostatní"
 #: plugins/jabber/jabberclient.cpp:1683
 #: plugins/jabber/jabberclient.cpp:1702
 msgid "About info"
-msgstr "Informace o..."
+msgstr "O ..."
 
 #: plugins/icq/advsearchbase.cc:258
 #: plugins/icq/icqclient.cpp:1867
@@ -5425,7 +5417,6 @@ msgid "Can't login to ICQ network - Please try again later"
 msgstr "Nemůžu se přihlásit na ICQ server - Zkuste to prosím později"
 
 #: plugins/icq/icqlogin.cpp:271
-#, fuzzy
 msgid "Your UIN is being used from another location"
 msgstr "Vaše UIN bylo práve použito z jiného místa"
 
@@ -6659,9 +6650,8 @@ msgid "&ICQ"
 msgstr "&ICQ"
 
 #: plugins/icq/icqconfigbase.cc:276
-#, fuzzy
 msgid "Automatically check &invisible"
-msgstr "Kontrolovat &neviditelné"
+msgstr "Automaticky kontrolovat &neviditelné"
 
 #: plugins/icq/icqconfigbase.cc:277
 msgid "Send format:"
@@ -6692,7 +6682,6 @@ msgid "Accept in &DND mode"
 msgstr "Akceptovat v &DND módu"
 
 #: plugins/icq/icqconfigbase.cc:285
-#, fuzzy
 msgid "For decrease traffic you can:"
 msgstr "Pro snížení zátěže sítě můžete:"
 
@@ -6714,7 +6703,7 @@ msgstr "Zakázat automaticky obnovit informací o uživateli"
 #: plugins/icq/icqconfigbase.cc:289
 #, fuzzy
 msgid "Disable &typing notification"
-msgstr "Zakázat oznamování psaní"
+msgstr "Zakázat oznamování o psaní"
 
 #: plugins/icq/icqconfigbase.cc:290
 #, fuzzy
@@ -6738,22 +6727,18 @@ msgid "&UIN"
 msgstr "&UIN"
 
 #: plugins/icq/icqsearchbase.cc:127
-#, fuzzy
 msgid "&Screenname"
 msgstr "Uživatelské jméno"
 
 #: plugins/icq/icqsearchbase.cc:133
-#, fuzzy
 msgid "AOL s&creenname"
 msgstr "AOL uživatelské jméno"
 
 #: plugins/icq/icqsearchbase.cc:134
-#, fuzzy
 msgid "ICQ &UIN"
-msgstr "ICQ &UIN"
+msgstr "ICQ UIN"
 
 #: plugins/icq/icqsearchbase.cc:135
-#, fuzzy
 msgid "Advanced"
 msgstr "Rozšířené"
 
@@ -6895,28 +6880,24 @@ msgid ""
 msgstr "%1 je online"
 
 #: plugins/osd/osd.cpp:417
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is away"
 msgstr "%1 je pryč (away)"
 
 #: plugins/osd/osd.cpp:418
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is away"
 msgstr "%1 je pryč (away)"
 
 #: plugins/osd/osd.cpp:419
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is not available"
 msgstr "%1 je nedostupný (away)"
 
 #: plugins/osd/osd.cpp:420
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is not available"
@@ -6935,42 +6916,36 @@ msgid ""
 msgstr "%1 si nepřeje být byrušována"
 
 #: plugins/osd/osd.cpp:423
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is occupied"
 msgstr "%1 je zaneprázdněný (occupied)"
 
 #: plugins/osd/osd.cpp:424
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is occupied"
 msgstr "%1 je zaneprázdněná (occupied)"
 
 #: plugins/osd/osd.cpp:425
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is free for chat"
 msgstr "%1 je v módu chci chatovat (FFC)"
 
 #: plugins/osd/osd.cpp:426
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is free for chat"
 msgstr "%1 je v módu chci chatovat (FFC)"
 
 #: plugins/osd/osd.cpp:427
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is offline"
 msgstr "%1 je offline"
 
 #: plugins/osd/osd.cpp:428
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is offline"
@@ -6991,7 +6966,6 @@ msgid "Enable &typing notification"
 msgstr "Povolit oznamování psaní"
 
 #: plugins/osd/osdconfigbase.cpp:119
-#, fuzzy
 msgid "Show message &content"
 msgstr "Zobrazit obsah zprávy"
 
@@ -7543,8 +7517,9 @@ msgid "UTC client time:"
 msgstr "UTC čas klienta:"
 
 #: plugins/jabber/discoinfobase.cpp:276
+#, fuzzy
 msgid "Last activity, idle response:"
-msgstr "Posledně aktivní, spomalená odezva:"
+msgstr "Čas od posledního příspěvku:"
 
 #: plugins/jabber/discoinfobase.cpp:279
 msgid "&Statistic"
@@ -7606,7 +7581,6 @@ msgid "&Back"
 msgstr "&Zpět"
 
 #: plugins/jabber/jabber.cpp:338
-#, fuzzy
 msgid "Browser mode"
 msgstr "Mód prohlížeče"
 
@@ -7620,7 +7594,6 @@ msgstr "Načíst všechny úrovně"
 
 #: plugins/jabber/jabberaddbase.cpp:100
 #: plugins/jabber/jidsearchbase.cpp:77
-#, fuzzy
 msgid "Jabber &browser"
 msgstr "Prohlížeč Jabberu"
 
@@ -7786,27 +7759,22 @@ msgid "To register, please fill out the following form.  Be as accurate as possi
 msgstr "K registraci prosím vyplňte následující formulár. Buďte pečlivý a ulehčíte tím prácidalším lidem, kteří Vás budou chtít najít."
 
 #: plugins/jabber/jidsearch.cpp:175
-#, fuzzy
 msgid "User"
-msgstr "Uživatel:"
+msgstr "Uživatel"
 
 #: plugins/jabber/jidsearch.cpp:176
-#, fuzzy
 msgid "Full Name"
-msgstr "Plné jméno"
+msgstr "Celé jméno"
 
 #: plugins/jabber/jidsearch.cpp:177
-#, fuzzy
 msgid "Middle Name"
 msgstr "Prostřední jméno"
 
 #: plugins/jabber/jidsearch.cpp:178
-#, fuzzy
 msgid "Family Name"
 msgstr "Příjmení"
 
 #: plugins/jabber/jidsearch.cpp:179
-#, fuzzy
 msgid "email"
 msgstr "E-mail"
 
@@ -8619,7 +8587,7 @@ msgstr "Poslat mail"
 #: plugins/navigate/navigate.cpp:281
 #, fuzzy
 msgid "Copy &location"
-msgstr "Kpírovat umístění"
+msgstr "Kopírovat umístění"
 
 #: plugins/yahoo/yahoo.cpp:81
 msgid "Yahoo!"
@@ -8688,19 +8656,16 @@ msgid "Conditions"
 msgstr "Stav počasí"
 
 #: plugins/yahoo/yahoosearch.cpp:44
-#, fuzzy
 msgid "male"
 msgstr "muž"
 
 #: plugins/yahoo/yahoosearch.cpp:45
-#, fuzzy
 msgid "female"
 msgstr "žena"
 
 #: plugins/yahoo/yahoosearch.cpp:128
-#, fuzzy
 msgid "Yahoo! ID"
-msgstr "Yahoo! ID:"
+msgstr "Yahoo! ID"
 
 #: plugins/replace/replace.cpp:33
 msgid "Replace text"
@@ -8915,9 +8880,7 @@ msgstr "Jemné sněžení"
 msgid ""
 "_: weather\n"
 "Smoke"
-msgstr ""
-"_: weather\n"
-"Kouřmo"
+msgstr "Kouřmo"
 
 #: plugins/weather/weather.cpp:486
 msgid ""
@@ -9040,7 +9003,6 @@ msgid ""
 msgstr "SSV"
 
 #: plugins/weather/weather.cpp:506
-#, fuzzy
 msgid ""
 "_: weather\n"
 "VAR"
