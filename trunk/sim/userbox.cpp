@@ -27,16 +27,8 @@
 #include "icons.h"
 #include "userview.h"
 
-
-#ifdef WIN32
-
-#include <windows.h>
-
-#endif
-
-
 #include "ui/userinfo.h"
-
+#include "ui/enable.h"
 
 #include <qlayout.h>
 #include <qframe.h>
@@ -106,6 +98,7 @@ UserBox::UserBox(unsigned long grpId)
 #endif
                      )
 {
+	SET_WNDPROC
     ::init(this, UserBox_Params);
     ToolbarDock = pMain->UserBoxToolbarDock;
     ToolbarOffset = pMain->UserBoxToolbarOffset;
@@ -996,37 +989,20 @@ void UserBox::showProgress(int n)
     progress->setProgress(n);
 }
 
-
 #ifdef WIN32
 
-
-
 typedef struct FLASHWINFO
-
 {
-
     unsigned long cbSize;
-
     HWND hwnd;
-
     unsigned long dwFlags;
-
     unsigned long uCount;
-
     unsigned long dwTimeout;
-
 } FLASHWINFO;
 
-
-
 static BOOL (WINAPI *FlashWindowEx)(FLASHWINFO*) = NULL;
-
 static bool initFlash = false;
-
-
-
 #endif
-
 
 void UserBox::messageReceived(ICQMessage *msg)
 {
@@ -1038,41 +1014,22 @@ void UserBox::messageReceived(ICQMessage *msg)
 
         return;
     }
-
 #ifdef WIN32
-
     if (qApp->activeWindow() == this) return;
-
-    MsgEdit *wnd = getChild(msg->getUin());
-
-    if (wnd == NULL) return;
-
+    if (!haveUser(msg->getUin())) return;
     if (!initFlash){
-
         HINSTANCE hLib = GetModuleHandleA("user32");
-
         if (hLib != NULL)
-
             (DWORD&)FlashWindowEx = (DWORD)GetProcAddress(hLib,"FlashWindowEx");
-
         initFlash = true;
-
     }
-
     if (FlashWindowEx == NULL) return;
-
     FLASHWINFO fInfo;
-
     fInfo.cbSize = sizeof(fInfo);
-
     fInfo.dwFlags = 0x0E;
-
     fInfo.hwnd = winId();
-
     fInfo.uCount = 0;
-
     FlashWindowEx(&fInfo);
-
 #endif
 }
 

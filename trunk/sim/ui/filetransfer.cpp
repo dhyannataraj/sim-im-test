@@ -21,6 +21,7 @@
 #include "ballonmsg.h"
 #include "mainwin.h"
 #include "cuser.h"
+#include "ui/enable.h"
 
 #ifdef USE_KDE
 #include <kfiledialog.h>
@@ -42,7 +43,9 @@
 FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
         : FileTransferBase(p, "filetransfer", false, WDestructiveClose | WStyle_Minimize)
 {
-    bStarted = false;
+	SET_WNDPROC
+
+	bStarted = false;
     file = _file;
     setIcon(Pict("file"));
     edtFile1->setReadOnly(true);

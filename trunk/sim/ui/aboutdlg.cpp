@@ -19,6 +19,8 @@
 #include "icons.h"
 #include "msgview.h"
 
+#include "ui/enable.h"
+
 #ifndef USE_KDE
 
 #include <qpushbutton.h>
@@ -28,6 +30,9 @@
 KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *parent, const char *name, bool modal)
         : AboutDlgBase(parent, name, modal)
 {
+	SET_WNDPROC
+	setCaption(caption());
+
     connect(btnOK, SIGNAL(clicked()), this, SLOT(close()));
     setIcon(Pict("licq"));
     lblIcon->setPixmap(Icon("licq").pixmap(QIconSet::Large, QIconSet::Normal));

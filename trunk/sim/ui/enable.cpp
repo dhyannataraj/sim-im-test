@@ -104,3 +104,27 @@ void set(string &s, const QString &str)
     if (str.length()) s = str.local8Bit();
 }
 
+#ifdef WIN32
+#include <windows.h>
+
+static WNDPROC oldWndProc = 0;
+
+LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+    if (msg == WM_SETTEXT)
+		return DefWindowProc(hWnd, msg, wParam, lParam);
+    return oldWndProc(hWnd, msg, wParam, lParam);
+}
+
+void setWndProc(QWidget *w)
+{
+#ifdef WIN32
+	WNDPROC p;
+    p = (WNDPROC)SetWindowLongW(w->winId(), GWL_WNDPROC, (LONG)WndProc);
+    if (p == 0)
+        p = (WNDPROC)SetWindowLongA(w->winId(), GWL_WNDPROC, (LONG)WndProc);
+	if (oldWndProc == NULL) oldWndProc = p;	
+#endif
+}
+
+#endif
