@@ -26,6 +26,7 @@ using namespace std;
 
 class QSocketNotifier;
 class ControlSocket;
+class ICQEvent;
 
 class ControlListener : public QObject
 {
@@ -50,14 +51,17 @@ class ControlSocket : public QSocket
     Q_OBJECT
 public:
     ControlSocket(int s, QObject *parent);
+	~ControlSocket();
 signals:
     void finished(ControlSocket*);
 protected slots:
     void error_state();
     void error_state(int);
     void read_ready();
+    void processEvent(ICQEvent*);
 protected:
     void write(const char*);
+	ICQEvent *sendEvent;
 };
 
 #endif

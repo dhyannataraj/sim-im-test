@@ -72,8 +72,10 @@ QSize EditSpell::minimumSizeHint()
 void EditSpell::keyPressEvent(QKeyEvent *e)
 {
     if (((e->key() == Key_Enter) || (e->key() == Key_Return))){
-        if (pMain->SendEnter || (e->state() == ControlButton))
+        if (pMain->SendEnter || (e->state() == ControlButton)){
+			emit ctrlEnterPressed();
             return;
+		}
     }
     if (e->state() == ControlButton){
         switch (e->key()){
@@ -106,17 +108,6 @@ void EditSpell::keyPressEvent(QKeyEvent *e)
     }
 #endif
     QTextEdit::keyPressEvent(e);
-}
-
-void EditSpell::keyReleaseEvent(QKeyEvent *e)
-{
-    if ((e->key() == Key_Enter) || (e->key() == Key_Return)){
-        if (pMain->SendEnter || (e->state() == ControlButton)){
-            emit ctrlEnterPressed();
-            return;
-        }
-    }
-    QTextEdit::keyReleaseEvent(e);
 }
 
 bool EditSpell::colorChanged()
@@ -198,7 +189,7 @@ void EditSpell::setForeground(const QColor& c)
     QPalette pal = palette();
     pal.setColor(QPalette::Active, QColorGroup::Text, c);
     setPalette(pal);
-    curFG = c;
+	setColor(c);
 }
 
 const QColor &EditSpell::background() const

@@ -155,6 +155,8 @@ protected:
     virtual QDragObject *dragObject();
     virtual void startDrag();
 
+	bool isUserShow(ICQUser*);
+
     void dragEvent(QDropEvent *e, bool isDrop);
     void callUserFunction(unsigned long uin, const QString &url, bool bUrl);
 

@@ -262,12 +262,12 @@ void UserViewItemBase::paint(QPainter *p, const QString s, const QColorGroup &c,
         p->setPen(cg.color(QColorGroup::Text));
         p->moveTo(0, h - 1);
         p->lineTo(0, 0);
-        p->lineTo(width - 1, 0);
+        p->lineTo(width - 3, 0);
         p->setPen(cg.color(QColorGroup::Dark));
-        p->moveTo(width - 1, h - 1);
+        p->moveTo(width - 2, h - 1);
         p->lineTo(1, h - 1);
         p->lineTo(1, 1);
-        p->lineTo(width - 1, 1);
+        p->lineTo(width - 2, 1);
     }
 }
 
@@ -1135,11 +1135,20 @@ void UserView::setOpen(bool bOpen)
     }
 }
 
+bool UserView::isUserShow(ICQUser *u)
+{
+	if (u == NULL) return false;
+    if (u->inIgnore || u->bIsTemp) return false;
+    if (u->Uin == pClient->owner->Uin) return false;
+    if (m_bShowOffline) return true;
+	if (u->Type != USER_TYPE_ICQ) return true;
+	if (u->unreadMsgs.size()) return true;
+	return (u->uStatus != ICQ_STATUS_OFFLINE);
+}
+
 void UserView::addUserItem(ICQUser *u)
 {
-    if (u->inIgnore || u->bIsTemp) return;
-    if (u->Uin == pClient->owner->Uin) return;
-    if (!m_bShowOffline && (u->uStatus == ICQ_STATUS_OFFLINE) && (u->unreadMsgs.size() == 0)) return;
+	if (!isUserShow(u)) return;
     if (!m_bGroupMode){
         new UserViewItem(u, this);
         return;
@@ -1198,7 +1207,7 @@ void UserView::updateUser(unsigned long uin, bool bFull)
             delete item;
             item = NULL;
         }
-        if (!m_bShowOffline && (u->uStatus == ICQ_STATUS_OFFLINE) && (u->unreadMsgs.size() == 0))
+        if (!isUserShow(u))
         {
             delete item;
             return;
@@ -1390,7 +1399,7 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
             }
             callUserFunction(ui->m_uin, urls.join(" "), true);
         }
-        e->accept();
+		e->acceptAction(true);
         return;
     }
     if (QTextDrag::decode(e, text)){
@@ -1407,7 +1416,7 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
             }else if (isDrop){
                 callUserFunction(uin, text, false);
             }
-            e->accept();
+			e->acceptAction(true);
             return;
         }
         if ((item->type() == 2) && uin){
@@ -1419,7 +1428,7 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
                 return;
             }
             if (isDrop) pClient->moveUser(u, g);
-            e->accept();
+			e->acceptAction(true);
             return;
         }
     }
@@ -1590,12 +1599,32 @@ void UserView::startDrag()
 #endif
 }
 
+class MyTextDrag : public QTextDrag
+{
+public:
+	MyTextDrag(QListView *view, const QString &str);
+	~MyTextDrag();
+protected:
+	QListView *mView;
+};
+
+MyTextDrag::MyTextDrag(QListView *view, const QString &str)
+: QTextDrag(str, view)
+{
+	mView = view;
+}
+
+MyTextDrag::~MyTextDrag()
+{
+	mView->clearSelection();
+}
+
 QDragObject *UserView::dragObject()
 {
     UserViewItemBase *item = static_cast<UserViewItemBase*>(currentItem());
     switch (item->type()){
     case 1:
-        return new QTextDrag(QString::number(static_cast<UserViewItem*>(item)->m_uin), this);
+        return new MyTextDrag(this, QString::number(static_cast<UserViewItem*>(item)->m_uin));
     }
     return NULL;
 }

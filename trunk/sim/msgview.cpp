@@ -682,26 +682,28 @@ void MsgViewConv::setUin(unsigned long uin)
     if (pMain->CopyMessages){
         ICQUser *u = pClient->getUser(m_nUin);
         if (u == NULL) return;
-        int nUnread = 0;
+        unsigned long unreadId = 0xFFFFFFFF;
         list<unsigned long>::iterator unreadIt;
-        for (unreadIt = u->unreadMsgs.begin(); unreadIt != u->unreadMsgs.end(); unreadIt++)
-            if ((*unreadIt) < MSG_PROCESS_ID) nUnread++;
+        for (unreadIt = u->unreadMsgs.begin(); unreadIt != u->unreadMsgs.end(); unreadIt++){
+			unsigned long id = *unreadIt;
+            if ((id < MSG_PROCESS_ID) && (id < unreadId)) unreadId = id;
+		}
 
         list<unsigned long> unreadMsg;
         History h(uin);
         History::iterator &it = h.messages();
-        for (unsigned n = 0; ((n < pMain->CopyMessages) || nUnread) && ++it; n++){
-            unreadMsg.push_front((*it)->Id);
-            for (unreadIt = u->unreadMsgs.begin(); unreadIt != u->unreadMsgs.end(); unreadIt++)
-                if ((*unreadIt) == (*it)->Id) break;
-            if (unreadIt != u->unreadMsgs.end()) nUnread--;
+        for (unsigned n = 0; ++it; n++){
+			unsigned long id = (*it)->Id;
+			if ((n >= pMain->CopyMessages) && (id < unreadId))
+				break;
+            unreadMsg.push_front(id);
         }
         for (list<unsigned long>::iterator itMsg = unreadMsg.begin(); itMsg != unreadMsg.end(); ++itMsg){
             ICQMessage *msg = h.getMessage(*itMsg);
             if (msg == NULL) continue;
             for (unreadIt = u->unreadMsgs.begin(); unreadIt != u->unreadMsgs.end(); unreadIt++)
                 if ((*unreadIt) == (*itMsg)) break;
-            addMessage(msg, unreadIt != u->unreadMsgs.end(), false);
+            addMessage(msg, unreadIt != u->unreadMsgs.end(), true);
         }
         bBack = false;
     }else if (uin){

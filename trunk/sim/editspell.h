@@ -70,7 +70,6 @@ protected slots:
 protected:
     QSize sizeHint();
     QSize minimumSizeHint();
-    void keyReleaseEvent(QKeyEvent*);
     void keyPressEvent(QKeyEvent*);
     TransparentBg *bgTransparent;
     QColor baseBG;
