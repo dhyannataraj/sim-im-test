@@ -1,4 +1,5 @@
 /***************************************************************************
+/***************************************************************************
                           cfgdlg.cpp  -  description
                              -------------------
     begin                : Sun Mar 17 2002
@@ -300,7 +301,7 @@ ConfigureDialog::ConfigureDialog()
     lstBox->setHScrollBarMode(QScrollView::AlwaysOff);
     fill(0);
     connect(buttonApply, SIGNAL(clicked()), this, SLOT(apply()));
-    connect(btnUpdate, SIGNAL(clicked()), this, SLOT(updateInfo()));
+    connect(btnUpdate, SIGNAL(clicked()), this, SLOT(apply()));
     connect(lstBox, SIGNAL(currentChanged(QListViewItem*)), this, SLOT(itemSelected(QListViewItem*)));
     lstBox->setCurrentItem(lstBox->firstChild());
     itemSelected(lstBox->firstChild());
@@ -541,14 +542,18 @@ void ConfigureDialog::showUpdate(bool bShow)
 
 void ConfigureDialog::updateInfo()
 {
+/*
+// obsolete - we don't want to update our own infos
+// because we have them already
     if (m_nUpdates)
         return;
+    // NULL , NULL ist wrong --> NULL Ptr Exception
     for (unsigned i = 0; i < getContacts()->nClients(); i++){
         m_nUpdates++;
         getContacts()->getClient(i)->updateInfo(NULL, NULL);
     }
     btnUpdate->setEnabled(!m_nUpdates);
-    setTitle();
+    setTitle(); */
 }
 
 void ConfigureDialog::raisePage(Client *client)
