@@ -236,11 +236,12 @@ bool ICQClient::updatePhoneBook()
     unsigned long now;
     time((time_t*)&now);
     Buffer b;
-    b << (char)2 << (unsigned long)htonl(now);
+    b << (char)2;
+    b.pack((unsigned long)now);
     b << (unsigned short)0x0200 << 0x01000100L;
     b.pack((char*)PHONEBOOK_SIGN, 0x10);
     b << (unsigned short)0;
-    b << (unsigned long)htonl(now);
+    b.pack((unsigned long)now);
     b << (char)0;
     sendUpdate(b, owner->PhoneBookTime, owner->PhoneStatusTime, now);
     owner->PhoneBookTime = now;
@@ -251,7 +252,8 @@ bool ICQClient::updatePhoneBook()
 void ICQClient::sendInfoUpdate()
 {
     Buffer b;
-    b << (char)1 << (unsigned long)htonl(owner->PhoneBookTime);
+    b << (char)1;
+    b.pack(owner->PhoneBookTime);
     sendUpdate(b, owner->PhoneBookTime, owner->PhoneStatusTime, owner->PhoneBookTime);
     ICQEvent e(EVENT_INFO_CHANGED, owner->Uin);
     sendMessageRequest();
@@ -265,11 +267,12 @@ bool ICQClient::updatePhoneStatus()
     time((time_t*)&now);
     owner->PhoneStatusTime = now;
     Buffer b;
-    b << (char)3 << (unsigned long)htonl(owner->PhoneStatusTime);
+    b << (char)3;
+    b.pack(owner->PhoneStatusTime);
     b << (unsigned short)0x0000 << 0x01000100L;
     b.pack((const char*)PHONEBOOK_SIGN, 0x10);
     b << (char)0x02 << (unsigned short)0x0001 << owner->PhoneState << (char)0 << (unsigned short) 0;
-    b << (unsigned long)htonl(owner->PhoneStatusTime);
+    b.pack(owner->PhoneStatusTime);
     b << (unsigned short)0 << 0x00000100L;
     sendUpdate(b, owner->PhoneBookTime, owner->PhoneStatusTime, owner->PhoneBookTime);
     needPhoneStatusUpdate = true;

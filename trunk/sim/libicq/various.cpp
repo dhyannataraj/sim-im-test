@@ -76,7 +76,8 @@ void ICQClient::snac_various(unsigned short type, unsigned short)
             Buffer msg(*tlv(1));
             unsigned short len, nType, nId;
             unsigned long own_uin;
-            msg >> len >> own_uin >> nType >> nId;
+            msg >> len >> own_uin >> nType;
+            msg.unpack(nId);
             switch (nType){
             case ICQ_SRVxEND_OFFLINE_MSG:
                 log(L_DEBUG, "End offline messages");
@@ -92,12 +93,15 @@ void ICQClient::snac_various(unsigned short type, unsigned short)
                     string message;
                     unsigned short year;
                     char month, day, hours, min;
-                    msg >> uin
-                    >> year >> month >> day >> hours >> min
-                    >> type >> flag;
-                    msg >> message;
-                    uin = htonl(uin);
-                    year = htons(year);
+                    msg.unpack(uin);
+                    msg.unpack(year);
+                    msg.unpack(month);
+                    msg.unpack(day);
+                    msg.unpack(hours);
+                    msg.unpack(min);
+                    msg.unpack(type);
+                    msg.unpack(flag);
+                    msg.unpack(message);
                     sendTM.tm_year = year-1900;
                     sendTM.tm_mon  = month-1;
                     sendTM.tm_mday = day;
@@ -119,7 +123,7 @@ void ICQClient::snac_various(unsigned short type, unsigned short)
                     msg >> nSubtype >> nResult;
                     log(L_DEBUG, "Server answer %02X %04X", nResult & 0xFF, nSubtype);
                     if ((nResult == 0x32) || (nResult == 0x14) || (nResult == 0x1E)){
-                        ICQEvent *e = findVarEvent(htons(nId));
+                        ICQEvent *e = findVarEvent(nId);
                         if (e == NULL){
                             log(L_WARN, "Various event ID %04X not found (%X)", nId, nResult);
                             break;
@@ -129,7 +133,7 @@ void ICQClient::snac_various(unsigned short type, unsigned short)
                         delete e;
                         break;
                     }
-                    ICQEvent *e = findVarEvent(htons(nId));
+                    ICQEvent *e = findVarEvent(nId);
                     if (e == NULL){
                         log(L_WARN, "Various event ID %04X not found (%X)", nId, nResult);
                         break;
@@ -158,7 +162,7 @@ void ICQClient::serverRequest(unsigned short cmd, unsigned short seq)
     sock->writeBuffer.tlv(0x0001, 0);
     sock->writeBuffer.pack((char*)&owner->Uin, 4);
     sock->writeBuffer << cmd;
-    sock->writeBuffer << htons(seq ? seq : m_nMsgSequence);
+    sock->writeBuffer.pack((unsigned short)(seq ? seq : m_nMsgSequence));
 }
 
 void ICQClient::sendServerRequest()
@@ -241,14 +245,14 @@ bool FullInfoEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short n
             >> u->Age
             >> c
             >> u->Gender
-            >> u->Homepage
-            >> u->BirthYear
+            >> u->Homepage;
+            b.unpack(u->BirthYear);
+            b
             >> u->BirthMonth
             >> u->BirthDay
             >> u->Language1
             >> u->Language2
             >> u->Language3;
-            u->BirthYear = htons(u->BirthYear);
             client->fromServer(u->Homepage, u);
             break;
         }
@@ -386,7 +390,7 @@ void ICQClient::requestInfo(unsigned long uin)
     log(L_DEBUG, "Request info about %lu", uin);
     serverRequest(ICQ_SRVxREQ_MORE);
     sock->writeBuffer << ICQ_SRVxREQ_FULL_INFO;
-    sock->writeBuffer << (unsigned long)htonl(uin);
+    sock->writeBuffer.pack(uin);
     sendServerRequest();
     varEvents.push_back(new FullInfoEvent(m_nMsgSequence, uin));
 }
@@ -473,15 +477,14 @@ bool SearchEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short nSu
     b >> n;
     log(L_DEBUG, "n %04X", n);
     unsigned long uin;
+    b.unpack(uin);
     b
-    >> uin
     >> nick
     >> firstName
     >> lastName
     >> email
     >> auth
     >> state;
-    m_nUin = htonl(uin);
     if (m_nUin != client->owner->Uin){
         client->fromServer(nick, client->owner);
         client->fromServer(firstName, client->owner);
@@ -569,14 +572,16 @@ ICQEvent *ICQClient::searchWP(const char *szFirst, const char *szLast, const cha
     << sFirst
     << sLast
     << sNick
-    << sEmail
-    << (unsigned short)htons(nMinAge)
-    << (unsigned short)htons(nMaxAge)
+    << sEmail;
+    sock->writeBuffer.pack(nMinAge);
+    sock->writeBuffer.pack(nMaxAge);
+    sock->writeBuffer
     << nGender
     << nLanguage
     << sCity
-    << sState
-    << (unsigned short)htons(nCountryCode)
+    << sState;
+    sock->writeBuffer.pack(nCountryCode);
+    sock->writeBuffer
     << sCoName
     << sCoDept
     << sCoPos
@@ -634,8 +639,8 @@ ICQEvent *ICQClient::searchByUin(unsigned long uin)
     serverRequest(ICQ_SRVxREQ_MORE);
     sock->writeBuffer
     << ICQ_SRVxREQ_WP_INFO_UIN
-    << 0x36010400L
-    << (unsigned long)htonl(uin);
+    << 0x36010400L;
+    sock->writeBuffer.pack(uin);
     sendServerRequest();
     ICQEvent *e = new SearchEvent(m_nMsgSequence);
     varEvents.push_back(e);
@@ -814,8 +819,9 @@ bool ICQClient::setMainInfo(ICQUser *u)
     << s_HomeFax
     << s_Address
     << s_PrivateCellular
-    << s_Zip
-    << (unsigned short)htons(u->Country)
+    << s_Zip;
+    sock->writeBuffer.pack(u->Country);
+    sock->writeBuffer
     << u->TimeZone
     << u->HiddenEMail;
     sendServerRequest();
@@ -905,12 +911,13 @@ bool ICQClient::setWorkInfo(ICQUser *u)
     << s_WorkPhone
     << s_WorkFax
     << s_WorkAddress
-    << s_WorkZip
-    << htons(u->WorkCountry)
+    << s_WorkZip;
+    sock->writeBuffer.pack(u->WorkCountry);
+    sock->writeBuffer
     << s_WorkName
     << s_WorkDepartment
-    << s_WorkPosition
-    << htons(u->Occupation);
+    << s_WorkPosition;
+    sock->writeBuffer.pack(u->Occupation);
     sendServerRequest();
     SetWorkInfo *e = new SetWorkInfo(m_nMsgSequence, u);
     varEvents.push_back(e);
@@ -983,8 +990,9 @@ bool ICQClient::setMoreInfo(ICQUser *u)
     << u->Age
     << (char)0
     << u->Gender
-    << s_Homepage
-    << (unsigned short)htons(u->BirthYear)
+    << s_Homepage;
+    sock->writeBuffer.pack(u->BirthYear);
+    sock->writeBuffer
     << u->BirthMonth
     << u->BirthDay
     << u->Language1
@@ -1057,7 +1065,8 @@ void ICQClient::packInfoList(const ExtInfoList &infoList)
         ExtInfo *info = static_cast<ExtInfo*>(*it);
         string spec = info->Specific;
         toServer(spec, owner);
-        sock->writeBuffer << htons(info->Category) << spec;
+        sock->writeBuffer.pack(info->Category);
+        sock->writeBuffer << spec;
     }
 }
 

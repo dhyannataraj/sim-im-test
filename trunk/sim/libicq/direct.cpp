@@ -822,10 +822,12 @@ void DirectClient::startPacket(unsigned short cmd, unsigned short seq)
     if (seq == 0)
         seq = --m_nSequence;
     sock->writeBuffer
-    << (unsigned long)0		// checkSum
-    << (unsigned short)htons(cmd)
-    << (char) 0x0E << (char) 0
-    << (unsigned short)htons(seq)
+    << (unsigned long)0;			// checkSum
+    sock->writeBuffer.pack(cmd);
+    sock->writeBuffer
+    << (char) 0x0E << (char) 0;
+    sock->writeBuffer.pack(seq);
+    sock->writeBuffer
     << (unsigned long)0
     << (unsigned long)0
     << (unsigned long)0;

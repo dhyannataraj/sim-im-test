@@ -42,8 +42,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
             }
             sock->readBuffer.incReadPos(0x2E);
             unsigned long newUin;
-            sock->readBuffer >> newUin;
-            newUin = (unsigned long)htonl(newUin);
+            sock->readBuffer.unpack(newUin);
             log(L_DEBUG, "Register %u %08lX", newUin, newUin);
             owner->Uin = newUin;
             ICQEvent e(EVENT_INFO_CHANGED);
@@ -95,7 +94,7 @@ void ICQClient::chn_login()
             << 0x00000000L << 0x00000000L << 0x00000000L
             << 0x00000000L;
             unsigned short len = DecryptedPassword.size() + 1;
-            msg << htons(len);
+            msg.pack(len);
             msg.pack(DecryptedPassword.c_str(), len);
             msg << 0x94680000L << 0x00000602L;
             sock->writeBuffer.tlv(0x0001, msg);

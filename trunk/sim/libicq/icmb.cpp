@@ -101,11 +101,11 @@ void ICQClient::snac_message(unsigned short type, unsigned short)
 
                 sock->readBuffer.incReadPos(0x1D);
                 unsigned long cookie;
-                sock->readBuffer >> cookie;
+                sock->readBuffer.unpack(cookie);
                 sock->readBuffer.incReadPos(4);
                 sock->readBuffer.unpack(t1);
                 if (t1 == 3){
-                    u->PhoneBookTime = (unsigned long)htonl(cookie);
+                    u->PhoneBookTime = cookie;
                     u->bPhoneChanged = false;
                     log(L_DEBUG, "[%X] Phone book info %u", seq, uin);
                     PhoneBook::iterator it;
@@ -492,7 +492,7 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
                     response_type = 1;
                     copy << 0x00000100L << 0x07DF463CL;
                     Buffer buf;
-                    buf << 0x02000100L << (unsigned long)htonl(1);
+                    buf << 0x02000100L << 0x01000000L;
                     buf.pack((char*)PHONEBOOK_SIGN, sizeof(PHONEBOOK_SIGN));
                     buf << 0x000000L << (unsigned short)0x0100;
                     buf.packStr32("Phone Book");
@@ -505,10 +505,12 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
                     msgState = 0x0200;
                     log(L_DEBUG, "Phonebook request");
                     response_type = 1;
-                    copy << 0x00000100L << (unsigned long)htonl(owner->PhoneBookTime);
+                    copy << 0x00000100L;
+                    copy.pack(owner->PhoneBookTime);
 
                     Buffer b;
-                    b << 0x03000000L << (unsigned long)htonl(owner->Phones.size());
+                    b << 0x03000000L;
+                    b.pack((unsigned long)(owner->Phones.size()));
                     PhoneBook::iterator it;
                     for (it = owner->Phones.begin(); it != owner->Phones.end(); it++){
                         PhoneInfo *phone = static_cast<PhoneInfo*>(*it);
@@ -526,12 +528,12 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
                     for (it = owner->Phones.begin(); it != owner->Phones.end(); it++){
                         PhoneInfo *phone = static_cast<PhoneInfo*>(*it);
                         Buffer b1;
-                        b1 << (unsigned long)htonl(phone->Type);
+                        b1.pack((unsigned long)(phone->Type));
                         b1.packStr32(phone->Provider.c_str());
-                        b1 << (unsigned long)htonl(1)
-                        << (unsigned long)htonl((phone->Type == SMS) ? 1 : 0)
-                        << (unsigned long)htonl(1)
-                        << (unsigned long)htonl(2);
+                        b1.pack(0x00000001L);
+                        b1.pack((unsigned long)((phone->Type == SMS) ? 1 : 0));
+                        b1.pack(0x00000001L);
+                        b1.pack(0x00000002L);
                         b.pack32(b1);
                     }
                     copy.pack32(b);
@@ -562,7 +564,7 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
     << (char)msgType << (char)msgFlags << msgState;
     if (response.size()){
         toServer(response, u);
-        sock->writeBuffer << (unsigned short)htons(response.size() + 1);
+        sock->writeBuffer.pack((unsigned short)(response.size() + 1));
         sock->writeBuffer << response.c_str();
         sock->writeBuffer << (char)0;
     }else{
@@ -699,9 +701,9 @@ void ICQClient::requestAutoResponse(unsigned long uin)
     << 0x00000003L << 0x00000000L
     << advCounter << 0xE000 << advCounter
     << 0x00000000L << 0x00000000L << 0x00000000L
-    << type << (char)3
-    << (unsigned short)htons(owner->uStatus & 0xFFFF)
-    << 0x0100 << 0x0100 << (char)0;
+    << type << (char)3;
+    msg.pack((unsigned short)(owner->uStatus & 0xFFFF));
+    msg << 0x0100 << 0x0100 << (char)0;
 
     Buffer buf;
     buf << 0x0000 << 0x00000000L << 0x00000000L
@@ -787,8 +789,9 @@ void ICQClient::packMessage(Buffer &mb, ICQMessage *m, const char *msg,
                 << (unsigned short)file->id1
                 << (unsigned short)0
                 << string(fileName)
-                << (unsigned long)htonl(file->Size)
-                << (unsigned short)htons(file->id1)
+                << (unsigned long)htonl(file->Size);
+                mb.pack(file->id1);
+                mb
                 << (unsigned short)0;
                 break;
             }
@@ -798,9 +801,9 @@ void ICQClient::packMessage(Buffer &mb, ICQMessage *m, const char *msg,
                 toServer(n, u);
                 mb << n
                 << (unsigned short)chat->id1
-                << (unsigned short)0
-                << (unsigned short)htons(chat->id1)
                 << (unsigned short)0;
+                mb.pack(chat->id1);
+                mb << (unsigned short)0;
                 break;
             }
         case ICQ_MSGxSECURExOPEN:
@@ -830,8 +833,8 @@ void ICQClient::packMessage(Buffer &mb, ICQMessage *m, const char *msg,
             msgBuf.packStr32(fileDescr.c_str());
             msgBuf << file->id1 << file->id2;
             msgBuf << fileName;
-            msgBuf << (unsigned long)htonl(file->Size);
-            msgBuf << (unsigned short)htons(file->id1);
+            msgBuf.pack(file->Size);
+            msgBuf.pack(file->id1);
             msgBuf << (unsigned short)0;
             break;
         }
@@ -841,7 +844,8 @@ void ICQClient::packMessage(Buffer &mb, ICQMessage *m, const char *msg,
             toServer(reason, u);
             msgBuf.packStr32(reason.c_str());
             msgBuf << (unsigned short) 0 << chat->id1 << chat->id2;
-            msgBuf << (unsigned short)htons(chat->id1) << (unsigned short)0;
+            msgBuf.pack(chat->id1);
+            msgBuf.pack((unsigned short)0);
             break;
         }
     default:
@@ -901,8 +905,8 @@ void ICQClient::processMsgQueueThruServer()
                         << (char)0x01
                         << (char)0
                         << (unsigned short)0
-                        << (unsigned short)0x0100
-                        << (unsigned short)htons(message.size() + 1);
+                        << (unsigned short)0x0100;
+                        msgBuf.pack((unsigned short)(message.size() + 1));
                         msgBuf.pack(message.c_str(), message.size() + 1);
                         if (msg->BackColor == msg->ForeColor){
                             msgBuf << 0x00000000L << 0xFFFFFF00L;
@@ -1005,7 +1009,8 @@ void ICQClient::processMsgQueueThruServer()
                     msgBuffer << (char)0xFE;
                     msgBuffer << url.c_str();
                     Buffer b;
-                    b << (unsigned long)htonl(owner->Uin) << (char)msg->Type() << (char)0;
+                    b.pack(owner->Uin);
+                    b << (char)msg->Type() << (char)0;
                     b << msgBuffer;
                     sendThroughServer(*itUin, 4, b);
                 }
@@ -1034,7 +1039,8 @@ void ICQClient::processMsgQueueThruServer()
                     }
                     msgBuffer << (char)0xFE;
                     Buffer b;
-                    b << (unsigned long)htonl(owner->Uin) << (char)msg->Type() << (char)0;
+                    b.pack(owner->Uin);
+                    b << (char)msg->Type() << (char)0;
                     b << msgBuffer;
                     sendThroughServer(*itUin, 4, b);
                 }
@@ -1083,8 +1089,8 @@ void ICQClient::requestPhoneBook(unsigned long uin)
     << (unsigned short)0x0200
     << (char)0x01 << (unsigned short)0;
     msgBuf.pack((char*)PHONEBOOK_SIGN, 16);
-    msgBuf << (unsigned short)0
-    << (unsigned long)htonl(owner->PhoneBookTime);
+    msgBuf << (unsigned short)0;
+    msgBuf.pack(owner->PhoneBookTime);
     Buffer b;
     b << (unsigned short)0;
     b << id.l << id.h;

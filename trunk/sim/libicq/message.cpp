@@ -329,9 +329,9 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
             packet
             >> port
             >> junk
-            >> fileName
-            >> fileSize
-            >> junk >> junk;
+            >> fileName;
+            packet.unpack(fileSize);
+            packet.incReadPos(4);
             fromServer(p, u);
             fromServer(fileName, u);
             const char *shortName = strrchr(fileName.c_str(), '\\');
@@ -344,7 +344,7 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
             msg->Uin.push_back(uin);
             msg->Name = shortName;
             msg->Description = p;
-            msg->Size = htonl(fileSize);
+            msg->Size = fileSize;
             msg->id1 = port;
             msg->timestamp1 = timestamp1;
             return msg;
@@ -391,8 +391,7 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
                 string fileName;
                 b >> fileName;
                 unsigned long fileSize;
-                b >> fileSize;
-                fileSize = htonl(fileSize);
+                b.unpack(fileSize);
                 fromServer(fileDescr, u);
                 fromServer(fileName, u);
                 ICQFile *msg = new ICQFile();
