@@ -680,6 +680,7 @@ void Client::setUserEncoding(unsigned long uin, int i)
         if (left >= 0) name = name.mid(left + 3);
         int right = name.find(" )");
         if (right >= 0) name = name.left(right);
+	log(L_DEBUG, "Set encoding for %lu - [%s]", uin, (const char*)name.latin1());
         u->Encoding = name.latin1();
     }
     emit encodingChanged(uin);
@@ -697,7 +698,7 @@ int Client::userEncoding(unsigned long uin)
         if (left >= 0) name = name.mid(left + 3);
         int right = name.find(" )");
         if (right >= 0) name = name.left(right);
-        if (name == codec->name())
+        if (!strcasecmp(name.latin1(), codec->name()))
             return n;
     }
     return 0;
