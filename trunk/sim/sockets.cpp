@@ -89,7 +89,7 @@ SIMResolver::SIMResolver(QObject *parent, const char *host)
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(resolveTimeout()));
     timer->start(40000);
-    dns = new QDns(QString(host) + ".", QDns::A);
+    dns = new QDns(host, QDns::A);
     connect(dns, SIGNAL(resultsReady()), this, SLOT(resolveReady()));
 #endif
 }
