@@ -1,19 +1,21 @@
+# translation of uk1.po to Ukrainian
 # translation of uk.po to Ukrainian
 # translation of uk.po to Український
-# Copyright (C) 2002 Free Software Foundation, Inc.
+# Copyright (C) 2002,2003 Free Software Foundation, Inc.
 # Ivan Krutyholova <ivan@city.gov.te.ua>, 2002
+# Ivan O.Krutyholova <ivan@city.gov.te.ua>, 2003
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: uk\n"
+"Project-Id-Version: uk1\n"
 "POT-Creation-Date: 2003-02-05 13:49+0300\n"
-"PO-Revision-Date: 2003-01-20 18:24+0200\n"
+"PO-Revision-Date: 2003-02-05 21:14+0200\n"
 "Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 0.9.6\n"
+"X-Generator: KBabel 1.0\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 :n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
 
@@ -1675,8 +1677,7 @@ msgstr "..."
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Ця програма поширюється під ліцензією GPL v2"
+msgstr "Ця програма поширюється під ліцензією GPL v2"
 
 #: chatwnd.cpp:56 monitor.cpp:67 qt3/i18n.cpp:95
 msgid "&Save"
@@ -2232,8 +2233,7 @@ msgstr "%1 від %2"
 
 #: mainwin.cpp:1305 ui/logindlg.cpp:239
 msgid "Can't connect to proxy server"
-msgstr ""
-"Неможливо з'єднатися з проксі-сервером"
+msgstr "Неможливо з'єднатися з проксі-сервером"
 
 #: mainwin.cpp:1313 ui/logindlg.cpp:246
 msgid "Proxy server require authorization"
@@ -2267,8 +2267,7 @@ msgstr "&Ні"
 
 #: mainwin.cpp:1974
 msgid "Add %1 to ignore list ?"
-msgstr ""
-"Додати \"%1\" в список тих що ігноруються?"
+msgstr "Додати \"%1\" в список тих що ігноруються?"
 
 #: mainwin.cpp:2038
 msgid "In visible list"
@@ -2690,8 +2689,7 @@ msgstr "Розмір: %1 / Максимальний: %2"
 
 #: msgedit.cpp:1569
 msgid "Message will be split"
-msgstr ""
-"Повідомлення буде розділено на частини"
+msgstr "Повідомлення буде розділено на частини"
 
 #: msgedit.cpp:1744
 msgid "Decline reason"
@@ -3458,13 +3456,11 @@ msgstr "&Сховати"
 
 #: qt3/i18n.cpp:271
 msgid "Line Up Toolbars (compact)"
-msgstr ""
-"Вирівняти панелі інструментів (компактно)"
+msgstr "Вирівняти панелі інструментів (компактно)"
 
 #: qt3/i18n.cpp:273
 msgid "Line Up Toolbars (normal)"
-msgstr ""
-"Вирівняти панелі інструментів (звичайно)"
+msgstr "Вирівняти панелі інструментів (звичайно)"
 
 #: qt3/i18n.cpp:275
 msgid "Paste special..."
@@ -3653,14 +3649,13 @@ msgid "Wait connect to %1 [%2]"
 msgstr "Очікування під'єднання до %1 [%2]"
 
 #: ui/filetransfer.cpp:165
-#, fuzzy, c-format
+#, c-format
 msgid "Send thru server to %1"
-msgstr "Передача файла %1"
+msgstr "Передача через сервер до %1"
 
 #: ui/filetransfer.cpp:177
-#, fuzzy
 msgid "File transfer done"
-msgstr "Передача файла завершена:"
+msgstr "Передача файлу завершена"
 
 #: ui/filetransfer.cpp:179
 msgid "[done]"
@@ -3671,14 +3666,13 @@ msgid "[fail]"
 msgstr "[помилка]"
 
 #: ui/filetransfer.cpp:185
-#, fuzzy, c-format
+#, c-format
 msgid "File transfer declined with reason %1"
-msgstr "Ввести причину відмови"
+msgstr "Передача файлу відмовлена через %1"
 
 #: ui/filetransfer.cpp:202
-#, fuzzy
 msgid "File transfer acked"
-msgstr "Передача файлу"
+msgstr "Передача файлу підтверджена"
 
 #: ui/filetransfer.cpp:257
 msgid "Receive file %1 of %2 files from %3"
@@ -3991,8 +3985,7 @@ msgstr "Вікно - розтягнути"
 
 #: ui/themesetup.cpp:207
 msgid "Need restart SIM for change language"
-msgstr ""
-"Потрібно перестартувати SIM для зміни мови"
+msgstr "Потрібно перестартувати SIM для зміни мови"
 
 #: ui/themesetup.cpp:217
 msgid "Default icons"
@@ -4376,8 +4369,7 @@ msgstr "Режим користувача для прийому файлів"
 # #
 #: ui/acceptbase.cpp:174
 msgid "Automaitcaly open window"
-msgstr ""
-"Автоматично відкривати вікно повідомлень"
+msgstr "Автоматично відкривати вікно повідомлень"
 
 #: ui/acceptbase.cpp:175
 msgid "Run external program"
@@ -4888,8 +4880,7 @@ msgstr "&Прозорість"
 
 #: ui/themesetupbase.cpp:312
 msgid "Show main window in task manager"
-msgstr ""
-"Показувати основне вікно в панелі задач"
+msgstr "Показувати основне вікно в панелі задач"
 
 #: ui/themesetupbase.cpp:313
 msgid "Show user window in task manager"
@@ -4920,8 +4911,7 @@ msgid "Hide main window after"
 msgstr "Сховати головне вікно"
 
 #: ui/statussetupbase.cpp:142
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Заборонити попередження в стані "
 "\"Відійшов\", \"Не активний\", \"Зайнятий\""
@@ -5116,8 +5106,7 @@ msgstr ""
 
 #: ui/generalsecbase.cpp:222
 msgid "Reject &URL from unknown users"
-msgstr ""
-"Відкидати &URL від невідомих користувачів"
+msgstr "Відкидати &URL від невідомих користувачів"
 
 #: ui/generalsecbase.cpp:223
 msgid "Reject &World Wide pager messages"
@@ -5595,3 +5584,4 @@ msgstr "Тема / Інтереси:"
 
 #~ msgid "exist"
 #~ msgstr "существует"
+
