@@ -6583,10 +6583,7 @@ msgstr "Windows XP-Stil"
 #~ "Installation von eigenen Informationen kommen."
 
 #~ msgid "Use &default path"
-#~ msgstr "&Standardverzeichnis benutzen"
-
-#~ msgid "Path for config files:"
-#~ msgstr "Verzeichnis für die Konfigurationsdateien:"
+#~ msgstr "Stan&dardverzeichnis benutzen"
 
 #~ msgid "Can't open file"
 #~ msgstr "Datei kann nicht geöffnet werden"
