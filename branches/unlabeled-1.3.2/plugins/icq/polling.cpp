@@ -406,10 +406,10 @@ void HttpPool::request()
         if (hello == NULL) hello = new HelloRequest(this, m_bAIM);
         return;
     }
-    if (queue.size() && (post == NULL))
-        post = new PostRequest(this);
     if (monitor == NULL)
         monitor = new MonitorRequest(this);
+    if (queue.size() && (post == NULL))
+        post = new PostRequest(this);
     if (readn && notify){
         if (state == None){
             state = Connected;

@@ -69,8 +69,8 @@ BkgndCfg::BkgndCfg(QWidget *parent, BackgroundPlugin *plugin)
     cmbPosition->insertItem(i18n("Window - left center"));
     cmbPosition->insertItem(i18n("Window - scale"));
     cmbPosition->setCurrentItem(plugin->getPosition());
-    spnMargin->setMaxValue(20);
-    spnMargin->setValue(plugin->getMargin());
+    spnContact->setValue(plugin->getMarginContact());
+    spnGroup->setValue(plugin->getMarginGroup());
     lblLink->setText(i18n("Get more skins"));
     lblLink->setUrl("http://miranda-im.org/download/index.php?action=display&id=32");
 }
@@ -80,7 +80,8 @@ void BkgndCfg::apply()
     if (cmbPosition->currentItem() >= 0)
         m_plugin->setPosition(cmbPosition->currentItem());
     m_plugin->setBackground(QFile::encodeName(edtPicture->text()));
-    m_plugin->setMargin(atol(spnMargin->text().latin1()));
+    m_plugin->setMarginContact(atol(spnContact->text().latin1()));
+    m_plugin->setMarginGroup(atol(spnGroup->text().latin1()));
     m_plugin->redraw();
 }
 

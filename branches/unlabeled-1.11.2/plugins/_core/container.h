@@ -132,6 +132,9 @@ protected:
     bool			m_bBarChanged;
     bool			m_bReceived;
     bool			m_bNoSwitch;
+#ifdef WIN32
+	bool			m_bInitWnd;
+#endif
     CToolBar		*m_bar;
     QSplitter		*m_tabSplitter;
     UserTabBar		*m_tabBar;

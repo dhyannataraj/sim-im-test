@@ -64,6 +64,7 @@ void UserViewItemBase::paintCell(QPainter *p, const QColorGroup &cg, int, int wi
         pv.isStatic = false;
         pv.height   = height();
         pv.margin   = 0;
+		pv.isGroup  = (type() == GRP_ITEM);
         if (CorePlugin::m_plugin->getUseSysColors()){
             pp.setPen(cg.text());
         }else{

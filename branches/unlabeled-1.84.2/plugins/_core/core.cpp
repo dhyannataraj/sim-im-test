@@ -2147,8 +2147,11 @@ void *CorePlugin::processEvent(Event *e)
             if ((*msg)->getFlags() & MESSAGE_NORAISE){
                 if (bNew){
                     container->m_bNoRead = true;
+#ifdef WIN32
+					ShowWindow(container->winId(), SW_SHOWMINNOACTIVE);
+#else
                     container->showMinimized();
-                    container->m_bNoRead = false;
+#endif
                 }
                 if (m_focus)
                     m_focus->setFocus();

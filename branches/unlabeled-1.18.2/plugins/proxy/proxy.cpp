@@ -313,10 +313,12 @@ void Proxy::write()
 
 void Proxy::proxy_connect_ready()
 {
-    static_cast<ClientSocket*>(notify)->setSocket(m_sock);
-    m_sock = NULL;
-    if (notify)
-        notify->connect_ready();
+	if (notify){
+		SocketNotify *n = notify;
+		static_cast<ClientSocket*>(n)->setSocket(m_sock);
+		m_sock = NULL;
+		n->connect_ready();
+	}
     getSocketFactory()->remove(this);
 }
 

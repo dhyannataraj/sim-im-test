@@ -118,8 +118,6 @@ static BOOL (WINAPI *_InternetQueryOption)(HINTERNET hInternet, DWORD dwOption,
 static BOOL (WINAPI *_HttpEndRequest)(HINTERNET hRequest, LPINTERNET_BUFFERS lpBuffersOut,
                                       DWORD dwFlags, DWORD dwContext);
 static BOOL (WINAPI *_InternetSetCookie)(LPCSTR lpszUrl,  LPCSTR lpszCookieName, LPCSTR lpszCookieData);
-static BOOL (WINAPI *_HttpAddRequestHeaders)(HINTERNET hConnect, LPCSTR lpszHeaders,
-        DWORD dwHeadersLength, DWORD dwModifiers);
 
 static HINTERNET hInet = NULL;
 
@@ -227,27 +225,6 @@ void FetchThread::run()
     }
     for (HEADERS_MAP::iterator it = m_client->m_hOut.begin(); it != m_client->m_hOut.end(); ++it){
         string name = (*it).first.c_str();
-#if 0
-        if (name == "Cookie"){
-            string cookies = (*it).second.c_str();
-            while (!cookies.empty()){
-                string cookie = trim(getToken(cookies, ';').c_str());
-                string name = getToken(cookie, '=');
-                if (!_InternetSetCookie(m_client->m_uri.c_str(), name.c_str(), cookie.c_str())){
-                    error("Internet set cookie");
-                    return;
-                }
-            }
-            name += ": ";
-            name += (*it).second.c_str();
-            name += "\r\n";
-            if (!_HttpAddRequestHeaders(hReq, name.c_str(), name.length(), HTTP_ADDREQ_FLAG_REPLACE)){
-                error("HttpAddRequestHeaders");
-                return;
-            }
-            continue;
-        }
-#endif
         if (!headers.empty())
             headers += "\r\n";
         headers += name;
@@ -495,7 +472,6 @@ FetchManager::FetchManager()
         (DWORD&)_HttpSendRequestEx = (DWORD)GetProcAddress(hLib, "HttpSendRequestExA");
         (DWORD&)_HttpQueryInfo = (DWORD)GetProcAddress(hLib, "HttpQueryInfoA");
         (DWORD&)_HttpEndRequest = (DWORD)GetProcAddress(hLib, "HttpEndRequestA");
-        (DWORD&)_HttpAddRequestHeaders = (DWORD)GetProcAddress(hLib, "HttpAddRequestHeadersA");
         (DWORD&)_InternetReadFile = (DWORD)GetProcAddress(hLib, "InternetReadFile");
         (DWORD&)_InternetWriteFile = (DWORD)GetProcAddress(hLib, "InternetWriteFile");
         (DWORD&)_InternetQueryOption = (DWORD)GetProcAddress(hLib, "InternetQueryOptionA");
@@ -624,6 +600,7 @@ void FetchClientPrivate::_fetch(const char *headers, Buffer *postData, bool bRed
 #ifdef WIN32
     m_errCode = 0;
     if (hInet){
+		m_state  = Data;
         m_thread = new FetchThread(this);
         m_thread->start();
         return;

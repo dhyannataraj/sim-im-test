@@ -55,7 +55,8 @@ static DataDef backgroundData[] =
     {
         { "Background", DATA_STRING, 1, 0 },
         { "Position", DATA_ULONG, 1, 0 },
-        { "Margin", DATA_ULONG, 1, 0 },
+        { "MarginContact", DATA_ULONG, 1, 0 },
+        { "MarginGroup", DATA_ULONG, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -90,8 +91,9 @@ QWidget *BackgroundPlugin::createConfigWindow(QWidget *parent)
 
 void *BackgroundPlugin::processEvent(Event *e)
 {
-    if ((e->type() == EventPaintView) && !bgImage.isNull()){
+    if (e->type() == EventPaintView){
         PaintView *pv = (PaintView*)(e->param());
+		if (!bgImage.isNull()){
         unsigned w = bgImage.width();
         unsigned h = bgImage.height();
         int x = pv->pos.x();
@@ -130,7 +132,8 @@ void *BackgroundPlugin::processEvent(Event *e)
             pv->p->drawPixmap(QPoint(0, 0), bgScale, QRect(x, y, pv->size.width(), pv->size.height()));
             pv->isStatic = true;
         }
-        pv->margin = getMargin();
+		}
+        pv->margin = pv->isGroup ? getMarginGroup() : getMarginContact();
     }
     return NULL;
 }
