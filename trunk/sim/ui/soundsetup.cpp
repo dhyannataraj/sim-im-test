@@ -51,9 +51,9 @@ SoundSetup::SoundSetup(QWidget *p, bool bUser)
         connect(chkDisable, SIGNAL(toggled(bool)), this, SLOT(disableToggled(bool)));
         chkOverride->hide();
 #ifdef USE_KDE
-        chkArts->setChecked(pSplash->getUseArts());
+        chkArts->setChecked(pSplash->isUseArts());
         connect(chkArts, SIGNAL(toggled(bool)), this, SLOT(artsToggled(bool)));
-        artsToggled(pSplash->getUseArts());
+        artsToggled(pSplash->isUseArts());
 #else
         chkArts->hide();
 #endif
