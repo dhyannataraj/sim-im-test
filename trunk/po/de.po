@@ -3235,9 +3235,8 @@ msgid "Delete \"%1\"?"
 msgstr "\"%1\" löschen?"
 
 #: plugins/_core/userview.cpp:375
-#, fuzzy
 msgid "Remove history"
-msgstr "Verlauf behalten "
+msgstr "Verlauf löschen"
 
 #: plugins/_core/userview.cpp:780
 msgid "New group"
@@ -3800,19 +3799,16 @@ msgid "days"
 msgstr "Tage"
 
 #: plugins/_core/historycfgbase.cpp:180
-#, fuzzy
 msgid "100"
-msgstr "1200"
+msgstr "100"
 
 #: plugins/_core/historycfgbase.cpp:181
-#, fuzzy
 msgid "50"
-msgstr "50'er"
+msgstr "50"
 
 #: plugins/_core/historycfgbase.cpp:182
-#, fuzzy
 msgid "20"
-msgstr "2400"
+msgstr "20"
 
 #: plugins/_core/historycfgbase.cpp:184
 msgid "&Preview"
@@ -8395,18 +8391,16 @@ msgid ""
 msgstr "Leichter Nieselregen"
 
 #: plugins/weather/weather.cpp:482
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Drifting Snow"
-msgstr "Leichter Schnee"
+msgstr "Schneetreiben"
 
 #: plugins/weather/weather.cpp:483
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Scattered"
-msgstr "Vereinzelter Schnee"
+msgstr "Vereinzelte Regenschauer"
 
 #: plugins/weather/weather.cpp:484
 msgid ""
