@@ -139,7 +139,6 @@ protected:
     unsigned short m_nPort;
     SocketError m_err;
     bool m_delete;
-    bool m_bConnecting;
 
     ResolveState m_resolving;
     ConnectState m_connecting;

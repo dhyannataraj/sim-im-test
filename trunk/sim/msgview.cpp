@@ -56,8 +56,10 @@ TextShow::TextShow(QWidget *p)
 
 void TextShow::resizeEvent(QResizeEvent *e)
 {
+    QPoint pos(contentsX(), contentsY());
+    int n = paragraphAt(pos);
     QTextBrowser::resizeEvent(e);
-    if (!curAnchor.isEmpty()) scrollToAnchor(curAnchor);
+    scrollToAnchor(curAnchor);
 }
 
 void TextShow::viewportMousePressEvent(QMouseEvent *e)
@@ -259,9 +261,10 @@ static char FONT_FORMAT[] = "<font color=\"#%06X\">";
 
 void MsgView::colorsChanged()
 {
+    int x = contentsX();
+    int y = contentsY();
     char FONT_SEND[] = "<##FontSend##>";
     char FONT_RECEIVE[] = "<##FontReceive##>";
-    viewport()->setUpdatesEnabled(false);
     QString t = text();
     QString c;
     c.sprintf(FONT_FORMAT, oldSendColor);
@@ -273,21 +276,17 @@ void MsgView::colorsChanged()
     c.sprintf(FONT_FORMAT, pMain->ColorReceive());
     t.replace(QRegExp(FONT_RECEIVE), c);
     setText(t);
-    viewport()->setUpdatesEnabled(true);
-    scrollToAnchor(curAnchor);
-    viewport()->repaint();
+    setContentsPos(x, y);
 }
 
 void MsgView::messageRead(ICQMessage *msg)
 {
     QString pat;
-    pat.sprintf("<p><a name=\"%lu.%lu\"></a></p>", msg->getUin(), msg->Id);
+    pat.sprintf("<p><a name=\"%lu.%lu\"></a>", msg->getUin(), msg->Id);
     QString res;
     QString t = text();
     int pos = t.find(pat);
     if (pos < 0) return;
-    bool isUpdates = viewport()->isUpdatesEnabled();
-    viewport()->setUpdatesEnabled(false);
     res = t.left(pos);
     if (msg){
         bool bSaveBack = bBack;
@@ -298,12 +297,9 @@ void MsgView::messageRead(ICQMessage *msg)
     t = t.mid(pos+1);
     pos = t.find("<p><a name=");
     if (pos >= 0) res += t.mid(pos);
-    setText(res);
     curAnchor = QString::number(msg->getUin()) + "." + QString::number(msg->Id);
-    if (!isUpdates) return;
-    viewport()->setUpdatesEnabled(true);
+    setText(res, curAnchor);
     scrollToAnchor(curAnchor);
-    viewport()->repaint();
 }
 
 void MsgView::deleteUser(unsigned long uin)
@@ -327,13 +323,14 @@ void MsgView::deleteUser(unsigned long uin)
             t = "";
         }
     }
-    setText(res);
+    setText(res, curAnchor);
+    scrollToAnchor(curAnchor);
 }
 
 void MsgView::setMessage(unsigned long uin, unsigned long msgId)
 {
     QString pat;
-    pat.sprintf("<p><a name=\"%lu.%lu\"></a></p>", uin, msgId);
+    pat.sprintf("<p><a name=\"%lu.%lu\"></a>", uin, msgId);
     if (text().find(pat) < 0) return;
     curAnchor = QString::number(uin) + "." + QString::number(msgId);
     scrollToAnchor(curAnchor);
@@ -342,7 +339,7 @@ void MsgView::setMessage(unsigned long uin, unsigned long msgId)
 QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
 {
     QString s;
-    s.sprintf("<p><a name=\"%lu.%lu\"></a></p>"
+    s.sprintf("<p><a name=\"%lu.%lu\"></a>"
               "<table width=100%%><tr>"
               "<td><a href=\"msg://%lu.%lu\"><img src=\"icon:%s\"></a>&nbsp;",
               msg->getUin(), msg->Id, msg->getUin(), msg->Id, Client::getMessageIcon(msg->Type()));
@@ -391,25 +388,29 @@ QString MsgView::makeMessage(ICQMessage *msg, bool bUnread)
     }
     s += makeMessageText(msg);
     if (foreColor != backColor) s += "</font>";
-    s += "</td></tr></table>";
+    s += "</td></tr></table></p>";
     return s;
 }
 
-void MsgView::addMessage(ICQMessage *msg, bool bUnread)
+void MsgView::addMessage(ICQMessage *msg, bool bUnread, bool bSet)
 {
     if (msg->Id >= MSG_PROCESS_ID) return;
-    bool bUpdates = viewport()->isUpdatesEnabled();
-    viewport()->setUpdatesEnabled(false);
+    int x = contentsX();
+    int y = contentsY();
     QString s(makeMessage(msg, bUnread));
+    QString anchor;
+    if (bSet) QString::number(msg->getUin()) + "." + QString::number(msg->Id);
     if (bBack){
-        setText(s + text());
+        setText(s + text(), anchor);
     }else{
-        setText(text() + s);
+        setText(text() + s, anchor);
     }
-    if (!bUpdates) return;
-    viewport()->setUpdatesEnabled(true);
-    scrollToAnchor(curAnchor);
-    viewport()->repaint();
+    if (bSet){
+        curAnchor = anchor;
+        scrollToAnchor(curAnchor);
+        return;
+    }
+    setContentsPos(x, y);
 }
 
 void MsgView::addUnread(unsigned long uin)
@@ -420,7 +421,7 @@ void MsgView::addUnread(unsigned long uin)
     for (list<unsigned long>::iterator it = u->unreadMsgs.begin(); it != u->unreadMsgs.end(); it++){
         ICQMessage *msg = h.getMessage(*it);
         if (msg == NULL) continue;
-        addMessage(msg, true);
+        addMessage(msg, true, false);
     }
 }
 
@@ -468,19 +469,16 @@ void HistoryView::messageReceived(ICQMessage *msg)
             }
         }
     }
-    viewport()->setUpdatesEnabled(false);
     if (bBack){
         QString saveText = text();
         setText("");
-        addMessage(msg, bUnread);
+        addMessage(msg, bUnread, false);
         y += contentsHeight();
         setText(text() + saveText);
     }else{
-        addMessage(msg, bUnread);
+        addMessage(msg, bUnread, false);
     }
-    viewport()->setUpdatesEnabled(true);
     setContentsPos(x, y);
-    viewport()->repaint();
 }
 
 #ifndef _WINDOWS

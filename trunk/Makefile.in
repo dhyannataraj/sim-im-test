@@ -1,6 +1,5 @@
 # Makefile.in generated automatically by automake 1.5 from Makefile.am.
-# KDE tags expanded automatically by am_edit - $Revision: 1.1.1.1 $ 
-
+# KDE tags expanded automatically by am_edit - $Revision: 1.4 $ 
 # Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
 # Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -278,7 +277,7 @@ $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 #>+ 3
 	cd $(top_srcdir) && \
 	$(AUTOMAKE) --foreign  ./Makefile
-	cd $(top_srcdir) && perl admin/am_edit Makefile.in
+	cd $(top_srcdir) && perl admin/am_edit sim-0.7/Makefile.in
 Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && \
 	CONFIG_HEADERS= CONFIG_LINKS= \
@@ -412,7 +411,7 @@ distclean-tags:
 
 #>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 #>+ 4
-KDE_DIST=Makefile.dist configure.files sim.rc configure.lineno subdirs sim.dsp 
+KDE_DIST=configure.files sim.rc stamp-h2.in stamp-h4.in subdirs Makefile.dist sim.kdevses stamp-h1.in stamp-h3.in configure.lineno sim.log sim.dsp 
 
 DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
 
@@ -608,6 +607,7 @@ dist-hook:
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
 
+
 #>+ 2
 docs-am:
 
@@ -628,7 +628,7 @@ apidox: apidox-am
 force-reedit:
 		cd $(top_srcdir) && \
 	$(AUTOMAKE) --foreign  ./Makefile
-	cd $(top_srcdir) && perl admin/am_edit Makefile.in
+	cd $(top_srcdir) && perl admin/am_edit sim-0.7/Makefile.in
 
 
 #>+ 2

@@ -89,7 +89,7 @@ SetupDialog::SetupDialog(QWidget *parent, int nWin)
     addPage(new StatusSetup(tabBars), 201, i18n("Status mode"), "status");
     addPage(new NetworkSetup(tabBars), 202, i18n("Connection"), "network");
     addPage(new ThemeSetup(tabBars), 203, i18n("Style"), "style");
-    addPage(new FontSetup(tabBars), 204, i18n("Fonts"), "text");
+    addPage(new FontSetup(tabBars), 204, i18n("Interface"), "text");
     addPage(new SoundSetup(tabBars), 205, i18n("Sound"), "sound");
     addPage(new XOSDSetup(tabBars), 206, i18n("On Screen notification"), "screen");
 

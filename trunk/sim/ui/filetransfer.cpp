@@ -33,6 +33,8 @@
 #include <qlabel.h>
 #include <qprogressbar.h>
 #include <qcheckbox.h>
+#include <qslider.h>
+#include <qtimer.h>
 
 FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
         : FileTransferBase(p)
@@ -62,14 +64,37 @@ FileTransferDlg::FileTransferDlg(QWidget *p, ICQFile *_file)
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     barSend->setIndicatorFollowsStyle(true);
     barSend->setTotalSteps(file->Size());
+    sldSpeed->setMinValue(1);
+    sldSpeed->setMaxValue(100);
+    sldSpeed->setValue(file->ft ? file->ft->speed() : 100);
+    connect(sldSpeed, SIGNAL(valueChanged(int)), this, SLOT(speedChanged(int)));
     setProgress();
     bSending = true;
+    bDirty = false;
+    QTimer *timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(timeout()));
+    timer->start(1000);
+}
+
+void FileTransferDlg::speedChanged(int value)
+{
+    if (file && file->ft)
+        file->ft->setSpeed(value);
 }
 
 void FileTransferDlg::processed(ICQFile *f)
 {
     if (f != file) return;
+    bDirty = true;
+}
+
+void FileTransferDlg::timeout()
+{
+    if (!bDirty || !file) return;
+    if (file->ft && (file->ft->speed() != sldSpeed->value()))
+        sldSpeed->setValue(file->ft->speed());
     setProgress();
+    bDirty = false;
 }
 
 void FileTransferDlg::processEvent(ICQEvent *e)
@@ -90,6 +115,9 @@ void FileTransferDlg::processEvent(ICQEvent *e)
         close();
         return;
     }
+    file = NULL;
+    lblSldSpeed->hide();
+    sldSpeed->hide();
     chkClose->hide();
     btnCancel->setText(i18n("&Close"));
 }
@@ -126,7 +154,7 @@ QString FileTransferDlg::formatKBytes(unsigned size)
 
 void FileTransferDlg::closeEvent(QCloseEvent *e)
 {
-    if (bSending) pClient->cancelMessage(file);
+    if (file && bSending) pClient->cancelMessage(file);
     FileTransferBase::closeEvent(e);
 }
 

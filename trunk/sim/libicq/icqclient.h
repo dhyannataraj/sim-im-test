@@ -398,6 +398,8 @@ public:
     FileTransfer(int fd, const char *host, unsigned short port, ICQClient *client, ICQFile *file);
     FileTransfer(unsigned long ip, unsigned long real_ip, unsigned short port, ICQUser *u, ICQClient *client, ICQFile *file);
     void resume(int mode);
+    int  speed() { return m_nSpeed; }
+    void setSpeed(int nSpeed);
 protected:
     enum State
     {
@@ -418,11 +420,14 @@ protected:
     bool have_data();
 
     void startPacket(char cmd);
-    void sendPacket();
+    void sendPacket(bool dump=true);
 
     State state;
     unsigned long m_packetOffs;
     unsigned long m_nSpeed;
+
+    unsigned sendTime;
+    unsigned sendSize;
 };
 
 class ChatListener : public ServerSocket

@@ -1,6 +1,5 @@
 # Makefile.in generated automatically by automake 1.5 from Makefile.am.
-# KDE tags expanded automatically by am_edit - $Revision: 1.1.1.1 $ 
-
+# KDE tags expanded automatically by am_edit - $Revision: 1.4 $ 
 # Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
 # Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -367,7 +366,7 @@ $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 #>+ 3
 	cd $(top_srcdir) && \
 	$(AUTOMAKE) --gnu  sim/Makefile
-	cd $(top_srcdir) && perl admin/am_edit sim/Makefile.in
+	cd $(top_srcdir) && perl admin/am_edit sim-0.7/sim/Makefile.in
 Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && \
 	CONFIG_HEADERS= CONFIG_LINKS= \
@@ -569,7 +568,12 @@ GTAGS:
 distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH
 
-DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+#>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+#>+ 4
+KDE_DIST=sim 
+
+DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
+
 
 top_distdir = ..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
@@ -736,33 +740,26 @@ messages: rc.cpp
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
 
-#>+ 3
-usertbl.moc: $(srcdir)/usertbl.h
-	$(MOC) $(srcdir)/usertbl.h -o usertbl.moc
-
-#>+ 3
-dock.moc: $(srcdir)/dock.h
-	$(MOC) $(srcdir)/dock.h -o dock.moc
-
-#>+ 3
-toolbtn.moc: $(srcdir)/toolbtn.h
-	$(MOC) $(srcdir)/toolbtn.h -o toolbtn.moc
-
-#>+ 3
-msgview.moc: $(srcdir)/msgview.h
-	$(MOC) $(srcdir)/msgview.h -o msgview.moc
-
-#>+ 3
-themes.moc: $(srcdir)/themes.h
-	$(MOC) $(srcdir)/themes.h -o themes.moc
-
-#>+ 3
-editspell.moc: $(srcdir)/editspell.h
-	$(MOC) $(srcdir)/editspell.h -o editspell.moc
 
 #>+ 3
 userbox.moc: $(srcdir)/userbox.h
 	$(MOC) $(srcdir)/userbox.h -o userbox.moc
+
+#>+ 3
+logindlg.moc: $(srcdir)/logindlg.h
+	$(MOC) $(srcdir)/logindlg.h -o logindlg.moc
+
+#>+ 3
+chatwnd.moc: $(srcdir)/chatwnd.h
+	$(MOC) $(srcdir)/chatwnd.h -o chatwnd.moc
+
+#>+ 3
+intedit.moc: $(srcdir)/intedit.h
+	$(MOC) $(srcdir)/intedit.h -o intedit.moc
+
+#>+ 3
+usertbl.moc: $(srcdir)/usertbl.h
+	$(MOC) $(srcdir)/usertbl.h -o usertbl.moc
 
 #>+ 3
 sim.moc: $(srcdir)/sim.h
@@ -773,40 +770,48 @@ passwddlg.moc: $(srcdir)/passwddlg.h
 	$(MOC) $(srcdir)/passwddlg.h -o passwddlg.moc
 
 #>+ 3
-chatwnd.moc: $(srcdir)/chatwnd.h
-	$(MOC) $(srcdir)/chatwnd.h -o chatwnd.moc
-
-#>+ 3
-msgedit.moc: $(srcdir)/msgedit.h
-	$(MOC) $(srcdir)/msgedit.h -o msgedit.moc
-
-#>+ 3
-logindlg.moc: $(srcdir)/logindlg.h
-	$(MOC) $(srcdir)/logindlg.h -o logindlg.moc
-
-#>+ 3
-intedit.moc: $(srcdir)/intedit.h
-	$(MOC) $(srcdir)/intedit.h -o intedit.moc
+dock.moc: $(srcdir)/dock.h
+	$(MOC) $(srcdir)/dock.h -o dock.moc
 
 #>+ 3
 transparent.moc: $(srcdir)/transparent.h
 	$(MOC) $(srcdir)/transparent.h -o transparent.moc
 
 #>+ 3
-mainwin.moc: $(srcdir)/mainwin.h
-	$(MOC) $(srcdir)/mainwin.h -o mainwin.moc
-
-#>+ 3
 userview.moc: $(srcdir)/userview.h
 	$(MOC) $(srcdir)/userview.h -o userview.moc
+
+#>+ 3
+toolbtn.moc: $(srcdir)/toolbtn.h
+	$(MOC) $(srcdir)/toolbtn.h -o toolbtn.moc
+
+#>+ 3
+msgview.moc: $(srcdir)/msgview.h
+	$(MOC) $(srcdir)/msgview.h -o msgview.moc
+
+#>+ 3
+mainwin.moc: $(srcdir)/mainwin.h
+	$(MOC) $(srcdir)/mainwin.h -o mainwin.moc
 
 #>+ 3
 fontedit.moc: $(srcdir)/fontedit.h
 	$(MOC) $(srcdir)/fontedit.h -o fontedit.moc
 
 #>+ 3
+msgedit.moc: $(srcdir)/msgedit.h
+	$(MOC) $(srcdir)/msgedit.h -o msgedit.moc
+
+#>+ 3
 xosd.moc: $(srcdir)/xosd.h
 	$(MOC) $(srcdir)/xosd.h -o xosd.moc
+
+#>+ 3
+themes.moc: $(srcdir)/themes.h
+	$(MOC) $(srcdir)/themes.h -o themes.moc
+
+#>+ 3
+editspell.moc: $(srcdir)/editspell.h
+	$(MOC) $(srcdir)/editspell.h -o editspell.moc
 
 #>+ 3
 client.moc: $(srcdir)/client.h
@@ -814,7 +819,7 @@ client.moc: $(srcdir)/client.h
 
 #>+ 3
 clean-metasources:
-	-rm -f  usertbl.moc dock.moc toolbtn.moc msgview.moc themes.moc editspell.moc userbox.moc sim.moc passwddlg.moc chatwnd.moc msgedit.moc logindlg.moc intedit.moc transparent.moc mainwin.moc userview.moc fontedit.moc xosd.moc client.moc
+	-rm -f  userbox.moc logindlg.moc chatwnd.moc intedit.moc usertbl.moc sim.moc passwddlg.moc dock.moc transparent.moc userview.moc toolbtn.moc msgview.moc mainwin.moc fontedit.moc msgedit.moc xosd.moc themes.moc editspell.moc client.moc
 
 #>+ 2
 docs-am:
@@ -836,16 +841,16 @@ apidox: apidox-am
 force-reedit:
 		cd $(top_srcdir) && \
 	$(AUTOMAKE) --gnu  sim/Makefile
-	cd $(top_srcdir) && perl admin/am_edit sim/Makefile.in
+	cd $(top_srcdir) && perl admin/am_edit sim-0.7/sim/Makefile.in
 
 
 #>+ 15
-sim_meta_unload.cc:  dock.moc usertbl.moc msgview.moc toolbtn.moc editspell.moc themes.moc userbox.moc sim.moc passwddlg.moc chatwnd.moc msgedit.moc logindlg.moc intedit.moc transparent.moc mainwin.moc userview.moc fontedit.moc xosd.moc client.moc
+sim_meta_unload.cc:  dock.moc usertbl.moc msgview.moc toolbtn.moc editspell.moc themes.moc userbox.moc chatwnd.moc sim.moc passwddlg.moc msgedit.moc logindlg.moc intedit.moc transparent.moc mainwin.moc userview.moc fontedit.moc xosd.moc client.moc
 	@echo 'creating sim_meta_unload.cc'
 	@-rm -f sim_meta_unload.cc
 	@if test ${kde_qtver} = 2; then \
 		echo 'static const char * _metalist_sim[] = {' > sim_meta_unload.cc ;\
-		cat  dock.moc usertbl.moc msgview.moc toolbtn.moc editspell.moc themes.moc userbox.moc sim.moc passwddlg.moc chatwnd.moc msgedit.moc logindlg.moc intedit.moc transparent.moc mainwin.moc userview.moc fontedit.moc xosd.moc client.moc | grep 'char.*className' | sed -e 's/.*[^A-Za-z0-9_:]\([A-Za-z0-9_:]*\)::className.*$$/\"\1\",/' | sort | uniq >> sim_meta_unload.cc ;\
+		cat  dock.moc usertbl.moc msgview.moc toolbtn.moc editspell.moc themes.moc userbox.moc chatwnd.moc sim.moc passwddlg.moc msgedit.moc logindlg.moc intedit.moc transparent.moc mainwin.moc userview.moc fontedit.moc xosd.moc client.moc | grep 'char.*className' | sed -e 's/.*[^A-Za-z0-9_:]\([A-Za-z0-9_:]*\)::className.*$$/\"\1\",/' | sort | uniq >> sim_meta_unload.cc ;\
 		echo '0};' >> sim_meta_unload.cc ;\
 		echo '#include "defs.h"' >> sim_meta_unload.cc ;\
 		echo '#ifdef USE_KDE' >> sim_meta_unload.cc ;\
@@ -909,15 +914,15 @@ kde-rpo-clean:
 
 #>+ 39
 fontedit.lo: fontedit.moc 
-chatwnd.o: chatwnd.moc 
 sim.o: sim.moc 
+chatwnd.o: chatwnd.moc 
 usertbl.lo: usertbl.moc 
 msgview.lo: msgview.moc 
 logindlg.o: logindlg.moc 
 intedit.o: intedit.moc 
-transparent.o: transparent.moc 
-themes.lo: themes.moc 
 editspell.lo: editspell.moc 
+themes.lo: themes.moc 
+transparent.o: transparent.moc 
 mainwin.o: mainwin.moc 
 userbox.lo: userbox.moc 
 chatwnd.lo: chatwnd.moc 
@@ -927,8 +932,8 @@ client.o: client.moc
 mainwin.lo: mainwin.moc 
 dock.o: dock.moc 
 msgview.o: msgview.moc 
-themes.o: themes.moc 
 editspell.o: editspell.moc 
+themes.o: themes.moc 
 userview.lo: userview.moc 
 userbox.o: userbox.moc 
 passwddlg.o: passwddlg.moc 

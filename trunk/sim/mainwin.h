@@ -79,6 +79,12 @@ const unsigned long mnuGroupInvisible = 0x10002;
 const unsigned long mnuGroupIgnore = 0x10003;
 const unsigned long mnuOnTop = 0x10004;
 
+const unsigned short ContainerModeUser = 0;
+const unsigned short ContainerModeGroup = 1;
+const unsigned short ContainerModeAll = 2;
+
+const unsigned long ContainerAllUsers = 0xFFFFFFFF;
+
 class XOSD;
 class ICQEvent;
 class QDialog;
@@ -173,6 +179,8 @@ public:
     ConfigUShort XOSD_FontWeight;
     ConfigBool   XOSD_FontItalic;
     ConfigUShort XOSD_timeout;
+
+    ConfigUShort ContainerMode;
 
     bool 	     init();
 

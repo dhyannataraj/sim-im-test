@@ -34,10 +34,13 @@ protected slots:
     void processed(ICQFile*);
     void processEvent(ICQEvent*);
     void action(int);
+    void speedChanged(int);
+    void timeout();
 protected:
     void closeEvent(QCloseEvent*);
     void setProgress();
     ICQFile *file;
+    bool bDirty;
     bool bSending;
     bool bCanResume;
     QString formatSize(unsigned size);

@@ -26,6 +26,8 @@
 #include <qapplication.h>
 #include <qpopupmenu.h>
 #include <qcheckbox.h>
+#include <qbuttongroup.h>
+#include <qradiobutton.h>
 
 FontSetup::FontSetup(QWidget *p)
         : FontSetupBase(p)
@@ -41,6 +43,7 @@ FontSetup::FontSetup(QWidget *p)
 #else
     chkSystem->hide();
 #endif
+    grpContainer->setButton(pMain->ContainerMode());
     btnSend->setColor(QColor(pMain->ColorSend));
     btnReceive->setColor(QColor(pMain->ColorReceive));
 }
@@ -76,6 +79,13 @@ void FontSetup::apply(ICQUser*)
     pMain->FontMenuWeight = fontMenu.weight();
     pMain->FontMenuItalic = fontMenu.italic();
     pMain->setFonts();
+    QWidget *w = grpContainer->selected();
+    if (w == rbtUser)
+        pMain->ContainerMode = ContainerModeUser;
+    if (w == rbtGroup)
+        pMain->ContainerMode = ContainerModeGroup;
+    if (w == rbtAll)
+        pMain->ContainerMode = ContainerModeAll;
 }
 
 #ifndef _WINDOWS

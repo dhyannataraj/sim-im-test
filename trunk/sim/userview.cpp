@@ -100,6 +100,15 @@ void UserViewItemBase::paint(QPainter *p, const QString s, const QColorGroup &c,
         pos = listView()->mapToGlobal(pos);
         pos = listView()->topLevelWidget()->mapFromGlobal(pos);
         p->drawTiledPixmap(0, 0, width, h, *pix, pos.x(), pos.y());
+        if (isSelected() && !userView->bFloaty){
+            cg.setBrush(QColorGroup::Base, cg.brush(QColorGroup::Highlight));
+            p->setPen(cg.color(QColorGroup::HighlightedText));
+            pix = NULL;
+        }else if (bEnabled){
+            p->setPen(cg.color(QColorGroup::Text));
+        }else{
+            p->setPen(cg.color(QColorGroup::Dark));
+        }
     }else{
         p->fillRect( 0, 0, width, height(), cg.base());
     }
@@ -1026,7 +1035,6 @@ void UserView::contentsMouseReleaseEvent(QMouseEvent *e)
 
 void UserView::contentsMousePressEvent(QMouseEvent *e)
 {
-    log(L_DEBUG, "MousePress");
 #if QT_VERSION < 300
     if (!bList){
         if ((e->button() == QObject::LeftButton) && !bFloaty){

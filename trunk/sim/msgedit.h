@@ -51,7 +51,7 @@ public:
     MsgEdit(QWidget *parent, unsigned long Uin=0);
     ~MsgEdit();
     void setUin(unsigned long uin);
-    void setMessage(ICQMessage*, bool bMark);
+    void setMessage(ICQMessage *m=NULL, bool bMark=false, bool bInTop=false);
     ICQMessage *message() { return msg; }
     void markAsRead();
     bool canSpell();
@@ -67,6 +67,7 @@ public slots:
     void send();
     void spell();
     void textChanged();
+    void editTextChanged();
     void textChanged(const QString&);
     void spellDone(bool);
     void makeMessage();
@@ -75,7 +76,7 @@ public slots:
     void action(int);
     void showMessage(unsigned long msgId);
 signals:
-    void addMessage(ICQMessage*, bool);
+    void addMessage(ICQMessage*, bool, bool);
     void showMessage(unsigned long uin, unsigned long id);
     void setSendState(bool);
     void setStatus(const QString&);

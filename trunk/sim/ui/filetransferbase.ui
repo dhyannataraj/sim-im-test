@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>344</width>
-            <height>180</height>
+            <width>297</width>
+            <height>225</height>
         </rect>
     </property>
     <property>
@@ -123,7 +123,7 @@
                 <spacer>
                     <property>
                         <name>name</name>
-                        <cstring>Spacer3</cstring>
+                        <cstring>Spacer4_2</cstring>
                     </property>
                     <property>
                         <name>orientation</name>
@@ -156,6 +156,52 @@
                     <property>
                         <name>text</name>
                         <string>100000</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget>
+            <class>QLayoutWidget</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>Layout5</cstring>
+            </property>
+            <hbox>
+                <property>
+                    <name>margin</name>
+                    <number>0</number>
+                </property>
+                <property>
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
+                <widget>
+                    <class>QLabel</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>lblSldSpeed</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Speed:</string>
+                    </property>
+                    <property>
+                        <name>alignment</name>
+                        <set>AlignVCenter|AlignRight</set>
+                    </property>
+                    <property>
+                        <name>hAlign</name>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QSlider</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>sldSpeed</cstring>
+                    </property>
+                    <property>
+                        <name>orientation</name>
+                        <enum>Horizontal</enum>
                     </property>
                 </widget>
             </hbox>

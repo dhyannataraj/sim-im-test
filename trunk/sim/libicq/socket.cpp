@@ -163,7 +163,8 @@ void Sockets::process(unsigned timeout)
             if (fd > max_fd) max_fd = fd;
             FD_SET(fd, &rf);
             FD_SET(fd, &ef);
-            if ((*it)->have_data() || (*it)->m_bConnecting) FD_SET(fd, &wf);
+            if ((*it)->have_data() || ((*it)->m_connecting == Socket::Connecting))
+                FD_SET(fd, &wf);
         }
         int res = select(max_fd + 1, &rf, &wf, &ef, &tv);
         if (res <= 0){
@@ -179,19 +180,22 @@ void Sockets::process(unsigned timeout)
                 (*it)->idle();
                 continue;
             }
-            if (FD_ISSET(fd, &ef))
+            if (FD_ISSET(fd, &ef)){
                 (*it)->error_state();
+                continue;
+            }
+            if (FD_ISSET(fd, &rf)){
+                if ((*it)->m_connecting != Socket::Connecting){
+                    (*it)->read_ready();
+                    continue;
+                }
+            }
             if (FD_ISSET(fd, &wf)){
-                if ((*it)->m_bConnecting){
-                    (*it)->m_bConnecting = false;
+                if ((*it)->m_connecting == Socket::Connecting){
                     (*it)->proxy_connect_ready();
                 }else{
                     (*it)->write_ready();
                 }
-            }
-            if (FD_ISSET(fd, &rf)){
-                (*it)->read_ready();
-                continue;
             }
         }
         for (;;){
@@ -216,12 +220,13 @@ Socket::Socket(int fd, const char *host, unsigned short port)
     m_szResolveHost = NULL;
     m_resolving = None;
     m_connecting = NoConnect;
-    m_bConnecting = false;
     if (host) m_szHost = strdup(host);
     if (pSockets){
         pSockets->addSocket(this);
-        if (fd >= 0) pSockets->createSocket(this);
-        m_connecting = Connected;
+        if (fd >= 0){
+            pSockets->createSocket(this);
+            m_connecting = Connected;
+        }
     }
 }
 
@@ -361,7 +366,6 @@ void Socket::close()
     }
     m_nPort = 0;
     m_resolving = None;
-    m_bConnecting = false;
 }
 
 const char *Socket::errorText()
@@ -679,7 +683,6 @@ void ClientSocket::read_ready()
             }
         }
         m_resolving = None;
-        m_bConnecting = true;
         return;
     }
 

@@ -593,6 +593,8 @@ FileTransfer::FileTransfer(int fd, const char *host, unsigned short port, ICQCli
     state = None;
     file = _file;
     m_nSpeed = 100;
+    sendTime = 0;
+    sendSize = 0;
 }
 
 FileTransfer::FileTransfer(unsigned long ip, unsigned long real_ip, unsigned short port, ICQUser *u, ICQClient *client, ICQFile *_file)
@@ -601,12 +603,22 @@ FileTransfer::FileTransfer(unsigned long ip, unsigned long real_ip, unsigned sho
     state = None;
     file = _file;
     m_nSpeed = 100;
+    sendTime = 0;
+    sendSize = 0;
 }
 
 bool FileTransfer::have_data()
 {
-    if ((state == Send) && (writeBuffer.readPos() >= writeBuffer.writePos())) return true;
-    return DirectSocket::have_data();
+    if (state != Send) return DirectSocket::have_data();
+    time_t now;
+    time(&now);
+    if ((unsigned)now != sendTime){
+        sendTime = now;
+        sendSize = 0;
+    }
+    if (sendSize > m_nSpeed * 2048)
+        return false;
+    return true;
 }
 
 void FileTransfer::write_ready()
@@ -644,7 +656,14 @@ void FileTransfer::write_ready()
         return;
     }
     file->state += (writeBuffer.writePos() - pos);
-    sendPacket();
+    sendPacket(false);
+    time_t now;
+    time(&now);
+    if ((unsigned)now != sendTime){
+        sendTime = now;
+        sendSize = 0;
+    }
+    sendSize += tail;
 }
 
 void FileTransfer::resume(int mode)
@@ -667,13 +686,20 @@ void FileTransfer::resume(int mode)
     state = Receive;
 }
 
+void FileTransfer::setSpeed(int nSpeed)
+{
+    m_nSpeed = nSpeed;
+    startPacket(FT_SPEED);
+    writeBuffer.pack(m_nSpeed);
+    sendPacket();
+}
+
 void FileTransfer::processPacket()
 {
     char cmd;
     readBuffer >> cmd;
     if (cmd == FT_SPEED){
         readBuffer.unpack(m_nSpeed);
-        log(L_DEBUG, "Set spped %lu", m_nSpeed);
         return;
     }
     switch (state){
@@ -814,12 +840,12 @@ void FileTransfer::startPacket(char cmd)
     writeBuffer << cmd;
 }
 
-void FileTransfer::sendPacket()
+void FileTransfer::sendPacket(bool dump)
 {
     unsigned size = writeBuffer.size() - m_packetOffs - 2;
     unsigned char *p = (unsigned char*)writeBuffer.Data(m_packetOffs);
     *((unsigned short*)p) = size;
-    dumpPacket(writeBuffer, m_packetOffs, "File transfer send");
+    if (dump) dumpPacket(writeBuffer, m_packetOffs, "File transfer send");
 }
 
 // ___________________________________________________________________________________________

@@ -228,6 +228,8 @@ void UserBox::showEvent(QShowEvent *e)
 
 QString UserBox::containerName()
 {
+    if (GrpId == ContainerAllUsers)
+        return i18n("All users");
     if (GrpId < 0x10000){
         ICQGroup *grp = pClient->getGroup(GrpId);
         if (grp){
@@ -300,6 +302,7 @@ void UserBox::toggleInfo(bool bShow)
 void UserBox::hideHistory()
 {
     btnHistory->setOn(false);
+    curWnd->showMessage(msgShowId);
 }
 
 void UserBox::toggleHistory(bool bShow)
@@ -542,7 +545,7 @@ void UserBox::messageReceived(ICQMessage *msg)
                 break;
             }
         }
-        msgView->addMessage(msg, bUnread);
+        msgView->addMessage(msg, bUnread, false);
     }
 }
 
@@ -671,7 +674,7 @@ void UserBox::selectedUser(int id)
         disconnect(curWnd, SIGNAL(setSendState(bool)), btnQuit, SLOT(setEnabled(bool)));
         disconnect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), btnType, SLOT(setState(const QString&, const QString&)));
         disconnect(curWnd, SIGNAL(showMessage(unsigned long, unsigned long)), msgView, SLOT(setMessage(unsigned long, unsigned long)));
-        disconnect(curWnd, SIGNAL(addMessage(ICQMessage*, bool)), msgView, SLOT(addMessage(ICQMessage*, bool)));
+        disconnect(curWnd, SIGNAL(addMessage(ICQMessage*, bool, bool)), msgView, SLOT(addMessage(ICQMessage*, bool, bool)));
         showUsers(false, 0);
     }
     status->message("");
@@ -683,7 +686,7 @@ void UserBox::selectedUser(int id)
     connect(curWnd, SIGNAL(setSendState(bool)), btnQuit, SLOT(setEnabled(bool)));
     connect(curWnd, SIGNAL(setMessageType(const QString&, const QString&)), btnType, SLOT(setState(const QString&, const QString&)));
     connect(curWnd, SIGNAL(showMessage(unsigned long, unsigned long)), msgView, SLOT(setMessage(unsigned long, unsigned long)));
-    connect(curWnd, SIGNAL(addMessage(ICQMessage*, bool)), msgView, SLOT(addMessage(ICQMessage*, bool)));
+    connect(curWnd, SIGNAL(addMessage(ICQMessage*, bool, bool)), msgView, SLOT(addMessage(ICQMessage*, bool, bool)));
     connect(curWnd, SIGNAL(showUsers(bool, unsigned long)), this, SLOT(showUsers(bool, unsigned long)));
     curWnd->markAsRead();
     curWnd->show();
@@ -795,7 +798,7 @@ void UserBox::showMessage(unsigned long uin, unsigned long id)
 {
     MsgEdit *wnd = getChild(uin);
     if (wnd == NULL) return;
-    wnd->showMessage(id);
+    msgShowId = id;
     QTimer::singleShot(10, this, SLOT(hideHistory()));
 }
 

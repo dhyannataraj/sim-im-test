@@ -19,7 +19,11 @@
 #include "log.h"
 
 #include <stdio.h>
+#ifdef WIN32
 #include <time.h>
+#else
+#include <sys/time.h>
+#endif
 
 #define RECONNECT_TIMEOUT	60
 #define PING_TIMEOUT		60
@@ -272,6 +276,17 @@ void ICQClient::sendPacket()
     *((unsigned short*)(packet + 4)) = htons(writeBuffer.size() - m_nPacketStart - 6);
     dumpPacket(writeBuffer, m_nPacketStart, "Write");
     time(&m_lastTime);
+    if (m_connecting != Connected) return;
+    fd_set wf;
+    FD_ZERO(&wf);
+    FD_SET(m_fd, &wf);
+    struct timeval tv;
+    tv.tv_sec = 0;
+    tv.tv_usec = 0;
+    int res = select(m_fd + 1, NULL, &wf, NULL, &tv);
+    if (res <= 0) return;
+    if (!FD_ISSET(m_fd, &wf)) return;
+    write_ready();
 }
 
 void ICQClient::dropPacket()

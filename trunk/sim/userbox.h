@@ -122,6 +122,7 @@ protected slots:
     void wmChanged();
 protected:
     void showEvent(QShowEvent *e);
+    unsigned long msgShowId;
     list<MsgEdit*> wnds;
     QToolBar	*toolbar;
     QToolButton *btnQuit;

@@ -71,7 +71,7 @@ public:
     void addUnread(unsigned long uin);
     void deleteUser(unsigned long uin);
 public slots:
-    void addMessage(ICQMessage *msg, bool bUnread);
+    void addMessage(ICQMessage *msg, bool bUnread, bool bSet);
     void setMessage(unsigned long uin, unsigned long msgId);
 protected slots:
     void messageRead(ICQMessage *msg);

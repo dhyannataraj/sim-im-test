@@ -1,6 +1,5 @@
 # Makefile.in generated automatically by automake 1.5 from Makefile.am.
-# KDE tags expanded automatically by am_edit - $Revision: 1.1.1.1 $ 
-
+# KDE tags expanded automatically by am_edit - $Revision: 1.4 $ 
 # Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
 # Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -228,7 +227,7 @@ qt_libraries = @qt_libraries@
 x_includes = @x_includes@
 x_libraries = @x_libraries@
 
-EXTRA_DIST = auth.xpm away.xpm bgcolor.xpm birthday.xpm cell.xpm collapsed.xpm configure.xpm contacts.xpm dnd.xpm downarrow.xpm editclear.xpm editdelete.xpm empty.xpm exit.xpm expanded.xpm ffc.xpm fgcolor.xpm file.xpm find.xpm floating.xpm grp_collapse.xpm grp_create.xpm grp_expand.xpm grp_off.xpm grp_on.xpm history.xpm home.xpm ignorelist.xpm info.xpm invisible.xpm invisiblelist.xpm mail_generic.xpm mail_reply.xpm main.xpm message.xpm more.xpm na.xpm occupied.xpm offline.xpm online.xpm online_off.xpm online_on.xpm password.xpm phone.xpm security.xpm smile0.xpm smile1.xpm smile2.xpm smile3.xpm smile4.xpm smile5.xpm smile6.xpm smile7.xpm smile8.xpm smile9.xpm smileA.xpm smileB.xpm smileC.xpm smileD.xpm smileE.xpm smileF.xpm sms.xpm spellcheck.xpm status.xpm style.xpm url.xpm useroffline.xpm useronline.xpm userunknown.xpm visiblelist.xpm webaware.xpm work.xpm 1downarrow.xpm 1uparrow.xpm grp_rename.xpm added.xpm pager.xpm web.xpm fax.xpm wpager.xpm 1rightarrow.xpm fileopen.xpm sound.xpm editcopy.xpm misc.xpm nophone.xpm text_bold.xpm text_italic.xpm text_under.xpm text.xpm alert.xpm interest.xpm past.xpm licq.xpm licq_big.xpm nonim.xpm remove.xpm network.xpm chat.xpm save_all.xpm about_kde.xpm 1leftarrow.xpm 
+EXTRA_DIST = auth.xpm away.xpm bgcolor.xpm birthday.xpm cell.xpm collapsed.xpm configure.xpm contacts.xpm dnd.xpm downarrow.xpm editclear.xpm editdelete.xpm empty.xpm exit.xpm expanded.xpm ffc.xpm fgcolor.xpm file.xpm find.xpm floating.xpm grp_collapse.xpm grp_create.xpm grp_expand.xpm grp_off.xpm grp_on.xpm history.xpm home.xpm ignorelist.xpm info.xpm invisible.xpm invisiblelist.xpm mail_generic.xpm mail_reply.xpm main.xpm message.xpm more.xpm na.xpm occupied.xpm offline.xpm online.xpm online_off.xpm online_on.xpm password.xpm phone.xpm security.xpm smile0.xpm smile1.xpm smile2.xpm smile3.xpm smile4.xpm smile5.xpm smile6.xpm smile7.xpm smile8.xpm smile9.xpm smileA.xpm smileB.xpm smileC.xpm smileD.xpm smileE.xpm smileF.xpm sms.xpm spellcheck.xpm status.xpm style.xpm url.xpm useroffline.xpm useronline.xpm userunknown.xpm visiblelist.xpm webaware.xpm work.xpm 1downarrow.xpm 1uparrow.xpm grp_rename.xpm added.xpm pager.xpm web.xpm fax.xpm wpager.xpm 1rightarrow.xpm fileopen.xpm sound.xpm editcopy.xpm misc.xpm nophone.xpm text_bold.xpm text_italic.xpm text_under.xpm text.xpm alert.xpm interest.xpm past.xpm licq.xpm licq_big.xpm nonim.xpm remove.xpm network.xpm chat.xpm save_all.xpm about_kde.xpm 1leftarrow.xpm screen.xpm 
 subdir = sim/xpm
 mkinstalldirs = $(SHELL) $(top_srcdir)/admin/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
@@ -255,7 +254,7 @@ $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 #>+ 3
 	cd $(top_srcdir) && \
 	$(AUTOMAKE) --gnu  sim/xpm/Makefile
-	cd $(top_srcdir) && perl admin/am_edit sim/xpm/Makefile.in
+	cd $(top_srcdir) && perl admin/am_edit sim-0.7/sim/xpm/Makefile.in
 Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && \
 	CONFIG_HEADERS= CONFIG_LINKS= \
@@ -368,6 +367,7 @@ uninstall-am: uninstall-info-am
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
 
+
 #>+ 2
 docs-am:
 
@@ -381,7 +381,7 @@ apidox: apidox-am
 force-reedit:
 		cd $(top_srcdir) && \
 	$(AUTOMAKE) --gnu  sim/xpm/Makefile
-	cd $(top_srcdir) && perl admin/am_edit sim/xpm/Makefile.in
+	cd $(top_srcdir) && perl admin/am_edit sim-0.7/sim/xpm/Makefile.in
 
 
 #>+ 2

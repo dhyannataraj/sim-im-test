@@ -198,12 +198,13 @@ MainWindow::MainWindow(const char *name)
         XOSD_on(this, "XOSD_on", true),
         XOSD_pos(this, "XOSD_pos"),
         XOSD_offset(this, "XOSD_offset", 30),
-        XOSD_color(this, "XOSD_color", 0x008000),
+        XOSD_color(this, "XOSD_color", 0x00E000),
         XOSD_FontFamily(this, "XOSD_FontFamily"),
         XOSD_FontSize(this, "XOSD_FontSize"),
         XOSD_FontWeight(this, "XOSD_FontWeight"),
         XOSD_FontItalic(this, "XOSD_FontItalic"),
-        XOSD_timeout(this, "XOSD_timeout", 10)
+        XOSD_timeout(this, "XOSD_timeout", 10),
+        ContainerMode(this, "ContainerMode", ContainerModeGroup)
 
 {
     pMain = this;
@@ -897,13 +898,34 @@ void MainWindow::showUser(unsigned long uin, int function, unsigned long param)
             return;
         }
     }
-    unsigned short grpId = u ? u->GrpId() : 0;
-    for (it = containers.begin(); it != containers.end(); ++it){
-        if ((*it)->GrpId != (unsigned long)grpId) continue;
-        (*it)->showUser(uin, function, param);
-        return;
+    UserBox *box;
+    unsigned long grpId = u ? u->GrpId() : 0;
+    switch (ContainerMode()){
+    case ContainerModeAll:
+        for (it = containers.begin(); it != containers.end(); ++it){
+            if ((*it)->GrpId != ContainerAllUsers) continue;
+            (*it)->showUser(uin, function, param);
+            return;
+        }
+        box = new UserBox(ContainerAllUsers);
+        break;
+    case ContainerModeGroup:
+        for (it = containers.begin(); it != containers.end(); ++it){
+            if ((*it)->GrpId != (unsigned long)grpId) continue;
+            (*it)->showUser(uin, function, param);
+            return;
+        }
+        box = new UserBox(grpId);
+        break;
+    default:
+        grpId = 0x7FFFFFFF;
+        for (it = containers.begin(); it != containers.end(); ++it){
+
+            if ((*it)->GrpId < 0x10000L) continue;
+            if ((*it)->GrpId < grpId) grpId = (*it)->GrpId - 1;
+        }
+        box = new UserBox(grpId);
     }
-    UserBox *box = new UserBox(grpId);
     containers.push_back(box);
     box->showUser(uin, function, param);
 }

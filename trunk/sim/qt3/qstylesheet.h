@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qstylesheet.h,v 1.3 2002-07-09 18:15:17 shutoff Exp $
+** $Id: qstylesheet.h,v 1.4 2002-07-11 01:26:48 shutoff Exp $
 **
 ** Definition of the QStyleSheet class
 **

@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>490</width>
+            <width>482</width>
             <height>416</height>
         </rect>
     </property>
@@ -76,7 +76,7 @@
                     </property>
                     <property>
                         <name>text</name>
-                        <string>Fonts</string>
+                        <string>Interface</string>
                     </property>
                 </widget>
             </hbox>
@@ -103,6 +103,64 @@
                 <name>frameShape</name>
                 <enum>HLine</enum>
             </property>
+        </widget>
+        <widget>
+            <class>QButtonGroup</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>grpContainer</cstring>
+            </property>
+            <property>
+                <name>title</name>
+                <string>Open user window</string>
+            </property>
+            <vbox>
+                <property>
+                    <name>margin</name>
+                    <number>11</number>
+                </property>
+                <property>
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
+                <widget>
+                    <class>QRadioButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>rbtUser</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Each user in new container</string>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QRadioButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>rbtGroup</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>New container for group</string>
+                    </property>
+                    <property>
+                        <name>buttonGroupId</name>
+                        <number>1</number>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QRadioButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>rbtAll</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>All users in one container</string>
+                    </property>
+                </widget>
+            </vbox>
         </widget>
         <widget>
             <class>QCheckBox</class>

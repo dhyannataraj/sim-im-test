@@ -27,6 +27,7 @@
 
 bool ICQClient::translate(const char *to, const char *from, string &str)
 {
+    log(L_DEBUG, "Translate(iconv) %s->%s", from, to);
     string res(str.size() * 4, '\x00');
     iconv_t cnv = iconv_open(to, from);
     if (cnv == (iconv_t)(-1)){
@@ -77,6 +78,7 @@ bool ICQClient::translate(const char *to, const char *from, string &str)
         return true;
     if (!strcasecmp(from, to))
         return true;
+    log(L_DEBUG, "Translate(qt) %s->%s", from, to);
     QTextCodec *fromCodec = codecForName(from);
     QTextCodec *toCodec = codecForName(to);
     if ((fromCodec == NULL) && (toCodec == NULL)){
@@ -135,10 +137,14 @@ const char *ICQClient::localCharset()
 {
     char *p = getenv("LANG");
     if (p) {
+	log(L_DEBUG, "Lang: %s", p);
         p = strchr(p, '.');
         if (p) p++;
     }
-    if (p) return p;
+    if (p){
+	log(L_DEBUG, "localCharset [%s]", p);
+	return p;
+    }
     return "ascii";
 }
 
