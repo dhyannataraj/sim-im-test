@@ -22,14 +22,24 @@
 #include "yahoosearchbase.h"
 
 class YahooClient;
+class GroupRadioButton;
 
 class YahooSearch : public YahooSearchBase
 {
     Q_OBJECT
 public:
     YahooSearch(YahooClient *client, QWidget *parent);
+signals:
+	void setAdd(bool);
+protected slots:
+	void radioToggled(bool);
 protected:
     YahooClient *m_client;
+	void showEvent(QShowEvent*);
+	GroupRadioButton	*m_btnID;
+	GroupRadioButton	*m_btnMail;
+	GroupRadioButton	*m_btnName;
+	GroupRadioButton	*m_btnKeyword;
 };
 
 #endif

@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>216</width>
+            <width>212</width>
             <height>355</height>
         </rect>
     </property>
@@ -36,7 +36,7 @@
             </property>
             <property>
                 <name>title</name>
-                <string></string>
+                <string>Add community</string>
             </property>
             <vbox>
                 <property>

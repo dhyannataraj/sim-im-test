@@ -64,13 +64,18 @@ QValidator::State QRegExpValidator::validate( QString& input, int& pos ) const
 
 #endif
 
+RegExpValidator::RegExpValidator(const char *reg_exp, QWidget *parent)
+: QRegExpValidator(QRegExp(reg_exp), parent)
+{
+}
+
 EMailValidator::EMailValidator(QWidget *parent)
-: QRegExpValidator(QRegExp("[A-Za-z0-9\\.\\-_\\+]+@[A-Za-z0-9\\-_]+\\.[A-Za-z0-9\\.\\-_]+"), parent)
+: RegExpValidator("[A-Za-z0-9\\.\\-_\\+]+@[A-Za-z0-9\\-_]+\\.[A-Za-z0-9\\.\\-_]+", parent)
 {
 }
 
 PhoneValidator::PhoneValidator(QWidget *parent)
-: QRegExpValidator(QRegExp("\\+?[0-9 ]+(\\([0-9]+\\))?([0-9 ]+\\-)*[0-9 ]+"), parent)
+: RegExpValidator("\\+?[0-9 ]+(\\([0-9]+\\))?([0-9 ]+\\-)*[0-9 ]+", parent)
 {
 }
 
@@ -109,16 +114,6 @@ GroupRadioButton::GroupRadioButton(const QString &text, QGroupBox *parent)
 
 void GroupRadioButton::slotToggled(bool bState)
 {
-	QObjectList *l = m_grp->queryList();
-	QObjectListIt it(*l);
-	QObject *obj;
-	while ((obj=it.current()) != NULL){
-		if (obj->inherits("QLabel") || obj->inherits("QLineEdit")){
-			static_cast<QWidget*>(obj)->setEnabled(bState);
-		}
-		++it;
-    }
-	delete l;     		
 	if (bState){
 		QObjectList *l = m_grp->parentWidget()->queryList("QRadioButton");
 		QObjectListIt it(*l);
@@ -129,7 +124,32 @@ void GroupRadioButton::slotToggled(bool bState)
 			++it;
 		}
 		delete l;     		
+	}else{
+		bState = true;
+		QObjectList *l = m_grp->parentWidget()->queryList("QRadioButton");
+		QObjectListIt it(*l);
+		QObject *obj;
+		while ((obj=it.current()) != NULL){
+			if (static_cast<QRadioButton*>(obj)->isChecked()){
+				bState = false;
+				break;
+			}
+			++it;
+		}
+		delete l;     
+		if (bState)
+			setChecked(true);
 	}
+	QObjectList *l = m_grp->queryList();
+	QObjectListIt it(*l);
+	QObject *obj;
+	while ((obj=it.current()) != NULL){
+		if (obj->inherits("QLabel") || obj->inherits("QLineEdit") || obj->inherits("QComboBox")){
+			static_cast<QWidget*>(obj)->setEnabled(bState);
+		}
+		++it;
+    }
+	delete l;     		
 }
 
 bool GroupRadioButton::eventFilter(QObject *o, QEvent *e)

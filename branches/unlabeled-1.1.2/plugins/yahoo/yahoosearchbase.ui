@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>198</width>
+            <width>194</width>
             <height>455</height>
         </rect>
     </property>
@@ -163,7 +163,7 @@
                     <class>QLabel</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>TextLabel1</cstring>
+                        <cstring>lblGender</cstring>
                     </property>
                     <property>
                         <name>text</name>
@@ -181,7 +181,7 @@
                     <class>QLabel</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>TextLabel2</cstring>
+                        <cstring>lblAge</cstring>
                     </property>
                     <property>
                         <name>text</name>

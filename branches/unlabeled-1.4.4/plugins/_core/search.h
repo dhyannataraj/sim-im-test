@@ -42,21 +42,29 @@ public slots:
 	void setAdd(bool bAdd);
 	void clientActivated(int);
 	void aboutToShow(QWidget*);
+	void resultShow(QWidget*);
 	void textChanged(const QString&);
 	void toggled(bool);
+	void addResult(QWidget*);
+	void showResult(QWidget*);
 signals:
     void finished();
 protected:
 	vector<ClientWidget>	m_widgets;
 	ListView	*m_result;
 	QWidget		*m_current;
+	QWidget		*m_currentResult;
 	void		*processEvent(Event*);
 	void		resizeEvent(QResizeEvent*);
 	void		moveEvent(QMoveEvent*);
 	void		closeEvent(QCloseEvent*);
 	void		fillClients();
+	void		attach(QWidget*);
+	void		detach(QWidget*);
+	bool		checkSearch(QWidget*, bool&);
 	bool		m_bAdd;
 	unsigned	m_id;
+	unsigned	m_result_id;
 };
 
 #endif

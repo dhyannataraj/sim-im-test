@@ -57,13 +57,19 @@ protected:
 
 #endif
 
-class UI_EXPORT EMailValidator : public QRegExpValidator
+class UI_EXPORT RegExpValidator : public QRegExpValidator
+{
+public:
+	RegExpValidator(const char *regexp, QWidget *parent);
+};
+
+class UI_EXPORT EMailValidator : public RegExpValidator
 {
 public:
 	EMailValidator(QWidget *parent);
 };
 
-class UI_EXPORT PhoneValidator : public QRegExpValidator
+class UI_EXPORT PhoneValidator : public RegExpValidator
 {
 public:
 	PhoneValidator(QWidget *parent);
@@ -77,7 +83,7 @@ class UI_EXPORT GroupRadioButton : public QRadioButton
 	Q_OBJECT
 public:
 	GroupRadioButton(const QString &text, QGroupBox *parent);
-protected slots:
+public slots:
 	void slotToggled(bool);
 protected:
 	bool eventFilter(QObject*, QEvent*);

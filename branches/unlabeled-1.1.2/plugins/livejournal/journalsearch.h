@@ -28,7 +28,10 @@ class JournalSearch : public JournalSearchBase
     Q_OBJECT
 public:
     JournalSearch(LiveJournalClient *client, QWidget *parent);
+signals:
+	void setAdd(bool);
 protected:
+	void showEvent(QShowEvent*);
     LiveJournalClient *m_client;
 };
 

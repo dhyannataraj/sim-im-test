@@ -22,14 +22,32 @@
 #include "jabberaddbase.h"
 
 class JabberClient;
+class JabberBrowser;
+class GroupRadioButton;
 
 class JabberAdd : public JabberAddBase
 {
     Q_OBJECT
 public:
     JabberAdd(JabberClient *client, QWidget *parent);
+	~JabberAdd();
+signals:
+	void setAdd(bool);
+	void addResult(QWidget*);
+	void showResult(QWidget*);
+protected slots:
+	void radioToggled(bool);
+	void browserDestroyed();
+	void browserClick();
 protected:
-	JabberClient *m_client;
+	void setBrowser(bool bBrowser);
+	void showEvent(QShowEvent*);
+	JabberClient	*m_client;
+	JabberBrowser	*m_browser;
+	GroupRadioButton	*m_btnJID;
+	GroupRadioButton	*m_btnMail;
+	GroupRadioButton	*m_btnName;
+	bool			m_bBrowser;
 };
 
 #endif

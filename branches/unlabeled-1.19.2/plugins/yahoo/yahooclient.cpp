@@ -1972,6 +1972,8 @@ void *YahooClient::processEvent(Event *e)
 
 QWidget *YahooClient::searchWindow(QWidget *parent)
 {
+    if (getState() != Connected)
+		return NULL;
     return new YahooSearch(this, parent);
 }
 

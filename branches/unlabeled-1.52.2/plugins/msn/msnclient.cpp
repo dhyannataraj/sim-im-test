@@ -1868,6 +1868,8 @@ QString MSNClient::contactTip(void *_data)
 
 QWidget *MSNClient::searchWindow(QWidget *parent)
 {
+    if (getState() != Connected)
+		return NULL;
     return new MSNSearch(this, parent);
 }
 

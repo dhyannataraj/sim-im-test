@@ -22,14 +22,22 @@
 #include "msnsearchbase.h"
 
 class MSNClient;
+class GroupRadioButton;
 
 class MSNSearch : public MSNSearchBase
 {
     Q_OBJECT
 public:
     MSNSearch(MSNClient *client, QWidget *parent);
+signals:
+	void setAdd(bool);
+protected slots:
+	void radioToggled(bool);
 protected:
     MSNClient *m_client;
+	void showEvent(QShowEvent*);
+	GroupRadioButton	*m_btnMail;
+	GroupRadioButton	*m_btnInfo;
 };
 
 #endif

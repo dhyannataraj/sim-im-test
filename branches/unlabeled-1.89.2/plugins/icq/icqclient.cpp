@@ -2285,6 +2285,8 @@ QWidget *ICQClient::configWindow(QWidget *parent, unsigned id)
 
 QWidget *ICQClient::searchWindow(QWidget *parent)
 {
+    if (getState() != Connected)
+		return NULL;
     return new ICQSearch(this, parent);
 }
 

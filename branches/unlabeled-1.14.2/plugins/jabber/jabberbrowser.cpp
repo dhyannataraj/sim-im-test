@@ -105,8 +105,7 @@ void JabberWizard::initTitle()
     setTitle(m_search, m_search->m_title);
 }
 
-JabberBrowser::JabberBrowser(QWidget *parent, const char *name)
-        : QMainWindow(parent, name, WDestructiveClose)
+JabberBrowser::JabberBrowser()
 {
     m_client = NULL;
     m_info   = NULL;

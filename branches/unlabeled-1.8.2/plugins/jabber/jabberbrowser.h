@@ -69,7 +69,7 @@ class JabberBrowser : public QMainWindow, public EventReceiver
 {
     Q_OBJECT
 public:
-    JabberBrowser(QWidget *parent, const char *name);
+    JabberBrowser();
     ~JabberBrowser();
     void goUrl(const QString &url, const QString &node);
     void save();

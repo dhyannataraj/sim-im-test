@@ -30,8 +30,6 @@
 #include <qvalidator.h>
 #include <qobjectlist.h>
 
-const unsigned RESULT_ID	= 0x1000;
-
 SearchDialog::SearchDialog()
 {
     SET_WNDPROC("search")
@@ -39,12 +37,15 @@ SearchDialog::SearchDialog()
     setButtonsPict(this);
     setCaption(caption());
 	m_current = NULL;
+	m_currentResult = NULL;
 	m_bAdd = true;
-	m_id   = 0;
+	m_id		= 0;
+	m_result_id = 0;
 	setAdd(false);
 	btnOptions->setIconSet(*Icon("1downarrow"));
 	btnAdd->setIconSet(*Icon("add"));
 	connect(wndCondition, SIGNAL(aboutToShow(QWidget*)), this, SLOT(aboutToShow(QWidget*)));
+	connect(wndResult, SIGNAL(aboutToShow(QWidget*)), this, SLOT(resultShow(QWidget*)));
 	fillClients();
 	clientActivated(0);
 	connect(cmbClients, SIGNAL(activated(int)), this, SLOT(clientActivated(int)));
@@ -57,8 +58,8 @@ SearchDialog::SearchDialog()
 	m_result->setExpandingColumn(3);
 	m_result->setFrameShadow(QFrame::Sunken);
 	m_result->setLineWidth(1);
-	wndResult->addWidget(m_result, RESULT_ID);
-	wndResult->raiseWidget(RESULT_ID);
+	addResult(m_result);
+	showResult(NULL);
 	aboutToShow(wndCondition->visibleWidget());
 }
 
@@ -163,8 +164,10 @@ void SearchDialog::fillClients()
 			break;
 		}
 	}
-	if (search == NULL)
-		wndCondition->addWidget(new NonIM(wndCondition), ++m_id);
+	if (search == NULL){
+		search = new NonIM(wndCondition);
+		wndCondition->addWidget(search, ++m_id);
+	}
 	cmbClients->insertItem(Pict("nonim"), i18n("Non-IM contact"));
 	ClientWidget cw;
 	cw.client = NULL;
@@ -181,6 +184,8 @@ void SearchDialog::clientActivated(int n)
 {
 	if ((unsigned)n >= m_widgets.size())
 		return;
+	if (m_widgets[n].widget != m_current)
+		showResult(NULL);
 	wndCondition->raiseWidget(m_widgets[n].widget);
 }
 
@@ -203,10 +208,27 @@ void *SearchDialog::processEvent(Event *e)
 void SearchDialog::textChanged(const QString&)
 {
 	bool bEnable = false;
-	QObjectList *l = topLevelWidget()->queryList("QLineEdit");
+	checkSearch(m_current, bEnable) && checkSearch(m_currentResult, bEnable);
+	btnSearch->setEnabled(bEnable);
+}
+
+bool SearchDialog::checkSearch(QWidget *w, bool &bEnable)
+{
+	if (w == NULL)
+		return true;
+	QObjectList *l = w->queryList();
 	QObjectListIt it(*l);
 	QObject *obj;
 	while ((obj=it.current()) != NULL){
+		if (!obj->inherits("QWidget")){
+			++it;
+			continue;
+		}
+		if ((obj->parent() == NULL) || obj->parent()->inherits("QToolBar") || obj->parent()->inherits("QComboBox")){
+			++it;
+			continue;
+		}
+		if (obj->inherits("QLineEdit")){
 		QLineEdit *edit = static_cast<QLineEdit*>(obj);
 		if (edit->isEnabled()){
 			if (!edit->text().isEmpty()){
@@ -218,47 +240,87 @@ void SearchDialog::textChanged(const QString&)
 						bEnable = true;
 					}else{
 						bEnable = false;
-						break;
+						delete l;     		
+						return false;
 					}
 				}else{
 					bEnable = true;
 				}
 			}
 		}
+		}else if (obj->inherits("QComboBox")){
+			QComboBox *cmb = static_cast<QComboBox*>(obj);
+			if (cmb->isEnabled() && !cmb->currentText().isEmpty())
+				bEnable = true;
+		}
 		++it;
     }
-	delete l;     		
-	btnSearch->setEnabled(bEnable);
+	delete l;     	
+	return true;
 }
 
-void SearchDialog::aboutToShow(QWidget *w)
+void SearchDialog::detach(QWidget *w)
 {
-	if (m_current){
-		QObjectList *l = m_current->queryList();
+		QObjectList *l = w->queryList();
 		QObjectListIt it(*l);
 		QObject *obj;
 		while ((obj=it.current()) != NULL){
 			if (obj->inherits("QLineEdit"))
 				disconnect(obj, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
+			if (obj->inherits("QComboBox"))
+				disconnect(obj, SIGNAL(activated(const QString&)), this, SLOT(textChanged(const QString&)));
 			if (obj->inherits("QRadioButton"))
 				disconnect(obj, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
 			++it;
 	    }
 		delete l;     		
-	}
-	m_current = w;
-	QObjectList *l = m_current->queryList();
+}
+
+void SearchDialog::attach(QWidget *w)
+{
+	QObjectList *l = w->queryList();
 	QObjectListIt it(*l);
 	QObject *obj;
 	while ((obj=it.current()) != NULL){
 		if (obj->inherits("QLineEdit"))
 			connect(obj, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
+		if (obj->inherits("QComboBox"))
+			connect(obj, SIGNAL(activated(const QString&)), this, SLOT(textChanged(const QString&)));
 		if (obj->inherits("QRadioButton"))
 			connect(obj, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
 		++it;
     }
 	delete l;
+}
+
+void SearchDialog::aboutToShow(QWidget *w)
+{
+	if (m_current)
+		detach(m_current);
+	m_current = w;
+	attach(m_current);
 	textChanged("");
+}
+
+void SearchDialog::resultShow(QWidget *w)
+{
+	if (m_currentResult)
+		detach(m_currentResult);
+	m_currentResult = w;
+	attach(m_currentResult);
+	textChanged("");
+}
+
+void SearchDialog::addResult(QWidget *w)
+{
+	wndResult->addWidget(w, ++m_result_id);
+}
+
+void SearchDialog::showResult(QWidget *w)
+{
+	if (w == NULL)
+		w = m_result;
+	wndResult->raiseWidget(w);
 }
 
 #ifndef WIN32

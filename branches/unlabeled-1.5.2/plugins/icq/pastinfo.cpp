@@ -84,6 +84,8 @@ static const ext_info pasts[] =
         { "", 0  }
     };
 
+const ext_info *p_pasts = pasts;
+
 static const ext_info affilations[] =
     {
         { I18N_NOOP("Alumni Org."), 200 },
@@ -108,6 +110,8 @@ static const ext_info affilations[] =
         { I18N_NOOP("Other"), 299 },
         { "", 0 }
     };
+
+const ext_info *p_affilations = affilations;
 
 void PastInfo::fill()
 {

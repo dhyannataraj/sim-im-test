@@ -1227,6 +1227,8 @@ string JabberClient::buildId(JabberUserData *data)
 
 QWidget *JabberClient::searchWindow(QWidget *parent)
 {
+    if (getState() != Connected)
+		return NULL;
     return new JabberAdd(this, parent);
 }
 

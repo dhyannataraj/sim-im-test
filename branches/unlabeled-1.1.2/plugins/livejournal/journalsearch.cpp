@@ -22,6 +22,13 @@ JournalSearch::JournalSearch(LiveJournalClient *client, QWidget *parent)
 : JournalSearchBase(parent)
 {
     m_client = client;
+	connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
+}
+
+void JournalSearch::showEvent(QShowEvent *e)
+{
+	JournalSearchBase::showEvent(e);
+	emit setAdd(true);
 }
 
 #ifndef WIN32

@@ -284,22 +284,18 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     int y = rcScreen.top();
     int w = rc.width() + 1;
     int h = rc.height() + 1;
-    if (data->Shadow.bValue){
-        w += SHADOW_OFFS;
-        h += SHADOW_OFFS;
-    }
 	int text_y = 0;
     if (data->Background.bValue){
         w += XOSD_MARGIN * 2;
         h += XOSD_MARGIN * 2;
 		if (m_button == NULL){
-			m_button = new QPushButton(QIconSet(QPixmap((const char **)close_h_xpm)), "", this);
+			m_button = new QPushButton("", this);
+			m_button->setPixmap(QPixmap((const char **)close_h_xpm)); 
 			connect(m_button, SIGNAL(clicked()), this, SLOT(slotCloseClick()));
 		}
 		QSize s = m_button->sizeHint();
-		s.setWidth(s.height());
-		m_button->resize(s);
-		m_button->move(w - m_button->width() - 2, 2);
+		m_button->resize(s.height() - 4, s.height() - 4);
+		m_button->move(w - m_button->width() - 3, 2);
 		text_y = m_button->height() + 4;
 		h += text_y;
 		m_button->show();
@@ -309,6 +305,10 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
 			m_button = NULL;
 		}
 	}
+    if (data->Shadow.bValue){
+        w += SHADOW_OFFS;
+        h += SHADOW_OFFS;
+    }
     resize(QSize(w, h));
     switch (data->Position.value){
     case 1:
@@ -523,6 +523,7 @@ void OSDPlugin::processQueue()
             if (m_osd == NULL){
                 m_osd = new OSDWidget;
                 connect(m_osd, SIGNAL(dblClick()), this, SLOT(dblClick()));
+				connect(m_osd, SIGNAL(closeClick()), this, SLOT(timeout()));
             }
             static_cast<OSDWidget*>(m_osd)->showOSD(text, data);
             m_timer->start(data->Timeout.value * 1000);
