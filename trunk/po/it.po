@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sim\n"
 "POT-Creation-Date: 2003-10-04 21:04+0400\n"
-"PO-Revision-Date: 2003-10-06 12:39+0100\n"
+"PO-Revision-Date: 2003-10-06 12:54+0100\n"
 "Last-Translator: Lapo Luchini <lapo@lapo.it>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3820,7 +3820,7 @@ msgstr "Secondo nome:"
 #: plugins/icq/aiminfobase.cc:290
 #: plugins/icq/aimsearchbase.cc:280
 msgid "Maiden:"
-msgstr ""
+msgstr "Cognome da nubile:"
 
 #: plugins/icq/aiminfobase.cc:292
 #: plugins/icq/aimsearchbase.cc:282
@@ -4356,6 +4356,10 @@ msgid ""
 "To log errors, set loglevel to 1, for warnings to 2 and for debug-messages to 4\n"
 "If you want to log more than one you may add the levels"
 msgstr ""
+"Questo plugin registra gli eventi\n"
+"Puoi imposta il livello di debug dalla riga di comando con -d<livello>\n"
+"Per registrare gli errori, imposta ad 1 il livello, per gil avvertimenti impostalo a 2 e per i messaggi di debug a 4\n"
+"Se vuoi registrare contemporaneamente alcuni di questi, somma i loro livelli"
 
 #: plugins/logger/logger.cpp:74
 msgid "Set debug level"
@@ -4819,7 +4823,7 @@ msgstr "Evita suoni per la &finestra selezionata"
 
 #: plugins/splash/splash.cpp:34
 msgid "Splash"
-msgstr ""
+msgstr "Schermata iniziale"
 
 #: plugins/splash/splash.cpp:35
 msgid "Plugin provides splash screen"
