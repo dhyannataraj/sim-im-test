@@ -1,4 +1,4 @@
-﻿# translation of th.po to Thai
+﻿﻿# translation of th.po to Thai
 # Copyright (C) 2004 Free Software Foundation, Inc.
 # Narachai Sakorn <arm2001@hunsa.com>, 2004.
 # Narachai Sakorn <narachai@opentle.org>, 2004.
@@ -270,7 +270,7 @@ msgstr "ปิดหลังจากการส่งเ&สร็จสิ�
 
 #: plugins/_core/core.cpp:716 plugins/_core/msgedit.cpp:1007
 msgid "&Multiply send"
-msgstr ""
+msgstr "ส่ง&หลายข้อความ"
 
 #: plugins/_core/core.cpp:724 plugins/_core/core.cpp:820
 msgid "Back&ground color"
