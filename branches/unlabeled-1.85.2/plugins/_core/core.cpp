@@ -2153,6 +2153,7 @@ void *CorePlugin::processEvent(Event *e)
 #else
                     container->showMinimized();
 #endif
+                    container->m_bNoRead = false;
                 }
                 if (m_focus)
                     m_focus->setFocus();
