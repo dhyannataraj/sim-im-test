@@ -214,10 +214,6 @@ SOURCE=.\historywnd.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\icons.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\interfacecfg.cpp
 # End Source File
 # Begin Source File
@@ -391,11 +387,6 @@ SOURCE=.\moc_historycfgbase.cpp
 # Begin Source File
 
 SOURCE=.\moc_historywnd.cpp
-# ADD CPP /W3
-# End Source File
-# Begin Source File
-
-SOURCE=.\moc_icons.cpp
 # ADD CPP /W3
 # End Source File
 # Begin Source File
@@ -1402,39 +1393,6 @@ InputName=historywnd
 InputDir=.
 InputPath=.\historywnd.h
 InputName=historywnd
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\icons.h
-
-!IF  "$(CFG)" == "_core - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\icons.h
-InputName=icons
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\icons.h
-InputName=icons
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
@@ -4224,326 +4182,6 @@ BuildCmds= \
 
 # End Source File
 # End Group
-# Begin Group "xpm"
-
-# PROP Default_Filter "xpm"
-# Begin Source File
-
-SOURCE=.\xpm\1downarrow.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\1leftarrow.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\1rightarrow.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\1uparrow.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\aim.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\away.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\button_cancel.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\button_ok.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\cell.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\chat.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\collapsed.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\configure.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\contacts.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\dnd.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\editcopy.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\editcut.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\editpaste.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\encrypted.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\exit.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\expanded.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\fax.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\ffc.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\file.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\fileopen.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\filesave.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\find.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\grp_collapse.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\grp_create.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\grp_expand.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\grp_off.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\grp_on.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\grp_rename.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\help.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\icq.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\info.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\invisible.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\mail_generic.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\message.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\more.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\msn.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\na.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\new.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\nonim.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\occupied.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\online_off.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\online_on.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\pager.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\phone.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\pict.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\remove.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smile0.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smile1.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smile2.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smile3.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smile4.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smile5.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smile6.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smile7.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smile8.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smile9.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smileA.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smileB.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smileC.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smileD.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smileE.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smileF.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\sms.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\sort_increase.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\stop.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\text.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\text_strike.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\translit.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\typing.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\url.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\webpress.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\yahoo.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\yahoo_away.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\yahoo_dnd.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\yahoo_offline.xpm
-# End Source File
-# End Group
 # Begin Group "po"
 
 # PROP Default_Filter "po"
@@ -5533,6 +5171,500 @@ InputPath=.\styles\XChat3fullDate.xsl
 
 !ENDIF 
 
+# End Source File
+# End Group
+# Begin Group "jisp"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\jisp\1downarrow.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\1leftarrow.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\1rightarrow.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\1uparrow.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\add.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\aim.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\auth.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\away.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\bgcolor.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\button_cancel.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\button_ok.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\cancel.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\cell.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\chat.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\collapsed.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\configure.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\contacts.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\dnd.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\editcopy.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\editcut.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\editpaste.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\empty.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\encoding.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\encrypted.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\error.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\exit.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\expanded.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\fax.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\ffc.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\fgcolor.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\file.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\fileclose.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\fileopen.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\filesave.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\filter.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\find.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\grp_collapse.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\grp_create.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\grp_expand.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\grp_off.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\grp_on.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\grp_rename.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\help.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\history.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\home.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\icondef.xml
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build - Make sim.jisp
+InputDir=.\jisp
+IntDir=.\..\..\Release_Wrk
+OutDir=.\..\..\Release
+InputPath=.\jisp\icondef.xml
+
+"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	mkdir $(IntDir)\jisp 
+	copy $(InputDir)\*.png $(IntDir)\jisp 
+	copy $(InputDir)\icondef.xml $(IntDir)\jisp 
+	jar -cMf $(OutDir)\icons\sim.jisp -C $(IntDir)\jisp . 
+	del /Q $(IntDir)\jisp\*.* 
+	rmdir /Q $(IntDir)\jisp 
+	
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build - Make sim.jisp
+InputDir=.\jisp
+IntDir=.\..\..\Debug_Wrk
+OutDir=.\..\..\Debug
+InputPath=.\jisp\icondef.xml
+
+"$(OutDir)\icons\sim.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	mkdir $(IntDir)\jisp 
+	copy $(InputDir)\*.png $(IntDir)\jisp 
+	copy $(InputDir)\icondef.xml $(IntDir)\jisp 
+	jar -cMf $(OutDir)\icons\sim.jisp -C $(IntDir)\jisp . 
+	del /Q $(IntDir)\jisp\*.* 
+	rmdir /Q $(IntDir)\jisp 
+	
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\icq.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\info.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\listmsg.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\mail_generic.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\message.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\more.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\msn.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\na.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\network.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\new.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\nonim.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\nophone.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\occupied.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\online_off.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\online_on.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\pager.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\phone.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\pict.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\redo.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\remove.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\run.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\security.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\sms.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\text.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\text_bold.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\text_italic.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\text_strike.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\text_under.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\translit.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\typing.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\undo.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\urgentmsg.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\url.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\webpress.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\work.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\yahoo.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\yahoo_away.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\yahoo_dnd.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\yahoo_offline.png
+# End Source File
+# End Group
+# Begin Group "smiles"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\smiles\Angel.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\smiles\Angry.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\smiles\Annoyed.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\smiles\Cool.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\smiles\Crying.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\smiles\Embarrassed.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\smiles\Grin.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\smiles\icondef.xml
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build - Make smiles.jisp
+InputDir=.\smiles
+IntDir=.\..\..\Release_Wrk
+OutDir=.\..\..\Release
+InputPath=.\smiles\icondef.xml
+
+"$(OutDir)\icons\smiles.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	mkdir $(IntDir)\jisp 
+	copy $(InputDir)\*.png $(IntDir)\jisp 
+	copy $(InputDir)\icondef.xml $(IntDir)\jisp 
+	jar -cMf $(OutDir)\icons\smiles.jisp -C $(IntDir)\jisp . 
+	del /Q $(IntDir)\jisp\*.* 
+	rmdir /Q $(IntDir)\jisp 
+	
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build - Make smiles.jisp
+InputDir=.\smiles
+IntDir=.\..\..\Debug_Wrk
+OutDir=.\..\..\Debug
+InputPath=.\smiles\icondef.xml
+
+"$(OutDir)\icons\smiles.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	mkdir $(IntDir)\jisp 
+	copy $(InputDir)\*.png $(IntDir)\jisp 
+	copy $(InputDir)\icondef.xml $(IntDir)\jisp 
+	jar -cMf $(OutDir)\icons\smiles.jisp -C $(IntDir)\jisp . 
+	del /Q $(IntDir)\jisp\*.* 
+	rmdir /Q $(IntDir)\jisp 
+	
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\smiles\Indifferent.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\smiles\Kiss.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\smiles\Sad.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\smiles\Skeptical.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\smiles\Smile.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\smiles\Surprised.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\smiles\Teaser.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\smiles\Uptight.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\smiles\Wink.png
 # End Source File
 # End Group
 # End Target

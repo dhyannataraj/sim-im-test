@@ -23,8 +23,6 @@
 #include "html.h"
 #include "core.h"
 
-#include "xpm/livejournal.xpm"
-
 #ifdef USE_OPENSSL
 #include <openssl/md5.h>
 #else
@@ -202,18 +200,6 @@ unsigned LiveJournalPlugin::MenuCount = 0;
 LiveJournalPlugin::LiveJournalPlugin(unsigned base)
         : Plugin(base)
 {
-    IconDef icon;
-    icon.name  = "LiveJournal";
-    icon.xpm   = livejournal;
-
-    Event eIcon(EventAddIcon, &icon);
-    eIcon.process();
-
-    icon.name	= "upd";
-    icon.xpm	= NULL;
-    icon.flags	= 160;
-    eIcon.process();
-
     m_protocol = new LiveJournalProtocol(this);
 
     Event eMenu(EventMenuCreate, (void*)MenuWeb);

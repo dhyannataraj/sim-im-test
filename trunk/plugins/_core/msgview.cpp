@@ -17,6 +17,7 @@
 
 #include "msgview.h"
 #include "core.h"
+#include "icons.h"
 #include "history.h"
 #include "html.h"
 #include "xsl.h"
@@ -62,7 +63,6 @@ protected:
         DirRTL,
         DirUnknown
     } m_paragraphDir;
-    list<Smile> m_smiles;
     virtual void text(const QString &text);
     virtual void tag_start(const QString &tag, const list<QString> &options);
     virtual void tag_end(const QString &tag);
@@ -482,13 +482,11 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     }else{
         msgText = status;
     }
-
     Event e(EventEncodeText, &msgText);
     e.process();
     ViewParser parser(CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
     msgText = parser.parse(msgText);
     s += "<body";
-
     if ((msg->getForeground() != 0xFFFFFFFF) && (msg->getForeground() != msg->getBackground()))
     {
         s += " fgcolor=\"#";
@@ -1234,47 +1232,6 @@ ViewParser::ViewParser(bool bIgnoreColors, bool bUseSmiles)
     m_bInParagraph  = false;
     m_bFirst     	= true;
     m_bSpan			= false;
-    if (m_bUseSmiles){
-        for (unsigned i = 0; ;i++){
-            const smile *s = smiles(i);
-            if (s == NULL)
-                break;
-#if COMPAT_QT_VERSION < 0x030000
-            string str;
-            for (const char *p = s->exp;; p++){
-                if ((*p == 0) || (*p == '|')){
-                    if (!str.empty()){
-                        Smile ss;
-                        ss.nSmile = i;
-                        ss.re = QRegExp(str.c_str());
-                        if (ss.re.isValid())
-                            m_smiles.push_back(ss);
-                    }
-                    if (*p == 0)
-                        break;
-                    str = "";
-                    continue;
-                }
-                if (*p == '\\'){
-                    if (*(++p) == 0)
-                        break;
-                    str += '\\';
-                    str += *p;
-                    continue;
-                }
-                str += *p;
-            }
-#else
-            if (*(s->exp)){
-                Smile ss;
-                ss.nSmile = i;
-                ss.re = QRegExp(s->exp);
-                if (ss.re.isValid())
-                    m_smiles.push_back(ss);
-            }
-#endif
-        }
-    }
 }
 
 QString ViewParser::parse(const QString &str)
@@ -1315,53 +1272,32 @@ void ViewParser::text(const QString &text)
         return;
     }
     m_bFirst = false;
-    QString str = text;
-    for (list<Smile>::iterator it = m_smiles.begin(); it != m_smiles.end(); ++it){
-        Smile &s = *it;
-        s.size = 0;
-        s.pos = s.re.match(str, 0, &s.size);
-        if (s.size == 0)
-            s.pos = -1;
+    if (m_bUseSmiles){
+        res += getIcons()->parseSmiles(text);
+    }else{
+        res += quoteString(text);
     }
-    for (;;){
-        unsigned pos = (unsigned)(-1);
-        unsigned size = 0;
-        Smile *curSmile = NULL;
-        list<Smile>::iterator it;
-        for (it = m_smiles.begin(); it != m_smiles.end(); ++it){
-            Smile &s = *it;
-            if (s.pos < 0)
-                continue;
-            if (((unsigned)(s.pos) < pos) || (((unsigned)(s.pos) == pos) && ((unsigned)(s.size) > size) && (s.pos != -1))){
-                pos = s.pos;
-                size = s.size;
-                curSmile = &s;
-            }
-        }
-        if ((curSmile == NULL) || (size == 0))
-            break;
-        if (pos)
-            res += quoteString(str.left(pos));
-        res += "<img src=\"icon:smile";
-        res += QString::number(curSmile->nSmile, 16).upper();
-        res += "\"/>";
-        int len = pos + curSmile->size;
-        str = str.mid(len);
-        for (it = m_smiles.begin(); it != m_smiles.end(); ++it){
-            Smile &s = *it;
-            if (s.pos < 0)
-                continue;
-            s.pos -= len;
-            if (s.pos < 0){
-                s.size = 0;
-                s.pos = s.re.match(str, 0, &s.size);
-                if (s.size == 0)
-                    s.pos = -1;
-            }
-        }
-    }
-    res += quoteString(str);
 }
+
+static const char *def_smiles[] =
+    {
+        ":-)",
+        ":-0",
+        ":-|",
+        ":-/",
+        ":-(",
+        ":-{}",
+        ":*)",
+        ":'-(",
+        ";-)",
+        ":-@",
+        ":-\")",
+        ":-X",
+        ":-P",
+        "8-)",
+        "8-)",
+        ":-D"
+    };
 
 void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
 {
@@ -1387,14 +1323,9 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
         if (src.left(10) == "icon:smile"){
             bool bOK;
             unsigned nSmile = src.mid(10).toUInt(&bOK, 16);
-            if (bOK){
-                const smile *s = smiles(nSmile);
-                if (s == NULL)
-                    return;
-                if (*s->exp == 0){
-                    res += quoteString(s->paste);
-                    return;
-                }
+            if (bOK && (nSmile < 0x10)){
+                QString s = def_smiles[nSmile];
+                res += getIcons()->parseSmiles(s);
             }
         }
     }else if (tag == "a"){

@@ -38,9 +38,9 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
 
     connect(btnOK, SIGNAL(clicked()), this, SLOT(close()));
     setIcon(Pict("ICQ"));
-    const QIconSet *icon = Icon("ICQ");
-    if (icon)
-        lblIcon->setPixmap(icon->pixmap(QIconSet::Large, QIconSet::Normal));
+    QIconSet icon = Icon("ICQ");
+    if (!icon.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
+        lblIcon->setPixmap(icon.pixmap(QIconSet::Large, QIconSet::Normal));
     edtVersion->setText(i18n("%1 Version: %2") .arg(aboutData->appName()) .arg(aboutData->version()));
     edtVersion->setReadOnly(true);
     QPalette p = palette();

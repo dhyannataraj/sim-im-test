@@ -234,12 +234,10 @@ WharfIcon::WharfIcon(DockWnd *parent)
     p_width  = 64;
     p_height = 64;
     setMouseTracking(true);
-    const QIconSet *icon = Icon("inactive");
-    if (icon){
-        const QPixmap &pict = icon->pixmap(QIconSet::Large, QIconSet::Normal);
-        setIcon(pict);
-        resize(pict.width(), pict.height());
-    }
+    QIconSet icon = Icon("inactive");
+    const QPixmap &pict = icon.pixmap(QIconSet::Large, QIconSet::Normal);
+    setIcon(pict);
+    resize(pict.width(), pict.height());
     parentWin = 0;
     setBackgroundMode(X11ParentRelative);
     vis = NULL;
@@ -292,10 +290,8 @@ void WharfIcon::enterEvent( QEvent* )
 
 void WharfIcon::set(const char *icon, const char *msg)
 {
-    const QIconSet *icons = Icon(icon);
-    if (icons == NULL)
-        return;
-    QPixmap *nvis = new QPixmap(icons->pixmap(QIconSet::Large, QIconSet::Normal));
+    QIconSet icons = Icon(icon);
+    QPixmap *nvis = new QPixmap(icons.pixmap(QIconSet::Large, QIconSet::Normal));
     if (bActivated){
         resize(nvis->width(), nvis->height());
         move((p_width - nvis->width()) / 2, (p_height - nvis->height()) / 2);

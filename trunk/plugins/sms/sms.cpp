@@ -23,9 +23,6 @@
 #include "maininfo.h"
 #include "listview.h"
 
-#include "xpm/simcard.xpm"
-#include "xpm/cell.xpm"
-
 #include <qtimer.h>
 #include <qapplication.h>
 #include <qwidgetlist.h>
@@ -90,16 +87,6 @@ i18n("Phone call", "%n phone calls", 1);
 SMSPlugin::SMSPlugin(unsigned base)
         : Plugin(base)
 {
-    IconDef icon;
-    icon.name = "SMS";
-    icon.xpm  = cell;
-    Event eIcon(EventAddIcon, &icon);
-    eIcon.process();
-
-    icon.name = "simcard";
-    icon.xpm  = simcard;
-    eIcon.process();
-
     SerialPacket = registerType();
     getContacts()->addPacketType(SerialPacket, "Serial port", true);
 

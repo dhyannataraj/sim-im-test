@@ -42,7 +42,6 @@ class SearchDialog;
 class CommonStatus;
 class StatusWnd;
 class ConnectionManager;
-class Icons;
 
 typedef struct CoreData
 {
@@ -107,6 +106,7 @@ typedef struct CoreData
     Data	RemoveHistory;
     Data	SearchGeo[5];
     Data	SearchClient;
+    Data	NoScroller;
 } CoreData;
 
 const unsigned CONTAINER_SIMPLE	= 0;
@@ -465,6 +465,7 @@ public:
     PROP_BOOL(EnableSpell);
     PROP_BOOL(RemoveHistory);
     PROP_STR(SearchClient);
+    PROP_BOOL(NoScroller);
 
     unsigned user_data_id;
     unsigned sms_data_id;
@@ -541,7 +542,6 @@ protected:
     unsigned			m_nResourceMenu;
     Commands			*m_cmds;
     MainWindow			*m_main;
-    Icons				*m_icons;
     Tmpl				*m_tmpl;
     BalloonMsg			*m_alert;
     FileLock			*m_lock;

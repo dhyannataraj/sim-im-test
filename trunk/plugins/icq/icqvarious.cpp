@@ -682,8 +682,10 @@ bool SearchWPRequest::answer(Buffer &b, unsigned short nSubType)
     res.data.Gender.value = gender;
     res.data.Age.value    = age;
 
-    Event e(EventSearch, &res);
-    e.process();
+    if (res.data.Uin.value != m_client->data.owner.Uin.value){
+        Event e(EventSearch, &res);
+        e.process();
+    }
     free_data(ICQProtocol::icqUserData, &res.data);
 
     if (nSubType == 0xAE01){

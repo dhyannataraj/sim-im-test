@@ -304,14 +304,6 @@ SOURCE=.\msgjournalbase.h
 SOURCE=.\livejournal.rc
 # End Source File
 # End Group
-# Begin Group "xpm"
-
-# PROP Default_Filter "xpm"
-# Begin Source File
-
-SOURCE=.\xpm\livejournal.xpm
-# End Source File
-# End Group
 # Begin Group "Interfaces"
 
 # PROP Default_Filter "ui"

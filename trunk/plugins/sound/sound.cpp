@@ -29,9 +29,6 @@
 #include <kaudioplayer.h>
 #endif
 
-#include "xpm/sound.xpm"
-#include "xpm/nosound.xpm"
-
 const unsigned CHECK_SOUND_TIMEOUT	= 200;
 const unsigned WAIT_SOUND_TIMEOUT	= 1000;
 
@@ -112,17 +109,6 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
 
     CmdSoundDisable   = registerType();
     EventSoundChanged = registerType();
-
-    IconDef icon;
-    icon.name = "sound";
-    icon.xpm = sound;
-
-    Event eIcon(EventAddIcon, &icon);
-    eIcon.process();
-
-    icon.name = "nosound";
-    icon.xpm = nosound;
-    eIcon.process();
 
     Command cmd;
     cmd->id		 = user_data_id + 1;

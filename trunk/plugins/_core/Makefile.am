@@ -8,7 +8,6 @@ _core_la_SOURCES = \
  mainwin.cpp \
  userlist.cpp \
  userview.cpp \
- icons.cpp \
  cfgdlg.cpp \
  cfgdlgbase.ui \
  plugincfg.cpp \
@@ -86,7 +85,7 @@ _core_la_SOURCES = \
  xsl.cpp \
  xsl.h
 
-SUBDIRS=pict styles
+SUBDIRS=pict styles jisp smiles
 
 INCLUDES=-I../../sim/api -I../../sim/ui $(all_includes)
 

@@ -1771,7 +1771,7 @@ string ICQClient::clientName(ICQUserData *data)
         return res;
     }
     if (hasCap(data, CAP_RTF) && hasCap(data, CAP_UTF) &&
-        hasCap(data, CAP_SRV_RELAY) && hasCap(data, CAP_DIRECT)) {
+            hasCap(data, CAP_SRV_RELAY) && hasCap(data, CAP_DIRECT)) {
         res += "ICQ 2003a";
         return res;
     }

@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 1
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "weather_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MD /W4 /WX /O1 /I "$(QTDIR)\include" /I "$(LIBXML_DIR)\include" /I "..\..\sim\api" /I "..\..\sim\ui" /I "..\_core" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "QT_DLL" /D "UNICODE" /D "QT_THREAD_SUPPORT" /D VERSION=\"0.9.4\" /D PACKAGE=\"SIM\" /D USE_QT=1 /D "CVS_BUILD" /FR"Debug/" /Fo"Debug/" /Fd"Debug/" /FD /c
+# ADD CPP /nologo /MD /W4 /WX /O1 /I "$(QTDIR)\include" /I "..\..\sim\api" /I "..\..\sim\ui" /I "..\_core" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "QT_DLL" /D "UNICODE" /D "QT_THREAD_SUPPORT" /D VERSION=\"0.9.4\" /D PACKAGE=\"SIM\" /D USE_QT=1 /D "CVS_BUILD" /FR"Debug/" /Fo"Debug/" /Fd"Debug/" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "NDEBUG"
@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 ..\..\Release\simapi.lib ..\..\Release\simui.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\qt-mt230nc.lib $(LIBXML_DIR)\lib\libxml2.lib /nologo /dll /pdb:none /machine:I386 /out:"../../Release/plugins/weather.dll"
+# ADD LINK32 ..\..\Release\simapi.lib ..\..\Release\simui.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\qt-mt230nc.lib /nologo /dll /pdb:none /machine:I386 /out:"../../Release/plugins/weather.dll"
 
 !ELSEIF  "$(CFG)" == "weather - Win32 Debug"
 
@@ -69,7 +69,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 1
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "weather_EXPORTS" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W4 /WX /Gm /ZI /Od /I "$(QTDIR)\include" /I "$(LIBXML_DIR)\include" /I "..\..\sim\api" /I "..\..\sim\ui" /I "..\_core" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "QT_DLL" /D "UNICODE" /D "QT_THREAD_SUPPORT" /D VERSION=\"0.9.4\" /D PACKAGE=\"SIM\" /D USE_QT=1 /D "DEBUG" /D CVS_BUILD=1 /FR /FD /GZ /c
+# ADD CPP /nologo /MDd /W4 /WX /Gm /ZI /Od /I "$(QTDIR)\include" /I "..\..\sim\api" /I "..\..\sim\ui" /I "..\_core" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "QT_DLL" /D "UNICODE" /D "QT_THREAD_SUPPORT" /D VERSION=\"0.9.4\" /D PACKAGE=\"SIM\" /D USE_QT=1 /D "DEBUG" /D CVS_BUILD=1 /FR /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "_DEBUG"
@@ -79,7 +79,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 ..\..\Debug\simapi.lib ..\..\Debug\simui.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\qt-mt230nc.lib $(LIBXML_DIR)\lib\libxml2.lib /nologo /dll /debug /machine:I386 /out:"../../Debug/plugins/weather.dll" /pdbtype:sept
+# ADD LINK32 ..\..\Debug\simapi.lib ..\..\Debug\simui.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\qt-mt230nc.lib /nologo /dll /debug /machine:I386 /out:"../../Debug/plugins/weather.dll" /pdbtype:sept
 
 !ENDIF 
 
@@ -251,206 +251,6 @@ SOURCE=.\wifacecfgbase.h
 SOURCE=.\weather.rc
 # End Source File
 # End Group
-# Begin Group "xpm"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\xpm\0.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\1.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\10.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\11.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\12.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\13.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\14.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\15.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\16.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\17.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\18.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\19.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\2.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\20.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\21.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\22.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\23.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\24.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\25.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\26.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\27.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\28.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\29.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\3.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\30.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\31.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\32.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\33.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\34.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\35.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\36.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\37.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\38.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\39.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\4.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\40.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\41.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\42.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\43.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\44.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\45.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\46.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\47.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\5.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\6.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\7.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\8.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\9.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\na.xpm
-# End Source File
-# End Group
 # Begin Group "Interfaces"
 
 # PROP Default_Filter "ui"
@@ -563,6 +363,249 @@ BuildCmds= \
 
 !ENDIF 
 
+# End Source File
+# End Group
+# Begin Group "jisp"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\jisp\0.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\1.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\10.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\11.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\12.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\13.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\14.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\15.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\16.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\17.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\18.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\19.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\2.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\20.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\21.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\22.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\23.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\24.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\25.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\26.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\27.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\28.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\29.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\3.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\30.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\31.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\32.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\33.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\34.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\35.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\36.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\37.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\38.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\39.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\4.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\40.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\41.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\42.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\43.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\44.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\45.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\46.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\47.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\5.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\6.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\7.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\8.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\9.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\icondef.xml
+
+!IF  "$(CFG)" == "weather - Win32 Release"
+
+# Begin Custom Build - Make weather.jisp
+InputDir=.\jisp
+IntDir=.\..\..\Release_Wrk
+OutDir=.\..\..\Release
+InputPath=.\jisp\icondef.xml
+
+"$(OutDir)\icons\weather.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	mkdir $(IntDir)\jisp 
+	copy $(InputDir)\*.png $(IntDir)\jisp 
+	copy $(InputDir)\icondef.xml $(IntDir)\jisp 
+	jar -cMf $(OutDir)\icons\weather.jisp -C $(IntDir)\jisp . 
+	del /Q $(IntDir)\jisp\*.* 
+	rmdir /Q $(IntDir)\jisp 
+	
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "weather - Win32 Debug"
+
+# Begin Custom Build - Make weather.jisp
+InputDir=.\jisp
+IntDir=.\..\..\Debug_Wrk
+OutDir=.\..\..\Debug
+InputPath=.\jisp\icondef.xml
+
+"$(OutDir)\icons\weather.jisp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	mkdir $(IntDir)\jisp 
+	copy $(InputDir)\*.png $(IntDir)\jisp 
+	copy $(InputDir)\icondef.xml $(IntDir)\jisp 
+	jar -cMf $(OutDir)\icons\weather.jisp -C $(IntDir)\jisp . 
+	del /Q $(IntDir)\jisp\*.* 
+	rmdir /Q $(IntDir)\jisp 
+	
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\jisp\na.png
 # End Source File
 # End Group
 # End Target

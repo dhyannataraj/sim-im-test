@@ -268,8 +268,8 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             m_socket->readBuffer >> id.id_l >> id.id_h;
             m_socket->readBuffer.unpack(channel);
             if (channel == 1) {
-              log(L_DEBUG,"Please send paket to developer!");
-              return;
+                log(L_DEBUG,"Please send paket to developer!");
+                return;
             }
             string screen = m_socket->readBuffer.unpackScreen();
             m_socket->readBuffer.unpack(reason);
@@ -574,7 +574,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
             s.msg	 = msg;
             if (msg->getFlags() & MESSAGE_RICHTEXT){
                 s.flags  = SEND_HTML;
-                s.text	 = removeImages(msg->getRichText(), 0);
+                s.text	 = removeImages(msg->getRichText(), false);
             }else{
                 s.flags  = SEND_HTML_PLAIN;
                 s.text	 = msg->getPlainText();
@@ -599,7 +599,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
             text += "\">";
             text += m->getUrl();
             text += "</a><br>";
-            text += removeImages(msg->getRichText(), 0);
+            text += removeImages(msg->getRichText(), false);
             s.flags  = SEND_HTML;
             s.msg	 = msg;
             s.text	 = text;
@@ -705,10 +705,10 @@ void ICQClient::ackMessage(SendMsg &s)
             unsigned flags = s.msg->getFlags() & (~MESSAGE_RICHTEXT);
             if ((s.flags & SEND_MASK) == SEND_RTF){
                 flags |= MESSAGE_RICHTEXT;
-                m.setText(removeImages(s.part, 16));
+                m.setText(removeImages(s.part, true));
             }else if ((s.flags & SEND_MASK) == SEND_HTML){
                 flags |= MESSAGE_RICHTEXT;
-                m.setText(removeImages(s.part, 0));
+                m.setText(removeImages(s.part, false));
             }else{
                 m.setText(s.part);
             }
@@ -1093,12 +1093,12 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
             for (i = 0; i < sizeof(p); i++) {
                 char temp[8];
                 int  value = p[i];
-                
+
                 sprintf(temp,"%02X",value);
                 sign += QString(temp);
             }
             if (sign.length())
-              log(L_WARN, "Unknown plugin sign %s",sign.ascii());
+                log(L_WARN, "Unknown plugin sign %s",sign.ascii());
             return;
         }
         switch (plugin_index){
@@ -1893,7 +1893,7 @@ bool ICQClient::processMsg()
             sprintf(b, "%06X", (unsigned)(m_send.msg->getBackground() & 0xFFFFFF));
             QString text = QString("<HTML><BODY BGCOLOR=\"#%1\">%2</BODY></HTML>")
                            .arg(b)
-                           .arg(removeImages(m_send.msg->getRichText(), 0));
+                           .arg(removeImages(m_send.msg->getRichText(), false));
             bool bWide = false;
             int i;
             for (i = 0; i < (int)(text.length()); i++){
@@ -2272,7 +2272,7 @@ static const plugin arrPlugins[] =
         { 0x60, 0xF1, 0xA8, 0x3D, 0x91, 0x49,
           0xD3, 0x11, 0x8D, 0xBE, 0x00, 0x10,
           0x4B, 0x06, 0x46, 0x2E, 0x00, 0x00 },
-        // PLUGIN_VIDEO_CHAT  
+        // PLUGIN_VIDEO_CHAT
         { 0x68, 0x33, 0x01, 0x6B, 0x0B, 0x7D,
           0x36, 0x4B, 0x98, 0x6C, 0x63, 0x72,
           0x01, 0x5E, 0x7C, 0x8E, 0x00, 0x00 },

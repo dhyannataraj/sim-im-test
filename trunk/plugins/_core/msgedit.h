@@ -80,7 +80,7 @@ signals:
     void init();
     void finished();
 public slots:
-    void insertSmile(int id);
+    void insertSmile(const char *id);
     void modeChanged();
     void editLostFocus();
     void editTextChanged();
@@ -120,12 +120,12 @@ class SmileLabel : public QLabel
 {
     Q_OBJECT
 public:
-    SmileLabel(int id, const char *tip, QWidget *parent);
+    SmileLabel(const char *id, QWidget *parent);
 signals:
-    void clicked(int id);
+    void clicked(const char *id);
 protected:
     void mouseReleaseEvent(QMouseEvent*);
-    int id;
+    string id;
 };
 
 class SmilePopup : public QFrame
@@ -134,9 +134,9 @@ class SmilePopup : public QFrame
 public:
     SmilePopup(QWidget *parent);
 signals:
-    void insert(int id);
+    void insert(const char *id);
 protected slots:
-    void labelClicked(int id);
+    void labelClicked(const char *id);
 };
 
 #endif

@@ -23,17 +23,7 @@
 
 #include "iconcfgbase.h"
 
-class IconPreview;
-
-typedef struct IconsDef
-{
-    string	protocol;
-    string	icon;
-    int		index;
-} IconsDef;
-
 class IconsPlugin;
-class SmileCfg;
 
 class IconCfg : public IconCfgBase
 {
@@ -42,12 +32,13 @@ public:
     IconCfg(QWidget *parent, IconsPlugin *plugin);
 public slots:
     void apply();
-    void protocolChanged(int);
-    void textChanged(const QString &text);
+    void up();
+    void down();
+    void add();
+    void remove();
+    void selectionChanged();
 protected:
-    list<IconsDef> defs;
     IconsPlugin *m_plugin;
-    SmileCfg	*m_smiles;
 };
 
 #endif

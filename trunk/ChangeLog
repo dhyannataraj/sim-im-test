@@ -6,6 +6,8 @@ ICQ: Add packets flow control
 ICQ: Fix send URL and contacts
 ICQ: Fix send large messages
 Redesign search window
+Remove support miranda icons and smiles
+Add JISP icons and smiles
 
 Version 0.9.3
 Add LiveJournal plugin

@@ -101,44 +101,14 @@ SOURCE=.\iconcfg.cpp
 # Begin Source File
 
 SOURCE=.\iconcfgbase.cpp
-# ADD CPP /W3
-# End Source File
-# Begin Source File
-
-SOURCE=.\icondll.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_iconcfg.cpp
-# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_iconcfgbase.cpp
-# ADD CPP /W3
-# End Source File
-# Begin Source File
-
-SOURCE=.\moc_smilecfg.cpp
-# ADD CPP /W3
-# End Source File
-# Begin Source File
-
-SOURCE=.\moc_smilecfgbase.cpp
-# ADD CPP /W3
-# End Source File
-# Begin Source File
-
-SOURCE=.\smilecfg.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\smilecfgbase.cpp
-# ADD CPP /W3
-# End Source File
-# Begin Source File
-
-SOURCE=.\smiles.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -155,7 +125,7 @@ SOURCE=.\iconcfg.h
 !IF  "$(CFG)" == "icons - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build
+# Begin Custom Build - Moc'ing $(InputName).h ...
 InputDir=.
 InputPath=.\iconcfg.h
 InputName=iconcfg
@@ -184,78 +154,6 @@ InputName=iconcfg
 # Begin Source File
 
 SOURCE=.\iconcfgbase.h
-
-!IF  "$(CFG)" == "icons - Win32 Release"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\iconcfgbase.h
-InputName=iconcfgbase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "icons - Win32 Debug"
-
-# Begin Custom Build
-InputDir=.
-InputPath=.\iconcfgbase.h
-InputName=iconcfgbase
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\icondll.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\smilecfg.h
-
-!IF  "$(CFG)" == "icons - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\smilecfg.h
-InputName=smilecfg
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "icons - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\smilecfg.h
-InputName=smilecfg
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\smilecfgbase.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\smiles.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"
@@ -276,57 +174,10 @@ SOURCE=.\iconcfgbase.ui
 !IF  "$(CFG)" == "icons - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build
-InputDir=.
-InputPath=.\iconcfgbase.ui
-InputName=iconcfgbase
-
-BuildCmds= \
-	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
-	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	
-
-"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "icons - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
 # Begin Custom Build - Uic'ing $(InputName).ui ...
 InputDir=.
 InputPath=.\iconcfgbase.ui
 InputName=iconcfgbase
-
-BuildCmds= \
-	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
-	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	
-
-"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\smilecfgbase.ui
-
-!IF  "$(CFG)" == "icons - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
-InputDir=.
-InputPath=.\smilecfgbase.ui
-InputName=smilecfgbase
 
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
@@ -349,8 +200,8 @@ BuildCmds= \
 # PROP Ignore_Default_Tool 1
 # Begin Custom Build - Uic'ing $(InputName).ui ...
 InputDir=.
-InputPath=.\smilecfgbase.ui
-InputName=smilecfgbase
+InputPath=.\iconcfgbase.ui
+InputName=iconcfgbase
 
 BuildCmds= \
 	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \

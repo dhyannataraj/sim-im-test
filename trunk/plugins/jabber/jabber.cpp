@@ -19,10 +19,6 @@
 #include "jabber.h"
 #include "core.h"
 
-#include "xpm/jabber.xpm"
-#include "xpm/register.xpm"
-#include "xpm/connect.xpm"
-
 Plugin *createJabberPlugin(unsigned base, bool, Buffer *cfg)
 {
     Plugin *plugin = new JabberPlugin(base, cfg);
@@ -218,21 +214,6 @@ JabberPlugin::JabberPlugin(unsigned base, Buffer *cfg)
     load_data(jabberData, &data, cfg);
     JabberPacket = registerType();
     getContacts()->addPacketType(JabberPacket, jabber_descr.text, true);
-
-    IconDef icon;
-    icon.name = "Jabber";
-    icon.xpm  = jabber;
-    Event eIcon(EventAddIcon, &icon);
-    eIcon.process();
-
-    icon.name = "reg";
-    icon.xpm  = reg;
-    eIcon.process();
-
-    icon.name = "connect";
-    icon.xpm  = connect_xpm;
-    icon.system = "connect_established";
-    eIcon.process();
 
     Event eMenuSearch(EventMenuCreate, (void*)MenuSearchResult);
     eMenuSearch.process();

@@ -19,35 +19,27 @@
 #define _ICON_H
 
 #include "simapi.h"
-#include "stl.h"
 
 typedef struct IconsData
 {
-    Data	IconDLLs;
-    Data	Smiles;
+    Data	Icon;
+    Data	NIcons;
+    Data	Default;
 } IconsData;
 
-class IconDLL;
-class Smiles;
-
-typedef map<my_string, IconDLL*> ICONS_MAP;
-
-class IconsPlugin : public Plugin, public EventReceiver
+class IconsPlugin : public Plugin
 {
 public:
     IconsPlugin(unsigned, Buffer*);
     virtual ~IconsPlugin();
-    PROP_STRLIST(IconDLLs);
-    PROP_UTF8(Smiles);
-    Smiles *smiles;
+    PROP_STRLIST(Icon);
+    PROP_ULONG(NIcons);
+    PROP_BOOL(Default);
+    void setIcons(bool bForce);
 protected:
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual string getConfig();
-    void *processEvent(Event*);
-    void setIcons();
-    ICONS_MAP dlls;
     IconsData data;
-    friend class IconCfg;
 };
 
 #endif

@@ -876,7 +876,7 @@ void DirectClient::processPacket()
                         m.setContact(msg->contact());
                         m.setClient(msg->client());
                         if ((*it).type == CAP_RTF){
-                            m.setText(m_client->removeImages(msg->getRichText(), 16));
+                            m.setText(m_client->removeImages(msg->getRichText(), true));
                             flags |= MESSAGE_RICHTEXT;
                         }else{
                             m.setText(msg->getPlainText());

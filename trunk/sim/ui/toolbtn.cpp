@@ -184,25 +184,27 @@ void CToolButton::setState()
         setOn((m_def.flags & COMMAND_CHECKED) != 0);
     }
     if (m_def.icon_on && strcmp(m_def.icon, m_def.icon_on)){
-        const QIconSet *offIcon = Icon(m_def.icon);
-        if (offIcon){
+        QIconSet offIcon = Icon(m_def.icon);
 #if COMPAT_QT_VERSION < 0x030000
-            setIconSet(*offIcon);
-            const QIconSet *onIcon = Icon(m_def.icon_on);
-            if (onIcon)
-                setOnIconSet(*onIcon);
+        if (!offIcon.pixmap(QIconSet::Small, QIconSet::Normal).isNull()){
+            setIconSet(offIcon);
+            QIconSet onIcon = Icon(m_def.icon_on);
+            if (!onIcon.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
+                setOnIconSet(onIcon);
+        }
 #else
-            QIconSet icons = *offIcon;
-            icons.setPixmap(Pict(m_def.icon_on), QIconSet::Small, QIconSet::Normal, QIconSet::On);
+        if (!offIcon.pixmap(QIconSet::Small, QIconSet::Normal).isNull()){
+            QIconSet icons = offIcon;
+            QPixmap off = Pict(m_def.icon_on);
+            if (!off.isNull())
+                icons.setPixmap(off, QIconSet::Small, QIconSet::Normal, QIconSet::On);
             setIconSet(icons);
+        }
 #endif
-        }
     }else{
-        const QIconSet *icon = Icon(m_def.icon);
-        if (icon){
-            QPixmap p = icon->pixmap(QIconSet::Small, QIconSet::Normal);
-            setIconSet(*icon);
-        }
+        QIconSet icon = Icon(m_def.icon);
+        if (!icon.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
+            setIconSet(icon);
     }
     CToolItem::setState();
 }
@@ -426,9 +428,9 @@ void PictButton::paintEvent(QPaintEvent*)
     int w = 4;
     QRect rc(4, 4, width() - 4, height() - 4);
     if (m_def.icon && strcmp(m_def.icon, "empty")){
-        const QIconSet *icons = Icon(m_def.icon);
-        if (icons){
-            const QPixmap &pict = icons->pixmap(QIconSet::Small, isEnabled() ? QIconSet::Active : QIconSet::Disabled);
+        QIconSet icons = Icon(m_def.icon);
+        if (!icons.pixmap(QIconSet::Small, QIconSet::Normal).isNull()){
+            const QPixmap &pict = icons.pixmap(QIconSet::Small, isEnabled() ? QIconSet::Active : QIconSet::Disabled);
             QToolBar *bar = static_cast<QToolBar*>(parent());
             if (bar->orientation() == Vertical){
                 p.drawPixmap((width() - pict.width()) / 2, 4, pict);

@@ -221,9 +221,6 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name simapi
     End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name simui
-    End Project Dependency
 }}}
 
 ###############################################################################
@@ -546,9 +543,6 @@ Package=<4>
     Project_Dep_Name forward
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name icons
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name icq
     End Project Dependency
     Begin Project Dependency
@@ -631,6 +625,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name xpstyle
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name icons
     End Project Dependency
 }}}
 

@@ -474,28 +474,9 @@ void setButtonsPict(QWidget *w)
             icon = "help";
         }
         if (icon == NULL) continue;
-        const QIconSet *iconSet = Icon(icon);
-        if (iconSet)
-            btn->setIconSet(*iconSet);
+        btn->setIconSet(Icon(icon));
     }
     delete l;
-}
-
-const QIconSet *Icon(const char *name)
-{
-    Event e(EventGetIcon, (void*)name);
-    const QIconSet *res = (const QIconSet*)e.process();
-    if ((unsigned)res == (unsigned)(-1))
-        res = NULL;
-    return res;
-}
-
-QPixmap Pict(const char *name)
-{
-    const QIconSet *icons = Icon(name);
-    if (icons == NULL)
-        return QPixmap();
-    return icons->pixmap(QIconSet::Automatic, QIconSet::Normal);
 }
 
 EXPORT QString formatDateTime(unsigned long t)
@@ -713,90 +694,6 @@ I18N_NOOP("Cool")
 I18N_NOOP("Angel")
 I18N_NOOP("Grin")
 #endif
-
-static smile _smiles[] =
-    {
-        { ":-?\\)", ":-)", "Smile" },
-        { ":[-=][O0]", ":-0", "Surprised" },
-        { ":-\\||:-!", ":-|", "Indifferent" },
-        { ":-[/\\\\]", ":-/", "Skeptical" },
-        { ":-?\\(", ":-(", "Sad" },
-        { ":-?\\{\\}|:-\\*", ":-{}", "Kiss" },
-        { ":\\*\\)", ":*)", "Annoyed" },
-        { ":\'-?\\(", ":\'-(", "Crying" },
-        { ";-?\\)", ";-)", "Wink" },
-        { ":-@|>:[0Oo]", ":-@", "Angry" },
-        { ":-\")|:-\\[|:-?<", ":-\")", "Embarrassed" },
-        { ":-X", ":-X", "Uptight" },
-        { ":-P", ":-P", "Teaser" },
-        { "8-\\)", "8-)", "Cool" },
-        { "[O0]:?-\\)", "O:-)", "Angel" },
-        { ":-D", ":-D", "Grin" },
-    };
-
-static vector<smile> *pSmiles = NULL;
-static string smiles_str;
-
-EXPORT const smile *smiles(unsigned n)
-{
-    if (pSmiles == NULL)
-        return defaultSmiles(n);
-    if (n < pSmiles->size())
-        return &(*pSmiles)[n];
-    return NULL;
-}
-
-EXPORT const smile *defaultSmiles(unsigned n)
-{
-    if (n < 16)
-        return &_smiles[n];
-    return NULL;
-}
-
-EXPORT void setSmiles(const char *pp)
-{
-    smiles_str = "";
-    if (pSmiles){
-        delete pSmiles;
-        pSmiles = NULL;
-    }
-    if (pp == NULL)
-        return;
-
-    const char *p = pp;
-    for (;;){
-        smile s;
-        s.exp = p;
-        p += strlen(p) + 1;
-        s.paste = p;
-        p += strlen(p) + 1;
-        s.title = p;
-        p += strlen(p) + 1;
-        smiles_str += s.exp;
-        smiles_str += '\x00';
-        smiles_str += s.paste;
-        smiles_str += '\x00';
-        smiles_str += s.title;
-        smiles_str += '\x00';
-        if (*s.paste == 0)
-            break;
-    }
-
-    pSmiles = new vector<smile>;
-    p = smiles_str.c_str();
-    for (;;){
-        smile s;
-        s.exp = p;
-        p += strlen(p) + 1;
-        s.paste = p;
-        p += strlen(p) + 1;
-        s.title = p;
-        p += strlen(p) + 1;
-        if (*s.paste == 0)
-            break;
-        pSmiles->push_back(s);
-    }
-}
 
 #ifdef WIN32
 

@@ -18,9 +18,7 @@
 #ifndef _WEATHERCFG_H
 #define _WEATHERCFG_H
 
-#include <libxml/parser.h>
-
-#include "simapi.h"
+#include "sax.h"
 #include "weathercfgbase.h"
 #include "fetch.h"
 
@@ -29,7 +27,7 @@
 class WeatherPlugin;
 class WIfaceCfg;
 
-class WeatherCfg : public WeatherCfgBase, public EventReceiver, public FetchClient
+class WeatherCfg : public WeatherCfgBase, public EventReceiver, public FetchClient, public SAXParser
 {
     Q_OBJECT
 public:
@@ -50,14 +48,9 @@ protected:
     string	 m_data;
     vector<string>		m_ids;
     vector<string>		m_names;
-    xmlSAXHandler		m_handler;
-    xmlParserCtxtPtr	m_context;
     void		element_start(const char *el, const char **attr);
     void		element_end(const char *el);
     void		char_data(const char *str, int len);
-    static void p_element_start(void *data, const xmlChar *el, const xmlChar **attr);
-    static void p_element_end(void *data, const xmlChar *el);
-    static void p_char_data(void *data, const xmlChar *str, int len);
 };
 
 #endif

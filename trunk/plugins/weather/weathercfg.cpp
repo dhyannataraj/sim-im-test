@@ -41,10 +41,6 @@ WeatherCfg::WeatherCfg(QWidget *parent, WeatherPlugin *plugin)
     connect(cmbLocation, SIGNAL(activated(int)), this, SLOT(activated(int)));
     textChanged("");
     fill();
-    memset(&m_handler, 0, sizeof(m_handler));
-    m_handler.startElement = p_element_start;
-    m_handler.endElement   = p_element_end;
-    m_handler.characters   = p_char_data;
     for (QObject *p = parent; p != NULL; p = p->parent()){
         if (!p->inherits("QTabWidget"))
             continue;
@@ -89,10 +85,9 @@ bool WeatherCfg::done(unsigned, Buffer &data, const char*)
     m_names.clear();
     m_id = "";
     m_data = "";
-    m_context = xmlCreatePushParserCtxt(&m_handler, this, "", 0, "");
-    if (xmlParseChunk(m_context, data.data(), data.size(), 0))
+    reset();
+    if (!parse(data.data(), data.size()))
         log(L_WARN, "XML parse error");
-    xmlFreeParserCtxt(m_context);
     btnSearch->setText(i18n("&Search"));
     QString oldText = cmbLocation->lineEdit()->text();
     cmbLocation->clear();
@@ -177,21 +172,6 @@ void WeatherCfg::char_data(const char *str, int len)
 {
     if (!m_id.empty())
         m_data.append(str, len);
-}
-
-void WeatherCfg::p_element_start(void *data, const xmlChar *el, const xmlChar **attr)
-{
-    ((WeatherCfg*)data)->element_start((char*)el, (const char**)attr);
-}
-
-void WeatherCfg::p_element_end(void *data, const xmlChar *el)
-{
-    ((WeatherCfg*)data)->element_end((char*)el);
-}
-
-void WeatherCfg::p_char_data(void *data, const xmlChar *str, int len)
-{
-    ((WeatherCfg*)data)->char_data((char*)str, len);
 }
 
 #ifndef WIN32

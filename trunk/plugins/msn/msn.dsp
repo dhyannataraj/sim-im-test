@@ -460,22 +460,6 @@ InputName=msnsearchbase
 SOURCE=.\msn.rc
 # End Source File
 # End Group
-# Begin Group "xpm"
-
-# PROP Default_Filter "xpm"
-# Begin Source File
-
-SOURCE=.\xpm\lunch.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\onback.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\onphone.xpm
-# End Source File
-# End Group
 # Begin Group "Interfaces"
 
 # PROP Default_Filter "ui"

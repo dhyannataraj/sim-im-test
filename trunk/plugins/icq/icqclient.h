@@ -693,7 +693,7 @@ protected:
     void packInfoList(char *str);
     QString packContacts(ContactsMessage *msg, ICQUserData *data, CONTACTS_MAP &c);
     string createRTF(QString &text, QString &part, unsigned long foreColor, Contact *contact, unsigned max_size);
-    QString removeImages(const QString &text, unsigned maxSmile);
+    QString removeImages(const QString &text, bool icqSmiles);
     void ackMessage(SendMsg &s);
     void accept(Message *msg, const char *dir, OverwriteMode overwrite);
     void decline(Message *msg, const char *reason);

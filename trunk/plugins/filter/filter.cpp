@@ -24,8 +24,6 @@
 #include "msgview.h"
 #include "userwnd.h"
 
-#include "xpm/ignorelist.xpm"
-
 #include <qregexp.h>
 
 Plugin *createFilterPlugin(unsigned base, bool, Buffer *cfg)
@@ -84,13 +82,6 @@ FilterPlugin::FilterPlugin(unsigned base, Buffer *cfg)
     CmdIgnoreList	= registerType();
     CmdIgnore		= registerType();
     CmdIgnoreText	= registerType();
-
-    IconDef icon;
-    icon.name = "ignorelist";
-    icon.xpm  = ignorelist;
-
-    Event eIcon(EventAddIcon, &icon);
-    eIcon.process();
 
     Command cmd;
     cmd->id          = CmdIgnoreList;

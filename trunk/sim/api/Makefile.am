@@ -10,9 +10,12 @@ libsimapi_la_SOURCES = \
  country.cpp \
  exec.cpp \
  fetch.cpp \
+ icons.cpp \
  log.cpp \
  message.cpp \
  plugins.cpp \
+ qzip.cpp \
+ sax.cpp \
  simapi.cpp \
  socket.cpp \
  sockfactory.cpp \
@@ -20,9 +23,11 @@ libsimapi_la_SOURCES = \
  translit.cpp \
  unquot.cpp \
  html.ll \
- md5_dgst.c
+ md5_dgst.c \
+ miniunz.c \
+ unzip.c  
 
-libsimapi_la_LIBADD = $(LIBSSL) $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(EXTRA_LIBS) $(LIBDL)
+libsimapi_la_LIBADD = $(LIBSSL) $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(EXTRA_LIBS) $(LIBDL) $(LIB_XML2)
 
 # set the include path for X, qt and KDE
 INCLUDES= $(all_includes) 

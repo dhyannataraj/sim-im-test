@@ -784,12 +784,16 @@ unsigned PluginManagerPrivate::execute(const char *prg, const char *arg)
 }
 #endif
 
+void createIcons();
+void deleteIcons();
+
 PluginManager::PluginManager(int argc, char **argv)
 {
     EventReceiver::initList();
     factory = new SIMSockets;
     contacts = new ContactList;
     FetchManager::manager = new FetchManager;
+    createIcons();
     p = new PluginManagerPrivate(argc, argv);
 }
 
@@ -805,8 +809,8 @@ PluginManager::~PluginManager()
     delete FetchManager::manager;
     delete contacts;
     delete factory;
+    deleteIcons();
     EventReceiver::destroyList();
-    setSmiles(NULL);
     deleteResolver();
 }
 

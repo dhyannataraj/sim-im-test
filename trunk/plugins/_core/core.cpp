@@ -31,7 +31,6 @@
 #include "statuswnd.h"
 #include "manager.h"
 #include "connectionsettings.h"
-#include "icons.h"
 #include "container.h"
 #include "userwnd.h"
 #include "msgedit.h"
@@ -48,6 +47,7 @@
 #include "xsl.h"
 #include "userhistorycfg.h"
 #include "ballonmsg.h"
+#include "icons.h"
 #include "kdeisversion.h"
 
 #include <qtimer.h>
@@ -316,6 +316,7 @@ static DataDef coreData[] =
         { "RemoveHistory", DATA_BOOL, 1, DATA(1) },
         { "SearchGeometry", DATA_ULONG, 5, DATA(0) },
         { "SearchClient", DATA_STRING, 1, DATA(0) },
+        { "NoScroller", DATA_BOOL, 1, DATA(0) },
         { NULL, 0, 0, 0 }
     };
 
@@ -449,6 +450,8 @@ static autoReply autoReplies[] =
         { 0, NULL }
     };
 
+static string smile_icon;
+
 CorePlugin::CorePlugin(unsigned base, Buffer *config)
         : Plugin(base), EventReceiver(HighPriority)
 {
@@ -487,7 +490,6 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     loadDir();
 
     m_tmpl	= new Tmpl(this);
-    m_icons = new Icons;
     m_cmds	= new Commands;
     boundTypes();
 
@@ -676,11 +678,21 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
     eCmd.process();
 
+    list<string> smiles;
+    getIcons()->getSmiles(smiles);
+    unsigned flags = 0;
+    if (smiles.empty()){
+        smile_icon = "";
+        flags = BTN_HIDE;
+    }else{
+        smile_icon = smiles.front();
+    }
+
     cmd->id			= CmdSmile;
     cmd->text		= I18N_NOOP("&Insert smile");
-    cmd->icon		= "smile0";
+    cmd->icon		= smile_icon.c_str();
     cmd->bar_grp	= 0x7000;
-    cmd->flags		= COMMAND_CHECK_STATE;
+    cmd->flags		= COMMAND_CHECK_STATE | flags;
     eCmd.process();
 
     cmd->id			= CmdTranslit;
@@ -1460,7 +1472,6 @@ CorePlugin::~CorePlugin()
     destroy();
     delete m_lock;
     delete m_cmds;
-    delete m_icons;
     delete m_tmpl;
     if (m_status)
         delete m_status;
@@ -1668,6 +1679,27 @@ I18N_NOOP("female", "%1 wrote:" )
 void *CorePlugin::processEvent(Event *e)
 {
     switch (e->type()){
+    case EventIconChanged:{
+            list<string> smiles;
+            getIcons()->getSmiles(smiles);
+            unsigned flags = 0;
+            if (smiles.empty()){
+                smile_icon = "";
+                flags = BTN_HIDE;
+            }else{
+                smile_icon = smiles.front();
+            }
+            Command cmd;
+            cmd->id			= CmdSmile;
+            cmd->text		= I18N_NOOP("&Insert smile");
+            cmd->icon		= smile_icon.c_str();
+            cmd->bar_id		= ToolBarMsgEdit;
+            cmd->bar_grp	= 0x7000;
+            cmd->flags		= COMMAND_CHECK_STATE | flags;
+            Event eCmd(EventCommandChange, cmd);
+            eCmd.process();
+            return NULL;
+        }
     case EventJoinAlert:
         if (!getNoJoinAlert() && (m_alert == NULL)){
             Command cmd;

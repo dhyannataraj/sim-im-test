@@ -16,213 +16,108 @@
  ***************************************************************************/
 
 #include "iconcfg.h"
-#include "icondll.h"
 #include "icon.h"
-#include "editfile.h"
-#include "preview.h"
-#include "linklabel.h"
-#include "core.h"
-#include "smilecfg.h"
+#include "icons.h"
 
-#include <qframe.h>
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qcombobox.h>
-#include <qtabwidget.h>
+#include <qpushbutton.h>
+#include <qlistbox.h>
 
-class IconPreview : public FilePreview
-{
-public:
-    IconPreview(QWidget *parent);
-    ~IconPreview();
-protected:
-    QLabel  *labels[20];
-    void showPreview(const char*);
-    void setIcons();
-    IconDLL *icons;
-};
-
-IconPreview::IconPreview(QWidget *parent)
-        : FilePreview(parent)
-{
-    icons = NULL;
-    QGridLayout *lay = new QGridLayout(this, 4, 4);
-    lay->setMargin(4);
-    lay->setSpacing(4);
-    for (unsigned i = 0; i < 5; i++){
-        for (unsigned j = 0; j < 4; j++){
-            QLabel *l = new QLabel(this);
-            l->setMinimumSize(QSize(22, 22));
-            labels[i * 4 + j] = l;
-            lay->addWidget(l, i, j);
-        }
-    }
-}
-
-IconPreview::~IconPreview()
-{
-    if (icons)
-        delete icons;
-}
-
-void IconPreview::showPreview(const char *file)
-{
-    if (file == NULL){
-        if (icons){
-            delete icons;
-            icons = NULL;
-            setIcons();
-        }
-        return;
-    }
-    icons = new IconDLL;
-    if (!icons->load(QFile::decodeName(file))){
-        delete icons;
-        icons = NULL;
-    }
-    setIcons();
-}
-
-void IconPreview::setIcons()
-{
-    unsigned i = 0;
-    if (icons){
-        IconsMap::iterator it;
-        for (it = icons->icon_map->begin(); (it != icons->icon_map->end()) && (i < 20); ++it){
-            QIconSet &icon = (*it).second;
-            labels[i++]->setPixmap(icon.pixmap(QIconSet::Automatic, QIconSet::Normal));
-        }
-    }
-    for (; i < 20; i++)
-        labels[i]->setPixmap(QPixmap());
-}
-
-static FilePreview *createPreview(QWidget *parent)
-{
-    return new IconPreview(parent);
-}
+#ifdef USE_KDE
+#include <kfiledialog.h>
+#define QFileDialog	KFileDialog
+#else
+#include <qfiledialog.h>
+#endif
 
 IconCfg::IconCfg(QWidget *parent, IconsPlugin *plugin)
         : IconCfgBase(parent)
 {
     m_plugin = plugin;
-    unsigned i;
-    for (i = 1; ; i++){
-        const char *n = plugin->getIconDLLs(i);
-        if ((n == NULL) || (*n == 0)) break;
-        string v = n;
-        IconsDef d;
-        d.protocol = getToken(v, ',');
-        d.icon = v;
-        d.index = -1;
-        defs.push_back(d);
+    connect(btnUp, SIGNAL(clicked()), this, SLOT(up()));
+    connect(btnDown, SIGNAL(clicked()), this, SLOT(down()));
+    connect(btnAdd, SIGNAL(clicked()), this, SLOT(add()));
+    connect(btnRemove, SIGNAL(clicked()), this, SLOT(remove()));
+    connect(lstIcon, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
+    if (m_plugin->getDefault()){
+        lstIcon->insertItem("icons/smiles.jisp");
+    }else{
+        for (unsigned i = 1; i <= m_plugin->getNIcons(); i++)
+            lstIcon->insertItem(m_plugin->getIcon(i));
     }
-
-    list<string> icons;
-    Event e(EventGetIcons, &icons);
-    e.process();
-
-    list<string> protocols;
-    for (list<string>::iterator it = icons.begin(); it != icons.end(); ++it){
-        string name = (*it);
-        int n = name.find('_');
-        char c = name[0];
-        if ((c < 'A') || (c > 'Z'))
-            continue;
-        if (n <= 0)
-            continue;
-        name = name.substr(0, n);
-        list<string>::iterator its;
-        for (its = protocols.begin(); its != protocols.end(); ++its)
-            if ((*its) == name)
-                break;
-        if (its != protocols.end())
-            continue;
-        protocols.push_back(name);
-    }
-    i = 0;
-    for (list<string>::iterator its = protocols.begin(); its != protocols.end(); ++its, i++){
-        cmbProtocol->insertItem(i18n((*its).c_str()));
-        list<IconsDef>::iterator it;
-        for (it = defs.begin(); it != defs.end(); ++it){
-            if ((*it).protocol == (*its)){
-                (*it).index = i;
-                break;
-            }
-        }
-        if (it == defs.end()){
-            IconsDef d;
-            d.protocol = (*its);
-            d.index = i;
-            defs.push_back(d);
-        }
-    }
-    connect(cmbProtocol, SIGNAL(activated(int)), this, SLOT(protocolChanged(int)));
-    cmbProtocol->setCurrentItem(0);
-    protocolChanged(0);
-    lblMore->setUrl("http://miranda-im.org/download/index.php?action=display&id=35");
-#ifdef WIN32
-    edtIcon->setStartDir(QFile::decodeName(app_file("icons/").c_str()));
-#else
-edtIcon->setStartDir(QFile::decodeName(user_file("icons/").c_str()));
-#endif
-    edtIcon->setTitle(i18n("Select icons DLL"));
-    edtIcon->setFilePreview(createPreview);
-#ifdef USE_KDE
-    edtIcon->setFilter(i18n("*.dll|Icons themes"));
-#else
-    edtIcon->setFilter(i18n("Icons themes (*.dll)"));
-#endif
-    lblMore->setText(i18n("Get more icons themes"));
-    connect(edtIcon, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
-    for (QObject *p = parent; p != NULL; p = p->parent()){
-        if (!p->inherits("QTabWidget"))
-            continue;
-        QTabWidget *tab = static_cast<QTabWidget*>(p);
-        m_smiles = new SmileCfg(tab, plugin);
-        tab->addTab(m_smiles, i18n("Smiles"));
-        tab->adjustSize();
-        break;
-    }
-}
-
-void IconCfg::protocolChanged(int n)
-{
-    QString text = "";
-    for (list<IconsDef>::iterator it = defs.begin(); it != defs.end(); ++it){
-        if ((*it).index == n){
-            text = QString::fromUtf8((*it).icon.c_str());
-            break;
-        }
-    }
-    edtIcon->setText(text);
-}
-
-void IconCfg::textChanged(const QString &t)
-{
-    string text;
-    if (!t.isEmpty())
-        text = t.utf8();
-    for (list<IconsDef>::iterator it = defs.begin(); it != defs.end(); ++it){
-        if ((*it).index == cmbProtocol->currentItem()){
-            (*it).icon = text;
-            break;
-        }
-    }
+    selectionChanged();
 }
 
 void IconCfg::apply()
 {
-    unsigned n = 1;
-    m_smiles->apply();
-    for (list<IconsDef>::iterator it = defs.begin(); it != defs.end(); ++it, n++){
-        string res = (*it).protocol;
-        res += ",";
-        res += (*it).icon;
-        m_plugin->setIconDLLs(n, res.c_str());
+    m_plugin->clearIcon();
+    m_plugin->setDefault(false);
+    for (unsigned i = 0; i < lstIcon->count(); i++)
+        m_plugin->setIcon(i + 1, QFile::encodeName(lstIcon->text(i)));
+    m_plugin->setNIcons(lstIcon->count());
+    m_plugin->setIcons(true);
+}
+
+void IconCfg::up()
+{
+    int n = lstIcon->currentItem();
+    if (n < 1)
+        return;
+    QString t = lstIcon->text(n);
+    QListBoxItem *i = lstIcon->item(n);
+    if (i == NULL)
+        return;
+    delete i;
+    lstIcon->insertItem(t, n - 1);
+    lstIcon->setCurrentItem(n - 1);
+}
+
+void IconCfg::down()
+{
+    int n = lstIcon->currentItem();
+    if ((n < 0) || (n >= (int)(lstIcon->count() - 1)))
+        return;
+    QString t = lstIcon->text(n);
+    QListBoxItem *i = lstIcon->item(n);
+    if (i == NULL)
+        return;
+    delete i;
+    lstIcon->insertItem(t, n + 1);
+    lstIcon->setCurrentItem(n + 1);
+}
+
+void IconCfg::add()
+{
+#ifdef USE_KDE
+    QString filter = i18n("*.jisp|Icon set");
+#else
+QString filter = i18n("Icon set(*.jisp)");
+#endif
+    QString jisp = QFileDialog::getOpenFileName(QFile::decodeName(app_file("icons/").c_str()), filter, topLevelWidget(), i18n("Select icon set"));
+    if (!jisp.isEmpty())
+        lstIcon->insertItem(jisp);
+}
+
+void IconCfg::remove()
+{
+    QListBoxItem *i = lstIcon->item(lstIcon->currentItem());
+    if (i == NULL)
+        return;
+    delete i;
+    selectionChanged();
+}
+
+void IconCfg::selectionChanged()
+{
+    int n = lstIcon->currentItem();
+    if (n < 0){
+        btnUp->setEnabled(false);
+        btnDown->setEnabled(false);
+        btnRemove->setEnabled(false);
+        return;
     }
-    m_plugin->setIconDLLs(n, NULL);
-    m_plugin->setIcons();
+    btnRemove->setEnabled(true);
+    btnUp->setEnabled(n > 0);
+    btnDown->setEnabled(n < (int)(lstIcon->count() - 1));
 }
 
 #ifndef WIN32

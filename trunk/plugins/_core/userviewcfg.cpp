@@ -36,6 +36,7 @@ UserViewConfig::UserViewConfig(QWidget *parent)
     btnGroup->setColor(CorePlugin::m_plugin->getColorGroup());
     chkGroupSeparator->setChecked(CorePlugin::m_plugin->getGroupSeparator());
     chkSmallFont->setChecked(CorePlugin::m_plugin->getSmallGroupFont());
+    chkScroll->setChecked(CorePlugin::m_plugin->getNoScroller());
     connect(chkSysColors, SIGNAL(toggled(bool)), this, SLOT(colorsToggled(bool)));
     colorsToggled(chkSysColors->isChecked());
     fillBox(cmbSort1);
@@ -95,6 +96,7 @@ void UserViewConfig::apply()
     CorePlugin::m_plugin->setGroupSeparator(chkGroupSeparator->isChecked());
     CorePlugin::m_plugin->setSortMode(getSortMode());
     CorePlugin::m_plugin->setSmallGroupFont(chkSmallFont->isChecked());
+    CorePlugin::m_plugin->setNoScroller(chkScroll->isChecked());
     if (CorePlugin::m_plugin->getUseSysColors()){
         CorePlugin::m_plugin->setColorOnline(0);
         CorePlugin::m_plugin->setColorOffline(0);

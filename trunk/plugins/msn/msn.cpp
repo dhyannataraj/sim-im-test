@@ -19,10 +19,6 @@
 #include "msnclient.h"
 #include "simapi.h"
 
-#include "xpm/lunch.xpm"
-#include "xpm/onback.xpm"
-#include "xpm/onphone.xpm"
-
 Plugin *createMSNPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new MSNPlugin(base);
@@ -233,20 +229,6 @@ MSNPlugin::MSNPlugin(unsigned base)
     MSNNewMail   = registerType();
 
     getContacts()->addPacketType(MSNPacket, msn_descr.text, true);
-
-    IconDef icon;
-    icon.name  = "lunch";
-    icon.xpm   = lunch;
-    Event eIcon(EventAddIcon, &icon);
-    eIcon.process();
-
-    icon.name  = "onback";
-    icon.xpm   = onback;
-    eIcon.process();
-
-    icon.name  = "onphone";
-    icon.xpm   = onphone;
-    eIcon.process();
 
     m_protocol = new MSNProtocol(this);
 }

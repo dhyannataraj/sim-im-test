@@ -68,6 +68,9 @@ UserView::UserView()
 
     setTreeStepSize(0);
 
+    setVScrollBarMode(CorePlugin::m_plugin->getNoScroller() ? QScrollView::AlwaysOff : QScrollView::Auto);
+    setHScrollBarMode(QScrollView::AlwaysOff);
+
     tipTimer = new QTimer(this);
     connect(tipTimer, SIGNAL(timeout()), this, SLOT(showTip()));
     blinkTimer = new QTimer(this);
@@ -323,6 +326,9 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
 void *UserView::processEvent(Event *e)
 {
     switch (e->type()){
+    case EventRepaintView:
+        setVScrollBarMode(CorePlugin::m_plugin->getNoScroller() ? QScrollView::AlwaysOff : QScrollView::Auto);
+        break;
     case EventInit:
         m_bInit = true;
         fill();

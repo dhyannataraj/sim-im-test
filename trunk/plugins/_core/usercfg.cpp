@@ -243,9 +243,9 @@ UserConfig::UserConfig(Contact *contact, Group *group)
     setIcon(Pict(contact ? "info" : "configure"));
     setButtonsPict(this);
     setTitle();
-    const QIconSet *iconSet = Icon("webpress");
-    if (iconSet)
-        btnUpdate->setIconSet(*iconSet);
+    QIconSet iconSet = Icon("webpress");
+    if (!iconSet.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
+        btnUpdate->setIconSet(iconSet);
     btnUpdate->hide();
 
     lstBox->setHScrollBarMode(QScrollView::AlwaysOff);

@@ -34,7 +34,6 @@ MoreInfo::MoreInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, 
     m_contact = contact;
     btnHomePage->setPixmap(Pict("home"));
     connect(btnHomePage, SIGNAL(clicked()), this, SLOT(goUrl()));
-    QDate now = QDate::currentDate();
     spnAge->setSpecialValueText(" ");
     spnAge->setRange(0, 100);
     connect(cmbLang1, SIGNAL(activated(int)), this, SLOT(setLang(int)));

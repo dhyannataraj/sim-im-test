@@ -280,18 +280,6 @@ SOURCE=.\smssetupbase.h
 SOURCE=.\sms.rc
 # End Source File
 # End Group
-# Begin Group "xpm"
-
-# PROP Default_Filter "xpm"
-# Begin Source File
-
-SOURCE=.\xpm\cell.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\simcard.xpm
-# End Source File
-# End Group
 # Begin Group "Interfaces"
 
 # PROP Default_Filter "ui"

@@ -155,7 +155,7 @@ EXPORT QString i18n(const char *text);
 EXPORT QString i18n(const char *text, const char *comment);
 EXPORT QString i18n(const char *singular, const char *plural, unsigned long n);
 EXPORT inline QString tr2i18n(const char* message, const char* =0) {
-  return i18n(message);
+    return i18n(message);
 }
 #ifndef I18N_NOOP
 #define I18N_NOOP(A)	A
@@ -406,26 +406,8 @@ const unsigned EventSaveState		= 0x0310;
 */
 const unsigned EventClientsChanged	= 0x0311;
 
-/* Add icon (param is IconDef ) */
-const unsigned EventAddIcon = 0x0401;
-
-typedef struct IconDef
-{
-    const char *name;
-    const char **xpm;
-    const char *system;
-    unsigned   flags;
-    IconDef() : name(NULL), xpm(NULL), system(NULL), flags(0) {}
-} IconDef;
-
-const unsigned ICON_COLOR_MASK	= 0x000000FF;
-
-/* Get icon (param is const char *name)
-   return const QIconSet* or NULL */
-const unsigned EventGetIcon = 0x0402;
-
 /* Event icons changed */
-const unsigned EventIconChanged = 0x0404;
+const unsigned EventIconChanged		= 0x0400;
 
 /* Toolbar (create and remove)
    param is toolbar id */
@@ -1798,7 +1780,7 @@ EXPORT void setWndClass(QWidget*, const char*);
 EXPORT bool raiseWindow(QWidget *w, unsigned desk = 0);
 EXPORT void setButtonsPict(QWidget *w);
 
-EXPORT const QIconSet *Icon(const char *name);
+EXPORT QIconSet Icon(const char *name);
 EXPORT QPixmap Pict(const char *name);
 
 EXPORT void setAboutData(KAboutData*);
@@ -1819,10 +1801,6 @@ typedef struct smile
     const char	*paste;
     const char	*title;
 } smile;
-
-EXPORT const smile *smiles(unsigned n);
-EXPORT const smile *defaultSmiles(unsigned n);
-EXPORT void setSmiles(const char *smiles_str);
 
 EXPORT unsigned screens();
 EXPORT QRect screenGeometry(unsigned nScreen);
