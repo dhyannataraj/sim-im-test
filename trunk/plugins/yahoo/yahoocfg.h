@@ -36,6 +36,7 @@ public slots:
 protected slots:
     void changed();
     void changed(const QString&);
+    void autoToggled(bool);
 protected:
     bool m_bConfig;
     YahooClient *m_client;

@@ -111,6 +111,7 @@ typedef struct YahooUserData
     Data		Group;
     Data		bChecked;
     Data		bTyping;
+    Data		Encoding;
 } YahooUserData;
 
 typedef struct YahooClientData
@@ -121,10 +122,14 @@ typedef struct YahooClientData
     Data	FTPort;
     Data	CookieY;
     Data	CookieT;
+    Data	UseHTTP;
+    Data	AutoHTTP;
     YahooUserData	owner;
 } YahooClientData;
 
 typedef pair<unsigned, string> PARAM;
+
+class QTextCodec;
 
 class YahooClient : public TCPClient
 {
@@ -138,6 +143,8 @@ public:
     PROP_USHORT(FTPort);
     PROP_STR(CookieY);
     PROP_STR(CookieT);
+    PROP_BOOL(UseHTTP);
+    PROP_BOOL(AutoHTTP);
     virtual string getConfig();
     QString getLogin();
     void setLogin(const QString&);
@@ -145,6 +152,9 @@ public:
     YahooClientData	data;
     virtual void contactInfo(void *_data, unsigned long &status, unsigned &style, const char *&statusIcon, string *icons = NULL);
     YahooUserData *findContact(const char *id, const char *grp, Contact *&contact, bool bSend=true);
+    QString toUnicode(const char *str, YahooUserData *client_data);
+    string  fromUnicode(const QString &str, YahooUserData *client_data);
+    QTextCodec *getCodec(const char *encoding);
 protected slots:
     void ping();
 protected:
@@ -152,6 +162,7 @@ protected:
     void	setStatus(unsigned status);
     virtual void setInvisible(bool bState);
     void	disconnected();
+    Socket  *createSocket();
     string	name();
     QWidget	*setupWnd();
     bool isMyData(clientData*&, Contact*&);
@@ -194,7 +205,10 @@ protected:
     unsigned long  m_pkt_status;
     unsigned short m_data_size;
     unsigned short m_service;
+    string	m_session_id;
     bool m_bHeader;
+    bool m_bHTTP;
+    bool m_bFirstTry;
     void authOk();
 };
 

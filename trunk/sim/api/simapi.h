@@ -505,6 +505,7 @@ const unsigned BTN_EDIT				= 0x4000;
 
 const unsigned BTN_HIDE				= 0x10000;
 const unsigned BTN_NO_BUTTON		= 0x20000;
+const unsigned BTN_DIV				= 0x40000;
 
 /* Command - remove command id */
 const unsigned EventCommandRemove = 0x0507;

@@ -48,6 +48,8 @@
 #include <time.h>
 
 #include <qtimer.h>
+#include <qtextcodec.h>
+#include <qregexp.h>
 
 static char YAHOO_PACKET_SIGN[] = "YMSG";
 
@@ -75,6 +77,7 @@ static DataDef yahooUserData[] =
         { "Group", DATA_STRING, 1, 0 },
         { "", DATA_BOOL, 1, 0 },			// bChecked
         { "", DATA_BOOL, 1, 0 },			// bTyping
+        { "Encoding", DATA_STRING, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -86,6 +89,8 @@ static DataDef yahooClientData[] =
         { "FYPort", DATA_ULONG, 1, DATA(80) },
         { "", DATA_STRING, 1, 0 },				// CookieY
         { "", DATA_STRING, 1, 0 },				// CookieT
+        { "UseHTTP", DATA_BOOL, 1, 0 },
+        { "AutoHTTP", DATA_BOOL, 1, DATA(1) },
         { "", DATA_STRUCT, sizeof(YahooUserData) / sizeof(Data), DATA(yahooUserData) },
         { NULL, 0, 0, 0 }
     };
@@ -100,6 +105,7 @@ YahooClient::YahooClient(Protocol *protocol, const char *cfg)
 {
     load_data(yahooClientData, &data, cfg);
     m_status = STATUS_OFFLINE;
+    m_bFirstTry = false;
 }
 
 YahooClient::~YahooClient()
@@ -161,6 +167,7 @@ bool YahooClient::canSend(unsigned type, void *_data)
 
 void YahooClient::packet_ready()
 {
+    log_packet(m_socket->readBuffer, false, YahooPlugin::YahooPacket);
     if (m_bHeader){
         char header[4];
         m_socket->readBuffer.unpack(header, 4);
@@ -187,6 +194,10 @@ void YahooClient::packet_ready()
 
 void YahooClient::sendPacket(unsigned short service, unsigned long status)
 {
+    if (m_bHTTP && !m_session_id.empty()){
+        addParam(0, getLogin().utf8());
+        addParam(24, m_session_id.c_str());
+    }
     unsigned short size = 0;
     if (!m_values.empty()){
         for (list<PARAM>::iterator it = m_values.begin(); it != m_values.end(); ++it){
@@ -221,13 +232,19 @@ void YahooClient::addParam(unsigned key, const char *value)
 
 void YahooClient::connect_ready()
 {
+    m_bFirstTry = false;
     m_socket->readBuffer.init(20);
     m_socket->readBuffer.packetStart();
     m_session = rand();
     m_bHeader = true;
     log(L_DEBUG, "Connect ready");
     TCPClient::connect_ready();
-    sendPacket(YAHOO_SERVICE_VERIFY);
+    if (m_bHTTP){
+        addParam(1, getLogin().utf8());
+        sendPacket(YAHOO_SERVICE_AUTH);
+    }else{
+        sendPacket(YAHOO_SERVICE_VERIFY);
+    }
 }
 
 class Params : public list<PARAM>
@@ -323,8 +340,11 @@ void YahooClient::process_packet()
             return;
         }
     case YAHOO_SERVICE_LOGON:
-        if (params[1])
+        if (params[1]){
+            if (params[24])
+                m_session_id = params[24];
             authOk();
+        }
     case YAHOO_SERVICE_USERSTAT:
     case YAHOO_SERVICE_ISAWAY:
     case YAHOO_SERVICE_ISBACK:
@@ -389,7 +409,7 @@ void YahooClient::process_packet()
 class TextParser
 {
 public:
-    TextParser(bool bUtf);
+    TextParser(YahooClient *client, YahooUserData *data);
     QString parse(const char *msg);
 
     class Tag
@@ -429,7 +449,8 @@ protected:
     void put_style();
     void push_tag(const QString &tag);
     void pop_tag(const QString &tag);
-    bool m_bUtf;
+    YahooUserData *m_data;
+    YahooClient   *m_client;
     QString m_text;
 };
 
@@ -493,9 +514,10 @@ QString TextParser::Tag::close_tag() const
     return res;
 }
 
-TextParser::TextParser(bool bUtf)
+TextParser::TextParser(YahooClient *client, YahooUserData *data)
 {
-    m_bUtf     = bUtf;
+    m_data     = data;
+    m_client   = client;
     m_bChanged = false;
     m_state    = 0;
 }
@@ -560,9 +582,6 @@ QString TextParser::parse(const char *msg)
         m_text += m_tags.top().close_tag();
         m_tags.pop();
     }
-    string s;
-    if (!m_text.isEmpty())
-        s = m_text.local8Bit();
     return m_text;
 }
 
@@ -668,10 +687,10 @@ void TextParser::addText(const char *str, unsigned s)
     if (s == 0)
         return;
     QString text;
-    if (m_bUtf){
-        text = QString::fromUtf8(str, s);
+    if (m_data){
+        text = m_client->toUnicode(str, m_data);
     }else{
-        text = QString::fromLocal8Bit(str, s);
+        text = QString::fromUtf8(str, s);
     }
     while (!text.isEmpty()){
         bool bFace = false;
@@ -715,9 +734,12 @@ void YahooClient::process_message(const char *id, const char *msg, const char *u
     bool bUtf = false;
     if (utf && atol(utf))
         bUtf = true;
+    YahooUserData *data = NULL;
+    if (utf == NULL)
+        data = &this->data.owner;
     Message *m = new Message(MessageGeneric);
     m->setFlags(MESSAGE_RICHTEXT);
-    TextParser parser(bUtf);
+    TextParser parser(this, data);
     m->setText(parser.parse(msg));
     messageReceived(m, id);
 }
@@ -890,7 +912,7 @@ void YahooClient::setStatus(unsigned status)
 void YahooClient::process_file(const char *id, const char *fileName, const char *fileSize, const char *msg, const char *url)
 {
     YahooFileMessage *m = new YahooFileMessage;
-    m->addFile(QString::fromLocal8Bit(fileName), atol(fileSize));
+    m->addFile(toUnicode(fileName, NULL), atol(fileSize));
     m->setUrl(url);
     m->setMsgText(msg);
     messageReceived(m, id);
@@ -899,6 +921,25 @@ void YahooClient::process_file(const char *id, const char *fileName, const char 
 void YahooClient::disconnected()
 {
     m_values.clear();
+    m_session_id = "";
+    Contact *contact;
+    ContactList::ContactIterator it;
+    while ((contact = ++it) != NULL){
+        YahooUserData *data;
+        ClientDataIterator it(contact->clientData, this);
+        while ((data = (YahooUserData*)(++it)) != NULL){
+            if (data->Status.value != YAHOO_STATUS_OFFLINE){
+                data->Status.value = YAHOO_STATUS_OFFLINE;
+                StatusMessage m;
+                m.setContact(contact->id());
+                m.setClient(dataName(data).c_str());
+                m.setStatus(STATUS_OFFLINE);
+                m.setFlags(MESSAGE_RECEIVED);
+                Event e(EventMessageReceived, &m);
+                e.process();
+            }
+        }
+    }
 }
 
 bool YahooClient::isMyData(clientData *&_data, Contact*&)
@@ -941,6 +982,8 @@ void YahooClient::setLogin(const QString &login)
 void YahooClient::authOk()
 {
     if (getState() == Connected)
+        return;
+    if (m_bHTTP && m_session_id.empty())
         return;
     setState(Connected);
     setPreviousPassword(NULL);
@@ -1032,11 +1075,11 @@ YahooUserData *YahooClient::findContact(const char *id, const char *grpname, Con
     if (*grpname){
         ContactList::GroupIterator it;
         while ((grp = ++it) != NULL)
-            if (grp->getName() == QString::fromLocal8Bit(grpname))
+            if (grp->getName() == toUnicode(grpname, NULL))
                 break;
         if (grp == NULL){
             grp = getContacts()->group(0, true);
-            grp->setName(QString::fromLocal8Bit(grpname));
+            grp->setName(toUnicode(grpname, NULL));
             Event e(EventGroupChanged, grp);
             e.process();
         }
@@ -1686,7 +1729,7 @@ void *YahooClient::processEvent(Event *e)
     }
     if (e->type() == EventTemplateExpanded){
         TemplateExpand *t = (TemplateExpand*)(e->param());
-        sendStatus(YAHOO_STATUS_CUSTOM, t->tmpl.local8Bit());
+        sendStatus(YAHOO_STATUS_CUSTOM, fromUnicode(t->tmpl, NULL).c_str());
     }
     return NULL;
 }
@@ -1739,8 +1782,8 @@ void YahooClient::sendFile(FileMessage *msg, FileMessage::Iterator &it, YahooUse
     QString m = msg->getPlainText();
     addParam(0, getLogin().utf8());
     addParam(5, data->Login.ptr);
-    addParam(14, m.local8Bit());
-    addParam(27, name->local8Bit());
+    addParam(14, fromUnicode(m, data).c_str());
+    addParam(27, fromUnicode(*name, data).c_str());
     addParam(28, number(it.size()).c_str());
     sendPacket(YAHOO_SERVICE_FILETRANSFER);
 
@@ -1780,6 +1823,64 @@ YahooFileMessage::~YahooFileMessage()
 string YahooFileMessage::save()
 {
     return save_data(yahoMessageFile, &data);
+}
+
+QTextCodec *YahooClient::getCodec(const char *encoding)
+{
+    if ((encoding == NULL) || (*encoding == 0))
+        encoding = data.owner.Encoding.ptr;
+    QTextCodec *codec = NULL;
+    if (encoding)
+        codec = QTextCodec::codecForName(encoding);
+    if (codec == NULL){
+        codec = QTextCodec::codecForLocale();
+        const ENCODING *e;
+        for (e = YahooPlugin::core->encodings; e->language; e++){
+            if (!strcmp(codec->name(), e->codec))
+                break;
+        }
+        if (e->language && !e->bMain){
+            for (e++; e->language; e++){
+                if (e->bMain){
+                    codec = QTextCodec::codecForName(e->codec);
+                    break;
+                }
+            }
+        }
+        if (codec == NULL)
+            codec= QTextCodec::codecForLocale();
+    }
+    return codec;
+}
+
+QString YahooClient::toUnicode(const char *str, YahooUserData *client_data)
+{
+    if ((str == NULL) || (*str == 0))
+        return QString();
+    if (client_data != NULL)
+    {
+        QTextCodec *codec = getCodec(client_data->Encoding.ptr);
+        return codec->toUnicode(str, strlen(str));
+    }
+    else
+    {
+        QTextCodec *codec = getCodec(NULL);
+        return codec->toUnicode(str, strlen(str));
+    }
+}
+
+string YahooClient::fromUnicode(const QString &str, YahooUserData *client_data)
+{
+    string res;
+    if (str.isEmpty())
+        return res;
+    QString s = str;
+    s.replace(QRegExp("\r"), "");
+    s.replace(QRegExp("\n"), "\r\n");
+    QTextCodec *codec = getCodec(client_data ? client_data->Encoding.ptr : NULL);
+    QCString cstr = codec->fromUnicode(s);
+    res = (const char*)cstr;
+    return res;
 }
 
 #ifndef WIN32

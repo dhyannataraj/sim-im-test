@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>343</width>
+            <width>335</width>
             <height>300</height>
         </rect>
     </property>
@@ -315,27 +315,6 @@
                             </size>
                         </property>
                     </spacer>
-                    <spacer row="6"  column="0" >
-                        <property>
-                            <name>name</name>
-                            <cstring>Spacer4</cstring>
-                        </property>
-                        <property>
-                            <name>orientation</name>
-                            <enum>Vertical</enum>
-                        </property>
-                        <property>
-                            <name>sizeType</name>
-                            <enum>Expanding</enum>
-                        </property>
-                        <property>
-                            <name>sizeHint</name>
-                            <size>
-                                <width>20</width>
-                                <height>20</height>
-                            </size>
-                        </property>
-                    </spacer>
                     <widget row="5"  column="0"  rowspan="1"  colspan="3" >
                         <class>QLayoutWidget</class>
                         <property stdset="1">
@@ -447,6 +426,121 @@
                             <name>text</name>
                             <string>Use &amp;SSL</string>
                         </property>
+                    </widget>
+                    <widget row="7"  column="0"  rowspan="1"  colspan="3" >
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkHTTP</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Use &amp;HTTP polling</string>
+                        </property>
+                    </widget>
+                    <widget row="6"  column="0"  rowspan="1"  colspan="3" >
+                        <class>Line</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>Line2</cstring>
+                        </property>
+                        <property>
+                            <name>frameShape</name>
+                            <enum>HLine</enum>
+                        </property>
+                        <property>
+                            <name>frameShadow</name>
+                            <enum>Sunken</enum>
+                        </property>
+                        <property>
+                            <name>orientation</name>
+                            <enum>Horizontal</enum>
+                        </property>
+                        <property>
+                            <name>frameShape</name>
+                            <enum>HLine</enum>
+                        </property>
+                    </widget>
+                    <widget row="9"  column="0"  rowspan="1"  colspan="3" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>TextLabel1_4</cstring>
+                        </property>
+                        <property>
+                            <name>sizePolicy</name>
+                            <sizepolicy>
+                                <hsizetype>5</hsizetype>
+                                <vsizetype>1</vsizetype>
+                            </sizepolicy>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Note: For HTTP-pooling using proxy setings for HTTP</string>
+                        </property>
+                        <property>
+                            <name>alignment</name>
+                            <set>AlignVCenter|AlignLeft</set>
+                        </property>
+                        <property>
+                            <name>wordwrap</name>
+                        </property>
+                    </widget>
+                    <spacer row="10"  column="0" >
+                        <property>
+                            <name>name</name>
+                            <cstring>Spacer4</cstring>
+                        </property>
+                        <property>
+                            <name>orientation</name>
+                            <enum>Vertical</enum>
+                        </property>
+                        <property>
+                            <name>sizeType</name>
+                            <enum>Expanding</enum>
+                        </property>
+                        <property>
+                            <name>sizeHint</name>
+                            <size>
+                                <width>20</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
+                    <widget row="8"  column="0"  rowspan="1"  colspan="3" >
+                        <class>QLayoutWidget</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>Layout6</cstring>
+                        </property>
+                        <hbox>
+                            <property>
+                                <name>margin</name>
+                                <number>0</number>
+                            </property>
+                            <property>
+                                <name>spacing</name>
+                                <number>6</number>
+                            </property>
+                            <widget>
+                                <class>QLabel</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>TextLabel1_3</cstring>
+                                </property>
+                                <property>
+                                    <name>text</name>
+                                    <string>URL:</string>
+                                </property>
+                            </widget>
+                            <widget>
+                                <class>QLineEdit</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>edtUrl</cstring>
+                                </property>
+                            </widget>
+                        </hbox>
                     </widget>
                 </grid>
             </widget>
