@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bg\n"
 "POT-Creation-Date: 2004-06-14 02:23+0400\n"
-"PO-Revision-Date: 2004-06-09 12:36+0300\n"
+"PO-Revision-Date: 2004-06-16 10:55+0300\n"
 "Last-Translator: Атанас Мавров <bugar@developer.bg>\n"
 "Language-Team: Bulgarian <dict@linux.zonebg.com>\n"
 "MIME-Version: 1.0\n"
@@ -1123,8 +1123,7 @@ msgstr "Грешка при инициализиране на SSL"
 
 #: sim/api/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
-msgstr ""
-"Атанас Мавров <bugar@developer.bg>; Варна-България;"
+msgstr "Атанас Мавров <bugar@developer.bg>; Варна-България;"
 
 #: sim/api/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."
@@ -1309,47 +1308,43 @@ msgstr "Не може да отвори %1"
 
 #: sim/ui/qt3/i18n.cpp:1
 msgid "Hu&e:"
-msgstr ""
+msgstr "Яркос&т"
 
 #: sim/ui/qt3/i18n.cpp:3
-#, fuzzy
 msgid "&Sat:"
-msgstr "&Статистика"
+msgstr "&Дълбочина:"
 
 #: sim/ui/qt3/i18n.cpp:5
 msgid "&Val:"
-msgstr ""
+msgstr "&Стойност:"
 
 #: sim/ui/qt3/i18n.cpp:7
-#, fuzzy
 msgid "&Red:"
-msgstr "&Стъпка назад"
+msgstr "&Червен:"
 
 #: sim/ui/qt3/i18n.cpp:9
-#, fuzzy
 msgid "&Green:"
-msgstr "Гръцки"
+msgstr "&Зелен:"
 
 #: sim/ui/qt3/i18n.cpp:11
 msgid "Bl&ue:"
-msgstr ""
+msgstr "&Син:"
 
 #: sim/ui/qt3/i18n.cpp:13
 msgid "A&lpha channel:"
-msgstr ""
+msgstr "&Алфа канал:"
 
 #: sim/ui/qt3/i18n.cpp:15
 msgid "&Basic colors"
-msgstr ""
+msgstr "&Основни цветове"
 
 #: sim/ui/qt3/i18n.cpp:17
-#, fuzzy
 msgid "&Custom colors"
-msgstr "Цвят на бутоните:"
+msgstr "&Потребителски цветове"
 
 #: sim/ui/qt3/i18n.cpp:19
 msgid "&Define Custom Colors >>"
-msgstr ""
+msgstr "&Определяне на потребителски цветове"
 
 #: plugins/_core/core.cpp:1713 plugins/_core/status.cpp:321
 #: sim/ui/qt3/i18n.cpp:21
@@ -1361,33 +1356,30 @@ msgid "Cancel"
 msgstr "Отказ"
 
 #: sim/ui/qt3/i18n.cpp:25
-#, fuzzy
 msgid "&Add To Custom Colors"
-msgstr "&Добавяне към списъка"
+msgstr "&Добавяне към потребителските цветове"
 
 #: sim/ui/qt3/i18n.cpp:27
-#, fuzzy
 msgid "Select color"
-msgstr "Избиране на протокол"
+msgstr "Избиране на цвят"
 
 #: sim/ui/qt3/i18n.cpp:29
 msgid "Copy or Move a File"
-msgstr ""
+msgstr "Копиране или преместване на файл"
 
 #: sim/ui/qt3/i18n.cpp:31
-#, fuzzy, c-format
+#, c-format
 msgid "Read: %1"
-msgstr "Търсене: %1"
+msgstr "Четене: %1"
 
 #: sim/ui/qt3/i18n.cpp:33
 #, c-format
 msgid "Write: %1"
-msgstr ""
+msgstr "Писане: %1"
 
 #: sim/ui/qt3/i18n.cpp:37
-#, fuzzy
 msgid "All files (*)"
-msgstr "За всички файлове"
+msgstr "Всички файлове(*)"
 
 #: plugins/filter/ignorelist.cpp:27 plugins/icq/icqsecure.cpp:125
 #: plugins/jabber/discoinfo.cpp:63 plugins/jabber/jabberbrowser.cpp:114
@@ -1396,9 +1388,8 @@ msgid "Name"
 msgstr "Име"
 
 #: sim/ui/qt3/i18n.cpp:41
-#, fuzzy
 msgid "Size"
-msgstr "Усмихнат"
+msgstr "Размер"
 
 #: plugins/_core/maininfo.cpp:72 sim/ui/qt3/i18n.cpp:43
 msgid "Type"
@@ -1409,86 +1400,76 @@ msgid "Date"
 msgstr "Дата"
 
 #: sim/ui/qt3/i18n.cpp:47
-#, fuzzy
 msgid "Attributes"
-msgstr "Овен"
+msgstr "Свойства"
 
 #: sim/ui/qt3/i18n.cpp:49
-#, fuzzy
 msgid "Look &in:"
-msgstr "Влизане:"
+msgstr "Търсене &в:"
 
 #: sim/ui/qt3/i18n.cpp:51
-#, fuzzy
 msgid "File &name:"
-msgstr "Име:"
+msgstr "&Име на файл:"
 
 #: sim/ui/qt3/i18n.cpp:53
-#, fuzzy
 msgid "File &type:"
-msgstr "Файл:"
+msgstr "&Вид на файл:"
 
 #: sim/ui/qt3/i18n.cpp:55
-#, fuzzy
 msgid "Back"
-msgstr "&Назад"
+msgstr "Назад"
 
 #: sim/ui/qt3/i18n.cpp:57
-#, fuzzy
 msgid "One directory up"
-msgstr "Домашна директория"
+msgstr "Една директория по - нагоре"
 
 #: sim/ui/qt3/i18n.cpp:59
 msgid "Create New Folder"
-msgstr ""
+msgstr "Създаване на нова директория"
 
 #: sim/ui/qt3/i18n.cpp:61
-#, fuzzy
 msgid "List View"
-msgstr "Преглед на приятелите"
+msgstr "Списък"
 
 #: sim/ui/qt3/i18n.cpp:63
 msgid "Detail View"
-msgstr ""
+msgstr "Детайли"
 
 #: sim/ui/qt3/i18n.cpp:65
 msgid "Preview File Info"
-msgstr ""
+msgstr "Предварителен преглед на информация"
 
 #: sim/ui/qt3/i18n.cpp:67
 msgid "Preview File Contents"
-msgstr ""
+msgstr "Предварителен преглед на състояние"
 
 #: sim/ui/qt3/i18n.cpp:69
 msgid "Read-write"
-msgstr ""
+msgstr "Четене - писане"
 
 #: sim/ui/qt3/i18n.cpp:71
 msgid "Read-only"
-msgstr ""
+msgstr "Само за четене"
 
 #: sim/ui/qt3/i18n.cpp:73
-#, fuzzy
 msgid "Write-only"
-msgstr "Само за приятели"
+msgstr "Само за писане"
 
 #: sim/ui/qt3/i18n.cpp:75
-#, fuzzy
 msgid "Inaccessible"
-msgstr "Невидим"
+msgstr "Недостъпен"
 
 #: sim/ui/qt3/i18n.cpp:77
 msgid "Symlink to File"
-msgstr ""
+msgstr "Символична връзка на файл"
 
 #: sim/ui/qt3/i18n.cpp:79
-#, fuzzy
 msgid "Symlink to Directory"
-msgstr "Избиране на домашна директория"
+msgstr "Символична връзка на директория"
 
 #: sim/ui/qt3/i18n.cpp:81
 msgid "Symlink to Special"
-msgstr ""
+msgstr "Символична връзка на специален"
 
 #: plugins/_core/msgcfg.cpp:38 plugins/sound/sounduser.cpp:38
 #: sim/ui/qt3/i18n.cpp:83
@@ -1497,26 +1478,23 @@ msgstr "Файл"
 
 #: sim/ui/qt3/i18n.cpp:85
 msgid "Dir"
-msgstr ""
+msgstr "Директория"
 
 #: sim/ui/qt3/i18n.cpp:87
-#, fuzzy
 msgid "Special"
-msgstr "Скептичен"
+msgstr "Специален"
 
 #: sim/ui/editfile.cpp:143 sim/ui/qt3/i18n.cpp:89
 msgid "Open"
 msgstr "Отваряне"
 
 #: sim/ui/qt3/i18n.cpp:91
-#, fuzzy
 msgid "Save as"
-msgstr "&Запазване на паролата"
+msgstr "Запазване в"
 
 #: sim/ui/qt3/i18n.cpp:93
-#, fuzzy
 msgid "&Open"
-msgstr "Отваряне"
+msgstr "&Отваряне"
 
 #: plugins/netmonitor/monitor.cpp:60 sim/ui/qt3/i18n.cpp:95
 msgid "&Save"
@@ -1537,87 +1515,77 @@ msgstr "&Изтриване"
 
 #: sim/ui/qt3/i18n.cpp:101
 msgid "R&eload"
-msgstr ""
+msgstr "&Обновяване"
 
 #: sim/ui/qt3/i18n.cpp:103
 msgid "Sort by &Name"
-msgstr ""
+msgstr "Подреждане по &име"
 
 #: sim/ui/qt3/i18n.cpp:105
 msgid "Sort by &Size"
-msgstr ""
+msgstr "Подреждане по &големина"
 
 #: sim/ui/qt3/i18n.cpp:107
 msgid "Sort by &Date"
-msgstr ""
+msgstr "Подреждане по &дата"
 
 #: sim/ui/qt3/i18n.cpp:109
-#, fuzzy
 msgid "&Unsorted"
-msgstr "&Използване на artsd"
+msgstr "&Неподреден"
 
 #: sim/ui/qt3/i18n.cpp:111
-#, fuzzy
 msgid "Sort"
-msgstr "Спорт"
+msgstr "Подреждане"
 
 #: sim/ui/qt3/i18n.cpp:113
-#, fuzzy
 msgid "Show &hidden files"
-msgstr "Показва детайли"
+msgstr "Показване на &скритите файлове"
 
 #: sim/ui/qt3/i18n.cpp:115
-#, fuzzy
 msgid "the file"
-msgstr "Изпращане на файл"
+msgstr "файлът"
 
 #: sim/ui/qt3/i18n.cpp:117
-#, fuzzy
 msgid "the directory"
-msgstr "Установяване на домашна директория"
+msgstr "директорията"
 
 #: sim/ui/qt3/i18n.cpp:119
 msgid "the symlink"
-msgstr ""
+msgstr "символичната връзка"
 
 #: sim/ui/qt3/i18n.cpp:121
-#, fuzzy, c-format
+#, c-format
 msgid "Delete %1"
-msgstr "Изтриване на %1?"
+msgstr "Изтриване на %1"
 
 #: sim/ui/qt3/i18n.cpp:123
 msgid "<qt>Do you really want to delete %1 \"%2\"?</qt>"
-msgstr ""
+msgstr "<qt>Наистина ли желаете да изтриете %1 \"%2\"?</qt>"
 
 #: sim/ui/qt3/i18n.cpp:129
-#, fuzzy
 msgid "New Folder 1"
-msgstr "Нов профил"
+msgstr "Нова директория 1"
 
 #: sim/ui/qt3/i18n.cpp:131
-#, fuzzy
 msgid "New Folder"
-msgstr "Нов профил"
+msgstr "Нова директория"
 
 #: sim/ui/qt3/i18n.cpp:133
 #, c-format
 msgid "New Folder %1"
-msgstr ""
+msgstr "Нова директория %1"
 
 #: sim/ui/qt3/i18n.cpp:135
-#, fuzzy
 msgid "Find Directory"
-msgstr "Директория"
+msgstr "Търсене на директория"
 
 #: sim/ui/qt3/i18n.cpp:137
-#, fuzzy
 msgid "Directories"
-msgstr "Директория"
+msgstr "Директории"
 
 #: sim/ui/qt3/i18n.cpp:139
-#, fuzzy
 msgid "Save"
-msgstr "&Запазване"
+msgstr "Запазване"
 
 #: plugins/_core/status.cpp:139 plugins/_core/statuswnd.cpp:95
 #: plugins/jabber/jabbermessage.cpp:109 plugins/jabber/jabbermessage.cpp:228
@@ -1632,34 +1600,33 @@ msgid ""
 "File not found.\n"
 "Check path and filename."
 msgstr ""
+"%1\n"
+"Файлът не е открит.\n"
+"Проверете пъте и името на файла."
 
 #: sim/ui/qt3/i18n.cpp:148
 msgid "ERROR"
-msgstr ""
+msgstr "ГРЕШКА"
 
 #: sim/ui/qt3/i18n.cpp:150
-#, fuzzy
 msgid "&Font"
-msgstr "Шрифт:"
+msgstr "&Шрифт:"
 
 #: sim/ui/qt3/i18n.cpp:152
-#, fuzzy
 msgid "Font st&yle"
-msgstr "Метал"
+msgstr "&Стил на шрифта"
 
 #: sim/ui/qt3/i18n.cpp:154
 msgid "&Size"
-msgstr ""
+msgstr "&Размер"
 
 #: sim/ui/qt3/i18n.cpp:156
-#, fuzzy
 msgid "Effects"
-msgstr "Събития"
+msgstr "Ефекти"
 
 #: sim/ui/qt3/i18n.cpp:158
-#, fuzzy
 msgid "Stri&keout"
-msgstr "зачертан"
+msgstr "Зачер&кнат"
 
 #: plugins/_core/core.cpp:751 plugins/_core/core.cpp:848
 #: sim/ui/qt3/i18n.cpp:160
@@ -1667,34 +1634,28 @@ msgid "&Underline"
 msgstr "&Подчертан"
 
 #: sim/ui/qt3/i18n.cpp:162
-#, fuzzy
 msgid "&Color"
-msgstr "Цвят:"
+msgstr "&Цвят:"
 
 #: sim/ui/qt3/i18n.cpp:164
-#, fuzzy
 msgid "Sample"
-msgstr "Усмихнат"
+msgstr "Пример"
 
 #: sim/ui/qt3/i18n.cpp:166
-#, fuzzy
 msgid "Scr&ipt"
-msgstr "Безопасност"
+msgstr "Скри&пт"
 
 #: sim/ui/qt3/i18n.cpp:168
-#, fuzzy
 msgid "Apply"
-msgstr "&Прилагане"
+msgstr "Прилагане"
 
 #: sim/ui/qt3/i18n.cpp:170
-#, fuzzy
 msgid "Close"
-msgstr "&Затваряне"
+msgstr "Затваряне"
 
 #: sim/ui/qt3/i18n.cpp:172
-#, fuzzy
 msgid "Select Font"
-msgstr "Избиране на &шрифт"
+msgstr "Избиране на шрифт"
 
 #: sim/ui/qt3/i18n.cpp:177
 msgid ""
@@ -1704,31 +1665,31 @@ msgid ""
 "X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more "
 "information.</p>"
 msgstr ""
+"<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ GUI "
+"toolkit from Trolltech. Qt provides single-source portability across Windows "
+"95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix with "
+"X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more "
+"information.</p>"
 
 #: sim/ui/qt3/i18n.cpp:183
-#, fuzzy
 msgid "Help"
-msgstr "&Помощ"
+msgstr "Помощ"
 
 #: sim/ui/qt3/i18n.cpp:185
-#, fuzzy
 msgid "Defaults"
 msgstr "По подразбиране"
 
 #: sim/ui/qt3/i18n.cpp:187
-#, fuzzy
 msgid "< Back"
-msgstr "&Назад"
+msgstr "<Назад"
 
 #: sim/ui/qt3/i18n.cpp:189
-#, fuzzy
 msgid "Next >"
-msgstr "Следв&ащ"
+msgstr "Следващ>"
 
 #: sim/ui/qt3/i18n.cpp:191
-#, fuzzy
 msgid "Finish"
-msgstr "Фински"
+msgstr "Край"
 
 #: plugins/shortcuts/mousecfgbase.cpp:82 sim/ui/qt3/i18n.cpp:193
 msgid "Ctrl"
@@ -1736,7 +1697,7 @@ msgstr "Ctrl"
 
 #: sim/ui/qt3/i18n.cpp:195
 msgid "+"
-msgstr ""
+msgstr "+"
 
 #: plugins/shortcuts/mousecfgbase.cpp:81 sim/ui/qt3/i18n.cpp:197
 msgid "Alt"
@@ -1749,22 +1710,19 @@ msgstr "Shift"
 #: sim/ui/qt3/i18n.cpp:201
 #, c-format
 msgid "F%1"
-msgstr ""
+msgstr "F%1"
 
 #: sim/ui/qt3/i18n.cpp:203
-#, fuzzy
 msgid "ctrl"
-msgstr "Ctrl"
+msgstr "ctrl"
 
 #: sim/ui/qt3/i18n.cpp:205
-#, fuzzy
 msgid "shift"
-msgstr "Shift"
+msgstr "shift"
 
 #: sim/ui/qt3/i18n.cpp:207
-#, fuzzy
 msgid "alt"
-msgstr "Малта"
+msgstr "alt"
 
 #: sim/ui/qt3/i18n.cpp:210
 msgid ""
@@ -1773,13 +1731,19 @@ msgid ""
 "to\n"
 "%2"
 msgstr ""
+"Не може да преименува: "
+"%1"
+"на\n"
+"%2"
 
 #: sim/ui/qt3/i18n.cpp:216
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not open\n"
 "%1"
-msgstr "Не може да отвори %1"
+msgstr ""
+"Не може да отвори\n"
+"%1"
 
 #: sim/ui/qt3/i18n.cpp:220
 #, c-format
@@ -1787,63 +1751,59 @@ msgid ""
 "Could not write\n"
 "%1"
 msgstr ""
+"Не може да запише\n"
+"%1"
 
 #: sim/ui/qt3/i18n.cpp:223
 msgid "Operation stopped by the user"
-msgstr ""
+msgstr "Операцията е спряна от потребителя."
 
 #: sim/ui/qt3/i18n.cpp:225
 msgid "(unknown)"
-msgstr ""
+msgstr "(неизвестен)"
 
 #: sim/ui/qt3/i18n.cpp:227
-#, fuzzy
 msgid "Host %1 found"
 msgstr "%1 не е намерен"
 
 #: sim/ui/qt3/i18n.cpp:229
 msgid "Host found"
-msgstr ""
+msgstr "Сървъра е намерен"
 
 #: sim/ui/qt3/i18n.cpp:231
-#, fuzzy, c-format
+#, c-format
 msgid "Connected to host %1"
-msgstr "Свързва се към неизвестен порт"
+msgstr "Свързване с %1"
 
 #: sim/ui/qt3/i18n.cpp:233
-#, fuzzy
 msgid "Connected to host"
-msgstr "Свързва се към неизвестен порт"
+msgstr "Свързване със сървър"
 
 #: sim/ui/qt3/i18n.cpp:235
-#, fuzzy
 msgid "Connection to %1 closed"
-msgstr "Връзката е прекратена"
+msgstr "Връзката към %1 е прекратена"
 
 #: sim/ui/qt3/i18n.cpp:239
-#, fuzzy
 msgid "Login Incorrect"
-msgstr "Грешка при свързване"
+msgstr "Грешка при удостоверяване"
 
 #: sim/ui/qt3/i18n.cpp:241
-#, fuzzy, c-format
+#, c-format
 msgid "Col %1"
-msgstr "на %1"
+msgstr "Колона %1"
 
 #: sim/ui/qt3/i18n.cpp:243
-#, fuzzy, c-format
+#, c-format
 msgid "Row %1"
-msgstr "на %1"
+msgstr "Ред %1"
 
 #: sim/ui/qt3/i18n.cpp:245
-#, fuzzy
 msgid "Undo"
-msgstr "&Връщане"
+msgstr "Връщане"
 
 #: sim/ui/qt3/i18n.cpp:247
-#, fuzzy
 msgid "Redo"
-msgstr "&Стъпка назад"
+msgstr "Стъпка назад"
 
 #: sim/ui/editfile.cpp:311 sim/ui/editfile.cpp:394 sim/ui/qt3/i18n.cpp:249
 msgid "Cut"
@@ -1868,98 +1828,88 @@ msgid "Select All"
 msgstr "Избиране на всичко"
 
 #: sim/ui/qt3/i18n.cpp:259
-#, fuzzy
 msgid "&Left"
-msgstr "Ляво-горе"
+msgstr "&Ляво"
 
 #: sim/ui/qt3/i18n.cpp:261
-#, fuzzy
 msgid "&Right"
-msgstr "светъл"
+msgstr "&Дясно"
 
 #: sim/ui/qt3/i18n.cpp:263
-#, fuzzy
 msgid "&Top"
-msgstr "&Копиране"
+msgstr "&Горе"
 
 #: sim/ui/qt3/i18n.cpp:265
-#, fuzzy
 msgid "&Bottom"
-msgstr "&Снимка"
+msgstr "&Долу"
 
 #: sim/ui/qt3/i18n.cpp:267
-#, fuzzy
 msgid "R&estore"
-msgstr "Ресурс:"
+msgstr "Възстано&вяване"
 
 #: sim/ui/qt3/i18n.cpp:269
-#, fuzzy
 msgid "&Hide"
-msgstr "Скрива автоматично"
+msgstr "&Скриване"
 
 #: sim/ui/qt3/i18n.cpp:271
 msgid "Line Up Toolbars (compact)"
-msgstr ""
+msgstr "Съкратен панел с инструменти"
 
 #: sim/ui/qt3/i18n.cpp:273
 msgid "Line Up Toolbars (normal)"
-msgstr ""
+msgstr "Нормален панел с инструменти"
 
 #: sim/ui/qt3/i18n.cpp:275
 msgid "Paste special..."
-msgstr ""
+msgstr "Специално поставяне..."
 
 #: sim/ui/qt3/i18n.cpp:277
 msgid "What's this?"
-msgstr ""
+msgstr "Какво е това?"
 
 #: sim/ui/qt3/i18n.cpp:279
-#, fuzzy
 msgid "&Restore"
-msgstr "&Регистрация"
+msgstr "&Възстановяване"
 
 #: sim/ui/qt3/i18n.cpp:281
-#, fuzzy
 msgid "&Move"
-msgstr "&Премахнат"
+msgstr "&Преместване"
 
 #: sim/ui/qt3/i18n.cpp:283
 msgid "Mi&nimize"
-msgstr ""
+msgstr "Минимизи&ране"
 
 #: sim/ui/qt3/i18n.cpp:285
 msgid "Ma&ximize"
-msgstr ""
+msgstr "&Максимизиране"
 
 #: sim/ui/qt3/i18n.cpp:289
 msgid "&Roll up"
-msgstr ""
+msgstr "&Разтваряне"
 
 #: sim/ui/qt3/i18n.cpp:291
-#, fuzzy
 msgid "Minimize"
-msgstr "уплашен"
+msgstr "Минимизиране"
 
 #: sim/ui/qt3/i18n.cpp:293
 msgid "Restore Down"
-msgstr ""
+msgstr "Свиване"
 
 #: sim/ui/qt3/i18n.cpp:295
 msgid "Maximize"
-msgstr ""
+msgstr "Максимизиране"
 
 #: sim/ui/qt3/i18n.cpp:297
 msgid "Roll up"
-msgstr ""
+msgstr "Разтваряне"
 
 #: sim/ui/qt3/i18n.cpp:299
-#, fuzzy
 msgid "Restore Up"
-msgstr "Ресурс:"
+msgstr "Възстановяване"
 
 #: sim/ui/qt3/i18n.cpp:301
 msgid "Roll down"
-msgstr ""
+msgstr "Пада"
 
 #: plugins/_core/core.cpp:958 sim/ui/qt3/qtextedit.cpp:4231
 msgid "&Undo"
@@ -2126,9 +2076,8 @@ msgid "Developer"
 msgstr "Разработчик"
 
 #: xpstyle/xpstyle.cpp:62
-#, fuzzy
 msgid "Windows XP style"
-msgstr "Прозорец - разтегнат"
+msgstr "Уиндоус XP стил"
 
 #: plugins/msn/msnclient.cpp:522 plugins/msn/msnclient.cpp:539
 msgid "MSN protocol error"
@@ -2476,9 +2425,8 @@ msgid "Path for config files:"
 msgstr "Път за конфигурационните файлове:"
 
 #: plugins/styles/wood/wood.cpp:1269
-#, fuzzy
 msgid "Norwegian Wood"
-msgstr "Норвежки"
+msgstr "Гора"
 
 #: plugins/styles/metal/metal.cpp:514
 msgid "Metal style"
@@ -2494,8 +2442,7 @@ msgstr "Стилове"
 
 #: plugins/styles/styles.cpp:52
 msgid "Plugin provides styles"
-msgstr ""
-"Приставката осигурява изменение на стила"
+msgstr "Приставката осигурява изменение на стила"
 
 #: plugins/styles/fontconfigbase.cpp:100
 msgid "Use &system fonts"
@@ -2562,8 +2509,7 @@ msgstr ""
 
 #: plugins/__migrate/migratedlgbase.cpp:94
 msgid "Select directories for convert"
-msgstr ""
-"Избиране на директории за преобразуване"
+msgstr "Избиране на директории за преобразуване"
 
 #: plugins/__migrate/migratedlgbase.cpp:96
 msgid "Convert configuration"
@@ -2962,8 +2908,7 @@ msgstr "Прякор"
 
 #: plugins/_core/core.cpp:1664
 msgid "number of unread messages from this contact"
-msgstr ""
-"количество на непрочетените съобщения"
+msgstr "количество на непрочетените съобщения"
 
 #: plugins/_core/core.cpp:1666
 msgid "contact status"
@@ -3006,8 +2951,7 @@ msgstr ""
 
 #: plugins/_core/core.cpp:1719
 msgid "Don't show this message in next time"
-msgstr ""
-"Не показвай това съобщение следващия път"
+msgstr "Не показвай това съобщение следващия път"
 
 #: plugins/_core/core.cpp:1746
 msgid "`<command>` - call <command> and substitute command output\n"
@@ -3264,8 +3208,7 @@ msgstr "Достъпен"
 
 #: plugins/_core/maininfo.cpp:85
 msgid "User is crrently available at:"
-msgstr ""
-"Потребителят в момента е на разположение: "
+msgstr "Потребителят в момента е на разположение: "
 
 #: plugins/_core/maininfo.cpp:226 plugins/_core/maininfo.cpp:345
 #: plugins/_core/maininfo.cpp:369 plugins/_core/maininfo.cpp:468
@@ -3784,8 +3727,7 @@ msgstr "Мб"
 #: plugins/_core/historycfgbase.cpp:169
 #: plugins/_core/userhistorycfgbase.cpp:94
 msgid "Max history file size"
-msgstr ""
-"Максимален размер на файла с историята"
+msgstr "Максимален размер на файла с историята"
 
 #: plugins/_core/historycfgbase.cpp:174
 #: plugins/_core/userhistorycfgbase.cpp:95
@@ -4162,9 +4104,8 @@ msgid "Awaiting authorization"
 msgstr "Очакване на удостоверяване"
 
 #: plugins/_core/userviewcfgbase.cpp:280
-#, fuzzy
 msgid "No show scroller"
-msgstr "Не показва &група"
+msgstr "Скролера не се показва"
 
 #: plugins/_core/searchallbase.cpp:83 plugins/icq/aboutinfobase.cc:65
 #: plugins/jabber/jabberaboutinfobase.cpp:56
@@ -4312,8 +4253,7 @@ msgstr ""
 
 #: plugins/autoaway/autoawaycfgbase.cpp:103
 msgid "Set \"Away\" status after"
-msgstr ""
-"Включване на \"Не съм пред компютъра\" след"
+msgstr "Включване на \"Не съм пред компютъра\" след"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:104
 msgid "minutes not using computer"
@@ -4336,8 +4276,7 @@ msgid "Set \"Offline\" status after"
 msgstr "Превключване в \"Изключен\" след"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:109
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Изключва известяване при \"Не съм пред "
 "компютъра\", \"Няма ме\", \"Моля не ме "
@@ -4433,8 +4372,7 @@ msgstr ""
 
 #: plugins/dock/dock.cpp:148
 msgid "Toggle main window"
-msgstr ""
-"Скриване/показване на главния прозорец"
+msgstr "Скриване/показване на главния прозорец"
 
 #: plugins/dock/dock.cpp:269
 msgid "Hide main window"
@@ -4756,24 +4694,20 @@ msgid "Icons"
 msgstr "Икони"
 
 #: plugins/icons/icon.cpp:31
-#, fuzzy
 msgid "Plugin provides JISP icons themes and emoticons"
-msgstr ""
-"Приставката осигурява поддръжка на икони "
-"и теми от Miranda"
+msgstr "Приставката поддръжа икони и усмивки във формат JISP"
 
 #: plugins/icons/iconcfg.cpp:91
 msgid "*.jisp|Icon set"
-msgstr ""
+msgstr "*.jisp|Иконки"
 
 #: plugins/icons/iconcfg.cpp:93
 msgid "Icon set(*.jisp)"
-msgstr ""
+msgstr "Иконки(*.jisp)"
 
 #: plugins/icons/iconcfg.cpp:95
-#, fuzzy
 msgid "Select icon set"
-msgstr "Избиране на DDL с икони"
+msgstr "Изберете тема с иконки"
 
 #: plugins/icons/smilecfgbase.cpp:63
 msgid "Smiles:"
@@ -4940,8 +4874,7 @@ msgstr "AIM"
 
 #: plugins/icq/icq.cpp:359
 msgid "Visible list"
-msgstr ""
-"Списък на потребители, за които съм видим"
+msgstr "Списък на потребители, за които съм видим"
 
 #: plugins/icq/icq.cpp:368
 msgid "Invisible list"
@@ -5235,8 +5168,7 @@ msgstr "Този клиент е остарял"
 
 #: plugins/icq/icqlogin.cpp:201
 msgid "Too many clients from same IP"
-msgstr ""
-"Твърде много потребители ползващи едно IP"
+msgstr "Твърде много потребители ползващи едно IP"
 
 #: plugins/icq/icqlogin.cpp:206
 msgid "Rate limit"
@@ -5280,8 +5212,7 @@ msgstr ""
 
 #: plugins/icq/icqlogin.cpp:271
 msgid "Your UIN is being used from another location"
-msgstr ""
-"Твоят номер се използва от друг компютър"
+msgstr "Твоят номер се използва от друг компютър"
 
 #: plugins/icq/icqlogin.cpp:291
 msgid "Close packet from server"
@@ -5385,8 +5316,7 @@ msgstr "Няма потребител за изпращане"
 
 #: plugins/icq/icqpicture.cpp:126
 msgid "Picture can not be more than 7 kbytes"
-msgstr ""
-"Не може картинката да е по - голяма от 7 Кб"
+msgstr "Не може картинката да е по - голяма от 7 Кб"
 
 #: plugins/icq/icqpicture.cpp:136 plugins/jabber/jabberpicture.cpp:138
 msgid "Picture is not available"
@@ -5979,9 +5909,8 @@ msgid "Request secure channel fail"
 msgstr "Искането за шифрован канал пропадна"
 
 #: plugins/icq/icqicmb.cpp:1286 plugins/icq/warndlg.cpp:66
-#, fuzzy
 msgid "Send failed"
-msgstr "Неуспешно изпращане "
+msgstr "Неуспешно изпращане"
 
 #: plugins/icq/workinfo.cpp:73
 msgid "Academic"
@@ -6240,8 +6169,7 @@ msgstr "Ключова дума"
 
 #: plugins/icq/advsearchbase.cc:263
 msgid "Search &online users only"
-msgstr ""
-"Търсене само на &свързаните потребители"
+msgstr "Търсене само на &свързаните потребители"
 
 #: plugins/icq/interestsinfobase.cc:109
 msgid "&Interests"
@@ -6321,8 +6249,7 @@ msgstr "Сигур&ност"
 
 #: plugins/icq/icqsecurebase.cc:117
 msgid "&Visible list"
-msgstr ""
-"&Списък на потребители, за които съм видим"
+msgstr "&Списък на потребители, за които съм видим"
 
 #: plugins/icq/icqsecurebase.cc:118
 msgid "&Invisible list"
@@ -6433,13 +6360,11 @@ msgstr ""
 
 #: plugins/icq/encodingdlgbase.cc:85
 msgid "You will choose the coding by default which want to use:"
-msgstr ""
-"Избиране на кодировка по подразбиране:"
+msgstr "Избиране на кодировка по подразбиране:"
 
 #: plugins/icq/aboutinfobase.cc:66
 msgid "Additional information about user:"
-msgstr ""
-"Допълнителна информация за потребителя:"
+msgstr "Допълнителна информация за потребителя:"
 
 #: plugins/icq/aboutinfobase.cc:67
 msgid "A&bout"
@@ -6492,8 +6417,7 @@ msgstr "Чакане на потвърждение от клиента"
 
 #: plugins/icq/icqconfigbase.cc:283
 msgid "Accept in &occupied mode"
-msgstr ""
-"Приемане на файлове в режим \"&Зает съм\""
+msgstr "Приемане на файлове в режим \"&Зает съм\""
 
 #: plugins/icq/icqconfigbase.cc:284
 msgid "Accept in &DND mode"
@@ -6531,8 +6455,7 @@ msgstr ""
 
 #: plugins/icq/icqconfigbase.cc:290
 msgid "Check invisible every"
-msgstr ""
-"Проверка за невидими потребители на всеки"
+msgstr "Проверка за невидими потребители на всеки"
 
 #: plugins/icq/icqconfigbase.cc:291
 #: plugins/livejournal/livejournalcfgbase.cpp:157
@@ -6729,8 +6652,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:69
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Приставката поддържа известяване на "
 "състоянието на съобщенията и "
@@ -6894,8 +6816,7 @@ msgstr "Машина:"
 
 #: plugins/proxy/proxycfgbase.cpp:133
 msgid "Proxy require &authorization"
-msgstr ""
-"&Прокси сървъра изисква удостоверяване"
+msgstr "&Прокси сървъра изисква удостоверяване"
 
 #: plugins/proxy/proxycfgbase.cpp:134
 msgid "User:"
@@ -6947,8 +6868,7 @@ msgstr "Отдалечено управление"
 
 #: plugins/remote/remote.cpp:43
 msgid "Plugin provides remote control"
-msgstr ""
-"Приставката осигурява отдалечен контрол"
+msgstr "Приставката осигурява отдалечен контрол"
 
 #: plugins/remote/remotecfgbase.cpp:105
 msgid "Use &UNIX socket"
@@ -7544,8 +7464,7 @@ msgstr "Отдел"
 
 #: plugins/jabber/jabberaboutinfobase.cpp:57
 msgid "Additional information:"
-msgstr ""
-"Допълнителна информация за потребителя:"
+msgstr "Допълнителна информация за потребителя:"
 
 #: plugins/jabber/jabberaddbase.cpp:94
 msgid "&JID"
@@ -8410,8 +8329,7 @@ msgstr "Пренебрегване на %1"
 
 #: plugins/spell/spell.cpp:62
 msgid "Plugin provides check spelling"
-msgstr ""
-"Приставка осигурява правописна проверка"
+msgstr "Приставка осигурява правописна проверка"
 
 #: plugins/action/menucfg.cpp:31
 msgid "Item"
@@ -8423,8 +8341,7 @@ msgstr "Програма"
 
 #: plugins/action/actioncfg.cpp:179 plugins/action/additem.cpp:54
 msgid "In command line you can use:"
-msgstr ""
-"В командния ред вие може да използвате:"
+msgstr "В командния ред вие може да използвате:"
 
 #: plugins/action/actioncfg.cpp:41
 msgid "Event"
@@ -8505,8 +8422,7 @@ msgid "Navigate"
 msgstr "Препратки към външни програми"
 
 #: plugins/navigate/navigate.cpp:215
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Приставката осигурява управление на "
 "препратките - свързва се с външен "
@@ -8622,8 +8538,7 @@ msgstr "Време"
 
 #: plugins/weather/weather.cpp:48
 msgid "Plugin provides show weather"
-msgstr ""
-"Приставката осигурява преглед на времето"
+msgstr "Приставката осигурява преглед на времето"
 
 #: plugins/weather/weather.cpp:111 plugins/weather/weather.cpp:322
 msgid "Not connected"
@@ -8970,7 +8885,6 @@ msgid "%t | %c"
 msgstr "%t | %c"
 
 #: plugins/weather/weather.cpp:560
-#, fuzzy
 msgid ""
 "%l<br><br>\n"
 "<img src=\"icon:weather%i\"> %c<br>\n"
@@ -9120,32 +9034,3 @@ msgstr "Подсказка:"
 msgid "Forecast tip:"
 msgstr "Прогноза:"
 
-#~ msgid "Select smiles"
-#~ msgstr "Избиране на усмивки"
-
-#~ msgid "*.msl *.xep|Smiles"
-#~ msgstr "*.msl *.xep|Усмивки"
-
-#~ msgid "Smiles (*.msl *.xep)"
-#~ msgstr "Усмивки (*.msl *.xep)"
-
-#~ msgid "Get more smiles"
-#~ msgstr "Вземане на повече усмивки"
-
-#~ msgid "*.dll|Icons themes"
-#~ msgstr "*.dll|икони"
-
-#~ msgid "Icons themes (*.dll)"
-#~ msgstr "Икони(*.dll)"
-
-#~ msgid "Get more icons themes"
-#~ msgstr "Вземане на още икони и теми"
-
-#~ msgid "Smiles"
-#~ msgstr "Усмивки"
-
-#~ msgid "Icons for protocol:"
-#~ msgstr "Икони за протокол:"
-
-#~ msgid "Wood"
-#~ msgstr "Гора"
