@@ -79,7 +79,7 @@ void JabberInfo::fill()
 {
     JabberUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
-    edtID->setText(QString::fromUtf8(data->ID) + "@" + QString::fromUtf8(data->VHost));
+    edtID->setText(QString::fromUtf8(data->ID));
     edtFirstName->setText(data->FirstName ? QString::fromUtf8(data->FirstName) : QString(""));
     edtNick->setText(data->Nick ? QString::fromUtf8(data->Nick) : QString(""));
     edtBirthday->setText(data->Bday ? QString::fromUtf8(data->Bday) : QString(""));

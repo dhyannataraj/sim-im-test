@@ -140,6 +140,7 @@ namespace SIM
 class PluginManagerPrivate;
 class ContactList;
 class SocketFactory;
+class Buffer;
 
 class EXPORT PluginManager
 {
@@ -658,6 +659,15 @@ const unsigned EventMessageAcked	= 0x1106;
 const unsigned EventStartTyping		= 0x1200;
 const unsigned EventStopTyping		= 0x1201;
 
+const unsigned EventFetchDone		= 0x1300;
+
+typedef struct fetchData
+{
+    unsigned	req_id;
+    unsigned	result;
+    Buffer		*data;
+} fetchData;
+
 const unsigned EventUser			= 0x10000;
 
 // _____________________________________________________________________________________
@@ -818,7 +828,7 @@ const int WIDTH		= 2;
 const int HEIGHT	= 3;
 
 EXPORT void saveGeometry(QWidget*, long[4]);
-EXPORT void restoreGeometry(QWidget*, long[4]);
+EXPORT void restoreGeometry(QWidget*, long[4], bool bPos, bool bSize);
 EXPORT void saveToolbar(QToolBar*, long[7]);
 EXPORT void restoreToolbar(QToolBar*, long[7]);
 EXPORT bool cmp(char *s1, char *s2);
@@ -1441,6 +1451,11 @@ typedef struct pager_provider
 } pager_provider;
 
 EXPORT const pager_provider *getProviders();
+
+// _____________________________________________________________________________________
+// Fetch Data
+
+EXPORT unsigned fetch(const char *url, Buffer *postData=NULL, const char *headers=NULL);
 
 // _____________________________________________________________________________________
 // User interface

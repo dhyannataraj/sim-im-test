@@ -33,7 +33,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
     string s;
     s = plugin->fullName(user_data->Alert);
     edtAlert->setText(QFile::decodeName(s.c_str()));
-    QGridLayout *lay = static_cast<QGridLayout*>(layout());
+    QGridLayout *lay = SndLayout;
     if (lay == NULL)
         return;
     unsigned n = 1;

@@ -161,7 +161,7 @@ Container::Container(unsigned id, const char *cfg)
         m_bInit = true;
     }
     m_bInSize = true;
-    restoreGeometry(this, data.geometry);
+    restoreGeometry(this, data.geometry, cfg != NULL, (cfg != NULL) || m_bInit);
     m_bInSize = false;
     connect(m_tabBar, SIGNAL(selected(int)), this, SLOT(contactSelected(int)));
     connect(this, SIGNAL(toolBarPositionChanged(QToolBar*)), this, SLOT(toolbarChanged(QToolBar*)));

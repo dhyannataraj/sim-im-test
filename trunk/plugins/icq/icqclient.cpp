@@ -1237,7 +1237,10 @@ QString ICQClient::contactTip(void *_data)
         res += "<img src=\"icon:";
         res += statusIcon;
         res += "\">";
-        if (data->Uin){
+        if (!strcmp(statusIcon, "ICQ_invisible")){
+            res += " ";
+            res += i18n("Invisible");
+        }else  if (data->Uin){
             for (const CommandDef *cmd = protocol()->statusList(); cmd->text; cmd++){
                 if (!strcmp(cmd->icon, statusIcon)){
                     res += " ";

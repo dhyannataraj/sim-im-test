@@ -39,6 +39,7 @@ public:
     unsigned JabberPacket;
     unsigned EventAgentFound;
     unsigned EventAgentInfo;
+    unsigned EventAgentRegister;
     unsigned EventSearch;
     unsigned EventSearchDone;
     unsigned CmdSendMessage;

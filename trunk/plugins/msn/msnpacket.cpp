@@ -18,11 +18,7 @@
 #include "msnpacket.h"
 #include "msnclient.h"
 
-#ifdef USE_OPENSSL
 #include <openssl/md5.h>
-#else
-#include "md5.h"
-#endif
 
 #include <qtimer.h>
 

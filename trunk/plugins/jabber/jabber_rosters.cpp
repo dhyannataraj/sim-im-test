@@ -66,10 +66,6 @@ RostersRequest::~RostersRequest()
             if (!data->bChecked){
                 string jid;
                 jid = data->ID;
-                if (data->VHost){
-                    jid += '@';
-                    jid += data->VHost;
-                }
                 JabberListRequest *lr = m_client->findRequest(jid.c_str(), false);
                 if (lr && lr->bDelete)
                     m_client->findRequest(jid.c_str(), true);
@@ -136,19 +132,19 @@ void RostersRequest::element_end(const char *el)
         bool bChanged = false;
         JabberListRequest *lr = m_client->findRequest(m_jid.c_str(), false);
         Contact *contact;
-        JabberUserData *data = m_client->findContact(m_jid.c_str(), NULL, m_name.c_str(), false, contact);
+        JabberUserData *data = m_client->findContact(m_jid.c_str(), m_name.c_str(), false, contact);
         if (data == NULL){
             if (lr && lr->bDelete){
                 m_client->findRequest(m_jid.c_str(), true);
             }else{
                 bChanged = true;
-                data = m_client->findContact(m_jid.c_str(), NULL, m_name.c_str(), true, contact);
+                data = m_client->findContact(m_jid.c_str(), m_name.c_str(), true, contact);
                 if (m_bSubscription){
                     contact->setTemporary(CONTACT_TEMP);
                     Event eContact(EventContactChanged, contact);
                     eContact.process();
                     m_client->auth_request(m_jid.c_str(), MessageAuthRequest, m_subscription.c_str(), true);
-                    data = m_client->findContact(m_jid.c_str(), NULL, m_name.c_str(), false, contact);
+                    data = m_client->findContact(m_jid.c_str(), m_name.c_str(), false, contact);
                 }
             }
         }
@@ -257,8 +253,6 @@ InfoRequest::InfoRequest(JabberClient *client, JabberUserData *data)
         : JabberClient::ServerRequest(client, _GET, NULL, client->buildId(data).c_str())
 {
     m_jid	= data->ID;
-    if (data->VHost)
-        m_host	= data->VHost;
     m_bStarted = false;
     m_data = NULL;
 }
@@ -268,10 +262,15 @@ InfoRequest::~InfoRequest()
     if (m_bStarted){
         Contact *contact = NULL;
         JabberUserData *data;
-        if ((m_jid == m_client->data.owner.ID) && (m_host == m_client->data.owner.VHost)){
+        if (m_jid == m_client->data.owner.ID){
             data = &m_client->data.owner;
         }else{
-            data = m_client->findContact(m_jid.c_str(), m_host.c_str(), NULL, false, contact);
+            string jid = m_jid;
+            if (jid.find('@') < 0){
+                jid += "@";
+                jid += m_host;
+            }
+            data = m_client->findContact(m_jid.c_str(), NULL, false, contact);
             if (data == NULL)
                 return;
         }
@@ -440,7 +439,6 @@ public:
 protected:
     virtual void element_start(const char *el, const char **attr);
     string	m_jid;
-    string	m_host;
     string  m_firstName;
     string	m_nick;
     string	m_desc;
@@ -462,7 +460,6 @@ SetInfoRequest::SetInfoRequest(JabberClient *client, JabberUserData *data)
         : JabberClient::ServerRequest(client, _SET, NULL, NULL)
 {
     m_jid	= data->ID;
-    m_host	= data->VHost;
     if (data->FirstName)
         m_firstName = data->FirstName;
     if (data->Nick)
@@ -604,7 +601,7 @@ void AddRequest::element_start(const char *el, const char **attr)
         string type = JabberClient::get_attr("type", attr);
         if (type == "result"){
             Contact *contact;
-            m_client->findContact(m_jid.c_str(), NULL, NULL, true, contact);
+            m_client->findContact(m_jid.c_str(), NULL, true, contact);
         }
     }
 }
@@ -612,7 +609,7 @@ void AddRequest::element_start(const char *el, const char **attr)
 bool JabberClient::add_contact(const char *jid)
 {
     Contact *contact;
-    if (findContact(jid, NULL, NULL, false, contact)){
+    if (findContact(jid, NULL, false, contact)){
         Event e(EventContactChanged, contact);
         e.process();
         return false;
@@ -670,6 +667,8 @@ JabberClient::PresenceRequest::~PresenceRequest()
                 status = STATUS_ONLINE;
             }else if (m_status == "Disconnected"){
                 status = STATUS_OFFLINE;
+            }else if (m_status == "Connected"){
+                status = STATUS_ONLINE;
             }else if (!m_status.empty()){
                 log(L_DEBUG, "Unsupported status %s", m_status.c_str());
             }
@@ -681,7 +680,7 @@ JabberClient::PresenceRequest::~PresenceRequest()
     }
     if (status != STATUS_UNKNOWN){
         Contact *contact;
-        JabberUserData *data = m_client->findContact(m_from.c_str(), NULL, NULL, false, contact);
+        JabberUserData *data = m_client->findContact(m_from.c_str(), NULL, false, contact);
         if (data){
             bool bOnLine = false;
             bool bChanged = set_str(&data->AutoReply, m_status.c_str());
@@ -771,9 +770,9 @@ void JabberClient::IqRequest::element_start(const char *el, const char **attr)
                     log(L_DEBUG, "Unknown value subscription=%s", subscription.c_str());
                 }
                 Contact *contact;
-                JabberUserData *data = m_client->findContact(jid.c_str(), NULL, name.c_str(), false, contact);
+                JabberUserData *data = m_client->findContact(jid.c_str(), name.c_str(), false, contact);
                 if ((data == NULL) && (subscribe != SUBSCRIBE_NONE))
-                    data = m_client->findContact(jid.c_str(), NULL, name.c_str(), true, contact);
+                    data = m_client->findContact(jid.c_str(), name.c_str(), true, contact);
                 if (data && (data->Subscribe != subscribe)){
                     data->Subscribe = subscribe;
                     Event e(EventContactChanged, contact);
@@ -795,9 +794,9 @@ JabberClient::MessageRequest::~MessageRequest()
     if (m_from.empty() || m_body.empty())
         return;
     Contact *contact;
-    JabberUserData *data = m_client->findContact(m_from.c_str(), NULL, NULL, false, contact);
+    JabberUserData *data = m_client->findContact(m_from.c_str(), NULL, false, contact);
     if (data == NULL){
-        data = m_client->findContact(m_from.c_str(), NULL, NULL, true, contact);
+        data = m_client->findContact(m_from.c_str(), NULL, true, contact);
         if (data == NULL)
             return;
         contact->setTemporary(CONTACT_TEMP);
@@ -886,7 +885,7 @@ static DataDef jabberAgentsInfo[] =
 
 
 AgentRequest::AgentRequest(JabberClient *client)
-        : ServerRequest(client, _GET, NULL, client->data.owner.VHost)
+        : ServerRequest(client, _GET, NULL, client->VHost().c_str())
 {
     load_data(jabberAgentsInfo, &data, NULL);
 }
@@ -915,7 +914,7 @@ void AgentRequest::element_end(const char *el)
 {
     if (!strcmp(el, "agent")){
         if (data.ID && *data.ID){
-            set_str(&data.VHost, m_client->data.owner.VHost);
+            set_str(&data.VHost, m_client->VHost().c_str());
             data.Client = m_client;
             Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentFound, &data);
             e.process();
@@ -1025,7 +1024,7 @@ void AgentInfoRequest::element_end(const char *el)
 {
     if (!strcmp(el, "field")){
         if (data.Field && *data.Field){
-            set_str(&data.VHost, m_client->data.owner.VHost);
+            set_str(&data.VHost, m_client->VHost().c_str());
             Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentInfo, &data);
             e.process();
         }
@@ -1083,7 +1082,6 @@ protected:
     virtual void element_end(const char *el);
     virtual void char_data(const char *el, int len);
 };
-
 
 /*
 
@@ -1164,12 +1162,79 @@ string JabberClient::search(const char *jid, const char *condition)
     SearchRequest *req = new SearchRequest(this, jid);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:search");
-    QString cond = QString::fromUtf8(condition);
-    while (cond.length()){
-        QString item = getToken(cond, ';');
-        QString key = getToken(item, '=');
-        req->text_tag(key.utf8(), item.utf8());
+    req->add_condition(condition);
+    req->send();
+    m_requests.push_back(req);
+    return req->m_id;
+}
+
+#if 0
+I18N_NOOP("Password does not match");
+I18N_NOOP("Low level network error");
+#endif
+
+class RegisterRequest : public JabberClient::ServerRequest
+{
+public:
+    RegisterRequest(JabberClient *client, const char *jid);
+    ~RegisterRequest();
+protected:
+    bool   m_bOK;
+    string m_error;
+    string *m_data;
+    virtual void element_start(const char *el, const char **attr);
+    virtual void element_end(const char *el);
+    virtual void char_data(const char *el, int len);
+};
+
+RegisterRequest::RegisterRequest(JabberClient *client, const char *jid)
+        : ServerRequest(client, _SET, NULL, jid)
+{
+    m_data = NULL;
+    m_bOK  = false;
+}
+
+RegisterRequest::~RegisterRequest()
+{
+    agentRegisterInfo ai;
+    ai.id = m_id.c_str();
+    ai.bOK = m_bOK;
+    ai.error = m_error.c_str();
+    Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentRegister, &ai);
+    e.process();
+}
+
+void RegisterRequest::element_start(const char *el, const char **attr)
+{
+    if (!strcmp(el, "error")){
+        m_data = &m_error;
+        return;
     }
+    if (!strcmp(el, "iq")){
+        string type = JabberClient::get_attr("type", attr);
+        if (type == "result")
+            m_bOK = true;
+    }
+}
+
+void RegisterRequest::element_end(const char *el)
+{
+    m_data = NULL;
+}
+
+void RegisterRequest::char_data(const char *el, int len)
+{
+    if (m_data == NULL)
+        return;
+    m_data->append(el, len);
+}
+
+string JabberClient::register_agent(const char *jid, const char *condition)
+{
+    RegisterRequest *req = new RegisterRequest(this, jid);
+    req->start_element("query");
+    req->add_attribute("xmlns", "jabber:iq:register");
+    req->add_condition(condition);
     req->send();
     m_requests.push_back(req);
     return req->m_id;
@@ -1184,9 +1249,9 @@ void JabberClient::processList()
         req->start_element("query");
         req->add_attribute("xmlns", "jabber:iq:roster");
         req->start_element("item");
+        req->add_attribute("jid", (*it).jid.c_str());
         if ((*it).bDelete)
             req->add_attribute("subscription", "remove");
-        req->add_attribute("jid", (*it).jid.c_str());
         if (!(*it).name.empty())
             req->add_attribute("name", (*it).name.c_str());
         if (!(*it).bDelete)

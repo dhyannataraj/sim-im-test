@@ -87,22 +87,22 @@ InterfaceConfig::InterfaceConfig(QWidget *parent)
         cur = NULL;
 #ifndef USE_KDE
     cmbLang->insertItem(i18n("System"));
-	QStringList items = getLangItems();
+    QStringList items = getLangItems();
     cmbLang->insertStringList(items);
-	int nCurrent = 0;
-    if (*cur){
-		const language *l;
-	    for (l = langs; l->code; l++)
-			if (!strcmp(cur, l->code))
-				break;
-		if (l->code){
-			QString name = i18n(l->name);
-			nCurrent = 1;
-			for (QStringList::Iterator it = items.begin(); it != items.end(); ++it, nCurrent++)
-				if ((*it) == name)
-					break;
-			if (it == items.end())
-				nCurrent = 0;
+    int nCurrent = 0;
+    if (cur){
+        const language *l;
+        for (l = langs; l->code; l++)
+            if (!strcmp(cur, l->code))
+                break;
+        if (l->code){
+            QString name = i18n(l->name);
+            nCurrent = 1;
+            for (QStringList::Iterator it = items.begin(); it != items.end(); ++it, nCurrent++)
+                if ((*it) == name)
+                    break;
+            if (it == items.end())
+                nCurrent = 0;
         }
     }
     cmbLang->setCurrentItem(nCurrent);
@@ -139,25 +139,19 @@ InterfaceConfig::~InterfaceConfig()
 QStringList InterfaceConfig::getLangItems()
 {
     QStringList items;
-    QString current;
-	QDir poDir(QFile::decodeName(app_file("po").c_str()));
-	QStringList pl = poDir.entryList("*.qm");
-	for (QStringList::Iterator it = pl.begin(); it != pl.end(); ++it){
-		QString po = *it;
-		int pos = po.find('.');
-		if (pos < 0)
-			continue;
-		po = po.left(pos);
-		const language *l;
-	    for (l = langs; l->code; l++)
-			if (po == l->code)
-				break;
-		if (l->code == NULL)
-			continue;
+    const language *l;
+    for (l = langs; l->code; l++){
+        if (strcmp(l->code, "-")){
+            items.append(i18n(l->name));
+            continue;
+        }
+        QString po = CorePlugin::m_plugin->poFile(l->code);
+        if (po.isEmpty())
+            continue;
         items.append(i18n(l->name));
     }
     items.sort();
-	return items;
+    return items;
 }
 
 #endif
@@ -188,15 +182,15 @@ void InterfaceConfig::apply()
     int res = cmbLang->currentItem();
     const char *lang = NULL;
     if (res > 0){
-		QStringList items = getLangItems();
-		QString name = items[res - 1];
-		const language *l;
-		for (l = langs; l->code; l++){
-			if (name == i18n(l->name)){
-				lang = l->code;
-				break;
-			}
-		}
+        QStringList items = getLangItems();
+        QString name = items[res - 1];
+        const language *l;
+        for (l = langs; l->code; l++){
+            if (name == i18n(l->name)){
+                lang = l->code;
+                break;
+            }
+        }
     }
 #endif
     if (grpMode->selected()){

@@ -217,10 +217,18 @@ bool JabberSearch::canSearch()
     QObject *obj;
 
     while ((obj = it.current()) != 0 ){
-        if (!static_cast<QLineEdit*>(obj)->text().isEmpty()){
-            bRes = true;
-            break;
+        QLineEdit *edit = static_cast<QLineEdit*>(obj);
+        if (edit->echoMode() == QLineEdit::Password){
+            if (edit->text().isEmpty()){
+                bRes = false;
+                break;
+            }
+            ++it;
+            continue;
         }
+
+        if (!edit->text().isEmpty())
+            bRes = true;
         ++it;
     }
     delete l;
@@ -256,10 +264,17 @@ QString JabberSearch::condition()
             res += ";";
         res += box->name();
         res += "=";
-        res += box->value();
+        res += quoteChars(box->value(), ";");
         ++it1;
     }
     delete l;
+
+    if (!m_key.empty()){
+        if (!res.isEmpty())
+            res += ";";
+        res += "key=";
+        res += quoteChars(QString::fromUtf8(m_key.c_str()), ";");
+    }
 
     return res;
 }

@@ -39,7 +39,6 @@ const unsigned SUBSCRIBE_BOTH	= (SUBSCRIBE_FROM | SUBSCRIBE_TO);
 typedef struct JabberUserData
 {
     char		*ID;
-    char		*VHost;
     char		*Resource;
     char		*Name;
     unsigned	Status;
@@ -77,6 +76,7 @@ typedef struct JabberClientData
     unsigned		UseVHost;
     unsigned		Register;
     char			*ListRequest;
+    char			*VHost;
     JabberUserData	owner;
 } JabberClientData;
 
@@ -134,6 +134,7 @@ public:
         void	start_element(const char *name);
         void	end_element(bool bNewLevel = false);
         void	add_attribute(const char *name, const char *value);
+        void	add_condition(const char *cond);
         void	text_tag(const char *name, const char *value);
         static const char *_GET;
         static const char *_SET;
@@ -206,12 +207,13 @@ QString getID() { return QString::fromUtf8(data.owner.ID ? data.owner.ID : ""); 
     PROP_UTF8(ListRequest);
 
     string		buildId(JabberUserData *data);
-    JabberUserData	*findContact(const char *jid, const char *host, const char *name, bool bCreate, Contact *&contact);
+    JabberUserData	*findContact(const char *jid, const char *name, bool bCreate, Contact *&contact);
     bool		add_contact(const char *id);
     void		get_agents();
     void		get_agent_info(const char *jid, const char *type);
     void		auth_request(const char *jid, unsigned type, const char *text, bool bCreate);
     string		search(const char *jid, const char *condition);
+    string		register_agent(const char *jid, const char *condition);
 
     static string	to_lower(const char *s);
     static string	get_attr(const char *name, const char **attrs);
@@ -223,6 +225,8 @@ QString getID() { return QString::fromUtf8(data.owner.ID ? data.owner.ID : ""); 
 
     JabberListRequest *findRequest(const char *jid, bool bRemove);
     unsigned m_authCode;
+
+    string VHost();
 
 protected slots:
     void	ping();
@@ -259,6 +263,7 @@ protected:
     void rosters_request();
     void info_request(JabberUserData *user_data);
     void setOffline(JabberUserData *data);
+    bool isAgent(const char *jid);
 
     static	QCString encodeXML(const QString &str);
     XML_Parser	m_parser;
@@ -302,6 +307,13 @@ typedef struct agentInfo
     JabberSearch	*search;
     string			name;
 } agentInfo;
+
+typedef struct agentRegisterInfo
+{
+    const char		*id;
+    bool			bOK;
+    const char		*error;
+} agentRegisterInfo;
 
 class my_string : public string
 {

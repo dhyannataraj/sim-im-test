@@ -34,7 +34,7 @@ protected:
 };
 
 AuthRequest::AuthRequest(JabberClient *client)
-        : JabberClient::ServerRequest(client, _SET, NULL, client->data.owner.VHost)
+        : JabberClient::ServerRequest(client, _SET, NULL, client->VHost().c_str())
 {
     m_errorCode = (unsigned)(-1);
 }

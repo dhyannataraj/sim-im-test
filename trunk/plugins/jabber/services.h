@@ -40,10 +40,12 @@ protected slots:
     void logoff();
     void selectAgent(int);
     void selectChanged(QListViewItem*);
+    void showAgent(QWidget*);
 protected:
     void *processEvent(Event *e);
     void statusChanged();
     bool m_bOnline;
+    string m_reg_id;
     AGENTS_MAP   m_agents;
     JabberClient *m_client;
 };

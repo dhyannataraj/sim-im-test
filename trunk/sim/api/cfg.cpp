@@ -974,7 +974,7 @@ EXPORT void saveGeometry(QWidget *w, long geo[4])
 #endif
 }
 
-EXPORT void restoreGeometry(QWidget *w, long geo[4])
+EXPORT void restoreGeometry(QWidget *w, long geo[4], bool bPos, bool bSize)
 {
     if (w == NULL)
         return;
@@ -991,10 +991,10 @@ EXPORT void restoreGeometry(QWidget *w, long geo[4])
         geo[LEFT] = 0;
     if (geo[TOP] < 0)
         geo[TOP] = 0;
-    if (geo[LEFT] && geo[TOP] && geo[WIDTH] && geo[HEIGHT]){
+    if (bPos)
         w->move(geo[LEFT], geo[TOP]);
+    if (bSize)
         w->resize(geo[WIDTH], geo[HEIGHT]);
-    }
 }
 
 EXPORT void saveToolbar(QToolBar *bar, long state[7])

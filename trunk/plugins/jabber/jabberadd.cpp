@@ -82,7 +82,7 @@ JabberAdd::JabberAdd(JabberClient *client)
         if ((c->protocol() != client->protocol()) || (c->getState() != Client::Connected))
             continue;
         JabberClient *jc = static_cast<JabberClient*>(c);
-        QString vHost = QString::fromUtf8(jc->data.owner.VHost);
+        QString vHost = QString::fromUtf8(jc->VHost().c_str());
         QStringList::Iterator it;
         for (it = services.begin(); it != services.end(); ++it){
             if ((*it) == vHost)
@@ -193,7 +193,7 @@ void JabberAdd::startSearch()
                 }
             }
             Contact *contact;
-            JabberUserData *data = client->findContact(jid.utf8(), NULL, NULL, false, contact);
+            JabberUserData *data = client->findContact(jid.utf8(), NULL, false, contact);
             if (data && (contact->getGroup() != grp_id)){
                 contact->setGroup(grp_id);
                 Event e(EventContactChanged, contact);
@@ -217,7 +217,7 @@ JabberClient *JabberAdd::findClient(const char *host)
         if ((client->protocol() != m_client->protocol()) || (client->getState() != Client::Connected))
             continue;
         JabberClient *jc = static_cast<JabberClient*>(client);
-        if (!strcmp(jc->data.owner.VHost, host))
+        if (!strcmp(jc->VHost().c_str(), host))
             return jc;
     }
     return NULL;
