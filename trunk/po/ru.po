@@ -12,8 +12,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2004-01-06 04:52+0300\n"
-"PO-Revision-Date: 2004-01-06 04:58+0300\n"
+"POT-Creation-Date: 2004-01-08 05:44+0300\n"
+"PO-Revision-Date: 2004-01-08 05:51+0300\n"
 "Last-Translator: Vladimir Shutoff <vovan@shutoff.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1558,7 +1558,7 @@ msgid "OK"
 msgstr "OK"
 
 # passwddlg.cpp:68 ui/logindlg.cpp:70 ui/searchdlg.cpp:107
-#: plugins/_core/msgedit.cpp:900 sim/ui/qt3/i18n.cpp:23
+#: plugins/_core/msgedit.cpp:901 sim/ui/qt3/i18n.cpp:23
 msgid "Cancel"
 msgstr "Отменить"
 
@@ -2379,8 +2379,8 @@ msgstr "ICQ"
 #: plugins/icq/icq.cpp:280 plugins/icq/icqclient.cpp:1483
 #: plugins/icq/icqclient.cpp:1517 plugins/jabber/jabber.cpp:115
 #: plugins/jabber/jabberclient.cpp:1423 plugins/jabber/services.cpp:235
-#: plugins/livejournal/livejournal.cpp:275 plugins/msn/msn.cpp:89
-#: plugins/msn/msnclient.cpp:1559 plugins/sms/sms.cpp:132
+#: plugins/livejournal/livejournal.cpp:321 plugins/msn/msn.cpp:89
+#: plugins/msn/msnclient.cpp:1559 plugins/sms/sms.cpp:167
 msgid "Online"
 msgstr "В сети"
 
@@ -2416,8 +2416,8 @@ msgstr "Свободен для разговора"
 #: plugins/_core/userlist.cpp:582 plugins/_core/userviewcfgbase.cpp:287
 #: plugins/icq/icq.cpp:200 plugins/icq/icq.cpp:310
 #: plugins/icq/icqclient.cpp:1480 plugins/jabber/jabber.cpp:190
-#: plugins/jabber/services.cpp:232 plugins/livejournal/livejournal.cpp:290
-#: plugins/msn/msn.cpp:194 plugins/sms/sms.cpp:147
+#: plugins/jabber/services.cpp:232 plugins/livejournal/livejournal.cpp:336
+#: plugins/msn/msn.cpp:194 plugins/sms/sms.cpp:182
 msgid "Offline"
 msgstr "Отключен"
 
@@ -2448,7 +2448,7 @@ msgstr "&Кодировка"
 
 # ui/msgbase.cpp:78 ui/msgdialogbase.cpp:78 ui/setupdlg.cpp:146
 # ui/userinfo.cpp:91
-#: plugins/_core/msgedit.cpp:1563 plugins/icq/icq.cpp:552
+#: plugins/_core/msgedit.cpp:1564 plugins/icq/icq.cpp:552
 #: plugins/jabber/jabber.cpp:393
 msgid "&Message"
 msgstr "&Сообщение"
@@ -3085,7 +3085,7 @@ msgid "Warning"
 msgstr "Предупреждение"
 
 # ui/soundsetupbase.cpp:133
-#: plugins/_core/msgedit.cpp:1582 plugins/icq/icqmessage.cpp:1039
+#: plugins/_core/msgedit.cpp:1583 plugins/icq/icqmessage.cpp:1039
 msgid "&URL"
 msgstr "&URL"
 
@@ -4060,7 +4060,7 @@ msgstr "Веб строительство"
 #: plugins/jabber/jabberpicturebase.cpp:133
 #: plugins/jabber/jabberworkinfobase.cpp:119
 #: plugins/jabber/servicesbase.cpp:166
-#: plugins/livejournal/livejournalcfgbase.cpp:202
+#: plugins/livejournal/livejournalcfgbase.cpp:207
 #: plugins/livejournal/msgjournalbase.cpp:109
 #: plugins/logger/logconfigbase.cpp:126 plugins/msn/msninfobase.cpp:160
 #: plugins/msn/msnsearchbase.cpp:109 plugins/navigate/navcfgbase.cc:95
@@ -4096,7 +4096,7 @@ msgstr "О&бразование"
 # passwddlg.cpp:34 ui/logindlgbase.cpp:55
 #: plugins/_core/logindlg.cpp:263 plugins/icq/aimconfigbase.cc:150
 #: plugins/icq/icqconfigbase.cc:218 plugins/jabber/jabberconfigbase.cpp:308
-#: plugins/livejournal/livejournalcfgbase.cpp:204
+#: plugins/livejournal/livejournalcfgbase.cpp:209
 #: plugins/msn/msnconfigbase.cpp:201 plugins/proxy/proxycfgbase.cpp:172
 msgid "Password:"
 msgstr "Пароль:"
@@ -4120,7 +4120,7 @@ msgstr "&ICQ"
 #: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:222
 #: plugins/jabber/jabberconfigbase.cpp:311
 #: plugins/jabber/jabberconfigbase.cpp:315
-#: plugins/livejournal/livejournalcfgbase.cpp:206
+#: plugins/livejournal/livejournalcfgbase.cpp:211
 #: plugins/msn/msnconfigbase.cpp:203
 msgid "Server:"
 msgstr "Сервер:"
@@ -4129,9 +4129,9 @@ msgstr "Сервер:"
 #: plugins/icq/aimconfigbase.cc:152 plugins/icq/icqconfigbase.cc:223
 #: plugins/jabber/jabberconfigbase.cpp:312
 #: plugins/jabber/jabberconfigbase.cpp:316
-#: plugins/livejournal/livejournalcfgbase.cpp:208
+#: plugins/livejournal/livejournalcfgbase.cpp:213
 #: plugins/msn/msnconfigbase.cpp:204 plugins/proxy/proxycfgbase.cpp:169
-#: plugins/remote/remotecfgbase.cpp:129 plugins/sms/smssetupbase.cpp:136
+#: plugins/remote/remotecfgbase.cpp:129 plugins/sms/smssetupbase.cpp:180
 msgid "Port:"
 msgstr "Порт:"
 
@@ -4151,7 +4151,7 @@ msgstr "-"
 # ui/networkbase.cpp:80
 #: plugins/icq/aimconfigbase.cc:154 plugins/icq/icqconfigbase.cc:226
 #: plugins/jabber/jabberconfigbase.cpp:321
-#: plugins/livejournal/livejournalcfgbase.cpp:209
+#: plugins/livejournal/livejournalcfgbase.cpp:214
 #: plugins/msn/msnconfigbase.cpp:207
 msgid "&Network"
 msgstr "&Сеть"
@@ -4189,7 +4189,7 @@ msgstr ""
 
 # ui/workinfobase.cpp:97
 #: plugins/icq/icqconfigbase.cc:233 plugins/jabber/jabberconfigbase.cpp:330
-#: plugins/livejournal/livejournalcfgbase.cpp:212
+#: plugins/livejournal/livejournalcfgbase.cpp:218
 msgid "&Options"
 msgstr "&Настройки"
 
@@ -4912,7 +4912,7 @@ msgstr "Настроить клиент %1"
 msgid "Container"
 msgstr "Контейнер"
 
-#: plugins/_core/container.cpp:654
+#: plugins/_core/container.cpp:655
 msgid "Contact typed message"
 msgstr "Пользователь пишет сообщение"
 
@@ -5002,7 +5002,7 @@ msgid "&History"
 msgstr "Исто&рия"
 
 # msgedit.cpp:220 msgedit.cpp:423
-#: plugins/_core/core.cpp:600 plugins/_core/msgedit.cpp:991
+#: plugins/_core/core.cpp:600 plugins/_core/msgedit.cpp:992
 msgid "&Send"
 msgstr "&Отправить"
 
@@ -5016,12 +5016,12 @@ msgid "Send in &translit"
 msgstr "Отправить в &транслите"
 
 # msgedit.cpp:211
-#: plugins/_core/core.cpp:625 plugins/_core/msgedit.cpp:241
+#: plugins/_core/core.cpp:625 plugins/_core/msgedit.cpp:242
 msgid "C&lose after send"
 msgstr "&Закрыть после отправки"
 
 # msgedit.cpp:231
-#: plugins/_core/core.cpp:633 plugins/_core/msgedit.cpp:980
+#: plugins/_core/core.cpp:633 plugins/_core/msgedit.cpp:981
 msgid "&Multiply send"
 msgstr "Отправить &нескольким адресатам"
 
@@ -5061,7 +5061,7 @@ msgid "&Phone number"
 msgstr "Номер телефона"
 
 # msgedit.cpp:225
-#: plugins/_core/core.cpp:699 plugins/_core/msgedit.cpp:1440
+#: plugins/_core/core.cpp:699 plugins/_core/msgedit.cpp:1441
 #: plugins/jabber/jabber.cpp:448
 msgid "&Next"
 msgstr "&Следующее"
@@ -5123,7 +5123,8 @@ msgid "&Messages"
 msgstr "&Сообщения"
 
 # ui/setupdlg.cpp:148 ui/soundsetupbase.cpp:140
-#: plugins/_core/core.cpp:942 plugins/_core/msgedit.cpp:1591
+#: plugins/_core/core.cpp:942 plugins/_core/msgedit.cpp:1592
+#: plugins/sms/smssetupbase.cpp:194
 msgid "&SMS"
 msgstr "&SMS"
 
@@ -5257,7 +5258,7 @@ msgid "&Separate"
 msgstr "&Отделить"
 
 # dock.cpp:482 mainwin.cpp:541
-#: plugins/_core/core.cpp:2022 plugins/_core/userwnd.cpp:124
+#: plugins/_core/core.cpp:2022 plugins/_core/userwnd.cpp:125
 #, c-format
 msgid "from %1"
 msgstr "от %1"
@@ -5274,7 +5275,7 @@ msgstr "Нет"
 
 # dock.cpp:482 mainwin.cpp:541
 #: plugins/_core/core.cpp:2273 plugins/dock/dockwnd.cpp:1168
-#: plugins/osd/osd.cpp:323
+#: plugins/osd/osd.cpp:327
 msgid "%1 from %2"
 msgstr "%1 от %2"
 
@@ -5484,7 +5485,7 @@ msgid "New profile"
 msgstr "Новый профиль"
 
 #: plugins/_core/logindlg.cpp:443 plugins/jabber/jabberclient.cpp:1111
-#: plugins/livejournal/livejournal.cpp:821 plugins/msn/msnclient.cpp:612
+#: plugins/livejournal/livejournal.cpp:905 plugins/msn/msnclient.cpp:612
 msgid "Login failed"
 msgstr "Авторизация не удалась"
 
@@ -5560,7 +5561,7 @@ msgid "Yes"
 msgstr "Да"
 
 # client.cpp:887
-#: plugins/_core/msgedit.cpp:418 plugins/update/update.cpp:105
+#: plugins/_core/msgedit.cpp:419 plugins/update/update.cpp:105
 #, c-format
 msgid ""
 "_n: Message\n"
@@ -5571,7 +5572,7 @@ msgstr ""
 "%n сообщений"
 
 # client.cpp:913
-#: plugins/_core/msgedit.cpp:444
+#: plugins/_core/msgedit.cpp:445
 #, c-format
 msgid ""
 "_n: SMS\n"
@@ -5582,7 +5583,7 @@ msgstr ""
 "%n SMS"
 
 # client.cpp:893
-#: plugins/_core/msgedit.cpp:460
+#: plugins/_core/msgedit.cpp:461
 #, c-format
 msgid ""
 "_n: URL\n"
@@ -5593,7 +5594,7 @@ msgstr ""
 "%n URL"
 
 # client.cpp:909
-#: plugins/_core/msgedit.cpp:523
+#: plugins/_core/msgedit.cpp:524
 #, c-format
 msgid ""
 "_n: Contact list\n"
@@ -5604,7 +5605,7 @@ msgstr ""
 "%n списков контактов"
 
 # client.cpp:891 msgview.cpp:200
-#: plugins/_core/msgedit.cpp:570
+#: plugins/_core/msgedit.cpp:571
 #, c-format
 msgid ""
 "_n: File\n"
@@ -5615,17 +5616,17 @@ msgstr ""
 "%n файлов"
 
 # msgedit.cpp:179
-#: plugins/_core/msgedit.cpp:577
+#: plugins/_core/msgedit.cpp:578
 msgid "&Accept"
 msgstr "&Принять"
 
 # msgedit.cpp:185
-#: plugins/_core/msgedit.cpp:592
+#: plugins/_core/msgedit.cpp:593
 msgid "&Decline"
 msgstr "&Отказать"
 
 # client.cpp:895
-#: plugins/_core/msgedit.cpp:645
+#: plugins/_core/msgedit.cpp:646
 #, c-format
 msgid ""
 "_n: Authorize request\n"
@@ -5636,17 +5637,17 @@ msgstr ""
 "%n запросов авторизации"
 
 # msgedit.cpp:169
-#: plugins/_core/msgedit.cpp:652
+#: plugins/_core/msgedit.cpp:653
 msgid "&Grant"
 msgstr "&Авторизовать"
 
 # msgedit.cpp:174
-#: plugins/_core/msgedit.cpp:667
+#: plugins/_core/msgedit.cpp:668
 msgid "&Refuse"
 msgstr "&Отказать"
 
 # client.cpp:899
-#: plugins/_core/msgedit.cpp:715
+#: plugins/_core/msgedit.cpp:716
 #, c-format
 msgid ""
 "_n: Authorization granted\n"
@@ -5657,7 +5658,7 @@ msgstr ""
 "Авторизация принята %n раз"
 
 # client.cpp:897
-#: plugins/_core/msgedit.cpp:736
+#: plugins/_core/msgedit.cpp:737
 #, c-format
 msgid ""
 "_n: Authorization refused\n"
@@ -5668,7 +5669,7 @@ msgstr ""
 "Авторизация отклонена %n раз"
 
 # client.cpp:901
-#: plugins/_core/msgedit.cpp:757
+#: plugins/_core/msgedit.cpp:758
 #, c-format
 msgid ""
 "_n: Add to contacts\n"
@@ -5679,7 +5680,7 @@ msgstr ""
 "Добавил в список контактов %n раз"
 
 # client.cpp:901
-#: plugins/_core/msgedit.cpp:778
+#: plugins/_core/msgedit.cpp:779
 #, c-format
 msgid ""
 "_n: Removed from contacts\n"
@@ -5690,7 +5691,7 @@ msgstr ""
 "Удалил из списка контактов %n раз"
 
 # client.cpp:921
-#: plugins/_core/msgedit.cpp:799
+#: plugins/_core/msgedit.cpp:800
 #, c-format
 msgid ""
 "_n: Status changed\n"
@@ -5700,31 +5701,31 @@ msgstr ""
 "Статус изменен %n раза\n"
 "Статус изменен %n раз"
 
-#: plugins/_core/msgedit.cpp:968
+#: plugins/_core/msgedit.cpp:969
 msgid "No such client for send message"
 msgstr "Нет клиента для отправки сообщения"
 
 # monitor.cpp:68
-#: plugins/_core/msgedit.cpp:1573 plugins/netmonitor/monitor.cpp:64
+#: plugins/_core/msgedit.cpp:1574 plugins/netmonitor/monitor.cpp:64
 msgid "&File"
 msgstr "&Файл"
 
-#: plugins/_core/msgedit.cpp:1600
+#: plugins/_core/msgedit.cpp:1601
 msgid "&Contact list"
 msgstr "Список &контактов"
 
 # msgview.cpp:159
-#: plugins/_core/msgedit.cpp:1608
+#: plugins/_core/msgedit.cpp:1609
 msgid "&Authorization request"
 msgstr "Запрос &авторизации"
 
 # ui/generalsecbase.cpp:136
-#: plugins/_core/msgedit.cpp:1617
+#: plugins/_core/msgedit.cpp:1618
 msgid "&Grant autorization"
 msgstr "&Авторизовать"
 
 # ui/generalsecbase.cpp:136
-#: plugins/_core/msgedit.cpp:1626
+#: plugins/_core/msgedit.cpp:1627
 msgid "&Refuse autorization"
 msgstr "&Отменить авторизацию"
 
@@ -6314,8 +6315,7 @@ msgid "Messages"
 msgstr "Сообщения"
 
 # ui/setupdlg.cpp:148 ui/soundsetupbase.cpp:140
-#: plugins/_core/interfacecfg.cpp:84 plugins/sms/sms.cpp:109
-#: plugins/sms/smssetupbase.cpp:149
+#: plugins/_core/interfacecfg.cpp:84 plugins/sms/sms.cpp:144
 msgid "SMS"
 msgstr "SMS"
 
@@ -6380,7 +6380,7 @@ msgstr "Закрыть после &передачи"
 
 # ui/keysetupbase.cpp:129 ui/phonebookbase.cpp:102 ui/setupdlgbase.cpp:71
 # ui/userinfobase.cpp:96
-#: plugins/_core/userwnd.cpp:122
+#: plugins/_core/userwnd.cpp:123
 #, c-format
 msgid "to %1"
 msgstr "на %1"
@@ -6665,7 +6665,7 @@ msgid "Ignore this phrase"
 msgstr "Добавить фразу в фильтр"
 
 # mainwin.cpp:1608
-#: plugins/filter/filter.cpp:227
+#: plugins/filter/filter.cpp:225
 msgid "Add %1 to ignore list?"
 msgstr "Добавить \"%1\" в список игнорируемых?"
 
@@ -7308,11 +7308,11 @@ msgid "&OSD"
 msgstr "&Экран"
 
 # mainwin.cpp:1042
-#: plugins/osd/osd.cpp:303
+#: plugins/osd/osd.cpp:306
 msgid "%1 is online"
 msgstr "%1 в сети"
 
-#: plugins/osd/osd.cpp:307
+#: plugins/osd/osd.cpp:310
 msgid "%1 typed"
 msgstr "%1 пишет"
 
@@ -7649,55 +7649,105 @@ msgstr "Напомнить позже"
 msgid "New version SIM is released"
 msgstr "Выпущена новая версия программы SIM"
 
+#: plugins/sms/sms.cpp:81
+#, c-format
+msgid ""
+"_n: Phone call\n"
+"%n phone calls"
+msgstr ""
+"Звонок\n"
+"%n звонка\n"
+"%n звонков"
+
+# msgedit.cpp:238
+#: plugins/sms/sms.cpp:108
+msgid "Phone call"
+msgstr "Звонок"
+
 # ui/networkbase.cpp:151 ui/proxydlgbase.cpp:82
-#: plugins/sms/sms.cpp:429
+#: plugins/sms/sms.cpp:491
 msgid "Port error"
 msgstr "Ошибка порта"
 
+#: plugins/sms/smssetup.cpp:52
+msgid "Charging:"
+msgstr "Зарядка:"
+
+#: plugins/sms/smssetup.cpp:54
+msgid "Battery:"
+msgstr "Батарея:"
+
+# mainwin.cpp:2367 ui/setupdlg.cpp:112
+#: plugins/sms/smssetupbase.cpp:179
+msgid "SMSSetup"
+msgstr "Настройки"
+
 # libicq/country.cpp:91
-#: plugins/sms/smssetupbase.cpp:137
+#: plugins/sms/smssetupbase.cpp:181
 msgid "Baudrate:"
 msgstr "Скорость:"
 
-#: plugins/sms/smssetupbase.cpp:139
+#: plugins/sms/smssetupbase.cpp:183
+msgid "115200"
+msgstr "115200"
+
+#: plugins/sms/smssetupbase.cpp:184
 msgid "38400"
 msgstr "38400"
 
-#: plugins/sms/smssetupbase.cpp:140
+#: plugins/sms/smssetupbase.cpp:185
 msgid "19200"
 msgstr "19200"
 
-#: plugins/sms/smssetupbase.cpp:141
+#: plugins/sms/smssetupbase.cpp:186
 msgid "9600"
 msgstr "9600"
 
-#: plugins/sms/smssetupbase.cpp:142
+#: plugins/sms/smssetupbase.cpp:187
 msgid "4800"
 msgstr "4800"
 
-#: plugins/sms/smssetupbase.cpp:143
+#: plugins/sms/smssetupbase.cpp:188
 msgid "2400"
 msgstr "2400"
 
-#: plugins/sms/smssetupbase.cpp:144
+#: plugins/sms/smssetupbase.cpp:189
 msgid "1200"
 msgstr "1200"
 
-#: plugins/sms/smssetupbase.cpp:145
+#: plugins/sms/smssetupbase.cpp:190
 msgid "600"
 msgstr "600"
 
-#: plugins/sms/smssetupbase.cpp:146
+#: plugins/sms/smssetupbase.cpp:191
 msgid "300"
 msgstr "300"
 
-#: plugins/sms/smssetupbase.cpp:147
+#: plugins/sms/smssetupbase.cpp:192
 msgid "Software handshake"
 msgstr "Программное управление потоком"
 
-#: plugins/sms/smssetupbase.cpp:148
+#: plugins/sms/smssetupbase.cpp:193
 msgid "Init string:"
 msgstr "Строка инициализации:"
+
+#: plugins/sms/smssetupbase.cpp:195
+msgid "Model:"
+msgstr "Модель:"
+
+#: plugins/sms/smssetupbase.cpp:196
+msgid "Signal quality:"
+msgstr "Качество сигнала:"
+
+# client.cpp:59 libicq/country.cpp:19
+#: plugins/sms/smssetupbase.cpp:198
+msgid "Operator:"
+msgstr "Оператор:"
+
+# msgedit.cpp:238
+#: plugins/sms/smssetupbase.cpp:199
+msgid "&Phone"
+msgstr "&Телефон"
 
 #: plugins/jabber/addresult.cpp:32
 msgid "ID"
@@ -7802,7 +7852,7 @@ msgstr "jabber.ru"
 msgid "List of public servers"
 msgstr "Список общедоступных серверов"
 
-#: plugins/jabber/jabbermessage.cpp:53 plugins/livejournal/livejournal.cpp:102
+#: plugins/jabber/jabbermessage.cpp:53 plugins/livejournal/livejournal.cpp:103
 msgid "<p>Subject: %1</p>"
 msgstr "<p>Тема: %1</p>"
 
@@ -8183,7 +8233,7 @@ msgstr ""
 
 # userview.cpp:1340
 #: plugins/jabber/jabberconfigbase.cpp:309
-#: plugins/livejournal/livejournalcfgbase.cpp:203
+#: plugins/livejournal/livejournalcfgbase.cpp:208
 msgid "Username:"
 msgstr "Имя пользователя:"
 
@@ -8421,16 +8471,7 @@ msgstr "Рыбы"
 msgid "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
 msgstr "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
 
-#: plugins/livejournal/livejournal.cpp:51
-#: plugins/livejournal/livejournal.cpp:252
-msgid "LiveJournal"
-msgstr "Живой журнал"
-
-#: plugins/livejournal/livejournal.cpp:52
-msgid "Plugin provides posting to LiveJournal"
-msgstr "Модуль обеспечивает запись в Живой Журнал"
-
-#: plugins/livejournal/livejournal.cpp:108
+#: plugins/livejournal/livejournal.cpp:109
 #, c-format
 msgid ""
 "_n: LiveJournal post\n"
@@ -8440,645 +8481,658 @@ msgstr ""
 "%n записи в живой журнал\n"
 "%n записей в жифой журнал"
 
-#: plugins/livejournal/livejournal.cpp:125
+#: plugins/livejournal/livejournal.cpp:126
 msgid "&Remove from journal"
 msgstr "&Удалить из журнала"
 
-#: plugins/livejournal/livejournal.cpp:200
+#: plugins/livejournal/livejournal.cpp:234
 msgid "LiveJournal &post"
 msgstr "&Запись в живой журнал"
 
-#: plugins/livejournal/livejournal.cpp:210
+#: plugins/livejournal/livejournal.cpp:244
 msgid "LiveJournal &WWW"
 msgstr "Живой журнал на &WWW"
 
-#: plugins/livejournal/livejournal.cpp:552
+#: plugins/livejournal/livejournal.cpp:254
+msgid "Friends updated"
+msgstr "Обновление журнала"
+
+#: plugins/livejournal/livejournal.cpp:298
+msgid "LiveJournal"
+msgstr "Живой журнал"
+
+#: plugins/livejournal/livejournal.cpp:608
 msgid "Posting failed"
 msgstr "Запись не удалась"
 
 # control.cpp:190
-#: plugins/livejournal/livejournal.cpp:1107
+#: plugins/livejournal/livejournal.cpp:1330
 msgid "Invalid username"
 msgstr "Неправильное имя пользователя"
 
-#: plugins/livejournal/livejournal.cpp:1109
+#: plugins/livejournal/livejournal.cpp:1332
 msgid "aggravated"
 msgstr "ухудшенный"
 
 # libicq/country.cpp:166
-#: plugins/livejournal/livejournal.cpp:1110
+#: plugins/livejournal/livejournal.cpp:1333
 msgid "angry"
 msgstr "сердитый"
 
-#: plugins/livejournal/livejournal.cpp:1111
+#: plugins/livejournal/livejournal.cpp:1334
 msgid "annoyed"
 msgstr "раздраженный"
 
-#: plugins/livejournal/livejournal.cpp:1112
+#: plugins/livejournal/livejournal.cpp:1335
 msgid "anxious"
 msgstr "неизвестный"
 
 # mainwin.cpp:2633
-#: plugins/livejournal/livejournal.cpp:1113
+#: plugins/livejournal/livejournal.cpp:1336
 msgid "bored"
 msgstr "надоело"
 
 # ui/themesetupbase.cpp:105
-#: plugins/livejournal/livejournal.cpp:1114
+#: plugins/livejournal/livejournal.cpp:1337
 msgid "confused"
 msgstr "сконфуженный"
 
-#: plugins/livejournal/livejournal.cpp:1115
+#: plugins/livejournal/livejournal.cpp:1338
 msgid "crappy"
 msgstr ""
 
 # libicq/country.cpp:150
-#: plugins/livejournal/livejournal.cpp:1116
+#: plugins/livejournal/livejournal.cpp:1339
 msgid "cranky"
 msgstr "расшатанный"
 
-#: plugins/livejournal/livejournal.cpp:1117
+#: plugins/livejournal/livejournal.cpp:1340
 msgid "depressed"
 msgstr "депресняк"
 
 # libicq/country.cpp:342
-#: plugins/livejournal/livejournal.cpp:1118
+#: plugins/livejournal/livejournal.cpp:1341
 msgid "discontent"
 msgstr "недовольный"
 
-#: plugins/livejournal/livejournal.cpp:1119
+#: plugins/livejournal/livejournal.cpp:1342
 msgid "energetic"
 msgstr "энергичный"
 
-#: plugins/livejournal/livejournal.cpp:1120
+#: plugins/livejournal/livejournal.cpp:1343
 msgid "enraged"
 msgstr "разгневанный"
 
 # ui/homeinfobase.cpp:96 ui/searchbase.cpp:164 ui/workinfobase.cpp:190
-#: plugins/livejournal/livejournal.cpp:1121
+#: plugins/livejournal/livejournal.cpp:1344
 msgid "enthralled"
 msgstr "восторженный"
 
-#: plugins/livejournal/livejournal.cpp:1122
+#: plugins/livejournal/livejournal.cpp:1345
 msgid "exhausted"
 msgstr "истощенный"
 
-#: plugins/livejournal/livejournal.cpp:1123
+#: plugins/livejournal/livejournal.cpp:1346
 msgid "happy"
 msgstr "счастливый"
 
 # mainwin.cpp:2625
-#: plugins/livejournal/livejournal.cpp:1124
+#: plugins/livejournal/livejournal.cpp:1347
 msgid "high"
 msgstr "высокий"
 
-#: plugins/livejournal/livejournal.cpp:1125
+#: plugins/livejournal/livejournal.cpp:1348
 msgid "horny"
 msgstr "рогатый"
 
 # libicq/country.cpp:166
-#: plugins/livejournal/livejournal.cpp:1126
+#: plugins/livejournal/livejournal.cpp:1349
 msgid "hungry"
 msgstr "голодный"
 
-#: plugins/livejournal/livejournal.cpp:1127
+#: plugins/livejournal/livejournal.cpp:1350
 msgid "infuriated"
 msgstr "в бешенстве"
 
 # libicq/country.cpp:231
-#: plugins/livejournal/livejournal.cpp:1128
+#: plugins/livejournal/livejournal.cpp:1351
 msgid "irate"
 msgstr "сердитый"
 
-#: plugins/livejournal/livejournal.cpp:1129
+#: plugins/livejournal/livejournal.cpp:1352
 msgid "jubilant"
 msgstr "ликующий"
 
-#: plugins/livejournal/livejournal.cpp:1130
+#: plugins/livejournal/livejournal.cpp:1353
 msgid "lonely"
 msgstr "одинокий"
 
-#: plugins/livejournal/livejournal.cpp:1131
+#: plugins/livejournal/livejournal.cpp:1354
 msgid "moody"
 msgstr "капризный"
 
-#: plugins/livejournal/livejournal.cpp:1132
+#: plugins/livejournal/livejournal.cpp:1355
 msgid "pissed off"
 msgstr ""
 
 # ui/keysetup.cpp:43
-#: plugins/livejournal/livejournal.cpp:1133
+#: plugins/livejournal/livejournal.cpp:1356
 msgid "sad"
 msgstr "грустный"
 
-#: plugins/livejournal/livejournal.cpp:1134
+#: plugins/livejournal/livejournal.cpp:1357
 msgid "satisfied"
 msgstr "удовлетворнный"
 
 # libicq/country.cpp:372
-#: plugins/livejournal/livejournal.cpp:1135
+#: plugins/livejournal/livejournal.cpp:1358
 msgid "sore"
 msgstr "раненый"
 
-#: plugins/livejournal/livejournal.cpp:1136
+#: plugins/livejournal/livejournal.cpp:1359
 msgid "stressed"
 msgstr "в стрессе"
 
-#: plugins/livejournal/livejournal.cpp:1137
+#: plugins/livejournal/livejournal.cpp:1360
 msgid "thirsty"
 msgstr "жаждущий"
 
-#: plugins/livejournal/livejournal.cpp:1138
+#: plugins/livejournal/livejournal.cpp:1361
 msgid "thoughtful"
 msgstr "вдумчивый"
 
 # libicq/country.cpp:434
-#: plugins/livejournal/livejournal.cpp:1139
+#: plugins/livejournal/livejournal.cpp:1362
 msgid "tired"
 msgstr "утомленный"
 
-#: plugins/livejournal/livejournal.cpp:1140
+#: plugins/livejournal/livejournal.cpp:1363
 msgid "touched"
 msgstr "затронутый"
 
 # libicq/country.cpp:39
-#: plugins/livejournal/livejournal.cpp:1141
+#: plugins/livejournal/livejournal.cpp:1364
 msgid "lazy"
 msgstr "ленивый"
 
-#: plugins/livejournal/livejournal.cpp:1142
+#: plugins/livejournal/livejournal.cpp:1365
 msgid "drunk"
 msgstr "пьяный"
 
 # ui/homeinfobase.cpp:129 ui/searchbase.cpp:154 ui/workinfobase.cpp:178
-#: plugins/livejournal/livejournal.cpp:1143
+#: plugins/livejournal/livejournal.cpp:1366
 msgid "ditzy"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1144
+#: plugins/livejournal/livejournal.cpp:1367
 msgid "mischievous"
 msgstr "вредный"
 
 # libicq/country.cpp:119
-#: plugins/livejournal/livejournal.cpp:1145
+#: plugins/livejournal/livejournal.cpp:1368
 msgid "morose"
 msgstr "угрюмый"
 
-#: plugins/livejournal/livejournal.cpp:1146
+#: plugins/livejournal/livejournal.cpp:1369
 msgid "gloomy"
 msgstr "мрачный"
 
-#: plugins/livejournal/livejournal.cpp:1147
+#: plugins/livejournal/livejournal.cpp:1370
 msgid "melancholy"
 msgstr "меланхоличный"
 
 # libicq/country.cpp:296
-#: plugins/livejournal/livejournal.cpp:1148
+#: plugins/livejournal/livejournal.cpp:1371
 msgid "drained"
 msgstr "высушенный"
 
-#: plugins/livejournal/livejournal.cpp:1149
+#: plugins/livejournal/livejournal.cpp:1372
 msgid "excited"
 msgstr "возбужденный"
 
-#: plugins/livejournal/livejournal.cpp:1150
+#: plugins/livejournal/livejournal.cpp:1373
 msgid "relieved"
 msgstr "освобожленный"
 
-#: plugins/livejournal/livejournal.cpp:1151
+#: plugins/livejournal/livejournal.cpp:1374
 msgid "hopeful"
 msgstr "обнадеженный"
 
 # libicq/country.cpp:362
-#: plugins/livejournal/livejournal.cpp:1152
+#: plugins/livejournal/livejournal.cpp:1375
 msgid "amused"
 msgstr "удивленный"
 
 # chatwnd.cpp:94
-#: plugins/livejournal/livejournal.cpp:1153
+#: plugins/livejournal/livejournal.cpp:1376
 msgid "determined"
 msgstr "определенный"
 
-#: plugins/livejournal/livejournal.cpp:1154
+#: plugins/livejournal/livejournal.cpp:1377
 msgid "scared"
 msgstr "испуганный"
 
-#: plugins/livejournal/livejournal.cpp:1155
+#: plugins/livejournal/livejournal.cpp:1378
 msgid "frustrated"
 msgstr "разбитый"
 
-#: plugins/livejournal/livejournal.cpp:1156
+#: plugins/livejournal/livejournal.cpp:1379
 msgid "indescribable"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1157
+#: plugins/livejournal/livejournal.cpp:1380
 msgid "sleepy"
 msgstr "спящий"
 
-#: plugins/livejournal/livejournal.cpp:1158
+#: plugins/livejournal/livejournal.cpp:1381
 msgid "groggy"
 msgstr ""
 
 # ui/phonebook.cpp:79
-#: plugins/livejournal/livejournal.cpp:1159
+#: plugins/livejournal/livejournal.cpp:1382
 #, fuzzy
 msgid "hyper"
 msgstr "Тип"
 
 # libicq/country.cpp:178
-#: plugins/livejournal/livejournal.cpp:1160
+#: plugins/livejournal/livejournal.cpp:1383
 msgid "relaxed"
 msgstr "отдыхающий"
 
-#: plugins/livejournal/livejournal.cpp:1161
+#: plugins/livejournal/livejournal.cpp:1384
 msgid "restless"
 msgstr "беспокойный"
 
-#: plugins/livejournal/livejournal.cpp:1162
+#: plugins/livejournal/livejournal.cpp:1385
 msgid "disappointed"
 msgstr "разочарованный"
 
-#: plugins/livejournal/livejournal.cpp:1163
+#: plugins/livejournal/livejournal.cpp:1386
 msgid "curious"
 msgstr "любопытный"
 
-#: plugins/livejournal/livejournal.cpp:1164
+#: plugins/livejournal/livejournal.cpp:1387
 msgid "mellow"
 msgstr "спелый"
 
 # libicq/country.cpp:360
-#: plugins/livejournal/livejournal.cpp:1165
+#: plugins/livejournal/livejournal.cpp:1388
 msgid "peaceful"
 msgstr "мирный"
 
-#: plugins/livejournal/livejournal.cpp:1166
+#: plugins/livejournal/livejournal.cpp:1389
 msgid "bouncy"
 msgstr "бодрый"
 
 # mainwin.cpp:2644
-#: plugins/livejournal/livejournal.cpp:1167
+#: plugins/livejournal/livejournal.cpp:1390
 msgid "nostalgic"
 msgstr "в ностальгии"
 
-#: plugins/livejournal/livejournal.cpp:1168
+#: plugins/livejournal/livejournal.cpp:1391
 msgid "okay"
 msgstr "хороший"
 
-#: plugins/livejournal/livejournal.cpp:1169
+#: plugins/livejournal/livejournal.cpp:1392
 msgid "rejuvenated"
 msgstr "омоложенный"
 
 # libicq/country.cpp:335 libicq/country.cpp:416
-#: plugins/livejournal/livejournal.cpp:1170
+#: plugins/livejournal/livejournal.cpp:1393
 msgid "complacent"
 msgstr "удовлетворенный"
 
 # libicq/country.cpp:341
-#: plugins/livejournal/livejournal.cpp:1171
+#: plugins/livejournal/livejournal.cpp:1394
 msgid "content"
 msgstr "содержание"
 
 # libicq/country.cpp:341
-#: plugins/livejournal/livejournal.cpp:1172
+#: plugins/livejournal/livejournal.cpp:1395
 msgid "indifferent"
 msgstr "безразличный"
 
-#: plugins/livejournal/livejournal.cpp:1173
+#: plugins/livejournal/livejournal.cpp:1396
 msgid "silly"
 msgstr "глупый"
 
-#: plugins/livejournal/livejournal.cpp:1174
+#: plugins/livejournal/livejournal.cpp:1397
 msgid "flirty"
 msgstr "кокетливый"
 
-#: plugins/livejournal/livejournal.cpp:1175
+#: plugins/livejournal/livejournal.cpp:1398
 msgid "calm"
 msgstr "спокойный"
 
 # msgedit.cpp:174
-#: plugins/livejournal/livejournal.cpp:1176
+#: plugins/livejournal/livejournal.cpp:1399
 msgid "refreshed"
 msgstr "обновленный"
 
-#: plugins/livejournal/livejournal.cpp:1177
+#: plugins/livejournal/livejournal.cpp:1400
 msgid "optimistic"
 msgstr "оптимистичный"
 
-#: plugins/livejournal/livejournal.cpp:1178
+#: plugins/livejournal/livejournal.cpp:1401
 msgid "pessimistic"
 msgstr "пессимистичный"
 
-#: plugins/livejournal/livejournal.cpp:1179
+#: plugins/livejournal/livejournal.cpp:1402
 msgid "giggly"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1180
+#: plugins/livejournal/livejournal.cpp:1403
 msgid "pensive"
 msgstr "задумчивый"
 
-#: plugins/livejournal/livejournal.cpp:1181
+#: plugins/livejournal/livejournal.cpp:1404
 msgid "uncomfortable"
 msgstr "некомфортный"
 
-#: plugins/livejournal/livejournal.cpp:1182
+#: plugins/livejournal/livejournal.cpp:1405
 msgid "lethargic"
 msgstr "в летаргии"
 
 # libicq/country.cpp:337
-#: plugins/livejournal/livejournal.cpp:1183
+#: plugins/livejournal/livejournal.cpp:1406
 msgid "listless"
 msgstr "вялый"
 
-#: plugins/livejournal/livejournal.cpp:1184
+#: plugins/livejournal/livejournal.cpp:1407
 msgid "recumbent"
 msgstr "лежащий"
 
-#: plugins/livejournal/livejournal.cpp:1185
+#: plugins/livejournal/livejournal.cpp:1408
 msgid "exanimate"
 msgstr "полуживой"
 
 # usertbl.cpp:392
-#: plugins/livejournal/livejournal.cpp:1186
+#: plugins/livejournal/livejournal.cpp:1409
 msgid "embarrassed"
 msgstr "обеспокоенный"
 
 # libicq/country.cpp:227
-#: plugins/livejournal/livejournal.cpp:1187
+#: plugins/livejournal/livejournal.cpp:1410
 msgid "envious"
 msgstr "завистливый"
 
-#: plugins/livejournal/livejournal.cpp:1188
+#: plugins/livejournal/livejournal.cpp:1411
 msgid "sympathetic"
 msgstr "симпатичный"
 
 # ui/maininfobase.cpp:118
-#: plugins/livejournal/livejournal.cpp:1189
+#: plugins/livejournal/livejournal.cpp:1412
 msgid "sick"
 msgstr "больной"
 
-#: plugins/livejournal/livejournal.cpp:1190
+#: plugins/livejournal/livejournal.cpp:1413
 msgid "hot"
 msgstr "горячий"
 
 # mainwin.cpp:2633
-#: plugins/livejournal/livejournal.cpp:1191
+#: plugins/livejournal/livejournal.cpp:1414
 msgid "cold"
 msgstr "холодный"
 
-#: plugins/livejournal/livejournal.cpp:1192
+#: plugins/livejournal/livejournal.cpp:1415
 msgid "worried"
 msgstr "удивленный"
 
 # libicq/country.cpp:264
-#: plugins/livejournal/livejournal.cpp:1193
+#: plugins/livejournal/livejournal.cpp:1416
 msgid "loved"
 msgstr "любящий"
 
-#: plugins/livejournal/livejournal.cpp:1194
+#: plugins/livejournal/livejournal.cpp:1417
 msgid "awake"
 msgstr "активный"
 
 # libicq/country.cpp:351 libicq/country.cpp:436
-#: plugins/livejournal/livejournal.cpp:1195
+#: plugins/livejournal/livejournal.cpp:1418
 msgid "working"
 msgstr "работающий"
 
-#: plugins/livejournal/livejournal.cpp:1196
+#: plugins/livejournal/livejournal.cpp:1419
 msgid "productive"
 msgstr "продуктивный"
 
-#: plugins/livejournal/livejournal.cpp:1197
+#: plugins/livejournal/livejournal.cpp:1420
 msgid "accomplished"
 msgstr "выполненный"
 
 # mainwin.cpp:2350
-#: plugins/livejournal/livejournal.cpp:1198
+#: plugins/livejournal/livejournal.cpp:1421
 msgid "busy"
 msgstr "занятый"
 
 # mainwin.cpp:2637
-#: plugins/livejournal/livejournal.cpp:1199
+#: plugins/livejournal/livejournal.cpp:1422
 msgid "blah"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1200
+#: plugins/livejournal/livejournal.cpp:1423
 msgid "full"
 msgstr "полный"
 
-#: plugins/livejournal/livejournal.cpp:1201
+#: plugins/livejournal/livejournal.cpp:1424
 msgid "grumpy"
 msgstr "сварливый"
 
 # libicq/country.cpp:434
-#: plugins/livejournal/livejournal.cpp:1202
+#: plugins/livejournal/livejournal.cpp:1425
 msgid "weird"
 msgstr "сверхестественный"
 
-#: plugins/livejournal/livejournal.cpp:1203
+#: plugins/livejournal/livejournal.cpp:1426
 msgid "nauseated"
 msgstr "тошнит"
 
-#: plugins/livejournal/livejournal.cpp:1204
+#: plugins/livejournal/livejournal.cpp:1427
 msgid "ecstatic"
 msgstr "экстатичный"
 
-#: plugins/livejournal/livejournal.cpp:1205
+#: plugins/livejournal/livejournal.cpp:1428
 msgid "chipper"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1206
+#: plugins/livejournal/livejournal.cpp:1429
 msgid "rushed"
 msgstr "мчащийся"
 
-#: plugins/livejournal/livejournal.cpp:1207
+#: plugins/livejournal/livejournal.cpp:1430
 msgid "contemplative"
 msgstr "умозрительный"
 
-#: plugins/livejournal/livejournal.cpp:1208
+#: plugins/livejournal/livejournal.cpp:1431
 msgid "nerdy"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1209
+#: plugins/livejournal/livejournal.cpp:1432
 msgid "geeky"
 msgstr ""
 
 # libicq/country.cpp:437
-#: plugins/livejournal/livejournal.cpp:1210
+#: plugins/livejournal/livejournal.cpp:1433
 msgid "cynical"
 msgstr "циничный"
 
-#: plugins/livejournal/livejournal.cpp:1211
+#: plugins/livejournal/livejournal.cpp:1434
 msgid "quixotic"
 msgstr "донкихотский"
 
-#: plugins/livejournal/livejournal.cpp:1212
+#: plugins/livejournal/livejournal.cpp:1435
 msgid "crazy"
 msgstr "сумасшедший"
 
-#: plugins/livejournal/livejournal.cpp:1213
+#: plugins/livejournal/livejournal.cpp:1436
 msgid "creative"
 msgstr "креативный"
 
 # mainwin.cpp:2365 ui/statussetupbase.cpp:79 usertbl.cpp:113
-#: plugins/livejournal/livejournal.cpp:1214
+#: plugins/livejournal/livejournal.cpp:1437
 msgid "artistic"
 msgstr "артистичный"
 
 # ui/soundsetupbase.cpp:168
-#: plugins/livejournal/livejournal.cpp:1215
+#: plugins/livejournal/livejournal.cpp:1438
 msgid "pleased"
 msgstr "довольный"
 
-#: plugins/livejournal/livejournal.cpp:1216
+#: plugins/livejournal/livejournal.cpp:1439
 msgid "bitchy"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1217
+#: plugins/livejournal/livejournal.cpp:1440
 msgid "guilty"
 msgstr "виновный"
 
 # libicq/country.cpp:231
-#: plugins/livejournal/livejournal.cpp:1218
+#: plugins/livejournal/livejournal.cpp:1441
 msgid "irritated"
 msgstr "раздраженный"
 
 # mainwin.cpp:2637
-#: plugins/livejournal/livejournal.cpp:1219
+#: plugins/livejournal/livejournal.cpp:1442
 msgid "blank"
 msgstr "пустой"
 
-#: plugins/livejournal/livejournal.cpp:1220
+#: plugins/livejournal/livejournal.cpp:1443
 msgid "apathetic"
 msgstr "безразличный"
 
-#: plugins/livejournal/livejournal.cpp:1221
+#: plugins/livejournal/livejournal.cpp:1444
 msgid "dorky"
 msgstr "тупой"
 
-#: plugins/livejournal/livejournal.cpp:1222
+#: plugins/livejournal/livejournal.cpp:1445
 msgid "impressed"
 msgstr "впечатленный"
 
-#: plugins/livejournal/livejournal.cpp:1223
+#: plugins/livejournal/livejournal.cpp:1446
 msgid "naughty"
 msgstr "непослушный"
 
 # sim.cpp:286
-#: plugins/livejournal/livejournal.cpp:1224
+#: plugins/livejournal/livejournal.cpp:1447
 msgid "predatory"
 msgstr "хищный"
 
 # ui/homeinfobase.cpp:129 ui/searchbase.cpp:154 ui/workinfobase.cpp:178
-#: plugins/livejournal/livejournal.cpp:1225
+#: plugins/livejournal/livejournal.cpp:1448
 msgid "dirty"
 msgstr "грязный"
 
-#: plugins/livejournal/livejournal.cpp:1226
+#: plugins/livejournal/livejournal.cpp:1449
 msgid "giddy"
 msgstr "легкомысленный"
 
-#: plugins/livejournal/livejournal.cpp:1227
+#: plugins/livejournal/livejournal.cpp:1450
 msgid "surprised"
 msgstr "удивленный"
 
-#: plugins/livejournal/livejournal.cpp:1228
+#: plugins/livejournal/livejournal.cpp:1451
 msgid "shocked"
 msgstr "шокированный"
 
 # libicq/country.cpp:153
-#: plugins/livejournal/livejournal.cpp:1229
+#: plugins/livejournal/livejournal.cpp:1452
 msgid "rejected"
 msgstr "отклоненный"
 
-#: plugins/livejournal/livejournal.cpp:1230
+#: plugins/livejournal/livejournal.cpp:1453
 msgid "numb"
 msgstr "оцепенелый"
 
-#: plugins/livejournal/livejournal.cpp:1231
+#: plugins/livejournal/livejournal.cpp:1454
 msgid "cheerful"
 msgstr "веселый"
 
-#: plugins/livejournal/livejournal.cpp:1232
+#: plugins/livejournal/livejournal.cpp:1455
 msgid "good"
 msgstr "хороший"
 
-#: plugins/livejournal/livejournal.cpp:1233
+#: plugins/livejournal/livejournal.cpp:1456
 msgid "distressed"
 msgstr "обеспокоенный"
 
-#: plugins/livejournal/livejournal.cpp:1234
+#: plugins/livejournal/livejournal.cpp:1457
 msgid "intimidated"
 msgstr "запуганный"
 
-#: plugins/livejournal/livejournal.cpp:1235
+#: plugins/livejournal/livejournal.cpp:1458
 msgid "crushed"
 msgstr "сокрушенный"
 
 # libicq/country.cpp:227
-#: plugins/livejournal/livejournal.cpp:1236
+#: plugins/livejournal/livejournal.cpp:1459
 msgid "devious"
 msgstr "окольный"
 
-#: plugins/livejournal/livejournal.cpp:1237
+#: plugins/livejournal/livejournal.cpp:1460
 msgid "thankful"
 msgstr "благодарный"
 
 # libicq/country.cpp:231
-#: plugins/livejournal/livejournal.cpp:1238
+#: plugins/livejournal/livejournal.cpp:1461
 msgid "grateful"
 msgstr "благодарный"
 
-#: plugins/livejournal/livejournal.cpp:1239
+#: plugins/livejournal/livejournal.cpp:1462
 msgid "jealous"
 msgstr "ревнивый"
 
 # mainwin.cpp:1693 mainwin.cpp:2368
-#: plugins/livejournal/livejournal.cpp:1240
+#: plugins/livejournal/livejournal.cpp:1463
 msgid "nervous"
 msgstr "нервный"
 
-#: plugins/livejournal/livejournal.cpp:1242
+#: plugins/livejournal/livejournal.cpp:1465
 msgid "Recent Entries"
 msgstr "Недавние записи"
 
-#: plugins/livejournal/livejournal.cpp:1243
+#: plugins/livejournal/livejournal.cpp:1466
 msgid "Calendar View"
 msgstr "Просмотр календаря"
 
-#: plugins/livejournal/livejournal.cpp:1244
+#: plugins/livejournal/livejournal.cpp:1467
 msgid "Friends View"
 msgstr "Список друзей"
 
-#: plugins/livejournal/livejournal.cpp:1245
+#: plugins/livejournal/livejournal.cpp:1468
 msgid "Your Profile"
 msgstr "Ваш профиль"
 
-#: plugins/livejournal/livejournal.cpp:1246
+#: plugins/livejournal/livejournal.cpp:1469
 msgid "Your To-Do List"
 msgstr "Ваш To Do"
 
 # userbox.cpp:189
-#: plugins/livejournal/livejournal.cpp:1247
+#: plugins/livejournal/livejournal.cpp:1470
 msgid "Change Settings"
 msgstr "Установки"
 
 # libicq/country.cpp:351 libicq/country.cpp:436
-#: plugins/livejournal/livejournal.cpp:1248
+#: plugins/livejournal/livejournal.cpp:1471
 msgid "Support"
 msgstr "Поддержка"
 
-#: plugins/livejournal/livejournal.cpp:1249
+#: plugins/livejournal/livejournal.cpp:1472
 msgid "Personal Info"
 msgstr "Персональная информация"
 
 # msgedit.cpp:413
-#: plugins/livejournal/livejournal.cpp:1250
+#: plugins/livejournal/livejournal.cpp:1473
 msgid "Journal Settings"
 msgstr "Установки журнала"
 
-#: plugins/livejournal/livejournalcfg.cpp:35
+#: plugins/livejournal/livejournalcfg.cpp:36
 msgid "Register new user"
 msgstr "Зарегистрировать новый журнал"
+
+#: plugins/livejournal/msgjournal.cpp:150
+#, fuzzy
+msgid "Remove record from journal?"
+msgstr "&Удалить из журнала"
 
 #: plugins/livejournal/msgjournalbase.cpp:110
 msgid "Subject:"
@@ -9103,21 +9157,25 @@ msgstr "Приватный"
 msgid "Mood:"
 msgstr "Настроение:"
 
-#: plugins/livejournal/livejournalcfgbase.cpp:205
+#: plugins/livejournal/livejournalcfgbase.cpp:210
 msgid "&LiveJournal"
 msgstr "&Живой журнал"
 
-#: plugins/livejournal/livejournalcfgbase.cpp:207
+#: plugins/livejournal/livejournalcfgbase.cpp:212
 msgid "Path:"
 msgstr "Путь:"
 
 # client.cpp:994 mainwin.cpp:2345
-#: plugins/livejournal/livejournalcfgbase.cpp:210
+#: plugins/livejournal/livejournalcfgbase.cpp:215
 msgid "Check interval:"
 msgstr "Интервал проверки:"
 
 # libicq/country.cpp:335 libicq/country.cpp:416
-#: plugins/livejournal/livejournalcfgbase.cpp:211
+#: plugins/livejournal/livejournalcfgbase.cpp:216
 msgid "minutes"
 msgstr "минут"
+
+#: plugins/livejournal/livejournalcfgbase.cpp:217
+msgid "Use &fast server - only for paying customers"
+msgstr ""
 

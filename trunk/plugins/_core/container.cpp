@@ -403,6 +403,7 @@ void Container::contactSelected(int)
     if (userWnd == NULL)
         return;
     m_wnds->raiseWidget(userWnd);
+    userWnd->setFocus();
     m_bar->setParam((void*)userWnd->id());
     QString name = userWnd->getName();
     Command cmd;
@@ -831,10 +832,12 @@ list<UserWnd*> UserTabBar::windows()
 void UserTabBar::setCurrent(unsigned n)
 {
     n++;
-    for (unsigned i = 0; (i < (unsigned)count()) && (n > 0); i++){
+    unsigned m = 0;
+    for (unsigned i = 0; (m < (unsigned)count()) && (n > 0); i++){
         QTab *t = tab(i);
         if (t == NULL)
             continue;
+        m++;
         if (--n == 0){
             setCurrentTab(t);
         }

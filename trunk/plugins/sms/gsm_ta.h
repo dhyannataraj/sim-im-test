@@ -30,6 +30,17 @@ typedef struct OpInfo
     string		param;
 } OpInfo;
 
+class Phonebook
+{
+public:
+	Phonebook();
+	unsigned m_size;
+	unsigned m_used;
+	unsigned m_numberSize;
+	unsigned m_nameSize;
+	vector<bool> m_entries;
+};
+
 class GsmTA : public QObject
 {
     Q_OBJECT
@@ -37,13 +48,17 @@ public:
     GsmTA(QObject *parent);
     ~GsmTA();
     bool open(const char *device, int baudrate, bool bXonXoff, const char *init);
-    string info();
+    string model();
+	string oper();
     void getPhoneBook();
     void setPhoneBookEntry(unsigned index, const QString &phone, const QString &name);
 signals:
     void init_done();
     void error();
-    void phonebookEntry(int index, const QString &phone, const QString &name);
+	void phoneCall(const QString &phone);
+    void phonebookEntry(int index, int type, const QString &phone, const QString &name);
+	void quality(unsigned);
+	void charge(bool, unsigned);
 protected slots:
     void write_ready();
     void read_ready();
@@ -58,6 +73,9 @@ protected:
         Init2,
         Init3,
         Init4,
+		Init5,
+		Init6,
+		Init7,
         Info1,
         Info2,
         Info3,
@@ -68,6 +86,7 @@ protected:
         OpInfo2,
         Connected,
         Ping,
+		PhoneBook,
         PhoneBook1,
         PhoneBook2,
         PhoneBook3,
@@ -79,8 +98,9 @@ protected:
     bool isError(const char *answer);
     bool isChatOK(const char *amswer, const char *response = NULL,
                   bool bIgnoreErrors = false, bool bAcceptEmptyResponse = false);
-    bool isChatResponse(const char *amswer, const char *response = NULL,
+    bool isChatResponse(const char *answer, const char *response = NULL,
                         bool bIgnoreErrors = false);
+	bool isIncoming(const char *answer);
     bool matchResponse(string &answer, const char *responseToMatch);
     void processQueue();
     void parseEntriesList(const char *answ);
@@ -100,8 +120,9 @@ protected:
     string			m_response;
     string			m_charset;
     list<OpInfo>	m_queue;
-    unsigned		m_bookSize;
-    vector<bool>	m_bookEntries;
+	Phonebook		m_books[2];
+	Phonebook		*m_book;
+	unsigned		m_bookType;
     QTimer			*m_timer;
     SerialPort		*m_port;
 };

@@ -160,16 +160,14 @@ void *FilterPlugin::processEvent(Event *e)
             return NULL;
         Contact *contact = getContacts()->contact(msg->contact());
         FilterUserData *data = NULL;
-        if (!contact) {
-            delete msg;
-            return msg;
-        }
         // check if we accept only from users on the list
-        if (getFromList() && contact->getTemporary()){
+        if (getFromList() && ((contact == NULL) || contact->getTemporary())){
             delete msg;
             delete contact;
             return msg;
         }
+        if (!contact)
+            return NULL;
         // check if the user is a ignored user
         if (contact->getIgnore()){
             delete msg;

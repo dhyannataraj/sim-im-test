@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>330</width>
+            <width>326</width>
             <height>265</height>
         </rect>
     </property>
@@ -345,7 +345,7 @@
                             <string>minutes</string>
                         </property>
                     </widget>
-                    <spacer row="1"  column="1" >
+                    <spacer row="2"  column="1" >
                         <property>
                             <name>name</name>
                             <cstring>Spacer5</cstring>
@@ -366,6 +366,17 @@
                             </size>
                         </property>
                     </spacer>
+                    <widget row="1"  column="0"  rowspan="1"  colspan="3" >
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkFastServer</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Use &amp;fast server - only for paying customers</string>
+                        </property>
+                    </widget>
                 </grid>
             </widget>
         </widget>

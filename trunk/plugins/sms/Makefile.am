@@ -7,6 +7,8 @@ sms_la_SOURCES = \
  gsm_ta.cpp \
  serial.cpp 
 
+SUBDIRS=sounds
+
 INCLUDES=-I../../sim/api -I../../sim/ui -I../_core $(all_includes)
 
 sms_la_METASOURCES = AUTO

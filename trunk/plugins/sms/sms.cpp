@@ -19,6 +19,7 @@
 #include "smssetup.h"
 #include "serial.h"
 #include "gsm_ta.h"
+#include "core.h"
 
 #include "xpm/cell_off.xpm"
 #include "xpm/cell_on.xpm"
@@ -33,6 +34,7 @@ static DataDef _smsUserData[] =
         { "", DATA_UTF, 1, 0 },				// Name
         { "", DATA_UTF, 1, 0 },
         { "", DATA_ULONG, 1, 0 },			// Index
+        { "", DATA_ULONG, 1, 0 },			// Type
         { NULL, 0, 0, 0 }
     };
 
@@ -58,6 +60,27 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 
 unsigned SMSPlugin::SerialPacket = 0;
 
+static Message *createPhoneCall(const char *cfg)
+{
+    return new Message(MessagePhoneCall, cfg);
+}
+
+static MessageDef defPhoneCall =
+    {
+        NULL,
+        NULL,
+        MESSAGE_INFO,
+        "Phone call",
+        "%n phone calls",
+        createPhoneCall,
+        NULL,
+        NULL
+    };
+
+#if 0
+i18n("Phone call", "%n phone calls", 1);
+#endif
+
 SMSPlugin::SMSPlugin(unsigned base)
         : Plugin(base)
 {
@@ -80,6 +103,16 @@ SMSPlugin::SMSPlugin(unsigned base)
     SerialPacket = registerType();
     getContacts()->addPacketType(SerialPacket, "Serial port", true);
 
+    Command cmd;
+    cmd->id			 = MessagePhoneCall;
+    cmd->text		 = I18N_NOOP("Phone call");
+    cmd->icon		 = "phone";
+    cmd->flags		 = COMMAND_DEFAULT;
+    cmd->param		 = &defPhoneCall;
+
+    Event eMsg(EventCreateMessageType, cmd);
+    eMsg.process();
+
     m_protocol = new SMSProtocol(this);
 }
 
@@ -87,6 +120,8 @@ SMSPlugin::~SMSPlugin()
 {
     delete m_protocol;
     getContacts()->removePacketType(SerialPacket);
+    Event eCall(EventRemoveMessageType, (void*)MessagePhoneCall);
+    eCall.process();
 }
 
 SMSProtocol::SMSProtocol(Plugin *plugin)
@@ -194,6 +229,9 @@ static DataDef smsClientData[] =
         { "InitString", DATA_STRING, 1, (unsigned)"E0" },
         { "BaudRate", DATA_ULONG, 1, 19200 },
         { "XonXoff", DATA_BOOL, 1, 0 },
+        { "", DATA_ULONG, 1, 0 },		// Charge
+        { "", DATA_BOOL, 1, 0 },		// Charging
+        { "", DATA_ULONG, 1, 0 },		// Quality
         { NULL, 0, 0, 0 }
     };
 
@@ -202,6 +240,9 @@ SMSClient::SMSClient(Protocol *protocol, const char *cfg)
 {
     load_data(smsClientData, &data, cfg);
     m_ta = NULL;
+    m_call = NULL;
+    m_callTimer = new QTimer(this);
+    connect(m_callTimer, SIGNAL(timeout()), this, SLOT(callTimeout()));
 }
 
 SMSClient::~SMSClient()
@@ -221,11 +262,27 @@ string SMSClient::getConfig()
     return cfg;
 }
 
+string SMSClient::model()
+{
+    if (getState() == Connected)
+        return m_ta->model();
+    return "";
+}
+
+string SMSClient::oper()
+{
+    if (getState() == Connected)
+        return m_ta->oper();
+    return "";
+}
+
 string SMSClient::name()
 {
     string res = "SMS.";
     if (getState() == Connected){
-        res += m_ta->info();
+        res += model();
+        res += " ";
+        res += oper();
     }else{
         res += getDevice();
     }
@@ -348,14 +405,17 @@ void SMSClient::setStatus(unsigned status)
     m_ta = new GsmTA(this);
     connect(m_ta, SIGNAL(init_done()), this, SLOT(init()));
     connect(m_ta, SIGNAL(error()), this, SLOT(error()));
-    connect(m_ta, SIGNAL(phonebookEntry(int, const QString&, const QString&)), this, SLOT(phonebookEntry(int, const QString&, const QString&)));
+    connect(m_ta, SIGNAL(phonebookEntry(int, int, const QString&, const QString&)), this, SLOT(phonebookEntry(int, int, const QString&, const QString&)));
+    connect(m_ta, SIGNAL(charge(bool, unsigned)), this, SLOT(charge(bool, unsigned)));
+    connect(m_ta, SIGNAL(quality(unsigned)), this, SLOT(quality(unsigned)));
+    connect(m_ta, SIGNAL(phoneCall(const QString&)), this, SLOT(phoneCall(const QString&)));
     if (!m_ta->open(getDevice(), getBaudRate(), getXonXoff(), getInitString())){
         error_state("Can't open port", 0);
         return;
     }
 }
 
-void SMSClient::phonebookEntry(int index, const QString &phone, const QString &name)
+void SMSClient::phonebookEntry(int index, int type, const QString &phone, const QString &name)
 {
     bool bNew = false;
     Contact *contact;
@@ -367,36 +427,38 @@ void SMSClient::phonebookEntry(int index, const QString &phone, const QString &n
             if (name == QString::fromUtf8(data->Name))
                 break;
         }
-        if (data){
-            QString phones = contact->getPhones();
-            bool bFound = false;
-            while (!phones.isEmpty()){
-                QString item = getToken(phones, ';', false);
-                QString number = getToken(item, ',');
-                if (number == phone){
-                    bFound = true;
-                    break;
-                }
-            }
-            if (!bFound)
-                contact->setPhones(contact->getPhones() + ";" + phone + ",,2/-");
+        if (data)
             break;
-        }
     }
     if (contact == NULL){
         contact = getContacts()->contactByPhone(phone.latin1());
         if (contact->getTemporary()){
             bNew = true;
             contact->setTemporary(0);
-            contact = getContacts()->contact(0, true);
             contact->setName(name);
-            contact->setPhones(phone + ",,2/-");
         }
+    }
+    QString phones = contact->getPhones();
+    bool bFound = false;
+    while (!phones.isEmpty()){
+        QString item = getToken(phones, ';', false);
+        QString number = getToken(item, ',');
+        if (number == phone){
+            bFound = true;
+            break;
+        }
+    }
+    if (!bFound){
+        phones = contact->getPhones();
+        if (!phones.isEmpty())
+            phones += ";";
+        contact->setPhones(phones + phone + ",,2/-");
     }
     smsUserData *data = (smsUserData*)contact->clientData.createData(this);
     set_str(&data->Phone, phone.utf8());
     set_str(&data->Name, name.utf8());
     data->Index = index;
+    data->Type  = type;
     if (bNew){
         Event e(EventContactChanged, contact);
         e.process();
@@ -434,6 +496,101 @@ void SMSClient::init()
     m_status = STATUS_ONLINE;
     setState(Connected);
     m_ta->getPhoneBook();
+}
+
+void SMSClient::charge(bool bCharge, unsigned capacity)
+{
+    bool bChange = false;
+    if (bCharge != getCharging()){
+        bChange = true;
+        setCharging(bCharge);
+    }
+    if (capacity != getCharge()){
+        bChange = true;
+        setCharge(capacity);
+    }
+    if (bChange){
+        Event e(EventClientChanged, this);
+        e.process();
+    }
+}
+
+void SMSClient::quality(unsigned quality)
+{
+    if (quality != getQuality()){
+        setQuality(quality);
+        Event e(EventClientChanged, this);
+        e.process();
+    }
+}
+
+void SMSClient::phoneCall(const QString &number)
+{
+    if (m_call && (number == m_callNumber))
+        return;
+    if (m_call){
+        m_callTimer->stop();
+        Event e(EventMessageDeleted, m_call);
+        e.process();
+        delete m_call;
+        m_call = NULL;
+    }
+    m_callNumber = number;
+    m_call = new Message(MessagePhoneCall);
+    if (!number.isEmpty()){
+        bool bNew = false;
+        Contact *contact = getContacts()->contactByPhone(number.latin1());
+        if (contact->getTemporary()){
+            bNew = true;
+            contact->setTemporary(0);
+            contact->setName(number);
+        }
+        QString phones = contact->getPhones();
+        bool bFound = false;
+        while (!phones.isEmpty()){
+            QString item = getToken(phones, ';', false);
+            QString phone = getToken(item, ',');
+            if (number == phone){
+                bFound = true;
+                break;
+            }
+        }
+        if (!bFound){
+            phones = contact->getPhones();
+            if (!phones.isEmpty())
+                phones += ";";
+            contact->setPhones(phones + number + ",,2/-");
+        }
+        if (bNew){
+            Event e(EventContactChanged, contact);
+            e.process();
+        }
+        m_call->setContact(contact->id());
+    }
+    m_call->setFlags(MESSAGE_RECEIVED | MESSAGE_TEMP);
+    Event e(EventMessageReceived, m_call);
+    if (e.process()){
+        m_call = NULL;
+        return;
+    }
+    m_bCall = false;
+    m_callTimer->start(12000);
+}
+
+void SMSClient::callTimeout()
+{
+    if (m_bCall){
+        m_bCall = false;
+        return;
+    }
+    if (m_call == NULL)
+        return;
+    Event e(EventMessageDeleted, m_call);
+    e.process();
+    delete m_call;
+    m_call = NULL;
+    m_callTimer->stop();
+    m_callNumber = "";
 }
 
 #ifdef WIN32

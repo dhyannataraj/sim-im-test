@@ -97,17 +97,7 @@ SOURCE=.\gsm_ta.cpp
 # Begin Source File
 
 SOURCE=.\moc_gsm_ta.cpp
-
-!IF  "$(CFG)" == "sms - Win32 Release"
-
 # ADD CPP /W3
-
-!ELSEIF  "$(CFG)" == "sms - Win32 Debug"
-
-# ADD CPP /W3
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -359,6 +349,39 @@ BuildCmds= \
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# End Group
+# Begin Group "sounds"
+
+# PROP Default_Filter "wav"
+# Begin Source File
+
+SOURCE=.\sounds\phone.wav
+
+!IF  "$(CFG)" == "sms - Win32 Release"
+
+# Begin Custom Build - Copy $(InputPath)
+OutDir=.\..\..\Release
+InputPath=.\sounds\phone.wav
+
+"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /Y $(InputPath) $(OutDir)\$(InputPath)
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sms - Win32 Debug"
+
+# Begin Custom Build - Copy $(InputPath)
+OutDir=.\..\..\Debug
+InputPath=.\sounds\phone.wav
+
+"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /Y $(InputPath) $(OutDir)\$(InputPath)
+
 # End Custom Build
 
 !ENDIF 

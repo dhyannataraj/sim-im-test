@@ -56,6 +56,7 @@ UserWnd::UserWnd(unsigned id, const char *cfg, bool bReceived)
     if (CorePlugin::m_plugin->getContainerMode())
         bReceived = false;
     m_edit = new MsgEdit(m_splitter, this);
+    setFocusProxy(m_edit);
     restoreToolbar(m_edit->m_bar, data.editBar);
     m_edit->m_bar->show();
     m_bBarChanged = false;

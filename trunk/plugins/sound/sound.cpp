@@ -263,9 +263,12 @@ void *SoundPlugin::processEvent(Event *e)
         if (msg->getFlags() & MESSAGE_LIST)
             return NULL;
         Contact *contact = getContacts()->contact(msg->contact());
-        if (contact == NULL)
-            return NULL;
-        SoundUserData *data = (SoundUserData*)(contact->getUserData(user_data_id));
+        SoundUserData *data;
+        if (contact){
+            data = (SoundUserData*)(contact->getUserData(user_data_id));
+        }else{
+            data = (SoundUserData*)(getContacts()->getUserData(user_data_id));
+        }
         bool bEnable = (data->Disable == 0);
         if (bEnable && data->NoSoundIfActive){
             Event e(EventActiveContact);
@@ -323,7 +326,7 @@ string SoundPlugin::fullName(const char *name)
     if (((((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z'))) && (name[1] == ':')) ||
             ((c == '\\') && (name[1] == '\\'))){
 #else
-    if (name[0] == '/'){
+if (name[0] == '/'){
 #endif
         sound = name;
     }else{

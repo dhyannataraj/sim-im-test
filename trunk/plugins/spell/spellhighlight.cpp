@@ -33,7 +33,6 @@ SpellHighlighter::SpellHighlighter(QTextEdit *edit, SpellPlugin *plugin)
     m_plugin = plugin;
     m_bCheck = false;
     m_bDisable = false;
-    m_words.setAutoDelete(false);
 }
 
 SpellHighlighter::~SpellHighlighter()
@@ -57,9 +56,6 @@ int SpellHighlighter::highlightParagraph(const QString&, int state)
     parse(textEdit()->text(m_paragraph));
     return state + 1;
 }
-
-const bool WORD_OK  = true;
-const bool WORD_BAD = false;
 
 void SpellHighlighter::text(const QString &text)
 {
@@ -87,8 +83,8 @@ void SpellHighlighter::text(const QString &text)
                 if (m_bDisable) {
                     setFormat(start, m_pos - start, static_cast<TextEdit*>(textEdit())->defForeground());
                 }else if (m_parag == m_paragraph){
-                    bool *state = m_words.find(word);
-                    if ((state == NULL) || *state)
+                    MAP_BOOL::iterator it = m_words.find(my_string(word.utf8()));
+                    if ((it == m_words.end()) || (*it).second)
                         setFormat(start, m_pos - start, static_cast<TextEdit*>(textEdit())->defForeground());
                 }
             }
@@ -97,16 +93,16 @@ void SpellHighlighter::text(const QString &text)
                 if (m_bError)
                     setFormat(start, m_pos - start, static_cast<TextEdit*>(textEdit())->defForeground());
             }else{
-                bool *state = m_words.find(word);
-                if (state){
-                    if (!*state){
+                MAP_BOOL::iterator it = m_words.find(my_string(word.utf8()));
+                if (it != m_words.end()){
+                    if (!(*it).second){
                         setFormat(start, m_pos - start, QColor(ErrorColor));
                     }else if (m_bError){
                         setFormat(start, m_pos - start, static_cast<TextEdit*>(textEdit())->defForeground());
                     }
                 }else{
-                    m_words.insert(word, &WORD_OK);
-                    if (m_plugin->m_ignore.find(m_word) == NULL)
+                    m_words.insert(MAP_BOOL::value_type(my_string(word.utf8()), true));
+                    if (m_plugin->m_ignore.find(my_string(word.utf8())) == m_plugin->m_ignore.end())
                         emit check(word);
                 }
             }
@@ -150,10 +146,14 @@ void SpellHighlighter::tag_end(const QString &tag)
 
 void SpellHighlighter::slotMisspelling(const QString &word)
 {
-    bool *state = m_words.find(word);
-    if (state)
-        m_words.remove(word);
-    m_words.insert(word, &WORD_BAD);
+    MAP_BOOL::iterator it = m_words.find(my_string(word.utf8()));
+    if (it == m_words.end()){
+        m_words.insert(MAP_BOOL::value_type(my_string(word.utf8()), false));
+    }else{
+        if (!(*it).second)
+            return;
+        (*it).second = false;
+    }
     m_bDirty = true;
     QTimer::singleShot(300, this, SLOT(reformat()));
 }
@@ -232,19 +232,28 @@ void *SpellHighlighter::processEvent(Event *e)
                 return NULL;
             if (cmd->id == m_plugin->CmdSpell){
                 m_plugin->add(m_word);
-                bool *state = m_words.find(m_word);
-                if (state)
-                    m_words.remove(m_word);
-                m_words.insert(m_word, &WORD_OK);
+                MAP_BOOL::iterator it = m_words.find(my_string(m_word.utf8()));
+                if (it == m_words.end()){
+                    m_words.insert(MAP_BOOL::value_type(my_string(m_word.utf8()), true));
+                }else{
+                    if ((*it).second)
+                        return NULL;
+                    (*it).second = true;
+                }
                 m_bDirty = true;
                 QTimer::singleShot(300, this, SLOT(reformat()));
             }else  if (cmd->id == m_plugin->CmdSpell + 1){
-                bool *state = m_plugin->m_ignore.find(m_word);
-                if (state == NULL)
-                    m_plugin->m_ignore.insert(m_word, &WORD_OK);
-                state = m_words.find(m_word);
-                if (state)
-                    m_words.remove(m_word);
+                MAP_BOOL::iterator it = m_plugin->m_ignore.find(my_string(m_word.utf8()));
+                if (it == m_plugin->m_ignore.end())
+                    m_plugin->m_ignore.insert(MAP_BOOL::value_type(my_string(m_word.utf8()), true));
+                it = m_words.find(my_string(m_word.utf8()));
+                if (it == m_words.end()){
+                    m_words.insert(MAP_BOOL::value_type(my_string(m_word.utf8()), true));
+                }else{
+                    if ((*it).second)
+                        return NULL;
+                    (*it).second = true;
+                }
                 m_bDirty = true;
                 QTimer::singleShot(300, this, SLOT(reformat()));
             }else{

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-01-06 04:52+0300\n"
+"POT-Creation-Date: 2004-01-08 05:44+0300\n"
 "PO-Revision-Date: 2003-09-17 18:18+0100\n"
 "Last-Translator: Pau Bosch i Crespo <paubcrespo@hotmail.com>\n"
 "Language-Team: LANGUAGE <paubcrespo@hotmail.com>\n"
@@ -1269,7 +1269,7 @@ msgstr "&Defineix els colors actuals >>"
 msgid "OK"
 msgstr "D'acord"
 
-#: plugins/_core/msgedit.cpp:900 sim/ui/qt3/i18n.cpp:23
+#: plugins/_core/msgedit.cpp:901 sim/ui/qt3/i18n.cpp:23
 msgid "Cancel"
 msgstr "Anul·la"
 
@@ -2011,8 +2011,8 @@ msgstr "ICQ"
 #: plugins/icq/icq.cpp:280 plugins/icq/icqclient.cpp:1483
 #: plugins/icq/icqclient.cpp:1517 plugins/jabber/jabber.cpp:115
 #: plugins/jabber/jabberclient.cpp:1423 plugins/jabber/services.cpp:235
-#: plugins/livejournal/livejournal.cpp:275 plugins/msn/msn.cpp:89
-#: plugins/msn/msnclient.cpp:1559 plugins/sms/sms.cpp:132
+#: plugins/livejournal/livejournal.cpp:321 plugins/msn/msn.cpp:89
+#: plugins/msn/msnclient.cpp:1559 plugins/sms/sms.cpp:167
 msgid "Online"
 msgstr "En línia"
 
@@ -2042,8 +2042,8 @@ msgstr "Lliure per xatejar"
 #: plugins/_core/userlist.cpp:582 plugins/_core/userviewcfgbase.cpp:287
 #: plugins/icq/icq.cpp:200 plugins/icq/icq.cpp:310
 #: plugins/icq/icqclient.cpp:1480 plugins/jabber/jabber.cpp:190
-#: plugins/jabber/services.cpp:232 plugins/livejournal/livejournal.cpp:290
-#: plugins/msn/msn.cpp:194 plugins/sms/sms.cpp:147
+#: plugins/jabber/services.cpp:232 plugins/livejournal/livejournal.cpp:336
+#: plugins/msn/msn.cpp:194 plugins/sms/sms.cpp:182
 msgid "Offline"
 msgstr "Fora de línia"
 
@@ -2068,7 +2068,7 @@ msgstr "&Mostra totes les codificacions"
 msgid "Change &encoding"
 msgstr "&Canvia la codificació"
 
-#: plugins/_core/msgedit.cpp:1563 plugins/icq/icq.cpp:552
+#: plugins/_core/msgedit.cpp:1564 plugins/icq/icq.cpp:552
 #: plugins/jabber/jabber.cpp:393
 msgid "&Message"
 msgstr "&Missatge"
@@ -2630,7 +2630,7 @@ msgstr "Revisa invisible"
 msgid "Warning"
 msgstr "&Avisos"
 
-#: plugins/_core/msgedit.cpp:1582 plugins/icq/icqmessage.cpp:1039
+#: plugins/_core/msgedit.cpp:1583 plugins/icq/icqmessage.cpp:1039
 msgid "&URL"
 msgstr "&URL"
 
@@ -3430,7 +3430,7 @@ msgstr "Construcció web"
 #: plugins/jabber/jabberpicturebase.cpp:133
 #: plugins/jabber/jabberworkinfobase.cpp:119
 #: plugins/jabber/servicesbase.cpp:166
-#: plugins/livejournal/livejournalcfgbase.cpp:202
+#: plugins/livejournal/livejournalcfgbase.cpp:207
 #: plugins/livejournal/msgjournalbase.cpp:109
 #: plugins/logger/logconfigbase.cpp:126 plugins/msn/msninfobase.cpp:160
 #: plugins/msn/msnsearchbase.cpp:109 plugins/navigate/navcfgbase.cc:95
@@ -3462,7 +3462,7 @@ msgstr "&Rerefons"
 
 #: plugins/_core/logindlg.cpp:263 plugins/icq/aimconfigbase.cc:150
 #: plugins/icq/icqconfigbase.cc:218 plugins/jabber/jabberconfigbase.cpp:308
-#: plugins/livejournal/livejournalcfgbase.cpp:204
+#: plugins/livejournal/livejournalcfgbase.cpp:209
 #: plugins/msn/msnconfigbase.cpp:201 plugins/proxy/proxycfgbase.cpp:172
 msgid "Password:"
 msgstr "Contrassenya:"
@@ -3483,7 +3483,7 @@ msgstr "&ICQ"
 #: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:222
 #: plugins/jabber/jabberconfigbase.cpp:311
 #: plugins/jabber/jabberconfigbase.cpp:315
-#: plugins/livejournal/livejournalcfgbase.cpp:206
+#: plugins/livejournal/livejournalcfgbase.cpp:211
 #: plugins/msn/msnconfigbase.cpp:203
 msgid "Server:"
 msgstr "Servidor:"
@@ -3491,9 +3491,9 @@ msgstr "Servidor:"
 #: plugins/icq/aimconfigbase.cc:152 plugins/icq/icqconfigbase.cc:223
 #: plugins/jabber/jabberconfigbase.cpp:312
 #: plugins/jabber/jabberconfigbase.cpp:316
-#: plugins/livejournal/livejournalcfgbase.cpp:208
+#: plugins/livejournal/livejournalcfgbase.cpp:213
 #: plugins/msn/msnconfigbase.cpp:204 plugins/proxy/proxycfgbase.cpp:169
-#: plugins/remote/remotecfgbase.cpp:129 plugins/sms/smssetupbase.cpp:136
+#: plugins/remote/remotecfgbase.cpp:129 plugins/sms/smssetupbase.cpp:180
 msgid "Port:"
 msgstr "Port:"
 
@@ -3511,7 +3511,7 @@ msgstr "-"
 
 #: plugins/icq/aimconfigbase.cc:154 plugins/icq/icqconfigbase.cc:226
 #: plugins/jabber/jabberconfigbase.cpp:321
-#: plugins/livejournal/livejournalcfgbase.cpp:209
+#: plugins/livejournal/livejournalcfgbase.cpp:214
 #: plugins/msn/msnconfigbase.cpp:207
 msgid "&Network"
 msgstr "&Treball en xarxa"
@@ -3541,7 +3541,7 @@ msgid "Automaticaly &request autoreply on change status"
 msgstr "Demana automàticament auto&resposta en canviar d'estat"
 
 #: plugins/icq/icqconfigbase.cc:233 plugins/jabber/jabberconfigbase.cpp:330
-#: plugins/livejournal/livejournalcfgbase.cpp:212
+#: plugins/livejournal/livejournalcfgbase.cpp:218
 msgid "&Options"
 msgstr "&Opcions"
 
@@ -4146,7 +4146,7 @@ msgstr "Configura el client %1"
 msgid "Container"
 msgstr "Contenidor"
 
-#: plugins/_core/container.cpp:654
+#: plugins/_core/container.cpp:655
 msgid "Contact typed message"
 msgstr "Contacta missatge teclejat"
 
@@ -4224,7 +4224,7 @@ msgstr "Grup"
 msgid "&History"
 msgstr "&Historial"
 
-#: plugins/_core/core.cpp:600 plugins/_core/msgedit.cpp:991
+#: plugins/_core/core.cpp:600 plugins/_core/msgedit.cpp:992
 msgid "&Send"
 msgstr "&Envia"
 
@@ -4236,11 +4236,11 @@ msgstr "&IInsereix ganyota"
 msgid "Send in &translit"
 msgstr ""
 
-#: plugins/_core/core.cpp:625 plugins/_core/msgedit.cpp:241
+#: plugins/_core/core.cpp:625 plugins/_core/msgedit.cpp:242
 msgid "C&lose after send"
 msgstr "&Tanca després d'enviar"
 
-#: plugins/_core/core.cpp:633 plugins/_core/msgedit.cpp:980
+#: plugins/_core/core.cpp:633 plugins/_core/msgedit.cpp:981
 msgid "&Multiply send"
 msgstr "&Enviament múltiple"
 
@@ -4277,7 +4277,7 @@ msgstr "Selecciona fitxer"
 msgid "&Phone number"
 msgstr "Afegeix el número de telèfon"
 
-#: plugins/_core/core.cpp:699 plugins/_core/msgedit.cpp:1440
+#: plugins/_core/core.cpp:699 plugins/_core/msgedit.cpp:1441
 #: plugins/jabber/jabber.cpp:448
 msgid "&Next"
 msgstr "&Següent"
@@ -4328,7 +4328,8 @@ msgstr "&Resposta"
 msgid "&Messages"
 msgstr "&Missatges"
 
-#: plugins/_core/core.cpp:942 plugins/_core/msgedit.cpp:1591
+#: plugins/_core/core.cpp:942 plugins/_core/msgedit.cpp:1592
+#: plugins/sms/smssetupbase.cpp:194
 msgid "&SMS"
 msgstr "&SMS"
 
@@ -4429,7 +4430,7 @@ msgstr ""
 msgid "&Separate"
 msgstr "&Separa"
 
-#: plugins/_core/core.cpp:2022 plugins/_core/userwnd.cpp:124
+#: plugins/_core/core.cpp:2022 plugins/_core/userwnd.cpp:125
 #, fuzzy, c-format
 msgid "from %1"
 msgstr "%1 des de %2"
@@ -4443,7 +4444,7 @@ msgid "Not available"
 msgstr "No disponible"
 
 #: plugins/_core/core.cpp:2273 plugins/dock/dockwnd.cpp:1168
-#: plugins/osd/osd.cpp:323
+#: plugins/osd/osd.cpp:327
 msgid "%1 from %2"
 msgstr "%1 des de %2"
 
@@ -4627,7 +4628,7 @@ msgid "New profile"
 msgstr "Perfil nou"
 
 #: plugins/_core/logindlg.cpp:443 plugins/jabber/jabberclient.cpp:1111
-#: plugins/livejournal/livejournal.cpp:821 plugins/msn/msnclient.cpp:612
+#: plugins/livejournal/livejournal.cpp:905 plugins/msn/msnclient.cpp:612
 msgid "Login failed"
 msgstr "Rellistre fallit"
 
@@ -4688,7 +4689,7 @@ msgstr "L'usuari es troba actualment disponible a:"
 msgid "Yes"
 msgstr "Sí"
 
-#: plugins/_core/msgedit.cpp:418 plugins/update/update.cpp:105
+#: plugins/_core/msgedit.cpp:419 plugins/update/update.cpp:105
 #, c-format
 msgid ""
 "_n: Message\n"
@@ -4697,7 +4698,7 @@ msgstr ""
 "_n: Missatge\n"
 "%n missatges"
 
-#: plugins/_core/msgedit.cpp:444
+#: plugins/_core/msgedit.cpp:445
 #, c-format
 msgid ""
 "_n: SMS\n"
@@ -4706,7 +4707,7 @@ msgstr ""
 "_n: SMS\n"
 "%n SMS"
 
-#: plugins/_core/msgedit.cpp:460
+#: plugins/_core/msgedit.cpp:461
 #, c-format
 msgid ""
 "_n: URL\n"
@@ -4715,7 +4716,7 @@ msgstr ""
 "_n: URL\n"
 "%n URLs"
 
-#: plugins/_core/msgedit.cpp:523
+#: plugins/_core/msgedit.cpp:524
 #, c-format
 msgid ""
 "_n: Contact list\n"
@@ -4724,7 +4725,7 @@ msgstr ""
 "_n:Llistat de contactes\n"
 "%n llistats de contactes"
 
-#: plugins/_core/msgedit.cpp:570
+#: plugins/_core/msgedit.cpp:571
 #, c-format
 msgid ""
 "_n: File\n"
@@ -4733,17 +4734,17 @@ msgstr ""
 "_n: Fitxer\n"
 "%n fitxers"
 
-#: plugins/_core/msgedit.cpp:577
+#: plugins/_core/msgedit.cpp:578
 #, fuzzy
 msgid "&Accept"
 msgstr "Mode d'acceptació"
 
-#: plugins/_core/msgedit.cpp:592
+#: plugins/_core/msgedit.cpp:593
 #, fuzzy
 msgid "&Decline"
 msgstr "&Direcció"
 
-#: plugins/_core/msgedit.cpp:645
+#: plugins/_core/msgedit.cpp:646
 #, c-format
 msgid ""
 "_n: Authorize request\n"
@@ -4752,15 +4753,15 @@ msgstr ""
 "_n: Sol·licitud d'autorització\n"
 "%n sol·licituds d'autorització"
 
-#: plugins/_core/msgedit.cpp:652
+#: plugins/_core/msgedit.cpp:653
 msgid "&Grant"
 msgstr "&Concesió"
 
-#: plugins/_core/msgedit.cpp:667
+#: plugins/_core/msgedit.cpp:668
 msgid "&Refuse"
 msgstr "&Refusa"
 
-#: plugins/_core/msgedit.cpp:715
+#: plugins/_core/msgedit.cpp:716
 #, c-format
 msgid ""
 "_n: Authorization granted\n"
@@ -4769,7 +4770,7 @@ msgstr ""
 "_n: Autorizació concedida\n"
 "%n autorizació concedida"
 
-#: plugins/_core/msgedit.cpp:736
+#: plugins/_core/msgedit.cpp:737
 #, c-format
 msgid ""
 "_n: Authorization refused\n"
@@ -4778,7 +4779,7 @@ msgstr ""
 "_n: Autorizació rebutjada\n"
 "%n autorizació rebutjada"
 
-#: plugins/_core/msgedit.cpp:757
+#: plugins/_core/msgedit.cpp:758
 #, c-format
 msgid ""
 "_n: Add to contacts\n"
@@ -4787,7 +4788,7 @@ msgstr ""
 "_n: Afegit al llistat de contactes\n"
 "%n afegits al llistat de contactes"
 
-#: plugins/_core/msgedit.cpp:778
+#: plugins/_core/msgedit.cpp:779
 #, c-format
 msgid ""
 "_n: Removed from contacts\n"
@@ -4796,7 +4797,7 @@ msgstr ""
 "_n: Extreu del llistat de contactes\n"
 "%n s'ha extret del llistat de contactes"
 
-#: plugins/_core/msgedit.cpp:799
+#: plugins/_core/msgedit.cpp:800
 #, c-format
 msgid ""
 "_n: Status changed\n"
@@ -4805,27 +4806,27 @@ msgstr ""
 "_n: Estat canviat\n"
 "%n cops que ha canviat l'estat"
 
-#: plugins/_core/msgedit.cpp:968
+#: plugins/_core/msgedit.cpp:969
 msgid "No such client for send message"
 msgstr "Sense client per enviar-li el missatge"
 
-#: plugins/_core/msgedit.cpp:1573 plugins/netmonitor/monitor.cpp:64
+#: plugins/_core/msgedit.cpp:1574 plugins/netmonitor/monitor.cpp:64
 msgid "&File"
 msgstr "&Fitxer"
 
-#: plugins/_core/msgedit.cpp:1600
+#: plugins/_core/msgedit.cpp:1601
 msgid "&Contact list"
 msgstr "&Llistat de contacte"
 
-#: plugins/_core/msgedit.cpp:1608
+#: plugins/_core/msgedit.cpp:1609
 msgid "&Authorization request"
 msgstr "Sol·licitud d'&autorització"
 
-#: plugins/_core/msgedit.cpp:1617
+#: plugins/_core/msgedit.cpp:1618
 msgid "&Grant autorization"
 msgstr "&Concedeix autorització"
 
-#: plugins/_core/msgedit.cpp:1626
+#: plugins/_core/msgedit.cpp:1627
 msgid "&Refuse autorization"
 msgstr "&Refusa autorització"
 
@@ -5324,8 +5325,7 @@ msgstr "Llistat de contactes"
 msgid "Messages"
 msgstr "Missatges"
 
-#: plugins/_core/interfacecfg.cpp:84 plugins/sms/sms.cpp:109
-#: plugins/sms/smssetupbase.cpp:149
+#: plugins/_core/interfacecfg.cpp:84 plugins/sms/sms.cpp:144
 msgid "SMS"
 msgstr "SMS"
 
@@ -5377,7 +5377,7 @@ msgstr ""
 msgid "Close after &transfer"
 msgstr "Tanca després de la &transferència"
 
-#: plugins/_core/userwnd.cpp:122
+#: plugins/_core/userwnd.cpp:123
 #, fuzzy, c-format
 msgid "to %1"
 msgstr "Col %1"
@@ -5614,7 +5614,7 @@ msgstr "Llistat d'ignorar"
 msgid "Ignore this phrase"
 msgstr "Llistat d'ignorar"
 
-#: plugins/filter/filter.cpp:227
+#: plugins/filter/filter.cpp:225
 #, fuzzy
 msgid "Add %1 to ignore list?"
 msgstr "Llistat d'ignorar"
@@ -6185,11 +6185,11 @@ msgstr ""
 msgid "&OSD"
 msgstr "&OSD"
 
-#: plugins/osd/osd.cpp:303
+#: plugins/osd/osd.cpp:306
 msgid "%1 is online"
 msgstr "%1 és en línia"
 
-#: plugins/osd/osd.cpp:307
+#: plugins/osd/osd.cpp:310
 msgid "%1 typed"
 msgstr "%1 teclejat"
 
@@ -6477,55 +6477,104 @@ msgstr ""
 msgid "New version SIM is released"
 msgstr ""
 
-#: plugins/sms/sms.cpp:429
+#: plugins/sms/sms.cpp:81
+#, c-format
+msgid ""
+"_n: Phone call\n"
+"%n phone calls"
+msgstr ""
+
+#: plugins/sms/sms.cpp:108
+#, fuzzy
+msgid "Phone call"
+msgstr "Telèfon"
+
+#: plugins/sms/sms.cpp:491
 #, fuzzy
 msgid "Port error"
 msgstr "Error de protocol"
 
-#: plugins/sms/smssetupbase.cpp:137
+#: plugins/sms/smssetup.cpp:52
+#, fuzzy
+msgid "Charging:"
+msgstr "Ploramiques"
+
+#: plugins/sms/smssetup.cpp:54
+msgid "Battery:"
+msgstr ""
+
+#: plugins/sms/smssetupbase.cpp:179
+#, fuzzy
+msgid "SMSSetup"
+msgstr "Configuració"
+
+#: plugins/sms/smssetupbase.cpp:181
 #, fuzzy
 msgid "Baudrate:"
 msgstr "Barbuda"
 
-#: plugins/sms/smssetupbase.cpp:139
+#: plugins/sms/smssetupbase.cpp:183
+msgid "115200"
+msgstr ""
+
+#: plugins/sms/smssetupbase.cpp:184
 msgid "38400"
 msgstr ""
 
-#: plugins/sms/smssetupbase.cpp:140
+#: plugins/sms/smssetupbase.cpp:185
 msgid "19200"
 msgstr ""
 
-#: plugins/sms/smssetupbase.cpp:141
+#: plugins/sms/smssetupbase.cpp:186
 msgid "9600"
 msgstr ""
 
-#: plugins/sms/smssetupbase.cpp:142
+#: plugins/sms/smssetupbase.cpp:187
 msgid "4800"
 msgstr ""
 
-#: plugins/sms/smssetupbase.cpp:143
+#: plugins/sms/smssetupbase.cpp:188
 msgid "2400"
 msgstr ""
 
-#: plugins/sms/smssetupbase.cpp:144
+#: plugins/sms/smssetupbase.cpp:189
 msgid "1200"
 msgstr ""
 
-#: plugins/sms/smssetupbase.cpp:145
+#: plugins/sms/smssetupbase.cpp:190
 msgid "600"
 msgstr ""
 
-#: plugins/sms/smssetupbase.cpp:146
+#: plugins/sms/smssetupbase.cpp:191
 msgid "300"
 msgstr ""
 
-#: plugins/sms/smssetupbase.cpp:147
+#: plugins/sms/smssetupbase.cpp:192
 msgid "Software handshake"
 msgstr ""
 
-#: plugins/sms/smssetupbase.cpp:148
+#: plugins/sms/smssetupbase.cpp:193
 msgid "Init string:"
 msgstr ""
+
+#: plugins/sms/smssetupbase.cpp:195
+#, fuzzy
+msgid "Model:"
+msgstr "Enviador:"
+
+#: plugins/sms/smssetupbase.cpp:196
+msgid "Signal quality:"
+msgstr ""
+
+#: plugins/sms/smssetupbase.cpp:198
+#, fuzzy
+msgid "Operator:"
+msgstr "Esperanto"
+
+#: plugins/sms/smssetupbase.cpp:199
+#, fuzzy
+msgid "&Phone"
+msgstr "&Telèfons:"
 
 #: plugins/jabber/addresult.cpp:32
 msgid "ID"
@@ -6629,7 +6678,7 @@ msgstr "Jabber"
 msgid "List of public servers"
 msgstr ""
 
-#: plugins/jabber/jabbermessage.cpp:53 plugins/livejournal/livejournal.cpp:102
+#: plugins/jabber/jabbermessage.cpp:53 plugins/livejournal/livejournal.cpp:103
 msgid "<p>Subject: %1</p>"
 msgstr "<p>Assumpte: %1</p>"
 
@@ -6984,7 +7033,7 @@ msgstr ""
 "%n fitxers"
 
 #: plugins/jabber/jabberconfigbase.cpp:309
-#: plugins/livejournal/livejournalcfgbase.cpp:203
+#: plugins/livejournal/livejournalcfgbase.cpp:208
 #, fuzzy
 msgid "Username:"
 msgstr "Nom d'usuari"
@@ -7203,671 +7252,674 @@ msgstr "Dibuix"
 msgid "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:51
-#: plugins/livejournal/livejournal.cpp:252
-msgid "LiveJournal"
-msgstr ""
-
-#: plugins/livejournal/livejournal.cpp:52
-#, fuzzy
-msgid "Plugin provides posting to LiveJournal"
-msgstr "El pedaç habilita la informació quant al SIM"
-
-#: plugins/livejournal/livejournal.cpp:108
+#: plugins/livejournal/livejournal.cpp:109
 #, c-format
 msgid ""
 "_n: LiveJournal post\n"
 "%n LiveJournal posts"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:125
+#: plugins/livejournal/livejournal.cpp:126
 msgid "&Remove from journal"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:200
+#: plugins/livejournal/livejournal.cpp:234
 msgid "LiveJournal &post"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:210
+#: plugins/livejournal/livejournal.cpp:244
 msgid "LiveJournal &WWW"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:552
+#: plugins/livejournal/livejournal.cpp:254
+#, fuzzy
+msgid "Friends updated"
+msgstr "Mostra llistat"
+
+#: plugins/livejournal/livejournal.cpp:298
+msgid "LiveJournal"
+msgstr ""
+
+#: plugins/livejournal/livejournal.cpp:608
 #, fuzzy
 msgid "Posting failed"
 msgstr "Rellistre fallit"
 
-#: plugins/livejournal/livejournal.cpp:1107
+#: plugins/livejournal/livejournal.cpp:1330
 #, fuzzy
 msgid "Invalid username"
 msgstr "Missatge invàlid"
 
-#: plugins/livejournal/livejournal.cpp:1109
+#: plugins/livejournal/livejournal.cpp:1332
 msgid "aggravated"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1110
+#: plugins/livejournal/livejournal.cpp:1333
 #, fuzzy
 msgid "angry"
 msgstr "Enfadat"
 
-#: plugins/livejournal/livejournal.cpp:1111
+#: plugins/livejournal/livejournal.cpp:1334
 #, fuzzy
 msgid "annoyed"
 msgstr "Empipat"
 
-#: plugins/livejournal/livejournal.cpp:1112
+#: plugins/livejournal/livejournal.cpp:1335
 #, fuzzy
 msgid "anxious"
 msgstr "Danès"
 
-#: plugins/livejournal/livejournal.cpp:1113
+#: plugins/livejournal/livejournal.cpp:1336
 #, fuzzy
 msgid "bored"
 msgstr "negreta"
 
-#: plugins/livejournal/livejournal.cpp:1114
+#: plugins/livejournal/livejournal.cpp:1337
 #, fuzzy
 msgid "confused"
 msgstr "Icones"
 
-#: plugins/livejournal/livejournal.cpp:1115
+#: plugins/livejournal/livejournal.cpp:1338
 msgid "crappy"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1116
+#: plugins/livejournal/livejournal.cpp:1339
 #, fuzzy
 msgid "cranky"
 msgstr "Alemanya"
 
-#: plugins/livejournal/livejournal.cpp:1117
+#: plugins/livejournal/livejournal.cpp:1340
 msgid "depressed"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1118
+#: plugins/livejournal/livejournal.cpp:1341
 #, fuzzy
 msgid "discontent"
 msgstr "Àudio"
 
-#: plugins/livejournal/livejournal.cpp:1119
+#: plugins/livejournal/livejournal.cpp:1342
 msgid "energetic"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1120
+#: plugins/livejournal/livejournal.cpp:1343
 msgid "enraged"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1121
+#: plugins/livejournal/livejournal.cpp:1344
 #, fuzzy
 msgid "enthralled"
 msgstr "encallat"
 
-#: plugins/livejournal/livejournal.cpp:1122
+#: plugins/livejournal/livejournal.cpp:1345
 msgid "exhausted"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1123
+#: plugins/livejournal/livejournal.cpp:1346
 msgid "happy"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1124
+#: plugins/livejournal/livejournal.cpp:1347
 #, fuzzy
 msgid "high"
 msgstr "il·luminació"
 
-#: plugins/livejournal/livejournal.cpp:1125
+#: plugins/livejournal/livejournal.cpp:1348
 msgid "horny"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1126
+#: plugins/livejournal/livejournal.cpp:1349
 #, fuzzy
 msgid "hungry"
 msgstr "Hongria"
 
-#: plugins/livejournal/livejournal.cpp:1127
+#: plugins/livejournal/livejournal.cpp:1350
 msgid "infuriated"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1128
+#: plugins/livejournal/livejournal.cpp:1351
 #, fuzzy
 msgid "irate"
 msgstr "Emigra"
 
-#: plugins/livejournal/livejournal.cpp:1129
+#: plugins/livejournal/livejournal.cpp:1352
 msgid "jubilant"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1130
+#: plugins/livejournal/livejournal.cpp:1353
 msgid "lonely"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1131
+#: plugins/livejournal/livejournal.cpp:1354
 msgid "moody"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1132
+#: plugins/livejournal/livejournal.cpp:1355
 msgid "pissed off"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1133
+#: plugins/livejournal/livejournal.cpp:1356
 #, fuzzy
 msgid "sad"
 msgstr "Trist"
 
-#: plugins/livejournal/livejournal.cpp:1134
+#: plugins/livejournal/livejournal.cpp:1357
 msgid "satisfied"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1135
+#: plugins/livejournal/livejournal.cpp:1358
 #, fuzzy
 msgid "sore"
 msgstr "&Restaura"
 
-#: plugins/livejournal/livejournal.cpp:1136
+#: plugins/livejournal/livejournal.cpp:1359
 msgid "stressed"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1137
+#: plugins/livejournal/livejournal.cpp:1360
 msgid "thirsty"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1138
+#: plugins/livejournal/livejournal.cpp:1361
 msgid "thoughtful"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1139
+#: plugins/livejournal/livejournal.cpp:1362
 #, fuzzy
 msgid "tired"
 msgstr "Juvilat"
 
-#: plugins/livejournal/livejournal.cpp:1140
+#: plugins/livejournal/livejournal.cpp:1363
 msgid "touched"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1141
+#: plugins/livejournal/livejournal.cpp:1364
 #, fuzzy
 msgid "lazy"
 msgstr "Malai"
 
-#: plugins/livejournal/livejournal.cpp:1142
+#: plugins/livejournal/livejournal.cpp:1365
 msgid "drunk"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1143
+#: plugins/livejournal/livejournal.cpp:1366
 #, fuzzy
 msgid "ditzy"
 msgstr "Ciutat:"
 
-#: plugins/livejournal/livejournal.cpp:1144
+#: plugins/livejournal/livejournal.cpp:1367
 msgid "mischievous"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1145
+#: plugins/livejournal/livejournal.cpp:1368
 #, fuzzy
 msgid "morose"
 msgstr "Comores"
 
-#: plugins/livejournal/livejournal.cpp:1146
+#: plugins/livejournal/livejournal.cpp:1369
 msgid "gloomy"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1147
+#: plugins/livejournal/livejournal.cpp:1370
 msgid "melancholy"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1148
+#: plugins/livejournal/livejournal.cpp:1371
 #, fuzzy
 msgid "drained"
 msgstr "Ucraïna"
 
-#: plugins/livejournal/livejournal.cpp:1149
+#: plugins/livejournal/livejournal.cpp:1372
 msgid "excited"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1150
+#: plugins/livejournal/livejournal.cpp:1373
 msgid "relieved"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1151
+#: plugins/livejournal/livejournal.cpp:1374
 msgid "hopeful"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1152
+#: plugins/livejournal/livejournal.cpp:1375
 #, fuzzy
 msgid "amused"
 msgstr "&Pausa"
 
-#: plugins/livejournal/livejournal.cpp:1153
+#: plugins/livejournal/livejournal.cpp:1376
 #, fuzzy
 msgid "determined"
 msgstr "subratllat"
 
-#: plugins/livejournal/livejournal.cpp:1154
+#: plugins/livejournal/livejournal.cpp:1377
 msgid "scared"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1155
+#: plugins/livejournal/livejournal.cpp:1378
 msgid "frustrated"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1156
+#: plugins/livejournal/livejournal.cpp:1379
 msgid "indescribable"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1157
+#: plugins/livejournal/livejournal.cpp:1380
 msgid "sleepy"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1158
+#: plugins/livejournal/livejournal.cpp:1381
 msgid "groggy"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1159
+#: plugins/livejournal/livejournal.cpp:1382
 #, fuzzy
 msgid "hyper"
 msgstr "Tipus:"
 
-#: plugins/livejournal/livejournal.cpp:1160
+#: plugins/livejournal/livejournal.cpp:1383
 #, fuzzy
 msgid "relaxed"
 msgstr "Irlanda"
 
-#: plugins/livejournal/livejournal.cpp:1161
+#: plugins/livejournal/livejournal.cpp:1384
 msgid "restless"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1162
+#: plugins/livejournal/livejournal.cpp:1385
 msgid "disappointed"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1163
+#: plugins/livejournal/livejournal.cpp:1386
 #, fuzzy
 msgid "curious"
 msgstr "Mauritània"
 
-#: plugins/livejournal/livejournal.cpp:1164
+#: plugins/livejournal/livejournal.cpp:1387
 msgid "mellow"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1165
+#: plugins/livejournal/livejournal.cpp:1388
 #, fuzzy
 msgid "peaceful"
 msgstr "Espai"
 
-#: plugins/livejournal/livejournal.cpp:1166
+#: plugins/livejournal/livejournal.cpp:1389
 msgid "bouncy"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1167
+#: plugins/livejournal/livejournal.cpp:1390
 #, fuzzy
 msgid "nostalgic"
 msgstr "cursiva"
 
-#: plugins/livejournal/livejournal.cpp:1168
+#: plugins/livejournal/livejournal.cpp:1391
 msgid "okay"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1169
+#: plugins/livejournal/livejournal.cpp:1392
 msgid "rejuvenated"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1170
+#: plugins/livejournal/livejournal.cpp:1393
 #, fuzzy
 msgid "complacent"
 msgstr "Complet"
 
-#: plugins/livejournal/livejournal.cpp:1171
+#: plugins/livejournal/livejournal.cpp:1394
 #, fuzzy
 msgid "content"
 msgstr "Internet"
 
-#: plugins/livejournal/livejournal.cpp:1172
+#: plugins/livejournal/livejournal.cpp:1395
 #, fuzzy
 msgid "indifferent"
 msgstr "Indiferent"
 
-#: plugins/livejournal/livejournal.cpp:1173
+#: plugins/livejournal/livejournal.cpp:1396
 msgid "silly"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1174
+#: plugins/livejournal/livejournal.cpp:1397
 msgid "flirty"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1175
+#: plugins/livejournal/livejournal.cpp:1398
 msgid "calm"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1176
+#: plugins/livejournal/livejournal.cpp:1399
 #, fuzzy
 msgid "refreshed"
 msgstr "&Refusa"
 
-#: plugins/livejournal/livejournal.cpp:1177
+#: plugins/livejournal/livejournal.cpp:1400
 msgid "optimistic"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1178
+#: plugins/livejournal/livejournal.cpp:1401
 msgid "pessimistic"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1179
+#: plugins/livejournal/livejournal.cpp:1402
 msgid "giggly"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1180
+#: plugins/livejournal/livejournal.cpp:1403
 msgid "pensive"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1181
+#: plugins/livejournal/livejournal.cpp:1404
 msgid "uncomfortable"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1182
+#: plugins/livejournal/livejournal.cpp:1405
 msgid "lethargic"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1183
+#: plugins/livejournal/livejournal.cpp:1406
 #, fuzzy
 msgid "listless"
 msgstr "Fitness"
 
-#: plugins/livejournal/livejournal.cpp:1184
+#: plugins/livejournal/livejournal.cpp:1407
 msgid "recumbent"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1185
+#: plugins/livejournal/livejournal.cpp:1408
 msgid "exanimate"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1186
+#: plugins/livejournal/livejournal.cpp:1409
 #, fuzzy
 msgid "embarrassed"
 msgstr "Avergonyit"
 
-#: plugins/livejournal/livejournal.cpp:1187
+#: plugins/livejournal/livejournal.cpp:1410
 msgid "envious"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1188
+#: plugins/livejournal/livejournal.cpp:1411
 msgid "sympathetic"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1189
+#: plugins/livejournal/livejournal.cpp:1412
 #, fuzzy
 msgid "sick"
 msgstr "Sobrenom:"
 
-#: plugins/livejournal/livejournal.cpp:1190
+#: plugins/livejournal/livejournal.cpp:1413
 #, fuzzy
 msgid "hot"
 msgstr "&Telèfons:"
 
-#: plugins/livejournal/livejournal.cpp:1191
+#: plugins/livejournal/livejournal.cpp:1414
 #, fuzzy
 msgid "cold"
 msgstr "negreta"
 
-#: plugins/livejournal/livejournal.cpp:1192
+#: plugins/livejournal/livejournal.cpp:1415
 #, fuzzy
 msgid "worried"
 msgstr "Sorprès"
 
-#: plugins/livejournal/livejournal.cpp:1193
+#: plugins/livejournal/livejournal.cpp:1416
 #, fuzzy
 msgid "loved"
 msgstr "Eslovènia"
 
-#: plugins/livejournal/livejournal.cpp:1194
+#: plugins/livejournal/livejournal.cpp:1417
 msgid "awake"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1195
+#: plugins/livejournal/livejournal.cpp:1418
 #, fuzzy
 msgid "working"
 msgstr "Ordena"
 
-#: plugins/livejournal/livejournal.cpp:1196
+#: plugins/livejournal/livejournal.cpp:1419
 msgid "productive"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1197
+#: plugins/livejournal/livejournal.cpp:1420
 msgid "accomplished"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1198
+#: plugins/livejournal/livejournal.cpp:1421
 #, fuzzy
 msgid "busy"
 msgstr "Emfeinat"
 
-#: plugins/livejournal/livejournal.cpp:1199
+#: plugins/livejournal/livejournal.cpp:1422
 #, fuzzy
 msgid "blah"
 msgstr "negre"
 
-#: plugins/livejournal/livejournal.cpp:1200
+#: plugins/livejournal/livejournal.cpp:1423
 msgid "full"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1201
+#: plugins/livejournal/livejournal.cpp:1424
 msgid "grumpy"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1202
+#: plugins/livejournal/livejournal.cpp:1425
 #, fuzzy
 msgid "weird"
 msgstr "Juvilat"
 
-#: plugins/livejournal/livejournal.cpp:1203
+#: plugins/livejournal/livejournal.cpp:1426
 msgid "nauseated"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1204
+#: plugins/livejournal/livejournal.cpp:1427
 msgid "ecstatic"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1205
+#: plugins/livejournal/livejournal.cpp:1428
 msgid "chipper"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1206
+#: plugins/livejournal/livejournal.cpp:1429
 msgid "rushed"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1207
+#: plugins/livejournal/livejournal.cpp:1430
 msgid "contemplative"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1208
+#: plugins/livejournal/livejournal.cpp:1431
 msgid "nerdy"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1209
+#: plugins/livejournal/livejournal.cpp:1432
 msgid "geeky"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1210
+#: plugins/livejournal/livejournal.cpp:1433
 #, fuzzy
 msgid "cynical"
 msgstr "Tècnic"
 
-#: plugins/livejournal/livejournal.cpp:1211
+#: plugins/livejournal/livejournal.cpp:1434
 msgid "quixotic"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1212
+#: plugins/livejournal/livejournal.cpp:1435
 msgid "crazy"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1213
+#: plugins/livejournal/livejournal.cpp:1436
 #, fuzzy
 msgid "creative"
 msgstr "Rep"
 
-#: plugins/livejournal/livejournal.cpp:1214
+#: plugins/livejournal/livejournal.cpp:1437
 #, fuzzy
 msgid "artistic"
 msgstr "&Estat"
 
-#: plugins/livejournal/livejournal.cpp:1215
+#: plugins/livejournal/livejournal.cpp:1438
 #, fuzzy
 msgid "pleased"
 msgstr "Bromista"
 
-#: plugins/livejournal/livejournal.cpp:1216
+#: plugins/livejournal/livejournal.cpp:1439
 msgid "bitchy"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1217
+#: plugins/livejournal/livejournal.cpp:1440
 msgid "guilty"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1218
+#: plugins/livejournal/livejournal.cpp:1441
 #, fuzzy
 msgid "irritated"
 msgstr "Emigra"
 
-#: plugins/livejournal/livejournal.cpp:1219
+#: plugins/livejournal/livejournal.cpp:1442
 #, fuzzy
 msgid "blank"
 msgstr "negre"
 
-#: plugins/livejournal/livejournal.cpp:1220
+#: plugins/livejournal/livejournal.cpp:1443
 msgid "apathetic"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1221
+#: plugins/livejournal/livejournal.cpp:1444
 msgid "dorky"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1222
+#: plugins/livejournal/livejournal.cpp:1445
 msgid "impressed"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1223
+#: plugins/livejournal/livejournal.cpp:1446
 msgid "naughty"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1224
+#: plugins/livejournal/livejournal.cpp:1447
 #, fuzzy
 msgid "predatory"
 msgstr "Directoris"
 
-#: plugins/livejournal/livejournal.cpp:1225
+#: plugins/livejournal/livejournal.cpp:1448
 #, fuzzy
 msgid "dirty"
 msgstr "Ciutat:"
 
-#: plugins/livejournal/livejournal.cpp:1226
+#: plugins/livejournal/livejournal.cpp:1449
 msgid "giddy"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1227
+#: plugins/livejournal/livejournal.cpp:1450
 #, fuzzy
 msgid "surprised"
 msgstr "Sorprès"
 
-#: plugins/livejournal/livejournal.cpp:1228
+#: plugins/livejournal/livejournal.cpp:1451
 msgid "shocked"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1229
+#: plugins/livejournal/livejournal.cpp:1452
 #, fuzzy
 msgid "rejected"
 msgstr "Grècia"
 
-#: plugins/livejournal/livejournal.cpp:1230
+#: plugins/livejournal/livejournal.cpp:1453
 msgid "numb"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1231
+#: plugins/livejournal/livejournal.cpp:1454
 msgid "cheerful"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1232
+#: plugins/livejournal/livejournal.cpp:1455
 msgid "good"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1233
+#: plugins/livejournal/livejournal.cpp:1456
 msgid "distressed"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1234
+#: plugins/livejournal/livejournal.cpp:1457
 #, fuzzy
 msgid "intimidated"
 msgstr "Minimitza"
 
-#: plugins/livejournal/livejournal.cpp:1235
+#: plugins/livejournal/livejournal.cpp:1458
 msgid "crushed"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1236
+#: plugins/livejournal/livejournal.cpp:1459
 msgid "devious"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1237
+#: plugins/livejournal/livejournal.cpp:1460
 msgid "thankful"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1238
+#: plugins/livejournal/livejournal.cpp:1461
 #, fuzzy
 msgid "grateful"
 msgstr "Emigra"
 
-#: plugins/livejournal/livejournal.cpp:1239
+#: plugins/livejournal/livejournal.cpp:1462
 msgid "jealous"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1240
+#: plugins/livejournal/livejournal.cpp:1463
 #, fuzzy
 msgid "nervous"
 msgstr "Grups"
 
-#: plugins/livejournal/livejournal.cpp:1242
+#: plugins/livejournal/livejournal.cpp:1465
 msgid "Recent Entries"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1243
+#: plugins/livejournal/livejournal.cpp:1466
 msgid "Calendar View"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1244
+#: plugins/livejournal/livejournal.cpp:1467
 #, fuzzy
 msgid "Friends View"
 msgstr "Mostra llistat"
 
-#: plugins/livejournal/livejournal.cpp:1245
+#: plugins/livejournal/livejournal.cpp:1468
 #, fuzzy
 msgid "Your Profile"
 msgstr "Perfil:"
 
-#: plugins/livejournal/livejournal.cpp:1246
+#: plugins/livejournal/livejournal.cpp:1469
 msgid "Your To-Do List"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1247
+#: plugins/livejournal/livejournal.cpp:1470
 #, fuzzy
 msgid "Change Settings"
 msgstr "&Canvia la codificació"
 
-#: plugins/livejournal/livejournal.cpp:1248
+#: plugins/livejournal/livejournal.cpp:1471
 #, fuzzy
 msgid "Support"
 msgstr "Esports"
 
-#: plugins/livejournal/livejournal.cpp:1249
+#: plugins/livejournal/livejournal.cpp:1472
 msgid "Personal Info"
 msgstr ""
 
-#: plugins/livejournal/livejournal.cpp:1250
+#: plugins/livejournal/livejournal.cpp:1473
 #, fuzzy
 msgid "Journal Settings"
 msgstr "Paràmetres"
 
-#: plugins/livejournal/livejournalcfg.cpp:35
+#: plugins/livejournal/livejournalcfg.cpp:36
 #, fuzzy
 msgid "Register new user"
 msgstr "&Registra un nou UIN"
+
+#: plugins/livejournal/msgjournal.cpp:150
+msgid "Remove record from journal?"
+msgstr ""
 
 #: plugins/livejournal/msgjournalbase.cpp:110
 #, fuzzy
@@ -7893,23 +7945,31 @@ msgstr "Enganxa"
 msgid "Mood:"
 msgstr ""
 
-#: plugins/livejournal/livejournalcfgbase.cpp:205
+#: plugins/livejournal/livejournalcfgbase.cpp:210
 msgid "&LiveJournal"
 msgstr ""
 
-#: plugins/livejournal/livejournalcfgbase.cpp:207
+#: plugins/livejournal/livejournalcfgbase.cpp:212
 msgid "Path:"
 msgstr ""
 
-#: plugins/livejournal/livejournalcfgbase.cpp:210
+#: plugins/livejournal/livejournalcfgbase.cpp:215
 #, fuzzy
 msgid "Check interval:"
 msgstr "Revisa invisible"
 
-#: plugins/livejournal/livejournalcfgbase.cpp:211
+#: plugins/livejournal/livejournalcfgbase.cpp:216
 #, fuzzy
 msgid "minutes"
 msgstr "Ordinadors"
+
+#: plugins/livejournal/livejournalcfgbase.cpp:217
+msgid "Use &fast server - only for paying customers"
+msgstr ""
+
+#, fuzzy
+#~ msgid "Plugin provides posting to LiveJournal"
+#~ msgstr "El pedaç habilita la informació quant al SIM"
 
 #~ msgid "Month:"
 #~ msgstr "Mes:"

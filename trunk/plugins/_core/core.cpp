@@ -1293,7 +1293,7 @@ QString CorePlugin::poFile(const char *lang)
     QFile f(QFile::decodeName(s.c_str()));
     if (!f.exists()) return "";
 #else
-string s = PREFIX "/share/locale/";
+    string s = PREFIX "/share/locale/";
     string l;
     if (lang)
         l = lang;
@@ -1700,54 +1700,54 @@ void *CorePlugin::processEvent(Event *e)
     case EventMessageReceived:{
             Message *msg = (Message*)(e->param());
             Contact *contact = getContacts()->contact(msg->contact());
-            if (contact == NULL)
-                return NULL;
-            unsigned type = msg->baseType();
-            if (type == MessageStatus){
-                CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
-                if ((data == NULL) || (data->LogStatus == 0))
-                    return NULL;
-            }else if (type == MessageFile){
-                CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
-                if (data){
-                    if (data->AcceptMode == 1){
-                        string dir;
-                        if (data && data->IncomingPath)
-                            dir = data->IncomingPath;
+            if (contact){
+                unsigned type = msg->baseType();
+                if (type == MessageStatus){
+                    CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
+                    if ((data == NULL) || (data->LogStatus == 0))
+                        return NULL;
+                }else if (type == MessageFile){
+                    CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
+                    if (data){
+                        if (data->AcceptMode == 1){
+                            string dir;
+                            if (data && data->IncomingPath)
+                                dir = data->IncomingPath;
 #ifdef WIN32
-                        if (!dir.empty() && (dir[dir.length() - 1] != '\\'))
-                            dir += '\\';
+                            if (!dir.empty() && (dir[dir.length() - 1] != '\\'))
+                                dir += '\\';
 #else
-                        if (!dir.empty() && (dir[dir.length() - 1] != '/'))
-                            dir += '/';
+                            if (!dir.empty() && (dir[dir.length() - 1] != '/'))
+                                dir += '/';
 #endif
-                        dir = user_file(dir.c_str());
-                        messageAccept ma;
-                        ma.msg	     = msg;
-                        ma.dir 		 = dir.c_str();
-                        ma.overwrite = data->OverwriteFiles ? Replace : Skip;
-                        Event e(EventMessageAccept, &ma);
-                        e.process();
-                        return msg;
+                            dir = user_file(dir.c_str());
+                            messageAccept ma;
+                            ma.msg	     = msg;
+                            ma.dir 		 = dir.c_str();
+                            ma.overwrite = data->OverwriteFiles ? Replace : Skip;
+                            Event e(EventMessageAccept, &ma);
+                            e.process();
+                            return msg;
+                        }
+                        if (data->AcceptMode == 2){
+                            string reason;
+                            if (data->DeclineMessage)
+                                reason = data->DeclineMessage;
+                            messageDecline md;
+                            md.msg    = msg;
+                            md.reason = reason.c_str();
+                            Event e(EventMessageDecline, &md);
+                            e.process();
+                            return msg;
+                        }
                     }
-                    if (data->AcceptMode == 2){
-                        string reason;
-                        if (data->DeclineMessage)
-                            reason = data->DeclineMessage;
-                        messageDecline md;
-                        md.msg    = msg;
-                        md.reason = reason.c_str();
-                        Event e(EventMessageDecline, &md);
-                        e.process();
-                        return msg;
-                    }
+                }else{
+                    time_t now;
+                    time(&now);
+                    contact->setLastActive(now);
+                    Event e(EventContactStatus, contact);
+                    e.process();
                 }
-            }else{
-                time_t now;
-                time(&now);
-                contact->setLastActive(now);
-                Event e(EventContactStatus, contact);
-                e.process();
             }
         }
     case EventSent:{

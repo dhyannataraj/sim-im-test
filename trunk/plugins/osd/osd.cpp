@@ -297,33 +297,36 @@ void OSDPlugin::processQueue()
         OSDUserData *data = NULL;
         if (contact){
             data = (OSDUserData*)contact->getUserData(user_data_id);
-            switch (m_request.type){
-            case OSD_ALERT:
-                if (data->EnableAlert)
-                    text = i18n("%1 is online") .arg(contact->getName());
-                break;
-            case OSD_TYPING:
-                if (data->EnableTyping)
-                    text = i18n("%1 typed") .arg(contact->getName());
-                break;
-            default:
-                if (data->EnableMessage && core){
-                    unsigned type = m_request.type;
-                    CommandDef *cmd = core->messageTypes.find(type);
-                    if (cmd){
-                        MessageDef *def = (MessageDef*)(cmd->param);
-                        text = i18n(def->singular, def->plural, 1);
-                        int pos = text.find("1 ");
-                        if (pos > 0){
-                            text = text.left(pos);
-                        }else if (pos == 0){
-                            text = text.mid(2);
-                        }
-                        text = text.left(1).upper() + text.mid(1);
+        }else{
+            data = (OSDUserData*)getContacts()->getUserData(user_data_id);
+        }
+        switch (m_request.type){
+        case OSD_ALERT:
+            if (data->EnableAlert && contact)
+                text = i18n("%1 is online") .arg(contact->getName());
+            break;
+        case OSD_TYPING:
+            if (data->EnableTyping && contact)
+                text = i18n("%1 typed") .arg(contact->getName());
+            break;
+        default:
+            if (data->EnableMessage && core){
+                unsigned type = m_request.type;
+                CommandDef *cmd = core->messageTypes.find(type);
+                if (cmd){
+                    MessageDef *def = (MessageDef*)(cmd->param);
+                    text = i18n(def->singular, def->plural, 1);
+                    int pos = text.find("1 ");
+                    if (pos > 0){
+                        text = text.left(pos);
+                    }else if (pos == 0){
+                        text = text.mid(2);
+                    }
+                    text = text.left(1).upper() + text.mid(1);
+                    if (contact)
                         text = i18n("%1 from %2")
                                .arg(text)
                                .arg(contact->getName());
-                    }
                 }
             }
         }

@@ -22,6 +22,7 @@
 #include <qiodevice.h>
 
 class SerialPortPrivate;
+class QEvent;
 
 class SerialPort : public QObject
 {
@@ -41,10 +42,8 @@ signals:
     void error();
 protected slots:
     void timeout();
-    void io_complete();
-    void io_timeout();
-    void io_error();
 protected:
+	bool event(QEvent *e);
     SerialPortPrivate  *d;
 };
 
