@@ -371,7 +371,7 @@ void OSDPlugin::dblClick()
         Event e(EventLoadMessage, &m);
         msg = (Message*)(e.process());
         if (msg){
-            Event e(EventOpenMessage, msg);
+            Event e(EventOpenMessage, &msg);
             e.process();
             delete msg;
         }

@@ -64,7 +64,6 @@ MsgGen::MsgGen(MsgEdit *parent, Message *msg)
     }
     connect(m_edit->m_edit, SIGNAL(emptyChanged(bool)), this, SLOT(emptyChanged(bool)));
     emptyChanged(m_edit->m_edit->isEmpty());
-    m_edit->m_edit->setParam(m_edit);
 }
 
 void MsgGen::init()

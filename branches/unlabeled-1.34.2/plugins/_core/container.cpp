@@ -134,7 +134,7 @@ Container::Container(unsigned id, const char *cfg)
 
     SET_WNDPROC("container")
     setWFlags(WDestructiveClose);
-    QFrame *frm = new QFrame(this);
+    QFrame *frm = new QFrame(this, "container");
     setCentralWidget(frm);
 
     connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));

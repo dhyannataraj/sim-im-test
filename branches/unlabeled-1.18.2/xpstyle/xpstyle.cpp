@@ -43,6 +43,15 @@
 
 #define Q_ASSERT ASSERT
 
+#ifdef WIN32
+
+#ifndef CS_DROPSHADOW
+#define CS_DROPSHADOW   0x00020000
+#endif
+
+bool bInit = false;
+#endif
+
 static QStyle *createXPstyle()
 {
     return new QWindowsXPStyle;
@@ -402,10 +411,17 @@ void QWindowsXPStyle::polish( QApplication *app )
 
 void QWindowsXPStyle::polish( QWidget *widget )
 {
+	QString className = widget->className();
+	if (widget->testWFlags(WStyle_Tool) || widget->testWFlags(WType_Popup)){
+		if ((className.find("Tip") > 0) || (className == "QAlphaWidget")){
+			SetClassLong(widget->winId(), GCL_STYLE, GetClassLong(widget->winId(), GCL_STYLE) | CS_DROPSHADOW);
+		}else{
+			SetClassLong(widget->winId(), GCL_STYLE, GetClassLong(widget->winId(), GCL_STYLE) & ~CS_DROPSHADOW);
+		}
+	}
     QWindowsStyle::polish( widget );
     if ( !use_xp )
         return;
-
     if ( widget->inherits("QButton")) {
         widget->installEventFilter( this );
         widget->setMouseTracking( TRUE );
@@ -602,7 +618,7 @@ bool QWindowsXPStyle::eventFilter( QObject *o, QEvent *e )
     if ( !o || !o->isWidgetType() || !use_xp)
         return QWindowsStyle::eventFilter( o, e );
 
-    QWidget *widget = (QWidget*)o;
+	QWidget *widget = (QWidget*)o;
 
     switch ( e->type() ) {
     case QEvent::MouseMove:

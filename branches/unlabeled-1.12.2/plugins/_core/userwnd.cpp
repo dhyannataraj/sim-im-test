@@ -31,7 +31,7 @@ static DataDef userWndData[] =
     {
         { "EditHeight", DATA_ULONG, 1, 0 },
         { "EditBar", DATA_ULONG, 8, 0 },
-        { "MessageType", DATA_ULONG, 1, DATA(1) },
+        { "MessageType", DATA_ULONG, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -72,7 +72,7 @@ UserWnd::UserWnd(unsigned id, const char *cfg, bool bReceived)
     if (!m_edit->adjustType()){
         unsigned type = getMessageType();
         Message *msg = new Message(MessageGeneric);
-        setMessage(msg);
+        setMessage(&msg);
         delete msg;
         setMessageType(type);
     }
@@ -198,7 +198,7 @@ unsigned UserWnd::type()
     return m_edit->type();
 }
 
-void UserWnd::setMessage(Message *&msg)
+void UserWnd::setMessage(Message **msg)
 {
     bool bSetFocus = false;
 
@@ -209,21 +209,21 @@ void UserWnd::setMessage(Message *&msg)
             bSetFocus = true;
     }
 
-    if (!m_edit->setMessage(msg, bSetFocus)){
-        delete msg;
-        msg = new Message(MessageGeneric);
-        m_edit->setMessage(msg, bSetFocus);
+    if (!m_edit->setMessage(*msg, bSetFocus)){
+        delete *msg;
+        *msg = new Message(MessageGeneric);
+        m_edit->setMessage(*msg, bSetFocus);
     }
     if (container){
-        container->setMessageType(msg->baseType());
+        container->setMessageType((*msg)->baseType());
         container->contactChanged(getContacts()->contact(m_id));
     }
 
-    if ((m_view == NULL) || (msg->id() == 0))
+    if ((m_view == NULL) || ((*msg)->id() == 0))
         return;
-    if (m_view->findMessage(msg))
+    if (m_view->findMessage(*msg))
         return;
-    m_view->addMessage(msg);
+    m_view->addMessage(*msg);
 }
 
 void UserWnd::setStatus(const QString &status)

@@ -32,6 +32,10 @@ const unsigned MenuWeb					= JournalCmdBase + 0x10;
 
 const unsigned LIVEJOURNAL_SIGN	= 5;
 
+const unsigned COMMENT_ENABLE	= 0;
+const unsigned COMMENT_NO_MAIL	= 1;
+const unsigned COMMENT_DISABLE	= 2;
+
 typedef struct LiveJournalUserData
 {
     clientData		base;
@@ -48,6 +52,7 @@ typedef struct JournalMessageData
     Data	ID;
     Data	OldID;
     Data	Mood;
+	Data	Comments;
 } JournalMessageData;
 
 class JournalMessage : public Message
@@ -62,6 +67,7 @@ public:
     PROP_ULONG(ID);
     PROP_ULONG(OldID);
     PROP_ULONG(Mood);
+	PROP_ULONG(Comments);
 protected:
     QString presentation();
     JournalMessageData data;

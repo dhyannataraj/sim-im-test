@@ -26,6 +26,10 @@
 #include <qstylesheet.h>
 #include <qpainter.h>
 
+#ifdef WIN32
+#include <windows.h>
+#endif
+
 LinkLabel::LinkLabel(QWidget *parent, const char *name)
         : QLabel(parent, name)
 {

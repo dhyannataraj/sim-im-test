@@ -47,7 +47,7 @@ public:
     QString getLongName();
     const char *getIcon();
     unsigned type();
-    void setMessage(Message*&);
+    void setMessage(Message**);
     void setStatus(const QString&);
     void showListView(bool bShow);
     QString status() { return m_status; }

@@ -108,7 +108,7 @@ void MsgTextEdit::contentsDropEvent(QDropEvent *e)
     if (msg){
         e->accept();
         msg->setContact(m_edit->m_userWnd->id());
-        Event eOpen(EventOpenMessage, msg);
+        Event eOpen(EventOpenMessage, &msg);
         eOpen.process();
         delete msg;
         return;
@@ -154,7 +154,7 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd)
 
     connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
 
-    m_frame = new QFrame(this);
+    m_frame = new QFrame(this, "msgedit");
     setCentralWidget(m_frame);
     m_layout = new QVBoxLayout(m_frame);
 
@@ -163,6 +163,7 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd)
     m_edit->setForeground(QColor(CorePlugin::m_plugin->getEditForeground() & 0xFFFFFF), true);
     m_edit->setFont(CorePlugin::m_plugin->editFont);
     m_edit->setCtrlMode(!CorePlugin::m_plugin->getSendOnEnter());
+    m_edit->setParam(this);
     setFocusProxy(m_edit);
 
     QStyleSheet *style = new QStyleSheet(m_edit);
@@ -1030,7 +1031,7 @@ bool MsgEdit::setType(unsigned type)
     Message *msg = mdef->create(NULL);
     if (msg == NULL)
         return false;
-    m_userWnd->setMessage(msg);
+    m_userWnd->setMessage(&msg);
     delete msg;
     return true;
 }
@@ -1192,11 +1193,12 @@ void *MsgEdit::processEvent(Event *e)
         if ((cmd->bar_id == ToolBarMsgEdit) && m_edit->isReadOnly() && (cmd->param == this)){
             switch (cmd->id){
             case CmdMsgAnswer:{
-                    Message msg(MessageGeneric);
-                    msg.setContact(m_userWnd->id());
-                    msg.setClient(m_client.c_str());
+                    Message *msg = new Message(MessageGeneric);
+                    msg->setContact(m_userWnd->id());
+                    msg->setClient(m_client.c_str());
                     Event e(EventOpenMessage, &msg);
                     e.process();
+					delete msg;
                 }
             case CmdNextMessage:
                 QTimer::singleShot(0, this, SLOT(goNext()));
@@ -1341,7 +1343,7 @@ void MsgEdit::setEmptyMessage()
             if (mdef->flags & MESSAGE_SILENT)
                 continue;
             msg->setFlags(MESSAGE_NORAISE);
-            Event eOpen(EventOpenMessage, msg);
+            Event eOpen(EventOpenMessage, &msg);
             eOpen.process();
             delete msg;
             return;
@@ -1462,7 +1464,7 @@ void MsgEdit::goNext()
         Message *msg = History::load((*it).id, (*it).client.c_str(), (*it).contact);
         if (msg == NULL)
             continue;
-        Event e(EventOpenMessage, msg);
+        Event e(EventOpenMessage, &msg);
         e.process();
         delete msg;
         return;

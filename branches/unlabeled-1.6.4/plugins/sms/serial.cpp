@@ -193,7 +193,7 @@ void SerialPort::readReady(int)
 {
 }
 
-bool SerialPort::open(const char *device, int baudrate, bool bXonXoff, int DTRtime)
+bool SerialPort::openPort(const char *device, int baudrate, bool bXonXoff, int DTRtime)
 {
     close();
     d->m_time	  = DTRtime;
@@ -463,7 +463,7 @@ SerialPort::~SerialPort()
     delete d;
 }
 
-bool SerialPort::open(const char *device, int baudrate, bool bXonXoff, int DTRtime)
+bool SerialPort::openPort(const char *device, int baudrate, bool bXonXoff, int DTRtime)
 {
     close();
     string fname = "/dev/";
@@ -471,7 +471,7 @@ bool SerialPort::open(const char *device, int baudrate, bool bXonXoff, int DTRti
     d->m_time = DTRtime;
     d->m_baudrate = baudrate;
     d->m_bXonXoff = bXonXoff;
-    d->fd = ::open(fname.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK);
+    d->fd = open(fname.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK);
     if (d->fd == -1){
         log(L_WARN, "Can't open %s: %s", fname.c_str(), strerror(errno));
         return false;

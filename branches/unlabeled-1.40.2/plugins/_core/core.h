@@ -102,6 +102,7 @@ typedef struct CoreData
     Data	ShowAllEncodings;
     Data	DefaultEncoding;
     Data	ShowEmptyGroup;
+	Data	NoJoinAlert;
 } CoreData;
 
 const unsigned CONTAINER_SIMPLE	= 0;
@@ -314,6 +315,7 @@ const unsigned	EventCutHistory			= (CmdBase + 19);
 const unsigned  EventTmplHelp			= (CmdBase + 20);
 const unsigned	EventDeleteMessage		= (CmdBase + 21);
 const unsigned	EventRewriteMessage		= (CmdBase + 22);
+const unsigned	EventJoinAlert			= (CmdBase + 23);
 
 const unsigned	BarHistory				= (CmdBase + 1);
 
@@ -391,6 +393,7 @@ typedef struct clientContact
 } clientContact;
 
 class XSL;
+class BalloonMsg;
 
 class CorePlugin : public QObject, public Plugin, public EventReceiver
 {
@@ -451,6 +454,7 @@ public:
     PROP_BOOL(ShowAllEncodings);
     PROP_STR(DefaultEncoding);
     PROP_BOOL(ShowEmptyGroup);
+	PROP_BOOL(NoJoinAlert);
 
     unsigned user_data_id;
     unsigned sms_data_id;
@@ -485,6 +489,8 @@ protected slots:
     void destroyManager();
     void selectProfile();
     void checkHistory();
+	void alertFinished();
+	void focusDestroyed();
 protected:
     virtual void *processEvent(Event*);
     virtual string getConfig();
@@ -508,7 +514,6 @@ protected:
     void loadUnread();
     void clearUnread(unsigned contact_id);
     void getWays(vector<clientContact> &ways, Contact *contact);
-    bool eventFilter (QObject *watched, QEvent *e);
     string typeName(const char *name);
     void setAutoReplies();
     bool				m_bInit;
@@ -528,6 +533,7 @@ protected:
     MainWindow			*m_main;
     Icons				*m_icons;
     Tmpl				*m_tmpl;
+	BalloonMsg			*m_alert;
 
     friend class MainWindow;
     friend class UserView;

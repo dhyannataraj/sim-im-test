@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>295</width>
-            <height>77</height>
+            <width>412</width>
+            <height>81</height>
         </rect>
     </property>
     <property>
@@ -144,6 +144,31 @@
                             <hsizetype>7</hsizetype>
                             <vsizetype>0</vsizetype>
                         </sizepolicy>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QComboBox</class>
+                    <item>
+                        <property>
+                            <name>text</name>
+                            <string>Enable comments</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property>
+                            <name>text</name>
+                            <string>No email comments</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property>
+                            <name>text</name>
+                            <string>Disable comments</string>
+                        </property>
+                    </item>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>cmbComment</cstring>
                     </property>
                 </widget>
             </hbox>

@@ -25,15 +25,17 @@
 #include <qpushbutton.h>
 
 class QStringList;
+class QCheckBox;
 
 class UI_EXPORT BalloonMsg : public QDialog
 {
     Q_OBJECT
 public:
-    BalloonMsg(void *param, const QString &text, QStringList&, QWidget *p, const QRect *rc = NULL, bool bModal=false, bool bAutoHide=true, unsigned width=150);
+    BalloonMsg(void *param, const QString &text, QStringList&, QWidget *p, const QRect *rc = NULL, bool bModal=false, bool bAutoHide=true, unsigned width=150, const QString &boxText = QString::null);
     ~BalloonMsg();
     static void message(const QString &text, QWidget *parent, bool bModal=false, unsigned width=150);
     static void ask(void *param, const QString &text, QWidget *parent, const char *slotYes, const char *slotNo, const QRect *rc=NULL, QObject *receiver=NULL);
+	bool isChecked();
 signals:
     void action(int, void*);
     void yes_action(void*);
@@ -49,6 +51,7 @@ protected:
     QRect textRect;
     QBitmap mask;
     QWidget *m_parent;
+	QCheckBox *m_check;
     bool m_bAutoHide;
     bool m_bYes;
     unsigned m_width;
