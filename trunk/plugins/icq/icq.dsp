@@ -100,41 +100,6 @@ SOURCE=.\aboutinfobase.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\genrtf.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\genrtf.ll
-
-!IF  "$(CFG)" == "icq - Win32 Release"
-
-# Begin Custom Build - Flex $(InputPath)
-InputDir=.
-InputPath=.\genrtf.ll
-InputName=genrtf
-
-"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	flex -o$(InputDir)\$(InputName).cpp $(InputPath)
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "icq - Win32 Debug"
-
-# Begin Custom Build - Flex $(InputPath)
-InputDir=.
-InputPath=.\genrtf.ll
-InputName=genrtf
-
-"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	flex -o$(InputDir)\$(InputName).cpp $(InputPath)
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
 SOURCE=.\homeinfo.cpp
 # End Source File
 # Begin Source File
@@ -403,6 +368,10 @@ InputName=rtf
 
 !ENDIF 
 
+# End Source File
+# Begin Source File
+
+SOURCE=.\rtfgen.cpp
 # End Source File
 # Begin Source File
 

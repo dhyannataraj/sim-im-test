@@ -98,7 +98,7 @@ EXPORT QString i18n(const char *singular, const char *plural, unsigned long n);
 EXPORT QString i18n(const char *text);
 EXPORT QString i18n(const char *text, const char *comment);
 EXPORT QString i18n(const char *singular, const char *plural, unsigned long n);
-#define I18N_NOOP(A)	(A)
+#define I18N_NOOP(A)	A
 #endif
 #if !defined(USE_KDE) || (QT_VERSION < 300)
 EXPORT void resetPlural();

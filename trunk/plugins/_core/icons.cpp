@@ -105,12 +105,12 @@ using namespace std;
 #include "xpm/smile7.xpm"
 #include "xpm/smile8.xpm"
 #include "xpm/smile9.xpm"
-#include "xpm/smileA.xpm"
-#include "xpm/smileB.xpm"
-#include "xpm/smileC.xpm"
-#include "xpm/smileD.xpm"
-#include "xpm/smileE.xpm"
-#include "xpm/smileF.xpm"
+#include "xpm/smile10.xpm"
+#include "xpm/smile11.xpm"
+#include "xpm/smile12.xpm"
+#include "xpm/smile13.xpm"
+#include "xpm/smile14.xpm"
+#include "xpm/smile15.xpm"
 #include "xpm/listmsg.xpm"
 #include "xpm/urgentmsg.xpm"
 
@@ -200,12 +200,12 @@ Icons::Icons()
     ICON(smile7)
     ICON(smile8)
     ICON(smile9)
-    ICON(smileA)
-    ICON(smileB)
-    ICON(smileC)
-    ICON(smileD)
-    ICON(smileE)
-    ICON(smileF)
+    ICON(smile10)
+    ICON(smile11)
+    ICON(smile12)
+    ICON(smile13)
+    ICON(smile14)
+    ICON(smile15)
     ICON(listmsg)
     ICON(urgentmsg)
 }

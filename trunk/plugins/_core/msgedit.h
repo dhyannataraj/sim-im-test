@@ -80,7 +80,7 @@ class SmileLabel : public QLabel
 {
     Q_OBJECT
 public:
-    SmileLabel(int id, QWidget *parent);
+    SmileLabel(int id, const char *tip, QWidget *parent);
 signals:
     void clicked(int id);
 protected:

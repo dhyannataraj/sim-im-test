@@ -1,5 +1,4 @@
 /***************************************************************************
-/***************************************************************************
                           cfgdlg.cpp  -  description
                              -------------------
     begin                : Sun Mar 17 2002
@@ -456,6 +455,7 @@ void ConfigureDialog::apply()
         load_data(def, data, cfg.c_str());
         emit applyChanges(client, data);
         client->setClientInfo(data);
+        free_data(def, data);
         free(data);
     }
     for (QListViewItem *item = lstBox->firstChild(); item; item = item->nextSibling()){

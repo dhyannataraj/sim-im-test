@@ -22,11 +22,13 @@
 #include "preview.h"
 #include "linklabel.h"
 #include "core.h"
+#include "smilecfg.h"
 
 #include <qframe.h>
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qcombobox.h>
+#include <qtabwidget.h>
 
 class IconPreview : public FilePreview
 {
@@ -37,7 +39,7 @@ protected:
     QLabel  *labels[20];
     void showPreview(const char*);
     void setIcons();
-    IconDLLBase *icons;
+    IconDLL *icons;
 };
 
 IconPreview::IconPreview(QWidget *parent)
@@ -73,8 +75,8 @@ void IconPreview::showPreview(const char *file)
         }
         return;
     }
-    icons = new IconDLLBase;
-    if (!icons->load(file)){
+    icons = new IconDLL;
+    if (!icons->load(QFile::decodeName(file))){
         delete icons;
         icons = NULL;
     }
@@ -169,6 +171,15 @@ IconCfg::IconCfg(QWidget *parent, IconsPlugin *plugin)
 #endif
     lblMore->setText(i18n("Get more icons themes"));
     connect(edtIcon, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
+    for (QObject *p = parent; p != NULL; p = p->parent()){
+        if (!p->inherits("QTabWidget"))
+            continue;
+        QTabWidget *tab = static_cast<QTabWidget*>(p);
+        m_smiles = new SmileCfg(tab, plugin);
+        tab->addTab(m_smiles, i18n("Smiles"));
+        tab->adjustSize();
+        break;
+    }
 }
 
 void IconCfg::protocolChanged(int n)
@@ -176,7 +187,7 @@ void IconCfg::protocolChanged(int n)
     QString text = "";
     for (list<IconsDef>::iterator it = defs.begin(); it != defs.end(); ++it){
         if ((*it).index == n){
-            text = QString::fromLocal8Bit((*it).icon.c_str());
+            text = QString::fromUtf8((*it).icon.c_str());
             break;
         }
     }
@@ -187,7 +198,7 @@ void IconCfg::textChanged(const QString &t)
 {
     string text;
     if (!t.isEmpty())
-        text = QFile::encodeName(t);
+        text = t.utf8();
     for (list<IconsDef>::iterator it = defs.begin(); it != defs.end(); ++it){
         if ((*it).index == cmbProtocol->currentItem()){
             (*it).icon = text;
@@ -199,6 +210,7 @@ void IconCfg::textChanged(const QString &t)
 void IconCfg::apply()
 {
     unsigned n = 1;
+    m_smiles->apply();
     for (list<IconsDef>::iterator it = defs.begin(); it != defs.end(); ++it, n++){
         string res = (*it).protocol;
         res += ",";

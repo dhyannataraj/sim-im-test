@@ -28,7 +28,6 @@ CMenu::CMenu(CommandsDef *def)
     m_param = NULL;
     setCheckable(true);
     connect(this, SIGNAL(aboutToShow()), this, SLOT(showMenu()));
-    connect(this, SIGNAL(aboutToHide()), this, SLOT(hideMenu()));
     connect(this, SIGNAL(activated(int)), this, SLOT(menuActivated(int)));
 }
 
@@ -149,11 +148,6 @@ void CMenu::showMenu()
     }
 }
 
-void CMenu::hideMenu()
-{
-    QTimer::singleShot(0, this, SLOT(clearMenu()));
-}
-
 void CMenu::clearMenu()
 {
     clear();
@@ -194,7 +188,6 @@ void CMenu::menuActivated(int n)
             if (c.base_id)
                 s->id = c.id;
             s->param = m_param;
-            clear();
             Event e(EventCommandExec, s);
             e.process();
             if (s->text_wrk)

@@ -4,7 +4,10 @@ icons_la_SOURCES = \
  iconcfgbase.ui \
  iconcfg.cpp \
  icon.cpp \
- icondll.cpp
+ icondll.cpp \
+ smilecfgbase.ui \
+ smilecfg.cpp \
+ smiles.cpp
 
 INCLUDES=-I../../sim/api -I../../sim/ui -I../_core $(all_includes)
 

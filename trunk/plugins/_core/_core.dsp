@@ -3740,6 +3740,30 @@ SOURCE=.\xpm\smile1.xpm
 # End Source File
 # Begin Source File
 
+SOURCE=.\xpm\smile10.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\smile11.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\smile12.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\smile13.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\smile14.xpm
+# End Source File
+# Begin Source File
+
+SOURCE=.\xpm\smile15.xpm
+# End Source File
+# Begin Source File
+
 SOURCE=.\xpm\smile2.xpm
 # End Source File
 # Begin Source File
@@ -3769,30 +3793,6 @@ SOURCE=.\xpm\smile8.xpm
 # Begin Source File
 
 SOURCE=.\xpm\smile9.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smileA.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smileB.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smileC.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smileD.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smileE.xpm
-# End Source File
-# Begin Source File
-
-SOURCE=.\xpm\smileF.xpm
 # End Source File
 # Begin Source File
 

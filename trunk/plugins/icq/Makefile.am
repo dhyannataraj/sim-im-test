@@ -40,7 +40,7 @@ icq_la_SOURCES = \
  icqmessage.cpp \
  securedlg.cpp \
  securedlgbase.ui \
- genrtf.ll \
+ rtfgen.cpp \
  rtf.ll \
  xml.cpp
 

@@ -355,6 +355,12 @@ SocketFactory *getSocketFactory()
 
 static IPResolver *pResolver = NULL;
 
+void deleteResolver()
+{
+    if (pResolver)
+        delete pResolver;
+}
+
 IP::IP()
 {
     m_ip = 0;
@@ -420,6 +426,11 @@ IPResolver::IPResolver()
     resolver = new QDns;
     resolver->setRecordType(QDns::Ptr);
     QObject::connect(resolver, SIGNAL(resultsReady()), this, SLOT(resolve_ready()));
+}
+
+IPResolver::~IPResolver()
+{
+    delete resolver;
 }
 
 void IPResolver::resolve_ready()

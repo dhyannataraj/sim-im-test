@@ -34,6 +34,7 @@ typedef struct IconsDef
 } IconsDef;
 
 class IconsPlugin;
+class SmileCfg;
 
 class IconCfg : public IconCfgBase
 {
@@ -48,6 +49,7 @@ public slots:
 protected:
     list<IconsDef> defs;
     IconsPlugin *m_plugin;
+    SmileCfg	*m_smiles;
 };
 
 #endif

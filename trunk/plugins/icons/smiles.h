@@ -1,5 +1,5 @@
 /***************************************************************************
-                          icondll.h  -  description
+                          smiles.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,30 +15,37 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _ICONDLL_H
-#define _ICONDLL_H
+#ifndef _SMILES_H
+#define _SMILES_H
 
 #include "simapi.h"
+#include "icon.h"
+
 #include <qiconset.h>
-#include <map>
+#include <vector>
 using namespace std;
 
-class IconsMap : public map<unsigned, QIconSet>
+typedef struct SmileDef
 {
-public:
-    IconsMap() {};
-    const QIconSet *get(unsigned id);
-};
+    const QIconSet *icon;
+    QString	pattern;
+    QString tip;
+} SmileDef;
 
-class IconDLL
+class Smiles
 {
 public:
-    IconDLL();
-    ~IconDLL();
+    Smiles();
+    ~Smiles();
     bool load(const QString &file);
+    unsigned count();
     const QIconSet *get(unsigned id);
-    QString name;
-    IconsMap  *icon_map;
+    QString pattern(unsigned id);
+    QString tip(unsigned id);
+    void clear();
+    string name;
+    ICONS_MAP icons;
+    vector<SmileDef> defs;
 };
 
 #endif

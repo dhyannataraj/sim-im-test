@@ -8,8 +8,6 @@
 
 #if QT_VERSION < 300
 
-#include <windows.h>
-
 template<class Type>
 class QGuardedCleanupHandler
 {
@@ -94,7 +92,6 @@ public:
 
     void clear()
     {
-		OutputDebugStringA("Clear\n");		
         if ( !cleanupObjects )
             return;
 

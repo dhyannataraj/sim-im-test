@@ -1,5 +1,5 @@
 /***************************************************************************
-                          icondll.h  -  description
+                          smilecfg.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,30 +15,24 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _ICONDLL_H
-#define _ICONDLL_H
+#ifndef _SMILECFG_H
+#define _SMILECFG_H
 
 #include "simapi.h"
-#include <qiconset.h>
-#include <map>
-using namespace std;
+#include "smilecfgbase.h"
 
-class IconsMap : public map<unsigned, QIconSet>
-{
-public:
-    IconsMap() {};
-    const QIconSet *get(unsigned id);
-};
+class IconsPlugin;
 
-class IconDLL
+class SmileCfg : public SmileCfgBase
 {
+    Q_OBJECT
 public:
-    IconDLL();
-    ~IconDLL();
-    bool load(const QString &file);
-    const QIconSet *get(unsigned id);
-    QString name;
-    IconsMap  *icon_map;
+    SmileCfg(QWidget *parent, IconsPlugin *plugin);
+public slots:
+    void apply();
+    void goSmiles();
+protected:
+    IconsPlugin *m_plugin;
 };
 
 #endif

@@ -29,6 +29,7 @@ typedef struct OSDUserData
 {
     unsigned	EnableMessage;
     unsigned	EnableAlert;
+    unsigned	EnableTyping;
     unsigned	Position;
     unsigned	Offset;
     unsigned	Color;
@@ -40,7 +41,8 @@ typedef struct OSDUserData
     unsigned	Screen;
 } OSDUserData;
 
-const unsigned OSD_ALERT	= 0;
+const unsigned OSD_ALERT	= (unsigned)(-1);
+const unsigned OSD_TYPING	= (unsigned)(-2);
 
 typedef struct OSDRequest
 {
@@ -84,6 +86,7 @@ protected:
     void processQueue();
     OSDRequest	m_request;
     list<OSDRequest>	queue;
+    list<unsigned>		typing;
     CorePlugin	*core;
     QWidget		*m_osd;
     QTimer		*m_timer;

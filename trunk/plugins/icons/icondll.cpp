@@ -32,59 +32,14 @@ const QIconSet *IconsMap::get(unsigned id)
     return &((*it).second);
 }
 
-IconDLLBase::IconDLLBase()
+IconDLL::IconDLL()
 {
     icon_map = new IconsMap;
 }
 
-IconDLLBase::~IconDLLBase()
+IconDLL::~IconDLL()
 {
     delete icon_map;
-}
-
-typedef struct IconID
-{
-    const char *name;
-    unsigned   id;
-} IconID;
-
-static IconID icons_def[] =
-    {
-        { "licq", 102 },
-        { "message", 136 },
-        { "url", 135 },
-        { "sms", 103 },
-        { "file", 207 },
-        { "online", 104 },
-        { "offline", 105 },
-        { "away", 128 },
-        { "na", 131 },
-        { "dnd", 158 },
-        { "occupied", 159 },
-        { "ffc", 129 },
-        { "invisible", 130 },
-        { "info", 160 },
-        { "history", 174 },
-        { "mail_generic", 193 },
-        { "find", 161 },
-        { NULL, 0 }
-    };
-
-void *IconDLL::processEvent(Event *e)
-{
-    if (e->type() == EventGetIcon){
-        const char *name = (const char*)(e->param());
-        if (strlen(name) > m_prefix.size()){
-            if (memcmp(name, m_prefix.c_str(), m_prefix.size()))
-                return NULL;
-            name += m_prefix.size();
-            for (const IconID *d = icons_def; d->name; d++){
-                if (!strcmp(d->name, name))
-                    return (void*)icon_map->get(d->id);
-            }
-        }
-    }
-    return NULL;
 }
 
 // ____________________________________________________________________________________________
@@ -381,16 +336,11 @@ IconLoader::IconLoader(IconsMap *icon_map, const char *name)
             log(L_WARN, "No resources");
             return;
         }
-
         if((nh.ne_rsrctab - nh.ne_segtab)%8!=0)
             log(L_WARN, "Extra 4 bytes in segment table.");
-
-
         f.at(nh.ne_rsrctab+dh.e_lfanew);
         //		getResourceTable();
-    }
-    else
-    {
+    }else{
         f.at(dh.e_lfanew);
         getPEHeader();
         if (ph.signaturebytes != 0x00004550)
@@ -410,13 +360,6 @@ IconLoader::IconLoader(IconsMap *icon_map, const char *name)
         unsigned id = (*it).first;
         QPixmap pict = getIcon(id);
         if (pict.isNull()) continue;
-        const IconID *d;
-        for (d = icons_def; d->name; d++){
-            if (d->id == id)
-                break;
-        }
-        if (d->name == NULL)
-            continue;
         icon_map->insert(IconsMap::value_type(id, QIconSet(pict)));
     }
 }
@@ -475,16 +418,14 @@ QPixmap IconLoader::getIcon(int id)
     if (it == groups.end())
         return QPixmap();
     it = icons.find((*it).second);
-    if (it == groups.end())
+    if (it == icons.end())
         return QPixmap();
     BITMAPINFOHEADER bh;
     f.at((*it).second);
     f.readBlock((char*)&bh, sizeof(bh));
     int w = bh.biWidth;
     int h = bh.biHeight / 2;
-
-    if ((w > 22) || (h > 22)) return QPixmap();
-
+    if ((w > 64) || (h > 64)) return QPixmap();
     int bits = bh.biBitCount;
     int depth = bits;
     int numColors = bh.biClrUsed;
@@ -548,7 +489,6 @@ QPixmap IconLoader::getIcon(int id)
     }
     QPixmap res;
     res.convertFromImage(img);
-
     if (!img.hasAlphaBuffer()){
         QBitmap mask(w, h);
         QPainter pMask(&mask);
@@ -859,18 +799,16 @@ U32 IconLoader::imageDirectoryOffset ()
 
 // ______________________________________________________________________________________
 
-bool IconDLLBase::load(const char *file)
+bool IconDLL::load(const QString &file)
 {
     name = file;
     IconLoader loader(icon_map, file);
     return (icon_map->size()!= 0);
 }
 
-IconDLL::IconDLL(const char *prefix)
-        : EventReceiver(HighPriority)
+const QIconSet *IconDLL::get(unsigned id)
 {
-    m_prefix = prefix;
-    m_prefix += "_";
+    return icon_map->get(id);
 }
 
 

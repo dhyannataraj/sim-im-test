@@ -43,7 +43,6 @@ public:
     void setParam(void *param);
 protected slots:
     void showMenu();
-    void hideMenu();
     void menuActivated(int);
     void clearMenu();
 protected:

@@ -29,6 +29,7 @@ protected:
     virtual void tag_start(const QString &tag, const list<QString> &options);
     virtual void tag_end(const QString &tag);
     QString res;
+    bool m_bPar;
 };
 
 UnquoteParser::UnquoteParser()
@@ -38,6 +39,7 @@ UnquoteParser::UnquoteParser()
 QString UnquoteParser::parse(const QString &str)
 {
     res = "";
+    m_bPar = false;
     HTMLParser::parse(str);
     return res;
 }
@@ -51,6 +53,11 @@ void UnquoteParser::tag_start(const QString &tag, const list<QString> &options)
 {
     if (tag == "br"){
         res += "\n";
+    }else if (tag == "p"){
+        if (m_bPar){
+            res += "\n";
+            m_bPar = false;
+        }
     }else if (tag == "img"){
         QString src;
         for (list<QString>::const_iterator it = options.begin(); it != options.end(); ++it){
@@ -77,8 +84,10 @@ void UnquoteParser::tag_start(const QString &tag, const list<QString> &options)
     }
 }
 
-void UnquoteParser::tag_end(const QString&)
+void UnquoteParser::tag_end(const QString &tag)
 {
+    if (tag == "p")
+        m_bPar = true;
 }
 
 QString SIM::unquoteText(const QString &text)

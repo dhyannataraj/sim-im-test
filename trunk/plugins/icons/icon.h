@@ -20,27 +20,41 @@
 
 #include "simapi.h"
 
-#include <list>
+#include <map>
 using namespace std;
 
 typedef struct IconsData
 {
-    void *IconDLLs;
+    void	*IconDLLs;
+    char	*Smiles;
 } IconsData;
 
 class IconDLL;
+class Smiles;
 
-class IconsPlugin : public Plugin
+class my_string : public string
+{
+public:
+    my_string(const char *str) : string(str) {}
+    bool operator < (const my_string &str) const;
+};
+
+typedef map<my_string, IconDLL*> ICONS_MAP;
+
+class IconsPlugin : public Plugin, public EventReceiver
 {
 public:
     IconsPlugin(unsigned, const char*);
     virtual ~IconsPlugin();
     PROP_STRLIST(IconDLLs);
+    PROP_UTF8(Smiles);
+    Smiles *smiles;
 protected:
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual string getConfig();
+    void *processEvent(Event*);
     void setIcons();
-    list<IconDLL*> dlls;
+    ICONS_MAP dlls;
     IconsData data;
     friend class IconCfg;
 };

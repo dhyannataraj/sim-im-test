@@ -149,9 +149,7 @@ static const char *qt_args[] =
     };
 
 extern "C" {
-
     static int (*old_errhandler)(Display*, XErrorEvent*) = NULL;
-
     static int x_errhandler( Display *dpy, XErrorEvent *err )
     {
         if (err->error_code == BadMatch)
@@ -160,7 +158,6 @@ extern "C" {
             return old_errhandler(dpy, err);
         return 0;
     }
-
 }
 
 #endif

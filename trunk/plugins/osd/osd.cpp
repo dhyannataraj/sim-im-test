@@ -77,6 +77,7 @@ static DataDef osdUserData[] =
     {
         { "EnableMessage", DATA_BOOL, 1, 1 },
         { "EnableAlert", DATA_BOOL, 1, 1 },
+        { "EnableTyping", DATA_BOOL, 1, 0 },
         { "Position", DATA_ULONG, 1, 0 },
         { "Offset", DATA_ULONG, 1, 30 },
         { "Color", DATA_ULONG, 1, 0x00E000 },
@@ -295,7 +296,16 @@ void OSDPlugin::processQueue()
         OSDUserData *data = NULL;
         if (contact){
             data = (OSDUserData*)contact->getUserData(user_data_id);
-            if (m_request.type){
+            switch (m_request.type){
+            case OSD_ALERT:
+                if (data->EnableAlert)
+                    text = i18n("%1 is online") .arg(contact->getName());
+                break;
+            case OSD_TYPING:
+                if (data->EnableTyping)
+                    text = i18n("%1 typed") .arg(contact->getName());
+                break;
+            default:
                 if (data->EnableMessage && core){
                     unsigned type = m_request.type;
                     for (;;){
@@ -314,9 +324,6 @@ void OSDPlugin::processQueue()
                         break;
                     }
                 }
-            }else{
-                if (data->EnableAlert)
-                    text = i18n("%1 is online") .arg(contact->getName());
             }
         }
         if (!text.isEmpty()){
@@ -362,6 +369,7 @@ void *OSDPlugin::processEvent(Event *e)
     OSDRequest osd;
     Contact *contact;
     Message *msg;
+    OSDUserData *data;
     switch (e->type()){
     case EventContactOnline:
         contact = (Contact*)(e->param());
@@ -381,6 +389,44 @@ void *OSDPlugin::processEvent(Event *e)
         osd.client	= msg->client();
         queue.push_back(osd);
         processQueue();
+        break;
+    case EventContactStatus:
+        contact = (Contact*)(e->param());
+        if (contact->getIgnore()) break;
+        data = (OSDUserData*)(contact->getUserData(user_data_id));
+        if (data){
+            unsigned style = 0;
+            string wrkIcons;
+            const char *statusIcon = NULL;
+            contact->contactInfo(style, statusIcon, &wrkIcons);
+            bool bTyping = false;
+            while (!wrkIcons.empty()){
+                if (getToken(wrkIcons, ',') == "typing"){
+                    bTyping = true;
+                    break;
+                }
+            }
+            if (bTyping){
+                list<unsigned>::iterator it;
+                for (it = typing.begin(); it != typing.end(); ++it)
+                    if ((*it) == contact->id())
+                        break;
+                if (it == typing.end()){
+                    typing.push_back(contact->id());
+                    osd.contact = contact->id();
+                    osd.type    = OSD_TYPING;
+                    queue.push_back(osd);
+                    processQueue();
+                }
+            }else{
+                list<unsigned>::iterator it;
+                for (it = typing.begin(); it != typing.end(); ++it)
+                    if ((*it) == contact->id())
+                        break;
+                if (it != typing.end())
+                    typing.erase(it);
+            }
+        }
         break;
     }
     return NULL;
