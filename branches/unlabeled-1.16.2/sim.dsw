@@ -1,0 +1,743 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "__homedir"=.\plugins\__homedir\__homedir.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simui
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "__migrate"=.\plugins\__migrate\__migrate.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simui
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "_core"=.\plugins\_core\_core.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name qjpegio
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simui
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "about"=.\plugins\about\about.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simui
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "autoaway"=.\plugins\autoaway\autoaway.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "background"=.\plugins\background\background.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name qjpegio
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simui
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "dock"=.\plugins\dock\dock.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "filter"=.\plugins\filter\filter.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "floaty"=.\plugins\floaty\floaty.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "forward"=.\plugins\forward\forward.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "gpg"=.\plugins\gpg\gpg.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simui
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "icons"=.\plugins\icons\icons.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simui
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "icq"=.\plugins\icq\icq.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name qjpegio
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simui
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "jabber"=.\plugins\jabber\jabber.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simui
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "loger"=.\plugins\logger\logger.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "metal"=.\plugins\styles\metal\metal.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "msn"=.\plugins\msn\msn.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simui
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "navigate"=.\plugins\navigate\navigate.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simui
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "netmonitor"=.\plugins\netmonitor\netmonitor.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simui
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "ontop"=.\plugins\ontop\ontop.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simui
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "osd"=.\plugins\osd\osd.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "proxy"=.\plugins\proxy\proxy.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name _core
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "qjpegio"=.\sim\qjpegio\qjpegio.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "remote"=.\plugins\remote\remote.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simremote
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "shortcuts"=.\plugins\shortcuts\shortcuts.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simui
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "sim"=.\sim.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name __homedir
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name __migrate
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name _core
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name about
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name autoaway
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name background
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name dock
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name filter
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name floaty
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name forward
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name icons
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name icq
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name jabber
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name loger
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name msn
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name navigate
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name netmonitor
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ontop
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name osd
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name proxy
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name shortcuts
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name sound
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name splash
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name transparent
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name windock
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name xpstyle
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name update
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name gpg
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name remote
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name styles
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simctrl
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name spell
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "simapi"=.\simapi.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "simctrl"=.\plugins\remote\simctrl.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "simremote"=.\plugins\remote\simremote.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "simui"=.\sim\ui\simui.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "sound"=.\plugins\sound\sound.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simui
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "spell"=.\plugins\spell\spell.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simui
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "splash"=.\plugins\splash\splash.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "styles"=.\plugins\styles\styles.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name wood
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name metal
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "transparent"=.\plugins\transparent\transparent.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "update"=.\plugins\update\update.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "windock"=.\plugins\windock\windock.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name simapi
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "wood"=.\plugins\styles\wood\wood.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "xpstyle"=.\xpstyle\xpstyle.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+
