@@ -5,7 +5,7 @@
 %else
 %define with_kde 1
 %endif
-%define release 1
+%define release 2
 
 Name: 		sim
 Version: 	0.9.3
@@ -81,7 +81,6 @@ make -j $numprocs
 
 %install
 make install-strip DESTDIR=$RPM_BUILD_ROOT
-
 %find_lang %{name}
 
 %clean
@@ -90,7 +89,7 @@ rm -rf $RPM_BUILD_DIR/%{name}-%{version}
 
 %files -f %{name}.lang
 %defattr(-, root, root)
-%doc AUTHORS COPYING README TODO INSTALL
+%doc AUTHORS COPYING ChangeLog README* TODO INSTALL
 %{_bindir}/sim*
 %{_libdir}/libsim*
 %{_libdir}/menu/
@@ -102,6 +101,9 @@ rm -rf $RPM_BUILD_DIR/%{name}-%{version}
 %{_datadir}/services/
 
 %changelog
+* Sat Apr 03 2004 - Robert Scheck <sim@robert-scheck.de> - 0.9.3-2
+- Upgrade to 0.9.3-2 (second 0.9.3 release)
+
 * Wed Mar 31 2004 - Robert Scheck <sim@robert-scheck.de> - 0.9.3-1
 - Upgrade to 0.9.3
 - Made the KDE support conditional
