@@ -369,7 +369,7 @@ bool Smiles::load(const QString &file)
     QRegExp start("^ *Smiley *= *");
     QRegExp num("^ *, *-[0-9]+ *, *");
     QRegExp nn("[0-9]+");
-    QRegExp re("\\[\\]\\|\\(\\)\\{\\}\\.\\?\\*\\+");
+    QRegExp re("[\\[\\]\\|\\(\\)\\{\\}\\.\\?\\*\\+]");
     Buffer sf;
     sf.init(f.size());
     f.readBlock(sf.data(), f.size());
