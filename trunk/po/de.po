@@ -1,8 +1,6 @@
-# translation of de.po to Deutsch
 # translation of de.po to deutsch
-# Copyright (C) 2002,2003, 2004 Free Software Foundation, Inc.
-# Christoph Thielecke <crissi99@gmx.de>, 2002,2003, 2004.
-# Crissi <crissi99@gmx.de>, 2003.
+# Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
+# Christoph Thielecke <crissi99@gmx.de>, 2002, 2003, 2004.
 #
 msgid ""
 msgstr ""
@@ -2245,7 +2243,7 @@ msgstr "&Automatische HTTP-Anfragen benutzen, wenn Proxy benötigt wird"
 #: plugins/msn/msnconfigbase.cpp:174
 #: plugins/yahoo/yahoocfgbase.cpp:170
 msgid "Note: For HTTP-pooling using proxy setings for HTTP"
-msgstr "Bemerkung: Für HTTP-Polling, dass Proxy-Einstellungen für HTTP benutzt"
+msgstr "Bemerkung: Für HTTP-Polling, das Proxy-Einstellungen für HTTP benutzt"
 
 #: plugins/icq/aimconfigbase.cc:153
 #: plugins/icq/icqconfigbase.cc:242
@@ -2469,7 +2467,7 @@ msgstr "Persönliches Verzeichnis setzen"
 
 #: plugins/__homedir/homedircfgbase.cpp:63
 msgid "Use &default path"
-msgstr "&Defaultpfad benutzen"
+msgstr "Standar&d-Pfad benutzen"
 
 #: plugins/__homedir/homedircfgbase.cpp:64
 msgid "Path for config files:"
@@ -2481,7 +2479,7 @@ msgstr "Norwegischer Wald"
 
 #: plugins/styles/metal/metal.cpp:514
 msgid "Metal style"
-msgstr "Metallstil"
+msgstr "Metall-Stil"
 
 #: plugins/styles/stylescfg.cpp:57
 msgid "Fonts and colors"
@@ -2581,7 +2579,7 @@ msgstr "Plugins"
 #: plugins/_core/core.cpp:1133
 #: plugins/_core/core.cpp:1215
 msgid "Setup"
-msgstr "Einrichtung..."
+msgstr "Einstellungen"
 
 #: plugins/_core/cfgdlg.cpp:536
 #: plugins/jabber/jabber.cpp:341
@@ -3047,15 +3045,15 @@ msgstr "Anzahl der ungelesenen Nachrichten dieses Kontaktes"
 
 #: plugins/_core/core.cpp:1581
 msgid "contact status"
-msgstr "Kontaktstatus"
+msgstr "Kontakt-Status"
 
 #: plugins/_core/core.cpp:1583
 msgid "time of set status"
-msgstr "Zeit, an der der Status gesetzt wurde"
+msgstr "Zeit, zu der der Status gesetzt wurde"
 
 #: plugins/_core/core.cpp:1585
 msgid "time from set status"
-msgstr "Zeit, die nach dem Setzen des Status vergangen ist"
+msgstr "Zeit, die seit dem Setzen des Status vergangen ist"
 
 #: plugins/_core/core.cpp:1604
 msgid ""
@@ -3063,7 +3061,7 @@ msgid ""
 "If it is wrong, you can separate them. For this purpose in contact menu choose the necessary name and choose a command \"Separate\"."
 msgstr ""
 "Beim Laden der Kontaktliste werden Kontakte mit gleichen Namen automatisch in einem Kontakt vereint.\n"
-"In dem Fall, dass dies falsch ist, können die Kontakte getrennt werden.Für diesen Fall wählen sie den betreffenden Kontakt und führen die Funktion\"Trennen\" aus."
+"In dem Fall, dass dies falsch ist, können die Kontakte getrennt werden. In diesen Fall wählen Sie den betreffenden Kontakt und führen die Funktion \"Trennen\" aus."
 
 #: plugins/_core/core.cpp:1607
 msgid "Don't show this message in next time"
@@ -3927,7 +3925,7 @@ msgstr "&Kontaktliste"
 
 #: plugins/_core/msgedit.cpp:1689
 msgid "&Authorization request"
-msgstr "&Authorisierungsanfrage"
+msgstr "Authorisierungsanfrage"
 
 #: plugins/_core/msgedit.cpp:1698
 msgid "&Grant autorization"
@@ -3993,7 +3991,7 @@ msgstr "&Nicht öffnen"
 
 #: plugins/_core/msgcfgbase.cpp:88
 msgid "Open and &minimize"
-msgstr "Öffnen und &minimieren"
+msgstr "Öffnen und &Minimieren"
 
 #: plugins/_core/msgcfgbase.cpp:89
 msgid "Open and &raise"
@@ -4292,7 +4290,7 @@ msgstr "Minuten keine Computerbenutzung"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:105
 msgid "minutes of \"Away\""
-msgstr "Minuten \"Abwesend\"-Status"
+msgstr "Minuten im \"Abwesend\"-Status"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:106
 msgid "minutes of \"N/A\""
@@ -5048,7 +5046,7 @@ msgstr "UIN wurde suspendiert"
 
 #: plugins/icq/icqlogin.cpp:250
 msgid "Can't login to ICQ network - Please try again later"
-msgstr "Es kann nicht ins ICQ-Netzwerk eingeloggt werden - Bitte später erneut versuchen"
+msgstr "Es kann nicht ins ICQ-Netzwerk eingeloggt werden - bitte später erneut versuchen"
 
 #: plugins/icq/icqlogin.cpp:271
 msgid "Youur UIN is being used from another location"
@@ -6007,7 +6005,7 @@ msgstr "&ICQ"
 #: plugins/icq/aimconfigbase.cc:152
 #: plugins/icq/icqconfigbase.cc:241
 msgid "&Keep-alive connection"
-msgstr "Verbindung aufrechter&halten"
+msgstr "Verbindung aufrecht er&halten"
 
 #: plugins/icq/icqconfigbase.cc:243
 msgid "Send format:"
@@ -6788,7 +6786,7 @@ msgstr "Standard"
 
 #: plugins/proxy/proxycfg.cpp:224
 msgid "HTTP requests"
-msgstr "HTTP Anfragen"
+msgstr "HTTP-Anfragen"
 
 #: plugins/proxy/proxycfgbase.cpp:131
 msgid "Host:"
@@ -7021,11 +7019,11 @@ msgstr ""
 
 #: plugins/sms/sms.cpp:108
 msgid "Phone call"
-msgstr "Telefonanruf"
+msgstr "Telefon-Anruf"
 
 #: plugins/sms/sms.cpp:552
 msgid "Port error"
-msgstr "Portfehler"
+msgstr "Port-Fehler"
 
 #: plugins/sms/smssetup.cpp:56
 msgid "Charging:"
@@ -8443,7 +8441,7 @@ msgstr "Kontakt %1 wurde zur Gruppe %2 hinzugefügt"
 
 #: plugins/yahoo/yahoosearchbase.cpp:79
 msgid "Yahoo ID:"
-msgstr "Yahoo-ID:"
+msgstr "Yahoo!-ID:"
 
 #: plugins/replace/replace.cpp:33
 msgid "Replace text"
@@ -8495,7 +8493,7 @@ msgstr "Freitag"
 
 #: plugins/weather/weather.cpp:456
 msgid "Saturday"
-msgstr "Sonnabend"
+msgstr "Samstag"
 
 #: plugins/weather/weather.cpp:457
 msgid "Sunday"
@@ -8577,7 +8575,7 @@ msgstr "Schauer"
 msgid ""
 "_: weather\n"
 "Mostly Clear"
-msgstr "Meist Klar"
+msgstr "Meist klar"
 
 #: plugins/weather/weather.cpp:472
 msgid ""
@@ -8709,19 +8707,19 @@ msgstr "S"
 msgid ""
 "_: weather\n"
 "SSE"
-msgstr "SSE"
+msgstr "SSO"
 
 #: plugins/weather/weather.cpp:494
 msgid ""
 "_: weather\n"
 "SE"
-msgstr "SE"
+msgstr "SO"
 
 #: plugins/weather/weather.cpp:495
 msgid ""
 "_: weather\n"
 "SEE"
-msgstr "SEE"
+msgstr "SOO"
 
 #: plugins/weather/weather.cpp:496
 msgid ""
@@ -8929,7 +8927,7 @@ msgstr "Nummer"
 
 #: plugins/weather/wifacecfg.cpp:70
 msgid "Day of week"
-msgstr "Tag der Woche"
+msgstr "Wochentag"
 
 #: plugins/weather/wifacecfgbase.cpp:81
 msgid "Button text:"

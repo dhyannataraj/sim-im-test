@@ -1,6 +1,6 @@
 # translation of sw.po to schwäbisch
-# Copyright (C) 2002,2003 Free Software Foundation, Inc.
-# Robert Scheck <sim@robert-scheck.de>, 2003.
+# Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
+# Robert Scheck <sim@robert-scheck.de>, 2003, 2004.
 #
 msgid ""
 msgstr ""
@@ -990,12 +990,14 @@ msgstr "Koine megliche Obzion %1"
 msgid "Usage: %1 "
 msgstr "Benudzong: %1 "
 
-#: sim/api/sslclient.cpp:125 sim/api/sslclient.cpp:293
+#: sim/api/sslclient.cpp:125 
+#: sim/api/sslclient.cpp:293
 #: sim/api/sslclient.cpp:297
 msgid "SSL write error"
 msgstr "SSL-Schreibfehlr"
 
-#: sim/api/sslclient.cpp:134 sim/api/sslclient.cpp:155
+#: sim/api/sslclient.cpp:134 
+#: sim/api/sslclient.cpp:155
 #: sim/api/sslclient.cpp:163
 msgid "SSL connect error"
 msgstr "SSL-Vrbendongsfehlr"
@@ -1004,17 +1006,21 @@ msgstr "SSL-Vrbendongsfehlr"
 msgid "SSL shutdown error"
 msgstr "SSL-Fehlr beim SSL-Shuddown"
 
-#: sim/api/sslclient.cpp:191 sim/api/sslclient.cpp:199
+#: sim/api/sslclient.cpp:191
+#: sim/api/sslclient.cpp:199
 msgid "SSL shuwdown error"
 msgstr "SSL-Fehlr beim SSL-Shuddown"
 
-#: sim/api/sslclient.cpp:206 sim/api/sslclient.cpp:227
+#: sim/api/sslclient.cpp:206
+#: sim/api/sslclient.cpp:227
 #: sim/api/sslclient.cpp:235
 msgid "SSL accept error"
 msgstr "SSL-Fehlr beim SSL-Accebd"
 
-#: sim/api/sslclient.cpp:257 sim/api/sslclient.cpp:261
-#: sim/api/sslclient.cpp:345 sim/api/sslclient.cpp:351
+#: sim/api/sslclient.cpp:257
+#: sim/api/sslclient.cpp:261
+#: sim/api/sslclient.cpp:345
+#: sim/api/sslclient.cpp:351
 msgid "SSL read error"
 msgstr "SSL-Fehlr beim SSL-Lesa"
 
@@ -1034,9 +1040,12 @@ msgstr "%1 KB"
 msgid "%1 bytes"
 msgstr "%1 Byde"
 
-#: plugins/__migrate/migratedlg.cpp:160 plugins/__migrate/migratedlg.cpp:164
-#: plugins/__migrate/migratedlg.cpp:168 plugins/__migrate/migratedlg.cpp:228
-#: plugins/__migrate/migratedlg.cpp:232 sim/api/message.cpp:537
+#: plugins/__migrate/migratedlg.cpp:160
+#: plugins/__migrate/migratedlg.cpp:164
+#: plugins/__migrate/migratedlg.cpp:168
+#: plugins/__migrate/migratedlg.cpp:228
+#: plugins/__migrate/migratedlg.cpp:232
+#: sim/api/message.cpp:537
 #, c-format
 msgid "Can't open %1"
 msgstr "%1 ka ned geeffned werda"
@@ -1050,14 +1059,22 @@ msgid ""
 "Definition of PluralForm - to be set by the translator of kdelibs.po"
 msgstr "TwoForms"
 
-#: plugins/_core/autoreplybase.cpp:91 plugins/_core/cfgdlg.cpp:489
-#: plugins/_core/cfgdlgbase.cpp:95 plugins/_core/connectionsettingsbase.cpp:75
-#: plugins/_core/declinedlgbase.cpp:82 plugins/_core/editmailbase.cpp:97
-#: plugins/_core/editphonebase.cpp:112 plugins/_core/logindlgbase.cpp:132
-#: plugins/_core/toolsetupbase.cpp:135 plugins/action/additembase.cpp:95
-#: plugins/gpg/gpggenbase.cpp:114 plugins/icq/encodingdlgbase.cc:86
-#: plugins/icq/warndlgbase.cc:88 plugins/jabber/discoinfobase.cpp:289
-#: plugins/proxy/proxyerrorbase.cpp:80 sim/api/simapi.cpp:462
+#: plugins/_core/autoreplybase.cpp:91 
+#: plugins/_core/cfgdlg.cpp:489
+#: plugins/_core/cfgdlgbase.cpp:95 
+#: plugins/_core/connectionsettingsbase.cpp:75
+#: plugins/_core/declinedlgbase.cpp:82 
+#: plugins/_core/editmailbase.cpp:97
+#: plugins/_core/editphonebase.cpp:112 
+#: plugins/_core/logindlgbase.cpp:132
+#: plugins/_core/toolsetupbase.cpp:135 
+#: plugins/action/additembase.cpp:95
+#: plugins/gpg/gpggenbase.cpp:114
+#: plugins/icq/encodingdlgbase.cc:86
+#: plugins/icq/warndlgbase.cc:88
+#: plugins/jabber/discoinfobase.cpp:289
+#: plugins/proxy/proxyerrorbase.cpp:80
+#: sim/api/simapi.cpp:462
 #: sim/ui/qt3/i18n.cpp:174
 msgid "&OK"
 msgstr "&OK"
@@ -2114,18 +2131,18 @@ msgstr "-"
 #: plugins/jabber/jabberconfigbase.cpp:291 plugins/msn/msnconfigbase.cpp:172
 #: plugins/yahoo/yahoocfgbase.cpp:172
 msgid "Use &HTTP polling"
-msgstr ""
+msgstr "&HTTP-Bolling benudza"
 
 #: plugins/icq/aimconfigbase.cc:150 plugins/icq/icqconfigbase.cc:234
 #: plugins/msn/msnconfigbase.cpp:173 plugins/yahoo/yahoocfgbase.cpp:171
 msgid "&Automaticaly use HTTP pooling if proxy required"
-msgstr ""
+msgstr "&Audomadische HTTP-Anfroga benudza, wenn Broxy baedigd wird"
 
 #: plugins/icq/aimconfigbase.cc:151 plugins/icq/icqconfigbase.cc:240
 #: plugins/jabber/jabberconfigbase.cpp:292 plugins/msn/msnconfigbase.cpp:174
 #: plugins/yahoo/yahoocfgbase.cpp:170
 msgid "Note: For HTTP-pooling using proxy setings for HTTP"
-msgstr ""
+msgstr "Bemerkong: Fir HTTP-Bolling, des Broxy-Oischdellonga fir HTTP benudzd"
 
 #: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:242
 #: plugins/jabber/jabberconfigbase.cpp:294
@@ -2246,7 +2263,7 @@ msgstr "Bin gleich wiedr do"
 
 #: plugins/msn/msn.cpp:161 plugins/yahoo/yahooclient.cpp:1260
 msgid "On the phone"
-msgstr "Bin am delefoniera"
+msgstr "Bin am Delefoniera"
 
 #: plugins/msn/msn.cpp:176
 msgid "On the lunch"
@@ -2293,12 +2310,11 @@ msgstr "Bersenlichs Vrzeichnis sedza"
 
 #: plugins/__homedir/homedircfgbase.cpp:63
 msgid "Use &default path"
-msgstr ""
+msgstr "Schdandar&d-Bfad benudza"
 
 #: plugins/__homedir/homedircfgbase.cpp:64
-#, fuzzy
 msgid "Path for config files:"
-msgstr "Bfad fir oigehende Dadeia:"
+msgstr "Bfad fir Konfigurazionsdadeia:"
 
 #: plugins/styles/wood/wood.cpp:1269
 msgid "Norwegian Wood"
@@ -2306,7 +2322,7 @@ msgstr "Norwegischer Wald"
 
 #: plugins/styles/metal/metal.cpp:514
 msgid "Metal style"
-msgstr "Medallschdil"
+msgstr "Medall-Schdil"
 
 #: plugins/styles/stylescfg.cpp:57
 msgid "Fonts and colors"
@@ -2415,7 +2431,7 @@ msgstr "Enformazion akdualisiera"
 
 #: plugins/_core/cmenu.cpp:78
 msgid "More..."
-msgstr ""
+msgstr "Mehr..."
 
 #: plugins/_core/commands.cpp:234 plugins/_core/toolbarcfg.cpp:40
 msgid "Customize toolbar..."
@@ -2430,18 +2446,16 @@ msgid "Container"
 msgstr "Condainr"
 
 #: plugins/_core/container.cpp:563 plugins/osd/osd.cpp:360
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 typed"
-msgstr "%1 schreibd"
+msgstr "%1 schreibd grade"
 
 #: plugins/_core/container.cpp:564 plugins/osd/osd.cpp:361
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 typed"
-msgstr "%1 schreibd"
+msgstr "%1 schreibd grade"
 
 #: plugins/_core/core.cpp:77 plugins/weather/weathercfg.cpp:53
 msgid "Interface"
@@ -2573,7 +2587,7 @@ msgstr "Sucha/hinzufiga"
 
 #: plugins/_core/core.cpp:581
 msgid "&Send SMS"
-msgstr "SMS senda"
+msgstr "SMS &senda"
 
 #: plugins/_core/core.cpp:588
 msgid "&Phone service"
@@ -2695,9 +2709,8 @@ msgid "&Answer"
 msgstr "&Andword"
 
 #: plugins/_core/core.cpp:1002
-#, fuzzy
 msgid "Enable spell check"
-msgstr "Rechdschreibbrifong"
+msgstr "Rechdschreibbrifong akdiviera"
 
 #: plugins/_core/core.cpp:1008 plugins/spell/spell.cpp:61
 msgid "Spell check"
@@ -2729,9 +2742,8 @@ msgid "Group mode 2"
 msgstr "Grubbenmodus 2"
 
 #: plugins/_core/core.cpp:1079
-#, fuzzy
 msgid "Show &empty groups"
-msgstr "&Koine Grubba anzeiga"
+msgstr "Koine &leera Grubba anzeiga"
 
 #: plugins/_core/core.cpp:1086
 msgid "&Create group"
@@ -2805,41 +2817,36 @@ msgid "&Edit"
 msgstr "&Bearbeida"
 
 #: plugins/_core/core.cpp:1571
-#, fuzzy
 msgid "ip-address"
-msgstr "Adresse:"
+msgstr "IP-Adresse"
 
 #: plugins/_core/core.cpp:1573
-#, fuzzy
 msgid "e-mail"
 msgstr "E-Mail"
 
 #: plugins/_core/core.cpp:1575
-#, fuzzy
 msgid "phone"
 msgstr "Delefon"
 
 #: plugins/_core/core.cpp:1577
-#, fuzzy
 msgid "contact nick"
-msgstr "Kondakd ischd online"
+msgstr "Kondakd-Nigg"
 
 #: plugins/_core/core.cpp:1579
 msgid "number of unread messages from this contact"
-msgstr ""
+msgstr "Anzahl dr oglesena Nachrichda dieses Kondakdes"
 
 #: plugins/_core/core.cpp:1581
-#, fuzzy
 msgid "contact status"
-msgstr "Kondakdlischde"
+msgstr "Kondakd-Schdadus"
 
 #: plugins/_core/core.cpp:1583
 msgid "time of set status"
-msgstr ""
+msgstr "Zeid, zu dr dr Schdadus gsedzd wurde"
 
 #: plugins/_core/core.cpp:1585
 msgid "time from set status"
-msgstr ""
+msgstr "Zeid, de seid dem Sedza des Schdadus vrganga ischd"
 
 #: plugins/_core/core.cpp:1604
 msgid ""
@@ -2848,15 +2855,16 @@ msgid ""
 "If it is wrong, you can separate them. For this purpose in contact menu "
 "choose the necessary name and choose a command \"Separate\"."
 msgstr ""
+"Beim Lada dr Kondakdlischde werda Kondakde mid gleicha Nama audomadisch en oim Kondakd vreend.\n"
+"En dem Fall, dess sell falsch ischd, kenna d Kondakde gedrennd werda. En diesa Fall wähla Se da bedreffenda Kondakd ond fihra d Funkzion \"Drenna\" aus."
 
 #: plugins/_core/core.cpp:1607
-#, fuzzy
 msgid "Don't show this message in next time"
-msgstr "Diesa Dialog ned wiedr anzeiga"
+msgstr "Sell Nachrichd beim nächschda Mol ned wiedr anzeiga"
 
 #: plugins/_core/core.cpp:1634
 msgid "`<command>` - call <command> and substitute command output\n"
-msgstr ""
+msgstr "`<kommando>` - rufd <kommando> uff ond wird durch d Kommandoausgabe ersedzd\n"
 
 #: plugins/_core/core.cpp:2240
 msgid "&Separate"
@@ -3673,7 +3681,7 @@ msgstr "&Kondakdlischde"
 
 #: plugins/_core/msgedit.cpp:1689
 msgid "&Authorization request"
-msgstr "&Audhorisierongsanfroge"
+msgstr "Audhorisierongsanfroge"
 
 #: plugins/_core/msgedit.cpp:1698
 msgid "&Grant autorization"
@@ -3738,11 +3746,11 @@ msgstr "&Ned effna"
 
 #: plugins/_core/msgcfgbase.cpp:88
 msgid "Open and &minimize"
-msgstr ""
+msgstr "Effna ond &Minimiera"
 
 #: plugins/_core/msgcfgbase.cpp:89
 msgid "Open and &raise"
-msgstr ""
+msgstr "Effna ond &Hervorheba"
 
 #: plugins/_core/interfacecfg.cpp:45 plugins/icq/moreinfo.cpp:98
 msgid "English"
@@ -4015,21 +4023,19 @@ msgstr "Minuda koine Combuderbenudzong"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:105
 msgid "minutes of \"Away\""
-msgstr "Minuda \"Weg\"-Schdadus"
+msgstr "Minuda im \"Weg\"-Schdadus"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:106
-#, fuzzy
 msgid "minutes of \"N/A\""
-msgstr "Minuda \"Weg\"-Schdadus"
+msgstr "Minuda im \"Weg\"-Schdadus"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:107
 msgid "Set \"N/A\" status after"
 msgstr "\"N/A\"-Schdadus sedza wenn"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:108
-#, fuzzy
 msgid "Set \"Offline\" status after"
-msgstr "\"N/A\"-Schdadus sedza wenn"
+msgstr "\"Offline\"-Schdadus sedza nach"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:109
 msgid ""
@@ -4731,7 +4737,7 @@ msgstr "Regischdrierd en oim ned regischdrierda Zuschdand"
 
 #: plugins/icq/icqlogin.cpp:196
 msgid "This client is outdated"
-msgstr ""
+msgstr "Dr Cliend ischd vralded"
 
 #: plugins/icq/icqlogin.cpp:201
 msgid "Too many clients from same IP"
@@ -4751,29 +4757,27 @@ msgstr "Ned-exischdierende UIN"
 
 #: plugins/icq/icqlogin.cpp:223
 msgid "Bad login procedure"
-msgstr ""
+msgstr "Falsche Login-Brozedur"
 
 #: plugins/icq/icqlogin.cpp:234
-#, fuzzy
 msgid "Service temporarly unavailable"
-msgstr "Benudzr ischd demborär ned vrfigbar"
+msgstr "Dienschd ischd demborär ned vrfigbar"
 
 #: plugins/icq/icqlogin.cpp:238
-#, fuzzy
 msgid "Invalid SecureID"
-msgstr "Ongildigr Benudzername"
+msgstr "Ongildige Sicherheids-ID"
 
 #: plugins/icq/icqlogin.cpp:242
 msgid "Too young!"
-msgstr ""
+msgstr "Zu jong, haidanai!"
 
 #: plugins/icq/icqlogin.cpp:246
 msgid "UIN was suspended"
-msgstr ""
+msgstr "UIN wurde susbendierd"
 
 #: plugins/icq/icqlogin.cpp:250
 msgid "Can't login to ICQ network - Please try again later"
-msgstr ""
+msgstr "S ka ned ens ICQ-Nedzwerk oigloggd werda - bidde schbädr erneid vrsucha"
 
 #: plugins/icq/icqlogin.cpp:271
 msgid "Youur UIN is being used from another location"
@@ -4994,56 +4998,48 @@ msgid "SMS send fail"
 msgstr "SMS-Senda fehlgschlaga"
 
 #: plugins/icq/icqvarious.cpp:1541
-#, fuzzy
 msgid "Jan"
-msgstr "Jaban"
+msgstr "Jan"
 
 #: plugins/icq/icqvarious.cpp:1542
 msgid "Feb"
-msgstr ""
+msgstr "Feb"
 
 #: plugins/icq/icqvarious.cpp:1543
-#, fuzzy
 msgid "Mar"
-msgstr "März"
+msgstr "Mar"
 
 #: plugins/icq/icqvarious.cpp:1544
-#, fuzzy
 msgid "Apr"
-msgstr "Abril"
+msgstr "Apr"
 
 #: plugins/icq/icqvarious.cpp:1546
-#, fuzzy
 msgid "Jun"
-msgstr "Juni"
+msgstr "Jun"
 
 #: plugins/icq/icqvarious.cpp:1547
-#, fuzzy
 msgid "Jul"
-msgstr "Juli"
+msgstr "Jul"
 
 #: plugins/icq/icqvarious.cpp:1548
-#, fuzzy
 msgid "Aug"
-msgstr "Auguschd"
+msgstr "Aug"
 
 #: plugins/icq/icqvarious.cpp:1549
-#, fuzzy
 msgid "Sep"
-msgstr "Oirichda"
+msgstr "Sep"
 
 #: plugins/icq/icqvarious.cpp:1550
 msgid "Oct"
-msgstr ""
+msgstr "Okt"
 
 #: plugins/icq/icqvarious.cpp:1551
-#, fuzzy
 msgid "Nov"
-msgstr "&Noi"
+msgstr "Nov"
 
 #: plugins/icq/icqvarious.cpp:1552
 msgid "Dec"
-msgstr ""
+msgstr "Dez"
 
 #: plugins/icq/icqicmb.cpp:787 plugins/icq/icqicmb.cpp:795
 #: plugins/icq/icqvarious.cpp:1622 plugins/jabber/jabberclient.cpp:811
@@ -5707,9 +5703,8 @@ msgid "&ICQ"
 msgstr "&ICQ"
 
 #: plugins/icq/aimconfigbase.cc:152 plugins/icq/icqconfigbase.cc:241
-#, fuzzy
 msgid "&Keep-alive connection"
-msgstr "&Neie Vrbendong"
+msgstr "Vrbendong uffrechd r&halda"
 
 #: plugins/icq/icqconfigbase.cc:243
 msgid "Send format:"
@@ -5732,28 +5727,24 @@ msgid "Automatically &update user info"
 msgstr "Audomadisch Benudzerinformazion akd&ualisiera"
 
 #: plugins/icq/icqconfigbase.cc:248
-#, fuzzy
 msgid "Automaticaly &request autoreply on change status"
-msgstr "Audomadische &Abfroge dr Audoandword bei oinr Schdadusänderong"
+msgstr "Audomadische &Anfroge von Heilix Blechleandword bei Schdadusänderong"
 
 #: plugins/icq/icqconfigbase.cc:249
-#, fuzzy
 msgid "Send message:"
-msgstr "Nachrichd &senda"
+msgstr "Nachrichd senda:"
 
 #: plugins/icq/icqconfigbase.cc:251
-#, fuzzy
 msgid "No wait ack"
-msgstr "Koine Ibereinschdemmong"
+msgstr "Ohne Beschdädigong"
 
 #: plugins/icq/icqconfigbase.cc:252
-#, fuzzy
 msgid "Wait ack from server"
-msgstr "Baked vom Servr schließa"
+msgstr "Warda uff Andword vom Servr"
 
 #: plugins/icq/icqconfigbase.cc:253
 msgid "Wait ack from client"
-msgstr ""
+msgstr "Warda uff Andword vom Cliend"
 
 #: plugins/icq/icqconfigbase.cc:254 plugins/jabber/jabberconfigbase.cpp:303
 #: plugins/livejournal/livejournalcfgbase.cpp:159
@@ -6401,14 +6392,12 @@ msgid "&OSD"
 msgstr "&OSD"
 
 #: plugins/osd/osd.cpp:358
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is online"
 msgstr "%1 ischd online"
 
 #: plugins/osd/osd.cpp:359
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is online"
@@ -6428,19 +6417,16 @@ msgid "Enable &typing notification"
 msgstr "Schreibbenachrich&digong akdiviera"
 
 #: plugins/osd/osdconfigbase.cpp:84
-#, fuzzy
 msgid "Show message content"
-msgstr "Onbekanndr Nachrichdendyb"
+msgstr "Nachrichdeninhald anzeiga"
 
 #: plugins/osd/osdconfigbase.cpp:85
-#, fuzzy
 msgid "All"
-msgstr "&Alle"
+msgstr "Alle"
 
 #: plugins/osd/osdconfigbase.cpp:86
-#, fuzzy
 msgid "Show lines of content:"
-msgstr "Onbekanndr Nachrichdendyb"
+msgstr "Zeila des Enhaldes anzeiga:"
 
 #: plugins/osd/osdifacebase.cpp:129
 msgid "Offset:"
@@ -6480,7 +6466,7 @@ msgstr "Schdandard"
 
 #: plugins/proxy/proxycfg.cpp:224
 msgid "HTTP requests"
-msgstr ""
+msgstr "HTTP-Anfroga"
 
 #: plugins/proxy/proxycfgbase.cpp:131
 msgid "Host:"
@@ -6516,10 +6502,9 @@ msgstr "Broxy-Audhendifizierong fehlgschlaga"
 
 #: plugins/proxy/proxy.cpp:1126
 msgid "Proxy"
-msgstr "Proxy"
+msgstr "Broxy"
 
 #: plugins/proxy/proxy.cpp:1127
-#, fuzzy
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS/HTTP)"
 msgstr ""
 "Blugin schdelld Proxy-Onderschdidzong (SOCKS4, SOCKS5, HTTPS und HTTP) bereid"
@@ -6671,9 +6656,8 @@ msgid "Plugin provides windows transparency"
 msgstr "Blugin schdelld d Dranschbarenz von Fenschdern bereid"
 
 #: plugins/transparent/transparentcfgbase.cpp:71
-#, fuzzy
 msgid "Transparency of main window:"
-msgstr "Dranschbarendes Haubdfenschdr:"
+msgstr "Dranschbarenz des Haubdfenschders:"
 
 #: plugins/transparent/transparentcfgbase.cpp:72
 msgid "Transparent only if inactive"
@@ -6708,93 +6692,84 @@ msgid ""
 msgstr ""
 
 #: plugins/sms/sms.cpp:108
-#, fuzzy
 msgid "Phone call"
-msgstr "Delefon"
+msgstr "Delefon-Anruf"
 
 #: plugins/sms/sms.cpp:552
-#, fuzzy
 msgid "Port error"
-msgstr "Broxyfehlr"
+msgstr "Bord-Fehlr"
 
 #: plugins/sms/smssetup.cpp:56
-#, fuzzy
 msgid "Charging:"
-msgstr "Schreiend"
+msgstr "Vrrechnong:"
 
 #: plugins/sms/smssetup.cpp:58
-#, fuzzy
 msgid "Battery:"
-msgstr "Kadegorie:"
+msgstr "Badderie:"
 
 #: plugins/sms/smssetupbase.cpp:139
-#, fuzzy
 msgid "SMSSetup"
-msgstr "Oirichda"
+msgstr "SMS-Oirichdong"
 
 #: plugins/sms/smssetupbase.cpp:141
-#, fuzzy
 msgid "Baudrate:"
-msgstr "Barbuda"
+msgstr "Baudrade:"
 
 #: plugins/sms/smssetupbase.cpp:143
 msgid "115200"
-msgstr ""
+msgstr "115200"
 
 #: plugins/sms/smssetupbase.cpp:144
 msgid "38400"
-msgstr ""
+msgstr "38400"
 
 #: plugins/sms/smssetupbase.cpp:145
 msgid "19200"
-msgstr ""
+msgstr "19200"
 
 #: plugins/sms/smssetupbase.cpp:146
 msgid "9600"
-msgstr ""
+msgstr "9600"
 
 #: plugins/sms/smssetupbase.cpp:147
 msgid "4800"
-msgstr ""
+msgstr "4800"
 
 #: plugins/sms/smssetupbase.cpp:148
 msgid "2400"
-msgstr ""
+msgstr "2400"
 
 #: plugins/sms/smssetupbase.cpp:149
 msgid "1200"
-msgstr ""
+msgstr "1200"
 
 #: plugins/sms/smssetupbase.cpp:150
 msgid "600"
-msgstr ""
+msgstr "600"
 
 #: plugins/sms/smssetupbase.cpp:151
 msgid "300"
-msgstr ""
+msgstr "300"
 
 #: plugins/sms/smssetupbase.cpp:152
 msgid "Software handshake"
-msgstr ""
+msgstr "Sofdware-Handshake"
 
 #: plugins/sms/smssetupbase.cpp:154
-#, fuzzy
 msgid "Model:"
-msgstr "ardig"
+msgstr "Modell:"
 
 #: plugins/sms/smssetupbase.cpp:155
 msgid "Signal quality:"
-msgstr ""
+msgstr "Signalqualidäd:"
 
 #: plugins/sms/smssetupbase.cpp:157
-#, fuzzy
 msgid "Operator:"
-msgstr "Eschberando"
+msgstr "Oberador:"
 
 #: plugins/sms/smssetupbase.cpp:158
-#, fuzzy
 msgid "&Phone"
-msgstr "&Delefone:"
+msgstr "&Delefon"
 
 #: plugins/jabber/jabber_rosters.cpp:1986
 msgid "Password does not match"
@@ -7067,11 +7042,11 @@ msgstr "Nachrichd als &Rich-Dexd senda, wenn meglich"
 
 #: plugins/jabber/jabberconfigbase.cpp:301
 msgid "Automaticaly send &subscribe request"
-msgstr ""
+msgstr "Audomadische &Abonnierenanfroge senda"
 
 #: plugins/jabber/jabberconfigbase.cpp:302
 msgid "Automaticaly &accept subscribe requests"
-msgstr ""
+msgstr "Audomadisch Abonnierenanfroga &akzebdiera"
 
 #: plugins/jabber/jabberworkinfobase.cpp:91
 msgid "Role:"
@@ -7277,71 +7252,60 @@ msgid "Register new user"
 msgstr "Neia Benudzr regischdriera"
 
 #: plugins/livejournal/msgjournal.cpp:153
-#, fuzzy
 msgid "Remove record from journal?"
-msgstr "Vom Journal &lescha"
+msgstr "Oidrag vom Journal lescha, ha?"
 
 #: plugins/livejournal/msgjournalbase.cpp:82
-#, fuzzy
 msgid "Subject:"
-msgstr "<p>Bedreff: %1</p>"
+msgstr "Bedreff:"
 
 #: plugins/livejournal/msgjournalbase.cpp:83
-#, fuzzy
 msgid "Security:"
-msgstr "Sicherheid"
+msgstr "Sicherheid:"
 
 #: plugins/livejournal/msgjournalbase.cpp:85
-#, fuzzy
 msgid "Public"
-msgstr "Bubliziera"
+msgstr "Effendlich"
 
 #: plugins/livejournal/msgjournalbase.cpp:86
-#, fuzzy
 msgid "Private"
-msgstr "Oifiga"
+msgstr "Brivad"
 
 #: plugins/livejournal/msgjournalbase.cpp:87
-#, fuzzy
 msgid "Mood:"
-msgstr "ardig"
+msgstr "Schdemmong:"
 
 #: plugins/livejournal/msgjournalbase.cpp:91
 msgid "Enable comments"
-msgstr ""
+msgstr "Kommendare akdiviera"
 
 #: plugins/livejournal/msgjournalbase.cpp:92
 msgid "No email comments"
-msgstr ""
+msgstr "Koine E-Mail-Kommendare"
 
 #: plugins/livejournal/msgjournalbase.cpp:93
-#, fuzzy
 msgid "Disable comments"
-msgstr "Alle Klänge &deakdiviera"
+msgstr "Kommendare deakdiviera"
 
 #: plugins/livejournal/journalsearchbase.cpp:70
-#, fuzzy
 msgid "Community:"
-msgstr "Land:"
+msgstr "Gmeinschafd:"
 
 #: plugins/livejournal/journalsearchbase.cpp:71
-#, fuzzy
 msgid "&Add community"
-msgstr "Kondakd &hinzufiga"
+msgstr "Gmeinschafd &hinzufiga"
 
 #: plugins/livejournal/journalsearch.cpp:54
 msgid "Add community results"
-msgstr ""
+msgstr "Gmeinschafd-Ergebnisse hinzufiga"
 
 #: plugins/livejournal/journalsearch.cpp:80
-#, fuzzy
 msgid "Community %1 added to list"
-msgstr "Dr Kondakd %1 wurde zur Lischde hinzugfigd"
+msgstr "Gmeinschafd %1 wurde zur Lischde hinzugfigd."
 
 #: plugins/livejournal/journalsearch.cpp:82
-#, fuzzy
 msgid "Community %1 already in list"
-msgstr "Dr Kondakd %1 ischd bereids en dr Lischde vorhanda"
+msgstr "Gmeinschafd %1 ischd bereids en dr Lischde vorhanda"
 
 #: plugins/livejournal/livejournal.cpp:109
 #, c-format
@@ -7358,6 +7322,8 @@ msgid ""
 "_n: Friends updated\n"
 "Friends updated %n"
 msgstr ""
+"1 Freind akdualisierd\n"
+"%n Freinde akdualisierd"
 
 #: plugins/livejournal/livejournal.cpp:127
 msgid "&Remove from journal"
@@ -7372,9 +7338,8 @@ msgid "LiveJournal &WWW"
 msgstr "LiveJournal &WWW"
 
 #: plugins/livejournal/livejournal.cpp:251
-#, fuzzy
 msgid "Friends updated"
-msgstr "Freinde-Ansichd"
+msgstr "Freinde akdualisierd"
 
 #: plugins/livejournal/livejournal.cpp:295
 msgid "LiveJournal"
@@ -7953,28 +7918,25 @@ msgid "Journal Settings"
 msgstr "Journal-Oischdellonga"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:151
-#, fuzzy
 msgid "&LiveJournal"
-msgstr "LiveJournal"
+msgstr "&LiveJournal"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:153
 #: plugins/spell/spellcfgbase.cpp:84
 msgid "Path:"
-msgstr ""
+msgstr "Pfad:"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:156
-#, fuzzy
 msgid "Check interval:"
-msgstr "Onsichdbar iberbrifa"
+msgstr "Briefendervall:"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:157
-#, fuzzy
 msgid "minutes"
-msgstr "Combjudr"
+msgstr "Minuda"
 
 #: plugins/livejournal/livejournalcfgbase.cpp:158
 msgid "Use &fast server - only for paying customers"
-msgstr ""
+msgstr "&Schnella Servr benudza - nur fir zahlende Konda"
 
 #: plugins/spell/spellcfg.cpp:46
 msgid "ASpell(aspell.exe)"
@@ -8090,454 +8052,419 @@ msgstr "Mailr:"
 
 #: plugins/yahoo/yahoo.cpp:81
 msgid "Yahoo!"
-msgstr ""
+msgstr "Yahoo!"
 
 #: plugins/yahoo/yahoo.cpp:84
 msgid ""
 "http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.ya"
 "hoo.com/&.redir_from=MESSENGER"
-msgstr ""
+msgstr "http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.yahoo.com/&.redir_from=MESSENGER"
 
 #: plugins/yahoo/yahoocfg.cpp:46
 msgid "Get a Yahoo! ID"
-msgstr ""
+msgstr "A Yahoo!-ID hola"
 
 #: plugins/yahoo/yahooclient.cpp:114
-#, fuzzy
 msgid "Cancel send"
-msgstr "Abbrecha"
+msgstr "Senda abbrecha"
 
 #: plugins/yahoo/yahooclient.cpp:294
 msgid "Yahoo! login lock"
-msgstr ""
+msgstr "Yahoo!-Loginschberre"
 
 #: plugins/yahoo/yahooclient.cpp:317
 msgid "Your account has been locked"
-msgstr ""
+msgstr "Dr Zugang wurde gschberrd"
 
 #: plugins/yahoo/yahooclient.cpp:321 plugins/yahoo/yahooclient.cpp:350
-#, fuzzy
 msgid "Your account is being used from another location"
 msgstr "Ihre UIN wird grade von oim andera Ord aus benudzd"
 
 #: plugins/yahoo/yahooclient.cpp:1251
-#, fuzzy
 msgid "Not at home"
-msgstr "Koine Ibereinschdemmong"
+msgstr "Ned zu Hause"
 
 #: plugins/yahoo/yahooclient.cpp:1254
 msgid "Not at my desk"
-msgstr ""
+msgstr "Ned am Arbeidschbladz"
 
 #: plugins/yahoo/yahooclient.cpp:1257
 msgid "Not in the office"
-msgstr ""
+msgstr "Ned em Biro"
 
 #: plugins/yahoo/yahooclient.cpp:1263
-#, fuzzy
 msgid "On vacation"
-msgstr "Beschäfdigong:"
+msgstr "Em Urlaub"
 
 #: plugins/yahoo/yahooclient.cpp:1266
-#, fuzzy
 msgid "Out to lunch"
 msgstr "Zom Middag"
 
 #: plugins/yahoo/yahooclient.cpp:1269
-#, fuzzy
 msgid "Stepped out"
-msgstr "Zeidiberschreidong während des Sendens"
+msgstr "Ausdreda"
 
 #: plugins/yahoo/yahoocfgbase.cpp:165
-#, fuzzy
 msgid "&Yahoo!"
-msgstr "&Fodo:"
+msgstr "&Yahoo!"
 
 #: plugins/yahoo/yahoocfgbase.cpp:168
-#, fuzzy
 msgid "File transfer server:"
-msgstr "Dadeiiberdragong beended:"
+msgstr "Dadeiiberdragong:"
 
 #: plugins/yahoo/yahoocfgbase.cpp:169
-#, fuzzy
 msgid "File transfer port:"
-msgstr "Dadeiiberdragong beended:"
+msgstr "Dadeiiberdragongschbord:"
 
 #: plugins/yahoo/yahoosearch.cpp:56
-#, fuzzy
 msgid "Yahoo! search results"
-msgstr "AIM-Suchergebnisse"
+msgstr "Yahoo!-Suchergebnisse"
 
 #: plugins/yahoo/yahoosearch.cpp:129
-#, fuzzy
 msgid "Contact %1 added in group %2"
-msgstr "Dr Kondakd %1 wurde zur Lischde hinzugfigd"
+msgstr "Kondakd %1 wurde zur Grubbe %2 hinzugfigd"
 
 #: plugins/yahoo/yahoosearchbase.cpp:79
 msgid "Yahoo ID:"
-msgstr ""
+msgstr "Yahoo!-ID:"
 
 #: plugins/replace/replace.cpp:33
-#, fuzzy
 msgid "Replace text"
-msgstr "&Ersedza"
+msgstr "Dexd ersedza"
 
 #: plugins/replace/replace.cpp:34
-#, fuzzy
 msgid "Plugin provides text replacing in message edit window"
-msgstr "Dieses Blugin schdelld Nachrichda-Fildr bereid"
+msgstr "Dieses Blugin schdelld Dexdersedzong em Nachrichdbearbeidong-Fenschdr bereid"
 
 #: plugins/replace/replacecfg.cpp:31
-#, fuzzy
 msgid "You type"
-msgstr "Broxy-Hoschd:"
+msgstr "Se schrieba"
 
 #: plugins/replace/replacecfg.cpp:32
-#, fuzzy
 msgid "You send"
-msgstr "vrwirrd"
+msgstr "Se sendeda"
 
 #: plugins/weather/weather.cpp:96
-#, fuzzy
 msgid "Weather"
-msgstr "Andere"
+msgstr "Weddr"
 
 #: plugins/weather/weather.cpp:97
-#, fuzzy
 msgid "Plugin provides show weather"
-msgstr "Blugin schdelld Schdile bereid"
+msgstr "Blugin schdelld Anzeige des Wedders bereid"
 
 #: plugins/weather/weather.cpp:168
-#, fuzzy
 msgid "Not connected"
-msgstr "Koin Kondakd"
+msgstr "Ned vrbonda"
 
 #: plugins/weather/weather.cpp:451
-#, fuzzy
 msgid "Monday"
-msgstr "Monaco"
+msgstr "Mondag"
 
 #: plugins/weather/weather.cpp:452
-#, fuzzy
 msgid "Tuesday"
-msgstr "Dirkei"
+msgstr "Dienschdag"
 
 #: plugins/weather/weather.cpp:453
 msgid "Wednesday"
-msgstr ""
+msgstr "Middwoch"
 
 #: plugins/weather/weather.cpp:454
 msgid "Thursday"
-msgstr ""
+msgstr "Donnerschdag"
 
 #: plugins/weather/weather.cpp:455
-#, fuzzy
 msgid "Friday"
-msgstr "Fr"
+msgstr "Freidag"
 
 #: plugins/weather/weather.cpp:456
-#, fuzzy
 msgid "Saturday"
-msgstr "Sudan"
+msgstr "Samschdag"
 
 #: plugins/weather/weather.cpp:457
-#, fuzzy
 msgid "Sunday"
-msgstr "Sudan"
+msgstr "Sonndag"
 
 #: plugins/weather/weather.cpp:459
 msgid ""
 "_: weather\n"
 "Overcast"
-msgstr ""
+msgstr "Bewelkd"
 
 #: plugins/weather/weather.cpp:460
 msgid ""
 "_: weather\n"
 "Fog"
-msgstr ""
+msgstr "Nebl"
 
 #: plugins/weather/weather.cpp:461
 msgid ""
 "_: weather\n"
 "Haze"
-msgstr ""
+msgstr "Nebl"
 
 #: plugins/weather/weather.cpp:462
 msgid ""
 "_: weather\n"
 "Storm"
-msgstr ""
+msgstr "Schdurm"
 
 #: plugins/weather/weather.cpp:463
 msgid ""
 "_: weather\n"
 "Rain"
-msgstr ""
+msgstr "Rega"
 
 #: plugins/weather/weather.cpp:464
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Snow"
-msgstr "Andere"
+msgstr "Schnee"
 
 #: plugins/weather/weather.cpp:465
 msgid ""
 "_: weather\n"
 "Light Rain"
-msgstr ""
+msgstr "Leichdr Rega"
 
 #: plugins/weather/weather.cpp:466
 msgid ""
 "_: weather\n"
 "Light Snow"
-msgstr ""
+msgstr "Leichdr Schnee"
 
 #: plugins/weather/weather.cpp:467
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Few Snow"
-msgstr "Andere"
+msgstr "Edwas Schnee"
 
 #: plugins/weather/weather.cpp:468
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Scattered Snow"
-msgstr "Andere"
+msgstr "Vreinzeldr Schnee"
 
 #: plugins/weather/weather.cpp:469
 msgid ""
 "_: weather\n"
 "Clear"
-msgstr ""
+msgstr "Klar"
 
 #: plugins/weather/weather.cpp:470
 msgid ""
 "_: weather\n"
 "Showers"
-msgstr ""
+msgstr "Schaur"
 
 #: plugins/weather/weather.cpp:471
 msgid ""
 "_: weather\n"
 "Mostly Clear"
-msgstr ""
+msgstr "Meischd klar"
 
 #: plugins/weather/weather.cpp:472
 msgid ""
 "_: weather\n"
 "Sunny"
-msgstr ""
+msgstr "Sonning"
 
 #: plugins/weather/weather.cpp:473
 msgid ""
 "_: weather\n"
 "Fair"
-msgstr ""
+msgstr "Middelmässig"
 
 #: plugins/weather/weather.cpp:474
 msgid ""
 "_: weather\n"
 "Cloudy"
-msgstr ""
+msgstr "Bewelkd"
 
 #: plugins/weather/weather.cpp:475
 msgid ""
 "_: weather\n"
 "Mostly Cloudy"
-msgstr ""
+msgstr "Meischd bewelkd"
 
 #: plugins/weather/weather.cpp:476
 msgid ""
 "_: weather\n"
 "Partly Cloudy"
-msgstr ""
+msgstr "Doilweise bewelkd"
 
 #: plugins/weather/weather.cpp:477
 msgid ""
 "_: weather\n"
 "Wind"
-msgstr ""
+msgstr "Wend"
 
 #: plugins/weather/weather.cpp:478
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Drizzle"
-msgstr "Andere"
+msgstr "Nieselrega"
 
 #: plugins/weather/weather.cpp:479
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Light Drizzle"
-msgstr "Andere"
+msgstr "Leichdr Nieselrega"
 
 #: plugins/weather/weather.cpp:480
 msgid ""
 "_: weather\n"
 "steady"
-msgstr ""
+msgstr "Beschdändig"
 
 #: plugins/weather/weather.cpp:481
 msgid ""
 "_: weather\n"
 "rising"
-msgstr ""
+msgstr "Anschdeignd"
 
 #: plugins/weather/weather.cpp:482
 msgid ""
 "_: weather\n"
 "falling"
-msgstr ""
+msgstr "Fallend"
 
 #: plugins/weather/weather.cpp:483
 msgid ""
 "_: weather\n"
 "Unlimited"
-msgstr ""
+msgstr "Onbegrenzd"
 
 #: plugins/weather/weather.cpp:484
-#, fuzzy
 msgid ""
 "_: weather\n"
 "N"
-msgstr "Andere"
+msgstr "N"
 
 #: plugins/weather/weather.cpp:485
 msgid ""
 "_: weather\n"
 "NNW"
-msgstr ""
+msgstr "NNW"
 
 #: plugins/weather/weather.cpp:486
 msgid ""
 "_: weather\n"
 "NW"
-msgstr ""
+msgstr "NW"
 
 #: plugins/weather/weather.cpp:487
 msgid ""
 "_: weather\n"
 "NWW"
-msgstr ""
+msgstr "NWW"
 
 #: plugins/weather/weather.cpp:488
-#, fuzzy
 msgid ""
 "_: weather\n"
 "W"
-msgstr "Andere"
+msgstr "W"
 
 #: plugins/weather/weather.cpp:489
 msgid ""
 "_: weather\n"
 "SWW"
-msgstr ""
+msgstr "SWW"
 
 #: plugins/weather/weather.cpp:490
 msgid ""
 "_: weather\n"
 "SW"
-msgstr ""
+msgstr "SW"
 
 #: plugins/weather/weather.cpp:491
 msgid ""
 "_: weather\n"
 "SSW"
-msgstr ""
+msgstr "SSW"
 
 #: plugins/weather/weather.cpp:492
-#, fuzzy
 msgid ""
 "_: weather\n"
 "S"
-msgstr "Andere"
+msgstr "S"
 
 #: plugins/weather/weather.cpp:493
 msgid ""
 "_: weather\n"
 "SSE"
-msgstr ""
+msgstr "SSO"
 
 #: plugins/weather/weather.cpp:494
 msgid ""
 "_: weather\n"
 "SE"
-msgstr ""
+msgstr "SO"
 
 #: plugins/weather/weather.cpp:495
 msgid ""
 "_: weather\n"
 "SEE"
-msgstr ""
+msgstr "SOO"
 
 #: plugins/weather/weather.cpp:496
-#, fuzzy
 msgid ""
 "_: weather\n"
 "E"
-msgstr "Andere"
+msgstr "O"
 
 #: plugins/weather/weather.cpp:497
 msgid ""
 "_: weather\n"
 "NEE"
-msgstr ""
+msgstr "NOO"
 
 #: plugins/weather/weather.cpp:498
 msgid ""
 "_: weather\n"
 "NE"
-msgstr ""
+msgstr "NO"
 
 #: plugins/weather/weather.cpp:499
 msgid ""
 "_: weather\n"
 "NNE"
-msgstr ""
+msgstr "NNO"
 
 #: plugins/weather/weather.cpp:500
 msgid "km"
-msgstr ""
+msgstr "km"
 
 #: plugins/weather/weather.cpp:501
 msgid "km/h"
-msgstr ""
+msgstr "km/"
 
 #: plugins/weather/weather.cpp:513
-#, fuzzy
 msgid "and"
-msgstr "Kanada"
+msgstr "ond"
 
 #: plugins/weather/weather.cpp:516
 msgid ""
 "_: weather\n"
 "Early"
-msgstr ""
+msgstr "Frih"
 
 #: plugins/weather/weather.cpp:519
 msgid ""
 "_: weather\n"
 "Late"
-msgstr ""
+msgstr "Schbäd"
 
 #: plugins/weather/weather.cpp:534 plugins/weather/weather.cpp:536
-#, fuzzy
 msgid "m/s"
-msgstr "B/s"
+msgstr "m/s"
 
 #: plugins/weather/weather.cpp:535 plugins/weather/weather.cpp:536
-#, fuzzy
 msgid "gust "
-msgstr "Auguschd"
+msgstr "Behig"
 
 #: plugins/weather/weather.cpp:598
 msgid "%t | %c"
-msgstr ""
+msgstr "%t | %c"
 
 #: plugins/weather/weather.cpp:607
 msgid ""
@@ -8554,6 +8481,18 @@ msgid ""
 "<br>\n"
 "Updated: %u<br>\n"
 msgstr ""
+"%l<br><br>\n"
+"<img src=\"icon:weather\"> %c<br>\n"
+"Demberadur: <b>%t</b> (gfihld wie <b>%f</b>)<br>\n"
+"Feichdigkeid: <b>%h</b><br>\n"
+"Drugg: <b>%p</b>(%q)<br>\n"
+"Wend: <b>%b</b> <b>%w %g</b><br>\n"
+"Sichdbarkeid: <b>%v</b><br>\n"
+"Daubunkd: <b>%d</b><br>\n"
+"Sonnenaufgang: %r<br>\n"
+"Sonnenondergang: %s<br>\n"
+"<br>\n"
+"Akdualisierd: %u<br>\n"
 
 #: plugins/weather/weather.cpp:626
 msgid ""
@@ -8562,140 +8501,126 @@ msgid ""
 "<img src=\"icon:weather%n\"> %c<br>\n"
 " Temperature: <b>%t</b><br>\n"
 msgstr ""
+"<br>\n"
+"<nobr><b>%d %w</b></nobr><br>\n"
+"<img src=\"icon:weather%n\"> %c<br>\n"
+" Demberadur: <b>%t</b><br>\n"
 
 #: plugins/weather/weathercfg.cpp:101
-#, fuzzy
 msgid "Location %1 not found"
-msgstr "Hoschd %1 gfonda"
+msgstr "Ord %1 ned gfonda"
 
 #: plugins/weather/weathercfgbase.cpp:110
-#, fuzzy
 msgid "Location ID:"
-msgstr "&Ord"
+msgstr "Ord-ID:"
 
 #: plugins/weather/weathercfgbase.cpp:112
 msgid "You can enter ID as part URL for your location on weather.com"
-msgstr ""
+msgstr "D ID ka als Doil dr URL fir da Ord von weather.com oigegeba werda"
 
 #: plugins/weather/weathercfgbase.cpp:114
-#, fuzzy
 msgid "Metric"
-msgstr "Mexiko"
+msgstr "Medrisch"
 
 #: plugins/weather/weathercfgbase.cpp:115
-#, fuzzy
 msgid "Standart"
-msgstr "&Schdadus"
+msgstr "Schdandard"
 
 #: plugins/weather/weathercfgbase.cpp:116
 msgid "Forecast days:"
-msgstr ""
+msgstr "Vorhersage fir Dage:"
 
 #: plugins/weather/weathercfgbase.cpp:117
-#, fuzzy
 msgid "Units:"
-msgstr "Oiheida"
+msgstr "Oiheida:"
 
 #: plugins/weather/wifacecfg.cpp:27 plugins/weather/wifacecfg.cpp:66
 msgid "Temperature"
-msgstr ""
+msgstr "Demberadur"
 
 #: plugins/weather/wifacecfg.cpp:29
 msgid "Feels like"
-msgstr ""
+msgstr "Gfihld wie"
 
 #: plugins/weather/wifacecfg.cpp:31
-#, fuzzy
 msgid "Humidity"
-msgstr "Hendi"
+msgstr "Feichdigkeid"
 
 #: plugins/weather/wifacecfg.cpp:33
-#, fuzzy
 msgid "Wind direction"
-msgstr "Vrzeichnis sucha"
+msgstr "Wendrichdong"
 
 #: plugins/weather/wifacecfg.cpp:35
 msgid "Wind speed"
-msgstr ""
+msgstr "Wendgschwendigkeid"
 
 #: plugins/weather/wifacecfg.cpp:37
 msgid "Wind gust"
-msgstr ""
+msgstr "Wendbehe"
 
 #: plugins/weather/wifacecfg.cpp:39
 msgid "Wind speed (m/s)"
-msgstr ""
+msgstr "Wendgschwendigkeid (m/s)"
 
 #: plugins/weather/wifacecfg.cpp:41
 msgid "Wind gust (m/s)"
-msgstr ""
+msgstr "Wendbehe (m/s)"
 
 #: plugins/weather/wifacecfg.cpp:43
-#, fuzzy
 msgid "Pressure"
-msgstr "Brofi"
+msgstr "Drugg"
 
 #: plugins/weather/wifacecfg.cpp:45
-#, fuzzy
 msgid "Pressure state"
-msgstr "Brofi"
+msgstr "Druggschdadus"
 
 #: plugins/weather/wifacecfg.cpp:47
-#, fuzzy
 msgid "Visibility"
-msgstr "Sichdbarkeid-Lischde"
+msgstr "Sichdbarkeid"
 
 #: plugins/weather/wifacecfg.cpp:49
 msgid "Dew Point"
-msgstr ""
+msgstr "Daubunkd"
 
 #: plugins/weather/wifacecfg.cpp:51
-#, fuzzy
 msgid "Location"
-msgstr "&Ord"
+msgstr "Ord"
 
 #: plugins/weather/wifacecfg.cpp:53
-#, fuzzy
 msgid "Updated"
-msgstr "Akdualisiera"
+msgstr "Akdualisierd"
 
 #: plugins/weather/wifacecfg.cpp:55
-#, fuzzy
 msgid "Sunraise"
-msgstr "Iberraschd"
+msgstr "Sonnenaufgang"
 
 #: plugins/weather/wifacecfg.cpp:57
-#, fuzzy
 msgid "Sunset"
-msgstr "So"
+msgstr "Sonnenondergang"
 
 #: plugins/weather/wifacecfg.cpp:59 plugins/weather/wifacecfg.cpp:74
-#, fuzzy
 msgid "Conditions"
-msgstr "Vrbendonga"
+msgstr "Bedingonga"
 
 #: plugins/weather/wifacecfg.cpp:68
-#, fuzzy
 msgid "Number"
-msgstr "Nommr:"
+msgstr "Nommr"
 
 #: plugins/weather/wifacecfg.cpp:70
 msgid "Day of week"
-msgstr ""
+msgstr "Wochendag"
 
 #: plugins/weather/wifacecfgbase.cpp:81
-#, fuzzy
 msgid "Button text:"
-msgstr "Buddon"
+msgstr "Knobfdexd:"
 
 #: plugins/weather/wifacecfgbase.cpp:82
-#, fuzzy
 msgid "Button tip:"
-msgstr "Buddon"
+msgstr "Knobf-Kurzinfo:"
 
 #: plugins/weather/wifacecfgbase.cpp:83
 msgid "Forecast tip:"
-msgstr ""
+msgstr "Vorhersagedibb:"
 
 #, fuzzy
 #~ msgid ""
