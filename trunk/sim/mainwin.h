@@ -83,6 +83,7 @@ const int mnuSound = 35;
 const int mnuSecureOn = 36;
 const int mnuSecureOff = 37;
 const int mnuAutoResponse = 38;
+const int mnuShare = 39;
 const int mnuGrpTitle = 0x10000;
 const int mnuPopupStatus = 0x20000;
 
@@ -342,6 +343,7 @@ protected slots:
     void currentDesktopChanged(int);
     void adjustGroupsMenu();
     void adjustFucntionMenu();
+    void sharedFiles();
 protected:
     list<msgInfo> menuMsgs;
     void loadUnread();

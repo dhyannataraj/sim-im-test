@@ -25,6 +25,7 @@
 #include "log.h"
 
 #include <stack>
+#include <cctype>
 
 #ifdef WIN32
 #if _MSC_VER > 1020

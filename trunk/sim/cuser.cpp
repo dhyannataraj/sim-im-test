@@ -258,12 +258,12 @@ QString CUser::toolTip()
     if (u->Version){
         r += "<br>_____________<br>";
         r += "v" + QString::number(u->Version) + " ";
-        if (u->TimeStamp == 0xFFFFFFFF){
+        if (u->InfoUpdateTime == 0xFFFFFFFF){
             r += "MIRANDA";
-        }else if((u->TimeStamp & 0xFFFF0000) == LICQ_WITHSSL){
-            r += "Licq " + LicqVersionToString(u->TimeStamp & 0xFFFF) + "/SSL";
-        }else if((u->TimeStamp & 0xFFFF0000) == LICQ_WITHOUTSSL){
-            r += "Licq " + LicqVersionToString(u->TimeStamp & 0xFFFF);
+        }else if((u->InfoUpdateTime & 0xFFFF0000) == LICQ_WITHSSL){
+            r += "Licq " + LicqVersionToString(u->InfoUpdateTime & 0xFFFF) + "/SSL";
+        }else if((u->InfoUpdateTime & 0xFFFF0000) == LICQ_WITHOUTSSL){
+            r += "Licq " + LicqVersionToString(u->InfoUpdateTime & 0xFFFF);
         }else{
             switch (u->ClientType){
             case 1:

@@ -127,7 +127,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                         user->PhoneBookTime = cookie3;
                     }
                     user->PhoneStatusTime = cookie2;
-                    user->TimeStamp       = cookie1;
+                    user->InfoUpdateTime  = cookie1;
                     if (mode == MODE_DENIED) mode = MODE_INDIRECT;
                     if ((mode != MODE_DIRECT) && (mode != MODE_INDIRECT))
                         mode = MODE_INDIRECT;

@@ -593,7 +593,7 @@ void UserView::editEnter()
 
 void UserView::keyReleaseEvent(QKeyEvent *e)
 {
-     QListView::keyReleaseEvent(e);
+    QListView::keyReleaseEvent(e);
 }
 
 void UserView::grpFunction(int id)

@@ -665,9 +665,9 @@ public:
     // PhoneBook
     PhoneBook		Phones;
     char			PhoneState;
-    unsigned long	PhoneBookTime;
+    unsigned long   InfoUpdateTime;
     unsigned long	PhoneStatusTime;
-    unsigned long	TimeStamp;
+    unsigned long	PhoneBookTime;
     bool			bMyInfo;
 
     // Alert mode
@@ -1028,6 +1028,9 @@ public:
     string			ProxyUser;
     string			ProxyPasswd;
 
+    string			ShareDir;
+    bool		    ShareOn;
+
     void fromServer(string &s, ICQUser*);
     void toServer(string &s, ICQUser*);
     const char *localCharset(ICQUser*);
@@ -1116,6 +1119,8 @@ public:
 
     virtual void idle();
 
+    void setShare(bool bState);
+
 protected:
     Buffer cookie;
 
@@ -1202,10 +1207,11 @@ protected:
     void sendICMB();
     void sendClientReady();
 
-    void fillDirectInfo(Buffer &b, unsigned long c1, unsigned long c2, unsigned long c3);
-    void sendUpdate(Buffer &b, unsigned long c1, unsigned long c2, unsigned long c3);
+    void fillDirectInfo(Buffer &b);
+    void sendUpdate(Buffer &b);
     bool needPhonebookUpdate;
     bool needPhoneStatusUpdate;
+    bool needShareUpdate;
 
     void requestKey(const char*);
 
@@ -1267,6 +1273,7 @@ protected:
 
     void sendInfoUpdate();
     void sendPhoneStatus();
+    void sendShareUpdate();
 
     static const char *serverCharset(const char *l=NULL);
 
@@ -1286,6 +1293,7 @@ protected:
     static const capability *capabilities;
 
     static const unsigned char PHONEBOOK_SIGN[16];
+    static const unsigned char SHARED_FILES_SIGN[16];
     static const unsigned char PLUGINS_SIGN[16];
     static const unsigned char PICTURE_SIGN[16];
 

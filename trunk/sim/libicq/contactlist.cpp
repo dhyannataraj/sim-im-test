@@ -238,7 +238,7 @@ ICQUser::ICQUser()
     PhoneState = 0;
     PhoneBookTime = 0;
     PhoneStatusTime = 0;
-    TimeStamp = 0;
+    InfoUpdateTime = 0;
     AlertOverride = false;
     AlertAway = true;
     AlertBlink = true;

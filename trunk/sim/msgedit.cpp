@@ -1256,7 +1256,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                         edit->resetColors(true);
                     }
                     edit->setFocus();
-		    edit->moveCursor(QTextEdit::MoveEnd, false);
+                    edit->moveCursor(QTextEdit::MoveEnd, false);
                 }
                 break;
             }
@@ -1286,7 +1286,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                     urlEdit->setText(pClient->from8Bit(Uin, m->URL, m->Charset.c_str()));
                 }
                 urlEdit->setFocus();
-		urlEdit->end(true);
+                urlEdit->end(true);
                 break;
             }
         case ICQ_MSGxFILE:{

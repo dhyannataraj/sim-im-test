@@ -466,6 +466,7 @@ void MainWindow::adjustFucntionMenu()
 {
     int n;
     int oldItems = menuMsgs.size();
+    menuFunction->setItemChecked(mnuShare, pClient->ShareOn);
     fillUnread(menuMsgs);
     int index = menuFunction->indexOf(mnuPopupStatus);
     for (n = 0; n < oldItems; n++)
@@ -2086,6 +2087,7 @@ void MainWindow::loadMenu()
     menuFunction->insertItem(Icon("configure"), i18n("Setup"), this, SLOT(setup()));
     menuFunction->insertItem(Icon("grp_on"), i18n("Groups"), menuGroups);
     menuFunction->insertItem(Icon("phone"), i18n("Phone \"Follow Me\""), menuPhone);
+    menuFunction->insertItem(i18n("Shared files"), this, SLOT(sharedFiles()), 0, mnuShare);
 #ifdef WIN32
     menuFunction->insertSeparator();
     menuFunction->insertItem(i18n("Always on top"), this, SLOT(toggleOnTop()), 0, mnuOnTop);
@@ -2205,6 +2207,11 @@ void MainWindow::loadUnread()
                 delete msg;
         }
     }
+}
+
+void MainWindow::sharedFiles()
+{
+    pClient->setShare(!pClient->ShareOn);
 }
 
 void MainWindow::messageRead(ICQMessage *msg)

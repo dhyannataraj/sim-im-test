@@ -111,9 +111,8 @@ void CToolButton::setTextLabel(const QString &text)
     setAccel(QAccel::shortcutKey(text));
     QString t = text;
     int pos;
-    QRegExp r("\\&(.)");
-    while ((pos = r.search(t)) != -1){
-	t = t.left(pos) + "<u>" + r.cap(1) + "</u>" + t.mid(pos + r.matchedLength());
+    while ((pos = t.find('&')) >= 0){
+        t = t.left(pos) + "<u>" + t.mid(pos+1, 1) + "</u>" + t.mid(pos+2);
     }
     QToolButton::setTextLabel(t);
 }
@@ -201,11 +200,10 @@ void PictButton::setState(const QString& _icon, const QString& _text)
     icon = _icon;
     text = _text;
     setAccel(QAccel::shortcutKey(text));
-    int pos;
     QString t = _text;
-    QRegExp r("\\&(.)");
-    while ((pos = r.search(t)) != -1){
-        t = t.left(pos) + "<u>" + r.cap(1) + "</u>" + t.mid(pos + r.matchedLength());
+    int pos;
+    while ((pos = t.find('&')) >= 0){
+        t = t.left(pos) + "<u>" + t.mid(pos+1, 1) + "</u>" + t.mid(pos+2);
     }
     setTextLabel(t);
     repaint();

@@ -231,7 +231,7 @@ cfgParam ICQUser_Params[] =
         { "PhoneState", offsetof(ICQUser, PhoneState), PARAM_CHAR, 0 },
         { "PhoneBookTime", offsetof(ICQUser, PhoneBookTime), PARAM_ULONG, 0 },
         { "PhoneStatusTime", offsetof(ICQUser, PhoneStatusTime), PARAM_ULONG, 0 },
-        { "TimeStamp", offsetof(ICQUser, TimeStamp), PARAM_ULONG, 0 },
+        { "InfoUpdateTime", offsetof(ICQUser, InfoUpdateTime), PARAM_ULONG, 0 },
         { "AlertOverride", offsetof(ICQUser, AlertOverride), PARAM_BOOL, 0 },
         { "AlertAway", offsetof(ICQUser, AlertAway), PARAM_BOOL, 0 },
         { "AlertBlink", offsetof(ICQUser, AlertBlink), PARAM_BOOL, 0 },
@@ -306,6 +306,8 @@ cfgParam Client_Params[] =
         { "ProxyAuth", offsetof(ICQClient, ProxyAuth), PARAM_BOOL, 0 },
         { "ProxyUser", offsetof(ICQClient, ProxyUser), PARAM_STRING, 0 },
         { "ProxyPasswd", offsetof(ICQClient, ProxyPasswd), PARAM_STRING, 0 },
+        { "ShareDir", offsetof(ICQClient, ShareDir), PARAM_STRING, (unsigned)"Shared" },
+        { "ShareOn", offsetof(ICQClient, ShareOn), PARAM_BOOL, 0 },
         { "", offsetof(ICQClient, owner), 0, (unsigned)ClientOwner_Params }
     };
 
@@ -419,12 +421,12 @@ void Client::timer()
 
 Socket *Client::createSocket()
 {
-    return new QClientSocket;
+    return new ICQClientSocket;
 }
 
 ServerSocket *Client::createServerSocket()
 {
-    return new QServerSocket(MinTCPPort, MaxTCPPort);
+    return new ICQServerSocket(MinTCPPort, MaxTCPPort);
 }
 
 void Client::markAsRead(ICQMessage *msg)
@@ -1094,9 +1096,9 @@ int Client::userEncoding(unsigned long uin)
 Client *pClient = NULL;
 
 #ifdef HAVE_KEXTSOCK_H
-QClientSocket::QClientSocket(KExtendedSocket *s)
+ICQClientSocket::ICQClientSocket(KExtendedSocket *s)
 #else
-QClientSocket::QClientSocket(QSocket *s)
+ICQClientSocket::ICQClientSocket(QSocket *s)
 #endif
 {
     sock = s;
@@ -1125,13 +1127,13 @@ QClientSocket::QClientSocket(QSocket *s)
 #endif
 }
 
-QClientSocket::~QClientSocket()
+ICQClientSocket::~ICQClientSocket()
 {
     close();
     delete sock;
 }
 
-void QClientSocket::close()
+void ICQClientSocket::close()
 {
 #ifdef HAVE_KEXTSOCK_H
     sock->closeNow();
@@ -1140,12 +1142,12 @@ void QClientSocket::close()
 #endif
 }
 
-void QClientSocket::slotLookupFinished(int state)
+void ICQClientSocket::slotLookupFinished(int state)
 {
     log(L_DEBUG, "Lookup finished %u", state);
 }
 
-int QClientSocket::read(char *buf, unsigned int size)
+int ICQClientSocket::read(char *buf, unsigned int size)
 {
     int res = sock->readBlock(buf, size);
     if (res < 0){
@@ -1160,7 +1162,7 @@ int QClientSocket::read(char *buf, unsigned int size)
     return res;
 }
 
-void QClientSocket::write(const char *buf, unsigned int size)
+void ICQClientSocket::write(const char *buf, unsigned int size)
 {
     bInWrite = true;
     int res = sock->writeBlock(buf, size);
@@ -1173,7 +1175,7 @@ void QClientSocket::write(const char *buf, unsigned int size)
         QTimer::singleShot(0, this, SLOT(slotBytesWritten()));
 }
 
-void QClientSocket::connect(const char *host, int port)
+void ICQClientSocket::connect(const char *host, int port)
 {
     log(L_DEBUG, "Connect to %s:%u", host, port);
 #ifdef HAVE_KEXTSOCK_H
@@ -1191,7 +1193,7 @@ void QClientSocket::connect(const char *host, int port)
 #endif
 }
 
-void QClientSocket::slotConnected()
+void ICQClientSocket::slotConnected()
 {
     log(L_DEBUG, "Connected");
     if (notify) notify->connect_ready();
@@ -1201,29 +1203,29 @@ void QClientSocket::slotConnected()
 #endif
 }
 
-void QClientSocket::slotConnectionClosed()
+void ICQClientSocket::slotConnectionClosed()
 {
     log(L_WARN, "Connection closed");
     if (notify) notify->error_state(ErrorConnectionClosed);
 }
 
-void QClientSocket::slotReadReady()
+void ICQClientSocket::slotReadReady()
 {
     if (notify) notify->read_ready();
 }
 
-void QClientSocket::slotBytesWritten(int)
+void ICQClientSocket::slotBytesWritten(int)
 {
     slotBytesWritten();
 }
 
-void QClientSocket::slotBytesWritten()
+void ICQClientSocket::slotBytesWritten()
 {
     if (bInWrite) return;
     if (sock->bytesToWrite() == 0) notify->write_ready();
 }
 
-unsigned long QClientSocket::localHost()
+unsigned long ICQClientSocket::localHost()
 {
 #ifdef HAVE_KEXTSOCK_H
     unsigned long res = 0;
@@ -1239,7 +1241,7 @@ unsigned long QClientSocket::localHost()
 #endif
 }
 
-void QClientSocket::slotError(int err)
+void ICQClientSocket::slotError(int err)
 {
 #ifdef HAVE_KEXTSOCK_H
     if (!(err & KBufferedIO::involuntary)) return;
@@ -1250,12 +1252,12 @@ void QClientSocket::slotError(int err)
     if (notify) notify->error_state(ErrorSocket);
 }
 
-void QClientSocket::pause(unsigned t)
+void ICQClientSocket::pause(unsigned t)
 {
     QTimer::singleShot(t * 1000, this, SLOT(slotBytesWritten()));
 }
 
-QServerSocket::QServerSocket(unsigned short minPort, unsigned short maxPort)
+ICQServerSocket::ICQServerSocket(unsigned short minPort, unsigned short maxPort)
 {
 #ifdef HAVE_KEXTSOCK_H
     sock = new KExtendedSocket;
@@ -1274,27 +1276,29 @@ QServerSocket::QServerSocket(unsigned short minPort, unsigned short maxPort)
         return;
     }
 #else
+    sn = NULL;
     sock = new QSocketDevice;
     for (m_nPort = minPort; m_nPort <= maxPort; m_nPort++){
         if (sock->bind(QHostAddress(), m_nPort))
             break;
     }
-    sn = new QSocketNotifier(sock->socket(), QSocketNotifier::Read, this);
-    connect(sn, SIGNAL(activated(int)), this, SLOT(activated(int)));
     if ((m_nPort > maxPort) || !sock->listen(50)){
         delete sock;
         sock = NULL;
         return;
     }
+    sn = new QSocketNotifier(sock->socket(), QSocketNotifier::Read, this);
+    connect(sn, SIGNAL(activated(int)), this, SLOT(activated(int)));
 #endif
 }
 
-QServerSocket::~QServerSocket()
+ICQServerSocket::~ICQServerSocket()
 {
+    if (sn) delete sn;
     if (sock) delete sock;
 }
 
-void QServerSocket::activated(int)
+void ICQServerSocket::activated(int)
 {
 #ifndef HAVE_KEXTSOCK_H
     if (sock == NULL) return;
@@ -1303,7 +1307,7 @@ void QServerSocket::activated(int)
         if (notify){
             QSocket *s = new QSocket;
             s->setSocket(fd);
-            notify->accept(new QClientSocket(s));
+            notify->accept(new ICQClientSocket(s));
         }else{
 #ifdef WIN32
             ::closesocket(fd);
@@ -1315,7 +1319,7 @@ void QServerSocket::activated(int)
 #endif
 }
 
-void QServerSocket::activated()
+void ICQServerSocket::activated()
 {
 #ifdef HAVE_KEXTSOCK_H
     log(L_DEBUG, "accept ready");
@@ -1324,7 +1328,7 @@ void QServerSocket::activated()
     log(L_DEBUG, "Accept: %u", s);
     if (s == NULL) return;
     if (notify){
-        notify->accept(new QClientSocket(s));
+        notify->accept(new ICQClientSocket(s));
     }else{
         delete s;
     }

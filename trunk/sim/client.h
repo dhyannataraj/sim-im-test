@@ -55,16 +55,16 @@ typedef struct searchResult
 class KExtendedSocket;
 #endif
 
-class QClientSocket : public QObject, public Socket
+class ICQClientSocket : public QObject, public Socket
 {
     Q_OBJECT
 public:
 #ifdef HAVE_KEXTSOCK_H
-    QClientSocket(KExtendedSocket *s=NULL);
+    ICQClientSocket(KExtendedSocket *s=NULL);
 #else
-    QClientSocket(QSocket *s=NULL);
+    ICQClientSocket(QSocket *s=NULL);
 #endif
-    virtual ~QClientSocket();
+    virtual ~ICQClientSocket();
     virtual int read(char *buf, unsigned int size);
     virtual void write(const char *buf, unsigned int size);
     virtual void connect(const char *host, int port);
@@ -88,12 +88,12 @@ protected:
     bool bInWrite;
 };
 
-class QServerSocket : public QObject, public ServerSocket
+class ICQServerSocket : public QObject, public ServerSocket
 {
     Q_OBJECT
 public:
-    QServerSocket(unsigned short minPort, unsigned short maxPort);
-    ~QServerSocket();
+    ICQServerSocket(unsigned short minPort, unsigned short maxPort);
+    ~ICQServerSocket();
     virtual unsigned short port() { return m_nPort; }
     bool created() { return (sock != NULL); }
 protected slots:

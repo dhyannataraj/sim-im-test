@@ -1232,3 +1232,12 @@ void ICQClient::sendPhoneStatus()
     sendServerRequest();
 }
 
+void ICQClient::sendShareUpdate()
+{
+    serverRequest(ICQ_SRVxREQ_MORE);
+    sock->writeBuffer << (unsigned short)ICQ_SRVxREQ_PHONE_UPDATE;
+    sock->writeBuffer.pack((char*)SHARED_FILES_SIGN, 0x10);
+    sock->writeBuffer.pack((unsigned short)4);
+    sock->writeBuffer.pack((unsigned long)(ShareOn ? 1 : 0));
+    sendServerRequest();
+}
