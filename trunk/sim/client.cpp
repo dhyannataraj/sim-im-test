@@ -1015,9 +1015,9 @@ QString SIMClient::getMessageAccel(int type)
 {
     switch (type){
     case ICQ_MSGxMSG:
-        return i18n("Ctrl+M", "Message");
+        return i18n("Ctrl+N", "new");
     case ICQ_MSGxCHAT:
-        return i18n("Ctrl+H", "Chat");
+        return i18n("Ctrl+B", "chat msg");
     case ICQ_MSGxFILE:
         return i18n("Ctrl+F", "File");
     case ICQ_MSGxURL:

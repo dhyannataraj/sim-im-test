@@ -609,6 +609,8 @@ void DivItem::paintCell(QPainter *p, const QColorGroup &cg, int, int, int)
     paint(p, text(0), cg, true);
 }
 
+#define ACCEL(a)	QAccel::stringToKey(SIMClient::getMessageAccel(a))
+
 UserView::UserView (QWidget *parent, bool _bList, bool bFill, WFlags f)
         : QListView(parent, NULL, f), QToolTip(viewport())
 {
@@ -670,12 +672,12 @@ UserView::UserView (QWidget *parent, bool _bList, bool bFill, WFlags f)
     delete l;
     QAccel *accel = new QAccel(this);
     connect(accel, SIGNAL(activated(int)), this, SLOT(accelActivated(int)));
-    accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxMSG)), mnuMessage);
-    accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxURL)), mnuURL);
-    accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxFILE)), mnuFile);
-    accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxCHAT)), mnuChat);
-    accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxCONTACTxLIST)), mnuContacts);
-    accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxMAIL)), mnuMail);
+    accel->insertItem(ACCEL(ICQ_MSGxMSG), mnuMessage);
+    accel->insertItem(ACCEL(ICQ_MSGxURL), mnuURL);
+    accel->insertItem(ACCEL(ICQ_MSGxFILE), mnuFile);
+    accel->insertItem(ACCEL(ICQ_MSGxCHAT), mnuChat);
+    accel->insertItem(ACCEL(ICQ_MSGxCONTACTxLIST), mnuContacts);
+    accel->insertItem(ACCEL(ICQ_MSGxMAIL), mnuMail);
     accel->insertItem(QAccel::stringToKey(i18n("Del", "Delete")), mnuDelete);
     accel->insertItem(QListView::Key_F2, mnuGrpRename);
     accel->insertItem(QAccel::stringToKey(i18n("Ctrl+N", "Create group")), mnuGrpCreate);
@@ -1475,7 +1477,7 @@ void UserView::contentsMouseReleaseEvent(QMouseEvent *e)
 #endif
     if (!bList){
         clearSelection();
-        if (pressedItem && (pressedItem == itemAt(e->pos())))
+        if (pressedItem && (pressedItem == itemAt(contentsToViewport(e->pos()))))
             doubleClick(pressedItem);
         pressedItem = NULL;
     }
@@ -1492,8 +1494,9 @@ void UserView::contentsMousePressEvent(QMouseEvent *e)
         }
     }
 #endif
-    if (e->button() == QObject::LeftButton)
-        pressedItem = itemAt(e->pos());
+    if (e->button() == QObject::LeftButton){
+        pressedItem = itemAt(contentsToViewport(e->pos()));
+    }
     QListView::contentsMousePressEvent(e);
 }
 

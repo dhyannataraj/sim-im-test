@@ -246,6 +246,7 @@ cfgParam MainWindow_Params[] =
         { "UserBoxToolbarOffset", OFFSET_OF(MainWindow, UserBoxToolbarOffset), PARAM_SHORT, 0 },
         { "UserBoxToolbarY", OFFSET_OF(MainWindow, UserBoxToolbarY), PARAM_SHORT, 0 },
         { "UserBoxFont", OFFSET_OF(MainWindow, UserBoxFont), PARAM_STRING, 0 },
+	{ "UserBoxEditHeight", OFFSET_OF(MainWindow, UserBoxEditHeight), PARAM_USHORT, 0 },
         { "CloaseAfterSend", OFFSET_OF(MainWindow, CloseAfterSend), PARAM_BOOL, 0 },
         { "CloaseAfterFileTransfer", OFFSET_OF(MainWindow, CloseAfterFileTransfer), PARAM_BOOL, 0 },
         { "MainWindowInTaskManager", OFFSET_OF(MainWindow, MainWindowInTaskManager), PARAM_BOOL, 0 },
@@ -2111,7 +2112,7 @@ void MainWindow::addMenuItem(QPopupMenu *menuUser, const char *icon,
         menuUser->insertItem(Icon(icon), n,
                              id, pos);
         if (!accel.isEmpty())
-            menuUser->setAccel(QAccel::stringToKey(accel), id);
+	    menuUser->setAccel(QAccel::stringToKey(accel), id);
         return;
     }
     if (menuUser->findItem(id) == NULL) return;

@@ -322,8 +322,15 @@ void MsgEdit::insertSmile(int id)
 {
     QFont f = edit->font();
     QColor fgColor = edit->foreground();
+    int p = edit->paragraphs();
     edit->append(QString("<img src=icon:smile") + (char)(id < 10 ? '0' + id : 'A' + id - 10) + ">");
     edit->moveCursor(QTextEdit::MoveEnd, false);
+    if (p < edit->paragraphs()){
+    	edit->moveCursor(QTextEdit::MoveBackward, false); 
+	edit->moveCursor(QTextEdit::MoveBackward, true);
+	edit->del();
+	edit->moveCursor(QTextEdit::MoveEnd, false);
+    }
     edit->setFont(f);
     edit->setForeground(fgColor);
 }

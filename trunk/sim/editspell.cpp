@@ -32,6 +32,8 @@
 #include <kspelldlg.h>
 #endif
 
+#define ACCEL(a)	QAccel::stringToKey(a)
+
 EditSpell::EditSpell(QWidget *parent) : QTextEdit(parent)
 {
 #ifdef USE_SPELL
@@ -42,13 +44,6 @@ EditSpell::EditSpell(QWidget *parent) : QTextEdit(parent)
     baseBG = colorGroup().color(QColorGroup::Base);
     baseFG = colorGroup().color(QColorGroup::Text);
     curFG = baseFG;
-    QAccel *a = new QAccel(this);
-    if (!pMain->SendEnter){
-        a->connectItem(a->insertItem(QAccel::stringToKey("Ctrl+Enter")),
-                       this, SIGNAL(ctrlEnterPressed()));
-        a->connectItem(a->insertItem(QAccel::stringToKey("Ctrl+Return")),
-                       this, SIGNAL(ctrlEnterPressed()));
-    }
 #if QT_VERSION >= 0x030100
     setAutoFormatting(0);
 #endif
@@ -76,8 +71,10 @@ QSize EditSpell::minimumSizeHint()
 
 void EditSpell::keyPressEvent(QKeyEvent *e)
 {
-    if (pMain->SendEnter && ((e->key() == Key_Enter) || (e->key() == Key_Return)))
-        return;
+    if (((e->key() == Key_Enter) || (e->key() == Key_Return))){
+        if (pMain->SendEnter || (e->state() == ControlButton))
+            return;
+    }
     if (e->state() == ControlButton){
         switch (e->key()){
         case Key_Insert:
@@ -101,14 +98,23 @@ void EditSpell::keyPressEvent(QKeyEvent *e)
         return;
     }
 #endif
+#if QT_VERSION >= 300
+    if ((e->key() == Key_Return) || (e->key() == Key_Enter)){
+	QKeyEvent e1(QEvent::KeyPress, e->key(), e->ascii(), e->state() | ControlButton, e->text(), e->count());
+	QTextEdit::keyPressEvent(&e1);
+	return;
+    }
+#endif
     QTextEdit::keyPressEvent(e);
 }
 
 void EditSpell::keyReleaseEvent(QKeyEvent *e)
 {
-    if (pMain->SendEnter && ((e->key() == Key_Enter) || (e->key() == Key_Return))){
-        ctrlEnterPressed();
-        return;
+    if ((e->key() == Key_Enter) || (e->key() == Key_Return)){
+        if (pMain->SendEnter || (e->state() == ControlButton)){
+            emit ctrlEnterPressed();
+            return;
+        }
     }
     QTextEdit::keyReleaseEvent(e);
 }

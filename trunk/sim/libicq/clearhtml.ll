@@ -56,9 +56,9 @@
 [\xF8-\xFB][\x00-\xFF]{4}			{ return WIDECHAR; }
 [\xFC-\xFD][\x00-\xFF]{5}			{ return WIDECHAR; }
 "<img"\ +src=icon:smile[0-9A-Fa-f]\ ?>	{ return SMILE; }
-"<br"\/?">"					{ return BR; }
+"<br"\ *\/?">"					{ return BR; }
 "</p>"						{ return BR; }
-"<"							{ BEGIN(tag); return SKIP; }
+"<"						{ BEGIN(tag); return SKIP; }
 <tag>">"					{ BEGIN(INITIAL); return SKIP; }
 <tag>.						{ return SKIP; }
 "&gt";?						{ return SYMBOL; }
@@ -98,33 +98,33 @@ string ICQClient::clearHTML(const string &text)
 {
     yy_current_buffer = yy_scan_string(text.c_str());
     string res;
-	const char *p;
-	unsigned char c;
+    const char *p;
+    unsigned char c;
     for (;;){
         int r = yylex();
         if (!r) break;
         switch (r){
         case TXT:
-            res += yytext;
+                res += yytext;
             break;
         case WIDECHAR:
             res += yytext;
             break;
-		case SMILE:
-			p = strstr(yytext, "smile");
-			if (p){
-				c = (unsigned char)p[5];
-				if ((c >= '0') && (c <= '9')){
-					c -= '0';
-				}else if ((c >= 'A') && (c <= 'F')){
-					c -= ('A' - 10);
-				}else if ((c >= 'a') && (c <= 'f')){
-					c -= ('a' - 10);
-				}
-				if (c <= 0xF)
-					res += smiles[c];
-			}
-			break;
+        case SMILE:
+            p = strstr(yytext, "smile");
+            if (p){
+                c = (unsigned char)p[5];
+                if ((c >= '0') && (c <= '9')){
+                    c -= '0';
+                }else if ((c >= 'A') && (c <= 'F')){
+                    c -= ('A' - 10);
+                }else if ((c >= 'a') && (c <= 'f')){
+                    c -= ('a' - 10);
+                }
+                if (c <= 0xF)
+                    res += smiles[c];
+            }
+            break;
         case BR:
             res += "\n";
             break;
@@ -145,8 +145,8 @@ string ICQClient::clearHTML(const string &text)
     }
     yy_delete_buffer(yy_current_buffer);
     yy_current_buffer = NULL;
-	if (res.length() && (res[res.length() - 1] == '\n')) 
-		res = res.substr(0, res.length() - 1);
+    if (res.length() && (res[res.length() - 1] == '\n'))
+        res = res.substr(0, res.length() - 1);
     return res;
 }
 

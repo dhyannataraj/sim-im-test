@@ -121,6 +121,8 @@ ToolBarDef userBoxToolBar[] =
 
 const ToolBarDef *pUserBoxToolBar = userBoxToolBar;
 
+#define ACCEL(a) QAccel::stringToKey(SIMClient::getMessageAccel(a))
+
 UserBox::UserBox(unsigned long grpId)
         : QMainWindow(NULL, NULL,
                       (WType_TopLevel | WStyle_Customize | WStyle_NormalBorder |
@@ -210,12 +212,12 @@ UserBox::UserBox(unsigned long grpId)
     accel->insertItem(Key_0 + ALT, mnuWindow + 10);
     accel->insertItem(Key_Left + ALT, mnuWindow + 11);
     accel->insertItem(Key_Right + ALT, mnuWindow + 12);
-    accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxMSG)), mnuMessage);
-    accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxURL)), mnuURL);
-    accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxFILE)), mnuFile);
-    accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxCHAT)), mnuChat);
-    accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxCONTACTxLIST)), mnuContacts);
-    accel->insertItem(QAccel::stringToKey(SIMClient::getMessageAccel(ICQ_MSGxMAIL)), mnuMail);
+    accel->insertItem(ACCEL(ICQ_MSGxMSG), mnuMessage);
+    accel->insertItem(ACCEL(ICQ_MSGxURL), mnuURL);
+    accel->insertItem(ACCEL(ICQ_MSGxFILE), mnuFile);
+    accel->insertItem(ACCEL(ICQ_MSGxCHAT), mnuChat);
+    accel->insertItem(ACCEL(ICQ_MSGxCONTACTxLIST), mnuContacts);
+    accel->insertItem(ACCEL(ICQ_MSGxMAIL), mnuMail);
     setOnTop();
 }
 

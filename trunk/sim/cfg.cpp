@@ -155,7 +155,7 @@ void save(void *_obj, const cfgParam *params, QFile &out, DICT &dict)
             case PARAM_SHORT:
                 if (*((short*)(obj + p->offs)) != (short)(p->defValue)){
                     char buf[32];
-                    snprintf(buf, sizeof(buf), "%u", *((short*)(obj + p->offs)));
+                    snprintf(buf, sizeof(buf), "%i", *((short*)(obj + p->offs)));
                     value = buf;
                 }
                 break;
@@ -291,7 +291,7 @@ bool loadParam(void *_obj, const cfgParam *params, const char *name, const char 
                     list<unsigned long> *l;
                     switch (p->type){
                     case PARAM_ULONG:
-                        *((unsigned long*)(obj + p->offs)) = atol(value);
+                        *((unsigned long*)(obj + p->offs)) = strtoul(value, NULL, 10);
                         return true;
                     case PARAM_USHORT:
                         *((unsigned short*)(obj + p->offs)) = atol(value);

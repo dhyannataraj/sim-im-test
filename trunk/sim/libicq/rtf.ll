@@ -66,9 +66,9 @@
 
 typedef struct color
 {
-     unsigned char red;
-     unsigned char green;
-     unsigned char blue;
+    unsigned char red;
+    unsigned char green;
+    unsigned char blue;
 } color;
 
 typedef struct fontDef

@@ -67,7 +67,7 @@
 [\xF0-\xF7][\x00-\xFF]{3}	{ return WIDECHAR; }
 [\xF8-\xFB][\x00-\xFF]{4}	{ return WIDECHAR; }
 [\xFC-\xFD][\x00-\xFF]{5}	{ return WIDECHAR; }
-"<br"\/?">"			{ return BR; }
+"<br"\ *\/?">"			{ return BR; }
 "</"[A-Za-z]+">"		{ return TAG_END; }
 "<"[A-Za-z]+			{ BEGIN(s_tag); return TAG_START; }
 <s_tag>">"			{ BEGIN(INITIAL); return TAG_CLOSE; }
@@ -77,8 +77,8 @@
 <s_attr>">"			{ BEGIN(INITIAL); return TAG_CLOSE; }
 <s_attr>[A-Za-z]		{ BEGIN(s_tag); unput(yytext[0]); return SKIP; }
 <s_attr>.			{ return SKIP; }
-<s_value>"\""				{ BEGIN(s_string); return SKIP; }
-<s_value>[^\ >]+	{ BEGIN(s_tag); return VALUE; }
+<s_value>"\""			{ BEGIN(s_string); return SKIP; }
+<s_value>[^\ >]+		{ BEGIN(s_tag); return VALUE; }
 <s_value>.			{ return SKIP; }
 <s_string>"\""			{ BEGIN(s_tag); return SKIP; }
 <s_string>[^\"]+		{ return VALUE; }
@@ -372,24 +372,24 @@ string ICQClientPrivate::createRTF(const string &text, unsigned long foreColor, 
                 }else if (eq(tag.c_str(), "p")){
                     res += "\\pard";
                     bSpace = true;
-				}else if (eq(tag.c_str(), "img")){
-					for (list<attr>::iterator it = attrs.begin(); it != attrs.end(); ++it){
-						string name = (*it).name;
-						string value = (*it).value;
-						if (name == "src"){
-							char *p = strstr((*it).value.c_str(), "icon:smile");
-							if (p){
-								unsigned char c = p[10];
-								if (((c >= '0') && (c <= '9')) ||
-									((c >= 'a') && (c <= 'f')) ||
-									((c >= 'A') && (c <= 'F')))
-									res += "<##icqimage000";
-									res += c;
-									res += ">";
-							}
-							break;
-						}
-					}
+                }else if (eq(tag.c_str(), "img")){
+                    for (list<attr>::iterator it = attrs.begin(); it != attrs.end(); ++it){
+                        string name = (*it).name;
+                        string value = (*it).value;
+                        if (name == "src"){
+                            char *p = strstr((*it).value.c_str(), "icon:smile");
+                            if (p){
+                                unsigned char c = p[10];
+                                if (((c >= '0') && (c <= '9')) ||
+                                        ((c >= 'a') && (c <= 'f')) ||
+                                        ((c >= 'A') && (c <= 'F')))
+                                    res += "<##icqimage000";
+                                res += c;
+                                res += ">";
+                            }
+                            break;
+                        }
+                    }
                 }else if (eq(tag.c_str(), "font")){
                     bool bChange = false;
                     font f = fonts.top();

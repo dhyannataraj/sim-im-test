@@ -135,7 +135,6 @@ WharfIcon::~WharfIcon()
 
 bool WharfIcon::x11Event(XEvent *e)
 {
-    //    log(L_DEBUG, "Wharf: %u", e->type);
     if ((e->type == ReparentNotify) && !bActivated){
         bActivated = true;
         if (vis) resize(vis->width(), vis->height());
@@ -569,7 +568,6 @@ void DockWnd::reset()
 
 void DockWnd::toggle()
 {
-    log(L_DEBUG, "Toggle %u", bNoToggle);
     if (bNoToggle){
         bNoToggle = false;
         return;
@@ -581,7 +579,6 @@ void DockWnd::mouseEvent( QMouseEvent *e)
 {
     switch(e->button()){
     case QWidget::LeftButton:
-        log(L_DEBUG, "Shot toggle");
         if (!bNoToggle)
             QTimer::singleShot(700, this, SLOT(toggle()));
         break;
@@ -610,6 +607,7 @@ void DockWnd::mouseReleaseEvent( QMouseEvent *e)
     if (!inTray && (wharfIcon == NULL)){
         releaseMouse();
         move(e->globalPos().x() - mousePos.x(),  e->globalPos().y() - mousePos.y());
+        mousePos = QPoint();
         QPoint p(pMain->DockX - x(), pMain->DockY - y());
         pMain->DockX = x();
         pMain->DockY = y();
@@ -633,7 +631,6 @@ void DockWnd::mouseMoveEvent( QMouseEvent *e)
 void DockWnd::mouseDoubleClickEvent( QMouseEvent*)
 {
     bNoToggle = true;
-    log(L_DEBUG, "Double click");
     emit doubleClicked();
 }
 
