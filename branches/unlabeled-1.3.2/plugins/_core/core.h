@@ -70,6 +70,7 @@ typedef struct CoreData
     unsigned	ColorAway;
     unsigned	ColorNA;
     unsigned	ColorDND;
+	unsigned	ColorGroup;
     char		*Lang;
     unsigned	ContainerMode;
     unsigned	SendOnEnter;
@@ -326,6 +327,7 @@ public:
     PROP_ULONG(ColorAway);
     PROP_ULONG(ColorNA);
     PROP_ULONG(ColorDND);
+	PROP_ULONG(ColorGroup);
     PROP_STR(Lang);
     //    PROP_ULONG(ContainerMode);
     unsigned getContainerMode();

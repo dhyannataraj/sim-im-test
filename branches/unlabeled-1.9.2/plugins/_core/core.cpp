@@ -201,6 +201,7 @@ static DataDef coreData[] =
         { "ColorAway", DATA_ULONG, 1, 0 },
         { "ColorNA", DATA_ULONG, 1, 0 },
         { "ColorDND", DATA_ULONG, 1, 0 },
+		{ "ColorGroup", DATA_ULONG, 1, 0 },
         { "Lang", DATA_STRING, 1, 0 },
         { "ContainerMode", DATA_ULONG, 1, CONTAINER_GROUP },
         { "SendOnEnter", DATA_BOOL, 1, 0 },

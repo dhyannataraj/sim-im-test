@@ -136,7 +136,7 @@ void UserView::paintEmptyArea(QPainter *p, const QRect &r)
     setStaticBackground(pv.isStatic);
 }
 
-void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width)
+void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin)
 {
     if (base->type() == GRP_ITEM){
         GroupItem *item = static_cast<GroupItem*>(base);
@@ -171,8 +171,8 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
             text += ")";
         }
         const QPixmap &pict = Pict(item->isOpen() ? "expanded" : "collapsed");
-        p->drawPixmap(2, (item->height() - pict.height()) / 2, pict);
-        int x = 24;
+        p->drawPixmap(2 + margin, (item->height() - pict.height()) / 2, pict);
+        int x = 24 + margin;
         if (!item->isOpen() && item->m_unread){
             CommandDef *def = CorePlugin::m_plugin->messageTypes.find(item->m_unread);
             if (def){
@@ -182,6 +182,8 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
                 x += pict.width() + 2;
             }
         }
+        if (!CorePlugin::m_plugin->getUseSysColors())
+            p->setPen(CorePlugin::m_plugin->getColorGroup());
         x = item->drawText(p, x, width, text);
         item->drawSeparator(p, x, width, cg);
         return;
@@ -208,7 +210,7 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
             if (def)
                 icon = def->icon;
         }
-        int x = 0;
+        int x = margin;
         if (icon.length()){
             const QPixmap &pict = Pict(icon.c_str());
             x += 2;
@@ -253,7 +255,7 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         }
         return;
     }
-    UserListBase::drawItem(base, p, cg, width);
+    UserListBase::drawItem(base, p, cg, width, margin);
 }
 
 void *UserView::processEvent(Event *e)

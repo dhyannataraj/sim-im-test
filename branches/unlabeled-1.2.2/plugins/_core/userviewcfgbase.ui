@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>196</width>
+            <width>192</width>
             <height>264</height>
         </rect>
     </property>
@@ -151,13 +151,6 @@
                 <name>hAlign</name>
             </property>
         </widget>
-        <widget row="3"  column="1" >
-            <class>QColorButton</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>btnOnline</cstring>
-            </property>
-        </widget>
         <widget row="4"  column="1" >
             <class>QColorButton</class>
             <property stdset="1">
@@ -179,7 +172,7 @@
                 <cstring>btnNA</cstring>
             </property>
         </widget>
-        <spacer row="8"  column="1" >
+        <spacer row="9"  column="1" >
             <property>
                 <name>name</name>
                 <cstring>Spacer1</cstring>
@@ -200,11 +193,43 @@
                 </size>
             </property>
         </spacer>
+        <widget row="8"  column="0" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>TextLabel1</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Groups</string>
+            </property>
+            <property>
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget row="3"  column="1" >
+            <class>QColorButton</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>btnOnline</cstring>
+            </property>
+        </widget>
         <widget row="7"  column="1" >
             <class>QColorButton</class>
             <property stdset="1">
                 <name>name</name>
                 <cstring>btnDND</cstring>
+            </property>
+        </widget>
+        <widget row="8"  column="1" >
+            <class>QColorButton</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>btnGroup</cstring>
             </property>
         </widget>
     </grid>

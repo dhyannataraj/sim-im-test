@@ -66,7 +66,7 @@ protected slots:
     void doClick();
 protected:
     virtual void fill();
-    virtual void drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width);
+    virtual void drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin);
     virtual unsigned getUnread(unsigned contact_id);
     virtual ProcessMenuParam *getMenu(QListViewItem *item);
     void *processEvent(Event*);
