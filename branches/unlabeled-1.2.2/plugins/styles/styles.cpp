@@ -19,6 +19,7 @@
 #include "stylescfg.h"
 #include "simapi.h"
 #include "fontedit.h"
+#include "core.h"
 
 #include <qapplication.h>
 #include <qpopupmenu.h>
@@ -66,6 +67,7 @@ static DataDef stylesData[] =
         { "SystemFonts", DATA_BOOL, 1, 1 },
         { "BaseFont", DATA_STRING, 1, 0 },
         { "MenuFont", DATA_STRING, 1, 0 },
+		{ "MessageFont", DATA_STRING, 1, 0 },
         { "SystemColors", DATA_BOOL, 1, 1 },
         { "BtnColor", DATA_ULONG, 1, 0 },
         { "BgColor", DATA_ULONG, 1, 0 },

@@ -80,6 +80,7 @@ typedef struct CoreData
     unsigned	EditBackground;
     unsigned	EditForeground;
     char		*EditFont;
+	unsigned	EditSaveFont;
     unsigned	OwnColors;
     unsigned	UseSmiles;
     unsigned	CloseSend;
@@ -370,7 +371,6 @@ public:
     //    PROP_ULONG(ContainerMode);
     unsigned getContainerMode();
     void setContainerMode(unsigned);
-
     PROP_BOOL(SendOnEnter);
     PROP_ULONG(ContainerStatusSize);
     PROP_STR(Containers);
@@ -380,6 +380,7 @@ public:
     PROP_ULONG(EditForeground);
     PROP_ULONG(EditBackground);
     PROP_STR(EditFont);
+	PROP_BOOL(EditSaveFont);
     PROP_BOOL(OwnColors);
     PROP_BOOL(UseSmiles);
     PROP_BOOL(CloseSend);

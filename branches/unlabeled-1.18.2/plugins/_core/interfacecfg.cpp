@@ -110,7 +110,7 @@ InterfaceConfig::InterfaceConfig(QWidget *parent)
     }
     cmbLang->setCurrentItem(nCurrent);
 #else
-cmbLang->hide();
+	cmbLang->hide();
 #endif
     connect(grpMode, SIGNAL(clicked(int)), this, SLOT(modeChanged(int)));
     if (CorePlugin::m_plugin->getContainerMode()){
@@ -121,6 +121,7 @@ cmbLang->hide();
         grpMode->setButton(0);
         grpContainer->setEnabled(false);
     }
+	chkSaveFont->setChecked(CorePlugin::m_plugin->getEditSaveFont());
     QString copy2;
     QString copy1 = i18n("Copy %1 messages from history");
     int n = copy1.find("%1");
@@ -181,6 +182,7 @@ void InterfaceConfig::apply()
     msg_cfg->apply(data);
     data = getContacts()->getUserData(CorePlugin::m_plugin->sms_data_id);
     sms_cfg->apply(data);
+	CorePlugin::m_plugin->setEditSaveFont(chkSaveFont->isChecked());
 #ifndef USE_KDE
     int res = cmbLang->currentItem();
     const char *lang = "";

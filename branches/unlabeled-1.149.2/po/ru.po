@@ -4698,11 +4698,6 @@ msgstr "Лес"
 msgid "Fonts and colors"
 msgstr "Шрифт и цвет"
 
-# ui/fontsetupbase.cpp:187
-#: plugins/_core/fontconfigbase.cpp:129 plugins/styles/fontconfigbase.cpp:159
-msgid "Use &system fonts"
-msgstr "&Использовать системные цвета"
-
 # msgedit.cpp:156
 #: plugins/_core/fontconfigbase.cpp:130 plugins/styles/fontconfigbase.cpp:160
 msgid "Base font:"

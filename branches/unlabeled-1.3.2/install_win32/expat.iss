@@ -14,5 +14,6 @@ AppMutex=SIM_Mutex
 OutputBaseFilename=expat
 
 [Files]
-Source: "libexpat.dll"; DestDir: "{app}"
+Source: "C:\qt\bin\libexpat.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\qt\bin\sablot.dll"; DestDir: "{app}"; Flags: ignoreversion
 

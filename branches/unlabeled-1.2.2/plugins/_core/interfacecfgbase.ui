@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>371</width>
-            <height>341</height>
+            <width>366</width>
+            <height>329</height>
         </rect>
     </property>
     <property>
@@ -32,11 +32,11 @@
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>TextLabel1</cstring>
+                <cstring>TextLabel1_2</cstring>
             </property>
             <property>
                 <name>text</name>
-                <string></string>
+                <string>Language:</string>
             </property>
         </widget>
         <widget>
@@ -51,17 +51,6 @@
                     <hsizetype>7</hsizetype>
                     <vsizetype>0</vsizetype>
                 </sizepolicy>
-            </property>
-        </widget>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel1_2</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Language:</string>
             </property>
         </widget>
         <widget>
@@ -103,6 +92,17 @@
                     <property>
                         <name>text</name>
                         <string>&amp;Chat mode</string>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QCheckBox</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>chkSaveFont</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>&amp;Using last selected font</string>
                     </property>
                 </widget>
             </vbox>

@@ -26,6 +26,7 @@ typedef struct StylesData
     unsigned	SystemFonts;
     char		*BaseFont;
     char		*MenuFont;
+	char		*MessageFont;
     unsigned	SystemColors;
     unsigned	BtnColor;
     unsigned	BgColor;
@@ -40,6 +41,7 @@ public:
     PROP_BOOL(SystemFonts);
     PROP_STR(BaseFont);
     PROP_STR(MenuFont);
+	PROP_STR(MessageFont);
     PROP_BOOL(SystemColors);
     PROP_ULONG(BtnColor);
     PROP_ULONG(BgColor);
