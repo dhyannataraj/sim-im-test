@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sim\n"
 "POT-Creation-Date: 2004-03-15 11:35+0300\n"
-"PO-Revision-Date: 2004-03-16 00:22+0100\n"
+"PO-Revision-Date: 2004-03-17 01:49+0100\n"
 "Last-Translator: Lapo Luchini <lapo@lapo.it>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1857,7 +1857,7 @@ msgstr "Minimizza"
 
 #: sim/ui/qt3/i18n.cpp:293
 msgid "Restore Down"
-msgstr ""
+msgstr "Ripristina in basso"
 
 #: sim/ui/qt3/i18n.cpp:295
 msgid "Maximize"
@@ -1869,7 +1869,7 @@ msgstr "Arrotola"
 
 #: sim/ui/qt3/i18n.cpp:299
 msgid "Restore Up"
-msgstr ""
+msgstr "Ripristina in alto"
 
 #: sim/ui/qt3/i18n.cpp:301
 msgid "Roll down"
@@ -3071,6 +3071,8 @@ msgid ""
 "At loading contact list contacts with identical names were automatically joined.\n"
 "If it is wrong, you can separate them. For this purpose in contact menu choose the necessary name and choose a command \"Separate\"."
 msgstr ""
+"Al caricamento i onctatti con nome identico sono stati automaticamente uniti.\n"
+"Se questo è sbagliato, puoi separarli selezionando il nome e scegliendo il comando \"Separa\"."
 
 #: plugins/_core/core.cpp:1606
 msgid "Don't show this message in next time"
@@ -3078,7 +3080,7 @@ msgstr "Non mostrare questo messaggio la prossima volta"
 
 #: plugins/_core/core.cpp:1633
 msgid "`<command>` - call <command> and substitute command output\n"
-msgstr ""
+msgstr "`<comando>` - richiama <command> e prende il suo output\n"
 
 #: plugins/_core/core.cpp:2195
 msgid "&Separate"
@@ -3253,7 +3255,7 @@ msgstr "Ciao!"
 
 #: plugins/_core/historycfg.cpp:668
 msgid "<b><font color=\"#FF0000\">C</font><font color=\"#FFFF00\">olored</font></b> message"
-msgstr ""
+msgstr "Messaggio <b><font color=\"#FF0000\">C</font><font color=\"#FFFF00\">olorato</font></b>"
 
 #: plugins/_core/historycfg.cpp:677
 #: plugins/_core/msgcfgbase.cpp:86
@@ -5196,7 +5198,7 @@ msgstr "Registrato in stato non registrato."
 
 #: plugins/icq/icqlogin.cpp:196
 msgid "This client is outdated"
-msgstr ""
+msgstr "Questo programma è vecchio"
 
 #: plugins/icq/icqlogin.cpp:201
 msgid "Too many clients from same IP"
@@ -7607,11 +7609,11 @@ msgstr "Stato d'animo:"
 
 #: plugins/livejournal/msgjournalbase.cpp:91
 msgid "Enable comments"
-msgstr ""
+msgstr "Abilita commenti"
 
 #: plugins/livejournal/msgjournalbase.cpp:92
 msgid "No email comments"
-msgstr ""
+msgstr "Nessun commento email"
 
 #: plugins/livejournal/msgjournalbase.cpp:93
 msgid "Disable comments"
@@ -7925,7 +7927,7 @@ msgstr "okay"
 
 #: plugins/livejournal/livejournal.cpp:1418
 msgid "rejuvenated"
-msgstr ""
+msgstr "ringiovanito"
 
 #: plugins/livejournal/livejournal.cpp:1419
 msgid "complacent"
@@ -8405,7 +8407,7 @@ msgstr "Non in casa"
 
 #: plugins/yahoo/yahooclient.cpp:1254
 msgid "Not at my desk"
-msgstr ""
+msgstr "Non alla scrivania"
 
 #: plugins/yahoo/yahooclient.cpp:1257
 msgid "Not in the office"
@@ -8429,11 +8431,11 @@ msgstr "&Yahoo!"
 
 #: plugins/yahoo/yahoocfgbase.cpp:168
 msgid "File transfer server:"
-msgstr ""
+msgstr "Server trasferimento file:"
 
 #: plugins/yahoo/yahoocfgbase.cpp:169
 msgid "File transfer port:"
-msgstr ""
+msgstr "Porta trasferimento file:"
 
 #: plugins/yahoo/yahoosearch.cpp:56
 msgid "Yahoo! search results"
@@ -8651,97 +8653,97 @@ msgstr "Illimitato"
 msgid ""
 "_: weather\n"
 "N"
-msgstr ""
+msgstr "N"
 
 #: plugins/weather/weather.cpp:484
 msgid ""
 "_: weather\n"
 "NNW"
-msgstr ""
+msgstr "NNO"
 
 #: plugins/weather/weather.cpp:485
 msgid ""
 "_: weather\n"
 "NW"
-msgstr ""
+msgstr "NO"
 
 #: plugins/weather/weather.cpp:486
 msgid ""
 "_: weather\n"
 "NWW"
-msgstr ""
+msgstr "NOO"
 
 #: plugins/weather/weather.cpp:487
 msgid ""
 "_: weather\n"
 "W"
-msgstr ""
+msgstr "O"
 
 #: plugins/weather/weather.cpp:488
 msgid ""
 "_: weather\n"
 "SWW"
-msgstr ""
+msgstr "SOO"
 
 #: plugins/weather/weather.cpp:489
 msgid ""
 "_: weather\n"
 "SW"
-msgstr ""
+msgstr "SO"
 
 #: plugins/weather/weather.cpp:490
 msgid ""
 "_: weather\n"
 "SSW"
-msgstr ""
+msgstr "SSO"
 
 #: plugins/weather/weather.cpp:491
 msgid ""
 "_: weather\n"
 "S"
-msgstr ""
+msgstr "S"
 
 #: plugins/weather/weather.cpp:492
 msgid ""
 "_: weather\n"
 "SSE"
-msgstr ""
+msgstr "SSE"
 
 #: plugins/weather/weather.cpp:493
 msgid ""
 "_: weather\n"
 "SE"
-msgstr ""
+msgstr "SE"
 
 #: plugins/weather/weather.cpp:494
 msgid ""
 "_: weather\n"
 "SEE"
-msgstr ""
+msgstr "SEE"
 
 #: plugins/weather/weather.cpp:495
 msgid ""
 "_: weather\n"
 "E"
-msgstr ""
+msgstr "E"
 
 #: plugins/weather/weather.cpp:496
 msgid ""
 "_: weather\n"
 "NEE"
-msgstr ""
+msgstr "NEE"
 
 #: plugins/weather/weather.cpp:497
 msgid ""
 "_: weather\n"
 "NE"
-msgstr ""
+msgstr "NE"
 
 #: plugins/weather/weather.cpp:498
 msgid ""
 "_: weather\n"
 "NNE"
-msgstr ""
+msgstr "NNE"
 
 #: plugins/weather/weather.cpp:510
 msgid "and"
@@ -8832,7 +8834,7 @@ msgstr "Temperatura"
 
 #: plugins/weather/wifacecfg.cpp:29
 msgid "Feels like"
-msgstr ""
+msgstr "Sembrano"
 
 #: plugins/weather/wifacecfg.cpp:31
 msgid "Humidity"
