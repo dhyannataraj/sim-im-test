@@ -156,7 +156,8 @@ void EditFile::showFiles()
             if (dlg->exec() == QDialog::Accepted){
                 s = dlg->selectedFile();
             }
-            delete preview;
+// under KDE 3.1x / QT 3.1x sim crashes when preview is deleted...
+//            delete preview;
             delete dlg;
         }else{
 #ifdef USE_KDE
