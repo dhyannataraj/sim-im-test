@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2002-11-19 15:31+0300\n"
-"PO-Revision-Date: 2002-11-15 13:36+0200\n"
+"PO-Revision-Date: 2002-11-19 19:23+0200\n"
 "Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1740,8 +1740,7 @@ msgstr "%1 від %2"
 
 #: mainwin.cpp:991 ui/logindlg.cpp:138
 msgid "Can't connect to proxy server"
-msgstr ""
-"Неможливо з'єднатися з проксі-сервером"
+msgstr "Неможливо з'єднатися з проксі-сервером"
 
 #: mainwin.cpp:997 ui/logindlg.cpp:145
 msgid "Proxy server require authorization"
@@ -1773,8 +1772,7 @@ msgstr "&Ні"
 
 #: mainwin.cpp:1649
 msgid "Add %1 to ignore list ?"
-msgstr ""
-"Додати \"%1\" в список тих що ігноруються?"
+msgstr "Додати \"%1\" в список тих що ігноруються?"
 
 #: mainwin.cpp:1713
 msgid "In visible list"
@@ -1940,7 +1938,7 @@ msgstr "Згорнути всі групи"
 
 #: mainwin.cpp:2399 toolbtn.cpp:643
 msgid "Customize toolbar..."
-msgstr ""
+msgstr "Налаштування панелі інструментів"
 
 #: mainwin.cpp:2402
 msgid "ICQ"
@@ -2169,8 +2167,7 @@ msgstr "Розмір: %1 / Максимальний: %2"
 
 #: msgedit.cpp:1555
 msgid "Message will be split"
-msgstr ""
-"Повідомлення буде розділено на частини"
+msgstr "Повідомлення буде розділено на частини"
 
 #: msgedit.cpp:1730
 msgid "Decline reason"
@@ -3558,8 +3555,7 @@ msgstr "Прозорі вікна тільки якщо неактивні"
 
 #: ui/themesetupbase.cpp:154
 msgid "Show main window in task manager"
-msgstr ""
-"Показувати основне вікно в панелі задач"
+msgstr "Показувати основне вікно в панелі задач"
 
 #: ui/themesetupbase.cpp:158
 msgid "Show user window in task manager"
@@ -3578,8 +3574,7 @@ msgid "Hide main window after"
 msgstr "Сховати головне вікно"
 
 #: ui/statussetupbase.cpp:107
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Заборонити попередження в стані "
 "\"Відійшов\", \"Не активний\", \"Зайнятий\""
@@ -3730,8 +3725,7 @@ msgstr ""
 
 #: ui/generalsecbase.cpp:173
 msgid "Reject &URL from unknown users"
-msgstr ""
-"Відкидати &URL від невідомих користувачів"
+msgstr "Відкидати &URL від невідомих користувачів"
 
 #: ui/generalsecbase.cpp:177
 msgid "Reject &World Wide pager messages"
@@ -3792,8 +3786,7 @@ msgstr ""
 # #
 #: ui/msgbase.cpp:94
 msgid "Automaitcaly open window"
-msgstr ""
-"Автоматично відкривати вікно повідомлень"
+msgstr "Автоматично відкривати вікно повідомлень"
 
 #: ui/msgbase.cpp:98
 msgid "Run external program"
@@ -3801,45 +3794,39 @@ msgstr "Запуск зовнішньої програми"
 
 #: ui/toolsetup.cpp:56 ui/toolsetup.cpp:126 ui/toolsetup.cpp:153
 msgid "Separator"
-msgstr ""
+msgstr "Розділювач"
 
 #: ui/toolsetupbase.cpp:34
 msgid "Toolbar setup"
-msgstr ""
+msgstr "Налаштування панелі інструментів"
 
 #: ui/toolsetupbase.cpp:42
 msgid "All buttons:"
-msgstr ""
+msgstr "Всі кнопки:"
 
 #: ui/toolsetupbase.cpp:55
-#, fuzzy
 msgid "&Add ->"
-msgstr "&Додати"
+msgstr "&Додати ->"
 
 #: ui/toolsetupbase.cpp:59
-#, fuzzy
 msgid "<- &Remove"
-msgstr "Знищити"
+msgstr "<- &Знищити"
 
 #: ui/toolsetupbase.cpp:68
-#, fuzzy
 msgid "Active:"
 msgstr "Дія:"
 
 #: ui/toolsetupbase.cpp:81
-#, fuzzy
 msgid "&Up"
-msgstr "Вверх"
+msgstr "&Вверх"
 
 #: ui/toolsetupbase.cpp:85
-#, fuzzy
 msgid "&Down"
-msgstr "Вниз"
+msgstr "&Вниз"
 
 #: ui/toolsetupbase.cpp:104
-#, fuzzy
 msgid "&Apply"
-msgstr "Застосувати"
+msgstr "&Застосувати"
 
 #: about.cpp:280
 msgid "replace this with information about your translation team"
@@ -3847,8 +3834,7 @@ msgstr "..."
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Ця програма поширюється під ліцензією GPL v2"
+msgstr "Ця програма поширюється під ліцензією GPL v2"
 
 #: client.cpp:54
 msgid "Unicode"
@@ -4466,3 +4452,4 @@ msgstr "? Невідомий статус %1"
 
 #~ msgid "Spell"
 #~ msgstr "Проверка орфографии"
+
