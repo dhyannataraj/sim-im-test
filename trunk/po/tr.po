@@ -1,3 +1,4 @@
+# translation of tr.po to Türkçe
 # translation of tr.po to Turkish
 # translation of tr.po to �усский
 # Copyright (C) 2002 Free Software Foundation, Inc.
@@ -9,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "POT-Creation-Date: 2002-11-04 01:59+0300\n"
-"PO-Revision-Date: 2002-10-19 20:14+0300\n"
+"PO-Revision-Date: 2002-11-04 11:14+0200\n"
 "Last-Translator: ismail donmez <voidcartman@yahoo.com>\n"
-"Language-Team: Turkish <tr@li.org>\n"
+"Language-Team: Türkçe <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1945,9 +1946,8 @@ msgid "Always on top"
 msgstr "Daima en üstte"
 
 #: mainwin.cpp:2373 monitor.cpp:57
-#, fuzzy
 msgid "Network monitor"
-msgstr "Network"
+msgstr "Network monitörü"
 
 #: mainwin.cpp:2374
 msgid "&Bug report"
@@ -2277,7 +2277,7 @@ msgstr "Log Düzeyi"
 
 #: sim.cpp:288
 msgid "Control socket"
-msgstr ""
+msgstr "Kontrol soketi"
 
 #: themes.cpp:123 themes.cpp:132
 msgid "Default style"
@@ -3239,8 +3239,7 @@ msgstr "Global alarm ayarlarının üzerine yaz"
 
 #: ui/alertdialogbase.cpp:97
 msgid "Activate online alert when user returns from Away or NA"
-msgstr ""
-"Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
+msgstr "Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
 
 #: ui/alertdialogbase.cpp:102
 msgid "Online alert options"
@@ -3520,8 +3519,7 @@ msgid "Hide main window after"
 msgstr "Ana menüyü sakla"
 
 #: ui/statussetupbase.cpp:107
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "\"Uzakta\", \"N/A\", \"DND\" ve \"Meşgul\"-Listelerinde bağlı alamını "
 "iptal et "
@@ -3620,8 +3618,7 @@ msgstr "Zaman Dilimi:"
 
 #: ui/generalsecbase.cpp:124
 msgid "My &authorization is required before users add me to Contact List"
-msgstr ""
-"Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
+msgstr "Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
 
 #: ui/generalsecbase.cpp:128
 msgid "Don't show my &IP-address"
@@ -3718,13 +3715,12 @@ msgstr ""
 "Bu sadece karşı tarafta SIM ya da Licq varsa çalışır"
 
 #: ui/msgbase.cpp:94
-#, fuzzy
 msgid "Automaitcaly open window"
-msgstr "Tüm mesajları otomatik aç"
+msgstr "Pencereyi otomatik aç"
 
 #: ui/msgbase.cpp:98
 msgid "Run external program"
-msgstr ""
+msgstr "Dış program çalıştır"
 
 #: about.cpp:280
 msgid "replace this with information about your translation team"
@@ -3889,11 +3885,11 @@ msgid ""
 msgstr "Kontak isteği"
 
 #: client.cpp:911
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: External unknown message\n"
 "%n unknown messages"
-msgstr "Bilinmeyen mesaj"
+msgstr "%n Bilinmeyen mesaj"
 
 #: client.cpp:913
 #, c-format
@@ -3944,21 +3940,18 @@ msgid ""
 msgstr "Ctrl+M"
 
 #: client.cpp:934
-#, fuzzy
 msgid ""
 "_: Ctrl+H\n"
 "Chat"
-msgstr "Ctrl+C"
+msgstr "Ctrl+H"
 
 #: client.cpp:936
-#, fuzzy
 msgid ""
 "_: Ctrl+F\n"
 "File"
-msgstr "Ctrl+L"
+msgstr "Ctrl+F"
 
 #: client.cpp:938
-#, fuzzy
 msgid ""
 "_: Ctrl+U\n"
 "URL"
@@ -3977,7 +3970,6 @@ msgid ""
 msgstr "Ctrl+C"
 
 #: client.cpp:944
-#, fuzzy
 msgid ""
 "_: Ctrl+S\n"
 "SMS"
@@ -4010,123 +4002,108 @@ msgid "Away"
 msgstr "Uzakta"
 
 #: monitor.cpp:65
-#, fuzzy
 msgid "&Save"
-msgstr "Kaydet"
+msgstr "&Kaydet"
 
 #: monitor.cpp:67
-#, fuzzy
 msgid "E&xit"
-msgstr "Değiştir"
+msgstr "&Çık"
 
 #: monitor.cpp:68
-#, fuzzy
 msgid "&File"
-msgstr "Dosya"
+msgstr "&Dosya"
 
 #: monitor.cpp:71
-#, fuzzy
 msgid "&Copy"
-msgstr "Firma:"
+msgstr "&Kopyala"
 
 #: monitor.cpp:72
-#, fuzzy
 msgid "&Erase"
-msgstr "Sil"
+msgstr "&Sil"
 
 #: monitor.cpp:77
 msgid "&Packets"
-msgstr ""
+msgstr "&Paket"
 
 #: monitor.cpp:78
 msgid "&Debug"
-msgstr ""
+msgstr "&Debug"
 
 #: monitor.cpp:79
-#, fuzzy
 msgid "&Warnings"
-msgstr "Bakıcılık"
+msgstr "&Uyarılar"
 
 #: monitor.cpp:80
 msgid "&Error"
-msgstr ""
+msgstr "&Hata"
 
 #: monitor.cpp:81
-#, fuzzy
 msgid "&Log"
-msgstr "Giriş"
+msgstr "&Kayıt"
 
 #: monitor.cpp:108
 msgid "Error"
-msgstr ""
+msgstr "Hata"
 
 #: monitor.cpp:108
-#, fuzzy, c-format
+#, c-format
 msgid "Can't create file %1"
-msgstr "%1 yaratılamadı"
+msgstr "%1 dosyası yaratılamadı"
 
 #: control.cpp:188
-#, fuzzy
 msgid "set status"
-msgstr "Telefon statüsü"
+msgstr "statüsü ayarla"
 
 #: control.cpp:189
-#, fuzzy
 msgid "set invisible mode"
-msgstr "Görünmezler listesinde"
+msgstr "görünmez moda ayarla"
 
 #: control.cpp:190
-#, fuzzy
 msgid "send message"
-msgstr "&Yeni Mesaj"
+msgstr "mesaj gönder"
 
 #: control.cpp:191
-#, fuzzy
 msgid "send SMS"
 msgstr "SMS gönder"
 
 #: control.cpp:192
-#, fuzzy
 msgid "show/hide main window"
-msgstr "Ana menüyü Göster/Sakla"
+msgstr "Ana pencereyi Göster/Sakla"
 
 #: control.cpp:193
-#, fuzzy
 msgid "show/hide search window"
-msgstr "Arama penceresini göster"
+msgstr "Arama penceresini göster/sakla"
 
 #: control.cpp:194
-#, fuzzy
 msgid "show/hide dock"
-msgstr "Dock kullan"
+msgstr "Dock göster/sakla"
 
 #: control.cpp:195
-#, fuzzy
 msgid "quit SIM"
-msgstr "SIM hakkında"
+msgstr "SIM'den çık"
 
 #: control.cpp:196
 msgid "close session"
-msgstr ""
+msgstr "oturumu kapat"
 
 #: control.cpp:197
 msgid "command help information"
-msgstr ""
+msgstr "komut yardım bilgisi"
 
 #: control.cpp:258
 #, c-format
 msgid "? Unknown command %1"
-msgstr ""
+msgstr "? Bilinmeyen komut %1"
 
 #: control.cpp:266
 #, c-format
 msgid "? Bad arguments number. Try help %1"
-msgstr ""
+msgstr "? Kötü argüman numarası .Yardımı deneyin %1"
 
 #: control.cpp:281
 #, c-format
 msgid "? Unknown status %1"
-msgstr ""
+msgstr "? Bilinmeyen statü %1"
 
 #, fuzzy
 #~ msgid "UTF-8"
@@ -4250,3 +4227,4 @@ msgstr ""
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
