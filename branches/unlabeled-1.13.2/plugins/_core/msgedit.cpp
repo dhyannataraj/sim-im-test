@@ -1059,7 +1059,9 @@ void MsgEdit::editLostFocus()
 void MsgEdit::insertSmile(int id)
 {
     if (m_edit->textFormat() == QTextEdit::PlainText){
-        m_edit->insert(smiles(id), false, true, true);
+		const smile *s = smiles(id);
+		if (s)
+			m_edit->insert(s->paste, false, true, true);
         return;
     }
     QString img_src = QString("<img src=icon:smile%1>").arg(QString::number(id, 16).upper());
@@ -1196,11 +1198,11 @@ SmilePopup::SmilePopup(QWidget *popup)
     unsigned nSmiles = 0;
     unsigned i;
     for (i = 0; ; i++){
-        const char *p = smiles(i);
+        const smile *p = smiles(i);
         if (p == NULL)
             break;
-        if (*p == 0)
-            continue;
+		if (*p->exp == 0)
+			continue;
 		char b[20];
 		sprintf(b, "smile%X", i);
         const QIconSet *is = Icon(b);
@@ -1210,6 +1212,7 @@ SmilePopup::SmilePopup(QWidget *popup)
         s = QSize(QMAX(s.width(), pict.width()), QMAX(s.height(), pict.height()));
         nSmiles++;
     }
+
 	unsigned rows = 4;
     unsigned cols = (nSmiles + 3) / 4;
 	if (cols > 8){
@@ -1223,14 +1226,12 @@ SmilePopup::SmilePopup(QWidget *popup)
     i = 0;
     unsigned j = 0;
     for (unsigned id = 0; ; id++){
-        const char *p = smiles(id);
+        const smile *p = smiles(id);
         if (p == NULL)
             break;
-        if (*p == 0)
-            continue;
-        for (; *p; p += strlen(p) + 1);
-        p++;
-        QWidget *w = new SmileLabel(id, p, this);
+		if (*p->exp == 0)
+			continue;
+        QWidget *w = new SmileLabel(id, p->title, this);
         w->setMinimumSize(s);
         connect(w, SIGNAL(clicked(int)), this, SLOT(labelClicked(int)));
         lay->addWidget(w, i, j);

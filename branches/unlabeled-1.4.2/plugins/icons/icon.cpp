@@ -109,46 +109,34 @@ void IconsPlugin::setIcons()
         dlls.insert(ICONS_MAP::value_type(name.c_str(), dll));
     }
     if (smiles){
-        string s;
-        for (unsigned i = 0; i < smiles->count(); i++){
-            const QIconSet *is = smiles->get(i);
-            if (is == NULL){
-                s += '-';
-                s += '\x00';
-                s += '\x00';
-                s += '\x00';
-                continue;
-            }
-            QString pat = smiles->pattern(i);
-            while (!pat.isEmpty()){
-                QString p = getToken(pat, ' ', false);
-                if (p.isEmpty())
-                    continue;
-                s += p.latin1();
-                s += '\x00';
-            }
-            s += '\x00';
-            QString tip = smiles->tip(i);
-            if (!tip.isEmpty()){
-                s += tip.local8Bit();
-            }
-            s += '\x00';
-            QString url = "smile";
-            url += QString::number(i).upper();
-            url = QString("icon:") + url;
-            QMimeSourceFactory::defaultFactory()->setPixmap(url, is->pixmap(QIconSet::Small, QIconSet::Normal));
+		string ss;
+        for (unsigned i = 0; i < smiles->m_smiles.size(); i++){
+			SmileDef &s = smiles->m_smiles[i];
+			if (s.icon){
+				QString url = "smile";
+				url += QString::number(i, 16).upper();
+				url = QString("icon:") + url;
+				QMimeSourceFactory::defaultFactory()->setPixmap(url, s.icon->pixmap(QIconSet::Small, QIconSet::Normal));
+			}
+			ss += s.exp;
+			ss += '\x00';
+			ss += s.paste;
+			ss += '\x00';
+			ss += s.title;
+			ss += '\x00';
         }
-        s += '\x00';
-        s += '\x00';
-        s += '\x00';
-        SIM::setSmiles(s.c_str());
+		ss += '\x00';
+		ss += '\x00';
+		ss += '\x00';
+        SIM::setSmiles(ss.c_str());
     }else{
         for (unsigned i = 0; i < 16; i++){
-            QString url = "icon:smile";
-            url += QString::number(i).upper();
+            QString url = "smile";
+            url += QString::number(i, 16).upper();
             const QIconSet *is = Icon((const char*)(url.latin1()));
             if (is == NULL)
                 continue;
+			url = QString("icon:") + url;
             QMimeSourceFactory::defaultFactory()->setPixmap(url, is->pixmap(QIconSet::Small, QIconSet::Normal));
         }
         SIM::setSmiles(NULL);
@@ -219,7 +207,7 @@ void *IconsPlugin::processEvent(Event *e)
         char _SMILE[] = "smile";
         if (smiles && (strlen(name) > strlen(_SMILE)) && (memcmp(name, _SMILE, strlen(_SMILE)) == 0)){
             unsigned nIcon = strtol(name + strlen(_SMILE), NULL, 16);
-            const QIconSet *is = smiles->get(nIcon);
+            const QIconSet *is = smiles->m_smiles[nIcon].icon;
             if (is)
                 return (void*)is;
             if (nIcon < 16)

@@ -281,9 +281,9 @@ void RTFGenParser::tag_start(const QString &tag, const list<QString> &options)
             res += ">";
             return;
         }
-        const char *p = smiles(nSmile);
+        const smile *p = smiles(nSmile);
         if (p)
-            res += p;
+            res += p->paste;
         return;
     }
     if (tag == "font"){
@@ -484,9 +484,9 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &options)
 		if (!bOK)
 			return;
         if (nIcon >= m_maxSmile){
-            const char *p = smiles(nIcon);
+            const smile *p = smiles(nIcon);
             if (p){
-                res += p;
+                res += p->paste;
                 return;
             }
         }

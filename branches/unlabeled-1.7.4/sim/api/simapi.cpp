@@ -576,8 +576,6 @@ EXPORT QString getRichTextPart(QString &str, unsigned)
     return res;
 }
 
-#define DIV	"\x00"
-
 #if 0
 I18N_NOOP("Smile")
 I18N_NOOP("Surprised")
@@ -597,93 +595,88 @@ I18N_NOOP("Angel")
 I18N_NOOP("Grin")
 #endif
 
-static const char *_smiles =
-    {
-        ":-)" DIV ":)" DIV DIV "Smile" DIV
-        ":-O" DIV ":-0" DIV "=-0" DIV "=-0" DIV DIV "Surprised" DIV
-        ":-|" DIV ":-!" DIV DIV "Indifferent" DIV
-        ":-/" DIV ":-\\" DIV DIV "Skeptical" DIV
-        ":-(" DIV ":(" DIV DIV "Sad" DIV
-        ":-{}" DIV ":{}" DIV ":-*" DIV DIV "Kiss" DIV
-        ":*)" DIV DIV "Annoyed" DIV
-        ":'-(" DIV ":'(" DIV DIV "Crying" DIV
-        ";-)" DIV ";)" DIV DIV "Wink" DIV
-        ":-@" DIV ">:0" DIV ">:O" DIV ">:o" DIV DIV "Angry" DIV
-        ":-\")" DIV ":-[" DIV DIV "Embarrassed" DIV
-        ":-X" DIV DIV "Uptight" DIV
-        ":-P" DIV DIV "Teaser" DIV
-        "8-)" DIV DIV "Cool" DIV
-        "O-)" DIV "0-)" DIV "O:-)" DIV "0:-)" DIV DIV "Angel" DIV
-        ":-D" DIV DIV "Grin" DIV
-        DIV DIV DIV
-    };
-
-static vector<string> *pSmiles = NULL;
-static vector<string> *pDefaultSmiles = NULL;
-
-static const char *getSmiles(unsigned n, vector<string> *pSmiles)
+static smile _smiles[] =
 {
-    if (n < pSmiles->size())
-        return (*pSmiles)[n].c_str();
-    return NULL;
-}
+	{ ":-?)", ":-)", "Smile" },
+    { ":[-=][O0]", ":-0", "Surprised" },
+    { ":-[\\|!]", ":-|", "Indifferent" },
+    { ":-[/\\\\]", ":-/", "Skeptical" },
+    { ":-?\\(", ":-(", "Sad" },
+    { ":-?\\{\\}|:-\\*", ":-{}", "Kiss" },
+	{ ":\\*\\)", ":*)", "Annoyed" },
+    { ":\'-?\\(", ":\'-(", "Crying" },
+    { ";-?\\)", ";-)", "Wink" },
+    { ":-@|>:[0Oo]", ":-@", "Angry" },
+    { ":-\")|:-\\[", ":-\")", "Embarrassed" },
+	{ ":-X", ":-X", "Uptight" },
+    { ":-P", ":-P", "Teaser" },
+    { "8-\\)", "8-)", "Cool" },
+    { "[O0]:?-\\)", "O:-)", "Angel" },
+    { ":-D", ":-D", "Grin" },
+};
 
-EXPORT const char *smiles(unsigned n)
+static vector<smile> *pSmiles = NULL;
+static string smiles_str;
+
+EXPORT const smile *smiles(unsigned n)
 {
     if (pSmiles == NULL)
-        setSmiles(NULL);
-    return getSmiles(n, pSmiles);
+		return defaultSmiles(n);
+	if (n < pSmiles->size())
+		return &(*pSmiles)[n];
+	return NULL;
 }
 
-static void setSmiles(const char *p, vector<string> *pSmiles)
+EXPORT const smile *defaultSmiles(unsigned n)
 {
-    for (;*p;){
-        string s;
-        for (; *p; ){
-            if (strcmp(p, "-"))
-                s += p;
-            s += '\x00';
-            p += strlen(p) + 1;
-        }
-        s += '\x00';
-        p++;
-        s += p;
-        p += strlen(p) + 1;
-        pSmiles->push_back(s);
-    }
+	if (n < 16)
+		return &_smiles[n];
+	return NULL;
 }
 
-EXPORT const char *defaultSmiles(unsigned n)
+EXPORT void setSmiles(const char *pp)
 {
-    if (pDefaultSmiles == NULL){
-        pDefaultSmiles = new vector<string>;
-        setSmiles(_smiles, pDefaultSmiles);
-    }
-    return getSmiles(n, pDefaultSmiles);
-}
-
-EXPORT void setSmiles(const char *p)
-{
-    if (p == NULL)
-        p = _smiles;
-    if (pSmiles){
-        pSmiles->clear();
-    }else{
-        pSmiles = new vector<string>;
-    }
-    setSmiles(p, pSmiles);
-}
-
-void destroySmiles()
-{
+	smiles_str = "";
     if (pSmiles){
         delete pSmiles;
         pSmiles = NULL;
     }
-    if (pDefaultSmiles){
-        delete pDefaultSmiles;
-        pDefaultSmiles = NULL;
-    }
+	if (pp == NULL)
+		return;
+
+	const char *p = pp;
+	for (;;){
+		smile s;
+		s.exp = p;
+		p += strlen(p) + 1;
+		s.paste = p;
+		p += strlen(p) + 1;
+		s.title = p;
+		p += strlen(p) + 1;
+		smiles_str += s.exp;
+		smiles_str += '\x00';
+		smiles_str += s.paste;
+		smiles_str += '\x00';
+		smiles_str += s.title;
+		smiles_str += '\x00';
+		if (*s.paste == 0)
+			break;
+	}
+
+    pSmiles = new vector<smile>;
+	p = smiles_str.c_str();
+	for (;;){
+		smile s;
+		s.exp = p;
+		p += strlen(p) + 1;
+		s.paste = p;
+		p += strlen(p) + 1;
+		s.title = p;
+		p += strlen(p) + 1;
+		if (*s.paste == 0)
+			break;
+		pSmiles->push_back(s);
+	}
 }
 
 #ifdef WIN32

@@ -73,14 +73,14 @@ void UnquoteParser::tag_start(const QString &tag, const list<QString> &options)
         unsigned nSmile = src.mid(10).toUInt(&bOk, 16);
         if (!bOk)
             return;
-        const char *smile = smiles(nSmile);
-        if (smile){
-            res += smile;
+        const smile *s = smiles(nSmile);
+        if (s){
+            res += s->paste;
             return;
         }
-        smile = defaultSmiles(nSmile);
-        if (smile)
-            res += smile;
+        s = defaultSmiles(nSmile);
+        if (s)
+            res += s->paste;
     }
 }
 

@@ -88,8 +88,8 @@ void SmilePreview::setSmiles()
     unsigned i = 0;
     if (smiles){
         unsigned nSmile = 0;
-        for (i = 0; (i < smiles->count()) && (i < 20); ){
-            const QIconSet *icon = smiles->get(nSmile++);
+        for (i = 0; (nSmile < smiles->m_smiles.size()) && (i < 20); ){
+            const QIconSet *icon = smiles->m_smiles[nSmile++].icon;
             if (icon == NULL){
                 if (nSmile < 16)
                     continue;
