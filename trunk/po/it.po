@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sim\n"
 "POT-Creation-Date: 2003-08-02 23:07+0400\n"
-"PO-Revision-Date: 2003-08-12 10:55+0100\n"
+"PO-Revision-Date: 2003-08-14 11:37+0100\n"
 "Last-Translator: Lapo Luchini <lapo@lapo.it>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1286,11 +1286,11 @@ msgstr "Visualizza dettagli"
 
 #: sim/ui/qt3/i18n.cpp:65
 msgid "Preview File Info"
-msgstr ""
+msgstr "Anteprima info del file"
 
 #: sim/ui/qt3/i18n.cpp:67
 msgid "Preview File Contents"
-msgstr ""
+msgstr "Anteprima contenuto del file"
 
 #: sim/ui/qt3/i18n.cpp:69
 msgid "Read-write"
@@ -1860,7 +1860,7 @@ msgstr "Solo connessi"
 
 #: sim/ui/searchbase.cpp:280
 msgid "New search"
-msgstr ""
+msgstr "Nuova ricerca"
 
 #: plugins/icq/icqsearchbase.cc:299
 #: sim/ui/searchbase.cpp:282
@@ -2105,7 +2105,7 @@ msgstr "&Giù"
 #: plugins/icq/securedlgbase.cc:73
 #: sim/ui/securedlgbase.cpp:66
 msgid "Secure chanel request"
-msgstr ""
+msgstr "Richiedi canale sicuro"
 
 #: plugins/icq/securedlgbase.cc:74
 #: sim/ui/securedlgbase.cpp:67
@@ -2216,7 +2216,7 @@ msgstr "Inoltra &F"
 
 #: sim/ui/proxydlgbase.cpp:171
 msgid "Proxy settings"
-msgstr ""
+msgstr "Impostazioni proxy"
 
 #: plugins/proxy/proxy.cpp:1142
 #: sim/ui/proxydlgbase.cpp:174
@@ -2226,7 +2226,7 @@ msgstr "Proxy"
 #: sim/ui/networkbase.cpp:231
 #: sim/ui/proxydlgbase.cpp:175
 msgid "Use proxy"
-msgstr ""
+msgstr "Usa proxy"
 
 #: sim/ui/networkbase.cpp:232
 #: sim/ui/proxydlgbase.cpp:176
@@ -2282,7 +2282,7 @@ msgstr "&Non mostrare questa finestra"
 
 #: sim/ui/logindlgbase.cpp:126
 msgid "&Proxy settings"
-msgstr ""
+msgstr "Impostazioni &proxy"
 
 #: plugins/_core/logindlgbase.cc:119
 #: sim/ui/logindlgbase.cpp:128
@@ -2361,7 +2361,7 @@ msgstr "&Server"
 
 #: sim/ui/networkbase.cpp:234
 msgid "Use proxy authorization"
-msgstr ""
+msgstr "Usa autorizzazione proxy"
 
 #: plugins/proxy/proxy.cpp:1233
 #: sim/ui/networkbase.cpp:237
@@ -2374,11 +2374,11 @@ msgstr ""
 
 #: sim/ui/networkbase.cpp:239
 msgid "From:"
-msgstr ""
+msgstr "Da:"
 
 #: sim/ui/networkbase.cpp:240
 msgid "To:"
-msgstr ""
+msgstr "A:"
 
 #: sim/ui/networkbase.cpp:241
 msgid "P&orts"
@@ -2391,11 +2391,11 @@ msgstr "Trasferimento file"
 
 #: sim/ui/filetransferbase.cpp:125
 msgid "1000000/100000"
-msgstr ""
+msgstr "1000000/100000"
 
 #: sim/ui/filetransferbase.cpp:126
 msgid "100000"
-msgstr ""
+msgstr "100000"
 
 #: plugins/_core/filetransferbase.cc:134
 #: sim/ui/filetransferbase.cpp:127
@@ -2428,7 +2428,7 @@ msgstr ""
 #: plugins/jabber/jabber.cpp:233
 #: sim/ui/acceptbase.cpp:177
 msgid "&Message"
-msgstr "&Massaggio"
+msgstr "&Messaggio"
 
 #: plugins/_core/msgcfgbase.cc:165
 #: sim/ui/acceptbase.cpp:179
@@ -2438,7 +2438,7 @@ msgstr "Cartella per file ricevuti:"
 #: plugins/_core/msgcfgbase.cc:166
 #: sim/ui/acceptbase.cpp:180
 msgid "Accept mode"
-msgstr ""
+msgstr "Modalità di accettazione"
 
 #: plugins/_core/msgcfgbase.cc:167
 #: sim/ui/acceptbase.cpp:181
@@ -2504,11 +2504,11 @@ msgstr "&Usa caratteri di sistema"
 
 #: sim/ui/fontsetupbase.cpp:252
 msgid "Base font"
-msgstr ""
+msgstr "Carattere base"
 
 #: sim/ui/fontsetupbase.cpp:253
 msgid "Menu font"
-msgstr ""
+msgstr "Carattere menu"
 
 #: sim/ui/fontsetupbase.cpp:254
 msgid "Fonts"
@@ -2567,7 +2567,7 @@ msgstr "A&ffiliazione"
 #: plugins/icq/pastinfobase.cc:172
 #: sim/ui/pastinfobase.cpp:158
 msgid "Past background:"
-msgstr ""
+msgstr "Vita passata:"
 
 #: plugins/icq/pastinfobase.cc:173
 #: sim/ui/pastinfobase.cpp:159
@@ -2620,7 +2620,7 @@ msgstr "Personalizza messaggio"
 
 #: sim/ui/msgdialogbase.cpp:101
 msgid "Don't show message dialog"
-msgstr ""
+msgstr "Non mostrare dialogo messaggi"
 
 #: sim/ui/listsecbase.cpp:122
 #: sim/ui/msgdialogbase.cpp:102
@@ -2661,11 +2661,11 @@ msgstr "Apri la finestra dell'utente quando è online"
 
 #: sim/ui/alertdialogbase.cpp:241
 msgid "Write to history"
-msgstr ""
+msgstr "Scrivi nello storico"
 
 #: sim/ui/alertdialogbase.cpp:242
 msgid "&Alert"
-msgstr ""
+msgstr "&Avvertimento"
 
 #: sim/ui/alertdialogbase.cpp:243
 msgid "Enable notify on screen"
@@ -2676,7 +2676,7 @@ msgstr ""
 #: sim/ui/alertdialogbase.cpp:244
 #: sim/ui/themesetupbase.cpp:302
 msgid "Place:"
-msgstr ""
+msgstr "Luogo:"
 
 #: plugins/osd/osdifacebase.cpp:181
 #: sim/ui/alertdialogbase.cpp:245
@@ -2714,12 +2714,12 @@ msgstr "Colore di sfondo:"
 
 #: sim/ui/alertdialogbase.cpp:252
 msgid "On Screen"
-msgstr ""
+msgstr "Su schermo"
 
 #: plugins/_core/phonebase.cc:145
 #: sim/ui/phonebase.cpp:155
 msgid "Area code:"
-msgstr ""
+msgstr "CAP:"
 
 #: plugins/_core/phonebase.cc:146
 #: sim/ui/phonebase.cpp:156
@@ -2748,7 +2748,7 @@ msgstr ""
 
 #: sim/ui/phonebase.cpp:163
 msgid "SMS service available"
-msgstr ""
+msgstr "Servizio SMs disponibile"
 
 #: plugins/_core/pagerbase.cc:119
 #: sim/ui/pagerbase.cpp:115
@@ -2776,7 +2776,7 @@ msgstr "Tipo:"
 
 #: sim/ui/miscsetupbase.cpp:105
 msgid "Browser program path:"
-msgstr ""
+msgstr "Percorso del browser:"
 
 #: sim/ui/miscsetupbase.cpp:106
 msgid "Email client:"
@@ -2793,7 +2793,7 @@ msgstr ""
 
 #: sim/ui/miscsetupbase.cpp:109
 msgid "&Synchronize now"
-msgstr ""
+msgstr "&Sincronizza adesso"
 
 #: sim/ui/miscsetupbase.cpp:110
 msgid "&Addressbook synchronization"
@@ -2805,7 +2805,7 @@ msgstr ""
 
 #: sim/ui/miscsetupbase.cpp:112
 msgid "&Spell check"
-msgstr ""
+msgstr "&Controllo ortografico"
 
 #: sim/ui/soundsetupbase.cpp:229
 msgid "&Override sounds"
@@ -2813,11 +2813,11 @@ msgstr ""
 
 #: sim/ui/soundsetupbase.cpp:230
 msgid "&Disable all sounds"
-msgstr ""
+msgstr "&Disabilita tutti i suoni"
 
 #: sim/ui/soundsetupbase.cpp:231
 msgid "Message:"
-msgstr "Massaggio:"
+msgstr "Messaggio:"
 
 #: plugins/icq/icqmessage.cpp:1082
 #: sim/ui/soundsetupbase.cpp:232
@@ -2838,7 +2838,7 @@ msgstr "Avvertimento connessi:"
 
 #: sim/ui/soundsetupbase.cpp:236
 msgid "Incoming file:"
-msgstr ""
+msgstr "File in arrivo:"
 
 #: plugins/sound/soundconfigbase.cpp:162
 #: sim/ui/soundsetupbase.cpp:237
@@ -2871,7 +2871,7 @@ msgstr ""
 
 #: sim/ui/phonebookbase.cpp:130
 msgid "User is currently available at:"
-msgstr ""
+msgstr "Utente attualmente reperibile presso:"
 
 #: plugins/_core/maininfobase.cc:248
 #: sim/ui/phonebookbase.cpp:136
@@ -2990,11 +2990,11 @@ msgstr "Usa colori di &sistema"
 
 #: sim/ui/themesetupbase.cpp:304
 msgid "Online contact color:"
-msgstr ""
+msgstr "Colore contatti connessi:"
 
 #: sim/ui/themesetupbase.cpp:305
 msgid "Offline contact color:"
-msgstr ""
+msgstr "Colore contatti non connessi:"
 
 #: sim/ui/themesetupbase.cpp:306
 msgid "B&ackground"
@@ -3011,7 +3011,7 @@ msgstr "Trasparenza"
 
 #: sim/ui/themesetupbase.cpp:309
 msgid "Transparent container"
-msgstr ""
+msgstr "Contenitore trasparente"
 
 #: plugins/transparent/transparentcfgbase.cpp:103
 #: sim/ui/themesetupbase.cpp:311
@@ -3042,7 +3042,7 @@ msgstr ""
 #: plugins/_core/historycfgbase.cc:178
 #: sim/ui/themesetupbase.cpp:317
 msgid "Use emotional &icons"
-msgstr ""
+msgstr "Usa &icone per le faccine"
 
 #: sim/ui/themesetupbase.cpp:318
 msgid "Use &dock"
@@ -3290,7 +3290,7 @@ msgstr "Rifiuta &messaggi da utenti sconosciuti"
 
 #: sim/ui/generalsecbase.cpp:223
 msgid "Reject &URL from unknown users"
-msgstr ""
+msgstr "Rifiuta &URL da utenti sconosciuti"
 
 #: sim/ui/generalsecbase.cpp:224
 msgid "Reject &World Wide pager messages"
@@ -3302,11 +3302,11 @@ msgstr "Rifiuta messaggi &EmailExpress"
 
 #: sim/ui/generalsecbase.cpp:226
 msgid "Reject &other messages"
-msgstr ""
+msgstr "Rifiuta &altri messaggi"
 
 #: sim/ui/generalsecbase.cpp:227
 msgid "&Reject"
-msgstr ""
+msgstr "&Rifiuta"
 
 #: plugins/filter/filtercfgbase.cpp:98
 #: sim/ui/generalsecbase.cpp:228
@@ -3404,7 +3404,7 @@ msgstr ""
 
 #: plugins/__migrate/migratedlg.cpp:77
 msgid "Cancel convert?"
-msgstr ""
+msgstr "Annullare conversione?"
 
 #: plugins/__migrate/migratedlg.cpp:202
 #: plugins/__migrate/migratedlg.cpp:206
@@ -3417,7 +3417,7 @@ msgstr "Non posso aprire %1"
 
 #: plugins/__migrate/migratedlgbase.cpp:89
 msgid "Convert configuration from old version"
-msgstr ""
+msgstr "Converti configurazione da versione passata"
 
 #: plugins/__migrate/migratedlgbase.cpp:90
 msgid "Directories for convert:"
@@ -3425,7 +3425,7 @@ msgstr "Cartelle per la conversione:"
 
 #: plugins/__migrate/migratedlgbase.cpp:91
 msgid "&Remove old files"
-msgstr ""
+msgstr "&Rimuovi vecchi file"
 
 #: plugins/__migrate/migratedlgbase.cpp:92
 msgid ""
@@ -3548,11 +3548,11 @@ msgstr "Invia &SMS"
 
 #: plugins/_core/core.cpp:423
 msgid "&Phone service"
-msgstr ""
+msgstr "&Servizio telefonico"
 
 #: plugins/_core/core.cpp:433
 msgid "Message"
-msgstr "Massaggio"
+msgstr "Messaggio"
 
 #: plugins/_core/core.cpp:444
 #: plugins/filter/ignorelist.cpp:26
@@ -3751,7 +3751,7 @@ msgstr "Invia &SMS"
 #: plugins/_core/core.cpp:2843
 #: plugins/_core/managerbase.cc:103
 msgid "Connection manager"
-msgstr ""
+msgstr "Gestore connessioni"
 
 #: plugins/_core/core.cpp:2829
 msgid "Show status panel"
@@ -3767,7 +3767,7 @@ msgstr "Cambia profilo"
 
 #: plugins/_core/core.cpp:2880
 msgid "Common status"
-msgstr ""
+msgstr "Stato comune"
 
 #: plugins/_core/core.cpp:2886
 msgid "Configure client"
@@ -3805,15 +3805,15 @@ msgstr "Invia file"
 
 #: plugins/_core/filetransfer.cpp:121
 msgid "Listen"
-msgstr ""
+msgstr "Ascolto"
 
 #: plugins/_core/filetransfer.cpp:124
 msgid "Connect"
-msgstr ""
+msgstr "Connessione"
 
 #: plugins/_core/filetransfer.cpp:127
 msgid "Negotiation"
-msgstr ""
+msgstr "Negoziazione"
 
 #: plugins/_core/filetransfer.cpp:134
 msgid "Send"
@@ -3829,7 +3829,7 @@ msgstr "Trasferimento fallito"
 
 #: plugins/_core/filetransfer.cpp:274
 msgid "Stalled"
-msgstr ""
+msgstr "Stallo"
 
 #: plugins/_core/filetransfer.cpp:286
 msgid "Mb/s"
@@ -3960,7 +3960,7 @@ msgstr "Sistema"
 
 #: plugins/_core/interfacecfg.cpp:119
 msgid "Copy %1 messages from history"
-msgstr ""
+msgstr "Copia %1 messaggi dallo storico"
 
 #: plugins/_core/logindlg.cpp:49
 msgid "Select profile"
@@ -4189,7 +4189,7 @@ msgstr "Personalizzato"
 
 #: plugins/_core/msgsms.cpp:54
 msgid "Send in translit"
-msgstr ""
+msgstr "Invia in russo traslitterato"
 
 #: plugins/_core/msgsms.cpp:58
 msgid "Phone:"
@@ -4340,7 +4340,7 @@ msgstr "Modalità &chat"
 
 #: plugins/_core/interfacecfgbase.cc:152
 msgid "Container mode"
-msgstr ""
+msgstr "Modalità a contenitori"
 
 #: plugins/_core/interfacecfgbase.cc:153
 msgid "Open each contact in &new container"
@@ -4394,7 +4394,7 @@ msgstr "Altri colori"
 
 #: plugins/_core/historycfgbase.cc:177
 msgid "Own color"
-msgstr ""
+msgstr "Proprio colore"
 
 #: plugins/_core/maininfobase.cc:231
 msgid "Last name:"
@@ -4434,7 +4434,7 @@ msgstr ""
 #: plugins/_core/editmailbase.cc:96
 #: plugins/_core/editphonebase.cc:142
 msgid "&Publish"
-msgstr ""
+msgstr "&Pubblica"
 
 #: plugins/_core/editphonebase.cc:139
 msgid "EditPhone"
@@ -4533,7 +4533,7 @@ msgstr "Orario:"
 
 #: plugins/_core/filetransferbase.cc:133
 msgid "Estimated time:"
-msgstr ""
+msgstr "Tempo stimato:"
 
 #: plugins/about/about.cpp:39
 msgid "Plugin provides about information"
@@ -4569,7 +4569,7 @@ msgstr "%1 Versione: %2"
 
 #: plugins/about/aboutdlg.cpp:47
 msgid "Bug report"
-msgstr ""
+msgstr "Segnala bug"
 
 #: plugins/autoaway/autoaway.cpp:54
 msgid "AutoAway"
@@ -4644,7 +4644,7 @@ msgstr ""
 
 #: plugins/dock/dock.cpp:144
 msgid "Toggle main window"
-msgstr ""
+msgstr "(Dis)Attiva finestra principale"
 
 #: plugins/dock/dock.cpp:252
 msgid "Hide main window"
@@ -4660,7 +4660,7 @@ msgstr ""
 
 #: plugins/filter/filter.cpp:31
 msgid "Plugin provides message filter"
-msgstr ""
+msgstr "Il plugin fornisce filtraggio sui messaggi"
 
 #: plugins/filter/filter.cpp:79
 #: plugins/filter/filtercfg.cpp:40
@@ -4849,7 +4849,7 @@ msgstr "Tailandese"
 
 #: plugins/icq/icqclient.cpp:368
 msgid "Process message failed"
-msgstr ""
+msgstr "Elaborazione del messaggio fallita"
 
 #: plugins/icq/icqclient.cpp:528
 msgid "Protocol error"
@@ -4938,7 +4938,7 @@ msgstr ""
 
 #: plugins/icq/icqdirect.cpp:228
 msgid "Can't established direct connection"
-msgstr ""
+msgstr "Non riesco a stabilire una connessione diretta"
 
 #: plugins/icq/icqdirect.cpp:862
 msgid "Other side does not support the secure connection"
@@ -4951,11 +4951,11 @@ msgstr "Invio messaggio fallito"
 
 #: plugins/icq/icqdirect.cpp:1226
 msgid "Unknown message type"
-msgstr ""
+msgstr "Tipo di messaggio sconosciuto"
 
 #: plugins/icq/icqdirect.cpp:1597
 msgid "No files for transfer"
-msgstr ""
+msgstr "Nessun file da trasferire"
 
 #: plugins/icq/icqdirect.cpp:1709
 msgid "Can't open file"
@@ -4972,7 +4972,7 @@ msgstr "L'utente non è connesso"
 
 #: plugins/icq/icqicmb.cpp:106
 msgid "Packet was malformed"
-msgstr ""
+msgstr "Pacchetto malformato"
 
 #: plugins/icq/icqicmb.cpp:109
 msgid "List overflow"
@@ -4984,11 +4984,11 @@ msgstr "Messaggio non valido"
 
 #: plugins/icq/icqicmb.cpp:147
 msgid "Message was too large"
-msgstr ""
+msgstr "Messaggio troppo grande"
 
 #: plugins/icq/icqicmb.cpp:150
 msgid "Message rate exceeded"
-msgstr ""
+msgstr "Frequenza dei messaggi eccessiva"
 
 #: plugins/icq/icqicmb.cpp:153
 msgid "Sender too evil"
@@ -5203,7 +5203,7 @@ msgstr ""
 
 #: plugins/icq/icqmessage.cpp:1374
 msgid "Email pager"
-msgstr ""
+msgstr "%n messaggi da Email"
 
 #: plugins/icq/icqmessage.cpp:1381
 msgid "Request secure channel"
@@ -5215,7 +5215,7 @@ msgstr "Chiudi canale sicuro"
 
 #: plugins/icq/icqmessage.cpp:1395
 msgid "Check invisible"
-msgstr ""
+msgstr "Controlla invisibilità"
 
 #: plugins/icq/icqpicture.cpp:121
 msgid "Picture can not be more than 7 kbytes"
@@ -5950,7 +5950,7 @@ msgstr "Studente universitario"
 
 #: plugins/icq/workinfo.cpp:99
 msgid "Web building"
-msgstr ""
+msgstr "Costruzione siti web"
 
 #: plugins/icq/icqconfigbase.cc:178
 msgid "&Register new UIN"
@@ -6060,7 +6060,7 @@ msgstr ""
 
 #: plugins/jabber/jabbersearch.cpp:161
 msgid "Search Speed"
-msgstr ""
+msgstr "Velocità di ricerca"
 
 #: plugins/jabber/jabbersearch.cpp:162
 msgid "Fast / Less accurate"
@@ -6179,7 +6179,7 @@ msgstr "Errore di protocollo MSN"
 
 #: plugins/msn/msnclient.cpp:1319
 msgid "Contact go offline"
-msgstr ""
+msgstr "Contatto ora offline"
 
 #: plugins/msn/msnclient.cpp:1506
 msgid "Send message failed"
@@ -6285,7 +6285,7 @@ msgstr "Mostra traffico di rete"
 
 #: plugins/ontop/ontop.cpp:39
 msgid "On Top"
-msgstr ""
+msgstr "Sempre in primo piano"
 
 #: plugins/ontop/ontop.cpp:40
 msgid "Plugin provides main window allways on top"
@@ -6539,7 +6539,7 @@ msgstr ""
 
 #: plugins/transparent/transparent.cpp:69
 msgid "Plugin provides windows transparency"
-msgstr ""
+msgstr "Il plugin fornisce trasparenza alle finestre"
 
 #: plugins/transparent/transparentcfgbase.cpp:102
 msgid "Transparency main window:"
