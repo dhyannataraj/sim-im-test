@@ -30,6 +30,7 @@ MessageConfig::MessageConfig(QWidget *parent, void *_data)
     CoreUserData *data = (CoreUserData*)_data;
     chkWindow->setChecked(data->OpenOnReceive);
     chkOnline->setChecked(data->OpenOnOnline);
+	chkStatus->setChecked(data->LogStatus);
     edtPath->setDirMode(true);
     edtPath->setText(QString::fromUtf8(user_file(data->IncomingPath).c_str()));
     connect(grpAccept, SIGNAL(clicked(int)), this, SLOT(acceptClicked(int)));
@@ -45,6 +46,7 @@ void MessageConfig::apply(void *_data)
     CoreUserData *data = (CoreUserData*)_data;
     data->OpenOnReceive = chkWindow->isChecked();
     data->OpenOnOnline  = chkWindow->isChecked();
+	data->LogStatus     = chkStatus->isChecked();
     const char *defPath = "Incoming Files";
     QString def = QString::fromUtf8(user_file(defPath).c_str());
     if (def == edtPath->text()){

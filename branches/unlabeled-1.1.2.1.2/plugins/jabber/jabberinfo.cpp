@@ -57,7 +57,7 @@ void JabberInfo::apply()
 
 void *JabberInfo::processEvent(Event *e)
 {
-	if (e->type() == EventMessageReceived){
+	if ((e->type() == EventMessageReceived) && m_data){
 		Message *msg = (Message*)(e->param());
 		if ((msg->type() == MessageStatus) && (m_client->dataName(m_data) == msg->client()))
 			fill();

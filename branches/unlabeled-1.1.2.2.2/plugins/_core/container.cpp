@@ -495,9 +495,15 @@ void *Container::processEvent(Event *e)
     Message *msg;
     switch (e->type()){
     case EventMessageReceived:
+        msg = (Message*)(e->param());
+		if (msg->type() == MessageStatus){
+			contact = getContacts()->contact(msg->contact());
+			if (contact)
+				contactChanged(contact);
+			return NULL;
+		}
         if (CorePlugin::m_plugin->getContainerMode()){
             if (isActiveWindow()){
-                msg = (Message*)(e->param());
                 userWnd = m_tabBar->currentWnd();
                 if (userWnd && (userWnd->id() == msg->contact()))
                     userWnd->markAsRead();
@@ -525,12 +531,6 @@ void *Container::processEvent(Event *e)
             }
 #endif
         }
-        msg = (Message*)(e->param());
-		if (msg->type() == MessageStatus){
-			contact = getContacts()->contact(msg->contact());
-			if (contact)
-				contactChanged(contact);
-		}
     case EventMessageRead:
         msg = (Message*)(e->param());
         userWnd = wnd(msg->contact());
@@ -559,7 +559,7 @@ void *Container::processEvent(Event *e)
     case EventClientsChanged:
         setupAccel();
         break;
-    case EventTyping:
+    case EventContactStatus:
         contact = (Contact*)(e->param());
         userWnd = m_tabBar->wnd(contact->id());
         if (userWnd){

@@ -594,7 +594,7 @@ const unsigned EventContactDeleted = 0x0912;
 const unsigned EventContactChanged = 0x0913;
 const unsigned EventFetchInfoFail  = 0x0914;
 const unsigned EventContactOnline  = 0x0915;
-const unsigned EventTyping		   = 0x0916;
+const unsigned EventContactStatus  = 0x0916;
 
 
 /* Event set common icon
@@ -932,9 +932,10 @@ typedef struct MessageStatusData
 class EXPORT StatusMessage : public Message
 {
 public:
-    StatusMessage(const char *cfg=NULL)
-            : Message(MessageStatus, cfg) {}
+    StatusMessage(const char *cfg=NULL);
 	PROP_ULONG(Status);
+    virtual string save();
+    virtual QString presentation();
 protected:
 	MessageStatusData data;
 };

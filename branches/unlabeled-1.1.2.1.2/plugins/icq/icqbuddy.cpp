@@ -277,25 +277,19 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             }
             if (data->Status != prevStatus){
 				unsigned status = STATUS_OFFLINE;
-				switch (data->Status & 0xFF){
-				case ICQ_STATUS_ONLINE:
+				if ((data->Status & 0xFFFF) != ICQ_STATUS_OFFLINE){
 					status = STATUS_ONLINE;
-					break;
-				case ICQ_STATUS_AWAY:
-					status = STATUS_AWAY;
-					break;
-				case ICQ_STATUS_NA:
-					status = STATUS_NA;
-					break;
-				case ICQ_STATUS_OCCUPIED:
-					status = STATUS_OCCUPIED;
-					break;
-				case ICQ_STATUS_DND:
-					status = STATUS_DND;
-					break;
-				case ICQ_STATUS_FFC:
-					status = STATUS_FFC;
-					break;
+					if (data->Status & ICQ_STATUS_DND){
+						status = STATUS_DND;
+					}else if (data->Status & ICQ_STATUS_OCCUPIED){
+						status = STATUS_OCCUPIED;
+					}else if (data->Status & ICQ_STATUS_NA){
+						status = STATUS_NA;
+					}else if (data->Status & ICQ_STATUS_AWAY){
+						status = STATUS_AWAY;
+					}else if (data->Status & ICQ_STATUS_FFC){
+						status = STATUS_FFC;
+					}
 				}
 				StatusMessage m;
 				m.setContact(contact->id());

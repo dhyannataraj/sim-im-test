@@ -741,7 +741,7 @@ void *UserListBase::processEvent(Event *e)
                     addContactForUpdate(c->id());
                 break;
             }
-        case EventTyping:
+        case EventContactStatus:
         case EventContactChanged:{
                 Contact *c = (Contact*)(e->param());
                 if (!c->getIgnore() && (c->getTemporary() == 0)){

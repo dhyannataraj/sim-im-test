@@ -30,6 +30,7 @@
 #include <qtimer.h>
 #include <qlayout.h>
 #include <qtextcodec.h>
+#include <qfile.h>
 
 #include <vector>
 
@@ -1217,6 +1218,289 @@ void ICQPlugin::unregisterMessages()
 
     Event ePager(EventRemoveMessageType, (void*)MessageEmailPager);
     ePager.process();
+}
+
+void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *data, unsigned uin, bool bDirect)
+{
+    b.incReadPos(1);
+    unsigned short type;
+    b >> type;
+	b.incReadPos(bDirect ? 1 : 4);
+    vector<string> phonebook;
+    vector<string> numbers;
+    vector<string> phonedescr;
+    string phones;
+	Contact *contact = NULL;
+    unsigned long state, time, size, nEntries;
+    unsigned i;
+    unsigned nActive;
+    switch (type){
+    case 0:
+    case 1:
+        b.unpack(time);
+        b.unpack(size);
+        b.incReadPos(4);
+        b.unpack(nEntries);
+        if (data)
+            log(L_DEBUG, "Plugin info reply %u %u (%u %u) %u %u (%u)", data->Uin, time, data->PluginInfoTime, data->PluginStatusTime, size, nEntries, plugin_type);
+        switch (plugin_type){
+        case PLUGIN_RANDOMxCHAT:{
+                b.incReadPos(-12);
+                string name;
+                b.unpack(name);
+                string topic;
+                b.unpack(topic);
+                unsigned short age;
+                char gender;
+                unsigned short country;
+                unsigned short language;
+                b.unpack(age);
+                b.unpack(gender);
+                b.unpack(country);
+                b.unpack(language);
+                string homepage;
+                b.unpack(homepage);
+                ICQUserData data;
+                load_data(static_cast<ICQProtocol*>(protocol())->icqUserData, &data, NULL);
+                data.Uin = uin;
+                set_str(&data.Alias, toUnicode(name.c_str(), NULL).utf8());
+                set_str(&data.About, toUnicode(topic.c_str(), NULL).utf8());
+                data.Age = age;
+                data.Gender = gender;
+                data.Country = country;
+                data.Language = language;
+                set_str(&data.Homepage, toUnicode(homepage.c_str(), NULL).utf8());
+                Event e(static_cast<ICQPlugin*>(protocol()->plugin())->EventRandomChatInfo, &data);
+                e.process();
+                free_data(static_cast<ICQProtocol*>(protocol())->icqUserData, &data);
+                break;
+            }
+        case PLUGIN_QUERYxSTATUS:
+			if (!bDirect){
+				b.incReadPos(5);
+				b.unpack(nEntries);
+			}
+            log(L_DEBUG, "Status info answer %u", nEntries);
+        case PLUGIN_QUERYxINFO:
+            if (nEntries > 0x80){
+                log(L_DEBUG, "Bad entries value %X", nEntries);
+                break;
+            }
+            for (i = 0; i < nEntries; i++){
+                plugin p;
+                b.unpack((char*)p, sizeof(p));
+                b.incReadPos(4);
+                string name, descr;
+                b.unpackStr32(name);
+                b.unpackStr32(descr);
+                b.incReadPos(4);
+                unsigned plugin_index;
+                for (plugin_index = 0; plugin_index < PLUGIN_NULL; plugin_index++)
+                    if (memcmp(p, plugins[plugin_index], sizeof(p)) == 0)
+                        break;
+                if (plugin_index >= PLUGIN_NULL){
+                    log(L_DEBUG, "Unknown plugin sign %s %s", name.c_str(), descr.c_str());
+                    continue;
+                }
+                log(L_DEBUG, "Plugin %u %s %s", plugin_index, name.c_str(), descr.c_str());
+                switch (plugin_index){
+                case PLUGIN_PHONEBOOK:
+                case PLUGIN_FOLLOWME:
+                    if (plugin_type == PLUGIN_QUERYxINFO){
+                        addPluginInfoRequest(uin, PLUGIN_PHONEBOOK);
+                    }else{
+                        addPluginInfoRequest(uin, PLUGIN_FOLLOWME);
+                    }
+                    break;
+                case PLUGIN_PICTURE:
+                    if (plugin_type == PLUGIN_QUERYxINFO)
+                        addPluginInfoRequest(uin, plugin_index);
+                    break;
+                case PLUGIN_FILESERVER:
+                case PLUGIN_ICQPHONE:
+                    if (plugin_type == PLUGIN_QUERYxSTATUS)
+                        addPluginInfoRequest(uin, plugin_index);
+                    break;
+                }
+            }
+            if (plugin_type == PLUGIN_QUERYxINFO){
+                data->PluginInfoFetchTime = data->PluginInfoTime;
+            }else{
+                data->PluginStatusFetchTime = data->PluginStatusTime;
+            }
+            break;
+        case PLUGIN_PICTURE:{
+                b.incReadPos(-4);
+                string pict;
+                b.unpackStr32(pict);
+                b.unpackStr32(pict);
+                QImage img;
+                QString fName = pictureFile(data);
+                QFile f(fName);
+                if (f.open(IO_WriteOnly | IO_Truncate)){
+                    f.writeBlock(pict.c_str(), pict.size());
+                    f.close();
+                    img.load(fName);
+                }else{
+                    log(L_ERROR, "Can't create %s", (const char*)fName.local8Bit());
+                }
+                data->PictureWidth  = img.width();
+                data->PictureHeight = img.height();
+                break;
+            }
+        case PLUGIN_PHONEBOOK:
+            nActive = (unsigned)(-1);
+            if (nEntries > 0x80){
+                log(L_DEBUG, "Bad entries value %X", nEntries);
+                break;
+            }
+            for (i = 0; i < nEntries; i++){
+                string descr, area, phone, ext, country;
+                unsigned long active;
+                b.unpackStr32(descr);
+                b.unpackStr32(area);
+                b.unpackStr32(phone);
+                b.unpackStr32(ext);
+                b.unpackStr32(country);
+                numbers.push_back(phone);
+                string value;
+                for (const ext_info *e = getCountries(); e->szName; e++){
+                    if (country == e->szName){
+                        value = "+";
+                        value += number(e->nCode);
+                        break;
+                    }
+                }
+                if (!area.empty()){
+                    if (!value.empty())
+                        value += " ";
+                    value += "(";
+                    value += area;
+                    value += ")";
+                }
+                if (!value.empty())
+                    value += " ";
+                value += phone;
+                if (!ext.empty()){
+                    value += " - ";
+                    value += ext;
+                }
+                b.unpack(active);
+                if (active)
+                    nActive = i;
+                phonebook.push_back(value);
+                phonedescr.push_back(descr);
+            }
+            for (i = 0; i < nEntries; i++){
+                unsigned long type;
+                string phone = phonebook[i];
+                string gateway;
+                b.incReadPos(4);
+                b.unpack(type);
+                b.unpackStr32(gateway);
+                b.incReadPos(16);
+                switch (type){
+                case 1:
+                case 2:
+                    type = CELLULAR;
+                    break;
+                case 3:
+                    type = FAX;
+                    break;
+                case 4:{
+                        type = PAGER;
+                        phone = numbers[i];
+                        const pager_provider *p;
+                        for (p = getProviders(); *p->szName; p++){
+                            if (gateway == p->szName){
+                                phone += "@";
+                                phone += p->szGate;
+                                phone += "[";
+                                phone += p->szName;
+                                phone += "]";
+                                break;
+                            }
+                        }
+                        if (*p->szName == 0){
+                            phone += "@";
+                            phone += gateway;
+                        }
+                        break;
+                    }
+                default:
+                    type = PHONE;
+                }
+                phone += ",";
+                phone += phonedescr[i];
+                phone += ",";
+                phone += number(type);
+                if (i == nActive)
+                    phone += ",1";
+                if (!phones.empty())
+                    phones += ";";
+                phones += phone;
+            }
+            set_str(&data->PhoneBook, phones.c_str());
+			Contact *contact = NULL;
+			findContact(data->Uin, NULL, false, contact);
+			if (contact){
+				setupContact(contact, data);
+				Event e(EventContactChanged, contact);
+				e.process();
+			}
+            break;
+        }
+        break;
+    case 2:
+		if (bDirect)
+			b.incReadPos(3);
+        b.unpack(state);
+        b.unpack(time);
+        log(L_DEBUG, "Plugin status reply %u %u %u (%u)", uin, state, time, plugin_type);
+		findContact(uin, NULL, false, contact);
+		if (contact == NULL)
+			break;
+        switch (plugin_type){
+        case PLUGIN_FILESERVER:
+            if ((state != 0) != (data->SharedFiles != 0)){
+                data->SharedFiles = state;
+                Event e(EventContactChanged, contact);
+                e.process();
+            }
+            break;
+        case PLUGIN_FOLLOWME:
+            if (state != data->FollowMe){
+                data->FollowMe = state;
+                Event e(EventContactChanged, contact);
+                e.process();
+            }
+            break;
+        case PLUGIN_ICQPHONE:
+            if (state != data->ICQPhone){
+                data->ICQPhone = state;
+                Event e(EventContactChanged, contact);
+                e.process();
+            }
+            break;
+        }
+        break;
+    default:
+        log(L_DEBUG, "Unknown plugin type answer %u %u (%u)", uin, type, plugin_type);
+        switch (plugin_type){
+        case PLUGIN_PICTURE:
+            if (data->PictureWidth || data->PictureHeight){
+                data->PictureWidth  = 0;
+                data->PictureHeight = 0;
+                Event e(EventContactChanged, contact);
+                e.process();
+            }
+            break;
+        case PLUGIN_PHONEBOOK:
+            set_str(&data->PhoneBook, NULL);
+            setupContact(contact, data);
+            break;
+        }
+    }
 }
 
 #ifndef WIN32

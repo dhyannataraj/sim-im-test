@@ -177,3 +177,33 @@ QString AuthMessage::presentation()
     return "";
 }
 
+static DataDef messageStatusData[] =
+    {
+        { "Status", DATA_ULONG, 1, STATUS_UNKNOWN },
+        { NULL, 0, 0, 0 }
+    };
+
+StatusMessage::StatusMessage(const char *cfg)
+            : Message(MessageStatus, cfg) 
+{
+	load_data(messageStatusData, &data, cfg);
+}
+
+string StatusMessage::save()
+{
+    string s = Message::save();
+    string s1 = save_data(messageStatusData, &data);
+    if (!s1.empty()){
+        if (!s.empty())
+            s += '\n';
+        s += s1;
+    }
+    return s;
+}
+
+QString StatusMessage::presentation()
+{
+    return "";
+}
+
+

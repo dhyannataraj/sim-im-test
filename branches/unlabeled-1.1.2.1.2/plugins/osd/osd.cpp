@@ -365,6 +365,8 @@ void *OSDPlugin::processEvent(Event *e)
         break;
     case EventMessageReceived:
         msg = (Message*)(e->param());
+		if (msg->type() == MessageStatus)
+			break;
         osd.contact = msg->contact();
         osd.type    = msg->type();
         osd.msg_id	= msg->id();

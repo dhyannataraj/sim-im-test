@@ -164,10 +164,10 @@ void DirectSocket::packet_ready()
             return;
         }
     }
-	if (m_state != Logged){
-		ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-		log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket);
-	}
+    if (m_state != Logged){
+        ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
+        log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket);
+    }
     switch (m_state){
     case Logged:{
             processPacket();
@@ -329,23 +329,41 @@ DirectClient::DirectClient(Socket *s, ICQClient *client)
     m_state = WaitLogin;
 }
 
-DirectClient::DirectClient(ICQUserData *data, ICQClient *client)
+DirectClient::DirectClient(ICQUserData *data, ICQClient *client, unsigned channel)
         : DirectSocket(data, client)
 {
-    m_state = None;
+    m_state   = None;
+    m_channel = channel;
 }
 
 DirectClient::~DirectClient()
 {
     for (list<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
-        if (!m_client->sendThruServer((*it).msg, m_data)){
-            (*it).msg->setError(I18N_NOOP("Send message fail"));
-            Event e(EventMessageSent, (*it).msg);
-            delete (*it).msg;
+        SendDirectMsg &sm = *it;
+        if (sm.msg){
+            if (!m_client->sendThruServer(sm.msg, m_data)){
+                sm.msg->setError(I18N_NOOP("Send message fail"));
+                Event e(EventMessageSent, sm.msg);
+                delete sm.msg;
+            }
+        }else{
+            m_client->addPluginInfoRequest(m_data->Uin, sm.type);
         }
     }
-    if (m_data && (m_data->Direct == this))
-        m_data->Direct = NULL;
+	switch (m_channel){
+	case PLUGIN_NULL:
+		if (m_data && (m_data->Direct == this))
+			m_data->Direct = NULL;
+		break;
+	case PLUGIN_INFOxMANAGER:
+		if (m_data && (m_data->DirectPluginInfo == this))
+			m_data->DirectPluginInfo = NULL;
+		break;
+	case PLUGIN_STATUSxMANAGER:
+		if (m_data && (m_data->DirectPluginStatus == this))
+			m_data->DirectPluginStatus = NULL;
+		break;
+	}
 }
 
 void DirectClient::processPacket()
@@ -355,7 +373,36 @@ void DirectClient::processPacket()
         m_socket->error_state("Bad state process packet");
         return;
     case WaitInit2:
-        if (m_bIncoming) sendInit2();
+        if (m_bIncoming){
+            m_socket->readBuffer.incReadPos(15);
+            char p[16];
+            m_socket->readBuffer.unpack(p, 16);
+            for (m_channel = 0; m_channel <= PLUGIN_NULL; m_channel++){
+                if (!memcmp(m_client->plugins[m_channel], p, 16))
+                    break;
+            }
+            switch (m_channel){
+            case PLUGIN_INFOxMANAGER:
+                if (m_data->DirectPluginInfo)
+                    m_socket->error_state("Plugin info connection already established");
+                m_data->DirectPluginInfo = this;
+                break;
+            case PLUGIN_STATUSxMANAGER:
+                if (m_data->DirectPluginStatus)
+                    m_socket->error_state("Plugin status connection already established");
+                m_data->DirectPluginStatus = this;
+                break;
+            case PLUGIN_NULL:
+                if (m_data->Direct)
+                    m_socket->error_state("Direct connection already established");
+                m_data->Direct = this;
+                break;
+            default:
+                m_socket->error_state("Unknown direct channel");
+                return;
+            }
+            sendInit2();
+        }
         m_state = Logged;
         processMsgQueue();
         return;
@@ -414,8 +461,8 @@ void DirectClient::processPacket()
             return;
         }
     }
-    ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket);
+    ICQPlugin *icq_plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
+    log_packet(m_socket->readBuffer, false, icq_plugin->ICQDirectPacket);
 
     m_socket->readBuffer.setReadPos(2);
     if (m_version >= 7){
@@ -489,19 +536,58 @@ void DirectClient::processPacket()
                 return;
             }
         }
-        m = m_client->parseMessage(type, m_data->Uin, msg_str, m_socket->readBuffer, 0, 0, seq, 0);
-        if (m == NULL){
-            m_socket->error_state("Start without message");
-            return;
-        }
-        m->setFlags(MESSAGE_RECEIVED | MESSAGE_DIRECT);
-        sendAck(seq, type);
-        m_client->messageReceived(m, m_data->Uin);
+		if (m_channel == PLUGIN_NULL){
+			m = m_client->parseMessage(type, m_data->Uin, msg_str, m_socket->readBuffer, 0, 0, seq, 0);
+			if (m == NULL){
+				m_socket->error_state("Start without message");
+				return;
+			}
+	        m->setFlags(m->getFlags() | MESSAGE_RECEIVED | MESSAGE_DIRECT);
+	        sendAck(seq, type);
+	        m_client->messageReceived(m, m_data->Uin);
+		}else{
+			plugin p;
+			m_socket->readBuffer.unpack((char*)p, sizeof(p));
+			unsigned plugin_index;
+			for (plugin_index = 0; plugin_index < PLUGIN_NULL; plugin_index++){
+				if (!memcmp(p, m_client->plugins[plugin_index], sizeof(p)))
+					break;
+			}
+			switch (plugin_index){
+			case PLUGIN_QUERYxINFO:
+				break;
+			case PLUGIN_QUERYxSTATUS:
+				break;
+			default:
+				log(L_WARN, "Unknwon direct plugin request %u", plugin_index);
+				break;
+			}
+		}
         break;
     case TCP_CANCEL:
     case TCP_ACK:
         for (it = m_queue.begin(); it != m_queue.end(); ++it){
-            if ((*it).seq == seq){
+            if ((*it).seq != seq)
+                continue;
+            if ((*it).msg == NULL){
+                if ((*it).type == PLUGIN_AR)
+                    set_str(&m_data->AutoReply, msg_str.c_str());
+				unsigned plugin_index = (*it).type;
+				m_queue.erase(it);
+				switch (plugin_index){
+				case PLUGIN_FILESERVER:
+				case PLUGIN_FOLLOWME:
+				case PLUGIN_ICQPHONE:
+					m_socket->readBuffer.incReadPos(-3);
+					break;
+				case PLUGIN_QUERYxSTATUS:
+					m_socket->readBuffer.incReadPos(9);
+					break;
+				}
+				m_client->parsePluginPacket(m_socket->readBuffer, plugin_index, m_data, m_data->Uin, true);
+                break;
+            }
+            if ((*it).msg){
                 Message *msg = (*it).msg;
                 if (command == TCP_CANCEL){
                     Event e(EventMessageCancel, msg);
@@ -533,6 +619,7 @@ void DirectClient::processPacket()
                 delete msg;
                 break;
             }
+			break;
         }
         if (it == m_queue.end())
             log(L_WARN, "Message for ACK not found");
@@ -556,14 +643,14 @@ void DirectClient::connect_ready()
             m_socket->error_state("Connection from unknown user");
             return;
         }
-        if (m_data->Direct){
-            m_socket->error_state("Connect already established");
-            return;
-        }
-        m_data->Direct = this;
         if (m_version >= 7){
             m_state = WaitInit2;
         }else{
+            if (m_data->Direct){
+                m_socket->error_state("Connect already established");
+                return;
+            }
+            m_data->Direct = this;
             m_state = Logged;
             processMsgQueue();
         }
@@ -586,15 +673,13 @@ void DirectClient::sendInit2()
     m_socket->writeBuffer.pack(0x0000000AL);
     m_socket->writeBuffer.pack(0x00000001L);
     m_socket->writeBuffer.pack(m_bIncoming ? 0x00000001L : 0x00000000L);
-    m_socket->writeBuffer.pack(0x00000000L);
-    m_socket->writeBuffer.pack(0x00000000L);
+    const plugin &p = m_client->plugins[m_channel];
+    m_socket->writeBuffer.pack((const char*)p, 8);
     if (m_bIncoming) {
         m_socket->writeBuffer.pack(0x00040001L);
-        m_socket->writeBuffer.pack(0x00000000L);
-        m_socket->writeBuffer.pack(0x00000000L);
+        m_socket->writeBuffer.pack((const char*)p + 8, 8);
     } else {
-        m_socket->writeBuffer.pack(0x00000000L);
-        m_socket->writeBuffer.pack(0x00000000L);
+        m_socket->writeBuffer.pack((const char*)p + 8, 8);
         m_socket->writeBuffer.pack(0x00040001L);
     }
     ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
@@ -636,7 +721,7 @@ void DirectClient::startPacket(unsigned short cmd, unsigned short seq)
     << (unsigned long)0;			// checkSum
     m_socket->writeBuffer.pack(cmd);
     m_socket->writeBuffer
-    << (char) 0x0E
+    << (char) ((m_channel == PLUGIN_NULL) ? 0x0E : 0x12)
     << (char) 0;
     m_socket->writeBuffer.pack(seq);
     m_socket->writeBuffer
@@ -722,56 +807,101 @@ void DirectClient::processMsgQueue()
             ++it;
             continue;
         }
-        string message;
-        Buffer &mb = m_socket->writeBuffer;
-        switch (sm.msg->type()){
-        case MessageGeneric:
-            startPacket(TCP_START, 0);
-            mb.pack((unsigned short)ICQ_MSGxMSG);
-            mb.pack((unsigned short)(m_client->fullStatus(m_client->getStatus()) & 0xFF));
-            mb.pack((unsigned short)1);
-            if ((sm.msg->getFlags() & MESSAGE_RICHTEXT) && (m_client->hasCap(m_data, CAP_RTF))){
-                message = m_client->createRTF(sm.msg->getRichText().utf8(), sm.msg->getForeground(), m_data->Encoding);
-                sm.type = CAP_RTF;
-            }else if (m_client->hasCap(m_data, CAP_UTF)){
-                message = sm.msg->getPlainText().utf8();
-                sm.type = CAP_UTF;
+        if (sm.msg){
+            string message;
+            Buffer &mb = m_socket->writeBuffer;
+            switch (sm.msg->type()){
+            case MessageGeneric:
+                startPacket(TCP_START, 0);
+                mb.pack((unsigned short)ICQ_MSGxMSG);
+                mb.pack((unsigned short)(m_client->fullStatus(m_client->getStatus()) & 0xFF));
+                mb.pack((unsigned short)1);
+                if ((sm.msg->getFlags() & MESSAGE_RICHTEXT) && (m_client->hasCap(m_data, CAP_RTF))){
+                    message = m_client->createRTF(sm.msg->getRichText().utf8(), sm.msg->getForeground(), m_data->Encoding);
+                    sm.type = CAP_RTF;
+                }else if (m_client->hasCap(m_data, CAP_UTF)){
+                    message = sm.msg->getPlainText().utf8();
+                    sm.type = CAP_UTF;
+                }else{
+                    message = m_client->fromUnicode(sm.msg->getPlainText(), m_data);
+                }
+                mb << message;
+                if (sm.msg->getBackground() == sm.msg->getForeground()){
+                    mb << 0x00000000L << 0xFFFFFF00L;
+                }else{
+                    mb << (sm.msg->getForeground() << 8) << (sm.msg->getBackground() << 8);
+                }
+                if (sm.type){
+                    mb << 0x26000000L;
+                    packCap(mb, ICQClient::capabilities[sm.type]);
+                }
+                sendPacket();
+                sm.seq = m_nSequence;
+                sm.icq_type = ICQ_MSGxMSG;
+                break;
+            case MessageURL:
+            case MessageContact:
+                startPacket(TCP_START, 0);
+                message = m_client->packMessage(sm.msg, m_data, sm.icq_type);
+                mb.pack((unsigned short)sm.icq_type);
+                mb.pack((unsigned short)(m_client->fullStatus(m_client->getStatus()) & 0xFF));
+                mb.pack((unsigned short)1);
+                mb << message;
+                sendPacket();
+                sm.seq = m_nSequence;
+                break;
+            default:
+                sm.msg->setError(I18N_NOOP("Unknown message type"));
+                Event e(EventMessageSent, sm.msg);
+                e.process();
+                delete sm.msg;
+                m_queue.erase(it);
+                it = m_queue.begin();
+                continue;
+            }
+        }else{
+            if (sm.type == PLUGIN_AR){
+                sm.icq_type = 0;
+                unsigned s = m_data->Status;
+                if (s != ICQ_STATUS_OFFLINE){
+                    if (s & ICQ_STATUS_DND){
+                        sm.icq_type = ICQ_MSGxAR_DND;
+                    }else if (s & ICQ_STATUS_OCCUPIED){
+                        sm.icq_type = ICQ_MSGxAR_OCCUPIED;
+                    }else if (s & ICQ_STATUS_NA){
+                        sm.icq_type = ICQ_MSGxAR_NA;
+                    }else if (s & ICQ_STATUS_AWAY){
+                        sm.icq_type = ICQ_MSGxAR_AWAY;
+                    }else if (s & ICQ_STATUS_FFC){
+                        sm.icq_type = ICQ_MSGxAR_FFC;
+                    }
+                }
+                if (sm.type == 0){
+                    m_queue.erase(it);
+                    it = m_queue.begin();
+                    continue;
+                }
+                Buffer &mb = m_socket->writeBuffer;
+                startPacket(TCP_START, 0);
+                mb.pack(sm.icq_type);
+                mb.pack((unsigned short)(m_client->fullStatus(m_client->getStatus()) & 0xFF));
+                mb.pack((unsigned short)1);
+                mb << (char)1 << (unsigned short)0;
+                sendPacket();
+                sm.seq = m_nSequence;
             }else{
-                message = m_client->fromUnicode(sm.msg->getPlainText(), m_data);
+                Buffer &mb = m_socket->writeBuffer;
+                startPacket(TCP_START, 0);
+                mb.pack((unsigned short)ICQ_MSGxMSG);
+                mb.pack((unsigned short)(m_client->fullStatus(m_client->getStatus()) & 0xFF));
+                mb.pack((unsigned short)0);
+                mb.pack((unsigned short)1);
+                mb.pack((char)0);
+                mb.pack((char*)m_client->plugins[sm.type], sizeof(plugin));
+                mb.pack((unsigned long)0);
+                sendPacket();
+                sm.seq = m_nSequence;
             }
-            mb << message;
-            if (sm.msg->getBackground() == sm.msg->getForeground()){
-                mb << 0x00000000L << 0xFFFFFF00L;
-            }else{
-                mb << (sm.msg->getForeground() << 8) << (sm.msg->getBackground() << 8);
-            }
-            if (sm.type){
-                mb << 0x26000000L;
-                packCap(mb, ICQClient::capabilities[sm.type]);
-            }
-            sendPacket();
-            sm.seq = m_nSequence;
-            sm.icq_type = ICQ_MSGxMSG;
-            break;
-        case MessageURL:
-        case MessageContact:
-            startPacket(TCP_START, 0);
-            message = m_client->packMessage(sm.msg, m_data, sm.icq_type);
-            mb.pack((unsigned short)sm.icq_type);
-            mb.pack((unsigned short)(m_client->fullStatus(m_client->getStatus()) & 0xFF));
-            mb.pack((unsigned short)1);
-            mb << message;
-            sendPacket();
-            sm.seq = m_nSequence;
-            break;
-        default:
-            sm.msg->setError(I18N_NOOP("Unknown message type"));
-            Event e(EventMessageSent, sm.msg);
-            e.process();
-            delete sm.msg;
-            m_queue.erase(it);
-            it = m_queue.begin();
-            continue;
         }
         ++it;
     }
@@ -802,24 +932,27 @@ void DirectClient::sendAutoResponse(unsigned short seq, unsigned short type, con
 {
     startPacket(TCP_ACK, seq);
     m_socket->writeBuffer.pack(type);
-    unsigned short status = 0;
-    switch (m_client->getStatus()){
-    case STATUS_AWAY:
-        status = ICQ_TCPxACK_AWAY;
-        break;
-    case STATUS_OCCUPIED:
-        status = ICQ_TCPxACK_OCCUPIEDxCAR;
-        break;
-    case STATUS_DND:
-        status = ICQ_TCPxACK_DNDxCAR;
-        break;
-    default:
-        status = ICQ_TCPxACK_NA;
-    }
-    string response = answer;
-    m_socket->writeBuffer.pack(status);
     m_socket->writeBuffer.pack((unsigned short)0);
+    m_socket->writeBuffer.pack((unsigned short)0);
+    string response = answer;
     m_socket->writeBuffer << response;
-    m_socket->writeBuffer << 0x00000000L << 0x00000000L;
     sendPacket();
+}
+
+void DirectClient::addPluginInfoRequest(unsigned plugin_index)
+{
+    for (list<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
+        SendDirectMsg &sm = *it;
+        if (sm.msg)
+            continue;
+        if (sm.type == plugin_index)
+            return;
+    }
+    SendDirectMsg sm;
+    sm.msg = NULL;
+    sm.seq = 0;
+    sm.type = plugin_index;
+    sm.icq_type = 0;
+    m_queue.push_back(sm);
+    processMsgQueue();
 }

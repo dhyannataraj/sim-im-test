@@ -147,7 +147,7 @@ void *ICQInfo::processEvent(Event *e)
         if (contact->clientData.have(m_data))
             fill();
     }
-	if (e->type() == EventMessageReceived){
+	if ((e->type() == EventMessageReceived) && m_data){
 		Message *msg = (Message*)(e->param());
 		if (msg->type() == MessageStatus){
 			if (m_client->dataName(m_data) == msg->client())

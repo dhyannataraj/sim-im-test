@@ -204,7 +204,7 @@ void *FloatyPlugin::processEvent(Event *e)
             }
             break;
         }
-	case EventTyping:
+	case EventContactStatus:
     case EventContactChanged:{
             Contact *contact = (Contact*)(e->param());
             FloatyWnd *wnd = findFloaty(contact->id());

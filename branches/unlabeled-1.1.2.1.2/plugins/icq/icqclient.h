@@ -185,6 +185,8 @@ typedef struct ICQUserData
     unsigned long	bTyping;
     unsigned long	bBadClient;
     DirectClient	*Direct;
+	DirectClient	*DirectPluginInfo;
+	DirectClient	*DirectPluginStatus;
 	unsigned long	bNoDirect;
 } ICQUserData;
 
@@ -246,7 +248,7 @@ const unsigned PLUGIN_QUERYxINFO		= 5;
 const unsigned PLUGIN_QUERYxSTATUS		= 6;
 const unsigned PLUGIN_INFOxMANAGER		= 7;
 const unsigned PLUGIN_STATUSxMANAGER	= 8;
-const unsigned PLUGIN_RANDOM_CHAT		= 9;
+const unsigned PLUGIN_RANDOMxCHAT		= 9;
 const unsigned PLUGIN_NULL				= 10;
 const unsigned PLUGIN_AR				= 11;
 
@@ -328,7 +330,7 @@ typedef struct rtf_charset
 
 typedef struct ar_request
 {
-    unsigned char	type;
+    unsigned short	type;
     unsigned long	timestamp1;
     unsigned long	timestamp2;
     unsigned short	id1;
@@ -534,6 +536,7 @@ protected:
     void addPluginInfoRequest(unsigned long uin, unsigned plugin_index);
     void sendMTN(unsigned long uin, unsigned short type);
     void setChatGroup();
+	void parsePluginPacket(Buffer &b, unsigned plugin_index, ICQUserData *data, unsigned uin, bool bDirect);
 	string packMessage(Message *msg, ICQUserData *data, unsigned short &type);
     unsigned short m_advCounter;
     unsigned m_nUpdates;
@@ -590,7 +593,7 @@ class DirectClient : public DirectSocket
 {
 public:
     DirectClient(Socket *s, ICQClient *client);
-    DirectClient(ICQUserData *data, ICQClient *client);
+    DirectClient(ICQUserData *data, ICQClient *client, unsigned channel);
     ~DirectClient();
     bool sendMessage(Message*);
     void sendAutoResponse(unsigned short seq, unsigned short type, const char *answer);
@@ -598,6 +601,7 @@ public:
     void declineMessage(Message*, const char *reason);
 	bool cancelMessage(Message*);
     bool isLogged() { return (m_state != None) && (m_state != WaitInit2); }
+    void addPluginInfoRequest(unsigned plugin_index);
 protected:
     enum State{
         None,
@@ -605,7 +609,8 @@ protected:
         WaitInit2,
         Logged
     };
-    State m_state;
+    State		m_state;
+	unsigned	m_channel;
     void processPacket();
     void connect_ready();
     bool error_state(const char *err, unsigned code);

@@ -1310,7 +1310,7 @@ SBSocket::~SBSocket()
         m_data->sb = NULL;
         if (m_data->typing_time){
             m_data->typing_time = 0;
-            Event e(EventTyping, m_contact);
+            Event e(EventContactStatus, m_contact);
             e.process();
         }
     }
@@ -1633,7 +1633,7 @@ void SBSocket::messageReady()
     if (content_type == "text/plain"){
         if (m_data->typing_time){
             m_data->typing_time = 0;
-            Event e(EventTyping, m_contact);
+            Event e(EventContactStatus, m_contact);
             e.process();
         }
         QString msg_text = QString::fromUtf8(m_message.c_str());
@@ -1659,7 +1659,7 @@ void SBSocket::messageReady()
             bool bEvent = (m_data->typing_time == 0);
             m_data->typing_time = now;
             if (bEvent){
-                Event e(EventTyping, m_contact);
+                Event e(EventContactStatus, m_contact);
                 e.process();
             }
         }
@@ -1671,7 +1671,7 @@ void SBSocket::timer(unsigned now)
     if (m_data->typing_time){
         if (now >= m_data->typing_time + TYPING_TIME){
             m_data->typing_time = 0;
-            Event e(EventTyping, m_contact);
+            Event e(EventContactStatus, m_contact);
             e.process();
         }
     }
