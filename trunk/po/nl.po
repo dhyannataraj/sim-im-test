@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
-"POT-Creation-Date: 2002-12-07 18:05+0300\n"
+"POT-Creation-Date: 2002-12-08 06:49+0300\n"
 "PO-Revision-Date: 2002-12-04 01:05+0100\n"
 "Last-Translator: Arend van Beelen jr. <junior@vergeetalles.nl>\n"
 "Language-Team: Nederlands <i18n@kde.nl>\n"
@@ -1667,138 +1667,138 @@ msgstr "Onbekend"
 msgid "Last online"
 msgstr "Laatst online"
 
-#: client.cpp:1067 cuser.cpp:215 userview.cpp:1248
+#: client.cpp:1067 cuser.cpp:215 userview.cpp:1276
 msgid "Online"
 msgstr "Online"
 
-#: dock.cpp:501 mainwin.cpp:813
+#: dock.cpp:549 mainwin.cpp:816
 msgid "%1 from %2"
 msgstr "%1 van %2"
 
-#: dock.cpp:514 mainwin.cpp:1991
+#: dock.cpp:562 mainwin.cpp:1994
 msgid "Connecting"
 msgstr "Verbinden"
 
-#: mainwin.cpp:447 monitor.cpp:133
+#: mainwin.cpp:451 monitor.cpp:133
 msgid "Error"
 msgstr ""
 
-#: mainwin.cpp:448
+#: mainwin.cpp:452
 msgid ""
 "There is already an auto hidden window on this edge.\n"
 "Only one auto hidden window is allowed on each edge."
 msgstr ""
 
-#: mainwin.cpp:563
+#: mainwin.cpp:567
 msgid "Show &offline"
 msgstr "&Offline tonen"
 
-#: mainwin.cpp:564
+#: mainwin.cpp:568
 msgid "&Group mode"
 msgstr "&Groepmodus"
 
-#: mainwin.cpp:566 mainwin.cpp:2739 usertbl.cpp:113
+#: mainwin.cpp:570 mainwin.cpp:2742 usertbl.cpp:113
 msgid "Status"
 msgstr "Status"
 
-#: mainwin.cpp:567
+#: mainwin.cpp:571
 msgid "&Menu"
 msgstr "&Menu"
 
-#: mainwin.cpp:569 mainwin.cpp:2735
+#: mainwin.cpp:573 mainwin.cpp:2738
 msgid "Find User"
 msgstr "Gebruiker zoeken"
 
-#: mainwin.cpp:570 mainwin.cpp:2736
+#: mainwin.cpp:574 mainwin.cpp:2739
 msgid "Add Non-IM contact"
 msgstr "Niet-ICQ contact toevoegen"
 
-#: mainwin.cpp:571 mainwin.cpp:2737
+#: mainwin.cpp:575 mainwin.cpp:2740
 msgid "Send SMS"
 msgstr "SMS sturen"
 
-#: mainwin.cpp:572 mainwin.cpp:2741 ui/setupdlg.cpp:97
+#: mainwin.cpp:576 mainwin.cpp:2744 ui/setupdlg.cpp:97
 msgid "Setup"
 msgstr "Instellingen"
 
-#: mainwin.cpp:573 mainwin.cpp:2752 monitor.cpp:59
+#: mainwin.cpp:577 mainwin.cpp:2755 monitor.cpp:59
 #, fuzzy
 msgid "Network monitor"
 msgstr "Netwerk"
 
-#: mainwin.cpp:661
+#: mainwin.cpp:665
 msgid "Current location"
 msgstr "Huidige locatie"
 
-#: mainwin.cpp:662
+#: mainwin.cpp:666
 msgid "Phone status"
 msgstr "Telefoonstatus"
 
-#: mainwin.cpp:664
+#: mainwin.cpp:668
 msgid "Phone Book"
 msgstr "Adresboek"
 
-#: mainwin.cpp:826
+#: mainwin.cpp:829
 msgid "AutoHide"
 msgstr ""
 
-#: mainwin.cpp:1238
+#: mainwin.cpp:1241
 msgid "%1 from %2 received"
 msgstr "%1 van %2 ontvangen"
 
-#: mainwin.cpp:1275 ui/logindlg.cpp:140
+#: mainwin.cpp:1278 ui/logindlg.cpp:140
 msgid "Can't connect to proxy server"
 msgstr "Kan niet verbinden met proxy-server"
 
-#: mainwin.cpp:1282 ui/logindlg.cpp:147
+#: mainwin.cpp:1285 ui/logindlg.cpp:147
 msgid "Proxy server require authorization"
 msgstr "Proxy-server vereist authentificatie"
 
-#: mainwin.cpp:1283 ui/logindlg.cpp:148
+#: mainwin.cpp:1286 ui/logindlg.cpp:148
 msgid "Invalid password for proxy"
 msgstr "Ongeldig wachtwoord voor proxy-server"
 
-#: mainwin.cpp:1298
+#: mainwin.cpp:1301
 msgid "Your UIN used from another location"
 msgstr "Uw UIN is in gebruik vanaf een andere locatie"
 
-#: mainwin.cpp:1352
+#: mainwin.cpp:1355
 msgid "%1 is online"
 msgstr "%1 is online"
 
-#: mainwin.cpp:1967 mainwin.cpp:2298 ui/enable.cpp:122
+#: mainwin.cpp:1970 mainwin.cpp:2301 ui/enable.cpp:122
 msgid "&Yes"
 msgstr "&Ja"
 
-#: mainwin.cpp:1968 mainwin.cpp:2299 ui/enable.cpp:126
+#: mainwin.cpp:1971 mainwin.cpp:2302 ui/enable.cpp:126
 msgid "&No"
 msgstr "&Nee"
 
-#: mainwin.cpp:1969
+#: mainwin.cpp:1972
 msgid "Add %1 to ignore list ?"
 msgstr "Gebruiker %1 aan te negeren lijst toevoegen?"
 
-#: mainwin.cpp:2033
+#: mainwin.cpp:2036
 msgid "In visible list"
 msgstr "In zichtbare lijst"
 
-#: mainwin.cpp:2035
+#: mainwin.cpp:2038
 msgid "In invisible list"
 msgstr "In onzichtbare lijst"
 
-#: mainwin.cpp:2038
+#: mainwin.cpp:2041
 msgid "In ignore list"
 msgstr "In te negeren lijst"
 
-#: mainwin.cpp:2054 mainwin.cpp:2742
+#: mainwin.cpp:2057 mainwin.cpp:2745
 msgid "Groups"
 msgstr "Groepen"
 
-#: mainwin.cpp:2055 usertbl.cpp:391 userview.cpp:1604
+#: mainwin.cpp:2058 usertbl.cpp:391 userview.cpp:1632
 msgid "Delete"
 msgstr "Verwijderen"
 
-#: mainwin.cpp:2056 userview.cpp:675 userview.cpp:1605
+#: mainwin.cpp:2059 userview.cpp:679 userview.cpp:1633
 #, fuzzy
 msgid ""
 "_: Del\n"
@@ -1807,11 +1807,11 @@ msgstr ""
 "Del\n"
 "Verwijderen"
 
-#: mainwin.cpp:2060
+#: mainwin.cpp:2063
 msgid "&User info"
 msgstr "Ge&bruikersinformatie"
 
-#: mainwin.cpp:2061
+#: mainwin.cpp:2064
 #, fuzzy
 msgid ""
 "_: Ctrl+U\n"
@@ -1820,11 +1820,11 @@ msgstr ""
 "Ctrl+U\n"
 "Gebruikersinformatie"
 
-#: mainwin.cpp:2062
+#: mainwin.cpp:2065
 msgid "&History"
 msgstr "&Geschiedenis"
 
-#: mainwin.cpp:2063
+#: mainwin.cpp:2066
 #, fuzzy
 msgid ""
 "_: Ctrl+H\n"
@@ -1833,11 +1833,11 @@ msgstr ""
 "Ctrl+H\n"
 "Geschiedenis"
 
-#: mainwin.cpp:2065 ui/setupdlg.cpp:129 ui/userinfo.cpp:90
+#: mainwin.cpp:2068 ui/setupdlg.cpp:129 ui/userinfo.cpp:90
 msgid "Alert"
 msgstr "Waarschuwing"
 
-#: mainwin.cpp:2066
+#: mainwin.cpp:2069
 #, fuzzy
 msgid ""
 "_: Ctrl+L\n"
@@ -1846,11 +1846,11 @@ msgstr ""
 "Ctrl+L\n"
 "Waarschuwing"
 
-#: mainwin.cpp:2067 ui/acceptbase.cpp:179
+#: mainwin.cpp:2070 ui/acceptbase.cpp:179
 msgid "Accept mode"
 msgstr "Accepteren-modus"
 
-#: mainwin.cpp:2068
+#: mainwin.cpp:2071
 #, fuzzy
 msgid ""
 "_: Ctrl+A\n"
@@ -1859,11 +1859,11 @@ msgstr ""
 "Ctrl+A\n"
 "Accepteren"
 
-#: mainwin.cpp:2069 ui/setupdlg.cpp:128 ui/userinfo.cpp:92
+#: mainwin.cpp:2072 ui/setupdlg.cpp:128 ui/userinfo.cpp:92
 msgid "Sound"
 msgstr "Geluid"
 
-#: mainwin.cpp:2070
+#: mainwin.cpp:2073
 #, fuzzy
 msgid ""
 "_: Ctrl+S\n"
@@ -1872,15 +1872,15 @@ msgstr ""
 "Ctrl+S\n"
 "Geluid"
 
-#: mainwin.cpp:2073
+#: mainwin.cpp:2076
 msgid "Floating off"
 msgstr "Zwevend uit"
 
-#: mainwin.cpp:2073
+#: mainwin.cpp:2076
 msgid "Floating on"
 msgstr "Zwevend aan"
 
-#: mainwin.cpp:2074
+#: mainwin.cpp:2077
 #, fuzzy
 msgid ""
 "_: Ctrl+T\n"
@@ -1889,18 +1889,18 @@ msgstr ""
 "Ctrl+T\n"
 "Zwevend"
 
-#: mainwin.cpp:2077
+#: mainwin.cpp:2080
 msgid "Users"
 msgstr "Gebruikers"
 
-#: mainwin.cpp:2078 ui/aboutdlgbase.cpp:156 ui/enable.cpp:125
+#: mainwin.cpp:2081 ui/aboutdlgbase.cpp:156 ui/enable.cpp:125
 #: ui/filetransfer.cpp:156 ui/finddlgbase.cpp:66 ui/logindlgbase.cpp:115
 #: ui/proxydlgbase.cpp:172 ui/securedlg.cpp:56 ui/setupdlgbase.cpp:122
 #: ui/toolsetupbase.cpp:136 ui/userautoreply.cpp:76
 msgid "&Close"
 msgstr "&Sluiten"
 
-#: mainwin.cpp:2079
+#: mainwin.cpp:2082
 #, fuzzy
 msgid ""
 "_: Ctrl+C\n"
@@ -1909,11 +1909,11 @@ msgstr ""
 "Ctrl+C\n"
 "Sluiten"
 
-#: mainwin.cpp:2081
+#: mainwin.cpp:2084
 msgid "Alphabetically sort"
 msgstr "Alfabetisch sorteren"
 
-#: mainwin.cpp:2082
+#: mainwin.cpp:2085
 #, fuzzy
 msgid ""
 "_: Ctrl+B\n"
@@ -1922,87 +1922,87 @@ msgstr ""
 "Ctrl+B\n"
 "Alfabetisch sorteren"
 
-#: mainwin.cpp:2300
+#: mainwin.cpp:2303
 msgid "Delete %1?"
 msgstr "%1 verwijderen?"
 
-#: mainwin.cpp:2479
+#: mainwin.cpp:2482
 msgid "New"
 msgstr "Nieuw"
 
-#: mainwin.cpp:2482
+#: mainwin.cpp:2485
 msgid "To container"
 msgstr "Naar container"
 
-#: mainwin.cpp:2487
+#: mainwin.cpp:2490
 msgid "Read %1 message"
 msgstr "Bericht %1 lezen"
 
-#: client.cpp:1080 mainwin.cpp:2717
+#: client.cpp:1080 mainwin.cpp:2720
 msgid "Invisible"
 msgstr "Onzichtbaar"
 
-#: mainwin.cpp:2720
+#: mainwin.cpp:2723
 msgid "Don't show"
 msgstr "Niet tonen"
 
-#: mainwin.cpp:2721
+#: mainwin.cpp:2724
 msgid "Available"
 msgstr "Beschikbaar"
 
-#: mainwin.cpp:2722
+#: mainwin.cpp:2725
 msgid "Busy"
 msgstr "Bezig"
 
-#: mainwin.cpp:2725 userview.cpp:1606
+#: mainwin.cpp:2728 userview.cpp:1634
 msgid "Create group"
 msgstr "Groep aanmaken"
 
-#: mainwin.cpp:2727 userview.cpp:1615
+#: mainwin.cpp:2730 userview.cpp:1643
 msgid "Expand all"
 msgstr "Allen uitklappen"
 
-#: mainwin.cpp:2728 userview.cpp:1617
+#: mainwin.cpp:2731 userview.cpp:1645
 msgid "Collapse all"
 msgstr "Allen inklappen"
 
-#: mainwin.cpp:2730 toolbtn.cpp:679
+#: mainwin.cpp:2733 toolbtn.cpp:679
 msgid "Customize toolbar..."
 msgstr ""
 
-#: mainwin.cpp:2733
+#: mainwin.cpp:2736
 msgid "ICQ"
 msgstr "ICQ"
 
-#: mainwin.cpp:2743
+#: mainwin.cpp:2746
 msgid "Phone \"Follow Me\""
 msgstr "Telefoon"
 
-#: mainwin.cpp:2745
+#: mainwin.cpp:2748
 msgid "Shared files"
 msgstr "Gedeelde bestanden"
 
-#: mainwin.cpp:2749
+#: mainwin.cpp:2752
 msgid "Always on top"
 msgstr "Altijd op voorgrond"
 
-#: mainwin.cpp:2753
+#: mainwin.cpp:2756
 msgid "&Bug report"
 msgstr "Bug &rapporteren"
 
-#: mainwin.cpp:2754
+#: mainwin.cpp:2757
 msgid "&About SIM"
 msgstr "Info &over SIM"
 
-#: mainwin.cpp:2756
+#: mainwin.cpp:2759
 msgid "About &KDE"
 msgstr "Info over &KDE"
 
-#: mainwin.cpp:2759
+#: mainwin.cpp:2762
 msgid "Quit"
 msgstr "Sluiten"
 
-#: _translatorinfo.cpp:1 mainwin.cpp:2982
+#: _translatorinfo.cpp:1 mainwin.cpp:2985
 #, fuzzy
 msgid ""
 "_: NAME OF TRANSLATORS\n"
@@ -2011,7 +2011,7 @@ msgstr ""
 "Crissi\n"
 "Arend van Beelen jr."
 
-#: _translatorinfo.cpp:3 mainwin.cpp:2983
+#: _translatorinfo.cpp:3 mainwin.cpp:2986
 #, fuzzy
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
@@ -2020,23 +2020,23 @@ msgstr ""
 "crissi99@gmx.de\n"
 "arend@auton.nl"
 
-#: mainwin.cpp:3009
+#: mainwin.cpp:3012
 msgid "light"
 msgstr "licht"
 
-#: mainwin.cpp:3013
+#: mainwin.cpp:3016
 msgid "demibold"
 msgstr "halfvet"
 
-#: mainwin.cpp:3017
+#: mainwin.cpp:3020
 msgid "bold"
 msgstr "vet"
 
-#: mainwin.cpp:3021
+#: mainwin.cpp:3024
 msgid "black"
 msgstr "zwart"
 
-#: mainwin.cpp:3028
+#: mainwin.cpp:3031
 msgid "italic"
 msgstr "cursief"
 
@@ -2121,7 +2121,7 @@ msgstr "&Spellingscontrole"
 msgid "C&lose after send"
 msgstr "&Sluiten na verzenden"
 
-#: msgedit.cpp:132 msgedit.cpp:347
+#: msgedit.cpp:132 msgedit.cpp:351
 msgid "&Send"
 msgstr "&Verzenden"
 
@@ -2133,81 +2133,81 @@ msgstr "&Volgende"
 msgid "&Multiply send"
 msgstr "Aan &meerdere versturen"
 
-#: msgedit.cpp:178
+#: msgedit.cpp:177
 msgid "Phone:"
 msgstr "Telefoon:"
 
-#: msgedit.cpp:187 ui/soundsetupbase.cpp:231
+#: msgedit.cpp:186 ui/soundsetupbase.cpp:231
 msgid "URL:"
 msgstr "URL:"
 
-#: msgedit.cpp:194 msgedit.cpp:1338 msgview.cpp:202
+#: msgedit.cpp:193 msgedit.cpp:1339 msgview.cpp:202
 msgid "File"
 msgstr "Bestand"
 
-#: msgedit.cpp:201
+#: msgedit.cpp:200
 msgid "Drag users here"
 msgstr "Sleep gebruikers hier"
 
-#: msgedit.cpp:337
+#: msgedit.cpp:341
 msgid "Sending"
 msgstr "Verzenden"
 
-#: msgedit.cpp:345 ui/addphonebase.cpp:138 ui/emaileditbase.cpp:92
+#: msgedit.cpp:349 ui/addphonebase.cpp:138 ui/emaileditbase.cpp:92
 #: ui/enable.cpp:125 ui/filetransfer.cpp:246 ui/filetransferbase.cpp:138
 #: ui/securedlgbase.cpp:70
 msgid "&Cancel"
 msgstr "Af&breken"
 
-#: msgedit.cpp:481
+#: msgedit.cpp:485
 msgid "No files for transfer"
 msgstr "Geen bestanden om te sturen"
 
-#: msgedit.cpp:499
+#: msgedit.cpp:503
 msgid "Transfer started"
 msgstr "Overdracht begonnen"
 
-#: msgedit.cpp:502
+#: msgedit.cpp:506
 msgid "Chat started"
 msgstr "Chatten"
 
-#: msgedit.cpp:571
+#: msgedit.cpp:575
 msgid "Message sent"
 msgstr "Bericht verzonden"
 
-#: msgedit.cpp:574
+#: msgedit.cpp:578
 msgid "Send failed"
 msgstr "Verzonden gefaald"
 
-#: msgedit.cpp:842
+#: msgedit.cpp:846
 msgid "Next"
 msgstr "Volgende"
 
-#: msgedit.cpp:853
+#: msgedit.cpp:857
 msgid "&New message"
 msgstr "&Nieuw bericht"
 
-#: msgedit.cpp:895
+#: msgedit.cpp:899
 msgid "%1 (ICQ# %2) wrote:<br>\n"
 msgstr "%1 (UIN %2) schreef:<br>\n"
 
-#: msgedit.cpp:1148
+#: msgedit.cpp:1149
 msgid "Save to"
 msgstr "Opslaan als"
 
-#: msgedit.cpp:1534
+#: msgedit.cpp:1535
 msgid "Size: %1 / Max. size: %2"
 msgstr "Grootte: %1 / Max. grootte: %2"
 
-#: msgedit.cpp:1538
+#: msgedit.cpp:1539
 msgid "Message will be split"
 msgstr "Bericht zal worden opgesplitst"
 
-#: msgedit.cpp:1713
+#: msgedit.cpp:1714
 msgid "Decline reason"
 msgstr "Reden afwijzen"
 
-#: msgedit.cpp:1713
+#: msgedit.cpp:1714
 msgid "Please, input decline reason:"
 msgstr "Voer aub reden om af te wijzen in:"
 
@@ -2373,19 +2373,19 @@ msgstr "Gebruiker&venster sluiten"
 msgid "All encodings"
 msgstr "&Codering"
 
-#: userbox.cpp:355
+#: userbox.cpp:356
 msgid "All users"
 msgstr "Alle gebruikers"
 
-#: ui/userinfo.cpp:73 userbox.cpp:404 usertbl.cpp:405
+#: ui/userinfo.cpp:73 userbox.cpp:405 usertbl.cpp:405
 msgid "User info"
 msgstr "Gebruikersinformatie"
 
-#: userbox.cpp:455
+#: userbox.cpp:456
 msgid "History"
 msgstr "Geschiedenis"
 
-#: userbox.cpp:1114
+#: userbox.cpp:1115
 msgid "History loading"
 msgstr "Geschiedenis laden"
 
@@ -2421,34 +2421,34 @@ msgstr "Allen toevoegen"
 msgid "Add to group"
 msgstr "Aan groep toevoegen"
 
-#: userview.cpp:524 userview.cpp:1254
+#: userview.cpp:528 userview.cpp:1282
 msgid "Not in list"
 msgstr "Niet in lijst"
 
-#: userview.cpp:677 userview.cpp:1607
+#: userview.cpp:681 userview.cpp:1635
 #, fuzzy
 msgid ""
 "_: Ctrl+N\n"
 "Create group"
 msgstr "Groep aanmaken"
 
-#: userview.cpp:862 userview.cpp:878
+#: userview.cpp:886 userview.cpp:902
 msgid "New group"
 msgstr "Nieuwe groep"
 
-#: client.cpp:1061 userview.cpp:1251
+#: client.cpp:1061 userview.cpp:1279
 msgid "Offline"
 msgstr "Offline"
 
-#: userview.cpp:1602
+#: userview.cpp:1630
 msgid "Rename"
 msgstr "Hernoemen"
 
-#: userview.cpp:1610
+#: userview.cpp:1638
 msgid "Up"
 msgstr "Omhoog"
 
-#: userview.cpp:1612
+#: userview.cpp:1640
 msgid "Down"
 msgstr "Omlaag"
 
@@ -2522,12 +2522,17 @@ msgstr "Sluiten in %1 sec"
 msgid "&Ok"
 msgstr "&OK"
 
-#: ui/editfile.cpp:84
+#: ui/editfile.cpp:86
 msgid "Directory for incoming files"
 msgstr "Map voor binnenkomende bestanden"
 
-#: ui/editfile.cpp:113
-msgid "Sounds (*.wav)"
+#: ui/editfile.cpp:123
+#, fuzzy
+msgid "*.wav|Sounds"
+msgstr "*.wav(Geluiden)"
+
+#: ui/editfile.cpp:125
+msgid "Sounds(*.wav)"
 msgstr ""
 
 #: ui/enable.cpp:123 ui/setupdlgbase.cpp:121 ui/toolsetupbase.cpp:135
@@ -2804,15 +2809,19 @@ msgstr "Algemeen"
 msgid "System"
 msgstr ""
 
-#: ui/themesetup.cpp:117
-msgid "Graphics (%1)"
+#: ui/themesetup.cpp:129
+msgid "%1|Graphics"
 msgstr ""
 
-#: ui/themesetup.cpp:188
+#: ui/themesetup.cpp:131
+msgid "Graphics(%1)"
+msgstr ""
+
+#: ui/themesetup.cpp:203
 msgid "Need restart SIM for change language"
 msgstr ""
 
-#: ui/themesetup.cpp:198
+#: ui/themesetup.cpp:213
 msgid "Default icons"
 msgstr "Standaard pictogrammen"
 
@@ -4553,9 +4562,6 @@ msgstr ""
 #, c-format
 msgid "? Unknown status %1"
 msgstr ""
-
-#~ msgid "*.wav(Sounds)"
-#~ msgstr "*.wav(Geluiden)"
 
 #~ msgid "User &info<br>with CTRL open in new window"
 #~ msgstr "Gebruikers&informatie<br>met CTRL in een nieuw venster openen"
