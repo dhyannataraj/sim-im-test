@@ -57,7 +57,7 @@ const unsigned DIRECT_TIMEOUT	= 20;
 
 ICQListener::ICQListener(ICQClient *client)
 {
-    m_socket = getSocketFactory()->createServerSocket();
+    m_socket = getSocketFactory()->createServerSocket(client->getMinPort(), client->getMaxPort());
     m_socket->setNotify(this);
     m_client = client;
 }

@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>319</width>
+            <width>315</width>
             <height>229</height>
         </rect>
     </property>
@@ -239,7 +239,18 @@
                             </size>
                         </property>
                     </spacer>
-                    <spacer row="2"  column="0" >
+                    <widget row="2"  column="0"  rowspan="1"  colspan="3" >
+                        <class>Line</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>Line1</cstring>
+                        </property>
+                        <property>
+                            <name>orientation</name>
+                            <enum>Horizontal</enum>
+                        </property>
+                    </widget>
+                    <spacer row="5"  column="0" >
                         <property>
                             <name>name</name>
                             <cstring>Spacer4</cstring>
@@ -260,6 +271,96 @@
                             </size>
                         </property>
                     </spacer>
+                    <widget row="3"  column="0"  rowspan="1"  colspan="3" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>TextLabel1_2</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Port range for direct connections:</string>
+                        </property>
+                    </widget>
+                    <widget row="4"  column="0"  rowspan="1"  colspan="3" >
+                        <class>QLayoutWidget</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>Layout1</cstring>
+                        </property>
+                        <hbox>
+                            <property>
+                                <name>margin</name>
+                                <number>0</number>
+                            </property>
+                            <property>
+                                <name>spacing</name>
+                                <number>6</number>
+                            </property>
+                            <widget>
+                                <class>QSpinBox</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>edtMinPort</cstring>
+                                </property>
+                                <property>
+                                    <name>maxValue</name>
+                                    <number>65534</number>
+                                </property>
+                                <property>
+                                    <name>minValue</name>
+                                    <number>1024</number>
+                                </property>
+                            </widget>
+                            <widget>
+                                <class>QLabel</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>TextLabel2_2</cstring>
+                                </property>
+                                <property>
+                                    <name>text</name>
+                                    <string>-</string>
+                                </property>
+                            </widget>
+                            <widget>
+                                <class>QSpinBox</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>edtMaxPort</cstring>
+                                </property>
+                                <property>
+                                    <name>maxValue</name>
+                                    <number>65534</number>
+                                </property>
+                                <property>
+                                    <name>minValue</name>
+                                    <number>1024</number>
+                                </property>
+                            </widget>
+                            <spacer>
+                                <property>
+                                    <name>name</name>
+                                    <cstring>Spacer5</cstring>
+                                </property>
+                                <property>
+                                    <name>orientation</name>
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property>
+                                    <name>sizeType</name>
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property>
+                                    <name>sizeHint</name>
+                                    <size>
+                                        <width>20</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                        </hbox>
+                    </widget>
                 </grid>
             </widget>
             <widget>

@@ -139,9 +139,9 @@ Socket *SIMSockets::createSocket()
     return new SIMClientSocket;
 }
 
-ServerSocket *SIMSockets::createServerSocket()
+ServerSocket *SIMSockets::createServerSocket(unsigned minPort, unsigned maxPort)
 {
-    return new SIMServerSocket(MinTCPPort, MaxTCPPort);
+    return new SIMServerSocket(minPort, maxPort);
 }
 
 SIMClientSocket::SIMClientSocket(QSocket *s)

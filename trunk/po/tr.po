@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
-"POT-Creation-Date: 2003-09-17 08:46+0400\n"
+"POT-Creation-Date: 2003-09-19 10:48+0400\n"
 "PO-Revision-Date: 2003-01-14 20:31+0200\n"
 "Last-Translator: ismail donmez <voidcartman@yahoo.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
@@ -658,8 +658,8 @@ msgstr "İspanyolca"
 msgid "French"
 msgstr "Fransızca"
 
-#: plugins/_core/interfacecfg.cpp:52 plugins/icq/icqclient.cpp:288
-#: plugins/icq/icqclient.cpp:289 plugins/icq/moreinfo.cpp:114
+#: plugins/_core/interfacecfg.cpp:52 plugins/icq/icqclient.cpp:290
+#: plugins/icq/icqclient.cpp:291 plugins/icq/moreinfo.cpp:114
 msgid "Hebrew"
 msgstr "İbranice"
 
@@ -688,12 +688,12 @@ msgstr "Slovakça"
 msgid "Swabian"
 msgstr "Swaziland"
 
-#: plugins/_core/interfacecfg.cpp:59 plugins/icq/icqclient.cpp:305
-#: plugins/icq/icqclient.cpp:306 plugins/icq/moreinfo.cpp:142
+#: plugins/_core/interfacecfg.cpp:59 plugins/icq/icqclient.cpp:307
+#: plugins/icq/icqclient.cpp:308 plugins/icq/moreinfo.cpp:142
 msgid "Turkish"
 msgstr "Türkçe"
 
-#: plugins/_core/interfacecfg.cpp:60 plugins/icq/icqclient.cpp:282
+#: plugins/_core/interfacecfg.cpp:60 plugins/icq/icqclient.cpp:284
 #: plugins/icq/moreinfo.cpp:143
 msgid "Ukrainian"
 msgstr "Ukraynaca"
@@ -828,7 +828,7 @@ msgstr "Evet"
 msgid " "
 msgstr ""
 
-#: plugins/_core/msgedit.cpp:377
+#: plugins/_core/msgedit.cpp:377 plugins/update/update.cpp:99
 #, c-format
 msgid ""
 "_n: Message\n"
@@ -1182,7 +1182,7 @@ msgstr "&Bu pencereyi bir daha gösterme"
 #: plugins/osd/osdconfigbase.cpp:91 plugins/proxy/proxycfgbase.cpp:163
 #: plugins/shortcuts/mousecfgbase.cpp:108
 #: plugins/shortcuts/shortcutcfgbase.cpp:138
-#: plugins/sound/soundconfigbase.cpp:159 plugins/sound/sounduserbase.cpp:131
+#: plugins/sound/soundconfigbase.cpp:159 plugins/sound/sounduserbase.cpp:121
 #: plugins/transparent/transparentcfgbase.cpp:101
 msgid "Form1"
 msgstr "Form1"
@@ -2027,13 +2027,13 @@ msgstr ""
 msgid "Smiles:"
 msgstr "Dosya"
 
-#: plugins/icq/icqclient.cpp:554 plugins/icq/icqicmb.cpp:81
+#: plugins/icq/icqclient.cpp:556 plugins/icq/icqicmb.cpp:81
 #: plugins/icq/icqicmb.cpp:174
 #, fuzzy
 msgid "Unknown error"
 msgstr "Bilinmeyen Giriş Hatası"
 
-#: plugins/icq/icqclient.cpp:563 plugins/icq/icqicmb.cpp:83
+#: plugins/icq/icqclient.cpp:565 plugins/icq/icqicmb.cpp:83
 msgid "Not supported by client"
 msgstr ""
 
@@ -2050,7 +2050,7 @@ msgstr ""
 msgid "Message rate exceeded"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:571 plugins/icq/icqicmb.cpp:168
+#: plugins/icq/icqclient.cpp:573 plugins/icq/icqicmb.cpp:168
 msgid "Sender too evil"
 msgstr ""
 
@@ -2137,174 +2137,174 @@ msgstr "Gruba ekle"
 msgid "Check &invisible"
 msgstr "Görünmez"
 
-#: plugins/icq/icqclient.cpp:264
+#: plugins/icq/icqclient.cpp:266
 msgid "Unicode"
 msgstr "Unicode"
 
-#: plugins/icq/icqclient.cpp:266 plugins/icq/icqclient.cpp:267
+#: plugins/icq/icqclient.cpp:268 plugins/icq/icqclient.cpp:269
 #: plugins/icq/moreinfo.cpp:94
 msgid "Arabic"
 msgstr "Arapça"
 
-#: plugins/icq/icqclient.cpp:269 plugins/icq/icqclient.cpp:270
+#: plugins/icq/icqclient.cpp:271 plugins/icq/icqclient.cpp:272
 msgid "Baltic"
 msgstr "Baltık"
 
-#: plugins/icq/icqclient.cpp:272 plugins/icq/icqclient.cpp:274
+#: plugins/icq/icqclient.cpp:274 plugins/icq/icqclient.cpp:276
 msgid "Central European"
 msgstr "Merkez Avrupa"
 
-#: plugins/icq/icqclient.cpp:273 plugins/icq/moreinfo.cpp:106
+#: plugins/icq/icqclient.cpp:275 plugins/icq/moreinfo.cpp:106
 msgid "Esperanto"
 msgstr "Esperanto"
 
-#: plugins/icq/icqclient.cpp:276
+#: plugins/icq/icqclient.cpp:278
 msgid "Chinese "
 msgstr "Çinçe "
 
-#: plugins/icq/icqclient.cpp:277
+#: plugins/icq/icqclient.cpp:279
 msgid "Chinese Simplified"
 msgstr "Basit Çince"
 
-#: plugins/icq/icqclient.cpp:278
+#: plugins/icq/icqclient.cpp:280
 msgid "Chinese Traditional"
 msgstr "Geleneksel Çince"
 
-#: plugins/icq/icqclient.cpp:280 plugins/icq/icqclient.cpp:281
-#: plugins/icq/icqclient.cpp:283
+#: plugins/icq/icqclient.cpp:282 plugins/icq/icqclient.cpp:283
+#: plugins/icq/icqclient.cpp:285
 msgid "Cyrillic"
 msgstr "Cyrillic"
 
-#: plugins/icq/icqclient.cpp:285 plugins/icq/icqclient.cpp:286
+#: plugins/icq/icqclient.cpp:287 plugins/icq/icqclient.cpp:288
 #: plugins/icq/moreinfo.cpp:113
 msgid "Greek"
 msgstr "Yunanca"
 
-#: plugins/icq/icqclient.cpp:291 plugins/icq/icqclient.cpp:292
-#: plugins/icq/icqclient.cpp:293 plugins/icq/moreinfo.cpp:120
+#: plugins/icq/icqclient.cpp:293 plugins/icq/icqclient.cpp:294
+#: plugins/icq/icqclient.cpp:295 plugins/icq/moreinfo.cpp:120
 msgid "Japanese"
 msgstr "Japonca"
 
-#: plugins/icq/icqclient.cpp:295 plugins/icq/moreinfo.cpp:122
+#: plugins/icq/icqclient.cpp:297 plugins/icq/moreinfo.cpp:122
 msgid "Korean"
 msgstr "Korece"
 
-#: plugins/icq/icqclient.cpp:297 plugins/icq/icqclient.cpp:298
-#: plugins/icq/icqclient.cpp:299
+#: plugins/icq/icqclient.cpp:299 plugins/icq/icqclient.cpp:300
+#: plugins/icq/icqclient.cpp:301
 msgid "Western European"
 msgstr "Batı Avrupa"
 
-#: plugins/icq/icqclient.cpp:301
+#: plugins/icq/icqclient.cpp:303
 msgid "Tamil"
 msgstr "Tamil"
 
-#: plugins/icq/icqclient.cpp:303 plugins/icq/moreinfo.cpp:141
+#: plugins/icq/icqclient.cpp:305 plugins/icq/moreinfo.cpp:141
 msgid "Thai"
 msgstr "Thai"
 
-#: plugins/icq/icqclient.cpp:358
+#: plugins/icq/icqclient.cpp:360
 #, fuzzy
 msgid "Process message failed"
 msgstr "&Mesaj gönder"
 
-#: plugins/icq/icqclient.cpp:555
+#: plugins/icq/icqclient.cpp:557
 #, fuzzy
 msgid "Invalid SNAC header"
 msgstr "Okunmamış mesajı aç"
 
-#: plugins/icq/icqclient.cpp:556
-msgid "Server rate limit exceeded"
-msgstr ""
-
-#: plugins/icq/icqclient.cpp:557
-#, fuzzy
-msgid "Client rate limit exceeded"
-msgstr "Kontak listesi alındı"
-
 #: plugins/icq/icqclient.cpp:558
-msgid "Recipient is not logged in"
+msgid "Server rate limit exceeded"
 msgstr ""
 
 #: plugins/icq/icqclient.cpp:559
 #, fuzzy
+msgid "Client rate limit exceeded"
+msgstr "Kontak listesi alındı"
+
+#: plugins/icq/icqclient.cpp:560
+msgid "Recipient is not logged in"
+msgstr ""
+
+#: plugins/icq/icqclient.cpp:561
+#, fuzzy
 msgid "Requested service unavailable"
 msgstr "SMS servisi mevcut"
 
-#: plugins/icq/icqclient.cpp:560
+#: plugins/icq/icqclient.cpp:562
 #, fuzzy
 msgid "Requested service not defined"
 msgstr "Kullanıcı bilgisi isteniyor"
 
-#: plugins/icq/icqclient.cpp:561
+#: plugins/icq/icqclient.cpp:563
 msgid "We sent an obsolete SNAC"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:562
+#: plugins/icq/icqclient.cpp:564
 msgid "Not supported by server"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:564
+#: plugins/icq/icqclient.cpp:566
 #, fuzzy
 msgid "Refused by client"
 msgstr "ICQ programı"
 
-#: plugins/icq/icqclient.cpp:565
+#: plugins/icq/icqclient.cpp:567
 msgid "Reply too big"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:566
+#: plugins/icq/icqclient.cpp:568
 msgid "Responses lost"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:567
+#: plugins/icq/icqclient.cpp:569
 #, fuzzy
 msgid "Request denied"
 msgstr "Kullanıcı bilgisi isteniyor"
 
-#: plugins/icq/icqclient.cpp:568
+#: plugins/icq/icqclient.cpp:570
 msgid "Incorrect SNAC format"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:569
+#: plugins/icq/icqclient.cpp:571
 msgid "Insufficient rights"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:570
+#: plugins/icq/icqclient.cpp:572
 msgid "Recipient blocked"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:572
+#: plugins/icq/icqclient.cpp:574
 #, fuzzy
 msgid "Receiver too evil"
 msgstr "Hepsini seç"
 
-#: plugins/icq/icqclient.cpp:573
+#: plugins/icq/icqclient.cpp:575
 #, fuzzy
 msgid "User temporarily unavailable"
 msgstr "Kullanıcı şu anda ulaşılabilir :"
 
-#: plugins/icq/icqclient.cpp:574
+#: plugins/icq/icqclient.cpp:576
 msgid "No match"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:575
+#: plugins/icq/icqclient.cpp:577
 #, fuzzy
 msgid "List overflow"
 msgstr "Liste Görünümü"
 
-#: plugins/icq/icqclient.cpp:576
+#: plugins/icq/icqclient.cpp:578
 msgid "Request ambiguous"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:577
+#: plugins/icq/icqclient.cpp:579
 msgid "Server queue full"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:578
+#: plugins/icq/icqclient.cpp:580
 msgid "Not while on AOL"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:595
+#: plugins/icq/icqclient.cpp:597
 msgid "Protocol error"
 msgstr ""
 
@@ -2380,15 +2380,15 @@ msgstr "&Mesaj gönder"
 msgid "Send to &list"
 msgstr "Çı&kartma"
 
-#: plugins/icq/icqconfig.cpp:55
+#: plugins/icq/icqconfig.cpp:57
 msgid "RTF"
 msgstr ""
 
-#: plugins/icq/icqconfig.cpp:56
+#: plugins/icq/icqconfig.cpp:58
 msgid "UTF"
 msgstr ""
 
-#: plugins/icq/icqconfig.cpp:57
+#: plugins/icq/icqconfig.cpp:59
 msgid "Plain text"
 msgstr ""
 
@@ -4522,12 +4522,12 @@ msgstr "Shift"
 msgid "Key"
 msgstr "Düğmeler"
 
-#: plugins/sound/sound.cpp:45
+#: plugins/sound/sound.cpp:45 plugins/sound/sounduser.cpp:37
 msgid "Sound"
 msgstr "Ses"
 
 #: plugins/sound/sound.cpp:46
-msgid "Plugin provides sounds on any evenents"
+msgid "Plugin provides sounds on any events"
 msgstr ""
 
 #: plugins/sound/sound.cpp:127
@@ -4563,18 +4563,22 @@ msgstr "Mesaj:"
 msgid "Sound on startup:"
 msgstr ""
 
-#: plugins/sound/sounduserbase.cpp:132
+#: plugins/sound/sounduserbase.cpp:122
 #, fuzzy
 msgid "&Disable all sounds"
 msgstr "&Tüm sesleri etkisizleştir"
 
-#: plugins/sound/sounduserbase.cpp:133
+#: plugins/sound/sounduserbase.cpp:123
 msgid "No sound if windows has &focus"
 msgstr ""
 
-#: plugins/sound/sounduserbase.cpp:134
+#: plugins/sound/sounduser.cpp:38 sim/ui/qt3/i18n.cpp:83
+msgid "File"
+msgstr "Dosya"
+
+#: plugins/sound/sounduser.cpp:44
 #, fuzzy
-msgid "On line alert:"
+msgid "Online alert"
 msgstr "Bağlı alarmı:"
 
 #: plugins/splash/splash.cpp:34
@@ -4618,24 +4622,24 @@ msgstr ""
 msgid "AutoHide"
 msgstr "OtomatikGizle"
 
-#: plugins/update/update.cpp:38
+#: plugins/update/update.cpp:39
 msgid "Update"
 msgstr "Yenile"
 
-#: plugins/update/update.cpp:39
+#: plugins/update/update.cpp:40
 msgid "Plugin provides notifications about update SIM software"
 msgstr ""
 
-#: plugins/update/update.cpp:126
+#: plugins/update/update.cpp:144
 #, fuzzy
 msgid "Show details"
 msgstr "Benim özelliklerim"
 
-#: plugins/update/update.cpp:127
+#: plugins/update/update.cpp:145
 msgid "Remind later"
 msgstr ""
 
-#: plugins/update/update.cpp:129
+#: plugins/update/update.cpp:147
 msgid "New version SIM is released"
 msgstr ""
 
@@ -5953,10 +5957,6 @@ msgstr "Dizine sembolik bağ ile bağla"
 msgid "Symlink to Special"
 msgstr "Özele sembolik bağ ile bağla"
 
-#: sim/ui/qt3/i18n.cpp:83
-msgid "File"
-msgstr "Dosya"
-
 #: sim/ui/qt3/i18n.cpp:85
 msgid "Dir"
 msgstr "Dizin"
@@ -6381,6 +6381,10 @@ msgid "underline"
 msgstr "Altını Çiz"
 
 #, fuzzy
+#~ msgid "On line alert:"
+#~ msgstr "Bağlı alarmı:"
+
+#, fuzzy
 #~ msgid "Screen name:"
 #~ msgstr "Adı :"
 
@@ -6686,10 +6690,6 @@ msgstr "Altını Çiz"
 
 #~ msgid "Authorization:"
 #~ msgstr "Onay:"
-
-#, fuzzy
-#~ msgid "Online alert:"
-#~ msgstr "Bağlı alarmı:"
 
 #, fuzzy
 #~ msgid "Incoming file:"

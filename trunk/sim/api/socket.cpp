@@ -193,8 +193,6 @@ void ClientSocket::error_state(const char *err, unsigned code)
 
 SocketFactory::SocketFactory()
 {
-    MinTCPPort = 1024;
-    MaxTCPPort = 0xFFFF;
     m_bActive  = true;
     p = new SocketFactoryPrivate;
 }

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
-"POT-Creation-Date: 2003-09-17 08:46+0400\n"
+"POT-Creation-Date: 2003-09-19 10:48+0400\n"
 "PO-Revision-Date: 2003-09-17 22:10GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -21,8 +21,8 @@ msgstr "Persönliches Verzeichnis"
 #: plugins/__homedir/homedir.cpp:47
 msgid "Plugin provides select directory for store config files"
 msgstr ""
-"Plugin stellt Auswahl eines Verzeichnisses zum Speichern"
-"der Konfigurationsdateien zur Verfügung"
+"Plugin stellt Auswahl eines Verzeichnisses zum Speichernder "
+"Konfigurationsdateien zur Verfügung"
 
 #: plugins/__homedir/homedir.cpp:90
 msgid "Set home directory"
@@ -35,8 +35,8 @@ msgstr "Konvertieren"
 #: plugins/__migrate/migrate.cpp:36
 msgid "Plugin provides convert configuration and history from SIM 0.8"
 msgstr ""
-"Plugin stellt die Konvertierung der Konfiguration und des Verlaufs von "
-"SIM 0.8 bereit"
+"Plugin stellt die Konvertierung der Konfiguration und des Verlaufs von SIM "
+"0.8 bereit"
 
 #: plugins/__migrate/migratedlg.cpp:77
 msgid "Cancel convert?"
@@ -599,8 +599,8 @@ msgstr "Spanisch"
 msgid "French"
 msgstr "Französisch"
 
-#: plugins/_core/interfacecfg.cpp:52 plugins/icq/icqclient.cpp:288
-#: plugins/icq/icqclient.cpp:289 plugins/icq/moreinfo.cpp:114
+#: plugins/_core/interfacecfg.cpp:52 plugins/icq/icqclient.cpp:290
+#: plugins/icq/icqclient.cpp:291 plugins/icq/moreinfo.cpp:114
 msgid "Hebrew"
 msgstr "Hebräisch"
 
@@ -628,12 +628,12 @@ msgstr "Slovakisch"
 msgid "Swabian"
 msgstr "Schwäbisch"
 
-#: plugins/_core/interfacecfg.cpp:59 plugins/icq/icqclient.cpp:305
-#: plugins/icq/icqclient.cpp:306 plugins/icq/moreinfo.cpp:142
+#: plugins/_core/interfacecfg.cpp:59 plugins/icq/icqclient.cpp:307
+#: plugins/icq/icqclient.cpp:308 plugins/icq/moreinfo.cpp:142
 msgid "Turkish"
 msgstr "Türkisch"
 
-#: plugins/_core/interfacecfg.cpp:60 plugins/icq/icqclient.cpp:282
+#: plugins/_core/interfacecfg.cpp:60 plugins/icq/icqclient.cpp:284
 #: plugins/icq/moreinfo.cpp:143
 msgid "Ukrainian"
 msgstr "Ukrainisch"
@@ -756,7 +756,7 @@ msgstr "Ja"
 msgid " "
 msgstr " "
 
-#: plugins/_core/msgedit.cpp:377
+#: plugins/_core/msgedit.cpp:377 plugins/update/update.cpp:99
 #, c-format
 msgid ""
 "_n: Message\n"
@@ -1102,7 +1102,7 @@ msgstr "Dieses Fenster beim Start nicht &anzeigen"
 #: plugins/osd/osdconfigbase.cpp:91 plugins/proxy/proxycfgbase.cpp:163
 #: plugins/shortcuts/mousecfgbase.cpp:108
 #: plugins/shortcuts/shortcutcfgbase.cpp:138
-#: plugins/sound/soundconfigbase.cpp:159 plugins/sound/sounduserbase.cpp:131
+#: plugins/sound/soundconfigbase.cpp:159 plugins/sound/sounduserbase.cpp:121
 #: plugins/transparent/transparentcfgbase.cpp:101
 msgid "Form1"
 msgstr "Form1"
@@ -1407,7 +1407,8 @@ msgstr "Typ:"
 
 #: plugins/_core/searchbase.cc:74 plugins/_core/searchbase.cpp:74
 msgid "Choose type of contact which you want to find or add:"
-msgstr "Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
+msgstr ""
+"Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
 
 #: plugins/_core/searchbase.cc:75 plugins/_core/searchbase.cpp:75
 msgid "Contact type:"
@@ -1626,8 +1627,8 @@ msgstr "Automatischer Weg-Status"
 #: plugins/autoaway/autoaway.cpp:55
 msgid "Plugin provides set away and N/A status after some idle time"
 msgstr ""
-"Plugin stellt automatischen Statuswechsel nach Status \"Weg\" und \"N/A\" nach einer bestimmten Zeit "
-"der Nichtbenutzung bereit"
+"Plugin stellt automatischen Statuswechsel nach Status \"Weg\" und \"N/A\" "
+"nach einer bestimmten Zeit der Nichtbenutzung bereit"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:121
 msgid "Set \"Away\" status after"
@@ -1647,7 +1648,8 @@ msgstr "\"N/A\"-Status setzen wenn"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:125
 #: plugins/sound/soundconfigbase.cpp:166
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -1659,8 +1661,8 @@ msgstr "Hintergrund"
 #: plugins/background/background.cpp:35
 msgid "Plugin provides background pictures for user list"
 msgstr ""
-"Plugin stellt das Einfügen von Hintergrundbildern für die "
-"Benutzerliste bereit"
+"Plugin stellt das Einfügen von Hintergrundbildern für die Benutzerliste "
+"bereit"
 
 #: plugins/background/bkgndcfg.cpp:45
 msgid "Select background picture"
@@ -1782,7 +1784,8 @@ msgstr "Nachrichten nur von &Benutzern der Kontaktliste empfangen"
 
 #: plugins/filter/filtercfgbase.cpp:98
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr ""
+"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: plugins/filter/filtercfgbase.cpp:99
 msgid ""
@@ -1804,7 +1807,8 @@ msgstr "Floatings"
 
 #: plugins/floaty/floaty.cpp:44
 msgid "Plugin provides floating windows for contacts"
-msgstr "Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
+msgstr ""
+"Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
 
 #: plugins/floaty/floaty.cpp:91 plugins/floaty/floaty.cpp:165
 msgid "Floating on"
@@ -1824,7 +1828,8 @@ msgstr "Plugin stellt Nachrichtenweiterleitung an Handys bereit"
 
 #: plugins/forward/forwardcfgbase.cpp:102
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
+msgstr ""
+"Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
 
 #: plugins/forward/forwardcfgbase.cpp:103
 msgid ""
@@ -1900,12 +1905,12 @@ msgstr "Mehr Smilies herunterladen"
 msgid "Smiles:"
 msgstr "Smilies:"
 
-#: plugins/icq/icqclient.cpp:554 plugins/icq/icqicmb.cpp:81
+#: plugins/icq/icqclient.cpp:556 plugins/icq/icqicmb.cpp:81
 #: plugins/icq/icqicmb.cpp:174
 msgid "Unknown error"
 msgstr "Unbekannter Fehler"
 
-#: plugins/icq/icqclient.cpp:563 plugins/icq/icqicmb.cpp:83
+#: plugins/icq/icqclient.cpp:565 plugins/icq/icqicmb.cpp:83
 msgid "Not supported by client"
 msgstr "Nicht unterstützt vom Client"
 
@@ -1921,7 +1926,7 @@ msgstr "Nachricht war zu lang"
 msgid "Message rate exceeded"
 msgstr "Nachrichtenrate erreicht"
 
-#: plugins/icq/icqclient.cpp:571 plugins/icq/icqicmb.cpp:168
+#: plugins/icq/icqclient.cpp:573 plugins/icq/icqicmb.cpp:168
 msgid "Sender too evil"
 msgstr "Sender zu böse"
 
@@ -1998,164 +2003,164 @@ msgstr "Zu einer Gruppe hinzu&fügen"
 msgid "Check &invisible"
 msgstr "Uns&ichtbar überprüfen"
 
-#: plugins/icq/icqclient.cpp:264
+#: plugins/icq/icqclient.cpp:266
 msgid "Unicode"
 msgstr "Unicode"
 
-#: plugins/icq/icqclient.cpp:266 plugins/icq/icqclient.cpp:267
+#: plugins/icq/icqclient.cpp:268 plugins/icq/icqclient.cpp:269
 #: plugins/icq/moreinfo.cpp:94
 msgid "Arabic"
 msgstr "Arabisch"
 
-#: plugins/icq/icqclient.cpp:269 plugins/icq/icqclient.cpp:270
+#: plugins/icq/icqclient.cpp:271 plugins/icq/icqclient.cpp:272
 msgid "Baltic"
 msgstr "Baltisch"
 
-#: plugins/icq/icqclient.cpp:272 plugins/icq/icqclient.cpp:274
+#: plugins/icq/icqclient.cpp:274 plugins/icq/icqclient.cpp:276
 msgid "Central European"
 msgstr "Zentraleuropa"
 
-#: plugins/icq/icqclient.cpp:273 plugins/icq/moreinfo.cpp:106
+#: plugins/icq/icqclient.cpp:275 plugins/icq/moreinfo.cpp:106
 msgid "Esperanto"
 msgstr "Esperanto"
 
-#: plugins/icq/icqclient.cpp:276
+#: plugins/icq/icqclient.cpp:278
 msgid "Chinese "
 msgstr "Chinesisch"
 
-#: plugins/icq/icqclient.cpp:277
+#: plugins/icq/icqclient.cpp:279
 msgid "Chinese Simplified"
 msgstr "Chinesisch (vereinfacht)"
 
-#: plugins/icq/icqclient.cpp:278
+#: plugins/icq/icqclient.cpp:280
 msgid "Chinese Traditional"
 msgstr "Chinesisch (traditionell)"
 
-#: plugins/icq/icqclient.cpp:280 plugins/icq/icqclient.cpp:281
-#: plugins/icq/icqclient.cpp:283
+#: plugins/icq/icqclient.cpp:282 plugins/icq/icqclient.cpp:283
+#: plugins/icq/icqclient.cpp:285
 msgid "Cyrillic"
 msgstr "Kyrillisch"
 
-#: plugins/icq/icqclient.cpp:285 plugins/icq/icqclient.cpp:286
+#: plugins/icq/icqclient.cpp:287 plugins/icq/icqclient.cpp:288
 #: plugins/icq/moreinfo.cpp:113
 msgid "Greek"
 msgstr "Griechisch"
 
-#: plugins/icq/icqclient.cpp:291 plugins/icq/icqclient.cpp:292
-#: plugins/icq/icqclient.cpp:293 plugins/icq/moreinfo.cpp:120
+#: plugins/icq/icqclient.cpp:293 plugins/icq/icqclient.cpp:294
+#: plugins/icq/icqclient.cpp:295 plugins/icq/moreinfo.cpp:120
 msgid "Japanese"
 msgstr "Japanisch"
 
-#: plugins/icq/icqclient.cpp:295 plugins/icq/moreinfo.cpp:122
+#: plugins/icq/icqclient.cpp:297 plugins/icq/moreinfo.cpp:122
 msgid "Korean"
 msgstr "Koreanisch"
 
-#: plugins/icq/icqclient.cpp:297 plugins/icq/icqclient.cpp:298
-#: plugins/icq/icqclient.cpp:299
+#: plugins/icq/icqclient.cpp:299 plugins/icq/icqclient.cpp:300
+#: plugins/icq/icqclient.cpp:301
 msgid "Western European"
 msgstr "Westeuropäisch"
 
-#: plugins/icq/icqclient.cpp:301
+#: plugins/icq/icqclient.cpp:303
 msgid "Tamil"
 msgstr "Tamil"
 
-#: plugins/icq/icqclient.cpp:303 plugins/icq/moreinfo.cpp:141
+#: plugins/icq/icqclient.cpp:305 plugins/icq/moreinfo.cpp:141
 msgid "Thai"
 msgstr "Thai"
 
-#: plugins/icq/icqclient.cpp:358
+#: plugins/icq/icqclient.cpp:360
 msgid "Process message failed"
 msgstr "Verarbeiten der Nachricht fehlgeschlagen"
 
-#: plugins/icq/icqclient.cpp:555
+#: plugins/icq/icqclient.cpp:557
 msgid "Invalid SNAC header"
 msgstr "Ungültiger SNAC-Header"
 
-#: plugins/icq/icqclient.cpp:556
+#: plugins/icq/icqclient.cpp:558
 msgid "Server rate limit exceeded"
 msgstr "Serverrate-Begrenzung erreicht"
 
-#: plugins/icq/icqclient.cpp:557
+#: plugins/icq/icqclient.cpp:559
 msgid "Client rate limit exceeded"
 msgstr "Clientrate-Begrenzung erreicht"
 
-#: plugins/icq/icqclient.cpp:558
+#: plugins/icq/icqclient.cpp:560
 msgid "Recipient is not logged in"
 msgstr "Empfänger ist nicht eingeloggt"
 
-#: plugins/icq/icqclient.cpp:559
+#: plugins/icq/icqclient.cpp:561
 msgid "Requested service unavailable"
 msgstr "Angeforderter Dienst nicht verfügbar"
 
-#: plugins/icq/icqclient.cpp:560
+#: plugins/icq/icqclient.cpp:562
 msgid "Requested service not defined"
 msgstr "Angeforderter Dienst ist nicht definiert"
 
-#: plugins/icq/icqclient.cpp:561
+#: plugins/icq/icqclient.cpp:563
 msgid "We sent an obsolete SNAC"
 msgstr "Veraltetes SNAC gesendet"
 
-#: plugins/icq/icqclient.cpp:562
+#: plugins/icq/icqclient.cpp:564
 msgid "Not supported by server"
 msgstr "Nicht unterstützt vom Server"
 
-#: plugins/icq/icqclient.cpp:564
+#: plugins/icq/icqclient.cpp:566
 msgid "Refused by client"
 msgstr "Abgelehnt vom Client"
 
-#: plugins/icq/icqclient.cpp:565
+#: plugins/icq/icqclient.cpp:567
 msgid "Reply too big"
 msgstr "Antwort ist zu groß"
 
-#: plugins/icq/icqclient.cpp:566
+#: plugins/icq/icqclient.cpp:568
 msgid "Responses lost"
 msgstr "Anworten verloren"
 
-#: plugins/icq/icqclient.cpp:567
+#: plugins/icq/icqclient.cpp:569
 msgid "Request denied"
 msgstr "Anforderung abgelehnt"
 
-#: plugins/icq/icqclient.cpp:568
+#: plugins/icq/icqclient.cpp:570
 msgid "Incorrect SNAC format"
 msgstr "Ungültiges SNAC-Format"
 
-#: plugins/icq/icqclient.cpp:569
+#: plugins/icq/icqclient.cpp:571
 msgid "Insufficient rights"
 msgstr "Ungenügende Rechte"
 
-#: plugins/icq/icqclient.cpp:570
+#: plugins/icq/icqclient.cpp:572
 msgid "Recipient blocked"
 msgstr "Empfänger blockt"
 
-#: plugins/icq/icqclient.cpp:572
+#: plugins/icq/icqclient.cpp:574
 msgid "Receiver too evil"
 msgstr "Empfänger zu böse"
 
-#: plugins/icq/icqclient.cpp:573
+#: plugins/icq/icqclient.cpp:575
 msgid "User temporarily unavailable"
 msgstr "Benutzer ist temporär nicht verfügbar"
 
-#: plugins/icq/icqclient.cpp:574
+#: plugins/icq/icqclient.cpp:576
 msgid "No match"
 msgstr "Keine Übereinstimmung"
 
-#: plugins/icq/icqclient.cpp:575
+#: plugins/icq/icqclient.cpp:577
 msgid "List overflow"
 msgstr "Listen-Überlauf"
 
-#: plugins/icq/icqclient.cpp:576
+#: plugins/icq/icqclient.cpp:578
 msgid "Request ambiguous"
 msgstr "Mehrdeutige Anfrage"
 
-#: plugins/icq/icqclient.cpp:577
+#: plugins/icq/icqclient.cpp:579
 msgid "Server queue full"
 msgstr "Server-Queue ist voll"
 
-#: plugins/icq/icqclient.cpp:578
+#: plugins/icq/icqclient.cpp:580
 msgid "Not while on AOL"
 msgstr "Nicht während in AOL"
 
-#: plugins/icq/icqclient.cpp:595
+#: plugins/icq/icqclient.cpp:597
 msgid "Protocol error"
 msgstr "Protokoll-Fehler"
 
@@ -2225,15 +2230,15 @@ msgstr "&Dringend senden"
 msgid "Send to &list"
 msgstr "An Liste senden"
 
-#: plugins/icq/icqconfig.cpp:55
+#: plugins/icq/icqconfig.cpp:57
 msgid "RTF"
 msgstr "RTF"
 
-#: plugins/icq/icqconfig.cpp:56
+#: plugins/icq/icqconfig.cpp:58
 msgid "UTF"
 msgstr "UTF"
 
-#: plugins/icq/icqconfig.cpp:57
+#: plugins/icq/icqconfig.cpp:59
 msgid "Plain text"
 msgstr "Reiner Text"
 
@@ -3764,10 +3769,6 @@ msgstr ""
 msgid "Fill in a field to search for any matching Jabber users."
 msgstr "Ein Feld zum Suchen nach passenden Jabber-Benutzern ausfüllen"
 
-#: plugins/jabber/servicesbase.cpp:167 plugins/jabber/servicesbase.cpp:173
-msgid "Jabber agents are available online after login"
-msgstr "Jabber-Agenten sind nach Login verfügbar"
-
 #: plugins/jabber/jabbersearch.cpp:197
 msgid ""
 "To register, please fill out the following form.  Be as accurate as possible "
@@ -3775,6 +3776,10 @@ msgid ""
 msgstr ""
 "Um sich zu registrieren, biite das folgende Formular ausfüllen. Dabei bitte "
 "gewissenhaft sein, dies erleichtert die Suche von anderen Leuten nach Ihnen."
+
+#: plugins/jabber/servicesbase.cpp:167 plugins/jabber/servicesbase.cpp:173
+msgid "Jabber agents are available online after login"
+msgstr "Jabber-Agenten sind nach Login verfügbar"
 
 #: plugins/jabber/servicesbase.cpp:168
 msgid "Registered agents:"
@@ -3978,7 +3983,8 @@ msgid "Navigate"
 msgstr "Navigation"
 
 #: plugins/navigate/navigate.cpp:38
-msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid ""
+"Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Plugin stellt Navigation von Hyperlinks bereit und ruft externe Browser- "
 "oder Mailprogramme auf"
@@ -4047,7 +4053,9 @@ msgstr "Im Vordergrund"
 
 #: plugins/ontop/ontop.cpp:44
 msgid "Plugin provides main window and containers always on top"
-msgstr "Plugin stellt die kontinuierliche Anzeige von Hauptfenster und Container im Vordergrund bereit"
+msgstr ""
+"Plugin stellt die kontinuierliche Anzeige von Hauptfenster und Container im "
+"Vordergrund bereit"
 
 #: plugins/ontop/ontop.cpp:79
 msgid "Always on top"
@@ -4066,8 +4074,11 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:48
-msgid "Plugin provides on screen notification about messages and contacts status"
-msgstr "Plugin stellt Bildschirmbenachrichtigungen über Nachrichten und Kontaktstatus bereit"
+msgid ""
+"Plugin provides on screen notification about messages and contacts status"
+msgstr ""
+"Plugin stellt Bildschirmbenachrichtigungen über Nachrichten und "
+"Kontaktstatus bereit"
 
 #: plugins/osd/osd.cpp:116
 msgid "&OSD"
@@ -4119,7 +4130,8 @@ msgstr "Bei Nachrichteneingang informieren (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:93
 msgid "Enable &status notification"
-msgstr "Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
+msgstr ""
+"Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:94
 msgid "Enable &typing notification"
@@ -4167,7 +4179,8 @@ msgstr "&Proxy"
 
 #: plugins/proxy/proxycfg.cpp:140
 msgid "<b>Note !</b><br>HTTP-proxy support only ICQ-protocol"
-msgstr "<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
+msgstr ""
+"<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
 
 #: plugins/proxy/proxycfg.cpp:209
 msgid "Default"
@@ -4191,7 +4204,8 @@ msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1277
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS and HTTP)"
-msgstr "Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
+msgstr ""
+"Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
 
 #: plugins/proxy/proxycfgbase.cpp:164
 msgid "Host:"
@@ -4285,12 +4299,13 @@ msgstr "Umschalt"
 msgid "Key"
 msgstr "Taste"
 
-#: plugins/sound/sound.cpp:45
+#: plugins/sound/sound.cpp:45 plugins/sound/sounduser.cpp:37
 msgid "Sound"
 msgstr "Klänge"
 
 #: plugins/sound/sound.cpp:46
-msgid "Plugin provides sounds on any evenents"
+#, fuzzy
+msgid "Plugin provides sounds on any events"
 msgstr "Plugin stellt Klänge für sämtliche Ereignisse bereit"
 
 #: plugins/sound/sound.cpp:127
@@ -4321,17 +4336,22 @@ msgstr "Nachricht gesendet:"
 msgid "Sound on startup:"
 msgstr "Klang beim SIM-Start:"
 
-#: plugins/sound/sounduserbase.cpp:132
+#: plugins/sound/sounduserbase.cpp:122
 msgid "&Disable all sounds"
 msgstr "Alle Klänge &deaktivieren"
 
-#: plugins/sound/sounduserbase.cpp:134
-msgid "On line alert:"
-msgstr "Onlinealarm:"
-
-#: plugins/sound/sounduserbase.cpp:133
+#: plugins/sound/sounduserbase.cpp:123
 msgid "No sound if windows has &focus"
 msgstr "Keine Klänge, wenn Fenster den &Fokus hat"
+
+#: plugins/sound/sounduser.cpp:38 sim/ui/qt3/i18n.cpp:83
+msgid "File"
+msgstr "Datei"
+
+#: plugins/sound/sounduser.cpp:44
+#, fuzzy
+msgid "Online alert"
+msgstr "Onlinealarm:"
 
 #: plugins/splash/splash.cpp:34
 msgid "Splash"
@@ -4367,39 +4387,44 @@ msgstr "Nur transparent wenn inaktiv"
 
 #: plugins/windock/windock.cpp:37
 msgid "Plugin provides dock main window to left or right side of screen"
-msgstr "Plugin stellt das Docking von SIM an linke oder rechte Bildschirmränder bereit"
+msgstr ""
+"Plugin stellt das Docking von SIM an linke oder rechte Bildschirmränder "
+"bereit"
 
 #: plugins/windock/windock.cpp:115
 msgid "AutoHide"
 msgstr "Automatisch ausblenden"
 
-#: plugins/update/update.cpp:38
+#: plugins/update/update.cpp:39
 msgid "Update"
 msgstr "Aktualisieren"
 
-#: plugins/update/update.cpp:39
+#: plugins/update/update.cpp:40
 msgid "Plugin provides notifications about update SIM software"
-msgstr "Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
+msgstr ""
+"Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
 
-#: plugins/update/update.cpp:126
+#: plugins/update/update.cpp:144
 msgid "Show details"
 msgstr "Details anzeigen"
 
-#: plugins/update/update.cpp:127
+#: plugins/update/update.cpp:145
 msgid "Remind later"
 msgstr "Später erinnern"
 
-#: plugins/update/update.cpp:129
+#: plugins/update/update.cpp:147
 msgid "New version SIM is released"
 msgstr "Neue Version von SIM wurde veröffentlicht"
 
 #: sim/api/aboutdata.cpp:274
 msgid "replace this with information about your translation team"
-msgstr "Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
+msgstr ""
+"Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
 
 #: sim/api/aboutdata.cpp:290
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
+msgstr ""
+"Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
@@ -5685,10 +5710,6 @@ msgstr "Symbolische Verknüpfung auf Verzeichnis"
 msgid "Symlink to Special"
 msgstr "Symbolische Verknüpfung auf Spezialdatei"
 
-#: sim/ui/qt3/i18n.cpp:83
-msgid "File"
-msgstr "Datei"
-
 #: sim/ui/qt3/i18n.cpp:85
 msgid "Dir"
 msgstr "Verzeichnis"
@@ -6108,6 +6129,9 @@ msgstr "Durchgestrichen"
 msgid "underline"
 msgstr "Unterstrichen"
 
+#~ msgid "On line alert:"
+#~ msgstr "Onlinealarm:"
+
 #~ msgid "Screen name:"
 #~ msgstr "Nickname:"
 
@@ -6429,9 +6453,6 @@ msgstr "Unterstrichen"
 
 #~ msgid "Authorization:"
 #~ msgstr "Authorisierung:"
-
-#~ msgid "Online alert:"
-#~ msgstr "Onlinealarm:"
 
 #~ msgid "Incoming file:"
 #~ msgstr "Ankommende Datei:"
@@ -7319,4 +7340,3 @@ msgstr "Unterstrichen"
 
 #~ msgid "Transfer completed"
 #~ msgstr "Übertragung abgeschlossen"
-
