@@ -412,9 +412,11 @@ string PhoneInfo::getNumber()
             break;
         }
     }
-    res += " (";
-    res += AreaCode.c_str();
-    res += ") ";
+    if (*AreaCode.c_str()){
+    	res += " (";
+    	res += AreaCode.c_str();
+    	res += ") ";
+    }
     res += Number.c_str();
     if (*Extension.c_str()){
         res += " - ";
@@ -423,32 +425,26 @@ string PhoneInfo::getNumber()
     return res;
 }
 
+static string strip_number(const char *s)
+{
+    string res;
+    for (; *s; s++)
+	if ((*s >= '0') && (*s <= '9')) res += *s;
+    return res;
+}
+
 bool PhoneInfo::isEqual(const char *number)
 {
     string my_number = getNumber();
-    int p1 = strlen(number) - 1;
-    int p2 = strlen(my_number.c_str()) - 1;
-    int nMatch = 0;
-    for (; (p1 >= 0) && (p2 >= 0); p1--, p2--){
-        char c1 = 0;
-        char c2 = 0;
-        for (; p1 >= 0; p1--){
-            c1 = number[p1];
-            if ((c1 >= '0') && (c1 <= '9')) break;
-        }
-        if (p1 < 0) break;
-        for (; p2 >= 0; p2--){
-            c2 = my_number.c_str()[p2];
-            if ((c2 >= '0') && (c1 <= '9')) break;
-        }
-        if (p2 < 0) break;
-        if (c1 != c2){
-            nMatch = 0;
-            break;
-        }
-        nMatch++;
-        if (nMatch >= 7) return true;
-    }
+    string n1 = strip_number(my_number.c_str());
+    string n2 = strip_number(number);
+    int s1 = n1.length();
+    int s2 = n2.length();
+    int s = s1;
+    if (s2 < s1) s = s2;
+    int nMatch;
+    for (nMatch = 0; nMatch < s; nMatch++)
+	if (n1[s1-1-nMatch] != n2[s2-1-nMatch]) break;
     return (nMatch >= 7);
 }
 

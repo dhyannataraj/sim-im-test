@@ -110,8 +110,10 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                         user->WaitAuth = needAuth;
                         Tlv *tlv_phone = NULL;
                         if (inf) tlv_phone = (*inf)(0x13A);
-                        if (tlv_phone)
+                        if (tlv_phone){
                             user->Phones.add(*tlv_phone, "Private cellular", SMS, true, false);
+			    user->adjustPhones();
+			}
                         break;
                     }
                 case ICQ_GROUPS:{
