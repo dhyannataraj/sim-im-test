@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "POT-Creation-Date: 2002-11-25 10:46+0300\n"
-"PO-Revision-Date: 2002-11-14 18:48+0100\n"
-"Last-Translator: Pavel Roušar <rousarp@fel.cvut.cz>\n"
+"PO-Revision-Date: 2002-11-25 21:26+0100\n"
+"Last-Translator: Pavel Rousar <rousarp@fel.cvut.cz>\n"
 "Language-Team: Čeština <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,7 +38,7 @@ msgstr "Kantonsky"
 
 #: libicq/country.cpp:12
 msgid "Catalan"
-msgstr "Catalanisch"
+msgstr "Katalánsky"
 
 #: libicq/country.cpp:13
 msgid "Chinese"
@@ -70,7 +70,7 @@ msgstr "Esperanto"
 
 #: libicq/country.cpp:20
 msgid "Estonian"
-msgstr "Estlädisch"
+msgstr "Estonsky"
 
 #: libicq/country.cpp:21
 msgid "Farsi"
@@ -94,15 +94,15 @@ msgstr "Německy"
 
 #: client.cpp:75 client.cpp:76 libicq/country.cpp:26
 msgid "Greek"
-msgstr "Griechisch"
+msgstr "Řecky"
 
 #: client.cpp:78 client.cpp:79 libicq/country.cpp:27
 msgid "Hebrew"
-msgstr "Häbräisch"
+msgstr "Hebrejsky"
 
 #: libicq/country.cpp:28
 msgid "Hindi"
-msgstr "Hindi"
+msgstr "Hindsky"
 
 #: libicq/country.cpp:29
 msgid "Hungarian"
@@ -110,11 +110,11 @@ msgstr "Maďarsky"
 
 #: libicq/country.cpp:30
 msgid "Icelandic"
-msgstr "Islandändisch"
+msgstr "Islandsky"
 
 #: libicq/country.cpp:31
 msgid "Indonesian"
-msgstr "Indonesisch"
+msgstr "Indonésky"
 
 #: libicq/country.cpp:32
 msgid "Italian"
@@ -130,7 +130,7 @@ msgstr "Khmer"
 
 #: client.cpp:85 libicq/country.cpp:35
 msgid "Korean"
-msgstr "Koreanisch"
+msgstr "Korejsky"
 
 #: libicq/country.cpp:36
 msgid "Lao"
@@ -138,19 +138,19 @@ msgstr "Lao"
 
 #: libicq/country.cpp:37
 msgid "Latvian"
-msgstr "Litevsky"
+msgstr "Lotyšsky"
 
 #: libicq/country.cpp:38
 msgid "Lithuanian"
-msgstr "Litauisch"
+msgstr "Litevsky"
 
 #: libicq/country.cpp:39
 msgid "Malay"
-msgstr "Malaysisch"
+msgstr "Malaysky"
 
 #: libicq/country.cpp:40
 msgid "Norwegian"
-msgstr "Norwegisch"
+msgstr "Norsky"
 
 #: libicq/country.cpp:41
 msgid "Polish"
@@ -158,11 +158,11 @@ msgstr "Polsky"
 
 #: libicq/country.cpp:42
 msgid "Portuguese"
-msgstr "Portugiesisch"
+msgstr "Portugalsky"
 
 #: libicq/country.cpp:43
 msgid "Romanian"
-msgstr "Romänisch"
+msgstr "Rumunsky"
 
 #: libicq/country.cpp:44
 msgid "Russian"
@@ -170,7 +170,7 @@ msgstr "Rusky"
 
 #: libicq/country.cpp:45
 msgid "Serbian"
-msgstr "Serbisch"
+msgstr "Srbsky"
 
 #: libicq/country.cpp:46
 msgid "Slovak"
@@ -178,11 +178,11 @@ msgstr "Slovensky"
 
 #: libicq/country.cpp:47
 msgid "Slovenian"
-msgstr "Slovenisch"
+msgstr "Slovinsky"
 
 #: libicq/country.cpp:48
 msgid "Somali"
-msgstr "Somalisch"
+msgstr "Somálsky"
 
 #: libicq/country.cpp:49
 msgid "Spanish"
@@ -190,11 +190,11 @@ msgstr "Španělsky"
 
 #: libicq/country.cpp:50
 msgid "Swahili"
-msgstr "Swahili"
+msgstr "Swahilsky"
 
 #: libicq/country.cpp:51
 msgid "Swedish"
-msgstr "Schwedisch"
+msgstr "Švédsky"
 
 #: libicq/country.cpp:52
 msgid "Tagalog"
@@ -202,15 +202,15 @@ msgstr "Tagalog"
 
 #: libicq/country.cpp:53
 msgid "Tatar"
-msgstr "Tatarisch"
+msgstr "Tatarsky"
 
 #: client.cpp:93 libicq/country.cpp:54
 msgid "Thai"
-msgstr "Thai"
+msgstr "Thaisky"
 
 #: client.cpp:95 client.cpp:96 libicq/country.cpp:55
 msgid "Turkish"
-msgstr "Türkisch"
+msgstr "Turecky"
 
 #: client.cpp:98 libicq/country.cpp:56
 msgid "Ukrainian"
@@ -222,11 +222,11 @@ msgstr "Urdu"
 
 #: libicq/country.cpp:58
 msgid "Vietnamese"
-msgstr "Vietnamesisch"
+msgstr "Vietnamsky"
 
 #: libicq/country.cpp:59
 msgid "Yiddish"
-msgstr "Yiddisch"
+msgstr "Yiddish"
 
 #: libicq/country.cpp:60
 msgid "Yoruba"
@@ -234,7 +234,7 @@ msgstr "Yoruba"
 
 #: libicq/country.cpp:61
 msgid "Taiwanese"
-msgstr "Taiwanesisch"
+msgstr "Taiwansky"
 
 #: libicq/country.cpp:62
 msgid "Afrikaans"
@@ -246,27 +246,27 @@ msgstr "Persisch"
 
 #: libicq/country.cpp:64
 msgid "Albanian"
-msgstr "Albanisch"
+msgstr "Albánsky"
 
 #: libicq/country.cpp:65
 msgid "Armenian"
-msgstr "Americkou angličtinou"
+msgstr "Americká angličtina"
 
 #: libicq/country.cpp:71
 msgid "Afghanistan"
-msgstr "Afghanistan"
+msgstr "Afghanistán"
 
 #: libicq/country.cpp:72
 msgid "Albania"
-msgstr "Albanien"
+msgstr "Albánie"
 
 #: libicq/country.cpp:73
 msgid "Algeria"
-msgstr "Algerien"
+msgstr "Alžírsko"
 
 #: libicq/country.cpp:74
 msgid "American Samoa"
-msgstr "Amerikanisch Samoa"
+msgstr "American Samoa"
 
 #: libicq/country.cpp:75
 msgid "Andorra"
@@ -286,11 +286,11 @@ msgstr "Antigua"
 
 #: libicq/country.cpp:79
 msgid "Argentina"
-msgstr "Argentinien"
+msgstr "Argentina"
 
 #: libicq/country.cpp:80
 msgid "Armenia"
-msgstr "Armenien"
+msgstr "Arménie"
 
 #: libicq/country.cpp:81
 msgid "Aruba"
@@ -298,15 +298,15 @@ msgstr "Aruba"
 
 #: libicq/country.cpp:82
 msgid "Ascension Island"
-msgstr "Himmelfahrtsinsel"
+msgstr "Ostrov Nanebevstoupení"
 
 #: libicq/country.cpp:83
 msgid "Australia"
-msgstr "Australien"
+msgstr "Austrálie"
 
 #: libicq/country.cpp:84
 msgid "Australian Antarctic Territory"
-msgstr "Australisches Antarktisches Territorium"
+msgstr "Australsko Antarktické Teritorium"
 
 #: libicq/country.cpp:85
 msgid "Austria"
@@ -314,11 +314,11 @@ msgstr "Rakousko"
 
 #: libicq/country.cpp:86
 msgid "Azerbaijan"
-msgstr "Aserbeijan"
+msgstr "Ázerbájdžán"
 
 #: libicq/country.cpp:87
 msgid "Bahamas"
-msgstr "Bahamas"
+msgstr "Bahamy"
 
 #: libicq/country.cpp:88
 msgid "Bahrain"
@@ -326,7 +326,7 @@ msgstr "Bahrain"
 
 #: libicq/country.cpp:89
 msgid "Bangladesh"
-msgstr "Bangladesh"
+msgstr "Bangladéš"
 
 #: libicq/country.cpp:90
 msgid "Barbados"
@@ -362,11 +362,11 @@ msgstr "Bhutan"
 
 #: libicq/country.cpp:98
 msgid "Bolivia"
-msgstr "Bolivien"
+msgstr "Bolivie"
 
 #: libicq/country.cpp:99
 msgid "Bosnia and Herzegovina"
-msgstr "Bosnien und Herzegovina"
+msgstr "Bosna a Hercegovina"
 
 #: libicq/country.cpp:100
 msgid "Botswana"
@@ -374,11 +374,11 @@ msgstr "Botswana"
 
 #: libicq/country.cpp:101
 msgid "Brazil"
-msgstr "Brasilien"
+msgstr "Brazílie"
 
 #: libicq/country.cpp:102
 msgid "British Virgin Islands"
-msgstr "Britische Jungferninseln"
+msgstr "Britské panenské ostrovy"
 
 #: libicq/country.cpp:103
 msgid "Brunei"
@@ -398,7 +398,7 @@ msgstr "Burundi"
 
 #: libicq/country.cpp:107
 msgid "Cambodia"
-msgstr "Kambodscha"
+msgstr "Kambodža"
 
 #: libicq/country.cpp:108
 msgid "Cameroon"
@@ -410,19 +410,19 @@ msgstr "Kanada"
 
 #: libicq/country.cpp:110
 msgid "Cape Verde Islands"
-msgstr "Kap Verde Inseln"
+msgstr "Kapské královské ostrovy"
 
 #: libicq/country.cpp:111
 msgid "Cayman Islands"
-msgstr "Kaimaninseln"
+msgstr "Kajmanské ostrovy"
 
 #: libicq/country.cpp:112
 msgid "Central African Republic"
-msgstr "Republik von Zentralafrika"
+msgstr "Středoafrická republika"
 
 #: libicq/country.cpp:113
 msgid "Chad"
-msgstr "Tschad"
+msgstr "Čad"
 
 #: libicq/country.cpp:114
 msgid "Chile"
@@ -430,19 +430,19 @@ msgstr "Chile"
 
 #: libicq/country.cpp:115
 msgid "China"
-msgstr "China"
+msgstr "Čína"
 
 #: libicq/country.cpp:116
 msgid "Christmas Island"
-msgstr "Weihnachtsinsel"
+msgstr "Vánoční ostrov"
 
 #: libicq/country.cpp:117
 msgid "Cocos-Keeling Islands"
-msgstr "Cocosinseln"
+msgstr "Kokosové ostrovy"
 
 #: libicq/country.cpp:118
 msgid "Colombia"
-msgstr "Kolumbien"
+msgstr "Kolumbie"
 
 #: libicq/country.cpp:119
 msgid "Comoros"
@@ -454,11 +454,11 @@ msgstr "Kongo"
 
 #: libicq/country.cpp:121
 msgid "Cook Islands"
-msgstr "Cook Inseln"
+msgstr "Cookovy ostrovy"
 
 #: libicq/country.cpp:122
 msgid "Costa Rica"
-msgstr "Costa Rica"
+msgstr "Kostarika"
 
 #: libicq/country.cpp:123
 msgid "Croatia"
@@ -470,7 +470,7 @@ msgstr "Kuba"
 
 #: libicq/country.cpp:125
 msgid "Cyprus"
-msgstr "Zypern"
+msgstr "Kypr"
 
 #: libicq/country.cpp:126
 msgid "Czech Republic"
@@ -494,7 +494,7 @@ msgstr "Dominica"
 
 #: libicq/country.cpp:131
 msgid "Dominican Republic"
-msgstr "Dominikanische Republik"
+msgstr "Dominikánská republika"
 
 #: libicq/country.cpp:132
 msgid "Ecuador"
@@ -510,7 +510,7 @@ msgstr "El Salvador"
 
 #: libicq/country.cpp:135
 msgid "Equatorial Guinea"
-msgstr "Äquatorialguinea"
+msgstr "Rovníková Guinea"
 
 #: libicq/country.cpp:136
 msgid "Eritrea"
@@ -518,23 +518,23 @@ msgstr "Eritrea"
 
 #: libicq/country.cpp:137
 msgid "Estonia"
-msgstr "Estland"
+msgstr "Estonsko"
 
 #: libicq/country.cpp:138
 msgid "Ethiopia"
-msgstr "Äthiopien"
+msgstr "Etiopie"
 
 #: libicq/country.cpp:139
 msgid "Faeroe Islands"
-msgstr "Faeroeinseln"
+msgstr "Faerské ostrovy"
 
 #: libicq/country.cpp:140
 msgid "Falkland Islands"
-msgstr "Falkland-Inseln"
+msgstr "Falklandské ostrovy"
 
 #: libicq/country.cpp:141
 msgid "Fiji Islands"
-msgstr "Fijiinseln"
+msgstr "Fidžijské ostrovy"
 
 #: libicq/country.cpp:142
 msgid "Finland"
@@ -546,15 +546,15 @@ msgstr "Francie"
 
 #: libicq/country.cpp:144
 msgid "French Antilles"
-msgstr "Französische Antillen"
+msgstr "French Antilles"
 
 #: libicq/country.cpp:145
 msgid "French Guiana"
-msgstr "Französisch-Guayana"
+msgstr "Fracouzská Guiana"
 
 #: libicq/country.cpp:146
 msgid "French Polynesia"
-msgstr "Französisch-Polynesien"
+msgstr "Francouzská Polynésie"
 
 #: libicq/country.cpp:147
 msgid "Gabon"
@@ -562,11 +562,11 @@ msgstr "Gabun"
 
 #: libicq/country.cpp:148
 msgid "Gambia"
-msgstr "Gambia"
+msgstr "Gambie"
 
 #: libicq/country.cpp:149
 msgid "Georgia"
-msgstr "Georgien"
+msgstr "Georgia"
 
 #: libicq/country.cpp:150
 msgid "Germany"
@@ -582,11 +582,11 @@ msgstr "Gibraltar"
 
 #: libicq/country.cpp:153
 msgid "Greece"
-msgstr "Griechenland"
+msgstr "Řecko"
 
 #: libicq/country.cpp:154
 msgid "Greenland"
-msgstr "Grönland"
+msgstr "Grónsko"
 
 #: libicq/country.cpp:155
 msgid "Grenada"
@@ -638,19 +638,19 @@ msgstr "Maďarsko"
 
 #: libicq/country.cpp:167
 msgid "INMARSAT (Atlantic-East)"
-msgstr "INMARSAT (Atlantischer Osten)"
+msgstr "INMARSAT (Obecně Východ)"
 
 #: libicq/country.cpp:168
 msgid "INMARSAT (Atlantic-West)"
-msgstr "INMARSAT (Atlantischer Westen)"
+msgstr "INMARSAT (Obecně Západ)"
 
 #: libicq/country.cpp:169
 msgid "INMARSAT (Indian)"
-msgstr "INMARSAT (Indien)"
+msgstr "INMARSAT (Indie)"
 
 #: libicq/country.cpp:170
 msgid "INMARSAT (Pacific)"
-msgstr "INMARSAT (Pazifik)"
+msgstr "INMARSAT (Pacifik)"
 
 #: libicq/country.cpp:171
 msgid "INMARSAT"
@@ -666,27 +666,27 @@ msgstr "Indie"
 
 #: libicq/country.cpp:174
 msgid "Indonesia"
-msgstr "Indonesien"
+msgstr "Indonésie"
 
 #: libicq/country.cpp:175
 msgid "International Freephone Service"
-msgstr "Internationaler kostenloster Telefondienst"
+msgstr "Mezinárodní bezplatné telefonní služby (IFS)"
 
 #: libicq/country.cpp:176
 msgid "Iran"
-msgstr "Iran"
+msgstr "Irán"
 
 #: libicq/country.cpp:177
 msgid "Iraq"
-msgstr "Irak"
+msgstr "Irák"
 
 #: libicq/country.cpp:178
 msgid "Ireland"
-msgstr "Irland"
+msgstr "Irsko"
 
 #: libicq/country.cpp:179
 msgid "Israel"
-msgstr "Israel"
+msgstr "Izrael"
 
 #: libicq/country.cpp:180
 msgid "Italy"
@@ -706,27 +706,27 @@ msgstr "Japonsko"
 
 #: libicq/country.cpp:184
 msgid "Jordan"
-msgstr "Jordanien"
+msgstr "Jordánsko"
 
 #: libicq/country.cpp:185
 msgid "Kazakhstan"
-msgstr "Kasachstan"
+msgstr "Kazachstán"
 
 #: libicq/country.cpp:186
 msgid "Kenya"
-msgstr "Kenia"
+msgstr "Keňa"
 
 #: libicq/country.cpp:187
 msgid "Kiribati Republic"
-msgstr "Republik von Kiribati"
+msgstr "Kiribati Republic"
 
 #: libicq/country.cpp:188
 msgid "Korea (North)"
-msgstr "Nordkorea"
+msgstr "Korea (Severní)"
 
 #: libicq/country.cpp:189
 msgid "Korea (Republic of)"
-msgstr "Republik von Korea"
+msgstr "Korejská republika"
 
 #: libicq/country.cpp:190
 msgid "Kuwait"
@@ -734,7 +734,7 @@ msgstr "Kuwait"
 
 #: libicq/country.cpp:191
 msgid "Kyrgyz Republic"
-msgstr "Republik Kirgisien"
+msgstr "Kyrgišská republika"
 
 #: libicq/country.cpp:192
 msgid "Laos"
@@ -758,11 +758,11 @@ msgstr "Liberia"
 
 #: libicq/country.cpp:197
 msgid "Libya"
-msgstr "Lybien"
+msgstr "Lybie"
 
 #: libicq/country.cpp:198
 msgid "Liechtenstein"
-msgstr "Liechtenstein"
+msgstr "Lichtenštejnsko"
 
 #: libicq/country.cpp:199
 msgid "Lithuania"
@@ -770,7 +770,7 @@ msgstr "Litauen"
 
 #: libicq/country.cpp:200
 msgid "Luxembourg"
-msgstr "Luxemburg"
+msgstr "Lucembursko"
 
 #: libicq/country.cpp:201
 msgid "Macau"
@@ -786,7 +786,7 @@ msgstr "Malawi"
 
 #: libicq/country.cpp:204
 msgid "Malaysia"
-msgstr "Malaysia"
+msgstr "Malajsie"
 
 #: libicq/country.cpp:205
 msgid "Maldives"
@@ -802,7 +802,7 @@ msgstr "Malta"
 
 #: libicq/country.cpp:208
 msgid "Marshall Islands"
-msgstr "Marshallinseln"
+msgstr "Marshall Islands"
 
 #: libicq/country.cpp:209
 msgid "Martinique"
@@ -810,7 +810,7 @@ msgstr "Martinique"
 
 #: libicq/country.cpp:210
 msgid "Mauritania"
-msgstr "Mauretanien"
+msgstr "Mauritania"
 
 #: libicq/country.cpp:211
 msgid "Mauritius"
@@ -826,19 +826,19 @@ msgstr "Mexiko"
 
 #: libicq/country.cpp:214
 msgid "Micronesia, Federated States of"
-msgstr "Mikronesien"
+msgstr "Mikronésie"
 
 #: libicq/country.cpp:215
 msgid "Moldova"
-msgstr "Moldawien"
+msgstr "Modávie"
 
 #: libicq/country.cpp:216
 msgid "Monaco"
-msgstr "Monaco"
+msgstr "Monako"
 
 #: libicq/country.cpp:217
 msgid "Mongolia"
-msgstr "Mongolei"
+msgstr "Mongolsko"
 
 #: libicq/country.cpp:218
 msgid "Montserrat"
@@ -846,7 +846,7 @@ msgstr "Montserrat"
 
 #: libicq/country.cpp:219
 msgid "Morocco"
-msgstr "Marokko"
+msgstr "Maroko"
 
 #: libicq/country.cpp:220
 msgid "Mozambique"
@@ -858,7 +858,7 @@ msgstr "Myanmar"
 
 #: libicq/country.cpp:222
 msgid "Namibia"
-msgstr "Namibia"
+msgstr "Namibie"
 
 #: libicq/country.cpp:223
 msgid "Nauru"
@@ -866,15 +866,15 @@ msgstr "Nauru"
 
 #: libicq/country.cpp:224
 msgid "Nepal"
-msgstr "Nepal"
+msgstr "Nepál"
 
 #: libicq/country.cpp:225
 msgid "Netherlands Antilles"
-msgstr "Niederländische Antillen"
+msgstr "Netherlands Antilles"
 
 #: libicq/country.cpp:226
 msgid "Netherlands"
-msgstr "Niederlande"
+msgstr "Nizozemí"
 
 #: libicq/country.cpp:227
 msgid "Nevis"
@@ -882,11 +882,11 @@ msgstr "Nevis"
 
 #: libicq/country.cpp:228
 msgid "New Caledonia"
-msgstr "Neukaledonien"
+msgstr "Nová Kaledonie"
 
 #: libicq/country.cpp:229
 msgid "New Zealand"
-msgstr "Neuseeland"
+msgstr "Nový Zéland"
 
 #: libicq/country.cpp:230
 msgid "Nicaragua"
@@ -894,11 +894,11 @@ msgstr "Nikaragua"
 
 #: libicq/country.cpp:231
 msgid "Niger"
-msgstr "Niger"
+msgstr "Nigér"
 
 #: libicq/country.cpp:232
 msgid "Nigeria"
-msgstr "Nigeria"
+msgstr "Nigérie"
 
 #: libicq/country.cpp:233
 msgid "Niue"
@@ -906,7 +906,7 @@ msgstr "Niue"
 
 #: libicq/country.cpp:234
 msgid "Norfolk Island"
-msgstr "Norfolkinsel"
+msgstr "Norfolk Island"
 
 #: libicq/country.cpp:235
 msgid "Norway"
@@ -918,7 +918,7 @@ msgstr "Oman"
 
 #: libicq/country.cpp:237
 msgid "Pakistan"
-msgstr "Pakistan"
+msgstr "Pakistán"
 
 #: libicq/country.cpp:238
 msgid "Palau"
@@ -930,7 +930,7 @@ msgstr "Panama"
 
 #: libicq/country.cpp:240
 msgid "Papua New Guinea"
-msgstr "Papua-Neuguinea"
+msgstr "Papua Nová Guinea"
 
 #: libicq/country.cpp:241
 msgid "Paraguay"
@@ -942,7 +942,7 @@ msgstr "Peru"
 
 #: libicq/country.cpp:243
 msgid "Philippines"
-msgstr "Philippinen"
+msgstr "Filipíny"
 
 #: libicq/country.cpp:244
 msgid "Poland"
@@ -950,7 +950,7 @@ msgstr "Polsko"
 
 #: libicq/country.cpp:245
 msgid "Portugal"
-msgstr "Portugal"
+msgstr "Portugalsko"
 
 #: libicq/country.cpp:246
 msgid "Puerto Rico"
@@ -962,11 +962,11 @@ msgstr "Katar"
 
 #: libicq/country.cpp:248
 msgid "Republic of Macedonia"
-msgstr "Republik Mazedonien"
+msgstr "Makedonská republika"
 
 #: libicq/country.cpp:249
 msgid "Reunion Island"
-msgstr "Wiedersehensinsel"
+msgstr "Reunion Island"
 
 #: libicq/country.cpp:250
 msgid "Romania"
@@ -974,7 +974,7 @@ msgstr "Rumunsko"
 
 #: libicq/country.cpp:251
 msgid "Rota Island"
-msgstr "Rotainsel"
+msgstr "Rota Island"
 
 #: libicq/country.cpp:252
 msgid "Russia"
@@ -986,11 +986,11 @@ msgstr "Ruanda"
 
 #: libicq/country.cpp:254
 msgid "Saint Lucia"
-msgstr "St. Licia"
+msgstr "Sv. Lucia"
 
 #: libicq/country.cpp:255
 msgid "Saipan Island"
-msgstr "Saipaninsel"
+msgstr "Saipan Island"
 
 #: libicq/country.cpp:256
 msgid "San Marino"
@@ -998,19 +998,19 @@ msgstr "San Marino"
 
 #: libicq/country.cpp:257
 msgid "Sao Tome and Principe"
-msgstr "Sao Tome und Principe"
+msgstr "Sao Tome and Principe"
 
 #: libicq/country.cpp:258
 msgid "Saudi Arabia"
-msgstr "Saudi Arabien"
+msgstr "Saudská Arábie"
 
 #: libicq/country.cpp:259
 msgid "Senegal Republic"
-msgstr "Republik Senegal"
+msgstr "Senegalská republika"
 
 #: libicq/country.cpp:260
 msgid "Seychelle Islands"
-msgstr "Seychellen"
+msgstr "Seychelské ostrovy"
 
 #: libicq/country.cpp:261
 msgid "Sierra Leone"
@@ -1022,7 +1022,7 @@ msgstr "Singapur"
 
 #: libicq/country.cpp:263
 msgid "Slovak Republic"
-msgstr "Slovenská Republika"
+msgstr "Slovenská republika"
 
 #: libicq/country.cpp:264
 msgid "Slovenia"
@@ -1030,15 +1030,15 @@ msgstr "Slovinsko"
 
 #: libicq/country.cpp:265
 msgid "Solomon Islands"
-msgstr "Salomoninseln"
+msgstr "Solomon Islands"
 
 #: libicq/country.cpp:266
 msgid "Somalia"
-msgstr "Somalia"
+msgstr "Somálsko"
 
 #: libicq/country.cpp:267
 msgid "South Africa"
-msgstr "Südafrika"
+msgstr "Jižní Afrika"
 
 #: libicq/country.cpp:268
 msgid "Spain"
@@ -1050,23 +1050,23 @@ msgstr "Sri Lanka"
 
 #: libicq/country.cpp:270
 msgid "St. Helena"
-msgstr "St. Helena"
+msgstr "Sv. Helena"
 
 #: libicq/country.cpp:271
 msgid "St. Kitts"
-msgstr "St. Kitts"
+msgstr "Sv. Kitts"
 
 #: libicq/country.cpp:272
 msgid "St. Pierre and Miquelon"
-msgstr "St. Pierre und Miquelon"
+msgstr "Sv. Pierre a Miquelon"
 
 #: libicq/country.cpp:273
 msgid "St. Vincent and the Grenadines"
-msgstr "St. Vincent/Grenadinen"
+msgstr "Sv. Vincent a Grenadines"
 
 #: libicq/country.cpp:274
 msgid "Sudan"
-msgstr "Sudan"
+msgstr "Súdán"
 
 #: libicq/country.cpp:275
 msgid "Suriname"
@@ -1074,7 +1074,7 @@ msgstr "Surinam"
 
 #: libicq/country.cpp:276
 msgid "Swaziland"
-msgstr "Swasiland"
+msgstr "Svazijsko"
 
 #: libicq/country.cpp:277
 msgid "Sweden"
@@ -1086,27 +1086,27 @@ msgstr "Švýcarsko"
 
 #: libicq/country.cpp:279
 msgid "Syria"
-msgstr "Syrien"
+msgstr "Sýrie"
 
 #: libicq/country.cpp:280
 msgid "Taiwan, Republic of China"
-msgstr "Taiwan, Republik von China"
+msgstr "Taiwan, Čínská republika"
 
 #: libicq/country.cpp:281
 msgid "Tajikistan"
-msgstr "Tadshikistan"
+msgstr "Tadžikistán"
 
 #: libicq/country.cpp:282
 msgid "Tanzania"
-msgstr "Tansania"
+msgstr "Tanzánie"
 
 #: libicq/country.cpp:283
 msgid "Thailand"
-msgstr "Thailand"
+msgstr "Thajsko"
 
 #: libicq/country.cpp:284
 msgid "Tinian Island"
-msgstr "Tinianinsel"
+msgstr "Tinian Island"
 
 #: libicq/country.cpp:285
 msgid "Togo"
@@ -1122,23 +1122,23 @@ msgstr "Tonga"
 
 #: libicq/country.cpp:288
 msgid "Trinidad and Tobago"
-msgstr "Trinidad und Tobago"
+msgstr "Trinidad a Tobago"
 
 #: libicq/country.cpp:289
 msgid "Tunisia"
-msgstr "Tunesien"
+msgstr "Tunisko"
 
 #: libicq/country.cpp:290
 msgid "Turkey"
-msgstr "Türkei"
+msgstr "Turecko"
 
 #: libicq/country.cpp:291
 msgid "Turkmenistan"
-msgstr "Turkmenistan"
+msgstr "Turkmenistán"
 
 #: libicq/country.cpp:292
 msgid "Turks and Caicos Islands"
-msgstr "Turks- und Caicosinseln"
+msgstr "Turks and Caicos Island"
 
 #: libicq/country.cpp:293
 msgid "Tuvalu"
@@ -1158,7 +1158,7 @@ msgstr "Ukrajina"
 
 #: libicq/country.cpp:297
 msgid "United Arab Emirates"
-msgstr "Vereinigte Arabische Emirate"
+msgstr "Spojené arabské emiráty"
 
 #: libicq/country.cpp:298
 msgid "United Kingdom"
@@ -1166,7 +1166,7 @@ msgstr "Velká Británie"
 
 #: libicq/country.cpp:299
 msgid "United States Virgin Islands"
-msgstr "Vereinigte Staaten Jungferninseln"
+msgstr "Spojené státy - Panenské ostrovy"
 
 #: libicq/country.cpp:300
 msgid "Uruguay"
@@ -1174,7 +1174,7 @@ msgstr "Uruguay"
 
 #: libicq/country.cpp:301
 msgid "Uzbekistan"
-msgstr "Usbekistan"
+msgstr "Uzbekistán"
 
 #: libicq/country.cpp:302
 msgid "Vanuatu"
@@ -1182,7 +1182,7 @@ msgstr "Vanuatu"
 
 #: libicq/country.cpp:303
 msgid "Vatican City"
-msgstr "Vatikan-Stadt"
+msgstr "Vatikán"
 
 #: libicq/country.cpp:304
 msgid "Venezuela"
@@ -1194,11 +1194,11 @@ msgstr "Vietnam"
 
 #: libicq/country.cpp:306
 msgid "Wallis and Futuna Islands"
-msgstr "Wallis und Futuna Inseln"
+msgstr "Wallis and Futuna Islands"
 
 #: libicq/country.cpp:307
 msgid "Western Samoa"
-msgstr "Western Samoa"
+msgstr "Západní Samoa"
 
 #: libicq/country.cpp:308
 msgid "Yemen"
@@ -1210,15 +1210,15 @@ msgstr "Jugoslávie"
 
 #: libicq/country.cpp:310
 msgid "Zaire"
-msgstr "Zaire"
+msgstr "Zair"
 
 #: libicq/country.cpp:311
 msgid "Zambia"
-msgstr "Sambia"
+msgstr "Zambie"
 
 #: libicq/country.cpp:312
 msgid "Zimbabwe"
-msgstr "Simbabwe"
+msgstr "Zimbabwe"
 
 #: libicq/country.cpp:331
 msgid "Art"
@@ -1478,7 +1478,7 @@ msgstr "Sebevzdělávání"
 
 #: libicq/country.cpp:400
 msgid "Spiritual/Religious Org."
-msgstr "Spiriruell/Religöse Org."
+msgstr "Náboženské spolky"
 
 #: libicq/country.cpp:401
 msgid "Sports Org."
@@ -1522,7 +1522,7 @@ msgstr "Vysokoškolský student"
 
 #: libicq/country.cpp:417
 msgid "Community & Social"
-msgstr "Gemeinschaft & Soziales"
+msgstr "Společnost"
 
 #: libicq/country.cpp:418
 msgid "Education"
@@ -1530,11 +1530,11 @@ msgstr "Výzkum"
 
 #: libicq/country.cpp:419
 msgid "Engineering"
-msgstr "Ingenieurwesen"
+msgstr "Inženýrství"
 
 #: libicq/country.cpp:420
 msgid "Financial Services"
-msgstr "Finanzdienstleistungen"
+msgstr "Finanční služby"
 
 #: libicq/country.cpp:422
 msgid "High School Student"
@@ -1546,19 +1546,19 @@ msgstr "V domácnosti"
 
 #: libicq/country.cpp:425
 msgid "Law"
-msgstr "Recht"
+msgstr "Právo"
 
 #: libicq/country.cpp:426
 msgid "Managerial"
-msgstr "Geschäftsführer"
+msgstr "Řízení"
 
 #: libicq/country.cpp:427
 msgid "Manufacturing"
-msgstr "Fertigung"
+msgstr "Ruční práce"
 
 #: libicq/country.cpp:428
 msgid "Medical/Health"
-msgstr "Medizin/Gesundheit"
+msgstr "Medicína/Zdravotnictví"
 
 #: libicq/country.cpp:429 libicq/country.cpp:449
 msgid "Military"
@@ -1566,11 +1566,11 @@ msgstr "Vojenctví"
 
 #: libicq/country.cpp:430
 msgid "Non-Goverment Organisation"
-msgstr "Nicht-Regierungsorganisation"
+msgstr "Nestátní organizace"
 
 #: libicq/country.cpp:431
 msgid "Other services"
-msgstr "Andere Dienstleistungen"
+msgstr "Ostatní služby"
 
 #: libicq/country.cpp:432
 msgid "Professional"
@@ -1578,11 +1578,11 @@ msgstr "Profesionál"
 
 #: libicq/country.cpp:433
 msgid "Retail"
-msgstr "Einzelhandelsverkäufer"
+msgstr "Maloobchod"
 
 #: libicq/country.cpp:434
 msgid "Retired"
-msgstr "Pensionär"
+msgstr "V důchodu"
 
 #: libicq/country.cpp:435
 msgid "Science & Research"
@@ -1618,11 +1618,11 @@ msgstr "Univerzita"
 
 #: libicq/country.cpp:450
 msgid "Past Work Place"
-msgstr "Vorheriger Arbeitsplatz"
+msgstr "Po práci"
 
 #: libicq/country.cpp:451
 msgid "Past Organization"
-msgstr "Dřívější společnost"
+msgstr "Minulá společnost"
 
 #: libicq/country.cpp:458
 msgid "Female"
@@ -1718,9 +1718,8 @@ msgid "Setup"
 msgstr "Nastavení"
 
 #: mainwin.cpp:532 mainwin.cpp:2686 monitor.cpp:59
-#, fuzzy
 msgid "Network monitor"
-msgstr "Síť"
+msgstr "Síťový monitor"
 
 #: mainwin.cpp:613
 msgid "Current location"
@@ -1941,7 +1940,7 @@ msgstr "Všechno sbalit"
 
 #: mainwin.cpp:2660 toolbtn.cpp:684
 msgid "Customize toolbar..."
-msgstr ""
+msgstr "Přizpůsobit nástrojovou lištu"
 
 #: mainwin.cpp:2663
 msgid "ICQ"
@@ -1961,7 +1960,7 @@ msgstr "Viditelný neustále"
 
 #: mainwin.cpp:2683
 msgid "Synchronize with KDE address book"
-msgstr ""
+msgstr "Synchronizovat s KDE adresářem"
 
 #: mainwin.cpp:2687
 msgid "&Bug report"
@@ -2271,7 +2270,7 @@ msgid ""
 "to do mail thd@kde.org and coolo@kde.org, they will tell you. Better leave "
 "that out if unsure, the programs will crash!!\n"
 "Definition of PluralForm - to be set by the translator of kdelibs.po"
-msgstr "TwoForms"
+msgstr "NoPlural"
 
 #: sim.cpp:288
 msgid "SIM"
@@ -2279,7 +2278,7 @@ msgstr "SIM"
 
 #: sim.cpp:290
 msgid "ICQ client"
-msgstr "ICQ Klient"
+msgstr "ICQ klient"
 
 #: sim.cpp:297
 msgid "Maintainer"
@@ -2287,7 +2286,7 @@ msgstr "Vedoucí"
 
 #: sim.cpp:304
 msgid "Directory for files"
-msgstr "Adresář pro sooubory"
+msgstr "Adresář pro soubory"
 
 #: sim.cpp:305
 msgid "Loglevel"
@@ -2295,7 +2294,7 @@ msgstr "Úroveň logování"
 
 #: sim.cpp:306
 msgid "Control socket"
-msgstr ""
+msgstr "Řídící soket"
 
 #: themes.cpp:123 themes.cpp:132
 msgid "Default style"
@@ -2306,9 +2305,8 @@ msgid "Message"
 msgstr "Zpráva"
 
 #: userbox.cpp:108
-#, fuzzy
 msgid "User"
-msgstr "Uživatelé"
+msgstr "Uživatel"
 
 #: userbox.cpp:110
 msgid "Add to ignore &list"
@@ -2320,7 +2318,7 @@ msgstr "Přesunout do &skupiny"
 
 #: userbox.cpp:113
 msgid "User &info"
-msgstr "Benutzer&information"
+msgstr "Uživatelské&informace"
 
 #: userbox.cpp:114
 msgid "&History<br>with CTRL open in new window"
@@ -2335,9 +2333,8 @@ msgid "Close user &window"
 msgstr "Zavřít uživatelovo &okno"
 
 #: userbox.cpp:260
-#, fuzzy
 msgid "All encodings"
-msgstr "&Kódování"
+msgstr "Kódování"
 
 #: userbox.cpp:352
 msgid "All users"
@@ -2498,9 +2495,8 @@ msgid "*.wav(Sounds)"
 msgstr "*.wav (Zvuky)"
 
 #: ui/enable.cpp:123 ui/setupdlgbase.cpp:95 ui/toolsetupbase.cpp:107
-#, fuzzy
 msgid "&Apply"
-msgstr "Použít"
+msgstr "&Použít"
 
 #: ui/enable.cpp:123 ui/logindlgbase.cpp:87
 msgid "&Register"
@@ -2758,11 +2754,11 @@ msgstr "Nahlášení chyb (Bug)"
 
 #: ui/toolsetupbase.cpp:34
 msgid "Toolbar setup"
-msgstr ""
+msgstr "Nastavení nástrojových lišt"
 
 #: ui/toolsetupbase.cpp:42
 msgid "All buttons:"
-msgstr ""
+msgstr "Všechna tlačítka"
 
 #: ui/keysetupbase.cpp:109 ui/phonebookbase.cpp:87 ui/setupdlgbase.cpp:73
 #: ui/themesetupbase.cpp:78 ui/themesetupbase.cpp:90 ui/toolsetupbase.cpp:46
@@ -2771,29 +2767,24 @@ msgid "New Item"
 msgstr "Nová položka"
 
 #: ui/toolsetupbase.cpp:55
-#, fuzzy
 msgid "&Add ->"
-msgstr "&Přidat"
+msgstr "&Přidat ->"
 
 #: ui/toolsetupbase.cpp:59
-#, fuzzy
 msgid "<- &Remove"
-msgstr "Odebrat"
+msgstr "<- Odeb&rat"
 
 #: ui/toolsetupbase.cpp:68
-#, fuzzy
 msgid "Active:"
-msgstr "Akce:"
+msgstr "Aktivní:"
 
 #: ui/toolsetupbase.cpp:81
-#, fuzzy
 msgid "&Up"
-msgstr "Nahoru"
+msgstr "Nahor&u"
 
 #: ui/toolsetupbase.cpp:85
-#, fuzzy
 msgid "&Down"
-msgstr "Dolů"
+msgstr "&Dolů"
 
 #: ui/securedlg.cpp:55
 msgid "[Failed]"
@@ -2813,7 +2804,7 @@ msgstr "Email:"
 
 #: ui/moreinfobase.cpp:107 ui/searchbase.cpp:126
 msgid "Age:"
-msgstr "Stáří"
+msgstr "Stáří:"
 
 #: ui/searchbase.cpp:136
 msgid "Language:"
@@ -2896,9 +2887,8 @@ msgid "Host:"
 msgstr "Host:"
 
 #: ui/networkbase.cpp:108
-#, fuzzy
 msgid "&Server"
-msgstr "Server"
+msgstr "&Server"
 
 #: ui/networkbase.cpp:116 ui/proxydlgbase.cpp:73
 msgid "Use proxy"
@@ -2913,9 +2903,8 @@ msgid "Proxy port:"
 msgstr "Proxy-port:"
 
 #: ui/networkbase.cpp:155
-#, fuzzy
 msgid "Use proxy authorization"
-msgstr "Autorizace uživatele na proxy"
+msgstr "Na proxy použít autorizaci"
 
 #: ui/networkbase.cpp:163 ui/proxydlgbase.cpp:109
 msgid "Proxy user:"
@@ -2926,9 +2915,8 @@ msgid "Proxy password:"
 msgstr "Proxy - heslo:"
 
 #: ui/networkbase.cpp:187
-#, fuzzy
 msgid "&Proxy"
-msgstr "Proxy"
+msgstr "&Proxy"
 
 #: ui/networkbase.cpp:193
 msgid "Use the following TCP listen ports:"
@@ -2943,13 +2931,12 @@ msgid "To:"
 msgstr "Do:"
 
 #: ui/networkbase.cpp:218
-#, fuzzy
 msgid "P&orts"
-msgstr "Port:"
+msgstr "P&orty"
 
 #: ui/proxydlgbase.cpp:37
 msgid "Proxy settings"
-msgstr "nastavení Proxy"
+msgstr "Nastavení proxy"
 
 #: ui/proxydlgbase.cpp:63
 msgid "Proxy"
@@ -2986,9 +2973,8 @@ msgstr ""
 "&MyUin; - vlastní UIN"
 
 #: ui/smssetupbase.cpp:93
-#, fuzzy
 msgid "&Signature"
-msgstr "SMS-podpis"
+msgstr "Podpi&s"
 
 #: ui/forwardsetupbase.cpp:89 ui/smssetupbase.cpp:99
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
@@ -3058,9 +3044,8 @@ msgid "Send messages on \"Enter\""
 msgstr "Poslat zprávu stiskem \"Enter\""
 
 #: ui/keysetupbase.cpp:130
-#, fuzzy
 msgid "&Key"
-msgstr "Klávesy"
+msgstr "&Klávesy"
 
 #: ui/xosdbase.cpp:109
 msgid "Notify On Screen"
@@ -3127,18 +3112,16 @@ msgid "Override global settings"
 msgstr "Potlačit globální nastavení"
 
 #: ui/acceptbase.cpp:109 ui/msgbase.cpp:94
-#, fuzzy
 msgid "Automaitcaly open window"
-msgstr "Automaticky otevřít všechny zprávy"
+msgstr "Automaticky otevřít okno"
 
 #: ui/acceptbase.cpp:113 ui/msgbase.cpp:98
 msgid "Run external program"
-msgstr ""
+msgstr "Spustit externí program"
 
 #: ui/acceptbase.cpp:120
-#, fuzzy
 msgid "&Message"
-msgstr "Zpráva"
+msgstr "&Zpráva"
 
 #: ui/acceptbase.cpp:130
 msgid "Path for incoming files:"
@@ -3161,9 +3144,8 @@ msgid "Auto decline"
 msgstr "Automatické odmítnutí"
 
 #: monitor.cpp:70 ui/acceptbase.cpp:163
-#, fuzzy
 msgid "&File"
-msgstr "Soubor"
+msgstr "S&oubor"
 
 #: ui/filetransferbase.cpp:37
 msgid "File transfer"
@@ -3195,7 +3177,7 @@ msgstr "Po odeslání zavřít"
 
 #: ui/fontsetupbase.cpp:105
 msgid "Mode"
-msgstr ""
+msgstr "Mód"
 
 #: ui/fontsetupbase.cpp:113
 msgid "Split mode (&Chat style)"
@@ -3206,17 +3188,16 @@ msgid "Simple mode (&Plain style)"
 msgstr "Jednoduchý mód (styl &jednoho okna)"
 
 #: ui/fontsetupbase.cpp:123
-#, fuzzy
 msgid "Copy"
-msgstr "Firma:"
+msgstr "Zkopírovat"
 
 #: ui/fontsetupbase.cpp:130
 msgid "last messages from history to conversation"
-msgstr ""
+msgstr "poslední zprávy(u) z historie do konverzace"
 
 #: ui/fontsetupbase.cpp:138
 msgid "Open"
-msgstr ""
+msgstr "Otevřít"
 
 #: ui/fontsetupbase.cpp:146
 msgid "&Each user in new container"
@@ -3231,13 +3212,12 @@ msgid "&All users in one container"
 msgstr "&Všichni uživatelé v jednom kontejneru"
 
 #: ui/fontsetupbase.cpp:159
-#, fuzzy
 msgid "&User window"
-msgstr "&Informace o uživateli"
+msgstr "&Uživatelovo okno"
 
 #: ui/fontsetupbase.cpp:165
 msgid "&Use systems fonts"
-msgstr "Použít &systémová písma"
+msgstr "Po&užít systémová písma"
 
 #: ui/fontsetupbase.cpp:169
 msgid "Base font"
@@ -3252,9 +3232,8 @@ msgid "Fonts"
 msgstr "Písma"
 
 #: ui/fontsetupbase.cpp:189
-#, fuzzy
 msgid "Use &own colors and fonts settings"
-msgstr "V historii použít &vlastní barvy"
+msgstr "P&oužít vlastní barvy"
 
 #: ui/fontsetupbase.cpp:199
 msgid "Received messages color"
@@ -3265,9 +3244,8 @@ msgid "Sending messages color"
 msgstr "Barva zasílaných zpráv"
 
 #: ui/fontsetupbase.cpp:217
-#, fuzzy
 msgid "&Colors"
-msgstr "Barvy"
+msgstr "&Barvy"
 
 #: ui/emaileditbase.cpp:36
 msgid "Edit Email"
@@ -3294,9 +3272,8 @@ msgid "Past background:"
 msgstr "V minulosti"
 
 #: ui/pastinfobase.cpp:137
-#, fuzzy
 msgid "&Background"
-msgstr "Pozadí"
+msgstr "&Pozadí"
 
 #: ui/autoreplybase.cpp:34
 msgid "Autoreply message"
@@ -3324,7 +3301,7 @@ msgstr "Nezobrazovat dialog se zprávou"
 
 #: ui/listsecbase.cpp:101 ui/msgdialogbase.cpp:81
 msgid "Tab 1"
-msgstr ""
+msgstr "Tab 1"
 
 #: ui/alertdialogbase.cpp:105
 msgid "Override global alert"
@@ -3363,14 +3340,12 @@ msgid "Write to history"
 msgstr "Zapisovat do historie"
 
 #: ui/alertdialogbase.cpp:145
-#, fuzzy
 msgid "&Alert"
-msgstr "Výstraha"
+msgstr "Výstrah&a"
 
 #: ui/alertdialogbase.cpp:228
-#, fuzzy
 msgid "On Screen"
-msgstr "Oznamování na obrazovce"
+msgstr "Na obrazovce"
 
 #: ui/addphonebase.cpp:68
 msgid "Add phone"
@@ -3410,9 +3385,8 @@ msgid "Form2"
 msgstr "Form 2"
 
 #: ui/interestsinfobase.cpp:110
-#, fuzzy
 msgid "&Interests"
-msgstr "Zájmy"
+msgstr "Zájm&y"
 
 #: ui/logindlg.cpp:127
 msgid "Unknown login error"
@@ -3455,9 +3429,8 @@ msgid "Email client:"
 msgstr "Email klient:"
 
 #: ui/miscsetupbase.cpp:114
-#, fuzzy
 msgid "&Miscelanious"
-msgstr "Různé"
+msgstr "&Různé"
 
 #: ui/pagerbase.cpp:76
 msgid "Provider:"
@@ -3484,49 +3457,40 @@ msgid "Message:"
 msgstr "Zpráva:"
 
 #: ui/soundsetupbase.cpp:175
-#, fuzzy
 msgid "SMS:"
-msgstr "SMS"
+msgstr "SMS:"
 
 #: ui/soundsetupbase.cpp:181
-#, fuzzy
 msgid "Authorization:"
-msgstr "Autorizace"
+msgstr "Autorizace:"
 
 #: ui/soundsetupbase.cpp:187
-#, fuzzy
 msgid "Online alert:"
-msgstr "Online výstraha"
+msgstr "Online výstraha:"
 
 #: ui/soundsetupbase.cpp:193
-#, fuzzy
 msgid "Incoming file:"
-msgstr "Přijímaný soubor"
+msgstr "Přijímaný soubor:"
 
 #: ui/soundsetupbase.cpp:199
-#, fuzzy
 msgid "File transfer done:"
-msgstr "Přenos souboru dokončen"
+msgstr "Přenos souboru dokončen:"
 
 #: ui/soundsetupbase.cpp:205
-#, fuzzy
 msgid "Chat Request:"
-msgstr "Žádost chatu"
+msgstr "Žádost chatu:"
 
 #: ui/soundsetupbase.cpp:211
-#, fuzzy
 msgid "Startup sound:"
-msgstr "Startovací zvuk"
+msgstr "Startovací zvuk:"
 
 #: ui/soundsetupbase.cpp:217
-#, fuzzy
 msgid "Program for play:"
-msgstr "Program pro přehrávání"
+msgstr "Program pro přehrávání:"
 
 #: ui/soundsetupbase.cpp:220
-#, fuzzy
 msgid "&Sounds"
-msgstr "Zvuk"
+msgstr "&Zvuky"
 
 #: ui/phonebookbase.cpp:76
 msgid "User is currently available at:"
@@ -3545,23 +3509,20 @@ msgid "&Delete"
 msgstr "&Smazat"
 
 #: ui/phonebookbase.cpp:107
-#, fuzzy
 msgid "&Phonebook"
-msgstr "Telefonní seznam"
+msgstr "&Telefonní seznam"
 
 #: ui/spellsetupbase.cpp:81
 msgid "Check all messages on send"
 msgstr "Kontrolovat všechny zprávy před odesláním"
 
 #: ui/spellsetupbase.cpp:91
-#, fuzzy
 msgid "&Spell check"
-msgstr "Pravopis"
+msgstr "&Pravopis"
 
 #: ui/setupdlgbase.cpp:85
-#, fuzzy
 msgid "&Update"
-msgstr "Aktualizace"
+msgstr "Akt&ualizace"
 
 #: ui/homeinfobase.cpp:87 ui/workinfobase.cpp:78
 msgid "Address:"
@@ -3580,9 +3541,8 @@ msgid "Web site:"
 msgstr "Web:"
 
 #: ui/workinfobase.cpp:151
-#, fuzzy
 msgid "&Company"
-msgstr "Firma:"
+msgstr "&Firma:"
 
 #: ui/workinfobase.cpp:157
 msgid "Occupation:"
@@ -3597,9 +3557,8 @@ msgid "Position:"
 msgstr "Pozice:"
 
 #: ui/workinfobase.cpp:187
-#, fuzzy
 msgid "&Occupation"
-msgstr "Povolání:"
+msgstr "P&ovolání:"
 
 #: ui/userautoreply.cpp:51
 msgid "%1 autoresponse for %2"
@@ -3622,9 +3581,8 @@ msgid "Select style:"
 msgstr "Vybrat styl:"
 
 #: ui/themesetupbase.cpp:80
-#, fuzzy
 msgid "&Style"
-msgstr "Styl"
+msgstr "&Styl"
 
 #: ui/themesetupbase.cpp:86
 msgid "Icons:"
@@ -3635,9 +3593,8 @@ msgid "Add icons"
 msgstr "Přidat ikony"
 
 #: ui/themesetupbase.cpp:101
-#, fuzzy
 msgid "&Icons"
-msgstr "Ikony:"
+msgstr "&Ikony"
 
 #: ui/themesetupbase.cpp:107
 msgid "Transparent main window"
@@ -3656,9 +3613,8 @@ msgid "Transparent only if inactive"
 msgstr "Průhlednost pouze při neaktivitě"
 
 #: ui/themesetupbase.cpp:135
-#, fuzzy
 msgid "&Transparency"
-msgstr "Průhlednost"
+msgstr "Průhlednos&t"
 
 #: ui/themesetupbase.cpp:141
 msgid "Show main window in task manager"
@@ -3678,28 +3634,26 @@ msgstr "Použít WindowMaker aplet"
 
 #: ui/themesetupbase.cpp:157
 msgid "User window stays on &top"
-msgstr "Okno uživatelů zůstává &nahoře"
+msgstr "Okno uživatelů zůs&tává nahoře"
 
 #: ui/themesetupbase.cpp:161
 msgid "&Show splash window"
-msgstr "&Zobrazovat startovací okno"
+msgstr "Zobrazovat &startovací okno"
 
 #: ui/themesetupbase.cpp:165
 msgid "Use emotional &icons"
-msgstr "Použít e&mocionální ikony"
+msgstr "Použít emocionální &ikony (smajlíky)"
 
 #: ui/themesetupbase.cpp:169
-#, fuzzy
 msgid "&Miscellaneous"
-msgstr "Různé"
+msgstr "&Různé"
 
 #: ui/statussetupbase.cpp:75
 msgid "Hide main window after"
 msgstr "Schovat hlavní okno po"
 
 #: ui/statussetupbase.cpp:88
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Zakázat online výstrahu pro \"Away\", \"N/A\", \"DND\" a \"Occupied\" "
 "seznam"
@@ -3725,9 +3679,8 @@ msgid "Set \"N/A\" status after"
 msgstr "Nastavit \"N/A\" status po"
 
 #: ui/statussetupbase.cpp:127
-#, fuzzy
 msgid "&Status"
-msgstr "Stav"
+msgstr "&Stav"
 
 #: ui/moreinfobase.cpp:75
 msgid "Homepage:"
@@ -3750,18 +3703,16 @@ msgid "Birth date:"
 msgstr "Datum narození:"
 
 #: ui/moreinfobase.cpp:156
-#, fuzzy
 msgid "&More info"
-msgstr "Ostatní"
+msgstr "&Ostatní"
 
 #: ui/moreinfobase.cpp:162
 msgid "Spoken languages:"
 msgstr "Jazyky:"
 
 #: ui/moreinfobase.cpp:175
-#, fuzzy
 msgid "&Languages"
-msgstr "Jazyk:"
+msgstr "&Jazyk:"
 
 #: ui/maininfobase.cpp:66
 msgid "Form5"
@@ -3784,9 +3735,8 @@ msgid "Encoding:"
 msgstr "Kódování:"
 
 #: ui/maininfobase.cpp:209
-#, fuzzy
 msgid "&Names"
-msgstr "Jména"
+msgstr "&Jména"
 
 #: ui/maininfobase.cpp:215
 msgid "Email addresses:"
@@ -3809,23 +3759,20 @@ msgid "Set as default"
 msgstr "Nastavit jako výchozí"
 
 #: ui/maininfobase.cpp:243
-#, fuzzy
 msgid "&EMail"
-msgstr "Email"
+msgstr "&Email"
 
 #: ui/homeinfobase.cpp:138
 msgid "Time zone:"
 msgstr "Časová zóna:"
 
 #: ui/homeinfobase.cpp:147
-#, fuzzy
 msgid "&Home info"
-msgstr "Domov"
+msgstr "&Domov"
 
 #: ui/generalsecbase.cpp:76
 msgid "My &authorization is required before users add me to Contact List"
-msgstr ""
-"Má &autorizace je vyžadována před přidáním uživatele do kontaktlistu"
+msgstr "Má &autorizace je vyžadována před přidáním uživatele do kontaktlistu"
 
 #: ui/generalsecbase.cpp:80
 msgid "Don't show my &IP-address"
@@ -3856,9 +3803,8 @@ msgid "Allow direct connection from user &upon authorization"
 msgstr "Povolit přímé připojení uživatelů po &autorizaci"
 
 #: ui/generalsecbase.cpp:113
-#, fuzzy
 msgid "&Security"
-msgstr "Bezpečnost"
+msgstr "&Bezpečnost"
 
 #: ui/generalsecbase.cpp:119
 msgid "Reject &messages from unknown users"
@@ -3882,7 +3828,7 @@ msgstr "Odmítnout &ostatní zprávy"
 
 #: ui/generalsecbase.cpp:139
 msgid "&Reject"
-msgstr ""
+msgstr "&Odmítnout"
 
 #: ui/generalsecbase.cpp:145
 msgid "Reject messages from unknown users contains this words or phrases:"
@@ -3891,7 +3837,6 @@ msgstr ""
 "výrazy:"
 
 #: ui/generalsecbase.cpp:152
-#, fuzzy
 msgid ""
 "Words are divided by any separators (space, comma, i.e.)\n"
 "Phrase (sequence of words) consists in quotas\n"
@@ -3903,12 +3848,11 @@ msgstr ""
 "Výrazy (posloupnost slov) spočívají v kvótách\n"
 "Slova mohou obsahovat značky :\n"
 "* - jeden ze znaků (nebo \"prázdý znak\")\n"
-"? - jakýkoli symbol\n"
+"? - jakýkoli symbol"
 
 #: ui/generalsecbase.cpp:158
-#, fuzzy
 msgid "Spam &filter"
-msgstr "&Filtr"
+msgstr "Spam &filtr"
 
 #: ui/changepasswdbase.cpp:97 ui/generalsecbase.cpp:165
 msgid "New password:"
@@ -3919,9 +3863,8 @@ msgid "Retype new password:"
 msgstr "Nové heslo (znovu):"
 
 #: ui/generalsecbase.cpp:186
-#, fuzzy
 msgid "&Password"
-msgstr "Heslo"
+msgstr "&Heslo"
 
 #: ui/aboutinfobase.cpp:63
 msgid "Form4"
@@ -3932,18 +3875,16 @@ msgid "Additional information about user:"
 msgstr "Doplňující informace o uživateli:"
 
 #: ui/aboutinfobase.cpp:77
-#, fuzzy
 msgid "A&bout"
-msgstr "O ..."
+msgstr "&O ..."
 
 #: ui/aboutinfobase.cpp:83
 msgid "My notes:"
-msgstr ""
+msgstr "Moje poznámky"
 
 #: ui/aboutinfobase.cpp:88
-#, fuzzy
 msgid "&Notes"
-msgstr "Poznámky"
+msgstr "Poz&námky"
 
 #: ui/changepasswdbase.cpp:77
 msgid "Change password"
@@ -3967,7 +3908,7 @@ msgstr ""
 
 #: ui/toolsetup.cpp:63 ui/toolsetup.cpp:133 ui/toolsetup.cpp:160
 msgid "Separator"
-msgstr ""
+msgstr "Oddělovač"
 
 #: about.cpp:280
 msgid "replace this with information about your translation team"
@@ -3992,9 +3933,8 @@ msgid "Central European"
 msgstr "Středoevropský"
 
 #: client.cpp:65
-#, fuzzy
 msgid "Chinese "
-msgstr "Čínsky"
+msgstr "Čínský"
 
 #: client.cpp:66
 msgid "Chinese Simplified"
@@ -4047,7 +3987,7 @@ msgstr ""
 
 #: client.cpp:292
 msgid "We'd love to hear what you have to say. Join our chat.\n"
-msgstr "Chceme slyšet co si myslíš. Zkus náš chat.\n"
+msgstr "Zkus náš chat.\n"
 
 #: client.cpp:963
 #, c-format
@@ -4248,25 +4188,22 @@ msgid ""
 msgstr "Ctrl+F"
 
 #: client.cpp:1014
-#, fuzzy
 msgid ""
 "_: Ctrl+L\n"
 "URL"
-msgstr "Ctrl+U"
+msgstr "Ctrl+L"
 
 #: client.cpp:1016
-#, fuzzy
 msgid ""
 "_: Ctrl+R\n"
 "AuthRequest"
-msgstr "Ctrl+A"
+msgstr "Ctrl+R"
 
 #: client.cpp:1018
-#, fuzzy
 msgid ""
 "_: Ctrl+T\n"
 "Contacts"
-msgstr "Ctrl+C"
+msgstr "Ctrl+T"
 
 #: client.cpp:1020
 msgid ""
@@ -4301,118 +4238,104 @@ msgid "Away"
 msgstr "Pryč (Away)"
 
 #: monitor.cpp:67
-#, fuzzy
 msgid "&Save"
-msgstr "Uložit"
+msgstr "U&ložit"
 
 #: monitor.cpp:69
-#, fuzzy
 msgid "E&xit"
-msgstr "Upravit"
+msgstr "&Konec"
 
 #: monitor.cpp:73
-#, fuzzy
 msgid "&Copy"
-msgstr "Firma:"
+msgstr "&Kopírovat"
 
 #: monitor.cpp:74
-#, fuzzy
 msgid "&Erase"
-msgstr "Smazat"
+msgstr "S&mazat"
 
 #: monitor.cpp:79
 msgid "&Packets"
-msgstr ""
+msgstr "&Paketů"
 
 #: monitor.cpp:80
 msgid "&Debug"
-msgstr ""
+msgstr "&Debug"
 
 #: monitor.cpp:81
-#, fuzzy
 msgid "&Warnings"
-msgstr "Rodičovství"
+msgstr "&Varování"
 
 #: monitor.cpp:82
 msgid "&Error"
-msgstr ""
+msgstr "&Chyb"
 
 #: monitor.cpp:83
-#, fuzzy
 msgid "&Log"
-msgstr "Login"
+msgstr "&Log"
 
 #: monitor.cpp:133
 msgid "Error"
-msgstr ""
+msgstr "Chyba"
 
 #: monitor.cpp:133
-#, fuzzy, c-format
+#, c-format
 msgid "Can't create file %1"
-msgstr "Nemohu vytvořit %1"
+msgstr "Nemohu vytvořit soubor %1"
 
 #: control.cpp:188
-#, fuzzy
 msgid "set status"
-msgstr "Stav telefonu"
+msgstr "Stav"
 
 #: control.cpp:189
-#, fuzzy
 msgid "set invisible mode"
-msgstr "Do neviditelných"
+msgstr "Nastavit neviditelný mód"
 
 #: control.cpp:190
-#, fuzzy
 msgid "send message"
-msgstr "&Nová zpráva"
+msgstr "poslat zprávu"
 
 #: control.cpp:191
-#, fuzzy
 msgid "send SMS"
-msgstr "Poslat SMS"
+msgstr "poslat SMS"
 
 #: control.cpp:192
-#, fuzzy
 msgid "show/hide main window"
-msgstr "Ukázat/Skrýt hlavní okno"
+msgstr "zobrazit/skrýt hlavní okno"
 
 #: control.cpp:193
-#, fuzzy
 msgid "show/hide search window"
-msgstr "Zobrazit okno pro hledání"
+msgstr "zobrazit/skrýt okno pro hledání"
 
 #: control.cpp:194
-#, fuzzy
 msgid "show/hide dock"
-msgstr "Použít dokování"
+msgstr "zobrazit/skrýt dok"
 
 #: control.cpp:195
-#, fuzzy
 msgid "quit SIM"
-msgstr "O SIMu"
+msgstr "Konec SIMu"
 
 #: control.cpp:196
 msgid "close session"
-msgstr ""
+msgstr "zavřít sezení"
 
 #: control.cpp:197
 msgid "command help information"
-msgstr ""
+msgstr "informace o příkazech"
 
 #: control.cpp:258
 #, c-format
 msgid "? Unknown command %1"
-msgstr ""
+msgstr "? Neznámý příkaz %1"
 
 #: control.cpp:266
 #, c-format
 msgid "? Bad arguments number. Try help %1"
-msgstr ""
+msgstr "? Chyba v počtu argumentů: Zkus help %1"
 
 #: control.cpp:281
 #, c-format
 msgid "? Unknown status %1"
-msgstr ""
+msgstr "? Neznámý stav %1"
 
 #~ msgid "Autoreply message for status \"%1\""
 #~ msgstr "Automatická odpověď pro \"%1\""
@@ -4537,3 +4460,4 @@ msgstr ""
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
