@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2002-10-19 18:41+0400\n"
-"PO-Revision-Date: 2002-10-18 12:49GMT\n"
-"Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
-"Language-Team: deutsch <de@li.org>\n"
+"PO-Revision-Date: 2002-10-20 15:17GMT\n"
+"Last-Translator: Crissi <crissi99@gmx.de>\n"
+"Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1696,19 +1696,16 @@ msgid "Phone Book"
 msgstr "Adreßbuch"
 
 #: mainwin.cpp:374
-#, fuzzy
 msgid "Show &offline"
-msgstr "Offline anzeigen"
+msgstr "&Offline anzeigen"
 
 #: mainwin.cpp:378
-#, fuzzy
 msgid "&Group mode"
-msgstr "Gruppenmodus"
+msgstr "&Gruppenmodus"
 
 #: mainwin.cpp:390
-#, fuzzy
 msgid "&Menu"
-msgstr "Menü"
+msgstr "&Menü"
 
 #: mainwin.cpp:857
 msgid "%1 from %2 received"
@@ -1767,22 +1764,24 @@ msgid "Delete"
 msgstr "Löschen"
 
 #: mainwin.cpp:1630 userview.cpp:553 userview.cpp:1338
-#, fuzzy
 msgid ""
 "_: Del\n"
 "Delete"
-msgstr "Löschen"
+msgstr ""
+"Löschen\n"
+"Löschen"
 
 #: mainwin.cpp:1634
-#, fuzzy
 msgid "&User info"
-msgstr "Benutzerinformation"
+msgstr "&Benutzerinformation"
 
 #: mainwin.cpp:1635
 msgid ""
 "_: Ctrl+U\n"
 "UserInfo"
 msgstr ""
+"Strg+U\n"
+"Benutzerinformation"
 
 #: mainwin.cpp:1636
 msgid "&History"
@@ -1793,6 +1792,8 @@ msgid ""
 "_: Ctrl+H\n"
 "History"
 msgstr ""
+"Strg+H\n"
+"Verlauf"
 
 #: mainwin.cpp:1639 ui/alertdialogbase.cpp:81 ui/setupdlg.cpp:143
 #: ui/userinfo.cpp:88
@@ -1804,6 +1805,8 @@ msgid ""
 "_: Ctrl+L\n"
 "Alert"
 msgstr ""
+"Strg+L\n"
+"Alarm"
 
 #: mainwin.cpp:1641 ui/acceptbase.cpp:137
 msgid "Accept mode"
@@ -1814,6 +1817,8 @@ msgid ""
 "_: Ctrl+A\n"
 "Accept"
 msgstr ""
+"Ctrl+A\n"
+"Akzeptieren"
 
 #: mainwin.cpp:1643 ui/setupdlg.cpp:141 ui/soundsetupbase.cpp:106
 #: ui/userinfo.cpp:90
@@ -1825,6 +1830,8 @@ msgid ""
 "_: Ctrl+S\n"
 "Sound"
 msgstr ""
+"Strg+S\n"
+"Klang"
 
 #: mainwin.cpp:1647
 msgid "Floating off"
@@ -1839,6 +1846,8 @@ msgid ""
 "_: Ctrl+T\n"
 "Floating"
 msgstr ""
+"Strg+T\n"
+"Floating"
 
 #: mainwin.cpp:1651
 msgid "Users"
@@ -1855,17 +1864,20 @@ msgid ""
 "_: Ctrl+C\n"
 "Close"
 msgstr ""
+"Strg+C\n"
+"Schließen"
 
 #: mainwin.cpp:1655
 msgid "Alphabetically sort"
 msgstr "Alphabetisch sortieren"
 
 #: mainwin.cpp:1656
-#, fuzzy
 msgid ""
 "_: Ctrl+B\n"
 "Alphabetically sort"
-msgstr "Alphabetisch sortieren"
+msgstr ""
+"Strg+B\b"
+"Alphabetisch sortieren"
 
 #: mainwin.cpp:1885
 msgid "Delete %1?"
@@ -2014,39 +2026,32 @@ msgid "Enter a decline reason"
 msgstr "Ablehungsgrund eingeben"
 
 #: msgedit.cpp:120
-#, fuzzy
 msgid "Bac&kground color"
-msgstr "Hintergrundfarbe"
+msgstr "&Hintergrundfarbe"
 
 #: msgedit.cpp:126
-#, fuzzy
 msgid "&Text color"
-msgstr "Textfarbe"
+msgstr "&Textfarbe"
 
 #: msgedit.cpp:132
-#, fuzzy
 msgid "&Bold"
-msgstr "Fett"
+msgstr "&Fett"
 
 #: msgedit.cpp:139
-#, fuzzy
 msgid "&Italic"
-msgstr "Kursiv"
+msgstr "&Kursiv"
 
 #: msgedit.cpp:146
-#, fuzzy
 msgid "&Underline"
-msgstr "Unterstrichen"
+msgstr "&Unterstrichen"
 
 #: msgedit.cpp:153
-#, fuzzy
 msgid "Text &font"
-msgstr "Schriftart"
+msgstr "&Schriftart"
 
 #: msgedit.cpp:159
-#, fuzzy
 msgid "Inser&t smile"
-msgstr "Smile einfügen"
+msgstr "&Smiley einfügen"
 
 #: msgedit.cpp:166
 msgid "&Grant"
@@ -2077,9 +2082,8 @@ msgid "&Forward"
 msgstr "&Vorwärts"
 
 #: msgedit.cpp:201
-#, fuzzy
 msgid "Spell &check"
-msgstr "Rechtschreibprüfung"
+msgstr "&Rechtschreibprüfung"
 
 #: msgedit.cpp:208
 msgid "C&lose after send"
@@ -2094,9 +2098,8 @@ msgid "&Next"
 msgstr "&Nächster"
 
 #: msgedit.cpp:228
-#, fuzzy
 msgid "&Multiply send"
-msgstr "An mehrere senden"
+msgstr "An &mehrere senden"
 
 #: msgedit.cpp:235
 msgid "Phone:"
@@ -2367,11 +2370,12 @@ msgid "Not in list"
 msgstr "Nicht in Liste"
 
 #: userview.cpp:555 userview.cpp:1340
-#, fuzzy
 msgid ""
 "_: Ctrl+N\n"
 "Create group"
-msgstr "Gruppe erstellen"
+msgstr ""
+"Strg+N\n"
+"Gruppe erstellen"
 
 #: userview.cpp:682 userview.cpp:695
 msgid "New group"
@@ -2950,8 +2954,7 @@ msgstr "Automatisches weiterleiten"
 
 #: ui/forwardsetupbase.cpp:89
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-"Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
 
 #: ui/forwardsetupbase.cpp:97
 msgid ""
@@ -3537,8 +3540,7 @@ msgid "Hide main window after"
 msgstr "Hauptfenster anzeigen/verstecken nach"
 
 #: ui/statussetupbase.cpp:107
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -3695,8 +3697,7 @@ msgstr "&Andere Nachrichten ablehnen"
 
 #: ui/generalsecbase.cpp:189
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: ui/changepasswdbase.cpp:77
 msgid "Change password"
@@ -3740,8 +3741,7 @@ msgstr ";-)"
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #: client.cpp:73
 msgid "Unicode"
@@ -3987,48 +3987,64 @@ msgid ""
 "_: Ctrl+M\n"
 "Message"
 msgstr ""
+"Strg+M\n"
+"Nachricht"
 
 #: client.cpp:923
 msgid ""
 "_: Ctrl+H\n"
 "Chat"
 msgstr ""
+"Strg+H\n"
+"Chat"
 
 #: client.cpp:925
 msgid ""
 "_: Ctrl+F\n"
 "File"
 msgstr ""
+"Strg+F\n"
+"Datei"
 
 #: client.cpp:927
 msgid ""
 "_: Ctrl+U\n"
 "URL"
 msgstr ""
+"Strg+U\n"
+"URL"
 
 #: client.cpp:929
 msgid ""
 "_: Ctrl+A\n"
 "AuthRequest"
 msgstr ""
+"Strg+A\n"
+"Authentifizierungsanfrage"
 
 #: client.cpp:931
 msgid ""
 "_: Ctrl+C\n"
 "Contacts"
 msgstr ""
+"Strg+C\n"
+"Kontakte"
 
 #: client.cpp:933
 msgid ""
 "_: Ctrl+S\n"
 "SMS"
 msgstr ""
+"Strg+S\n"
+"SMS"
 
 #: client.cpp:935
 msgid ""
 "_: Ctrl+E\n"
 "EMail"
 msgstr ""
+"Strg+E\n"
+"E-Mail"
 
 #: client.cpp:965
 msgid "Do not disturb"
@@ -4128,3 +4144,4 @@ msgstr "Weg"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
