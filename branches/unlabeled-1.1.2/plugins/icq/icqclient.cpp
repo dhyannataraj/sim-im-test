@@ -2386,8 +2386,8 @@ bool ICQClient::send(Message *msg, void *_data)
         if (data && data->Direct && data->Direct->isSecure())
             return data->Direct->sendMessage(msg);
         return false;
-    }
 #endif
+    }
     if (data == NULL)
         return false;
     bool bCreateDirect = false;
@@ -2450,8 +2450,8 @@ bool ICQClient::canSend(unsigned type, void *_data)
         return false;
     case MessageCloseSecure:
         return data && data->Direct && data->Direct->isSecure();
-    }
 #endif
+    }
     return false;
 }
 

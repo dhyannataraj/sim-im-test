@@ -24,15 +24,6 @@
 #include <openssl/rand.h>
 #endif
 
-#include "simapi.h"
-
-#ifdef USE_OPENSSL
-#include <openssl/ssl.h>
-#include <openssl/err.h>
-#include <openssl/bio.h>
-#include <openssl/rand.h>
-#endif
-
 #include "icqclient.h"
 #include "icqmessage.h"
 

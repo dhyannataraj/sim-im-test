@@ -45,10 +45,10 @@ void MsgViewBase::setSelect(const QString &str)
 QString MsgViewBase::messageText(Message *msg)
 {
     QString color;
-	unsigned c_sender   = 0x800000;
-	unsigned c_receiver = 0x000080;
-	unsigned c_send     = 0x000000;
-	unsigned c_receive  = 0x000000;
+	unsigned long c_sender   = 0x800000;
+	unsigned long c_receiver = 0x000080;
+	unsigned long c_send     = 0x000000;
+	unsigned long c_receive  = 0x000000;
     if (CorePlugin::m_plugin->getOwnColors()) {
 		c_send     = (CorePlugin::m_plugin->getColorSend())    & 0xFFFFFF;
 		c_receive  = (CorePlugin::m_plugin->getColorReceive()) & 0xFFFFFF;

@@ -303,7 +303,7 @@ void SynPacket::answer(const char *_cmd, vector<string> &args)
             m_client->findGroup(grp, NULL, group);
             if ((lr == NULL) && group && (group->id() != contact->getGroup())){
                 unsigned grp = group->id();
-                if (grp == NULL){
+                if (grp == 0){
                     void *d;
                     ClientDataIterator it_d(contact->clientData);
                     while ((d = ++it_d) != NULL){

@@ -31,6 +31,14 @@
 #include <qregexp.h>
 #include <time.h>
 
+#ifndef WIN32
+#include <ctype.h>
+#endif
+
+#ifndef XML_STATUS_OK
+#define XML_STATUS_OK 1
+#endif
+
 unsigned PING_TIMEOUT = 50;
 
 /*
@@ -210,6 +218,7 @@ void JabberClient::connect_ready()
         connected();
         return;
     }
+#ifdef USE_OPENSSL
     m_bSSL = true;
     SSLClient *ssl = new JabberSSL(m_socket->socket());
     m_socket->setSocket(ssl);
@@ -219,6 +228,7 @@ void JabberClient::connect_ready()
     }
     ssl->connect();
     ssl->process();
+#endif
 }
 
 void JabberClient::connected()

@@ -100,7 +100,8 @@ void AutoReplyDialog::accept()
     AutoReplyBase::accept();
 }
 
-#ifndef WIN32
-#include "autoreply.moc"
+#if 0
+//#ifndef WIN32
+#include "autoreplybase.moc"
 #endif
 
