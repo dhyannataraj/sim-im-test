@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
-"POT-Creation-Date: 2004-02-18 09:08+0300\n"
+"POT-Creation-Date: 2004-02-18 09:48+0300\n"
 "PO-Revision-Date: 2004-02-10 10:25+0100\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
@@ -2623,13 +2623,14 @@ msgstr "Kontakt %1 je u¾ v zozname"
 # ui/statussetupbase.cpp:139
 # ui/themesetupbase.cpp:289
 # ui/userinfobase.cpp:144
-#: plugins/_core/arcfgbase.cpp:78 plugins/_core/filecfgbase.cpp:86
-#: plugins/_core/historycfgbase.cpp:165 plugins/_core/interfacecfgbase.cpp:115
-#: plugins/_core/maininfobase.cpp:170 plugins/_core/msgcfgbase.cpp:83
-#: plugins/_core/phonebase.cpp:113 plugins/_core/plugincfgbase.cpp:70
-#: plugins/_core/prefcfgbase.cpp:65 plugins/_core/smscfgbase.cpp:64
-#: plugins/_core/userhistorycfgbase.cpp:91 plugins/action/actioncfgbase.cpp:61
-#: plugins/action/menucfgbase.cpp:67 plugins/autoaway/autoawaycfgbase.cpp:102
+#: plugins/__homedir/homedircfgbase.cpp:62 plugins/_core/arcfgbase.cpp:78
+#: plugins/_core/filecfgbase.cpp:86 plugins/_core/historycfgbase.cpp:165
+#: plugins/_core/interfacecfgbase.cpp:115 plugins/_core/maininfobase.cpp:170
+#: plugins/_core/msgcfgbase.cpp:83 plugins/_core/phonebase.cpp:113
+#: plugins/_core/plugincfgbase.cpp:70 plugins/_core/prefcfgbase.cpp:65
+#: plugins/_core/smscfgbase.cpp:64 plugins/_core/userhistorycfgbase.cpp:91
+#: plugins/action/actioncfgbase.cpp:61 plugins/action/menucfgbase.cpp:67
+#: plugins/autoaway/autoawaycfgbase.cpp:102
 #: plugins/background/bkgndcfgbase.cpp:97 plugins/dock/dockcfgbase.cpp:91
 #: plugins/filter/filtercfgbase.cpp:65 plugins/forward/forwardcfgbase.cpp:70
 #: plugins/gpg/gpgadvbase.cpp:124 plugins/gpg/gpgcfgbase.cpp:101
@@ -2872,6 +2873,16 @@ msgstr "Zásuvny modul umo¾òuje vybra» miesto ulo¾enia konfiguraèných súuborov"
 #: plugins/__homedir/homedir.cpp:92
 msgid "Set home directory"
 msgstr "Nastavi» domovský adresár"
+
+#: plugins/__homedir/homedircfgbase.cpp:63
+msgid "Use &default path"
+msgstr ""
+
+# ui/acceptbase.cpp:178
+#: plugins/__homedir/homedircfgbase.cpp:64
+#, fuzzy
+msgid "Path for config files:"
+msgstr "Cesta pre prichádzajúce súbory:"
 
 # libicq/country.cpp:40
 #: plugins/styles/wood/wood.cpp:1269

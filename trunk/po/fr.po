@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.1\n"
-"POT-Creation-Date: 2004-02-18 09:08+0300\n"
+"POT-Creation-Date: 2004-02-18 09:48+0300\n"
 "PO-Revision-Date: 2003-03-01 10:24+0100\n"
 "Last-Translator: Roméo VIU-BERGES <apostledemencia@free.fr>\n"
 "Language-Team: Français <fr@li.org>\n"
@@ -2618,13 +2618,14 @@ msgstr ""
 # ui/statussetupbase.cpp:33
 # ui/themesetupbase.cpp:101
 # ui/userinfobase.cpp:36
-#: plugins/_core/arcfgbase.cpp:78 plugins/_core/filecfgbase.cpp:86
-#: plugins/_core/historycfgbase.cpp:165 plugins/_core/interfacecfgbase.cpp:115
-#: plugins/_core/maininfobase.cpp:170 plugins/_core/msgcfgbase.cpp:83
-#: plugins/_core/phonebase.cpp:113 plugins/_core/plugincfgbase.cpp:70
-#: plugins/_core/prefcfgbase.cpp:65 plugins/_core/smscfgbase.cpp:64
-#: plugins/_core/userhistorycfgbase.cpp:91 plugins/action/actioncfgbase.cpp:61
-#: plugins/action/menucfgbase.cpp:67 plugins/autoaway/autoawaycfgbase.cpp:102
+#: plugins/__homedir/homedircfgbase.cpp:62 plugins/_core/arcfgbase.cpp:78
+#: plugins/_core/filecfgbase.cpp:86 plugins/_core/historycfgbase.cpp:165
+#: plugins/_core/interfacecfgbase.cpp:115 plugins/_core/maininfobase.cpp:170
+#: plugins/_core/msgcfgbase.cpp:83 plugins/_core/phonebase.cpp:113
+#: plugins/_core/plugincfgbase.cpp:70 plugins/_core/prefcfgbase.cpp:65
+#: plugins/_core/smscfgbase.cpp:64 plugins/_core/userhistorycfgbase.cpp:91
+#: plugins/action/actioncfgbase.cpp:61 plugins/action/menucfgbase.cpp:67
+#: plugins/autoaway/autoawaycfgbase.cpp:102
 #: plugins/background/bkgndcfgbase.cpp:97 plugins/dock/dockcfgbase.cpp:91
 #: plugins/filter/filtercfgbase.cpp:65 plugins/forward/forwardcfgbase.cpp:70
 #: plugins/gpg/gpgadvbase.cpp:124 plugins/gpg/gpgcfgbase.cpp:101
@@ -2873,6 +2874,16 @@ msgstr ""
 #, fuzzy
 msgid "Set home directory"
 msgstr "le répertoire"
+
+#: plugins/__homedir/homedircfgbase.cpp:63
+msgid "Use &default path"
+msgstr ""
+
+# ui/acceptbase.cpp:130
+#: plugins/__homedir/homedircfgbase.cpp:64
+#, fuzzy
+msgid "Path for config files:"
+msgstr "Chemin des fichiers entrants :"
 
 # libicq/country.cpp:40
 #: plugins/styles/wood/wood.cpp:1269

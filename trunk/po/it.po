@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sim\n"
-"POT-Creation-Date: 2004-02-18 09:08+0300\n"
+"POT-Creation-Date: 2004-02-18 09:48+0300\n"
 "PO-Revision-Date: 2004-02-10 01:01+0100\n"
 "Last-Translator: Lapo Luchini <lapo@lapo.it>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -2066,13 +2066,14 @@ msgstr "Risultati della ricerca MSN"
 msgid "Contact %1 allready in list"
 msgstr "Contatto %1 già in lista"
 
-#: plugins/_core/arcfgbase.cpp:78 plugins/_core/filecfgbase.cpp:86
-#: plugins/_core/historycfgbase.cpp:165 plugins/_core/interfacecfgbase.cpp:115
-#: plugins/_core/maininfobase.cpp:170 plugins/_core/msgcfgbase.cpp:83
-#: plugins/_core/phonebase.cpp:113 plugins/_core/plugincfgbase.cpp:70
-#: plugins/_core/prefcfgbase.cpp:65 plugins/_core/smscfgbase.cpp:64
-#: plugins/_core/userhistorycfgbase.cpp:91 plugins/action/actioncfgbase.cpp:61
-#: plugins/action/menucfgbase.cpp:67 plugins/autoaway/autoawaycfgbase.cpp:102
+#: plugins/__homedir/homedircfgbase.cpp:62 plugins/_core/arcfgbase.cpp:78
+#: plugins/_core/filecfgbase.cpp:86 plugins/_core/historycfgbase.cpp:165
+#: plugins/_core/interfacecfgbase.cpp:115 plugins/_core/maininfobase.cpp:170
+#: plugins/_core/msgcfgbase.cpp:83 plugins/_core/phonebase.cpp:113
+#: plugins/_core/plugincfgbase.cpp:70 plugins/_core/prefcfgbase.cpp:65
+#: plugins/_core/smscfgbase.cpp:64 plugins/_core/userhistorycfgbase.cpp:91
+#: plugins/action/actioncfgbase.cpp:61 plugins/action/menucfgbase.cpp:67
+#: plugins/autoaway/autoawaycfgbase.cpp:102
 #: plugins/background/bkgndcfgbase.cpp:97 plugins/dock/dockcfgbase.cpp:91
 #: plugins/filter/filtercfgbase.cpp:65 plugins/forward/forwardcfgbase.cpp:70
 #: plugins/gpg/gpgadvbase.cpp:124 plugins/gpg/gpgcfgbase.cpp:101
@@ -2283,6 +2284,15 @@ msgstr ""
 #: plugins/__homedir/homedir.cpp:92
 msgid "Set home directory"
 msgstr "Imposta cartella home"
+
+#: plugins/__homedir/homedircfgbase.cpp:63
+msgid "Use &default path"
+msgstr ""
+
+#: plugins/__homedir/homedircfgbase.cpp:64
+#, fuzzy
+msgid "Path for config files:"
+msgstr "Cartella per file ricevuti:"
 
 #: plugins/styles/wood/wood.cpp:1269
 msgid "Norwegian Wood"

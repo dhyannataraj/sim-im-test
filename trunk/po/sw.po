@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: swabian\n"
-"POT-Creation-Date: 2004-02-18 09:08+0300\n"
+"POT-Creation-Date: 2004-02-18 09:48+0300\n"
 "PO-Revision-Date: 2003-08-19 10:35GMT\n"
 "Last-Translator: Robert Scheck <sim@robert-scheck.de>\n"
 "Language-Team: schwäbisch <swabian@li.org>\n"
@@ -2052,13 +2052,14 @@ msgstr "MSN-Suchergebnisse"
 msgid "Contact %1 allready in list"
 msgstr "Dr Kondakd %1 ischd bereids en dr Lischde vorhanda"
 
-#: plugins/_core/arcfgbase.cpp:78 plugins/_core/filecfgbase.cpp:86
-#: plugins/_core/historycfgbase.cpp:165 plugins/_core/interfacecfgbase.cpp:115
-#: plugins/_core/maininfobase.cpp:170 plugins/_core/msgcfgbase.cpp:83
-#: plugins/_core/phonebase.cpp:113 plugins/_core/plugincfgbase.cpp:70
-#: plugins/_core/prefcfgbase.cpp:65 plugins/_core/smscfgbase.cpp:64
-#: plugins/_core/userhistorycfgbase.cpp:91 plugins/action/actioncfgbase.cpp:61
-#: plugins/action/menucfgbase.cpp:67 plugins/autoaway/autoawaycfgbase.cpp:102
+#: plugins/__homedir/homedircfgbase.cpp:62 plugins/_core/arcfgbase.cpp:78
+#: plugins/_core/filecfgbase.cpp:86 plugins/_core/historycfgbase.cpp:165
+#: plugins/_core/interfacecfgbase.cpp:115 plugins/_core/maininfobase.cpp:170
+#: plugins/_core/msgcfgbase.cpp:83 plugins/_core/phonebase.cpp:113
+#: plugins/_core/plugincfgbase.cpp:70 plugins/_core/prefcfgbase.cpp:65
+#: plugins/_core/smscfgbase.cpp:64 plugins/_core/userhistorycfgbase.cpp:91
+#: plugins/action/actioncfgbase.cpp:61 plugins/action/menucfgbase.cpp:67
+#: plugins/autoaway/autoawaycfgbase.cpp:102
 #: plugins/background/bkgndcfgbase.cpp:97 plugins/dock/dockcfgbase.cpp:91
 #: plugins/filter/filtercfgbase.cpp:65 plugins/forward/forwardcfgbase.cpp:70
 #: plugins/gpg/gpgadvbase.cpp:124 plugins/gpg/gpgcfgbase.cpp:101
@@ -2269,6 +2270,15 @@ msgstr ""
 #: plugins/__homedir/homedir.cpp:92
 msgid "Set home directory"
 msgstr "Bersenlichs Vrzeichnis sedza"
+
+#: plugins/__homedir/homedircfgbase.cpp:63
+msgid "Use &default path"
+msgstr ""
+
+#: plugins/__homedir/homedircfgbase.cpp:64
+#, fuzzy
+msgid "Path for config files:"
+msgstr "Bfad fir oigehende Dadeia:"
 
 #: plugins/styles/wood/wood.cpp:1269
 msgid "Norwegian Wood"

@@ -12,8 +12,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2004-02-18 09:08+0300\n"
-"PO-Revision-Date: 2004-02-18 09:10+0300\n"
+"POT-Creation-Date: 2004-02-18 09:48+0300\n"
+"PO-Revision-Date: 2004-02-18 09:51+0300\n"
 "Last-Translator: Vladimir Shutoff <vovan@shutoff.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2458,13 +2458,14 @@ msgstr "Контакт %1 уже в списке"
 # ui/smssetupbase.cpp:30 ui/soundsetupbase.cpp:91 ui/spellsetupbase.cpp:63
 # ui/statussetupbase.cpp:63 ui/themesetupbase.cpp:65 ui/userinfobase.cpp:92
 # ui/xosdbase.cpp:94
-#: plugins/_core/arcfgbase.cpp:78 plugins/_core/filecfgbase.cpp:86
-#: plugins/_core/historycfgbase.cpp:165 plugins/_core/interfacecfgbase.cpp:115
-#: plugins/_core/maininfobase.cpp:170 plugins/_core/msgcfgbase.cpp:83
-#: plugins/_core/phonebase.cpp:113 plugins/_core/plugincfgbase.cpp:70
-#: plugins/_core/prefcfgbase.cpp:65 plugins/_core/smscfgbase.cpp:64
-#: plugins/_core/userhistorycfgbase.cpp:91 plugins/action/actioncfgbase.cpp:61
-#: plugins/action/menucfgbase.cpp:67 plugins/autoaway/autoawaycfgbase.cpp:102
+#: plugins/__homedir/homedircfgbase.cpp:62 plugins/_core/arcfgbase.cpp:78
+#: plugins/_core/filecfgbase.cpp:86 plugins/_core/historycfgbase.cpp:165
+#: plugins/_core/interfacecfgbase.cpp:115 plugins/_core/maininfobase.cpp:170
+#: plugins/_core/msgcfgbase.cpp:83 plugins/_core/phonebase.cpp:113
+#: plugins/_core/plugincfgbase.cpp:70 plugins/_core/prefcfgbase.cpp:65
+#: plugins/_core/smscfgbase.cpp:64 plugins/_core/userhistorycfgbase.cpp:91
+#: plugins/action/actioncfgbase.cpp:61 plugins/action/menucfgbase.cpp:67
+#: plugins/autoaway/autoawaycfgbase.cpp:102
 #: plugins/background/bkgndcfgbase.cpp:97 plugins/dock/dockcfgbase.cpp:91
 #: plugins/filter/filtercfgbase.cpp:65 plugins/forward/forwardcfgbase.cpp:70
 #: plugins/gpg/gpgadvbase.cpp:124 plugins/gpg/gpgcfgbase.cpp:101
@@ -2699,6 +2700,15 @@ msgstr ""
 #: plugins/__homedir/homedir.cpp:92
 msgid "Set home directory"
 msgstr "Установить домашний каталог"
+
+#: plugins/__homedir/homedircfgbase.cpp:63
+msgid "Use &default path"
+msgstr "Использовать путь по &умолчанию"
+
+# ui/acceptbase.cpp:126
+#: plugins/__homedir/homedircfgbase.cpp:64
+msgid "Path for config files:"
+msgstr "Каталог для файлов конфигурации:"
 
 # libicq/country.cpp:40
 #: plugins/styles/wood/wood.cpp:1269
