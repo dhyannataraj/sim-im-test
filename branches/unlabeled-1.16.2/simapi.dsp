@@ -174,16 +174,45 @@ SOURCE=.\sim\api\message.cpp
 # Begin Source File
 
 SOURCE=.\sim\api\moc_exec.cpp
+
+!IF  "$(CFG)" == "simapi - Win32 Release"
+
 # ADD CPP /W3
+
+!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
+
+# ADD CPP /W1
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=.\sim\api\moc_socket.cpp
+
+!IF  "$(CFG)" == "simapi - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
+
+# ADD CPP /W2 /WX
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=.\sim\api\moc_sockfactory.cpp
+
+!IF  "$(CFG)" == "simapi - Win32 Release"
+
 # ADD CPP /W3
+
+!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
+
+# ADD CPP /W1
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 

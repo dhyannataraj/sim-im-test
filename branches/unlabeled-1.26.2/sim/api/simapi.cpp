@@ -621,7 +621,7 @@ EXPORT QString getPart(QString &str, unsigned size)
     int n = size;
     QChar c = str[(int)size];
     if (!c.isSpace()){
-        for (; n >= 0; n++){
+        for (; n >= 0; n--){
             c = str[n];
             if (c.isSpace())
                 break;
@@ -749,6 +749,8 @@ EXPORT void setSmiles(const char *pp)
 DECLARE_HANDLE(HMONITOR);
 typedef BOOL (CALLBACK* MONITORENUMPROC)(HMONITOR, HDC, LPRECT, LPARAM);
 
+#if QT_VERSION < 300
+
 static BOOL CALLBACK enumScreens(HMONITOR, HDC, LPRECT rc, LPARAM data)
 {
     vector<QRect> *p = (vector<QRect>*)data;
@@ -756,6 +758,7 @@ static BOOL CALLBACK enumScreens(HMONITOR, HDC, LPRECT rc, LPARAM data)
     return TRUE;
 }
 
+#endif
 #endif
 
 EXPORT unsigned screens()

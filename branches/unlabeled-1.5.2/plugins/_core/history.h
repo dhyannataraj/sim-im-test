@@ -43,12 +43,13 @@ public:
     ~History();
     static void add(Message*, const char *type);
     static void del(Message*);
+	static void rewrite(Message*);
     static void cut(Message*, unsigned contact_id, unsigned date);
     static void del(unsigned msg_id);
     static void remove(Contact *contact);
     static Message *load(unsigned id, const char *client, unsigned contact);
 protected:
-    static void del(const char *name, unsigned contact, unsigned id, bool bCopy);
+    static void del(const char *name, unsigned contact, unsigned id, bool bCopy, Message *msg=NULL);
     static unsigned	s_tempId;
     static MAP_MSG	*s_tempMsg;
     unsigned m_contact;

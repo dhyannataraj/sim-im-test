@@ -1036,6 +1036,8 @@ void *MsgEdit::processEvent(Event *e)
     }
     if (e->type() == EventMessageReceived){
         Message *msg = (Message*)(e->param());
+		if (msg->getFlags() & MESSAGE_NOVIEW)
+			return NULL;
         if ((msg->contact() == m_userWnd->id()) && (msg->type() != MessageStatus)){
             if (CorePlugin::m_plugin->getContainerMode()){
                 bool bSetFocus = false;

@@ -334,16 +334,16 @@ typedef struct MsgSend
     MsgEdit		*edit;
 } MsgSend;
 
-const unsigned	MESSAGE_DEFAULT	 = 0x0000;
-const unsigned	MESSAGE_SILENT	 = 0x0001;
-const unsigned	MESSAGE_HIDDEN	 = 0x0002;
-const unsigned	MESSAGE_SENDONLY = 0x0004;
-const unsigned	MESSAGE_INFO	 = 0x0008;
-const unsigned  MESSAGE_SYSTEM	 = 0x0010;
-const unsigned  MESSAGE_ERROR	 = 0x0020;
+const unsigned	MESSAGE_DEFAULT		= 0x0000;
+const unsigned	MESSAGE_SILENT		= 0x0001;
+const unsigned	MESSAGE_HIDDEN		= 0x0002;
+const unsigned	MESSAGE_SENDONLY	= 0x0004;
+const unsigned	MESSAGE_INFO		= 0x0008;
+const unsigned  MESSAGE_SYSTEM		= 0x0010;
+const unsigned  MESSAGE_ERROR		= 0x0020;
 
 const unsigned  MIN_INPUT_BAR_ID = 0x1010;
-const unsigned  MAX_INPUT_BAR_ID = 0x1100;
+const unsigned  MAX_INPUT_BAR_ID = 0x1500;
 
 const unsigned  STYLE_UNDER		= 1;
 const unsigned  STYLE_ITALIC	= 2;

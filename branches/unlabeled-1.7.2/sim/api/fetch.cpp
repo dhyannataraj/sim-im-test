@@ -16,12 +16,6 @@
  ***************************************************************************/
 
 #include "simapi.h"
-
-#ifdef USE_OPENSSL
-#include <openssl/ssl.h>
-#include <openssl/rand.h>
-#endif
-
 #include "fetch.h"
 
 #ifdef USE_OPENSSL

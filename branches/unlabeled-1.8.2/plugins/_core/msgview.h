@@ -52,6 +52,7 @@ protected:
     void		setBackground(unsigned start);
     void		setSource(const QString&);
     void		setColors();
+	void		reload();
     unsigned	messageId(const QString&, string &client);
     QString		messageText(Message *msg, bool bUnread);
     QPoint		m_popupPos;
