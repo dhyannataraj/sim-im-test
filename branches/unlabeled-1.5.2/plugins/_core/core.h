@@ -398,6 +398,7 @@ protected:
     void loadDir();
     void loadClients(ClientList&);
     void loadMenu();
+	QString poFile(const char *lang);
     Client *loadClient(const char *name, const char *cfg);
     void setCurrentProfile(const char *profile);
     bool adjustClientItem(unsigned id, CommandDef *cmd);

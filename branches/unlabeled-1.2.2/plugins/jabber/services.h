@@ -40,6 +40,7 @@ protected slots:
     void logoff();
     void selectAgent(int);
     void selectChanged(QListViewItem*);
+	void showAgent(QWidget*);
 protected:
     void *processEvent(Event *e);
     void statusChanged();

@@ -90,7 +90,7 @@ InterfaceConfig::InterfaceConfig(QWidget *parent)
 	QStringList items = getLangItems();
     cmbLang->insertStringList(items);
 	int nCurrent = 0;
-    if (*cur){
+    if (cur){
 		const language *l;
 	    for (l = langs; l->code; l++)
 			if (!strcmp(cur, l->code))
@@ -139,23 +139,17 @@ InterfaceConfig::~InterfaceConfig()
 QStringList InterfaceConfig::getLangItems()
 {
     QStringList items;
-    QString current;
-	QDir poDir(QFile::decodeName(app_file("po").c_str()));
-	QStringList pl = poDir.entryList("*.qm");
-	for (QStringList::Iterator it = pl.begin(); it != pl.end(); ++it){
-		QString po = *it;
-		int pos = po.find('.');
-		if (pos < 0)
+	const language *l;
+    for (l = langs; l->code; l++){
+		if (strcmp(l->code, "-")){
+			items.append(i18n(l->name));
 			continue;
-		po = po.left(pos);
-		const language *l;
-	    for (l = langs; l->code; l++)
-			if (po == l->code)
-				break;
-		if (l->code == NULL)
+		}
+		QString po = CorePlugin::m_plugin->poFile(l->code);
+		if (po.isEmpty())
 			continue;
-        items.append(i18n(l->name));
-    }
+		items.append(i18n(l->name));
+	}
     items.sort();
 	return items;
 }

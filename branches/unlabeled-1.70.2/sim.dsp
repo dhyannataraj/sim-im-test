@@ -93,6 +93,15 @@ LINK32=link.exe
 # Begin Source File
 
 SOURCE=.\sim\sim.cpp
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # End Group
 # Begin Group "Header Files"

@@ -1085,6 +1085,41 @@ CorePlugin::~CorePlugin()
     removeTranslator();
 }
 
+QString CorePlugin::poFile(const char *lang)
+{
+#ifdef WIN32
+    string s = "po";
+    s += "\\";
+    for (const char *pp = lang; *pp; pp++)
+        s += tolower(*pp);
+    s += ".qm";
+    s = app_file(s.c_str());
+    QFile f(QFile::decodeName(s.c_str()));
+    if (!f.exists()) return "";
+#else
+    string s = PREFIX "/share/locale/";
+	string l;
+	if (lang)
+		l += lang;
+    char *p = (char*)(l.c_str());
+    char *r = strchr(p, '.');
+    if (r) *r = 0;
+    s += l.c_str();
+    s += "/LC_MESSAGES/sim.mo";
+    QFile f(QFile::decodeName(s.c_str()));
+    if (!f.exists()){
+        r = strchr(p, '_');
+        if (r) *r = 0;
+        s = PREFIX "/share/locale/";
+        s += lang.c_str();
+        s += "/LC_MESSAGES/sim.mo";
+        f.setName(QFile::decodeName(s.c_str()));
+        if (!f.exists()) return ""
+    }
+#endif
+	return f.name();
+}
+
 void CorePlugin::installTranslator()
 {
     m_translator = NULL;
@@ -1113,38 +1148,14 @@ void CorePlugin::installTranslator()
 #endif
 #endif
     }
-#ifdef WIN32
-    string s = "po";
-    s += "\\";
-    for (const char *pp = lang.c_str(); *pp; pp++)
-        s += tolower(*pp);
-    s += ".qm";
-    s = app_file(s.c_str());
-    QFile f(QFile::decodeName(s.c_str()));
-    if (!f.exists()) return;
-#else
-    string s = PREFIX "/share/locale/";
-    char *p = (char*)(lang.c_str());
-    char *r = strchr(p, '.');
-    if (r) *r = 0;
-    s += lang.c_str();
-    s += "/LC_MESSAGES/sim.mo";
-    QFile f(QFile::decodeName(s.c_str()));
-    if (!f.exists()){
-        r = strchr(p, '_');
-        if (r) *r = 0;
-        s = PREFIX "/share/locale/";
-        s += lang.c_str();
-        s += "/LC_MESSAGES/sim.mo";
-        f.setName(QFile::decodeName(s.c_str()));
-        if (!f.exists()) return;
-    }
-#endif
+	QString po = poFile(lang.c_str());
+	if (po.isEmpty())
+		return;
 #if !defined(USE_KDE) && (QT_VERSION >= 300)
-    m_translator = new SIMTranslator(NULL, f.name());
+    m_translator = new SIMTranslator(NULL, po);
 #else
     m_translator = new QTranslator(NULL);
-    m_translator->load(f.name());
+    m_translator->load(po);
 #endif
     qApp->installTranslator(m_translator);
 #if !defined(USE_KDE) || (QT_VERSION < 300)

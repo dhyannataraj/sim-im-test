@@ -38,8 +38,8 @@ JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig)
     edtPort->setValue(m_client->getPort());
     if (m_client->data.owner.Resource)
         edtResource->setText(QString::fromUtf8(m_client->data.owner.Resource));
-    if (m_client->data.owner.VHost)
-        edtVHost->setText(QString::fromUtf8(m_client->data.owner.VHost));
+    if (m_client->data.VHost)
+        edtVHost->setText(QString::fromUtf8(m_client->data.VHost));
     if (m_bConfig)
         tabCfg->removePage(tabJabber);
 #ifdef USE_OPENSSL
@@ -64,8 +64,21 @@ void JabberConfig::apply(Client*, void*)
 
 void JabberConfig::apply()
 {
+	QString jid = edtID->text();
+	if (jid.find('@') < 0){
+		QString host;
+		if (chkVHost->isChecked() && !edtVHost->text().isEmpty()){
+			host = edtVHost->text();
+		}else{
+			host = edtServer->text();
+		}
+		if (!host.isEmpty()){
+			jid += "@";
+			jid += host;
+		}
+	}
     if (!m_bConfig){
-        m_client->setID(edtID->text());
+        m_client->setID(jid);
         m_client->setPassword(edtPasswd->text());
         m_client->setRegister(chkRegister->isChecked());
     }
@@ -78,7 +91,7 @@ void JabberConfig::apply()
     m_client->setUseVHost(chkVHost->isChecked());
     set_str(&m_client->data.owner.Resource, edtResource->text().utf8());
     if (chkVHost->isChecked())
-        set_str(&m_client->data.owner.VHost, edtVHost->text().utf8());
+        set_str(&m_client->data.VHost, edtVHost->text().utf8());
 }
 
 void JabberConfig::toggledSSL(bool bState)

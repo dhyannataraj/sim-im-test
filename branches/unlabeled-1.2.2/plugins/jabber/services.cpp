@@ -45,6 +45,7 @@ Services::Services(QWidget *parent, JabberClient *client)
     connect(btnLogon, SIGNAL(clicked()), this, SLOT(logon()));
     connect(btnLogoff, SIGNAL(clicked()), this, SLOT(logoff()));
     connect(lstAgents, SIGNAL(currentChanged(QListViewItem*)), this, SLOT(slectChanged(QListViewItem*)));
+	connect(wndInfo, SIGNAL(aboutToShow(QWidget*)), this, SLOT(showAgent(QWidget*)));
     selectChanged(NULL);
 }
 
@@ -77,6 +78,7 @@ void *Services::processEvent(Event *e)
                 if (id == 0){
                     cmbAgents->setCurrentItem(0);
                     selectAgent(0);
+					textChanged("");
                 }
             }
             info.search->addWidget(data);
@@ -135,7 +137,6 @@ void Services::statusChanged()
 void Services::selectAgent(int index)
 {
     wndInfo->raiseWidget(index + 1);
-    textChanged("");
 }
 
 void Services::selectChanged(QListViewItem *item)
@@ -157,7 +158,8 @@ void Services::regAgent()
     QWidget *w = wndInfo->visibleWidget();
     if (w == NULL)
         return;
-    QString condition = static_cast<JabberSearch*>(w)->condition();
+	JabberSearch *s = static_cast<JabberSearch*>(w);
+	m_client->register_agent(s->id(), s->condition().utf8());
 }
 
 void Services::unregAgent()
@@ -180,12 +182,17 @@ void Services::apply()
 {
 }
 
+void Services::showAgent(QWidget*)
+{
+	textChanged("");
+}
+
 void Services::textChanged(const QString&)
 {
     bool bEnable = false;
     QWidget *w = wndInfo->visibleWidget();
     if (w)
-        bEnable = static_cast<JabberSearch*>(w);
+        bEnable = static_cast<JabberSearch*>(w)->canSearch();
     btnRegister->setEnabled(bEnable);
 }
 
