@@ -19,16 +19,11 @@
 #define _LOGINDLG_H
 
 #include "defs.h"
+#include "logindlgbase.h"
 
-#include <qdialog.h>
-
-class QLabel;
-class QLineEdit;
-class QCheckBox;
-class QPushButton;
 class ICQEvent;
 
-class LoginDialog : public QDialog
+class LoginDialog : public LoginDlgBase
 {
     Q_OBJECT
 public:
@@ -38,17 +33,11 @@ protected slots:
     void textChanged(const QString&);
     void login();
     void processEvent(ICQEvent*);
+    void proxySetup();
 protected:
     void stopLogin();
     virtual void closeEvent(QCloseEvent*);
     bool bLogin;
-    QLabel    *lblUIN;
-    QLineEdit *edtUIN;
-    QLabel	  *lblPasswd;
-    QLineEdit *edtPasswd;
-    QCheckBox *chkOldUser;
-    QPushButton *btnClose;
-    QPushButton *btnLogin;
 };
 
 #endif

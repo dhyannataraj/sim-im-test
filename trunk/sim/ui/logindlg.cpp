@@ -16,7 +16,8 @@
  ***************************************************************************/
 
 #include "logindlg.h"
-#include "ui/ballonmsg.h"
+#include "ballonmsg.h"
+#include "proxydlg.h"
 #include "client.h"
 #include "icons.h"
 
@@ -29,41 +30,18 @@
 #include <qvalidator.h>
 
 LoginDialog::LoginDialog()
-        : QDialog(NULL, NULL, true)
+        : LoginDlgBase(NULL, "logindlg", true)
 {
     setIcon(Pict("licq"));
     bLogin = false;
-    QGridLayout *lay = new QGridLayout(this, 4, 2, 10, 5);
-    lblUIN = new QLabel(i18n("UIN:"), this);
-    lblUIN->setAlignment(AlignRight | AlignVCenter);
-    lay->addWidget(lblUIN, 0, 0);
-    edtUIN = new QLineEdit(this);
     edtUIN->setValidator(new QIntValidator(100000, 0x7FFFFFFF, this));
     connect(edtUIN, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
-    lay->addWidget(edtUIN, 0, 1);
-    lblPasswd = new QLabel(i18n("Password:"), this);
-    lblPasswd->setAlignment(AlignRight | AlignVCenter);
-    lay->addWidget(lblPasswd, 1, 0);
-    edtPasswd = new QLineEdit(this);
     edtPasswd->setEchoMode(QLineEdit::Password);
     connect(edtPasswd, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
-    lay->addWidget(edtPasswd, 1, 1);
-    chkOldUser = new QCheckBox(i18n("Use existing UIN"), this);
     connect(chkOldUser, SIGNAL(toggled(bool)), this, SLOT(setOldUser(bool)));
-    lay->addMultiCellWidget(chkOldUser, 2, 2, 0, 1);
-    QHBoxLayout *hLay = new QHBoxLayout();
-    lay->addMultiCellLayout(hLay, 3, 3, 0, 1);
-    hLay->addStretch();
-    btnClose = new QPushButton(i18n("Close"), this);
     connect(btnClose, SIGNAL(clicked()), this, SLOT(close()));
-    hLay->addWidget(btnClose);
-    hLay->addStretch();
-    btnLogin = new QPushButton(i18n("Register"), this);
-    btnLogin->setDefault(true);
     connect(btnLogin, SIGNAL(clicked()), this, SLOT(login()));
-    hLay->addWidget(btnLogin);
-    hLay->addStretch();
-    setCaption(i18n("Registration"));
+    connect(btnProxy, SIGNAL(clicked()), this, SLOT(proxySetup()));
     setOldUser(false);
     textChanged("");
     QSize s = sizeHint();
@@ -151,6 +129,12 @@ void LoginDialog::processEvent(ICQEvent *e)
         stopLogin();
         return;
     }
+}
+
+void LoginDialog::proxySetup()
+{
+    ProxyDialog d(this);
+    d.exec();
 }
 
 #ifndef _WINDOWS

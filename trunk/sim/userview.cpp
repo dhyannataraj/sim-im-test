@@ -1023,11 +1023,16 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
         return;
     }
     QString text;
-    QStrList urls;
-    if (QUriDrag::decode(e, urls) && !urls.isEmpty() && (item->type() == 1)){
+    QStringList urls;
+    if (QUriDrag::decodeLocalFiles(e, urls) && !urls.isEmpty() && (item->type() == 1)){
         if (isDrop){
             UserViewItem *ui = static_cast<UserViewItem*>(item);
-            callUserFunction(ui->m_uin, urls.first());
+            if (urls.count() > 1){
+                for (QStringList::Iterator it = urls.begin(); it != urls.end(); ++it){
+                    *it = QString("\"") + *it + "\"";
+                }
+            }
+            callUserFunction(ui->m_uin, urls.join(" "));
         }
         e->accept();
         return;

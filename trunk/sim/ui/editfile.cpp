@@ -77,7 +77,7 @@ void EditFile::showFiles()
                 *it = QString("\"") + *it + QString("\"");
             }
         }
-        s = lst.join(", ");
+        s = lst.join(" ");
     }else{
         s = QFileDialog::getOpenFileName(s, filter, this);
     }

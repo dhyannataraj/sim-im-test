@@ -33,6 +33,7 @@ GeneralSecurity::GeneralSecurity(QWidget *p)
     lblPict->setPixmap(Pict("security"));
     chkAuth->setChecked(pClient->Authorize());
     chkHiddenIP->setChecked(pClient->HideIp());
+    chkWeb->setChecked(pClient->WebAware());
     chkRejectMsg->setChecked(pClient->RejectMessage());
     chkRejectURL->setChecked(pClient->RejectURL());
     chkRejectWeb->setChecked(pClient->RejectWeb());
@@ -49,6 +50,7 @@ GeneralSecurity::GeneralSecurity(QWidget *p)
                               "* - any amount of symbols (or is empty)\n"
                               "? - any symbol\n");
     connect(chkAuth, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
+    connect(chkWeb, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
     connect(chkHiddenIP, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
     connect(chkRejectMsg, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
     connect(chkRejectURL, SIGNAL(toggled(bool)), this, SLOT(hideHelp(bool)));
@@ -75,6 +77,7 @@ void GeneralSecurity::apply(ICQUser*)
         pClient->DirectMode = grpDirect->id(grpDirect->selected());
     if (pClient->m_state == ICQClient::Logged)
         pClient->setStatus(pClient->uStatus);
+    pClient->setSecurityInfo(chkAuth->isChecked, chkWeb->isChecked());
 }
 
 void GeneralSecurity::rejectToggled(bool bOn)

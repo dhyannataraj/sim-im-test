@@ -1509,7 +1509,7 @@ void MsgEdit::makeMessage()
         log(L_WARN, "Bad message type %u", msg->Type());
         return;
     }
-	msg->Charset = pClient->codecForUser(Uin())->name();
+    msg->Charset = pClient->codecForUser(Uin())->name();
     if (bMultiply){
         msg->Uin.clear();
         UserBox *box = static_cast<UserBox*>(topLevelWidget());

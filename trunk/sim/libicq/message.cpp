@@ -36,7 +36,7 @@ ICQMessage::ICQMessage(unsigned short type)
         Received(this, "Direction"),
         Uin(this, "Uin"),
         Direct(this, "Direct"),
-		Charset(this, "Charset"),
+        Charset(this, "Charset"),
         m_nType(type)
 {
     Id = 0;
@@ -55,9 +55,9 @@ ICQMessage::ICQMessage(unsigned short type)
 
 void ICQMessage::save(ostream &s)
 {
-	if (!strcasecmp(Charset.c_str(), ICQClient::localCharset()))
-		Charset = "";
-	ConfigArray::save(s);
+    if (!strcasecmp(Charset.c_str(), ICQClient::localCharset()))
+        Charset = "";
+    ConfigArray::save(s);
 }
 
 unsigned long ICQMessage::getUin()
@@ -924,11 +924,11 @@ void ICQClient::messageReceived(ICQMessage *msg)
         }
         u = getUser(msg->getUin(), true);
     }
-	if (u->Encoding.length()){
-		msg->Charset = u->Encoding;
-	}else{
-		msg->Charset = Encoding;
-	}
+    if (u->Encoding.length()){
+        msg->Charset = u->Encoding;
+    }else{
+        msg->Charset = Encoding;
+    }
     time_t now;
     time(&now);
     u->LastActive = (unsigned long)now;

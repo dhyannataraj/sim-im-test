@@ -30,7 +30,7 @@
 #include "userbox.h"
 #include "themes.h"
 #include "xosd.h"
-#include "logindlg.h"
+#include "ui/logindlg.h"
 #include "passwddlg.h"
 #include "transparent.h"
 #include "ui/searchdlg.h"
@@ -731,7 +731,7 @@ bool MainWindow::init()
     changeWm();
 
     if ((pClient->Uin == 0) || (*pClient->EncryptedPassword.c_str() == 0)){
-		pSplash->hide();
+        pSplash->hide();
         bInLogin = true;
         LoginDialog dlg;
         dlg.exec();

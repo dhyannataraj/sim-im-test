@@ -471,6 +471,7 @@ protected:
     void write_ready();
     bool have_data();
 
+    void init();
     void startPacket(char cmd);
     void sendPacket(bool dump=true);
     void sendFileInfo();
@@ -778,7 +779,7 @@ public:
     ConfigBool Received;
     ConfigULongs Uin;
     ConfigBool Direct;
-	ConfigString Charset;
+    ConfigString Charset;
     unsigned long Id;
     unsigned long	state;
     unsigned short	id1;

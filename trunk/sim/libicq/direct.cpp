@@ -1152,9 +1152,7 @@ FileTransfer::FileTransfer(int fd, const char *host, unsigned short port, ICQCli
 {
     state = None;
     file = _file;
-    m_nSpeed = 100;
-    m_fileSize = 0;
-    m_totalSize = 0;
+    init();
 }
 
 FileTransfer::FileTransfer(unsigned long ip, unsigned long real_ip, unsigned short port, ICQUser *u, ICQClient *client, ICQFile *_file)
@@ -1162,9 +1160,16 @@ FileTransfer::FileTransfer(unsigned long ip, unsigned long real_ip, unsigned sho
 {
     state = None;
     file = _file;
+    init();
+}
+
+void FileTransfer::init()
+{
     m_nSpeed = 100;
     m_sendTime = 0;
     m_sendSize = 0;
+    m_fileSize = 0;
+    m_totalSize = 0;
 }
 
 bool FileTransfer::have_data()
@@ -1344,7 +1349,7 @@ void FileTransfer::processPacket()
                 unsigned long pos;
                 readBuffer.unpack(pos);
                 log(L_DEBUG, "Start send at %lu", pos);
-                file->state = pos;
+                m_fileSize = pos;
                 if (!client->openFile(file) || !client->seekFile(file, pos)){
                     log(L_WARN, "Can't open file");
                     error(ErrorProtocol);

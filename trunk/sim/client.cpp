@@ -827,10 +827,10 @@ QString Client::from8Bit(QTextCodec *codec, const string &str, const char *strCh
     if (!strcmp(codec->name(), serverCharset(codec->name())))
         return codec->makeDecoder()->toUnicode(str.c_str(), str.size());
     string s = str;
-	if (strCharset && strcasecmp(strCharset, codec->name())){
-		toServer(s, strCharset);
-		fromServer(s, codec->name());
-	}
+    if (strCharset && strcasecmp(strCharset, codec->name())){
+        toServer(s, strCharset);
+        fromServer(s, codec->name());
+    }
     return codec->makeDecoder()->toUnicode(s.c_str(), s.size());
 }
 
