@@ -499,7 +499,8 @@ void ICQClient::ackMessage()
         sendQueue.push_front(m_send);
     }
     m_send.msg = NULL;
-    m_send.uin = 0;
+// when uin is set to 0, we get an 'Bad ack sequence'
+//    m_send.uin = 0;
     send(true);
 }
 
