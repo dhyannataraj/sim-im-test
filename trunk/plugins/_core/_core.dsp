@@ -4339,10 +4339,11 @@ InputName=bg
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Debug
 InputPath=..\..\po\bg.po
+InputName=bg
 
-"$(OutDir)\po\bg.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\bg.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4371,10 +4372,11 @@ InputName=ca
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Debug
 InputPath=..\..\po\ca.po
+InputName=ca
 
-"$(OutDir)\po\ca.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\ca.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4403,10 +4405,11 @@ InputName=cs
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Debug
 InputPath=..\..\po\cs.po
+InputName=cs
 
-"$(OutDir)\po\cs.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\cs.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4435,10 +4438,44 @@ InputName=de
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Debug
 InputPath=..\..\po\de.po
+InputName=de
 
-"$(OutDir)\po\de.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\de.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
+	
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\po\el.po
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build - msg2qm on $(InputPath)
+OutDir=.\..\..\Release
+InputPath=..\..\po\el.po
+InputName=el
+
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
+	
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+# Begin Custom Build - msg2qm on $(InputPath)
+OutDir=.\..\..\Debug
+InputPath=..\..\po\el.po
+InputName=el
+
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4467,10 +4504,11 @@ InputName=es
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Debug
 InputPath=..\..\po\es.po
+InputName=es
 
-"$(OutDir)\po\es.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\es.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4499,10 +4537,11 @@ InputName=fr
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Debug
 InputPath=..\..\po\fr.po
+InputName=fr
 
-"$(OutDir)\po\fr.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\fr.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4531,10 +4570,11 @@ InputName=he
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Debug
 InputPath=..\..\po\he.po
+InputName=he
 
-"$(OutDir)\po\he.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\he.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4596,10 +4636,11 @@ InputName=it
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Debug
 InputPath=..\..\po\it.po
+InputName=it
 
-"$(OutDir)\po\it.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\it.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4628,10 +4669,11 @@ InputName=nl
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Debug
 InputPath=..\..\po\nl.po
+InputName=nl
 
-"$(OutDir)\po\nl.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\nl.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4660,10 +4702,11 @@ InputName=pl
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Debug
 InputPath=..\..\po\pl.po
+InputName=pl
 
-"$(OutDir)\po\pl.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\pl.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4692,10 +4735,11 @@ InputName=pt_BR
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Debug
 InputPath=..\..\po\pt_BR.po
+InputName=pt_BR
 
-"$(OutDir)\po\pt_BR.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\pt_BR.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4724,10 +4768,11 @@ InputName=ru
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Debug
 InputPath=..\..\po\ru.po
+InputName=ru
 
-"$(OutDir)\po\ru.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\ru.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4756,10 +4801,11 @@ InputName=sk
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Debug
 InputPath=..\..\po\sk.po
+InputName=sk
 
-"$(OutDir)\po\sk.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\sk.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4788,10 +4834,11 @@ InputName=sw
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Debug
 InputPath=..\..\po\sw.po
+InputName=sw
 
-"$(OutDir)\po\sw.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\sw.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4820,10 +4867,11 @@ InputName=tr
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Debug
 InputPath=..\..\po\tr.po
+InputName=tr
 
-"$(OutDir)\po\tr.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\tr.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4852,10 +4900,11 @@ InputName=uk
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Debug
 InputPath=..\..\po\uk.po
+InputName=uk
 
-"$(OutDir)\po\uk.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\uk.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 
@@ -4884,10 +4933,11 @@ InputName=zh_TW
 # Begin Custom Build - msg2qm on $(InputPath)
 OutDir=.\..\..\Debug
 InputPath=..\..\po\zh_TW.po
+InputName=zh_TW
 
-"$(OutDir)\po\zh_TW.qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	msg2qm $(InputPath) 
-	move tr.qm $(OutDir)\po\zh_TW.qm 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
 	
 # End Custom Build
 

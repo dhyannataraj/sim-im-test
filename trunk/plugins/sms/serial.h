@@ -42,8 +42,10 @@ signals:
     void error();
 protected slots:
     void timeout();
+    void readReady(int);
+    void readTimeout();
 protected:
-	bool event(QEvent *e);
+    bool event(QEvent *e);
     SerialPortPrivate  *d;
 };
 
