@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "POT-Creation-Date: 2002-11-25 10:46+0300\n"
-"PO-Revision-Date: 2002-11-25 21:26+0100\n"
+"PO-Revision-Date: 2002-11-25 22:29+0100\n"
 "Last-Translator: Pavel Rousar <rousarp@fel.cvut.cz>\n"
 "Language-Team: Čeština <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1735,7 +1735,7 @@ msgstr "Telefonní seznam"
 
 #: mainwin.cpp:1152
 msgid "%1 from %2 received"
-msgstr "%1 z %2 obdrženo"
+msgstr "%1 od %2"
 
 #: mainwin.cpp:1223 ui/logindlg.cpp:140
 msgid "Can't connect to proxy server"
