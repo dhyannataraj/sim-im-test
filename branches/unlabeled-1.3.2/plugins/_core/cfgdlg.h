@@ -39,6 +39,7 @@ protected slots:
     void updateInfo();
     void itemSelected(QListViewItem*);
     void raisePage(QWidget*);
+	void repaintCurrent();
 protected:
     void accept();
     void reject();
@@ -47,6 +48,8 @@ protected:
     void fill(unsigned id);
     void setTitle();
     bool setCurrentItem(QListViewItem *parent, unsigned id);
+	QListViewItem *findItem(QWidget *w);
+	QListViewItem *findItem(QWidget *w, QListViewItem *parent);
     unsigned m_nUpdates;
     bool m_bAccept;
     void closeEvent(QCloseEvent*);

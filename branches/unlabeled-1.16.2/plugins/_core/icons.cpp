@@ -147,12 +147,10 @@ protected:
 MyMimeSourceFactory::MyMimeSourceFactory()
 {
     drag = NULL;
-    TextShow::setFactory(this);
 }
 
 MyMimeSourceFactory::~MyMimeSourceFactory()
 {
-    TextShow::setFactory(NULL);
 }
 
 void MyMimeSourceFactory::setDrag(QImageDrag *_drag)
@@ -173,12 +171,12 @@ const QMimeSource *MyMimeSourceFactory::data(const QString &abs_name) const
             return drag;
         }
     }
-    return defaultFactory()->data(abs_name);
+    return QMimeSourceFactory::data(abs_name);
 }
 
 Icons::Icons()
 {
-    my_factory = new MyMimeSourceFactory;
+	QMimeSourceFactory::setDefaultFactory(new MyMimeSourceFactory);
 #ifdef USE_KDE
     connect(kapp, SIGNAL(iconChanged(int)), this, SLOT(iconChanged(int)));
     kapp->addKipcEventMask(KIPC::IconChanged);
@@ -281,7 +279,6 @@ Icons::Icons()
 
 Icons::~Icons()
 {
-    delete my_factory;
 }
 
 void *Icons::processEvent(Event *e)

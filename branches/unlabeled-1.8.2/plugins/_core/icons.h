@@ -54,7 +54,6 @@ protected:
     void fill(list<string> *names);
     const QIconSet *getIcon(const char *name);
     const QIconSet *getBigIcon(const char *name);
-    QMimeSourceFactory	*my_factory;
 };
 
 #endif

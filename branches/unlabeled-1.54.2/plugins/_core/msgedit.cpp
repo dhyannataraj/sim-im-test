@@ -1074,7 +1074,7 @@ bool MsgEdit::adjustType()
 
 void *MsgEdit::processEvent(Event *e)
 {
-    if ((e->type() == EventContactChanged) && (((Contact*)(e->param()))->id() != m_userWnd->m_id)){
+    if ((e->type() == EventContactChanged) && (((Contact*)(e->param()))->id() == m_userWnd->m_id)){
         adjustType();
         return NULL;
     }

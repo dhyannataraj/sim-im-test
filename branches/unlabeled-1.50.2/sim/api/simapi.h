@@ -929,6 +929,11 @@ EXPORT bool set_ip(Data *ip, unsigned long value, const char *host=NULL);
 	void set##A(unsigned index, const char *value) { set_str(&data.A, index, value); } \
 	void clear##A()	{ clear_list(&data.A); }
 
+#define PROP_UTFLIST(A)	\
+	QString get##A(unsigned index) const { return QString::fromUtf8(get_str(data.A, index)); } \
+	void set##A(unsigned index, const QString &value) { set_str(&data.A, index, value.utf8()); } \
+	void clear##A()	{ clear_list(&data.A); }
+
 #define PROP_STR(A) \
 	const char *get##A() const { return data.A.ptr ? data.A.ptr : ""; } \
 	bool set##A(const char *r) { return set_str(&data.A.ptr, r); }
