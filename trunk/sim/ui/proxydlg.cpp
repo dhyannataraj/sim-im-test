@@ -40,6 +40,7 @@ ProxyDialog::ProxyDialog(QWidget *p, const QString &msg)
     cmbProxy->insertItem(i18n("SOCKS4"));
     cmbProxy->insertItem(i18n("SOCKS5"));
     cmbProxy->insertItem(i18n("HTTP"));
+    cmbProxy->insertItem(i18n("HTTPS"));
     cmbProxy->setCurrentItem(pClient->ProxyType());
 
     edtProxyHost->setText(QString::fromLocal8Bit(pClient->ProxyHost.c_str()));
@@ -65,6 +66,7 @@ void ProxyDialog::apply()
     pClient->ProxyUser = edtProxyUser->text().local8Bit();
     pClient->ProxyPasswd = edtProxyPasswd->text().local8Bit();
     pClient->ProxyAuth = chkProxyAuth->isChecked();
+    close();
 }
 
 void ProxyDialog::proxyChanged(bool)

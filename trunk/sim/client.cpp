@@ -89,12 +89,6 @@ encoding encodingTbl[] =
 
 Client::Client(QObject *parent, const char *name)
         : QObject(parent, name),
-        ProxyType(this, "ProxyType"),
-        ProxyHost(this, "ProxyHost", "proxy"),
-        ProxyPort(this, "ProxyPort", 1080),
-        ProxyAuth(this, "ProxyAuth"),
-        ProxyUser(this, "ProxyUser"),
-        ProxyPasswd(this, "ProxyPasswd"),
         MinTCPPort(this, "MinTCPPort", 1024),
         MaxTCPPort(this, "MaxTCPPort", 0xFFFF)
 {
@@ -841,11 +835,6 @@ QClientSocket::~QClientSocket()
 
 void QClientSocket::close()
 {
-    QObject::disconnect(sock, SIGNAL(connected()), this, SLOT(slotConnected()));
-    QObject::disconnect(sock, SIGNAL(connectionClosed()), this, SLOT(slotConnectionClosed()));
-    QObject::disconnect(sock, SIGNAL(readyRead()), this, SLOT(slotReadReady()));
-    QObject::disconnect(sock, SIGNAL(bytesWritten(int)), this, SLOT(slotBytesWritten(int)));
-    QObject::disconnect(sock, SIGNAL(error(int)), this, SLOT(slotError(int)));
     sock->close();
 }
 
@@ -887,7 +876,6 @@ void QClientSocket::slotConnected()
 void QClientSocket::slotConnectionClosed()
 {
     log(L_WARN, "Connection closed");
-    if (sock->bytesToWrite() == 0) notify->write_ready();
     notify->error_state(ErrorConnectionClosed);
 }
 

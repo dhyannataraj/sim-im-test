@@ -120,6 +120,8 @@ public:
     virtual void write_ready() {}
 };
 
+class Proxy;
+
 class ClientSocket : public SocketNotify
 {
 public:
@@ -134,16 +136,24 @@ public:
     unsigned long localHost();
     bool created();
     virtual void read_ready();
+    void close();
     void remove();
     void setRaw(bool mode);
-    Socket *socket() { return sock; }
+
+    Socket *socket() { return m_sock; }
+
     void setSocket(Socket *s);
+    void setProxy(Proxy *proxy);
+    void setProxyConnected();
+
 protected:
     virtual void connect_ready();
     virtual void write_ready();
     virtual void error_state(SocketError);
 
-    Socket *sock;
+    Socket *m_sock;
+    Proxy  *m_proxy;
+
     ClientSocketNotify *notify;
     SocketFactory *factory;
     bool bRawMode;

@@ -373,6 +373,10 @@ SOURCE=.\sim\ui\keysetupbase.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\ui\kpopup.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\libicq\lists.cpp
 # End Source File
 # Begin Source File
@@ -586,6 +590,10 @@ SOURCE=.\sim\ui\moc_keysetup.cpp
 # Begin Source File
 
 SOURCE=.\sim\ui\moc_keysetupbase.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\moc_kpopup.cpp
 # End Source File
 # Begin Source File
 
@@ -911,6 +919,10 @@ SOURCE=.\sim\ui\phonedetails.cpp
 # Begin Source File
 
 SOURCE=.\sim\libicq\ping.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\libicq\proxy.cpp
 # End Source File
 # Begin Source File
 
@@ -2054,6 +2066,39 @@ InputName=keysetup
 # Begin Source File
 
 SOURCE=.\sim\ui\keysetupbase.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\ui\kpopup.h
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\kpopup.h
+InputName=kpopup
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.\sim\ui
+InputPath=.\sim\ui\kpopup.h
+InputName=kpopup
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 

@@ -168,9 +168,17 @@ void PictButton::setState(const QString& _icon, const QString& _text)
 
 void PictButton::paintEvent(QPaintEvent *e)
 {
-    if (icon)
-        CToolButton::paintEvent(e);
-    QPainter p(this);
+    QPixmap pict(width(), height());
+    QPainter p(&pict);
+    QWidget *pw = static_cast<QWidget*>(parent());
+    if (pw){
+        if (pw->backgroundPixmap()){
+            p.drawTiledPixmap(0, 0, width(), height(), *pw->backgroundPixmap(), x(), y());
+        }else{
+            p.fillRect(0, 0, width(), height(), colorGroup().button());
+        }
+    }
+    style().drawToolButton(this, &p);
     QRect rc(4, 4, width() - 4, height() - 4);
     if (icon){
         const QPixmap &pict = Pict(icon);
@@ -187,6 +195,10 @@ void PictButton::paintEvent(QPaintEvent *e)
         }
     }
     p.drawText(rc, AlignLeft | AlignVCenter, text);
+    p.end();
+    p.begin(this);
+    p.drawPixmap(0, 0, pict);
+    p.end();
 }
 
 PictPushButton::PictPushButton( QWidget *parent, const char *name)

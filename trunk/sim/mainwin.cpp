@@ -54,12 +54,21 @@
 #endif
 
 #ifdef WIN32
+#include <winuser.h>
 #include <windowsx.h>
 #include <shellapi.h>
 #include <mmsystem.h>
 #include <shlobj.h>
 #include <winreg.h>
 #include "../idle/IdleTracker.h"
+
+typedef struct tagLASTINPUTINFO {
+    UINT cbSize;
+    DWORD dwTime;
+} LASTINPUTINFO, * PLASTINPUTINFO;
+
+static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
+
 #endif
 
 #include <errno.h>
@@ -93,6 +102,8 @@
 #include <kipc.h>
 #include <kaboutapplication.h>
 #include <kaboutkde.h>
+#else
+#include "ui/kpopup.h"
 #endif
 
 #ifdef USE_SCRNSAVER
@@ -380,7 +391,11 @@ MainWindow::MainWindow(const char *name)
     connect(blinkTimer, SIGNAL(timeout()), this, SLOT(blink()));
     blinkTimer->start(800);
 #ifdef WIN32
-    IdleTrackerInit();
+    HINSTANCE hLib = GetModuleHandleA("user32");
+    if (hLib != NULL)
+        (DWORD&)_GetLastInputInfo = (DWORD)GetProcAddress(hLib,"GetLastInputInfo");
+    if (_GetLastInputInfo == NULL)
+        IdleTrackerInit();
 #endif
 #ifdef USE_KDE
     connect(kapp, SIGNAL(iconChanged(int)), this, SLOT(changeIcons(int)));
@@ -494,10 +509,11 @@ MainWindow::~MainWindow()
     if (lockFile != -1) ::close(lockFile);
 #endif
     if (dock) delete dock;
-#ifdef WIN32
-    IdleTrackerTerm();
-#endif
     pMain = NULL;
+#ifdef WIN32
+    if (_GetLastInputInfo == NULL)
+        IdleTrackerTerm();
+#endif
 }
 
 void MainWindow::changeTransparent()
@@ -610,8 +626,7 @@ void MainWindow::setShowOffline(bool bState)
 }
 
 #ifdef WIN32
-typedef BOOL WINAPI _SHGetSpecialFolderPath(HWND hwndOwner, LPSTR lpszPath, int nFolder, BOOL fCreate);
-_SHGetSpecialFolderPath *_SHGetSpecialFolderPathA = NULL;
+static BOOL (WINAPI *_SHGetSpecialFolderPath)(HWND hwndOwner, LPSTR lpszPath, int nFolder, BOOL fCreate) = NULL;
 #endif
 
 void MainWindow::buildFileName(string &s, const char *name, bool bUseKDE, bool bCreate)
@@ -646,8 +661,8 @@ void MainWindow::buildFileName(string &s, const char *name, bool bUseKDE, bool b
         char szPath[MAX_PATH];
         HINSTANCE hLib = LoadLibraryA("Shell32.dll");
         if (hLib != NULL)
-            (DWORD&)_SHGetSpecialFolderPathA = (DWORD)GetProcAddress(hLib,"SHGetSpecialFolderPathA");
-        if (_SHGetSpecialFolderPathA && _SHGetSpecialFolderPathA(NULL, szPath, CSIDL_APPDATA, true)){
+            (DWORD&)_SHGetSpecialFolderPath = (DWORD)GetProcAddress(hLib,"SHGetSpecialFolderPathA");
+        if (_SHGetSpecialFolderPath && _SHGetSpecialFolderPath(NULL, szPath, CSIDL_APPDATA, true)){
             s = szPath;
             if (s.length()  == 0) s = "c:\\";
             if (s[s.length() - 1] != '\\') s += '\\';
@@ -1335,7 +1350,16 @@ void MainWindow::autoAway()
         }
     }
 #ifdef WIN32
-    unsigned long idle_time = (GetTickCount() - IdleTrackerGetLastTickCount()) / 1000;
+    unsigned long idle_time = 0;
+    if (_GetLastInputInfo == NULL){
+        idle_time = (GetTickCount() - IdleTrackerGetLastTickCount()) / 1000;
+    }else{
+        LASTINPUTINFO lii;
+        ZeroMemory(&lii,sizeof(lii));
+        lii.cbSize=sizeof(lii);
+        _GetLastInputInfo(&lii);
+        idle_time = (GetTickCount()-lii.dwTime) / 1000;
+    }
 #endif
 #ifdef USE_SCRNSAVER
     static XScreenSaverInfo *mit_info = NULL;
@@ -1501,9 +1525,7 @@ void MainWindow::ownerChanged()
     setStatusItem(ICQ_STATUS_OFFLINE);
     CUser owner(pClient);
     setCaption(owner.name());
-#ifdef USE_KDE
     menuFunction->changeTitle(1, owner.name());
-#endif
 }
 
 void MainWindow::adjustGroupMenu(QPopupMenu *menuGroup, unsigned long uin)
@@ -1537,10 +1559,8 @@ void MainWindow::showUserPopup(unsigned long uin, QPoint p, QPopupMenu *popup, c
     if (u == NULL) return;
     adjustGroupMenu(menuGroup, uin);
     menuUser->clear();
-#ifdef USE_KDE
     CUser user(u);
     menuUser->insertTitle(user.name());
-#endif
     menuUser->insertSeparator();
     menuUser->insertItem(i18n("Groups"), menuGroup, mnuGroups);
     menuUser->insertItem(Pict("remove"), i18n("Delete"), mnuDelete);
@@ -1565,25 +1585,20 @@ void MainWindow::showUserPopup(unsigned long uin, QPoint p, QPopupMenu *popup, c
     menuUser->popup(p);
 }
 
-void MainWindow::addMessageType(QPopupMenu *menuUser, int type, int id, bool bAdd, bool bHaveTitle)
+void MainWindow::addMessageType(QPopupMenu *menuUser, int type, int id,
+                                bool bAdd, bool bHaveTitle)
 {
-    addMenuItem(menuUser, Client::getMessageIcon(type), Client::getMessageText(type, 1),
+    addMenuItem(menuUser, Client::getMessageIcon(type),
+                Client::getMessageText(type, 1),
                 id, bAdd, bHaveTitle);
 }
 
-void MainWindow::addMenuItem(QPopupMenu *menuUser, const char *icon, const QString &n, int id, bool bAdd,
-#ifdef USE_KDE
-                             bool bHaveTitle
-#else
-                             bool
-#endif
-                            )
+void MainWindow::addMenuItem(QPopupMenu *menuUser, const char *icon,
+                             const QString &n, int id, bool bAdd, bool bHaveTitle)
 {
     if (bAdd){
         int pos = 0;
-#ifdef USE_KDE
         if (bHaveTitle) pos = 1;
-#endif
         if (menuUser->findItem(id)){
             if (menuUser->indexOf(id) == pos) return;
             menuUser->removeItem(id);
@@ -1594,6 +1609,7 @@ void MainWindow::addMenuItem(QPopupMenu *menuUser, const char *icon, const QStri
     if (menuUser->findItem(id) == NULL) return;
     menuUser->removeItem(id);
 }
+
 
 void MainWindow::userFunction(int function)
 {
@@ -2069,9 +2085,7 @@ void MainWindow::loadMenu()
     menuGroups->insertItem(Pict("grp_collapse"), i18n("Collapse all"), mnuGrpCollapseAll);
 
     menuFunction->clear();
-#ifdef USE_KDE
     menuFunction->insertTitle(i18n("ICQ"), 1);
-#endif
     menuFunction->setCheckable(true);
     menuFunction->insertItem(Icon("find"), i18n("Find User"), this, SLOT(search()));
     menuFunction->insertItem(Icon("nonim"), i18n("Add Non-IM contact"), this, SLOT(addNonIM()));

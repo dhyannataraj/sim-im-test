@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "xpstyle.h"
+#include "kpopup.h"
 
 #include <windows.h>
 #include <uxtheme.h>
@@ -32,9 +33,9 @@
 #include <qpushbutton.h>
 #include <qscrollbar.h>
 #include <qbitmap.h>
-
-#define INCLUDE_MENUITEM_DEF 1
-#include <qmenudata.h>
+#include <qimage.h>
+#include <qbutton.h>
+#include <qtoolbutton.h>
 
 #define Q_ASSERT ASSERT
 
@@ -42,6 +43,102 @@ static ulong ref = 0;
 static bool use_xp  = FALSE;
 static bool init_xp = FALSE;
 static QMap<QString,HTHEME> *handleMap = 0;
+
+static const unsigned bitmapWidth = 22;
+static const unsigned itemVMargin = 4;
+static const unsigned rightBorder = 12;
+static const unsigned itemFrame = 0;
+static const unsigned itemHMargin = 3;
+static const unsigned shadowWidth = 3;
+static const unsigned arrowHMargin = 6;
+
+enum GradientOrientation
+{
+    VerticalGradient,
+    HorizontalGradient
+};
+
+static QImage gradient(int w, int h, const QColor &ca,
+                       const QColor &cb, GradientOrientation eff)
+{
+    QSize size(w, h);
+
+    int rDiff, gDiff, bDiff;
+    int rca, gca, bca, rcb, gcb, bcb;
+
+    QImage image(size, 32);
+
+    if (size.width() == 0 || size.height() == 0)
+        return QImage();
+
+    register int x, y;
+
+    rDiff = (rcb = cb.red())   - (rca = ca.red());
+    gDiff = (gcb = cb.green()) - (gca = ca.green());
+    bDiff = (bcb = cb.blue())  - (bca = ca.blue());
+
+    uint *p;
+    uint rgb;
+
+    register int rl = rca << 16;
+    register int gl = gca << 16;
+    register int bl = bca << 16;
+
+    if( eff == VerticalGradient ) {
+
+        int rcdelta = ((1<<16) / size.height()) * rDiff;
+        int gcdelta = ((1<<16) / size.height()) * gDiff;
+        int bcdelta = ((1<<16) / size.height()) * bDiff;
+
+        for ( y = 0; y < size.height(); y++ ) {
+            p = (uint *) image.scanLine(y);
+
+            rl += rcdelta;
+            gl += gcdelta;
+            bl += bcdelta;
+
+            rgb = qRgb( (rl>>16), (gl>>16), (bl>>16) );
+
+            for( x = 0; x < size.width(); x++ ) {
+                *p = rgb;
+                p++;
+            }
+        }
+    } else {                  // must be HorizontalGradient
+
+        unsigned int *o_src = (unsigned int *)image.scanLine(0);
+        unsigned int *src = o_src;
+
+        int rcdelta = ((1<<16) / size.width()) * rDiff;
+        int gcdelta = ((1<<16) / size.width()) * gDiff;
+        int bcdelta = ((1<<16) / size.width()) * bDiff;
+
+        for( x = 0; x < size.width(); x++) {
+
+            rl += rcdelta;
+            gl += gcdelta;
+            bl += bcdelta;
+
+            *src++ = qRgb( (rl>>16), (gl>>16), (bl>>16));
+        }
+
+        src = o_src;
+
+        // Believe it or not, manually copying in a for loop is faster
+        // than calling memcpy for each scanline (on the order of ms...).
+        // I think this is due to the function call overhead (mosfet).
+
+        for (y = 1; y < size.height(); ++y) {
+
+            p = (unsigned int *)image.scanLine(y);
+            src = o_src;
+            for(x=0; x < size.width(); ++x)
+                *p++ = *src++;
+            *p++ = *src++;
+        }
+    }
+    return image;
+}
 
 class QWindowsXPStylePrivate
 {
@@ -119,7 +216,6 @@ public:
     QRect hotHeader;
 
     QPoint hotSpot;
-
 private:
     static QWidget *limboWidget;
     static QPixmap *tabbody;
@@ -289,6 +385,10 @@ void QWindowsXPStyle::polish( QWidget *widget )
         widget->setMouseTracking( TRUE );
         widget->setBackgroundOrigin( QWidget::ParentOrigin );
         widget->setAutoMask(true);
+        if (widget->inherits("QToolButton")){
+            QToolButton *btn = static_cast<QToolButton*>(widget);
+            btn->setAutoRaise(false);
+        }
     } else if ( widget->inherits( "QTabBar" ) ) {
         widget->installEventFilter( this );
         widget->setMouseTracking( TRUE );
@@ -296,9 +396,17 @@ void QWindowsXPStyle::polish( QWidget *widget )
     } else if ( widget->inherits( "QHeader" ) ) {
         widget->installEventFilter( this );
         widget->setMouseTracking( TRUE );
+    } else if ( widget->inherits( "QProgressBar" ) ) {
+        widget->installEventFilter( this );
     } else if ( widget->inherits( "QComboBox" ) ) {
         widget->installEventFilter( this );
         widget->setMouseTracking( TRUE );
+    } else if ( widget->inherits( "QLineEdit" ) ) {
+        widget->installEventFilter( this );
+    } else if ( widget->inherits( "QMultiLineEdit" ) ) {
+        widget->installEventFilter( this );
+    } else if ( widget->inherits( "QTextEdit" ) ) {
+        widget->installEventFilter( this );
     } else if ( widget->inherits( "QSpinWidget" ) ) {
         widget->installEventFilter( this );
         widget->setMouseTracking( TRUE );
@@ -310,9 +418,13 @@ void QWindowsXPStyle::polish( QWidget *widget )
         widget->setMouseTracking( TRUE );
     } else if ( widget->inherits( "QWorkspaceChild" ) ) {
         widget->installEventFilter( this );
+    } else if ( widget->inherits( "QSizeGrip" ) ) {
+        widget->installEventFilter( this );
     } else if ( widget->inherits( "QSlider" ) ) {
         widget->installEventFilter( this );
         widget->setMouseTracking( TRUE );
+    } else if ( widget->inherits( "KPopupTitle" ) ) {
+        widget->installEventFilter( this );
     } else if ( widget->inherits( "QWidgetStack" ) &&
                 widget->parentWidget() &&
                 widget->parentWidget()->inherits( "QTabWidget" ) ) {
@@ -427,7 +539,7 @@ QRect QMyHeader::sectionRect(int index)
 /*! \reimp */
 bool QWindowsXPStyle::eventFilter( QObject *o, QEvent *e )
 {
-    if ( !o || !o->isWidgetType() || e->type() == QEvent::Paint || !use_xp)
+    if ( !o || !o->isWidgetType() || !use_xp)
         return QWindowsStyle::eventFilter( o, e );
 
     QWidget *widget = (QWidget*)o;
@@ -497,28 +609,20 @@ bool QWindowsXPStyle::eventFilter( QObject *o, QEvent *e )
         if ( !widget->isActiveWindow() )
             break;
         d->hotWidget = widget;
-        if (widget->inherits("QCheckBox") || widget->inherits("QRadioButton"))
-            d->currentWidget = widget;
         widget->repaint( TRUE );
         break;
 
     case QEvent::Leave:
-        if ( !widget->isActiveWindow() )
-            break;
         if ( widget == d->hotWidget) {
             d->hotWidget = 0;
             d->hotHeader = QRect();
             d->hotTab = 0;
-            if (widget->inherits("QCheckBox") || widget->inherits("QRadioButton"))
-                d->currentWidget = widget;
-            widget->repaint( FALSE );
+            widget->repaint(TRUE);
         }
         break;
 
     case QEvent::FocusOut:
     case QEvent::FocusIn:
-        if (widget->inherits("QCheckBox") || widget->inherits("QRadioButton"))
-            d->currentWidget = widget;
         widget->repaint( FALSE );
         break;
 
@@ -526,12 +630,79 @@ bool QWindowsXPStyle::eventFilter( QObject *o, QEvent *e )
         updateRegion( widget );
         break;
 
-    case QEvent::Move:
-        if ( widget->backgroundPixmap() &&
-                widget->backgroundOrigin() != QWidget::WidgetOrigin )
-            widget->update();
-        break;
-
+        /*
+            case QEvent::Move:
+                if ( widget->backgroundPixmap() &&
+                        widget->backgroundOrigin() != QWidget::WidgetOrigin )
+                    widget->update();
+                break;
+        */
+    case QEvent::Paint:
+        if (o->inherits("QSizeGrip")){
+            QPainter p(widget);
+            XPThemeData theme(widget, &p, "STATUS", SP_GRIPPER,
+                              0, QRect(-4, -8, widget->width()+4, widget->height()+8));
+            if ( !theme.isValid() )
+                return false;
+            theme.drawBackground();
+            return true;
+        }
+        /*
+        		if (o->inherits("QProgerssBar")){
+        			QProgressBar *bar = static_cast<QProgressBar*>(widget);
+        			QPainter p(bar);
+        			return true;
+        		}
+        */
+        if (o->inherits("KPopupTitle")){
+            KPopupTitle *w = (KPopupTitle*)widget;
+            QImage img =
+                gradient(widget->width(), w->height(),
+                         darkXp(colorBitmap(w->colorGroup())),
+                         colorMenu(w->colorGroup()),
+                         HorizontalGradient);
+            QPixmap pict(widget->width(), w->height());
+            QPainter p(&pict);
+            p.drawImage(0, 0, img);
+            QFont f(w->font());
+            f.setBold(true);
+            p.setFont(f);
+            p.setPen(darkXp(colorSel(w->colorGroup())));
+            QRect rc(bitmapWidth + 1, 1, w->width(), w->height());
+            p.drawText(rc, AlignVCenter | AlignLeft, w->title());
+            rc.moveBy(-1, -1);
+            p.setPen(w->colorGroup().highlightedText());
+            p.drawText(rc, AlignVCenter | AlignLeft, w->title());
+            if (!w->icon().isNull()){
+                int pictx = (w->width() - w->icon().width()) / 2;
+                int picty = (w->height() - w->icon().height()) / 2;
+                const QBitmap *mask = w->icon().mask();
+                if (mask){
+                    QPixmap maskPict = *mask;
+                    maskPict.setMask(*mask);
+                    p.setBrush(darkXp(colorSel(w->colorGroup())));
+                    p.drawPixmap(pictx+1, picty+1, maskPict);
+                }
+                p.setPen(w->colorGroup().highlightedText());
+                p.drawPixmap(pictx, picty, w->icon());
+            }
+            p.end();
+            p.begin(w);
+            p.drawPixmap(0, 0, pict);
+            p.setPen(w->colorGroup().highlight());
+            p.drawLine(0, 0, w->width(), 0);
+            p.drawLine(0, w->height()-1, w->width(), w->height()-1);
+            p.end();
+            return true;
+        }
+        if (d->currentWidget != widget){
+            const QWidget *w = d->currentWidget;
+            d->currentWidget = widget;
+            o->event(e);
+            d->currentWidget = w;
+            return true;
+        }
+        return false;
     default:
         break;
     }
@@ -542,8 +713,16 @@ bool QWindowsXPStyle::eventFilter( QObject *o, QEvent *e )
 void QWindowsXPStyle::drawButton( QPainter *p, int x, int y, int w, int h,
                                   const QColorGroup &g, bool sunken, const QBrush *fill)
 {
+    int stateId = PBS_NORMAL;
+    if (sunken) stateId = PBS_PRESSED;
+    if (d->currentWidget){
+        if (!d->currentWidget->isEnabled())
+            stateId = PBS_DISABLED;
+        if (d->currentWidget->inherits("QHeader") && QRect(x, y, w, h).contains(d->hotSpot))
+            stateId = PBS_HOT;
+    }
     XPThemeData theme( 0, p, "BUTTON", BP_PUSHBUTTON,
-                       sunken ? PBS_PRESSED : PBS_NORMAL, QRect(x, y, w, h));
+                       stateId, QRect(x, y, w, h));
     if ( !theme.isValid() ) {
         QWindowsStyle::drawButton(p, x, y, w, h, g, sunken, fill);
         return;
@@ -578,8 +757,21 @@ void QWindowsXPStyle::drawButtonMask( QPainter *p, int x, int y, int w, int h)
 void QWindowsXPStyle::drawToolButton( QPainter *p, int x, int y, int w, int h,
                                       const QColorGroup &g, bool sunken, const QBrush *fill)
 {
+    int stateId = TS_NORMAL;
+    if (sunken) stateId = TS_PRESSED;
+    bool isChecked = false;
+    if (d->currentWidget){
+        if (d->currentWidget->inherits("QButton")){
+            const QButton *b = static_cast<const QButton*>(d->currentWidget);
+            if (b->isOn()) isChecked = true;
+        }
+        if (d->currentWidget == d->hotWidget)
+            stateId = isChecked ? TS_HOTCHECKED : TS_HOT;
+        if (!d->currentWidget->isEnabled())
+            stateId = TS_DISABLED;
+    }
     XPThemeData theme( 0, p, "TOOLBAR", TP_BUTTON,
-                       sunken ? TS_PRESSED : TS_NORMAL, QRect(x, y, w, h));
+                       stateId, QRect(x, y, w, h));
     if ( !theme.isValid() ) {
         QWindowsStyle::drawToolButton(p, x, y, w, h, g, sunken, fill);
         return;
@@ -848,7 +1040,7 @@ void QWindowsXPStyle::drawIndicator( QPainter* p, int x, int y, int w, int h, co
         stateId = CBS_UNCHECKEDDISABLED;
     else if ( down )
         stateId = CBS_UNCHECKEDPRESSED;
-    else if ( d->currentWidget && (d->currentWidget == d->hotWidget) && d->currentWidget->inherits("QCheckButton") )
+    else if ( d->currentWidget && (d->currentWidget == d->hotWidget))
         stateId = CBS_UNCHECKEDHOT;
     else
         stateId = CBS_UNCHECKEDNORMAL;
@@ -904,38 +1096,56 @@ void QWindowsXPStyle::drawComboButton( QPainter *p, int x, int y, int w, int h,
         stateId = CBXS_DISABLED;
     else if ( sunken )
         stateId = CBXS_PRESSED;
-    //		else if ( flags & Style_MouseOver && theme.rec.contains( d->hotSpot ) )
-    //		    stateId = CBXS_HOT;
+    else if ((d->currentWidget == d->hotWidget) && theme.rec.contains( d->hotSpot ) )
+        stateId = CBXS_HOT;
     else
         stateId = CBXS_NORMAL;
 
     theme.drawBackground( partId, stateId );
 }
 
+void QWindowsXPStyle::drawPopupPanel(QPainter *p, int x, int y, int w, int h,
+                                     const QColorGroup &cg, int lineWidth, const QBrush* fill)
+{
+    if (d->currentWidget &&
+            (d->currentWidget->inherits("QLineEdit") ||
+             d->currentWidget->inherits("QMultiLineEdit") ||
+             d->currentWidget->inherits("QTextEdit")))
+    {
+        int stateId = ETS_NORMAL;
+        if (!d->currentWidget->isEnabled()) stateId = ETS_DISABLED;
+        if (d->currentWidget->hasFocus()) stateId = ETS_FOCUSED;
+        XPThemeData theme( 0, p, "EDIT", EP_EDITTEXT, stateId, QRect(x, y, w, h));
+        if ( theme.isValid() ) {
+            theme.drawBackground();
+            return;
+        }
+    }
+    QWindowsStyle::drawPopupPanel(p, x, y, w, h, cg, lineWidth, fill);
+}
+
 void QWindowsXPStyle::drawPanel( QPainter *p, int x, int y, int w, int h,
                                  const QColorGroup &cg, bool sunken, int lineWidth, const QBrush *fill)
 {
-    //	if (d->currentWidget && d->currentWidget->inherits("QLineEdit")){
-    XPThemeData theme( 0, p, "EDIT", EP_EDITTEXT, ETS_NORMAL, QRect(x, y, w, h));
-    if ( theme.isValid() ) {
-        theme.drawBackground();
-        return;
+    if (d->currentWidget &&
+            (d->currentWidget->inherits("QLineEdit") ||
+             d->currentWidget->inherits("QMultiLineEdit") ||
+             d->currentWidget->inherits("QTextEdit")))
+    {
+        int stateId = ETS_NORMAL;
+        if (!d->currentWidget->isEnabled()) stateId = ETS_DISABLED;
+        if (d->currentWidget->hasFocus()) stateId = ETS_FOCUSED;
+        XPThemeData theme( 0, p, "EDIT", EP_EDITTEXT, stateId, QRect(x, y, w, h));
+        if ( theme.isValid() ) {
+            theme.drawBackground();
+            return;
+        }
     }
-    //	}
     QWindowsStyle::drawPanel(p, x, y, w, h, cg, sunken, lineWidth, fill);
-}
-
-void QWindowsXPStyle::drawPopupPanel( QPainter *p, int x, int y, int w, int h,
-                                      const QColorGroup &,  int lineWidth, const QBrush *fill)
-{
 }
 
 void QWindowsXPStyle::drawTab( QPainter *p, const QTabBar *tbar, QTab *t, bool selected )
 {
-    if (tbar->shape() != QTabBar::RoundedAbove){
-        QWindowsStyle::drawTab( p, tbar, t, selected );
-        return;
-    }
     QRect rect( t->r );
     QMyTabBar *bar = (QMyTabBar*)tbar;
     int partId = 0;
@@ -949,21 +1159,22 @@ void QWindowsXPStyle::drawTab( QPainter *p, const QTabBar *tbar, QTab *t, bool s
     else
         partId = TABP_TABITEM;
 
+    bool inFocus = (t->id == tbar->keyboardFocusTab());
+
     if ( !bar->isEnabled())
         stateId = TIS_DISABLED;
-    //	    else if ( flags & Style_HasFocus )
-    //		stateId = TIS_FOCUSED;
-    else if ( t == bar->tab(bar->currentTab() ))
+    else if ( inFocus )
+        stateId = TIS_FOCUSED;
+    else if ( selected )
         stateId = TIS_SELECTED;
     else if ( t && d->hotTab == t )
         stateId = TIS_HOT;
     else
         stateId = TIS_NORMAL;
-    //	    if ( (flags & Style_Selected) || (flags & Style_HasFocus) ) {
-    if ( t == bar->tab(bar->currentTab() )){
-        //		rect = QRect( rect.x(), rect.y(), rect.width() + 1, rect.height() + 1 );
+    if ( selected || inFocus ){
+        rect = QRect( rect.x(), rect.y() - 2, rect.width(), rect.height() + 2);
     } else {
-        rect = QRect( rect.x(), rect.y() + 2, rect.width(), rect.height() );
+        rect = QRect( rect.x(), rect.y(), rect.width(), rect.height() - 2);
         if ( idx != aidx+1 )
             rect = QRect( rect.x() + 1, rect.y(), rect.width(), rect.height() );
         if ( idx != aidx-1 )
@@ -974,22 +1185,18 @@ void QWindowsXPStyle::drawTab( QPainter *p, const QTabBar *tbar, QTab *t, bool s
         QWindowsStyle::drawTab( p, bar, t, selected );
         return;
     }
-
+    p->save();
+    if ((tbar->shape() == QTabBar::RoundedBelow) || (tbar->shape() == QTabBar::TriangularBelow)){
+        p->scale(1, -1);
+        p->translate(0, -rect.height() - rect.y());
+    }
     theme.drawBackground();
-
+    p->restore();
 }
 
 void QWindowsXPStyle::drawTabMask( QPainter*, const QTabBar*, QTab*, bool selected )
 {
 }
-
-static const unsigned bitmapWidth = 22;
-static const unsigned itemVMargin = 4;
-static const unsigned rightBorder = 12;
-static const unsigned itemFrame = 0;
-static const unsigned itemHMargin = 3;
-static const unsigned shadowWidth = 3;
-static const unsigned arrowHMargin = 6;
 
 void QWindowsXPStyle::drawPopupMenuItem( QPainter* p, bool checkable,
         int maxpmw, int tab, QMenuItem* mi,

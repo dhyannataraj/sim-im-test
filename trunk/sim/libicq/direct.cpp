@@ -34,12 +34,6 @@
 #include <unistd.h>
 #endif
 
-#ifdef USE_OPENSSL
-#include <openssl/ssl.h>
-#include <openssl/bio.h>
-#include <openssl/err.h>
-#endif
-
 #include "icqclient.h"
 #include "icqssl.h"
 #include "log.h"
@@ -150,7 +144,6 @@ void DirectSocket::connect()
     }
     if (state == NotConnected){
         m_bUseInternalIP = true;
-        log(L_DEBUG, ">> %X %X", ip, client->IP());
         if ((ip != 0) && ((ip & 0xFFFFFF) != (client->IP() & 0xFFFFFF)))
             m_bUseInternalIP = false;
         log(L_DEBUG, "Use internal... %u", m_bUseInternalIP);
@@ -158,6 +151,7 @@ void DirectSocket::connect()
         if (real_ip != 0){
             struct in_addr addr;
             addr.s_addr = m_bUseInternalIP ? real_ip : ip;
+            sock->setProxy(m_bUseInternalIP ? NULL : client->getProxy());
             sock->connect(inet_ntoa(addr), port);
             return;
         }
@@ -167,6 +161,7 @@ void DirectSocket::connect()
         if (ip != 0){
             struct in_addr addr;
             addr.s_addr = m_bUseInternalIP ? ip : real_ip;
+            sock->setProxy(m_bUseInternalIP ? NULL : client->getProxy());
             sock->connect(inet_ntoa(addr), port);
             return;
         }
@@ -186,7 +181,7 @@ void DirectSocket::packet_ready()
             return;
         }
     }
-    client->dumpPacket(sock->readBuffer, 0,"Direct read");
+    dumpPacket(sock->readBuffer, 0,"Direct read");
     switch (state){
     case Logged:{
             processPacket();
@@ -307,7 +302,7 @@ void DirectSocket::sendInit()
     sock->writeBuffer.pack(0x00000003L);
     if (version >= 7)
         sock->writeBuffer.pack(0x00000000L);
-    client->dumpPacket(sock->writeBuffer, pos, "Direct write");
+    dumpPacket(sock->writeBuffer, pos, "Direct write");
     sock->write();
 }
 
@@ -317,13 +312,14 @@ void DirectSocket::sendInitAck()
     sock->writeBuffer.pack((unsigned short)0x0004);
     sock->writeBuffer.pack((unsigned short)0x0001);
     sock->writeBuffer.pack((unsigned short)0x0000);
-    client->dumpPacket(sock->writeBuffer, pos, "Direct write");
+    dumpPacket(sock->writeBuffer, pos, "Direct write");
     sock->write();
 }
 
 void DirectSocket::connect_ready()
 {
     log(L_DEBUG, "Direct connect OK");
+    sock->setProxyConnected();
     sendInit();
     state = WaitAck;
     sock->readBuffer.init(2);
@@ -368,314 +364,6 @@ static unsigned char client_check_data[] =
         "ICQ Service and Information may\0"
     };
 
-#ifdef USE_OPENSSL
-
-SSLClient::SSLClient(Socket *_sock)
-        : Socket(NULL)
-{
-    sock = _sock;
-    sock->setNotify(this);
-    mpSSL = NULL;
-    mrBIO = NULL;
-    mwBIO = NULL;
-    m_bSecure = false;
-}
-
-SSLClient::~SSLClient()
-{
-    if (pSSL != NULL) SSL_free(pSSL);
-    mpSSL = NULL;
-    mrBIO = NULL;
-    mwBIO = NULL;
-    m_bSecure = false;
-};
-
-bool SSLClient::init()
-{
-    mpSSL = newSSL();
-    SSL_set_session(pSSL, NULL);
-    mrBIO = BIO_new(BIO_s_mem());
-    mwBIO = BIO_new(BIO_s_mem());
-    if ((mpSSL == NULL) || (mrBIO == NULL) || (mwBIO == NULL)){
-        log(L_WARN, "SSL error");
-        return false;
-    }
-    SSL_set_bio(pSSL, rBIO, wBIO);
-    SSL_set_mode(pSSL, SSL_MODE_AUTO_RETRY);
-    return true;
-}
-
-void SSLClient::process(bool bInRead)
-{
-    for (;;){
-        switch (state){
-        case SSLWrite:
-            write();
-            break;
-        case SSLConnect:
-            connect();
-            break;
-        case SSLAccept:
-            accept();
-            break;
-        case SSLShutdown:
-            shutdown();
-            break;
-        case SSLConnected:
-            if (!bInRead && SSL_pending(pSSL) > 0)
-                notify->read_ready();
-            break;
-        }
-        char b[2048];
-        int i = BIO_read(wBIO, b, sizeof(b));
-        if (i == 0) return;
-        if (i > 0){
-            sock->write(b, i);
-            continue;
-        }
-        if (i < 0){
-            if (!BIO_should_retry(wBIO))
-                notify->error_state(ErrorWrite);
-            return;
-        }
-    }
-}
-
-void SSLClient::connect()
-{
-    log(L_DEBUG, "SSL connect");
-    if (pSSL == NULL){
-        notify->error_state(ErrorConnect);
-        return;
-    }
-    int i = SSL_connect(pSSL);
-    int j = SSL_get_error(pSSL, i);
-    if (j == SSL_ERROR_NONE)
-    {
-        log(L_DEBUG, "SSL OK");
-        m_bSecure = true;
-        state = SSLConnected;
-        notify->connect_ready();
-        return;
-    }
-    const char *file;
-    int line;
-    unsigned long err;
-    switch (j)
-    {
-    case SSL_ERROR_SSL:
-        err = ERR_get_error_line(&file, &line);
-        log(L_WARN, "SSL: SSL_connect error = %lx, %s:%i", err, file, line);
-        ERR_clear_error();
-        notify->error_state(ErrorConnect);
-        return;
-    case SSL_ERROR_WANT_WRITE:
-    case SSL_ERROR_WANT_READ:
-        state = SSLConnect;
-        return;
-    default:
-        log(L_DEBUG, "SSL: SSL_connect error %d, SSL_%d", i, j);
-        notify->error_state(ErrorConnect);
-    }
-}
-
-void SSLClient::shutdown()
-{
-    log(L_DEBUG, "SSL shutdown");
-    if (pSSL == NULL){
-        notify->error_state(ErrorConnect);
-        return;
-    }
-    int i = SSL_shutdown(pSSL);
-    int j = SSL_get_error(pSSL, i);
-    if (j == SSL_ERROR_NONE)
-    {
-        log(L_DEBUG, "SSL OK");
-        SSL_free(pSSL);
-        mpSSL = NULL;
-        m_bSecure = false;
-        return;
-    }
-    const char *file;
-    int line;
-    unsigned long err;
-    switch (j)
-    {
-    case SSL_ERROR_SSL:
-        err = ERR_get_error_line(&file, &line);
-        log(L_WARN, "SSL: SSL_shutdown error = %lx, %s:%i", err, file, line);
-        ERR_clear_error();
-        notify->error_state(ErrorConnect);
-        return;
-    case SSL_ERROR_WANT_READ:
-    case SSL_ERROR_WANT_WRITE:
-        state = SSLShutdown;
-        return;
-    default:
-        log(L_DEBUG, "SSL: SSL_shutdown error %d, SSL_%d", i, j);
-        notify->error_state(ErrorConnect);
-    }
-}
-
-void SSLClient::accept()
-{
-    log(L_DEBUG, "SSL accept");
-    if (pSSL == NULL){
-        notify->error_state(ErrorConnect);
-        return;
-    }
-    int i = SSL_accept(pSSL);
-    int j = SSL_get_error(pSSL, i);
-    if (j == SSL_ERROR_NONE)
-    {
-        log(L_DEBUG, "SSL OK");
-        m_bSecure = true;
-        notify->connect_ready();
-        state = SSLConnected;
-        return;
-    }
-    const char *file;
-    int line;
-    unsigned long err;
-    switch (j)
-    {
-    case SSL_ERROR_SSL:
-        err = ERR_get_error_line(&file, &line);
-        log(L_WARN, "SSL: SSL_accept error = %lx, %s:%i", err, file, line);
-        ERR_clear_error();
-        notify->error_state(ErrorConnect);
-        return;
-    case SSL_ERROR_WANT_READ:
-    case SSL_ERROR_WANT_WRITE:
-        state = SSLAccept;
-        return;
-    default:
-        log(L_DEBUG, "SSL: SSL_accept error %d, SSL_%d", i, j);
-        notify->error_state(ErrorConnect);
-    }
-}
-
-int SSLClient::read(char *buf, unsigned int size)
-{
-    if (state != SSLConnected) return 0;
-    int nBytesReceived = SSL_read(pSSL, buf, size);
-    int tmp = SSL_get_error(pSSL, nBytesReceived);
-    const char *file;
-    int line;
-    unsigned long err;
-    switch (tmp){
-    case SSL_ERROR_NONE:
-    case SSL_ERROR_WANT_READ:
-    case SSL_ERROR_WANT_WRITE:
-    case SSL_ERROR_WANT_X509_LOOKUP:
-        break;
-    case SSL_ERROR_SSL:
-        err = ERR_get_error_line(&file, &line);
-        log(L_WARN, "SSL: SSL_read error = %lx, %s:%i", err, file, line);
-        ERR_clear_error();
-        notify->error_state(ErrorRead);
-        return -1;
-    default:
-        log(L_DEBUG, "SSL: SSL_read error %d, SSL_%d", nBytesReceived, tmp);
-        notify->error_state(ErrorRead);
-        return -1;
-    }
-    process(true);
-    if (nBytesReceived < 0) nBytesReceived = 0;
-    return nBytesReceived;
-}
-
-void SSLClient::write(const char *buf, unsigned int size)
-{
-    wBuffer.pack(buf, size);
-    state = SSLWrite;
-    process();
-}
-
-void SSLClient::write()
-{
-    int nBytesSend = SSL_write(pSSL, wBuffer.Data(0), wBuffer.size());
-    int tmp = SSL_get_error(pSSL, nBytesSend);
-    const char *file;
-    int line;
-    unsigned long err;
-    switch (tmp){
-    case SSL_ERROR_NONE:
-    case SSL_ERROR_WANT_READ:
-    case SSL_ERROR_WANT_WRITE:
-    case SSL_ERROR_WANT_X509_LOOKUP:
-        break;
-    case SSL_ERROR_SSL:
-        err = ERR_get_error_line(&file, &line);
-        log(L_WARN, "SSL: SSL_write error = %lx, %s:%i", err, file, line);
-        ERR_clear_error();
-        notify->error_state(ErrorWrite);
-        return;
-    default:
-        log(L_DEBUG, "SSL: SSL_write error %d, SSL_%d", nBytesSend, tmp);
-        notify->error_state(ErrorWrite);
-        return;
-    }
-    if (nBytesSend > 0)
-        wBuffer.incReadPos(nBytesSend);
-    if (wBuffer.readPos() == wBuffer.writePos()){
-        wBuffer.init(0);
-        state = SSLConnected;
-    }
-}
-
-void SSLClient::connect(const char*, int)
-{
-}
-
-void SSLClient::close()
-{
-}
-
-unsigned long SSLClient::localHost()
-{
-    return sock->localHost();
-}
-
-void SSLClient::pause(unsigned n)
-{
-    sock->pause(n);
-}
-
-void SSLClient::connect_ready()
-{
-}
-
-void SSLClient::read_ready()
-{
-    for (;;){
-        char b[2048];
-        int n = sock->read(b, sizeof(b));
-        if (n == -1){
-            notify->error_state(ErrorRead);
-            return;
-        }
-        if (n == 0) break;
-        n = BIO_write(rBIO, b, n);
-        if (n == -1)
-            notify->error_state(ErrorRead);
-        process();
-    }
-    if (state == SSLConnected)
-        notify->read_ready();
-}
-
-void SSLClient::write_ready()
-{
-}
-
-void SSLClient::error_state(SocketError err)
-{
-    notify->error_state(err);
-}
-
-#endif
-
 DirectClient::DirectClient(int fd, ICQClient *client)
         : DirectSocket(fd, client)
 {
@@ -696,6 +384,15 @@ DirectClient::~DirectClient()
 {
     if (u && (u->direct == this)) u->direct = NULL;
     secureStop(false);
+}
+
+bool DirectClient::isSecure()
+{
+#ifdef USE_OPENSSL
+    return ((ssl != NULL) && ssl->connected());
+#else
+    return false;
+#endif
 }
 
 void DirectClient::secureConnect()
@@ -824,7 +521,7 @@ void DirectClient::processPacket()
             return;
         }
     }
-    client->dumpPacket(sock->readBuffer, 0, "Decrypted packed");
+    dumpPacket(sock->readBuffer, 0, "Decrypted packed");
 
     sock->readBuffer.setReadPos(2);
     if (version >= 7){
@@ -1087,7 +784,7 @@ void DirectClient::sendInit2()
         sock->writeBuffer.pack(0x00000000L);
         sock->writeBuffer.pack(0x00040001L);
     }
-    client->dumpPacket(sock->writeBuffer, pos, "Direct write");
+    dumpPacket(sock->writeBuffer, pos, "Direct write");
     sock->write();
 }
 
@@ -1141,7 +838,7 @@ void DirectClient::sendPacket()
     unsigned char *p = (unsigned char*)(sock->writeBuffer.Data(m_packetOffs));
     *((unsigned short*)p) = size;
 
-    client->dumpPacket(sock->writeBuffer, m_packetOffs, "Direct send");
+    dumpPacket(sock->writeBuffer, m_packetOffs, "Direct send");
 
     unsigned long hex, key, B1, M1;
     unsigned long i, check;
@@ -1177,7 +874,7 @@ void DirectClient::sendPacket()
         p[i+2] ^= (hex>>16) & 0xFF;
         p[i+3] ^= (hex>>24) & 0xFF;
     }
-    client->dumpPacket(sock->writeBuffer, m_packetOffs, "Encrypted packet");
+    dumpPacket(sock->writeBuffer, m_packetOffs, "Encrypted packet");
     sock->write();
 }
 
@@ -1594,7 +1291,7 @@ void FileTransfer::sendPacket(bool dump)
     unsigned size = sock->writeBuffer.size() - m_packetOffs - 2;
     unsigned char *p = (unsigned char*)(sock->writeBuffer.Data(m_packetOffs));
     *((unsigned short*)p) = size;
-    if (dump) client->dumpPacket(sock->writeBuffer, m_packetOffs, "File transfer send");
+    if (dump) dumpPacket(sock->writeBuffer, m_packetOffs, "File transfer send");
     sock->write();
 }
 
@@ -1749,7 +1446,7 @@ void ChatSocket::sendLine(const char *str)
     }
     sock->writeBuffer.pack(' ');
     sock->writeBuffer.pack(CHAT_NEWLINE);
-    client->dumpPacket(sock->writeBuffer, writePos, "Chat send");
+    dumpPacket(sock->writeBuffer, writePos, "Chat send");
     sock->write();
 }
 
@@ -1771,7 +1468,7 @@ void ChatSocket::packet_ready()
         return;
     }
 
-    client->dumpPacket(sock->readBuffer, sock->readBuffer.readPos(), "Chat read");
+    dumpPacket(sock->readBuffer, sock->readBuffer.readPos(), "Chat read");
 
     string chatText;
     for (;;){
@@ -1998,7 +1695,7 @@ void ChatSocket::sendPacket()
     unsigned size = sock->writeBuffer.size() - m_packetOffs - 2;
     unsigned char *p = (unsigned char*)sock->writeBuffer.Data(m_packetOffs);
     *((unsigned short*)p) = size;
-    client->dumpPacket(sock->writeBuffer, m_packetOffs, "Chat send");
+    dumpPacket(sock->writeBuffer, m_packetOffs, "Chat send");
     sock->write();
 }
 

@@ -95,12 +95,6 @@ public:
     Client(QObject *parent = NULL, const char *name = NULL);
     ~Client();
 
-    ConfigShort		ProxyType;
-    ConfigString	ProxyHost;
-    ConfigShort		ProxyPort;
-    ConfigBool		ProxyAuth;
-    ConfigString	ProxyUser;
-    ConfigString	ProxyPasswd;
     ConfigUShort	MinTCPPort;
     ConfigUShort	MaxTCPPort;
 

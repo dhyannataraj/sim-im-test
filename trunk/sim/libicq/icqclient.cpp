@@ -17,6 +17,7 @@
 
 #include "defs.h"
 #include "icqclient.h"
+#include "proxy.h"
 #include "log.h"
 
 #include <stdio.h>
@@ -47,6 +48,12 @@ ICQClient::ICQClient()
         BirthdayReminder(this, "BirthdayReminder", "birthday.wav"),
         FileDone(this, "FileDone", "filedone.wav"),
         BypassAuth(this, "BypassAuth"),
+        ProxyType(this, "ProxyType"),
+        ProxyHost(this, "ProxyHost", "proxy"),
+        ProxyPort(this, "ProxyPort", 1080),
+        ProxyAuth(this, "ProxyAuth"),
+        ProxyUser(this, "ProxyUser"),
+        ProxyPasswd(this, "ProxyPasswd"),
         contacts(this),
         m_bHeader(true), m_bBirthday(false)
 {
@@ -99,6 +106,7 @@ void ICQClient::process_event(ICQEvent *e)
 void ICQClient::create_socket()
 {
     sock = new ClientSocket(this, this);
+    sock->setProxy(getProxy());
     listener = new ICQListener(this);
     if (!listener->created() || !sock->created()){
         close();
@@ -455,6 +463,7 @@ bool ICQClient::load(istream &s, string &nextPart)
 
 void ICQClient::connect_ready()
 {
+    sock->setProxyConnected();
     sock->readBuffer.init(6);
     m_bHeader = true;
 }
@@ -610,37 +619,27 @@ UTFstring::UTFstring(const char *p)
     if (p) *((string*)this) = p;
 }
 
-void ICQClient::dumpPacket(Buffer &b, unsigned long start, const char *operation)
+Proxy *ICQClient::getProxy()
 {
-    if ((log_level & L_PACKET) == 0) return;
-    string res;
-    log(L_PACKET, "%s %u bytes", operation, b.size() - start);
-    char line[81];
-    char *p1 = line;
-    char *p2 = line;
-    unsigned n = 20;
-    unsigned offs = 0;
-    for (unsigned i = start; i < b.size(); i++, n++){
-        char buf[32];
-        if (n == 16)
-            log(L_PACKET | L_SILENT, "%s", line);
-        if (n >= 16){
-            memset(line, ' ', 80);
-            line[80] = 0;
-            snprintf(buf, sizeof(buf), "     %04X: ", offs);
-            memcpy(line, buf, strlen(buf));
-            p1 = line + strlen(buf);
-            p2 = p1 + 52;
-            n = 0;
-            offs += 0x10;
-        }
-        if (n == 8) p1++;
-        unsigned char c = (unsigned char)*(b.Data(i));
-        *(p2++) = ((c >= ' ') && (c != 0x7F)) ? c : '.';
-        snprintf(buf, sizeof(buf), "%02X ", c);
-        memcpy(p1, buf, 3);
-        p1 += 3;
+    switch (ProxyType()){
+    case 0:
+        return 0;
+    case 1:
+        return new SOCKS4_Proxy(ProxyHost.c_str(), ProxyPort());
+    case 2:
+        return new SOCKS5_Proxy(ProxyHost.c_str(), ProxyPort(),
+                                ProxyAuth() ? ProxyUser.c_str() : "",
+                                ProxyAuth() ? ProxyPasswd.c_str() : "");
+    case 3:
+        return new HTTP_Proxy(ProxyHost.c_str(), ProxyPort(),
+                              ProxyAuth() ? ProxyUser.c_str() : "",
+                              ProxyAuth() ? ProxyPasswd.c_str() : "");
+    case 4:
+        return new HTTPS_Proxy(ProxyHost.c_str(), ProxyPort(),
+                               ProxyAuth() ? ProxyUser.c_str() : "",
+                               ProxyAuth() ? ProxyPasswd.c_str() : "");
+    default:
+        log(L_WARN, "Unknown proxy type");
     }
-    if (n <= 16) log(L_PACKET | L_SILENT, "%s", line);
+    return NULL;
 }
-

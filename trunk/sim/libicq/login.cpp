@@ -49,6 +49,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
             ICQEvent e(EVENT_INFO_CHANGED);
             process_event(&e);
             m_state = Connect;
+            sock->setProxy(getProxy());
             sock->connect(ServerHost.c_str(), ServerPort());
             break;
         }
@@ -180,6 +181,8 @@ void ICQClient::chn_close()
     *port = 0;
     port++;
     m_state = Login;
+    sock->close();
+    sock->setProxy(getProxy());
     sock->connect(host, atol(port));
 
     flap(ICQ_CHNxNEW);

@@ -22,6 +22,7 @@
 #endif
 
 #include "socket.h"
+#include "proxy.h"
 #include "log.h"
 
 Socket::Socket(SocketNotify *n)
@@ -39,12 +40,39 @@ ClientSocket::ClientSocket(ClientSocketNotify *n, SocketFactory *f, int fd)
     notify = n;
     factory = f;
     bRawMode = false;
-    sock = f->createSocket(this, fd);
+    m_sock = f->createSocket(this, fd);
+    m_proxy = NULL;
 }
 
 ClientSocket::~ClientSocket()
 {
-    if (sock) delete sock;
+    setProxy(NULL);
+    if (m_sock) delete m_sock;
+}
+
+void ClientSocket::close()
+{
+    setProxy(NULL);
+    m_sock->close();
+}
+
+void ClientSocket::setProxy(Proxy *p)
+{
+    if (m_proxy){
+        setSocket(m_proxy->socket());
+        delete m_proxy;
+        m_proxy = NULL;
+    }
+    if (p){
+        m_proxy = p;
+        m_proxy->setSocket(m_sock);
+        setSocket(m_proxy);
+    }
+}
+
+void ClientSocket::setProxyConnected()
+{
+    setProxy(NULL);
 }
 
 void ClientSocket::error(SocketError err)
@@ -79,19 +107,19 @@ void ClientSocket::error(SocketError err)
 
 void ClientSocket::connect(const char *host, int port)
 {
-    sock->connect(host, port);
+    m_sock->connect(host, port);
 }
 
 void ClientSocket::write()
 {
     if (writeBuffer.size() == 0) return;
-    sock->write(writeBuffer.Data(0), writeBuffer.size());
+    m_sock->write(writeBuffer.Data(0), writeBuffer.size());
     writeBuffer.init(0);
 }
 
 bool ClientSocket::created()
 {
-    return (sock != NULL);
+    return (m_sock != NULL);
 }
 
 void ClientSocket::connect_ready()
@@ -111,7 +139,7 @@ void ClientSocket::read_ready()
     if (bRawMode){
         for (;;){
             char b[2048];
-            int readn = sock->read(b, sizeof(b));
+            int readn = m_sock->read(b, sizeof(b));
             log(L_DEBUG, "Read ready %X %u", this, readn);
             if (readn == 0) break;
             readBuffer.setWritePos(readBuffer.writePos() + readn);
@@ -121,8 +149,8 @@ void ClientSocket::read_ready()
         return;
     }
     for (;;){
-        int readn = sock->read(readBuffer.Data(readBuffer.writePos()),
-                               readBuffer.size() - readBuffer.writePos());
+        int readn = m_sock->read(readBuffer.Data(readBuffer.writePos()),
+                                 readBuffer.size() - readBuffer.writePos());
         log(L_DEBUG, "Read ready %X %u", this, readn);
         if (readn < 0){
             notify->error_state(ErrorRead);
@@ -147,23 +175,23 @@ void ClientSocket::error_state(SocketError err)
 
 void ClientSocket::remove()
 {
-    sock->close();
+    m_sock->close();
     factory->removedNotifies.push_back(this);
 }
 
 unsigned long ClientSocket::localHost()
 {
-    return sock->localHost();
+    return m_sock->localHost();
 }
 
 void ClientSocket::pause(unsigned n)
 {
-    sock->pause(n);
+    m_sock->pause(n);
 }
 
 void ClientSocket::setSocket(Socket *s)
 {
-    sock = s;
+    m_sock = s;
     s->setNotify(this);
 }
 

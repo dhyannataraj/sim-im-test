@@ -1571,7 +1571,7 @@ void MsgEdit::send()
             }
         }
     }
-    if (pMain->SpellOnSend){
+    if (pMain->SpellOnSend()){
         switch (msg->Type()){
         case ICQ_MSGxSMS:
         case ICQ_MSGxMSG:

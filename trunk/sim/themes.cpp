@@ -54,9 +54,7 @@ public:
     XpStyle();
 };
 
-typedef QStyle *WINAPI CREATE_STYLE ();
-
-CREATE_STYLE *createXpStyle = NULL;
+static QStyle* (WINAPI *createXpStyle)() = NULL;
 
 XpStyle::XpStyle()
 {

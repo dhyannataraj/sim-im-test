@@ -65,6 +65,7 @@ class UserTabBar : public QTabBar
     Q_OBJECT
 public:
     UserTabBar(QWidget *parent);
+    virtual void layoutTabs();
 signals:
     void showUserPopup(int id, QPoint p);
 protected:

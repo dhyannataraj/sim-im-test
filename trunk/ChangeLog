@@ -1,4 +1,6 @@
 Version 0.8
+Add HTTPS proxy support
+Make abstract interface for socket
 Fix receive messages from ICQLite
 Fix drag-and-drop files 
 Fix user encoding for encode/decode RTF 

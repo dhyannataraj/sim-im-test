@@ -118,7 +118,6 @@ UserBox::UserBox(unsigned long grpId)
     tabSplitter = new Splitter(frm);
     tabSplitter->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
     tabs = new UserTabBar(tabSplitter);
-    tabs->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
     QSize s;
     status = new QStatusBar(tabSplitter);
     {
@@ -577,7 +576,7 @@ bool UserBox::load(std::istream &s, string &part)
         }
         wnds.remove(wnd);
     }
-    adjustUserMenu(true);
+    adjustUserMenu(false);
     lay->invalidate();
     if (tabs->count() == 0) return false;
     adjustPos();
@@ -781,7 +780,8 @@ void UserBox::setGroupButtons()
         btnIgnore->setEnabled(true);
         btnGroup->setEnabled(true);
     }
-    if ((tabs->count() > 1) && !tabs->isVisible() && isVisible()) tabs->show();
+    if ((tabs->count() > 1) && !tabs->isVisible() && isVisible())
+        tabs->show();
 }
 
 void UserBox::statusChanged(unsigned long uin)
@@ -853,7 +853,7 @@ void UserBox::selectedUser(int id)
     }
     showUsers(curWnd->bMultiply, curWnd->Uin);
     setGroupButtons();
-    adjustUserMenu(false);
+    adjustUserMenu(true);
 }
 
 void UserBox::adjustUserMenu(bool bRescan)
@@ -1012,6 +1012,15 @@ void UserBox::modeChanged(bool bSimple)
 UserTabBar::UserTabBar(QWidget *parent) : QTabBar(parent)
 {
     setShape(QTabBar::TriangularBelow);
+}
+
+void UserTabBar::layoutTabs()
+{
+    QTabBar::layoutTabs();
+    QList<QTab> *tList = tabList();
+    for (QTab *t = tList->first(); t; t = tList->next()){
+        t->r.setHeight(height());
+    }
 }
 
 void UserTabBar::paintLabel(QPainter *p, const QRect &rc, QTab *t, bool bFocusRect) const

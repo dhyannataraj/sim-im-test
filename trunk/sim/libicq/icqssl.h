@@ -18,30 +18,56 @@
 #ifndef _ICQSSL_H
 #define _ICQSSL_H
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#ifdef STDC_HEADERS
-#include <stdlib.h>
-#include <stddef.h>
-#endif
-#ifdef HAVE_INTTYPES_H
-#include <inttypes.h>
-#else
-#ifdef HAVE_STDINT_H
-#include <stdint.h>
-#endif
-#endif
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-
 #ifdef USE_OPENSSL
+#include "socket.h"
 
-#include <openssl/ssl.h>
-
-SSL *newSSL();
+class SSLClient : public SocketNotify, public Socket
+{
+public:
+    SSLClient(Socket*);
+    ~SSLClient();
+    virtual int read(char *buf, unsigned int size);
+    virtual void write(const char *buf, unsigned int size);
+    virtual void connect(const char *host, int port);
+    virtual void close();
+    virtual unsigned long localHost();
+    virtual void pause(unsigned);
+    bool connected() { return m_bSecure; }
+    Socket *socket() { return sock; }
+    bool init();
+    bool initHTTPS();
+    void accept();
+    void connect();
+    void shutdown();
+    void process(bool bInRead=false);
+    void write();
+protected:
+    void initSSL();
+    void initSSL_HTTPS();
+    bool initBIO();
+    Buffer wBuffer;
+    virtual void connect_ready();
+    virtual void read_ready();
+    virtual void write_ready();
+    virtual void error_state(SocketError);
+    Socket *sock;
+    enum State
+    {
+        SSLAccept,
+        SSLConnect,
+        SSLShutdown,
+        SSLWrite,
+        SSLConnected
+    };
+    State state;
+    bool m_bSecure;
+    void *mpSSL;
+    void *mrBIO;
+    void *mwBIO;
+#define pSSL	((SSL*)mpSSL)
+#define rBIO	((BIO*)mrBIO)
+#define wBIO	((BIO*)mwBIO)
+};
 
 #endif
 #endif

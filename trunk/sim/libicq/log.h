@@ -45,6 +45,9 @@ const unsigned short L_DEBUG 	= 0x04;
 const unsigned short L_PACKET  	= 0x08;
 const unsigned short L_SILENT 	= 0x8000;
 
+class Buffer;
+
 void log(unsigned short level, const char *fmt, ...);
+void dumpPacket(Buffer &b, unsigned long start, const char *info);
 
 #endif

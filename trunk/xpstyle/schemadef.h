@@ -22,7 +22,7 @@ struct TMSCHEMAINFO
     int iSchemaDefVersion;      // version number from this file
     int iThemeMgrVersion;       // version number from "thschema.h"
     int iPropCount;             // # of entries in prop table
-    const struct TMPROPINFO *pPropTable;       // ptr to prop table 
+    const struct TMPROPINFO *pPropTable;       // ptr to prop table
 };
 //---------------------------------------------------------------------------
 #define BEGIN_TM_SCHEMA(name)               

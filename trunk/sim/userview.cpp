@@ -44,6 +44,8 @@
 #ifdef USE_KDE
 #include <kwin.h>
 #include <kpopupmenu.h>
+#else
+#include "ui/kpopup.h"
 #endif
 
 #if QT_VERSION < 300
@@ -496,9 +498,7 @@ UserView::UserView (QWidget *parent, bool _bList, bool bFill, WFlags f)
     memset(m_counts, 0, sizeof(m_counts));
     grp_id = 0;
     menuGroup = new KPopupMenu(this);
-#ifdef USE_KDE
     menuGroup->insertTitle(i18n("Group"), mnuGrpTitle);
-#endif
     menuGroup->insertItem(Pict("grp_rename"), i18n("Rename"), mnuGrpRename);
     menuGroup->insertItem(Pict("remove"), i18n("Delete"), mnuGrpDelete);
     menuGroup->insertItem(Pict("grp_create"), i18n("Create group"), mnuGrpCreate);
@@ -1265,10 +1265,8 @@ void UserView::viewportContextMenuEvent( QContextMenuEvent *e)
         for (i = 0; i < pClient->contacts.groups.size(); i++){
             if (pClient->contacts.groups[i] == grp) break;
         }
-#ifdef USE_KDE
         CGroup g(grp);
         menuGroup->changeTitle(mnuGrpTitle, g.name());
-#endif
         menuGroup->setItemEnabled(mnuGrpRename, pClient->m_state == ICQClient::Logged);
         menuGroup->setItemEnabled(mnuGrpDelete, pClient->m_state == ICQClient::Logged);
         menuGroup->setItemEnabled(mnuGrpUp, i > 0);

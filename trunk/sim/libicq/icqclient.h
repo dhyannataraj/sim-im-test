@@ -383,51 +383,7 @@ protected:
     ICQClient    *client;
 };
 
-#ifdef USE_OPENSSL
-class SSLClient : public SocketNotify, public Socket
-{
-public:
-    SSLClient(Socket*);
-    ~SSLClient();
-    virtual int read(char *buf, unsigned int size);
-    virtual void write(const char *buf, unsigned int size);
-    virtual void connect(const char *host, int port);
-    virtual void close();
-    virtual unsigned long localHost();
-    virtual void pause(unsigned);
-    bool connected() { return m_bSecure; }
-    Socket *socket() { return sock; }
-    bool init();
-    void accept();
-    void connect();
-    void shutdown();
-    void process(bool bInRead=false);
-    void write();
-protected:
-    Buffer wBuffer;
-    virtual void connect_ready();
-    virtual void read_ready();
-    virtual void write_ready();
-    virtual void error_state(SocketError);
-    Socket *sock;
-    enum State
-    {
-        SSLAccept,
-        SSLConnect,
-        SSLShutdown,
-        SSLWrite,
-        SSLConnected
-    };
-    State state;
-    bool m_bSecure;
-    void *mpSSL;
-    void *mrBIO;
-    void *mwBIO;
-#define pSSL	((SSL*)mpSSL)
-#define rBIO	((BIO*)mrBIO)
-#define wBIO	((BIO*)mwBIO)
-};
-#endif
+class SSLClient;
 
 class DirectClient : public DirectSocket
 {
@@ -439,14 +395,7 @@ public:
     void acceptMessage(ICQMessage*);
     void declineMessage(ICQMessage*, const char *reason);
     bool isLogged() { return (state != None) && (state != WaitInit2); }
-    bool isSecure()
-    {
-#ifdef USE_OPENSSL
-        return ((ssl != NULL) && ssl->connected());
-#else
-        return false;
-#endif
-    }
+    bool isSecure();
 protected:
     enum State{
         None,
@@ -1086,12 +1035,19 @@ public:
     ConfigBool	 RejectOther;
     ConfigString RejectFilter;
 
-    ConfigUShort	DirectMode;
+    ConfigUShort DirectMode;
 
     ConfigString BirthdayReminder;
     ConfigString FileDone;
 
-    ConfigBool		BypassAuth;
+    ConfigBool	 BypassAuth;
+
+    ConfigShort		ProxyType;
+    ConfigString	ProxyHost;
+    ConfigShort		ProxyPort;
+    ConfigBool		ProxyAuth;
+    ConfigString	ProxyUser;
+    ConfigString	ProxyPasswd;
 
     void fromServer(string &s, ICQUser*);
     void toServer(string &s, ICQUser*);
@@ -1346,9 +1302,9 @@ protected:
     void packMessage(Buffer &b, ICQMessage *m, const char *msg, unsigned short msgFlags,
                      unsigned short msgState, char oper, bool bShort, bool bConvert);
 
-    unsigned long m_nProcessId;
+    Proxy *getProxy();
 
-    void dumpPacket(Buffer &b, unsigned long start, const char *info);
+    unsigned long m_nProcessId;
 
     static const capability *capabilities;
 
