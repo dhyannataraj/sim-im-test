@@ -130,7 +130,7 @@ JabberClient::JabberClient(JabberProtocol *protocol, const char *cfg)
 {
     load_data(jabberClientData, &data, cfg);
 	QString jid = QString::fromUtf8(data.owner.ID);
-	if (jid.find('@') < 0){
+	if (!jid.isEmpty() && (jid.find('@') < 0)){
 		QString server;
 		if (data.UseVHost && data.VHost && *data.VHost){
 			server = QString::fromUtf8(data.VHost);
@@ -143,7 +143,6 @@ JabberClient::JabberClient(JabberProtocol *protocol, const char *cfg)
 		}
 		set_str(&data.owner.ID, jid.utf8());
 	}
-
     if (data.owner.Resource == NULL){
         string resource = PACKAGE;
         resource += "_";
@@ -1389,20 +1388,30 @@ JabberListRequest *JabberClient::findRequest(const char *jid, bool bRemove)
     return NULL;
 }
 
+
 bool JabberClient::isAgent(const char *jid)
+
 {
+
 	const char *p = strrchr(jid, '/');
+
 	if (p && !strcmp(p + 1, "registered"))
+
 		return true;
+
 	return false;
+
 }
+
 
 void JabberClient::auth_request(const char *jid, unsigned type, const char *text, bool bCreate)
 {
     Contact *contact;
     JabberUserData *data = findContact(jid, NULL, false, contact);
 	if (isAgent(jid)){
+
 		switch (type){
+
 		case MessageAuthRequest:{
 			if (data == NULL)
 				data = findContact(jid, NULL, true, contact);
@@ -1430,6 +1439,7 @@ void JabberClient::auth_request(const char *jid, unsigned type, const char *text
 			e.process();
 			return;
 		}
+
 		}
 	}
     if ((data == NULL) && bCreate){
