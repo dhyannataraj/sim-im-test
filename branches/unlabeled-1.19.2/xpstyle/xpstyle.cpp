@@ -413,11 +413,7 @@ void QWindowsXPStyle::polish( QWidget *widget )
 {
     QString className = widget->className();
     if (widget->testWFlags(WStyle_Tool) || widget->testWFlags(WType_Popup)){
-        if ((className.find("Tip") > 0) || (className == "QAlphaWidget")){
-            SetClassLong(widget->winId(), GCL_STYLE, GetClassLong(widget->winId(), GCL_STYLE) | CS_DROPSHADOW);
-        }else{
-            SetClassLong(widget->winId(), GCL_STYLE, GetClassLong(widget->winId(), GCL_STYLE) & ~CS_DROPSHADOW);
-        }
+        SetClassLong(widget->winId(), GCL_STYLE, GetClassLong(widget->winId(), GCL_STYLE) | CS_DROPSHADOW);
     }
     QWindowsStyle::polish( widget );
     if ( !use_xp )
