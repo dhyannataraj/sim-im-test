@@ -163,6 +163,11 @@ ZodiakWnd::ZodiakWnd(DatePicker *parent)
     connect(m_button, SIGNAL(clicked()), this, SLOT(view()));
 }
 
+void ZodiakWnd::setEnabled(bool)
+{
+	QFrame::setEnabled(true);
+}
+
 void ZodiakWnd::paintEvent(QPaintEvent *e)
 {
     if (parentWidget() && parentWidget()->parentWidget() && parentWidget()->parentWidget()->backgroundPixmap()){
