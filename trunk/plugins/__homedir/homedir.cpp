@@ -32,6 +32,8 @@ static BOOL (WINAPI *_SHGetSpecialFolderPath)(HWND hwndOwner, LPSTR lpszPath, in
 #include <pwd.h>
 #endif
 
+#include <qdir.h>
+
 Plugin *createHomeDirPlugin(unsigned base, bool, const char*)
 {
     Plugin *plugin = new HomeDirPlugin(base);
@@ -94,7 +96,22 @@ HomeDirPlugin::HomeDirPlugin(unsigned base)
 #endif
     }
     if (m_homeDir.empty())
+         m_homeDir = defaultPath();
+    QDir dir(m_homeDir.c_str());
+    if (dir.exists()) {
+#ifdef WIN32
+    QString directory = dir.path();
+    directory.replace(QRegExp("/"),"\\");
+    m_homeDir = directory.latin1();
+#else
+    m_homeDir = dir.path()+"/";
+#endif
+    } else {
         m_homeDir = defaultPath();
+#ifdef WIN32
+        m_bSave   = false;
+#endif
+    }
 }
 
 string HomeDirPlugin::defaultPath()
@@ -162,7 +179,7 @@ string HomeDirPlugin::getConfig()
     if (!m_bDefault){
         RegSetValueExA(subKey, path_value, 0, REG_SZ, (const unsigned char*)m_homeDir.c_str(), m_homeDir.length());
     }else{
-        RegDeleteKeyA(subKey, path_value);
+        RegDeleteValueA(subKey, path_value);
     }
     RegCloseKey(subKey);
     return "";

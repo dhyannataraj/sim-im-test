@@ -21,6 +21,7 @@
 #include "editfile.h"
 
 #include <qcheckbox.h>
+#include <qdir.h>
 
 HomeDirConfig::HomeDirConfig(QWidget *parent, HomeDirPlugin *plugin)
         : HomeDirConfigBase(parent)
@@ -31,17 +32,33 @@ HomeDirConfig::HomeDirConfig(QWidget *parent, HomeDirPlugin *plugin)
     defaultToggled(chkDefault->isChecked());
     edtPath->setText(QString::fromLocal8Bit(plugin->m_homeDir.c_str()));
     edtPath->setDirMode(true);
+    chkDefault->setChecked(m_plugin->m_bDefault);
 }
 
 void HomeDirConfig::apply()
 {
+    bool bDefault;
+    QString homeDir;
+    QString defPath = QString(m_plugin->defaultPath().c_str()); 
+    
     if (chkDefault->isChecked()){
-        m_plugin->m_bDefault = true;
-        m_plugin->m_homeDir = m_plugin->defaultPath();
+        bDefault = true;
+        homeDir = defPath;
     }else{
-        m_plugin->m_bDefault = false;
-        m_plugin->m_homeDir = edtPath->text().local8Bit();
+        bDefault = false;
+        homeDir = edtPath->text();
     }
+    if (homeDir.isEmpty()) {
+        homeDir = defPath;
+    }
+    QDir dir(homeDir);
+    if (!dir.exists()) {
+    	homeDir = defPath;
+    	bDefault = true;
+    }
+    edtPath->setText(homeDir);
+    m_plugin->m_bDefault = bDefault;
+    m_plugin->m_homeDir  = homeDir.local8Bit();
 }
 
 void HomeDirConfig::defaultToggled(bool bState)
