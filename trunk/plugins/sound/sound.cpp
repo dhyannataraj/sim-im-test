@@ -321,12 +321,11 @@ string SoundPlugin::fullName(const char *name)
         return sound;
 #ifdef WIN32
     char c = name[0];
-    if (((((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z'))) && (name[1] == ':')) ||
-            ((c == '\\') && (name[1] == '\\'))){
+    if (((((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z'))) && (name[1] == ':')) || ((c == '\\') && (name[1] == '\\'))){
 #else
-if (name[0] == '/'){
+    if (name[0] == '/'){
 #endif
-        sound = name;
+	sound = name;
     }else{
         sound = "sounds/";
         sound += name;
@@ -357,8 +356,10 @@ void SoundPlugin::processQueue()
     m_queue.erase(m_queue.begin());
     string sound = fullName(m_current.c_str());
     // check whether file is available
-    if (!QFile::exists(QString(sound.c_str())))
+    if (!QFile::exists(QString(sound.c_str()))) {
+	m_current="";
         return;
+    }
 #ifdef USE_KDE
     if (getUseArts()){
         KAudioPlayer::play(sound.c_str());
@@ -394,8 +395,10 @@ bool bSound = true;
 #ifndef WIN32
     ExecParam p;
     p.cmd = getPlayer();
-    if (*p.cmd == 0)
+    if (*p.cmd == 0) {
+	m_current="";
         return;
+    }
     p.arg = sound.c_str();
     Event e(EventExec, &p);
     m_player = (int)e.process();
