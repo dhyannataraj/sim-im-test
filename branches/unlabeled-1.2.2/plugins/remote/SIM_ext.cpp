@@ -79,7 +79,7 @@ HRESULT CSIM_ext::QueryContextMenu(HMENU hmenu,
             }
             delete[] res;
             if (hsub != NULL){
-                InsertMenu(hmenu, 0, MF_BYPOSITION | MF_POPUP | MF_STRING, (unsigned)hsub, "Send to SIM contact");
+                AppendMenu(hmenu, MF_POPUP | MF_STRING, (unsigned)hsub, "Send to SIM contact");
             }
         }
         return n;

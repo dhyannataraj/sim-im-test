@@ -1255,6 +1255,7 @@ void ICQClient::ping()
             }
         }
         if (bBirthday != m_bBirthday){
+			m_bBirthday = bBirthday;
             setStatus(m_status);
         }else{
             flap(ICQ_CHNxPING);
