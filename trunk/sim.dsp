@@ -150,6 +150,16 @@ SOURCE=.\sim\html.ll
 
 !IF  "$(CFG)" == "sim - Win32 Release"
 
+# Begin Custom Build - Flex $(InputPath)
+InputDir=.\sim
+InputPath=.\sim\html.ll
+InputName=html
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	flex -o$(InputDir)\$(InputName).cpp $(InputPath)
+
+# End Custom Build
+
 !ELSEIF  "$(CFG)" == "sim - Win32 Debug"
 
 # Begin Custom Build - Flex $(InputPath)
