@@ -1111,11 +1111,11 @@ QString CorePlugin::poFile(const char *lang)
         r = strchr(p, '_');
         if (r) *r = 0;
         s = PREFIX "/share/locale/";
-        s += lang.c_str();
+        s += lang
         s += "/LC_MESSAGES/sim.mo";
         f.setName(QFile::decodeName(s.c_str()));
-        if (!f.exists()) return ""
-                                }
+        if (!f.exists()) return "";
+    }
 #endif
     return f.name();
 }
@@ -2482,11 +2482,11 @@ bool CorePlugin::init(bool bInit)
 
     m_main = new MainWindow;
     m_view = new UserView;
-    if ((data.geometry[WIDTH] == (unsigned)(-1)) && (data.geometry[HEIGHT] == (unsigned)(-1))){
+    if ((data.geometry[WIDTH] == -1) && (data.geometry[HEIGHT] == -1)){
         data.geometry[HEIGHT] = QApplication::desktop()->height() * 2 / 3;
         data.geometry[WIDTH]  = data.geometry[HEIGHT] / 3;
     }
-    if ((data.geometry[LEFT] == (unsigned)(-1)) && (data.geometry[TOP] == (unsigned)(-1))){
+    if ((data.geometry[LEFT] == -1) && (data.geometry[TOP] == -1)){
         data.geometry[LEFT] = QApplication::desktop()->width() - 25 - data.geometry[WIDTH];
         data.geometry[TOP] = 5;
     }
