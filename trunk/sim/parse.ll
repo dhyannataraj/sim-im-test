@@ -133,30 +133,24 @@ QString MainWindow::ParseText(const char *text, bool bIgnoreColors, QTextCodec *
                 for (; *d->name; d++)
                     if (!strcasecmp(d->name, name.c_str())) break;
                 if (*d->name){
-                    if (bClosed){
-                        for (; !tags.empty(); tags.pop()){
+		    if ((d->pair != 2) || !bIgnoreColors){ 
+                      if (bClosed){
+                       	for (; !tags.empty(); tags.pop()){
                             if (strcasecmp(d->name, tags.top().name)){
-                                if ((tags.top().pair != 2) || !bIgnoreColors){
-                                    res += "</";
-                                    res += tags.top().name;
-                                    res += ">";
-                                }
+                                res += "</";
+                                res += tags.top().name;
+                                res += ">";
                                 continue;
                             }
-                            if ((tags.top().pair != 2) || !bIgnoreColors)
-                                res += QString::fromLocal8Bit(tag.c_str());
+                            res += QString::fromLocal8Bit(tag.c_str());
                             tags.pop();
                             break;
                         }
-                    }else{
+                     }else{
                         tag_def td = *d;
-                        if ((d->pair == 2) && bIgnoreColors){
-                            td.pair = 1;
-                            res += QString::fromLocal8Bit(tag.c_str());
-                        }else{
-                            res += QString::fromLocal8Bit(tag.c_str());
-                        }
+                        res += QString::fromLocal8Bit(tag.c_str());
                         if (d->pair) tags.push(td);
+		      }
                     }
                 }
             }
