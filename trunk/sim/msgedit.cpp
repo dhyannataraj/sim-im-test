@@ -666,24 +666,22 @@ void MsgEdit::markAsRead()
         if (u){
             History h(getUin());
             bool bChanged = false;
-            for (;;){
-                bool bExit = true;
-                for (list<unsigned long>::iterator it = u->unreadMsgs.begin(); it != u->unreadMsgs.end(); it++){
+            for (list<unsigned long>::iterator it = u->unreadMsgs.begin(); it != u->unreadMsgs.end();){
                     ICQMessage *msg = h.getMessage(*it);
-                    if (msg == NULL) continue;
-                    switch (msg->Type()){
-                    case ICQ_MSGxCHAT:
-                    case ICQ_MSGxFILE:
-                    case ICQ_MSGxAUTHxREQUEST:
-                    case ICQ_MSGxCONTACTxLIST:
+                    if (msg == NULL){
+						++it;
+						continue;
+					}
+                    if ((msg->Type() == ICQ_MSGxCHAT) ||
+						(msg->Type() == ICQ_MSGxFILE) ||
+						(msg->Type() == ICQ_MSGxAUTHxREQUEST) ||
+						(msg->Type() == ICQ_MSGxCONTACTxLIST))
                         break;
-                    default:
-                        bChanged = pClient->markAsRead(msg) | bChanged;
-                        bExit = false;
-                    }
-                    if (!bExit) break;
-                }
-                if (bExit) break;
+					if (pClient->markAsRead(msg)){
+						bChanged = true;
+						it = u->unreadMsgs.begin();
+					}
+					++it;
             }
             if (msg == NULL) return;
             if (!msg->Received) return;
