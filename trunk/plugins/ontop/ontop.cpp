@@ -34,7 +34,7 @@ Plugin *createOnTopPlugin(unsigned base, bool, const char *config)
     Plugin *plugin = new OnTopPlugin(base, config);
     return plugin;
 #else
-	return NULL;
+    return NULL;
 #endif
 }
 
@@ -162,71 +162,73 @@ void OnTopPlugin::setState()
     QWidget *main = getMainWindow();
     if (main){
 #ifdef WIN32
-    HWND hState = HWND_NOTOPMOST;
-    if (getOnTop()) hState = HWND_TOPMOST;
-    SetWindowPos(main->winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-    if (IsWindowUnicode(main->winId())){
-        if (getInTask()){
-            SetWindowLongW(main->winId(), GWL_EXSTYLE,
-                           (GetWindowLongW(main->winId(), GWL_EXSTYLE) | WS_EX_APPWINDOW) & (~WS_EX_TOOLWINDOW));
+        HWND hState = HWND_NOTOPMOST;
+        if (getOnTop()) hState = HWND_TOPMOST;
+        SetWindowPos(main->winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+        if (IsWindowUnicode(main->winId())){
+            if (getInTask()){
+                SetWindowLongW(main->winId(), GWL_EXSTYLE,
+                               (GetWindowLongW(main->winId(), GWL_EXSTYLE) | WS_EX_APPWINDOW) & (~WS_EX_TOOLWINDOW));
+            }else{
+                DWORD exStyle = GetWindowLongW(main->winId(), GWL_EXSTYLE);
+                if ((exStyle & WS_EX_TOOLWINDOW) == 0){
+                    SetWindowLongW(main->winId(), GWL_EXSTYLE, (exStyle  & ~WS_EX_APPWINDOW) | WS_EX_TOOLWINDOW);
+                    QPoint p = main->pos();
+                    QSize s = main->size();
+                    main->resize(s.width() + 1, s.height());
+                    main->resize(s.width(), s.height());
+                    main->move(p);
+                }
+            }
         }else{
-			DWORD exStyle = GetWindowLongW(main->winId(), GWL_EXSTYLE);
-			if ((exStyle & WS_EX_TOOLWINDOW) == 0){
-				SetWindowLongW(main->winId(), GWL_EXSTYLE, (exStyle  & ~WS_EX_APPWINDOW) | WS_EX_TOOLWINDOW);
-				QSize s = main->size();
-				main->resize(s.width() + 1, s.height());
-				main->resize(s.width(), s.height());
-			}
+            if (getInTask()){
+                SetWindowLongA(main->winId(), GWL_EXSTYLE,
+                               (GetWindowLongA(main->winId(), GWL_EXSTYLE) | WS_EX_APPWINDOW) & (~WS_EX_TOOLWINDOW));
+            }else{
+                DWORD exStyle = GetWindowLongA(main->winId(), GWL_EXSTYLE);
+                if ((exStyle & WS_EX_TOOLWINDOW) == 0){
+                    SetWindowLongA(main->winId(), GWL_EXSTYLE, (exStyle  & ~WS_EX_APPWINDOW) | WS_EX_TOOLWINDOW);
+                    QSize s = main->size();
+                    main->resize(s.width() + 1, s.height());
+                    main->resize(s.width(), s.height());
+                }
+            }
         }
-    }else{
-        if (getInTask()){
-            SetWindowLongA(main->winId(), GWL_EXSTYLE,
-                           (GetWindowLongA(main->winId(), GWL_EXSTYLE) | WS_EX_APPWINDOW) & (~WS_EX_TOOLWINDOW));
-        }else{
-			DWORD exStyle = GetWindowLongA(main->winId(), GWL_EXSTYLE);
-			if ((exStyle & WS_EX_TOOLWINDOW) == 0){
-				SetWindowLongA(main->winId(), GWL_EXSTYLE, (exStyle  & ~WS_EX_APPWINDOW) | WS_EX_TOOLWINDOW);
-				QSize s = main->size();
-				main->resize(s.width() + 1, s.height());
-				main->resize(s.width(), s.height());
-			}
-        }
-    }
 #else
 #ifdef USE_KDE
-    if (getOnTop()){
-        KWin::setState(main->winId(), NET::StaysOnTop);
-    }else{
-        KWin::clearState(main->winId(), NET::StaysOnTop);
-    }
-    if (getInTask()){
-        KWin::clearState(main->winId(), NET::SkipTaskbar);
-    }else{
-        KWin::setState(main->winId(), NET::SkipTaskbar);
-    }
+        if (getOnTop()){
+            KWin::setState(main->winId(), NET::StaysOnTop);
+        }else{
+            KWin::clearState(main->winId(), NET::StaysOnTop);
+        }
+        if (getInTask()){
+            KWin::clearState(main->winId(), NET::SkipTaskbar);
+        }else{
+            KWin::setState(main->winId(), NET::SkipTaskbar);
+        }
 #endif
 #endif
-	}
-	QWidgetList  *list = QApplication::topLevelWidgets();
+    }
+    QWidgetList  *list = QApplication::topLevelWidgets();
     QWidgetListIt it(*list);
     QWidget *w;
     while ((w = it.current()) != NULL){
-		++it;
-		if (w->inherits("Container")){
+        ++it;
+        if (w->inherits("Container")){
 #ifdef WIN32
-		    HWND hState = HWND_NOTOPMOST;
-			if (getContainerOnTop()) hState = HWND_TOPMOST;
-			SetWindowPos(w->winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+            HWND hState = HWND_NOTOPMOST;
+            if (getContainerOnTop()) hState = HWND_TOPMOST;
+            SetWindowPos(w->winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 #else
 #ifdef USE_KDE
-		    if (getContainerOnTop()){
-				KWin::setState(w->winId(), NET::StaysOnTop);
-			}else{
-				KWin::clearState(w->winId(), NET::StaysOnTop);
-			}
+            if (getContainerOnTop()){
+                KWin::setState(w->winId(), NET::StaysOnTop);
+            }else{
+                KWin::clearState(w->winId(), NET::StaysOnTop);
+            }
 #endif
 #endif
-		}
+        }
     }
     delete list;
 }
@@ -241,44 +243,44 @@ QWidget *OnTopPlugin::createConfigWindow(QWidget *parent)
 bool OnTopPlugin::eventFilter(QObject *o, QEvent *e)
 {
 #ifdef WIN32
-    if ((e->type() == QEvent::WindowActivate) && 
-		(getOnTop() || getContainerOnTop()) && 
-		o->inherits("QDialog")){
-				QWidget *w = static_cast<QWidget*>(o);
-				SetWindowPos(w->winId(), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-	}
-    if ((e->type() == QEvent::WindowDeactivate) &&
-		(getOnTop() || getContainerOnTop()) && 
-		o->inherits("QDialog")){
-				QWidget *w = static_cast<QWidget*>(o);
-				SetWindowPos(w->winId(), HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+    if ((e->type() == QEvent::WindowActivate) &&
+            (getOnTop() || getContainerOnTop()) &&
+            o->inherits("QDialog")){
+        QWidget *w = static_cast<QWidget*>(o);
+        SetWindowPos(w->winId(), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
     }
-	if ((e->type() == QEvent::Show) && 
-		getContainerOnTop() &&
-		o->inherits("Container")){
-				QWidget *w = static_cast<QWidget*>(o);
-				SetWindowPos(w->winId(), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-	}
+    if ((e->type() == QEvent::WindowDeactivate) &&
+            (getOnTop() || getContainerOnTop()) &&
+            o->inherits("QDialog")){
+        QWidget *w = static_cast<QWidget*>(o);
+        SetWindowPos(w->winId(), HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+    }
+    if ((e->type() == QEvent::Show) &&
+            getContainerOnTop() &&
+            o->inherits("Container")){
+        QWidget *w = static_cast<QWidget*>(o);
+        SetWindowPos(w->winId(), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+    }
 #endif
 #ifdef USE_KDE
     if ((e->type() == QEvent::WindowActivate) &&
-		(getOnTop() || getContainerOnTop()) && 
-		o->inherits("QDialog")){
-			QWidget *w = static_cast<QWidget*>(o);
-			KWin::setState(w->winId(), NET::StaysOnTop);
+            (getOnTop() || getContainerOnTop()) &&
+            o->inherits("QDialog")){
+        QWidget *w = static_cast<QWidget*>(o);
+        KWin::setState(w->winId(), NET::StaysOnTop);
     }
     if ((e->type() == QEvent::WindowDeactivate) &&
-		(getOnTop() || getContainerOnTop()) && 
-		o->inherits("QDialog")){
-			QWidget *w = static_cast<QWidget*>(o);
-			KWin::clearState(w->winId(), NET::StaysOnTop);
+            (getOnTop() || getContainerOnTop()) &&
+            o->inherits("QDialog")){
+        QWidget *w = static_cast<QWidget*>(o);
+        KWin::clearState(w->winId(), NET::StaysOnTop);
     }
-	if ((e->type() == QEvent::Show) && 
-		getContainerOnTop() &&
-		o->inherits("Container")){
-			QWidget *w = static_cast<QWidget*>(o);
-			KWin::setState(w->winId(), NET::StaysOnTop);
-	}
+    if ((e->type() == QEvent::Show) &&
+            getContainerOnTop() &&
+            o->inherits("Container")){
+        QWidget *w = static_cast<QWidget*>(o);
+        KWin::setState(w->winId(), NET::StaysOnTop);
+    }
 #endif
     return QObject::eventFilter(o, e);
 }

@@ -63,9 +63,9 @@ protected:
 
 Proxy::Proxy(ProxyPlugin *plugin)
 {
-    m_plugin  = plugin;
-    m_sock    = NULL;
-    m_bClosed = false;
+    m_plugin   = plugin;
+    m_sock     = NULL;
+    m_bClosed  = false;
     m_plugin->proxies.push_back(this);
     bIn.packetStart();
     bOut.packetStart();
@@ -111,7 +111,6 @@ void Proxy::close()
         m_sock->setNotify(notify);
         m_sock->close();
     }
-    getSocketFactory()->remove(this);
 }
 
 unsigned long Proxy::localHost()

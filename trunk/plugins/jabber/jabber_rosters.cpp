@@ -661,6 +661,8 @@ JabberClient::PresenceRequest::~PresenceRequest()
             status = STATUS_NA;
         }else if (m_show == "dnd"){
             status = STATUS_DND;
+        }else if (m_show == "online"){
+            status = STATUS_ONLINE;
         }else if (m_show.empty()){
             status = STATUS_UNKNOWN;
             if (m_status == "Online"){

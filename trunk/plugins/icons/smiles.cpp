@@ -18,6 +18,10 @@
 #include "smiles.h"
 #include "icondll.h"
 
+#ifdef USE_EXPAT
+#include <expat.h>
+#endif
+
 #include <qfile.h>
 #include <qregexp.h>
 

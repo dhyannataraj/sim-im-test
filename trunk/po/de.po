@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
-"POT-Creation-Date: 2003-09-08 00:59+0400\n"
+"POT-Creation-Date: 2003-09-08 12:41+0400\n"
 "PO-Revision-Date: 2003-09-07 23:28GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -687,7 +687,7 @@ msgstr "Passwort:"
 msgid "New profile"
 msgstr "Neues Profil"
 
-#: plugins/_core/logindlg.cpp:388 plugins/jabber/jabberclient.cpp:747
+#: plugins/_core/logindlg.cpp:388 plugins/jabber/jabberclient.cpp:748
 #: plugins/msn/msnclient.cpp:562
 msgid "Login failed"
 msgstr "Anmeldung fehlgeschlagen"
@@ -954,7 +954,7 @@ msgstr "Nicht-IM-Kontakt hinzufügen"
 msgid "Search %1"
 msgstr "%1 suchen"
 
-#: plugins/_core/status.cpp:46 plugins/jabber/services.cpp:40
+#: plugins/_core/status.cpp:46 plugins/jabber/services.cpp:45
 msgid "Status"
 msgstr "Status"
 
@@ -1022,15 +1022,16 @@ msgstr "Einstellungen"
 
 #: plugins/_core/userlist.cpp:553 plugins/icq/icq.cpp:111
 #: plugins/icq/icqclient.cpp:1258 plugins/icq/icqclient.cpp:1285
-#: plugins/jabber/jabber.cpp:92 plugins/jabber/jabberclient.cpp:940
-#: plugins/msn/msn.cpp:89 plugins/msn/msnclient.cpp:1420
+#: plugins/jabber/jabber.cpp:92 plugins/jabber/jabberclient.cpp:941
+#: plugins/jabber/services.cpp:226 plugins/msn/msn.cpp:89
+#: plugins/msn/msnclient.cpp:1420
 msgid "Online"
 msgstr "Online"
 
 #: plugins/_core/userlist.cpp:556 plugins/_core/userviewcfgbase.cc:183
 #: plugins/_core/userviewcfgbase.cpp:186 plugins/icq/icq.cpp:201
 #: plugins/icq/icqclient.cpp:1255 plugins/jabber/jabber.cpp:167
-#: plugins/msn/msn.cpp:194
+#: plugins/jabber/services.cpp:223 plugins/msn/msn.cpp:194
 msgid "Offline"
 msgstr "Offline"
 
@@ -1384,7 +1385,8 @@ msgstr "Typ:"
 
 #: plugins/_core/searchbase.cc:74 plugins/_core/searchbase.cpp:74
 msgid "Choose type of contact which you want to find or add:"
-msgstr "Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
+msgstr ""
+"Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
 
 #: plugins/_core/searchbase.cc:75 plugins/_core/searchbase.cpp:75
 msgid "Contact type:"
@@ -1580,6 +1582,10 @@ msgstr "%1 Version: %2"
 msgid "Bug report"
 msgstr "Berichten Sie Probleme oder Wünsche"
 
+#: plugins/about/aboutdlg.cpp:48
+msgid "Note: This is english mailing list"
+msgstr ""
+
 #: plugins/about/aboutdlgbase.cpp:149
 msgid "About SIM"
 msgstr "Über SIM"
@@ -1624,7 +1630,8 @@ msgstr "\"N/A\"-Status setzen wenn"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:125
 #: plugins/sound/soundconfigbase.cpp:166
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -1759,7 +1766,8 @@ msgstr "Nachrichten nur von &Benutzern der Kontaktliste empfangen"
 
 #: plugins/filter/filtercfgbase.cpp:98
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr ""
+"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: plugins/filter/filtercfgbase.cpp:99
 msgid ""
@@ -1781,7 +1789,8 @@ msgstr "Floatings"
 
 #: plugins/floaty/floaty.cpp:44
 msgid "Plugin provides floating windows for contacts"
-msgstr "Das Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
+msgstr ""
+"Das Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
 
 #: plugins/floaty/floaty.cpp:91 plugins/floaty/floaty.cpp:165
 msgid "Floating on"
@@ -1801,7 +1810,8 @@ msgstr "Dieses Plugin aktiviert die Nachrichtenweiterleitung an Handys"
 
 #: plugins/forward/forwardcfgbase.cpp:102
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
+msgstr ""
+"Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
 
 #: plugins/forward/forwardcfgbase.cpp:103
 msgid ""
@@ -1825,23 +1835,23 @@ msgstr "Icons"
 msgid "Plugin provides Miranda icons themes and emoticons"
 msgstr "Das Plugin unterstützt Miranda-Icon-Themen und Emoticons"
 
-#: plugins/icons/iconcfg.cpp:165
+#: plugins/icons/iconcfg.cpp:173
 msgid "Select icons DLL"
 msgstr "Icons Bibliothek auswählen"
 
-#: plugins/icons/iconcfg.cpp:168
+#: plugins/icons/iconcfg.cpp:176
 msgid "*.dll|Icons themes"
 msgstr "*.dll|Icon Themen"
 
-#: plugins/icons/iconcfg.cpp:170
+#: plugins/icons/iconcfg.cpp:178
 msgid "Icons themes (*.dll)"
 msgstr "Icon-Themen (*.dll)"
 
-#: plugins/icons/iconcfg.cpp:172
+#: plugins/icons/iconcfg.cpp:180
 msgid "Get more icons themes"
 msgstr "mehr Icon-Themen downloaden"
 
-#: plugins/icons/iconcfg.cpp:179
+#: plugins/icons/iconcfg.cpp:187
 msgid "Smiles"
 msgstr "Smilies"
 
@@ -1849,19 +1859,29 @@ msgstr "Smilies"
 msgid "Icons for protocol:"
 msgstr "Icons für das jeweilige Protokoll:"
 
-#: plugins/icons/smilecfg.cpp:118
+#: plugins/icons/smilecfg.cpp:126
 msgid "Select smiles"
 msgstr "Smilies auswählen"
 
-#: plugins/icons/smilecfg.cpp:121
+#: plugins/icons/smilecfg.cpp:130
+#, fuzzy
+msgid "*.msl *.xep|Smiles"
+msgstr "*.msl|Smilies"
+
+#: plugins/icons/smilecfg.cpp:132
 msgid "*.msl|Smiles"
 msgstr "*.msl|Smilies"
 
-#: plugins/icons/smilecfg.cpp:123
+#: plugins/icons/smilecfg.cpp:136
+#, fuzzy
+msgid "Smiles (*.msl *.xep)"
+msgstr "Smilies (*.msl)"
+
+#: plugins/icons/smilecfg.cpp:138
 msgid "Smiles (*.msl)"
 msgstr "Smilies (*.msl)"
 
-#: plugins/icons/smilecfg.cpp:126
+#: plugins/icons/smilecfg.cpp:142
 msgid "Get more smiles"
 msgstr "Mehr Smilies herunterladen"
 
@@ -2133,18 +2153,18 @@ msgid "Invisible"
 msgstr "Unsichtbar"
 
 #: plugins/icq/icqclient.cpp:1278 plugins/icq/icqinfo.cpp:229
-#: plugins/jabber/jabberclient.cpp:933 plugins/jabber/jabberinfo.cpp:103
+#: plugins/jabber/jabberclient.cpp:934 plugins/jabber/jabberinfo.cpp:103
 #: plugins/msn/msnclient.cpp:1413 plugins/msn/msninfo.cpp:88
 msgid "Last online"
 msgstr "Zuletzt online"
 
 #: plugins/icq/icqclient.cpp:1550 plugins/icq/icqclient.cpp:1724
-#: plugins/jabber/jabberclient.cpp:993 plugins/jabber/jabberclient.cpp:1072
+#: plugins/jabber/jabberclient.cpp:994 plugins/jabber/jabberclient.cpp:1073
 msgid "Home info"
 msgstr "Heim-Info"
 
 #: plugins/icq/icqclient.cpp:1565 plugins/icq/icqclient.cpp:1739
-#: plugins/jabber/jabberclient.cpp:1008 plugins/jabber/jabberclient.cpp:1087
+#: plugins/jabber/jabberclient.cpp:1009 plugins/jabber/jabberclient.cpp:1088
 msgid "Work info"
 msgstr "Arbeit-Info"
 
@@ -2153,7 +2173,7 @@ msgid "More info"
 msgstr "Zusatz-Info"
 
 #: plugins/icq/icqclient.cpp:1595 plugins/icq/icqclient.cpp:1769
-#: plugins/jabber/jabberclient.cpp:1023 plugins/jabber/jabberclient.cpp:1102
+#: plugins/jabber/jabberclient.cpp:1024 plugins/jabber/jabberclient.cpp:1103
 msgid "About info"
 msgstr "Über-Info"
 
@@ -2169,7 +2189,7 @@ msgstr "Gruppe/Geschichte"
 msgid "Picture"
 msgstr "Bild"
 
-#: plugins/icq/icqclient.cpp:1829 plugins/jabber/jabberclient.cpp:1132
+#: plugins/icq/icqclient.cpp:1829 plugins/jabber/jabberclient.cpp:1133
 #: plugins/msn/msnclient.cpp:663
 msgid "Network"
 msgstr "Netzwerk"
@@ -3549,11 +3569,11 @@ msgstr "ID"
 msgid "Jabber"
 msgstr "Jabber"
 
-#: plugins/jabber/jabber_rosters.cpp:1172
+#: plugins/jabber/jabber_rosters.cpp:1174
 msgid "Password does not match"
 msgstr "Passwort stimmt nicht"
 
-#: plugins/jabber/jabber_rosters.cpp:1173
+#: plugins/jabber/jabber_rosters.cpp:1175
 msgid "Low level network error"
 msgstr "Netzwerkfehler auf niedriger Ebene"
 
@@ -3561,13 +3581,23 @@ msgstr "Netzwerkfehler auf niedriger Ebene"
 msgid "Add Jabber contact"
 msgstr "Jabber-Kontakt hinzufügen"
 
-#: plugins/jabber/jabberclient.cpp:1117
+#: plugins/jabber/jabberclient.cpp:1118
 msgid "Agents"
 msgstr "Agenten"
 
 #: plugins/jabber/jabbermessage.cpp:53
 msgid "<p>Subject: %1</p>"
 msgstr "<p>Betreff: %1</p>"
+
+#: plugins/jabber/jabbermessage.cpp:87 plugins/jabber/jabbermessage.cpp:125
+#, fuzzy
+msgid "Log On"
+msgstr "Ein&loggen"
+
+#: plugins/jabber/jabbermessage.cpp:105 plugins/jabber/jabbermessage.cpp:134
+#, fuzzy
+msgid "Log Off"
+msgstr "&Ausloggen"
 
 #: plugins/jabber/jabbersearch.cpp:172
 msgid "First (Given)"
@@ -3716,11 +3746,11 @@ msgstr "ID:"
 msgid "Resource:"
 msgstr "Resource:"
 
-#: plugins/jabber/services.cpp:39
+#: plugins/jabber/services.cpp:44
 msgid "JID"
 msgstr "JID"
 
-#: plugins/jabber/services.cpp:98
+#: plugins/jabber/services.cpp:103
 msgid "Registration failed"
 msgstr "Registrierung fehlgeschlagen"
 
@@ -3873,7 +3903,8 @@ msgid "Navigate"
 msgstr "Navigation"
 
 #: plugins/navigate/navigate.cpp:38
-msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid ""
+"Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Das Plugin überprüft Nachrichten auf Hyperlinks und ruft externe Browser- "
 "oder Mailprogramme auf."
@@ -3965,7 +3996,8 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:47
-msgid "Plugin provides on screen notification about messages and contacts status"
+msgid ""
+"Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Das ist ein Plugin, das Bildschirmbenachrichtigungen betreffend Kontakte "
 "und\n"
@@ -4021,7 +4053,8 @@ msgstr "Bei Nachrichteneingang informieren (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:93
 msgid "Enable &status notification"
-msgstr "Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
+msgstr ""
+"Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:94
 msgid "Enable &typing notification"
@@ -4069,42 +4102,44 @@ msgstr "&Proxy"
 
 #: plugins/proxy/proxycfg.cpp:100
 msgid "<b>Note !</b><br>HTTP-proxy support only ICQ-protocol"
-msgstr "<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
+msgstr ""
+"<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
 
 #: plugins/proxy/proxy.cpp:102
 msgid "Error proxy write"
 msgstr "Fehler beim Schreiben auf Proxy-Server"
 
-#: plugins/proxy/proxy.cpp:143 plugins/proxy/proxy.cpp:549
-#: plugins/proxy/proxy.cpp:786 plugins/proxy/proxy.cpp:791
-#: plugins/proxy/proxy.cpp:803 plugins/proxy/proxy.cpp:954
-#: plugins/proxy/proxy.cpp:959 plugins/proxy/proxy.cpp:978
+#: plugins/proxy/proxy.cpp:142 plugins/proxy/proxy.cpp:548
+#: plugins/proxy/proxy.cpp:785 plugins/proxy/proxy.cpp:790
+#: plugins/proxy/proxy.cpp:802 plugins/proxy/proxy.cpp:953
+#: plugins/proxy/proxy.cpp:958 plugins/proxy/proxy.cpp:977
 msgid "Error proxy read"
 msgstr "Fehler beim Lesen vom Proxy-Server"
 
-#: plugins/proxy/proxy.cpp:199 plugins/proxy/proxy.cpp:213
-#: plugins/proxy/proxy.cpp:237 plugins/proxy/proxy.cpp:277
-#: plugins/proxy/proxy.cpp:292 plugins/proxy/proxy.cpp:317
-#: plugins/proxy/proxy.cpp:350 plugins/proxy/proxy.cpp:413
-#: plugins/proxy/proxy.cpp:474 plugins/proxy/proxy.cpp:509
-#: plugins/proxy/proxy.cpp:515 plugins/proxy/proxy.cpp:527
-#: plugins/proxy/proxy.cpp:761 plugins/proxy/proxy.cpp:808
-#: plugins/proxy/proxy.cpp:841
+#: plugins/proxy/proxy.cpp:198 plugins/proxy/proxy.cpp:212
+#: plugins/proxy/proxy.cpp:236 plugins/proxy/proxy.cpp:276
+#: plugins/proxy/proxy.cpp:291 plugins/proxy/proxy.cpp:316
+#: plugins/proxy/proxy.cpp:349 plugins/proxy/proxy.cpp:412
+#: plugins/proxy/proxy.cpp:473 plugins/proxy/proxy.cpp:508
+#: plugins/proxy/proxy.cpp:514 plugins/proxy/proxy.cpp:526
+#: plugins/proxy/proxy.cpp:760 plugins/proxy/proxy.cpp:807
+#: plugins/proxy/proxy.cpp:840
 msgid "Error proxy connect"
 msgstr "Fehler bei der Verbindung zum Proxy-Server"
 
-#: plugins/proxy/proxy.cpp:340 plugins/proxy/proxy.cpp:522
-#: plugins/proxy/proxy.cpp:798
+#: plugins/proxy/proxy.cpp:339 plugins/proxy/proxy.cpp:521
+#: plugins/proxy/proxy.cpp:797
 msgid "Error proxy authorization"
 msgstr "Fehler bei der Benutzerauthentisierung am Proxy-Server"
 
-#: plugins/proxy/proxy.cpp:1142
+#: plugins/proxy/proxy.cpp:1141
 msgid "Proxy"
 msgstr "Proxy"
 
-#: plugins/proxy/proxy.cpp:1143
+#: plugins/proxy/proxy.cpp:1142
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS and HTTP)"
-msgstr "Das Plugin bietet Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP)"
+msgstr ""
+"Das Plugin bietet Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP)"
 
 #: plugins/proxy/proxycfgbase.cpp:147
 msgid "Proxy type:"
@@ -4286,11 +4321,13 @@ msgstr "Automatisch ausblenden"
 
 #: sim/api/aboutdata.cpp:274
 msgid "replace this with information about your translation team"
-msgstr "Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
+msgstr ""
+"Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
 
 #: sim/api/aboutdata.cpp:290
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
+msgstr ""
+"Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
@@ -5422,6 +5459,10 @@ msgstr "ICQ-Client für QT/KDE"
 msgid "Maintainer"
 msgstr "Betreuer"
 
+#: sim/sim.cpp:191
+msgid "Developer"
+msgstr ""
+
 #: sim/ui/qt3/i18n.cpp:1
 msgid "Hu&e:"
 msgstr "Helligk&eit:"
@@ -5963,15 +6004,15 @@ msgstr "Nach unten rollen"
 msgid "&Ok"
 msgstr "&OK"
 
-#: sim/ui/editfile.cpp:188
+#: sim/ui/editfile.cpp:195
 msgid "*.wav|Sounds"
 msgstr "*.wav|Klänge"
 
-#: sim/ui/editfile.cpp:190
+#: sim/ui/editfile.cpp:197
 msgid "Sounds(*.wav)"
 msgstr "Klänge (*.wav)"
 
-#: sim/ui/editfile.cpp:193
+#: sim/ui/editfile.cpp:200
 msgid "Select sound"
 msgstr "Klang auswählen"
 
@@ -7214,4 +7255,3 @@ msgstr "Unterstrichen"
 
 #~ msgid "Transfer completed"
 #~ msgstr "Übertragung abgeschlossen"
-

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
-"POT-Creation-Date: 2003-09-08 00:59+0400\n"
+"POT-Creation-Date: 2003-09-08 12:41+0400\n"
 "PO-Revision-Date: 2003-08-20 19:12+0000\n"
 "Last-Translator: Jorge Lopez <jorge@acm.asoc.fi.upm.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -688,7 +688,7 @@ msgstr "Contraseña:"
 msgid "New profile"
 msgstr "Nuevo perfil"
 
-#: plugins/_core/logindlg.cpp:388 plugins/jabber/jabberclient.cpp:747
+#: plugins/_core/logindlg.cpp:388 plugins/jabber/jabberclient.cpp:748
 #: plugins/msn/msnclient.cpp:562
 msgid "Login failed"
 msgstr "Error en el Login"
@@ -953,7 +953,7 @@ msgstr "Contacto no IM"
 msgid "Search %1"
 msgstr "Buscar %1"
 
-#: plugins/_core/status.cpp:46 plugins/jabber/services.cpp:40
+#: plugins/_core/status.cpp:46 plugins/jabber/services.cpp:45
 msgid "Status"
 msgstr "Estado"
 
@@ -1021,15 +1021,16 @@ msgstr "ConfiguracionesEnviando"
 
 #: plugins/_core/userlist.cpp:553 plugins/icq/icq.cpp:111
 #: plugins/icq/icqclient.cpp:1258 plugins/icq/icqclient.cpp:1285
-#: plugins/jabber/jabber.cpp:92 plugins/jabber/jabberclient.cpp:940
-#: plugins/msn/msn.cpp:89 plugins/msn/msnclient.cpp:1420
+#: plugins/jabber/jabber.cpp:92 plugins/jabber/jabberclient.cpp:941
+#: plugins/jabber/services.cpp:226 plugins/msn/msn.cpp:89
+#: plugins/msn/msnclient.cpp:1420
 msgid "Online"
 msgstr "Conectado"
 
 #: plugins/_core/userlist.cpp:556 plugins/_core/userviewcfgbase.cc:183
 #: plugins/_core/userviewcfgbase.cpp:186 plugins/icq/icq.cpp:201
 #: plugins/icq/icqclient.cpp:1255 plugins/jabber/jabber.cpp:167
-#: plugins/msn/msn.cpp:194
+#: plugins/jabber/services.cpp:223 plugins/msn/msn.cpp:194
 msgid "Offline"
 msgstr "Desconectado"
 
@@ -1579,6 +1580,10 @@ msgstr "%1 Versión: %2"
 msgid "Bug report"
 msgstr "Mandar Bug"
 
+#: plugins/about/aboutdlg.cpp:48
+msgid "Note: This is english mailing list"
+msgstr ""
+
 #: plugins/about/aboutdlgbase.cpp:149
 msgid "About SIM"
 msgstr "Acerca de SIM"
@@ -1821,24 +1826,24 @@ msgstr "Iconos"
 msgid "Plugin provides Miranda icons themes and emoticons"
 msgstr "Este plugin habilita temas de iconos Miranda"
 
-#: plugins/icons/iconcfg.cpp:165
+#: plugins/icons/iconcfg.cpp:173
 msgid "Select icons DLL"
 msgstr "Seleccionar iconos DLL"
 
-#: plugins/icons/iconcfg.cpp:168
+#: plugins/icons/iconcfg.cpp:176
 msgid "*.dll|Icons themes"
 msgstr "*.dll|Temas de iconos"
 
-#: plugins/icons/iconcfg.cpp:170
+#: plugins/icons/iconcfg.cpp:178
 #, fuzzy
 msgid "Icons themes (*.dll)"
 msgstr "Temas de iconos(*.dll)"
 
-#: plugins/icons/iconcfg.cpp:172
+#: plugins/icons/iconcfg.cpp:180
 msgid "Get more icons themes"
 msgstr "Obtener más temas de iconos"
 
-#: plugins/icons/iconcfg.cpp:179
+#: plugins/icons/iconcfg.cpp:187
 #, fuzzy
 msgid "Smiles"
 msgstr "Habilidades"
@@ -1847,20 +1852,28 @@ msgstr "Habilidades"
 msgid "Icons for protocol:"
 msgstr ""
 
-#: plugins/icons/smilecfg.cpp:118
+#: plugins/icons/smilecfg.cpp:126
 #, fuzzy
 msgid "Select smiles"
 msgstr "Seleccionar fichero"
 
-#: plugins/icons/smilecfg.cpp:121
+#: plugins/icons/smilecfg.cpp:130
+msgid "*.msl *.xep|Smiles"
+msgstr ""
+
+#: plugins/icons/smilecfg.cpp:132
 msgid "*.msl|Smiles"
 msgstr ""
 
-#: plugins/icons/smilecfg.cpp:123
+#: plugins/icons/smilecfg.cpp:136
+msgid "Smiles (*.msl *.xep)"
+msgstr ""
+
+#: plugins/icons/smilecfg.cpp:138
 msgid "Smiles (*.msl)"
 msgstr ""
 
-#: plugins/icons/smilecfg.cpp:126
+#: plugins/icons/smilecfg.cpp:142
 #, fuzzy
 msgid "Get more smiles"
 msgstr "Obtener más skins"
@@ -2145,18 +2158,18 @@ msgid "Invisible"
 msgstr "&Invisible"
 
 #: plugins/icq/icqclient.cpp:1278 plugins/icq/icqinfo.cpp:229
-#: plugins/jabber/jabberclient.cpp:933 plugins/jabber/jabberinfo.cpp:103
+#: plugins/jabber/jabberclient.cpp:934 plugins/jabber/jabberinfo.cpp:103
 #: plugins/msn/msnclient.cpp:1413 plugins/msn/msninfo.cpp:88
 msgid "Last online"
 msgstr "Ultima vez conectado"
 
 #: plugins/icq/icqclient.cpp:1550 plugins/icq/icqclient.cpp:1724
-#: plugins/jabber/jabberclient.cpp:993 plugins/jabber/jabberclient.cpp:1072
+#: plugins/jabber/jabberclient.cpp:994 plugins/jabber/jabberclient.cpp:1073
 msgid "Home info"
 msgstr "Información personal"
 
 #: plugins/icq/icqclient.cpp:1565 plugins/icq/icqclient.cpp:1739
-#: plugins/jabber/jabberclient.cpp:1008 plugins/jabber/jabberclient.cpp:1087
+#: plugins/jabber/jabberclient.cpp:1009 plugins/jabber/jabberclient.cpp:1088
 msgid "Work info"
 msgstr "Información profesional"
 
@@ -2165,7 +2178,7 @@ msgid "More info"
 msgstr "Más información"
 
 #: plugins/icq/icqclient.cpp:1595 plugins/icq/icqclient.cpp:1769
-#: plugins/jabber/jabberclient.cpp:1023 plugins/jabber/jabberclient.cpp:1102
+#: plugins/jabber/jabberclient.cpp:1024 plugins/jabber/jabberclient.cpp:1103
 msgid "About info"
 msgstr "Información adicional"
 
@@ -2181,7 +2194,7 @@ msgstr "Grupo"
 msgid "Picture"
 msgstr "Fotografía"
 
-#: plugins/icq/icqclient.cpp:1829 plugins/jabber/jabberclient.cpp:1132
+#: plugins/icq/icqclient.cpp:1829 plugins/jabber/jabberclient.cpp:1133
 #: plugins/msn/msnclient.cpp:663
 msgid "Network"
 msgstr "Red"
@@ -3571,12 +3584,12 @@ msgstr "ID"
 msgid "Jabber"
 msgstr "Jabber"
 
-#: plugins/jabber/jabber_rosters.cpp:1172
+#: plugins/jabber/jabber_rosters.cpp:1174
 #, fuzzy
 msgid "Password does not match"
 msgstr "La contraseña no concuerda"
 
-#: plugins/jabber/jabber_rosters.cpp:1173
+#: plugins/jabber/jabber_rosters.cpp:1175
 #, fuzzy
 msgid "Low level network error"
 msgstr "Monitor de red"
@@ -3585,7 +3598,7 @@ msgstr "Monitor de red"
 msgid "Add Jabber contact"
 msgstr "Añadir contacto Jabber"
 
-#: plugins/jabber/jabberclient.cpp:1117
+#: plugins/jabber/jabberclient.cpp:1118
 #, fuzzy
 msgid "Agents"
 msgstr "Ale&rtas"
@@ -3593,6 +3606,16 @@ msgstr "Ale&rtas"
 #: plugins/jabber/jabbermessage.cpp:53
 msgid "<p>Subject: %1</p>"
 msgstr "<p>Asunto: %1</p>"
+
+#: plugins/jabber/jabbermessage.cpp:87 plugins/jabber/jabbermessage.cpp:125
+#, fuzzy
+msgid "Log On"
+msgstr "Login"
+
+#: plugins/jabber/jabbermessage.cpp:105 plugins/jabber/jabbermessage.cpp:134
+#, fuzzy
+msgid "Log Off"
+msgstr "Login"
 
 #: plugins/jabber/jabbersearch.cpp:172
 msgid "First (Given)"
@@ -3739,12 +3762,12 @@ msgstr "ID:"
 msgid "Resource:"
 msgstr "Recurso:"
 
-#: plugins/jabber/services.cpp:39
+#: plugins/jabber/services.cpp:44
 #, fuzzy
 msgid "JID"
 msgstr "ID"
 
-#: plugins/jabber/services.cpp:98
+#: plugins/jabber/services.cpp:103
 #, fuzzy
 msgid "Registration failed"
 msgstr "Error en el Login"
@@ -4112,35 +4135,35 @@ msgstr ""
 msgid "Error proxy write"
 msgstr ""
 
-#: plugins/proxy/proxy.cpp:143 plugins/proxy/proxy.cpp:549
-#: plugins/proxy/proxy.cpp:786 plugins/proxy/proxy.cpp:791
-#: plugins/proxy/proxy.cpp:803 plugins/proxy/proxy.cpp:954
-#: plugins/proxy/proxy.cpp:959 plugins/proxy/proxy.cpp:978
+#: plugins/proxy/proxy.cpp:142 plugins/proxy/proxy.cpp:548
+#: plugins/proxy/proxy.cpp:785 plugins/proxy/proxy.cpp:790
+#: plugins/proxy/proxy.cpp:802 plugins/proxy/proxy.cpp:953
+#: plugins/proxy/proxy.cpp:958 plugins/proxy/proxy.cpp:977
 msgid "Error proxy read"
 msgstr ""
 
-#: plugins/proxy/proxy.cpp:199 plugins/proxy/proxy.cpp:213
-#: plugins/proxy/proxy.cpp:237 plugins/proxy/proxy.cpp:277
-#: plugins/proxy/proxy.cpp:292 plugins/proxy/proxy.cpp:317
-#: plugins/proxy/proxy.cpp:350 plugins/proxy/proxy.cpp:413
-#: plugins/proxy/proxy.cpp:474 plugins/proxy/proxy.cpp:509
-#: plugins/proxy/proxy.cpp:515 plugins/proxy/proxy.cpp:527
-#: plugins/proxy/proxy.cpp:761 plugins/proxy/proxy.cpp:808
-#: plugins/proxy/proxy.cpp:841
+#: plugins/proxy/proxy.cpp:198 plugins/proxy/proxy.cpp:212
+#: plugins/proxy/proxy.cpp:236 plugins/proxy/proxy.cpp:276
+#: plugins/proxy/proxy.cpp:291 plugins/proxy/proxy.cpp:316
+#: plugins/proxy/proxy.cpp:349 plugins/proxy/proxy.cpp:412
+#: plugins/proxy/proxy.cpp:473 plugins/proxy/proxy.cpp:508
+#: plugins/proxy/proxy.cpp:514 plugins/proxy/proxy.cpp:526
+#: plugins/proxy/proxy.cpp:760 plugins/proxy/proxy.cpp:807
+#: plugins/proxy/proxy.cpp:840
 msgid "Error proxy connect"
 msgstr ""
 
-#: plugins/proxy/proxy.cpp:340 plugins/proxy/proxy.cpp:522
-#: plugins/proxy/proxy.cpp:798
+#: plugins/proxy/proxy.cpp:339 plugins/proxy/proxy.cpp:521
+#: plugins/proxy/proxy.cpp:797
 #, fuzzy
 msgid "Error proxy authorization"
 msgstr "Usar autorización proxy"
 
-#: plugins/proxy/proxy.cpp:1142
+#: plugins/proxy/proxy.cpp:1141
 msgid "Proxy"
 msgstr "Proxy"
 
-#: plugins/proxy/proxy.cpp:1143
+#: plugins/proxy/proxy.cpp:1142
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS and HTTP)"
 msgstr ""
 
@@ -5569,6 +5592,10 @@ msgstr "Cliente ICQ"
 msgid "Maintainer"
 msgstr "Mantenedor"
 
+#: sim/sim.cpp:191
+msgid "Developer"
+msgstr ""
+
 #: sim/ui/qt3/i18n.cpp:1
 msgid "Hu&e:"
 msgstr ""
@@ -6151,15 +6178,15 @@ msgstr ""
 msgid "&Ok"
 msgstr "&Ok"
 
-#: sim/ui/editfile.cpp:188
+#: sim/ui/editfile.cpp:195
 msgid "*.wav|Sounds"
 msgstr "*.wav|Sonidos"
 
-#: sim/ui/editfile.cpp:190
+#: sim/ui/editfile.cpp:197
 msgid "Sounds(*.wav)"
 msgstr "Sonidos(*.wav)"
 
-#: sim/ui/editfile.cpp:193
+#: sim/ui/editfile.cpp:200
 #, fuzzy
 msgid "Select sound"
 msgstr "Seleccionar estilo:"

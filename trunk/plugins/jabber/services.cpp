@@ -26,6 +26,11 @@
 #include <qcombobox.h>
 #include <qpushbutton.h>
 
+const unsigned COL_JID		= 0;
+const unsigned COL_STATUS	= 1;
+const unsigned COL_ID		= 2;
+const unsigned COL_STATE	= 3;
+
 Services::Services(QWidget *parent, JabberClient *client)
         : ServicesBase(parent)
 {
@@ -45,9 +50,9 @@ Services::Services(QWidget *parent, JabberClient *client)
     connect(btnUnregister, SIGNAL(clicked()), this, SLOT(unregAgent()));
     connect(btnLogon, SIGNAL(clicked()), this, SLOT(logon()));
     connect(btnLogoff, SIGNAL(clicked()), this, SLOT(logoff()));
-    connect(lstAgents, SIGNAL(currentChanged(QListViewItem*)), this, SLOT(slectChanged(QListViewItem*)));
+    connect(lstAgents, SIGNAL(selectionChanged()), this, SLOT(selectChanged()));
     connect(wndInfo, SIGNAL(aboutToShow(QWidget*)), this, SLOT(showAgent(QWidget*)));
-    selectChanged(NULL);
+    selectChanged();
 }
 
 void *Services::processEvent(Event *e)
@@ -107,6 +112,46 @@ void *Services::processEvent(Event *e)
         if ((Client*)(e->param()) == m_client)
             statusChanged();
         break;
+    case EventContactChanged:{
+            Contact *contact = (Contact*)(e->param());
+            ClientDataIterator it(contact->clientData, m_client);
+            JabberUserData *data;
+            while ((data = ((JabberUserData*)(++it))) != NULL){
+                if (!m_client->isAgent(data->ID))
+                    continue;
+                for (QListViewItem *item = lstAgents->firstChild(); item; item = item->nextSibling())
+                    if ((item->text(COL_JID) + "/registered") == QString::fromUtf8(data->ID))
+                        break;
+                if (item == NULL)
+                    makeAgentItem(data, contact->id());
+            }
+            break;
+        }
+    case EventContactStatus:{
+            Contact *contact = (Contact*)(e->param());
+            ClientDataIterator it(contact->clientData, m_client);
+            JabberUserData *data;
+            while ((data = ((JabberUserData*)(++it))) != NULL){
+                if (!m_client->isAgent(data->ID))
+                    continue;
+                for (QListViewItem *item = lstAgents->firstChild(); item; item = item->nextSibling())
+                    if ((item->text(COL_JID) + "/registered") == QString::fromUtf8(data->ID))
+                        break;
+                if (item)
+                    setAgentStatus(data, item);
+            }
+            break;
+        }
+    case EventContactDeleted:{
+            Contact *contact = (Contact*)(e->param());
+            for (QListViewItem *item = lstAgents->firstChild(); item; ){
+                QListViewItem *next = item->nextSibling();
+                if (item->text(COL_ID) == QString::number(contact->id()))
+                    delete item;
+                item = next;
+            }
+            break;
+        }
     }
     return NULL;
 }
@@ -129,6 +174,17 @@ void Services::statusChanged()
         wndInfo->show();
         btnRegister->show();
         m_client->get_agents();
+        Contact *contact;
+        ContactList::ContactIterator it;
+        while ((contact = ++it) != NULL){
+            ClientDataIterator itd(contact->clientData, m_client);
+            JabberUserData *data;
+            while ((data = ((JabberUserData*)(++itd))) != NULL){
+                if (!m_client->isAgent(data->ID))
+                    continue;
+                makeAgentItem(data, contact->id());
+            }
+        }
     }else{
         cmbAgents->clear();
         for (AGENTS_MAP::iterator it = m_agents.begin(); it != m_agents.end(); ++it){
@@ -145,10 +201,32 @@ void Services::statusChanged()
         btnRegister->hide();
         lblRegistered->hide();
         lstAgents->hide();
+        lstAgents->clear();
         btnLogon->hide();
         btnLogoff->hide();
         btnUnregister->hide();
     }
+}
+
+void Services::makeAgentItem(JabberUserData *data, unsigned contact_id)
+{
+    QString jid = QString::fromUtf8(data->ID);
+    jid = jid.left(jid.length() - 11);
+    QListViewItem *item = new QListViewItem(lstAgents, jid);
+    item->setText(COL_ID, QString::number(contact_id));
+    setAgentStatus(data, item);
+}
+
+void Services::setAgentStatus(JabberUserData *data, QListViewItem *item)
+{
+    if (data->Status == STATUS_OFFLINE){
+        item->setText(COL_STATUS, i18n("Offline"));
+        item->setText(COL_STATE, "");
+    }else{
+        item->setText(COL_STATUS, i18n("Online"));
+        item->setText(COL_STATE, "1");
+    }
+    selectChanged();
 }
 
 void Services::selectAgent(int index)
@@ -156,8 +234,9 @@ void Services::selectAgent(int index)
     wndInfo->raiseWidget(index + 1);
 }
 
-void Services::selectChanged(QListViewItem *item)
+void Services::selectChanged()
 {
+    QListViewItem *item = lstAgents->currentItem();
     if (item == NULL){
         btnLogon->setEnabled(false);
         btnLogoff->setEnabled(false);
@@ -165,7 +244,7 @@ void Services::selectChanged(QListViewItem *item)
         return;
     }
     btnUnregister->setEnabled(true);
-    bool bLogon = !item->text(2).isEmpty();
+    bool bLogon = !item->text(COL_STATE).isEmpty();
     btnLogon->setEnabled(!bLogon);
     btnLogoff->setEnabled(bLogon);
 }

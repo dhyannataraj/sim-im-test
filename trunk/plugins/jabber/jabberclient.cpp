@@ -24,6 +24,7 @@
 #include "jabberhomeinfo.h"
 #include "jabberworkinfo.h"
 #include "jabberaboutinfo.h"
+#include "jabbermessage.h"
 #include "services.h"
 
 #include "core.h"
@@ -1236,6 +1237,10 @@ bool JabberClient::canSend(unsigned type, void *_data)
         return (data->Subscribe & SUBSCRIBE_FROM) == 0;
     case MessageAuthRefused:
         return (data->Subscribe & SUBSCRIBE_FROM);
+    case MessageJabberOnline:
+        return isAgent(data->ID) && (data->Status == STATUS_OFFLINE);
+    case MessageJabberOffline:
+        return isAgent(data->ID) && (data->Status != STATUS_OFFLINE);
     }
     return false;
 }

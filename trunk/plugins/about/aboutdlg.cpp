@@ -44,7 +44,8 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
     lblVersion->setText(i18n("%1 Version: %2") .arg(aboutData->appName()) .arg(aboutData->version()));
     txtAbout->setText((QString("<center><br>%1<br><br>%2<br><br>") +
                        "<a href=\"%3\">%4</a><br><br>" +
-                       i18n("Bug report") + ": <a href=\"mailto:%5\">%6</a>" +
+                       i18n("Bug report") + ": <a href=\"mailto:%5\">%6</a><br>" +
+                       i18n("Note: This is english mailing list") +
                        "</center>")
                       .arg(quote(aboutData->shortDescription()))
                       .arg(quote(aboutData->copyrightStatement()))
