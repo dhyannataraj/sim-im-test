@@ -32,7 +32,11 @@
 #endif
 
 #ifndef  LTDL_SHLIB_EXT
-#define  LTDL_SHLIB_EXT "so"
+#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
+#define  LTDL_SHLIB_EXT ".so"
+#else	/* MacOS needs .a */
+#define  LTDL_SHLIB_EXT ".a"
+#endif
 #endif
 
 #include <errno.h>
@@ -344,7 +348,7 @@ void PluginManagerPrivate::load(pluginInfo &info)
         PluginInfo* (*getInfo)() = NULL;
         (lt_ptr&)getInfo = lt_dlsym((lt_dlhandle)info.module, "GetPluginInfo");
         if (getInfo == NULL){
-            log(L_WARN, "Plugin %s hasn't entry GetInfo", info.name);
+            log(L_WARN, "Plugin %s hasn't entry GetPluginInfo", info.name);
             release(info);
             return;
         }
@@ -357,11 +361,11 @@ void PluginManagerPrivate::load(pluginInfo &info)
             return;
         }
 #else
-if (info.info->flags & PLUGIN_KDE_COMPILE){
-        log(L_WARN, "Plugin %s is compiled with KDE support!", info.name);
-        release(info);
-        return;
-    }
+        if (info.info->flags & PLUGIN_KDE_COMPILE){
+            log(L_WARN, "Plugin %s is compiled with KDE support!", info.name);
+            release(info);
+            return;
+        }
 #endif
 #endif
     }
