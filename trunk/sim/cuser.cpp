@@ -171,18 +171,123 @@ const QString CUser::addr()
     return res;
 }
 
-static QString LicqVersionToString(unsigned long v)
+QString CUser::client()
 {
+    if (u == NULL) return "";
     QString res;
-    if(v % 10)
-        res.sprintf("%ld.%ld.%ld", v / 1000, (v / 10) % 100, v % 10);
-    else
-        res.sprintf("%ld.%ld", v / 1000, (v / 10) % 100);
+    QString add;
+    unsigned long id = u->InfoUpdateTime;
+    unsigned long id2 = u->PhoneStatusTime;
+    unsigned long id3 = u->PhoneBookTime;
+    unsigned char v1 = 0;
+    unsigned char v2 = 0;
+    unsigned char v3 = 0;
+    unsigned char v4 = 0;
+    unsigned int ver = id & 0xffff;
+    if (((id & 0xff7f0000) == 0x7d000000L) && (ver > 1000))
+    {
+        res = "Licq";
+        v1 = ver/1000;
+        v2 = (ver / 10) % 100;
+        v3 = ver % 10;
+        v4 = 0;
+        if (id & 0x00800000L)
+            add += "/SSL";
+    }
+    else if ((id == 0xffffff42L) || ((id & 0xff7f0000) == 0x7d000000L))
+    {
+        res = "mICQ";
+        v1 = ver / 10000;
+        v2 = (ver / 100) % 100;
+        v3 = (ver / 10) % 10;
+        v4 = ver % 10;
+    }
+    else if ((id & 0xffff0000L) == 0xffff0000L)
+    {
+        v1 = (id2 >> 24) & 0x7F;
+        v2 = (id2 >> 16) & 0xFF;
+        v3 = (id2 >> 8) & 0xFF;
+        v4 = id2 & 0xFF;
+        switch (id){
+        case 0xffffffffL:
+            res = "Miranda";
+            if (id2 & 0x80000000L) add += " alpha";
+            break;
+        case 0xffffff8fL:
+            res += "StrICQ";
+            break;
+        case 0xffffffabL:
+            res = "YSM";
+            if ((v1 | v2 | v3 | v4) & 0x80)
+                v1 = v2 = v3 = v4 = 0;
+            break;
+        case 0xffffff7fL:
+            res = "&RQ";
+            break;
+        }
+    }
+    else if (id == 0x04031980L)
+    {
+        v1 = 0;
+        v2 = 43;
+        v3 = id2 & 0xffff;
+        v4 = id2 & (0x7fff0000) >> 16;
+        res = "vICQ";
+    }
+    else if ((id == 0x3b75ac09) && (id2 == 0x3bae70b6) && (id3 == 0x3b744adb))
+    {
+        res = "Trillian";
+    }
+    else if ((id == id2) && (id2 == id3) && (id == 0xffffffff))
+        res = "vICQ/GAIM(?)";
+    else if ((u->Version == 7) && u->hasCap(CAP_IS_WEB))
+        res = "ICQ2go";
+    else if ((u->Version == 9) && u->hasCap(CAP_IS_WEB))
+        res = "ICQ Lite";
+    else if (u->hasCap(CAP_TRIL_CRYPT) || u->hasCap(CAP_TRILLIAN))
+        res = "Trillian";
+    else if (u->hasCap(CAP_LICQ))
+        res = "Licq";
+    else if (u->hasCap(CAP_SIM))
+    {
+        res = "SIM";
+        v1 = (u->Build >> 6) - 1;
+        v2 = u->Build & 0x1F;
+    }
+    else if (u->hasCap(CAP_STR_2002) && u->hasCap(CAP_IS_2002))
+        res = "ICQ 2002";
+    else if (u->hasCap(CAP_STR_2001) && u->hasCap(CAP_IS_2001))
+        res = "ICQ 2001";
+    else if (u->hasCap(CAP_MACICQ))
+        res = "ICQ for Mac";
+    else if ((u->Version == 8) && u->hasCap(CAP_IS_2002))
+        res = "ICQ 2002 (?)";
+    else if ((u->Version == 8) && u->hasCap(CAP_IS_2001))
+        res = "ICQ 2001 (?)";
+    else if (u->hasCap(CAP_AIM_CHAT))
+        res = "AIM(?)";
+    else if ((u->Version == 7) && !u->hasCap(CAP_RTF))
+        res = "ICQ 2000 (?)";
+    if (u->Version)
+        res = QString("v") + QString::number(u->Version) + " " + res;
+    if (v1 || v2){
+        res += " ";
+        res += QString::number(v1);
+        res += ".";
+        res += QString::number(v2);
+    }
+    if (v3){
+        res += ".";
+        res += QString::number(v3);
+    }
+    if (v4){
+        res += ".";
+        res += QString::number(v4);
+    }
+    if (!add.isEmpty())
+        res += add;
     return res;
 }
-
-#define LICQ_WITHSSL     0x7D800000
-#define LICQ_WITHOUTSSL  0x7D000000
 
 QString CUser::toolTip()
 {
@@ -261,56 +366,10 @@ QString CUser::toolTip()
         r += "<br>_____________<br>";
         r += sAutoReply;
     }
-    if (u->Version || u->ClientType){
+    QString sClient = client();
+    if (!sClient.isEmpty()){
         r += "<br>_____________<br>";
-		if (u->Version)
-			r += "v" + QString::number(u->Version) + " ";
-        if (u->InfoUpdateTime == 0xFFFFFFFF){
-            r += "MIRANDA";
-        }else if((u->InfoUpdateTime & 0xFFFF0000) == LICQ_WITHSSL){
-            r += "Licq " + LicqVersionToString(u->InfoUpdateTime & 0xFFFF) + "/SSL";
-        }else if((u->InfoUpdateTime & 0xFFFF0000) == LICQ_WITHOUTSSL){
-            r += "Licq " + LicqVersionToString(u->InfoUpdateTime & 0xFFFF);
-        }else{
-            switch (u->ClientType){
-            case 1:
-                r += "Trillian";
-                break;
-            case 2:
-                r += "ICQ 2002";
-                break;
-            case 3:
-                r += "KXicq2";
-                break;
-            case 4:
-                r += "gaim";
-                break;
-            case 5:
-                r += "vICQ";
-                break;
-            case 6:
-                if (u->Version < 9){
-                    r += "ICQ2Go!";
-                }else{
-                    r += "ICQLite";
-                }
-                break;
-            default:
-                if ((unsigned char)(u->ClientType) >= (1 << 6)){
-                    r += "SIM ";
-                    r += QString::number((u->ClientType >> 6)-1);
-                    r += ".";
-                    r += QString::number(u->ClientType & 0x1F);
-                }else{
-                    if (u->Version == 5)
-                        r += "ICQ 99";
-                    if (u->Version == 7)
-                        r += "ICQ 2000";
-                    if (u->Version == 8)
-                        r += "ICQ 2001";
-                }
-            }
-        }
+        r += sClient;
     }
     return r;
 }

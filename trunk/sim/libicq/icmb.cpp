@@ -786,7 +786,7 @@ void ICQClient::packMessage(Buffer &mb, ICQMessage *m, const char *msg,
                     packColor(mb, 0x00FFFFFFL);
                 }
                 ICQUser *u = getUser(msg->getUin());
-                if (u && u->GetRTF)
+                if (u && u->hasCap(CAP_RTF))
                     mb.packStr32("{97B12751-243C-4334-AD22-D6ABF73F1492}");
                 break;
             }
@@ -905,7 +905,7 @@ void ICQClient::processMsgQueueThruServer()
                 for (list<unsigned long>::iterator itUin = msg->Uin.begin(); itUin != msg->Uin.end(); ++itUin){
                     ICQUser *u = getUser(*itUin);
                     message = makeMessageText(msg, u);
-                    if (u && u->GetRTF && (u->uStatus != ICQ_STATUS_OFFLINE)){
+                    if (u && u->hasCap(CAP_RTF) && (u->uStatus != ICQ_STATUS_OFFLINE)){
                         advCounter--;
                         msgBuf
                         << (unsigned short)0x1B00

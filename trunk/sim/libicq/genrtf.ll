@@ -41,8 +41,9 @@ using namespace std;
 #define VALUE		5
 #define TAG_END		6
 #define SYMBOL		7
-#define BR			8
+#define BR		8
 #define WIDECHAR	9
+#define SKIP		10
 
 #define YY_STACK_USED   0
 #define YY_NEVER_INTERACTIVE    1
@@ -59,29 +60,33 @@ using namespace std;
 %x s_string
 %x s_symbol
 %%
-[\xC0-\xDF][\x80-\xBF]			{ return WIDECHAR; }
-[\xE0-\xEF][\x00-\xFF]{2}		{ return WIDECHAR; }
-[\xF0-\xF7][\x00-\xFF]{3}		{ return WIDECHAR; }
-[\xF8-\xFB][\x00-\xFF]{4}		{ return WIDECHAR; }
-[\xFC-\xFD][\x00-\xFF]{5}		{ return WIDECHAR; }
-"<br"\/?">"						{ return BR; }
-"</"[A-Za-z]+">"				{ return TAG_END; }
-"<"[A-Za-z]+					{ BEGIN(s_tag); return TAG_START; }
-<s_tag>">"						{ BEGIN(INITIAL); return TAG_CLOSE; }
-<s_tag>[A-Za-z]+				{ BEGIN(s_attr); return ATTR; }
-<s_attr>"="						{ BEGIN(s_value); }
-<s_attr>">"						{ BEGIN(s_tag); REJECT; }
-<s_attr>[A-Za-z]				{ BEGIN(s_tag); unput(yytext[0]); }
-<s_value>"\""					{ BEGIN(s_string); }
-<s_value>[A-Za-z0-9]+			{ BEGIN(s_tag); return VALUE; }
-<s_string>"\""					{ BEGIN(s_tag); }
-<s_string>[^\"]+				{ return VALUE; }
-"&gt";?							{ return SYMBOL; }
-"&lt";?							{ return SYMBOL; }
-"&amp";?						{ return SYMBOL; }
-"&quot";?						{ return SYMBOL; }
-"&nbsp";?						{ return SYMBOL; }
-.								{ return TXT; }
+[\xC0-\xDF][\x80-\xBF]		{ return WIDECHAR; }
+[\xE0-\xEF][\x00-\xFF]{2}	{ return WIDECHAR; }
+[\xF0-\xF7][\x00-\xFF]{3}	{ return WIDECHAR; }
+[\xF8-\xFB][\x00-\xFF]{4}	{ return WIDECHAR; }
+[\xFC-\xFD][\x00-\xFF]{5}	{ return WIDECHAR; }
+"<br"\/?">"			{ return BR; }
+"</"[A-Za-z]+">"		{ return TAG_END; }
+"<"[A-Za-z]+			{ BEGIN(s_tag); return TAG_START; }
+<s_tag>">"			{ BEGIN(INITIAL); return TAG_CLOSE; }
+<s_tag>[A-Za-z]+		{ BEGIN(s_attr); return ATTR; }
+<s_tag>.			{ return SKIP; }
+<s_attr>"="			{ BEGIN(s_value); return SKIP; }
+<s_attr>">"			{ BEGIN(s_tag); REJECT; return SKIP; }
+<s_attr>[A-Za-z]		{ BEGIN(s_tag); unput(yytext[0]); return SKIP; }
+<s_attr>.			{ return SKIP; }
+<s_value>"\""			{ BEGIN(s_string); return SKIP; }
+<s_value>[A-Za-z0-9]+		{ BEGIN(s_tag); return VALUE; }
+<s_value>.			{ return SKIP; }
+<s_string>"\""			{ BEGIN(s_tag); return SKIP; }
+<s_string>[^\"]+		{ return VALUE; }
+<s_string>.			{ return SKIP; }
+"&gt";?				{ return SYMBOL; }
+"&lt";?				{ return SYMBOL; }
+"&amp";?			{ return SYMBOL; }
+"&quot";?			{ return SYMBOL; }
+"&nbsp";?			{ return SYMBOL; }
+.				{ return TXT; }
 %%
 
 #ifndef HAVE_STRCASECMP
@@ -224,7 +229,8 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
     faces.push_back(face);
     colors.push_back(foreColor);
     string res;
-	string t;
+    string t;
+    bool bSpace = false;
     const char *p;
     ptr = text.c_str();
     for (;;){
@@ -237,9 +243,12 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
                     char b[5];
                     snprintf(b, sizeof(b), "\\\'%02x", *p & 0xFF);
                     res += b;
+		    bSpace = false;
                     continue;
                 }
+		if (bSpace) res += ' ';
                 res += *p;
+		bSpace = false;
             }
             break;
 		case WIDECHAR:
@@ -252,7 +261,8 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
 						res += b;
 						continue;
 					}
-					res += *p;					
+					res += *p;
+					bSpace = false;					
 				}
 			}else{
 				unsigned char *p = (unsigned char*)yytext;
@@ -310,11 +320,13 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
 					char b[20];
 					snprintf(b, sizeof(b), "\\u%u?", c);
 					res += b;
+					bSpace = false;
 				}
 			}
 			break;
         case BR:
             res += "\n";
+	    bSpace = false;
             break;
         case SYMBOL:{
                 string s = yytext;
@@ -325,20 +337,26 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
                 }
                 for (tagDef *t = tags; t->ch; t++){
                     if (s == t->name){
+			if (bSpace) res += ' ';
                         res += t->ch;
+			bSpace = false;
                         break;
                     }
                 }
             }
         case TAG_CLOSE:{
                 if (eq(tag.c_str(), "b")){
-                    res += " \\b ";
+                    res += "\\b";
+		    bSpace = true;
                 }else if (eq(tag.c_str(), "i")){
-                    res += " \\i ";
+                    res += "\\i";
+		    bSpace = true;
                 }else if (eq(tag.c_str(), "u")){
-                    res += " \\ul ";
+                    res += "\\ul";
+		    bSpace = true;
                 }else if (eq(tag.c_str(), "p")){
-                    res += "\\pard ";
+                    res += "\\pard";
+		    bSpace = true;
                 }else if (eq(tag.c_str(), "font")){
                     bool bChange = false;
                     font f = fonts.top();
@@ -369,12 +387,13 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
                                 char b[16];
                                 snprintf(b, sizeof(b), "\\cf%u", n);
                                 res += b;
+				bSpace = true;
                                 bChange = true;
                             }
                         }
                         if (eq((*it).name.c_str(), "face")){
                             unsigned n = 0;
-							list<string>::iterator it_face;
+		  	    list<string>::iterator it_face;
                             for (it_face = faces.begin(); it_face != faces.end(); it_face++, n++)
                                 if ((*it_face) == (*it).value) break;
                             if (it_face == faces.end()) faces.push_back((*it).value);
@@ -383,6 +402,7 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
                                 char b[16];
                                 snprintf(b, sizeof(b), "\\f%u", n);
                                 res += b;
+				bSpace = true;
                                 bChange = true;
                             }
                         }
@@ -405,9 +425,13 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
                         char b[16];
                         snprintf(b, sizeof(b), "\\fs%u", size);
                         res += b;
+			bSpace = true;
                         f.size = size;
                     }
-                    if (bChange) res += "\\highlight0 ";
+                    if (bChange){
+			res += "\\highlight0";
+			bSpace = true;
+		    }
                     fonts.push(f);
                 }
                 attrs.clear();
@@ -418,13 +442,17 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
             break;
         case TAG_END:
             if (eq(yytext, "</b>")){
-                res += " \\b0 ";
+                res += "\\b0";
+		bSpace = true;
             }else if (eq(yytext, "</i>")){
-                res += " \\i0 ";
+                res += "\\i0";
+		bSpace = true;
             }else if (eq(yytext, "</u>")){
-                res += " \\ul0 ";
+                res += "\\ul0";
+		bSpace = true;
             }else if (eq(yytext, "</p>")){
-                res += " \\par\r\n";
+                res += "\\par\r\n";
+		bSpace = false;
             }else if (eq(yytext, "</font>")){
                 if (fonts.size() > 1){
                     font f = fonts.top();
@@ -435,13 +463,19 @@ string ICQClient::createRTF(const string &text, unsigned long foreColor, const c
                         snprintf(b, sizeof(b), "\\cf%u", fonts.top().color);
                         bChange = true;
                         res += b;
+			bSpace = true;
                     }
                     if (fonts.top().size != f.size){
                         char b[16];
                         snprintf(b, sizeof(b), "\\fs%u", fonts.top().size);
                         bChange = true;
+			res += b;
+			bSpace = true;
                     }
-                    if (bChange) res += "\\highlight0 ";
+                    if (bChange){
+			res += "\\highlight0";
+			bSpace = true;
+		    }
                 }
             }
             break;

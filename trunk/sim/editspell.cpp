@@ -233,7 +233,7 @@ void EditSpell::corrected(const QString & original, const QString & newword, uns
         string newWord;
         oldWord = original.local8Bit();
         newWord = newword.local8Bit();
-        log(L_DEBUG, "%s -> %s not found", oldWord.c_str(), newWord.c_str());
+        log(L_WARN, "%s -> %s not found", oldWord.c_str(), newWord.c_str());
         return;
     }
     setCursorPosition(nPara, nIndex + original.length());
@@ -276,6 +276,87 @@ void EditSpell::spell()
 #else
     emit spellDone(true);
 #endif
+}
+
+static void parseStyle(QString &tag, QString &head, QString &end)
+{
+        int pos = tag.find("style=\"");
+        if (pos >= 0) tag = tag.mid(pos+7);
+        pos = tag.find("\"");
+        if (pos >= 0) tag = tag.left(pos);
+        QStringList styles = QStringList::split(';', tag);
+        for (QStringList::iterator it = styles.begin(); it != styles.end(); ++it){
+            pos = (*it).find(':');
+            if (pos < 0) continue;
+            QString name = (*it).left(pos);
+            QString value = (*it).mid(pos+1);
+            if (name == "font-weight"){
+                int weight = value.toInt();
+                if (weight > 400){
+                    head += "<b>";
+                    end = QString("</b>") + end;
+                }
+            }
+            if ((name == "font-style") && (value == "italic")){
+                head += "<i>";
+                end = QString("</i>") + end;
+            }
+            if ((name == "text-decoration") && (value == "underline")){
+                head += "<u>";
+                end = QString("</u>") + end;
+            }
+            if (name == "color"){
+                head += "<font color=\"";
+                head += value;
+                head += "\">";
+                end = QString("</font>") + end;
+            }
+            if (name == "font-family"){
+                head += "<font face=\"";
+                head += value;
+                head += "\">";
+                end = QString("</font>") + end;
+            }
+        }
+}
+
+QString EditSpell::text()
+{
+    QString res = QTextEdit::text();
+    QString tag;
+    QString endText;
+    int pos = res.find("<body");
+    if (pos >= 0){
+        res = res.mid(pos + 5);
+        pos = res.find(">");
+        if (pos >= 0){
+		tag = res.left(pos);
+		QString head;
+		parseStyle(tag, head, endText);
+		res = head + res.mid(pos+1);
+	}
+    }
+    pos = res.find("</body");
+    if (pos >= 0)
+        res = res.left(pos);
+    while ((pos = res.find("<span")) >= 0){
+        QString head = res.left(pos);
+        res = res.mid(pos);
+        pos = res.find(">");
+        if (pos >= 0){
+            tag = res.left(pos);
+            res = res.mid(pos+1);
+        }
+        QString end;
+	parseStyle(tag, head, end);
+        pos = res.find("</span>");
+        if (pos < 0){
+            res = head + res + end;
+        }else{
+            res = head + res.left(pos) + end + res.mid(pos + 7);
+        }
+    }
+    return res + endText;
 }
 
 #ifndef _WINDOWS

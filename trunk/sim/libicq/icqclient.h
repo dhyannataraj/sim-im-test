@@ -555,7 +555,21 @@ protected:
     virtual void processPacket();
 };
 
-// ____________________________________________________________________________________________
+// _______________________________________________________________________________
+
+const unsigned CAP_ISISQ	= 0;
+const unsigned CAP_RTF		= 1;
+const unsigned CAP_STR_2002	= 2;
+const unsigned CAP_IS_2002	= 3;
+const unsigned CAP_SIM		= 4;
+const unsigned CAP_STR_2001	= 5;
+const unsigned CAP_IS_2001	= 6;
+const unsigned CAP_IS_WEB	= 7;
+const unsigned CAP_TRILLIAN	= 8;
+const unsigned CAP_TRIL_CRYPT	= 9;
+const unsigned CAP_LICQ		= 10;
+const unsigned CAP_MACICQ	= 11;
+const unsigned CAP_AIM_CHAT	= 12;
 
 class ICQUser
 {
@@ -588,7 +602,6 @@ public:
 
     unsigned long uStatus;
     unsigned long prevStatus;
-    bool GetRTF;
     bool CanPlugin;
     bool CanResponse;
 
@@ -605,8 +618,8 @@ public:
     string			HostName;
     string			RealHostName;
 
-    unsigned short	Version;
-    unsigned short	Mode;
+    unsigned short		Version;
+    unsigned short		Mode;
 
     // General info
     string			Nick;
@@ -616,7 +629,7 @@ public:
     string			State;
     string			Address;
     string			Zip;
-    unsigned short	Country;
+    unsigned short		Country;
     char			TimeZone;
     string			HomePhone;
     string			HomeFax;
@@ -627,13 +640,13 @@ public:
     string			Notes;
 
     // Email info
-    EMailList		EMails;
+    EMailList			EMails;
 
     // More info
     char			Age;
     char			Gender;
     string			Homepage;
-    unsigned short	BirthYear;
+    unsigned short		BirthYear;
     char			BirthMonth;
     char			BirthDay;
     char			Language1;
@@ -648,8 +661,8 @@ public:
     string			WorkName;
     string			WorkDepartment;
     string			WorkPosition;
-    unsigned short	WorkCountry;
-    unsigned short	Occupation;
+    unsigned short		WorkCountry;
+    unsigned short		Occupation;
     string			WorkHomepage;
     string			WorkPhone;
     string			WorkFax;
@@ -658,18 +671,18 @@ public:
     string			About;
 
     // Background info
-    ExtInfoList		Backgrounds;
-    ExtInfoList		Affilations;
+    ExtInfoList			Backgrounds;
+    ExtInfoList			Affilations;
 
     // Personal interests info
-    ExtInfoList		Interests;
+    ExtInfoList			Interests;
 
     // PhoneBook
-    PhoneBook		Phones;
+    PhoneBook			Phones;
     char			PhoneState;
-    unsigned long   InfoUpdateTime;
-    unsigned long	PhoneStatusTime;
-    unsigned long	PhoneBookTime;
+    unsigned long   		InfoUpdateTime;
+    unsigned long		PhoneStatusTime;
+    unsigned long		PhoneBookTime;
     bool			bMyInfo;
 
     // Alert mode
@@ -684,13 +697,15 @@ public:
 
     // Accept mode
     bool			AcceptMsgWindow;
-    unsigned short	AcceptFileMode;
+    unsigned short		AcceptFileMode;
     bool			AcceptFileOverride;
     bool			AcceptFileOverwrite;
     string			AcceptFilePath;
     string			DeclineFileMessage;
 
-    unsigned long	ClientType;
+    unsigned long		Caps;
+    unsigned long		Build;
+    bool			hasCap(unsigned nCap);
 
     bool			SoundOverride;
     string			IncomingMessage;

@@ -54,6 +54,7 @@ public:
     void setUnderline(bool bUnderline);
     void setCurrentFont(const QFont &f);
     QFont currentFont() { return fCurrent; }
+    QString text(); 
 public slots:
     void spell();
     void spell_check(KSpell *spell);

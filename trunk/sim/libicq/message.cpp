@@ -989,7 +989,7 @@ string ICQClient::makeMessageText(ICQMsg *msg, ICQUser *u)
     }else{
         msg_text = msg->Message.c_str();
     }
-    if (u->GetRTF && (u->uStatus != ICQ_STATUS_OFFLINE))
+    if (u->hasCap(CAP_RTF) && (u->uStatus != ICQ_STATUS_OFFLINE))
         return createRTF(msg_text, msg->ForeColor, encoding);
     string message = clearHTML(msg_text);
     fromUTF(message, encoding);

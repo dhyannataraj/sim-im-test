@@ -33,6 +33,7 @@ using namespace std;
 #define SYMBOL		2
 #define BR			3
 #define WIDECHAR	4
+#define SKIP		5
 
 #define YY_STACK_USED			0
 #define YY_NEVER_INTERACTIVE    1
@@ -54,14 +55,15 @@ using namespace std;
 [\xFC-\xFD][\x00-\xFF]{5}	{ return WIDECHAR; }
 "<br"\/?">"					{ return BR; }
 "</p>"						{ return BR; }
-"<"							{ BEGIN(tag); }
-<tag>">"					{ BEGIN(INITIAL); }
+"<"						{ BEGIN(tag); return SKIP; }
+<tag>">"					{ BEGIN(INITIAL); return SKIP; }
+<tag>.						{ return SKIP; }
 "&gt";?						{ return SYMBOL; }
 "&lt";?						{ return SYMBOL; }
 "&amp";?					{ return SYMBOL; }
 "&quot";?					{ return SYMBOL; }
 "&nbsp";?					{ return SYMBOL; }
-.							{ return TXT; }
+.						{ return TXT; }
 %%
 
 #ifdef WIN32

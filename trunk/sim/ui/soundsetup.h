@@ -39,6 +39,7 @@ public slots:
 protected slots:
     void overrideToggled(bool);
     void artsToggled(bool);
+    void disableToggled(bool);
 protected:
     string sound(EditSound *edt);
 };

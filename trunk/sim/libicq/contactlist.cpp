@@ -250,7 +250,8 @@ ICQUser::ICQUser()
     AcceptFileMode = false;
     AcceptFileOverride = false;
     AcceptFileOverwrite = false;
-    ClientType = 0;
+    Caps = 0;
+    Build = 0;
     SoundOverride = false;
     IncomingMessage = "message.wav";
     IncomingURL = "url.wav";
@@ -260,7 +261,6 @@ ICQUser::ICQUser()
     IncomingChat = "chat.wav";
     OnlineAlert = "alert.wav";
     direct = 0;
-    GetRTF = false;
     CanPlugin = false;
     NewMessages = 0;
     LastMessageType = 0;
@@ -274,6 +274,11 @@ ICQUser::~ICQUser()
 {
     if (uStatus != ICQ_STATUS_OFFLINE)
         setOffline();
+}
+
+bool ICQUser::hasCap(unsigned n)
+{
+    return Caps & (1 << n);
 }
 
 void ICQUser::setOffline()

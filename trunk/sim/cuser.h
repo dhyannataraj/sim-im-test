@@ -38,6 +38,7 @@ public:
     const QString addr();
     const QString statusTime();
     const QString onlineTime();
+    QString client();
     QString toolTip();
     ICQUser *operator -> () { return u; }
 protected:

@@ -53,6 +53,9 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 time(&now);
                 bool changed = false;
 
+                if (user->uStatus == ICQ_STATUS_OFFLINE)
+                    user->Caps = 0;
+
                 unsigned long cookie1, cookie2, cookie3;
                 cookie1 = cookie2 = cookie3 = 0;
                 unsigned short level, len;
@@ -76,9 +79,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                         changed = true;
                     }
                 }else if (user->uStatus == ICQ_STATUS_OFFLINE){
-
                     user->uStatus = ICQ_STATUS_ONLINE;
-
                 }
 
                 // Online time TLV
@@ -104,7 +105,6 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 // Direct connection info
                 Tlv *tlvDirect = tlv(0x000C);
                 if (tlvDirect){
-                    user->ClientType = 0;
                     Buffer info(*tlvDirect);
                     unsigned long  realIP;
                     unsigned short port;
@@ -134,40 +134,31 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                     user->Mode = (unsigned short)mode;
                     user->Version = (unsigned short)version;
                     changed = true;
-                    if ((user->DCcookie == cookie1) && (cookie1 == cookie2))
-                        user->ClientType = 5;
-                    if (cookie1 == 0x279c6996)
-                        user->ClientType = 3;
                 }
 
                 Tlv *tlvCapability = tlv(0x000D);
                 if (tlvCapability){
-                    user->GetRTF = false;
                     Buffer info(*tlvCapability);
                     for (; info.readPos() < info.size(); ){
                         capability cap;
                         info.unpack((char*)cap, sizeof(capability));
-                        if (!memcmp(cap, capabilities[2], sizeof(capability))){
-                            user->GetRTF = true;
-                            if (!user->CanPlugin){
-                                if (user->bPhoneChanged) addPhoneRequest(uin);
-                                user->CanPlugin = true;
+                        for (unsigned i = 0;; i++){
+			    if (*capabilities[i] == 0) break;
+                            unsigned size = sizeof(capability);
+                            if (i == CAP_SIM) size--;
+                            if (!memcmp(cap, capabilities[i], size)){
+                                if (i == CAP_SIM){
+				    unsigned char build = cap[sizeof(capability)-1];
+				    if ((build == 0x92) && (build < (1 << 6))) continue;
+                                    user->Build = build;
+				}
+                                user->Caps |= (1 << i);
                             }
                         }
-                        if (!memcmp(cap, capabilities[3], sizeof(capability)))
-                            user->CanResponse = true;
-                        if (!memcmp(cap, capabilities[5], sizeof(capability)))
-                            user->ClientType = 2;
-                        if (!memcmp(cap, capabilities[4], sizeof(capability)))
-                            user->ClientType = 1;
-                        if (!memcmp(cap, capabilities[6], sizeof(capability)))
-                            user->ClientType = 6;
-                        if (!memcmp(cap, capabilities[7], sizeof(capability)))
-                            user->ClientType = 4;
-                        if (!memcmp(cap, capabilities[4], sizeof(capability)-1) &&
-                                (cap[sizeof(capability)-1] > (1 << 6)) &&
-                                (cap[sizeof(capability)-1] != 0x92))
-                            user->ClientType = (char)(cap[sizeof(capability)-1]);
+                    }
+                    if (user->hasCap(CAP_RTF) && !user->CanPlugin){
+                        user->CanPlugin = true;
+                        if (user->bPhoneChanged) addPhoneRequest(uin);
                     }
                 }
 

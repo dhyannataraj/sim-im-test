@@ -36,8 +36,15 @@
 #include <qtextcodec.h>
 #include <qregexp.h>
 
-#include <errno.h>
+#ifdef WIN32
+#include <winsock.h>
+#else
+#include <sys/socket.h>
+#include <sys/time.h>
+#include <netinet/in.h>
+#endif
 
+#include <errno.h>
 #include <string>
 
 #undef HAVE_KEXTSOCK_H
@@ -247,7 +254,8 @@ cfgParam ICQUser_Params[] =
         { "AcceptFileOverwrite", offsetof(ICQUser, AcceptFileOverwrite), PARAM_BOOL, 0 },
         { "AcceptFilePath", offsetof(ICQUser, AcceptFilePath), PARAM_STRING, 0 },
         { "DeclineFileMessage", offsetof(ICQUser, DeclineFileMessage), PARAM_STRING, 0 },
-        { "ClientType", offsetof(ICQUser, ClientType), PARAM_ULONG, 0 },
+        { "Caps", offsetof(ICQUser, Caps), PARAM_ULONG, 0 },
+	{ "Build", offsetof(ICQUser, Build), PARAM_ULONG, 0 },
         { "SoundOverride", offsetof(ICQUser, SoundOverride), PARAM_BOOL, 0 },
         { "IncomingMessage", offsetof(ICQUser, IncomingMessage), PARAM_STRING, (unsigned)"message.wav" },
         { "IncomingURL", offsetof(ICQUser, IncomingURL), PARAM_STRING, (unsigned)"url.wav" },
@@ -1392,7 +1400,14 @@ unsigned long ICQClientSocket::localHost()
     }
     return res;
 #else
-    return sock->address().ip4Addr();
+    unsigned long res = 0;
+    int s = sock->socket();
+    struct sockaddr_in addr;
+    memset(&addr, sizeof(addr), 0);
+    socklen_t size = sizeof(addr);
+    if (getsockname(s, (struct sockaddr*)&addr, &size) >= 0)
+	res = htonl(addr.sin_addr.s_addr);
+    return res;
 #endif
 }
 

@@ -32,6 +32,7 @@ SoundSetup::SoundSetup(QWidget *p, bool bUser)
 {
     lblPict->setPixmap(Pict("sound"));
     chkDisable->setChecked(pSplash->SoundDisable);
+    disableToggled(pSplash->SoundDisable);
     if (bUser){
         edtProgram->hide();
         lblProgram->hide();
@@ -42,6 +43,7 @@ SoundSetup::SoundSetup(QWidget *p, bool bUser)
         chkDisable->hide();
         connect(chkOverride, SIGNAL(toggled(bool)), this, SLOT(overrideToggled(bool)));
     }else{
+	connect(chkDisable, SIGNAL(toggled(bool)), this, SLOT(disableToggled(bool)));
         chkOverride->hide();
 #ifdef WIN32
         edtProgram->hide();
@@ -94,8 +96,21 @@ void SoundSetup::overrideToggled(bool bOn)
 
 void SoundSetup::artsToggled(bool bOn)
 {
-    edtProgram->setEnabled(!bOn);
-    lblProgram->setEnabled(!bOn);
+    edtProgram->setEnabled(!bOn && !chkDisable->isChecked());
+    lblProgram->setEnabled(!bOn && !chkDisable->isChecked());
+}
+
+void SoundSetup::disableToggled(bool bOn)
+{
+    edtMessage->setEnabled(!bOn);
+    edtURL->setEnabled(!bOn);
+    edtSMS->setEnabled(!bOn);
+    edtAuth->setEnabled(!bOn);
+    edtAlert->setEnabled(!bOn);
+    edtFile->setEnabled(!bOn);
+    edtChat->setEnabled(!bOn);
+    edtStartup->setEnabled(!bOn);
+    chkArts->setEnabled(!bOn);
 }
 
 string SoundSetup::sound(EditSound *edt)

@@ -125,6 +125,7 @@ void ICQClient::sendLogonStatus()
 {
     owner->IP = 0;
     owner->RealIP = htonl(sock->localHost());
+    log(L_DEBUG, "RealIP: %X", owner->RealIP);
 
     log(L_DEBUG, "Logon status");
     if (owner->inInvisible) sendVisibleList();

@@ -28,6 +28,7 @@
 #define MAIL		6
 #define TAB			7
 #define LONGSPACE	8
+#define SKIP		9
 #define SMILE		0x100
 
 #define YY_STACK_USED   0
@@ -52,9 +53,9 @@
 "\t"							{ return TAB; }
 " "[ ]+							{ return LONGSPACE; }
 "<br>"							{ return BR; }
-"<p>"							{ }
+"<p>"							{ return SKIP; }
 "</p>"							{ return BR; }
-"<"								{ BEGIN(x_tag); return TAG; }
+"<"							{ BEGIN(x_tag); return TAG; }
 <x_tag>">"						{ BEGIN(INITIAL); return TAG_END; }
 <x_tag>.						{ return TAG; }
 :\-?\)+							{ return SMILE; }
@@ -200,6 +201,8 @@ QString MainWindow::ParseText(const string &text, bool bIgnoreColors)
             res += "</a>";
             break;
 		}
+	case SKIP:
+	    break;
         default:
 			if (pMain->UseEmotional){
 				res += "<img src=\"icon:smile";
