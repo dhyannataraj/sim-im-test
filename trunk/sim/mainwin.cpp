@@ -631,7 +631,7 @@ MainWindow::MainWindow(const char *name)
 
 #ifdef USE_KDE
 	pSyncher=new KabcSync;
-	connect(pSyncher,SIGNAL(event(ICQEvent*)),pSyncher,SLOT(processEvent(ICQEvent*)));
+	connect(pClient,SIGNAL(event(ICQEvent*)),pSyncher,SLOT(processEvent(ICQEvent*)));
 #endif
 
     menuStatus = new QPopupMenu(this);

@@ -17,10 +17,13 @@
  ***************************************************************************/
 
 #include "kabcsync.h"
-#include "country.h"
 
 #include <kabc/stdaddressbook.h>
-#include <iostream>
+
+#include "country.h"
+#include "mainwin.h"
+#include "kabcsync.h"
+#include "country.h"
 
 KabcSync* pSyncher;
  
@@ -194,7 +197,7 @@ void KabcSync::processUser(SIMUser& u)
 
 void KabcSync::processEvent(ICQEvent* e)
 {
-	if (e->type()==EVENT_INFO_CHANGED)
+	if ((e->type()==EVENT_INFO_CHANGED)&&(pMain->AutoSync))
 	{
 		SIMUser* pU=static_cast<SIMUser*>(pClient->getUser(e->Uin()));
 		if (pU!=NULL)
@@ -202,7 +205,7 @@ void KabcSync::processEvent(ICQEvent* e)
 			open();
 			processUser(*pU);
 			close();
-			std::cout<<"обновили, бля\n";
+			
 		}
 	}
 }
