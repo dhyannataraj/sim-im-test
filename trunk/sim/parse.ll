@@ -56,7 +56,7 @@
 "&gt;"							{ return TXT; }
 "\t"							{ return TAB; }
 " "[ ]+							{ return LONGSPACE; }
-"<br>"							{ return BR; }
+"<br"\ *\/?">"						{ return BR; }
 "<p>"							{ return SKIP; }
 "</p>"							{ return BR; }
 "<"							{ BEGIN(x_tag); return TAG; }

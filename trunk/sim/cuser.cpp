@@ -148,7 +148,6 @@ const QString CUser::addr()
         struct in_addr a;
         a.s_addr = u->IP;
         res += inet_ntoa(a);
-log(L_DEBUG, ">> %X %s", u->IP, inet_ntoa(a));
         if (u->HostName.size()){
             res += "(";
             res += u->HostName.c_str();

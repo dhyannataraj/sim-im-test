@@ -79,6 +79,7 @@ protected:
     WharfIcon *wharfIcon;
     bool x11Event(XEvent*);
     bool inTray;
+    bool inNetTray;
     bool bInit;
 #endif
 };

@@ -106,7 +106,7 @@ public:
     bool bActivated;
 protected:
     DockWnd *dock;
-    virtual void mousePressEvent(QMouseEvent *);
+    virtual void mouseReleaseEvent(QMouseEvent *);
     virtual void mouseDoubleClickEvent(QMouseEvent *e);
     virtual void paintEvent(QPaintEvent *);
     virtual bool x11Event(XEvent*);
@@ -180,7 +180,7 @@ void WharfIcon::set(const char *icon, const char *msg)
     repaint();
 }
 
-void WharfIcon::mousePressEvent( QMouseEvent *e)
+void WharfIcon::mouseReleaseEvent( QMouseEvent *e)
 {
     dock->mouseEvent(e);
 }
@@ -285,7 +285,11 @@ DockWnd::DockWnd(QWidget *main)
     notifyIconData.uID = 0;
     Shell_NotifyIconA(NIM_ADD, &notifyIconData);
 #else
+    move(0, 0);
+    resize(22, 22);
     bInit = false;
+    inTray = false;
+    inNetTray = false;
 
     wharfIcon = new WharfIcon(this);
     Display *dsp = x11Display();
@@ -304,19 +308,19 @@ DockWnd::DockWnd(QWidget *main)
     int screen_id = XScreenNumberOfScreen(screen);
     char buf[32];
     snprintf(buf, sizeof(buf), "_NET_SYSTEM_TRAY_S%d", screen_id);
-    log(L_DEBUG, "Tray: %s", buf);
     Atom selection_atom = XInternAtom(dsp, buf, false);
     XGrabServer(dsp);
     Window manager_window = XGetSelectionOwner(dsp, selection_atom);
-    log(L_DEBUG, "Manager %u", manager_window);
     if (manager_window != None)
         XSelectInput(dsp, manager_window, StructureNotifyMask);
     XUngrabServer(dsp);
     XFlush(dsp);
     if (manager_window != None){
-	log(L_DEBUG, "Send tray request dock");
-        if (!send_message(dsp, winId(), SYSTEM_TRAY_REQUEST_DOCK, manager_window, 0, 0))
+	inNetTray = true;
+        if (!send_message(dsp, manager_window, SYSTEM_TRAY_REQUEST_DOCK, win, 0, 0)){
             log(L_DEBUG, "Fail send message");
+	    inNetTray = false;
+	}
     }
 
     Atom kde_net_system_tray_window_for_atom = XInternAtom(dsp, "_KDE_NET_WM_SYSTEM_TRAY_WINDOW_FOR", false);
@@ -339,9 +343,8 @@ DockWnd::DockWnd(QWidget *main)
     XFree( hints );
     XSetCommand(dsp, win, _argv, _argc);
 
-    inTray = false;
-    move(-21, -21);
-    resize(22, 22);
+    if (!inNetTray)
+    	move(-21, -21);
     show();
 #endif
     reset();
@@ -366,11 +369,12 @@ DockWnd::~DockWnd()
 
 bool DockWnd::x11Event(XEvent *e)
 {
-    //    log(L_DEBUG, "Dock %u", e->type);
+//    log(L_DEBUG, "Dock %u", e->type);
     if (e->type == ClientMessage){
+	log(L_DEBUG, "Got client message %u %s", inTray, XGetAtomName( qt_xdisplay(), e->xclient.message_type));
         if (!inTray){
-            Atom xembed = XInternAtom( qt_xdisplay(), "_XEMBED", FALSE );
-            if (e->xclient.message_type == xembed){
+            Atom xembed_atom = XInternAtom( qt_xdisplay(), "_XEMBED", FALSE );
+            if (e->xclient.message_type == xembed_atom){
                 inTray = true;
                 bInit = true;
                 if (wharfIcon){
@@ -381,6 +385,31 @@ bool DockWnd::x11Event(XEvent *e)
             }
         }
     }
+    if ((e->type == ReparentNotify) && !bInit && inNetTray){
+	Display *dsp = qt_xdisplay();
+	if (e->xreparent.parent == XRootWindow(dsp, 
+				XScreenNumberOfScreen(XDefaultScreenOfDisplay(dsp)))){
+		inNetTray = false;
+	}else{
+		log(L_DEBUG, "Set in net tray");
+		inTray = true;
+		if (wharfIcon){
+			delete wharfIcon;
+			wharfIcon = NULL;
+		}
+		bInit = true;
+		move(0, 0);
+		resize(22, 22);
+		XResizeWindow(dsp, winId(), 22, 22);
+		reset();
+		log(L_DEBUG, "Set tn net try OK");
+	}
+    }
+    if (e->type == ConfigureNotify){
+	    log(L_DEBUG, "Configure %i %i %i %i",
+			    e->xconfigure.x, e->xconfigure.y,
+			    e->xconfigure.width, e->xconfigure.height);
+    }
     if (((e->type == FocusIn) || (e->type == Expose)) && !bInit){
         if (wharfIcon){
             delete wharfIcon;
@@ -388,6 +417,7 @@ bool DockWnd::x11Event(XEvent *e)
         }
 
         if (!inTray){
+	    log(L_DEBUG, "We not in tray");
             bInit = true;
             setFocusPolicy(NoFocus);
             move(pMain->DockX, pMain->DockY);
@@ -666,6 +696,7 @@ void DockWnd::enterEvent( QEvent* )
 {
 #ifndef WIN32
     // FIXME(E): Implement for Qt Embedded
+    if (wharfIcon != NULL) return;
     if ( !qApp->focusWidget() ) {
         XEvent ev;
         memset(&ev, 0, sizeof(ev));

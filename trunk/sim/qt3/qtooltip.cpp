@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qtooltip.cpp,v 1.1 2002-12-08 03:43:02 shutoff Exp $
+** $Id: qtooltip.cpp,v 1.2 2002-12-09 08:27:36 shutoff Exp $
 **
 ** Tool Tips (or Balloon Help) for any widget or rectangle
 **
@@ -1007,5 +1007,9 @@ bool MyQToolTip::enabled()
 {
     return globally_enabled;
 }
+
+#ifndef WIN32
+#include "qtooltip.moc"
+#endif
 
 #endif
