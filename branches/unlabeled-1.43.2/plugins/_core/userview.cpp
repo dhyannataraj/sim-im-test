@@ -299,7 +299,8 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
             }else{
                 switch (item->status()){
                 case STATUS_ONLINE:
-                    break;
+                     p->setPen(CorePlugin::m_plugin->getColorOnline());
+                   break;
                 case STATUS_AWAY:
                     p->setPen(CorePlugin::m_plugin->getColorAway());
                     break;
