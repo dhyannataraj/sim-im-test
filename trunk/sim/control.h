@@ -20,7 +20,7 @@
 
 #include "defs.h"
 #include <qsocketdevice.h>
-
+#include <string>
 #include <list>
 using namespace std;
 
