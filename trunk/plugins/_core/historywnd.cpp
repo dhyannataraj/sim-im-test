@@ -29,6 +29,14 @@
 #include <qprogressbar.h>
 #include <qlayout.h>
 #include <qstringlist.h>
+#include <qmessagebox.h>
+
+#ifdef USE_KDE
+#include <kfiledialog.h>
+#define QFileDialog KFileDialog
+#else
+#include <qfiledialog.h>
+#endif
 
 #include <time.h>
 
@@ -172,6 +180,35 @@ void *HistoryWindow::processEvent(Event *e)
             if (m_page > 0){
                 m_page--;
                 fill();
+            }
+            return e->param();
+        }
+        if (cmd->id == CmdHistorySave){
+            string s = QFileDialog::getSaveFileName(QString::null, QString::null, this);
+            if (s.length()){
+                bool res = true;
+                if (QFile::exists(s)){
+                    QMessageBox mb(i18n("Error"), i18n("File already exists. Overwrite?"), 
+                            QMessageBox::Warning,
+                            QMessageBox::Yes | QMessageBox::Default,
+                            QMessageBox::No,
+                            QMessageBox::Cancel | QMessageBox::Escape);
+                    mb.setButtonText(QMessageBox::Yes, i18n("&Overwrite"));
+                    mb.setButtonText(QMessageBox::No, i18n("&Append"));
+                    switch (mb.exec()){
+                    case QMessageBox::Yes:
+                        res = History::save(m_id, s.c_str(), false);
+                        break;
+                    case QMessageBox::No:
+                        res = History::save(m_id, s.c_str(), true);
+                        break;
+                    case QMessageBox::Cancel:
+                        break;
+                    }
+                }else
+                    res = History::save(m_id, s.c_str());
+                if (!res)
+                    QMessageBox::critical(this, i18n("Error"), i18n("Save failed"), QMessageBox::Ok, QMessageBox::NoButton, QMessageBox::NoButton);
             }
             return e->param();
         }

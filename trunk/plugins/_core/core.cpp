@@ -816,6 +816,13 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->bar_grp	= 0x5001;
     eCmd.process();
 
+    cmd->id			= CmdHistorySave;
+    cmd->text		= I18N_NOOP("&Save as text");
+    cmd->icon		= "filesave";
+    cmd->accel		= "Ctrl+S";
+    cmd->bar_grp	= 0x6000;
+    eCmd.process();
+
     cmd->id			= CmdBgColor;
     cmd->text		= I18N_NOOP("Back&ground color");
     cmd->icon		= "bgcolor";

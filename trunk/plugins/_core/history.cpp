@@ -831,4 +831,44 @@ void History::remove(Contact *contact)
     }
 }
 
-
+bool History::save(unsigned id, const char *file_name, bool bAppend)
+{
+    QFile f(file_name);
+    int mode = IO_WriteOnly | IO_Translate;
+    if (bAppend)
+        mode |= IO_Append;
+    if (f.open(mode)){
+        QTextStream stream(&f);
+        HistoryIterator it(id);
+        it.begin();
+        const QString owner = getContacts()->owner()->getName(),
+                      contact = getContacts()->contact(id)->getName();
+        for (;;) {
+            Message *msg = ++it;
+            if ((msg == NULL))
+                break;
+            time_t t = msg->getTime();
+            char* time = new char[9];
+            strftime(time, 9, "%H:%M:%S", localtime(&t));
+            stream << (msg->getFlags() & MESSAGE_RECEIVED ? contact : owner)
+                << " (" << formatDate(t) << " " << time << "):\n"
+                << msg->getPlainText()
+                << "\n\n";
+        }
+        const int status = f.status();
+#if COMPAT_QT_VERSION >= 0x030200
+        const QString errorMessage = f.errorString();
+#else
+        const QString errorMessage = "write failed";
+#endif
+        f.close();
+        if (status != IO_Ok) {
+            log(L_ERROR, "I/O error during write to file %s : %s", file_name, (const char*)errorMessage.local8Bit());
+            return false;
+        }
+        return true;
+    }else{
+        log(L_ERROR, "Can't open %s for writing", file_name);
+        return false;
+    }    
+}
