@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include "icondll.h"
-#include "simapi.h"
 
 #include <qiconset.h>
 #include <qfile.h>
@@ -48,75 +47,75 @@ IconDLL::~IconDLL()
 #define U16 unsigned short
 #define U32 unsigned int
 
-  #define EMAGIC	  0x5A4D	  /* Old magic number */
-  #define ENEWEXE	  sizeof(DOSHdr)
+  #define EMAGIC    0x5A4D      /* Old magic number */
+  #define ENEWEXE   sizeof(DOSHdr)
 /* Value of E_LFARLC for new .EXEs */
-  #define ENEWHDR	  0x003C	  /* Offset in old hdr. of ptr. to new */
-  #define ERESWDS	  0x0010	  /* No. of reserved words (OLD) */
-  #define ERES1WDS	  0x0004	  /* No. of reserved words in e_res */
-  #define ERES2WDS	  0x000A	  /* No. of reserved words in e_res2 */
-  #define ECP		  0x0004	  /* Offset in struct of E_CP */
-  #define ECBLP 	  0x0002	  /* Offset in struct of E_CBLP */
-  #define EMINALLOC	  0x000A	  /* Offset in struct of E_MINALLOC */
+  #define ENEWHDR   0x003C      /* Offset in old hdr. of ptr. to new */
+  #define ERESWDS   0x0010      /* No. of reserved words (OLD) */
+  #define ERES1WDS  0x0004      /* No. of reserved words in e_res */
+  #define ERES2WDS  0x000A      /* No. of reserved words in e_res2 */
+  #define ECP       0x0004      /* Offset in struct of E_CP */
+  #define ECBLP     0x0002      /* Offset in struct of E_CBLP */
+  #define EMINALLOC 0x000A      /* Offset in struct of E_MINALLOC */
 
-typedef struct exe_hdr			  /* DOS 1, 2, 3 .EXE header */
+typedef struct exe_hdr          /* DOS 1, 2, 3 .EXE header */
 {
-    U16	  e_magic;	  /* 00 Magic number */
-    U16	  e_cblp;	  /* 02 Bytes on last page of file */
-    U16	  e_cp; 	  /* 04 Pages in file */
-    U16	  e_crlc;	  /* 06 Relocations */
-    U16	  e_cparhdr;	  /* 08 Size of header in paragraphs */
-    U16	  e_minalloc;	  /* 0A Minimum extra paragraphs needed */
-    U16	  e_maxalloc;	  /* 0C Maximum extra paragraphs needed */
-    U16	  e_ss; 	  /* 0E Initial (relative) SS value */
-    U16	  e_sp; 	  /* 10 Initial SP value */
-    U16	  e_csum;	  /* 12 Checksum */
-    U16	  e_ip; 	  /* 14 Initial IP value */
-    U16	  e_cs; 	  /* 16 Initial (relative) CS value */
-    U16	  e_lfarlc;	  /* 18 File address of relocation table */
-    U16	  e_ovno;	  /* 1A Overlay number */
-    U16	  e_res[ERES1WDS];/* 1C Reserved words */
-    U16	  e_oemid;	  /* 24 OEM identifier (for e_oeminfo) */
-    U16	  e_oeminfo;	  /* 26 OEM information; e_oemid specific */
-    U16	  e_res2[ERES2WDS];/*28 Reserved words */
-    U32     e_lfanew;	  /* 3C File address of new exe header */
-} DOSHdr;					  /* 40h size of structure */
+    U16     e_magic;        /* 00 Magic number */
+    U16     e_cblp;         /* 02 Bytes on last page of file */
+    U16     e_cp;           /* 04 Pages in file */
+    U16     e_crlc;         /* 06 Relocations */
+    U16     e_cparhdr;      /* 08 Size of header in paragraphs */
+    U16     e_minalloc;     /* 0A Minimum extra paragraphs needed */
+    U16     e_maxalloc;     /* 0C Maximum extra paragraphs needed */
+    U16     e_ss;           /* 0E Initial (relative) SS value */
+    U16     e_sp;           /* 10 Initial SP value */
+    U16     e_csum;         /* 12 Checksum */
+    U16     e_ip;           /* 14 Initial IP value */
+    U16     e_cs;           /* 16 Initial (relative) CS value */
+    U16     e_lfarlc;       /* 18 File address of relocation table */
+    U16     e_ovno;         /* 1A Overlay number */
+    U16     e_res[ERES1WDS];/* 1C Reserved words */
+    U16     e_oemid;        /* 24 OEM identifier (for e_oeminfo) */
+    U16     e_oeminfo;      /* 26 OEM information; e_oemid specific */
+    U16     e_res2[ERES2WDS];/*28 Reserved words */
+    U32     e_lfanew;       /* 3C File address of new exe header */
+} DOSHdr;                   /* 40h size of structure */
 
-  #define NEMAGIC	  0x454E	  /* New magic number */
-  #define NERESWORDS	  3		  /* 6 bytes reserved */
-  #define NECRC 	  8		  /* Offset into new header of NE_CRC */
+  #define NEMAGIC       0x454E  /* New magic number */
+  #define NERESWORDS         3  /* 6 bytes reserved */
+  #define NECRC              8  /* Offset into new header of NE_CRC */
 
-typedef struct new_exe			  /* New .EXE header */
+typedef struct new_exe          /* New .EXE header */
 {
-    U16	  ne_magic;	  /* 00 Magic number NE_MAGIC */
-    U8	  ne_ver;	  /* 02 Linker Version number */
-    U8	  ne_rev;	  /* 03 Linker Revision number */
-    U16	  ne_enttab;	  /* 04 Offset of Entry Table */
-    U16	  ne_cbenttab;	  /* 06 Number of bytes in Entry Table */
-    U32		  ne_crc;	  /* 08 Checksum of whole file */
-    U16	  ne_flags;	  /* 0C Flag word */
-    U16	  ne_autodata;	  /* 0E Automatic data segment number */
-    U16	  ne_heap;	  /* 10 Initial heap allocation */
-    U16	  ne_stack;	  /* 12 Initial stack allocation */
-    U32		  ne_csip;	  /* 14 Initial CS:IP setting */
-    U32		  ne_sssp;	  /* 18 Initial SS:SP setting */
-    U16	  ne_cseg;	  /* 1C Count of file segments */
-    U16	  ne_cmod;	  /* 1E Entries in Module Reference Table */
-    U16	  ne_cbnrestab;   /* 20 Size of non-resident name table */
-    U16	  ne_segtab;	  /* 22 Offset of Segment Table */
-    U16	  ne_rsrctab;	  /* 24 Offset of Resource Table */
-    U16	  ne_restab;	  /* 26 Offset of resident name table */
-    U16	  ne_modtab;	  /* 28 Offset of Module Reference Table */
-    U16	  ne_imptab;	  /* 2A Offset of Imported Names Table */
-    U32		  ne_nrestab;	  /* 2C Offset of Non-resident Names Table */
-    U16	  ne_cmovent;	  /* 30 Count of movable entries */
-    U16	  ne_align;	  /* 32 Segment alignment shift count */
-    U16	  ne_cres;	  /* 34 Count of resource entries */
-    U8	  ne_exetyp;	  /* 36 Target operating system */
-    U8	  ne_addflags;	  /* 37 Additional flags */
-    U16	  ne_res[NERESWORDS]; /* 38 3 reserved words */
-    U8	  ne_sdkrev;	  /* 3E Windows SDK revison number */
-    U8	  ne_sdkver;	  /* 3F Windows SDK version number */
+    U16     ne_magic;      /* 00 Magic number NE_MAGIC */
+    U8      ne_ver;        /* 02 Linker Version number */
+    U8      ne_rev;        /* 03 Linker Revision number */
+    U16     ne_enttab;     /* 04 Offset of Entry Table */
+    U16     ne_cbenttab;   /* 06 Number of bytes in Entry Table */
+    U32     ne_crc;        /* 08 Checksum of whole file */
+    U16     ne_flags;      /* 0C Flag word */
+    U16     ne_autodata;   /* 0E Automatic data segment number */
+    U16     ne_heap;       /* 10 Initial heap allocation */
+    U16     ne_stack;      /* 12 Initial stack allocation */
+    U32     ne_csip;       /* 14 Initial CS:IP setting */
+    U32     ne_sssp;       /* 18 Initial SS:SP setting */
+    U16     ne_cseg;       /* 1C Count of file segments */
+    U16     ne_cmod;       /* 1E Entries in Module Reference Table */
+    U16     ne_cbnrestab;  /* 20 Size of non-resident name table */
+    U16     ne_segtab;     /* 22 Offset of Segment Table */
+    U16     ne_rsrctab;    /* 24 Offset of Resource Table */
+    U16     ne_restab;     /* 26 Offset of resident name table */
+    U16     ne_modtab;     /* 28 Offset of Module Reference Table */
+    U16     ne_imptab;     /* 2A Offset of Imported Names Table */
+    U32     ne_nrestab;    /* 2C Offset of Non-resident Names Table */
+    U16     ne_cmovent;    /* 30 Count of movable entries */
+    U16     ne_align;      /* 32 Segment alignment shift count */
+    U16     ne_cres;       /* 34 Count of resource entries */
+    U8      ne_exetyp;     /* 36 Target operating system */
+    U8      ne_addflags;        /* 37 Additional flags */
+    U16     ne_res[NERESWORDS]; /* 38 3 reserved words */
+    U8      ne_sdkrev;          /* 3E Windows SDK revison number */
+    U8      ne_sdkver;          /* 3F Windows SDK version number */
 } NEHdr;
 
 typedef struct PEHdr
@@ -142,30 +141,26 @@ class PEOptHdr
 public:
 PEOptHdr() : DataDirectory(NULL) {}
     ~PEOptHdr() { if (DataDirectory) delete[] DataDirectory; }
-    /*
-        Standard fields.
-       */
-    U16  Magic;
-    U8   MajorLinkerVersion;
-    U8   MinorLinkerVersion;
+    /* Standard fields. */
+    U16   Magic;
+    U8    MajorLinkerVersion;
+    U8    MinorLinkerVersion;
     U32   SizeOfCode;
     U32   SizeOfInitializedData;
     U32   SizeOfUninitializedData;
     U32   AddressOfEntryPoint;
     U32   BaseOfCode;
     U32   BaseOfData;
-    /*
-     NT additional fields.
-    */
+    /* NT additional fields. */
     U32   ImageBase;
     U32   SectionAlignment;
     U32   FileAlignment;
-    U16  MajorOperatingSystemVersion;
-    U16  MinorOperatingSystemVersion;
-    U16  MajorImageVersion;
-    U16  MinorImageVersion;
-    U16  MajorSubsystemVersion;
-    U16  MinorSubsystemVersion;
+    U16   MajorOperatingSystemVersion;
+    U16   MinorOperatingSystemVersion;
+    U16   MajorImageVersion;
+    U16   MinorImageVersion;
+    U16   MajorSubsystemVersion;
+    U16   MinorSubsystemVersion;
     U32   Reserved1;
     U32   SizeOfImage;
     U32   SizeOfHeaders;
@@ -227,28 +222,28 @@ typedef struct PESectHdr
 #define IMAGE_DIRECTORY_ENTRY_LOAD_CONFIG    10
 
 #define IMAGE_RESOURCE_DATA_IS_DIRECTORY 0x80000000L
-#define IMAGE_RESOURCE_NAME_IS_STRING	0x80000000L
+#define IMAGE_RESOURCE_NAME_IS_STRING    0x80000000L
 
-#define RT_CURSOR   	1
-#define RT_BITMAP   	2
-#define RT_ICON 		3
-#define RT_MENU 		4
-#define RT_DIALOG   	5
-#define RT_STRING 		6
-#define RT_FONTDIR  	7
-#define RT_FONT 		8
+#define RT_CURSOR       1
+#define RT_BITMAP       2
+#define RT_ICON         3
+#define RT_MENU         4
+#define RT_DIALOG       5
+#define RT_STRING       6
+#define RT_FONTDIR      7
+#define RT_FONT         8
 #define RT_ACCELERATOR  9
-#define RT_RCDATA 		10
-#define RT_MESSAGELIST 	11
+#define RT_RCDATA       10
+#define RT_MESSAGELIST  11
 #define RT_GROUP_CURSOR 12
 
 #define RT_GROUP_ICON   14
 
-#define RT_VERSION		16
-#define RT_DLGINCLUDE	17
-#define RT_PLUGPLAY 	19
-#define RT_VXD 			20
-#define RT_ANICURSOR 	21
+#define RT_VERSION      16
+#define RT_DLGINCLUDE   17
+#define RT_PLUGPLAY     19
+#define RT_VXD          20
+#define RT_ANICURSOR    21
 
 #define RT_NEWRESOURCE  0x2000
 #define RT_NEWBITMAP    (RT_BITMAP|RT_NEWRESOURCE)
@@ -280,6 +275,41 @@ typedef struct _ResourceDataEntry
     U32 Reserved;
 } ResourceDataEntry;
 
+typedef struct _ResourceNameInfo {
+     U16 rnOffset;
+     U16 rnLength;
+     U16 rnFlags;
+     U16 rnID;
+     U16 rnHandle;
+     U16 rnUsage;
+} ResourceNameInfo;
+
+typedef struct _ResourceTypeInfo {
+    U16                    rtTypeID;
+    U16                    rtResourceCount;
+    U32                    rtReserved;    
+} ResourceTypeInfo;
+
+typedef struct _ResourceIconDir
+{
+   U16 idReserved;   // Reserved (must be 0)
+   U16 idType;       // Resource type (1 for icons)
+   U16 idCount;      // How many images?
+   //GRPICONDIRENTRY        idEntries[1]; // The entries for each image
+} ResourceIconDir;
+
+typedef struct _ResourceIconDirEntry
+{
+   U8   bWidth;               // Width, in pixels, of the image
+   U8   bHeight;              // Height, in pixels, of the image
+   U8   bColorCount;          // Number of colors in image (0 if >=8bpp)
+   U8   bReserved;            // Reserved
+   U16  wPlanes;              // Color Planes
+   U16  wBitCount;            // Bits per pixel
+   U32  dwBytesInRes;         // how many bytes in this resource?
+   U16  nID;                  // the ID
+} ResourceIconDirEntry;
+
 typedef map<int, int> INT_MAP;
 
 class IconLoader
@@ -310,7 +340,12 @@ protected:
     void getResourceDirectory(ResourceDirectory*);
     void getResourceDirectoryEntry(ResourceDirectoryEntry*);
     void getResourceDataEntry(ResourceDataEntry*);
+    void getResourceTypeInfo(ResourceTypeInfo*);
+    void getResourceNameInfo(ResourceNameInfo*);
+    void getResourceIconDir(ResourceIconDir*);
+    void getResourceIconDirEntry(ResourceIconDirEntry*);
     void doResourceDir(U32 origoffset, int level,U32 resourceType, int id);
+    void getResourceTable();
     U32 virtualToReal (U32 VAImageDir,PESectHdr *psh);
     U32 imageDirectoryOffset();
     U8  read_8ubit();
@@ -318,6 +353,85 @@ protected:
     U32 read_32ubit();
     PESectHdr *section;
 };
+
+void IconLoader::getResourceTypeInfo(ResourceTypeInfo* ti)
+{
+    ti->rtTypeID = read_16ubit();
+    ti->rtResourceCount = read_16ubit();
+    ti->rtReserved = read_32ubit();
+}
+
+void IconLoader::getResourceNameInfo(ResourceNameInfo* ni)
+{    
+    ni->rnOffset = read_16ubit();
+    ni->rnLength = read_16ubit();
+    ni->rnFlags = read_16ubit();
+    ni->rnID = read_16ubit();
+    ni->rnHandle = read_16ubit();
+    ni->rnUsage = read_16ubit();
+}
+
+void IconLoader::getResourceIconDir(ResourceIconDir* id)
+{
+    id->idReserved = read_16ubit();
+    id->idType = read_16ubit();
+    id->idCount = read_16ubit();
+}
+
+void IconLoader::getResourceIconDirEntry(ResourceIconDirEntry* ide)
+{
+    ide->bWidth = read_8ubit();
+    ide->bHeight = read_8ubit();
+    ide->bColorCount = read_8ubit();
+    ide->bReserved = read_8ubit();
+    ide->wPlanes = read_16ubit();
+    ide->wBitCount = read_16ubit();
+    ide->dwBytesInRes = read_32ubit();
+    ide->nID = read_16ubit();
+}
+
+void IconLoader::getResourceTable()
+{
+    unsigned            pos;
+    U16                 rscAlignShift;    
+    U16                 rscType;
+    ResourceTypeInfo    ti;    
+    ResourceNameInfo    ni;        
+
+    rscAlignShift = read_16ubit();
+    
+    getResourceTypeInfo( &ti );
+
+    while( ti.rtTypeID ) {
+        if( ti.rtTypeID & ~0x8000 )
+            rscType = ti.rtTypeID & ~0x8000;
+        else
+            rscType = ti.rtTypeID ;
+
+        for( int i = 0; i < ti.rtResourceCount; ++i ) {
+            getResourceNameInfo( &ni );
+            if( rscType == RT_GROUP_ICON ) {
+                ResourceIconDir            id;    
+                ResourceIconDirEntry    ide;    
+
+                pos = f.at();
+
+                f.at( ni.rnOffset * (1 << rscAlignShift) );
+                getResourceIconDir( &id );
+                if( id.idCount > 0 && id.idType == 0x0001) {
+                    getResourceIconDirEntry( &ide );
+                    addGroup( ide.nID - 1, ide.nID - 1 );
+                }
+
+                f.at( pos );
+            } else if( rscType == RT_ICON && ni.rnID  & 0x8000) {
+                addIcon( (ni.rnID  & ~0x8000) - 1 , ni.rnOffset * (1 << rscAlignShift) );
+            }
+
+        }
+        getResourceTypeInfo( &ti );
+    }    
+}
 
 IconLoader::IconLoader(IconsMap *icon_map, const char *name)
 {
@@ -337,9 +451,9 @@ IconLoader::IconLoader(IconsMap *icon_map, const char *name)
             return;
         }
         if((nh.ne_rsrctab - nh.ne_segtab)%8!=0)
-            log(L_WARN, "Extra 4 bytes in segment table.");
+            log(L_WARN, "Extra 4 bytes in segment table.");     
         f.at(nh.ne_rsrctab+dh.e_lfanew);
-        //		getResourceTable();
+        getResourceTable();
     }else{
         f.at(dh.e_lfanew);
         getPEHeader();
@@ -358,7 +472,7 @@ IconLoader::IconLoader(IconsMap *icon_map, const char *name)
     }
     for (INT_MAP::iterator it = groups.begin(); it != groups.end(); ++it){
         unsigned id = (*it).first;
-        QPixmap pict = getIcon(id);
+        QPixmap pict = getIcon(id);        
         if (pict.isNull()) continue;
         icon_map->insert(IconsMap::value_type(id, QIconSet(pict)));
     }
@@ -394,8 +508,8 @@ typedef struct tagBITMAPINFOHEADER
     U32  biSize;
     U32  biWidth;
     U32  biHeight;
-    U16   biPlanes;
-    U16   biBitCount;
+    U16  biPlanes;
+    U16  biBitCount;
     U32  biCompression;
     U32  biSizeImage;
     U32  biXPelsPerMeter;
@@ -405,15 +519,16 @@ typedef struct tagBITMAPINFOHEADER
 } BITMAPINFOHEADER;
 
 typedef struct tagRGBQUAD {
-    U8    rgbBlue;
-    U8    rgbGreen;
-    U8    rgbRed;
-    U8    rgbReserved;
+    U8   rgbBlue;
+    U8   rgbGreen;
+    U8   rgbRed;
+    U8   rgbReserved;
 } RGBQUAD;
 
 QPixmap IconLoader::getIcon(int id)
 {
-    if (id == 0) return QPixmap();
+    if (id == 0)
+        return QPixmap();
     INT_MAP::iterator it = groups.find(id);
     if (it == groups.end())
         return QPixmap();
@@ -440,7 +555,7 @@ QPixmap IconLoader::getIcon(int id)
     }else if (bits == 24){
         depth = 32;
     }
-    QImage img(w, h, depth, numColors, QImage::BigEndian);
+    QImage img(w, h, depth, numColors, QImage::BigEndian);    
     if (depth == 8){
         QRgb *p = img.colorTable();
         for (int i = 0; i < numColors; i++){
@@ -481,10 +596,8 @@ QPixmap IconLoader::getIcon(int id)
             }
             delete[] line;
         }else if (bits == 24){
-            for (int j = (lineBytes / 3) - 1; j >= 0; j--){
-                memmove(data + (j * 4 + 1), data + (j * 3), 3);
-                data[j*4] = 0;
-            }
+            for (int j = (lineBytes / 3) - 1; j >= 0; j--)
+                ((QRgb*)data)[j] = qRgba( data[j*3+2], data[j*3+1], data[j*3], 0 );                
         }
     }
     QPixmap res;
