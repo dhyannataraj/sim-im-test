@@ -8,13 +8,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "POT-Creation-Date: 2002-12-18 11:44+0300\n"
-"PO-Revision-Date: 2002-12-13 22:42+0100\n"
+"PO-Revision-Date: 2002-12-20 01:15+0100\n"
 "Last-Translator: Pavel Rousar <rousarp@fel.cvut.cz>\n"
 "Language-Team: Čeština <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0beta2\n"
+"X-Generator: KBabel 1.1\n"
 
 #: client.cpp:57 client.cpp:58 libicq/country.cpp:7
 msgid "Arabic"
@@ -2716,7 +2716,7 @@ msgstr "ICQ klient"
 
 #: sim.cpp:528
 msgid "Maintainer"
-msgstr "Vedoucí"
+msgstr "Správce"
 
 #: sim.cpp:535
 msgid "Directory for files"
@@ -3048,9 +3048,8 @@ msgid "<New UIN>"
 msgstr "<Nový UIN>"
 
 #: ui/logindlg.cpp:141 ui/logindlg.cpp:208
-#, fuzzy
 msgid "Can't initialize main window"
-msgstr "Hlavní okno průhledné"
+msgstr "Nelze inicializovat hlavní okno"
 
 #: ui/logindlg.cpp:150 ui/searchdlg.cpp:107
 msgid "Cancel"
@@ -3069,9 +3068,9 @@ msgid "Rate limit"
 msgstr "Limit rychlosti"
 
 #: ui/logindlg.cpp:300
-#, fuzzy, c-format
+#, c-format
 msgid "Delete history and incoming files for %u?"
-msgstr "Adresář pro příchozí soubory"
+msgstr "Smazat historii a příchozí soubory pro %u?"
 
 #: ui/maininfo.cpp:46
 msgid "Default"
@@ -3538,9 +3537,8 @@ msgid "Login"
 msgstr "Login"
 
 #: ui/logindlgbase.cpp:40
-#, fuzzy
 msgid "&Do not show this window"
-msgstr "Nezobrazovat tento dialog"
+msgstr "Nezobrazovat tento &dialog"
 
 #: ui/logindlgbase.cpp:45 ui/phonebookbase.cpp:104
 msgid "&Delete"
@@ -4206,8 +4204,7 @@ msgid "Hide main window after"
 msgstr "Schovat hlavní okno po"
 
 #: ui/statussetupbase.cpp:57
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Zakázat online výstrahu pro \"Away\", \"N/A\", \"DND\" a \"Occupied\" "
 "seznam"
@@ -4350,8 +4347,7 @@ msgstr "&Domov"
 
 #: ui/generalsecbase.cpp:77
 msgid "My &authorization is required before users add me to Contact List"
-msgstr ""
-"Má &autorizace je vyžadována před přidáním uživatele do kontaktlistu"
+msgstr "Má &autorizace je vyžadována před přidáním uživatele do kontaktlistu"
 
 #: ui/generalsecbase.cpp:81
 msgid "Don't show my &IP-address"
@@ -4449,9 +4445,8 @@ msgid "S&ave password"
 msgstr "Uložit hes&lo"
 
 #: ui/generalsecbase.cpp:213
-#, fuzzy
 msgid "&Do not show login dialog at start"
-msgstr "Nezobrazovat tento dialog"
+msgstr "Nezobrazovat tento &dialog při startu"
 
 #: ui/generalsecbase.cpp:216
 msgid "&Password"
@@ -4701,3 +4696,4 @@ msgstr "Poz&námky"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
