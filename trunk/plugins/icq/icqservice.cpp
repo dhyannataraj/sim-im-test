@@ -118,36 +118,49 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             m_socket->readBuffer >> last_level;
             m_socket->readBuffer >> current_state;
             switch (msg_code) {
-            	case 0x0001:
+                case 0x0001:
                 	msg_text = "Rate limits parameters changed";
                     break;
-            	case 0x0002:
+                case 0x0002:
                 	msg_text = "Rate limits warning";
+                    if (m_nSendTimeout < 200){
+                        m_nSendTimeout = m_nSendTimeout + 2;
+                        if (m_sendTimer->isActive()){
+                            m_sendTimer->stop();
+                            m_sendTimer->start(m_nSendTimeout * 500);
+                        }
+                    }
                     break;
-            	case 0x0003:
+                case 0x0003:
                 	msg_text = "Rate limit hit";
+                    if (m_nSendTimeout < 200){
+                        m_nSendTimeout = m_nSendTimeout + 4;
+                        if (m_sendTimer->isActive()){
+                            m_sendTimer->stop();
+                            m_sendTimer->start(m_nSendTimeout * 500);
+                        }
+                    }
                     break;
-            	case 0x0004:
+                case 0x0004:
                 	msg_text = "Rate limit clear";
+                    m_nSendTimeout = m_nSendTimeout /2;
+                    if (m_sendTimer->isActive()){
+                        m_sendTimer->stop();
+                        m_sendTimer->start(m_nSendTimeout * 500);
+                	    msg_text = "Rate limit clear - set new Timer";
+                    }
                     break;
                 default:
                     msg_text = "Unknown";
             }
             log(L_DEBUG, msg_text);
-            log(L_DEBUG, "window_size: %04X, clear_level %04X, alert_level %04X, \
-limit_level %04X, disconnect_level: %04X, current_level %04X, max_level %04X, last_level %04X, current_state %c",
-					window_size,clear_level,alert_level,limit_level,discon_level,
-					current_level,max_level,last_level,current_state);
-            if (m_nSendTimeout < 200){
-                m_nSendTimeout = m_nSendTimeout + 2;
-                if (m_sendTimer->isActive()){
-                    m_sendTimer->stop();
-                    m_sendTimer->start(m_nSendTimeout * 500);
-                }
-            }
+            log(L_DEBUG, "ws: %04X, cl %04X, al %04X, ll %04X, dl: %04X, cur %04X, ml %04X",
+                window_size,clear_level,alert_level,limit_level,discon_level,
+                current_level,max_level);
+/*          This just increases the traffic and the server gets angry...
             snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_RATExACK);
             m_socket->writeBuffer << class_id;
-            sendPacket();
+            sendPacket(); */
             break;
         }
     case ICQ_SNACxSRV_RATExINFO:
