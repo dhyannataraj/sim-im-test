@@ -1,7 +1,8 @@
 %undefine __libtoolize
 %define qtdir /usr/lib/qt3
 
-%define do_not_compile "plugins/autoaway"
+#%%define do_not_compile "plugins/autoaway"
+%define do_not_compile ""
 
 %def_enable simqt
 %def_enable simkde
@@ -38,7 +39,7 @@ Patch1: %name-alt-simqt.patch
 
 BuildPreReq: gcc-c++ flex libart_lgpl-devel libqt3-devel
 BuildPreReq: libssl-devel libxslt-devel zip
-BuildPreReq: XFree86-devel libpng-devel
+BuildPreReq: XFree86-devel libpng-devel 
 #libjpeg-devel
 %if_disabled M22
 BuildPreReq: libqt3-devel-cxx = %__gcc_version_base
@@ -281,8 +282,9 @@ kdedesktop2mdkmenu.pl %name \
 %_datadir/mimelnk/application/x-icq.desktop
 
 %changelog
-* Thu Sep 09 2004 Andrey Rahmatullin <wrar@altlinux.ru> 1:0.9.4-alt8
-- CVS 20040909
+* Tue Sep 21 2004 Andrey Rahmatullin <wrar@altlinux.ru> 1:0.9.4-alt8
+- CVS 20040921
+- build autoaway plugin since it now doesn't crash
 - add ability to build packages for Master 2.2 (use --enable M22)
 - all fixes gone upstream
 
