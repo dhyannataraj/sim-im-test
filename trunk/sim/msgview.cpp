@@ -632,6 +632,8 @@ HistoryView::HistoryView(QWidget *p, unsigned long uin)
     searchTextChanged("");
     setDockEnabled(t, Left, false);
     setDockEnabled(t, Right, false);
+    searchParag = 0;
+    searchIndex = 0;
     searchChanged();
     QAccel *accel = new QAccel(this);
 #ifdef USE_KDE
@@ -649,6 +651,8 @@ HistoryView::HistoryView(QWidget *p, unsigned long uin)
 
 void HistoryView::searchChanged()
 {
+    int safeParag = searchParag;
+    int safeIndex = searchIndex;
     QLineEdit *edt = cmbSearch->lineEdit();
     QString searchText = edt->text();
 #if QT_VERSION >= 300
@@ -665,6 +669,8 @@ void HistoryView::searchChanged()
     edt->setSelection(startPos, endPos);
 #endif
     edt->setCursorPosition(pos);
+    searchParag = safeParag;
+    searchIndex = safeIndex;
 }
 
 void HistoryView::slotSearch(int)
@@ -679,7 +685,8 @@ void HistoryView::slotSearch()
     pMain->addSearch(searchText);
     if (view->find(searchText, false, false, true, &searchParag, &searchIndex)){
         view->setSelection(searchParag, searchIndex, searchParag, searchIndex + searchText.length());
-        view->setCursorPosition(searchParag, searchIndex + searchText.length());
+	searchIndex += searchText.length();
+        view->setCursorPosition(searchParag, searchIndex);
         view->ensureCursorVisible();
         return;
     }
