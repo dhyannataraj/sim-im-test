@@ -1291,7 +1291,6 @@ for dir in $kde_qt_dirs; do
    qt_libdirs="$qt_libdirs $dir/lib $dir"
 done
 qt_libdirs="$QTLIB $qt_libdirs /usr/X11R6/lib /usr/lib /usr/local/qt/lib $x_libraries"
-echo "??? $ac_qt_libraries"
 if test ! "$ac_qt_libraries" = "NO"; then
   qt_libdir=$ac_qt_libraries
 else
@@ -1301,7 +1300,6 @@ else
   for dir in $qt_libdirs; do
     try="ls -1 $dir/${LIBQT_GLOB}"
     if test -n "`$try 2> /dev/null`"; then 
-	echo "Try OK"
 	qt_libdir=$dir; break; 
     else 
       lqt="-lqt${kde_qtver}"

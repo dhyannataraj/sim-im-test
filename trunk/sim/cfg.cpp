@@ -109,7 +109,7 @@ void save(void *_obj, const cfgParam *params, ostream &out)
             case PARAM_SHORT:
                 if (*((short*)(obj + p->offs)) != (short)(p->defValue)){
                     char buf[32];
-                    snprintf(buf, sizeof(buf), "%lu", *((short*)(obj + p->offs)));
+                    snprintf(buf, sizeof(buf), "%u", *((short*)(obj + p->offs)));
                     value = buf;
                 }
                 break;

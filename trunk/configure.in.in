@@ -45,7 +45,7 @@ AC_DEFINE(USE_SPELL,1,[Use speller])
 fi
 fi
 AC_DEFINE_UNQUOTED(PREFIX, "$prefix", [Install prefix])
-AC_DEFINE(USE_QT, "1", [Use QT - need for libicq])
+AC_DEFINE(USE_QT,1,[Use QT - need for libicq])
 if test "$WITH_OPENSSL" = "no"; then
   echo ""
   echo "OpenSSL support is not available.  SIM will not be able to"

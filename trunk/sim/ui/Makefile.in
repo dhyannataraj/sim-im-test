@@ -485,7 +485,12 @@ GTAGS:
 distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH
 
-DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+#>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+#>+ 4
+KDE_DIST=acceptbase.h statussetupbase.h finddlgbase.h proxydlgbase.h keysetupbase.h themesetupbase.h fontsetupbase.h userinfobase.h pagerbase.h aboutdlgbase.h libui.a msgdialogbase.h phonebase.h listsecbase.h setupdlgbase.h alertdialogbase.h spellsetupbase.h changepasswdbase.h generalsecbase.h xosdbase.h addphonebase.h phonebookbase.h workinfobase.h maininfobase.h homeinfobase.h soundsetupbase.h miscsetupbase.h moreinfobase.h pastinfobase.h filetransferbase.h logindlgbase.h alertmsgbase.h autoreplybase.h aboutinfobase.h networkbase.h interestsinfobase.h emaileditbase.h 
+
+DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
+
 
 top_distdir = ../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
@@ -1048,12 +1053,12 @@ searchdlg.moc: $(srcdir)/searchdlg.h
 	$(MOC) $(srcdir)/searchdlg.h -o searchdlg.moc
 
 #>+ 3
-xosdsetup.moc: $(srcdir)/xosdsetup.h
-	$(MOC) $(srcdir)/xosdsetup.h -o xosdsetup.moc
-
-#>+ 3
 helpedit.moc: $(srcdir)/helpedit.h
 	$(MOC) $(srcdir)/helpedit.h -o helpedit.moc
+
+#>+ 3
+xosdsetup.moc: $(srcdir)/xosdsetup.h
+	$(MOC) $(srcdir)/xosdsetup.h -o xosdsetup.moc
 
 #>+ 3
 spellsetup.moc: $(srcdir)/spellsetup.h
@@ -1128,20 +1133,20 @@ emailedit.moc: $(srcdir)/emailedit.h
 	$(MOC) $(srcdir)/emailedit.h -o emailedit.moc
 
 #>+ 3
-workinfo.moc: $(srcdir)/workinfo.h
-	$(MOC) $(srcdir)/workinfo.h -o workinfo.moc
-
-#>+ 3
 wndcancel.moc: $(srcdir)/wndcancel.h
 	$(MOC) $(srcdir)/wndcancel.h -o wndcancel.moc
 
 #>+ 3
-accept.moc: $(srcdir)/accept.h
-	$(MOC) $(srcdir)/accept.h -o accept.moc
+workinfo.moc: $(srcdir)/workinfo.h
+	$(MOC) $(srcdir)/workinfo.h -o workinfo.moc
 
 #>+ 3
 logindlg.moc: $(srcdir)/logindlg.h
 	$(MOC) $(srcdir)/logindlg.h -o logindlg.moc
+
+#>+ 3
+accept.moc: $(srcdir)/accept.h
+	$(MOC) $(srcdir)/accept.h -o accept.moc
 
 #>+ 3
 maininfo.moc: $(srcdir)/maininfo.h
@@ -1172,6 +1177,10 @@ keysetup.moc: $(srcdir)/keysetup.h
 	$(MOC) $(srcdir)/keysetup.h -o keysetup.moc
 
 #>+ 3
+kpopup.moc: $(srcdir)/kpopup.h
+	$(MOC) $(srcdir)/kpopup.h -o kpopup.moc
+
+#>+ 3
 alertmsg.moc: $(srcdir)/alertmsg.h
 	$(MOC) $(srcdir)/alertmsg.h -o alertmsg.moc
 
@@ -1180,12 +1189,8 @@ ballonmsg.moc: $(srcdir)/ballonmsg.h
 	$(MOC) $(srcdir)/ballonmsg.h -o ballonmsg.moc
 
 #>+ 3
-kpopup.moc: $(srcdir)/kpopup.h
-	$(MOC) $(srcdir)/kpopup.h -o kpopup.moc
-
-#>+ 3
 clean-metasources:
-	-rm -f  phonedetails.moc themesetup.moc autoreply.moc editfile.moc aboutinfo.moc setupdlg.moc fontsetup.moc alertdialog.moc network.moc userinfo.moc searchdlg.moc xosdsetup.moc helpedit.moc spellsetup.moc aboutdlg.moc pagerdetails.moc homeinfo.moc msgdialog.moc changepasswd.moc generalsec.moc soundsetup.moc miscsetup.moc moreinfo.moc addphone.moc userautoreply.moc pastinfo.moc filetransfer.moc phonebook.moc qcolorbutton.moc interestsinfo.moc emailedit.moc workinfo.moc wndcancel.moc accept.moc logindlg.moc maininfo.moc statussetup.moc qkeybutton.moc listsec.moc finddlg.moc proxydlg.moc keysetup.moc alertmsg.moc ballonmsg.moc kpopup.moc
+	-rm -f  phonedetails.moc themesetup.moc autoreply.moc editfile.moc aboutinfo.moc setupdlg.moc fontsetup.moc alertdialog.moc network.moc userinfo.moc searchdlg.moc helpedit.moc xosdsetup.moc spellsetup.moc aboutdlg.moc pagerdetails.moc homeinfo.moc msgdialog.moc changepasswd.moc generalsec.moc soundsetup.moc miscsetup.moc moreinfo.moc addphone.moc userautoreply.moc pastinfo.moc filetransfer.moc phonebook.moc qcolorbutton.moc interestsinfo.moc emailedit.moc wndcancel.moc workinfo.moc logindlg.moc accept.moc maininfo.moc statussetup.moc qkeybutton.moc listsec.moc finddlg.moc proxydlg.moc keysetup.moc kpopup.moc alertmsg.moc ballonmsg.moc
 
 #>+ 40
 clean-ui:
@@ -1265,7 +1270,7 @@ clean-moc-classes:
 	-rm -f  libui_a_meta_unload.cpp
 
 #>+ 11
-libui_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/kpopup.cpp $(srcdir)/wndcancel.cpp $(srcdir)/userautoreply.cpp $(srcdir)/proxydlg.cpp $(srcdir)/logindlg.cpp $(srcdir)/qkeybutton.cpp $(srcdir)/keysetup.cpp $(srcdir)/helpedit.cpp $(srcdir)/finddlg.cpp $(srcdir)/aboutdlg.cpp $(srcdir)/xosdsetup.cpp $(srcdir)/effect.cpp $(srcdir)/network.cpp $(srcdir)/filetransfer.cpp $(srcdir)/accept.cpp $(srcdir)/ballonmsg.cpp $(srcdir)/qcolorbutton.cpp $(srcdir)/fontsetup.cpp $(srcdir)/emailedit.cpp $(srcdir)/pastinfo.cpp $(srcdir)/autoreply.cpp $(srcdir)/alertmsg.cpp $(srcdir)/interestsinfo.cpp $(srcdir)/msgdialog.cpp $(srcdir)/alertdialog.cpp $(srcdir)/phonedetails.cpp $(srcdir)/pagerdetails.cpp $(srcdir)/addphone.cpp $(srcdir)/miscsetup.cpp $(srcdir)/soundsetup.cpp $(srcdir)/editfile.cpp $(srcdir)/phonebook.cpp $(srcdir)/spellsetup.cpp $(srcdir)/userinfo.cpp $(srcdir)/setupdlg.cpp $(srcdir)/searchdlg.cpp $(srcdir)/enable.cpp $(srcdir)/workinfo.cpp $(srcdir)/themesetup.cpp $(srcdir)/statussetup.cpp searchbase.cpp $(srcdir)/moreinfo.cpp $(srcdir)/maininfo.cpp $(srcdir)/listsec.cpp $(srcdir)/homeinfo.cpp $(srcdir)/generalsec.cpp $(srcdir)/changepasswd.cpp $(srcdir)/aboutinfo.cpp proxydlgbase.cpp logindlgbase.cpp keysetupbase.cpp finddlgbase.cpp aboutdlgbase.cpp xosdbase.cpp networkbase.cpp filetransferbase.cpp acceptbase.cpp fontsetupbase.cpp emaileditbase.cpp pastinfobase.cpp autoreplybase.cpp alertmsgbase.cpp interestsinfobase.cpp msgdialogbase.cpp alertdialogbase.cpp phonebase.cpp pagerbase.cpp addphonebase.cpp miscsetupbase.cpp soundsetupbase.cpp phonebookbase.cpp spellsetupbase.cpp userinfobase.cpp setupdlgbase.cpp workinfobase.cpp themesetupbase.cpp statussetupbase.cpp searchbase.cpp moreinfobase.cpp maininfobase.cpp listsecbase.cpp homeinfobase.cpp generalsecbase.cpp changepasswdbase.cpp aboutinfobase.cpp libui_a_meta_unload.cpp
+libui_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/kpopup.cpp $(srcdir)/wndcancel.cpp $(srcdir)/userautoreply.cpp $(srcdir)/proxydlg.cpp $(srcdir)/logindlg.cpp $(srcdir)/qkeybutton.cpp $(srcdir)/keysetup.cpp $(srcdir)/helpedit.cpp $(srcdir)/finddlg.cpp $(srcdir)/aboutdlg.cpp $(srcdir)/xosdsetup.cpp $(srcdir)/effect.cpp $(srcdir)/network.cpp $(srcdir)/filetransfer.cpp $(srcdir)/accept.cpp $(srcdir)/ballonmsg.cpp $(srcdir)/qcolorbutton.cpp $(srcdir)/fontsetup.cpp $(srcdir)/emailedit.cpp $(srcdir)/pastinfo.cpp $(srcdir)/autoreply.cpp $(srcdir)/alertmsg.cpp $(srcdir)/interestsinfo.cpp $(srcdir)/msgdialog.cpp $(srcdir)/alertdialog.cpp $(srcdir)/phonedetails.cpp $(srcdir)/pagerdetails.cpp $(srcdir)/addphone.cpp $(srcdir)/miscsetup.cpp $(srcdir)/soundsetup.cpp $(srcdir)/editfile.cpp $(srcdir)/phonebook.cpp $(srcdir)/spellsetup.cpp $(srcdir)/userinfo.cpp $(srcdir)/setupdlg.cpp $(srcdir)/searchdlg.cpp $(srcdir)/enable.cpp $(srcdir)/workinfo.cpp $(srcdir)/themesetup.cpp $(srcdir)/statussetup.cpp $(srcdir)/searchbase.cpp $(srcdir)/moreinfo.cpp $(srcdir)/maininfo.cpp $(srcdir)/listsec.cpp $(srcdir)/homeinfo.cpp $(srcdir)/generalsec.cpp $(srcdir)/changepasswd.cpp $(srcdir)/aboutinfo.cpp $(srcdir)/proxydlgbase.cpp $(srcdir)/logindlgbase.cpp $(srcdir)/keysetupbase.cpp $(srcdir)/finddlgbase.cpp $(srcdir)/aboutdlgbase.cpp $(srcdir)/xosdbase.cpp $(srcdir)/networkbase.cpp $(srcdir)/filetransferbase.cpp $(srcdir)/acceptbase.cpp $(srcdir)/fontsetupbase.cpp $(srcdir)/emaileditbase.cpp $(srcdir)/pastinfobase.cpp $(srcdir)/autoreplybase.cpp $(srcdir)/alertmsgbase.cpp $(srcdir)/interestsinfobase.cpp $(srcdir)/msgdialogbase.cpp $(srcdir)/alertdialogbase.cpp $(srcdir)/phonebase.cpp $(srcdir)/pagerbase.cpp $(srcdir)/addphonebase.cpp $(srcdir)/miscsetupbase.cpp $(srcdir)/soundsetupbase.cpp $(srcdir)/phonebookbase.cpp $(srcdir)/spellsetupbase.cpp $(srcdir)/userinfobase.cpp $(srcdir)/setupdlgbase.cpp $(srcdir)/workinfobase.cpp $(srcdir)/themesetupbase.cpp $(srcdir)/statussetupbase.cpp $(srcdir)/searchbase.cpp $(srcdir)/moreinfobase.cpp $(srcdir)/maininfobase.cpp $(srcdir)/listsecbase.cpp $(srcdir)/homeinfobase.cpp $(srcdir)/generalsecbase.cpp $(srcdir)/changepasswdbase.cpp $(srcdir)/aboutinfobase.cpp $(srcdir)/libui_a_meta_unload.cpp
 	@echo 'creating libui_a.all_cpp.cpp ...'; \
 	rm -f libui_a.all_cpp.files libui_a.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> libui_a.all_cpp.final; \
@@ -1345,8 +1350,8 @@ $(srcdir)/xosdsetup.cpp: proxydlgbase.h logindlgbase.h keysetupbase.h finddlgbas
 $(srcdir)/workinfo.cpp: proxydlgbase.h logindlgbase.h keysetupbase.h finddlgbase.h aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
 emailedit.o: emailedit.moc 
 $(srcdir)/logindlg.cpp: proxydlgbase.h logindlgbase.h keysetupbase.h finddlgbase.h aboutdlgbase.h xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
-addphone.lo: addphone.moc 
 workinfo.o: workinfo.moc 
+addphone.lo: addphone.moc 
 accept.o: accept.moc 
 maininfo.o: maininfo.moc 
 alertdialog.lo: alertdialog.moc 
