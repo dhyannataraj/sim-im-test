@@ -561,16 +561,19 @@ QPixmap IconLoader::getIcon(int id)
         for (int i = 0; i < numColors; i++){
             RGBQUAD rgb;
             f.readBlock((char*)&rgb, sizeof(rgb));
-            (*p++) = (rgb.rgbRed << 16) | (rgb.rgbGreen << 8) | rgb.rgbBlue;
+            (*p++) = qRgb( rgb.rgbRed, rgb.rgbGreen, rgb.rgbBlue );
         }
     }else if (bits == 32){
         img.setAlphaBuffer(true);
     }
-    unsigned lineBytes = ((w * bits) + 7) >> 3;
+    /* lines are aligned at dword boundaries - thx to Max Dednev */
+    unsigned lineBytes = (w * bits) >> 3;
+    unsigned lineShift = (lineBytes % 4) ? ((lineBytes/4+1)*4-lineBytes) : 0;
     int i;
     for (i = 0; i < h; i++){
         uchar *data = img.scanLine(h - i - 1);
         f.readBlock((char*)data, lineBytes);
+        f.at( f.at() + lineShift );
         if (bits == 2){
             unsigned char *line = new unsigned char[lineBytes];
             memcpy(line, data, lineBytes);
