@@ -340,7 +340,7 @@ string ICQClientPrivate::createRTF(const string &text, unsigned long foreColor, 
             }
             break;
         case BR:
-            res += "\n";
+            res += "\\par\r\n";
             bSpace = false;
             break;
         case SYMBOL:{

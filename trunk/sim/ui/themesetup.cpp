@@ -57,7 +57,7 @@ static language langs[] =
         { "es", I18N_NOOP("Spanish") },
         { "it", I18N_NOOP("Italian") },
         { "nl", I18N_NOOP("Dutch") },
-        { "po", I18N_NOOP("Polish") },
+        { "pl", I18N_NOOP("Polish") },
         { "ru", I18N_NOOP("Russian") },
         { "tr", I18N_NOOP("Turkish") },
         { "uk", I18N_NOOP("Ukrainian") },

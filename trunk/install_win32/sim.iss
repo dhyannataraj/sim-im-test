@@ -32,6 +32,7 @@ Name: "{app}\icons"
 Source: "C:\sim\Release\sim.exe"; DestDir: "{app}"; CopyMode: alwaysoverwrite
 Source: "C:\sim\Release\xpstyle.dll"; DestDir: "{app}"; CopyMode: alwaysoverwrite
 Source: "C:\sim\Release\po\zh_TW.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
+Source: "C:\sim\Release\po\cs.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
 Source: "C:\sim\Release\po\de.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
 Source: "C:\sim\Release\po\es.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
 Source: "C:\sim\Release\po\it.qm"; DestDir: "{app}\po"; CopyMode: alwaysoverwrite
