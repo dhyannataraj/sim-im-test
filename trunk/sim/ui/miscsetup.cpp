@@ -74,7 +74,7 @@ void MiscSetup::apply(ICQUser*)
 
 void MiscSetup::clickedSync()
 {
-#ifdef USE_KDE
+#if defined(USE_KDE) && defined(HAVE_KABC)
     if (!pClient->contacts.users.empty())
     {
         pSyncher->open();
