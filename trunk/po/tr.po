@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "POT-Creation-Date: 2002-10-19 18:41+0400\n"
-"PO-Revision-Date: 2002-10-19 19:37+0300\n"
+"PO-Revision-Date: 2002-10-19 20:14+0300\n"
 "Last-Translator: ismail donmez <voidcartman@yahoo.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1780,9 +1780,7 @@ msgstr "&Kullanıcı Bilgisi"
 msgid ""
 "_: Ctrl+U\n"
 "UserInfo"
-msgstr ""
-"Ctrl+U\n"
-"Kullanıcı Bilgisi"
+msgstr "Ctrl+U"
 
 #: mainwin.cpp:1636
 msgid "&History"
@@ -1792,9 +1790,7 @@ msgstr "&Geçmiş"
 msgid ""
 "_: Ctrl+H\n"
 "History"
-msgstr ""
-"Ctrl+H\n"
-"Geçmiş"
+msgstr "Ctrl+H"
 
 #: mainwin.cpp:1639 ui/alertdialogbase.cpp:81 ui/setupdlg.cpp:143
 #: ui/userinfo.cpp:88
@@ -1805,9 +1801,7 @@ msgstr "Alarm"
 msgid ""
 "_: Ctrl+L\n"
 "Alert"
-msgstr ""
-"Ctrl+L\n"
-"Alarm"
+msgstr "Ctrl+L"
 
 #: mainwin.cpp:1641 ui/acceptbase.cpp:137
 msgid "Accept mode"
@@ -1817,9 +1811,7 @@ msgstr "Kabul Modu"
 msgid ""
 "_: Ctrl+A\n"
 "Accept"
-msgstr ""
-"Ctrl+A\n"
-"Kabul Et"
+msgstr "Ctrl+A"
 
 #: mainwin.cpp:1643 ui/setupdlg.cpp:141 ui/soundsetupbase.cpp:106
 #: ui/userinfo.cpp:90
@@ -1830,9 +1822,7 @@ msgstr "Ses"
 msgid ""
 "_: Ctrl+S\n"
 "Sound"
-msgstr ""
-"Ctrl+S\n"
-"Ses"
+msgstr "Ctrl+S"
 
 #: mainwin.cpp:1647
 msgid "Floating off"
@@ -1846,9 +1836,7 @@ msgstr "Floating açık"
 msgid ""
 "_: Ctrl+T\n"
 "Floating"
-msgstr ""
-"Ctrl+T\n"
-"Yüzer Şekilde"
+msgstr "Ctrl+T"
 
 #: mainwin.cpp:1651
 msgid "Users"
@@ -1864,9 +1852,7 @@ msgstr "&Kapat"
 msgid ""
 "_: Ctrl+C\n"
 "Close"
-msgstr ""
-"Ctrl+C\n"
-"Kapat"
+msgstr "Ctrl+C"
 
 #: mainwin.cpp:1655
 msgid "Alphabetically sort"
@@ -1876,9 +1862,7 @@ msgstr "Alfabetik Sırala"
 msgid ""
 "_: Ctrl+B\n"
 "Alphabetically sort"
-msgstr ""
-"Ctrl+B\n"
-"Alfabetik Sırala"
+msgstr "Ctrl+B"
 
 #: mainwin.cpp:1885
 msgid "Delete %1?"
@@ -2370,9 +2354,7 @@ msgstr "Listede kayıtlı değil"
 msgid ""
 "_: Ctrl+N\n"
 "Create group"
-msgstr ""
-"Ctrl+N\n"
-"Grup yarat"
+msgstr "Ctrl+N"
 
 #: userview.cpp:682 userview.cpp:695
 msgid "New group"
@@ -3940,65 +3922,49 @@ msgstr "Bilinmeyen mesaj"
 msgid ""
 "_: Ctrl+M\n"
 "Message"
-msgstr ""
-"Ctrl+M\n"
-"Mesaj"
+msgstr "Ctrl+M"
 
 #: client.cpp:923
 msgid ""
 "_: Ctrl+H\n"
 "Chat"
-msgstr ""
-"Ctrl+H\n"
-"Chat"
+msgstr "Ctrl+H"
 
 #: client.cpp:925
 msgid ""
 "_: Ctrl+F\n"
 "File"
-msgstr ""
-"Ctrl+F\n"
-"Dosya"
+msgstr "Ctrl+F"
 
 #: client.cpp:927
 msgid ""
 "_: Ctrl+U\n"
 "URL"
-msgstr ""
-"Ctrl+U\n"
-"URL"
+msgstr "Ctrl+U"
 
 #: client.cpp:929
 msgid ""
 "_: Ctrl+A\n"
 "AuthRequest"
-msgstr ""
-"Ctrl+A\n"
-"İzin İsteği"
+msgstr "Ctrl+A"
 
 #: client.cpp:931
 msgid ""
 "_: Ctrl+C\n"
 "Contacts"
-msgstr ""
-"Ctrl+C\n"
-"Kontaklar"
+msgstr "Ctrl+C"
 
 #: client.cpp:933
 msgid ""
 "_: Ctrl+S\n"
 "SMS"
-msgstr ""
-"Ctrl+S\n"
-"SMS"
+msgstr "Ctrl+S"
 
 #: client.cpp:935
 msgid ""
 "_: Ctrl+E\n"
 "EMail"
-msgstr ""
-"Ctrl+E\n"
-"Email"
+msgstr "Ctrl+E"
 
 #: client.cpp:965
 msgid "Do not disturb"
