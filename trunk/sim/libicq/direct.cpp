@@ -853,10 +853,10 @@ void DirectClient::processPacket()
                                 eSend.setMessage(msg);
                                 eSend.state = ICQEvent::Fail;
                                 client->process_event(&eSend);
-								return;
+                                return;
                             }else{
-								secureConnect();
-							}
+                                secureConnect();
+                            }
                             u->msgQueue.remove(e);
                             delete e;
                             delete msg;

@@ -37,12 +37,12 @@ typedef struct phoneName
 
 static phoneName names[] =
     {
-        { "Home Phone", 0, 0 },
-        { "Home Fax", 3, 2 },
-        { "Private Cellular", 2, 1 },
-        { "Work Phone", 0, 0 },
-        { "Work Fax", 3, 2 },
-        { "Wireless Pager", 4, 3 },
+        { I18N_NOOP("Home Phone"), 0, 0 },
+        { I18N_NOOP("Home Fax"), 3, 2 },
+        { I18N_NOOP("Private Cellular"), 2, 1 },
+        { I18N_NOOP("Work Phone"), 0, 0 },
+        { I18N_NOOP("Work Fax"), 3, 2 },
+        { I18N_NOOP("Wireless Pager"), 4, 3 },
         { "", 0, 0 }
     };
 

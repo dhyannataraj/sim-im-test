@@ -29,7 +29,13 @@
 PhoneDetails::PhoneDetails(QWidget *p, PhoneInfo *info, unsigned userCountry)
         : PhoneDetailsBase(p)
 {
-    initCombo(cmbCountry, userCountry, countries);
+    int countryCode = userCountry;
+    for (const ext_info *c = countries; *c->szName; c++){
+        if (strcmp(info->Country.c_str(), c->szName)) continue;
+        countryCode = c->nCode;
+        break;
+    }
+    initCombo(cmbCountry, countryCode, countries);
     QFontMetrics fm(font());
     unsigned wChar = fm.width("0");
     QSize s(wChar*10, 0);
@@ -57,13 +63,6 @@ PhoneDetails::PhoneDetails(QWidget *p, PhoneInfo *info, unsigned userCountry)
     edtAreaCode->setText(info->AreaCode.c_str());
     edtNumber->setText(info->Number.c_str());
     edtExtension->setText(info->Extension.c_str());
-    int i = 1;
-    for (const ext_info *c = countries; *c->szName; c++, i++){
-        if (info->Country == c->szName){
-            cmbCountry->setCurrentItem(i);
-            break;
-        }
-    }
 }
 
 void PhoneDetails::setPublishShow(bool bShow)
@@ -103,10 +102,7 @@ void PhoneDetails::getNumber()
     bool bOK = true;
     if (cmbCountry->currentItem() > 0){
         res = "+";
-        int i = cmbCountry->currentItem() - 1;
-        const ext_info *c;
-        for (c = countries; i && *c->szName; c++, i--);
-        res += QString::number(c->nCode);
+        res += QString::number(getComboValue(cmbCountry, countries));
         res += " ";
     }else{
         bOK = false;
@@ -150,7 +146,13 @@ void PhoneDetails::fillInfo(PhoneInfo *info)
         info->Publish = false;
     }
     info->AreaCode = edtAreaCode->text().local8Bit();
-    info->Country = cmbCountry->currentText().local8Bit();
+    int countryCode = getComboValue(cmbCountry, countries);
+    for (const ext_info *i = countries; i->nCode; i++){
+        if (i->nCode != countryCode) continue;
+        info->Country = i->szName;
+        break;
+    }
+
     if (edtExtension->isVisible()){
         info->Extension = edtExtension->text().local8Bit();
     }else{
