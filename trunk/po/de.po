@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-01-12 01:41+0300\n"
-"PO-Revision-Date: 2004-01-12 03:25GMT\n"
+"PO-Revision-Date: 2004-01-26 17:13GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.3\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
 
 #: sim/api/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
@@ -5091,7 +5092,7 @@ msgstr "A&lle Benutzer in einem Container öffnen"
 
 #: plugins/_core/interfacecfgbase.cpp:156
 msgid "Use \"&Enter\" for send message"
-msgstr "\"Enter\" zum &Nachrichtensenden benutzen"
+msgstr "\"Enter\" zum &Senden von Nachrichten benutzen"
 
 #: plugins/_core/historycfgbase.cpp:225
 msgid "Use &own colors and fonts settings"
@@ -5716,7 +5717,7 @@ msgstr "&Erweitert"
 #: plugins/gpg/gpgcfg.cpp:141 plugins/gpg/gpguser.cpp:83
 #: plugins/proxy/proxycfg.cpp:36
 msgid "None"
-msgstr "Kein Proxy"
+msgstr "Keiner"
 
 #: plugins/gpg/gpgcfg.cpp:169
 msgid "New"

@@ -17,7 +17,9 @@
 <xsl:if test="@list='1'">
 <img src="icon:listmsg"/>
 </xsl:if>
+<xsl:text> </xsl:text>
 </a>
+<xsl:text> </xsl:text>
 <xsl:choose>
 <xsl:when test="@direction='2'">
 <font>
@@ -34,6 +36,7 @@
 <xsl:if test="@unread='1'">
 <xsl:attribute name="style">font-weight:600</xsl:attribute>
 </xsl:if>
+<xsl:text> </xsl:text>
 <font>
 <xsl:choose>
 <xsl:when test="@direction='1'">
@@ -45,6 +48,7 @@
 </xsl:choose>
 <xsl:value-of disable-output-escaping="yes" select="from"/>
 </font>
+<xsl:text> </xsl:text>
 <font size="-1">
 <xsl:value-of select="time/date"/>
 <xsl:text> </xsl:text>
