@@ -1,5 +1,5 @@
 %define name  sim
-%define version 0.7 
+%define version 0.8
 %define release 1mdk 
 
 Name: %{name} 
@@ -26,7 +26,7 @@ ln -s /usr/lib/libpng.so.2 /usr/lib/libpng.so
 
 %setup
 #make -f Makefile.dist
-CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" ./configure $LOCALFLAGS --disable-kde
+CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" ./configure $LOCALFLAGS 
 
 %build
 
