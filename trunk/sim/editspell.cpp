@@ -76,6 +76,7 @@ QSize EditSpell::minimumSizeHint()
 
 void EditSpell::keyPressEvent(QKeyEvent *e)
 {
+	log(L_DEBUG, "Press: %s %X", e->text().latin1(), QT_VERSION);
     if (pMain->SendEnter && ((e->key() == Key_Enter) || (e->key() == Key_Return)))
         return;
     if (e->state() == ControlButton){
@@ -92,9 +93,6 @@ void EditSpell::keyPressEvent(QKeyEvent *e)
         paste();
         return;
     }
-#if Q_VERSION >= 300
-	log(L_DEBUG, "Press: %s %X", e->text().latin1(), QT_VERSION);
-#endif
 #if (QT_VERSION >= 300) && (QT_VERSION < 0x030100)
     // Workaround about autoformat feature in qt 3.0.x
     log(L_DEBUG, "Press: %s", e->text().latin1());
