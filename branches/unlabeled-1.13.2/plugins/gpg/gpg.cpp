@@ -100,7 +100,7 @@ static DataDef gpgData[] =
         { "Decrypt", DATA_STRING, 1, "--yes --passphrase-fd 0 --output \"%plainfile%\" --decrypt \"%cipherfile%\"" },
         { "Key", DATA_STRING, 1, 0 },
         { "Passphrases", DATA_UTFLIST, 1, 0 },
-        { "Keys", DATA_STRING, 1, 0 },
+        { "Keys", DATA_STRLIST, 1, 0 },
         { "NPassphrases", DATA_ULONG, 1, 0 },
         { "", DATA_BOOL, 1, 0 },
         { NULL, 0, 0, 0 }

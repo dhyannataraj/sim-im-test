@@ -213,6 +213,7 @@ void HistoryWindow::toolbarChanged(QToolBar*)
 
 void HistoryWindow::fill()
 {
+	log(L_DEBUG, "Fill");
     if (m_it == NULL)
         m_it = new HistoryIterator(m_id);
     if (m_progress == NULL){
@@ -281,6 +282,7 @@ void HistoryWindow::next()
     delete m_it;
     m_it = NULL;
     m_progress = NULL;
+	log(L_DEBUG, "Stop");
 }
 
 const unsigned MAX_HISTORY = 10;
