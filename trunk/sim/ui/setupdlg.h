@@ -70,6 +70,7 @@ public:
     ~SetupDialog();
     void showPage(int n);
     bool applyOk;
+    void raiseWidget(int id);
 signals:
     void applyChanges(ICQUser*);
     void backgroundUpdated();
@@ -81,7 +82,6 @@ protected slots:
     void iconChanged();
 protected:
     void closeEvent(QCloseEvent*);
-    void raiseWidget(int id);
     bool raiseWidget(QListViewItem *i, unsigned id);
     void iconChanged(QListViewItem*);
     void addPage(PAGEPROC *pageProc, int id, const QString &name, const char *icon, unsigned param=0);

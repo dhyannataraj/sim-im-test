@@ -306,12 +306,11 @@ public:
     Themes       *themes;
     XOSD	     *xosd;
 
+    string getFullPath(const char *path, bool bIsDir=false);
+
     void setShow(bool bState);
     bool isShow();
-    static void buildFileName(string &s, const char *name, bool bSystem=true, bool bCreate=true);
     static void playSound(const char *wav);
-
-    static string homeDir;
 
     void adjustUserMenu(QPopupMenu *menu, ICQUser *u, bool bHaveTitle, bool bShort);
     void adjustGroupMenu(QPopupMenu *menu, unsigned long uin);
@@ -401,6 +400,7 @@ public slots:
     void changeToolBar(const ToolBarDef *def);
     void setDock();
     void setupClosed();
+    void deleteLogin();
 protected slots:
     void toggleWindow();
     void realSetStatus();
@@ -428,11 +428,11 @@ protected slots:
     void adjustGroupsMenu();
     void adjustFucntionMenu();
     void sharedFiles();
-    void badPassword();
     void clearUserMenu();
     void networkMonitor();
     void monitorFinished();
     void autoHide();
+    void changeUIN();
 protected:
     bool eventFilter(QObject *o, QEvent *e);
     void moveEvent(QMoveEvent*);
@@ -441,7 +441,7 @@ protected:
     void loadUnread();
 
     char realTZ;
-    int lockFile;
+    int  lockFile;
     bool bBlinkState;
 
     list<UserFloat*> floating;
@@ -471,9 +471,9 @@ protected:
     SearchDialog *searchDlg;
     SetupDialog *setupDlg;
     MonitorWindow *mNetMonitor;
-    bool bInLogin;
     unsigned inactiveTime;
 
+    void deleteChilds();
     void exec(const char *prg, const char *arg);
     void loadMenu();
     void showUser(unsigned long uin, int function, unsigned long param=0);

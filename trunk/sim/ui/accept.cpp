@@ -45,6 +45,8 @@ AcceptDialog::AcceptDialog(QWidget *p, bool _bReadOnly)
     load(pClient->owner);
 }
 
+extern char INCOMING_FILES[];
+
 void AcceptDialog::load(ICQUser *_u)
 {
     SIMUser *u = static_cast<SIMUser*>(_u);
@@ -61,11 +63,7 @@ void AcceptDialog::load(ICQUser *_u)
     chkWindow->setChecked(u->AcceptMsgWindow);
     string path = u->AcceptFilePath.c_str();
     if (*(path.c_str()) == 0){
-#ifdef _WINDOWS
-        pMain->buildFileName(path, "IncomingFiles\\");
-#else
-        pMain->buildFileName(path, "IncomingFiles/");
-#endif
+        path = pMain->getFullPath(INCOMING_FILES, true);
         path = path.substr(0, path.size() - 1);
     }
     edtPath->setText(QString::fromLocal8Bit(path.c_str()));

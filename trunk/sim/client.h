@@ -140,8 +140,9 @@ public:
     string			FileDone;
     ICQUser			*createUser();
     ICQGroup		*createGroup();
-    void save(QFile &s);
-    bool load(QFile &s, string &nextPart);
+    void init();
+    void save();
+    bool load(unsigned long ownerUin);
     QString getName(bool bUserUIN=true);
     const char *getStatusIcon();
     QString getStatusText();

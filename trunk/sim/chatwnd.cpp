@@ -333,8 +333,7 @@ void ChatWindow::openLog()
     if (logFile){
         fname = logFile->name();
     }else{
-        string name;
-        pMain->buildFileName(name, "ChatLog/");
+        string name = pMain->getFullPath("ChatLog/");
         fname = QString::fromLocal8Bit(name.c_str());
     }
 #ifdef WIN32

@@ -661,10 +661,6 @@ SOURCE=.\sim\ui\moc_pagerdetails.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\moc_passwddlg.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\sim\ui\moc_pastinfo.cpp
 # End Source File
 # Begin Source File
@@ -915,10 +911,6 @@ InputPath=.\sim\parse.ll
 
 !ENDIF 
 
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\passwddlg.cpp
 # End Source File
 # Begin Source File
 
@@ -2530,39 +2522,6 @@ InputName=pagerdetails
 InputDir=.\sim\ui
 InputPath=.\sim\ui\pagerdetails.h
 InputName=pagerdetails
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\passwddlg.h
-
-!IF  "$(CFG)" == "sim - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\sim
-InputPath=.\sim\passwddlg.h
-InputName=passwddlg
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\sim
-InputPath=.\sim\passwddlg.h
-InputName=passwddlg
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp

@@ -386,8 +386,15 @@ ICQGroup *SIMClient::createGroup()
     return g;
 }
 
-void SIMClient::save(QFile &s)
+extern char ICQ_CONF[];
+
+void SIMClient::save()
 {
+    QFile s(QString::fromLocal8Bit(pMain->getFullPath(ICQ_CONF).c_str()));
+    if (!s.open(IO_Truncate | IO_WriteOnly)){
+        log(L_WARN, "Can't open %s", (const char*)(s.name().local8Bit()));
+        return;
+    }
     ::save(this, Client_Params, s);
     writeStr(s, "[ContactList]\n");
     ::save(&contacts, ICQContactList_Params, s);
@@ -402,8 +409,14 @@ void SIMClient::save(QFile &s)
     }
 }
 
-bool SIMClient::load(QFile &s, string &nextPart)
+bool SIMClient::load(unsigned long ownerUIN)
 {
+    if (owner->Uin == ownerUIN) return true;
+    init();
+    owner->Uin = ownerUIN;
+    QFile s(QString::fromLocal8Bit(pMain->getFullPath(ICQ_CONF).c_str()));
+    if (!s.open(IO_ReadOnly)) return false;
+    string nextPart;
     if (!::load(this, Client_Params, s, nextPart))
         return false;
     for (;;){
@@ -480,6 +493,11 @@ SIMClient::SIMClient(QObject *parent, const char *name)
     resolver->setRecordType(QDns::Ptr);
     QObject::connect(resolver, SIGNAL(resultsReady()), this, SLOT(resolve_ready()));
     init();
+}
+
+void SIMClient::init()
+{
+    ICQClient::init();
     ::init(this, Client_Params);
 }
 
@@ -582,6 +600,8 @@ bool SIMClient::markAsRead(ICQMessage *msg)
     }
     return false;
 }
+
+extern char INCOMING_FILES[];
 
 void SIMClient::process_event(ICQEvent *e)
 {
@@ -741,7 +761,7 @@ void SIMClient::process_event(ICQEvent *e)
                             if (uFile->AcceptFileMode== 1){
                                 string name = uFile->AcceptFilePath.c_str();
                                 if (*name.c_str() == 0)
-                                    pMain->buildFileName(name, "IncomingFiles/");
+                                    name = pMain->getFullPath(INCOMING_FILES, true);
                                 f->localName = name;
                                 f->autoAccept = true;
                                 pClient->acceptMessage(f);

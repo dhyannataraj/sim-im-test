@@ -333,6 +333,7 @@ void MsgEdit::insertSmile(int id)
     }
     edit->setFont(f);
     edit->setForeground(fgColor);
+    editTextChanged();
 }
 
 History *MsgEdit::history()
@@ -1052,6 +1053,8 @@ void MsgEdit::bottomReady(Tmpl*, const QString &res)
     disconnect(tmpl, SIGNAL(ready(Tmpl*, const QString&)), this, SLOT(bottomReady(Tmpl*, const QString&)));
 }
 
+extern char INCOMING_FILES[];
+
 void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEdit)
 {
     msgTail = "";
@@ -1157,7 +1160,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                             _u = static_cast<SIMUser*>(pClient->owner);
                         string path = _u->AcceptFilePath.c_str();
                         if (*path.c_str() == 0)
-                            pMain->buildFileName(path, "IncomingFiles/");
+                            path = pMain->getFullPath(INCOMING_FILES, true);
                         QString name = QString::fromLocal8Bit(path.c_str());
 #ifdef WIN32
                         name.replace(QRegExp("/"), "\\");

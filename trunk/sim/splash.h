@@ -37,6 +37,8 @@ public:
     string			StartupSound;
     bool			SoundDisable;
     string			Language;
+    unsigned long	LastUIN;
+    bool			SavePassword;
 protected:
     QWidget	*wnd;
 };

@@ -33,7 +33,6 @@
 #include "monitor.h"
 #include "ui/logindlg.h"
 #include "ui/proxydlg.h"
-#include "passwddlg.h"
 #include "transparent.h"
 #include "ui/searchdlg.h"
 #include "ui/setupdlg.h"
@@ -50,6 +49,7 @@
 #include "splash.h"
 #include "keys.h"
 #include "history.h"
+#include "sim.h"
 
 #ifndef _WINDOWS
 #include <pwd.h>
@@ -129,42 +129,6 @@ static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
 #ifdef WIN32
 const unsigned short ABE_FLOAT   = (unsigned short)(-1);
 #endif
-
-static char ICQ_CONF[] = "icq.conf";
-static char SIM_CONF[] = "sim.conf";
-
-static string app_file_name;
-const char *app_file(const char *f)
-{
-    app_file_name = "";
-#ifdef WIN32
-    char buff[256];
-    GetModuleFileNameA(NULL, buff, sizeof(buff));
-    char *p = strrchr(buff, '\\');
-    if (p) *p = 0;
-    app_file_name = buff;
-    if (app_file_name.length() && (app_file_name[app_file_name.length()-1] != '\\'))
-        app_file_name += "\\";
-#else
-#ifdef USE_KDE
-    QStringList lst = KGlobal::dirs()->findDirs("data", "sim");
-    for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
-        QFile f(*it + f);
-        if (f.exists()){
-            app_file_name = (const char*)f.name().local8Bit();
-            return app_file_name.c_str();
-        }
-    }
-    if (!lst.isEmpty()){
-        app_file_name = (const char*)lst[0].local8Bit();
-    }
-#else
-    app_file_name = PREFIX "/share/apps/sim/";
-#endif
-#endif
-    app_file_name += f;
-    return app_file_name.c_str();
-}
 
 const char *MainWindow::sound(const char *wav)
 {
@@ -676,7 +640,6 @@ MainWindow::MainWindow(const char *name)
     bQuit = false;
     dock = NULL;
     noToggle = false;
-    bInLogin = false;
     lockFile = -1;
     translator = NULL;
     mAboutApp = NULL;
@@ -819,7 +782,14 @@ MainWindow::MainWindow(const char *name)
     QTimer *autoHideTimer = new QTimer(this);
     connect(autoHideTimer, SIGNAL(timeout()), this, SLOT(autoHide()));
     autoHideTimer->start(1000);
+    WM_APPBAR = RegisterWindowMessageA("AppBarNotify");
+    WNDPROC p;
+    p = (WNDPROC)SetWindowLongW(winId(), GWL_WNDPROC, (LONG)MainWndProc);
+    if (p == 0)
+        p = (WNDPROC)SetWindowLongA(winId(), GWL_WNDPROC, (LONG)MainWndProc);
+    appBarMessage(ABM_NEW);
 #endif
+    setIcons();
 }
 
 void MainWindow::moveEvent(QMoveEvent *e)
@@ -935,18 +905,38 @@ void MainWindow::showGroupPopup(QPoint p)
     menuGroups->popup(p);
 }
 
-MainWindow::~MainWindow()
+void MainWindow::deleteChilds()
 {
-    transparent = NULL;
+    if (transparent){
+        delete transparent;
+        transparent = NULL;
+    }
     while (containers.size()){
         delete containers.front();
     }
     for (list<UserFloat*>::iterator it = floating.begin(); it != floating.end(); ++it)
         delete *it;
+    floating.clear();
+    if (dock){
+        delete dock;
+        dock = NULL;
+    }
 #ifndef WIN32
-    if (lockFile != -1) ::close(lockFile);
+    if (lockFile != -1){
+        ::close(lockFile);
+        lockFile = -1;
+    }
+#else
+    if (lockFile != -1){
+        ReleaseMutex((HANDLE)lockFile);
+        lockFile = -1;
+    }
 #endif
-    if (dock) delete dock;
+}
+
+MainWindow::~MainWindow()
+{
+    deleteChilds();
     pMain = NULL;
 }
 
@@ -996,48 +986,6 @@ void MainWindow::setStatusItem(int status)
     menuStatus->setItemChecked(status & 0xFF, (unsigned)(pClient->owner->uStatus & 0xFF) == (unsigned)(status & 0xFF));
 }
 
-#ifdef WIN32
-
-bool makedir(char *p)
-{
-    char *r = strrchr(p, '\\');
-    if (r == NULL) return true;
-    *r = 0;
-    CreateDirectoryA(p, NULL);
-    *r = '\\';
-    return true;
-}
-
-#else
-
-bool makedir(char *p)
-{
-    bool res = true;
-    char *r = strrchr(p, '/');
-    if (r == NULL) return res;
-    *r = 0;
-    struct stat st;
-    if (stat(p, &st)){
-        if (makedir(p)){
-            if (mkdir(p, 0755)){
-                log(L_ERROR, "Can't create %s: %s", p, strerror(errno));
-                res = false;
-            }
-        }else{
-            res = false;
-        }
-    }else{
-        if ((st.st_mode & S_IFMT) != S_IFDIR){
-            log(L_ERROR, "%s no directory", p);
-            res = false;
-        }
-    }
-    *r = '/';
-    return res;
-}
-
-#endif
-
 void MainWindow::toggleGroupMode()
 {
     setGroupMode(toolbar->isOn(btnGroupMode));
@@ -1060,82 +1008,18 @@ void MainWindow::setShowOffline(bool bState)
     users->setShowOffline(bState);
 }
 
-#ifdef WIN32
-static BOOL (WINAPI *_SHGetSpecialFolderPath)(HWND hwndOwner, LPSTR lpszPath, int nFolder, BOOL fCreate) = NULL;
-#endif
-
-void MainWindow::buildFileName(string &s, const char *name, bool bUseKDE, bool bCreate)
-{
-    s = homeDir;
-    if (s.length() == 0){
-#ifndef _WINDOWS
-        struct passwd *pwd = getpwuid(getuid());
-        if (pwd){
-            s = pwd->pw_dir;
-        }else{
-            log(L_ERROR, "Can't get pwd");
-        }
-        if (s[s.size() - 1] != '/') s += '/';
-#ifndef USE_KDE
-        bUseKDE = false;
-#endif
-        if (bUseKDE){
-            char *kdehome = getenv("KDEHOME");
-            if (kdehome){
-                s = kdehome;
-            }else{
-                s += ".kde/";
-            }
-            if (s.length() == 0) s += '/';
-            if (s[s.length()-1] != '/') s += '/';
-            s += "share/apps/sim/";
-        }else{
-            s += ".sim/";
-        }
-#else
-        char szPath[MAX_PATH];
-        HINSTANCE hLib = LoadLibraryA("Shell32.dll");
-        if (hLib != NULL)
-            (DWORD&)_SHGetSpecialFolderPath = (DWORD)GetProcAddress(hLib,"SHGetSpecialFolderPathA");
-        if (_SHGetSpecialFolderPath && _SHGetSpecialFolderPath(NULL, szPath, CSIDL_APPDATA, true)){
-            s = szPath;
-            if (s.length()  == 0) s = "c:\\";
-            if (s[s.length() - 1] != '\\') s += '\\';
-            s += "sim\\";
-        }else{
-            s = app_file("");
-        }
-#endif
-    }
-#ifndef _WINDOWS
-    if (s[s.length() - 1] != '/') s += '/';
-#else
-    if (s[s.length() - 1] != '\\') s += '\\';
-#endif
-    homeDir = s;
-    s += name;
-    if (bCreate) makedir((char*)s.c_str());
-}
-
 extern const ToolBarDef *pUserBoxToolBar;
 extern const ToolBarDef *pMsgEditToolBar;
 extern const ToolBarDef *pHistoryToolBar;
 
+extern char ICQ_CONF[];
+extern char SIM_CONF[];
+
 bool MainWindow::init()
 {
-#ifdef WIN32
-    WM_APPBAR = RegisterWindowMessageA("AppBarNotify");
-    WNDPROC p;
-    p = (WNDPROC)SetWindowLongW(winId(), GWL_WNDPROC, (LONG)MainWndProc);
-    if (p == 0)
-        p = (WNDPROC)SetWindowLongA(winId(), GWL_WNDPROC, (LONG)MainWndProc);
-    appBarMessage(ABM_NEW);
-#endif
-
-    setIcons();
     string file;
 #ifndef WIN32
-    buildFileName(file, "lock");
+    file = getFullPath("lock");
     if ((lockFile = ::open(file.c_str(), O_RDWR | O_CREAT, 0600)) == -1){
         log(L_ERROR, "Can't open %s: %s", file.c_str(), strerror(errno));
         return false;
@@ -1150,15 +1034,18 @@ bool MainWindow::init()
         log(L_ERROR, "Can't lock %s: %s", file.c_str(), strerror(errno));
         return false;
     }
+#else
+    char mutex_name[32];
+    snprintf(mutex_name, sizeof(mutex_name), "sim_%lu", pClient->owner->Uin);
+    HANDLE mutex = CreateMutexA(NULL, TRUE, mutex_name);
+    if (mutex == NULL) return false;
+    lockFile = (int)mutex;
 #endif
     string part;
-    buildFileName(file, SIM_CONF);
+    file = getFullPath(SIM_CONF);
     QFile fs(QString::fromLocal8Bit(file.c_str()));
-    if (!fs.open(IO_ReadOnly)){
-        setDock();
-        return true;
-    }
-    ::load(this, MainWindow_Params, fs, part);
+    if (fs.open(IO_ReadOnly))
+        ::load(this, MainWindow_Params, fs, part);
 
     if (ToolBarMain.size()) emit toolBarChanged(mainWndToolBar);
     if (ToolBarMsg.size()) emit toolBarChanged(pMsgEditToolBar);
@@ -1176,13 +1063,6 @@ bool MainWindow::init()
     if (*Icons.c_str()) changeIcons(0);
     themes->setTheme(QString::fromLocal8Bit(UseStyle.c_str()));
     setFonts();
-    {
-        string file, part;
-        buildFileName(file, ICQ_CONF);
-        QFile fs(QString::fromLocal8Bit(file.c_str()));
-        if (fs.open(IO_ReadOnly))
-            pClient->load(fs, part);
-    }
     for (;;){
         if (part.size() == 0) break;
         if (!strcmp(part.c_str(), "[Floaty]")){
@@ -1214,18 +1094,7 @@ bool MainWindow::init()
     changeWm();
 
     bool bNeedSetup = false;
-    if ((pClient->owner->Uin == 0) || (*pClient->EncryptedPassword.c_str() == 0)){
-        pSplash->hide();
-        bInLogin = true;
-        LoginDialog dlg;
-        bNeedSetup = (dlg.exec() != 0);
-        bInLogin = false;
-        ManualStatus = ICQ_STATUS_ONLINE;
-        Show = true;
-        ShowOffline = true;
-        GroupMode = true;
-    }
-    if (pClient->owner->Uin == 0)
+    if ((pClient->owner->Uin == 0) || (*pClient->EncryptedPassword.c_str() == 0))
         return false;
 
     ToolBarDock tDock = Top;
@@ -1349,6 +1218,8 @@ void MainWindow::showUser(int id)
     }
 }
 
+extern LoginDialog *pLoginDlg;
+
 void MainWindow::processEvent(ICQEvent *e)
 {
     switch (e->type()){
@@ -1379,11 +1250,9 @@ void MainWindow::processEvent(ICQEvent *e)
             return;
         }
     case EVENT_BAD_PASSWORD:
-        if (!bInLogin){
-            pClient->setStatus(ICQ_STATUS_OFFLINE);
-            ManualStatus = ICQ_STATUS_OFFLINE;
-            QTimer::singleShot(50, this, SLOT(badPassword()));
-        }
+        if (pLoginDlg) return;
+        pClient->EncryptedPassword = "";
+        QTimer::singleShot(50, this, SLOT(shangeUIN()));
         return;
     case EVENT_ANOTHER_LOCATION:
         ManualStatus = ICQ_STATUS_OFFLINE;
@@ -1459,22 +1328,23 @@ void MainWindow::processEvent(ICQEvent *e)
     }
 }
 
-void MainWindow::badPassword()
+void MainWindow::changeUIN()
 {
-    unsigned long saveStatus = ManualStatus;
-    ManualStatus = ICQ_STATUS_OFFLINE;
-    PasswdDialog dlg;
-    bInLogin = true;
-    if (!dlg.exec()){
-        quit();
-        return;
-    }
-    bInLogin = false;
-    ManualStatus = saveStatus;
+    if (pLoginDlg) return;
+    pClient->setStatus(ICQ_STATUS_OFFLINE);
+    saveState();
+    hide();
+    deleteChilds();
+    ::init(this, MainWindow_Params);
+    pClient->init();
+    scanUIN();
+    pLoginDlg = new LoginDialog();
+    pLoginDlg->show();
 }
 
 void MainWindow::saveState()
 {
+    if (pClient->owner->Uin == 0) return;
     if (m_bAutoAway || m_bAutoNA) ManualStatus = (unsigned long)m_autoStatus;
     ShowOffline = toolbar->isOn(btnShowOffline);
     GroupMode = toolbar->isOn(btnGroupMode);
@@ -1527,8 +1397,7 @@ void MainWindow::saveState()
 #endif
     UseStyle = "";
     if (themes->getTheme().length()) UseStyle = themes->getTheme().local8Bit();
-    string file;
-    buildFileName(file, SIM_CONF);
+    string file = getFullPath(SIM_CONF);
 #ifndef WIN32
     struct stat st;
     if ((stat(file.c_str(), &st) >= 0) && (st.st_mode != 0600))
@@ -1553,16 +1422,13 @@ void MainWindow::saveState()
 void MainWindow::saveContacts()
 {
     if (pClient->owner->Uin == 0) return;
-    string file;
-    buildFileName(file, ICQ_CONF);
+    string file = getFullPath(ICQ_CONF);
 #ifndef WIN32
     struct stat st;
     if ((stat(file.c_str(), &st) >= 0) && (st.st_mode != 0600))
         unlink(file.c_str());
 #endif
-    QFile fs(QString::fromLocal8Bit(file.c_str()));
-    if (fs.open(IO_WriteOnly | IO_Truncate))
-        pClient->save(fs);
+    pClient->save();
 }
 
 bool MainWindow::isDock()
@@ -2670,8 +2536,6 @@ void MainWindow::exec(const char *prg, const char *arg)
 #endif
 }
 
-string MainWindow::homeDir;
-
 void MainWindow::playSound(const char *wav)
 {
     if ((wav == NULL) || (*wav == 0) || pSplash->SoundDisable) return;
@@ -2852,6 +2716,7 @@ void MainWindow::loadMenu()
     menuFunction->insertItem(Icon("about_kde"), i18n("About &KDE"), this, SLOT(about_kde()));
 #endif
     menuFunction->insertSeparator();
+    menuFunction->insertItem(i18n("Change UIN"), this, SLOT(changeUIN()));
     menuFunction->insertItem(Icon("exit"), i18n("Quit"), this, SLOT(quit()));
 }
 
@@ -3234,6 +3099,37 @@ void MainWindow::autoHide()
 void MainWindow::changeBackground()
 {
     emit bgChanged();
+}
+
+string MainWindow::getFullPath(const char *path, bool bIsDir)
+{
+    if (pClient->owner->Uin == 0)
+        return "";
+    char b[32];
+    snprintf(b, sizeof(b), "%u", pClient->owner->Uin);
+    string p;
+    p = b;
+#ifdef WIN32
+    p += "\\";
+#else
+    p += "/";
+#endif
+    p += path;
+    if (bIsDir){
+#ifdef WIN32
+        p += "\\";
+#else
+        p += "/";
+#endif
+    }
+    return buildFileName(p.c_str());
+}
+
+void MainWindow::deleteLogin()
+{
+    if (pLoginDlg == NULL) return;
+    delete pLoginDlg;
+    pLoginDlg = NULL;
 }
 
 #ifndef _WINDOWS

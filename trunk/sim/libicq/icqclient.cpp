@@ -59,6 +59,7 @@ void ICQClient::init()
     owner->PhoneStatusTime = now;
     owner->DCcookie = rand();
     owner->bMyInfo = true;
+    contacts.init();
 }
 
 ICQUser *ICQClient::createUser()
@@ -126,9 +127,9 @@ void ICQClientPrivate::checkBirthDay()
         sendStatus(fullStatus(client->owner->uStatus));
 }
 
-void ICQClient::storePassword(const char *p)
+string ICQClient::cryptPassword(const char *p)
 {
-    EncryptedPassword = "";
+    string res;
     unsigned char xor_table[] = {
         0xf3, 0x26, 0x81, 0xc4, 0x39, 0x86, 0xdb, 0x92,
         0x71, 0xa3, 0xb9, 0xe6, 0x53, 0x7a, 0x95, 0x7c};
@@ -137,13 +138,19 @@ void ICQClient::storePassword(const char *p)
         if (p[j] == 0) break;
         char c = (p[j] ^ xor_table[j]);
         if (c == 0){
-            EncryptedPassword += "\\";
+            res += "\\";
             c = '0';
         }else if (c == '\\'){
-            EncryptedPassword += "\\";
+            res += "\\";
         }
-        EncryptedPassword += c;
+        res += c;
     }
+    return res;
+}
+
+void ICQClient::storePassword(const char *p)
+{
+    EncryptedPassword = cryptPassword(p);
     DecryptedPassword = "";
 }
 

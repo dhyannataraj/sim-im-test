@@ -455,6 +455,7 @@ public:
     unsigned short getGroupId(ICQGroup *g);
     unsigned long findByEmail(const string &name, const string &email);
     unsigned long findByPhone(const string &number);
+    void init();
 protected:
     ICQClient *client;
     ICQGroup *getGroup(unsigned short id, bool create = true);
@@ -859,6 +860,8 @@ public:
 
     void idle();
     SocketFactory *factory();
+
+    static string cryptPassword(const char *p);
 
 protected:
     void init();

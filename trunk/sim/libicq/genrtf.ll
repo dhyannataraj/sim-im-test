@@ -78,7 +78,7 @@
 <s_attr>[A-Za-z]		{ BEGIN(s_tag); unput(yytext[0]); return SKIP; }
 <s_attr>.			{ return SKIP; }
 <s_value>"\""			{ BEGIN(s_string); return SKIP; }
-<s_value>[^\ >]+		{ BEGIN(s_tag); return VALUE; }
+<s_value>[^\ \">]+		{ BEGIN(s_tag); return VALUE; }
 <s_value>.			{ return SKIP; }
 <s_string>"\""			{ BEGIN(s_tag); return SKIP; }
 <s_string>[^\"]+		{ return VALUE; }
@@ -395,12 +395,13 @@ string ICQClientPrivate::createRTF(const string &text, unsigned long foreColor, 
                     font f = fonts.top();
                     unsigned size = f.size;
                     for (list<attr>::iterator it = attrs.begin(); it != attrs.end(); it++){
-                        if (eq((*it).name.c_str(), "color")){
+						string name = (*it).name;
+						string value = (*it).value;
+                        if (eq(name.c_str(), "color")){
                             unsigned long color = 0;
-                            string val = (*it).value;
-                            if (val[0] == '#'){
+                            if (value[0] == '#'){
                                 for (unsigned i = 0; i < 6; i++){
-                                    char c = val[i+1];
+                                    char c = value[i+1];
                                     if ((c >= '0') && (c <= '9')){
                                         color = (color << 4) + (c - '0');
                                     }else if ((c >= 'a') && (c <= 'f')){
@@ -424,12 +425,12 @@ string ICQClientPrivate::createRTF(const string &text, unsigned long foreColor, 
                                 bChange = true;
                             }
                         }
-                        if (eq((*it).name.c_str(), "face")){
+                        if (eq(name.c_str(), "face")){
                             unsigned n = 0;
                             list<string>::iterator it_face;
                             for (it_face = faces.begin(); it_face != faces.end(); it_face++, n++)
-                                if ((*it_face) == (*it).value) break;
-                            if (it_face == faces.end()) faces.push_back((*it).value);
+                                if ((*it_face) == value) break;
+                            if (it_face == faces.end()) faces.push_back(value);
                             if (n != f.face){
                                 f.face = n;
                                 char b[16];
@@ -439,25 +440,25 @@ string ICQClientPrivate::createRTF(const string &text, unsigned long foreColor, 
                                 bChange = true;
                             }
                         }
-                        if (eq((*it).name.c_str(), "style")){
+                        if (eq(name.c_str(), "style")){
                             char FONT_SIZE[] = "font-size:";
-                            if (((*it).value.length() > strlen(FONT_SIZE)) && !memcmp((*it).value.c_str(), FONT_SIZE, strlen(FONT_SIZE))){
-                                const char *v = (*it).value.c_str() + strlen(FONT_SIZE);
+                            if ((value.length() > strlen(FONT_SIZE)) && !memcmp(value.c_str(), FONT_SIZE, strlen(FONT_SIZE))){
+                                const char *v = value.c_str() + strlen(FONT_SIZE);
                                 if ((*v >= '0') && (*v <= '9')){
                                     size = atol(v) * 2;
                                     if (size == 0) size = f.size;
                                 }
                             }
                         }
-                        if (eq((*it).name.c_str(), "size")){
+                        if (eq(name.c_str(), "size")){
                             if (size == f.size){
-                                const char *v = (*it).value.c_str();
+                                const char *v = value.c_str();
                                 if (*v == '-'){
                                     size -= atol(++v);
                                 }else if (*v == '+'){
                                     size += atol(++v);
                                 }else{
-                                    size = atol((*it).value.c_str());
+                                    size = atol(value.c_str());
                                 }
                                 if (size <= 0) size = f.size;
                             }

@@ -39,6 +39,7 @@ using namespace std;
 #endif
 
 #include <qmime.h>
+#include <qwidget.h>
 #include <qpixmap.h>
 #include <qpaintdevice.h>
 #include <qimage.h>

@@ -22,65 +22,88 @@
 #include "icons.h"
 #include "log.h"
 #include "enable.h"
+#include "mainwin.h"
+#include "sim.h"
+#include "splash.h"
 
 #include <qlayout.h>
 #include <qlineedit.h>
 #include <qlabel.h>
 #include <qcheckbox.h>
+#include <qcombobox.h>
 #include <qpushbutton.h>
 #include <qapplication.h>
 #include <qvalidator.h>
 
 LoginDialog::LoginDialog()
-        : LoginDlgBase(NULL, "logindlg", true)
+        : LoginDlgBase(NULL, "logindlg")
 {
     setButtonsPict(this);
     setIcon(Pict("licq"));
     bLogin = false;
-    edtUIN->setValidator(new QIntValidator(100000, 0x7FFFFFFF, this));
-    connect(edtUIN, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
+    cmbUIN->setEditable(true);
+    cmbUIN->insertItem("");
+    cmbUIN->insertItem(i18n("<New UIN>"));
+    int id = 2;
+    for (list<unsigned long>::iterator it = uins.begin(); it != uins.end(); ++it, ++id){
+        cmbUIN->insertItem(QString::number(*it));
+        if ((*it) == pSplash->LastUIN) cmbUIN->setCurrentItem(id);
+    }
+    cmbUIN->lineEdit()->setValidator(new QIntValidator(100000, 0x7FFFFFFF, this));
     edtPasswd->setEchoMode(QLineEdit::Password);
+    connect(cmbUIN->lineEdit(), SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     connect(edtPasswd, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
-    connect(chkOldUser, SIGNAL(toggled(bool)), this, SLOT(setOldUser(bool)));
     connect(btnClose, SIGNAL(clicked()), this, SLOT(close()));
     connect(btnLogin, SIGNAL(clicked()), this, SLOT(login()));
+    connect(btnDelete, SIGNAL(clicked()), this, SLOT(deleteUin()));
     connect(btnProxy, SIGNAL(clicked()), this, SLOT(proxySetup()));
-    setOldUser(false);
     textChanged("");
     QSize s = sizeHint();
     QWidget *desktop = QApplication::desktop();
     move((desktop->width() - s.width()) / 2, (desktop->height() - s.height()) / 2);
-    setResult(0);
+    bCloseMain = true;
 };
-
-void LoginDialog::setOldUser(bool bSet)
-{
-    lblUIN->setEnabled(bSet);
-    edtUIN->setEnabled(bSet);
-    if (!bSet) edtUIN->setText("");
-}
 
 void LoginDialog::textChanged(const QString&)
 {
-    btnLogin->setEnabled((edtPasswd->text().length() > 0) &&
-                         (!chkOldUser->isOn() || (edtUIN->text().length() > 0)));
+    unsigned long uin = cmbUIN->lineEdit()->text().toULong();
+    bool isUin = !cmbUIN->lineEdit()->text().isEmpty();
+    bool isPswd = !edtPasswd->text().isEmpty();
+    btnProxy->setEnabled(isUin);
+    btnLogin->setEnabled(isUin && isPswd);
+    chkSave->setEnabled(isUin && isPswd);
+    btnDelete->setEnabled(uin && isUin && isPswd);
 }
 
 void LoginDialog::login()
 {
+    unsigned long uin = cmbUIN->lineEdit()->text().toULong();
+    pClient->load(uin);
+    if (uin && pClient->EncryptedPassword.length()){
+        string s = ICQClient::cryptPassword(edtPasswd->text().local8Bit());
+        if (strcmp(s.c_str(), pClient->EncryptedPassword.c_str())){
+            BalloonMsg::message(i18n("Invalid password"), btnLogin);
+            return;
+        }
+        pSplash->LastUIN = pClient->owner->Uin;
+        pSplash->SavePassword = chkSave->isChecked();
+        pSplash->save();
+        pMain->init();
+        bCloseMain = false;
+        close();
+        return;
+    }
     btnProxy->setEnabled(false);
     btnClose->setText(i18n("Cancel"));
     lblUIN->setEnabled(false);
-    edtUIN->setEnabled(false);
+    cmbUIN->setEnabled(false);
     lblPasswd->setEnabled(false);
     edtPasswd->setEnabled(false);
-    chkOldUser->setEnabled(false);
+    chkSave->setEnabled(false);
     btnLogin->setEnabled(false);
     bLogin = true;
     pClient->storePassword(edtPasswd->text().local8Bit());
     pClient->DecryptedPassword = edtPasswd->text().local8Bit();
-    if (chkOldUser->isOn())
-        pClient->owner->Uin = edtUIN->text().toULong();
     connect(pClient, SIGNAL(event(ICQEvent*)), this, SLOT(processEvent(ICQEvent*)));
     pClient->setStatus(ICQ_STATUS_ONLINE);
 }
@@ -88,6 +111,11 @@ void LoginDialog::login()
 void LoginDialog::closeEvent(QCloseEvent *e)
 {
     if (!bLogin){
+        if (bCloseMain){
+            pMain->quit();
+        }else{
+            QTimer::singleShot(0, pMain, SLOT(deleteLogin()));
+        }
         QDialog::closeEvent(e);
         return;
     }
@@ -105,9 +133,7 @@ void LoginDialog::stopLogin()
     btnClose->setText(i18n("Close"));
     lblPasswd->setEnabled(true);
     edtPasswd->setEnabled(true);
-    chkOldUser->setEnabled(true);
     btnProxy->setEnabled(true);
-    setOldUser(chkOldUser->isOn());
     textChanged("");
     bLogin = false;
 }
@@ -119,7 +145,11 @@ void LoginDialog::processEvent(ICQEvent *e)
         if (pClient->isLogged()){
             bLogin = false;
             pClient->DecryptedPassword = "";
-            setResult(chkOldUser->isChecked() ? 0 : 1);
+            pSplash->LastUIN = pClient->owner->Uin;
+            pSplash->SavePassword = chkSave->isChecked();
+            pSplash->save();
+            pMain->init();
+            bCloseMain = false;
             close();
         }
         return;
@@ -154,8 +184,21 @@ void LoginDialog::processEvent(ICQEvent *e)
 
 void LoginDialog::proxySetup()
 {
+    pClient->load(cmbUIN->lineEdit()->text().toULong());
     ProxyDialog d(this);
     d.exec();
+}
+
+void LoginDialog::deleteUin()
+{
+    unsigned long uin = cmbUIN->lineEdit()->text().toULong();
+    if (uin == 0) return;
+    pClient->load(uin);
+    string s = ICQClient::cryptPassword(edtPasswd->text().local8Bit());
+    if (strcmp(s.c_str(), pClient->EncryptedPassword.c_str())){
+        BalloonMsg::message(i18n("Invalid password"), btnDelete);
+        return;
+    }
 }
 
 #ifndef _WINDOWS

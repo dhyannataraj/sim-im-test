@@ -38,6 +38,13 @@ protected:
 };
 #endif
 
+string buildFileName(const char *name);
+const char *app_file(const char *f);
+
+extern list<unsigned long> uins;
+
+void scanUIN();
+
 #endif
 
 

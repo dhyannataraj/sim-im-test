@@ -157,7 +157,7 @@ void ICQClientPrivate::snac_lists(unsigned short type, unsigned short seq)
             }
             unsigned long time;
             sock->readBuffer >> time;
-            if ((time == 0) && !bIgnoreTime)
+            if ((time == 0) && list_len && !bIgnoreTime)
                 break;
 
             client->contacts.Time = time;
@@ -641,6 +641,8 @@ bool CreateGroupEvent::process(ICQClientPrivate *icq, unsigned short result)
 
 void ICQClient::createGroup(const char *name)
 {
+    if ((name == NULL) || (*name == 0))
+        name = "New group";
     p->createGroup(name);
 }
 

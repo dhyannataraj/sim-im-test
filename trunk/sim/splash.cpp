@@ -19,6 +19,7 @@
 #include "mainwin.h"
 #include "cfg.h"
 #include "log.h"
+#include "sim.h"
 
 #ifndef _WINDOWS
 #include <sys/stat.h>
@@ -54,6 +55,8 @@ cfgParam Splash_Params[] =
         { "StartupSound", OFFSET_OF(Splash, StartupSound), PARAM_STRING, (unsigned)"startup.wav" },
         { "SoundDisable", OFFSET_OF(Splash, SoundDisable), PARAM_BOOL, 0 },
         { "Langauge", OFFSET_OF(Splash, Language), PARAM_STRING, 0 },
+        { "LastUIN", OFFSET_OF(Splash, LastUIN), PARAM_ULONG, 0 },
+        { "SavePassword", OFFSET_OF(Splash, SavePassword), PARAM_BOOL, 0 },
         { "", 0, 0, 0 }
     };
 
@@ -78,9 +81,8 @@ Splash::Splash()
         }
     }
 #endif
-    string file;
     string part;
-    MainWindow::buildFileName(file, SPLASH_CONF);
+    string file = buildFileName(SPLASH_CONF);
     QFile fs(QString::fromLocal8Bit(file.c_str()));
     if (fs.open(IO_ReadOnly))
         ::load(this, Splash_Params, fs, part);
@@ -117,8 +119,7 @@ void Splash::hide()
 
 void Splash::save()
 {
-    string file;
-    MainWindow::buildFileName(file, SPLASH_CONF);
+    string file = buildFileName(SPLASH_CONF);
     QFile fs(QString::fromLocal8Bit(file.c_str()));
     if (fs.open(IO_WriteOnly | IO_Truncate))
         ::save(this, Splash_Params, fs);

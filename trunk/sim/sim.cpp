@@ -21,27 +21,35 @@
 #include "splash.h"
 #include "about.h"
 #include "control.h"
+#include "client.h"
 #include "log.h"
+#include "sim.h"
+#include "ui/logindlg.h"
 
 #ifndef WIN32
 #include <stdio.h>
 #else
 #include <windows.h>
+#include <shellapi.h>
+#include <shlobj.h>
 #endif
 
 #ifdef USE_KDE
-#include "sim.h"
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <kglobal.h>
 #else
 #include <qapplication.h>
-#include <qstringlist.h>
 #define I18N_NOOP(A)	(A)
 #endif
 
-MainWindow *pMain   = NULL;
-Splash     *pSplash = NULL;
+#include <qfile.h>
+#include <qdir.h>
+#include <qstringlist.h>
+
+MainWindow	*pMain   = NULL;
+Splash		*pSplash = NULL;
+LoginDialog	*pLoginDlg = NULL;
 
 #ifdef USE_KDE
 
@@ -276,6 +284,217 @@ void simMessageOutput( QtMsgType, const char *msg )
 
 #endif
 
+#ifdef WIN32
+
+bool makedir(char *p)
+{
+    char *r = strrchr(p, '\\');
+    if (r == NULL) return true;
+    *r = 0;
+    CreateDirectoryA(p, NULL);
+    *r = '\\';
+    return true;
+}
+
+#else
+
+bool makedir(char *p)
+{
+    bool res = true;
+    char *r = strrchr(p, '/');
+    if (r == NULL) return res;
+    *r = 0;
+    struct stat st;
+    if (stat(p, &st)){
+        if (makedir(p)){
+            if (mkdir(p, 0755)){
+                log(L_ERROR, "Can't create %s: %s", p, strerror(errno));
+                res = false;
+            }
+        }else{
+            res = false;
+        }
+    }else{
+        if ((st.st_mode & S_IFMT) != S_IFDIR){
+            log(L_ERROR, "%s no directory", p);
+            res = false;
+        }
+    }
+    *r = '/';
+    return res;
+}
+
+#endif
+
+#ifdef WIN32
+static BOOL (WINAPI *_SHGetSpecialFolderPath)(HWND hwndOwner, LPSTR lpszPath, int nFolder, BOOL fCreate) = NULL;
+#endif
+
+static string homeDir;
+
+string buildFileName(const char *name)
+{
+    string s = homeDir;
+    if (s.length() == 0){
+#ifndef _WINDOWS
+        struct passwd *pwd = getpwuid(getuid());
+        if (pwd){
+            s = pwd->pw_dir;
+        }else{
+            log(L_ERROR, "Can't get pwd");
+        }
+        if (s[s.size() - 1] != '/') s += '/';
+#ifndef USE_KDE
+        char *kdehome = getenv("KDEHOME");
+        if (kdehome){
+            s = kdehome;
+        }else{
+            s += ".kde/";
+        }
+        if (s.length() == 0) s += '/';
+        if (s[s.length()-1] != '/') s += '/';
+        s += "share/apps/sim/";
+#else
+        s += ".sim/";
+#endif
+#else
+        char szPath[MAX_PATH];
+        HINSTANCE hLib = LoadLibraryA("Shell32.dll");
+        if (hLib != NULL)
+            (DWORD&)_SHGetSpecialFolderPath = (DWORD)GetProcAddress(hLib,"SHGetSpecialFolderPathA");
+        if (_SHGetSpecialFolderPath && _SHGetSpecialFolderPath(NULL, szPath, CSIDL_APPDATA, true)){
+            s = szPath;
+            if (s.length()  == 0) s = "c:\\";
+            if (s[s.length() - 1] != '\\') s += '\\';
+            s += "sim\\";
+        }else{
+            s = app_file("");
+        }
+#endif
+    }
+#ifndef _WINDOWS
+    if (s[s.length() - 1] != '/') s += '/';
+#else
+    if (s[s.length() - 1] != '\\') s += '\\';
+#endif
+    homeDir = s;
+    s += name;
+    makedir((char*)s.c_str());
+    return s;
+}
+
+static string app_file_name;
+
+const char *app_file(const char *f)
+{
+    app_file_name = "";
+#ifdef WIN32
+    char buff[256];
+    GetModuleFileNameA(NULL, buff, sizeof(buff));
+    char *p = strrchr(buff, '\\');
+    if (p) *p = 0;
+    app_file_name = buff;
+    if (app_file_name.length() && (app_file_name[app_file_name.length()-1] != '\\'))
+        app_file_name += "\\";
+#else
+#ifdef USE_KDE
+    QStringList lst = KGlobal::dirs()->findDirs("data", "sim");
+    for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
+        QFile f(*it + f);
+        if (f.exists()){
+            app_file_name = (const char*)f.name().local8Bit();
+            return app_file_name.c_str();
+        }
+    }
+    if (!lst.isEmpty()){
+        app_file_name = (const char*)lst[0].local8Bit();
+    }
+#else
+    app_file_name = PREFIX "/share/apps/sim/";
+#endif
+#endif
+    app_file_name += f;
+    return app_file_name.c_str();
+}
+
+char ICQ_CONF[] = "icq.conf";
+char SIM_CONF[] = "sim.conf";
+char HISTORY[] = "history";
+char INCOMING_FILES[] = "IncomingFiles";
+
+list<unsigned long> uins;
+
+unsigned long loadUIN(const QString &name)
+{
+    QFile f(name);
+    if (!f.open(IO_ReadOnly)) return 0;
+    for (;;){
+        QString line;
+        long readn = f.readLine(line, 512);
+        if (readn < 0) return 0;
+        if (line.at(0) == '[') return 0;
+        if (line.left(4) == "UIN=")
+            return line.mid(4).toULong();
+    }
+}
+
+void rename(const char *path, const QString &prefix)
+{
+    string from = buildFileName(path);
+    string to;
+    to = prefix.local8Bit();
+    to += path;
+    to = buildFileName(to.c_str());
+    QDir d;
+    if (!d.rename(QString::fromLocal8Bit(from.c_str()), QString::fromLocal8Bit(to.c_str())))
+        log(L_WARN, "Can't rename %s to %s", from.c_str(), to.c_str());
+}
+
+void scanUIN()
+{
+    uins.clear();
+    QFile f(QString::fromLocal8Bit(buildFileName(ICQ_CONF).c_str()));
+    if (f.exists()){
+        // Need migrate
+        unsigned long uin = loadUIN(f.name());
+        if (uin){
+            QString prefix = QString::number(uin);
+#ifdef WIN32
+            prefix += "\\";
+#else
+            prefix += "/";
+#endif
+            rename(ICQ_CONF, prefix);
+            rename(SIM_CONF, prefix);
+            rename(HISTORY, prefix);
+            rename(INCOMING_FILES, prefix);
+            pSplash->LastUIN = uin;
+        }
+    }
+    QDir d(QString::fromLocal8Bit(buildFileName("").c_str()));
+    QStringList lst = d.entryList(QDir::Dirs);
+    for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
+        QString subDir = *it;
+        unsigned long uin = subDir.toULong();
+        if (uin == 0) continue;
+#ifdef WIN32
+        subDir = d.path() + "\\" + subDir + "\\";
+#else
+        subDir = d.path() + "/" + subDir + "/";
+#endif
+        subDir += ICQ_CONF;
+        QFile f(subDir);
+        if (f.exists()){
+            unsigned u = loadUIN(f.name());
+            if (u == uin){
+                uins.push_back(u);
+            }else{
+                log(L_WARN, "Bad UIN for %u", uin);
+            }
+        }
+    }
+}
+
 int main(int argc, char *argv[])
 {
     _argc = argc;
@@ -323,7 +542,6 @@ int main(int argc, char *argv[])
     SimApp app(argc, argv);
 #endif
     string ctrlSock;
-    string homeDir;
 #ifdef USE_KDE
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
     if (args->isSet("b"))
@@ -342,7 +560,6 @@ int main(int argc, char *argv[])
             ctrlSock = argv[++i];
     }
 #endif
-    MainWindow::homeDir = homeDir;
     pSplash = new Splash;
     initIcons("");
     pMain = new MainWindow;
@@ -352,9 +569,26 @@ int main(int argc, char *argv[])
         if (ctrlSock.length())
             return 1;
     }
-    if (!pMain->init())
-        return 0;
+    scanUIN();
+    unsigned startUIN = pSplash->LastUIN;
+    if (!pSplash->SavePassword) startUIN = 0;
+    if (startUIN){
+        for (list<unsigned long>::iterator it = uins.begin(); it != uins.end(); ++it)
+            if ((*it) == startUIN) break;
+        if (it == uins.end()) startUIN = 0;
+    }
     app.setMainWidget(pMain);
+    if (startUIN){
+        pClient->load(startUIN);
+        if (pClient->EncryptedPassword.length() == 0) startUIN = 0;
+    }
+    if (startUIN){
+        pMain->init();
+    }else{
+        pLoginDlg = new LoginDialog;
+        pSplash->hide();
+        pLoginDlg->show();
+    }
     pSplash->hide();
     return app.exec();
 }

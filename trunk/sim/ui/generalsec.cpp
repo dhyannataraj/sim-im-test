@@ -21,6 +21,7 @@
 #include "client.h"
 #include "ballonmsg.h"
 #include "setupdlg.h"
+#include "splash.h"
 
 #include <qlabel.h>
 #include <qradiobutton.h>
@@ -42,6 +43,7 @@ GeneralSecurity::GeneralSecurity(QWidget *p)
     chkRejectWeb->setChecked(pClient->RejectWeb);
     chkRejectEmail->setChecked(pClient->RejectEmail);
     chkRejectOther->setChecked(pClient->RejectOther);
+    chkSave->setChecked(pSplash->SavePassword);
     edtFilter->setText(QString::fromLocal8Bit(pClient->RejectFilter.c_str()));
     grpDirect->setButton(pClient->DirectMode);
     rejectToggled(chkRejectMsg->isChecked());
@@ -65,14 +67,32 @@ void GeneralSecurity::apply(ICQUser*)
         pClient->setStatus(pClient->owner->uStatus);
     pClient->setSecurityInfo(chkAuth->isChecked(), chkWeb->isChecked());
     if (edtPasswd1->text().length() == 0) return;
+    QString err;
+    QWidget *errWidget = NULL;
     if (edtPasswd1->text() != edtPasswd2->text()){
+        err = i18n("Confirm password does not match");
+        errWidget = edtPasswd2;
+    }else if (edtCurrent->text().isEmpty()){
+        err = i18n("Input current password");
+        errWidget = edtCurrent;
+    }else{
+        string s = ICQClient::cryptPassword(edtCurrent->text().local8Bit());
+        if (strcmp(s.c_str(), pClient->EncryptedPassword.c_str())){
+            err = i18n("Invalid password");
+            errWidget = edtCurrent;
+        }
+    }
+    if (!err.isEmpty()){
         tabWnd->setCurrentPage(3);
         SetupDialog *setup = static_cast<SetupDialog*>(topLevelWidget());
+        setup->raiseWidget(SETUP_GENERAL_SEC);
         setup->applyOk = false;
-        BalloonMsg::message(i18n("Confirm password does not match"), edtPasswd2, true);
+        BalloonMsg::message(err, errWidget, true);
         return;
     }
     pClient->setPassword(edtPasswd1->text().local8Bit());
+    pSplash->SavePassword = chkSave->isChecked();
+    pSplash->save();
 }
 
 void GeneralSecurity::rejectToggled(bool bOn)

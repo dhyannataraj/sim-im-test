@@ -190,23 +190,24 @@ void History::remove()
              '/',
 #endif
              m_nUin);
-    string fname;
-    pMain->buildFileName(fname, buffer);
+    string fname = pMain->getFullPath(buffer);
     unlink(fname.c_str());
 }
+
+extern char HISTORY[];
 
 bool History::open(bool bWrite, QFile &f)
 {
     char buffer[64];
-    snprintf(buffer, sizeof(buffer), "history%c%lu.history",
+    snprintf(buffer, sizeof(buffer), "%s%c%lu.history",
+             HISTORY,
 #ifdef WIN32
              '\\',
 #else
              '/',
 #endif
              m_nUin);
-    string fname;
-    pMain->buildFileName(fname, buffer);
+    string fname = pMain->getFullPath(buffer);
     f.setName(QString::fromLocal8Bit(fname.c_str()));
     if (!f.open(bWrite ? IO_ReadWrite | IO_Append : IO_ReadOnly)){
         log(L_WARN, "File %s not open", fname.c_str());

@@ -86,21 +86,27 @@ ContactList::~ContactList()
 
 ICQContactList::~ICQContactList()
 {
+    init();
+}
+
+ICQContactList::ICQContactList(ICQClient *_client)
+{
+    client = _client;
+    init();
+}
+
+void ICQContactList::init()
+{
+    Len= 0;
+    Invisible = false;
+    Time = 0;
+    Expand = true;
     for (list<ICQUser*>::iterator itUser = users.begin(); itUser != users.end(); ++itUser)
         delete *itUser;
     users.clear();
     for (vector<ICQGroup*>::iterator itGrp = groups.begin(); itGrp != groups.end(); ++itGrp)
         delete *itGrp;
     groups.clear();
-}
-
-ICQContactList::ICQContactList(ICQClient *_client)
-{
-    Len= 0;
-    Invisible = false;
-    Time = 0;
-    Expand = true;
-    client = _client;
 }
 
 unsigned short ICQContactList::getUserId(ICQUser *u, unsigned short grpId, bool bNoStore)
