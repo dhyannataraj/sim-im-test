@@ -29,7 +29,9 @@ class MiscSetup : public MiscSetupBase
 public:
     MiscSetup(QWidget *p);
 public slots:
-    void apply(ICQUser*);
+	void apply(ICQUser*);
+protected slots:
+	void clickedSync();
 };
 
 #endif

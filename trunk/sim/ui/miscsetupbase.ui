@@ -42,7 +42,7 @@
                 </property>
                 <attribute>
                     <name>title</name>
-                    <string>&amp;Miscelanious</string>
+                    <string>&amp;Miscellaneous</string>
                 </attribute>
                 <vbox>
                     <property stdset="1">

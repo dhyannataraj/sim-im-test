@@ -175,6 +175,7 @@ public:
 
     string			UrlViewer;
     string			MailClient;
+    bool	AutoSync;
 
     bool			UseTransparent;
     unsigned long	Transparent;
@@ -337,6 +338,7 @@ public:
     bool isUserInfo(unsigned long uin);
 
     void setUserBoxOnTop();
+    void saveContacts();
 signals:
     void searchChanged();
     void modeChanged(bool);
@@ -413,7 +415,6 @@ protected slots:
     void clearUserMenu();
     void networkMonitor();
     void monitorFinished();
-    void doSynchronize();
     void autoHide();
 protected:
     bool eventFilter(QObject *o, QEvent *e);
@@ -437,7 +438,6 @@ protected:
     unsigned long uinMenu;
     void setOnTop();
     void ownerChanged();
-    void saveContacts();
     void setStatusIcon(QPixmap *p);
     void addStatusItem(int status);
     void setStatusItem(int status);
