@@ -8,16 +8,16 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: th-latest2\n"
+"Project-Id-Version: th\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-05-11 21:26+0200\n"
-"PO-Revision-Date: 2004-05-22 18:33+0700\n"
+"PO-Revision-Date: 2004-06-02 10:25+0700\n"
 "Last-Translator: Narachai Sakorn <narachai@opentle.org>\n"
 "Language-Team: Thai <th@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0.2\n"
+"X-Generator: KBabel 1.3.1\n"
 
 #: plugins/__homedir/homedir.cpp:48
 msgid "Home directory"
@@ -52,7 +52,7 @@ msgstr "ไม่สามารถเปิด %1"
 #: plugins/_core/arcfg.cpp:96 plugins/_core/autoreply.cpp:111
 #: plugins/weather/wifacecfg.cpp:113
 msgid "In text you can use:"
-msgstr ""
+msgstr "ในข้อความคุณสามารถใช้:"
 
 #: plugins/_core/autoreply.cpp:48
 msgid "Autoreply message"
@@ -240,7 +240,7 @@ msgstr ""
 
 #: plugins/_core/core.cpp:695 plugins/_core/msgedit.cpp:251
 msgid "C&lose after send"
-msgstr "ปิดหลังจากการส่งเ&ร็จสิ้น"
+msgstr "ปิดหลังจากการส่งเ&สร็จสิ้น"
 
 #: plugins/_core/core.cpp:703 plugins/_core/msgedit.cpp:1006
 msgid "&Multiply send"
@@ -252,7 +252,7 @@ msgstr "สีพื้น&หลัง"
 
 #: plugins/_core/core.cpp:719 plugins/_core/core.cpp:816
 msgid "&Foreground color"
-msgstr ""
+msgstr "สีพื้ึ&นหน้า"
 
 #: plugins/_core/core.cpp:725 plugins/_core/core.cpp:822
 msgid "&Bold"
@@ -265,7 +265,7 @@ msgstr "ตัวเอี&ยง"
 #: plugins/_core/core.cpp:739 plugins/_core/core.cpp:836
 #: sim/ui/qt3/i18n.cpp:160
 msgid "&Underline"
-msgstr "ขีดเ&ส้นใต้"
+msgstr "ขีดเส้&นใต้"
 
 #: plugins/_core/core.cpp:746 plugins/_core/core.cpp:843
 msgid "Select &font"
@@ -273,7 +273,7 @@ msgstr "เลือกรูปแ&บบอักษร"
 
 #: plugins/_core/core.cpp:753
 msgid "Select &file"
-msgstr "เ&ลือกแฟ้ม"
+msgstr "เลือกแฟ้&ม"
 
 #: plugins/_core/core.cpp:761
 msgid "&Phone number"
@@ -286,7 +286,7 @@ msgstr "ถัดไ&ป"
 
 #: plugins/_core/core.cpp:776
 msgid "&Direction"
-msgstr ""
+msgstr "โดย&ตรง"
 
 #: plugins/_core/core.cpp:785 plugins/filter/filter.cpp:129
 msgid "&Filter"
@@ -294,7 +294,7 @@ msgstr "ตัว&กรอง"
 
 #: plugins/_core/core.cpp:793
 msgid "&Previous page"
-msgstr "หน้า&ก่อนหน้า"
+msgstr "หน้าก่อ&นหน้า"
 
 #: plugins/_core/core.cpp:801
 msgid "&Next page"
@@ -302,7 +302,7 @@ msgstr "หน้าถัดไ&ป"
 
 #: plugins/_core/core.cpp:865
 msgid "&Open message"
-msgstr "เปิด&อ่านข้อความ"
+msgstr "เปิ&ดอ่านข้อความ"
 
 #: plugins/_core/core.cpp:882 plugins/_core/core.cpp:971
 #: plugins/netmonitor/monitor.cpp:67 sim/ui/qt3/qtextedit.cpp:4238
@@ -311,7 +311,7 @@ msgstr "คัด&ลอก"
 
 #: plugins/_core/core.cpp:888
 msgid "&Delete message"
-msgstr "ลบ&ข้อความ"
+msgstr "&ลบข้อความ"
 
 #: plugins/_core/core.cpp:894
 msgid "&Cut history"
@@ -323,7 +323,7 @@ msgstr "อ้า&งถึง"
 
 #: plugins/_core/core.cpp:916 plugins/forward/forward.cpp:65
 msgid "&Forward"
-msgstr "&ส่งต่อ"
+msgstr "ส่&งต่อ"
 
 #: plugins/_core/core.cpp:931
 msgid "&Answer"
@@ -331,15 +331,15 @@ msgstr "ตอบ&กลับ"
 
 #: plugins/_core/core.cpp:946 sim/ui/qt3/qtextedit.cpp:4231
 msgid "&Undo"
-msgstr "เรียก&คืนการกระทำ"
+msgstr "เรียกคืนการ&กระทำ"
 
 #: plugins/_core/core.cpp:957 sim/ui/qt3/qtextedit.cpp:4232
 msgid "&Redo"
-msgstr "ทำ&ซ้ำ"
+msgstr "ทำซ้ำ"
 
 #: plugins/_core/core.cpp:964 sim/ui/qt3/qtextedit.cpp:4237
 msgid "Cu&t"
-msgstr "&ตัด"
+msgstr "ตั&ด"
 
 #: plugins/_core/core.cpp:978 sim/ui/qt3/qtextedit.cpp:4240
 msgid "&Paste"
@@ -374,7 +374,7 @@ msgstr "&SMS"
 
 #: plugins/_core/core.cpp:1039 plugins/_core/core.cpp:1070
 msgid "Show &offline"
-msgstr "แสดงคู่สนทนาที่ออฟไลน์"
+msgstr "แสดงคู่สนทนาที่&ออฟไลน์"
 
 #: plugins/_core/core.cpp:1051
 msgid "&No show groups"
@@ -382,15 +382,15 @@ msgstr "ห้ามแ&สดงกลุ่ม"
 
 #: plugins/_core/core.cpp:1061
 msgid "Group mode 1"
-msgstr ""
+msgstr "กลุ่มโหมด 1"
 
 #: plugins/_core/core.cpp:1066
 msgid "Group mode 2"
-msgstr ""
+msgstr "กลุ่มโหมด 2"
 
 #: plugins/_core/core.cpp:1077
 msgid "Show &empty groups"
-msgstr "แสดงกลุ่มที่&ว่าง"
+msgstr "แสดงกลุ่มที่ว่า&ง"
 
 #: plugins/_core/core.cpp:1084
 msgid "&Create group"
@@ -451,7 +451,7 @@ msgstr "&อยู่"
 
 #: plugins/_core/core.cpp:1282
 msgid "&Busy"
-msgstr "ไม่&ว่าง"
+msgstr "ไม่ว่า&ง"
 
 #: plugins/_core/core.cpp:1298
 msgid "Decline file without reason"
@@ -472,7 +472,7 @@ msgstr "ใส่เหตุผลที่ปฏิเสธ"
 #: plugins/_core/core.cpp:1321 plugins/_core/core.cpp:1335
 #: plugins/netmonitor/monitor.cpp:69
 msgid "&Edit"
-msgstr "แ&ก้ไข"
+msgstr "แก้ไ&ข"
 
 #: plugins/_core/core.cpp:1360
 msgid "&Show all encodings"
@@ -492,7 +492,7 @@ msgstr "ข้&อมูล"
 
 #: plugins/_core/core.cpp:1415
 msgid "Send &message"
-msgstr "ส่ง&ข้อความ"
+msgstr "ส่งข้อ&ความ"
 
 #: plugins/_core/core.cpp:1645
 msgid "ip-address"
@@ -1217,7 +1217,7 @@ msgstr "รายงานจุด&บกพร่อง"
 
 #: plugins/about/about.cpp:71
 msgid "&About SIM"
-msgstr "เกี่&ยวกับ SIM"
+msgstr "เกี่ยวกับ &SIM"
 
 #: plugins/about/about.cpp:78
 msgid "About &KDE"
@@ -1590,7 +1590,7 @@ msgstr "ห้ามรบกวน"
 
 #: plugins/icq/icq.cpp:155
 msgid "Occupied"
-msgstr ""
+msgstr "ติดธุระ"
 
 #: plugins/icq/icq.cpp:170 plugins/jabber/jabber.cpp:146
 msgid "Free for chat"
@@ -1618,7 +1618,7 @@ msgstr "ตรวจสอบคู่สนทนาที่&มองไม�
 
 #: plugins/icq/icq.cpp:474
 msgid "&All"
-msgstr "&ทั้งหมด"
+msgstr "ทั้ง&หมด"
 
 #: plugins/icq/icq.cpp:483
 msgid "&Only invisible"
@@ -1845,7 +1845,7 @@ msgstr ""
 
 #: plugins/icq/icqicmb.cpp:187
 msgid "Message was too large"
-msgstr ""
+msgstr "ข้อความใหญ่เกินไป"
 
 #: plugins/icq/icqicmb.cpp:190
 msgid "Message rate exceeded"
@@ -1853,7 +1853,7 @@ msgstr ""
 
 #: plugins/icq/icqicmb.cpp:196
 msgid "We are to evil :("
-msgstr ""
+msgstr "พวกเรากำลังจะเป็นปีศาจร้าย :("
 
 #: plugins/icq/icqicmb.cpp:681 plugins/jabber/jabber_rosters.cpp:2198
 msgid "File transfer declined"
@@ -1873,7 +1873,7 @@ msgstr "ไคลเอ็นต์ออฟไลน์"
 
 #: plugins/icq/icqicmb.cpp:981
 msgid "Directory"
-msgstr ""
+msgstr "ไดเรกทอรี"
 
 #: plugins/icq/icqicmb.cpp:985 plugins/icq/icqicmb.cpp:991
 #, c-format
@@ -1882,15 +1882,15 @@ msgstr "แฟ้ม %n"
 
 #: plugins/icq/icqicmb.cpp:1272 plugins/icq/warndlg.cpp:66
 msgid "Send fail"
-msgstr ""
+msgstr "การส่งล้มเหลว"
 
 #: plugins/icq/icqicmb.cpp:1489
 msgid "Send timeout"
-msgstr ""
+msgstr "หมดเวลาในการส่ง"
 
 #: plugins/icq/icqicmb.cpp:1637
 msgid "No contact"
-msgstr ""
+msgstr "ไม่มีคู่สนทนา"
 
 #: plugins/icq/icqicmb.cpp:1661 plugins/icq/icqmessage.cpp:1053
 #: plugins/jabber/jabberclient.cpp:2258
@@ -2007,7 +2007,7 @@ msgstr "UIN ของคุณกำลังถูกใช้จากที�
 
 #: plugins/icq/icqlogin.cpp:291
 msgid "Close packet from server"
-msgstr ""
+msgstr "แพ็กเก็ตถูกปิดจากเซิร์ฟเวอร์"
 
 #: plugins/icq/icqlogin.cpp:298
 msgid "Bad host address"
@@ -2023,11 +2023,11 @@ msgstr ""
 
 #: plugins/icq/icqmessage.cpp:594 plugins/icq/icqmessage.cpp:850
 msgid "Request secure channel"
-msgstr ""
+msgstr "ร้องขอช่องที่ปลอดภัย"
 
 #: plugins/icq/icqmessage.cpp:615 plugins/icq/icqmessage.cpp:857
 msgid "Close secure channel"
-msgstr ""
+msgstr "ปิดช่องที่ปลอดภ้ย"
 
 #: plugins/icq/icqmessage.cpp:636 plugins/icq/icqmessage.cpp:864
 msgid "Check invisible"
@@ -2356,23 +2356,23 @@ msgstr ""
 
 #: plugins/icq/interestsinfo.cpp:132
 msgid "Retail stores"
-msgstr ""
+msgstr "ร้านค้าปลีก"
 
 #: plugins/icq/interestsinfo.cpp:133
 msgid "Health and beauty"
-msgstr ""
+msgstr "สุขภาพและความงาม"
 
 #: plugins/icq/interestsinfo.cpp:134
 msgid "Media"
-msgstr ""
+msgstr "สื่อ"
 
 #: plugins/icq/interestsinfo.cpp:135
 msgid "Household products"
-msgstr ""
+msgstr "ผลิตภัณฑ์จากครัวเรือน"
 
 #: plugins/icq/interestsinfo.cpp:136
 msgid "Mail order catalog"
-msgstr ""
+msgstr "สั่งสินค้าจากแค็ตตาล็อก"
 
 #: plugins/icq/interestsinfo.cpp:137
 msgid "Business services"
@@ -2384,15 +2384,15 @@ msgstr ""
 
 #: plugins/icq/interestsinfo.cpp:139
 msgid "Sporting and athletic"
-msgstr ""
+msgstr "กีฬา"
 
 #: plugins/icq/interestsinfo.cpp:140
 msgid "Publishing"
-msgstr ""
+msgstr "สิ่งพิมพ์"
 
 #: plugins/icq/interestsinfo.cpp:141
 msgid "Home automation"
-msgstr ""
+msgstr "อุตสาหกรรมในครัวเรือน"
 
 #: plugins/icq/moreinfo.cpp:88 sim/api/contacts.cpp:1964
 #: sim/api/contacts.cpp:1965
@@ -2409,7 +2409,7 @@ msgstr ""
 
 #: plugins/icq/moreinfo.cpp:92
 msgid "Cantonese"
-msgstr ""
+msgstr "ชาวจีนกวางตุ้ง"
 
 #: plugins/icq/moreinfo.cpp:95
 msgid "Croatian"
@@ -2417,7 +2417,7 @@ msgstr ""
 
 #: plugins/icq/moreinfo.cpp:97
 msgid "Danish"
-msgstr ""
+msgstr "ชาวเดนมาร์ก"
 
 #: plugins/icq/moreinfo.cpp:100 sim/api/contacts.cpp:1971
 msgid "Esperanto"
@@ -2425,7 +2425,7 @@ msgstr ""
 
 #: plugins/icq/moreinfo.cpp:101
 msgid "Estonian"
-msgstr ""
+msgstr "ชาวเอสโตเนีย"
 
 #: plugins/icq/moreinfo.cpp:102
 msgid "Farsi"
@@ -2554,23 +2554,23 @@ msgstr ""
 
 #: plugins/icq/pastinfo.cpp:76
 msgid "Elementary School"
-msgstr ""
+msgstr "โรงเรียนระดับประถมศึกษา"
 
 #: plugins/icq/pastinfo.cpp:77
 msgid "High School"
-msgstr ""
+msgstr "โรงเรียนมัธยมศึกษาตอนปลาย"
 
 #: plugins/icq/pastinfo.cpp:78
 msgid "College"
-msgstr ""
+msgstr "วิทยาลัย"
 
 #: plugins/icq/pastinfo.cpp:79
 msgid "University"
-msgstr ""
+msgstr "มหาวิทยาลัย"
 
 #: plugins/icq/pastinfo.cpp:80 plugins/icq/workinfo.cpp:90
 msgid "Military"
-msgstr ""
+msgstr "ทหาร"
 
 #: plugins/icq/pastinfo.cpp:81
 msgid "Past Work Place"
@@ -2582,7 +2582,7 @@ msgstr ""
 
 #: plugins/icq/pastinfo.cpp:83 plugins/icq/pastinfo.cpp:110
 msgid "Other"
-msgstr ""
+msgstr "อื่นๆ"
 
 #: plugins/icq/pastinfo.cpp:91
 msgid "Alumni Org."
@@ -2602,7 +2602,7 @@ msgstr ""
 
 #: plugins/icq/pastinfo.cpp:95
 msgid "Cultural Org."
-msgstr ""
+msgstr "องค์กรเกี่ยวกับวัฒนธรรม"
 
 #: plugins/icq/pastinfo.cpp:96
 msgid "Fan Clubs"
@@ -2618,11 +2618,11 @@ msgstr ""
 
 #: plugins/icq/pastinfo.cpp:99
 msgid "International Org."
-msgstr ""
+msgstr "องค์กรระหว่างประเทศ"
 
 #: plugins/icq/pastinfo.cpp:100
 msgid "Nature and Environment Org."
-msgstr ""
+msgstr "องค์กรสภาพแวดล้อมและสิ่งแวดล้อม"
 
 #: plugins/icq/pastinfo.cpp:101
 msgid "Professional Org."
@@ -2642,7 +2642,7 @@ msgstr ""
 
 #: plugins/icq/pastinfo.cpp:105
 msgid "Sports Org."
-msgstr ""
+msgstr "องค์กรเกี่ยวกับกีฬา"
 
 #: plugins/icq/pastinfo.cpp:106
 msgid "Support Org."
@@ -2650,7 +2650,7 @@ msgstr ""
 
 #: plugins/icq/pastinfo.cpp:107
 msgid "Trade and Business Org."
-msgstr ""
+msgstr "องค์ธุรกิจและการค้า"
 
 #: plugins/icq/pastinfo.cpp:108
 msgid "Union"
@@ -2666,7 +2666,7 @@ msgstr ""
 
 #: plugins/icq/workinfo.cpp:73
 msgid "Academic"
-msgstr ""
+msgstr "สถาบันการศึกษา"
 
 #: plugins/icq/workinfo.cpp:74
 msgid "Administrative"
@@ -2674,11 +2674,11 @@ msgstr ""
 
 #: plugins/icq/workinfo.cpp:75
 msgid "Art/Entertainment"
-msgstr ""
+msgstr "ศิลปะ/ความบันเทิง"
 
 #: plugins/icq/workinfo.cpp:76
 msgid "College Student"
-msgstr ""
+msgstr "นักเรียนวิทยาลัย"
 
 #: plugins/icq/workinfo.cpp:78
 msgid "Community & Social"
@@ -2686,7 +2686,7 @@ msgstr ""
 
 #: plugins/icq/workinfo.cpp:79
 msgid "Education"
-msgstr ""
+msgstr "การศึกษา"
 
 #: plugins/icq/workinfo.cpp:80
 msgid "Engineering"
@@ -2694,39 +2694,39 @@ msgstr ""
 
 #: plugins/icq/workinfo.cpp:81
 msgid "Financial Services"
-msgstr ""
+msgstr "บริการจัดการทางการเงิน"
 
 #: plugins/icq/workinfo.cpp:83
 msgid "High School Student"
-msgstr ""
+msgstr "นักเรียนมัธยมปลาย"
 
 #: plugins/icq/workinfo.cpp:84
 msgid "Home"
-msgstr ""
+msgstr "บ้าน"
 
 #: plugins/icq/workinfo.cpp:86
 msgid "Law"
-msgstr ""
+msgstr "กฎหมาย"
 
 #: plugins/icq/workinfo.cpp:87
 msgid "Managerial"
-msgstr ""
+msgstr "การจัดการ"
 
 #: plugins/icq/workinfo.cpp:88
 msgid "Manufacturing"
-msgstr ""
+msgstr "อุตสาหกรรมการผลิต"
 
 #: plugins/icq/workinfo.cpp:89
 msgid "Medical/Health"
-msgstr ""
+msgstr "การแพทย์/สุขภาพ"
 
 #: plugins/icq/workinfo.cpp:91
 msgid "Non-Goverment Organisation"
-msgstr ""
+msgstr "ไม่ใช่องค์ของรัฐ"
 
 #: plugins/icq/workinfo.cpp:92
 msgid "Other services"
-msgstr ""
+msgstr "บริการอื่นๆ"
 
 #: plugins/icq/workinfo.cpp:93
 msgid "Professional"
@@ -2742,7 +2742,7 @@ msgstr ""
 
 #: plugins/icq/workinfo.cpp:96
 msgid "Science & Research"
-msgstr ""
+msgstr "วิจัยวิทยาศาสตร์"
 
 #: plugins/icq/workinfo.cpp:98
 msgid "Technical"
@@ -2750,11 +2750,11 @@ msgstr ""
 
 #: plugins/icq/workinfo.cpp:99
 msgid "University student"
-msgstr ""
+msgstr "นักศึกษาระดับมหาวิทยาลัย"
 
 #: plugins/icq/workinfo.cpp:100
 msgid "Web building"
-msgstr ""
+msgstr "สร้างเว็บไซต์"
 
 #: plugins/jabber/discoinfo.cpp:64
 msgid "Units"
@@ -2813,7 +2813,7 @@ msgstr "โหมดเบราเซอร์"
 
 #: plugins/jabber/jabber.cpp:348
 msgid "Load one level"
-msgstr ""
+msgstr "โหลดระดับหนึ่ง"
 
 #: plugins/jabber/jabber.cpp:359
 msgid "Load all levels"
@@ -2825,7 +2825,7 @@ msgstr "รหัสผ่านไม่ถูกต้อง"
 
 #: plugins/jabber/jabber_rosters.cpp:2066
 msgid "Low level network error"
-msgstr ""
+msgstr "เครือข่ายระดับล่างผิดพลาด"
 
 #: plugins/jabber/jabber_rosters.cpp:2919
 msgid "Please translate this to short language name (ru, de)"
@@ -2847,7 +2847,7 @@ msgstr "เสร็จสิ้น"
 
 #: plugins/jabber/jabberbrowser.cpp:248
 msgid "Client offline"
-msgstr ""
+msgstr "ไคลเอ็นต์ออฟไลน์"
 
 #: plugins/jabber/jabberbrowser.cpp:255
 msgid "Stop"
@@ -2855,15 +2855,15 @@ msgstr "หยุด"
 
 #: plugins/jabber/jabberbrowser.cpp:478
 msgid "%1 Register"
-msgstr ""
+msgstr "ลงทะเบียน %1"
 
 #: plugins/jabber/jabberbrowser.cpp:485
 msgid "%1 Configure"
-msgstr ""
+msgstr "ตั้งค่า %1"
 
 #: plugins/jabber/jabberbrowser.cpp:976
 msgid "Choose a user and password to register with the server"
-msgstr ""
+msgstr "เลือกชื่อผู้ใช้และรหัสผ่านที่ต้องการจะลงทะเบียนกับเซิร์ฟเวอร์"
 
 #: plugins/jabber/jabberclient.cpp:1483 plugins/jabber/jabberclient.cpp:1592
 msgid "Photo"
@@ -2871,7 +2871,7 @@ msgstr "รูปภาพ"
 
 #: plugins/jabber/jabberclient.cpp:1498 plugins/jabber/jabberclient.cpp:1607
 msgid "Logo"
-msgstr ""
+msgstr "สัญลักษณ์"
 
 #: plugins/jabber/jabberclient.cpp:2787 plugins/jabber/jabberclient.cpp:2828
 #: plugins/msn/msnclient.cpp:2943 plugins/yahoo/yahooclient.cpp:2379
@@ -2897,7 +2897,7 @@ msgstr "<p>หัวข้อ: %1</p>"
 
 #: plugins/jabber/jabbermessage.cpp:121
 msgid "Original message:"
-msgstr ""
+msgstr "ข้อความต้นฉบับ:"
 
 #: plugins/jabber/jabbermessage.cpp:158 plugins/jabber/jabbermessage.cpp:214
 msgid "Log On"
@@ -2913,7 +2913,7 @@ msgstr "รูป&ภาพ"
 
 #: plugins/jabber/jabberpicture.cpp:47
 msgid "&Logo"
-msgstr ""
+msgstr "สั&ญลักษณ์"
 
 #: plugins/jabber/jabbersearch.cpp:101 plugins/jabber/jabbersearch.cpp:308
 msgid "Username"
@@ -2933,15 +2933,15 @@ msgstr "ออนไลน์เท่านั้น"
 
 #: plugins/jabber/jabbersearch.cpp:295
 msgid "First (Given)"
-msgstr ""
+msgstr "ชื่อ"
 
 #: plugins/jabber/jabbersearch.cpp:296
 msgid "Last (Family)"
-msgstr ""
+msgstr "นามสกุล"
 
 #: plugins/jabber/jabbersearch.cpp:297
 msgid "Nick (Alias)"
-msgstr ""
+msgstr "ชื่อเล่น (นามแฝง)"
 
 #: plugins/jabber/jabbersearch.cpp:298
 msgid "Email"
@@ -3009,7 +3009,7 @@ msgstr ""
 
 #: plugins/jabber/jabbersearch.cpp:315
 msgid "Enter nick you want to register."
-msgstr ""
+msgstr "ใส่ชื่อเล่นที่คุณต้องการจะลงทะเบียน"
 
 #: plugins/jabber/jabbersearch.cpp:316
 msgid ""
@@ -3063,7 +3063,7 @@ msgstr "วันเกิด"
 
 #: plugins/jabber/jidsearch.cpp:181
 msgid "Organization Name"
-msgstr ""
+msgstr "ชื่อองค์กร"
 
 #: plugins/jabber/jidsearch.cpp:182
 msgid "Organization Unit"
@@ -3076,167 +3076,167 @@ msgstr ""
 #: plugins/livejournal/livejournal.cpp:111
 #: plugins/livejournal/livejournal.cpp:252
 msgid "Friends updated"
-msgstr ""
+msgstr "ปรับปรุงเพื่อนแล้ว"
 
 #: plugins/livejournal/livejournal.cpp:128
 msgid "&Remove from journal"
-msgstr ""
+msgstr "&ลบออกจาก journal"
 
 #: plugins/livejournal/livejournal.cpp:232
 msgid "LiveJournal &post"
-msgstr ""
+msgstr "โ&พสต์บน LiveJournal"
 
 #: plugins/livejournal/livejournal.cpp:242
 msgid "LiveJournal &WWW"
-msgstr ""
+msgstr "LiveJournal &WWW"
 
 #: plugins/livejournal/livejournal.cpp:296
 msgid "LiveJournal"
-msgstr ""
+msgstr "LiveJournal"
 
 #: plugins/livejournal/livejournal.cpp:622
 msgid "Posting failed"
-msgstr ""
+msgstr "การโพสต์ล้มเหลว"
 
 #: plugins/livejournal/livejournal.cpp:1376
 msgid "Invalid username"
-msgstr ""
+msgstr "ชื่อผู้ใช้ไม่ถูกต้อง"
 
 #: plugins/livejournal/livejournal.cpp:1378
 msgid "aggravated"
-msgstr ""
+msgstr "ยั่วยุ"
 
 #: plugins/livejournal/livejournal.cpp:1379
 msgid "angry"
-msgstr ""
+msgstr "โกรธ"
 
 #: plugins/livejournal/livejournal.cpp:1380
 msgid "annoyed"
-msgstr ""
+msgstr "รำคาญ"
 
 #: plugins/livejournal/livejournal.cpp:1381
 msgid "anxious"
-msgstr ""
+msgstr "วิตกกังวล"
 
 #: plugins/livejournal/livejournal.cpp:1382
 msgid "bored"
-msgstr ""
+msgstr "น่าเบื่อ"
 
 #: plugins/livejournal/livejournal.cpp:1383
 msgid "confused"
-msgstr ""
+msgstr "สับสน"
 
 #: plugins/livejournal/livejournal.cpp:1384
 msgid "crappy"
-msgstr ""
+msgstr "ไม่มีประโยชน์"
 
 #: plugins/livejournal/livejournal.cpp:1385
 msgid "cranky"
-msgstr ""
+msgstr "แปลกประหลาด"
 
 #: plugins/livejournal/livejournal.cpp:1386
 msgid "depressed"
-msgstr ""
+msgstr "เศร้าสลด"
 
 #: plugins/livejournal/livejournal.cpp:1387
 msgid "discontent"
-msgstr ""
+msgstr "ไม่พอใจ"
 
 #: plugins/livejournal/livejournal.cpp:1388
 msgid "energetic"
-msgstr ""
+msgstr "กระฉับกระเฉง"
 
 #: plugins/livejournal/livejournal.cpp:1389
 msgid "enraged"
-msgstr ""
+msgstr "โมโห"
 
 #: plugins/livejournal/livejournal.cpp:1390
 msgid "enthralled"
-msgstr ""
+msgstr "หลงใหล"
 
 #: plugins/livejournal/livejournal.cpp:1391
 msgid "exhausted"
-msgstr ""
+msgstr "เหน็ดเหนื่อย"
 
 #: plugins/livejournal/livejournal.cpp:1392
 msgid "happy"
-msgstr ""
+msgstr "มีความสุข"
 
 #: plugins/livejournal/livejournal.cpp:1393
 msgid "high"
-msgstr ""
+msgstr "ร่าเริง"
 
 #: plugins/livejournal/livejournal.cpp:1394
 msgid "horny"
-msgstr ""
+msgstr "เต็มไปด้วยราคะ"
 
 #: plugins/livejournal/livejournal.cpp:1395
 msgid "hungry"
-msgstr ""
+msgstr "หิวโหย"
 
 #: plugins/livejournal/livejournal.cpp:1396
 msgid "infuriated"
-msgstr ""
+msgstr "กราดเกรี้ยว"
 
 #: plugins/livejournal/livejournal.cpp:1397
 msgid "irate"
-msgstr ""
+msgstr "โมโหร้าย"
 
 #: plugins/livejournal/livejournal.cpp:1398
 msgid "jubilant"
-msgstr ""
+msgstr "ปีติยินดี"
 
 #: plugins/livejournal/livejournal.cpp:1399
 msgid "lonely"
-msgstr ""
+msgstr "เปล่าเปลี่ยว"
 
 #: plugins/livejournal/livejournal.cpp:1400
 msgid "moody"
-msgstr ""
+msgstr "หงุดหงิด"
 
 #: plugins/livejournal/livejournal.cpp:1401
 msgid "pissed off"
-msgstr ""
+msgstr "โกรธมาก"
 
 #: plugins/livejournal/livejournal.cpp:1402
 msgid "sad"
-msgstr ""
+msgstr "เสียใจ"
 
 #: plugins/livejournal/livejournal.cpp:1403
 msgid "satisfied"
-msgstr ""
+msgstr "พอใจ"
 
 #: plugins/livejournal/livejournal.cpp:1404
 msgid "sore"
-msgstr ""
+msgstr "เจ็บปวด"
 
 #: plugins/livejournal/livejournal.cpp:1405
 msgid "stressed"
-msgstr ""
+msgstr "ตึงเครียด"
 
 #: plugins/livejournal/livejournal.cpp:1406
 msgid "thirsty"
-msgstr ""
+msgstr "กระหายน้ำ"
 
 #: plugins/livejournal/livejournal.cpp:1407
 msgid "thoughtful"
-msgstr ""
+msgstr "ครุ่นคิด"
 
 #: plugins/livejournal/livejournal.cpp:1408
 msgid "tired"
-msgstr ""
+msgstr "เหน็ดเหนื่อย"
 
 #: plugins/livejournal/livejournal.cpp:1409
 msgid "touched"
-msgstr ""
+msgstr "ประทับใจ"
 
 #: plugins/livejournal/livejournal.cpp:1410
 msgid "lazy"
-msgstr ""
+msgstr "เชื่องช้า"
 
 #: plugins/livejournal/livejournal.cpp:1411
 msgid "drunk"
-msgstr ""
+msgstr "มึนเมา"
 
 #: plugins/livejournal/livejournal.cpp:1412
 msgid "ditzy"
@@ -3244,167 +3244,167 @@ msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1413
 msgid "mischievous"
-msgstr ""
+msgstr "ซุกซน"
 
 #: plugins/livejournal/livejournal.cpp:1414
 msgid "morose"
-msgstr ""
+msgstr "อารมณ์ขุ่นมัว"
 
 #: plugins/livejournal/livejournal.cpp:1415
 msgid "gloomy"
-msgstr ""
+msgstr "เศร้าหมอง"
 
 #: plugins/livejournal/livejournal.cpp:1416
 msgid "melancholy"
-msgstr ""
+msgstr "เศร้าโศก"
 
 #: plugins/livejournal/livejournal.cpp:1417
 msgid "drained"
-msgstr ""
+msgstr "อ่อนเพลีย"
 
 #: plugins/livejournal/livejournal.cpp:1418
 msgid "excited"
-msgstr ""
+msgstr "ตื่นเต้นดีใจ"
 
 #: plugins/livejournal/livejournal.cpp:1419
 msgid "relieved"
-msgstr ""
+msgstr "ปลดเปลื้อง"
 
 #: plugins/livejournal/livejournal.cpp:1420
 msgid "hopeful"
-msgstr ""
+msgstr "มีความหวัง"
 
 #: plugins/livejournal/livejournal.cpp:1421
 msgid "amused"
-msgstr ""
+msgstr "อารมณ์ขบขัน"
 
 #: plugins/livejournal/livejournal.cpp:1422
 msgid "determined"
-msgstr ""
+msgstr "ดื้อดึง"
 
 #: plugins/livejournal/livejournal.cpp:1423
 msgid "scared"
-msgstr ""
+msgstr "น่ากลัวมาก"
 
 #: plugins/livejournal/livejournal.cpp:1424
 msgid "frustrated"
-msgstr ""
+msgstr "ท้อแท้"
 
 #: plugins/livejournal/livejournal.cpp:1425
 msgid "indescribable"
-msgstr ""
+msgstr "เกินกว่าจะพรรณนา"
 
 #: plugins/livejournal/livejournal.cpp:1426
 msgid "sleepy"
-msgstr ""
+msgstr "ง่วงนอน"
 
 #: plugins/livejournal/livejournal.cpp:1427
 msgid "groggy"
-msgstr ""
+msgstr "มึนงง"
 
 #: plugins/livejournal/livejournal.cpp:1428
 msgid "hyper"
-msgstr ""
+msgstr "คลั่ง"
 
 #: plugins/livejournal/livejournal.cpp:1429
 msgid "relaxed"
-msgstr ""
+msgstr "ผ่อนคลาย"
 
 #: plugins/livejournal/livejournal.cpp:1430
 msgid "restless"
-msgstr ""
+msgstr "กระสับกระส่าย"
 
 #: plugins/livejournal/livejournal.cpp:1431
 msgid "disappointed"
-msgstr ""
+msgstr "ผิดหวัง"
 
 #: plugins/livejournal/livejournal.cpp:1432
 msgid "curious"
-msgstr ""
+msgstr "อยากรู้อยากเห็น"
 
 #: plugins/livejournal/livejournal.cpp:1433
 msgid "mellow"
-msgstr ""
+msgstr "เบิกบาน"
 
 #: plugins/livejournal/livejournal.cpp:1434
 msgid "peaceful"
-msgstr ""
+msgstr "เงียบสงบ"
 
 #: plugins/livejournal/livejournal.cpp:1435
 msgid "bouncy"
-msgstr ""
+msgstr "กระฉับกระเฉง"
 
 #: plugins/livejournal/livejournal.cpp:1436
 msgid "nostalgic"
-msgstr ""
+msgstr "คิดถึงบ้าน"
 
 #: plugins/livejournal/livejournal.cpp:1437
 msgid "okay"
-msgstr ""
+msgstr "ใช้ได้"
 
 #: plugins/livejournal/livejournal.cpp:1438
 msgid "rejuvenated"
-msgstr ""
+msgstr "กระปรี้กระเปร่า"
 
 #: plugins/livejournal/livejournal.cpp:1439
 msgid "complacent"
-msgstr ""
+msgstr "พึงพอใจ"
 
 #: plugins/livejournal/livejournal.cpp:1440
 msgid "content"
-msgstr ""
+msgstr "พึงพอใจ"
 
 #: plugins/livejournal/livejournal.cpp:1441
 msgid "indifferent"
-msgstr ""
+msgstr "ไม่เอาใจใส่"
 
 #: plugins/livejournal/livejournal.cpp:1442
 msgid "silly"
-msgstr ""
+msgstr "ไร้สาระ"
 
 #: plugins/livejournal/livejournal.cpp:1443
 msgid "flirty"
-msgstr ""
+msgstr "ทำเล่นๆ"
 
 #: plugins/livejournal/livejournal.cpp:1444
 msgid "calm"
-msgstr ""
+msgstr "สงบ"
 
 #: plugins/livejournal/livejournal.cpp:1445
 msgid "refreshed"
-msgstr ""
+msgstr "สดชื่น"
 
 #: plugins/livejournal/livejournal.cpp:1446
 msgid "optimistic"
-msgstr ""
+msgstr "คาดหวังสิ่งที่ดี"
 
 #: plugins/livejournal/livejournal.cpp:1447
 msgid "pessimistic"
-msgstr ""
+msgstr "มองโลกในแง่ร้าย"
 
 #: plugins/livejournal/livejournal.cpp:1448
 msgid "giggly"
-msgstr ""
+msgstr "หัวเราะคิกคัก"
 
 #: plugins/livejournal/livejournal.cpp:1449
 msgid "pensive"
-msgstr ""
+msgstr "ครุ่นคิด"
 
 #: plugins/livejournal/livejournal.cpp:1450
 msgid "uncomfortable"
-msgstr ""
+msgstr "อึดอัด"
 
 #: plugins/livejournal/livejournal.cpp:1451
 msgid "lethargic"
-msgstr ""
+msgstr "เฉื่อยชา"
 
 #: plugins/livejournal/livejournal.cpp:1452
 msgid "listless"
-msgstr ""
+msgstr "ไม่มีชีวิตชีวา"
 
 #: plugins/livejournal/livejournal.cpp:1453
 msgid "recumbent"
-msgstr ""
+msgstr "เอกเขนก"
 
 #: plugins/livejournal/livejournal.cpp:1454
 msgid "exanimate"
@@ -3672,15 +3672,15 @@ msgstr "ลงทะเบียนผู้ใช้ใหม่"
 
 #: plugins/livejournal/msgjournal.cpp:153
 msgid "Remove record from journal?"
-msgstr ""
+msgstr "คุณแน่ใจหรือไม่ที่จะลบรายการออกจาก journal?"
 
 #: plugins/logger/logconfig.cpp:94
 msgid "Debug"
-msgstr ""
+msgstr "ดีบั๊ก"
 
 #: plugins/logger/logconfig.cpp:95
 msgid "Packets"
-msgstr ""
+msgstr "แพ็กเก็ต"
 
 #: plugins/logger/logconfig.cpp:96 plugins/sound/soundconfig.cpp:68
 msgid "Events"
@@ -3701,7 +3701,7 @@ msgstr ""
 
 #: plugins/logger/logger.cpp:80
 msgid "Set debug level"
-msgstr ""
+msgstr "ตั้งระดับการดีบั๊ก"
 
 #: plugins/msn/msn.cpp:63
 msgid "MSN"
@@ -3784,11 +3784,11 @@ msgstr "คัดลอกที่&อยู่"
 #: plugins/netmonitor/monitor.cpp:51 plugins/netmonitor/netmonitor.cpp:35
 #: plugins/netmonitor/netmonitor.cpp:91
 msgid "Network monitor"
-msgstr ""
+msgstr "การใช้งานเครือข่าย"
 
 #: plugins/netmonitor/monitor.cpp:60 sim/ui/qt3/i18n.cpp:95
 msgid "&Save"
-msgstr "&บันทึก"
+msgstr "บั&นทึก"
 
 #: plugins/netmonitor/monitor.cpp:61 plugins/netmonitor/monitor.cpp:112
 msgid "&Pause"
@@ -3800,11 +3800,11 @@ msgstr "&ออก"
 
 #: plugins/netmonitor/monitor.cpp:68
 msgid "&Erase"
-msgstr ""
+msgstr "&ลบ"
 
 #: plugins/netmonitor/monitor.cpp:74
 msgid "&Log"
-msgstr "&บันทึกการใช้งาน"
+msgstr "บันทึกการใช้&งาน"
 
 #: plugins/netmonitor/monitor.cpp:89
 msgid "Can't create file %1"
@@ -3812,23 +3812,23 @@ msgstr "ไม่สามารถสร้างแฟ้ม %1"
 
 #: plugins/netmonitor/monitor.cpp:112
 msgid "&Resume"
-msgstr ""
+msgstr "ทำ&งานต่อ"
 
 #: plugins/netmonitor/monitor.cpp:157
 msgid "&Debug"
-msgstr ""
+msgstr "ดีบั๊&ก"
 
 #: plugins/netmonitor/monitor.cpp:158
 msgid "&Warnings"
-msgstr "คำเ&ตือน"
+msgstr "คำเตือ&น"
 
 #: plugins/netmonitor/monitor.cpp:159
 msgid "&Errors"
-msgstr "ข้อ&ผิดพลาด"
+msgstr "ข้อผิด&พลาด"
 
 #: plugins/netmonitor/monitor.cpp:160
 msgid "&Packets"
-msgstr ""
+msgstr "แพ็&กเก็ต"
 
 #: plugins/netmonitor/netmonitor.cpp:36
 msgid ""
@@ -3838,11 +3838,11 @@ msgstr ""
 
 #: plugins/netmonitor/netmonitor.cpp:102
 msgid "Show network monitor"
-msgstr ""
+msgstr "แสดงการใช้งานเครือข่าย"
 
 #: plugins/ontop/ontop.cpp:45
 msgid "On Top"
-msgstr ""
+msgstr "อยู่ด้านบน"
 
 #: plugins/ontop/ontop.cpp:46
 msgid "Plugin provides main window and containers always on top"
@@ -3850,7 +3850,7 @@ msgstr ""
 
 #: plugins/ontop/ontop.cpp:81
 msgid "Always on top"
-msgstr ""
+msgstr "อยู่ด้านบนเสมอ7"
 
 #: plugins/osd/osd.cpp:70
 msgid "OSD"
@@ -4018,7 +4018,7 @@ msgstr "ปลั๊กอินนี้จะรวบรวมเสียง
 
 #: plugins/sound/sound.cpp:129 plugins/sound/sound.cpp:137
 msgid "&Sound"
-msgstr "เ&สียง"
+msgstr "เสีย&ง"
 
 #: plugins/sound/soundconfig.cpp:50
 msgid ""
@@ -5654,11 +5654,11 @@ msgstr "แ&ดง:"
 
 #: sim/ui/qt3/i18n.cpp:9
 msgid "&Green:"
-msgstr "เ&ขียว:"
+msgstr "เขีย&ว:"
 
 #: sim/ui/qt3/i18n.cpp:11
 msgid "Bl&ue:"
-msgstr "&น้ำเงิน:"
+msgstr "น้ำเงิ&น:"
 
 #: sim/ui/qt3/i18n.cpp:13
 msgid "A&lpha channel:"
@@ -5714,7 +5714,7 @@ msgstr "มอง&หาใน:"
 
 #: sim/ui/qt3/i18n.cpp:51
 msgid "File &name:"
-msgstr "ชื่อแ&ฟ้ม:"
+msgstr "ชื่อแฟ้&ม:"
 
 #: sim/ui/qt3/i18n.cpp:53
 msgid "File &type:"
@@ -5794,15 +5794,15 @@ msgstr "บันทึกเป็น"
 
 #: sim/ui/qt3/i18n.cpp:93
 msgid "&Open"
-msgstr "เ&ปิด"
+msgstr "เปิ&ด"
 
 #: sim/ui/qt3/i18n.cpp:101
 msgid "R&eload"
-msgstr "เ&รียกใหม่"
+msgstr "เรีย&กใหม่"
 
 #: sim/ui/qt3/i18n.cpp:103
 msgid "Sort by &Name"
-msgstr "เรียงตาม&ชื่อ"
+msgstr "เรียงตามชื่&อ"
 
 #: sim/ui/qt3/i18n.cpp:105
 msgid "Sort by &Size"
@@ -5810,7 +5810,7 @@ msgstr "เรียงตาม&ขนาด"
 
 #: sim/ui/qt3/i18n.cpp:107
 msgid "Sort by &Date"
-msgstr "เรียงตาม&วันที่"
+msgstr "เรียงตามวั&นที่"
 
 #: sim/ui/qt3/i18n.cpp:109
 msgid "&Unsorted"
@@ -5846,7 +5846,7 @@ msgstr "<qt>คุณแน่ใจหรือไม่ที่จะลบ %
 
 #: sim/ui/qt3/i18n.cpp:129
 msgid "New Folder 1"
-msgstr ""
+msgstr "โฟลเดอร์ใหม่ 1"
 
 #: sim/ui/qt3/i18n.cpp:131
 msgid "New Folder"
@@ -5888,7 +5888,7 @@ msgstr "แ&บบอักษร"
 
 #: sim/ui/qt3/i18n.cpp:152
 msgid "Font st&yle"
-msgstr "ลักษณะ&อักษร"
+msgstr "ลักษณะอัก&ษร"
 
 #: sim/ui/qt3/i18n.cpp:154
 msgid "&Size"
@@ -5904,7 +5904,7 @@ msgstr "ขีด&กลาง"
 
 #: sim/ui/qt3/i18n.cpp:162
 msgid "&Color"
-msgstr "&สี"
+msgstr "สี"
 
 #: sim/ui/qt3/i18n.cpp:164
 msgid "Sample"
@@ -6077,7 +6077,7 @@ msgstr "วาง"
 
 #: sim/ui/qt3/i18n.cpp:259
 msgid "&Left"
-msgstr "&ซ้าย"
+msgstr "ซ้า&ย"
 
 #: sim/ui/qt3/i18n.cpp:261
 msgid "&Right"
@@ -6089,7 +6089,7 @@ msgstr "ด้าน&บน"
 
 #: sim/ui/qt3/i18n.cpp:265
 msgid "&Bottom"
-msgstr "ด้าน&ล่าง"
+msgstr "ด้านล่า&ง"
 
 #: sim/ui/qt3/i18n.cpp:267
 msgid "R&estore"
@@ -6097,7 +6097,7 @@ msgstr "เรีย&กคืน"
 
 #: sim/ui/qt3/i18n.cpp:269
 msgid "&Hide"
-msgstr "&ซ่อน"
+msgstr "ซ่อ&น"
 
 #: sim/ui/qt3/i18n.cpp:271
 msgid "Line Up Toolbars (compact)"
@@ -6121,11 +6121,11 @@ msgstr "เรีย&กคืน"
 
 #: sim/ui/qt3/i18n.cpp:281
 msgid "&Move"
-msgstr "&ย้าย"
+msgstr "ย้า&ย"
 
 #: sim/ui/qt3/i18n.cpp:283
 msgid "Mi&nimize"
-msgstr "&ย่อหน้าต่าง"
+msgstr "ย่อ&หน้าต่าง"
 
 #: sim/ui/qt3/i18n.cpp:285
 msgid "Ma&ximize"
@@ -6133,7 +6133,7 @@ msgstr "&ขยายหน้าต่าง"
 
 #: sim/ui/qt3/i18n.cpp:289
 msgid "&Roll up"
-msgstr "&ม้วนขึ้น"
+msgstr "ม้ว&นขึ้น"
 
 #: sim/ui/qt3/i18n.cpp:291
 msgid "Minimize"
