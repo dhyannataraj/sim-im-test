@@ -44,6 +44,7 @@ icq_la_SOURCES = \
  aimconfigbase.ui \
  aimsearch.cpp \
  aimsearchbase.ui \
+ aimservices.cpp \
  rtfgen.cpp \
  rtf.ll \
  xml.cpp

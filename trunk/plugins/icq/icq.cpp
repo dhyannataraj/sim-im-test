@@ -362,21 +362,22 @@ Protocol *ICQPlugin::m_aim = NULL;
 void qInitJpeg();
 #endif
 
+ICQPlugin *ICQPlugin::icq_plugin = NULL;
+
 ICQPlugin::ICQPlugin(unsigned base, const char *cfg)
         : Plugin(base)
 {
 #ifdef WIN32
     qInitJpeg();
 #endif
+    icq_plugin = this;
 
     load_data(icqData, &data, cfg);
 
-    ICQPacket = registerType();
-    getContacts()->addPacketType(ICQPacket, icq_descr.text);
+    OscarPacket = registerType();
+    getContacts()->addPacketType(OscarPacket, "Oscar");
     ICQDirectPacket = registerType();
     getContacts()->addPacketType(ICQDirectPacket, "ICQ.Direct");
-    AIMPacket = registerType();
-    getContacts()->addPacketType(AIMPacket, aim_descr.text);
 
     IconDef icon;
     icon.name = "ICQ_online";
@@ -495,6 +496,7 @@ ICQPlugin::ICQPlugin(unsigned base, const char *cfg)
     EventAutoReplyFail = EventUser + registerType();
     EventRandomChat = EventUser + registerType();
     EventRandomChatInfo = EventUser + registerType();
+    EventServiceReady = EventUser + registerType();
     MenuEncoding = registerType();
     MenuSearchResult = registerType();
     MenuGroups = registerType();
@@ -615,9 +617,8 @@ ICQPlugin::~ICQPlugin()
     delete m_icq;
     delete m_aim;
 
-    getContacts()->removePacketType(ICQPacket);
+    getContacts()->removePacketType(OscarPacket);
     getContacts()->removePacketType(ICQDirectPacket);
-    getContacts()->removePacketType(AIMPacket);
 
     Event eVisible(EventCommandRemove, (void*)CmdVisibleList);
     eVisible.process();

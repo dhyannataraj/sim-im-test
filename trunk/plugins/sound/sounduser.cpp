@@ -22,7 +22,6 @@
 #include "core.h"
 
 #include <qcheckbox.h>
-#include <qpainter.h>
 #include <qlabel.h>
 #include <qlineedit.h>
 #include <qlayout.h>

@@ -386,8 +386,28 @@ typedef struct ar_request
 } ar_request;
 
 class DirectSocket;
+class ServiceSocket;
 
-class ICQClient : public TCPClient, public EventReceiver
+class OscarSocket
+{
+public:
+    OscarSocket();
+    virtual ~OscarSocket();
+protected:
+    virtual ClientSocket *socket() = 0;
+    virtual void packet() = 0;
+    void sendPacket();
+    void flap(char channel);
+    void snac(unsigned short fam, unsigned short type, bool msgId=false, bool bType=true);
+    void connect_ready();
+    void packet_ready();
+    bool m_bHeader;
+    char m_nChannel;
+    unsigned short m_nSequence;
+    unsigned short m_nMsgSequence;
+};
+
+class ICQClient : public TCPClient, public EventReceiver, public OscarSocket
 {
     Q_OBJECT
 public:
@@ -450,6 +470,11 @@ public:
     void changePassword(const char *new_pswd);
     void searchChat(unsigned short);
     void randomChatInfo(unsigned long uin);
+    unsigned aimEMailSearch(const char *name);
+    unsigned aimInfoSearch(const char *first, const char *last, const char *middle,
+                           const char *maiden, const char *country, const char *street,
+                           const char *city, const char *nick, const char *zip,
+                           const char *state);
     virtual string dataName(void*);
     Message *parseMessage(unsigned short type, const char *screen,
                           string &p, Buffer &packet);
@@ -490,9 +515,9 @@ protected:
     virtual QString ownerName();
     virtual QString contactName(void *clientData);
     string  dataName(const char *screen);
-    bool            m_bHeader;
-    char            m_nChannel;
     Buffer            m_cookie;
+    virtual ClientSocket *socket();
+    virtual void packet();
     void snac_service(unsigned short, unsigned short);
     void snac_location(unsigned short, unsigned short);
     void snac_buddy(unsigned short, unsigned short);
@@ -524,17 +549,14 @@ protected:
     void fillDirectInfo(Buffer &directInfo);
     void removeFullInfoRequest(unsigned long uin);
     void send(bool bTimer);
+    void requestService(ServiceSocket*);
     unsigned long fullStatus(unsigned status);
     string cryptPassword();
     virtual void connect_ready();
     virtual void packet_ready();
     const char* error_message(unsigned short error);
-    void sendPacket();
-    void flap(char channel);
-    void snac(unsigned short fam, unsigned short type, bool msgId=false, bool bType=true);
-    unsigned short m_nSequence;
-    unsigned short m_nMsgSequence;
-    ICQListener *m_listener;
+    ICQListener		*m_listener;
+    list<ServiceSocket*> m_services;
     QTimer *m_sendTimer;
     QTimer *m_infoTimer;
     unsigned short m_infoRequestId;
@@ -566,7 +588,7 @@ protected:
     void sendPluginInfoUpdate(unsigned plugin_id);
     void sendPluginStatusUpdate(unsigned plugin_id, unsigned long status);
     bool m_bIdleTime;
-    bool hasCap(ICQUserData *data, int cap);
+    bool hasCap(ICQUserData *data, int fcap);
     string trimPhone(const char *phone);
     unsigned short getListId();
     TlvList *createListTlv(ICQUserData *data, Contact *contact);
@@ -616,6 +638,7 @@ protected:
     list<Message*>	m_acceptMsg;
     friend class FullInfoRequest;
     friend class SMSRequest;
+    friend class ServiceSocket;
     friend class DirectSocket;
     friend class DirectClient;
     friend class ICQListener;
@@ -635,6 +658,28 @@ protected:
     DirectSocket *m_dsock;
 };
 */
+
+class ServiceSocket : public ClientSocketNotify, public OscarSocket
+{
+public:
+    ServiceSocket(ICQClient*, unsigned short id);
+    ~ServiceSocket();
+    unsigned short id() { return m_id; }
+    void connect(const char *addr, unsigned short port, const char *cookie, unsigned cookie_size);
+    virtual bool error_state(const char *err, unsigned code);
+    bool connected() { return m_bConnected; }
+protected:
+    virtual void connect_ready();
+    virtual void packet_ready();
+    virtual ClientSocket *socket();
+    virtual void packet();
+    virtual void data(unsigned short fam, unsigned short type, unsigned short seq) = 0;
+    unsigned short m_id;
+    Buffer  m_cookie;
+    bool    m_bConnected;
+    ClientSocket *m_socket;
+    ICQClient *m_client;
+};
 
 class DirectSocket : public QObject, public ClientSocketNotify
 {
@@ -672,11 +717,11 @@ protected:
     void sendInit();
     void sendInitAck();
     void removeFromClient();
-    bool            m_bHeader;
     bool            m_bIncoming;
     unsigned short    m_nSequence;
     unsigned short    m_port;
     char            m_version;
+    bool			m_bHeader;
     unsigned long    m_nSessionId;
     ICQUserData        *m_data;
     ClientSocket    *m_socket;

@@ -123,7 +123,6 @@ void *OnTopPlugin::processEvent(Event *e)
             return cmd;
         }
     }
-#ifdef WIN32
     if (e->type() == EventOnTop){
         QWidget *main = getMainWindow();
         if (main == NULL) return NULL;
@@ -165,7 +164,6 @@ void *OnTopPlugin::processEvent(Event *e)
             }
         }
     }
-#endif
     return NULL;
 }
 

@@ -37,7 +37,7 @@ public slots:
     void modeChanged(int);
 protected:
 #ifndef USE_KDE
-	QStringList getLangItems();
+    QStringList getLangItems();
 #endif
     UserViewConfig	*userview_cfg;
     HistoryConfig	*history_cfg;

@@ -116,6 +116,10 @@ SOURCE=.\aimsearchbase.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\aimservices.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\homeinfo.cpp
 # End Source File
 # Begin Source File

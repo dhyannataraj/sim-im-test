@@ -458,12 +458,27 @@ unsigned long ICQClient::getUin()
     return data.owner.Uin;
 }
 
-void ICQClient::connect_ready()
+OscarSocket::OscarSocket()
+{
+    m_nSequence = rand() & 0x7FFF;
+    m_nMsgSequence = 0;
+}
+
+OscarSocket::~OscarSocket()
+{
+}
+
+void OscarSocket::connect_ready()
 {
     log(L_DEBUG, "Connect ready");
-    m_socket->readBuffer.init(6);
-    m_socket->readBuffer.packetStart();
+    socket()->readBuffer.init(6);
+    socket()->readBuffer.packetStart();
     m_bHeader = true;
+}
+
+void ICQClient::connect_ready()
+{
+    OscarSocket::connect_ready();
     TCPClient::connect_ready();
 }
 
@@ -500,6 +515,11 @@ void ICQClient::setStatus(unsigned status)
     }
 }
 
+ClientSocket *ICQClient::socket()
+{
+    return m_socket;
+}
+
 void ICQClient::setInvisible(bool bState)
 {
     if (bState != getInvisible()){
@@ -527,7 +547,7 @@ void ICQClient::disconnected()
         ICQUserData *data;
         ClientDataIterator it(contact->clientData, this);
         while ((data = (ICQUserData*)(++it)) != NULL){
-            if (data->Status != ICQ_STATUS_OFFLINE){
+            if ((data->Status != ICQ_STATUS_OFFLINE) || data->bInvisible){
                 setOffline(data);
                 StatusMessage m;
                 m.setContact(contact->id());
@@ -550,7 +570,10 @@ void ICQClient::disconnected()
     m_advCounter = 0;
     m_nUpdates = 0;
     m_nSendTimeout = 1;
-    m_nSequence = rand() & 0x7FFF;
+    while (!m_services.empty()){
+        ServiceSocket *s = m_services.front();
+        delete s;
+    }
 }
 
 const char *icq_error_codes[] = {I18N_NOOP("Unknown error"),
@@ -587,27 +610,37 @@ const char* ICQClient::error_message(unsigned short error)
     return icq_error_codes[error];
 }
 
-void ICQClient::packet_ready()
+void OscarSocket::packet_ready()
 {
     if (m_bHeader){
         char c;
-        m_socket->readBuffer >> c;
+        socket()->readBuffer >> c;
         if (c != 0x2A){
             log(L_ERROR, "Server send bad packet start code: %02X", c);
-            m_socket->error_state(I18N_NOOP("Protocol error"));
+            socket()->error_state(I18N_NOOP("Protocol error"));
             return;
         }
-        m_socket->readBuffer >> m_nChannel;
+        socket()->readBuffer >> m_nChannel;
         unsigned short sequence, size;
-        m_socket->readBuffer >> sequence >> size;
+        socket()->readBuffer >> sequence >> size;
         m_bHeader = false;
         if (size){
-            m_socket->readBuffer.add(size);
+            socket()->readBuffer.add(size);
             return;
         }
     }
+    packet();
+}
+
+void ICQClient::packet_ready()
+{
+    OscarSocket::packet_ready();
+}
+
+void ICQClient::packet()
+{
     ICQPlugin *plugin = static_cast<ICQPlugin*>(protocol()->plugin());
-    log_packet(m_socket->readBuffer, false, m_bAIM ? plugin->AIMPacket : plugin->ICQPacket);
+    log_packet(m_socket->readBuffer, false, plugin->OscarPacket);
     switch (m_nChannel){
     case ICQ_CHNxNEW:
         chn_login();
@@ -675,21 +708,21 @@ void ICQClient::packet_ready()
     m_bHeader = true;
 }
 
-void ICQClient::flap(char channel)
+void OscarSocket::flap(char channel)
 {
     m_nSequence++;
-    m_socket->writeBuffer.packetStart();
-    m_socket->writeBuffer
+    socket()->writeBuffer.packetStart();
+    socket()->writeBuffer
     << (char)0x2A
     << channel
     << m_nSequence
     << 0;
 }
 
-void ICQClient::snac(unsigned short fam, unsigned short type, bool msgId, bool bType)
+void OscarSocket::snac(unsigned short fam, unsigned short type, bool msgId, bool bType)
 {
     flap(ICQ_CHNxDATA);
-    m_socket->writeBuffer
+    socket()->writeBuffer
     << fam
     << type
     << 0x0000
@@ -697,14 +730,13 @@ void ICQClient::snac(unsigned short fam, unsigned short type, bool msgId, bool b
     << (bType ? type : (unsigned short)0);
 }
 
-void ICQClient::sendPacket()
+void OscarSocket::sendPacket()
 {
-    Buffer &writeBuffer = m_socket->writeBuffer;
+    Buffer &writeBuffer = socket()->writeBuffer;
     char *packet = writeBuffer.data(writeBuffer.packetStartPos());
     *((unsigned short*)(packet + 4)) = htons(writeBuffer.size() - writeBuffer.packetStartPos() - 6);
-    ICQPlugin *plugin = static_cast<ICQPlugin*>(protocol()->plugin());
-    log_packet(m_socket->writeBuffer, true, m_bAIM ? plugin->AIMPacket : plugin->ICQPacket);
-    m_socket->write();
+    log_packet(socket()->writeBuffer, true, ICQPlugin::icq_plugin->OscarPacket);
+    socket()->write();
 }
 
 string ICQClient::cryptPassword()

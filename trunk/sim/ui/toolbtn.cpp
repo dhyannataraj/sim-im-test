@@ -458,9 +458,9 @@ void CToolCustom::setState()
     if (pos >= 0) t = t.left(pos);
     m_label->setText(t);
     if (t.isEmpty()){
-	    m_label->hide();
+        m_label->hide();
     }else{
-	    m_label->show();
+        m_label->show();
     }
 }
 

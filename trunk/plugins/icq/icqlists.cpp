@@ -568,7 +568,7 @@ ListRequest *ICQClient::findGroupListRequest(unsigned short id)
         switch ((*it).type){
         case LIST_GROUP_DELETED:
         case LIST_GROUP_CHANGED:
-            if ((*it).icq_id = id)
+            if ((*it).icq_id == id)
                 return &(*it);
             break;
         }
