@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include <kabc/stdaddressbook.h>
+#include <iostream>
 
 #include "kabcsync.h"
 #include "country.h"
@@ -40,6 +41,8 @@ bool KabcSync::open(void)
 		return false;
 		
 	m_pAB=StdAddressBook::self();
+	
+	m_bOpen=true;
 	return true;
 }
 
@@ -191,5 +194,17 @@ void KabcSync::processUser(SIMUser& u)
 
 void KabcSync::processEvent(ICQEvent* e)
 {
-
+	if (e->type()==EVENT_INFO_CHANGED)
+	{
+		SIMUser* pU=static_cast<SIMUser*>(pClient->getUser(e->Uin()));
+		if (pU!=NULL)
+		{
+			open();
+			processUser(*pU);
+			close();
+			std::cout<<"обновили, бля\n";
+		}
+	}
 }
+
+#include "kabcsync.moc"
