@@ -89,6 +89,7 @@ AutoAwayPlugin::AutoAwayPlugin(unsigned base, const char *config)
     core = static_cast<CorePlugin*>(info->plugin);
     bAway = false;
     bNA   = false;
+	bOff  = false;
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
     m_timer->start(AUTOAWAY_TIME);
