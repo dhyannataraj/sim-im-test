@@ -70,7 +70,7 @@ protected:
 #endif
     PROP_ULONG(Desktop);
     CorePlugin *core;
-    unsigned inactiveTime;
+    time_t inactiveTime;
     void init();
     DockData data;
     friend class DockCfg;

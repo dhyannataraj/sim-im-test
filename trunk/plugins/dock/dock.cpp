@@ -382,13 +382,13 @@ void DockPlugin::timer()
         return;
     if (!getAutoHide() || (inactiveTime == 0))  // no autohide
         return;
-    unsigned now;
-    time((time_t*)&now);
+    time_t now;
+    time(&now);
     if (m_main != getMainWindow()) {
         m_main = getMainWindow();
         m_main->installEventFilter(this);
     }
-    if (now > inactiveTime + getAutoHideInterval()){
+    if (now > inactiveTime + (time_t)getAutoHideInterval()){
         if (m_main){
             setShowMain(false);
             m_main->hide();
