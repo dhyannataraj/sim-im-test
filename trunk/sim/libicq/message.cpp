@@ -236,7 +236,8 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
             if (*(p.c_str()) == 0) return NULL;
             ICQMsg *msg = new ICQMsg;
             msg->Uin.push_back(uin);
-            parseMessageText(p.c_str(), msg->Message, u);
+            if (parseMessageText(p.c_str(), msg->Message, u))
+                msg->Charset = "utf-8";
             unsigned long forecolor, backcolor;
             packet >> forecolor >> backcolor;
             if (forecolor != backcolor){
@@ -592,7 +593,7 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
     return NULL;
 }
 
-void ICQClient::parseMessageText(const char *p, string &s, ICQUser *u)
+bool ICQClient::parseMessageText(const char *p, string &s, ICQUser *u)
 {
     if ((strlen(p) >= 5) && !memcmp(p, "{\\rtf", 5)){
         string r(p);
@@ -601,10 +602,11 @@ void ICQClient::parseMessageText(const char *p, string &s, ICQUser *u)
         log(L_DEBUG, "2<< %s", r.c_str());
         s = parseRTF(r.c_str(), u);
         log(L_DEBUG, "3<< %s", s.c_str());
-        return;
+        return true;
     }
     s = quoteText(p);
     fromServer(s, u);
+    return false;
 }
 
 static string replace_all(const string& s, const string& r1, const string& r2) {
@@ -924,7 +926,7 @@ void ICQClient::messageReceived(ICQMessage *msg)
         delete msg;
         return;
     }
-    if (bAddUser){
+    if (bAddUser && (u->GrpId() == 0)){
         string text;
         switch (msg->Type()){
         case ICQ_MSGxMSG:{
@@ -944,10 +946,18 @@ void ICQClient::messageReceived(ICQMessage *msg)
         }
         u = getUser(msg->getUin(), true);
     }
-    if (u->Encoding.length()){
-        msg->Charset = u->Encoding;
-    }else{
-        msg->Charset = Encoding;
+    if (msg->Charset.length() == 0){
+        msg->Charset = localCharset(u);
+    }else if (msg->Type() == ICQ_MSGxMSG){
+        ICQMsg *m = static_cast<ICQMsg*>(msg);
+        const char *encoding = localCharset(u);
+        string msg_text = m->Message;
+        fromUTF(msg_text, encoding);
+        toUTF(msg_text, encoding);
+        if (msg_text == m->Message){
+            fromUTF(m->Message, encoding);
+            m->Charset = encoding;
+        }
     }
     time_t now;
     time(&now);

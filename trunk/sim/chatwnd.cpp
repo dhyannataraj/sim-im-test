@@ -183,8 +183,9 @@ void ChatWindow::sendLine()
         int pos = clientString.find("&gt;");
         clientString = chatHeader(chat->getUin()) + clientString.mid(pos+4);
     }
+    UTFstring txt = s.utf8();
     QString line = chatHeader(0) +
-                   MainWindow::ParseText(sLineSend.c_str(), false, pClient->codecForUser(uin)) +
+                   MainWindow::ParseText(txt, false) +
                    "<br>\n";
     txtChat->insertParagraph(br + line, -1);
     if (bClientMode)
@@ -286,9 +287,9 @@ void ChatWindow::processEvent(ICQEvent *e)
             }
             txtChat->insertParagraph("<br>", -1);
             txtChat->moveCursor(QTextEdit::MoveEnd, false);
-            string clStr = pClient->to8Bit(uin, clientString);
+            UTFstring txt = clientString.utf8();
             QString line = chatHeader(uin) +
-                           MainWindow::ParseText(clStr.c_str(), false, pClient->codecForUser(uin)) + "<br>\n";
+                           MainWindow::ParseText(txt, false) + "<br>\n";
             txtChat->append(line);
             txtChat->scrollToBottom();
             txtChat->moveCursor(QTextEdit::MoveEnd, false);
@@ -385,7 +386,7 @@ void ChatWindow::setFgColor()
     QColor c = edtChat->color();
     if (KColorDialog::getColor(c, this) != KColorDialog::Accepted) return;
 #else
-    QColor c = QColorDialog::getColor(edtChat->color(), this);
+QColor c = QColorDialog::getColor(edtChat->color(), this);
     if (!c.isValid()) return;
 #endif
     edtChat->setColor(c);

@@ -128,13 +128,7 @@ static bool eq(const char *s1, const char *s2)
     return (*s1 == 0) && (*s2 == 0);
 }
 
-typedef struct rtf_charset
-{
-	const char *name;
-	int			rtf_code;
-} charset;
-
-static rtf_charset rtf_charsets[] =
+static rtf_charset _rtf_charsets[] =
 {
         { "CP 1251", 204 },
         { "KOI8-R", 204 },
@@ -151,6 +145,8 @@ static rtf_charset rtf_charsets[] =
         { "ISO 8859-2", 238 },
 		{ "", 0 }
 };
+
+const rtf_charset *rtf_charsets = _rtf_charsets;
 
 string ICQClient::createRTF(const UTFstring &text, unsigned long foreColor, const char *encoding)
 {
@@ -217,9 +213,9 @@ string ICQClient::createRTF(const UTFstring &text, unsigned long foreColor, cons
 					res += *p;					
 				}
 			}else{
-				char *p = yytext;
-				int c = 0;
-				int b = *p++;
+				unsigned char *p = (unsigned char*)yytext;
+				unsigned c = 0;
+				unsigned b = *p++;
 				if (b <= 0x7F){
 					c = b;
 				}else if ((b & 0xE0) == 0xC0){
@@ -269,7 +265,7 @@ string ICQClient::createRTF(const UTFstring &text, unsigned long foreColor, cons
 					c |= b & 0x3F;
 				}
 				if (c){
-					char b[12];
+					char b[20];
 					snprintf(b, sizeof(b), "\\u%u?", c);
 					res += b;
 				}
@@ -281,7 +277,7 @@ string ICQClient::createRTF(const UTFstring &text, unsigned long foreColor, cons
         case SYMBOL:{
                 string s = yytext;
                 if (s.length() && (s[s.length() - 1] == ';')){
-                    s = s.substr(1, s.length() - 1);
+                    s = s.substr(1, s.length() - 2);
                 }else{
                     s = s.substr(1);
                 }

@@ -48,7 +48,7 @@
 "<br>"							{ return BR; }
 "<p>"							{ }
 "</p>"							{ return BR; }
-"<"							{ BEGIN(x_tag); return TAG; }
+"<"								{ BEGIN(x_tag); return TAG; }
 <x_tag>">"						{ BEGIN(INITIAL); return TAG_END; }
 <x_tag>.						{ return TAG; }
 :\-?\)+							{ return SMILE; }
@@ -67,7 +67,12 @@
 8\-\)+							{ return SMILE+0xD; }
 [0O]\-\)+						{ return SMILE+0xE; }
 :\-D							{ return SMILE+0xF; }
-.							{ return TXT; }
+[\xC0-\xDF][\x80-\xBF]			{ return TXT; }
+[\xE0-\xEF][\x00-\xFF]{2}		{ return TXT; }
+[\xF0-\xF7][\x00-\xFF]{3}		{ return TXT; }
+[\xF8-\xFB][\x00-\xFF]{4}		{ return TXT; }
+[\xFC-\xFD][\x00-\xFF]{5}		{ return TXT; }
+.								{ return TXT; }
 %%
 
 #ifdef WIN32
@@ -94,22 +99,20 @@ static const tag_def defs[] =
         { "", 0 }
     };
 
-QString MainWindow::ParseText(const char *text, bool bIgnoreColors, QTextCodec *codec)
+QString MainWindow::ParseText(const UTFstring &text, bool bIgnoreColors)
 {
-	if (text == NULL) return "";
-    yy_current_buffer = yy_scan_string(text);
-    QString res;
+	if (text.size() == 0) return "";
+    yy_current_buffer = yy_scan_string(text.c_str());
+    string res;
     string tag;
     stack<tag_def> tags;
     for (;;){
         int r = yylex();
         if (!r) break;
         switch (r){
-        case TXT:{
-			string text = yytext;
-            res += Client::from8Bit(codec, text);
+        case TXT:
+			res += yytext;
             break;
-		}
         case TAG:
             tag += yytext;
             break;
@@ -163,9 +166,9 @@ QString MainWindow::ParseText(const char *text, bool bIgnoreColors, QTextCodec *
 			string url = ICQClient::unquoteText(yytext);
 			string text = yytext;
             res += "<a href=\"";
-            res += Client::from8Bit(codec, url);
+            res += url.c_str();
             res += "\">";
-            res += Client::from8Bit(codec, url);
+            res += url.c_str();
             res += "</a>";
             break;
 		}
@@ -192,7 +195,7 @@ QString MainWindow::ParseText(const char *text, bool bIgnoreColors, QTextCodec *
 
     yy_delete_buffer(yy_current_buffer);
     yy_current_buffer = NULL;
-    return res;
+    return QString::fromUtf8(res.c_str());
 }
 
 

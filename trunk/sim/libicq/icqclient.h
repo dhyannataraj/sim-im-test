@@ -130,13 +130,6 @@ const unsigned long  UIN_SPECIAL    = 0xF0000000L;
 const unsigned short USER_TYPE_ICQ	= 0;
 const unsigned short USER_TYPE_EXT  = 1;
 
-class UTFstring : public string
-{
-public:
-    UTFstring();
-    UTFstring(const char*);
-};
-
 class ICQGroup : public ConfigArray
 {
 public:
@@ -1015,6 +1008,12 @@ typedef struct list_req
     bool bSet;
 } list_req;
 
+typedef struct rtf_charset
+{
+    const char *name;
+    int			rtf_code;
+} charset;
+
 bool operator == (const list_req &r1, const list_req &r2);
 
 typedef unsigned char capability[0x10];
@@ -1146,6 +1145,9 @@ public:
 
     void setRejectFilter(const char*);
 
+    static bool fromUTF(string &s, const char *encoding);
+    static bool toUTF(string &s, const char *encoding);
+
 protected:
     ICQListener *listener;
 
@@ -1259,7 +1261,7 @@ protected:
     void parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAck, unsigned long t1, unsigned long t2);
     ICQMessage *parseMessage(unsigned short type, unsigned long uin, string &p, Buffer &b,
                              unsigned short cookie1, unsigned short cookie2, unsigned long timestamp1, unsigned long timestamp2);
-    void parseMessageText(const char *packet, string &msg, ICQUser *u);
+    bool parseMessageText(const char *packet, string &msg, ICQUser *u);
     bool parseFE(const char *str, vector<string> &l, unsigned n);
 
     unsigned m_nPacketStart;
@@ -1294,9 +1296,6 @@ protected:
     void sendPhoneStatus();
 
     static const char *serverCharset(const char *l=NULL);
-
-    static bool fromUTF(string &s, const char *encoding);
-    static bool toUTF(string &s, const char *encoding);
 
     string makeMessageText(ICQMsg *msg, ICQUser *u);
 

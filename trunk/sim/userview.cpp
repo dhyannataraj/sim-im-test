@@ -992,14 +992,18 @@ void UserView::contentsDropEvent(QDropEvent *e)
 void UserView::callUserFunction(unsigned long uin, const QString &url)
 {
     QString protocol;
-    int p = url.find(QRegExp("^[a-z]+:/"));
+    int p = url.find(QRegExp("^\"?[A-Za-z]+:/"));
     if (p >= 0){
         p = url.find(':');
         protocol = url.left(p);
     }
+    if (protocol[0] == '\"')
+        protocol = protocol.mid(1);
     if ((protocol == "http") || (protocol == "https") || (protocol == "ftp")){
         pMain->userFunction(uin, mnuURL, (unsigned long)&url);
     }else if (protocol.length()){
+        pMain->userFunction(uin, mnuFile, (unsigned long)&url);
+    }else if ((url.left(2) == "\\\\") || (url.left(3) == "\"\\\\")){
         pMain->userFunction(uin, mnuFile, (unsigned long)&url);
     }else if (url.length()){
         pMain->userFunction(uin, mnuMessage, (unsigned long)&url);

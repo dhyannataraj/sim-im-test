@@ -465,6 +465,17 @@ void MsgEdit::processEvent(ICQEvent *e)
     if (e->message() && (e->message() == message())){
         if (e->type() == EVENT_MESSAGE_SEND){
             if (e->state == ICQEvent::Success){
+                if ((message()->Type() == ICQ_MSGxMSG) && (message()->Charset == "utf-8")){
+                    ICQMsg *m = static_cast<ICQMsg*>(message());
+                    QTextCodec *codec = pClient->codecForUser(Uin());
+                    string msg_text = m->Message;
+                    Client::fromUTF(msg_text, codec->name());
+                    Client::toUTF(msg_text, codec->name());
+                    if (msg_text == m->Message){
+                        Client::fromUTF(m->Message, codec->name());
+                        m->Charset = codec->name();
+                    }
+                }
                 history()->addMessage(message());
                 if (!msgTail.isEmpty()){
                     if (msgView){
@@ -1449,7 +1460,8 @@ void MsgEdit::makeMessage()
     switch (msg->Type()){
     case ICQ_MSGxMSG:{
             ICQMsg *m = static_cast<ICQMsg*>(msg);
-            m->Message = pClient->to8Bit(Uin(), edit->text());
+            m->Message = edit->text().utf8();
+            m->Charset = "utf-8";
             if (edit->colorChanged()){
                 m->BackColor = (edit->background().rgb() & 0xFFFFFF);
                 m->ForeColor = (edit->foreground().rgb() & 0xFFFFFF);
@@ -1514,7 +1526,8 @@ void MsgEdit::makeMessage()
         log(L_WARN, "Bad message type %u", msg->Type());
         return;
     }
-    msg->Charset = pClient->codecForUser(Uin())->name();
+    if (msg->Charset.length() == 0)
+        msg->Charset = pClient->codecForUser(Uin())->name();
     if (bMultiply){
         msg->Uin.clear();
         UserBox *box = static_cast<UserBox*>(topLevelWidget());

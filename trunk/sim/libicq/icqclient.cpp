@@ -626,7 +626,7 @@ UTFstring::UTFstring()
 
 UTFstring::UTFstring(const char *p)
 {
-    if (p) *this = p;
+    if (p) *((string*)this) = p;
 }
 
 

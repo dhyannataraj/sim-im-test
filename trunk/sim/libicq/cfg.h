@@ -58,6 +58,13 @@ using namespace std;
 #endif
 #endif
 
+class UTFstring : public string
+{
+public:
+    UTFstring();
+    UTFstring(const char*);
+};
+
 class ConfigArray;
 
 class ConfigValue

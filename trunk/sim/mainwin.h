@@ -280,7 +280,7 @@ public:
 
     virtual void setBackgroundPixmap(const QPixmap&);
 
-    static QString ParseText(const char *t, bool bIgnoreColors, QTextCodec *codec);
+    static QString ParseText(const UTFstring &t, bool bIgnoreColors);
 
     static const char *sound(const char *wav);
 

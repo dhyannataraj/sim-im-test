@@ -67,8 +67,8 @@ protected slots:
     void searchAgain(int);
     void encodingChanged(unsigned long);
 protected:
-    unsigned long m_nUin;
     QTextCodec *codec;
+    unsigned long m_nUin;
     void keyPressEvent( QKeyEvent *e );
     virtual QPopupMenu *createPopupMenu(const QPoint&);
     TransparentBg *bg;
