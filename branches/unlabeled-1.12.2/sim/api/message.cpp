@@ -367,8 +367,9 @@ string FileMessage::save()
 QString FileMessage::presentation()
 {
     QString res = getDescription();
-    res += " ";
     unsigned size = getSize();
+	if (size){
+    res += " ";
     if (size >= 1024 * 1024){
         res += i18n("%1 Mbytes") .arg(size / (1024 * 1024));
     }else if (size >= 1024){
@@ -376,6 +377,7 @@ QString FileMessage::presentation()
     }else{
         res += i18n("%1 bytes") .arg(size);
     }
+	}
     QString text = getText();
     if (text.length()){
         res += "<br>";

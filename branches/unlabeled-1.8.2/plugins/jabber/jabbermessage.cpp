@@ -179,6 +179,24 @@ static MessageDef defJabberOffline =
         NULL
     };
 
+static DataDef jabberMessageFileData[] =
+    {
+        { "Host", DATA_STRING, 1, 0 },
+        { "Port", DATA_ULONG, 1, 0 },
+        { NULL, 0, 0, 0 }
+    };
+
+JabberFileMessage::JabberFileMessage(const char *cfg)
+        : FileMessage(MessageFile, cfg)
+{
+    load_data(jabberMessageFileData, &data, cfg);
+}
+
+JabberFileMessage::~JabberFileMessage()
+{
+    free_data(jabberMessageFileData, &data);
+}
+
 void JabberPlugin::registerMessages()
 {
     Command cmd;
