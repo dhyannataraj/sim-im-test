@@ -38,8 +38,7 @@ ICQSecure::ICQSecure(QWidget *parent, ICQClient *client)
 
 void ICQSecure::deleteVisibleItem(QListViewItem *item)
 {
-    Contact *contact = getContacts()->contact(item->text(0).toUInt());
-    log(L_DEBUG,"contact: %s, %u",item->text(0).ascii(),item->text(0).toUInt());
+    Contact *contact = getContacts()->contact(item->text(4).toUInt());
     if (contact) {
         ICQUserData *data;
         ClientDataIterator it(contact->clientData);
@@ -53,8 +52,7 @@ void ICQSecure::deleteVisibleItem(QListViewItem *item)
 
 void ICQSecure::deleteInvisibleItem(QListViewItem *item)
 {
-    Contact *contact = getContacts()->contact(item->text(0).toUInt());
-    log(L_DEBUG,"contact: %s, %u",item->text(0).ascii(),item->text(0).toUInt());
+    Contact *contact = getContacts()->contact(item->text(4).toUInt());
     if (contact) {
         ICQUserData *data;
         ClientDataIterator it(contact->clientData);
@@ -111,6 +109,10 @@ void *ICQSecure::processEvent(Event *e)
     if (e->type() == EventClientChanged){
         if ((Client*)(e->param()) == m_client)
             fill();
+    }
+    if (e->type() == EventContactChanged){
+        fillListView(lstVisible, offsetof(ICQUserData, VisibleId));
+        fillListView(lstInvisible, offsetof(ICQUserData, InvisibleId));
     }
     return NULL;
 }
@@ -177,7 +179,12 @@ void ICQSecure::fillListView(ListView *lst, unsigned offs)
                         mails += ", ";
                     mails += mailItem;
                 }
-                QListViewItem *item = new ListViewItem(lst, QString::number(data->Uin.value), contact->getName(), firstName, mails);
+                QListViewItem *item = new QListViewItem(lst);
+                item->setText(0,QString::number(data->Uin.value));
+                item->setText(1,contact->getName());
+                item->setText(2,firstName);
+                item->setText(3,mails);
+                item->setText(4,QString::number(contact->id()));
                 unsigned long status = STATUS_UNKNOWN;
                 unsigned style  = 0;
                 const char *statusIcon;
