@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2003-09-17 08:46+0400\n"
-"PO-Revision-Date: 2003-09-15 18:35GMT\n"
+"PO-Revision-Date: 2003-09-17 22:10GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +21,7 @@ msgstr "Persönliches Verzeichnis"
 #: plugins/__homedir/homedir.cpp:47
 msgid "Plugin provides select directory for store config files"
 msgstr ""
-"Das Plugin stellt das Auswählen eines Verzeichnisses zum Speichern\n"
+"Plugin stellt Auswahl eines Verzeichnisses zum Speichern"
 "der Konfigurationsdateien zur Verfügung"
 
 #: plugins/__homedir/homedir.cpp:90
@@ -35,8 +35,8 @@ msgstr "Konvertieren"
 #: plugins/__migrate/migrate.cpp:36
 msgid "Plugin provides convert configuration and history from SIM 0.8"
 msgstr ""
-"Plugin sorgt für die Konvertierung der Konfiguration und des Verlaufs von "
-"SIM 0.8"
+"Plugin stellt die Konvertierung der Konfiguration und des Verlaufs von "
+"SIM 0.8 bereit"
 
 #: plugins/__migrate/migratedlg.cpp:77
 msgid "Cancel convert?"
@@ -158,7 +158,6 @@ msgid "Customize toolbar..."
 msgstr "Werkzeugleiste anpassen..."
 
 #: plugins/_core/connectionsettings.cpp:32
-#, fuzzy
 msgid "Configure %1 client"
 msgstr "Client %1 konfigurieren"
 
@@ -405,7 +404,6 @@ msgid "&Delete"
 msgstr "&Löschen"
 
 #: plugins/_core/core.cpp:906
-#, fuzzy
 msgid "Show &always"
 msgstr "Immer &anzeigen"
 
@@ -1409,8 +1407,7 @@ msgstr "Typ:"
 
 #: plugins/_core/searchbase.cc:74 plugins/_core/searchbase.cpp:74
 msgid "Choose type of contact which you want to find or add:"
-msgstr ""
-"Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
+msgstr "Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
 
 #: plugins/_core/searchbase.cc:75 plugins/_core/searchbase.cpp:75
 msgid "Contact type:"
@@ -1629,8 +1626,8 @@ msgstr "Automatischer Weg-Status"
 #: plugins/autoaway/autoaway.cpp:55
 msgid "Plugin provides set away and N/A status after some idle time"
 msgstr ""
-"Das Plugin setzt den Status \"Weg\" und \"N/A\" nach einer bestimmten Zeit "
-"der Nichtbenutzung"
+"Plugin stellt automatischen Statuswechsel nach Status \"Weg\" und \"N/A\" nach einer bestimmten Zeit "
+"der Nichtbenutzung bereit"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:121
 msgid "Set \"Away\" status after"
@@ -1650,8 +1647,7 @@ msgstr "\"N/A\"-Status setzen wenn"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:125
 #: plugins/sound/soundconfigbase.cpp:166
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -1663,8 +1659,8 @@ msgstr "Hintergrund"
 #: plugins/background/background.cpp:35
 msgid "Plugin provides background pictures for user list"
 msgstr ""
-"Dieses Plugin ermöglicht das Einfügen von Hintergrundbildern für die "
-"Benutzerliste"
+"Plugin stellt das Einfügen von Hintergrundbildern für die "
+"Benutzerliste bereit"
 
 #: plugins/background/bkgndcfg.cpp:45
 msgid "Select background picture"
@@ -1724,7 +1720,7 @@ msgstr "Kontrollleistensymbol"
 
 #: plugins/dock/dock.cpp:47
 msgid "Plugin provides dock main window in system tray"
-msgstr "Das Plugin sorgt für das Anzeigen des Symbols in der Kontrollleiste"
+msgstr "Plugin stellt Docking des Hauptfensters in der Kontrollleiste bereit"
 
 #: plugins/dock/dock.cpp:49 plugins/windock/windock.cpp:36
 msgid "Dock"
@@ -1732,7 +1728,7 @@ msgstr "Docking"
 
 #: plugins/dock/dock.cpp:50
 msgid "Plugin provides dock icon"
-msgstr "Das Plugin sorgt für das Anzeigen eines Symbols in der Kontrollleiste"
+msgstr "Plugin stellt Anzeigen eines Symbols in der Kontrollleiste bereit"
 
 #: plugins/dock/dock.cpp:107 sim/sim.cpp:182
 msgid "SIM"
@@ -1786,8 +1782,7 @@ msgstr "Nachrichten nur von &Benutzern der Kontaktliste empfangen"
 
 #: plugins/filter/filtercfgbase.cpp:98
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: plugins/filter/filtercfgbase.cpp:99
 msgid ""
@@ -1809,8 +1804,7 @@ msgstr "Floatings"
 
 #: plugins/floaty/floaty.cpp:44
 msgid "Plugin provides floating windows for contacts"
-msgstr ""
-"Das Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
+msgstr "Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
 
 #: plugins/floaty/floaty.cpp:91 plugins/floaty/floaty.cpp:165
 msgid "Floating on"
@@ -1826,12 +1820,11 @@ msgstr "Weiterleiten"
 
 #: plugins/forward/forward.cpp:32
 msgid "Plugin provides messages forwarding on cellular"
-msgstr "Dieses Plugin aktiviert die Nachrichtenweiterleitung an Handys"
+msgstr "Plugin stellt Nachrichtenweiterleitung an Handys bereit"
 
 #: plugins/forward/forwardcfgbase.cpp:102
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-"Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
 
 #: plugins/forward/forwardcfgbase.cpp:103
 msgid ""
@@ -1853,7 +1846,7 @@ msgstr "Icons"
 
 #: plugins/icons/icon.cpp:38
 msgid "Plugin provides Miranda icons themes and emoticons"
-msgstr "Das Plugin unterstützt Miranda-Icon-Themen und Emoticons"
+msgstr "Plugin stellt Miranda-Icon-Themen und Emoticons bereit"
 
 #: plugins/icons/iconcfg.cpp:169
 msgid "Select icons DLL"
@@ -3610,9 +3603,8 @@ msgid "&AIM"
 msgstr "&AIM"
 
 #: plugins/icq/aimsearch.cpp:89
-#, fuzzy
 msgid "AIM search results"
-msgstr "ICQ-Suchergebnisse"
+msgstr "AIM-Suchergebnisse"
 
 #: plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:181
 msgid "First name"
@@ -3986,11 +3978,10 @@ msgid "Navigate"
 msgstr "Navigation"
 
 #: plugins/navigate/navigate.cpp:38
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
-"Das Plugin überprüft Nachrichten auf Hyperlinks und ruft externe Browser- "
-"oder Mailprogramme auf."
+"Plugin stellt Navigation von Hyperlinks bereit und ruft externe Browser- "
+"oder Mailprogramme auf"
 
 #: plugins/navigate/navigate.cpp:87
 msgid "Send mail"
@@ -4043,10 +4034,8 @@ msgid ""
 "Plugin provides monitoring of net and messages\n"
 "For show monitor on start run sim -m"
 msgstr ""
-"Dieses Plugin ermöglicht es einen Netzwerkmonitor das Netz und die "
-"Nachrichten zu überwachen.\n"
-"Um den Monitor anzeigen zu lassen, führen Sie beim SIM-Start: \"sim -m\" "
-"aus."
+"Plugin stellt Monitoring des Netzes und Nachrichten bereit\n"
+"Um den Monitor anzeigen zu lassen, SIM mit \"sim -m\" starten"
 
 #: plugins/netmonitor/netmonitor.cpp:103
 msgid "Show network monitor"
@@ -4057,11 +4046,8 @@ msgid "On Top"
 msgstr "Im Vordergrund"
 
 #: plugins/ontop/ontop.cpp:44
-#, fuzzy
 msgid "Plugin provides main window and containers always on top"
-msgstr ""
-"Dieses Plugin sorgt dafür, dass das Hauptfenster und Container von SIM "
-"kontinuierlich im Vordergrund bleiben."
+msgstr "Plugin stellt die kontinuierliche Anzeige von Hauptfenster und Container im Vordergrund bereit"
 
 #: plugins/ontop/ontop.cpp:79
 msgid "Always on top"
@@ -4072,7 +4058,6 @@ msgid "Show &main window in task manager"
 msgstr "&Hauptfenster in Fensterleiste anzeigen"
 
 #: plugins/ontop/ontopcfgbase.cpp:90
-#, fuzzy
 msgid "&Container always on top"
 msgstr "&Container immer im Vordergrund"
 
@@ -4081,12 +4066,8 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:48
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
-msgstr ""
-"Das ist ein Plugin, das Bildschirmbenachrichtigungen betreffend Kontakte "
-"und\n"
-"eingegangene Nachrichten durchführt (z.B.: Online-Benachrichtigung)."
+msgid "Plugin provides on screen notification about messages and contacts status"
+msgstr "Plugin stellt Bildschirmbenachrichtigungen über Nachrichten und Kontaktstatus bereit"
 
 #: plugins/osd/osd.cpp:116
 msgid "&OSD"
@@ -4138,8 +4119,7 @@ msgstr "Bei Nachrichteneingang informieren (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:93
 msgid "Enable &status notification"
-msgstr ""
-"Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
+msgstr "Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:94
 msgid "Enable &typing notification"
@@ -4187,8 +4167,7 @@ msgstr "&Proxy"
 
 #: plugins/proxy/proxycfg.cpp:140
 msgid "<b>Note !</b><br>HTTP-proxy support only ICQ-protocol"
-msgstr ""
-"<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
+msgstr "<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
 
 #: plugins/proxy/proxycfg.cpp:209
 msgid "Default"
@@ -4212,8 +4191,7 @@ msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1277
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS and HTTP)"
-msgstr ""
-"Das Plugin bietet Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP)"
+msgstr "Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
 
 #: plugins/proxy/proxycfgbase.cpp:164
 msgid "Host:"
@@ -4276,7 +4254,7 @@ msgstr "Tastaturkürzel"
 
 #: plugins/shortcuts/shortcuts.cpp:53
 msgid "Plugin provides keyboards shortcuts and global mouse functions"
-msgstr "Diese Plugin offeriert Tastenkürzel und globale Mausfunktionen"
+msgstr "Plugin stellt Tastenkürzel und globale Mausfunktionen bereit"
 
 #: plugins/shortcuts/mousecfgbase.cpp:67
 #: plugins/shortcuts/mousecfgbase.cpp:109
@@ -4313,7 +4291,7 @@ msgstr "Klänge"
 
 #: plugins/sound/sound.cpp:46
 msgid "Plugin provides sounds on any evenents"
-msgstr "Das Plugin unterstützt Klänge für sämtliche Ereignisse."
+msgstr "Plugin stellt Klänge für sämtliche Ereignisse bereit"
 
 #: plugins/sound/sound.cpp:127
 msgid "&Sound"
@@ -4361,7 +4339,7 @@ msgstr "Startbild"
 
 #: plugins/splash/splash.cpp:35
 msgid "Plugin provides splash screen"
-msgstr "Das Plugin für das Startbild von SIM"
+msgstr "Plugin stellt Startbild von SIM bereit"
 
 #: plugins/transparent/transparent.cpp:64
 msgid "Transparent"
@@ -4372,12 +4350,12 @@ msgid ""
 "Plugin provides windows transparency\n"
 "This plugin works only on Windows 2000 or Windows XP"
 msgstr ""
-"Das Plugin unterstützt die Transparenz von Fenstern in Windows\n"
-"Es funktioniert nur in Windows 2000 oder in Windows XP."
+"Plugin stellt die Transparenz von Fenstern in Windows\n"
+"Es funktioniert nur in Windows 2000 oder in Windows XP bereit"
 
 #: plugins/transparent/transparent.cpp:69
 msgid "Plugin provides windows transparency"
-msgstr "Das Plugin unterstützt die Transparenz von Fenstern"
+msgstr "Plugin stellt die Transparenz von Fenstern bereit"
 
 #: plugins/transparent/transparentcfgbase.cpp:102
 msgid "Transparency main window:"
@@ -4389,9 +4367,7 @@ msgstr "Nur transparent wenn inaktiv"
 
 #: plugins/windock/windock.cpp:37
 msgid "Plugin provides dock main window to left or right side of screen"
-msgstr ""
-"Das Plugin unterstützt SIM, indem es SIM an die Bildschirmränder, links "
-"oder rechts, andocken lässt."
+msgstr "Plugin stellt das Docking von SIM an linke oder rechte Bildschirmränder bereit"
 
 #: plugins/windock/windock.cpp:115
 msgid "AutoHide"
@@ -4402,35 +4378,28 @@ msgid "Update"
 msgstr "Aktualisieren"
 
 #: plugins/update/update.cpp:39
-#, fuzzy
 msgid "Plugin provides notifications about update SIM software"
-msgstr ""
-"Das ist ein Plugin, das Bildschirmbenachrichtigungen betreffend Kontakte "
-"und\n"
-"eingegangene Nachrichten durchführt (z.B.: Online-Benachrichtigung)."
+msgstr "Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
 
 #: plugins/update/update.cpp:126
-#, fuzzy
 msgid "Show details"
-msgstr "Meine Details"
+msgstr "Details anzeigen"
 
 #: plugins/update/update.cpp:127
 msgid "Remind later"
-msgstr ""
+msgstr "Später erinnern"
 
 #: plugins/update/update.cpp:129
 msgid "New version SIM is released"
-msgstr ""
+msgstr "Neue Version von SIM wurde veröffentlicht"
 
 #: sim/api/aboutdata.cpp:274
 msgid "replace this with information about your translation team"
-msgstr ""
-"Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
+msgstr "Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
 
 #: sim/api/aboutdata.cpp:290
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
@@ -7358,3 +7327,4 @@ msgstr "Unterstrichen"
 
 #~ msgid "Transfer completed"
 #~ msgstr "Übertragung abgeschlossen"
+
