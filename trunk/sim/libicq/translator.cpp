@@ -15,19 +15,24 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "defs.h"
 #include "icqclient.h"
 #include "log.h"
 
 #include <errno.h>
 #include <string.h>
 
+#ifdef USE_QT
+
 #include <qtextcodec.h>
 #include <qstringlist.h>
+
+#endif
 
 #ifndef HAVE_STRCASECMP
 int strcasecmp(const char *a, const char *b);
 #endif
+
+#ifdef USE_QT
 
 static QTextCodec *codecForName(const char *name)
 {
@@ -84,15 +89,24 @@ bool ICQClient::translate(const char *to, const char *from, string &str)
     return true;
 }
 
-bool ICQClient::fromUTF(string &str, const char *encoding)
+const char *ICQClient::localCharset()
 {
-    return translate(encoding, "UTF-8", str);
+    return QTextCodec::codecForLocale()->name();
 }
 
-bool ICQClient::toUTF(string &str, const char *encoding)
+#else
+
+bool ICQClient::translate(const char*, const char*, string&)
 {
-    return translate("UTF-8", encoding, str);
+    return true;
 }
+
+const char *ICQClient::localCharset()
+{
+    return "system";
+}
+
+#endif
 
 char const *ICQClient::localCharset(ICQUser *u)
 {
@@ -101,6 +115,16 @@ char const *ICQClient::localCharset(ICQUser *u)
     if (*owner->Encoding.c_str())
         return owner->Encoding.c_str();
     return localCharset();
+}
+
+bool ICQClient::fromUTF(string &str, const char *encoding)
+{
+    return translate(encoding, "UTF-8", str);
+}
+
+bool ICQClient::toUTF(string &str, const char *encoding)
+{
+    return translate("UTF-8", encoding, str);
 }
 
 void ICQClient::fromServer(string &str, ICQUser *u)
@@ -125,11 +149,6 @@ void ICQClient::toServer(string &str, const char *lclCharset)
     translate(serverCharset(lclCharset), lclCharset, str);
 }
 
-const char *ICQClient::localCharset()
-{
-    return QTextCodec::codecForLocale()->name();
-}
-
 const char *ICQClient::serverCharset(const char *p)
 {
     if (p == NULL) p = localCharset();
@@ -138,6 +157,8 @@ const char *ICQClient::serverCharset(const char *p)
     if (!strcasecmp(p, "ISO 8859-5")) return "CP1251";
     return p;
 }
+
+#ifdef USE_QT
 
 class WordIterator
 {
@@ -315,3 +336,11 @@ void ICQClient::setRejectFilter(const char *fltr)
     }
 }
 
+#else
+
+bool ICQClient::match(const char*, const char*)
+{
+    return false;
+}
+
+#endif

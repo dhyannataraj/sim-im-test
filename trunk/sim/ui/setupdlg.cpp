@@ -64,6 +64,7 @@ SetupDialog::SetupDialog(QWidget*, int nWin)
 
     setIcon(Pict("configure"));
     setCaption(i18n("Setup"));
+
     connect(btnUpdate, SIGNAL(clicked()), this, SLOT(update()));
     connect(btnClose, SIGNAL(clicked()), this, SLOT(close()));
     connect(btnOK, SIGNAL(clicked()), this, SLOT(ok()));

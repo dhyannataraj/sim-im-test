@@ -75,6 +75,10 @@ const capability arrCapabilities[] =
 
 const capability *ICQClient::capabilities = arrCapabilities;
 
+#ifndef VERSION
+#define VERSION  "0.1"
+#endif
+
 void ICQClient::sendCapability()
 {
     Buffer cap(5 * sizeof(capability));

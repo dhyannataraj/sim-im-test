@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "defs.h"
 #include "icqclient.h"
 #include "proxy.h"
 #include "log.h"

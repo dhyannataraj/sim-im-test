@@ -19,4 +19,5 @@ char getTZComboValue(QComboBox *cmb);
 
 void set(string &s, const QString &str);
 
+
 #endif

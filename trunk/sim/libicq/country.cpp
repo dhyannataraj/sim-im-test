@@ -1,5 +1,6 @@
-#include "defs.h"
 #include "country.h"
+
+#define I18N_NOOP(A)	A
 
 const ext_info Languages[] =
     {

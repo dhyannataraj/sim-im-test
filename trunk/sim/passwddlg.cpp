@@ -51,6 +51,7 @@ PasswdDialog::PasswdDialog()
     hLay->addWidget(btnLogin);
     hLay->addStretch();
     setCaption(i18n("Invalid password"));
+
     textChanged("");
     QSize s = sizeHint();
     QWidget *desktop = QApplication::desktop();

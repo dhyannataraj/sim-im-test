@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "defs.h"
 #include "icqclient.h"
 #include "log.h"
 #include "xml.h"
@@ -26,6 +25,10 @@
 
 #include <memory>
 #include <time.h>
+
+#ifndef HAVE_STRCASECMP
+int strcasecmp(const char *a, const char *b);
+#endif
 
 const unsigned short ICQ_SMS_MESSAGE = 0;
 const unsigned short ICQ_SMS_SUCCESS = 2;

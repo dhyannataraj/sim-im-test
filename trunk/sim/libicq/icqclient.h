@@ -1114,6 +1114,8 @@ public:
     static bool fromUTF(string &s, const char *encoding);
     static bool toUTF(string &s, const char *encoding);
 
+    virtual void idle();
+
 protected:
     Buffer cookie;
 
@@ -1141,7 +1143,6 @@ protected:
     virtual void packet_ready();
     virtual bool error_state(SocketError);
     virtual void connect_ready();
-    virtual void idle();
 
     time_t m_lastTime;
     time_t m_reconnectTime;

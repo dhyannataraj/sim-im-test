@@ -49,9 +49,11 @@ void UserAutoReplyDlg::setStatus()
     if (u == NULL) return;
     CUser usr(u);
     QString c = i18n("%1 autoresponse for %2")
-               .arg(Client::getStatusText(u->uStatus))
-               .arg(usr.name());
-	setCaption(c);
+                .arg(Client::getStatusText(u->uStatus))
+                .arg(usr.name());
+
+    setCaption(c);
+
     setIcon(Pict(Client::getStatusIcon(u->uStatus)));
 }
 

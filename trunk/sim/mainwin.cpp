@@ -1517,6 +1517,7 @@ void MainWindow::ownerChanged()
     setStatusItem(ICQ_STATUS_OFFLINE);
     CUser owner(pClient->owner);
     setCaption(owner.name());
+
     menuFunction->changeTitle(1, owner.name());
 }
 
