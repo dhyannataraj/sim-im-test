@@ -22,14 +22,6 @@ AC_CYGWIN
 if test "$CYGWIN" = "yes"; then
  LDFLAGS="$LDFLAGS --enable-auto-import"
 fi
-RELEASE_BUILD="no"
-AC_ARG_ENABLE(
- release,
- [  --enable-release        enable release build],
- RELEASE_BUILD="$enableval")
-if test "$RELEASE_BUILD" != "yes"; then
- AC_DEFINE(CVS_BUILD, 1, [CVS build])
-fi
 
 AC_LANG_SAVE
 AC_LANG_C
