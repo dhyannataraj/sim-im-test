@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "POT-Creation-Date: 2002-12-14 20:59+0300\n"
-"PO-Revision-Date: 2002-12-14 11:29+0200\n"
+"PO-Revision-Date: 2002-12-15 08:45+0200\n"
 "Last-Translator: ismail donmez <voidcartman@yahoo.com>\n"
 "Language-Team: Türkçe <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2985,7 +2985,6 @@ msgid "Login"
 msgstr "Giriş"
 
 #: ui/logindlgbase.cpp:124
-#, fuzzy
 msgid "&Do not show this window"
 msgstr "&Bu pencereyi bir daha gösterme"
 
@@ -3358,8 +3357,7 @@ msgstr "Global alarm ayarlarının üzerine yaz"
 
 #: ui/alertdialogbase.cpp:231
 msgid "Activate online alert when user returns from Away or NA"
-msgstr ""
-"Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
+msgstr "Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
 
 #: ui/alertdialogbase.cpp:232
 msgid "Online alert options"
@@ -3712,8 +3710,7 @@ msgid "Hide main window after"
 msgstr "Ana menüyü sakla"
 
 #: ui/statussetupbase.cpp:110
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "\"Uzakta\", \"N/A\", \"DND\" ve \"Meşgul\"-Listelerinde bağlı alamını "
 "iptal et "
@@ -3852,8 +3849,7 @@ msgstr "&Ev bilgisi"
 
 #: ui/generalsecbase.cpp:212
 msgid "My &authorization is required before users add me to Contact List"
-msgstr ""
-"Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
+msgstr "Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
 
 #: ui/generalsecbase.cpp:213
 msgid "Don't show my &IP-address"
@@ -3952,7 +3948,6 @@ msgid "S&ave password"
 msgstr "Şifreyi &sakla"
 
 #: ui/generalsecbase.cpp:238
-#, fuzzy
 msgid "&Do not show login dialog at start"
 msgstr "&Başlarkan giriş dialoğunu gösterme"
 
@@ -4656,3 +4651,4 @@ msgstr "%1 dosyası yaratılamadı"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
