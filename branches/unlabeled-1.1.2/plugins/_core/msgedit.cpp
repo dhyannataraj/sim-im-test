@@ -413,7 +413,7 @@ static MessageDef defSMS =
 
 static Message *createFile(const char *cfg)
 {
-    return new FileMessage(cfg);
+    return new FileMessage(MessageFile, cfg);
 }
 
 static QObject* generateFile(QWidget *w, Message *msg)
