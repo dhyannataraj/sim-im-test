@@ -1189,12 +1189,11 @@ void LiveJournalClient::send()
         url += number(getPort());
     }
     url += getURL();
-    string headers = "Content-Type: application/x-www-form-urlencoded\r\n"
-                     "Content-Length: ";
-    headers += number(m_request->m_buffer.size());
+    string headers = "Content-Type: application/x-www-form-urlencoded";
     if (getFastServer())
         headers += "\r\nCookie: ljfastserver=1";
-    m_fetchId = fetch(url.c_str(), &m_request->m_buffer);
+    m_fetchId = fetch(url.c_str(), m_request->m_buffer);
+    m_request->m_buffer = NULL;
 }
 
 bool LiveJournalClient::error_state(const char *err, unsigned code)
@@ -1289,6 +1288,7 @@ void LiveJournalClient::timeout()
 LiveJournalRequest::LiveJournalRequest(LiveJournalClient *client, const char *mode)
 {
     m_client = client;
+    m_buffer = new Buffer;
     addParam("mode", mode);
     if (client->data.owner.User.ptr)
         addParam("user", client->data.owner.User.ptr);
@@ -1308,23 +1308,25 @@ LiveJournalRequest::LiveJournalRequest(LiveJournalClient *client, const char *mo
 
 LiveJournalRequest::~LiveJournalRequest()
 {
+    if (m_buffer)
+        delete m_buffer;
 }
 
 void LiveJournalRequest::addParam(const char *key, const char *value)
 {
-    if (m_buffer.size())
-        m_buffer.pack("&", 1);
-    m_buffer.pack(key, strlen(key));
-    m_buffer.pack("=", 1);
+    if (m_buffer->size())
+        m_buffer->pack("&", 1);
+    m_buffer->pack(key, strlen(key));
+    m_buffer->pack("=", 1);
     for (const char *p = value; *p; p++){
         char c = *p;
         if (((c >= 'A') && (c <= 'Z')) || ((c >= 'a') && (c <= 'z')) || ((c >= '0') && (c <= '9')) ||
                 (c == '.') || (c == '-') || (c == '/') || (c == '_')){
-            m_buffer.pack(&c, 1);
+            m_buffer->pack(&c, 1);
         }else{
             char buf[4];
             sprintf(buf, "%%%02X", c & 0xFF);
-            m_buffer.pack(buf, 3);
+            m_buffer->pack(buf, 3);
         }
     }
 }

@@ -124,7 +124,7 @@ public:
     virtual void result(const char *key, const char *value) = 0;
 protected:
     LiveJournalClient *m_client;
-    Buffer m_buffer;
+    Buffer *m_buffer;
     bool getLine(Buffer *b, string &line);
     friend class LiveJournalClient;
 };
