@@ -3,7 +3,7 @@
 
 [Setup]
 AppName=SSL
-AppVerName=SSL 0.9.6
+AppVerName=SSL 0.9.1.6
 DefaultDirName={pf}\SIM
 DisableProgramGroupPage=yes
 DisableStartupPrompt=yes

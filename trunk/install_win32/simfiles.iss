@@ -3,7 +3,7 @@
 
 [Setup]
 AppName=Simple Instant Messenger
-AppVerName=SIM 0.9
+AppVerName=SIM 0.9.1
 AppPublisher=shutoff@mail.ru
 AppPublisherURL=http://sim-icq.sourceforge.net/
 AppSupportURL=http://sim-icq.sourceforge.net/
