@@ -1,0 +1,1299 @@
+# Makefile.in generated automatically by automake 1.5 from Makefile.am.
+# KDE tags expanded automatically by am_edit - $Revision: 1.4 $ 
+# Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
+# Free Software Foundation, Inc.
+# This Makefile.in is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY, to the extent permitted by law; without
+# even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
+
+@SET_MAKE@
+
+####### kdevelop will overwrite this part!!! (begin)##########
+
+SHELL = @SHELL@
+
+srcdir = @srcdir@
+top_srcdir = @top_srcdir@
+VPATH = @srcdir@
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+
+bindir = @bindir@
+sbindir = @sbindir@
+libexecdir = @libexecdir@
+datadir = @datadir@
+sysconfdir = @sysconfdir@
+sharedstatedir = @sharedstatedir@
+localstatedir = @localstatedir@
+libdir = @libdir@
+infodir = @infodir@
+mandir = @mandir@
+includedir = @includedir@
+oldincludedir = /usr/include
+pkgdatadir = $(datadir)/@PACKAGE@
+pkglibdir = $(libdir)/@PACKAGE@
+pkgincludedir = $(includedir)/@PACKAGE@
+top_builddir = ../..
+
+ACLOCAL = @ACLOCAL@
+AUTOCONF = @AUTOCONF@
+AUTOMAKE = @AUTOMAKE@
+AUTOHEADER = @AUTOHEADER@
+
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+INSTALL_SCRIPT = @INSTALL_SCRIPT@
+INSTALL_HEADER = $(INSTALL_DATA)
+transform = @program_transform_name@
+NORMAL_INSTALL = :
+PRE_INSTALL = :
+POST_INSTALL = :
+NORMAL_UNINSTALL = :
+PRE_UNINSTALL = :
+POST_UNINSTALL = :
+build_alias = @build_alias@
+build_triplet = @build@
+host_alias = @host_alias@
+host_triplet = @host@
+target_alias = @target_alias@
+target_triplet = @target@
+AMTAR = @AMTAR@
+ARTSCCONFIG = @ARTSCCONFIG@
+AS = @AS@
+AUTODIRS = @AUTODIRS@
+AWK = @AWK@
+CC = @CC@
+CONF_FILES = @CONF_FILES@
+CPP = @CPP@
+CXX = @CXX@
+CXXCPP = @CXXCPP@
+DCOPIDL = @DCOPIDL@
+DCOPIDL2CPP = @DCOPIDL2CPP@
+DCOP_DEPENDENCIES = @DCOP_DEPENDENCIES@
+DEPDIR = @DEPDIR@
+DLLTOOL = @DLLTOOL@
+DPMSINC = @DPMSINC@
+DPMSLIB = @DPMSLIB@
+ECHO = @ECHO@
+EXEEXT = @EXEEXT@
+GCJ = @GCJ@
+GCJFLAGS = @GCJFLAGS@
+GLINC = @GLINC@
+GLLIB = @GLLIB@
+GMSGFMT = @GMSGFMT@
+HAVE_LIB = @HAVE_LIB@
+IDL = @IDL@
+IDL_DEPENDENCIES = @IDL_DEPENDENCIES@
+INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+JAR = @JAR@
+JAVAC = @JAVAC@
+JAVAH = @JAVAH@
+JVMLIBS = @JVMLIBS@
+KDECONFIG = @KDECONFIG@
+KDE_CXXFLAGS = @KDE_CXXFLAGS@
+KDE_EXTRA_RPATH = @KDE_EXTRA_RPATH@
+KDE_INCLUDES = @KDE_INCLUDES@
+KDE_LDFLAGS = @KDE_LDFLAGS@
+KDE_MT_LDFLAGS = @KDE_MT_LDFLAGS@
+KDE_MT_LIBS = @KDE_MT_LIBS@
+KDE_PLUGIN = @KDE_PLUGIN@
+KDE_RPATH = @KDE_RPATH@
+KDE_USE_CLOSURE_FALSE = @KDE_USE_CLOSURE_FALSE@
+KDE_USE_CLOSURE_TRUE = @KDE_USE_CLOSURE_TRUE@
+KDE_USE_FINAL_FALSE = @KDE_USE_FINAL_FALSE@
+KDE_USE_FINAL_TRUE = @KDE_USE_FINAL_TRUE@
+KDE_XSL_STYLESHEET = @KDE_XSL_STYLESHEET@
+LEX = @LEX@
+LIB = @LIB@
+LIBCOMPAT = @LIBCOMPAT@
+LIBCRYPT = @LIBCRYPT@
+LIBDL = @LIBDL@
+LIBGEN = @LIBGEN@
+LIBICONV = @LIBICONV@
+LIBJPEG = @LIBJPEG@
+LIBMICO = @LIBMICO@
+LIBOBJS = @LIBOBJS@
+LIBPNG = @LIBPNG@
+LIBPTHREAD = @LIBPTHREAD@
+LIBPYTHON = @LIBPYTHON@
+LIBQIMGIO = @LIBQIMGIO@
+LIBRESOLV = @LIBRESOLV@
+LIBSHADOW = @LIBSHADOW@
+LIBSM = @LIBSM@
+LIBSOCKET = @LIBSOCKET@
+LIBTIFF = @LIBTIFF@
+LIBTOOL = @LIBTOOL@
+LIBUCB = @LIBUCB@
+LIBUTIL = @LIBUTIL@
+LIBXINERAMA = @LIBXINERAMA@
+LIBZ = @LIBZ@
+LIB_KAB = @LIB_KAB@
+LIB_KDECORE = @LIB_KDECORE@
+LIB_KDEPRINT = @LIB_KDEPRINT@
+LIB_KDEUI = @LIB_KDEUI@
+LIB_KFILE = @LIB_KFILE@
+LIB_KFM = @LIB_KFM@
+LIB_KHTML = @LIB_KHTML@
+LIB_KIMGIO = @LIB_KIMGIO@
+LIB_KIO = @LIB_KIO@
+LIB_KPARTS = @LIB_KPARTS@
+LIB_KSPELL = @LIB_KSPELL@
+LIB_KSYCOCA = @LIB_KSYCOCA@
+LIB_QPE = @LIB_QPE@
+LIB_QT = @LIB_QT@
+LIB_SMB = @LIB_SMB@
+LIB_X11 = @LIB_X11@
+LIB_XEXT = @LIB_XEXT@
+LN_S = @LN_S@
+LTLIB = @LTLIB@
+LTLIBICONV = @LTLIBICONV@
+MCOPIDL = @MCOPIDL@
+MEINPROC = @MEINPROC@
+MICO_INCLUDES = @MICO_INCLUDES@
+MICO_LDFLAGS = @MICO_LDFLAGS@
+MOC = @MOC@
+MSGFMT = @MSGFMT@
+NOOPT_CXXFLAGS = @NOOPT_CXXFLAGS@
+NOREPO = @NOREPO@
+OBJDUMP = @OBJDUMP@
+OBJEXT = @OBJEXT@
+PACKAGE = @PACKAGE@
+PAMLIBS = @PAMLIBS@
+PASSWDLIBS = @PASSWDLIBS@
+PYTHONINC = @PYTHONINC@
+PYTHONLIB = @PYTHONLIB@
+PYTHONMODDIR = @PYTHONMODDIR@
+QTE_NORTTI = @QTE_NORTTI@
+QT_INCLUDES = @QT_INCLUDES@
+QT_LDFLAGS = @QT_LDFLAGS@
+RANLIB = @RANLIB@
+RC = @RC@
+REPO = @REPO@
+SETUIDFLAGS = @SETUIDFLAGS@
+STRIP = @STRIP@
+TOPSUBDIRS = @TOPSUBDIRS@
+UIC = @UIC@
+UIC_TR = @UIC_TR@
+USER_INCLUDES = @USER_INCLUDES@
+USER_LDFLAGS = @USER_LDFLAGS@
+USE_EXCEPTIONS = @USE_EXCEPTIONS@
+USE_RTTI = @USE_RTTI@
+USE_THREADS = @USE_THREADS@
+VERSION = @VERSION@
+XGETTEXT = @XGETTEXT@
+XPMINC = @XPMINC@
+XPMLIB = @XPMLIB@
+X_EXTRA_LIBS = @X_EXTRA_LIBS@
+X_INCLUDES = @X_INCLUDES@
+X_LDFLAGS = @X_LDFLAGS@
+X_PRE_LIBS = @X_PRE_LIBS@
+all_includes = @all_includes@
+all_libraries = @all_libraries@
+am__include = @am__include@
+am__quote = @am__quote@
+idldir = @idldir@
+install_sh = @install_sh@
+jni_includes = @jni_includes@
+kde_appsdir = @kde_appsdir@
+kde_bindir = @kde_bindir@
+kde_confdir = @kde_confdir@
+kde_datadir = @kde_datadir@
+kde_htmldir = @kde_htmldir@
+kde_icondir = @kde_icondir@
+kde_includes = @kde_includes@
+kde_libraries = @kde_libraries@
+kde_libs_htmldir = @kde_libs_htmldir@
+kde_libs_prefix = @kde_libs_prefix@
+kde_locale = @kde_locale@
+kde_mimedir = @kde_mimedir@
+kde_moduledir = @kde_moduledir@
+kde_qtver = @kde_qtver@
+kde_servicesdir = @kde_servicesdir@
+kde_servicetypesdir = @kde_servicetypesdir@
+kde_sounddir = @kde_sounddir@
+kde_styledir = @kde_styledir@
+kde_templatesdir = @kde_templatesdir@
+kde_wallpaperdir = @kde_wallpaperdir@
+kde_widgetdir = @kde_widgetdir@
+micodir = @micodir@
+qt_includes = @qt_includes@
+qt_libraries = @qt_libraries@
+x_includes = @x_includes@
+x_libraries = @x_libraries@
+
+noinst_LIBRARIES = libui.a
+
+#>- libui_a_METASOURCES = AUTO
+
+#>- libui_a_SOURCES = xosdsetup.cpp xosdbase.ui effect.cpp networkbase.ui network.cpp filetransferbase.ui filetransfer.cpp accept.cpp acceptbase.ui ballonmsg.cpp qcolorbutton.cpp fontsetupbase.ui fontsetup.cpp emaileditbase.ui emailedit.cpp pastinfo.cpp pastinfobase.ui autoreplybase.ui autoreply.cpp alertmsgbase.ui alertmsg.cpp interestsinfobase.ui interestsinfo.cpp msgdialogbase.ui msgdialog.cpp alertdialogbase.ui alertdialog.cpp phonedetails.cpp phonebase.ui pagerdetails.cpp pagerbase.ui addphonebase.ui addphone.cpp miscsetupbase.ui miscsetup.cpp soundsetupbase.ui soundsetup.cpp editfile.cpp phonebookbase.ui phonebook.cpp spellsetupbase.ui spellsetup.cpp userinfobase.ui userinfo.cpp setupdlgbase.ui setupdlg.cpp searchdlg.cpp enable.cpp workinfo.cpp themesetup.cpp statussetup.cpp searchbase.cpp moreinfo.cpp maininfo.cpp listsec.cpp homeinfo.cpp generalsec.cpp changepasswd.cpp workinfobase.ui themesetupbase.ui statussetupbase.ui searchbase.ui moreinfobase.ui maininfobase.ui listsecbase.ui homeinfobase.ui generalsecbase.ui changepasswdbase.ui aboutinfobase.ui aboutinfo.cpp 
+#>+ 1
+libui_a_SOURCES=xosdsetup.cpp  effect.cpp  network.cpp  filetransfer.cpp accept.cpp  ballonmsg.cpp qcolorbutton.cpp  fontsetup.cpp  emailedit.cpp pastinfo.cpp   autoreply.cpp  alertmsg.cpp  interestsinfo.cpp  msgdialog.cpp  alertdialog.cpp phonedetails.cpp  pagerdetails.cpp   addphone.cpp  miscsetup.cpp  soundsetup.cpp editfile.cpp  phonebook.cpp  spellsetup.cpp  userinfo.cpp  setupdlg.cpp searchdlg.cpp enable.cpp workinfo.cpp themesetup.cpp statussetup.cpp searchbase.cpp moreinfo.cpp maininfo.cpp listsec.cpp homeinfo.cpp generalsec.cpp changepasswd.cpp            aboutinfo.cpp  xosdbase.cpp networkbase.cpp filetransferbase.cpp acceptbase.cpp fontsetupbase.cpp emaileditbase.cpp pastinfobase.cpp autoreplybase.cpp alertmsgbase.cpp interestsinfobase.cpp msgdialogbase.cpp alertdialogbase.cpp phonebase.cpp pagerbase.cpp addphonebase.cpp miscsetupbase.cpp soundsetupbase.cpp phonebookbase.cpp spellsetupbase.cpp userinfobase.cpp setupdlgbase.cpp workinfobase.cpp themesetupbase.cpp statussetupbase.cpp searchbase.cpp moreinfobase.cpp maininfobase.cpp listsecbase.cpp homeinfobase.cpp generalsecbase.cpp changepasswdbase.cpp aboutinfobase.cpp
+
+EXTRA_DIST = aboutinfo.cpp aboutinfo.h aboutinfobase.ui changepasswdbase.ui generalsecbase.ui homeinfobase.ui listsecbase.ui maininfobase.ui Makefile.am moreinfobase.ui searchbase.ui statussetupbase.ui themesetupbase.ui workinfobase.ui changepasswd.cpp changepasswd.h generalsec.cpp generalsec.h homeinfo.cpp homeinfo.h listsec.cpp listsec.h maininfo.cpp maininfo.h moreinfo.cpp moreinfo.h searchbase.cpp searchbase.h statussetup.cpp statussetup.h themesetup.cpp themesetup.h workinfo.cpp workinfo.h enable.cpp enable.h searchdlg.cpp searchdlg.h setupdlg.cpp setupdlg.h setupdlgbase.ui userinfo.cpp userinfo.h userinfobase.ui spellsetup.cpp spellsetup.h spellsetupbase.ui phonebook.cpp phonebook.h phonebookbase.ui editfile.cpp editfile.h soundsetup.cpp soundsetup.h soundsetupbase.ui miscsetup.cpp miscsetup.h miscsetupbase.ui addphone.cpp addphone.h addphonebase.ui pagerbase.ui pagerdetails.cpp pagerdetails.h phonebase.ui phonedetails.cpp phonedetails.h alertdialog.cpp alertdialog.h alertdialogbase.ui msgdialog.cpp msgdialog.h msgdialogbase.ui interestsinfo.cpp interestsinfo.h interestsinfobase.ui alertmsg.cpp alertmsg.h alertmsgbase.ui autoreply.cpp autoreply.h autoreplybase.ui pastinfobase.ui pastinfo.h pastinfo.cpp emailedit.cpp emailedit.h emaileditbase.ui fontsetup.cpp fontsetup.h fontsetupbase.ui qcolorbutton.cpp qcolorbutton.h ballonmsg.cpp ballonmsg.h acceptbase.ui accept.h accept.cpp filetransfer.cpp filetransfer.h filetransferbase.ui network.cpp network.h networkbase.ui effect.cpp effect.h xosdbase.ui xosdsetup.cpp xosdsetup.h 
+
+
+####### kdevelop will overwrite this part!!! (end)############
+INCLUDES = $(all_includes) -I.. -I../libicq
+subdir = sim/ui
+mkinstalldirs = $(SHELL) $(top_srcdir)/admin/mkinstalldirs
+CONFIG_HEADER = $(top_builddir)/config.h
+CONFIG_CLEAN_FILES =
+LIBRARIES = $(noinst_LIBRARIES)
+
+libui_a_AR = $(AR) cru
+libui_a_LIBADD =
+am_libui_a_OBJECTS = xosdsetup.$(OBJEXT) effect.$(OBJEXT) \
+	network.$(OBJEXT) filetransfer.$(OBJEXT) accept.$(OBJEXT) \
+	ballonmsg.$(OBJEXT) qcolorbutton.$(OBJEXT) fontsetup.$(OBJEXT) \
+	emailedit.$(OBJEXT) pastinfo.$(OBJEXT) autoreply.$(OBJEXT) \
+	alertmsg.$(OBJEXT) interestsinfo.$(OBJEXT) msgdialog.$(OBJEXT) \
+	alertdialog.$(OBJEXT) phonedetails.$(OBJEXT) \
+	pagerdetails.$(OBJEXT) addphone.$(OBJEXT) miscsetup.$(OBJEXT) \
+	soundsetup.$(OBJEXT) editfile.$(OBJEXT) phonebook.$(OBJEXT) \
+	spellsetup.$(OBJEXT) userinfo.$(OBJEXT) setupdlg.$(OBJEXT) \
+	searchdlg.$(OBJEXT) enable.$(OBJEXT) workinfo.$(OBJEXT) \
+	themesetup.$(OBJEXT) statussetup.$(OBJEXT) searchbase.$(OBJEXT) \
+	moreinfo.$(OBJEXT) maininfo.$(OBJEXT) listsec.$(OBJEXT) \
+	homeinfo.$(OBJEXT) generalsec.$(OBJEXT) changepasswd.$(OBJEXT) \
+	aboutinfo.$(OBJEXT)
+#>- libui_a_OBJECTS = $(am_libui_a_OBJECTS)
+#>+ 18
+libui_a_final_OBJECTS = libui_a.all_cpp.o 
+libui_a_nofinal_OBJECTS = xosdsetup.$(OBJEXT) effect.$(OBJEXT) \
+	network.$(OBJEXT) filetransfer.$(OBJEXT) accept.$(OBJEXT) \
+	ballonmsg.$(OBJEXT) qcolorbutton.$(OBJEXT) fontsetup.$(OBJEXT) \
+	emailedit.$(OBJEXT) pastinfo.$(OBJEXT) autoreply.$(OBJEXT) \
+	alertmsg.$(OBJEXT) interestsinfo.$(OBJEXT) msgdialog.$(OBJEXT) \
+	alertdialog.$(OBJEXT) phonedetails.$(OBJEXT) \
+	pagerdetails.$(OBJEXT) addphone.$(OBJEXT) miscsetup.$(OBJEXT) \
+	soundsetup.$(OBJEXT) editfile.$(OBJEXT) phonebook.$(OBJEXT) \
+	spellsetup.$(OBJEXT) userinfo.$(OBJEXT) setupdlg.$(OBJEXT) \
+	searchdlg.$(OBJEXT) enable.$(OBJEXT) workinfo.$(OBJEXT) \
+	themesetup.$(OBJEXT) statussetup.$(OBJEXT) searchbase.$(OBJEXT) \
+	moreinfo.$(OBJEXT) maininfo.$(OBJEXT) listsec.$(OBJEXT) \
+	homeinfo.$(OBJEXT) generalsec.$(OBJEXT) changepasswd.$(OBJEXT) \
+	aboutinfo.$(OBJEXT) xosdbase.$(OBJEXT) networkbase.$(OBJEXT) filetransferbase.$(OBJEXT) acceptbase.$(OBJEXT) fontsetupbase.$(OBJEXT) emaileditbase.$(OBJEXT) pastinfobase.$(OBJEXT) autoreplybase.$(OBJEXT) alertmsgbase.$(OBJEXT) interestsinfobase.$(OBJEXT) msgdialogbase.$(OBJEXT) alertdialogbase.$(OBJEXT) phonebase.$(OBJEXT) pagerbase.$(OBJEXT) addphonebase.$(OBJEXT) miscsetupbase.$(OBJEXT) soundsetupbase.$(OBJEXT) phonebookbase.$(OBJEXT) spellsetupbase.$(OBJEXT) userinfobase.$(OBJEXT) setupdlgbase.$(OBJEXT) workinfobase.$(OBJEXT) themesetupbase.$(OBJEXT) statussetupbase.$(OBJEXT) searchbase.$(OBJEXT) moreinfobase.$(OBJEXT) maininfobase.$(OBJEXT) listsecbase.$(OBJEXT) homeinfobase.$(OBJEXT) generalsecbase.$(OBJEXT) changepasswdbase.$(OBJEXT) aboutinfobase.$(OBJEXT) \
+	libui_a_meta_unload.o 
+@KDE_USE_FINAL_FALSE@libui_a_OBJECTS = $(libui_a_nofinal_OBJECTS)
+@KDE_USE_FINAL_TRUE@libui_a_OBJECTS = $(libui_a_final_OBJECTS)
+
+DEFS = @DEFS@
+DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
+CPPFLAGS = @CPPFLAGS@
+LDFLAGS = @LDFLAGS@
+LIBS = @LIBS@
+depcomp = $(SHELL) $(top_srcdir)/admin/depcomp
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/aboutinfo.Po $(DEPDIR)/accept.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/addphone.Po $(DEPDIR)/alertdialog.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/alertmsg.Po $(DEPDIR)/autoreply.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/ballonmsg.Po $(DEPDIR)/changepasswd.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/editfile.Po $(DEPDIR)/effect.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/emailedit.Po $(DEPDIR)/enable.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/filetransfer.Po $(DEPDIR)/fontsetup.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/generalsec.Po $(DEPDIR)/homeinfo.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/interestsinfo.Po $(DEPDIR)/listsec.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/maininfo.Po $(DEPDIR)/miscsetup.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/moreinfo.Po $(DEPDIR)/msgdialog.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/network.Po $(DEPDIR)/pagerdetails.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/pastinfo.Po $(DEPDIR)/phonebook.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/phonedetails.Po $(DEPDIR)/qcolorbutton.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/searchbase.Po $(DEPDIR)/searchdlg.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/setupdlg.Po $(DEPDIR)/soundsetup.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/spellsetup.Po $(DEPDIR)/statussetup.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/themesetup.Po $(DEPDIR)/userinfo.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/workinfo.Po $(DEPDIR)/xosdsetup.Po
+#>- CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+#>- $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+#>+ 2
+CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) $(KDE_CXXFLAGS)
+#>- LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
+#>- $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+#>- $(AM_CXXFLAGS) $(CXXFLAGS)
+#>+ 3
+LTCXXCOMPILE = $(LIBTOOL) --mode=compile --tag=CXX $(CXX) $(DEFS) \
+	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_CXXFLAGS) $(CXXFLAGS) $(KDE_CXXFLAGS)
+CXXLD = $(CXX)
+#>- CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
+#>- $(AM_LDFLAGS) $(LDFLAGS) -o $@
+#>+ 2
+CXXLINK = $(LIBTOOL) --mode=link --tag=CXX $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(KDE_CXXFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+CXXFLAGS = @CXXFLAGS@
+DIST_SOURCES = $(libui_a_SOURCES)
+DIST_COMMON = Makefile.am Makefile.in
+SOURCES = $(libui_a_SOURCES)
+
+#>- all: all-am
+#>+ 1
+all: docs-am  all-am
+
+.SUFFIXES:
+.SUFFIXES: .cpp .lo .o .obj
+
+mostlyclean-libtool:
+	-rm -f *.lo
+
+clean-libtool:
+	-rm -rf .libs _libs
+
+distclean-libtool:
+	-rm -f libtool
+$(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
+#>- 	cd $(top_srcdir) && \
+#>- $(AUTOMAKE) --gnu  sim/ui/Makefile
+#>+ 3
+	cd $(top_srcdir) && \
+	$(AUTOMAKE) --gnu  sim/ui/Makefile
+	cd $(top_srcdir) && perl admin/am_edit sim-0.7/sim/ui/Makefile.in
+Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
+	cd $(top_builddir) && \
+	CONFIG_HEADERS= CONFIG_LINKS= \
+	CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
+
+AR = ar
+
+clean-noinstLIBRARIES:
+	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
+libui.a: $(libui_a_OBJECTS) $(libui_a_DEPENDENCIES) 
+	-rm -f libui.a
+	$(libui_a_AR) libui.a $(libui_a_OBJECTS) $(libui_a_LIBADD)
+	$(RANLIB) libui.a
+
+mostlyclean-compile:
+	-rm -f *.$(OBJEXT) core *.core
+
+distclean-compile:
+	-rm -f *.tab.c
+
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/aboutinfo.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/accept.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/addphone.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/alertdialog.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/alertmsg.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/autoreply.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ballonmsg.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/changepasswd.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/editfile.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/effect.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/emailedit.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/enable.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/filetransfer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/fontsetup.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/generalsec.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/homeinfo.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/interestsinfo.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/listsec.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/maininfo.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/miscsetup.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/moreinfo.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/msgdialog.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/network.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/pagerdetails.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/pastinfo.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/phonebook.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/phonedetails.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/qcolorbutton.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/searchbase.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/searchdlg.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/setupdlg.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/soundsetup.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/spellsetup.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/statussetup.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/themesetup.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/userinfo.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/workinfo.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/xosdsetup.Po@am__quote@
+
+distclean-depend:
+	-rm -rf $(DEPDIR)
+
+.cpp.o:
+@AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
+
+.cpp.obj:
+@AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXXCOMPILE) -c -o $@ `cygpath -w $<`
+
+.cpp.lo:
+@AMDEP_TRUE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LTCXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
+CXXDEPMODE = @CXXDEPMODE@
+uninstall-info-am:
+
+tags: TAGS
+
+ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
+	list='$(SOURCES) $(HEADERS) $(TAGS_FILES)'; \
+	unique=`for i in $$list; do \
+	if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
+	done | \
+	$(AWK) '    { files[$$0] = 1; } \
+	END { for (i in files) print i; }'`; \
+	mkid -fID $$unique $(LISP)
+
+TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
+	$(TAGS_FILES) $(LISP)
+	tags=; \
+	here=`pwd`; \
+	list='$(SOURCES) $(HEADERS) $(TAGS_FILES)'; \
+	unique=`for i in $$list; do \
+	if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
+	done | \
+	$(AWK) '    { files[$$0] = 1; } \
+	END { for (i in files) print i; }'`; \
+	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
+	|| etags $(ETAGS_ARGS) $$tags  $$unique $(LISP)
+
+GTAGS:
+	here=`CDPATH=: && cd $(top_builddir) && pwd` \
+	&& cd $(top_srcdir) \
+	&& gtags -i $(GTAGS_ARGS) $$here
+
+distclean-tags:
+	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH
+
+#>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+#>+ 4
+KDE_DIST=acceptbase.h statussetupbase.h themesetupbase.h fontsetupbase.h userinfobase.h pagerbase.h libui.a msgdialogbase.h phonebase.h listsecbase.h alertdialogbase.h setupdlgbase.h spellsetupbase.h changepasswdbase.h generalsecbase.h xosdbase.h addphonebase.h phonebookbase.h workinfobase.h maininfobase.h homeinfobase.h soundsetupbase.h miscsetupbase.h moreinfobase.h pastinfobase.h filetransferbase.h alertmsgbase.h autoreplybase.h aboutinfobase.h networkbase.h interestsinfobase.h emaileditbase.h 
+
+DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
+
+
+top_distdir = ../..
+distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
+
+distdir: $(DISTFILES)
+	@for file in $(DISTFILES); do \
+	if test -f $$file; then d=.; else d=$(srcdir); fi; \
+	dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
+	if test "$$dir" != "$$file" && test "$$dir" != "."; then \
+	$(mkinstalldirs) "$(distdir)/$$dir"; \
+	fi; \
+	if test -d $$d/$$file; then \
+	cp -pR $$d/$$file $(distdir) \
+	|| exit 1; \
+	else \
+	test -f $(distdir)/$$file \
+	|| cp -p $$d/$$file $(distdir)/$$file \
+	|| exit 1; \
+	fi; \
+	done
+check-am: all-am
+check: check-am
+all-am: Makefile $(LIBRARIES)
+
+installdirs:
+
+install: install-am
+install-exec: install-exec-am
+install-data: install-data-am
+uninstall: uninstall-am
+
+install-am: all-am
+	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
+
+installcheck: installcheck-am
+install-strip:
+	$(MAKE) $(AM_MAKEFLAGS) INSTALL_PROGRAM="$(INSTALL_STRIP_PROGRAM)" \
+	`test -z '$(STRIP)' || \
+	echo "INSTALL_PROGRAM_ENV=STRIPPROG='$(STRIP)'"` install
+mostlyclean-generic:
+
+clean-generic:
+
+distclean-generic:
+	-rm -f Makefile $(CONFIG_CLEAN_FILES) stamp-h stamp-h[0-9]*
+
+maintainer-clean-generic:
+	@echo "This command is intended for maintainers to use"
+	@echo "it deletes files that may require special tools to rebuild."
+#>- clean: clean-am
+#>+ 1
+clean: kde-rpo-clean  clean-am
+
+#>- clean-am: clean-generic clean-libtool clean-noinstLIBRARIES \
+#>- mostlyclean-am
+#>+ 2
+clean-am: clean-metasources clean-ui clean-moc-classes clean-final  clean-generic clean-libtool clean-noinstLIBRARIES \
+	mostlyclean-am
+
+distclean: distclean-am
+
+distclean-am: clean-am distclean-compile distclean-depend \
+	distclean-generic distclean-libtool distclean-tags
+
+dvi: dvi-am
+
+dvi-am:
+
+info: info-am
+
+info-am:
+
+install-data-am:
+
+install-exec-am:
+
+install-info: install-info-am
+
+install-man:
+
+installcheck-am:
+
+maintainer-clean: maintainer-clean-am
+
+maintainer-clean-am: distclean-am maintainer-clean-generic
+
+mostlyclean: mostlyclean-am
+
+mostlyclean-am: mostlyclean-compile mostlyclean-generic \
+	mostlyclean-libtool
+
+uninstall-am: uninstall-info-am
+
+.PHONY: GTAGS all all-am check check-am clean clean-generic \
+	clean-libtool clean-noinstLIBRARIES distclean distclean-compile \
+	distclean-depend distclean-generic distclean-libtool \
+	distclean-tags distdir dvi dvi-am info info-am install \
+	install-am install-data install-data-am install-exec \
+	install-exec-am install-info install-info-am install-man \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
+	tags uninstall uninstall-am uninstall-info-am
+
+# Tell versions [3.59,3.63) of GNU make to not export all variables.
+# Otherwise a system limit (for SysV at least) may be exceeded.
+.NOEXPORT:
+
+
+
+#>+ 353
+xosdbase.cpp: $(srcdir)/xosdbase.ui xosdbase.h xosdbase.moc
+	rm -f xosdbase.cpp
+	echo '#include "defs.h"' > xosdbase.cpp
+	$(UIC) -tr ${UIC_TR} -i xosdbase.h $(srcdir)/xosdbase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_xosdbase,g" >> xosdbase.cpp || rm -f xosdbase.cpp
+	echo '#include "xosdbase.moc"' >> xosdbase.cpp
+
+xosdbase.h: $(srcdir)/xosdbase.ui
+	$(UIC) -o xosdbase.h $(srcdir)/xosdbase.ui
+
+xosdbase.moc: xosdbase.h
+	$(MOC) xosdbase.h -o xosdbase.moc
+networkbase.cpp: $(srcdir)/networkbase.ui networkbase.h networkbase.moc
+	rm -f networkbase.cpp
+	echo '#include "defs.h"' > networkbase.cpp
+	$(UIC) -tr ${UIC_TR} -i networkbase.h $(srcdir)/networkbase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_networkbase,g" >> networkbase.cpp || rm -f networkbase.cpp
+	echo '#include "networkbase.moc"' >> networkbase.cpp
+
+networkbase.h: $(srcdir)/networkbase.ui
+	$(UIC) -o networkbase.h $(srcdir)/networkbase.ui
+
+networkbase.moc: networkbase.h
+	$(MOC) networkbase.h -o networkbase.moc
+filetransferbase.cpp: $(srcdir)/filetransferbase.ui filetransferbase.h filetransferbase.moc
+	rm -f filetransferbase.cpp
+	echo '#include "defs.h"' > filetransferbase.cpp
+	$(UIC) -tr ${UIC_TR} -i filetransferbase.h $(srcdir)/filetransferbase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_filetransferbase,g" >> filetransferbase.cpp || rm -f filetransferbase.cpp
+	echo '#include "filetransferbase.moc"' >> filetransferbase.cpp
+
+filetransferbase.h: $(srcdir)/filetransferbase.ui
+	$(UIC) -o filetransferbase.h $(srcdir)/filetransferbase.ui
+
+filetransferbase.moc: filetransferbase.h
+	$(MOC) filetransferbase.h -o filetransferbase.moc
+acceptbase.cpp: $(srcdir)/acceptbase.ui acceptbase.h acceptbase.moc
+	rm -f acceptbase.cpp
+	echo '#include "defs.h"' > acceptbase.cpp
+	$(UIC) -tr ${UIC_TR} -i acceptbase.h $(srcdir)/acceptbase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_acceptbase,g" >> acceptbase.cpp || rm -f acceptbase.cpp
+	echo '#include "acceptbase.moc"' >> acceptbase.cpp
+
+acceptbase.h: $(srcdir)/acceptbase.ui
+	$(UIC) -o acceptbase.h $(srcdir)/acceptbase.ui
+
+acceptbase.moc: acceptbase.h
+	$(MOC) acceptbase.h -o acceptbase.moc
+fontsetupbase.cpp: $(srcdir)/fontsetupbase.ui fontsetupbase.h fontsetupbase.moc
+	rm -f fontsetupbase.cpp
+	echo '#include "defs.h"' > fontsetupbase.cpp
+	$(UIC) -tr ${UIC_TR} -i fontsetupbase.h $(srcdir)/fontsetupbase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_fontsetupbase,g" >> fontsetupbase.cpp || rm -f fontsetupbase.cpp
+	echo '#include "fontsetupbase.moc"' >> fontsetupbase.cpp
+
+fontsetupbase.h: $(srcdir)/fontsetupbase.ui
+	$(UIC) -o fontsetupbase.h $(srcdir)/fontsetupbase.ui
+
+fontsetupbase.moc: fontsetupbase.h
+	$(MOC) fontsetupbase.h -o fontsetupbase.moc
+emaileditbase.cpp: $(srcdir)/emaileditbase.ui emaileditbase.h emaileditbase.moc
+	rm -f emaileditbase.cpp
+	echo '#include "defs.h"' > emaileditbase.cpp
+	$(UIC) -tr ${UIC_TR} -i emaileditbase.h $(srcdir)/emaileditbase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_emaileditbase,g" >> emaileditbase.cpp || rm -f emaileditbase.cpp
+	echo '#include "emaileditbase.moc"' >> emaileditbase.cpp
+
+emaileditbase.h: $(srcdir)/emaileditbase.ui
+	$(UIC) -o emaileditbase.h $(srcdir)/emaileditbase.ui
+
+emaileditbase.moc: emaileditbase.h
+	$(MOC) emaileditbase.h -o emaileditbase.moc
+pastinfobase.cpp: $(srcdir)/pastinfobase.ui pastinfobase.h pastinfobase.moc
+	rm -f pastinfobase.cpp
+	echo '#include "defs.h"' > pastinfobase.cpp
+	$(UIC) -tr ${UIC_TR} -i pastinfobase.h $(srcdir)/pastinfobase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_pastinfobase,g" >> pastinfobase.cpp || rm -f pastinfobase.cpp
+	echo '#include "pastinfobase.moc"' >> pastinfobase.cpp
+
+pastinfobase.h: $(srcdir)/pastinfobase.ui
+	$(UIC) -o pastinfobase.h $(srcdir)/pastinfobase.ui
+
+pastinfobase.moc: pastinfobase.h
+	$(MOC) pastinfobase.h -o pastinfobase.moc
+autoreplybase.cpp: $(srcdir)/autoreplybase.ui autoreplybase.h autoreplybase.moc
+	rm -f autoreplybase.cpp
+	echo '#include "defs.h"' > autoreplybase.cpp
+	$(UIC) -tr ${UIC_TR} -i autoreplybase.h $(srcdir)/autoreplybase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_autoreplybase,g" >> autoreplybase.cpp || rm -f autoreplybase.cpp
+	echo '#include "autoreplybase.moc"' >> autoreplybase.cpp
+
+autoreplybase.h: $(srcdir)/autoreplybase.ui
+	$(UIC) -o autoreplybase.h $(srcdir)/autoreplybase.ui
+
+autoreplybase.moc: autoreplybase.h
+	$(MOC) autoreplybase.h -o autoreplybase.moc
+alertmsgbase.cpp: $(srcdir)/alertmsgbase.ui alertmsgbase.h alertmsgbase.moc
+	rm -f alertmsgbase.cpp
+	echo '#include "defs.h"' > alertmsgbase.cpp
+	$(UIC) -tr ${UIC_TR} -i alertmsgbase.h $(srcdir)/alertmsgbase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_alertmsgbase,g" >> alertmsgbase.cpp || rm -f alertmsgbase.cpp
+	echo '#include "alertmsgbase.moc"' >> alertmsgbase.cpp
+
+alertmsgbase.h: $(srcdir)/alertmsgbase.ui
+	$(UIC) -o alertmsgbase.h $(srcdir)/alertmsgbase.ui
+
+alertmsgbase.moc: alertmsgbase.h
+	$(MOC) alertmsgbase.h -o alertmsgbase.moc
+interestsinfobase.cpp: $(srcdir)/interestsinfobase.ui interestsinfobase.h interestsinfobase.moc
+	rm -f interestsinfobase.cpp
+	echo '#include "defs.h"' > interestsinfobase.cpp
+	$(UIC) -tr ${UIC_TR} -i interestsinfobase.h $(srcdir)/interestsinfobase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_interestsinfobase,g" >> interestsinfobase.cpp || rm -f interestsinfobase.cpp
+	echo '#include "interestsinfobase.moc"' >> interestsinfobase.cpp
+
+interestsinfobase.h: $(srcdir)/interestsinfobase.ui
+	$(UIC) -o interestsinfobase.h $(srcdir)/interestsinfobase.ui
+
+interestsinfobase.moc: interestsinfobase.h
+	$(MOC) interestsinfobase.h -o interestsinfobase.moc
+msgdialogbase.cpp: $(srcdir)/msgdialogbase.ui msgdialogbase.h msgdialogbase.moc
+	rm -f msgdialogbase.cpp
+	echo '#include "defs.h"' > msgdialogbase.cpp
+	$(UIC) -tr ${UIC_TR} -i msgdialogbase.h $(srcdir)/msgdialogbase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_msgdialogbase,g" >> msgdialogbase.cpp || rm -f msgdialogbase.cpp
+	echo '#include "msgdialogbase.moc"' >> msgdialogbase.cpp
+
+msgdialogbase.h: $(srcdir)/msgdialogbase.ui
+	$(UIC) -o msgdialogbase.h $(srcdir)/msgdialogbase.ui
+
+msgdialogbase.moc: msgdialogbase.h
+	$(MOC) msgdialogbase.h -o msgdialogbase.moc
+alertdialogbase.cpp: $(srcdir)/alertdialogbase.ui alertdialogbase.h alertdialogbase.moc
+	rm -f alertdialogbase.cpp
+	echo '#include "defs.h"' > alertdialogbase.cpp
+	$(UIC) -tr ${UIC_TR} -i alertdialogbase.h $(srcdir)/alertdialogbase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_alertdialogbase,g" >> alertdialogbase.cpp || rm -f alertdialogbase.cpp
+	echo '#include "alertdialogbase.moc"' >> alertdialogbase.cpp
+
+alertdialogbase.h: $(srcdir)/alertdialogbase.ui
+	$(UIC) -o alertdialogbase.h $(srcdir)/alertdialogbase.ui
+
+alertdialogbase.moc: alertdialogbase.h
+	$(MOC) alertdialogbase.h -o alertdialogbase.moc
+phonebase.cpp: $(srcdir)/phonebase.ui phonebase.h phonebase.moc
+	rm -f phonebase.cpp
+	echo '#include "defs.h"' > phonebase.cpp
+	$(UIC) -tr ${UIC_TR} -i phonebase.h $(srcdir)/phonebase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_phonebase,g" >> phonebase.cpp || rm -f phonebase.cpp
+	echo '#include "phonebase.moc"' >> phonebase.cpp
+
+phonebase.h: $(srcdir)/phonebase.ui
+	$(UIC) -o phonebase.h $(srcdir)/phonebase.ui
+
+phonebase.moc: phonebase.h
+	$(MOC) phonebase.h -o phonebase.moc
+pagerbase.cpp: $(srcdir)/pagerbase.ui pagerbase.h pagerbase.moc
+	rm -f pagerbase.cpp
+	echo '#include "defs.h"' > pagerbase.cpp
+	$(UIC) -tr ${UIC_TR} -i pagerbase.h $(srcdir)/pagerbase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_pagerbase,g" >> pagerbase.cpp || rm -f pagerbase.cpp
+	echo '#include "pagerbase.moc"' >> pagerbase.cpp
+
+pagerbase.h: $(srcdir)/pagerbase.ui
+	$(UIC) -o pagerbase.h $(srcdir)/pagerbase.ui
+
+pagerbase.moc: pagerbase.h
+	$(MOC) pagerbase.h -o pagerbase.moc
+addphonebase.cpp: $(srcdir)/addphonebase.ui addphonebase.h addphonebase.moc
+	rm -f addphonebase.cpp
+	echo '#include "defs.h"' > addphonebase.cpp
+	$(UIC) -tr ${UIC_TR} -i addphonebase.h $(srcdir)/addphonebase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_addphonebase,g" >> addphonebase.cpp || rm -f addphonebase.cpp
+	echo '#include "addphonebase.moc"' >> addphonebase.cpp
+
+addphonebase.h: $(srcdir)/addphonebase.ui
+	$(UIC) -o addphonebase.h $(srcdir)/addphonebase.ui
+
+addphonebase.moc: addphonebase.h
+	$(MOC) addphonebase.h -o addphonebase.moc
+miscsetupbase.cpp: $(srcdir)/miscsetupbase.ui miscsetupbase.h miscsetupbase.moc
+	rm -f miscsetupbase.cpp
+	echo '#include "defs.h"' > miscsetupbase.cpp
+	$(UIC) -tr ${UIC_TR} -i miscsetupbase.h $(srcdir)/miscsetupbase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_miscsetupbase,g" >> miscsetupbase.cpp || rm -f miscsetupbase.cpp
+	echo '#include "miscsetupbase.moc"' >> miscsetupbase.cpp
+
+miscsetupbase.h: $(srcdir)/miscsetupbase.ui
+	$(UIC) -o miscsetupbase.h $(srcdir)/miscsetupbase.ui
+
+miscsetupbase.moc: miscsetupbase.h
+	$(MOC) miscsetupbase.h -o miscsetupbase.moc
+soundsetupbase.cpp: $(srcdir)/soundsetupbase.ui soundsetupbase.h soundsetupbase.moc
+	rm -f soundsetupbase.cpp
+	echo '#include "defs.h"' > soundsetupbase.cpp
+	$(UIC) -tr ${UIC_TR} -i soundsetupbase.h $(srcdir)/soundsetupbase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_soundsetupbase,g" >> soundsetupbase.cpp || rm -f soundsetupbase.cpp
+	echo '#include "soundsetupbase.moc"' >> soundsetupbase.cpp
+
+soundsetupbase.h: $(srcdir)/soundsetupbase.ui
+	$(UIC) -o soundsetupbase.h $(srcdir)/soundsetupbase.ui
+
+soundsetupbase.moc: soundsetupbase.h
+	$(MOC) soundsetupbase.h -o soundsetupbase.moc
+phonebookbase.cpp: $(srcdir)/phonebookbase.ui phonebookbase.h phonebookbase.moc
+	rm -f phonebookbase.cpp
+	echo '#include "defs.h"' > phonebookbase.cpp
+	$(UIC) -tr ${UIC_TR} -i phonebookbase.h $(srcdir)/phonebookbase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_phonebookbase,g" >> phonebookbase.cpp || rm -f phonebookbase.cpp
+	echo '#include "phonebookbase.moc"' >> phonebookbase.cpp
+
+phonebookbase.h: $(srcdir)/phonebookbase.ui
+	$(UIC) -o phonebookbase.h $(srcdir)/phonebookbase.ui
+
+phonebookbase.moc: phonebookbase.h
+	$(MOC) phonebookbase.h -o phonebookbase.moc
+spellsetupbase.cpp: $(srcdir)/spellsetupbase.ui spellsetupbase.h spellsetupbase.moc
+	rm -f spellsetupbase.cpp
+	echo '#include "defs.h"' > spellsetupbase.cpp
+	$(UIC) -tr ${UIC_TR} -i spellsetupbase.h $(srcdir)/spellsetupbase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_spellsetupbase,g" >> spellsetupbase.cpp || rm -f spellsetupbase.cpp
+	echo '#include "spellsetupbase.moc"' >> spellsetupbase.cpp
+
+spellsetupbase.h: $(srcdir)/spellsetupbase.ui
+	$(UIC) -o spellsetupbase.h $(srcdir)/spellsetupbase.ui
+
+spellsetupbase.moc: spellsetupbase.h
+	$(MOC) spellsetupbase.h -o spellsetupbase.moc
+userinfobase.cpp: $(srcdir)/userinfobase.ui userinfobase.h userinfobase.moc
+	rm -f userinfobase.cpp
+	echo '#include "defs.h"' > userinfobase.cpp
+	$(UIC) -tr ${UIC_TR} -i userinfobase.h $(srcdir)/userinfobase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_userinfobase,g" >> userinfobase.cpp || rm -f userinfobase.cpp
+	echo '#include "userinfobase.moc"' >> userinfobase.cpp
+
+userinfobase.h: $(srcdir)/userinfobase.ui
+	$(UIC) -o userinfobase.h $(srcdir)/userinfobase.ui
+
+userinfobase.moc: userinfobase.h
+	$(MOC) userinfobase.h -o userinfobase.moc
+setupdlgbase.cpp: $(srcdir)/setupdlgbase.ui setupdlgbase.h setupdlgbase.moc
+	rm -f setupdlgbase.cpp
+	echo '#include "defs.h"' > setupdlgbase.cpp
+	$(UIC) -tr ${UIC_TR} -i setupdlgbase.h $(srcdir)/setupdlgbase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_setupdlgbase,g" >> setupdlgbase.cpp || rm -f setupdlgbase.cpp
+	echo '#include "setupdlgbase.moc"' >> setupdlgbase.cpp
+
+setupdlgbase.h: $(srcdir)/setupdlgbase.ui
+	$(UIC) -o setupdlgbase.h $(srcdir)/setupdlgbase.ui
+
+setupdlgbase.moc: setupdlgbase.h
+	$(MOC) setupdlgbase.h -o setupdlgbase.moc
+workinfobase.cpp: $(srcdir)/workinfobase.ui workinfobase.h workinfobase.moc
+	rm -f workinfobase.cpp
+	echo '#include "defs.h"' > workinfobase.cpp
+	$(UIC) -tr ${UIC_TR} -i workinfobase.h $(srcdir)/workinfobase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_workinfobase,g" >> workinfobase.cpp || rm -f workinfobase.cpp
+	echo '#include "workinfobase.moc"' >> workinfobase.cpp
+
+workinfobase.h: $(srcdir)/workinfobase.ui
+	$(UIC) -o workinfobase.h $(srcdir)/workinfobase.ui
+
+workinfobase.moc: workinfobase.h
+	$(MOC) workinfobase.h -o workinfobase.moc
+themesetupbase.cpp: $(srcdir)/themesetupbase.ui themesetupbase.h themesetupbase.moc
+	rm -f themesetupbase.cpp
+	echo '#include "defs.h"' > themesetupbase.cpp
+	$(UIC) -tr ${UIC_TR} -i themesetupbase.h $(srcdir)/themesetupbase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_themesetupbase,g" >> themesetupbase.cpp || rm -f themesetupbase.cpp
+	echo '#include "themesetupbase.moc"' >> themesetupbase.cpp
+
+themesetupbase.h: $(srcdir)/themesetupbase.ui
+	$(UIC) -o themesetupbase.h $(srcdir)/themesetupbase.ui
+
+themesetupbase.moc: themesetupbase.h
+	$(MOC) themesetupbase.h -o themesetupbase.moc
+statussetupbase.cpp: $(srcdir)/statussetupbase.ui statussetupbase.h statussetupbase.moc
+	rm -f statussetupbase.cpp
+	echo '#include "defs.h"' > statussetupbase.cpp
+	$(UIC) -tr ${UIC_TR} -i statussetupbase.h $(srcdir)/statussetupbase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_statussetupbase,g" >> statussetupbase.cpp || rm -f statussetupbase.cpp
+	echo '#include "statussetupbase.moc"' >> statussetupbase.cpp
+
+statussetupbase.h: $(srcdir)/statussetupbase.ui
+	$(UIC) -o statussetupbase.h $(srcdir)/statussetupbase.ui
+
+statussetupbase.moc: statussetupbase.h
+	$(MOC) statussetupbase.h -o statussetupbase.moc
+searchbase.cpp: $(srcdir)/searchbase.ui searchbase.h searchbase.moc
+	rm -f searchbase.cpp
+	echo '#include "defs.h"' > searchbase.cpp
+	$(UIC) -tr ${UIC_TR} -i searchbase.h $(srcdir)/searchbase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_searchbase,g" >> searchbase.cpp || rm -f searchbase.cpp
+	echo '#include "searchbase.moc"' >> searchbase.cpp
+
+searchbase.h: $(srcdir)/searchbase.ui
+	$(UIC) -o searchbase.h $(srcdir)/searchbase.ui
+
+searchbase.moc: searchbase.h
+	$(MOC) searchbase.h -o searchbase.moc
+moreinfobase.cpp: $(srcdir)/moreinfobase.ui moreinfobase.h moreinfobase.moc
+	rm -f moreinfobase.cpp
+	echo '#include "defs.h"' > moreinfobase.cpp
+	$(UIC) -tr ${UIC_TR} -i moreinfobase.h $(srcdir)/moreinfobase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_moreinfobase,g" >> moreinfobase.cpp || rm -f moreinfobase.cpp
+	echo '#include "moreinfobase.moc"' >> moreinfobase.cpp
+
+moreinfobase.h: $(srcdir)/moreinfobase.ui
+	$(UIC) -o moreinfobase.h $(srcdir)/moreinfobase.ui
+
+moreinfobase.moc: moreinfobase.h
+	$(MOC) moreinfobase.h -o moreinfobase.moc
+maininfobase.cpp: $(srcdir)/maininfobase.ui maininfobase.h maininfobase.moc
+	rm -f maininfobase.cpp
+	echo '#include "defs.h"' > maininfobase.cpp
+	$(UIC) -tr ${UIC_TR} -i maininfobase.h $(srcdir)/maininfobase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_maininfobase,g" >> maininfobase.cpp || rm -f maininfobase.cpp
+	echo '#include "maininfobase.moc"' >> maininfobase.cpp
+
+maininfobase.h: $(srcdir)/maininfobase.ui
+	$(UIC) -o maininfobase.h $(srcdir)/maininfobase.ui
+
+maininfobase.moc: maininfobase.h
+	$(MOC) maininfobase.h -o maininfobase.moc
+listsecbase.cpp: $(srcdir)/listsecbase.ui listsecbase.h listsecbase.moc
+	rm -f listsecbase.cpp
+	echo '#include "defs.h"' > listsecbase.cpp
+	$(UIC) -tr ${UIC_TR} -i listsecbase.h $(srcdir)/listsecbase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_listsecbase,g" >> listsecbase.cpp || rm -f listsecbase.cpp
+	echo '#include "listsecbase.moc"' >> listsecbase.cpp
+
+listsecbase.h: $(srcdir)/listsecbase.ui
+	$(UIC) -o listsecbase.h $(srcdir)/listsecbase.ui
+
+listsecbase.moc: listsecbase.h
+	$(MOC) listsecbase.h -o listsecbase.moc
+homeinfobase.cpp: $(srcdir)/homeinfobase.ui homeinfobase.h homeinfobase.moc
+	rm -f homeinfobase.cpp
+	echo '#include "defs.h"' > homeinfobase.cpp
+	$(UIC) -tr ${UIC_TR} -i homeinfobase.h $(srcdir)/homeinfobase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_homeinfobase,g" >> homeinfobase.cpp || rm -f homeinfobase.cpp
+	echo '#include "homeinfobase.moc"' >> homeinfobase.cpp
+
+homeinfobase.h: $(srcdir)/homeinfobase.ui
+	$(UIC) -o homeinfobase.h $(srcdir)/homeinfobase.ui
+
+homeinfobase.moc: homeinfobase.h
+	$(MOC) homeinfobase.h -o homeinfobase.moc
+generalsecbase.cpp: $(srcdir)/generalsecbase.ui generalsecbase.h generalsecbase.moc
+	rm -f generalsecbase.cpp
+	echo '#include "defs.h"' > generalsecbase.cpp
+	$(UIC) -tr ${UIC_TR} -i generalsecbase.h $(srcdir)/generalsecbase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_generalsecbase,g" >> generalsecbase.cpp || rm -f generalsecbase.cpp
+	echo '#include "generalsecbase.moc"' >> generalsecbase.cpp
+
+generalsecbase.h: $(srcdir)/generalsecbase.ui
+	$(UIC) -o generalsecbase.h $(srcdir)/generalsecbase.ui
+
+generalsecbase.moc: generalsecbase.h
+	$(MOC) generalsecbase.h -o generalsecbase.moc
+changepasswdbase.cpp: $(srcdir)/changepasswdbase.ui changepasswdbase.h changepasswdbase.moc
+	rm -f changepasswdbase.cpp
+	echo '#include "defs.h"' > changepasswdbase.cpp
+	$(UIC) -tr ${UIC_TR} -i changepasswdbase.h $(srcdir)/changepasswdbase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_changepasswdbase,g" >> changepasswdbase.cpp || rm -f changepasswdbase.cpp
+	echo '#include "changepasswdbase.moc"' >> changepasswdbase.cpp
+
+changepasswdbase.h: $(srcdir)/changepasswdbase.ui
+	$(UIC) -o changepasswdbase.h $(srcdir)/changepasswdbase.ui
+
+changepasswdbase.moc: changepasswdbase.h
+	$(MOC) changepasswdbase.h -o changepasswdbase.moc
+aboutinfobase.cpp: $(srcdir)/aboutinfobase.ui aboutinfobase.h aboutinfobase.moc
+	rm -f aboutinfobase.cpp
+	echo '#include "defs.h"' > aboutinfobase.cpp
+	$(UIC) -tr ${UIC_TR} -i aboutinfobase.h $(srcdir)/aboutinfobase.ui | sed -e "s,${UIC_TR}( \"\" ),QString::null,g" | sed -e "s,${UIC_TR}( \"\"\, \"\" ),QString::null,g" | sed -e "s,image\([0-9][0-9]*\)_data,img\1_aboutinfobase,g" >> aboutinfobase.cpp || rm -f aboutinfobase.cpp
+	echo '#include "aboutinfobase.moc"' >> aboutinfobase.cpp
+
+aboutinfobase.h: $(srcdir)/aboutinfobase.ui
+	$(UIC) -o aboutinfobase.h $(srcdir)/aboutinfobase.ui
+
+aboutinfobase.moc: aboutinfobase.h
+	$(MOC) aboutinfobase.h -o aboutinfobase.moc
+
+#>+ 3
+phonedetails.moc: $(srcdir)/phonedetails.h
+	$(MOC) $(srcdir)/phonedetails.h -o phonedetails.moc
+
+#>+ 3
+themesetup.moc: $(srcdir)/themesetup.h
+	$(MOC) $(srcdir)/themesetup.h -o themesetup.moc
+
+#>+ 3
+autoreply.moc: $(srcdir)/autoreply.h
+	$(MOC) $(srcdir)/autoreply.h -o autoreply.moc
+
+#>+ 3
+editfile.moc: $(srcdir)/editfile.h
+	$(MOC) $(srcdir)/editfile.h -o editfile.moc
+
+#>+ 3
+aboutinfo.moc: $(srcdir)/aboutinfo.h
+	$(MOC) $(srcdir)/aboutinfo.h -o aboutinfo.moc
+
+#>+ 3
+fontsetup.moc: $(srcdir)/fontsetup.h
+	$(MOC) $(srcdir)/fontsetup.h -o fontsetup.moc
+
+#>+ 3
+alertdialog.moc: $(srcdir)/alertdialog.h
+	$(MOC) $(srcdir)/alertdialog.h -o alertdialog.moc
+
+#>+ 3
+setupdlg.moc: $(srcdir)/setupdlg.h
+	$(MOC) $(srcdir)/setupdlg.h -o setupdlg.moc
+
+#>+ 3
+network.moc: $(srcdir)/network.h
+	$(MOC) $(srcdir)/network.h -o network.moc
+
+#>+ 3
+userinfo.moc: $(srcdir)/userinfo.h
+	$(MOC) $(srcdir)/userinfo.h -o userinfo.moc
+
+#>+ 3
+searchdlg.moc: $(srcdir)/searchdlg.h
+	$(MOC) $(srcdir)/searchdlg.h -o searchdlg.moc
+
+#>+ 3
+xosdsetup.moc: $(srcdir)/xosdsetup.h
+	$(MOC) $(srcdir)/xosdsetup.h -o xosdsetup.moc
+
+#>+ 3
+spellsetup.moc: $(srcdir)/spellsetup.h
+	$(MOC) $(srcdir)/spellsetup.h -o spellsetup.moc
+
+#>+ 3
+pagerdetails.moc: $(srcdir)/pagerdetails.h
+	$(MOC) $(srcdir)/pagerdetails.h -o pagerdetails.moc
+
+#>+ 3
+homeinfo.moc: $(srcdir)/homeinfo.h
+	$(MOC) $(srcdir)/homeinfo.h -o homeinfo.moc
+
+#>+ 3
+msgdialog.moc: $(srcdir)/msgdialog.h
+	$(MOC) $(srcdir)/msgdialog.h -o msgdialog.moc
+
+#>+ 3
+changepasswd.moc: $(srcdir)/changepasswd.h
+	$(MOC) $(srcdir)/changepasswd.h -o changepasswd.moc
+
+#>+ 3
+generalsec.moc: $(srcdir)/generalsec.h
+	$(MOC) $(srcdir)/generalsec.h -o generalsec.moc
+
+#>+ 3
+soundsetup.moc: $(srcdir)/soundsetup.h
+	$(MOC) $(srcdir)/soundsetup.h -o soundsetup.moc
+
+#>+ 3
+miscsetup.moc: $(srcdir)/miscsetup.h
+	$(MOC) $(srcdir)/miscsetup.h -o miscsetup.moc
+
+#>+ 3
+moreinfo.moc: $(srcdir)/moreinfo.h
+	$(MOC) $(srcdir)/moreinfo.h -o moreinfo.moc
+
+#>+ 3
+addphone.moc: $(srcdir)/addphone.h
+	$(MOC) $(srcdir)/addphone.h -o addphone.moc
+
+#>+ 3
+pastinfo.moc: $(srcdir)/pastinfo.h
+	$(MOC) $(srcdir)/pastinfo.h -o pastinfo.moc
+
+#>+ 3
+filetransfer.moc: $(srcdir)/filetransfer.h
+	$(MOC) $(srcdir)/filetransfer.h -o filetransfer.moc
+
+#>+ 3
+phonebook.moc: $(srcdir)/phonebook.h
+	$(MOC) $(srcdir)/phonebook.h -o phonebook.moc
+
+#>+ 3
+qcolorbutton.moc: $(srcdir)/qcolorbutton.h
+	$(MOC) $(srcdir)/qcolorbutton.h -o qcolorbutton.moc
+
+#>+ 3
+interestsinfo.moc: $(srcdir)/interestsinfo.h
+	$(MOC) $(srcdir)/interestsinfo.h -o interestsinfo.moc
+
+#>+ 3
+emailedit.moc: $(srcdir)/emailedit.h
+	$(MOC) $(srcdir)/emailedit.h -o emailedit.moc
+
+#>+ 3
+workinfo.moc: $(srcdir)/workinfo.h
+	$(MOC) $(srcdir)/workinfo.h -o workinfo.moc
+
+#>+ 3
+accept.moc: $(srcdir)/accept.h
+	$(MOC) $(srcdir)/accept.h -o accept.moc
+
+#>+ 3
+maininfo.moc: $(srcdir)/maininfo.h
+	$(MOC) $(srcdir)/maininfo.h -o maininfo.moc
+
+#>+ 3
+statussetup.moc: $(srcdir)/statussetup.h
+	$(MOC) $(srcdir)/statussetup.h -o statussetup.moc
+
+#>+ 3
+listsec.moc: $(srcdir)/listsec.h
+	$(MOC) $(srcdir)/listsec.h -o listsec.moc
+
+#>+ 3
+alertmsg.moc: $(srcdir)/alertmsg.h
+	$(MOC) $(srcdir)/alertmsg.h -o alertmsg.moc
+
+#>+ 3
+ballonmsg.moc: $(srcdir)/ballonmsg.h
+	$(MOC) $(srcdir)/ballonmsg.h -o ballonmsg.moc
+
+#>+ 3
+clean-metasources:
+	-rm -f  phonedetails.moc themesetup.moc autoreply.moc editfile.moc aboutinfo.moc fontsetup.moc alertdialog.moc setupdlg.moc network.moc userinfo.moc searchdlg.moc xosdsetup.moc spellsetup.moc pagerdetails.moc homeinfo.moc msgdialog.moc changepasswd.moc generalsec.moc soundsetup.moc miscsetup.moc moreinfo.moc addphone.moc pastinfo.moc filetransfer.moc phonebook.moc qcolorbutton.moc interestsinfo.moc emailedit.moc workinfo.moc accept.moc maininfo.moc statussetup.moc listsec.moc alertmsg.moc ballonmsg.moc
+
+#>+ 35
+clean-ui:
+	-rm -f \
+	xosdbase.cpp xosdbase.h xosdbase.moc \
+	networkbase.cpp networkbase.h networkbase.moc \
+	filetransferbase.cpp filetransferbase.h filetransferbase.moc \
+	acceptbase.cpp acceptbase.h acceptbase.moc \
+	fontsetupbase.cpp fontsetupbase.h fontsetupbase.moc \
+	emaileditbase.cpp emaileditbase.h emaileditbase.moc \
+	pastinfobase.cpp pastinfobase.h pastinfobase.moc \
+	autoreplybase.cpp autoreplybase.h autoreplybase.moc \
+	alertmsgbase.cpp alertmsgbase.h alertmsgbase.moc \
+	interestsinfobase.cpp interestsinfobase.h interestsinfobase.moc \
+	msgdialogbase.cpp msgdialogbase.h msgdialogbase.moc \
+	alertdialogbase.cpp alertdialogbase.h alertdialogbase.moc \
+	phonebase.cpp phonebase.h phonebase.moc \
+	pagerbase.cpp pagerbase.h pagerbase.moc \
+	addphonebase.cpp addphonebase.h addphonebase.moc \
+	miscsetupbase.cpp miscsetupbase.h miscsetupbase.moc \
+	soundsetupbase.cpp soundsetupbase.h soundsetupbase.moc \
+	phonebookbase.cpp phonebookbase.h phonebookbase.moc \
+	spellsetupbase.cpp spellsetupbase.h spellsetupbase.moc \
+	userinfobase.cpp userinfobase.h userinfobase.moc \
+	setupdlgbase.cpp setupdlgbase.h setupdlgbase.moc \
+	workinfobase.cpp workinfobase.h workinfobase.moc \
+	themesetupbase.cpp themesetupbase.h themesetupbase.moc \
+	statussetupbase.cpp statussetupbase.h statussetupbase.moc \
+	searchbase.cpp searchbase.h searchbase.moc \
+	moreinfobase.cpp moreinfobase.h moreinfobase.moc \
+	maininfobase.cpp maininfobase.h maininfobase.moc \
+	listsecbase.cpp listsecbase.h listsecbase.moc \
+	homeinfobase.cpp homeinfobase.h homeinfobase.moc \
+	generalsecbase.cpp generalsecbase.h generalsecbase.moc \
+	changepasswdbase.cpp changepasswdbase.h changepasswdbase.moc \
+	aboutinfobase.cpp aboutinfobase.h aboutinfobase.moc 
+
+#>+ 2
+docs-am:
+
+#>+ 2
+apidox-am:
+
+#>+ 2
+apidox: apidox-am
+
+#>+ 6
+force-reedit:
+		cd $(top_srcdir) && \
+	$(AUTOMAKE) --gnu  sim/ui/Makefile
+	cd $(top_srcdir) && perl admin/am_edit sim-0.7/sim/ui/Makefile.in
+
+
+#>+ 15
+libui_a_meta_unload.cpp:  phonedetails.moc autoreplybase.moc aboutinfobase.moc fontsetupbase.moc themesetup.moc autoreply.moc aboutinfo.moc fontsetup.moc spellsetupbase.moc searchdlg.moc spellsetup.moc searchbase.moc generalsecbase.moc pagerdetails.moc phonebase.moc soundsetupbase.moc generalsec.moc soundsetup.moc addphonebase.moc pastinfobase.moc phonebookbase.moc addphone.moc pastinfo.moc phonebook.moc interestsinfobase.moc workinfobase.moc maininfobase.moc interestsinfo.moc workinfo.moc statussetupbase.moc maininfo.moc statussetup.moc alertdialogbase.moc setupdlgbase.moc networkbase.moc userinfobase.moc editfile.moc alertdialog.moc setupdlg.moc pagerbase.moc network.moc userinfo.moc xosdsetup.moc homeinfobase.moc msgdialogbase.moc changepasswdbase.moc homeinfo.moc msgdialog.moc miscsetupbase.moc changepasswd.moc xosdbase.moc moreinfobase.moc miscsetup.moc moreinfo.moc filetransferbase.moc filetransfer.moc emaileditbase.moc acceptbase.moc qcolorbutton.moc emailedit.moc accept.moc listsecbase.moc listsec.moc alertmsgbase.moc ballonmsg.moc alertmsg.moc themesetupbase.moc
+	@echo 'creating libui_a_meta_unload.cpp'
+	@-rm -f libui_a_meta_unload.cpp
+	@if test ${kde_qtver} = 2; then \
+		echo 'static const char * _metalist_libui_a[] = {' > libui_a_meta_unload.cpp ;\
+		cat  phonedetails.moc autoreplybase.moc aboutinfobase.moc fontsetupbase.moc themesetup.moc autoreply.moc aboutinfo.moc fontsetup.moc spellsetupbase.moc searchdlg.moc spellsetup.moc searchbase.moc generalsecbase.moc pagerdetails.moc phonebase.moc soundsetupbase.moc generalsec.moc soundsetup.moc addphonebase.moc pastinfobase.moc phonebookbase.moc addphone.moc pastinfo.moc phonebook.moc interestsinfobase.moc workinfobase.moc maininfobase.moc interestsinfo.moc workinfo.moc statussetupbase.moc maininfo.moc statussetup.moc alertdialogbase.moc setupdlgbase.moc networkbase.moc userinfobase.moc editfile.moc alertdialog.moc setupdlg.moc pagerbase.moc network.moc userinfo.moc xosdsetup.moc homeinfobase.moc msgdialogbase.moc changepasswdbase.moc homeinfo.moc msgdialog.moc miscsetupbase.moc changepasswd.moc xosdbase.moc moreinfobase.moc miscsetup.moc moreinfo.moc filetransferbase.moc filetransfer.moc emaileditbase.moc acceptbase.moc qcolorbutton.moc emailedit.moc accept.moc listsecbase.moc listsec.moc alertmsgbase.moc ballonmsg.moc alertmsg.moc themesetupbase.moc | grep 'char.*className' | sed -e 's/.*[^A-Za-z0-9_:]\([A-Za-z0-9_:]*\)::className.*$$/\"\1\",/' | sort | uniq >> libui_a_meta_unload.cpp ;\
+		echo '0};' >> libui_a_meta_unload.cpp ;\
+		echo '#include "defs.h"' >> libui_a_meta_unload.cpp ;\
+		echo '#ifdef USE_KDE' >> libui_a_meta_unload.cpp ;\
+		echo '#include <kunload.h>' >> libui_a_meta_unload.cpp ;\
+		echo '_UNLOAD(libui_a)' >> libui_a_meta_unload.cpp ;\
+		echo '#endif' >> libui_a_meta_unload.cpp ;\
+	else echo > libui_a_meta_unload.cpp; fi
+
+
+#>+ 3
+clean-moc-classes:
+	-rm -f  libui_a_meta_unload.cpp
+
+#>+ 11
+libui_a.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/xosdsetup.cpp $(srcdir)/effect.cpp $(srcdir)/network.cpp $(srcdir)/filetransfer.cpp $(srcdir)/accept.cpp $(srcdir)/ballonmsg.cpp $(srcdir)/qcolorbutton.cpp $(srcdir)/fontsetup.cpp $(srcdir)/emailedit.cpp $(srcdir)/pastinfo.cpp $(srcdir)/autoreply.cpp $(srcdir)/alertmsg.cpp $(srcdir)/interestsinfo.cpp $(srcdir)/msgdialog.cpp $(srcdir)/alertdialog.cpp $(srcdir)/phonedetails.cpp $(srcdir)/pagerdetails.cpp $(srcdir)/addphone.cpp $(srcdir)/miscsetup.cpp $(srcdir)/soundsetup.cpp $(srcdir)/editfile.cpp $(srcdir)/phonebook.cpp $(srcdir)/spellsetup.cpp $(srcdir)/userinfo.cpp $(srcdir)/setupdlg.cpp $(srcdir)/searchdlg.cpp $(srcdir)/enable.cpp $(srcdir)/workinfo.cpp $(srcdir)/themesetup.cpp $(srcdir)/statussetup.cpp $(srcdir)/searchbase.cpp $(srcdir)/moreinfo.cpp $(srcdir)/maininfo.cpp $(srcdir)/listsec.cpp $(srcdir)/homeinfo.cpp $(srcdir)/generalsec.cpp $(srcdir)/changepasswd.cpp $(srcdir)/aboutinfo.cpp $(srcdir)/xosdbase.cpp $(srcdir)/networkbase.cpp $(srcdir)/filetransferbase.cpp $(srcdir)/acceptbase.cpp $(srcdir)/fontsetupbase.cpp $(srcdir)/emaileditbase.cpp $(srcdir)/pastinfobase.cpp $(srcdir)/autoreplybase.cpp $(srcdir)/alertmsgbase.cpp $(srcdir)/interestsinfobase.cpp $(srcdir)/msgdialogbase.cpp $(srcdir)/alertdialogbase.cpp $(srcdir)/phonebase.cpp $(srcdir)/pagerbase.cpp $(srcdir)/addphonebase.cpp $(srcdir)/miscsetupbase.cpp $(srcdir)/soundsetupbase.cpp $(srcdir)/phonebookbase.cpp $(srcdir)/spellsetupbase.cpp $(srcdir)/userinfobase.cpp $(srcdir)/setupdlgbase.cpp $(srcdir)/workinfobase.cpp $(srcdir)/themesetupbase.cpp $(srcdir)/statussetupbase.cpp $(srcdir)/searchbase.cpp $(srcdir)/moreinfobase.cpp $(srcdir)/maininfobase.cpp $(srcdir)/listsecbase.cpp $(srcdir)/homeinfobase.cpp $(srcdir)/generalsecbase.cpp $(srcdir)/changepasswdbase.cpp $(srcdir)/aboutinfobase.cpp libui_a_meta_unload.cpp
+	@echo 'creating libui_a.all_cpp.cpp ...'; \
+	rm -f libui_a.all_cpp.files libui_a.all_cpp.final; \
+	echo "#define KDE_USE_FINAL 1" >> libui_a.all_cpp.final; \
+	for file in xosdsetup.cpp effect.cpp network.cpp filetransfer.cpp accept.cpp ballonmsg.cpp qcolorbutton.cpp fontsetup.cpp emailedit.cpp pastinfo.cpp autoreply.cpp alertmsg.cpp interestsinfo.cpp msgdialog.cpp alertdialog.cpp phonedetails.cpp pagerdetails.cpp addphone.cpp miscsetup.cpp soundsetup.cpp editfile.cpp phonebook.cpp spellsetup.cpp userinfo.cpp setupdlg.cpp searchdlg.cpp enable.cpp workinfo.cpp themesetup.cpp statussetup.cpp searchbase.cpp moreinfo.cpp maininfo.cpp listsec.cpp homeinfo.cpp generalsec.cpp changepasswd.cpp aboutinfo.cpp xosdbase.cpp networkbase.cpp filetransferbase.cpp acceptbase.cpp fontsetupbase.cpp emaileditbase.cpp pastinfobase.cpp autoreplybase.cpp alertmsgbase.cpp interestsinfobase.cpp msgdialogbase.cpp alertdialogbase.cpp phonebase.cpp pagerbase.cpp addphonebase.cpp miscsetupbase.cpp soundsetupbase.cpp phonebookbase.cpp spellsetupbase.cpp userinfobase.cpp setupdlgbase.cpp workinfobase.cpp themesetupbase.cpp statussetupbase.cpp searchbase.cpp moreinfobase.cpp maininfobase.cpp listsecbase.cpp homeinfobase.cpp generalsecbase.cpp changepasswdbase.cpp aboutinfobase.cpp libui_a_meta_unload.cpp ; do \
+	  echo "#include \"$$file\"" >> libui_a.all_cpp.files; \
+	  test ! -f $(srcdir)/$$file || egrep '^#pragma +implementation' $(srcdir)/$$file >> libui_a.all_cpp.final; \
+	done; \
+	cat libui_a.all_cpp.final libui_a.all_cpp.files > libui_a.all_cpp.cpp; \
+	rm -f libui_a.all_cpp.final libui_a.all_cpp.files
+
+#>+ 3
+clean-final:
+	-rm -f libui_a.all_cpp.cpp
+
+#>+ 2
+final:
+	$(MAKE) libui_a_OBJECTS="$(libui_a_final_OBJECTS)" all-am
+#>+ 2
+final-install:
+	$(MAKE) libui_a_OBJECTS="$(libui_a_final_OBJECTS)" install-am
+#>+ 2
+no-final:
+	$(MAKE) libui_a_OBJECTS="$(libui_a_nofinal_OBJECTS)" all-am
+#>+ 2
+no-final-install:
+	$(MAKE) libui_a_OBJECTS="$(libui_a_nofinal_OBJECTS)" install-am
+#>+ 3
+cvs-clean:
+	$(MAKE) admindir=$(top_srcdir)/admin -f $(top_srcdir)/admin/Makefile.common cvs-clean
+
+#>+ 3
+kde-rpo-clean:
+	-rm -f *.rpo
+
+#>+ 108
+msgdialog.lo: msgdialog.moc 
+$(srcdir)/autoreply.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/filetransfer.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+pastinfo.o: pastinfo.moc 
+filetransfer.o: filetransfer.moc 
+generalsec.lo: generalsec.moc 
+$(srcdir)/aboutinfo.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/fontsetup.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/alertdialog.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/network.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/qcolorbutton.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+moreinfo.lo: moreinfo.moc 
+$(srcdir)/searchdlg.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+phonedetails.lo: phonedetails.moc 
+themesetup.lo: themesetup.moc 
+phonebook.lo: phonebook.moc 
+editfile.lo: editfile.moc 
+fontsetup.lo: fontsetup.moc 
+network.lo: network.moc 
+listsec.o: listsec.moc 
+interestsinfo.lo: interestsinfo.moc 
+maininfo.lo: maininfo.moc 
+$(srcdir)/alertmsg.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/phonedetails.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+ballonmsg.o: ballonmsg.moc 
+alertmsg.o: alertmsg.moc 
+statussetup.lo: statussetup.moc 
+listsec.lo: listsec.moc 
+$(srcdir)/phonebook.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+autoreply.o: autoreply.moc 
+editfile.o: editfile.moc 
+aboutinfo.o: aboutinfo.moc 
+alertdialog.o: alertdialog.moc 
+setupdlg.o: setupdlg.moc 
+network.o: network.moc 
+ballonmsg.lo: ballonmsg.moc 
+alertmsg.lo: alertmsg.moc 
+$(srcdir)/interestsinfo.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+searchdlg.o: searchdlg.moc 
+pastinfo.lo: pastinfo.moc 
+spellsetup.o: spellsetup.moc 
+aboutinfo.lo: aboutinfo.moc 
+$(srcdir)/pagerdetails.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+pagerdetails.o: pagerdetails.moc 
+$(srcdir)/listsec.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+changepasswd.o: changepasswd.moc 
+generalsec.o: generalsec.moc 
+emailedit.lo: emailedit.moc 
+homeinfo.lo: homeinfo.moc 
+$(srcdir)/addphone.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/pastinfo.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+addphone.o: addphone.moc 
+phonebook.o: phonebook.moc 
+$(srcdir)/enable.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+miscsetup.lo: miscsetup.moc 
+$(srcdir)/effect.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+qcolorbutton.o: qcolorbutton.moc 
+interestsinfo.o: interestsinfo.moc 
+$(srcdir)/xosdsetup.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/workinfo.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+emailedit.o: emailedit.moc 
+$(srcdir)/accept.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+addphone.lo: addphone.moc 
+workinfo.o: workinfo.moc 
+$(srcdir)/maininfo.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+accept.o: accept.moc 
+filetransfer.lo: filetransfer.moc 
+maininfo.o: maininfo.moc 
+setupdlg.lo: setupdlg.moc 
+alertdialog.lo: alertdialog.moc 
+statussetup.o: statussetup.moc 
+$(srcdir)/msgdialog.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+workinfo.lo: workinfo.moc 
+$(srcdir)/miscsetup.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+phonedetails.o: phonedetails.moc 
+$(srcdir)/themesetup.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+themesetup.o: themesetup.moc 
+changepasswd.lo: changepasswd.moc 
+$(srcdir)/editfile.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+soundsetup.lo: soundsetup.moc 
+$(srcdir)/setupdlg.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+fontsetup.o: fontsetup.moc 
+$(srcdir)/userinfo.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+userinfo.o: userinfo.moc 
+$(srcdir)/emailedit.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+xosdsetup.o: xosdsetup.moc 
+$(srcdir)/spellsetup.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+autoreply.lo: autoreply.moc 
+$(srcdir)/homeinfo.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/statussetup.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+homeinfo.o: homeinfo.moc 
+$(srcdir)/changepasswd.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+msgdialog.o: msgdialog.moc 
+userinfo.lo: userinfo.moc 
+$(srcdir)/generalsec.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+qcolorbutton.lo: qcolorbutton.moc 
+$(srcdir)/soundsetup.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+searchdlg.lo: searchdlg.moc 
+soundsetup.o: soundsetup.moc 
+xosdsetup.lo: xosdsetup.moc 
+accept.lo: accept.moc 
+spellsetup.lo: spellsetup.moc 
+miscsetup.o: miscsetup.moc 
+$(srcdir)/ballonmsg.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+$(srcdir)/moreinfo.cpp: xosdbase.h networkbase.h filetransferbase.h acceptbase.h fontsetupbase.h emaileditbase.h pastinfobase.h autoreplybase.h alertmsgbase.h interestsinfobase.h msgdialogbase.h alertdialogbase.h phonebase.h pagerbase.h addphonebase.h miscsetupbase.h soundsetupbase.h phonebookbase.h spellsetupbase.h userinfobase.h setupdlgbase.h workinfobase.h themesetupbase.h statussetupbase.h searchbase.h moreinfobase.h maininfobase.h listsecbase.h homeinfobase.h generalsecbase.h changepasswdbase.h aboutinfobase.h 
+moreinfo.o: moreinfo.moc 
+pagerdetails.lo: pagerdetails.moc 
