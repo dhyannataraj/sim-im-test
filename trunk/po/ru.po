@@ -98,15 +98,6 @@ msgstr "Конвертация конфигурации"
 msgid "Autoreply message"
 msgstr "Автоответ"
 
-#: plugins/_core/autoreply.cpp:92
-#, c-format
-msgid ""
-"_n: Close after %n second\n"
-"Close after %n seconds"
-msgstr ""
-"Закрыть через %n секунду Закрыть через %n "
-"секунды Закрыть через %n секунд"
-
 # ui/userinfo.cpp:73 userbox.cpp:399 usertbl.cpp:405
 #: plugins/_core/cfgdlg.cpp:275 plugins/_core/usercfg.cpp:195
 msgid "User info"

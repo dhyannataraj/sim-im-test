@@ -1126,14 +1126,12 @@ void *MSNClient::processEvent(Event *e)
             if (data->result == 200){
                 string h = getHeader("PassportURLs", data->headers);
                 if (h.empty()){
-                    log(L_WARN, "No PassportURLs answer");
-                    authFailed();
+                    m_socket->error_state("No PassportURLs answer");
                     break;
                 }
                 string loginHost = getValue("DALogin", h.c_str());
                 if (loginHost.empty()){
-                    log(L_WARN, "No DALogin in PassportURLs answer");
-                    authFailed();
+                    m_socket->error_state("No DALogin in PassportURLs answer");
                     break;
                 }
                 string loginUrl = "https://";
@@ -1149,27 +1147,25 @@ void *MSNClient::processEvent(Event *e)
                 m_state = TWN;
                 m_fetchId = fetch(loginUrl.c_str(), NULL, auth.c_str());
             }else{
-                authFailed();
+                m_socket->error_state("Bad answer code");
             }
             break;
         case TWN:
             if (data->result == 200){
                 string h = getHeader("Authentication-Info", data->headers);
                 if (h.empty()){
-                    log(L_WARN, "No Authentication-Info answer");
-                    authFailed();
+                    m_socket->error_state("No Authentication-Info answer");
                     break;
                 }
                 string twn = getValue("from-PP", h.c_str());
                 if (twn.empty()){
-                    log(L_WARN, "No from-PP in Authentication-Info answer");
-                    authFailed();
+                    m_socket->error_state("No from-PP in Authentication-Info answer");
                     break;
                 }
                 MSNPacket *packet = new UsrPacket(this, twn.c_str());
                 packet->send();
             }else{
-                authFailed();
+                m_socket->error_state("Bad answer code");
             }
             break;
         default:
