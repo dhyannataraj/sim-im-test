@@ -856,6 +856,31 @@ EXPORT unsigned get_random()
     return rand();
 }
 
+my_string::my_string(const char *str)
+{
+	m_str = new string(str);
+}
+
+my_string::my_string(const my_string &s)
+{
+	m_str = new string(*s.m_str);
+}
+
+void my_string::operator = (const my_string &s)
+{
+	*m_str = *s.m_str;
+}
+
+my_string::~my_string()
+{
+	delete m_str;
+}
+
+bool my_string::operator < (const my_string &a) const
+{
+    return strcmp(m_str->c_str(), a.m_str->c_str()) < 0;
+}
+
 };
 
 #ifndef HAVE_STRCASECMP

@@ -653,6 +653,7 @@ static Message *createIcq(const char *cfg)
 static MessageDef defIcq =
     {
         NULL,
+		NULL,
         MESSAGE_DEFAULT,
         NULL,
         NULL,
@@ -669,6 +670,7 @@ static Message *createIcqFile(const char *cfg)
 static MessageDef defIcqFile =
     {
         NULL,
+		NULL,
         MESSAGE_DEFAULT,
         NULL,
         NULL,
@@ -689,6 +691,7 @@ static Message *createWebPanel(const char *cfg)
 static MessageDef defWebPanel =
     {
         NULL,
+		NULL,
         MESSAGE_DEFAULT,
         "WWW-panel message",
         "%n WWW-panel messages",
@@ -709,6 +712,7 @@ static Message *createEmailPager(const char *cfg)
 static MessageDef defEmailPager =
     {
         NULL,
+		NULL,
         MESSAGE_DEFAULT,
         "Email pager message",
         "%n Email pager messages",
@@ -729,6 +733,7 @@ static Message *createOpenSecure(const char *cfg)
 static MessageDef defOpenSecure =
     {
         NULL,
+		NULL,
         MESSAGE_SENDONLY,
         "Request secure channel",
         "%n requests secure channel",
@@ -749,6 +754,7 @@ static Message *createCloseSecure(const char *cfg)
 static MessageDef defCloseSecure =
     {
         NULL,
+		NULL,
         MESSAGE_SILENT | MESSAGE_SENDONLY,
         "Close secure channel",
         "%n times close secure channel",
@@ -769,6 +775,7 @@ static Message *createCheckInvisible(const char *cfg)
 static MessageDef defCheckInvisible =
     {
         NULL,
+		NULL,
         MESSAGE_SILENT | MESSAGE_SENDONLY,
         "Check invisible",
         "%n times checkInvisible",
@@ -818,6 +825,7 @@ static Message *createWarning(const char *cfg)
 static MessageDef defWarning =
     {
         NULL,
+		NULL,
         MESSAGE_SENDONLY,
         "Warning",
         "%n warnings",
@@ -834,6 +842,7 @@ static Message *createIcqAuthRequest(const char *cfg)
 static MessageDef defIcqAuthRequest =
     {
         NULL,
+		NULL,
         MESSAGE_DEFAULT,
         NULL,
         NULL,
@@ -850,6 +859,7 @@ static Message *createIcqAuthGranted(const char *cfg)
 static MessageDef defIcqAuthGranted =
     {
         NULL,
+		NULL,
         MESSAGE_DEFAULT,
         NULL,
         NULL,
@@ -866,6 +876,7 @@ static Message *createIcqAuthRefused(const char *cfg)
 static MessageDef defIcqAuthRefused =
     {
         NULL,
+		NULL,
         MESSAGE_DEFAULT,
         NULL,
         NULL,
@@ -886,6 +897,7 @@ i18n("Contact request", "%n contact requests", 1);
 static MessageDef defContactRequest =
     {
         NULL,
+		NULL,
         MESSAGE_DEFAULT | MESSAGE_SYSTEM,
         "Contact request",
         "%n contact requests",
@@ -902,6 +914,7 @@ static Message *createIcqUrl(const char *cfg)
 static MessageDef defIcqUrl =
     {
         NULL,
+		NULL,
         MESSAGE_DEFAULT,
         NULL,
         NULL,
@@ -918,6 +931,7 @@ static Message *createIcqContacts(const char *cfg)
 static MessageDef defIcqContacts =
     {
         NULL,
+		NULL,
         MESSAGE_DEFAULT,
         NULL,
         NULL,

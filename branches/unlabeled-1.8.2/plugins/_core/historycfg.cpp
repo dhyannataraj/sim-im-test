@@ -257,7 +257,11 @@ void HistoryConfig::apply()
             } else {
                 // rename to normal file
                 QFileInfo fileInfo(f.name());
-                QString desiredFileName = QFile::decodeName(name.c_str());
+				QString desiredFileName = fileInfo.fileName();
+				desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
+#ifdef WIN32
+				fileInfo.dir().remove(desiredFileName);
+#endif
                 if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
                     log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
                 }
@@ -406,7 +410,11 @@ void HistoryConfig::copy()
 
     // rename to normal file
     QFileInfo fileInfo(to.name());
-    QString desiredFileName = QFile::decodeName(n.c_str());
+    QString desiredFileName = fileInfo.fileName();
+	desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
+#ifdef WIN32
+	fileInfo.dir().remove(desiredFileName);
+#endif
     if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
         log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
         return;

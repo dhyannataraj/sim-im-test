@@ -310,6 +310,16 @@ void TCPClient::connect_ready()
     m_bWaitReconnect = false;
 }
 
+void TCPClient::socketConnect()
+{
+	if (m_socket)
+             m_socket->close();
+    if (m_socket == NULL)
+             m_socket = new ClientSocket(this);
+    log(L_DEBUG, "Start connect %s:%u", getServer(), getPort());
+    m_socket->connect(getServer(), getPort(), this);
+}
+
 void TCPClient::setClientStatus(unsigned status)
 {
     if (status != STATUS_OFFLINE){
@@ -319,16 +329,11 @@ void TCPClient::setClientStatus(unsigned status)
         }
         m_logonStatus = status;
         if ((getState() != Connecting) || m_bWaitReconnect){
-            if (m_socket)
-                m_socket->close();
-            if (m_socket == NULL)
-                m_socket = new ClientSocket(this);
-            log(L_DEBUG, "Start connect %s:%u", getServer(), getPort());
             setState(Connecting, NULL);
-            m_socket->connect(getServer(), getPort(), this);
             m_reconnect = RECONNECT_TIME;
             m_bWaitReconnect = false;
             setState(Connecting);
+			socketConnect();
         }
         return;
     }

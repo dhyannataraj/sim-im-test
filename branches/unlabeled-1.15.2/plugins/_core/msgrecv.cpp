@@ -81,8 +81,8 @@ void *MsgReceived::processEvent(Event *e)
             CommandDef *msgCmd = CorePlugin::m_plugin->messageTypes.find(m_type);
             if (msgCmd)
                 mdef = (MessageDef*)(msgCmd->param);
-            if (mdef && mdef->cmd){
-                for (const CommandDef *d = mdef->cmd; d->text; d++){
+            if (mdef && mdef->cmdReceived){
+                for (const CommandDef *d = mdef->cmdReceived; d->text; d++){
                     if (d->popup_id && (d->popup_id == cmd->menu_id)){
                         Message *msg = History::load(m_id, m_client.c_str(), m_contact);
                         if (msg){
@@ -136,8 +136,8 @@ void *MsgReceived::processEvent(Event *e)
                 CommandDef *msgCmd = CorePlugin::m_plugin->messageTypes.find(m_type);
                 if (msgCmd)
                     mdef = (MessageDef*)(msgCmd->param);
-                if (mdef && mdef->cmd){
-                    for (const CommandDef *d = mdef->cmd; d->text; d++){
+                if (mdef && mdef->cmdReceived){
+                    for (const CommandDef *d = mdef->cmdReceived; d->text; d++){
                         if (d->id + CmdReceived == cmd->id){
                             if (d->flags & COMMAND_CHECK_STATE){
                                 Message *msg = m_msg;

@@ -27,6 +27,7 @@ class XSL;
 
 typedef struct CutHistory
 {
+	unsigned	contact;
     string		client;
     unsigned	from;
     unsigned	size;
@@ -44,13 +45,14 @@ public:
     void		setXSL(XSL*);
     static		QString parseText(const QString &text, bool bIgnoreColors, bool bUseSmiles);
     unsigned	m_id;
+    Message		*currentMessage();
 protected:
     virtual		QPopupMenu *createPopupMenu( const QPoint& pos );
     void		*processEvent(Event*);
     void		setBackground(unsigned start);
     void		setSource(const QString&);
     void		setColors();
-    Message		*currentMessage();
+	unsigned	messageId(const QString&, string &client);
     QString		messageText(Message *msg, bool bUnread);
     QPoint		m_popupPos;
     QString		m_selectStr;

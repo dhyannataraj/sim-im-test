@@ -117,11 +117,6 @@ using namespace std;
 #include "xpm/help.xpm"
 #include "xpm/more.xpm"
 
-bool my_string::operator < (const my_string &a) const
-{
-    return strcmp(c_str(), a.c_str()) < 0;
-}
-
 #define KICON(A)    addIcon(#A, p_##A, true);
 #define ICON(A)		addIcon(#A, A, false);
 #define KBIGICON(A)	addBigIcon(#A, b_##A, true);
@@ -457,7 +452,7 @@ void Icons::iconChanged(int)
 void Icons::fill(list<string> *names)
 {
     for (PIXMAP_MAP::iterator it = icons.begin(); it != icons.end(); ++it)
-        names->push_back((*it).first);
+        names->push_back((*it).first.c_str());
 }
 
 #ifndef WIN32

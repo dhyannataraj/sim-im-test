@@ -571,6 +571,7 @@ static QObject *generateGPGKey(MsgEdit *p, Message *msg)
 static MessageDef defGPGKey =
     {
         NULL,
+		NULL,
         MESSAGE_INFO | MESSAGE_SYSTEM,
         "%n GPG key",
         "%n GPG keys",
@@ -582,6 +583,7 @@ static MessageDef defGPGKey =
 static MessageDef defGPGUse =
     {
         NULL,
+		NULL,
         MESSAGE_SILENT,
         NULL,
         NULL,

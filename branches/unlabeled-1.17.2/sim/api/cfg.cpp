@@ -1019,7 +1019,6 @@ EXPORT void saveGeometry(QWidget *w, long geo[5])
 #endif
 #ifdef USE_KDE
     KWin::Info info = KWin::info(w->winId());
-    log(L_DEBUG, "?? %u %u", info.desktop, info.onAllDesktops);
     geo[4] = info.desktop;
     if (info.onAllDesktops)
         geo[4] = -1;

@@ -64,6 +64,7 @@ static Message *createJabberMessage(const char *cfg)
 static MessageDef defJabber =
     {
         NULL,
+		NULL,
         MESSAGE_DEFAULT,
         NULL,
         NULL,
@@ -135,6 +136,7 @@ i18n("Error", "%n errors", 1);
 static MessageDef defJabberError =
     {
         NULL,
+		NULL,
         MESSAGE_DEFAULT,
         "Error",
         "%n errors",
@@ -151,6 +153,7 @@ static Message *createJabberOnlineMessage(const char *cfg)
 static MessageDef defJabberOnline =
     {
         NULL,
+		NULL,
         MESSAGE_SILENT | MESSAGE_SENDONLY,
         I18N_NOOP("Log On"),
         NULL,
@@ -167,6 +170,7 @@ static Message *createJabberOfflineMessage(const char *cfg)
 static MessageDef defJabberOffline =
     {
         NULL,
+		NULL,
         MESSAGE_SILENT | MESSAGE_SENDONLY,
         I18N_NOOP("Log Off"),
         NULL,
