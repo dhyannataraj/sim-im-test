@@ -1,4 +1,4 @@
-EXTRA_DIST = SIM.xsl XChat.xsl
+EXTRA_DIST = SIM.xsl XChat.xsl XChat2seconds.xsl XChat3fullDate.xsl
 
 install-data-local:
 	$(mkinstalldirs) $(kde_datadir)/sim/styles
