@@ -172,6 +172,12 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                                 }else{
                                     set_str(&data->Cellular, NULL);
                                 }
+                                if (uin == getUin()) {
+                            	    log(L_DEBUG,"Own Uin in contact list");
+                            	    Event e(EventContactDeleted, contact);
+                            	    e.process();
+                            	    break;
+                                }
                                 if (bChanged){
                                     Event e(EventContactChanged, contact);
                                     e.process();

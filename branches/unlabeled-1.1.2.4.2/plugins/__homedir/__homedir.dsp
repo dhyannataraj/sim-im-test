@@ -126,6 +126,15 @@ SOURCE=.\homedircfg.h
 !IF  "$(CFG)" == "__homedir - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\homedircfg.h
+InputName=homedircfg
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "__homedir - Win32 Debug"
 
@@ -149,6 +158,16 @@ SOURCE=.\homedircfgbase.h
 
 !IF  "$(CFG)" == "__homedir - Win32 Release"
 
+# Begin Custom Build
+InputDir=.
+InputPath=.\homedircfgbase.h
+InputName=homedircfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
 !ELSEIF  "$(CFG)" == "__homedir - Win32 Debug"
 
 # Begin Custom Build
@@ -169,6 +188,9 @@ InputName=homedircfgbase
 
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 # End Group
+# Begin Group "Interfaces"
+
+# PROP Default_Filter "ui"
 # Begin Source File
 
 SOURCE=.\homedircfgbase.ui
@@ -176,6 +198,22 @@ SOURCE=.\homedircfgbase.ui
 !IF  "$(CFG)" == "__homedir - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\homedircfgbase.ui
+InputName=homedircfgbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "__homedir - Win32 Debug"
 
@@ -200,5 +238,6 @@ BuildCmds= \
 !ENDIF 
 
 # End Source File
+# End Group
 # End Target
 # End Project

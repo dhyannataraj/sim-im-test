@@ -235,11 +235,11 @@
     </connection>
 </connections>
 <tabstops>
-    <tabstop>chkPublish</tabstop>
-    <tabstop>buttonOk</tabstop>
-    <tabstop>buttonCancel</tabstop>
     <tabstop>edtDetails</tabstop>
     <tabstop>cmbType</tabstop>
     <tabstop>cmbName</tabstop>
+    <tabstop>chkPublish</tabstop>
+    <tabstop>buttonOk</tabstop>
+    <tabstop>buttonCancel</tabstop>
 </tabstops>
 </UI>

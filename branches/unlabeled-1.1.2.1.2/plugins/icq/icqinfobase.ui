@@ -774,17 +774,19 @@
     </image>
 </images>
 <tabstops>
+    <tabstop>tabWnd</tabstop>
     <tabstop>edtUin</tabstop>
     <tabstop>edtFirst</tabstop>
     <tabstop>edtLast</tabstop>
     <tabstop>edtNick</tabstop>
     <tabstop>cmbEncoding</tabstop>
-    <tabstop>tabWnd</tabstop>
+    <tabstop>cmbRandom</tabstop>
     <tabstop>cmbStatus</tabstop>
     <tabstop>edtOnline</tabstop>
     <tabstop>edtNA</tabstop>
     <tabstop>edtExtIP</tabstop>
     <tabstop>edtIntIP</tabstop>
     <tabstop>edtClient</tabstop>
+    <tabstop>edtAutoReply</tabstop>
 </tabstops>
 </UI>

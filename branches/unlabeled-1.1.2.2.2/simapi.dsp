@@ -164,6 +164,16 @@ SOURCE=.\sim\api\unquote.ll
 
 !IF  "$(CFG)" == "simapi - Win32 Release"
 
+# Begin Custom Build
+InputDir=.\sim\api
+InputPath=.\sim\api\unquote.ll
+InputName=unquote
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	flex -o$(InputDir)\$(InputName).cpp $(InputPath)
+
+# End Custom Build
+
 !ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
 
 # Begin Custom Build - Flex $(InputPath)
@@ -210,6 +220,15 @@ SOURCE=.\sim\api\socket.h
 !IF  "$(CFG)" == "simapi - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.\sim\api
+InputPath=.\sim\api\socket.h
+InputName=socket
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
 
@@ -234,6 +253,15 @@ SOURCE=.\sim\api\sockfactory.h
 !IF  "$(CFG)" == "simapi - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.\sim\api
+InputPath=.\sim\api\sockfactory.h
+InputName=sockfactory
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
 

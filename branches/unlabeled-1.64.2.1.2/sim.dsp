@@ -1,24 +1,24 @@
 # Microsoft Developer Studio Project File - Name="sim" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
-# ** DO NOT EDIT **
+# ** NICHT BEARBEITEN **
 
 # TARGTYPE "Win32 (x86) Application" 0x0101
 
 CFG=sim - Win32 Debug
-!MESSAGE This is not a valid makefile. To build this project using NMAKE,
-!MESSAGE use the Export Makefile command and run
+!MESSAGE Dies ist kein gültiges Makefile. Zum Erstellen dieses Projekts mit NMAKE
+!MESSAGE verwenden Sie den Befehl "Makefile exportieren" und führen Sie den Befehl
 !MESSAGE 
 !MESSAGE NMAKE /f "sim.mak".
 !MESSAGE 
-!MESSAGE You can specify a configuration when running NMAKE
-!MESSAGE by defining the macro CFG on the command line. For example:
+!MESSAGE Sie können beim Ausführen von NMAKE eine Konfiguration angeben
+!MESSAGE durch Definieren des Makros CFG in der Befehlszeile. Zum Beispiel:
 !MESSAGE 
 !MESSAGE NMAKE /f "sim.mak" CFG="sim - Win32 Debug"
 !MESSAGE 
-!MESSAGE Possible choices for configuration are:
+!MESSAGE Für die Konfiguration stehen zur Auswahl:
 !MESSAGE 
-!MESSAGE "sim - Win32 Release" (based on "Win32 (x86) Application")
-!MESSAGE "sim - Win32 Debug" (based on "Win32 (x86) Application")
+!MESSAGE "sim - Win32 Release" (basierend auf  "Win32 (x86) Application")
+!MESSAGE "sim - Win32 Debug" (basierend auf  "Win32 (x86) Application")
 !MESSAGE 
 
 # Begin Project
@@ -111,38 +111,5 @@ SOURCE=.\sim\simapi.h
 SOURCE=.\sim.rc
 # End Source File
 # End Group
-# Begin Source File
-
-SOURCE=.\plugins\msn\msnclient.moc
-
-!IF  "$(CFG)" == "sim - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).cpp ...
-InputDir=.\plugins\msn
-InputPath=.\plugins\msn\msnclient.moc
-InputName=msnclient
-
-"$(InputDir)\$(InputName).moc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).cpp -o $(InputDir)\$(InputName).moc
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).cpp ...
-InputDir=.\plugins\msn
-InputPath=.\plugins\msn\msnclient.moc
-InputName=msnclient
-
-"$(InputDir)\$(InputName).moc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).cpp -o $(InputDir)\$(InputName).moc
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
 # End Target
 # End Project

@@ -351,6 +351,7 @@ ICQClient::ICQClient(ICQProtocol *protocol, const char *cfg)
         }
     }
     disconnected();
+	m_infoRequestId = 0;
 }
 
 ICQClient::~ICQClient()
@@ -415,6 +416,11 @@ QWidget	*ICQClient::setupWnd()
 void ICQClient::setUin(unsigned long uin)
 {
     data.owner.Uin = uin;
+}
+
+unsigned long ICQClient::getUin()
+{
+    return data.owner.Uin;
 }
 
 void ICQClient::connect_ready()

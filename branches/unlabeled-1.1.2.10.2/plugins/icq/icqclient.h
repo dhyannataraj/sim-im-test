@@ -362,6 +362,7 @@ public:
     virtual string getConfig();
     virtual unsigned getStatus();
     void setUin(unsigned long);
+    unsigned long getUin();
     PROP_STR(Server);
     PROP_ULONG(Port);
     PROP_ULONG(ContactsTime);
@@ -548,6 +549,7 @@ protected:
     void addPluginInfoRequest(unsigned long uin, unsigned plugin_index);
     void sendMTN(unsigned long uin, unsigned short type);
     void setChatGroup();
+	Message *parseExtendedMessage(unsigned long uin, Buffer &packet);
     void parsePluginPacket(Buffer &b, unsigned plugin_index, ICQUserData *data, unsigned uin, bool bDirect);
     void pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &b);
     string packMessage(Message *msg, ICQUserData *data, unsigned short &type);
@@ -674,6 +676,7 @@ class ICQFileTransfer : public FileTransfer, public DirectSocket
 {
 public:
     ICQFileTransfer(FileMessage *msg, ICQUserData *data, ICQClient *client);
+	~ICQFileTransfer();
     void connect(unsigned short port);
 protected:
     enum State
@@ -687,7 +690,12 @@ protected:
         Receive,
         Wait
     };
+	QFile *m_f;
     State m_state;
+
+	unsigned m_sendTime;
+	unsigned m_sendSize;
+
     virtual void processPacket();
     virtual void connect_ready();
     virtual bool error_state(const char *err, unsigned code);

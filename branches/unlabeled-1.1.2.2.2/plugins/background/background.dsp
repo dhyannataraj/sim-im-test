@@ -125,6 +125,15 @@ SOURCE=.\bkgndcfg.h
 !IF  "$(CFG)" == "background - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\bkgndcfg.h
+InputName=bkgndcfg
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "background - Win32 Debug"
 
@@ -147,6 +156,16 @@ InputName=bkgndcfg
 SOURCE=.\bkgndcfgbase.h
 
 !IF  "$(CFG)" == "background - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\bkgndcfgbase.h
+InputName=bkgndcfgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "background - Win32 Debug"
 
@@ -178,6 +197,22 @@ SOURCE=.\bkgndcfgbase.ui
 !IF  "$(CFG)" == "background - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
+# Begin Custom Build
+InputDir=.
+InputPath=.\bkgndcfgbase.ui
+InputName=bkgndcfgbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "background - Win32 Debug"
 

@@ -239,9 +239,12 @@
     </image>
 </images>
 <tabstops>
-    <tabstop>edtZip</tabstop>
+    <tabstop>TabWidget6</tabstop>
+    <tabstop>edtStreet</tabstop>
+    <tabstop>edtExt</tabstop>
+    <tabstop>edtCity</tabstop>
     <tabstop>edtState</tabstop>
     <tabstop>edtZip</tabstop>
-    <tabstop>edtState</tabstop>
+    <tabstop>edtCountry</tabstop>
 </tabstops>
 </UI>

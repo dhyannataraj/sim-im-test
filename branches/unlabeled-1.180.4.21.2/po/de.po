@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2003-07-26 00:43+0400\n"
-"PO-Revision-Date: 2003-07-24 19:11GMT\n"
+"PO-Revision-Date: 2003-07-25 23:38GMT\n"
 "Last-Translator: Crissi <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -218,7 +218,7 @@ msgstr "Französisch"
 #: plugins/_core/interfacecfg.cpp:48 plugins/icq/icqclient.cpp:274
 #: plugins/icq/icqclient.cpp:275 plugins/icq/moreinfo.cpp:114
 msgid "Hebrew"
-msgstr "Häbräisch"
+msgstr "Hebräisch"
 
 #: plugins/_core/interfacecfg.cpp:49 plugins/icq/moreinfo.cpp:119
 msgid "Italian"
@@ -303,11 +303,11 @@ msgstr "Fax zu Hause"
 
 #: plugins/_core/maininfo.cpp:48
 msgid "Work Phone"
-msgstr "Telefon auf Arbeit"
+msgstr "Telefon auf der Arbeit"
 
 #: plugins/_core/maininfo.cpp:49
 msgid "Work Fax"
-msgstr "Fax auf Arbeit"
+msgstr "Fax auf der Arbeit"
 
 #: plugins/_core/maininfo.cpp:50
 msgid "Private Cellular"
@@ -1051,7 +1051,7 @@ msgstr "Anbieter:"
 
 #: plugins/_core/pagerbase.cc:120
 msgid "Email gateway:"
-msgstr "Email Gataway:"
+msgstr "E-Mail Gateway:"
 
 #: plugins/_core/arcfgbase.cc:100 plugins/_core/prefcfgbase.cc:97
 msgid "&Override global settings"
@@ -1254,11 +1254,11 @@ msgstr "Bemerku&ngen"
 
 #: plugins/_core/editmailbase.cc:94
 msgid "EditMail"
-msgstr "Email bearbeiten"
+msgstr "E-Mail bearbeiten"
 
 #: plugins/_core/editmailbase.cc:95
 msgid "Enter Email address:"
-msgstr "Email-Adressen eingeben:"
+msgstr "E-Mail-Adressen eingeben:"
 
 #: plugins/_core/editmailbase.cc:96 plugins/_core/editphonebase.cc:142
 msgid "&Publish"
@@ -1391,7 +1391,7 @@ msgstr "Über"
 
 #: plugins/about/about.cpp:39
 msgid "Plugin provides about information"
-msgstr "Plugin stellt die \"Über\" Information bereit"
+msgstr "Plugin stellt die \"Über\"-Information bereit"
 
 #: plugins/about/about.cpp:61
 msgid "&Bug report"
@@ -1448,7 +1448,7 @@ msgstr "Automatischer Weg-Status"
 #: plugins/autoaway/autoaway.cpp:55
 msgid "Plugin provides set away and N/A status after some idle time"
 msgstr ""
-"Das Plugin stellt \"Set Away\" und \"N/A\" Status zur Verfügung nach einer "
+"Das Plugin setzt den Status \"Weg\" und \"N/A\" nach einer "
 "bestimmten Zeit der Nichtbenutzung"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:115
@@ -1469,8 +1469,7 @@ msgstr "\"N/A\"-Status setzen wenn"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:119
 #: plugins/sound/soundconfigbase.cpp:166
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -1583,7 +1582,7 @@ msgstr "SIM-Menü in der Kontrollleiste &anpassen"
 
 #: plugins/filter/filter.cpp:31
 msgid "Plugin provides message filter"
-msgstr "Dieses Plugin stellt Nachrichten Filter bereit"
+msgstr "Dieses Plugin stellt Nachrichten-Filter bereit"
 
 #: plugins/filter/filter.cpp:79 plugins/filter/filtercfg.cpp:40
 msgid "Ignore list"
@@ -1605,8 +1604,7 @@ msgstr "Nachrichten nur von &Benutzern der Kontaktliste empfangen"
 
 #: plugins/filter/filtercfgbase.cpp:98
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: plugins/filter/filtercfgbase.cpp:99
 msgid ""
@@ -1628,8 +1626,7 @@ msgstr "Floatings"
 
 #: plugins/floaty/floaty.cpp:44
 msgid "Plugin provides floating windows for contacts"
-msgstr ""
-"Das Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
+msgstr "Das Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
 
 #: plugins/floaty/floaty.cpp:91 plugins/floaty/floaty.cpp:165
 msgid "Floating on"
@@ -1645,12 +1642,11 @@ msgstr "Weiterleiten"
 
 #: plugins/forward/forward.cpp:32
 msgid "Plugin provides messages forwarding on cellular"
-msgstr "Dieses Plugin aktiviert die Nachrichtenweiterleitung an Handy's"
+msgstr "Dieses Plugin aktiviert die Nachrichtenweiterleitung an Handys"
 
 #: plugins/forward/forwardcfgbase.cpp:102
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-"Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
 
 #: plugins/forward/forwardcfgbase.cpp:103
 msgid ""
@@ -1731,9 +1727,8 @@ msgid "&Add to group"
 msgstr "Zu einer Gruppe hinzu&fügen"
 
 #: plugins/icq/icqdirect.cpp:158
-#, fuzzy
 msgid "Connect to unknown port"
-msgstr "Verbunden mit Host"
+msgstr "Zu unbekanntem Port verbinden"
 
 #: plugins/icq/icqdirect.cpp:186
 msgid "Can't established direct connection"
@@ -1864,7 +1859,7 @@ msgstr "Registriert in einem nicht registrierten Zustand"
 
 #: plugins/icq/icqlogin.cpp:193
 msgid "Too many clients from same IP"
-msgstr ""
+msgstr "Zuviele Clients mit der gleichen IP"
 
 #: plugins/icq/icqlogin.cpp:197
 msgid "Rate limit"
@@ -1875,13 +1870,12 @@ msgid "Invalid UIN and password combination"
 msgstr "Ungültige UIN/Paßwort Kombination"
 
 #: plugins/icq/icqlogin.cpp:208
-#, fuzzy
 msgid "Non-existant UIN"
-msgstr "Existierende UIN benutzen"
+msgstr "Nicht-existierende UIN"
 
 #: plugins/icq/icqlogin.cpp:230
 msgid "Youur UIN is being used from another location"
-msgstr "Ihre UIN wird gerade von einem anderem aus Ort benutzt"
+msgstr "Ihre UIN wird gerade von einem anderen Ort aus benutzt"
 
 #: plugins/icq/icqlogin.cpp:250
 msgid "Close packet from server"
@@ -1906,8 +1900,8 @@ msgid ""
 "_n: Email pager message\n"
 "%n Email pager messages"
 msgstr ""
-"Email-Pager-Nachricht\n"
-"%n Email-Pager-Nachrichten"
+"E-Mail-Pager-Nachricht\n"
+"%n E-Mail-Pager-Nachrichten"
 
 #: plugins/icq/icqmessage.cpp:806
 #, c-format
@@ -2790,9 +2784,8 @@ msgid "Tamil"
 msgstr "Tamil"
 
 #: plugins/icq/icqclient.cpp:364
-#, fuzzy
 msgid "Process message failed"
-msgstr "Senden der Nachricht fehlgeschlagen"
+msgstr "Verarbeiten der Nachricht fehlgeschlagen"
 
 #: plugins/icq/icqclient.cpp:519
 msgid "Protocol error"
@@ -2938,7 +2931,7 @@ msgstr "Interne IP:"
 
 #: plugins/icq/icqinfobase.cc:316
 msgid "Client:"
-msgstr "Klient:"
+msgstr "Client:"
 
 #: plugins/icq/moreinfobase.cc:202 plugins/jabber/jabberinfobase.cpp:212
 msgid "Homepage:"
@@ -3126,7 +3119,7 @@ msgstr "Interessen:"
 
 #: plugins/icq/icqsearchbase.cc:309
 msgid "Email/Info"
-msgstr "Email/Info"
+msgstr "E-Mail/Info"
 
 #: plugins/icq/icqsearchbase.cc:312
 msgid "Nickname:"
@@ -3154,7 +3147,7 @@ msgstr "Zufälliger Chat"
 
 #: plugins/icq/icqsearchbase.cc:321
 msgid "Online only"
-msgstr "Nur Online"
+msgstr "Nur online"
 
 #: plugins/icq/securedlgbase.cc:73
 msgid "Secure chanel request"
@@ -3170,7 +3163,7 @@ msgstr ""
 "Der sichere Kanal benutzt SSL mit dem Diffie-Hellman-Schlüsselaustausch und "
 "dem TLS-Protokoll Version 1.\n"
 "\n"
-"Dies funktioniert nur mit anderen SIM- oder Licq-Klienten."
+"Dies funktioniert nur mit anderen SIM- oder Licq-Clienten."
 
 #: plugins/icq/securedlg.cpp:59
 msgid "Request secure channel fail"
@@ -3220,10 +3213,10 @@ msgid ""
 "Bob, Bill, Caleb, Robbie, etc...)"
 msgstr ""
 "Wahl der Geschwindigkeit von der Suche.  \"Schnell\", dann gleicht die "
-"Zeichenkette nur dem Anfang der Textzeile an(z.Bsp.: \"b\" würde "
+"Zeichenkette nur dem Anfang der Textzeile an (z.B.: \"b\" würde "
 "Bob,Bill,usw... ergeben.)\"Langsamer\" gleicht die Zeichenkette irgendwo in "
-"der Textzeile an (z.Bsp.: \"b\" würde  Bob, Bill, Caleb, Robbie, usw... "
-"ergeben.)"
+"der Textzeile an (z.B.: \"b\" würde  Bob, Bill, Caleb, Robbie, usw... "
+"ergeben)."
 
 #: plugins/jabber/jabbersearch.cpp:161
 msgid "Search Speed"
@@ -3389,15 +3382,14 @@ msgid "Navigate"
 msgstr "Navigation"
 
 #: plugins/navigate/navigate.cpp:38
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Das Plugin überprüft Nachrichten auf Hyperlinks und ruft externe Browser- "
 "oder Mailprogramme auf."
 
 #: plugins/navigate/navigate.cpp:87
 msgid "Send mail"
-msgstr "Email senden"
+msgstr "E-Mail senden"
 
 #: plugins/navigate/navcfgbase.cc:96
 msgid "Browser:"
@@ -3461,8 +3453,7 @@ msgstr "Im Vordergrund"
 
 #: plugins/ontop/ontop.cpp:40
 msgid "Plugin provides main window allways on top"
-msgstr ""
-"Diese Plugin sorgt dafür, dass SIM kontinuierlich im Vordergrund bleibt."
+msgstr "Diese Plugin sorgt dafür, dass SIM kontinuierlich im Vordergrund bleibt."
 
 #: plugins/ontop/ontop.cpp:74
 msgid "Always on top"
@@ -3477,12 +3468,11 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:47
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Das ist ein Plugin, das Bildschirmbenachrichtigungen betreffend Kontakte "
 "und\n"
-"eingegangene Nachrichten durchführt. (z.Bsp.: Online Benachrichtigung)"
+"eingegangene Nachrichten durchführt (z.B.: Online Benachrichtigung)."
 
 #: plugins/osd/osd.cpp:113
 msgid "&OSD"
@@ -3498,27 +3488,27 @@ msgstr "&Nachrichtenfenster"
 
 #: plugins/osd/osdiface.cpp:32
 msgid "Left-bottom"
-msgstr "Links-unten"
+msgstr "Links unten"
 
 #: plugins/osd/osdiface.cpp:33
 msgid "Left-top"
-msgstr "Links-oben"
+msgstr "Links oben"
 
 #: plugins/osd/osdiface.cpp:34
 msgid "Right-bottom"
-msgstr "Rechts-unten"
+msgstr "Rechts unten"
 
 #: plugins/osd/osdiface.cpp:35
 msgid "Right-top"
-msgstr "Rechts-oben"
+msgstr "Rechts oben"
 
 #: plugins/osd/osdiface.cpp:36
 msgid "Center-bottom"
-msgstr "Mitte-unten"
+msgstr "Mitte unten"
 
 #: plugins/osd/osdiface.cpp:37
 msgid "Center-top"
-msgstr "Mitte-oben"
+msgstr "Mitte oben"
 
 #: plugins/osd/osdiface.cpp:38
 msgid "Center"
@@ -3530,8 +3520,7 @@ msgstr "Bei Nachrichteneingang informieren (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:90
 msgid "Enable &status notification"
-msgstr ""
-"Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
+msgstr "Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
 
 #: plugins/osd/osdifacebase.cpp:181
 msgid "Offset:"
@@ -3570,7 +3559,7 @@ msgstr "Fehler beim Schreiben auf Proxy-Server"
 #: plugins/proxy/proxy.cpp:803 plugins/proxy/proxy.cpp:954
 #: plugins/proxy/proxy.cpp:959 plugins/proxy/proxy.cpp:978
 msgid "Error proxy read"
-msgstr "Fehler beim Lesen von Proxy-Server"
+msgstr "Fehler beim Lesen vom Proxy-Server"
 
 #: plugins/proxy/proxy.cpp:199 plugins/proxy/proxy.cpp:213
 #: plugins/proxy/proxy.cpp:237 plugins/proxy/proxy.cpp:277
@@ -3594,8 +3583,7 @@ msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1143
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS and HTTP)"
-msgstr ""
-"Das Plugin bietet Proxy Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP)"
+msgstr "Das Plugin bietet Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP)"
 
 #: plugins/proxy/proxy.cpp:1233
 msgid "&Proxy"
@@ -3607,8 +3595,7 @@ msgstr "Kein Proxy"
 
 #: plugins/proxy/proxycfg.cpp:84
 msgid "<b>Note !</b><br>HTTP-proxy support only ICQ-protocol"
-msgstr ""
-"<b>Achtung!</b><br>Die HTTP-Proxy Unterstützung bietet nur das ICQ-Protokoll"
+msgstr "<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
 
 #: plugins/proxy/proxycfgbase.cpp:147
 msgid "Proxy type:"
@@ -3760,7 +3747,7 @@ msgstr ""
 
 #: plugins/transparent/transparent.cpp:69
 msgid "Plugin provides windows transparency"
-msgstr "Das Plugin unterstützt die Transparenz von Fenstern in Windows"
+msgstr "Das Plugin unterstützt die Transparenz von Fenstern"
 
 #: plugins/transparent/transparentcfgbase.cpp:102
 msgid "Transparency main window:"
@@ -3782,13 +3769,11 @@ msgstr "Automatisch ausblenden"
 
 #: sim/api/aboutdata.cpp:274
 msgid "replace this with information about your translation team"
-msgstr ""
-"Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
+msgstr "Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
 
 #: sim/api/aboutdata.cpp:290
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
@@ -4842,7 +4827,7 @@ msgstr "SSL Fehler bei der SSL- Initialisierung"
 
 #: sim/sim.cpp:174
 msgid "ICQ client"
-msgstr "ICQ Client für QT/KDE"
+msgstr "ICQ-Client für QT/KDE"
 
 #: sim/sim.cpp:180
 msgid "Maintainer"
@@ -5240,7 +5225,7 @@ msgstr ""
 
 #: sim/ui/qt3/i18n.cpp:223
 msgid "Operation stopped by the user"
-msgstr "Operation von Benutzer abgebrochen"
+msgstr "Operation vom Benutzer abgebrochen"
 
 #: sim/ui/qt3/i18n.cpp:225
 msgid "(unknown)"
@@ -5461,7 +5446,7 @@ msgstr "Unterstrichen"
 #~ msgstr "WWW-Feld Nachricht"
 
 #~ msgid "Email pager message"
-#~ msgstr "Email Pager-Nachricht"
+#~ msgstr "E-Mail Pager-Nachricht"
 
 #~ msgid "Request secure channel"
 #~ msgstr "Sicheren Kanal anfordern"
@@ -5520,8 +5505,8 @@ msgstr "Unterstrichen"
 #~ "_n: Email\n"
 #~ "%n emails"
 #~ msgstr ""
-#~ "Email\n"
-#~ "%n Emails"
+#~ "E-Mail\n"
+#~ "%n E-Mails"
 
 #~ msgid ""
 #~ "_n: Unknown message\n"
@@ -6124,7 +6109,7 @@ msgstr "Unterstrichen"
 #~ msgstr "&Farben"
 
 #~ msgid "Don't publish my Email address"
-#~ msgstr "Meine Email-Adresse nicht veröffentlichen"
+#~ msgstr "Meine E-Mail-Adresse nicht veröffentlichen"
 
 #~ msgid "Close after ...."
 #~ msgstr "Schließen nach..."
@@ -6180,7 +6165,7 @@ msgstr "Unterstrichen"
 #~ msgstr "Browserprogramm:"
 
 #~ msgid "Email client:"
-#~ msgstr "Emailprogramm:"
+#~ msgstr "E-Mailprogramm:"
 
 #~ msgid "&Miscellaneous"
 #~ msgstr "&Verschiedenes"
@@ -6291,7 +6276,7 @@ msgstr "Unterstrichen"
 #~ msgstr "&Weltweite Pager-Nachrichten ablehnen"
 
 #~ msgid "Reject &EmailExpress messages"
-#~ msgstr "&Emailexpress-Nachrichten ablehnen"
+#~ msgstr "&E-Mailexpress-Nachrichten ablehnen"
 
 #~ msgid "Reject &other messages"
 #~ msgstr "&Andere Nachrichten ablehnen"
@@ -6574,3 +6559,4 @@ msgstr "Unterstrichen"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
