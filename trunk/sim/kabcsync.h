@@ -44,12 +44,12 @@ protected:
 public:
 	bool open(void);
 	void close(void);
-	void processUser(SIMUser& u);
+	void processUser(SIMUser&);
 protected:
-	Addressee addresseeFromUser(SIMUser& u, Addressee* oldPers=NULL);
+	Addressee addresseeFromUser(SIMUser&,Addressee*);
 	QString& getCountry(unsigned short code);
 public slots:
-	void processEvent(ICQEvent* e);
+	void processEvent(ICQEvent*);
 };
 
 extern KabcSync* pSyncher;

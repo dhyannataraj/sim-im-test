@@ -59,7 +59,7 @@ void KabcSync::close(void)
 	StdAddressBook::save();
 }
 
-Addressee KabcSync::addresseeFromUser(SIMUser& u, Addressee* oldPers)
+Addressee KabcSync::addresseeFromUser(SIMUser& u,Addressee* oldPers=NULL)
 {
    Addressee pers;
     QString str;
