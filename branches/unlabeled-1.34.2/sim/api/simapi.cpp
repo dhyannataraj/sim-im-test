@@ -69,17 +69,27 @@ QString i18n(const char *text)
 {
     if ((text == NULL) || (*text == 0))
         return QString::null;
-    return i18n(text, (const char*)NULL);
-}
-
-QString i18n(const char *text, const char *comment)
-{
-    if (text == NULL)
-        return QString::null;
-    QString res = QObject::tr(text, comment);
+    QString res = QObject::tr(text);
     if (res != QString::fromLatin1(text))
         return res;
     return QString::fromUtf8(text);
+}
+
+QString i18n(const char *comment, const char *text)
+{
+    if (text == NULL)
+        return QString::null;
+	if (comment == NULL)
+		return i18n(text);
+	string s;
+	s = "_: ";
+	s += comment;
+	s += "\n";
+	s += text;
+	QString res = QObject::tr(s.c_str());
+	if (res != s.c_str())
+		return res;
+	return i18n(text);
 }
 
 #endif
