@@ -311,7 +311,7 @@ void TextShow::startSearch(int parag, int index)
     delete l;
     QRect rc = btnOK->rect();
     rc.moveTopLeft(btnOK->mapToGlobal(rc.topLeft()));
-    BalloonMsg *msg = new BalloonMsg(srchdialog->get_direction() ?
+    BalloonMsg *msg = new BalloonMsg(!srchdialog->get_direction() ?
                                      i18n("End of document reached.\nContinue from the beginning?") :
                                      i18n("Beginning of document reached.\nContinue from the end?"),
                                      rc, btns, this);
@@ -324,9 +324,9 @@ void TextShow::searchAgain(int n)
     if (n) return;
     if (!srchdialog) return;
     if (srchdialog->get_direction()){
-        startSearch(0, 0);
-    }else{
         startSearch(paragraphs(), 0);
+    }else{
+        startSearch(0, 0);
     }
 }
 

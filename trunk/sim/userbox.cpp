@@ -339,6 +339,7 @@ void UserBox::toggleHistory(bool bShow)
             historyWnd = new HistoryView(frm, curWnd->Uin);
             connect(historyWnd, SIGNAL(goMessage(unsigned long, unsigned long)), this, SLOT(showMessage(unsigned long, unsigned long)));
             splitter->hide();
+	    historyWnd->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
             lay->insertWidget(0, historyWnd);
             historyWnd->show();
         }

@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2002-07-20 00:26+0400\n"
-"PO-Revision-Date: 2002-07-20 00:27GMT+3\n"
+"POT-Creation-Date: 2002-07-24 08:41+0400\n"
+"PO-Revision-Date: 2002-07-24 08:44GMT+3\n"
 "Last-Translator: Vladimir Shutoff <shutoff@mail.ru>\n"
 "Language-Team: Русский <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -90,19 +90,19 @@ msgstr "Чат"
 msgid "URL"
 msgstr "URL"
 
-#: client.cpp:400 msgview.cpp:146
+#: client.cpp:400 msgview.cpp:137
 msgid "Authorization request"
 msgstr "Запрос авторизации"
 
-#: client.cpp:402 msgview.cpp:155
+#: client.cpp:402 msgview.cpp:146
 msgid "Authorization refused"
 msgstr "Запрос на авторизацию отклонен"
 
-#: client.cpp:404 msgview.cpp:163
+#: client.cpp:404 msgview.cpp:154
 msgid "Authorization granted"
 msgstr "Запрос авторизации принят"
 
-#: client.cpp:406 msgview.cpp:166
+#: client.cpp:406 msgview.cpp:157
 msgid "Added to contact list"
 msgstr "Добавление в список контактов"
 
@@ -179,7 +179,7 @@ msgstr "%n непрочитанное сообщение"
 msgid "Connecting"
 msgstr "Соединение"
 
-#: editspell.cpp:214 msgedit.cpp:172 ui/setupdlg.cpp:104
+#: editspell.cpp:220 msgedit.cpp:172 ui/setupdlg.cpp:104
 msgid "Spell check"
 msgstr "Проверка орфографии"
 
@@ -271,11 +271,11 @@ msgstr "Ваш UIN используется с другого компьютер
 msgid "User %1 is online"
 msgstr "Пользователь %1 в сети"
 
-#: mainwin.cpp:1249 mainwin.cpp:1492
+#: mainwin.cpp:1249 mainwin.cpp:1492 msgview.cpp:300
 msgid "&Yes"
 msgstr "&Да"
 
-#: mainwin.cpp:1250 mainwin.cpp:1493
+#: mainwin.cpp:1250 mainwin.cpp:1493 msgview.cpp:301
 msgid "&No"
 msgstr "&Нет"
 
@@ -531,25 +531,49 @@ msgstr "Причина отказа"
 msgid "Please, input decline reason:"
 msgstr "Введите причину отказа:"
 
-#: msgview.cpp:170
+#: msgview.cpp:161
 msgid "Contact request"
 msgstr "Запрос списка контактов"
 
-#: msgview.cpp:179
+#: msgview.cpp:170
 msgid "File: "
 msgstr "Файл:"
 
-#: msgview.cpp:184
+#: msgview.cpp:175
 msgid "bytes"
 msgstr "байт"
 
-#: msgview.cpp:197
+#: msgview.cpp:188
 msgid "Contact list received"
 msgstr "Список контактов получен"
 
-#: msgview.cpp:197
+#: msgview.cpp:188
 msgid "Contact list sent"
 msgstr "Список контактов отправлен"
+
+#: msgview.cpp:261 ui/finddlgbase.cpp:62
+msgid "&Find"
+msgstr "&Поиск"
+
+#: msgview.cpp:262
+msgid "Find &next"
+msgstr "Найти следующее"
+
+#: msgview.cpp:315
+msgid ""
+"End of document reached.\n"
+"Continue from the beginning?"
+msgstr ""
+"Достигнут конец.\n"
+"Начать поиск с начала?"
+
+#: msgview.cpp:316
+msgid ""
+"Beginning of document reached.\n"
+"Continue from the end?"
+msgstr ""
+"Достигнуто начало.\n"
+"Начать поиск с конца?"
 
 #: passwddlg.cpp:48
 msgid "Login"
@@ -1540,6 +1564,22 @@ msgstr "Перевод"
 #: ui/aboutdlgbase.cpp:116
 msgid "License"
 msgstr "Лицензия"
+
+#: ui/finddlgbase.cpp:34
+msgid "Find"
+msgstr "Поиск"
+
+#: ui/finddlgbase.cpp:42
+msgid "Find:"
+msgstr "Поиск:"
+
+#: ui/finddlgbase.cpp:51
+msgid "Case &sensitivy"
+msgstr "С учетом &регистра"
+
+#: ui/finddlgbase.cpp:55
+msgid "Find &backwards"
+msgstr "В &обратную сторону"
 
 #: about.cpp:279
 msgid "replace this with information about your translation team"

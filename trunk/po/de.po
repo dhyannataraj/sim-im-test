@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-07-20 00:26+0400\n"
+"POT-Creation-Date: 2002-07-24 08:41+0400\n"
 "PO-Revision-Date: 2002-07-21 17:24GMT\n"
 "Last-Translator: Crissi <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -84,19 +84,19 @@ msgstr "Chatanfrage"
 msgid "URL"
 msgstr "URL"
 
-#: client.cpp:400 msgview.cpp:146
+#: client.cpp:400 msgview.cpp:137
 msgid "Authorization request"
 msgstr "Authorisierungsanfrage"
 
-#: client.cpp:402 msgview.cpp:155
+#: client.cpp:402 msgview.cpp:146
 msgid "Authorization refused"
 msgstr "Authorisierung abgelehnt"
 
-#: client.cpp:404 msgview.cpp:163
+#: client.cpp:404 msgview.cpp:154
 msgid "Authorization granted"
 msgstr "Authorisierung gewährt"
 
-#: client.cpp:406 msgview.cpp:166
+#: client.cpp:406 msgview.cpp:157
 msgid "Added to contact list"
 msgstr "Zur Kontaktliste hinzugefügt"
 
@@ -173,7 +173,7 @@ msgstr "%n ungelesene Nachricht"
 msgid "Connecting"
 msgstr "Verbindungsaufbau"
 
-#: editspell.cpp:214 msgedit.cpp:172 ui/setupdlg.cpp:104
+#: editspell.cpp:220 msgedit.cpp:172 ui/setupdlg.cpp:104
 msgid "Spell check"
 msgstr "Rechtschreibprüfung"
 
@@ -265,11 +265,11 @@ msgstr "Ihre UIN wird von einem anderem Ort benutzt"
 msgid "User %1 is online"
 msgstr "Benutzer %1 ist online"
 
-#: mainwin.cpp:1249 mainwin.cpp:1492
+#: mainwin.cpp:1249 mainwin.cpp:1492 msgview.cpp:300
 msgid "&Yes"
 msgstr "&Ja"
 
-#: mainwin.cpp:1250 mainwin.cpp:1493
+#: mainwin.cpp:1250 mainwin.cpp:1493 msgview.cpp:301
 msgid "&No"
 msgstr "&Nein"
 
@@ -523,25 +523,46 @@ msgstr "Ablehnungsgrund"
 msgid "Please, input decline reason:"
 msgstr "Bitte geben Sie einen Ablehnungsgrund ein:"
 
-#: msgview.cpp:170
+#: msgview.cpp:161
 msgid "Contact request"
 msgstr "Kontaktanfrage"
 
-#: msgview.cpp:179
+#: msgview.cpp:170
 msgid "File: "
 msgstr "Datei:"
 
-#: msgview.cpp:184
+#: msgview.cpp:175
 msgid "bytes"
 msgstr "Byte"
 
-#: msgview.cpp:197
+#: msgview.cpp:188
 msgid "Contact list received"
 msgstr "Kontakliste empfangen"
 
-#: msgview.cpp:197
+#: msgview.cpp:188
 msgid "Contact list sent"
 msgstr "Kontaktliste gesendet"
+
+#: msgview.cpp:261 ui/finddlgbase.cpp:62
+msgid "&Find"
+msgstr ""
+
+#: msgview.cpp:262
+#, fuzzy
+msgid "Find &next"
+msgstr "Benutzer suchen"
+
+#: msgview.cpp:315
+msgid ""
+"End of document reached.\n"
+"Continue from the beginning?"
+msgstr ""
+
+#: msgview.cpp:316
+msgid ""
+"Beginning of document reached.\n"
+"Continue from the end?"
+msgstr ""
 
 #: passwddlg.cpp:48
 msgid "Login"
@@ -1198,7 +1219,8 @@ msgstr "Globalen Online-Alarm überschreiben"
 
 #: ui/alertdialogbase.cpp:95
 msgid "Activate online alert when user returns from Away or NA"
-msgstr "Online-Alarm aktivieren, wenn der Benutzer von NA oder Weg zurückkehrt"
+msgstr ""
+"Online-Alarm aktivieren, wenn der Benutzer von NA oder Weg zurückkehrt"
 
 #: ui/alertdialogbase.cpp:99
 msgid "Online alert options"
@@ -1386,7 +1408,8 @@ msgid "Show user window in task manager"
 msgstr "Benutzerfenster in Prozeßliste anzeigen"
 
 #: ui/statussetupbase.cpp:95
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -1525,13 +1548,32 @@ msgstr "Übersetzung"
 msgid "License"
 msgstr "Lizenz"
 
+#: ui/finddlgbase.cpp:34
+#, fuzzy
+msgid "Find"
+msgstr "Benutzer suchen"
+
+#: ui/finddlgbase.cpp:42
+#, fuzzy
+msgid "Find:"
+msgstr "UIN:"
+
+#: ui/finddlgbase.cpp:51
+msgid "Case &sensitivy"
+msgstr ""
+
+#: ui/finddlgbase.cpp:55
+msgid "Find &backwards"
+msgstr ""
+
 #: about.cpp:279
 msgid "replace this with information about your translation team"
 msgstr ""
 
 #: about.cpp:295
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr ""
+"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #~ msgid "Miscellanious"
 #~ msgstr "Verschiedenes"
@@ -1541,4 +1583,3 @@ msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet.
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
-
