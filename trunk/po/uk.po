@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2003-01-19 06:48+0300\n"
-"PO-Revision-Date: 2003-01-16 21:57+0200\n"
+"PO-Revision-Date: 2003-01-20 18:24+0200\n"
 "Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1675,8 +1675,7 @@ msgstr "..."
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Ця програма поширюється під ліцензією GPL v2"
+msgstr "Ця програма поширюється під ліцензією GPL v2"
 
 #: chatwnd.cpp:56 monitor.cpp:67 qt3/i18n.cpp:95
 msgid "&Save"
@@ -2219,14 +2218,12 @@ msgid "AutoHide"
 msgstr "Панель, що сама ховається"
 
 #: mainwin.cpp:893
-#, fuzzy
 msgid "Close main window"
-msgstr "З&акрити вікно користувача"
+msgstr "Закрити головне вікно"
 
 #: mainwin.cpp:894
-#, fuzzy
 msgid "Open main window"
-msgstr "Прозоре головне вікно"
+msgstr "Відкрити головне вікно"
 
 #: mainwin.cpp:1259
 msgid "%1 from %2 received"
@@ -2234,8 +2231,7 @@ msgstr "%1 від %2"
 
 #: mainwin.cpp:1305 ui/logindlg.cpp:239
 msgid "Can't connect to proxy server"
-msgstr ""
-"Неможливо з'єднатися з проксі-сервером"
+msgstr "Неможливо з'єднатися з проксі-сервером"
 
 #: mainwin.cpp:1313 ui/logindlg.cpp:246
 msgid "Proxy server require authorization"
@@ -2269,8 +2265,7 @@ msgstr "&Ні"
 
 #: mainwin.cpp:1974
 msgid "Add %1 to ignore list ?"
-msgstr ""
-"Додати \"%1\" в список тих що ігноруються?"
+msgstr "Додати \"%1\" в список тих що ігноруються?"
 
 #: mainwin.cpp:2038
 msgid "In visible list"
@@ -2692,8 +2687,7 @@ msgstr "Розмір: %1 / Максимальний: %2"
 
 #: msgedit.cpp:1569
 msgid "Message will be split"
-msgstr ""
-"Повідомлення буде розділено на частини"
+msgstr "Повідомлення буде розділено на частини"
 
 #: msgedit.cpp:1744
 msgid "Decline reason"
@@ -2768,22 +2762,24 @@ msgid ""
 "text/plain|Text file\n"
 "text/html|HTML file"
 msgstr ""
+"text/plain|Текстовий файл\n"
+"text/html|HTML файл"
 
 #: msgview.cpp:1103
 msgid "Text file(*.txt);;HTML file(*.htm *.html)"
-msgstr ""
+msgstr "Текстовий файл(*.txt);;HTML file(*.htm *.html)"
 
 #: msgview.cpp:1105
-#, fuzzy
 msgid "Save history"
-msgstr "Зберегти в"
+msgstr "Зберегти історію"
 
 #: msgview.cpp:1120
-#, fuzzy
 msgid ""
 "File %1 exists\n"
 "Overwrite?"
-msgstr "File %1 існує"
+msgstr ""
+"File %1 існує\n"
+"Замінити?"
 
 #: sim.cpp:117
 msgid ""
@@ -3458,13 +3454,11 @@ msgstr "&Сховати"
 
 #: qt3/i18n.cpp:271
 msgid "Line Up Toolbars (compact)"
-msgstr ""
-"Вирівняти панелі інструментів (компактно)"
+msgstr "Вирівняти панелі інструментів (компактно)"
 
 #: qt3/i18n.cpp:273
 msgid "Line Up Toolbars (normal)"
-msgstr ""
-"Вирівняти панелі інструментів (звичайно)"
+msgstr "Вирівняти панелі інструментів (звичайно)"
 
 #: qt3/i18n.cpp:275
 msgid "Paste special..."
@@ -3575,9 +3569,8 @@ msgid "Center-top"
 msgstr "Посередині зверху"
 
 #: ui/alertdialog.cpp:61
-#, fuzzy
 msgid "Center"
-msgstr "Посередині зверху"
+msgstr "Посередині"
 
 #: ui/alertmsg.cpp:41
 msgid "User "
@@ -3686,9 +3679,8 @@ msgid "&Skip"
 msgstr "&Пропустити"
 
 #: ui/filetransfer.cpp:312
-#, fuzzy
 msgid "File %1 exists"
-msgstr "File %1 існує"
+msgstr "Файл %1 існує"
 
 #: ui/generalsec.cpp:79
 msgid "Input current password"
@@ -3973,8 +3965,7 @@ msgstr "Вікно - розтягнути"
 
 #: ui/themesetup.cpp:205
 msgid "Need restart SIM for change language"
-msgstr ""
-"Потрібно перестартувати SIM для зміни мови"
+msgstr "Потрібно перестартувати SIM для зміни мови"
 
 #: ui/themesetup.cpp:215
 msgid "Default icons"
@@ -4358,8 +4349,7 @@ msgstr "Режим користувача для прийому файлів"
 # #
 #: ui/acceptbase.cpp:174
 msgid "Automaitcaly open window"
-msgstr ""
-"Автоматично відкривати вікно повідомлень"
+msgstr "Автоматично відкривати вікно повідомлень"
 
 #: ui/acceptbase.cpp:175
 msgid "Run external program"
@@ -4870,8 +4860,7 @@ msgstr "&Прозорість"
 
 #: ui/themesetupbase.cpp:312
 msgid "Show main window in task manager"
-msgstr ""
-"Показувати основне вікно в панелі задач"
+msgstr "Показувати основне вікно в панелі задач"
 
 #: ui/themesetupbase.cpp:313
 msgid "Show user window in task manager"
@@ -4902,8 +4891,7 @@ msgid "Hide main window after"
 msgstr "Сховати головне вікно"
 
 #: ui/statussetupbase.cpp:142
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Заборонити попередження в стані "
 "\"Відійшов\", \"Не активний\", \"Зайнятий\""
@@ -5098,8 +5086,7 @@ msgstr ""
 
 #: ui/generalsecbase.cpp:222
 msgid "Reject &URL from unknown users"
-msgstr ""
-"Відкидати &URL від невідомих користувачів"
+msgstr "Відкидати &URL від невідомих користувачів"
 
 #: ui/generalsecbase.cpp:223
 msgid "Reject &World Wide pager messages"
@@ -5581,3 +5568,4 @@ msgstr "Тема / Інтереси:"
 
 #~ msgid "exist"
 #~ msgstr "существует"
+
