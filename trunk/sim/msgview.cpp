@@ -249,7 +249,7 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
 QString TextShow::quoteText(const char *text, const char *charset)
 {
     string msg = ICQClient::quoteText(text);
-    QString s = Client::from8Bit(codec, charset);
+    QString s = Client::from8Bit(codec, msg, charset);
     return s;
 }
 
