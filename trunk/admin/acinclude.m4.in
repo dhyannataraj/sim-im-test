@@ -4562,6 +4562,7 @@ AC_DEFUN([SIM_SET_PREFIX],
     given_prefix=$prefix
     AC_MSG_RESULT([$prefix (as requested)])
   fi
+  KDE_SET_DEFAULT_PATHS(default)
 ])
 
 AC_DEFUN([KDE_SET_PREFIX],
