@@ -99,6 +99,10 @@ void ClientSocket::read_ready()
         int readn = sock->read(readBuffer.Data(readBuffer.writePos()),
                                readBuffer.size() - readBuffer.writePos());
         log(L_DEBUG, "Read ready %X %u", this, readn);
+        if (readn < 0){
+            notify->error_state();
+            return;
+        }
         if (readn == 0) break;
         readBuffer.setWritePos(readBuffer.writePos() + readn);
         if (readBuffer.writePos() < readBuffer.size()) break;
@@ -130,6 +134,12 @@ unsigned long ClientSocket::localHost()
 void ClientSocket::pause(unsigned n)
 {
     sock->pause(n);
+}
+
+void ClientSocket::setSocket(Socket *s)
+{
+    sock = s;
+    s->setNotify(this);
 }
 
 void SocketFactory::idle()

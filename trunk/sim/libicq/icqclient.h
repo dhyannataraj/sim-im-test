@@ -349,7 +349,6 @@ public:
     virtual void connect_ready();
 protected:
     virtual void processPacket() = 0;
-    virtual void connected() = 0;
     ClientSocket *sock;
     void init();
     void sendInit();
@@ -382,6 +381,52 @@ protected:
     ICQClient    *client;
 };
 
+#ifdef USE_OPENSSL
+class SSLClient : public SocketNotify, public Socket
+{
+public:
+    SSLClient(Socket*, ClientSocketNotify*);
+    ~SSLClient();
+    virtual int read(char *buf, unsigned int size);
+    virtual void write(const char *buf, unsigned int size);
+    virtual void connect(const char *host, int port);
+    virtual void close();
+    virtual unsigned long localHost();
+    virtual void pause(unsigned);
+    bool connected() { return m_bSecure; }
+    Socket *socket() { return sock; }
+    bool init();
+    void accept();
+    void connect();
+    void shutdown();
+    void process(bool bInRead=false);
+    void write();
+protected:
+    Buffer wBuffer;
+    virtual void connect_ready();
+    virtual void read_ready();
+    virtual void write_ready();
+    virtual void error_state();
+    Socket *sock;
+    enum State
+    {
+        SSLAccept,
+        SSLConnect,
+        SSLShutdown,
+        SSLWrite,
+        SSLConnected
+    };
+    State state;
+    bool m_bSecure;
+    void *mpSSL;
+    void *mrBIO;
+    void *mwBIO;
+#define pSSL	((SSL*)mpSSL)
+#define rBIO	((BIO*)mrBIO)
+#define wBIO	((BIO*)mwBIO)
+};
+#endif
+
 class DirectClient : public DirectSocket
 {
 public:
@@ -395,7 +440,7 @@ public:
     bool isSecure()
     {
 #ifdef USE_OPENSSL
-        return m_bSecure;
+        return ((ssl != NULL) && ssl->connected());
 #else
         return false;
 #endif
@@ -403,21 +448,15 @@ public:
 protected:
     enum State{
         None,
+        WaitLogin,
         WaitInit2,
         Logged,
-        SSLAccept_Read,
-        SSLAccept_Write,
-        SSLConnect_Read,
-        SSLConnect_Write,
-        SSLShutdown_Read,
-        SSLShutdown_Write,
-        SSLRead_Write,
-        SSLWrite_Read
+        SSLconnect,
     };
-    void processPacket();
-    void connected();
-    void error_state();
     State state;
+    void processPacket();
+    void connect_ready();
+    void error_state();
     ICQUser *u;
     void sendInit2();
     void startPacket(unsigned short cms, unsigned short seq);
@@ -428,16 +467,7 @@ protected:
     void secureListen();
     void secureStop(bool bShutdown);
 #ifdef USE_OPENSSL
-    void SSLaccept();
-    void SSLconnect();
-    void SSLshutdown();
-    bool m_bSecure;
-    void *mpSSL;
-    void *mrBIO;
-    void *mwBIO;
-#define pSSL	((SSL*)mpSSL)
-#define rBIO	((BIO*)mrBIO)
-#define wBIO	((BIO*)mwBIO)
+    SSLClient *ssl;
 #endif
     friend class ICQUser;
 };
@@ -473,6 +503,7 @@ protected:
     enum State
     {
         None,
+        WaitLogin,
         WaitInit,
         InitSend,
         InitReceive,
@@ -483,7 +514,7 @@ protected:
 
     ICQFile *file;
     void processPacket();
-    void connected();
+    void connect_ready();
     void error_state();
 
     void write_ready();
@@ -565,6 +596,7 @@ protected:
     enum State
     {
         None,
+        WaitLogin,
         WaitInit,
         WaitFontInfo,
         WaitFont,
@@ -582,14 +614,12 @@ protected:
     void error_state();
     void startPacket();
     void sendPacket();
-    void write_ready();
     void packet_ready();
     void connect_ready();
 
     void putText(string &s);
 
     virtual void processPacket();
-    virtual void connected();
 };
 
 // ____________________________________________________________________________________________

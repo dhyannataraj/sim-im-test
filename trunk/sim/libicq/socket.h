@@ -62,6 +62,7 @@ public:
     virtual unsigned long localHost() = 0;
     virtual void pause(unsigned) = 0;
     void error(int);
+    void setNotify(SocketNotify *n) { notify = n; }
 protected:
     SocketNotify *notify;
 };
@@ -123,6 +124,8 @@ public:
     virtual void read_ready();
     void remove();
     void setRaw(bool mode);
+    Socket *socket() { return sock; }
+    void setSocket(Socket *s);
 protected:
     virtual void connect_ready();
     virtual void write_ready();
