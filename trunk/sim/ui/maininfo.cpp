@@ -185,7 +185,22 @@ void MainInfo::save(ICQUser *u)
     set(u->Nick, edtNick->text());
     QLineEdit *edit = cmbDisplay->lineEdit();
     if (edit == NULL) return;
-    pClient->renameUser(u, edit->text().local8Bit());
+	QString alias = edit->text();
+	if (alias.isEmpty())
+		alias = edtNick->text();
+	if (alias.isEmpty())
+		alias = edtFirst->text() + " " + edtLast->text();
+    int n;
+    for (n = 0; n < (int)alias.length(); n++)
+        if (!alias[n].isSpace()) break;
+    if (n) alias = alias.mid(n);
+    if (!alias.isEmpty()){
+		for (n = (int)alias.length() - 1; n >= 0; n--)
+			if (!alias[n].isSpace()) break;
+		if (n < (int)alias.length() - 1) alias = alias.left(n + 1);
+    }
+	if (!alias.isEmpty())
+		pClient->renameUser(u, alias.local8Bit());
 }
 
 void MainInfo::apply(ICQUser *u)

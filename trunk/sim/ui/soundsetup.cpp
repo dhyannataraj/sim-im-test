@@ -31,6 +31,7 @@ SoundSetup::SoundSetup(QWidget *p, bool bUser)
         : SoundSetupBase(p)
 {
     lblPict->setPixmap(Pict("sound"));
+	chkDisable->setChecked(pSplash->SoundDisable);
     if (bUser){
         edtProgram->hide();
         lblProgram->hide();
@@ -38,7 +39,7 @@ SoundSetup::SoundSetup(QWidget *p, bool bUser)
         lblFileDone->hide();
         edtStartup->hide();
         lblStartup->hide();
-	chkDisable->hide();
+		chkDisable->hide();
         connect(chkOverride, SIGNAL(toggled(bool)), this, SLOT(overrideToggled(bool)));
     }else{
         chkOverride->hide();
@@ -119,6 +120,7 @@ void SoundSetup::save(ICQUser *u)
     u->IncomingChat = sound(edtChat);
     pClient->FileDone = sound(edtFileDone);
     pSplash->StartupSound = sound(edtStartup);
+	pSplash->SoundDisable = chkDisable->isChecked();
     u->OnlineAlert = sound(edtAlert);
     set(pSplash->SoundPlayer, edtProgram->text());
 #ifdef USE_KDE

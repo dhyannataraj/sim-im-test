@@ -53,18 +53,24 @@ CUser::CUser(unsigned long uin)
 const QString CUser::name(bool quoted)
 {
     if (u == NULL){
-        QString s;
-        s.setNum(mUIN);
-        return s;
+		if (mUIN < UIN_SPECIAL){
+			QString s;
+			s.setNum(mUIN);
+	        return s;
+		}
+		return i18n("Unknown");
     }
     string n;
     if (u) n = u->name();
     if (quoted)
         n = XmlNode::quote(n);
     if (*(n.c_str()) == 0){
-        QString s;
-        s.setNum(mUIN);
-        return s;
+		if (mUIN < UIN_SPECIAL){
+			QString s;
+			s.setNum(mUIN);
+			return s;
+		}
+		return i18n("Unknown");
     }
     return pClient->from8Bit(u ? u->Uin : mUIN, n.c_str());
 }
