@@ -140,6 +140,9 @@ const unsigned MAX_TYPE2_MESSAGE_SIZE = 4096;
 
 const unsigned PING_TIMEOUT = 60;
 
+const unsigned RATE_PAUSE = 3;
+const unsigned RATE_LIMIT = 5;
+
 const unsigned short SEARCH_DONE = (unsigned short)(-1);
 
 class DirectClient;
@@ -534,6 +537,7 @@ protected slots:
     void infoRequest();
     void infoRequestFail();
     void processSendQueue();
+	void sendTimeout();
     void retry(int n, void*);
 protected:
 	void sendPacket(bool bSend);
@@ -594,7 +598,6 @@ protected:
     void setOffline(ICQUserData*);
     void fillDirectInfo(Buffer &directInfo);
     void removeFullInfoRequest(unsigned long uin);
-    void send(bool bTimer);
     void requestService(ServiceSocket*);
     unsigned long fullStatus(unsigned status);
     string cryptPassword();
@@ -604,6 +607,7 @@ protected:
     ICQListener		*m_listener;
     list<ServiceSocket*> m_services;
     QTimer *m_sendTimer;
+	QTimer *m_processTimer;
     QTimer *m_infoTimer;
     unsigned short m_infoRequestId;
     unsigned short m_sendSmsId;
@@ -612,6 +616,7 @@ protected:
     unsigned m_listRequestTime;
     bool m_bRosters;
     bool m_bBirthday;
+	bool m_bNoSend;
     list<ServerRequest*> varRequests;
     list<unsigned long>  infoRequests;
     list<string>		 buddies;
@@ -656,7 +661,7 @@ protected:
     bool isOwnData(const char *screen);
     void packInfoList(char *str);
     QString packContacts(ContactsMessage *msg, ICQUserData *data, CONTACTS_MAP &c);
-    string createRTF(const QString &text, unsigned long foreColor, Contact *contact);
+    string createRTF(QString &text, QString &part, unsigned long foreColor, Contact *contact, unsigned max_size);
     QString removeImages(const QString &text, unsigned maxSmile);
     void ackMessage(SendMsg &s);
     void accept(Message *msg, const char *dir, OverwriteMode overwrite);
@@ -688,19 +693,25 @@ protected:
     void setAwayMessage(const char *msg);
     void encodeString(const QString &text, const char *type, unsigned short charsetTlv, unsigned short infoTlv);
     void encodeString(const char *_str, unsigned short nTlv, bool bWide);
+	bool processMsg();
     Buffer   delayed;
-    unsigned m_time;
-    unsigned m_packets;
     ICQUserData *findInfoRequest(unsigned short seq, Contact *&contact);
     INFO_REQ_MAP m_info_req;
     unsigned short msgStatus();
     unsigned short m_advCounter;
     unsigned m_nUpdates;
-    unsigned m_nSendTimeout;
     bool     m_bJoin;
     bool	 m_bFirstTry;
     bool	 m_bHTTP;
+	bool	 m_bReady;
     SendMsg  m_send;
+	QDateTime m_lastSend;
+	unsigned			m_curLevel;
+	unsigned			m_maxLevel;
+	unsigned			m_minLevel;
+	unsigned			m_winSize;
+	unsigned			newLevel();
+	unsigned			delayTime();
     list<Message*>     	m_processMsg;
     list<DirectSocket*>	m_sockets;
     list<Message*>		m_acceptMsg;

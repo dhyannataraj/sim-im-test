@@ -1302,7 +1302,9 @@ void DirectClient::processMsgQueue()
                 if ((sm.msg->getFlags() & MESSAGE_RICHTEXT) &&
                         (m_client->getSendFormat() == 0) &&
                         (m_client->hasCap(m_data, CAP_RTF))){
-                    message = m_client->createRTF(sm.msg->getRichText(), sm.msg->getForeground(), m_client->getContact(m_data));
+					QString text = sm.msg->getRichText();
+					QString part;
+                    message = m_client->createRTF(text, part, sm.msg->getForeground(), m_client->getContact(m_data), 0xFFFFFFFF);
                     sm.type = CAP_RTF;
                 }else if (m_client->hasCap(m_data, CAP_UTF) &&
                           (m_client->getSendFormat() <= 1) &&
@@ -2106,7 +2108,7 @@ void AIMFileTransfer::bind_ready(unsigned short port)
     s.screen = m_client->screen(m_data);
     s.msg	 = m_msg;
     m_client->sendFgQueue.push_front(s);
-    m_client->send(false);
+    m_client->processSendQueue();
 }
 
 bool AIMFileTransfer::accept(Socket *s, unsigned long)

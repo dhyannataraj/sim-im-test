@@ -172,6 +172,8 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
                 addFullInfoRequest(data.owner.Uin.value, false);
                 infoRequest();
                 processListRequest();
+				m_bReady = true;
+				processSendQueue();
                 break;
             case ICQ_SRVxOFFLINE_MSG:{
                     unsigned long uin;
@@ -269,7 +271,7 @@ void ICQClient::sendServerRequest()
     size = (unsigned short)(packet_size - 0x16);
     packet[0x14] = (char)(size & 0xFF);
     packet[0x15] = (char)((size >> 8) & 0xFF);
-    sendPacket(false);
+    sendPacket(true);
 }
 
 void ICQClient::sendMessageRequest()

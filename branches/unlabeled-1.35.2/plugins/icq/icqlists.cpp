@@ -486,6 +486,8 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 }
                 setState(Connected);
                 processListRequest();
+				m_bReady = true;
+				processSendQueue();
                 break;
             }
             sendCapability();
@@ -971,7 +973,7 @@ static string userStr(Contact *contact, ICQUserData *data)
 
 void ICQClient::processListRequest()
 {
-    if (m_listRequest || (getState() != Connected))
+    if (m_listRequest || (getState() != Connected) || !m_bReady)
         return;
     for (;;){
         if (listRequests.size() == 0)

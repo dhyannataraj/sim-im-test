@@ -215,12 +215,16 @@ int htmlFontSizeToPt(int fontSize, int baseSize = 12)
 class RTFGenParser : public HTMLParser
 {
 public:
-    RTFGenParser(ICQClient *client, const QColor& foreColor, Contact *contact);
+    RTFGenParser(ICQClient *client, const QColor& foreColor, Contact *contact, unsigned max_size);
     string parse(const QString &text);
     // Returns the color's index in the colors table, adding the color if necessary.
     int getColorIdx(const QColor &color);
     // Returns the font face's index in the fonts table, adding the font face if necessary.
     int getFontFaceIdx(const QString &fontFace);
+	unsigned textPos;
+	stack<QString> tags;
+	stack<QString> options;
+	unsigned	m_res_size;
 protected:
     virtual void text(const QString &text);
     virtual void tag_start(const QString &tag, const list<QString> &attrs);
@@ -230,6 +234,7 @@ protected:
     Contact    *m_contact;
     QTextCodec *m_codec;
     bool		m_bSpace;
+	unsigned	m_max_size;
 
     TagStack m_tags;
 
@@ -250,11 +255,12 @@ protected:
     } m_paragraphDir;
 };
 
-RTFGenParser::RTFGenParser(ICQClient *client, const QColor& foreColor, Contact *contact)
+RTFGenParser::RTFGenParser(ICQClient *client, const QColor& foreColor, Contact *contact, unsigned max_size)
 {
     m_client    = client;
     m_contact   = contact;
     m_foreColor = foreColor;
+	m_max_size	= max_size;
     m_lastParagraphPos = 0;
     m_paragraphDir = DirUnknown;
 }
@@ -314,6 +320,7 @@ int RTFGenParser::getFontFaceIdx(const QString& fontFace)
 string RTFGenParser::parse(const QString &text)
 {
     res = "";
+	m_res_size = 0;
     m_codec = getContacts()->getCodec(m_contact);
     int charset = 0;
     for (const ENCODING *c = getContacts()->getEncodings(); c->language; c++){
@@ -422,8 +429,24 @@ string RTFGenParser::parse(const QString &text)
 
 void RTFGenParser::text(const QString &text)
 {
+	if (m_res_size)
+		return;
+	unsigned size = res.length();
+	if (size > m_max_size){
+		textPos = start_pos;
+		m_res_size = size;
+		return;
+	}
     for (int i = 0; i < (int)(text.length()); i++){
         QChar c = text[i];
+		if (c.isSpace()){
+			unsigned size = res.length();
+			if (size > m_max_size){
+				textPos = start_pos + i;
+				m_res_size = size;
+				return;
+			}
+		}
         // In Qt, unless you force the paragraph direction with (Left/Right)
         // Ctrl-Shift (also known as Key_Direction_L and Key_Direction_R),
         // the P tag won't have a DIR attribute at all. In such cases, unlike
@@ -487,6 +510,8 @@ void RTFGenParser::text(const QString &text)
 
 void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
 {
+	if (m_res_size)
+		return;
     CharStyle parentStyle, style;
     {
         Tag* pParentTag = m_tags.getTopTagWithCharStyle();
@@ -496,6 +521,25 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
         }
     }
     style = parentStyle;
+	if ((tagName == "b") || (tagName == "i") || (tagName == "u") ||
+		(tagName == "font") || (tagName == "p") || (tagName == "span")){
+		QString tag = tagName;
+		QString option;
+		for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
+			QString key = *it;
+			++it;
+			QString value = *it;
+			option += " ";
+			option += key;
+			if (!value.isEmpty()){
+				option += "=\"";
+				option += value;
+				option += "\"";
+			}
+		}
+		tags.push(tag);
+		tags.push(option);
+	}
 
     if (tagName == "b"){
         style.bold = true;
@@ -695,6 +739,19 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
 
 void RTFGenParser::tag_end(const QString &tagName)
 {
+	if (m_res_size)
+		return;
+	if ((tagName == "b") || (tagName == "i") || (tagName == "u") ||
+		(tagName == "font") || (tagName == "p") || (tagName == "span")){
+		while (!tags.empty()){
+			QString tag = tags.top();
+			tags.pop();
+			options.pop();
+			if (tag == tagName)
+				break;
+		}
+	}
+
     // Roll back until we find our tag.
     bool found = false;
     for(Tag* pTag = m_tags.peek(); pTag != NULL && !found; pTag = m_tags.peek())
@@ -747,10 +804,28 @@ void RTFGenParser::tag_end(const QString &tagName)
     }
 }
 
-string ICQClient::createRTF(const QString &text, unsigned long foreColor, Contact *contact)
+string ICQClient::createRTF(QString &text, QString &part, unsigned long foreColor, Contact *contact, unsigned max_size)
 {
-    RTFGenParser p(this, foreColor, contact);
-    return p.parse(text);
+    RTFGenParser p(this, foreColor, contact, max_size);
+    string res = p.parse(text);
+	if (p.m_res_size == 0){
+		part = text;
+		text = "";
+		return res;
+	}
+	QString endTags;
+	QString startTags;
+	while (!p.tags.empty()){
+		QString tag = p.tags.top();
+		QString option = p.options.top();
+		p.tags.pop();
+		p.options.pop();
+		endTags   += "</" + tag + ">";
+		startTags = QString("<") + tag + option + ">" + startTags;
+	}
+	part = text.left(p.textPos) + endTags;
+	text = startTags + text.mid(p.textPos);
+	return res;
 }
 
 class ImageParser : public HTMLParser

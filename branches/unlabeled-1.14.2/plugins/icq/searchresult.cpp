@@ -132,7 +132,7 @@ ICQSearchResult::ICQSearchResult(QWidget *parent, ICQClient *client)
     tblUser->header()->hide();
     connect(tblUser, SIGNAL(dragStart()), this, SLOT(dragStart()));
     connect(tblUser, SIGNAL(doubleClicked(QListViewItem*)), this, SLOT(doubleClicked(QListViewItem*)));
-    connect(tblUser, SIGNAL(selectionChanged()), this, SLOT(selectChanged()));
+    connect(tblUser, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
     QWizard *wizard = static_cast<QWizard*>(topLevelWidget());
     wizard->setFinishEnabled(this, false);
     connect(wizard->finishButton(), SIGNAL(clicked()), this, SLOT(finishClicked()));

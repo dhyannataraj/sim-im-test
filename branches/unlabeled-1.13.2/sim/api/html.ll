@@ -116,6 +116,9 @@ public:
 	QString tag;
 	QString value;
 	list<QString> attrs;
+	unsigned start_pos;
+	unsigned end_pos;
+	unsigned text_pos;
 };
 
 HTMLParserPrivate::HTMLParserPrivate(HTMLParser *parser)
@@ -133,6 +136,8 @@ void HTMLParserPrivate::init()
 
 void HTMLParserPrivate::flushText()
 {
+	p->start_pos = text_pos;
+	p->end_pos   = end_pos;
 	if (text.isEmpty())
 		return;
 	p->text(text);
@@ -188,21 +193,30 @@ static Symbol symbols[] =
 
 void HTMLParser::parse()
 {
+	p->start_pos = 0;
+	p->end_pos   = 0;
+	p->text_pos	 = 0;
     for (;;){
         int r = yylex();
         if (!r) break;
+		p->end_pos = p->start_pos + strlen(yytext);
 		QString s;
 		switch (r){
 		case TXT:
+			if (p->text.isEmpty())
+				p->text_pos = p->start_pos;
 			p->text += QString::fromUtf8(yytext);
 			break;
 		case SPACE:
+			if (p->text.isEmpty())
+				p->text_pos = p->start_pos;
 			p->text += " ";
 			break;
 		case SKIP:
 			break;
 		case TAG_START:
 			p->flushText();
+			p->text_pos = p->start_pos;
 			s = yytext + 1;
 			p->tag = s.lower();
 			p->value = "";
@@ -221,16 +235,22 @@ void HTMLParser::parse()
 			if (!p->attrs.empty())
 				p->attrs.push_back(p->value);
 			p->value = "";
+			start_pos = p->text_pos;
+			end_pos   = p->end_pos;
 			tag_start(p->tag, p->attrs);
 			p->attrs.clear();
 			p->tag = "";
 			break;
 		case TAG_END:
 			p->flushText();
+			start_pos = p->start_pos;
+			end_pos   = p->end_pos;
 			s = yytext + 2;
 			tag_end(s.left(s.length() - 1).lower());
 			break;
 		case SYMBOL:
+			if (p->text.isEmpty())
+				p->text_pos = p->start_pos;
 			s = yytext + 1;
 			if (s[(int)(s.length() - 1)] == ';')
 				s = s.left(s.length() - 1);
@@ -258,6 +278,7 @@ void HTMLParser::parse()
 			}
 			break;
 		}
+		p->start_pos = p->end_pos;
 	}
 	p->flushText();
 }
