@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2003-07-18 09:02+0400\n"
-"PO-Revision-Date: 2003-07-18 09:46GMT\n"
+"PO-Revision-Date: 2003-07-18 11:39GMT\n"
 "Last-Translator: Crissi <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1383,7 +1383,7 @@ msgstr "Text hinter dem Cursor:"
 
 #: plugins/_core/smscfgbase.cc:102 plugins/forward/forwardcfgbase.cpp:106
 msgid "Send in &translit"
-msgstr "In &Translit senden"
+msgstr "&Text in Latin-Symbole konvertieren und senden"
 
 #: plugins/about/about.cpp:38 plugins/about/aboutdlgbase.cpp:152
 msgid "About"
