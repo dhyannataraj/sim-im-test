@@ -347,6 +347,7 @@ SmilePopup::SmilePopup(QWidget *popup)
             lay->addWidget(w, i, j);
         }
     }
+    resize(minimumSizeHint());
 }
 
 static char smiles[] =
@@ -385,14 +386,8 @@ void MsgEdit::insertSmile()
 {
     SmilePopup *smile = new SmilePopup(this);
     connect(smile, SIGNAL(insert(const QString&, bool, bool, bool)), edit, SLOT(insert(const QString&, bool, bool, bool)));
-    QPoint p = btnSmile->mapToGlobal(btnSmile->rect().topLeft());
-    QPoint pos = QPoint(p.x(), p.y() + btnSmile->height());
-    QWidget *desktop = qApp->desktop();
-    if (pos.x() + smile->width() > desktop->width())
-        pos.setX(desktop->width() - smile->width());
-    if (pos.y() + smile->height() > desktop->height())
-        pos.setY(p.y() - smile->height());
-    smile->move(pos);
+    QPoint p = btnSmile->popupPos(smile);
+    smile->move(p);
     smile->show();
 }
 

@@ -31,6 +31,7 @@
 #include <qpalette.h>
 #include <qaccel.h>
 #include <qregexp.h>
+#include <qapplication.h>
 
 CPushButton::CPushButton(QWidget *parent, const char *name)
         : QPushButton(parent, name)
@@ -85,6 +86,12 @@ void CToolButton::setPopup(QPopupMenu *_popup)
 void CToolButton::btnClicked()
 {
     if (popup == NULL) return;
+    QPoint pos = popupPos(popup);
+    popup->popup(pos);
+}
+
+QPoint CToolButton::popupPos(QWidget *p)
+{
     QPoint pos;
     QToolBar *bar = static_cast<QToolBar*>(parent());
     if (bar->orientation() == Vertical){
@@ -93,7 +100,12 @@ void CToolButton::btnClicked()
         pos = QPoint(0, height());
     }
     pos = mapToGlobal(pos);
-    popup->popup(pos);
+    QWidget *desktop = qApp->desktop();
+    if (pos.x() + p->width() > desktop->width())
+        pos.setX(desktop->width() - p->width());
+    if (pos.y() + p->height() > desktop->height())
+        pos.setY(pos.y() - height() - p->height());
+    return pos;
 }
 
 void CToolButton::mousePressEvent(QMouseEvent *e)
