@@ -29,6 +29,8 @@ static char HISTORY_PATH[] = "history\\";
 static char HISTORY_PATH[] = "history/";
 #endif
 
+static char REMOVED[] = ".removed";
+
 const unsigned CUT_BLOCK	= 0x4000;
 const unsigned BLOCK_SIZE	= 2048;
 const unsigned TEMP_BASE	= 0x80000000;
@@ -84,20 +86,27 @@ static Message *createMessage(unsigned id, const char *type, const char *cfg)
     return NULL;
 }
 
-HistoryFile::HistoryFile(const char *name, unsigned contact)
+HistoryFile::HistoryFile(const char *file_name, unsigned contact)
 {
     m_contact = contact;
-    m_name = name;
+    m_name = file_name;
 
     string f_name = HISTORY_PATH;
-    if (name && *name){
-        f_name += name;
+    if (file_name && *file_name){
+        f_name += file_name;
     }else{
         f_name += number(contact);
     }
 
     f_name = user_file(f_name.c_str());
     setName(QFile::decodeName(f_name.c_str()));
+	if (!exists()){
+		QFile bak(name() + REMOVED);
+		if (bak.exists()){
+		    QFileInfo fInfo(name());
+			fInfo.dir().rename(bak.name(), name());
+		}
+	}
     open(IO_ReadOnly);
 }
 
@@ -746,7 +755,7 @@ void History::del(unsigned msg_id)
         return;
     MAP_MSG::iterator it = s_tempMsg->find(msg_id);
     if (it == s_tempMsg->end()){
-        log(L_WARN, "Message %X for remove not found");
+        log(L_WARN, "Message %X for remove not found", msg_id);
         return;
     }
     s_tempMsg->erase(it);
@@ -754,6 +763,7 @@ void History::del(unsigned msg_id)
 
 void History::remove(Contact *contact)
 {
+	bool bRename = (contact->getFlags() & CONTACT_NOREMOVE_HISTORY);
     string name = number(contact->id());
     string f_name = HISTORY_PATH;
     f_name += name;
@@ -768,7 +778,14 @@ void History::remove(Contact *contact)
         f_name += name;
         name = user_file(f_name.c_str());
         QFile f(QString::fromUtf8(name.c_str()));
-        f.remove();
+		if (!f.exists())
+			continue;
+		if (bRename){
+		    QFileInfo fInfo(f.name());
+			fInfo.dir().rename(fInfo.fileName(), fInfo.fileName() + REMOVED);
+		}else{
+			f.remove();
+		}
     }
 }
 

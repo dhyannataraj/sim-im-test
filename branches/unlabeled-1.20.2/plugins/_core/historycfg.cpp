@@ -641,7 +641,7 @@ void HistoryConfig::fillPreview()
         xsl->setXSL(m_styles[cur].text);
     Contact *contact = getContacts()->contact(0, true);
     contact->setName("Buddy");
-    contact->setTemporary(true);
+    contact->setFlags(CONTACT_TEMP);
     edtPreview->clear();
     edtPreview->setXSL(xsl);
     time_t now;

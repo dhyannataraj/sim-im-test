@@ -1391,11 +1391,14 @@ typedef struct ContactData
     Data			FirstName;
     Data			LastName;
     Data			Notes;
-    Data			Temporary;
+    Data			Flags;
 } ContactData;
 
-const unsigned CONTACT_TEMP	= 1;
-const unsigned CONTACT_DRAG	= 2;
+const unsigned CONTACT_TEMP				= 0x0001;
+const unsigned CONTACT_DRAG				= 0x0002;
+const unsigned CONTACT_NOREMOVE_HISTORY	= 0x1000;
+
+const unsigned CONTACT_TEMPORARY	= CONTACT_TEMP | CONTACT_DRAG;
 
 class EXPORT Contact
 {
@@ -1413,7 +1416,7 @@ public:
     PROP_UTF8(FirstName)
     PROP_UTF8(LastName)
     PROP_UTF8(Notes)
-    PROP_ULONG(Temporary)
+    PROP_ULONG(Flags)
     void *getUserData(unsigned id, bool bCreate = false);
     UserData userData;
     ClientUserData clientData;

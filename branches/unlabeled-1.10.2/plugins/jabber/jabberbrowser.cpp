@@ -504,7 +504,7 @@ void JabberBrowser::dragStart()
     if (data == NULL){
         string resource;
         m_client->findContact(item->text(COL_JID).utf8(), item->text(COL_NAME).utf8(), true, contact, resource);
-        contact->setTemporary(CONTACT_DRAG);
+        contact->setFlags(CONTACT_DRAG);
     }
     m_list->startDrag(new ContactDragObject(m_list, contact));
 }

@@ -493,9 +493,9 @@ void SMSClient::phonebookEntry(int index, int type, const QString &phone, const 
     }
     if (contact == NULL){
         contact = getContacts()->contactByPhone(phone.latin1());
-        if (contact->getTemporary()){
+        if (contact->getFlags() & CONTACT_TEMPORARY){
             bNew = true;
-            contact->setTemporary(0);
+            contact->setFlags(contact->getFlags() & ~CONTACT_TEMPORARY);
             contact->setName(name);
         }
     }
@@ -601,9 +601,9 @@ void SMSClient::phoneCall(const QString &number)
     if (!number.isEmpty()){
         bool bNew = false;
         Contact *contact = getContacts()->contactByPhone(number.latin1());
-        if (contact->getTemporary()){
+        if (contact->getFlags() & CONTACT_TEMPORARY){
             bNew = true;
-            contact->setTemporary(0);
+            contact->setFlags(contact->getFlags() & ~CONTACT_TEMPORARY);
             contact->setName(number);
         }
         QString phones = contact->getPhones();

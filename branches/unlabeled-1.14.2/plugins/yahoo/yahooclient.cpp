@@ -1205,7 +1205,7 @@ void YahooClient::messageReceived(Message *msg, const char *id)
                 delete msg;
                 return;
             }
-            contact->setTemporary(CONTACT_TEMP);
+            contact->setFlags(CONTACT_TEMP);
             Event e(EventContactChanged, contact);
             e.process();
         }

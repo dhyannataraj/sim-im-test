@@ -322,7 +322,7 @@ ContactDragObject::~ContactDragObject()
         item->repaint();
     }
     Contact *contact = getContacts()->contact(m_id);
-    if (contact && (contact->getTemporary() & CONTACT_DRAG))
+    if (contact && (contact->getFlags() & CONTACT_DRAG))
         delete contact;
 }
 

@@ -53,10 +53,9 @@
 
 #ifdef WIN32
 
-#define WM_DOCK	(WM_USER + 0x100)
-
 static WNDPROC oldDockProc;
 static DockWnd *gDock;
+static UINT	   WM_DOCK = 0;
 
 LRESULT CALLBACK DockWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -593,6 +592,7 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
     setIcon(icon);
     QWidget::hide();
     gDock = this;
+	WM_DOCK = RegisterWindowMessageA("SIM dock");
     if (IsWindowUnicode(winId())){
         (HMODULE&)hShell = LoadLibraryA("shell32.dll");
         if (hShell)
@@ -600,30 +600,27 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
     }
     if (IsWindowUnicode(winId()) && _Shell_NotifyIconW){
         oldDockProc = (WNDPROC)SetWindowLongW(winId(), GWL_WNDPROC, (LONG)DockWindowProc);
-        /*
-                NOTIFYICONDATAW notifyIconData;
-                notifyIconData.cbSize = sizeof(notifyIconData);
-                notifyIconData.hIcon = topData()->winIcon;
-                notifyIconData.hWnd = winId();
-                notifyIconData.szTip[0] = 0;
-                notifyIconData.uCallbackMessage = WM_DOCK;
-                notifyIconData.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
-                notifyIconData.uID = 0;
-                _Shell_NotifyIconW(NIM_ADD, &notifyIconData);
-        */
+        NOTIFYICONDATAW notifyIconData;
+        notifyIconData.cbSize = sizeof(notifyIconData);
+        notifyIconData.hIcon = topData()->winIcon;
+        notifyIconData.hWnd = winId();
+        notifyIconData.szTip[0] = 0;
+        notifyIconData.uCallbackMessage = WM_DOCK;
+        notifyIconData.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
+        notifyIconData.uID = 0;
+        _Shell_NotifyIconW(NIM_ADD, &notifyIconData);
     }else{
         oldDockProc = (WNDPROC)SetWindowLongA(winId(), GWL_WNDPROC, (LONG)DockWindowProc);
+	    NOTIFYICONDATAA notifyIconData;
+		notifyIconData.cbSize = sizeof(notifyIconData);
+		notifyIconData.hIcon = topData()->winIcon;
+		notifyIconData.hWnd = winId();
+		notifyIconData.szTip[0] = 0;
+		notifyIconData.uCallbackMessage = WM_DOCK;
+		notifyIconData.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
+		notifyIconData.uID = 0;
+		Shell_NotifyIconA(NIM_ADD, &notifyIconData);
     }
-    NOTIFYICONDATAA notifyIconData;
-    notifyIconData.cbSize = sizeof(notifyIconData);
-    notifyIconData.hIcon = topData()->winIcon;
-    notifyIconData.hWnd = winId();
-    notifyIconData.szTip[0] = 0;
-    notifyIconData.uCallbackMessage = WM_DOCK;
-    notifyIconData.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
-    notifyIconData.uID = 0;
-    Shell_NotifyIconA(NIM_ADD, &notifyIconData);
-    //}
 #else
     setMinimumSize(22, 22);
     resize(22, 22);

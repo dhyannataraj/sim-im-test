@@ -237,7 +237,7 @@ Contact *AddResult::createContact(unsigned tmpFlags, JabberUserData **data)
     *data = m_client->findContact(item->text(0).utf8(), item->text(0).utf8(), false, contact, resource);
     if (*data == NULL){
         *data = m_client->findContact(item->text(0).utf8(), item->text(0).utf8(), true, contact, resource);
-        contact->setTemporary(tmpFlags);
+        contact->setFlags(tmpFlags);
         Event e(EventContactChanged, contact);
         e.process();
     }

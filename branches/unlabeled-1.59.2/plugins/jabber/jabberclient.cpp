@@ -1460,6 +1460,13 @@ QString JabberClient::contactTip(void *_data)
                 res += ": </font>";
                 res += formatDateTime(statusTime);
             }
+			const char *reply = get_str(data->ResourceReply, i);
+			if (reply && *reply){
+				res += "<br/>";
+				QString r = QString::fromUtf8(reply);
+				r = r.replace(QRegExp("\n"), "<br/>");
+				res += r;
+			}
             if (i < data->nResources.value)
                 res += "<br>_________<br>";
         }
@@ -2682,7 +2689,7 @@ void JabberClient::auth_request(const char *jid, unsigned type, const char *text
     }
     if ((data == NULL) && bCreate){
         data = findContact(jid, NULL, true, contact, resource);
-        contact->setTemporary(CONTACT_TEMP);
+        contact->setFlags(CONTACT_TEMP);
     }
     if (data == NULL)
         return;

@@ -100,6 +100,7 @@ protected:
     QTimer	 *blinkTimer;
     QTimer	 *unreadTimer;
     QString	 m_search;
+	bool	 m_bRemoveHistory;
     QListViewItem *m_searchItem;
 };
 

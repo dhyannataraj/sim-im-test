@@ -447,7 +447,7 @@ void ICQSearch::sendMessage()
     ICQUserData *data = m_client->findContact(number(m_randomUin).c_str(), m_name.utf8(), false, contact);
     if (data == NULL){
         data = m_client->findContact(number(m_randomUin).c_str(), m_name.utf8(), true, contact);
-        contact->setTemporary(CONTACT_TEMP);
+        contact->setFlags(CONTACT_TEMP);
     }
     Message *msg = new Message(MessageGeneric);
     msg->setContact(contact->id());

@@ -3231,7 +3231,7 @@ bool ICQClient::messageReceived(Message *msg, const char *screen)
                 delete msg;
                 return true;
             }
-            contact->setTemporary(CONTACT_TEMP);
+            contact->setFlags(CONTACT_TEMP);
             Event e(EventContactChanged, contact);
             e.process();
         }

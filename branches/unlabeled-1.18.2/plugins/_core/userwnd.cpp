@@ -83,7 +83,7 @@ UserWnd::~UserWnd()
     emit closed(this);
     free_data(userWndData, &data);
     Contact *contact = getContacts()->contact(id());
-    if (contact && contact->getTemporary()){
+    if (contact && (contact->getFlags() & CONTACT_TEMPORARY)){
         m_id = 0;
         delete contact;
     }

@@ -646,7 +646,7 @@ void UserListBase::fill()
         divItemOnline  = NULL;
         divItemOffline = NULL;
         while ((contact = ++contact_it) != NULL){
-            if (contact->getIgnore() || contact->getTemporary())
+            if (contact->getIgnore() || (contact->getFlags() & CONTACT_TEMPORARY))
                 continue;
             unsigned style;
             string icons;
@@ -683,7 +683,7 @@ void UserListBase::fill()
             grpItem = new GroupItem(this, list->group(0), true);
         }
         while ((contact = ++contact_it) != NULL){
-            if (contact->getIgnore() || contact->getTemporary())
+            if (contact->getIgnore() || (contact->getFlags() & CONTACT_TEMPORARY))
                 continue;
             unsigned style;
             string icons;
@@ -736,7 +736,7 @@ void UserListBase::fill()
             }
         }
         while ((contact = ++contact_it) != NULL){
-            if (contact->getIgnore() || contact->getTemporary())
+            if (contact->getIgnore() || (contact->getFlags() & CONTACT_TEMPORARY))
                 continue;
             unsigned style;
             string icons;
@@ -815,14 +815,14 @@ void *UserListBase::processEvent(Event *e)
             }
         case EventContactCreated:{
                 Contact *c = (Contact*)(e->param());
-                if (!c->getIgnore() && (c->getTemporary() == 0))
+                if (!c->getIgnore() && ((c->getFlags() & CONTACT_TEMPORARY) == 0))
                     addContactForUpdate(c->id());
                 break;
             }
         case EventContactStatus:
         case EventContactChanged:{
                 Contact *c = (Contact*)(e->param());
-                if (!c->getIgnore() && (c->getTemporary() == 0)){
+                if (!c->getIgnore() && ((c->getFlags() & CONTACT_TEMPORARY) == 0)){
                     addContactForUpdate(c->id());
                 }else{
                     Event e(EventContactDeleted, c);

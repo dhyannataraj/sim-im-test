@@ -557,7 +557,7 @@ QString WeatherPlugin::forecastReplace(const QString &text)
     QString temp;
     int minT = atol(getMinT(m_day));
     int maxT = atol(getMaxT(m_day));
-    if ((minT < 0) && (maxT < 0)){
+    if ((minT < 0) && (maxT <= 0)){
         int r = minT;
         minT = maxT;
         maxT = r;

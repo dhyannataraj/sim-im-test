@@ -264,7 +264,7 @@ UserConfig::UserConfig(Contact *contact, Group *group)
 
 UserConfig::~UserConfig()
 {
-    if (m_contact && m_contact->getTemporary()){
+    if (m_contact && (m_contact->getFlags() & CONTACT_TEMPORARY)){
         Contact *contact = m_contact;
         m_contact = NULL;
         delete contact;

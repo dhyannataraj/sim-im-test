@@ -96,7 +96,7 @@ UI_EXPORT QPixmap& intensity(QPixmap &pict, float percent)
 }
 
 BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWidget *parent, const QRect *rcParent,
-                       bool bModal, bool bAutoHide, unsigned bwidth, const QString &box_msg)
+                       bool bModal, bool bAutoHide, unsigned bwidth, const QString &box_msg, bool *bChecked)
         : QDialog(parent, "ballon", bModal,
                   (bAutoHide ? WType_Popup : WType_TopLevel | WStyle_StaysOnTop)
                   | WStyle_Customize | WStyle_NoBorderEx | WStyle_Tool | WDestructiveClose | WX11BypassWM)
@@ -106,6 +106,7 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     m_width = bwidth;
     m_bAutoHide = bAutoHide;
     m_bYes = false;
+	m_bChecked = bChecked;
     bool bTailDown = true;
     setPalette(QToolTip::palette());
     text = _text;
@@ -117,6 +118,8 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     if (!box_msg.isEmpty()){
         m_check = new QCheckBox(box_msg, frm);
         vlay->addWidget(m_check);
+		if (m_bChecked)
+			m_check->setChecked(*m_bChecked);
     }
     QHBoxLayout *lay = new QHBoxLayout(vlay);
     lay->setSpacing(5);
@@ -294,6 +297,8 @@ void BalloonMsg::mousePressEvent(QMouseEvent *e)
 
 void BalloonMsg::action(int id)
 {
+	if (m_bChecked && m_check)
+		*m_bChecked = m_check->isChecked();
     emit action(id, m_param);
     if (id == 0){
         emit yes_action(m_param);
@@ -313,12 +318,15 @@ void BalloonMsg::message(const QString &text, QWidget *parent, bool bModal, unsi
     }
 }
 
-void BalloonMsg::ask(void *param, const QString &text, QWidget *parent, const char *slotYes, const char *slotNo, const QRect *rc, QObject *receiver)
+void BalloonMsg::ask(void *param, const QString &text, QWidget *parent, 
+					 const char *slotYes, const char *slotNo, 
+					 const QRect *rc, QObject *receiver, 
+					 const QString &checkText, bool *bCheck)
 {
     QStringList btns;
     btns.append(i18n("&Yes"));
     btns.append(i18n("&No"));
-    BalloonMsg *msg = new BalloonMsg(param, text, btns, parent, rc, false);
+    BalloonMsg *msg = new BalloonMsg(param, text, btns, parent, rc, false, true, 150, checkText, bCheck);
     if (receiver == NULL)
         receiver = parent;
     if (slotYes)

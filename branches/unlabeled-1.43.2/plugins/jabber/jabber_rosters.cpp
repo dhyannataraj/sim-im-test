@@ -162,7 +162,7 @@ void RostersRequest::element_end(const char *el)
                 string resource;
                 data = m_client->findContact(m_jid.c_str(), m_name.c_str(), true, contact, resource);
                 if (m_bSubscription){
-                    contact->setTemporary(CONTACT_TEMP);
+                    contact->setFlags(CONTACT_TEMP);
                     Event eContact(EventContactChanged, contact);
                     eContact.process();
                     m_client->auth_request(m_jid.c_str(), MessageAuthRequest, m_subscription.c_str(), true);
@@ -859,7 +859,7 @@ JabberClient::PresenceRequest::~PresenceRequest()
                 status = STATUS_ONLINE;
                 bInvisible = true;
             }else if (!m_status.empty()){
-                log(L_DEBUG, "Unsupported status %s", m_status.c_str());
+				status = STATUS_ONLINE;
             }
         }else{
             log(L_DEBUG, "Unsupported available status %s", m_show.c_str());
@@ -1028,7 +1028,7 @@ JabberClient::IqRequest::~IqRequest()
             data = m_client->findContact(m_from.c_str(), NULL, true, contact, resource);
             if (data == NULL)
                 return;
-            contact->setTemporary(CONTACT_TEMP);
+            contact->setFlags(CONTACT_TEMP);
         }
         JabberFileMessage *msg = new JabberFileMessage;
         msg->setDescription(QString::fromUtf8(file.c_str()));
@@ -1228,7 +1228,7 @@ JabberClient::MessageRequest::~MessageRequest()
         data = m_client->findContact(m_from.c_str(), NULL, true, contact, resource);
         if (data == NULL)
             return;
-        contact->setTemporary(CONTACT_TEMP);
+        contact->setFlags(CONTACT_TEMP);
     }
     Message *msg = NULL;
     if (!m_id.empty()){

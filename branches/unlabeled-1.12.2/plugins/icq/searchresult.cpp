@@ -299,7 +299,7 @@ Contact *ICQSearchResult::createContact(unsigned tmpFlags)
     ICQUserData *data = m_client->findContact(item->text(COL_SCREEN).latin1(), item->text(COL_NICK).utf8(), false, contact);
     if (data == NULL){
         data = m_client->findContact(item->text(COL_SCREEN).latin1(), item->text(COL_NICK).utf8(), true, contact, NULL, false);
-        contact->setTemporary(tmpFlags);
+        contact->setFlags(tmpFlags);
         Event e(EventContactChanged, contact);
         e.process();
     }

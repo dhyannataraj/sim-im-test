@@ -52,6 +52,7 @@ JabberHttpPool::JabberHttpPool(const char *url)
     m_url = url;
     m_cookie = "0";
 #ifdef USE_OPENSSL
+/*
     Buffer k;
     for (unsigned i = 0; i < 48; i++){
         char c = get_random() & 0xFF;
@@ -60,6 +61,8 @@ JabberHttpPool::JabberHttpPool(const char *url)
     Buffer to;
     to.toBase64(k);
     m_seed.append(to.data(), to.size());
+*/
+	m_seed = "foo";
 #endif
 }
 
@@ -114,7 +117,7 @@ void JabberHttpPool::write(const char *buf, unsigned size)
     *packet << ";" << key.c_str();
 #endif
     *packet << ",";
-    log(L_DEBUG, "%s,", m_cookie.c_str());
+    log(L_DEBUG, "%s;%s,", m_cookie.c_str(), key.c_str());
     packet->pack(writeData.data(), writeData.writePos());
     char headers[] = "Content-Type: application/x-www-form-urlencoded";
     fetch(m_url.c_str(), headers, packet);

@@ -75,7 +75,7 @@ static DataDef contactData[] =
         { "FirstName", DATA_UTF, 1, 0 },
         { "LastName", DATA_UTF, 1, 0 },
         { "Notes", DATA_UTF, 1, 0 },
-        { "", DATA_BOOL, 1, 0 },
+        { "Flags", DATA_ULONG, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -1673,7 +1673,7 @@ void ContactList::save()
     }
     for (list<Contact*>::iterator it_c = p->contacts.begin(); it_c != p->contacts.end(); ++it_c){
         Contact *contact = *it_c;
-        if (contact->getTemporary())
+        if (contact->getFlags() & CONTACT_TEMPORARY)
             continue;
         line = _CONTACT;
         line += number(contact->id());
@@ -1903,7 +1903,7 @@ Contact *ContactList::contactByPhone(const char *_phone)
         }
     }
     c = contact(0, true);
-    c->setTemporary(CONTACT_TEMP);
+    c->setFlags(CONTACT_TEMP);
     c->setName(QString::fromUtf8(_phone));
     Event e(EventContactChanged, c);
     e.process();
@@ -1921,7 +1921,7 @@ Contact *ContactList::contactByMail(const QString &_mail, const QString &_name)
                 return c;
         }
         c = contact(0, true);
-        c->setTemporary(CONTACT_TEMP);
+        c->setFlags(CONTACT_TEMP);
         c->setName(name);
         Event e(EventContactChanged, c);
         e.process();
@@ -1939,7 +1939,7 @@ Contact *ContactList::contactByMail(const QString &_mail, const QString &_name)
         }
     }
     c = contact(0, true);
-    c->setTemporary(CONTACT_TEMP);
+    c->setFlags(CONTACT_TEMP);
     c->setName(name);
     c->setEMails(_mail + "/-");
     Event e(EventContactChanged, c);
