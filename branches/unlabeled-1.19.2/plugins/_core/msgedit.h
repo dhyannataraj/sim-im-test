@@ -92,6 +92,7 @@ public slots:
     void execCommand();
     void editFinished();
     void editFontChanged(const QFont&);
+    void cursorPositionChanged( int para, int pos );
 protected:
     QObject  *m_processor;
     QObject	 *m_recvProcessor;

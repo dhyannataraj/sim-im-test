@@ -2571,7 +2571,9 @@ void BrowseRequest::element_end(const char *el)
         m_ns = "";
         m_data = NULL;
     }
-    if ((!strcmp(el, "item") || !strcmp(el, "service")) && !m_jid.empty()){
+    if ((!strcmp(el, "item") || !strcmp(el, "service") || 
+		!strcmp(el, "agent") || !strcmp(el, "headline")) 
+		&& !m_jid.empty()){
         DiscoItem item;
         item.id			= m_id;
         item.jid		= m_jid;

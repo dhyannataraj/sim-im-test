@@ -184,6 +184,7 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd)
     connect(m_edit, SIGNAL(colorsChanged()), this, SLOT(colorsChanged()));
     connect(m_edit, SIGNAL(finished()), this, SLOT(editFinished()));
     connect(m_edit, SIGNAL(fontSelected(const QFont&)), this, SLOT(editFontChanged(const QFont&)));
+    connect(m_edit, SIGNAL(cursorPositionChanged(int,int)), this, SLOT(cursorPositionChanged(int,int)));
 
     QFontMetrics fm(m_edit->font());
     m_edit->setMinimumSize(QSize(fm.maxWidth(), fm.height() + 10));
@@ -347,6 +348,10 @@ bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
     if (m_processor && bSetFocus)
         QTimer::singleShot(0, m_processor, SLOT(init()));
     return true;
+}
+
+void MsgEdit::cursorPositionChanged(int, int)
+{
 }
 
 Client *MsgEdit::client(void *&data, bool bCreate, bool bTyping, unsigned contact_id, bool bUseClient)
@@ -1569,9 +1574,12 @@ SmileLabel::SmileLabel(const char *_id, QWidget *parent)
     setPixmap(pict);
     list<string> smiles = getIcons()->getSmile(_id);
     QString tip = QString::fromUtf8(smiles.front().c_str());
-    tip += " ";
     string name = getIcons()->getSmileName(_id);
-    tip += i18n(name.c_str());
+	char c = name[0];
+	if ((c < '0') || (c > '9')){
+		tip += " ";
+		tip += i18n(name.c_str());
+	}
     QToolTip::add(this, tip);
 }
 

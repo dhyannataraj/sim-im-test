@@ -886,13 +886,11 @@ void *MsgViewBase::processEvent(Event *e)
                 continue;
             string ss;
             ss = text(i).local8Bit();
-            log(L_DEBUG, "?: %s", ss.c_str());
 
             unsigned j;
             for (j = i + 1; j < (unsigned)paragraphs(); j++){
                 QString s = text(j);
                 ss = text(j).local8Bit();
-                log(L_DEBUG, ">: %s", ss.c_str());
                 int n = s.find(MSG_ANCHOR);
                 if (n < 0)
                     continue;
@@ -1273,7 +1271,8 @@ void ViewParser::text(const QString &text)
     }
     m_bFirst = false;
     if (m_bUseSmiles){
-        res += getIcons()->parseSmiles(text);
+        QString r = getIcons()->parseSmiles(text);
+		res += r;
     }else{
         res += quoteString(text);
     }
@@ -1295,8 +1294,18 @@ static const char *def_smiles[] =
         ":-X",
         ":-P",
         "8-)",
-        "8-)",
-        ":-D"
+        "O:-)",
+        ":-D",
+		"*ANNOYED*",
+		"*DISGUSTED*",
+		"*DROOLING*",
+		"*GIGGLING*",
+		"*JOKINGLY*",
+		"*SHOCKED*",
+		"*WHINING*",
+		"*SURPRISED*",
+		"*SURPRISED*",
+		"*IN LOVE*"
     };
 
 void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
@@ -1323,9 +1332,10 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
         if (src.left(10) == "icon:smile"){
             bool bOK;
             unsigned nSmile = src.mid(10).toUInt(&bOK, 16);
-            if (bOK && (nSmile < 0x10)){
+            if (bOK && (nSmile < 26)){
                 QString s = def_smiles[nSmile];
                 res += getIcons()->parseSmiles(s);
+				return;
             }
         }
     }else if (tag == "a"){

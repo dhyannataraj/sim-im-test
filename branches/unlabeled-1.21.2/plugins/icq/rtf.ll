@@ -849,7 +849,7 @@ QString RTF2HTML::Parse(const char *rtf, const char *_encoding)
                         }
                         break;
                     }
-					if (n < 16)
+					if (n < 26)
 						PrintUnquoted("<img src=\"icon:smile%X\">", n);
                 }else{
                     log(L_WARN, "Unknown image %s", yytext);

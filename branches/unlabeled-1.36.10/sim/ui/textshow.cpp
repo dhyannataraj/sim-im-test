@@ -594,7 +594,12 @@ void TextShow::resizeEvent(QResizeEvent *e)
     int x, y;
     viewportToContents(p.x(), p.y(), x, y);
     int para;
-    int pos = charAt(QPoint(x, y), &para);
+    int pos;
+	if (isReadOnly()){
+		pos = charAt(QPoint(x, y), &para);
+	}else{
+		getCursorPosition(&para, &pos);
+	}
     QTextEdit::resizeEvent(e);
     if (pos == -1){
         scrollToBottom();
