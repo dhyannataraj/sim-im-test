@@ -90,7 +90,7 @@ SetupDialog::SetupDialog(QWidget*, int nWin)
     addPage(new NetworkSetup(tabBars), SETUP_CONNECTION, i18n("Connection"), "network");
     addPage(new ThemeSetup(tabBars), SETUP_STYLE, i18n("Style"), "style");
     addPage(new FontSetup(tabBars), SETUP_INTERFACE, i18n("Interface"), "text");
-    addPage(new SoundSetup(tabBars), SETUP_STYLE, i18n("Sound"), "sound");
+    addPage(new SoundSetup(tabBars), SETUP_SOUND, i18n("Sound"), "sound");
     addPage(new XOSDSetup(tabBars), SETUP_XOSD, i18n("On Screen notification"), "screen");
     addPage(new AlertDialog(tabBars), SETUP_ALERT, i18n("Alert"), "alert");
     addPage(new AcceptDialog(tabBars), SETUP_ACCEPT, i18n("Accept file"), "file");

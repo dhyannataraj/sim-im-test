@@ -25,6 +25,7 @@
 
 #include <qaccel.h>
 #include <qapplication.h>
+#include <qstringlist.h>
 
 #ifdef USE_SPELL
 #include <kspell.h>

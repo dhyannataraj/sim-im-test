@@ -129,7 +129,6 @@ public:
 
     ConfigString UrlViewer;
     ConfigString MailClient;
-    ConfigString SoundPlayer;
 
     ConfigBool   UseTransparent;
     ConfigULong  Transparent;
@@ -221,10 +220,10 @@ public:
 
     void setShow(bool bState);
     bool isShow();
-    void buildFileName(string &s, const char *name, bool bSystem=true, bool bCreate=true);
-    void playSound(const char *wav);
+    static void buildFileName(string &s, const char *name, bool bSystem=true, bool bCreate=true);
+    static void playSound(const char *wav);
 
-    string homeDir;
+    static string homeDir;
 
     void adjustUserMenu(QPopupMenu *menu, ICQUser *u, bool bHaveTitle);
     void adjustGroupMenu(QPopupMenu *menu, unsigned long uin);
@@ -245,7 +244,7 @@ public:
 
     static QString ParseText(const char *t, bool bIgnoreColors);
 
-    const char *sound(const char *wav);
+    static const char *sound(const char *wav);
 signals:
     void modeChanged(bool);
     void transparentChanged();

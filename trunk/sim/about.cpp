@@ -32,6 +32,7 @@
 #include <qobjectlist.h>
 #include <qapplication.h>
 #include <qtooltip.h>
+#include <qstringlist.h>
 
 #if QT_VERSION < 300
 #include "qt3/qtextbrowser.h"

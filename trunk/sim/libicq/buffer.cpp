@@ -112,9 +112,10 @@ unsigned long Buffer::unpackUin()
 {
     char len;
     *this >> len;
-    char uin[13];
+    char uin[14];
     if (len > 13) len = 13;
     unpack(uin, len);
+    uin[len] = 0;
     return atol(uin);
 }
 

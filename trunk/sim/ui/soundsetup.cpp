@@ -18,6 +18,7 @@
 #include "soundsetup.h"
 #include "icons.h"
 #include "mainwin.h"
+#include "splash.h"
 #include "client.h"
 #include "editfile.h"
 
@@ -34,6 +35,8 @@ SoundSetup::SoundSetup(QWidget *p, bool bUser)
         lblProgram->hide();
         edtFileDone->hide();
         lblFileDone->hide();
+        edtStartup->hide();
+        lblStartup->hide();
         connect(chkOverride, SIGNAL(toggled(bool)), this, SLOT(overrideToggled(bool)));
     }else{
         chkOverride->hide();
@@ -56,7 +59,8 @@ void SoundSetup::load(ICQUser *u)
     edtFile->setText(QString::fromLocal8Bit(pMain->sound(u->IncomingFile.c_str())));
     edtChat->setText(QString::fromLocal8Bit(pMain->sound(u->IncomingChat.c_str())));
     edtFileDone->setText(QString::fromLocal8Bit(pMain->sound(pClient->FileDone.c_str())));
-    edtProgram->setText(QString::fromLocal8Bit(pMain->SoundPlayer.c_str()));
+    edtStartup->setText(QString::fromLocal8Bit(pMain->sound(pSplash->StartupSound.c_str())));
+    edtProgram->setText(QString::fromLocal8Bit(pSplash->SoundPlayer.c_str()));
     overrideToggled((u == pClient) ? true : chkOverride->isChecked());
 }
 
@@ -99,8 +103,9 @@ void SoundSetup::save(ICQUser *u)
     u->IncomingFile = sound(edtFile);
     u->IncomingChat = sound(edtChat);
     pClient->FileDone = sound(edtFileDone);
+    pSplash->StartupSound = sound(edtStartup);
     u->OnlineAlert = sound(edtAlert);
-    pMain->SoundPlayer = edtProgram->text().local8Bit();
+    pSplash->SoundPlayer = edtProgram->text().local8Bit();
 }
 
 void SoundSetup::apply(ICQUser *u)

@@ -24,6 +24,7 @@
 
 class ICQUser;
 class EMailInfo;
+class QStringList;
 
 class MainInfo : public MainInfoBase
 {

@@ -19,6 +19,7 @@
 #include "ballonmsg.h"
 
 #include <qtimer.h>
+#include <qstringlist.h>
 
 HelpEdit::HelpEdit(QWidget *parent, const char *name)
         : QMultiLineEdit(parent, name)

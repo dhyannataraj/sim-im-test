@@ -192,6 +192,16 @@ void UserBox::wmChanged()
         KWin::setState(winId(), NET::SkipTaskbar);
     }
 #endif
+#ifdef WIN32
+    bool bShow = isVisible();
+    hide();
+    if (pMain->UserWindowInTaskManager()){
+        SetWindowLongW(winId(), GWL_EXSTYLE, (GetWindowLongW(winId(), GWL_EXSTYLE) | WS_EX_APPWINDOW) & (~WS_EX_TOOLWINDOW));
+    }else{
+        SetWindowLongW(winId(), GWL_EXSTYLE, (GetWindowLongW(winId(), GWL_EXSTYLE) & ~(WS_EX_APPWINDOW)) | WS_EX_TOOLWINDOW);
+    }
+    if (bShow) show();
+#endif
 }
 
 void UserBox::showUsers(bool bShow, unsigned long uin)

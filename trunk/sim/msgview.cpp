@@ -45,6 +45,7 @@
 #include <qobjectlist.h>
 #include <qvaluelist.h>
 #include <qtimer.h>
+#include <qstringlist.h>
 
 #ifdef WIN32
 #if _MSC_VER > 1020

@@ -39,6 +39,7 @@ using namespace std;
 #include <qpainter.h>
 #include <qbitmap.h>
 #include <qfile.h>
+#include <qstringlist.h>
 
 #include "xpm/empty.xpm"
 #include "xpm/licq.xpm"

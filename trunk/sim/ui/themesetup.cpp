@@ -27,8 +27,7 @@
 #include <qcheckbox.h>
 #include <qdir.h>
 #include <qregexp.h>
-
-const char *app_file(const char *f);
+#include <qstringlist.h>
 
 ThemeSetup::ThemeSetup(QWidget *parent)
         : ThemeSetupBase(parent)
@@ -71,7 +70,7 @@ ThemeSetup::ThemeSetup(QWidget *parent)
     lstThemes->setMinimumSize(QSize(0, h * 3));
     lstIcons->setMinimumSize(QSize(0, h * 3));
     connect(pMain, SIGNAL(setupInit()), this, SLOT(setupInit()));
-#ifdef USE_KDE
+#if defined(USE_KDE) || defined(WIN32)
     chkUserWnd->setChecked(pMain->UserWindowInTaskManager());
     chkMainWnd->setChecked(pMain->MainWindowInTaskManager());
 #else
@@ -80,6 +79,8 @@ ThemeSetup::ThemeSetup(QWidget *parent)
 #endif
     setupInit();
 }
+
+const char *app_file(const char *f);
 
 void ThemeSetup::setupInit()
 {
@@ -125,7 +126,7 @@ void ThemeSetup::apply(ICQUser*)
     pMain->UseTransparentContainer = chkTransparentContainer->isChecked();
     pMain->TransparentContainer = sldTransparentContainer->value();
     pMain->changeTransparent();
-#ifdef USE_KDE
+#if defined(USE_KDE) || defined(WIN32)
     bool bChange = false;
     if (pMain->UserWindowInTaskManager() != chkUserWnd->isChecked()){
         pMain->UserWindowInTaskManager = chkUserWnd->isChecked();

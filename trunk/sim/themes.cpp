@@ -41,6 +41,7 @@ extern KApplication *kApp;
 #include <qapplication.h>
 #include <qstyle.h>
 #include <qfont.h>
+#include <qstringlist.h>
 
 #if QT_VERSION < 300
 

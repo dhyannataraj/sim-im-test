@@ -44,6 +44,7 @@
 #include <qregexp.h>
 #include <qinputdialog.h>
 #include <qpopupmenu.h>
+#include <qstringlist.h>
 #ifdef USE_KDE
 #include <kcolordialog.h>
 #include <kfontdialog.h>

@@ -56,8 +56,8 @@ void log(unsigned short l, const char *fmt, ...)
     _vsnprintf(msg, sizeof(msg), fmt, ap);
     qWarning("%s%s", time, msg);
 #else
-if (!(l & L_SILENT))
-    fprintf(stderr, "%02u:%02u:%02u [%s] ", tm->tm_hour, tm->tm_min, tm->tm_sec, level_name(l));
+    if (!(l & L_SILENT))
+        fprintf(stderr, "%02u:%02u:%02u [%s] ", tm->tm_hour, tm->tm_min, tm->tm_sec, level_name(l));
     vfprintf(stderr, fmt, ap);
     fprintf(stderr, "\n");
 #endif

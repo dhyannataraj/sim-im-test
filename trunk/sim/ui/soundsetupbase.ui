@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>564</width>
+            <width>560</width>
             <height>600</height>
         </rect>
     </property>
@@ -257,6 +257,24 @@
             <property stdset="1">
                 <name>name</name>
                 <cstring>edtChat</cstring>
+            </property>
+        </widget>
+        <widget>
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>lblStartup</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Startup sound</string>
+            </property>
+        </widget>
+        <widget>
+            <class>EditSound</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>edtStartup</cstring>
             </property>
         </widget>
         <widget>

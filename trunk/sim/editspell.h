@@ -35,6 +35,7 @@
 
 class KSpell;
 class TransparentBg;
+class QStringList;
 
 class EditSpell : public QTextEdit
 {

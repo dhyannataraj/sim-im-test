@@ -18,6 +18,7 @@
 #include "defs.h"
 #include "icons.h"
 #include "mainwin.h"
+#include "splash.h"
 #include "about.h"
 #include "log.h"
 
@@ -31,7 +32,8 @@
 #define I18N_NOOP(A)	(A)
 #endif
 
-MainWindow *pMain = NULL;
+MainWindow *pMain   = NULL;
+Splash     *pSplash = NULL;
 
 #ifdef USE_KDE
 
@@ -145,6 +147,7 @@ int main(int argc, char *argv[])
 #else
     SimApp app(argc, argv);
 #endif
+    pSplash = new Splash;
     initIcons("");
     pMain = new MainWindow;
 #ifdef USE_KDE
@@ -162,10 +165,10 @@ int main(int argc, char *argv[])
             log_level = atoi(argv[++i]);
     }
 #endif
-
     if (!pMain->init())
         return 0;
     app.setMainWidget(pMain);
+    pSplash->hide();
 
     return app.exec();
 }

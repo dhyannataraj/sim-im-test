@@ -41,6 +41,7 @@
 #include "ui/filetransfer.h"
 #include "chatwnd.h"
 #include "about.h"
+#include "splash.h"
 
 #ifndef _WINDOWS
 #include <pwd.h>
@@ -75,6 +76,7 @@
 #include <qtranslator.h>
 #include <qregexp.h>
 #include <qpopupmenu.h>
+#include <qstringlist.h>
 
 #ifdef USE_KDE
 #include <kwin.h>
@@ -185,7 +187,6 @@ MainWindow::MainWindow(const char *name)
                    "netscape mailto:%s"
 #endif
                   ),
-        SoundPlayer(this, "SoundPlayer"),
         UseTransparent(this, "TransparentMain"),
         Transparent(this, "TransparencyMain", 80),
         UseTransparentContainer(this, "TransparentContainer"),
@@ -620,22 +621,6 @@ bool MainWindow::init()
 {
     string file;
 #ifndef WIN32
-#ifdef USE_KDE
-    string kdeDir;
-    buildFileName(kdeDir, "", true, false);
-    if (kdeDir.length()) kdeDir = kdeDir.substr(0, kdeDir.length()-1);
-    struct stat st;
-    if (stat(kdeDir.c_str(), &st) < 0){
-        string mainDir;
-        buildFileName(mainDir, "", false, false);
-        if (mainDir.length()) mainDir = mainDir.substr(0, mainDir.length()-1);
-        if (stat(mainDir.c_str(), &st) >= 0){
-            if (rename(mainDir.c_str(), kdeDir.c_str()) < 0)
-                log(L_WARN, "Rename error %s %s [%s]", mainDir.c_str(),
-                    kdeDir.c_str(), strerror(errno));
-        }
-    }
-#endif
     buildFileName(file, "lock");
     if ((lockFile = ::open(file.c_str(), O_RDWR | O_CREAT, 0600)) == -1){
         log(L_ERROR, "Can't open %s: %s", file.c_str(), strerror(errno));
@@ -941,6 +926,7 @@ void MainWindow::saveState()
         (*itBox)->save(fs);
     }
     saveContacts();
+    pSplash->save();
 }
 
 void MainWindow::saveContacts()
@@ -1706,6 +1692,8 @@ void MainWindow::exec(const char *prg, const char *arg)
 #endif
 }
 
+string MainWindow::homeDir;
+
 void MainWindow::playSound(const char *wav)
 {
     wav = sound(wav);
@@ -1863,11 +1851,21 @@ void MainWindow::loadMenu()
 void MainWindow::changeWm()
 {
 #ifdef USE_KDE
-    if (pMain->MainWindowInTaskManager()){
+    if (MainWindowInTaskManager()){
         KWin::clearState(winId(), NET::SkipTaskbar);
     }else{
         KWin::setState(winId(), NET::SkipTaskbar);
     }
+#endif
+#ifdef WIN32
+    bool bVisible = isVisible();
+    if (bVisible) hide();
+    if (MainWindowInTaskManager()){
+        SetWindowLongW(winId(), GWL_EXSTYLE, (GetWindowLongW(winId(), GWL_EXSTYLE) | WS_EX_APPWINDOW) & (~WS_EX_TOOLWINDOW));
+    }else{
+        SetWindowLongW(winId(), GWL_EXSTYLE, (GetWindowLongW(winId(), GWL_EXSTYLE) & ~(WS_EX_APPWINDOW)) | WS_EX_TOOLWINDOW);
+    }
+    if (bVisible) show();
 #endif
     emit wmChanged();
 }

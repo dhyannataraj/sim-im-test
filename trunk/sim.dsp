@@ -955,6 +955,10 @@ SOURCE=.\sim\ui\soundsetupbase.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\splash.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\ui\statussetup.cpp
 # End Source File
 # Begin Source File
