@@ -6,13 +6,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2002-11-09 04:37+0300\n"
-"PO-Revision-Date: 2002-11-03 21:38GMT\n"
-"Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
-"Language-Team: deutsch <de@li.org>\n"
+"PO-Revision-Date: 2002-11-09 16:25GMT\n"
+"Last-Translator: Crissi <crissi99@gmx.de>\n"
+"Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0\n"
+"X-Generator: KBabel 0.9.6\n"
 
 #: client.cpp:70 libicq/country.cpp:7
 msgid "Arabic"
@@ -2950,8 +2950,7 @@ msgstr "Automatisches weiterleiten"
 
 #: ui/forwardsetupbase.cpp:89
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-"Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
+msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" zu Mobiltelefon weiterleiten:"
 
 #: ui/forwardsetupbase.cpp:97
 msgid ""
@@ -3134,13 +3133,12 @@ msgid "Simple mode (&Plain style)"
 msgstr "Nachrichtenmodus (&Ein-Fenster-Modus)"
 
 #: ui/fontsetupbase.cpp:142
-#, fuzzy
 msgid "Copy"
-msgstr "&Kopieren"
+msgstr "Kopieren"
 
 #: ui/fontsetupbase.cpp:149
 msgid "last messages from history to conversation"
-msgstr ""
+msgstr "Letzte Nachrichten vom Verlauf zur Unterhaltung"
 
 #: ui/fontsetupbase.cpp:157
 msgid "Open user window"
@@ -3179,9 +3177,8 @@ msgid "Colors"
 msgstr "Farben"
 
 #: ui/fontsetupbase.cpp:214
-#, fuzzy
 msgid "Use &own colors and fonts settings"
-msgstr "&Eigene Farben im Verlauf benutzen"
+msgstr "&Eigene Farben und Schriften im Verlauf benutzen"
 
 #: ui/fontsetupbase.cpp:224
 msgid "Received messages color"
@@ -3539,8 +3536,7 @@ msgid "Hide main window after"
 msgstr "Hauptfenster anzeigen/verstecken nach"
 
 #: ui/statussetupbase.cpp:107
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -3697,8 +3693,7 @@ msgstr "&Andere Nachrichten ablehnen"
 
 #: ui/generalsecbase.cpp:189
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: ui/changepasswdbase.cpp:77
 msgid "Change password"
@@ -3750,8 +3745,7 @@ msgstr ";-)"
 
 #: about.cpp:296
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version2 verbreitet."
 
 #: client.cpp:53
 msgid "Unicode"
@@ -3930,12 +3924,12 @@ msgstr ""
 "%n Kontaktanfragen"
 
 #: client.cpp:911
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: External unknown message\n"
 "%n unknown messages"
 msgstr ""
-"Unbekannte Nachricht\n"
+"Externe unbekannte Nachricht\n"
 "%n unbekannte Nachrichten"
 
 #: client.cpp:913
@@ -3999,42 +3993,36 @@ msgid ""
 msgstr "Strg+M"
 
 #: client.cpp:934
-#, fuzzy
 msgid ""
 "_: Ctrl+H\n"
 "Chat"
-msgstr "Strg+C"
+msgstr "Strg+H"
 
 #: client.cpp:936
-#, fuzzy
 msgid ""
 "_: Ctrl+F\n"
 "File"
-msgstr "Strg+L"
+msgstr "Strg+F"
 
 #: client.cpp:938
-#, fuzzy
 msgid ""
 "_: Ctrl+L\n"
 "URL"
-msgstr "Strg+U"
+msgstr "Strg+L"
 
 #: client.cpp:940
-#, fuzzy
 msgid ""
 "_: Ctrl+R\n"
 "AuthRequest"
-msgstr "Strg+A"
+msgstr "Strg+R"
 
 #: client.cpp:942
-#, fuzzy
 msgid ""
 "_: Ctrl+T\n"
 "Contacts"
-msgstr "Strg+C"
+msgstr "Strg+T"
 
 #: client.cpp:944
-#, fuzzy
 msgid ""
 "_: Ctrl+S\n"
 "SMS"
@@ -4329,3 +4317,4 @@ msgstr "? Unbekannter Status %1"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
