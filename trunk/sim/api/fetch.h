@@ -21,11 +21,7 @@
 #include "simapi.h"
 #include "buffer.h"
 #include "socket.h"
-
-#include <list>
-#include <map>
-
-using namespace std;
+#include "stl.h"
 
 class my_string : public string
 {
@@ -55,7 +51,7 @@ protected:
     HEADERS_MAP	m_hOut;
     string		m_hIn;
     bool		m_bDone;
-    unsigned	m_port;
+    unsigned short	m_port;
     unsigned	m_size;
     string		m_host;
     string		m_uri;

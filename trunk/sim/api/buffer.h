@@ -20,16 +20,6 @@
 
 #include "simapi.h"
 
-#include <list>
-
-using namespace std;
-
-#ifdef WIN32
-#if _MSC_VER > 1020
-#pragma warning(disable:4786)
-#endif
-#endif
-
 class Buffer;
 
 class EXPORT Tlv
@@ -43,8 +33,8 @@ public:
     operator unsigned short ();
     operator unsigned long ();
 protected:
-    unsigned m_nNum;
-    unsigned m_nSize;
+    unsigned short m_nNum;
+    unsigned short m_nSize;
     char *m_data;
 };
 
@@ -72,6 +62,7 @@ public:
 unsigned size() const { return m_size; }
     unsigned readPos() const { return m_posRead; }
     void incReadPos(int size);
+    void decReadPos(int size) { incReadPos(-size); }
     unsigned writePos() const { return m_posWrite; }
     void setWritePos(unsigned size);
     void setReadPos(unsigned size);
@@ -130,7 +121,7 @@ unsigned size() const { return m_size; }
     void tlv(unsigned short n, int c) { tlv(n, (unsigned short)c); }
     void tlv(unsigned short n, unsigned long c);
     void tlv(unsigned short n, long c) { tlv(n, (unsigned long)c); }
-    void tlv(unsigned short n, Buffer &b) { tlv(n, b.data(), b.size()); }
+    void tlv(unsigned short n, Buffer &b) { tlv(n, b.data(), (unsigned short)(b.size())); }
 
     bool scan(const char *substr, string &res);
 

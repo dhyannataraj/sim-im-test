@@ -16,12 +16,9 @@
  ***************************************************************************/
 
 #include "simapi.h"
+#include "stl.h"
 
-#include <list>
-#include <vector>
-#include <map>
 #include <algorithm>
-using namespace std;
 
 #include <qfile.h>
 
@@ -974,11 +971,11 @@ PacketType *ContactList::PacketIterator::operator ++()
     return ++(*p);
 }
 
-PacketType::PacketType(unsigned id, const char *name, unsigned flags)
+PacketType::PacketType(unsigned id, const char *name, bool bText)
 {
-    m_id = id;
-    m_name = strdup(name);
-    m_flags = flags;
+    m_id    = id;
+    m_name  = strdup(name);
+    m_bText = bText;
 }
 
 PacketType::~PacketType()
@@ -986,12 +983,12 @@ PacketType::~PacketType()
     free(m_name);
 }
 
-void ContactList::addPacketType(unsigned id, const char *name, unsigned flags)
+void ContactList::addPacketType(unsigned id, const char *name, bool bText)
 {
     PACKET_MAP::iterator it = p->packets.find(id);
     if (it != p->packets.end())
         return;
-    p->packets.insert(PACKET_MAP::value_type(id, new PacketType(id, name, flags)));
+    p->packets.insert(PACKET_MAP::value_type(id, new PacketType(id, name, bText)));
 }
 
 void ContactList::removePacketType(unsigned id)

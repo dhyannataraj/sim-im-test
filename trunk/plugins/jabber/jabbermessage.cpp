@@ -70,7 +70,6 @@ static MessageDef defJabber =
         NULL,
         createJabberMessage,
         NULL,
-        NULL,
         NULL
     };
 
@@ -143,7 +142,6 @@ static MessageDef defJabberError =
         "%n errors",
         createJabberMessageError,
         NULL,
-        NULL,
         NULL
     };
 
@@ -161,7 +159,6 @@ static MessageDef defJabberOnline =
         NULL,
         createJabberOnlineMessage,
         NULL,
-        NULL,
         NULL
     };
 
@@ -178,7 +175,6 @@ static MessageDef defJabberOffline =
         I18N_NOOP("Log Off"),
         NULL,
         createJabberOfflineMessage,
-        NULL,
         NULL,
         NULL
     };

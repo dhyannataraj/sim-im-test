@@ -36,9 +36,6 @@
 
 #include <qimage.h>
 
-#include <list>
-using namespace std;
-
 typedef struct xepRecord
 {
     unsigned	index;
@@ -167,11 +164,11 @@ bool XepParser::parse(QFile &f)
     while (*c) {
         char tmp = 0;
         if (*c >= 'A' && *c <= 'Z') {
-            tmp = *c - 'A';
+            tmp = (char)(*c - 'A');
         } else if (*c >= 'a' && *c <= 'z') {
-            tmp = 26 + (*c - 'a');
+            tmp = (char)(26 + (*c - 'a'));
         } else if (*c >= '0' && *c <= 57) {
-            tmp = 52 + (*c - '0');
+            tmp = (char)(52 + (*c - '0'));
         } else if (*c == '+') {
             tmp = 62;
         } else if (*c == '/') {
@@ -390,7 +387,7 @@ bool Smiles::load(const QString &file)
                     QString e = getToken(exp, '|', false);
                     QRegExp re(e);
                     int len;
-                    if ((re.match(sd.paste.c_str(), 0, &len) == 0) && (len == sd.paste.length())){
+                    if ((re.match(sd.paste.c_str(), 0, &len) == 0) && (len == (int)(sd.paste.length()))){
                         bMatch = true;
                         break;
                     }

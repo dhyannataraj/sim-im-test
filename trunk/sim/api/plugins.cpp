@@ -33,8 +33,6 @@
 #include <qapplication.h>
 #include <qregexp.h>
 
-#include <list>
-#include <vector>
 #include <algorithm>
 using namespace std;
 

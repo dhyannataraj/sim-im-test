@@ -22,10 +22,6 @@
 #include <qregexp.h>
 #include <qpushbutton.h>
 
-#include <list>
-#include <vector>
-using namespace std;
-
 ToolBarSetup::ToolBarSetup(Commands *bars, CommandsDef *def)
         : ToolBarSetupBase(NULL, "toolbar_setup", false, WDestructiveClose)
 {

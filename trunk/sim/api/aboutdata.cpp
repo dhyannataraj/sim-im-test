@@ -19,6 +19,13 @@
 
 #ifndef USE_KDE
 
+#ifdef WIN32
+#if _MSC_VER > 1020
+#pragma warning(push)
+#pragma warning(disable: 4275)
+#endif
+#endif
+
 #include <qfile.h>
 #include <qtextstream.h>
 #include <qtabwidget.h>
@@ -31,6 +38,12 @@
 #include <qapplication.h>
 #include <qtooltip.h>
 #include <qstringlist.h>
+
+#ifdef WIN32
+#if _MSC_VER > 1020
+#pragma warning(pop)
+#endif
+#endif
 
 QString
 KAboutPerson::name() const

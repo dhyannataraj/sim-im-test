@@ -24,9 +24,6 @@
 #include <qmainwindow.h>
 #include <qlabel.h>
 
-#include <list>
-using namespace std;
-
 class CorePlugin;
 class UserWnd;
 class CToolBar;
@@ -45,15 +42,15 @@ class MsgEdit : public QMainWindow, public EventReceiver
 {
     Q_OBJECT
 public:
-    MsgEdit(QWidget *parent, UserWnd *userWnd, bool bReceived);
+    MsgEdit(QWidget *parent, UserWnd *userWnd);
     ~MsgEdit();
     CToolBar	*m_bar;
-    bool setMessage(Message *msg, bool bSetFocus);
+    bool		setMessage(Message *msg, bool bSetFocus, bool bOpen=true);
     UserWnd		*m_userWnd;
     TextEdit	*m_edit;
     QVBoxLayout	*m_layout;
     QFrame		*m_frame;
-    bool sendMessage(Message *msg);
+    bool		sendMessage(Message *msg);
     static void setupMessages();
     void		getWays(vector<ClientStatus> &cs, Contact *contact);
     Client		*client(void *&data, bool bCreate, bool bSendTyping, unsigned contact_id);
@@ -71,7 +68,10 @@ public slots:
     void setInput();
     void goNext();
     void setupNext();
+    void colorsChanged();
 protected:
+    QObject  *m_processor;
+    QObject	 *m_recvProcessor;
     unsigned m_type;
     void *processEvent(Event*);
     void resizeEvent(QResizeEvent*);

@@ -128,7 +128,7 @@ ICQSearchResult::ICQSearchResult(QWidget *parent, ICQClient *client)
     tblUser->addColumn(i18n("Name"));
     tblUser->setExpandingColumn(COL_NAME);
     tblUser->setSorting(COL_SCREEN);
-    tblUser->setMenu(static_cast<ICQPlugin*>(m_client->protocol()->plugin())->MenuSearchResult);
+    tblUser->setMenu(MenuSearchResult);
     tblUser->header()->hide();
     connect(tblUser, SIGNAL(dragStart()), this, SLOT(dragStart()));
     connect(tblUser, SIGNAL(doubleClicked(QListViewItem*)), this, SLOT(doubleClicked(QListViewItem*)));
@@ -182,8 +182,7 @@ void ICQSearchResult::setStatus()
 void *ICQSearchResult::processEvent(Event *e)
 {
     if ((e->type() > EventUser) && ((m_id1 != SEARCH_DONE) || (m_id2 != SEARCH_DONE))){
-        ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-        if (e->type() == plugin->EventSearch){
+        if (e->type() == EventSearch){
             SearchResult *result = (SearchResult*)(e->param());
             if ((result->client == m_client) && (
                         (result->id == m_id1) || (result->id == m_id2))){
@@ -192,7 +191,7 @@ void *ICQSearchResult::processEvent(Event *e)
                 setStatus();
             }
         }
-        if (e->type() == plugin->EventSearchDone){
+        if (e->type() == EventSearchDone){
             SearchResult *result = (SearchResult*)(e->param());
             if (result->client == m_client){
                 if (result->id == m_id1)
@@ -204,9 +203,9 @@ void *ICQSearchResult::processEvent(Event *e)
     }
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
-        if (cmd->menu_id == static_cast<ICQPlugin*>(m_client->protocol()->plugin())->MenuSearchResult){
+        if (cmd->menu_id == MenuSearchResult){
             Contact *contact;
-            if (cmd->id == static_cast<ICQPlugin*>(m_client->protocol()->plugin())->CmdSendMessage){
+            if (cmd->id == CmdIcqSendMessage){
                 contact = createContact(CONTACT_TEMP);
                 if (!contact) return NULL;
                 Message msg(MessageGeneric);
@@ -227,7 +226,7 @@ void *ICQSearchResult::processEvent(Event *e)
             }
             return e->param();
         }
-        if (cmd->menu_id == static_cast<ICQPlugin*>(m_client->protocol()->plugin())->MenuGroups){
+        if (cmd->menu_id == MenuIcqGroups){
             Contact *contact = createContact(0);
             if (!contact) return NULL;
             contact->setGroup(cmd->id - 1);
@@ -238,8 +237,8 @@ void *ICQSearchResult::processEvent(Event *e)
     }
     if (e->type() == EventCheckState){
         CommandDef *cmd = (CommandDef*)(e->param());
-        if ((cmd->menu_id == static_cast<ICQPlugin*>(m_client->protocol()->plugin())->MenuGroups) &&
-                (cmd->id == static_cast<ICQPlugin*>(m_client->protocol()->plugin())->CmdGroups)){
+        if ((cmd->menu_id == MenuIcqGroups) &&
+                (cmd->id == CmdGroups)){
             unsigned n = 1;
             ContactList::GroupIterator it;
             while (++it)

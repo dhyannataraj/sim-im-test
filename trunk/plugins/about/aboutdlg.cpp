@@ -20,7 +20,6 @@
 #include "simapi.h"
 #include "textshow.h"
 #include "aboutdata.h"
-
 #ifndef USE_KDE
 
 #include <qlabel.h>
@@ -136,6 +135,5 @@ QString KAboutApplication::quote(const QString &s)
 #ifndef _WINDOWS
 #include "aboutdlg.moc"
 #endif
-
 #endif
 

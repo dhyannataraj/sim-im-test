@@ -21,10 +21,6 @@
 #include "simapi.h"
 #include "core.h"
 
-#include <list>
-
-using namespace std;
-
 class Exec;
 
 typedef struct TmplExpand

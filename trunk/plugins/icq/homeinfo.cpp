@@ -102,8 +102,8 @@ void HomeInfo::fill()
     edtCity->setText(m_client->toUnicode(data->City, data));
     edtState->setText(m_client->toUnicode(data->State, data));
     edtZip->setText(m_client->toUnicode(data->Zip, data));
-    initCombo(cmbCountry, data->Country, getCountries());
-    initTZCombo(cmbZone, data->TimeZone);
+    initCombo(cmbCountry, (unsigned short)(data->Country), getCountries());
+    initTZCombo(cmbZone, (char)(data->TimeZone));
 }
 
 #ifndef WIN32

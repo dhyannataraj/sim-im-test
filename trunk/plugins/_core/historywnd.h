@@ -19,16 +19,12 @@
 #define _HISTORYWND_H
 
 #include "simapi.h"
+#include "stl.h"
 
 #include <qmainwindow.h>
 
-#include <vector>
-
-using namespace std;
-
 class MsgViewBase;
 class CToolBar;
-class CToolCustom;
 class QToolButton;
 class QComboBox;
 class HistoryProgressBar;
@@ -43,8 +39,6 @@ public:
     unsigned id() { return m_id; }
 protected slots:
     void toolbarChanged(QToolBar*);
-    void textChanged(const QString&);
-    void filter(bool);
     void fill();
     void next();
 protected:
@@ -55,9 +49,6 @@ protected:
     QStatusBar	*m_status;
     MsgViewBase	*m_view;
     CToolBar	*m_bar;
-    CToolCustom	*m_find;
-    QComboBox	*m_input;
-    QToolButton	*m_btnFilter;
     QString     m_filter;
     HistoryProgressBar	*m_progress;
     HistoryIterator		*m_it;

@@ -19,10 +19,9 @@
 #define _LOGINDLG_H
 
 #include "simapi.h"
-#include "logindlgbase.h"
+#include "stl.h"
 
-#include <vector>
-using namespace std;
+#include "logindlgbase.h"
 
 class QLabel;
 class QLineEdit;

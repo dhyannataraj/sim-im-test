@@ -57,9 +57,9 @@ void MSNConfig::apply()
         m_client->setPassword(edtPassword->text());
     }
     m_client->setServer(edtServer->text().local8Bit());
-    m_client->setPort(atol(edtPort->text()));
-    m_client->setMinPort(atol(edtMinPort->text()));
-    m_client->setMaxPort(atol(edtMaxPort->text()));
+    m_client->setPort((unsigned short)atol(edtPort->text()));
+    m_client->setMinPort((unsigned short)atol(edtMinPort->text()));
+    m_client->setMaxPort((unsigned short)atol(edtMaxPort->text()));
 }
 
 void MSNConfig::changed(const QString&)

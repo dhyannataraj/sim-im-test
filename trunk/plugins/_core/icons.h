@@ -19,10 +19,7 @@
 #define _ICONS_H
 
 #include "simapi.h"
-#include "simapi.h"
-
-#include <map>
-#include <list>
+#include "stl.h"
 
 #include <qiconset.h>
 

@@ -19,9 +19,7 @@
 #define _LOGGER_H
 
 #include "simapi.h"
-
-#include <list>
-using namespace std;
+#include "stl.h"
 
 typedef struct LoggerData
 {

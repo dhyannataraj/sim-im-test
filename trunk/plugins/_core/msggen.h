@@ -20,41 +20,21 @@
 
 #include "simapi.h"
 
-#include <qtoolbutton.h>
-#include <qlabel.h>
-
-class CToolCustom;
-class QToolButton;
-class ColorToolButton;
 class MsgEdit;
-class QFont;
 
 class MsgGen : public QObject, public EventReceiver
 {
     Q_OBJECT
 public:
-    MsgGen(CToolCustom *parent, Message *msg);
+    MsgGen(MsgEdit *parent, Message *msg);
 protected slots:
     void init();
-    void textChanged();
-    void fontChanged(const QFont&);
-    void bgColorChanged(QColor);
-    void fgColorChanged(QColor);
-    void toggleBold(bool);
-    void toggleItalic(bool);
-    void toggleUnderline(bool);
-    void selectFont();
-    void showFG();
+    void emptyChanged(bool bEmpty);
 protected:
     void *processEvent(Event*);
     string m_client;
+    bool   m_bCanSend;
     MsgEdit	*m_edit;
-    ColorToolButton *btnBG;
-    ColorToolButton *btnFG;
-    QToolButton *btnSend;
-    QToolButton *btnBold;
-    QToolButton *btnItalic;
-    QToolButton *btnUnderline;
 };
 
 #endif

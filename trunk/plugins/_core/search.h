@@ -19,10 +19,9 @@
 #define _SEARCH_H
 
 #include "simapi.h"
-#include "searchbase.h"
+#include "stl.h"
 
-#include <vector>
-using namespace std;
+#include "searchbase.h"
 
 class CorePlugin;
 

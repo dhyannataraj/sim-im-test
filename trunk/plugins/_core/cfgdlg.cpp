@@ -19,7 +19,7 @@
 #include "plugincfg.h"
 #include "maininfo.h"
 #include "arcfg.h"
-#include "simapi.h"
+#include "stl.h"
 
 #include <qpixmap.h>
 #include <qlistview.h>
@@ -30,10 +30,6 @@
 #include <qwidgetstack.h>
 #include <qobjectlist.h>
 #include <qheader.h>
-
-#include <list>
-
-using namespace std;
 
 namespace ConfigDlg
 {

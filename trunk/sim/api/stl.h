@@ -1,7 +1,7 @@
 /***************************************************************************
-                          msgrecv.h  -  description
+                          stl.h  -  description
                              -------------------
-    begin                : Sun Mar 17 2002
+    begin                : Sun Mar 10 2002
     copyright            : (C) 2002 by Vladimir Shutoff
     email                : vovan@shutoff.ru
  ***************************************************************************/
@@ -15,32 +15,29 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _MSGRECV_H
-#define _MSGRECV_H
+#ifndef _STL_H
+#define _STL_H
 
-#include "simapi.h"
-
-#include <qtoolbutton.h>
-
-class MsgEdit;
-
-class MsgReceived : public QObject, public EventReceiver
-{
-    Q_OBJECT
-public:
-    MsgReceived(MsgEdit *parent, Message *msg, bool bOpen);
-protected slots:
-    void init();
-protected:
-    void		*processEvent(Event*);
-    unsigned	m_type;
-    unsigned	m_id;
-    unsigned	m_contact;
-    string		m_client;
-    bool		m_bOpen;
-    MsgEdit	    *m_edit;
-    Message		*m_msg;
-};
-
+#ifdef WIN32
+#if _MSC_VER > 1020
+#pragma warning(push)
+#pragma warning(disable: 4018)  
+#pragma warning(disable: 4146)  
+#pragma warning(disable: 4512)  
+#pragma warning(disable: 4663)  
+#endif
 #endif
 
+#include <list>
+#include <vector>
+#include <stack>
+#include <map>
+using namespace std;
+
+#ifdef WIN32
+#if _MSC_VER > 1020
+#pragma warning(pop)
+#endif
+#endif
+
+#endif

@@ -138,7 +138,7 @@ public:
     PROP_STR(ServerText);
     PROP_STR(ServerDescr);
     PROP_ULONG(IP);
-    PROP_ULONG(Port);
+    PROP_USHORT(Port);
     PROP_ULONG(ID_L);
     PROP_ULONG(ID_H);
     PROP_ULONG(Cookie);
@@ -162,30 +162,27 @@ class WarningMessage : public AuthMessage
 public:
     WarningMessage(const char *cfg=NULL);
     PROP_BOOL(Anonymous);
-    PROP_ULONG(OldLevel);
-    PROP_ULONG(NewLevel);
+    PROP_USHORT(OldLevel);
+    PROP_USHORT(NewLevel);
     virtual string  save();
     QString presentation();
 protected:
     MessageWarningData data;
 };
 
-class QToolButton;
-class CToolCustom;
 class MsgEdit;
 class QListViewItem;
 
-class MsgUrl : public QLineEdit, public EventReceiver
+class MsgUrl : public QObject, public EventReceiver
 {
     Q_OBJECT
 public:
-    MsgUrl(CToolCustom *btn, Message *msg);
+    MsgUrl(MsgEdit *btn, Message *msg);
 protected slots:
     void init();
     void urlChanged(const QString&);
 protected:
     virtual void *processEvent(Event*);
-    QToolButton *btnSend;
     MsgEdit		*m_edit;
     string		m_client;
 };
@@ -194,7 +191,7 @@ class MsgContacts : public QObject, public EventReceiver
 {
     Q_OBJECT
 public:
-    MsgContacts(CToolCustom *btn, Message *msg, Protocol*);
+    MsgContacts(MsgEdit *btn, Message *msg, Protocol*);
     ~MsgContacts();
 protected slots:
     void init();

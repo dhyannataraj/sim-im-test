@@ -19,6 +19,8 @@
 #define _ICQCLIENT_H
 
 #include "simapi.h"
+#include "stl.h"
+
 #include "socket.h"
 #include "icq.h"
 
@@ -354,7 +356,7 @@ public:
     ~ICQListener();
 protected:
     virtual bool accept(Socket *s, unsigned long ip);
-    virtual void bind_ready(unsigned port);
+    virtual void bind_ready(unsigned short port);
     virtual bool error(const char *err);
     ICQClient  *m_client;
 };
@@ -397,13 +399,13 @@ const unsigned SEND_1STPART		= 0x0010;
 typedef struct ar_request
 {
     unsigned short    type;
-    unsigned short    flags;
+    unsigned short	  flags;
     unsigned short    ack;
-    MessageId        id;
+    MessageId         id;
     unsigned short    id1;
     unsigned short    id2;
     string            screen;
-    bool            bDirect;
+    bool              bDirect;
 } ar_request;
 
 typedef map<unsigned short, string> INFO_REQ_MAP;
@@ -445,9 +447,9 @@ public:
     unsigned long getUin();
     const char *getServer();
     void setServer(const char*);
-    PROP_ULONG(Port);
+    PROP_USHORT(Port);
     PROP_ULONG(ContactsTime);
-    PROP_ULONG(ContactsLength);
+    PROP_USHORT(ContactsLength);
     PROP_USHORT(ContactsInvisible);
     PROP_BOOL(HideIP);
     PROP_BOOL(IgnoreAuth);
@@ -455,7 +457,7 @@ public:
     PROP_ULONG(IdleTime);
     PROP_STR(ListRequests);
     PROP_UTF8(Picture);
-    PROP_ULONG(RandomChatGroup);
+    PROP_USHORT(RandomChatGroup);
     PROP_ULONG(RandomChatGroupCurrent);
     PROP_ULONG(SendFormat);
     PROP_BOOL(AutoUpdate);
@@ -463,8 +465,8 @@ public:
     PROP_BOOL(TypingNotification);
     PROP_BOOL(AcceptInDND);
     PROP_BOOL(AcceptInOccupied);
-    PROP_ULONG(MinPort);
-    PROP_ULONG(MaxPort);
+    PROP_USHORT(MinPort);
+    PROP_USHORT(MaxPort);
     PROP_BOOL(WarnAnonimously);
     ICQClientData    data;
     QString toUnicode(const char *str, ICQUserData *client_data);
@@ -494,11 +496,11 @@ public:
     void changePassword(const char *new_pswd);
     void searchChat(unsigned short);
     void randomChatInfo(unsigned long uin);
-    unsigned aimEMailSearch(const char *name);
-    unsigned aimInfoSearch(const char *first, const char *last, const char *middle,
-                           const char *maiden, const char *country, const char *street,
-                           const char *city, const char *nick, const char *zip,
-                           const char *state);
+    unsigned short aimEMailSearch(const char *name);
+    unsigned short aimInfoSearch(const char *first, const char *last, const char *middle,
+                                 const char *maiden, const char *country, const char *street,
+                                 const char *city, const char *nick, const char *zip,
+                                 const char *state);
     virtual string dataName(void*);
     void requestReverseConnection(const char *screen, DirectSocket *socket);
     void accept(Message *msg, ICQUserData *data);
@@ -657,7 +659,7 @@ protected:
     void addPluginInfoRequest(unsigned long uin, unsigned plugin_index);
     void sendMTN(const char *screen, unsigned short type);
     void setChatGroup();
-    Message *parseExtendedMessage(const char *screen, Buffer &packet, MessageId &id, unsigned cookie);
+    Message *parseExtendedMessage(Buffer &packet, MessageId &id, unsigned cookie);
     void parsePluginPacket(Buffer &b, unsigned plugin_index, ICQUserData *data, unsigned uin, bool bDirect);
     void pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &b);
     void packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned short &type, unsigned short flags=ICQ_TCPxMSG_NORMAL);
@@ -667,8 +669,8 @@ protected:
     void fetchAwayMessage(ICQUserData *data);
     void fetchProfiles();
     void setAwayMessage(const char *msg);
-    void encodeString(const QString &text, const char *type, unsigned charsetTlv, unsigned infoTlv);
-    void encodeString(const char *_str, unsigned nTlv, bool bWide);
+    void encodeString(const QString &text, const char *type, unsigned short charsetTlv, unsigned short infoTlv);
+    void encodeString(const char *_str, unsigned short nTlv, bool bWide);
     ICQUserData *findInfoRequest(unsigned short seq, Contact *&contact);
     INFO_REQ_MAP m_info_req;
     QString clearTags(const QString &text);
@@ -843,7 +845,7 @@ protected:
     virtual void write_ready();
     virtual void setSpeed(unsigned speed);
     virtual void startReceive(unsigned pos);
-    virtual void bind_ready(unsigned port);
+    virtual void bind_ready(unsigned short port);
     virtual bool accept(Socket *s, unsigned long ip);
     virtual bool error(const char *err);
 

@@ -19,9 +19,7 @@
 #define _PROXY_H
 
 #include "simapi.h"
-
-#include <list>
-using namespace std;
+#include "stl.h"
 
 const unsigned PROXY_NONE	= 0;
 const unsigned PROXY_SOCKS4	= 1;
@@ -60,7 +58,7 @@ public:
     PROP_STRLIST(Clients);
     PROP_ULONG(Type);
     PROP_STR(Host);
-    PROP_ULONG(Port);
+    PROP_USHORT(Port);
     PROP_BOOL(Auth);
     PROP_STR(User);
     PROP_STR(Password);

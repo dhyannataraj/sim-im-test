@@ -34,10 +34,6 @@
 #include <qlayout.h>
 #include <qobjectlist.h>
 
-#include <list>
-#include <map>
-using namespace std;
-
 class ButtonsMap : public map<unsigned, CToolItem*>
 {
 public:
@@ -84,8 +80,31 @@ void CToolItem::setCommand(CommandDef *def)
     def->bar_grp = m_def.bar_grp;
     m_def = *def;
     setState();
-    if (m_def.flags & BTN_HIDE)
+}
+
+void CToolItem::setChecked(CommandDef *def)
+{
+    m_def.flags &= ~COMMAND_CHECKED;
+    m_def.flags |= (def->flags & COMMAND_CHECKED);
+    setState();
+}
+
+void CToolItem::setDisabled(CommandDef *def)
+{
+    m_def.flags &= ~COMMAND_DISABLED;
+    m_def.flags |= (def->flags & COMMAND_DISABLED);
+    setState();
+}
+
+void CToolItem::setState()
+{
+    if (m_def.flags & BTN_HIDE){
         widget()->hide();
+    }else if (!widget()->isVisible()){
+        widget()->show();
+        widget()->setEnabled((m_def.flags & COMMAND_DISABLED) == 0);
+    }
+    widget()->setEnabled((m_def.flags & COMMAND_DISABLED) == 0);
 }
 
 void CToolItem::checkState()
@@ -94,12 +113,8 @@ void CToolItem::checkState()
         m_def.param = static_cast<CToolBar*>(widget()->parent())->param();
         Event e(EventCheckState, &m_def);
         e.process();
-    }
-    if (m_def.flags & BTN_HIDE){
-        widget()->hide();
-    }else if (!widget()->isVisible()){
-        widget()->show();
-        widget()->setEnabled((m_def.flags & COMMAND_DISABLED) == 0);
+        m_def.flags |= COMMAND_CHECK_STATE;
+        setState();
     }
 }
 
@@ -121,6 +136,11 @@ CToolButton::CToolButton (QWidget * parent, CommandDef *def)
         connect(accel, SIGNAL(activated(int)), this, SLOT(accelActivated(int)));
     }
     setState();
+}
+
+CToolButton::~CToolButton()
+{
+    emit destroyed();
 }
 
 void CToolButton::setTextLabel()
@@ -148,7 +168,7 @@ void CToolButton::setState()
     setTextLabel();
     if (m_def.icon_on){
         setToggleButton(true);
-        setOn(m_def.flags & COMMAND_CHECKED);
+        setOn((m_def.flags & COMMAND_CHECKED) != 0);
     }
     if (m_def.icon_on && strcmp(m_def.icon, m_def.icon_on)){
         const QIconSet *offIcon = Icon(m_def.icon);
@@ -171,6 +191,7 @@ void CToolButton::setState()
             setIconSet(*icon);
         }
     }
+    CToolItem::setState();
 }
 
 void CToolButton::accelActivated(int)
@@ -359,7 +380,7 @@ void PictButton::setState()
 {
     setIconSet(QIconSet());
     setTextLabel();
-    setEnabled((m_def.flags & COMMAND_DISABLED) == 0);
+    CToolItem::setState();
     repaint();
 }
 
@@ -381,7 +402,7 @@ void PictButton::paintEvent(QPaintEvent*)
     drawButton(&p);
 #endif
     QRect rc(4, 4, width() - 4, height() - 4);
-    if (m_def.icon){
+    if (m_def.icon && strcmp(m_def.icon, "empty")){
         const QIconSet *icons = Icon(m_def.icon);
         const QPixmap &pict = icons->pixmap(QIconSet::Small, isEnabled() ? QIconSet::Active : QIconSet::Disabled);
         QToolBar *bar = static_cast<QToolBar*>(parent());
@@ -408,72 +429,85 @@ void PictButton::paintEvent(QPaintEvent*)
     p.end();
 }
 
-CToolCustom::CToolCustom(QToolBar *parent, CommandDef *def)
-        : QWidget(parent), CToolItem(def)
+CToolCombo::CToolCombo(QToolBar* parent, CommandDef *def, bool bCheck)
+        : QComboBox(parent), CToolItem(def)
 {
-    setAutoMask(true);
-    m_label = new QLabel(this);
-    m_label->setAutoMask(true);
-    m_lay = new QHBoxLayout(this);
-    m_lay->setMargin(0);
-    m_lay->setSpacing(3);
-    m_lay->addWidget(m_label);
+    m_bCheck = bCheck;
+    m_btn    = NULL;
+    setEditable(true);
+    setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
+    if ((def->flags & BTN_NO_BUTTON) == 0){
+        m_btn = new CToolButton(parent, def);
+        connect(m_btn, SIGNAL(destroyed()), this, SLOT(btnDestroyed()));
+        if (bCheck)
+            connect(lineEdit(), SIGNAL(textChanged(const QString&)), this, SLOT(slotTextChanged(const QString&)));
+    }
     setState();
 }
 
-void CToolCustom::addWidget(QWidget *w)
+CToolCombo::~CToolCombo()
 {
-    m_lay->addWidget(w);
+    if (m_btn)
+        delete m_btn;
 }
 
-void CToolCustom::removeWidgets()
+void CToolCombo::setText(const QString &str)
 {
-    list<QObject*> forRemove;
-    const QObjectList *l = children();
-    QObjectListIt it(*l);
-    QObject *o;
-    while ((o = it.current()) != NULL){
-        if ((o != m_label) && (o != m_lay))
-            forRemove.push_back(o);
-        ++it;
-    }
-    for (list<QObject*>::iterator itr = forRemove.begin(); itr != forRemove.end(); ++itr){
-        delete *itr;
+    lineEdit()->setText(str);
+}
+
+void CToolCombo::btnDestroyed()
+{
+    m_btn = NULL;
+}
+
+void CToolCombo::slotTextChanged(const QString &str)
+{
+    if (m_btn && m_bCheck)
+        m_btn->setEnabled(!str.isEmpty());
+}
+
+void CToolCombo::setState()
+{
+    CToolItem::setState();
+    if (m_btn){
+        *m_btn->def() = m_def;
+        m_btn->setState();
+        if (m_bCheck)
+            m_btn->setEnabled(!lineEdit()->text().isEmpty());
     }
 }
 
-void CToolCustom::setText(const QString &str)
+CToolEdit::CToolEdit(QToolBar* parent, CommandDef *def)
+        : QLineEdit(parent), CToolItem(def)
 {
-    m_text = str;
+    m_btn = NULL;
+    setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
+    if ((def->flags & BTN_NO_BUTTON) == 0){
+        m_btn = new CToolButton(parent, def);
+        connect(m_btn, SIGNAL(destroyed()), this, SLOT(btnDestroyed()));
+    }
     setState();
 }
 
-void CToolCustom::setState()
+CToolEdit::~CToolEdit()
 {
-    QString text = m_text;
-    if (text.isEmpty())
-        text = i18n(m_def.text);
-    QString t = text;
-    int pos = t.find("<br>");
-    if (pos >= 0) t = t.left(pos);
-    m_label->setText(t);
-    if (t.isEmpty()){
-        m_label->hide();
-    }else{
-        m_label->show();
-    }
+    if (m_btn)
+        delete m_btn;
 }
 
-QSizePolicy CToolCustom::sizePolicy() const
+void CToolEdit::btnDestroyed()
 {
-    QSizePolicy p = QWidget::sizePolicy();
-    QToolBar *bar = static_cast<QToolBar*>(parent());
-    if (bar->orientation() == Vertical){
-        p.setVerData(QSizePolicy::Expanding);
-    }else{
-        p.setHorData(QSizePolicy::Expanding);
+    m_btn = NULL;
+}
+
+void CToolEdit::setState()
+{
+    CToolItem::setState();
+    if (m_btn){
+        *m_btn->def() = m_def;
+        m_btn->setState();
     }
-    return p;
 }
 
 CToolBar::CToolBar(CommandsDef *def, QMainWindow *parent)
@@ -559,6 +593,22 @@ void* CToolBar::processEvent(Event *e)
                 (*it).second->setCommand(cmd);
         }
         return NULL;
+    case EventCommandChecked:
+        cmd = (CommandDef*)(e->param());
+        if ((cmd->param == NULL) || (cmd->param == m_param)){
+            it = buttons->find(cmd->id);
+            if (it != buttons->end())
+                (*it).second->setChecked(cmd);
+        }
+        return NULL;
+    case EventCommandDisabled:
+        cmd = (CommandDef*)(e->param());
+        if ((cmd->param == NULL) || (cmd->param == m_param)){
+            it = buttons->find(cmd->id);
+            if (it != buttons->end())
+                (*it).second->setDisabled(cmd);
+        }
+        return NULL;
     }
     return NULL;
 }
@@ -581,16 +631,30 @@ void CToolBar::toolBarChanged()
             continue;
         }
         s->text_wrk = NULL;
-        CToolItem *btn;
-        if (s->flags & BTN_PICT){
+        CToolItem *btn = NULL;
+        switch (s->flags & BTN_TYPE){
+        case BTN_PICT:
             btn = new PictButton(this, s);
             connect(btn->widget(), SIGNAL(showPopup(QPoint)), this, SLOT(showPopup(QPoint)));
-        }else if (s->flags & BTN_CUSTOM){
-            btn = new CToolCustom(this, s);
-        }else{
+            break;
+        case BTN_COMBO:
+            btn = new CToolCombo(this, s, false);
+            break;
+        case BTN_COMBO_CHECK:
+            btn = new CToolCombo(this, s, true);
+            break;
+        case BTN_EDIT:
+            btn = new CToolEdit(this, s);
+            break;
+        case BTN_DEFAULT:
             btn = new CToolButton(this, s);
             connect(btn->widget(), SIGNAL(showPopup(QPoint)), this, SLOT(showPopup(QPoint)));
+            break;
+        default:
+            log(L_WARN, "Unknown button type");
         }
+        if (btn == NULL)
+            continue;
         btn->checkState();
         buttons->add(s->id, btn);
     }

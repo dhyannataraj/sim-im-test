@@ -80,7 +80,7 @@ QString NavigatePlugin::parseUrl(const QString &text)
 			continue;
 		}
 		QString url  = yytext;
-		QString link = unquoteString(yytext);
+		QString link = unquoteString(QString::fromUtf8(yytext));
         switch (r){
         case MAIL_URL:
             if (link.left(7) != "mailto:")

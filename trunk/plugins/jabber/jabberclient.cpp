@@ -790,7 +790,7 @@ string JabberClient::to_lower(const char *s)
     if (s == NULL)
         return res;
     for (; *s; s++)
-        res += tolower(*s);
+        res += (char)tolower(*s);
     return res;
 }
 

@@ -19,10 +19,9 @@
 #define _NEWPROTOCOL_H
 
 #include "simapi.h"
-#include "newprotocolbase.h"
+#include "stl.h"
 
-#include <vector>
-using namespace std;
+#include "newprotocolbase.h"
 
 class ConnectWnd;
 class CorePlugin;

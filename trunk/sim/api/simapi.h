@@ -42,8 +42,19 @@
 
 #ifdef WIN32
 #if _MSC_VER > 1020
-#pragma warning(disable:4530)
-#pragma warning(disable:4786)
+#include <yvals.h>              
+#pragma warning(disable: 4097)
+#pragma warning(disable: 4275)
+#pragma warning(disable: 4514)
+#pragma warning(disable: 4786)  
+#pragma warning(push)
+#pragma warning(disable: 4018)  
+#pragma warning(disable: 4100)  
+#pragma warning(disable: 4146)  
+#pragma warning(disable: 4511)  
+#pragma warning(disable: 4512)  
+#pragma warning(disable: 4530)  
+#pragma warning(disable: 4663)  
 #endif
 #endif
 
@@ -62,6 +73,12 @@
 using namespace std;
 
 #include <qwidget.h>
+
+#ifdef WIN32
+#if _MSC_VER > 1020
+#pragma warning(pop)
+#endif
+#endif
 
 #ifdef SIMAPI_EXPORTS
 #define EXPORT __declspec(dllexport)
@@ -83,6 +100,10 @@ EXPORT int strcasecmp(const char *a, const char *b);
 #ifndef snprintf
 #define snprintf _snprintf
 #endif
+#endif
+
+#ifndef COPY_RESTRICTED
+#define COPY_RESTRICTED(A) private: A(const A&); A &operator = (const A&);
 #endif
 
 #ifdef USE_KDE
@@ -361,9 +382,10 @@ const unsigned EventToolbarCreate = 0x0501;
 const unsigned EventToolbarRemove = 0x0502;
 
 /* Base bar for mainwindow */
-const unsigned ToolBarMain = 1;
+const unsigned ToolBarMain      = 1;
 const unsigned ToolBarContainer = 2;
-const unsigned ToolBarEdit = 3;
+const unsigned ToolBarTextEdit  = 3;
+const unsigned ToolBarMsgEdit	= 4;
 
 /* Menu (create and remove)
    param is toolbar id */
@@ -428,9 +450,15 @@ const unsigned COMMAND_GLOBAL_ACCEL	= 0x0020;
 const unsigned COMMAND_RECURSIVE	= 0x0040;
 const unsigned COMMAND_NEW_POPUP	= 0x0080;
 
+const unsigned BTN_TYPE				= 0xF000;
+const unsigned BTN_DEFAULT			= 0x0000;
 const unsigned BTN_PICT				= 0x1000;
-const unsigned BTN_CUSTOM			= 0x2000;
-const unsigned BTN_HIDE				= 0x4000;
+const unsigned BTN_COMBO			= 0x2000;
+const unsigned BTN_COMBO_CHECK		= 0x3000;
+const unsigned BTN_EDIT				= 0x4000;
+
+const unsigned BTN_HIDE				= 0x10000;
+const unsigned BTN_NO_BUTTON		= 0x20000;
 
 /* Command - remove command id */
 const unsigned EventCommandRemove = 0x0507;
@@ -522,7 +550,9 @@ const unsigned EventSetMainIcon		= 0x0520;
 const unsigned EventSetMainText		= 0x0521;
 
 const unsigned EventCommandChange	= 0x0522;
-const unsigned EventCommandWidget	= 0x0523;
+const unsigned EventCommandChecked	= 0x0523;
+const unsigned EventCommandDisabled	= 0x0524;
+const unsigned EventCommandWidget	= 0x0525;
 
 const unsigned EventClientChanged	= 0x0530;
 
@@ -798,6 +828,8 @@ EXPORT string getToken(string &from, char c, bool bUnEscape=true);
 EXPORT QString getToken(QString &from, char c, bool bUnEsacpe=true);
 EXPORT string quoteChars(const char *from, const char *chars);
 EXPORT QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash=true);
+EXPORT char fromHex(char);
+EXPORT string unquoteString(const char *p);
 
 // ____________________________________________________________________________________
 // Configuration
@@ -854,7 +886,7 @@ EXPORT bool set_ip(void **ip, unsigned long value);
 	void set##A(unsigned long r) { data.A = r; }
 
 #define PROP_USHORT(A) \
-	unsigned short get##A() { return data.A; } const \
+	unsigned short get##A() { return (unsigned short)(data.A); } const \
 	void set##A(unsigned short r) { data.A = r; }
 
 #define PROP_BOOL(A) \
@@ -1180,21 +1212,18 @@ protected:
     ClientDataIteratorPrivate *p;
 };
 
-const unsigned PACKET_DEFAULT	= 0;
-const unsigned PACKET_TEXT		= 1;
-
 class EXPORT PacketType
 {
 public:
-    PacketType(unsigned id, const char *name, unsigned flags = PACKET_DEFAULT);
+    PacketType(unsigned id, const char *name, bool bText);
     ~PacketType();
     unsigned id() { return m_id; }
     const char *name() { return m_name; }
-    bool flags() { return m_flags; }
+    bool isText() { return m_bText; }
 protected:
     unsigned m_id;
     char	 *m_name;
-    bool	 m_flags;
+    bool	 m_bText;
 };
 
 const unsigned PHONE	= 0;
@@ -1370,7 +1399,7 @@ public:
     PROP_UTF8(Password)
     PROP_BOOL(SavePassword)
     PROP_UTF8(PreviousPassword)
-    bool getInvisible() { return data.Invisible; }
+    bool getInvisible() { return data.Invisible != 0; }
     virtual void setInvisible(bool bInvisible) { data.Invisible = bInvisible; }
 protected:
 
@@ -1473,7 +1502,7 @@ public:
     unsigned nClients();
     Client *getClient(unsigned n);
     void clearClients();
-    void addPacketType(unsigned id, const char *name, unsigned flags = PACKET_DEFAULT);
+    void addPacketType(unsigned id, const char *name, bool bText=false);
     void removePacketType(unsigned id);
     PacketType *getPacketType(unsigned i);
     Contact *contactByPhone(const char *phone);

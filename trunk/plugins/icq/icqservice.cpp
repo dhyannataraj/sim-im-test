@@ -130,7 +130,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             char *p = (char*)strchr(addr.c_str(), ':');
             if (p){
                 *p = 0;
-                port = atol(p + 1);
+                port = (unsigned short)atol(p + 1);
             }
             s->connect(addr.c_str(), port, *tlv_cookie, tlv_cookie->Size());
             break;

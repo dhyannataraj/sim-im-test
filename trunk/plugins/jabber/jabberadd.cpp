@@ -135,7 +135,7 @@ void JabberAdd::textChanged(const QString&)
 {
     bool bSearch = false;
     if (tabAdd->currentPageIndex() == 0){
-        bSearch = edtID->text().length();
+        bSearch = !edtID->text().isEmpty();
         if (bSearch){
             int pos = 0;
             QString text = edtID->text();

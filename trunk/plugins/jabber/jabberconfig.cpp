@@ -98,10 +98,10 @@ void JabberConfig::apply()
     }
     if (m_bConfig){
         m_client->setServer(edtServer->text().local8Bit());
-        m_client->setPort(atol(edtPort->text()));
+        m_client->setPort((unsigned short)atol(edtPort->text()));
     }else{
         m_client->setServer(edtServer1->text().local8Bit());
-        m_client->setPort(atol(edtPort1->text()));
+        m_client->setPort((unsigned short)atol(edtPort1->text()));
     }
 #ifdef USE_OPENSSL
     m_client->setUseSSL(chkSSL->isChecked());

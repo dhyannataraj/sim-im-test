@@ -55,7 +55,7 @@ UserWnd::UserWnd(unsigned id, const char *cfg, bool bReceived)
     m_bBarChanged = true;
     if (CorePlugin::m_plugin->getContainerMode())
         bReceived = false;
-    m_edit = new MsgEdit(m_splitter, this, bReceived);
+    m_edit = new MsgEdit(m_splitter, this);
     restoreToolbar(m_edit->m_bar, data.editBar);
     m_edit->m_bar->show();
     m_bBarChanged = false;

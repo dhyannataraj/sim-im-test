@@ -526,7 +526,7 @@ bool ICQClient::createData(clientData *&_data, Contact *contact)
 
 OscarSocket::OscarSocket()
 {
-    m_nSequence = rand() & 0x7FFF;
+    m_nSequence    = (unsigned short)(rand() & 0x7FFF);
     m_nMsgSequence = 0;
 }
 
@@ -554,7 +554,6 @@ void ICQClient::connect_ready()
 void ICQClient::setStatus(unsigned status, bool bCommon)
 {
     if (status != STATUS_OFFLINE){
-
         switch (status){
         case STATUS_NA:
         case STATUS_AWAY:
@@ -774,7 +773,7 @@ void ICQClient::packet()
                 m_socket->readBuffer >> err_code;
                 log(L_DEBUG,"Error! family: %u reason: %s",fam,error_message(err_code));
                 // now decrease for icqicmb & icqvarious
-                m_socket->readBuffer.incReadPos(-(sizeof(unsigned short)));
+                m_socket->readBuffer.decReadPos(sizeof(unsigned short));
             }
             switch (fam){
             case ICQ_SNACxFAM_SERVICE:
@@ -843,7 +842,9 @@ void OscarSocket::sendPacket()
 {
     Buffer &writeBuffer = socket()->writeBuffer;
     char *packet = writeBuffer.data(writeBuffer.packetStartPos());
-    *((unsigned short*)(packet + 4)) = htons(writeBuffer.size() - writeBuffer.packetStartPos() - 6);
+    unsigned size = writeBuffer.size() - writeBuffer.packetStartPos() - 6;
+    packet[4] = (char)((size >> 8) & 0xFF);
+    packet[5] = (char)(size & 0xFF);
     log_packet(socket()->writeBuffer, true, ICQPlugin::icq_plugin->OscarPacket);
     socket()->write();
 }
@@ -861,7 +862,7 @@ string ICQClient::cryptPassword()
     int j;
     for (j = 0; j < 16; j++){
         if (p[j] == 0) break;
-        char c = (p[j] ^ xor_table[j]);
+        char c = (char)(p[j] ^ xor_table[j]);
         if (c == 0){
             res += "\\";
             c = '0';
@@ -926,7 +927,7 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
 {
     string s;
     for (const char *p = screen; *p; p++)
-        s += tolower(*p);
+        s += (char)tolower(*p);
 
     ContactList::ContactIterator it;
     ICQUserData *data;
@@ -1499,7 +1500,7 @@ QString ICQClient::contactTip(void *_data)
         res += "<br>";
         res += i18n("Warning level");
         res += ": <b>";
-        res += QString::number(warnLevel(data->WarningLevel));
+        res += QString::number(warnLevel((unsigned short)(data->WarningLevel)));
         res += "% </b></br>";
     }
     if (data->Status == ICQ_STATUS_OFFLINE){
@@ -1571,7 +1572,7 @@ QString ICQClient::contactTip(void *_data)
 
 unsigned ICQClient::warnLevel(unsigned short level)
 {
-    level = (level + 5) / 10;
+    level = (unsigned short)((level + 5) / 10);
     if (level > 100)
         level = 100;
     return level;
@@ -1587,10 +1588,10 @@ static string verString(unsigned ver)
     string res;
     if (ver == 0) return res;
     unsigned char v[4];
-    v[0] = (ver >> 24) & 0xFF;
-    v[1] = (ver >> 16) & 0xFF;
-    v[2] = (ver >> 8) & 0xFF;
-    v[3] = ver & 0xFF;
+    v[0] = (unsigned char)((ver >> 24) & 0xFF);
+    v[1] = (unsigned char)((ver >> 16) & 0xFF);
+    v[2] = (unsigned char)((ver >> 8) & 0xFF);
+    v[3] = (unsigned char)(ver & 0xFF);
     if ((v[0] & 0x80) || (v[1] & 0x80) || (v[2] & 0x80) || (v[3] & 0x80))
         return res;
     char b[32];
@@ -2391,13 +2392,13 @@ void *ICQClient::processEvent(Event *e)
             Contact *contact;
             ICQUserData *data = findContact(ar.screen.c_str(), NULL, false, contact);
             if (data && data->Direct)
-                data->Direct->sendAck(ar.id.id_l, ar.type, ar.flags, fromUnicode(t->tmpl, data).c_str());
+                data->Direct->sendAck((unsigned short)(ar.id.id_l), ar.type, ar.flags, fromUnicode(t->tmpl, data).c_str());
         }else{
             Buffer copy;
             string response;
             response = t->tmpl.utf8();
             sendAutoReply(ar.screen.c_str(), ar.id, plugins[PLUGIN_NULL],
-                          ar.id1, ar.id2, ar.type, ar.ack, 0, response.c_str(), 0, copy);
+                          ar.id1, ar.id2, ar.type, (char)(ar.ack), 0, response.c_str(), 0, copy);
         }
         arRequests.erase(it);
         return e->param();
@@ -2456,11 +2457,11 @@ void *ICQClient::processEvent(Event *e)
             ListRequest lr;
             lr.type = LIST_USER_DELETED;
             lr.screen = screen(data);
-            lr.icq_id = data->IcqID;
-            lr.grp_id = data->GrpId;
-            lr.visible_id = data->ContactVisibleId;
-            lr.invisible_id = data->ContactInvisibleId;
-            lr.ignore_id = data->IgnoreId;
+            lr.icq_id = (unsigned short)(data->IcqID);
+            lr.grp_id = (unsigned short)(data->GrpId);
+            lr.visible_id   = (unsigned short)(data->ContactVisibleId);
+            lr.invisible_id = (unsigned short)(data->ContactInvisibleId);
+            lr.ignore_id    = (unsigned short)(data->IgnoreId);
             listRequests.push_back(lr);
             processListRequest();
         }
@@ -2476,8 +2477,8 @@ void *ICQClient::processEvent(Event *e)
             ICQUserData *data = (ICQUserData*)(group->clientData.getData(this));
             if (data){
                 ListRequest lr;
-                lr.type = LIST_GROUP_DELETED;
-                lr.icq_id = data->IcqID;
+                lr.type   = LIST_GROUP_DELETED;
+                lr.icq_id = (unsigned short)(data->IcqID);
                 listRequests.push_back(lr);
                 processListRequest();
             }
@@ -2531,9 +2532,9 @@ void *ICQClient::processEvent(Event *e)
     }
     if (e->type() == EventCheckState){
         CommandDef *cmd = (CommandDef*)(e->param());
-        ICQPlugin *plugin = static_cast<ICQPlugin*>(protocol()->plugin());
-        if (cmd->menu_id == plugin->MenuEncoding){
-            if (cmd->id == plugin->CmdChangeEncoding){
+        if (cmd->menu_id == MenuEncoding){
+            ICQPlugin *plugin = static_cast<ICQPlugin*>(protocol()->plugin());
+            if (cmd->id == CmdChangeEncoding){
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));
                 if (contact == NULL)
                     return NULL;
@@ -2600,14 +2601,14 @@ void *ICQClient::processEvent(Event *e)
                 }
                 return e->param();
             }
-            if (cmd->id == plugin->CmdAllEncodings){
+            if (cmd->id == CmdAllEncodings){
                 cmd->flags &= ~COMMAND_CHECKED;
                 if (plugin->getShowAllEncodings())
                     cmd->flags |= COMMAND_CHECKED;
                 return e->param();
             }
         }
-        if (cmd->id == plugin->CmdCheckInvisibleAll){
+        if (cmd->id == CmdCheckInvisibleAll){
             cmd->flags &= ~COMMAND_CHECKED;
             if ((getState() != Connected) || m_bAIM)
                 return NULL;
@@ -2624,7 +2625,7 @@ void *ICQClient::processEvent(Event *e)
                         continue;
                     bICQ = true;
                     if (data->bInvisible){
-                        cmd->popup_id = plugin->MenuCheckInvisible;
+                        cmd->popup_id = MenuCheckInvisible;
                         return e->param();
                     }
                 }
@@ -2635,7 +2636,7 @@ void *ICQClient::processEvent(Event *e)
             }
         }
         if ((cmd->bar_id == ToolBarContainer) || (cmd->bar_id == BarHistory)){
-            if (cmd->id == plugin->CmdChangeEncoding){
+            if (cmd->id == CmdChangeEncoding){
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));
                 if (contact == NULL){
                     cmd->flags |= BTN_HIDE;
@@ -2659,7 +2660,7 @@ void *ICQClient::processEvent(Event *e)
             }
         }
         if (cmd->menu_id == MenuContactGroup){
-            if (cmd->id == plugin->CmdVisibleList){
+            if (cmd->id == CmdVisibleList){
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));
                 if (contact == NULL)
                     return NULL;
@@ -2682,7 +2683,7 @@ void *ICQClient::processEvent(Event *e)
                 }
                 return bOK ? e->param() : NULL;
             }
-            if (cmd->id == plugin->CmdInvisibleList){
+            if (cmd->id == CmdInvisibleList){
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));
                 if (contact == NULL)
                     return NULL;
@@ -2710,8 +2711,8 @@ void *ICQClient::processEvent(Event *e)
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
         ICQPlugin *plugin = static_cast<ICQPlugin*>(protocol()->plugin());
-        if (cmd->menu_id == plugin->MenuEncoding){
-            if (cmd->id == plugin->CmdAllEncodings){
+        if (cmd->menu_id == MenuEncoding){
+            if (cmd->id == CmdAllEncodings){
                 plugin->setShowAllEncodings(!plugin->getShowAllEncodings());
                 return e->param();
             }
@@ -2779,8 +2780,8 @@ void *ICQClient::processEvent(Event *e)
             }
             return NULL;
         }
-        if ((cmd->id == plugin->CmdCheckInvisible) ||
-                (cmd->id == plugin->CmdCheckInvisibleAll)){
+        if ((cmd->id == CmdCheckInvisible) ||
+                (cmd->id == CmdCheckInvisibleAll)){
             if (getState() == Connected){
                 ContactList::ContactIterator it;
                 Contact *contact;
@@ -2794,7 +2795,7 @@ void *ICQClient::processEvent(Event *e)
                             continue;
                         if (data->Status != ICQ_STATUS_OFFLINE)
                             continue;
-                        if ((cmd->id == plugin->CmdCheckInvisible) && (data->bInvisible == 0))
+                        if ((cmd->id == CmdCheckInvisible) && (data->bInvisible == 0))
                             continue;
                         Message *m = new Message(MessageCheckInvisible);
                         m->setContact(contact->id());
@@ -2807,7 +2808,7 @@ void *ICQClient::processEvent(Event *e)
             }
         }
         if (cmd->menu_id == MenuContactGroup){
-            if (cmd->id == plugin->CmdVisibleList){
+            if (cmd->id == CmdVisibleList){
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));
                 if (contact == NULL)
                     return NULL;
@@ -2824,7 +2825,7 @@ void *ICQClient::processEvent(Event *e)
                 }
                 return e->param();
             }
-            if (cmd->id == plugin->CmdInvisibleList){
+            if (cmd->id == CmdInvisibleList){
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));
                 if (contact == NULL)
                     return NULL;
@@ -2855,7 +2856,7 @@ void *ICQClient::processEvent(Event *e)
         url = url.substr(proto.length() + 1);
         while (url[0] == '/')
             url = url.substr(1);
-        QString s = unquoteString(url.c_str());
+        QString s = unquoteString(QString(url.c_str()));
         QString screen = getToken(s, ',');
         if (!screen.isEmpty()){
             Contact *contact;
@@ -2958,8 +2959,6 @@ bool ICQClient::send(Message *msg, void *_data)
         s.msg    = static_cast<SMSMessage*>(msg);
         s.text   = s.msg->getPlainText();
         s.flags  = SEND_1STPART;
-        if (s.msg->getFlags() & MESSAGE_TRANSLIT)
-            s.text = toTranslit(s.text);
         smsQueue.push_back(s);
         processSMSQueue();
         return true;
@@ -3283,7 +3282,7 @@ void ICQClient::randomChatInfo(unsigned long uin)
 
 unsigned short ICQClient::msgStatus()
 {
-    return fullStatus(getStatus()) & 0xFF;
+    return (unsigned short)(fullStatus(getStatus()) & 0xFF);
 }
 
 #ifdef WIN32

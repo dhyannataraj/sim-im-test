@@ -47,8 +47,21 @@
 #include <kstddirs.h>
 #endif
 
+#ifdef WIN32
+#if _MSC_VER > 1020
+#pragma warning(push)
+#pragma warning(disable: 4512)  
+#endif
+#endif
+
 #include <map>
 using namespace std;
+
+#ifdef WIN32
+#if _MSC_VER > 1020
+#pragma warning(pop)
+#endif
+#endif
 
 namespace SIM
 {
@@ -462,15 +475,15 @@ EXPORT void free_data(const DataDef *def, void *data)
     }
 }
 
-static char fromHex(char c)
+char fromHex(char c)
 {
-    if ((c >= '0') && (c <= '9')) return c - '0';
-    if ((c >= 'A') && (c <= 'F')) return c + 10 - 'A';
-    if ((c >= 'a') && (c <= 'f')) return c + 10 - 'a';
-    return 0;
+    if ((c >= '0') && (c <= '9')) return (char)(c - '0');
+    if ((c >= 'A') && (c <= 'F')) return (char)(c + 10 - 'A');
+    if ((c >= 'a') && (c <= 'f')) return (char)(c + 10 - 'a');
+    return (char)0;
 }
 
-static string unquoteString(const char *p)
+string unquoteString(const char *p)
 {
     string unquoted;
     for (; *p; p++){
@@ -493,7 +506,7 @@ static string unquoteString(const char *p)
         case 'x':
             if (p[1] && p[2]){
                 char c = 0;
-                c = (fromHex(p[1]) << 4) + fromHex(p[2]);
+                c = (char)((fromHex(p[1]) << 4) + fromHex(p[2]));
                 unquoted += c;
                 p += 2;
             }
@@ -745,8 +758,8 @@ EXPORT void load_data(const DataDef *d, void *data, const char *config)
 static char toHex(char c)
 {
     c &= 0x0F;
-    if (c < 10) return c + '0';
-    return c - 10 + 'a';
+    if (c < 10) return (char)(c + '0');
+    return (char)(c - 10 + 'a');
 }
 
 static string quoteString(const char *str)
@@ -770,7 +783,7 @@ static string quoteString(const char *str)
                     quoted += *p;
                 }else if (*p){
                     quoted += "\\x";
-                    quoted += toHex(*p >> 4);
+                    quoted += toHex((char)(*p >> 4));
                     quoted += toHex(*p);
                 }
             }
@@ -1051,7 +1064,7 @@ EXPORT void restoreToolbar(QToolBar *bar, long state[7])
     if (main == NULL)
         return;
     QMainWindow::ToolBarDock dock = (QMainWindow::ToolBarDock)state[1];
-    main->moveToolBar(bar, dock, state[2], state[3] != 0, state[4]);
+    main->moveToolBar(bar, dock, state[2] != 0, state[3] != 0, state[4]);
     if (dock == QMainWindow::TornOff)
         bar->move(state[5], state[6]);
 }
@@ -1062,7 +1075,7 @@ EXPORT bool cmp(char *s1, char *s2)
         return s2 != NULL;
     if (s2 == NULL)
         return true;
-    return strcmp(s1, s2);
+    return strcmp(s1, s2) != 0;
 }
 
 };

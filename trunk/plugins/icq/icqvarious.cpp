@@ -92,7 +92,7 @@ public:
     virtual bool answer(Buffer&, unsigned short nSubType) = 0;
     virtual void fail(unsigned short error_code = 0);
 protected:
-    unsigned m_id;
+    unsigned short m_id;
 };
 
 ServerRequest::ServerRequest(unsigned short id)
@@ -264,13 +264,13 @@ void ICQClient::sendServerRequest()
 {
     Buffer &b = m_socket->writeBuffer;
     char *packet = b.data(b.packetStartPos());
-    unsigned short packet_size = b.size() - b.packetStartPos();
-    unsigned short size = packet_size - 0x14;
-    packet[0x12] = (size >> 8) & 0xFF;
-    packet[0x13] = size & 0xFF;
-    size = packet_size - 0x16;
-    packet[0x14] = size & 0xFF;
-    packet[0x15] = (size >> 8) & 0xFF;
+    unsigned short packet_size = (unsigned short)(b.size() - b.packetStartPos());
+    unsigned short size = (unsigned short)(packet_size - 0x14);
+    packet[0x12] = (char)((size >> 8) & 0xFF);
+    packet[0x13] = (char)(size & 0xFF);
+    size = (unsigned short)(packet_size - 0x16);
+    packet[0x14] = (char)(size & 0xFF);
+    packet[0x15] = (char)((size >> 8) & 0xFF);
     sendPacket();
 }
 
@@ -605,7 +605,7 @@ void SearchWPRequest::fail(unsigned short)
     res.id = m_id;
     res.client = m_client;
     load_data(ICQProtocol::icqUserData, &res.data, NULL);
-    Event e(static_cast<ICQPlugin*>(m_client->protocol()->plugin())->EventSearchDone, &res);
+    Event e(EventSearchDone, &res);
     e.process();
     free_data(ICQProtocol::icqUserData, &res.data);
 }
@@ -644,13 +644,13 @@ bool SearchWPRequest::answer(Buffer &b, unsigned short nSubType)
         break;
     }
 
-    Event e(static_cast<ICQPlugin*>(m_client->protocol()->plugin())->EventSearch, &res);
+    Event e(EventSearch, &res);
     e.process();
     free_data(ICQProtocol::icqUserData, &res.data);
 
     if (nSubType == 0xAE01){
         load_data(ICQProtocol::icqUserData, &res.data, NULL);
-        Event e(static_cast<ICQPlugin*>(m_client->protocol()->plugin())->EventSearchDone, &res);
+        Event e(EventSearchDone, &res);
         e.process();
         free_data(ICQProtocol::icqUserData, &res.data);
         return true;
@@ -760,8 +760,7 @@ unsigned short ICQClient::findWP(const char *szFirst, const char *szLast, const 
     << nHomePage
     << sHomePage;
 
-    char c = bOnlineOnly ? 1 : 0;
-    m_socket->writeBuffer << c;
+    m_socket->writeBuffer << (char)(bOnlineOnly ? 1 : 0);
 
     sendServerRequest();
 
@@ -1089,8 +1088,8 @@ SetSecurityInfoRequest::SetSecurityInfoRequest(ICQClient *client, unsigned short
         : ServerRequest(id)
 {
     m_client  = client;
-    m_bWebAware = data->WebAware;
-    m_bWaitAuth = data->WaitAuth;
+    m_bWebAware = (data->WebAware != 0);
+    m_bWaitAuth = (data->WaitAuth != 0);
 }
 
 bool SetSecurityInfoRequest::answer(Buffer&, unsigned short)
@@ -1138,12 +1137,12 @@ void ICQClient::packInfoList(char *str)
         while (s.length()){
             string item = getToken(s, ';');
             string cat = getToken(item, ',');
-            category.push_back(atol(cat.c_str()));
+            category.push_back((unsigned short)atol(cat.c_str()));
             spec.push_back(item);
         }
     }
 
-    char n = category.size();
+    char n = (char)(category.size());
     m_socket->writeBuffer << n;
 
     list<unsigned short>::iterator itc = category.begin();
@@ -1316,14 +1315,14 @@ void ICQClient::setClientInfo(void *_data)
                 string mailItem = getToken(emails, ';', false);
                 string mail = getToken(mailItem, '/');
                 mails.push_back(mail);
-                hiddens.push_back(mailItem.length());
+                hiddens.push_back(mailItem.length() != 0);
             }
         }
         m_socket->writeBuffer << (char)(mails.size());
         list<string>::iterator its = mails.begin();
         list<bool>::iterator ith = hiddens.begin();
         for (; its != mails.end(); ++its, ++ith){
-            char hide = (*ith) ? 1 : 0;
+            char hide = (char)((*ith) ? 1 : 0);
             m_socket->writeBuffer << hide << (*its);
         }
         sendServerRequest();
@@ -1671,21 +1670,21 @@ bool RandomChatRequest::answer(Buffer &b, unsigned short)
 {
     unsigned long uin;
     b.unpack(uin);
-    Event e(static_cast<ICQPlugin*>(m_client->protocol()->plugin())->EventRandomChat, (void*)uin);
+    Event e(EventRandomChat, (void*)uin);
     e.process();
     return true;
 }
 
 void RandomChatRequest::fail(unsigned short)
 {
-    Event e(static_cast<ICQPlugin*>(m_client->protocol()->plugin())->EventRandomChat, NULL);
+    Event e(EventRandomChat, NULL);
     e.process();
 }
 
 void ICQClient::searchChat(unsigned short group)
 {
     if (getState() != Connected){
-        Event e(static_cast<ICQPlugin*>(protocol()->plugin())->EventRandomChat, NULL);
+        Event e(EventRandomChat, NULL);
         e.process();
         return;
     }

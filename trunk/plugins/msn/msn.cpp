@@ -233,7 +233,7 @@ MSNPlugin::MSNPlugin(unsigned base)
     EventAddOk   = registerType();
     EventAddFail = registerType();
 
-    getContacts()->addPacketType(MSNPacket, msn_descr.text, PACKET_TEXT);
+    getContacts()->addPacketType(MSNPacket, msn_descr.text, true);
 
     IconDef icon;
     icon.name = "MSN_online";
@@ -283,7 +283,7 @@ MSNPlugin::~MSNPlugin()
 /**
  * DLL's entry point
  **/
-int WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
+int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
 {
     return TRUE;
 }

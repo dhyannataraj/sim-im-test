@@ -61,17 +61,16 @@
 #include <qtooltip.h>
 #include <qlayout.h>
 
-#ifdef WIN32
-#if _MSC_VER > 1020
-#pragma warning(disable:4786)
-#endif
-#endif
-
 #define MAX_HISTORY	100
 
 TextEdit::TextEdit(QWidget *p, const char *name)
         : TextShow(p, name)
 {
+    m_param = NULL;
+    m_bEmpty = false;
+    m_bBold  = false;
+    m_bItalic = false;
+    m_bUnderline = false;
     setReadOnly(false);
     curFG = colorGroup().color(QColorGroup::Text);
     m_bCtrlMode = true;
@@ -79,7 +78,9 @@ TextEdit::TextEdit(QWidget *p, const char *name)
 #if QT_VERSION >= 0x030100
     setAutoFormatting(0);
 #endif
+    connect(this, SIGNAL(currentFontChanged(const QFont&)), this, SLOT(fontChanged(const QFont&)));
     connect(this, SIGNAL(currentColorChanged(const QColor&)), this, SLOT(slotColorChanged(const QColor&)));
+    connect(this, SIGNAL(textChanged()), this, SLOT(slotTextChanged()));
     viewport()->installEventFilter(this);
 }
 
@@ -87,10 +88,48 @@ TextEdit::~TextEdit()
 {
 }
 
+void TextEdit::slotTextChanged()
+{
+    bool bEmpty = isEmpty();
+    if (m_bEmpty == bEmpty)
+        return;
+    m_bEmpty = bEmpty;
+    emit emptyChanged(m_bEmpty);
+}
+
+bool TextEdit::isEmpty()
+{
+    if (paragraphs() < 2){
+        QString t = text(0);
+        if (textFormat() == QTextEdit::RichText)
+            t = unquoteText(t);
+        return t.isEmpty();
+    }
+    return true;
+}
+
+void TextEdit::setParam(void *param)
+{
+    m_param = param;
+}
+
 void TextEdit::slotColorChanged(const QColor &c)
 {
     if (c != curFG)
         setForeground(c);
+}
+
+void TextEdit::bgColorChanged(QColor c)
+{
+    setBackground(c);
+    emit colorsChanged();
+}
+
+void TextEdit::fgColorChanged(QColor c)
+{
+    setForeground(c);
+    curFG = c;
+    emit colorsChanged();
 }
 
 bool TextEdit::eventFilter(QObject *o, QEvent *e)
@@ -104,6 +143,39 @@ bool TextEdit::eventFilter(QObject *o, QEvent *e)
 void TextEdit::changeText()
 {
     emit textChanged();
+}
+
+void TextEdit::fontChanged(const QFont &f)
+{
+    if (m_param == NULL)
+        return;
+    if (f.bold() != m_bBold){
+        m_bBold = f.bold();
+        Command cmd;
+        cmd->id    = CmdBold;
+        cmd->flags = m_bBold ? COMMAND_CHECKED : 0;
+        cmd->param = m_param;
+        Event e(EventCommandChecked, cmd);
+        e.process();
+    }
+    if (f.italic() != m_bItalic){
+        m_bItalic = f.italic();
+        Command cmd;
+        cmd->id    = CmdItalic;
+        cmd->flags = m_bItalic ? COMMAND_CHECKED : 0;
+        cmd->param = m_param;
+        Event e(EventCommandChecked, cmd);
+        e.process();
+    }
+    if (f.underline() != m_bUnderline){
+        m_bUnderline = f.underline();
+        Command cmd;
+        cmd->id    = CmdUnderline;
+        cmd->flags = m_bUnderline ? COMMAND_CHECKED : 0;
+        cmd->param = m_param;
+        Event e(EventCommandChecked, cmd);
+        e.process();
+    }
 }
 
 void TextEdit::setCtrlMode(bool mode)
@@ -146,6 +218,88 @@ void TextEdit::keyPressEvent(QKeyEvent *e)
     }
 #endif
     TextShow::keyPressEvent(e);
+}
+
+void *TextEdit::processEvent(Event *e)
+{
+    if (m_param == NULL)
+        return NULL;
+    if (e->type() == EventCheckState){
+        CommandDef *cmd = (CommandDef*)(e->param());
+        if (cmd->param != m_param)
+            return NULL;
+        switch (cmd->id){
+        case CmdBgColor:
+        case CmdFgColor:
+        case CmdBold:
+        case CmdItalic:
+        case CmdUnderline:
+        case CmdFont:
+            if ((textFormat() == RichText) && !isReadOnly()){
+                cmd->flags &= ~BTN_HIDE;
+            }else{
+                cmd->flags |= BTN_HIDE;
+            }
+            return e->param();
+        default:
+            return NULL;
+        }
+    }
+    if (e->type() == EventCommandExec){
+        CommandDef *cmd = (CommandDef*)(e->param());
+        if (cmd->param != m_param)
+            return NULL;
+        switch (cmd->id){
+        case CmdBgColor:{
+                Event eWidget(EventCommandWidget, cmd);
+                CToolButton *btnBg = (CToolButton*)(eWidget.process());
+                if (btnBg){
+                    ColorPopup *popup = new ColorPopup(this, background());
+                    popup->move(CToolButton::popupPos(btnBg, popup));
+                    connect(popup, SIGNAL(colorChanged(QColor)), this, SLOT(bgColorChanged(QColor)));
+                    popup->show();
+                }
+                return e->param();
+            }
+        case CmdFgColor:{
+                Event eWidget(EventCommandWidget, cmd);
+                CToolButton *btnFg = (CToolButton*)(eWidget.process());
+                if (btnFg){
+                    ColorPopup *popup = new ColorPopup(this, foreground());
+                    popup->move(CToolButton::popupPos(btnFg, popup));
+                    connect(popup, SIGNAL(colorChanged(QColor)), this, SLOT(fgColorChanged(QColor)));
+                    popup->show();
+                }
+                return e->param();
+            }
+        case CmdBold:
+            setBold((cmd->flags & COMMAND_CHECKED) != 0);
+            return e->param();
+        case CmdItalic:
+            setItalic((cmd->flags & COMMAND_CHECKED) != 0);
+            return e->param();
+        case CmdUnderline:
+            setUnderline((cmd->flags & COMMAND_CHECKED) != 0);
+            return e->param();
+        case CmdFont:{
+#ifdef USE_KDE
+                QFont f = font();
+                if (KFontDialog::getFont(f, false, topLevelWidget()) != KFontDialog::Accepted)
+                    break;
+#else
+                bool ok = false;
+                QFont f = QFontDialog::getFont(&ok, font(), topLevelWidget());
+                if (!ok)
+                    break;
+#endif
+                setCurrentFont(f);
+                break;
+            }
+        default:
+            return NULL;
+        }
+    }
+    return NULL;
 }
 
 void TextShow::setBackground(const QColor& c)
@@ -468,167 +622,17 @@ void RichTextEdit::setReadOnly(bool bState)
     m_edit->setReadOnly(bState);
 }
 
-static void set_button(QToolButton *btn, const char *icon, const char *label)
-{
-    btn->setAutoRaise(true);
-    btn->setIconSet(*Icon(icon));
-    QString text = i18n(label);
-    int key = QAccel::shortcutKey(text);
-    btn->setAccel(key);
-    QString t = text;
-    int pos = t.find("<br>");
-    if (pos >= 0) t = t.left(pos);
-    btn->setTextLabel(t);
-    t = text;
-    while ((pos = t.find('&')) >= 0){
-        t = t.left(pos) + "<u>" + t.mid(pos+1, 1) + "</u>" + t.mid(pos+2);
-    }
-    QToolTip::add(btn, t);
-}
-
 void RichTextEdit::showBar()
 {
     if (m_bar)
         return;
-    m_bar = new QToolBar(this);
-
-    btnBG = new ColorToolButton(m_bar, m_edit->background());
-    set_button(btnBG, "bgcolor", I18N_NOOP("Bac&kground color"));
-    connect(btnBG, SIGNAL(colorChanged(QColor)), this, SLOT(bgColorChanged(QColor)));
-
-    btnFG = new ColorToolButton(m_bar, m_edit->foreground());
-    set_button(btnFG, "fgcolor", I18N_NOOP("&Text color"));
-    connect(btnFG, SIGNAL(colorChanged(QColor)), this, SLOT(fgColorChanged(QColor)));
-    connect(btnFG, SIGNAL(aboutToShow()), this, SLOT(showFgPopup()));
-
-    m_bar->addSeparator();
-
-    btnBold = new QToolButton(m_bar);
-    set_button(btnBold, "text_bold", I18N_NOOP("&Bold"));
-    btnBold->setToggleButton(true);
-    connect(btnBold, SIGNAL(toggled(bool)), this, SLOT(toggleBold(bool)));
-
-    btnItalic = new QToolButton(m_bar);
-    set_button(btnItalic, "text_italic", I18N_NOOP("&Italic"));
-    btnItalic->setToggleButton(true);
-    connect(btnItalic, SIGNAL(toggled(bool)), this, SLOT(toggleItalic(bool)));
-
-    btnUnderline = new QToolButton(m_bar);
-    set_button(btnUnderline, "text_under", I18N_NOOP("&Underline"));
-    btnUnderline->setToggleButton(true);
-    connect(btnUnderline, SIGNAL(toggled(bool)), this, SLOT(toggleUnderline(bool)));
-
-    m_bar->addSeparator();
-
-    QToolButton *btn = new QToolButton(m_bar);
-    set_button(btn, "text", I18N_NOOP("Text &font"));
-    connect(btn, SIGNAL(clicked()), this, SLOT(selectFont()));
-
-    connect(m_edit, SIGNAL(currentFontChanged(const QFont&)), this, SLOT(fontChanged(const QFont&)));
-}
-
-void RichTextEdit::showFgPopup()
-{
-    btnFG->setColor(m_edit->foreground());
-}
-
-void RichTextEdit::toggleBold(bool bState)
-{
-    m_edit->setBold(bState);
-}
-
-void RichTextEdit::toggleItalic(bool bState)
-{
-    m_edit->setItalic(bState);
-}
-
-void RichTextEdit::toggleUnderline(bool bState)
-{
-    m_edit->setUnderline(bState);
-}
-
-void RichTextEdit::fontChanged(const QFont &f)
-{
-    btnBold->setOn(f.bold());
-    btnItalic->setOn(f.italic());
-    btnUnderline->setOn(f.underline());
-}
-
-void RichTextEdit::bgColorChanged(QColor c)
-{
-    m_edit->setBackground(c);
-}
-
-void RichTextEdit::fgColorChanged(QColor c)
-{
-    m_edit->setForeground(c);
-}
-
-void RichTextEdit::selectFont()
-{
-#ifdef USE_KDE
-    QFont f = m_edit->font();
-    if (KFontDialog::getFont(f, false, topLevelWidget()) != KFontDialog::Accepted)
-        return;
-#else
-    bool ok = false;
-    QFont f = QFontDialog::getFont(&ok, m_edit->font(), topLevelWidget());
-    if (!ok)
-        return;
-#endif
-    m_edit->setCurrentFont(f);
-}
-
-ColorToolButton::ColorToolButton(QWidget *parent, QColor color)
-        : QToolButton(parent)
-{
-    m_color = color;
-    m_popup = NULL;
-    connect(this, SIGNAL(clicked()), this, SLOT(btnClicked()));
-}
-
-void ColorToolButton::setColor(QColor c)
-{
-    m_color = c;
-}
-
-void ColorToolButton::btnClicked()
-{
-    emit aboutToShow();
-    m_popup = new ColorPopup(this, m_color);
-    connect(m_popup, SIGNAL(colorChanged(QColor)), this, SLOT(selectColor(QColor)));
-    connect(m_popup, SIGNAL(colorCustom()), this, SLOT(selectCustom()));
-    QPoint p = CToolButton::popupPos(this, m_popup);
-    m_popup->move(p);
-    m_popup->show();
-}
-
-void ColorToolButton::selectColor(QColor c)
-{
-    m_color = c;
-    emit colorChanged(c);
-    QTimer::singleShot(0, this, SLOT(closePopup()));
-}
-
-void ColorToolButton::closePopup()
-{
-    if (m_popup){
-        delete m_popup;
-        m_popup = NULL;
-    }
-}
-
-void ColorToolButton::selectCustom()
-{
-#ifdef USE_KDE
-    QColor c = m_color;
-    if (KColorDialog::getColor(c, this) != KColorDialog::Accepted) return;
-#else
-    QColor c = QColorDialog::getColor(m_color, this);
-    if (!c.isValid()) return;
-#endif
-    m_color = c;
-    emit colorChanged(c);
+    BarShow b;
+    b.bar_id = ToolBarTextEdit;
+    b.parent = this;
+    Event e(EventShowBar, &b);
+    m_bar = (CToolBar*)(e.process());
+    m_bar->setParam(this);
+    m_edit->setParam(this);
 }
 
 static unsigned colors[16] =
@@ -656,6 +660,7 @@ const int CUSTOM_COLOR	= 100;
 ColorPopup::ColorPopup(QWidget *popup, QColor color)
         : QFrame(popup, "colors", WType_Popup | WStyle_Customize | WStyle_Tool | WDestructiveClose)
 {
+    m_color = color;
     setFrameShape(PopupPanel);
     setFrameShadow(Sunken);
     QGridLayout *lay = new QGridLayout(this, 5, 4);
@@ -678,9 +683,28 @@ ColorPopup::ColorPopup(QWidget *popup, QColor color)
 void ColorPopup::colorSelected(int id)
 {
     if (id == CUSTOM_COLOR){
-        emit colorCustom();
+        hide();
+        QWidget *top = NULL;
+        if (parent())
+            top = static_cast<QWidget*>(parent())->topLevelWidget();
+#ifdef USE_KDE
+        QColor c = m_color;
+        if (KColorDialog::getColor(c, top) != KColorDialog::Accepted){
+            close();
+            return;
+        }
+#else
+        QColor c = QColorDialog::getColor(m_color, top);
+        if (!c.isValid()){
+            close();
+            return;
+        }
+#endif
+        emit colorChanged(c);
+        close();
     }else{
         emit colorChanged(QColor(colors[id]));
+        close();
     }
 }
 

@@ -19,14 +19,13 @@
 #define _CMENU_H
 
 #include "simapi.h"
+#include "stl.h"
+
 #ifdef USE_KDE
 #include <kpopupmenu.h>
 #else
 #include "kpopup.h"
 #endif
-
-#include <vector>
-using namespace std;
 
 typedef struct CMD
 {

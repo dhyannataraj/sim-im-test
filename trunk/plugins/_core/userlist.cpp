@@ -153,9 +153,9 @@ void GroupItem::init(Group *grp)
         setOpen(true);
     }else{
         if (m_bOffline){
-            setOpen(data->OfflineOpen);
+            setOpen((data->OfflineOpen) != 0);
         }else{
-            setOpen(data->OnlineOpen);
+            setOpen((data->OnlineOpen) != 0);
         }
     }
     update(grp, true);

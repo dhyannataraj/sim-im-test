@@ -42,7 +42,7 @@ const unsigned short ICQ_SNACxLOC_RESPONSExSETxINFO	= 0x000A;
 const unsigned short ICQ_SNACxLOC_REQUESTxDIRxINFO  = 0x000B;
 const unsigned short ICQ_SNACxLOC_DIRxINFO          = 0x000C;
 
-static bool extractInfo(TlvList &tlvs, unsigned id, char **data)
+static bool extractInfo(TlvList &tlvs, unsigned short id, char **data)
 {
     const char *info = NULL;
     Tlv *tlv = tlvs(id);
@@ -256,7 +256,7 @@ const capability arrCapabilities[] =
         // CAP_AIM_SENDFILE
         { 0x09, 0x46, 0x13, 0x43, cap_mid, cap_id },
         // CAP_MICQ
-        { 'm', 'I', 'C', 'Q', ' ', '©', 'R', '.',
+        { 'm', 'I', 'C', 'Q', ' ', (unsigned char)'©', 'R', '.',
           'K', ' ', '.', ' ', 0, 0, 0, 0 },
         // CAP_LICQ
         { 'L', 'i', 'c', 'q', ' ', 'c', 'l', 'i',
@@ -279,7 +279,7 @@ static unsigned char get_ver(const char *&v)
 {
     if (v == NULL)
         return 0;
-    char c = atol(v);
+    char c = (char)atol(v);
     v = strchr(v, '.');
     if (v)
         v++;
@@ -302,7 +302,7 @@ static bool isWide(const char *text)
     return isWide(QString::fromUtf8(text));
 }
 
-void ICQClient::encodeString(const char *str, unsigned nTlv, bool bWide)
+void ICQClient::encodeString(const char *str, unsigned short nTlv, bool bWide)
 {
     if ((str == NULL) || (*str == 0)){
         m_socket->writeBuffer.tlv(nTlv, "");
@@ -316,14 +316,14 @@ void ICQClient::encodeString(const char *str, unsigned nTlv, bool bWide)
         unsigned short *t = unicode;
         for (int i = 0; i < (int)(m.length()); i++)
             *(t++) = htons(m[i].unicode());
-        m_socket->writeBuffer.tlv(nTlv, (char*)unicode, m.length() * sizeof(unsigned short));
+        m_socket->writeBuffer.tlv(nTlv, (char*)unicode, (unsigned short)(m.length() * sizeof(unsigned short)));
         delete[] unicode;
     }else{
         m_socket->writeBuffer.tlv(nTlv, m.latin1());
     }
 }
 
-void ICQClient::encodeString(const QString &m, const char *type, unsigned charsetTlv, unsigned infoTlv)
+void ICQClient::encodeString(const QString &m, const char *type, unsigned short charsetTlv, unsigned short infoTlv)
 {
     bool bWide = isWide(m);
     string content_type = type;
@@ -335,7 +335,7 @@ void ICQClient::encodeString(const QString &m, const char *type, unsigned charse
             *(t++) = htons(m[i].unicode());
         content_type += "unicode-2\"";
         m_socket->writeBuffer.tlv(charsetTlv, content_type.c_str());
-        m_socket->writeBuffer.tlv(infoTlv, (char*)unicode, m.length() * sizeof(unsigned short));
+        m_socket->writeBuffer.tlv(infoTlv, (char*)unicode, (unsigned short)(m.length() * sizeof(unsigned short)));
         delete[] unicode;
     }else{
         content_type += "us-ascii\"";

@@ -91,7 +91,7 @@ bool my_string::operator < (const my_string &a) const
 
 FetchManager::FetchManager()
 {
-    getContacts()->addPacketType(HTTPPacket, _HTTP, PACKET_TEXT);
+    getContacts()->addPacketType(HTTPPacket, _HTTP, true);
     m_id    = 0;
 }
 

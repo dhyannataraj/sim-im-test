@@ -22,9 +22,6 @@
 #include "icon.h"
 
 #include <qiconset.h>
-#include <vector>
-#include <list>
-using namespace std;
 
 typedef struct SmileDef
 {

@@ -27,8 +27,8 @@ ForwardConfig::ForwardConfig(QWidget *parent, void *_data, ForwardPlugin *plugin
 {
     m_plugin = plugin;
     ForwardUserData *data = (ForwardUserData*)_data;
-    chkFirst->setChecked(data->Send1st);
-    chkTranslit->setChecked(data->Translit);
+    chkFirst->setChecked(data->Send1st != 0);
+    chkTranslit->setChecked(data->Translit != 0);
     cmbPhone->setEditable(true);
     QString phones = getContacts()->owner()->getPhones();
     while (!phones.isEmpty()){

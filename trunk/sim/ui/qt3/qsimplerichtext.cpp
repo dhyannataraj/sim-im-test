@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qsimplerichtext.cpp,v 1.2 2003-08-02 19:22:05 shutoff Exp $
+** $Id: qsimplerichtext.cpp,v 1.3 2003-10-20 08:39:29 shutoff Exp $
 **
 ** Implementation of the QSimpleRichText class
 **
@@ -34,6 +34,13 @@
 ** not clear to you.
 **
 **********************************************************************/
+
+#ifdef WIN32
+#if _MSC_VER > 1020
+#include <yvals.h>              
+#pragma warning(disable: 4244)
+#endif
+#endif
 
 #include "qsimplerichtext.h"
 #if QT_VERSION < 300

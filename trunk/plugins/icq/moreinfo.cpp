@@ -160,7 +160,7 @@ void MoreInfo::fill()
     ICQUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
     edtHomePage->setText(m_client->toUnicode(data->Homepage, data));
-    initCombo(cmbGender, data->Gender, genders);
+    initCombo(cmbGender, (unsigned short)(data->Gender), genders);
     if (spnAge->text() == "0") spnAge->setSpecialValueText("");
     cmbMonth->insertItem("");
     cmbMonth->insertItem(i18n("January"));
@@ -180,11 +180,11 @@ void MoreInfo::fill()
     spnYear->setValue(data->BirthYear);
     birthDayChanged(0);
     unsigned l = data->Language;
-    unsigned l1 = l & 0xFF;
+    char l1 = (char)(l & 0xFF);
     l = l >> 8;
-    unsigned l2 = l & 0xFF;
+    char l2 = (char)(l & 0xFF);
     l = l >> 8;
-    unsigned l3  = l & 0xFF;
+    char l3 = (char)(l & 0xFF);
     initCombo(cmbLang1, l1, languages);
     initCombo(cmbLang2, l2, languages);
     initCombo(cmbLang3, l3, languages);

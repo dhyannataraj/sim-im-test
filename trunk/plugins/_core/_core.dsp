@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 1
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "_core_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /O1 /I "$(QTDIR)\include" /I "..\..\sim\api" /I "..\..\sim\ui" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "QT_DLL" /D "UNICODE" /D "QT_THREAD_SUPPORT" /D VERSION=\"0.9\" /D PACKAGE=\"SIM\" /D USE_QT=1 /FR"Debug/" /Fo"Debug/" /Fd"Debug/" /FD /c
+# ADD CPP /nologo /MD /W4 /WX /O1 /I "$(QTDIR)\include" /I "..\..\sim\api" /I "..\..\sim\ui" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "QT_DLL" /D "UNICODE" /D "QT_THREAD_SUPPORT" /D VERSION=\"0.9\" /D PACKAGE=\"SIM\" /D USE_QT=1 /FR"Debug/" /Fo"Debug/" /Fd"Debug/" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "NDEBUG"
@@ -69,7 +69,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 1
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "_core_EXPORTS" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /ZI /Od /I "$(QTDIR)\include" /I "..\..\sim\api" /I "..\..\sim\ui" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "QT_DLL" /D "UNICODE" /D "QT_THREAD_SUPPORT" /D VERSION=\"0.9\" /D PACKAGE=\"SIM\" /D USE_QT=1 /D "DEBUG" /FR /FD /GZ /c
+# ADD CPP /nologo /MDd /W4 /WX /Gm /ZI /Od /I "$(QTDIR)\include" /I "..\..\sim\api" /I "..\..\sim\ui" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "QT_DLL" /D "UNICODE" /D "QT_THREAD_SUPPORT" /D VERSION=\"0.9\" /D PACKAGE=\"SIM\" /D USE_QT=1 /D "DEBUG" /FR /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "_DEBUG"
@@ -97,6 +97,7 @@ SOURCE=.\arcfg.cpp
 # Begin Source File
 
 SOURCE=.\arcfgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -105,6 +106,7 @@ SOURCE=.\autoreply.cpp
 # Begin Source File
 
 SOURCE=.\autoreplybase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -113,6 +115,7 @@ SOURCE=.\cfgdlg.cpp
 # Begin Source File
 
 SOURCE=.\cfgdlgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -129,6 +132,7 @@ SOURCE=.\connectionsettings.cpp
 # Begin Source File
 
 SOURCE=.\connectionsettingsbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -137,6 +141,7 @@ SOURCE=.\connectwnd.cpp
 # Begin Source File
 
 SOURCE=.\connectwndbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -153,6 +158,7 @@ SOURCE=.\declinedlg.cpp
 # Begin Source File
 
 SOURCE=.\declinedlgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -161,6 +167,7 @@ SOURCE=.\editmail.cpp
 # Begin Source File
 
 SOURCE=.\editmailbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -169,6 +176,7 @@ SOURCE=.\editphone.cpp
 # Begin Source File
 
 SOURCE=.\editphonebase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -181,6 +189,7 @@ SOURCE=.\filetransfer.cpp
 # Begin Source File
 
 SOURCE=.\filetransferbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -189,6 +198,7 @@ SOURCE=.\fontconfig.cpp
 # Begin Source File
 
 SOURCE=.\fontconfigbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -201,6 +211,7 @@ SOURCE=.\historycfg.cpp
 # Begin Source File
 
 SOURCE=.\historycfgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -221,6 +232,7 @@ SOURCE=.\interfacecfg.cpp
 # Begin Source File
 
 SOURCE=.\interfacecfgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -233,6 +245,7 @@ SOURCE=.\logindlg.cpp
 # Begin Source File
 
 SOURCE=.\logindlgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -241,6 +254,7 @@ SOURCE=.\maininfo.cpp
 # Begin Source File
 
 SOURCE=.\maininfobase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -253,302 +267,377 @@ SOURCE=.\manager.cpp
 # Begin Source File
 
 SOURCE=.\managerbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_arcfg.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_arcfgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_autoreply.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_autoreplybase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_cfgdlg.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_cfgdlgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_cmenu.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_commands.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_connectionsettings.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_connectionsettingsbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_connectwnd.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_connectwndbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_container.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_core.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_declinedlg.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_declinedlgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_editmail.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_editmailbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_editphone.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_editphonebase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_exec.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_filetransfer.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_filetransferbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_fontconfig.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_fontconfigbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_historycfg.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_historycfgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_historywnd.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_icons.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_intedit.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_interfacecfg.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_interfacecfgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_kpopup.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_logindlg.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_logindlgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_maininfo.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_maininfobase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_mainwin.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_manager.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_managerbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_msgauth.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_msgcfg.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_msgcfgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_msgedit.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_msgfile.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_msggen.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_msgrecv.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_msgsms.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_msgview.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_newprotocol.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_newprotocolbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_pagerbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_pagerdetails.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_phonebase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_phonedetails.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_plugincfg.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_plugincfgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_prefcfg.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_prefcfgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_search.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_searchbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_smscfg.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_smscfgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_status.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_statuswnd.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_tmpl.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_toolsetup.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_toolsetupbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_usercfg.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_userlist.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_userview.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_userviewcfg.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_userviewcfgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\moc_userwnd.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -561,6 +650,7 @@ SOURCE=.\msgcfg.cpp
 # Begin Source File
 
 SOURCE=.\msgcfgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -593,6 +683,7 @@ SOURCE=.\newprotocol.cpp
 # Begin Source File
 
 SOURCE=.\newprotocolbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -605,6 +696,7 @@ SOURCE=.\pagerdetails.cpp
 # Begin Source File
 
 SOURCE=.\phonebase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -617,6 +709,7 @@ SOURCE=.\plugincfg.cpp
 # Begin Source File
 
 SOURCE=.\plugincfgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -625,6 +718,7 @@ SOURCE=.\prefcfg.cpp
 # Begin Source File
 
 SOURCE=.\prefcfgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -633,6 +727,7 @@ SOURCE=.\search.cpp
 # Begin Source File
 
 SOURCE=.\searchbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -641,6 +736,7 @@ SOURCE=.\smscfg.cpp
 # Begin Source File
 
 SOURCE=.\smscfgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -661,6 +757,7 @@ SOURCE=.\toolsetup.cpp
 # Begin Source File
 
 SOURCE=.\toolsetupbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 
@@ -681,6 +778,7 @@ SOURCE=.\userviewcfg.cpp
 # Begin Source File
 
 SOURCE=.\userviewcfgbase.cpp
+# ADD CPP /W3
 # End Source File
 # Begin Source File
 

@@ -61,10 +61,10 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
         item->setPixmap(0, makePixmap(cmd->icon));
     }
     lstSound->adjustColumn();
-    chkActive->setChecked(user_data->NoSoundIfActive);
-    chkDisable->setChecked(user_data->Disable);
+    chkActive->setChecked((user_data->NoSoundIfActive) != 0);
+    chkDisable->setChecked((user_data->Disable) != 0);
     connect(chkDisable, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
-    toggled(user_data->Disable);
+    toggled((user_data->Disable) != 0);
     m_edit = NULL;
     m_editItem = NULL;
     connect(lstSound, SIGNAL(selectionChanged(QListViewItem*)), this, SLOT(selectionChanged(QListViewItem*)));

@@ -19,14 +19,10 @@
 #define _JABBERCLIENT_H
 
 #include "simapi.h"
+#include "stl.h"
 #include "socket.h"
 
 #include <expat.h>
-
-#include <stack>
-#include <map>
-
-using namespace std;
 
 class JabberProtocol;
 class JabberClient;
@@ -219,7 +215,7 @@ class MessageRequest : public ServerRequest
         return QString::fromUtf8(data.owner.ID ? data.owner.ID : "");
     }
     PROP_STR(Server);
-    PROP_ULONG(Port);
+    PROP_USHORT(Port);
     PROP_BOOL(UseSSL);
     PROP_BOOL(UsePlain);
     PROP_BOOL(UseVHost);

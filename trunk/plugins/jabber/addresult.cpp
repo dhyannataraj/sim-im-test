@@ -117,7 +117,7 @@ void *AddResult::processEvent(Event *e)
     if (e->type() == EventCheckState){
         CommandDef *cmd = (CommandDef*)(e->param());
         if ((cmd->menu_id == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->MenuGroups) &&
-                (cmd->id = static_cast<JabberPlugin*>(m_client->protocol()->plugin())->CmdGroups)){
+                (cmd->id == static_cast<JabberPlugin*>(m_client->protocol()->plugin())->CmdGroups)){
             unsigned n = 1;
             ContactList::GroupIterator it;
             while (++it)

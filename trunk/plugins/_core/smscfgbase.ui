@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>325</width>
+            <width>321</width>
             <height>274</height>
         </rect>
     </property>
@@ -76,17 +76,6 @@
             <property stdset="1">
                 <name>name</name>
                 <cstring>edtAfter</cstring>
-            </property>
-        </widget>
-        <widget>
-            <class>QCheckBox</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>chkTranslit</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Send in &amp;translit</string>
             </property>
         </widget>
     </vbox>

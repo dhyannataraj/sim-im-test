@@ -30,56 +30,20 @@
 #include <qlayout.h>
 #include <qpopupmenu.h>
 
-MsgReceived::MsgReceived(CToolCustom *parent, Message *msg)
-        : QObject(parent)
+MsgReceived::MsgReceived(MsgEdit *parent, Message *msg, bool bOpen)
+        : QObject(parent), EventReceiver(HighPriority - 1)
 {
-    m_id = msg->id();
+    m_id	  = msg->id();
     m_contact = msg->contact();
-    m_client = msg->client();
+    m_client  = msg->client();
+    m_edit    = parent;
+    m_bOpen	  = bOpen;
+    m_msg	  = msg;
+    m_type	  = msg->type();
 
-    m_edit = NULL;
-    for (QWidget *p = parent->parentWidget(); p; p = p->parentWidget()){
-        if (p->inherits("MsgEdit")){
-            m_edit = static_cast<MsgEdit*>(p);
-            break;
-        }
-    }
-
-    parent->setText(i18n(" "));
-
+#if 0
     Event eMenu(EventGetMenuDef, (void*)MenuMsgCommand);
     CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());
-
-    MessageDef *mdef = NULL;
-    if (msg->getFlags() & MESSAGE_RECEIVED){
-        unsigned type = msg->type();
-        for (;;){
-            CommandDef *msgCmd = CorePlugin::m_plugin->messageTypes.find(type);
-            if (msgCmd == NULL)
-                break;
-            mdef = (MessageDef*)(msgCmd->param);
-            if (mdef->base_type == 0)
-                break;
-            type = mdef->base_type;
-        }
-    }
-
-    if (mdef && mdef->cmd){
-        unsigned n = 0;
-        for (const CommandDef *d = mdef->cmd; d->text; d++, n++){
-            if (d->flags & COMMAND_CHECK_STATE){
-                CommandDef c = *d;
-                c.param = msg;
-                Event e(EventCheckState, &c);
-                if (e.process() == NULL)
-                    continue;
-            }
-            CmdButton *btn;
-            btn = new CmdButton(parent, CmdMsgSpecial + n, d->text);
-            connect(btn, SIGNAL(command(CmdButton*)), this, SLOT(command(CmdButton*)));
-            btn->show();
-        }
-    }
 
     CommandsList it(*cmdsMsg, true);
     CommandDef *c;
@@ -88,14 +52,11 @@ MsgReceived::MsgReceived(CToolCustom *parent, Message *msg)
         Event e(EventCheckState, c);
         if (!e.process())
             continue;
-        CmdButton *btn;
-        btn = new CmdButton(parent, c->id, c->text);
-        connect(btn, SIGNAL(command(CmdButton*)), this, SLOT(command(CmdButton*)));
-        btn->show();
+        // !!!
     }
-    if (((msg->getFlags() & MESSAGE_RECEIVED) == 0) || CorePlugin::m_plugin->getContainerMode()){
-        connect(m_edit->m_edit, SIGNAL(textChanged()), this, SLOT(textChanged()));
-    }else{
+#endif
+
+    if (m_bOpen){
         m_edit->m_edit->setReadOnly(true);
         m_edit->m_edit->setTextFormat(QTextEdit::RichText);
         QString p = msg->presentation();
@@ -120,11 +81,140 @@ MsgReceived::MsgReceived(CToolCustom *parent, Message *msg)
             }
         }
         m_edit->setupNext();
+    }else{
+        connect(m_edit->m_edit, SIGNAL(textChanged()), m_edit, SLOT(setInput()));
     }
 }
 
 void *MsgReceived::processEvent(Event *e)
 {
+    if (e->type() == EventCommandExec){
+        CommandDef *cmd = (CommandDef*)(e->param());
+        unsigned id = cmd->bar_grp;
+        if (cmd->param == m_edit){
+            MessageDef *mdef = NULL;
+            unsigned type = m_type;
+            for (;;){
+                CommandDef *msgCmd = CorePlugin::m_plugin->messageTypes.find(type);
+                if (msgCmd == NULL)
+                    break;
+                mdef = (MessageDef*)(msgCmd->param);
+                if (mdef->base_type == 0)
+                    break;
+                type = mdef->base_type;
+            }
+            if (mdef && mdef->cmd){
+                for (const CommandDef *d = mdef->cmd; d->text; d++){
+                    if (d->popup_id && (d->popup_id == cmd->menu_id)){
+                        Message *msg = History::load(m_id, m_client.c_str(), m_contact);
+                        if (msg){
+                            CommandDef c = *cmd;
+                            c.param = msg;
+                            Event e(EventCommandExec, &c);
+                            e.process(this);
+                        }
+                        QTimer::singleShot(0, m_edit, SLOT(goNext()));
+                        return e->param();
+                    }
+                }
+            }
+
+            if ((id >= MIN_INPUT_BAR_ID) && (id < MAX_INPUT_BAR_ID)){
+                Message *msg = History::load(m_id, m_client.c_str(), m_contact);
+                if (msg){
+                    CommandDef c = *cmd;
+                    c.param = msg;
+                    Event e(EventCommandExec, &c);
+                    e.process(this);
+                    delete msg;
+                    switch (cmd->id){
+                    case CmdMsgQuote:
+                    case CmdMsgForward:
+                        break;
+                    default:
+                        QTimer::singleShot(0, m_edit, SLOT(goNext()));
+                    }
+                }
+                return e->param();
+            }
+        }
+    }
+    if (e->type() == EventCheckState){
+        CommandDef *cmd = (CommandDef*)(e->param());
+        if (cmd->param == m_edit){
+            unsigned id = cmd->bar_grp;
+            if ((id >= 0x1000) && (id < MAX_INPUT_BAR_ID)){
+                cmd->flags |= BTN_HIDE;
+                switch (cmd->id){
+                case CmdMsgQuote:
+                case CmdMsgForward:{
+                        CommandDef c = *cmd;
+                        Message *msg = m_msg;
+                        if (msg == NULL)
+                            msg = History::load(m_id, m_client.c_str(), m_contact);
+                        if (msg){
+                            c.param = msg;
+                            Event e(EventCheckState, &c);
+                            if (e.process())
+                                cmd->flags &= ~BTN_HIDE;
+                            if (m_msg == NULL)
+                                delete msg;
+                        }
+                        return e->param();
+                    }
+                }
+                MessageDef *mdef = NULL;
+                unsigned type = m_type;
+                for (;;){
+                    CommandDef *msgCmd = CorePlugin::m_plugin->messageTypes.find(type);
+                    if (msgCmd == NULL)
+                        break;
+                    mdef = (MessageDef*)(msgCmd->param);
+                    if (mdef->base_type == 0)
+                        break;
+                    type = mdef->base_type;
+                }
+                if (mdef && mdef->cmd){
+                    for (const CommandDef *d = mdef->cmd; d->text; d++){
+                        if (d->id == cmd->id){
+                            Message *msg = m_msg;
+                            if (msg == NULL)
+                                msg = History::load(m_id, m_client.c_str(), m_contact);
+                            if (msg){
+                                CommandDef c = *d;
+                                c.param = msg;
+                                Event e(EventCheckState, &c);
+                                if (e.process())
+                                    cmd->flags &= ~BTN_HIDE;
+                                if (m_msg == NULL)
+                                    delete msg;
+                            }
+                            return e->param();
+                        }
+                    }
+                }
+                return e->param();
+            }
+            switch (cmd->id){
+            case CmdTranslit:
+            case CmdSmile:
+            case CmdSend:
+            case CmdSendClose:
+                cmd->flags |= BTN_HIDE;
+                return NULL;
+            case CmdNextMessage:
+                cmd->flags |= BTN_HIDE;
+                if (CorePlugin::m_plugin->getContainerMode() == 0)
+                    cmd->flags &= ~BTN_HIDE;
+                return NULL;
+            case CmdMsgAnswer:
+                cmd->flags |= BTN_HIDE;
+                if (m_bOpen)
+                    cmd->flags &= ~BTN_HIDE;
+                return NULL;
+            }
+        }
+    }
     if (e->type() == EventMessageDeleted){
         Message *msg = (Message*)(e->param());
         if (msg->id() == m_id)
@@ -133,139 +223,9 @@ void *MsgReceived::processEvent(Event *e)
     return NULL;
 }
 
-void MsgReceived::command(CmdButton *btn)
-{
-    unsigned id = btn->id();
-    Message *msg = History::load(m_id, m_client.c_str(), m_contact);
-    if (msg == NULL)
-        return;
-    if (id >= CmdMsgSpecial){
-        MessageDef *mdef = NULL;
-        unsigned type = msg->type();
-        for (;;){
-            CommandDef *msgCmd = CorePlugin::m_plugin->messageTypes.find(type);
-            if (msgCmd == NULL)
-                break;
-            mdef = (MessageDef*)(msgCmd->param);
-            if (mdef->base_type == 0)
-                break;
-            type = mdef->base_type;
-        }
-        if (mdef && mdef->cmd){
-            unsigned n = id - CmdMsgSpecial;
-            for (const CommandDef *d = mdef->cmd; d->text; d++){
-                if (n-- == 0){
-                    CommandDef cmd = *d;
-                    cmd.param = msg;
-                    cmd.menu_id = 0;
-                    if (d->popup_id){
-                        Event e(EventGetMenu, &cmd);
-                        QPopupMenu *popup = (QPopupMenu*)(e.process());
-                        if (popup){
-                            QPoint pos = CToolButton::popupPos(btn, popup);
-                            popup->popup(pos);
-                        }
-                        return;
-                    }
-                    Event eCmd(EventCommandExec, &cmd);
-                    eCmd.process();
-                    return;
-                }
-            }
-        }
-    }
-    Command cmd;
-    cmd->id = id;
-    cmd->menu_id = MenuMsgCommand;
-    cmd->param = msg;
-    Event e(EventCommandExec, cmd);
-    if (e.process())
-        QTimer::singleShot(0, m_edit, SLOT(goNext()));
-    delete msg;
-}
-
 void MsgReceived::init()
 {
-}
-
-void MsgReceived::textChanged()
-{
-    QTimer::singleShot(0, m_edit, SLOT(setInput()));
-}
-
-CmdButton::CmdButton(CToolCustom *parent, unsigned id, const char *text)
-        : QToolButton(parent)
-{
-    m_id   = id;
-    m_text = text;
-    QSizePolicy p = sizePolicy();
-    p.setHorData(QSizePolicy::Expanding);
-    setSizePolicy(p);
-    setText();
-    connect(this, SIGNAL(clicked()), this, SLOT(click()));
-    parent->addWidget(this);
-    setAutoRaise(true);
-}
-
-void CmdButton::setText()
-{
-    QString text = i18n(m_text);
-    int key = QAccel::shortcutKey(text);
-    setAccel(key);
-    QString t = text;
-    int pos = t.find("<br>");
-    if (pos >= 0) t = t.left(pos);
-    QToolButton::setTextLabel(t);
-    t = text;
-    while ((pos = t.find('&')) >= 0){
-        t = t.left(pos) + "<u>" + t.mid(pos+1, 1) + "</u>" + t.mid(pos+2);
-    }
-    QToolTip::add(this, t);
-}
-
-void CmdButton::paintEvent(QPaintEvent*)
-{
-    QPixmap pict(width(), height());
-    QPainter p(&pict);
-    QWidget *pw;
-    for (pw = parentWidget(); pw; pw = pw->parentWidget()){
-        if (pw->backgroundPixmap()){
-            p.drawTiledPixmap(0, 0, width(), height(), *pw->backgroundPixmap(), x(), y());
-            break;
-        }
-    }
-    if (pw == NULL)
-        p.fillRect(0, 0, width(), height(), colorGroup().button());
-#if QT_VERSION < 300
-    style().drawToolButton(this, &p);
-#else
-    drawButton(&p);
-#endif
-    QRect rc(4, 4, width() - 4, height() - 4);
-    const QColorGroup &cg = isEnabled() ? palette().active() : palette().disabled();
-    p.setPen(cg.text());
-    QString text = i18n(m_text);
-    p.drawText(rc, AlignLeft | AlignVCenter | ShowPrefix, text);
-    p.end();
-    p.begin(this);
-    p.drawPixmap(0, 0, pict);
-    p.end();
-}
-
-QSize CmdButton::sizeHint() const
-{
-    QSize res = QSize(fontMetrics().width(i18n(m_text)) + 8, 22);
-    return res;
-}
-
-QSize CmdButton::minimumSizeHint() const
-{
-    return sizeHint();
-}
-
-void CmdButton::click()
-{
-    emit command(this);
+    m_msg = NULL;
 }
 
 #ifndef WIN32

@@ -19,10 +19,9 @@
 #define _ICONCFG_H
 
 #include "simapi.h"
-#include "iconcfgbase.h"
+#include "stl.h"
 
-#include <list>
-using namespace std;
+#include "iconcfgbase.h"
 
 class IconPreview;
 

@@ -19,10 +19,9 @@
 #define _MAINWIN_H
 
 #include "simapi.h"
-#include <qmainwindow.h>
+#include "stl.h"
 
-#include <list>
-using namespace std;
+#include <qmainwindow.h>
 
 class QVBoxLayout;
 class QHBoxLayout;

@@ -19,13 +19,12 @@
 #define _MIGRATEDLG_H
 
 #include "simapi.h"
+#include "stl.h"
+
 #include "migratedlgbase.h"
 
 #include <qcheckbox.h>
 #include <qfile.h>
-
-#include <list>
-using namespace std;
 
 class MigrateDialog : public MigrateDialogBase
 {

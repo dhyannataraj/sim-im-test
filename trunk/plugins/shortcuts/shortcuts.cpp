@@ -24,9 +24,6 @@
 #include <qaccel.h>
 #include <qpopupmenu.h>
 
-#include <list>
-using namespace std;
-
 #ifdef WIN32
 #include <windows.h>
 #else
@@ -220,7 +217,7 @@ GlobalKey::~GlobalKey()
     QWidget *main = ShortcutsPlugin::getMainWindow();
     if (m_key && main){
         UnregisterHotKey(main->winId(), m_key);
-        DeleteAtom(m_key);
+        DeleteAtom((unsigned short)m_key);
     }
 }
 
@@ -231,7 +228,7 @@ LRESULT CALLBACK keysWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     if (msg == WM_HOTKEY){
         if (globalKeys){
             for (list<GlobalKey*>::iterator it = globalKeys->begin(); it != globalKeys->end(); ++it){
-                if ((*it)->key() == wParam){
+                if ((UINT)((*it)->key()) == wParam){
                     (*it)->execute();
                     break;
                 }
@@ -550,7 +547,7 @@ bool ShortcutsPlugin::getOldGlobal(CommandDef *cmd)
     MAP_BOOL::iterator it = oldGlobals.find(cmd->id);
     if (it != oldGlobals.end())
         return (*it).second;
-    return (cmd->flags & COMMAND_GLOBAL_ACCEL);
+    return ((cmd->flags & COMMAND_GLOBAL_ACCEL) != 0);
 }
 
 void ShortcutsPlugin::applyKeys()
@@ -680,7 +677,7 @@ void ShortcutsPlugin::applyKey(CommandDef *s)
     }
     cfg = getGlobal(s->id);
     if (cfg && *cfg){
-        oldGlobals.insert(MAP_BOOL::value_type(s->id, s->flags & COMMAND_GLOBAL_ACCEL));
+        oldGlobals.insert(MAP_BOOL::value_type(s->id, (s->flags & COMMAND_GLOBAL_ACCEL) != 0));
         if (*cfg == '-'){
             s->flags &= ~COMMAND_GLOBAL_ACCEL;
         }else{
@@ -791,7 +788,7 @@ QWidget *ShortcutsPlugin::getMainWindow()
 /**
  * DLL's entry point
  **/
-int WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
+int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
 {
     return TRUE;
 }

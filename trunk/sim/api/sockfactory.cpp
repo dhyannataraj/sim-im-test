@@ -29,7 +29,6 @@
 #endif
 
 #include <errno.h>
-#include <string>
 
 #include <qsocket.h>
 #include <qsocketdevice.h>
@@ -217,7 +216,7 @@ void SIMClientSocket::write(const char *buf, unsigned int size)
         QTimer::singleShot(0, this, SLOT(slotBytesWritten()));
 }
 
-void SIMClientSocket::connect(const char *_host, int _port)
+void SIMClientSocket::connect(const char *_host, unsigned short _port)
 {
     port = _port;
     host = _host;
@@ -346,10 +345,10 @@ void SIMServerSocket::close()
     }
 }
 
-void SIMServerSocket::bind(unsigned int minPort, unsigned maxPort, TCPClient *client)
+void SIMServerSocket::bind(unsigned short minPort, unsigned short maxPort, TCPClient *client)
 {
-    unsigned startPort = minPort + get_random() % (maxPort - minPort + 1);
-    unsigned port;
+    unsigned short startPort = (unsigned short)(minPort + get_random() % (maxPort - minPort + 1));
+    unsigned short port;
     bool bOK = false;
     for (port = startPort;;){
         if (sock->bind(QHostAddress(), port)){

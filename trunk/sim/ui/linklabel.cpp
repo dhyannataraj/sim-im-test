@@ -82,7 +82,7 @@ void TipLabel::show(const QRect &tipRect, bool bState)
         x = tipRect.left() + tipRect.width() / 2;
     if (x + width() > rc.width() - 2)
         x = rc.width() - 2 - width();
-    int y;
+    int y = 0;
     if (bState){
         y = tipRect.top() - 4 - height();
         if (y < 0)

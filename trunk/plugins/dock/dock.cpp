@@ -32,9 +32,6 @@
 #include <windows.h>
 #endif
 
-#include <list>
-using namespace std;
-
 Plugin *createDockPlugin(unsigned base, bool, const char *config)
 {
     Plugin *plugin = new DockPlugin(base, config);
@@ -398,7 +395,7 @@ void DockPlugin::timer()
 /**
  * DLL's entry point
  **/
-int WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
+int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
 {
     return TRUE;
 }
