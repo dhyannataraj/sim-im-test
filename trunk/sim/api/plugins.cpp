@@ -635,6 +635,8 @@ bool PluginManagerPrivate::findParam(const char *p, const char *descriptor, stri
                 --it;
                 *it = "";
                 return true;
+            } else {
+                return true;
             }
         }
     }else{
