@@ -214,8 +214,10 @@ void *MonitorWindow::processEvent(Event *e)
             if (font)
                 logString += QString("</font>");
             logString += "</pre></p>";
+            setLogEnable(false);
             edit->append(logString);
             edit->scrollToBottom();
+            setLogEnable(true);
         }
     }
     return NULL;

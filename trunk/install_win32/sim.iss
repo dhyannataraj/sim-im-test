@@ -6,15 +6,16 @@
 
 [Setup]
 OutputBaseFilename=sim-0.9.3
+MinVersion=4.1,4
 
 [Files]
 
 [Code]
-const url1 = 'http://cesnet.dl.sourceforge.net/sourceforge/sim-icq/qt.exe';
-const url2 = 'http://cesnet.dl.sourceforge.net/sourceforge/sim-icq/ssl.exe';
-const url3 = 'http://cesnet.dl.sourceforge.net/sourceforge/sim-icq/libxml.exe';
-const url4 = 'http://cesnet.dl.sourceforge.net/sourceforge/sim-icq/msvcrt.exe';
-const url5 = 'http://cesnet.dl.sourceforge.net/sourceforge/sim-icq/opengl.exe';
+const url1 = 'http://sim-icq.sf.net/qt.exe';
+const url2 = 'http://sim-icq.sf.net/ssl.exe';
+const url3 = 'http://sim-icq.sf.net/libxml.exe';
+const url4 = 'http://sim-icq.sf.net/msvcrt.exe';
+const url5 = 'http://sim-icq.sf.net/opengl.exe';
 
 function NextButtonClick(CurPage: Integer): Boolean;
 var
@@ -73,20 +74,20 @@ begin
 
     sFileName := ExpandConstant('{app}\qt-mt230nc.dll');
     if not FileExists(sFileName) then begin
-      isxdl_AddFileSize(url1, ExpandConstant('{tmp}\qt.exe'), 1673352);
+      isxdl_AddFileSize(url1, ExpandConstant('{tmp}\qt.exe'), 1263204);
       bDownloadQt := true;
     end;
     if bDownloadSSL then begin
-      isxdl_AddFileSize(url2, ExpandConstant('{tmp}\ssl.exe'), 740165);
+      isxdl_AddFileSize(url2, ExpandConstant('{tmp}\ssl.exe'), 575447);
     end;
     if bDownloadXML then begin
-      isxdl_AddFileSize(url3, ExpandConstant('{tmp}\libxml.exe'), 645304);
+      isxdl_AddFileSize(url3, ExpandConstant('{tmp}\libxml.exe'), 571422);
     end;
     if bDownloadMsvcrt then begin
-      isxdl_AddFileSize(url4, ExpandConstant('{tmp}\msvcrt.exe'), 627790);
+      isxdl_AddFileSize(url4, ExpandConstant('{tmp}\msvcrt.exe'), 483886);
     end;
     if bDownloadOpengl then begin
-      isxdl_AddFileSize(url5, ExpandConstant('{tmp}\opengl.exe'), 724992);
+      isxdl_AddFileSize(url5, ExpandConstant('{tmp}\opengl.exe'), 579482);
     end;
 
     if bDownloadQt or bDownloadSSL or bDownloadXML or bDownloadMsvcrt or bDownloadOpengl then begin

@@ -1,5 +1,5 @@
-; *** Inno Setup version 4.0.5+ Hungarian messages with "a(z)" definite articles ***
-; Copyright (C) 1999-2003 by Kornél Pál
+; *** Inno Setup version 4.1.4+ Hungarian messages with "a(z)" definite articles ***
+; Copyright (C) 1999-2004 by Kornél Pál
 ; E-mail: kornelpal@hotmail.com
 ; Hungarian Inno Setup home page: http://kornelpal.aom.hu/innosetup/
 ;
@@ -11,20 +11,19 @@
 ; Setup adds the periods automatically (appending a period would result in
 ; two periods being displayed).
 ;
-; $jrsoftware: issrc/Files/Default.isl,v 1.32 2003/06/18 19:24:07 jr Exp $
+; $jrsoftware: issrc/Files/Default.isl,v 1.51 2004/02/08 18:50:49 jr Exp $
 
 [LangOptions]
 LanguageName=Magyar
 LanguageID=$040E
 ; If the language you are translating to requires special font faces or
 ; sizes, uncomment any of the following entries and change them accordingly.
-;DialogFontName=MS Shell Dlg
+;DialogFontName=
 ;DialogFontSize=8
-;DialogFontStandardHeight=13
-TitleFontName=Arial CE
-;TitleFontSize=29
 ;WelcomeFontName=Verdana
 ;WelcomeFontSize=12
+TitleFontName=Arial CE
+;TitleFontSize=29
 CopyrightFontName=Arial CE
 ;CopyrightFontSize=8
 
@@ -84,6 +83,8 @@ ButtonNo=&Nem
 ButtonNoToAll=Nem, &egyiket sem
 ButtonFinish=&Befejezés
 ButtonBrowse=&Tallózás...
+ButtonWizardBrowse=T&allózás...
+ButtonNewFolder=Ú&j mappa
 
 ; *** "Select Language" dialog messages
 SelectLanguageTitle=Válasszon telepítési nyelvet
@@ -92,6 +93,9 @@ SelectLanguageLabel=Válassza ki a telepítés során használandó nyelvet:
 ; *** Common wizard text
 ClickNext=A folytatáshoz kattintson a Tovább gombra, vagy a Mégse gombra a Telepítõbõl való kilépéshez.
 BeveledLabel=
+BrowseDialogTitle=Tallózás a mappák között
+BrowseDialogLabel=Válasszon egy mappát az alábbi listából, majd kattintson az OK-ra.
+NewFolderName=Új mappa
 
 ; *** "Welcome" wizard page
 WelcomeLabel1=Üdvözli a(z) [name] Telepítõ Varázsló.
@@ -127,21 +131,22 @@ UserInfoOrg=&Szervezet:
 UserInfoSerial=&Sorozatszám:
 UserInfoNameRequired=Meg kell adnia egy nevet.
 
-; *** "Select Destination Directory" wizard page
-WizardSelectDir=Válasszon célkönyvtárat
+; *** "Select Destination Location" wizard page
+WizardSelectDir=Válasszon célhelyet
 SelectDirDesc=Hova kerüljön telepítésre a(z) [name]?
-SelectDirLabel=Válassza ki a mappát, ahová telepíteni kívánja a(z) [name]-t, majd kattintson a Tovább gombra.
 DiskSpaceMBLabel=Legalább [mb] MB szabad területre van szüksége.
 ToUNCPathname=A Telepítõ nem tud hálózati útvonalra telepíteni. Ha hálózatra kíván telepíteni, hozzá kell rendelnie egy meghajtóhoz az útvonalat.
 InvalidPath=Teljes útvonalat írjon be a meghajtó betûjelével; például:%n%nC:\Alkalmazás%n%nvagy egy UNC útvonalat a következõ alakban:%n%n\\kiszolgáló\megosztás
 InvalidDrive=A kiválasztott meghajtó vagy UNC megosztás nem létezik vagy nem érhetõ el. Válasszon másikat.
 DiskSpaceWarningTitle=Nincs elég szabad lemezterület a meghajtón
 DiskSpaceWarning=A Telepítõnek legalább %1 KB szabad lemezterületre van szüksége, de a kiválasztott meghajtón csak %2 KB áll rendelkezésre.%n%nMindenképpen folytatni kívánja?
-BadDirName32=Könyvtárnevekben nem szerepelhetnek a következõ karakterek:%n%n%1
-DirExistsTitle=A könyvtár már létezik
-DirExists=A könyvtár:%n%n%1%n%nmár létezik.%n%nEbbe a könyvtárba kívánja telepíteni a programot?
-DirDoesntExistTitle=A könyvtár nem létezik
-DirDoesntExist=A könyvtár:%n%n%1%n%nnem létezik. Létre kívánja hozni a könyvtárat?
+DirNameTooLong=A mappanév vagy az útvonal túl hosszú.
+InvalidDirName=A mappanév érvénytelen.
+BadDirName32=A mappanevekben nem szerepelhetnek a következõ karakterek:%n%n%1
+DirExistsTitle=A mappa már létezik
+DirExists=A mappa:%n%n%1%n%nmár létezik.%n%nEbbe a mappába kívánja telepíteni a programot?
+DirDoesntExistTitle=A mappa nem létezik
+DirDoesntExist=A mappa:%n%n%1%n%nnem létezik. Létre kívánja hozni a mappát?
 
 ; *** "Select Components" wizard page
 WizardSelectComponents=Összetevõk kiválasztása
@@ -165,9 +170,10 @@ SelectTasksLabel2=Jelölje ki, mely kiegészítõ feladatokat hajtsa végre a Telepít
 ; *** "Select Start Menu Folder" wizard page
 WizardSelectProgramGroup=Válasszon mappát a Start menüben
 SelectStartMenuFolderDesc=Hova helyezze a Telepítõ a program parancsikonjait?
-SelectStartMenuFolderLabel=Válassza ki azt a mappát a Start menüben, ahol szeretné, hogy a Telepítõ létrehozza a program parancsikonjait, majd kattintson a Tovább gombra.
 NoIconsCheck=Ne hozzon létre ikonokat
 MustEnterGroupName=Meg kell adnia egy mappanevet.
+GroupNameTooLong=A mappanév vagy az útvonal túl hosszú.
+InvalidGroupName=A mappanév érvénytelen.
 BadGroupName=A mappa nevében nem szerepelhetnek a következõ karakterek:%n%n%1
 NoProgramGroupCheck2=&Ne hozzon létre mappát a Start menüben
 
@@ -177,7 +183,7 @@ ReadyLabel1=A Telepítõ felkészült a(z) [name] számítógépére való telepítésére.
 ReadyLabel2a=Kattintson a Telepítés gombra a folytatáshoz, vagy a Vissza gombra a beállítások áttekintéséhez, megváltoztatásához.
 ReadyLabel2b=Kattintson a Telepítés gombra a folytatáshoz.
 ReadyMemoUserInfo=Felhasználó adatai:
-ReadyMemoDir=Telepítési könyvtár:
+ReadyMemoDir=Telepítési mappa:
 ReadyMemoType=Telepítés típusa:
 ReadyMemoComponents=Választott összetevõk:
 ReadyMemoGroup=Start menü mappája:
@@ -210,7 +216,6 @@ RunEntryShellExec=%1 megtekintése
 
 ; *** "Setup Needs the Next Disk" stuff
 ChangeDiskTitle=A Telepítõnek szüksége van a következõ lemezre
-SelectDirectory=Válasszon könyvtárat
 SelectDiskLabel2=Helyezze be a(z) %1. lemezt és kattintson az OK gombra.%n%nHa a fájlok ezen a lemezen máshol találhatók, adja meg a mappát, ahol vannak. Írja be a helyes útvonalat vagy kattintson a Tallózás gombra.
 PathLabel=Ú&tvonal:
 FileNotInDir2=A(z) "%1" fájl nem található itt: "%2". Tegye be a megfelelõ lemezt vagy válasszon egy másik mappát.

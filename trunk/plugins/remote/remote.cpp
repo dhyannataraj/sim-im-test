@@ -56,7 +56,7 @@ static DataDef remoteData[] =
 #ifdef WIN32
         { "Path", DATA_STRING, 1, "auto:" },
 #else
-{ "Path", DATA_STRING, 1, "/tmp/sim.%user%" },
+        { "Path", DATA_STRING, 1, "/tmp/sim.%user%" },
 #endif
         { NULL, 0, 0, 0 }
     };
@@ -407,7 +407,7 @@ void packBitmap(QString &out, HBITMAP hBmp)
     BITMAP		bmp;
     BITMAPINFO	*pbmi;
     WORD    cClrBits;
-    if (!GetObject(hBmp, sizeof(BITMAP), (LPSTR)&bmp))
+    if (!GetObjectA(hBmp, sizeof(BITMAP), (LPSTR)&bmp))
         return;
 
     cClrBits = (WORD)(bmp.bmPlanes * bmp.bmBitsPixel);

@@ -258,8 +258,10 @@ void ExecThread::run()
         WriteFile(inPipe[WRITE], "", 0, &wrtn, NULL);
 
     WaitForSingleObject(pi.hProcess, INFINITE);
-    if (!success)
-        GetExitCodeProcess(pi.hProcess, &exitCode);
+    while (!success || (exitCode == STILL_ACTIVE)){
+        success = GetExitCodeProcess(pi.hProcess, &exitCode);
+        Sleep(1000);
+    }
 
     CloseHandle(inPipe[WRITE]);
     CloseHandle(pi.hThread);

@@ -95,6 +95,8 @@ HRESULT CSIM_ext::QueryContextMenu(HMENU hmenu,
                 unsigned old_grp = (unsigned)(-1);
                 while (!r.empty()){
                     line = getToken(r, '\n');
+                    if (line.empty())
+                        continue;
                     unsigned id  = atol(getToken(line, ' ').c_str());
                     unsigned grp = atol(getToken(line, ' ').c_str());
                     string icon  = getToken(line, ' ');
@@ -144,7 +146,7 @@ HRESULT CSIM_ext::QueryContextMenu(HMENU hmenu,
                 InsertMenu(hmenu, indexMenu++, MF_POPUP|MF_BYPOSITION,
                            (UINT)hMain, "Send to SIM contact");
         }
-        return cmd_id;
+        return MAKE_HRESULT(SEVERITY_SUCCESS, 0, cmd_id - idCmdFirst);
     }
     return 0;
 }

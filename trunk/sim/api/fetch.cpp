@@ -558,6 +558,7 @@ void FetchClient::set_speed(unsigned speed)
 
 void FetchClient::fetch(const char *url, const char *headers, Buffer *postData, bool bRedirect)
 {
+    getSocketFactory()->checkState();
     p->fetch(url, headers, postData, bRedirect);
 }
 
