@@ -4179,6 +4179,10 @@ SOURCE=.\xpm\text.xpm
 # End Source File
 # Begin Source File
 
+SOURCE=.\xpm\text_strike.xpm
+# End Source File
+# Begin Source File
+
 SOURCE=.\xpm\translit.xpm
 # End Source File
 # Begin Source File

@@ -34,6 +34,7 @@ public slots:
     void apply();
     void colorsToggled(bool);
     void sortChanged(int);
+    void setFonts(bool);
 protected:
     void fillBox(QComboBox*);
     void setSortMode(unsigned);

@@ -94,6 +94,9 @@ typedef struct CoreData
     unsigned	SortMode;
     unsigned	CloseTransfer;
     char		*HistoryStyle;
+    unsigned	AuthStyle;
+    unsigned	VisibleStyle;
+    unsigned	InvisibleStyle;
 } CoreData;
 
 const unsigned CONTAINER_SIMPLE	= 0;
@@ -332,6 +335,10 @@ const unsigned	MESSAGE_INFO	 = 0x0008;
 const unsigned  MIN_INPUT_BAR_ID = 0x1010;
 const unsigned  MAX_INPUT_BAR_ID = 0x1100;
 
+const unsigned  STYLE_UNDER		= 1;
+const unsigned  STYLE_ITALIC	= 2;
+const unsigned  STYLE_STRIKE	= 4;
+
 typedef struct MessageDef
 {
     const CommandDef	*cmd;
@@ -402,6 +409,9 @@ public:
     PROP_ULONG(SortMode);
     PROP_BOOL(CloseTransfer);
     PROP_STR(HistoryStyle);
+    PROP_ULONG(AuthStyle);
+    PROP_ULONG(VisibleStyle);
+    PROP_ULONG(InvisibleStyle);
 
     unsigned user_data_id;
     unsigned sms_data_id;

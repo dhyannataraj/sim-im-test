@@ -83,6 +83,7 @@ using namespace std;
 #include "xpm/text_bold.xpm"
 #include "xpm/text_italic.xpm"
 #include "xpm/text_under.xpm"
+#include "xpm/text_strike.xpm"
 #include "xpm/cancel.xpm"
 #include "xpm/filter.xpm"
 #include "xpm/history.xpm"
@@ -179,6 +180,7 @@ Icons::Icons()
     KICON(text_bold)
     KICON(text_italic)
     KICON(text_under)
+    KICON(text_strike)
     KICON(cancel)
     KICON(filter)
     KICON(history)

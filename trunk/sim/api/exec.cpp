@@ -47,11 +47,10 @@ Exec::Exec()
     hIn = -1;
     hOut = -1;
     hErr = -1;
-    connect(ExecManager::manager, SIGNAL(childExited(int, int)), this, SLOT(childExited(int, int)));
-#else
     n_in 	= NULL;
     n_out	= NULL;
     n_err	= NULL;
+    connect(ExecManager::manager, SIGNAL(childExited(int, int)), this, SLOT(childExited(int, int)));
 #endif
 }
 
@@ -397,8 +396,8 @@ void Exec::inReady(int)
 {
 #ifndef WIN32
     if (hIn == -1){
-	n_in->setEnabled(false);
-	return;
+        n_in->setEnabled(false);
+        return;
     }
     unsigned tail = bIn.size() - bIn.readPos();
     if (tail){
@@ -423,8 +422,8 @@ void Exec::outReady(int)
 {
 #ifndef WIN32
     if (hOut == -1){
-	n_out->setEnabled(false);
-	return;
+        n_out->setEnabled(false);
+        return;
     }
     char buf[2048];
     int readn = read(hOut, buf, sizeof(buf));
@@ -432,7 +431,7 @@ void Exec::outReady(int)
         if (errno == EAGAIN) return;
         close(hOut);
         hOut = -1;
-	n_out->setEnabled(false);
+        n_out->setEnabled(false);
         return;
     }
     bOut.pack(buf, readn);
@@ -443,8 +442,8 @@ void Exec::errReady(int)
 {
 #ifndef WIN32
     if (hErr == -1){
-	n_err->setEnabled(false);
-	return;
+        n_err->setEnabled(false);
+        return;
     }
     char buf[2048];
     int readn = read(hErr, buf, sizeof(buf));
@@ -452,7 +451,7 @@ void Exec::errReady(int)
         if (errno == EAGAIN) return;
         close(hErr);
         hErr = -1;
-	n_err->setEnabled(false);
+        n_err->setEnabled(false);
         return;
     }
     bErr.pack(buf, readn);
