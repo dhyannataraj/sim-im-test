@@ -3,7 +3,7 @@ bin_PROGRAMS = sim
 
 ## INCLUDES were found outside kdevelop specific part
 
-sim_SOURCES = cfg.cpp keys.cpp splash.cpp parse.ll about.cpp xosd.cpp chatwnd.cpp fontedit.cpp transparent.cpp intedit.cpp userview.cpp usertbl.cpp userbox.cpp toolbtn.cpp themes.cpp sim.cpp passwddlg.cpp msgview.cpp msgedit.cpp mainwin.cpp icons.cpp history.cpp editspell.cpp dock.cpp cuser.cpp client.cpp 
+sim_SOURCES = mgrep.cpp cfg.cpp keys.cpp splash.cpp parse.ll about.cpp xosd.cpp chatwnd.cpp fontedit.cpp transparent.cpp intedit.cpp userview.cpp usertbl.cpp userbox.cpp toolbtn.cpp themes.cpp sim.cpp passwddlg.cpp msgview.cpp msgedit.cpp mainwin.cpp icons.cpp history.cpp editspell.cpp dock.cpp cuser.cpp client.cpp 
 sim_LDADD   = ./libicq/liblibicq.a ./ui/libui.a ./qt3/libqt3.a  $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE)  $(LIBSOCKET)
 
 SUBDIRS = libicq ui xpm qt3 

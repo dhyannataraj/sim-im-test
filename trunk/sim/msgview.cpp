@@ -515,12 +515,50 @@ void MsgView::ownColorsChanged()
     setText("");
 }
 
+unsigned long MsgView::msgId(int parag)
+{
+    QString pat = "<a href=\"msg://";
+	for (; parag >= 0; parag--){
+		QString t = text(parag);
+		int pos = t.find(pat);
+		if (pos >= 0){
+			t = t.mid(pos + pat.length());
+			QCString s = t.latin1();
+			unsigned i;
+			for (i = 0; i < s.length(); i++)
+				if (s[(int)i] == '.') break;
+			return atol((const char*)s + i + 1);
+		}
+	}
+	return 0;
+}
+
+int MsgView::findMsg(unsigned long id, int parag)
+{
+    QString pat = "<a href=\"msg://";
+	for (; parag < paragraphs(); parag++){
+		QString t = text(parag);
+		int pos = t.find(pat);
+		if (pos >= 0){
+			t = t.mid(pos + pat.length());
+			QCString s = t.latin1();
+			unsigned i;
+			for (i = 0; i < s.length(); i++)
+				if (s[(int)i] == '.') break;
+			if (atol((const char*)s + i + 1) == id)
+				return parag;
+		}
+	}
+	return -1;
+}
+
 HistoryTextView::HistoryTextView(QWidget *p, unsigned long uin)
         : MsgView(p)
 {
     setUin(uin);
     bFill = false;
     bBack = true;
+	findId = 0;
     h = NULL;
 }
 
@@ -529,7 +567,7 @@ HistoryTextView::~HistoryTextView()
     if (h) delete h;
 }
 
-void HistoryTextView::fill(unsigned long offs)
+void HistoryTextView::fill(unsigned long offs, const QString &filter, unsigned long _findId)
 {
     if (bFill){
         bFill = false;
@@ -545,26 +583,52 @@ void HistoryTextView::fill(unsigned long offs)
     h = new History(m_nUin);
     History::iterator &it = h->messages();
     it.setOffs(offs);
+	it.setFilter(filter);
     showProgress(0);
     nMsg = 0;
+	findId = _findId;
     fill();
 }
 
 void HistoryTextView::fill()
-{
+{	
     if ((u == NULL) || (h == NULL)) return;
     History::iterator &it = h->messages();
     list<unsigned long>::iterator unreadIt;
-    ++it;
-    if (*it){
-        for (unreadIt = u->unreadMsgs.begin(); unreadIt != u->unreadMsgs.end(); unreadIt++)
-            if ((*unreadIt) == (*it)->Id) break;
-        bBack = false;
-        addMessage(*it, unreadIt != u->unreadMsgs.end(), false);
-        bBack = true;
+	if ((findId == 0) && msgs.size()){
+		unsigned long id = msgs.front();
+		ICQMessage *msg = h->getMessage(id);
+		if (msg){
+			for (unreadIt = u->unreadMsgs.begin(); unreadIt != u->unreadMsgs.end(); unreadIt++)
+				if ((*unreadIt) == id) break;
+			bBack = false;
+			addMessage(msg, unreadIt != u->unreadMsgs.end(), false);
+			bBack = true;
+			delete msg;
+		}
+		msgs.remove(id);
+		if (msgs.size() == 0)
+			emit findDone(id);
+		if (msgs.size() || (nMsg < MAX_HISTORY))
+			QTimer::singleShot(0, this, SLOT(fill()));
+		return;
+	}
+
+    if (++it){
+		if (findId){
+			msgs.push_back((*it)->Id);
+			if ((*it)->Id == findId) 
+				findId = 0;
+		}else{
+			for (unreadIt = u->unreadMsgs.begin(); unreadIt != u->unreadMsgs.end(); unreadIt++)
+				if ((*unreadIt) == (*it)->Id) break;
+			bBack = false;
+			addMessage(*it, unreadIt != u->unreadMsgs.end(), false);
+			bBack = true;
+		}
         nMsg++;
         showProgress(nMsg);
-        if (nMsg < MAX_HISTORY){
+        if ((nMsg < MAX_HISTORY) || ((findId == 0) && msgs.size())){
             QTimer::singleShot(0, this, SLOT(fill()));
             return;
         }
@@ -598,6 +662,7 @@ HistoryView::HistoryView(QWidget *p, unsigned long uin)
     connect(view, SIGNAL(showProgress(int)), this, SLOT(slotShowProgress(int)));
     connect(view, SIGNAL(goMessage(unsigned long, unsigned long)), this, SLOT(slotGoMessage(unsigned long, unsigned long)));
     connect(view, SIGNAL(fillDone(unsigned long)), this, SLOT(fillDone(unsigned long)));
+    connect(view, SIGNAL(findDone(unsigned long)), this, SLOT(findDone(unsigned long)));
     setCentralWidget(view);
     QToolBar *t = new QToolBar(this);
     t->setHorizontalStretchable(true);
@@ -607,6 +672,11 @@ HistoryView::HistoryView(QWidget *p, unsigned long uin)
     btnSearch->setTextLabel(i18n("&Search"));
     btnSearch->setIconSet(Icon("find"));
     connect(btnSearch, SIGNAL(clicked()), this, SLOT(slotSearch()));
+	btnFilter = new CToolButton(t);
+	btnFilter->setTextLabel(i18n("&Filter"));
+	btnFilter->setIconSet(Icon("filter"));
+	btnFilter->setToggleButton(true);
+	connect(btnFilter, SIGNAL(toggled(bool)), this, SLOT(slotFilter(bool)));
     connect(cmbSearch, SIGNAL(textChanged(const QString&)), this, SLOT(searchTextChanged(const QString&)));
     t->addSeparator();
     btnPrev = new CToolButton(t);
@@ -642,7 +712,12 @@ void HistoryView::fill()
 {
     btnPrev->setEnabled(false);
     btnNext->setEnabled(false);
-    view->fill((unsigned long)(-1));
+	viewFill((unsigned long)(-1), 0);
+}
+
+void HistoryView::viewFill(unsigned long offs, unsigned long findId)
+{
+    view->fill(offs, filter, findId);
 }
 
 void HistoryView::fillDone(unsigned long offs)
@@ -651,6 +726,7 @@ void HistoryView::fillDone(unsigned long offs)
         btnNext->setEnabled(true);
         pages.push(offs);
     }
+	if (view->findId) nextPage(view->findId);
 }
 
 void HistoryView::searchChanged()
@@ -682,19 +758,72 @@ void HistoryView::slotSearch(int)
     slotSearch();
 }
 
+void HistoryView::findDone(unsigned long id)
+{
+    QString searchText = cmbSearch->lineEdit()->text();
+    if (searchText.isEmpty()) return;
+	searchParag = view->findMsg(id, searchParag);
+	searchIndex = 0;
+	if (searchParag == -1) return;
+    if (!view->find(searchText, false, false, true, &searchParag, &searchIndex))
+		return;
+    view->setSelection(searchParag, searchIndex, searchParag, searchIndex + searchText.length());
+    searchIndex += searchText.length();
+	view->setCursorPosition(searchParag, searchIndex);
+	view->ensureCursorVisible();
+}
+
 void HistoryView::slotSearch()
 {
     QString searchText = cmbSearch->lineEdit()->text();
     if (searchText.isEmpty()) return;
     pMain->addSearch(searchText);
-    if (view->find(searchText, false, false, true, &searchParag, &searchIndex)){
-        view->setSelection(searchParag, searchIndex, searchParag, searchIndex + searchText.length());
-        searchIndex += searchText.length();
-        view->setCursorPosition(searchParag, searchIndex);
-        view->ensureCursorVisible();
-        return;
-    }
+	unsigned long curId = view->msgId(searchParag);
+	int nSearchParag = searchParag;
+	int nSearchIndex = searchIndex;
+    if (view->find(searchText, false, false, true, &nSearchParag, &nSearchIndex)){
+		unsigned long newId = view->msgId(nSearchParag);
+		if (newId == curId){
+			searchParag = nSearchParag;
+			searchIndex = nSearchIndex;
+	        view->setSelection(searchParag, searchIndex, searchParag, searchIndex + searchText.length());
+		    searchIndex += searchText.length();
+			view->setCursorPosition(searchParag, searchIndex);
+			view->ensureCursorVisible();
+			return;
+		}
+	}
+	History h(view->Uin());
+	History::iterator &it = h.messages();
+	it.setOffs(curId);
+	it.setFilter(filter);
+	it.setCondition(searchText);
+	if (++it){
+		searchParag = view->findMsg((*it)->Id, searchParag);
+		searchIndex = 0;
+		if (searchParag >= 0){
+			if (view->find(searchText, false, false, true, &searchParag, &searchIndex)){
+				view->setSelection(searchParag, searchIndex, searchParag, searchIndex + searchText.length());
+				searchIndex += searchText.length();
+				view->setCursorPosition(searchParag, searchIndex);
+				view->ensureCursorVisible();
+			}
+			return;
+		}
+		nextPage((*it)->Id);
+		return;
+	}
     QApplication::beep();
+}
+
+void HistoryView::slotFilter(bool bSet)
+{
+	searchParag = 0;
+	searchIndex = 0;
+	filter = bSet ? cmbSearch->lineEdit()->text() : QString("");
+	while (pages.size())
+		pages.pop();
+	fill();
 }
 
 void HistoryView::slotShowProgress(int n)
@@ -710,6 +839,7 @@ void HistoryView::slotGoMessage(unsigned long uin, unsigned long msgId)
 void HistoryView::searchTextChanged(const QString &searchText)
 {
     btnSearch->setEnabled(!searchText.isEmpty());
+	btnFilter->setEnabled(!searchText.isEmpty());
     searchParag = 0;
     searchIndex = 0;
 }
@@ -722,15 +852,20 @@ void HistoryView::prevPage()
     if (pages.size()) offs = pages.top();
     btnPrev->setEnabled(pages.size() > 0);
     btnNext->setEnabled(false);
-    view->fill(offs);
+    viewFill(offs, 0);
 }
 
-void HistoryView::nextPage()
+void HistoryView::nextPage(unsigned long findId)
 {
     if (pages.size() == 0) return;
     btnPrev->setEnabled(true);
     btnNext->setEnabled(false);
-    view->fill(pages.top());
+    viewFill(pages.top(), findId);
+}
+
+void HistoryView::nextPage()
+{
+	nextPage(0);
 }
 
 void HistoryView::processEvent(ICQEvent *e)

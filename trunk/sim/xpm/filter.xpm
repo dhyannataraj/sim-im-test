@@ -63,7 +63,7 @@ static const char *p_filter[]={
 "X c #f6f6f6",
 "E c #fff6ff",
 "# c #fffaff",
-". c #ffffff",
+". c None",
 ".#abcdeefghijk#...",
 "lmnopqrstuavwxyu..",
 "cnzAhqcBCD#EDFGHk.",

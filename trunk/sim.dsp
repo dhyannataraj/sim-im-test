@@ -425,6 +425,10 @@ SOURCE=.\sim\libicq\message.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\mgrep.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\ui\moc_aboutdlg.cpp
 # End Source File
 # Begin Source File

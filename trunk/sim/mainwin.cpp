@@ -1278,6 +1278,7 @@ void MainWindow::toggleWindow()
 
 void MainWindow::toggleShow()
 {
+	if (menuFunction && menuFunction->isVisible()) return;
     if (noToggle) return;
     setShow(!isShow());
     noToggle = true;

@@ -28,6 +28,7 @@
 #include "client.h"
 #include "cfg.h"
 #include "log.h"
+#include "mgrep.h"
 
 #include <stdio.h>
 #include <qfileinfo.h>
@@ -349,16 +350,32 @@ History::iterator::iterator(History &_h)
         : h(_h), f_size(0)
 {
     msg = NULL;
+	grepFilter = NULL;
+	grepCondition = NULL;
     start_block = (unsigned long)(-1);
+}
+
+void History::iterator::setFilter(const QString &_filter)
+{
+	filter = _filter;
+	if (grepFilter) delete grepFilter;
+	grepFilter = NULL;
+	if (!filter.isEmpty()) 
+		grepFilter = new Grep(filter, pClient->codecForUser(h.m_nUin));
+}
+
+void History::iterator::setCondition(const QString &_condition)
+{
+	condition = _condition;
+	if (grepCondition) delete grepCondition;
+	grepCondition = NULL;
+	if (!condition.isEmpty()) 
+		grepCondition = new Grep(condition, pClient->codecForUser(h.m_nUin));
 }
 
 void History::iterator::setOffs(unsigned long offs)
 {
-    if (offs > BLOCK_SIZE){
-        start_block = offs - BLOCK_SIZE;
-    }else{
-        start_block = 0;
-    }
+	start_block = offs;
     while (!msgs.empty())
         msgs.pop();
 }
@@ -449,8 +466,65 @@ void History::iterator::loadBlock()
             msgId--;
 #endif
             if ((msgId > start_block) || f.eof()) break;
+			if (grepFilter){
+				bool bMatch = false;
+				for (;;){
+					string line;
+					getline(f, line);
+					if ((unsigned long)f.tellg() > start_block){
+						start_block = start;
+						return;
+					}
+					if (*line.c_str() == '[') break;
+					char *p = strchr(line.c_str(), '=');
+					if (p == NULL) continue;
+					if (grepFilter->grep(p+1)){
+						bMatch = true;
+						break;
+					}
+				}
+				if (!bMatch){
+					type = line;
+					continue;
+				}
+			}
+			if (grepCondition){
+				if (grepFilter){
+					string line;
+					f.seekg(msgId);
+					getline(f, line);
+				}
+				bool bMatch = false;
+				for (;;){
+					string line;
+					getline(f, line);
+					if ((unsigned long)f.tellg() > start_block){
+						start_block = start;
+						return;
+					}
+					if (*line.c_str() == '[') break;
+					char *p = strchr(line.c_str(), '=');
+					if (p == NULL) continue;
+					if (grepCondition->grep(p+1)){
+						bMatch = true;
+						break;
+					}
+				}
+				if (!bMatch){
+					type = line;
+					continue;
+				}
+			}
             msg = h.loadMessage(f, type, msgId);
-            if (msg){
+            if (msg && grepFilter && !History::matchMessage(msg, filter)){
+				delete msg;
+				msg = NULL;
+			}
+			if (msg && grepCondition && !History::matchMessage(msg, condition)){
+				delete msg;
+				msg = NULL;
+			}
+			if (msg){
                 msgs.push(msgId);
                 delete msg;
                 msg = NULL;
@@ -478,3 +552,45 @@ int History::iterator::progress()
     if (res > 100) return 100;
     return res;
 }
+
+bool History::matchMessage(ICQMessage *msg, const QString &filter)
+{
+	if (msg->Type() == ICQ_MSGxMSG){
+		ICQMsg *m = static_cast<ICQMsg*>(msg);
+		return (m->Message.find(filter) >= 0);
+	}
+	if (msg->Type() == ICQ_MSGxURL){
+		ICQUrl *m = static_cast<ICQUrl*>(msg);
+		return (m->Message.find(filter) >= 0) || (m->URL.find(filter) >= 0);
+	}
+	if (msg->Type() == ICQ_MSGxAUTHxREQUEST){
+		ICQAuthRequest *m = static_cast<ICQAuthRequest*>(msg);
+		return (m->Message.find(filter) >= 0);
+	}
+	if (msg->Type() == ICQ_MSGxAUTHxREFUSED){
+		ICQAuthRefused *m = static_cast<ICQAuthRefused*>(msg);
+		return (m->Message.find(filter) >= 0);
+	}
+	if (msg->Type() == ICQ_MSGxSMS){
+		ICQSMS *m = static_cast<ICQSMS*>(msg);
+		return (m->Message.find(filter) >= 0) || (m->Phone.find(filter) >= 0) || (m->Network.find(filter) >= 0);
+	}
+	if (msg->Type() == ICQ_MSGxFILE){
+		ICQFile *m = static_cast<ICQFile*>(msg);
+		return (m->Name.find(filter) >= 0) || (m->Description.find(filter) >= 0);
+	}
+	if (msg->Type() == ICQ_MSGxCHAT){
+		ICQChat *m = static_cast<ICQChat*>(msg);
+		return (m->Reason.find(filter) >= 0);
+	}
+	if (msg->Type() == ICQ_MSGxWEBxPANEL){
+		ICQWebPanel *m = static_cast<ICQWebPanel*>(msg);
+		return (m->Message.find(filter) >= 0);
+	}
+	if (msg->Type() == ICQ_MSGxEMAILxPAGER){
+		ICQEmailPager *m = static_cast<ICQEmailPager*>(msg);
+		return (m->Message.find(filter) >= 0);
+	}
+	return false;
+}
+
