@@ -38,8 +38,8 @@ SUBDIRS = sounds
 INCLUDES=-I../../sim/api -I../../sim/ui -I../_core $(all_includes)
 
 jabber_la_METASOURCES = AUTO
-jabber_la_LIBADD = ../../sim/api/libsimapi.la $(LIBUI) $(LIB_QT) $(LIB_KDECORE) $(EXTRA_LIBS)
-jabber_la_LDFLAGS = -module -no-undefined -avoid-version $(LIB_XML2) $(LIBSSL) $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
+jabber_la_LIBADD = ../../sim/api/libsimapi.la $(LIBUI) $(LIB_QT) $(LIB_KDECORE) $(LIB_XML2) $(LIBSSL) $(EXTRA_LIBS)
+jabber_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 install-data-hook:
 	rm -rf $(DESTDIR)$(sim_plugindir)/jabber.la

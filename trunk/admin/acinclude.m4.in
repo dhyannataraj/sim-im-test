@@ -1159,12 +1159,13 @@ if test "$use_kde" = "yes"; then
   fi
 fi
 
+AC_MSG_CHECKING([for KDE-Version])
 if test "$use_kde" = "yes"; then
 kde_ver_string=`${KDECONFIG} --version | grep KDE | cut -d " " -f 2`
 if test -z "$kde_ver_string"; then
   # Current default Qt version: 3.2
   kde_qtver=3
-  kde_qtsubver=2
+  kde_qtsubver=1
 else
   kde_qtsubver=`echo "$kde_ver_string" | sed -e 's#[0-9][0-9]*\.\([0-9][0-9]*\).*#\1#'`
   # following is the check if subversion isnt found in passed argument
@@ -1182,6 +1183,7 @@ else
   kde_qtsubver=0
   ac_default_prefix=/usr/local
 fi
+AC_MSG_RESULT([$kde_qtver.$kde_qtsubver])
 
 if test "$kde_qtver" = "2"; then
   if test "$kde_qtsubver" -gt "0"; then
@@ -1193,7 +1195,7 @@ fi
 if test "$kde_qtver" = "3"; then
   if test $kde_qtsubver -gt 0; then
        if test "$kde_qtsubver" -gt "1"; then
-	  kde_qt_minversion=">= Qt 3.2"
+	      kde_qt_minversion=">= Qt 3.2"
        else
           kde_qt_minversion=">= Qt 3.1 (20021021)"
        fi
@@ -5133,7 +5135,7 @@ else
   ac_cv_have_ssl="have_ssl=yes \
     ac_ssl_includes=$ac_ssl_includes ac_ssl_libraries=$ac_ssl_libraries ac_ssl_rsaref=$ac_ssl_rsaref"
   
-  if test "$have_ssl" = "1"; then
+  if test "$have_ssl" = "yes"; then
     AC_DEFINE(USE_OPENSSL, 1, [Use OpenSSL])
   fi
   
