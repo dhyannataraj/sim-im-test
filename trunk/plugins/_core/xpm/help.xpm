@@ -210,7 +210,7 @@ static const char *p_help[]={
 "#r c #fbfcff",
 ".6 c #fdfeff",
 "#K c #fefeff",
-"Qt c #ffffff",
+"Qt c None",
 "QtQtQtQtQtQtQtQtQtQtQtQtQtQtQtQtQtQtQtQtQtQt",
 "QtQtQtQtQtQtQtQt.#.a.a.b.c.dQtQtQtQtQtQtQtQt",
 "QtQtQtQtQtQt.e.f.g.h.i.j.k.g.l.mQtQtQtQtQtQt",

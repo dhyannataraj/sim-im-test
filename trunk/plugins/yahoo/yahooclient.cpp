@@ -973,7 +973,7 @@ YahooUserData *YahooClient::findContact(const char *id, const char *grpname, Con
         YahooUserData *data;
         ClientDataIterator itd(contact->clientData);
         while ((data = (YahooUserData*)(++itd)) != NULL){
-            if (!strcmp(id, data->Login.ptr))
+            if (data->Login.ptr && !strcmp(id, data->Login.ptr))
                 return data;
         }
     }
