@@ -88,6 +88,7 @@ protected:
     bool inTray;
     bool inNetTray;
     bool bInit;
+    friend class WharfIcon;
 #endif
 #else
     void				*hShell;

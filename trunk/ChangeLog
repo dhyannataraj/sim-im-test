@@ -8,6 +8,8 @@ ICQ: Fix send large messages
 Redesign search window
 Remove support miranda icons and smiles
 Add JISP icons and smiles
+Yahoo: Support new authorzation
+Win32: Fix support icons with alpha channel
 
 Version 0.9.3
 Add LiveJournal plugin

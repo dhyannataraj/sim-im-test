@@ -317,6 +317,7 @@ static DataDef coreData[] =
         { "SearchGeometry", DATA_ULONG, 5, DATA(0) },
         { "SearchClient", DATA_STRING, 1, DATA(0) },
         { "NoScroller", DATA_BOOL, 1, DATA(0) },
+        { "CfgGeometry", DATA_ULONG, 5, DATA(0) },
         { NULL, 0, 0, 0 }
     };
 
@@ -1542,7 +1543,7 @@ void CorePlugin::installTranslator()
 #ifdef USE_KDE
         return;
 #else
-char *p = getenv("LANG");
+        char *p = getenv("LANG");
         if (p){
             for (; *p; p++){
                 if (*p == '.') break;
@@ -3178,6 +3179,13 @@ if (fname[0] != '/')
                 if (m_cfg == NULL){
                     m_cfg = new ConfigureDialog;
                     connect(m_cfg, SIGNAL(finished()), this, SLOT(dialogFinished()));
+                    if ((data.cfgGeo[WIDTH].value == 0) || (data.cfgGeo[HEIGHT].value == 0)){
+                        data.cfgGeo[WIDTH].value  = 500;
+                        data.cfgGeo[HEIGHT].value = 380;
+                        restoreGeometry(m_cfg, data.cfgGeo, false, true);
+                    }else{
+                        restoreGeometry(m_cfg, data.cfgGeo, true, true);
+                    }
                 }
                 raiseWindow(m_cfg);
                 return e->param();
@@ -3563,8 +3571,14 @@ void CorePlugin::showInfo(CommandDef *cmd)
         }
     }
     delete list;
-    if (cfg == NULL)
+    if (cfg == NULL){
         cfg = new UserConfig(contact, group);
+        if ((data.cfgGeo[WIDTH].value == 0) || (data.cfgGeo[HEIGHT].value == 0)){
+            data.cfgGeo[WIDTH].value  = 500;
+            data.cfgGeo[HEIGHT].value = 380;
+        }
+        cfg->resize(data.cfgGeo[WIDTH].value, data.cfgGeo[HEIGHT].value);
+    }
     raiseWindow(cfg);
     if (!cfg->raisePage(cmd->id))
         cfg->raiseDefaultPage();
@@ -4479,9 +4493,9 @@ FileLock::~FileLock()
 #endif
 }
 
+#ifdef WIN32
 bool FileLock::lock(bool bSend)
 {
-#ifdef WIN32
     string event = "SIM.";
     string s;
     s = name().local8Bit();
@@ -4499,6 +4513,8 @@ bool FileLock::lock(bool bSend)
     m_thread = new LockThread(hEvent);
     m_thread->start();
 #else
+bool FileLock::lock(bool)
+{
     if (!open(IO_ReadWrite | IO_Truncate)){
         string s;
         s = name().local8Bit();

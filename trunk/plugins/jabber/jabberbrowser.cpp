@@ -962,7 +962,7 @@ void JabberBrowser::setItemPict(QListViewItem *item)
     }else if ((type == "rss") || (type == "weather")){
         name = "info";
     }
-    item->setPixmap(COL_NAME, Pict(name));
+    item->setPixmap(COL_NAME, Pict(name, item->listView()->colorGroup().base()));
 }
 
 void JabberBrowser::adjustColumn(QListViewItem *item)

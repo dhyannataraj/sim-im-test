@@ -353,11 +353,13 @@ QIconSet Icon(const char *name)
     pict = getPict(bigName.c_str());
     if (pict)
         res.setPixmap(getPixmap(pict, bigName.c_str()), QIconSet::Large);
+#ifdef WIN32
     string disName = "disabled.";
     disName += name;
     pict = getPict(disName.c_str());
     if (pict)
         res.setPixmap(getPixmap(pict, bigName.c_str()), QIconSet::Small, QIconSet::Disabled);
+#endif
     return res;
 }
 
@@ -376,6 +378,38 @@ QPixmap Pict(const char *name)
         return QPixmap();
     return getPixmap(p, name);
 }
+
+#ifdef WIN32
+
+QPixmap Pict(const char *name, const QColor &c)
+{
+	const QImage *img = Image(name);
+	if (img == NULL)
+		return QPixmap();
+	QImage res = img->copy();
+	unsigned char cr = c.red();
+	unsigned char cg = c.green();
+	unsigned char cb = c.blue();
+    unsigned int *data = (unsigned int*)res.bits();
+    for (int i = 0; i < res.height() * res.width(); i++){
+		unsigned char a = qAlpha(data[i]);
+		data[i] = qRgba((qRed(data[i]) * a + cr * (0xFF - a)) >> 8,
+			(qGreen(data[i]) * a + cg * (0xFF - a)) >> 8,
+			(qBlue(data[i]) * a + cb * (0xFF - a)) >> 8, 0xFF);
+	}
+	QPixmap r;
+	r.convertFromImage(res);
+	return r;
+}
+
+#else
+
+QPixmap Pict(const char *name, const QColor&)
+{
+	return Pict(name);
+}
+
+#endif
 
 MyMimeSourceFactory::MyMimeSourceFactory()
         : QMimeSourceFactory()
@@ -565,26 +599,51 @@ static QImage makeInvisible(unsigned flags, const QImage &p)
 
 static QImage makeDisabled(const QImage &p)
 {
-    QImage image = p.copy();
-    if (image.depth() != 32)
-        image = image.convertDepth(32);
-    unsigned int *data = (unsigned int*)image.bits();
-    QColor c1 = QApplication::palette().active().button();
+    QImage image(p.width() + 1, p.height() + 1, 32);
+	unsigned int *data = (unsigned int*)image.bits();
+	unsigned int *d = (unsigned int*)p.bits();
+	QColorGroup g = QApplication::palette().disabled();
+	QColor c1 = g.base();
     unsigned char cr1 = c1.red();
     unsigned char cg1 = c1.green();
     unsigned char cb1 = c1.blue();
-    QColor c2 = QApplication::palette().active().dark();
+	QColor c2 = g.button();
     unsigned char cr2 = c2.red();
     unsigned char cg2 = c2.green();
     unsigned char cb2 = c2.blue();
-    int i;
-    for (i = 0; i < image.width()*image.height(); i++){
-        int a = qAlpha(data[i]);
-        int v = (qRed(data[i]) + qGreen(data[i]) + qBlue(data[i])) / 3;
-        data[i] = qRgba((cr1 * v + cr2 * (0xFF - v)) >> 8,
-                        (cg1 * v + cg2 * (0xFF - v)) >> 8,
-                        (cb1 * v + cb2 * (0xFF - v)) >> 8, a);
-    }
+	unsigned int *f = d;
+	unsigned int *t = data;
+	int i;
+	for (i = 0; i < p.width() + 1; i++)
+		*(t++) = qRgba(cr2, cg2, cb2, 0);
+	for (i = 0; i < p.height(); i++){
+		*(t++) = qRgba(cr2, cg2, cb2, 0);
+		for (int j = 0; j < p.width(); j++){
+			unsigned char v = (qRed(*f) + qGreen(*f) + qBlue(*f)) / 3;
+			*(t++) = qRgba((cr2 * v + cr1 * (0xFF - v)) >> 8,
+				(cg2 * v + cg1 * (0xFF - v)) >> 8,
+				(cb2 * v + cb1 * (0xFF - v)) >> 8, qAlpha(*f));
+			f++;
+		}
+	}
+	c1 = g.foreground();
+	cr1 = c1.red();
+	cg1 = c1.green();
+	cb1 = c1.blue();
+	f = d;
+	t = data;
+	for (i = 0; i < p.height(); i++){
+		for (int j = 0; j < p.width(); j++){
+			unsigned char a = qAlpha(*f);
+			unsigned char v = (qRed(*f) + qGreen(*f) + qBlue(*f)) / 3;
+			*t = qRgba((((cr2 * v + cr1 * (0xFF - v)) >> 8) * a + qRed(*t) * (0xFF - a)) >> 8,
+				(((cg2 * v + cg1 * (0xFF - v)) >> 8) * a + qGreen(*t) * (0xFF - a)) >> 8,
+				(((cb2 * v + cb1 * (0xFF - v)) >> 8) * a + qBlue(*t) * (0xFF - a)) >> 8, QMAX(qAlpha(*f), qAlpha(*t)));
+			f++;
+			t++;
+		}
+		t++;
+	}
     return image;
 }
 

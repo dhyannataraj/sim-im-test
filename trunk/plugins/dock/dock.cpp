@@ -185,6 +185,7 @@ void DockPlugin::init()
     connect(dock, SIGNAL(toggleWin()), this, SLOT(toggleWin()));
     connect(dock, SIGNAL(doubleClicked()), this, SLOT(doubleClicked()));
     bQuit = false;
+    QApplication::syncX();
 }
 
 bool DockPlugin::eventFilter(QObject *o, QEvent *e)
@@ -242,8 +243,12 @@ void *DockPlugin::processEvent(Event *e)
         }
         break;
     case EventRaiseWindow:
-        if ((e->param() == getMainWindow()) && !getShowMain())
-            return e->param();
+        if (e->param() == getMainWindow()){
+            if (dock == NULL)
+                init();
+            if (!getShowMain())
+                return e->param();
+        }
         break;
     case EventCommandCreate:
         def = (CommandDef*)(e->param());

@@ -327,7 +327,6 @@ void PluginManagerPrivate::load(const char *name)
 
 void PluginManagerPrivate::load(pluginInfo &info)
 {
-    fprintf(stderr, "Load %s\n", info.name.c_str());
     if (info.module == NULL){
 #ifdef WIN32
         string pluginName = "plugins\\";

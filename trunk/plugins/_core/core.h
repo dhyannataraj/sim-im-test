@@ -107,6 +107,7 @@ typedef struct CoreData
     Data	SearchGeo[5];
     Data	SearchClient;
     Data	NoScroller;
+    Data	cfgGeo[5];
 } CoreData;
 
 const unsigned CONTAINER_SIMPLE	= 0;

@@ -409,6 +409,11 @@ void setWndClass(QWidget *w, const char *name)
     classhint.res_name  = (char*)"sim";
     classhint.res_class = (char*)name;
     XSetClassHint(dsp, win, &classhint);
+
+    const char *argv[2];
+    argv[0] = name;
+    argv[1] = NULL;
+    XSetCommand(dsp, win, (char**)argv, 1);
 }
 
 #else

@@ -257,6 +257,7 @@ bool WharfIcon::x11Event(XEvent *e)
         p_width  = a.width;
         p_height = a.height;
         bActivated = true;
+        dock->bInit = true;
         if (vis){
             resize(vis->width(), vis->height());
             move((p_width - vis->width()) / 2, (p_height - vis->height()) / 2);

@@ -197,7 +197,7 @@ static void drawImage(QPainter *p, int x, int y, const QImage &img)
     pict->convertFromImage(image);
     p->begin(pict);
 #else
-    p->drawImage(x, y, img);
+p->drawImage(x, y, img);
 #endif
 }
 
@@ -247,18 +247,6 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
 {
     if (base->type() == GRP_ITEM){
         GroupItem *item = static_cast<GroupItem*>(base);
-        QFont f(font());
-        if (CorePlugin::m_plugin->getSmallGroupFont()){
-            int size = f.pixelSize();
-            if (size <= 0){
-                size = f.pointSize();
-                f.setPointSize(size * 3 / 4);
-            }else{
-                f.setPixelSize(size * 3 / 4);
-            }
-        }
-        f.setBold(true);
-        p->setFont(f);
         QString text;
         if (item->id()){
             Group *grp = getContacts()->group(item->id());
@@ -296,6 +284,18 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         }
         if (!CorePlugin::m_plugin->getUseSysColors())
             p->setPen(CorePlugin::m_plugin->getColorGroup());
+        QFont f(font());
+        if (CorePlugin::m_plugin->getSmallGroupFont()){
+            int size = f.pixelSize();
+            if (size <= 0){
+                size = f.pointSize();
+                f.setPointSize(size * 3 / 4);
+            }else{
+                f.setPixelSize(size * 3 / 4);
+            }
+        }
+        f.setBold(true);
+        p->setFont(f);
         x = item->drawText(p, x, width, text);
         if (CorePlugin::m_plugin->getGroupSeparator())
             item->drawSeparator(p, x, width, cg);
@@ -328,12 +328,6 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
             if (CorePlugin::m_plugin->getInvisibleStyle()  & STYLE_STRIKE)
                 f.setStrikeOut(true);
         }
-        if (item->m_bBlink){
-            f.setBold(true);
-        }else{
-            f.setBold(false);
-        }
-        p->setFont(f);
         string icons = item->text(CONTACT_ICONS).latin1();
         string icon = getToken(icons, ',');
         if (item->m_unread && m_bUnreadBlink){
@@ -376,6 +370,12 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
                 }
             }
         }
+        if (item->m_bBlink){
+            f.setBold(true);
+        }else{
+            f.setBold(false);
+        }
+        p->setFont(f);
         QString highlight;
         QString text = item->text(CONTACT_TEXT);
         if (!m_search.isEmpty()){

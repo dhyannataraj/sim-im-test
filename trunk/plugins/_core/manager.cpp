@@ -56,7 +56,7 @@ void ConnectionManager::fill(Client *current)
         QString text = CorePlugin::m_plugin->clientName(client);
         QListViewItem *item = new QListViewItem(lstConnection, text);
         if (descr)
-            item->setPixmap(0, Pict(descr->icon));
+            item->setPixmap(0, Pict(descr->icon, lstConnection->colorGroup().base()));
         if (current == client)
             curItem = item;
         QString index = QString::number(i);
