@@ -386,6 +386,13 @@ bool ICQSetListEvent::process(ICQClient *icq, unsigned short result)
                 break;
             case ICQ_IGNORE_LIST:
                 u->inIgnore = m_bSet;
+                if (!m_bSet && (u->GrpId == 0)){
+                    ICQUser *u = icq->getUser(m_nUin);
+                    if (u == NULL)
+                        icq->contacts.users.remove(u);
+                    ICQEvent e(EVENT_USER_DELETED, m_nUin);
+                    icq->process_event(&e);
+                }
                 break;
             default:
                 log(L_WARN, "Unknown ICQSetListEvent type");

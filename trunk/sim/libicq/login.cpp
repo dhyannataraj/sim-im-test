@@ -124,7 +124,8 @@ void ICQClient::chn_close()
     Tlv *tlv_error = tlv(8);
     if (tlv_error){
         unsigned short err = *tlv_error;
-	if (err) setStatus(ICQ_STATUS_OFFLINE);
+        if (err)
+            if (sock) sock->error_state(ErrorProtocol);
         switch (err){
         case 0x18:{
                 log(L_WARN, "Rate limit");
@@ -148,15 +149,13 @@ void ICQClient::chn_close()
             process_event(&e);
             log(L_WARN, "Unknown error %04X", err);
         }
-        if (err){
-            if (sock) sock->error_state(ErrorProtocol);
-            return;
-        }
+	if (err) return;
     }
     tlv_error = tlv(9);
     if (tlv_error){
         unsigned short err = *tlv_error;
-	if (err) setStatus(ICQ_STATUS_OFFLINE);
+        if (err)
+            if (sock) sock->error_state(ErrorProtocol);
         switch (err){
         case 0x1:{
                 log(L_WARN, "Your ICQ number is used from another location");
@@ -170,10 +169,7 @@ void ICQClient::chn_close()
         default:
             log(L_WARN, "Unknown run-time error %04X", err);
         }
-        if (err){
-            if (sock) sock->error_state(ErrorProtocol);
-            return;
-        }
+	if (err) return;
     }
 
     Tlv *tlv_host = tlv(5);
@@ -203,3 +199,4 @@ void ICQClient::chn_close()
     cookie.init(0);
     cookie.pack(*tlv_cookie, tlv_cookie->Size());
 }
+

@@ -43,7 +43,7 @@ public:
     void setText(const QString&);
     QString text();
     void setDirMode(bool bMode) { bDirMode = bMode; }
-    void setMultiplyMode(bool bMode) { bDirMode = bMode; }
+    void setMultiplyMode(bool bMode) { bMultiplyMode = bMode; }
 signals:
     void textChanged(const QString&);
 protected slots:

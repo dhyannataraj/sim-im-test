@@ -18,6 +18,7 @@
 #include "editfile.h"
 #include "icons.h"
 #include "mainwin.h"
+#include "log.h"
 
 #include <qlineedit.h>
 #include <qpushbutton.h>
@@ -72,7 +73,7 @@ void EditFile::showFiles()
                                               i18n("Directory for incoming files"));
     }else if (bMultiplyMode){
         QStringList lst = QFileDialog::getOpenFileNames(QString::null, QString::null, this);
-        if (lst.count() > 1){
+        if ((lst.count() > 1) || ((lst.count() > 0) && (lst[0].find(' ') >= 0))){
             for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
                 *it = QString("\"") + *it + QString("\"");
             }

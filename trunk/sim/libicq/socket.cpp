@@ -173,7 +173,7 @@ void ClientSocket::read_ready()
         return;
     }
     for (;;){
-        if (bClosed) break;
+        if (bClosed || (mError != ErrorNone)) break;
         int readn = m_sock->read(readBuffer.Data(readBuffer.writePos()),
                                  readBuffer.size() - readBuffer.writePos());
         if (readn < 0){

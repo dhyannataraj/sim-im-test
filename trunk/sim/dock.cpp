@@ -192,13 +192,19 @@ void WharfIcon::mousePressEvent( QMouseEvent *e)
 
 void WharfIcon::mouseReleaseEvent( QMouseEvent *e)
 {
-    if (!dock->bWM){
+    if (!mousePos.isNull()){
+        QPoint p = e->pos();
+        p -= mousePos;
+        if (p.manhattanLength() < 4)
+            dock->mousePressEvent(e);
+    }
+    if (!dock->bWM && !mousePos.isNull()){
+        move(e->globalPos() - mousePos);
         mousePos = QPoint(0,0);
         pMain->DockX = x();
         pMain->DockY = y();
         releaseMouse();
     }
-    dock->mousePressEvent(e);
 }
 
 void WharfIcon::mouseMoveEvent( QMouseEvent *e)

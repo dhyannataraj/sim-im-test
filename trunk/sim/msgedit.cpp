@@ -1252,8 +1252,8 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
 #endif
                         lblFile->setText(i18n("Save to") + ":");
                         fileEdit->setText(name);
-                        fileEdit->setDirMode(false);
-                        fileEdit->setMultiplyMode(true);
+                        fileEdit->setDirMode(true);
+                        fileEdit->setMultiplyMode(false);
                         ftChanged();
                     }else{
                         btnAccept->hide();
@@ -1441,8 +1441,8 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 ICQFile *m = static_cast<ICQFile*>(msg);
                 edit->resetColors(false);
                 lblFile->setText(i18n("File") + ":");
-                fileEdit->setDirMode(true);
-                fileEdit->setMultiplyMode(false);
+                fileEdit->setDirMode(false);
+                fileEdit->setMultiplyMode(true);
                 if (bChanged){
                     fileEdit->setText(pClient->from8Bit(Uin, m->Name, m->Charset.c_str()));
                     edit->setText(pClient->from8Bit(Uin, m->Description, m->Charset.c_str()));
@@ -1505,10 +1505,8 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                         connect(tmpl, SIGNAL(ready(const QString&)), this, SLOT(topReady(const QString&)));
                         tmpl->expand(QString::fromLocal8Bit(pMain->SMSSignTop.c_str()), Uin);
                     }
-                    if (*m->Phone.c_str()){
-                        log(L_DEBUG, "Set msg [%s]", m->Phone.c_str());
+                    if (*m->Phone.c_str())
                         phoneEdit->lineEdit()->setText(pClient->from8Bit(Uin, m->Phone, NULL));
-                    }
                 }
                 edit->setFocus();
                 break;
