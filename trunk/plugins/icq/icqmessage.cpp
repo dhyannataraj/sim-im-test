@@ -466,7 +466,6 @@ Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet, Mes
         string p;
         b.unpackStr32(p);
         return parseContactMessage(p.c_str());
-        //<<<<<<< icqmessage.cpp
     }
     if (msgType == "Message"){
         string p;
@@ -488,29 +487,6 @@ Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet, Mes
         }
         return msg;
     }
-    //=======
-
-    if (msgType == "Message"){
-        string p;
-        b.unpackStr32(p);
-        unsigned long forecolor, backcolor;
-        b >> forecolor >> backcolor;
-        string cap_str;
-        b.unpackStr32(cap_str);
-        Contact *contact;
-        ICQUserData *data = findContact(screen, NULL, true, contact);
-        if (data == NULL)
-            return NULL;
-        Message *msg = parseTextMessage(p.c_str(), cap_str.c_str(), data->Encoding ? data->Encoding : this->data.owner.Encoding);
-        if (msg){
-            if (forecolor != backcolor){
-                msg->setForeground(forecolor >> 8);
-                msg->setBackground(backcolor >> 8);
-            }
-        }
-        return msg;
-    }
-    //>>>>>>> 1.24.2.1
     n = msgType.find("File");
 if (n >= 0){
     string fileDescr;
