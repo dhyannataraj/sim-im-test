@@ -309,7 +309,7 @@ void ICQClient::setShare(bool bState)
     b.pack((char*)(ICQClientPrivate::SHARED_FILES_SIGN), 16);
     b << (char)4 << (unsigned short)1;
     b.pack((unsigned long)(bState ? 1 : 0));
-    b.pack(now);
+    b.pack((unsigned long)now);
     b.pack((unsigned long)0);
     b.pack((unsigned short)1);
     p->sendUpdate(b);

@@ -29,6 +29,10 @@
 #include "icqssl.h"
 #include "log.h"
 
+#ifndef WIN32
+#include <stdio.h>
+#endif
+
 #ifndef HAVE_STRCASECMP
 int strcasecmp(const char *a, const char *b);
 #endif
@@ -270,7 +274,7 @@ void HttpRequest::read_ready()
     if (state == ReadData){
         while (data_size > 0){
             char b[2048];
-            int tail = data_size;
+            unsigned tail = data_size;
             if (tail > sizeof(b)) tail = sizeof(b);
             int n = m_sock->read(b, tail);
             if (n < 0){
@@ -333,7 +337,7 @@ void HelloRequest::data_ready()
     unsigned long SID[4];
     bIn >> SID[0] >> SID[1] >> SID[2] >> SID[3];
     char b[34];
-    snprintf(b, sizeof(b), "%08x%08x%08x%08x", SID[0], SID[1], SID[2], SID[3]);
+    snprintf(b, sizeof(b), "%08lx%08lx%08lx%08lx", SID[0], SID[1], SID[2], SID[3]);
     m_proxy->sid = b;
     bIn.unpack(m_proxy->m_proxyHost);
     m_proxy->request();

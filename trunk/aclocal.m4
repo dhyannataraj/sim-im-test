@@ -252,11 +252,19 @@ AC_DEFUN(AC_PATH_QT_MOC_UIC,
       qt_bindirs="$ac_qt_bindir $qt_bindirs"
    fi
 
-   KDE_FIND_PATH(moc, MOC, [$qt_bindirs],[
-    KDE_FIND_PATH(moc2, MOC, [$qt_bindirs],[KDE_MOC_ERROR_MESSAGE])])
+   if test "$kde_qt_version" = "2" ; then
+     KDE_FIND_PATH(moc2, MOC, [$qt_bindirs],[
+       KDE_FIND_PATH(moc, MOC, [$qt_bindirs],[KDE_MOC_ERROR_MESSAGE])])
+   else
+     KDE_FIND_PATH(moc, MOC, [$qt_bindirs],[KDE_MOC_ERROR_MESSAGE])
+   fi
    if test -z "$UIC_NOT_NEEDED"; then
-     KDE_FIND_PATH(uic, UIC, [$qt_bindirs],[ 
-      KDE_FIND_PATH(uic2,UIC, [$qt_bindirs], [UIC=""])])
+     if test "$kde_qt_version" = "2" ; then
+       KDE_FIND_PATH(uic2, UIC, [$qt_bindirs],[ 
+         KDE_FIND_PATH(uic,UIC, [$qt_bindirs], [UIC=""])])
+     else
+       KDE_FIND_PATH(uic, UIC, [$qt_bindirs], [UIC=""])
+     fi
      if test -z "$UIC" ; then
        KDE_UIC_ERROR_MESSAGE
        exit 1
