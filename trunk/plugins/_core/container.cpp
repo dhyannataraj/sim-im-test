@@ -155,13 +155,13 @@ Container::Container(unsigned id, const char *cfg)
         setId(id);
         memcpy(data.barState, CorePlugin::m_plugin->data.containerBar, sizeof(data.barState));
         memcpy(data.geometry, CorePlugin::m_plugin->data.containerGeo, sizeof(data.geometry));
-        if ((data.geometry[WIDTH].value == -1) || (data.geometry[HEIGHT].value == -1)){
+        if ((data.geometry[WIDTH].value == (unsigned long)-1) || (data.geometry[HEIGHT].value == (unsigned long)-1)){
             QWidget *desktop = QApplication::desktop();
             data.geometry[WIDTH].value = desktop->width() / 3;
             data.geometry[HEIGHT].value = desktop->height() / 3;
         }
         bPos = false;
-        if ((data.geometry[TOP].value != -1) || (data.geometry[LEFT].value != -1)){
+        if ((data.geometry[TOP].value != (unsigned long)-1) || (data.geometry[LEFT].value != (unsigned long)-1)){
             bPos = true;
             QWidgetList  *list = QApplication::topLevelWidgets();
             for (int i = 0; i < 2; i++){
