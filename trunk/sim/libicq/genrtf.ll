@@ -74,15 +74,14 @@
 <s_tag>[A-Za-z]+		{ BEGIN(s_attr); return ATTR; }
 <s_tag>.			{ return SKIP; }
 <s_attr>"="			{ BEGIN(s_value); return SKIP; }
-<s_attr>">"			{ BEGIN(s_tag); REJECT; return SKIP; }
+<s_attr>">"			{ BEGIN(INITIAL); return TAG_CLOSE; }
 <s_attr>[A-Za-z]		{ BEGIN(s_tag); unput(yytext[0]); return SKIP; }
 <s_attr>.			{ return SKIP; }
-<s_value>"\""			{ BEGIN(s_string); return SKIP; }
-<s_value>[A-Za-z0-9]+		{ BEGIN(s_tag); return VALUE; }
+<s_value>"\""				{ BEGIN(s_string); return SKIP; }
+<s_value>[^\ >]+	{ BEGIN(s_tag); return VALUE; }
 <s_value>.			{ return SKIP; }
 <s_string>"\""			{ BEGIN(s_tag); return SKIP; }
 <s_string>[^\"]+		{ return VALUE; }
-<s_string>.			{ return SKIP; }
 "&gt";?				{ return SYMBOL; }
 "&lt";?				{ return SYMBOL; }
 "&amp";?			{ return SYMBOL; }
@@ -374,6 +373,24 @@ string ICQClientPrivate::createRTF(const string &text, unsigned long foreColor, 
                 }else if (eq(tag.c_str(), "p")){
                     res += "\\pard";
                     bSpace = true;
+				}else if (eq(tag.c_str(), "img")){
+					for (list<attr>::iterator it = attrs.begin(); it != attrs.end(); ++it){
+						string name = (*it).name;
+						string value = (*it).value;
+						if (name == "src"){
+							char *p = strstr((*it).value.c_str(), "icon:smile");
+							if (p){
+								unsigned char c = p[10];
+								if (((c >= '0') && (c <= '9')) ||
+									((c >= 'a') && (c <= 'f')) ||
+									((c >= 'A') && (c <= 'F')))
+									res += "<##icqimage000";
+									res += c;
+									res += ">";
+							}
+							break;
+						}
+					}
                 }else if (eq(tag.c_str(), "font")){
                     bool bChange = false;
                     font f = fonts.top();
