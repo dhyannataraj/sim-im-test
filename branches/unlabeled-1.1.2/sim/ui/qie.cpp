@@ -174,8 +174,6 @@ void QIE::append(const QString &html)
 	SafeArrayDestroy(sfArray);
 }
 
-QString CnvBSTR(unsigned short *str);
-
 QString QIE::text(bool asHTML)
 {
 	HTMLDocument hd;

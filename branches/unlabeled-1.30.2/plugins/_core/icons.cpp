@@ -27,6 +27,8 @@
 #include <qbitmap.h>
 #include <qdragobject.h>
 #include <qfile.h>
+#include <qthread.h>
+#include <qbuffer.h>
 
 #ifdef USE_KDE
 #include <kapp.h>
@@ -139,6 +141,511 @@ using namespace std;
 #define KICON(A)    addIcon(#A, p_##A, #A, 0);
 #define ICON(A)		addIcon(#A, A, NULL, 0);
 
+#ifdef USE_IE
+
+#pragma warning(disable: 4250)
+
+class CMultiThreaded
+{
+protected:
+	STDMETHODIMP_(ULONG) Increment(long &reflong)  
+	{
+		return InterlockedIncrement(&reflong);
+	}
+
+	STDMETHODIMP_(ULONG) Decrement(long &reflong)
+	{
+		return InterlockedDecrement(&reflong); 
+	}
+};
+
+class CObjRoot
+{
+protected:
+	long	m_cRef;
+protected:
+	STDMETHOD_(ULONG,_AddRef)() =0;
+	STDMETHOD_(ULONG,_Release)() =0;
+public:
+	CObjRoot() : m_cRef(1) 
+	{
+	}
+	virtual ~CObjRoot() {}
+	static long *p_ObjCount;
+};
+
+long * CObjRoot::p_ObjCount = NULL;
+
+template <class Interface>
+class InterfaceImpl: public virtual CObjRoot, public Interface 
+{
+public:
+	STDMETHOD(QueryInterface)(REFIID riid,LPVOID *ppv) = 0; 
+	STDMETHODIMP_(ULONG) AddRef() 
+	{
+		return _AddRef(); 
+	}
+	STDMETHODIMP_(ULONG) Release() 
+	{
+		return _Release();
+	}
+};
+
+template <class ThreadModel = CMultiThreaded>
+class CComBase  : public virtual CObjRoot ,  public ThreadModel
+{
+public:
+	CComBase() {};
+	virtual ~CComBase() {};
+protected:
+	STDMETHODIMP_(ULONG) _AddRef() 
+	{
+		if(p_ObjCount)
+			ThreadModel::Increment(*p_ObjCount); 
+		return ThreadModel::Increment(m_cRef); 
+	}
+	STDMETHODIMP_(ULONG) _Release() 
+	{
+		long Value = ThreadModel::Decrement(m_cRef); 
+		if(!m_cRef)
+			delete this;
+		if(p_ObjCount)
+			ThreadModel::Decrement(*p_ObjCount); 
+		return Value;
+	}
+};
+
+template<class comObj>
+class CMultiCreator
+{
+protected:
+	CMultiCreator():m_pObj(0) {};
+	comObj *CreateObject()
+	{
+		return new comObj;
+	}
+	comObj * m_pObj;
+};
+
+template <class comObj, class creatorClass  = CMultiCreator < comObj > >
+class CClassFactory :  public CComBase<>, public InterfaceImpl<IClassFactory>, public creatorClass 
+{
+public:
+	CClassFactory() {};
+	virtual ~CClassFactory() {};
+
+	STDMETHOD(QueryInterface)(REFIID riid,LPVOID *ppv)
+	{
+		*ppv = NULL;
+		if(IsEqualIID(riid,IID_IUnknown) || IsEqualIID(riid,IID_IClassFactory))
+		{
+			*ppv = (IClassFactory *) this;
+			_AddRef();
+			return S_OK;
+		}
+		return E_NOINTERFACE;
+	}
+
+	STDMETHODIMP CreateInstance(LPUNKNOWN pUnkOuter, REFIID riid, LPVOID *ppvObj)
+	{
+		*ppvObj = NULL;
+		if (pUnkOuter)
+    		return CLASS_E_NOAGGREGATION;
+		m_pObj = CreateObject();  // m_pObj is defined in creatorClass 
+		if (!m_pObj)
+    		return E_OUTOFMEMORY;
+		HRESULT hr = m_pObj->QueryInterface(riid, ppvObj);
+		if (hr != S_OK)
+			delete m_pObj;
+		return hr;
+	}
+
+	STDMETHODIMP LockServer(BOOL) {	return S_OK; }  // not implemented
+};
+
+class PluginProtocol;
+
+class PluginProtocolThread : public QThread
+{
+public:
+	PluginProtocolThread() {}
+protected:
+	void run();
+};
+
+class PluginProtocol :  public CComBase<>, 
+	public InterfaceImpl<IInternetProtocol>
+{
+public:
+	PluginProtocol();
+	virtual ~PluginProtocol();
+	STDMETHOD(QueryInterface)(REFIID riid,LPVOID *ppv); 
+	static	void	Register();
+	static	void	Unregister();
+protected:
+	static	IInternetSession		*s_session;
+	static	IClassFactory			*s_cf;	
+	static	PluginProtocolThread	*s_thread;
+	static	list<PluginProtocol*>	*s_protocols;
+	static	QMutex					*s_mutex;
+	static	QWaitCondition			*s_condition;
+
+	void	Process();
+	void	Close();
+	void	SetResult(HRESULT result);
+	void	SetState(DWORD state, wchar_t *data);
+	void	SetData(DWORD state);
+
+	QBuffer					*m_data;
+	unsigned				m_data_pos;
+	IInternetProtocolSink	*m_pOIProtSink;
+	IInternetBindInfo		*m_pOIBindInfo;
+
+		virtual HRESULT STDMETHODCALLTYPE Start( 
+            /* [in] */ LPCWSTR szUrl,
+            /* [in] */ IInternetProtocolSink __RPC_FAR *pOIProtSink,
+            /* [in] */ IInternetBindInfo __RPC_FAR *pOIBindInfo,
+            /* [in] */ DWORD grfPI,
+            /* [in] */ DWORD dwReserved);
+        
+        virtual HRESULT STDMETHODCALLTYPE Continue( 
+            /* [in] */ PROTOCOLDATA __RPC_FAR *pProtocolData);
+        
+        virtual HRESULT STDMETHODCALLTYPE Abort( 
+            /* [in] */ HRESULT hrReason,
+            /* [in] */ DWORD dwOptions);
+        
+        virtual HRESULT STDMETHODCALLTYPE Terminate( 
+            /* [in] */ DWORD dwOptions);
+        
+        virtual HRESULT STDMETHODCALLTYPE Suspend(void);
+        
+        virtual HRESULT STDMETHODCALLTYPE Resume(void);
+
+        virtual HRESULT STDMETHODCALLTYPE Read( 
+            /* [length_is][size_is][out][in] */ void __RPC_FAR *pv,
+            /* [in] */ ULONG cb,
+            /* [out] */ ULONG __RPC_FAR *pcbRead);
+        
+        virtual HRESULT STDMETHODCALLTYPE Seek( 
+            /* [in] */ LARGE_INTEGER dlibMove,
+            /* [in] */ DWORD dwOrigin,
+            /* [out] */ ULARGE_INTEGER __RPC_FAR *plibNewPosition);
+        
+        virtual HRESULT STDMETHODCALLTYPE LockRequest( 
+            /* [in] */ DWORD dwOptions);
+        
+        virtual HRESULT STDMETHODCALLTYPE UnlockRequest( void);
+		friend class PluginProtocolThread;
+};
+
+CLSID PROTOCOL_CLSID = { 0xdc186801, 0x657f, 0x11d4, 
+						  {	0xb0, 0xb5,  0x0,  0x50,  0xba,  0xbf,  0xc9,  0x4 	}
+						};
+
+IInternetSession *PluginProtocol::s_session			= NULL;
+IClassFactory *PluginProtocol::s_cf					= NULL;
+PluginProtocolThread *PluginProtocol::s_thread		= NULL;
+list<PluginProtocol*> *PluginProtocol::s_protocols	= NULL;
+QMutex *PluginProtocol::s_mutex						= NULL;
+QWaitCondition	*PluginProtocol::s_condition		= NULL;
+
+PluginProtocol::PluginProtocol()
+{
+	m_pOIProtSink = NULL;
+	m_pOIBindInfo = NULL;
+	m_data		  = NULL;
+}
+
+PluginProtocol::~PluginProtocol()
+{
+	Close();
+}
+
+class MutexLocker
+{
+	COPY_RESTRICTED(MutexLocker);
+public:
+	MutexLocker(QMutex &_mutex) : mutex(_mutex) { mutex.lock(); }
+	~MutexLocker() { mutex.unlock(); }
+protected:
+	QMutex &mutex;
+};
+
+void PluginProtocol::Close()
+{
+	if (m_pOIProtSink){
+		m_pOIProtSink->Release();
+		m_pOIProtSink = NULL;
+	}
+	if (m_pOIBindInfo){
+		m_pOIBindInfo->Release();
+		m_pOIBindInfo = NULL;
+	}
+	MutexLocker locker(*s_mutex);
+	for (list<PluginProtocol*>::iterator it = s_protocols->begin(); it != s_protocols->end(); ++it){
+		if ((*it) == this){
+			s_protocols->erase(it);
+			Release();
+			break;
+		}
+	}
+	if (m_data){
+		delete m_data;
+		m_data = NULL;
+	}
+}
+
+STDMETHODIMP PluginProtocol::QueryInterface(REFIID riid, LPVOID *ppv)
+{
+	*ppv = NULL;
+	if(IsEqualIID(riid,IID_IUnknown) || IsEqualIID(riid,__uuidof(IInternetProtocol)))
+	{
+		*ppv = (IInternetProtocol*) this;
+		_AddRef();
+		return S_OK;
+	}
+	return E_NOINTERFACE;
+}
+
+HRESULT STDMETHODCALLTYPE PluginProtocol::Start(
+            /* [in] */ LPCWSTR szUrl,
+            /* [in] */ IInternetProtocolSink __RPC_FAR *pOIProtSink,
+            /* [in] */ IInternetBindInfo __RPC_FAR *pOIBindInfo,
+            /* [in] */ DWORD,
+            /* [in] */ DWORD)
+{
+	m_pOIProtSink = pOIProtSink;
+	m_pOIBindInfo = pOIBindInfo;
+	m_pOIProtSink->AddRef();
+	m_pOIBindInfo->AddRef();
+	QString url = CnvBSTR(szUrl);
+	int n = url.find(':');
+	if (n < 0)
+		return INET_E_USE_DEFAULT_PROTOCOLHANDLER;
+	QString proto = url.left(n);
+	if (proto != "icon")
+		return INET_E_USE_DEFAULT_PROTOCOLHANDLER;
+	url = url.mid(n + 1);
+	n = url.find('?');
+	QColor bg = Qt::white;
+	QString options;
+	bool bBig = false;
+	if (n >= 0){
+		options = url.mid(n + 1);
+		url = url.left(n);
+		while (options.length()){
+			n = options.find('&');
+			QString opt;
+			if (n >= 0){
+				opt = options.left(n);
+				options = options.mid(n + 1);
+			}else{
+				opt = options;
+				options = "";
+			}
+			if (opt == "big")
+				bBig = true;
+		}
+	}
+	n = url.find('.');
+	if (n >= 0)
+		url = url.left(n);
+	const QIconSet *icon = Icon(url.latin1());
+	if (icon == NULL)
+		return INET_E_USE_DEFAULT_PROTOCOLHANDLER;
+	QPixmap pict = icon->pixmap(bBig ? QIconSet::Large : QIconSet::Small, QIconSet::Normal);
+	QImage img = pict.convertToImage();
+	if (m_data)
+		delete m_data;
+	m_data = new QBuffer;
+	m_data->open(IO_WriteOnly);
+	m_data_pos = 0;
+	{
+		QDataStream out(m_data);
+		out.setVersion(1);
+		out << img;
+	}
+	m_data->close();
+	MutexLocker lock(*s_mutex);
+	AddRef();
+	s_protocols->push_back(this);
+	s_condition->wakeOne();
+	return E_PENDING;
+}
+ 
+void PluginProtocol::Register()
+{
+	CoInternetGetSession(0, &s_session, 0);
+	if (s_session){
+		s_cf = new CClassFactory<PluginProtocol>;
+		HRESULT res = s_session->RegisterNameSpace(s_cf, PROTOCOL_CLSID, L"icon", 0, NULL, 0);
+		if (res != S_OK)
+			log(L_WARN, "Can't register namespace");
+		s_protocols = new list<PluginProtocol*>;
+		s_mutex = new QMutex;
+		s_condition = new QWaitCondition;
+		s_thread = new PluginProtocolThread;
+		s_thread->start();
+	}
+}
+
+void PluginProtocol::Unregister()
+{
+	if (s_session && s_cf)
+		s_session->UnregisterNameSpace(s_cf, L"icon");
+	if (s_cf){
+		s_cf->Release();
+		s_cf = NULL;
+	}
+	s_condition->wakeAll();
+	s_thread->wait();
+	delete s_thread;
+	delete s_condition;
+	delete s_mutex;
+	delete s_protocols;
+}
+
+void PluginProtocolThread::run()
+{
+	for (;;){
+		MutexLocker lock(*PluginProtocol::s_mutex);
+		PluginProtocol::s_condition->wait(PluginProtocol::s_mutex);
+		while (!PluginProtocol::s_protocols->empty()){
+			PluginProtocol *protocol = PluginProtocol::s_protocols->front();
+			protocol->Process();
+			protocol->Release();
+			PluginProtocol::s_protocols->erase(PluginProtocol::s_protocols->begin());
+		}
+		if (PluginProtocol::s_cf == NULL)
+			break;
+	}
+}
+
+void PluginProtocol::Process()
+{
+	SetState(BINDSTATUS_MIMETYPEAVAILABLE, L"image/bmp");
+	SetData(BSCF_AVAILABLEDATASIZEUNKNOWN);
+	SetResult(S_OK);
+}
+
+void PluginProtocol::SetResult(HRESULT result)
+{
+	PROTOCOLDATA pData;
+	pData.grfFlags = 0;
+	pData.dwState  = result;
+	pData.cbData   = 0;
+	pData.pData    = 0;
+	m_pOIProtSink->Switch(&pData);
+}
+
+void PluginProtocol::SetState(DWORD state, wchar_t *data)
+{
+	PROTOCOLDATA pData;
+	pData.grfFlags = 1;
+	pData.dwState  = state;
+	pData.cbData   = data ? wcslen(data) : 0;
+	pData.pData    = data;
+	m_pOIProtSink->Switch(&pData);
+}
+
+void PluginProtocol::SetData(DWORD state)
+{
+	PROTOCOLDATA pData;
+	pData.grfFlags = 2;
+	pData.dwState  = state;
+	pData.cbData   = 0;
+	pData.pData    = 0;
+	m_pOIProtSink->Switch(&pData);
+}
+       
+HRESULT STDMETHODCALLTYPE PluginProtocol::Continue( 
+            /* [in] */ PROTOCOLDATA __RPC_FAR *pProtocolData)
+{
+	if (pProtocolData->grfFlags == 0)
+		return pProtocolData->dwState;
+	if (pProtocolData->grfFlags == 1){
+		if (m_pOIProtSink == NULL)
+			return S_FALSE;
+		wchar_t *info = (wchar_t*)(pProtocolData->pData);
+		m_pOIProtSink->ReportProgress(pProtocolData->dwState, info ? info : L"");
+		return E_PENDING;
+	}
+	if (pProtocolData->grfFlags == 2){
+		if (m_pOIProtSink == NULL)
+			return S_FALSE;
+		m_pOIProtSink->ReportData(pProtocolData->dwState, 0, 0);
+		return E_PENDING;
+	}
+	return S_FALSE;
+}
+        
+HRESULT STDMETHODCALLTYPE PluginProtocol::Abort( 
+            /* [in] */ HRESULT,
+            /* [in] */ DWORD)
+{
+	Close();
+	return S_OK;
+}
+        
+HRESULT STDMETHODCALLTYPE PluginProtocol::Terminate( 
+            /* [in] */ DWORD)
+{
+	Close();
+	Release();
+	return S_OK;
+}
+        
+HRESULT STDMETHODCALLTYPE PluginProtocol::Suspend()
+{
+	return S_FALSE;
+}
+        
+HRESULT STDMETHODCALLTYPE PluginProtocol::Resume()
+{
+	return S_FALSE;
+}
+
+HRESULT STDMETHODCALLTYPE PluginProtocol::Read( 
+            /* [length_is][size_is][out][in] */ void __RPC_FAR *pv,
+            /* [in] */ ULONG cb,
+            /* [out] */ ULONG __RPC_FAR *pcbRead)
+{
+	unsigned size = m_data->buffer().size() - m_data_pos;
+	if (size < cb)
+		cb = size;
+	*pcbRead = cb;
+	if (cb == 0){
+		if (m_pOIProtSink)
+			m_pOIProtSink->ReportResult(INET_E_DEFAULT_ACTION, NULL, NULL);
+		return S_FALSE;
+	}
+	memcpy((char*)pv, m_data->buffer() + m_data_pos, cb);
+	m_data_pos += cb;
+	return S_OK;
+}
+        
+HRESULT STDMETHODCALLTYPE PluginProtocol::Seek( 
+            /* [in] */ LARGE_INTEGER,
+            /* [in] */ DWORD,
+            /* [out] */ ULARGE_INTEGER __RPC_FAR*)
+{
+	return S_FALSE;
+}
+        
+HRESULT STDMETHODCALLTYPE PluginProtocol::LockRequest( 
+            /* [in] */ DWORD)
+{
+	return S_OK;
+}
+        
+HRESULT STDMETHODCALLTYPE PluginProtocol::UnlockRequest( void)
+{
+	return S_OK;
+}
+
+#endif
+
 class MyMimeSourceFactory : public QMimeSourceFactory
 {
 public:
@@ -189,6 +696,9 @@ Icons::Icons()
     connect(kapp, SIGNAL(iconChanged(int)), this, SLOT(iconChanged(int)));
     kapp->addKipcEventMask(KIPC::IconChanged);
     addIcon("about_kde", NULL, "about_kde", 0);
+#endif
+#ifdef USE_IE
+	PluginProtocol::Register();
 #endif
     addIcon("ICQ", icq, "licq", 0xFF00 | 60);
     addIcon("MSN", msn, NULL, 0x200);
@@ -295,6 +805,9 @@ Icons::~Icons()
 {
 #if COMPAT_QT_VERSION < 0x030000
     QMimeSourceFactory::setDefaultFactory(new QMimeSourceFactory());
+#endif
+#ifdef USE_IE
+	PluginProtocol::Unregister();
 #endif
 }
 

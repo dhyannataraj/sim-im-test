@@ -143,7 +143,7 @@ class QOleInit
 #define END_OLE_TABLE\
 	}
 
-QString CnvBSTR(unsigned short *str)
+QString CnvBSTR(const unsigned short *str)
 {
 	QString res;
 	if (str == NULL)
@@ -665,14 +665,42 @@ QActiveX::QActiveX(QWidget *parent, const char *name, REFCLSID clsid)
     createActiveX(clsid);
 }
 
+QActiveX::~QActiveX()
+{
+	OleConnectionArray::iterator it = m_connections.begin();
+	while (it != m_connections.end())
+	{
+		OleConnectionPoint& cp = it->first;
+		cp->Unadvise(it->second);
+		it++;
+	};
+	m_connections.clear();
+
+    if (m_oleInPlaceObject.Ok()) 
+	{
+		m_oleInPlaceObject->InPlaceDeactivate();
+		m_oleInPlaceObject->UIDeactivate();
+	}
+
+	if (m_oleObject.Ok()) 
+	{
+	    if (m_docAdviseCookie != 0)
+    		m_oleObject->Unadvise(m_docAdviseCookie);
+
+	    m_oleObject->DoVerb(OLEIVERB_HIDE, NULL, m_clientSite, 0, winId(), NULL);
+        m_oleObject->Close(OLECLOSE_NOSAVE);
+		m_oleObject->SetClientSite(NULL);
+	}
+}
+
 void QActiveX::createActiveX(REFCLSID clsid)
 {
 	HRESULT hret;
     FrameSite *frame = new FrameSite(this);
 
-    hret = m_clientSite.QueryInterface(IID_IOleClientSite, (IDispatch *) frame);
+    hret = m_clientSite.QueryInterface(IID_IOleClientSite, (IDispatch *)frame);
     ASSERT(SUCCEEDED(hret));
-    AutoOleInterface<IAdviseSink> adviseSink(IID_IAdviseSink, (IDispatch *) frame);
+    AutoOleInterface<IAdviseSink> adviseSink(IID_IAdviseSink, (IDispatch *)frame);
     ASSERT(adviseSink.Ok());
 
     m_ActiveX.CreateInstance(clsid, IID_IUnknown);

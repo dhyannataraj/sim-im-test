@@ -121,6 +121,7 @@ class UI_EXPORT QActiveX : public QWidget
 	Q_OBJECT
 public:
 	QActiveX(QWidget *parent, const char *name, REFCLSID clsid);
+	~QActiveX();
 
 	class ParamX 
 	{
@@ -222,7 +223,9 @@ protected:
 	friend class ActiveXEvents;
 };
 
-class UString
+UI_EXPORT QString CnvBSTR(const unsigned short *str);
+
+class UI_EXPORT UString
 {
 public:
 	UString(const QString&);

@@ -4,17 +4,17 @@
 <xsl:template match="/message"><p>
 <a>
 <xsl:attribute name="href">msg://<xsl:value-of select="id"/></xsl:attribute>
-<img>
+<img border="0">
 <xsl:attribute name="src">icon:<xsl:value-of select="icon"/></xsl:attribute>
 </img>
 <xsl:if test="@encrypted='1'">
-<img src="icon:encrypted"/>
+<img src="icon:encrypted" border="0"/>
 </xsl:if>
 <xsl:if test="@urgent='1'">
-<img src="icon:urgentmsg"/>
+<img src="icon:urgentmsg" border="0"/>
 </xsl:if>
 <xsl:if test="@list='1'">
-<img src="icon:listmsg"/>
+<img src="icon:listmsg" border="0"/>
 </xsl:if>
 </a>
 <xsl:text> </xsl:text>
