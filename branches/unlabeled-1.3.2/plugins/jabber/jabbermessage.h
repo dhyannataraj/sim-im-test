@@ -23,6 +23,7 @@
 const unsigned MessageJabber		= 0x201;
 const unsigned MessageJabberOnline	= 0x202;
 const unsigned MessageJabberOffline	= 0x203;
+const unsigned MessageJabberError	= 0x204;
 
 typedef struct JabberMessageData
 {
@@ -39,6 +40,25 @@ public:
     virtual QString presentation();
 protected:
     JabberMessageData	data;
+};
+
+typedef struct JabberMessageErrorData
+{
+    char		*Error;
+	unsigned	Code;
+} JabberMessageErrorData;
+
+class JabberMessageError : public Message
+{
+public:
+	JabberMessageError(const char *cfg = NULL);
+	~JabberMessageError();
+	PROP_UTF8(Error);
+	PROP_ULONG(Code);
+    virtual string save();
+    virtual QString presentation();
+protected:
+    JabberMessageErrorData	data;
 };
 
 #endif
