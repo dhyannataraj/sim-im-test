@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "POT-Creation-Date: 2002-12-13 08:04+0300\n"
-"PO-Revision-Date: 2002-12-11 13:04+0200\n"
+"PO-Revision-Date: 2002-12-13 18:23+0200\n"
 "Last-Translator: ismail donmez <voidcartman@yahoo.com>\n"
 "Language-Team: Türkçe <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1978,7 +1978,7 @@ msgstr "&KDE Hakkında"
 
 #: mainwin.cpp:2712
 msgid "Change UIN"
-msgstr ""
+msgstr "UIN değiştir"
 
 #: mainwin.cpp:2713
 msgid "Quit"
@@ -2545,7 +2545,7 @@ msgstr "Onayla:Şifreler uyuşmuyor"
 
 #: ui/generalsec.cpp:76
 msgid "Input current password"
-msgstr ""
+msgstr "Geçerli şifreyi girin"
 
 #: ui/generalsec.cpp:81 ui/logindlg.cpp:85 ui/logindlg.cpp:165
 #: ui/logindlg.cpp:199
@@ -2998,9 +2998,8 @@ msgid "&Proxy settings"
 msgstr "&Vekil sunucu ayarları"
 
 #: ui/logindlgbase.cpp:126
-#, fuzzy
 msgid "&Save password"
-msgstr "Şifreyi değiştir"
+msgstr "&Şifreyi sakla"
 
 #: ui/proxydlgbase.cpp:170
 msgid "Proxy settings"
@@ -3355,8 +3354,7 @@ msgstr "Global alarm ayarlarının üzerine yaz"
 
 #: ui/alertdialogbase.cpp:231
 msgid "Activate online alert when user returns from Away or NA"
-msgstr ""
-"Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
+msgstr "Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
 
 #: ui/alertdialogbase.cpp:232
 msgid "Online alert options"
@@ -3697,9 +3695,8 @@ msgid "Use &dock"
 msgstr "&Dock kullan"
 
 #: ui/themesetupbase.cpp:323
-#, fuzzy
 msgid "Use double c&lick"
-msgstr "&Dock kullan"
+msgstr "Çift &tıklama kullan"
 
 #: ui/listsecbase.cpp:120 ui/moreinfobase.cpp:185
 msgid "Form3"
@@ -3710,8 +3707,7 @@ msgid "Hide main window after"
 msgstr "Ana menüyü sakla"
 
 #: ui/statussetupbase.cpp:110
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "\"Uzakta\", \"N/A\", \"DND\" ve \"Meşgul\"-Listelerinde bağlı alamını "
 "iptal et "
@@ -3850,8 +3846,7 @@ msgstr "&Ev bilgisi"
 
 #: ui/generalsecbase.cpp:205
 msgid "My &authorization is required before users add me to Contact List"
-msgstr ""
-"Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
+msgstr "Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
 
 #: ui/generalsecbase.cpp:206
 msgid "Don't show my &IP-address"
@@ -3942,14 +3937,12 @@ msgid "New password:"
 msgstr "Yeni Şifre:"
 
 #: ui/generalsecbase.cpp:229
-#, fuzzy
 msgid "Current password:"
-msgstr "Yeni Şifre:"
+msgstr "Geçerli Şifre:"
 
 #: ui/generalsecbase.cpp:230
-#, fuzzy
 msgid "S&ave password"
-msgstr "Şifreyi değiştir"
+msgstr "Şifreyi &sakla"
 
 #: ui/generalsecbase.cpp:231
 msgid "&Password"
@@ -4025,7 +4018,7 @@ msgstr "Arama penceresini göster"
 
 #: ui/logindlg.cpp:46
 msgid "<New UIN>"
-msgstr ""
+msgstr "<Yeni UIN>"
 
 #: ui/logindlg.cpp:157
 msgid "Unknown login error"
@@ -4646,3 +4639,4 @@ msgstr "%1 dosyası yaratılamadı"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
+
