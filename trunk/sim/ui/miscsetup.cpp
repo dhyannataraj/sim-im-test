@@ -51,7 +51,7 @@ MiscSetup::MiscSetup(QWidget *p)
     tabWnd->setCurrentPage(2);
     tabWnd->removePage(tabWnd->currentPage());
 #endif
-#ifdef USE_KDE
+#if defined(USE_KDE) && defined(HAVE_KABC)
     chkSync->setChecked(pMain->AutoSync);
     connect(btnSync,SIGNAL(clicked()),SLOT(clickedSync()));
 #else
@@ -64,7 +64,7 @@ void MiscSetup::apply(ICQUser*)
 {
     set(pMain->UrlViewer, edtBrowser->text());
     set(pMain->MailClient, edtMail->text());
-#ifdef USE_KDE
+#if defined(USE_KDE) && defined(HAVE_KABC)
     pMain->AutoSync=chkSync->isChecked();
 #endif
 #ifdef USE_SPELL

@@ -19,6 +19,7 @@
 #include "defs.h" 
 
 #ifdef USE_KDE
+#ifdef HAVE_KABC
 
 #include "kabcsync.h"
 
@@ -219,5 +220,6 @@ void KabcSync::processEvent(ICQEvent* e)
 
 #include "kabcsync.moc"
 
+#endif
 #endif
 

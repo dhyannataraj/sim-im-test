@@ -22,6 +22,7 @@
 #include "defs.h"
 
 #ifdef USE_KDE
+#ifdef HAVE_KABC
 
 #include <qobject.h>
 #include <qstring.h>
@@ -54,6 +55,7 @@ public slots:
 
 extern KabcSync* pSyncher;
 
+#endif
 #endif
 #endif
 
