@@ -267,9 +267,9 @@ void EditSpell::spell()
         emit spellDone(true);
         return;
     }
-    t = text().local8Bit();
+    t = text().utf8();
     t = pClient->clearHTML(t.c_str());
-    pSpell->check(QString::fromLocal8Bit(t.c_str()));
+    pSpell->check(QString::fromUtf8(t.c_str()));
 #else
     emit spellDone(true);
 #endif

@@ -208,6 +208,7 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
                                     unsigned long timestamp1, unsigned long timestamp2)
 {
     log(L_DEBUG, "Parse message [type=%u]", type);
+    ICQUser *u = getUser(uin);
     if (type == ICQ_MSGxMSG){
         if (uin < 1000){
             log(L_WARN, "Strange UIN %lu in message", uin);
@@ -216,7 +217,7 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
         if (*(p.c_str()) == 0) return NULL;
         ICQMsg *msg = new ICQMsg;
         msg->Uin.push_back(uin);
-        parseMessageText(p.c_str(), msg->Message);
+        parseMessageText(p.c_str(), msg->Message, u);
         unsigned long forecolor, backcolor;
         packet >> forecolor >> backcolor;
         if (forecolor != backcolor){
@@ -237,7 +238,7 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
         }
         ICQUrl *msg = new ICQUrl;
         msg->Uin.push_back(uin);
-        parseMessageText(l[0].c_str(), msg->Message);
+        parseMessageText(l[0].c_str(), msg->Message, u);
         msg->URL = l[1];
         return msg;
     }
@@ -253,7 +254,7 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
         }
         ICQAuthRequest *msg = new ICQAuthRequest;
         msg->Uin.push_back(uin);
-        parseMessageText(l[4].c_str(), msg->Message);
+        parseMessageText(l[4].c_str(), msg->Message, u);
         return msg;
     }
     if (type == ICQ_MSGxAUTHxGRANTED){
@@ -272,7 +273,7 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
         }
         ICQAuthRefused *msg = new ICQAuthRefused;
         msg->Uin.push_back(uin);
-        parseMessageText(p.c_str(), msg->Message);
+        parseMessageText(p.c_str(), msg->Message, u);
         return msg;
     }
     if (type == ICQ_MSGxADDEDxTOxLIST){
@@ -309,7 +310,7 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
         for (unsigned i = 0; i < nContacts; i++){
             Contact *contact = new Contact;
             contact->Uin = atol(c[i*2].c_str());
-            fromServer(c[i*2+1]);
+            fromServer(c[i*2+1], u);
             contact->Alias = c[i*2+1];
             msg->Contacts.push_back(contact);
         }
@@ -323,7 +324,7 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
         >> name
         >> port >> junk
         >> junk >> junk;
-        fromServer(p);
+        fromServer(p, u);
         ICQChat *msg = new ICQChat();
         msg->Uin.push_back(uin);
         msg->Reason = p;
@@ -342,8 +343,8 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
         >> fileName
         >> fileSize
         >> junk >> junk;
-        fromServer(p);
-        fromServer(fileName);
+        fromServer(p, u);
+        fromServer(fileName, u);
         const char *shortName = strrchr(fileName.c_str(), '\\');
         if (shortName){
             shortName++;
@@ -394,8 +395,8 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
             unsigned long fileSize;
             b >> fileSize;
             fileSize = htonl(fileSize);
-            fromServer(fileDescr);
-            fromServer(fileName);
+            fromServer(fileDescr, u);
+            fromServer(fileName, u);
             ICQFile *msg = new ICQFile();
             msg->isExt = true;
             msg->Uin.push_back(uin);
@@ -420,7 +421,7 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
             }
             ICQUrl *msg = new ICQUrl();
             msg->Uin.push_back(uin);
-            parseMessageText(l[0].c_str(), msg->Message);
+            parseMessageText(l[0].c_str(), msg->Message, u);
             msg->URL = l[1];
             return msg;
         }
@@ -429,14 +430,14 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
             b.unpackStr32(info);
             ICQContactRequest *msg = new ICQContactRequest();
             msg->Uin.push_back(uin);
-            parseMessageText(info.c_str(), msg->Message);
+            parseMessageText(info.c_str(), msg->Message, u);
             return msg;
         }
         if (!strcmp(msgType.c_str(), "Send / Start ICQ Chat")){
             string reason;
             b.unpackStr32(reason);
             ICQChat *msg = new ICQChat;
-            parseMessageText(reason.c_str(), msg->Reason);
+            parseMessageText(reason.c_str(), msg->Reason, u);
             char flag;
             b >> flag;
             if (flag){
@@ -473,7 +474,7 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
             for (unsigned i = 0; i < nContacts; i++){
                 Contact *contact = new Contact;
                 contact->Uin = atol(c[i*2].c_str());
-                fromServer(c[i*2+1]);
+                fromServer(c[i*2+1], u);
                 contact->Alias = c[i*2+1];
                 msg->Contacts.push_back(contact);
             }
@@ -561,16 +562,16 @@ ICQMessage *ICQClient::parseMessage(unsigned short type, unsigned long uin, stri
     return NULL;
 }
 
-void ICQClient::parseMessageText(const char *p, string &s)
+void ICQClient::parseMessageText(const char *p, string &s, ICQUser *u)
 {
     if ((strlen(p) >= 5) && !memcmp(p, "{\\rtf", 5)){
         string r(p);
-        fromServer(r);
-        s = parseRTF(r.c_str());
+        fromServer(r, u);
+        s = parseRTF(r.c_str(), u);
         return;
     }
     s = quoteText(p);
-    fromServer(s);
+    fromServer(s, u);
 }
 
 static string replace_all(const string& s, const string& r1, const string& r2) {

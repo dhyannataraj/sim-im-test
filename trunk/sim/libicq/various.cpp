@@ -220,16 +220,16 @@ bool FullInfoEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short n
             >> u->TimeZone
             >> hideEmail;
             u->HiddenEMail = (hideEmail != 0);
-            client->fromServer(u->Nick);
-            client->fromServer(u->FirstName);
-            client->fromServer(u->LastName);
-            client->fromServer(u->City);
-            client->fromServer(u->State);
-            client->fromServer(u->Address);
-            client->fromServer(u->Zip);
-            client->fromServer(u->HomePhone);
-            client->fromServer(u->HomeFax);
-            client->fromServer(u->PrivateCellular);
+            client->fromServer(u->Nick, u);
+            client->fromServer(u->FirstName, u);
+            client->fromServer(u->LastName, u);
+            client->fromServer(u->City, u);
+            client->fromServer(u->State, u);
+            client->fromServer(u->Address, u);
+            client->fromServer(u->Zip, u);
+            client->fromServer(u->HomePhone, u);
+            client->fromServer(u->HomeFax, u);
+            client->fromServer(u->PrivateCellular, u);
             u->adjustEMails(u->EMails);
             if (*u->Alias.c_str() == 0)
                 client->renameUser(u, u->Nick);
@@ -249,7 +249,7 @@ bool FullInfoEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short n
             >> u->Language2
             >> u->Language3;
             u->BirthYear = htons(u->BirthYear());
-            client->fromServer(u->Homepage);
+            client->fromServer(u->Homepage, u);
             break;
         }
     case ICQ_SRVxEMAIL_INFO:{
@@ -261,7 +261,7 @@ bool FullInfoEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short n
                 b >> d;
                 string s;
                 b >> s;
-                client->fromServer(s);
+                client->fromServer(s, u);
                 if (s.length() == 0) continue;
                 EMailInfo *email = new EMailInfo;
                 email->Email = s;
@@ -289,21 +289,21 @@ bool FullInfoEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short n
             b.unpack(n);
             u->Occupation = n;
             b >> u->WorkHomepage;
-            client->fromServer(u->WorkCity);
-            client->fromServer(u->WorkState);
-            client->fromServer(u->WorkPhone);
-            client->fromServer(u->WorkFax);
-            client->fromServer(u->WorkZip);
-            client->fromServer(u->WorkAddress);
-            client->fromServer(u->WorkName);
-            client->fromServer(u->WorkDepartment);
-            client->fromServer(u->WorkPosition);
-            client->fromServer(u->WorkHomepage);
+            client->fromServer(u->WorkCity, u);
+            client->fromServer(u->WorkState, u);
+            client->fromServer(u->WorkPhone, u);
+            client->fromServer(u->WorkFax, u);
+            client->fromServer(u->WorkZip, u);
+            client->fromServer(u->WorkAddress, u);
+            client->fromServer(u->WorkName, u);
+            client->fromServer(u->WorkDepartment, u);
+            client->fromServer(u->WorkPosition, u);
+            client->fromServer(u->WorkHomepage, u);
             break;
         }
     case ICQ_SRVxABOUT_INFO:
         b >> u->About;
-        client->fromServer(u->About);
+        client->fromServer(u->About, u);
         break;
     case ICQ_SRVxINTERESTS_INFO:{
             char n;
@@ -314,7 +314,7 @@ bool FullInfoEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short n
                 b.unpack(c);
                 string s;
                 b >> s;
-                client->fromServer(s);
+                client->fromServer(s, u);
                 if (c == 0) continue;
                 ExtInfo *interest = new ExtInfo;
                 interest->Category = c;
@@ -333,7 +333,7 @@ bool FullInfoEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short n
                 b.unpack(c);
                 string s;
                 b >> s;
-                client->fromServer(s);
+                client->fromServer(s, u);
                 if (c == 0) continue;
                 ExtInfo *info = new ExtInfo;
                 info->Category = c;
@@ -346,7 +346,7 @@ bool FullInfoEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short n
                 b.unpack(c);
                 string s;
                 b >> s;
-                client->fromServer(s);
+                client->fromServer(s, u);
                 if (c == 0) continue;
                 ExtInfo *info = new ExtInfo;
                 info->Category = c;
@@ -486,10 +486,10 @@ bool SearchEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short nSu
         client->Authorize = (auth != 0);
         client->WebAware = (state != 2);
     }else{
-        client->fromServer(nick);
-        client->fromServer(firstName);
-        client->fromServer(lastName);
-        client->fromServer(email);
+        client->fromServer(nick, client);
+        client->fromServer(firstName, client);
+        client->fromServer(lastName, client);
+        client->fromServer(email, client);
         lastResult = (nSubtype == 0xAE01);
         client->process_event(this);
     }
@@ -525,19 +525,19 @@ ICQEvent *ICQClient::searchWP(const char *szFirst, const char *szLast, const cha
     string sAffiliation = szAffiliation ? szAffiliation : "";
     string sHomePage = szHomePage ? szHomePage : "";
 
-    toServer(sFirst);
-    toServer(sLast);
-    toServer(sNick);
-    toServer(sEmail);
-    toServer(sCity);
-    toServer(sState);
-    toServer(sCoName);
-    toServer(sCoDept);
-    toServer(sCoPos);
-    toServer(sPast);
-    toServer(sInterests);
-    toServer(sAffiliation);
-    toServer(sHomePage);
+    toServer(sFirst, this);
+    toServer(sLast, this);
+    toServer(sNick, this);
+    toServer(sEmail, this);
+    toServer(sCity, this);
+    toServer(sState, this);
+    toServer(sCoName, this);
+    toServer(sCoDept, this);
+    toServer(sCoPos, this);
+    toServer(sPast, this);
+    toServer(sInterests, this);
+    toServer(sAffiliation, this);
+    toServer(sHomePage, this);
 
     unsigned short nMinAge = 0;
     unsigned short nMaxAge = 0;
@@ -613,9 +613,9 @@ ICQEvent *ICQClient::searchByName(const char *first, const char *last, const cha
     string sLast = last ? last : "";
     string sNick = nick ? nick : "";
     log(L_DEBUG, "-- [%s] [%s] [%s]", first, last, nick);
-    toServer(sFirst);
-    toServer(sLast);
-    toServer(sNick);
+    toServer(sFirst, this);
+    toServer(sLast, this);
+    toServer(sNick, this);
     writeBuffer
     << sNick
     << sFirst
@@ -670,7 +670,7 @@ void ICQClient::setPassword(const char *passwd)
     serverRequest(ICQ_SRVxREQ_MORE);
     writeBuffer << ICQ_SRVxREQ_CHANGE_PASSWD;
     string p = passwd;
-    toServer(p);
+    toServer(p, this);
     writeBuffer << p;
     sendServerRequest();
     SetPasswordEvent *e = new SetPasswordEvent(m_nMsgSequence, passwd);
@@ -717,7 +717,7 @@ void ICQClient::setSecurityInfo(bool bAuthorize, bool bWebAware)
 #define SET(A)			client->A = A;
 
 #define SPARAM(A)		string s_##A = u->A;			\
-						toServer(s_##A);				\
+						toServer(s_##A, u);				\
 						if (A != u->A) bChange = true;
 #define	NPARAM(A)		if (A != u->A) bChange = true;
 
@@ -1051,7 +1051,7 @@ void ICQClient::packInfoList(const ExtInfoList &infoList)
     for (ConfigPtrList::const_iterator it = infoList.begin(); it != infoList.end(); ++it){
         ExtInfo *info = static_cast<ExtInfo*>(*it);
         string spec = info->Specific;
-        toServer(spec);
+        toServer(spec, this);
         writeBuffer << htons(info->Category()) << spec;
     }
 }
@@ -1165,7 +1165,7 @@ bool ICQClient::setMailInfo(ICQUser *u)
         }
         string s;
         if (info->Email) s = info->Email;
-        toServer(s);
+        toServer(s, this);
         char hide = info->Hide ? 1 : 0;
         writeBuffer << hide << s;
     }

@@ -1010,8 +1010,12 @@ public:
     ConfigString BirthdayReminder;
     ConfigString FileDone;
 
-    static void fromServer(string &s, const char *localCharset=NULL);
-    static void toServer(string &s, const char *localCharset=NULL);
+    void fromServer(string &s, ICQUser*);
+    void toServer(string &s, ICQUser*);
+    const char *localCharset(ICQUser*);
+
+    static void fromServer(string &s, const char *name);
+    static void toServer(string &s, const char *name);
     static bool translate(const char *to, const char *from, string &s);
     static const char *localCharset();
 
@@ -1068,7 +1072,7 @@ public:
     bool updatePhoneBook();
     bool updatePhoneStatus();
 
-    string parseRTF(const char *packet);
+    string parseRTF(const char *packet, ICQUser *u);
     string createRTF(const char *html, unsigned long foreColor);
     string clearHTML(const char *html);
 
@@ -1205,7 +1209,7 @@ protected:
     void parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAck, unsigned long t1, unsigned long t2);
     ICQMessage *parseMessage(unsigned short type, unsigned long uin, string &p, Buffer &b,
                              unsigned short cookie1, unsigned short cookie2, unsigned long timestamp1, unsigned long timestamp2);
-    void parseMessageText(const char *packet, string &msg);
+    void parseMessageText(const char *packet, string &msg, ICQUser *u);
     bool parseFE(const char *str, vector<string> &l, unsigned n);
 
     unsigned m_nPacketStart;

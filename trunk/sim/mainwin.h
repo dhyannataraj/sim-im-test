@@ -224,7 +224,6 @@ public:
     ConfigULong	 MessageBgColor;
     ConfigULong	 MessageFgColor;
     ConfigBool	 SimpleMode;
-    ConfigBool	 ContainerUserMsg;
     ConfigBool	 UseOwnColors;
 
     ConfigString KeyWindow;

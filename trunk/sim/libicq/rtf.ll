@@ -116,7 +116,7 @@ class RTF2HTML
 public:
     RTF2HTML(ICQClient *_icq)
             : rtf_ptr(NULL), icq(_icq), cur_level(this) {}
-    string Parse(const char *rtf);
+    string Parse(const char *rtf, ICQUser *u);
     void PrintUnquoted(const char *str, ...);
     void PrintQuoted(const char *str);
 protected:
@@ -362,7 +362,7 @@ static char h2d(char c)
     return 0;
 }
 
-string RTF2HTML::Parse(const char *rtf)
+string RTF2HTML::Parse(const char *rtf, ICQUser *u)
 {
     yy_current_buffer = yy_scan_string(rtf);
     s.erase();
@@ -472,7 +472,7 @@ string RTF2HTML::Parse(const char *rtf)
         case HEX:{
                 string s(" ");
                 *((char*)(s.c_str())) = (h2d(yytext[2]) << 4) + h2d(yytext[3]);
-                icq->fromServer(s);
+                icq->fromServer(s, u);
                 cur_level.setText(s.c_str());
                 break;
             }
@@ -551,9 +551,9 @@ string RTF2HTML::Parse(const char *rtf)
     return s;
 }
 
-string ICQClient::parseRTF(const char *rtf)
+string ICQClient::parseRTF(const char *rtf, ICQUser *u)
 {
     RTF2HTML p(this);
-    return p.Parse(rtf);
+    return p.Parse(rtf, u);
 }
 

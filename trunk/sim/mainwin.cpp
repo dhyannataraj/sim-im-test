@@ -244,7 +244,6 @@ MainWindow::MainWindow(const char *name)
         MessageBgColor(this, "MessageBgColor"),
         MessageFgColor(this, "MessageFgColor"),
         SimpleMode(this, "SimpleMode"),
-        ContainerUserMsg(this, "ContainerUserMsg", true),
         UseOwnColors(this, "UseOwnColors"),
         KeyWindow(this, "KeyWindow", "CTRL-SHIFT-A"),
         KeyDblClick(this, "KeyDblClick", "CTRL-SHIFT-I"),

@@ -171,8 +171,8 @@ void ChatWindow::sendLine()
     QString s = edtChat->text();
     s.replace(QRegExp("<br>"), "");
     s.replace(QRegExp("</?p>"), "");
-    QCString sLineSend = s.local8Bit();
-    chat->chat->sendLine(sLineSend);
+    string sLineSend = pClient->to8Bit(uin, s);
+    chat->chat->sendLine(sLineSend.c_str());
     QString clientString;
     QString br;
     if (bClientMode){
@@ -183,7 +183,9 @@ void ChatWindow::sendLine()
         int pos = clientString.find("&gt;");
         clientString = chatHeader(chat->getUin()) + clientString.mid(pos+4);
     }
-    QString line = chatHeader(0) + MainWindow::ParseText(sLineSend, false, pClient->codecForUser(uin)) + "<br>\n";
+    QString line = chatHeader(0) +
+                   MainWindow::ParseText(sLineSend.c_str(), false, pClient->codecForUser(uin)) +
+                   "<br>\n";
     txtChat->insertParagraph(br + line, -1);
     if (bClientMode)
         txtChat->insertParagraph(clientString, -1);
@@ -194,8 +196,8 @@ void ChatWindow::sendLine()
     edtChat->setItalic(btnItalic->isOn());
     edtChat->setUnderline(btnUnderline->isOn());
     if (logFile){
-        QCString s = line.local8Bit();
-        logFile->writeBlock(s, s.length());
+        string s = pClient->to8Bit(uin, line);
+        logFile->writeBlock(s.c_str(), s.length());
         logFile->flush();
     }
     edtChat->setColor(oldColor);
@@ -238,8 +240,8 @@ void ChatWindow::processEvent(ICQEvent *e)
             txtChat->scrollToBottom();
             txtChat->moveCursor(QTextEdit::MoveEnd, false);
             if (logFile){
-                QCString s = line.local8Bit();
-                logFile->writeBlock(s, s.length());
+                string s = pClient->to8Bit(uin, line);
+                logFile->writeBlock(s.c_str(), s.length());
                 logFile->flush();
             }
             bConnected = true;
@@ -284,14 +286,16 @@ void ChatWindow::processEvent(ICQEvent *e)
             }
             txtChat->insertParagraph("<br>", -1);
             txtChat->moveCursor(QTextEdit::MoveEnd, false);
-            QString line = chatHeader(chat->getUin()) + MainWindow::ParseText(clientString.local8Bit(), false, pClient->codecForUser(uin)) + "<br>\n";
+            string clStr = pClient->to8Bit(uin, clientString);
+            QString line = chatHeader(uin) +
+                           MainWindow::ParseText(clStr.c_str(), false, pClient->codecForUser(uin)) + "<br>\n";
             txtChat->append(line);
             txtChat->scrollToBottom();
             txtChat->moveCursor(QTextEdit::MoveEnd, false);
             bClientMode = false;
             if (logFile){
-                QCString s = line.local8Bit();
-                logFile->writeBlock(s, s.size());
+                string s = pClient->to8Bit(uin, line);
+                logFile->writeBlock(s.c_str(), s.size());
                 logFile->flush();
             }
             break;
@@ -360,8 +364,8 @@ void ChatWindow::openLog()
         clientString = chatHeader(chat->getUin()) + clientString.mid(pos+4);
     }
     QString t = txtChat->text();
-    QCString s = t.local8Bit();
-    logFile->writeBlock(s, s.length());
+    string s = pClient->to8Bit(uin, t);
+    logFile->writeBlock(s.c_str(), s.length());
     logFile->flush();
     if (bClientMode)
         txtChat->insertParagraph(clientString, -1);

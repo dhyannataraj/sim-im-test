@@ -643,6 +643,10 @@ QTextCodec *Client::codecForUser(unsigned long uin)
             if (res) return res;
         }
     }
+    if (pClient->Encoding.c_str()){
+        QTextCodec *res = QTextCodec::codecForName(u->Encoding.c_str());
+        if (res) return res;
+    }
     return QTextCodec::codecForLocale();
 }
 
@@ -659,8 +663,8 @@ QString Client::from8Bit(unsigned long uin, const string &str)
 string Client::to8Bit(QTextCodec *codec, const QString &str)
 {
     int lenOut = str.length();
-	string res;
-	if (lenOut == 0) return res;
+    string res;
+    if (lenOut == 0) return res;
     res = (const char*)(codec->makeEncoder()->fromUnicode(str, lenOut));
     toServer(res, codec->name());
     return res;
@@ -671,7 +675,7 @@ QString Client::from8Bit(QTextCodec *codec, const string &str)
     if (!strcmp(codec->name(), serverCharset(codec->name())))
         return codec->makeDecoder()->toUnicode(str.c_str(), str.size());
     string s = str;
-    fromServer(s);
+    fromServer(s, codec->name());
     return codec->makeDecoder()->toUnicode(s.c_str(), s.size());
 }
 
@@ -687,12 +691,14 @@ void Client::setUserEncoding(unsigned long uin, int i)
         if (left >= 0) name = name.mid(left + 3);
         int right = name.find(" )");
         if (right >= 0) name = name.left(right);
-	log(L_DEBUG, "Set encoding for %lu - [%s]", uin, (const char*)name.latin1());
+        log(L_DEBUG, "Set encoding for %lu - [%s]", uin, (const char*)name.latin1());
         u->Encoding = name.latin1();
     }
     emit encodingChanged(uin);
     ICQEvent e(EVENT_INFO_CHANGED, uin);
     process_event(&e);
+    if (uin == pClient->Uin())
+        emit encodingChanged(0);
 }
 
 int Client::userEncoding(unsigned long uin)

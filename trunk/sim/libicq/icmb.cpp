@@ -57,11 +57,12 @@ void ICQClient::snac_message(unsigned short type, unsigned short)
             unsigned short seq;
             readBuffer.incReadPos(0x0F);
             readBuffer >> seq;
+            ICQUser *u = getUser(uin);
             if ((t1 == 0) && (t2 == 0)){
                 readBuffer.incReadPos(0x16);
                 string answer;
                 readBuffer >> answer;
-                fromServer(answer);
+                fromServer(answer, u);
                 if (timestamp1 || timestamp2){
                     log(L_DEBUG, "Message declined %s", answer.c_str());
                     list<ICQEvent*>::iterator it;
@@ -188,20 +189,20 @@ void ICQClient::snac_message(unsigned short type, unsigned short)
                 char SENDER_IP[] = "Sender IP:";
                 if ((l[5].size() > strlen(SENDER_IP)) && !memcmp(l[5].c_str(), SENDER_IP, strlen(SENDER_IP))){
                     ICQWebPanel *m = new ICQWebPanel;
-                    fromServer(l[0]);
-                    fromServer(l[3]);
+                    fromServer(l[0], this);
+                    fromServer(l[3], this);
                     m->Name = l[0];
                     m->Email = l[3];
-                    parseMessageText(l[5].c_str(), m->Message);
+                    parseMessageText(l[5].c_str(), m->Message, this);
                     m->Uin.push_back(contacts.findByEmail(m->Name, m->Email));
                     messageReceived(m);
                 }else{
                     ICQEmailPager *m = new ICQEmailPager;
-                    fromServer(l[0]);
-                    fromServer(l[3]);
+                    fromServer(l[0], this);
+                    fromServer(l[3], this);
                     m->Name = l[0];
                     m->Email = l[3];
-                    parseMessageText(l[5].c_str(), m->Message);
+                    parseMessageText(l[5].c_str(), m->Message, this);
                     m->Uin.push_back(contacts.findByEmail(m->Name, m->Email));
                     messageReceived(m);
                 }
@@ -225,9 +226,10 @@ void ICQClient::snac_message(unsigned short type, unsigned short)
                         break;
                     }
                     ICQMsg *m = new ICQMsg();
+                    ICQUser *u = getUser(uin);
                     m->Uin.push_back(uin);
                     m->Received = true;
-                    parseMessageText((const char*)(*tlv_msg(0x101)) + 4, m->Message);
+                    parseMessageText((const char*)(*tlv_msg(0x101)) + 4, m->Message, u);
                     messageReceived(m);
                     break;
                 }
@@ -353,6 +355,7 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
     string response;
     unsigned short response_type = 0;
     Buffer copy;
+    ICQUser *u = getUser(uin);
     switch (msgType){
     case 0xE8:
     case 0xE9:
@@ -404,7 +407,6 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
                             << 0x09461349L << 0x4C7F11D1L << 0x82224445L << 0x53540000L;
                             sendThroughServer(m->getUin(), 2, b, &id, false);
 
-                            ICQUser *u = getUser(m->getUin());
                             if (u == NULL){
                                 log(L_WARN, "User %lu not found", m->getUin());
                                 cancelMessage(m, false);
@@ -450,7 +452,6 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
                         needAck = false;
                     }
                     m->Received = true;
-                    ICQUser *u = getUser(m->getUin());
                     if (u){
                         bool bChanged = false;
                         if (real_ip && (u->RealIP() != real_ip)){
@@ -482,7 +483,6 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
                 needAck = false;
             }
         }else{
-            ICQUser *u = getUser(uin);
             if (u && !u->inIgnore()){
                 char b[16];
                 payload.unpack(b, sizeof(b));
@@ -558,7 +558,7 @@ void ICQClient::parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAc
     << 0x00000000L << 0x00000000L << 0x00000000L
     << (char)msgType << (char)msgFlags << msgState;
     if (response.size()){
-        toServer(response);
+        toServer(response, u);
         writeBuffer << (unsigned short)htons(response.size() + 1);
         writeBuffer << response.c_str();
         writeBuffer << (char)0;
@@ -750,7 +750,9 @@ void ICQClient::packMessage(Buffer &mb, ICQMessage *m, const char *msg,
 {
     string message;
     if (msg) message = msg;
-    if (bConvert) toServer(message);
+    ICQUser *u = getUser(m->getUin());
+    if (bConvert)
+        toServer(message, u);
 
     if (!bShort){
         mb  << (unsigned short)0x1B00 << 0x08000000L
@@ -789,7 +791,7 @@ void ICQClient::packMessage(Buffer &mb, ICQMessage *m, const char *msg,
         case ICQ_MSGxFILE:{
                 ICQFile *file = static_cast<ICQFile*>(m);
                 string fileName = file->shortName();
-                toServer(fileName);
+                toServer(fileName, u);
                 mb
                 << (unsigned short)file->id1
                 << (unsigned short)0
@@ -802,7 +804,7 @@ void ICQClient::packMessage(Buffer &mb, ICQMessage *m, const char *msg,
         case ICQ_MSGxCHAT:{
                 ICQChat *chat = static_cast<ICQChat*>(m);
                 string n = name();
-                toServer(n);
+                toServer(n, u);
                 mb << n
                 << (unsigned short)chat->id1
                 << (unsigned short)0
@@ -825,8 +827,8 @@ void ICQClient::packMessage(Buffer &mb, ICQMessage *m, const char *msg,
             ICQFile *file = static_cast<ICQFile*>(m);
             string fileDescr = file->Description;
             string fileName = file->shortName();
-            toServer(fileDescr);
-            toServer(fileName);
+            toServer(fileDescr, u);
+            toServer(fileName, u);
             msgBuf.packStr32(fileDescr.c_str());
             msgBuf << file->id1 << file->id2;
             msgBuf << fileName;
@@ -838,7 +840,7 @@ void ICQClient::packMessage(Buffer &mb, ICQMessage *m, const char *msg,
     case ICQ_MSGxCHAT:{
             ICQChat *chat = static_cast<ICQChat*>(m);
             string reason = chat->Reason;
-            toServer(reason);
+            toServer(reason, u);
             msgBuf.packStr32(reason.c_str());
             msgBuf << (unsigned short) 0 << chat->id1 << chat->id2;
             msgBuf << (unsigned short)htons(chat->id1) << (unsigned short)0;
@@ -888,7 +890,7 @@ void ICQClient::processMsgQueueThruServer()
                     ICQUser *u = getUser(*itUin);
                     if (u && u->GetRTF && (u->uStatus != ICQ_STATUS_OFFLINE)){
                         string msg_text = msg->Message;
-                        toServer(msg_text);
+                        toServer(msg_text, u);
                         message = createRTF(msg_text.c_str(), msg->ForeColor);
                         advCounter--;
                         msgBuf
@@ -924,7 +926,7 @@ void ICQClient::processMsgQueueThruServer()
                         sendThroughServer(*itUin, 2, b, &id);
                     }else{
                         message = clearHTML(msg->Message.c_str());
-                        toServer(message);
+                        toServer(message, u);
                         msgBuf << 0x0000L;
                         msgBuf << message.c_str();
                         Buffer b;
@@ -998,11 +1000,12 @@ void ICQClient::processMsgQueueThruServer()
         case ICQ_MSGxURL:{
                 ICQUrl *msg = static_cast<ICQUrl*>(e->message());
                 for (ConfigULongs::iterator itUin = msg->Uin.begin(); itUin != msg->Uin.end(); ++itUin){
+                    ICQUser *u = getUser(*itUin);
                     Buffer msgBuffer;
                     string message = msg->Message;
                     string url = msg->URL;
-                    toServer(message);
-                    toServer(url);
+                    toServer(message, u);
+                    toServer(url, u);
                     msgBuffer << message.c_str();
                     msgBuffer << (char)0xFE;
                     msgBuffer << url.c_str();
@@ -1019,18 +1022,19 @@ void ICQClient::processMsgQueueThruServer()
                 ICQContacts *msg = static_cast<ICQContacts*>(e->message());
                 Buffer msgBuffer;
                 unsigned nContacts = msg->Contacts.size();
-                char u[13];
-                snprintf(u, sizeof(u), "%u", nContacts);
+                char uBuf[13];
+                snprintf(uBuf, sizeof(uBuf), "%u", nContacts);
                 for (ConfigULongs::iterator itUin = msg->Uin.begin(); itUin != msg->Uin.end(); ++itUin){
-                    msgBuffer << u;
+                    msgBuffer << uBuf;
+                    ICQUser *u = getUser(*itUin);
                     for (ContactList::iterator it_msg = msg->Contacts.begin(); it_msg != msg->Contacts.end(); it_msg++){
                         Contact *contact = static_cast<Contact*>(*it_msg);
                         msgBuffer << (char)0xFE;
-                        snprintf(u, sizeof(u), "%lu", contact->Uin());
-                        msgBuffer << u;
+                        snprintf(uBuf, sizeof(uBuf), "%lu", contact->Uin());
+                        msgBuffer << uBuf;
                         msgBuffer << (char)0xFE;
                         string alias = contact->Alias;
-                        toServer(alias);
+                        toServer(alias, u);
                         msgBuffer << alias.c_str();
                     }
                     msgBuffer << (char)0xFE;

@@ -416,7 +416,7 @@ void MsgEdit::fillPhones()
         phoneEdit->insertItem(phone->getNumber().c_str());
         QString t = phoneEdit->lineEdit()->text();
         if (phoneNumber.isEmpty())
-            phoneNumber = QString::fromLocal8Bit(phone->getNumber().c_str());
+            phoneNumber = pClient->from8Bit(Uin(), phone->getNumber());
     }
     phoneEdit->lineEdit()->setText(phoneNumber);
 }
@@ -468,7 +468,7 @@ void MsgEdit::processEvent(ICQEvent *e)
                         ICQSMS *m = new ICQSMS;
                         m->Uin.push_back(Uin);
                         m->Message = smsChunk();
-                        m->Phone = phoneEdit->lineEdit()->text().local8Bit();
+                        m->Phone = pClient->to8Bit(Uin(), phoneEdit->lineEdit()->text());
                         msg = m;
                         sendEvent = pClient->sendMessage(msg);
                         return;
@@ -492,7 +492,7 @@ void MsgEdit::processEvent(ICQEvent *e)
                 e->message()->bDelete = false;
                 emit setStatus(i18n("Send failed"), 2000);
                 if (e->message() && *(e->message()->DeclineReason.c_str()))
-                    BalloonMsg::message(QString::fromLocal8Bit(msg->DeclineReason.c_str()),
+                    BalloonMsg::message(pClient->from8Bit(Uin(), msg->DeclineReason),
                                         btnSend);
             }
             bCloseSend = false;
@@ -733,7 +733,7 @@ void MsgEdit::setParam(unsigned long param)
         break;
     case ICQ_MSGxFILE:{
             string fileName;
-            fileName = ((QString*)param)->local8Bit();
+            fileName = pClient->to8Bit(Uin(), *((QString*)param));
             string decodeName;
             for (unsigned i = 0; i < fileName.length(); i++){
                 char p = fileName[i];
@@ -755,7 +755,7 @@ void MsgEdit::setParam(unsigned long param)
                     decodeName += p;
                 }
             }
-            QString name = QString::fromLocal8Bit(decodeName.c_str());
+            QString name = pClient->from8Bit(Uin(), decodeName);
             if (name.left(5) == "file:"){
                 name = name.mid(5);
 #ifdef WIN32
@@ -815,10 +815,10 @@ void MsgEdit::forwardClick()
     if (msg && msg->Received()){
         switch (msg->Type()){
         case ICQ_MSGxMSG:
-            msgText = QString::fromLocal8Bit(static_cast<ICQMsg*>(msg)->Message.c_str());
+            msgText = pClient->from8Bit(Uin(), static_cast<ICQMsg*>(msg)->Message);
             break;
         case ICQ_MSGxURL:
-            msgText = QString::fromLocal8Bit(static_cast<ICQUrl*>(msg)->Message.c_str());
+            msgText = pClient->from8Bit(Uin(), static_cast<ICQUrl*>(msg)->Message);
             break;
         }
     }else{
@@ -828,7 +828,7 @@ void MsgEdit::forwardClick()
             msgText = view->text();
         }
     }
-    msgText = QString::fromLocal8Bit(pClient->clearHTML(msgText.local8Bit()).c_str());
+    msgText = pClient->from8Bit(Uin(), pClient->clearHTML(msgText.local8Bit()));
     QStringList l = QStringList::split('\n', msgText);
     CUser u(msg->getUin());
     msgText = i18n("%1 (ICQ# %2) wrote:<br>\n")
@@ -840,7 +840,7 @@ void MsgEdit::forwardClick()
     case ICQ_MSGxURL:{
             ICQUrl *nMsg = new ICQUrl;
             nMsg->Uin.push_back(Uin);
-            nMsg->Message = msgText.local8Bit();
+            nMsg->Message = pClient->to8Bit(Uin, msgText);
             nMsg->URL = static_cast<ICQUrl*>(msg)->URL;
             newMsg = nMsg;
             break;
@@ -855,7 +855,7 @@ void MsgEdit::forwardClick()
     default:
         ICQMsg *nMsg = new ICQMsg;
         nMsg->Uin.push_back(Uin);
-        nMsg->Message = msgText.local8Bit();
+        nMsg->Message = pClient->to8Bit(Uin, msgText);
         newMsg = nMsg;
     }
     setMessage(newMsg);
@@ -879,10 +879,10 @@ void MsgEdit::quoteClick()
     if (msg && msg->Received()){
         switch (msg->Type()){
         case ICQ_MSGxMSG:
-            msgText = QString::fromLocal8Bit(static_cast<ICQMsg*>(msg)->Message.c_str());
+            msgText = pClient->from8Bit(Uin, static_cast<ICQMsg*>(msg)->Message);
             break;
         case ICQ_MSGxURL:
-            msgText = QString::fromLocal8Bit(static_cast<ICQUrl*>(msg)->Message.c_str());
+            msgText = pClient->from8Bit(Uin, static_cast<ICQUrl*>(msg)->Message);
             break;
         }
     }else{
@@ -892,7 +892,7 @@ void MsgEdit::quoteClick()
             msgText = view->text();
         }
     }
-    msgText = QString::fromLocal8Bit(pClient->clearHTML(msgText.local8Bit()).c_str());
+    msgText = QString::fromUtf8(pClient->clearHTML(msgText.utf8()).c_str());
     QStringList l = QStringList::split('\n', msgText);
     QStringList::Iterator it;
     for (it = l.begin(); it != l.end(); it++){
@@ -902,7 +902,7 @@ void MsgEdit::quoteClick()
     msgText += "<br>\n";
     ICQMsg *msg = new ICQMsg;
     msg->Uin.push_back(Uin);
-    msg->Message = msgText.local8Bit();
+    msg->Message = pClient->to8Bit(Uin, msgText);
     setMessage(msg);
     edit->moveCursor(QTextEdit::MoveEnd, false);
 }
@@ -1153,7 +1153,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
                 if (!bSaveEdit){
                     edit->setTextFormat(RichText);
                     ICQMsg *m = static_cast<ICQMsg*>(msg);
-                    edit->setText(QString::fromLocal8Bit(m->Message.c_str()));
+                    edit->setText(pClient->from8Bit(Uin(), m->Message));
                     if (m->BackColor() != m->ForeColor()){
                         edit->setBackground(QColor(m->BackColor));
                         edit->setForeground(QColor(m->ForeColor));
@@ -1185,8 +1185,8 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
 #endif
                 ICQUrl *m = static_cast<ICQUrl*>(msg);
                 edit->resetColors(false);
-                edit->setText(QString::fromLocal8Bit(m->Message.c_str()));
-                urlEdit->setText(QString::fromLocal8Bit(m->URL.c_str()));
+                edit->setText(pClient->from8Bit(Uin, m->Message));
+                urlEdit->setText(pClient->from8Bit(Uin, m->URL));
                 urlEdit->setFocus();
                 break;
             }
@@ -1211,9 +1211,9 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
 #endif
                 ICQFile *m = static_cast<ICQFile*>(msg);
                 edit->resetColors(false);
-                edit->setText(QString::fromLocal8Bit(m->Description.c_str()));
+                edit->setText(pClient->from8Bit(Uin, m->Description));
                 fileEdit->setSaveMode(false);
-                fileEdit->setText(QString::fromLocal8Bit(m->Name.c_str()));
+                fileEdit->setText(pClient->from8Bit(Uin, m->Name));
                 fileEdit->setFocus();
                 break;
             }
@@ -1238,7 +1238,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
 #endif
                 ICQChat *m = static_cast<ICQChat*>(msg);
                 edit->resetColors(false);
-                edit->setText(QString::fromLocal8Bit(m->Reason.c_str()));
+                edit->setText(pClient->from8Bit(Uin, m->Reason));
                 break;
             }
         case ICQ_MSGxSMS:{
@@ -1262,9 +1262,9 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
 #endif
                 ICQSMS *m = static_cast<ICQSMS*>(msg);
                 edit->resetColors(false);
-                edit->setText(QString::fromLocal8Bit(pClient->clearHTML(m->Message.c_str()).c_str()));
+                edit->setText(pClient->from8Bit(Uin, pClient->clearHTML(m->Message.c_str())));
                 if (*m->Phone.c_str())
-                    phoneEdit->lineEdit()->setText(QString::fromLocal8Bit(m->Phone.c_str()));
+                    phoneEdit->lineEdit()->setText(pClient->from8Bit(Uin, m->Phone));
                 phoneEdit->setFocus();
                 break;
             }
@@ -1315,7 +1315,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
 #endif
                 ICQAuthRequest *m = static_cast<ICQAuthRequest*>(msg);
                 edit->resetColors(false);
-                edit->setText(QString::fromLocal8Bit(m->Message.c_str()));
+                edit->setText(pClient->from8Bit(Uin(), m->Message));
                 edit->setFocus();
                 break;
             }
@@ -1340,7 +1340,7 @@ void MsgEdit::setMessage(ICQMessage *_msg, bool bMark, bool bInTop, bool bSaveEd
 #endif
                 ICQAuthRefused *m = static_cast<ICQAuthRefused*>(msg);
                 edit->resetColors(false);
-                edit->setText(QString::fromLocal8Bit(m->Message.c_str()));
+                edit->setText(pClient->from8Bit(Uin(), m->Message));
                 edit->setFocus();
                 break;
             }
@@ -1423,7 +1423,7 @@ void MsgEdit::makeMessage()
     switch (msg->Type()){
     case ICQ_MSGxMSG:{
             ICQMsg *m = static_cast<ICQMsg*>(msg);
-            m->Message = edit->text().local8Bit();
+            m->Message = pClient->to8Bit(Uin(), edit->text());
             if (edit->colorChanged()){
                 m->BackColor = (edit->background().rgb() & 0xFFFFFF);
                 m->ForeColor = (edit->foreground().rgb() & 0xFFFFFF);
@@ -1441,27 +1441,26 @@ void MsgEdit::makeMessage()
         }
     case ICQ_MSGxURL:{
             ICQUrl *m = static_cast<ICQUrl*>(msg);
-            m->Message = edit->text().local8Bit();
-            m->URL = urlEdit->text().local8Bit();
+            m->Message = pClient->to8Bit(Uin(), edit->text());
+            m->URL = pClient->to8Bit(Uin(), urlEdit->text());
             break;
         }
     case ICQ_MSGxFILE:{
             ICQFile *m = static_cast<ICQFile*>(msg);
-            m->Description = edit->text().local8Bit();
-            m->Name = fileEdit->text().local8Bit();
+            m->Description = pClient->to8Bit(Uin(), edit->text());
+            m->Name = pClient->to8Bit(Uin(), fileEdit->text());
             break;
         }
     case ICQ_MSGxCHAT:{
             ICQChat *m = static_cast<ICQChat*>(msg);
-            m->Reason = edit->text().local8Bit();
+            m->Reason = pClient->to8Bit(Uin(), edit->text());
             break;
         }
     case ICQ_MSGxSMS:{
             ICQSMS *m = static_cast<ICQSMS*>(msg);
-            string s;
-            s = edit->text().local8Bit();
-            s = pClient->clearHTML(s.c_str());
-            msgTail = trim(QString::fromLocal8Bit(s.c_str()));
+            QString s = edit->text();
+            s = QString::fromUtf8(pClient->clearHTML(s.utf8()).c_str());
+            msgTail = trim(s);
             m->Message = smsChunk();
             m->Phone = phoneEdit->lineEdit()->text().local8Bit();
             break;
@@ -1473,12 +1472,12 @@ void MsgEdit::makeMessage()
         }
     case ICQ_MSGxAUTHxREQUEST:{
             ICQAuthRequest *m = static_cast<ICQAuthRequest*>(msg);
-            m->Message = edit->text().local8Bit();
+            m->Message = pClient->to8Bit(Uin(), edit->text());
             break;
         }
     case ICQ_MSGxAUTHxREFUSED:{
             ICQAuthRefused *m = static_cast<ICQAuthRefused*>(msg);
-            m->Message = edit->text().local8Bit();
+            m->Message = pClient->to8Bit(Uin(), edit->text());
             break;
         }
     case ICQ_MSGxAUTHxGRANTED:
@@ -1572,7 +1571,8 @@ void MsgEdit::declineMessage(int action)
     default:
         reason = reason_string(action);
     }
-    pClient->declineMessage(msg, reason.local8Bit());
+    string declineStr = pClient->to8Bit(Uin, reason);
+    pClient->declineMessage(msg, declineStr.c_str());
 }
 
 void MsgEdit::chatChanged()

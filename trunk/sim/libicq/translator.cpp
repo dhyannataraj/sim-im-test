@@ -103,10 +103,30 @@ void ICQClient::toUTF(string &str)
     translate("UTF-8", localCharset(), str);
 }
 
+char const *ICQClient::localCharset(ICQUser *u)
+{
+    const char *encoding = NULL;
+    if (u && *u->Encoding.c_str())
+        return u->Encoding.c_str();
+    if (*Encoding.c_str())
+        return Encoding.c_str();
+    return localCharset();
+}
+
+void ICQClient::fromServer(string &str, ICQUser *u)
+{
+    fromServer(str, localCharset(u));
+}
+
 void ICQClient::fromServer(string &str, const char *lclCharset)
 {
     if (lclCharset == NULL) lclCharset = localCharset();
     translate(lclCharset, serverCharset(lclCharset), str);
+}
+
+void ICQClient::toServer(string &str, ICQUser *u)
+{
+    toServer(str, localCharset(u));
 }
 
 void ICQClient::toServer(string &str, const char *lclCharset)

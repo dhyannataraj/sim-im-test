@@ -818,7 +818,7 @@ void DirectClient::processPacket()
                 if (msg == NULL) continue;
                 if (msg->id2 == seq){
                     if (ackFlags){
-                        client->fromServer(msg_str);
+                        client->fromServer(msg_str, u);
                         msg->DeclineReason = msg_str;
                         client->cancelMessage(msg, false);
                     }else{
@@ -1076,7 +1076,7 @@ unsigned short DirectClient::sendMessage(ICQMessage *msg)
             ICQMsg *m = static_cast<ICQMsg*>(msg);
             if (u->GetRTF){
                 string msg_text = m->Message;
-                client->toServer(msg_text);
+                client->toServer(msg_text, u);
                 message = client->createRTF(msg_text.c_str(), m->ForeColor);
                 bConvert = false;
             }else{
@@ -1087,7 +1087,7 @@ unsigned short DirectClient::sendMessage(ICQMessage *msg)
     case ICQ_MSGxURL:{
             ICQUrl *url = static_cast<ICQUrl*>(msg);
             message = client->clearHTML(url->Message.c_str());
-            client->toServer(message);
+            client->toServer(message, u);
             message += '\xFE';
             message += url->URL.c_str();
             bConvert = false;
@@ -1107,7 +1107,7 @@ unsigned short DirectClient::sendMessage(ICQMessage *msg)
                 message += u;
                 message += '\xFE';
                 string alias = contact->Alias;
-                client->toServer(alias);
+                client->toServer(alias, u);
                 message += alias.c_str();
             }
             message += '\xFE';
@@ -1297,7 +1297,8 @@ void FileTransfer::processPacket()
                 writeBuffer.pack((char)0);
                 string empty;
                 string s = file->shortName();
-                client->toServer(s);
+                ICQUser *u = client->getUser(file->getUin());
+                client->toServer(s, u);
                 writeBuffer << s << empty;
                 writeBuffer.pack(file->Size());
                 writeBuffer.pack((unsigned long)0);
@@ -1480,7 +1481,8 @@ void ChatSocket::sendLine(const char *str)
                 writeBuffer.pack(myFgColor);
             }
             string s1 = client->clearHTML(s.c_str());
-            client->toServer(s1);
+            ICQUser *u = client->getUser(chat->getUin());
+            client->toServer(s1, u);
             writeBuffer.pack(s1.c_str(), s1.size());
         }
         if (tag){
@@ -1557,7 +1559,8 @@ void ChatSocket::sendLine(const char *str)
 void ChatSocket::putText(string &s)
 {
     if (s.size() == 0) return;
-    client->fromServer(s);
+    ICQUser *u = client->getUser(chat->getUin());
+    client->fromServer(s, u);
     ICQEvent e(EVENT_CHAT, chat->getUin(), CHAT_TEXT, chat);
     e.text = s;
     client->process_event(&e);

@@ -82,7 +82,7 @@ void TextShow::resizeEvent(QResizeEvent *e)
 void TextShow::copy()
 {
     if (!hasSelectedText()) return;
-    QString msgText = QString::fromLocal8Bit(pClient->clearHTML(selectedText().local8Bit()).c_str());
+    QString msgText = QString::fromUtf8(pClient->clearHTML(selectedText().utf8()).c_str());
     QApplication::clipboard()->setText(msgText);
 }
 
@@ -237,9 +237,6 @@ QString TextShow::makeMessageText(ICQMessage *msg, bool bIgnore)
         log(L_WARN, "Unknown message type %u", msg->Type());
         s += "???";
     }
-
-    string txt;
-    txt = s.local8Bit();
     return s;
 }
 
@@ -252,10 +249,9 @@ QString TextShow::quoteText(const char *text)
 
 void TextShow::encodingChanged(unsigned long _uin)
 {
-    if (m_nUin != _uin) return;
+    if (_uin && (m_nUin != _uin)) return;
     QTextCodec *newCodec = pClient->codecForUser(m_nUin);
-	QString t = text();
-    string s = Client::to8Bit(codec, t);
+    string s = Client::to8Bit(codec, text());
     codec = newCodec;
     setText(Client::from8Bit(codec, s));
     scrollToBottom();

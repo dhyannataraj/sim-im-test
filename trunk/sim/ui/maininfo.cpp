@@ -37,6 +37,7 @@ MainInfo::MainInfo(QWidget *p, bool readOnly)
     lblPict->setPixmap(Pict("main"));
     edtUin->setReadOnly(true);
     cmbDisplay->setEditable(true);
+    cmbEncoding->insertStringList(*pClient->encodings);
     connect(lstEmail, SIGNAL(highlighted(int)), this, SLOT(setButtons(int)));
     connect(btnAdd, SIGNAL(clicked()), this, SLOT(addEmail()));
     connect(btnEdit, SIGNAL(clicked()), this, SLOT(editEmail()));
