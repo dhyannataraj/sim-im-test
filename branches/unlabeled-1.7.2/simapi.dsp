@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMAPI_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /O1 /I "$(QTDIR)\include" /I "sim" /I "c:\openssl\include" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMAPI_EXPORTS" /D "QT_DLL" /D "UNICODE" /D "USE_OPENSSL" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /O1 /I "$(QTDIR)\include" /I "sim" /I "c:\openssl\include" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMAPI_EXPORTS" /D "QT_DLL" /D "UNICODE" /D "USE_OPENSSL" /D LTDL_SHLIB_EXT=\".dll\" /D LTDL_OBJDIR=\"\" /D "HAVE_STDIO_H" /D "HAVE_STRING_H" /D "HAVE_MALLOC_H" /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "NDEBUG"
@@ -69,7 +69,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMAPI_EXPORTS" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /ZI /Od /I "$(QTDIR)\include" /I "sim" /I "c:\openssl\include" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMAPI_EXPORTS" /D "QT_DLL" /D "UNICODE" /D "USE_OPENSSL" /Fp"..\Debug/simapi.pch" /YX /Fo"..\Debug/" /Fd"..\Debug/" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /ZI /Od /I "$(QTDIR)\include" /I "sim" /I "c:\openssl\include" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SIMAPI_EXPORTS" /D "QT_DLL" /D "UNICODE" /D "USE_OPENSSL" /D LTDL_SHLIB_EXT=\".dll\" /D LTDL_OBJDIR=\"\" /D "HAVE_STDIO_H" /D "HAVE_STRING_H" /D "HAVE_MALLOC_H" /Fp"..\Debug/simapi.pch" /YX /Fo"..\Debug/" /Fd"..\Debug/" /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "_DEBUG"
@@ -159,6 +159,19 @@ SOURCE=.\sim\api\log.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\sim\api\ltdl.c
+
+!IF  "$(CFG)" == "simapi - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
+
+# ADD CPP /W3
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE=.\sim\api\message.cpp
 # End Source File
 # Begin Source File
@@ -225,6 +238,10 @@ SOURCE=.\sim\api\html.h
 # Begin Source File
 
 SOURCE=.\sim\api\johab_hangul.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\sim\api\ltdl.h
 # End Source File
 # Begin Source File
 

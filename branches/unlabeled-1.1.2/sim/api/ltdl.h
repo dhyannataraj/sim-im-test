@@ -76,7 +76,7 @@ LT_BEGIN_C_DECLS
 
 /* LT_CONC creates a new concatenated symbol for the compiler
    in a portable way.  */
-#if defined(__STDC__) || defined(__cplusplus)
+#if defined(__STDC__) || defined(__cplusplus) || defined(_MSC_VER)
 #  define LT_CONC(s,t)	s##t
 #else
 #  define LT_CONC(s,t)	s/**/t

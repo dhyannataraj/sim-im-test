@@ -71,6 +71,15 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 #endif
 #define inline
 
+#ifdef _MSC_VER
+#if _MSC_VER > 1020
+#pragma warning(disable:4090)
+#pragma warning(disable:4113)
+#pragma warning(disable:4133)
+#pragma warning(disable:4101)
+#pragma warning(disable:4022)
+#endif
+#endif
 
 
 /* --- WINDOWS SUPPORT --- */
@@ -847,10 +856,10 @@ sys_wll_open (loader_data, filename)
   {
     char wpath[MAX_PATH];
     cygwin_conv_to_full_win32_path(searchname, wpath);
-    module = LoadLibrary(wpath);
+    module = LoadLibraryA(wpath);
   }
 #else
-  module = LoadLibrary (searchname);
+  module = LoadLibraryA(searchname);
 #endif
   LT_DLFREE (searchname);
 

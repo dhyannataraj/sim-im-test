@@ -303,7 +303,7 @@ void PluginManagerPrivate::load(pluginInfo &info)
         return;
     if (info.info == NULL){
         PluginInfo* (*getInfo)() = NULL;
-        (void*)getInfo = (void*)lt_dlsym((lt_dlhandle)info.module, "GetPluginInfo");
+        (lt_ptr&)getInfo = lt_dlsym((lt_dlhandle)info.module, "GetPluginInfo");
         if (getInfo == NULL){
             log(L_WARN, "Plugin %s haven't entry GetInfo", info.name);
             release(info);
