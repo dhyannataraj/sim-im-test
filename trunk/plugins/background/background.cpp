@@ -59,14 +59,14 @@ static DataDef backgroundData[] =
         { NULL, 0, 0, 0 }
     };
 
-#if defined(WIN32) && (QT_VERSION < 300)
+#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
 void qInitJpeg();
 #endif
 
 BackgroundPlugin::BackgroundPlugin(unsigned base, const char *config)
         : Plugin(base)
 {
-#if defined(WIN32) && (QT_VERSION < 300)
+#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
     qInitJpeg();
 #endif
     load_data(backgroundData, &data, config);

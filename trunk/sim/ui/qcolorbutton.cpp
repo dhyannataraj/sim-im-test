@@ -51,7 +51,7 @@ void QColorButton::setColor( const QColor &c )
 
 void QColorButton::drawButtonLabel( QPainter *painter )
 {
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
     QRect r = style().pushButtonContentsRect(this);
 #else
 QRect r = style().subRect( QStyle::SR_PushButtonContents, this );

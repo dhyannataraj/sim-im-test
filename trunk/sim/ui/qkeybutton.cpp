@@ -104,7 +104,7 @@ void QKeyButton::setKey(QKeyEvent *e, bool bPress)
     case Key_Alt:
         key_state = AltButton;
         break;
-#if QT_VERSION >= 300
+#if COMPAT_QT_VERSION >= 0x030000
     case Key_Meta:
         key_state = MetaButton;
         break;
@@ -122,7 +122,7 @@ void QKeyButton::setKey(QKeyEvent *e, bool bPress)
     if (state & AltButton) keyName += "Alt+";
     if (state & ControlButton) keyName += "Ctrl+";
     if (state & ShiftButton) keyName += "Shift+";
-#if QT_VERSION >= 300
+#if COMPAT_QT_VERSION >= 0x030000
     if (state & MetaButton) keyName += "Meta+";
 #endif
     setText(keyName + name);

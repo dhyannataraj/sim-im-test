@@ -6,7 +6,7 @@
 #include <qguardedptr.h>
 #endif // QT_H
 
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
 
 template<class Type>
 class QGuardedCleanupHandler

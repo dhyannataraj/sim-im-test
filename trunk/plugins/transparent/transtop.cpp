@@ -27,7 +27,7 @@ TransparentTop::TransparentTop(QWidget *parent, unsigned transparent)
 {
     m_transparent = transparent;
     rootpixmap = new KRootPixmap(parent);
-#if QT_VERSION >= 300
+#if COMPAT_QT_VERSION >= 0x030000
     rootpixmap->setCustomPainting(true);
     connect(rootpixmap, SIGNAL(backgroundUpdated(const QPixmap&)), this, SLOT(backgroundUpdated(const QPixmap&)));
 #else
@@ -52,7 +52,7 @@ void TransparentTop::setTransparent(unsigned transparent)
 
 QPixmap TransparentTop::background(const QColor &c)
 {
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
     QWidget *w = (QWidget*)parent();
     const QPixmap *bg = w->backgroundPixmap();
     if (bg == NULL)
@@ -69,7 +69,7 @@ QPixmap TransparentTop::background(const QColor &c)
     return res;
 }
 
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
 
 bool TransparentTop::eventFilter(QObject *o, QEvent *e)
 {
@@ -84,7 +84,7 @@ bool TransparentTop::eventFilter(QObject *o, QEvent *e)
 
 void TransparentTop::backgroundUpdated( const QPixmap &pm )
 {
-    bg = pm;
+    QPixmap bg = pm;
     Event e(EventRepaintView);
     e.process();
 }

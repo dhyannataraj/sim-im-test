@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qtextedit.h,v 1.5 2004-01-15 11:30:26 shutoff Exp $
+** $Id: qtextedit.h,v 1.6 2004-02-18 18:52:47 chehrlic Exp $
 **
 ** Definition of the QTextEdit class
 **
@@ -52,7 +52,7 @@
 #include "qt3stuff.h"
 #endif // QT_H
 
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
 
 class QKeyEvent;
 class QResizeEvent;

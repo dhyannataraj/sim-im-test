@@ -25,7 +25,7 @@
 #include <qtoolbutton.h>
 #include <qlabel.h>
 
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
 #include "qt3/qtextedit.h"
 #else
 #include <qtextedit.h>

@@ -17,7 +17,6 @@
 
 #include "ontop.h"
 #include "ontopcfg.h"
-#include "simapi.h"
 
 #include <qapplication.h>
 #include <qwidgetlist.h>
@@ -25,8 +24,10 @@
 #ifdef WIN32
 #include <windows.h>
 #else
-#include <kdeversion.h>
+#if defined(USE_KDE)
+#include "kdeisversion.h"
 #include <kwin.h>
+#endif
 #endif
 
 Plugin *createOnTopPlugin(unsigned base, bool, const char *config)

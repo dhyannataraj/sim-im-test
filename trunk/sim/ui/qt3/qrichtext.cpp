@@ -1,5 +1,5 @@
 #/****************************************************************************
-** $Id: qrichtext.cpp,v 1.12 2004-02-08 12:03:05 shutoff Exp $
+** $Id: qrichtext.cpp,v 1.13 2004-02-18 18:52:46 chehrlic Exp $
 **
 ** Implementation of the internal Qt classes dealing with rich text
 **
@@ -45,7 +45,7 @@
 
 #include "qrichtext_p.h"
 
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
 #ifndef QT_NO_RICHTEXT
 
 
@@ -4633,7 +4633,8 @@ formatAgain:
         QString spaces;
         bool doStart = richTextExportStart && richTextExportStart->parag() == this;
         bool doEnd = richTextExportEnd && richTextExportEnd->parag() == this;
-        for ( int i = 0; i < length()-1; ++i ) {
+        int i;
+        for ( i = 0; i < length()-1; ++i ) {
             if ( doStart && richTextExportStart->index() == i )
                 s += "<!--StartFragment-->";
             if ( doEnd && richTextExportEnd->index() == i )

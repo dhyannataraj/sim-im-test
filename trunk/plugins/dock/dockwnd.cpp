@@ -497,7 +497,7 @@ MyPixmap::MyPixmap(Pixmap pp, int w, int h)
         : QPixmap(w, h)
 {
     data->uninit = false;
-#if QT_VERSION >= 300
+#if COMPAT_QT_VERSION >= 0x030000
     Screen *screen =  XDefaultScreenOfDisplay(dd);
     int scr = XScreenNumberOfScreen(screen);
     x11SetScreen(scr);

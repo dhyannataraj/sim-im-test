@@ -22,6 +22,12 @@
 #include "config.h"
 #endif
 
+#include "compatqtversion.h"
+
+#if COMPAT_QT_VERSION >= 0x030000
+#include <qtextedit.h>
+#endif
+
 #ifdef STDC_HEADERS
 #include <stdlib.h>
 #include <stddef.h>
@@ -100,7 +106,7 @@ typedef unsigned char _Bool;
 using namespace std;
 
 #include <qwidget.h>
-#if QT_VERSION >= 300
+#if COMPAT_QT_VERSION >= 0x030000
 #include <qdockwindow.h>
 #endif
 
@@ -138,10 +144,8 @@ EXPORT int strcasecmp(const char *a, const char *b);
 
 #ifdef USE_KDE
 
-class QKeySequence;
-
 #include <klocale.h>
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
 EXPORT QString i18n(const char *singular, const char *plural, unsigned long n);
 #endif
 #else
@@ -151,11 +155,11 @@ EXPORT QString i18n(const char *text, const char *comment);
 EXPORT QString i18n(const char *singular, const char *plural, unsigned long n);
 #define I18N_NOOP(A)	A
 #endif
-#if !defined(USE_KDE) || (QT_VERSION < 300)
+#if !defined(USE_KDE) || (COMPAT_QT_VERSION < 0x030000)
 EXPORT void resetPlural();
 #endif
 
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
 
 #include <qpoint.h>
 

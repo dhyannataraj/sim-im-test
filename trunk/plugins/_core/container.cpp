@@ -40,7 +40,7 @@
 #include <windows.h>
 #else
 #ifdef USE_KDE
-#include <kdeversion.h>
+#include "kdeisversion.h"
 #include <kwin.h>
 #endif
 #endif
@@ -970,7 +970,7 @@ UserWnd *UserTabBar::currentWnd()
 void UserTabBar::layoutTabs()
 {
     QTabBar::layoutTabs();
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
     QList<QTab> *tList = tabList();
     for (QTab *t = tList->first(); t; t = tList->next()){
         t->r.setHeight(height());

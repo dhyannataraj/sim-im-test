@@ -46,7 +46,7 @@
 #include <time.h>
 
 #ifdef USE_KDE
-#include <kdeversion.h>
+#include "kdeisversion.h"
 #endif
 
 const unsigned NO_TYPE = (unsigned)(-1);

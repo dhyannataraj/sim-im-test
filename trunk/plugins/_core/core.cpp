@@ -84,7 +84,7 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-#if !defined(WIN32) && !defined(USE_KDE) && (QT_VERSION >= 300)
+#if !defined(WIN32) && !defined(USE_KDE) && (COMPAT_QT_VERSION >= 0x030000)
 
 struct loaded_domain;
 
@@ -1445,14 +1445,14 @@ void CorePlugin::installTranslator()
     QString po = poFile(lang.c_str());
     if (po.isEmpty())
         return;
-#if !defined(WIN32) && !defined(USE_KDE) && (QT_VERSION >= 300)
+#if !defined(WIN32) && !defined(USE_KDE) && (COMPAT_QT_VERSION >= 0x030000)
     m_translator = new SIMTranslator(NULL, po);
 #else
     m_translator = new QTranslator(NULL);
     m_translator->load(po);
 #endif
     qApp->installTranslator(m_translator);
-#if !defined(WIN32) && !defined(USE_KDE) && (QT_VERSION >= 300)
+#if !defined(WIN32) && !defined(USE_KDE) && (COMPAT_QT_VERSION >= 0x030000)
     resetPlural();
 #endif
     Event e(EventLanguageChanged, m_translator);
@@ -1465,7 +1465,7 @@ void CorePlugin::removeTranslator()
         qApp->removeTranslator(m_translator);
         delete m_translator;
         m_translator = NULL;
-#if !defined(WIN32) && !defined(USE_KDE) && (QT_VERSION >= 300)
+#if !defined(WIN32) && !defined(USE_KDE) && (COMPAT_QT_VERSION >= 0x030000)
         resetPlural();
 #endif
         Event e(EventLanguageChanged, NULL);
@@ -3348,7 +3348,7 @@ string CorePlugin::getConfig()
         fCFG.writeBlock(write.c_str(), write.length());
 
         const int status = fCFG.status();
-#if QT_VERSION >= 0x030200
+#if COMPAT_QT_VERSION >= 0x030200
         const QString errorMessage = fCFG.errorString();
 #else
         const QString errorMessage = "write file fail";
@@ -3406,7 +3406,7 @@ string CorePlugin::getConfig()
         }
 
         const int status = f.status();
-#if QT_VERSION >= 0x030200
+#if COMPAT_QT_VERSION >= 0x030200
         const QString errorMessage = f.errorString();
 #else
 const QString errorMessage = "write file fail";

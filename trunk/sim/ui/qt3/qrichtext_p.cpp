@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qrichtext_p.cpp,v 1.4 2003-11-23 13:33:48 shutoff Exp $
+** $Id: qrichtext_p.cpp,v 1.5 2004-02-18 18:52:47 chehrlic Exp $
 **
 ** Implementation of the internal Qt classes dealing with rich text
 **
@@ -45,7 +45,7 @@
 
 #include "qrichtext_p.h"
 
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
 #ifndef QT_NO_RICHTEXT
 
 namespace Qt3 {

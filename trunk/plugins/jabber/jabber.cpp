@@ -194,14 +194,14 @@ const CommandDef *JabberProtocol::statusList()
     return jabber_status_list;
 }
 
-#if defined(WIN32) && (QT_VERSION < 300)
+#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
 void qInitJpeg();
 #endif
 
 JabberPlugin::JabberPlugin(unsigned base)
         : Plugin(base)
 {
-#if defined(WIN32) && (QT_VERSION < 300)
+#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
     qInitJpeg();
 #endif
 

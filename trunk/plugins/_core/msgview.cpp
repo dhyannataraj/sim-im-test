@@ -1030,7 +1030,7 @@ ViewParser::ViewParser(bool bIgnoreColors, bool bUseSmiles)
             const smile *s = smiles(i);
             if (s == NULL)
                 break;
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
             string str;
             for (const char *p = s->exp;; p++){
                 if ((*p == 0) || (*p == '|')){

@@ -17,12 +17,10 @@
 
 #include "simapi.h"
 
-#if QT_VERSION < 0x030000
+#if (COMPAT_QT_VERSION < 0x030000) || ((COMPAT_QT_VERSION >= 0x030000) && !(defined(HAVE_QSYNTAXHIGHLIGHTER_H)))
 #include "qt3/qsyntaxhighlighter.h"
 #else
-#ifdef HAVE_QSYNTAXHIGHLIGHTER_H
 #include <qsyntaxhighlighter.h>
-#endif
 #endif
 
 #include "historycfg.h"
@@ -62,7 +60,6 @@ static char EXT[]    = ".xsl";
 
 #undef QTextEdit
 
-#if (QT_VERSION < 0x300) || ((QT_VERSION >= 0x300) && defined(HAVE_QSYNTAXHIGHLIGHTER_H))
 
 class XmlHighlighter : public QSyntaxHighlighter
 {
@@ -183,7 +180,6 @@ int XmlHighlighter::highlightParagraph(const QString &s, int state)
     return state;
 }
 
-#endif
 
 HistoryConfig::HistoryConfig(QWidget *parent)
         : HistoryConfigBase(parent)
@@ -209,9 +205,7 @@ HistoryConfig::HistoryConfig(QWidget *parent)
     lblPage2->setText(str2);
     edtStyle->setWordWrap(QTextEdit::NoWrap);
     edtStyle->setTextFormat(QTextEdit::RichText);
-#if (QT_VERSION < 0x300) || ((QT_VERSION >= 0x300) && defined(HAVE_QSYNTAXHIGHLIGHTER_H))
     new XmlHighlighter(edtStyle);
-#endif
     QStringList styles;
     addStyles(user_file(STYLES).c_str(), true);
 #ifdef USE_KDE
@@ -275,7 +269,7 @@ void HistoryConfig::apply()
             f.writeBlock(s.c_str(), s.length());
 
             const int status = f.status();
-#if QT_VERSION >= 0x030200
+#if COMPAT_QT_VERSION >= 0x030200
             const QString errorMessage = f.errorString();
 #else
             const QString errorMessage = "write file fail";
@@ -431,7 +425,7 @@ void HistoryConfig::copy()
     from.close();
 
     const int status = to.status();
-#if QT_VERSION >= 0x030200
+#if COMPAT_QT_VERSION >= 0x030200
     const QString errorMessage = to.errorString();
 #else
 const QString errorMessage = "write file fail";

@@ -174,7 +174,7 @@ void CToolButton::setState()
     if (m_def.icon_on && strcmp(m_def.icon, m_def.icon_on)){
         const QIconSet *offIcon = Icon(m_def.icon);
         if (offIcon){
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
             setIconSet(*offIcon);
             const QIconSet *onIcon = Icon(m_def.icon_on);
             if (onIcon)
@@ -275,7 +275,7 @@ QPoint CToolButton::popupPos(QWidget *btn, QWidget *p)
 
 void CToolButton::mousePressEvent(QMouseEvent *e)
 {
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
     if (e->button() == RightButton){
         emit showPopup(e->globalPos());
         return;
@@ -406,7 +406,7 @@ void PictButton::paintEvent(QPaintEvent*)
             p.fillRect(0, 0, width(), height(), colorGroup().button());
         }
     }
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
     style().drawToolButton(this, &p);
 #else
     drawButton(&p);
@@ -556,7 +556,7 @@ void CToolBar::checkState()
 
 void CToolBar::mousePressEvent(QMouseEvent *e)
 {
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
     if (e->button() == RightButton){
         showPopup(e->globalPos());
         return;

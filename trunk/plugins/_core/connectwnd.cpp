@@ -26,7 +26,7 @@ ConnectWnd::ConnectWnd(bool bStart)
 {
     m_bStart = bStart;
     setConnecting(true);
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
     QMovie movie(QFile::decodeName(app_file("pict/connect.gif").c_str()));
 #else
 QMovie movie(QFile::decodeName(app_file("pict/connect.mng").c_str()));

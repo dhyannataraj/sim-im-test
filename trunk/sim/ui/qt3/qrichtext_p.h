@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qrichtext_p.h,v 1.8 2004-01-15 11:30:25 shutoff Exp $
+** $Id: qrichtext_p.h,v 1.9 2004-02-18 18:52:47 chehrlic Exp $
 **
 ** Definition of internal rich text classes
 **
@@ -75,7 +75,7 @@
 #include "qt3stuff.h"
 #include "qmap.h"
 
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
 #ifndef QT_NO_RICHTEXT
 
 //#define DEBUG_COLLECTION

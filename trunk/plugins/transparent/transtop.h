@@ -41,7 +41,7 @@ public:
 protected slots:
     void backgroundUpdated( const QPixmap &pm );
 protected:
-#if QT_VERSION > 300
+#if COMPAT_QT_VERSION > 0x030000
     QPixmap bg;
 #else
     virtual bool eventFilter(QObject *o, QEvent *e);

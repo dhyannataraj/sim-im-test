@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qkeysequence.h,v 1.2 2003-08-02 19:22:04 shutoff Exp $
+** $Id: qkeysequence.h,v 1.3 2004-02-18 18:52:46 chehrlic Exp $
 **
 ** Definition of QKeySequence class
 **
@@ -46,7 +46,7 @@
 #endif // QT_H
 #endif
 
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
 
 #ifndef QT_NO_ACCEL
 

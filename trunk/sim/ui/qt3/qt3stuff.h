@@ -2,7 +2,7 @@
 #define QT3STUFF_H
 
 #include <qglobal.h>
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
 
 #include "simapi.h"
 

@@ -24,7 +24,7 @@
 #include <qstyle.h>
 #include <qdir.h>
 
-#if QT_VERSION >= 300
+#if COMPAT_QT_VERSION >= 0x030000
 #include <qstylefactory.h>
 #else
 
@@ -57,7 +57,7 @@ StylesConfig::StylesConfig(QWidget *parent, StylesPlugin *plugin)
         tab->addTab(font_cfg, i18n("Fonts and colors"));
         break;
     }
-#if QT_VERSION >= 300
+#if COMPAT_QT_VERSION >= 0x030000
     lstStyle->insertStringList(QStyleFactory::keys());
 #else
     for (const char **s = defStyles; *s; s++)

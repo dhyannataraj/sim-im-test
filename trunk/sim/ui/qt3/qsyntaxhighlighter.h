@@ -52,7 +52,8 @@
 #include "qt3stuff.h"
 #endif // QT_H
 
-#if QT_VERSION < 300
+#if (COMPAT_QT_VERSION < 0x030000) || ((COMPAT_QT_VERSION >= 0x030000) && !(defined(HAVE_QSYNTAXHIGHLIGHTER_H)))
+#include "qtextedit.h"
 
 class QTextEdit;
 
@@ -86,9 +87,9 @@ public:
     int currentParagraph() const;
 
 private:
-    QTextParag *para;
+    Qt3::QTextParag *para;
     QTextEdit *edit;
-    QSyntaxHighlighterPrivate *d;
+    Qt3::QSyntaxHighlighterPrivate *d;
 
 };
 

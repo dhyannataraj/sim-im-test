@@ -164,7 +164,7 @@ void TipLabel::drawContents(QPainter *p)
 {
     QSimpleRichText richText(m_text, font(), "", QStyleSheet::defaultSheet(), QMimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
     richText.adjustSize();
-#if QT_VERSION < 0x300
+#if COMPAT_QT_VERSION < 0x030000
     richText.draw(p, 4, 4, QRegion(0, 0, width(), height()), QToolTip::palette());
 #else
 richText.draw(p, 4, 4, QRect(0, 0, width(), height()), QToolTip::palette().active());

@@ -49,14 +49,14 @@
 #include <qlineedit.h>
 #include <qregexp.h>
 
-#if QT_VERSION >= 300
+#if COMPAT_QT_VERSION >= 0x030000
 #include <qdesktopwidget.h>
 #endif
 
 #ifdef USE_KDE
 #include <kwin.h>
 #include <kglobal.h>
-#include <kdeversion.h>
+#include "kdeisversion.h"
 #endif
 
 #include "stl.h"
@@ -84,7 +84,7 @@ QString i18n(const char *text, const char *comment)
 
 #endif
 
-#if !defined(USE_KDE) || (QT_VERSION < 300)
+#if !defined(USE_KDE) || (COMPAT_QT_VERSION < 0x030000)
 
 static bool bPluralInit = false;
 static int plural_form = -1;
@@ -753,7 +753,7 @@ EXPORT void setSmiles(const char *pp)
 DECLARE_HANDLE(HMONITOR);
 typedef BOOL (CALLBACK* MONITORENUMPROC)(HMONITOR, HDC, LPRECT, LPARAM);
 
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
 
 static BOOL CALLBACK enumScreens(HMONITOR, HDC, LPRECT rc, LPARAM data)
 {
@@ -767,7 +767,7 @@ static BOOL CALLBACK enumScreens(HMONITOR, HDC, LPRECT rc, LPARAM data)
 
 EXPORT unsigned screens()
 {
-#if QT_VERSION >= 300
+#if COMPAT_QT_VERSION >= 0x030000
     QDesktopWidget *desktop = QApplication::desktop();
     return desktop->numScreens();
 #else 
@@ -793,7 +793,7 @@ EXPORT unsigned screens()
 
 EXPORT QRect screenGeometry(unsigned nScreen)
 {
-#if QT_VERSION >= 300
+#if COMPAT_QT_VERSION >= 0x030000
     QDesktopWidget *desktop = QApplication::desktop();
     return desktop->screenGeometry(nScreen);
 #else 
@@ -819,7 +819,7 @@ EXPORT QRect screenGeometry(unsigned nScreen)
 
 EXPORT QRect screenGeometry()
 {
-#if QT_VERSION >= 300
+#if COMPAT_QT_VERSION >= 0x030000
     QDesktopWidget *desktop = QApplication::desktop();
     QRect rc;
     for (int i = 0; i < desktop->numScreens(); i++){

@@ -585,7 +585,7 @@ void IPResolver::start_resolve()
     struct in_addr inaddr;
     inaddr.s_addr = m_addr;
     log(L_DEBUG, "start resolve %s", inet_ntoa(inaddr));
-#if QT_VERSION >= 300
+#if COMPAT_QT_VERSION >= 0x030000
     delete resolver;
     resolver = new QDns(QHostAddress(htonl(m_addr)), QDns::Ptr);
     connect(resolver, SIGNAL(resultsReady()), this, SLOT(resolve_ready()));

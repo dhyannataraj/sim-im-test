@@ -107,7 +107,7 @@ DateEdit::DateEdit(QWidget *parent)
         : QLineEdit(parent)
 {
     setValidator(new DateValidator(this));
-#if QT_VERSION >= 0x030200
+#if COMPAT_QT_VERSION >= 0x030200
     setInputMask("00/00/0000;_");
 #endif
 }

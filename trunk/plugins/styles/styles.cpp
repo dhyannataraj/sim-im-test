@@ -29,7 +29,7 @@
 #include <windows.h>
 #endif
 
-#if QT_VERSION >= 300
+#if COMPAT_QT_VERSION >= 0x030000
 #include <qstylefactory.h>
 #else
 #include <qwindowsstyle.h>
@@ -148,7 +148,7 @@ void StylesPlugin::setColors()
 void StylesPlugin::setStyles()
 {
     QStyle *style = NULL;
-#if QT_VERSION >= 300
+#if COMPAT_QT_VERSION >= 0x030000
     if (*getStyle())
         style = QStyleFactory::create(getStyle());
 #else

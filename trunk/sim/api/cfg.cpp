@@ -46,7 +46,7 @@
 #include <kglobal.h>
 #include <kstddirs.h>
 #include <kwin.h>
-#include <kdeversion.h>
+#include "kdeisversion.h"
 #endif
 
 #ifdef WIN32

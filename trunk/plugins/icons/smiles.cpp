@@ -323,7 +323,7 @@ bool Smiles::load(const QString &file)
                 const smile *s = defaultSmiles(index);
                 if (s == NULL)
                     break;
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
                 QString exp = s->exp;
                 bool bMatch = false;
                 while (!exp.isEmpty()){

@@ -334,7 +334,7 @@ const CommandDef *AIMProtocol::statusList()
 Protocol *ICQPlugin::m_icq = NULL;
 Protocol *ICQPlugin::m_aim = NULL;
 
-#if defined(WIN32) && (QT_VERSION < 300)
+#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
 void qInitJpeg();
 #endif
 
@@ -349,7 +349,7 @@ ICQPlugin::ICQPlugin(unsigned base)
     pluginInfo *info = (pluginInfo*)(ePlugin.process());
     core = static_cast<CorePlugin*>(info->plugin);
 
-#if defined(WIN32) && (QT_VERSION < 300)
+#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
     qInitJpeg();
 #endif
     icq_plugin = this;

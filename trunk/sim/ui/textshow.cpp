@@ -147,13 +147,13 @@ TextEdit::TextEdit(QWidget *p, const char *name)
     curFG = colorGroup().color(QColorGroup::Text);
     m_bCtrlMode = true;
     setWordWrap(WidgetWidth);
-#if QT_VERSION >= 0x030100
+#if COMPAT_QT_VERSION >= 0x030100
     setAutoFormatting(0);
 #endif
     connect(this, SIGNAL(currentFontChanged(const QFont&)), this, SLOT(fontChanged(const QFont&)));
     connect(this, SIGNAL(currentColorChanged(const QColor&)), this, SLOT(slotColorChanged(const QColor&)));
     connect(this, SIGNAL(textChanged()), this, SLOT(slotTextChanged()));
-#if QT_VERSION >= 300
+#if COMPAT_QT_VERSION >= 0x030000
     connect(this, SIGNAL(clicked(int,int)), this, SLOT(slotClicked(int,int)));
 #endif
     viewport()->installEventFilter(this);
@@ -185,7 +185,7 @@ void TextEdit::slotTextChanged()
 
 void TextEdit::slotClicked(int,int)
 {
-#if QT_VERSION >= 300
+#if COMPAT_QT_VERSION >= 0x030000
     int paraFrom, paraTo, indexFrom, indexTo;
     getSelection(&paraFrom, &indexFrom, &paraTo, &indexTo);
     if ((paraFrom != paraTo) || (indexFrom != indexTo))
@@ -316,7 +316,7 @@ void TextEdit::keyPressEvent(QKeyEvent *e)
             return;
         }
     }
-#if (QT_VERSION >= 300) && (QT_VERSION < 0x030100)
+#if (COMPAT_QT_VERSION >= 0x030000) && (COMPAT_QT_VERSION < 0x030100)
     // Workaround about autoformat feature in qt 3.0.x
     if ((e->text()[0] == '-') || (e->text()[0] == '*')){
         if (isOverwriteMode() && !hasSelectedText())
@@ -494,7 +494,7 @@ TextShow::TextShow(QWidget *p, const char *name)
 {
     setTextFormat(RichText);
     setReadOnly(true);
-#if QT_VERSION >= 0x030100
+#if COMPAT_QT_VERSION >= 0x030100
     if (QApplication::clipboard()->supportsSelection())
         connect(this, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()));
 #endif
@@ -577,7 +577,7 @@ void TextShow::copy()
     QTextDrag *drag = dragObject(NULL);
     if ( !drag )
         return;
-#if QT_VERSION <= 0x030100
+#if COMPAT_QT_VERSION <= 0x030100
     QApplication::clipboard()->setData(drag);
 #else
     QApplication::clipboard()->setData(drag, QClipboard::Clipboard);
@@ -598,7 +598,7 @@ QTextDrag *TextShow::dragObject(QWidget *parent) const
 {
     if (!hasSelectedText())
         return NULL;
-#if (QT_VERSION < 0x300) || (QT_VERSION >= 0x030100)
+#if (COMPAT_QT_VERSION < 0x030000) || (COMPAT_QT_VERSION >= 0x030100)
     if (textFormat() == RichText){
         RichTextDrag *drag = new RichTextDrag(parent);
         drag->setRichText(selectedText());
@@ -644,7 +644,7 @@ void TextShow::setText(const QString &text)
 
 void TextShow::slotSelectionChanged()
 {
-#if QT_VERSION >= 0x030100
+#if COMPAT_QT_VERSION >= 0x030100
     disconnect(QApplication::clipboard(), SIGNAL(selectionChanged()), this, 0);
     if (QApplication::clipboard()->supportsSelection()){
         QTextDrag *drag = dragObject(NULL);

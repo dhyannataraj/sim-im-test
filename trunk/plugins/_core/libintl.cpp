@@ -50,7 +50,7 @@ Cambridge, MA 02139, USA.  */
 #include "config.h"
 #include "qglobal.h"
 
-#if !defined(USE_KDE) && (QT_VERSION >= 300)
+#if !defined(USE_KDE) && (COMPAT_QT_VERSION >= 0x030000)
 
 #include <stdlib.h>
 

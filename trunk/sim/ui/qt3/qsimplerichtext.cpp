@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qsimplerichtext.cpp,v 1.3 2003-10-20 08:39:29 shutoff Exp $
+** $Id: qsimplerichtext.cpp,v 1.4 2004-02-18 18:52:47 chehrlic Exp $
 **
 ** Implementation of the QSimpleRichText class
 **
@@ -43,7 +43,7 @@
 #endif
 
 #include "qsimplerichtext.h"
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
 
 #ifndef QT_NO_RICHTEXT
 #include "qrichtext_p.h"

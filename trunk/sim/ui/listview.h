@@ -68,7 +68,7 @@ protected:
     int m_expandingColumn;
     unsigned m_menuId;
     ProcessMenuParam m_mp;
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
     QPoint m_mousePressPos;
 #endif
     bool m_bAcceptDrop;

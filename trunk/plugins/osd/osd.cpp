@@ -260,7 +260,7 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
         }
         QBrush bg(data->BgColor.value);
         p.fillRect(rc, bg);
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
         style().drawPopupPanel(&p, 0, 0, w, h, colorGroup(), 2, &bg);
 #else
         style().drawPrimitive(QStyle::PE_PanelPopup, &p, rc, colorGroup());

@@ -21,7 +21,7 @@
 #include "simapi.h"
 #include "html.h"
 
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
 #include "qt3/qsyntaxhighlighter.h"
 #else
 #include <qsyntaxhighlighter.h>

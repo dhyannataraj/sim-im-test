@@ -107,7 +107,7 @@ int UserViewItemBase::drawText(QPainter *p, int x, int width, const QString &tex
 void UserViewItemBase::drawSeparator(QPainter *p, int x, int width, const QColorGroup &cg)
 {
     if (x < width - 6){
-#if QT_VERSION > 300
+#if COMPAT_QT_VERSION > 0x030000
         QRect rcSep(x, height()/2, width - 6 - x, 1);
         listView()->style().drawPrimitive(QStyle::PE_Separator, p, rcSep, cg);
 #else
@@ -205,7 +205,7 @@ ContactItem::ContactItem(UserViewItemBase *view, Contact *contact, unsigned stat
 {
     m_id = contact->id();
     init(contact, status, style, icons, unread);
-#if QT_VERSION >= 300    
+#if COMPAT_QT_VERSION >= 0x030000    
     setDragEnabled(true);
 #endif
 }
@@ -1033,7 +1033,7 @@ bool UserList::isGroupSelected(unsigned id)
     return bRes;
 }
 
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
 #define CHECK_OFF	QButton::Off
 #define CHECK_ON	QButton::On
 #define CHECK_NOCHANGE	QButton::NoChange
@@ -1046,7 +1046,7 @@ bool UserList::isGroupSelected(unsigned id)
 int UserList::drawIndicator(QPainter *p, int x, QListViewItem *item, bool bState, const QColorGroup &cg)
 {
     int state = bState ? CHECK_ON : CHECK_OFF;
-#if QT_VERSION < 300
+#if COMPAT_QT_VERSION < 0x030000
     QSize s = style().indicatorSize();
     QPixmap pixInd(s.width(), s.height());
     QPainter pInd(&pixInd);
