@@ -253,7 +253,9 @@ MainWindow::MainWindow(const char *name)
     translator = NULL;
     mAboutApp = NULL;
 
+#if HAVE_UMASK
     umask(0077);
+#endif
 
     initTranslator();
 
