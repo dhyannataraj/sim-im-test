@@ -1353,10 +1353,12 @@ bool MSNClient::compareData(void *d1, void *d2)
     return strcmp(((MSNUserData*)d1)->EMail, ((MSNUserData*)d2)->EMail) == 0;
 }
 
-static void addIcon(string *s, const char *icon)
+static void addIcon(string *s, const char *icon, const char *statusIcon)
 {
     if (s == NULL)
         return;
+	if (statusIcon && !strcmp(statusIcon, icon))
+		return;
     string str = *s;
     while (!str.empty()){
         string item = getToken(str, ',');
@@ -1368,7 +1370,7 @@ static void addIcon(string *s, const char *icon)
     *s += icon;
 }
 
-void MSNClient::contactInfo(void *_data, unsigned long &status, unsigned&, const char *&statusIcon, string *icons)
+void MSNClient::contactInfo(void *_data, unsigned long &curStatus, unsigned&, const char *&statusIcon, string *icons)
 {
     MSNUserData *data = (MSNUserData*)_data;
     unsigned cmp_status = data->Status;
@@ -1379,24 +1381,24 @@ void MSNClient::contactInfo(void *_data, unsigned long &status, unsigned&, const
     }
     if ((cmp_status == STATUS_BRB) || (cmp_status == STATUS_PHONE) || (cmp_status == STATUS_LUNCH))
         cmp_status = STATUS_AWAY;
-    if ((cmp_status > status) || (statusIcon == NULL)){
-        status = cmp_status;
-        if (icons && statusIcon){
-            if (!icons->empty())
-                *icons += ",";
-            *icons += statusIcon;
+    if (data->Status > curStatus){
+        curStatus = data->Status;
+        if (statusIcon && icons){
+            string iconSave = *icons;
+            *icons = statusIcon;
+            if (iconSave.length())
+                addIcon(icons, iconSave.c_str(), statusIcon);
         }
         statusIcon = def->icon;
     }else{
-        if (icons){
-            if (!icons->empty())
-                *icons += ",";
-            *icons += def->icon;
+        if (statusIcon){
+            addIcon(icons, def->icon, statusIcon);
+        }else{
+            statusIcon = def->icon;
         }
     }
-    if (icons && data->typing_time){
-        addIcon(icons, "typing");
-    }
+    if (icons && data->typing_time)
+        addIcon(icons, "typing", statusIcon);
 }
 
 QString MSNClient::contactTip(void *_data)

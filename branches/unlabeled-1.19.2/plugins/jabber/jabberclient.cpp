@@ -859,6 +859,23 @@ JabberUserData *JabberClient::findContact(const char *alias, const char *name, b
     return data;
 }
 
+static void addIcon(string *s, const char *icon, const char *statusIcon)
+{
+    if (s == NULL)
+        return;
+	if (statusIcon && !strcmp(statusIcon, icon))
+		return;
+    string str = *s;
+    while (!str.empty()){
+        string item = getToken(str, ',');
+        if (item == icon)
+            return;
+    }
+    if (!s->empty())
+        *s += ',';
+    *s += icon;
+}
+
 void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &style, const char *&statusIcon, string *icons)
 {
     JabberUserData *data = (JabberUserData*)_data;
@@ -871,28 +888,24 @@ void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &
         return;
     if (data->Status > curStatus){
         curStatus = data->Status;
-        if (icons && statusIcon){
+        if (statusIcon && icons){
             string iconSave = *icons;
             *icons = statusIcon;
-            if (iconSave.length()){
-                *icons += ",";
-                *icons += iconSave;
-            }
+            if (iconSave.length())
+                addIcon(icons, iconSave.c_str(), statusIcon);
         }
         statusIcon = def->icon;
     }else{
         if (statusIcon){
-            if (icons){
-                if (icons->length())
-                    *icons += ",";
-                *icons += def->icon;
-            }
+            addIcon(icons, def->icon, statusIcon);
         }else{
             statusIcon = def->icon;
         }
     }
     if (((data->Subscribe & SUBSCRIBE_TO) == 0) && !isAgent(data->ID))
         style |= CONTACT_UNDERLINE;
+    if (icons && data->TypingId && *data->TypingId)
+        addIcon(icons, "typing", statusIcon);
 }
 
 string JabberClient::buildId(JabberUserData *data)

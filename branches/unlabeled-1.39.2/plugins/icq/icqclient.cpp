@@ -1084,10 +1084,12 @@ void ICQClient::setOffline(ICQUserData *data)
     set_str(&data->AutoReply, NULL);
 }
 
-static void addIcon(string *s, const char *icon)
+static void addIcon(string *s, const char *icon, const char *statusIcon)
 {
     if (s == NULL)
         return;
+	if (statusIcon && !strcmp(statusIcon, icon))
+		return;
     string str = *s;
     while (!str.empty()){
         string item = getToken(str, ',');
@@ -1155,12 +1157,12 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
             string iconSave = *icons;
             *icons = statusIcon;
             if (iconSave.length())
-                addIcon(icons, iconSave.c_str());
+                addIcon(icons, iconSave.c_str(), statusIcon);
         }
         statusIcon = dicon;
     }else{
         if (statusIcon){
-            addIcon(icons, dicon);
+            addIcon(icons, dicon, statusIcon);
         }else{
             statusIcon = dicon;
         }
@@ -1172,27 +1174,27 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
     }
     if (icons){
         if ((iconStatus != STATUS_ONLINE) && (iconStatus != STATUS_OFFLINE) && (s & ICQ_STATUS_FxPRIVATE))
-            addIcon(icons, "ICQ_invisible");
+            addIcon(icons, "ICQ_invisible", statusIcon);
         if (data->bInvisible)
-            addIcon(icons, "ICQ_invisible");
+            addIcon(icons, "ICQ_invisible", statusIcon);
         if (data->Status & ICQ_STATUS_FxBIRTHDAY)
-            addIcon(icons, "birthday");
+            addIcon(icons, "birthday", statusIcon);
         if (data->FollowMe == 1)
-            addIcon(icons, "phone");
+            addIcon(icons, "phone", statusIcon);
         if (data->FollowMe == 2)
-            addIcon(icons, "nophone");
+            addIcon(icons, "nophone", statusIcon);
         if (status != STATUS_OFFLINE){
             if (data->SharedFiles)
-                addIcon(icons, "sharedfiles");
+                addIcon(icons, "sharedfiles", statusIcon);
             if (data->ICQPhone == 1)
-                addIcon(icons, "icqphone");
+                addIcon(icons, "icqphone", statusIcon);
             if (data->ICQPhone == 2)
-                addIcon(icons, "icqphonebusy");
+                addIcon(icons, "icqphonebusy", statusIcon);
         }
         if (data->bTyping)
-            addIcon(icons, "typing");
+            addIcon(icons, "typing", statusIcon);
         if (data->Direct && data->Direct->isSecure())
-            addIcon(icons, "encrypted");
+            addIcon(icons, "encrypted", statusIcon);
     }
     if (data->InvisibleId)
         style |= CONTACT_STRIKEOUT;
@@ -1644,6 +1646,10 @@ string ICQClient::clientName(ICQUserData *data)
         res += "AIM";
         return res;
     }
+	if (hasCap(data, CAP_AIM_BUDDYCON)){
+		res += "gaim";
+		return res;
+	}
     if ((data->InfoUpdateTime & 0xFF7F0000L) == 0x7D000000L){
         unsigned ver = data->InfoUpdateTime & 0xFFFF;
         if (ver % 10){

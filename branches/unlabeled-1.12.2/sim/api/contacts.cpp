@@ -392,6 +392,22 @@ QString Contact::tipText()
     return tip;
 }
 
+typedef struct sortClientData
+{
+	void		*data;
+	Client		*client;
+	unsigned	nClient;
+} sortClientData;
+
+static bool cmp_sd(sortClientData p1, sortClientData p2)
+{
+    if (((clientData*)(p1.data))->LastSend > ((clientData*)(p2.data))->LastSend)
+		return true;
+    if (((clientData*)(p1.data))->LastSend < ((clientData*)(p2.data))->LastSend)
+		return false;
+	return p1.nClient < p2.nClient;
+}
+
 unsigned long Contact::contactInfo(unsigned &style, const char *&statusIcon, string *icons)
 {
     style = 0;
@@ -400,9 +416,25 @@ unsigned long Contact::contactInfo(unsigned &style, const char *&statusIcon, str
         *icons = "";
     unsigned long status = STATUS_UNKNOWN;
     void *data;
-    ClientDataIterator it(clientData);
+    ClientDataIterator it(clientData, NULL);
+	vector<sortClientData> d;
     while ((data = ++it) != NULL){
-        Client *client = clientData.activeClient(data, it.client());
+		sortClientData sd;
+		sd.data    = data;
+		sd.client  = it.client();
+		sd.nClient = 0;
+		for (unsigned i = 0; i < getContacts()->nClients(); i++){
+			if (getContacts()->getClient(i) == sd.client){
+				sd.nClient = i;
+				break;
+			}
+		}
+		d.push_back(sd);
+	}
+	sort(d.begin(), d.end(), cmp_sd);
+	for (unsigned i = 0; i < d.size(); i++){
+		void *data = d[i].data;
+        Client *client = clientData.activeClient(data, d[i].client);
         if (client == NULL)
             continue;
         client->contactInfo(data, status, style, statusIcon, icons);

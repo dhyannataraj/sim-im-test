@@ -1105,7 +1105,7 @@ protected:
 class EXPORT ClientDataIterator
 {
 public:
-    ClientDataIterator(ClientUserData &data, Client *client = NULL);
+    ClientDataIterator(ClientUserData &data, Client *client=NULL);
     ~ClientDataIterator();
     clientData *operator ++();
     Client *client();
