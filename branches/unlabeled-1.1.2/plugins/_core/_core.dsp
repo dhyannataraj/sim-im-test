@@ -4219,58 +4219,338 @@ SOURCE=.\xpm\webpress.xpm
 # Begin Source File
 
 SOURCE=..\..\po\bg.po
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+OutDir=.\..\..\Release
+InputPath=..\..\po\bg.po
+InputName=bg
+
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
+	$(QTDIR)\bin\msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
+	
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\po\cs.po
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+OutDir=.\..\..\Release
+InputPath=..\..\po\cs.po
+InputName=cs
+
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
+	$(QTDIR)\bin\msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
+	
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\po\de.po
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+OutDir=.\..\..\Release
+InputPath=..\..\po\de.po
+InputName=de
+
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
+	$(QTDIR)\bin\msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
+	
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\po\es.po
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+OutDir=.\..\..\Release
+InputPath=..\..\po\es.po
+InputName=es
+
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
+	$(QTDIR)\bin\msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
+	
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\po\fr.po
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+OutDir=.\..\..\Release
+InputPath=..\..\po\fr.po
+InputName=fr
+
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
+	$(QTDIR)\bin\msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
+	
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\po\he.po
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+OutDir=.\..\..\Release
+InputPath=..\..\po\he.po
+InputName=he
+
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
+	$(QTDIR)\bin\msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
+	
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\po\it.po
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+OutDir=.\..\..\Release
+InputPath=..\..\po\it.po
+InputName=it
+
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
+	$(QTDIR)\bin\msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
+	
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\po\nl.po
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+OutDir=.\..\..\Release
+InputPath=..\..\po\nl.po
+InputName=nl
+
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
+	$(QTDIR)\bin\msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
+	
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\po\pl.po
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+OutDir=.\..\..\Release
+InputPath=..\..\po\pl.po
+InputName=pl
+
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
+	$(QTDIR)\bin\msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
+	
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\po\ru.po
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+OutDir=.\..\..\Release
+InputPath=..\..\po\ru.po
+InputName=ru
+
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
+	$(QTDIR)\bin\msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
+	
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\po\sk.po
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+OutDir=.\..\..\Release
+InputPath=..\..\po\sk.po
+InputName=sk
+
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
+	$(QTDIR)\bin\msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
+	
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\po\tr.po
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+OutDir=.\..\..\Release
+InputPath=..\..\po\tr.po
+InputName=tr
+
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
+	$(QTDIR)\bin\msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
+	
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\po\uk.po
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+OutDir=.\..\..\Release
+InputPath=..\..\po\uk.po
+InputName=uk
+
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
+	$(QTDIR)\bin\msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
+	
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\po\zh_TW.po
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+OutDir=.\..\..\Release
+InputPath=..\..\po\zh_TW.po
+InputName=zh_TW
+
+"$(OutDir)\po\$(InputName).qm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo "" > tr.qm 
+	del tr.qm 
+	$(QTDIR)\bin\msg2qm $(InputPath) 
+	move tr.qm $(OutDir)\po\$(InputName).qm 
+	
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # End Group
 # Begin Group "Pict"
