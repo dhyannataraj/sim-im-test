@@ -585,7 +585,7 @@ void UserBox::save(std::ostream &s)
     ::save(this, UserBox_Params, s);
     list<MsgEdit*>::iterator it;
     for (it = wnds.begin(); it != wnds.end(); it++){
-        s << "[UserTab]\n";
+        s << (const char*)"[UserTab]\n";
         (*it)->save(s);
     }
 }
