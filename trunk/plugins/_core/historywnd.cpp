@@ -185,7 +185,7 @@ void *HistoryWindow::processEvent(Event *e)
         }
         if (cmd->id == CmdHistorySave){
             QString str = QFileDialog::getSaveFileName(QString::null, QString::null, this);
-            string s = str;
+            string s = str.utf8();
 			if (s.length()){
                 bool res = true;
                 if (QFile::exists(str)){
