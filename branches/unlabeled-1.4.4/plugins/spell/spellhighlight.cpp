@@ -53,12 +53,10 @@ int SpellHighlighter::highlightParagraph(const QString&, int state)
     m_bError = false;
     while (!m_fonts.empty())
         m_fonts.pop();
-    if (!textEdit()->text(m_paragraph).isEmpty()){
-        string s;
-        s = textEdit()->text(m_paragraph).local8Bit();
-        log(L_DEBUG, "%u: %s", m_paragraph, s.c_str());
-    }
+    m_curWord = "";
+    m_curStart = 0;
     parse(textEdit()->text(m_paragraph));
+    flush();
     return state + 1;
 }
 
@@ -66,71 +64,27 @@ void SpellHighlighter::text(const QString &text)
 {
     int i;
     for (i = 0; i < (int)(text.length());){
-        for (; i < (int)(text.length()); i++, m_pos++){
-            if (!text[i].isSpace() && !text[i].isPunct())
-                break;
-        }
-        if (i >= (int)(text.length()))
-            break;
-        int start = m_pos;
-        QString word;
-        for (; i < (int)(text.length()); i++, m_pos++){
-            if (text[i].isSpace() || text[i].isPunct())
-                break;
-            word += text[i];
-        }
-        if (!word.isEmpty()){
-            string s;
-            s = word.local8Bit();
-            log(L_DEBUG, "W: %s", s.c_str());
-        }
-        if ((m_index >= start) && (m_index <= m_pos)){
-            log(L_DEBUG, "Is current");
-            if (m_bCheck){
-                m_word       = word;
-                m_bInError   = m_bError;
-                m_start_word = start;
-            }else if (m_bError){
-                if (m_bDisable) {
-                    setFormat(start, m_pos - start, static_cast<TextEdit*>(textEdit())->defForeground());
-                }else if (m_parag == m_paragraph){
-                    MAP_BOOL::iterator it = m_words.find(my_string(word.utf8()));
-                    if ((it == m_words.end()) || (*it).second){
-                        setFormat(start, m_pos - start, static_cast<TextEdit*>(textEdit())->defForeground());
-                        log(L_DEBUG, "Reset format %u %u", start, m_pos - start);
-                    }
-                }
+        if (text[i].isSpace() || text[i].isPunct()){
+            flush();
+            for (; i < (int)(text.length()); i++, m_pos++){
+                if (!text[i].isSpace() && !text[i].isPunct())
+                    break;
             }
-        }else if (!m_bCheck){
-            if (m_bDisable){
-                if (m_bError)
-                    setFormat(start, m_pos - start, static_cast<TextEdit*>(textEdit())->defForeground());
-            }else{
-                MAP_BOOL::iterator it = m_words.find(my_string(word.utf8()));
-                if (it != m_words.end()){
-                    if (!(*it).second){
-                        setFormat(start, m_pos - start, QColor(ErrorColor));
-                        log(L_DEBUG, "Set format err %u %u", start, m_pos - start);
-                    }else if (m_bError){
-                        setFormat(start, m_pos - start, static_cast<TextEdit*>(textEdit())->defForeground());
-                        log(L_DEBUG, "Set format OK %u %u", start, m_pos - start);
-                    }
-                }else{
-                    m_words.insert(MAP_BOOL::value_type(my_string(word.utf8()), true));
-                    if (m_plugin->m_ignore.find(my_string(word.utf8())) == m_plugin->m_ignore.end()){
-                        log(L_DEBUG, "Check");
-                        emit check(word);
-                    }
-                }
-            }
+            m_curStart = m_pos;
+            continue;
         }
+        m_curWord += text[i];
+        m_pos++;
+        i++;
     }
 }
 
 void SpellHighlighter::tag_start(const QString &tag, const list<QString> &opt)
 {
-    if ((tag == "img") || (tag == "br"))
+    if ((tag == "img") || (tag == "br")){
+        flush();
         m_pos++;
+    }
     if (tag == "font"){
         QString key;
         QString val;
@@ -161,9 +115,59 @@ void SpellHighlighter::tag_end(const QString &tag)
     }
 }
 
+void SpellHighlighter::flush()
+{
+    string s;
+    if (!m_curWord.isEmpty())
+        s = m_curWord.local8Bit();
+    if (m_curWord.isEmpty())
+        return;
+    if ((m_index >= m_curStart) && (m_index <= m_pos)){
+        if (m_bCheck){
+            m_word       = m_curWord;
+            m_bInError   = m_bError;
+            m_start_word = m_curStart;
+            m_curWord    = "";
+            return;
+        }
+        if (m_bError){
+            if (m_bDisable) {
+                setFormat(m_curStart, m_pos - m_curStart, static_cast<TextEdit*>(textEdit())->defForeground());
+            }else if (m_parag == m_paragraph){
+                MAP_BOOL::iterator it = m_words.find(my_string(m_curWord.utf8()));
+                if ((it == m_words.end()) || (*it).second)
+                    setFormat(m_curStart, m_pos - m_curStart, static_cast<TextEdit*>(textEdit())->defForeground());
+            }
+        }
+        m_curWord = "";
+        return;
+    }
+    if (m_bCheck)
+        return;
+    if (m_bDisable){
+        if (m_bError)
+            setFormat(m_curStart, m_pos - m_curStart, static_cast<TextEdit*>(textEdit())->defForeground());
+        m_curWord = "";
+        return;
+    }
+    MAP_BOOL::iterator it = m_words.find(my_string(m_curWord.utf8()));
+    if (it != m_words.end()){
+        if (!(*it).second){
+			if (!m_bError)
+	            setFormat(m_curStart, m_pos - m_curStart, QColor(ErrorColor));
+        }else if (m_bError){
+            setFormat(m_curStart, m_pos - m_curStart, static_cast<TextEdit*>(textEdit())->defForeground());
+        }
+    }else{
+        m_words.insert(MAP_BOOL::value_type(my_string(m_curWord.utf8()), true));
+        if (m_plugin->m_ignore.find(my_string(m_curWord.utf8())) == m_plugin->m_ignore.end())
+            emit check(m_curWord);
+    }
+    m_curWord = "";
+}
+
 void SpellHighlighter::slotMisspelling(const QString &word)
 {
-    log(L_DEBUG, "misspelling");
     MAP_BOOL::iterator it = m_words.find(my_string(word.utf8()));
     if (it == m_words.end()){
         m_words.insert(MAP_BOOL::value_type(my_string(word.utf8()), false));

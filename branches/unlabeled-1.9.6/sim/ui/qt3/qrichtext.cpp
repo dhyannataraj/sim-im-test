@@ -1,5 +1,5 @@
 #/****************************************************************************
-** $Id: qrichtext.cpp,v 1.9 2003-11-23 13:33:48 shutoff Exp $
+** $Id: qrichtext.cpp,v 1.9.6.1 2004-01-11 22:01:10 shutoff Exp $
 **
 ** Implementation of the internal Qt classes dealing with rich text
 **
@@ -4590,7 +4590,7 @@ formatAgain:
         QString spaces;
         for ( int i = 0; i < length()-1; ++i ) {
             QTextStringChar *c = &str->at( i );
-            if ( !lastFormat || ( lastFormat->key() != c->format()->key() && c->c != ' ' ) ) {
+            if ( !lastFormat || ( lastFormat->key() != c->format()->key())) {
                 s += c->format()->makeFormatChangeTags( lastFormat );
                 lastFormat = c->format();
             }
@@ -5894,7 +5894,7 @@ formatAgain:
         QString tag;
 
         if ( f ) {
-            if ( f->font() != defaultFormat->font() ) {
+            if ( f->font() != defaultFormat->font() || f->color().rgb() != defaultFormat->color().rgb()) {
                 if ( f->font().family() != defaultFormat->font().family()
                         || f->font().pointSize() != defaultFormat->font().pointSize()
                         || f->color().rgb() != defaultFormat->color().rgb() )

@@ -23,17 +23,24 @@
 
 class SMSProtocol;
 class GsmTA;
+class MainInfo;
 
 const unsigned SMSCmdBase			= 0x00080000;
 const unsigned MessagePhoneCall		= SMSCmdBase;
 
-class SMSPlugin : public Plugin
+class SMSPlugin : public QObject, public Plugin
 {
+	Q_OBJECT
 public:
     SMSPlugin(unsigned);
     virtual ~SMSPlugin();
     static unsigned SerialPacket;
+	void setPhoneCol();
+	void setPhoneCol(MainInfo *w);
+	void removePhoneCol();
+	void removePhoneCol(MainInfo *w);
 protected:
+	bool eventFilter(QObject *obj, QEvent *e);
     SMSProtocol *m_protocol;
 };
 
