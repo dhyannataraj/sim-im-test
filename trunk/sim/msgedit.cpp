@@ -663,12 +663,24 @@ void MsgEdit::markAsRead()
                 for (list<unsigned long>::iterator it = u->unreadMsgs.begin(); it != u->unreadMsgs.end(); it++){
                     ICQMessage *msg = h.getMessage(*it);
                     if (msg == NULL) continue;
-                    bChanged = pClient->markAsRead(msg) | bChanged;
-                    bExit = false;
-                    break;
+                    switch (msg->Type()){
+                    case ICQ_MSGxCHAT:
+                    case ICQ_MSGxFILE:
+                    case ICQ_MSGxAUTHxREQUEST:
+                    case ICQ_MSGxCONTACTxLIST:
+                        break;
+                    default:
+                        bChanged = pClient->markAsRead(msg) | bChanged;
+                        bExit = false;
+                    }
+                    if (!bExit) break;
                 }
                 if (bExit) break;
             }
+            if (msg == NULL) return;
+            if (!msg->Received) return;
+            if (pClient->markAsRead(msg))
+                bChanged = true;
             if (bChanged) setupNext();
         }
     }
@@ -679,18 +691,18 @@ void MsgEdit::messageReceived(ICQMessage *m)
     if (m->getUin() != Uin) return;
     if (msgView){
         bool bUnread = false;
-		if (msgView->findMsg(m->Id, 0) < 0){
-			ICQUser *u = pClient->getUser(m->getUin());
-			if (u){
-				for (list<unsigned long>::iterator it = u->unreadMsgs.begin(); it != u->unreadMsgs.end(); it++){
-					if ((*it) == m->Id){
-						bUnread = true;
-						break;
-					}
-				}
-				msgView->addMessage(m, bUnread, true);
-			}
-		}
+        if (msgView->findMsg(m->Id, 0) < 0){
+            ICQUser *u = pClient->getUser(m->getUin());
+            if (u){
+                for (list<unsigned long>::iterator it = u->unreadMsgs.begin(); it != u->unreadMsgs.end(); it++){
+                    if ((*it) == m->Id){
+                        bUnread = true;
+                        break;
+                    }
+                }
+                msgView->addMessage(m, bUnread, true);
+            }
+        }
     }
     setupNext();
     if (msg && msg->Received && (static_cast<UserBox*>(topLevelWidget())->currentUser() == Uin)) return;

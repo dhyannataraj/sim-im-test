@@ -434,6 +434,7 @@ protected slots:
     void autoHide();
 protected:
     bool eventFilter(QObject *o, QEvent *e);
+    void moveEvent(QMoveEvent*);
 
     list<msgInfo> menuMsgs;
     void loadUnread();

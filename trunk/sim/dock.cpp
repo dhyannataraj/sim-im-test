@@ -364,7 +364,7 @@ DockWnd::DockWnd(QWidget *main)
 
     if (!inNetTray){
         move(-21, -21);
-	resize(22, 22);
+        resize(22, 22);
     }
     show();
 #endif
@@ -671,15 +671,15 @@ void DockWnd::mouseReleaseEvent( QMouseEvent *e)
 #ifndef WIN32
     if (!inTray && (wharfIcon == NULL)){
         releaseMouse();
-		if (!mousePos.isNull()){
-        move(e->globalPos().x() - mousePos.x(),  e->globalPos().y() - mousePos.y());
-        mousePos = QPoint();
-        QPoint p(pMain->DockX - x(), pMain->DockY - y());
-        pMain->DockX = x();
-        pMain->DockY = y();
-        if (p.manhattanLength() > 6)
-            return;
-		}
+        if (!mousePos.isNull()){
+            move(e->globalPos().x() - mousePos.x(),  e->globalPos().y() - mousePos.y());
+            mousePos = QPoint();
+            QPoint p(pMain->DockX - x(), pMain->DockY - y());
+            pMain->DockX = x();
+            pMain->DockY = y();
+            if (p.manhattanLength() > 6)
+                return;
+        }
     }
 #endif
     mouseEvent(e);

@@ -66,22 +66,22 @@ void KabcSync::close(void)
 void KabcSync::addPhone(QString phone,int type,Addressee& pers)
 {
 #if KDE_VERSION >= 310
-	PhoneNumber::List li=pers.phoneNumbers(type);
+    PhoneNumber::List li=pers.phoneNumbers(type);
 #else
-	PhoneNumber::List li=pers.phoneNumbers();
+    PhoneNumber::List li=pers.phoneNumbers();
 #endif
-	PhoneNumber::List::Iterator it=li.begin();
-	
-	while (it!=li.end())
-	{
-		if ((*it).type() != type)
-			continue;
-		if ((*it).number()==phone)
-			return;
-		it++;
-	}
-	
-	pers.insertPhoneNumber(PhoneNumber(phone,type));
+    PhoneNumber::List::Iterator it=li.begin();
+
+    while (it!=li.end())
+    {
+        if ((*it).type() != type)
+            continue;
+        if ((*it).number()==phone)
+            return;
+        it++;
+    }
+
+    pers.insertPhoneNumber(PhoneNumber(phone,type));
 }
 
 Addressee KabcSync::addresseeFromUser(SIMUser& u,Addressee* oldPers=NULL)
@@ -123,16 +123,16 @@ Addressee KabcSync::addresseeFromUser(SIMUser& u,Addressee* oldPers=NULL)
     if (pers.organization().isEmpty())
         pers.setOrganization(QString::fromLocal8Bit(u.WorkName.c_str()));
 
-	if (!u.HomePhone.empty())
-    	addPhone(QString::fromLocal8Bit(u.HomePhone.c_str()),PhoneNumber::Home,pers);
+    if (!u.HomePhone.empty())
+        addPhone(QString::fromLocal8Bit(u.HomePhone.c_str()),PhoneNumber::Home,pers);
     if (!u.HomeFax.empty())
-		addPhone(QString::fromLocal8Bit(u.HomeFax.c_str()),PhoneNumber::Home|PhoneNumber::Fax,pers);
-	if (!u.PrivateCellular.empty())
-    	addPhone(QString::fromLocal8Bit(u.PrivateCellular.c_str()),PhoneNumber::Cell,pers);
-	if (!u.WorkPhone.empty())
-    	addPhone(QString::fromLocal8Bit(u.WorkPhone.c_str()),PhoneNumber::Work,pers);
-	if (!u.WorkFax.empty())
-    	addPhone(QString::fromLocal8Bit(u.WorkFax.c_str()),PhoneNumber::Work|PhoneNumber::Fax,pers);
+        addPhone(QString::fromLocal8Bit(u.HomeFax.c_str()),PhoneNumber::Home|PhoneNumber::Fax,pers);
+    if (!u.PrivateCellular.empty())
+        addPhone(QString::fromLocal8Bit(u.PrivateCellular.c_str()),PhoneNumber::Cell,pers);
+    if (!u.WorkPhone.empty())
+        addPhone(QString::fromLocal8Bit(u.WorkPhone.c_str()),PhoneNumber::Work,pers);
+    if (!u.WorkFax.empty())
+        addPhone(QString::fromLocal8Bit(u.WorkFax.c_str()),PhoneNumber::Work|PhoneNumber::Fax,pers);
 
     Address home,work;
     home.setType(Address::Home);

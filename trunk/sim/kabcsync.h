@@ -49,7 +49,7 @@ public:
 protected:
     Addressee addresseeFromUser(SIMUser&,Addressee*);
     QString& getCountry(unsigned short code);
-	void addPhone(QString phone,int type,Addressee& pers);
+    void addPhone(QString phone,int type,Addressee& pers);
 public slots:
     void processEvent(ICQEvent*);
 };

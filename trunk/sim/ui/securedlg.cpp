@@ -47,12 +47,12 @@ void SecureDlg::sendRequest()
 
 void SecureDlg::processEvent(ICQEvent *e)
 {
-	if ((e->type() == EVENT_STATUS_CHANGED) && (e->Uin() == Uin)){
-	    ICQUser *u = pClient->getUser(Uin);
-		if (u && u->isSecure())
-			close();
-		return;
-	}
+    if ((e->type() == EVENT_STATUS_CHANGED) && (e->Uin() == Uin)){
+        ICQUser *u = pClient->getUser(Uin);
+        if (u && u->isSecure())
+            close();
+        return;
+    }
     if (e->type() != EVENT_MESSAGE_SEND) return;
     if ((e->message() == NULL) ||
             (e->message()->Type() != ICQ_MSGxSECURExOPEN) ||

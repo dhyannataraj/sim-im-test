@@ -490,6 +490,8 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     RECT  *prc;
     RECT rcWnd;
     QRect rc;
+    LRESULT res;
+    MINMAXINFO *info;
 
     if (msg == WM_APPBAR){
         switch (wParam){
@@ -528,6 +530,10 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             setBarState(true);
         }
         break;
+    case WM_GETMINMAXINFO:
+        info = (MINMAXINFO*)lParam;
+        res = WndProc(hWnd, msg, wParam, lParam);
+        return res;
     case WM_MOVING:
     case WM_SIZING:
         if (!bInMoving) break;
@@ -735,6 +741,11 @@ MainWindow::MainWindow(const char *name)
     connect(autoHideTimer, SIGNAL(timeout()), this, SLOT(autoHide()));
     autoHideTimer->start(1000);
 #endif
+}
+
+void MainWindow::moveEvent(QMoveEvent *e)
+{
+    QMainWindow::moveEvent(e);
 }
 
 void MainWindow::changeMode(bool bSimple)
