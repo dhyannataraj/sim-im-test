@@ -21,6 +21,7 @@
 #include "ballonmsg.h"
 
 #include <time.h>
+#include <stdio.h>
 #include <qtimer.h>
 #include <qapplication.h>
 #include <qwidgetlist.h>

@@ -45,6 +45,7 @@
 #include <qtooltip.h>
 
 #include <time.h>
+#include <stdio.h>
 
 #ifdef USE_KDE
 #include "kdeisversion.h"

@@ -18,6 +18,7 @@
 #include "icqclient.h"
 
 #include <time.h>
+#include <stdio.h>
 #ifdef WIN32
 #include <winsock.h>
 #else

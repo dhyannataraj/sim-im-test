@@ -39,6 +39,7 @@
 
 #include <qtimer.h>
 #include <qregexp.h>
+#include <stdio.h>
 
 Plugin *createLiveJournalPlugin(unsigned base, bool, Buffer*)
 {

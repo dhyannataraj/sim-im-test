@@ -21,6 +21,7 @@
 #include "polling.h"
 
 #include <qtimer.h>
+#include <stdio.h>
 
 const unsigned short HTTP_PROXY_VERSION = 0x0443;
 

@@ -28,7 +28,7 @@
 #endif
 
 #include <ctype.h>
-
+#include <stdio.h>
 #include <stack>
 #include <cctype>
 
