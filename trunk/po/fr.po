@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: 0.8.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-11-17 18:12+0000\n"
-"PO-Revision-Date: 2004-11-21 03:42+0100\n"
+"PO-Revision-Date: 2004-11-29 10:14+0100\n"
 "Last-Translator: \n"
 "Language-Team: Français <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2718,7 +2718,7 @@ msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
 msgstr ""
-"_: NOMS DES TRADUCTEURS\n"
+"Je suis actuellement tout seul sur la traduction française (mais ça n'a pas toujours été le cas, merci à mes prédécesseurs pour le travail fourni).\n"
 "Cyril Ravat"
 
 # _translatorinfo.cpp:3
@@ -2727,9 +2727,7 @@ msgstr ""
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
-msgstr ""
-"_: EMAILS DES TRADUCTEURS\n"
-"ravat@free.fr"
+msgstr "ravat@free.fr"
 
 # ui/aboutdlg.cpp:41
 #: plugins/about/aboutdlg.cpp:44
@@ -4126,7 +4124,7 @@ msgstr "Echec du changement de mot de passe"
 
 #: plugins/icq/icqvarious.cpp:1491
 msgid "The Cellular network is currently unable to send your message to the recipient. Please try again later."
-msgstr "Le réseau mobile est actuellement dans l'incapacité d'envoyer votre message. VEuillez recommencer plus tard."
+msgstr "Le réseau mobile est actuellement dans l'incapacité d'envoyer votre message. Veuillez recommencer plus tard."
 
 #: plugins/icq/icqvarious.cpp:1492
 msgid "INVALID NUMBER"
