@@ -117,7 +117,6 @@ static BOOL (WINAPI *_InternetQueryOption)(HINTERNET hInternet, DWORD dwOption,
         LPVOID lpBuffer, LPDWORD lpdwBufferLength);
 static BOOL (WINAPI *_HttpEndRequest)(HINTERNET hRequest, LPINTERNET_BUFFERS lpBuffersOut,
                                       DWORD dwFlags, DWORD dwContext);
-static BOOL (WINAPI *_InternetSetCookie)(LPCSTR lpszUrl,  LPCSTR lpszCookieName, LPCSTR lpszCookieData);
 
 static HINTERNET hInet = NULL;
 
@@ -460,7 +459,8 @@ FetchManager::FetchManager()
 #endif
     *user_agent += ")";
 #ifdef WIN32
-    HINSTANCE hLib = LoadLibraryA("wininet.dll");
+	HINSTANCE hLib = NULL;
+//    HINSTANCE hLib = LoadLibraryA("wininet.dll");
     if (hLib != NULL){
         (DWORD&)_InternetGetConnectedState = (DWORD)GetProcAddress(hLib, "InternetGetConnectedState");
         (DWORD&)_InternetOpen = (DWORD)GetProcAddress(hLib, "InternetOpenA");
@@ -475,7 +475,6 @@ FetchManager::FetchManager()
         (DWORD&)_InternetReadFile = (DWORD)GetProcAddress(hLib, "InternetReadFile");
         (DWORD&)_InternetWriteFile = (DWORD)GetProcAddress(hLib, "InternetWriteFile");
         (DWORD&)_InternetQueryOption = (DWORD)GetProcAddress(hLib, "InternetQueryOptionA");
-        (DWORD&)_InternetSetCookie = (DWORD)GetProcAddress(hLib, "InternetSetCookieA");
     }
     if (_InternetOpen && _HttpSendRequestEx){
         hInet = _InternetOpen(user_agent->c_str(), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
