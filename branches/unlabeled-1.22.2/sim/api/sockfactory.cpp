@@ -551,7 +551,8 @@ IPResolver::IPResolver()
 
 IPResolver::~IPResolver()
 {
-    delete resolver;
+	if (resolver)
+		delete resolver;
 }
 
 void IPResolver::resolve_ready()
@@ -563,6 +564,10 @@ void IPResolver::resolve_ready()
     struct in_addr inaddr;
     inaddr.s_addr = m_addr;
     log(L_DEBUG, "Resolver ready %s %s", inet_ntoa(inaddr), m_host.c_str());
+#if COMPAT_QT_VERSION >= 0x030000
+    delete resolver;
+	resolver = NULL;
+#endif
     for (list<IP*>::iterator it = queue.begin(); it != queue.end(); ){
         if ((*it)->ip() != m_addr){
             ++it;
@@ -577,7 +582,7 @@ void IPResolver::resolve_ready()
 
 void IPResolver::start_resolve()
 {
-    if (resolver->isWorking()) return;
+    if (resolver && resolver->isWorking()) return;
     if (queue.empty())
         return;
     IP *ip = *queue.begin();
@@ -586,7 +591,8 @@ void IPResolver::start_resolve()
     inaddr.s_addr = m_addr;
     log(L_DEBUG, "start resolve %s", inet_ntoa(inaddr));
 #if COMPAT_QT_VERSION >= 0x030000
-    delete resolver;
+	if (resolver)
+		delete resolver;
     resolver = new QDns(QHostAddress(htonl(m_addr)), QDns::Ptr);
     connect(resolver, SIGNAL(resultsReady()), this, SLOT(resolve_ready()));
 #else

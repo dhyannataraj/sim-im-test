@@ -82,7 +82,7 @@ static string current_tag;
 <s_attr>.					{ return SKIP; }
 <s_value>"\""				{ BEGIN(s_string); return SKIP; }
 <s_value>"\'"				{ BEGIN(s_string1); return SKIP; }
-<s_value>[^\ \">]+			{ BEGIN(s_tag); return VALUE; }
+<s_value>[^\ \'\">]+		{ BEGIN(s_tag); return VALUE; }
 <s_value>.					{ return SKIP; }
 <s_string>"\""				{ BEGIN(s_tag); return SKIP; }
 <s_string>[^\"]+			{ return VALUE; }
