@@ -40,7 +40,6 @@ ICQClient::ICQClient()
         WebAware(this, "WebAware"),
         Authorize(this, "Authorize"),
         HideIp(this, "HideIp"),
-        Invisible(this, "Invisible", false),
         ProxyType(this, "ProxyType"),
         ProxyHost(this, "ProxyHost", "proxy"),
         ProxyPort(this, "ProxyPort", 1080),
@@ -340,7 +339,7 @@ unsigned long ICQClient::fullStatus(unsigned long s)
         s |= ICQ_STATUS_FxHIDExIP;
     if (m_bBirthday)
         s |= ICQ_STATUS_FxBIRTHDAY;
-    if (Invisible)
+    if (inInvisible())
         s |= ICQ_STATUS_FxPRIVATE;
     s |= ICQ_STATUS_FxDIRECTxAUTH;
     return s;

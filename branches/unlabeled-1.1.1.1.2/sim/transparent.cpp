@@ -28,14 +28,10 @@
 #endif
 #include <qpainter.h>
 
-#if USE_KDE
-#if HAVE_KROOTPIXMAP_H
-#if QT_VERSION >= 300
+#if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
 #include <krootpixmap.h>
-#else
-#undef HAVE_KROOTPIXMAP_H
-#endif
-#endif
+#include "ui/effect.h"
+#include <qimage.h>
 #endif
 
 #ifdef WIN32
@@ -58,18 +54,17 @@ void TransparentBg::init(QWidget *p)
 {
     QObject *obj = p->topLevelWidget()->child(_TRANSPARENT);
     if (obj == NULL) return;
-    m_bTransparent = true;
     bgX = bgY = 0;
     connect(obj, SIGNAL(backgroundUpdated()), this, SLOT(backgroundUpdated()));
 }
 
-const QPixmap *TransparentBg::background()
+const QPixmap *TransparentBg::background(QColor bgColor)
 {
     QWidget *p = static_cast<QWidget*>(parent());
 #if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
     TransparentTop *top = TransparentTop::getTransparent(p->topLevelWidget());
-    if (top && !top->bg.isNull())
-        return &top->bg;
+    if (top)
+        return top->background(bgColor);
 #endif
     const QPixmap *res = p->topLevelWidget()->backgroundPixmap();
     if (res && !res->isNull()) return res;
@@ -78,8 +73,7 @@ const QPixmap *TransparentBg::background()
 
 bool TransparentBg::eventFilter(QObject*, QEvent *e)
 {
-    if (!m_bTransparent) return false;
-    if ((e->type() ==  QEvent::Show) || (e->type() == QEvent::Resize)){
+    if ((e->type() ==  QEvent::Show) || (e->type() == QEvent::Resize) || (e->type() == QEvent::User)){
         backgroundUpdated();
     }else if (e->type() == QEvent::Paint){
         QTextEdit *text = static_cast<QTextEdit*>(parent());
@@ -94,7 +88,7 @@ void TransparentBg::backgroundUpdated()
 {
     if (parent()->inherits("QTextEdit")){
         QTextEdit *text = static_cast<QTextEdit*>(parent());
-        const QPixmap *pix = m_bTransparent ? background() : NULL;
+        const QPixmap *pix = background(text->colorGroup().color(QColorGroup::Base));
         QPoint pp = text->viewportToContents(QPoint(0, 0));
         bgX = pp.x();
         bgY = pp.y();
@@ -123,25 +117,14 @@ void TransparentBg::backgroundUpdated()
     }
 }
 
-void TransparentBg::setTransparent(bool bTransparent)
-{
-    if (m_bTransparent == bTransparent) return;
-    m_bTransparent = bTransparent;
-    backgroundUpdated();
-}
-
 TransparentTop::TransparentTop(QWidget *parent,
                                ConfigBool &_useTransparent, ConfigULong &_transparent)
         : QObject(parent, _TRANSPARENT),
         useTransparent(_useTransparent),
         transparent(_transparent)
 {
-#ifdef USE_KDE
-#ifdef HAVE_KROOTPIXMAP_H
+#if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
     rootpixmap = new KRootPixmap(parent);
-    connect(rootpixmap, SIGNAL(backgroundUpdated(const QPixmap&)), SLOT(updateBackground(const QPixmap&)));
-    rootpixmap->setCustomPainting(true);
-#endif
 #endif
     QObjectList *l = parent->queryList("TransparentBg");
     QObjectListIt it(*l);
@@ -158,7 +141,9 @@ TransparentTop::TransparentTop(QWidget *parent,
 void TransparentTop::updateBackground(const QPixmap &pm)
 {
 #if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
-    bg = pm;
+    saveBG = pm;
+    genBG = QPixmap();
+    genFade = 0;
     emit backgroundUpdated();
 #endif
 }
@@ -168,21 +153,17 @@ void TransparentTop::transparentChanged()
 #ifdef WIN32
     QWidget *p = static_cast<QWidget*>(parent());
     setTransparent(p,useTransparent, transparent);
-#else
-#ifdef USE_KDE
-#ifdef HAVE_KROOTPIXMAP_H
+#endif
+#if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
     if (useTransparent()){
-        QWidget *parentWidget = static_cast<QWidget*>(parent());
-        rootpixmap->setFadeEffect(transparent / 100.,
-                                  parentWidget->colorGroup().base());
         rootpixmap->start();
     }else{
         rootpixmap->stop();
-        bg = QPixmap();
+        saveBG = QPixmap();
+        genBG = QPixmap();
+        genFade = 0;
         emit backgroundUpdated();
     }
-#endif
-#endif
 #endif
 }
 
@@ -223,10 +204,8 @@ static FN_SETLAYEREDWINDOWATTRIBUTES *SetLayeredWindowAttributes = NULL;
 Transparency::Transparency()
 {
     TransparentTop::bCanTransparent = false;
-#ifdef USE_KDE
-#ifdef HAVE_KROOTPIXMAP_H
+#if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
     TransparentTop::bCanTransparent = true;
-#endif
 #endif
 #ifdef WIN32
     HINSTANCE hLib = LoadLibraryA("user32.dll");
@@ -255,6 +234,23 @@ void TransparentTop::setTransparent(
         SetWindowLongW(w->winId(), GWL_EXSTYLE, GetWindowLongW(w->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
     }
 #endif
+}
+
+const QPixmap *TransparentTop::background(QColor c)
+{
+#if defined(USE_KDE) && defined(HAVE_KROOTPIXMAP_H)
+    if (useTransparent() && !saveBG.isNull()){
+        if ((c.rgb() == genColor.rgb()) && (transparent() == genFade))
+            return &genBG;
+        QImage img = saveBG.convertToImage();
+        fade(img, transparent() / 100., c);
+        genBG.convertFromImage(img);
+        genFade = transparent();
+        genColor = c;
+        return &genBG;
+    }
+#endif
+    return NULL;
 }
 
 #ifndef _WINDOWS

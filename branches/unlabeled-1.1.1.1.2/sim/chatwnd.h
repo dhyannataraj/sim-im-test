@@ -38,6 +38,7 @@ public:
     ChatWindow(ICQChat *chatMsg);
     ~ChatWindow();
     ICQChat *chat;
+    virtual void setBackgroundPixmap(const QPixmap &pm);
 protected slots:
     void processEvent(ICQEvent*);
     void sendLine();

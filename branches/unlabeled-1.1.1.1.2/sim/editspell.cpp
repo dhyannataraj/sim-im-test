@@ -18,11 +18,13 @@
 #include "editspell.h"
 #include "transparent.h"
 #include "mainwin.h"
+#include "client.h"
 #include "log.h"
 
 #include "locale.h"
 
 #include <qaccel.h>
+#include <qapplication.h>
 
 #if USE_SPELL
 #include <kspell.h>
@@ -70,23 +72,24 @@ void EditSpell::resetColors(bool bCanRich)
         setBackground(baseBG);
         setForeground(baseFG);
     }
-    bgTransparent->setTransparent(true);
 }
 
 void EditSpell::setBackground(const QColor& c)
 {
     QPalette pal = palette();
+    bool bUpdate = (colorGroup().base() != c);
 
     pal.setColor(QPalette::Active, QColorGroup::Base, c);
     pal.setColor(QPalette::Inactive, QColorGroup::Base, c);
     pal.setColor(QPalette::Disabled, QColorGroup::Base, c);
 
     setPalette(pal);
-    bgTransparent->setTransparent(false);
+    if (bUpdate) QApplication::postEvent(viewport(), new QEvent(QEvent::User));
 }
 
 void EditSpell::setForeground(const QColor& c)
 {
+    curFG = c;
     setColor(c);
     curFG = c;
 }
@@ -129,21 +132,19 @@ void EditSpell::misspelling(QString original, QStringList *suggestion, unsigned 
 
 #if USE_SPELL
 
-void EditSpell::misspelling (const QString& original, const QStringList&, unsigned int pos)
+void EditSpell::misspelling (const QString& original, const QStringList&, unsigned int)
 {
-    int par;
-    for (par = 0; par < paragraphs(); par++){
-        QString s = text(par);
-        if (s.length() == 0) break;
-        if (textFormat() == RichText) pos -= 3;
-        if (pos < s.length()) break;
-        pos -= s.length();
-        if (textFormat() == RichText) pos -= 4;
-        pos--;
+    if (!find(original, true, true, true, &nPara, &nIndex)){
+        string oldWord;
+        oldWord = original.local8Bit();
+        log(L_DEBUG, "%s not found", oldWord.c_str());
+        return;
     }
-    setSelection(par, pos, par, pos + original.length());
+    setCursorPosition(nPara, nIndex);
+    for (unsigned i = 0; i < original.length(); i++)
+        moveCursor(MoveForward, true);
     ensureCursorVisible();
-    QRect rc = paragraphRect(par);
+    QRect rc = paragraphRect(nPara);
     QPoint p1 = QPoint(rc.left(), rc.top());
     QPoint p2 = QPoint(rc.right(), rc.bottom());
     p1 = viewport()->mapToParent(p1);
@@ -176,21 +177,20 @@ void EditSpell::corrected_old(QString original, QString newword, unsigned pos)
 }
 
 #if USE_SPELL
-void EditSpell::corrected(const QString & original, const QString & newword, unsigned int pos)
+void EditSpell::corrected(const QString & original, const QString & newword, unsigned int)
 {
-    int par;
-    for (par = 0; par < paragraphs(); par++){
-        QString s = text(par);
-        if (s.length() == 0) break;
-        if (textFormat() == RichText) pos -= 3;
-        if (pos < s.length()) break;
-        pos -= s.length();
-        if (textFormat() == RichText) pos -= 4;
-        pos--;
+    if (!find(original, true, true, true, &nPara, &nIndex)){
+        string oldWord;
+        string newWord;
+        oldWord = original.local8Bit();
+        newWord = newword.local8Bit();
+        log(L_DEBUG, "%s -> %s not found", oldWord.c_str(), newWord.c_str());
+        return;
     }
-    setSelection(par, pos, par, pos + original.length());
+    setCursorPosition(nPara, nIndex);
+    for (unsigned i = 0; i < original.length(); i++)
+        moveCursor(MoveForward, true);
     insert(newword, FALSE, TRUE, TRUE);
-    nSpellDelta += newword.length() - original.length();
 #else
 void EditSpell::corrected(const QString&, const QString&, unsigned int)
 {
@@ -213,10 +213,18 @@ void EditSpell::spell_done(const QString&)
 void EditSpell::spell()
 {
 #if USE_SPELL
-    nSpellDelta = 0;
+    nPara  = 0;
+    nIndex = 0;
     if (pSpell == NULL)
         pSpell = new KSpell(this, i18n("Spell check"), this, SLOT(spell_check(KSpell *)), NULL, true, true);
-    pSpell->check(text());
+    string t;
+    if (text().isEmpty()){
+        emit spellDone(true);
+        return;
+    }
+    t = text().local8Bit();
+    t = pClient->clearHTML(t.c_str());
+    pSpell->check(QString::fromLocal8Bit(t.c_str()));
 #else
     emit spellDone(true);
 #endif

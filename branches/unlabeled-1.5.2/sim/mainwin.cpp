@@ -406,6 +406,11 @@ void MainWindow::setOnTop()
 #endif
 }
 
+void MainWindow::setBackgroundPixmap(const QPixmap &pm)
+{
+    transparent->updateBackground(pm);
+}
+
 void MainWindow::changeColors()
 {
     emit colorsChanged();
@@ -689,7 +694,7 @@ bool MainWindow::init()
         }
         break;
     }
-    menuStatus->setItemChecked(ICQ_STATUS_FxPRIVATE, pClient->Invisible);
+    menuStatus->setItemChecked(ICQ_STATUS_FxPRIVATE, pClient->inInvisible());
 
     if ((pClient->Uin == 0) || (*pClient->EncryptedPassword.c_str() == 0)){
         bInLogin = true;
@@ -738,7 +743,7 @@ void MainWindow::messageReceived(ICQMessage *msg)
     CUser user(u);
     xosd->setMessage(i18n("%1 from %2 received")
                      .arg(pClient->getMessageText(msg->Type()))
-                     .arg(user.name()));
+                     .arg(user.name()), u->Uin());
 }
 
 void MainWindow::processEvent(ICQEvent *e)
@@ -843,7 +848,7 @@ void MainWindow::processEvent(ICQEvent *e)
                 if (u->AlertSound()) playSound(OnlineAlert.c_str());
                 if (u->AlertOnScreen()){
                     CUser user(e->Uin());
-                    xosd->setMessage(i18n("User %1 is online") .arg(user.name()));
+                    xosd->setMessage(i18n("User %1 is online") .arg(user.name()), e->Uin());
                 }
                 if (u->AlertPopup()){
                     AlertMsgDlg *dlg = new AlertMsgDlg(this, e->Uin());
@@ -958,7 +963,6 @@ void MainWindow::dockDblClicked()
     for (list<UserBox*>::iterator itBox = containers.begin(); itBox != containers.end(); ++itBox){
         if (!(*itBox)->isActiveWindow()) continue;
         ICQUser *u = pClient->getUser((*itBox)->currentUser());
-        log(L_DEBUG, "It1 %u %u", u->Uin(), u->unreadMsgs.size());
         if (u && u->unreadMsgs.size()){
             (*itBox)->showUser(u->Uin, mnuAction, 0);
             return;
@@ -1191,8 +1195,8 @@ void MainWindow::autoAway()
 void MainWindow::setStatus(int status)
 {
     if ((unsigned long)status == ICQ_STATUS_FxPRIVATE){
-        pClient->setInvisible(!pClient->Invisible);
-        menuStatus->setItemChecked(ICQ_STATUS_FxPRIVATE, pClient->Invisible);
+        pClient->setInvisible(!pClient->inInvisible());
+        menuStatus->setItemChecked(ICQ_STATUS_FxPRIVATE, pClient->inInvisible());
         return;
     }
     AutoReplyDlg *autoDlg = NULL;
@@ -1638,6 +1642,7 @@ void MainWindow::exec(const char *prg, const char *arg)
     if (p.find("%s") >= 0){
         p.replace(QRegExp("%s"), arg);
     }else{
+        p += " ";
         p += QString::fromLocal8Bit(arg);
     }
     QStringList s = QStringList::split(" ", p);
@@ -1650,7 +1655,8 @@ void MainWindow::exec(const char *prg, const char *arg)
     }
     arglist[i] = NULL;
     if(!fork()) {
-        execvp(arglist[0], arglist);
+        if (execvp(arglist[0], arglist))
+            log(L_DEBUG, "can't execute %s: %s", arglist[0], strerror(errno));
         _exit(-1);
     }
     for (char **p = arglist; *p != NULL; p++)
@@ -1692,10 +1698,12 @@ void MainWindow::setFonts()
 #ifdef USE_KDE
     if (UseSystemFonts()) return;
 #endif
+    if (FontSize() > 128) FontSize = 0;
     if (FontSize()){
         QFont fontWnd(FontFamily.c_str(), FontSize(), FontWeight(), FontItalic());
         qApp->setFont(fontWnd, true);
     }
+    if (FontMenuSize() > 128) FontMenuSize = 0;
     if (FontMenuSize()){
         QFont fontMenu(FontMenuFamily.c_str(), FontMenuSize(), FontMenuWeight(), FontMenuItalic());
         qApp->setFont(fontMenu, true, "QPopupMenu");

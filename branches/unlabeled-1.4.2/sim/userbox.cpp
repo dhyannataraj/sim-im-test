@@ -203,6 +203,11 @@ void UserBox::showUsers(bool bShow, unsigned long uin)
     }
 }
 
+void UserBox::setBackgroundPixmap(const QPixmap &pm)
+{
+    transparent->updateBackground(pm);
+}
+
 void UserBox::iconChanged()
 {
     ICQUser *u = pClient->getUser(curWnd->Uin);
@@ -339,6 +344,7 @@ void UserBox::toggleHistory(bool bShow)
             historyWnd = new HistoryView(frm, curWnd->Uin);
             connect(historyWnd, SIGNAL(goMessage(unsigned long, unsigned long)), this, SLOT(showMessage(unsigned long, unsigned long)));
             splitter->hide();
+            historyWnd->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
             lay->insertWidget(0, historyWnd);
             historyWnd->show();
         }
@@ -371,8 +377,7 @@ void UserBox::quit()
     btnInfo->setOn(false);
     btnHistory->setOn(false);
     MsgEdit *wnd = getWnd(tabs->currentTab());
-    if (wnd == NULL) return;
-    wnd->close();
+    closeUser(wnd->Uin());
 }
 
 void UserBox::removeChilds()
@@ -741,6 +746,7 @@ void UserBox::setGroupButtons()
         btnIgnore->setEnabled(true);
         btnGroup->setEnabled(true);
     }
+    if ((tabs->count() > 1) && !tabs->isVisible() && isVisible()) tabs->show();
 }
 
 void UserBox::statusChanged(unsigned long uin)
@@ -768,7 +774,7 @@ void UserBox::selectedUser(int id)
     if (tabs->count() <= 1){
         if (tabs->isVisible()) tabs->hide();
     }else{
-        if (!tabs->isVisible()) tabs->show();
+        if (!tabs->isVisible() && isVisible()) tabs->show();
     }
     MsgEdit *wnd = getWnd(id);
     if (wnd == NULL){

@@ -84,7 +84,7 @@ void UserViewItemBase::paint(QPainter *p, const QString s, const QColorGroup &c,
     const QScrollBar *vBar = listView()->verticalScrollBar();
     if (vBar && vBar->isVisible()) width -= vBar->width();
     UserView *userView = static_cast<UserView*>(listView());
-    const QPixmap *pix = userView->transparent->background();
+    const QPixmap *pix = userView->transparent->background(cg.base());
     if (isSelected() && !userView->bFloaty){
         cg.setBrush(QColorGroup::Base, cg.brush(QColorGroup::Highlight));
         p->setPen(cg.color(QColorGroup::HighlightedText));
@@ -506,7 +506,7 @@ UserView::UserView (QWidget *parent, bool _bList, bool bFill, WFlags f)
     QObject * obj;
     while ( (obj=it.current()) != 0 ){
         ++it;
-        installEventFilter(obj);
+        obj->installEventFilter(this);
     }
     delete l;
 }
@@ -639,7 +639,7 @@ void UserView::doubleClick(QListViewItem *item)
 
 void UserView::paintEmptyArea(QPainter *p, const QRect &r)
 {
-    const QPixmap *pix = transparent->background();
+    const QPixmap *pix = transparent->background(colorGroup().base());
     if (pix)
     {
         QPoint pp(topLevelWidget()->mapFromGlobal(mapToGlobal(r.topLeft())));
@@ -1302,6 +1302,11 @@ void UserFloat::contentsMouseMoveEvent(QMouseEvent *e)
     if (bMoveMode)
         move(e->globalPos() - mousePos);
     UserView::contentsMouseMoveEvent(e);
+}
+
+void UserFloat::setBackgroundPixmap(const QPixmap &pm)
+{
+    transparent->updateBackground(pm);
 }
 
 #ifndef _WINDOWS

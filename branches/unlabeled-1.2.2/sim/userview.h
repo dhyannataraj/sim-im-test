@@ -194,6 +194,7 @@ public:
     bool setUin(unsigned long uin);
     virtual void save(ostream &s);
     virtual bool load(istream &s, string &nextPart);
+    virtual void setBackgroundPixmap(const QPixmap&);
 protected:
     void userChanged();
     bool bMoveMode;

@@ -26,6 +26,12 @@
 #include "qt3/qtextbrowser.h"
 #else
 #include <qtextbrowser.h>
+#ifdef USE_KDE
+#ifdef HAVE_KTEXTBROWSER_H
+#include <ktextbrowser.h>
+#define QTextBrowser KTextBrowser
+#endif
+#endif
 #endif
 
 class ICQMessage;
@@ -85,7 +91,6 @@ public slots:
     void setMessage(unsigned long uin, unsigned long msgId);
 protected slots:
     void messageRead(ICQMessage *msg);
-    void markFinished();
     void colorsChanged();
 protected:
     bool bBack;

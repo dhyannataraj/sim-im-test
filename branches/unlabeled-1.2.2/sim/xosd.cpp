@@ -55,8 +55,9 @@ void XOSD::init()
 #define SHADOW_OFFS	2
 #define XOSD_MARGIN	5
 
-void XOSD::set(const QString &str)
+void XOSD::set(const QString &str, unsigned long _uin)
 {
+    uin = _uin;
     hide();
     QPainter p(this);
     p.setFont(font());
@@ -159,14 +160,20 @@ void XOSD::paintEvent(QPaintEvent*)
     p.end();
 }
 
-void XOSD::setMessage(const QString &str)
+void XOSD::mouseDoubleClickEvent(QMouseEvent*)
+{
+    pMain->userFunction(uin, mnuAction, 0);
+}
+
+void XOSD::setMessage(const QString &str, unsigned long uin)
 {
     if (!pMain->XOSD_on()) return;
     if ((msg.count() == 0) && !isVisible()){
-        set(str);
+        set(str, uin);
         return;
     }
     msg.append(str);
+    uins.append(uin);
 }
 
 void XOSD::timeout()
@@ -175,8 +182,11 @@ void XOSD::timeout()
     if (msg.count() == 0) return;
     QStringList::Iterator it = msg.begin();
     QString str = *it;
+    QValueList<unsigned long>::Iterator itUin = uins.begin();
+    unsigned long uin = *itUin;
     msg.remove(it);
-    set(str);
+    uins.remove(itUin);
+    set(str, uin);
 }
 
 #ifndef _WINDOWS

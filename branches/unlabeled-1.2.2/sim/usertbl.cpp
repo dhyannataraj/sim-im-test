@@ -60,7 +60,7 @@ void UserTblItem::paintCell( QPainter *p, const QColorGroup & cg, int column, in
         p->setPen(cg.color(QColorGroup::HighlightedText));
     }else{
         UserTbl *tbl = static_cast<UserTbl*>(listView());
-        const QPixmap *pix = tbl->transparent->background();
+        const QPixmap *pix = tbl->transparent->background(cg.base());
         if (pix)
         {
             QPoint pp = listView()->itemRect(this).topLeft();
@@ -420,7 +420,7 @@ void UserTbl::fillList(ContactList &l)
 
 void UserTbl::paintEmptyArea(QPainter *p, const QRect &r)
 {
-    const QPixmap *pix = transparent->background();
+    const QPixmap *pix = transparent->background(colorGroup().base());
     if (pix)
     {
         QPoint pp(topLevelWidget()->mapFromGlobal(mapToGlobal(r.topLeft())));

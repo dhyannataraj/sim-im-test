@@ -671,6 +671,7 @@ public:
     ICQContactList(ICQClient*);
     ~ICQContactList();
     ConfigUShort Len;
+    ConfigUShort Invisible;
     ConfigULong  Time;
     ConfigBool   Expand;
     list<ICQUser*>  users;
@@ -915,7 +916,6 @@ public:
     ConfigBool   WebAware;
     ConfigBool   Authorize;
     ConfigBool   HideIp;
-    ConfigBool   Invisible;
 
     ConfigShort		ProxyType;
     ConfigString	ProxyHost;
