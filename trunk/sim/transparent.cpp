@@ -176,11 +176,13 @@ bool TransparentTop::eventFilter(QObject *o, QEvent *e)
         transparentChanged();
         break;
 	case QEvent::Show:
+#ifdef WIN32
 		if (bCanTransparent){
 			QWidget *w = static_cast<QWidget*>(o);
 			SetLayeredWindowAttributes(w->winId(), w->colorGroup().background().rgb(), 255, LWA_ALPHA);
 			QTimer::singleShot(0, this, SLOT(transparentChanged()));
 		}
+#endif
 		break;
     default:
         break;
