@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2002-08-24 14:50+0400\n"
-"PO-Revision-Date: 2002-08-24 17:43GMT\n"
+"PO-Revision-Date: 2002-08-24 18:39GMT\n"
 "Last-Translator: Crissi <crissi99@gmx.de>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2248,7 +2248,7 @@ msgstr "Schriftart"
 
 #: msgedit.cpp:188
 msgid "C&lose after send"
-msgstr "&Nach dem Senden schließen"
+msgstr "Nach beendeter Übertragung &schließen"
 
 #: msgedit.cpp:202
 msgid "Phone:"
