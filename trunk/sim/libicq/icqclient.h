@@ -394,6 +394,7 @@ public:
 #endif
     }
 protected:
+    virtual void idle();
     virtual void read_ready();
     virtual void write_ready();
     virtual bool have_data();
