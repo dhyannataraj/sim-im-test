@@ -31,6 +31,12 @@
 #include <qlistbox.h>
 #include <qlabel.h>
 
+#ifndef WIN32
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#endif
+
 MainInfo::MainInfo(QWidget *p, bool readOnly)
         : MainInfoBase(p)
 {
