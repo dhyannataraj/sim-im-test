@@ -48,6 +48,7 @@ signals:
 public slots:
     void adjustColumn();
     virtual void startDrag();
+	void sizeChange(int,int,int);
 protected:
     virtual ProcessMenuParam *getMenu(QListViewItem *item);
     virtual void *processEvent(Event*);

@@ -22,7 +22,7 @@
 
 #include <qlineedit.h>
 
-class IntLineEdit : public QLineEdit
+class UI_EXPORT IntLineEdit : public QLineEdit
 {
     Q_OBJECT
 public:

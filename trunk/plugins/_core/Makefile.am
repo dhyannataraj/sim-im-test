@@ -8,7 +8,6 @@ _core_la_SOURCES = \
  mainwin.cpp \
  userlist.cpp \
  userview.cpp \
- intedit.cpp \
  icons.cpp \
  cfgdlg.cpp \
  cfgdlgbase.ui \

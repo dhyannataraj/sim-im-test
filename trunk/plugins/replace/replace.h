@@ -39,6 +39,7 @@ public:
 protected:
     virtual string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
+	bool eventFilter(QObject *o, QEvent *e);
 	ReplaceData data;
 };
 
