@@ -1,5 +1,7 @@
 ##   -*- autoconf -*-
 
+dnl last sync with acinclude.m4.in from kde-common/admin May,30,2004
+
 dnl    This file is part of the KDE libraries/packages
 dnl    Copyright (C) 1997 Janos Farkas (chexum@shadow.banki.hu)
 dnl              (C) 1997,98,99 Stephan Kulow (coolo@kde.org)
@@ -364,8 +366,10 @@ AC_DEFUN([AC_PATH_QT_MOC_UIC],
    AC_SUBST(UIC)
 
    UIC_TR="i18n"
-   if test "$kde_qtver" = "3"; then
-     UIC_TR="tr2i18n"
+   if test "$use_kde" = "yes"; then
+     if test "$kde_qtver" = "3"; then
+       UIC_TR="tr2i18n"
+     fi
    fi
 
    AC_SUBST(UIC_TR)
