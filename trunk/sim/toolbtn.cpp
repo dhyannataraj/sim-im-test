@@ -18,6 +18,7 @@
 #include "toolbtn.h"
 #include "icons.h"
 #include "mainwin.h"
+#include "log.h"
 
 #include <qpainter.h>
 #include <qtoolbar.h>
@@ -126,6 +127,7 @@ void CToolButton::contextMenuEvent(QContextMenuEvent *e)
 PictButton::PictButton( QToolBar *parent)
         : CToolButton(parent)
 {
+	accelKey = 0;
     connect(pMain, SIGNAL(iconChanged()), this, SLOT(iconChanged()));
 }
 
@@ -195,11 +197,25 @@ void PictButton::setText(const QString &text)
     setState(icon, text);
 }
 
+void PictButton::showEvent(QShowEvent *e)
+{
+	if (accelKey) setAccel(accelKey);
+	CToolButton::showEvent(e);
+}
+
+void PictButton::hideEvent(QHideEvent *e)
+{
+	if (accelKey) setAccel(0);
+	CToolButton::hideEvent(e);
+}
+
 void PictButton::setState(const QString& _icon, const QString& _text)
 {
     icon = _icon;
     text = _text;
-    setAccel(QAccel::shortcutKey(text));
+	int accelKey = QAccel::shortcutKey(text);
+    if (isVisible())
+		setAccel(accelKey);
     QString t = _text;
     int pos;
     while ((pos = t.find('&')) >= 0){

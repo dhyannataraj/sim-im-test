@@ -1999,7 +1999,7 @@ msgstr "&Закрыть после отправки"
 
 #: msgedit.cpp:208 msgedit.cpp:335
 msgid "&Send"
-msgstr "&Отправить"
+msgstr "О&тправить"
 
 #: msgedit.cpp:213
 msgid "&Next"

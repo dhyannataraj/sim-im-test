@@ -483,14 +483,12 @@ bool SearchEvent::processAnswer(ICQClient *client, Buffer &b, unsigned short nSu
     >> email
     >> auth
     >> state;
-    if (m_nUin != client->owner->Uin){
-        client->fromServer(nick, client->owner);
-        client->fromServer(firstName, client->owner);
-        client->fromServer(lastName, client->owner);
-        client->fromServer(email, client->owner);
-        lastResult = (nSubtype == 0xAE01);
-        client->process_event(this);
-    }
+    client->fromServer(nick, client->owner);
+    client->fromServer(firstName, client->owner);
+    client->fromServer(lastName, client->owner);
+    client->fromServer(email, client->owner);
+    lastResult = (nSubtype == 0xAE01);
+    client->process_event(this);
     return (nSubtype == 0xAE01);
 }
 
