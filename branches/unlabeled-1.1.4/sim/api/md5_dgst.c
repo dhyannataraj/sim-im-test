@@ -58,12 +58,14 @@
 
 #include "config.h"
 #ifndef USE_OPENSSL
+#define NO_ASM	/* my gcc doesn't like keyword "asm" !?! */
 
 #include <stdio.h>
 #include "md5_locl.h"
-#include <openssl/opensslv.h>
+/* #include <openssl/opensslv.h> */
 
-const char *MD5_version="MD5" OPENSSL_VERSION_PTEXT;
+/* const char *MD5_version="MD5" OPENSSL_VERSION_PTEXT; */
+const char *MD5_version="MD5";
 
 /* Implemented from RFC1321 The MD5 Message-Digest Algorithm
  */

@@ -58,8 +58,12 @@
 
 #include <stdlib.h>
 #include <string.h>
+#ifdef USE_OPENSSL
 #include <openssl/opensslconf.h>
 #include <openssl/md5.h>
+#else
+#include "md5.h"
+#endif
 
 #ifndef MD5_LONG_LOG2
 #define MD5_LONG_LOG2 2 /* default to 32 bits */

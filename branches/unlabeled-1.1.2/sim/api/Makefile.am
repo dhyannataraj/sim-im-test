@@ -16,7 +16,7 @@ libsimapi_la_SOURCES = \
  sslclient.cpp \
  translit.cpp \
  unquote.ll \
- md5_locl.h
+ md5_dgst.c
 
 libsimapi_la_LIBADD = $(LIBS_SSL) $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(EXTRA_LIBS) $(LIBLD)
 
