@@ -799,6 +799,8 @@ bool ContactList::moveGroup(unsigned long id, bool bUp)
         return false;
     for (unsigned i = 1; i < p->groups.size(); i++){
         if (p->groups[i]->id() == id){
+            if (!bUp && (i == p->groups.size() - 1))
+                return false;
             if (bUp) i--;
             if (i == 0)
                 return false;
