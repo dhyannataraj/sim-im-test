@@ -611,7 +611,8 @@ void ICQClient::sendThroughServer(const char *screen, unsigned short channel, Bu
     m_socket->writeBuffer.packScreen(screen);
     if (channel == 1)
         tlv_type = 2;
-    m_socket->writeBuffer.tlv(tlv_type, b);
+	if (b.size())
+		m_socket->writeBuffer.tlv(tlv_type, b);
     if (bReqAck)
         m_socket->writeBuffer.tlv(3);		// req. ack from server
     if (bOffline)
@@ -1576,11 +1577,9 @@ void ICQClient::processSendQueue()
                 return;
             case MessageCheckInvisible:{
                     Buffer b;
-                    b.pack(this->data.owner.Uin.value);
-                    b << 0xE8000100L << (char)00;
-                    sendThroughServer(m_send.screen.c_str(), 4, b, m_send.id, true, false);
+                    sendThroughServer(m_send.screen.c_str(), 2, b, m_send.id, true, false);
                     return;
-                }
+			}
             case MessageWarning:{
                     WarningMessage *msg = static_cast<WarningMessage*>(m_send.msg);
                     snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_BLAMExUSER, true);

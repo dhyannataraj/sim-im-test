@@ -294,7 +294,7 @@ void ICQClient::sendLogonStatus()
 
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
     m_socket->writeBuffer.tlv(0x0006, fullStatus(m_logonStatus));
-    m_socket->writeBuffer.tlv(0x0008, 0);
+    m_socket->writeBuffer.tlv(0x0008, (unsigned short)0);
     m_socket->writeBuffer.tlv(0x000C, directInfo);
 
     sendPacket();
@@ -306,11 +306,13 @@ void ICQClient::sendLogonStatus()
 
 void ICQClient::setInvisible()
 {
-    if (getInvisible()) sendVisibleList();
+    if (getInvisible())
+		sendVisibleList();
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
     m_socket->writeBuffer.tlv(0x0006, fullStatus(m_status));
     sendPacket();
-    if (!getInvisible()) sendInvisibleList();
+    if (!getInvisible())
+		sendInvisibleList();
 }
 
 void ICQClient::sendStatus()

@@ -936,8 +936,10 @@ unsigned long ICQClient::fullStatus(unsigned s)
     }
     if (m_bBirthday)
         status |= ICQ_STATUS_FxBIRTHDAY;
-    if (getInvisible())
-        status |= ICQ_STATUS_FxPRIVATE;
+    if (getInvisible()){
+        status |= ICQ_STATUS_FxPRIVATE | ICQ_STATUS_FxHIDExIP;
+        status &= ~(ICQ_STATUS_FxDIRECTxLISTED | ICQ_STATUS_FxDIRECTxAUTH);
+    }
     return status;
 }
 

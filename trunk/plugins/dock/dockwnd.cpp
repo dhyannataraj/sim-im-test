@@ -60,7 +60,7 @@ static DockWnd *gDock;
 
 LRESULT CALLBACK DockWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    if (msg == WM_DOCK){
+    if ((msg == WM_DOCK) || (msg == 0)){
         gDock->callProc(lParam);
     }
     if (oldDockProc)
@@ -600,27 +600,30 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
     }
     if (IsWindowUnicode(winId()) && _Shell_NotifyIconW){
         oldDockProc = (WNDPROC)SetWindowLongW(winId(), GWL_WNDPROC, (LONG)DockWindowProc);
-        NOTIFYICONDATAW notifyIconData;
-        notifyIconData.cbSize = sizeof(notifyIconData);
-        notifyIconData.hIcon = topData()->winIcon;
-        notifyIconData.hWnd = winId();
-        notifyIconData.szTip[0] = 0;
-        notifyIconData.uCallbackMessage = WM_DOCK;
-        notifyIconData.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
-        notifyIconData.uID = 0;
-        _Shell_NotifyIconW(NIM_ADD, &notifyIconData);
+        /*
+                NOTIFYICONDATAW notifyIconData;
+                notifyIconData.cbSize = sizeof(notifyIconData);
+                notifyIconData.hIcon = topData()->winIcon;
+                notifyIconData.hWnd = winId();
+                notifyIconData.szTip[0] = 0;
+                notifyIconData.uCallbackMessage = WM_DOCK;
+                notifyIconData.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
+                notifyIconData.uID = 0;
+                _Shell_NotifyIconW(NIM_ADD, &notifyIconData);
+        */
     }else{
         oldDockProc = (WNDPROC)SetWindowLongA(winId(), GWL_WNDPROC, (LONG)DockWindowProc);
-        NOTIFYICONDATAA notifyIconData;
-        notifyIconData.cbSize = sizeof(notifyIconData);
-        notifyIconData.hIcon = topData()->winIcon;
-        notifyIconData.hWnd = winId();
-        notifyIconData.szTip[0] = 0;
-        notifyIconData.uCallbackMessage = WM_DOCK;
-        notifyIconData.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
-        notifyIconData.uID = 0;
-        Shell_NotifyIconA(NIM_ADD, &notifyIconData);
     }
+    NOTIFYICONDATAA notifyIconData;
+    notifyIconData.cbSize = sizeof(notifyIconData);
+    notifyIconData.hIcon = topData()->winIcon;
+    notifyIconData.hWnd = winId();
+    notifyIconData.szTip[0] = 0;
+    notifyIconData.uCallbackMessage = WM_DOCK;
+    notifyIconData.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
+    notifyIconData.uID = 0;
+    Shell_NotifyIconA(NIM_ADD, &notifyIconData);
+    //}
 #else
     setMinimumSize(22, 22);
     resize(22, 22);
