@@ -71,6 +71,7 @@ JabberSearch::JabberSearch(QWidget *receiver, JabberClient *client, const char *
     m_name	 = name;
     m_nPos	 = 0;
     m_receiver = receiver;
+    m_bXData = false;
     QVBoxLayout *vlay = new QVBoxLayout(this);
     vlay->setMargin(6);
     lay = new QGridLayout(vlay);
@@ -103,7 +104,9 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
     QWidget *widget = NULL;
     bool bJoin = false;
     if (data->Type){
-        if (!strcmp(data->Type, "text-single")){
+        if (!strcmp(data->Type, "x")){
+            m_bXData = true;
+        }else if (!strcmp(data->Type, "text-single")){
             widget = new QLineEdit(this, data->Field);
             connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
             connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
@@ -155,10 +158,16 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
                 connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
                 connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
                 set_str(&data->Label, f->name);
+            }else if (data->Label){
+                widget = new QLineEdit(this, f->tag);
+                connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
+                connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
             }
         }
     }
     if (widget){
+        if (data->bRequired)
+            m_required.push_back(widget);
         if (bJoin){
             lay->addMultiCellWidget(widget, m_nPos, m_nPos, 0, 1);
         }else{
@@ -260,7 +269,17 @@ bool JabberSearch::canSearch()
             ++it;
             continue;
         }
-
+        if (edit->text().isEmpty()){
+            list<QWidget*>::iterator itw;
+            for (itw = m_required.begin(); itw != m_required.end(); ++itw){
+                if (*itw == edit)
+                    break;
+            }
+            if (itw != m_required.end()){
+                bRes = false;
+                break;
+            }
+        }
         if (!edit->text().isEmpty())
             bRes = true;
         ++it;
@@ -272,6 +291,8 @@ bool JabberSearch::canSearch()
 QString JabberSearch::condition()
 {
     QString res;
+    if (m_bXData)
+        res += "x:data";
 
     QObjectList *l = queryList("QLineEdit");
     QObjectListIt it( *l );

@@ -6,6 +6,7 @@ Jabber: Add disco request fro search agents
 Add history size config
 Add remote control plugin
 Add spell checking
+Jabber: Add jabber browser/disco
 
 Version 0.9.1
 ICQ: Fix login

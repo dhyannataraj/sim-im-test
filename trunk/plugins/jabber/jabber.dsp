@@ -101,6 +101,14 @@ SOURCE=.\addresultbase.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\discoinfo.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\discoinfobase.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\jabber.cpp
 # End Source File
 # Begin Source File
@@ -132,6 +140,10 @@ SOURCE=.\jabberadd.cpp
 
 SOURCE=.\jabberaddbase.cpp
 # ADD CPP /W3
+# End Source File
+# Begin Source File
+
+SOURCE=.\jabberbrowser.cpp
 # End Source File
 # Begin Source File
 
@@ -200,6 +212,14 @@ SOURCE=.\moc_addresultbase.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\moc_discoinfo.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\moc_discoinfobase.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\moc_jabberaboutinfo.cpp
 # ADD CPP /W3
 # End Source File
@@ -217,6 +237,10 @@ SOURCE=.\moc_jabberadd.cpp
 
 SOURCE=.\moc_jabberaddbase.cpp
 # ADD CPP /W3
+# End Source File
+# Begin Source File
+
+SOURCE=.\moc_jabberbrowser.cpp
 # End Source File
 # Begin Source File
 
@@ -365,6 +389,43 @@ InputName=addresultbase
 # End Source File
 # Begin Source File
 
+SOURCE=.\discoinfo.h
+
+!IF  "$(CFG)" == "jabber - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\discoinfo.h
+InputName=discoinfo
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "jabber - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\discoinfo.h
+InputName=discoinfo
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\discoinfobase.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\jabber.h
 # End Source File
 # Begin Source File
@@ -490,6 +551,39 @@ InputName=jabberaddbase
 InputDir=.
 InputPath=.\jabberaddbase.h
 InputName=jabberaddbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\jabberbrowser.h
+
+!IF  "$(CFG)" == "jabber - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\jabberbrowser.h
+InputName=jabberbrowser
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "jabber - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\jabberbrowser.h
+InputName=jabberbrowser
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
@@ -1044,6 +1138,61 @@ BuildCmds= \
    $(BuildCmds)
 
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\discoinfobase.ui
+
+!IF  "$(CFG)" == "jabber - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Uic'ing $(InputName).ui ...
+InputDir=.
+InputPath=.\discoinfobase.ui
+InputName=discoinfobase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "jabber - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Uic'ing $(InputName).ui ...
+InputDir=.
+InputPath=.\discoinfobase.ui
+InputName=discoinfobase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 

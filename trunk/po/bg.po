@@ -17,7 +17,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bg\n"
-"POT-Creation-Date: 2003-11-30 07:53+0300\n"
+"POT-Creation-Date: 2003-11-30 23:18+0300\n"
 "PO-Revision-Date: 2003-09-18 18:44+0300\n"
 "Last-Translator: Атанас Мавров <bugar@mail.bg>\n"
 "Language-Team:  <bg@li.org>\n"
@@ -1085,7 +1085,8 @@ msgstr "&Отказ"
 #: plugins/_core/core.cpp:563 plugins/_core/filetransfer.cpp:310
 #: plugins/_core/managerbase.cpp:110 plugins/_core/toolsetupbase.cpp:136
 #: plugins/about/aboutdlgbase.cpp:156 plugins/icq/securedlg.cpp:92
-#: sim/api/simapi.cpp:427 sim/ui/qt3/i18n.cpp:287
+#: plugins/jabber/discoinfobase.cpp:234 sim/api/simapi.cpp:427
+#: sim/ui/qt3/i18n.cpp:287
 msgid "&Close"
 msgstr "&Затваряне"
 
@@ -1289,7 +1290,8 @@ msgid "All files (*)"
 msgstr "Всички файлове (*)"
 
 #: plugins/filter/ignorelist.cpp:27 plugins/icq/icqsecure.cpp:126
-#: plugins/icq/searchresult.cpp:128 sim/ui/qt3/i18n.cpp:39
+#: plugins/icq/searchresult.cpp:128 plugins/jabber/discoinfo.cpp:49
+#: plugins/jabber/jabberbrowser.cpp:45 sim/ui/qt3/i18n.cpp:39
 msgid "Name"
 msgstr "Име"
 
@@ -1935,7 +1937,7 @@ msgstr "ICQ"
 #: plugins/_core/userlist.cpp:572 plugins/icq/icq.cpp:110
 #: plugins/icq/icq.cpp:280 plugins/icq/icqclient.cpp:1487
 #: plugins/icq/icqclient.cpp:1521 plugins/jabber/jabber.cpp:108
-#: plugins/jabber/jabberclient.cpp:1222 plugins/jabber/services.cpp:234
+#: plugins/jabber/jabberclient.cpp:1298 plugins/jabber/services.cpp:234
 #: plugins/msn/msn.cpp:89 plugins/msn/msnclient.cpp:1516
 msgid "Online"
 msgstr "Свързан"
@@ -1995,16 +1997,16 @@ msgid "Change &encoding"
 msgstr "&Променяне на кодировката"
 
 #: plugins/_core/msgedit.cpp:1535 plugins/icq/icq.cpp:552
-#: plugins/jabber/jabber.cpp:346
+#: plugins/jabber/jabber.cpp:355
 msgid "&Message"
 msgstr "&Съобщение"
 
 #: plugins/_core/core.cpp:549 plugins/_core/core.cpp:1096
-#: plugins/icq/icq.cpp:562 plugins/jabber/jabber.cpp:355
+#: plugins/icq/icq.cpp:562 plugins/jabber/jabber.cpp:364
 msgid "User &info"
 msgstr "Информация за потребите&л"
 
-#: plugins/icq/icq.cpp:568 plugins/jabber/jabber.cpp:361
+#: plugins/icq/icq.cpp:568 plugins/jabber/jabber.cpp:370
 msgid "&Add to group"
 msgstr "&Прибавя към група"
 
@@ -2229,19 +2231,19 @@ msgid "Warning level"
 msgstr "&Предупреждения"
 
 #: plugins/icq/aiminfo.cpp:166 plugins/icq/icqclient.cpp:1514
-#: plugins/icq/icqinfo.cpp:229 plugins/jabber/jabberclient.cpp:1215
+#: plugins/icq/icqinfo.cpp:229 plugins/jabber/jabberclient.cpp:1291
 #: plugins/jabber/jabberinfo.cpp:103 plugins/msn/msnclient.cpp:1509
 #: plugins/msn/msninfo.cpp:88
 msgid "Last online"
 msgstr "Последно включен"
 
 #: plugins/icq/icqclient.cpp:1815 plugins/icq/icqclient.cpp:2003
-#: plugins/jabber/jabberclient.cpp:1338 plugins/jabber/jabberclient.cpp:1447
+#: plugins/jabber/jabberclient.cpp:1414 plugins/jabber/jabberclient.cpp:1523
 msgid "Home info"
 msgstr "Домашна информация"
 
 #: plugins/icq/icqclient.cpp:1830 plugins/icq/icqclient.cpp:2018
-#: plugins/jabber/jabberclient.cpp:1353 plugins/jabber/jabberclient.cpp:1462
+#: plugins/jabber/jabberclient.cpp:1429 plugins/jabber/jabberclient.cpp:1538
 msgid "Work info"
 msgstr "Информация за работа"
 
@@ -2251,7 +2253,7 @@ msgstr "Друга информация"
 
 #: plugins/icq/icqclient.cpp:1860 plugins/icq/icqclient.cpp:1954
 #: plugins/icq/icqclient.cpp:2048 plugins/icq/icqclient.cpp:2172
-#: plugins/jabber/jabberclient.cpp:1368 plugins/jabber/jabberclient.cpp:1477
+#: plugins/jabber/jabberclient.cpp:1444 plugins/jabber/jabberclient.cpp:1553
 msgid "About info"
 msgstr "Допълнителна информация"
 
@@ -2268,7 +2270,7 @@ msgid "Picture"
 msgstr "Картинка"
 
 #: plugins/icq/icqclient.cpp:2108 plugins/icq/icqclient.cpp:2187
-#: plugins/jabber/jabberclient.cpp:1537 plugins/msn/msnclient.cpp:713
+#: plugins/jabber/jabberclient.cpp:1613 plugins/msn/msnclient.cpp:713
 msgid "Network"
 msgstr "Мрежа"
 
@@ -2342,7 +2344,7 @@ msgstr "Лимитът на съобщенията е превишен"
 msgid "We are to evil :("
 msgstr "Ние също сме лоши :-("
 
-#: plugins/icq/icqicmb.cpp:650 plugins/jabber/jabber_rosters.cpp:1831
+#: plugins/icq/icqicmb.cpp:650 plugins/jabber/jabber_rosters.cpp:1841
 #, fuzzy
 msgid "File transfer declined"
 msgstr "Файловата обмяна приключи:"
@@ -2352,7 +2354,7 @@ msgid "Message declined"
 msgstr "Съобщението е отклонено"
 
 #: plugins/icq/icqicmb.cpp:790 plugins/icq/icqicmb.cpp:798
-#: plugins/icq/icqvarious.cpp:1616 plugins/jabber/jabberclient.cpp:615
+#: plugins/icq/icqvarious.cpp:1616 plugins/jabber/jabberclient.cpp:694
 msgid "Client go offline"
 msgstr "Клиентът излезе от мрежата"
 
@@ -2383,7 +2385,7 @@ msgid "No contact"
 msgstr "Няма потребител"
 
 #: plugins/icq/icqicmb.cpp:1338 plugins/icq/icqmessage.cpp:1198
-#: plugins/jabber/jabberclient.cpp:2147
+#: plugins/jabber/jabberclient.cpp:2223
 #, fuzzy
 msgid "No contacts for send"
 msgstr "Няма потребител"
@@ -2664,12 +2666,12 @@ msgid "UIN"
 msgstr "Номер"
 
 #: plugins/icq/icqsecure.cpp:125 plugins/jabber/addresult.cpp:30
-#: plugins/jabber/jabbersearch.cpp:91
+#: plugins/jabber/jabbersearch.cpp:92
 msgid "Nick"
 msgstr "Прякор: "
 
 #: plugins/_core/maininfo.cpp:69 plugins/filter/ignorelist.cpp:28
-#: plugins/icq/icqsecure.cpp:127 plugins/jabber/jabbersearch.cpp:92
+#: plugins/icq/icqsecure.cpp:127 plugins/jabber/jabbersearch.cpp:93
 #: plugins/msn/msninfobase.cpp:161
 msgid "EMail"
 msgstr "Електронна поща"
@@ -2904,11 +2906,11 @@ msgstr "Публицистика"
 msgid "Home automation"
 msgstr "Домашна автоматика"
 
-#: plugins/icq/moreinfo.cpp:85 plugins/jabber/jabbersearch.cpp:145
+#: plugins/icq/moreinfo.cpp:85 plugins/jabber/jabbersearch.cpp:148
 msgid "Female"
 msgstr "Жена"
 
-#: plugins/icq/moreinfo.cpp:86 plugins/jabber/jabbersearch.cpp:144
+#: plugins/icq/moreinfo.cpp:86 plugins/jabber/jabbersearch.cpp:147
 msgid "Male"
 msgstr "Мъж"
 
@@ -3660,6 +3662,7 @@ msgid "Form2"
 msgstr "Форма2"
 
 #: plugins/gpg/gpggenbase.cpp:118 plugins/icq/workinfobase.cc:215
+#: plugins/jabber/discoinfobase.cpp:224 plugins/jabber/discoinfobase.cpp:226
 msgid "Name:"
 msgstr "Име:"
 
@@ -3860,7 +3863,7 @@ msgstr "Прибавяне към група"
 msgid "AIM user"
 msgstr "AIM потребител"
 
-#: plugins/icq/icqsearchbase.cc:348 plugins/jabber/jabbersearch.cpp:139
+#: plugins/icq/icqsearchbase.cc:348 plugins/jabber/jabbersearch.cpp:142
 msgid "Online only"
 msgstr "Само свързаните"
 
@@ -3937,6 +3940,7 @@ msgid ""
 msgstr ""
 
 #: plugins/_core/maininfobase.cpp:233 plugins/icq/aimsearchbase.cc:290
+#: plugins/jabber/discoinfobase.cpp:225
 msgid "&Info"
 msgstr "&Информация"
 
@@ -4307,6 +4311,7 @@ msgid "&Quote"
 msgstr "&Цитиране"
 
 #: plugins/_core/core.cpp:831 plugins/forward/forward.cpp:65
+#: plugins/jabber/jabber.cpp:410
 msgid "&Forward"
 msgstr "&Препращане"
 
@@ -4607,7 +4612,7 @@ msgstr "Парола за прокси сървъра:"
 msgid "New profile"
 msgstr "Нов профил"
 
-#: plugins/_core/logindlg.cpp:443 plugins/jabber/jabberclient.cpp:914
+#: plugins/_core/logindlg.cpp:443 plugins/jabber/jabberclient.cpp:1007
 #: plugins/msn/msnclient.cpp:612
 msgid "Login failed"
 msgstr "Неуспешно свързване"
@@ -5327,7 +5332,7 @@ msgstr "Редактиране на телефон:"
 msgid "Number details:"
 msgstr "Номерира детайли:"
 
-#: plugins/_core/editphonebase.cpp:141
+#: plugins/_core/editphonebase.cpp:141 plugins/jabber/discoinfobase.cpp:223
 msgid "Type:"
 msgstr "Вид:"
 
@@ -6002,7 +6007,7 @@ msgstr "Грешка при изпращане на съобщение"
 msgid "Transfer canceled"
 msgstr "Грешка при обмен"
 
-#: plugins/jabber/jabberclient.cpp:2652 plugins/jabber/jabberclient.cpp:2692
+#: plugins/jabber/jabberclient.cpp:2728 plugins/jabber/jabberclient.cpp:2768
 #: plugins/msn/msnclient.cpp:2597
 #, fuzzy
 msgid "File transfer failed"
@@ -6518,17 +6523,17 @@ msgstr ""
 msgid "New version SIM is released"
 msgstr ""
 
-#: plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:93
-#: plugins/jabber/jabbersearch.cpp:213
+#: plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:94
+#: plugins/jabber/jabbersearch.cpp:222
 msgid "First name"
 msgstr "Име: "
 
-#: plugins/jabber/addresult.cpp:32 plugins/jabber/jabbersearch.cpp:94
-#: plugins/jabber/jabbersearch.cpp:214
+#: plugins/jabber/addresult.cpp:32 plugins/jabber/jabbersearch.cpp:95
+#: plugins/jabber/jabbersearch.cpp:223
 msgid "Last name"
 msgstr "Фамилия: "
 
-#: plugins/jabber/addresult.cpp:33 plugins/jabber/jabbersearch.cpp:207
+#: plugins/jabber/addresult.cpp:33 plugins/jabber/jabbersearch.cpp:216
 msgid "Email"
 msgstr "Електронна поща"
 
@@ -6540,12 +6545,32 @@ msgstr "ID"
 msgid "Jabber"
 msgstr "Jabber"
 
-#: plugins/jabber/jabber_rosters.cpp:1710
+#: plugins/jabber/jabber.cpp:383 plugins/jabber/jabber.cpp:392
+#, fuzzy
+msgid "Jabber browser"
+msgstr "Jabber ID"
+
+#: plugins/jabber/jabber.cpp:401
+#, fuzzy
+msgid "&Back"
+msgstr "Назад"
+
+#: plugins/jabber/jabber.cpp:416 plugins/jabber/jabberbrowser.cpp:44
+#: plugins/jabber/jabberbrowser.cpp:278 plugins/jabber/services.cpp:45
+msgid "JID"
+msgstr "JID"
+
+#: plugins/jabber/jabber.cpp:423
+#, fuzzy
+msgid "Info"
+msgstr "&Информация"
+
+#: plugins/jabber/jabber_rosters.cpp:1720
 #, fuzzy
 msgid "Password does not match"
 msgstr "Потвърждението и паролата не съвпадат"
 
-#: plugins/jabber/jabber_rosters.cpp:1711
+#: plugins/jabber/jabber_rosters.cpp:1721
 #, fuzzy
 msgid "Low level network error"
 msgstr "Показва мрежово наблюдение"
@@ -6554,20 +6579,20 @@ msgstr "Показва мрежово наблюдение"
 msgid "Add Jabber contact"
 msgstr "Добавяне на Jabber потребител"
 
-#: plugins/jabber/jabberclient.cpp:1383 plugins/jabber/jabberclient.cpp:1492
+#: plugins/jabber/jabberclient.cpp:1459 plugins/jabber/jabberclient.cpp:1568
 msgid "Photo"
 msgstr ""
 
-#: plugins/jabber/jabberclient.cpp:1398 plugins/jabber/jabberclient.cpp:1507
+#: plugins/jabber/jabberclient.cpp:1474 plugins/jabber/jabberclient.cpp:1583
 #, fuzzy
 msgid "Logo"
 msgstr "&Отчет"
 
-#: plugins/jabber/jabberclient.cpp:1522
+#: plugins/jabber/jabberclient.cpp:1598
 msgid "Agents"
 msgstr "Деятел"
 
-#: plugins/jabber/jabberclient.cpp:2790
+#: plugins/jabber/jabberclient.cpp:2866
 #, fuzzy
 msgid "File transfer fail"
 msgstr "Прехвърляне на файл "
@@ -6618,42 +6643,42 @@ msgstr "&Телефонна книга"
 msgid "&Logo"
 msgstr "&Отчет"
 
-#: plugins/jabber/jabbersearch.cpp:90 plugins/jabber/jabbersearch.cpp:217
+#: plugins/jabber/jabbersearch.cpp:91 plugins/jabber/jabbersearch.cpp:226
 msgid "Username"
 msgstr "Потребителско име"
 
-#: plugins/jabber/jabbersearch.cpp:95
+#: plugins/jabber/jabbersearch.cpp:96
 #, fuzzy
 msgid "Age min"
 msgstr "Аржентина"
 
-#: plugins/jabber/jabbersearch.cpp:96
+#: plugins/jabber/jabbersearch.cpp:97
 msgid "Age max"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:97
+#: plugins/jabber/jabbersearch.cpp:98
 #, fuzzy
 msgid "City"
 msgstr "Град:"
 
-#: plugins/jabber/jabbersearch.cpp:146
+#: plugins/jabber/jabbersearch.cpp:149
 #, fuzzy
 msgid "Gender"
 msgstr "Пол:"
 
-#: plugins/jabber/jabbersearch.cpp:204
+#: plugins/jabber/jabbersearch.cpp:213
 msgid "First (Given)"
 msgstr "Име"
 
-#: plugins/jabber/jabbersearch.cpp:205
+#: plugins/jabber/jabbersearch.cpp:214
 msgid "Last (Family)"
 msgstr "Фамилия:"
 
-#: plugins/jabber/jabbersearch.cpp:206
+#: plugins/jabber/jabbersearch.cpp:215
 msgid "Nick (Alias)"
 msgstr "Прякор"
 
-#: plugins/jabber/jabbersearch.cpp:208
+#: plugins/jabber/jabbersearch.cpp:217
 msgid ""
 "Select the speed of the search.  \"Fast\" matches your string to the "
 "beginning of the field only (ie. \"b\" would yield Bob,Bill,etc...)  "
@@ -6668,35 +6693,35 @@ msgstr ""
 "Примерно за заявка \"b\" намерените "
 "резултати ще са Bob, Bill, Caleb, Robbie и т.н."
 
-#: plugins/jabber/jabbersearch.cpp:209
+#: plugins/jabber/jabbersearch.cpp:218
 msgid "Search Speed"
 msgstr "Скорост на търсене"
 
-#: plugins/jabber/jabbersearch.cpp:210
+#: plugins/jabber/jabbersearch.cpp:219
 msgid "Fast / Less accurate"
 msgstr "Бързо / по-неточно"
 
-#: plugins/jabber/jabbersearch.cpp:211
+#: plugins/jabber/jabbersearch.cpp:220
 msgid "Slower / More extensive"
 msgstr "Бавно / по-обширно"
 
-#: plugins/jabber/jabbersearch.cpp:212
+#: plugins/jabber/jabbersearch.cpp:221
 msgid "Full name"
 msgstr "Пълно име"
 
-#: plugins/jabber/jabbersearch.cpp:215
+#: plugins/jabber/jabbersearch.cpp:224
 msgid "Nickname"
 msgstr "Прякор:"
 
-#: plugins/jabber/jabbersearch.cpp:216
+#: plugins/jabber/jabbersearch.cpp:225
 msgid "E-mail"
 msgstr "Електронна поща "
 
-#: plugins/jabber/jabbersearch.cpp:218
+#: plugins/jabber/jabbersearch.cpp:227
 msgid "Password"
 msgstr "Парола: "
 
-#: plugins/jabber/jabbersearch.cpp:219
+#: plugins/jabber/jabbersearch.cpp:228
 msgid ""
 "Enter your MSN Messenger account and password. Example: user@hotmail.com.  "
 "Nickname is optional."
@@ -6705,35 +6730,35 @@ msgstr ""
 "Примерно potrebitel@hotmail.com. Прякора е "
 "незадължителен."
 
-#: plugins/jabber/jabbersearch.cpp:220
+#: plugins/jabber/jabbersearch.cpp:229
 msgid "Enter your AIM screenname or ICQ UIN and the password for that account"
 msgstr ""
 "Въвеждане на AIM име или ICQ номер и парола "
 "за текущата сметка"
 
-#: plugins/jabber/jabbersearch.cpp:221
+#: plugins/jabber/jabbersearch.cpp:230
 msgid "Enter your YAHOO! Messenger Username and Password."
 msgstr ""
 "Въвеждане на YAHOO Messenger потребителско име и "
 "парола."
 
-#: plugins/jabber/jabbersearch.cpp:222
+#: plugins/jabber/jabbersearch.cpp:231
 msgid "Please enter your UIN and password"
 msgstr ""
 
-#: plugins/jabber/jabbersearch.cpp:223
+#: plugins/jabber/jabbersearch.cpp:232
 msgid "You need a x:data capable client to register."
 msgstr ""
 "Необходим е клиент с поддръжка на \"х\" "
 "данни."
 
-#: plugins/jabber/jabbersearch.cpp:224
+#: plugins/jabber/jabbersearch.cpp:233
 msgid "Enter nick you want to register."
 msgstr ""
 "Въвеждане на прякора който искате да "
 "регистрирате."
 
-#: plugins/jabber/jabbersearch.cpp:225
+#: plugins/jabber/jabbersearch.cpp:234
 msgid ""
 "Complete the form to submit your searchable attributes in the Jabber User "
 "Directory"
@@ -6741,11 +6766,11 @@ msgstr ""
 "Попълнете всички данни за търсеният от "
 "вас потребител в каталога на Jabber"
 
-#: plugins/jabber/jabbersearch.cpp:226
+#: plugins/jabber/jabbersearch.cpp:235
 msgid "Fill in all of the fields to add yourself to the JUD."
 msgstr "Попълнете всички полета"
 
-#: plugins/jabber/jabbersearch.cpp:227
+#: plugins/jabber/jabbersearch.cpp:236
 msgid ""
 "Fill in a field to search for any matching Jabber User (POSIX regular "
 "expressions allowed)"
@@ -6754,21 +6779,17 @@ msgstr ""
 "да използвате  регулярни изрази по POSIX "
 "стандарта)"
 
-#: plugins/jabber/jabbersearch.cpp:228
+#: plugins/jabber/jabbersearch.cpp:237
 msgid "Fill in a field to search for any matching Jabber users."
 msgstr ""
 "Попълнете полетата за търсене на Jabber "
 "потребител"
 
-#: plugins/jabber/jabbersearch.cpp:229
+#: plugins/jabber/jabbersearch.cpp:238
 msgid ""
 "To register, please fill out the following form.  Be as accurate as possible "
 "to make it easier for people to search for you."
 msgstr ""
-
-#: plugins/jabber/services.cpp:45
-msgid "JID"
-msgstr "JID"
 
 #: plugins/jabber/services.cpp:104
 #, fuzzy
@@ -6869,6 +6890,106 @@ msgstr "&Регистриране на потребител"
 msgid "&Agents"
 msgstr "&Агенти"
 
+#: plugins/jabber/jabberbrowser.cpp:46
+#, fuzzy
+msgid "Node"
+msgstr "Не използва прокси"
+
+#: plugins/jabber/jabberbrowser.cpp:84
+#, fuzzy, c-format
+msgid "Browser: %1"
+msgstr "Интернет четец:"
+
+#: plugins/jabber/jabberbrowser.cpp:125
+#, fuzzy
+msgid "Stop"
+msgstr "Настройки"
+
+#: plugins/jabber/jabberbrowser.cpp:132
+#, fuzzy
+msgid "Process"
+msgstr "Професионален"
+
+#: plugins/jabber/jabberbrowser.cpp:134
+#, fuzzy
+msgid "Client offline"
+msgstr "Клиентът излезе от мрежата"
+
+#: plugins/jabber/jabberbrowser.cpp:200 plugins/jabber/jabberbrowser.cpp:220
+#, fuzzy, c-format
+msgid "Error %1"
+msgstr "Грешка"
+
+#: plugins/jabber/discoinfo.cpp:50
+msgid "Units"
+msgstr ""
+
+#: plugins/jabber/discoinfo.cpp:51
+#, fuzzy
+msgid "Value"
+msgstr "Мъж"
+
+#: plugins/jabber/discoinfo.cpp:93 plugins/jabber/discoinfobase.cpp:229
+#, fuzzy
+msgid "&Version"
+msgstr "Персийски"
+
+#: plugins/jabber/discoinfo.cpp:106 plugins/jabber/discoinfobase.cpp:232
+#, fuzzy
+msgid "&Time"
+msgstr "Време:"
+
+#: plugins/jabber/discoinfo.cpp:131
+#, fuzzy
+msgid "&Stat"
+msgstr "&Обща информация"
+
+#: plugins/jabber/discoinfo.cpp:177
+#, fuzzy, c-format
+msgid ""
+"_n: %n day\n"
+"%n days"
+msgstr ""
+"Файл\n"
+"%n файлове"
+
+#: plugins/jabber/discoinfobase.cpp:220
+msgid "DiscoInfo"
+msgstr ""
+
+#: plugins/jabber/discoinfobase.cpp:221
+#, fuzzy
+msgid "Namespaces:"
+msgstr "Име:"
+
+#: plugins/jabber/discoinfobase.cpp:222
+msgid "Category:"
+msgstr ""
+
+#: plugins/jabber/discoinfobase.cpp:227
+#, fuzzy
+msgid "Version:"
+msgstr "%1 Версия: %2"
+
+#: plugins/jabber/discoinfobase.cpp:228
+#, fuzzy
+msgid "System:"
+msgstr "Система"
+
+#: plugins/jabber/discoinfobase.cpp:230
+#, fuzzy
+msgid "UTC client time:"
+msgstr "ICQ клиент"
+
+#: plugins/jabber/discoinfobase.cpp:231
+msgid "Last activity, idle response:"
+msgstr ""
+
+#: plugins/jabber/discoinfobase.cpp:233
+#, fuzzy
+msgid "&Statistic"
+msgstr "&Обща информация"
+
 #: plugins/spell/spell.cpp:61
 msgid "Spell check"
 msgstr "Правописна проверка"
@@ -6952,9 +7073,6 @@ msgstr ""
 
 #~ msgid "Can't open file"
 #~ msgstr "Не може да отвори файл"
-
-#~ msgid "ICQ client"
-#~ msgstr "ICQ клиент"
 
 #~ msgid "By &Status"
 #~ msgstr "По &състояние"

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
-"POT-Creation-Date: 2003-11-30 07:53+0300\n"
+"POT-Creation-Date: 2003-11-30 23:18+0300\n"
 "PO-Revision-Date: 2003-11-30 21:04GMT\n"
 "Last-Translator: Christoph Thielecke <crissi99@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -16,11 +16,13 @@ msgstr ""
 
 #: sim/api/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
-msgstr "Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
+msgstr ""
+"Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
 
 #: sim/api/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
+msgstr ""
+"Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
 
 #: sim/api/country.cpp:25
 msgid "Afghanistan"
@@ -1068,7 +1070,8 @@ msgstr "A&bbrechen"
 #: plugins/_core/core.cpp:563 plugins/_core/filetransfer.cpp:310
 #: plugins/_core/managerbase.cpp:110 plugins/_core/toolsetupbase.cpp:136
 #: plugins/about/aboutdlgbase.cpp:156 plugins/icq/securedlg.cpp:92
-#: sim/api/simapi.cpp:427 sim/ui/qt3/i18n.cpp:287
+#: plugins/jabber/discoinfobase.cpp:234 sim/api/simapi.cpp:427
+#: sim/ui/qt3/i18n.cpp:287
 msgid "&Close"
 msgstr "S&chließen"
 
@@ -1271,7 +1274,8 @@ msgid "All files (*)"
 msgstr "Alle Dateien (*)"
 
 #: plugins/filter/ignorelist.cpp:27 plugins/icq/icqsecure.cpp:126
-#: plugins/icq/searchresult.cpp:128 sim/ui/qt3/i18n.cpp:39
+#: plugins/icq/searchresult.cpp:128 plugins/jabber/discoinfo.cpp:49
+#: plugins/jabber/jabberbrowser.cpp:45 sim/ui/qt3/i18n.cpp:39
 msgid "Name"
 msgstr "Name"
 
@@ -1902,7 +1906,7 @@ msgstr "ICQ"
 #: plugins/_core/userlist.cpp:572 plugins/icq/icq.cpp:110
 #: plugins/icq/icq.cpp:280 plugins/icq/icqclient.cpp:1487
 #: plugins/icq/icqclient.cpp:1521 plugins/jabber/jabber.cpp:108
-#: plugins/jabber/jabberclient.cpp:1222 plugins/jabber/services.cpp:234
+#: plugins/jabber/jabberclient.cpp:1298 plugins/jabber/services.cpp:234
 #: plugins/msn/msn.cpp:89 plugins/msn/msnclient.cpp:1516
 msgid "Online"
 msgstr "Online"
@@ -1958,16 +1962,16 @@ msgid "Change &encoding"
 msgstr "Kodierung ä&ndern"
 
 #: plugins/_core/msgedit.cpp:1535 plugins/icq/icq.cpp:552
-#: plugins/jabber/jabber.cpp:346
+#: plugins/jabber/jabber.cpp:355
 msgid "&Message"
 msgstr "&Nachricht"
 
 #: plugins/_core/core.cpp:549 plugins/_core/core.cpp:1096
-#: plugins/icq/icq.cpp:562 plugins/jabber/jabber.cpp:355
+#: plugins/icq/icq.cpp:562 plugins/jabber/jabber.cpp:364
 msgid "User &info"
 msgstr "Benutzer&information"
 
-#: plugins/icq/icq.cpp:568 plugins/jabber/jabber.cpp:361
+#: plugins/icq/icq.cpp:568 plugins/jabber/jabber.cpp:370
 msgid "&Add to group"
 msgstr "Zu einer Gruppe hinzu&fügen"
 
@@ -2189,19 +2193,19 @@ msgid "Warning level"
 msgstr "Warnungenebene"
 
 #: plugins/icq/aiminfo.cpp:166 plugins/icq/icqclient.cpp:1514
-#: plugins/icq/icqinfo.cpp:229 plugins/jabber/jabberclient.cpp:1215
+#: plugins/icq/icqinfo.cpp:229 plugins/jabber/jabberclient.cpp:1291
 #: plugins/jabber/jabberinfo.cpp:103 plugins/msn/msnclient.cpp:1509
 #: plugins/msn/msninfo.cpp:88
 msgid "Last online"
 msgstr "Zuletzt online"
 
 #: plugins/icq/icqclient.cpp:1815 plugins/icq/icqclient.cpp:2003
-#: plugins/jabber/jabberclient.cpp:1338 plugins/jabber/jabberclient.cpp:1447
+#: plugins/jabber/jabberclient.cpp:1414 plugins/jabber/jabberclient.cpp:1523
 msgid "Home info"
 msgstr "Heim-Info"
 
 #: plugins/icq/icqclient.cpp:1830 plugins/icq/icqclient.cpp:2018
-#: plugins/jabber/jabberclient.cpp:1353 plugins/jabber/jabberclient.cpp:1462
+#: plugins/jabber/jabberclient.cpp:1429 plugins/jabber/jabberclient.cpp:1538
 msgid "Work info"
 msgstr "Arbeit-Info"
 
@@ -2211,7 +2215,7 @@ msgstr "Zusatz-Info"
 
 #: plugins/icq/icqclient.cpp:1860 plugins/icq/icqclient.cpp:1954
 #: plugins/icq/icqclient.cpp:2048 plugins/icq/icqclient.cpp:2172
-#: plugins/jabber/jabberclient.cpp:1368 plugins/jabber/jabberclient.cpp:1477
+#: plugins/jabber/jabberclient.cpp:1444 plugins/jabber/jabberclient.cpp:1553
 msgid "About info"
 msgstr "Über-Info"
 
@@ -2228,7 +2232,7 @@ msgid "Picture"
 msgstr "Bild"
 
 #: plugins/icq/icqclient.cpp:2108 plugins/icq/icqclient.cpp:2187
-#: plugins/jabber/jabberclient.cpp:1537 plugins/msn/msnclient.cpp:713
+#: plugins/jabber/jabberclient.cpp:1613 plugins/msn/msnclient.cpp:713
 msgid "Network"
 msgstr "Netzwerk"
 
@@ -2300,7 +2304,7 @@ msgstr "Nachrichtenrate erreicht"
 msgid "We are to evil :("
 msgstr "Wir sind zu böse :("
 
-#: plugins/icq/icqicmb.cpp:650 plugins/jabber/jabber_rosters.cpp:1831
+#: plugins/icq/icqicmb.cpp:650 plugins/jabber/jabber_rosters.cpp:1841
 msgid "File transfer declined"
 msgstr "Dateiübertragung abgelehnt"
 
@@ -2309,7 +2313,7 @@ msgid "Message declined"
 msgstr "Nachricht abgelehnt"
 
 #: plugins/icq/icqicmb.cpp:790 plugins/icq/icqicmb.cpp:798
-#: plugins/icq/icqvarious.cpp:1616 plugins/jabber/jabberclient.cpp:615
+#: plugins/icq/icqvarious.cpp:1616 plugins/jabber/jabberclient.cpp:694
 msgid "Client go offline"
 msgstr "Client geht offline"
 
@@ -2339,7 +2343,7 @@ msgid "No contact"
 msgstr "Kein Kontakt"
 
 #: plugins/icq/icqicmb.cpp:1338 plugins/icq/icqmessage.cpp:1198
-#: plugins/jabber/jabberclient.cpp:2147
+#: plugins/jabber/jabberclient.cpp:2223
 msgid "No contacts for send"
 msgstr "Keine Kontakte zum Senden"
 
@@ -2613,12 +2617,12 @@ msgid "UIN"
 msgstr "UIN"
 
 #: plugins/icq/icqsecure.cpp:125 plugins/jabber/addresult.cpp:30
-#: plugins/jabber/jabbersearch.cpp:91
+#: plugins/jabber/jabbersearch.cpp:92
 msgid "Nick"
 msgstr "Nickname"
 
 #: plugins/_core/maininfo.cpp:69 plugins/filter/ignorelist.cpp:28
-#: plugins/icq/icqsecure.cpp:127 plugins/jabber/jabbersearch.cpp:92
+#: plugins/icq/icqsecure.cpp:127 plugins/jabber/jabbersearch.cpp:93
 #: plugins/msn/msninfobase.cpp:161
 msgid "EMail"
 msgstr "E-Mail"
@@ -2852,11 +2856,11 @@ msgstr "Publizieren"
 msgid "Home automation"
 msgstr "Automatisierung zu Hause"
 
-#: plugins/icq/moreinfo.cpp:85 plugins/jabber/jabbersearch.cpp:145
+#: plugins/icq/moreinfo.cpp:85 plugins/jabber/jabbersearch.cpp:148
 msgid "Female"
 msgstr "Weiblich"
 
-#: plugins/icq/moreinfo.cpp:86 plugins/jabber/jabbersearch.cpp:144
+#: plugins/icq/moreinfo.cpp:86 plugins/jabber/jabbersearch.cpp:147
 msgid "Male"
 msgstr "Männlich"
 
@@ -3600,6 +3604,7 @@ msgid "Form2"
 msgstr "Form 2"
 
 #: plugins/gpg/gpggenbase.cpp:118 plugins/icq/workinfobase.cc:215
+#: plugins/jabber/discoinfobase.cpp:224 plugins/jabber/discoinfobase.cpp:226
 msgid "Name:"
 msgstr "Name:"
 
@@ -3783,7 +3788,7 @@ msgstr "Zu Gruppe hinzufügen:"
 msgid "AIM user"
 msgstr "AIM-Benutzer"
 
-#: plugins/icq/icqsearchbase.cc:348 plugins/jabber/jabbersearch.cpp:139
+#: plugins/icq/icqsearchbase.cc:348 plugins/jabber/jabbersearch.cpp:142
 msgid "Online only"
 msgstr "Nur online"
 
@@ -3854,6 +3859,7 @@ msgstr ""
 "optional, helfen aber ein besseres Suchergebis zu erreichen."
 
 #: plugins/_core/maininfobase.cpp:233 plugins/icq/aimsearchbase.cc:290
+#: plugins/jabber/discoinfobase.cpp:225
 msgid "&Info"
 msgstr "&Information"
 
@@ -4206,6 +4212,7 @@ msgid "&Quote"
 msgstr "&Zitieren"
 
 #: plugins/_core/core.cpp:831 plugins/forward/forward.cpp:65
+#: plugins/jabber/jabber.cpp:410
 msgid "&Forward"
 msgstr "&Weiterleiten"
 
@@ -4502,7 +4509,7 @@ msgstr "Passwort vergessen?"
 msgid "New profile"
 msgstr "Neues Profil"
 
-#: plugins/_core/logindlg.cpp:443 plugins/jabber/jabberclient.cpp:914
+#: plugins/_core/logindlg.cpp:443 plugins/jabber/jabberclient.cpp:1007
 #: plugins/msn/msnclient.cpp:612
 msgid "Login failed"
 msgstr "Anmeldung fehlgeschlagen"
@@ -5192,13 +5199,14 @@ msgstr "Telefon bearbeiten:"
 msgid "Number details:"
 msgstr "Nummerdetails:"
 
-#: plugins/_core/editphonebase.cpp:141
+#: plugins/_core/editphonebase.cpp:141 plugins/jabber/discoinfobase.cpp:223
 msgid "Type:"
 msgstr "Typ:"
 
 #: plugins/_core/searchbase.cpp:74
 msgid "Choose type of contact which you want to find or add:"
-msgstr "Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
+msgstr ""
+"Art des Kontaktes auswählen, der gefunden oder hinzugefügt werden soll"
 
 #: plugins/_core/searchbase.cpp:75
 msgid "Contact type:"
@@ -5328,7 +5336,8 @@ msgstr "\"N/A\"-Status setzen wenn"
 
 #: plugins/autoaway/autoawaycfgbase.cpp:125
 #: plugins/sound/soundconfigbase.cpp:166
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Onlinealarm in \"Weg\", \"N/A\", \"DND\" und \"Beschäftigt\"-Liste "
 "deaktivieren"
@@ -5437,7 +5446,8 @@ msgstr "Nachrichten nur von &Benutzern der Kontaktliste empfangen"
 
 #: plugins/filter/filtercfgbase.cpp:98
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr ""
+"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #: plugins/filter/filtercfgbase.cpp:99
 msgid ""
@@ -5475,7 +5485,8 @@ msgstr "Floatings"
 
 #: plugins/floaty/floaty.cpp:44
 msgid "Plugin provides floating windows for contacts"
-msgstr "Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
+msgstr ""
+"Plugin stellt Floating-Funktionalität für die einzelnen Kontakte bereit"
 
 #: plugins/floaty/floaty.cpp:91 plugins/floaty/floaty.cpp:165
 msgid "Floating on"
@@ -5495,7 +5506,8 @@ msgstr "Plugin stellt Nachrichtenweiterleitung an Handys bereit"
 
 #: plugins/forward/forwardcfgbase.cpp:102
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr "Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
+msgstr ""
+"Alle Nachrichten im Status \"Weg\" und \"N/A\" an ein Handy weiterleiten:"
 
 #: plugins/forward/forwardcfgbase.cpp:103
 msgid ""
@@ -5809,7 +5821,7 @@ msgstr "Senden der Nachricht fehlgeschlagen"
 msgid "Transfer canceled"
 msgstr "Übertragung fehlgeschlagen"
 
-#: plugins/jabber/jabberclient.cpp:2652 plugins/jabber/jabberclient.cpp:2692
+#: plugins/jabber/jabberclient.cpp:2728 plugins/jabber/jabberclient.cpp:2768
 #: plugins/msn/msnclient.cpp:2597
 msgid "File transfer failed"
 msgstr "Dateiübertragung fehlgeschlagen"
@@ -5852,7 +5864,8 @@ msgid "Navigate"
 msgstr "Navigation"
 
 #: plugins/navigate/navigate.cpp:199
-msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid ""
+"Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Plugin stellt Navigation von Hyperlinks bereit und ruft externe Browser- "
 "oder Mailprogramme auf"
@@ -5987,7 +6000,8 @@ msgstr "Bei Nachrichteneingang informieren (per OSD)"
 
 #: plugins/osd/osdconfigbase.cpp:93
 msgid "Enable &status notification"
-msgstr "Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
+msgstr ""
+"Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
 
 #: plugins/jabber/jabberconfigbase.cpp:312 plugins/osd/osdconfigbase.cpp:94
 msgid "Enable &typing notification"
@@ -5998,7 +6012,8 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:48
-msgid "Plugin provides on screen notification about messages and contacts status"
+msgid ""
+"Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Plugin stellt Bildschirmbenachrichtigungen über Nachrichten und "
 "Kontaktstatus bereit"
@@ -6061,7 +6076,8 @@ msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1244
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS and HTTP)"
-msgstr "Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
+msgstr ""
+"Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
 
 #: plugins/proxy/proxycfg.cpp:42
 msgid "&Proxy"
@@ -6069,7 +6085,8 @@ msgstr "&Proxy"
 
 #: plugins/proxy/proxycfg.cpp:140
 msgid "<b>Note !</b><br>HTTP-proxy support only ICQ-protocol"
-msgstr "<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
+msgstr ""
+"<b>Achtung!</b><br>Die HTTP-Proxy-Unterstützung bietet nur das ICQ-Protokoll"
 
 #: plugins/proxy/proxycfg.cpp:209
 msgid "Default"
@@ -6261,7 +6278,8 @@ msgstr "Aktualisieren"
 
 #: plugins/update/update.cpp:40
 msgid "Plugin provides notifications about update SIM software"
-msgstr "Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
+msgstr ""
+"Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
 
 #: plugins/update/update.cpp:153
 msgid "Show details"
@@ -6275,17 +6293,17 @@ msgstr "Später erinnern"
 msgid "New version SIM is released"
 msgstr "Neue Version von SIM wurde veröffentlicht"
 
-#: plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:93
-#: plugins/jabber/jabbersearch.cpp:213
+#: plugins/jabber/addresult.cpp:31 plugins/jabber/jabbersearch.cpp:94
+#: plugins/jabber/jabbersearch.cpp:222
 msgid "First name"
 msgstr "Vorname:"
 
-#: plugins/jabber/addresult.cpp:32 plugins/jabber/jabbersearch.cpp:94
-#: plugins/jabber/jabbersearch.cpp:214
+#: plugins/jabber/addresult.cpp:32 plugins/jabber/jabbersearch.cpp:95
+#: plugins/jabber/jabbersearch.cpp:223
 msgid "Last name"
 msgstr "Nachname:"
 
-#: plugins/jabber/addresult.cpp:33 plugins/jabber/jabbersearch.cpp:207
+#: plugins/jabber/addresult.cpp:33 plugins/jabber/jabbersearch.cpp:216
 msgid "Email"
 msgstr "E-Mail"
 
@@ -6297,11 +6315,31 @@ msgstr "ID"
 msgid "Jabber"
 msgstr "Jabber"
 
-#: plugins/jabber/jabber_rosters.cpp:1710
+#: plugins/jabber/jabber.cpp:383 plugins/jabber/jabber.cpp:392
+#, fuzzy
+msgid "Jabber browser"
+msgstr "Jabber-ID"
+
+#: plugins/jabber/jabber.cpp:401
+#, fuzzy
+msgid "&Back"
+msgstr "Zurück"
+
+#: plugins/jabber/jabber.cpp:416 plugins/jabber/jabberbrowser.cpp:44
+#: plugins/jabber/jabberbrowser.cpp:278 plugins/jabber/services.cpp:45
+msgid "JID"
+msgstr "JID"
+
+#: plugins/jabber/jabber.cpp:423
+#, fuzzy
+msgid "Info"
+msgstr "&Information"
+
+#: plugins/jabber/jabber_rosters.cpp:1720
 msgid "Password does not match"
 msgstr "Passwort stimmt nicht"
 
-#: plugins/jabber/jabber_rosters.cpp:1711
+#: plugins/jabber/jabber_rosters.cpp:1721
 msgid "Low level network error"
 msgstr "Netzwerkfehler auf niedriger Ebene"
 
@@ -6309,19 +6347,19 @@ msgstr "Netzwerkfehler auf niedriger Ebene"
 msgid "Add Jabber contact"
 msgstr "Jabber-Kontakt hinzufügen"
 
-#: plugins/jabber/jabberclient.cpp:1383 plugins/jabber/jabberclient.cpp:1492
+#: plugins/jabber/jabberclient.cpp:1459 plugins/jabber/jabberclient.cpp:1568
 msgid "Photo"
 msgstr "Foto"
 
-#: plugins/jabber/jabberclient.cpp:1398 plugins/jabber/jabberclient.cpp:1507
+#: plugins/jabber/jabberclient.cpp:1474 plugins/jabber/jabberclient.cpp:1583
 msgid "Logo"
 msgstr "Logo"
 
-#: plugins/jabber/jabberclient.cpp:1522
+#: plugins/jabber/jabberclient.cpp:1598
 msgid "Agents"
 msgstr "Agenten"
 
-#: plugins/jabber/jabberclient.cpp:2790
+#: plugins/jabber/jabberclient.cpp:2866
 msgid "File transfer fail"
 msgstr "Dateiübertragung fehlgeschlagen"
 
@@ -6367,39 +6405,39 @@ msgstr "&Foto"
 msgid "&Logo"
 msgstr "&Logo"
 
-#: plugins/jabber/jabbersearch.cpp:90 plugins/jabber/jabbersearch.cpp:217
+#: plugins/jabber/jabbersearch.cpp:91 plugins/jabber/jabbersearch.cpp:226
 msgid "Username"
 msgstr "Benutzername"
 
-#: plugins/jabber/jabbersearch.cpp:95
+#: plugins/jabber/jabbersearch.cpp:96
 msgid "Age min"
 msgstr "Minimales Alter"
 
-#: plugins/jabber/jabbersearch.cpp:96
+#: plugins/jabber/jabbersearch.cpp:97
 msgid "Age max"
 msgstr "Maximales Alter"
 
-#: plugins/jabber/jabbersearch.cpp:97
+#: plugins/jabber/jabbersearch.cpp:98
 msgid "City"
 msgstr "Stadt"
 
-#: plugins/jabber/jabbersearch.cpp:146
+#: plugins/jabber/jabbersearch.cpp:149
 msgid "Gender"
 msgstr "Geschlecht"
 
-#: plugins/jabber/jabbersearch.cpp:204
+#: plugins/jabber/jabbersearch.cpp:213
 msgid "First (Given)"
 msgstr "Vorname:"
 
-#: plugins/jabber/jabbersearch.cpp:205
+#: plugins/jabber/jabbersearch.cpp:214
 msgid "Last (Family)"
 msgstr "Nachname:"
 
-#: plugins/jabber/jabbersearch.cpp:206
+#: plugins/jabber/jabbersearch.cpp:215
 msgid "Nick (Alias)"
 msgstr "Nickname:"
 
-#: plugins/jabber/jabbersearch.cpp:208
+#: plugins/jabber/jabbersearch.cpp:217
 msgid ""
 "Select the speed of the search.  \"Fast\" matches your string to the "
 "beginning of the field only (ie. \"b\" would yield Bob,Bill,etc...)  "
@@ -6411,35 +6449,35 @@ msgstr ""
 "ergeben.)\"Langsamer\" gleicht die Zeichenkette irgendwo in der Textzeile an "
 "(\"b\" würde hier z.B. Bob, Bill, Caleb, Robbie, usw... ergeben)."
 
-#: plugins/jabber/jabbersearch.cpp:209
+#: plugins/jabber/jabbersearch.cpp:218
 msgid "Search Speed"
 msgstr "Suchgeschwindigkeit"
 
-#: plugins/jabber/jabbersearch.cpp:210
+#: plugins/jabber/jabbersearch.cpp:219
 msgid "Fast / Less accurate"
 msgstr "Schneller / Weniger genau"
 
-#: plugins/jabber/jabbersearch.cpp:211
+#: plugins/jabber/jabbersearch.cpp:220
 msgid "Slower / More extensive"
 msgstr "Langsamer / Aufwendiger"
 
-#: plugins/jabber/jabbersearch.cpp:212
+#: plugins/jabber/jabbersearch.cpp:221
 msgid "Full name"
 msgstr "Voller Name"
 
-#: plugins/jabber/jabbersearch.cpp:215
+#: plugins/jabber/jabbersearch.cpp:224
 msgid "Nickname"
 msgstr "Nickname"
 
-#: plugins/jabber/jabbersearch.cpp:216
+#: plugins/jabber/jabbersearch.cpp:225
 msgid "E-mail"
 msgstr "E-Mail"
 
-#: plugins/jabber/jabbersearch.cpp:218
+#: plugins/jabber/jabbersearch.cpp:227
 msgid "Password"
 msgstr "Passwort"
 
-#: plugins/jabber/jabbersearch.cpp:219
+#: plugins/jabber/jabbersearch.cpp:228
 msgid ""
 "Enter your MSN Messenger account and password. Example: user@hotmail.com.  "
 "Nickname is optional."
@@ -6447,27 +6485,27 @@ msgstr ""
 "Bitte MSN-Messengeraccount und Passwort eingeben. Beispiel: "
 "benutzer@hotmail.com. Nickname ist optional."
 
-#: plugins/jabber/jabbersearch.cpp:220
+#: plugins/jabber/jabbersearch.cpp:229
 msgid "Enter your AIM screenname or ICQ UIN and the password for that account"
 msgstr "Bitte AIM-Screenname oder ICQ-UIN und das Passwort eingeben"
 
-#: plugins/jabber/jabbersearch.cpp:221
+#: plugins/jabber/jabbersearch.cpp:230
 msgid "Enter your YAHOO! Messenger Username and Password."
 msgstr "Bitte YAHOO!-Messenger-Benutzername und Passwort eingeben."
 
-#: plugins/jabber/jabbersearch.cpp:222
+#: plugins/jabber/jabbersearch.cpp:231
 msgid "Please enter your UIN and password"
 msgstr "Bitte UIN und Passwort eingeben"
 
-#: plugins/jabber/jabbersearch.cpp:223
+#: plugins/jabber/jabbersearch.cpp:232
 msgid "You need a x:data capable client to register."
 msgstr "Es wird ein x:daten-fägiger Client zum Registrieren benötigt"
 
-#: plugins/jabber/jabbersearch.cpp:224
+#: plugins/jabber/jabbersearch.cpp:233
 msgid "Enter nick you want to register."
 msgstr "Nickname zum Registrieren eingeben"
 
-#: plugins/jabber/jabbersearch.cpp:225
+#: plugins/jabber/jabbersearch.cpp:234
 msgid ""
 "Complete the form to submit your searchable attributes in the Jabber User "
 "Directory"
@@ -6475,13 +6513,13 @@ msgstr ""
 "Formular ausfüllen, um die durchsuchbaren Attribute im "
 "Jabber-Benutzerverzeichnis abzusenden"
 
-#: plugins/jabber/jabbersearch.cpp:226
+#: plugins/jabber/jabbersearch.cpp:235
 msgid "Fill in all of the fields to add yourself to the JUD."
 msgstr ""
 "Alle Felder ausfüllen, um sich selbst zum Jabber-Benutzerverzeichnis "
 "hinzuzufügen"
 
-#: plugins/jabber/jabbersearch.cpp:227
+#: plugins/jabber/jabbersearch.cpp:236
 msgid ""
 "Fill in a field to search for any matching Jabber User (POSIX regular "
 "expressions allowed)"
@@ -6489,21 +6527,17 @@ msgstr ""
 "Ein Feld zum Suchen nach passenden Jabber-Benutzer ausfüllen (POSIX "
 "reguläre Ausdrücke sind erlaubt)"
 
-#: plugins/jabber/jabbersearch.cpp:228
+#: plugins/jabber/jabbersearch.cpp:237
 msgid "Fill in a field to search for any matching Jabber users."
 msgstr "Ein Feld zum Suchen nach passenden Jabber-Benutzern ausfüllen"
 
-#: plugins/jabber/jabbersearch.cpp:229
+#: plugins/jabber/jabbersearch.cpp:238
 msgid ""
 "To register, please fill out the following form.  Be as accurate as possible "
 "to make it easier for people to search for you."
 msgstr ""
 "Um sich zu registrieren, bitte das folgende Formular ausfüllen. Dabei bitte "
 "gewissenhaft sein, dies erleichtert die Suche von anderen Leuten nach Ihnen."
-
-#: plugins/jabber/services.cpp:45
-msgid "JID"
-msgstr "JID"
 
 #: plugins/jabber/services.cpp:104
 msgid "Registration failed"
@@ -6598,6 +6632,106 @@ msgstr "&Registrierte Agenten"
 #: plugins/jabber/servicesbase.cpp:175
 msgid "&Agents"
 msgstr "&Agenten"
+
+#: plugins/jabber/jabberbrowser.cpp:46
+#, fuzzy
+msgid "Node"
+msgstr "Kein Proxy"
+
+#: plugins/jabber/jabberbrowser.cpp:84
+#, fuzzy, c-format
+msgid "Browser: %1"
+msgstr "Browser:"
+
+#: plugins/jabber/jabberbrowser.cpp:125
+#, fuzzy
+msgid "Stop"
+msgstr "Einrichten"
+
+#: plugins/jabber/jabberbrowser.cpp:132
+#, fuzzy
+msgid "Process"
+msgstr "Profi"
+
+#: plugins/jabber/jabberbrowser.cpp:134
+#, fuzzy
+msgid "Client offline"
+msgstr "Client geht offline"
+
+#: plugins/jabber/jabberbrowser.cpp:200 plugins/jabber/jabberbrowser.cpp:220
+#, fuzzy, c-format
+msgid "Error %1"
+msgstr "Fehler"
+
+#: plugins/jabber/discoinfo.cpp:50
+msgid "Units"
+msgstr ""
+
+#: plugins/jabber/discoinfo.cpp:51
+#, fuzzy
+msgid "Value"
+msgstr "Männlich"
+
+#: plugins/jabber/discoinfo.cpp:93 plugins/jabber/discoinfobase.cpp:229
+#, fuzzy
+msgid "&Version"
+msgstr "Persisch"
+
+#: plugins/jabber/discoinfo.cpp:106 plugins/jabber/discoinfobase.cpp:232
+#, fuzzy
+msgid "&Time"
+msgstr "Zeit:"
+
+#: plugins/jabber/discoinfo.cpp:131
+#, fuzzy
+msgid "&Stat"
+msgstr "&Status"
+
+#: plugins/jabber/discoinfo.cpp:177
+#, fuzzy, c-format
+msgid ""
+"_n: %n day\n"
+"%n days"
+msgstr ""
+"%n GPG-Schlüssel\n"
+"%n GPG-Schlüssel"
+
+#: plugins/jabber/discoinfobase.cpp:220
+msgid "DiscoInfo"
+msgstr ""
+
+#: plugins/jabber/discoinfobase.cpp:221
+#, fuzzy
+msgid "Namespaces:"
+msgstr "Name:"
+
+#: plugins/jabber/discoinfobase.cpp:222
+msgid "Category:"
+msgstr ""
+
+#: plugins/jabber/discoinfobase.cpp:227
+#, fuzzy
+msgid "Version:"
+msgstr "%1 Version: %2"
+
+#: plugins/jabber/discoinfobase.cpp:228
+#, fuzzy
+msgid "System:"
+msgstr "System"
+
+#: plugins/jabber/discoinfobase.cpp:230
+#, fuzzy
+msgid "UTC client time:"
+msgstr "ICQ-Client für QT/KDE"
+
+#: plugins/jabber/discoinfobase.cpp:231
+msgid "Last activity, idle response:"
+msgstr ""
+
+#: plugins/jabber/discoinfobase.cpp:233
+#, fuzzy
+msgid "&Statistic"
+msgstr "&Status"
 
 #: plugins/spell/spell.cpp:61
 msgid "Spell check"
@@ -6697,9 +6831,6 @@ msgstr "Pfad:"
 
 #~ msgid "Can't open file"
 #~ msgstr "Datei kann nicht geöffnet werden"
-
-#~ msgid "ICQ client"
-#~ msgstr "ICQ-Client für QT/KDE"
 
 #~ msgid "Bad ack sequence"
 #~ msgstr "Schlechte Bestätigungssequenz"
@@ -7804,4 +7935,3 @@ msgstr "Pfad:"
 
 #~ msgid "Transfer completed"
 #~ msgstr "Übertragung abgeschlossen"
-

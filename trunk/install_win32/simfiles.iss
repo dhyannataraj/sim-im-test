@@ -74,6 +74,7 @@ Source: "..\Release\plugins\remote.dll"; DestDir: "{app}\plugins"; Flags: ignore
 Source: "..\Release\plugins\shortcuts.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\splash.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\sound.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
+Source: "..\Release\plugins\spell.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\styles.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\transparent.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "..\Release\plugins\update.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
@@ -97,6 +98,8 @@ Source: "..\Release\pict\splash.png"; DestDir: "{app}\pict"; Flags: ignoreversio
 Source: "..\Release\pict\connect.gif"; DestDir: "{app}\pict"; Flags: ignoreversion
 Source: "..\Release\styles\SIM.xsl"; DestDir: "{app}\styles"; Flags: ignoreversion
 Source: "..\Release\styles\XChat.xsl"; DestDir: "{app}\styles"; Flags: ignoreversion
+Source: "..\Release\styles\XChat2seconds.xsl"; DestDir: "{app}\styles"; Flags: ignoreversion
+Source: "..\Release\styles\XChat3fullDate.xsl"; DestDir: "{app}\styles"; Flags: ignoreversion
 Source: "..\Release\po\bg.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\ca.qm"; DestDir: "{app}\po"; Flags: ignoreversion
 Source: "..\Release\po\cs.qm"; DestDir: "{app}\po"; Flags: ignoreversion

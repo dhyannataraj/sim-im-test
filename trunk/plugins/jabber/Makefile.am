@@ -25,7 +25,10 @@ jabber_la_SOURCES = \
  jabberpicture.cpp \
  jabberpicturebase.ui \
  services.cpp \
- servicesbase.ui
+ servicesbase.ui \
+ jabberbrowser.cpp \
+ discoinfo.cpp \
+ discoinfobase.ui
 
 SUBDIRS = sounds
 

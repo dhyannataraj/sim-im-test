@@ -239,6 +239,13 @@ JabberPlugin::JabberPlugin(unsigned base)
     MenuGroups		 = registerType();
     CmdSendMessage	 = registerType();
     CmdGroups		 = registerType();
+    CmdBrowser		 = registerType();
+    BarBrowser		 = registerType();
+    CmdBack			 = registerType();
+    CmdForward		 = registerType();
+    CmdUrl			 = registerType();
+    EventDiscoItem	 = registerType();
+    CmdInfo			 = registerType();
 
     IconDef icon;
     icon.name = "Jabber_online";
@@ -340,6 +347,8 @@ JabberPlugin::JabberPlugin(unsigned base)
     eMenuSearch.process();
     Event eMenuGroups(EventMenuCreate, (void*)MenuGroups);
     eMenuGroups.process();
+    Event eToolbar(EventToolbarCreate, (void*)BarBrowser);
+    eToolbar.process();
 
     Command	cmd;
     cmd->id			 = CmdSendMessage;
@@ -370,6 +379,53 @@ JabberPlugin::JabberPlugin(unsigned base)
     cmd->flags		 = COMMAND_CHECK_STATE;
     eCmd.process();
 
+    cmd->id			 = CmdBrowser;
+    cmd->text		 = I18N_NOOP("Jabber browser");
+    cmd->icon		 = "Jabber_online";
+    cmd->menu_grp	 = 0x20F0;
+    cmd->menu_id	 = MenuMain;
+    cmd->popup_id	 = NULL;
+    cmd->flags		 = COMMAND_CHECK_STATE;
+    eCmd.process();
+
+    cmd->id			 = CmdBrowser;
+    cmd->text		 = I18N_NOOP("Jabber browser");
+    cmd->icon		 = "Jabber_online";
+    cmd->menu_grp	 = 0x20F0;
+    cmd->menu_id	 = MenuContact;
+    cmd->popup_id	 = NULL;
+    cmd->flags		 = COMMAND_CHECK_STATE;
+    eCmd.process();
+
+    cmd->id			 = CmdBack;
+    cmd->text		 = I18N_NOOP("&Back");
+    cmd->icon		 = "1leftarrow";
+    cmd->bar_grp	 = 0x1000;
+    cmd->bar_id		 = BarBrowser;
+    cmd->menu_id	 = 0;
+    cmd->flags		 = COMMAND_CHECK_STATE;
+    eCmd.process();
+
+    cmd->id			 = CmdForward;
+    cmd->text		 = I18N_NOOP("&Forward");
+    cmd->icon		 = "1rightarrow";
+    cmd->bar_grp	 = 0x1001;
+    eCmd.process();
+
+    cmd->id			 = CmdUrl;
+    cmd->text		 = I18N_NOOP("JID");
+    cmd->icon		 = "run";
+    cmd->bar_grp	 = 0x2000;
+    cmd->flags		 = BTN_COMBO_CHECK;
+    eCmd.process();
+
+    cmd->id			 = CmdInfo;
+    cmd->text		 = I18N_NOOP("Info");
+    cmd->icon		 = "info";
+    cmd->bar_grp	 = 0x3000;
+    cmd->flags		 = COMMAND_CHECK_STATE;
+    eCmd.process();
+
     m_protocol = new JabberProtocol(this);
     registerMessages();
 }
@@ -383,6 +439,12 @@ JabberPlugin::~JabberPlugin()
 
     Event eMenuGroups(EventMenuRemove, (void*)MenuGroups);
     eMenuGroups.process();
+
+    Event eCmdBrowser(EventCommandRemove, (void*)CmdBrowser);
+    eMenuGroups.process();
+
+    Event eToolbar(EventToolbarRemove, (void*)BarBrowser);
+    eToolbar.process();
 
     delete m_protocol;
     getContacts()->removePacketType(JabberPacket);
