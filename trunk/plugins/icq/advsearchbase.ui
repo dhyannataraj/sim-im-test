@@ -580,7 +580,6 @@
     <tabstop>edtCompany</tabstop>
     <tabstop>edtDepartment</tabstop>
     <tabstop>edtPosition</tabstop>
-    <tabstop>chkOnline</tabstop>
     <tabstop>cmbInterests</tabstop>
     <tabstop>edtInterests</tabstop>
     <tabstop>cmbPast</tabstop>
@@ -588,5 +587,6 @@
     <tabstop>cmbAffilation</tabstop>
     <tabstop>edtAffilation</tabstop>
     <tabstop>edtKeywords</tabstop>
+    <tabstop>chkOnline</tabstop>
 </tabstops>
 </UI>
