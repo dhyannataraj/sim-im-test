@@ -48,7 +48,7 @@ public:
     const char *getIcon();
     void setMessage(Message*&);
     void setStatus(const QString&);
-    void showListView(bool bShow, bool bAdd);
+    void showListView(bool bShow);
     QString status() { return m_status; }
     UserList	*m_list;
     void markAsRead();

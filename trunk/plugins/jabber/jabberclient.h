@@ -70,6 +70,7 @@ typedef struct JabberUserData
     unsigned	bChecked;
     char		*TypingId;
     unsigned	composeId;
+    unsigned	richText;
 } JabberUserData;
 
 typedef struct JabberClientData
@@ -195,12 +196,14 @@ class MessageRequest : public ServerRequest
         string m_from;
         string *m_data;
         string m_body;
+        string m_richText;
         string m_subj;
         string m_error;
         bool   m_bBody;
         string m_id;
         bool   m_bCompose;
         bool   m_bEvent;
+        bool   m_bRichText;
         unsigned m_errorCode;
     };
 

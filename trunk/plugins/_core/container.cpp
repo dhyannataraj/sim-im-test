@@ -215,6 +215,11 @@ void Container::setNoSwitch()
     m_bNoSwitch = true;
 }
 
+list<UserWnd*> Container::windows()
+{
+    return m_tabBar->windows();
+}
+
 string Container::getState()
 {
     clearWndConfig();

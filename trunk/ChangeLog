@@ -11,6 +11,12 @@ ICQ: Fix send to occupied and dnd mode
 MSN: Upgrade protocol to V8
 Add quick search in contact list
 MacOS X compile
+Add AIM protocol
+Jabber: Add rich-text support
+Jabber: Add typing notification
+ICQ: File transfer and reverse direct connections support
+MSN: File transfer support
+ICQ: Fix protocol for bigendian
 
 Version 0.8.2
 Add Bulgarian translation

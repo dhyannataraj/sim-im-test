@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>315</width>
+            <width>311</width>
             <height>180</height>
         </rect>
     </property>
@@ -47,8 +47,7 @@
             </property>
             <property>
                 <name>text</name>
-                <string>You have default encoding UTF-8. 
-At its use you can have problems with reading offline messages and installation of your personal information.</string>
+                <string>Your current system encoding (UTF-8) may cause problems saving your personal information and reading offline messages from other users.</string>
             </property>
             <property>
                 <name>alignment</name>

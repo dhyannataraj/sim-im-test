@@ -18,6 +18,7 @@
 #include "jabberclient.h"
 #include "jabber.h"
 #include "jabbermessage.h"
+#include "html.h"
 
 #include <time.h>
 
@@ -694,8 +695,10 @@ JabberClient::PresenceRequest::~PresenceRequest()
                         ((now - m_client->data.owner.OnlineTime > 60) ||
                          (data->Status != STATUS_OFFLINE)))
                     bOnLine = true;
-                if (data->Status == STATUS_OFFLINE)
+                if (data->Status == STATUS_OFFLINE){
                     data->OnlineTime = now;
+                    data->richText = true;
+                }
                 data->Status = status;
                 data->StatusTime = now;
             }
@@ -785,6 +788,79 @@ void JabberClient::IqRequest::element_start(const char *el, const char **attr)
     }
 }
 
+class JabberBgParser : public HTMLParser
+{
+public:
+    JabberBgParser();
+    QString parse(const QString &text);
+    unsigned bgColor;
+protected:
+    virtual void text(const QString &text);
+    virtual void tag_start(const QString &tag, const list<QString> &attrs);
+    virtual void tag_end(const QString &tag);
+    QString res;
+};
+
+JabberBgParser::JabberBgParser()
+{
+    bgColor = 0;
+}
+
+QString JabberBgParser::parse(const QString &text)
+{
+    res = "";
+    HTMLParser::parse(text);
+    return res;
+}
+
+void JabberBgParser::text(const QString &text)
+{
+    res += quoteString(text);
+}
+
+void JabberBgParser::tag_start(const QString &tag, const list<QString> &attrs)
+{
+    if (tag == "body"){
+        for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
+            QString name = *it;
+            ++it;
+            QString value = *it;
+            if (name.lower() == "bgcolor"){
+                if (value[0] == '#'){
+                    bool bOK;
+                    bgColor = value.toUInt(&bOK, 16);
+                }
+            }
+        }
+        return;
+    }
+    res += "<";
+    res += tag;
+    for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
+        QString name = *it;
+        ++it;
+        QString value = *it;
+        res += " ";
+        res += name;
+        if (!value.isEmpty()){
+            res += "=\"";
+            res += quoteString(value);
+            res += "\"";
+        }
+    }
+    res += ">";
+}
+
+void JabberBgParser::tag_end(const QString &tag)
+{
+    if (tag == "body"){
+        return;
+    }
+    res += "</";
+    res += tag;
+    res += ">";
+}
+
 JabberClient::MessageRequest::MessageRequest(JabberClient *client)
         : ServerRequest(client, NULL, NULL, NULL)
 {
@@ -793,6 +869,7 @@ JabberClient::MessageRequest::MessageRequest(JabberClient *client)
     m_bBody = false;
     m_bCompose = false;
     m_bEvent = false;
+    m_bRichText = false;
 }
 
 JabberClient::MessageRequest::~MessageRequest()
@@ -853,8 +930,20 @@ JabberClient::MessageRequest::~MessageRequest()
     }
     if (msg == NULL)
         return;
-    msg->setText(QString::fromUtf8(m_body.c_str()));
-    msg->setFlags(MESSAGE_RECEIVED);
+    if (m_bBody){
+        if (m_richText.empty()){
+            data->richText = false;
+            msg->setText(QString::fromUtf8(m_body.c_str()));
+        }else{
+            JabberBgParser p;
+            msg->setText(p.parse(QString::fromUtf8(m_richText.c_str())));
+            msg->setFlags(MESSAGE_RICHTEXT);
+            msg->setBackground(p.bgColor);
+        }
+    }else{
+        msg->setText(QString::fromUtf8(m_body.c_str()));
+    }
+    msg->setFlags(msg->getFlags() | MESSAGE_RECEIVED);
     msg->setClient(m_client->dataName(data).c_str());
     msg->setContact(contact->id());
     Event e(EventMessageReceived, msg);
@@ -864,6 +953,21 @@ JabberClient::MessageRequest::~MessageRequest()
 
 void JabberClient::MessageRequest::element_start(const char *el, const char **attr)
 {
+    if (m_bRichText){
+        *m_data += "<";
+        *m_data += el;
+        for (const char **p = attr; *p; ){
+            const char *key = *(p++);
+            const char *val = *(p++);
+            *m_data += " ";
+            *m_data += key;
+            *m_data += "=\"";
+            *m_data += val;
+            *m_data += "\"";
+        }
+        *m_data += ">";
+        return;
+    }
     m_data = NULL;
     if (!strcmp(el, "message")){
         m_from = JabberClient::get_attr("from", attr);
@@ -883,7 +987,7 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
         m_data = &m_error;
         return;
     }
-    if (!strcmp(el, "compose")){
+    if (!strcmp(el, "composing")){
         m_bCompose = true;
         return;
     }
@@ -895,10 +999,28 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
         if (JabberClient::get_attr("xmlns", attr) == "jabber:x:event")
             m_bEvent = true;
     }
+    if (!strcmp(el, "html")){
+        string xmlns = JabberClient::get_attr("xmlns", attr);
+        if (xmlns == "http://jabber.org/protocol/xhtml-im"){
+            m_bRichText = true;
+            m_data = &m_richText;
+        }
+    }
 }
 
-void JabberClient::MessageRequest::element_end(const char*)
+void JabberClient::MessageRequest::element_end(const char *el)
 {
+    if (m_bRichText){
+        if (!strcmp(el, "html")){
+            m_bRichText = false;
+            m_data = NULL;
+            return;
+        }
+        *m_data += "</";
+        *m_data += el;
+        *m_data += ">";
+        return;
+    }
     m_data = NULL;
 }
 
@@ -1250,7 +1372,7 @@ protected:
 };
 
 RegisterRequest::RegisterRequest(JabberClient *client, const char *jid)
-        : ServerRequest(client, _SET, NULL, jid)
+        : ServerRequest(client, _GET, NULL, jid)
 {
     m_data = NULL;
     m_bOK  = false;

@@ -161,8 +161,10 @@ class MSNServerMessage
 {
 public:
     MSNServerMessage(MSNClient *client, unsigned size);
+    ~MSNServerMessage();
     bool packet();
 protected:
+    string	  m_msg;
     MSNClient *m_client;
     unsigned  m_size;
 };

@@ -1069,6 +1069,11 @@ void Client::setStatus(unsigned status, bool bCommon)
 
 Client::~Client()
 {
+    freeData();
+}
+
+void Client::freeData()
+{
     Group *grp;
     ContactList::GroupIterator itg;
     while ((grp = ++itg) != NULL){

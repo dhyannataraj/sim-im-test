@@ -335,7 +335,6 @@ void ICQClient::sendUpdate()
 
 void ICQClient::fillDirectInfo(Buffer &directInfo)
 {
-    data.owner.Port = m_listener ? m_listener->port() : 0;
     set_ip(&data.owner.RealIP, m_socket->localHost());
     if (getHideIP()){
         directInfo

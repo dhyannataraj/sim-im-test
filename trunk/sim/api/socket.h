@@ -58,12 +58,18 @@ public:
     SocketNotify *notify;
 };
 
+class ServerSocket;
+
 class EXPORT ServerSocketNotify
 {
 public:
-    ServerSocketNotify() {}
-    virtual ~ServerSocketNotify() {}
-    virtual void accept(Socket*, unsigned long ip) = 0;
+    ServerSocketNotify();
+    virtual ~ServerSocketNotify();
+    virtual bool accept(Socket*, unsigned long ip) = 0;
+    virtual void bind_ready(unsigned port) = 0;
+    virtual bool error(const char *err) = 0;
+    virtual void bind(unsigned mixPort, unsigned maxPort, TCPClient *client);
+    ServerSocket *m_listener;
 };
 
 class EXPORT ServerSocket
@@ -71,8 +77,9 @@ class EXPORT ServerSocket
 public:
     ServerSocket();
     virtual ~ServerSocket() {}
-    virtual unsigned short port() = 0;
     void setNotify(ServerSocketNotify *n) { notify = n; }
+    virtual void bind(unsigned mixPort, unsigned maxPort, TCPClient *client) = 0;
+    virtual void close() = 0;
 protected:
     ServerSocketNotify *notify;
 };
@@ -88,8 +95,9 @@ public:
     SocketFactory();
     virtual ~SocketFactory();
     virtual Socket *createSocket() = 0;
-    virtual ServerSocket *createServerSocket(unsigned minPort, unsigned maxPort) = 0;
+    virtual ServerSocket *createServerSocket() = 0;
     void remove(Socket*);
+    void remove(ServerSocket*);
     void setActive(bool);
     bool isActive();
 protected slots:

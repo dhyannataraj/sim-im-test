@@ -53,6 +53,9 @@ typedef struct MSNUserData
     unsigned	Flags;
     unsigned	sFlags;
     unsigned	typing_time;
+    void		*IP;
+    void		*RealIP;
+    unsigned	Port;
     SBSocket	*sb;
 } MSNUserData;
 
@@ -63,11 +66,19 @@ typedef struct MSNClientData
     unsigned	ListVer;
     char		*ListRequests;
     char		*Version;
+    unsigned	MinPort;
+    unsigned	MaxPort;
     MSNUserData	owner;
 } MSNClientData;
 
 class MSNClient;
 class XfrPacket;
+
+typedef struct msgInvite
+{
+    Message		*msg;
+    unsigned	cookie;
+} msgInvite;
 
 class SBSocket : public QObject, public ClientSocketNotify
 {
@@ -81,6 +92,8 @@ public:
     void timer(unsigned now);
     void setTyping(bool bTyping);
     bool cancelMessage(Message *msg);
+    bool acceptMessage(Message *msg, const char *dir, OverwriteMode mode);
+    bool declineMessage(Message *msg, const char *reason);
 protected:
     enum State
     {
@@ -101,6 +114,10 @@ protected:
     void process(bool bTyping=true);
     void sendMessage(const char*, const char *type);
     void sendTyping();
+    void sendFile();
+    list<msgInvite>	m_acceptMsg;
+    list<msgInvite>	m_waitMsg;
+
     State			m_state;
     Contact			*m_contact;
     MSNClient		*m_client;
@@ -117,6 +134,7 @@ protected:
     QString			m_msgText;
     QString			m_msgPart;
     unsigned		m_msg_id;
+    unsigned		m_invite_cookie;
 };
 
 const unsigned LR_CONTACTxCHANGED		= 0;
@@ -151,6 +169,8 @@ public:
     PROP_ULONG(ListVer);
     PROP_UTF8(ListRequests);
     PROP_STR(Version);
+    PROP_ULONG(MinPort);
+    PROP_ULONG(MaxPort);
     QString getLogin();
     QString unquote(const QString&);
     QString quote(const QString&);
@@ -217,6 +237,57 @@ protected:
     friend class UsrPacket;
     friend class QryPacket;
     friend class MSNServerMessage;
+    friend class SBSocket;
+};
+
+class MSNFileTransfer : public QObject, public FileTransfer, public ClientSocketNotify
+{
+    Q_OBJECT
+public:
+    MSNFileTransfer(FileMessage *msg, MSNClient *client, MSNUserData *data);
+    ~MSNFileTransfer();
+    void connect();
+    void listen();
+    void setSocket(Socket *s);
+    unsigned ip1;
+    unsigned ip2;
+    unsigned port1;
+    unsigned port2;
+    unsigned auth_cookie;
+
+protected slots:
+
+    void timeout();
+protected:
+    enum State
+    {
+        None,
+        ConnectIP1,
+        ConnectIP2,
+        ConnectIP3,
+        Connected,
+        Send,
+        Wait,
+        Listen,
+        Receive,
+        ReceiveWait,
+        Incoming
+    };
+    virtual bool    error_state(const char *err, unsigned code);
+    virtual void	packet_ready();
+    virtual void	connect_ready();
+    virtual void	write_ready();
+    virtual void	startReceive(unsigned pos);
+    void			send(const char *line);
+    void			getLine(const char *line);
+    bool			m_bHeader;
+    int				m_size;
+    Buffer			m_readBuffer;
+    State			m_state;
+    ClientSocket    *m_socket;
+    MSNClient		*m_client;
+    MSNUserData		*m_data;
+    QTimer			*m_timer;
 };
 
 #endif

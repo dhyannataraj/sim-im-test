@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>252</width>
+            <width>248</width>
             <height>226</height>
         </rect>
     </property>
@@ -252,7 +252,7 @@
                             </spacer>
                         </hbox>
                     </widget>
-                    <spacer row="2"  column="0" >
+                    <spacer row="4"  column="0" >
                         <property>
                             <name>name</name>
                             <cstring>Spacer6</cstring>
@@ -273,27 +273,102 @@
                             </size>
                         </property>
                     </spacer>
+                    <widget row="2"  column="0"  rowspan="1"  colspan="2" >
+                        <class>QLabel</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>TextLabel1_2</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Port range for direct connections:</string>
+                        </property>
+                    </widget>
+                    <widget row="3"  column="0"  rowspan="1"  colspan="2" >
+                        <class>QLayoutWidget</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>Layout3</cstring>
+                        </property>
+                        <hbox>
+                            <property>
+                                <name>margin</name>
+                                <number>0</number>
+                            </property>
+                            <property>
+                                <name>spacing</name>
+                                <number>6</number>
+                            </property>
+                            <widget>
+                                <class>QSpinBox</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>edtMinPort</cstring>
+                                </property>
+                                <property>
+                                    <name>maxValue</name>
+                                    <number>65534</number>
+                                </property>
+                                <property>
+                                    <name>minValue</name>
+                                    <number>1024</number>
+                                </property>
+                            </widget>
+                            <widget>
+                                <class>QLabel</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>TextLabel2_2</cstring>
+                                </property>
+                                <property>
+                                    <name>text</name>
+                                    <string>-</string>
+                                </property>
+                            </widget>
+                            <widget>
+                                <class>QSpinBox</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>edtMaxPort</cstring>
+                                </property>
+                                <property>
+                                    <name>maxValue</name>
+                                    <number>65534</number>
+                                </property>
+                                <property>
+                                    <name>minValue</name>
+                                    <number>1024</number>
+                                </property>
+                            </widget>
+                            <spacer>
+                                <property>
+                                    <name>name</name>
+                                    <cstring>Spacer9</cstring>
+                                </property>
+                                <property>
+                                    <name>orientation</name>
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property>
+                                    <name>sizeType</name>
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property>
+                                    <name>sizeHint</name>
+                                    <size>
+                                        <width>20</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                        </hbox>
+                    </widget>
                 </grid>
             </widget>
         </widget>
     </vbox>
 </widget>
 <customwidgets>
-    <customwidget>
-        <class>LinkLabel</class>
-        <header location="local">linklabel.h</header>
-        <sizehint>
-            <width>-1</width>
-            <height>-1</height>
-        </sizehint>
-        <container>0</container>
-        <sizepolicy>
-            <hordata>1</hordata>
-            <verdata>1</verdata>
-        </sizepolicy>
-        <pixmap>image0</pixmap>
-        <property type="String">text</property>
-    </customwidget>
     <customwidget>
         <class>QWidget</class>
         <header location="global">qwidget.h</header>
@@ -306,6 +381,21 @@
             <hordata>5</hordata>
             <verdata>5</verdata>
         </sizepolicy>
+        <pixmap>image0</pixmap>
+        <property type="String">text</property>
+    </customwidget>
+    <customwidget>
+        <class>LinkLabel</class>
+        <header location="local">linklabel.h</header>
+        <sizehint>
+            <width>-1</width>
+            <height>-1</height>
+        </sizehint>
+        <container>0</container>
+        <sizepolicy>
+            <hordata>1</hordata>
+            <verdata>1</verdata>
+        </sizepolicy>
         <pixmap>image1</pixmap>
         <property type="String">text</property>
     </customwidget>
@@ -313,11 +403,11 @@
 <images>
     <image>
         <name>image0</name>
-        <data format="XPM.GZ" length="646">789c6dd2c10ac2300c00d07bbf2234b7229d1ddec44f503c0ae2a154410f53d0ed20e2bf6bdb656dd6861dd23d9a66591b0587fd1654235ebded6f0edcd53e419d87ae7b1f4f9b8f906d0bfe012317426a70b07bdc2f3ec77f8ed6b89559061a0343d06a124cc105596482585094bc0ae599b04646c9018926491b2205e140c485cace25755c175d0a967b622ff900b8cc9c7d29af594ea722d589167f813aa852ba07d94b9dce296e883fe7bb163f23896753</data>
+        <data format="XPM.GZ" length="646">789c6dd2c10ac2300c00d07bbf2234b7229d1be245fc04c5a3201e4615f430059d0711ff5ddb2e6bb236ec90eed134cb5a19d8ef36602af5ecdbfeeac05dda0798d3abebde87e3faa374d3807fa0d633a52d38d8de6f679fe33fc776e196f53cd010188256a3600a292882096246517815ca99884606e18044a3a40d91824820924265a7923a2e8bcd05f33db1173e002913175f2a6be6d3294871a2d95fa00e8a94ee017b69d339d90df1e77c57ea072ede6758</data>
     </image>
     <image>
         <name>image1</name>
-        <data format="XPM.GZ" length="646">789c6dd2c10ac2300c00d07bbf2234b7229d1be245fc04c5a3201e4615f430059d0711ff5ddb2e6bb236ec90eed134cb5a19d8ef36602af5ecdbfeeac05dda0798d3abebde87e3faa374d3807fa0d633a52d38d8de6f679fe33fc776e196f53cd010188256a3600a292882096246517815ca99884606e18044a3a40d91824820924265a7923a2e8bcd05f33db1173e002913175f2a6be6d3294871a2d95fa00e8a94ee017b69d339d90df1e77c57ea072ede6758</data>
+        <data format="XPM.GZ" length="646">789c6dd2c10ac2300c00d07bbf2234b7229d1ddec44f503c0ae2a154410f53d0ed20e2bf6bdb656dd6861dd23d9a66591b0587fd1654235ebded6f0edcd53e419d87ae7b1f4f9b8f906d0bfe012317426a70b07bdc2f3ec77f8ed6b89559061a0343d06a124cc105596482585094bc0ae599b04646c9018926491b2205e140c485cace25755c175d0a967b622ff900b8cc9c7d29af594ea722d589167f813aa852ba07d94b9dce296e883fe7bb163f23896753</data>
     </image>
 </images>
 </UI>

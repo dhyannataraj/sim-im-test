@@ -67,11 +67,7 @@ UserWnd::UserWnd(unsigned id, const char *cfg, bool bReceived)
 
     if (data.MessageType == 0)
         return;
-    CommandDef *cmd = CorePlugin::m_plugin->messageTypes.find(data.MessageType);
-    if (cmd == NULL)
-        return;
-    MessageDef *def = (MessageDef*)(cmd->param);
-    Message *msg = def->create(NULL);
+    Message *msg = new Message(MessageGeneric);
     setMessage(msg);
     delete msg;
 }
@@ -104,7 +100,7 @@ QString UserWnd::getLongName()
     Contact *contact = getContacts()->contact(m_id);
     res = contact->getName();
     void *data;
-    Client *client = m_edit->client(data, false, true);
+    Client *client = m_edit->client(data, false, true, id());
     if (client && data){
         res += " ";
         res += client->contactName(data);
@@ -139,7 +135,7 @@ const char *UserWnd::getIcon()
     unsigned style;
     const char *statusIcon;
     void *data;
-    Client *client = m_edit->client(data, false, true);
+    Client *client = m_edit->client(data, false, true, id());
     if (client){
         client->contactInfo(data, status, style, statusIcon);
     }else{
@@ -226,15 +222,19 @@ void UserWnd::setStatus(const QString &status)
     emit statusChanged(this);
 }
 
-void UserWnd::showListView(bool bShow, bool bAdd)
+void UserWnd::showListView(bool bShow)
 {
     if (bShow){
         if (m_list == NULL){
             m_list = new UserList(m_hSplitter);
             m_hSplitter->setResizeMode(m_list, QSplitter::Stretch);
             connect(m_list, SIGNAL(selectChanged()), this, SLOT(selectChanged()));
-            if (bAdd)
-                m_list->selected.push_back(m_id);
+            if (topLevelWidget()->inherits("Container")){
+                Container *c = static_cast<Container*>(topLevelWidget());
+                list<UserWnd*> wnd = c->windows();
+                for (list<UserWnd*>::iterator it = wnd.begin(); it != wnd.end(); ++it)
+                    m_list->selected.push_back((*it)->id());
+            }
         }
         m_list->show();
         emit multiplyChanged();

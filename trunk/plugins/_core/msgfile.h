@@ -36,9 +36,9 @@ protected slots:
     void init();
 protected:
     virtual void *processEvent(Event*);
-    string m_client;
-    QToolButton *btnSend;
-    MsgEdit *m_edit;
+    string		 m_client;
+    QToolButton  *btnSend;
+    MsgEdit      *m_edit;
 };
 
 #endif

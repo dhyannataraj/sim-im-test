@@ -632,6 +632,7 @@ const unsigned EventNetworkChanged	= 0x1000;
 const unsigned EventSocketConnect	= 0x1001;
 
 class ClientSocket;
+class ServerSocketNotify;
 class TCPClient;
 
 typedef struct ConnectParam
@@ -641,6 +642,18 @@ typedef struct ConnectParam
     const char		*host;
     unsigned short	port;
 } ConnectParam;
+
+/* Event socket listen
+   param is ListenParam *
+*/
+const unsigned EventSocketListen	 = 0x1002;
+
+typedef struct ListenParam
+{
+    ServerSocketNotify	*notify;
+    TCPClient			*client;
+    unsigned short		port;
+} ListenParam;
 
 /* Event send & receive message
 */
@@ -1013,6 +1026,8 @@ public:
         Read,
         Write,
         Done,
+
+        Wait,
         Error
     };
     State state()	{ return m_state; }
@@ -1032,6 +1047,11 @@ protected:
     unsigned m_totalSize;
     unsigned m_speed;
     unsigned m_transferBytes;
+
+    unsigned m_sendTime;
+    unsigned m_sendSize;
+    unsigned m_transfer;
+
     OverwriteMode m_overwrite;
     QString	 m_dir;
     State	 m_state;
@@ -1353,6 +1373,8 @@ public:
     bool getInvisible() { return data.Invisible; }
     virtual void setInvisible(bool bInvisible) { data.Invisible = bInvisible; }
 protected:
+
+    void  freeData();
     State m_state;
     unsigned m_status;
     ClientData	data;
@@ -1575,6 +1597,8 @@ EXPORT void setSmiles(const char *smiles_str);
 EXPORT unsigned screens();
 EXPORT QRect screenGeometry(unsigned nScreen);
 EXPORT QRect screenGeometry();
+
+EXPORT unsigned get_random();
 };
 
 using namespace SIM;

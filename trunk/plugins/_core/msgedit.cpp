@@ -328,7 +328,7 @@ bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
     cmd->flags		= COMMAND_DEFAULT;
     if (msg->getFlags() & MESSAGE_FORWARD){
         cmd->flags = COMMAND_CHECKED;
-        m_userWnd->showListView(true, false);
+        m_userWnd->showListView(true);
     }
     Event eChange(EventCommandChange, cmd);
     eChange.process();
@@ -341,10 +341,10 @@ bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
     return true;
 }
 
-Client *MsgEdit::client(void *&data, bool bCreate, bool bTyping)
+Client *MsgEdit::client(void *&data, bool bCreate, bool bTyping, unsigned contact_id)
 {
     data = NULL;
-    Contact *contact = getContacts()->contact(m_userWnd->id());
+    Contact *contact = getContacts()->contact(contact_id);
     if (m_client.empty()){
         if (contact == NULL)
             return NULL;
@@ -866,10 +866,9 @@ bool MsgEdit::send()
     void *data = NULL;
     if (contact){
         if (client_str.empty()){
-            vector<ClientStatus> cs;
-            getWays(cs, contact);
-            Client *c = client(data, true, false);
+            Client *c = client(data, true, false, m_msg->contact());
             if (c){
+                m_msg->setClient(c->dataName(data).c_str());
                 bSent = c->send(m_msg, data);
             }else{
                 data = NULL;
@@ -923,7 +922,7 @@ void MsgEdit::stopSend(bool bCheck)
 {
     if (m_userWnd->m_list){
         Command cmd;
-        m_userWnd->showListView(false, false);
+        m_userWnd->showListView(false);
         cmd->id			= CmdMultiply;
         cmd->text		= I18N_NOOP("&Multiply send");
         cmd->icon		= "1rightarrow";
@@ -1040,7 +1039,7 @@ void *MsgEdit::processEvent(Event *e)
             return e->param();
         }
         if ((cmd->id == CmdMultiply) && (cmd->param == this)){
-            m_userWnd->showListView(cmd->flags & COMMAND_CHECKED, true);
+            m_userWnd->showListView(cmd->flags & COMMAND_CHECKED);
             return e->param();
         }
         if ((cmd->bar_id == BarReceived) && m_edit->isReadOnly() && (cmd->param == this)){
@@ -1129,6 +1128,7 @@ void *MsgEdit::processEvent(Event *e)
                         string cfg = m_msg->save();
                         m_msg = (mdef->create)(cfg.c_str());
                         m_msg->setContact(*multiply_it);
+                        m_msg->setClient(NULL);
                         ++multiply_it;
                         if (multiply_it == multiply.end())
                             m_msg->setFlags(m_msg->getFlags() | MESSAGE_LAST);
@@ -1156,6 +1156,9 @@ void *MsgEdit::processEvent(Event *e)
                     m_edit->setFont(CorePlugin::m_plugin->editFont);
                     m_edit->setForeground(CorePlugin::m_plugin->getEditForeground());
                     m_edit->setBackground(CorePlugin::m_plugin->getEditBackground());
+                    Message *msg = new Message(MessageGeneric);
+                    setMessage(msg, false);
+                    delete msg;
                 }
             }
             return NULL;
@@ -1182,7 +1185,7 @@ void MsgEdit::typingStart()
 {
     typingStop();
     void *data = NULL;
-    Client *cl = client(data, false, false);
+    Client *cl = client(data, false, false, m_userWnd->id());
     if (cl == NULL)
         return;
     Message *msg = new Message(MessageTypingStart);

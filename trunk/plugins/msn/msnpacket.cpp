@@ -19,6 +19,16 @@
 #include "msnclient.h"
 #include "msn.h"
 
+#ifdef WIN32
+#include <winsock.h>
+#else
+#include <sys/socket.h>
+#include <sys/time.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <arpa/inet.h>
+#endif
+
 #include <qtimer.h>
 #include <openssl/md5.h>
 
@@ -588,13 +598,40 @@ MSNServerMessage::MSNServerMessage(MSNClient *client, unsigned size)
     m_size   = size;
 }
 
+MSNServerMessage::~MSNServerMessage()
+{
+    QString msg = QString::fromUtf8(m_msg.c_str());
+    for (;!msg.isEmpty();){
+        QString line;
+        int n = msg.find("\r\n");
+        if (n >= 0){
+            line = msg.left(n);
+            msg  = msg.mid(n + 2);
+        }else{
+            line = msg;
+            msg  = "";
+        }
+        n = line.find(":");
+        if (n < 0)
+            continue;
+        QString key = line.left(n);
+        QString value = trim(line.mid(n + 1));
+        if (key == "ClientIP")
+            set_ip(&m_client->data.owner.IP, inet_addr(value.latin1()));
+    }
+}
+
 bool MSNServerMessage::packet()
 {
     Buffer &b = m_client->m_socket->readBuffer;
-    if (b.readPos() + m_size >= b.writePos()){
-        b.incReadPos(m_size);
-        return true;
+    unsigned size = b.writePos() - b.readPos();
+    if (size > m_size)
+        size = m_size;
+    if (size > 0){
+        m_msg.append(b.data(b.readPos()), size);
+        b.incReadPos(size);
+        m_size -= size;
     }
-    return false;
+    return (m_size == 0);
 }
 

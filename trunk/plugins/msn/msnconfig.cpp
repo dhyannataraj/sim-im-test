@@ -42,6 +42,8 @@ MSNConfig::MSNConfig(QWidget *parent, MSNClient *client, bool bConfig)
     connect(edtPort, SIGNAL(valueChanged(const QString&)), this, SLOT(changed(const QString&)));
     lnkReg->setText(i18n("Register in .NET Passport"));
     lnkReg->setUrl(i18n("https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"));
+    edtMinPort->setValue(m_client->getMinPort());
+    edtMaxPort->setValue(m_client->getMaxPort());
 }
 
 void MSNConfig::apply(Client*, void*)
@@ -56,6 +58,8 @@ void MSNConfig::apply()
     }
     m_client->setServer(edtServer->text().local8Bit());
     m_client->setPort(atol(edtPort->text()));
+    m_client->setMinPort(atol(edtMinPort->text()));
+    m_client->setMaxPort(atol(edtMaxPort->text()));
 }
 
 void MSNConfig::changed(const QString&)

@@ -380,7 +380,6 @@ ICQClient::ICQClient(Protocol *protocol, const char *cfg, bool bAIM)
 ICQClient::~ICQClient()
 {
     setStatus(STATUS_OFFLINE, false);
-
     if (m_listener)
         delete m_listener;
     free_data(icqClientData, &data);
@@ -396,6 +395,8 @@ ICQClient::~ICQClient()
     while (!m_sockets.empty())
         delete m_sockets.front();
     m_processMsg.clear();
+
+    freeData();
 }
 
 const DataDef *ICQProtocol::userDataDef()
@@ -542,10 +543,10 @@ void OscarSocket::connect_ready()
 
 void ICQClient::connect_ready()
 {
-
-    if (m_listener == NULL)
+    if (m_listener == NULL){
         m_listener = new ICQListener(this);
-
+        m_listener->bind(getMinPort(), getMaxPort(), NULL);
+    }
     OscarSocket::connect_ready();
     TCPClient::connect_ready();
 }

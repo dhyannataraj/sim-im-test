@@ -527,6 +527,7 @@ static const pager_provider providers[] =
         { "(USA) SkyTel/MCI", "skytel.com" },
         { "(USA) TeleBeep", "page.pnet5.com" },
         { "(USA) TeleTouch", "pageme.teletouch.com" },
+        { "(USA) Verizon Wireless", "vtext.com" },
         { "(USA) WebLink Wireless (PageMart) (Traditional)", "pagemart.net" },
         { "(USA) WebLink Wireless (PageMart) (Advanced)", "airmessage.net" },
         { "", "" }
