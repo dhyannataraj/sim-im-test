@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
-"POT-Creation-Date: 2002-11-04 01:59+0300\n"
+"POT-Creation-Date: 2002-11-05 00:34+0300\n"
 "PO-Revision-Date: 2002-11-04 11:14+0200\n"
 "Last-Translator: ismail donmez <voidcartman@yahoo.com>\n"
 "Language-Team: Türkçe <tr@li.org>\n"
@@ -3239,7 +3239,8 @@ msgstr "Global alarm ayarlarının üzerine yaz"
 
 #: ui/alertdialogbase.cpp:97
 msgid "Activate online alert when user returns from Away or NA"
-msgstr "Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
+msgstr ""
+"Kullanıcı Uzak ya da NA modundan dönünce bağlı alarmını çalıştır"
 
 #: ui/alertdialogbase.cpp:102
 msgid "Online alert options"
@@ -3519,7 +3520,8 @@ msgid "Hide main window after"
 msgstr "Ana menüyü sakla"
 
 #: ui/statussetupbase.cpp:107
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid ""
+"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "\"Uzakta\", \"N/A\", \"DND\" ve \"Meşgul\"-Listelerinde bağlı alamını "
 "iptal et "
@@ -3618,7 +3620,8 @@ msgstr "Zaman Dilimi:"
 
 #: ui/generalsecbase.cpp:124
 msgid "My &authorization is required before users add me to Contact List"
-msgstr "Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
+msgstr ""
+"Diğerlerinin beni listelerine eklemesi için benim &onayım gereklidir"
 
 #: ui/generalsecbase.cpp:128
 msgid "Don't show my &IP-address"
@@ -4227,4 +4230,3 @@ msgstr "? Bilinmeyen statü %1"
 
 #~ msgid "Transfer failed"
 #~ msgstr "Übertragung fehlgeschlagen"
-
