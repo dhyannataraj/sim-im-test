@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sun Mar 10 2002
     copyright            : (C) 2002 by Vladimir Shutoff
-    email                : shutoff@mail.ru
+    email                : vovan.ru
  ***************************************************************************/
 
 /***************************************************************************
@@ -626,7 +626,7 @@ const ToolBarDef *pToolBarMain = mainWndToolBar;
 MainWindow::MainWindow(const char *name)
         : QMainWindow(NULL, name, WType_TopLevel | WStyle_Customize | WStyle_Title | WStyle_NormalBorder| WStyle_SysMenu)
 {
-    SET_WNDPROC
+    SET_WNDPROC("mainwnd")
     ::init(this, MainWindow_Params);
 
     bLocked = false;
@@ -1257,14 +1257,14 @@ void MainWindow::processEvent(ICQEvent *e)
             return;
         }
     case EVENT_PROXY_ERROR:{
-			log(L_DEBUG, "Set manual to offline (proxy error)");
+            log(L_DEBUG, "Set manual to offline (proxy error)");
             ManualStatus = ICQ_STATUS_OFFLINE;
             ProxyDialog d(this, i18n("Can't connect to proxy server"));
             d.exec();
             return;
         }
     case EVENT_PROXY_BAD_AUTH:{
-			log(L_DEBUG, "Set manual to offline (proxy bad auth)");
+            log(L_DEBUG, "Set manual to offline (proxy bad auth)");
             ManualStatus = ICQ_STATUS_OFFLINE;
             ProxyDialog d(this, pClient->factory()->ProxyAuth ?
                           i18n("Proxy server require authorization") :
@@ -1279,7 +1279,7 @@ void MainWindow::processEvent(ICQEvent *e)
         return;
     case EVENT_ANOTHER_LOCATION:
         ManualStatus = ICQ_STATUS_OFFLINE;
-	    log(L_DEBUG, "Set manual to offline (another location)");
+        log(L_DEBUG, "Set manual to offline (another location)");
         pClient->setStatus(ICQ_STATUS_OFFLINE);
         setShow(true);
         BalloonMsg::message(i18n("Your UIN used from another location"), toolbar->getWidget(btnStatus));
@@ -1355,24 +1355,34 @@ void MainWindow::processEvent(ICQEvent *e)
 void MainWindow::changeUIN()
 {
     if (pLoginDlg) return;
+    scanUIN();
+    pLoginDlg = new LoginDialog();
+    pLoginDlg->show();
+}
+
+bool MainWindow::isLoad()
+{
+    return bLocked;
+}
+
+void MainWindow::reset()
+{
+    if (!bLocked) return;
     pClient->setStatus(ICQ_STATUS_OFFLINE);
     saveState();
     hide();
     deleteChilds();
     ::init(this, MainWindow_Params);
     pClient->init();
-    scanUIN();
-    pLoginDlg = new LoginDialog();
-    pLoginDlg->show();
 }
 
 void MainWindow::saveState()
 {
     if ((pClient->owner->Uin == 0) || !bLocked) return;
     if (m_bAutoAway || m_bAutoNA){
-		log(L_DEBUG, "Set manual to %X (saveState)", m_autoStatus);
-		ManualStatus = (unsigned long)m_autoStatus;
-	}
+        log(L_DEBUG, "Set manual to %X (saveState)", m_autoStatus);
+        ManualStatus = (unsigned long)m_autoStatus;
+    }
     ShowOffline = toolbar->isOn(btnShowOffline);
     GroupMode = toolbar->isOn(btnGroupMode);
     Show = isShow();
@@ -1863,7 +1873,7 @@ void MainWindow::autoAway()
         if (((ManualStatus & 0xFF) == ICQ_STATUS_NA) ||
                 ((ManualStatus & 0xFF) == ICQ_STATUS_AWAY)){
             ManualStatus = (unsigned long)m_autoStatus;
-			log(L_DEBUG, "Set manual to %X (from auto away)", ManualStatus);
+            log(L_DEBUG, "Set manual to %X (from auto away)", ManualStatus);
             realSetStatus();
         }
         return;
@@ -1876,7 +1886,7 @@ void MainWindow::autoAway()
             m_autoStatus = ManualStatus;
             m_bAutoNA = true;
         }
-		log(L_DEBUG, "Set manual to %X (auto na)", ManualStatus);
+        log(L_DEBUG, "Set manual to %X (auto na)", ManualStatus);
         ManualStatus = ICQ_STATUS_NA;
         realSetStatus();
         return;
@@ -1887,7 +1897,7 @@ void MainWindow::autoAway()
                 ((ManualStatus & 0xFF) == ICQ_STATUS_NA) ||
                 ((ManualStatus & 0xFF) == ICQ_STATUS_AWAY)) return;
         m_autoStatus = ManualStatus;
-		log(L_DEBUG, "Set manual to %X (auto away)", ManualStatus);
+        log(L_DEBUG, "Set manual to %X (auto away)", ManualStatus);
         ManualStatus = ICQ_STATUS_AWAY;
         realSetStatus();
         return;
@@ -1936,7 +1946,7 @@ void MainWindow::setStatus(int status)
 
 void MainWindow::realSetStatus()
 {
-	log(L_DEBUG, "Real set status %X", ManualStatus);
+    log(L_DEBUG, "Real set status %X", ManualStatus);
     pClient->setStatus(ManualStatus);
 }
 
@@ -2569,21 +2579,21 @@ void MainWindow::exec(const char *prg, const char *arg)
 
 void MainWindow::playSound(const char *wav)
 {
-    if ((wav == NULL) || (*wav == 0) || pSplash->SoundDisable) return;
+    if ((wav == NULL) || (*wav == 0) || pSplash->getSoundDisable()) return;
     wav = sound(wav);
 #ifdef WIN32
     sndPlaySoundA(wav, SND_ASYNC | SND_NODEFAULT);
 #else
 #ifdef USE_KDE
-    if (pSplash->UseArts){
+    if (pSplash->getUseArts()){
         KAudioPlayer::play(wav);
         return;
     }
 #endif
-    if (*(pSplash->SoundPlayer.c_str()) == 0) return;
+    if (*(pSplash->getSoundPlayer()) == 0) return;
 
     const char *arglist[3];
-    arglist[0] = pSplash->SoundPlayer.c_str();
+    arglist[0] = pSplash->getSoundPlayer();
     arglist[1] = wav;
     arglist[2] = NULL;
 
@@ -2929,7 +2939,7 @@ void MainWindow::initTranslator()
     if (translator)
         qApp->removeTranslator(translator);
     translator = NULL;
-    string lang = pSplash->Language;
+    string lang = pSplash->getLanguage();
     if (*lang.c_str() == '-') return;
     if (lang.size() == 0){
 #ifdef WIN32

@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sat Mar 16 2002
     copyright            : (C) 2002 by Vladimir Shutoff
-    email                : shutoff@mail.ru
+    email                : vovan.ru
  ***************************************************************************/
 
 /***************************************************************************
@@ -131,7 +131,7 @@ UserBox::UserBox(unsigned long grpId)
                      )
 {
 
-    SET_WNDPROC
+    SET_WNDPROC("userbox")
     ::init(this, UserBox_Params);
     ToolbarDock = pMain->UserBoxToolbarDock;
     ToolbarOffset = pMain->UserBoxToolbarOffset;
@@ -200,16 +200,6 @@ UserBox::UserBox(unsigned long grpId)
     connect(pMain, SIGNAL(modeChanged(bool)), this, SLOT(modeChanged(bool)));
     QAccel *accel = new QAccel(this);
     connect(accel, SIGNAL(activated(int)), this, SLOT(accelActivated(int)));
-    accel->insertItem(Key_1 + ALT, mnuWindow + 1);
-    accel->insertItem(Key_2 + ALT, mnuWindow + 2);
-    accel->insertItem(Key_3 + ALT, mnuWindow + 3);
-    accel->insertItem(Key_4 + ALT, mnuWindow + 4);
-    accel->insertItem(Key_5 + ALT, mnuWindow + 5);
-    accel->insertItem(Key_6 + ALT, mnuWindow + 6);
-    accel->insertItem(Key_7 + ALT, mnuWindow + 7);
-    accel->insertItem(Key_8 + ALT, mnuWindow + 8);
-    accel->insertItem(Key_9 + ALT, mnuWindow + 9);
-    accel->insertItem(Key_0 + ALT, mnuWindow + 10);
     accel->insertItem(Key_Left + ALT, mnuWindow + 11);
     accel->insertItem(Key_Right + ALT, mnuWindow + 12);
     accel->insertItem(ACCEL(ICQ_MSGxMSG), mnuMessage);

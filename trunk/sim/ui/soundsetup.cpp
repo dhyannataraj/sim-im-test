@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sun Mar 24 2002
     copyright            : (C) 2002 by Vladimir Shutoff
-    email                : shutoff@mail.ru
+    email                : vovan.ru
  ***************************************************************************/
 
 /***************************************************************************
@@ -32,8 +32,8 @@
 SoundSetup::SoundSetup(QWidget *p, bool bUser)
         : SoundSetupBase(p)
 {
-    chkDisable->setChecked(pSplash->SoundDisable);
-    disableToggled(pSplash->SoundDisable);
+    chkDisable->setChecked(pSplash->getSoundDisable());
+    disableToggled(pSplash->getSoundDisable());
 #ifdef WIN32
     tabWnd->setCurrentPage(1);
     tabWnd->removePage(tabWnd->currentPage());
@@ -51,9 +51,9 @@ SoundSetup::SoundSetup(QWidget *p, bool bUser)
         connect(chkDisable, SIGNAL(toggled(bool)), this, SLOT(disableToggled(bool)));
         chkOverride->hide();
 #ifdef USE_KDE
-        chkArts->setChecked(pSplash->UseArts);
+        chkArts->setChecked(pSplash->getUseArts());
         connect(chkArts, SIGNAL(toggled(bool)), this, SLOT(artsToggled(bool)));
-        artsToggled(pSplash->UseArts);
+        artsToggled(pSplash->getUseArts());
 #else
         chkArts->hide();
 #endif
@@ -73,8 +73,8 @@ void SoundSetup::load(ICQUser *_u)
     edtFile->setText(QString::fromLocal8Bit(pMain->sound(u->IncomingFile.c_str())));
     edtChat->setText(QString::fromLocal8Bit(pMain->sound(u->IncomingChat.c_str())));
     edtFileDone->setText(QString::fromLocal8Bit(pMain->sound(pClient->FileDone.c_str())));
-    edtStartup->setText(QString::fromLocal8Bit(pMain->sound(pSplash->StartupSound.c_str())));
-    edtProgram->setText(QString::fromLocal8Bit(pSplash->SoundPlayer.c_str()));
+    edtStartup->setText(QString::fromLocal8Bit(pMain->sound(pSplash->getStartupSound())));
+    edtProgram->setText(QString::fromLocal8Bit(pSplash->getSoundPlayer()));
     overrideToggled((u == pClient->owner) ? true : chkOverride->isChecked());
 }
 
@@ -144,12 +144,12 @@ void SoundSetup::save(ICQUser *_u)
     u->IncomingFile = sound(edtFile);
     u->IncomingChat = sound(edtChat);
     pClient->FileDone = sound(edtFileDone);
-    pSplash->StartupSound = sound(edtStartup);
-    pSplash->SoundDisable = chkDisable->isChecked();
+    pSplash->setStartupSound(sound(edtStartup).c_str());
+    pSplash->setSoundDisable(chkDisable->isChecked());
     u->OnlineAlert = sound(edtAlert);
-    set(pSplash->SoundPlayer, edtProgram->text());
+    set(pSplash->_SoundPlayer(), edtProgram->text());
 #ifdef USE_KDE
-    pSplash->UseArts = chkArts->isChecked();
+    pSplash->setUseArts(chkArts->isChecked());
 #endif
 }
 

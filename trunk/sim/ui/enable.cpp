@@ -103,6 +103,11 @@ void set(string &s, const QString &str)
     s = pClient->to8Bit(pClient->owner->Uin, str);
 }
 
+void set(char **s, const QString &str)
+{
+    set_str(s, pClient->to8Bit(pClient->owner->Uin, str).c_str());
+}
+
 void set(QString &s, const string &str)
 {
     s = pClient->from8Bit(pClient->owner->Uin, str);
@@ -152,16 +157,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 void setWndProc(QWidget *w)
 {
-#ifdef WIN32
     WNDPROC p;
     p = (WNDPROC)SetWindowLongW(w->winId(), GWL_WNDPROC, (LONG)WndProc);
     if (p == 0)
         p = (WNDPROC)SetWindowLongA(w->winId(), GWL_WNDPROC, (LONG)WndProc);
     if (oldWndProc == NULL) oldWndProc = p;
-#endif
 }
-
-#ifdef WIN32
 
 void mySetCaption(QWidget *w, const QString &caption)
 {
@@ -170,6 +171,22 @@ void mySetCaption(QWidget *w, const QString &caption)
     inSetCaption = false;
 }
 
-#endif
+#else
+
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#include <X11/Xatom.h>
+
+void setWndClass(QWidget *w, const char *name)
+{
+    Display *dsp = w->x11Display();
+    WId win = w->winId();
+
+    XClassHint classhint;
+    classhint.res_name  = (char*)"sim";
+    classhint.res_class = (char*)name;
+    XSetClassHint(dsp, win, &classhint);
+}
 
 #endif
+

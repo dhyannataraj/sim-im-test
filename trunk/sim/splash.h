@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
-    email                : shutoff@mail.ru
+    email                : vovan.ru
  ***************************************************************************/
 
 /***************************************************************************
@@ -23,6 +23,20 @@
 
 class QWidget;
 
+typedef struct Splash_Data
+{
+    bool            Show;
+    char*           Picture;
+    bool            UseArts;
+    char*           SoundPlayer;
+    char*           StartupSound;
+    bool            SoundDisable;
+    char*           Language;
+    unsigned long   LastUIN;
+    bool            SavePassword;
+    bool            NoShowLogin;
+} Splash_Data;
+
 class Splash
 {
 public:
@@ -30,17 +44,18 @@ public:
     ~Splash();
     void hide();
     void save();
-    bool			Show;
-    string			Picture;
-    bool			UseArts;
-    string			SoundPlayer;
-    string			StartupSound;
-    bool			SoundDisable;
-    string			Language;
-    unsigned long	LastUIN;
-    bool			SavePassword;
-    bool			NoShowLogin;
+    PROP_BOOL(Show)
+    PROP_STR(Picture)
+    PROP_BOOL(UseArts)
+    PROP_STR(SoundPlayer)
+    PROP_STR(StartupSound)
+    PROP_BOOL(SoundDisable)
+    PROP_STR(Language)
+    PROP_ULONG(LastUIN)
+    PROP_BOOL(SavePassword)
+    PROP_BOOL(NoShowLogin)
 protected:
+    Splash_Data data;
     QWidget	*wnd;
 };
 

@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sun Mar 10 2002
     copyright            : (C) 2002 by Vladimir Shutoff
-    email                : shutoff@mail.ru
+    email                : vovan.ru
 
 Original mgrep.c 
 Copyright (c) 1991 Sun Wu and Udi Manber.  All Rights Reserved.

@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sun Mar 10 2002
     copyright            : (C) 2002 by Vladimir Shutoff
-    email                : shutoff@mail.ru
+    email                : vovan.ru
  ***************************************************************************/
 
 /***************************************************************************
@@ -353,6 +353,9 @@ public:
     bool isDock();
     void saveContacts();
     void changeBackground();
+
+    void reset();
+    bool isLoad();
 signals:
     void searchChanged();
     void modeChanged(bool);

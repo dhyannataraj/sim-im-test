@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
-    email                : shutoff@mail.ru
+    email                : vovan.ru
  ***************************************************************************/
 
 /***************************************************************************
@@ -57,11 +57,11 @@ LoginDialog::LoginDialog()
     QSize s = sizeHint();
     QWidget *desktop = QApplication::desktop();
     move((desktop->width() - s.width()) / 2, (desktop->height() - s.height()) / 2);
-    chkSave->setChecked(pSplash->SavePassword);
-    chkNoShow->setChecked(pSplash->NoShowLogin);
+    chkSave->setChecked(pSplash->getSavePassword());
+    chkNoShow->setChecked(pSplash->getNoShowLogin());
     uinChanged("");
     bPswdChanged = true;
-    if (pSplash->SavePassword){
+    if (pSplash->getSavePassword()){
         unsigned long uin = cmbUIN->lineEdit()->text().toULong();
         if (uin){
             pClient->load(uin);
@@ -85,7 +85,7 @@ void LoginDialog::loadUins()
     int id = 2;
     for (list<unsigned long>::iterator it = uins.begin(); it != uins.end(); ++it, ++id){
         cmbUIN->insertItem(QString::number(*it));
-        if ((*it) == pSplash->LastUIN) cmbUIN->setCurrentItem(id);
+        if ((*it) == pSplash->getLastUIN()) cmbUIN->setCurrentItem(id);
     }
 }
 
@@ -122,6 +122,7 @@ void LoginDialog::saveChanged(bool)
 
 void LoginDialog::login()
 {
+	pMain->reset();
     unsigned long uin = cmbUIN->lineEdit()->text().toULong();
     pClient->load(uin);
     if (uin){
@@ -133,9 +134,9 @@ void LoginDialog::login()
                 bOk = true;
         }
         if (bOk){
-            pSplash->LastUIN = pClient->owner->Uin;
-            pSplash->SavePassword = chkSave->isChecked();
-            pSplash->NoShowLogin = chkNoShow->isChecked();
+            pSplash->setLastUIN(pClient->owner->Uin);
+            pSplash->setSavePassword(chkSave->isChecked());
+            pSplash->setNoShowLogin(chkNoShow->isChecked());
             pSplash->save();
             if (!pMain->init()){
                 BalloonMsg::message(i18n("Can't initialize main window"), btnLogin);
@@ -167,6 +168,7 @@ void LoginDialog::closeEvent(QCloseEvent *e)
 {
     if (!bLogin){
         if (bCloseMain){
+		if (!pMain->isLoad())
             pMain->quit();
         }else{
             QTimer::singleShot(0, pMain, SLOT(deleteLogin()));
@@ -200,9 +202,9 @@ void LoginDialog::processEvent(ICQEvent *e)
         if (pClient->isLogged()){
             bLogin = false;
             pClient->DecryptedPassword = "";
-            pSplash->LastUIN = pClient->owner->Uin;
-            pSplash->SavePassword = chkSave->isChecked();
-            pSplash->NoShowLogin = chkNoShow->isChecked();
+            pSplash->setLastUIN(pClient->owner->Uin);
+            pSplash->setSavePassword(chkSave->isChecked());
+            pSplash->setNoShowLogin(chkNoShow->isChecked());
             pSplash->save();
             if (!pMain->init()){
                 BalloonMsg::message(i18n("Can't initialize main window"), btnLogin);
@@ -246,6 +248,7 @@ void LoginDialog::processEvent(ICQEvent *e)
 
 void LoginDialog::proxySetup()
 {
+	pMain->reset();
     pClient->load(cmbUIN->lineEdit()->text().toULong());
     ProxyDialog d(this);
     d.exec();

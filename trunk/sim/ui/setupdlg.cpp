@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
-    email                : shutoff@mail.ru
+    email                : vovan.ru
  ***************************************************************************/
 
 /***************************************************************************
@@ -87,7 +87,7 @@ static QWidget *p_MsgDialog(QWidget *p, unsigned param) { return new MsgDialog(p
 SetupDialog::SetupDialog(QWidget*, int nWin)
         : SetupDialogBase(NULL, "setup", false, WStyle_Minimize )
 {
-    SET_WNDPROC
+    SET_WNDPROC("setup")
 
     setButtonsPict(this);
 

@@ -51,7 +51,6 @@
             </property>
             <property>
                 <name>pixmap</name>
-                <pixmap></pixmap>
             </property>
         </item>
             <property stdset="1">
@@ -211,7 +210,6 @@
             <hordata>7</hordata>
             <verdata>7</verdata>
         </sizepolicy>
-        <pixmap>image1</pixmap>
     </customwidget>
 </customwidgets>
 <tabstops>

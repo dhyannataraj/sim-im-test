@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sun Mar 10 2002
     copyright            : (C) 2002 by Vladimir Shutoff
-    email                : shutoff@mail.ru
+    email                : vovan.ru
  ***************************************************************************/
 
 /***************************************************************************
@@ -474,7 +474,7 @@ void scanUIN()
             rename(SIM_CONF, prefix);
             rename(HISTORY, prefix);
             rename(INCOMING_FILES, prefix);
-            pSplash->LastUIN = uin;
+            pSplash->setLastUIN(uin);
         }
     }
     QDir d(QString::fromLocal8Bit(buildFileName("").c_str()));
@@ -576,8 +576,8 @@ int main(int argc, char *argv[])
             return 1;
     }
     scanUIN();
-    unsigned startUIN = pSplash->LastUIN;
-    if (!pSplash->SavePassword) startUIN = 0;
+    unsigned startUIN = pSplash->getLastUIN();
+    if (!pSplash->getSavePassword()) startUIN = 0;
     if (startUIN){
         list<unsigned long>::iterator it;
         for (it = uins.begin(); it != uins.end(); ++it)
@@ -589,7 +589,7 @@ int main(int argc, char *argv[])
         pClient->load(startUIN);
         if (pClient->EncryptedPassword.length() == 0) startUIN = 0;
     }
-    if (startUIN && pSplash->NoShowLogin){
+    if (startUIN && pSplash->getNoShowLogin()){
         if (!pMain->init())
             exit(1);
     }else{

@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sun Mar 24 2002
     copyright            : (C) 2002 by Vladimir Shutoff
-    email                : shutoff@mail.ru
+    email                : vovan.ru
  ***************************************************************************/
 
 /***************************************************************************
@@ -39,7 +39,7 @@ SearchDialog::SearchDialog(QWidget*)
         : SearchDlgBase(NULL)
 {
 
-    SET_WNDPROC
+    SET_WNDPROC("search")
 
     setCaption(caption());
     transparent = new TransparentTop(this, pMain->UseTransparentContainer, pMain->TransparentContainer);

@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
-    email                : shutoff@mail.ru
+    email                : vovan.ru
  ***************************************************************************/
 
 /***************************************************************************
@@ -174,7 +174,7 @@ ThemeSetup::ThemeSetup(QWidget *parent)
 #endif
     chkDblClick->setChecked(pMain->UseDoubleClick);
     chkDock->setChecked(pMain->UseDock);
-    chkSplash->setChecked(pSplash->Show);
+    chkSplash->setChecked(pSplash->getShow());
     chkEmotional->setChecked(pMain->UseEmotional);
     chkUserWndOnTop->setChecked(pMain->UserWndOnTop);
     chkSystemColors->setChecked(pMain->UseSystemColors);
@@ -287,7 +287,7 @@ void ThemeSetup::apply(ICQUser*)
         pMain->TransparentContainer = sldTransparentContainer->value();
         pMain->changeTransparent();
     }
-    pSplash->Show = chkSplash->isChecked();
+    pSplash->setShow(chkSplash->isChecked());
     pMain->UseEmotional = chkEmotional->isChecked();
     if (chkUserWndOnTop->isChecked() != pMain->UserWndOnTop){
         pMain->UserWndOnTop = chkUserWndOnTop->isChecked();

@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sun Mar 10 2002
     copyright            : (C) 2002 by Vladimir Shutoff
-    email                : shutoff@mail.ru
+    email                : vovan.ru
  ***************************************************************************/
 
 /***************************************************************************
@@ -34,7 +34,19 @@
 
 using namespace std;
 
+const char *empty_str = "";
+
 typedef void *paramProc(void*);
+
+void set_str(char **p, const char *str)
+{
+    if (*p){
+        free(*p);
+        *p = NULL;
+    }
+    if (str && *str)
+        *p = strdup(str);
+}
 
 void init(void *_obj, const cfgParam *params)
 {
@@ -70,6 +82,10 @@ void init(void *_obj, const cfgParam *params)
                 *s = (const char*)(p->defValue);
             }
             break;
+        case PARAM_CHARS:
+	    *((char**)(obj + p->offs)) = NULL;
+            set_str((char**)(obj + p->offs), (const char*)(p->defValue));
+            break;
         case PARAM_BOOL:
             *((bool*)(obj + p->offs)) = (bool)p->defValue;
             break;
@@ -89,6 +105,28 @@ void init(void *_obj, const cfgParam *params)
         }
     }
 }
+
+void free(void *_obj, const cfgParam *params)
+{
+    const cfgParam *p;
+    paramProc *proc;
+    char *obj = (char*)_obj;
+    for (p = params; p->type; p++){
+        switch (p->type){
+        case PARAM_PROC:
+            proc = (paramProc*)(p->offs);
+            free(proc(obj), (cfgParam*)(p->defValue));
+            break;
+        case PARAM_OFFS:
+            free(obj + p->offs, (cfgParam*)(p->defValue));
+            break;
+	case PARAM_CHARS:
+	    set_str((char**)(obj + p->offs), NULL);
+	    break;
+        }
+    }
+}
+
 
 static char toHex(char c)
 {
@@ -115,6 +153,7 @@ void writeStr(QFile &f, const char *str)
 void save(void *_obj, const cfgParam *params, QFile &out, DICT &dict)
 {
     char *obj = (char*)(_obj);
+    char **p_str;
     const cfgParam *p;
     paramProc *proc;
     for (p = params; p->type; p++){
@@ -167,6 +206,19 @@ void save(void *_obj, const cfgParam *params, QFile &out, DICT &dict)
                 if (strcmp(s->c_str(), v.c_str())){
                     value = *s;
                     writeEmpty = true;
+                }
+                break;
+            case PARAM_CHARS:
+                p_str = (char**)(obj + p->offs);
+                if (*p_str){
+                    if ((p->defValue == 0) ||
+                            strcmp(*p_str, (const char*)(p->defValue)))
+                        value = *p_str;
+                }else{
+                    if (p->defValue){
+                        value = "";
+                        writeEmpty = true;
+                    }
                 }
                 break;
             case PARAM_BOOL:
@@ -299,6 +351,9 @@ bool loadParam(void *_obj, const cfgParam *params, const char *name, const char 
                     case PARAM_SHORT:
                         *((short*)(obj + p->offs)) = atoi(value);
                         return true;
+                    case PARAM_CHARS:
+                        set_str((char**)(obj + p->offs), value);
+                        return true;
                     case PARAM_STRING:
                     case PARAM_I18N:
                         s = (string*)(obj + p->offs);
@@ -332,6 +387,7 @@ bool loadParam(void *_obj, const cfgParam *params, const char *name, const char 
                     case PARAM_STRING:
                     case PARAM_BOOL:
                     case PARAM_ULONGS:
+                    case PARAM_CHARS:
                     case PARAM_CHAR:
                         break;
                     default:

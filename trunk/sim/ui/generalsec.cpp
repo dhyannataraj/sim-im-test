@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sun Mar 24 2002
     copyright            : (C) 2002 by Vladimir Shutoff
-    email                : shutoff@mail.ru
+    email                : vovan.ru
  ***************************************************************************/
 
 /***************************************************************************
@@ -46,8 +46,8 @@ GeneralSecurity::GeneralSecurity(QWidget *p)
     chkRejectWeb->setChecked(pClient->RejectWeb);
     chkRejectEmail->setChecked(pClient->RejectEmail);
     chkRejectOther->setChecked(pClient->RejectOther);
-    chkSave->setChecked(pSplash->SavePassword);
-    chkNoShow->setChecked(pSplash->NoShowLogin);
+    chkSave->setChecked(pSplash->getSavePassword());
+    chkNoShow->setChecked(pSplash->getNoShowLogin());
     edtFilter->setText(QString::fromLocal8Bit(pClient->RejectFilter.c_str()));
     grpDirect->setButton(pClient->DirectMode);
     rejectToggled(chkRejectMsg->isChecked());
@@ -74,8 +74,8 @@ void GeneralSecurity::apply(ICQUser*)
     QWidget *errWidget = NULL;
     if (edtCurrent->text().isEmpty()){
         if (!edtPasswd1->text().isEmpty() || !edtPasswd2->text().isEmpty() ||
-                (chkSave->isChecked() != pSplash->SavePassword) ||
-                (chkNoShow->isChecked() != pSplash->NoShowLogin)){
+                (chkSave->isChecked() != pSplash->getSavePassword()) ||
+                (chkNoShow->isChecked() != pSplash->getNoShowLogin())){
             err = i18n("Input current password");
             errWidget = edtCurrent;
         }
@@ -99,8 +99,8 @@ void GeneralSecurity::apply(ICQUser*)
     }
     if (!edtPasswd1->text().isEmpty())
         pClient->setPassword(edtPasswd1->text().local8Bit());
-    pSplash->SavePassword = chkSave->isChecked();
-    pSplash->NoShowLogin = chkNoShow->isChecked();
+    pSplash->setSavePassword(chkSave->isChecked());
+    pSplash->setNoShowLogin(chkNoShow->isChecked());
     pSplash->save();
 }
 

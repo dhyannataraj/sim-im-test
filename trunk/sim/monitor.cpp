@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sun Mar 24 2002
     copyright            : (C) 2002 by Vladimir Shutoff
-    email                : shutoff@mail.ru
+    email                : vovan.ru
  ***************************************************************************/
 
 /***************************************************************************
@@ -55,7 +55,7 @@ static void logMonitor(unsigned short l, const char *s)
 MonitorWindow::MonitorWindow()
         : QMainWindow(NULL, "monitor", WType_TopLevel | WDestructiveClose)
 {
-    SET_WNDPROC
+    SET_WNDPROC("monitor")
     setCaption(i18n("Network monitor"));
     setIcon(Pict("network"));
     edit = new QMultiLineEdit(this);

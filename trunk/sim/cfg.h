@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sun Mar 10 2002
     copyright            : (C) 2002 by Vladimir Shutoff
-    email                : shutoff@mail.ru
+    email                : vovan.ru
  ***************************************************************************/
 
 /***************************************************************************
@@ -68,17 +68,19 @@ typedef struct cfgParam
 const unsigned PARAM_ULONG	 = 1;
 const unsigned PARAM_USHORT	 = 2;
 const unsigned PARAM_SHORT	 = 3;
-const unsigned PARAM_STRING	 = 4;
+const unsigned PARAM_CHARS	 = 4;
 const unsigned PARAM_BOOL	 = 5;
 const unsigned PARAM_I18N	 = 6;
 const unsigned PARAM_ULONGS	 = 7;
 const unsigned PARAM_CHAR	 = 8;
 const unsigned PARAM_OFFS	 = 9;
 const unsigned PARAM_PROC	 = 10;
+const unsigned PARAM_STRING	 = 11;
 
 class QFile;
 
 void init(void *obj, const cfgParam *params);
+void free(void *obj, const cfgParam *params);
 void save(void *obj, const cfgParam *params, QFile &f);
 bool load(void *obj, const cfgParam *params, QFile &f, string &nextPart);
 string quoteString(const string &value);
@@ -86,6 +88,21 @@ string quoteString(const string &value);
 void writeStr(QFile &f, const char *str);
 bool getLine(QFile &f, string &s);
 extern unsigned long line_start;
+extern const char *empty_str;
+void set_str(char **a, const char *r);
+
+#define PROP_BOOL(A)								\
+	bool get##A() { return data.A; }					\
+	void set##A(bool r) { data.A = r; }
+
+#define PROP_ULONG(A)                                                           \
+	unsigned long get##A() { return data.A; }                               \
+	void set##A(unsigned long r) { data.A = r; }
+
+#define PROP_STR(A)                                                             \
+	const char *get##A() { return data.A ? data.A : empty_str; }            \
+	void set##A(const char *r) { ::set_str(&data.A, r); }			\
+	char **_##A() { return &data.A; }
 
 #define OFFSET_OF(type, field)                                               \
             (reinterpret_cast <size_t>                                       \

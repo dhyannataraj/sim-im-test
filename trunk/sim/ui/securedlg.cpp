@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sun Mar 24 2002
     copyright            : (C) 2002 by Vladimir Shutoff
-    email                : shutoff@mail.ru
+    email                : vovan.ru
  ***************************************************************************/
 
 /***************************************************************************
@@ -28,7 +28,7 @@
 SecureDlg::SecureDlg(QWidget *parent, unsigned long uin)
         : SecureDlgBase(parent, "sceuredlg", false, WDestructiveClose)
 {
-    SET_WNDPROC
+    SET_WNDPROC("secure")
     setButtonsPict(this);
     Uin = uin;
     CUser user(Uin);
