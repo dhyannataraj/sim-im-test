@@ -151,7 +151,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             return 0;
         return DefWindowProc(hWnd, msg, wParam, lParam);
     }
-    if ((msg == WM_ENDSESSION) && pMain) pMain->saveState();
     return oldWndProc(hWnd, msg, wParam, lParam);
 }
 

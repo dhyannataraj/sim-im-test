@@ -202,7 +202,7 @@ public:
     void parseAdvancedMessage(unsigned long uin, Buffer &msg, bool needAck, unsigned long t1, unsigned long t2);
     ICQMessage *parseMessage(unsigned short type, unsigned long uin, string &p, Buffer &b,
                              unsigned short cookie1, unsigned short cookie2, unsigned long timestamp1, unsigned long timestamp2);
-    bool parseMessageText(const char *packet, string &msg, ICQUser *u);
+    bool parseMessageText(const string &packet, string &msg, ICQUser *u);
     bool parseFE(const char *str, vector<string> &l, unsigned n);
 
     unsigned m_nPacketStart;

@@ -332,7 +332,7 @@ ICQMessage *ICQClientPrivate::parseMessage(unsigned short type, unsigned long ui
             }
             ICQUrl *msg = new ICQUrl;
             msg->Uin.push_back(uin);
-            parseMessageText(l[0].c_str(), msg->Message, u);
+            parseMessageText(l[0], msg->Message, u);
             msg->URL = l[1];
             return msg;
         }
@@ -348,7 +348,7 @@ ICQMessage *ICQClientPrivate::parseMessage(unsigned short type, unsigned long ui
             }
             ICQAuthRequest *msg = new ICQAuthRequest;
             msg->Uin.push_back(uin);
-            parseMessageText(l[4].c_str(), msg->Message, u);
+            parseMessageText(l[4], msg->Message, u);
             return msg;
         }
     case ICQ_MSGxAUTHxGRANTED:{
@@ -367,7 +367,7 @@ ICQMessage *ICQClientPrivate::parseMessage(unsigned short type, unsigned long ui
             }
             ICQAuthRefused *msg = new ICQAuthRefused;
             msg->Uin.push_back(uin);
-            parseMessageText(p.c_str(), msg->Message, u);
+            parseMessageText(p, msg->Message, u);
             return msg;
         }
     case ICQ_MSGxADDEDxTOxLIST:{
@@ -610,13 +610,13 @@ ICQMessage *ICQClientPrivate::parseMessage(unsigned short type, unsigned long ui
                         }
                         ICQSMS *m = new ICQSMS;
                         m->Charset = "utf-8";
-                        m->Message = text->getValue();
                         XmlLeaf *sender = sms_message->getLeaf("sender");
                         if (sender != NULL) m->Phone = sender->getValue();
+                        unsigned long uin = client->contacts.findByPhone(m->Phone);
                         XmlLeaf *senders_network = sms_message->getLeaf("senders_network");
                         if (senders_network != NULL) m->Network = senders_network->getValue();
-
-                        m->Uin.push_back(client->contacts.findByPhone(m->Phone));
+                        parseMessageText(text->getValue(), m->Message, client->getUser(uin, true));
+                        m->Uin.push_back(uin);
                         return m;
                     }
                 case ICQ_SMS_SUCCESS:
@@ -663,15 +663,27 @@ ICQMessage *ICQClientPrivate::parseMessage(unsigned short type, unsigned long ui
     return NULL;
 }
 
-bool ICQClientPrivate::parseMessageText(const char *p, string &s, ICQUser *u)
+bool ICQClientPrivate::parseMessageText(const string &p, string &s, ICQUser *u)
 {
-    if ((strlen(p) >= 5) && !memcmp(p, "{\\rtf", 5)){
-        string r(p);
+    if ((p.length() >= 5) && !memcmp(p.c_str(), "{\\rtf", 5)){
+        string r = p;
         client->fromServer(r, u);
         s = parseRTF(r.c_str(), u);
         return true;
     }
-    s = ICQClient::quoteText(p);
+    if ((unsigned char)(p[0]) < ' '){
+        unsigned size = p.length();
+        s = "";
+        unsigned char *d = (unsigned char*)(p.c_str());
+        while(size > 1){
+            utf16to8((d[0] << 8) + d[1], s);
+            d += 2;
+            size -= 2;
+        }
+        s = ICQClient::quoteText(s.c_str());
+        return true;
+    }
+    s = ICQClient::quoteText(p.c_str());
     client->fromServer(s, u);
     return false;
 }
@@ -962,6 +974,18 @@ bool ICQClient::cancelMessage(ICQMessage *m, bool bSendCancel)
             if (bSendCancel && (m->Type() == ICQ_MSGxFILE))
                 p->cancelSendFile(static_cast<ICQFile*>(m));
             p->processQueue.remove(e);
+            e->state = ICQEvent::Fail;
+            m->bDelete = true;
+            process_event(e);
+            if (m->bDelete) delete m;
+            delete e;
+            return true;
+        }
+    }
+    for (it = p->varEvents.begin(); it != p->varEvents.end(); it++){
+        if ((*it)->message() == m){
+            ICQEvent *e = *it;
+            p->varEvents.remove(e);
             e->state = ICQEvent::Fail;
             m->bDelete = true;
             process_event(e);

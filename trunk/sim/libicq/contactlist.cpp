@@ -760,6 +760,9 @@ string ICQUser::client()
             if ((v1 | v2 | v3 | v4) & 0x80)
                 v1 = v2 = v3 = v4 = 0;
             break;
+        case 0xffffffbeL:
+            res = "alicq";
+            break;
         case 0xffffff7fL:
             res = "&RQ";
             break;
@@ -776,6 +779,10 @@ string ICQUser::client()
     else if ((id == 0x3b75ac09) && (id2 == 0x3bae70b6) && (id3 == 0x3b744adb))
     {
         res = "Trillian";
+    }
+    else if ((id == 0x3aa773ee) && (id2 == 0x3aa66380) && (id3 == 0x3a877a42))
+    {
+        res = "libicq2000";
     }
     else if ((id == id2) && (id2 == id3) && (id == 0xffffffff))
         res = "vICQ/GAIM(?)";

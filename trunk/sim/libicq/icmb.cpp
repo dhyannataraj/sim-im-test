@@ -228,7 +228,7 @@ void ICQClientPrivate::snac_message(unsigned short type, unsigned short)
                     client->fromServer(l[3], client->owner);
                     m->Name = l[0];
                     m->Email = l[3];
-                    parseMessageText(l[5].c_str(), m->Message, client->owner);
+                    parseMessageText(l[5], m->Message, client->owner);
                     m->Uin.push_back(client->contacts.findByEmail(m->Name, m->Email));
                     messageReceived(m);
                 }else{
@@ -237,7 +237,7 @@ void ICQClientPrivate::snac_message(unsigned short type, unsigned short)
                     client->fromServer(l[3], client->owner);
                     m->Name = l[0];
                     m->Email = l[3];
-                    parseMessageText(l[5].c_str(), m->Message, client->owner);
+                    parseMessageText(l[5], m->Message, client->owner);
                     m->Uin.push_back(client->contacts.findByEmail(m->Name, m->Email));
                     messageReceived(m);
                 }
@@ -270,16 +270,13 @@ void ICQClientPrivate::snac_message(unsigned short type, unsigned short)
                     m->Uin.push_back(uin);
                     m->Received = true;
                     char *m_data = (*m_tlv);
-                    if (m_data[1] == 2){
-                        // UTF-8 message from icq2go
-                        m_data += 4;
-                        for (unsigned n = 4; (int)n < m_tlv->Size() - 1; n += 2, m_data += 2){
-                            utf16to8((m_data[0] << 8) + m_data[1], m->Message);
-                        }
-                        m->Charset = "utf-8";
-                    }else{
-                        parseMessageText(m_data + 4, m->Message, u);
+                    string packet;
+                    if (m_tlv->Size() > 4){
+                        packet.append(m_tlv->Size() - 4, '\x00');
+                        memcpy((char*)(packet.c_str()), m_data + 4, m_tlv->Size() - 4);
                     }
+                    if (parseMessageText(packet, m->Message, u))
+                        m->Charset = "utf-8";
                     messageReceived(m);
                     break;
                 }

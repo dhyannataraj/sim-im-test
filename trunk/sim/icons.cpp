@@ -511,13 +511,13 @@ static QPixmap setGB(const QPixmap &p)
     int pixels = (image.depth() > 8) ? image.width()*image.height() :
                  image.numColors();
     for (int i = 0; i < pixels; i++){
-        int r = qRed(data[i]);
-        int g = qGreen(data[i]);
-        int b = qBlue(data[i]);
+        QColor c(qRed(data[i]), qGreen(data[i]), qBlue(data[i]));
         int a = qAlpha(data[i]);
-        int n = (3 * r + 2 * g + 2 * b) / 3;
-        if (n > 255) n = 255;
-        data[i] = qRgba((n + r) / 2, (n + g) / 2, (n * 3 + 2 * b) / 4, a);
+        int h, s, v;
+        c.hsv(&h, &s, &v);
+        s = s / 8;
+        c.setHsv(h, s, v);
+        data[i] = qRgba(c.red(), c.green(), c.blue(), a);
     }
     QPixmap pict;
     pict.convertFromImage(image);

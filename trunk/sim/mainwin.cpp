@@ -589,6 +589,9 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         lastTop    = prc->top;
         lastHeight = prc->bottom - prc->top;
         return 1;
+    case WM_ENDSESSION:
+        if (pMain) pMain->saveState();
+        break;
     }
     return WndProc(hWnd, msg, wParam, lParam);
 }

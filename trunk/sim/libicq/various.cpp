@@ -102,12 +102,19 @@ void ICQClientPrivate::snac_various(unsigned short type, unsigned short)
                     msg.unpack(type);
                     msg.unpack(flag);
                     msg.unpack(message);
+#ifndef HAVE_TM_GMTOFF
+                    sendTM.tm_sec  = -_timezone;
+#else
+                    time_t now = time (NULL);
+                    sendTM = *localtime (&now);
+                    sendTM.tm_sec  = -sendTM.tm_gmtoff;
+#endif
                     sendTM.tm_year = year-1900;
                     sendTM.tm_mon  = month-1;
                     sendTM.tm_mday = day;
                     sendTM.tm_hour = hours;
                     sendTM.tm_min  = min;
-                    sendTM.tm_sec  = 0;
+                    sendTM.tm_isdst = -1;
                     time_t send_time = mktime(&sendTM);
                     log(L_DEBUG, "Offline message %u [%08lX] %02X %02X %s", uin, uin, type & 0xFF, flag  & 0xFF, message.c_str());
                     ICQMessage *m = parseMessage(type, uin, message, msg, 0, 0, 0, 0);
