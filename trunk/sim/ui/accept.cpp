@@ -36,9 +36,11 @@ AcceptDialog::AcceptDialog(QWidget *p, bool _bReadOnly)
     connect(grpAccept, SIGNAL(clicked(int)), this, SLOT(modeChanged(int)));
     if (bReadOnly){
         connect(chkOverride, SIGNAL(toggled(bool)), this, SLOT(overrideChanged(bool)));
+		connect(chkOverrideMsg, SIGNAL(toggled(bool)), this, SLOT(overrideMsgChanged(bool)));
         return;
     }
     chkOverride->hide();
+	chkOverrideMsg->hide();
     edtPath->setDirMode(true);
     load(pClient->owner);
 }
@@ -54,7 +56,9 @@ void AcceptDialog::load(ICQUser *_u)
             u = static_cast<SIMUser*>(pClient->owner);
         }
         overrideChanged(chkOverride->isChecked());
+		overrideMsgChanged(chkOverrideMsg->isChecked());
     }
+	chkWindow->setChecked(u->AcceptMsgWindow);
     string path = u->AcceptFilePath.c_str();
     if (*(path.c_str()) == 0){
 #ifdef _WINDOWS
@@ -78,27 +82,47 @@ void AcceptDialog::load(ICQUser *_u)
         break;
     }
     chkOverwrite->setChecked(u->AcceptFileOverwrite);
+	chkProgram->setChecked(u->ProgMessageOn);
+	edtProgram->setText(QString::fromLocal8Bit(u->ProgMessage.c_str()));
     modeChanged(0);
 }
 
 void AcceptDialog::save(ICQUser *_u)
 {
     SIMUser *u = static_cast<SIMUser*>(_u);
+	bool bSave = true;
     if (bReadOnly){
         if (!chkOverride->isChecked()){
             u->AcceptFileOverride = false;
-            return;
-        }
-        u->AcceptFileOverride = true;
+			bSave = false;
+        }else{
+			u->AcceptFileOverride = true;
+		}
     }
-    u->AcceptFileOverwrite = chkOverwrite->isChecked();
-    set(u->AcceptFilePath, edtPath->text());
-    unsigned short id = 0;
-    QButton *w = grpAccept->selected();
-    if (w == btnAccept) id = 1;
-    if (w == btnDecline) id = 2;
-    u->AcceptFileMode = id;
-    set(u->DeclineFileMessage, edtDecline->text());
+	if (bSave){
+		u->AcceptFileOverwrite = chkOverwrite->isChecked();
+		set(u->AcceptFilePath, edtPath->text());
+		unsigned short id = 0;
+		QButton *w = grpAccept->selected();
+		if (w == btnAccept) id = 1;
+		if (w == btnDecline) id = 2;
+		u->AcceptFileMode = id;
+		set(u->DeclineFileMessage, edtDecline->text());
+	}
+	bSave = true;
+    if (bReadOnly){
+        if (!chkOverride->isChecked()){
+            u->ProgOverride = false;
+			bSave = false;
+        }else{
+			u->ProgOverride = true;
+		}
+    }
+	if (bSave){
+		u->ProgMessageOn = chkProgram->isChecked();
+		set(u->ProgMessage, edtProgram->text());
+	}
+	u->AcceptMsgWindow = chkWindow->isChecked();
 }
 
 void AcceptDialog::apply(ICQUser*)
@@ -112,6 +136,13 @@ void AcceptDialog::overrideChanged(bool)
     grpAccept->setEnabled(isEnable);
     edtPath->setEnabled(isEnable);
     lblPath->setEnabled(isEnable);
+}
+
+void AcceptDialog::overrideMsgChanged(bool)
+{
+	bool isEnable = chkOverrideMsg->isChecked();
+	chkProgram->setEnabled(isEnable);
+	edtProgram->setEnabled(isEnable);
 }
 
 void AcceptDialog::modeChanged(int)

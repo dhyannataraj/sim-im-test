@@ -66,7 +66,6 @@
 #include <mmsystem.h>
 #include <shlobj.h>
 #include <winreg.h>
-#include "../idle/IdleTracker.h"
 
 typedef struct tagLASTINPUTINFO {
     UINT cbSize;
@@ -672,8 +671,6 @@ MainWindow::MainWindow(const char *name)
     HINSTANCE hLib = GetModuleHandleA("user32");
     if (hLib != NULL)
         (DWORD&)_GetLastInputInfo = (DWORD)GetProcAddress(hLib,"GetLastInputInfo");
-    if (_GetLastInputInfo == NULL)
-        bHookInit = IdleTrackerInit();
 #endif
 #ifdef USE_KDE
     connect(kapp, SIGNAL(iconChanged(int)), this, SLOT(changeIcons(int)));
@@ -791,10 +788,6 @@ MainWindow::~MainWindow()
 #endif
     if (dock) delete dock;
     pMain = NULL;
-#ifdef WIN32
-    if (_GetLastInputInfo == NULL)
-        IdleTrackerTerm();
-#endif
 }
 
 void MainWindow::changeTransparent()
@@ -1184,6 +1177,7 @@ void MainWindow::processEvent(ICQEvent *e)
             userFunction(e->Uin(), mnuAuth, 0);
         return;
     case EVENT_USER_DELETED:{
+			loadUnread();
             UserFloat *floaty = findFloating(e->Uin(), true);
             if (floaty == NULL) return;
             delete floaty;
@@ -1769,10 +1763,6 @@ void MainWindow::autoAway()
 #ifdef WIN32
     unsigned long idle_time = 0;
     if (_GetLastInputInfo == NULL){
-        if (bHookInit){
-            idle_time = (GetTickCount() - IdleTrackerGetLastTickCount()) / 1000;
-            log(L_DEBUG, "Idle: %u %u", idle_time, AutoAwayTime);
-        }else{
             POINT p;
             GetCursorPos(&p);
             time_t now;
@@ -1783,7 +1773,6 @@ void MainWindow::autoAway()
                 lastTime = now;
             }
             idle_time = now - lastTime;
-        }
     }else{
         LASTINPUTINFO lii;
         ZeroMemory(&lii,sizeof(lii));

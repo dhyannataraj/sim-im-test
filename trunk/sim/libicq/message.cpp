@@ -40,7 +40,7 @@ ICQMessage::ICQMessage(unsigned short type)
     Received = false;
     Direct = false;
     m_nType = type;
-    Id = 0;
+    Id = MSG_NEW;
     time_t now;
     time(&now);
     Time = (unsigned long)now;
@@ -1072,8 +1072,9 @@ void ICQClientPrivate::messageReceived(ICQMessage *msg)
     }
     ICQEvent e(EVENT_MESSAGE_RECEIVED, msg->getUin());
     e.msg = msg;
+	msg->bDelete = true;
     client->process_event(&e);
-    delete msg;
+    if (msg->bDelete) delete msg;
 }
 
 void ICQClientPrivate::processMsgQueue()

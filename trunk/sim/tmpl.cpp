@@ -102,7 +102,7 @@ void Tmpl::expand(bool bExt)
             res = save_res;
             if (exec == NULL){
                 exec = new Exec(this);
-                connect(exec, SIGNAL(ready(int, const char*)), this, SLOT(execReady(int, const char*)));
+                connect(exec, SIGNAL(ready(Exec*, int, const char*)), this, SLOT(execReady(Exec*, int, const char*)));
             }
             exec->execute(prg.local8Bit(), NULL);
             return;
@@ -112,7 +112,7 @@ void Tmpl::expand(bool bExt)
     if (bExt) emit ready(this, res);
 }
 
-void Tmpl::execReady(int, const char *result)
+void Tmpl::execReady(Exec*, int, const char *result)
 {
     if (result)
         res += QString::fromLocal8Bit(result);

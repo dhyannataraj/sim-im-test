@@ -24,6 +24,7 @@
 #include "cfg.h"
 #include "log.h"
 #include "tmpl.h"
+#include "exec.h"
 #include "ui/filetransfer.h"
 
 #include <qdns.h>
@@ -97,6 +98,16 @@ encoding encodingTbl[] =
 
         { I18N_NOOP("Ukrainian"), "KOI8-U", 2088, false }
     };
+
+class MsgFilter
+{
+public:
+	MsgFilter(SIMClient *p, ICQMsg *msg, const char *prog);
+	Tmpl tmpl;
+	Exec exec;
+	ICQMsg *msg;
+	bool bDelete;
+};
 
 static void *createEMail()
 {
@@ -654,7 +665,7 @@ void SIMClient::process_event(ICQEvent *e)
                 }
             }else{
                 ICQUser *u = getUser(e->Uin(), true);
-                if (msg->Id == 0){
+                if (msg->Id == MSG_NEW){
                     if (msg->Type() == ICQ_MSGxSMS){
                         ICQSMS *sms = static_cast<ICQSMS*>(msg);
                         if (*pMain->ForwardPhone.c_str() && PhoneInfo::isEqual(sms->Phone.c_str(), pMain->ForwardPhone.c_str())){
@@ -674,12 +685,10 @@ void SIMClient::process_event(ICQEvent *e)
                             }
                         }
                     }
-                    History h(uin);
-                    msg->Id = h.addMessage(msg);
-                    if ((msg->Type() == ICQ_MSGxMSG) &&
-                            ((owner->uStatus & ICQ_STATUS_NA) || (owner->uStatus & ICQ_STATUS_AWAY)) &&
-                            *pMain->ForwardPhone.c_str()){
+                    if (msg->Type() == ICQ_MSGxMSG){
                         ICQMsg *m = static_cast<ICQMsg*>(msg);
+                            if (((owner->uStatus & ICQ_STATUS_NA) || (owner->uStatus & ICQ_STATUS_AWAY)) &&
+                            *pMain->ForwardPhone.c_str()){
                         QString str = pClient->from8Bit(msg->getUin(), m->Message, msg->Charset.c_str());
                         if (!str.isEmpty()){
                             string text(str.utf8());
@@ -699,7 +708,16 @@ void SIMClient::process_event(ICQEvent *e)
                             smsQueue.push_back(sms);
                             sendSMS(sms);
                         }
+						}
+						SIMUser *msgUser = static_cast<SIMUser*>(u);
+						if (!msgUser->ProgOverride) msgUser = static_cast<SIMUser*>(owner);
+						if (msgUser->ProgMessageOn && *msgUser->ProgMessage.c_str()){
+							new MsgFilter(this, m, msgUser->ProgMessage.c_str());
+							return;
+						}
                     }
+                    History h(uin);
+                    msg->Id = h.addMessage(msg);
                 }else{
                     switch (msg->Type()){
                     case ICQ_MSGxFILE:{
@@ -1470,6 +1488,72 @@ void SIMClient::tmpl_clear()
         responses.remove(*it);
         it = responses.begin();
     }
+}
+
+void SIMClient::fltrTmplReady(Tmpl *t, const QString &res)
+{
+	for (list<MsgFilter*>::iterator it = filters.begin(); it != filters.end(); ++it){
+		MsgFilter *f = *it;
+		if (&f->tmpl != t) continue;
+		f->exec.execute(res.local8Bit(), f->msg->Message.c_str());
+		return;
+	}
+	log(L_WARN, "Can't find filter template");
+}
+
+void SIMClient::fltrExecReady(Exec *e, int res, const char *out)
+{
+	for (list<MsgFilter*>::iterator it = filters.begin(); it != filters.end(); ++it){
+		MsgFilter *f = *it;
+		if (&f->exec != e) continue;
+		if (*out == 0){
+			if (res == 0){
+				delete f->msg;
+				f->msg = NULL;
+			}
+		}else{
+			f->msg->Message = out;
+		}
+		if (f->msg){
+			unsigned long uin = f->msg->getUin();
+			ICQUser *u = getUser(uin, true);
+            History h(uin);
+            f->msg->Id = h.addMessage(f->msg);
+            u->unreadMsgs.push_back(f->msg->Id);
+			f->msg->bDelete = true;
+			emit messageReceived(f->msg);
+			if (f->msg->bDelete) delete f->msg;
+		}
+		QTimer::singleShot(50, this, SLOT(fltrDone()));
+		return;
+	}
+	log(L_WARN, "Can't find filter exec");
+}
+
+void SIMClient::fltrDone()
+{
+	for (list<MsgFilter*>::iterator it = filters.begin(); it != filters.end(); ){
+		if (!(*it)->bDelete){
+			++it;
+			continue;
+		}
+		MsgFilter *f = *it;
+		filters.remove(f);
+		delete f;
+		it = filters.begin();
+	}
+}
+
+MsgFilter::MsgFilter(SIMClient *p, ICQMsg *_msg, const char *prog)
+: tmpl(p), exec(p)
+{
+	bDelete = false;
+	msg = _msg;
+	msg->bDelete = false;
+	p->filters.push_back(this);
+	QObject::connect(&tmpl, SIGNAL(ready(Tmpl*, const QString&)), p, SLOT(fltrTmplReady(Tmpl*, const QString&)));
+	QObject::connect(&exec, SIGNAL(ready(Exec*, int, const char*)), p, SLOT(fltrExecReady(Exec*, int, const char*)));
+	tmpl.expand(QString::fromLocal8Bit(prog), msg->getUin());
 }
 
 #ifndef _WINDOWS

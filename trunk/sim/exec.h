@@ -37,7 +37,7 @@ public slots:
     void execute(const char *prog, const char *input);
     void finished();
 signals:
-    void ready(int res, const char *out);
+    void ready(Exec*, int res, const char *out);
 protected slots:
     void childExited(int, int);
     void inReady(int);

@@ -122,7 +122,8 @@ void setButtonsPict(QWidget *w)
         if ((text == i18n("&Ok")) || (text == i18n("&Yes")) ||
                 (text == i18n("&Apply")) || (text == i18n("&Register"))){
             icon = "button_ok";
-        }else if ((text == i18n("&Cancel")) || (text == i18n("&Close"))){
+        }else if ((text == i18n("&Cancel")) || (text == i18n("&Close")) ||
+				(text == i18n("&No"))){
             icon = "button_cancel";
         }
         if (icon == NULL) continue;

@@ -118,6 +118,10 @@ public:
     string				Notes;
 };
 
+class Tmpl;
+class Exec;
+class MsgFilter;
+
 class SIMClient : public QObject, public ICQClient
 {
     Q_OBJECT
@@ -170,9 +174,13 @@ protected slots:
     void tmpl_clear();
     void resolve_ready();
     void timer();
+	void fltrTmplReady(Tmpl*, const QString &res);
+	void fltrExecReady(Exec*, int res, const char *out);
+	void fltrDone();
 protected:
     void getAutoResponse(unsigned long uin, ICQMessage *msg);
     list<autoResponse> responses;
+	list<MsgFilter*> filters;
     void start_resolve();
     virtual bool createFile(ICQFile *f, int mode);
     virtual bool openFile(ICQFile *f);
@@ -184,6 +192,8 @@ protected:
     virtual unsigned long getFileSize(const char *name, int *nSrcFiles, vector<fileName> &files);
     unsigned long getFileSize(QString name, QString base, vector<fileName> &file);
     unsigned long getFileSize(QString name, vector<fileName> &file);
+
+	friend class MsgFilter;
 };
 
 extern SIMClient *pClient;

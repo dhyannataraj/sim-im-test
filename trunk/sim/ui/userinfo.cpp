@@ -88,7 +88,7 @@ UserInfo::UserInfo(QWidget *parent, unsigned long uin, int page)
         itemMain = new QListViewItem(lstBars, i18n("Preferences"), QString::number(SETUP_PREFERENCES));
         itemMain->setOpen(true);
         addWidget(p_AlertDialog, SETUP_ALERT, i18n("Alert"), "alert");
-        addWidget(p_AcceptDialog, SETUP_ACCEPT, i18n("Accept file"), "file");
+        addWidget(p_AcceptDialog, SETUP_ACCEPT, i18n("Accept"), "message");
         addWidget(p_SoundSetup, SETUP_SOUND, i18n("Sound"), "sound");
         addWidget(p_MsgDialog, SETUP_AR_AWAY,
                   SIMClient::getStatusText(ICQ_STATUS_AWAY), SIMClient::getStatusIcon(ICQ_STATUS_AWAY),

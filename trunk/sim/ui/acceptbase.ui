@@ -6,25 +6,25 @@
         <name>name</name>
         <cstring>Accept</cstring>
     </property>
-    <property>
+    <property stdset="1">
         <name>geometry</name>
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>380</width>
+            <width>368</width>
             <height>328</height>
         </rect>
     </property>
-    <property>
+    <property stdset="1">
         <name>caption</name>
         <string>Form1</string>
     </property>
     <vbox>
-        <property>
+        <property stdset="1">
             <name>margin</name>
             <number>11</number>
         </property>
-        <property>
+        <property stdset="1">
             <name>spacing</name>
             <number>6</number>
         </property>
@@ -45,11 +45,11 @@
                     <string>&amp;Message</string>
                 </attribute>
                 <vbox>
-                    <property>
+                    <property stdset="1">
                         <name>margin</name>
                         <number>11</number>
                     </property>
-                    <property>
+                    <property stdset="1">
                         <name>spacing</name>
                         <number>6</number>
                     </property>
@@ -57,20 +57,9 @@
                         <class>QCheckBox</class>
                         <property stdset="1">
                             <name>name</name>
-                            <cstring>chkOverride_2</cstring>
-                        </property>
-                        <property>
-                            <name>text</name>
-                            <string>Override global settings</string>
-                        </property>
-                    </widget>
-                    <widget>
-                        <class>QCheckBox</class>
-                        <property stdset="1">
-                            <name>name</name>
                             <cstring>chkWindow</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Automaitcaly open window</string>
                         </property>
@@ -79,9 +68,20 @@
                         <class>QCheckBox</class>
                         <property stdset="1">
                             <name>name</name>
+                            <cstring>chkOverrideMsg</cstring>
+                        </property>
+                        <property stdset="1">
+                            <name>text</name>
+                            <string>Override global settings</string>
+                        </property>
+                    </widget>
+                    <widget>
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
                             <cstring>chkProgram</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Run external program</string>
                         </property>
@@ -127,11 +127,11 @@
                     <string>&amp;File</string>
                 </attribute>
                 <vbox>
-                    <property>
+                    <property stdset="1">
                         <name>margin</name>
                         <number>11</number>
                     </property>
-                    <property>
+                    <property stdset="1">
                         <name>spacing</name>
                         <number>6</number>
                     </property>
@@ -141,7 +141,7 @@
                             <name>name</name>
                             <cstring>chkOverride</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Override global settings</string>
                         </property>
@@ -152,7 +152,7 @@
                             <name>name</name>
                             <cstring>lblPath</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>text</name>
                             <string>Path for incoming files:</string>
                         </property>
@@ -170,16 +170,16 @@
                             <name>name</name>
                             <cstring>grpAccept</cstring>
                         </property>
-                        <property>
+                        <property stdset="1">
                             <name>title</name>
                             <string>Accept mode</string>
                         </property>
                         <vbox>
-                            <property>
+                            <property stdset="1">
                                 <name>margin</name>
                                 <number>11</number>
                             </property>
-                            <property>
+                            <property stdset="1">
                                 <name>spacing</name>
                                 <number>6</number>
                             </property>
@@ -189,7 +189,7 @@
                                     <name>name</name>
                                     <cstring>btnDialog</cstring>
                                 </property>
-                                <property>
+                                <property stdset="1">
                                     <name>text</name>
                                     <string>Show response</string>
                                 </property>
@@ -200,7 +200,7 @@
                                     <name>name</name>
                                     <cstring>btnAccept</cstring>
                                 </property>
-                                <property>
+                                <property stdset="1">
                                     <name>text</name>
                                     <string>Auto accept</string>
                                 </property>
@@ -211,7 +211,7 @@
                                     <name>name</name>
                                     <cstring>chkOverwrite</cstring>
                                 </property>
-                                <property>
+                                <property stdset="1">
                                     <name>text</name>
                                     <string>Overwrite files</string>
                                 </property>
@@ -222,7 +222,7 @@
                                     <name>name</name>
                                     <cstring>btnDecline</cstring>
                                 </property>
-                                <property>
+                                <property stdset="1">
                                     <name>text</name>
                                     <string>Auto decline</string>
                                 </property>

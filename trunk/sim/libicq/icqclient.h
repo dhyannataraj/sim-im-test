@@ -460,6 +460,7 @@ protected:
 // ________________________________________________________________
 
 const unsigned long MSG_PROCESS_ID	= 0x80000000L;
+const unsigned long MSG_NEW			= 0xFFFFFFFFL;
 
 class ICQMessage
 {

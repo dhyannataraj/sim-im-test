@@ -34,6 +34,7 @@ public slots:
     void apply(ICQUser *u);
 protected slots:
     void overrideChanged(bool);
+	void overrideMsgChanged(bool);
     void modeChanged(int);
 protected:
     bool bReadOnly;

@@ -35,7 +35,7 @@ signals:
     void ready(Tmpl *tmpl, const QString &res);
 protected slots:
     void expand();
-    void execReady(int, const char*);
+    void execReady(Exec*, int, const char*);
 protected:
     Exec *exec;
     unsigned long m_uin;

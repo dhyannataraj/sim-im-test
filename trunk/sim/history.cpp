@@ -264,6 +264,7 @@ unsigned long History::addMessage(ICQMessage *msg)
 
 ICQMessage *History::getMessage(unsigned long offs)
 {
+	if (offs == NULL) return NULL;
     if (offs >= MSG_PROCESS_ID) return pClient->getProcessMessage(offs);
     QFile f;
     if (!open(false, f))

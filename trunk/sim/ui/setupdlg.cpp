@@ -134,7 +134,7 @@ SetupDialog::SetupDialog(QWidget*, int nWin)
     addPage(p_KeySetup, SETUP_KEYS, i18n("Key shortcuts"), "key_bindings");
     addPage(p_SoundSetup, SETUP_SOUND, i18n("Sound"), "sound");
     addPage(p_AlertDialog, SETUP_ALERT, i18n("Alert"), "alert");
-    addPage(p_AcceptDialog, SETUP_ACCEPT, i18n("Accept file"), "file");
+    addPage(p_AcceptDialog, SETUP_ACCEPT, i18n("Accept"), "message");
     addPage(p_SMSSetup, SETUP_SMS, i18n("SMS"), "sms");
 
 #ifndef WIN32

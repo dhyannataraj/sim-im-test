@@ -217,7 +217,7 @@ void Exec::finished()
         log(L_WARN, "Error: %s", bErr.Data(0));
     }
     bOut << (char)0;
-    emit ready(result, bOut.Data(0));
+    emit ready(this, result, bOut.Data(0));
 }
 
 void Exec::execute(const char *prg, const char *input)

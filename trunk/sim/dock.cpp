@@ -467,7 +467,8 @@ void DockWnd::timer()
 
 void DockWnd::processEvent(ICQEvent *e)
 {
-    if ((e->type() == EVENT_STATUS_CHANGED) && (e->Uin() == pClient->owner->Uin)){
+    if ((e->type() == EVENT_USER_DELETED) ||
+		((e->type() == EVENT_STATUS_CHANGED) && (e->Uin() == pClient->owner->Uin))){
         showIcon = Unknown;
         reset();
         timer();
