@@ -18,8 +18,8 @@
 #ifndef _JABBERBROWSER_H
 #define _JABBERBROWSER_H
 
-#include "simapi.h"
 #include "jabberclient.h"
+#include "simapi.h"
 #include "stl.h"
 
 #include <qmainwindow.h>

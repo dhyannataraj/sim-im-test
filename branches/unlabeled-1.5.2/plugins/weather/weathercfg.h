@@ -18,11 +18,12 @@
 #ifndef _WEATHERCFG_H
 #define _WEATHERCFG_H
 
+#include <libxml/parser.h>
+
 #include "simapi.h"
 #include "weathercfgbase.h"
 #include "fetch.h"
 
-#include <libxml/parser.h>
 #include "stl.h"
 
 class WeatherPlugin;

@@ -235,6 +235,7 @@ PluginManagerPrivate::~PluginManagerPrivate()
         free((*itp).name);
     }
     delete m_exec;
+	setLogEnable(false);
 }
 
 void *PluginManagerPrivate::processEvent(Event *e)

@@ -15,9 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "jabberclient.h"
 #include "simapi.h"
 #include "jabberworkinfo.h"
-#include "jabberclient.h"
 #include "jabber.h"
 
 #include <qlineedit.h>

@@ -752,35 +752,37 @@ static char toHex(char c)
 
 static string quoteString(const char *str)
 {
-    string quoted;
-    quoted = "\"";
+	Buffer quoted;
+	if (str)
+		quoted.init(strlen(str) + 5);
+	quoted << "\"";
     if (str){
         for (unsigned char *p = (unsigned char*)str; *p; p++){
             switch (*p){
             case '\\':
-                quoted += "\\\\";
+                quoted << "\\\\";
                 break;
             case '\r':
                 break;
             case '\n':
-                quoted += "\\n";
+                quoted << "\\n";
                 break;
             case '\"':
-                quoted += "\\\"";
+                quoted << "\\\"";
                 break;
             default:
                 if (*p >= ' '){
-                    quoted += *p;
+                    quoted << *p;
                 }else if (*p){
-                    quoted += "\\x";
-                    quoted += toHex((char)(*p >> 4));
-                    quoted += toHex(*p);
+                    quoted << "\\x";
+                    quoted << toHex((char)(*p >> 4));
+                    quoted << toHex(*p);
                 }
             }
         }
     }
-    quoted += "\"";
-    return quoted;
+    quoted << "\"" << (char)0;
+    return quoted.data();
 }
 
 EXPORT string save_data(const DataDef *def, void *_data)

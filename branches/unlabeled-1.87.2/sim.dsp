@@ -1,24 +1,24 @@
 # Microsoft Developer Studio Project File - Name="sim" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
-# ** NICHT BEARBEITEN **
+# ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Application" 0x0101
 
 CFG=sim - Win32 Debug
-!MESSAGE Dies ist kein gültiges Makefile. Zum Erstellen dieses Projekts mit NMAKE
-!MESSAGE verwenden Sie den Befehl "Makefile exportieren" und führen Sie den Befehl
+!MESSAGE This is not a valid makefile. To build this project using NMAKE,
+!MESSAGE use the Export Makefile command and run
 !MESSAGE 
 !MESSAGE NMAKE /f "sim.mak".
 !MESSAGE 
-!MESSAGE Sie können beim Ausführen von NMAKE eine Konfiguration angeben
-!MESSAGE durch Definieren des Makros CFG in der Befehlszeile. Zum Beispiel:
+!MESSAGE You can specify a configuration when running NMAKE
+!MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
 !MESSAGE NMAKE /f "sim.mak" CFG="sim - Win32 Debug"
 !MESSAGE 
-!MESSAGE Für die Konfiguration stehen zur Auswahl:
+!MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "sim - Win32 Release" (basierend auf  "Win32 (x86) Application")
-!MESSAGE "sim - Win32 Debug" (basierend auf  "Win32 (x86) Application")
+!MESSAGE "sim - Win32 Release" (based on "Win32 (x86) Application")
+!MESSAGE "sim - Win32 Debug" (based on "Win32 (x86) Application")
 !MESSAGE 
 
 # Begin Project
@@ -112,42 +112,5 @@ SOURCE=.\icq.ico
 SOURCE=.\sim.rc
 # End Source File
 # End Group
-# Begin Source File
-
-SOURCE=.\plugins\_core\parse.ll
-# End Source File
-# Begin Source File
-
-SOURCE=.\plugins\styles\wood\wood.moc
-
-!IF  "$(CFG)" == "sim - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - MOCing wood.cpp...
-InputDir=.\plugins\styles\wood
-InputPath=.\plugins\styles\wood\wood.moc
-InputName=wood
-
-"$(InputDir)\$(InputName).moc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).cpp" -o "$(InputDir)\$(InputName).moc"
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - MOCing wood.cpp...
-InputDir=.\plugins\styles\wood
-InputPath=.\plugins\styles\wood\wood.moc
-InputName=wood
-
-"$(InputDir)\$(InputName).moc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).cpp" -o "$(InputDir)\$(InputName).moc"
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
 # End Target
 # End Project

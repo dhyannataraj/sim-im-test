@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "jabber.h"
 #include "jabberclient.h"
+#include "jabber.h"
 #include "jabberconfig.h"
 #include "jabber_ssl.h"
 #include "jabberadd.h"

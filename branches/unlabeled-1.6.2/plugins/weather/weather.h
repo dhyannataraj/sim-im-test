@@ -18,10 +18,10 @@
 #ifndef _WEATHER_H
 #define _WEATHER_H
 
+#include <libxml/parser.h>
+
 #include "simapi.h"
 #include "fetch.h"
-
-#include <libxml/parser.h>
 
 class QToolBar;
 

@@ -24,6 +24,8 @@
 #include <qthread.h>
 #include <qtimer.h>
 
+const unsigned HTTPPacket   = 0x100;
+
 typedef map<my_string, string> HEADERS_MAP;
 
 class FetchThread;
@@ -171,7 +173,6 @@ void FetchThread::error(const char *name)
 
 void FetchThread::run()
 {
-    log(L_DEBUG, "fetch");
     string headers;
     DWORD flags = INTERNET_FLAG_KEEP_CONNECTION | INTERNET_FLAG_PRAGMA_NOCACHE | INTERNET_FLAG_NO_UI | INTERNET_FLAG_NO_AUTH | INTERNET_FLAG_NO_COOKIES;
     if (!m_client->m_bRedirect)
@@ -180,7 +181,6 @@ void FetchThread::run()
     unsigned postSize = m_client->m_client->post_size();
     if (postSize != NO_POSTSIZE)
         verb = "POST";
-    log(L_DEBUG, "URL: %s", m_client->m_uri.c_str());
     URL_COMPONENTSA url;
     memset(&url, 0, sizeof(url));
     url.dwStructSize = sizeof(url);
@@ -231,6 +231,10 @@ void FetchThread::run()
         headers += ": ";
         headers += (*it).second.c_str();
     }
+	Buffer b;
+	b.packetStart();
+	b << verb << " " << uri.c_str() << " HTTP/1.0\r\n" << headers.c_str() << "\r\n";
+	log_packet(b, true, HTTPPacket);
     if (postSize != NO_POSTSIZE){
         INTERNET_BUFFERSA BufferIn;
         memset(&BufferIn, 0, sizeof(BufferIn));
@@ -296,12 +300,14 @@ void FetchThread::run()
         return;
     }
     Buffer in_headers;
+	in_headers.packetStart();
     in_headers.init(size);
     if (!_HttpQueryInfo(hReq, HTTP_QUERY_RAW_HEADERS_CRLF, in_headers.data(), &size, 0)){
         error("HttpQueryInfo");
         return;
     }
     in_headers.setWritePos(size);
+	log_packet(in_headers, false, HTTPPacket);
     string line;
     bool bFirst = true;
     for (; in_headers.readPos() < in_headers.writePos(); ){
@@ -405,7 +411,6 @@ SSLeay_add_ssl_algorithms();
 
 FetchManager *FetchManager::manager = NULL;
 
-const unsigned HTTPPacket   = 0x100;
 const unsigned UNKNOWN_SIZE = (unsigned)(-1);
 
 static char _HTTP[] = "HTTP";
@@ -480,7 +485,6 @@ FetchManager::FetchManager()
         hInet = _InternetOpen(user_agent.c_str(), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
         if (hInet == NULL)
             log(L_WARN, "Internet open error %u", GetLastError());
-        return;
     }
 #endif
     getContacts()->addPacketType(HTTPPacket, _HTTP, true);
@@ -893,7 +897,6 @@ void FetchClientPrivate::packet_ready()
 {
     if (m_socket->readBuffer.readPos() == m_socket->readBuffer.writePos())
         return;
-    log_packet(m_socket->readBuffer, false, HTTPPacket);
     for (;;){
         if (m_state == Data){
             unsigned size = m_socket->readBuffer.writePos() - m_socket->readBuffer.readPos();
@@ -913,6 +916,7 @@ void FetchClientPrivate::packet_ready()
             m_socket->readBuffer.packetStart();
             return;
         }
+	    log_packet(m_socket->readBuffer, false, HTTPPacket);
         string line;
         string opt;
         if (!read_line(line)){
