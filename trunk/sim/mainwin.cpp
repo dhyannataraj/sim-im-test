@@ -431,7 +431,7 @@ void slideWindow (const QRect &rcEnd)
 
 void setBarState(bool bAnimate = false)
 {
-    if (pMain->BarState == ABE_FLOAT){
+    if ((pMain->BarState == ABE_FLOAT) || !pMain->Show){
         appBarMessage(ABM_SETPOS, pMain->BarState, FALSE);
     }else{
         QRect rc;
@@ -1579,8 +1579,15 @@ void MainWindow::showUser(unsigned long uin, int function, unsigned long param)
 
 void MainWindow::setShow(bool bShow)
 {
+	Show = bShow;
 #ifdef WIN32
-    if (BarState != ABE_FLOAT) bShow = true;
+    if (BarState != ABE_FLOAT){
+		if (bShow){
+			setBarState();
+		}else{
+			appBarMessage(ABM_SETPOS, ABE_FLOAT, FALSE);
+		}
+	}
 #endif
     if (!bShow){
         hide();
@@ -1729,7 +1736,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
 {
     if (!bQuit && (dock != NULL)){
         e->ignore();
-        hide();
+        setShow(false);
         return;
     }
     pClient->setStatus(ICQ_STATUS_OFFLINE);
