@@ -537,6 +537,7 @@ protected:
     void sendMTN(unsigned long uin, unsigned short type);
     void setChatGroup();
     void parsePluginPacket(Buffer &b, unsigned plugin_index, ICQUserData *data, unsigned uin, bool bDirect);
+	void pluginAnswer(unsigned plugin_type, unsigned long uin, bool bDirect, Buffer &b);
     string packMessage(Message *msg, ICQUserData *data, unsigned short &type);
     unsigned short m_advCounter;
     unsigned m_nUpdates;

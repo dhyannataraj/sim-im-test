@@ -265,8 +265,9 @@ void ICQClient::sendUpdate()
 
 void ICQClient::fillDirectInfo(Buffer &directInfo)
 {
+	set_ip(&data.owner.RealIP, m_socket->localHost());
     directInfo
-    << (unsigned long)htonl(get_ip(data.owner.RealIP))
+    << (unsigned long)get_ip(data.owner.RealIP)
     << (unsigned short)0
     << (unsigned short)(m_listener ? m_listener->port() : 0)
 

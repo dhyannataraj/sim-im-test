@@ -374,7 +374,9 @@ void DirectClient::processPacket()
         return;
     case WaitInit2:
         if (m_bIncoming){
-            m_socket->readBuffer.incReadPos(15);
+			ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
+		    log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket);
+            m_socket->readBuffer.incReadPos(13);
             char p[16];
             m_socket->readBuffer.unpack(p, 16);
             for (m_channel = 0; m_channel <= PLUGIN_NULL; m_channel++){
@@ -553,10 +555,25 @@ void DirectClient::processPacket()
                 if (!memcmp(p, m_client->plugins[plugin_index], sizeof(p)))
                     break;
             }
+			Buffer info;
+			unsigned short type = 1;
             switch (plugin_index){
+			case PLUGIN_FILESERVER:
+			case PLUGIN_FOLLOWME:
+			case PLUGIN_ICQPHONE:
+				type = 2;
+			case PLUGIN_PHONEBOOK:
+			case PLUGIN_PICTURE:
             case PLUGIN_QUERYxINFO:
-                break;
             case PLUGIN_QUERYxSTATUS:
+				m_client->pluginAnswer(plugin_index, m_data->Uin, true, info);
+			    startPacket(TCP_ACK, seq);
+				m_socket->writeBuffer.pack(type);
+				m_socket->writeBuffer << 0x00000000L
+					<< (char)1
+					<< type;
+				m_socket->writeBuffer.pack(info.data(0), info.size());
+			    sendPacket();
                 break;
             default:
                 log(L_WARN, "Unknwon direct plugin request %u", plugin_index);
