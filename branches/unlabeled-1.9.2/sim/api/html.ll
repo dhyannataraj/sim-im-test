@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "html.h"
+#include "buffer.h"
 
 #define YY_NEVER_INTERACTIVE    1
 #define YY_ALWAYS_INTERACTIVE   0
@@ -137,6 +138,19 @@ void HTMLParser::parse(const QString &str)
 	p->init();
 	QCString cstr = str.utf8();
     YY_BUFFER_STATE yy_current_buffer = yy_scan_string(cstr);
+	parse();
+}
+
+void HTMLParser::parse(Buffer &b)
+{
+	p->init();
+	b << (char)0 << (char)0;
+    YY_BUFFER_STATE yy_current_buffer = yy_scan_buffer((char*)b.data(), b.size());
+	parse();
+}
+
+void HTMLParser::parse()
+{
     for (;;){
         int r = yylex();
         if (!r) break;

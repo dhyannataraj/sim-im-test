@@ -141,7 +141,6 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
             {
                 log(L_WARN, "Server responded with error %04X for offline messages request.", error_code);
                 // We'll never get ICQ_SRVxEND_OFFLINE_MSG, so we finish initing here instead.
-                m_bServerReady = true;
             }
             else
             {
@@ -171,7 +170,6 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
                 sendServerRequest();
                 setChatGroup();
                 addFullInfoRequest(data.owner.Uin.value, false);
-                m_bServerReady = true;
                 infoRequest();
                 processListRequest();
                 break;
@@ -514,7 +512,7 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
 void ICQClient::infoRequest()
 {
     m_infoTimer->stop();
-    if ((getState() != Connected) || infoRequests.empty() || !m_bServerReady)
+    if ((getState() != Connected) || infoRequests.empty())
         return;
     if (m_infoRequestId == PAUSE_ID)
         return;
@@ -668,7 +666,7 @@ bool SearchWPRequest::answer(Buffer &b, unsigned short nSubType)
 
 unsigned short ICQClient::findByUin(unsigned long uin)
 {
-    if ((getState() != Connected) || !m_bServerReady)
+    if (getState() != Connected)
         return (unsigned short)(-1);
     serverRequest(ICQ_SRVxREQ_MORE);
     m_socket->writeBuffer
@@ -692,7 +690,7 @@ unsigned short ICQClient::findWP(const char *szFirst, const char *szLast, const 
                                  unsigned short nHomePage, const char *szHomePage,
                                  bool bOnlineOnly)
 {
-    if ((getState() != Connected) || !m_bServerReady)
+    if (getState() != Connected)
         return (unsigned short)(-1);
     serverRequest(ICQ_SRVxREQ_MORE);
     m_socket->writeBuffer << ICQ_SRVxREQ_WP_FULL;

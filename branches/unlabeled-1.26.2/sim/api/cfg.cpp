@@ -708,7 +708,8 @@ EXPORT void load_data(const DataDef *d, void *_data, const char *config)
                 if (line.length() == 0)
                     break;
                 v = getToken(line, ',');
-                ld->value = atol(v.c_str());
+				if (v.length())
+					ld->value = atol(v.c_str());
             }
             break;
         case DATA_ULONG:
