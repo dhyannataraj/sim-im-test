@@ -2367,7 +2367,7 @@ void CorePlugin::selectProfile()
 
 bool CorePlugin::init(bool bInit)
 {
-    m_bInit = false;
+    m_bInit = bInit;
     bool bLoaded = false;
     bool bRes = true;
     if (!bInit || (*getProfile() == 0) || !getNoShow() || !getSavePasswd()){
