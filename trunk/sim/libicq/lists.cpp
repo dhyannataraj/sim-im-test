@@ -707,6 +707,7 @@ bool CreateGroupEvent::process(ICQClient *icq, unsigned short result)
 
 void ICQClient::createGroup(const char *name)
 {
+    if (m_state != Logged) return;
     ICQGroup *grp = new ICQGroup;
     unsigned short id = contacts.getGroupId(grp);
     CreateGroupEvent *e = new CreateGroupEvent(grp);
