@@ -1486,6 +1486,8 @@ protected:
     bool   m_bOption;
     string m_data;
     string m_jid;
+	string m_error;
+	unsigned m_error_code;
     virtual void element_start(const char *el, const char **attr);
     virtual void element_end(const char *el);
     virtual void char_data(const char *el, int len);
@@ -1531,6 +1533,7 @@ AgentInfoRequest::AgentInfoRequest(JabberClient *client, const char *jid)
 {
     m_jid = jid;
     m_bOption = false;
+	m_error_code = 0;
     load_data(jabberAgentInfo, &data, NULL);
 }
 
@@ -1540,6 +1543,8 @@ AgentInfoRequest::~AgentInfoRequest()
     load_data(jabberAgentInfo, &data, NULL);
     set_str(&data.ID, m_jid.c_str());
     set_str(&data.ReqID, m_id.c_str());
+	data.nOptions = m_error_code;
+	set_str(&data.Label, m_error.c_str());
     Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentInfo, &data);
     e.process();
     free_data(jabberAgentInfo, &data);
@@ -1547,6 +1552,9 @@ AgentInfoRequest::~AgentInfoRequest()
 
 void AgentInfoRequest::element_start(const char *el, const char **attr)
 {
+	if (!strcmp(el, "error")){
+		m_error_code = atol(JabberClient::get_attr("code", attr).c_str());
+	}
     if (!strcmp(el, "field")){
         free_data(jabberAgentInfo, &data);
         load_data(jabberAgentInfo, &data, NULL);
@@ -1575,7 +1583,10 @@ void AgentInfoRequest::element_start(const char *el, const char **attr)
 
 void AgentInfoRequest::element_end(const char *el)
 {
-    if (!strcmp(el, "field")){
+	if (!strcmp(el, "error")){
+		m_error = m_data;
+		m_data  = "";
+    }else if (!strcmp(el, "field")){
         if (data.Field && *data.Field){
             set_str(&data.VHost, m_client->VHost().c_str());
             set_str(&data.ReqID, m_id.c_str());
@@ -1618,13 +1629,15 @@ void AgentInfoRequest::char_data(const char *el, int len)
     m_data.append(el, len);
 }
 
-string JabberClient::get_agent_info(const char *jid, const char *type)
+string JabberClient::get_agent_info(const char *jid, const char *node, const char *type)
 {
     AgentInfoRequest *req = new AgentInfoRequest(this, jid);
     req->start_element("query");
     string xmlns = "jabber:iq:";
     xmlns += type;
     req->add_attribute("xmlns", xmlns.c_str());
+	if (node && *node)
+		req->add_attribute("node", node);
     req->send();
     m_requests.push_back(req);
     return req->m_id;
@@ -1717,12 +1730,14 @@ void SearchRequest::char_data(const char *el, int len)
     m_data.append(el, len);
 }
 
-string JabberClient::search(const char *jid, const char *condition)
+string JabberClient::search(const char *jid, const char *node, const char *condition)
 {
     SearchRequest *req = new SearchRequest(this, jid);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:search");
-    req->add_condition(condition);
+	if (node && *node)
+		req->add_attribute("node", node);
+    req->add_condition(condition, false);
     req->send();
     m_requests.push_back(req);
     return req->m_id;
@@ -1739,9 +1754,9 @@ public:
     RegisterRequest(JabberClient *client, const char *jid);
     ~RegisterRequest();
 protected:
-    bool   m_bOK;
-    string m_error;
-    string *m_data;
+    string   m_error;
+    string  *m_data;
+	unsigned m_error_code;
     virtual void element_start(const char *el, const char **attr);
     virtual void element_end(const char *el);
     virtual void char_data(const char *el, int len);
@@ -1751,14 +1766,14 @@ RegisterRequest::RegisterRequest(JabberClient *client, const char *jid)
         : ServerRequest(client, _SET, NULL, jid)
 {
     m_data = NULL;
-    m_bOK  = false;
+    m_error_code = (unsigned)(-1);
 }
 
 RegisterRequest::~RegisterRequest()
 {
     agentRegisterInfo ai;
     ai.id = m_id.c_str();
-    ai.bOK = m_bOK;
+    ai.err_code = m_error_code;
     ai.error = m_error.c_str();
     Event e(static_cast<JabberPlugin*>(m_client->protocol()->plugin())->EventAgentRegister, &ai);
     e.process();
@@ -1767,13 +1782,16 @@ RegisterRequest::~RegisterRequest()
 void RegisterRequest::element_start(const char *el, const char **attr)
 {
     if (!strcmp(el, "error")){
+		m_error_code = atol(JabberClient::get_attr("code", attr).c_str());
+		if (m_error_code == 0)
+			m_error_code = (unsigned)(-1);
         m_data = &m_error;
         return;
     }
     if (!strcmp(el, "iq")){
         string type = JabberClient::get_attr("type", attr);
         if (type == "result")
-            m_bOK = true;
+            m_error_code = 0;
     }
 }
 
@@ -1789,12 +1807,19 @@ void RegisterRequest::char_data(const char *el, int len)
     m_data->append(el, len);
 }
 
-string JabberClient::register_agent(const char *jid, const char *condition)
+string JabberClient::process(const char *jid, const char *node, const char *condition, const char *type)
 {
     RegisterRequest *req = new RegisterRequest(this, jid);
     req->start_element("query");
-    req->add_attribute("xmlns", "jabber:iq:register");
-    req->add_condition(condition);
+	string xmlns = "jabber:iq:";
+	xmlns += type;
+    req->add_attribute("xmlns", xmlns.c_str());
+	bool bData = (strcmp(type, "data") == 0);
+	if (bData)
+		req->add_attribute("type", "submit");
+	if (node && *node)
+		req->add_attribute("node", node);
+    req->add_condition(condition, bData);
     req->send();
     m_requests.push_back(req);
     return req->m_id;
@@ -1970,13 +1995,16 @@ void DiscoItemsRequest::char_data(const char *buf, int len)
         m_data->append(buf, len);
 }
 
-string JabberClient::discoItems(const char *jid)
+string JabberClient::discoItems(const char *jid, const char *node)
 {
     if (getState() != Connected)
         return "";
     DiscoItemsRequest *req = new DiscoItemsRequest(this, jid);
     req->start_element("query");
     req->add_attribute("xmlns", "http://jabber.org/protocol/disco#items");
+	if (node && *node)
+		req->add_attribute("node", node);
+	addLang(req);
     req->send();
     m_requests.push_back(req);
     return req->m_id;
@@ -2056,13 +2084,15 @@ void DiscoInfoRequest::char_data(const char *buf, int len)
         m_data->append(buf, len);
 }
 
-string JabberClient::discoInfo(const char *jid)
+string JabberClient::discoInfo(const char *jid, const char *node)
 {
     if (getState() != Connected)
         return "";
     DiscoInfoRequest *req = new DiscoInfoRequest(this, jid);
     req->start_element("query");
     req->add_attribute("xmlns", "http://jabber.org/protocol/disco#info");
+	if (node && *node)
+		req->add_attribute("node", node);
     req->send();
     m_requests.push_back(req);
     return req->m_id;
@@ -2121,13 +2151,15 @@ void VersionInfoRequest::char_data(const char *buf, int len)
         m_data->append(buf, len);
 }
 
-string JabberClient::versionInfo(const char *jid)
+string JabberClient::versionInfo(const char *jid, const char *node)
 {
     if (getState() != Connected)
         return "";
     VersionInfoRequest *req = new VersionInfoRequest(this, jid);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:version");
+	if (node && *node)
+		req->add_attribute("node", node);
     req->send();
     m_requests.push_back(req);
     return req->m_id;
@@ -2178,13 +2210,15 @@ void TimeInfoRequest::char_data(const char *buf, int len)
         m_data->append(buf, len);
 }
 
-string JabberClient::timeInfo(const char *jid)
+string JabberClient::timeInfo(const char *jid, const char *node)
 {
     if (getState() != Connected)
         return "";
     TimeInfoRequest *req = new TimeInfoRequest(this, jid);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:time");
+	if (node && *node)
+		req->add_attribute("node", node);
     req->send();
     m_requests.push_back(req);
     return req->m_id;
@@ -2214,13 +2248,15 @@ void LastInfoRequest::element_start(const char *el, const char **attr)
     }
 }
 
-string JabberClient::lastInfo(const char *jid)
+string JabberClient::lastInfo(const char *jid, const char *node)
 {
     if (getState() != Connected)
         return "";
     LastInfoRequest *req = new LastInfoRequest(this, jid);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:last");
+	if (node && *node)
+		req->add_attribute("node", node);
     req->send();
     m_requests.push_back(req);
     return req->m_id;
@@ -2267,18 +2303,21 @@ void StatRequest::element_start(const char *el, const char **attr)
 class StatItemsRequest : public JabberClient::ServerRequest
 {
 public:
-    StatItemsRequest(JabberClient *client, const char *jid);
+    StatItemsRequest(JabberClient *client, const char *jid, const char *node);
     ~StatItemsRequest();
 protected:
     virtual void	element_start(const char *el, const char **attr);
     list<string>    m_stats;
     string			m_jid;
+	string			m_node;
 };
 
-StatItemsRequest::StatItemsRequest(JabberClient *client, const char *jid)
+StatItemsRequest::StatItemsRequest(JabberClient *client, const char *jid, const char *node)
         : JabberClient::ServerRequest(client, _GET, NULL, jid)
 {
-    m_jid = jid;
+    m_jid  = jid;
+	if (node)
+		m_node = node;
 }
 
 StatItemsRequest::~StatItemsRequest()
@@ -2294,6 +2333,8 @@ StatItemsRequest::~StatItemsRequest()
     StatRequest *req = new StatRequest(m_client, m_jid.c_str(), m_id.c_str());
     req->start_element("query");
     req->add_attribute("xmlns", "http://jabber.org/protocol/stats");
+	if (!m_node.empty())
+		req->add_attribute("node", m_node.c_str());
     for (list<string>::iterator it = m_stats.begin(); it != m_stats.end(); ++it){
         req->start_element("stat");
         req->add_attribute("name", (*it).c_str());
@@ -2312,16 +2353,28 @@ void StatItemsRequest::element_start(const char *el, const char **attr)
     }
 }
 
-string JabberClient::statInfo(const char *jid)
+string JabberClient::statInfo(const char *jid, const char *node)
 {
     if (getState() != Connected)
         return "";
-    StatItemsRequest *req = new StatItemsRequest(this, jid);
+    StatItemsRequest *req = new StatItemsRequest(this, jid, node);
     req->start_element("query");
     req->add_attribute("xmlns", "http://jabber.org/protocol/stats");
+	if (node && *node)
+		req->add_attribute("node", node);
     req->send();
     m_requests.push_back(req);
     return req->m_id;
+}
+
+static char XmlLang[] = I18N_NOOP("Please translate this to short language name (ru, de)");
+
+void JabberClient::addLang(ServerRequest *req)
+{
+	QString s = i18n(XmlLang);
+	if (s == XmlLang)
+		return;
+	req->add_attribute("xml:lang", s.utf8());
 }
 
 

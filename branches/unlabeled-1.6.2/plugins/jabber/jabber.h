@@ -52,6 +52,8 @@ public:
     unsigned CmdInfo;
     unsigned CmdSearch;
     unsigned CmdRegister;
+	unsigned CmdNode;
+	unsigned CmdConfigure;
     unsigned MenuSearchResult;
     unsigned MenuGroups;
     unsigned BarBrowser;

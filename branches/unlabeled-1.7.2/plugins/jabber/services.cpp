@@ -67,7 +67,7 @@ void *Services::processEvent(Event *e)
                 info.search = NULL;
                 info.name   = data->Name;
                 m_agents.insert(AGENTS_MAP::value_type(data->ID, info));
-                m_client->get_agent_info(data->ID, "register");
+                m_client->get_agent_info(data->ID, NULL, "register");
             }
         }
         return NULL;
@@ -78,7 +78,7 @@ void *Services::processEvent(Event *e)
         if (it != m_agents.end()){
             agentInfo &info = (*it).second;
             if (info.search == NULL){
-                info.search = new JabberSearch(this, m_client, data->ID, QString::fromUtf8(info.name.c_str()));
+                info.search = new JabberSearch(this, m_client, data->ID, NULL, QString::fromUtf8(info.name.c_str()));
                 unsigned id = cmbAgents->count();
                 wndInfo->addWidget(info.search, id + 1);
                 cmbAgents->insertItem(QString::fromUtf8(info.name.c_str()));
@@ -96,13 +96,12 @@ void *Services::processEvent(Event *e)
         agentRegisterInfo *info = (agentRegisterInfo*)(e->param());
         if (m_reg_id != info->id)
             return NULL;
-        if (!info->bOK){
+        if (info->err_code){
             QString err;
-            if (info->error && *info->error){
+            if (info->error && *info->error)
                 err = i18n(info->error);
-            }else{
-                err = i18n("Registration failed");
-            }
+            if (err.isEmpty())
+				err = i18n("Error %1") .arg(info->err_code);
             BalloonMsg::message(err, btnRegister);
         }
         btnRegister->setEnabled(true);
@@ -264,7 +263,7 @@ void Services::regAgent()
         return;
     btnRegister->setEnabled(false);
     JabberSearch *s = static_cast<JabberSearch*>(w);
-    m_reg_id = m_client->register_agent(s->id(), s->condition().utf8());
+    m_reg_id = m_client->process(s->id(), NULL, s->condition().utf8(), "register");
 }
 
 void Services::unregAgent()

@@ -163,7 +163,7 @@ public:
         void	start_element(const char *name);
         void	end_element(bool bNewLevel = false);
         void	add_attribute(const char *name, const char *value);
-        void	add_condition(const char *cond);
+        void	add_condition(const char *cond, bool bXData);
         void	add_text(const char *text);
         void	text_tag(const char *name, const char *value);
         static const char *_GET;
@@ -270,10 +270,10 @@ class MessageRequest : public ServerRequest
     JabberUserData	*findContact(const char *jid, const char *name, bool bCreate, Contact *&contact);
     bool		add_contact(const char *id);
     void		get_agents();
-    string		get_agent_info(const char *jid, const char *type);
+    string		get_agent_info(const char *jid, const char *node, const char *type);
     void		auth_request(const char *jid, unsigned type, const char *text, bool bCreate);
-    string		search(const char *jid, const char *condition);
-    string		register_agent(const char *jid, const char *condition);
+    string		search(const char *jid, const char *node, const char *condition);
+    string		process(const char *jid, const char *node, const char *condition, const char *type);
 
     static string	to_lower(const char *s);
     static string	get_attr(const char *name, const char **attrs);
@@ -299,12 +299,13 @@ class MessageRequest : public ServerRequest
     list<ServerRequest*>	m_requests;
     JabberBrowser   *m_browser;
 
-    string discoItems(const char *jid);
-    string discoInfo(const char *jid);
-    string versionInfo(const char *jid);
-    string timeInfo(const char *jid);
-    string lastInfo(const char *jid);
-    string statInfo(const char *jid);
+    string discoItems(const char *jid, const char *node);
+    string discoInfo(const char *jid, const char *node);
+    string versionInfo(const char *jid, const char *node);
+    string timeInfo(const char *jid, const char *node);
+    string lastInfo(const char *jid, const char *node);
+    string statInfo(const char *jid, const char *node);
+	void addLang(ServerRequest *req);
 
 protected slots:
     void	ping();
@@ -428,7 +429,7 @@ typedef struct agentInfo
 typedef struct agentRegisterInfo
 {
     const char		*id;
-    bool			bOK;
+    unsigned		err_code;
     const char		*error;
 } agentRegisterInfo;
 

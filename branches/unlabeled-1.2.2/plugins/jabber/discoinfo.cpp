@@ -65,6 +65,9 @@ void DiscoInfo::setTitle()
 void DiscoInfo::reset()
 {
     m_url = QString::fromUtf8(m_browser->m_history[m_browser->m_historyPos].c_str());
+	m_node = "";
+	if (!m_browser->m_nodes[m_browser->m_historyPos].empty())
+		m_node = QString::fromUtf8(m_browser->m_nodes[m_browser->m_historyPos].c_str());
     setTitle();
     edtJName->setText(m_browser->m_name);
     edtType->setText(m_browser->m_type);
@@ -98,7 +101,7 @@ void DiscoInfo::reset()
     edtName->setText("");
     edtVersion->setText("");
     edtSystem->setText("");
-    m_versionId = m_bVersion ? m_browser->m_client->versionInfo(m_url.utf8()) : "";
+    m_versionId = m_bVersion ? m_browser->m_client->versionInfo(m_url.utf8(), m_node.utf8()) : "";
     if ((bTime || bLast) != (m_bTime || m_bLast)){
         m_bTime = bTime;
         m_bLast = bLast;
@@ -112,14 +115,14 @@ void DiscoInfo::reset()
     edtLast->setText("");
     if (m_bTime){
         edtTime->show();
-        m_timeId = m_browser->m_client->timeInfo(m_url.utf8());
+        m_timeId = m_browser->m_client->timeInfo(m_url.utf8(), m_node.utf8());
     }else{
         edtTime->hide();
         m_timeId = "";
     }
     if (m_bLast){
         edtLast->show();
-        m_lastId = m_browser->m_client->lastInfo(m_url.utf8());
+        m_lastId = m_browser->m_client->lastInfo(m_url.utf8(), m_node.utf8());
     }else{
         edtLast->hide();
         m_lastId = "";
@@ -133,7 +136,7 @@ void DiscoInfo::reset()
             tabInfo->removePage(tabStat);
         }
     }
-    m_statId = m_bStat ? m_browser->m_client->statInfo(m_url.utf8()) : "";
+    m_statId = m_bStat ? m_browser->m_client->statInfo(m_url.utf8(), m_node.utf8()) : "";
 }
 
 void *DiscoInfo::processEvent(Event *e)

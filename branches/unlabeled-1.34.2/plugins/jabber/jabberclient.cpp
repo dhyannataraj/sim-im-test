@@ -406,7 +406,7 @@ void *JabberClient::processEvent(Event *e)
             int n = url.find("/");
             if (n > 0)
                 url = url.left(n);
-            m_browser->goUrl(url);
+            m_browser->goUrl(url, "");
             raiseWindow(m_browser);
             return e->param();
         }
@@ -926,10 +926,9 @@ void JabberClient::ServerRequest::text_tag(const char *name, const char *value)
     << "</" << name << ">\n";
 }
 
-void JabberClient::ServerRequest::add_condition(const char *condition)
+void JabberClient::ServerRequest::add_condition(const char *condition, bool bXData)
 {
     QString cond = QString::fromUtf8(condition);
-    bool bXData = false;
     while (cond.length()){
         QString item = getToken(cond, ';');
         if (item == "x:data"){
@@ -943,6 +942,7 @@ void JabberClient::ServerRequest::add_condition(const char *condition)
             start_element("field");
             add_attribute("var", key.utf8());
             text_tag("value", item.utf8());
+			end_element();
         }else{
             text_tag(key.utf8(), item.utf8());
         }

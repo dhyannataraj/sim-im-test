@@ -32,6 +32,7 @@ public:
     void reset();
 protected:
     QString m_url;
+	QString m_node;
     void *processEvent(Event *e);
     void resizeEvent(QResizeEvent*);
     void setTitle();

@@ -22,6 +22,7 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qlineedit.h>
+#include <qmultilineedit.h>
 #include <qcombobox.h>
 #include <qtimer.h>
 #include <qtabwidget.h>
@@ -63,13 +64,19 @@ QString CComboBox::value()
     return QString::fromUtf8(m_values[index].c_str());
 }
 
-JabberSearch::JabberSearch(QWidget *receiver, JabberClient *client, const char *jid, const QString &name)
+const unsigned MAX_ELEMENTS = 10;
+
+JabberSearch::JabberSearch(QWidget *receiver, JabberClient *client, const char *jid, const char *node, const QString &name)
         : QChildWidget(NULL)
 {
     m_client = client;
     m_jid    = jid;
+	if (node)
+		m_node = node;
     m_name	 = name;
-    m_nPos	 = 0;
+    m_nPos	    = 0;
+	m_nPosStart = 0;
+	m_nCol	    = 0;
     m_receiver = receiver;
     m_bXData = false;
     QVBoxLayout *vlay = new QVBoxLayout(this);
@@ -107,10 +114,33 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
     if (data->Type){
         if (!strcmp(data->Type, "x")){
             m_bXData = true;
+		}else if (!strcmp(data->Type, "title")){
+			if (data->Value && *data->Value)
+				m_title = QString::fromUtf8(data->Value);
         }else if (!strcmp(data->Type, "text-single")){
             widget = new QLineEdit(this, data->Field);
             connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
             connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
+			if (data->Value && *data->Value)
+				static_cast<QLineEdit*>(widget)->setText(QString::fromUtf8(data->Value));
+        }else if (!strcmp(data->Type, "text-private")){
+            widget = new QLineEdit(this, data->Field);
+			static_cast<QLineEdit*>(widget)->setEchoMode(QLineEdit::Password);
+            connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
+            connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
+			if (data->Value && *data->Value)
+				static_cast<QLineEdit*>(widget)->setText(QString::fromUtf8(data->Value));
+        }else if (!strcmp(data->Type, "text-multi")){
+            widget = new QMultiLineEdit(this, data->Field);
+            connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
+			if (data->Value && *data->Value)
+				static_cast<QMultiLineEdit*>(widget)->setText(QString::fromUtf8(data->Value));
+        }else if (!strcmp(data->Type, "boolean") && data->Label){
+            widget = new QCheckBox(QString::fromUtf8(data->Label), this, data->Field);
+			if (data->Value && *data->Value && (*data->Value != '0'))
+				static_cast<QCheckBox*>(widget)->setChecked(true);
+			set_str(&data->Label, NULL);
+			bJoin = true;
         }else if (!strcmp(data->Type, "fixed") || !strcmp(data->Type, "instructions")){
             if (data->Value){
                 QString text = i18(data->Value);
@@ -119,15 +149,24 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
                 label->setAlignment(WordBreak);
                 widget = label;
                 bJoin = true;
+				if (m_nPos == 0)
+					m_nPosStart = 1;
             }
         }else if (!strcmp(data->Type, "list-single")){
             CComboBox *box = new CComboBox(this, data->Field);
+			int cur = 0;
+			int n = 0;
             for (unsigned i = 0; i < data->nOptions; i++){
                 const char *label = get_str(data->OptionLabels, i);
                 const char *val   = get_str(data->Options, i);
-                if (label && val)
+                if (label && val){
                     box->addItem(i18(label), val);
+					if (data->Value && !strcmp(data->Value, val))
+						cur = n;
+					n++;
+				}
             }
+			box->setCurrentItem(cur);
             widget = box;
         }else if (!strcmp(data->Type, "key")){
             if (data->Value)
@@ -158,13 +197,17 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
                 widget = new QLineEdit(this, f->tag);
                 connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
                 connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
+				if (data->Value && *data->Value)
+					static_cast<QLineEdit*>(widget)->setText(QString::fromUtf8(data->Value));
                 set_str(&data->Label, f->name);
                 if (f->bRequired)
                     data->bRequired = true;
             }else if (data->Label){
-                widget = new QLineEdit(this, f->tag);
+                widget = new QLineEdit(this, data->Field);
                 connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
                 connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
+				if (data->Value && *data->Value)
+					static_cast<QLineEdit*>(widget)->setText(QString::fromUtf8(data->Value));
             }
         }
     }
@@ -172,18 +215,22 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
         if (data->bRequired)
             m_required.push_back(widget);
         if (bJoin){
-            lay->addMultiCellWidget(widget, m_nPos, m_nPos, 0, 1);
+            lay->addMultiCellWidget(widget, m_nPos, m_nPos, m_nCol, m_nCol + 1);
         }else{
-            lay->addWidget(widget, m_nPos, 1);
+            lay->addWidget(widget, m_nPos, m_nCol + 1);
             if (data->Label){
                 QLabel *label = new QLabel(i18(data->Label), this);
                 label->setAlignment(AlignRight);
-                lay->addWidget(label, m_nPos, 0);
+                lay->addWidget(label, m_nPos, m_nCol);
                 label->show();
             }
         }
         widget->show();
         m_nPos++;
+		if (m_nPos >= MAX_ELEMENTS){
+			m_nPos  = m_nPosStart;
+			m_nCol += 2;
+		}
         m_bDirty = true;
         QTimer::singleShot(0, this, SLOT(setSize()));
     }
@@ -256,7 +303,7 @@ QString JabberSearch::i18(const char *text)
 
 bool JabberSearch::canSearch()
 {
-    bool bRes = false;
+    bool bRes = true;
 
     QObjectList *l = queryList("QLineEdit");
     QObjectListIt it( *l );
@@ -300,7 +347,6 @@ QString JabberSearch::condition()
     QObjectList *l = queryList("QLineEdit");
     QObjectListIt it( *l );
     QObject *obj;
-
     while ((obj = it.current()) != 0 ){
         QLineEdit *edit = static_cast<QLineEdit*>(obj);
         if (!edit->text().isEmpty()){
@@ -318,8 +364,10 @@ QString JabberSearch::condition()
     QObjectListIt it1( *l );
     while ((obj = it1.current()) != 0 ){
         CComboBox *box = static_cast<CComboBox*>(obj);
-        if (box->currentText().isEmpty())
+        if (box->currentText().isEmpty()){
+			++it1;
             continue;
+		}
         if (!res.isEmpty())
             res += ";";
         res += box->name();
@@ -333,13 +381,30 @@ QString JabberSearch::condition()
     QObjectListIt it2( *l );
     while ((obj = it2.current()) != 0 ){
         QCheckBox *box = static_cast<QCheckBox*>(obj);
-        if (!box->isChecked())
+        if (!box->isChecked()){
+			++it2;
             continue;
+		}
         if (!res.isEmpty())
             res += ";";
         res += box->name();
         res += "=1";
         ++it2;
+    }
+    delete l;
+
+    l = queryList("QMultiLineEdit");
+    QObjectListIt it3( *l );
+    while ((obj = it3.current()) != 0 ){
+        QMultiLineEdit *edit = static_cast<QMultiLineEdit*>(obj);
+        if (!edit->text().isEmpty()){
+            if (!res.isEmpty())
+                res += ";";
+            res += edit->name();
+            res += "=";
+            res += quoteChars(edit->text(), ";");
+        }
+		++it3;
     }
     delete l;
 

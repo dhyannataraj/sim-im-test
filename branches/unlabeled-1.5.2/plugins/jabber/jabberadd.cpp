@@ -205,7 +205,7 @@ void JabberAdd::startSearch()
     }else if (tabAdd->currentPage()->inherits("JabberSearch")){
         JabberSearch *search = static_cast<JabberSearch*>(tabAdd->currentPage());
         QString condition = search->condition();
-        string search_id = client->search(search->id(), condition.utf8());
+        string search_id = client->search(search->id(), NULL, condition.utf8());
         m_result->setSearch(client, search_id.c_str());
     }
 }
@@ -249,7 +249,7 @@ void *JabberAdd::processEvent(Event *e)
                 info.search = NULL;
                 info.name   = data->Name;
                 m_agents.insert(AGENTS_MAP::value_type(data->ID, info));
-                m_client->get_agent_info(data->ID, "search");
+                m_client->get_agent_info(data->ID, NULL, "search");
             }
         }
         return NULL;
@@ -260,7 +260,7 @@ void *JabberAdd::processEvent(Event *e)
         if (it != m_agents.end()){
             agentInfo &info = (*it).second;
             if (info.search == NULL){
-                info.search = new JabberSearch(this, m_client, data->ID, QString::fromUtf8(info.name.c_str()));
+                info.search = new JabberSearch(this, m_client, data->ID, NULL, QString::fromUtf8(info.name.c_str()));
                 tabAdd->addTab(info.search, QString::fromUtf8(info.name.c_str()));
             }
             info.search->addWidget(data);
