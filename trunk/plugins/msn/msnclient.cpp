@@ -801,7 +801,6 @@ bool MSNClient::send(Message *msg, void *_data)
     if ((_data == NULL) || (getState() != Connected))
         return false;
     MSNUserData *data = (MSNUserData*)_data;
-    MSNPacket *packet = NULL;
     switch (msg->type()){
     case MessageGeneric:
     case MessageFile:
@@ -826,10 +825,6 @@ bool MSNClient::send(Message *msg, void *_data)
             return false;
         data->sb->setTyping(false);
         delete msg;
-        return true;
-    }
-    if (packet){
-        packet->send();
         return true;
     }
     return false;

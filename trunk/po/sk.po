@@ -5,13 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
-<<<<<<< sk.po
 "POT-Creation-Date: 2003-10-17 08:55+0400\n"
 "PO-Revision-Date: 2003-10-20 11:47+0200\n"
-=======
-"POT-Creation-Date: 2003-10-20 12:11+0400\n"
-"PO-Revision-Date: 2003-10-13 08:18+0200\n"
->>>>>>> 1.44
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -5161,22 +5156,14 @@ msgid "Send message failed"
 msgstr "Nastala chyba pri odosielaní správy"
 
 # msgedit.cpp:513
-<<<<<<< sk.po
-#: plugins/msn/msnclient.cpp:2453
-=======
 #: plugins/msn/msnclient.cpp:2422
 #, fuzzy
->>>>>>> 1.44
 msgid "Transfer canceled"
 msgstr "Prenos prerušený"
 
 # msgedit.cpp:513
-<<<<<<< sk.po
-#: plugins/msn/msnclient.cpp:2632
-=======
 #: plugins/msn/msnclient.cpp:2601
 #, fuzzy
->>>>>>> 1.44
 msgid "File transfer failed"
 msgstr "Prenos skončil s chybou"
 
@@ -7146,12 +7133,8 @@ msgid "Socket error"
 msgstr "Chyba soketu"
 
 # monitor.cpp:133
-<<<<<<< sk.po
-#: sim/api/sockfactory.cpp:366
-=======
 #: sim/api/sockfactory.cpp:365
 #, fuzzy
->>>>>>> 1.44
 msgid "Can't allocate port"
 msgstr "Nemôžem alokovať port"
 
