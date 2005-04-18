@@ -39,7 +39,7 @@ namespace SIM
 typedef struct PictDef
 {
     QImage			*image;
-#ifdef WIN32
+#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
     QPixmap			*pixmap;
 #endif
     string			file;

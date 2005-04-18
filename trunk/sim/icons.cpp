@@ -128,7 +128,7 @@ void *Icons::processEvent(Event *e)
             (*it)->clear();
         for (it = m_defSets.begin(); it != m_defSets.end(); ++it)
             (*it)->clear();
-#ifdef WIN32
+#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
         m_icons.clear();
 #endif
     }
@@ -255,7 +255,7 @@ void Icons::removeIconSet(IconSet *is)
     }
 }
 
-#ifdef WIN32
+#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
 
 PictDef *Icons::getPict(const QPixmap &p)
 {
@@ -290,13 +290,13 @@ PictDef *getPict(const char *name)
     return icons->getPict(name);
 }
 
-#ifdef WIN32
+#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
 static QPixmap getPixmap(PictDef *d, const char *name)
 #else
 static QPixmap getPixmap(PictDef *d, const char*)
 #endif
 {
-#ifdef WIN32
+#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
     if (d->pixmap == NULL){
         QColor c = QApplication::palette().active().button();
         unsigned char cr = c.red();
@@ -353,7 +353,7 @@ QIconSet Icon(const char *name)
     pict = getPict(bigName.c_str());
     if (pict)
         res.setPixmap(getPixmap(pict, bigName.c_str()), QIconSet::Large);
-#ifdef WIN32
+#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
     string disName = "disabled.";
     disName += name;
     pict = getPict(disName.c_str());
@@ -379,7 +379,7 @@ QPixmap Pict(const char *name)
     return getPixmap(p, name);
 }
 
-#ifdef WIN32
+#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
 
 QPixmap Pict(const char *name, const QColor &c)
 {
@@ -441,7 +441,7 @@ IconSet::~IconSet()
     for (PIXMAP_MAP::iterator it = m_icons.begin(); it != m_icons.end(); ++it){
         if ((*it).second.image)
             delete (*it).second.image;
-#ifdef WIN32
+#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
         if ((*it).second.pixmap)
             delete (*it).second.pixmap;
 #endif
@@ -595,7 +595,7 @@ static QImage makeInvisible(unsigned flags, const QImage &p)
     return image;
 }
 
-#ifdef WIN32
+#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
 
 static QImage makeDisabled(const QImage &p)
 {
@@ -760,7 +760,7 @@ PictDef *WrkIconSet::getPict(const char *name)
             return add(name, res, p->flags);
         }
     }
-#ifdef WIN32
+#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
     char _disabled[] = "disabled.";
     if ((strlen(name) > strlen(_disabled)) && !memcmp(name, _disabled, strlen(_disabled))){
         PictDef *p = SIM::getPict(n.substr(strlen(_disabled)).c_str());
@@ -779,7 +779,7 @@ void WrkIconSet::clear()
     for (PIXMAP_MAP::iterator it = m_icons.begin(); it != m_icons.end(); ++it){
         if ((*it).second.image)
             delete (*it).second.image;
-#ifdef WIN32
+#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
         if ((*it).second.pixmap)
             delete (*it).second.pixmap;
 #endif
@@ -792,7 +792,7 @@ PictDef *WrkIconSet::add(const char *name, const QImage &pict, unsigned flags)
     PictDef p;
     p.image = new QImage(pict);
     p.flags = flags;
-#ifdef WIN32
+#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
     p.pixmap = NULL;
 #endif
     m_icons.insert(PIXMAP_MAP::value_type(name, p));
@@ -853,7 +853,7 @@ void FileIconSet::clear()
             delete (*it).second.image;
             (*it).second.image = NULL;
         }
-#ifdef WIN32
+#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
         if ((*it).second.pixmap){
             delete (*it).second.pixmap;
             (*it).second.pixmap = NULL;
@@ -930,7 +930,7 @@ void FileIconSet::element_end(const char *el)
     if (!strcmp(el, "icon")){
         PictDef p;
         p.image  = NULL;
-#ifdef WIN32
+#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
         p.pixmap = NULL;
 #endif
         p.file   = m_file;
