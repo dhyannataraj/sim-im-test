@@ -5097,10 +5097,6 @@ msgstr ""
 msgid "You have new mail"
 msgstr ""
 
-#: plugins/msn/msnpacket.cpp:488
-msgid "You have new mail"
-msgstr ""
-
 #: plugins/msn/msnconfigbase.cpp:169 plugins/yahoo/yahoocfgbase.cpp:175 plugins/yahoo/yahooinfobase.cpp:154
 msgid "Login:"
 msgstr ""
