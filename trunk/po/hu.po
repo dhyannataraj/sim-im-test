@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: sim\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-11-17 18:12+0000\n"
-"PO-Revision-Date: 2004-05-22 21:40+0100\n"
-"Last-Translator: Kroly Barcza (VectoR) <kbarcza@blackpanther.hu>\n"
+"PO-Revision-Date: 2005-04-20 21:03+0100\n"
+"Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: Hungarian <translator@vgroup.hu>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,7 +27,69 @@ msgstr "Konfigurációs fájlok helye modul információ"
 msgid "Set home directory"
 msgstr "Saját könyvtár beállítása"
 
-#: plugins/__homedir/homedircfgbase.cpp:62 plugins/_core/plugincfgbase.cpp:70 plugins/_core/prefcfgbase.cpp:65 plugins/_core/interfacecfgbase.cpp:122 plugins/_core/historycfgbase.cpp:166 plugins/_core/userhistorycfgbase.cpp:91 plugins/_core/maininfobase.cpp:186 plugins/_core/phonebase.cpp:113 plugins/_core/msgcfgbase.cpp:83 plugins/_core/filecfgbase.cpp:86 plugins/_core/smscfgbase.cpp:64 plugins/_core/arcfgbase.cpp:78 plugins/action/actioncfgbase.cpp:61 plugins/action/menucfgbase.cpp:67 plugins/autoaway/autoawaycfgbase.cpp:102 plugins/background/bkgndcfgbase.cpp:113 plugins/dock/dockcfgbase.cpp:91 plugins/filter/filtercfgbase.cpp:65 plugins/forward/forwardcfgbase.cpp:70 plugins/gpg/gpgcfgbase.cpp:105 plugins/gpg/gpgadvbase.cpp:124 plugins/gpg/gpguserbase.cpp:67 plugins/icons/iconcfgbase.cpp:73 plugins/icq/icqconfigbase.cc:262 plugins/icq/homeinfobase.cc:143 plugins/icq/pastinfobase.cc:138 plugins/icq/icqsecurebase.cc:106 plugins/icq/icqsearchbase.cc:125 plugins/icq/advsearchbase.cc:245 plugins/icq/icqpicturebase.cc:74 plugins/icq/aimconfigbase.cc:143 plugins/icq/aiminfobase.cc:255 plugins/icq/aimsearchbase.cc:161 plugins/jabber/jabberconfigbase.cpp:293 plugins/jabber/jabberinfobase.cpp:238 plugins/jabber/jabberworkinfobase.cpp:88 plugins/jabber/jabberpicturebase.cpp:74 plugins/jabber/infoproxybase.cpp:55 plugins/jabber/jidsearchbase.cpp:74 plugins/jabber/jidadvsearchbase.cpp:63 plugins/livejournal/livejournalcfgbase.cpp:148 plugins/livejournal/msgjournalbase.cpp:81 plugins/livejournal/journalsearchbase.cpp:64 plugins/logger/logconfigbase.cpp:67 plugins/msn/msninfobase.cpp:129 plugins/msn/msnsearchbase.cpp:71 plugins/navigate/navcfgbase.cc:68 plugins/ontop/ontopcfgbase.cpp:57 plugins/osd/osdconfigbase.cpp:108 plugins/proxy/proxycfgbase.cpp:130 plugins/remote/remotecfgbase.cpp:103 plugins/replace/replacecfgbase.cpp:52 plugins/shortcuts/shortcutcfgbase.cpp:79 plugins/shortcuts/mousecfgbase.cpp:77 plugins/sound/soundconfigbase.cpp:96 plugins/sound/sounduserbase.cpp:62 plugins/styles/stylescfgbase.cpp:52 plugins/styles/fontconfigbase.cpp:99 plugins/transparent/transparentcfgbase.cpp:70 plugins/weather/weathercfgbase.cpp:109 plugins/weather/wifacecfgbase.cpp:80 plugins/yahoo/yahooinfobase.cpp:152 plugins/yahoo/yahoosearchbase.cpp:97
+#: plugins/__homedir/homedircfgbase.cpp:62
+#: plugins/_core/plugincfgbase.cpp:70
+#: plugins/_core/prefcfgbase.cpp:65
+#: plugins/_core/interfacecfgbase.cpp:122
+#: plugins/_core/historycfgbase.cpp:166
+#: plugins/_core/userhistorycfgbase.cpp:91
+#: plugins/_core/maininfobase.cpp:186
+#: plugins/_core/phonebase.cpp:113
+#: plugins/_core/msgcfgbase.cpp:83
+#: plugins/_core/filecfgbase.cpp:86
+#: plugins/_core/smscfgbase.cpp:64
+#: plugins/_core/arcfgbase.cpp:78
+#: plugins/action/actioncfgbase.cpp:61
+#: plugins/action/menucfgbase.cpp:67
+#: plugins/autoaway/autoawaycfgbase.cpp:102
+#: plugins/background/bkgndcfgbase.cpp:113
+#: plugins/dock/dockcfgbase.cpp:91
+#: plugins/filter/filtercfgbase.cpp:65
+#: plugins/forward/forwardcfgbase.cpp:70
+#: plugins/gpg/gpgcfgbase.cpp:105
+#: plugins/gpg/gpgadvbase.cpp:124
+#: plugins/gpg/gpguserbase.cpp:67
+#: plugins/icons/iconcfgbase.cpp:73
+#: plugins/icq/icqconfigbase.cc:262
+#: plugins/icq/homeinfobase.cc:143
+#: plugins/icq/pastinfobase.cc:138
+#: plugins/icq/icqsecurebase.cc:106
+#: plugins/icq/icqsearchbase.cc:125
+#: plugins/icq/advsearchbase.cc:245
+#: plugins/icq/icqpicturebase.cc:74
+#: plugins/icq/aimconfigbase.cc:143
+#: plugins/icq/aiminfobase.cc:255
+#: plugins/icq/aimsearchbase.cc:161
+#: plugins/jabber/jabberconfigbase.cpp:293
+#: plugins/jabber/jabberinfobase.cpp:238
+#: plugins/jabber/jabberworkinfobase.cpp:88
+#: plugins/jabber/jabberpicturebase.cpp:74
+#: plugins/jabber/infoproxybase.cpp:55
+#: plugins/jabber/jidsearchbase.cpp:74
+#: plugins/jabber/jidadvsearchbase.cpp:63
+#: plugins/livejournal/livejournalcfgbase.cpp:148
+#: plugins/livejournal/msgjournalbase.cpp:81
+#: plugins/livejournal/journalsearchbase.cpp:64
+#: plugins/logger/logconfigbase.cpp:67
+#: plugins/msn/msninfobase.cpp:129
+#: plugins/msn/msnsearchbase.cpp:71
+#: plugins/navigate/navcfgbase.cc:68
+#: plugins/ontop/ontopcfgbase.cpp:57
+#: plugins/osd/osdconfigbase.cpp:108
+#: plugins/proxy/proxycfgbase.cpp:130
+#: plugins/remote/remotecfgbase.cpp:103
+#: plugins/replace/replacecfgbase.cpp:52
+#: plugins/shortcuts/shortcutcfgbase.cpp:79
+#: plugins/shortcuts/mousecfgbase.cpp:77
+#: plugins/sound/soundconfigbase.cpp:96
+#: plugins/sound/sounduserbase.cpp:62
+#: plugins/styles/stylescfgbase.cpp:52
+#: plugins/styles/fontconfigbase.cpp:99
+#: plugins/transparent/transparentcfgbase.cpp:70
+#: plugins/weather/weathercfgbase.cpp:109
+#: plugins/weather/wifacecfgbase.cpp:80
+#: plugins/yahoo/yahooinfobase.cpp:152
+#: plugins/yahoo/yahoosearchbase.cpp:97
 msgid "Form1"
 msgstr "Űrlap1"
 
@@ -51,7 +113,12 @@ msgstr "SIM 0.8-ból konvertált konfiguráció modul információ"
 msgid "Cancel convert?"
 msgstr "A művelet me&gszakítása"
 
-#: plugins/__migrate/migratedlg.cpp:161 plugins/__migrate/migratedlg.cpp:165 plugins/__migrate/migratedlg.cpp:169 plugins/__migrate/migratedlg.cpp:234 plugins/__migrate/migratedlg.cpp:238 sim/message.cpp:601
+#: plugins/__migrate/migratedlg.cpp:161
+#: plugins/__migrate/migratedlg.cpp:165
+#: plugins/__migrate/migratedlg.cpp:169
+#: plugins/__migrate/migratedlg.cpp:234
+#: plugins/__migrate/migratedlg.cpp:238
+#: sim/message.cpp:601
 msgid "Can't open %1"
 msgstr "%1 nem lehet megnyitni"
 
@@ -83,7 +150,9 @@ msgstr "Könyvtár kiválasztása a konvertáláshoz"
 msgid "Convert configuration"
 msgstr "Műveletbeállítások"
 
-#: plugins/_core/arcfg.cpp:96 plugins/_core/autoreply.cpp:111 plugins/weather/wifacecfg.cpp:107
+#: plugins/_core/arcfg.cpp:96
+#: plugins/_core/autoreply.cpp:111
+#: plugins/weather/wifacecfg.cpp:107
 msgid "In text you can use:"
 msgstr "A használi kívánt bevitt szöveg"
 
@@ -91,16 +160,23 @@ msgstr "A használi kívánt bevitt szöveg"
 msgid "Autoreply message"
 msgstr "Automatikus Válaszok"
 
-#: plugins/_core/autoreply.cpp:51 plugins/_core/autoreply.cpp:97
-#, fuzzy, c-format
-msgid "Close after %n second"
-msgstr "E&lküldés után bezárja"
+#: plugins/_core/autoreply.cpp:51
+#: plugins/_core/autoreply.cpp:97
+#, c-format
+msgid ""
+"_n: Close after %n second\n"
+"Close after %n seconds"
+msgstr ""
+"_n: Bezárás %n másodperc múlva\n"
+"Bezárás %n másodperc múlva"
 
-#: plugins/_core/cfgdlg.cpp:275 plugins/_core/usercfg.cpp:195
+#: plugins/_core/cfgdlg.cpp:275
+#: plugins/_core/usercfg.cpp:195
 msgid "User info"
 msgstr "Felhasználói információ"
 
-#: plugins/_core/cfgdlg.cpp:365 plugins/_core/usercfg.cpp:341
+#: plugins/_core/cfgdlg.cpp:365
+#: plugins/_core/usercfg.cpp:341
 msgid "Autoreply"
 msgstr "Automatikus válaszok"
 
@@ -108,23 +184,69 @@ msgstr "Automatikus válaszok"
 msgid "Plugins"
 msgstr "Bővítmények"
 
-#: plugins/_core/cfgdlg.cpp:501 plugins/_core/cfgdlgbase.cpp:94 plugins/_core/toolsetupbase.cpp:134 plugins/jabber/discoinfobase.cpp:288 sim/simapi.cpp:480
+#: plugins/_core/cfgdlg.cpp:501
+#: plugins/_core/cfgdlgbase.cpp:94
+#: plugins/_core/toolsetupbase.cpp:134
+#: plugins/jabber/discoinfobase.cpp:288
+#: sim/simapi.cpp:480
 msgid "&Apply"
 msgstr "&Alkalmazás"
 
-#: plugins/_core/cfgdlg.cpp:502 plugins/_core/cfgdlgbase.cpp:95 plugins/_core/toolsetupbase.cpp:135 plugins/_core/editmailbase.cpp:97 plugins/_core/editphonebase.cpp:112 plugins/_core/connectionsettingsbase.cpp:75 plugins/_core/logindlgbase.cpp:132 plugins/_core/autoreplybase.cpp:91 plugins/_core/declinedlgbase.cpp:82 plugins/action/additembase.cpp:95 plugins/gpg/gpggenbase.cpp:142 plugins/gpg/passphrasebase.cpp:90 plugins/icq/warndlgbase.cc:88 plugins/icq/encodingdlgbase.cc:86 plugins/jabber/discoinfobase.cpp:289 plugins/proxy/proxyerrorbase.cpp:80 sim/simapi.cpp:479 sim/qt3/i18n.cpp:174
+#: plugins/_core/cfgdlg.cpp:502
+#: plugins/_core/cfgdlgbase.cpp:95
+#: plugins/_core/toolsetupbase.cpp:135
+#: plugins/_core/editmailbase.cpp:97
+#: plugins/_core/editphonebase.cpp:112
+#: plugins/_core/connectionsettingsbase.cpp:75
+#: plugins/_core/logindlgbase.cpp:132
+#: plugins/_core/autoreplybase.cpp:91
+#: plugins/_core/declinedlgbase.cpp:82
+#: plugins/action/additembase.cpp:95
+#: plugins/gpg/gpggenbase.cpp:142
+#: plugins/gpg/passphrasebase.cpp:90
+#: plugins/icq/warndlgbase.cc:88
+#: plugins/icq/encodingdlgbase.cc:86
+#: plugins/jabber/discoinfobase.cpp:289
+#: plugins/proxy/proxyerrorbase.cpp:80
+#: sim/simapi.cpp:479
+#: sim/qt3/i18n.cpp:174
 msgid "&OK"
 msgstr "&OK"
 
-#: plugins/_core/cfgdlg.cpp:503 plugins/_core/search.cpp:131 plugins/_core/cfgdlgbase.cpp:96 plugins/_core/editmailbase.cpp:98 plugins/_core/editphonebase.cpp:113 plugins/_core/connectionsettingsbase.cpp:76 plugins/_core/logindlgbase.cpp:133 plugins/_core/autoreplybase.cpp:92 plugins/_core/filetransferbase.cpp:138 plugins/_core/declinedlgbase.cpp:83 plugins/action/additembase.cpp:96 plugins/gpg/gpggenbase.cpp:143 plugins/gpg/passphrasebase.cpp:91 plugins/icq/icqclient.cpp:2411 plugins/icq/securedlgbase.cc:78 plugins/icq/warndlgbase.cc:89 plugins/icq/encodingdlgbase.cc:87 plugins/proxy/proxyerrorbase.cpp:81 plugins/weather/weathercfg.cpp:76 sim/simapi.cpp:482 sim/qt3/i18n.cpp:35
+#: plugins/_core/cfgdlg.cpp:503
+#: plugins/_core/search.cpp:131
+#: plugins/_core/cfgdlgbase.cpp:96
+#: plugins/_core/editmailbase.cpp:98
+#: plugins/_core/editphonebase.cpp:113
+#: plugins/_core/connectionsettingsbase.cpp:76
+#: plugins/_core/logindlgbase.cpp:133
+#: plugins/_core/autoreplybase.cpp:92
+#: plugins/_core/filetransferbase.cpp:138
+#: plugins/_core/declinedlgbase.cpp:83
+#: plugins/action/additembase.cpp:96
+#: plugins/gpg/gpggenbase.cpp:143
+#: plugins/gpg/passphrasebase.cpp:91
+#: plugins/icq/icqclient.cpp:2411
+#: plugins/icq/securedlgbase.cc:78
+#: plugins/icq/warndlgbase.cc:89
+#: plugins/icq/encodingdlgbase.cc:87
+#: plugins/proxy/proxyerrorbase.cpp:81
+#: plugins/weather/weathercfg.cpp:76
+#: sim/simapi.cpp:482
+#: sim/qt3/i18n.cpp:35
 msgid "&Cancel"
 msgstr "&Mégsem"
 
-#: plugins/_core/cfgdlg.cpp:504 plugins/_core/core.cpp:534 plugins/_core/core.cpp:1151 plugins/_core/core.cpp:1233 plugins/_core/cfgdlgbase.cpp:91
+#: plugins/_core/cfgdlg.cpp:504
+#: plugins/_core/core.cpp:534
+#: plugins/_core/core.cpp:1151
+#: plugins/_core/core.cpp:1233
+#: plugins/_core/cfgdlgbase.cpp:91
 msgid "Setup"
 msgstr "Beállítások"
 
-#: plugins/_core/cfgdlg.cpp:549 plugins/jabber/jabber.cpp:304
+#: plugins/_core/cfgdlg.cpp:549
+#: plugins/jabber/jabber.cpp:304
 msgid "Configure"
 msgstr "Beállítás"
 
@@ -136,7 +258,8 @@ msgstr "Információ"
 msgid "More..."
 msgstr "Egyéb..."
 
-#: plugins/_core/commands.cpp:234 plugins/_core/toolbarcfg.cpp:40
+#: plugins/_core/commands.cpp:234
+#: plugins/_core/toolbarcfg.cpp:40
 msgid "Customize toolbar..."
 msgstr "Az eszköztár testreszabása"
 
@@ -144,7 +267,8 @@ msgstr "Az eszköztár testreszabása"
 msgid "Configure %1 client"
 msgstr "Kliens %1 konfigurálása"
 
-#: plugins/_core/connectwnd.cpp:79 plugins/_core/logindlg.cpp:311
+#: plugins/_core/connectwnd.cpp:79
+#: plugins/_core/logindlg.cpp:311
 msgid "Forgot password?"
 msgstr "Elfelejtett jelszó?"
 
@@ -152,17 +276,40 @@ msgstr "Elfelejtett jelszó?"
 msgid "Container"
 msgstr "Tároló"
 
-#: plugins/_core/container.cpp:590 plugins/_core/core.cpp:1683 plugins/osd/osd.cpp:407 plugins/osd/osd.cpp:409 plugins/osd/osd.cpp:411 plugins/osd/osd.cpp:413 plugins/osd/osd.cpp:415 plugins/osd/osd.cpp:417 plugins/osd/osd.cpp:419 plugins/osd/osd.cpp:421 plugins/yahoo/yahoosearch.cpp:44 sim/contacts.cpp:2117
-#, fuzzy
-msgid "male"
-msgstr "Nő"
+#: plugins/_core/container.cpp:590
+#: plugins/_core/core.cpp:1683
+#: plugins/osd/osd.cpp:407
+#: plugins/osd/osd.cpp:409
+#: plugins/osd/osd.cpp:411
+#: plugins/osd/osd.cpp:413
+#: plugins/osd/osd.cpp:415
+#: plugins/osd/osd.cpp:417
+#: plugins/osd/osd.cpp:419
+#: plugins/osd/osd.cpp:421
+#: sim/contacts.cpp:2117
+msgid ""
+"_: male\n"
+"%1 is typing"
+msgstr "%1 üzenetet gépel be...."
 
-#: plugins/_core/container.cpp:591 plugins/_core/core.cpp:1684 plugins/osd/osd.cpp:408 plugins/osd/osd.cpp:410 plugins/osd/osd.cpp:412 plugins/osd/osd.cpp:414 plugins/osd/osd.cpp:416 plugins/osd/osd.cpp:418 plugins/osd/osd.cpp:420 plugins/osd/osd.cpp:422 plugins/yahoo/yahoosearch.cpp:45 sim/contacts.cpp:2120
-#, fuzzy
-msgid "female"
-msgstr "Nő"
+#: plugins/_core/container.cpp:591
+#: plugins/_core/core.cpp:1684
+#: plugins/osd/osd.cpp:408
+#: plugins/osd/osd.cpp:410
+#: plugins/osd/osd.cpp:412
+#: plugins/osd/osd.cpp:414
+#: plugins/osd/osd.cpp:416
+#: plugins/osd/osd.cpp:418
+#: plugins/osd/osd.cpp:420
+#: plugins/osd/osd.cpp:422
+#: sim/contacts.cpp:2120
+msgid ""
+"_: female\n"
+"%1 is typing"
+msgstr "%1 üzenetet gépel be...."
 
-#: plugins/_core/core.cpp:108 plugins/weather/weathercfg.cpp:49
+#: plugins/_core/core.cpp:108
+#: plugins/weather/weathercfg.cpp:49
 msgid "Interface"
 msgstr "Felület"
 
@@ -228,71 +375,98 @@ msgstr "&SMS Küldése"
 msgid "&Phone service"
 msgstr "&Telefon funkciók"
 
-#: plugins/_core/core.cpp:599 plugins/_core/msgedit.cpp:431 plugins/update/update.cpp:106
+#: plugins/_core/core.cpp:599
 msgid "Message"
 msgstr "Üzenet"
 
-#: plugins/_core/core.cpp:610 plugins/filter/ignorelist.cpp:26
+#: plugins/_core/core.cpp:610
+#: plugins/filter/ignorelist.cpp:26
 msgid "Contact"
 msgstr "Kapcsolat"
 
-#: plugins/_core/core.cpp:617 plugins/_core/core.cpp:1185
+#: plugins/_core/core.cpp:617
+#: plugins/_core/core.cpp:1185
 msgid "Group"
 msgstr "Csoport"
 
-#: plugins/_core/core.cpp:625 plugins/_core/core.cpp:1218 plugins/icq/icq.cpp:376 plugins/jabber/jabber.cpp:231
+#: plugins/_core/core.cpp:625
+#: plugins/_core/core.cpp:1218
+#: plugins/icq/icq.cpp:376
+#: plugins/jabber/jabber.cpp:231
 msgid "User &info"
 msgstr "Felhasználói információ"
 
-#: plugins/_core/core.cpp:632 plugins/_core/core.cpp:1051 plugins/_core/core.cpp:1226
+#: plugins/_core/core.cpp:632
+#: plugins/_core/core.cpp:1051
+#: plugins/_core/core.cpp:1226
 msgid "&History"
 msgstr "&Napló"
 
-#: plugins/_core/core.cpp:639 plugins/_core/filetransfer.cpp:346 plugins/_core/toolsetupbase.cpp:136 plugins/_core/managerbase.cpp:110 plugins/about/aboutdlgbase.cpp:122 plugins/icq/securedlg.cpp:92 plugins/jabber/discoinfobase.cpp:290 sim/simapi.cpp:482 sim/qt3/i18n.cpp:287
+#: plugins/_core/core.cpp:639
+#: plugins/_core/filetransfer.cpp:346
+#: plugins/_core/toolsetupbase.cpp:136
+#: plugins/_core/managerbase.cpp:110
+#: plugins/about/aboutdlgbase.cpp:122
+#: plugins/icq/securedlg.cpp:92
+#: plugins/jabber/discoinfobase.cpp:290
+#: sim/simapi.cpp:482
+#: sim/qt3/i18n.cpp:287
 msgid "&Close"
 msgstr "&Bezárás"
 
-#: plugins/_core/core.cpp:673 plugins/_core/msgedit.cpp:1018
+#: plugins/_core/core.cpp:673
+#: plugins/_core/msgedit.cpp:1018
 msgid "&Send"
 msgstr "&Elküldés"
 
-#: plugins/_core/core.cpp:693 plugins/_core/core.cpp:1702
+#: plugins/_core/core.cpp:693
+#: plugins/_core/core.cpp:1702
 msgid "&Insert smile"
 msgstr "Elem beszúrása"
 
-#: plugins/_core/core.cpp:700 plugins/forward/forwardcfgbase.cpp:75
+#: plugins/_core/core.cpp:700
+#: plugins/forward/forwardcfgbase.cpp:75
 msgid "Send in &translit"
 msgstr "Küldés &ékezetek nélkül"
 
-#: plugins/_core/core.cpp:708 plugins/_core/msgedit.cpp:252
+#: plugins/_core/core.cpp:708
+#: plugins/_core/msgedit.cpp:252
 msgid "C&lose after send"
 msgstr "E&lküldés után bezárja"
 
-#: plugins/_core/core.cpp:716 plugins/_core/msgedit.cpp:1007
+#: plugins/_core/core.cpp:716
+#: plugins/_core/msgedit.cpp:1007
 msgid "&Multiply send"
 msgstr "Másolat kül&dése"
 
-#: plugins/_core/core.cpp:724 plugins/_core/core.cpp:827
+#: plugins/_core/core.cpp:724
+#: plugins/_core/core.cpp:827
 msgid "Back&ground color"
 msgstr "A háttér színe"
 
-#: plugins/_core/core.cpp:732 plugins/_core/core.cpp:836
+#: plugins/_core/core.cpp:732
+#: plugins/_core/core.cpp:836
 msgid "&Foreground color"
 msgstr "Az előtér színe"
 
-#: plugins/_core/core.cpp:738 plugins/_core/core.cpp:842
+#: plugins/_core/core.cpp:738
+#: plugins/_core/core.cpp:842
 msgid "&Bold"
 msgstr "&Félkövér"
 
-#: plugins/_core/core.cpp:745 plugins/_core/core.cpp:849
+#: plugins/_core/core.cpp:745
+#: plugins/_core/core.cpp:849
 msgid "&Italic"
 msgstr "&Dőlt"
 
-#: plugins/_core/core.cpp:752 plugins/_core/core.cpp:856 sim/qt3/i18n.cpp:160
+#: plugins/_core/core.cpp:752
+#: plugins/_core/core.cpp:856
+#: sim/qt3/i18n.cpp:160
 msgid "&Underline"
 msgstr "Alá&húzott"
 
-#: plugins/_core/core.cpp:759 plugins/_core/core.cpp:863
+#: plugins/_core/core.cpp:759
+#: plugins/_core/core.cpp:863
 msgid "Select &font"
 msgstr "Betűtípus-választás"
 
@@ -304,7 +478,9 @@ msgstr "Fájl kiválasztása"
 msgid "&Phone number"
 msgstr "Telefonszám"
 
-#: plugins/_core/core.cpp:782 plugins/_core/msgedit.cpp:1528 plugins/jabber/jabber.cpp:260
+#: plugins/_core/core.cpp:782
+#: plugins/_core/msgedit.cpp:1528
+#: plugins/jabber/jabber.cpp:260
 msgid "&Next"
 msgstr "&Következő "
 
@@ -312,7 +488,8 @@ msgstr "&Következő "
 msgid "&Direction"
 msgstr "Irány"
 
-#: plugins/_core/core.cpp:798 plugins/filter/filter.cpp:120
+#: plugins/_core/core.cpp:798
+#: plugins/filter/filter.cpp:120
 msgid "&Filter"
 msgstr "&Szűrő"
 
@@ -332,7 +509,11 @@ msgstr ""
 msgid "&Open message"
 msgstr "Üzenet megnyitása"
 
-#: plugins/_core/core.cpp:902 plugins/_core/core.cpp:991 plugins/_core/historycfgbase.cpp:175 plugins/netmonitor/monitor.cpp:67 sim/qt3/qtextedit.cpp:4238
+#: plugins/_core/core.cpp:902
+#: plugins/_core/core.cpp:991
+#: plugins/_core/historycfgbase.cpp:175
+#: plugins/netmonitor/monitor.cpp:67
+#: sim/qt3/qtextedit.cpp:4238
 msgid "&Copy"
 msgstr "&Másolás"
 
@@ -348,7 +529,8 @@ msgstr "Napló kivágása"
 msgid "&Quote"
 msgstr "&Idézés"
 
-#: plugins/_core/core.cpp:936 plugins/forward/forward.cpp:65
+#: plugins/_core/core.cpp:936
+#: plugins/forward/forward.cpp:65
 msgid "&Forward"
 msgstr "&Tovább"
 
@@ -356,27 +538,38 @@ msgstr "&Tovább"
 msgid "&Answer"
 msgstr "Válasz"
 
-#: plugins/_core/core.cpp:966 sim/qt3/qtextedit.cpp:4231
+#: plugins/_core/core.cpp:966
+#: sim/qt3/qtextedit.cpp:4231
 msgid "&Undo"
 msgstr "&Visszavonás"
 
-#: plugins/_core/core.cpp:977 sim/qt3/qtextedit.cpp:4232
+#: plugins/_core/core.cpp:977
+#: sim/qt3/qtextedit.cpp:4232
 msgid "&Redo"
 msgstr "Újra vé&grehajtás"
 
-#: plugins/_core/core.cpp:984 sim/qt3/qtextedit.cpp:4237
+#: plugins/_core/core.cpp:984
+#: sim/qt3/qtextedit.cpp:4237
 msgid "Cu&t"
 msgstr "Ki&vágás"
 
-#: plugins/_core/core.cpp:998 sim/qt3/qtextedit.cpp:4240
+#: plugins/_core/core.cpp:998
+#: sim/qt3/qtextedit.cpp:4240
 msgid "&Paste"
 msgstr "&Beillesztés"
 
-#: plugins/_core/core.cpp:1005 sim/editfile.cpp:315 sim/editfile.cpp:398 sim/qt3/i18n.cpp:255 sim/qt3/qtextedit.cpp:4243
+#: plugins/_core/core.cpp:1005
+#: sim/editfile.cpp:315
+#: sim/editfile.cpp:398
+#: sim/qt3/i18n.cpp:255
+#: sim/qt3/qtextedit.cpp:4243
 msgid "Clear"
 msgstr "Törlés"
 
-#: plugins/_core/core.cpp:1012 sim/qt3/i18n.cpp:257 sim/qt3/qtextedit.cpp:4247 sim/qt3/qtextedit.cpp:4249
+#: plugins/_core/core.cpp:1012
+#: sim/qt3/i18n.cpp:257
+#: sim/qt3/qtextedit.cpp:4247
+#: sim/qt3/qtextedit.cpp:4249
 msgid "Select All"
 msgstr "Mindent kijelöl"
 
@@ -384,7 +577,8 @@ msgstr "Mindent kijelöl"
 msgid "Enable spell check"
 msgstr "A helyesírás-ellenőrzés bekapcsolása"
 
-#: plugins/_core/core.cpp:1026 plugins/spell/spell.cpp:61
+#: plugins/_core/core.cpp:1026
+#: plugins/spell/spell.cpp:61
 msgid "Spell check"
 msgstr "Helyesírás-ellenőrzés"
 
@@ -392,11 +586,14 @@ msgstr "Helyesírás-ellenőrzés"
 msgid "&Messages"
 msgstr "Ü&zenetek"
 
-#: plugins/_core/core.cpp:1043 plugins/_core/msgedit.cpp:1679 plugins/sms/smssetupbase.cpp:153
+#: plugins/_core/core.cpp:1043
+#: plugins/_core/msgedit.cpp:1679
+#: plugins/sms/smssetupbase.cpp:153
 msgid "&SMS"
 msgstr "&SMS"
 
-#: plugins/_core/core.cpp:1059 plugins/_core/core.cpp:1090
+#: plugins/_core/core.cpp:1059
+#: plugins/_core/core.cpp:1090
 msgid "Show &offline"
 msgstr "&Offline is látszik? igen/nem "
 
@@ -436,11 +633,22 @@ msgstr "Fel"
 msgid "Down"
 msgstr "Le"
 
-#: plugins/_core/core.cpp:1193 plugins/_core/historycfgbase.cpp:176 sim/qt3/i18n.cpp:97
+#: plugins/_core/core.cpp:1193
+#: plugins/_core/historycfgbase.cpp:176
+#: sim/qt3/i18n.cpp:97
 msgid "&Rename"
 msgstr "Átnevez&és"
 
-#: plugins/_core/core.cpp:1202 plugins/_core/core.cpp:1349 plugins/_core/core.cpp:1362 plugins/_core/historycfgbase.cpp:177 plugins/_core/maininfobase.cpp:195 plugins/_core/maininfobase.cpp:205 plugins/_core/logindlgbase.cpp:129 plugins/action/menucfgbase.cpp:70 sim/listview.cpp:38 sim/qt3/i18n.cpp:99
+#: plugins/_core/core.cpp:1202
+#: plugins/_core/core.cpp:1349
+#: plugins/_core/core.cpp:1362
+#: plugins/_core/historycfgbase.cpp:177
+#: plugins/_core/maininfobase.cpp:195
+#: plugins/_core/maininfobase.cpp:205
+#: plugins/_core/logindlgbase.cpp:129
+#: plugins/action/menucfgbase.cpp:70
+#: sim/listview.cpp:38
+#: sim/qt3/i18n.cpp:99
 msgid "&Delete"
 msgstr "&Törlés"
 
@@ -456,7 +664,12 @@ msgstr "Tárolóba"
 msgid "&Location"
 msgstr "Hel&y"
 
-#: plugins/_core/core.cpp:1273 plugins/icq/icqinfobase.cc:321 plugins/icq/aiminfobase.cc:274 plugins/jabber/jabberinfobase.cpp:250 plugins/msn/msninfobase.cpp:136 plugins/yahoo/yahooinfobase.cpp:161
+#: plugins/_core/core.cpp:1273
+#: plugins/icq/icqinfobase.cc:321
+#: plugins/icq/aiminfobase.cc:274
+#: plugins/jabber/jabberinfobase.cpp:250
+#: plugins/msn/msninfobase.cpp:136
+#: plugins/yahoo/yahooinfobase.cpp:161
 msgid "&Status"
 msgstr "Álla&pot"
 
@@ -480,11 +693,13 @@ msgstr "Foglalt"
 msgid "Decline file without reason"
 msgstr "Decline file without reason"
 
-#: plugins/_core/core.cpp:1326 plugins/_core/core.cpp:3375
+#: plugins/_core/core.cpp:1326
+#: plugins/_core/core.cpp:3375
 msgid "Sorry, I'm busy right now, and can not respond to your request"
 msgstr "Automatikus üzenet: Sajnálom, most elfoglalt vagyok és nem tudok válaszoni az üzenetedre..."
 
-#: plugins/_core/core.cpp:1331 plugins/_core/core.cpp:3384
+#: plugins/_core/core.cpp:1331
+#: plugins/_core/core.cpp:3384
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
 msgstr "Automatikus üzenet: Sajnálom, most elfoglalt vagyok de majd később felkereslek..."
 
@@ -492,7 +707,12 @@ msgstr "Automatikus üzenet: Sajnálom, most elfoglalt vagyok de majd később f
 msgid "Enter a decline reason"
 msgstr "Enter a decline reason"
 
-#: plugins/_core/core.cpp:1341 plugins/_core/core.cpp:1355 plugins/_core/maininfobase.cpp:194 plugins/_core/maininfobase.cpp:204 plugins/action/menucfgbase.cpp:69 plugins/netmonitor/monitor.cpp:69
+#: plugins/_core/core.cpp:1341
+#: plugins/_core/core.cpp:1355
+#: plugins/_core/maininfobase.cpp:194
+#: plugins/_core/maininfobase.cpp:204
+#: plugins/action/menucfgbase.cpp:69
+#: plugins/netmonitor/monitor.cpp:69
 msgid "&Edit"
 msgstr "S&zerkesztés"
 
@@ -500,7 +720,8 @@ msgstr "S&zerkesztés"
 msgid "&Show all encodings"
 msgstr "Az összes lehetséges paraméter megjelenítése"
 
-#: plugins/_core/core.cpp:1386 plugins/_core/core.cpp:1396
+#: plugins/_core/core.cpp:1386
+#: plugins/_core/core.cpp:1396
 msgid "Change &encoding"
 msgstr "A kó&dolás beállítása"
 
@@ -509,7 +730,11 @@ msgstr "A kó&dolás beállítása"
 msgid "Add to &group"
 msgstr "Hozzáadás a már létező csoporthoz"
 
-#: plugins/_core/core.cpp:1426 plugins/_core/maininfobase.cpp:191 plugins/jabber/discoinfo.cpp:179 plugins/jabber/discoinfobase.cpp:270 plugins/jabber/discoinfobase.cpp:287
+#: plugins/_core/core.cpp:1426
+#: plugins/_core/maininfobase.cpp:191
+#: plugins/jabber/discoinfo.cpp:179
+#: plugins/jabber/discoinfobase.cpp:270
+#: plugins/jabber/discoinfobase.cpp:287
 msgid "&Info"
 msgstr "Információ: "
 
@@ -549,7 +774,23 @@ msgstr "állapot beállítási idő"
 msgid "time from set status"
 msgstr "idő a beállított állapotból"
 
-#: plugins/_core/core.cpp:1721 plugins/_core/status.cpp:321 sim/qt3/i18n.cpp:21
+#: plugins/_core/core.cpp:1676
+#, fuzzy
+msgid ""
+"_: male\n"
+"%1 wrote:"
+msgstr "%1 típus"
+
+#: plugins/_core/core.cpp:1677
+#, fuzzy
+msgid ""
+"_: female\n"
+"%1 wrote:"
+msgstr "%1 típus"
+
+#: plugins/_core/core.cpp:1721
+#: plugins/_core/status.cpp:321
+#: sim/qt3/i18n.cpp:21
 msgid "OK"
 msgstr "RENDBEN"
 
@@ -569,7 +810,8 @@ msgstr "Többet ne jelenjen meg ez az ablak"
 msgid "`<command>` - call <command> and substitute command output\n"
 msgstr "`<command>` - call <command> and substitute command output\n"
 
-#: plugins/_core/core.cpp:2306 plugins/_core/interfacecfg.cpp:101
+#: plugins/_core/core.cpp:2306
+#: plugins/_core/interfacecfg.cpp:101
 msgid "System"
 msgstr "Rendszer"
 
@@ -577,11 +819,13 @@ msgstr "Rendszer"
 msgid "&Separate"
 msgstr "&Elválaszt"
 
-#: plugins/_core/core.cpp:2481 plugins/_core/userwnd.cpp:134
+#: plugins/_core/core.cpp:2481
+#: plugins/_core/userwnd.cpp:134
 msgid "from %1"
 msgstr " %1 -tól/től"
 
-#: plugins/_core/core.cpp:2675 plugins/icons/iconcfgbase.cpp:77
+#: plugins/_core/core.cpp:2675
+#: plugins/icons/iconcfgbase.cpp:77
 msgid "&New"
 msgstr "Ú&j"
 
@@ -589,7 +833,10 @@ msgstr "Ú&j"
 msgid "Not available"
 msgstr "Nem érhető el"
 
-#: plugins/_core/core.cpp:2848 plugins/dock/dockwnd.cpp:1368 plugins/msn/msnpacket.cpp:490 plugins/osd/osd.cpp:551
+#: plugins/_core/core.cpp:2848
+#: plugins/dock/dockwnd.cpp:1368
+#: plugins/msn/msnpacket.cpp:490
+#: plugins/osd/osd.cpp:551
 msgid "%1 from %2"
 msgstr "%1 %2 tól/től..."
 
@@ -597,7 +844,9 @@ msgstr "%1 %2 tól/től..."
 msgid "Send SMS"
 msgstr "SMS küldése"
 
-#: plugins/_core/core.cpp:4197 plugins/_core/core.cpp:4219 plugins/_core/managerbase.cpp:103
+#: plugins/_core/core.cpp:4197
+#: plugins/_core/core.cpp:4219
+#: plugins/_core/managerbase.cpp:103
 msgid "Connection manager"
 msgstr "Kapcsolat kezelő"
 
@@ -621,7 +870,9 @@ msgstr "Jelenlegi állapot:"
 msgid "Configure client"
 msgstr "A kliensprogram beállításai..."
 
-#: plugins/_core/core.cpp:4286 plugins/_core/status.cpp:153 plugins/_core/status.cpp:223
+#: plugins/_core/core.cpp:4286
+#: plugins/_core/status.cpp:153
+#: plugins/_core/status.cpp:223
 msgid "&Invisible"
 msgstr "Láthatatlan"
 
@@ -645,7 +896,8 @@ msgstr "A telefonszám szerkesztése"
 msgid "Bad path: %1"
 msgstr "Rossz elérési út: %1"
 
-#: plugins/_core/filetransfer.cpp:101 plugins/_core/filetransfer.cpp:161
+#: plugins/_core/filetransfer.cpp:101
+#: plugins/_core/filetransfer.cpp:161
 msgid "Can't create: %1"
 msgstr "%1 nem hozható létre"
 
@@ -741,7 +993,8 @@ msgstr "Hello!"
 msgid "<b><font color=\"#FF0000\">C</font><font color=\"#FFFF00\">olored</font></b> message"
 msgstr "<b><font color=\"#FF0000\">C</font><font color=\"#FFFF00\">színezett</font></b> üzenet"
 
-#: plugins/_core/historycfg.cpp:675 plugins/_core/msgcfgbase.cpp:86
+#: plugins/_core/historycfg.cpp:675
+#: plugins/_core/msgcfgbase.cpp:86
 msgid "New message"
 msgstr "Új üzenet"
 
@@ -749,7 +1002,8 @@ msgstr "Új üzenet"
 msgid "Loading"
 msgstr "Betöltés"
 
-#: plugins/_core/historywnd.cpp:129 plugins/_core/interfacecfg.cpp:88
+#: plugins/_core/historywnd.cpp:129
+#: plugins/_core/interfacecfg.cpp:88
 msgid "History"
 msgstr "Napló"
 
@@ -757,7 +1011,16 @@ msgstr "Napló"
 msgid "Textfile (*.txt)"
 msgstr ""
 
-#: plugins/_core/historywnd.cpp:193 plugins/_core/historywnd.cpp:213 plugins/_core/status.cpp:139 plugins/_core/statuswnd.cpp:97 plugins/jabber/jabbermessage.cpp:109 plugins/jabber/jabbermessage.cpp:133 plugins/jabber/jabbermessage.cpp:228 plugins/logger/logconfig.cpp:92 plugins/netmonitor/monitor.cpp:89 plugins/windock/windock.cpp:180 sim/qt3/i18n.cpp:141
+#: plugins/_core/historywnd.cpp:193
+#: plugins/_core/historywnd.cpp:213
+#: plugins/_core/status.cpp:139
+#: plugins/_core/statuswnd.cpp:97
+#: plugins/jabber/jabbermessage.cpp:109
+#: plugins/jabber/jabbermessage.cpp:228
+#: plugins/logger/logconfig.cpp:92
+#: plugins/netmonitor/monitor.cpp:89
+#: plugins/windock/windock.cpp:180
+#: sim/qt3/i18n.cpp:141
 msgid "Error"
 msgstr "Hiba"
 
@@ -777,67 +1040,87 @@ msgstr ""
 msgid "Save failed"
 msgstr ""
 
-#: plugins/_core/interfacecfg.cpp:53 plugins/icq/moreinfo.cpp:98
+#: plugins/_core/interfacecfg.cpp:53
+#: plugins/icq/moreinfo.cpp:98
 msgid "English"
 msgstr "Angol"
 
-#: plugins/_core/interfacecfg.cpp:54 plugins/icq/moreinfo.cpp:89
+#: plugins/_core/interfacecfg.cpp:54
+#: plugins/icq/moreinfo.cpp:89
 msgid "Bulgarian"
 msgstr "Bolgár"
 
-#: plugins/_core/interfacecfg.cpp:55 plugins/icq/moreinfo.cpp:92
+#: plugins/_core/interfacecfg.cpp:55
+#: plugins/icq/moreinfo.cpp:92
 msgid "Catalan"
 msgstr "Katalán"
 
-#: plugins/_core/interfacecfg.cpp:56 plugins/icq/moreinfo.cpp:95
+#: plugins/_core/interfacecfg.cpp:56
+#: plugins/icq/moreinfo.cpp:95
 msgid "Czech"
 msgstr "Cseh"
 
-#: plugins/_core/interfacecfg.cpp:57 plugins/icq/moreinfo.cpp:105
+#: plugins/_core/interfacecfg.cpp:57
+#: plugins/icq/moreinfo.cpp:105
 msgid "German"
 msgstr "Német"
 
-#: plugins/_core/interfacecfg.cpp:58 plugins/icq/moreinfo.cpp:106 sim/contacts.cpp:2024 sim/contacts.cpp:2025
+#: plugins/_core/interfacecfg.cpp:58
+#: plugins/icq/moreinfo.cpp:106
+#: sim/contacts.cpp:2024
+#: sim/contacts.cpp:2025
 msgid "Greek"
 msgstr "Görög"
 
-#: plugins/_core/interfacecfg.cpp:59 plugins/icq/moreinfo.cpp:129
+#: plugins/_core/interfacecfg.cpp:59
+#: plugins/icq/moreinfo.cpp:129
 msgid "Spanish"
 msgstr "Spanyol"
 
-#: plugins/_core/interfacecfg.cpp:60 plugins/icq/moreinfo.cpp:103
+#: plugins/_core/interfacecfg.cpp:60
+#: plugins/icq/moreinfo.cpp:103
 msgid "French"
 msgstr "Francia"
 
-#: plugins/_core/interfacecfg.cpp:61 plugins/icq/moreinfo.cpp:107 sim/contacts.cpp:2027 sim/contacts.cpp:2028
+#: plugins/_core/interfacecfg.cpp:61
+#: plugins/icq/moreinfo.cpp:107
+#: sim/contacts.cpp:2027
+#: sim/contacts.cpp:2028
 msgid "Hebrew"
 msgstr "Héber"
 
-#: plugins/_core/interfacecfg.cpp:62 plugins/icq/moreinfo.cpp:109
+#: plugins/_core/interfacecfg.cpp:62
+#: plugins/icq/moreinfo.cpp:109
 msgid "Hungarian"
 msgstr "Magyar"
 
-#: plugins/_core/interfacecfg.cpp:63 plugins/icq/moreinfo.cpp:112
+#: plugins/_core/interfacecfg.cpp:63
+#: plugins/icq/moreinfo.cpp:112
 msgid "Italian"
 msgstr "Olasz"
 
-#: plugins/_core/interfacecfg.cpp:64 plugins/icq/moreinfo.cpp:97
+#: plugins/_core/interfacecfg.cpp:64
+#: plugins/icq/moreinfo.cpp:97
 msgid "Dutch"
 msgstr "Holland"
 
-#: plugins/_core/interfacecfg.cpp:65 plugins/icq/moreinfo.cpp:121
+#: plugins/_core/interfacecfg.cpp:65
+#: plugins/icq/moreinfo.cpp:121
 msgid "Polish"
 msgstr "Lengyel"
 
-#: plugins/_core/interfacecfg.cpp:66 plugins/icq/moreinfo.cpp:122
+#: plugins/_core/interfacecfg.cpp:66
+#: plugins/icq/moreinfo.cpp:122
 msgid "Portuguese"
 msgstr "Portugál"
 
-#: plugins/_core/interfacecfg.cpp:67 plugins/icq/moreinfo.cpp:124
+#: plugins/_core/interfacecfg.cpp:67
+#: plugins/icq/moreinfo.cpp:124
 msgid "Russian"
 msgstr "Orosz"
 
-#: plugins/_core/interfacecfg.cpp:68 plugins/icq/moreinfo.cpp:126
+#: plugins/_core/interfacecfg.cpp:68
+#: plugins/icq/moreinfo.cpp:126
 msgid "Slovak"
 msgstr "Szlovák"
 
@@ -845,23 +1128,32 @@ msgstr "Szlovák"
 msgid "Swabian"
 msgstr "Swabian"
 
-#: plugins/_core/interfacecfg.cpp:70 plugins/icq/moreinfo.cpp:134 sim/contacts.cpp:2042
+#: plugins/_core/interfacecfg.cpp:70
+#: plugins/icq/moreinfo.cpp:134
+#: sim/contacts.cpp:2042
 msgid "Thai"
 msgstr "Thaiföldi"
 
-#: plugins/_core/interfacecfg.cpp:71 plugins/icq/moreinfo.cpp:135 sim/contacts.cpp:2044 sim/contacts.cpp:2045
+#: plugins/_core/interfacecfg.cpp:71
+#: plugins/icq/moreinfo.cpp:135
+#: sim/contacts.cpp:2044
+#: sim/contacts.cpp:2045
 msgid "Turkish"
 msgstr "Török"
 
-#: plugins/_core/interfacecfg.cpp:72 plugins/icq/moreinfo.cpp:136 sim/contacts.cpp:2021
+#: plugins/_core/interfacecfg.cpp:72
+#: plugins/icq/moreinfo.cpp:136
+#: sim/contacts.cpp:2021
 msgid "Ukrainian"
 msgstr "Ukrán"
 
-#: plugins/_core/interfacecfg.cpp:73 plugins/icq/moreinfo.cpp:93
+#: plugins/_core/interfacecfg.cpp:73
+#: plugins/icq/moreinfo.cpp:93
 msgid "Chinese"
 msgstr "Kínai"
 
-#: plugins/_core/interfacecfg.cpp:86 plugins/_core/msgedit.cpp:536
+#: plugins/_core/interfacecfg.cpp:86
+#: plugins/_core/msgedit.cpp:536
 msgid "Contact list"
 msgstr "Kapcsolatok"
 
@@ -869,7 +1161,9 @@ msgstr "Kapcsolatok"
 msgid "Messages"
 msgstr "Üzenetek"
 
-#: plugins/_core/interfacecfg.cpp:94 plugins/_core/msgedit.cpp:457 plugins/sms/sms.cpp:193
+#: plugins/_core/interfacecfg.cpp:94
+#: plugins/_core/msgedit.cpp:457
+#: plugins/sms/sms.cpp:193
 msgid "SMS"
 msgstr "SMS"
 
@@ -885,7 +1179,14 @@ msgstr "Profil választása"
 msgid "Other instance of SIM use this profile"
 msgstr "Other instance of SIM use this profile"
 
-#: plugins/_core/logindlg.cpp:295 plugins/icq/icqconfigbase.cc:263 plugins/icq/aimconfigbase.cc:145 plugins/jabber/jabberconfigbase.cpp:294 plugins/livejournal/livejournalcfgbase.cpp:150 plugins/msn/msnconfigbase.cpp:170 plugins/proxy/proxycfgbase.cpp:135 plugins/yahoo/yahoocfgbase.cpp:176
+#: plugins/_core/logindlg.cpp:295
+#: plugins/icq/icqconfigbase.cc:263
+#: plugins/icq/aimconfigbase.cc:145
+#: plugins/jabber/jabberconfigbase.cpp:294
+#: plugins/livejournal/livejournalcfgbase.cpp:150
+#: plugins/msn/msnconfigbase.cpp:170
+#: plugins/proxy/proxycfgbase.cpp:135
+#: plugins/yahoo/yahoocfgbase.cpp:176
 msgid "Password:"
 msgstr "Jelszó:"
 
@@ -893,7 +1194,12 @@ msgstr "Jelszó:"
 msgid "New profile"
 msgstr "Új profil..."
 
-#: plugins/_core/logindlg.cpp:477 plugins/jabber/jabberclient.cpp:957 plugins/livejournal/livejournal.cpp:917 plugins/msn/msnclient.cpp:827 plugins/yahoo/yahooclient.cpp:358 plugins/yahoo/yahooclient.cpp:369
+#: plugins/_core/logindlg.cpp:477
+#: plugins/jabber/jabberclient.cpp:957
+#: plugins/livejournal/livejournal.cpp:917
+#: plugins/msn/msnclient.cpp:827
+#: plugins/yahoo/yahooclient.cpp:358
+#: plugins/yahoo/yahooclient.cpp:369
 msgid "Login failed"
 msgstr "A belépés nem sikerült"
 
@@ -921,11 +1227,16 @@ msgstr "A privát mobil"
 msgid "Wireless Pager"
 msgstr "Munkaterületváltó"
 
-#: plugins/_core/maininfo.cpp:71 plugins/filter/ignorelist.cpp:28 plugins/icq/icqsecure.cpp:126 plugins/jabber/jabbersearch.cpp:103 plugins/msn/msninfobase.cpp:130
+#: plugins/_core/maininfo.cpp:71
+#: plugins/filter/ignorelist.cpp:28
+#: plugins/icq/icqsecure.cpp:126
+#: plugins/jabber/jabbersearch.cpp:103
+#: plugins/msn/msninfobase.cpp:130
 msgid "EMail"
 msgstr "E-Mail"
 
-#: plugins/_core/maininfo.cpp:72 sim/qt3/i18n.cpp:43
+#: plugins/_core/maininfo.cpp:72
+#: sim/qt3/i18n.cpp:43
 msgid "Type"
 msgstr "Típus"
 
@@ -933,7 +1244,8 @@ msgstr "Típus"
 msgid "Phone"
 msgstr "Telefon"
 
-#: plugins/_core/maininfo.cpp:77 plugins/_core/maininfo.cpp:78
+#: plugins/_core/maininfo.cpp:77
+#: plugins/_core/maininfo.cpp:78
 msgid "Publish"
 msgstr "Publikálás"
 
@@ -949,7 +1261,9 @@ msgstr "Ne jelenjen meg "
 msgid "Available"
 msgstr "Elérhető"
 
-#: plugins/_core/maininfo.cpp:82 plugins/msn/msn.cpp:127 plugins/yahoo/yahoo.cpp:149
+#: plugins/_core/maininfo.cpp:82
+#: plugins/msn/msn.cpp:127
+#: plugins/yahoo/yahoo.cpp:149
 msgid "Busy"
 msgstr "Foglalt"
 
@@ -957,18 +1271,67 @@ msgstr "Foglalt"
 msgid "User is crrently available at:"
 msgstr "Ez a felhasználó most elérhető:"
 
-#: plugins/_core/maininfo.cpp:226 plugins/_core/maininfo.cpp:345 plugins/_core/maininfo.cpp:369 plugins/_core/maininfo.cpp:468
+#: plugins/_core/maininfo.cpp:226
+#: plugins/_core/maininfo.cpp:345
+#: plugins/_core/maininfo.cpp:369
+#: plugins/_core/maininfo.cpp:468
 msgid "Yes"
 msgstr "Igen"
 
-#: plugins/_core/msgcfg.cpp:38 plugins/_core/msgedit.cpp:583 plugins/icq/icqmessage.cpp:536 plugins/sound/sounduser.cpp:38 sim/qt3/i18n.cpp:83
+#: plugins/_core/msgcfg.cpp:38
+#: plugins/_core/msgedit.cpp:583
+#: plugins/icq/icqmessage.cpp:536
+#: plugins/sound/sounduser.cpp:38
+#: sim/qt3/i18n.cpp:83
 msgid "File"
 msgstr "Fájl"
 
+#: plugins/_core/msgedit.cpp:431
+#: plugins/update/update.cpp:106
+#, c-format
+msgid ""
+"_n: Message\n"
+"%n messages"
+msgstr ""
+"Üzenet\n"
+"%n Üzenet"
+
+#: plugins/_core/msgedit.cpp:457
+#, c-format
+msgid ""
+"_n: SMS\n"
+"%n SMSs"
+msgstr ""
+"SMS\n"
+"%n SMS-ek"
+
 #: plugins/_core/msgedit.cpp:473
-#, fuzzy
-msgid "URL"
-msgstr "URL:"
+#, c-format
+msgid ""
+"_n: URL\n"
+"%n URLs"
+msgstr ""
+"URL\n"
+"%n URL-ek"
+
+#: plugins/_core/msgedit.cpp:536
+#, c-format
+msgid ""
+"_n: Contact list\n"
+"%n contact lists"
+msgstr ""
+"Kapcsolat\n"
+"%n Kapcsolat"
+
+#: plugins/_core/msgedit.cpp:583
+#: plugins/icq/icqmessage.cpp:536
+#, c-format
+msgid ""
+"_n: File\n"
+"%n files"
+msgstr ""
+"Fájl\n"
+"%n Fájlok"
 
 #: plugins/_core/msgedit.cpp:590
 msgid "&Accept"
@@ -979,9 +1342,13 @@ msgid "&Decline"
 msgstr "Elutasítás"
 
 #: plugins/_core/msgedit.cpp:658
-#, fuzzy
-msgid "Authorize request"
-msgstr "Azonosítás kérés"
+#, c-format
+msgid ""
+"_n: Authorize request\n"
+"%n authorize requests"
+msgstr ""
+"Hitelesítési kérés\n"
+"%n hitelesitési kérés"
 
 #: plugins/_core/msgedit.cpp:665
 msgid "&Grant"
@@ -992,30 +1359,52 @@ msgid "&Refuse"
 msgstr "Megtagad"
 
 #: plugins/_core/msgedit.cpp:728
-#, fuzzy
-msgid "Authorization granted"
-msgstr "Azonosítás kérés"
+#, c-format
+msgid ""
+"_n: Authorization granted\n"
+"%n authorization granted"
+msgstr ""
+"_n: Sikeres hitelesítés\n"
+"%n sikeres hitelesítés"
 
 #: plugins/_core/msgedit.cpp:749
-#, fuzzy
-msgid "Authorization refused"
-msgstr "Azonosítás kérés"
+#, c-format
+msgid ""
+"_n: Authorization refused\n"
+"%n authorization refused"
+msgstr ""
+"_n: Sikertelen hitelesítés\n"
+"%n sikertelen hitelesítés"
 
 #: plugins/_core/msgedit.cpp:770
-#, fuzzy
-msgid "Add to contacts"
-msgstr "Kapcsolat _felvétele..."
+#, c-format
+msgid ""
+"_n: Add to contacts\n"
+"%n add to contacts"
+msgstr ""
+"_n: Kapcsolatokhoz adja\n"
+"%n kapcsolatokhoz adja"
 
 #: plugins/_core/msgedit.cpp:791
-#, fuzzy
-msgid "Removed from contacts"
-msgstr "&Remove from journal"
+#, c-format
+msgid ""
+"_n: Removed from contacts\n"
+"%n removed from contacts"
+msgstr ""
+"_n: Eltávolítás a kapcsolatokból\n"
+"%n eltávolítása a kapcsolatokból"
 
-#: plugins/_core/msgedit.cpp:812 plugins/action/actioncfg.cpp:53
-msgid "Status changed"
-msgstr "Állapot váltása"
+#: plugins/_core/msgedit.cpp:812
+#, c-format
+msgid ""
+"_n: Status changed\n"
+"%n times status changed"
+msgstr ""
+"_n: Állapot megváltozott\n"
+"%n idő megváltozott állapot"
 
-#: plugins/_core/msgedit.cpp:927 sim/qt3/i18n.cpp:23
+#: plugins/_core/msgedit.cpp:927
+#: sim/qt3/i18n.cpp:23
 msgid "Cancel"
 msgstr "Mégsem"
 
@@ -1023,15 +1412,19 @@ msgstr "Mégsem"
 msgid "No such client for send message"
 msgstr "Nincs ilyen kliens a küldéshez"
 
-#: plugins/_core/msgedit.cpp:1651 plugins/icq/icq.cpp:366 plugins/jabber/jabber.cpp:222
+#: plugins/_core/msgedit.cpp:1651
+#: plugins/icq/icq.cpp:366
+#: plugins/jabber/jabber.cpp:222
 msgid "&Message"
 msgstr "Ü&zenet"
 
-#: plugins/_core/msgedit.cpp:1661 plugins/netmonitor/monitor.cpp:64
+#: plugins/_core/msgedit.cpp:1661
+#: plugins/netmonitor/monitor.cpp:64
 msgid "&File"
 msgstr "&Fájl"
 
-#: plugins/_core/msgedit.cpp:1670 plugins/icq/icqmessage.cpp:878
+#: plugins/_core/msgedit.cpp:1670
+#: plugins/icq/icqmessage.cpp:878
 msgid "&URL"
 msgstr "&URL"
 
@@ -1061,7 +1454,9 @@ msgstr "&Hozzáadás"
 msgid "Removed"
 msgstr "&Eltávolítás"
 
-#: plugins/_core/msgedit.cpp:1739 plugins/_core/status.cpp:48 plugins/_core/userviewcfg.cpp:163
+#: plugins/_core/msgedit.cpp:1739
+#: plugins/_core/status.cpp:48
+#: plugins/_core/userviewcfg.cpp:163
 msgid "Status"
 msgstr "Állapot"
 
@@ -1077,20 +1472,31 @@ msgstr "A megjelenítendő üzenet"
 msgid "Save phone in contact list"
 msgstr "Bejegyzések mentése helyi könyvtárba "
 
-#: plugins/_core/search.cpp:47 plugins/_core/search.cpp:297 plugins/_core/search.cpp:629 plugins/_core/searchbase.cpp:95
+#: plugins/_core/search.cpp:47
+#: plugins/_core/search.cpp:297
+#: plugins/_core/search.cpp:629
+#: plugins/_core/searchbase.cpp:95
 msgid "Search"
 msgstr "Keresés"
 
-#: plugins/_core/search.cpp:69 plugins/_core/search.cpp:813
+#: plugins/_core/search.cpp:69
+#: plugins/_core/search.cpp:813
 #, fuzzy
 msgid "Results"
 msgstr "Alapértelmezett"
 
-#: plugins/_core/search.cpp:134 plugins/_core/maininfobase.cpp:193 plugins/_core/maininfobase.cpp:203 plugins/action/menucfgbase.cpp:68
+#: plugins/_core/search.cpp:134
+#: plugins/_core/maininfobase.cpp:193
+#: plugins/_core/maininfobase.cpp:203
+#: plugins/action/menucfgbase.cpp:68
 msgid "&Add"
 msgstr "&Hozzáadás"
 
-#: plugins/_core/search.cpp:137 plugins/jabber/jabber.cpp:279 plugins/weather/weathercfg.cpp:70 plugins/weather/weathercfg.cpp:91 plugins/weather/weathercfgbase.cpp:111
+#: plugins/_core/search.cpp:137
+#: plugins/jabber/jabber.cpp:279
+#: plugins/weather/weathercfg.cpp:70
+#: plugins/weather/weathercfg.cpp:91
+#: plugins/weather/weathercfgbase.cpp:111
 msgid "&Search"
 msgstr "Kere&sés"
 
@@ -1099,7 +1505,8 @@ msgstr "Kere&sés"
 msgid "All networks"
 msgstr "Hálózat"
 
-#: plugins/_core/search.cpp:218 plugins/_core/nonimbase.cpp:94
+#: plugins/_core/search.cpp:218
+#: plugins/_core/nonimbase.cpp:94
 msgid "Non-IM contact"
 msgstr "Nem-IM-Kapcsolat"
 
@@ -1112,20 +1519,34 @@ msgstr "&Hozzáadás"
 msgid "%1 already in contact list"
 msgstr "%1 létező kapcsolat"
 
-#: plugins/_core/search.cpp:431 plugins/_core/usercfg.cpp:288 plugins/_core/userlist.cpp:1047 plugins/_core/userview.cpp:259 plugins/_core/userview.cpp:792 plugins/_core/userview.cpp:830 plugins/remote/remote.cpp:579
+#: plugins/_core/search.cpp:431
+#: plugins/_core/usercfg.cpp:288
+#: plugins/_core/userlist.cpp:1047
+#: plugins/_core/userview.cpp:259
+#: plugins/_core/userview.cpp:792
+#: plugins/_core/userview.cpp:830
+#: plugins/remote/remote.cpp:579
 msgid "Not in list"
 msgstr "Nincs a Listán"
 
 #: plugins/_core/search.cpp:632
 #, fuzzy, c-format
-msgid "%n contact found"
-msgstr "Nics vele kapcsolat"
+msgid ""
+"_n: %n contact found\n"
+"%n contacts found"
+msgstr ""
+"_n: 1 talált kapcsolat\n"
+"%n talált kapcsolat"
 
-#: plugins/_core/status.cpp:72 plugins/_core/statuswnd.cpp:88 plugins/dock/dock.cpp:183
+#: plugins/_core/status.cpp:72
+#: plugins/_core/statuswnd.cpp:88
+#: plugins/dock/dock.cpp:183
 msgid "Inactive"
 msgstr "Inaktiv"
 
-#: plugins/_core/status.cpp:99 plugins/_core/statuswnd.cpp:58 plugins/_core/connectwndbase.cpp:99
+#: plugins/_core/status.cpp:99
+#: plugins/_core/statuswnd.cpp:58
+#: plugins/_core/connectwndbase.cpp:99
 msgid "Connecting"
 msgstr "Kapcsolódás"
 
@@ -1137,7 +1558,8 @@ msgstr "igen"
 msgid "no"
 msgstr "nem"
 
-#: plugins/_core/toolsetup.cpp:31 plugins/dock/dock.cpp:121
+#: plugins/_core/toolsetup.cpp:31
+#: plugins/dock/dock.cpp:121
 msgid "Customize menu"
 msgstr "Menüszerkesztő"
 
@@ -1169,15 +1591,40 @@ msgstr "[Információ Frissítés]"
 msgid "Settings"
 msgstr "Beállítások"
 
-#: plugins/_core/userlist.cpp:640 plugins/icq/icq.cpp:82 plugins/icq/icq.cpp:252 plugins/icq/icqclient.cpp:1458 plugins/icq/icqclient.cpp:1492 plugins/jabber/jabber.cpp:82 plugins/jabber/jabberclient.cpp:1299 plugins/livejournal/livejournal.cpp:299 plugins/msn/msn.cpp:82 plugins/msn/msnclient.cpp:1849 plugins/osd/osdconfigbase.cpp:111 plugins/sms/sms.cpp:216 plugins/yahoo/yahoo.cpp:104 plugins/yahoo/yahooclient.cpp:1393
+#: plugins/_core/userlist.cpp:640
+#: plugins/icq/icq.cpp:82
+#: plugins/icq/icq.cpp:252
+#: plugins/icq/icqclient.cpp:1458
+#: plugins/icq/icqclient.cpp:1492
+#: plugins/jabber/jabber.cpp:82
+#: plugins/jabber/jabberclient.cpp:1299
+#: plugins/livejournal/livejournal.cpp:299
+#: plugins/msn/msn.cpp:82
+#: plugins/msn/msnclient.cpp:1849
+#: plugins/osd/osdconfigbase.cpp:111
+#: plugins/sms/sms.cpp:216
+#: plugins/yahoo/yahoo.cpp:104
+#: plugins/yahoo/yahooclient.cpp:1393
 msgid "Online"
 msgstr "Csatlakozva"
 
-#: plugins/_core/userlist.cpp:643 plugins/_core/userviewcfgbase.cpp:255 plugins/icq/icq.cpp:172 plugins/icq/icq.cpp:282 plugins/icq/icqclient.cpp:1455 plugins/jabber/jabber.cpp:157 plugins/jabber/jabberclient.cpp:1254 plugins/livejournal/livejournal.cpp:314 plugins/msn/msn.cpp:187 plugins/osd/osdconfigbase.cpp:117 plugins/sms/sms.cpp:231 plugins/yahoo/yahoo.cpp:164
+#: plugins/_core/userlist.cpp:643
+#: plugins/_core/userviewcfgbase.cpp:255
+#: plugins/icq/icq.cpp:172
+#: plugins/icq/icq.cpp:282
+#: plugins/icq/icqclient.cpp:1455
+#: plugins/jabber/jabber.cpp:157
+#: plugins/jabber/jabberclient.cpp:1254
+#: plugins/livejournal/livejournal.cpp:314
+#: plugins/msn/msn.cpp:187
+#: plugins/osd/osdconfigbase.cpp:117
+#: plugins/sms/sms.cpp:231
+#: plugins/yahoo/yahoo.cpp:164
 msgid "Offline"
 msgstr "Kapcsolat nélkül"
 
-#: plugins/_core/userview.cpp:478 plugins/_core/userview.cpp:668
+#: plugins/_core/userview.cpp:478
+#: plugins/_core/userview.cpp:668
 msgid "Delete \"%1\"?"
 msgstr "\"%1\" töröljem?"
 
@@ -1221,7 +1668,8 @@ msgstr "&Frissítés"
 msgid "Plugin &enabled"
 msgstr "A bővitmény engedélyezése (kijelöléssel)"
 
-#: plugins/_core/prefcfgbase.cpp:66 plugins/_core/arcfgbase.cpp:79
+#: plugins/_core/prefcfgbase.cpp:66
+#: plugins/_core/arcfgbase.cpp:79
 msgid "&Override global settings"
 msgstr "Globális stílusbeállítások"
 
@@ -1233,7 +1681,8 @@ msgstr "Eszköztár beállítása"
 msgid "All buttons:"
 msgstr "Minden gomb"
 
-#: plugins/_core/toolsetupbase.cpp:126 plugins/_core/toolsetupbase.cpp:131
+#: plugins/_core/toolsetupbase.cpp:126
+#: plugins/_core/toolsetupbase.cpp:131
 msgid "New Item"
 msgstr "Új elem"
 
@@ -1249,15 +1698,20 @@ msgstr "<< Eltávolítás"
 msgid "Active:"
 msgstr "Aktív"
 
-#: plugins/_core/toolsetupbase.cpp:132 plugins/_core/managerbase.cpp:105 plugins/icons/iconcfgbase.cpp:74
+#: plugins/_core/toolsetupbase.cpp:132
+#: plugins/_core/managerbase.cpp:105
+#: plugins/icons/iconcfgbase.cpp:74
 msgid "&Up"
 msgstr "&Fel"
 
-#: plugins/_core/toolsetupbase.cpp:133 plugins/_core/managerbase.cpp:107 plugins/icons/iconcfgbase.cpp:75
+#: plugins/_core/toolsetupbase.cpp:133
+#: plugins/_core/managerbase.cpp:107
+#: plugins/icons/iconcfgbase.cpp:75
 msgid "&Down"
 msgstr "&Le"
 
-#: plugins/_core/interfacecfgbase.cpp:123 plugins/icq/advsearchbase.cc:247
+#: plugins/_core/interfacecfgbase.cpp:123
+#: plugins/icq/advsearchbase.cc:247
 msgid "Language:"
 msgstr "Nyelv:"
 
@@ -1301,7 +1755,16 @@ msgstr "Használja az \"&Enter\" -t az üzenet elküldéséhez"
 msgid "Start SIM on every &windows startup"
 msgstr "SIM elinditása mindig a windows indulásakor"
 
-#: plugins/_core/userviewcfgbase.cpp:252 plugins/_core/pagerbase.cpp:87 plugins/_core/nonimbase.cpp:93 plugins/filter/ignorelistbase.cpp:54 plugins/icq/workinfobase.cc:178 plugins/icq/interestsinfobase.cc:108 plugins/jabber/jabberhomeinfobase.cpp:104 plugins/msn/msnconfigbase.cpp:168 plugins/osd/osdifacebase.cpp:128 plugins/yahoo/yahoocfgbase.cpp:174
+#: plugins/_core/userviewcfgbase.cpp:252
+#: plugins/_core/pagerbase.cpp:87
+#: plugins/_core/nonimbase.cpp:93
+#: plugins/filter/ignorelistbase.cpp:54
+#: plugins/icq/workinfobase.cc:178
+#: plugins/icq/interestsinfobase.cc:108
+#: plugins/jabber/jabberhomeinfobase.cpp:104
+#: plugins/msn/msnconfigbase.cpp:168
+#: plugins/osd/osdifacebase.cpp:128
+#: plugins/yahoo/yahoocfgbase.cpp:174
 msgid "Form2"
 msgstr "Űrlap2"
 
@@ -1313,15 +1776,32 @@ msgstr "Csoportok"
 msgid "Do not distrub"
 msgstr "Ne Zavarj"
 
-#: plugins/_core/userviewcfgbase.cpp:256 plugins/icq/icqinfobase.cc:316 plugins/icq/aiminfobase.cc:268 plugins/jabber/jabberinfobase.cpp:248 plugins/msn/msninfobase.cpp:134 plugins/yahoo/yahooinfobase.cpp:159
+#: plugins/_core/userviewcfgbase.cpp:256
+#: plugins/icq/icqinfobase.cc:316
+#: plugins/icq/aiminfobase.cc:268
+#: plugins/jabber/jabberinfobase.cpp:248
+#: plugins/msn/msninfobase.cpp:134
+#: plugins/yahoo/yahooinfobase.cpp:159
 msgid "Online:"
 msgstr "Csatlakozva"
 
-#: plugins/_core/userviewcfgbase.cpp:257 plugins/icq/icq.cpp:97 plugins/icq/icq.cpp:267 plugins/icq/icqclient.cpp:1461 plugins/jabber/jabber.cpp:97 plugins/msn/msn.cpp:97 plugins/osd/osdconfigbase.cpp:112 plugins/yahoo/yahoo.cpp:119
+#: plugins/_core/userviewcfgbase.cpp:257
+#: plugins/icq/icq.cpp:97
+#: plugins/icq/icq.cpp:267
+#: plugins/icq/icqclient.cpp:1461
+#: plugins/jabber/jabber.cpp:97
+#: plugins/msn/msn.cpp:97
+#: plugins/osd/osdconfigbase.cpp:112
+#: plugins/yahoo/yahoo.cpp:119
 msgid "Away"
 msgstr "Nincs itt"
 
-#: plugins/_core/userviewcfgbase.cpp:258 plugins/icq/icq.cpp:112 plugins/jabber/jabber.cpp:112 plugins/msn/msn.cpp:112 plugins/osd/osdconfigbase.cpp:113 plugins/yahoo/yahoo.cpp:134
+#: plugins/_core/userviewcfgbase.cpp:258
+#: plugins/icq/icq.cpp:112
+#: plugins/jabber/jabber.cpp:112
+#: plugins/msn/msn.cpp:112
+#: plugins/osd/osdconfigbase.cpp:113
+#: plugins/yahoo/yahoo.cpp:134
 msgid "N/A"
 msgstr "N/A"
 
@@ -1333,7 +1813,8 @@ msgstr "Színek:"
 msgid "Use &double click"
 msgstr "&Dupla kattintás"
 
-#: plugins/_core/userviewcfgbase.cpp:261 plugins/styles/fontconfigbase.cpp:104
+#: plugins/_core/userviewcfgbase.cpp:261
+#: plugins/styles/fontconfigbase.cpp:104
 msgid "Use system &colors"
 msgstr "Rendszer színek &használata"
 
@@ -1361,7 +1842,8 @@ msgstr "2.:"
 msgid "3rd:"
 msgstr "3.:"
 
-#: plugins/_core/userviewcfgbase.cpp:271 plugins/icq/icqclient.cpp:1442
+#: plugins/_core/userviewcfgbase.cpp:271
+#: plugins/icq/icqclient.cpp:1442
 msgid "Invisible"
 msgstr "Láthatatlan"
 
@@ -1386,19 +1868,23 @@ msgstr "Saját szinek és font beállítások használata"
 msgid "Use emotional &icons"
 msgstr "Egyéni ikonok &használata"
 
-#: plugins/_core/historycfgbase.cpp:169 plugins/_core/userhistorycfgbase.cpp:94
+#: plugins/_core/historycfgbase.cpp:169
+#: plugins/_core/userhistorycfgbase.cpp:94
 msgid "Max history file size"
 msgstr "Előzmények fájl maximális mérete"
 
-#: plugins/_core/historycfgbase.cpp:171 plugins/_core/userhistorycfgbase.cpp:92
+#: plugins/_core/historycfgbase.cpp:171
+#: plugins/_core/userhistorycfgbase.cpp:92
 msgid "Mb"
 msgstr "MB"
 
-#: plugins/_core/historycfgbase.cpp:173 plugins/_core/userhistorycfgbase.cpp:96
+#: plugins/_core/historycfgbase.cpp:173
+#: plugins/_core/userhistorycfgbase.cpp:96
 msgid "Keep history "
 msgstr "Napló"
 
-#: plugins/_core/historycfgbase.cpp:174 plugins/_core/userhistorycfgbase.cpp:95
+#: plugins/_core/historycfgbase.cpp:174
+#: plugins/_core/userhistorycfgbase.cpp:95
 msgid "days"
 msgstr "napok"
 
@@ -1422,12 +1908,22 @@ msgstr "Előné&zet"
 msgid "&Source"
 msgstr "Forrás"
 
-#: plugins/_core/maininfobase.cpp:187 plugins/_core/nonimbase.cpp:95 plugins/icq/icqinfobase.cc:312 plugins/icq/aiminfobase.cc:256 plugins/jabber/jabberinfobase.cpp:240 plugins/jabber/discoinfobase.cpp:283 plugins/yahoo/yahooinfobase.cpp:155
+#: plugins/_core/maininfobase.cpp:187
+#: plugins/_core/nonimbase.cpp:95
+#: plugins/icq/icqinfobase.cc:312
+#: plugins/icq/aiminfobase.cc:256
+#: plugins/jabber/jabberinfobase.cpp:240
+#: plugins/jabber/discoinfobase.cpp:283
+#: plugins/yahoo/yahooinfobase.cpp:155
 #, fuzzy
 msgid "First Name:"
 msgstr "Keresztnév:"
 
-#: plugins/_core/maininfobase.cpp:188 plugins/_core/nonimbase.cpp:96 plugins/icq/icqinfobase.cc:309 plugins/icq/aiminfobase.cc:257 plugins/yahoo/yahooinfobase.cpp:156
+#: plugins/_core/maininfobase.cpp:188
+#: plugins/_core/nonimbase.cpp:96
+#: plugins/icq/icqinfobase.cc:309
+#: plugins/icq/aiminfobase.cc:257
+#: plugins/yahoo/yahooinfobase.cpp:156
 msgid "Last Name:"
 msgstr "Vezetéknév:"
 
@@ -1491,7 +1987,8 @@ msgstr "E-Mail szerkesztése"
 msgid "Enter Email address:"
 msgstr "Adja meg az e-mail címet!"
 
-#: plugins/_core/editmailbase.cpp:96 plugins/_core/editphonebase.cpp:111
+#: plugins/_core/editmailbase.cpp:96
+#: plugins/_core/editphonebase.cpp:111
 msgid "&Publish"
 msgstr "Publikálás"
 
@@ -1503,7 +2000,8 @@ msgstr "Telefon szerkesztése:"
 msgid "Number details:"
 msgstr "Részletek"
 
-#: plugins/_core/editphonebase.cpp:110 plugins/jabber/discoinfobase.cpp:268
+#: plugins/_core/editphonebase.cpp:110
+#: plugins/jabber/discoinfobase.cpp:268
 msgid "Type:"
 msgstr "Típus:"
 
@@ -1515,15 +2013,28 @@ msgstr "Irányítószám:"
 msgid "Extension:"
 msgstr "Kiterjesztés:"
 
-#: plugins/_core/phonebase.cpp:116 plugins/_core/phonebase.cpp:118 plugins/_core/phonebase.cpp:120 plugins/icq/icqconfigbase.cc:272 plugins/jabber/jabberconfigbase.cpp:303 plugins/msn/msnconfigbase.cpp:175 plugins/yahoo/yahoocfgbase.cpp:183
+#: plugins/_core/phonebase.cpp:116
+#: plugins/_core/phonebase.cpp:118
+#: plugins/_core/phonebase.cpp:120
+#: plugins/icq/icqconfigbase.cc:272
+#: plugins/jabber/jabberconfigbase.cpp:303
+#: plugins/msn/msnconfigbase.cpp:175
+#: plugins/yahoo/yahoocfgbase.cpp:183
 msgid "-"
 msgstr "-"
 
-#: plugins/_core/phonebase.cpp:117 plugins/_core/pagerbase.cpp:90
+#: plugins/_core/phonebase.cpp:117
+#: plugins/_core/pagerbase.cpp:90
 msgid "Number:"
 msgstr "Szám:"
 
-#: plugins/_core/phonebase.cpp:119 plugins/icq/homeinfobase.cc:146 plugins/icq/workinfobase.cc:183 plugins/icq/advsearchbase.cc:250 plugins/icq/aiminfobase.cc:265 plugins/icq/aimsearchbase.cc:169 plugins/jabber/jabberhomeinfobase.cpp:107
+#: plugins/_core/phonebase.cpp:119
+#: plugins/icq/homeinfobase.cc:146
+#: plugins/icq/workinfobase.cc:183
+#: plugins/icq/advsearchbase.cc:250
+#: plugins/icq/aiminfobase.cc:265
+#: plugins/icq/aimsearchbase.cc:169
+#: plugins/jabber/jabberhomeinfobase.cpp:107
 msgid "Country:"
 msgstr "Ország:"
 
@@ -1550,35 +2061,57 @@ msgstr "Je&llemzők"
 msgid "&New search"
 msgstr "A keresés &megszakítása"
 
-#: plugins/_core/searchallbase.cpp:83 plugins/icq/aboutinfobase.cc:65 plugins/jabber/jabberaboutinfobase.cpp:56
+#: plugins/_core/searchallbase.cpp:83
+#: plugins/icq/aboutinfobase.cc:65
+#: plugins/jabber/jabberaboutinfobase.cpp:56
 msgid "Form4"
 msgstr "Űrlap4"
 
-#: plugins/_core/searchallbase.cpp:84 plugins/icq/icqsearchbase.cc:128 plugins/jabber/jabberaddbase.cpp:95
+#: plugins/_core/searchallbase.cpp:84
+#: plugins/icq/icqsearchbase.cc:128
+#: plugins/jabber/jabberaddbase.cpp:95
 #, fuzzy
 msgid "&E-Mail"
 msgstr "E-Mail"
 
-#: plugins/_core/searchallbase.cpp:85 plugins/icq/icqsearchbase.cc:129 plugins/jabber/jabberaddbase.cpp:96 plugins/yahoo/yahoosearchbase.cpp:99
+#: plugins/_core/searchallbase.cpp:85
+#: plugins/icq/icqsearchbase.cc:129
+#: plugins/jabber/jabberaddbase.cpp:96
+#: plugins/yahoo/yahoosearchbase.cpp:99
 #, fuzzy
 msgid "&Name"
 msgstr "&Nevek"
 
-#: plugins/_core/searchallbase.cpp:86 plugins/icq/icqsearchbase.cc:130 plugins/icq/aimsearchbase.cc:163 plugins/jabber/jabberaddbase.cpp:97
+#: plugins/_core/searchallbase.cpp:86
+#: plugins/icq/icqsearchbase.cc:130
+#: plugins/icq/aimsearchbase.cc:163
+#: plugins/jabber/jabberaddbase.cpp:97
 #, fuzzy
 msgid "First:"
 msgstr "Keresztnév:"
 
-#: plugins/_core/searchallbase.cpp:87 plugins/icq/icqsearchbase.cc:131 plugins/icq/aimsearchbase.cc:164 plugins/jabber/jabberaddbase.cpp:98
+#: plugins/_core/searchallbase.cpp:87
+#: plugins/icq/icqsearchbase.cc:131
+#: plugins/icq/aimsearchbase.cc:164
+#: plugins/jabber/jabberaddbase.cpp:98
 #, fuzzy
 msgid "Last:"
 msgstr "Laos"
 
-#: plugins/_core/searchallbase.cpp:88 plugins/icq/icqinfobase.cc:311 plugins/icq/icqsearchbase.cc:132 plugins/icq/aiminfobase.cc:260 plugins/icq/aimsearchbase.cc:167 plugins/jabber/jabberinfobase.cpp:241 plugins/jabber/discoinfobase.cpp:280 plugins/msn/msninfobase.cpp:131 plugins/yahoo/yahooinfobase.cpp:153
+#: plugins/_core/searchallbase.cpp:88
+#: plugins/icq/icqinfobase.cc:311
+#: plugins/icq/icqsearchbase.cc:132
+#: plugins/icq/aiminfobase.cc:260
+#: plugins/icq/aimsearchbase.cc:167
+#: plugins/jabber/jabberinfobase.cpp:241
+#: plugins/jabber/discoinfobase.cpp:280
+#: plugins/msn/msninfobase.cpp:131
+#: plugins/yahoo/yahooinfobase.cpp:153
 msgid "Nick:"
 msgstr "Álnév"
 
-#: plugins/_core/nonimbase.cpp:97 plugins/jabber/jabberaddbase.cpp:99
+#: plugins/_core/nonimbase.cpp:97
+#: plugins/jabber/jabberaddbase.cpp:99
 msgid "Nickname:"
 msgstr "Becenév:"
 
@@ -1587,15 +2120,18 @@ msgstr "Becenév:"
 msgid "E-Mail address:"
 msgstr "E-mail címek:"
 
-#: plugins/_core/nonimbase.cpp:99 plugins/jabber/discoinfobase.cpp:286
+#: plugins/_core/nonimbase.cpp:99
+#: plugins/jabber/discoinfobase.cpp:286
 msgid "Phone:"
 msgstr "Telefon:"
 
-#: plugins/_core/connectionsettingsbase.cpp:74 plugins/_core/autoreplybase.cpp:87
+#: plugins/_core/connectionsettingsbase.cpp:74
+#: plugins/_core/autoreplybase.cpp:87
 msgid "MyDialog"
 msgstr "Párbeszédablak"
 
-#: plugins/_core/connectwndbase.cpp:98 plugins/icq/moreinfobase.cc:152
+#: plugins/_core/connectwndbase.cpp:98
+#: plugins/icq/moreinfobase.cc:152
 msgid "Form3"
 msgstr "Űrlap3"
 
@@ -1631,7 +2167,8 @@ msgstr "A jelszó mentése"
 msgid "&Do not show this window on startup"
 msgstr "&Nem látszik az ablak induláskor"
 
-#: plugins/_core/managerbase.cpp:46 plugins/_core/managerbase.cpp:106
+#: plugins/_core/managerbase.cpp:46
+#: plugins/_core/managerbase.cpp:106
 msgid "Connection"
 msgstr "Kapcsolat"
 
@@ -1639,7 +2176,8 @@ msgstr "Kapcsolat"
 msgid "&Configure"
 msgstr "&Beállítás"
 
-#: plugins/_core/managerbase.cpp:108 plugins/icons/iconcfgbase.cpp:76
+#: plugins/_core/managerbase.cpp:108
+#: plugins/icons/iconcfgbase.cpp:76
 msgid "&Remove"
 msgstr "&Eltávolítás"
 
@@ -1663,7 +2201,12 @@ msgstr "A protokoll beállítása:"
 msgid "Don't show this dialog"
 msgstr "Többet ne jelenjen meg ez az ablak"
 
-#: plugins/_core/autoreplybase.cpp:89 plugins/_core/arcfgbase.cpp:80 plugins/action/actioncfgbase.cpp:62 plugins/action/additembase.cpp:94 plugins/weather/wifacecfgbase.cpp:84 sim/simapi.cpp:485
+#: plugins/_core/autoreplybase.cpp:89
+#: plugins/_core/arcfgbase.cpp:80
+#: plugins/action/actioncfgbase.cpp:62
+#: plugins/action/additembase.cpp:94
+#: plugins/weather/wifacecfgbase.cpp:84
+#: sim/simapi.cpp:485
 msgid "&Help"
 msgstr "&Segítség"
 
@@ -1755,7 +2298,8 @@ msgstr "decline reason"
 msgid "Enter decline reason:"
 msgstr "Enter decline reason:"
 
-#: plugins/about/about.cpp:38 plugins/about/aboutdlgbase.cpp:118
+#: plugins/about/about.cpp:38
+#: plugins/about/aboutdlgbase.cpp:118
 msgid "About"
 msgstr "Névjegy"
 
@@ -1833,7 +2377,8 @@ msgstr "Mű&velet"
 msgid "Event"
 msgstr "Esemény"
 
-#: plugins/action/actioncfg.cpp:42 plugins/action/menucfg.cpp:32
+#: plugins/action/actioncfg.cpp:42
+#: plugins/action/menucfg.cpp:32
 msgid "Program"
 msgstr "Program"
 
@@ -1841,11 +2386,16 @@ msgstr "Program"
 msgid "Contact online"
 msgstr "Online Kapcsolat"
 
+#: plugins/action/actioncfg.cpp:53
+msgid "Status changed"
+msgstr "Állapot váltása"
+
 #: plugins/action/actioncfg.cpp:91
 msgid "Menu"
 msgstr "Menü"
 
-#: plugins/action/actioncfg.cpp:179 plugins/action/additem.cpp:54
+#: plugins/action/actioncfg.cpp:179
+#: plugins/action/additem.cpp:54
 msgid "In command line you can use:"
 msgstr "Parancssor használata:"
 
@@ -1925,11 +2475,15 @@ msgstr "Plugin a felhasználó lista hátteréhez"
 msgid "Select background picture"
 msgstr "Háttérkép választása"
 
-#: plugins/background/bkgndcfg.cpp:60 plugins/icq/icqpicture.cpp:51 plugins/jabber/jabberpicture.cpp:54
+#: plugins/background/bkgndcfg.cpp:60
+#: plugins/icq/icqpicture.cpp:51
+#: plugins/jabber/jabberpicture.cpp:54
 msgid "%1|Graphics"
 msgstr "%1|Grafika"
 
-#: plugins/background/bkgndcfg.cpp:62 plugins/icq/icqpicture.cpp:53 plugins/jabber/jabberpicture.cpp:56
+#: plugins/background/bkgndcfg.cpp:62
+#: plugins/icq/icqpicture.cpp:53
+#: plugins/jabber/jabberpicture.cpp:56
 msgid "Graphics(%1)"
 msgstr "Grafika (%1)"
 
@@ -1973,7 +2527,8 @@ msgstr "Kapcsolatok margó"
 msgid "Main window background:"
 msgstr "Főablak megjelenítése"
 
-#: plugins/background/bkgndcfgbase.cpp:117 plugins/osd/osdifacebase.cpp:136
+#: plugins/background/bkgndcfgbase.cpp:117
+#: plugins/osd/osdifacebase.cpp:136
 msgid "Place:"
 msgstr "Tér:"
 
@@ -1985,7 +2540,8 @@ msgstr "Rendszertálca"
 msgid "Plugin provides dock main window in system tray"
 msgstr "Főablak dokkolása a tálcán"
 
-#: plugins/dock/dock.cpp:52 plugins/windock/windock.cpp:43
+#: plugins/dock/dock.cpp:52
+#: plugins/windock/windock.cpp:43
 msgid "Dock"
 msgstr "Dokkolás"
 
@@ -1993,7 +2549,8 @@ msgstr "Dokkolás"
 msgid "Plugin provides dock icon"
 msgstr "A rendelkezésre álló plugin jellemzői, dokkolási ikon"
 
-#: plugins/dock/dock.cpp:111 sim/sim.cpp:198
+#: plugins/dock/dock.cpp:111
+#: sim/sim.cpp:198
 msgid "SIM"
 msgstr "SIM"
 
@@ -2037,7 +2594,8 @@ msgstr "Szűrő"
 msgid "Plugin provides message filter"
 msgstr "Szűrő gyártása levélből"
 
-#: plugins/filter/filter.cpp:88 plugins/filter/filtercfg.cpp:40
+#: plugins/filter/filter.cpp:88
+#: plugins/filter/filtercfg.cpp:40
 msgid "Ignore list"
 msgstr "Mellőzöttek listája..."
 
@@ -2053,7 +2611,11 @@ msgstr "Figyelmenkívül hagyja ezt"
 msgid "Add %1 to ignore list?"
 msgstr "%1 hozzáadása a figyelmen kívül listához?"
 
-#: plugins/filter/ignorelist.cpp:27 plugins/icq/icqsecure.cpp:125 plugins/jabber/discoinfo.cpp:63 plugins/jabber/jabberbrowser.cpp:114 sim/qt3/i18n.cpp:39
+#: plugins/filter/ignorelist.cpp:27
+#: plugins/icq/icqsecure.cpp:125
+#: plugins/jabber/discoinfo.cpp:63
+#: plugins/jabber/jabberbrowser.cpp:114
+#: sim/qt3/i18n.cpp:39
 msgid "Name"
 msgstr "Név"
 
@@ -2087,7 +2649,8 @@ msgstr "Lebegés"
 msgid "Plugin provides floating windows for contacts"
 msgstr "Kontakt lista lebegő mód modul információ"
 
-#: plugins/floaty/floaty.cpp:82 plugins/floaty/floaty.cpp:156
+#: plugins/floaty/floaty.cpp:82
+#: plugins/floaty/floaty.cpp:156
 msgid "Floating on"
 msgstr "Lebegő mód"
 
@@ -2135,14 +2698,19 @@ msgstr ""
 "Plugin hozzáadása, GnuPG titkosítás használata az üzenetekhez\n"
 "GPG nincs az elérési útvonalon"
 
-#: plugins/gpg/gpg.cpp:505 plugins/gpg/gpg.cpp:514
+#: plugins/gpg/gpg.cpp:505
+#: plugins/gpg/gpg.cpp:514
 msgid "Encrypt failed"
 msgstr "Sikertelen kódolás"
 
 #: plugins/gpg/gpg.cpp:700
-#, fuzzy, c-format
-msgid "%n GPG key"
-msgstr "GPG kulcs azonosítója:"
+#, c-format
+msgid ""
+"_n: %n GPG key\n"
+"%n GPG keys"
+msgstr ""
+"_n: %n GPG Kulcs\n"
+"%n GPG kulcsok"
 
 #: plugins/gpg/gpg.cpp:749
 msgid "GPG key"
@@ -2168,11 +2736,14 @@ msgstr "A saját könyvtár kiválasztása"
 msgid "Download GPG"
 msgstr "GPG letöltés"
 
-#: plugins/gpg/gpgcfg.cpp:62 plugins/jabber/jidsearchbase.cpp:76
+#: plugins/gpg/gpgcfg.cpp:62
+#: plugins/jabber/jidsearchbase.cpp:76
 msgid "&Advanced"
 msgstr "Spe&ciális"
 
-#: plugins/gpg/gpgcfg.cpp:141 plugins/gpg/gpguser.cpp:83 plugins/proxy/proxycfg.cpp:38
+#: plugins/gpg/gpgcfg.cpp:141
+#: plugins/gpg/gpguser.cpp:83
+#: plugins/proxy/proxycfg.cpp:38
 msgid "None"
 msgstr "Nincs"
 
@@ -2212,7 +2783,8 @@ msgstr "&Keres"
 msgid "Your key:"
 msgstr "A saját kulcs(ok):"
 
-#: plugins/gpg/gpgcfgbase.cpp:110 plugins/gpg/gpguserbase.cpp:69
+#: plugins/gpg/gpgcfgbase.cpp:110
+#: plugins/gpg/gpguserbase.cpp:69
 msgid "&Refresh"
 msgstr "&Frissítés"
 
@@ -2252,7 +2824,8 @@ msgstr "Nem titkosít"
 msgid "Generate key"
 msgstr "Kulcspár létrehozása"
 
-#: plugins/gpg/gpggenbase.cpp:136 plugins/jabber/discoinfobase.cpp:285
+#: plugins/gpg/gpggenbase.cpp:136
+#: plugins/jabber/discoinfobase.cpp:285
 msgid "EMail:"
 msgstr "E-Mail:"
 
@@ -2260,7 +2833,10 @@ msgstr "E-Mail:"
 msgid "Comment:"
 msgstr "Megjegyzés:"
 
-#: plugins/gpg/gpggenbase.cpp:138 plugins/icq/workinfobase.cc:184 plugins/jabber/discoinfobase.cpp:269 plugins/jabber/discoinfobase.cpp:271
+#: plugins/gpg/gpggenbase.cpp:138
+#: plugins/icq/workinfobase.cc:184
+#: plugins/jabber/discoinfobase.cpp:269
+#: plugins/jabber/discoinfobase.cpp:271
 msgid "Name:"
 msgstr "Név:"
 
@@ -2313,7 +2889,15 @@ msgstr "Ikon DLL kiválasztás"
 msgid "Register new ScreenName"
 msgstr "Új AIM-név regisztrálása"
 
-#: plugins/icq/aiminfo.cpp:177 plugins/icq/icqclient.cpp:1485 plugins/icq/icqinfo.cpp:220 plugins/jabber/jabberclient.cpp:1265 plugins/jabber/jabberinfo.cpp:129 plugins/msn/msnclient.cpp:1842 plugins/msn/msninfo.cpp:88 plugins/yahoo/yahooclient.cpp:1386 plugins/yahoo/yahooinfo.cpp:109
+#: plugins/icq/aiminfo.cpp:177
+#: plugins/icq/icqclient.cpp:1485
+#: plugins/icq/icqinfo.cpp:220
+#: plugins/jabber/jabberclient.cpp:1265
+#: plugins/jabber/jabberinfo.cpp:129
+#: plugins/msn/msnclient.cpp:1842
+#: plugins/msn/msninfo.cpp:88
+#: plugins/yahoo/yahooclient.cpp:1386
+#: plugins/yahoo/yahooinfo.cpp:109
 msgid "Last online"
 msgstr "Utolsó kapcsolat"
 
@@ -2321,15 +2905,20 @@ msgstr "Utolsó kapcsolat"
 msgid "ICQ"
 msgstr "ICQ"
 
-#: plugins/icq/icq.cpp:127 plugins/jabber/jabber.cpp:127 plugins/osd/osdconfigbase.cpp:114
+#: plugins/icq/icq.cpp:127
+#: plugins/jabber/jabber.cpp:127
+#: plugins/osd/osdconfigbase.cpp:114
 msgid "Do not Disturb"
 msgstr "Ne zavarjanak"
 
-#: plugins/icq/icq.cpp:142 plugins/osd/osdconfigbase.cpp:115
+#: plugins/icq/icq.cpp:142
+#: plugins/osd/osdconfigbase.cpp:115
 msgid "Occupied"
 msgstr "Elfoglalt"
 
-#: plugins/icq/icq.cpp:157 plugins/jabber/jabber.cpp:142 plugins/osd/osdconfigbase.cpp:116
+#: plugins/icq/icq.cpp:157
+#: plugins/jabber/jabber.cpp:142
+#: plugins/osd/osdconfigbase.cpp:116
 msgid "Free for chat"
 msgstr "Ráér dumálni"
 
@@ -2345,7 +2934,8 @@ msgstr "Láthatók listája..."
 msgid "Invisible list"
 msgstr "Láthatatlan lista"
 
-#: plugins/icq/icq.cpp:382 plugins/jabber/jabber.cpp:237
+#: plugins/icq/icq.cpp:382
+#: plugins/jabber/jabber.cpp:237
 msgid "&Add to group"
 msgstr "Hozzáadás a már létező csoporthoz"
 
@@ -2369,7 +2959,9 @@ msgstr "Process message failed"
 msgid "Dear translator! type this default encdoing for your language"
 msgstr "Kedves fordító! ide írd be az alapértelmezett kódolást nyelved szerint"
 
-#: plugins/icq/icqclient.cpp:697 plugins/icq/icqicmb.cpp:92 plugins/icq/icqicmb.cpp:199
+#: plugins/icq/icqclient.cpp:697
+#: plugins/icq/icqicmb.cpp:92
+#: plugins/icq/icqicmb.cpp:199
 msgid "Unknown error"
 msgstr "Ismeretlen hiba"
 
@@ -2405,7 +2997,8 @@ msgstr "We sent an obsolete SNAC"
 msgid "Not supported by server"
 msgstr "A szerver nem támogatja"
 
-#: plugins/icq/icqclient.cpp:706 plugins/icq/icqicmb.cpp:94
+#: plugins/icq/icqclient.cpp:706
+#: plugins/icq/icqicmb.cpp:94
 msgid "Not supported by client"
 msgstr "Nem támogatja a kliens"
 
@@ -2437,7 +3030,8 @@ msgstr "Nincs elegendő jogosultság."
 msgid "Recipient blocked"
 msgstr "Blokkolt"
 
-#: plugins/icq/icqclient.cpp:714 plugins/icq/icqicmb.cpp:193
+#: plugins/icq/icqclient.cpp:714
+#: plugins/icq/icqicmb.cpp:193
 msgid "Sender too evil"
 msgstr "Sender too evil"
 
@@ -2473,7 +3067,8 @@ msgstr "Not while on AOL"
 msgid "Protocol error"
 msgstr "Protokol HIBA"
 
-#: plugins/icq/icqclient.cpp:1435 plugins/icq/icqinfo.cpp:205
+#: plugins/icq/icqclient.cpp:1435
+#: plugins/icq/icqinfo.cpp:205
 msgid "Possibly invisible"
 msgstr "Láthatatlan"
 
@@ -2481,35 +3076,62 @@ msgstr "Láthatatlan"
 msgid "Warning level"
 msgstr "Figyelmeztetési szint"
 
-#: plugins/icq/icqclient.cpp:1819 plugins/icq/icqclient.cpp:2007 plugins/jabber/jabberclient.cpp:1424 plugins/jabber/jabberclient.cpp:1533 plugins/jabber/jabberclient.cpp:1665 plugins/jabber/jabberclient.cpp:1684
+#: plugins/icq/icqclient.cpp:1819
+#: plugins/icq/icqclient.cpp:2007
+#: plugins/jabber/jabberclient.cpp:1424
+#: plugins/jabber/jabberclient.cpp:1533
+#: plugins/jabber/jabberclient.cpp:1665
+#: plugins/jabber/jabberclient.cpp:1684
 msgid "Home info"
 msgstr "Felhasználói infó"
 
-#: plugins/icq/icqclient.cpp:1834 plugins/icq/icqclient.cpp:2022 plugins/jabber/jabberclient.cpp:1439 plugins/jabber/jabberclient.cpp:1548 plugins/jabber/jabberclient.cpp:1667 plugins/jabber/jabberclient.cpp:1686
+#: plugins/icq/icqclient.cpp:1834
+#: plugins/icq/icqclient.cpp:2022
+#: plugins/jabber/jabberclient.cpp:1439
+#: plugins/jabber/jabberclient.cpp:1548
+#: plugins/jabber/jabberclient.cpp:1667
+#: plugins/jabber/jabberclient.cpp:1686
 msgid "Work info"
 msgstr "Foglalkozás info"
 
-#: plugins/icq/icqclient.cpp:1849 plugins/icq/icqclient.cpp:2037
+#: plugins/icq/icqclient.cpp:1849
+#: plugins/icq/icqclient.cpp:2037
 msgid "More info"
 msgstr "További információ"
 
-#: plugins/icq/icqclient.cpp:1864 plugins/icq/icqclient.cpp:1958 plugins/icq/icqclient.cpp:2052 plugins/icq/icqclient.cpp:2176 plugins/jabber/discoinfo.cpp:194 plugins/jabber/jabberclient.cpp:1454 plugins/jabber/jabberclient.cpp:1563 plugins/jabber/jabberclient.cpp:1669 plugins/jabber/jabberclient.cpp:1688
+#: plugins/icq/icqclient.cpp:1864
+#: plugins/icq/icqclient.cpp:1958
+#: plugins/icq/icqclient.cpp:2052
+#: plugins/icq/icqclient.cpp:2176
+#: plugins/jabber/discoinfo.cpp:194
+#: plugins/jabber/jabberclient.cpp:1454
+#: plugins/jabber/jabberclient.cpp:1563
+#: plugins/jabber/jabberclient.cpp:1669
+#: plugins/jabber/jabberclient.cpp:1688
 msgid "About info"
 msgstr "Információ"
 
-#: plugins/icq/icqclient.cpp:1879 plugins/icq/icqclient.cpp:2067 plugins/icq/advsearchbase.cc:258
+#: plugins/icq/icqclient.cpp:1879
+#: plugins/icq/icqclient.cpp:2067
+#: plugins/icq/advsearchbase.cc:258
 msgid "Interests"
 msgstr "Érdeklődés"
 
-#: plugins/icq/icqclient.cpp:1894 plugins/icq/icqclient.cpp:2082
+#: plugins/icq/icqclient.cpp:1894
+#: plugins/icq/icqclient.cpp:2082
 msgid "Group/Past"
 msgstr "Csoport"
 
-#: plugins/icq/icqclient.cpp:1909 plugins/icq/icqclient.cpp:2097
+#: plugins/icq/icqclient.cpp:1909
+#: plugins/icq/icqclient.cpp:2097
 msgid "Picture"
 msgstr "Kép"
 
-#: plugins/icq/icqclient.cpp:2112 plugins/icq/icqclient.cpp:2191 plugins/jabber/jabberclient.cpp:1608 plugins/msn/msnclient.cpp:926 plugins/yahoo/yahooclient.cpp:1497
+#: plugins/icq/icqclient.cpp:2112
+#: plugins/icq/icqclient.cpp:2191
+#: plugins/jabber/jabberclient.cpp:1608
+#: plugins/msn/msnclient.cpp:926
+#: plugins/yahoo/yahooclient.cpp:1497
 msgid "Network"
 msgstr "Hálózat"
 
@@ -2541,7 +3163,8 @@ msgstr "Egyszerű szöveg"
 msgid "Connect to unknown port"
 msgstr "Kapcsolódás ismeretlen porthoz"
 
-#: plugins/icq/icqdirect.cpp:225 plugins/msn/msnclient.cpp:2731
+#: plugins/icq/icqdirect.cpp:225
+#: plugins/msn/msnclient.cpp:2731
 msgid "Can't established direct connection"
 msgstr "Nem létesíthető adat kapcsolat"
 
@@ -2549,7 +3172,8 @@ msgstr "Nem létesíthető adat kapcsolat"
 msgid "Other side does not support the secure connection"
 msgstr "Egyé fél nem támogatja a titkosított kapcsolatot"
 
-#: plugins/icq/icqdirect.cpp:841 plugins/icq/icqdirect.cpp:1042
+#: plugins/icq/icqdirect.cpp:841
+#: plugins/icq/icqdirect.cpp:1042
 msgid "Send message fail"
 msgstr "Az üzenet elküldése sikertelen"
 
@@ -2577,15 +3201,25 @@ msgstr "Az üzenet mérete átlépte a belső puffer méretét."
 msgid "We are to evil :("
 msgstr "We are to evil :("
 
-#: plugins/icq/icqicmb.cpp:685 plugins/jabber/jabber_rosters.cpp:2154
+#: plugins/icq/icqicmb.cpp:685
+#: plugins/jabber/jabber_rosters.cpp:2154
 msgid "File transfer declined"
 msgstr "A fájl átvitel megszakadt"
 
-#: plugins/icq/icqicmb.cpp:745 plugins/icq/icqicmb.cpp:1293 plugins/msn/msnclient.cpp:2416 plugins/yahoo/yahooclient.cpp:447 plugins/yahoo/yahooclient.cpp:450
+#: plugins/icq/icqicmb.cpp:745
+#: plugins/icq/icqicmb.cpp:1293
+#: plugins/msn/msnclient.cpp:2416
+#: plugins/yahoo/yahooclient.cpp:447
+#: plugins/yahoo/yahooclient.cpp:450
 msgid "Message declined"
 msgstr "Hibaüzenet"
 
-#: plugins/icq/icqicmb.cpp:825 plugins/icq/icqicmb.cpp:839 plugins/icq/icqicmb.cpp:847 plugins/icq/icqvarious.cpp:1695 plugins/jabber/jabberclient.cpp:649 plugins/yahoo/yahooclient.cpp:1052
+#: plugins/icq/icqicmb.cpp:825
+#: plugins/icq/icqicmb.cpp:839
+#: plugins/icq/icqicmb.cpp:847
+#: plugins/icq/icqvarious.cpp:1695
+#: plugins/jabber/jabberclient.cpp:649
+#: plugins/yahoo/yahooclient.cpp:1052
 msgid "Client go offline"
 msgstr "A kapcsolat megszüntetése"
 
@@ -2593,12 +3227,18 @@ msgstr "A kapcsolat megszüntetése"
 msgid "Directory"
 msgstr "Könyvtár"
 
-#: plugins/icq/icqicmb.cpp:989 plugins/icq/icqicmb.cpp:995
-#, fuzzy, c-format
-msgid "%n file"
-msgstr "Fájl küldés"
+#: plugins/icq/icqicmb.cpp:989
+#: plugins/icq/icqicmb.cpp:995
+#, c-format
+msgid ""
+"_n: %n file\n"
+"%n files"
+msgstr ""
+"_n: %n fájl\n"
+"%n fájl"
 
-#: plugins/icq/icqicmb.cpp:1286 plugins/icq/warndlg.cpp:66
+#: plugins/icq/icqicmb.cpp:1286
+#: plugins/icq/warndlg.cpp:66
 #, fuzzy
 msgid "Send failed"
 msgstr "Sikertelen küldés"
@@ -2611,7 +3251,9 @@ msgstr "Időtúllépési hiba"
 msgid "No contact"
 msgstr "Nincs kapcsolat"
 
-#: plugins/icq/icqicmb.cpp:1675 plugins/icq/icqmessage.cpp:1053 plugins/jabber/jabberclient.cpp:2247
+#: plugins/icq/icqicmb.cpp:1675
+#: plugins/icq/icqmessage.cpp:1053
+#: plugins/jabber/jabberclient.cpp:2247
 msgid "No contacts for send"
 msgstr "Nics vele kapcsolat"
 
@@ -2623,7 +3265,8 @@ msgstr "&Csevegő mód"
 msgid "Romance"
 msgstr "Romantika"
 
-#: plugins/icq/icqinfo.cpp:36 plugins/icq/interestsinfo.cpp:98
+#: plugins/icq/icqinfo.cpp:36
+#: plugins/icq/interestsinfo.cpp:98
 msgid "Games"
 msgstr "Játékok"
 
@@ -2655,15 +3298,18 @@ msgstr "Nő"
 msgid "Seeking Men"
 msgstr "Férfi"
 
-#: plugins/icq/icqinfo.cpp:85 plugins/jabber/jabberinfo.cpp:66
+#: plugins/icq/icqinfo.cpp:85
+#: plugins/jabber/jabberinfo.cpp:66
 msgid "Input current password"
 msgstr "Kjelszó megadása"
 
-#: plugins/icq/icqinfo.cpp:88 plugins/jabber/jabberinfo.cpp:69
+#: plugins/icq/icqinfo.cpp:88
+#: plugins/jabber/jabberinfo.cpp:69
 msgid "Confirm password does not match"
 msgstr "Jelszavak nem egyeznek"
 
-#: plugins/icq/icqinfo.cpp:91 plugins/jabber/jabberinfo.cpp:72
+#: plugins/icq/icqinfo.cpp:91
+#: plugins/jabber/jabberinfo.cpp:72
 msgid "Invalid password"
 msgstr "Érvénytelen Jelszó"
 
@@ -2733,35 +3379,67 @@ msgid "Bad host address"
 msgstr "Rossz Cím"
 
 #: plugins/icq/icqmessage.cpp:552
-#, fuzzy
-msgid "WWW-panel message"
-msgstr "Üzenet megnyitása"
+#, c-format
+msgid ""
+"_n: WWW-panel message\n"
+"%n WWW-panel messages"
+msgstr ""
+"_n: WWW-panel üzenet\n"
+"%n WWW-panel üzenetek"
 
 #: plugins/icq/icqmessage.cpp:573
-#, fuzzy
-msgid "Email pager message"
-msgstr "E-Mail Lapozó"
+#, c-format
+msgid ""
+"_n: Email pager message\n"
+"%n Email pager messages"
+msgstr ""
+"_n: Email üzenet\n"
+"%n Email üzenetek"
 
-#: plugins/icq/icqmessage.cpp:594 plugins/icq/icqmessage.cpp:850
-msgid "Request secure channel"
-msgstr "Titkosított csatorna megnyitása"
+#: plugins/icq/icqmessage.cpp:594
+#, c-format
+msgid ""
+"_n: Request secure channel\n"
+"%n requests secure channel"
+msgstr ""
+"Titkosított csatorna kérés\n"
+"%n titkosított csatorna kérés"
 
-#: plugins/icq/icqmessage.cpp:615 plugins/icq/icqmessage.cpp:857
-msgid "Close secure channel"
-msgstr "Titkosított csatorna bezárása"
+#: plugins/icq/icqmessage.cpp:615
+#, c-format
+msgid ""
+"_n: Close secure channel\n"
+"%n times close secure channel"
+msgstr ""
+"Titkosított csatorna bezárása\n"
+"%n lejárt titkosított csatorna bezárása"
 
-#: plugins/icq/icqmessage.cpp:636 plugins/icq/icqmessage.cpp:864
-msgid "Check invisible"
-msgstr "Láthatatlanság ellenőrzése"
+#: plugins/icq/icqmessage.cpp:636
+#, c-format
+msgid ""
+"_n: Check invisible\n"
+"%n times check invisible"
+msgstr ""
+"_n: Láthatatlanság ellenőrzése\n"
+"%n -ként ellnőrizze a látahtatlanságot"
 
-#: plugins/icq/icqmessage.cpp:657 plugins/icq/icqmessage.cpp:871 plugins/logger/logconfig.cpp:93
-msgid "Warning"
-msgstr "Figyelmeztetés"
+#: plugins/icq/icqmessage.cpp:657
+#, c-format
+msgid ""
+"_n: Warning\n"
+"%n warnings"
+msgstr ""
+"_n: Figyelmeztetés\n"
+"%n Figyelmeztetések"
 
 #: plugins/icq/icqmessage.cpp:763
-#, fuzzy
-msgid "Contact request"
-msgstr "Kapcsolat kérés"
+#, c-format
+msgid ""
+"_n: Contact request\n"
+"%n contact requests"
+msgstr ""
+"Hitelesítési kérés\n"
+"%n hitelesitési kérés"
 
 #: plugins/icq/icqmessage.cpp:813
 msgid "Contact Request"
@@ -2779,25 +3457,36 @@ msgstr "E-Mail Lapozó"
 msgid "Picture can not be more than 7 kbytes"
 msgstr "A kép nem lehet nagyobb 6 kbájt-nál"
 
-#: plugins/icq/icqpicture.cpp:136 plugins/jabber/jabberpicture.cpp:138
+#: plugins/icq/icqpicture.cpp:136
+#: plugins/jabber/jabberpicture.cpp:138
 msgid "Picture is not available"
 msgstr "Nincs kép"
 
-#: plugins/icq/icqsearch.cpp:297 plugins/icq/icqsecure.cpp:124 plugins/jabber/jabberadd.cpp:281 plugins/jabber/jabbersearch.cpp:102
+#: plugins/icq/icqsearch.cpp:297
+#: plugins/icq/icqsecure.cpp:124
+#: plugins/jabber/jabberadd.cpp:281
+#: plugins/jabber/jabbersearch.cpp:102
 msgid "Nick"
 msgstr "Álnév"
 
-#: plugins/icq/icqsearch.cpp:299 plugins/jabber/jabberadd.cpp:279 plugins/jabber/jabbersearch.cpp:104 plugins/jabber/jabbersearch.cpp:304
+#: plugins/icq/icqsearch.cpp:299
+#: plugins/jabber/jabberadd.cpp:279
+#: plugins/jabber/jabbersearch.cpp:104
+#: plugins/jabber/jabbersearch.cpp:304
 #, fuzzy
 msgid "First Name"
 msgstr "Utónév"
 
-#: plugins/icq/icqsearch.cpp:301 plugins/jabber/jabberadd.cpp:280 plugins/jabber/jabbersearch.cpp:105 plugins/jabber/jabbersearch.cpp:305
+#: plugins/icq/icqsearch.cpp:301
+#: plugins/jabber/jabberadd.cpp:280
+#: plugins/jabber/jabbersearch.cpp:105
+#: plugins/jabber/jabbersearch.cpp:305
 #, fuzzy
 msgid "Last Name"
 msgstr "Vezetéknév:"
 
-#: plugins/icq/icqsearch.cpp:304 plugins/jabber/jabbersearch.cpp:108
+#: plugins/icq/icqsearch.cpp:304
+#: plugins/jabber/jabbersearch.cpp:108
 msgid "City"
 msgstr "Város"
 
@@ -2811,25 +3500,36 @@ msgstr "Állapot:"
 msgid "Country"
 msgstr "Ország:"
 
-#: plugins/icq/icqsearch.cpp:311 plugins/jabber/jabbersearch.cpp:217 plugins/yahoo/yahoosearch.cpp:130
+#: plugins/icq/icqsearch.cpp:311
+#: plugins/jabber/jabbersearch.cpp:217
+#: plugins/yahoo/yahoosearch.cpp:130
 msgid "Gender"
 msgstr "Nem:"
 
-#: plugins/icq/icqsearch.cpp:313 plugins/yahoo/yahoosearch.cpp:132
+#: plugins/icq/icqsearch.cpp:313
+#: plugins/yahoo/yahoosearch.cpp:132
 #, fuzzy
 msgid "Age"
 msgstr "Életkor:"
 
-#: plugins/icq/icqsearch.cpp:315 plugins/jabber/jabberadd.cpp:282 plugins/msn/msnsearchbase.cpp:72
+#: plugins/icq/icqsearch.cpp:315
+#: plugins/jabber/jabberadd.cpp:282
+#: plugins/msn/msnsearchbase.cpp:72
 #, fuzzy
 msgid "E-Mail"
 msgstr "E-Mail"
 
-#: plugins/icq/icqsearch.cpp:403 plugins/icq/moreinfo.cpp:78 plugins/jabber/jabbersearch.cpp:216 plugins/yahoo/yahoosearch.cpp:39
+#: plugins/icq/icqsearch.cpp:403
+#: plugins/icq/moreinfo.cpp:78
+#: plugins/jabber/jabbersearch.cpp:216
+#: plugins/yahoo/yahoosearch.cpp:39
 msgid "Female"
 msgstr "Nő"
 
-#: plugins/icq/icqsearch.cpp:406 plugins/icq/moreinfo.cpp:79 plugins/jabber/jabbersearch.cpp:215 plugins/yahoo/yahoosearch.cpp:38
+#: plugins/icq/icqsearch.cpp:406
+#: plugins/icq/moreinfo.cpp:79
+#: plugins/jabber/jabbersearch.cpp:215
+#: plugins/yahoo/yahoosearch.cpp:38
 msgid "Male"
 msgstr "Férfi"
 
@@ -2861,7 +3561,8 @@ msgstr "érvénytelen szám"
 msgid "RATE LIMIT"
 msgstr "Korlátozott "
 
-#: plugins/icq/icqvarious.cpp:1526 plugins/icq/icqvarious.cpp:1585
+#: plugins/icq/icqvarious.cpp:1526
+#: plugins/icq/icqvarious.cpp:1585
 msgid "SMS send fail"
 msgstr "Az üzenet elküldése sikertelen"
 
@@ -2881,7 +3582,8 @@ msgstr "Már"
 msgid "Apr"
 msgstr "Ápr"
 
-#: plugins/icq/icqvarious.cpp:1614 sim/datepicker.cpp:230
+#: plugins/icq/icqvarious.cpp:1614
+#: sim/datepicker.cpp:230
 msgid "May"
 msgstr "Május"
 
@@ -2929,7 +3631,8 @@ msgstr "Celebrity Fans"
 msgid "Collections"
 msgstr "Gyűjtemények"
 
-#: plugins/icq/interestsinfo.cpp:95 plugins/icq/workinfo.cpp:77
+#: plugins/icq/interestsinfo.cpp:95
+#: plugins/icq/workinfo.cpp:77
 msgid "Computers"
 msgstr "Számítógép"
 
@@ -2945,7 +3648,8 @@ msgstr "Fitness"
 msgid "Hobbies"
 msgstr "Hobbi"
 
-#: plugins/icq/interestsinfo.cpp:100 plugins/icq/workinfo.cpp:85
+#: plugins/icq/interestsinfo.cpp:100
+#: plugins/icq/workinfo.cpp:85
 msgid "ICQ - Providing Help"
 msgstr "ICQ - Segítség"
 
@@ -2989,7 +3693,8 @@ msgstr "Tudomány"
 msgid "Skills"
 msgstr "Skills"
 
-#: plugins/icq/interestsinfo.cpp:111 plugins/icq/workinfo.cpp:97
+#: plugins/icq/interestsinfo.cpp:111
+#: plugins/icq/workinfo.cpp:97
 msgid "Sports"
 msgstr "Sport"
 
@@ -3005,7 +3710,8 @@ msgstr "Természet"
 msgid "News & Media"
 msgstr "Hírek & Média"
 
-#: plugins/icq/interestsinfo.cpp:115 plugins/icq/workinfo.cpp:82
+#: plugins/icq/interestsinfo.cpp:115
+#: plugins/icq/workinfo.cpp:82
 msgid "Government"
 msgstr "Kormányzat"
 
@@ -3113,7 +3819,9 @@ msgstr "Publishing"
 msgid "Home automation"
 msgstr "Home automation"
 
-#: plugins/icq/moreinfo.cpp:87 sim/contacts.cpp:2005 sim/contacts.cpp:2006
+#: plugins/icq/moreinfo.cpp:87
+#: sim/contacts.cpp:2005
+#: sim/contacts.cpp:2006
 msgid "Arabic"
 msgstr "Arab"
 
@@ -3137,7 +3845,8 @@ msgstr "Horvát"
 msgid "Danish"
 msgstr "Dán"
 
-#: plugins/icq/moreinfo.cpp:99 sim/contacts.cpp:2012
+#: plugins/icq/moreinfo.cpp:99
+#: sim/contacts.cpp:2012
 msgid "Esperanto"
 msgstr "Eszperantó"
 
@@ -3169,7 +3878,10 @@ msgstr "Izlandi"
 msgid "Indonesian"
 msgstr "indonéz"
 
-#: plugins/icq/moreinfo.cpp:113 sim/contacts.cpp:2030 sim/contacts.cpp:2031 sim/contacts.cpp:2032
+#: plugins/icq/moreinfo.cpp:113
+#: sim/contacts.cpp:2030
+#: sim/contacts.cpp:2031
+#: sim/contacts.cpp:2032
 msgid "Japanese"
 msgstr "Japán"
 
@@ -3177,7 +3889,8 @@ msgstr "Japán"
 msgid "Khmer"
 msgstr "khmer"
 
-#: plugins/icq/moreinfo.cpp:115 sim/contacts.cpp:2034
+#: plugins/icq/moreinfo.cpp:115
+#: sim/contacts.cpp:2034
 msgid "Korean"
 msgstr "Koreai"
 
@@ -3285,7 +3998,8 @@ msgstr "Egyetem"
 msgid "University"
 msgstr "Egyetem"
 
-#: plugins/icq/pastinfo.cpp:80 plugins/icq/workinfo.cpp:90
+#: plugins/icq/pastinfo.cpp:80
+#: plugins/icq/workinfo.cpp:90
 msgid "Military"
 msgstr "Katonai"
 
@@ -3297,7 +4011,8 @@ msgstr "Past Work Place"
 msgid "Past Organization"
 msgstr "Szervezet szerint"
 
-#: plugins/icq/pastinfo.cpp:83 plugins/icq/pastinfo.cpp:110
+#: plugins/icq/pastinfo.cpp:83
+#: plugins/icq/pastinfo.cpp:110
 msgid "Other"
 msgstr "Egyéb"
 
@@ -3485,35 +4200,70 @@ msgstr "Azonosító:"
 msgid "&ICQ"
 msgstr "&ICQ"
 
-#: plugins/icq/icqconfigbase.cc:267 plugins/icq/aimconfigbase.cc:150 plugins/msn/msnconfigbase.cpp:177 plugins/yahoo/yahoocfgbase.cpp:181
+#: plugins/icq/icqconfigbase.cc:267
+#: plugins/icq/aimconfigbase.cc:150
+#: plugins/msn/msnconfigbase.cpp:177
+#: plugins/yahoo/yahoocfgbase.cpp:181
 msgid "&Automatically use HTTP polling if proxy required"
 msgstr ""
 
-#: plugins/icq/icqconfigbase.cc:268 plugins/icq/aimconfigbase.cc:149 plugins/jabber/jabberconfigbase.cpp:307 plugins/msn/msnconfigbase.cpp:176 plugins/yahoo/yahoocfgbase.cpp:182
+#: plugins/icq/icqconfigbase.cc:268
+#: plugins/icq/aimconfigbase.cc:149
+#: plugins/jabber/jabberconfigbase.cpp:307
+#: plugins/msn/msnconfigbase.cpp:176
+#: plugins/yahoo/yahoocfgbase.cpp:182
 msgid "Use &HTTP polling"
 msgstr "HTTP számlálás használata"
 
-#: plugins/icq/icqconfigbase.cc:269 plugins/icq/aimconfigbase.cc:148 plugins/jabber/jabberconfigbase.cpp:297 plugins/jabber/jabberconfigbase.cpp:301 plugins/livejournal/livejournalcfgbase.cpp:152 plugins/msn/msnconfigbase.cpp:172 plugins/yahoo/yahoocfgbase.cpp:178
+#: plugins/icq/icqconfigbase.cc:269
+#: plugins/icq/aimconfigbase.cc:148
+#: plugins/jabber/jabberconfigbase.cpp:297
+#: plugins/jabber/jabberconfigbase.cpp:301
+#: plugins/livejournal/livejournalcfgbase.cpp:152
+#: plugins/msn/msnconfigbase.cpp:172
+#: plugins/yahoo/yahoocfgbase.cpp:178
 msgid "Server:"
 msgstr "Kiszolgáló:"
 
-#: plugins/icq/icqconfigbase.cc:270 plugins/icq/aimconfigbase.cc:147 plugins/jabber/jabberconfigbase.cpp:298 plugins/jabber/jabberconfigbase.cpp:302 plugins/livejournal/livejournalcfgbase.cpp:154 plugins/msn/msnconfigbase.cpp:173 plugins/proxy/proxycfgbase.cpp:132 plugins/remote/remotecfgbase.cpp:106 plugins/sms/smssetupbase.cpp:140 plugins/yahoo/yahoocfgbase.cpp:179
+#: plugins/icq/icqconfigbase.cc:270
+#: plugins/icq/aimconfigbase.cc:147
+#: plugins/jabber/jabberconfigbase.cpp:298
+#: plugins/jabber/jabberconfigbase.cpp:302
+#: plugins/livejournal/livejournalcfgbase.cpp:154
+#: plugins/msn/msnconfigbase.cpp:173
+#: plugins/proxy/proxycfgbase.cpp:132
+#: plugins/remote/remotecfgbase.cpp:106
+#: plugins/sms/smssetupbase.cpp:140
+#: plugins/yahoo/yahoocfgbase.cpp:179
 msgid "Port:"
 msgstr "Port:"
 
-#: plugins/icq/icqconfigbase.cc:271 plugins/jabber/jabberconfigbase.cpp:304 plugins/msn/msnconfigbase.cpp:174 plugins/yahoo/yahoocfgbase.cpp:184
+#: plugins/icq/icqconfigbase.cc:271
+#: plugins/jabber/jabberconfigbase.cpp:304
+#: plugins/msn/msnconfigbase.cpp:174
+#: plugins/yahoo/yahoocfgbase.cpp:184
 msgid "Port range for direct connections:"
 msgstr "Várakozás kliensek csatlakozására:"
 
-#: plugins/icq/icqconfigbase.cc:273 plugins/icq/aimconfigbase.cc:151 plugins/jabber/jabberconfigbase.cpp:308 plugins/msn/msnconfigbase.cpp:178 plugins/yahoo/yahoocfgbase.cpp:180
+#: plugins/icq/icqconfigbase.cc:273
+#: plugins/icq/aimconfigbase.cc:151
+#: plugins/jabber/jabberconfigbase.cpp:308
+#: plugins/msn/msnconfigbase.cpp:178
+#: plugins/yahoo/yahoocfgbase.cpp:180
 msgid "Note: For HTTP-polling using proxy settings for HTTP"
 msgstr ""
 
-#: plugins/icq/icqconfigbase.cc:274 plugins/icq/aimconfigbase.cc:152
+#: plugins/icq/icqconfigbase.cc:274
+#: plugins/icq/aimconfigbase.cc:152
 msgid "&Keep-alive connection"
 msgstr "A kapcsolat életben tartása"
 
-#: plugins/icq/icqconfigbase.cc:275 plugins/icq/aimconfigbase.cc:153 plugins/jabber/jabberconfigbase.cpp:310 plugins/livejournal/livejournalcfgbase.cpp:155 plugins/msn/msnconfigbase.cpp:180 plugins/yahoo/yahoocfgbase.cpp:185
+#: plugins/icq/icqconfigbase.cc:275
+#: plugins/icq/aimconfigbase.cc:153
+#: plugins/jabber/jabberconfigbase.cpp:310
+#: plugins/livejournal/livejournalcfgbase.cpp:155
+#: plugins/msn/msnconfigbase.cpp:180
+#: plugins/yahoo/yahoocfgbase.cpp:185
 msgid "&Network"
 msgstr "&Hálózat"
 
@@ -3578,11 +4328,14 @@ msgstr "Gépelés értesítés bekapcsolása"
 msgid "Check invisible every"
 msgstr "Láthatatlanság ellenőrzése"
 
-#: plugins/icq/icqconfigbase.cc:291 plugins/livejournal/livejournalcfgbase.cpp:157
+#: plugins/icq/icqconfigbase.cc:291
+#: plugins/livejournal/livejournalcfgbase.cpp:157
 msgid "minutes"
 msgstr "perc"
 
-#: plugins/icq/icqconfigbase.cc:292 plugins/jabber/jabberconfigbase.cpp:319 plugins/livejournal/livejournalcfgbase.cpp:159
+#: plugins/icq/icqconfigbase.cc:292
+#: plugins/jabber/jabberconfigbase.cpp:319
+#: plugins/livejournal/livejournalcfgbase.cpp:159
 msgid "&Options"
 msgstr "Je&llemzők"
 
@@ -3598,55 +4351,84 @@ msgstr "UIN:"
 msgid "Random chat group:"
 msgstr "Véletlen csevegő csoport:"
 
-#: plugins/icq/icqinfobase.cc:314 plugins/jabber/jabberinfobase.cpp:245 plugins/msn/msninfobase.cpp:132 plugins/yahoo/yahooinfobase.cpp:157
+#: plugins/icq/icqinfobase.cc:314
+#: plugins/jabber/jabberinfobase.cpp:245
+#: plugins/msn/msninfobase.cpp:132
+#: plugins/yahoo/yahooinfobase.cpp:157
 msgid "&Names"
 msgstr "&Nevek"
 
-#: plugins/icq/icqinfobase.cc:315 plugins/icq/aiminfobase.cc:271 plugins/jabber/jabberinfobase.cpp:246 plugins/msn/msninfobase.cpp:133 plugins/yahoo/yahooinfobase.cpp:158
+#: plugins/icq/icqinfobase.cc:315
+#: plugins/icq/aiminfobase.cc:271
+#: plugins/jabber/jabberinfobase.cpp:246
+#: plugins/msn/msninfobase.cpp:133
+#: plugins/yahoo/yahooinfobase.cpp:158
 msgid "Status:"
 msgstr "Állapot:"
 
-#: plugins/icq/icqinfobase.cc:318 plugins/icq/aiminfobase.cc:269
+#: plugins/icq/icqinfobase.cc:318
+#: plugins/icq/aiminfobase.cc:269
 msgid "External IP:"
 msgstr "Külső IP-cím"
 
-#: plugins/icq/icqinfobase.cc:319 plugins/icq/aiminfobase.cc:273
+#: plugins/icq/icqinfobase.cc:319
+#: plugins/icq/aiminfobase.cc:273
 msgid "Internal IP:"
 msgstr "Belső IP-cím"
 
-#: plugins/icq/icqinfobase.cc:320 plugins/icq/aiminfobase.cc:270 plugins/proxy/proxycfgbase.cpp:137
+#: plugins/icq/icqinfobase.cc:320
+#: plugins/icq/aiminfobase.cc:270
+#: plugins/proxy/proxycfgbase.cpp:137
 msgid "Client:"
 msgstr "Kliens:"
 
-#: plugins/icq/icqinfobase.cc:322 plugins/jabber/jabberinfobase.cpp:251
+#: plugins/icq/icqinfobase.cc:322
+#: plugins/jabber/jabberinfobase.cpp:251
 msgid "New password:"
 msgstr "Az új jelszó"
 
-#: plugins/icq/icqinfobase.cc:323 plugins/jabber/jabberinfobase.cpp:252
+#: plugins/icq/icqinfobase.cc:323
+#: plugins/jabber/jabberinfobase.cpp:252
 msgid "Retype new password:"
 msgstr "Add meg ismét a jelszót:"
 
-#: plugins/icq/icqinfobase.cc:324 plugins/jabber/jabberinfobase.cpp:253
+#: plugins/icq/icqinfobase.cc:324
+#: plugins/jabber/jabberinfobase.cpp:253
 msgid "Current password:"
 msgstr "Jelenlegi jelszó:"
 
-#: plugins/icq/icqinfobase.cc:325 plugins/jabber/jabberinfobase.cpp:254
+#: plugins/icq/icqinfobase.cc:325
+#: plugins/jabber/jabberinfobase.cpp:254
 msgid "&Password"
 msgstr "Jelszó"
 
-#: plugins/icq/homeinfobase.cc:144 plugins/icq/workinfobase.cc:181 plugins/icq/advsearchbase.cc:249 plugins/icq/aiminfobase.cc:263 plugins/icq/aimsearchbase.cc:170 plugins/jabber/jabberhomeinfobase.cpp:108
+#: plugins/icq/homeinfobase.cc:144
+#: plugins/icq/workinfobase.cc:181
+#: plugins/icq/advsearchbase.cc:249
+#: plugins/icq/aiminfobase.cc:263
+#: plugins/icq/aimsearchbase.cc:170
+#: plugins/jabber/jabberhomeinfobase.cpp:108
 msgid "State:"
 msgstr "Állapot:"
 
-#: plugins/icq/homeinfobase.cc:145 plugins/icq/workinfobase.cc:179 plugins/jabber/jabberhomeinfobase.cpp:109
+#: plugins/icq/homeinfobase.cc:145
+#: plugins/icq/workinfobase.cc:179
+#: plugins/jabber/jabberhomeinfobase.cpp:109
 msgid "Address:"
 msgstr "Cím:"
 
-#: plugins/icq/homeinfobase.cc:147 plugins/icq/workinfobase.cc:180 plugins/icq/advsearchbase.cc:248 plugins/icq/aiminfobase.cc:262 plugins/icq/aimsearchbase.cc:171 plugins/jabber/jabberhomeinfobase.cpp:105
+#: plugins/icq/homeinfobase.cc:147
+#: plugins/icq/workinfobase.cc:180
+#: plugins/icq/advsearchbase.cc:248
+#: plugins/icq/aiminfobase.cc:262
+#: plugins/icq/aimsearchbase.cc:171
+#: plugins/jabber/jabberhomeinfobase.cpp:105
 msgid "City:"
 msgstr "Város:"
 
-#: plugins/icq/homeinfobase.cc:148 plugins/icq/workinfobase.cc:182 plugins/jabber/jabberhomeinfobase.cpp:106
+#: plugins/icq/homeinfobase.cc:148
+#: plugins/icq/workinfobase.cc:182
+#: plugins/jabber/jabberhomeinfobase.cpp:106
 msgid "Zip code:"
 msgstr "Irányítószám:"
 
@@ -3658,19 +4440,27 @@ msgstr "Időzóna:"
 msgid "&Home info"
 msgstr "Felhasználói infó"
 
-#: plugins/icq/moreinfobase.cc:153 plugins/icq/advsearchbase.cc:251 plugins/yahoo/yahoosearchbase.cpp:103
+#: plugins/icq/moreinfobase.cc:153
+#: plugins/icq/advsearchbase.cc:251
+#: plugins/yahoo/yahoosearchbase.cpp:103
 msgid "Age:"
 msgstr "Életkor:"
 
-#: plugins/icq/moreinfobase.cc:154 plugins/jabber/jabberinfobase.cpp:243 plugins/jabber/discoinfobase.cpp:281
+#: plugins/icq/moreinfobase.cc:154
+#: plugins/jabber/jabberinfobase.cpp:243
+#: plugins/jabber/discoinfobase.cpp:281
 msgid "Homepage:"
 msgstr "Honlap:"
 
-#: plugins/icq/moreinfobase.cc:156 plugins/icq/advsearchbase.cc:252 plugins/yahoo/yahoosearchbase.cpp:102
+#: plugins/icq/moreinfobase.cc:156
+#: plugins/icq/advsearchbase.cc:252
+#: plugins/yahoo/yahoosearchbase.cpp:102
 msgid "Gender:"
 msgstr "Nem:"
 
-#: plugins/icq/moreinfobase.cc:157 plugins/jabber/jabberinfobase.cpp:242 plugins/jabber/discoinfobase.cpp:282
+#: plugins/icq/moreinfobase.cc:157
+#: plugins/jabber/jabberinfobase.cpp:242
+#: plugins/jabber/discoinfobase.cpp:282
 msgid "Birth date:"
 msgstr "Születési dátum"
 
@@ -3694,7 +4484,8 @@ msgstr "Webhely"
 msgid "&Company"
 msgstr "Cég:"
 
-#: plugins/icq/workinfobase.cc:188 plugins/icq/advsearchbase.cc:254
+#: plugins/icq/workinfobase.cc:188
+#: plugins/icq/advsearchbase.cc:254
 msgid "Occupation:"
 msgstr "Foglalkozás:"
 
@@ -3702,7 +4493,9 @@ msgstr "Foglalkozás:"
 msgid "Div / dept:"
 msgstr "Div / dept:"
 
-#: plugins/icq/workinfobase.cc:190 plugins/icq/advsearchbase.cc:257 plugins/jabber/jabberworkinfobase.cpp:92
+#: plugins/icq/workinfobase.cc:190
+#: plugins/icq/advsearchbase.cc:257
+#: plugins/jabber/jabberworkinfobase.cpp:92
 msgid "Position:"
 msgstr "Pozició:"
 
@@ -3806,7 +4599,8 @@ msgstr ""
 msgid "Advanced"
 msgstr "Spe&ciális"
 
-#: plugins/icq/advsearchbase.cc:246 plugins/jabber/jabber.cpp:296
+#: plugins/icq/advsearchbase.cc:246
+#: plugins/jabber/jabber.cpp:296
 msgid "Info"
 msgstr "Információ"
 
@@ -3815,11 +4609,13 @@ msgstr "Információ"
 msgid "Work"
 msgstr "Munkahelyi fax"
 
-#: plugins/icq/advsearchbase.cc:255 plugins/jabber/jabberworkinfobase.cpp:90
+#: plugins/icq/advsearchbase.cc:255
+#: plugins/jabber/jabberworkinfobase.cpp:90
 msgid "Company:"
 msgstr "Cég:"
 
-#: plugins/icq/advsearchbase.cc:256 plugins/jabber/jabberworkinfobase.cpp:89
+#: plugins/icq/advsearchbase.cc:256
+#: plugins/jabber/jabberworkinfobase.cpp:89
 msgid "Department:"
 msgstr "Osztály:"
 
@@ -3841,7 +4637,9 @@ msgstr ""
 msgid "Search &online users only"
 msgstr ""
 
-#: plugins/icq/icqpicturebase.cc:76 plugins/jabber/jabberpicturebase.cpp:76 plugins/shortcuts/shortcutcfgbase.cpp:84
+#: plugins/icq/icqpicturebase.cc:76
+#: plugins/jabber/jabberpicturebase.cpp:76
+#: plugins/shortcuts/shortcutcfgbase.cpp:84
 msgid "&Clear"
 msgstr "Tör&lés"
 
@@ -3863,7 +4661,8 @@ msgstr ""
 "\n"
 "This only works with other SIM and Licq clients"
 
-#: plugins/icq/aimconfigbase.cc:144 plugins/icq/aiminfobase.cc:266
+#: plugins/icq/aimconfigbase.cc:144
+#: plugins/icq/aiminfobase.cc:266
 msgid "ScreenName:"
 msgstr "AIM-neved:"
 
@@ -3871,19 +4670,23 @@ msgstr "AIM-neved:"
 msgid "&AIM"
 msgstr "&AIM"
 
-#: plugins/icq/aiminfobase.cc:258 plugins/icq/aimsearchbase.cc:165
+#: plugins/icq/aiminfobase.cc:258
+#: plugins/icq/aimsearchbase.cc:165
 msgid "Middle:"
 msgstr "Közbenső név:"
 
-#: plugins/icq/aiminfobase.cc:259 plugins/icq/aimsearchbase.cc:166
+#: plugins/icq/aiminfobase.cc:259
+#: plugins/icq/aimsearchbase.cc:166
 msgid "Maiden:"
 msgstr "Leánykori név"
 
-#: plugins/icq/aiminfobase.cc:261 plugins/icq/aimsearchbase.cc:173
+#: plugins/icq/aiminfobase.cc:261
+#: plugins/icq/aimsearchbase.cc:173
 msgid "Street:"
 msgstr "Utca:"
 
-#: plugins/icq/aiminfobase.cc:264 plugins/icq/aimsearchbase.cc:172
+#: plugins/icq/aiminfobase.cc:264
+#: plugins/icq/aimsearchbase.cc:172
 msgid "Zip:"
 msgstr "Ir.szám:"
 
@@ -3895,7 +4698,9 @@ msgstr "&Profil"
 msgid "Names"
 msgstr "Nevek"
 
-#: plugins/icq/aimsearchbase.cc:168 plugins/weather/wifacecfg.cpp:51 plugins/yahoo/yahoosearch.cpp:134
+#: plugins/icq/aimsearchbase.cc:168
+#: plugins/weather/wifacecfg.cpp:51
+#: plugins/yahoo/yahoosearch.cpp:134
 msgid "Location"
 msgstr "Hely"
 
@@ -3939,11 +4744,13 @@ msgstr "Egységek"
 msgid "Value"
 msgstr "Érték"
 
-#: plugins/jabber/discoinfo.cpp:126 plugins/jabber/discoinfobase.cpp:274
+#: plugins/jabber/discoinfo.cpp:126
+#: plugins/jabber/discoinfobase.cpp:274
 msgid "&Version"
 msgstr "Verzió"
 
-#: plugins/jabber/discoinfo.cpp:141 plugins/jabber/discoinfobase.cpp:277
+#: plugins/jabber/discoinfo.cpp:141
+#: plugins/jabber/discoinfobase.cpp:277
 msgid "&Time"
 msgstr "I&dő"
 
@@ -3952,9 +4759,13 @@ msgid "&Stat"
 msgstr "Statisztika"
 
 #: plugins/jabber/discoinfo.cpp:251
-#, fuzzy, c-format
-msgid "%n day"
-msgstr "Vasárnap"
+#, c-format
+msgid ""
+"_n: %n day\n"
+"%n days"
+msgstr ""
+"%n nap\n"
+"%n napok"
 
 #: plugins/jabber/jabber.cpp:59
 msgid "Jabber"
@@ -3964,15 +4775,22 @@ msgstr "Jabber"
 msgid "&Back"
 msgstr "&Vissza"
 
-#: plugins/jabber/jabber.cpp:266 plugins/jabber/jabberadd.cpp:278 plugins/jabber/jabberadd.cpp:354 plugins/jabber/jabberbrowser.cpp:115 plugins/jabber/jabberbrowser.cpp:803 plugins/jabber/jidsearch.cpp:121
+#: plugins/jabber/jabber.cpp:266
+#: plugins/jabber/jabberadd.cpp:278
+#: plugins/jabber/jabberadd.cpp:354
+#: plugins/jabber/jabberbrowser.cpp:115
+#: plugins/jabber/jabberbrowser.cpp:803
+#: plugins/jabber/jidsearch.cpp:121
 msgid "JID"
 msgstr "JID"
 
-#: plugins/jabber/jabber.cpp:273 plugins/jabber/jabberbrowser.cpp:116
+#: plugins/jabber/jabber.cpp:273
+#: plugins/jabber/jabberbrowser.cpp:116
 msgid "Node"
 msgstr "Csomópont"
 
-#: plugins/jabber/jabber.cpp:288 sim/simapi.cpp:480
+#: plugins/jabber/jabber.cpp:288
+#: sim/simapi.cpp:480
 msgid "&Register"
 msgstr "Regiszter"
 
@@ -4004,7 +4822,12 @@ msgstr "Please translate this to short language name (ru, de)"
 msgid "Process"
 msgstr "Folyamat"
 
-#: plugins/jabber/jabberbrowser.cpp:83 plugins/jabber/jabberbrowser.cpp:292 plugins/jabber/jabberbrowser.cpp:323 plugins/jabber/jabberbrowser.cpp:353 plugins/jabber/jabberbrowser.cpp:564 plugins/jabber/jabberbrowser.cpp:634
+#: plugins/jabber/jabberbrowser.cpp:83
+#: plugins/jabber/jabberbrowser.cpp:292
+#: plugins/jabber/jabberbrowser.cpp:323
+#: plugins/jabber/jabberbrowser.cpp:353
+#: plugins/jabber/jabberbrowser.cpp:564
+#: plugins/jabber/jabberbrowser.cpp:634
 msgid "Error %1"
 msgstr "HIBA  %1"
 
@@ -4032,19 +4855,26 @@ msgstr "%1 Beállítása"
 msgid "Choose a user and password to register with the server"
 msgstr "Válassz felhasználónevet és jelszavat a regisztrációhoz ehez a szerverhez"
 
-#: plugins/jabber/jabberclient.cpp:1469 plugins/jabber/jabberclient.cpp:1578
+#: plugins/jabber/jabberclient.cpp:1469
+#: plugins/jabber/jabberclient.cpp:1578
 msgid "Photo"
 msgstr "Fotó"
 
-#: plugins/jabber/jabberclient.cpp:1484 plugins/jabber/jabberclient.cpp:1593
+#: plugins/jabber/jabberclient.cpp:1484
+#: plugins/jabber/jabberclient.cpp:1593
 msgid "Logo"
 msgstr "Logo"
 
-#: plugins/jabber/jabberclient.cpp:2776 plugins/jabber/jabberclient.cpp:2817 plugins/msn/msnclient.cpp:2943 plugins/yahoo/yahooclient.cpp:2387 plugins/yahoo/yahooclient.cpp:2429
+#: plugins/jabber/jabberclient.cpp:2776
+#: plugins/jabber/jabberclient.cpp:2817
+#: plugins/msn/msnclient.cpp:2943
+#: plugins/yahoo/yahooclient.cpp:2387
+#: plugins/yahoo/yahooclient.cpp:2429
 msgid "File transfer failed"
 msgstr "Fájl küldés sikertelen"
 
-#: plugins/jabber/jabberclient.cpp:2915 plugins/yahoo/yahooclient.cpp:2527
+#: plugins/jabber/jabberclient.cpp:2915
+#: plugins/yahoo/yahooclient.cpp:2527
 msgid "File transfer fail"
 msgstr "Fájl küldes sikertelen"
 
@@ -4056,7 +4886,8 @@ msgstr "jabber.org"
 msgid "List of public servers"
 msgstr "További kiszolgálók: "
 
-#: plugins/jabber/jabbermessage.cpp:53 plugins/livejournal/livejournal.cpp:96
+#: plugins/jabber/jabbermessage.cpp:53
+#: plugins/livejournal/livejournal.cpp:96
 msgid "<p>Subject: %1</p>"
 msgstr "<p>Tárgy: %1</p>"
 
@@ -4064,15 +4895,27 @@ msgstr "<p>Tárgy: %1</p>"
 msgid "Original message:"
 msgstr "Eredeti levél:"
 
-#: plugins/jabber/jabbermessage.cpp:158 plugins/jabber/jabbermessage.cpp:214
+#: plugins/jabber/jabbermessage.cpp:133
+#, c-format
+msgid ""
+"_n: Error\n"
+"%n errors"
+msgstr ""
+"_n: hiba\n"
+"%n hibák"
+
+#: plugins/jabber/jabbermessage.cpp:158
+#: plugins/jabber/jabbermessage.cpp:214
 msgid "Log On"
 msgstr "Naplózás"
 
-#: plugins/jabber/jabbermessage.cpp:175 plugins/jabber/jabbermessage.cpp:222
+#: plugins/jabber/jabbermessage.cpp:175
+#: plugins/jabber/jabbermessage.cpp:222
 msgid "Log Off"
 msgstr "Nincs naplózás"
 
-#: plugins/jabber/jabberpicture.cpp:47 plugins/jabber/jabberpicturebase.cpp:77
+#: plugins/jabber/jabberpicture.cpp:47
+#: plugins/jabber/jabberpicturebase.cpp:77
 msgid "&Photo"
 msgstr "Fénykép"
 
@@ -4080,7 +4923,8 @@ msgstr "Fénykép"
 msgid "&Logo"
 msgstr "Logó"
 
-#: plugins/jabber/jabbersearch.cpp:101 plugins/jabber/jabbersearch.cpp:308
+#: plugins/jabber/jabbersearch.cpp:101
+#: plugins/jabber/jabbersearch.cpp:308
 msgid "Username"
 msgstr "Felhasználónév"
 
@@ -4228,7 +5072,8 @@ msgstr "Szervezet szerint"
 msgid "Organization Unit"
 msgstr "Szervezet szerint"
 
-#: plugins/jabber/jabberconfigbase.cpp:295 plugins/livejournal/livejournalcfgbase.cpp:149
+#: plugins/jabber/jabberconfigbase.cpp:295
+#: plugins/livejournal/livejournalcfgbase.cpp:149
 msgid "Username:"
 msgstr "Felhasználói név:"
 
@@ -4236,7 +5081,8 @@ msgstr "Felhasználói név:"
 msgid "&Register new account"
 msgstr "Új számla létrehozása"
 
-#: plugins/jabber/jabberconfigbase.cpp:299 plugins/jabber/jabberconfigbase.cpp:306
+#: plugins/jabber/jabberconfigbase.cpp:299
+#: plugins/jabber/jabberconfigbase.cpp:306
 msgid "Use &SSL"
 msgstr "SSL titkosítás használata"
 
@@ -4252,7 +5098,8 @@ msgstr "Egyszerű szövegként"
 msgid "URL:"
 msgstr "URL:"
 
-#: plugins/jabber/jabberconfigbase.cpp:311 plugins/jabber/jabberinfobase.cpp:249
+#: plugins/jabber/jabberconfigbase.cpp:311
+#: plugins/jabber/jabberinfobase.cpp:249
 msgid "Resource:"
 msgstr "Forrás:"
 
@@ -4282,7 +5129,8 @@ msgstr "Automatikusan elfogadja a hírlevél kérést"
 msgid "Send &rich text messages if possible"
 msgstr "Send &rich text messages if possible"
 
-#: plugins/jabber/jabberconfigbase.cpp:318 plugins/osd/osdconfigbase.cpp:118
+#: plugins/jabber/jabberconfigbase.cpp:318
+#: plugins/osd/osdconfigbase.cpp:118
 msgid "Enable &typing notification"
 msgstr "Gépelés értesítés bekapcsolása"
 
@@ -4303,7 +5151,8 @@ msgstr "További információk: "
 msgid "&JID"
 msgstr "JID"
 
-#: plugins/jabber/jabberaddbase.cpp:100 plugins/jabber/jidsearchbase.cpp:77
+#: plugins/jabber/jabberaddbase.cpp:100
+#: plugins/jabber/jidsearchbase.cpp:77
 #, fuzzy
 msgid "Jabber &browser"
 msgstr "Jabber böngésző"
@@ -4341,13 +5190,22 @@ msgid "&Statistic"
 msgstr "Álla&pot"
 
 #: plugins/livejournal/livejournal.cpp:102
-#, fuzzy
-msgid "LiveJournal post"
-msgstr "LiveJournal &post"
+#, c-format
+msgid ""
+"_n: LiveJournal post\n"
+"%n LiveJournal posts"
+msgstr ""
+"_n: LiveJournal post\n"
+"%n LiveJournal posts"
 
-#: plugins/livejournal/livejournal.cpp:103 plugins/livejournal/livejournal.cpp:232
-msgid "Friends updated"
-msgstr "Frissítés megtörtént"
+#: plugins/livejournal/livejournal.cpp:103
+#, c-format
+msgid ""
+"_n: Friends updated\n"
+"Friends updated %n"
+msgstr ""
+"_n: Friends updated\n"
+"Friends updated %n"
 
 #: plugins/livejournal/livejournal.cpp:120
 msgid "&Remove from journal"
@@ -5007,7 +5865,8 @@ msgstr "Hibakeresés"
 msgid "Packets"
 msgstr "Csomagok"
 
-#: plugins/logger/logconfig.cpp:96 plugins/sound/soundconfig.cpp:68
+#: plugins/logger/logconfig.cpp:96
+#: plugins/sound/soundconfig.cpp:68
 msgid "Events"
 msgstr "Események"
 
@@ -5047,11 +5906,13 @@ msgstr "MSN"
 msgid "http://help.microsoft.com/!data/en_us/data/messengerv47_xp.its51/$content$/xptroublesignin.htm"
 msgstr "http://help.microsoft.com/!data/en_us/data/messengerv47_xp.its51/$content$/xptroublesignin.htm"
 
-#: plugins/msn/msn.cpp:142 plugins/yahoo/yahooclient.cpp:1405
+#: plugins/msn/msn.cpp:142
+#: plugins/yahoo/yahooclient.cpp:1405
 msgid "Be right back"
 msgstr "Be right back"
 
-#: plugins/msn/msn.cpp:157 plugins/yahoo/yahooclient.cpp:1417
+#: plugins/msn/msn.cpp:157
+#: plugins/yahoo/yahooclient.cpp:1417
 msgid "On the phone"
 msgstr "Telefon Be"
 
@@ -5059,15 +5920,19 @@ msgstr "Telefon Be"
 msgid "On the lunch"
 msgstr "On the lunch"
 
-#: plugins/msn/msnclient.cpp:522 plugins/msn/msnclient.cpp:539
+#: plugins/msn/msnclient.cpp:522
+#: plugins/msn/msnclient.cpp:539
 msgid "MSN protocol error"
 msgstr "MSN Protokoll HIBA"
 
-#: plugins/msn/msnclient.cpp:707 plugins/yahoo/yahooclient.cpp:366 plugins/yahoo/yahooclient.cpp:379
+#: plugins/msn/msnclient.cpp:707
+#: plugins/yahoo/yahooclient.cpp:366
+#: plugins/yahoo/yahooclient.cpp:379
 msgid "Your account is being used from another location"
 msgstr "A te hozzáférésedet máshol használják"
 
-#: plugins/msn/msnclient.cpp:1912 plugins/msn/msnclient.cpp:1920
+#: plugins/msn/msnclient.cpp:1912
+#: plugins/msn/msnclient.cpp:1920
 msgid "Contact go offline"
 msgstr "A kapcsolat megszüntetése"
 
@@ -5089,14 +5954,18 @@ msgstr "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 
 #: plugins/msn/msnpacket.cpp:468
 #, fuzzy, c-format
-msgid "You have %n unread message"
+msgid ""
+"_n: You have %n unread message\n"
+"You have %n unread messages"
 msgstr "Olvasatlan üzenetek"
 
 #: plugins/msn/msnpacket.cpp:488
 msgid "You have new mail"
 msgstr ""
 
-#: plugins/msn/msnconfigbase.cpp:169 plugins/yahoo/yahoocfgbase.cpp:175 plugins/yahoo/yahooinfobase.cpp:154
+#: plugins/msn/msnconfigbase.cpp:169
+#: plugins/yahoo/yahoocfgbase.cpp:175
+#: plugins/yahoo/yahooinfobase.cpp:154
 msgid "Login:"
 msgstr "Felhasználónév:"
 
@@ -5138,15 +6007,19 @@ msgstr "Továbbító:"
 msgid "Open links in &new window"
 msgstr "A linkek megnyitása új ablakban"
 
-#: plugins/netmonitor/monitor.cpp:51 plugins/netmonitor/netmonitor.cpp:33 plugins/netmonitor/netmonitor.cpp:82
+#: plugins/netmonitor/monitor.cpp:51
+#: plugins/netmonitor/netmonitor.cpp:33
+#: plugins/netmonitor/netmonitor.cpp:82
 msgid "Network monitor"
 msgstr "Hálózat monitor"
 
-#: plugins/netmonitor/monitor.cpp:60 sim/qt3/i18n.cpp:95
+#: plugins/netmonitor/monitor.cpp:60
+#: sim/qt3/i18n.cpp:95
 msgid "&Save"
 msgstr "M&entés"
 
-#: plugins/netmonitor/monitor.cpp:61 plugins/netmonitor/monitor.cpp:112
+#: plugins/netmonitor/monitor.cpp:61
+#: plugins/netmonitor/monitor.cpp:112
 msgid "&Pause"
 msgstr "Szü&net"
 
@@ -5230,6 +6103,102 @@ msgstr "Ez a plugin a képernyőn jelenítí meg ha üzenet vagy a kapcsolatok �
 msgid "&OSD"
 msgstr "&OSD"
 
+#: plugins/osd/osd.cpp:407
+msgid ""
+"_: male\n"
+"%1 is online"
+msgstr "%1 Kapcsolódott"
+
+#: plugins/osd/osd.cpp:408
+msgid ""
+"_: female\n"
+"%1 is online"
+msgstr "%1 kapcsolódott"
+
+#: plugins/osd/osd.cpp:409
+#, fuzzy
+msgid ""
+"_: male\n"
+"%1 is away"
+msgstr "%1 üzenetet gépel be...."
+
+#: plugins/osd/osd.cpp:410
+#, fuzzy
+msgid ""
+"_: female\n"
+"%1 is away"
+msgstr "%1 üzenetet gépel be...."
+
+#: plugins/osd/osd.cpp:411
+#, fuzzy
+msgid ""
+"_: male\n"
+"%1 is not available"
+msgstr "%1 Kapcsolódott"
+
+#: plugins/osd/osd.cpp:412
+#, fuzzy
+msgid ""
+"_: female\n"
+"%1 is not available"
+msgstr "%1 kapcsolódott"
+
+#: plugins/osd/osd.cpp:413
+#, fuzzy
+msgid ""
+"_: male\n"
+"%1 doesn't want to be disturbed"
+msgstr "%1 kapcsolódott"
+
+#: plugins/osd/osd.cpp:414
+#, fuzzy
+msgid ""
+"_: female\n"
+"%1 doesn't want to be disturbed"
+msgstr "%1 kapcsolódott"
+
+#: plugins/osd/osd.cpp:415
+#, fuzzy
+msgid ""
+"_: male\n"
+"%1 is occupied"
+msgstr "%1 Kapcsolódott"
+
+#: plugins/osd/osd.cpp:416
+#, fuzzy
+msgid ""
+"_: female\n"
+"%1 is occupied"
+msgstr "%1 kapcsolódott"
+
+#: plugins/osd/osd.cpp:417
+#, fuzzy
+msgid ""
+"_: male\n"
+"%1 is free for chat"
+msgstr "%1 üzenetet gépel be...."
+
+#: plugins/osd/osd.cpp:418
+#, fuzzy
+msgid ""
+"_: female\n"
+"%1 is free for chat"
+msgstr "%1 üzenetet gépel be...."
+
+#: plugins/osd/osd.cpp:419
+#, fuzzy
+msgid ""
+"_: male\n"
+"%1 is offline"
+msgstr "%1 Kapcsolódott"
+
+#: plugins/osd/osd.cpp:420
+#, fuzzy
+msgid ""
+"_: female\n"
+"%1 is offline"
+msgstr "%1 kapcsolódott"
+
 #: plugins/osd/osdconfig.cpp:52
 msgid "&Interface"
 msgstr "&Felület"
@@ -5307,7 +6276,8 @@ msgstr "OSD-&Árnyélokás"
 msgid "Show &background"
 msgstr "A háttér mutatása"
 
-#: plugins/osd/osdifacebase.cpp:135 plugins/styles/fontconfigbase.cpp:102
+#: plugins/osd/osdifacebase.cpp:135
+#: plugins/styles/fontconfigbase.cpp:102
 msgid "Background color:"
 msgstr "Háttérszín:"
 
@@ -5383,7 +6353,8 @@ msgstr "A rendelkezésre álló plugin jellemzői, távirányítás"
 msgid "Use &UNIX socket"
 msgstr "UNIX socket használat"
 
-#: plugins/remote/remotecfgbase.cpp:107 plugins/remote/remotecfgbase.cpp:108
+#: plugins/remote/remotecfgbase.cpp:107
+#: plugins/remote/remotecfgbase.cpp:108
 msgid "Use &TCP socket"
 msgstr "TCP socket használat"
 
@@ -5436,7 +6407,11 @@ msgstr "Középsőgombbal "
 msgid "Mouse"
 msgstr "Egér"
 
-#: plugins/shortcuts/shortcutcfg.cpp:90 plugins/shortcuts/shortcutcfg.cpp:223 plugins/shortcuts/shortcutcfgbase.cpp:40 plugins/shortcuts/shortcutcfgbase.cpp:82 plugins/shortcuts/shortcutcfgbase.cpp:85
+#: plugins/shortcuts/shortcutcfg.cpp:90
+#: plugins/shortcuts/shortcutcfg.cpp:223
+#: plugins/shortcuts/shortcutcfgbase.cpp:40
+#: plugins/shortcuts/shortcutcfgbase.cpp:82
+#: plugins/shortcuts/shortcutcfgbase.cpp:85
 msgid "Global"
 msgstr "Globális"
 
@@ -5448,31 +6423,48 @@ msgstr "Parancsok"
 msgid "Plugin provides keyboards shortcuts and global mouse functions"
 msgstr "Egér, billentyűzet parancsok modul információ"
 
-#: plugins/shortcuts/shortcutcfgbase.cpp:37 plugins/shortcuts/shortcutcfgbase.cpp:80 plugins/shortcuts/mousecfgbase.cpp:36 plugins/shortcuts/mousecfgbase.cpp:78
+#: plugins/shortcuts/shortcutcfgbase.cpp:37
+#: plugins/shortcuts/shortcutcfgbase.cpp:80
+#: plugins/shortcuts/mousecfgbase.cpp:36
+#: plugins/shortcuts/mousecfgbase.cpp:78
 msgid "Command"
 msgstr "Parancs"
 
-#: plugins/shortcuts/shortcutcfgbase.cpp:38 plugins/shortcuts/shortcutcfgbase.cpp:81
+#: plugins/shortcuts/shortcutcfgbase.cpp:38
+#: plugins/shortcuts/shortcutcfgbase.cpp:81
 msgid "Key"
 msgstr "Billentyű"
 
-#: plugins/shortcuts/mousecfgbase.cpp:37 plugins/shortcuts/mousecfgbase.cpp:79
+#: plugins/shortcuts/mousecfgbase.cpp:37
+#: plugins/shortcuts/mousecfgbase.cpp:79
 msgid "Button"
 msgstr "Gomb"
 
-#: plugins/shortcuts/mousecfgbase.cpp:81 sim/qt3/i18n.cpp:197
+#: plugins/shortcuts/mousecfgbase.cpp:81
+#: sim/qt3/i18n.cpp:197
 msgid "Alt"
 msgstr "Alt"
 
-#: plugins/shortcuts/mousecfgbase.cpp:82 sim/qt3/i18n.cpp:193
+#: plugins/shortcuts/mousecfgbase.cpp:82
+#: sim/qt3/i18n.cpp:193
 msgid "Ctrl"
 msgstr "Ctrl"
 
-#: plugins/shortcuts/mousecfgbase.cpp:83 sim/qt3/i18n.cpp:199
+#: plugins/shortcuts/mousecfgbase.cpp:83
+#: sim/qt3/i18n.cpp:199
 msgid "Shift"
 msgstr "Shift"
 
-#: plugins/sms/sms.cpp:84 plugins/sms/sms.cpp:95
+#: plugins/sms/sms.cpp:84
+#, c-format
+msgid ""
+"_n: Phone call\n"
+"%n phone calls"
+msgstr ""
+"_n: Telefon hívás\n"
+"%n Telefon hívások"
+
+#: plugins/sms/sms.cpp:95
 msgid "Phone call"
 msgstr "Telefonos hívás"
 
@@ -5552,7 +6544,8 @@ msgstr "Operátor:"
 msgid "&Phone"
 msgstr "Telefon"
 
-#: plugins/sound/sound.cpp:43 plugins/sound/sounduser.cpp:37
+#: plugins/sound/sound.cpp:43
+#: plugins/sound/sounduser.cpp:37
 msgid "Sound"
 msgstr "Hang"
 
@@ -5560,7 +6553,8 @@ msgstr "Hang"
 msgid "Plugin provides sounds on any events"
 msgstr "Hangok események modul információk"
 
-#: plugins/sound/sound.cpp:115 plugins/sound/sound.cpp:123
+#: plugins/sound/sound.cpp:115
+#: plugins/sound/sound.cpp:123
 msgid "&Sound"
 msgstr "&Hangjelzés"
 
@@ -5716,7 +6710,8 @@ msgstr "Időjárás"
 msgid "Plugin provides show weather"
 msgstr "Időjárás plugin"
 
-#: plugins/weather/weather.cpp:116 plugins/weather/weather.cpp:324
+#: plugins/weather/weather.cpp:116
+#: plugins/weather/weather.cpp:324
 msgid "Not connected"
 msgstr "Nincs csatlakozva"
 
@@ -5748,10 +6743,334 @@ msgstr "Szombat"
 msgid "Sunday"
 msgstr "Vasárnap"
 
-#: plugins/weather/weather.cpp:379 plugins/weather/weather.cpp:380 plugins/weather/weather.cpp:381 plugins/weather/weather.cpp:382 plugins/weather/weather.cpp:383 plugins/weather/weather.cpp:384 plugins/weather/weather.cpp:385 plugins/weather/weather.cpp:386 plugins/weather/weather.cpp:387 plugins/weather/weather.cpp:388 plugins/weather/weather.cpp:389 plugins/weather/weather.cpp:390 plugins/weather/weather.cpp:391 plugins/weather/weather.cpp:392 plugins/weather/weather.cpp:393 plugins/weather/weather.cpp:394 plugins/weather/weather.cpp:395 plugins/weather/weather.cpp:396 plugins/weather/weather.cpp:397 plugins/weather/weather.cpp:398 plugins/weather/weather.cpp:399 plugins/weather/weather.cpp:400 plugins/weather/weather.cpp:401 plugins/weather/weather.cpp:402 plugins/weather/weather.cpp:403 plugins/weather/weather.cpp:404 plugins/weather/weather.cpp:405 plugins/weather/weather.cpp:406 plugins/weather/weather.cpp:407 plugins/weather/weather.cpp:408 plugins/weather/weather.cpp:409 plugins/weather/weather.cpp:410 plugins/weather/weather.cpp:411 plugins/weather/weather.cpp:412 plugins/weather/weather.cpp:413 plugins/weather/weather.cpp:414 plugins/weather/weather.cpp:415 plugins/weather/weather.cpp:416 plugins/weather/weather.cpp:417 plugins/weather/weather.cpp:418 plugins/weather/weather.cpp:419 plugins/weather/weather.cpp:420 plugins/weather/weather.cpp:421 plugins/weather/weather.cpp:422 plugins/weather/weather.cpp:423 plugins/weather/weather.cpp:424 plugins/weather/weather.cpp:425 plugins/weather/weather.cpp:428 plugins/weather/weather.cpp:429 plugins/weather/weather.cpp:430 plugins/weather/weather.cpp:431 plugins/weather/weather.cpp:432 plugins/weather/weather.cpp:433 plugins/weather/weather.cpp:448 plugins/weather/weather.cpp:451 plugins/weather/weather.cpp:455 plugins/weather/weather.cpp:486 plugins/weather/weather.cpp:489 plugins/weather/weather.cpp:501 plugins/weather/weather.cpp:503 plugins/weather/weather.cpp:508
+#: plugins/weather/weather.cpp:375
+msgid ""
+"_: weather\n"
+"Overcast"
+msgstr ""
+"Az idő: \n"
+"Borult"
+
+#: plugins/weather/weather.cpp:376
+msgid ""
+"_: weather\n"
+"Fog"
+msgstr ""
+"Az idő: \n"
+"Ködös"
+
+#: plugins/weather/weather.cpp:377
+msgid ""
+"_: weather\n"
+"Haze"
+msgstr ""
+"Az idő: \n"
+"Párás"
+
+#: plugins/weather/weather.cpp:378
+msgid ""
+"_: weather\n"
+"Storm"
+msgstr ""
+"Az idő: \n"
+"Vihar"
+
+#: plugins/weather/weather.cpp:379
+msgid ""
+"_: weather\n"
+"Rain"
+msgstr ""
+"Az idő: \n"
+"Esős"
+
+#: plugins/weather/weather.cpp:380
+msgid ""
+"_: weather\n"
+"Snow"
+msgstr ""
+"Az idő: \n"
+"Hó"
+
+#: plugins/weather/weather.cpp:381
+msgid ""
+"_: weather\n"
+"Light Rain"
+msgstr ""
+"Az idő: \n"
+"Eső a környéken"
+
+#: plugins/weather/weather.cpp:382
+msgid ""
+"_: weather\n"
+"Light Snow"
+msgstr ""
+"Az idő: \n"
+"Hószálligózás"
+
+#: plugins/weather/weather.cpp:383
+msgid ""
+"_: weather\n"
+"Few Snow"
+msgstr ""
+"Az idő: \n"
+"Enyhe havazás"
+
+#: plugins/weather/weather.cpp:384
+msgid ""
+"_: weather\n"
+"Scattered Snow"
+msgstr ""
+"Az idő: \n"
+"Hózápor"
+
+#: plugins/weather/weather.cpp:385
+msgid ""
+"_: weather\n"
+"Clear"
+msgstr ""
+"Az idő: \n"
+"Tiszta"
+
+#: plugins/weather/weather.cpp:386
+msgid ""
+"_: weather\n"
+"Showers"
+msgstr ""
+"Az idő: \n"
+"Zivataros"
+
+#: plugins/weather/weather.cpp:387
+msgid ""
+"_: weather\n"
+"Mostly Clear"
+msgstr ""
+"Az idő: \n"
+"Többnyire tiszta"
+
+#: plugins/weather/weather.cpp:388
+msgid ""
+"_: weather\n"
+"Sunny"
+msgstr ""
+"Az idő: \n"
+"Napos"
+
+#: plugins/weather/weather.cpp:389
+msgid ""
+"_: weather\n"
+"Fair"
+msgstr ""
+"Az idő: \n"
+"Jó"
+
+#: plugins/weather/weather.cpp:390
+msgid ""
+"_: weather\n"
+"Cloudy"
+msgstr ""
+"Az idő: \n"
+"Felhős"
+
+#: plugins/weather/weather.cpp:391
+msgid ""
+"_: weather\n"
+"Mostly Cloudy"
+msgstr ""
+"Az idő: \n"
+"Többnyire felhős"
+
+#: plugins/weather/weather.cpp:392
+msgid ""
+"_: weather\n"
+"Partly Cloudy"
+msgstr ""
+"Az idő: \n"
+"Részben felhős"
+
+#: plugins/weather/weather.cpp:393
+msgid ""
+"_: weather\n"
+"Wind"
+msgstr ""
+"Az idő: \n"
+"Szél"
+
+#: plugins/weather/weather.cpp:394
 #, fuzzy
-msgid "weather"
-msgstr "Időjárás"
+msgid ""
+"_: weather\n"
+"Windy"
+msgstr ""
+"Az idő: \n"
+"Szél"
+
+#: plugins/weather/weather.cpp:395
+msgid ""
+"_: weather\n"
+"Drizzle"
+msgstr ""
+"Az idő: \n"
+"Eső"
+
+#: plugins/weather/weather.cpp:396
+msgid ""
+"_: weather\n"
+"Light Drizzle"
+msgstr ""
+"Az idő: \n"
+"Szitáló eső a környéken"
+
+#: plugins/weather/weather.cpp:397
+msgid ""
+"_: weather\n"
+"Drifting Snow"
+msgstr ""
+"Az idő: \n"
+"Enyhe havazás"
+
+#: plugins/weather/weather.cpp:398
+msgid ""
+"_: weather\n"
+"Scattered"
+msgstr ""
+"Az idő: \n"
+"Hózápor"
+
+#: plugins/weather/weather.cpp:399
+#, fuzzy
+msgid ""
+"_: weather\n"
+"Smoke"
+msgstr "D"
+
+#: plugins/weather/weather.cpp:400
+msgid ""
+"_: weather\n"
+"steady"
+msgstr "állandó"
+
+#: plugins/weather/weather.cpp:401
+msgid ""
+"_: weather\n"
+"rising"
+msgstr "erősödő"
+
+#: plugins/weather/weather.cpp:402
+msgid ""
+"_: weather\n"
+"falling"
+msgstr ""
+"Az idő: \n"
+"Esős"
+
+#: plugins/weather/weather.cpp:403
+msgid ""
+"_: weather\n"
+"Unlimited"
+msgstr "Korlátlan"
+
+#: plugins/weather/weather.cpp:404
+msgid ""
+"_: weather\n"
+"N"
+msgstr "É"
+
+#: plugins/weather/weather.cpp:405
+msgid ""
+"_: weather\n"
+"NNW"
+msgstr "É-ÉNy"
+
+#: plugins/weather/weather.cpp:406
+msgid ""
+"_: weather\n"
+"NW"
+msgstr "ÉNY"
+
+#: plugins/weather/weather.cpp:407
+msgid ""
+"_: weather\n"
+"WNW"
+msgstr "Ny-ÉNy"
+
+#: plugins/weather/weather.cpp:408
+msgid ""
+"_: weather\n"
+"W"
+msgstr "NY"
+
+#: plugins/weather/weather.cpp:409
+msgid ""
+"_: weather\n"
+"WSW"
+msgstr "Ny-DNy"
+
+#: plugins/weather/weather.cpp:410
+msgid ""
+"_: weather\n"
+"SW"
+msgstr "DNY"
+
+#: plugins/weather/weather.cpp:411
+msgid ""
+"_: weather\n"
+"SSW"
+msgstr "D-DNy"
+
+#: plugins/weather/weather.cpp:412
+msgid ""
+"_: weather\n"
+"S"
+msgstr "D"
+
+#: plugins/weather/weather.cpp:413
+msgid ""
+"_: weather\n"
+"SSE"
+msgstr "D-DK"
+
+#: plugins/weather/weather.cpp:414
+msgid ""
+"_: weather\n"
+"SE"
+msgstr "DK"
+
+#: plugins/weather/weather.cpp:415
+msgid ""
+"_: weather\n"
+"ESE"
+msgstr "K-DK"
+
+#: plugins/weather/weather.cpp:416
+msgid ""
+"_: weather\n"
+"E"
+msgstr "K"
+
+#: plugins/weather/weather.cpp:417
+msgid ""
+"_: weather\n"
+"ENE"
+msgstr "K-ÉK"
+
+#: plugins/weather/weather.cpp:418
+msgid ""
+"_: weather\n"
+"NE"
+msgstr "ÉK"
+
+#: plugins/weather/weather.cpp:419
+msgid ""
+"_: weather\n"
+"NNE"
+msgstr "É-ÉK"
+
+#: plugins/weather/weather.cpp:420
+#, fuzzy
+msgid ""
+"_: weather\n"
+"VAR"
+msgstr "É"
 
 #: plugins/weather/weather.cpp:426
 msgid "km"
@@ -5765,11 +7084,13 @@ msgstr "km/h"
 msgid "and"
 msgstr "és"
 
-#: plugins/weather/weather.cpp:496 plugins/weather/weather.cpp:498
+#: plugins/weather/weather.cpp:496
+#: plugins/weather/weather.cpp:498
 msgid "m/s"
 msgstr "m/s"
 
-#: plugins/weather/weather.cpp:497 plugins/weather/weather.cpp:498
+#: plugins/weather/weather.cpp:497
+#: plugins/weather/weather.cpp:498
 msgid "gust "
 msgstr "vihar"
 
@@ -5825,7 +7146,8 @@ msgstr ""
 msgid "Location %1 not found"
 msgstr "%1 nem található"
 
-#: plugins/weather/wifacecfg.cpp:27 plugins/weather/wifacecfg.cpp:66
+#: plugins/weather/wifacecfg.cpp:27
+#: plugins/weather/wifacecfg.cpp:66
 msgid "Temperature"
 msgstr "Hőmérséklet:"
 
@@ -5885,7 +7207,9 @@ msgstr "Napkelte"
 msgid "Sunset"
 msgstr "Naplemente"
 
-#: plugins/weather/wifacecfg.cpp:59 plugins/weather/wifacecfg.cpp:74 plugins/yahoo/yahoosearchbase.cpp:101
+#: plugins/weather/wifacecfg.cpp:59
+#: plugins/weather/wifacecfg.cpp:74
+#: plugins/yahoo/yahoosearchbase.cpp:101
 msgid "Conditions"
 msgstr "Feltételek"
 
@@ -5897,7 +7221,8 @@ msgstr "Szám"
 msgid "Day of week"
 msgstr "A hét napja:"
 
-#: plugins/weather/wifacecfg.cpp:72 sim/qt3/i18n.cpp:45
+#: plugins/weather/wifacecfg.cpp:72
+#: sim/qt3/i18n.cpp:45
 msgid "Date"
 msgstr "Dátum"
 
@@ -6008,6 +7333,16 @@ msgstr "Yahoo! azonosító:"
 msgid "&Yahoo!"
 msgstr "Yahoo!"
 
+#: plugins/yahoo/yahoosearch.cpp:44
+#, fuzzy
+msgid "male"
+msgstr "Nő"
+
+#: plugins/yahoo/yahoosearch.cpp:45
+#, fuzzy
+msgid "female"
+msgstr "Nő"
+
 #: plugins/yahoo/yahoosearchbase.cpp:98
 #, fuzzy
 msgid "Yahoo! &ID"
@@ -6095,11 +7430,15 @@ msgstr "This program is distributed under the terms of the GPL v2."
 msgid "&Ok"
 msgstr "Rendben"
 
-#: sim/ballonmsg.cpp:359 sim/simapi.cpp:479 sim/qt3/i18n.cpp:125
+#: sim/ballonmsg.cpp:359
+#: sim/simapi.cpp:479
+#: sim/qt3/i18n.cpp:125
 msgid "&Yes"
 msgstr "&Igen"
 
-#: sim/ballonmsg.cpp:360 sim/simapi.cpp:483 sim/qt3/i18n.cpp:127
+#: sim/ballonmsg.cpp:360
+#: sim/simapi.cpp:483
+#: sim/qt3/i18n.cpp:127
 msgid "&No"
 msgstr "&Nem"
 
@@ -6107,11 +7446,13 @@ msgstr "&Nem"
 msgid "Unicode"
 msgstr "Unicode"
 
-#: sim/contacts.cpp:2008 sim/contacts.cpp:2009
+#: sim/contacts.cpp:2008
+#: sim/contacts.cpp:2009
 msgid "Baltic"
 msgstr "Balti"
 
-#: sim/contacts.cpp:2011 sim/contacts.cpp:2013
+#: sim/contacts.cpp:2011
+#: sim/contacts.cpp:2013
 msgid "Central European"
 msgstr "Közép-európai"
 
@@ -6127,11 +7468,15 @@ msgstr "Egyszerűsített kínai"
 msgid "Chinese Traditional"
 msgstr "Hagyományos kínai"
 
-#: sim/contacts.cpp:2019 sim/contacts.cpp:2020 sim/contacts.cpp:2022
+#: sim/contacts.cpp:2019
+#: sim/contacts.cpp:2020
+#: sim/contacts.cpp:2022
 msgid "Cyrillic"
 msgstr "Cirill"
 
-#: sim/contacts.cpp:2036 sim/contacts.cpp:2037 sim/contacts.cpp:2038
+#: sim/contacts.cpp:2036
+#: sim/contacts.cpp:2037
+#: sim/contacts.cpp:2038
 msgid "Western European"
 msgstr "Nyugat-európai"
 
@@ -7179,7 +8524,8 @@ msgstr "Szo"
 msgid "Sun"
 msgstr "Vas"
 
-#: sim/editfile.cpp:143 sim/qt3/i18n.cpp:89
+#: sim/editfile.cpp:143
+#: sim/qt3/i18n.cpp:89
 msgid "Open"
 msgstr "Megnyitás"
 
@@ -7195,15 +8541,21 @@ msgstr "hangok (*.wav)"
 msgid "Select sound"
 msgstr "Válassz egy hangfájlt"
 
-#: sim/editfile.cpp:311 sim/editfile.cpp:394 sim/qt3/i18n.cpp:249
+#: sim/editfile.cpp:311
+#: sim/editfile.cpp:394
+#: sim/qt3/i18n.cpp:249
 msgid "Cut"
 msgstr "Kivágás"
 
-#: sim/editfile.cpp:312 sim/editfile.cpp:395 sim/qt3/i18n.cpp:251
+#: sim/editfile.cpp:312
+#: sim/editfile.cpp:395
+#: sim/qt3/i18n.cpp:251
 msgid "Copy"
 msgstr "Másol"
 
-#: sim/editfile.cpp:313 sim/editfile.cpp:396 sim/qt3/i18n.cpp:253
+#: sim/editfile.cpp:313
+#: sim/editfile.cpp:396
+#: sim/qt3/i18n.cpp:253
 msgid "Paste"
 msgstr "Beillesztés"
 
@@ -7338,7 +8690,8 @@ msgstr "Angyal"
 msgid "Grin"
 msgstr "Grin"
 
-#: sim/socket.cpp:145 sim/socket.cpp:163
+#: sim/socket.cpp:145
+#: sim/socket.cpp:163
 msgid "Read socket error"
 msgstr "Olvasási hiba a socketnél"
 
@@ -7350,7 +8703,8 @@ msgstr "Hiba a kapcsolódáskor"
 msgid "Can't resolve host"
 msgstr "A gépnév feloldása nem sikerült"
 
-#: sim/sockfactory.cpp:303 sim/qt3/i18n.cpp:237
+#: sim/sockfactory.cpp:303
+#: sim/qt3/i18n.cpp:237
 msgid "Connection closed"
 msgstr "A kapcsolat bezárult."
 
@@ -7362,23 +8716,34 @@ msgstr "Socket hiba:"
 msgid "Can't allocate port"
 msgstr "Can't allocate port"
 
-#: sim/sslclient.cpp:132 sim/sslclient.cpp:303 sim/sslclient.cpp:307
+#: sim/sslclient.cpp:132
+#: sim/sslclient.cpp:303
+#: sim/sslclient.cpp:307
 msgid "SSL write error"
 msgstr "SSL write error"
 
-#: sim/sslclient.cpp:141 sim/sslclient.cpp:162 sim/sslclient.cpp:170
+#: sim/sslclient.cpp:141
+#: sim/sslclient.cpp:162
+#: sim/sslclient.cpp:170
 msgid "SSL connect error"
 msgstr "SSL shutdown error"
 
-#: sim/sslclient.cpp:177 sim/sslclient.cpp:198 sim/sslclient.cpp:206
+#: sim/sslclient.cpp:177
+#: sim/sslclient.cpp:198
+#: sim/sslclient.cpp:206
 msgid "SSL shutdown error"
 msgstr "SSL shutdown error"
 
-#: sim/sslclient.cpp:213 sim/sslclient.cpp:234 sim/sslclient.cpp:242
+#: sim/sslclient.cpp:213
+#: sim/sslclient.cpp:234
+#: sim/sslclient.cpp:242
 msgid "SSL accept error"
 msgstr "SSL accept error"
 
-#: sim/sslclient.cpp:264 sim/sslclient.cpp:268 sim/sslclient.cpp:355 sim/sslclient.cpp:361
+#: sim/sslclient.cpp:264
+#: sim/sslclient.cpp:268
+#: sim/sslclient.cpp:355
+#: sim/sslclient.cpp:361
 msgid "SSL read error"
 msgstr "SSL read error"
 
@@ -7878,875 +9243,3 @@ msgstr "Mozgatás le"
 msgid "Windows XP style"
 msgstr "Windows XP stílus"
 
-#~ msgid ""
-#~ "_n: Close after %n second\n"
-#~ "Close after %n seconds"
-#~ msgstr ""
-#~ "_n: Bezárás %n másodperc múlva\n"
-#~ "Bezárás %n másodperc múlva"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is typing"
-#~ msgstr "%1 üzenetet gépel be...."
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is typing"
-#~ msgstr "%1 üzenetet gépel be...."
-
-#, fuzzy
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 wrote:"
-#~ msgstr "%1 típus"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 wrote:"
-#~ msgstr "%1 típus"
-
-#~ msgid ""
-#~ "_n: Message\n"
-#~ "%n messages"
-#~ msgstr ""
-#~ "Üzenet\n"
-#~ "%n Üzenet"
-
-#~ msgid ""
-#~ "_n: SMS\n"
-#~ "%n SMSs"
-#~ msgstr ""
-#~ "SMS\n"
-#~ "%n SMS-ek"
-
-#~ msgid ""
-#~ "_n: URL\n"
-#~ "%n URLs"
-#~ msgstr ""
-#~ "URL\n"
-#~ "%n URL-ek"
-
-#~ msgid ""
-#~ "_n: Contact list\n"
-#~ "%n contact lists"
-#~ msgstr ""
-#~ "Kapcsolat\n"
-#~ "%n Kapcsolat"
-
-#~ msgid ""
-#~ "_n: File\n"
-#~ "%n files"
-#~ msgstr ""
-#~ "Fájl\n"
-#~ "%n Fájlok"
-
-#~ msgid ""
-#~ "_n: Authorize request\n"
-#~ "%n authorize requests"
-#~ msgstr ""
-#~ "Hitelesítési kérés\n"
-#~ "%n hitelesitési kérés"
-
-#~ msgid ""
-#~ "_n: Authorization granted\n"
-#~ "%n authorization granted"
-#~ msgstr ""
-#~ "_n: Sikeres hitelesítés\n"
-#~ "%n sikeres hitelesítés"
-
-#~ msgid ""
-#~ "_n: Authorization refused\n"
-#~ "%n authorization refused"
-#~ msgstr ""
-#~ "_n: Sikertelen hitelesítés\n"
-#~ "%n sikertelen hitelesítés"
-
-#~ msgid ""
-#~ "_n: Add to contacts\n"
-#~ "%n add to contacts"
-#~ msgstr ""
-#~ "_n: Kapcsolatokhoz adja\n"
-#~ "%n kapcsolatokhoz adja"
-
-#~ msgid ""
-#~ "_n: Removed from contacts\n"
-#~ "%n removed from contacts"
-#~ msgstr ""
-#~ "_n: Eltávolítás a kapcsolatokból\n"
-#~ "%n eltávolítása a kapcsolatokból"
-
-#~ msgid ""
-#~ "_n: Status changed\n"
-#~ "%n times status changed"
-#~ msgstr ""
-#~ "_n: Állapot megváltozott\n"
-#~ "%n idő megváltozott állapot"
-
-#, fuzzy
-#~ msgid ""
-#~ "_n: %n contact found\n"
-#~ "%n contacts found"
-#~ msgstr ""
-#~ "_n: 1 talált kapcsolat\n"
-#~ "%n talált kapcsolat"
-
-#~ msgid ""
-#~ "_n: %n GPG key\n"
-#~ "%n GPG keys"
-#~ msgstr ""
-#~ "_n: %n GPG Kulcs\n"
-#~ "%n GPG kulcsok"
-
-#~ msgid ""
-#~ "_n: %n file\n"
-#~ "%n files"
-#~ msgstr ""
-#~ "_n: %n fájl\n"
-#~ "%n fájl"
-
-#~ msgid ""
-#~ "_n: WWW-panel message\n"
-#~ "%n WWW-panel messages"
-#~ msgstr ""
-#~ "_n: WWW-panel üzenet\n"
-#~ "%n WWW-panel üzenetek"
-
-#~ msgid ""
-#~ "_n: Email pager message\n"
-#~ "%n Email pager messages"
-#~ msgstr ""
-#~ "_n: Email üzenet\n"
-#~ "%n Email üzenetek"
-
-#~ msgid ""
-#~ "_n: Request secure channel\n"
-#~ "%n requests secure channel"
-#~ msgstr ""
-#~ "Titkosított csatorna kérés\n"
-#~ "%n titkosított csatorna kérés"
-
-#~ msgid ""
-#~ "_n: Close secure channel\n"
-#~ "%n times close secure channel"
-#~ msgstr ""
-#~ "Titkosított csatorna bezárása\n"
-#~ "%n lejárt titkosított csatorna bezárása"
-
-#~ msgid ""
-#~ "_n: Check invisible\n"
-#~ "%n times check invisible"
-#~ msgstr ""
-#~ "_n: Láthatatlanság ellenőrzése\n"
-#~ "%n -ként ellnőrizze a látahtatlanságot"
-
-#~ msgid ""
-#~ "_n: Warning\n"
-#~ "%n warnings"
-#~ msgstr ""
-#~ "_n: Figyelmeztetés\n"
-#~ "%n Figyelmeztetések"
-
-#~ msgid ""
-#~ "_n: Contact request\n"
-#~ "%n contact requests"
-#~ msgstr ""
-#~ "Hitelesítési kérés\n"
-#~ "%n hitelesitési kérés"
-
-#~ msgid ""
-#~ "_n: %n day\n"
-#~ "%n days"
-#~ msgstr ""
-#~ "%n nap\n"
-#~ "%n napok"
-
-#~ msgid ""
-#~ "_n: Error\n"
-#~ "%n errors"
-#~ msgstr ""
-#~ "_n: hiba\n"
-#~ "%n hibák"
-
-#~ msgid ""
-#~ "_n: LiveJournal post\n"
-#~ "%n LiveJournal posts"
-#~ msgstr ""
-#~ "_n: LiveJournal post\n"
-#~ "%n LiveJournal posts"
-
-#~ msgid ""
-#~ "_n: Friends updated\n"
-#~ "Friends updated %n"
-#~ msgstr ""
-#~ "_n: Friends updated\n"
-#~ "Friends updated %n"
-
-#, fuzzy
-#~ msgid ""
-#~ "_n: You have %n unread message\n"
-#~ "You have %n unread messages"
-#~ msgstr "Olvasatlan üzenetek"
-
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is online"
-#~ msgstr "%1 Kapcsolódott"
-
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is online"
-#~ msgstr "%1 kapcsolódott"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is away"
-#~ msgstr "%1 üzenetet gépel be...."
-
-#, fuzzy
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is away"
-#~ msgstr "%1 üzenetet gépel be...."
-
-#, fuzzy
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is not available"
-#~ msgstr "%1 Kapcsolódott"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is not available"
-#~ msgstr "%1 kapcsolódott"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 doesn't want to be disturbed"
-#~ msgstr "%1 kapcsolódott"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is occupied"
-#~ msgstr "%1 Kapcsolódott"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is occupied"
-#~ msgstr "%1 kapcsolódott"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is free for chat"
-#~ msgstr "%1 üzenetet gépel be...."
-
-#, fuzzy
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is free for chat"
-#~ msgstr "%1 üzenetet gépel be...."
-
-#, fuzzy
-#~ msgid ""
-#~ "_: male\n"
-#~ "%1 is offline"
-#~ msgstr "%1 Kapcsolódott"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: female\n"
-#~ "%1 is offline"
-#~ msgstr "%1 kapcsolódott"
-
-#~ msgid ""
-#~ "_n: Phone call\n"
-#~ "%n phone calls"
-#~ msgstr ""
-#~ "_n: Telefon hívás\n"
-#~ "%n Telefon hívások"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Overcast"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Borult"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Fog"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Ködös"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Mist"
-#~ msgstr "K"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Haze"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Párás"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Storm"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Vihar"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Rain"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Esős"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Snow"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Hó"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Light Rain"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Eső a környéken"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Light Snow"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Hószálligózás"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Few Snow"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Enyhe havazás"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Scattered Snow"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Hózápor"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Clear"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Tiszta"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Showers"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Zivataros"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Mostly Clear"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Többnyire tiszta"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Sunny"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Napos"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Fair"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Jó"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Cloudy"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Felhős"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Mostly Cloudy"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Többnyire felhős"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Partly Cloudy"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Részben felhős"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Wind"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Szél"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Windy"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Szél"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Drizzle"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Eső"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Light Drizzle"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Szitáló eső a környéken"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Drifting Snow"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Enyhe havazás"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Scattered"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Hózápor"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Smoke"
-#~ msgstr "D"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "steady"
-#~ msgstr "állandó"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "rising"
-#~ msgstr "erősödő"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "falling"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Esős"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Unlimited"
-#~ msgstr "Korlátlan"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "N"
-#~ msgstr "É"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "NNW"
-#~ msgstr "É-ÉNy"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "NW"
-#~ msgstr "ÉNY"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "WNW"
-#~ msgstr "Ny-ÉNy"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "W"
-#~ msgstr "NY"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "WSW"
-#~ msgstr "Ny-DNy"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "SW"
-#~ msgstr "DNY"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "SSW"
-#~ msgstr "D-DNy"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "S"
-#~ msgstr "D"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "SSE"
-#~ msgstr "D-DK"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "SE"
-#~ msgstr "DK"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "ESE"
-#~ msgstr "K-DK"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "E"
-#~ msgstr "K"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "ENE"
-#~ msgstr "K-ÉK"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "NE"
-#~ msgstr "ÉK"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "NNE"
-#~ msgstr "É-ÉK"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: weather\n"
-#~ "VAR"
-#~ msgstr "É"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Low"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Hó"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Moderate"
-#~ msgstr "Késői"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: weather\n"
-#~ "High"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Ködös"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Showers in the Vicinity"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Zivataros"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Waning Crescent"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Esős"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Waxing Crescent"
-#~ msgstr ""
-#~ "Az idő: \n"
-#~ "Esős"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Early"
-#~ msgstr "Várható"
-
-#~ msgid ""
-#~ "_: weather\n"
-#~ "Late"
-#~ msgstr "Késői"
-
-#~ msgid "blah"
-#~ msgstr "duma"
-
-#, fuzzy
-#~ msgid "First name:"
-#~ msgstr "Keresztnév:"
-
-#~ msgid "Last name:"
-#~ msgstr "Vezetéknév:"
-
-#~ msgid "SSL shuwdown error"
-#~ msgstr "SSL shuwdown error"
-
-#~ msgid "Last name"
-#~ msgstr "Vezetéknév"
-
-#~ msgid "Smiles:"
-#~ msgstr "Hangulatjelek:"
-
-#~ msgid "Jabber agents are available online after login"
-#~ msgstr "Jabber agents are available online after login"
-
-#~ msgid "Registered agents:"
-#~ msgstr "Regisztrálva:"
-
-#~ msgid "Log &On"
-#~ msgstr "Naplózás"
-
-#~ msgid "Log O&ff"
-#~ msgstr "&kikapcsolt"
-
-#~ msgid "&Unregister"
-#~ msgstr "&Nem regisztrált"
-
-#~ msgid "&Registered agents"
-#~ msgstr "&Regisztrált "
-
-#~ msgid "&Agents"
-#~ msgstr "&Agents"
-
-#~ msgid "Select smiles"
-#~ msgstr "Hangulatjelek választása"
-
-#~ msgid "*.msl *.xep|Smiles"
-#~ msgstr "*.msl *.xep|Smiles"
-
-#~ msgid "Smiles (*.msl *.xep)"
-#~ msgstr "Smiles (*.msl *.xep)"
-
-#~ msgid "Get more smiles"
-#~ msgstr "További hangulatjelek"
-
-#~ msgid "*.dll|Icons themes"
-#~ msgstr "*.dll|Ikon témák"
-
-#~ msgid "Icons themes (*.dll)"
-#~ msgstr "Ikon-Téma (*.dll)"
-
-#~ msgid "Get more icons themes"
-#~ msgstr "További Ikonok és Témák"
-
-#~ msgid "Smiles"
-#~ msgstr "Hangulatjelek"
-
-#~ msgid "Icons for protocol:"
-#~ msgstr "Ikon a protokollhoz"
-
-#, fuzzy
-#~ msgid "Wood"
-#~ msgstr "jó"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: %1 wrote:\n"
-#~ "male"
-#~ msgstr "%1 írta:"
-
-#, fuzzy
-#~ msgid ""
-#~ "_: %1 wrote:\n"
-#~ "female"
-#~ msgstr "%1 írta:"
-
-#, fuzzy
-#~ msgid "%1 wrote:"
-#~ msgstr "%1 írta:"
-
-#~ msgid "Youur account is being used from another location"
-#~ msgstr "A te hozzáférésedet máshol használják"
-
-#~ msgid "Contact %1 added to list"
-#~ msgstr "%1 hozzáadva a listához"
-
-#~ msgid "Invalid address: %1"
-#~ msgstr "%1: érvénytelen cím"
-
-#~ msgid "MSN search results"
-#~ msgstr "MSN-keresés eredménye"
-
-#~ msgid "Contact %1 allready in list"
-#~ msgstr "%1 létező kapcsolat"
-
-#~ msgid "Search %1"
-#~ msgstr "Keresés %1"
-
-#~ msgid "Choose type of contact which you want to find or add:"
-#~ msgstr "Choose type of contact which you want to find or add:"
-
-#~ msgid "Contact type:"
-#~ msgstr "Kapcsolat típus:"
-
-#~ msgid "Choose contact type"
-#~ msgstr "Válasszon egy kapcsolattípust:"
-
-#~ msgid "AIM search results"
-#~ msgstr "AIM-keresés eredménye"
-
-#~ msgid "%1 added to contact list"
-#~ msgstr "%1 hozzáadva a listához"
-
-#~ msgid "ICQ search results"
-#~ msgstr "ICQ-keresés"
-
-#~ msgid "Find an &Online Chat Friend"
-#~ msgstr "Kapcsolatban levő  barátok &keresése"
-
-#~ msgid "Request UIN"
-#~ msgstr "UIN kérés"
-
-#~ msgid "Search fail"
-#~ msgstr "Sikertelen keresés"
-
-#~ msgid "Request user info"
-#~ msgstr "Felhasználói információ kérés"
-
-#~ msgid "<p>UIN: <b><a href=\"icq://%1\"><u>%2</u></a></b></p>"
-#~ msgstr "<p>UIN: <b><a href=\"icq://%1\"><u>%2</u></a></b></p>"
-
-#~ msgid "<p><b>%1</b></p>"
-#~ msgstr "<p><b>%1</b></p>"
-
-#~ msgid "%1<br>"
-#~ msgstr "%1<br>"
-
-#~ msgid "<p>Age: <b>%1</b></p>"
-#~ msgstr "<p>Kor: <b>%1</b></p>"
-
-#~ msgid "<p>Gender: <b>%1</b></p>"
-#~ msgstr "<p>Nem: <b>%1</b></p>"
-
-#~ msgid "<p>Country: <b>%1</b></p>"
-#~ msgstr "<p>Ország: <b>%1</b></p>"
-
-#~ msgid "<p>Language: <b>%1</b></p>"
-#~ msgstr "<p>Nyelv: <b>%1</b></p>"
-
-#~ msgid "<p>Homepage: <a href=\"%1\"><u>%2</u></a></p>"
-#~ msgstr "<p>Honlap: <a href=\"%1\"><u>%2</u></a></p>"
-
-#~ msgid "Alias"
-#~ msgstr "Alias"
-
-#~ msgid "Search done"
-#~ msgstr "Keresés befejezve."
-
-#~ msgid "Support &typing notification"
-#~ msgstr "Gépelés értesítés támogatás"
-
-#~ msgid "Email:"
-#~ msgstr "Email:"
-
-#~ msgid "Interests:"
-#~ msgstr "Érdeklődés:"
-
-#~ msgid "Email/Info"
-#~ msgstr "E-Mail/Info"
-
-#~ msgid "Group:"
-#~ msgstr "Csoport:"
-
-#~ msgid "Random chat"
-#~ msgstr "&Véletlen Csevegő mód"
-
-#~ msgid "AIM user"
-#~ msgstr "AIM-Felhasználó"
-
-#~ msgid "&Email"
-#~ msgstr "&E-Mail"
-
-#~ msgid "The first or last name nust be present. All other fields are optional, but will help narrow your search."
-#~ msgstr "The first or last name nust be present. All other fields are optional, but will help narrow your search."
-
-#~ msgid "Add Jabber contact"
-#~ msgstr "Jabber-Kapcsolatokhoz adja"
-
-#~ msgid "%1 is already in contact list"
-#~ msgstr "A(z) %1  már szerepel a listában."
-
-#~ msgid "ID"
-#~ msgstr "ID"
-
-#~ msgid "Browser: %1"
-#~ msgstr "Böngésző: %1"
-
-#~ msgid "%1 Search"
-#~ msgstr "%1 Keresése"
-
-#~ msgid "Jabber ID:"
-#~ msgstr "Jabber-ID:"
-
-#~ msgid "Jabber ID"
-#~ msgstr "Jabber-ID"
-
-#~ msgid "Service:"
-#~ msgstr "Szolgáltatás"
-
-#~ msgid "Add community results"
-#~ msgstr "Add hozzá a jelenlegi keresés eredményét"
-
-#~ msgid "Community %1 added to list"
-#~ msgstr "%1 hozzáadva a listához"
-
-#~ msgid "Community %1 already in list"
-#~ msgstr "%1 létezik a listán"
-
-#~ msgid "Community:"
-#~ msgstr "Community :"
-
-#~ msgid "Yahoo! search results"
-#~ msgstr "Yahoo! Keresés eredménye"
-
-#~ msgid "Contact %1 added in group %2"
-#~ msgstr "%1 kapcsolat hozzásadva %2 csoporthoz"
