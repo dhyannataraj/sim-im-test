@@ -2,6 +2,7 @@
 # translation of uk.po to
 # translation of uk.po to
 # translation of uk.po to
+# translation of uk.po to
 # translation of uk.po to Ukrainian
 # translation of uk.po to Український
 # Copyright (C) 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
@@ -13,7 +14,7 @@ msgstr ""
 "Project-Id-Version: uk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-11-17 18:12+0000\n"
-"PO-Revision-Date: 2005-04-21 14:05+0300\n"
+"PO-Revision-Date: 2005-04-27 13:03+0300\n"
 "Last-Translator:  <ivan@cit-white>\n"
 "Language-Team:  <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -6156,13 +6157,13 @@ msgstr "%1 вільна для розмови"
 msgid ""
 "_: male\n"
 "%1 is offline"
-msgstr "%1 в мережі"
+msgstr "%1 поза мережею"
 
 #: plugins/osd/osd.cpp:420
 msgid ""
 "_: female\n"
 "%1 is offline"
-msgstr "%1 в мережі"
+msgstr "%1 поза мережею"
 
 #: plugins/osd/osdconfig.cpp:52
 msgid "&Interface"
