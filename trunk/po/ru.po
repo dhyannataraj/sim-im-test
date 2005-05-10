@@ -4,15 +4,15 @@
 # Vladimir Shutoff <vovan@shutoff.ru>, 2002,2003, 2004.
 # Albert R. Valiev <darkstar@altlinux.ru>, 2003.
 # Kir Kolyshkin <kir@sacred.ru>, 2004.
-# Andrey Rahmatullin <wrar@altlinux.ru>, 2004.
+# Andrey Rahmatullin <wrar@altlinux.ru>, 2004, 2005.
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-11-17 18:12+0000\n"
-"PO-Revision-Date: 2005-04-20 21:07+0100\n"
-"Last-Translator: Tobias Franz <noragen@gmx.net>\n"
+"PO-Revision-Date: 2005-05-10 00:28+0600\n"
+"Last-Translator: Andrey Rahmatullin <wrar@altlinux.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -172,7 +172,7 @@ msgstr "Авто-ответ"
 
 #: plugins/_core/autoreply.cpp:51
 #: plugins/_core/autoreply.cpp:97
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Close after %n second\n"
 "Close after %n seconds"
@@ -1138,7 +1138,7 @@ msgstr "История"
 
 #: plugins/_core/historywnd.cpp:189
 msgid "Textfile (*.txt)"
-msgstr ""
+msgstr "Текстовые файлы (*.txt)"
 
 # monitor.cpp:108
 #: plugins/_core/historywnd.cpp:193
@@ -1463,7 +1463,7 @@ msgstr "Файл"
 # client.cpp:887
 #: plugins/_core/msgedit.cpp:431
 #: plugins/update/update.cpp:106
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Message\n"
 "%n messages"
@@ -1474,7 +1474,7 @@ msgstr ""
 
 # client.cpp:913
 #: plugins/_core/msgedit.cpp:457
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: SMS\n"
 "%n SMSs"
@@ -1485,7 +1485,7 @@ msgstr ""
 
 # client.cpp:893
 #: plugins/_core/msgedit.cpp:473
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: URL\n"
 "%n URLs"
@@ -1496,7 +1496,7 @@ msgstr ""
 
 # client.cpp:909
 #: plugins/_core/msgedit.cpp:536
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Contact list\n"
 "%n contact lists"
@@ -1508,7 +1508,7 @@ msgstr ""
 # client.cpp:891 msgview.cpp:200
 #: plugins/_core/msgedit.cpp:583
 #: plugins/icq/icqmessage.cpp:536
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: File\n"
 "%n files"
@@ -1529,7 +1529,7 @@ msgstr "&Отказать"
 
 # client.cpp:895
 #: plugins/_core/msgedit.cpp:658
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Authorize request\n"
 "%n authorize requests"
@@ -1550,7 +1550,7 @@ msgstr "&Отказать"
 
 # client.cpp:899
 #: plugins/_core/msgedit.cpp:728
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Authorization granted\n"
 "%n authorization granted"
@@ -1561,7 +1561,7 @@ msgstr ""
 
 # client.cpp:897
 #: plugins/_core/msgedit.cpp:749
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Authorization refused\n"
 "%n authorization refused"
@@ -1572,7 +1572,7 @@ msgstr ""
 
 # client.cpp:901
 #: plugins/_core/msgedit.cpp:770
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Add to contacts\n"
 "%n add to contacts"
@@ -1583,7 +1583,7 @@ msgstr ""
 
 # client.cpp:901
 #: plugins/_core/msgedit.cpp:791
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Removed from contacts\n"
 "%n removed from contacts"
@@ -1594,7 +1594,7 @@ msgstr ""
 
 # client.cpp:921
 #: plugins/_core/msgedit.cpp:812
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Status changed\n"
 "%n times status changed"
@@ -1749,7 +1749,7 @@ msgstr "Не в списке"
 
 # client.cpp:909
 #: plugins/_core/search.cpp:632
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: %n contact found\n"
 "%n contacts found"
@@ -3824,7 +3824,7 @@ msgstr "Неверный адрес сервера"
 
 # client.cpp:903
 #: plugins/icq/icqmessage.cpp:552
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: WWW-panel message\n"
 "%n WWW-panel messages"
@@ -3835,7 +3835,7 @@ msgstr ""
 
 # client.cpp:905
 #: plugins/icq/icqmessage.cpp:573
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Email pager message\n"
 "%n Email pager messages"
@@ -3846,7 +3846,7 @@ msgstr ""
 
 # client.cpp:919
 #: plugins/icq/icqmessage.cpp:594
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Request secure channel\n"
 "%n requests secure channel"
@@ -3857,7 +3857,7 @@ msgstr ""
 
 # client.cpp:919
 #: plugins/icq/icqmessage.cpp:615
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Close secure channel\n"
 "%n times close secure channel"
@@ -3867,7 +3867,7 @@ msgstr ""
 "%n запросов защищенного соединения"
 
 #: plugins/icq/icqmessage.cpp:636
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Check invisible\n"
 "%n times check invisible"
@@ -3878,7 +3878,7 @@ msgstr ""
 
 # client.cpp:917
 #: plugins/icq/icqmessage.cpp:657
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Warning\n"
 "%n warnings"
@@ -3889,7 +3889,7 @@ msgstr ""
 
 # client.cpp:909
 #: plugins/icq/icqmessage.cpp:763
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Contact request\n"
 "%n contact requests"
@@ -5444,7 +5444,7 @@ msgstr "&Статистика"
 
 # client.cpp:891 msgview.cpp:200
 #: plugins/jabber/discoinfo.cpp:251
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: %n day\n"
 "%n days"
@@ -5598,7 +5598,7 @@ msgid "Original message:"
 msgstr "Первоначальное сообщение:"
 
 #: plugins/jabber/jabbermessage.cpp:133
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Error\n"
 "%n errors"
@@ -5913,7 +5913,7 @@ msgid "&Statistic"
 msgstr "&Статистика"
 
 #: plugins/livejournal/livejournal.cpp:102
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: LiveJournal post\n"
 "%n LiveJournal posts"
@@ -5923,7 +5923,7 @@ msgstr ""
 "%n записей в жифой журнал"
 
 #: plugins/livejournal/livejournal.cpp:103
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Friends updated\n"
 "Friends updated %n"
@@ -6734,7 +6734,7 @@ msgid "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 msgstr "https://register.passport.net/reg.srf?lc=1049&langid=1049&sl=1"
 
 #: plugins/msn/msnpacket.cpp:468
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: You have %n unread message\n"
 "You have %n unread messages"
@@ -7292,7 +7292,7 @@ msgid "Shift"
 msgstr "Shift"
 
 #: plugins/sms/sms.cpp:84
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Phone call\n"
 "%n phone calls"
@@ -7950,6 +7950,7 @@ msgstr ""
 "Точка росы: <b>%d</b><br>\n"
 "Восход: %r<br>\n"
 "Закат: %s<br>\n"
+"<img src=\"icon:moon%mi\"> %mp<br>\n"
 "UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)<br>\n"
 "<br>\n"
 "Обновлено: %u<br>\n"
