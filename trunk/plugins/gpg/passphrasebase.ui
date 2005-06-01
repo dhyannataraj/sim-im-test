@@ -70,6 +70,9 @@
                 <name>name</name>
                 <cstring>edtPass</cstring>
             </property>
+            <property name="echoMode">
+                <enum>Password</enum>
+            </property>
         </widget>
         <widget row="4"  column="1" >
             <class>QPushButton</class>
