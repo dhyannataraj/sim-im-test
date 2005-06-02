@@ -1,23 +1,23 @@
 # translation of es.po to Español
 # Translation to Spanish
 # This file is distributed under the same license as the SIM package.
-# Copyright (C) 2004
+# Copyright (C) 2005
 #
-# $Id: es.po,v 1.174 2005-04-20 19:12:15 noragen Exp $
-# Jorge Lopez Trescastro <jorge@acm.asoc.fi.upm.es>, 2002, 2003, 2004.
+# $Id: es.po,v 1.175 2005-06-02 23:04:07 jorgelt Exp $
+# Jorge Lopez Trescastro <jorge.lopez@acm.org>, 2002, 2003, 2004, 2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: sim-es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-17 18:12+0000\n"
-"PO-Revision-Date: 2005-04-20 21:03+0100\n"
-"Last-Translator: Tobias Franz <noragen@gmx.net>\n"
+"POT-Creation-Date: 2002-10-19 18:41+0200\n"
+"PO-Revision-Date: 2005-06-03 00:53+0200\n"
+"Last-Translator: Jorge Lopez <jorge.lopez@acm.org>\n"
 "Language-Team: ES <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.9.1\n"
+"X-Generator: KBabel 1.10\n"
 
 #: plugins/__homedir/homedir.cpp:48
 msgid "Home directory"
@@ -166,11 +166,13 @@ msgstr "Mensaje de respuesta automática"
 
 #: plugins/_core/autoreply.cpp:51
 #: plugins/_core/autoreply.cpp:97
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Close after %n second\n"
 "Close after %n seconds"
-msgstr "Cer&rar después de %n segundos"
+msgstr ""
+"Cerrar después de %n segundo\n"
+"Cerrar después de %n segundos"
 
 #: plugins/_core/cfgdlg.cpp:275
 #: plugins/_core/usercfg.cpp:195
@@ -292,7 +294,7 @@ msgstr "Contenedor"
 msgid ""
 "_: male\n"
 "%1 is typing"
-msgstr ""
+msgstr "%1 está escribiendo"
 
 #: plugins/_core/container.cpp:591
 #: plugins/_core/core.cpp:1684
@@ -308,7 +310,7 @@ msgstr ""
 msgid ""
 "_: female\n"
 "%1 is typing"
-msgstr ""
+msgstr "%1 está escribiendo"
 
 #: plugins/_core/core.cpp:108
 #: plugins/weather/weathercfg.cpp:49
@@ -324,7 +326,7 @@ msgid ""
 "I am currently away from ICQ.\n"
 "Please leave your message and I will get back to you as soon as I return!\n"
 msgstr ""
-"Actualmente estoy ausente del ICQ.\n"
+"Actualmente estoy ausente.\n"
 "Por favor deja tu mensaje y te responderé cuando vuelva.\n"
 
 #: plugins/_core/core.cpp:436
@@ -427,7 +429,7 @@ msgstr "&Insertar emoticón"
 #: plugins/_core/core.cpp:700
 #: plugins/forward/forwardcfgbase.cpp:75
 msgid "Send in &translit"
-msgstr ""
+msgstr "Enviar &transliterado (conversión de caracteres Cirílicos a Latin)"
 
 #: plugins/_core/core.cpp:708
 #: plugins/_core/msgedit.cpp:252
@@ -777,13 +779,13 @@ msgstr ""
 msgid ""
 "_: male\n"
 "%1 wrote:"
-msgstr ""
+msgstr "%1 escribió:"
 
 #: plugins/_core/core.cpp:1677
 msgid ""
 "_: female\n"
 "%1 wrote:"
-msgstr ""
+msgstr "%1 escribió:"
 
 #: plugins/_core/core.cpp:1721
 #: plugins/_core/status.cpp:321
@@ -1285,11 +1287,13 @@ msgstr "Archivo"
 
 #: plugins/_core/msgedit.cpp:431
 #: plugins/update/update.cpp:106
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Message\n"
 "%n messages"
-msgstr "Mensajes no leidos"
+msgstr ""
+"Mensaje\n"
+"%n mensajes"
 
 #: plugins/_core/msgedit.cpp:457
 #, c-format
@@ -1297,6 +1301,8 @@ msgid ""
 "_n: SMS\n"
 "%n SMSs"
 msgstr ""
+"SMS\n"
+"%n SMSs"
 
 #: plugins/_core/msgedit.cpp:473
 #, c-format
@@ -1304,13 +1310,17 @@ msgid ""
 "_n: URL\n"
 "%n URLs"
 msgstr ""
+"URL\n"
+"%n URLs"
 
 #: plugins/_core/msgedit.cpp:536
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Contact list\n"
 "%n contact lists"
-msgstr "Guardar teléfono en lista de contactos"
+msgstr ""
+"Contacto\n"
+"%n contactos"
 
 #: plugins/_core/msgedit.cpp:583
 #: plugins/icq/icqmessage.cpp:536
@@ -1319,6 +1329,8 @@ msgid ""
 "_n: File\n"
 "%n files"
 msgstr ""
+"Archivo\n"
+"%n archivos"
 
 #: plugins/_core/msgedit.cpp:590
 msgid "&Accept"
@@ -1334,6 +1346,8 @@ msgid ""
 "_n: Authorize request\n"
 "%n authorize requests"
 msgstr ""
+"Petición de autorización\n"
+"%n peticiones de autorización"
 
 #: plugins/_core/msgedit.cpp:665
 msgid "&Grant"
@@ -1349,6 +1363,8 @@ msgid ""
 "_n: Authorization granted\n"
 "%n authorization granted"
 msgstr ""
+"Autorización concedida\n"
+"%n autorizaciones concedidas"
 
 #: plugins/_core/msgedit.cpp:749
 #, c-format
@@ -1356,6 +1372,8 @@ msgid ""
 "_n: Authorization refused\n"
 "%n authorization refused"
 msgstr ""
+"Autorización rechazada\n"
+"%n autorizaciones rechazadas"
 
 #: plugins/_core/msgedit.cpp:770
 #, c-format
@@ -1363,6 +1381,8 @@ msgid ""
 "_n: Add to contacts\n"
 "%n add to contacts"
 msgstr ""
+"Añadido a la lista de contactos\n"
+"%n añadidos a la lista de contactos"
 
 #: plugins/_core/msgedit.cpp:791
 #, c-format
@@ -1370,6 +1390,8 @@ msgid ""
 "_n: Removed from contacts\n"
 "%n removed from contacts"
 msgstr ""
+"Eliminado de la lista de contactos\n"
+"%n eliminados de la lista de contactos"
 
 #: plugins/_core/msgedit.cpp:812
 #, c-format
@@ -1377,6 +1399,8 @@ msgid ""
 "_n: Status changed\n"
 "%n times status changed"
 msgstr ""
+"Estado cambiado\n"
+"%n estados cambiados"
 
 #: plugins/_core/msgedit.cpp:927
 #: sim/qt3/i18n.cpp:23
@@ -1505,6 +1529,8 @@ msgid ""
 "_n: %n contact found\n"
 "%n contacts found"
 msgstr ""
+"%n contacto encontrado\n"
+"%n contactos encontrados"
 
 #: plugins/_core/status.cpp:72
 #: plugins/_core/statuswnd.cpp:88
@@ -2665,6 +2691,8 @@ msgid ""
 "_n: %n GPG key\n"
 "%n GPG keys"
 msgstr ""
+"%n clave GPG\n"
+"%n claves GPG"
 
 #: plugins/gpg/gpg.cpp:749
 msgid "GPG key"
@@ -2869,7 +2897,7 @@ msgstr "Ocupado"
 #: plugins/jabber/jabber.cpp:142
 #: plugins/osd/osdconfigbase.cpp:116
 msgid "Free for chat"
-msgstr "Libre para hablar"
+msgstr "Disponible para charlar"
 
 #: plugins/icq/icq.cpp:229
 msgid "AIM"
@@ -3183,6 +3211,8 @@ msgid ""
 "_n: %n file\n"
 "%n files"
 msgstr ""
+"%n archivo\n"
+"%n archivos"
 
 #: plugins/icq/icqicmb.cpp:1286
 #: plugins/icq/warndlg.cpp:66
@@ -3329,6 +3359,8 @@ msgid ""
 "_n: WWW-panel message\n"
 "%n WWW-panel messages"
 msgstr ""
+"Mensaje WWW\n"
+"%n mensajes WWW"
 
 #: plugins/icq/icqmessage.cpp:573
 #, c-format
@@ -3336,13 +3368,17 @@ msgid ""
 "_n: Email pager message\n"
 "%n Email pager messages"
 msgstr ""
+"Mensaje de correo electrónico\n"
+"%n mensajes de correo electrónico"
 
 #: plugins/icq/icqmessage.cpp:594
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Request secure channel\n"
 "%n requests secure channel"
-msgstr "Petición de canal seguro fallida"
+msgstr ""
+"Petición de canal seguro\n"
+"%n peticiones de canal seguro"
 
 #: plugins/icq/icqmessage.cpp:615
 #, c-format
@@ -3350,6 +3386,8 @@ msgid ""
 "_n: Close secure channel\n"
 "%n times close secure channel"
 msgstr ""
+"Cerrar canal seguro\n"
+"Cerrar %n canales seguros"
 
 #: plugins/icq/icqmessage.cpp:636
 #, c-format
@@ -3357,6 +3395,8 @@ msgid ""
 "_n: Check invisible\n"
 "%n times check invisible"
 msgstr ""
+"Comprobar invisibilidad\n"
+"Comprobar %n veces invisibilidad"
 
 #: plugins/icq/icqmessage.cpp:657
 #, c-format
@@ -3364,6 +3404,8 @@ msgid ""
 "_n: Warning\n"
 "%n warnings"
 msgstr ""
+"Aviso\n"
+"%n avisos"
 
 #: plugins/icq/icqmessage.cpp:763
 #, c-format
@@ -3371,6 +3413,8 @@ msgid ""
 "_n: Contact request\n"
 "%n contact requests"
 msgstr ""
+"Petición de contacto\n"
+"%n peticiones de contactos"
 
 #: plugins/icq/icqmessage.cpp:813
 msgid "Contact Request"
@@ -4677,6 +4721,8 @@ msgid ""
 "_n: %n day\n"
 "%n days"
 msgstr ""
+"%n día\n"
+"%n días"
 
 #: plugins/jabber/jabber.cpp:59
 msgid "Jabber"
@@ -4812,6 +4858,8 @@ msgid ""
 "_n: Error\n"
 "%n errors"
 msgstr ""
+"Error\n"
+"%n errores"
 
 #: plugins/jabber/jabbermessage.cpp:158
 #: plugins/jabber/jabbermessage.cpp:214
@@ -5092,6 +5140,8 @@ msgid ""
 "_n: LiveJournal post\n"
 "%n LiveJournal posts"
 msgstr ""
+"Entrada LiveJournal\n"
+"%n entradas LiveJournal"
 
 #: plugins/livejournal/livejournal.cpp:103
 #, c-format
@@ -5518,7 +5568,7 @@ msgstr "contemplativo"
 
 #: plugins/livejournal/livejournal.cpp:1452
 msgid "nerdy"
-msgstr "escandalizado"
+msgstr "idiota"
 
 #: plugins/livejournal/livejournal.cpp:1453
 msgid "geeky"
@@ -5570,7 +5620,7 @@ msgstr "apático"
 
 #: plugins/livejournal/livejournal.cpp:1465
 msgid "dorky"
-msgstr ""
+msgstr "tonto"
 
 #: plugins/livejournal/livejournal.cpp:1466
 msgid "impressed"
@@ -5738,7 +5788,7 @@ msgstr "Habilitar comentarios"
 
 #: plugins/livejournal/msgjournalbase.cpp:93
 msgid "No email comments"
-msgstr ""
+msgstr "Deshabilitar comentarios por correo electrónico"
 
 #: plugins/livejournal/msgjournalbase.cpp:94
 msgid "Disable comments"
@@ -5844,11 +5894,13 @@ msgid "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 msgstr "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 
 #: plugins/msn/msnpacket.cpp:468
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: You have %n unread message\n"
 "You have %n unread messages"
-msgstr "Tiene %n correos nuevos"
+msgstr ""
+"Tiene %n mensaje nuevo\n"
+"Tiene %n mensajes nuevos"
 
 #: plugins/msn/msnpacket.cpp:488
 msgid "You have new mail"
@@ -5996,87 +6048,85 @@ msgstr "&OSD"
 msgid ""
 "_: male\n"
 "%1 is online"
-msgstr ""
+msgstr "%1 está conectado"
 
 #: plugins/osd/osd.cpp:408
 msgid ""
 "_: female\n"
 "%1 is online"
-msgstr ""
+msgstr "%1 está conectada"
 
 #: plugins/osd/osd.cpp:409
 msgid ""
 "_: male\n"
 "%1 is away"
-msgstr ""
+msgstr "%1 está ausente"
 
 #: plugins/osd/osd.cpp:410
 msgid ""
 "_: female\n"
 "%1 is away"
-msgstr ""
+msgstr "%1 está ausente"
 
 #: plugins/osd/osd.cpp:411
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is not available"
-msgstr "Imagen no disponible"
+msgstr "%1 no está disponible"
 
 #: plugins/osd/osd.cpp:412
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is not available"
-msgstr "Imagen no disponible"
+msgstr "%1 no está disponible"
 
 #: plugins/osd/osd.cpp:413
 msgid ""
 "_: male\n"
 "%1 doesn't want to be disturbed"
-msgstr ""
+msgstr "%1 no quiere ser molestado"
 
 #: plugins/osd/osd.cpp:414
 msgid ""
 "_: female\n"
 "%1 doesn't want to be disturbed"
-msgstr ""
+msgstr "%1 no quiere ser molestada"
 
 #: plugins/osd/osd.cpp:415
 msgid ""
 "_: male\n"
 "%1 is occupied"
-msgstr ""
+msgstr "%1 está ocupado"
 
 #: plugins/osd/osd.cpp:416
 msgid ""
 "_: female\n"
 "%1 is occupied"
-msgstr ""
+msgstr "%1 está ocupada"
 
 #: plugins/osd/osd.cpp:417
 msgid ""
 "_: male\n"
 "%1 is free for chat"
-msgstr ""
+msgstr "%1 está disponible para charlar"
 
 #: plugins/osd/osd.cpp:418
 msgid ""
 "_: female\n"
 "%1 is free for chat"
-msgstr ""
+msgstr "%1 está disponible para charlar"
 
 #: plugins/osd/osd.cpp:419
 msgid ""
 "_: male\n"
 "%1 is offline"
-msgstr ""
+msgstr "%1 está desconectado"
 
 #: plugins/osd/osd.cpp:420
 msgid ""
 "_: female\n"
 "%1 is offline"
-msgstr ""
+msgstr "%1 está desconectada"
 
 #: plugins/osd/osdconfig.cpp:52
 msgid "&Interface"
@@ -6338,6 +6388,8 @@ msgid ""
 "_n: Phone call\n"
 "%n phone calls"
 msgstr ""
+"Llamada telefónica\n"
+"%n llamadas telefonicas"
 
 #: plugins/sms/sms.cpp:95
 msgid "Phone call"
@@ -6622,305 +6674,277 @@ msgstr "Domingo"
 msgid ""
 "_: weather\n"
 "Overcast"
-msgstr ""
+msgstr "Nublado"
 
 #: plugins/weather/weather.cpp:376
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Fog"
-msgstr "tiempo"
+msgstr "Niebla"
 
 #: plugins/weather/weather.cpp:377
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Haze"
-msgstr "tiempo"
+msgstr "Neblina"
 
 #: plugins/weather/weather.cpp:378
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Storm"
-msgstr "tiempo"
+msgstr "Tormenta"
 
 #: plugins/weather/weather.cpp:379
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Rain"
-msgstr "tiempo"
+msgstr "Llueve"
 
 #: plugins/weather/weather.cpp:380
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Snow"
-msgstr "tiempo"
+msgstr "Nieva"
 
 #: plugins/weather/weather.cpp:381
 msgid ""
 "_: weather\n"
 "Light Rain"
-msgstr ""
+msgstr "Ligera lluvia"
 
 #: plugins/weather/weather.cpp:382
 msgid ""
 "_: weather\n"
 "Light Snow"
-msgstr ""
+msgstr "Nieve ligera"
 
 #: plugins/weather/weather.cpp:383
 msgid ""
 "_: weather\n"
 "Few Snow"
-msgstr ""
+msgstr "Nieve escasa"
 
 #: plugins/weather/weather.cpp:384
 msgid ""
 "_: weather\n"
 "Scattered Snow"
-msgstr ""
+msgstr "Nieve aislada"
 
 #: plugins/weather/weather.cpp:385
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Clear"
-msgstr "tiempo"
+msgstr "Despejado"
 
 #: plugins/weather/weather.cpp:386
 msgid ""
 "_: weather\n"
 "Showers"
-msgstr ""
+msgstr "Chubasco"
 
 #: plugins/weather/weather.cpp:387
 msgid ""
 "_: weather\n"
 "Mostly Clear"
-msgstr ""
+msgstr "Mayormente despejado"
 
 #: plugins/weather/weather.cpp:388
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Sunny"
-msgstr "tiempo"
+msgstr "Soleado"
 
 #: plugins/weather/weather.cpp:389
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Fair"
-msgstr "tiempo"
+msgstr "Bueno"
 
 #: plugins/weather/weather.cpp:390
 msgid ""
 "_: weather\n"
 "Cloudy"
-msgstr ""
+msgstr "Nublado"
 
 #: plugins/weather/weather.cpp:391
 msgid ""
 "_: weather\n"
 "Mostly Cloudy"
-msgstr ""
+msgstr "Mayormente nublado"
 
 #: plugins/weather/weather.cpp:392
 msgid ""
 "_: weather\n"
 "Partly Cloudy"
-msgstr ""
+msgstr "Parcialmente nublado"
 
 #: plugins/weather/weather.cpp:393
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Wind"
-msgstr "tiempo"
+msgstr "Viento"
 
 #: plugins/weather/weather.cpp:394
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Windy"
-msgstr "tiempo"
+msgstr "Ventoso"
 
 #: plugins/weather/weather.cpp:395
 msgid ""
 "_: weather\n"
 "Drizzle"
-msgstr ""
+msgstr "Llovizna"
 
 #: plugins/weather/weather.cpp:396
 msgid ""
 "_: weather\n"
 "Light Drizzle"
-msgstr ""
+msgstr "Llovizna ligera"
 
 #: plugins/weather/weather.cpp:397
 msgid ""
 "_: weather\n"
 "Drifting Snow"
-msgstr ""
+msgstr "Nieve abundante"
 
 #: plugins/weather/weather.cpp:398
 msgid ""
 "_: weather\n"
 "Scattered"
-msgstr ""
+msgstr "Aislado"
 
 #: plugins/weather/weather.cpp:399
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Smoke"
-msgstr "tiempo"
+msgstr "Humo"
 
 #: plugins/weather/weather.cpp:400
 msgid ""
 "_: weather\n"
 "steady"
-msgstr ""
+msgstr "constante"
 
 #: plugins/weather/weather.cpp:401
 msgid ""
 "_: weather\n"
 "rising"
-msgstr ""
+msgstr "creciente"
 
 #: plugins/weather/weather.cpp:402
 msgid ""
 "_: weather\n"
 "falling"
-msgstr ""
+msgstr "descenso"
 
 #: plugins/weather/weather.cpp:403
 msgid ""
 "_: weather\n"
 "Unlimited"
-msgstr ""
+msgstr "ilimitada"
 
 #: plugins/weather/weather.cpp:404
-#, fuzzy
 msgid ""
 "_: weather\n"
 "N"
-msgstr "tiempo"
+msgstr "N"
 
 #: plugins/weather/weather.cpp:405
-#, fuzzy
 msgid ""
 "_: weather\n"
 "NNW"
-msgstr "tiempo"
+msgstr "NNO"
 
 #: plugins/weather/weather.cpp:406
-#, fuzzy
 msgid ""
 "_: weather\n"
 "NW"
-msgstr "tiempo"
+msgstr "NO"
 
 #: plugins/weather/weather.cpp:407
-#, fuzzy
 msgid ""
 "_: weather\n"
 "WNW"
-msgstr "tiempo"
+msgstr "ONO"
 
 #: plugins/weather/weather.cpp:408
-#, fuzzy
 msgid ""
 "_: weather\n"
 "W"
-msgstr "tiempo"
+msgstr "O"
 
 #: plugins/weather/weather.cpp:409
-#, fuzzy
 msgid ""
 "_: weather\n"
 "WSW"
-msgstr "tiempo"
+msgstr "OSO"
 
 #: plugins/weather/weather.cpp:410
-#, fuzzy
 msgid ""
 "_: weather\n"
 "SW"
-msgstr "tiempo"
+msgstr "SO"
 
 #: plugins/weather/weather.cpp:411
-#, fuzzy
 msgid ""
 "_: weather\n"
 "SSW"
-msgstr "tiempo"
+msgstr "SSO"
 
 #: plugins/weather/weather.cpp:412
-#, fuzzy
 msgid ""
 "_: weather\n"
 "S"
-msgstr "tiempo"
+msgstr "S"
 
 #: plugins/weather/weather.cpp:413
-#, fuzzy
 msgid ""
 "_: weather\n"
 "SSE"
-msgstr "tiempo"
+msgstr "SSE"
 
 #: plugins/weather/weather.cpp:414
-#, fuzzy
 msgid ""
 "_: weather\n"
 "SE"
-msgstr "tiempo"
+msgstr "SE"
 
 #: plugins/weather/weather.cpp:415
-#, fuzzy
 msgid ""
 "_: weather\n"
 "ESE"
-msgstr "tiempo"
+msgstr "ESE"
 
 #: plugins/weather/weather.cpp:416
-#, fuzzy
 msgid ""
 "_: weather\n"
 "E"
-msgstr "tiempo"
+msgstr "E"
 
 #: plugins/weather/weather.cpp:417
-#, fuzzy
 msgid ""
 "_: weather\n"
 "ENE"
-msgstr "tiempo"
+msgstr "ENE"
 
 #: plugins/weather/weather.cpp:418
-#, fuzzy
 msgid ""
 "_: weather\n"
 "NE"
-msgstr "tiempo"
+msgstr "NE"
 
 #: plugins/weather/weather.cpp:419
-#, fuzzy
 msgid ""
 "_: weather\n"
 "NNE"
-msgstr "tiempo"
+msgstr "NNE"
 
 #: plugins/weather/weather.cpp:420
-#, fuzzy
 msgid ""
 "_: weather\n"
 "VAR"
-msgstr "tiempo"
+msgstr "VAR"
 
 #: plugins/weather/weather.cpp:426
 msgid "km"
@@ -7172,7 +7196,7 @@ msgstr "He salido a comer"
 
 #: plugins/yahoo/yahooclient.cpp:1426
 msgid "Stepped out"
-msgstr ""
+msgstr "Paseando"
 
 #: plugins/yahoo/yahoosearch.cpp:128
 msgid "Yahoo! ID"
