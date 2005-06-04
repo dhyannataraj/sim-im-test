@@ -1377,7 +1377,7 @@ void ClientUserData::load(Client *client, Buffer *cfg)
     const DataDef *def = client->protocol()->userDataDef();
     size_t size = 0;
     for (const DataDef *d = def; d->name; ++d)
-        size += sizeof(unsigned) * d->n_values;
+        size += sizeof(Data) * d->n_values;
     data.data = malloc(size);
     load_data(def, data.data, cfg);
     p->push_back(data);
@@ -1390,7 +1390,7 @@ void *ClientUserData::createData(Client *client)
     const DataDef *def = client->protocol()->userDataDef();
     size_t size = 0;
     for (const DataDef *d = def; d->name; ++d)
-        size += sizeof(unsigned) * d->n_values;
+        size += sizeof(Data) * d->n_values;
     data.data = malloc(size);
     load_data(def, data.data, NULL);
     p->push_back(data);
@@ -1606,7 +1606,7 @@ void *UserData::getUserData(unsigned id, bool bCreate)
     }
     size_t size = 0;
     for (const DataDef *def = (*it).def; def->name; ++def)
-        size += sizeof(unsigned) * def->n_values;
+        size += sizeof(Data) * def->n_values;
     userData[id] = malloc(size);
     load_data((*it).def, userData[id], NULL);
     return userData[id];

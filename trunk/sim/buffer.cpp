@@ -302,6 +302,9 @@ void Buffer::unpack(unsigned short &c)
 
 void Buffer::unpack(unsigned long &c)
 {
+    // FIXME: This needs to be rewritten for 64-bit machines.
+    // Kludge for now.
+    c = 0;
     if (unpack((char*)&c, 4) != 4) c = 0;
     SWAP_L(c);
 }

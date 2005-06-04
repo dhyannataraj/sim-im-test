@@ -469,7 +469,7 @@ void ConfigureDialog::apply()
             continue;
         size_t size = 0;
         for (const DataDef *d = def; d->name; ++d)
-            size += sizeof(unsigned) * d->n_values;
+            size += sizeof(Data) * d->n_values;
         void *data = malloc(size);
         string cfg = client->getConfig();
         if (cfg.empty()){
