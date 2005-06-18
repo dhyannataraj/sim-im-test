@@ -87,7 +87,7 @@ public:
     static bool canDecode(QMimeSource*);
     static Contact *decode(QMimeSource*);
 protected:
-    unsigned m_id;
+    unsigned long m_id;
 };
 
 #endif
