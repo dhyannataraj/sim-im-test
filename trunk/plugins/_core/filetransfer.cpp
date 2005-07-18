@@ -516,7 +516,7 @@ void FileTransferDlg::goDir()
        are there any other separators we need to care of ?*/
 	QString fpath(QFile::encodeName(m_dir));
     fpath.replace(QRegExp(" "),"%20");
-    s += fpath;
+    s += fpath.ascii();
     Event e(EventGoURL, (void*)(s.c_str()));
     e.process();
 }
