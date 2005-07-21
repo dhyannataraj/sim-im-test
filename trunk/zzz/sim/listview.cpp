@@ -339,7 +339,7 @@ ContactDragObject::ContactDragObject(ListView *dragSource, Contact *contact)
 ContactDragObject::~ContactDragObject()
 {
     ListView *view = static_cast<ListView*>(parent());
-    if (view && view->m_pressedItem){
+    if (view->m_pressedItem){
         QListViewItem *item = view->m_pressedItem;
         view->m_pressedItem = NULL;
         item->repaint();

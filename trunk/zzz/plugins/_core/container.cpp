@@ -568,7 +568,6 @@ static const char *accels[] =
 
 extern bool bFullScreen;
 
-#ifndef FLASHW_TRAY
 typedef struct FLASHWINFO
 {
     unsigned long cbSize;
@@ -578,14 +577,12 @@ typedef struct FLASHWINFO
     unsigned long dwTimeout;
 } FLASHWINFO;
 
-
+#ifndef FLASHW_TRAY
 #define FLASHW_TRAY         0x00000002
 #define FLASHW_TIMERNOFG    0x0000000C
-
+#endif
 
 static BOOL (WINAPI *FlashWindowEx)(FLASHWINFO*) = NULL;
-#endif
-static BOOL (WINAPI *fwe)(FLASHWINFO*) = NULL;
 static bool initFlash = false;
 #endif
 
@@ -600,17 +597,17 @@ void Container::flash()
     if (!initFlash){
         HINSTANCE hLib = GetModuleHandleA("user32");
         if (hLib != NULL)
-			(DWORD&)fwe = (DWORD)GetProcAddress(hLib,"FlashWindowEx");
+            (DWORD&)FlashWindowEx = (DWORD)GetProcAddress(hLib,"FlashWindowEx");
         initFlash = true;
     }
-    if (fwe){
+    if (FlashWindowEx){
         FLASHWINFO fInfo;
         fInfo.cbSize  = sizeof(fInfo);
         fInfo.dwFlags = FLASHW_TRAY | FLASHW_TIMERNOFG;
         fInfo.hwnd = winId();
         fInfo.uCount = 0;
         fInfo.dwTimeout = 1000;
-        fwe(&fInfo);
+        FlashWindowEx(&fInfo);
     }
 #else
 #if defined(USE_KDE)

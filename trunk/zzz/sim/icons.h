@@ -73,7 +73,7 @@ protected:
     list<smileDef>	m_smiles;
 };
 
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
+#ifdef WIN32
 
 typedef map<unsigned, string>	ICONS_MAP;
 
@@ -94,7 +94,7 @@ public:
     IconSet *addIconSet(const char *name, bool bDefault);
     void removeIconSet(IconSet*);
     list<IconSet*>	m_customSets;
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
+#ifdef WIN32
     PictDef			*getPict(const QPixmap &pict);
     ICONS_MAP		m_icons;
 #endif

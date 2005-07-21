@@ -46,12 +46,11 @@ MonitorWindow *monitor = NULL;
 MonitorWindow::MonitorWindow(NetmonitorPlugin *plugin)
         : QMainWindow(NULL, "monitor", WType_TopLevel)
 {
-    bPause = true;  // no debug output during creation
     m_plugin = plugin;
     SET_WNDPROC("monitor")
     setCaption(i18n("Network monitor"));
     setIcon(Pict("network"));
-
+    bPause = false;
     edit = new TextShow(this);
     edit->setWordWrap(QTextEdit::NoWrap);
     setCentralWidget(edit);
@@ -73,7 +72,6 @@ MonitorWindow::MonitorWindow(NetmonitorPlugin *plugin)
     connect(menuLog, SIGNAL(aboutToShow()), this, SLOT(adjustLog()));
     connect(menuLog, SIGNAL(activated(int)), this, SLOT(toggleType(int)));
     menu->insertItem(i18n("&Log"), menuLog);
-    bPause = false;
 }
 
 void MonitorWindow::closeEvent(QCloseEvent *e)
