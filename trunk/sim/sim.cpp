@@ -296,6 +296,7 @@ int main(int argc, char *argv[])
     }
 #endif
     PluginManager p(argc, argv);
+	if (p.isLoaded())
         res = app.exec();
 #ifdef WIN32
     CloseHandle(hMutex);
