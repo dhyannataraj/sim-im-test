@@ -1,5 +1,4 @@
-SIM - Simple Instant Messenger
-  Russian
+SIM-IM - SIM Instant Messenger
 
 A simple ICQ client with v8 protocol support (2001) for X win system (requires QT, can be build for KDE). It also runs under MS Windows.
 
@@ -13,7 +12,7 @@ Features:
 - user search
 - non-ICQ contacts 
 
-http://sim.shutoff.spb.ru/
+http://sim-im.berlios.de/
 
 SIM supports icon themes from Miranda.
 On page http://www.nortiq.com/miranda/index.php?action=display&cat=Icon 

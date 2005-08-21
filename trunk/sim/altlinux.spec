@@ -27,7 +27,7 @@ Summary(ru_RU.CP1251): SIM - клиент ICQ/AIM/MSN/Jabber (с поддержкой KDE)
 License: GPL
 Packager: SIM Development Team <sim@packages.altlinux.org>
 
-Url: http://sim-icq.sf.net/
+Url: http://sim-im.berlios.de/
 
 Source: %name.tar.bz2
 
