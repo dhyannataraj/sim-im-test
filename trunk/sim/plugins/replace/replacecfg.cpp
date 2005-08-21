@@ -48,6 +48,7 @@ ReplaceCfg::ReplaceCfg(QWidget *parent, ReplacePlugin *plugin)
     lstKeys->setCurrentItem(lstKeys->firstChild());
     m_editItem = NULL;
     m_editCol  = (unsigned)(-1);
+    m_bDelete = false;
     setEdit();
     connect(lstKeys, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
     connect(lstKeys->header(), SIGNAL(sizeChange(int,int,int)), this, SLOT(sizeChange(int,int,int)));
