@@ -2861,7 +2861,7 @@ msgstr "Este plugin fornece a informação do \"sobre\""
 
 # plugins/about/about.cpp:61
 #: plugins/about/about.cpp:61
-msgid "&Bug report"
+msgid "&Bug report / Requests"
 msgstr "Reportar &bugs"
 
 # plugins/about/about.cpp:71

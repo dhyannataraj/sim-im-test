@@ -2356,7 +2356,7 @@ msgid "Plugin provides about information"
 msgstr "El pedaç habilita la informació quant al SIM"
 
 #: plugins/about/about.cpp:61
-msgid "&Bug report"
+msgid "&Bug report / Requests"
 msgstr "&Informe d'errors"
 
 #: plugins/about/about.cpp:71

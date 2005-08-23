@@ -2503,7 +2503,7 @@ msgid "Plugin provides about information"
 msgstr ""
 
 #: plugins/about/about.cpp:61
-msgid "&Bug report"
+msgid "&Bug report / Requests"
 msgstr ""
 
 #: plugins/about/about.cpp:71

@@ -2285,7 +2285,7 @@ msgid "Plugin provides about information"
 msgstr "Plugin poskytuje informace O aplikaci"
 
 #: plugins/about/about.cpp:61
-msgid "&Bug report"
+msgid "&Bug report / Requests"
 msgstr "&Nahlášení chyb"
 
 #: plugins/about/about.cpp:71

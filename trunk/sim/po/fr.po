@@ -2751,7 +2751,7 @@ msgstr "Ce plugin permet d'avoir l'élément \"A propos\" dans le menu général
 
 # mainwin.cpp:2734
 #: plugins/about/about.cpp:61
-msgid "&Bug report"
+msgid "&Bug report / Requests"
 msgstr "Rapport de &bogue"
 
 # mainwin.cpp:2735

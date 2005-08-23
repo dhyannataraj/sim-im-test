@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the SIM package.
 # Copyright (C) 2005
 #
-# $Id: es.po,v 1.175 2005-06-02 23:04:07 jorgelt Exp $
+# $Id: es.po,v 1.175 2005/06/02 23:04:07 jorgelt Exp $
 # Jorge Lopez Trescastro <jorge.lopez@acm.org>, 2002, 2003, 2004, 2005.
 #
 msgid ""
@@ -2292,7 +2292,7 @@ msgid "Plugin provides about information"
 msgstr "Esta extensión le permite mostrar información acerca de SIM"
 
 #: plugins/about/about.cpp:61
-msgid "&Bug report"
+msgid "&Bug report / Requests"
 msgstr "&Informar de fallo"
 
 #: plugins/about/about.cpp:71

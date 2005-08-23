@@ -2314,7 +2314,7 @@ msgid "Plugin provides about information"
 msgstr "Модуль забезпечує вивід інформації про програму"
 
 #: plugins/about/about.cpp:61
-msgid "&Bug report"
+msgid "&Bug report / Requests"
 msgstr "&Звіт про помилки"
 
 #: plugins/about/about.cpp:71

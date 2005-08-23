@@ -2768,7 +2768,7 @@ msgstr "Zásuvný modul umožňuje zobrazi informácie \"O ...\""
 
 # mainwin.cpp:2745
 #: plugins/about/about.cpp:61
-msgid "&Bug report"
+msgid "&Bug report / Requests"
 msgstr "&Hlásenie chýb"
 
 # mainwin.cpp:2746

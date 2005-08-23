@@ -2312,7 +2312,7 @@ msgid "Plugin provides about information"
 msgstr "Blugin schdelld d \"Ibr\"-Enformazion bereid"
 
 #: plugins/about/about.cpp:61
-msgid "&Bug report"
+msgid "&Bug report / Requests"
 msgstr "Be&richda Se Brobleme odr Winsche"
 
 #: plugins/about/about.cpp:71

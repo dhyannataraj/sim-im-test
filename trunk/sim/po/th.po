@@ -2259,7 +2259,7 @@ msgid "Plugin provides about information"
 msgstr "ปลั๊กอินนี้แสดงข้อมูลเกี่ยวกับโปรแกรม SIM"
 
 #: plugins/about/about.cpp:61
-msgid "&Bug report"
+msgid "&Bug report / Requests"
 msgstr "รายงานจุด&บกพร่อง"
 
 #: plugins/about/about.cpp:71

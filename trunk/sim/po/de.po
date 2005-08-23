@@ -2285,7 +2285,7 @@ msgid "Plugin provides about information"
 msgstr "Plugin stellt die \"Über SIM\"-Information bereit"
 
 #: plugins/about/about.cpp:61
-msgid "&Bug report"
+msgid "&Bug report / Requests"
 msgstr "Be&richten Sie Probleme oder Wünsche"
 
 #: plugins/about/about.cpp:71

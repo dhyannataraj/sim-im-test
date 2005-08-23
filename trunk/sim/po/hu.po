@@ -2308,7 +2308,7 @@ msgid "Plugin provides about information"
 msgstr "A rendelkezésre álló plugin jellemzői"
 
 #: plugins/about/about.cpp:61
-msgid "&Bug report"
+msgid "&Bug report / Requests"
 msgstr "&Hibajelentés"
 
 #: plugins/about/about.cpp:71
