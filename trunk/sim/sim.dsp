@@ -43,7 +43,8 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /YX /FD /c
-# ADD CPP /nologo /MD /W4 /WX /O1 /I "$(QTDIR)\include" /I "sim" /I "sim\win32" /D "NDEBUG" /D "QT_DLL" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D VERSION=\"0.9.4\" /D PACKAGE=\"SIM\" /D "UNICODE" /D "USE_OPENSSL" /D LTDL_SHLIB_EXT=\".dll\" /D LTDL_OBJDIR=\"\" /D "HAVE_STDIO_H" /D "HAVE_STRING_H" /D "HAVE_MALLOC_H" /D "SIMAPI_EXPORTS" /D CVS_BUILD=1 /Fo"Release/" /Fd"Release/" /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O1 /I "$(QTDIR)\include" /I "sim" /I "sim\win32" /D "NDEBUG" /D "QT_DLL" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D VERSION=\"0.9.4\" /D PACKAGE=\"SIM\" /D "UNICODE" /D "USE_OPENSSL" /D LTDL_SHLIB_EXT=\".dll\" /D LTDL_OBJDIR=\"\" /D "HAVE_STDIO_H" /D "HAVE_STRING_H" /D "HAVE_MALLOC_H" /D "SIMAPI_EXPORTS" /D CVS_BUILD=1 /Fo"Release/" /Fd"Release/" /FD /c
+# SUBTRACT CPP /WX
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "NDEBUG"
@@ -53,7 +54,8 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /machine:I386
-# ADD LINK32 sim\win32\libxml.lib sim\win32\libxslt.lib sim\win32\libz.a sim\win32\libjpeg.lib sim\win32\libeay32.lib sim\win32\ssleay32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib $(QTDIR)\lib\qt-mt230nc.lib $(QTDIR)\lib\qtmain.lib /nologo /subsystem:windows /machine:I386
+# ADD LINK32 sim\win32\libxml.lib sim\win32\libxslt.lib sim\win32\libz.a sim\win32\libjpeg.lib sim\win32\libeay32.lib sim\win32\ssleay32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib $(QTDIR)\lib\qt-mt3.lib $(QTDIR)\lib\qtmain.lib /nologo /subsystem:windows /machine:I386
+# SUBTRACT LINK32 /pdb:none
 
 !ELSEIF  "$(CFG)" == "sim - Win32 Debug"
 
@@ -268,18 +270,6 @@ SOURCE=.\sim\moc_qkeybutton.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\qt3\moc_qrichtext_p.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\qt3\moc_qstylesheet.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\qt3\moc_qtextedit.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\sim\moc_socket.cpp
 # End Source File
 # Begin Source File
@@ -370,32 +360,6 @@ SOURCE=.\sim\qt3\qrichtext_p.cpp
 # Begin Source File
 
 SOURCE=.\sim\qt3\qsimplerichtext.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\qt3\qstylesheet.cpp
-
-!IF  "$(CFG)" == "sim - Win32 Release"
-
-# ADD CPP /W3
-
-!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\qt3\qsyntaxhighlighter.cpp
-
-!IF  "$(CFG)" == "sim - Win32 Release"
-
-# ADD CPP /W3
-
-!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
