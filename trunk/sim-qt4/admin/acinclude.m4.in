@@ -981,6 +981,8 @@ fi
 LIB_XEXT="-lXext"
 QTE_NORTTI=""
 
+CXXFLAGS="$CXXFLAGS -DQT3_SUPPORT"
+
 elif test "$kde_use_qt_emb" = "yes"; then
   dnl We're using QT Embedded
   CPPFLAGS=-DQWS
