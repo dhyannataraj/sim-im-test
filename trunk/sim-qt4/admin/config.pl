@@ -74,7 +74,7 @@ if ($bad_perl) {
 	    push @comp_subs, make_closure($1, "");
 	} else {
 	    die "Uhh. Malformed pattern in $ac_subs ($pat)"
-		unless ( $pat =~ /^\s*$/ );   # ignore white lines
+		unless ( $pat =~ /^\s*$/ );   # ignore Qt::white lines
 	}
     }
 } else {
@@ -97,7 +97,7 @@ if ($bad_perl) {
         push @comp_subs, "";
       } else {
           die "Uhh. Malformed pattern in $ac_cs_root.subs ($pat)"
-          unless ( $pat =~ /^\s*$/ );   # ignore white lines
+          unless ( $pat =~ /^\s*$/ );   # ignore Qt::white lines
       }
     }
 }
