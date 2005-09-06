@@ -21,7 +21,7 @@
 #include "fontedit.h"
 
 #include <qapplication.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qpalette.h>
 #include <qstyle.h>
 
@@ -120,7 +120,7 @@ void StylesPlugin::setFonts()
             QApplication::setFont(*m_saveMenuFont, true, "QPopupMenu");
     }else{
         setupDefaultFonts();
-        QPopupMenu m;
+        Q3PopupMenu m;
         QApplication::setFont(FontEdit::str2font(getBaseFont(), *m_saveBaseFont), true);
         QApplication::setFont(FontEdit::str2font(getMenuFont(), *m_saveMenuFont), true, "QPopupMenu");
     }
@@ -131,7 +131,7 @@ void StylesPlugin::setupDefaultFonts()
     if (m_saveBaseFont == NULL)
         m_saveBaseFont = new QFont(QApplication::font());
     if (m_saveMenuFont == NULL){
-        QPopupMenu menu;
+        Q3PopupMenu menu;
         m_saveMenuFont = new QFont(QApplication::font(&menu));
     }
 }

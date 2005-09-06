@@ -27,8 +27,13 @@
 #include <qtooltip.h>
 #include <qtimer.h>
 #include <qapplication.h>
-#include <qvaluelist.h>
+#include <q3valuelist.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QPixmap>
+#include <QEvent>
+#include <QPaintEvent>
 
 #ifdef WIN32
 #include <windows.h>
@@ -39,7 +44,7 @@
 #include <kwin.h>
 #include <kpopupmenu.h>
 #else
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qbitmap.h>
 #endif
 
@@ -235,8 +240,8 @@ WharfIcon::WharfIcon(DockWnd *parent)
     p_width  = 64;
     p_height = 64;
     setMouseTracking(true);
-    QIconSet icon = Icon("inactive");
-    const QPixmap &pict = icon.pixmap(QIconSet::Large, QIconSet::Normal);
+    QIcon icon = Icon("inactive");
+    const QPixmap &pict = icon.pixmap(QIcon::Large, QIcon::Normal);
     setIcon(pict);
     resize(pict.width(), pict.height());
     parentWin = 0;
@@ -291,8 +296,8 @@ void WharfIcon::enterEvent( QEvent* )
 
 void WharfIcon::set(const char *icon, const char *msg)
 {
-    QIconSet icons = Icon(icon);
-    QPixmap *nvis = new QPixmap(icons.pixmap(QIconSet::Large, QIconSet::Normal));
+    QIcon icons = Icon(icon);
+    QPixmap *nvis = new QPixmap(icons.pixmap(QIcon::Large, QIcon::Normal));
     if (bActivated){
         resize(nvis->width(), nvis->height());
         move((p_width - nvis->width()) / 2, (p_height - nvis->height()) / 2);
@@ -668,7 +673,7 @@ set_background_properties(QWidget *w)
 #endif
 
 DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
-        : QWidget(NULL, "dock",  WType_TopLevel | WStyle_Customize | WStyle_NoBorder | WStyle_StaysOnTop),
+        : QWidget(NULL, "dock",  Qt::WType_TopLevel | Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_StaysOnTop),
         EventReceiver(LowPriority)
 {
 #ifndef WIN32
@@ -1211,7 +1216,7 @@ void DockWnd::toggle()
 void DockWnd::mouseEvent( QMouseEvent *e)
 {
     switch(e->button()){
-    case QWidget::LeftButton:
+    case Qt::LeftButton:
         if (!bNoToggle)
             QTimer::singleShot(700, this, SLOT(toggle()));
         break;

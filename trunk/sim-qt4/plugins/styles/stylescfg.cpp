@@ -20,7 +20,7 @@
 #include "fontconfig.h"
 
 #include <qtabwidget.h>
-#include <qlistbox.h>
+#include <q3listbox.h>
 #include <qstyle.h>
 #include <qdir.h>
 
@@ -91,7 +91,7 @@ StylesConfig::StylesConfig(QWidget *parent, StylesPlugin *plugin)
 #endif
 #endif
     if (*m_plugin->getStyle()){
-        QListBoxItem *item = lstStyle->findItem(m_plugin->getStyle());
+        Q3ListBoxItem *item = lstStyle->findItem(m_plugin->getStyle());
         if (item)
             lstStyle->setCurrentItem(item);
     }

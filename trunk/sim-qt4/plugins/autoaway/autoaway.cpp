@@ -30,7 +30,7 @@ Copyright (C) 2003  Tarkvara Design Inc.
 
 #include <qtimer.h>
 #include <qapplication.h>
-#include <qwidgetlist.h>
+#include <qwidget.h>
 #include <time.h>
 
 #ifdef WIN32

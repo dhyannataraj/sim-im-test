@@ -23,7 +23,7 @@
 #include "fetch.h"
 
 #include <qtabwidget.h>
-#include <qobjectlist.h>
+#include <qobject.h>
 
 #ifdef WIN32
 #include <winsock.h>

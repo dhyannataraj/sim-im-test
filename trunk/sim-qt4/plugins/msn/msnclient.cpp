@@ -42,6 +42,8 @@
 #include <qregexp.h>
 
 #include <qfile.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 using namespace std;
 
@@ -505,7 +507,7 @@ void MSNClient::getLine(const char *line)
 {
     QString l = QString::fromUtf8(line);
     l = l.replace(QRegExp("\r"), "");
-    QCString ll = l.local8Bit();
+    Q3CString ll = l.local8Bit();
     log(L_DEBUG, "Get: %s", (const char*)ll);
     QString cmd = getToken(l, ' ');
     if ((cmd == "715") || (cmd == "228"))
@@ -2858,7 +2860,7 @@ bool MSNFileTransfer::getLine(const char *line)
 {
     QString l = QString::fromUtf8(line);
     l = l.replace(QRegExp("\r"), "");
-    QCString ll = l.local8Bit();
+    Q3CString ll = l.local8Bit();
     log(L_DEBUG, "Get: %s", (const char*)ll);
     QString cmd = getToken(l, ' ');
     if ((cmd == "VER") && (l == "MSNFTP")){

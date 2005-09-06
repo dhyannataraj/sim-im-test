@@ -36,6 +36,9 @@
 #include <qstyle.h>
 #include <qregexp.h>
 #include <qpushbutton.h>
+//Added by qt3to4:
+#include <QPaintEvent>
+#include <QMouseEvent>
 
 #ifdef WIN32
 #include <windows.h>
@@ -197,9 +200,9 @@ static const char * const arrow_h_xpm[] = {
             "..++..+++"};
 
 OSDWidget::OSDWidget()
-        : QWidget(NULL, "osd", WType_TopLevel |
-                  WStyle_StaysOnTop |  WStyle_Customize | WStyle_NoBorder |
-                  WStyle_Tool |WRepaintNoErase | WX11BypassWM)
+        : QWidget(NULL, "osd", Qt::WType_TopLevel |
+                  Qt::WStyle_StaysOnTop |  Qt::WStyle_Customize | Qt::WStyle_NoBorder |
+                  Qt::WStyle_Tool |Qt::WNoAutoErase | Qt::WX11BypassWM)
 {
     baseFont = font();
     m_button = NULL;
@@ -260,12 +263,12 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     rcScreen = QRect(0, 0,
                      rcScreen.width()  - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.value,
                      rcScreen.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.value);
-    QRect rc = p.boundingRect(rcScreen, AlignLeft | AlignTop | WordBreak, str);
+    QRect rc = p.boundingRect(rcScreen, Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, str);
     if (rc.height() >= rcScreen.height() / 2){
         rcScreen = QRect(0, 0,
                          rcScreen.width() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.value,
                          rcScreen.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.value);
-        rc = p.boundingRect(rcScreen, AlignLeft | AlignTop | WordBreak, str);
+        rc = p.boundingRect(rcScreen, Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, str);
     }
     p.end();
     if (data->EnableMessageShowContent.bValue && data->ContentLines.value){
@@ -345,12 +348,12 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
             p.setFont(font());
             if (data->Shadow.bValue){
                 rc = QRect(SHADOW_OFFS, SHADOW_OFFS, w - SHADOW_OFFS, h - SHADOW_OFFS);
-                p.drawText(rc, AlignLeft | AlignTop | WordBreak, str);
+                p.drawText(rc, Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, str);
                 rc = QRect(0, 0, w - SHADOW_OFFS, h - SHADOW_OFFS);
-                p.drawText(rc, AlignLeft | AlignTop | WordBreak, str);
+                p.drawText(rc, Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, str);
             }else{
                 rc = QRect(0, 0, w, h);
-                p.drawText(rc, AlignLeft | AlignTop | WordBreak, str);
+                p.drawText(rc, Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, str);
             }
         }
         p.end();
@@ -379,7 +382,7 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     p.setFont(font());
     p.setPen(QColor(data->Color.value));
     rc.setTop(text_y);
-    p.drawText(rc, AlignLeft | AlignTop | WordBreak, str);
+    p.drawText(rc, Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, str);
     p.end();
     bgPict = pict;
     QWidget::show();

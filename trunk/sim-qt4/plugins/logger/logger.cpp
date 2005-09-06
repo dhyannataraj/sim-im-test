@@ -24,6 +24,8 @@
 #include <qdir.h>
 #include <qfile.h>
 #include <qfileinfo.h>
+//Added by qt3to4:
+#include <QEvent>
 
 #ifdef WIN32
 #include <windows.h>
@@ -145,7 +147,7 @@ void LoggerPlugin::openFile()
     }
     // now open file
     m_file = new QFile(QFile::decodeName(fname));
-    if (!m_file->open(IO_Append | IO_ReadWrite)){
+    if (!m_file->open(QIODevice::Append | QIODevice::ReadWrite)){
         delete m_file;
         m_file = NULL;
         log(L_WARN, "Can't open %s", fname);

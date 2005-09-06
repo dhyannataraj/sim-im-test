@@ -24,15 +24,17 @@
 
 #include <qpixmap.h>
 #include <qlineedit.h>
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
 #include <qtabwidget.h>
 #include <qpushbutton.h>
+//Added by qt3to4:
+#include <QResizeEvent>
 
 extern DataDef jabberUserData[];
 
 DiscoInfo::DiscoInfo(JabberBrowser *browser, const QString &features,
                      const QString &name, const QString &type, const QString &category)
-        : DiscoInfoBase(browser, NULL, false, WDestructiveClose)
+        : DiscoInfoBase(browser, NULL, false, Qt::WDestructiveClose)
 {
     m_browser = browser;
     SET_WNDPROC("jbrowser")
@@ -231,7 +233,7 @@ void *DiscoInfo::processEvent(Event *e)
                 m_statId = "";
                 return e->param();
             }
-            QListViewItem *i = new QListViewItem(lstStat);
+            Q3ListViewItem *i = new Q3ListViewItem(lstStat);
             i->setText(0, QString::fromUtf8(item->jid.c_str()));
             i->setText(1, QString::fromUtf8(item->name.c_str()));
             i->setText(2, QString::fromUtf8(item->node.c_str()));

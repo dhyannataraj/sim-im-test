@@ -17,6 +17,8 @@
 
 #include "nonim.h"
 #include "intedit.h"
+//Added by qt3to4:
+#include <QShowEvent>
 
 NonIM::NonIM(QWidget *parent)
         : NonIMBase(parent)

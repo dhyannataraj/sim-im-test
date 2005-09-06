@@ -22,7 +22,7 @@
 #include "filetransferbase.h"
 
 class QTimer;
-class QProgressBar;
+class Q3ProgressBar;
 class BalloonMsg;
 
 class FileTransferDlg : public FileTransferBase
@@ -38,7 +38,7 @@ protected slots:
     void action(int, void*);
     void goDir();
 protected:
-    void setProgress(QProgressBar *bar, unsigned bytes, unsigned size);
+    void setProgress(Q3ProgressBar *bar, unsigned bytes, unsigned size);
     void process();
     void notifyDestroyed();
     void printTime();

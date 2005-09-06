@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include "jidadvsearch.h"
+//Added by qt3to4:
+#include <QShowEvent>
 
 JIDAdvSearch::JIDAdvSearch(QWidget *parent)
         : JIDAdvSearchBase(parent)

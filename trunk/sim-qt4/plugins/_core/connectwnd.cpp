@@ -20,7 +20,7 @@
 
 #include <qlabel.h>
 #include <qmovie.h>
-#include <qframe.h>
+#include <q3frame.h>
 #include <qfile.h>
 
 ConnectWnd::ConnectWnd(bool bStart)

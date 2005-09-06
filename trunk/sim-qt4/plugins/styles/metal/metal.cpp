@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: metal.cpp,v 1.3 2004-06-04 16:55:46 shutoff Exp $
+** $Id: metal.cpp,v 1.3 2004/06/04 16:55:46 shutoff Exp $
 **
 ** Copyright (C) 1992-2000 Trolltech AS.  All rights reserved.
 **
@@ -19,8 +19,10 @@
 #include "qimage.h"
 #include "qpushbutton.h"
 #include "qwidget.h"
-#include "qrangecontrol.h"
+#include "q3rangecontrol.h"
 #include "qscrollbar.h"
+//Added by qt3to4:
+#include <Q3PointArray>
 #include <limits.h>
 
 /////////////////////////////////////////////////////////
@@ -86,7 +88,7 @@ void MetalStyle::polish( QApplication *app)
     QPixmap dark;
     dark.convertFromImage(img);
 #else
-    QPixmap dark( 1, 1 ); dark.fill( red.dark() );
+    QPixmap dark( 1, 1 ); dark.fill( Qt::red.dark() );
     QPixmap mid( stone1_xpm );
     QPixmap light( stone1_xpm );//1, 1 ); light.fill( green );
 #endif
@@ -343,7 +345,7 @@ void MetalStyle::drawPushButton( QPushButton* btn, QPainter *p)
         fill = g.brush( QColorGroup::Button );
 
     if ( btn->isDefault() ) {
-        QPointArray a;
+        Q3PointArray a;
         a.setPoints( 9,
                      x1, y1, x2, y1, x2, y2, x1, y2, x1, y1+1,
                      x2-1, y1+1, x2-1, y2-1, x1+1, y2-1, x1+1, y1+1 );
@@ -419,10 +421,10 @@ void MetalStyle::drawPanel( QPainter *p, int x, int y, int w, int h,
 */
 
 void MetalStyle::drawSlider( QPainter *p, int x, int y, int w, int h,
-                             const QColorGroup &, Orientation orient,
+                             const QColorGroup &, Qt::Orientation orient,
                              bool /*tickAbove*/, bool /*tickBelow*/ )
 {
-    drawMetalButton( p, x, y, w, h, FALSE, orient == Horizontal );
+    drawMetalButton( p, x, y, w, h, FALSE, orient == Qt::Horizontal );
 }
 
 void MetalStyle::drawScrollBarControls( QPainter* p, const QScrollBar* sb,
@@ -497,7 +499,7 @@ void MetalStyle::drawComboButton( QPainter *p, int x, int y, int w, int h,
 
     drawMetalButton( p, x+w-2-16, y+2, 16, h-4, sunken, TRUE );
 
-    drawArrow( p, QStyle::DownArrow, sunken,
+    drawArrow( p, Qt::DownArrow, sunken,
                x+w-2-16+ 2, y+2+ 2, 16- 4, h-4- 4, g, enabled );
 
 }

@@ -22,13 +22,16 @@
 #include <qlayout.h>
 #include <qcheckbox.h>
 #include <qpushbutton.h>
-#include <qprogressbar.h>
+#include <q3progressbar.h>
 #include <qfile.h>
 #include <qdir.h>
 #include <qtimer.h>
 #include <qlabel.h>
 #include <qapplication.h>
 #include <qtextcodec.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <QCloseEvent>
 
 MigrateDialog::MigrateDialog(const QString &dir, const QStringList &cnvDirs)
         : MigrateDialogBase(NULL, "migrate", true)
@@ -157,15 +160,15 @@ void MigrateDialog::process()
         clientsConf.setName(path + "clients.conf");
         contactsConf.setName(path + "contacts.conf");
         lblStatus->setText(path + "icq.conf");
-        if (!icqConf.open(IO_ReadOnly)){
+        if (!icqConf.open(QIODevice::ReadOnly)){
             error(i18n("Can't open %1") .arg(path + "icq.conf"));
             return;
         }
-        if (!clientsConf.open(IO_WriteOnly | IO_Truncate)){
+        if (!clientsConf.open(QIODevice::WriteOnly | QIODevice::Truncate)){
             error(i18n("Can't open %1") .arg(path + "clients.conf"));
             return;
         }
-        if (!contactsConf.open(IO_WriteOnly | IO_Truncate)){
+        if (!contactsConf.open(QIODevice::WriteOnly | QIODevice::Truncate)){
             error(i18n("Can't open %1") .arg(path + "contacts.conf"));
             return;
         }
@@ -230,11 +233,11 @@ void MigrateDialog::process()
             hFrom.setName(h_path + (*it));
             lblStatus->setText(h_path + (*it));
             hTo.setName(h_path + m_owner.c_str() + "." + (*it).left((*it).find(".")));
-            if (!hFrom.open(IO_ReadOnly)){
+            if (!hFrom.open(QIODevice::ReadOnly)){
                 error(i18n("Can't open %1") .arg(hFrom.name()));
                 return;
             }
-            if (!hTo.open(IO_WriteOnly | IO_Truncate)){
+            if (!hTo.open(QIODevice::WriteOnly | QIODevice::Truncate)){
                 error(i18n("Can't open %1") .arg(hTo.name()));
                 return;
             }

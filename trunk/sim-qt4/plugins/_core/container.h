@@ -21,9 +21,14 @@
 #include "simapi.h"
 #include "stl.h"
 
-#include <qmainwindow.h>
+#include <q3mainwindow.h>
 #include <qstatusbar.h>
 #include <qtabbar.h>
+//Added by qt3to4:
+#include <QMoveEvent>
+#include <QEvent>
+#include <QResizeEvent>
+#include <QMouseEvent>
 
 const unsigned NEW_CONTAINER	= (unsigned)(-1);
 const unsigned GRP_CONTAINER	= 0x80000000;
@@ -32,10 +37,10 @@ class UserWnd;
 class UserTabBar;
 class QSplitter;
 class CToolBar;
-class QWidgetStack;
+class Q3WidgetStack;
 class CorePlugin;
 class Container;
-class QAccel;
+class Q3Accel;
 
 typedef struct ContainerData
 {
@@ -83,7 +88,7 @@ protected:
     virtual void paintLabel(QPainter *p, const QRect &rc, QTab *t, bool bFocus) const;
 };
 
-class Container : public QMainWindow, public EventReceiver
+class Container : public Q3MainWindow, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -111,7 +116,7 @@ public slots:
     void removeUserWnd(UserWnd*);
     void raiseUserWnd(UserWnd*);
     void contactSelected(int);
-    void toolbarChanged(QToolBar*);
+    void toolbarChanged(Q3ToolBar*);
     void statusChanged(int);
     void accelActivated(int);
     void statusChanged(UserWnd*);
@@ -137,8 +142,8 @@ protected:
     QSplitter		*m_tabSplitter;
     UserTabBar		*m_tabBar;
     ContainerStatus	*m_status;
-    QWidgetStack	*m_wnds;
-    QAccel			*m_accel;
+    Q3WidgetStack	*m_wnds;
+    Q3Accel			*m_accel;
     list<UserWnd*>	m_childs;
 };
 

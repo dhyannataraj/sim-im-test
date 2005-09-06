@@ -23,8 +23,10 @@
 
 #include <qpushbutton.h>
 #include <qlabel.h>
-#include <qgroupbox.h>
+#include <q3groupbox.h>
 #include <qcheckbox.h>
+//Added by qt3to4:
+#include <QShowEvent>
 
 ICQSearch::ICQSearch(ICQClient *client, QWidget *parent)
         : ICQSearchBase(parent)
@@ -60,8 +62,8 @@ ICQSearch::ICQSearch(ICQClient *client, QWidget *parent)
     edtMail->setValidator(new EMailValidator(edtMail));
     connect(grpMail, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
     connect(btnAdvanced, SIGNAL(clicked()),	this, SLOT(advClick()));
-    QIconSet is = Icon("1rightarrow");
-    if (!is.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
+    QIcon is = Icon("1rightarrow");
+    if (!is.pixmap(QIcon::Small, QIcon::Normal).isNull())
         btnAdvanced->setIconSet(is);
 }
 
@@ -105,8 +107,8 @@ void ICQSearch::setAdv(bool bAdv)
     if (m_bAdv == bAdv)
         return;
     m_bAdv = bAdv;
-    QIconSet is = Icon(m_bAdv ? "1leftarrow" : "1rightarrow");
-    if (!is.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
+    QIcon is = Icon(m_bAdv ? "1leftarrow" : "1rightarrow");
+    if (!is.pixmap(QIcon::Small, QIcon::Normal).isNull())
         btnAdvanced->setIconSet(is);
     if (m_bAdv){
         if (m_client->m_bAIM){

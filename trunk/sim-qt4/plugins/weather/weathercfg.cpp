@@ -24,7 +24,7 @@
 #include "buffer.h"
 
 #include <qtimer.h>
-#include <qtoolbar.h>
+#include <q3toolbar.h>
 #include <qpushbutton.h>
 #include <qcombobox.h>
 #include <qspinbox.h>

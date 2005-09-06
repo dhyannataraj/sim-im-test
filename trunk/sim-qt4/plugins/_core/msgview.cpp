@@ -26,6 +26,8 @@
 #include <qregexp.h>
 #include <qtimer.h>
 #include <qdatetime.h>
+//Added by qt3to4:
+#include <Q3PopupMenu>
 
 static char MSG_ANCHOR[] = "<a name=\"m:";
 static char MSG_BEGIN[]  = "<a name=\"b\">";
@@ -194,13 +196,13 @@ MsgViewBase::MsgViewBase(QWidget *parent, const char *name, unsigned id)
     m_popupPos = QPoint(0, 0);
     xsl = NULL;
 
-    QStyleSheet *style = new QStyleSheet(this);
-    QStyleSheetItem *style_p = style->item("p");
+    Q3StyleSheet *style = new Q3StyleSheet(this);
+    Q3StyleSheetItem *style_p = style->item("p");
     // Disable top and bottom margins for P tags. This will make sure
     // paragraphs have no more spacing than regular lines, thus matching
     // RTF's defaut look for paragraphs.
-    style_p->setMargin(QStyleSheetItem::MarginTop, 0);
-    style_p->setMargin(QStyleSheetItem::MarginBottom, 0);
+    style_p->setMargin(Q3StyleSheetItem::MarginTop, 0);
+    style_p->setMargin(Q3StyleSheetItem::MarginBottom, 0);
     setStyleSheet(style);
 
     setColors();
@@ -1126,7 +1128,7 @@ Message *MsgViewBase::currentMessage()
     return NULL;
 }
 
-QPopupMenu *MsgViewBase::createPopupMenu(const QPoint& pos)
+Q3PopupMenu *MsgViewBase::createPopupMenu(const QPoint& pos)
 {
     m_popupPos = pos;
     Command cmd;
@@ -1134,7 +1136,7 @@ QPopupMenu *MsgViewBase::createPopupMenu(const QPoint& pos)
     cmd->param		= this;
     cmd->flags		= COMMAND_NEW_POPUP;
     Event e(EventGetMenu, cmd);
-    return (QPopupMenu*)(e.process());
+    return (Q3PopupMenu*)(e.process());
 }
 
 MsgView::MsgView(QWidget *parent, unsigned id)

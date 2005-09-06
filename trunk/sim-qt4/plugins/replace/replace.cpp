@@ -21,6 +21,9 @@
 #include "html.h"
 
 #include <qapplication.h>
+//Added by qt3to4:
+#include <QKeyEvent>
+#include <QEvent>
 
 Plugin *createReplacePlugin(unsigned base, bool, Buffer *cfg)
 {

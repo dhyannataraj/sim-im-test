@@ -67,9 +67,9 @@ public:
     SerialPortPrivate(SerialPort *port);
     ~SerialPortPrivate();
     void close();
-    HANDLE		hPort;
-    HANDLE		hEvent;
-    HANDLE		hThread;
+    Qt::HANDLE		hPort;
+    Qt::HANDLE		hEvent;
+    Qt::HANDLE		hThread;
     OVERLAPPED	over;
     QTimer		*m_timer;
     SerialPort	*m_port;
@@ -382,7 +382,7 @@ QStringList SerialPort::devices()
         port += number(i);
         string fullPort = "\\\\.\\";
         fullPort += port;
-        HANDLE hPort = CreateFileA(fullPort.c_str(),GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL );
+        Qt::HANDLE hPort = CreateFileA(fullPort.c_str(),GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL );
         if (hPort == INVALID_HANDLE_VALUE)
             continue;
         res.append(port.c_str());

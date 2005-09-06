@@ -21,7 +21,7 @@
 #include "simapi.h"
 #include "ignorelistbase.h"
 
-class QListViewItem;
+class Q3ListViewItem;
 
 class IgnoreList : public IgnoreListBase, public EventReceiver
 {
@@ -29,15 +29,15 @@ class IgnoreList : public IgnoreListBase, public EventReceiver
 public:
     IgnoreList(QWidget *parent);
 protected slots:
-    void deleteItem(QListViewItem*);
+    void deleteItem(Q3ListViewItem*);
     void dragStart();
     void dragEnter(QMimeSource*);
     void drop(QMimeSource*);
 protected:
     void *processEvent(Event*);
-    void removeItem(QListViewItem*);
-    void updateItem(QListViewItem*, Contact*);
-    QListViewItem *findItem(Contact*);
+    void removeItem(Q3ListViewItem*);
+    void updateItem(Q3ListViewItem*, Contact*);
+    Q3ListViewItem *findItem(Contact*);
 };
 
 #endif

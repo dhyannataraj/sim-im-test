@@ -19,15 +19,18 @@
 #define _MONITOR_H
 
 #include "simapi.h"
-#include <qmainwindow.h>
+#include <q3mainwindow.h>
+//Added by qt3to4:
+#include <Q3PopupMenu>
+#include <QCloseEvent>
 
 class TextShow;
-class QPopupMenu;
+class Q3PopupMenu;
 class NetmonitorPlugin;
 
 const unsigned short L_PACKETS = 0x08;
 
-class MonitorWindow : public QMainWindow, public EventReceiver
+class MonitorWindow : public Q3MainWindow, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -49,9 +52,9 @@ protected:
     void closeEvent(QCloseEvent*);
     bool bPause;
     TextShow  *edit;
-    QPopupMenu *menuFile;
-    QPopupMenu *menuEdit;
-    QPopupMenu *menuLog;
+    Q3PopupMenu *menuFile;
+    Q3PopupMenu *menuEdit;
+    Q3PopupMenu *menuLog;
     NetmonitorPlugin *m_plugin;
 };
 

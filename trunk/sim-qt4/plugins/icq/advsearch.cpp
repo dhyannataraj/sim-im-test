@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include "advsearch.h"
+//Added by qt3to4:
+#include <QShowEvent>
 
 extern const ext_info *p_genders;
 extern const ext_info *p_languages;

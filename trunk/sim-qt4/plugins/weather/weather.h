@@ -23,7 +23,7 @@
 
 #include <qdatetime.h>
 
-class QToolBar;
+class Q3ToolBar;
 
 namespace SIM
 {
@@ -127,7 +127,7 @@ public:
     void showBar();
     void hideBar();
     unsigned EventWeather;
-    QToolBar *m_bar;
+    Q3ToolBar *m_bar;
 protected slots:
     void timeout();
     void barDestroyed();

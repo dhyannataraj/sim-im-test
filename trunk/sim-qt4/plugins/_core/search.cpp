@@ -28,13 +28,18 @@
 #include <qpixmap.h>
 #include <qpushbutton.h>
 #include <qcombobox.h>
-#include <qwidgetstack.h>
+#include <q3widgetstack.h>
 #include <qlineedit.h>
 #include <qvalidator.h>
-#include <qobjectlist.h>
-#include <qpopupmenu.h>
+#include <qobject.h>
+#include <q3popupmenu.h>
 #include <qstatusbar.h>
 #include <qtimer.h>
+//Added by qt3to4:
+#include <QCloseEvent>
+#include <QMoveEvent>
+#include <Q3Frame>
+#include <QResizeEvent>
 
 const unsigned COL_KEY			= 0x100;
 const unsigned COL_SEARCH_WND	= 0x101;
@@ -69,7 +74,7 @@ SearchDialog::SearchDialog()
     m_result->addColumn(i18n("Results"));
     m_result->setShowSortIndicator(true);
     m_result->setExpandingColumn(0);
-    m_result->setFrameShadow(QFrame::Sunken);
+    m_result->setFrameShadow(Q3Frame::Sunken);
     m_result->setLineWidth(1);
     addResult(m_result);
     showResult(NULL);
@@ -94,7 +99,7 @@ SearchDialog::~SearchDialog()
 
 void SearchDialog::resizeEvent(QResizeEvent *e)
 {
-    QMainWindow::resizeEvent(e);
+    Q3MainWindow::resizeEvent(e);
     m_result->adjustColumn();
     if (isVisible())
         saveGeometry(this, CorePlugin::m_plugin->data.SearchGeo);
@@ -102,14 +107,14 @@ void SearchDialog::resizeEvent(QResizeEvent *e)
 
 void SearchDialog::moveEvent(QMoveEvent *e)
 {
-    QMainWindow::moveEvent(e);
+    Q3MainWindow::moveEvent(e);
     if (isVisible())
         saveGeometry(this, CorePlugin::m_plugin->data.SearchGeo);
 }
 
 void SearchDialog::closeEvent(QCloseEvent *e)
 {
-    QMainWindow::closeEvent(e);
+    Q3MainWindow::closeEvent(e);
     emit finished();
 }
 
@@ -125,7 +130,7 @@ void SearchDialog::setAdd(bool bAdd)
 void SearchDialog::setAddButton()
 {
     QString text;
-    QIconSet icon;
+    QIcon icon;
     if (m_active){
         icon = Icon("cancel");
         text = i18n("&Cancel");
@@ -137,7 +142,7 @@ void SearchDialog::setAddButton()
         text = i18n("&Search");
     }
     m_search->btnSearch->setText(text);
-    if (!icon.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
+    if (!icon.pixmap(QIcon::Small, QIcon::Normal).isNull())
         m_search->btnSearch->setIconSet(icon);
 }
 
@@ -248,8 +253,8 @@ void SearchDialog::fillClients()
                 searchDone(m_active);
             if (widgets[n].widget == m_current)
                 m_current = NULL;
-            for (QListViewItem *item = m_result->firstChild(); item; ){
-                QListViewItem *next = item->nextSibling();
+            for (Q3ListViewItem *item = m_result->firstChild(); item; ){
+                Q3ListViewItem *next = item->nextSibling();
                 if ((QWidget*)(item->text(COL_SEARCH_WND).toUInt()) == widgets[n].widget)
                     delete item;
                 if (next == NULL)
@@ -588,7 +593,7 @@ void SearchDialog::searchClick()
             mp.param = m_search->btnSearch;
             mp.key	= 0;
             Event eMenu(EventProcessMenu, &mp);
-            QPopupMenu *popup = (QPopupMenu*)(eMenu.process());
+            Q3PopupMenu *popup = (Q3PopupMenu*)(eMenu.process());
             if (popup)
                 popup->popup(CToolButton::popupPos(m_search->btnSearch, popup));
         }else{
@@ -663,24 +668,24 @@ void SearchDialog::setColumns(const QStringList &columns, int n, QWidget*)
     m_result->adjustColumn();
 }
 
-class SearchViewItem : public QListViewItem
+class SearchViewItem : public Q3ListViewItem
 {
 public:
-SearchViewItem(QListView *view) : QListViewItem(view) {}
+SearchViewItem(Q3ListView *view) : Q3ListViewItem(view) {}
     QString key(int column, bool ascending) const;
 };
 
 QString SearchViewItem::key(int column, bool ascending) const
 {
     if (column)
-        return QListViewItem::key(column, ascending);
+        return Q3ListViewItem::key(column, ascending);
     QString res = text(COL_KEY);
     return res;
 }
 
 void SearchDialog::addItem(const QStringList &values, QWidget *wnd)
 {
-    QListViewItem *item;
+    Q3ListViewItem *item;
     for (item = m_result->firstChild(); item; item = item->nextSibling()){
         if (item->text(COL_KEY) == values[1])
             break;
@@ -742,7 +747,7 @@ void SearchDialog::addClick()
         mp.param = m_search->btnAdd;
         mp.key	= 0;
         Event eMenu(EventProcessMenu, &mp);
-        QPopupMenu *popup = (QPopupMenu*)(eMenu.process());
+        Q3PopupMenu *popup = (Q3PopupMenu*)(eMenu.process());
         if (popup)
             popup->popup(CToolButton::popupPos(m_search->btnAdd, popup));
     }else{
@@ -783,7 +788,7 @@ void SearchDialog::optionsClick()
     mp.param = NULL;
     mp.key	= 0;
     Event eMenu(EventProcessMenu, &mp);
-    QPopupMenu *popup = (QPopupMenu*)(eMenu.process());
+    Q3PopupMenu *popup = (Q3PopupMenu*)(eMenu.process());
     if (popup)
         popup->popup(CToolButton::popupPos(m_search->btnOptions, popup));
 }

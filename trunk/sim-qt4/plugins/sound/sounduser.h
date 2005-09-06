@@ -20,10 +20,13 @@
 
 #include "simapi.h"
 #include "sounduserbase.h"
+//Added by qt3to4:
+#include <QPixmap>
+#include <QResizeEvent>
 
 class SoundPlugin;
 class EditSound;
-class QListViewItem;
+class Q3ListViewItem;
 
 class SoundUserConfig : public SoundUserConfigBase
 {
@@ -33,10 +36,10 @@ public:
 public slots:
     void apply(void *data);
     void toggled(bool);
-    void selectionChanged(QListViewItem*);
+    void selectionChanged(Q3ListViewItem*);
 protected:
     EditSound		*m_edit;
-    QListViewItem	*m_editItem;
+    Q3ListViewItem	*m_editItem;
     void resizeEvent(QResizeEvent*);
     QPixmap makePixmap(const char *source);
     SoundPlugin *m_plugin;

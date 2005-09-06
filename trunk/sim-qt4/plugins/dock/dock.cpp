@@ -23,9 +23,11 @@
 #include "mainwin.h"
 
 #include <qapplication.h>
-#include <qwidgetlist.h>
-#include <qpopupmenu.h>
+#include <qwidget.h>
+#include <q3popupmenu.h>
 #include <qtimer.h>
+//Added by qt3to4:
+#include <QEvent>
 #include <time.h>
 
 #ifdef WIN32
@@ -315,7 +317,7 @@ void DockPlugin::showPopup(QPoint p)
     Command cmd;
     cmd->popup_id = DockMenu;
     Event e(EventGetMenu, cmd);
-    m_popup = (QPopupMenu*)e.process();
+    m_popup = (Q3PopupMenu*)e.process();
     if (m_popup){
         m_popup->installEventFilter(this);
 #if COMPAT_QT_VERSION < 0x030000

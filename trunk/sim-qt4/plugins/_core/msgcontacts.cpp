@@ -32,7 +32,7 @@ MsgContacts::MsgContacts(MsgEdit *parent, Message *msg)
     m_edit = parent;
     m_list = new UserList(m_edit->m_frame);
     m_edit->m_layout->addWidget(m_list);
-    m_edit->m_edit->setTextFormat(QTextEdit::PlainText);
+    m_edit->m_edit->setTextFormat(Q3TextEdit::PlainText);
     connect(m_list, SIGNAL(selectChanged()), this, SLOT(changed()));
     ContactsMessage *m = static_cast<ContactsMessage*>(msg);
     QString contacts = m->getContacts();

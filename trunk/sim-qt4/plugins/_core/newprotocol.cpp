@@ -204,7 +204,7 @@ void NewProtocol::reject()
         back();
         return;
     }
-    QWizard::reject();
+    Q3Wizard::reject();
 }
 
 void NewProtocol::loginComplete()

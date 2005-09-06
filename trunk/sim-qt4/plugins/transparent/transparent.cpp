@@ -24,10 +24,13 @@
 #endif
 
 #include <qapplication.h>
-#include <qwidgetlist.h>
+#include <qwidget.h>
 #include <qtimer.h>
 #include <qpainter.h>
 #include <qcursor.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QEvent>
 
 #ifdef WIN32
 #include <windows.h>

@@ -35,7 +35,7 @@
 #include "buffer.h"
 
 #include <qfontmetrics.h>
-#include <qtoolbar.h>
+#include <q3toolbar.h>
 #include <qcombobox.h>
 #include <qlineedit.h>
 #include <qtimer.h>
@@ -44,6 +44,18 @@
 #include <qclipboard.h>
 #include <qregexp.h>
 #include <qtooltip.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QGridLayout>
+#include <QDragMoveEvent>
+#include <Q3Frame>
+#include <QDropEvent>
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QResizeEvent>
+#include <Q3PopupMenu>
+#include <QDragEnterEvent>
+#include <QMouseEvent>
 
 #include <time.h>
 #include <stdio.h>
@@ -67,7 +79,7 @@ MsgTextEdit::MsgTextEdit(MsgEdit *edit, QWidget *parent)
 #endif
 }
 
-QPopupMenu *MsgTextEdit::createPopupMenu(const QPoint &pos)
+Q3PopupMenu *MsgTextEdit::createPopupMenu(const QPoint &pos)
 {
     if (m_bInClick)
         return NULL;
@@ -77,7 +89,7 @@ QPopupMenu *MsgTextEdit::createPopupMenu(const QPoint &pos)
     cmd->flags		= COMMAND_NEW_POPUP;
     m_popupPos = pos;
     Event e(EventGetMenu, cmd);
-    return (QPopupMenu*)(e.process());
+    return (Q3PopupMenu*)(e.process());
 }
 
 Message *MsgTextEdit::createMessage(QMimeSource *src)
@@ -142,7 +154,7 @@ void MsgTextEdit::contentsDragMoveEvent(QDragMoveEvent *e)
 }
 
 MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd)
-        : QMainWindow(parent, NULL, 0)
+        : Q3MainWindow(parent, NULL, 0)
 {
     m_userWnd	= userWnd;
     m_msg		= NULL;
@@ -157,7 +169,7 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd)
 
     connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
 
-    m_frame = new QFrame(this, "msgedit");
+    m_frame = new Q3Frame(this, "msgedit");
     setCentralWidget(m_frame);
     m_layout = new QVBoxLayout(m_frame);
 
@@ -169,13 +181,13 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd)
     m_edit->setParam(this);
     setFocusProxy(m_edit);
 
-    QStyleSheet *style = new QStyleSheet(m_edit);
-    QStyleSheetItem *style_p = style->item("p");
+    Q3StyleSheet *style = new Q3StyleSheet(m_edit);
+    Q3StyleSheetItem *style_p = style->item("p");
     // Disable top and bottom margins for P tags. This will make sure
     // paragraphs have no more spacing than regular lines, thus matching
     // RTFs defaut look for paragraphs.
-    style_p->setMargin(QStyleSheetItem::MarginTop, 0);
-    style_p->setMargin(QStyleSheetItem::MarginBottom, 0);
+    style_p->setMargin(Q3StyleSheetItem::MarginTop, 0);
+    style_p->setMargin(Q3StyleSheetItem::MarginBottom, 0);
     m_edit->setStyleSheet(style);
 
     connect(m_edit, SIGNAL(lostFocus()), this, SLOT(editLostFocus()));
@@ -263,7 +275,7 @@ void MsgEdit::showCloseSend(bool bState)
 
 void MsgEdit::resizeEvent(QResizeEvent *e)
 {
-    QMainWindow::resizeEvent(e);
+    Q3MainWindow::resizeEvent(e);
     emit heightChanged(height());
 }
 
@@ -485,11 +497,11 @@ static QObject *generateUrl(MsgEdit *p, Message *msg)
 
 static Message *dropUrl(QMimeSource *src)
 {
-    if (QUriDrag::canDecode(src)){
+    if (Q3UriDrag::canDecode(src)){
         QStringList l;
-        if (QUriDrag::decodeLocalFiles(src, l))
+        if (Q3UriDrag::decodeLocalFiles(src, l))
             return NULL;
-        if (!QUriDrag::decodeToUnicodeUris(src, l) || (l.count() < 1))
+        if (!Q3UriDrag::decodeToUnicodeUris(src, l) || (l.count() < 1))
             return NULL;
         UrlMessage *msg = new UrlMessage;
         msg->setUrl(l[0]);
@@ -560,9 +572,9 @@ static QObject* generateFile(MsgEdit *w, Message *msg)
 
 Message *dropFile(QMimeSource *src)
 {
-    if (QUriDrag::canDecode(src)){
+    if (Q3UriDrag::canDecode(src)){
         QStringList files;
-        if (QUriDrag::decodeLocalFiles(src, files) && files.count()){
+        if (Q3UriDrag::decodeLocalFiles(src, files) && files.count()){
             QString fileName;
             for (QStringList::Iterator it = files.begin(); it != files.end(); ++it){
                 if (!fileName.isEmpty())
@@ -1463,7 +1475,7 @@ void MsgEdit::colorsChanged()
 
 void MsgEdit::insertSmile(const char *id)
 {
-    if (m_edit->textFormat() == QTextEdit::PlainText){
+    if (m_edit->textFormat() == Q3TextEdit::PlainText){
         list<string> smiles = getIcons()->getSmile(id);
         if (!smiles.empty())
             m_edit->insert(QString::fromUtf8(smiles.front().c_str()), false, true, true);
@@ -1557,13 +1569,13 @@ SmileLabel::SmileLabel(const char *_id, QWidget *parent)
         : QLabel(parent)
 {
     id = _id;
-    QIconSet icon = Icon(_id);
+    QIcon icon = Icon(_id);
     QPixmap pict;
-    if (!icon.pixmap(QIconSet::Small, QIconSet::Normal).isNull()){
-        if (!icon.isGenerated(QIconSet::Large, QIconSet::Normal)){
-            pict = icon.pixmap(QIconSet::Large, QIconSet::Normal);
+    if (!icon.pixmap(QIcon::Small, QIcon::Normal).isNull()){
+        if (!icon.isGenerated(QIcon::Large, QIcon::Normal)){
+            pict = icon.pixmap(QIcon::Large, QIcon::Normal);
         }else{
-            pict = icon.pixmap(QIconSet::Small, QIconSet::Normal);
+            pict = icon.pixmap(QIcon::Small, QIcon::Normal);
         }
     }
     setPixmap(pict);
@@ -1584,7 +1596,7 @@ void SmileLabel::mouseReleaseEvent(QMouseEvent*)
 }
 
 SmilePopup::SmilePopup(QWidget *popup)
-        : QFrame(popup, "smile", WType_Popup | WStyle_Customize | WStyle_Tool | WDestructiveClose)
+        : Q3Frame(popup, "smile", Qt::WType_Popup | Qt::WStyle_Customize | Qt::WStyle_Tool | Qt::WDestructiveClose)
 {
     setFrameShape(PopupPanel);
     setFrameShadow(Sunken);
@@ -1596,14 +1608,14 @@ SmilePopup::SmilePopup(QWidget *popup)
     unsigned nSmiles = 0;
     list<string>::iterator it;
     for (it = smiles.begin(); it != smiles.end(); ++it){
-        QIconSet is = Icon(it->c_str());
-        if (is.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
+        QIcon is = Icon(it->c_str());
+        if (is.pixmap(QIcon::Small, QIcon::Normal).isNull())
             continue;
         QPixmap pict;
-        if (!is.isGenerated(QIconSet::Large, QIconSet::Normal)){
-            pict = is.pixmap(QIconSet::Large, QIconSet::Normal);
+        if (!is.isGenerated(QIcon::Large, QIcon::Normal)){
+            pict = is.pixmap(QIcon::Large, QIcon::Normal);
         }else{
-            pict = is.pixmap(QIconSet::Small, QIconSet::Normal);
+            pict = is.pixmap(QIcon::Small, QIcon::Normal);
         }
         s = QSize(QMAX(s.width(), pict.width()), QMAX(s.height(), pict.height()));
         nSmiles++;
@@ -1622,8 +1634,8 @@ SmilePopup::SmilePopup(QWidget *popup)
     unsigned i = 0;
     unsigned j = 0;
     for (it = smiles.begin(); it != smiles.end(); ++it){
-        QIconSet is = Icon(it->c_str());
-        if (is.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
+        QIcon is = Icon(it->c_str());
+        if (is.pixmap(QIcon::Small, QIcon::Normal).isNull())
             continue;
         QWidget *w = new SmileLabel(it->c_str(), this);
         w->setMinimumSize(s);

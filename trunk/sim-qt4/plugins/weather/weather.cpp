@@ -25,9 +25,9 @@
 #include <time.h>
 
 #include <qapplication.h>
-#include <qwidgetlist.h>
-#include <qtoolbar.h>
-#include <qmainwindow.h>
+#include <qwidget.h>
+#include <q3toolbar.h>
+#include <q3mainwindow.h>
 #include <qtimer.h>
 #include <qfile.h>
 #include <qregexp.h>
@@ -67,7 +67,7 @@ static DataDef weatherData[] =
         { "Tip", DATA_UTF, 1, 0 },
         { "ForecastTip", DATA_UTF, 1, 0 },
         { "Units", DATA_BOOL, 1, 0 },
-        { "Bar", DATA_LONG, 7, DATA(QMainWindow::Bottom) },
+        { "Bar", DATA_LONG, 7, DATA(Qt::DockBottom) },
         { "Updated", DATA_STRING, 1, 0 },
         { "Temperature", DATA_LONG, 1, 0 },
         { "FeelsLike", DATA_LONG, 1, 0 },
@@ -299,9 +299,9 @@ void WeatherPlugin::showBar()
         return;
     BarShow b;
     b.bar_id = BarWeather;
-    b.parent = (QMainWindow*)w;
+    b.parent = (Q3MainWindow*)w;
     Event e(EventShowBar, &b);
-    m_bar = (QToolBar*)e.process();
+    m_bar = (Q3ToolBar*)e.process();
     restoreToolbar(m_bar, data.bar);
     connect(m_bar, SIGNAL(destroyed()), this, SLOT(barDestroyed()));
     QTimer *timer = new QTimer(this);

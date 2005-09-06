@@ -28,7 +28,7 @@
 #include <qtimer.h>
 
 WarnDlg::WarnDlg(QWidget *parent, ICQUserData *data, ICQClient *client)
-        : WarnDlgBase(parent, NULL, false, WDestructiveClose)
+        : WarnDlgBase(parent, NULL, false, Qt::WDestructiveClose)
 {
     SET_WNDPROC("warn")
     setIcon(Pict("error"));

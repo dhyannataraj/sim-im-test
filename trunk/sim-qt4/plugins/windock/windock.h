@@ -19,6 +19,8 @@
 #define _WINDOCK_H
 
 #include "simapi.h"
+//Added by qt3to4:
+#include <QEvent>
 
 typedef struct WinDockData
 {

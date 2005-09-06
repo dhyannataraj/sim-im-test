@@ -20,6 +20,8 @@
 
 #include "simapi.h"
 #include <qiodevice.h>
+//Added by qt3to4:
+#include <QEvent>
 
 class SerialPortPrivate;
 class QEvent;

@@ -18,9 +18,11 @@
 #include "cmenu.h"
 #include "commands.h"
 
-#include <qaccel.h>
+#include <q3accel.h>
 #include <qtimer.h>
 #include <qapplication.h>
+//Added by qt3to4:
+#include <Q3PopupMenu>
 
 CMenu::CMenu(CommandsDef *def)
         : KPopupMenu(NULL)
@@ -87,10 +89,10 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
         m_wrk->insertSeparator();
         bSeparator = false;
     }
-    QIconSet icons;
+    QIcon icons;
     if ((s->flags & COMMAND_CHECKED) && s->icon_on)
         icons = Icon(s->icon_on);
-    if (icons.pixmap(QIconSet::Small, QIconSet::Normal).isNull() && s->icon)
+    if (icons.pixmap(QIcon::Small, QIcon::Normal).isNull() && s->icon)
         icons = Icon(s->icon);
     QString title = i18n(s->text);
     if (s->text_wrk){
@@ -102,8 +104,8 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
         title += i18n(s->accel);
     }
     if (s->flags & COMMAND_TITLE){
-        if (!icons.pixmap(QIconSet::Small, QIconSet::Normal).isNull()){
-            m_wrk->insertTitle(icons.pixmap(QIconSet::Automatic, QIconSet::Normal), title);
+        if (!icons.pixmap(QIcon::Small, QIcon::Normal).isNull()){
+            m_wrk->insertTitle(icons.pixmap(QIcon::Automatic, QIcon::Normal), title);
         }else{
             m_wrk->insertTitle(title);
         }
@@ -111,18 +113,18 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
         bSeparator = false;
         return;
     }
-    QPopupMenu *popup = NULL;
+    Q3PopupMenu *popup = NULL;
     if (s->popup_id){
         ProcessMenuParam mp;
         mp.id = s->popup_id;
         mp.param = s->param;
         mp.key	 = 0;
         Event e(EventProcessMenu, &mp);
-        popup = (QPopupMenu*)(e.process());
+        popup = (Q3PopupMenu*)(e.process());
     }
     unsigned id = 0;
     if (popup){
-        if (!icons.pixmap(QIconSet::Small, QIconSet::Normal).isNull()){
+        if (!icons.pixmap(QIcon::Small, QIcon::Normal).isNull()){
             m_wrk->insertItem(icons, title, popup);
         }else{
             m_wrk->insertItem(title, popup);
@@ -133,7 +135,7 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
         c.base_id = base_id;
         m_cmds.push_back(c);
         id = m_cmds.size();
-        if (!icons.pixmap(QIconSet::Small, QIconSet::Normal).isNull()){
+        if (!icons.pixmap(QIcon::Small, QIcon::Normal).isNull()){
             m_wrk->insertItem(icons, title, id);
         }else{
             m_wrk->insertItem(title, id);
@@ -143,7 +145,7 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
         if (s->flags & COMMAND_DISABLED)
             m_wrk->setItemEnabled(id, false);
         if (s->accel)
-            m_wrk->setAccel(QAccel::stringToKey(i18n(s->accel)), id);
+            m_wrk->setAccel(Q3Accel::stringToKey(i18n(s->accel)), id);
         m_wrk->setItemChecked(id, (s->flags & COMMAND_CHECKED) != 0);
     }
     bSeparator = false;

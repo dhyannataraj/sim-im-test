@@ -31,11 +31,13 @@
 #include <qlayout.h>
 #include <qapplication.h>
 #include <qtimer.h>
+//Added by qt3to4:
+#include <QCloseEvent>
 
 LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const char *loginProfile)
         : LoginDialogBase(NULL, "logindlg",
                           client ? false : true,
-                          client ? WDestructiveClose : 0)
+                          client ? Qt::WDestructiveClose : 0)
 {
     m_bInit  = bInit;
     m_bProfileChanged = false;

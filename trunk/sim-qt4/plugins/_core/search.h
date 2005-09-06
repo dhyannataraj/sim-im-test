@@ -21,7 +21,11 @@
 #include "simapi.h"
 #include "stl.h"
 
-#include <qmainwindow.h>
+#include <q3mainwindow.h>
+//Added by qt3to4:
+#include <QMoveEvent>
+#include <QResizeEvent>
+#include <QCloseEvent>
 
 class CorePlugin;
 class ListView;
@@ -36,7 +40,7 @@ typedef struct ClientWidget
     QString		name;
 } ClientWidget;
 
-class SearchDialog : public QMainWindow, public EventReceiver
+class SearchDialog : public Q3MainWindow, public EventReceiver
 {
     Q_OBJECT
 public:

@@ -24,8 +24,11 @@
 #include "container.h"
 #include "history.h"
 
-#include <qtoolbar.h>
+#include <q3toolbar.h>
 #include <qtimer.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <QCloseEvent>
 
 static DataDef userWndData[] =
     {
@@ -36,7 +39,7 @@ static DataDef userWndData[] =
     };
 
 UserWnd::UserWnd(unsigned id, Buffer *cfg, bool bReceived, bool bAdjust)
-        : QSplitter(Horizontal, NULL)
+        : QSplitter(Qt::Horizontal, NULL)
 {
     load_data(userWndData, &data, cfg);
     m_id = id;
@@ -61,7 +64,7 @@ UserWnd::UserWnd(unsigned id, Buffer *cfg, bool bReceived, bool bAdjust)
     m_edit->m_bar->show();
     m_bBarChanged = false;
 
-    connect(m_edit, SIGNAL(toolBarPositionChanged(QToolBar*)), this, SLOT(toolbarChanged(QToolBar*)));
+    connect(m_edit, SIGNAL(toolBarPositionChanged(Q3ToolBar*)), this, SLOT(toolbarChanged(Q3ToolBar*)));
     connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
     connect(m_edit, SIGNAL(heightChanged(int)), this, SLOT(editHeightChanged(int)));
     modeChanged();
@@ -166,7 +169,7 @@ void UserWnd::modeChanged()
         if (editHeight == 0)
             editHeight = CorePlugin::m_plugin->getEditHeight();
         if (editHeight){
-            QValueList<int> s;
+            Q3ValueList<int> s;
             s.append(1);
             s.append(editHeight);
             m_bResize = true;
@@ -189,7 +192,7 @@ void UserWnd::editHeightChanged(int h)
     }
 }
 
-void UserWnd::toolbarChanged(QToolBar*)
+void UserWnd::toolbarChanged(Q3ToolBar*)
 {
     if (m_bBarChanged)
         return;

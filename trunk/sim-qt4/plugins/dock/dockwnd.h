@@ -24,6 +24,10 @@
 #include <qwidget.h>
 #include <qtooltip.h>
 #include <qpixmap.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QEvent>
+#include <QPaintEvent>
 
 class WharfIcon;
 class DockPlugin;

@@ -26,16 +26,20 @@
 #include <qcombobox.h>
 #include <qlineedit.h>
 #include <qstatusbar.h>
-#include <qprogressbar.h>
+#include <q3progressbar.h>
 #include <qlayout.h>
 #include <qstringlist.h>
 #include <qmessagebox.h>
+//Added by qt3to4:
+#include <QLabel>
+#include <QHBoxLayout>
+#include <QResizeEvent>
 
 #ifdef USE_KDE
 #include <kfiledialog.h>
-#define QFileDialog KFileDialog
+#define Q3FileDialog KFileDialog
 #else
-#include <qfiledialog.h>
+#include <q3filedialog.h>
 #endif
 
 #include <time.h>
@@ -47,7 +51,7 @@ public:
     void setTotalSteps(unsigned);
     void setProgress(unsigned);
 protected:
-    QProgressBar *m_bar;
+    Q3ProgressBar *m_bar;
 };
 
 HistoryProgressBar::HistoryProgressBar(QWidget *parent)
@@ -58,7 +62,7 @@ HistoryProgressBar::HistoryProgressBar(QWidget *parent)
     lay->addSpacing(4);
     QLabel *label = new QLabel(i18n("Loading"), this);
     lay->addWidget(label);
-    m_bar = new QProgressBar(this);
+    m_bar = new Q3ProgressBar(this);
     lay->addWidget(m_bar);
 }
 
@@ -90,7 +94,7 @@ HistoryWindow::HistoryWindow(unsigned id)
     m_bar = (CToolBar*)e.process();
     m_bar->setParam((void*)m_id);
     restoreToolbar(m_bar, CorePlugin::m_plugin->data.historyBar);
-    connect(this, SIGNAL(toolBarPositionChanged(QToolBar*)), this, SLOT(toolbarChanged(QToolBar*)));
+    connect(this, SIGNAL(toolBarPositionChanged(Q3ToolBar*)), this, SLOT(toolbarChanged(Q3ToolBar*)));
     m_status = statusBar();
     m_progress = NULL;
     m_page = 0;
@@ -186,7 +190,7 @@ void *HistoryWindow::processEvent(Event *e)
             return e->param();
         }
         if (cmd->id == CmdHistorySave){
-            QString str = QFileDialog::getSaveFileName(QString::null, i18n("Textfile (*.txt)"), this);
+            QString str = Q3FileDialog::getSaveFileName(QString::null, i18n("Textfile (*.txt)"), this);
             if (str && !str.isEmpty()){
                 bool res = true;
                 if (QFile::exists(str)){
@@ -242,12 +246,12 @@ void *HistoryWindow::processEvent(Event *e)
 
 void HistoryWindow::resizeEvent(QResizeEvent *e)
 {
-    QMainWindow::resizeEvent(e);
+    Q3MainWindow::resizeEvent(e);
     CorePlugin::m_plugin->data.historySize[0].value = width();
     CorePlugin::m_plugin->data.historySize[1].value = height();
 }
 
-void HistoryWindow::toolbarChanged(QToolBar*)
+void HistoryWindow::toolbarChanged(Q3ToolBar*)
 {
     saveToolbar(m_bar, CorePlugin::m_plugin->data.historyBar);
 }

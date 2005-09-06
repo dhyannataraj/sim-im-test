@@ -22,7 +22,9 @@
 #include "jabber.h"
 
 #include <qpushbutton.h>
-#include <qgroupbox.h>
+#include <q3groupbox.h>
+//Added by qt3to4:
+#include <QShowEvent>
 
 JIDSearch::JIDSearch(QWidget *parent, JabberClient *client, const QString &jid,
                      const QString &node, const char *type)
@@ -35,8 +37,8 @@ JIDSearch::JIDSearch(QWidget *parent, JabberClient *client, const QString &jid,
         m_type	 = type;
     connect(btnBrowser, SIGNAL(clicked()), this, SLOT(browserClicked()));
     connect(btnAdvanced, SIGNAL(clicked()), this, SLOT(advancedClicked()));
-    QIconSet is = Icon("1rightarrow");
-    if (!is.pixmap(QIconSet::Small, QIconSet::Normal).isNull()){
+    QIcon is = Icon("1rightarrow");
+    if (!is.pixmap(QIcon::Small, QIcon::Normal).isNull()){
         btnBrowser->setIconSet(is);
         btnAdvanced->setIconSet(is);
     }
@@ -79,14 +81,14 @@ void JIDSearch::advancedClicked()
 {
     if (m_bAdv){
         m_bAdv = false;
-        QIconSet is = Icon("1rightarrow");
-        if (!is.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
+        QIcon is = Icon("1rightarrow");
+        if (!is.pixmap(QIcon::Small, QIcon::Normal).isNull())
             btnAdvanced->setIconSet(is);
         emit showResult(NULL);
     }else{
         m_bAdv = true;
-        QIconSet is = Icon("1leftarrow");
-        if (!is.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
+        QIcon is = Icon("1leftarrow");
+        if (!is.pixmap(QIcon::Small, QIcon::Normal).isNull())
             btnAdvanced->setIconSet(is);
         emit showResult(m_adv);
     }

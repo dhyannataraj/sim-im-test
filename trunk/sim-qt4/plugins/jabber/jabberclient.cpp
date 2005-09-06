@@ -39,7 +39,9 @@
 #include <qpixmap.h>
 #include <qfile.h>
 #include <qapplication.h>
-#include <qwidgetlist.h>
+#include <qwidget.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include <time.h>
 
@@ -967,7 +969,7 @@ string JabberClient::to_lower(const char *s)
     return res;
 }
 
-QCString JabberClient::encodeXML(const QString &str)
+Q3CString JabberClient::encodeXML(const QString &str)
 {
     return quoteString(str, quoteNOBR).utf8();
 }
@@ -1336,7 +1338,7 @@ QString JabberClient::contactTip(void *_data)
                     w = 60;
                 }
             }
-            QMimeSourceFactory::defaultFactory()->setPixmap("pict://jabber.logo", pict);
+            Q3MimeSourceFactory::defaultFactory()->setPixmap("pict://jabber.logo", pict);
             res += "<br/><img src=\"pict://jabber.logo\" width=\"";
             res += number(w).c_str();
             res += "\" height=\"";
@@ -1362,7 +1364,7 @@ QString JabberClient::contactTip(void *_data)
                     w = 60;
                 }
             }
-            QMimeSourceFactory::defaultFactory()->setPixmap("pict://jabber.photo", pict);
+            Q3MimeSourceFactory::defaultFactory()->setPixmap("pict://jabber.photo", pict);
             res += "<br/><img src=\"pict://jabber.photo\" width=\"";
             res += number(w).c_str();
             res += "\" height=\"";

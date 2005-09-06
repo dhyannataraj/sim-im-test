@@ -26,6 +26,8 @@
 #include <qlineedit.h>
 #include <qpushbutton.h>
 #include <qlabel.h>
+//Added by qt3to4:
+#include <QShowEvent>
 
 const unsigned FILL_FIRST	= 0x0001;
 const unsigned FILL_LAST	= 0x0002;
@@ -46,8 +48,8 @@ JabberAdd::JabberAdd(JabberClient *client, QWidget *parent)
     connect(grpMail, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
     connect(grpName, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
     connect(btnBrowser, SIGNAL(clicked()), this, SLOT(browserClick()));
-    QIconSet is = Icon("1rightarrow");
-    if (!is.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
+    QIcon is = Icon("1rightarrow");
+    if (!is.pixmap(QIcon::Small, QIcon::Normal).isNull())
         btnBrowser->setIconSet(is);
 }
 
@@ -94,8 +96,8 @@ void JabberAdd::setBrowser(bool bBrowser)
         connect(m_browser, SIGNAL(destroyed()), this, SLOT(browserDestroyed()));
     }
     emit showResult(m_bBrowser ? m_browser : NULL);
-    QIconSet is = Icon(m_bBrowser ? "1leftarrow" : "1rightarrow");
-    if (!is.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
+    QIcon is = Icon(m_bBrowser ? "1leftarrow" : "1rightarrow");
+    if (!is.pixmap(QIcon::Small, QIcon::Normal).isNull())
         btnBrowser->setIconSet(is);
     if (m_bBrowser){
         edtJID->setEnabled(false);

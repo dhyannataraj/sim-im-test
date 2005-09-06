@@ -20,6 +20,8 @@
 
 #include "simapi.h"
 #include "stl.h"
+//Added by qt3to4:
+#include <QEvent>
 
 const unsigned short L_PACKETS = 0x08;
 const unsigned short L_EVENTS  = 0x10;

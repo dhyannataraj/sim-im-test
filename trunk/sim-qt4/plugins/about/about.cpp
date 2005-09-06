@@ -58,7 +58,7 @@ AboutPlugin::AboutPlugin(unsigned base)
 
     Command cmd;
     cmd->id			= CmdBugReport;
-    cmd->text		= I18N_NOOP("&Bug report / Requests");
+    cmd->text		= I18N_NOOP("&Bug report");
     cmd->bar_id		= ToolBarMain;
     cmd->menu_id	= MenuMain;
     cmd->menu_grp	= 0xF000;

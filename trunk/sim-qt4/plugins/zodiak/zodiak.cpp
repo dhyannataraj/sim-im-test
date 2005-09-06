@@ -33,11 +33,19 @@
 
 #include <qapplication.h>
 #include <qlayout.h>
-#include <qframe.h>
-#include <qwidgetlist.h>
-#include <qobjectlist.h>
+#include <q3frame.h>
+#include <qwidget.h>
+#include <qobject.h>
 #include <qpushbutton.h>
 #include <qpainter.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QPaintEvent>
+#include <QGridLayout>
+#include <QChildEvent>
+#include <QEvent>
+#include <QBoxLayout>
+#include <QLabel>
 
 Plugin *createZodiakPlugin(unsigned base, bool, Buffer*)
 {
@@ -107,7 +115,7 @@ void *ZodiakPlugin::processEvent(Event *e)
 
 bool ZodiakPlugin::eventFilter(QObject *o, QEvent *e)
 {
-    if (e->type() == QEvent::ChildInserted){
+    if (e->type() == QEvent::ChildAdded){
         QChildEvent *ce = (QChildEvent*)e;
         if (ce->child()->inherits("DatePicker")){
             DatePicker *picker = (DatePicker*)(ce->child());
@@ -136,7 +144,7 @@ bool ZodiakPlugin::eventFilter(QObject *o, QEvent *e)
 }
 
 ZodiakWnd::ZodiakWnd(DatePicker *parent)
-        : QFrame(parent)
+        : Q3Frame(parent)
 {
     m_picker = parent;
     setLineWidth(0);
@@ -171,7 +179,7 @@ void ZodiakWnd::paintEvent(QPaintEvent *e)
         p.drawTiledPixmap(0, 0, width(), height(), *parentWidget()->parentWidget()->backgroundPixmap(), pos.x(), pos.y());
         return;
     }
-    QFrame::paintEvent(e);
+    Q3Frame::paintEvent(e);
 }
 
 static const char *signes[] =

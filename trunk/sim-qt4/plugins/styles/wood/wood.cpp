@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: wood.cpp,v 1.3 2004-06-04 16:55:46 shutoff Exp $
+** $Id: wood.cpp,v 1.3 2004/06/04 16:55:46 shutoff Exp $
 **
 ** Copyright (C) 1992-2000 Trolltech AS.  All rights reserved.
 **
@@ -19,8 +19,10 @@
 #include "qimage.h"
 #include "qpushbutton.h"
 #include "qwidget.h"
-#include "qrangecontrol.h"
+#include "q3rangecontrol.h"
 #include "qscrollbar.h"
+//Added by qt3to4:
+#include <Q3PointArray>
 #include <limits.h>
 
 /* XPM */
@@ -916,7 +918,7 @@ static void drawroundrect( QPainter *p, QCOORD x, QCOORD y,
 
 static QRegion roundRectRegion( const QRect& g, int r )
 {
-    QPointArray a;
+    Q3PointArray a;
     a.setPoints( 8, g.x()+r, g.y(), g.right()-r, g.y(),
                  g.right(), g.y()+r, g.right(), g.bottom()-r,
                  g.right()-r, g.bottom(), g.x()+r, g.bottom(),
@@ -1036,7 +1038,7 @@ void NorwegianWoodStyle::drawSemicircleButton( QPainter *p, const QRect &r,
     }
 
     extrn = extrn - intern;
-    QPointArray a;
+    Q3PointArray a;
     a.setPoints( 3, r.x(), r.y(), r.x(), r.bottom(), r.right(), r.top() );
 
     QRegion oldClip = p->clipRegion();
@@ -1059,7 +1061,7 @@ void NorwegianWoodStyle::drawScrollBarControls( QPainter* p, const QScrollBar* s
 {
     QWindowsStyle::drawScrollBarControls( p, sb, sliderStart, controls & ~(AddLine|SubLine),
                                           activeControl & ~(AddLine|SubLine) );
-    bool horz = sb->orientation() == QScrollBar::Horizontal;
+    bool horz = sb->orientation() == Qt::Horizontal;
     int b = 2;
     int w = horz ? sb->height() : sb->width();
 
@@ -1111,7 +1113,7 @@ void NorwegianWoodStyle::drawButton( QPainter *p, int x, int y, int w, int h,
     QPoint p2(x+w-1-e,y+e);
     QPoint p3(x+e, y+h-1-e);
 
-    QPointArray a;
+    Q3PointArray a;
     a.setPoints( 5, x,y, x+w-1, y, p2.x(),p2.y(), p3.x(),p3.y(), x, y+h-1 );
 
     p->setClipRegion( QRegion( a )- internR );

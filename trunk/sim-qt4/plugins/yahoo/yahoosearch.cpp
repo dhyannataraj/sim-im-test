@@ -21,6 +21,8 @@
 
 #include <qlabel.h>
 #include <qcombobox.h>
+//Added by qt3to4:
+#include <QShowEvent>
 
 const ext_info ages[] =
     {

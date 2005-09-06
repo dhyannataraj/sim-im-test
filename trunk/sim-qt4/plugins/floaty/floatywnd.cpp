@@ -27,6 +27,12 @@
 #include <qpainter.h>
 #include <qtimer.h>
 #include <qapplication.h>
+//Added by qt3to4:
+#include <QPaintEvent>
+#include <QEvent>
+#include <QDropEvent>
+#include <QDragEnterEvent>
+#include <QMouseEvent>
 
 #ifdef USE_KDE
 #include <kwin.h>
@@ -34,8 +40,8 @@
 
 FloatyWnd::FloatyWnd(FloatyPlugin *plugin, unsigned id)
         : QWidget(NULL, "floaty",
-                  WType_TopLevel | WStyle_Customize | WStyle_NoBorder | WStyle_Tool |
-                  WStyle_StaysOnTop | WRepaintNoErase)
+                  Qt::WType_TopLevel | Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_Tool |
+                  Qt::WStyle_StaysOnTop | Qt::WNoAutoErase)
 {
     m_plugin = plugin;
     m_id = id;
@@ -389,9 +395,9 @@ void FloatyWnd::dragEvent(QDropEvent *e, bool isDrop)
         delete msg;
         return;
     }
-    if (QTextDrag::canDecode(e)){
+    if (Q3TextDrag::canDecode(e)){
         QString str;
-        if (QTextDrag::decode(e, str)){
+        if (Q3TextDrag::decode(e, str)){
             e->accept();
             if (isDrop){
                 Message *msg = new Message(MessageGeneric);

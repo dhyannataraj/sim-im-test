@@ -21,7 +21,7 @@
 #include <qlineedit.h>
 
 DeclineDlg::DeclineDlg(Message *msg)
-        : DeclineDlgBase(NULL, NULL, false, WDestructiveClose)
+        : DeclineDlgBase(NULL, NULL, false, Qt::WDestructiveClose)
 {
     m_msg = msg;
     SET_WNDPROC("decline")

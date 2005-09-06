@@ -21,6 +21,8 @@
 #include "simapi.h"
 #include "fetch.h"
 #include "yahoosearchbase.h"
+//Added by qt3to4:
+#include <QShowEvent>
 
 class YahooClient;
 class GroupRadioButton;

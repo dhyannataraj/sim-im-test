@@ -20,13 +20,13 @@
 #include "icons.h"
 
 #include <qpushbutton.h>
-#include <qlistbox.h>
+#include <q3listbox.h>
 
 #ifdef USE_KDE
 #include <kfiledialog.h>
-#define QFileDialog	KFileDialog
+#define Q3FileDialog	KFileDialog
 #else
-#include <qfiledialog.h>
+#include <q3filedialog.h>
 #endif
 
 IconCfg::IconCfg(QWidget *parent, IconsPlugin *plugin)
@@ -63,7 +63,7 @@ void IconCfg::up()
     if (n < 1)
         return;
     QString t = lstIcon->text(n);
-    QListBoxItem *i = lstIcon->item(n);
+    Q3ListBoxItem *i = lstIcon->item(n);
     if (i == NULL)
         return;
     delete i;
@@ -77,7 +77,7 @@ void IconCfg::down()
     if ((n < 0) || (n >= (int)(lstIcon->count() - 1)))
         return;
     QString t = lstIcon->text(n);
-    QListBoxItem *i = lstIcon->item(n);
+    Q3ListBoxItem *i = lstIcon->item(n);
     if (i == NULL)
         return;
     delete i;
@@ -92,14 +92,14 @@ void IconCfg::add()
 #else
 QString filter = i18n("Icon set(*.jisp)");
 #endif
-    QString jisp = QFileDialog::getOpenFileName(QFile::decodeName(app_file("icons/").c_str()), filter, topLevelWidget(), i18n("Select icon set"));
+    QString jisp = Q3FileDialog::getOpenFileName(QFile::decodeName(app_file("icons/").c_str()), filter, topLevelWidget(), i18n("Select icon set"));
     if (!jisp.isEmpty())
         lstIcon->insertItem(jisp);
 }
 
 void IconCfg::remove()
 {
-    QListBoxItem *i = lstIcon->item(lstIcon->currentItem());
+    Q3ListBoxItem *i = lstIcon->item(lstIcon->currentItem());
     if (i == NULL)
         return;
     delete i;

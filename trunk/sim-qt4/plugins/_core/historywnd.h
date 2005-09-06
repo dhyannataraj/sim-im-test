@@ -21,7 +21,9 @@
 #include "simapi.h"
 #include "stl.h"
 
-#include <qmainwindow.h>
+#include <q3mainwindow.h>
+//Added by qt3to4:
+#include <QResizeEvent>
 
 class MsgViewBase;
 class CToolBar;
@@ -30,7 +32,7 @@ class QComboBox;
 class HistoryProgressBar;
 class HistoryIterator;
 
-class HistoryWindow : public QMainWindow, public EventReceiver
+class HistoryWindow : public Q3MainWindow, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -38,7 +40,7 @@ public:
     ~HistoryWindow();
     unsigned id() { return m_id; }
 protected slots:
-    void toolbarChanged(QToolBar*);
+    void toolbarChanged(Q3ToolBar*);
     void fill();
     void next();
 protected:

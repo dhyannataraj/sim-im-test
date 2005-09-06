@@ -22,6 +22,8 @@
 #include <qlabel.h>
 #include <qlineedit.h>
 #include <qvalidator.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 PhoneDetails::PhoneDetails(QWidget *p, const QString &oldNumber)
         : PhoneDetailsBase(p)
@@ -31,7 +33,7 @@ PhoneDetails::PhoneDetails(QWidget *p, const QString &oldNumber)
     QString extension;
     int countryCode = 0;
     if (number.find('(') >= 0){
-        QCString country = trim(getToken(number, '(')).latin1();
+        Q3CString country = trim(getToken(number, '(')).latin1();
         const char *p;
         for (p = country; *p; p++){
             if ((*p >= '0') && (*p <= '9'))

@@ -23,6 +23,8 @@
 #include "qchildwidget.h"
 
 #include <qpushbutton.h>
+//Added by qt3to4:
+#include <QGridLayout>
 
 class JabberClient;
 

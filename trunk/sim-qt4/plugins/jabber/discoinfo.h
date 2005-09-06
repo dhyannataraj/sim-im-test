@@ -21,6 +21,8 @@
 #include "jabberclient.h"
 #include "simapi.h"
 #include "discoinfobase.h"
+//Added by qt3to4:
+#include <QResizeEvent>
 
 class JabberBrowser;
 class JabberHomeInfo;

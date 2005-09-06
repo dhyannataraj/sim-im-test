@@ -26,7 +26,7 @@
 #include <qlabel.h>
 
 SecureDlg::SecureDlg(ICQClient *client, unsigned contact, struct ICQUserData *data)
-        : SecureDlgBase(NULL, "securedlg", false, WDestructiveClose)
+        : SecureDlgBase(NULL, "securedlg", false, Qt::WDestructiveClose)
 {
     SET_WNDPROC("secure")
     setIcon(Pict("encrypted"));

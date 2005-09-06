@@ -18,9 +18,12 @@
 #include "simapi.h"
 
 #ifdef WIN32
-#include "qt3/qsyntaxhighlighter.h"
+#include "qt3/q3syntaxhighlighter.h"
 #else
-#include <qsyntaxhighlighter.h>
+#include <q3syntaxhighlighter.h>
+//Added by qt3to4:
+#include <QEvent>
+#include <QKeyEvent>
 #endif
 
 #include "historycfg.h"
@@ -58,13 +61,13 @@ static char STYLES[] = "styles/";
 #endif
 static char EXT[]    = ".xsl";
 
-#undef QTextEdit
+#undef Q3TextEdit
 
 
-class XmlHighlighter : public QSyntaxHighlighter
+class XmlHighlighter : public Q3SyntaxHighlighter
 {
 public:
-XmlHighlighter(QTextEdit *textEdit) : QSyntaxHighlighter(textEdit) {}
+XmlHighlighter(Q3TextEdit *textEdit) : Q3SyntaxHighlighter(textEdit) {}
     virtual int highlightParagraph( const QString &text, int endStateOfLastPara ) ;
 };
 
@@ -201,8 +204,8 @@ HistoryConfig::HistoryConfig(QWidget *parent)
     }
     lblPage1->setText(str1);
     lblPage2->setText(str2);
-    edtStyle->setWordWrap(QTextEdit::NoWrap);
-    edtStyle->setTextFormat(QTextEdit::RichText);
+    edtStyle->setWordWrap(Q3TextEdit::NoWrap);
+    edtStyle->setTextFormat(Q3TextEdit::RichText);
     new XmlHighlighter(edtStyle);
     QStringList styles;
     addStyles(user_file(STYLES).c_str(), true);
@@ -261,7 +264,7 @@ void HistoryConfig::apply()
         name += EXT;
         name = user_file(name.c_str());
         QFile f(QFile::decodeName((name + BACKUP_SUFFIX).c_str())); // use backup file for this ...
-        if (f.open(IO_WriteOnly | IO_Truncate)){
+        if (f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
             string s;
             s = m_styles[i].text.utf8();
             f.writeBlock(s.c_str(), s.length());
@@ -403,7 +406,7 @@ void HistoryConfig::copy()
         n = app_file(n.c_str());
     }
     QFile from(QFile::decodeName(n.c_str()));
-    if (!from.open(IO_ReadOnly)){
+    if (!from.open(QIODevice::ReadOnly)){
         log(L_WARN, "Can't open %s", n.c_str());
         return;
     }
@@ -412,7 +415,7 @@ void HistoryConfig::copy()
     n += EXT;
     n = user_file(n.c_str());
     QFile to(QFile::decodeName((n + BACKUP_SUFFIX).c_str()));
-    if (!to.open(IO_WriteOnly | IO_Truncate)){
+    if (!to.open(QIODevice::WriteOnly | QIODevice::Truncate)){
         log(L_WARN, "Cam't create %s", n.c_str());
         return;
     }
@@ -545,7 +548,7 @@ void HistoryConfig::realRename()
         nn = user_file(nn.c_str());
         if (m_styles[m_edit].text.isEmpty()){
             QFile f(QFile::decodeName(nn.c_str()));
-            if (f.open(IO_ReadOnly)){
+            if (f.open(QIODevice::ReadOnly)){
                 string s;
                 s.append(f.size(), '\x00');
                 f.readBlock((char*)(s.c_str()), f.size());
@@ -566,11 +569,11 @@ bool HistoryConfig::eventFilter(QObject *o, QEvent *e)
     if (e->type() == QEvent::KeyPress){
         QKeyEvent *ke = static_cast<QKeyEvent*>(e);
         switch (ke->key()){
-        case Key_Enter:
-        case Key_Return:
+        case Qt::Key_Enter:
+        case Qt::Key_Return:
             QTimer::singleShot(0, this, SLOT(realRename()));
             return true;
-        case Key_Escape:
+        case Qt::Key_Escape:
             QTimer::singleShot(0, this, SLOT(cancelRename()));
             return true;
         }
@@ -598,7 +601,7 @@ void HistoryConfig::viewChanged(QWidget *w)
             name += EXT;
             name = m_styles[cur].bCustom ? user_file(name.c_str()) : app_file(name.c_str());
             QFile f(QFile::decodeName(name.c_str()));
-            if (f.open(IO_ReadOnly)){
+            if (f.open(QIODevice::ReadOnly)){
                 name = "";
                 name.append(f.size(), '\x00');
                 f.readBlock((char*)(name.c_str()), f.size());

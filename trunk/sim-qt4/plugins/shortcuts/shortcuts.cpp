@@ -21,9 +21,12 @@
 #include "core.h"
 
 #include <qapplication.h>
-#include <qwidgetlist.h>
-#include <qaccel.h>
-#include <qpopupmenu.h>
+#include <qwidget.h>
+#include <q3accel.h>
+#include <q3popupmenu.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QEvent>
 
 #ifdef WIN32
 #include <windows.h>
@@ -102,8 +105,8 @@ static vkCode vkCodes[] =
         { VK_PAUSE,		Qt::Key_Pause },
         { VK_ESCAPE,	Qt::Key_Escape },
         { VK_SPACE,		Qt::Key_Space },
-        { VK_PRIOR,		Qt::Key_Prior },
-        { VK_NEXT,		Qt::Key_Next },
+        { VK_PRIOR,		Qt::Key_PageUp },
+        { VK_NEXT,		Qt::Key_PageDown },
         { VK_END,		Qt::Key_End },
         { VK_HOME,		Qt::Key_Home },
         { VK_LEFT,		Qt::Key_Left },
@@ -186,7 +189,7 @@ static void getKey(const char *key_str, int &mod, int &key)
 {
     mod = 0;
     key = 0;
-    int kkey = QAccel::stringToKey(key_str);
+    int kkey = Q3Accel::stringToKey(key_str);
     if (kkey & Qt::ALT) mod |= MOD_ALT;
     if (kkey & Qt::CTRL) mod |= MOD_CONTROL;
     if (kkey & Qt::SHIFT) mod |= MOD_SHIFT;
@@ -297,8 +300,8 @@ static const TransKey g_rgQtToSymX[] =
         { Qt::Key_Up,         XK_Up },
         { Qt::Key_Right,      XK_Right },
         { Qt::Key_Down,       XK_Down },
-        { Qt::Key_Prior,      XK_Prior },
-        { Qt::Key_Next,       XK_Next },
+        { Qt::Key_PageUp,      XK_Prior },
+        { Qt::Key_PageDown,       XK_Next },
         { Qt::Key_CapsLock,   XK_Caps_Lock },
         { Qt::Key_NumLock,    XK_Num_Lock },
         { Qt::Key_ScrollLock, XK_Scroll_Lock },
@@ -362,7 +365,7 @@ extern "C" {
 
 GlobalKey::GlobalKey(CommandDef *cmd)
 {
-    m_key = QAccel::stringToKey(cmd->accel);
+    m_key = Q3Accel::stringToKey(cmd->accel);
     m_state = 0;
     if (m_key & Qt::SHIFT){
         m_key &= ~Qt::SHIFT;
@@ -725,13 +728,13 @@ bool ShortcutsPlugin::eventFilter(QObject *o, QEvent *e)
     if (e->type() == QEvent::MouseButtonPress){
         me = static_cast<QMouseEvent*>(e);
         switch (me->button()){
-        case LeftButton:
+        case Qt::LeftButton:
             button = 1;
             break;
-        case RightButton:
+        case Qt::RightButton:
             button = 2;
             break;
-        case MidButton:
+        case Qt::MidButton:
             button = 3;
             break;
         default:
@@ -741,13 +744,13 @@ bool ShortcutsPlugin::eventFilter(QObject *o, QEvent *e)
     if (e->type() == QEvent::MouseButtonDblClick){
         me = static_cast<QMouseEvent*>(e);
         switch (me->button()){
-        case LeftButton:
+        case Qt::LeftButton:
             button = 4;
             break;
-        case RightButton:
+        case Qt::RightButton:
             button = 5;
             break;
-        case MidButton:
+        case Qt::MidButton:
             button = 6;
             break;
         default:
@@ -755,12 +758,12 @@ bool ShortcutsPlugin::eventFilter(QObject *o, QEvent *e)
         }
     }
     if (me){
-        button |= me->state() & (AltButton | ControlButton | ShiftButton);
+        button |= me->state() & (Qt::AltModifier | Qt::ControlModifier | Qt::ShiftModifier);
         MAP_CMDS::iterator it = mouseCmds.find(button);
         if (it != mouseCmds.end()){
             const CommandDef &cmd = (*it).second;
             Event e(EventGetMenu, (void*)&cmd);
-            QPopupMenu *popup = (QPopupMenu*)(e.process());
+            Q3PopupMenu *popup = (Q3PopupMenu*)(e.process());
             if (popup){
                 popup->popup(me->globalPos());
                 return true;

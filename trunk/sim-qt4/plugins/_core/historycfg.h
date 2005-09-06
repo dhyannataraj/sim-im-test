@@ -22,6 +22,8 @@
 #include "stl.h"
 
 #include "qcolorbutton.h"
+//Added by qt3to4:
+#include <QEvent>
 #include "historycfgbase.h"
 
 class CorePlugin;

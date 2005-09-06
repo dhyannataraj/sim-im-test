@@ -20,6 +20,8 @@
 
 #include "simapi.h"
 #include "aimsearchbase.h"
+//Added by qt3to4:
+#include <QShowEvent>
 
 class AIMSearch : public AIMSearchBase
 {

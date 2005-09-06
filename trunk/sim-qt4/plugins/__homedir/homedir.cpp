@@ -170,7 +170,7 @@ string HomeDirPlugin::defaultPath()
         makedir((char*)(ss.c_str()));
         QString lockTest = defPath + "\\.lock";
         QFile f(lockTest);
-        if (!f.open(IO_ReadWrite | IO_Truncate))
+        if (!f.open(QIODevice::ReadWrite | QIODevice::Truncate))
             defPath = "";
         f.close();
         QFile::remove(lockTest);

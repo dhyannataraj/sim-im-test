@@ -18,16 +18,21 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
+//Added by qt3to4:
+#include <QPixmap>
+#include <QKeyEvent>
+#include <QPaintEvent>
+#include <QCloseEvent>
 #endif
 
 #ifndef USE_KDE
 
 #ifndef _KPOPUP_H
-#define _KPOPUP_H "$Id: kpopup.h,v 1.2 2003-08-02 19:21:24 shutoff Exp $"
+#define _KPOPUP_H "$Id: kpopup.h,v 1.2 2003/08/02 19:21:24 shutoff Exp $"
 
 #define INCLUDE_MENUITEM_DEF
 
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 
 /**
  * Title widget for use in @ref KPopupMenu.
@@ -95,7 +100,7 @@ protected:
  * @author Daniel M. Duley <mosfet@kde.org>
  * @author Hamish Rodda <meddie@yoyo.its.monash.edu.au>
  */
-class KPopupMenu : public QPopupMenu {
+class KPopupMenu : public Q3PopupMenu {
     Q_OBJECT
 public:
     /**

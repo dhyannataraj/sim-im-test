@@ -20,9 +20,11 @@
 
 #include "simapi.h"
 #include "spellcfgbase.h"
+//Added by qt3to4:
+#include <QResizeEvent>
 
 class SpellPlugin;
-class QListViewItem;
+class Q3ListViewItem;
 
 #ifdef WIN32
 class SpellFind;
@@ -39,9 +41,9 @@ public slots:
     void find();
     void findFinished();
     void textChanged(const QString &str);
-    void langClicked(QListViewItem*);
+    void langClicked(Q3ListViewItem*);
 protected:
-    void setCheck(QListViewItem *item);
+    void setCheck(Q3ListViewItem *item);
     void resizeEvent(QResizeEvent *e);
 #ifdef WIN32
     SpellFind	*m_find;

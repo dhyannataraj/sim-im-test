@@ -21,6 +21,8 @@
 #include "sax.h"
 #include "stl.h"
 #include "socket.h"
+//Added by qt3to4:
+#include <Q3CString>
 
 class JabberProtocol;
 class JabberClient;
@@ -91,7 +93,7 @@ typedef struct JabberClientData
     Data		ListRequest;
     Data		VHost;
     Data		Typing;
-    Data		RichText;
+    Data		Qt::RichText;
     Data		ProtocolIcons;
     Data		MinPort;
     Data		MaxPort;
@@ -282,7 +284,7 @@ class MessageRequest : public ServerRequest
     PROP_ULONG(Priority);
     PROP_UTF8(ListRequest);
     PROP_BOOL(Typing);
-    PROP_BOOL(RichText);
+    PROP_BOOL(Qt::RichText);
     PROP_BOOL(ProtocolIcons);
     PROP_USHORT(MinPort);
     PROP_USHORT(MaxPort);
@@ -375,7 +377,7 @@ protected:
     void rosters_request();
     void setOffline(JabberUserData *data);
 
-    static	QCString encodeXML(const QString &str);
+    static	Q3CString encodeXML(const QString &str);
     string		m_id;
     unsigned	m_depth;
 

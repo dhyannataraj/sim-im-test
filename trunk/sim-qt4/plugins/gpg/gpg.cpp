@@ -206,7 +206,7 @@ void GpgPlugin::decryptReady(Exec *exec, int res, const char*)
             QTimer::singleShot(0, this, SLOT(clear()));
             if (res == 0){
                 QFile f((*it).outfile);
-                if (f.open(IO_ReadOnly)){
+                if (f.open(QIODevice::ReadOnly)){
                     string text;
                     text.append(f.size(), '\x00');
                     f.readBlock((char*)(text.c_str()), f.size());
@@ -478,7 +478,7 @@ void *GpgPlugin::processEvent(Event *e)
                         output += QString::number((unsigned)ms->msg);
                         QString input = output + ".in";
                         QFile in(input);
-                        if (!in.open(IO_WriteOnly | IO_Truncate)){
+                        if (!in.open(QIODevice::WriteOnly | QIODevice::Truncate)){
                             string s;
                             s = input.local8Bit();
                             log(L_WARN, "Can't create %s", s.c_str());
@@ -509,7 +509,7 @@ void *GpgPlugin::processEvent(Event *e)
                         }
                         QFile::remove(input);
                         QFile out(output);
-                        if (!out.open(IO_ReadOnly)){
+                        if (!out.open(QIODevice::ReadOnly)){
                             QFile::remove(output);
                             ms->msg->setError(I18N_NOOP("Encrypt failed"));
                             return ms->msg;
@@ -543,7 +543,7 @@ void *GpgPlugin::processEvent(Event *e)
                     input  += QString::number((unsigned)msg);
                     input += ".in";
                     QFile in(input);
-                    if (!in.open(IO_WriteOnly | IO_Truncate)){
+                    if (!in.open(QIODevice::WriteOnly | QIODevice::Truncate)){
                         string s;
                         s = input.local8Bit();
                         log(L_WARN, "Can't create %s", s.c_str());
@@ -588,7 +588,7 @@ bool GpgPlugin::decode(Message *msg, const char *passphrase, const char *key)
     output += QString::number(decode_index++);
     QString input = output + ".in";
     QFile in(input);
-    if (!in.open(IO_WriteOnly | IO_Truncate)){
+    if (!in.open(QIODevice::WriteOnly | QIODevice::Truncate)){
         string s;
         s = input.local8Bit();
         log(L_WARN, "Can't create %s", s.c_str());
@@ -649,7 +649,7 @@ void GpgPlugin::publicReady(Exec *exec, int res, const char*)
                             Contact *contact = getContacts()->contact((*it).contact);
                             if (contact){
                                 GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, true));
-                                set_str(&data->Key.ptr, sign.c_str());
+                                set_str(&data->Qt::Key.ptr, sign.c_str());
                             }
                             break;
                         }

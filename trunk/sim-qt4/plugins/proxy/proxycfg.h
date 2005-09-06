@@ -23,6 +23,8 @@
 #include "proxycfgbase.h"
 
 #include <vector>
+//Added by qt3to4:
+#include <QPaintEvent>
 using namespace std;
 
 class ProxyPlugin;

@@ -22,6 +22,9 @@
 #include "stl.h"
 
 #include <qpixmap.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QPaintEvent>
 
 typedef struct OSDUserData
 {

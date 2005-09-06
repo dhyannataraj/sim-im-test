@@ -351,7 +351,7 @@ InfoRequest::~InfoRequest()
             unpack.fromBase64(m_photo);
             QString fName = m_client->photoFile(data);
             QFile f(fName);
-            if (f.open(IO_WriteOnly | IO_Truncate)){
+            if (f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
                 f.writeBlock(unpack.data(), unpack.size());
                 f.close();
                 photo.load(fName);
@@ -380,7 +380,7 @@ InfoRequest::~InfoRequest()
             unpack.fromBase64(m_logo);
             QString fName = m_client->logoFile(data);
             QFile f(fName);
-            if (f.open(IO_WriteOnly | IO_Truncate)){
+            if (f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
                 f.writeBlock(unpack.data(), unpack.size());
                 f.close();
                 logo.load(fName);
@@ -675,7 +675,7 @@ void JabberClient::setClientInfo(void *_data)
     req->end_element();
     if (!getPhoto().isEmpty()){
         QFile img(getPhoto());
-        if (img.open(IO_ReadOnly)){
+        if (img.open(QIODevice::ReadOnly)){
             Buffer b;
             b.init(img.size());
             img.readBlock(b.data(), b.size());
@@ -689,7 +689,7 @@ void JabberClient::setClientInfo(void *_data)
     }
     if (!getLogo().isEmpty()){
         QFile img(getLogo());
-        if (img.open(IO_ReadOnly)){
+        if (img.open(QIODevice::ReadOnly)){
             Buffer b;
             b.init(img.size());
             img.readBlock(b.data(), b.size());

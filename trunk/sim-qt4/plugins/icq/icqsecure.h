@@ -34,8 +34,8 @@ public slots:
     void apply();
     void apply(Client*, void*);
     void hideIpToggled(bool);
-    void deleteVisibleItem(QListViewItem *item);
-    void deleteInvisibleItem(QListViewItem *item);
+    void deleteVisibleItem(Q3ListViewItem *item);
+    void deleteInvisibleItem(Q3ListViewItem *item);
 protected:
     virtual void *processEvent(Event*);
     void fill();

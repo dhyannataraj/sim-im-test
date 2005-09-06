@@ -141,7 +141,7 @@ QString gpg  = QFile::decodeName(GpgPlugin::plugin->GPG());
     QString fname = QFile::decodeName(user_file("keys/genkey.txt").c_str());
 #endif
     QFile f(fname);
-    f.open(IO_WriteOnly | IO_Truncate);
+    f.open(QIODevice::WriteOnly | QIODevice::Truncate);
     f.writeBlock(in.c_str(), in.length());
     f.close();
 

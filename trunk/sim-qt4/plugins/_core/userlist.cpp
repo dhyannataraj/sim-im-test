@@ -18,20 +18,23 @@
 #include "userlist.h"
 #include "core.h"
 
-#include <qheader.h>
+#include <q3header.h>
 #include <qtimer.h>
 #include <qbitmap.h>
 #include <qstyle.h>
-#include <qbutton.h>
+#include <q3button.h>
 #include <qpainter.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QMouseEvent>
 
 UserViewItemBase::UserViewItemBase(UserListBase *parent)
-        : QListViewItem(parent)
+        : Q3ListViewItem(parent)
 {
 }
 
 UserViewItemBase::UserViewItemBase(UserViewItemBase *parent)
-        : QListViewItem(parent)
+        : Q3ListViewItem(parent)
 {
 }
 
@@ -182,7 +185,7 @@ void GroupItem::update(Group *grp, bool bInit)
     setText(0, s);
     if (bInit)
         return;
-    QListViewItem *p = parent();
+    Q3ListViewItem *p = parent();
     if (p){
         p->sort();
         return;
@@ -300,7 +303,7 @@ void UserListBase::drawUpdates()
 {
     m_bDirty = false;
     updTimer->stop();
-    QListViewItem *item;
+    Q3ListViewItem *item;
     int x = contentsX();
     int y = contentsY();
     viewport()->setUpdatesEnabled(false);
@@ -584,7 +587,7 @@ void UserListBase::drawUpdates()
         }
     }
     updContacts.clear();
-    for (list<QListViewItem*>::iterator it_sort = sortItems.begin(); it_sort != sortItems.end(); ++it_sort){
+    for (list<Q3ListViewItem*>::iterator it_sort = sortItems.begin(); it_sort != sortItems.end(); ++it_sort){
         if ((*it_sort)->firstChild() == NULL)
             continue;
         (*it_sort)->sort();
@@ -596,7 +599,7 @@ void UserListBase::drawUpdates()
     if (bChanged){
         viewport()->repaint();
     }else{
-        for (list<QListViewItem*>::iterator it = updatedItems.begin(); it != updatedItems.end(); ++it)
+        for (list<Q3ListViewItem*>::iterator it = updatedItems.begin(); it != updatedItems.end(); ++it)
             (*it)->repaint();
     }
     updatedItems.clear();
@@ -657,18 +660,18 @@ void UserListBase::drawItem(UserViewItemBase *base, QPainter *p, const QColorGro
     }
 }
 
-void UserListBase::addSortItem(QListViewItem *item)
+void UserListBase::addSortItem(Q3ListViewItem *item)
 {
-    for (list<QListViewItem*>::iterator it = sortItems.begin(); it != sortItems.end(); ++it){
+    for (list<Q3ListViewItem*>::iterator it = sortItems.begin(); it != sortItems.end(); ++it){
         if ((*it) == item)
             return;
     }
     sortItems.push_back(item);
 }
 
-void UserListBase::addUpdatedItem(QListViewItem *item)
+void UserListBase::addUpdatedItem(Q3ListViewItem *item)
 {
-    for (list<QListViewItem*>::iterator it = updatedItems.begin(); it != updatedItems.end(); ++it){
+    for (list<Q3ListViewItem*>::iterator it = updatedItems.begin(); it != updatedItems.end(); ++it){
         if ((*it) == item)
             return;
     }
@@ -825,7 +828,7 @@ void UserListBase::fill()
     adjustColumn();
 }
 
-static void resort(QListViewItem *item)
+static void resort(Q3ListViewItem *item)
 {
     if (!item->isExpandable())
         return;
@@ -838,7 +841,7 @@ void *UserListBase::processEvent(Event *e)
 {
     if (e->type() == EventRepaintView){
         sort();
-        for (QListViewItem *item = firstChild(); item; item = item->nextSibling())
+        for (Q3ListViewItem *item = firstChild(); item; item = item->nextSibling())
             resort(item);
         viewport()->repaint();
     }
@@ -862,7 +865,7 @@ void *UserListBase::processEvent(Event *e)
                         break;
                     }
                 }
-                QListViewItem *item = findGroupItem(g->id());
+                Q3ListViewItem *item = findGroupItem(g->id());
                 deleteItem(item);
                 break;
             }
@@ -920,7 +923,7 @@ void *UserListBase::processEvent(Event *e)
                             }
                         }
                     }else{
-                        QListViewItem *p = item->parent();
+                        Q3ListViewItem *p = item->parent();
                         deleteItem(item);
                         if (p->firstChild() == NULL)
                             deleteItem(p);
@@ -933,9 +936,9 @@ void *UserListBase::processEvent(Event *e)
     return ListView::processEvent(e);
 }
 
-GroupItem *UserListBase::findGroupItem(unsigned id, QListViewItem *p)
+GroupItem *UserListBase::findGroupItem(unsigned id, Q3ListViewItem *p)
 {
-    for (QListViewItem *item = p ? p->firstChild() : firstChild(); item; item = item->nextSibling()){
+    for (Q3ListViewItem *item = p ? p->firstChild() : firstChild(); item; item = item->nextSibling()){
         UserViewItemBase *i = static_cast<UserViewItemBase*>(item);
         if (i->type() == GRP_ITEM){
             GroupItem *grpItem = static_cast<GroupItem*>(item);
@@ -951,9 +954,9 @@ GroupItem *UserListBase::findGroupItem(unsigned id, QListViewItem *p)
     return NULL;
 }
 
-ContactItem *UserListBase::findContactItem(unsigned id, QListViewItem *p)
+ContactItem *UserListBase::findContactItem(unsigned id, Q3ListViewItem *p)
 {
-    for (QListViewItem *item = p ? p->firstChild() : firstChild(); item; item = item->nextSibling()){
+    for (Q3ListViewItem *item = p ? p->firstChild() : firstChild(); item; item = item->nextSibling()){
         UserViewItemBase *i = static_cast<UserViewItemBase*>(item);
         if (i->type() == USR_ITEM){
             ContactItem *contactItem = static_cast<ContactItem*>(item);
@@ -985,12 +988,12 @@ unsigned UserListBase::getUserStatus(Contact *contact, unsigned &style, string &
     return status;
 }
 
-void UserListBase::deleteItem(QListViewItem *item)
+void UserListBase::deleteItem(Q3ListViewItem *item)
 {
     if (item == NULL)
         return;
     if (item == currentItem()) {
-        QListViewItem *nextItem = item->nextSibling();
+        Q3ListViewItem *nextItem = item->nextSibling();
         if (nextItem == NULL){
             if (item->parent()){
                 nextItem = item->parent()->firstChild();
@@ -1110,16 +1113,16 @@ bool UserList::isGroupSelected(unsigned id)
 }
 
 #if COMPAT_QT_VERSION < 0x030000
-#define CHECK_OFF	QButton::Off
-#define CHECK_ON	QButton::On
-#define CHECK_NOCHANGE	QButton::NoChange
+#define CHECK_OFF	QCheckBox::Off
+#define CHECK_ON	QCheckBox::On
+#define CHECK_NOCHANGE	QCheckBox::NoChange
 #else
-#define CHECK_OFF	QStyle::Style_Off
-#define CHECK_ON	QStyle::Style_On
-#define CHECK_NOCHANGE	QStyle::Style_NoChange
+#define CHECK_OFF	QStyle::State_Off
+#define CHECK_ON	QStyle::State_On
+#define CHECK_NOCHANGE	QStyle::State_NoChange
 #endif
 
-int UserList::drawIndicator(QPainter *p, int x, QListViewItem *item, bool bState, const QColorGroup &cg)
+int UserList::drawIndicator(QPainter *p, int x, Q3ListViewItem *item, bool bState, const QColorGroup &cg)
 {
     int state = bState ? CHECK_ON : CHECK_OFF;
 #if COMPAT_QT_VERSION < 0x030000
@@ -1156,7 +1159,7 @@ int UserListBase::heightItem(UserViewItemBase*)
 
 void UserList::contentsMouseReleaseEvent(QMouseEvent *e)
 {
-    QListViewItem *list_item = itemAt(contentsToViewport(e->pos()));
+    Q3ListViewItem *list_item = itemAt(contentsToViewport(e->pos()));
     if (list_item == NULL)
         return;
     switch (static_cast<UserViewItemBase*>(list_item)->type()){
@@ -1180,7 +1183,7 @@ void UserList::contentsMouseReleaseEvent(QMouseEvent *e)
     case GRP_ITEM:{
             GroupItem *item = static_cast<GroupItem*>(list_item);
             if (isGroupSelected(item->id())){
-                for (QListViewItem *i = item->firstChild(); i; i = i->nextSibling()){
+                for (Q3ListViewItem *i = item->firstChild(); i; i = i->nextSibling()){
                     ContactItem *ci = static_cast<ContactItem*>(i);
                     list<unsigned>::iterator it;
                     for (it = selected.begin(); it != selected.end(); ++it){
@@ -1192,7 +1195,7 @@ void UserList::contentsMouseReleaseEvent(QMouseEvent *e)
                     ci->repaint();
                 }
             }else{
-                for (QListViewItem *i = item->firstChild(); i; i = i->nextSibling()){
+                for (Q3ListViewItem *i = item->firstChild(); i; i = i->nextSibling()){
                     ContactItem *ci = static_cast<ContactItem*>(i);
                     list<unsigned>::iterator it;
                     for (it = selected.begin(); it != selected.end(); ++it)

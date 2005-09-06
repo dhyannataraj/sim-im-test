@@ -21,8 +21,8 @@
 #include "core.h"
 
 #include <qcheckbox.h>
-#include <qbuttongroup.h>
-#include <qmultilineedit.h>
+#include <q3buttongroup.h>
+#include <q3multilineedit.h>
 #include <qradiobutton.h>
 #include <qtabwidget.h>
 

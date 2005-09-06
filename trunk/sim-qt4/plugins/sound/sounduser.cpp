@@ -27,6 +27,9 @@
 #include <qlayout.h>
 #include <qregexp.h>
 #include <qpainter.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QResizeEvent>
 
 unsigned ONLINE_ALERT = 0x10000;
 
@@ -41,7 +44,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
     SoundUserData *user_data = (SoundUserData*)data;
     string s;
     s = plugin->fullName(user_data->Alert.ptr);
-    QListViewItem *item = new QListViewItem(lstSound, i18n("Online alert"), QFile::decodeName(s.c_str()));
+    Q3ListViewItem *item = new Q3ListViewItem(lstSound, i18n("Online alert"), QFile::decodeName(s.c_str()));
     item->setText(2, QString::number(ONLINE_ALERT));
     item->setPixmap(0, makePixmap("ICQ"));
 
@@ -63,7 +66,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
             type = type.left(pos);
         }
         type = type.left(1).upper() + type.mid(1);
-        item = new QListViewItem(lstSound, type,
+        item = new Q3ListViewItem(lstSound, type,
                                  QFile::decodeName(m_plugin->messageSound(cmd->id, user_data).c_str()));
         item->setText(2, QString::number(cmd->id));
         item->setPixmap(0, makePixmap(cmd->icon));
@@ -75,7 +78,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
     toggled(user_data->Disable.bValue);
     m_edit = NULL;
     m_editItem = NULL;
-    connect(lstSound, SIGNAL(selectionChanged(QListViewItem*)), this, SLOT(selectionChanged(QListViewItem*)));
+    connect(lstSound, SIGNAL(selectionChanged(Q3ListViewItem*)), this, SLOT(selectionChanged(Q3ListViewItem*)));
 }
 
 QPixmap SoundUserConfig::makePixmap(const char *src)
@@ -94,7 +97,7 @@ QPixmap SoundUserConfig::makePixmap(const char *src)
 void SoundUserConfig::apply(void *data)
 {
     SoundUserData *user_data = (SoundUserData*)data;
-    for (QListViewItem *item = lstSound->firstChild(); item; item = item->nextSibling()){
+    for (Q3ListViewItem *item = lstSound->firstChild(); item; item = item->nextSibling()){
         unsigned id = item->text(2).toUInt();
         QString text = item->text(1);
         if (text.isEmpty())
@@ -122,7 +125,7 @@ void SoundUserConfig::toggled(bool bState)
     lstSound->setEnabled(!bState);
 }
 
-void SoundUserConfig::selectionChanged(QListViewItem *item)
+void SoundUserConfig::selectionChanged(Q3ListViewItem *item)
 {
     if (m_editItem){
         m_editItem->setText(1, m_edit->text());

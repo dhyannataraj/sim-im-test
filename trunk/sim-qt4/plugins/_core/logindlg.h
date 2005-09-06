@@ -22,6 +22,9 @@
 #include "stl.h"
 
 #include "logindlgbase.h"
+//Added by qt3to4:
+#include <QLabel>
+#include <QCloseEvent>
 
 class QLabel;
 class QLineEdit;

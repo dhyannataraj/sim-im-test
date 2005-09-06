@@ -20,6 +20,8 @@
 
 #include "simapi.h"
 #include "stl.h"
+//Added by qt3to4:
+#include <QEvent>
 
 class CorePlugin;
 class CMenu;
@@ -51,7 +53,7 @@ protected:
     void removeBar(unsigned id);
     CommandsDef *createMenu(unsigned id);
     void removeMenu(unsigned id);
-    void *show(unsigned id, QMainWindow *parent);
+    void *show(unsigned id, Q3MainWindow *parent);
     CMenu *get(CommandDef *cmd);
     CommandsDef *getDef(unsigned id);
     CMenu *processMenu(unsigned id, void *param, int key);

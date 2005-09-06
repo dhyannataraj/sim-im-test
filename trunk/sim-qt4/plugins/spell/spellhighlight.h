@@ -22,21 +22,21 @@
 #include "html.h"
 
 #if COMPAT_QT_VERSION < 0x030000
-#include "qt3/qsyntaxhighlighter.h"
+#include "qt3/q3syntaxhighlighter.h"
 #else
-#include <qsyntaxhighlighter.h>
+#include <q3syntaxhighlighter.h>
 #endif
 
-#include <qdict.h>
+#include <q3dict.h>
 #include <qstringlist.h>
 
 #include "spell.h"
 
-class SpellHighlighter : public QObject, public QSyntaxHighlighter, public HTMLParser, public EventReceiver
+class SpellHighlighter : public QObject, public Q3SyntaxHighlighter, public HTMLParser, public EventReceiver
 {
     Q_OBJECT
 public:
-    SpellHighlighter(QTextEdit *edit, SpellPlugin *m_plugin);
+    SpellHighlighter(Q3TextEdit *edit, SpellPlugin *m_plugin);
     ~SpellHighlighter();
 signals:
     void check(const QString &);

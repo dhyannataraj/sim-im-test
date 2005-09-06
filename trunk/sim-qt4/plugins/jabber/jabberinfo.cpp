@@ -21,7 +21,7 @@
 #include "datepicker.h"
 #include "ballonmsg.h"
 
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
 #include <qlineedit.h>
 #include <qstringlist.h>
 #include <qcombobox.h>

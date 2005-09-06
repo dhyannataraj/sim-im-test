@@ -21,16 +21,21 @@
 #include "toolbtn.h"
 #include "socket.h"
 
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qobjectlist.h>
+#include <qobject.h>
 #include <qtooltip.h>
 #include <qtimer.h>
-#include <qframe.h>
+#include <q3frame.h>
 #include <qtoolbutton.h>
 #include <qpainter.h>
 #include <qimage.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QHBoxLayout>
+#include <QResizeEvent>
+#include <QMouseEvent>
 
 StatusLabel::StatusLabel(QWidget *parent, Client *client, unsigned id)
         : QLabel(parent)
@@ -133,7 +138,7 @@ void StatusLabel::mousePressEvent(QMouseEvent *me)
         mp.param = (void*)winId();
         mp.key	 = 0;
         Event eMenu(EventProcessMenu, &mp);
-        QPopupMenu *popup = (QPopupMenu*)eMenu.process();
+        Q3PopupMenu *popup = (Q3PopupMenu*)eMenu.process();
         if (popup){
             QPoint pos = CToolButton::popupPos(this, popup);
             popup->popup(pos);
@@ -142,11 +147,11 @@ void StatusLabel::mousePressEvent(QMouseEvent *me)
 }
 
 StatusFrame::StatusFrame(QWidget *parent)
-        : QFrame(parent), EventReceiver(LowPriority + 1)
+        : Q3Frame(parent), EventReceiver(LowPriority + 1)
 {
     setFrameStyle(NoFrame);
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
-    m_frame = new QFrame(this);
+    m_frame = new Q3Frame(this);
     m_frame->show();
     m_lay = new QHBoxLayout(m_frame);
     m_lay->setMargin(1);
@@ -161,7 +166,7 @@ void StatusFrame::mousePressEvent(QMouseEvent *me)
         Command cmd;
         cmd->id = MenuConnections;
         Event e(EventGetMenu, &cmd);
-        QPopupMenu *popup = (QPopupMenu*)(e.process());
+        Q3PopupMenu *popup = (Q3PopupMenu*)(e.process());
         if (popup)
             popup->popup(me->globalPos());
     }
@@ -316,7 +321,7 @@ QSize StatusFrame::minimumSizeHint() const
 
 void StatusFrame::resizeEvent(QResizeEvent *e)
 {
-    QFrame::resizeEvent(e);
+    Q3Frame::resizeEvent(e);
     adjustPos();
 }
 
@@ -386,7 +391,7 @@ void StatusWnd::clicked()
     cmd->popup_id = MenuStatusWnd;
     cmd->flags    = COMMAND_NEW_POPUP;
     Event e(EventGetMenu, cmd);
-    QPopupMenu *popup = (QPopupMenu*)(e.process());
+    Q3PopupMenu *popup = (Q3PopupMenu*)(e.process());
     if (popup){
         QPoint pos = CToolButton::popupPos(m_btn, popup);
         popup->popup(pos);

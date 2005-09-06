@@ -21,9 +21,11 @@
 #include "mainwin.h"
 
 #include <qapplication.h>
-#include <qwidgetlist.h>
+#include <qwidget.h>
 #include <qmessagebox.h>
 #include <qtimer.h>
+//Added by qt3to4:
+#include <QEvent>
 
 #include <windows.h>
 #include <windowsx.h>

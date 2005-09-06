@@ -25,8 +25,11 @@
 
 #include <qtimer.h>
 #include <qapplication.h>
-#include <qwidgetlist.h>
-#include <qobjectlist.h>
+#include <qwidget.h>
+#include <qobject.h>
+//Added by qt3to4:
+#include <QEvent>
+#include <QChildEvent>
 
 const unsigned COL_TYPE	= 3;
 

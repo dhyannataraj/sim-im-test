@@ -20,6 +20,8 @@
 
 #include "simapi.h"
 #include "cfgdlgbase.h"
+//Added by qt3to4:
+#include <QResizeEvent>
 
 class CorePlugin;
 class ConfigItem;
@@ -39,7 +41,7 @@ signals:
     void applyChanges();
 protected slots:
     void apply();
-    void itemSelected(QListViewItem*);
+    void itemSelected(Q3ListViewItem*);
     void updateInfo();
 protected:
     virtual void accept();
@@ -49,9 +51,9 @@ protected:
     void fill();
     unsigned m_nUpdates;
     unsigned m_defaultPage;
-    bool raisePage(unsigned id, QListViewItem*);
+    bool raisePage(unsigned id, Q3ListViewItem*);
     void removeCommand(unsigned id);
-    bool removeCommand(unsigned id, QListViewItem*);
+    bool removeCommand(unsigned id, Q3ListViewItem*);
 };
 
 #endif

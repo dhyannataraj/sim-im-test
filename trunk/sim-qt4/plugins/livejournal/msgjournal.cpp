@@ -72,7 +72,7 @@ MsgJournal::MsgJournal(MsgEdit *parent, Message *msg)
     QString text = msg->getRichText();
     if (!text.isEmpty()){
         m_edit->m_edit->setText(text);
-        m_edit->m_edit->moveCursor(QTextEdit::MoveEnd, false);
+        m_edit->m_edit->moveCursor(Q3TextEdit::MoveEnd, false);
         if ((msg->getBackground() != msg->getForeground()) && !LiveJournalPlugin::core->getOwnColors()){
             m_edit->m_edit->setBackground(msg->getBackground());
             m_edit->m_edit->setForeground(msg->getForeground(), true);

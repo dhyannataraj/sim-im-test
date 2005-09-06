@@ -20,15 +20,18 @@
 #include "textshow.h"
 
 #include <qmenubar.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qfile.h>
 #include <qmessagebox.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <QCloseEvent>
 #ifdef USE_KDE
 #include <kfiledialog.h>
-#define QFileDialog	KFileDialog
+#define Q3FileDialog	KFileDialog
 #else
-#include <qfiledialog.h>
+#include <q3filedialog.h>
 #endif
 
 const int mnuSave = 1;
@@ -44,52 +47,54 @@ const int mnuPause = 9;
 MonitorWindow *monitor = NULL;
 
 MonitorWindow::MonitorWindow(NetmonitorPlugin *plugin)
-        : QMainWindow(NULL, "monitor", WType_TopLevel)
+        : Q3MainWindow(NULL, "monitor", Qt::WType_TopLevel)
 {
+    bPause = true;  // no debug output during creation
     m_plugin = plugin;
     SET_WNDPROC("monitor")
     setCaption(i18n("Network monitor"));
     setIcon(Pict("network"));
-    bPause = false;
+
     edit = new TextShow(this);
-    edit->setWordWrap(QTextEdit::NoWrap);
+    edit->setWordWrap(Q3TextEdit::NoWrap);
     setCentralWidget(edit);
     QMenuBar *menu = menuBar();
-    menuFile = new QPopupMenu(this);
+    menuFile = new Q3PopupMenu(this);
     connect(menuFile, SIGNAL(aboutToShow()), this, SLOT(adjustFile()));
     menuFile->insertItem(Pict("filesave"), i18n("&Save"), this, SLOT(save()), 0, mnuSave);
     menuFile->insertItem(i18n("&Pause"), this, SLOT(pause()), 0, mnuPause);
     menuFile->insertSeparator();
     menuFile->insertItem(Pict("exit"), i18n("E&xit"), this, SLOT(exit()), 0, mnuExit);
     menu->insertItem(i18n("&File"), menuFile);
-    menuEdit = new QPopupMenu(this);
+    menuEdit = new Q3PopupMenu(this);
     connect(menuEdit, SIGNAL(aboutToShow()), this, SLOT(adjustEdit()));
     menuEdit->insertItem(i18n("&Copy"), this, SLOT(copy()), 0, mnuCopy);
     menuEdit->insertItem(i18n("&Erase"), this, SLOT(erase()), 0, mnuErase);
     menu->insertItem(i18n("&Edit"), menuEdit);
-    menuLog = new QPopupMenu(this);
+    menuLog = new Q3PopupMenu(this);
     menuLog->setCheckable(true);
     connect(menuLog, SIGNAL(aboutToShow()), this, SLOT(adjustLog()));
     connect(menuLog, SIGNAL(activated(int)), this, SLOT(toggleType(int)));
     menu->insertItem(i18n("&Log"), menuLog);
+    bPause = false;
 }
 
 void MonitorWindow::closeEvent(QCloseEvent *e)
 {
-    QMainWindow::closeEvent(e);
+    Q3MainWindow::closeEvent(e);
     emit finished();
 }
 
 void MonitorWindow::save()
 {
-    QString s = QFileDialog::getSaveFileName ("sim.log", QString::null, this);
+    QString s = Q3FileDialog::getSaveFileName ("sim.log", QString::null, this);
     if (s.isEmpty()) return;
     QFile f(s);
-    if (!f.open(IO_WriteOnly)){
+    if (!f.open(QIODevice::WriteOnly)){
         QMessageBox::warning(this, i18n("Error"), i18n("Can't create file %1") .arg(s));
         return;
     }
-    QCString t;
+    Q3CString t;
     if (edit->hasSelectedText()){
         t = unquoteText(edit->selectedText()).local8Bit();
     }else{

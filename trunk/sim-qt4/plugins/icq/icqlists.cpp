@@ -25,6 +25,8 @@
 #include <stdio.h>
 #include <time.h>
 #include <vector>
+//Added by qt3to4:
+#include <Q3CString>
 
 using namespace std;
 
@@ -941,7 +943,7 @@ unsigned short ICQClient::getListId()
 TlvList *ICQClient::createListTlv(ICQUserData *data, Contact *contact)
 {
     TlvList *tlv = new TlvList;
-    QCString name = contact->getName().utf8();
+    Q3CString name = contact->getName().utf8();
     *tlv + new Tlv(TLV_ALIAS, (unsigned short)(name.length()), name);
     if (data->WaitAuth.bValue)
         *tlv + new Tlv(TLV_WAIT_AUTH, 0, NULL);

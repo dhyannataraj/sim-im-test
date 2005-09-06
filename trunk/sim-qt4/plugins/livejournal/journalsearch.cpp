@@ -19,6 +19,8 @@
 #include "livejournal.h"
 
 #include <qlineedit.h>
+//Added by qt3to4:
+#include <QShowEvent>
 
 JournalSearch::JournalSearch(LiveJournalClient *client, QWidget *parent)
         : JournalSearchBase(parent)

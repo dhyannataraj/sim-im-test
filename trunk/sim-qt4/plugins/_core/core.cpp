@@ -52,12 +52,15 @@
 
 #include <qtimer.h>
 #include <qapplication.h>
-#include <qwidgetlist.h>
+#include <qwidget.h>
 #include <qfile.h>
 #include <qdir.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qthread.h>
 #include <qtextcodec.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <QTranslator>
 
 #include <time.h>
 
@@ -75,8 +78,8 @@
 class LockThread : public QThread
 {
 public:
-    LockThread(HANDLE hEvent);
-    HANDLE hEvent;
+    LockThread(Qt::HANDLE hEvent);
+    Qt::HANDLE hEvent;
 protected:
     void run();
 };
@@ -2941,7 +2944,7 @@ if (fname[0] != '/')
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));
                 if (contact == NULL)
                     return NULL;
-                QCString codecStr;
+                Q3CString codecStr;
                 const char *codec = NULL;
                 if (cmd->id == 1){
                     codec = "-";
@@ -3921,7 +3924,7 @@ string CorePlugin::getConfig()
     setProfile(NULL);
     string cfgName = user_file("plugins.conf");
     QFile fCFG(QFile::decodeName((cfgName + BACKUP_SUFFIX).c_str())); // use backup file for this ...
-    if (!fCFG.open(IO_WriteOnly | IO_Truncate)){
+    if (!fCFG.open(QIODevice::WriteOnly | QIODevice::Truncate)){
         log(L_ERROR, "Can't create %s", cfgName.c_str());
     }else{
         string write = "[_core]\n";
@@ -3957,7 +3960,7 @@ string CorePlugin::getConfig()
     setProfile(saveProfile.c_str());
     cfgName = user_file(CLIENTS_CONF);
     QFile f(QFile::decodeName((cfgName + BACKUP_SUFFIX).c_str())); // use backup file for this ...
-    if (!f.open(IO_WriteOnly | IO_Truncate)){
+    if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
         log(L_ERROR, "Can't create %s", cfgName.c_str());
     }else{
         for (unsigned i = 0; i < getContacts()->nClients(); i++){
@@ -4076,7 +4079,7 @@ void CorePlugin::loadClients(ClientList &clients)
 {
     string cfgName = user_file(CLIENTS_CONF);
     QFile f(QFile::decodeName(cfgName.c_str()));
-    if (!f.open(IO_ReadOnly)){
+    if (!f.open(QIODevice::ReadOnly)){
         log(L_ERROR, "Can't open %s", cfgName.c_str());
         return;
     }
@@ -4419,7 +4422,7 @@ void CorePlugin::showMain()
 
 #ifdef WIN32
 
-LockThread::LockThread(HANDLE _hEvent)
+LockThread::LockThread(Qt::HANDLE _hEvent)
 {
     hEvent = _hEvent;
 }
@@ -4503,7 +4506,7 @@ bool FileLock::lock(bool bSend)
     string s;
     s = name().local8Bit();
     event += number(adler32(s.c_str(), s.length()));
-    HANDLE hEvent = OpenEventA(EVENT_MODIFY_STATE, FALSE, event.c_str());
+    Qt::HANDLE hEvent = OpenEventA(EVENT_MODIFY_STATE, FALSE, event.c_str());
     if (hEvent){
         if (bSend)
             SetEvent(hEvent);
@@ -4518,7 +4521,7 @@ bool FileLock::lock(bool bSend)
 #else
 bool FileLock::lock(bool)
 {
-    if (!open(IO_ReadWrite | IO_Truncate)){
+    if (!open(QIODevice::ReadWrite | QIODevice::Truncate)){
         string s;
         s = name().local8Bit();
         log(L_WARN, "Can't create %s", s.c_str());

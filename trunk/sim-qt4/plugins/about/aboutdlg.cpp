@@ -28,6 +28,9 @@
 #include <qtabwidget.h>
 #include <qfile.h>
 #include <qlineedit.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <QCloseEvent>
 
 KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *parent, const char *name, bool modal)
         : AboutDlgBase(parent, name, modal)
@@ -38,9 +41,9 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
 
     connect(btnOK, SIGNAL(clicked()), this, SLOT(close()));
     setIcon(Pict("ICQ"));
-    QIconSet icon = Icon("ICQ");
-    if (!icon.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
-        lblIcon->setPixmap(icon.pixmap(QIconSet::Large, QIconSet::Normal));
+    QIcon icon = Icon("ICQ");
+    if (!icon.pixmap(QIcon::Small, QIcon::Normal).isNull())
+        lblIcon->setPixmap(icon.pixmap(QIcon::Large, QIcon::Normal));
     edtVersion->setText(i18n("%1 Version: %2") .arg(aboutData->appName()) .arg(aboutData->version()));
     edtVersion->setReadOnly(true);
     QPalette p = palette();
@@ -58,7 +61,7 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
                       .arg(quote(aboutData->bugAddress()))
                       .arg(quote(aboutData->bugAddress())));
     QString txt;
-    QValueList<KAboutPerson>::ConstIterator it;
+    Q3ValueList<KAboutPerson>::ConstIterator it;
     for (it = aboutData->authors().begin();
             it != aboutData->authors().end(); ++it)
     {
@@ -67,8 +70,8 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
     }
     txtAuthors->setText(txt);
     txt = "";
-    QValueList<KAboutTranslator> translators = aboutData->translators();
-    QValueList<KAboutTranslator>::ConstIterator itt;
+    Q3ValueList<KAboutTranslator> translators = aboutData->translators();
+    Q3ValueList<KAboutTranslator>::ConstIterator itt;
     if (!translators.isEmpty()){
         for (itt = translators.begin();
                 itt != translators.end(); ++itt)
@@ -87,7 +90,7 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
     QString license = aboutData->license();
     license += "\n\n";
     QFile f(QFile::decodeName(app_file("COPYING").c_str()));
-    if (f.open(IO_ReadOnly)){
+    if (f.open(QIODevice::ReadOnly)){
         for (;;){
             QString s;
             if (f.readLine(s, 512) == -1)

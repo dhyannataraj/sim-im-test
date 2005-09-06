@@ -21,8 +21,10 @@
 #include "simapi.h"
 #include "stl.h"
 
-#include <qdict.h>
+#include <q3dict.h>
 #include <qstringlist.h>
+//Added by qt3to4:
+#include <QEvent>
 
 typedef struct SpellData
 {
@@ -33,12 +35,12 @@ typedef struct SpellData
 } SpellData;
 
 class TextEdit;
-class QSyntaxHighlighter;
+class Q3SyntaxHighlighter;
 class KDictSpellingHighlighter;
 class SpellerBase;
 class Speller;
 
-typedef map<TextEdit*, QSyntaxHighlighter*>	MAP_EDITS;
+typedef map<TextEdit*, Q3SyntaxHighlighter*>	MAP_EDITS;
 typedef map<my_string, bool> MAP_BOOL;
 
 class SpellPlugin : public QObject, public Plugin, public EventReceiver

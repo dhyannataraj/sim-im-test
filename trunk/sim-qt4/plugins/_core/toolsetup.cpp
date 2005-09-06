@@ -18,12 +18,14 @@
 #include "toolsetup.h"
 #include "commands.h"
 
-#include <qlistbox.h>
+#include <q3listbox.h>
 #include <qregexp.h>
 #include <qpushbutton.h>
+//Added by qt3to4:
+#include <QPixmap>
 
 ToolBarSetup::ToolBarSetup(Commands *bars, CommandsDef *def)
-        : ToolBarSetupBase(NULL, "toolbar_setup", false, WDestructiveClose)
+        : ToolBarSetupBase(NULL, "toolbar_setup", false, Qt::WDestructiveClose)
 {
     SET_WNDPROC("configure")
     setIcon(Pict("configure"));
@@ -109,7 +111,7 @@ void ToolBarSetup::applyClick()
     }
 }
 
-void ToolBarSetup::addButton(QListBox *lst, unsigned id)
+void ToolBarSetup::addButton(Q3ListBox *lst, unsigned id)
 {
     if (id == 0){
         lst->insertItem(Pict("separator"), i18n("Separator"));

@@ -28,6 +28,9 @@
 #include <qlayout.h>
 #include <qpainter.h>
 #include <qtabwidget.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QPaintEvent>
 
 ProxyConfig::ProxyConfig(QWidget *parent, ProxyPlugin *plugin, QTabWidget *tab, Client *client)
         : ProxyConfigBase(parent)

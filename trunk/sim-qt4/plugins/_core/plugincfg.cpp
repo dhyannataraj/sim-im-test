@@ -17,6 +17,8 @@
 
 #include "plugincfg.h"
 #include "qchildwidget.h"
+//Added by qt3to4:
+#include <QVBoxLayout>
 #include "simapi.h"
 
 #include <qlayout.h>

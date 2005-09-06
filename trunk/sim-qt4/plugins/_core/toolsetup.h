@@ -44,7 +44,7 @@ protected:
     Commands	*m_bars;
     vector<unsigned> active;
     bool bDirty;
-    void addButton(QListBox *lst, unsigned id);
+    void addButton(Q3ListBox *lst, unsigned id);
     void setButtons();
     friend class Commands;
 };

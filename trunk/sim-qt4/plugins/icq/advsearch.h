@@ -20,6 +20,8 @@
 
 #include "simapi.h"
 #include "advsearchbase.h"
+//Added by qt3to4:
+#include <QShowEvent>
 
 class AdvSearch : public AdvSearchBase
 {

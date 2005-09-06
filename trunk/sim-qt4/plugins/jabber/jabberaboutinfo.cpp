@@ -20,7 +20,7 @@
 #include "jabberaboutinfo.h"
 #include "jabber.h"
 
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
 
 JabberAboutInfo::JabberAboutInfo(QWidget *parent, struct JabberUserData *data, JabberClient *client)
         : JabberAboutInfoBase(parent)

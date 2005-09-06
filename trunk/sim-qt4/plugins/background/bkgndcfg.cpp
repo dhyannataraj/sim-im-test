@@ -26,6 +26,9 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qimage.h>
+//Added by qt3to4:
+#include <Q3StrList>
+#include <QImageIO>
 
 #ifndef USE_KDE
 
@@ -43,7 +46,7 @@ BkgndCfg::BkgndCfg(QWidget *parent, BackgroundPlugin *plugin)
     edtPicture->setText(QFile::decodeName(plugin->getBackground()));
     edtPicture->setStartDir(QFile::decodeName(app_file("pict/").c_str()));
     edtPicture->setTitle(i18n("Select background picture"));
-    QStrList formats = QImageIO::inputFormats();
+    Q3StrList formats = QImageIO::inputFormats();
     QString format;
     QStrListIterator it(formats);
     char *fmt;

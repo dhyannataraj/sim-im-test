@@ -25,6 +25,8 @@
 
 #include <qcheckbox.h>
 #include <qfile.h>
+//Added by qt3to4:
+#include <QCloseEvent>
 
 class MigrateDialog : public MigrateDialogBase
 {

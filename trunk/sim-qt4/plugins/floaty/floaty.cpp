@@ -21,9 +21,9 @@
 
 #include "core.h"
 
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qapplication.h>
-#include <qwidgetlist.h>
+#include <qwidget.h>
 #include <qtimer.h>
 
 const unsigned BLINK_TIMEOUT	= 500;
@@ -245,7 +245,7 @@ void FloatyPlugin::showPopup()
     mp.param = (void*)(popupId);
     mp.key	 = 0;
     Event eMenu(EventProcessMenu, &mp);
-    QPopupMenu *menu = (QPopupMenu*)eMenu.process();
+    Q3PopupMenu *menu = (Q3PopupMenu*)eMenu.process();
     menu->popup(popupPos);
 }
 

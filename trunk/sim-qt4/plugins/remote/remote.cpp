@@ -23,7 +23,7 @@
 #include "core.h"
 
 #include <qapplication.h>
-#include <qwidgetlist.h>
+#include <qwidget.h>
 #include <qregexp.h>
 #include <qtimer.h>
 #include <qfile.h>
@@ -77,10 +77,10 @@ public:
     void    process();
 protected:
     unsigned *s;
-    HANDLE	hMem;
-    HANDLE	hMutex;
-    HANDLE	hEventIn;
-    HANDLE	hEventOut;
+    Qt::HANDLE	hMem;
+    Qt::HANDLE	hMutex;
+    Qt::HANDLE	hEventIn;
+    Qt::HANDLE	hEventOut;
     bool    bExit;
     virtual void run();
     friend class IPCLock;
@@ -152,7 +152,7 @@ void IPC::process()
         QString out;
         string name = prefix();
         name += number(i);
-        HANDLE hMem = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, name.c_str());
+        Qt::HANDLE hMem = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, name.c_str());
         if (hMem == NULL){
             s[i] = SLOT_NONE;
             PulseEvent(hEventOut);
@@ -677,7 +677,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
         }
     case CMD_FILE:{
             QFile f(args[0]);
-            if (!f.open(IO_ReadOnly)){
+            if (!f.open(QIODevice::ReadOnly)){
                 out = "Can't open ";
                 out += args[0];
                 return false;

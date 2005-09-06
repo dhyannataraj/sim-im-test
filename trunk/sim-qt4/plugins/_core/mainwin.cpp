@@ -26,6 +26,15 @@
 #include <qtimer.h>
 #include <qsizegrip.h>
 #include <qstatusbar.h>
+//Added by qt3to4:
+#include <QFocusEvent>
+#include <QCloseEvent>
+#include <QChildEvent>
+#include <QEvent>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QResizeEvent>
+#include <QMouseEvent>
 
 #ifdef WIN32
 
@@ -70,9 +79,9 @@ void MainWindowWidget::childEvent(QChildEvent *e)
 }
 
 MainWindow::MainWindow()
-        : QMainWindow(NULL, "mainwnd",
-                      WType_TopLevel | WStyle_Customize |
-                      WStyle_Title | WStyle_NormalBorder| WStyle_SysMenu),
+        : Q3MainWindow(NULL, "mainwnd",
+                      Qt::WType_TopLevel | Qt::WStyle_Customize |
+                      Qt::WStyle_Title | Qt::WStyle_NormalBorder| Qt::WStyle_SysMenu),
         EventReceiver(LowestPriority)
 {
     m_grip	 = NULL;
@@ -113,7 +122,7 @@ void MainWindow::resizeEvent(QResizeEvent *e)
 {
     if (m_bNoResize)
         return;
-    QMainWindow::resizeEvent(e);
+    Q3MainWindow::resizeEvent(e);
 }
 
 bool MainWindow::eventFilter(QObject *o, QEvent *e)
@@ -130,7 +139,7 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
             return true;
         case QEvent::MouseMove:
             me = static_cast<QMouseEvent*>(e);
-            if (me->state() != LeftButton)
+            if (me->state() != Qt::LeftButton)
                 break;
             QWidget *tlw = grip->topLevelWidget();
             QRect rc = tlw->geometry();
@@ -161,7 +170,7 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
             return true;
         }
     }
-    if (e->type() == QEvent::ChildInserted){
+    if (e->type() == QEvent::ChildAdded){
         QChildEvent *ce = static_cast<QChildEvent*>(e);
         if (ce->child()->inherits("QSizeGrip"))
             ce->child()->installEventFilter(this);
@@ -181,7 +190,7 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
             setGrip();
         }
     }
-    return QMainWindow::eventFilter(o, e);
+    return Q3MainWindow::eventFilter(o, e);
 }
 
 void *MainWindow::processEvent(Event *e)
@@ -199,7 +208,7 @@ void *MainWindow::processEvent(Event *e)
             b.bar_id = ToolBarMain;
             b.parent = this;
             Event e(EventShowBar, &b);
-            bar = (QToolBar*)e.process();
+            bar = (Q3ToolBar*)e.process();
             restoreToolbar(bar, CorePlugin::m_plugin->data.toolBarState);
             raiseWindow(this);
             break;
@@ -237,7 +246,7 @@ void MainWindow::quit()
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
-    QMainWindow::closeEvent(e);
+    Q3MainWindow::closeEvent(e);
     qApp->quit();
 }
 
@@ -357,7 +366,7 @@ void MainWindow::setTitle()
 
 void MainWindow::focusInEvent(QFocusEvent *e)
 {
-    QMainWindow::focusInEvent(e);
+    Q3MainWindow::focusInEvent(e);
     if (CorePlugin::m_plugin->m_view)
         CorePlugin::m_plugin->m_view->setFocus();
 }

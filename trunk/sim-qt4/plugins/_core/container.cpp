@@ -21,20 +21,27 @@
 #include "toolbtn.h"
 #include "buffer.h"
 
-#include <qmainwindow.h>
-#include <qframe.h>
+#include <q3mainwindow.h>
+#include <q3frame.h>
 #include <qsplitter.h>
 #include <qlayout.h>
 #include <qstatusbar.h>
-#include <qprogressbar.h>
-#include <qwidgetstack.h>
+#include <q3progressbar.h>
+#include <q3widgetstack.h>
 #include <qtimer.h>
-#include <qtoolbar.h>
-#include <qpopupmenu.h>
-#include <qaccel.h>
+#include <q3toolbar.h>
+#include <q3popupmenu.h>
+#include <q3accel.h>
 #include <qpainter.h>
 #include <qapplication.h>
-#include <qwidgetlist.h>
+#include <qwidget.h>
+//Added by qt3to4:
+#include <QMoveEvent>
+#include <QEvent>
+#include <Q3ValueList>
+#include <QVBoxLayout>
+#include <QResizeEvent>
+#include <QMouseEvent>
 
 #ifdef WIN32
 #include <windows.h>
@@ -73,7 +80,7 @@ ContainerStatus::ContainerStatus(QWidget *parent)
 {
     QSize s;
     {
-        QProgressBar p(this);
+        Q3ProgressBar p(this);
         addWidget(&p);
         s = minimumSizeHint();
     }
@@ -203,13 +210,13 @@ void Container::init()
     if (m_bInit)
         return;
 
-    QFrame *frm = new QFrame(this, "container");
+    Q3Frame *frm = new Q3Frame(this, "container");
     setCentralWidget(frm);
 
     connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
 
     QVBoxLayout *lay = new QVBoxLayout(frm);
-    m_wnds = new QWidgetStack(frm);
+    m_wnds = new Q3WidgetStack(frm);
     m_wnds->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
     lay->addWidget(m_wnds);
 
@@ -224,9 +231,9 @@ void Container::init()
     m_status = new ContainerStatus(m_tabSplitter);
     lay->addWidget(m_tabSplitter);
     connect(m_tabBar, SIGNAL(selected(int)), this, SLOT(contactSelected(int)));
-    connect(this, SIGNAL(toolBarPositionChanged(QToolBar*)), this, SLOT(toolbarChanged(QToolBar*)));
+    connect(this, SIGNAL(toolBarPositionChanged(Q3ToolBar*)), this, SLOT(toolbarChanged(Q3ToolBar*)));
     connect(m_status, SIGNAL(sizeChanged(int)), this, SLOT(statusChanged(int)));
-    m_accel = new QAccel(this);
+    m_accel = new Q3Accel(this);
     connect(m_accel, SIGNAL(activated(int)), this, SLOT(accelActivated(int)));
     setupAccel();
     showBar();
@@ -285,7 +292,7 @@ void Container::setupAccel()
     while ((c = ++it) != NULL){
         if ((c->accel == NULL) || (*c->accel == 0))
             continue;
-        m_accel->insertItem(QAccel::stringToKey(c->accel), ACCEL_MESSAGE + c->id);
+        m_accel->insertItem(Q3Accel::stringToKey(c->accel), ACCEL_MESSAGE + c->id);
     }
 }
 
@@ -362,7 +369,7 @@ void Container::addUserWnd(UserWnd *wnd, bool bRaise)
     if ((m_tabBar->count() > 1) && !m_tabBar->isVisible()){
         m_tabBar->show();
         if (getStatusSize()){
-            QValueList<int> s;
+            Q3ValueList<int> s;
             s.append(1);
             s.append(getStatusSize());
             m_bStatusSize = true;
@@ -481,7 +488,7 @@ void Container::setMessageType(unsigned type)
 
 void Container::resizeEvent(QResizeEvent *e)
 {
-    QMainWindow::resizeEvent(e);
+    Q3MainWindow::resizeEvent(e);
     if (m_bInSize)
         return;
     saveGeometry(this, data.geometry);
@@ -491,7 +498,7 @@ void Container::resizeEvent(QResizeEvent *e)
 
 void Container::moveEvent(QMoveEvent *e)
 {
-    QMainWindow::moveEvent(e);
+    Q3MainWindow::moveEvent(e);
     if (m_bInSize)
         return;
     saveGeometry(this, data.geometry);
@@ -499,7 +506,7 @@ void Container::moveEvent(QMoveEvent *e)
     CorePlugin::m_plugin->data.containerGeo[TOP]  = data.geometry[TOP];
 }
 
-void Container::toolbarChanged(QToolBar*)
+void Container::toolbarChanged(Q3ToolBar*)
 {
     if (m_bBarChanged)
         return;
@@ -568,6 +575,7 @@ static const char *accels[] =
 
 extern bool bFullScreen;
 
+#ifndef FLASHW_TRAY
 typedef struct FLASHWINFO
 {
     unsigned long cbSize;
@@ -577,12 +585,14 @@ typedef struct FLASHWINFO
     unsigned long dwTimeout;
 } FLASHWINFO;
 
-#ifndef FLASHW_TRAY
+
 #define FLASHW_TRAY         0x00000002
 #define FLASHW_TIMERNOFG    0x0000000C
-#endif
+
 
 static BOOL (WINAPI *FlashWindowEx)(FLASHWINFO*) = NULL;
+#endif
+static BOOL (WINAPI *fwe)(FLASHWINFO*) = NULL;
 static bool initFlash = false;
 #endif
 
@@ -597,17 +607,17 @@ void Container::flash()
     if (!initFlash){
         HINSTANCE hLib = GetModuleHandleA("user32");
         if (hLib != NULL)
-            (DWORD&)FlashWindowEx = (DWORD)GetProcAddress(hLib,"FlashWindowEx");
+			(DWORD&)fwe = (DWORD)GetProcAddress(hLib,"FlashWindowEx");
         initFlash = true;
     }
-    if (FlashWindowEx){
+    if (fwe){
         FLASHWINFO fInfo;
         fInfo.cbSize  = sizeof(fInfo);
         fInfo.dwFlags = FLASHW_TRAY | FLASHW_TIMERNOFG;
         fInfo.hwnd = winId();
         fInfo.uCount = 0;
         fInfo.dwTimeout = 1000;
-        FlashWindowEx(&fInfo);
+        fwe(&fInfo);
     }
 #else
 #if defined(USE_KDE)
@@ -830,7 +840,7 @@ bool Container::event(QEvent *e)
             }
         }
     }
-    return QMainWindow::event(e);
+    return Q3MainWindow::event(e);
 }
 
 void Container::contactChanged(Contact *contact)
@@ -1019,7 +1029,7 @@ void UserTabBar::mousePressEvent(QMouseEvent *e)
         mp.param = (void*)(tab->wnd()->id());
         mp.key = 0;
         Event eMenu(EventProcessMenu, &mp);
-        QPopupMenu *menu = (QPopupMenu*)eMenu.process();
+        Q3PopupMenu *menu = (Q3PopupMenu*)eMenu.process();
         if (menu)
             menu->popup(e->globalPos());
         return;

@@ -115,7 +115,7 @@ HistoryFile::HistoryFile(const char *file_name, unsigned contact)
             fInfo.dir().rename(bak.name(), name());
         }
     }
-    open(IO_ReadOnly);
+    open(QIODevice::ReadOnly);
 }
 
 Message *HistoryFile::load(unsigned id)
@@ -617,7 +617,7 @@ void History::add(Message *msg, const char *type)
     }
 
     QFile f(QFile::decodeName(f_name.c_str()));
-    if (!f.open(IO_ReadWrite | IO_Append)){
+    if (!f.open(QIODevice::ReadWrite | QIODevice::Append)){
         log(L_ERROR, "Can't open %s", f_name.c_str());
         return;
     }
@@ -678,12 +678,12 @@ void History::del(const char *name, unsigned contact, unsigned id, bool bCopy, M
 
     f_name = user_file(f_name.c_str());
     QFile f(QFile::decodeName(f_name.c_str()));
-    if (!f.open(IO_ReadOnly)){
+    if (!f.open(QIODevice::ReadOnly)){
         log(L_ERROR, "Can't open %s", (const char*)f.name().local8Bit());
         return;
     }
     QFile t(f.name() + "~");
-    if (!t.open(IO_ReadWrite | IO_Truncate)){
+    if (!t.open(QIODevice::ReadWrite | QIODevice::Truncate)){
         log(L_ERROR, "Can't open %s", (const char*)t.name().local8Bit());
         return;
     }
@@ -836,9 +836,9 @@ void History::remove(Contact *contact)
 bool History::save(unsigned id, const QString& file_name, bool bAppend)
 {
     QFile f(file_name);
-    int mode = IO_WriteOnly | IO_Translate;
+    int mode = QIODevice::WriteOnly | QIODevice::Translate;
     if (bAppend)
-        mode |= IO_Append;
+        mode |= QIODevice::Append;
     if (f.open(mode)){
         QTextStream stream(&f);
         HistoryIterator it(id);

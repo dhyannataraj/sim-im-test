@@ -20,6 +20,8 @@
 
 #include "simapi.h"
 #include "cfgdlgbase.h"
+//Added by qt3to4:
+#include <QCloseEvent>
 
 class ConfigureDialog : public ConfigureDialogBase, public EventReceiver
 {
@@ -37,19 +39,19 @@ signals:
 protected slots:
     void apply();
     void updateInfo();
-    void itemSelected(QListViewItem*);
+    void itemSelected(Q3ListViewItem*);
     void raisePage(QWidget*);
     void repaintCurrent();
 protected:
     void accept();
     void reject();
-    void apply(QListViewItem *item);
+    void apply(Q3ListViewItem *item);
     virtual void *processEvent(Event*);
     void fill(unsigned id);
     void setTitle();
-    bool setCurrentItem(QListViewItem *parent, unsigned id);
-    QListViewItem *findItem(QWidget *w);
-    QListViewItem *findItem(QWidget *w, QListViewItem *parent);
+    bool setCurrentItem(Q3ListViewItem *parent, unsigned id);
+    Q3ListViewItem *findItem(QWidget *w);
+    Q3ListViewItem *findItem(QWidget *w, Q3ListViewItem *parent);
     unsigned m_nUpdates;
     bool m_bAccept;
     void closeEvent(QCloseEvent*);

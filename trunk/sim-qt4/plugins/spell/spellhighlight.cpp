@@ -25,8 +25,8 @@
 
 const unsigned ErrorColor = 0xFF0101;
 
-SpellHighlighter::SpellHighlighter(QTextEdit *edit, SpellPlugin *plugin)
-        : QSyntaxHighlighter(edit), EventReceiver(HighPriority)
+SpellHighlighter::SpellHighlighter(Q3TextEdit *edit, SpellPlugin *plugin)
+        : Q3SyntaxHighlighter(edit), EventReceiver(HighPriority)
 {
     m_paragraph = -1;
     m_bDirty = false;

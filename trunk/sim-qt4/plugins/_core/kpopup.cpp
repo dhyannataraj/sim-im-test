@@ -28,6 +28,12 @@
 #include <qfont.h>
 #include <qfontmetrics.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QKeyEvent>
+#include <Q3PopupMenu>
+#include <QPaintEvent>
+#include <QCloseEvent>
 
 KPopupTitle::KPopupTitle(QWidget *parent, const char *name)
         : QWidget(parent, name)
@@ -121,7 +127,7 @@ bool autoExec : 1;
 
 
 KPopupMenu::KPopupMenu(QWidget *parent, const char *name)
-        : QPopupMenu(parent, name)
+        : Q3PopupMenu(parent, name)
 {
     d = new KPopupMenuPrivate;
     resetKeyboardVars();
@@ -219,7 +225,7 @@ void KPopupMenu::keyPressEvent(QKeyEvent* e)
     if (!d->shortcuts) {
         // continue event processing by Qpopup
         //e->ignore();
-        QPopupMenu::keyPressEvent(e);
+        Q3PopupMenu::keyPressEvent(e);
         return;
     }
 
@@ -236,7 +242,7 @@ void KPopupMenu::keyPressEvent(QKeyEvent* e)
         resetKeyboardVars();
         // continue event processing by Qpopup
         //e->ignore();
-        QPopupMenu::keyPressEvent(e);
+        Q3PopupMenu::keyPressEvent(e);
         return;
     }
 
@@ -365,7 +371,7 @@ void KPopupMenu::keyPressEvent(QKeyEvent* e)
     // no matches whatsoever, clean up
     resetKeyboardVars(true);
     //e->ignore();
-    QPopupMenu::keyPressEvent(e);
+    Q3PopupMenu::keyPressEvent(e);
 }
 
 QString KPopupMenu::underlineText(const QString& text, uint length)
@@ -413,7 +419,7 @@ void KPopupMenu::setKeyboardShortcutsExecute(bool enable)
 
 // Obsolete
 KPopupMenu::KPopupMenu(const QString& title, QWidget *parent, const char *name)
-        : QPopupMenu(parent, name)
+        : Q3PopupMenu(parent, name)
 {
     d = new KPopupMenuPrivate;
     setTitle(title);

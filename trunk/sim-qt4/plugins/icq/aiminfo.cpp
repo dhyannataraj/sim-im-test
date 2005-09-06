@@ -21,7 +21,7 @@
 #include "core.h"
 
 #include <qlineedit.h>
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
 #include <qstringlist.h>
 #include <qcombobox.h>
 #include <qpixmap.h>

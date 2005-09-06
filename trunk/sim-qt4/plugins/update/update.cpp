@@ -24,7 +24,7 @@
 #include <stdio.h>
 #include <qtimer.h>
 #include <qapplication.h>
-#include <qwidgetlist.h>
+#include <qwidget.h>
 #include <qregexp.h>
 
 const unsigned CHECK_INTERVAL = 60 * 60 * 24;

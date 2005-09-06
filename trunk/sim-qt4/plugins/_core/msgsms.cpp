@@ -27,6 +27,9 @@
 #include <qlineedit.h>
 #include <qlayout.h>
 #include <qcheckbox.h>
+//Added by qt3to4:
+#include <Q3Frame>
+#include <QHBoxLayout>
 
 const unsigned MAX_SMS_LEN_LATIN1	= 160;
 const unsigned MAX_SMS_LEN_UNICODE	= 70;
@@ -206,7 +209,7 @@ void *MsgSMS::processEvent(Event *e)
             m_edit->m_edit->append(t->tmpl);
         }else{
             m_edit->m_edit->setText(t->tmpl);
-            m_edit->m_edit->moveCursor(QTextEdit::MoveEnd, false);
+            m_edit->m_edit->moveCursor(Q3TextEdit::MoveEnd, false);
             m_bExpand = true;
             Contact *contact = getContacts()->contact(m_id);
             if (contact){
@@ -294,7 +297,7 @@ void *MsgSMS::processEvent(Event *e)
 }
 
 SMSPanel::SMSPanel(QWidget *parent)
-        : QFrame(parent)
+        : Q3Frame(parent)
 {
     setMargin(3);
     QHBoxLayout *lay = new QHBoxLayout(this);

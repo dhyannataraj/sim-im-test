@@ -20,6 +20,9 @@
 
 #include "simapi.h"
 #include "managerbase.h"
+//Added by qt3to4:
+#include <QResizeEvent>
+#include <QCloseEvent>
 
 class CorePlugin;
 

@@ -21,7 +21,7 @@
 
 #include <qcheckbox.h>
 #include <qapplication.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qcolorbutton.h>
 
 FontConfig::FontConfig(QWidget *parent, StylesPlugin *plugin)
@@ -33,7 +33,7 @@ FontConfig::FontConfig(QWidget *parent, StylesPlugin *plugin)
     chkSystem->setChecked(m_plugin->getSystemFonts());
     systemToggled(chkSystem->isChecked());
     if (!chkSystem->isChecked()){
-        QPopupMenu m;
+        Q3PopupMenu m;
         QFont base = QApplication::font();
         QFont menu = QApplication::font(&m);
         base = FontEdit::str2font(m_plugin->getBaseFont(), base);

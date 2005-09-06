@@ -1228,7 +1228,7 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 QImage img;
                 QString fName = pictureFile(data);
                 QFile f(fName);
-                if (f.open(IO_WriteOnly | IO_Truncate)){
+                if (f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
                     f.writeBlock(pict.c_str(), pict.size());
                     f.close();
                     img.load(fName);
@@ -1512,7 +1512,7 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &in
                 pictFile = pictFile.replace(QRegExp("/"), "\\");
 #endif
                 QFile f(pictFile);
-                if (f.open(IO_ReadOnly)){
+                if (f.open(QIODevice::ReadOnly)){
 #ifdef WIN32
                     int n = pictFile.findRev("\\");
 #else

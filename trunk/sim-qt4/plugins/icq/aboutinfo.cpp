@@ -63,10 +63,10 @@ void AboutInfo::fill()
     ICQUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
     if (data->Uin.value){
-        edtAbout->setTextFormat(QTextEdit::PlainText);
+        edtAbout->setTextFormat(Q3TextEdit::PlainText);
         edtAbout->setText(getContacts()->toUnicode(getContacts()->contact(m_contact), data->About.ptr));
     }else{
-        edtAbout->setTextFormat(QTextEdit::RichText);
+        edtAbout->setTextFormat(Q3TextEdit::RichText);
         if (data->About.ptr)
             edtAbout->setText(QString::fromUtf8(data->About.ptr));
         if (m_data == NULL)

@@ -27,8 +27,8 @@
 GpgUser::GpgUser(QWidget *parent, GpgUserData *data)
         : GpgUserBase(parent)
 {
-    if (data && data->Key.ptr)
-        m_key = data->Key.ptr;
+    if (data && data->Qt::Key.ptr)
+        m_key = data->Qt::Key.ptr;
     m_exec = NULL;
     connect(btnRefresh, SIGNAL(clicked()), this, SLOT(refresh()));
     refresh();

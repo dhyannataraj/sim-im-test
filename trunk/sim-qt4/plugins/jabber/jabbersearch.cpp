@@ -24,15 +24,20 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qlineedit.h>
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
 #include <qcombobox.h>
 #include <qtimer.h>
 #include <qtabwidget.h>
-#include <qwidgetstack.h>
-#include <qobjectlist.h>
+#include <q3widgetstack.h>
+#include <qobject.h>
 #include <qregexp.h>
 #include <qcheckbox.h>
-#include <qgroupbox.h>
+#include <q3groupbox.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <QPixmap>
+#include <QGridLayout>
+#include <QVBoxLayout>
 
 #include <vector>
 
@@ -147,10 +152,10 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
             if (data->Value.ptr && *data->Value.ptr)
                 static_cast<QLineEdit*>(widget)->setText(QString::fromUtf8(data->Value.ptr));
         }else if (!strcmp(data->Type.ptr, "text-multi")){
-            widget = new QMultiLineEdit(this, data->Field.ptr);
+            widget = new Q3MultiLineEdit(this, data->Field.ptr);
             connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
             if (data->Value.ptr && *data->Value.ptr)
-                static_cast<QMultiLineEdit*>(widget)->setText(QString::fromUtf8(data->Value.ptr));
+                static_cast<Q3MultiLineEdit*>(widget)->setText(QString::fromUtf8(data->Value.ptr));
         }else if (!strcmp(data->Type.ptr, "boolean") && data->Label.ptr){
             widget = new QCheckBox(QString::fromUtf8(data->Label.ptr), this, data->Field.ptr);
             if (data->Value.ptr && *data->Value.ptr && (*data->Value.ptr != '0'))
@@ -167,7 +172,7 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
                     m_label += text;
                 }else{
                     QLabel *label = new QLabel(text, this);
-                    label->setAlignment(WordBreak);
+                    label->setAlignment(Qt::TextWordWrap);
                     widget = label;
                     bJoin = true;
                 }
@@ -257,7 +262,7 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
             if (!text.isEmpty() && (text[(int)(text.length() - 1)] != ':'))
                 text += ":";
             label = new QLabel(text, this);
-            label->setAlignment(AlignRight);
+            label->setAlignment(Qt::AlignRight);
         }
         QWidget *help = NULL;
         if (data->Desc.ptr && *data->Desc.ptr)
@@ -330,7 +335,7 @@ QString JabberSearch::i18(const char *text)
         if (res[i].unicode() >= 0x80)
             return res;
     }
-    QCString str = res.latin1();
+    Q3CString str = res.latin1();
     QString  tstr = i18n(str);
     if (tstr == QString(str))
         return res;
@@ -431,7 +436,7 @@ QString JabberSearch::condition(QWidget *w)
     l = w->queryList("QMultiLineEdit");
     QObjectListIt it3( *l );
     while ((obj = it3.current()) != 0 ){
-        QMultiLineEdit *edit = static_cast<QMultiLineEdit*>(obj);
+        Q3MultiLineEdit *edit = static_cast<Q3MultiLineEdit*>(obj);
         if (!edit->text().isEmpty()){
             if (!res.isEmpty())
                 res += ";";

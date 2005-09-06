@@ -22,6 +22,8 @@
 #include "simapi.h"
 #include "jabberaddbase.h"
 #include "stl.h"
+//Added by qt3to4:
+#include <QShowEvent>
 
 class JabberClient;
 class JabberBrowser;

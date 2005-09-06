@@ -21,7 +21,7 @@
 #include "simapi.h"
 #include "maininfobase.h"
 
-class QListViewItem;
+class Q3ListViewItem;
 
 class MainInfo : public MainInfoBase, public EventReceiver
 {
@@ -32,10 +32,10 @@ protected slots:
     void apply();
     void mailSelectionChanged();
     void phoneSelectionChanged();
-    void deleteMail(QListViewItem *item);
-    void deletePhone(QListViewItem *item);
-    void editMail(QListViewItem *item);
-    void editPhone(QListViewItem *item);
+    void deleteMail(Q3ListViewItem *item);
+    void deletePhone(Q3ListViewItem *item);
+    void editMail(Q3ListViewItem *item);
+    void editPhone(Q3ListViewItem *item);
     void addMail();
     void editMail();
     void deleteMail();
@@ -45,7 +45,7 @@ protected slots:
 protected:
     void fill();
     void *processEvent(Event*);
-    void fillPhoneItem(QListViewItem *item, const QString &number, const QString &type, unsigned icon, const QString &proto);
+    void fillPhoneItem(Q3ListViewItem *item, const QString &number, const QString &type, unsigned icon, const QString &proto);
     void fillCurrentCombo();
     void fillEncoding();
     void getEncoding(bool SendContactChangedEvent = true);

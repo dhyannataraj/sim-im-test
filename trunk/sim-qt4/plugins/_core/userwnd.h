@@ -20,12 +20,14 @@
 
 #include "simapi.h"
 #include <qsplitter.h>
+//Added by qt3to4:
+#include <QCloseEvent>
 
 class MsgEdit;
 class MsgView;
 class ListView;
 class CorePlugin;
-class QToolBar;
+class Q3ToolBar;
 class UserList;
 
 typedef struct UserWndData
@@ -63,7 +65,7 @@ signals:
 protected slots:
     void modeChanged();
     void editHeightChanged(int);
-    void toolbarChanged(QToolBar*);
+    void toolbarChanged(Q3ToolBar*);
     void selectChanged();
 protected:
     PROP_ULONG(EditHeight);

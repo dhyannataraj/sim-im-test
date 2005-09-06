@@ -254,7 +254,7 @@ void *FilterPlugin::processEvent(Event *e)
                 if (edit->hasSelectedText()){
                     text = edit->selectedText();
 #if (COMPAT_QT_VERSION < 0x030000) || (COMPAT_QT_VERSION >= 0x030100)
-                    if (edit->textFormat() == QTextEdit::RichText)
+                    if (edit->textFormat() == Q3TextEdit::RichText)
                         text = unquoteText(text);
 #endif
                     id = medit->m_userWnd->id();

@@ -26,7 +26,7 @@
 #include <qtabwidget.h>
 #include <qcombobox.h>
 #include <qradiobutton.h>
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
 #include <qcheckbox.h>
 #include <qspinbox.h>
 #include <qlabel.h>
@@ -195,7 +195,7 @@ void InterfaceConfig::modeChanged(int mode)
             grpContainer->setButton(2);
         }
     }else{
-        QButton *btn = grpContainer->selected();
+        Q3Button *btn = grpContainer->selected();
         if (btn)
             btn->toggle();
         chkEnter->setChecked(false);

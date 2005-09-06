@@ -20,6 +20,8 @@
 
 #include "simapi.h"
 #include "nonimbase.h"
+//Added by qt3to4:
+#include <QShowEvent>
 
 class NonIM : public NonIMBase
 {

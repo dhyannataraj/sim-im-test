@@ -47,7 +47,7 @@
 #include <qimage.h>
 #include <qpixmap.h>
 #include <qapplication.h>
-#include <qwidgetlist.h>
+#include <qwidget.h>
 #include <qfile.h>
 
 #ifdef TM_IN_SYS_TIME
@@ -1531,7 +1531,7 @@ QString ICQClient::contactTip(void *_data)
                     w = 60;
                 }
             }
-            QMimeSourceFactory::defaultFactory()->setPixmap("pict://icq", pict);
+            Q3MimeSourceFactory::defaultFactory()->setPixmap("pict://icq", pict);
             res += "<br><img src=\"pict://icq\" width=\"";
             res += number(w).c_str();
             res += "\" height=\"";

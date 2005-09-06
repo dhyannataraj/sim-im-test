@@ -18,13 +18,15 @@
 #include "mousecfg.h"
 #include "shortcuts.h"
 
-#include <qlistview.h>
+#include <q3listview.h>
 #include <qlabel.h>
 #include <qregexp.h>
-#include <qaccel.h>
+#include <q3accel.h>
 #include <qpushbutton.h>
 #include <qcheckbox.h>
 #include <qcombobox.h>
+//Added by qt3to4:
+#include <QResizeEvent>
 
 MouseConfig::MouseConfig(QWidget *parent, ShortcutsPlugin *plugin)
         : MouseConfigBase(parent)
@@ -56,7 +58,7 @@ MouseConfig::~MouseConfig()
 
 void MouseConfig::apply()
 {
-    for (QListViewItem *item = lstCmd->firstChild(); item; item = item->nextSibling()){
+    for (Q3ListViewItem *item = lstCmd->firstChild(); item; item = item->nextSibling()){
         m_plugin->setMouse(item->text(2).toUInt(), item->text(1).latin1());
     }
 }
@@ -90,7 +92,7 @@ void MouseConfig::loadMenu(unsigned id)
             QString title = i18n(s->text);
             if (title == "_")
                 continue;
-            QListViewItem *item;
+            Q3ListViewItem *item;
             for (item = lstCmd->firstChild(); item; item = item->nextSibling()){
                 if (QString::number(s->popup_id) == item->text(3))
                     break;
@@ -98,14 +100,14 @@ void MouseConfig::loadMenu(unsigned id)
             if (item)
                 continue;
             title = title.replace(QRegExp("&"), "");
-            new QListViewItem(lstCmd, title, m_plugin->getMouse(s->id), QString::number(s->id), QString::number(s->popup_id));
+            new Q3ListViewItem(lstCmd, title, m_plugin->getMouse(s->id), QString::number(s->id), QString::number(s->popup_id));
         }
     }
 }
 
 void MouseConfig::selectionChanged()
 {
-    QListViewItem *item = lstCmd->currentItem();
+    Q3ListViewItem *item = lstCmd->currentItem();
     if (item == NULL){
         lblCmd->setText("");
         cmbButton->setCurrentItem(0);
@@ -150,7 +152,7 @@ void MouseConfig::changed(bool)
         if (chkShift->isChecked()) n |= ShiftButton;
         res = ShortcutsPlugin::buttonToString(n).c_str();
     }
-    QListViewItem *item = lstCmd->currentItem();
+    Q3ListViewItem *item = lstCmd->currentItem();
     if (item == NULL)
         return;
     item->setText(1, res);

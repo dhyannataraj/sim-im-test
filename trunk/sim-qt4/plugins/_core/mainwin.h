@@ -21,7 +21,14 @@
 #include "simapi.h"
 #include "stl.h"
 
-#include <qmainwindow.h>
+#include <q3mainwindow.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <QFocusEvent>
+#include <QHBoxLayout>
+#include <QResizeEvent>
+#include <QEvent>
+#include <QCloseEvent>
 
 class QVBoxLayout;
 class QHBoxLayout;
@@ -29,7 +36,7 @@ class QToolBat;
 class CorePlugin;
 class QSizeGrip;
 
-class MainWindow : public QMainWindow, public EventReceiver
+class MainWindow : public Q3MainWindow, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -40,7 +47,7 @@ protected slots:
     void setGrip();
 protected:
     QWidget		*main;
-    QToolBar	*bar;
+    Q3ToolBar	*bar;
     QVBoxLayout	*lay;
     QHBoxLayout	*h_lay;
     QSizeGrip	*m_grip;

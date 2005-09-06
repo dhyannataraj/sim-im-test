@@ -28,9 +28,9 @@
 
 #ifdef USE_KDE
 #include <kfiledialog.h>
-#define QFileDialog	KFileDialog
+#define Q3FileDialog	KFileDialog
 #else
-#include <qfiledialog.h>
+#include <q3filedialog.h>
 #endif
 
 MsgFile::MsgFile(MsgEdit *parent, Message *msg)
@@ -104,7 +104,7 @@ void MsgFile::selectFile()
 #ifdef WIN32
     s.replace(QRegExp("\\\\"), "/");
 #endif
-    QStringList lst = QFileDialog::getOpenFileNames(QString::null, QString::null, m_edit->topLevelWidget());
+    QStringList lst = Q3FileDialog::getOpenFileNames(QString::null, QString::null, m_edit->topLevelWidget());
     if ((lst.count() > 1) || ((lst.count() > 0) && (lst[0].find(' ') >= 0))){
         for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
 #ifdef WIN32

@@ -24,7 +24,10 @@
 #include "core.h"
 
 #include <qapplication.h>
-#include <qwidgetlist.h>
+#include <qwidget.h>
+//Added by qt3to4:
+#include <QEvent>
+#include <QChildEvent>
 
 class PSpellHighlighter : public SpellHighlighter
 {

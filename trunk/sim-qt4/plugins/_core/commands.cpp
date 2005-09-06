@@ -23,9 +23,11 @@
 #include "cmenu.h"
 
 #include <qapplication.h>
-#include <qpopupmenu.h>
-#include <qwidgetlist.h>
-#include <qaccel.h>
+#include <q3popupmenu.h>
+#include <qwidget.h>
+#include <q3accel.h>
+//Added by qt3to4:
+#include <QEvent>
 
 Commands::Commands()
 {
@@ -101,7 +103,7 @@ void Commands::removeMenu(unsigned id)
     menues.erase(it);
 }
 
-void *Commands::show(unsigned id, QMainWindow *parent)
+void *Commands::show(unsigned id, Q3MainWindow *parent)
 {
     CMDS_MAP::iterator it = bars.find(id);
     if (it == bars.end())
@@ -141,7 +143,7 @@ CMenu *Commands::processMenu(unsigned id, void *param, int key)
             int cmdKey;
             if ((key & ALT) && ((key & ~MODIFIER_MASK) != Key_Alt)){
                 if (cmd->text == NULL) continue;
-                cmdKey = QAccel::shortcutKey(i18n(cmd->text));
+                cmdKey = Q3Accel::shortcutKey(i18n(cmd->text));
                 if ((cmdKey & ~UNICODE_ACCEL) == key){
                     cmd->param = param;
                     Event eCmd(EventCommandExec, cmd);
@@ -150,7 +152,7 @@ CMenu *Commands::processMenu(unsigned id, void *param, int key)
                 }
             }
             if (cmd->accel == NULL) continue;
-            cmdKey = QAccel::stringToKey(i18n(cmd->accel));
+            cmdKey = Q3Accel::stringToKey(i18n(cmd->accel));
             if (cmdKey == key){
                 cmd->param = param;
                 Event eCmd(EventCommandExec, cmd);
@@ -230,7 +232,7 @@ bool Commands::eventFilter(QObject *o, QEvent *e)
                     id = bar->m_def->id();
                 }
                 if (id){
-                    QPopupMenu *popup = static_cast<QPopupMenu*>(o);
+                    Q3PopupMenu *popup = static_cast<Q3PopupMenu*>(o);
                     popup->insertItem(i18n("Customize toolbar..."), this, SLOT(popupActivated()));
                     cur_id = id;
                 }

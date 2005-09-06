@@ -19,6 +19,9 @@
 #define _DOCK_H
 
 #include "simapi.h"
+//Added by qt3to4:
+#include <QEvent>
+#include <Q3PopupMenu>
 
 typedef struct DockData
 {
@@ -33,7 +36,7 @@ typedef struct DockData
 } DockData;
 
 class DockWnd;
-class QPopupMenu;
+class Q3PopupMenu;
 class CorePlugin;
 
 class DockPlugin : public QObject, public Plugin, public EventReceiver
@@ -59,7 +62,7 @@ protected:
     unsigned CmdTitle;
     unsigned CmdToggle;
     unsigned CmdCustomize;
-    QPopupMenu *m_popup;
+    Q3PopupMenu *m_popup;
     bool bQuit;
     PROP_BOOL(AutoHide);
     PROP_ULONG(AutoHideInterval);

@@ -20,13 +20,13 @@
 
 #include "simapi.h"
 #include <qcombobox.h>
-#include <qframe.h>
+#include <q3frame.h>
 
 class QToolButton;
 class QCheckBox;
 class MsgEdit;
 
-class SMSPanel : public QFrame
+class SMSPanel : public Q3Frame
 {
     Q_OBJECT
 public:

@@ -19,6 +19,8 @@
 #define _ONTOP_H
 
 #include "simapi.h"
+//Added by qt3to4:
+#include <QEvent>
 
 #ifdef WIN32
 #include <windows.h>

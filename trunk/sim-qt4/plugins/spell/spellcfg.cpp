@@ -28,10 +28,13 @@
 
 #include <qlabel.h>
 #include <qpushbutton.h>
-#include <qheader.h>
+#include <q3header.h>
 #include <qbitmap.h>
 #include <qpainter.h>
 #include <qstyle.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QResizeEvent>
 
 const unsigned COL_NAME		= 0;
 const unsigned COL_CHECK	= 1;
@@ -53,7 +56,7 @@ SpellConfig::SpellConfig(QWidget *parent, SpellPlugin *plugin)
 #endif
     connect(edtPath, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     connect(btnFind, SIGNAL(clicked()), this, SLOT(find()));
-    connect(lstLang, SIGNAL(clickItem(QListViewItem*)), this, SLOT(langClicked(QListViewItem*)));
+    connect(lstLang, SIGNAL(clickItem(Q3ListViewItem*)), this, SLOT(langClicked(Q3ListViewItem*)));
     lstLang->addColumn("");
     lstLang->addColumn("");
     lstLang->header()->hide();
@@ -76,7 +79,7 @@ void SpellConfig::apply()
     m_plugin->setPath(QFile::encodeName(edtPath->text()));
 #endif
     string lang;
-    for (QListViewItem *item = lstLang->firstChild(); item; item = item->nextSibling()){
+    for (Q3ListViewItem *item = lstLang->firstChild(); item; item = item->nextSibling()){
         if (item->text(COL_CHECKED) == "")
             continue;
         if (!lang.empty())
@@ -136,7 +139,7 @@ void SpellConfig::textChanged(const QString&)
                     break;
                 }
             }
-            QListViewItem *item = new QListViewItem(lstLang, l.c_str(), "", bCheck ? "1" : "");
+            Q3ListViewItem *item = new Q3ListViewItem(lstLang, l.c_str(), "", bCheck ? "1" : "");
             setCheck(item);
         }
     }
@@ -160,7 +163,7 @@ void SpellConfig::findFinished()
 #endif
 }
 
-void SpellConfig::langClicked(QListViewItem *item)
+void SpellConfig::langClicked(Q3ListViewItem *item)
 {
     if(!item)
         return;
@@ -174,16 +177,16 @@ void SpellConfig::langClicked(QListViewItem *item)
 }
 
 #if COMPAT_QT_VERSION < 0x030000
-#define CHECK_OFF       QButton::Off
-#define CHECK_ON        QButton::On
-#define CHECK_NOCHANGE  QButton::NoChange
+#define CHECK_OFF       QCheckBox::Off
+#define CHECK_ON        QCheckBox::On
+#define CHECK_NOCHANGE  QCheckBox::NoChange
 #else
-#define CHECK_OFF       QStyle::Style_Off
-#define CHECK_ON        QStyle::Style_On
-#define CHECK_NOCHANGE  QStyle::Style_NoChange
+#define CHECK_OFF       QStyle::State_Off
+#define CHECK_ON        QStyle::State_On
+#define CHECK_NOCHANGE  QStyle::State_NoChange
 #endif
 
-void SpellConfig::setCheck(QListViewItem *item)
+void SpellConfig::setCheck(Q3ListViewItem *item)
 {
     int state = item->text(COL_CHECKED).isEmpty() ? CHECK_OFF : CHECK_ON;
     QColorGroup cg = palette().active();

@@ -24,7 +24,7 @@
 #include <qcheckbox.h>
 #include <qtimer.h>
 #include <qlabel.h>
-#include <qprogressbar.h>
+#include <q3progressbar.h>
 #include <qtabwidget.h>
 
 SMSSetup::SMSSetup(QWidget *parent, SMSClient *client)

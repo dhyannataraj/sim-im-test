@@ -22,7 +22,7 @@
 #include <qcheckbox.h>
 #include <qtabwidget.h>
 #include <qlabel.h>
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
 
 FilterConfig::FilterConfig(QWidget *parent, FilterUserData *data, FilterPlugin *plugin, bool bMain)
         : FilterConfigBase(parent)

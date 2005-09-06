@@ -20,9 +20,11 @@
 
 #include "simapi.h"
 #include "logconfigbase.h"
+//Added by qt3to4:
+#include <QResizeEvent>
 
 class LoggerPlugin;
-class QListViewItem;
+class Q3ListViewItem;
 
 class LogConfig : public LogConfigBase, public EventReceiver
 {
@@ -31,13 +33,13 @@ public:
     LogConfig(QWidget *parent, LoggerPlugin *plugin);
 public slots:
     void apply();
-    void clickItem(QListViewItem*);
+    void clickItem(Q3ListViewItem*);
 protected:
     void resizeEvent(QResizeEvent *e);
     void *processEvent(Event*);
     void fill();
     void addItem(const char *name, bool bChecked, unsigned level, unsigned packet);
-    void setCheck(QListViewItem*);
+    void setCheck(Q3ListViewItem*);
     LoggerPlugin	*m_plugin;
 };
 

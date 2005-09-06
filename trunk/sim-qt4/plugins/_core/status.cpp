@@ -26,7 +26,7 @@
 
 #include <qtimer.h>
 #include <qapplication.h>
-#include <qwidgetlist.h>
+#include <qwidget.h>
 
 #include <map>
 using namespace std;

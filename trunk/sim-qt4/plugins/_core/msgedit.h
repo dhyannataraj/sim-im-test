@@ -22,14 +22,23 @@
 #include "core.h"
 #include "textshow.h"
 
-#include <qmainwindow.h>
+#include <q3mainwindow.h>
 #include <qlabel.h>
+//Added by qt3to4:
+#include <QDragMoveEvent>
+#include <Q3Frame>
+#include <QDropEvent>
+#include <QVBoxLayout>
+#include <QResizeEvent>
+#include <Q3PopupMenu>
+#include <QDragEnterEvent>
+#include <QMouseEvent>
 
 class CorePlugin;
 class UserWnd;
 class CToolBar;
 class QVBoxLayout;
-class QFrame;
+class Q3Frame;
 class TextEdit;
 
 typedef struct ClientStatus
@@ -45,7 +54,7 @@ class MsgTextEdit : public TextEdit
 public:
     MsgTextEdit(MsgEdit *edit, QWidget *parent);
 protected:
-    virtual QPopupMenu *createPopupMenu(const QPoint& pos);
+    virtual Q3PopupMenu *createPopupMenu(const QPoint& pos);
     virtual void contentsDropEvent(QDropEvent*);
     virtual void contentsDragEnterEvent(QDragEnterEvent*);
     virtual void contentsDragMoveEvent(QDragMoveEvent*);
@@ -53,7 +62,7 @@ protected:
     MsgEdit *m_edit;
 };
 
-class MsgEdit : public QMainWindow, public EventReceiver
+class MsgEdit : public Q3MainWindow, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -64,7 +73,7 @@ public:
     UserWnd		*m_userWnd;
     TextEdit	*m_edit;
     QVBoxLayout	*m_layout;
-    QFrame		*m_frame;
+    Q3Frame		*m_frame;
     bool		sendMessage(Message *msg);
     static void setupMessages();
     void		getWays(vector<ClientStatus> &cs, Contact *contact);
@@ -128,7 +137,7 @@ protected:
     string id;
 };
 
-class SmilePopup : public QFrame
+class SmilePopup : public Q3Frame
 {
     Q_OBJECT
 public:

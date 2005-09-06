@@ -18,7 +18,7 @@
 #include "smscfg.h"
 #include "core.h"
 
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
 #include <qcheckbox.h>
 
 SMSConfig::SMSConfig(QWidget *parent, void *_data)
