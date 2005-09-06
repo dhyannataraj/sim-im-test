@@ -21,16 +21,23 @@
 #include "simapi.h"
 #include "stl.h"
 
-#include <qtoolbar.h>
+#include <q3toolbar.h>
 #include <qtoolbutton.h>
 #include <qpushbutton.h>
 #include <qlabel.h>
 #include <qcombobox.h>
 #include <qlineedit.h>
+//Added by qt3to4:
+#include <QPaintEvent>
+#include <QHideEvent>
+#include <QShowEvent>
+#include <QContextMenuEvent>
+#include <Q3PopupMenu>
+#include <QMouseEvent>
 
-class QMainWindow;
-class QPopupMenu;
-class QAccel;
+class Q3MainWindow;
+class Q3PopupMenu;
+class Q3Accel;
 class ToolBarStates;
 
 class EXPORT CToolItem
@@ -77,7 +84,7 @@ protected:
     void setAccel(int key);
     void enableAccel(bool bState);
     unsigned accelKey;
-    QAccel *accel;
+    Q3Accel *accel;
     QPoint popupPos(QWidget *p);
 };
 
@@ -85,7 +92,7 @@ class EXPORT PictButton : public CToolButton
 {
     Q_OBJECT
 public:
-    PictButton(QToolBar*, CommandDef *def);
+    PictButton(Q3ToolBar*, CommandDef *def);
     ~PictButton();
 protected:
     virtual void setState();
@@ -99,7 +106,7 @@ class EXPORT CToolCombo : public QComboBox, public CToolItem
 {
     Q_OBJECT
 public:
-    CToolCombo(QToolBar*, CommandDef *def, bool bCheck);
+    CToolCombo(Q3ToolBar*, CommandDef *def, bool bCheck);
     ~CToolCombo();
     void setText(const QString&);
 protected slots:
@@ -119,7 +126,7 @@ class EXPORT CToolEdit : public QLineEdit, public CToolItem
 {
     Q_OBJECT
 public:
-    CToolEdit(QToolBar*, CommandDef *def);
+    CToolEdit(Q3ToolBar*, CommandDef *def);
     ~CToolEdit();
 protected slots:
     void btnDestroyed();
@@ -131,11 +138,11 @@ protected:
 
 class ButtonsMap;
 
-class EXPORT CToolBar : public QToolBar, public EventReceiver
+class EXPORT CToolBar : public Q3ToolBar, public EventReceiver
 {
     Q_OBJECT
 public:
-    CToolBar(CommandsDef *def, QMainWindow *parent);
+    CToolBar(CommandsDef *def, Q3MainWindow *parent);
     ~CToolBar();
     CommandsDef *m_def;
     void *param()				{ return m_param; }

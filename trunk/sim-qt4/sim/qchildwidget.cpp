@@ -19,9 +19,13 @@
 
 #include <qpainter.h>
 #include <qpixmap.h>
+//Added by qt3to4:
+#include <QEvent>
+#include <QPaintEvent>
+#include <QChildEvent>
 
 QChildWidget::QChildWidget(QWidget *parent, const char *name)
-        : QWidget(parent, name, WRepaintNoErase)
+        : QWidget(parent, name, Qt::WNoAutoErase)
 {
     m_bInit = false;
 }
@@ -31,7 +35,7 @@ void QChildWidget::childEvent(QChildEvent *e)
     if (!m_bInit){
         m_bInit = true;
         if (e->child()->inherits("QWidget")){
-            if (!static_cast<QWidget*>(e->child())->testWFlags(WType_Popup))
+            if (static_cast<QWidget*>(e->child())->windowType() != Qt::Popup)
                 e->child()->installEventFilter(this);
         }
     }

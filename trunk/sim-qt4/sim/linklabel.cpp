@@ -19,31 +19,35 @@
 #include "stl.h"
 
 #if COMPAT_QT_VERSION < 0x030000
-#include "qt3/qsimplerichtext.h"
-#include "qt3/qstylesheet.h"
+#include "qt3/q3simplerichtext.h"
+#include "qt3/q3stylesheet.h"
 #else
-#include <qsimplerichtext.h>
+#include <q3simplerichtext.h>
 #endif
 
 #include <qcursor.h>
 #include <qapplication.h>
 #include <qtooltip.h>
-#include <qstylesheet.h>
+#include <q3stylesheet.h>
 #include <qpainter.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QLabel>
+#include <Q3Frame>
 
 #ifdef WIN32
 #include <windows.h>
 #endif
 
 #if COMPAT_QT_VERSION < 0x030000
-#define QSimpleRichText Qt3::QSimpleRichText
-#define QStyleSheet		Qt3::QStyleSheet
+#define Q3SimpleRichText Qt3::Q3SimpleRichText
+#define Q3StyleSheet		Qt3::Q3StyleSheet
 #endif
 
 LinkLabel::LinkLabel(QWidget *parent, const char *name)
         : QLabel(parent, name)
 {
-    setCursor(QCursor(PointingHandCursor));
+    setCursor(QCursor(Qt::PointingHandCursor));
     QFont f = font();
     f.setUnderline(true);
     setFont(f);
@@ -56,7 +60,7 @@ void LinkLabel::setUrl(const QString &url)
 
 void LinkLabel::mouseReleaseEvent(QMouseEvent * e)
 {
-    if ((e->button() == LeftButton) && !m_url.isEmpty()){
+    if ((e->button() == Qt::LeftButton) && !m_url.isEmpty()){
         string url;
         url = m_url.latin1();
         Event e(EventGoURL, (void*)(url.c_str()));
@@ -65,11 +69,10 @@ void LinkLabel::mouseReleaseEvent(QMouseEvent * e)
 }
 
 TipLabel::TipLabel(const QString &text)
-        : QLabel(NULL, "toolTipTip", WStyle_StaysOnTop | WStyle_Customize | WStyle_NoBorder | WStyle_Tool | WX11BypassWM)
+        : QLabel(NULL, "toolTipTip", Qt::WStyle_StaysOnTop | Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_Tool | Qt::WX11BypassWM)
 {
     setMargin(3);
-    setAutoMask( FALSE );
-    setFrameStyle(QFrame::Plain | QFrame::Box);
+    setFrameStyle(Q3Frame::Plain | Q3Frame::Box);
     setLineWidth(1);
     polish();
     m_text = text;
@@ -108,7 +111,7 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
             QString part;
             for (QStringList::Iterator it = l.begin(); it != l.end(); ++it, i++){
                 string s;
-                s = (*it).local8Bit();
+                s = static_cast<string>((*it).local8Bit());
                 if (!part.isEmpty()){
                     if (heights[i] >= hPart){
                         text += part;
@@ -131,7 +134,7 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
             text += part;
             text += "</td></tr></table>";
         }
-        QSimpleRichText richText(text, font(), "", QStyleSheet::defaultSheet(), QMimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
+        Q3SimpleRichText richText(text, font(), "", Q3StyleSheet::defaultSheet(), Q3MimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
         richText.adjustSize();
         QSize s(richText.widthUsed() + 8, richText.height() + 8);
         resize(s.width(), s.height());
@@ -162,7 +165,7 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
             l = QStringList::split(DIV, m_text);
             unsigned i = 0;
             for (QStringList::Iterator it = l.begin(); it != l.end(); ++it, i++){
-                QSimpleRichText richText(*it, font(), "", QStyleSheet::defaultSheet(), QMimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
+                Q3SimpleRichText richText(*it, font(), "", Q3StyleSheet::defaultSheet(), Q3MimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
                 richText.adjustSize();
                 heights.push_back(richText.height() + 8);
             }
@@ -174,7 +177,7 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
 
 void TipLabel::drawContents(QPainter *p)
 {
-    QSimpleRichText richText(m_text, font(), "", QStyleSheet::defaultSheet(), QMimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
+    Q3SimpleRichText richText(m_text, font(), "", Q3StyleSheet::defaultSheet(), Q3MimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
     richText.adjustSize();
     richText.draw(p, 4, 4, QRect(0, 0, width(), height()), QToolTip::palette().active());
 }

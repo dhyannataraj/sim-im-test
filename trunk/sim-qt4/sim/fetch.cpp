@@ -29,6 +29,9 @@
 
 #include <qthread.h>
 #include <qtimer.h>
+//Added by qt3to4:
+#include <QCustomEvent>
+#include <QEvent>
 
 #include <time.h>
 

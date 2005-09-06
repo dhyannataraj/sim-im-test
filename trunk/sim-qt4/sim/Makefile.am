@@ -1,7 +1,7 @@
 bin_PROGRAMS = sim 
 lib_LTLIBRARIES = libsim.la
 
-SUBDIRS=png qt3
+SUBDIRS=png
 
 sim_SOURCES = sim.cpp
 

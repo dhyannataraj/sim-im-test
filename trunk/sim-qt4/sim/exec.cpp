@@ -88,7 +88,7 @@ class ReadPipeThread : public QThread
 public:
     ReadPipeThread() {}
     void run();
-    HANDLE	pipe;
+    Qt::HANDLE	pipe;
     Buffer	*b;
 };
 
@@ -131,9 +131,9 @@ ExecThread::ExecThread(Exec *_exec)
 
 void ExecThread::run()
 {
-    HANDLE inPipe[2] = { NULL, NULL };
-    HANDLE outPipe[2] = { NULL, NULL };
-    HANDLE errPipe[2] = { NULL, NULL };
+    Qt::HANDLE inPipe[2] = { NULL, NULL };
+    Qt::HANDLE outPipe[2] = { NULL, NULL };
+    Qt::HANDLE errPipe[2] = { NULL, NULL };
 
     SECURITY_ATTRIBUTES sa;
     SECURITY_DESCRIPTOR sd;

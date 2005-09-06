@@ -22,10 +22,10 @@
 #include "stl.h"
 #include "socket.h"
 
-class QDns;
+class Q3Dns;
 class QTimer;
-class QSocket;
-class QSocketDevice;
+class Q3Socket;
+class Q3SocketDevice;
 class QSocketNotifier;
 
 namespace SIM
@@ -35,7 +35,7 @@ class SIMClientSocket : public QObject, public Socket
 {
     Q_OBJECT
 public:
-    SIMClientSocket(QSocket *s=NULL);
+    SIMClientSocket(Q3Socket *s=NULL);
     virtual ~SIMClientSocket();
     virtual int read(char *buf, unsigned int size);
     virtual void write(const char *buf, unsigned int size);
@@ -57,7 +57,7 @@ protected:
     void timerStop();
     unsigned short port;
     string host;
-    QSocket *sock;
+    Q3Socket *sock;
     QTimer  *timer;
     bool bInWrite;
 };
@@ -81,7 +81,7 @@ protected slots:
 protected:
     void listen(TCPClient*);
     void error(const char *err);
-    QSocketDevice   *sock;
+    Q3SocketDevice   *sock;
     QSocketNotifier *sn;
     QString			m_name;
     unsigned short  m_nPort;
@@ -94,7 +94,7 @@ public:
     SIMResolver(QObject *parent, const char *host);
     ~SIMResolver();
     QTimer *timer;
-    QDns   *dns;
+    Q3Dns   *dns;
     bool   bDone;
     bool   bTimeout;
     unsigned long addr();
@@ -149,7 +149,7 @@ protected slots:
     void resolve_ready();
 protected:
     unsigned long m_addr;
-    QDns *resolver;
+    Q3Dns *resolver;
 };
 
 }

@@ -20,15 +20,24 @@
 
 #include "simapi.h"
 
-#include <qlistview.h>
-#include <qdragobject.h>
+#include <q3listview.h>
+#include <q3dragobject.h>
+//Added by qt3to4:
+#include <QDragMoveEvent>
+#include <QKeyEvent>
+#include <QEvent>
+#include <QDropEvent>
+#include <QContextMenuEvent>
+#include <QResizeEvent>
+#include <QDragEnterEvent>
+#include <QMouseEvent>
 
 const unsigned MenuListView		= 0x100;
 const unsigned CmdListDelete	= 0x100;
 
 class QTimer;
 
-class EXPORT ListView : public QListView, public EventReceiver
+class EXPORT ListView : public Q3ListView, public EventReceiver
 {
     Q_OBJECT
     Q_PROPERTY( int expandingColumn READ expandingColumn WRITE setExpandingColumn )
@@ -37,13 +46,13 @@ public:
     ~ListView();
     int   expandingColumn() const;
     void  setExpandingColumn(int);
-    QListViewItem *m_pressedItem;
-    void  startDrag(QDragObject*);
+    Q3ListViewItem *m_pressedItem;
+    void  startDrag(Q3DragObject*);
     void acceptDrop(bool bAccept);
     void setMenu(unsigned menuId);
 signals:
-    void clickItem(QListViewItem*);
-    void deleteItem(QListViewItem*);
+    void clickItem(Q3ListViewItem*);
+    void deleteItem(Q3ListViewItem*);
     void dragStart();
     void dragEnter(QMimeSource*);
     void drop(QMimeSource*);
@@ -52,11 +61,11 @@ public slots:
     virtual void startDrag();
     void sizeChange(int,int,int);
 protected:
-    virtual ProcessMenuParam *getMenu(QListViewItem *item);
+    virtual ProcessMenuParam *getMenu(Q3ListViewItem *item);
     virtual void *processEvent(Event*);
     virtual bool eventFilter(QObject*, QEvent*);
     virtual void resizeEvent(QResizeEvent*);
-    virtual QDragObject *dragObject();
+    virtual Q3DragObject *dragObject();
     void viewportContextMenuEvent( QContextMenuEvent *e);
     void viewportMousePressEvent(QMouseEvent *e);
     void contentsMousePressEvent(QMouseEvent *e);
@@ -66,7 +75,7 @@ protected:
     void contentsDragMoveEvent(QDragMoveEvent *e);
     void contentsDropEvent(QDropEvent *e);
     void keyPressEvent(QKeyEvent *e);
-    void showPopup(QListViewItem *item, QPoint p);
+    void showPopup(Q3ListViewItem *item, QPoint p);
     int m_expandingColumn;
     unsigned m_menuId;
     ProcessMenuParam m_mp;
@@ -78,7 +87,7 @@ protected:
     static bool s_bInit;
 };
 
-class EXPORT ContactDragObject : public QStoredDrag
+class EXPORT ContactDragObject : public Q3StoredDrag
 {
     Q_OBJECT
 public:

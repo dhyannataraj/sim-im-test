@@ -20,7 +20,7 @@
 
 #include"qzip.h"
 
-#include<qcstring.h>
+#include<q3cstring.h>
 #include<qstringlist.h>
 #include<qfile.h>
 

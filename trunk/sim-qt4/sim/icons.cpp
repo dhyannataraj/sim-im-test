@@ -19,15 +19,18 @@
 #include "icons.h"
 #include "qzip.h"
 
-#include <qiconset.h>
+#include <qicon.h>
 #include <qmime.h>
 #include <qimage.h>
 #include <qpainter.h>
 #include <qbitmap.h>
-#include <qdragobject.h>
+#include <q3dragobject.h>
 #include <qfile.h>
 #include <qmime.h>
 #include <qapplication.h>
+#include <QImageReader>
+//Added by qt3to4:
+#include <QPixmap>
 
 #ifdef USE_KDE
 #include <kapp.h>
@@ -79,7 +82,7 @@ protected:
     UnZip		*m_zip;
 };
 
-class MyMimeSourceFactory : public QMimeSourceFactory
+class MyMimeSourceFactory : public Q3MimeSourceFactory
 {
 public:
     MyMimeSourceFactory();
@@ -96,12 +99,12 @@ Icons::Icons()
        the destructor but this won't work :(
        Christian */
 #if COMPAT_QT_VERSION >= 0x030000
-    QMimeSourceFactory* oldDefaultFactory = QMimeSourceFactory::takeDefaultFactory();
+    Q3MimeSourceFactory* oldDefaultFactory = Q3MimeSourceFactory::takeDefaultFactory();
 #endif
-    QMimeSourceFactory::setDefaultFactory(new MyMimeSourceFactory());
+    Q3MimeSourceFactory::setDefaultFactory(new MyMimeSourceFactory());
 #if COMPAT_QT_VERSION >= 0x030000
     if (oldDefaultFactory)
-        QMimeSourceFactory::addFactory( oldDefaultFactory );
+        Q3MimeSourceFactory::addFactory( oldDefaultFactory );
 #endif
     addIconSet("icons/sim.jisp", true);
     m_defSets.push_back(new WrkIconSet);
@@ -111,7 +114,7 @@ Icons::Icons()
 Icons::~Icons()
 {
 #if COMPAT_QT_VERSION < 0x030000
-    QMimeSourceFactory::setDefaultFactory(new QMimeSourceFactory());
+    Q3MimeSourceFactory::setDefaultFactory(new Q3MimeSourceFactory());
 #endif
     list<IconSet*>::iterator it;
     for (it = m_customSets.begin(); it != m_customSets.end(); ++it)
@@ -299,9 +302,9 @@ static QPixmap getPixmap(PictDef *d, const char*)
 #if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
     if (d->pixmap == NULL){
         QColor c = QApplication::palette().active().button();
-        unsigned char cr = c.red();
-        unsigned char cg = c.green();
-        unsigned char cb = c.blue();
+        unsigned char cr = c.Qt::red();
+        unsigned char cg = c.Qt::green();
+        unsigned char cb = c.Qt::blue();
         QImage image(d->image->width(), d->image->height(), 32);
         QBitmap mask(d->image->width(), d->image->height());
         QPainter pmask(&mask);
@@ -342,23 +345,23 @@ static QPixmap getPixmap(PictDef *d, const char*)
 #endif
 }
 
-QIconSet Icon(const char *name)
+QIcon Icon(const char *name)
 {
     PictDef *pict = getPict(name);
     if (pict == NULL)
-        return QIconSet();
-    QIconSet res(getPixmap(pict, name));
+        return QIcon();
+    QIcon res(getPixmap(pict, name));
     string bigName = "big.";
     bigName += name;
     pict = getPict(bigName.c_str());
     if (pict)
-        res.setPixmap(getPixmap(pict, bigName.c_str()), QIconSet::Large);
+        res.setPixmap(getPixmap(pict, bigName.c_str()), QIcon::Large);
 #if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
     string disName = "disabled.";
     disName += name;
     pict = getPict(disName.c_str());
     if (pict)
-        res.setPixmap(getPixmap(pict, bigName.c_str()), QIconSet::Small, QIconSet::Disabled);
+        res.setPixmap(getPixmap(pict, bigName.c_str()), QIcon::Small, QIcon::Disabled);
 #endif
     return res;
 }
@@ -387,9 +390,9 @@ QPixmap Pict(const char *name, const QColor &c)
 	if (img == NULL)
 		return QPixmap();
 	QImage res = img->copy();
-	unsigned char cr = c.red();
-	unsigned char cg = c.green();
-	unsigned char cb = c.blue();
+	unsigned char cr = c.Qt::red();
+	unsigned char cg = c.Qt::green();
+	unsigned char cb = c.Qt::blue();
     unsigned int *data = (unsigned int*)res.bits();
     for (int i = 0; i < res.height() * res.width(); i++){
 		unsigned char a = qAlpha(data[i]);
@@ -412,7 +415,7 @@ QPixmap Pict(const char *name, const QColor&)
 #endif
 
 MyMimeSourceFactory::MyMimeSourceFactory()
-        : QMimeSourceFactory()
+        : Q3MimeSourceFactory()
 {
 }
 
@@ -427,9 +430,9 @@ const QMimeSource *MyMimeSourceFactory::data(const QString &abs_name) const
         name = name.mid(5);
         PictDef *p = getPict(name.latin1());
         if (p)
-            ((QMimeSourceFactory*)this)->setImage(abs_name, *(p->image));
+            ((Q3MimeSourceFactory*)this)->setImage(abs_name, *(p->image));
     }
-    return QMimeSourceFactory::data(abs_name);
+    return Q3MimeSourceFactory::data(abs_name);
 }
 
 IconSet::IconSet()
@@ -523,8 +526,8 @@ static QImage makeOffline(unsigned flags, const QImage &p)
 {
     QImage image = p.copy();
     unsigned swapColor = flags & ICON_COLOR_MASK;
-    unsigned int *data = (image.depth() > 8) ? (unsigned int *)image.bits() :
-                         (unsigned int *)image.colorTable();
+    unsigned int *data = image.depth() > 8 ? (unsigned int *)image.bits() :
+                 (unsigned int*)image.colorTable().size();
     int pixels = (image.depth() > 8) ? image.width()*image.height() :
                  image.numColors();
     int i;
@@ -547,8 +550,8 @@ static QImage makeOffline(unsigned flags, const QImage &p)
 static QImage makeInactive(const QImage &p)
 {
     QImage image = p.copy();
-    unsigned int *data = (image.depth() > 8) ? (unsigned int *)image.bits() :
-                         (unsigned int *)image.colorTable();
+    unsigned int *data = image.depth() > 8 ? (unsigned int *)image.bits() :
+                 (unsigned int*)image.colorTable().size();
     int pixels = (image.depth() > 8) ? image.width()*image.height() :
                  image.numColors();
     int i;
@@ -604,13 +607,13 @@ static QImage makeDisabled(const QImage &p)
 	unsigned int *d = (unsigned int*)p.bits();
 	QColorGroup g = QApplication::palette().disabled();
 	QColor c1 = g.base();
-    unsigned char cr1 = c1.red();
-    unsigned char cg1 = c1.green();
-    unsigned char cb1 = c1.blue();
+    unsigned char cr1 = c1.Qt::red();
+    unsigned char cg1 = c1.Qt::green();
+    unsigned char cb1 = c1.Qt::blue();
 	QColor c2 = g.button();
-    unsigned char cr2 = c2.red();
-    unsigned char cg2 = c2.green();
-    unsigned char cb2 = c2.blue();
+    unsigned char cr2 = c2.Qt::red();
+    unsigned char cg2 = c2.Qt::green();
+    unsigned char cb2 = c2.Qt::blue();
 	unsigned int *f = d;
 	unsigned int *t = data;
 	int i;
@@ -627,9 +630,9 @@ static QImage makeDisabled(const QImage &p)
 		}
 	}
 	c1 = g.foreground();
-	cr1 = c1.red();
-	cg1 = c1.green();
-	cb1 = c1.blue();
+	cr1 = c1.Qt::red();
+	cg1 = c1.Qt::green();
+	cb1 = c1.Qt::blue();
 	f = d;
 	t = data;
 	for (i = 0; i < p.height(); i++){
@@ -825,9 +828,9 @@ PictDef *FileIconSet::getPict(const char *name)
         if (!it->second.system.empty()){
             QPixmap pict;
             if (memcmp(name, "big.", 4)){
-                pict = SmallIconSet(it->second.system.c_str()).pixmap(QIconSet::Small, QIconSet::Normal);
+                pict = SmallIconSet(it->second.system.c_str()).pixmap(QIcon::Small, QIcon::Normal);
             }else{
-                pict = DesktopIconSet(it->second.system.c_str()).pixmap(QIconSet::Large, QIconSet::Normal);
+                pict = DesktopIconSet(it->second.system.c_str()).pixmap(QIcon::Large, QIcon::Normal);
             }
             if (!pict.isNull()){
                 (*it).second.image = new QImage(pict.convertToImage());
@@ -910,7 +913,7 @@ void FileIconSet::element_start(const char *el, const char **args)
         if (mime.substr(0, n) != "image")
             return;
         mime = mime.substr(n + 1);
-        QStringList l = QImage::inputFormatList();
+        QList<QByteArray> l = QImageReader::supportedImageFormats();
         for (unsigned i = 0; i < l.count(); i++){
             if (l[i].lower() != mime.c_str())
                 continue;

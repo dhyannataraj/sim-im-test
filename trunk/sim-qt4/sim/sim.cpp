@@ -27,7 +27,7 @@
 #endif
 
 #ifdef USE_KDE
-#include <qwidgetlist.h>
+#include <qwidget.h>
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <kuniqueapplication.h>
@@ -190,7 +190,7 @@ int main(int argc, char *argv[])
 {
     int res = 1;
 #ifdef WIN32
-    HANDLE hMutex = CreateMutexA(NULL, FALSE, "SIM_Mutex");
+    Qt::HANDLE hMutex = CreateMutexA(NULL, FALSE, "SIM_Mutex");
 #endif
     QApplication::setColorSpec( QApplication::ManyColor );
     qInstallMsgHandler(simMessageOutput);
@@ -296,6 +296,7 @@ int main(int argc, char *argv[])
     }
 #endif
     PluginManager p(argc, argv);
+	if (p.isLoaded())
         res = app.exec();
 #ifdef WIN32
     CloseHandle(hMutex);

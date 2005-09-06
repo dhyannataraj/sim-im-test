@@ -22,10 +22,12 @@
 #include <errno.h>
 
 #include <qfile.h>
-#include <qtoolbar.h>
-#include <qmainwindow.h>
 #include <qstringlist.h>
 #include <qapplication.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <QMainWindow>
+#include <QToolBar>
 
 #include <stdio.h>
 
@@ -561,7 +563,7 @@ void init_data(const DataDef *d, Data *data)
             case DATA_UTF:
                 if (def->def_value){
                     QString  value = i18n(def->def_value);
-                    QCString v = value.utf8();
+                    Q3CString v = value.toUtf8();
                     set_str(&data->ptr, v);
                 }
                 break;
@@ -662,7 +664,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
                 set_str(ld, i, v.c_str());
             }else{
                 QString s = QString::fromLocal8Bit(v.c_str());
-                set_str(ld, i, s.utf8());
+                set_str(ld, i, s.toUtf8());
             }
             break;
         case DATA_UTF:
@@ -676,7 +678,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
                     set_str(&ld->ptr, v.c_str());
                 }else{
                     QString s = QString::fromLocal8Bit(v.c_str());
-                    set_str(&ld->ptr, s.utf8());
+                    set_str(&ld->ptr, s.toUtf8());
                 }
                 i++;
                 value = strchr(value, ',');
@@ -844,11 +846,11 @@ EXPORT string save_data(const DataDef *def, void *_data)
                             res += number((*it).first);
                             res += ",";
                             QString s = QString::fromUtf8((*it).second.c_str());
-                            QCString ls = s.local8Bit();
+                            Q3CString ls = s.toLocal8Bit();
                             if (QString::fromLocal8Bit(ls) == s){
                                 res += quoteString((const char*)ls);
                             }else{
-                                res += quoteString((const char*)(s.utf8()));
+                                res += quoteString((const char*)(s.toUtf8()));
                                 res += "u";
                             }
                         }
@@ -890,11 +892,11 @@ EXPORT string save_data(const DataDef *def, void *_data)
                                 bSave = true;
                         }
                         if (bSave){
-                            QCString ls = s.local8Bit();
+                            Q3CString ls = s.toLocal8Bit();
                             if (QString::fromLocal8Bit(ls) == s){
                                 value += quoteString((const char*)ls);
                             }else{
-                                value += quoteString((const char*)(s.utf8()));
+                                value += quoteString((const char*)(s.toUtf8()));
                                 value += "u";
                             }
                         }
@@ -1047,21 +1049,21 @@ EXPORT void saveToolbar(QToolBar *bar, Data state[7])
     }
     if (main == NULL)
         return;
-    QMainWindow::ToolBarDock dock;
+    Qt::DockWidgetArea dock;
     int  index;
     bool nl;
     int  extraOffset;
-    main->getLocation(bar, dock, index, nl, extraOffset);
+//    main->getLocation(bar, dock, index, nl, extraOffset);
     state[0].value = SAVE_STATE;
     state[1].value = (long)dock;
     state[2].value = index;
     state[3].value = nl ? 1 : 0;
     state[4].value = extraOffset;
-    if (dock == QMainWindow::TornOff){
+//    if (dock == Qt::DockTornOff){
         QPoint pos = bar->geometry().topLeft();
         state[5].value = pos.x();
         state[6].value = pos.y();
-    }
+//    }
 }
 
 EXPORT void restoreToolbar(QToolBar *bar, Data state[7])
@@ -1070,7 +1072,7 @@ EXPORT void restoreToolbar(QToolBar *bar, Data state[7])
         return;
     if (state[0].value != SAVE_STATE){
         if (state[1].value == 0)
-            state[1].value = (unsigned)(QMainWindow::Top);
+            state[1].value = 2;
         state[2].value = 0;
         state[3].value = 0;
         state[4].value = SAVE_STATE;
@@ -1086,10 +1088,6 @@ EXPORT void restoreToolbar(QToolBar *bar, Data state[7])
     }
     if (main == NULL)
         return;
-    QMainWindow::ToolBarDock dock = (QMainWindow::ToolBarDock)state[1].value;
-    main->moveToolBar(bar, dock, state[2].value != 0, state[3].value != 0, state[4].value);
-    if (dock == QMainWindow::TornOff)
-        bar->move(state[5].value, state[6].value);
 }
 
 EXPORT bool cmp(char *s1, char *s2)

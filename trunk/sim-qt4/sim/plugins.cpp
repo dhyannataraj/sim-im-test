@@ -532,7 +532,7 @@ void PluginManagerPrivate::saveState()
     getContacts()->save();
     string cfgName = user_file(PLUGINS_CONF);
     QFile f(QFile::decodeName((cfgName + BACKUP_SUFFIX).c_str())); // use backup file for this ...
-    if (!f.open(IO_WriteOnly | IO_Truncate)){
+    if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
         log(L_ERROR, "Can't create %s", (const char*)f.name().local8Bit());
         return;
     }
@@ -612,7 +612,7 @@ void PluginManagerPrivate::loadState()
                 return;
             }
         }
-        if (f.open(IO_WriteOnly))
+        if (f.open(QIODevice::WriteOnly))
             f.close();
         else {
             log(L_ERROR, "Can't create %s",f.name().ascii());
@@ -620,7 +620,7 @@ void PluginManagerPrivate::loadState()
         }
     }
 
-    if (!f.open(IO_ReadOnly)){
+    if (!f.open(QIODevice::ReadOnly)){
         log(L_ERROR, "Can't open %s", f.name().ascii());
         return;
     }
@@ -766,7 +766,7 @@ unsigned PluginManagerPrivate::execute(const char *prg, const char *arg)
     unsigned i = 0;
     for ( QStringList::Iterator it = s.begin(); it != s.end(); ++it, i++ ) {
         string arg;
-        arg = (*it).local8Bit();
+        arg = static_cast<string>((*it).local8Bit());
         arglist[i] = strdup(arg.c_str());
     }
     arglist[i] = NULL;

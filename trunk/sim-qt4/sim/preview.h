@@ -19,13 +19,15 @@
 #ifdef USE_KDE
 #include <kpreviewwidgetbase.h>
 #else
-#include <qfiledialog.h>
+#include <q3filedialog.h>
+//Added by qt3to4:
+#include <QLabel>
 #endif
 
 #ifdef USE_KDE
 class EXPORT FilePreview : public KPreviewWidgetBase
 #else
-class EXPORT FilePreview : public QFilePreview, public QWidget
+class EXPORT FilePreview : public Q3FilePreview, public QWidget
 #endif
 {
 public:
@@ -36,7 +38,7 @@ public:
     virtual void showPreview(const KURL &url);
     virtual void clearPreview();
 #else
-    virtual void previewUrl(const QUrl&);
+    virtual void previewUrl(const Q3Url&);
 #endif
 };
 

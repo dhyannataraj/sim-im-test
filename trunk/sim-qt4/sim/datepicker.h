@@ -20,8 +20,10 @@
 
 #include "simapi.h"
 
-#include <qframe.h>
-#include <qlabel.h>
+#include <QFrame>
+#include <QLabel>
+#include <QMouseEvent>
+#include <QPaintEvent>
 
 class QLabel;
 class QLineEdit;
@@ -34,7 +36,7 @@ class EXPORT DatePicker : public QFrame
 {
     Q_OBJECT
 public:
-    DatePicker(QWidget *parent, const char *name = NULL);
+    DatePicker(QWidget *parent);
     ~DatePicker();
     void setDate(int day, int month, int year);
     void getDate(int &day, int &month, int &year);

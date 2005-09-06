@@ -23,9 +23,12 @@
 #endif
 
 #include "compatqtversion.h"
+//Added by qt3to4:
+#include <QPixmap>
+#include <QContextMenuEvent>
 
 #if COMPAT_QT_VERSION >= 0x030000
-#include <qtextedit.h>
+#include <q3textedit.h>
 #endif
 
 #ifdef STDC_HEADERS
@@ -86,7 +89,7 @@ typedef unsigned char _Bool;
 #endif
 
 #if defined(_MSC_VER) && defined(_DEBUG) && !defined(NO_CHECK_NEW)
-#include <qnetworkprotocol.h>
+#include <q3networkprotocol.h>
 #ifndef _CRTDBG_MAP_ALLOC
 #define _CRTDBG_MAP_ALLOC
 #endif
@@ -101,7 +104,7 @@ using namespace std;
 
 #include <qwidget.h>
 #if COMPAT_QT_VERSION >= 0x030000
-#include <qdockwindow.h>
+#include <q3dockwindow.h>
 #endif
 
 #ifdef WIN32
@@ -170,10 +173,10 @@ protected:
 
 class QFile;
 class QWidget;
-class QIconSet;
+class QIcon;
 class QPixmap;
-class QToolBar;
-class QMainWindow;
+class Q3ToolBar;
+class Q3MainWindow;
 class QComboBox;
 class QLineEdit;
 
@@ -492,7 +495,7 @@ const unsigned EventShowBar = 0x0508;
 
 typedef struct BarShow
 {
-    QMainWindow	*parent;
+    Q3MainWindow	*parent;
     unsigned	bar_id;
 } ToolBarShow;
 
@@ -960,8 +963,8 @@ const int DESKTOP	= 4;
 
 EXPORT void saveGeometry(QWidget*, Data[5]);
 EXPORT void restoreGeometry(QWidget*, Data[5], bool bPos, bool bSize);
-EXPORT void saveToolbar(QToolBar*, Data[7]);
-EXPORT void restoreToolbar(QToolBar*, Data[7]);
+EXPORT void saveToolbar(Q3ToolBar*, Data[7]);
+EXPORT void restoreToolbar(Q3ToolBar*, Data[7]);
 EXPORT bool cmp(char *s1, char *s2);
 
 // _____________________________________________________________________________________
@@ -1768,7 +1771,7 @@ EXPORT void setWndClass(QWidget*, const char*);
 EXPORT bool raiseWindow(QWidget *w, unsigned desk = 0);
 EXPORT void setButtonsPict(QWidget *w);
 
-EXPORT QIconSet Icon(const char *name);
+EXPORT QIcon Icon(const char *name);
 EXPORT QPixmap Pict(const char *name);
 EXPORT QPixmap Pict(const char *name, const QColor &bgColor);
 EXPORT const QImage *Image(const char *name);

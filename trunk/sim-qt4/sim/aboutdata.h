@@ -46,7 +46,7 @@
 *
 */
 
-#include <qvaluelist.h>
+#include <q3valuelist.h>
 #include <qstring.h>
 
 class KAboutPersonPrivate;
@@ -173,7 +173,7 @@ private:
 * @short Holds information needed by the "About" box and other
 * classes.
 * @author Espen Sand (espen@kde.org), David Faure (faure@kde.org)
-* @version $Id: aboutdata.h,v 1.2 2004-06-26 08:16:59 shutoff Exp $
+* @version $Id: aboutdata.h,v 1.2 2004/06/26 08:16:59 shutoff Exp $
 */
 class EXPORT KAboutData
 {
@@ -363,17 +363,17 @@ public:
     /**
     * @return author information (list of persons).
     */
-    const QValueList<KAboutPerson> authors() const;
+    const Q3ValueList<KAboutPerson> authors() const;
 
     /**
     * @return credit information (list of persons).
     */
-    const QValueList<KAboutPerson> credits() const;
+    const Q3ValueList<KAboutPerson> credits() const;
 
     /**
     * @return translators information (list of persons)
     */
-    const QValueList<KAboutTranslator> translators() const;
+    const Q3ValueList<KAboutTranslator> translators() const;
 
     /**
     * @return a message about the translation team

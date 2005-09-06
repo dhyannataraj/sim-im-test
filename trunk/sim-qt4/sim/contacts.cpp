@@ -23,6 +23,8 @@ email                : vovan@shutoff.ru
 #include <qdir.h>
 #include <qtextcodec.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 namespace SIM
 {
@@ -1678,7 +1680,7 @@ void ContactList::save()
 {
     string cfgName = user_file(CONTACTS_CONF);
     QFile f(QFile::decodeName((cfgName + BACKUP_SUFFIX).c_str())); // use backup file for this ...
-    if (!f.open(IO_WriteOnly | IO_Truncate)){
+    if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
         log(L_ERROR, "Can't create %s", (const char*)f.name().local8Bit());
         return;
     }
@@ -1785,7 +1787,7 @@ void ContactList::load()
     clear();
     string cfgName = user_file(CONTACTS_CONF);
     QFile f(QFile::decodeName(cfgName.c_str()));
-    if (!f.open(IO_ReadOnly)){
+    if (!f.open(QIODevice::ReadOnly)){
         log(L_ERROR, "Can't open %s", cfgName.c_str());
         return;
     }
@@ -2107,7 +2109,7 @@ string ContactList::fromUnicode(Contact *contact, const QString &str)
         return "";
     QString s = str;
     s = s.replace(QRegExp("\r?\n"), "\r\n");
-    QCString res = getCodec(contact)->fromUnicode(str);
+    Q3CString res = getCodec(contact)->fromUnicode(str);
     return (const char*)res;
 }
 }

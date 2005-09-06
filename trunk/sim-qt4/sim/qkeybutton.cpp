@@ -17,9 +17,13 @@
 
 #include "qkeybutton.h"
 
-#include <qaccel.h>
+#include <q3accel.h>
 #include <qcursor.h>
 #include <qstringlist.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QFocusEvent>
+#include <QKeyEvent>
 
 #ifdef USE_KDE
 #include <kglobalaccel.h>
@@ -49,7 +53,7 @@ void QKeyButton::startGrab()
     if (m_bGrab) return;
     m_bGrab = true;
     grabKeyboard();
-    grabMouse(QCursor(IbeamCursor));
+    grabMouse(QCursor(Qt::IBeamCursor));
 }
 
 void QKeyButton::endGrab()
@@ -95,22 +99,22 @@ void QKeyButton::setKey(QKeyEvent *e, bool bPress)
     QString name;
     log(L_DEBUG, "-> %X %X", e->key(), e->state());
     switch (e->key()){
-    case Key_Shift:
-        key_state = ShiftButton;
+    case Qt::Key_Shift:
+        key_state = Qt::ShiftModifier;
         break;
-    case Key_Control:
-        key_state = ControlButton;
+    case Qt::Key_Control:
+        key_state = Qt::ControlModifier;
         break;
-    case Key_Alt:
-        key_state = AltButton;
+    case Qt::Key_Alt:
+        key_state = Qt::AltModifier;
         break;
 #if COMPAT_QT_VERSION >= 0x030000
-    case Key_Meta:
-        key_state = MetaButton;
+    case Qt::Key_Meta:
+        key_state = Qt::MetaModifier;
         break;
 #endif
     default:
-        name = QAccel::keyToString(e->key());
+        name = Q3Accel::keyToString(e->key());
         if ((name[0] == '<') && (name[(int)(name.length()-1)] == '>'))
             return;
     }
@@ -119,11 +123,11 @@ void QKeyButton::setKey(QKeyEvent *e, bool bPress)
     }else{
         state &= ~key_state;
     }
-    if (state & AltButton) keyName += "Alt+";
-    if (state & ControlButton) keyName += "Ctrl+";
-    if (state & ShiftButton) keyName += "Shift+";
+    if (state & Qt::AltModifier) keyName += "Alt+";
+    if (state & Qt::ControlModifier) keyName += "Ctrl+";
+    if (state & Qt::ShiftModifier) keyName += "Shift+";
 #if COMPAT_QT_VERSION >= 0x030000
-    if (state & MetaButton) keyName += "Meta+";
+    if (state & Qt::MetaModifier) keyName += "Meta+";
 #endif
     setText(keyName + name);
     if (name.length()){

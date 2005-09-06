@@ -21,24 +21,31 @@
 #include "simapi.h"
 
 #include <qglobal.h>
-#include <qmainwindow.h>
+#include <q3mainwindow.h>
 #include <qtoolbutton.h>
 #include <qlabel.h>
+//Added by qt3to4:
+#include <QKeyEvent>
+#include <QEvent>
+#include <Q3Frame>
+#include <QResizeEvent>
+#include <Q3PopupMenu>
+#include <QMouseEvent>
 
 #if COMPAT_QT_VERSION < 0x030000
-#include "qt3/qtextedit.h"
+#include "qt3/q3textedit.h"
 #else
-#include <qtextedit.h>
+#include <q3textedit.h>
 #ifdef USE_KDE
 #ifdef HAVE_KTEXTEDIT_H
 #include <ktextedit.h>
-#define QTextEdit KTextEdit
+#define Q3TextEdit KTextEdit
 #endif
 #endif
 #endif
 
 class CToolBar;
-class QTextDrag;
+class Q3TextDrag;
 
 const unsigned TextCmdBase	= 0x00030000;
 const unsigned CmdBgColor	= TextCmdBase;
@@ -48,7 +55,7 @@ const unsigned CmdItalic	= TextCmdBase + 3;
 const unsigned CmdUnderline	= TextCmdBase + 4;
 const unsigned CmdFont		= TextCmdBase + 5;
 
-class EXPORT TextShow : public QTextEdit
+class EXPORT TextShow : public Q3TextEdit
 {
     Q_OBJECT
 public:
@@ -69,7 +76,7 @@ protected slots:
     void slotSelectionChanged();
     void slotResizeTimer();
 protected:
-    QTextDrag *dragObject(QWidget *parent) const;
+    Q3TextDrag *dragObject(QWidget *parent) const;
     QTimer	  *m_timer;
     void startDrag();
     void keyPressEvent(QKeyEvent *e);
@@ -85,7 +92,7 @@ public:
     TextEdit(QWidget *parent, const char *name = NULL);
     ~TextEdit();
     void setCtrlMode(bool);
-    void setTextFormat(QTextEdit::TextFormat);
+    void setTextFormat(Qt::TextFormat);
     const QColor &foreground() const;
     const QColor &defForeground() const;
     void setForeground(const QColor&, bool bDef);
@@ -112,7 +119,7 @@ protected:
     void *processEvent(Event*);
     bool eventFilter(QObject *o, QEvent *e);
     void keyPressEvent(QKeyEvent *e);
-    QPopupMenu *createPopupMenu(const QPoint& pos);
+    Q3PopupMenu *createPopupMenu(const QPoint& pos);
     void *m_param;
     bool m_bBold;
     bool m_bItalic;
@@ -127,7 +134,7 @@ protected:
     bool m_bInClick;
 };
 
-class QToolBar;
+class Q3ToolBar;
 
 class EXPORT ColorLabel : public QLabel
 {
@@ -143,7 +150,7 @@ protected:
     unsigned m_id;
 };
 
-class EXPORT ColorPopup : public QFrame
+class EXPORT ColorPopup : public Q3Frame
 {
     Q_OBJECT
 public:
@@ -156,15 +163,15 @@ protected:
     QColor m_color;
 };
 
-class EXPORT RichTextEdit : public QMainWindow
+class EXPORT RichTextEdit : public Q3MainWindow
 {
     Q_OBJECT
 public:
     RichTextEdit(QWidget *parent, const char *name = NULL);
     void setText(const QString&);
     QString text();
-    void setTextFormat(QTextEdit::TextFormat);
-    QTextEdit::TextFormat textFormat();
+    void setTextFormat(Qt::TextFormat);
+    Q3TextEdit::TextFormat textFormat();
     void setReadOnly(bool bState);
     void showBar();
 protected:

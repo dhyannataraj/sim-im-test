@@ -597,7 +597,7 @@ bool FileTransfer::openFile()
     m_bDir = false;
     m_name = fn.mid(m_base.length());
     m_file = new QFile(fn);
-    if (!m_file->open(IO_ReadOnly)){
+    if (!m_file->open(QIODevice::ReadOnly)){
         m_msg->setError(i18n("Can't open %1") .arg(fn));
         setError();
         return false;

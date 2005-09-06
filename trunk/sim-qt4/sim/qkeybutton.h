@@ -20,6 +20,10 @@
 
 #include "simapi.h"
 #include <qpushbutton.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QFocusEvent>
+#include <QKeyEvent>
 
 class EXPORT QKeyButton: public QPushButton
 {

@@ -23,6 +23,10 @@
 #include <qdialog.h>
 #include <qbitmap.h>
 #include <qpushbutton.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QEvent>
+#include <QPaintEvent>
 
 class QStringList;
 class QCheckBox;

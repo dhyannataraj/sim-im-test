@@ -21,7 +21,9 @@
 #include "simapi.h"
 #include "stl.h"
 
-#include <qiconset.h>
+#include <qicon.h>
+//Added by qt3to4:
+#include <QPixmap>
 
 #ifdef WIN32
 #if _MSC_VER > 1020
@@ -31,7 +33,7 @@
 
 using namespace std;
 
-class QMimeSourceFactory;
+class Q3MimeSourceFactory;
 
 namespace SIM
 {
@@ -73,7 +75,7 @@ protected:
     list<smileDef>	m_smiles;
 };
 
-#ifdef WIN32
+#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
 
 typedef map<unsigned, string>	ICONS_MAP;
 
@@ -94,7 +96,7 @@ public:
     IconSet *addIconSet(const char *name, bool bDefault);
     void removeIconSet(IconSet*);
     list<IconSet*>	m_customSets;
-#ifdef WIN32
+#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
     PictDef			*getPict(const QPixmap &pict);
     ICONS_MAP		m_icons;
 #endif

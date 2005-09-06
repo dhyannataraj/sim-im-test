@@ -34,10 +34,12 @@
 #include <qlayout.h>
 #include <qglobal.h>
 #include <qimage.h>
-#include <qobjectlist.h>
+#include <qobject.h>
 #include <qapplication.h>
 #include <qtooltip.h>
 #include <qstringlist.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
 #ifdef WIN32
 #if _MSC_VER > 1020
@@ -100,8 +102,8 @@ public:
     {};
     const char *translatorName;
     const char *translatorEmail;
-    QValueList<KAboutPerson> mAuthorList;
-    QValueList<KAboutPerson> mCreditList;
+    Q3ValueList<KAboutPerson> mAuthorList;
+    Q3ValueList<KAboutPerson> mCreditList;
 };
 
 
@@ -220,22 +222,22 @@ KAboutData::bugAddress() const
     return QString::fromLatin1(mBugEmailAddress);
 }
 
-const QValueList<KAboutPerson>
+const Q3ValueList<KAboutPerson>
 KAboutData::authors() const
 {
     return d->mAuthorList;
 }
 
-const QValueList<KAboutPerson>
+const Q3ValueList<KAboutPerson>
 KAboutData::credits() const
 {
     return d->mCreditList;
 }
 
-const QValueList<KAboutTranslator>
+const Q3ValueList<KAboutTranslator>
 KAboutData::translators() const
 {
-    QValueList<KAboutTranslator> personList;
+    Q3ValueList<KAboutTranslator> personList;
 
     if(d->translatorName == 0)
         return personList;

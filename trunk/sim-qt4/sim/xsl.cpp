@@ -68,9 +68,9 @@ XSL::XSL(const QString &name)
     fname += EXT;
     QFile f(QFile::decodeName(user_file(fname.c_str()).c_str()));
     bool bOK = true;
-    if (!f.open(IO_ReadOnly)){
+    if (!f.open(QIODevice::ReadOnly)){
         f.setName(QFile::decodeName(app_file(fname.c_str()).c_str()));
-        if (!f.open(IO_ReadOnly)){
+        if (!f.open(QIODevice::ReadOnly)){
             log(L_WARN, "Can't open %s", fname.c_str());
             bOK = false;
         }

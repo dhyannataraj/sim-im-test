@@ -36,11 +36,11 @@
 
 #include <qfile.h>
 #include <qregexp.h>
-#include <qsocket.h>
-#include <qsocketdevice.h>
+#include <q3socket.h>
+#include <q3socketdevice.h>
 #include <qsocketnotifier.h>
 #include <qtimer.h>
-#include <qdns.h>
+#include <q3dns.h>
 
 #ifndef INADDR_NONE
 #define INADDR_NONE     0xFFFFFFFF
@@ -88,7 +88,7 @@ SIMResolver::SIMResolver(QObject *parent, const char *host)
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(resolveTimeout()));
     timer->start(20000);
-    dns = new QDns(host, QDns::A);
+    dns = new Q3Dns(host, Q3Dns::A);
     connect(dns, SIGNAL(resultsReady()), this, SLOT(resolveReady()));
 }
 
@@ -170,11 +170,11 @@ ServerSocket *SIMSockets::createServerSocket()
     return new SIMServerSocket();
 }
 
-SIMClientSocket::SIMClientSocket(QSocket *s)
+SIMClientSocket::SIMClientSocket(Q3Socket *s)
 {
     sock = s;
     if (sock == NULL)
-        sock = new QSocket(this);
+        sock = new Q3Socket(this);
     QObject::connect(sock, SIGNAL(connected()), this, SLOT(slotConnected()));
     QObject::connect(sock, SIGNAL(connectionClosed()), this, SLOT(slotConnectionClosed()));
     QObject::connect(sock, SIGNAL(error(int)), this, SLOT(slotError(int)));
@@ -372,7 +372,7 @@ void SIMClientSocket::pause(unsigned t)
 SIMServerSocket::SIMServerSocket()
 {
     sn = NULL;
-    sock = new QSocketDevice;
+    sock = new Q3SocketDevice;
 }
 
 SIMServerSocket::~SIMServerSocket()
@@ -444,7 +444,7 @@ void SIMServerSocket::bind(const char *path)
         error("Can't create listener");
         return;
     }
-    sock->setSocket(s, QSocketDevice::Stream);
+    sock->setSocket(s, Q3SocketDevice::Stream);
 
     struct sockaddr_un nsun;
     nsun.sun_family = AF_UNIX;
@@ -488,7 +488,7 @@ void SIMServerSocket::activated(int)
     if (fd >= 0){
         log(L_DEBUG, "accept ready");
         if (notify){
-            QSocket *s = new QSocket;
+            Q3Socket *s = new Q3Socket;
             s->setSocket(fd);
             if (notify->accept(new SIMClientSocket(s), htonl(s->address().ip4Addr()))){
                 if (notify)
@@ -585,8 +585,8 @@ void IP::resolve()
 
 IPResolver::IPResolver()
 {
-    resolver = new QDns;
-    resolver->setRecordType(QDns::Ptr);
+    resolver = new Q3Dns;
+    resolver->setRecordType(Q3Dns::Ptr);
     QObject::connect(resolver, SIGNAL(resultsReady()), this, SLOT(resolve_ready()));
 }
 
@@ -652,7 +652,7 @@ void IPResolver::start_resolve()
 #if COMPAT_QT_VERSION >= 0x030000
     if (resolver)
         delete resolver;
-    resolver = new QDns(QHostAddress(htonl(m_addr)), QDns::Ptr);
+    resolver = new Q3Dns(QHostAddress(htonl(m_addr)), Q3Dns::Ptr);
     connect(resolver, SIGNAL(resultsReady()), this, SLOT(resolve_ready()));
 #else
     resolver->setLabel(QHostAddress(htonl(m_addr)));

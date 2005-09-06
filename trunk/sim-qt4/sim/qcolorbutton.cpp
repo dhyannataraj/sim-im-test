@@ -30,8 +30,10 @@ QColorButton::QColorButton( QWidget *parent, const char *name)
 
 #include <qpainter.h>
 #include <qdrawutil.h>
-#include <qapplication.h>
-#include <qstyle.h>
+#include <QApplication>
+#include <QStyle>
+#include <QStyleOptionButton>
+#include <QWindowsStyle>
 #include <qcolordialog.h>
 
 QColorButton::QColorButton( QWidget *parent, const char *name )
@@ -51,11 +53,8 @@ void QColorButton::setColor( const QColor &c )
 
 void QColorButton::drawButtonLabel( QPainter *painter )
 {
-#if COMPAT_QT_VERSION < 0x030000
-    QRect r = style().pushButtonContentsRect(this);
-#else
-QRect r = style().subRect( QStyle::SR_PushButtonContents, this );
-#endif
+    QStyleOptionButton butOpt;
+    QRect r( style()->subElementRect( QStyle::SE_PushButtonContents, &butOpt, this ));
     int l = r.x();
     int t = r.y();
     int w = r.width();

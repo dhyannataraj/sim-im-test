@@ -20,15 +20,15 @@
 
 #include "simapi.h"
 
-#include <qlineedit.h>
-#include <qvalidator.h>
-#include <qgroupbox.h>
+#include <QLineEdit>
+#include <QValidator>
+#include <QGroupBox>
+#include <QMouseEvent>
+#include <QFocusEvent>
+#include <QMoveEvent>
+#include <QKeyEvent>
+#include <QRegExp>
 
-#if COMPAT_QT_VERSION < 0x030000
-#include "qt3/qregexp.h"
-#else
-#include <qregexp.h>
-#endif
 
 class EXPORT IntLineEdit : public QLineEdit
 {
@@ -43,19 +43,6 @@ protected:
     void focusOutEvent(QFocusEvent*);
     void keyPressEvent(QKeyEvent*);
 };
-
-#if COMPAT_QT_VERSION < 0x030000
-
-class EXPORT QRegExpValidator : public QValidator
-{
-public:
-    QRegExpValidator(const Qt3::QRegExp& rx, QWidget *parent);
-    virtual State validate(QString &, int&) const;
-protected:
-    Qt3::QRegExp r;
-};
-
-#endif
 
 class EXPORT RegExpValidator : public QRegExpValidator
 {

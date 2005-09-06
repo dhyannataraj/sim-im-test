@@ -21,6 +21,9 @@
 #include <qpushbutton.h>
 #include <qlabel.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <Q3Frame>
+#include <QHBoxLayout>
 
 #ifdef USE_KDE
 #include <kfontdialog.h>
@@ -28,7 +31,7 @@
 #include <qfontdialog.h>
 #endif
 
-FontEdit::FontEdit(QWidget *parent, const char *name) : QFrame(parent, name)
+FontEdit::FontEdit(QWidget *parent, const char *name) : Q3Frame(parent, name)
 {
     QHBoxLayout *lay = new QHBoxLayout(this);
     lblFont = new QLabel("...", this);
@@ -38,7 +41,7 @@ FontEdit::FontEdit(QWidget *parent, const char *name) : QFrame(parent, name)
     QPushButton *btnFont = new QPushButton(this);
     btnFont->setPixmap(Pict("text"));
     lay->addWidget(btnFont);
-    lblFont->setFrameShape(QFrame::Box);
+    lblFont->setFrameShape(Q3Frame::Box);
     lblFont->setLineWidth(1);
     lblFont->setMargin(3);
     connect(btnFont, SIGNAL(clicked()), this, SLOT(chooseFont()));
