@@ -1,0 +1,14 @@
+# KDE Config File  
+[Desktop Entry]
+Type=Application
+Exec=sim
+Icon=sim.png
+MiniIcon=sim.png
+DocPath=sim/index.html
+Comment=ICQ-client
+Comment[de]=
+Comment[ru]=
+Terminal=0
+Name=Sim
+Name[de]=Sim
+Name[ru]=Sim
