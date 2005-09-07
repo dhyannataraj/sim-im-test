@@ -374,7 +374,7 @@ const QImage *Image(const char *name)
     return p->image;
 }
 
-QPixmap Pict(const char *name)
+QIcon Pict(const char *name)
 {
     PictDef *p = getPict(name);
     if (p == NULL)
@@ -384,7 +384,7 @@ QPixmap Pict(const char *name)
 
 #if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
 
-QPixmap Pict(const char *name, const QColor &c)
+QIcon Pict(const char *name, const QColor &c)
 {
 	const QImage *img = Image(name);
 	if (img == NULL)
@@ -407,7 +407,7 @@ QPixmap Pict(const char *name, const QColor &c)
 
 #else
 
-QPixmap Pict(const char *name, const QColor&)
+QIcon Pict(const char *name, const QColor&)
 {
 	return Pict(name);
 }

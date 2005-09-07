@@ -41,6 +41,8 @@
 #include <QShowEvent>
 #include <QContextMenuEvent>
 #include <QMouseEvent>
+#include <QDesktopWidget>
+#include <Q3Button>
 
 class ButtonsMap : public map<unsigned, CToolItem*>
 {
@@ -202,9 +204,9 @@ void CToolButton::setState()
 #else
         if (!offIcon.pixmap(QIcon::Small, QIcon::Normal).isNull()){
             QIcon icons = offIcon;
-            QPixmap off = Pict(m_def.icon_on);
+            QIcon off = Pict(m_def.icon_on);
             if (!off.isNull())
-                icons.setPixmap(off, QIcon::Small, QIcon::Normal, QIcon::On);
+                icons.setPixmap(off.pixmap(QIcon::Small, QIcon::Normal, QIcon::On), QIcon::Small, QIcon::Normal, QIcon::On);
             setIconSet(icons);
         }
 #endif
@@ -268,11 +270,11 @@ QPoint CToolButton::popupPos(QWidget *btn, QWidget *p)
             break;
         }
     }
-    QWidget *desktop = qApp->desktop();
+    QDesktopWidget *desktop = qApp->desktop();
     QSize s = p->sizeHint();
     s = p->sizeHint();
     if (bar){
-        if  (bar->orientation() == Vertical){
+        if  (bar->orientation() == Qt::Vertical){
             pos = QPoint(btn->width(), 0);
         }else{
             pos = QPoint(0, btn->height());
@@ -355,7 +357,7 @@ QSizePolicy PictButton::sizePolicy() const
 {
     QSizePolicy p = QToolButton::sizePolicy();
     Q3ToolBar *bar = static_cast<Q3ToolBar*>(parent());
-    if (bar->orientation() == Vertical){
+    if (bar->orientation() == Qt::Vertical){
         p.setVerData(QSizePolicy::Expanding);
     }else{
         p.setHorData(QSizePolicy::Expanding);
@@ -368,13 +370,13 @@ QSize PictButton::minimumSizeHint() const
     int wChar = QFontMetrics(font()).width('0');
     QSize p = QToolButton:: minimumSizeHint();
     Q3ToolBar *bar = static_cast<Q3ToolBar*>(parent());
-    Q3MainWindow::ToolBarDock tDock;
+    Qt::Dock tDock;
     int index;
     bool nl;
     int extraOffset;
     bar->mainWindow()->getLocation(bar, tDock, index, nl, extraOffset);
-    if (tDock == Q3MainWindow::TornOff){
-        if (bar->orientation() == Vertical){
+    if (tDock == Qt::TornOff){
+        if (bar->orientation() == Qt::Vertical){
             p.setHeight(p.height() + 2 * wChar + 16);
         }else{
             p.setWidth(p.width() + 2 * wChar + 16);
@@ -390,13 +392,13 @@ QSize PictButton::sizeHint() const
     int wChar = QFontMetrics(font()).width('0');
     QSize p = QToolButton:: sizeHint();
     Q3ToolBar *bar = static_cast<Q3ToolBar*>(parent());
-    Q3MainWindow::ToolBarDock tDock;
+    Qt::Dock tDock;
     int index;
     bool nl;
     int extraOffset;
     bar->mainWindow()->getLocation(bar, tDock, index, nl, extraOffset);
-    if (tDock == Q3MainWindow::TornOff){
-        if (bar->orientation() == Vertical){
+    if (tDock == Qt::TornOff){
+        if (bar->orientation() == Qt::Vertical){
             p.setHeight(p.height() + 2 * wChar + 16);
         }else{
             p.setWidth(p.width() + 2 * wChar + 16);
@@ -427,11 +429,8 @@ void PictButton::paintEvent(QPaintEvent*)
             p.fillRect(0, 0, width(), height(), colorGroup().button());
         }
     }
-#if COMPAT_QT_VERSION < 0x030000
-    style().drawToolButton(this, &p);
-#else
-    drawButton(&p);
-#endif
+//    style()->drawToolButton(this, &p);
+//    drawButton(&p);
     int w = 4;
     QRect rc(4, 4, width() - 4, height() - 4);
     if (m_def.icon && strcmp(m_def.icon, "empty")){
@@ -439,7 +438,7 @@ void PictButton::paintEvent(QPaintEvent*)
         if (!icons.pixmap(QIcon::Small, QIcon::Normal).isNull()){
             const QPixmap &pict = icons.pixmap(QIcon::Small, isEnabled() ? QIcon::Active : QIcon::Disabled);
             Q3ToolBar *bar = static_cast<Q3ToolBar*>(parent());
-            if (bar->orientation() == Vertical){
+            if (bar->orientation() == Qt::Vertical){
                 p.drawPixmap((width() - pict.width()) / 2, 4, pict);
                 QMatrix m;
                 m.rotate(90);
@@ -454,7 +453,7 @@ void PictButton::paintEvent(QPaintEvent*)
         }
     }else{
         Q3ToolBar *bar = static_cast<Q3ToolBar*>(parent());
-        if (bar->orientation() == Vertical){
+        if (bar->orientation() == Qt::Vertical){
             QMatrix m;
             m.rotate(90);
             p.setWorldMatrix(m);
@@ -479,12 +478,12 @@ void PictButton::paintEvent(QPaintEvent*)
                 text += parts[i];
             }
             QRect rcb(0, 0, qApp->desktop()->width(), qApp->desktop()->height());
-            rcb = p.boundingRect(rcb, AlignLeft | ShowPrefix | SingleLine, text);
+            rcb = p.boundingRect(rcb, Qt::AlignLeft | Qt::ShowPrefix | Qt::SingleLine, text);
             if (rcb.width() + w < rc.width())
                 break;
         }
     }
-    p.drawText(rc, AlignLeft | AlignVCenter | ShowPrefix | SingleLine, text);
+    p.drawText(rc, Qt::AlignLeft | Qt::AlignVCenter | Qt::ShowPrefix | Qt::SingleLine, text);
     p.end();
     p.begin(this);
     p.drawPixmap(0, 0, pict);

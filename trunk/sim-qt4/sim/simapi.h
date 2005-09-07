@@ -23,12 +23,13 @@
 #endif
 
 #include "compatqtversion.h"
-//Added by qt3to4:
 #include <QPixmap>
 #include <QContextMenuEvent>
+#include <QByteArray>
+#include <Q3MimeSourceFactory>
 
 #if COMPAT_QT_VERSION >= 0x030000
-#include <q3textedit.h>
+#include <QTextEdit>
 #endif
 
 #ifdef STDC_HEADERS
@@ -915,7 +916,7 @@ EXPORT bool set_ip(Data *ip, unsigned long value, const char *host=NULL);
 
 #define PROP_UTFLIST(A)	\
 	QString get##A(unsigned index) const { return QString::fromUtf8(get_str(data.A, index)); } \
-	void set##A(unsigned index, const QString &value) { set_str(&data.A, index, value.utf8()); } \
+	void set##A(unsigned index, const QString &value) { set_str(&data.A, index, value.toUtf8()); } \
 	void clear##A()	{ clear_list(&data.A); }
 
 #define PROP_STR(A) \
@@ -924,11 +925,11 @@ EXPORT bool set_ip(Data *ip, unsigned long value, const char *host=NULL);
 
 #define PROP_UTF8(A) \
 	QString get##A() const { return data.A.ptr ? QString::fromUtf8(data.A.ptr) : QString(""); } \
-	bool set##A(const QString &r) { return set_str(&data.A.ptr, r.utf8()); }
+	bool set##A(const QString &r) { return set_str(&data.A.ptr, r.toUtf8()); }
 
 #define VPROP_UTF8(A) \
 	virtual QString get##A() const { return data.A.ptr ? QString::fromUtf8(data.A.ptr) : QString(""); } \
-	bool set##A(const QString &r) { return set_str(&data.A.ptr, r.utf8()); }
+	bool set##A(const QString &r) { return set_str(&data.A.ptr, r.toUtf8()); }
 
 #define PROP_LONG(A) \
 	unsigned long get##A() const { return data.A.value; } \
@@ -1772,8 +1773,8 @@ EXPORT bool raiseWindow(QWidget *w, unsigned desk = 0);
 EXPORT void setButtonsPict(QWidget *w);
 
 EXPORT QIcon Icon(const char *name);
-EXPORT QPixmap Pict(const char *name);
-EXPORT QPixmap Pict(const char *name, const QColor &bgColor);
+EXPORT QIcon Pict(const char *name);
+EXPORT QIcon Pict(const char *name, const QColor &bgColor);
 EXPORT const QImage *Image(const char *name);
 
 EXPORT void setAboutData(KAboutData*);

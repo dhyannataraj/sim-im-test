@@ -171,7 +171,7 @@ public:
     void setText(const QString&);
     QString text();
     void setTextFormat(Qt::TextFormat);
-    Q3TextEdit::TextFormat textFormat();
+    Qt::TextFormat textFormat();
     void setReadOnly(bool bState);
     void showBar();
 protected:

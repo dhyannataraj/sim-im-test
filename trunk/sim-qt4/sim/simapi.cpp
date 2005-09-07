@@ -34,7 +34,7 @@
 #include <Q3MultiLineEdit>
 #include <QRegExp>
 
-#include <QDesktopWidget>
+#include <qdesktopwidget.h>
 
 #ifdef WIN32
 #include <windows.h>

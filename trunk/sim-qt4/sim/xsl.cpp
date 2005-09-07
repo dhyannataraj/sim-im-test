@@ -64,7 +64,7 @@ static char EXT[]    = ".xsl";
 XSL::XSL(const QString &name)
 {
     string fname = STYLES;
-    fname += QFile::encodeName(name);
+    fname += static_cast<string>(QFile::encodeName(name));
     fname += EXT;
     QFile f(QFile::decodeName(user_file(fname.c_str()).c_str()));
     bool bOK = true;
@@ -106,7 +106,7 @@ QString XSL::process(const QString &my_xml)
     xmlDocPtr doc = xmlParseMemory(my_xsl.utf8(), my_xsl.utf8().length());
     if (doc == NULL){
         string s;
-        s = my_xsl.local8Bit();
+        s = static_cast<string>(my_xsl.local8Bit());
         log(L_WARN, "Parse XML error: %s", s.c_str());
         return QString::null;
     }

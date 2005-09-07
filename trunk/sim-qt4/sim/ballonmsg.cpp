@@ -36,6 +36,7 @@
 #include <QVBoxLayout>
 #include <QMouseEvent>
 #include <QDesktopWidget>
+#include <Q3StyleSheet>
 
 #ifdef WIN32
 #include <windows.h>

@@ -115,7 +115,7 @@ bool RichTextDrag::decode(QMimeSource *e, QString &str, const Q3CString &mimetyp
         }
         return FALSE;
     }
-    Q3CString subt = subtype;
+    QString subt = subtype;
     return Q3TextDrag::decode( e, str, subt );
 }
 
@@ -219,7 +219,7 @@ bool TextEdit::isEmpty()
 {
     if (paragraphs() < 2){
         QString t = text(0);
-        if (textFormat() == Q3TextEdit::RichText)
+        if (textFormat() == Qt::RichText)
             t = unquoteText(t);
         return t.isEmpty() || (t == " ");
     }
@@ -319,24 +319,24 @@ void TextEdit::setCtrlMode(bool mode)
 
 void TextEdit::keyPressEvent(QKeyEvent *e)
 {
-    if (((e->key() == Key_Enter) || (e->key() == Key_Return)))
+    if (((e->key() == Qt::Key_Enter) || (e->key() == Qt::Key_Return)))
     {
         //   in m_bCtrlMode:    enter      --> newLine
         //                      ctrl+enter --> sendMsg
         //   in !m_bCtrlMode:   enter      --> sendMsg
         //                      ctrl+enter --> newLine
         // the (bool) is required due to the bitmap
-        if (m_bCtrlMode == (bool)(e->state() & ControlButton)){
+        if (m_bCtrlMode == (bool)(e->state() & Qt::ControlButton)){
             emit ctrlEnterPressed();
             return;
         }
     }
     if (!isReadOnly()){
-        if ((e->state() == ShiftButton) && (e->key() == Key_Insert)){
+        if ((e->state() == Qt::ShiftButton) && (e->key() == Qt::Key_Insert)){
             paste();
             return;
         }
-        if ((e->state() == ControlButton) && (e->key() == Key_Delete)){
+        if ((e->state() == Qt::ControlButton) && (e->key() == Qt::Key_Delete)){
             cut();
             return;
         }
@@ -370,7 +370,7 @@ void *TextEdit::processEvent(Event *e)
         case CmdItalic:
         case CmdUnderline:
         case CmdFont:
-            if ((textFormat() == RichText) && !isReadOnly()){
+            if ((textFormat() == Qt::RichText) && !isReadOnly()){
                 cmd->flags &= ~BTN_HIDE;
             }else{
                 cmd->flags |= BTN_HIDE;
@@ -470,7 +470,7 @@ void TextEdit::setForeground(const QColor& c, bool bDef)
         defFG = c;
     if (!hasSelectedText())
         setColor(c);
-    int r = c.Qt::red();
+    int r = Qt::red;
 #if COMPAT_QT_VERSION >= 0x030000
     if (r){
         r--;
@@ -479,7 +479,7 @@ void TextEdit::setForeground(const QColor& c, bool bDef)
     }
 #endif
     QPalette pal = palette();
-    pal.setColor(QPalette::Active, QColorGroup::Text, QColor(r, c.Qt::green(), c.Qt::blue()));
+    pal.setColor(QPalette::Active, QColorGroup::Text, QColor(r, Qt::green, Qt::blue));
     setPalette(pal);
 }
 
@@ -507,7 +507,7 @@ void TextEdit::setTextFormat(Qt::TextFormat format)
 {
     if (format == textFormat())
         return;
-    if (format == RichText){
+    if (format == Qt::RichText){
         Q3TextEdit::setTextFormat(format);
         return;
     }
@@ -519,7 +519,7 @@ void TextEdit::setTextFormat(Qt::TextFormat format)
 TextShow::TextShow(QWidget *p, const char *name)
         : Q3TextEdit(p, name)
 {
-    setTextFormat(RichText);
+    setTextFormat(Qt::RichText);
     setReadOnly(true);
 #if COMPAT_QT_VERSION >= 0x030100
     if (QApplication::clipboard()->supportsSelection())
@@ -543,7 +543,7 @@ void TextShow::setSource(const QString &name)
 {
 #ifndef QT_NO_CURSOR
     if ( isVisible() )
-        qApp->setOverrideCursor( waitCursor );
+        qApp->setOverrideCursor( Qt::waitCursor );
 #endif
     QString source = name;
     QString mark;
@@ -625,7 +625,7 @@ void TextShow::resizeEvent(QResizeEvent *e)
 void TextShow::keyPressEvent(QKeyEvent *e)
 {
     if (((e->state() == Qt::ControlButton) && (e->key() == Qt::Key_C)) ||
-            ((e->state() == ControlButton) && (e->key() == Key_Insert))){
+            ((e->state() == Qt::ControlButton) && (e->key() == Qt::Key_Insert))){
         copy();
         return;
     }
@@ -659,7 +659,7 @@ Q3TextDrag *TextShow::dragObject(QWidget *parent) const
     if (!hasSelectedText())
         return NULL;
 #if (COMPAT_QT_VERSION < 0x030000) || (COMPAT_QT_VERSION >= 0x030100)
-    if (textFormat() == RichText){
+    if (textFormat() == Qt::RichText){
         RichTextDrag *drag = new RichTextDrag(parent);
         drag->setRichText(selectedText());
         return drag;
@@ -769,7 +769,7 @@ RichTextEdit::RichTextEdit(QWidget *parent, const char *name)
 
 void RichTextEdit::setText(const QString &str)
 {
-    if (m_edit->textFormat() != Q3TextEdit::RichText)
+    if (m_edit->textFormat() != Qt::RichText)
         m_edit->setText(str);
     BgColorParser p(m_edit);
     p.parse(str);
@@ -778,7 +778,7 @@ void RichTextEdit::setText(const QString &str)
 
 QString RichTextEdit::text()
 {
-    if (m_edit->textFormat() != Q3TextEdit::RichText)
+    if (m_edit->textFormat() != Qt::RichText)
         return m_edit->text();
     char bg[20];
     sprintf(bg, "%06X", m_edit->background().rgb());
