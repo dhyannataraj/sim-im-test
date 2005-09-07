@@ -52,7 +52,7 @@
 
 #include <qtimer.h>
 #include <qapplication.h>
-#include <qwidget.h>
+#include <QWidget>
 #include <qfile.h>
 #include <qdir.h>
 #include <q3popupmenu.h>
@@ -61,6 +61,7 @@
 //Added by qt3to4:
 #include <Q3CString>
 #include <QTranslator>
+#include <QDesktopWidget>
 
 #include <time.h>
 
@@ -142,7 +143,7 @@ class SIMTranslator : public QTranslator
 public:
     SIMTranslator(QObject *parent, const QString & filename);
     ~SIMTranslator();
-    virtual QTranslatorMessage findMessage(const char* context,
+    virtual QString translate(const char* context,
                                            const char *sourceText,
                                            const char* message) const;
     void load ( const QString & filename);
@@ -165,16 +166,16 @@ SIMTranslator::~SIMTranslator()
 
 void SIMTranslator::load ( const QString & filename)
 {
-    fName = QFile::encodeName(filename);
+    fName = static_cast<string>(QFile::encodeName(filename));
     domain.filename = (char*)(fName.c_str());
     k_nl_load_domain(&domain);
 }
 
-QTranslatorMessage SIMTranslator::findMessage(const char* context,
+QString SIMTranslator::translate(const char* context,
         const char *sourceText,
         const char* message) const
 {
-    QTranslatorMessage res;
+    QString res;
     char *text = NULL;
     if ((sourceText == NULL) || (*sourceText == 0))
         return res;
@@ -194,68 +195,16 @@ QTranslatorMessage SIMTranslator::findMessage(const char* context,
         s += message;
         text = k_nl_find_msg((struct loaded_l10nfile*)&domain, s.c_str());
     }
+    res = QTranslator::translate(context, sourceText, message);
     if (text == NULL)
         text = k_nl_find_msg((struct loaded_l10nfile*)&domain, sourceText);
     if (text)
-        res.setTranslation(QString::fromUtf8(text));
-    return res;
+        return res;
+    return QString::fromUtf8( text);
 }
 
 #endif
 
-/*
-typedef struct CoreData
-{    
-    char		*Profile;
-    unsigned	SavePasswd;
-    unsigned	NoShow;
-    unsigned	ShowPanel;
-    unsigned	ManualStatus;
-    unsigned	Invisible;
-    long		geometry[5];
-    long		toolBarState[7];
-    void		*Buttons;
-    void		*Menues;
-    unsigned	ShowOnLine;
-    unsigned	GroupMode;
-    unsigned	UseDblClick;
-    unsigned	UseSysColors;
-    unsigned	ColorOnline;
-    unsigned	ColorOffline;
-    unsigned	ColorAway;
-    unsigned	ColorNA;
-    unsigned	ColorDND;
-    unsigned	ColorGroup;
-    unsigned	GroupSeparator;
-    char		*Lang;
-    unsigned	ContainerMode;
-    unsigned	SendOnEnter;
-    unsigned	containerGeo[5];
-    unsigned	containerBar[7];
-    unsigned	ContainerStatusSize;
-    char		*Containers;
-    void		*Container;
-    unsigned	CopyMessages;
-    unsigned	EditHeight;
-    unsigned	editBar[7];
-    unsigned	EditBackground;
-    unsigned	EditForeground;
-    char		*EditFont;
-    unsigned	OwnColors;
-    unsigned	UseSmiles;
-    unsigned	CloseSend;
-    unsigned	HistoryPage;
-    unsigned	HistoryDirection;
-    unsigned	historySize[2];
-    long		historyBar[7];
-    char		*HistorySearch;
-    char		*Unread;
-    void		*NoShowAutoReply;
-    unsigned	SortMode;
-    unsigned	CloseTransfer;
-	char		*HistoryStyle;
-} CoreData;
-*/
 static DataDef coreData[] =
     {
         { "Profile", DATA_STRING, 1, 0 },
@@ -324,23 +273,6 @@ static DataDef coreData[] =
         { NULL, 0, 0, 0 }
     };
 
-/*
-typedef struct CoreUserData
-{
-    unsigned	OfflineOpen;
-    unsigned	OnlineOpen;
-    unsigned	SMSTranslit;
-    char		*SMSSignatureBefore;
-    char		*SMSSignatureAfter;
-	unsigned	OpenOnReceive;
-	unsigned	OpenOnOnline;
-	char		*IncomingPath;
-	unsigned	AcceptMode;
-	unsigned	OverwriteFiles;
-	char		*DeclineMessage;
-} CoreUserData;
-
-*/
 static DataDef coreUserData[] =
     {
         { "LogStatus", DATA_BOOL, 1, 0 },
@@ -367,15 +299,6 @@ static DataDef arUserData[] =
         { NULL, 0, 0, 0 }
     };
 
-/*
-typedef struct ListUserData
-{
-    unsigned	OfflineOpen;
-    unsigned	OnlineOpen;
-	unsigned	ShowAlways;
-} ListUserData;
-*/
-
 static DataDef listUserData[] =
     {
         { "OfflineOpen", DATA_BOOL, 1, DATA(1) },
@@ -383,13 +306,6 @@ static DataDef listUserData[] =
         { "ShowAlways", DATA_BOOL, 1, 0 },
         { NULL, 0, 0, 0 }
     };
-
-/*
-typedef struct TranslitUserData
-{
-    unsigned	Translit;
-} TranslitUserData;
-*/
 
 static DataDef translitUserData[] =
     {
@@ -1854,7 +1770,7 @@ if (fname[0] != '/')
             if (profile.isEmpty()){
                 *cfg = "";
             }else{
-                *cfg = QFile::encodeName(profile);
+                *cfg = static_cast<string>(QFile::encodeName(profile));
             }
             Event eProfile(EventHomeDir, cfg);
             if (!eProfile.process(this))
@@ -2148,17 +2064,17 @@ if (fname[0] != '/')
                 return NULL;
             UserWnd		*userWnd	= NULL;
             Container	*container	= NULL;
-            QWidgetList  *list = QApplication::topLevelWidgets();
-            QWidgetListIt itw(*list);
+            QList<QWidget *>  list = QApplication::topLevelWidgets();
+            QListIterator<QWidget *> itw(list);
             QWidget * w;
             bool bNew = false;
-            while ((w = itw.current()) != NULL){
+            while ( itw.hasNext()){
+		w = itw.next();
                 if (w->inherits("Container")){
                     container =  static_cast<Container*>(w);
                     if (getContainerMode() == 0){
                         if (container->isReceived() != (((*msg)->getFlags() & MESSAGE_RECEIVED) != 0)){
                             container = NULL;
-                            ++itw;
                             continue;
                         }
                     }
@@ -2167,9 +2083,8 @@ if (fname[0] != '/')
                         break;
                     container = NULL;
                 }
-                ++itw;
             }
-            delete list;
+            delete &list;
             if (userWnd == NULL){
                 if (contact->getFlags() & CONTACT_TEMP){
                     contact->setFlags(contact->getFlags() & ~CONTACT_TEMP);
@@ -2178,46 +2093,47 @@ if (fname[0] != '/')
                 }
                 userWnd = new UserWnd(contact->id(), NULL, (*msg)->getFlags() & MESSAGE_RECEIVED, (*msg)->getFlags() & MESSAGE_RECEIVED);
                 if (getContainerMode() == 3){
-                    QWidgetList  *list = QApplication::topLevelWidgets();
-                    QWidgetListIt it(*list);
+                    QList<QWidget *>  list = QApplication::topLevelWidgets();
+                    QListIterator<QWidget *> it(list);
                     QWidget * w;
-                    while ((w = it.current()) != NULL){
+                    while ( it.hasNext()){
+			w = it.next();
                         if (w->inherits("Container")){
                             container =  static_cast<Container*>(w);
                             break;
                         }
-                        ++it;
                     }
-                    delete list;
+                    delete &list;
                     if (container == NULL){
                         container = new Container(1);
                         bNew = true;
                     }
                 }else if (getContainerMode() == 2){
                     unsigned id = contact->getGroup() + CONTAINER_GRP;
-                    QWidgetList  *list = QApplication::topLevelWidgets();
-                    QWidgetListIt it(*list);
+                    QList<QWidget *>  list = QApplication::topLevelWidgets();
+                    QListIterator<QWidget *> it(list);
                     QWidget * w;
-                    while ((w = it.current()) != NULL){
+                    while ( it.hasNext()){
+			w = it.next();
                         if (w->inherits("Container")){
                             container =  static_cast<Container*>(w);
                             if (container->getId() == id)
                                 break;
                             container = NULL;
                         }
-                        ++it;
                     }
-                    delete list;
+                    delete &list;
                     if (container == NULL){
                         container = new Container(id);
                         bNew = true;
                     }
                 }else{
                     unsigned max_id = 0;
-                    QWidgetList  *list = QApplication::topLevelWidgets();
-                    QWidgetListIt it(*list);
+                    QList<QWidget *> list = QApplication::topLevelWidgets();
+                    QListIterator<QWidget *> it(list);
                     QWidget * w;
-                    while ((w = it.current()) != NULL){
+                    while ( it.hasNext()){
+			w = it.next();
                         if (w->inherits("Container")){
                             container =  static_cast<Container*>(w);
                             if (!(container->getId() & CONTAINER_GRP)){
@@ -2225,9 +2141,8 @@ if (fname[0] != '/')
                                     max_id = container->getId();
                             }
                         }
-                        ++it;
                     }
-                    delete list;
+                    delete &list;
                     container = new Container(max_id + 1);
                     bNew = true;
                     if (getContainerMode() == 0)
@@ -2646,19 +2561,20 @@ if (fname[0] != '/')
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));
                 if (contact){
                     unsigned nContainers = 1;
-                    QWidgetList  *list = QApplication::topLevelWidgets();
-                    QWidgetListIt it(*list);
+                    QList<QWidget *> list = QApplication::topLevelWidgets();
+                    QListIterator<QWidget *> it(list);
                     QWidget * w;
-                    while ((w = it.current()) != NULL){
+                    while ( it.hasNext()){
+		    w = it.next();
                         if (w->inherits("Container"))
                             nContainers++;
-                        ++it;
                     }
                     CommandDef *cmds = new CommandDef[nContainers + 1];
                     memset(cmds, 0, sizeof(CommandDef) * (nContainers + 1));
                     unsigned n = 0;
-                    QWidgetListIt it1(*list);
-                    while ((w = it1.current()) != NULL){
+                    QListIterator<QWidget *> it1(list);
+                    while ( it1.hasNext()){
+			w = it1.next();
                         if (w->inherits("Container")){
                             Container *c = static_cast<Container*>(w);
                             cmds[n] = *cmd;
@@ -2670,13 +2586,12 @@ if (fname[0] != '/')
                                 cmds[n].flags |= COMMAND_CHECKED;
                             n++;
                         }
-                        ++it1;
                     }
                     cmds[n].icon = NULL;
                     cmds[n].id = NEW_CONTAINER;
                     cmds[n].flags = COMMAND_DEFAULT;
                     cmds[n].text = I18N_NOOP("&New");
-                    delete list;
+                    delete &list;
                     cmd->param = cmds;
                     cmd->flags |= COMMAND_RECURSIVE;
                     return e->param();
@@ -2830,7 +2745,7 @@ if (fname[0] != '/')
                     MessageDef *mdef = (MessageDef*)(def->param);
                     cmds[n].icon = def->icon;
                     QString msg = i18n(mdef->singular, mdef->plural, (*itc).second.count);
-                    if (!msg) {
+                    if (msg == QString::null) {
                         log(L_ERROR, "Message is missing some definitions! Text: %s, ID: %u",
                             def->text, def->id);
                         int cnt = (*itc).second.count;
@@ -3160,19 +3075,19 @@ if (fname[0] != '/')
             if (cmd->id == CmdHistory){
                 unsigned id = (unsigned)(cmd->param);
                 HistoryWindow *wnd = NULL;
-                QWidgetList  *list = QApplication::topLevelWidgets();
-                QWidgetListIt it(*list);
+                QList<QWidget *> list = QApplication::topLevelWidgets();
+                QListIterator<QWidget *> it(list);
                 QWidget * w;
-                while ((w = it.current()) != NULL){
+                while (it.hasNext()){
+		    w = it.next();
                     if (w->inherits("HistoryWindow")){
                         wnd =  static_cast<HistoryWindow*>(w);
                         if (wnd->id() == id)
                             break;
                         wnd = NULL;
                     }
-                    ++it;
                 }
-                delete list;
+                delete &list;
                 if (wnd == NULL){
                     wnd = new HistoryWindow(id);
                     if (data.historySize[0].value && data.historySize[1].value)
@@ -3375,7 +3290,7 @@ if (fname[0] != '/')
             }
             if (cmd->id == CmdDeclineReasonBusy){
                 string reason;
-                reason = i18n("Sorry, I'm busy right now, and can not respond to your request").utf8();
+                reason = static_cast<string>(i18n("Sorry, I'm busy right now, and can not respond to your request").toUtf8());
                 messageDecline md;
                 md.msg    = (Message*)(cmd->param);
                 md.reason = reason.c_str();
@@ -3384,7 +3299,7 @@ if (fname[0] != '/')
             }
             if (cmd->id == CmdDeclineReasonLater){
                 string reason;
-                reason = i18n("Sorry, I'm busy right now, but I'll be able to respond to you later").utf8();
+                reason = static_cast<string>(i18n("Sorry, I'm busy right now, but I'll be able to respond to you later").toUtf8());
                 messageDecline md;
                 md.msg    = (Message*)(cmd->param);
                 md.reason = reason.c_str();
@@ -3393,12 +3308,12 @@ if (fname[0] != '/')
             }
             if (cmd->id == CmdDeclineReasonInput){
                 Message *msg = (Message*)(cmd->param);
-                QWidgetList  *list = QApplication::topLevelWidgets();
-                QWidgetListIt it( *list );
+                QList<QWidget *> list = QApplication::topLevelWidgets();
+                QListIterator<QWidget *> it( list );
                 DeclineDlg *dlg = NULL;
                 QWidget *w;
-                while ( (w=it.current()) != 0 ) {
-                    ++it;
+                while (it.hasNext()) {
+                    w = it.next();
                     if (w->inherits("DeclineDlg")){
                         dlg = static_cast<DeclineDlg*>(w);
                         if (dlg->message()->id() == msg->id())
@@ -3406,7 +3321,7 @@ if (fname[0] != '/')
                         dlg = NULL;
                     }
                 }
-                delete list;
+                delete &list;
                 if (dlg == NULL)
                     dlg = new DeclineDlg(msg);
                 raiseWindow(dlg);
@@ -3551,8 +3466,8 @@ if (fname[0] != '/')
 
 void CorePlugin::showInfo(CommandDef *cmd)
 {
-    QWidgetList  *list = QApplication::topLevelWidgets();
-    QWidgetListIt it( *list );
+    QList<QWidget *> list = QApplication::topLevelWidgets();
+    QListIterator<QWidget *> it( list );
     UserConfig *cfg = NULL;
     QWidget *w;
     Contact *contact = NULL;
@@ -3570,8 +3485,8 @@ void CorePlugin::showInfo(CommandDef *cmd)
     }
     if ((contact == NULL) && (group == NULL))
         return;
-    while ( (w=it.current()) != 0 ) {
-        ++it;
+    while ( it.hasNext()) {
+        w = it.next();
         if (w->inherits("UserConfig")){
             cfg = static_cast<UserConfig*>(w);
             if ((contact && (cfg->m_contact == contact)) ||
@@ -3580,7 +3495,7 @@ void CorePlugin::showInfo(CommandDef *cmd)
             cfg = NULL;
         }
     }
-    delete list;
+    delete &list;
     if (cfg == NULL){
         cfg = new UserConfig(contact, group);
         if ((data.cfgGeo[WIDTH].value == 0) || (data.cfgGeo[HEIGHT].value == 0)){
@@ -3618,14 +3533,14 @@ QWidget *CorePlugin::createConfigWindow(QWidget *parent)
 
 void CorePlugin::hideWindows()
 {
-    QWidgetList *list = QApplication::topLevelWidgets();
-    QWidgetListIt it(*list);
+    QList<QWidget *> list = QApplication::topLevelWidgets();
+    QListIterator<QWidget *> it(list);
     QWidget * w;
-    while ((w=it.current()) != NULL){
-        ++it;
+    while ( it.hasNext()){
+	w = it.next();
         w->hide();
     }
-    delete list;
+    delete &list;
 }
 
 void CorePlugin::changeProfile()
@@ -3775,18 +3690,18 @@ bool CorePlugin::init(bool bInit)
 
 void CorePlugin::destroy()
 {
-    QWidgetList  *l = QApplication::topLevelWidgets();
-    QWidgetListIt it(*l);
+    QList<QWidget *>  l = QApplication::topLevelWidgets();
+    QListIterator<QWidget *> it(l);
     QWidget *w;
     list<QWidget*> forRemove;
-    while ((w = it.current()) != NULL){
-        ++it;
+    while ( it.hasNext()){
+        w = it.next();
         if (w->inherits("Container") ||
                 w->inherits("HistoryWindow") ||
                 w->inherits("UserConfig"))
             forRemove.push_back(w);
     }
-    delete l;
+    delete &l;
     for (list<QWidget*>::iterator itr = forRemove.begin(); itr != forRemove.end(); ++itr)
         delete *itr;
 
@@ -3896,14 +3811,14 @@ string CorePlugin::getConfig()
     clearContainer();
     string containers;
 
-    QWidgetList  *list = QApplication::topLevelWidgets();
-    QWidgetListIt it(*list);
+    QList<QWidget *> list = QApplication::topLevelWidgets();
+    QListIterator<QWidget *> it(list);
     QWidget * w;
-    while ((w = it.current()) != NULL){
+    while ( it.hasNext()){
+	w = it.next();
         if (w->inherits("Container")){
             Container *c = static_cast<Container*>(w);
             if (c->isReceived()){
-                ++it;
                 continue;
             }
             if (!containers.empty())
@@ -3911,9 +3826,8 @@ string CorePlugin::getConfig()
             containers += number(c->getId());
             setContainer(c->getId(), c->getState().c_str());
         }
-        ++it;
     }
-    delete list;
+    delete &list;
     setContainers(containers.c_str());
     if (m_main){
         saveGeometry(m_main, data.geometry);
@@ -4523,7 +4437,7 @@ bool FileLock::lock(bool)
 {
     if (!open(QIODevice::ReadWrite | QIODevice::Truncate)){
         string s;
-        s = name().local8Bit();
+        s = static_cast<string>(name().toLocal8Bit());
         log(L_WARN, "Can't create %s", s.c_str());
         return false;
     }
