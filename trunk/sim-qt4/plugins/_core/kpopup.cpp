@@ -34,6 +34,7 @@
 #include <Q3PopupMenu>
 #include <QPaintEvent>
 #include <QCloseEvent>
+#include <QMenuItem>
 
 KPopupTitle::KPopupTitle(QWidget *parent, const char *name)
         : QWidget(parent, name)
@@ -85,11 +86,11 @@ void KPopupTitle::paintEvent(QPaintEvent *)
         p.setPen(fgColor);
         if(!miniicon.isNull())
             p.drawText(miniicon.width()+8, 0, width()-(miniicon.width()+8),
-                       height(), AlignLeft | AlignVCenter | SingleLine,
+                       height(), Qt::AlignLeft | Qt::AlignVCenter | Qt::SingleLine,
                        titleStr);
         else
             p.drawText(0, 0, width(), height(),
-                       AlignCenter | SingleLine, titleStr);
+                       Qt::AlignCenter | Qt::SingleLine, titleStr);
     }
     p.setPen(Qt::black);
     p.drawRect(r);
@@ -141,27 +142,20 @@ KPopupMenu::~KPopupMenu()
 
 int KPopupMenu::insertTitle(const QString &text, int id, int index)
 {
-    KPopupTitle *titleItem = new KPopupTitle();
-    titleItem->setTitle(text);
-    return(insertItem(titleItem, id, index));
+    return(insertItem(text, id, index));
 }
 
 int KPopupMenu::insertTitle(const QPixmap &icon, const QString &text, int id,
                             int index)
 {
-    KPopupTitle *titleItem = new KPopupTitle();
-    titleItem->setTitle(text, &icon);
-    return(insertItem(titleItem, id, index));
+    return(insertItem(icon, text, id, index));
 }
 
 void KPopupMenu::changeTitle(int id, const QString &text)
 {
     QMenuItem *item = findItem(id);
     if(item){
-        if(item->widget())
-            ((KPopupTitle *)item->widget())->setTitle(text);
-        else
-            qWarning("KPopupMenu: changeTitle() called with non-title id %d.", id);
+	item->setText( text);
     }
     else
         qWarning("KPopupMenu: changeTitle() called with invalid id %d.", id);
@@ -235,9 +229,9 @@ void KPopupMenu::keyPressEvent(QKeyEvent* e)
 
     // check for common commands dealt with by QPopup
     int key = e->key();
-    if (key == Key_Escape || key == Key_Return || key == Key_Enter
-            || key == Key_Up || key == Key_Down || key == Key_Left
-            || key == Key_Right || key == Key_F1) {
+    if (key == Qt::Key_Escape || key == Qt::Key_Return || key == Qt::Key_Enter
+            || key == Qt::Key_Up || key == Qt::Key_Down || key == Qt::Key_Left
+            || key == Qt::Key_Right || key == Qt::Key_F1) {
 
         resetKeyboardVars();
         // continue event processing by Qpopup
@@ -250,7 +244,7 @@ void KPopupMenu::keyPressEvent(QKeyEvent* e)
     // or clear the sequence (delete)
     if (d->keySeq != QString::null) {
 
-        if (key == Key_Backspace) {
+        if (key == Qt::Key_Backspace) {
 
             if (d->keySeq.length() == 1) {
                 resetKeyboardVars();
@@ -263,7 +257,7 @@ void KPopupMenu::keyPressEvent(QKeyEvent* e)
             // allow sequence matching to be tried again
             resetKeyboardVars();
 
-        } else if (key == Key_Delete) {
+        } else if (key == Qt::Key_Delete) {
             resetKeyboardVars();
 
             // clear active item
@@ -282,7 +276,7 @@ void KPopupMenu::keyPressEvent(QKeyEvent* e)
             // therefore the lastHitIndex is valid
             i = d->lastHitIndex;
         }
-    } else if (key == Key_Backspace && parentMenu) {
+    } else if (key == Qt::Key_Backspace && parentMenu) {
         // backspace with no chars in the buffer... go back a menu.
         hide();
         resetKeyboardVars();
@@ -428,9 +422,7 @@ KPopupMenu::KPopupMenu(const QString& title, QWidget *parent, const char *name)
 // Obsolete
 void KPopupMenu::setTitle(const QString &title)
 {
-    KPopupTitle *titleItem = new KPopupTitle();
-    titleItem->setTitle(title);
-    insertItem(titleItem);
+    insertItem(title);
     d->m_lastTitle = title;
 }
 
