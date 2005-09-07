@@ -18,6 +18,24 @@
 #include "simapi.h"
 #include "ltdl.h"
 
+#include <time.h>
+
+#include <stdio.h>
+#include <QApplication>
+#include <QWidget>
+#include <QComboBox>
+#include <QPixmap>
+#include <QIcon>
+#include <QPushButton>
+#include <QObject>
+#include <QStringList>
+#include <QDateTime>
+#include <QLineEdit>
+#include <Q3MultiLineEdit>
+#include <QRegExp>
+
+#include <qdesktopwidget.h>
+
 #ifdef WIN32
 #include <windows.h>
 #else
@@ -31,27 +49,6 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #endif
-#endif
-
-#include <time.h>
-
-#include <stdio.h>
-#include <qwidget.h>
-#include <qpixmap.h>
-#include <qicon.h>
-#include <qpushbutton.h>
-#include <qobject.h>
-#include <qstringlist.h>
-#include <qapplication.h>
-#include <qwidget.h>
-#include <qdatetime.h>
-#include <qcombobox.h>
-#include <qlineedit.h>
-#include <q3multilineedit.h>
-#include <qregexp.h>
-
-#if COMPAT_QT_VERSION >= 0x030000
-#include <qdesktopwidget.h>
 #endif
 
 #ifdef USE_KDE
@@ -467,11 +464,11 @@ bool raiseWindow(QWidget *w, unsigned)
 
 void setButtonsPict(QWidget *w)
 {
-    QObjectList *l = w->queryList( "QPushButton" );
-    QObjectListIt it( *l );
+    QList<QObject *> l = w->queryList( "QPushButton" );
+    QListIterator<QObject *> it( l );
     QObject *obj;
-    while ( (obj = it.current()) != 0 ) {
-        ++it;
+    while ( it.hasNext()) {
+        it.next();
         QPushButton *btn = static_cast<QPushButton*>(obj);
         if (btn->pixmap()) continue;
         const QString &text = btn->text();
@@ -488,7 +485,7 @@ void setButtonsPict(QWidget *w)
         if (icon == NULL) continue;
         btn->setIconSet(Icon(icon));
     }
-    delete l;
+    delete &l;
 }
 
 EXPORT QString formatDateTime(unsigned long t)
