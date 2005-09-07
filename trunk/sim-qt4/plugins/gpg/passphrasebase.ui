@@ -1,142 +1,96 @@
-<!DOCTYPE UI><UI>
-<class>PassphraseDlgBase</class>
-<widget>
-    <class>QDialog</class>
-    <property stdset="1">
-        <name>name</name>
-        <cstring>Passphrase</cstring>
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>PassphraseDlgBase</class>
+  <widget class="QDialog" name="PassphraseDlgBase" >
+    <property name="geometry" stdset="0" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>388</width>
+        <height>119</height>
+      </rect>
     </property>
-    <property>
-        <name>geometry</name>
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>388</width>
-            <height>119</height>
-        </rect>
+    <property name="windowTitle" stdset="0" >
+      <string>Input passphrase</string>
     </property>
-    <property>
-        <name>caption</name>
-        <string>Input passphrase</string>
-    </property>
-    <grid>
-        <property>
-            <name>margin</name>
-            <number>11</number>
-        </property>
-        <property>
-            <name>spacing</name>
-            <number>6</number>
-        </property>
-        <widget row="0"  column="0"  rowspan="1"  colspan="3" >
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>lblTitle</cstring>
-            </property>
-            <property>
-                <name>sizePolicy</name>
-                <sizepolicy>
-                    <hsizetype>7</hsizetype>
-                    <vsizetype>7</vsizetype>
-                </sizepolicy>
-            </property>
-            <property>
-                <name>text</name>
-                <string></string>
-            </property>
-            <property>
-                <name>alignment</name>
-                <set>WordBreak|AlignVCenter|AlignLeft</set>
-            </property>
-            <property>
-                <name>wordwrap</name>
-            </property>
+    <layout class="QGridLayout" >
+      <property name="margin" stdset="0" >
+        <number>11</number>
+      </property>
+      <property name="spacing" stdset="0" >
+        <number>6</number>
+      </property>
+      <item rowspan="1" row="0" column="0" colspan="3" >
+        <widget class="QLabel" name="lblTitle" >
+          <property name="sizePolicy" stdset="0" >
+            <sizepolicy>
+              <hsizetype>7</hsizetype>
+              <vsizetype>7</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+            </sizepolicy>
+          </property>
+          <property name="text" stdset="0" >
+            <string/>
+          </property>
+          <property name="alignment" stdset="0" >
+            <set>Qt::AlignVCenter|Qt::AlignLeft</set>
+          </property>
         </widget>
-        <widget row="2"  column="0"  rowspan="1"  colspan="3" >
-            <class>QCheckBox</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>chkSave</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>&amp;Save passphrase</string>
-            </property>
+      </item>
+      <item rowspan="1" row="2" column="0" colspan="3" >
+        <widget class="QCheckBox" name="chkSave" >
+          <property name="text" stdset="0" >
+            <string>&amp;Save passphrase</string>
+          </property>
         </widget>
-        <widget row="1"  column="0"  rowspan="1"  colspan="3" >
-            <class>QLineEdit</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>edtPass</cstring>
-            </property>
-            <property name="echoMode">
-                <enum>Password</enum>
-            </property>
+      </item>
+      <item rowspan="1" row="1" column="0" colspan="3" >
+        <widget class="QLineEdit" name="edtPass" >
+          <property name="echoMode" stdset="0" >
+            <enum>QLineEdit::Password</enum>
+          </property>
         </widget>
-        <widget row="4"  column="1" >
-            <class>QPushButton</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>btnOk</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>&amp;OK</string>
-            </property>
+      </item>
+      <item row="4" column="1" >
+        <widget class="QPushButton" name="btnOk" >
+          <property name="text" stdset="0" >
+            <string>&amp;OK</string>
+          </property>
         </widget>
-        <spacer row="4"  column="0" >
-            <property>
-                <name>name</name>
-                <cstring>Spacer1</cstring>
-            </property>
-            <property>
-                <name>orientation</name>
-                <enum>Horizontal</enum>
-            </property>
-            <property>
-                <name>sizeType</name>
-                <enum>Expanding</enum>
-            </property>
-            <property>
-                <name>sizeHint</name>
-                <size>
-                    <width>20</width>
-                    <height>20</height>
-                </size>
-            </property>
+      </item>
+      <item row="4" column="0" >
+        <spacer name="Spacer1" >
+          <property name="sizeHint" >
+            <size>
+              <width>20</width>
+              <height>20</height>
+            </size>
+          </property>
+          <property name="sizeType" >
+            <enum>Expanding</enum>
+          </property>
+          <property name="orientation" >
+            <enum>Horizontal</enum>
+          </property>
         </spacer>
-        <widget row="4"  column="2" >
-            <class>QPushButton</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>btnCancel</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>&amp;Cancel</string>
-            </property>
+      </item>
+      <item row="4" column="2" >
+        <widget class="QPushButton" name="btnCancel" >
+          <property name="text" stdset="0" >
+            <string>&amp;Cancel</string>
+          </property>
         </widget>
-    </grid>
-</widget>
-<connections>
-    <connection>
-        <sender>btnOk</sender>
-        <signal>clicked()</signal>
-        <receiver>Passphrase</receiver>
-        <slot>accept()</slot>
-    </connection>
-    <connection>
-        <sender>btnCancel</sender>
-        <signal>clicked()</signal>
-        <receiver>Passphrase</receiver>
-        <slot>reject()</slot>
-    </connection>
-</connections>
-<tabstops>
+      </item>
+    </layout>
+  </widget>
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <tabstops>
     <tabstop>edtPass</tabstop>
     <tabstop>chkSave</tabstop>
     <tabstop>btnOk</tabstop>
     <tabstop>btnCancel</tabstop>
-</tabstops>
-</UI>
+  </tabstops>
+</ui>

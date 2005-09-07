@@ -26,7 +26,7 @@
 class ConnectWnd;
 class CorePlugin;
 
-class NewProtocol : public NewProtocolBase, public EventReceiver
+class NewProtocol : public Ui_NewProtocolBase, public EventReceiver
 {
     Q_OBJECT
 public:

@@ -1,174 +1,108 @@
-<!DOCTYPE UI><UI>
-<class>WarnDlgBase</class>
-<widget>
-    <class>QDialog</class>
-    <property stdset="1">
-        <name>name</name>
-        <cstring>WarningDlg</cstring>
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>WarnDlgBase</class>
+  <widget class="QDialog" name="WarnDlgBase" >
+    <property name="geometry" stdset="0" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>374</width>
+        <height>193</height>
+      </rect>
     </property>
-    <property>
-        <name>geometry</name>
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>374</width>
-            <height>193</height>
-        </rect>
+    <property name="windowTitle" stdset="0" >
+      <string>Send warning</string>
     </property>
-    <property>
-        <name>caption</name>
-        <string>Send warning</string>
+    <property name="sizeGripEnabled" stdset="0" >
+      <bool>true</bool>
     </property>
-    <property>
-        <name>sizeGripEnabled</name>
-        <bool>true</bool>
-    </property>
-    <vbox>
-        <property>
-            <name>margin</name>
-            <number>11</number>
-        </property>
-        <property>
-            <name>spacing</name>
-            <number>6</number>
-        </property>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>lblInfo</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Click OK to send warning to %1. This will raise %1's warning and limit his or her activity. Do this only if %1 has done something to merit a warning.</string>
-            </property>
-            <property>
-                <name>alignment</name>
-                <set>WordBreak|AlignVCenter|AlignLeft</set>
-            </property>
-            <property>
-                <name>wordwrap</name>
-            </property>
+    <layout class="QVBoxLayout" >
+      <property name="margin" stdset="0" >
+        <number>11</number>
+      </property>
+      <property name="spacing" stdset="0" >
+        <number>6</number>
+      </property>
+      <item>
+        <widget class="QLabel" name="lblInfo" >
+          <property name="text" stdset="0" >
+            <string>Click OK to send warning to %1. This will raise %1's warning and limit his or her activity. Do this only if %1 has done something to merit a warning.</string>
+          </property>
+          <property name="alignment" stdset="0" >
+            <set>Qt::AlignVCenter|Qt::AlignLeft</set>
+          </property>
         </widget>
-        <widget>
-            <class>QCheckBox</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>chkAnon</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Warn &amp;anonymously</string>
-            </property>
+      </item>
+      <item>
+        <widget class="QCheckBox" name="chkAnon" >
+          <property name="text" stdset="0" >
+            <string>Warn &amp;anonymously</string>
+          </property>
         </widget>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel4</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Check this if you don't want your screen name revealed.
+      </item>
+      <item>
+        <widget class="QLabel" name="TextLabel4" >
+          <property name="text" stdset="0" >
+            <string>Check this if you don't want your screen name revealed.
 Anonymous warinings are less severe.</string>
-            </property>
-            <property>
-                <name>alignment</name>
-                <set>WordBreak|AlignTop|AlignLeft</set>
-            </property>
-            <property>
-                <name>vAlign</name>
-            </property>
-            <property>
-                <name>wordwrap</name>
-            </property>
+          </property>
+          <property name="alignment" stdset="0" >
+            <set>Qt::AlignTop|Qt::AlignLeft</set>
+          </property>
         </widget>
-        <widget>
-            <class>QLayoutWidget</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>Layout1</cstring>
-            </property>
-            <hbox>
-                <property>
-                    <name>margin</name>
-                    <number>0</number>
-                </property>
-                <property>
-                    <name>spacing</name>
-                    <number>6</number>
-                </property>
-                <spacer>
-                    <property>
-                        <name>name</name>
-                        <cstring>Horizontal Spacing2</cstring>
-                    </property>
-                    <property>
-                        <name>orientation</name>
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property>
-                        <name>sizeType</name>
-                        <enum>Expanding</enum>
-                    </property>
-                    <property>
-                        <name>sizeHint</name>
-                        <size>
-                            <width>20</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget>
-                    <class>QPushButton</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>buttonOk</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>&amp;OK</string>
-                    </property>
-                    <property>
-                        <name>autoDefault</name>
-                        <bool>true</bool>
-                    </property>
-                    <property>
-                        <name>default</name>
-                        <bool>true</bool>
-                    </property>
-                </widget>
-                <widget>
-                    <class>QPushButton</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>buttonCancel</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>&amp;Cancel</string>
-                    </property>
-                    <property>
-                        <name>autoDefault</name>
-                        <bool>true</bool>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-    </vbox>
-</widget>
-<connections>
-    <connection>
-        <sender>buttonOk</sender>
-        <signal>clicked()</signal>
-        <receiver>WarningDlg</receiver>
-        <slot>accept()</slot>
-    </connection>
-    <connection>
-        <sender>buttonCancel</sender>
-        <signal>clicked()</signal>
-        <receiver>WarningDlg</receiver>
-        <slot>reject()</slot>
-    </connection>
-</connections>
-</UI>
+      </item>
+      <item>
+        <layout class="QHBoxLayout" >
+          <property name="margin" stdset="0" >
+            <number>0</number>
+          </property>
+          <property name="spacing" stdset="0" >
+            <number>6</number>
+          </property>
+          <item>
+            <spacer name="Horizontal Spacing2" >
+              <property name="sizeHint" >
+                <size>
+                  <width>20</width>
+                  <height>20</height>
+                </size>
+              </property>
+              <property name="sizeType" >
+                <enum>Expanding</enum>
+              </property>
+              <property name="orientation" >
+                <enum>Horizontal</enum>
+              </property>
+            </spacer>
+          </item>
+          <item>
+            <widget class="QPushButton" name="buttonOk" >
+              <property name="text" stdset="0" >
+                <string>&amp;OK</string>
+              </property>
+              <property name="autoDefault" stdset="0" >
+                <bool>true</bool>
+              </property>
+              <property name="default" stdset="0" >
+                <bool>true</bool>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QPushButton" name="buttonCancel" >
+              <property name="text" stdset="0" >
+                <string>&amp;Cancel</string>
+              </property>
+              <property name="autoDefault" stdset="0" >
+                <bool>true</bool>
+              </property>
+            </widget>
+          </item>
+        </layout>
+      </item>
+    </layout>
+  </widget>
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+</ui>

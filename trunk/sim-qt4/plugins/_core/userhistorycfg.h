@@ -22,7 +22,7 @@
 
 #include "userhistorycfgbase.h"
 
-class UserHistoryCfg : public UserHistoryCfgBase
+class UserHistoryCfg : public Ui_UserHistoryCfgBase
 {
     Q_OBJECT
 public:

@@ -26,7 +26,7 @@
 
 class CorePlugin;
 
-class ConnectionManager : public ConnectionManagerBase
+class ConnectionManager : public Ui_ConnectionManagerBase
 {
     Q_OBJECT
 public:

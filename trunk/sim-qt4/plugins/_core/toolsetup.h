@@ -25,7 +25,7 @@
 
 class Commands;
 
-class ToolBarSetup : public ToolBarSetupBase
+class ToolBarSetup : public Ui_ToolBarSetupBase
 {
     Q_OBJECT
 public:

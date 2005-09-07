@@ -21,7 +21,7 @@
 #include "simapi.h"
 #include "phonebase.h"
 
-class PhoneDetails : public PhoneDetailsBase
+class PhoneDetails : public Ui_PhoneDetailsBase
 {
     Q_OBJECT
 public:

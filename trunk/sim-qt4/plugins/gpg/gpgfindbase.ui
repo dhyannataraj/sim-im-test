@@ -1,110 +1,85 @@
-<!DOCTYPE UI><UI>
-<class>GpgFindBase</class>
-<widget>
-    <class>QDialog</class>
-    <property stdset="1">
-        <name>name</name>
-        <cstring>GpgFind</cstring>
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>GpgFindBase</class>
+  <widget class="QDialog" name="GpgFindBase" >
+    <property name="geometry" stdset="0" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>358</width>
+        <height>97</height>
+      </rect>
     </property>
-    <property>
-        <name>geometry</name>
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>358</width>
-            <height>97</height>
-        </rect>
+    <property name="windowTitle" stdset="0" >
+      <string>Find GPG</string>
     </property>
-    <property>
-        <name>caption</name>
-        <string>Find GPG</string>
+    <property name="sizeGripEnabled" stdset="0" >
+      <bool>true</bool>
     </property>
-    <property>
-        <name>sizeGripEnabled</name>
-        <bool>true</bool>
-    </property>
-    <grid>
-        <property>
-            <name>margin</name>
-            <number>11</number>
-        </property>
-        <property>
-            <name>spacing</name>
-            <number>6</number>
-        </property>
-        <widget row="0"  column="0"  rowspan="1"  colspan="3" >
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>lblPath</cstring>
-            </property>
-            <property>
-                <name>sizePolicy</name>
-                <sizepolicy>
-                    <hsizetype>1</hsizetype>
-                    <vsizetype>7</vsizetype>
-                </sizepolicy>
-            </property>
-            <property>
-                <name>text</name>
-                <string></string>
-            </property>
+    <layout class="QGridLayout" >
+      <property name="margin" stdset="0" >
+        <number>11</number>
+      </property>
+      <property name="spacing" stdset="0" >
+        <number>6</number>
+      </property>
+      <item rowspan="1" row="0" column="0" colspan="3" >
+        <widget class="QLabel" name="lblPath" >
+          <property name="sizePolicy" stdset="0" >
+            <sizepolicy>
+              <hsizetype>1</hsizetype>
+              <vsizetype>7</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+            </sizepolicy>
+          </property>
+          <property name="text" stdset="0" >
+            <string/>
+          </property>
         </widget>
-        <widget row="1"  column="1" >
-            <class>QPushButton</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>btnCancel</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>&amp;Cancel</string>
-            </property>
+      </item>
+      <item row="1" column="1" >
+        <widget class="QPushButton" name="btnCancel" >
+          <property name="text" stdset="0" >
+            <string>&amp;Cancel</string>
+          </property>
         </widget>
-        <spacer row="1"  column="0" >
-            <property>
-                <name>name</name>
-                <cstring>Spacer3</cstring>
-            </property>
-            <property>
-                <name>orientation</name>
-                <enum>Horizontal</enum>
-            </property>
-            <property>
-                <name>sizeType</name>
-                <enum>Expanding</enum>
-            </property>
-            <property>
-                <name>sizeHint</name>
-                <size>
-                    <width>20</width>
-                    <height>20</height>
-                </size>
-            </property>
+      </item>
+      <item row="1" column="0" >
+        <spacer name="Spacer3" >
+          <property name="sizeHint" >
+            <size>
+              <width>20</width>
+              <height>20</height>
+            </size>
+          </property>
+          <property name="sizeType" >
+            <enum>Expanding</enum>
+          </property>
+          <property name="orientation" >
+            <enum>Horizontal</enum>
+          </property>
         </spacer>
-        <spacer row="1"  column="2" >
-            <property>
-                <name>name</name>
-                <cstring>Spacer4</cstring>
-            </property>
-            <property>
-                <name>orientation</name>
-                <enum>Horizontal</enum>
-            </property>
-            <property>
-                <name>sizeType</name>
-                <enum>Expanding</enum>
-            </property>
-            <property>
-                <name>sizeHint</name>
-                <size>
-                    <width>20</width>
-                    <height>20</height>
-                </size>
-            </property>
+      </item>
+      <item row="1" column="2" >
+        <spacer name="Spacer4" >
+          <property name="sizeHint" >
+            <size>
+              <width>20</width>
+              <height>20</height>
+            </size>
+          </property>
+          <property name="sizeType" >
+            <enum>Expanding</enum>
+          </property>
+          <property name="orientation" >
+            <enum>Horizontal</enum>
+          </property>
         </spacer>
-    </grid>
-</widget>
-<connections>
-</connections>
-</UI>
+      </item>
+    </layout>
+  </widget>
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+</ui>

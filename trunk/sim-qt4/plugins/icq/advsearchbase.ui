@@ -1,575 +1,355 @@
-<!DOCTYPE UI><UI>
-<class>AdvSearchBase</class>
-<widget>
-    <class>QWidget</class>
-    <property stdset="1">
-        <name>name</name>
-        <cstring>AdvSearch</cstring>
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>AdvSearchBase</class>
+  <widget class="QWidget" name="AdvSearchBase" >
+    <property name="geometry" stdset="0" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>613</width>
+        <height>418</height>
+      </rect>
     </property>
-    <property>
-        <name>geometry</name>
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>613</width>
-            <height>418</height>
-        </rect>
+    <property name="windowTitle" stdset="0" >
+      <string>Form1</string>
     </property>
-    <property>
-        <name>caption</name>
-        <string>Form1</string>
-    </property>
-    <hbox>
-        <property>
-            <name>margin</name>
+    <layout class="QHBoxLayout" >
+      <property name="margin" stdset="0" >
+        <number>0</number>
+      </property>
+      <property name="spacing" stdset="0" >
+        <number>6</number>
+      </property>
+      <item>
+        <layout class="QVBoxLayout" >
+          <property name="margin" stdset="0" >
             <number>0</number>
-        </property>
-        <property>
-            <name>spacing</name>
+          </property>
+          <property name="spacing" stdset="0" >
             <number>6</number>
-        </property>
-        <widget>
-            <class>QLayoutWidget</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>Layout4</cstring>
-            </property>
-            <vbox>
-                <property>
-                    <name>margin</name>
-                    <number>0</number>
+          </property>
+          <item>
+            <widget class="Q3GroupBox" name="GroupBox2" >
+              <property name="title" stdset="0" >
+                <string>Info</string>
+              </property>
+              <layout class="QGridLayout" >
+                <property name="margin" stdset="0" >
+                  <number>11</number>
                 </property>
-                <property>
-                    <name>spacing</name>
-                    <number>6</number>
+                <property name="spacing" stdset="0" >
+                  <number>6</number>
                 </property>
-                <widget>
-                    <class>QGroupBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>GroupBox2</cstring>
+                <item row="5" column="1" >
+                  <widget class="QComboBox" name="cmbLang" />
+                </item>
+                <item row="5" column="0" >
+                  <widget class="QLabel" name="TextLabel10" >
+                    <property name="text" stdset="0" >
+                      <string>Language:</string>
                     </property>
-                    <property>
-                        <name>title</name>
-                        <string>Info</string>
+                    <property name="alignment" stdset="0" >
+                      <set>Qt::AlignVCenter|Qt::AlignRight</set>
                     </property>
-                    <grid>
-                        <property>
-                            <name>margin</name>
-                            <number>11</number>
-                        </property>
-                        <property>
-                            <name>spacing</name>
-                            <number>6</number>
-                        </property>
-                        <widget row="5"  column="1" >
-                            <class>QComboBox</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>cmbLang</cstring>
-                            </property>
-                        </widget>
-                        <widget row="5"  column="0" >
-                            <class>QLabel</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>TextLabel10</cstring>
-                            </property>
-                            <property>
-                                <name>text</name>
-                                <string>Language:</string>
-                            </property>
-                            <property>
-                                <name>alignment</name>
-                                <set>AlignVCenter|AlignRight</set>
-                            </property>
-                            <property>
-                                <name>hAlign</name>
-                            </property>
-                        </widget>
-                        <widget row="4"  column="1" >
-                            <class>QLineEdit</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>edtCity</cstring>
-                            </property>
-                        </widget>
-                        <widget row="4"  column="0" >
-                            <class>QLabel</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>TextLabel9</cstring>
-                            </property>
-                            <property>
-                                <name>text</name>
-                                <string>City:</string>
-                            </property>
-                            <property>
-                                <name>alignment</name>
-                                <set>AlignVCenter|AlignRight</set>
-                            </property>
-                            <property>
-                                <name>hAlign</name>
-                            </property>
-                        </widget>
-                        <widget row="3"  column="1" >
-                            <class>QLineEdit</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>edtState</cstring>
-                            </property>
-                        </widget>
-                        <widget row="3"  column="0" >
-                            <class>QLabel</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>TextLabel7</cstring>
-                            </property>
-                            <property>
-                                <name>text</name>
-                                <string>State:</string>
-                            </property>
-                            <property>
-                                <name>alignment</name>
-                                <set>AlignVCenter|AlignRight</set>
-                            </property>
-                            <property>
-                                <name>hAlign</name>
-                            </property>
-                        </widget>
-                        <widget row="2"  column="1" >
-                            <class>QComboBox</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>cmbCountry</cstring>
-                            </property>
-                        </widget>
-                        <widget row="2"  column="0" >
-                            <class>QLabel</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>TextLabel8</cstring>
-                            </property>
-                            <property>
-                                <name>text</name>
-                                <string>Country:</string>
-                            </property>
-                            <property>
-                                <name>alignment</name>
-                                <set>AlignVCenter|AlignRight</set>
-                            </property>
-                            <property>
-                                <name>hAlign</name>
-                            </property>
-                        </widget>
-                        <widget row="1"  column="0" >
-                            <class>QLabel</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>TextLabel6</cstring>
-                            </property>
-                            <property>
-                                <name>text</name>
-                                <string>Age:</string>
-                            </property>
-                            <property>
-                                <name>alignment</name>
-                                <set>AlignVCenter|AlignRight</set>
-                            </property>
-                            <property>
-                                <name>hAlign</name>
-                            </property>
-                        </widget>
-                        <widget row="1"  column="1" >
-                            <class>QComboBox</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>cmbAge</cstring>
-                            </property>
-                        </widget>
-                        <widget row="0"  column="0" >
-                            <class>QLabel</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>TextLabel5</cstring>
-                            </property>
-                            <property>
-                                <name>text</name>
-                                <string>Gender:</string>
-                            </property>
-                            <property>
-                                <name>alignment</name>
-                                <set>AlignVCenter|AlignRight</set>
-                            </property>
-                            <property>
-                                <name>hAlign</name>
-                            </property>
-                        </widget>
-                        <widget row="0"  column="1" >
-                            <class>QComboBox</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>cmbGender</cstring>
-                            </property>
-                        </widget>
-                    </grid>
-                </widget>
-                <widget>
-                    <class>QGroupBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>grpWork</cstring>
+                  </widget>
+                </item>
+                <item row="4" column="1" >
+                  <widget class="QLineEdit" name="edtCity" />
+                </item>
+                <item row="4" column="0" >
+                  <widget class="QLabel" name="TextLabel9" >
+                    <property name="text" stdset="0" >
+                      <string>City:</string>
                     </property>
-                    <property>
-                        <name>title</name>
-                        <string>Work</string>
+                    <property name="alignment" stdset="0" >
+                      <set>Qt::AlignVCenter|Qt::AlignRight</set>
                     </property>
-                    <grid>
-                        <property>
-                            <name>margin</name>
-                            <number>11</number>
-                        </property>
-                        <property>
-                            <name>spacing</name>
-                            <number>6</number>
-                        </property>
-                        <widget row="0"  column="1" >
-                            <class>QComboBox</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>cmbOccupation</cstring>
-                            </property>
-                        </widget>
-                        <widget row="0"  column="0" >
-                            <class>QLabel</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>TextLabel11</cstring>
-                            </property>
-                            <property>
-                                <name>text</name>
-                                <string>Occupation:</string>
-                            </property>
-                            <property>
-                                <name>alignment</name>
-                                <set>AlignVCenter|AlignRight</set>
-                            </property>
-                            <property>
-                                <name>hAlign</name>
-                            </property>
-                        </widget>
-                        <widget row="1"  column="0" >
-                            <class>QLabel</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>TextLabel12</cstring>
-                            </property>
-                            <property>
-                                <name>text</name>
-                                <string>Company:</string>
-                            </property>
-                            <property>
-                                <name>alignment</name>
-                                <set>AlignVCenter|AlignRight</set>
-                            </property>
-                            <property>
-                                <name>hAlign</name>
-                            </property>
-                        </widget>
-                        <widget row="1"  column="1" >
-                            <class>QLineEdit</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>edtCompany</cstring>
-                            </property>
-                        </widget>
-                        <widget row="2"  column="0" >
-                            <class>QLabel</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>TextLabel13</cstring>
-                            </property>
-                            <property>
-                                <name>text</name>
-                                <string>Department:</string>
-                            </property>
-                            <property>
-                                <name>alignment</name>
-                                <set>AlignVCenter|AlignRight</set>
-                            </property>
-                            <property>
-                                <name>hAlign</name>
-                            </property>
-                        </widget>
-                        <widget row="2"  column="1" >
-                            <class>QLineEdit</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>edtDepartment</cstring>
-                            </property>
-                        </widget>
-                        <widget row="3"  column="0" >
-                            <class>QLabel</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>TextLabel14</cstring>
-                            </property>
-                            <property>
-                                <name>text</name>
-                                <string>Position:</string>
-                            </property>
-                            <property>
-                                <name>alignment</name>
-                                <set>AlignVCenter|AlignRight</set>
-                            </property>
-                            <property>
-                                <name>hAlign</name>
-                            </property>
-                        </widget>
-                        <widget row="3"  column="1" >
-                            <class>QLineEdit</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>edtPosition</cstring>
-                            </property>
-                        </widget>
-                    </grid>
-                </widget>
-                <spacer>
-                    <property>
-                        <name>name</name>
-                        <cstring>Spacer4</cstring>
+                  </widget>
+                </item>
+                <item row="3" column="1" >
+                  <widget class="QLineEdit" name="edtState" />
+                </item>
+                <item row="3" column="0" >
+                  <widget class="QLabel" name="TextLabel7" >
+                    <property name="text" stdset="0" >
+                      <string>State:</string>
                     </property>
-                    <property>
-                        <name>orientation</name>
-                        <enum>Vertical</enum>
+                    <property name="alignment" stdset="0" >
+                      <set>Qt::AlignVCenter|Qt::AlignRight</set>
                     </property>
-                    <property>
-                        <name>sizeType</name>
-                        <enum>Expanding</enum>
+                  </widget>
+                </item>
+                <item row="2" column="1" >
+                  <widget class="QComboBox" name="cmbCountry" />
+                </item>
+                <item row="2" column="0" >
+                  <widget class="QLabel" name="TextLabel8" >
+                    <property name="text" stdset="0" >
+                      <string>Country:</string>
                     </property>
-                    <property>
-                        <name>sizeHint</name>
-                        <size>
-                            <width>20</width>
-                            <height>20</height>
-                        </size>
+                    <property name="alignment" stdset="0" >
+                      <set>Qt::AlignVCenter|Qt::AlignRight</set>
                     </property>
-                </spacer>
-            </vbox>
-        </widget>
-        <widget>
-            <class>QLayoutWidget</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>Layout3</cstring>
-            </property>
-            <vbox>
-                <property>
-                    <name>margin</name>
-                    <number>0</number>
+                  </widget>
+                </item>
+                <item row="1" column="0" >
+                  <widget class="QLabel" name="TextLabel6" >
+                    <property name="text" stdset="0" >
+                      <string>Age:</string>
+                    </property>
+                    <property name="alignment" stdset="0" >
+                      <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                    </property>
+                  </widget>
+                </item>
+                <item row="1" column="1" >
+                  <widget class="QComboBox" name="cmbAge" />
+                </item>
+                <item row="0" column="0" >
+                  <widget class="QLabel" name="TextLabel5" >
+                    <property name="text" stdset="0" >
+                      <string>Gender:</string>
+                    </property>
+                    <property name="alignment" stdset="0" >
+                      <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                    </property>
+                  </widget>
+                </item>
+                <item row="0" column="1" >
+                  <widget class="QComboBox" name="cmbGender" />
+                </item>
+              </layout>
+            </widget>
+          </item>
+          <item>
+            <widget class="Q3GroupBox" name="grpWork" >
+              <property name="title" stdset="0" >
+                <string>Work</string>
+              </property>
+              <layout class="QGridLayout" >
+                <property name="margin" stdset="0" >
+                  <number>11</number>
                 </property>
-                <property>
-                    <name>spacing</name>
-                    <number>6</number>
+                <property name="spacing" stdset="0" >
+                  <number>6</number>
                 </property>
-                <widget>
-                    <class>QGroupBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>GroupBox23</cstring>
+                <item row="0" column="1" >
+                  <widget class="QComboBox" name="cmbOccupation" />
+                </item>
+                <item row="0" column="0" >
+                  <widget class="QLabel" name="TextLabel11" >
+                    <property name="text" stdset="0" >
+                      <string>Occupation:</string>
                     </property>
-                    <property>
-                        <name>title</name>
-                        <string>Interests</string>
+                    <property name="alignment" stdset="0" >
+                      <set>Qt::AlignVCenter|Qt::AlignRight</set>
                     </property>
-                    <vbox>
-                        <property>
-                            <name>margin</name>
-                            <number>11</number>
-                        </property>
-                        <property>
-                            <name>spacing</name>
-                            <number>6</number>
-                        </property>
-                        <widget>
-                            <class>QComboBox</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>cmbInterests</cstring>
-                            </property>
-                        </widget>
-                        <widget>
-                            <class>QLineEdit</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>edtInterests</cstring>
-                            </property>
-                        </widget>
-                    </vbox>
-                </widget>
-                <widget>
-                    <class>QGroupBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>GroupBox24</cstring>
+                  </widget>
+                </item>
+                <item row="1" column="0" >
+                  <widget class="QLabel" name="TextLabel12" >
+                    <property name="text" stdset="0" >
+                      <string>Company:</string>
                     </property>
-                    <property>
-                        <name>title</name>
-                        <string>Past</string>
+                    <property name="alignment" stdset="0" >
+                      <set>Qt::AlignVCenter|Qt::AlignRight</set>
                     </property>
-                    <vbox>
-                        <property>
-                            <name>margin</name>
-                            <number>11</number>
-                        </property>
-                        <property>
-                            <name>spacing</name>
-                            <number>6</number>
-                        </property>
-                        <widget>
-                            <class>QComboBox</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>cmbPast</cstring>
-                            </property>
-                            <property>
-                                <name>caption</name>
-                                <string></string>
-                            </property>
-                        </widget>
-                        <widget>
-                            <class>QLineEdit</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>edtPast</cstring>
-                            </property>
-                        </widget>
-                    </vbox>
-                </widget>
-                <widget>
-                    <class>QGroupBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>GroupBox25</cstring>
+                  </widget>
+                </item>
+                <item row="1" column="1" >
+                  <widget class="QLineEdit" name="edtCompany" />
+                </item>
+                <item row="2" column="0" >
+                  <widget class="QLabel" name="TextLabel13" >
+                    <property name="text" stdset="0" >
+                      <string>Department:</string>
                     </property>
-                    <property>
-                        <name>title</name>
-                        <string>Affilations</string>
+                    <property name="alignment" stdset="0" >
+                      <set>Qt::AlignVCenter|Qt::AlignRight</set>
                     </property>
-                    <vbox>
-                        <property>
-                            <name>margin</name>
-                            <number>11</number>
-                        </property>
-                        <property>
-                            <name>spacing</name>
-                            <number>6</number>
-                        </property>
-                        <widget>
-                            <class>QComboBox</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>cmbAffilation</cstring>
-                            </property>
-                        </widget>
-                        <widget>
-                            <class>QLineEdit</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>edtAffilation</cstring>
-                            </property>
-                        </widget>
-                    </vbox>
-                </widget>
-                <widget>
-                    <class>QGroupBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>GroupBox5</cstring>
+                  </widget>
+                </item>
+                <item row="2" column="1" >
+                  <widget class="QLineEdit" name="edtDepartment" />
+                </item>
+                <item row="3" column="0" >
+                  <widget class="QLabel" name="TextLabel14" >
+                    <property name="text" stdset="0" >
+                      <string>Position:</string>
                     </property>
-                    <property>
-                        <name>title</name>
-                        <string>Keywords</string>
+                    <property name="alignment" stdset="0" >
+                      <set>Qt::AlignVCenter|Qt::AlignRight</set>
                     </property>
-                    <vbox>
-                        <property>
-                            <name>margin</name>
-                            <number>11</number>
-                        </property>
-                        <property>
-                            <name>spacing</name>
-                            <number>6</number>
-                        </property>
-                        <widget>
-                            <class>QLineEdit</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>edtKeywords</cstring>
-                            </property>
-                        </widget>
-                    </vbox>
-                </widget>
-                <widget>
-                    <class>QCheckBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>chkOnline</cstring>
+                  </widget>
+                </item>
+                <item row="3" column="1" >
+                  <widget class="QLineEdit" name="edtPosition" />
+                </item>
+              </layout>
+            </widget>
+          </item>
+          <item>
+            <spacer name="Spacer4" >
+              <property name="sizeHint" >
+                <size>
+                  <width>20</width>
+                  <height>20</height>
+                </size>
+              </property>
+              <property name="sizeType" >
+                <enum>Expanding</enum>
+              </property>
+              <property name="orientation" >
+                <enum>Vertical</enum>
+              </property>
+            </spacer>
+          </item>
+        </layout>
+      </item>
+      <item>
+        <layout class="QVBoxLayout" >
+          <property name="margin" stdset="0" >
+            <number>0</number>
+          </property>
+          <property name="spacing" stdset="0" >
+            <number>6</number>
+          </property>
+          <item>
+            <widget class="Q3GroupBox" name="GroupBox23" >
+              <property name="title" stdset="0" >
+                <string>Interests</string>
+              </property>
+              <layout class="QVBoxLayout" >
+                <property name="margin" stdset="0" >
+                  <number>11</number>
+                </property>
+                <property name="spacing" stdset="0" >
+                  <number>6</number>
+                </property>
+                <item>
+                  <widget class="QComboBox" name="cmbInterests" />
+                </item>
+                <item>
+                  <widget class="QLineEdit" name="edtInterests" />
+                </item>
+              </layout>
+            </widget>
+          </item>
+          <item>
+            <widget class="Q3GroupBox" name="GroupBox24" >
+              <property name="title" stdset="0" >
+                <string>Past</string>
+              </property>
+              <layout class="QVBoxLayout" >
+                <property name="margin" stdset="0" >
+                  <number>11</number>
+                </property>
+                <property name="spacing" stdset="0" >
+                  <number>6</number>
+                </property>
+                <item>
+                  <widget class="QComboBox" name="cmbPast" >
+                    <property name="windowTitle" stdset="0" >
+                      <string/>
                     </property>
-                    <property>
-                        <name>text</name>
-                        <string>Search &amp;online users only</string>
-                    </property>
-                </widget>
-                <spacer>
-                    <property>
-                        <name>name</name>
-                        <cstring>Spacer5</cstring>
-                    </property>
-                    <property>
-                        <name>orientation</name>
-                        <enum>Vertical</enum>
-                    </property>
-                    <property>
-                        <name>sizeType</name>
-                        <enum>Expanding</enum>
-                    </property>
-                    <property>
-                        <name>sizeHint</name>
-                        <size>
-                            <width>20</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-            </vbox>
-        </widget>
-    </hbox>
-</widget>
-<customwidgets>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="QLineEdit" name="edtPast" />
+                </item>
+              </layout>
+            </widget>
+          </item>
+          <item>
+            <widget class="Q3GroupBox" name="GroupBox25" >
+              <property name="title" stdset="0" >
+                <string>Affilations</string>
+              </property>
+              <layout class="QVBoxLayout" >
+                <property name="margin" stdset="0" >
+                  <number>11</number>
+                </property>
+                <property name="spacing" stdset="0" >
+                  <number>6</number>
+                </property>
+                <item>
+                  <widget class="QComboBox" name="cmbAffilation" />
+                </item>
+                <item>
+                  <widget class="QLineEdit" name="edtAffilation" />
+                </item>
+              </layout>
+            </widget>
+          </item>
+          <item>
+            <widget class="Q3GroupBox" name="GroupBox5" >
+              <property name="title" stdset="0" >
+                <string>Keywords</string>
+              </property>
+              <layout class="QVBoxLayout" >
+                <property name="margin" stdset="0" >
+                  <number>11</number>
+                </property>
+                <property name="spacing" stdset="0" >
+                  <number>6</number>
+                </property>
+                <item>
+                  <widget class="QLineEdit" name="edtKeywords" />
+                </item>
+              </layout>
+            </widget>
+          </item>
+          <item>
+            <widget class="QCheckBox" name="chkOnline" >
+              <property name="text" stdset="0" >
+                <string>Search &amp;online users only</string>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <spacer name="Spacer5" >
+              <property name="sizeHint" >
+                <size>
+                  <width>20</width>
+                  <height>20</height>
+                </size>
+              </property>
+              <property name="sizeType" >
+                <enum>Expanding</enum>
+              </property>
+              <property name="orientation" >
+                <enum>Vertical</enum>
+              </property>
+            </spacer>
+          </item>
+        </layout>
+      </item>
+    </layout>
+  </widget>
+  <pixmapfunction></pixmapfunction>
+  <customwidgets>
     <customwidget>
-        <class>QWidget</class>
-        <header location="global">qwidget.h</header>
-        <sizehint>
-            <width>-1</width>
-            <height>-1</height>
-        </sizehint>
-        <container>0</container>
-        <sizepolicy>
-            <hordata>5</hordata>
-            <verdata>5</verdata>
-        </sizepolicy>
-        <pixmap>image0</pixmap>
-        <property type="String">text</property>
+      <class>QWidget</class>
+      <extends></extends>
+      <header location="global" >qwidget.h</header>
+      <sizehint>
+        <width>-1</width>
+        <height>-1</height>
+      </sizehint>
+      <container>0</container>
+      <sizepolicy>
+        <hordata>5</hordata>
+        <verdata>5</verdata>
+      </sizepolicy>
+      <pixmap>image0</pixmap>
+      <properties>
+        <property type="String" >text</property>
+      </properties>
     </customwidget>
-</customwidgets>
-<images>
-    <image>
-        <name>image0</name>
-        <data format="XPM.GZ" length="646">789c6dd2c10ac2300c00d07bbf2234b7229d1be245fc04c5a3201e4615f430059d0711ff5ddb2e6bb236ec90eed134cb5a19d8ef36602af5ecdbfeeac05dda0798d3abebde87e3faa374d3807fa0d633a52d38d8de6f679fe33fc776e196f53cd010188256a3600a292882096246517815ca99884606e18044a3a40d91824820924265a7923a2e8bcd05f33db1173e002913175f2a6be6d3294871a2d95fa00e8a94ee017b69d339d90df1e77c57ea072ede6758</data>
-    </image>
-</images>
-<tabstops>
+  </customwidgets>
+  <tabstops>
     <tabstop>cmbGender</tabstop>
     <tabstop>cmbAge</tabstop>
     <tabstop>cmbCountry</tabstop>
@@ -588,5 +368,10 @@
     <tabstop>edtAffilation</tabstop>
     <tabstop>edtKeywords</tabstop>
     <tabstop>chkOnline</tabstop>
-</tabstops>
-</UI>
+  </tabstops>
+  <images>
+    <image name="image0" >
+      <data format="XPM.GZ" length="646" >789c6dd2c10ac2300c00d07bbf2234b7229d1be245fc04c5a3201e4615f430059d0711ff5ddb2e6bb236ec90eed134cb5a19d8ef36602af5ecdbfeeac05dda0798d3abebde87e3faa374d3807fa0d633a52d38d8de6f679fe33fc776e196f53cd010188256a3600a292882096246517815ca99884606e18044a3a40d91824820924265a7923a2e8bcd05f33db1173e002913175f2a6be6d3294871a2d95fa00e8a94ee017b69d339d90df1e77c57ea072ede6758</data>
+    </image>
+  </images>
+</ui>

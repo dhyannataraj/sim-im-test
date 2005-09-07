@@ -21,7 +21,7 @@
 #include "simapi.h"
 #include "plugincfgbase.h"
 
-class PluginCfg : public PluginCfgBase
+class PluginCfg : public Ui_PluginCfgBase
 {
     Q_OBJECT
 public:

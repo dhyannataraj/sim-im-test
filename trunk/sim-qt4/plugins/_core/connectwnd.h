@@ -21,7 +21,7 @@
 #include "simapi.h"
 #include "connectwndbase.h"
 
-class ConnectWnd : public ConnectWndBase
+class ConnectWnd : public Ui_ConnectWndBase
 {
     Q_OBJECT
 public:

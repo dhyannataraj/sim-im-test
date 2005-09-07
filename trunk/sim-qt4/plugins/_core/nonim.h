@@ -23,7 +23,7 @@
 //Added by qt3to4:
 #include <QShowEvent>
 
-class NonIM : public NonIMBase
+class NonIM : public Ui_NonIMBase
 {
     Q_OBJECT
 public:

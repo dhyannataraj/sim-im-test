@@ -24,7 +24,7 @@
 class PhoneDetails;
 class PagerDetails;
 
-class EditPhone : public EditPhoneBase
+class EditPhone : public Ui_EditPhoneBase
 {
     Q_OBJECT
 public:

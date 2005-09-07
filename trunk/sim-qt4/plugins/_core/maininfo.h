@@ -23,7 +23,7 @@
 
 class Q3ListViewItem;
 
-class MainInfo : public MainInfoBase, public EventReceiver
+class MainInfo : public Ui_MainInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:

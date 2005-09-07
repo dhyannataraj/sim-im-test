@@ -26,7 +26,7 @@ class HistoryConfig;
 class MessageConfig;
 class SMSConfig;
 
-class InterfaceConfig : public InterfaceConfigBase
+class InterfaceConfig : public Ui_InterfaceConfigBase
 {
     Q_OBJECT
 public:

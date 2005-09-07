@@ -24,7 +24,7 @@
 class QCheckBox;
 class FileConfig;
 
-class MessageConfig : public MessageConfigBase
+class MessageConfig : public Ui_MessageConfigBase
 {
     Q_OBJECT
 public:

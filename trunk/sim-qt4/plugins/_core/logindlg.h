@@ -30,7 +30,7 @@ class QLabel;
 class QLineEdit;
 class LinkLabel;
 
-class LoginDialog : public LoginDialogBase, public EventReceiver
+class LoginDialog : public Ui_LoginDialogBase, public EventReceiver
 {
     Q_OBJECT
 public:

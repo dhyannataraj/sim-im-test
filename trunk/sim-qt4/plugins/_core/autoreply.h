@@ -21,7 +21,7 @@
 #include "simapi.h"
 #include "autoreplybase.h"
 
-class AutoReplyDialog : public AutoReplyBase
+class AutoReplyDialog : public Ui_AutoReplyBase
 {
     Q_OBJECT
 public:

@@ -21,7 +21,7 @@
 #include "simapi.h"
 #include "arcfgbase.h"
 
-class ARConfig : public ARConfigBase
+class ARConfig : public Ui_ARConfigBase
 {
     Q_OBJECT
 public:

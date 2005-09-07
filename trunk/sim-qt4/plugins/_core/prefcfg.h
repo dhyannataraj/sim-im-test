@@ -21,7 +21,7 @@
 #include "simapi.h"
 #include "prefcfgbase.h"
 
-class PrefConfig : public PrefConfigBase
+class PrefConfig : public Ui_PrefConfigBase
 {
     Q_OBJECT
 public:

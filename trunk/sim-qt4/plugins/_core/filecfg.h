@@ -23,7 +23,7 @@
 
 class QCheckBox;
 
-class FileConfig : public FileConfigBase
+class FileConfig : public Ui_FileConfigBase
 {
     Q_OBJECT
 public:
