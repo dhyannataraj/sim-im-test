@@ -23,7 +23,7 @@
 //Added by qt3to4:
 #include <QCloseEvent>
 
-class ConfigureDialog : public Ui_ConfigureDialogBase, public EventReceiver
+class ConfigureDialog : public Ui_ConfigureDialogBase, public EventReceiver, public QDialog
 {
     Q_OBJECT
 public:

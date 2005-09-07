@@ -21,7 +21,7 @@
 #include "simapi.h"
 #include "connectwndbase.h"
 
-class ConnectWnd : public Ui_ConnectWndBase
+class ConnectWnd : public Ui_ConnectWndBase, public QDialog
 {
     Q_OBJECT
 public:

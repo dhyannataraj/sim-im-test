@@ -21,7 +21,7 @@
 #include "simapi.h"
 #include "prefcfgbase.h"
 
-class PrefConfig : public Ui_PrefConfigBase
+class PrefConfig : public Ui_PrefConfigBase, public QDialog
 {
     Q_OBJECT
 public:

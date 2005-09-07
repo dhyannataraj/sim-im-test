@@ -25,7 +25,7 @@ class QTimer;
 class Q3ProgressBar;
 class BalloonMsg;
 
-class FileTransferDlg : public Ui_FileTransferBase
+class FileTransferDlg : public Ui_FileTransferBase, public QDialog
 {
     Q_OBJECT
 public:

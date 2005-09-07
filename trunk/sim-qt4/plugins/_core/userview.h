@@ -40,7 +40,7 @@ typedef struct BlinkCount
     unsigned		count;
 } BlinkCount;
 
-class UserView : public UserListBase
+class UserView : public UserListBase, public QDialog
 {
     Q_OBJECT
 public:

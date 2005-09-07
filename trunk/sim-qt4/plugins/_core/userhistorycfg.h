@@ -22,7 +22,7 @@
 
 #include "userhistorycfgbase.h"
 
-class UserHistoryCfg : public Ui_UserHistoryCfgBase
+class UserHistoryCfg : public Ui_UserHistoryCfgBase, public QDialog
 {
     Q_OBJECT
 public:

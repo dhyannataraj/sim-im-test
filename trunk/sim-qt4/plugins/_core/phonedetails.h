@@ -21,7 +21,7 @@
 #include "simapi.h"
 #include "phonebase.h"
 
-class PhoneDetails : public Ui_PhoneDetailsBase
+class PhoneDetails : public Ui_PhoneDetailsBase, public QDialog
 {
     Q_OBJECT
 public:

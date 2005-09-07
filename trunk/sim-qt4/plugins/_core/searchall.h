@@ -26,7 +26,7 @@
 
 typedef map<QWidget*, QStringList>	WND_MAP;
 
-class SearchAll : public Ui_SearchAllBase
+class SearchAll : public Ui_SearchAllBase, public QDialog
 {
     Q_OBJECT
 public:

@@ -21,7 +21,7 @@
 #include "simapi.h"
 #include "connectionsettingsbase.h"
 
-class ConnectionSettings : public Ui_ConnectionSettingsBase
+class ConnectionSettings : public Ui_ConnectionSettingsBase, public QDialog
 {
     Q_OBJECT
 public:

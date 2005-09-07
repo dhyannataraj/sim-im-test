@@ -26,7 +26,7 @@
 
 class CorePlugin;
 
-class ConnectionManager : public Ui_ConnectionManagerBase
+class ConnectionManager : public Ui_ConnectionManagerBase, public QDialog
 {
     Q_OBJECT
 public:

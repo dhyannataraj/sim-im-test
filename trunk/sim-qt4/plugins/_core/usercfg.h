@@ -26,7 +26,7 @@
 class CorePlugin;
 class ConfigItem;
 
-class UserConfig : public Ui_ConfigureDialogBase, public EventReceiver
+class UserConfig : public Ui_ConfigureDialogBase, public EventReceiver, public QDialog
 {
     Q_OBJECT
 public:

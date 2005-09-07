@@ -26,7 +26,7 @@ class HistoryConfig;
 class MessageConfig;
 class SMSConfig;
 
-class InterfaceConfig : public Ui_InterfaceConfigBase
+class InterfaceConfig : public Ui_InterfaceConfigBase, public QDialog
 {
     Q_OBJECT
 public:

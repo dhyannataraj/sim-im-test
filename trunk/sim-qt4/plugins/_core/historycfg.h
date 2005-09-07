@@ -37,7 +37,7 @@ typedef struct StyleDef
     bool	operator < (const StyleDef &s) const { return name < s.name; }
 } StyleDef;
 
-class HistoryConfig : public Ui_HistoryConfigBase
+class HistoryConfig : public Ui_HistoryConfigBase, public QDialog
 {
     Q_OBJECT
 public:
