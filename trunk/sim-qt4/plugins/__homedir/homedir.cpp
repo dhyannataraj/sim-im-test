@@ -232,7 +232,7 @@ string HomeDirPlugin::buildFileName(const char *name)
     }
     s += fname;
     string res;
-    res = QFile::encodeName(s);
+    res = static_cast<string>(QFile::encodeName(s));
     return res;
 }
 
