@@ -1103,8 +1103,8 @@ dnl ------------------------------------------------------------
   fi
 fi
 
-LIBQT="-lQtGui_debug -lQt3Support_debug"
-kde_int_qt="-lQtGui_debug -lQt3Support_debug"
+LIBQT="-lQtCore_debug -lQtGui_debug -lQt3Support_debug"
+kde_int_qt="-lQtCore_debug -lQtGui_debug -lQt3Support_debug"
 
 AC_REQUIRE([AC_FIND_PNG])
 AC_REQUIRE([AC_FIND_JPEG])
