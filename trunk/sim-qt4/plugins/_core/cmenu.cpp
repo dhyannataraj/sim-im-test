@@ -23,6 +23,7 @@
 #include <qapplication.h>
 //Added by qt3to4:
 #include <Q3PopupMenu>
+#include <QDesktopWidget>
 
 CMenu::CMenu(CommandsDef *def)
         : KPopupMenu(NULL)
@@ -73,14 +74,11 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
     }
     if (m_wrk->count()){
         QSize s = m_wrk->sizeHint();
-        QWidget *desktop = qApp->desktop();
-        int nHeight = (s.height() - margin() * 2) / m_wrk->count();
-        if (s.height() + nHeight * 2 + margin() * 2 >= desktop->height()){
-            KPopupMenu *more = new KPopupMenu(m_wrk);
-            m_wrk->insertItem(i18n("More..."), more);
-            m_wrk = more;
-            connect(m_wrk, SIGNAL(activated(int)), this, SLOT(menuActivated(int)));
-        }
+        QDesktopWidget *desktop = qApp->desktop();
+        KPopupMenu *more = new KPopupMenu(m_wrk);
+        m_wrk->insertItem(i18n("More..."), more);
+        m_wrk = more;
+        connect(m_wrk, SIGNAL(activated(int)), this, SLOT(menuActivated(int)));
     }
     if (bFirst){
         bFirst = false;

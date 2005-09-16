@@ -164,11 +164,11 @@ void KPopupMenu::changeTitle(int id, const QString &text)
 void KPopupMenu::changeTitle(int id, const QPixmap &icon, const QString &text)
 {
     QMenuItem *item = findItem(id);
+    QIcon newicon;
+    newicon.addPixmap( icon, QIcon::Normal, QIcon::Off);
     if(item){
-        if(item->widget())
-            ((KPopupTitle *)item->widget())->setTitle(text, &icon);
-        else
-            qWarning("KPopupMenu: changeTitle() called with non-title id %d.", id);
+	item->setText(text);
+	item->setIcon(newicon);
     }
     else
         qWarning("KPopupMenu: changeTitle() called with invalid id %d.", id);
@@ -180,10 +180,7 @@ QString KPopupMenu::title(int id) const
         return(d->m_lastTitle);
     QMenuItem *item = findItem(id);
     if(item){
-        if(item->widget())
-            return(((KPopupTitle *)item->widget())->title());
-        else
-            qWarning("KPopupMenu: title() called with non-title id %d.", id);
+        return item->text();
     }
     else
         qWarning("KPopupMenu: title() called with invalid id %d.", id);
@@ -194,10 +191,7 @@ QPixmap KPopupMenu::titlePixmap(int id) const
 {
     QMenuItem *item = findItem(id);
     if(item){
-        if(item->widget())
-            return(((KPopupTitle *)item->widget())->icon());
-        else
-            qWarning("KPopupMenu: titlePixmap() called with non-title id %d.", id);
+        return item->icon().pixmap(32, QIcon::Normal, QIcon::Off);
     }
     else
         qWarning("KPopupMenu: titlePixmap() called with invalid id %d.", id);
@@ -259,25 +253,18 @@ void KPopupMenu::keyPressEvent(QKeyEvent* e)
 
         } else if (key == Qt::Key_Delete) {
             resetKeyboardVars();
-
-            // clear active item
-            setActiveItem(0);
             return;
 
         } else if (d->noMatches) {
             // clear if there are no matches
             resetKeyboardVars();
 
-            // clear active item
-            setActiveItem(0);
-
         } else {
             // the key sequence is not a null string
             // therefore the lastHitIndex is valid
             i = d->lastHitIndex;
         }
-    } else if (key == Qt::Key_Backspace && parentMenu) {
-        // backspace with no chars in the buffer... go back a menu.
+    } else if (key == Qt::Key_Backspace) {
         hide();
         resetKeyboardVars();
         return;
@@ -314,8 +301,6 @@ void KPopupMenu::keyPressEvent(QKeyEvent* e)
         if (thisText.find(d->keySeq, 0, false) == 0) {
 
             if (firstpass) {
-                // match
-                setActiveItem(i);
 
                 // check to see if were underlining a different item
                 if (d->lastHitIndex != i)
@@ -352,8 +337,7 @@ void KPopupMenu::keyPressEvent(QKeyEvent* e)
             activateItemAt(d->lastHitIndex);
             resetKeyboardVars();
 
-        } else if (findItem(idAt(d->lastHitIndex)) &&
-                   findItem(idAt(d->lastHitIndex))->popup()) {
+        } else if (findItem(idAt(d->lastHitIndex)))  {
             // only activate sub-menus
             activateItemAt(d->lastHitIndex);
             resetKeyboardVars();

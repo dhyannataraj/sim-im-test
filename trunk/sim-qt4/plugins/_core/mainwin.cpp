@@ -35,6 +35,7 @@
 #include <QVBoxLayout>
 #include <QResizeEvent>
 #include <QMouseEvent>
+#include <QIcon>
 
 #ifdef WIN32
 
@@ -90,7 +91,7 @@ MainWindow::MainWindow()
 
     SET_WNDPROC("mainwnd");
     m_icon = "ICQ";
-    setIcon(Pict(m_icon.c_str()));
+    setIcon(Pict(m_icon.c_str()).pixmap(32, QIcon::Normal, QIcon::Off));
     setTitle();
 
 #ifdef WIN32
@@ -200,7 +201,7 @@ void *MainWindow::processEvent(Event *e)
     switch(e->type()){
     case EventSetMainIcon:
         m_icon = (const char*)(e->param());
-        setIcon(Pict(m_icon.c_str()));
+	setIcon(Pict(m_icon.c_str()).pixmap(32, QIcon::Normal, QIcon::Off));
         break;
     case EventInit:{
             setTitle();
@@ -227,7 +228,7 @@ void *MainWindow::processEvent(Event *e)
         addStatus(wnd->widget, wnd->bDown);
         return e->param();
     case EventIconChanged:
-        setIcon(Pict(m_icon.c_str()));
+	setIcon(Pict(m_icon.c_str()).pixmap(32, QIcon::Normal, QIcon::Off));
         break;
     case EventContactChanged:{
             Contact *contact = (Contact*)(e->param());
@@ -347,7 +348,7 @@ void MainWindow::setGrip()
         m_grip->installEventFilter(this);
 #endif
         m_grip->setFixedSize(m_grip->sizeHint());
-        h_lay->addWidget(m_grip, 0, AlignBottom);
+        h_lay->addWidget(m_grip, 0, Qt::AlignBottom);
         w->show();
         m_grip->show();
     }

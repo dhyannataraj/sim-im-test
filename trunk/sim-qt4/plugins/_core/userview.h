@@ -28,6 +28,7 @@
 #include <QKeyEvent>
 #include <QEvent>
 #include <QDropEvent>
+#include <QDialog>
 
 class CorePlugin;
 class IntLineEdit;

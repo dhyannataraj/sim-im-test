@@ -141,10 +141,10 @@ CMenu *Commands::processMenu(unsigned id, void *param, int key)
         CommandDef *cmd;
         while ((cmd = ++list) !=NULL){
             int cmdKey;
-            if ((key & ALT) && ((key & ~MODIFIER_MASK) != Key_Alt)){
+            if ((key & Qt::ALT) && ((key & Qt::MODIFIER_MASK) != Qt::Key_Alt)){
                 if (cmd->text == NULL) continue;
                 cmdKey = Q3Accel::shortcutKey(i18n(cmd->text));
-                if ((cmdKey & ~UNICODE_ACCEL) == key){
+                if ((cmdKey & Qt::UNICODE_ACCEL) == key){
                     cmd->param = param;
                     Event eCmd(EventCommandExec, cmd);
                     if (eCmd.process())
@@ -252,12 +252,12 @@ void Commands::popupActivated()
 
 void Commands::customize(CommandsDef *def)
 {
-    QWidgetList  *list = QApplication::topLevelWidgets();
-    QWidgetListIt it( *list );
+    QList<QWidget *> list = QApplication::topLevelWidgets();
+    QListIterator<QWidget *> it( list );
     QWidget * w;
     ToolBarSetup *wnd = NULL;
-    while ( (w=it.current()) != 0 ){
-        ++it;
+    while ( it.hasNext() ){
+        w = it.next();
         if (!w->inherits("ToolBarSetup")) continue;
         ToolBarSetup *swnd = static_cast<ToolBarSetup*>(w);
         if (swnd->m_def != def) continue;
@@ -266,7 +266,7 @@ void Commands::customize(CommandsDef *def)
     }
     if (wnd == NULL) wnd= new ToolBarSetup(this, def);
     raiseWindow(wnd);
-    delete list;
+    delete &list;
 }
 
 void Commands::customizeMenu(unsigned id)
