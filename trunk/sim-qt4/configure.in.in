@@ -1,7 +1,7 @@
 #MIN_CONFIG
 AC_PREREQ(2.50)
 AC_LANG_CPLUSPLUS
-AM_INIT_AUTOMAKE(sim,0.9.4)
+AM_INIT_AUTOMAKE(sim,0.10.0)
 AC_PROG_LIBTOOL
 AC_STDC_HEADERS
 AC_C_BIGENDIAN
@@ -14,14 +14,6 @@ if test "x$LEX" = "xno" ; then
    fi
 fi
 AM_PROG_LEX
-AM_CONDITIONAL(QT2, test "$kde_qtver" = "2")
-if test "$kde_qtver" = "2" ; then
- LIBUIQT="../../sim/qt3/libsimuiqt.la"
- LIBUI="../../sim/qt3/libsimuiqt.la"
-else
- LIBUIQT=""
- LIBUI=""
-fi
 AC_SUBST(LIBUIQT)
 AC_SUBST(LIBUI)
 LFLAGS="-o${LEX_OUTPUT_ROOT}.c"
