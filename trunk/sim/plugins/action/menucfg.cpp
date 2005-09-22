@@ -22,9 +22,11 @@
 #include "editfile.h"
 
 #include <qpushbutton.h>
+//Added by qt3to4:
+#include <QResizeEvent>
 
 MenuConfig::MenuConfig(QWidget *parent, struct ActionUserData *data)
-        : MenuConfigBase(parent)
+        : Ui::MenuConfigBase()
 {
     m_data   = data;
 
@@ -32,14 +34,14 @@ MenuConfig::MenuConfig(QWidget *parent, struct ActionUserData *data)
     lstMenu->addColumn(i18n("Program"));
     lstMenu->setExpandingColumn(1);
     lstMenu->adjustColumn();
-    connect(lstMenu, SIGNAL(selectionChanged(QListViewItem*)), this, SLOT(selectionChanged(QListViewItem*)));
+    connect(lstMenu, SIGNAL(selectionChanged(Q3ListViewItem*)), this, SLOT(selectionChanged(Q3ListViewItem*)));
     connect(btnAdd, SIGNAL(clicked()), this, SLOT(add()));
     connect(btnEdit, SIGNAL(clicked()), this, SLOT(edit()));
     connect(btnRemove, SIGNAL(clicked()), this, SLOT(remove()));
     for (unsigned i = 0; i < m_data->NMenu.value; i++){
         QString str = QString::fromUtf8(get_str(data->Menu, i + 1));
         QString item = getToken(str, ';');
-        new QListViewItem(lstMenu, item, str);
+        new Q3ListViewItem(lstMenu, item, str);
     }
     selectionChanged(NULL);
 }
@@ -50,11 +52,11 @@ MenuConfig::~MenuConfig()
 
 void MenuConfig::resizeEvent(QResizeEvent *e)
 {
-    MenuConfigBase::resizeEvent(e);
+    QDialog::resizeEvent(e);
     lstMenu->adjustColumn();
 }
 
-void MenuConfig::selectionChanged(QListViewItem*)
+void MenuConfig::selectionChanged(Q3ListViewItem*)
 {
     if (lstMenu->currentItem()){
         btnEdit->setEnabled(true);
@@ -69,14 +71,14 @@ void MenuConfig::add()
 {
     AddItem add(topLevelWidget());
     if (add.exec()){
-        new QListViewItem(lstMenu, add.edtItem->text(), add.edtPrg->text());
+        new Q3ListViewItem(lstMenu, add.edtItem->text(), add.edtPrg->text());
         lstMenu->adjustColumn();
     }
 }
 
 void MenuConfig::edit()
 {
-    QListViewItem *item = lstMenu->currentItem();
+    Q3ListViewItem *item = lstMenu->currentItem();
     if (item == NULL)
         return;
     AddItem add(topLevelWidget());
@@ -91,7 +93,7 @@ void MenuConfig::edit()
 
 void MenuConfig::remove()
 {
-    QListViewItem *item = lstMenu->currentItem();
+    Q3ListViewItem *item = lstMenu->currentItem();
     if (item == NULL)
         return;
     delete item;
@@ -102,7 +104,7 @@ void MenuConfig::apply(void *_data)
     ActionUserData *data = (ActionUserData*)_data;
     clear_list(&data->Menu);
     data->NMenu.value = 0;
-    for (QListViewItem *item = lstMenu->firstChild(); item; item = item->nextSibling()){
+    for (Q3ListViewItem *item = lstMenu->firstChild(); item; item = item->nextSibling()){
         set_str(&data->Menu, ++data->NMenu.value, (item->text(0) + ";" + item->text(1)).utf8());
     }
 }

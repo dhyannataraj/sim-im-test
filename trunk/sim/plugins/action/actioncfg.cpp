@@ -26,12 +26,15 @@
 #include <qtabwidget.h>
 #include <qpainter.h>
 #include <qpushbutton.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QResizeEvent>
 
 unsigned CONTACT_ONLINE = 0x10000;
 unsigned CONTACT_STATUS = 0x10001;
 
 ActionConfig::ActionConfig(QWidget *parent, struct ActionUserData *data, ActionPlugin *plugin)
-        : ActionConfigBase(parent)
+        : Ui::ActionConfigBase()
 {
     m_data   = data;
     m_plugin = plugin;
@@ -44,13 +47,13 @@ ActionConfig::ActionConfig(QWidget *parent, struct ActionUserData *data, ActionP
 
     connect(btnHelp, SIGNAL(clicked()), this, SLOT(help()));
 
-    QListViewItem *item = new QListViewItem(lstEvent, i18n("Contact online"));
+    Q3ListViewItem *item = new Q3ListViewItem(lstEvent, i18n("Contact online"));
     item->setText(2, QString::number(CONTACT_ONLINE));
     item->setPixmap(0, makePixmap("ICQ"));
     if (data->OnLine.ptr)
         item->setText(1, QString::fromUtf8(data->OnLine.ptr));
 
-    item = new QListViewItem(lstEvent, i18n("Status changed"));
+    item = new Q3ListViewItem(lstEvent, i18n("Status changed"));
     item->setText(2, QString::number(CONTACT_STATUS));
     item->setPixmap(0, makePixmap("ICQ"));
     if (data->Status.ptr)
@@ -74,14 +77,14 @@ ActionConfig::ActionConfig(QWidget *parent, struct ActionUserData *data, ActionP
             type = type.left(pos);
         }
         type = type.left(1).upper() + type.mid(1);
-        QListViewItem *item = new QListViewItem(lstEvent, type);
+        Q3ListViewItem *item = new Q3ListViewItem(lstEvent, type);
         item->setText(2, QString::number(cmd->id));
         item->setPixmap(0, makePixmap(cmd->icon));
         item->setText(1, QString::fromUtf8(get_str(data->Message, cmd->id)));
     }
     m_edit = NULL;
     m_editItem = NULL;
-    connect(lstEvent, SIGNAL(selectionChanged(QListViewItem*)), this, SLOT(selectionChanged(QListViewItem*)));
+    connect(lstEvent, SIGNAL(selectionChanged(Q3ListViewItem*)), this, SLOT(selectionChanged(Q3ListViewItem*)));
 
     for (QObject *p = parent; p != NULL; p = p->parent()){
         if (!p->inherits("QTabWidget"))
@@ -104,13 +107,13 @@ ActionConfig::~ActionConfig()
 
 void ActionConfig::resizeEvent(QResizeEvent *e)
 {
-    ActionConfigBase::resizeEvent(e);
+    QDialog::resizeEvent(e);
     lstEvent->adjustColumn();
 }
 
 QPixmap ActionConfig::makePixmap(const char *src)
 {
-    const QPixmap &source = Pict(src);
+    const QPixmap &source = Pict(src).pixmap();
     int w = source.width();
     int h = QMAX(source.height(), 22);
     QPixmap pict(w, h);
@@ -121,7 +124,7 @@ QPixmap ActionConfig::makePixmap(const char *src)
     return pict;
 }
 
-void ActionConfig::selectionChanged(QListViewItem *item)
+void ActionConfig::selectionChanged(Q3ListViewItem *item)
 {
     if (m_editItem){
         m_editItem->setText(1, m_edit->text());
@@ -154,7 +157,7 @@ void ActionConfig::apply(void *_data)
     ActionUserData *data = (ActionUserData*)_data;
     if (m_menu)
         m_menu->apply(data);
-    for (QListViewItem *item = lstEvent->firstChild(); item; item = item->nextSibling()){
+    for (Q3ListViewItem *item = lstEvent->firstChild(); item; item = item->nextSibling()){
         unsigned id = item->text(2).toUInt();
         QString text = item->text(1);
         if (id == CONTACT_ONLINE){
@@ -171,7 +174,7 @@ void ActionConfig::setEnabled(bool state)
 {
     if (m_menu)
         m_menu->setEnabled(state);
-    ActionConfigBase::setEnabled(state);
+    QDialog::setEnabled(state);
 }
 
 void ActionConfig::help()

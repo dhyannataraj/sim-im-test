@@ -21,7 +21,7 @@
 #include "additembase.h"
 #include "simapi.h"
 
-class AddItem : public AddItemBase
+class AddItem : public QDialog, public Ui::AddItemBase
 {
     Q_OBJECT
 public:

@@ -25,10 +25,10 @@
 #include <qpushbutton.h>
 
 AddItem::AddItem(QWidget *parent)
-        : AddItemBase(parent, NULL, true)
+        : Ui::AddItemBase()
 {
     SET_WNDPROC("additem")
-    setIcon(Pict("run"));
+    setIcon(Pict("run").pixmap());
     setButtonsPict(this);
     setCaption(caption());
     QTimer::singleShot(0, this, SLOT(changed()));
