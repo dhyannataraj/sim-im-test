@@ -174,7 +174,7 @@ NoTranslate:
         else
             return put_n_in( QString::fromUtf8( plural ),  n );
     }
-    QStringList forms = QStringList::split( "\n", r, false );
+    QStringList forms = r.split( "\n", QString::SkipEmptyParts );
     switch ( plural_form ) {
     case 0: // NoPlural
         EXPECT_LENGTH( 1 );

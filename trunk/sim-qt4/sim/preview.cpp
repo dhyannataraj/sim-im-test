@@ -112,7 +112,7 @@ void PictPreview::showPreview(const char *file)
         }
     }
     QPixmap pict;
-    pict.convertFromImage(img);
+    pict.fromImage(img);
     label->setPixmap(pict);
 }
 

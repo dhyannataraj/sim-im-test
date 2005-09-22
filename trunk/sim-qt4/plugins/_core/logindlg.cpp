@@ -37,7 +37,7 @@
 LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const char *loginProfile)
         : LoginDialogBase(NULL, "logindlg",
                           client ? false : true,
-                          client ? Qt::WDestructiveClose : 0)
+                          client ? Qt::WA_DeleteOnClose : 0)
 {
     m_bInit  = bInit;
     m_bProfileChanged = false;

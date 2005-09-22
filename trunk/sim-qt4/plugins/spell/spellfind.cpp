@@ -28,7 +28,7 @@
 #include <windows.h>
 
 SpellFind::SpellFind(EditFile *edt)
-        : SpellFindBase(NULL, NULL, false, Qt::WDestructiveClose)
+        : SpellFindBase(NULL, NULL, false, Qt::WA_DeleteOnClose)
 {
     SET_WNDPROC("find")
     setIcon(Pict("find"));

@@ -842,7 +842,7 @@ static unsigned colors[16] =
 const int CUSTOM_COLOR	= 100;
 
 ColorPopup::ColorPopup(QWidget *popup, QColor color)
-        : Q3Frame(popup, "colors", Qt::WType_Popup | Qt::WStyle_Customize | Qt::WStyle_Tool | Qt::WDestructiveClose)
+        : Q3Frame(popup, "colors", Qt::Popup | Qt::Tool | Qt::WA_DeleteOnClose)
 {
     m_color = color;
     setFrameShape(PopupPanel);

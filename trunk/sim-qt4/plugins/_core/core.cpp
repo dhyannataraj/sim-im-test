@@ -2955,7 +2955,8 @@ if (fname[0] != '/')
                     if (p.isEmpty())
                         return NULL;
                     p = unquoteText(p);
-                    QStringList l = QStringList::split("\n", p);
+                    QStringList l = p.split("\n", QString::SkipEmptyParts);
+
                     QStringList::Iterator it;
                     if (l.count() && l.last().isEmpty()){
                         it = l.end();

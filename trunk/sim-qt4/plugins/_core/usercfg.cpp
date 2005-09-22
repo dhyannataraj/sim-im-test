@@ -235,7 +235,7 @@ static unsigned itemWidth(Q3ListViewItem *item, QFontMetrics &fm)
 }
 
 UserConfig::UserConfig(Contact *contact, Group *group)
-        : ConfigureDialogBase(NULL, "userconfig", false, Qt::WDestructiveClose)
+        : ConfigureDialogBase(NULL, "userconfig", false, Qt::WA_DeleteOnClose)
 {
     m_contact  = contact;
     m_group    = group;

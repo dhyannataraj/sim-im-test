@@ -81,7 +81,7 @@ void MainWindowWidget::childEvent(QChildEvent *e)
 
 MainWindow::MainWindow()
         : Q3MainWindow(NULL, "mainwnd",
-                      Qt::WType_TopLevel | Qt::WStyle_Customize |
+                      Qt::Window | 
                       Qt::WStyle_Title | Qt::WStyle_NormalBorder| Qt::WStyle_SysMenu),
         EventReceiver(LowestPriority)
 {

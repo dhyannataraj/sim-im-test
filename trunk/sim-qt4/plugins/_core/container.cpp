@@ -123,7 +123,7 @@ Container::Container(unsigned id, const char *cfg)
     m_tabBar	= NULL;
 
     SET_WNDPROC("container")
-    setWFlags(WDestructiveClose);
+    setWFlags(WA_DeleteOnClose);
 
     if (cfg && *cfg){
         Buffer config;

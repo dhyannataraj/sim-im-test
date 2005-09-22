@@ -60,15 +60,15 @@ QPixmap TransparentTop::background(const QColor &c)
     const QPixmap *bg = w->backgroundPixmap();
     if (bg == NULL)
         return QPixmap();
-    QImage img = bg->convertToImage();
+    QImage img = bg->toImage();
 #else
     if (bg.isNull())
         return QPixmap();
-    QImage img = bg.convertToImage();
+    QImage img = bg.toImage();
 #endif
     img = KImageEffect::fade(img, m_transparent, c);
     QPixmap res;
-    res.convertFromImage(img);
+    res.fromImage(img);
     return res;
 }
 

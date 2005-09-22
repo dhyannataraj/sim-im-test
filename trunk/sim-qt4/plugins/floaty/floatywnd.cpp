@@ -41,8 +41,8 @@
 
 FloatyWnd::FloatyWnd(FloatyPlugin *plugin, unsigned id)
         : QWidget(NULL, "floaty",
-                  Qt::WType_TopLevel | Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_Tool |
-                  Qt::WStyle_StaysOnTop | Qt::WNoAutoErase)
+                  Qt::Window | Qt::FramelessWindowHint | Qt::Tool |
+                  Qt::WindowStaysOnTopHint | Qt::WNoAutoErase)
 {
     m_plugin = plugin;
     m_id = id;

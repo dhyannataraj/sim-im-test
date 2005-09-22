@@ -329,7 +329,7 @@ static QPixmap getPixmap(PictDef *d, const char*)
         }
         pmask.end();
         QPixmap *res = new QPixmap;
-        res->convertFromImage(image);
+        res->fromImage(image);
         res->setMask(mask);
         d->pixmap = res;
     }
@@ -340,7 +340,7 @@ static QPixmap getPixmap(PictDef *d, const char*)
     return *(d->pixmap);
 #else
     QPixmap res;
-    res.convertFromImage(*(d->image));
+    res.fromImage(*(d->image));
     return res;
 #endif
 }
@@ -401,7 +401,7 @@ QIcon Pict(const char *name, const QColor &c)
 			(qBlue(data[i]) * a + cb * (0xFF - a)) >> 8, 0xFF);
 	}
 	QPixmap r;
-	r.convertFromImage(res);
+	r.fromImage(res);
 	return r;
 }
 
@@ -833,7 +833,7 @@ PictDef *FileIconSet::getPict(const char *name)
                 pict = DesktopIconSet(it->second.system.c_str()).pixmap(QIcon::Large, QIcon::Normal);
             }
             if (!pict.isNull()){
-                (*it).second.image = new QImage(pict.convertToImage());
+                (*it).second.image = new QImage(pict.toImage());
                 return &((*it).second);
             }
         }

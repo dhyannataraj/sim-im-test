@@ -673,7 +673,7 @@ set_background_properties(QWidget *w)
 #endif
 
 DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
-        : QWidget(NULL, "dock",  Qt::WType_TopLevel | Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_StaysOnTop),
+        : QWidget(NULL, "dock",  Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint),
         EventReceiver(LowPriority)
 {
 #ifndef WIN32

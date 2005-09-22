@@ -1324,7 +1324,7 @@ QString JabberClient::contactTip(void *_data)
         QImage img(logoFile(data));
         if (!img.isNull()){
             QPixmap pict;
-            pict.convertFromImage(img);
+            pict.fromImage(img);
             int w = pict.width();
             int h = pict.height();
             if (h > w){
@@ -1350,7 +1350,7 @@ QString JabberClient::contactTip(void *_data)
         QImage img(photoFile(data));
         if (!img.isNull()){
             QPixmap pict;
-            pict.convertFromImage(img);
+            pict.fromImage(img);
             int w = pict.width();
             int h = pict.height();
             if (h > w){

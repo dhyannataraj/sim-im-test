@@ -200,9 +200,9 @@ static const char * const arrow_h_xpm[] = {
             "..++..+++"};
 
 OSDWidget::OSDWidget()
-        : QWidget(NULL, "osd", Qt::WType_TopLevel |
-                  Qt::WStyle_StaysOnTop |  Qt::WStyle_Customize | Qt::WStyle_NoBorder |
-                  Qt::WStyle_Tool |Qt::WNoAutoErase | Qt::WX11BypassWM)
+        : QWidget(NULL, "osd", Qt::Window |
+                  Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint |
+                  Qt::Tool |Qt::WNoAutoErase | Qt::X11BypassWindowManagerHint)
 {
     baseFont = font();
     m_button = NULL;

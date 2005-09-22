@@ -170,7 +170,7 @@ static void drawImage(QPainter *p, int x, int y, const QImage &img)
     }
     QPixmap *pict = static_cast<QPixmap*>(p->device());
     p->end();
-    QImage image = pict->convertToImage();
+    QImage image = pict->toImage();
     unsigned int *f = (unsigned int*)(img.bits());
     unsigned int *t = (unsigned int*)(image.bits());
     int w = img.width();
@@ -203,7 +203,7 @@ static void drawImage(QPainter *p, int x, int y, const QImage &img)
         t += (image.width() - w);
         f += (img.width() - w);
     }
-    pict->convertFromImage(image);
+    pict->fromImage(image);
     p->begin(pict);
 #else
     p->drawImage(x, y, img);

@@ -196,7 +196,7 @@ void FileTransferDlgNotify::resume()
 }
 
 FileTransferDlg::FileTransferDlg(FileMessage *msg)
-        : FileTransferBase(NULL, "filetransfer", false, Qt::WDestructiveClose)
+        : FileTransferBase(NULL, "filetransfer", false, Qt::WA_DeleteOnClose)
 {
     m_msg = msg;
     SET_WNDPROC("filetransfer")

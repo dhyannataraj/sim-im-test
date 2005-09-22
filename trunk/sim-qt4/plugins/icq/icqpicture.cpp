@@ -137,7 +137,7 @@ void ICQPicture::setPict(QImage &img)
         return;
     }
     QPixmap pict;
-    pict.convertFromImage(img);
+    pict.fromImage(img);
     lblPict->setPixmap(pict);
     lblPict->setMinimumSize(pict.size());
 }

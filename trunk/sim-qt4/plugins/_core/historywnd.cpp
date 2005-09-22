@@ -80,7 +80,7 @@ HistoryWindow::HistoryWindow(unsigned id)
 {
     m_history_page_count=CorePlugin::m_plugin->getHistoryPage();
 
-    setWFlags(WDestructiveClose);
+    setWFlags(WA_DeleteOnClose);
     m_id = id;
     SET_WNDPROC("history")
     setIcon(Pict("history"));

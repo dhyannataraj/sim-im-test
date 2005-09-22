@@ -29,14 +29,16 @@
 #include <q3frame.h>
 #include <qcheckbox.h>
 #include <q3simplerichtext.h>
-#include <QPixmap>
-#include <QPaintEvent>
-#include <QEvent>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QMouseEvent>
-#include <QDesktopWidget>
-#include <Q3StyleSheet>
+#include <qpixmap>
+#include <qpaintevent>
+#include <qevent>
+#include <qhboxlayout>
+#include <qvboxlayout>
+#include <qmouseevent>
+#include <qdesktopwidget>
+#include <q3stylesheet>
+#include <q3canvas>
+#include <Qt>
 
 #ifdef WIN32
 #include <windows.h>
@@ -53,7 +55,7 @@
 
 EXPORT QPixmap& intensity(QPixmap &pict, float percent)
 {
-    QImage image = pict.convertToImage();
+    QImage image = pict.toImage();
     int i, tmp, r, g, b;
     int segColors = image.depth() > 8 ? 256 : image.numColors();
     unsigned char *segTbl = new unsigned char[segColors];
@@ -107,17 +109,18 @@ EXPORT QPixmap& intensity(QPixmap &pict, float percent)
     }
     delete [] segTbl;
 
-    pict.convertFromImage(image);
+    pict.fromImage(image);
     return pict;
 }
 
 BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWidget *parent, const QRect *rcParent,
                        bool bModal, bool bAutoHide, unsigned bwidth, const QString &box_msg, bool *bChecked)
-        : QDialog(parent, "ballon", bModal,
-                  (bAutoHide ? Qt::WType_Popup : Qt::WType_TopLevel | Qt::WStyle_StaysOnTop)
-                  | Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_Tool | Qt::WDestructiveClose | Qt::WX11BypassWM)
+        : QDialog(parent, 
+		(bAutoHide ? Qt::Popup : Qt::Window | Qt::WindowStaysOnTopHint)
+                  | Qt::FramelessWindowHint | Qt::Tool | Qt::WA_DeleteOnClose | Qt::X11BypassWindowManagerHint)
 {
-    m_param = param;
+    this->setModal(bModal);
+	m_param = param;
     m_parent = parent;
     m_width = bwidth;
     m_bAutoHide = bAutoHide;
@@ -308,14 +311,20 @@ void BalloonMsg::paintEvent(QPaintEvent*)
     Q3SimpleRichText richText(text, font(), "", Q3StyleSheet::defaultSheet(), Q3MimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
     richText.setWidth(m_width);
     richText.adjustSize();
-    richText.draw(&p, (width() - textRect.width()) / 2, textRect.y(), QRect(0, 0, width(), height()), QToolTip::palette().active());
+    richText.draw(
+				  &p,
+				  (width() - textRect.width()) / 2,
+				  textRect.y(),
+				  QRect(0, 0, width(), height()),
+				  QPalette::Active
+				 );
     p.end();
 }
 
 void BalloonMsg::mousePressEvent(QMouseEvent *e)
 {
     if (m_bAutoHide && rect().contains(e->pos())){
-        QImage img = mask.convertToImage();
+        QImage img = mask.toImage();
         QRgb rgb = img.pixel(e->pos().x(), e->pos().y());
         if (rgb & 0xFFFFFF)
             QTimer::singleShot(10, this, SLOT(close()));

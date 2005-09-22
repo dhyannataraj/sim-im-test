@@ -761,7 +761,7 @@ unsigned PluginManagerPrivate::execute(const char *prg, const char *arg)
         p += QString::fromLocal8Bit(arg);
     }
     log(L_DEBUG, "Exec: %s", (const char*)p.local8Bit());
-    QStringList s = QStringList::split(" ", p);
+    QStringList s = p.split(" ", QString::SkipEmptyParts);
     char **arglist = new char*[s.count()+1];
     unsigned i = 0;
     for ( QStringList::Iterator it = s.begin(); it != s.end(); ++it, i++ ) {

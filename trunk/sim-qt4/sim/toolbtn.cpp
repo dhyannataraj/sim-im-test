@@ -468,7 +468,7 @@ void PictButton::paintEvent(QPaintEvent*)
     if (text.isEmpty())
         text = i18n(m_def.text);
     if ((m_def.flags & BTN_DIV) && (text.find(" | ") >= 0)){
-        QStringList parts = QStringList::split(" | ", text);
+        QStringList parts = text.split(" | ", QString::SkipEmptyParts);
         unsigned n;
         for (n = parts.count(); n > 0; n--){
             text = "";

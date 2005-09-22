@@ -762,7 +762,7 @@ void NorwegianWoodStyle::polish( QApplication *app)
     QImage orig = img;
     orig.detach();
     QPixmap button;
-    button.convertFromImage(img);
+    button.fromImage(img);
 
     int i;
     for (i=0; i<img.numColors(); i++) {
@@ -772,7 +772,7 @@ void NorwegianWoodStyle::polish( QApplication *app)
         img.setColor(i,rgb);
     }
     QPixmap mid;
-    mid.convertFromImage(img);
+    mid.fromImage(img);
 
     img = orig;
     img.detach();
@@ -783,7 +783,7 @@ void NorwegianWoodStyle::polish( QApplication *app)
         img.setColor(i,rgb);
     }
     QPixmap light;
-    light.convertFromImage(img);
+    light.fromImage(img);
 
     img = orig;
     img.detach();
@@ -794,11 +794,11 @@ void NorwegianWoodStyle::polish( QApplication *app)
         img.setColor(i,rgb);
     }
     QPixmap dark;
-    dark.convertFromImage(img);
+    dark.fromImage(img);
 
     QImage bgimage(polish_xpm);
     QPixmap background;
-    background.convertFromImage(bgimage);
+    background.fromImage(bgimage);
 
     img = bgimage;
     img.detach();
@@ -809,7 +809,7 @@ void NorwegianWoodStyle::polish( QApplication *app)
         img.setColor(i,rgb);
     }
     sunkenDark = new QPixmap;
-    sunkenDark->convertFromImage(img);
+    sunkenDark->fromImage(img);
 
     img = bgimage;
     img.detach();
@@ -820,7 +820,7 @@ void NorwegianWoodStyle::polish( QApplication *app)
         img.setColor(i,rgb);
     }
     sunkenLight= new QPixmap;
-    sunkenLight->convertFromImage(img);
+    sunkenLight->fromImage(img);
 
     QPalette op(QColor(212,140,95));
     // QPalette op(white);

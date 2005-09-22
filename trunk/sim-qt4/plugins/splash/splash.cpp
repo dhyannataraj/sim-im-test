@@ -73,8 +73,8 @@ SplashPlugin::SplashPlugin(unsigned base, bool bStart)
             p.drawText(x, y, text);
             p.end();
             splash = new QWidget(NULL, "splash",
-                                 QWidget::WType_TopLevel | QWidget::WStyle_Customize |
-                                 QWidget::WStyle_NoBorderEx | QWidget::WStyle_StaysOnTop);
+                                 QWidget::Window | 
+                                 QWidget::FramelessWindowHint | QWidget::WindowStaysOnTopHint);
             splash->resize(pict.width(), pict.height());
             QWidget *desktop = QApplication::desktop();
             splash->move((desktop->width() - pict.width()) / 2, (desktop->height() - pict.height()) / 2);

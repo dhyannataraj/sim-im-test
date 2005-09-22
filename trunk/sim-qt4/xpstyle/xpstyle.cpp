@@ -413,7 +413,7 @@ void QWindowsXPStyle::polish( QApplication *app )
 void QWindowsXPStyle::polish( QWidget *widget )
 {
     QString className = widget->className();
-    if (widget->testWFlags(WStyle_Tool) || widget->testWFlags(WType_Popup))
+    if (widget->testWFlags(Tool) || widget->testWFlags(WType_Popup))
         SetClassLong(widget->winId(), GCL_STYLE, GetClassLong(widget->winId(), GCL_STYLE) | CS_DROPSHADOW);
     QWindowsStyle::polish( widget );
     if ( !use_xp )
@@ -511,7 +511,7 @@ void QWindowsXPStyle::polish( QWidget *widget )
 void QWindowsXPStyle::unPolish( QWidget *widget )
 {
     QString className = widget->className();
-    if (widget->testWFlags(WStyle_Tool) || widget->testWFlags(WType_Popup))
+    if (widget->testWFlags(Tool) || widget->testWFlags(WType_Popup))
         SetClassLong(widget->winId(), GCL_STYLE, GetClassLong(widget->winId(), GCL_STYLE) | CS_DROPSHADOW);
     widget->removeEventFilter( this );
     if ( widget->inherits( "QTitleBar" ) && !widget->inherits( "QDockWindowTitleBar" ) ) {
@@ -834,7 +834,7 @@ bool QWindowsXPStyle::eventFilter( QObject *o, QEvent *e )
                 if (def)
                     image = def->image;
                 if (image == NULL){
-                    ii = w->icon().convertToImage();
+                    ii = w->icon().toImage();
                     image = &ii;
                 }
                 unsigned int *f = (unsigned int*)image->bits();
@@ -1550,7 +1550,7 @@ void QWindowsXPStyle::drawPopupMenuItem( QPainter* p, bool checkable,
         if (def)
             image = def->image;
         if (image == NULL){
-            img = pixmap.convertToImage();
+            img = pixmap.toImage();
             image = &img;
         }
 

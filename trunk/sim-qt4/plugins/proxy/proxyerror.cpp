@@ -26,7 +26,7 @@
 #include <QBoxLayout>
 
 ProxyError::ProxyError(ProxyPlugin *plugin, TCPClient *client, const char *msg)
-        : ProxyErrorBase(NULL, NULL, false, Qt::WDestructiveClose)
+        : ProxyErrorBase(NULL, NULL, false, Qt::WA_DeleteOnClose)
 {
     SET_WNDPROC("proxy")
     setIcon(Pict("error"));

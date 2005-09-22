@@ -150,10 +150,10 @@ QPixmap &BackgroundPlugin::makeBackground(int w, int h)
         return bgScale;
     if ((bgScale.width() != w) || (bgScale.height() != h)){
         if ((bgImage.width() == w) && (bgImage.height() == h)){
-            bgScale.convertFromImage(bgImage);
+            bgScale.fromImage(bgImage);
         }else{
             QImage img = bgImage.smoothScale(w, h);
-            bgScale.convertFromImage(img);
+            bgScale.fromImage(img);
         }
     }
     return bgScale;

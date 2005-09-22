@@ -26,7 +26,7 @@
 #include <qcheckbox.h>
 
 PassphraseDlg::PassphraseDlg(GpgPlugin *plugin, const char *key)
-        : PassphraseDlgBase(NULL, "passphrase", false, Qt::WDestructiveClose)
+        : PassphraseDlgBase(NULL, "passphrase", false, Qt::WA_DeleteOnClose)
 {
     m_plugin = plugin;
     SET_WNDPROC("passphrase")

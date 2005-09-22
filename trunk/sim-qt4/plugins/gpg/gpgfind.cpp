@@ -28,7 +28,7 @@
 #include <windows.h>
 
 GpgFind::GpgFind(EditFile *edt)
-        : GpgFindBase(NULL, NULL, false, Qt::WDestructiveClose)
+        : GpgFindBase(NULL, NULL, false, Qt::WA_DeleteOnClose)
 {
     SET_WNDPROC("find")
     setIcon(Pict("find"));

@@ -66,7 +66,7 @@ void MetalStyle::polish( QApplication *app)
         img.setColor(i,rgb);
     }
     QPixmap mid;
-    mid.convertFromImage(img);
+    mid.fromImage(img);
 
     img = orig;
     for (i=0; i<img.numColors(); i++) {
@@ -76,7 +76,7 @@ void MetalStyle::polish( QApplication *app)
         img.setColor(i,rgb);
     }
     QPixmap light;
-    light.convertFromImage(img);
+    light.fromImage(img);
 
     img = orig;
     for (i=0; i<img.numColors(); i++) {
@@ -86,7 +86,7 @@ void MetalStyle::polish( QApplication *app)
         img.setColor(i,rgb);
     }
     QPixmap dark;
-    dark.convertFromImage(img);
+    dark.fromImage(img);
 #else
     QPixmap dark( 1, 1 ); dark.fill( Qt::red.dark() );
     QPixmap mid( stone1_xpm );

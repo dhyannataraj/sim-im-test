@@ -1517,7 +1517,7 @@ QString ICQClient::contactTip(void *_data)
         QImage img(pictureFile(data));
         if (!img.isNull()){
             QPixmap pict;
-            pict.convertFromImage(img);
+            pict.fromImage(img);
             int w = pict.width();
             int h = pict.height();
             if (h > w){
