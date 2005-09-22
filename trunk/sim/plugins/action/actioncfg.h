@@ -20,17 +20,13 @@
 
 #include "actioncfgbase.h"
 #include "simapi.h"
-//Added by qt3to4:
-#include <QPixmap>
-#include <QDialog>
-#include <QResizeEvent>
 
 class ActionPlugin;
 class LineEdit;
-class Q3ListViewItem;
+class QListViewItem;
 class MenuConfig;
 
-class ActionConfig : public QDialog, public Ui::ActionConfigBase
+class ActionConfig : public ActionConfigBase
 {
     Q_OBJECT
 public:
@@ -39,11 +35,11 @@ public:
 public slots:
     void apply();
     void apply(void*);
-    void selectionChanged(Q3ListViewItem*);
+    void selectionChanged(QListViewItem*);
     void help();
 protected:
     LineEdit		*m_edit;
-    Q3ListViewItem	*m_editItem;
+    QListViewItem	*m_editItem;
     MenuConfig		*m_menu;
     void resizeEvent(QResizeEvent *e);
     void setEnabled (bool);

@@ -20,13 +20,10 @@
 
 #include "menucfgbase.h"
 #include "simapi.h"
-//Added by qt3to4:
-#include <QResizeEvent>
-#include <QDialog>
 
-class Q3ListViewItem;
+class QListViewItem;
 
-class MenuConfig : public QDialog, public Ui::MenuConfigBase
+class MenuConfig : public MenuConfigBase
 {
     Q_OBJECT
 public:
@@ -34,7 +31,7 @@ public:
     virtual ~MenuConfig();
 public slots:
     void apply(void*);
-    void selectionChanged(Q3ListViewItem*);
+    void selectionChanged(QListViewItem*);
     void add();
     void edit();
     void remove();
