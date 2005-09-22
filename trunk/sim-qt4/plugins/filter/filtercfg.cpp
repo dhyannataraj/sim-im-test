@@ -25,7 +25,7 @@
 #include <q3multilineedit.h>
 
 FilterConfig::FilterConfig(QWidget *parent, FilterUserData *data, FilterPlugin *plugin, bool bMain)
-        : FilterConfigBase(parent)
+        : Ui::FilterConfigBase()
 {
     m_plugin = plugin;
     m_data   = data;

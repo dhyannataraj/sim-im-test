@@ -20,10 +20,11 @@
 
 #include "simapi.h"
 #include "ignorelistbase.h"
+#include <QDialog>
 
 class Q3ListViewItem;
 
-class IgnoreList : public IgnoreListBase, public EventReceiver
+class IgnoreList : public QDialog, public Ui::IgnoreListBase, public EventReceiver
 {
     Q_OBJECT
 public:

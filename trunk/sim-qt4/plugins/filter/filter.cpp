@@ -253,10 +253,7 @@ void *FilterPlugin::processEvent(Event *e)
                 TextEdit *edit = medit->m_edit;
                 if (edit->hasSelectedText()){
                     text = edit->selectedText();
-#if (COMPAT_QT_VERSION < 0x030000) || (COMPAT_QT_VERSION >= 0x030100)
-                    if (edit->textFormat() == Q3TextEdit::RichText)
-                        text = unquoteText(text);
-#endif
+                    text = unquoteText(text);
                     id = medit->m_userWnd->id();
                 }
             }

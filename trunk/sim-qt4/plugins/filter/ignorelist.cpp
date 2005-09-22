@@ -21,7 +21,7 @@
 #include <qpixmap.h>
 
 IgnoreList::IgnoreList(QWidget *parent)
-        : IgnoreListBase(parent)
+        : Ui::IgnoreListBase()
 {
     lstIgnore->addColumn(i18n("Contact"));
     lstIgnore->addColumn(i18n("Name"));
@@ -91,7 +91,7 @@ void IgnoreList::updateItem(Q3ListViewItem *item, Contact *contact)
     item->setText(1, firstName);
     item->setText(2, mail);
     item->setText(3, QString::number(contact->id()));
-    item->setPixmap(0, Pict(statusIcon));
+    item->setPixmap(0, Pict(statusIcon).pixmap());
 }
 
 Q3ListViewItem *IgnoreList::findItem(Contact *contact)
