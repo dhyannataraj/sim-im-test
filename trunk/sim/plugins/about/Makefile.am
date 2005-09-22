@@ -3,7 +3,9 @@ sim_plugin_LTLIBRARIES = about.la
 about_la_SOURCES = \
  about.cpp \
  aboutdlg.cpp \
- aboutdlgbase.ui
+ aboutdlgbase.h \
+ about.moc \
+ aboutdlg.moc
 
 INCLUDES=-I../../sim $(all_includes)
 

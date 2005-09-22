@@ -22,22 +22,24 @@
 #include "aboutdata.h"
 #ifndef USE_KDE
 
-#include <qlabel.h>
-#include <qpushbutton.h>
-#include <qregexp.h>
-#include <qtabwidget.h>
-#include <qfile.h>
-#include <qlineedit.h>
+#include <QLabel>
+#include <QPushButton>
+#include <QRegExp>
+#include <QTabWidget>
+#include <QFile>
+#include <QLineEdit>
+#include <Q3ValueList>
+
 
 KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *parent, const char *name, bool modal)
-        : AboutDlgBase(parent, name, modal)
+        : Ui::AboutDlgBase()
 {
     SET_WNDPROC("about")
     setButtonsPict(this);
     setCaption(caption());
 
     connect(btnOK, SIGNAL(clicked()), this, SLOT(close()));
-    setIcon(Pict("ICQ"));
+    setIcon(Pict("ICQ").pixmap());
     QIconSet icon = Icon("ICQ");
     if (!icon.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
         lblIcon->setPixmap(icon.pixmap(QIconSet::Large, QIconSet::Normal));
@@ -58,7 +60,7 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
                       .arg(quote(aboutData->bugAddress()))
                       .arg(quote(aboutData->bugAddress())));
     QString txt;
-    QValueList<KAboutPerson>::ConstIterator it;
+    Q3ValueList<KAboutPerson>::ConstIterator it;
     for (it = aboutData->authors().begin();
             it != aboutData->authors().end(); ++it)
     {
@@ -67,8 +69,8 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
     }
     txtAuthors->setText(txt);
     txt = "";
-    QValueList<KAboutTranslator> translators = aboutData->translators();
-    QValueList<KAboutTranslator>::ConstIterator itt;
+    Q3ValueList<KAboutTranslator> translators = aboutData->translators();
+    Q3ValueList<KAboutTranslator>::ConstIterator itt;
     if (!translators.isEmpty()){
         for (itt = translators.begin();
                 itt != translators.end(); ++itt)
@@ -89,7 +91,7 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
     QFile f(QFile::decodeName(app_file("COPYING").c_str()));
     if (f.open(IO_ReadOnly)){
         for (;;){
-            QString s;
+            char *s;
             if (f.readLine(s, 512) == -1)
                 break;
             license += s;
@@ -104,7 +106,7 @@ KAboutApplication::~KAboutApplication()
 
 void KAboutApplication::closeEvent(QCloseEvent *e)
 {
-    AboutDlgBase::closeEvent(e);
+    QDialog::closeEvent(e);
     emit finished();
 }
 
