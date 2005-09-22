@@ -27,6 +27,7 @@
 #include <QEvent>
 #include <QPaintEvent>
 #include <QDropEvent>
+#include <QIcon>
 
 class FloatyPlugin;
 class QTimer;

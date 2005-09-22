@@ -33,6 +33,7 @@
 #include <QDropEvent>
 #include <QDragEnterEvent>
 #include <QMouseEvent>
+#include <QDesktopWidget>
 
 #ifdef USE_KDE
 #include <kwin.h>
@@ -48,7 +49,7 @@ FloatyWnd::FloatyWnd(FloatyPlugin *plugin, unsigned id)
     m_blink = 0;
     init();
     setAcceptDrops(true);
-    setBackgroundMode(NoBackground);
+    setBackgroundMode(Qt::NoBackground);
 #ifdef USE_KDE
     KWin::setState(winId(), NET::SkipTaskbar | NET::SkipPager);
     KWin::setOnAllDesktops(winId(), true);
@@ -83,18 +84,18 @@ void FloatyWnd::init()
     setFont(&p);
     m_blink = blink;
     QRect br = qApp->desktop()->rect();
-    br = p.boundingRect(br, AlignLeft | AlignVCenter, m_text);
+    br = p.boundingRect(br, Qt::AlignLeft | Qt::AlignVCenter, m_text);
     p.end();
     unsigned h = br.height();
     unsigned w = br.width() + 5;
-    const QPixmap &pict = Pict(m_statusIcon);
+    const QPixmap &pict = Pict(m_statusIcon).pixmap();
     w += pict.width() + 2;
     if ((unsigned)(pict.height()) > h)
         h = pict.height();
     string icons = m_icons;
     while (icons.length()){
         string icon = getToken(icons, ',');
-        const QPixmap &pict = Pict(icon.c_str());
+        const QPixmap &pict = Pict(icon.c_str()).pixmap();
         w += pict.width() + 2;
         if ((unsigned)(pict.height()) > h)
             h = pict.height();
@@ -166,19 +167,19 @@ void FloatyWnd::paintEvent(QPaintEvent*)
     }
 
     if (statusIcon){
-        const QPixmap &pict = Pict(statusIcon);
+        const QPixmap &pict = Pict(statusIcon).pixmap();
         x += 2;
         p.drawPixmap(x, (h - pict.height()) / 2, pict);
         x += pict.width() + 2;
     }
     QRect br;
     setFont(&p);
-    p.drawText(x, 0, w, h, AlignLeft | AlignVCenter, m_text, -1, &br);
+    p.drawText(x, 0, w, h, Qt::AlignLeft | Qt::AlignVCenter, m_text, -1, &br);
     x = br.right() + 5;
     string icons = m_icons;
     while (icons.length()){
         string icon = getToken(icons, ',');
-        const QPixmap &pict = Pict(icon.c_str());
+        const QPixmap &pict = Pict(icon.c_str()).pixmap();
         x += 2;
         p.drawPixmap(x, (h - pict.height()) / 2, pict);
         x += pict.width();
@@ -188,25 +189,19 @@ void FloatyWnd::paintEvent(QPaintEvent*)
     p.begin(this);
     p.drawPixmap(QPoint(2, 2), pict);
     p.setPen(colorGroup().dark());
-    p.moveTo(1, 1);
-    p.lineTo(width() - 2, 1);
-    p.lineTo(width() - 2, height() - 2);
-    p.lineTo(1, height() - 2);
-    p.lineTo(1, 1);
+    p.drawLine(1, 1, width() - 2, 1);
+    p.drawLine(1, 1, width() - 2, height() - 2);
+    p.drawLine(1, 1, 1, height() - 2);
     p.setPen(colorGroup().shadow());
-    p.moveTo(0, height() - 1);
-    p.lineTo(width() - 1, height() - 1);
-    p.lineTo(width() - 1, 1);
-    p.moveTo(width() - 3, 2);
-    p.lineTo(2, 2);
-    p.lineTo(2, height() - 3);
+    p.drawLine(0, height() - 1, width() - 1, height() - 1);
+    p.drawLine(0, height() - 1, width() - 1, 1);
+    p.drawLine(width() - 3, 2, 2, 2);
+    p.drawLine(width() - 3, 2, 2, height() - 3);
     p.setPen(colorGroup().light());
-    p.moveTo(2, height() - 3);
-    p.lineTo(width() - 3, height() - 3);
-    p.lineTo(width() - 3, 2);
-    p.moveTo(width() - 1, 0);
-    p.lineTo(0, 0);
-    p.lineTo(0, height() - 1);
+    p.drawLine(2, height() - 3, width() - 3, height() - 3);
+    p.drawLine(2, height() - 3, width() - 3, 2);
+    p.drawLine(width() - 1, 0, 0, 0);
+    p.drawLine(width() - 1, 0, 0, height() - 1);
 }
 
 void FloatyWnd::setFont(QPainter *p)
@@ -246,11 +241,11 @@ void FloatyWnd::setFont(QPainter *p)
 
 void FloatyWnd::mousePressEvent(QMouseEvent *e)
 {
-    if (e->button() == LeftButton){
+    if (e->button() == Qt::LeftButton){
         initMousePos = e->pos();
         moveTimer->start(QApplication::startDragTime());
     }
-    if (e->button() == RightButton){
+    if (e->button() == Qt::RightButton){
         m_plugin->popupPos = e->globalPos();
         m_plugin->popupId  = m_id;
         QTimer::singleShot(0, m_plugin, SLOT(showPopup()));
@@ -283,7 +278,7 @@ void FloatyWnd::mouseReleaseEvent(QMouseEvent *e)
 
 void FloatyWnd::mouseMoveEvent(QMouseEvent *e)
 {
-    if ((e->state() & QObject::LeftButton) && !initMousePos.isNull() &&
+    if ((e->state() & Qt::LeftButton) && !initMousePos.isNull() &&
             (QPoint(e->pos() - initMousePos).manhattanLength() > QApplication::startDragDistance()))
         startMove();
     if (!mousePos.isNull())

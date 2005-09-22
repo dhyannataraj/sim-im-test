@@ -94,15 +94,15 @@ FloatyPlugin::FloatyPlugin(unsigned base)
 
 FloatyPlugin::~FloatyPlugin()
 {
-    QWidgetList *list = QApplication::topLevelWidgets();
-    QWidgetListIt it(*list);
+    QList<QWidget *> list = QApplication::topLevelWidgets();
+    QListIterator<QWidget *> it(list);
     QWidget * w;
-    while ( (w=it.current()) != 0 ) {
+    while (it.hasNext()) {
+	w = it.next();
         if (w->inherits("FloatyWnd"))
             delete w;
-        ++it;
     }
-    delete list;
+    delete &list;
     Event e(EventCommandRemove, (void*)CmdFloaty);
     e.process();
     getContacts()->unregisterUserData(user_data_id);
@@ -110,18 +110,18 @@ FloatyPlugin::~FloatyPlugin()
 
 FloatyWnd *FloatyPlugin::findFloaty(unsigned id)
 {
-    QWidgetList *list = QApplication::topLevelWidgets();
-    QWidgetListIt it(*list);
+    QList<QWidget *> list = QApplication::topLevelWidgets();
+    QListIterator<QWidget *> it(list);
     QWidget * w;
-    while ((w = it.current()) != NULL) {
+    while (it.hasNext()) {
+	w = it.next();
         if (w->inherits("FloatyWnd")){
             FloatyWnd *wnd = static_cast<FloatyWnd*>(w);
             if (wnd->id() == id)
                 break;
         }
-        ++it;
     }
-    delete list;
+    delete &list;
     if (w)
         return static_cast<FloatyWnd*>(w);
     return NULL;
@@ -220,18 +220,18 @@ void *FloatyPlugin::processEvent(Event *e)
             break;
         }
     case EventRepaintView:{
-            QWidgetList *list = QApplication::topLevelWidgets();
-            QWidgetListIt it(*list);
+            QList<QWidget *> list = QApplication::topLevelWidgets();
+            QListIterator<QWidget *> it(list);
             QWidget * w;
-            while ((w = it.current()) != NULL) {
+            while (it.hasNext()) {
+		w = it.next();
                 if (w->inherits("FloatyWnd")){
                     FloatyWnd *wnd = static_cast<FloatyWnd*>(w);
                     wnd->init();
                     wnd->repaint();
                 }
-                ++it;
             }
-            delete list;
+            delete &list;
             break;
         }
     }
@@ -260,17 +260,17 @@ void FloatyPlugin::startBlink()
 void FloatyPlugin::unreadBlink()
 {
     m_bBlink = !m_bBlink;
-    QWidgetList *list = QApplication::topLevelWidgets();
-    QWidgetListIt it(*list);
+    QList<QWidget *> list = QApplication::topLevelWidgets();
+    QListIterator<QWidget *> it(list);
     QWidget * w;
-    while ((w = it.current()) != NULL) {
+    while (it.hasNext()) {
+	w = it.next();
         if (w->inherits("FloatyWnd")){
             FloatyWnd *wnd = static_cast<FloatyWnd*>(w);
             wnd->repaint();
         }
-        ++it;
     }
-    delete list;
+    delete &list;
 }
 
 void FloatyWnd::startBlink()
