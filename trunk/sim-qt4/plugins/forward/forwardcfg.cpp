@@ -23,7 +23,7 @@
 #include <qlineedit.h>
 
 ForwardConfig::ForwardConfig(QWidget *parent, void *_data, ForwardPlugin *plugin)
-        : ForwardConfigBase(parent)
+        : Ui::ForwardConfigBase()
 {
     m_plugin = plugin;
     ForwardUserData *data = (ForwardUserData*)_data;
