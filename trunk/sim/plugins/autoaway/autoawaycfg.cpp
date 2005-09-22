@@ -22,7 +22,7 @@
 #include <qspinbox.h>
 
 AutoAwayConfig::AutoAwayConfig(QWidget *parent, AutoAwayPlugin *plugin)
-        : Ui::AutoAwayConfigBase()
+        : AutoAwayConfigBase(parent)
 {
     m_plugin = plugin;
     chkAway->setChecked(m_plugin->getEnableAway());

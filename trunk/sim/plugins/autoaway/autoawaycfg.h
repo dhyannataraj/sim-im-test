@@ -20,11 +20,10 @@
 
 #include "simapi.h"
 #include "autoawaycfgbase.h"
-#include <QDialog>
 
 class AutoAwayPlugin;
 
-class AutoAwayConfig : public QDialog, public Ui::AutoAwayConfigBase
+class AutoAwayConfig : public AutoAwayConfigBase
 {
     Q_OBJECT
 public:
