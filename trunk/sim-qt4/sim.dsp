@@ -302,77 +302,12 @@ SOURCE=.\sim\qcolorbutton.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\qt3\qcomplextext.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\sim\qjpegio.cpp
 # ADD CPP /W3
 # End Source File
 # Begin Source File
 
 SOURCE=.\sim\qkeybutton.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\qt3\qkeysequence.cpp
-
-!IF  "$(CFG)" == "sim - Win32 Release"
-
-# ADD CPP /W3
-
-!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\qt3\qregexp.cpp
-
-!IF  "$(CFG)" == "sim - Win32 Release"
-
-# ADD CPP /W3
-
-!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\qt3\qrichtext.cpp
-# ADD CPP /W3
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\qt3\qrichtext_p.cpp
-
-!IF  "$(CFG)" == "sim - Win32 Release"
-
-# ADD CPP /W3
-
-!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\qt3\qsimplerichtext.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\qt3\qtextedit.cpp
-
-!IF  "$(CFG)" == "sim - Win32 Release"
-
-# ADD CPP /W3
-
-!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -803,18 +738,6 @@ SOURCE=.\sim\ltdl.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\md32_common.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\md5.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\md5_locl.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\sim\preview.h
 # End Source File
 # Begin Source File
@@ -852,10 +775,6 @@ InputName=qchildwidget
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\qt3\qcleanuphandler.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\sim\qcolorbutton.h
 
 !IF  "$(CFG)" == "sim - Win32 Release"
@@ -889,10 +808,6 @@ InputName=qcolorbutton
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\qt3\qcomplextext_p.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\sim\qjpegio.h
 # End Source File
 # Begin Source File
@@ -919,126 +834,6 @@ InputName=qkeybutton
 InputDir=.\sim
 InputPath=.\sim\qkeybutton.h
 InputName=qkeybutton
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\qt3\qkeysequence.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\qt3\qregexp.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\qt3\qrichtext_p.h
-
-!IF  "$(CFG)" == "sim - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\sim\qt3
-InputPath=.\sim\qt3\qrichtext_p.h
-InputName=qrichtext_p
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\sim\qt3
-InputPath=.\sim\qt3\qrichtext_p.h
-InputName=qrichtext_p
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\qt3\qsimplerichtext.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\qt3\qstylesheet.h
-
-!IF  "$(CFG)" == "sim - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\sim\qt3
-InputPath=.\sim\qt3\qstylesheet.h
-InputName=qstylesheet
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\sim\qt3
-InputPath=.\sim\qt3\qstylesheet.h
-InputName=qstylesheet
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\qt3\qsyntaxhighlighter.h
-# PROP Ignore_Default_Tool 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\qt3\qt3stuff.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\qt3\qtextedit.h
-
-!IF  "$(CFG)" == "sim - Win32 Release"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\sim\qt3
-InputPath=.\sim\qt3\qtextedit.h
-InputName=qtextedit
-
-"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.\sim\qt3
-InputPath=.\sim\qt3\qtextedit.h
-InputName=qtextedit
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
