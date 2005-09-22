@@ -28,10 +28,12 @@ Copyright (C) 2003  Tarkvara Design Inc.
 #include "simapi.h"
 #include "core.h"
 
-#include <qtimer.h>
-#include <qapplication.h>
-#include <qwidget.h>
+#include <QTimer>
+#include <QApplication>
+#include <QWidget>
 #include <time.h>
+#include <QList>
+#include <QX11Info>
 
 #ifdef WIN32
 #include <windows.h>
@@ -224,10 +226,10 @@ AutoAwayPlugin::~AutoAwayPlugin()
     // unloads, its code will still be called (as part of the XCloseDisplay).
     // As Xss offers no function to unregister itself, we'll have to be a little
     // messy here:
-    QWidgetList *list = QApplication::topLevelWidgets();
-    QWidgetListIt it(*list);
-    QWidget *w = it.current();
-    delete list;
+    QList<QWidget *> list = QApplication::topLevelWidgets();
+    QListIterator<QWidget *> it(list);
+    QWidget *w = it.next();
+    delete &list;
     if (w != NULL)
     {
        Display* dpy = w->x11Display();
@@ -357,10 +359,10 @@ unsigned AutoAwayPlugin::getIdleTime()
 #ifdef HAVE_CARBON_CARBON_H
     return mSecondsIdle;
 #else
-QWidgetList *list = QApplication::topLevelWidgets();
-    QWidgetListIt it(*list);
-    QWidget *w = it.current();
-    delete list;
+    QList<QWidget *> list = QApplication::topLevelWidgets();
+    QListIterator<QWidget *> it(list);
+    QWidget *w = it.next();
+    delete &list;
     if (w == NULL)
         return 0;
 
@@ -376,7 +378,7 @@ QWidgetList *list = QApplication::topLevelWidgets();
         m_timer->stop();
         return 0;
     }
-    if (!XScreenSaverQueryInfo(w->x11Display(), qt_xrootwin(), mit_info)) {
+    if (!XScreenSaverQueryInfo(w->x11Display(), QX11Info::appRootWindow(), mit_info)) {
         log(L_WARN, "XScreenSaverQueryInfo failed, disabling auto-away.");
         m_timer->stop();
         return 0;

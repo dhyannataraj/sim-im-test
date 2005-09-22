@@ -34,7 +34,7 @@ unsigned CONTACT_ONLINE = 0x10000;
 unsigned CONTACT_STATUS = 0x10001;
 
 ActionConfig::ActionConfig(QWidget *parent, struct ActionUserData *data, ActionPlugin *plugin)
-        : ActionConfigBase(parent)
+        : Ui::ActionConfigBase()
 {
     m_data   = data;
     m_plugin = plugin;
@@ -107,13 +107,13 @@ ActionConfig::~ActionConfig()
 
 void ActionConfig::resizeEvent(QResizeEvent *e)
 {
-    ActionConfigBase::resizeEvent(e);
+    QDialog::resizeEvent(e);
     lstEvent->adjustColumn();
 }
 
 QPixmap ActionConfig::makePixmap(const char *src)
 {
-    const QPixmap &source = Pict(src);
+    const QPixmap &source = Pict(src).pixmap();
     int w = source.width();
     int h = QMAX(source.height(), 22);
     QPixmap pict(w, h);
@@ -174,7 +174,7 @@ void ActionConfig::setEnabled(bool state)
 {
     if (m_menu)
         m_menu->setEnabled(state);
-    ActionConfigBase::setEnabled(state);
+    QDialog::setEnabled(state);
 }
 
 void ActionConfig::help()

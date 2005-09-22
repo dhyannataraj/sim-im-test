@@ -26,7 +26,7 @@
 #include <QResizeEvent>
 
 MenuConfig::MenuConfig(QWidget *parent, struct ActionUserData *data)
-        : MenuConfigBase(parent)
+        : Ui::MenuConfigBase()
 {
     m_data   = data;
 
@@ -52,7 +52,7 @@ MenuConfig::~MenuConfig()
 
 void MenuConfig::resizeEvent(QResizeEvent *e)
 {
-    MenuConfigBase::resizeEvent(e);
+    QDialog::resizeEvent(e);
     lstMenu->adjustColumn();
 }
 

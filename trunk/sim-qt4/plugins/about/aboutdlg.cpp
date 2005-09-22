@@ -22,28 +22,27 @@
 #include "aboutdata.h"
 #ifndef USE_KDE
 
-#include <qlabel.h>
-#include <qpushbutton.h>
-#include <qregexp.h>
-#include <qtabwidget.h>
-#include <qfile.h>
-#include <qlineedit.h>
-//Added by qt3to4:
+#include <QLabel>
+#include <QPushButton>
+#include <QRegExp>
+#include <QTabWidget>
+#include <QFile>
+#include <QLineEdit>
 #include <Q3ValueList>
-#include <QCloseEvent>
+
 
 KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *parent, const char *name, bool modal)
-        : AboutDlgBase(parent, name, modal)
+        : Ui::AboutDlgBase()
 {
     SET_WNDPROC("about")
     setButtonsPict(this);
     setCaption(caption());
 
     connect(btnOK, SIGNAL(clicked()), this, SLOT(close()));
-    setIcon(Pict("ICQ"));
-    QIcon icon = Icon("ICQ");
-    if (!icon.pixmap(QIcon::Small, QIcon::Normal).isNull())
-        lblIcon->setPixmap(icon.pixmap(QIcon::Large, QIcon::Normal));
+    setIcon(Pict("ICQ").pixmap());
+    QIconSet icon = Icon("ICQ");
+    if (!icon.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
+        lblIcon->setPixmap(icon.pixmap(QIconSet::Large, QIconSet::Normal));
     edtVersion->setText(i18n("%1 Version: %2") .arg(aboutData->appName()) .arg(aboutData->version()));
     edtVersion->setReadOnly(true);
     QPalette p = palette();
@@ -90,9 +89,9 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
     QString license = aboutData->license();
     license += "\n\n";
     QFile f(QFile::decodeName(app_file("COPYING").c_str()));
-    if (f.open(QIODevice::ReadOnly)){
+    if (f.open(IO_ReadOnly)){
         for (;;){
-            QString s;
+            char *s;
             if (f.readLine(s, 512) == -1)
                 break;
             license += s;
@@ -107,7 +106,7 @@ KAboutApplication::~KAboutApplication()
 
 void KAboutApplication::closeEvent(QCloseEvent *e)
 {
-    AboutDlgBase::closeEvent(e);
+    QDialog::closeEvent(e);
     emit finished();
 }
 
