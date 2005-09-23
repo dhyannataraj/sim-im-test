@@ -164,7 +164,7 @@ void UserView::paintEmptyArea(QPainter *p, const QRect &r)
 static void drawImage(QPainter *p, int x, int y, const QImage &img)
 {
 #if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-    if (p->device()->devType() != QInternal::Pixmap){
+    if (p->device()->devType() != QInternal::Pixmap && pict->depth() < 32){
         p->drawImage(x, y, img);
         return;
     }
