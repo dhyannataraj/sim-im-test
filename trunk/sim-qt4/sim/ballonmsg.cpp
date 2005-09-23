@@ -28,6 +28,8 @@
 #include <qimage.h>
 #include <q3frame.h>
 #include <qcheckbox.h>
+#include <qcolorgroup>
+#include <qpalette>
 #include <q3simplerichtext.h>
 #include <qpixmap>
 #include <qpaintevent>
@@ -38,7 +40,7 @@
 #include <qdesktopwidget>
 #include <q3stylesheet>
 #include <q3canvas>
-#include <Qt>
+#include <qcolorgroup>
 
 #ifdef WIN32
 #include <windows.h>
@@ -248,7 +250,7 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     QPixmap pict = QPixmap::grabWindow(QApplication::desktop()->winId(), x(), y(), width(), height());
     intensity(pict, -0.50f);
     p.begin(&pict);
-    p.setBrush(colorGroup().background());
+    p.setBrush(this->palette().background());
     p.drawEllipse(0, pos, BALLOON_R * 2, BALLOON_R * 2);
     p.drawEllipse(w - BALLOON_R * 2, pos, BALLOON_R * 2, BALLOON_R * 2);
     p.drawEllipse(w - BALLOON_R * 2, pos + h - BALLOON_R * 2, BALLOON_R * 2, BALLOON_R * 2);
@@ -257,8 +259,8 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     arr.setPoint(1, tailX + BALLOON_TAIL_WIDTH, bTailDown ? h - 1 : pos + 1);
     arr.setPoint(2, tailX - BALLOON_TAIL_WIDTH, bTailDown ? height() - BALLOON_SHADOW : 0);
     p.drawPolygon(arr);
-    p.fillRect(0, pos + BALLOON_R, w, h - BALLOON_R * 2, colorGroup().background());
-    p.fillRect(BALLOON_R, pos, w - BALLOON_R * 2, h, colorGroup().background());
+    p.fillRect(0, pos + BALLOON_R, w, h - BALLOON_R * 2, this->palette().background());
+    p.fillRect(BALLOON_R, pos, w - BALLOON_R * 2, h, this->palette().background());
     p.drawLine(0, pos + BALLOON_R, 0, pos + h - BALLOON_R);
     p.drawLine(w - 1, pos + BALLOON_R, w - 1, pos + h - BALLOON_R);
     if (bTailDown){
@@ -271,7 +273,7 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
         p.drawLine(tailX + BALLOON_TAIL_WIDTH, pos, w - BALLOON_R, pos);
     }
     p.end();
-    setBackgroundPixmap(pict);
+    this->setBackgroundPixmap(pict);
     if (!bAutoHide)
         setFocusPolicy(Qt::NoFocus);
 
@@ -316,7 +318,7 @@ void BalloonMsg::paintEvent(QPaintEvent*)
 				  (width() - textRect.width()) / 2,
 				  textRect.y(),
 				  QRect(0, 0, width(), height()),
-				  QPalette::Active
+				  QToolTip::palette().active()
 				 );
     p.end();
 }

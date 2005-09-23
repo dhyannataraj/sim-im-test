@@ -67,7 +67,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /O1 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "_ATL_STATIC_REGISTRY" /D "_ATL_MIN_CRT" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /MT /W3 /GX /O1 /I "$(QTDIR)\include" /I "..\..\sim" /I "..\.." /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "_ATL_STATIC_REGISTRY" /D "_ATL_MIN_CRT" /YX /FD /c
+# ADD CPP /nologo /MT /W3 /GX /O1 /I "$(QTDIR)\include" /I "..\..\sim" /I "..\.." /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "_ATL_STATIC_REGISTRY" /D "_ATL_MIN_CRT" /D "QT3_SUPPORT" /YX /FD /c
 # ADD BASE RSC /l 0x419 /d "NDEBUG"
 # ADD RSC /l 0x417 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -79,8 +79,8 @@ LINK32=link.exe
 # SUBTRACT LINK32 /pdb:none
 # Begin Custom Build - Performing registration
 OutDir=.\../../Release
-TargetPath=\sim-icq\simsim\simqt3\Release\simremote.dll
-InputPath=\sim-icq\simsim\simqt3\Release\simremote.dll
+TargetPath=\sim-icq\simsim\sim-im\sim-qt4\Release\simremote.dll
+InputPath=\sim-icq\simsim\sim-im\sim-qt4\Release\simremote.dll
 SOURCE="$(InputPath)"
 
 "$(OutDir)\regsvr32.trg" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"

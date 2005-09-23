@@ -46,7 +46,7 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
     edtVersion->setText(i18n("%1 Version: %2") .arg(aboutData->appName()) .arg(aboutData->version()));
     edtVersion->setReadOnly(true);
     QPalette p = palette();
-    p.setColor(QColorGroup::Base, colorGroup().background());
+    p.setColor(QColorGroup::Base, this->palette().background());
     edtVersion->setPalette(p);
     txtAbout->setText((QString("<center><br>%1<br><br>%2<br><br>") +
                        "<a href=\"%3\">%4</a><br><br>" +

@@ -43,8 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O1 /I "$(QTDIR)\include" /I "sim" /I "sim\win32" /D "NDEBUG" /D "QT_DLL" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D VERSION=\"0.9.4\" /D PACKAGE=\"SIM\" /D "UNICODE" /D "USE_OPENSSL" /D LTDL_SHLIB_EXT=\".dll\" /D LTDL_OBJDIR=\"\" /D "HAVE_STDIO_H" /D "HAVE_STRING_H" /D "HAVE_MALLOC_H" /D "SIMAPI_EXPORTS" /D CVS_BUILD=1 /Fo"Release/" /Fd"Release/" /FD /c
-# SUBTRACT CPP /WX
+# ADD CPP /nologo /MD /W3 /GX /O1 /I "$(QTDIR)\include" /I "sim" /I "sim\win32" /D "NDEBUG" /D "QT_DLL" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D VERSION=\"0.9.4\" /D PACKAGE=\"SIM\" /D "UNICODE" /D "USE_OPENSSL" /D LTDL_SHLIB_EXT=\".dll\" /D LTDL_OBJDIR=\"\" /D "HAVE_STDIO_H" /D "HAVE_STRING_H" /D "HAVE_MALLOC_H" /D "SIMAPI_EXPORTS" /D CVS_BUILD=1 /D "QT3_SUPPORT" /Fo"Release/" /Fd"Release/" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "NDEBUG"
