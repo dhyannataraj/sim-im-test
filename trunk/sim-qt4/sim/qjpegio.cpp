@@ -42,8 +42,8 @@
 
 #ifdef WIN32
 #if _MSC_VER > 1020
-#include <yvals.h>              
-#pragma warning(disable: 4611)  
+#include <yvals.h>
+#pragma warning(disable: 4611)
 #endif
 #endif
 
@@ -52,7 +52,7 @@
 #include <qimage.h>
 #include <qiodevice.h>
 //Added by qt3to4:
-#include <QImageIO>
+#include <QImageIOHandler>
 
 #include <stdio.h> // jpeglib needs this to be pre-included
 #include <setjmp.h>
@@ -354,4 +354,3 @@ void qInitJpegIO()
     QImageIO::defineIOHandler("JPEG", "^\377\330\377", 0, read_jpeg_image, write_jpeg_image);
 #endif
 }
-

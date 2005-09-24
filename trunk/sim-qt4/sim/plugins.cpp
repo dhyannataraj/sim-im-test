@@ -170,7 +170,7 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
 
     lt_dlinit();
 #ifdef WIN32
-    qInitJpegIO();
+//    qInitJpegIO();
 #endif
 
     QStringList pluginsList;

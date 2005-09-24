@@ -40,7 +40,6 @@
 #include <qdesktopwidget>
 #include <q3stylesheet>
 #include <q3canvas>
-#include <qcolorgroup>
 
 #ifdef WIN32
 #include <windows.h>
@@ -117,10 +116,11 @@ EXPORT QPixmap& intensity(QPixmap &pict, float percent)
 
 BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWidget *parent, const QRect *rcParent,
                        bool bModal, bool bAutoHide, unsigned bwidth, const QString &box_msg, bool *bChecked)
-        : QDialog(parent, 
+        : QDialog(parent,
 		(bAutoHide ? Qt::Popup : Qt::Window | Qt::WindowStaysOnTopHint)
-                  | Qt::FramelessWindowHint | Qt::Tool | Qt::WA_DeleteOnClose | Qt::X11BypassWindowManagerHint)
-{
+                  | Qt::FramelessWindowHint | Qt::Tool | Qt::X11BypassWindowManagerHint)
+ {
+	setAttribute( Qt::WA_DeleteOnClose );
     this->setModal(bModal);
 	m_param = param;
     m_parent = parent;
@@ -313,13 +313,11 @@ void BalloonMsg::paintEvent(QPaintEvent*)
     Q3SimpleRichText richText(text, font(), "", Q3StyleSheet::defaultSheet(), Q3MimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
     richText.setWidth(m_width);
     richText.adjustSize();
-    richText.draw(
-				  &p,
-				  (width() - textRect.width()) / 2,
-				  textRect.y(),
-				  QRect(0, 0, width(), height()),
-				  QToolTip::palette().active()
-				 );
+    richText.draw(&p,
+		          (width() - textRect.width()) / 2,
+	              textRect.y(),
+	              QRect(0, 0, width(), height()),
+                  QToolTip::palette().active() );
     p.end();
 }
 
@@ -390,9 +388,4 @@ void BalloonButton::click()
     emit action(id);
     topLevelWidget()->close();
 }
-
-
-#ifndef _WINDOWS
-#include "ballonmsg.moc"
-#endif
 

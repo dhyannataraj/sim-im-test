@@ -407,11 +407,11 @@ void setWndClass(QWidget *w, const char *name)
     classhint.res_class = (char*)name;
     XSetClassHint(dsp, win, &classhint);
 
-    XWMHints *hints;  
-    hints = XGetWMHints(dsp, win);  
-    hints->window_group = win;  
-    hints->flags = WindowGroupHint;  
-    XSetWMHints(dsp, win, hints);  
+    XWMHints *hints;
+    hints = XGetWMHints(dsp, win);
+    hints->window_group = win;
+    hints->flags = WindowGroupHint;
+    XSetWMHints(dsp, win, hints);
     XFree( hints );
 
     const char *argv[2];
@@ -464,12 +464,9 @@ bool raiseWindow(QWidget *w, unsigned)
 
 void setButtonsPict(QWidget *w)
 {
-    QList<QObject *> l = w->queryList( "QPushButton" );
-    QListIterator<QObject *> it( l );
-    QObject *obj;
-    while ( it.hasNext()) {
-        it.next();
-        QPushButton *btn = static_cast<QPushButton*>(obj);
+    QObjectList l = w->queryList( "QPushButton" );
+    for( QObjectList::iterator it = l.begin(); it != l.end(); it++ ) {
+        QPushButton *btn = static_cast<QPushButton*>( *it );
         if (btn->pixmap()) continue;
         const QString &text = btn->text();
         const char *icon = NULL;
@@ -484,8 +481,7 @@ void setButtonsPict(QWidget *w)
         }
         if (icon == NULL) continue;
         btn->setIconSet(Icon(icon));
-    }
-    delete &l;
+	}
 }
 
 EXPORT QString formatDateTime(unsigned long t)
@@ -664,7 +660,8 @@ EXPORT bool isLatin(const QString &str)
 EXPORT QString getPart(QString &str, unsigned size)
 {
     QString res;
-    if (str.length() < size){
+    // FIXME: length() is int -> change definition of getPart()
+    if (str.length() < (int)size){
         res = str;
         str = "";
         return res;
@@ -726,7 +723,7 @@ EXPORT unsigned screens()
 #if COMPAT_QT_VERSION >= 0x030000
     QDesktopWidget *desktop = QApplication::desktop();
     return desktop->numScreens();
-#else 
+#else
 #ifdef WIN32
     HINSTANCE hLib = LoadLibraryA("user32.dll");
     BOOL (WINAPI *_EnumDisplayMonitors)(HDC, LPCRECT, MONITORENUMPROC, LPARAM) = NULL;
@@ -752,7 +749,7 @@ EXPORT QRect screenGeometry(unsigned nScreen)
 #if COMPAT_QT_VERSION >= 0x030000
     QDesktopWidget *desktop = QApplication::desktop();
     return desktop->screenGeometry(nScreen);
-#else 
+#else
 #ifdef WIN32
     HINSTANCE hLib = LoadLibraryA("user32.dll");
     BOOL (WINAPI *_EnumDisplayMonitors)(HDC, LPCRECT, MONITORENUMPROC, LPARAM) = NULL;
@@ -782,7 +779,7 @@ EXPORT QRect screenGeometry()
         rc |= desktop->screenGeometry(i);
     }
     return rc;
-#else 
+#else
 #ifdef WIN32
     HINSTANCE hLib = LoadLibraryA("user32.dll");
     BOOL (WINAPI *_EnumDisplayMonitors)(HDC, LPCRECT, MONITORENUMPROC, LPARAM) = NULL;
@@ -872,6 +869,3 @@ EXPORT int strcasecmp(const char *a, const char *b)
 }
 
 #endif
-
-
-

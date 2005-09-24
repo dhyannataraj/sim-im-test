@@ -181,8 +181,3 @@ void TipLabel::drawContents(QPainter *p)
     richText.adjustSize();
     richText.draw(p, 4, 4, QRect(0, 0, width(), height()), QToolTip::palette().active());
 }
-
-#ifndef WIN32
-#include "linklabel.moc"
-#endif
-

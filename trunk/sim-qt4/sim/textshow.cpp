@@ -842,8 +842,9 @@ static unsigned colors[16] =
 const int CUSTOM_COLOR	= 100;
 
 ColorPopup::ColorPopup(QWidget *popup, QColor color)
-        : Q3Frame(popup, "colors", Qt::Popup | Qt::Tool | Qt::WA_DeleteOnClose)
+        : Q3Frame(popup, "colors", Qt::Popup | Qt::Tool )
 {
+	setAttribute( Qt::WA_DeleteOnClose );
     m_color = color;
     setFrameShape(PopupPanel);
     setFrameShadow(Sunken);
@@ -924,7 +925,3 @@ QSize ColorLabel::minimumSizeHint() const
         s.setWidth(s.height());
     return s;
 }
-
-#ifndef _WINDOWS
-#include "textshow.moc"
-#endif

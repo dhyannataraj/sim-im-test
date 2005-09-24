@@ -661,4 +661,3 @@ QString StatusMessage::presentation()
 }
 
 }
-

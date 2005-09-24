@@ -83,10 +83,3 @@ void QColorButton::chooseColor()
     if (!c.isValid()) return;
     setColor( c );
 }
-
-#ifndef WIN32
-#include "qcolorbutton.moc"
-#endif
-
-#endif
-

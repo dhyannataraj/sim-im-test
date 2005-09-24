@@ -20,6 +20,7 @@
 #include "fetch.h"
 
 #ifdef WIN32
+#include <windows.h>
 #include <winsock.h>
 #include <wininet.h>
 #else
@@ -660,7 +661,3 @@ void IPResolver::start_resolve()
 }
 
 }
-
-#ifndef WIN32
-#include "sockfactory.moc"
-#endif

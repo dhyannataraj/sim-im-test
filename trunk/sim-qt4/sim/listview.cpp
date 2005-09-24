@@ -375,9 +375,3 @@ Contact *ContactDragObject::decode( QMimeSource *s )
     memcpy( &id, data.data(), sizeof(id));
     return getContacts()->contact(id);
 }
-
-
-#ifndef WIN32
-#include "listview.moc"
-#endif
-

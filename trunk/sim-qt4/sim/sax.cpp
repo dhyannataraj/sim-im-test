@@ -121,6 +121,3 @@ void SAXParser::cleanup()
 {
     xmlCleanupParser();
 }
-
-
-

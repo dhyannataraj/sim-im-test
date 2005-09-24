@@ -151,7 +151,7 @@ void EditFile::showFiles()
                 dlg->setWindowIcon( qApp->windowIcon());
 	    }
 // commented until KDE 4
-/*            
+/*
 #ifdef USE_KDE
             dlg->setOperationMode( KFileDialog::Opening);
             if (preview)
@@ -181,7 +181,7 @@ void EditFile::showFiles()
             // under KDE 3.1x / QT 3.1x sim crashes when preview is deleted...
             //            delete preview;
 #ifdef WIN32
-            delete preview;
+//            delete preview;
 #endif
             delete dlg;
         }else{
@@ -403,7 +403,5 @@ QMenu *MultiLineEdit::createPopupMenu()
     return popup;
 }
 */
-#ifndef _WINDOWS
-#include "editfile.moc"
-#endif
+
 

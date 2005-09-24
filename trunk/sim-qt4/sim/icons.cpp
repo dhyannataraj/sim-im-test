@@ -458,7 +458,8 @@ void IconSet::parseSmiles(const QString &text, unsigned &start, unsigned &size, 
         int n = text.find(pat);
         if (n < 0)
             continue;
-        if (((unsigned)n < start) || (((unsigned)n == start) && (pat.length() > size))){
+        // FIXME: ugly casts between signed <-> unsigned
+        if (((unsigned)n < start) || (((unsigned)n == start) && ((unsigned)pat.length() > size))){
             start = n;
             size  = pat.length();
             name  = it->name.c_str();
@@ -914,7 +915,7 @@ void FileIconSet::element_start(const char *el, const char **args)
             return;
         mime = mime.substr(n + 1);
         QList<QByteArray> l = QImageReader::supportedImageFormats();
-        for (unsigned i = 0; i < l.count(); i++){
+        for (int i = 0; i < l.count(); i++){
             if (l[i].lower() != mime.c_str())
                 continue;
             m_data = &m_file;
@@ -976,9 +977,3 @@ void FileIconSet::char_data(const char *data, int size)
 }
 
 };
-
-#ifndef WIN32
-#include "icons.moc"
-#endif
-
-

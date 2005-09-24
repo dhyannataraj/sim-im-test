@@ -769,7 +769,3 @@ void CToolBar::showPopup(QPoint p)
     Q3PopupMenu *popup = new Q3PopupMenu(this);
     popup->popup(p);
 }
-
-#ifndef _WINDOWS
-#include "toolbtn.moc"
-#endif

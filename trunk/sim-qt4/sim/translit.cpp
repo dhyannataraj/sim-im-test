@@ -25,7 +25,7 @@ namespace SIM
 #ifdef WIN32
 #if _MSC_VER > 1020
 #pragma warning(push)
-#pragma warning(disable: 4244)  
+#pragma warning(disable: 4244)
 #endif
 #endif
 #include "johab_hangul.h"
@@ -38,7 +38,7 @@ namespace SIM
 EXPORT QString toTranslit(const QString &str)
 {
     QString res;
-    for (unsigned i = 0; i < str.length(); i++){
+    for (int i = 0; i < str.length(); i++){
         unsigned short wc = str[(int)i].unicode();
         res += johab_hangul_decompose(wc);
         int indx = -1;
