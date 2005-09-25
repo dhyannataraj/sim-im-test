@@ -84,6 +84,7 @@ void GrpRadioButton::keyPressEvent(QKeyEvent *e)
     case Qt::Key_Down:{
             QRadioButton *next  = NULL;
             // queryList was deprecated!
+            QObjectList l = parentWidget()->queryList("QRadioButton");
             for( QObjectList::iterator it = l.begin(); it != l.end(); it++ ) {
                 if ( *it == this ) {
                     if ( it == l.end() )

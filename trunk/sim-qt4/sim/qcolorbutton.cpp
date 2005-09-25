@@ -83,3 +83,4 @@ void QColorButton::chooseColor()
     if (!c.isValid()) return;
     setColor( c );
 }
+#endif
