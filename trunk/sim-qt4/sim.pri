@@ -20,3 +20,4 @@ DEFINES     += VERSION=\"0.9.4\" PACKAGE=\"SIM\"
 INCLUDEPATH *= $$TARGET
 QT          += qt3support network
 QMAKE_LIBS  *= user32.lib ws2_32.lib
+ 
