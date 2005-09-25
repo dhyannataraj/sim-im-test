@@ -301,11 +301,6 @@ SOURCE=.\sim\qcolorbutton.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\qjpegio.cpp
-# ADD CPP /W3
-# End Source File
-# Begin Source File
-
 SOURCE=.\sim\qkeybutton.cpp
 # End Source File
 # Begin Source File
@@ -804,10 +799,6 @@ InputName=qcolorbutton
 
 !ENDIF 
 
-# End Source File
-# Begin Source File
-
-SOURCE=.\sim\qjpegio.h
 # End Source File
 # Begin Source File
 
