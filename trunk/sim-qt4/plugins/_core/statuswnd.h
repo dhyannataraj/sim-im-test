@@ -20,9 +20,9 @@
 
 #include "simapi.h"
 
-#include <q3frame.h>
-#include <qlabel.h>
-//Added by qt3to4:
+#include <QFrame>
+#include <QLabel>
+
 #include <QMouseEvent>
 #include <QHBoxLayout>
 #include <QResizeEvent>
@@ -51,7 +51,7 @@ protected:
     friend class StatusFrame;
 };
 
-class StatusFrame : public Q3Frame, public EventReceiver
+class StatusFrame : public QFrame, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -68,11 +68,11 @@ protected:
     virtual void *processEvent(Event *e);
     virtual QSize sizeHint() const;
     virtual QSize minimumSizeHint() const;
-    Q3Frame		*m_frame;
+    QFrame		*m_frame;
     QHBoxLayout	*m_lay;
 };
 
-class StatusWnd : public Q3Frame
+class StatusWnd : public QFrame
 {
     Q_OBJECT
 public:

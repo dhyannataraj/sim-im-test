@@ -29,7 +29,7 @@
 #include <arpa/inet.h>
 #endif
 
-#include <qtextcodec.h>
+#include <QTextCodec>
 
 const unsigned short ICQ_SNACxLOC_ERROR             = 0x0001;
 const unsigned short ICQ_SNACxLOC_REQUESTxRIGHTS    = 0x0002;
@@ -133,7 +133,7 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
                     info = info.mid(6);
                 if (info.right(7).upper() == "</HTML>")
                     info = info.left(info.length() - 7);
-                if (set_str(&data->About.ptr, info.utf8())){
+                if (set_str(&data->About.ptr, info.toUtf8())){
                     data->ProfileFetch.bValue = true;
                     if (contact){
                         Event e(EventContactChanged, contact);
@@ -149,7 +149,7 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
             Tlv *tlvAway = tlvs(0x04);
             if (tlvAway){
                 QString info = convert(tlvAway, tlvs, 0x03);
-                set_str(&data->AutoReply.ptr, info.utf8());
+                set_str(&data->AutoReply.ptr, info.toUtf8());
                 Event e(EventClientChanged, contact);
                 e.process();
             }
@@ -336,7 +336,7 @@ void ICQClient::encodeString(const char *str, unsigned short nTlv, bool bWide)
         m_socket->writeBuffer.tlv(nTlv, (char*)unicode, (unsigned short)(m.length() * sizeof(unsigned short)));
         delete[] unicode;
     }else{
-        m_socket->writeBuffer.tlv(nTlv, m.latin1());
+        m_socket->writeBuffer.tlv(nTlv, static_cast<const char *>(m.toLatin1()));
     }
 }
 
@@ -357,7 +357,7 @@ void ICQClient::encodeString(const QString &m, const char *type, unsigned short 
     }else{
         content_type += "us-ascii\"";
         m_socket->writeBuffer.tlv(charsetTlv, content_type.c_str());
-        m_socket->writeBuffer.tlv(infoTlv, m.latin1());
+        m_socket->writeBuffer.tlv(infoTlv, static_cast<const char *>(m.toLatin1()));
     }
 }
 

@@ -23,8 +23,8 @@
 
 #include "xsl.h"
 
-#include <qfile.h>
-#include <qregexp.h>
+#include <QFile>
+#include <QRegExp>
 
 class XSLPrivate
 {
@@ -103,10 +103,10 @@ QString XSL::process(const QString &my_xml)
        ... use Unicode numerical entity instead: &#160;*/
     my_xsl = quote_nbsp(my_xml);
 
-    xmlDocPtr doc = xmlParseMemory(my_xsl.utf8(), my_xsl.utf8().length());
+    xmlDocPtr doc = xmlParseMemory(my_xsl.toUtf8(), my_xsl.toUtf8().length());
     if (doc == NULL){
         string s;
-        s = static_cast<string>(my_xsl.local8Bit());
+        s = static_cast<string>(my_xsl.toLocal8Bit());
         log(L_WARN, "Parse XML error: %s", s.c_str());
         return QString::null;
     }

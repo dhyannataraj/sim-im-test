@@ -23,7 +23,7 @@
 #include <time.h>
 
 #ifdef QT_DLL
-#include <qapplication.h>
+#include <QApplication>
 #endif
 
 namespace SIM

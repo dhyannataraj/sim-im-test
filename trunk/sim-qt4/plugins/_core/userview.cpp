@@ -24,22 +24,22 @@
 #include "container.h"
 #include "userwnd.h"
 
-#include <qpainter.h>
-#include <qpixmap.h>
+#include <QPainter>
+#include <QPixmap>
 #include <q3header.h>
-#include <qobject.h>
+#include <QObject>
 #include <q3popupmenu.h>
-#include <qtimer.h>
-#include <qstyle.h>
-#include <qapplication.h>
-#include <qwidget.h>
-#include <qcursor.h>
-//Added by qt3to4:
+#include <QTimer>
+#include <QStyle>
+#include <QApplication>
+#include <QWidget>
+#include <QCursor>
+
 #include <QFocusEvent>
 #include <QEvent>
 #include <QKeyEvent>
 #include <QDragMoveEvent>
-#include <Q3Frame>
+#include <QFrame>
 #include <QDropEvent>
 #include <QDragEnterEvent>
 #include <QMouseEvent>
@@ -67,8 +67,8 @@ UserView::UserView()
     m_bShowOnline = CorePlugin::m_plugin->getShowOnLine();
     m_bShowEmpty = CorePlugin::m_plugin->getShowEmptyGroup();
 
-    setBackgroundMode(NoBackground);
-    viewport()->setBackgroundMode(NoBackground);
+    this->setBackgroundMode(Qt::NoBackground);
+    viewport()->setBackgroundMode(Qt::NoBackground, Qt::NoBackground);
 
     mTipItem = NULL;
     m_tip = NULL;
@@ -94,8 +94,8 @@ UserView::UserView()
     m_dropItem = NULL;
     m_searchItem = NULL;
 
-    setFrameStyle(Q3Frame::Panel);
-    setFrameShadow(Q3Frame::Sunken);
+    setFrameStyle(QFrame::Panel);
+    setFrameShadow(QFrame::Sunken);
     WindowDef wnd;
     wnd.widget = this;
     wnd.bDown  = true;
@@ -164,7 +164,7 @@ void UserView::paintEmptyArea(QPainter *p, const QRect &r)
 static void drawImage(QPainter *p, int x, int y, const QImage &img)
 {
 #if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-    if (p->device()->devType() != QInternal::Pixmap && pict->depth() < 32){
+    if (p->device()->devType() != QInternal::Pixmap){
         p->drawImage(x, y, img);
         return;
     }
@@ -228,7 +228,7 @@ int UserView::heightItem(UserViewItemBase *base)
     }
     if (base->type() == USR_ITEM){
         ContactItem *item = static_cast<ContactItem*>(base);
-        string icons = item->text(CONTACT_ICONS).latin1();
+        string icons = static_cast<string>(item->text(CONTACT_ICONS).toLatin1());
         while (!icons.empty()){
             string icon = getToken(icons, ',');
             const QImage *img = Image(icon.c_str());
@@ -307,7 +307,7 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         p->setFont(f);
         x = item->drawText(p, x, width, text);
         if (CorePlugin::m_plugin->getGroupSeparator())
-            item->drawSeparator(p, x, width, cg);
+            item->drawSeparator(p, x, width);
         return;
     }
     if (base->type() == USR_ITEM){
@@ -337,7 +337,7 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
             if (CorePlugin::m_plugin->getInvisibleStyle()  & STYLE_STRIKE)
                 f.setStrikeOut(true);
         }
-        string icons = item->text(CONTACT_ICONS).latin1();
+        string icons = static_cast<string>(item->text(CONTACT_ICONS).toLatin1());
         string icon = getToken(icons, ',');
         if (item->m_unread && m_bUnreadBlink){
             CommandDef *def = CorePlugin::m_plugin->messageTypes.find(item->m_unread);
@@ -397,7 +397,7 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         if (!highlight.isEmpty()){
             QPen oldPen = p->pen();
             QColor oldBg = p->backgroundColor();
-            p->setBackgroundMode(OpaqueMode);
+            p->setBackgroundMode(Qt::OpaqueMode);
             if (item == m_searchItem){
                 if ((item == currentItem()) && CorePlugin::m_plugin->getUseDblClick()){
                     p->setBackgroundColor(cg.highlightedText());
@@ -413,7 +413,7 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
             item->drawText(p, save_x, width, highlight);
             p->setPen(oldPen);
             p->setBackgroundColor(oldBg);
-            p->setBackgroundMode(TransparentMode);
+            p->setBackgroundMode(Qt::TransparentMode);
         }
         unsigned xIcon = width;
         while (icons.length()){
@@ -514,19 +514,18 @@ void *UserView::processEvent(Event *e)
                     }
                     if (cmd->id == CmdClose){
                         UserWnd *wnd = NULL;
-                        QWidgetList  *list = QApplication::topLevelWidgets();
-                        QWidgetListIt it(*list);
+                        QList<QWidget *>  list = QApplication::topLevelWidgets();
+                        QListIterator<QWidget *> it(list);
                         QWidget * w;
-                        while ((w = it.current()) != NULL){
+                        while ( it.hasNext()){
+			    w = it.next();
                             if (w->inherits("Container")){
                                 Container *c =  static_cast<Container*>(w);
                                 wnd = c->wnd((unsigned)(cmd->param));
                                 if (wnd)
                                     break;
                             }
-                            ++it;
                         }
-                        delete list;
                         if (wnd){
                             delete wnd;
                             return e->param();
@@ -560,11 +559,12 @@ void *UserView::processEvent(Event *e)
                 if (contact){
                     Container *from = NULL;
                     Container *to = NULL;
-                    QWidgetList  *list = QApplication::topLevelWidgets();
-                    QWidgetListIt it(*list);
+                    QList<QWidget *>  list = QApplication::topLevelWidgets();
+                    QListIterator<QWidget *> it(list);
                     QWidget * w;
                     unsigned max_id = 0;
-                    while ((w = it.current()) != NULL){
+                    while ( it.hasNext()){
+			w = it.next();
                         if (w->inherits("Container")){
                             Container *c = static_cast<Container*>(w);
                             if (c->getId() == cmd->id)
@@ -576,7 +576,6 @@ void *UserView::processEvent(Event *e)
                                     max_id = c->getId();
                             }
                         }
-                        ++it;
                     }
                     if (from && to && (from == to))
                         return e->param();
@@ -701,7 +700,7 @@ void *UserView::processEvent(Event *e)
                 if (cmd->id == CmdContactTitle){
                     Contact *contact = getContacts()->contact((unsigned)(cmd->param));
                     if (contact){
-                        cmd->text_wrk = strdup(contact->getName().utf8());
+                        cmd->text_wrk = strdup(contact->getName().toUtf8());
                         return e->param();
                     }
                 }
@@ -717,18 +716,17 @@ void *UserView::processEvent(Event *e)
                 }
                 if (cmd->id == CmdClose){
                     UserWnd *wnd = NULL;
-                    QWidgetList  *list = QApplication::topLevelWidgets();
-                    QWidgetListIt it(*list);
+                    QList<QWidget *>  list = QApplication::topLevelWidgets();
+                    QListIterator<QWidget *> it(list);
                     QWidget * w;
-                    while ((w = it.current()) != NULL){
+                    while ( it.hasNext()){
+			w = it.next();
                         if (w->inherits("Container")){
                             wnd = static_cast<Container*>(w)->wnd((unsigned)(cmd->param));
                             if (wnd)
                                 break;
                         }
-                        ++it;
                     }
-                    delete list;
                     if (wnd)
                         return e->param();
                 }
@@ -794,7 +792,7 @@ void *UserView::processEvent(Event *e)
                         c.flags = COMMAND_DEFAULT;
                         if ((grp->id() == grpId) && contact->id())
                             c.flags |= COMMAND_CHECKED;
-                        c.text_wrk = strdup(grp->getName().utf8());
+                        c.text_wrk = strdup(grp->getName().toUtf8());
                     }
                     CommandDef &c = cmds[nGroups++];
                     c = *cmd;
@@ -815,7 +813,7 @@ void *UserView::processEvent(Event *e)
                     if (cmd->id == CmdGrpTitle){
                         Group *g = getContacts()->group(grp_id);
                         if (g)
-                            cmd->text_wrk = strdup(g->getName().utf8());
+                            cmd->text_wrk = strdup(g->getName().toUtf8());
                         return e->param();
                     }
                     if ((cmd->id == CmdGrpDelete) || (cmd->id == CmdGrpRename)){
@@ -954,7 +952,7 @@ void UserView::setGroupMode(unsigned mode, bool bFirst)
 bool UserView::eventFilter(QObject *obj, QEvent *e)
 {
     bool res = ListView::eventFilter(obj, e);
-    if (obj->inherits("QMainWindow")){
+    if (obj->inherits("Q3MainWindow")){
         if (e->type() == QEvent::Hide)
             hideTip();
         if (e->type() == QEvent::Show)
@@ -1024,8 +1022,8 @@ void UserView::keyPressEvent(QKeyEvent *e)
         if (m_searchItem)
             setCurrentItem(m_searchItem);
         switch (e->key()){
-        case Key_Return:
-        case Key_Enter:
+        case Qt::Key_Return:
+        case Qt::Key_Enter:
             m_current = currentItem();
             QTimer::singleShot(0, this, SLOT(doClick()));
             return;
@@ -1037,7 +1035,7 @@ void UserView::keyPressEvent(QKeyEvent *e)
     list<Q3ListViewItem*> old_items;
     list<Q3ListViewItem*> new_items;
     switch (e->key()){
-    case Key_BackSpace:
+    case Qt::Key_BackSpace:
         if (m_search.isEmpty()){
             UserListBase::keyPressEvent(e);
             return;
@@ -1056,14 +1054,14 @@ void UserView::keyPressEvent(QKeyEvent *e)
             }
         }
         break;
-    case Key_Escape:
+    case Qt::Key_Escape:
         if (m_search.isEmpty()){
             UserListBase::keyPressEvent(e);
             return;
         }
         stopSearch();
         return;
-    case Key_Up:
+    case Qt::Key_Up:
         if (m_search.isEmpty()){
             UserListBase::keyPressEvent(e);
             return;
@@ -1084,7 +1082,7 @@ void UserView::keyPressEvent(QKeyEvent *e)
             m_searchItem = *it_old;
         }
         break;
-    case Key_Down:
+    case Qt::Key_Down:
         if (m_search.isEmpty()){
             UserListBase::keyPressEvent(e);
             return;
@@ -1104,8 +1102,8 @@ void UserView::keyPressEvent(QKeyEvent *e)
             m_searchItem = *it_old;
         }
         break;
-    case Key_Plus:
-    case Key_Minus:
+    case Qt::Key_Plus:
+    case Qt::Key_Minus:
         if (m_search.isEmpty()){
             Q3ListViewItem *item = currentItem();
             if (item && item->isExpandable()){
@@ -1320,7 +1318,7 @@ static void resetUnread(Q3ListViewItem *item, list<Q3ListViewItem*> &grp)
                 break;
         if (it == grp.end()){
             string s;
-            s = item->text(0).local8Bit();
+            s = static_cast<string>(item->text(0).toLocal8Bit());
             GroupItem *group = static_cast<GroupItem*>(item);
             if (group->m_unread){
                 group->m_unread = 0;

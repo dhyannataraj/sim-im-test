@@ -29,10 +29,11 @@
 #include <qlabel.h>
 
 GpgGen::GpgGen(GpgCfg *cfg)
-        : GpgGenBase(NULL, NULL, true)
+        : QDialog( NULL, Qt::WA_ShowModal)
 {
+    setupUi( this);
     SET_WNDPROC("genkey")
-    setIcon(Pict("encrypted"));
+    setIcon(Pict("encrypted").pixmap());
     setButtonsPict(this);
     setCaption(caption());
     cmbMail->setEditable(true);
@@ -92,7 +93,7 @@ static string toLatin(const QString &str)
         if (s[i].unicode() > 0x7F){
             res += "?";
         }else{
-            res += s[i].latin1();
+            res += s[i].toLatin1();
         }
     }
     return res;
@@ -132,7 +133,7 @@ QString gpg  = QFile::decodeName(GpgPlugin::plugin->GPG());
     in += CRLF;
     if (!edtPass1->text().isEmpty()){
         in += "Passphrase: ";
-        in += edtPass1->text().utf8();
+        in += static_cast<string>(edtPass1->text().toUtf8());
         in += CRLF;
     }
 #ifdef WIN32
@@ -151,11 +152,11 @@ QString gpg  = QFile::decodeName(GpgPlugin::plugin->GPG());
     gpg += "\" ";
     gpg += GpgPlugin::plugin->getGenKey();
     gpg += " \"";
-    gpg += fname.local8Bit();
+    gpg += fname.toLocal8Bit();
     gpg += "\"";
     m_exec = new Exec;
     connect(m_exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(genKeyReady(Exec*,int,const char*)));
-    m_exec->execute(gpg.local8Bit(), "");
+    m_exec->execute(gpg.toLocal8Bit(), "");
 }
 
 void GpgGen::genKeyReady(Exec*,int res,const char*)
@@ -166,7 +167,7 @@ void GpgGen::genKeyReady(Exec*,int res,const char*)
     QFile::remove(QFile::decodeName(user_file("keys/genkey.txt").c_str()));
 #endif
     if (res == 0){
-        GpgGenBase::accept();
+        accept();
         return;
     }
     edtName->setEnabled(true);

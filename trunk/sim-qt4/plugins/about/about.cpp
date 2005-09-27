@@ -25,7 +25,7 @@
 #else
 #include "aboutdlg.h"
 #endif
-#include <qtimer.h>
+#include <QTimer>
 
 Plugin *createAboutPlugin(unsigned base, bool, Buffer*)
 {

@@ -24,7 +24,7 @@
 class QCheckBox;
 class FileConfig;
 
-class MessageConfig : public Ui_MessageConfigBase, public QDialog
+class MessageConfig : public QWidget, public Ui::MessageConfigBase
 {
     Q_OBJECT
 public:

@@ -17,16 +17,17 @@
 
 #include "editmail.h"
 
-#include <qlineedit.h>
-#include <qpixmap.h>
-#include <qpushbutton.h>
-#include <qcheckbox.h>
+#include <QLineEdit>
+#include <QPixmap>
+#include <QPushButton>
+#include <QCheckBox>
 
 EditMail::EditMail(QWidget *parent, const QString &mail, bool bPublish, bool bShowPublish)
-        : EditMailBase(parent, "editmail", true)
+        : QDialog( parent, Qt::WA_DeleteOnClose)
 {
+    setupUi( this);
     SET_WNDPROC("editmail")
-    setIcon(Pict("mail_generic"));
+    setIcon(Pict("mail_generic").pixmap());
     setButtonsPict(this);
     setCaption(mail.isEmpty() ? i18n("Add mail address") : i18n("Edit mail address"));
     edtMail->setText(mail);
@@ -50,7 +51,7 @@ void EditMail::accept()
 {
     res = edtMail->text();
     publish = chkPublish->isChecked();
-    EditMailBase::accept();
+    accept();
 }
 
 #ifndef WIN32

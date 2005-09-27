@@ -19,17 +19,18 @@
 #include "proxyerror.h"
 #include "proxycfg.h"
 
-#include <qpixmap.h>
-#include <qlayout.h>
-#include <qlabel.h>
-//Added by qt3to4:
+#include <QPixmap>
+#include <QLayout>
+#include <QLabel>
+
 #include <QBoxLayout>
 
 ProxyError::ProxyError(ProxyPlugin *plugin, TCPClient *client, const char *msg)
-        : ProxyErrorBase(NULL, NULL, false, Qt::WA_DeleteOnClose)
+        : QDialog( NULL, Qt::WA_DeleteOnClose)
 {
+    setupUi( this);
     SET_WNDPROC("proxy")
-    setIcon(Pict("error"));
+    setIcon(Pict("error").pixmap());
     setButtonsPict(this);
     setCaption(caption());
     m_plugin = plugin;
@@ -71,7 +72,7 @@ void ProxyError::accept()
         emit apply();
         m_client->setStatus(m_client->getManualStatus(), m_client->getCommonStatus());
     }
-    ProxyErrorBase::accept();
+    accept();
 }
 
 #ifndef WIN32

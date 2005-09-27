@@ -20,7 +20,7 @@
 #include <kpreviewwidgetbase.h>
 #else
 #include <q3filedialog.h>
-//Added by qt3to4:
+
 #include <QLabel>
 #endif
 

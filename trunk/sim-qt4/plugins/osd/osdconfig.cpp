@@ -21,15 +21,16 @@
 #include "qcolorbutton.h"
 #include "fontedit.h"
 
-#include <qcheckbox.h>
-#include <qcombobox.h>
+#include <QCheckBox>
+#include <QComboBox>
 #include <qspinbox.h>
-#include <qtabwidget.h>
-#include <qlabel.h>
+#include <QTabWidget>
+#include <QLabel>
 
 OSDConfig::OSDConfig(QWidget *parent, void *d, OSDPlugin *plugin)
-        : OSDConfigBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_plugin = plugin;
     OSDUserData *data = (OSDUserData*)d;
     chkMessage->setChecked(data->EnableMessage.bValue);

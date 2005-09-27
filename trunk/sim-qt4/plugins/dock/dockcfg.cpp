@@ -18,17 +18,18 @@
 #include "dockcfg.h"
 #include "dock.h"
 
-#include <qcheckbox.h>
+#include <QCheckBox>
 #include <qspinbox.h>
-#include <qpushbutton.h>
-#include <qlabel.h>
+#include <QPushButton>
+#include <QLabel>
 #ifdef USE_KDE
 #include <kwin.h>
 #endif
 
 DockCfg::DockCfg(QWidget *parent, DockPlugin *plugin)
-        : DockCfgBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_plugin = plugin;
     chkAutoHide->setChecked(plugin->getAutoHide());
     unsigned interval = plugin->getAutoHideInterval();
@@ -48,9 +49,9 @@ DockCfg::DockCfg(QWidget *parent, DockPlugin *plugin)
 void DockCfg::apply()
 {
     m_plugin->setAutoHide(chkAutoHide->isChecked());
-    m_plugin->setAutoHideInterval(atol(spnAutoHide->text().latin1()));
+    m_plugin->setAutoHideInterval(atol(spnAutoHide->text().toLatin1()));
 #ifdef USE_KDE
-    m_plugin->setDesktop(atol(spn_desk->text().latin1()));
+    m_plugin->setDesktop(atol(spn_desk->text().toLatin1()));
 #endif
 }
 

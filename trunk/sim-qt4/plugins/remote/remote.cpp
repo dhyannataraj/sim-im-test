@@ -22,13 +22,13 @@
 
 #include "core.h"
 
-#include <qapplication.h>
-#include <qwidget.h>
-#include <qregexp.h>
-#include <qtimer.h>
-#include <qfile.h>
-#include <qthread.h>
-#include <qpixmap.h>
+#include <QApplication>
+#include <QWidget>
+#include <QRegExp>
+#include <QTimer>
+#include <QFile>
+#include <QThread>
+#include <QPixmap>
 #include <time.h>
 
 Plugin *createRemotePlugin(unsigned base, bool, Buffer *config)
@@ -379,13 +379,13 @@ static bool cmpStatus(const char *s1, const char *s2)
 
 static QWidget *findWidget(const char *className)
 {
-    QWidgetList  *list = QApplication::topLevelWidgets();
-    QWidgetListIt it(*list);
+    QList<QWidget *> list = QApplication::topLevelWidgets();
+    QListIterator<QWidget *> it(list);
     QWidget *w;
-    while ((w = it.current()) != NULL){
+    while ( it.hasNext()){
+	w = it.next();
         if (w->inherits(className))
             break;
-        ++it;
     }
     return w;
 }
@@ -551,7 +551,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
     switch (nCmd){
 #ifdef WIN32
     case CMD_ICON:{
-            IconWidget w(Pict(args[0].utf8()));
+            IconWidget w(Pict(args[0].toUtf8()));
             HICON icon = w.icon();
             ICONINFO info;
             if (!GetIconInfo(icon, &info))
@@ -731,7 +731,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             for (n = 0; n < getContacts()->nClients(); n++){
                 Client *client = getContacts()->getClient(n);
                 for (const CommandDef *d = client->protocol()->statusList(); d->text; d++){
-                    if (cmpStatus(d->text, args[0].latin1())){
+                    if (cmpStatus(d->text, args[0].toLatin1())){
                         status = d->id;
                         break;
                     }
@@ -864,15 +864,15 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                 }
             }
             string proto;
-            proto = args[0].utf8();
+            proto = static_cast<string>(args[0].toUtf8());
             string addr;
-            addr  = args[1].utf8();
+            addr  = static_cast<string>(args[1].toUtf8());
             string nick;
             addContact ac;
             ac.proto = proto.c_str();
             ac.addr  = addr.c_str();
             if (args.size() > 2){
-                nick = args[2].utf8();
+                nick = static_cast<string>(args[2].toUtf8());
                 ac.nick = nick.c_str();
             }else{
                 ac.nick = NULL;
@@ -912,7 +912,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                 }
             }
             string s;
-            s = args[0].utf8();
+            s = static_cast<string>(args[0].toUtf8());
             Event e(EventDeleteContact, (void*)(s.c_str()));
             if (e.process())
                 return true;
@@ -1036,7 +1036,7 @@ void ControlSocket::packet_ready()
         write("? ");
     string s;
     if (!out.isEmpty())
-        s = out.local8Bit();
+        s = static_cast<string>(out.toLocal8Bit());
     string res;
     for (const char *p = s.c_str(); *p; p++){
         if (*p == '\r')

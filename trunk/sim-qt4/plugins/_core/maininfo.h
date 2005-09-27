@@ -23,7 +23,7 @@
 
 class Q3ListViewItem;
 
-class MainInfo : public Ui_MainInfoBase, public EventReceiver, public QDialog
+class MainInfo : public QWidget, public Ui::MainInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:

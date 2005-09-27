@@ -22,7 +22,7 @@
 #include "aimconfigbase.h"
 #include "icqclient.h"
 
-class AIMConfig : public AIMConfigBase
+class AIMConfig : public QDialog, public Ui::AIMConfigBase
 {
     Q_OBJECT
 public:

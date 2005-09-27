@@ -21,7 +21,14 @@
 #include "simapi.h"
 #include "connectwndbase.h"
 
-class ConnectWnd : public Ui_ConnectWndBase, public QDialog
+#include <QRect>
+#include <QLabel>
+#include <QMovie>
+#include <QFrame>
+#include <QFile>
+#include <QStyle>
+
+class ConnectWnd : public QWidget, public Ui::ConnectWndBase
 {
     Q_OBJECT
 public:
@@ -29,7 +36,7 @@ public:
     void setConnecting(bool bState);
     void setErr(const QString &text, const char *url);
 protected slots:
-    void updateMovie();
+    void updateMovie(const QRect&);
 protected:
     bool m_bStart;
 };

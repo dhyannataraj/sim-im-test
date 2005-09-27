@@ -19,14 +19,14 @@
 #define _MSGSMS_H
 
 #include "simapi.h"
-#include <qcombobox.h>
-#include <q3frame.h>
+#include <QComboBox>
+#include <QFrame>
 
 class QToolButton;
 class QCheckBox;
 class MsgEdit;
 
-class SMSPanel : public Q3Frame
+class SMSPanel : public QFrame
 {
     Q_OBJECT
 public:

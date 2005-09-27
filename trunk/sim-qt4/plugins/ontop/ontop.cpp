@@ -18,9 +18,9 @@
 #include "ontop.h"
 #include "ontopcfg.h"
 
-#include <qapplication.h>
-#include <qwidget.h>
-//Added by qt3to4:
+#include <QApplication>
+#include <QWidget>
+
 #include <QEvent>
 
 #ifdef WIN32
@@ -190,17 +190,15 @@ string OnTopPlugin::getConfig()
 
 QWidget *OnTopPlugin::getMainWindow()
 {
-    QWidgetList  *list = QApplication::topLevelWidgets();
-    QWidgetListIt it( *list );
+    QList<QWidget *> list = QApplication::topLevelWidgets();
+    QListIterator<QWidget *> it( list );
     QWidget *w;
-    while ( (w=it.current()) != 0 ) {
-        ++it;
+    while ( it.hasNext() ) {
+        w = it.next();
         if (w->inherits("MainWindow")){
-            delete list;
             return w;
         }
     }
-    delete list;
     return NULL;
 }
 
@@ -241,11 +239,11 @@ void OnTopPlugin::setState()
 #endif
 #endif
     }
-    QWidgetList  *list = QApplication::topLevelWidgets();
-    QWidgetListIt it(*list);
+    QList<QWidget *> list = QApplication::topLevelWidgets();
+    QListIterator<QWidget *> it(list);
     QWidget *w;
-    while ((w = it.current()) != NULL){
-        ++it;
+    while ( it.hasNext()){
+        w = it.next();
         if (w->inherits("Container")){
 #ifdef WIN32
             HWND hState = HWND_NOTOPMOST;
@@ -262,7 +260,6 @@ void OnTopPlugin::setState()
 #endif
         }
     }
-    delete list;
 }
 
 QWidget *OnTopPlugin::createConfigWindow(QWidget *parent)

@@ -18,13 +18,14 @@
 #include "forwardcfg.h"
 #include "forward.h"
 
-#include <qcombobox.h>
-#include <qcheckbox.h>
-#include <qlineedit.h>
+#include <QComboBox>
+#include <QCheckBox>
+#include <QLineEdit>
 
 ForwardConfig::ForwardConfig(QWidget *parent, void *_data, ForwardPlugin *plugin)
-        : Ui::ForwardConfigBase()
+        : QWidget( parent)
 {
+    setupUi( this);
     m_plugin = plugin;
     ForwardUserData *data = (ForwardUserData*)_data;
     chkFirst->setChecked(data->Send1st.bValue);
@@ -35,7 +36,7 @@ ForwardConfig::ForwardConfig(QWidget *parent, void *_data, ForwardPlugin *plugin
         QString item = getToken(phones, ';', false);
         QString number = getToken(item, ',');
         getToken(item, ',');
-        if ((unsigned)atol(item.latin1()) == CELLULAR)
+        if ((unsigned)atol(item.toLatin1()) == CELLULAR)
             cmbPhone->insertItem(number);
     }
     if (data->Phone.ptr)
@@ -47,7 +48,7 @@ void ForwardConfig::apply(void *_data)
     ForwardUserData *data = (ForwardUserData*)_data;
     data->Send1st.bValue = chkFirst->isChecked();
     data->Translit.bValue = chkTranslit->isChecked();
-    set_str(&data->Phone.ptr, cmbPhone->lineEdit()->text().utf8());
+    set_str(&data->Phone.ptr, cmbPhone->lineEdit()->text().toUtf8());
 }
 
 void ForwardConfig::apply()

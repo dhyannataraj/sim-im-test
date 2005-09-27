@@ -49,7 +49,7 @@ Cambridge, MA 02139, USA.  */
 
 #include "config.h"
 #include "simapi.h"
-#include "qglobal.h"
+#include <QGlobalStatic>
 
 #if !defined(USE_KDE) && (COMPAT_QT_VERSION >= 0x030000)
 

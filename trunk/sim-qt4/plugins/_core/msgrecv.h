@@ -20,7 +20,7 @@
 
 #include "simapi.h"
 
-#include <qtoolbutton.h>
+#include <QToolButton>
 
 class MsgEdit;
 

@@ -23,10 +23,12 @@
 
 #include "newprotocolbase.h"
 
+#include <Q3Wizard>
+
 class ConnectWnd;
 class CorePlugin;
 
-class NewProtocol : public Ui_NewProtocolBase, public EventReceiver, public QDialog
+class NewProtocol : public Q3Wizard, public Ui::NewProtocolBase, public EventReceiver
 {
     Q_OBJECT
 public:

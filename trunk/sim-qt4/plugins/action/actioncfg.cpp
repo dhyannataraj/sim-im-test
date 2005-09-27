@@ -23,10 +23,10 @@
 #include "ballonmsg.h"
 #include "editfile.h"
 
-#include <qtabwidget.h>
-#include <qpainter.h>
-#include <qpushbutton.h>
-//Added by qt3to4:
+#include <QTabWidget>
+#include <QPainter>
+#include <QPushButton>
+
 #include <QPixmap>
 #include <QResizeEvent>
 
@@ -34,8 +34,9 @@ unsigned CONTACT_ONLINE = 0x10000;
 unsigned CONTACT_STATUS = 0x10001;
 
 ActionConfig::ActionConfig(QWidget *parent, struct ActionUserData *data, ActionPlugin *plugin)
-        : Ui::ActionConfigBase()
+        : QWidget( parent)
 {
+    setupUi( this);
     m_data   = data;
     m_plugin = plugin;
     m_menu   = NULL;
@@ -107,7 +108,7 @@ ActionConfig::~ActionConfig()
 
 void ActionConfig::resizeEvent(QResizeEvent *e)
 {
-    QDialog::resizeEvent(e);
+    resizeEvent(e);
     lstEvent->adjustColumn();
 }
 
@@ -161,11 +162,11 @@ void ActionConfig::apply(void *_data)
         unsigned id = item->text(2).toUInt();
         QString text = item->text(1);
         if (id == CONTACT_ONLINE){
-            set_str(&data->OnLine.ptr, text.utf8());
+            set_str(&data->OnLine.ptr, text.toUtf8());
         }else if (id == CONTACT_STATUS){
-            set_str(&data->Status.ptr, text.utf8());
+            set_str(&data->Status.ptr, text.toUtf8());
         }else{
-            set_str(&data->Message, id, text.utf8());
+            set_str(&data->Message, id, text.toUtf8());
         }
     }
 }
@@ -174,7 +175,7 @@ void ActionConfig::setEnabled(bool state)
 {
     if (m_menu)
         m_menu->setEnabled(state);
-    QDialog::setEnabled(state);
+    setEnabled(state);
 }
 
 void ActionConfig::help()

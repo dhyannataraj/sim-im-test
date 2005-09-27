@@ -21,8 +21,9 @@
 #include "textshow.h"
 
 AboutInfo::AboutInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
-        : AboutInfoBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_data   = data;
     m_client = client;
     if (m_data)
@@ -63,10 +64,10 @@ void AboutInfo::fill()
     ICQUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
     if (data->Uin.value){
-        edtAbout->setTextFormat(Q3TextEdit::PlainText);
+        edtAbout->setTextFormat(Qt::PlainText);
         edtAbout->setText(getContacts()->toUnicode(getContacts()->contact(m_contact), data->About.ptr));
     }else{
-        edtAbout->setTextFormat(Q3TextEdit::RichText);
+        edtAbout->setTextFormat(Qt::RichText);
         if (data->About.ptr)
             edtAbout->setText(QString::fromUtf8(data->About.ptr));
         if (m_data == NULL)

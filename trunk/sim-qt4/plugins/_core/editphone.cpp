@@ -19,21 +19,22 @@
 #include "phonedetails.h"
 #include "pagerdetails.h"
 
-#include <qlineedit.h>
-#include <qpixmap.h>
-#include <qpushbutton.h>
+#include <QLineEdit>
+#include <QPixmap>
+#include <QPushButton>
 #include <q3widgetstack.h>
-#include <qcombobox.h>
-#include <qcheckbox.h>
+#include <QComboBox>
+#include <QCheckBox>
 
 extern ext_info phoneIcons[];
 extern const char *phoneTypeNames[];
 
 EditPhone::EditPhone(QWidget *parent, const QString &number, const QString &type, unsigned icon, bool bPublish, bool bShowPublish)
-        : EditPhoneBase(parent, "editphone", true)
+        : QDialog( parent, Qt::WA_DeleteOnClose)
 {
+    setupUi( this);
     SET_WNDPROC("editphone")
-    setIcon(Pict("phone"));
+    setIcon(Pict("phone").pixmap());
     setButtonsPict(this);
     setCaption(number.isEmpty() ? i18n("Add phone number") : i18n("Edit phone number"));
     m_ok = false;
@@ -45,7 +46,7 @@ EditPhone::EditPhone(QWidget *parent, const QString &number, const QString &type
     connect(m_pager, SIGNAL(numberChanged(const QString&, bool)), this, SLOT(numberChanged(const QString&, bool)));
     edtDetails->setReadOnly(true);
     for (const ext_info *icons = phoneIcons; icons->szName; icons++){
-        cmbType->insertItem(Pict(icons->szName));
+        cmbType->insertItem(Pict(icons->szName).pixmap());
     }
     for (const char **names = phoneTypeNames; *names; names++){
         cmbName->insertItem(i18n(*names));
@@ -139,7 +140,7 @@ void EditPhone::accept()
     }
     icon = cmbType->currentItem();
     publish = chkPublish->isChecked();
-    EditPhoneBase::accept();
+    accept();
 }
 
 #ifndef WIN32

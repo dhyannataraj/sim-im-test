@@ -19,16 +19,17 @@
 #include "msninfo.h"
 #include "msnclient.h"
 
-#include <qlineedit.h>
-#include <qstringlist.h>
-#include <qcombobox.h>
-#include <qpushbutton.h>
-#include <qpixmap.h>
-#include <qlabel.h>
+#include <QLineEdit>
+#include <QStringList>
+#include <QComboBox>
+#include <QPushButton>
+#include <QPixmap>
+#include <QLabel>
 
 MSNInfo::MSNInfo(QWidget *parent, struct MSNUserData *data, MSNClient *client)
-        : MSNInfoBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_client  = client;
     m_data    = data;
     edtOnline->setReadOnly(true);
@@ -80,7 +81,7 @@ void MSNInfo::fill()
             current = cmbStatus->count();
             text = cmd->text;
         }
-        cmbStatus->insertItem(Pict(cmd->icon), i18n(cmd->text));
+        cmbStatus->insertItem(Pict(cmd->icon).pixmap(), i18n(cmd->text));
     }
     cmbStatus->setCurrentItem(current);
     disableWidget(cmbStatus);
@@ -114,7 +115,7 @@ void MSNInfo::apply(Client *client, void *_data)
     if (nick == edtEMail->text())
         nick = "";
     MSNUserData *data = (MSNUserData*)_data;
-    set_str(&data->ScreenName.ptr, nick.utf8());
+    set_str(&data->ScreenName.ptr, nick.toUtf8());
 }
 
 #ifndef WIN32

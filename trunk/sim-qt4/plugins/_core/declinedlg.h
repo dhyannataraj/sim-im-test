@@ -21,7 +21,7 @@
 #include "simapi.h"
 #include "declinedlgbase.h"
 
-class DeclineDlg : public Ui_DeclineDlgBase, public EventReceiver, public QDialog
+class DeclineDlg : public QDialog, public Ui::DeclineDlgBase, public EventReceiver
 {
     Q_OBJECT
 public:

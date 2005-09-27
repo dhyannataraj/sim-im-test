@@ -20,13 +20,13 @@
 
 #include "simapi.h"
 #include "logconfigbase.h"
-//Added by qt3to4:
+
 #include <QResizeEvent>
 
 class LoggerPlugin;
 class Q3ListViewItem;
 
-class LogConfig : public LogConfigBase, public EventReceiver
+class LogConfig : public QWidget, public Ui::LogConfigBase, public EventReceiver
 {
     Q_OBJECT
 public:

@@ -18,20 +18,21 @@
 #include "journalsearch.h"
 #include "livejournal.h"
 
-#include <qlineedit.h>
-//Added by qt3to4:
+#include <QLineEdit>
+
 #include <QShowEvent>
 
 JournalSearch::JournalSearch(LiveJournalClient *client, QWidget *parent)
-        : JournalSearchBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_client = client;
     connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
 }
 
 void JournalSearch::showEvent(QShowEvent *e)
 {
-    JournalSearchBase::showEvent(e);
+    showEvent(e);
     emit setAdd(true);
 }
 
@@ -39,9 +40,9 @@ void JournalSearch::createContact(unsigned tmpFlags, Contact *&contact)
 {
     if (edtCommunity->text().isEmpty())
         return;
-    if (m_client->findContact(edtCommunity->text().utf8(), contact, false))
+    if (m_client->findContact(edtCommunity->text().toUtf8(), contact, false))
         return;
-    m_client->findContact(edtCommunity->text().utf8(), contact, true, false);
+    m_client->findContact(edtCommunity->text().toUtf8(), contact, true, false);
     contact->setFlags(contact->getFlags() | tmpFlags);
 }
 

@@ -23,7 +23,7 @@
 
 class BackgroundPlugin;
 
-class BkgndCfg : public QDialog, public Ui::BkgndCfgBase
+class BkgndCfg : public QWidget, public Ui::BkgndCfgBase
 {
     Q_OBJECT
 public:

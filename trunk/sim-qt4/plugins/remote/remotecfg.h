@@ -23,7 +23,7 @@
 
 class RemotePlugin;
 
-class RemoteConfig : public RemoteConfigBase
+class RemoteConfig : public QWidget, public Ui::RemoteConfigBase
 {
     Q_OBJECT
 public:

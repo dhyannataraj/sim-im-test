@@ -19,13 +19,14 @@
 #include "userviewcfg.h"
 #include "core.h"
 
-#include <qcheckbox.h>
-#include <qcombobox.h>
-#include <qlabel.h>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QLabel>
 
 UserViewConfig::UserViewConfig(QWidget *parent)
-        : UserViewConfigBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     chkDblClick->setChecked(CorePlugin::m_plugin->getUseDblClick());
     chkSysColors->setChecked(CorePlugin::m_plugin->getUseSysColors());
     btnOnline->setColor(CorePlugin::m_plugin->getColorOnline());
@@ -46,15 +47,15 @@ UserViewConfig::UserViewConfig(QWidget *parent)
     connect(cmbSort1, SIGNAL(activated(int)), this, SLOT(sortChanged(int)));
     connect(cmbSort2, SIGNAL(activated(int)), this, SLOT(sortChanged(int)));
     connect(cmbSort3, SIGNAL(activated(int)), this, SLOT(sortChanged(int)));
-    btnAuth1->setPixmap(Pict("text_strike"));
-    btnAuth2->setPixmap(Pict("text_italic"));
-    btnAuth3->setPixmap(Pict("text_under"));
-    btnVisible1->setPixmap(Pict("text_strike"));
-    btnVisible2->setPixmap(Pict("text_italic"));
-    btnVisible3->setPixmap(Pict("text_under"));
-    btnInvisible1->setPixmap(Pict("text_strike"));
-    btnInvisible2->setPixmap(Pict("text_italic"));
-    btnInvisible3->setPixmap(Pict("text_under"));
+    btnAuth1->setPixmap(Pict("text_strike").pixmap());
+    btnAuth2->setPixmap(Pict("text_italic").pixmap());
+    btnAuth3->setPixmap(Pict("text_under").pixmap());
+    btnVisible1->setPixmap(Pict("text_strike").pixmap());
+    btnVisible2->setPixmap(Pict("text_italic").pixmap());
+    btnVisible3->setPixmap(Pict("text_under").pixmap());
+    btnInvisible1->setPixmap(Pict("text_strike").pixmap());
+    btnInvisible2->setPixmap(Pict("text_italic").pixmap());
+    btnInvisible3->setPixmap(Pict("text_under").pixmap());
     btnAuth1->setToggleButton(true);
     btnAuth2->setToggleButton(true);
     btnAuth3->setToggleButton(true);

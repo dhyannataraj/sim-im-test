@@ -19,12 +19,12 @@ email                : vovan@shutoff.ru
 #include "stl.h"
 #include "buffer.h"
 
-#include <qfile.h>
-#include <qdir.h>
-#include <qtextcodec.h>
-#include <qregexp.h>
-//Added by qt3to4:
-#include <Q3CString>
+#include <QFile>
+#include <QDir>
+#include <QTextCodec>
+#include <QRegExp>
+
+#include <QByteArray>
 
 namespace SIM
 {
@@ -398,7 +398,7 @@ QString Contact::tipText()
         phone_item = getToken(phone_item, '/', false);
         QString phone = getToken(phone_item, ',');
         getToken(phone_item, ',');
-        unsigned phone_type = atol(phone_item.latin1());
+        unsigned phone_type = atol(phone_item.toLatin1());
         QString icon;
         switch (phone_type){
         case PHONE:
@@ -480,7 +480,7 @@ unsigned long Contact::contactInfo(unsigned &style, const char *&statusIcon, str
         phoneItem = getToken(phoneItem, '/', false);
         getToken(phoneItem, ',');
         getToken(phoneItem, ',');
-        unsigned n = atol(phoneItem.latin1());
+        unsigned n = atol(phoneItem.toLatin1());
         if (n == CELLULAR) bCell = true;
         if (n == PAGER) bPager = true;
     }
@@ -1681,7 +1681,7 @@ void ContactList::save()
     string cfgName = user_file(CONTACTS_CONF);
     QFile f(QFile::decodeName((cfgName + BACKUP_SUFFIX).c_str())); // use backup file for this ...
     if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
-        log(L_ERROR, "Can't create %s", (const char*)f.name().local8Bit());
+        log(L_ERROR, "Can't create %s", (const char*)f.name().toLocal8Bit());
         return;
     }
     string line = p->userData.save();
@@ -1760,7 +1760,7 @@ void ContactList::save()
 #endif
     f.close();
     if (status != IO_Ok) {
-        log(L_ERROR, "IO error during writting to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
+        log(L_ERROR, "IO error during writting to file %s : %s", (const char*)f.name().toLocal8Bit(), (const char*)errorMessage.toLocal8Bit());
         return;
     }
 
@@ -1772,7 +1772,7 @@ void ContactList::save()
     fileInfo.dir().remove(desiredFileName);
 #endif
     if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
-        log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
+        log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().toLocal8Bit(), (const char*)desiredFileName.toLocal8Bit());
         return;
     }
 }
@@ -1946,7 +1946,7 @@ Contact *ContactList::contactByPhone(const char *_phone)
         QString phones = c->getPhones();
         while (!phones.isEmpty()){
             QString phoneItem = getToken(phones, ';', false);
-            if (cmpPhone(getToken(phoneItem, ',').utf8(), _phone))
+            if (cmpPhone(getToken(phoneItem, ',').toUtf8(), _phone))
                 return c;
         }
     }
@@ -2109,7 +2109,7 @@ string ContactList::fromUnicode(Contact *contact, const QString &str)
         return "";
     QString s = str;
     s = s.replace(QRegExp("\r?\n"), "\r\n");
-    Q3CString res = getCodec(contact)->fromUnicode(str);
+    QByteArray res = getCodec(contact)->fromUnicode(str);
     return (const char*)res;
 }
 }

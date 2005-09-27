@@ -23,12 +23,12 @@
 #include "transtop.h"
 #endif
 
-#include <qapplication.h>
-#include <qwidget.h>
-#include <qtimer.h>
-#include <qpainter.h>
-#include <qcursor.h>
-//Added by qt3to4:
+#include <QApplication>
+#include <QWidget>
+#include <QTimer>
+#include <QPainter>
+#include <QCursor>
+
 #include <QPixmap>
 #include <QEvent>
 
@@ -230,7 +230,7 @@ void TransparentPlugin::setState()
         connect(timer, SIGNAL(timeout()), this, SLOT(tick()));
         main->installEventFilter(this);
         SetWindowLongW(main->winId(), GWL_EXSTYLE, GetWindowLongW(main->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
-        SetLayeredWindowAttributes(main->winId(), main->palette().background().rgb(), 0, LWA_ALPHA);
+        SetLayeredWindowAttributes(main->winId(), main->colorGroup().background().rgb(), 0, LWA_ALPHA);
         RedrawWindow(main->winId(), NULL, NULL, RDW_UPDATENOW);
         main->setMouseTracking(true);
         m_bActive = main->isActiveWindow();
@@ -239,7 +239,7 @@ void TransparentPlugin::setState()
     bool bNewState = m_bActive || m_bHaveMouse;
     if (bNewState == m_bState){
         BYTE d = (BYTE)(bNewState ? 255 : QMIN((100 - getTransparency()) * 256 / 100, 255));
-        SetLayeredWindowAttributes(main->winId(), main->palette().background().rgb(), d, LWA_ALPHA);
+        SetLayeredWindowAttributes(main->winId(), main->colorGroup().background().rgb(), d, LWA_ALPHA);
         return;
     }
     m_bState = bNewState;
@@ -271,7 +271,7 @@ void TransparentPlugin::tick()
     if (m_bState)
         time = timeout - time;
     BYTE d = (BYTE)QMIN((100 - getTransparency() * time / timeout) * 256 / 100, 255);
-    SetLayeredWindowAttributes(main->winId(), main->palette().background().rgb(), d, LWA_ALPHA);
+    SetLayeredWindowAttributes(main->winId(), main->colorGroup().background().rgb(), d, LWA_ALPHA);
 #endif
 }
 
@@ -288,7 +288,7 @@ void *TransparentPlugin::processEvent(Event *e)
         if (top == NULL)
             return NULL;
         PaintView *pv = (PaintView*)(e->param());
-        QPixmap pict = top->background(pv->win->palette().background());
+        QPixmap pict = top->background(pv->win->colorGroup().background());
         if (!pict.isNull()){
             QPoint p = pv->pos;
             p = pv->win->mapToGlobal(p);

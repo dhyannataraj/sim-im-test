@@ -21,7 +21,7 @@
 #include "simapi.h"
 #include "stl.h"
 #include "icqsearchbase.h"
-//Added by qt3to4:
+
 #include <QShowEvent>
 
 class ICQClient;
@@ -29,7 +29,7 @@ class AdvSearch;
 class AIMSearch;
 class GroupRadioButton;
 
-class ICQSearch : public ICQSearchBase, public EventReceiver
+class ICQSearch : public QWidget, public Ui::ICQSearchBase, public EventReceiver
 {
     Q_OBJECT
 public:

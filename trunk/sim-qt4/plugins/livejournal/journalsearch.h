@@ -20,12 +20,12 @@
 
 #include "simapi.h"
 #include "journalsearchbase.h"
-//Added by qt3to4:
+
 #include <QShowEvent>
 
 class LiveJournalClient;
 
-class JournalSearch : public JournalSearchBase
+class JournalSearch : public QWidget, public Ui::JournalSearchBase
 {
     Q_OBJECT
 public:

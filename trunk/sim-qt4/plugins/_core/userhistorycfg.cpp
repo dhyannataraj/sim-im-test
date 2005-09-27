@@ -18,13 +18,14 @@
 #include "userhistorycfg.h"
 #include "core.h"
 
-#include <qcheckbox.h>
+#include <QCheckBox>
 #include <qspinbox.h>
-#include <qlabel.h>
+#include <QLabel>
 
 UserHistoryCfg::UserHistoryCfg(QWidget *parent, void *d)
-        : UserHistoryCfgBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     HistoryUserData *data = (HistoryUserData*)d;
     chkDays->setChecked(data->CutDays.bValue);
     chkSize->setChecked(data->CutSize.bValue);

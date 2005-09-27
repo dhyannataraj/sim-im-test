@@ -21,7 +21,7 @@
 #include "jabberclient.h"
 #include "simapi.h"
 #include "discoinfobase.h"
-//Added by qt3to4:
+
 #include <QResizeEvent>
 
 class JabberBrowser;
@@ -29,7 +29,7 @@ class JabberHomeInfo;
 class JabberWorkInfo;
 class JabberAboutInfo;
 
-class DiscoInfo : public DiscoInfoBase, public EventReceiver
+class DiscoInfo : public QDialog, public Ui::DiscoInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:

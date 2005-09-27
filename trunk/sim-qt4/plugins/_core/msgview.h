@@ -21,7 +21,7 @@
 #include "simapi.h"
 #include "stl.h"
 #include "textshow.h"
-//Added by qt3to4:
+
 #include <Q3PopupMenu>
 
 class CorePlugin;
@@ -45,7 +45,7 @@ class MsgViewBase : public TextShow, public EventReceiver
 {
     Q_OBJECT
 public:
-    MsgViewBase(QWidget *parent, const char *name, unsigned id=(unsigned)(-1));
+    MsgViewBase(QWidget *parent);
     ~MsgViewBase();
     void		addMessage(Message *msg, bool bUnread=false, bool bSync=true);
     bool		findMessage(Message *msg);

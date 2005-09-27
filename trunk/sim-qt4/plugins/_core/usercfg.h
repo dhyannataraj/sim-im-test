@@ -20,13 +20,13 @@
 
 #include "simapi.h"
 #include "cfgdlgbase.h"
-//Added by qt3to4:
+
 #include <QResizeEvent>
 
 class CorePlugin;
 class ConfigItem;
 
-class UserConfig : public Ui_ConfigureDialogBase, public EventReceiver, public QDialog
+class UserConfig : public QDialog, public Ui::ConfigureDialogBase, public EventReceiver
 {
     Q_OBJECT
 public:

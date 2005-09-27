@@ -21,13 +21,12 @@
 #include "simapi.h"
 #include "stl.h"
 
-#include <q3toolbar.h>
-#include <qtoolbutton.h>
-#include <qpushbutton.h>
-#include <qlabel.h>
-#include <qcombobox.h>
-#include <qlineedit.h>
-//Added by qt3to4:
+#include <Q3ToolBar>
+#include <QToolButton>
+#include <QPushButton>
+#include <QLabel>
+#include <QComboBox>
+#include <QLineEdit>
 #include <QPaintEvent>
 #include <QHideEvent>
 #include <QShowEvent>

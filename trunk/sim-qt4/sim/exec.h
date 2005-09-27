@@ -20,7 +20,7 @@
 
 #include "simapi.h"
 #include "buffer.h"
-#include <qobject.h>
+#include <QObject>
 
 class ExecManager;
 class QSocketNotifier;

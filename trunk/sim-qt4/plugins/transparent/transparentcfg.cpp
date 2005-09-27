@@ -18,12 +18,13 @@
 #include "transparentcfg.h"
 #include "transparent.h"
 
-#include <qcheckbox.h>
+#include <QCheckBox>
 #include <qslider.h>
 
 TransparentCfg::TransparentCfg(QWidget *parent, TransparentPlugin *plugin)
-        : TransparentCfgBase(parent)
+        : QWidget(parent)
 {
+    setupUi( this);
     m_plugin = plugin;
     sldTransparency->setValue(m_plugin->getTransparency());
 #ifdef WIN32

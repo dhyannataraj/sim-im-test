@@ -23,7 +23,7 @@
 
 class MsgEdit;
 
-class MsgJournalWnd : public MsgJournalBase
+class MsgJournalWnd : public QWidget, public Ui::MsgJournalBase
 {
     Q_OBJECT
 public:

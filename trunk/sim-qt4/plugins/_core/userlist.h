@@ -21,7 +21,7 @@
 #include "simapi.h"
 #include "stl.h"
 #include "listview.h"
-//Added by qt3to4:
+
 #include <QMouseEvent>
 
 class UserListBase;
@@ -49,7 +49,7 @@ public:
     virtual void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align);
     virtual void paintFocus(QPainter*, const QColorGroup&, const QRect & );
     int drawText(QPainter *p, int x, int width, const QString &text);
-    void drawSeparator(QPainter *p, int x, int width, const QColorGroup &cg);
+    void drawSeparator(QPainter *p, int x, int width);
 };
 
 class DivItem : public UserViewItemBase

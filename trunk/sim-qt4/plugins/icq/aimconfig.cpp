@@ -19,18 +19,19 @@
 #include "icq.h"
 #include "linklabel.h"
 
-#include <qtimer.h>
-#include <qlineedit.h>
-#include <qcheckbox.h>
-#include <qlabel.h>
+#include <QTimer>
+#include <QLineEdit>
+#include <QCheckBox>
+#include <QLabel>
 #include <qspinbox.h>
 #include <qvalidator.h>
-#include <qtabwidget.h>
-#include <qcombobox.h>
+#include <QTabWidget>
+#include <QComboBox>
 
 AIMConfig::AIMConfig(QWidget *parent, ICQClient *client, bool bConfig)
-        : AIMConfigBase(parent)
+        : QDialog( parent)
 {
+    setupUi( this);
     m_client = client;
     m_bConfig = bConfig;
     if (m_bConfig){
@@ -67,10 +68,10 @@ void AIMConfig::apply(Client*, void*)
 void AIMConfig::apply()
 {
     if (m_bConfig){
-        m_client->setScreen(edtScreen->text().lower().latin1());
+        m_client->setScreen(edtScreen->text().lower().toLatin1());
         m_client->setPassword(edtPasswd->text());
     }
-    m_client->setServer(edtServer->text().local8Bit());
+    m_client->setServer(edtServer->text().toLocal8Bit());
     m_client->setPort((unsigned short)atol(edtPort->text()));
     m_client->setUseHTTP(chkHTTP->isChecked());
     m_client->setAutoHTTP(chkAuto->isChecked());

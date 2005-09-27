@@ -23,7 +23,7 @@
 
 class ICQClient;
 
-class InterestsInfo : public InterestsInfoBase, public EventReceiver
+class InterestsInfo : public QWidget, public Ui::InterestsInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:

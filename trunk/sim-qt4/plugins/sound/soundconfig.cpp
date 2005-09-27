@@ -20,15 +20,16 @@
 #include "sound.h"
 #include "editfile.h"
 
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <qlineedit.h>
-#include <qtabwidget.h>
+#include <QCheckBox>
+#include <QLabel>
+#include <QLineEdit>
+#include <QTabWidget>
 #include <qsound.h>
 
 SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin)
-        : SoundConfigBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_plugin = plugin;
     user_cfg = NULL;
 #ifdef USE_KDE
@@ -95,7 +96,7 @@ void SoundConfig::apply()
     if (bSound)
         m_plugin->setPlayer("");
     else
-        m_plugin->setPlayer(edtPlayer->text().local8Bit());
+        m_plugin->setPlayer(edtPlayer->text().toLocal8Bit());
     m_plugin->setStartUp(QFile::encodeName(sound(edtStartup->text(), "startup.wav")));
     m_plugin->setFileDone(QFile::encodeName(sound(edtFileDone->text(), "startup.wav")));
     m_plugin->setMessageSent(QFile::encodeName(sound(edtSent->text(), "startup.wav")));

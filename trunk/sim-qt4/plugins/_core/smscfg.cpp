@@ -19,11 +19,12 @@
 #include "core.h"
 
 #include <q3multilineedit.h>
-#include <qcheckbox.h>
+#include <QCheckBox>
 
 SMSConfig::SMSConfig(QWidget *parent, void *_data)
-        : SMSConfigBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     SMSUserData *data = (SMSUserData*)(_data);
     if (data->SMSSignatureBefore.ptr)
         edtBefore->setText(QString::fromUtf8(data->SMSSignatureBefore.ptr));
@@ -34,8 +35,8 @@ SMSConfig::SMSConfig(QWidget *parent, void *_data)
 void SMSConfig::apply(void *_data)
 {
     SMSUserData *data = (SMSUserData*)(_data);
-    set_str(&data->SMSSignatureBefore.ptr, edtBefore->text().utf8());
-    set_str(&data->SMSSignatureAfter.ptr, edtAfter->text().utf8());
+    set_str(&data->SMSSignatureBefore.ptr, edtBefore->text().toUtf8());
+    set_str(&data->SMSSignatureAfter.ptr, edtAfter->text().toUtf8());
 }
 
 #ifndef WIN32

@@ -24,7 +24,7 @@
 class Exec;
 class GpgCfg;
 
-class GpgGen : public GpgGenBase
+class GpgGen : public QDialog, public Ui::GpgGenBase
 {
     Q_OBJECT
 public:

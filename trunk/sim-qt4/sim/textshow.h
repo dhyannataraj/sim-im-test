@@ -20,14 +20,14 @@
 
 #include "simapi.h"
 
-#include <qglobal.h>
-#include <q3mainwindow.h>
-#include <qtoolbutton.h>
-#include <qlabel.h>
-//Added by qt3to4:
+#include <QGlobalStatic>
+#include <Q3MainWindow>
+#include <QToolButton>
+#include <QLabel>
+
 #include <QKeyEvent>
 #include <QEvent>
-#include <Q3Frame>
+#include <QFrame>
 #include <QResizeEvent>
 #include <Q3PopupMenu>
 #include <QMouseEvent>
@@ -150,7 +150,7 @@ protected:
     unsigned m_id;
 };
 
-class EXPORT ColorPopup : public Q3Frame
+class EXPORT ColorPopup : public QFrame
 {
     Q_OBJECT
 public:

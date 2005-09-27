@@ -22,8 +22,8 @@
 #include "userwnd.h"
 #include "core.h"
 
-#include <qtimer.h>
-#include <qtoolbutton.h>
+#include <QTimer>
+#include <QToolButton>
 
 MsgAuth::MsgAuth(MsgEdit *parent, Message *msg)
         : QObject(parent)
@@ -35,7 +35,7 @@ MsgAuth::MsgAuth(MsgEdit *parent, Message *msg)
         m_edit->m_edit->setText("");
         m_edit->m_edit->setReadOnly(false);
     }
-    m_edit->m_edit->setTextFormat(PlainText);
+    m_edit->m_edit->setTextFormat(Qt::PlainText);
     QString text = msg->getPlainText();
     if (!text.isEmpty())
         parent->m_edit->setText(text);

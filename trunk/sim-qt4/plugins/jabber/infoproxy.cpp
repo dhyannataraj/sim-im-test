@@ -17,11 +17,12 @@
 
 #include "infoproxy.h"
 
-#include <qtabwidget.h>
+#include <QTabWidget>
 
 InfoProxy::InfoProxy(QWidget *parent, QWidget *child, const QString &title)
-        : InfoProxyBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     connect(this, SIGNAL(sig_apply()), child, SLOT(apply()));
     connect(this, SIGNAL(sig_apply(Client*, void*)), child, SLOT(apply(Client*, void*)));
     tabInfo->addTab(child, title);

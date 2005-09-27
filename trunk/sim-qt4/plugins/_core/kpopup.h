@@ -18,7 +18,7 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-//Added by qt3to4:
+
 #include <QPixmap>
 #include <QKeyEvent>
 #include <QPaintEvent>

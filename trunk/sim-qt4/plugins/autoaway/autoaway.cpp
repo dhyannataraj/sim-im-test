@@ -229,7 +229,6 @@ AutoAwayPlugin::~AutoAwayPlugin()
     QList<QWidget *> list = QApplication::topLevelWidgets();
     QListIterator<QWidget *> it(list);
     QWidget *w = it.next();
-    delete &list;
     if (w != NULL)
     {
        Display* dpy = w->x11Display();
@@ -362,7 +361,6 @@ unsigned AutoAwayPlugin::getIdleTime()
     QList<QWidget *> list = QApplication::topLevelWidgets();
     QListIterator<QWidget *> it(list);
     QWidget *w = it.next();
-    delete &list;
     if (w == NULL)
         return 0;
 

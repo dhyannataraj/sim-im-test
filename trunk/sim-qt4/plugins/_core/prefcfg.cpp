@@ -19,16 +19,17 @@
 #include "simapi.h"
 #include "qchildwidget.h"
 
-#include <qlayout.h>
-#include <qtabwidget.h>
-#include <qlabel.h>
-#include <qcheckbox.h>
-//Added by qt3to4:
+#include <QLayout>
+#include <QTabWidget>
+#include <QLabel>
+#include <QCheckBox>
+
 #include <QVBoxLayout>
 
 PrefConfig::PrefConfig(QWidget *parent, CommandDef *cmd, Contact *contact, Group *group)
-        : PrefConfigBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_cmd = cmd;
     m_contact = contact;
     m_group = group;

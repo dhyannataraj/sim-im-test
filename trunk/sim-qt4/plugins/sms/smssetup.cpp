@@ -19,17 +19,18 @@
 #include "smssetup.h"
 #include "serial.h"
 
-#include <qcombobox.h>
-#include <qlineedit.h>
-#include <qcheckbox.h>
-#include <qtimer.h>
-#include <qlabel.h>
+#include <QComboBox>
+#include <QLineEdit>
+#include <QCheckBox>
+#include <QTimer>
+#include <QLabel>
 #include <q3progressbar.h>
-#include <qtabwidget.h>
+#include <QTabWidget>
 
 SMSSetup::SMSSetup(QWidget *parent, SMSClient *client)
-        : SMSSetupBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_client = client;
     QStringList res = SerialPort::devices();
     unsigned n = 0;
@@ -46,7 +47,7 @@ SMSSetup::SMSSetup(QWidget *parent, SMSClient *client)
     }
     cmbPort->setCurrentItem(cur);
     for (unsigned i = 0; i < (unsigned)(cmbBaud->count()); i++){
-        if ((unsigned)atol(cmbBaud->text(i).latin1()) == m_client->getBaudRate()){
+        if ((unsigned)atol(cmbBaud->text(i).toLatin1()) == m_client->getBaudRate()){
             cmbBaud->setCurrentItem(i);
         }
     }
@@ -71,8 +72,8 @@ SMSSetup::SMSSetup(QWidget *parent, SMSClient *client)
 
 void SMSSetup::apply()
 {
-    m_client->setDevice(cmbPort->currentText().latin1());
-    m_client->setBaudRate(atol(cmbBaud->currentText().latin1()));
+    m_client->setDevice(cmbPort->currentText().toLatin1());
+    m_client->setBaudRate(atol(cmbBaud->currentText().toLatin1()));
     m_client->setXonXoff(chkXonXoff->isChecked());
 }
 

@@ -19,11 +19,11 @@
 #define _BALLONMSG_H
 
 #include "simapi.h"
-#include <qstring.h>
-#include <qdialog.h>
-#include <qbitmap.h>
-#include <qpushbutton.h>
-//Added by qt3to4:
+#include <QString>
+#include <QDialog>
+#include <QBitmap>
+#include <QPushButton>
+
 #include <QMouseEvent>
 #include <QEvent>
 #include <QPaintEvent>

@@ -25,7 +25,7 @@ class ICQClient;
 
 class QImage;
 
-class ICQPicture : public ICQPictureBase, public EventReceiver
+class ICQPicture : public QWidget, public Ui::ICQPictureBase, public EventReceiver
 {
     Q_OBJECT
 public:

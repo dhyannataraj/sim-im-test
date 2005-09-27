@@ -23,7 +23,7 @@
 
 class ICQClient;
 
-class AIMInfo : public AIMInfoBase, public EventReceiver
+class AIMInfo : public QWidget, public Ui::AIMInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:

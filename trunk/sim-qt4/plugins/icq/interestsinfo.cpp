@@ -19,12 +19,13 @@
 #include "interestsinfo.h"
 #include "icqclient.h"
 
-#include <qlineedit.h>
-#include <qcombobox.h>
+#include <QLineEdit>
+#include <QComboBox>
 
 InterestsInfo::InterestsInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
-        : InterestsInfoBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_data    = data;
     m_client  = client;
     m_contact = contact;
@@ -153,7 +154,7 @@ void InterestsInfo::fill()
     while (str.length()){
         QString info = getToken(str, ';', false);
         QString n = getToken(info, ',');
-        unsigned short category = (unsigned short)atol(n.latin1());
+        unsigned short category = (unsigned short)atol(n.toLatin1());
         switch (i){
         case 0:
             edtBg1->setText(info);

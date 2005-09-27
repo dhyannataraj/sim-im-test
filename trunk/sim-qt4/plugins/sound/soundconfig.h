@@ -24,7 +24,7 @@
 class SoundUserConfig;
 class SoundPlugin;
 
-class SoundConfig : public SoundConfigBase
+class SoundConfig : public QWidget, public Ui::SoundConfigBase
 {
     Q_OBJECT
 public:

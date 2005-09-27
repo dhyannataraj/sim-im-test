@@ -20,21 +20,22 @@
 #include "socket.h"
 #include "fetch.h"
 
-#include <qcombobox.h>
-#include <qlineedit.h>
-#include <qcheckbox.h>
+#include <QComboBox>
+#include <QLineEdit>
+#include <QCheckBox>
 #include <qspinbox.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qpainter.h>
-#include <qtabwidget.h>
-//Added by qt3to4:
+#include <QLabel>
+#include <QLayout>
+#include <QPainter>
+#include <QTabWidget>
+
 #include <QPixmap>
 #include <QPaintEvent>
 
 ProxyConfig::ProxyConfig(QWidget *parent, ProxyPlugin *plugin, QTabWidget *tab, Client *client)
-        : ProxyConfigBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_plugin = plugin;
     m_client = client;
     m_current = (unsigned)(-1);
@@ -217,7 +218,7 @@ void ProxyConfig::fillClients()
         int pos = name.find(".");
         if (pos > 0)
             name = name.replace(pos, 1, " ");
-        cmbClient->insertItem(Pict(client->protocol()->description()->icon), name);
+        cmbClient->insertItem(Pict(client->protocol()->description()->icon).pixmap(), name);
         ProxyData d;
         m_plugin->clientData(static_cast<TCPClient*>(client), d);
         m_data.push_back(d);
@@ -259,11 +260,11 @@ void ProxyConfig::fill(ProxyData *data)
 void ProxyConfig::get(ProxyData *data)
 {
     data->Type.value = cmbType->currentItem();
-    set_str(&data->Host.ptr, edtHost->text().local8Bit());
-    data->Port.value = atol(edtPort->text().latin1());
+    set_str(&data->Host.ptr, edtHost->text().toLocal8Bit());
+    data->Port.value = atol(edtPort->text().toLatin1());
     data->Auth.bValue = chkAuth->isChecked();
-    set_str(&data->User.ptr, edtUser->text().local8Bit());
-    set_str(&data->Password.ptr, edtPswd->text().local8Bit());
+    set_str(&data->User.ptr, edtUser->text().toLocal8Bit());
+    set_str(&data->Password.ptr, edtPswd->text().toLocal8Bit());
     data->NoShow.bValue = chkNoShow->isChecked();
 }
 

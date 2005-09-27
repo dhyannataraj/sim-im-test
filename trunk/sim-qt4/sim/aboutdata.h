@@ -23,7 +23,7 @@
 #include <kaboutdata.h>
 #else
 
-#include <qlabel.h>
+#include <QLabel>
 
 /*
 * This file is part of the KDE Libraries
@@ -47,7 +47,7 @@
 */
 
 #include <q3valuelist.h>
-#include <qstring.h>
+#include <QString>
 
 class KAboutPersonPrivate;
 class KAboutDataPrivate;

@@ -17,29 +17,28 @@
 
 #include "ballonmsg.h"
 
-#include <qtimer.h>
-#include <qpainter.h>
-#include <qtooltip.h>
-#include <qbitmap.h>
+#include <QTimer>
+#include <QPainter>
+#include <QToolTip>
+#include <QBitmap>
 #include <q3pointarray.h>
-#include <qapplication.h>
-#include <qpushbutton.h>
-#include <qlayout.h>
-#include <qimage.h>
-#include <q3frame.h>
-#include <qcheckbox.h>
-#include <qcolorgroup>
-#include <qpalette>
+#include <QApplication>
+#include <QPushButton>
+#include <QLayout>
+#include <QImage>
+#include <QFrame>
+#include <QCheckBox>
 #include <q3simplerichtext.h>
-#include <qpixmap>
-#include <qpaintevent>
-#include <qevent>
-#include <qhboxlayout>
-#include <qvboxlayout>
-#include <qmouseevent>
-#include <qdesktopwidget>
-#include <q3stylesheet>
-#include <q3canvas>
+#include <QPixmap>
+#include <QPaintEvent>
+#include <QEvent>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QMouseEvent>
+#include <QDesktopWidget>
+#include <Q3StyleSheet>
+#include <QPalette>
+#include <QColorGroup>
 
 #ifdef WIN32
 #include <windows.h>
@@ -116,13 +115,10 @@ EXPORT QPixmap& intensity(QPixmap &pict, float percent)
 
 BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWidget *parent, const QRect *rcParent,
                        bool bModal, bool bAutoHide, unsigned bwidth, const QString &box_msg, bool *bChecked)
-        : QDialog(parent,
-		(bAutoHide ? Qt::Popup : Qt::Window | Qt::WindowStaysOnTopHint)
+        : QDialog(parent, (bAutoHide ? Qt::Popup : Qt::Window | Qt::WindowStaysOnTopHint)
                   | Qt::FramelessWindowHint | Qt::Tool | Qt::X11BypassWindowManagerHint)
- {
-	setAttribute( Qt::WA_DeleteOnClose );
-    this->setModal(bModal);
-	m_param = param;
+{
+    m_param = param;
     m_parent = parent;
     m_width = bwidth;
     m_bAutoHide = bAutoHide;
@@ -131,7 +127,7 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     bool bTailDown = true;
     setPalette(QToolTip::palette());
     text = _text;
-    Q3Frame *frm = new Q3Frame(this);
+    QFrame *frm = new QFrame(this);
     frm->setPalette(palette());
     QVBoxLayout *vlay = new QVBoxLayout(frm);
     vlay->setMargin(0);
@@ -313,11 +309,7 @@ void BalloonMsg::paintEvent(QPaintEvent*)
     Q3SimpleRichText richText(text, font(), "", Q3StyleSheet::defaultSheet(), Q3MimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
     richText.setWidth(m_width);
     richText.adjustSize();
-    richText.draw(&p,
-		          (width() - textRect.width()) / 2,
-	              textRect.y(),
-	              QRect(0, 0, width(), height()),
-                  QToolTip::palette().active() );
+    richText.draw(&p, (width() - textRect.width()) / 2, textRect.y(), QRect(0, 0, width(), height()), QToolTip::palette().active());
     p.end();
 }
 
@@ -388,4 +380,9 @@ void BalloonButton::click()
     emit action(id);
     topLevelWidget()->close();
 }
+
+
+#ifndef _WINDOWS
+#include "ballonmsg.moc"
+#endif
 

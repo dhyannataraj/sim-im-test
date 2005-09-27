@@ -20,18 +20,19 @@
 #include "icqclient.h"
 #include "icqmessage.h"
 
-#include <qpixmap.h>
-#include <qpushbutton.h>
-#include <qlabel.h>
-#include <qregexp.h>
-#include <qcheckbox.h>
-#include <qtimer.h>
+#include <QPixmap>
+#include <QPushButton>
+#include <QLabel>
+#include <QRegExp>
+#include <QCheckBox>
+#include <QTimer>
 
 WarnDlg::WarnDlg(QWidget *parent, ICQUserData *data, ICQClient *client)
-        : WarnDlgBase(parent, NULL, false, Qt::WA_DeleteOnClose)
+        : QDialog( parent, Qt::WA_DeleteOnClose)
 {
+    setupUi( this);
     SET_WNDPROC("warn")
-    setIcon(Pict("error"));
+    setIcon(Pict("error").pixmap());
     setButtonsPict(this);
     setCaption(caption());
     m_client  = client;

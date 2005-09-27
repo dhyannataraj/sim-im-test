@@ -20,12 +20,14 @@
 #include "msgview.h"
 #include "buffer.h"
 
-#include <qfile.h>
-#include <qfileinfo.h>
-#include <qdir.h>
-#include <qregexp.h>
-#include <qtextcodec.h>
-#include <qtextstream.h>
+#include <QFile>
+#include <QFileInfo>
+#include <QDir>
+#include <QRegExp>
+#include <QTextCodec>
+#include <QTextStream>
+#include <QFlags>
+#include <QIODevice>
 #include <time.h>
 
 #ifdef WIN32
@@ -109,7 +111,7 @@ HistoryFile::HistoryFile(const char *file_name, unsigned contact)
     f_name = user_file(f_name.c_str());
     setName(QFile::decodeName(f_name.c_str()));
     if (!exists()){
-        QFile bak(name() + REMOVED);
+        QFile bak(name() + static_cast<QString>(REMOVED));
         if (bak.exists()){
             QFileInfo fInfo(name());
             fInfo.dir().rename(bak.name(), name());
@@ -130,7 +132,7 @@ Message *HistoryFile::load(unsigned id)
         cfg.allocate(LOAD_BLOCK_SIZE, LOAD_BLOCK_SIZE);
         int readn = readBlock(cfg.data(size), LOAD_BLOCK_SIZE);
         if (readn < 0){
-            log(L_WARN, "Can't read %s", name().latin1());
+            log(L_WARN, "Can't read %s", name().toLatin1());
             return NULL;
         }
         size += readn;
@@ -270,7 +272,7 @@ bool HistoryFileIterator::loadBlock(bool bUp)
             config.allocate(BLOCK_SIZE, BLOCK_SIZE);
             int readn = file.readBlock(config.data(size), BLOCK_SIZE);
             if (readn < 0){
-                log(L_WARN, "Can't read %s", file.name().latin1());
+                log(L_WARN, "Can't read %s", file.name().toLatin1());
                 clear();
                 return true;
             }
@@ -291,7 +293,7 @@ bool HistoryFileIterator::loadBlock(bool bUp)
             m_block = block;
             config.insert(size);
             if ((unsigned)file.readBlock(config.data(), size) != size){
-                log(L_WARN, "Can't read %s", file.name().latin1());
+                log(L_WARN, "Can't read %s", file.name().toLatin1());
                 clear();
                 return true;
             }
@@ -679,12 +681,12 @@ void History::del(const char *name, unsigned contact, unsigned id, bool bCopy, M
     f_name = user_file(f_name.c_str());
     QFile f(QFile::decodeName(f_name.c_str()));
     if (!f.open(QIODevice::ReadOnly)){
-        log(L_ERROR, "Can't open %s", (const char*)f.name().local8Bit());
+        log(L_ERROR, "Can't open %s", (const char*)f.name().toLocal8Bit());
         return;
     }
     QFile t(f.name() + "~");
     if (!t.open(QIODevice::ReadWrite | QIODevice::Truncate)){
-        log(L_ERROR, "Can't open %s", (const char*)t.name().local8Bit());
+        log(L_ERROR, "Can't open %s", (const char*)t.name().toLocal8Bit());
         return;
     }
     unsigned tail = id;
@@ -776,7 +778,7 @@ void History::del(const char *name, unsigned contact, unsigned id, bool bCopy, M
     fInfo.dir().remove(fInfo.fileName());
 #endif
     if (!tInfo.dir().rename(tInfo.fileName(), fInfo.fileName())) {
-        log(L_ERROR, "Can't rename file %s to %s", (const char*)fInfo.fileName().local8Bit(), (const char*)tInfo.fileName().local8Bit());
+        log(L_ERROR, "Can't rename file %s to %s", (const char*)fInfo.fileName().toLocal8Bit(), (const char*)tInfo.fileName().toLocal8Bit());
         return;
     }
     CutHistory ch;
@@ -826,7 +828,7 @@ void History::remove(Contact *contact)
             continue;
         if (bRename){
             QFileInfo fInfo(f.name());
-            fInfo.dir().rename(fInfo.fileName(), fInfo.fileName() + REMOVED);
+            fInfo.dir().rename(fInfo.fileName(), fInfo.fileName() + static_cast<QString>(REMOVED));
         }else{
             f.remove();
         }
@@ -836,7 +838,7 @@ void History::remove(Contact *contact)
 bool History::save(unsigned id, const QString& file_name, bool bAppend)
 {
     QFile f(file_name);
-    int mode = QIODevice::WriteOnly | QIODevice::Translate;
+    QFlags<QIODevice::OpenModeFlag> mode = QIODevice::WriteOnly;
     if (bAppend)
         mode |= QIODevice::Append;
     if (f.open(mode)){
@@ -865,13 +867,13 @@ bool History::save(unsigned id, const QString& file_name, bool bAppend)
 		#endif
         f.close();
         if (status != IO_Ok) {
-            log(L_ERROR, "I/O error during write to file %s : %s", (const char*)file_name.local8Bit(), (const char*)errorMessage.local8Bit());
+            log(L_ERROR, "I/O error during write to file %s : %s", (const char*)file_name.toLocal8Bit(), (const char*)errorMessage.toLocal8Bit());
             return false;
         }
         return true;
     }
 	//else deleted: unreachable Code
-    log(L_ERROR, "Can't open %s for writing", (const char*)file_name.local8Bit());
+    log(L_ERROR, "Can't open %s for writing", (const char*)file_name.toLocal8Bit());
     return false;
     
 }

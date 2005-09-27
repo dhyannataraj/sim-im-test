@@ -19,13 +19,12 @@
 #define _GPGUSER_H
 
 #include "simapi.h"
-
 #include "gpguserbase.h"
 
 class GpgPlugin;
 class Exec;
 
-class GpgUser : public GpgUserBase
+class GpgUser : public QWidget, public Ui::GpgUserBase
 {
     Q_OBJECT
 public:

@@ -21,13 +21,13 @@
 
 #include <errno.h>
 
-#include <qfile.h>
-#include <qstringlist.h>
-#include <qapplication.h>
-//Added by qt3to4:
-#include <Q3CString>
-#include <QMainWindow>
-#include <QToolBar>
+#include <QFile>
+#include <QStringList>
+#include <QApplication>
+
+#include <QByteArray>
+#include <Q3MainWindow>
+#include <Q3ToolBar>
 
 #include <stdio.h>
 
@@ -44,7 +44,7 @@
 #endif
 
 #ifdef USE_KDE
-#include <qapplication.h>
+#include <QApplication>
 #include <kglobal.h>
 #include <kstddirs.h>
 #include <kwin.h>
@@ -563,7 +563,7 @@ void init_data(const DataDef *d, Data *data)
             case DATA_UTF:
                 if (def->def_value){
                     QString  value = i18n(def->def_value);
-                    Q3CString v = value.toUtf8();
+                    QByteArray v = value.toUtf8();
                     set_str(&data->ptr, v);
                 }
                 break;
@@ -846,7 +846,7 @@ EXPORT string save_data(const DataDef *def, void *_data)
                             res += number((*it).first);
                             res += ",";
                             QString s = QString::fromUtf8((*it).second.c_str());
-                            Q3CString ls = s.toLocal8Bit();
+                            QByteArray ls = s.toLocal8Bit();
                             if (QString::fromLocal8Bit(ls) == s){
                                 res += quoteString((const char*)ls);
                             }else{
@@ -892,7 +892,7 @@ EXPORT string save_data(const DataDef *def, void *_data)
                                 bSave = true;
                         }
                         if (bSave){
-                            Q3CString ls = s.toLocal8Bit();
+                            QByteArray ls = s.toLocal8Bit();
                             if (QString::fromLocal8Bit(ls) == s){
                                 value += quoteString((const char*)ls);
                             }else{
@@ -1035,15 +1035,15 @@ EXPORT void restoreGeometry(QWidget *w, Data geo[5], bool bPos, bool bSize)
 
 const unsigned SAVE_STATE = (unsigned)(-1);
 
-EXPORT void saveToolbar(QToolBar *bar, Data state[7])
+EXPORT void saveToolbar(Q3ToolBar *bar, Data state[7])
 {
     memset(state, 0, sizeof(state));
     if (bar == NULL)
         return;
-    QMainWindow *main = NULL;
+    Q3MainWindow *main = NULL;
     for (QWidget *w = bar->parentWidget(); w; w = w->parentWidget()){
-        if (w->inherits("QMainWindow")){
-            main = static_cast<QMainWindow*>(w);
+        if (w->inherits("Q3MainWindow")){
+            main = static_cast<Q3MainWindow*>(w);
             break;
         }
     }
@@ -1066,7 +1066,7 @@ EXPORT void saveToolbar(QToolBar *bar, Data state[7])
 //    }
 }
 
-EXPORT void restoreToolbar(QToolBar *bar, Data state[7])
+EXPORT void restoreToolbar(Q3ToolBar *bar, Data state[7])
 {
     if (bar == NULL)
         return;
@@ -1079,10 +1079,10 @@ EXPORT void restoreToolbar(QToolBar *bar, Data state[7])
         state[5].value = 0;
         state[6].value = 0;
     }
-    QMainWindow *main = NULL;
+    Q3MainWindow *main = NULL;
     for (QWidget *w = bar->parentWidget(); w; w = w->parentWidget()){
-        if (w->inherits("QMainWindow")){
-            main = static_cast<QMainWindow*>(w);
+        if (w->inherits("Q3MainWindow")){
+            main = static_cast<Q3MainWindow*>(w);
             break;
         }
     }

@@ -20,7 +20,7 @@
 
 #include "simapi.h"
 #include <qsplitter.h>
-//Added by qt3to4:
+
 #include <QCloseEvent>
 
 class MsgEdit;

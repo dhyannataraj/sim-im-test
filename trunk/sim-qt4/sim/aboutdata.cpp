@@ -26,19 +26,19 @@
 #endif
 #endif
 
-#include <qfile.h>
-#include <qtextstream.h>
-#include <qtabwidget.h>
-#include <qlabel.h>
-#include <qtabbar.h>
-#include <qlayout.h>
-#include <qglobal.h>
-#include <qimage.h>
-#include <qobject.h>
-#include <qapplication.h>
-#include <qtooltip.h>
-#include <qstringlist.h>
-//Added by qt3to4:
+#include <QFile>
+#include <QTextStream>
+#include <QTabWidget>
+#include <QLabel>
+#include <QTabBar>
+#include <QLayout>
+#include <QGlobalStatic>
+#include <QImage>
+#include <QObject>
+#include <QApplication>
+#include <QToolTip>
+#include <QStringList>
+
 #include <Q3ValueList>
 
 #ifdef WIN32
@@ -248,8 +248,7 @@ KAboutData::translators() const
     QString names = i18n(d->translatorName);
     if(names != QString::fromUtf8(d->translatorName))
     {
-        nameList = names.split(",", QString::SkipEmptyParts);
-
+        nameList = QStringList::split(',',names);
     }
 
 
@@ -259,7 +258,7 @@ KAboutData::translators() const
 
         if(emails != QString::fromUtf8(d->translatorEmail))
         {
-            emailList = emails.split(',');
+            emailList = QStringList::split(',',emails,true);
         }
     }
 

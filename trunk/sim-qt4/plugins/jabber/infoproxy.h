@@ -21,7 +21,7 @@
 #include "simapi.h"
 #include "infoproxybase.h"
 
-class InfoProxy : public InfoProxyBase, public EventReceiver
+class InfoProxy : public QWidget, public Ui::InfoProxyBase, public EventReceiver
 {
     Q_OBJECT
 public:

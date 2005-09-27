@@ -23,7 +23,7 @@
 
 class MSNClient;
 
-class MSNInfo : public MSNInfoBase, public EventReceiver
+class MSNInfo : public QWidget, public Ui::MSNInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:

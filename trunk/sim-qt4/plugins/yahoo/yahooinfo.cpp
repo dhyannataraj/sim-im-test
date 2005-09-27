@@ -21,16 +21,17 @@
 #include "yahooclient.h"
 #include "core.h"
 
-#include <qlineedit.h>
-#include <qstringlist.h>
-#include <qcombobox.h>
-#include <qpushbutton.h>
-#include <qpixmap.h>
-#include <qlabel.h>
+#include <QLineEdit>
+#include <QStringList>
+#include <QComboBox>
+#include <QPushButton>
+#include <QPixmap>
+#include <QLabel>
 
 YahooInfo::YahooInfo(QWidget *parent, struct YahooUserData *data, YahooClient *client)
-        : YahooInfoBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_client  = client;
     m_data    = data;
     edtOnline->setReadOnly(true);
@@ -100,7 +101,7 @@ void YahooInfo::fill()
             current = cmbStatus->count();
             text = cmd->text;
         }
-        cmbStatus->insertItem(Pict(cmd->icon), i18n(cmd->text));
+        cmbStatus->insertItem(Pict(cmd->icon).pixmap(), i18n(cmd->text));
     }
     cmbStatus->setCurrentItem(current);
     disableWidget(cmbStatus);
@@ -138,9 +139,9 @@ void YahooInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     YahooUserData *data = (YahooUserData*)_data;
-    set_str(&data->Nick.ptr, edtNick->text().utf8());
-    set_str(&data->First.ptr, edtFirst->text().utf8());
-    set_str(&data->Last.ptr, edtLast->text().utf8());
+    set_str(&data->Nick.ptr, edtNick->text().toUtf8());
+    set_str(&data->First.ptr, edtFirst->text().toUtf8());
+    set_str(&data->Last.ptr, edtLast->text().toUtf8());
 }
 
 #ifndef WIN32

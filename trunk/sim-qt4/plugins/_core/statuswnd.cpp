@@ -22,16 +22,16 @@
 #include "socket.h"
 
 #include <q3popupmenu.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qobject.h>
-#include <qtooltip.h>
-#include <qtimer.h>
-#include <q3frame.h>
-#include <qtoolbutton.h>
-#include <qpainter.h>
-#include <qimage.h>
-//Added by qt3to4:
+#include <QLabel>
+#include <QLayout>
+#include <QObject>
+#include <QToolTip>
+#include <QTimer>
+#include <QFrame>
+#include <QToolButton>
+#include <QPainter>
+#include <QImage>
+
 #include <QPixmap>
 #include <QHBoxLayout>
 #include <QResizeEvent>
@@ -114,7 +114,7 @@ void StatusLabel::setPict()
             }
         }
     }
-    QPixmap p = Pict(icon.c_str());
+    QPixmap p = Pict(icon.c_str()).pixmap();
     setPixmap(p);
     QString tip = CorePlugin::m_plugin->clientName(m_client);
     tip += "\n";
@@ -132,7 +132,7 @@ void StatusLabel::timeout()
 
 void StatusLabel::mousePressEvent(QMouseEvent *me)
 {
-    if (me->button() == RightButton){
+    if (me->button() == Qt::RightButton){
         ProcessMenuParam mp;
         mp.id = m_id;
         mp.param = (void*)winId();
@@ -147,11 +147,11 @@ void StatusLabel::mousePressEvent(QMouseEvent *me)
 }
 
 StatusFrame::StatusFrame(QWidget *parent)
-        : Q3Frame(parent), EventReceiver(LowPriority + 1)
+        : QFrame(parent), EventReceiver(LowPriority + 1)
 {
     setFrameStyle(NoFrame);
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
-    m_frame = new Q3Frame(this);
+    m_frame = new QFrame(this);
     m_frame->show();
     m_lay = new QHBoxLayout(m_frame);
     m_lay->setMargin(1);
@@ -162,7 +162,7 @@ StatusFrame::StatusFrame(QWidget *parent)
 
 void StatusFrame::mousePressEvent(QMouseEvent *me)
 {
-    if (me->button() == RightButton){
+    if (me->button() == Qt::RightButton){
         Command cmd;
         cmd->id = MenuConnections;
         Event e(EventGetMenu, &cmd);
@@ -178,15 +178,14 @@ void *StatusFrame::processEvent(Event *e)
     switch (e->type()){
     case EventSocketActive:{
             {
-                QObjectList *l = queryList("StatusLabel");
-                QObjectListIt itObject(*l);
+                QList<QObject *> l = queryList("StatusLabel");
+                QListIterator<QObject *> itObject(l);
                 QObject *obj;
-                while ((obj=itObject.current()) != NULL) {
-                    ++itObject;
+                while ( itObject.hasNext()) {
+                    obj = itObject.next();
                     StatusLabel *lbl = static_cast<StatusLabel*>(obj);
                     lbl->setPict();
                 }
-                delete l;
             }
             break;
         }
@@ -195,30 +194,29 @@ void *StatusFrame::processEvent(Event *e)
         if ((cmd->menu_id == MenuStatusWnd) && (cmd->id == CmdStatusWnd)){
             unsigned n = 0;
             {
-                QObjectList *l = queryList("StatusLabel");
-                QObjectListIt itObject(*l);
+                QList<QObject *> l = queryList("StatusLabel");
+                QListIterator<QObject *> itObject(l);
                 QObject *obj;
-                while ((obj=itObject.current()) != NULL) {
-                    ++itObject;
+                while ( itObject.hasNext()) {
+		    obj = itObject.next();
                     StatusLabel *lbl = static_cast<StatusLabel*>(obj);
                     if (lbl->x() + lbl->width() > width())
                         n++;
                 }
-                delete l;
             }
             CommandDef *cmds = new CommandDef[n + 1];
             memset(cmds, 0, sizeof(CommandDef) * (n + 1));
-            QObjectList *l = queryList("StatusLabel");
-            QObjectListIt itObject(*l);
+            QList<QObject *> l = queryList("StatusLabel");
+            QListIterator<QObject *> itObject(l);
             QObject *obj;
             n = 0;
-            while ((obj=itObject.current()) != NULL) {
-                ++itObject;
+            while (itObject.hasNext()) {
+                obj = itObject.next();
                 StatusLabel *lbl = static_cast<StatusLabel*>(obj);
                 if (lbl->x() + lbl->width() > width()){
                     cmds[n].id = 1;
                     cmds[n].text = "_";
-                    cmds[n].text_wrk = strdup(CorePlugin::m_plugin->clientName(lbl->m_client).utf8());
+                    cmds[n].text_wrk = strdup(CorePlugin::m_plugin->clientName(lbl->m_client).toUtf8());
                     cmds[n].popup_id = lbl->m_id;
                     if (lbl->m_client->getState() == Client::Error){
                         cmds[n].icon = "error";
@@ -236,7 +234,6 @@ void *StatusFrame::processEvent(Event *e)
                     n++;
                 }
             }
-            delete l;
             cmd->param = cmds;
             cmd->flags |= COMMAND_RECURSIVE;
             return e->param();
@@ -252,14 +249,13 @@ void *StatusFrame::processEvent(Event *e)
             break;
         }
     case EventIconChanged:{
-            QObjectList *l = queryList("StatusLabel");
-            QObjectListIt itObject(*l);
+            QList<QObject *> l = queryList("StatusLabel");
+            QListIterator<QObject *> itObject(l);
             QObject *obj;
-            while ((obj=itObject.current()) != NULL) {
-                ++itObject;
+            while ( itObject.hasNext()) {
+                obj = itObject.next();
                 static_cast<StatusLabel*>(obj)->setPict();
             }
-            delete l;
             break;
         }
     }
@@ -269,14 +265,13 @@ void *StatusFrame::processEvent(Event *e)
 void StatusFrame::addClients()
 {
     list<StatusLabel*> lbls;
-    QObjectList* l = m_frame->queryList("StatusLabel");
-    QObjectListIt itObject(*l);
+    QList<QObject *> l = m_frame->queryList("StatusLabel");
+    QListIterator<QObject *> itObject(l);
     QObject *obj;
-    while ((obj=itObject.current()) != NULL){
-        ++itObject;
+    while ( itObject.hasNext()){
+        obj = itObject.next();
         lbls.push_back(static_cast<StatusLabel*>(obj));
     }
-    delete l;
     for (list<StatusLabel*>::iterator it = lbls.begin(); it != lbls.end(); ++it)
         delete *it;
     for (unsigned i = 0; i < getContacts()->nClients(); i++){
@@ -291,17 +286,15 @@ void StatusFrame::addClients()
 
 StatusLabel *StatusFrame::findLabel(Client *client)
 {
-    QObjectList* l = m_frame->queryList("StatusLabel");
-    QObjectListIt itObject(*l);
+    QList<QObject *> l = m_frame->queryList("StatusLabel");
+    QListIterator<QObject *> itObject(l);
     QObject *obj;
-    while ((obj=itObject.current()) != NULL){
-        ++itObject;
+    while ( itObject.hasNext()){
+        obj = itObject.next();
         if (static_cast<StatusLabel*>(obj)->m_client == client){
-            delete l;
             return static_cast<StatusLabel*>(obj);
         }
     }
-    delete l;
     return NULL;
 }
 
@@ -321,7 +314,7 @@ QSize StatusFrame::minimumSizeHint() const
 
 void StatusFrame::resizeEvent(QResizeEvent *e)
 {
-    Q3Frame::resizeEvent(e);
+    QFrame::resizeEvent(e);
     adjustPos();
 }
 
@@ -333,14 +326,13 @@ void StatusFrame::adjustPos()
     emit showButton(width() < s.width());
     repaint();
     m_frame->repaint();
-    QObjectList* l = m_frame->queryList("StatusLabel");
-    QObjectListIt itObject(*l);
+    QList<QObject *> l = m_frame->queryList("StatusLabel");
+    QListIterator<QObject *> itObject(l);
     QObject *obj;
-    while ((obj=itObject.current()) != NULL){
-        ++itObject;
+    while ( itObject.hasNext()){
+        obj = itObject.next();
         static_cast<StatusLabel*>(obj)->repaint();
     }
-    delete l;
 }
 
 static const char * const arrow_h_xpm[] = {

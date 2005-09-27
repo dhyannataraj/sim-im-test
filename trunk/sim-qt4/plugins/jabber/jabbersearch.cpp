@@ -21,20 +21,20 @@
 #include "jidadvsearch.h"
 #include "ballonmsg.h"
 
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qlineedit.h>
+#include <QLayout>
+#include <QLabel>
+#include <QLineEdit>
 #include <q3multilineedit.h>
-#include <qcombobox.h>
-#include <qtimer.h>
-#include <qtabwidget.h>
+#include <QComboBox>
+#include <QTimer>
+#include <QTabWidget>
 #include <q3widgetstack.h>
-#include <qobject.h>
-#include <qregexp.h>
-#include <qcheckbox.h>
+#include <QObject>
+#include <QRegExp>
+#include <QCheckBox>
 #include <q3groupbox.h>
-//Added by qt3to4:
-#include <Q3CString>
+
+#include <QByteArray>
 #include <QPixmap>
 #include <QGridLayout>
 #include <QVBoxLayout>
@@ -335,7 +335,7 @@ QString JabberSearch::i18(const char *text)
         if (res[i].unicode() >= 0x80)
             return res;
     }
-    Q3CString str = res.latin1();
+    QByteArray str = res.toLatin1();
     QString  tstr = i18n(str);
     if (tstr == QString(str))
         return res;
@@ -346,18 +346,18 @@ bool JabberSearch::canSearch()
 {
     bool bRes = true;
 
-    QObjectList *l = queryList("QLineEdit");
-    QObjectListIt it( *l );
+    QList<QObject *> l = queryList("QLineEdit");
+    QListIterator<QObject *> it( l );
     QObject *obj;
 
-    while ((obj = it.current()) != 0 ){
+    while ( it.hasNext()){
+	obj = it.next();
         QLineEdit *edit = static_cast<QLineEdit*>(obj);
         if (edit->echoMode() == QLineEdit::Password){
             if (edit->text().isEmpty()){
                 bRes = false;
                 break;
             }
-            ++it;
             continue;
         }
         if (edit->text().isEmpty()){
@@ -373,9 +373,7 @@ bool JabberSearch::canSearch()
         }
         if (!edit->text().isEmpty())
             bRes = true;
-        ++it;
     }
-    delete l;
     return bRes;
 }
 
@@ -388,10 +386,11 @@ QString JabberSearch::condition(QWidget *w)
     if (w == NULL)
         w = this;
 
-    QObjectList *l = w->queryList("QLineEdit");
-    QObjectListIt it( *l );
+    QList<QObject *> l = w->queryList("QLineEdit");
+    QListIterator<QObject *> it( l );
     QObject *obj;
-    while ((obj = it.current()) != 0 ){
+    while ( it.hasNext()){
+	obj = it.next();
         QLineEdit *edit = static_cast<QLineEdit*>(obj);
         if (!edit->text().isEmpty()){
             if (!res.isEmpty())
@@ -400,16 +399,14 @@ QString JabberSearch::condition(QWidget *w)
             res += "=";
             res += quoteChars(edit->text(), ";");
         }
-        ++it;
     }
-    delete l;
 
     l = w->queryList("QComboBox");
-    QObjectListIt it1( *l );
-    while ((obj = it1.current()) != 0 ){
+    QListIterator<QObject *> it1( l );
+    while ( it1.hasNext() ){
+	obj = it1.next();
         CComboBox *box = static_cast<CComboBox*>(obj);
         if (box->currentText().isEmpty()){
-            ++it1;
             continue;
         }
         if (!res.isEmpty())
@@ -417,25 +414,23 @@ QString JabberSearch::condition(QWidget *w)
         res += box->name();
         res += "=";
         res += quoteChars(box->value(), ";");
-        ++it1;
     }
-    delete l;
 
     l = w->queryList("QCheckBox");
-    QObjectListIt it2( *l );
-    while ((obj = it2.current()) != 0 ){
+    QListIterator<QObject *> it2( l );
+    while ( it2.hasNext()){
+	obj = it2.next();
         QCheckBox *box = static_cast<QCheckBox*>(obj);
         if (!res.isEmpty())
             res += ";";
         res += box->name();
         res += box->isChecked() ? "=1" : "=0";
-        ++it2;
     }
-    delete l;
 
     l = w->queryList("QMultiLineEdit");
-    QObjectListIt it3( *l );
-    while ((obj = it3.current()) != 0 ){
+    QListIterator<QObject *> it3( l );
+    while ( it3.hasNext()){
+	obj = it3.next();
         Q3MultiLineEdit *edit = static_cast<Q3MultiLineEdit*>(obj);
         if (!edit->text().isEmpty()){
             if (!res.isEmpty())
@@ -444,9 +439,7 @@ QString JabberSearch::condition(QWidget *w)
             res += "=";
             res += quoteChars(edit->text(), ";");
         }
-        ++it3;
     }
-    delete l;
 
     if (!m_key.empty() && (w == NULL)){
         if (!res.isEmpty())
@@ -473,7 +466,7 @@ void JabberSearch::createLayout()
         start = 0;
         if (!m_label.isEmpty()){
             QLabel *label = new QLabel(m_label, this);
-            label->setAlignment(WordBreak);
+            label->setAlignment(Qt::WordBreak);
             lay->addMultiCellWidget(label, 0, 0, 0, nCols * 3 + 1);
             m_label = "";
             start = 1;
@@ -486,23 +479,23 @@ void JabberSearch::createLayout()
                 col += 3;
             }
             if (m_labels[i]){
-                static_cast<QLabel*>(m_labels[i])->setAlignment( AlignVCenter | AlignRight);
+                static_cast<QLabel*>(m_labels[i])->setAlignment( Qt::AlignVCenter | Qt::AlignRight);
                 lay->addWidget(m_labels[i], row, col);
                 if (m_descs[i]){
-                    lay->addWidget(m_widgets[i], row, col + 1, AlignVCenter);
-                    lay->addWidget(m_descs[i], row, col + 2, AlignVCenter);
+                    lay->addWidget(m_widgets[i], row, col + 1, Qt::AlignVCenter);
+                    lay->addWidget(m_descs[i], row, col + 2, Qt::AlignVCenter);
                     m_descs[i]->show();
                 }else{
-                    lay->addMultiCellWidget(m_widgets[i], row, row, col + 1, col + 2, AlignVCenter);
+                    lay->addMultiCellWidget(m_widgets[i], row, row, col + 1, col + 2, Qt::AlignVCenter);
                 }
                 m_labels[i]->show();
             }else{
                 if (m_descs[i]){
-                    lay->addMultiCellWidget(m_widgets[i], row, row, col, col + 1, AlignVCenter);
-                    lay->addWidget(m_descs[i], row, col + 2, AlignBottom);
+                    lay->addMultiCellWidget(m_widgets[i], row, row, col, col + 1, Qt::AlignVCenter);
+                    lay->addWidget(m_descs[i], row, col + 2, Qt::AlignBottom);
                     m_descs[i]->show();
                 }else{
-                    lay->addMultiCellWidget(m_widgets[i], row, row, col, col + 2, AlignVCenter);
+                    lay->addMultiCellWidget(m_widgets[i], row, row, col, col + 2, Qt::AlignVCenter);
                 }
             }
             m_widgets[i]->show();
@@ -510,7 +503,7 @@ void JabberSearch::createLayout()
     }
     if (!m_instruction.isEmpty()){
         QLabel *label = new QLabel(m_instruction, this);
-        label->setAlignment(WordBreak);
+        label->setAlignment(Qt::WordBreak);
         lay->addMultiCellWidget(label, nRows + start, nRows + start, 0, nCols * 3 - 1);
         m_instruction = "";
     }
@@ -519,7 +512,7 @@ void JabberSearch::createLayout()
 HelpButton::HelpButton(const QString &help, QWidget *parent)
         : QPushButton(parent)
 {
-    const QPixmap p = Pict("help");
+    const QPixmap p = Pict("help").pixmap();
     setPixmap(p);
     m_help = help;
     connect(this, SIGNAL(clicked()), this, SLOT(click()));
@@ -611,17 +604,17 @@ void JIDJabberSearch::createLayout()
         }
         if (bMain){
             if (m_labels[i]){
-                static_cast<QLabel*>(m_labels[i])->setAlignment(AlignVCenter);
-                lay->addMultiCellWidget(m_labels[i], rowMain, rowMain, 0, 1, AlignVCenter);
+                static_cast<QLabel*>(m_labels[i])->setAlignment(Qt::AlignVCenter);
+                lay->addMultiCellWidget(m_labels[i], rowMain, rowMain, 0, 1, Qt::AlignVCenter);
                 m_labels[i]->show();
                 rowMain++;
             }
             if (m_descs[i]){
-                lay->addWidget(m_widgets[i], rowMain, 0, AlignVCenter);
-                lay->addWidget(m_descs[i], rowMain, 1, AlignVCenter);
+                lay->addWidget(m_widgets[i], rowMain, 0, Qt::AlignVCenter);
+                lay->addWidget(m_descs[i], rowMain, 1, Qt::AlignVCenter);
                 m_descs[i]->show();
             }else{
-                lay->addMultiCellWidget(m_widgets[i], rowMain, rowMain, 0, 1, AlignVCenter);
+                lay->addMultiCellWidget(m_widgets[i], rowMain, rowMain, 0, 1, Qt::AlignVCenter);
             }
             m_widgets[i]->show();
             rowMain++;
@@ -635,23 +628,23 @@ void JIDJabberSearch::createLayout()
                 m_descs[i]->reparent(m_adv->grpSearch, QPoint(0, 0));
             if (m_labels[i]){
                 m_labels[i]->reparent(m_adv->grpSearch, QPoint(0, 0));
-                static_cast<QLabel*>(m_labels[i])->setAlignment(AlignVCenter | AlignRight);
+                static_cast<QLabel*>(m_labels[i])->setAlignment(Qt::AlignVCenter | Qt::AlignRight);
                 alay->addWidget(m_labels[i], row, col);
                 if (m_descs[i]){
-                    alay->addWidget(m_widgets[i], row, col + 1, AlignVCenter);
-                    alay->addWidget(m_descs[i], row, col + 2, AlignVCenter);
+                    alay->addWidget(m_widgets[i], row, col + 1, Qt::AlignVCenter);
+                    alay->addWidget(m_descs[i], row, col + 2, Qt::AlignVCenter);
                     m_descs[i]->show();
                 }else{
-                    alay->addMultiCellWidget(m_widgets[i], row, row, col + 1, col + 2, AlignVCenter);
+                    alay->addMultiCellWidget(m_widgets[i], row, row, col + 1, col + 2, Qt::AlignVCenter);
                 }
                 m_labels[i]->show();
             }else{
                 if (m_descs[i]){
-                    alay->addMultiCellWidget(m_widgets[i], row, row, col, col + 1, AlignVCenter);
-                    alay->addWidget(m_descs[i], row, col + 2, AlignBottom);
+                    alay->addMultiCellWidget(m_widgets[i], row, row, col, col + 1, Qt::AlignVCenter);
+                    alay->addWidget(m_descs[i], row, col + 2, Qt::AlignBottom);
                     m_descs[i]->show();
                 }else{
-                    alay->addMultiCellWidget(m_widgets[i], row, row, col, col + 2, AlignVCenter);
+                    alay->addMultiCellWidget(m_widgets[i], row, row, col, col + 2, Qt::AlignVCenter);
                 }
             }
             m_widgets[i]->show();

@@ -22,7 +22,7 @@
 #include "simapi.h"
 #include "jabberaddbase.h"
 #include "stl.h"
-//Added by qt3to4:
+
 #include <QShowEvent>
 
 class JabberClient;
@@ -48,7 +48,7 @@ typedef struct AgentSearch
     string			type;
 } AgentSearch;
 
-class JabberAdd : public JabberAddBase, public EventReceiver
+class JabberAdd : public QWidget, public Ui::JabberAddBase, public EventReceiver
 {
     Q_OBJECT
 public:

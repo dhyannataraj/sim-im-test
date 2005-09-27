@@ -19,10 +19,10 @@
 #include "styles.h"
 #include "fontconfig.h"
 
-#include <qtabwidget.h>
+#include <QTabWidget>
 #include <q3listbox.h>
-#include <qstyle.h>
-#include <qdir.h>
+#include <QStyle>
+#include <QDir>
 
 #if COMPAT_QT_VERSION >= 0x030000
 #include <qstylefactory.h>
@@ -46,8 +46,9 @@ const char *defStyles[] =
 #endif
 
 StylesConfig::StylesConfig(QWidget *parent, StylesPlugin *plugin)
-        : StylesConfigBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_plugin = plugin;
     for (QObject *p = parent; p != NULL; p = p->parent()){
         if (!p->inherits("QTabWidget"))
@@ -77,7 +78,7 @@ StylesConfig::StylesConfig(QWidget *parent, StylesPlugin *plugin)
             FreeLibrary(hLib);
         }
         string dll = "plugins\\styles\\";
-        dll += name.latin1();
+        dll += name.toLatin1();
         dll += ".dll";
         HINSTANCE hLib = LoadLibraryA(app_file(dll.c_str()).c_str());
         if (hLib == NULL)
@@ -106,7 +107,7 @@ StylesConfig::~StylesConfig()
 void StylesConfig::apply()
 {
     font_cfg->apply();
-    if (m_plugin->setStyle(lstStyle->currentText().latin1()))
+    if (m_plugin->setStyle(lstStyle->currentText().toLatin1()))
         m_plugin->setStyles();
 }
 

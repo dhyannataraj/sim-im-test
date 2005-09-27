@@ -23,17 +23,17 @@
 #include "buffer.h"
 #include "core.h"
 
-#include <qpixmap.h>
+#include <QPixmap>
 #include <q3listview.h>
-#include <qtabwidget.h>
-#include <qlabel.h>
-#include <qcheckbox.h>
-#include <qpushbutton.h>
+#include <QTabWidget>
+#include <QLabel>
+#include <QCheckBox>
+#include <QPushButton>
 #include <q3widgetstack.h>
-#include <qobject.h>
+#include <QObject>
 #include <q3header.h>
-#include <qtimer.h>
-//Added by qt3to4:
+#include <QTimer>
+
 #include <QCloseEvent>
 
 namespace ConfigDlg
@@ -228,7 +228,7 @@ void ClientItem::init()
         setText(0, i18n(m_cmd->text));
     }
     if (m_cmd->icon)
-        setPixmap(0, Pict(m_cmd->icon, listView()->colorGroup().base()));
+        setPixmap(0, Pict(m_cmd->icon, listView()->colorGroup().base()).pixmap());
 }
 
 QWidget *ClientItem::getWidget(ConfigureDialog *dlg)
@@ -254,7 +254,7 @@ ARItem::ARItem(Q3ListViewItem *item, const CommandDef *d)
 {
     m_status = d->id;
     setText(0, i18n(d->text));
-    setPixmap(0, Pict(d->icon, listView()->colorGroup().base()));
+    setPixmap(0, Pict(d->icon, listView()->colorGroup().base()).pixmap());
 }
 
 QWidget *ARItem::getWidget(ConfigureDialog *dlg)
@@ -275,7 +275,7 @@ MainInfoItem::MainInfoItem(Q3ListView *view, unsigned id)
         : ConfigItem(view, id)
 {
     setText(0, i18n("User info"));
-    setPixmap(0, Pict("info", listView()->colorGroup().base()));
+    setPixmap(0, Pict("info", listView()->colorGroup().base()).pixmap());
 }
 
 QWidget *MainInfoItem::getWidget(ConfigureDialog *dlg)
@@ -289,9 +289,10 @@ using namespace ConfigDlg;
 
 ConfigureDialog::ConfigureDialog()
 {
+    setupUi( this);
     m_nUpdates = 0;
     SET_WNDPROC("configure")
-    setIcon(Pict("configure"));
+    setIcon(Pict("configure").pixmap());
     setButtonsPict(this);
     setTitle();
     lstBox->header()->hide();
@@ -384,7 +385,7 @@ void ConfigureDialog::fill(unsigned id)
 
     parentItem = new ConfigItem(lstBox, 0);
     parentItem->setText(0, i18n("Plugins"));
-    parentItem->setPixmap(0, Pict("run", lstBox->colorGroup().base()));
+    parentItem->setPixmap(0, Pict("run", lstBox->colorGroup().base()).pixmap());
     parentItem->setOpen(true);
 
     for ( n = 0;; n++){
@@ -432,7 +433,7 @@ bool ConfigureDialog::setCurrentItem(Q3ListViewItem *parent, unsigned id)
 
 void ConfigureDialog::closeEvent(QCloseEvent *e)
 {
-    ConfigureDialogBase::closeEvent(e);
+    closeEvent(e);
     emit finished();
 }
 
@@ -453,7 +454,7 @@ void ConfigureDialog::apply(Q3ListViewItem *item)
 
 void ConfigureDialog::reject()
 {
-    ConfigureDialogBase::reject();
+    reject();
     emit finished();
 }
 
@@ -561,7 +562,7 @@ void ConfigureDialog::accept()
 {
     apply();
     if (m_bAccept){
-        ConfigureDialogBase::accept();
+        accept();
         emit finished();
     }
 }
@@ -618,10 +619,9 @@ void ConfigureDialog::raisePhoneBook()
     QWidget *w = static_cast<ConfigItem*>(lstBox->currentItem())->widget();
     if (w == NULL)
         return;
-    QObjectList *l = topLevelWidget()->queryList("QTabWidget");
-    QObjectListIt it( *l );
-    QTabWidget *tab = static_cast<QTabWidget*>(it.current());
-    delete l;
+    QList<QObject *> l = topLevelWidget()->queryList("QTabWidget");
+    QListIterator<QObject *> it( l );
+    QTabWidget *tab = static_cast<QTabWidget*>(it.next());
     if (tab == NULL)
         return;
     tab->setCurrentPage(2);

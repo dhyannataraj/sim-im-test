@@ -58,10 +58,10 @@
 
 #include <time.h>
 
-#include <qtimer.h>
-#include <qtextcodec.h>
-#include <qregexp.h>
-#include <qfile.h>
+#include <QTimer>
+#include <QTextCodec>
+#include <QRegExp>
+#include <QFile>
 
 const unsigned MessageYahooFile	= 0x700;
 
@@ -237,7 +237,7 @@ void YahooClient::packet_ready()
 void YahooClient::sendPacket(unsigned short service, unsigned long status)
 {
     if (m_bHTTP && !m_session_id.empty()){
-        addParam(0, getLogin().utf8());
+        addParam(0, getLogin().toUtf8());
         addParam(24, m_session_id.c_str());
     }
     unsigned short size = 0;
@@ -282,7 +282,7 @@ void YahooClient::connect_ready()
     log(L_DEBUG, "Connect ready");
     TCPClient::connect_ready();
     if (m_bHTTP){
-        addParam(1, getLogin().utf8());
+        addParam(1, getLogin().toUtf8());
         sendPacket(YAHOO_SERVICE_AUTH);
     }else{
         sendPacket(YAHOO_SERVICE_VERIFY);
@@ -339,7 +339,7 @@ void YahooClient::process_packet(Params &params)
             m_socket->error_state(I18N_NOOP("Yahoo! login lock"));
             return;
         }
-        addParam(1, getLogin().utf8());
+        addParam(1, getLogin().toUtf8());
         sendPacket(YAHOO_SERVICE_AUTH);
         break;
     case YAHOO_SERVICE_AUTH:
@@ -1095,7 +1095,7 @@ QString YahooClient::getLogin()
 
 void YahooClient::setLogin(const QString &login)
 {
-    set_str(&data.owner.Login.ptr, login.utf8());
+    set_str(&data.owner.Login.ptr, login.toUtf8());
 }
 
 void YahooClient::authOk()
@@ -1162,7 +1162,7 @@ void YahooClient::loadList(const char *str)
                         grpName = grp->getName();
                 }
                 if (grpName != getContacts()->toUnicode(NULL, data->Group.ptr))
-                    moveBuddy(data, grpName.utf8());
+                    moveBuddy(data, grpName.toUtf8());
             }
         }
         if ((*itl).type == LR_DELETE){
@@ -1530,7 +1530,7 @@ CommandDef *YahooClient::infoWindows(Contact*, void *_data)
     QString name = i18n(protocol()->description()->text);
     name += " ";
     name += QString::fromUtf8(data->Login.ptr);
-    yahooWnd[0].text_wrk = strdup(name.utf8());
+    yahooWnd[0].text_wrk = strdup(name.toUtf8());
     return yahooWnd;
 }
 
@@ -1539,7 +1539,7 @@ CommandDef *YahooClient::configWindows()
     QString name = i18n(protocol()->description()->text);
     name += " ";
     name += QString::fromUtf8(data.owner.Login.ptr);
-    cfgYahooWnd[0].text_wrk = strdup(name.utf8());
+    cfgYahooWnd[0].text_wrk = strdup(name.toUtf8());
     return cfgYahooWnd;
 }
 
@@ -1624,7 +1624,7 @@ void YahooParser::text(const QString &str)
     }
     res += esc;
     esc = "";
-    res += str.utf8();
+    res += static_cast<string>(str.toUtf8());
 }
 
 void YahooParser::tag_start(const QString &tag, const list<QString> &options)
@@ -1645,7 +1645,7 @@ void YahooParser::tag_start(const QString &tag, const list<QString> &options)
                 break;
             }
         }
-        list<string> smiles = getIcons()->getSmile(src.latin1());
+        list<string> smiles = getIcons()->getSmile(src.toLatin1());
         if (smiles.empty()){
             text(alt);
             return;
@@ -1703,7 +1703,7 @@ void YahooParser::tag_start(const QString &tag, const list<QString> &options)
                 s.color = c.rgb() & 0xFFFFFF;
             }
             if (name == "font-size"){
-                unsigned size = atol((*its).latin1());
+                unsigned size = atol((*its).toLatin1());
                 if (size)
                     s.size = size;
             }
@@ -1711,7 +1711,7 @@ void YahooParser::tag_start(const QString &tag, const list<QString> &options)
                 s.face = (*its);
             if (name == "font-weight")
                 s.state &= ~1;
-            if (atol((*its).latin1()) >= 600)
+            if (atol((*its).toLatin1()) >= 600)
                 s.state |= 1;
             if ((name == "font-style") && ((*its) == "italic"))
                 s.state |= 2;
@@ -1777,7 +1777,7 @@ void YahooParser::set_style(const style &s)
     }
     if (!fontAttr.isEmpty()){
         esc += "<font";
-        esc += fontAttr.utf8();
+        esc += static_cast<string>(fontAttr.toUtf8());
         esc += ">";
     }
 }
@@ -1792,8 +1792,8 @@ void YahooParser::escape(const char *str)
 void YahooClient::sendMessage(const QString &msgText, Message *msg, YahooUserData *data)
 {
     YahooParser p(msgText);
-    addParam(0, getLogin().utf8());
-    addParam(1, getLogin().utf8());
+    addParam(0, getLogin().toUtf8());
+    addParam(1, getLogin().toUtf8());
     addParam(5, data->Login.ptr);
     addParam(14, p.res.c_str());
     if(p.bUtf)
@@ -1814,7 +1814,7 @@ void YahooClient::sendMessage(const QString &msgText, Message *msg, YahooUserDat
 void YahooClient::sendTyping(YahooUserData *data, bool bState)
 {
     addParam(5, data->Login.ptr);
-    addParam(4, getLogin().utf8());
+    addParam(4, getLogin().toUtf8());
     addParam(14, " ");
     addParam(13, bState ? "1" : "0");
     addParam(49, "TYPING");
@@ -1825,7 +1825,7 @@ void YahooClient::addBuddy(YahooUserData *data)
 {
     if ((getState() != Connected) || (data->Group.ptr == NULL))
         return;
-    addParam(1, getLogin().utf8());
+    addParam(1, getLogin().toUtf8());
     addParam(7, data->Login.ptr);
     addParam(65, data->Group.ptr ? data->Group.ptr : "");
     sendPacket(YAHOO_SERVICE_ADDBUDDY);
@@ -1835,7 +1835,7 @@ void YahooClient::removeBuddy(YahooUserData *data)
 {
     if (data->Group.ptr == NULL)
         return;
-    addParam(1, getLogin().utf8());
+    addParam(1, getLogin().toUtf8());
     addParam(7, data->Login.ptr);
     addParam(65, data->Group.ptr ? data->Group.ptr : "");
     sendPacket(YAHOO_SERVICE_REMBUDDY);
@@ -1857,11 +1857,11 @@ void YahooClient::moveBuddy(YahooUserData *data, const char *grp)
     }
     if (!strcmp(data->Group.ptr, grp))
         return;
-    addParam(1, getLogin().utf8());
+    addParam(1, getLogin().toUtf8());
     addParam(7, data->Login.ptr);
     addParam(65, grp);
     sendPacket(YAHOO_SERVICE_ADDBUDDY);
-    addParam(1, getLogin().utf8());
+    addParam(1, getLogin().toUtf8());
     addParam(7, data->Login.ptr);
     addParam(65, data->Group.ptr ? data->Group.ptr : "");
     sendPacket(YAHOO_SERVICE_REMBUDDY);
@@ -1875,12 +1875,12 @@ void *YahooClient::processEvent(Event *e)
         Contact *contact = (Contact*)(e->param());
         string grpName;
         string name;
-        name = contact->getName().utf8();
+        name = static_cast<string>(contact->getName().toUtf8());
         Group *grp = NULL;
         if (contact->getGroup())
             grp = getContacts()->group(contact->getGroup());
         if (grp)
-            grpName = grp->getName().utf8();
+            grpName = static_cast<string>(grp->getName().toUtf8());
         ClientDataIterator it(contact->clientData, this);
         YahooUserData *data;
         while ((data = (YahooUserData*)(++it)) != NULL){
@@ -1978,7 +1978,7 @@ void *YahooClient::processEvent(Event *e)
                 if (msg->getMsgID() && data){
                     addParam(5, data->Login.ptr);
                     addParam(49, "FILEXFER");
-                    addParam(1, getLogin().utf8());
+                    addParam(1, getLogin().toUtf8());
                     addParam(13, "2");
                     addParam(27, getContacts()->fromUnicode(contact, msg->getDescription()).c_str());
                     addParam(53, getContacts()->fromUnicode(contact, msg->getDescription()).c_str());
@@ -2080,7 +2080,7 @@ void YahooClient::sendFile(FileMessage *msg, QFile *file, YahooUserData *data, u
     QString m = msg->getPlainText();
     addParam(5, data->Login.ptr);
     addParam(49, "FILEXFER");
-    addParam(1, getLogin().utf8());
+    addParam(1, getLogin().toUtf8());
     addParam(13, "1");
     addParam(27, getContacts()->fromUnicode(contact, fn).c_str());
     addParam(28, number(file->size()).c_str());

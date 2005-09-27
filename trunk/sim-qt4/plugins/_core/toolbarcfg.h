@@ -19,7 +19,7 @@
 #define _TOOLBARCFG_H
 
 #include "simapi.h"
-//Added by qt3to4:
+
 #include <QEvent>
 
 class ToolbarsCfg : public QObject

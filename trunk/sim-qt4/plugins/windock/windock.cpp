@@ -20,11 +20,11 @@
 #include "ontop.h"
 #include "mainwin.h"
 
-#include <qapplication.h>
-#include <qwidget.h>
+#include <QApplication>
+#include <QWidget>
 #include <qmessagebox.h>
-#include <qtimer.h>
-//Added by qt3to4:
+#include <QTimer>
+
 #include <QEvent>
 
 #include <windows.h>

@@ -20,16 +20,17 @@
 #include "icqclient.h"
 #include "core.h"
 
-#include <qlineedit.h>
+#include <QLineEdit>
 #include <q3multilineedit.h>
-#include <qstringlist.h>
-#include <qcombobox.h>
-#include <qpixmap.h>
-#include <qlabel.h>
+#include <QStringList>
+#include <QComboBox>
+#include <QPixmap>
+#include <QLabel>
 
 AIMInfo::AIMInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
-        : AIMInfoBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_client  = client;
     m_data    = data;
     m_contact = contact;
@@ -69,15 +70,15 @@ void AIMInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    set_str(&data->FirstName.ptr, edtFirst->text().utf8());
-    set_str(&data->LastName.ptr, edtLast->text().utf8());
-    set_str(&data->MiddleName.ptr, edtMiddle->text().utf8());
-    set_str(&data->Maiden.ptr, edtMaiden->text().utf8());
-    set_str(&data->Nick.ptr, edtNick->text().utf8());
-    set_str(&data->Address.ptr, edtStreet->text().utf8());
-    set_str(&data->City.ptr, edtCity->text().utf8());
-    set_str(&data->State.ptr, edtState->text().utf8());
-    set_str(&data->Zip.ptr, edtZip->text().utf8());
+    set_str(&data->FirstName.ptr, edtFirst->text().toUtf8());
+    set_str(&data->LastName.ptr, edtLast->text().toUtf8());
+    set_str(&data->MiddleName.ptr, edtMiddle->text().toUtf8());
+    set_str(&data->Maiden.ptr, edtMaiden->text().toUtf8());
+    set_str(&data->Nick.ptr, edtNick->text().toUtf8());
+    set_str(&data->Address.ptr, edtStreet->text().toUtf8());
+    set_str(&data->City.ptr, edtCity->text().toUtf8());
+    set_str(&data->State.ptr, edtState->text().toUtf8());
+    set_str(&data->Zip.ptr, edtZip->text().toUtf8());
 }
 
 void *AIMInfo::processEvent(Event *e)
@@ -168,7 +169,7 @@ void AIMInfo::fill()
             current = cmbStatus->count();
             text = cmd->text;
         }
-        cmbStatus->insertItem(Pict(cmd->icon), i18n(cmd->text));
+        cmbStatus->insertItem(Pict(cmd->icon).pixmap(), i18n(cmd->text));
     }
 
     cmbStatus->setCurrentItem(current);

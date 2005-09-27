@@ -19,23 +19,24 @@
 #include "ballonmsg.h"
 #include "buffer.h"
 
-#include <qlayout.h>
-#include <qcheckbox.h>
-#include <qpushbutton.h>
+#include <QLayout>
+#include <QCheckBox>
+#include <QPushButton>
 #include <q3progressbar.h>
-#include <qfile.h>
-#include <qdir.h>
-#include <qtimer.h>
-#include <qlabel.h>
-#include <qapplication.h>
-#include <qtextcodec.h>
-//Added by qt3to4:
+#include <QFile>
+#include <QDir>
+#include <QTimer>
+#include <QLabel>
+#include <QApplication>
+#include <QTextCodec>
+
 #include <QVBoxLayout>
 #include <QCloseEvent>
 
 MigrateDialog::MigrateDialog(const QString &dir, const QStringList &cnvDirs)
-        : MigrateDialogBase(NULL, "migrate", true)
+        : Q3Wizard( NULL, "migrate", true)
 {
+    setupUi( this);
     SET_WNDPROC("migrate")
     setCaption(caption());
     m_dir      = dir;
@@ -57,7 +58,7 @@ MigrateDialog::MigrateDialog(const QString &dir, const QStringList &cnvDirs)
 void MigrateDialog::closeEvent(QCloseEvent *e)
 {
     if (!m_bProcess){
-        MigrateDialogBase::closeEvent(e);
+        closeEvent(e);
         return;
     }
     e->ignore();
@@ -67,7 +68,7 @@ void MigrateDialog::closeEvent(QCloseEvent *e)
 void MigrateDialog::reject()
 {
     if (!m_bProcess){
-        MigrateDialogBase::reject();
+        reject();
         return;
     }
     ask();
@@ -375,7 +376,7 @@ void MigrateDialog::flush()
             }
             output = "[Message]\n";
             output += "Text=\"";
-            output += quoteChars(msg, "\"", false).local8Bit();
+            output += static_cast<string>(quoteChars(msg, "\"", false).toLocal8Bit());
             output += "\"\n";
             if (m_direction.empty()){
                 output += "Flags=2\n";

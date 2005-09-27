@@ -22,11 +22,11 @@
 #include "html.h"
 #include "xsl.h"
 
-#include <qstringlist.h>
-#include <qregexp.h>
-#include <qtimer.h>
-#include <qdatetime.h>
-//Added by qt3to4:
+#include <QStringList>
+#include <QRegExp>
+#include <QTimer>
+#include <QDateTime>
+
 #include <Q3PopupMenu>
 
 static char MSG_ANCHOR[] = "<a name=\"m:";
@@ -188,10 +188,10 @@ void XslOutputParser::tag_end(const QString &tag)
         res += tagText;
 }
 
-MsgViewBase::MsgViewBase(QWidget *parent, const char *name, unsigned id)
-        : TextShow(parent, name)
+MsgViewBase::MsgViewBase(QWidget *parent)
+        : TextShow(parent)
 {
-    m_id = id;
+    m_id = 0;
     m_nSelection = 0;
     m_popupPos = QPoint(0, 0);
     xsl = NULL;
@@ -539,13 +539,13 @@ void MsgViewBase::setSource(const QString &url)
         return;
     }
     QString id = url.mid(proto.length() + 3);
-    unsigned msg_id = atol(getToken(id, ',').latin1());
+    unsigned msg_id = atol(getToken(id, ',').toLatin1());
     getToken(id, ',');
     id = getToken(id, '/');
     QString client = SIM::unquoteString(id);
     if (client.isEmpty())
         client = QString::number(m_id);
-    Message *msg = History::load(msg_id, client.utf8(), m_id);
+    Message *msg = History::load(msg_id, client.toUtf8(), m_id);
     if (msg){
         Event e(EventOpenMessage, &msg);
         e.process();
@@ -709,12 +709,12 @@ void MsgViewBase::setColors()
 unsigned MsgViewBase::messageId(const QString &_s, string &client)
 {
     QString s(_s);
-    unsigned id = atol(getToken(s, ',').latin1());
+    unsigned id = atol(getToken(s, ',').toLatin1());
     getToken(s, ',');
-    client = getToken(s, ',').utf8();
+    client = static_cast<string>(getToken(s, ',').toUtf8());
     if (id >= 0x80000000)
         return id;
-    for (unsigned cut_id = atol(s.latin1()); cut_id < m_cut.size(); cut_id++){
+    for (unsigned cut_id = atol(s.toLatin1()); cut_id < m_cut.size(); cut_id++){
         if (m_cut[cut_id].client != client)
             continue;
         if (id < m_cut[cut_id].from)
@@ -888,12 +888,12 @@ void *MsgViewBase::processEvent(Event *e)
             if ((messageId(s.left(n), client) != msg->id()) || (client != msg->client()))
                 continue;
             string ss;
-            ss = text(i).local8Bit();
+            ss = static_cast<string>(text(i).toLocal8Bit());
 
             unsigned j;
             for (j = i + 1; j < (unsigned)paragraphs(); j++){
                 QString s = text(j);
-                ss = text(j).local8Bit();
+                ss = static_cast<string>(text(j).toLocal8Bit());
                 int n = s.find(MSG_ANCHOR);
                 if (n < 0)
                     continue;
@@ -1140,7 +1140,7 @@ Q3PopupMenu *MsgViewBase::createPopupMenu(const QPoint& pos)
 }
 
 MsgView::MsgView(QWidget *parent, unsigned id)
-        : MsgViewBase(parent, NULL, id)
+        : MsgViewBase(parent)
 {
     int nCopy = CorePlugin::m_plugin->getCopyMessages();
     unsigned nUnread = 0;

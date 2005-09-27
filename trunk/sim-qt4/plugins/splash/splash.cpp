@@ -19,11 +19,13 @@
 #include "simapi.h"
 #include "aboutdata.h"
 
-#include <qwidget.h>
-#include <qpixmap.h>
-#include <qapplication.h>
-#include <qfile.h>
-#include <qpainter.h>
+#include <QWidget>
+#include <QPixmap>
+#include <QApplication>
+#include <QFile>
+#include <QPainter>
+#include <QDesktopWidget>
+#include <QBitmap>
 
 Plugin *createSplashPlugin(unsigned base, bool bStart, Buffer*)
 {
@@ -73,14 +75,14 @@ SplashPlugin::SplashPlugin(unsigned base, bool bStart)
             p.drawText(x, y, text);
             p.end();
             splash = new QWidget(NULL, "splash",
-                                 QWidget::Window | 
-                                 QWidget::FramelessWindowHint | QWidget::WindowStaysOnTopHint);
+                                 Qt::WType_TopLevel | Qt::WStyle_Customize |
+                                 Qt::WStyle_NoBorderEx | Qt::WStyle_StaysOnTop);
             splash->resize(pict.width(), pict.height());
             QWidget *desktop = QApplication::desktop();
             splash->move((desktop->width() - pict.width()) / 2, (desktop->height() - pict.height()) / 2);
             splash->setBackgroundPixmap(pict);
-            const QBitmap *mask = pict.mask();
-            if (mask) splash->setMask(*mask);
+            const QBitmap mask = pict.mask();
+            if (mask.selfMask()) splash->setMask(mask);
             splash->show();
         }
     }

@@ -21,11 +21,11 @@
 
 #include <qmenubar.h>
 #include <q3popupmenu.h>
-#include <qfile.h>
+#include <QFile>
 #include <qmessagebox.h>
-#include <qregexp.h>
-//Added by qt3to4:
-#include <Q3CString>
+#include <QRegExp>
+
+#include <QByteArray>
 #include <QCloseEvent>
 #ifdef USE_KDE
 #include <kfiledialog.h>
@@ -47,13 +47,13 @@ const int mnuPause = 9;
 MonitorWindow *monitor = NULL;
 
 MonitorWindow::MonitorWindow(NetmonitorPlugin *plugin)
-        : Q3MainWindow(NULL, "monitor", Qt::Window)
+        : Q3MainWindow(NULL, "monitor", Qt::WType_TopLevel)
 {
     bPause = true;  // no debug output during creation
     m_plugin = plugin;
     SET_WNDPROC("monitor")
     setCaption(i18n("Network monitor"));
-    setIcon(Pict("network"));
+    setIcon(Pict("network").pixmap());
 
     edit = new TextShow(this);
     edit->setWordWrap(Q3TextEdit::NoWrap);
@@ -94,11 +94,11 @@ void MonitorWindow::save()
         QMessageBox::warning(this, i18n("Error"), i18n("Can't create file %1") .arg(s));
         return;
     }
-    Q3CString t;
+    QByteArray t;
     if (edit->hasSelectedText()){
-        t = unquoteText(edit->selectedText()).local8Bit();
+        t = unquoteText(edit->selectedText()).toLocal8Bit();
     }else{
-        t = unquoteText(edit->text()).local8Bit();
+        t = unquoteText(edit->text()).toLocal8Bit();
     }
 #ifdef WIN32
     t.replace(QRegExp("\n"),"\r\n");

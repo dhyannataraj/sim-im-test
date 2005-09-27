@@ -22,8 +22,8 @@
 #include "proxyerror.h"
 #include "fetch.h"
 
-#include <qtabwidget.h>
-#include <qobject.h>
+#include <QTabWidget>
+#include <QObject>
 
 #ifdef WIN32
 #include <winsock.h>
@@ -1208,11 +1208,10 @@ void ProxyPlugin::clientData(TCPClient *client, ProxyData &cdata)
 static QObject *findObject(QObject *w, const char *className)
 {
     QObject *res = NULL;
-    QObjectList *l = w->queryList(className);
-    QObjectListIt it(*l);
-    if (it.current() != NULL)
-        res = it.current();
-    delete l;
+    QList<QObject *> l = w->queryList(className);
+    QListIterator<QObject *> it(l);
+    if (it.hasNext())
+        res = it.next();
     return res;
 }
 

@@ -18,12 +18,13 @@
 #include "autoawaycfg.h"
 #include "autoaway.h"
 
-#include <qcheckbox.h>
+#include <QCheckBox>
 #include <qspinbox.h>
 
 AutoAwayConfig::AutoAwayConfig(QWidget *parent, AutoAwayPlugin *plugin)
-        : Ui::AutoAwayConfigBase()
+        : QWidget( parent)
 {
+    setupUi( this);
     m_plugin = plugin;
     chkAway->setChecked(m_plugin->getEnableAway());
     chkNA->setChecked(m_plugin->getEnableNA());
@@ -62,11 +63,11 @@ void AutoAwayConfig::apply()
     m_plugin->setEnableNA(chkNA->isChecked());
     m_plugin->setEnableOff(chkOff->isChecked());
     if (m_plugin->getEnableAway())
-        m_plugin->setAwayTime(atol(spnAway->text().latin1()));
+        m_plugin->setAwayTime(atol(spnAway->text().toLatin1()));
     if (m_plugin->getEnableNA())
-        m_plugin->setNATime(atol(spnNA->text().latin1()));
+        m_plugin->setNATime(atol(spnNA->text().toLatin1()));
     if (m_plugin->getEnableOff())
-        m_plugin->setOffTime(atol(spnOff->text().latin1()));
+        m_plugin->setOffTime(atol(spnOff->text().toLatin1()));
 }
 
 #ifndef WIN32

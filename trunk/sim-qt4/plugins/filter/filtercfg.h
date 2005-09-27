@@ -20,12 +20,11 @@
 
 #include "simapi.h"
 #include "filtercfgbase.h"
-#include <QDialog>
 
 class FilterPlugin;
 class IgnoreList;
 
-class FilterConfig : public QDialog, public Ui::FilterConfigBase
+class FilterConfig : public QWidget, public Ui::FilterConfigBase
 {
     Q_OBJECT
 public:

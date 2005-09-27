@@ -19,13 +19,14 @@
 #include "homeinfo.h"
 #include "icqclient.h"
 
-#include <qlineedit.h>
+#include <QLineEdit>
 #include <q3multilineedit.h>
-#include <qcombobox.h>
+#include <QComboBox>
 
 HomeInfo::HomeInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
-        : HomeInfoBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_data    = data;
     m_client  = client;
     m_contact = contact;

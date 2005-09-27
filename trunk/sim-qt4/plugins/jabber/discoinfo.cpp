@@ -22,23 +22,24 @@
 #include "jabberaboutinfo.h"
 #include "listview.h"
 
-#include <qpixmap.h>
-#include <qlineedit.h>
+#include <QPixmap>
+#include <QLineEdit>
 #include <q3multilineedit.h>
-#include <qtabwidget.h>
-#include <qpushbutton.h>
-//Added by qt3to4:
+#include <QTabWidget>
+#include <QPushButton>
+
 #include <QResizeEvent>
 
 extern DataDef jabberUserData[];
 
 DiscoInfo::DiscoInfo(JabberBrowser *browser, const QString &features,
                      const QString &name, const QString &type, const QString &category)
-        : DiscoInfoBase(browser, NULL, false, Qt::WA_DeleteOnClose)
+        : QDialog( NULL, Qt::WA_DeleteOnClose)
 {
+    setupUi( this);
     m_browser = browser;
     SET_WNDPROC("jbrowser")
-    setIcon(Pict("Jabber_online"));
+    setIcon(Pict("Jabber_online").pixmap());
     setTitle();
     setButtonsPict(this);
     connect(buttonApply, SIGNAL(clicked()), this, SLOT(apply()));
@@ -66,7 +67,7 @@ DiscoInfo::DiscoInfo(JabberBrowser *browser, const QString &features,
     lstStat->addColumn(i18n("Units"));
     lstStat->addColumn(i18n("Value"));
     lstStat->setExpandingColumn(2);
-    btnUrl->setPixmap(Pict("home"));
+    btnUrl->setPixmap(Pict("home").pixmap());
     connect(btnUrl, SIGNAL(clicked()), this, SLOT(goUrl()));
     connect(edtUrl, SIGNAL(textChanged(const QString&)), this, SLOT(urlChanged(const QString&)));
 }
@@ -95,8 +96,8 @@ void DiscoInfo::reset()
     }
     free_data(jabberUserData, &m_data);
     load_data(jabberUserData, &m_data, NULL);
-    set_str(&m_data.ID.ptr, m_url.utf8());
-    set_str(&m_data.Node.ptr, m_node.utf8());
+    set_str(&m_data.ID.ptr, m_url.toUtf8());
+    set_str(&m_data.Node.ptr, m_node.toUtf8());
     setTitle();
     edtJName->setText(m_name);
     edtType->setText(m_type);
@@ -135,7 +136,7 @@ void DiscoInfo::reset()
     edtName->setText("");
     edtVersion->setText("");
     edtSystem->setText("");
-    m_versionId = m_bVersion ? m_browser->m_client->versionInfo(m_url.utf8(), m_node.utf8()) : "";
+    m_versionId = m_bVersion ? m_browser->m_client->versionInfo(m_url.toUtf8(), m_node.toUtf8()) : "";
     if ((bTime || bLast) != (m_bTime || m_bLast)){
         m_bTime = bTime;
         m_bLast = bLast;
@@ -151,14 +152,14 @@ void DiscoInfo::reset()
     edtLast->setText("");
     if (m_bTime){
         edtTime->show();
-        m_timeId = m_browser->m_client->timeInfo(m_url.utf8(), m_node.utf8());
+        m_timeId = m_browser->m_client->timeInfo(m_url.toUtf8(), m_node.toUtf8());
     }else{
         edtTime->hide();
         m_timeId = "";
     }
     if (m_bLast){
         edtLast->show();
-        m_lastId = m_browser->m_client->lastInfo(m_url.utf8(), m_node.utf8());
+        m_lastId = m_browser->m_client->lastInfo(m_url.toUtf8(), m_node.toUtf8());
     }else{
         edtLast->hide();
         m_lastId = "";
@@ -174,7 +175,7 @@ void DiscoInfo::reset()
     }else if (m_bStat){
         pos++;
     }
-    m_statId = m_bStat ? m_browser->m_client->statInfo(m_url.utf8(), m_node.utf8()) : "";
+    m_statId = m_bStat ? m_browser->m_client->statInfo(m_url.toUtf8(), m_node.toUtf8()) : "";
     if (bVCard != m_bVCard){
         m_bVCard = bVCard;
         if (m_bVCard || m_bVCard){
@@ -265,26 +266,26 @@ void *DiscoInfo::processEvent(Event *e)
 
 void DiscoInfo::resizeEvent(QResizeEvent *e)
 {
-    DiscoInfoBase::resizeEvent(e);
+    resizeEvent(e);
     lstStat->adjustColumn();
 }
 
 void DiscoInfo::accept()
 {
     apply();
-    DiscoInfoBase::accept();
+    accept();
 }
 
 void DiscoInfo::apply()
 {
     if (m_bVCard && m_about){
         m_about->apply(m_browser->m_client, &m_data);
-        set_str(&m_data.FirstName.ptr, edtFirstName->text().utf8());
-        set_str(&m_data.Nick.ptr, edtNick->text().utf8());
-        set_str(&m_data.Bday.ptr, edtBirthday->text().utf8());
-        set_str(&m_data.Url.ptr, edtUrl->text().utf8());
-        set_str(&m_data.EMail.ptr, edtEMail->text().utf8());
-        set_str(&m_data.Phone.ptr, edtPhone->text().utf8());
+        set_str(&m_data.FirstName.ptr, edtFirstName->text().toUtf8());
+        set_str(&m_data.Nick.ptr, edtNick->text().toUtf8());
+        set_str(&m_data.Bday.ptr, edtBirthday->text().toUtf8());
+        set_str(&m_data.Url.ptr, edtUrl->text().toUtf8());
+        set_str(&m_data.EMail.ptr, edtEMail->text().toUtf8());
+        set_str(&m_data.Phone.ptr, edtPhone->text().toUtf8());
         m_browser->m_client->setClientInfo(&m_data);
     }
 }
@@ -294,7 +295,7 @@ void DiscoInfo::goUrl()
     QString url = edtUrl->text();
     if (url.isEmpty())
         return;
-    Event e(EventGoURL, (void*)(const char*)(url.local8Bit()));
+    Event e(EventGoURL, (void*)(const char*)(url.toLocal8Bit()));
     e.process();
 }
 

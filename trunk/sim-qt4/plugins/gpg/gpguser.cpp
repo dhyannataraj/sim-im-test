@@ -25,10 +25,11 @@
 #include <qfile.h>
 
 GpgUser::GpgUser(QWidget *parent, GpgUserData *data)
-        : GpgUserBase(parent)
+        : QWidget( parent)
 {
-    if (data && data->Qt::Key.ptr)
-        m_key = data->Qt::Key.ptr;
+    setupUi( this);
+    if (data && data->Key.ptr)
+        m_key = data->Key.ptr;
     m_exec = NULL;
     connect(btnRefresh, SIGNAL(clicked()), this, SLOT(refresh()));
     refresh();
@@ -45,7 +46,7 @@ void GpgUser::apply(void *_data)
     string key;
     int nKey = cmbPublic->currentItem();
     if (nKey && (nKey < cmbPublic->count())){
-        string k = cmbPublic->currentText().latin1();
+        string k = static_cast<string>(cmbPublic->currentText().toLatin1());
         key = getToken(k, ' ');
     }
     set_str(&data->Key.ptr, key.c_str());
@@ -72,7 +73,7 @@ void GpgUser::refresh()
     gpg += GpgPlugin::plugin->getPublicList();
     m_exec = new Exec;
     connect(m_exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(publicReady(Exec*,int,const char*)));
-    m_exec->execute(gpg.local8Bit(), "");
+    m_exec->execute(gpg.toLocal8Bit(), "");
 }
 
 void GpgUser::publicReady(Exec*, int res, const char*)

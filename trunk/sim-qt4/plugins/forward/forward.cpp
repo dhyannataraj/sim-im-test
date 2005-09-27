@@ -94,14 +94,14 @@ void *ForwardPlugin::processEvent(Event *e)
             bool bMyPhone = false;
             ForwardUserData *data = (ForwardUserData*)(getContacts()->getUserData(user_data_id));
             if (data->Phone.ptr)
-                bMyPhone = ContactList::cmpPhone(phone.utf8(), data->Phone.ptr);
+                bMyPhone = ContactList::cmpPhone(phone.toUtf8(), data->Phone.ptr);
             if (!bMyPhone){
                 Group *grp;
                 ContactList::GroupIterator it;
                 while ((grp = ++it) != NULL){
                     data = (ForwardUserData*)(grp->userData.getUserData(user_data_id, false));
                     if (data && data->Phone.ptr){
-                        bMyPhone = ContactList::cmpPhone(phone.utf8(), data->Phone.ptr);
+                        bMyPhone = ContactList::cmpPhone(phone.toUtf8(), data->Phone.ptr);
                         break;
                     }
                 }
@@ -112,7 +112,7 @@ void *ForwardPlugin::processEvent(Event *e)
                 while ((contact = ++it) != NULL){
                     data = (ForwardUserData*)(contact->userData.getUserData(user_data_id, false));
                     if (data && data->Phone.ptr){
-                        bMyPhone = ContactList::cmpPhone(phone.utf8(), data->Phone.ptr);
+                        bMyPhone = ContactList::cmpPhone(phone.toUtf8(), data->Phone.ptr);
                         break;
                     }
                 }

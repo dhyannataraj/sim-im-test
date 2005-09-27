@@ -21,7 +21,7 @@
 #include "simapi.h"
 #include "smscfgbase.h"
 
-class SMSConfig : public Ui_SMSConfigBase, public QDialog
+class SMSConfig : public QWidget, public Ui::SMSConfigBase
 {
     Q_OBJECT
 public:

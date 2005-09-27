@@ -20,7 +20,6 @@
 #include "fetch.h"
 
 #ifdef WIN32
-#include <windows.h>
 #include <winsock.h>
 #include <wininet.h>
 #else
@@ -35,12 +34,12 @@
 
 #include <errno.h>
 
-#include <qfile.h>
-#include <qregexp.h>
+#include <QFile>
+#include <QRegExp>
 #include <q3socket.h>
 #include <q3socketdevice.h>
-#include <qsocketnotifier.h>
-#include <qtimer.h>
+#include <QSocketNotifier>
+#include <QTimer>
 #include <q3dns.h>
 
 #ifndef INADDR_NONE
@@ -122,7 +121,7 @@ unsigned long SIMResolver::addr()
 
 string SIMResolver::host()
 {
-    return dns->label().latin1();
+    return static_cast<string>(dns->label().toLatin1());
 }
 
 void SIMSockets::resolve(const char *host)
@@ -614,7 +613,7 @@ void IPResolver::resolve_ready()
     if (queue.empty()) return;
     string m_host;
     if (resolver->hostNames().count())
-        m_host = resolver->hostNames().first().latin1();
+        m_host = static_cast<string>(resolver->hostNames().first().toLatin1());
     struct in_addr inaddr;
     inaddr.s_addr = m_addr;
     log(L_DEBUG, "Resolver ready %s %s", inet_ntoa(inaddr), m_host.c_str());
@@ -661,3 +660,7 @@ void IPResolver::start_resolve()
 }
 
 }
+
+#ifndef WIN32
+#include "sockfactory.moc"
+#endif

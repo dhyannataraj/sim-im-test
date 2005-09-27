@@ -25,15 +25,15 @@
 #include <q3simplerichtext.h>
 #endif
 
-#include <qcursor.h>
-#include <qapplication.h>
-#include <qtooltip.h>
+#include <QCursor>
+#include <QApplication>
+#include <QToolTip>
 #include <q3stylesheet.h>
-#include <qpainter.h>
-//Added by qt3to4:
+#include <QPainter>
+
 #include <QMouseEvent>
 #include <QLabel>
-#include <Q3Frame>
+#include <QFrame>
 
 #ifdef WIN32
 #include <windows.h>
@@ -62,17 +62,17 @@ void LinkLabel::mouseReleaseEvent(QMouseEvent * e)
 {
     if ((e->button() == Qt::LeftButton) && !m_url.isEmpty()){
         string url;
-        url = m_url.latin1();
+        url = static_cast<string>(m_url.toLatin1());
         Event e(EventGoURL, (void*)(url.c_str()));
         e.process();
     }
 }
 
 TipLabel::TipLabel(const QString &text)
-        : QLabel(NULL, "toolTipTip", Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint | Qt::Tool | Qt::X11BypassWindowManagerHint)
+        : QLabel(NULL, "toolTipTip", Qt::WStyle_StaysOnTop | Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_Tool | Qt::WX11BypassWM)
 {
     setMargin(3);
-    setFrameStyle(Q3Frame::Plain | Q3Frame::Box);
+    setFrameStyle(QFrame::Plain | QFrame::Box);
     setLineWidth(1);
     polish();
     m_text = text;
@@ -111,7 +111,7 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
             QString part;
             for (QStringList::Iterator it = l.begin(); it != l.end(); ++it, i++){
                 string s;
-                s = static_cast<string>((*it).local8Bit());
+                s = static_cast<string>((*it).toLocal8Bit());
                 if (!part.isEmpty()){
                     if (heights[i] >= hPart){
                         text += part;
@@ -162,7 +162,7 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
         prevH = s.height();
         if (totalH == 0){
             totalH = prevH;
-            l = m_text.split(DIV, QString::SkipEmptyParts);
+            l = QStringList::split(DIV, m_text);
             unsigned i = 0;
             for (QStringList::Iterator it = l.begin(); it != l.end(); ++it, i++){
                 Q3SimpleRichText richText(*it, font(), "", Q3StyleSheet::defaultSheet(), Q3MimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
@@ -181,3 +181,8 @@ void TipLabel::drawContents(QPainter *p)
     richText.adjustSize();
     richText.draw(p, 4, 4, QRect(0, 0, width(), height()), QToolTip::palette().active());
 }
+
+#ifndef WIN32
+#include "linklabel.moc"
+#endif
+

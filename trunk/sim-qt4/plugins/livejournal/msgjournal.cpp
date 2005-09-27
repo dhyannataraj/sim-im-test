@@ -22,9 +22,9 @@
 #include "ballonmsg.h"
 #include "toolbtn.h"
 
-#include <qlayout.h>
-#include <qlineedit.h>
-#include <qcombobox.h>
+#include <QLayout>
+#include <QLineEdit>
+#include <QComboBox>
 
 MsgJournal::MsgJournal(MsgEdit *parent, Message *msg)
         : QObject(parent)
@@ -68,7 +68,7 @@ MsgJournal::MsgJournal(MsgEdit *parent, Message *msg)
         }
     }
     m_wnd->cmbComment->setCurrentItem(m->getComments());
-    m_edit->m_edit->setTextFormat(RichText);
+    m_edit->m_edit->setTextFormat(Qt::RichText);
     QString text = msg->getRichText();
     if (!text.isEmpty()){
         m_edit->m_edit->setText(text);
@@ -194,8 +194,9 @@ void MsgJournal::frameDestroyed()
 }
 
 MsgJournalWnd::MsgJournalWnd(QWidget *parent)
-        : MsgJournalBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
 }
 
 MsgJournalWnd::~MsgJournalWnd()

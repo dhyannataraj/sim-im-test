@@ -21,11 +21,11 @@
 #include "editfile.h"
 #include "preview.h"
 
-#include <qcombobox.h>
+#include <QComboBox>
 #include <qspinbox.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qimage.h>
+#include <QLabel>
+#include <QLayout>
+#include <QImage>
 #include <QImageReader>
 #include <QList>
 
@@ -39,8 +39,9 @@ static FilePreview *createPreview(QWidget *parent)
 #endif
 
 BkgndCfg::BkgndCfg(QWidget *parent, BackgroundPlugin *plugin)
-        : Ui::BkgndCfgBase()
+        : QWidget( parent)
 {
+    setupUi( this);
     m_plugin = plugin;
     edtPicture->setText(QFile::decodeName(plugin->getBackground()));
     edtPicture->setStartDir(QFile::decodeName(app_file("pict/").c_str()));
@@ -83,8 +84,8 @@ void BkgndCfg::apply()
     if (cmbPosition->currentItem() >= 0)
         m_plugin->setPosition(cmbPosition->currentItem());
     m_plugin->setBackground(QFile::encodeName(edtPicture->text()));
-    m_plugin->setMarginContact(atol(spnContact->text().latin1()));
-    m_plugin->setMarginGroup(atol(spnGroup->text().latin1()));
+    m_plugin->setMarginContact(atol(spnContact->text().toLatin1()));
+    m_plugin->setMarginGroup(atol(spnGroup->text().toLatin1()));
     m_plugin->redraw();
 }
 

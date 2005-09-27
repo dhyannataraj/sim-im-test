@@ -24,7 +24,7 @@
 
 class CorePlugin;
 
-class UserViewConfig : public Ui_UserViewConfigBase, public QDialog
+class UserViewConfig : public QWidget, public Ui::UserViewConfigBase
 {
     Q_OBJECT
 public:

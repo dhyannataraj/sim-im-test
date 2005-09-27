@@ -18,28 +18,24 @@
 #include "connectwnd.h"
 #include "linklabel.h"
 
-#include <qlabel.h>
-#include <qmovie.h>
-#include <q3frame.h>
-#include <qfile.h>
+QMovie *movie = new QMovie(QFile::decodeName(app_file("pict/connect.gif").c_str()));
 
 ConnectWnd::ConnectWnd(bool bStart)
 {
+    setupUi( this);
     m_bStart = bStart;
     setConnecting(true);
-    QMovie movie(QFile::decodeName(app_file("pict/connect.gif").c_str()));
-    if (movie.isNull())
-        movie = QMovie(QFile::decodeName(app_file("pict/connect.mng").c_str()));
-    if (!movie.isNull()){
+    if (movie->isNull())
+        movie->setFileName(QFile::decodeName(app_file("pict/connect.mng").c_str()));
+    if (!movie->isNull()){
         lblMovie->setMovie(movie);
-        movie.connectUpdate(this, SLOT(updateMovie()));
-        movie.restart();
-        updateMovie();
+        movie->jumpToFrame(0);
+	connect(movie, SIGNAL(updated(QRect)), this, SLOT(updateMovie(QRect)));
     }
     setConnecting(true);
 }
 
-void ConnectWnd::updateMovie()
+void ConnectWnd::updateMovie(const QRect& rect)
 {
     lblMovie->repaint();
 }

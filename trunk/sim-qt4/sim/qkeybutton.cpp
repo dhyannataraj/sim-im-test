@@ -18,9 +18,9 @@
 #include "qkeybutton.h"
 
 #include <q3accel.h>
-#include <qcursor.h>
-#include <qstringlist.h>
-//Added by qt3to4:
+#include <QCursor>
+#include <QStringList>
+
 #include <QMouseEvent>
 #include <QFocusEvent>
 #include <QKeyEvent>
@@ -135,3 +135,8 @@ void QKeyButton::setKey(QKeyEvent *e, bool bPress)
         emit changed();
     }
 }
+
+#ifndef _WINDOWS
+#include "qkeybutton.moc"
+#endif
+

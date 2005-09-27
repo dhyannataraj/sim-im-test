@@ -18,7 +18,7 @@
 #include "socket.h"
 #include "stl.h"
 
-#include <qtimer.h>
+#include <QTimer>
 
 namespace SIM
 {
@@ -465,3 +465,9 @@ void ServerSocketNotify::bind(const char *path)
 #endif
 
 }
+
+#ifndef WIN32
+#include "socket.moc"
+#endif
+
+

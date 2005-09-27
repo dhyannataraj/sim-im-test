@@ -23,7 +23,7 @@
 
 class LiveJournalClient;
 
-class LiveJournalCfg : public LiveJournalCfgBase
+class LiveJournalCfg : public QWidget, public Ui::LiveJournalCfgBase
 {
     Q_OBJECT
 public:

@@ -24,7 +24,7 @@
 #include "socket.h"
 #include "icq.h"
 
-#include <qdatetime.h>
+#include <QDateTime>
 
 #include <map>
 using namespace std;

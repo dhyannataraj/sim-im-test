@@ -20,19 +20,20 @@
 #include "icqclient.h"
 #include "datepicker.h"
 
-#include <qpushbutton.h>
-#include <qdatetime.h>
+#include <QPushButton>
+#include <QDateTime>
 #include <qspinbox.h>
-#include <qcombobox.h>
-#include <qlineedit.h>
+#include <QComboBox>
+#include <QLineEdit>
 
 MoreInfo::MoreInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
-        : MoreInfoBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_data    = data;
     m_client  = client;
     m_contact = contact;
-    btnHomePage->setPixmap(Pict("home"));
+    btnHomePage->setPixmap(Pict("home").pixmap());
     connect(btnHomePage, SIGNAL(clicked()), this, SLOT(goUrl()));
     spnAge->setSpecialValueText(" ");
     spnAge->setRange(0, 100);
@@ -194,7 +195,7 @@ void MoreInfo::goUrl()
     if (url.isEmpty())
         return;
     string url_str;
-    url_str = url.local8Bit();
+    url_str = static_cast<string>(url.toLocal8Bit());
     Event e(EventGoURL, (void*)url_str.c_str());
     e.process();
 }

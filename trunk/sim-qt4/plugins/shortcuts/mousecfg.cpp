@@ -18,19 +18,20 @@
 #include "mousecfg.h"
 #include "shortcuts.h"
 
-#include <q3listview.h>
-#include <qlabel.h>
-#include <qregexp.h>
-#include <q3accel.h>
-#include <qpushbutton.h>
-#include <qcheckbox.h>
-#include <qcombobox.h>
-//Added by qt3to4:
+#include <Q3ListView>
+#include <QLabel>
+#include <QRegExp>
+#include <Q3Accel>
+#include <QPushButton>
+#include <QCheckBox>
+#include <QComboBox>
+
 #include <QResizeEvent>
 
 MouseConfig::MouseConfig(QWidget *parent, ShortcutsPlugin *plugin)
-        : MouseConfigBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_plugin = plugin;
     lstCmd->setSorting(0);
     loadMenu(MenuMain);
@@ -65,7 +66,7 @@ void MouseConfig::apply()
 
 void MouseConfig::resizeEvent(QResizeEvent *e)
 {
-    MouseConfigBase::resizeEvent(e);
+    resizeEvent(e);
     adjustColumns();
 }
 
@@ -117,9 +118,9 @@ void MouseConfig::selectionChanged()
     lblCmd->setText(item->text(0));
     int n = ShortcutsPlugin::stringToButton(item->text(1).latin1());
     if (n == 0)
-        chkAlt->setChecked((n & AltButton) != 0);
-    chkCtrl->setChecked((n & ControlButton) != 0);
-    chkShift->setChecked((n & ShiftButton) != 0);
+        chkAlt->setChecked((n & Qt::AltButton) != 0);
+    chkCtrl->setChecked((n & Qt::ControlButton) != 0);
+    chkShift->setChecked((n & Qt::ShiftButton) != 0);
     cmbButton->setEnabled(true);
     cmbButton->setCurrentItem(n);
     buttonChanged(0);
@@ -147,9 +148,9 @@ void MouseConfig::changed(bool)
     QString res;
     int n = cmbButton->currentItem();
     if (n){
-        if (chkAlt->isChecked()) n |= AltButton;
-        if (chkCtrl->isChecked()) n |= ControlButton;
-        if (chkShift->isChecked()) n |= ShiftButton;
+        if (chkAlt->isChecked()) n |= Qt::AltButton;
+        if (chkCtrl->isChecked()) n |= Qt::ControlButton;
+        if (chkShift->isChecked()) n |= Qt::ShiftButton;
         res = ShortcutsPlugin::buttonToString(n).c_str();
     }
     Q3ListViewItem *item = lstCmd->currentItem();

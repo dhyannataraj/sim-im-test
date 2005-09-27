@@ -23,7 +23,7 @@
 
 class YahooClient;
 
-class YahooInfo : public YahooInfoBase, public EventReceiver
+class YahooInfo : public QWidget, public Ui::YahooInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:

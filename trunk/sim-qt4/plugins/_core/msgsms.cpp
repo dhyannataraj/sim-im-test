@@ -22,13 +22,13 @@
 #include "textshow.h"
 #include "core.h"
 
-#include <qtimer.h>
-#include <qtoolbutton.h>
-#include <qlineedit.h>
-#include <qlayout.h>
-#include <qcheckbox.h>
-//Added by qt3to4:
-#include <Q3Frame>
+#include <QTimer>
+#include <QToolButton>
+#include <QLineEdit>
+#include <QLayout>
+#include <QCheckBox>
+
+#include <QFrame>
 #include <QHBoxLayout>
 
 const unsigned MAX_SMS_LEN_LATIN1	= 160;
@@ -44,7 +44,7 @@ MsgSMS::MsgSMS(MsgEdit *parent, Message *msg)
         m_edit->m_edit->setText("");
         m_edit->m_edit->setReadOnly(false);
     }
-    m_edit->m_edit->setTextFormat(PlainText);
+    m_edit->m_edit->setTextFormat(Qt::PlainText);
     QString t = msg->getPlainText();
     if (!t.isEmpty())
         m_edit->m_edit->setText(t);
@@ -297,9 +297,8 @@ void *MsgSMS::processEvent(Event *e)
 }
 
 SMSPanel::SMSPanel(QWidget *parent)
-        : Q3Frame(parent)
+        : QFrame(parent)
 {
-    setMargin(3);
     QHBoxLayout *lay = new QHBoxLayout(this);
     chkSave = new QCheckBox(i18n("Save phone in contact list"), this);
     lay->addSpacing(7);

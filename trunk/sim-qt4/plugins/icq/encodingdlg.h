@@ -23,7 +23,7 @@
 
 class ICQClient;
 
-class EncodingDlg : public EncodingDlgBase
+class EncodingDlg : public QDialog, public Ui::EncodingDlgBase
 {
     Q_OBJECT
 public:

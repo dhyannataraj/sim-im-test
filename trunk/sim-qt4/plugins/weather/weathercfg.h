@@ -27,7 +27,7 @@
 class WeatherPlugin;
 class WIfaceCfg;
 
-class WeatherCfg : public WeatherCfgBase, public EventReceiver, public FetchClient, public SAXParser
+class WeatherCfg : public QWidget, public Ui::WeatherCfgBase, public EventReceiver, public FetchClient, public SAXParser
 {
     Q_OBJECT
 public:

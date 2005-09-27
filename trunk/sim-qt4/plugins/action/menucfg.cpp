@@ -21,15 +21,15 @@
 #include "additem.h"
 #include "editfile.h"
 
-#include <qpushbutton.h>
-//Added by qt3to4:
+#include <QPushButton>
+
 #include <QResizeEvent>
 
 MenuConfig::MenuConfig(QWidget *parent, struct ActionUserData *data)
-        : Ui::MenuConfigBase()
+        : QWidget( parent)
 {
+    setupUi( this);
     m_data   = data;
-
     lstMenu->addColumn(i18n("Item"));
     lstMenu->addColumn(i18n("Program"));
     lstMenu->setExpandingColumn(1);
@@ -52,7 +52,7 @@ MenuConfig::~MenuConfig()
 
 void MenuConfig::resizeEvent(QResizeEvent *e)
 {
-    QDialog::resizeEvent(e);
+    resizeEvent(e);
     lstMenu->adjustColumn();
 }
 
@@ -105,7 +105,7 @@ void MenuConfig::apply(void *_data)
     clear_list(&data->Menu);
     data->NMenu.value = 0;
     for (Q3ListViewItem *item = lstMenu->firstChild(); item; item = item->nextSibling()){
-        set_str(&data->Menu, ++data->NMenu.value, (item->text(0) + ";" + item->text(1)).utf8());
+        set_str(&data->Menu, ++data->NMenu.value, (item->text(0) + ";" + item->text(1)).toUtf8());
     }
 }
 

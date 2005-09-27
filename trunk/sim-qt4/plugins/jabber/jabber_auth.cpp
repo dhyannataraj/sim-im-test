@@ -17,7 +17,7 @@
 
 #include "jabberclient.h"
 
-#include <qtimer.h>
+#include <QTimer>
 
 class AuthRequest : public JabberClient::ServerRequest
 {
@@ -94,7 +94,7 @@ void JabberClient::auth_digest()
     req->text_tag("username", username.c_str());
 
     string digest = m_id;
-    digest += getPassword().utf8();
+    digest += static_cast<string>(getPassword().toUtf8());
     string md = sha1(digest.c_str());
     digest = "";
     for (unsigned i = 0; i < md.length(); i++){

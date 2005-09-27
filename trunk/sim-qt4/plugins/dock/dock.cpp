@@ -22,11 +22,11 @@
 #include "core.h"
 #include "mainwin.h"
 
-#include <qapplication.h>
-#include <qwidget.h>
+#include <QApplication>
+#include <QWidget>
 #include <q3popupmenu.h>
-#include <qtimer.h>
-//Added by qt3to4:
+#include <QTimer>
+
 #include <QEvent>
 #include <time.h>
 
@@ -362,17 +362,15 @@ void DockPlugin::doubleClicked()
 
 QWidget *DockPlugin::getMainWindow()
 {
-    QWidgetList  *list = QApplication::topLevelWidgets();
-    QWidgetListIt it( *list );
+    QList<QWidget *>  list = QApplication::topLevelWidgets();
+    QListIterator<QWidget *> it( list );
     QWidget *w;
-    while ( (w=it.current()) != 0 ) {
-        ++it;
+    while ( it.hasNext() ) {
+        w = it.next();
         if (w->inherits("MainWindow")){
-            delete list;
             return w;
         }
     }
-    delete list;
     return NULL;
 }
 

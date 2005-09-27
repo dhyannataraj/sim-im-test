@@ -23,8 +23,9 @@
 #include <q3multilineedit.h>
 
 JabberAboutInfo::JabberAboutInfo(QWidget *parent, struct JabberUserData *data, JabberClient *client)
-        : JabberAboutInfoBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_client  = client;
     m_data    = data;
     if (m_data)
@@ -69,7 +70,7 @@ void JabberAboutInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     JabberUserData *data = (JabberUserData*)_data;
-    set_str(&data->Desc.ptr, edtAbout->text().utf8());
+    set_str(&data->Desc.ptr, edtAbout->text().toUtf8());
 }
 
 #ifndef WIN32

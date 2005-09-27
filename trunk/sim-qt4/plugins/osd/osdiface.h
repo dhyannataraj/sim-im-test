@@ -23,7 +23,7 @@
 
 class OSDPlugin;
 
-class OSDIface : public OSDIfaceBase
+class OSDIface : public QWidget, public Ui::OSDIfaceBase
 {
     Q_OBJECT
 public:

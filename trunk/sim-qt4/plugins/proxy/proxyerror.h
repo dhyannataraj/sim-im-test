@@ -25,7 +25,7 @@
 class ProxyConfig;
 class ProxyPlugin;
 
-class ProxyError : public ProxyErrorBase, public EventReceiver
+class ProxyError : public QDialog, public Ui::ProxyErrorBase, public EventReceiver
 {
     Q_OBJECT
 public:

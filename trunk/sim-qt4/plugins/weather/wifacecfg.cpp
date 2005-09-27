@@ -76,8 +76,9 @@ static const char *helpForecastList[] =
     };
 
 WIfaceCfg::WIfaceCfg(QWidget *parent, WeatherPlugin *plugin)
-        : WIfaceCfgBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_plugin = plugin;
     setButtonsPict(this);
     edtText->setText(unquoteText(m_plugin->getButtonText()));

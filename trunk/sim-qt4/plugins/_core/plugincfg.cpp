@@ -17,19 +17,20 @@
 
 #include "plugincfg.h"
 #include "qchildwidget.h"
-//Added by qt3to4:
+
 #include <QVBoxLayout>
 #include "simapi.h"
 
-#include <qlayout.h>
-#include <qtabwidget.h>
-#include <qlabel.h>
-#include <qcheckbox.h>
-#include <qpainter.h>
+#include <QLayout>
+#include <QTabWidget>
+#include <QLabel>
+#include <QCheckBox>
+#include <QPainter>
 
 PluginCfg::PluginCfg(QWidget *parent, pluginInfo *info)
-        : PluginCfgBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_info = info;
     if (m_info->plugin){
         QWidget *w = m_info->plugin->createConfigWindow(addWnd);

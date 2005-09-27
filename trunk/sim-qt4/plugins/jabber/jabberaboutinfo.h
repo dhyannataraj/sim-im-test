@@ -23,7 +23,7 @@
 
 class JabberClient;
 
-class JabberAboutInfo : public JabberAboutInfoBase, public EventReceiver
+class JabberAboutInfo : public QWidget, public Ui::JabberAboutInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:

@@ -18,9 +18,9 @@
 #include "toolbarcfg.h"
 #include "simapi.h"
 
-#include <qapplication.h>
+#include <QApplication>
 #include <q3popupmenu.h>
-//Added by qt3to4:
+
 #include <QEvent>
 
 ToolbarsCfg::ToolbarsCfg()

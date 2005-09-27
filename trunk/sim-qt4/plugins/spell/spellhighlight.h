@@ -28,7 +28,7 @@
 #endif
 
 #include <q3dict.h>
-#include <qstringlist.h>
+#include <QStringList>
 
 #include "spell.h"
 

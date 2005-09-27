@@ -17,21 +17,21 @@
 
 #include "fontedit.h"
 
-#include <qlayout.h>
-#include <qpushbutton.h>
-#include <qlabel.h>
-#include <qregexp.h>
-//Added by qt3to4:
-#include <Q3Frame>
+#include <QLayout>
+#include <QPushButton>
+#include <QLabel>
+#include <QRegExp>
+
+#include <QFrame>
 #include <QHBoxLayout>
 
 #ifdef USE_KDE
 #include <kfontdialog.h>
 #else
-#include <qfontdialog.h>
+#include <QFontDialog>
 #endif
 
-FontEdit::FontEdit(QWidget *parent, const char *name) : Q3Frame(parent, name)
+FontEdit::FontEdit(QWidget *parent, const char *name) : QFrame(parent, name)
 {
     QHBoxLayout *lay = new QHBoxLayout(this);
     lblFont = new QLabel("...", this);
@@ -41,7 +41,7 @@ FontEdit::FontEdit(QWidget *parent, const char *name) : Q3Frame(parent, name)
     QPushButton *btnFont = new QPushButton(this);
     btnFont->setIcon(Pict("text"));
     lay->addWidget(btnFont);
-    lblFont->setFrameShape(Q3Frame::Box);
+    lblFont->setFrameShape(QFrame::Box);
     lblFont->setLineWidth(1);
     lblFont->setMargin(3);
     connect(btnFont, SIGNAL(clicked()), this, SLOT(chooseFont()));
@@ -64,7 +64,7 @@ void FontEdit::setFont(const char *fontname)
 
 string FontEdit::getFont()
 {
-    return font2str(f, false).latin1();
+    return static_cast<string>(font2str(f, false).toLatin1());
 }
 
 void FontEdit::chooseFont()
@@ -135,14 +135,14 @@ QString FontEdit::font2str(const QFont &f, bool use_tr)
 QFont FontEdit::str2font(const char *str, const QFont &def)
 {
     QFont f(def);
-    QStringList l = QString::fromLocal8Bit(str).split(QRegExp(" *, *"), QString::SkipEmptyParts);
+    QStringList l = QStringList::split(QRegExp(" *, *"), QString::fromLocal8Bit(str));
     if (l.count() == 0) return f;
     int weight = QFont::Normal;
     bool italic    = false;
     bool strikeout = false;
     bool underline = false;
     f.setFamily(l[0]);
-    for (int i = 1; i < l.count(); i++){
+    for (unsigned i = 1; i < l.count(); i++){
         QString s = l[i];
         if (s == "italic"){
             italic = true;
@@ -175,7 +175,7 @@ QFont FontEdit::str2font(const char *str, const QFont &def)
         int p = s.find(QRegExp("[0-9]+ *pt"));
         if (p >= 0){
             s = s.mid(p);
-            int size = atol(s.latin1());
+            int size = atol(s.toLatin1());
             if (size > 0)
                 f.setPointSize(size);
             continue;
@@ -183,7 +183,7 @@ QFont FontEdit::str2font(const char *str, const QFont &def)
         p = s.find(QRegExp("[0-9]+ *pix"));
         if (p >= 0){
             s = s.mid(p);
-            int size = atol(s.latin1());
+            int size = atol(s.toLatin1());
             if (size > 0)
                 f.setPixelSize(size);
             continue;
@@ -195,3 +195,7 @@ QFont FontEdit::str2font(const char *str, const QFont &def)
     f.setWeight(weight);
     return f;
 }
+
+#ifndef _WINDOWS
+#include "fontedit.moc"
+#endif

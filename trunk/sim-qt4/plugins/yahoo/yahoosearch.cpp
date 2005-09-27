@@ -19,9 +19,9 @@
 #include "yahooclient.h"
 #include "intedit.h"
 
-#include <qlabel.h>
-#include <qcombobox.h>
-//Added by qt3to4:
+#include <QLabel>
+#include <QComboBox>
+
 #include <QShowEvent>
 
 const ext_info ages[] =
@@ -48,8 +48,9 @@ i18n("female")
 #endif
 
 YahooSearch::YahooSearch(YahooClient *client, QWidget *parent)
-        : YahooSearchBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_client = client;
     connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
     edtID->setValidator(new RegExpValidator("[0-9A-Za-z \\-_]+", this));
@@ -59,7 +60,7 @@ YahooSearch::YahooSearch(YahooClient *client, QWidget *parent)
 
 void YahooSearch::showEvent(QShowEvent *e)
 {
-    YahooSearchBase::showEvent(e);
+    showEvent(e);
     emit setAdd(false);
 }
 
@@ -173,7 +174,7 @@ bool YahooSearch::done(unsigned code, Buffer &b, const char*)
 
 void YahooSearch::createContact(const QString &id, unsigned tmpFlags, Contact *&contact)
 {
-    if (m_client->findContact(id.utf8(), NULL, contact, false, false))
+    if (m_client->findContact(id.toUtf8(), NULL, contact, false, false))
         return;
     QString grpName = "";
     Group *grp = NULL;
@@ -184,7 +185,7 @@ void YahooSearch::createContact(const QString &id, unsigned tmpFlags, Contact *&
     }
     if (grp)
         grpName = grp->getName();
-    m_client->findContact(id.utf8(), getContacts()->fromUnicode(NULL, grpName).c_str(), contact, false, false);
+    m_client->findContact(id.toUtf8(), getContacts()->fromUnicode(NULL, grpName).c_str(), contact, false, false);
     contact->setFlags(contact->getFlags() | tmpFlags);
 }
 

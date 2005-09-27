@@ -22,10 +22,11 @@
 #include "stl.h"
 
 #include "iconcfgbase.h"
+#include <QObject>
 
 class IconsPlugin;
 
-class IconCfg : public IconCfgBase
+class IconCfg : public QWidget, public Ui::IconCfgBase
 {
     Q_OBJECT
 public:

@@ -20,9 +20,9 @@
 
 #include "simapi.h"
 
-#include <qwidget.h>
-#include <qpixmap.h>
-//Added by qt3to4:
+#include <QWidget>
+#include <QPixmap>
+
 #include <QEvent>
 
 class KRootPixmap;

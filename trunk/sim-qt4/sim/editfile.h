@@ -22,23 +22,25 @@
 
 #include <QFrame>
 #include <QLineEdit>
+#include <q3multilineedit.h>
 #include <QFileDialog>
+
 #include <QDragEnterEvent>
 #include <QMouseEvent>
 #include <QHBoxLayout>
-#include <QMenu>
+#include <Q3PopupMenu>
 #include <QDropEvent>
 
 class QHBoxLayout;
 class EditFile;
 class FilePreview;
-class QMenu;
+class Q3PopupMenu;
 
 class EXPORT FileLineEdit : public QLineEdit
 {
     Q_OBJECT
 public:
-    FileLineEdit(EditFile *p);
+    FileLineEdit(EditFile *p, const char *name = NULL);
     ~FileLineEdit();
 protected:
     virtual void dragEnterEvent(QDragEnterEvent*);
@@ -51,7 +53,7 @@ class EXPORT EditFile : public QFrame
 {
     Q_OBJECT
 public:
-    EditFile(QWidget *p);
+    EditFile(QWidget *p, const char *name=NULL);
     ~EditFile();
     void setText(const QString&);
     QString text();
@@ -85,10 +87,36 @@ class EXPORT EditSound : public EditFile
 {
     Q_OBJECT
 public:
-    EditSound(QWidget *p);
+    EditSound(QWidget *p, const char *name=NULL);
     ~EditSound();
 protected slots:
     void play();
+};
+
+class EXPORT LineEdit : public QLineEdit
+{
+    Q_OBJECT
+public:
+    LineEdit(QWidget *parent, const char *name = NULL);
+    const char **helpList;
+protected slots:
+    void menuActivated(int);
+protected:
+    void mousePressEvent(QMouseEvent *e);
+    Q3PopupMenu *createPopupMenu();
+};
+
+class EXPORT MultiLineEdit : public Q3MultiLineEdit
+{
+    Q_OBJECT
+public:
+    MultiLineEdit(QWidget *parent, const char *name = NULL);
+    const char **helpList;
+protected slots:
+    void menuActivated(int);
+protected:
+    void mousePressEvent(QMouseEvent *e);
+    Q3PopupMenu *createPopupMenu();
 };
 
 #endif

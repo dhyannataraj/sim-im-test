@@ -24,9 +24,9 @@
 #include "container.h"
 #include "history.h"
 
-#include <q3toolbar.h>
-#include <qtimer.h>
-//Added by qt3to4:
+#include <Q3ToolBar>
+#include <QTimer>
+
 #include <Q3ValueList>
 #include <QCloseEvent>
 
@@ -47,8 +47,8 @@ UserWnd::UserWnd(unsigned id, Buffer *cfg, bool bReceived, bool bAdjust)
     m_bClosed = false;
     m_bTyping = false;
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
-    m_hSplitter = new QSplitter(Horizontal, this);
-    m_splitter = new QSplitter(Vertical, m_hSplitter);
+    m_hSplitter = new QSplitter(Qt::Horizontal, this);
+    m_splitter = new QSplitter(Qt::Vertical, m_hSplitter);
     m_list = NULL;
     m_view = NULL;
 

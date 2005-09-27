@@ -23,7 +23,7 @@
 
 class ICQClient;
 
-class PastInfo : public PastInfoBase, public EventReceiver
+class PastInfo : public QWidget, public Ui::PastInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:

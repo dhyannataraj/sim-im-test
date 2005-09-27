@@ -21,8 +21,8 @@
 #include "core.h"
 #include "icons.h"
 
-#include <qtextcodec.h>
-#include <qregexp.h>
+#include <QTextCodec>
+#include <QRegExp>
 
 #ifdef WIN32
 #include <windows.h>
@@ -402,7 +402,7 @@ string RTFGenParser::parse(const QString &text)
         int pos = face.find(QRegExp(" +["));
         if (pos > 0)
             face = face.left(pos);
-        s += face.latin1();
+        s += static_cast<string>(face.toLatin1());
         s += ";}";
     }
     s += "}\r\n";
@@ -419,7 +419,7 @@ string RTFGenParser::parse(const QString &text)
     }
     s += "}\r\n";
     s += "\\viewkind4\\pard";
-    s += style.getDiffRTF(CharStyle()).utf8();
+    s += static_cast<string>(style.getDiffRTF(CharStyle()).toUtf8());
     s += res;
     s += "\r\n}\r\n";
 
@@ -493,7 +493,7 @@ void RTFGenParser::text(const QString &text)
         s += c;
         if (m_codec){
             string plain;
-            plain = m_codec->fromUnicode(s);
+            plain = static_cast<string>(m_codec->fromUnicode(s));
             if ((plain.length() == 1) && (m_codec->toUnicode(plain.c_str()) == s)){
                 char b[5];
                 snprintf(b, sizeof(b), "\\\'%02x", plain[0] & 0xFF);
@@ -653,7 +653,7 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
             }
         }
         if (src.left(5) == "icon:"){
-            list<string> smiles = getIcons()->getSmile(src.mid(5).latin1());
+            list<string> smiles = getIcons()->getSmile(src.mid(5).toLatin1());
             for (list<string>::iterator its = smiles.begin(); its != smiles.end(); ++its){
                 string s = *its;
                 for (unsigned nSmile = 0; nSmile < 26; nSmile++){
@@ -702,7 +702,8 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
                 {
                     cssPropValue = cssPropValue.lower();
                     int length;
-                    if (cssReNum.match(cssPropValue, 0, &length) == 0){
+                    if (cssReNum.indexIn(cssPropValue, 0) == 0){
+			length = cssReNum.matchedLength();
                         float number = cssPropValue.left(length).toFloat();
                         QString type = cssPropValue.mid(length);
                         if (type == "pt")
@@ -768,7 +769,7 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
         QString rtf = style.getDiffRTF(parentStyle);
         if (!rtf.isEmpty())
         {
-            res += rtf.utf8();
+            res += static_cast<string>(rtf.toUtf8());
             m_bSpace = true;
         }
         tag.setCharStyle(style);
@@ -819,7 +820,7 @@ void RTFGenParser::tag_end(const QString &tagName)
                     QString rtf = pParentStyle->getDiffRTF(style);
                     if (!rtf.isEmpty())
                     {
-                        res += rtf.utf8();
+                        res += static_cast<string>(rtf.toUtf8());
                         m_bSpace = true;
                     }
                 }
@@ -951,7 +952,7 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &attrs)
             text(alt);
             return;
         }
-        list<string> smiles = getIcons()->getSmile(src.mid(5).latin1());
+        list<string> smiles = getIcons()->getSmile(src.mid(5).toLatin1());
         if (smiles.empty()){
             text(alt);
             return;

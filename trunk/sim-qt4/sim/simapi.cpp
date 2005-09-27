@@ -16,10 +16,8 @@
  ***************************************************************************/
 
 #include "simapi.h"
-#include "ltdl.h"
 
 #include <time.h>
-
 #include <stdio.h>
 #include <QApplication>
 #include <QWidget>
@@ -34,7 +32,7 @@
 #include <Q3MultiLineEdit>
 #include <QRegExp>
 
-#include <qdesktopwidget.h>
+#include <QDesktopWidget>
 
 #ifdef WIN32
 #include <windows.h>
@@ -174,7 +172,7 @@ NoTranslate:
         else
             return put_n_in( QString::fromUtf8( plural ),  n );
     }
-    QStringList forms = r.split( "\n", QString::SkipEmptyParts );
+    QStringList forms = r.split( "\n", QString::SkipEmptyParts);
     switch ( plural_form ) {
     case 0: // NoPlural
         EXPECT_LENGTH( 1 );
@@ -389,7 +387,7 @@ void mySetCaption(QWidget *w, const QString &caption)
         SendMessageW(w->winId(), WM_SETTEXT, 0, (LPARAM)text);
         delete[] text;
     }else{
-        SendMessageA(w->winId(), WM_SETTEXT, 0, (LPARAM)(const char*)caption.local8Bit());
+        SendMessageA(w->winId(), WM_SETTEXT, 0, (LPARAM)(const char*)caption.toLocal8Bit());
     }
     bSetCaption = false;
 }
@@ -407,11 +405,11 @@ void setWndClass(QWidget *w, const char *name)
     classhint.res_class = (char*)name;
     XSetClassHint(dsp, win, &classhint);
 
-    XWMHints *hints;
-    hints = XGetWMHints(dsp, win);
-    hints->window_group = win;
-    hints->flags = WindowGroupHint;
-    XSetWMHints(dsp, win, hints);
+    XWMHints *hints;  
+    hints = XGetWMHints(dsp, win);  
+    hints->window_group = win;  
+    hints->flags = WindowGroupHint;  
+    XSetWMHints(dsp, win, hints);  
     XFree( hints );
 
     const char *argv[2];
@@ -464,9 +462,12 @@ bool raiseWindow(QWidget *w, unsigned)
 
 void setButtonsPict(QWidget *w)
 {
-    QObjectList l = w->queryList( "QPushButton" );
-    for( QObjectList::iterator it = l.begin(); it != l.end(); it++ ) {
-        QPushButton *btn = static_cast<QPushButton*>( *it );
+    QList<QObject *> l = w->queryList( "QPushButton" );
+    QListIterator<QObject *> it( l );
+    QObject *obj;
+    while ( it.hasNext()) {
+        obj = it.next();
+        QPushButton *btn = static_cast<QPushButton*>(obj);
         if (btn->pixmap()) continue;
         const QString &text = btn->text();
         const char *icon = NULL;
@@ -481,7 +482,7 @@ void setButtonsPict(QWidget *w)
         }
         if (icon == NULL) continue;
         btn->setIconSet(Icon(icon));
-	}
+    }
 }
 
 EXPORT QString formatDateTime(unsigned long t)
@@ -660,8 +661,7 @@ EXPORT bool isLatin(const QString &str)
 EXPORT QString getPart(QString &str, unsigned size)
 {
     QString res;
-    // FIXME: length() is int -> change definition of getPart()
-    if (str.length() < (int)size){
+    if (str.length() < size){
         res = str;
         str = "";
         return res;
@@ -723,7 +723,7 @@ EXPORT unsigned screens()
 #if COMPAT_QT_VERSION >= 0x030000
     QDesktopWidget *desktop = QApplication::desktop();
     return desktop->numScreens();
-#else
+#else 
 #ifdef WIN32
     HINSTANCE hLib = LoadLibraryA("user32.dll");
     BOOL (WINAPI *_EnumDisplayMonitors)(HDC, LPCRECT, MONITORENUMPROC, LPARAM) = NULL;
@@ -749,7 +749,7 @@ EXPORT QRect screenGeometry(unsigned nScreen)
 #if COMPAT_QT_VERSION >= 0x030000
     QDesktopWidget *desktop = QApplication::desktop();
     return desktop->screenGeometry(nScreen);
-#else
+#else 
 #ifdef WIN32
     HINSTANCE hLib = LoadLibraryA("user32.dll");
     BOOL (WINAPI *_EnumDisplayMonitors)(HDC, LPCRECT, MONITORENUMPROC, LPARAM) = NULL;
@@ -779,7 +779,7 @@ EXPORT QRect screenGeometry()
         rc |= desktop->screenGeometry(i);
     }
     return rc;
-#else
+#else 
 #ifdef WIN32
     HINSTANCE hLib = LoadLibraryA("user32.dll");
     BOOL (WINAPI *_EnumDisplayMonitors)(HDC, LPCRECT, MONITORENUMPROC, LPARAM) = NULL;
@@ -869,3 +869,6 @@ EXPORT int strcasecmp(const char *a, const char *b)
 }
 
 #endif
+
+
+

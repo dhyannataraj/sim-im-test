@@ -22,9 +22,9 @@
 #include "userwnd.h"
 #include "core.h"
 
-#include <qtimer.h>
-#include <qtoolbutton.h>
-#include <qregexp.h>
+#include <QTimer>
+#include <QToolButton>
+#include <QRegExp>
 
 #ifdef USE_KDE
 #include <kfiledialog.h>
@@ -43,7 +43,7 @@ MsgFile::MsgFile(MsgEdit *parent, Message *msg)
         m_edit->m_edit->setText("");
         m_edit->m_edit->setReadOnly(false);
     }
-    m_edit->m_edit->setTextFormat(PlainText);
+    m_edit->m_edit->setTextFormat(Qt::PlainText);
     QString t = msg->getPlainText();
     if (!t.isEmpty())
         m_edit->m_edit->setText(t);

@@ -20,13 +20,13 @@
 
 #include "simapi.h"
 #include "managerbase.h"
-//Added by qt3to4:
+
 #include <QResizeEvent>
 #include <QCloseEvent>
 
 class CorePlugin;
 
-class ConnectionManager : public Ui_ConnectionManagerBase, public QDialog
+class ConnectionManager : public QDialog, public Ui::ConnectionManagerBase
 {
     Q_OBJECT
 public:

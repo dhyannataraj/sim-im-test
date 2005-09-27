@@ -24,9 +24,9 @@
 #include "logindlg.h"
 #include "autoreply.h"
 
-#include <qtimer.h>
-#include <qapplication.h>
-#include <qwidget.h>
+#include <QTimer>
+#include <QApplication>
+#include <QWidget>
 
 #include <map>
 using namespace std;

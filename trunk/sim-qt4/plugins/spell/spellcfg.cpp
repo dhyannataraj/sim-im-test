@@ -26,13 +26,13 @@
 #include "spellfind.h"
 #endif
 
-#include <qlabel.h>
-#include <qpushbutton.h>
+#include <QLabel>
+#include <QPushButton>
 #include <q3header.h>
-#include <qbitmap.h>
-#include <qpainter.h>
-#include <qstyle.h>
-//Added by qt3to4:
+#include <QBitmap>
+#include <QPainter>
+#include <QStyle>
+
 #include <QPixmap>
 #include <QResizeEvent>
 
@@ -41,8 +41,9 @@ const unsigned COL_CHECK	= 1;
 const unsigned COL_CHECKED	= 2;
 
 SpellConfig::SpellConfig(QWidget *parent, SpellPlugin *plugin)
-        : SpellConfigBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_plugin = plugin;
 #ifdef WIN32
     edtPath->setText(QFile::decodeName(m_plugin->getPath()));
@@ -84,7 +85,7 @@ void SpellConfig::apply()
             continue;
         if (!lang.empty())
             lang += ";";
-        lang += item->text(COL_NAME).latin1();
+        lang += static_cast<string>(item->text(COL_NAME).toLatin1());
     }
     m_plugin->setLang(lang.c_str());
     m_plugin->reset();
@@ -92,7 +93,7 @@ void SpellConfig::apply()
 
 void SpellConfig::resizeEvent(QResizeEvent *e)
 {
-    SpellConfigBase::resizeEvent(e);
+    resizeEvent(e);
     lstLang->adjustColumn();
 }
 
@@ -202,14 +203,14 @@ void SpellConfig::setCheck(Q3ListViewItem *item)
     pInd.end();
     pixInd.setMask(mInd);
 #else
-    int w = style().pixelMetric(QStyle::PM_IndicatorWidth);
-    int h = style().pixelMetric(QStyle::PM_IndicatorHeight);
+    int w = style()->pixelMetric(QStyle::PM_IndicatorWidth);
+    int h = style()->pixelMetric(QStyle::PM_IndicatorHeight);
     QPixmap pixInd(w, h);
     QPainter pInd(&pixInd);
     pInd.setBrush(cg.background());
     QRect rc(0, 0, w, h);
     pInd.eraseRect(rc);
-    style().drawPrimitive(QStyle::PE_Indicator, &pInd, rc, cg, state);
+    style()->drawPrimitive(QStyle::PE_IndicatorCheckBox, NULL, &pInd, NULL);
     pInd.end();
 #endif
     item->setPixmap(COL_CHECK, pixInd);

@@ -20,7 +20,7 @@
 
 #include "actioncfgbase.h"
 #include "simapi.h"
-//Added by qt3to4:
+
 #include <QPixmap>
 #include <QDialog>
 #include <QResizeEvent>
@@ -30,7 +30,7 @@ class LineEdit;
 class Q3ListViewItem;
 class MenuConfig;
 
-class ActionConfig : public QDialog, public Ui::ActionConfigBase
+class ActionConfig : public QWidget, public Ui::ActionConfigBase
 {
     Q_OBJECT
 public:

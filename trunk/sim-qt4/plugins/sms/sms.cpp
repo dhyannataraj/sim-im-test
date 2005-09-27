@@ -23,11 +23,11 @@
 #include "maininfo.h"
 #include "listview.h"
 
-#include <qtimer.h>
-#include <qapplication.h>
-#include <qwidget.h>
-#include <qobject.h>
-//Added by qt3to4:
+#include <QTimer>
+#include <QApplication>
+#include <QWidget>
+#include <QObject>
+
 #include <QEvent>
 #include <QChildEvent>
 
@@ -120,40 +120,36 @@ SMSPlugin::~SMSPlugin()
 
 void SMSPlugin::setPhoneCol()
 {
-    QWidgetList  *list = QApplication::topLevelWidgets();
-    QWidgetListIt it(*list);
+    QList<QWidget *> list = QApplication::topLevelWidgets();
+    QListIterator<QWidget *> it(list);
     QWidget *w;
-    while ((w=it.current()) != NULL){
-        ++it;
-        QObjectList * l = w->queryList("MainInfo");
-        QObjectListIt itw(*l);
+    while ( it.hasNext()){
+        w = it.next();
+        QList<QObject *> l = w->queryList("MainInfo");
+        QListIterator<QObject *> itw(l);
         QObject * obj;
-        while ((obj=itw.current()) != NULL) {
-            ++itw;
+        while ( itw.hasNext()) {
+            obj = itw.next();
             setPhoneCol(static_cast<MainInfo*>(obj));
         }
-        delete l;
     }
-    delete list;
 }
 
 void SMSPlugin::removePhoneCol()
 {
-    QWidgetList  *list = QApplication::topLevelWidgets();
-    QWidgetListIt it(*list);
+    QList<QWidget *> list = QApplication::topLevelWidgets();
+    QListIterator<QWidget *> it(list);
     QWidget *w;
-    while ((w=it.current()) != NULL){
-        ++it;
-        QObjectList * l = w->queryList("MainInfo");
-        QObjectListIt itw(*l);
+    while ( it.hasNext()){
+        w = it.next();
+        QList<QObject *> l = w->queryList("MainInfo");
+        QListIterator<QObject *> itw(l);
         QObject * obj;
-        while ((obj=itw.current()) != NULL) {
-            ++itw;
+        while ( itw.hasNext()) {
+            obj = itw.next();
             removePhoneCol(static_cast<MainInfo*>(obj));
         }
-        delete l;
     }
-    delete list;
 }
 
 void SMSPlugin::setPhoneCol(MainInfo *w)
@@ -418,7 +414,7 @@ CommandDef *SMSClient::configWindows()
     int n = title.find(".");
     if (n > 0)
         title = title.left(n) + " " + title.mid(n + 1);
-    cfgSmsWnd[0].text_wrk = strdup(title.utf8());
+    cfgSmsWnd[0].text_wrk = strdup(title.toUtf8());
     return cfgSmsWnd;
 }
 
@@ -482,7 +478,7 @@ void SMSClient::phonebookEntry(int index, int type, const QString &phone, const 
             break;
     }
     if (contact == NULL){
-        contact = getContacts()->contactByPhone(phone.latin1());
+        contact = getContacts()->contactByPhone(phone.toLatin1());
         if (contact->getFlags() & CONTACT_TEMPORARY){
             bNew = true;
             contact->setFlags(contact->getFlags() & ~CONTACT_TEMPORARY);
@@ -506,8 +502,8 @@ void SMSClient::phonebookEntry(int index, int type, const QString &phone, const 
         contact->setPhones(phones + phone + ",,2/-");
     }
     smsUserData *data = (smsUserData*)contact->clientData.createData(this);
-    set_str(&data->Phone.ptr, phone.utf8());
-    set_str(&data->Name.ptr, name.utf8());
+    set_str(&data->Phone.ptr, phone.toUtf8());
+    set_str(&data->Name.ptr, name.toUtf8());
     data->Index.value = index;
     data->Type.value  = type;
     if (bNew){
@@ -590,7 +586,7 @@ void SMSClient::phoneCall(const QString &number)
     m_call = new Message(MessagePhoneCall);
     if (!number.isEmpty()){
         bool bNew = false;
-        Contact *contact = getContacts()->contactByPhone(number.latin1());
+        Contact *contact = getContacts()->contactByPhone(number.toLatin1());
         if (contact->getFlags() & CONTACT_TEMPORARY){
             bNew = true;
             contact->setFlags(contact->getFlags() & ~CONTACT_TEMPORARY);

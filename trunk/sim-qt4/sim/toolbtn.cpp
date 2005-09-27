@@ -17,24 +17,23 @@
 
 #include "toolbtn.h"
 
-#include <qpainter.h>
-#include <qtimer.h>
-#include <q3toolbar.h>
-#include <qtooltip.h>
-#include <qlayout.h>
+#include <QPainter>
+#include <QTimer>
+#include <Q3ToolBar>
+#include <QToolTip>
+#include <QLayout>
 #include <q3popupmenu.h>
-#include <qstyle.h>
-#include <q3mainwindow.h>
-#include <qicon.h>
-#include <qpalette.h>
+#include <QStyle>
+#include <Q3MainWindow>
+#include <QIcon>
+#include <QPalette>
 #include <q3accel.h>
-#include <qregexp.h>
-#include <qapplication.h>
-#include <qcombobox.h>
-#include <qobject.h>
-#include <qlayout.h>
-#include <qobject.h>
-//Added by qt3to4:
+#include <QRegExp>
+#include <QApplication>
+#include <QComboBox>
+#include <QObject>
+#include <QLayout>
+#include <QObject>
 #include <QPixmap>
 #include <QPaintEvent>
 #include <QHideEvent>
@@ -42,7 +41,7 @@
 #include <QContextMenuEvent>
 #include <QMouseEvent>
 #include <QDesktopWidget>
-#include <Q3Button>
+#include <QPushButton>
 
 class ButtonsMap : public map<unsigned, CToolItem*>
 {
@@ -265,7 +264,7 @@ QPoint CToolButton::popupPos(QWidget *btn, QWidget *p)
     QPoint pos;
     Q3ToolBar *bar = NULL;
     for (QWidget *pw = btn->parentWidget(); pw; pw = pw->parentWidget()){
-        if (pw->inherits("QToolBar")){
+        if (pw->inherits("Q3ToolBar")){
             bar = static_cast<Q3ToolBar*>(pw);
             break;
         }
@@ -769,3 +768,7 @@ void CToolBar::showPopup(QPoint p)
     Q3PopupMenu *popup = new Q3PopupMenu(this);
     popup->popup(p);
 }
+
+#ifndef _WINDOWS
+#include "toolbtn.moc"
+#endif

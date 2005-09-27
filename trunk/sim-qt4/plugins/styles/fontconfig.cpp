@@ -19,14 +19,15 @@
 #include "fontedit.h"
 #include "styles.h"
 
-#include <qcheckbox.h>
-#include <qapplication.h>
+#include <QCheckBox>
+#include <QApplication>
 #include <q3popupmenu.h>
 #include <qcolorbutton.h>
 
 FontConfig::FontConfig(QWidget *parent, StylesPlugin *plugin)
-        : FontConfigBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_plugin = plugin;
     connect(chkSystem, SIGNAL(toggled(bool)), this, SLOT(systemToggled(bool)));
     connect(chkColors, SIGNAL(toggled(bool)), this, SLOT(colorsToggled(bool)));

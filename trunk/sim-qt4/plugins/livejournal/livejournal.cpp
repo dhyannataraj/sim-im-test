@@ -29,8 +29,8 @@
 #include <time.h>
 #endif
 
-#include <qtimer.h>
-#include <qregexp.h>
+#include <QTimer>
+#include <QRegExp>
 #include <stdio.h>
 
 Plugin *createLiveJournalPlugin(unsigned base, bool, Buffer*)
@@ -533,8 +533,8 @@ MessageRequest::MessageRequest(LiveJournalClient *client, JournalMessage *msg, c
     }else{
         BRParser parser(msg->getBackground());
         parser.parse(msg->getRichText());
-        addParam("event", parser.m_str.utf8());
-        addParam("subject", msg->getSubject().utf8());
+        addParam("event", parser.m_str.toUtf8());
+        addParam("subject", msg->getSubject().toUtf8());
     }
     addParam("lineendings", "unix");
     if (msg->getID())
@@ -735,7 +735,7 @@ CommandDef *LiveJournalClient::configWindows()
     int n = title.find(".");
     if (n > 0)
         title = title.left(n) + " " + title.mid(n + 1);
-    cfgLiveJournalWnd[0].text_wrk = strdup(title.utf8());
+    cfgLiveJournalWnd[0].text_wrk = strdup(title.toUtf8());
     return cfgLiveJournalWnd;
 }
 
@@ -1141,7 +1141,7 @@ void *LiveJournalClient::processEvent(Event *e)
                     cmds[i].id = CmdMenuWeb + i + 1;
                     cmds[i].text = "_";
                     QString s = i18n(text);
-                    cmds[i].text_wrk = strdup(s.utf8());
+                    cmds[i].text_wrk = strdup(s.toUtf8());
                     const char *url = getMenuUrl(list_id);
                     if (url && (*url == '@')){
                         unsigned nSub = atol(url + 1);
@@ -1290,7 +1290,7 @@ LiveJournalRequest::LiveJournalRequest(LiveJournalClient *client, const char *mo
     addParam("mode", mode);
     if (client->data.owner.User.ptr)
         addParam("user", client->data.owner.User.ptr);
-    string pass = md5(client->getPassword().utf8());
+    string pass = md5(client->getPassword().toUtf8());
     string hpass;
     for (unsigned i = 0; i < pass.length(); i++){
         char b[5];

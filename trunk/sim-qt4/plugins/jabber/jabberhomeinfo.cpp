@@ -20,13 +20,14 @@
 #include "jabberhomeinfo.h"
 #include "jabber.h"
 
-#include <qlineedit.h>
+#include <QLineEdit>
 #include <q3multilineedit.h>
-#include <qstringlist.h>
+#include <QStringList>
 
 JabberHomeInfo::JabberHomeInfo(QWidget *parent, struct JabberUserData *data, JabberClient *client)
-        : JabberHomeInfoBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_client  = client;
     m_data    = data;
     if (m_data){
@@ -89,12 +90,12 @@ void JabberHomeInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     JabberUserData *data = (JabberUserData*)_data;
-    set_str(&data->Street.ptr, edtStreet->text().utf8());
-    set_str(&data->ExtAddr.ptr, edtExt->text().utf8());
-    set_str(&data->City.ptr, edtCity->text().utf8());
-    set_str(&data->Region.ptr, edtState->text().utf8());
-    set_str(&data->PCode.ptr, edtZip->text().utf8());
-    set_str(&data->Country.ptr, edtCountry->text().utf8());
+    set_str(&data->Street.ptr, edtStreet->text().toUtf8());
+    set_str(&data->ExtAddr.ptr, edtExt->text().toUtf8());
+    set_str(&data->City.ptr, edtCity->text().toUtf8());
+    set_str(&data->Region.ptr, edtState->text().toUtf8());
+    set_str(&data->PCode.ptr, edtZip->text().toUtf8());
+    set_str(&data->Country.ptr, edtCountry->text().toUtf8());
 }
 
 #ifndef WIN32

@@ -22,7 +22,7 @@
 
 #include <q3listview.h>
 #include <q3dragobject.h>
-//Added by qt3to4:
+
 #include <QDragMoveEvent>
 #include <QKeyEvent>
 #include <QEvent>

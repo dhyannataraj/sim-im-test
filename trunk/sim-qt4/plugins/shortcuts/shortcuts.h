@@ -20,12 +20,12 @@
 
 #include "simapi.h"
 #include "stl.h"
-//Added by qt3to4:
+
 #include <QEvent>
 
 typedef struct ShortcutsData
 {
-    Data	Qt::Key;
+    Data	Key;
     Data	Global;
     Data	Mouse;
 } ShortcutsData;
@@ -73,7 +73,7 @@ class ShortcutsPlugin : public QObject, public Plugin, public EventReceiver
 public:
     ShortcutsPlugin(unsigned, Buffer*);
     virtual ~ShortcutsPlugin();
-    PROP_STRLIST(Qt::Key);
+    PROP_STRLIST(Key);
     PROP_STRLIST(Global);
     PROP_STRLIST(Mouse);
     void applyKeys();

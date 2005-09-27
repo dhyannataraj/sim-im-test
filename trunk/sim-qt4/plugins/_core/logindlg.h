@@ -22,7 +22,7 @@
 #include "stl.h"
 
 #include "logindlgbase.h"
-//Added by qt3to4:
+
 #include <QLabel>
 #include <QCloseEvent>
 
@@ -30,7 +30,7 @@ class QLabel;
 class QLineEdit;
 class LinkLabel;
 
-class LoginDialog : public Ui_LoginDialogBase, public EventReceiver, public QDialog
+class LoginDialog : public QDialog, public Ui::LoginDialogBase, public EventReceiver
 {
     Q_OBJECT
 public:

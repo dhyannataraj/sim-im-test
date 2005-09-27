@@ -21,8 +21,8 @@
 #include "simapi.h"
 #include "stl.h"
 
-#include <qpixmap.h>
-//Added by qt3to4:
+#include <QPixmap>
+
 #include <QMouseEvent>
 #include <QPaintEvent>
 

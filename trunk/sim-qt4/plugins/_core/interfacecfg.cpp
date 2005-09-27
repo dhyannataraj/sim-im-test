@@ -23,14 +23,15 @@
 #include "smscfg.h"
 #include "core.h"
 
-#include <qtabwidget.h>
-#include <qcombobox.h>
+#include <QTabWidget>
+#include <QComboBox>
+#include <QAbstractButton>
 #include <qradiobutton.h>
 #include <q3buttongroup.h>
-#include <qcheckbox.h>
+#include <QCheckBox>
 #include <qspinbox.h>
-#include <qlabel.h>
-#include <qdir.h>
+#include <QLabel>
+#include <QDir>
 
 #ifdef WIN32
 #include <windows.h>
@@ -76,8 +77,9 @@ static language langs[] =
 #endif
 
 InterfaceConfig::InterfaceConfig(QWidget *parent)
-        : InterfaceConfigBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     for (QObject *p = parent; p != NULL; p = p->parent()){
         if (!p->inherits("QTabWidget"))
             continue;
@@ -195,7 +197,7 @@ void InterfaceConfig::modeChanged(int mode)
             grpContainer->setButton(2);
         }
     }else{
-        Q3Button *btn = grpContainer->selected();
+        QAbstractButton *btn = grpContainer->selected();
         if (btn)
             btn->toggle();
         chkEnter->setChecked(false);
@@ -235,7 +237,7 @@ void InterfaceConfig::apply()
             mode = 2;
         CorePlugin::m_plugin->setContainerMode(mode + 1);
         CorePlugin::m_plugin->setSendOnEnter(chkEnter->isChecked());
-        CorePlugin::m_plugin->setCopyMessages(atol(spnCopy->text().latin1()));
+        CorePlugin::m_plugin->setCopyMessages(atol(spnCopy->text().toLatin1()));
     }else{
         CorePlugin::m_plugin->setContainerMode(0);
         CorePlugin::m_plugin->setSendOnEnter(false);

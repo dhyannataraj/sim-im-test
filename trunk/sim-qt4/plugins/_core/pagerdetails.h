@@ -21,7 +21,7 @@
 #include "simapi.h"
 #include "pagerbase.h"
 
-class PagerDetails : public Ui_PagerDetailsBase, public QDialog
+class PagerDetails : public QWidget, public Ui::PagerDetailsBase
 {
     Q_OBJECT
 public:

@@ -35,7 +35,7 @@ typedef struct GpgData
     Data	Export;
     Data	Encrypt;
     Data	Decrypt;
-    Data	Qt::Key;
+    Data	Key;
     Data	Passphrases;
     Data	Keys;
     Data	nPassphrases;
@@ -44,7 +44,7 @@ typedef struct GpgData
 
 typedef struct GpgUserData
 {
-    Data	Qt::Key;
+    Data	Key;
     Data	Use;
 } GpgUserData;
 
@@ -84,7 +84,7 @@ public:
     PROP_STR(Export);
     PROP_STR(Encrypt);
     PROP_STR(Decrypt);
-    PROP_STR(Qt::Key);
+    PROP_STR(Key);
     PROP_UTFLIST(Passphrases);
     PROP_STRLIST(Keys);
     PROP_ULONG(nPassphrases);

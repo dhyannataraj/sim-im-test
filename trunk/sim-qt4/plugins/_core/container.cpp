@@ -21,27 +21,29 @@
 #include "toolbtn.h"
 #include "buffer.h"
 
-#include <q3mainwindow.h>
-#include <q3frame.h>
-#include <qsplitter.h>
-#include <qlayout.h>
-#include <qstatusbar.h>
-#include <q3progressbar.h>
-#include <q3widgetstack.h>
-#include <qtimer.h>
-#include <q3toolbar.h>
+#include <Q3MainWindow>
+#include <QFrame>
+#include <QSplitter>
+#include <QLayout>
+#include <QStatusBar>
+#include <QProgressBar>
+#include <Q3WidgetStack>
+#include <QTimer>
+#include <Q3ToolBar>
 #include <q3popupmenu.h>
 #include <q3accel.h>
-#include <qpainter.h>
-#include <qapplication.h>
-#include <qwidget.h>
-//Added by qt3to4:
+#include <QPainter>
+#include <QApplication>
+#include <QWidget>
 #include <QMoveEvent>
 #include <QEvent>
 #include <Q3ValueList>
 #include <QVBoxLayout>
 #include <QResizeEvent>
 #include <QMouseEvent>
+#include <QTabBar>
+#include <QDesktopWidget>
+#include <QStringList>
 
 #ifdef WIN32
 #include <windows.h>
@@ -54,7 +56,7 @@
 
 const unsigned ACCEL_MESSAGE = 0x1000;
 
-class UserTab : public QTab
+class UserTab : public QString
 {
 public:
     UserTab(UserWnd *wnd, bool bBold);
@@ -80,7 +82,7 @@ ContainerStatus::ContainerStatus(QWidget *parent)
 {
     QSize s;
     {
-        Q3ProgressBar p(this);
+        QProgressBar p(this);
         addWidget(&p);
         s = minimumSizeHint();
     }
@@ -123,7 +125,7 @@ Container::Container(unsigned id, const char *cfg)
     m_tabBar	= NULL;
 
     SET_WNDPROC("container")
-    setWFlags(WA_DeleteOnClose);
+    setWindowFlags(Qt::WA_DeleteOnClose);
 
     if (cfg && *cfg){
         Buffer config;
@@ -148,14 +150,14 @@ Container::Container(unsigned id, const char *cfg)
         bPos = false;
         if ((data.geometry[TOP].value != (unsigned long)-1) || (data.geometry[LEFT].value != (unsigned long)-1)){
             bPos = true;
-            QWidgetList  *list = QApplication::topLevelWidgets();
+            QList<QWidget *>  list = QApplication::topLevelWidgets();
             for (int i = 0; i < 2; i++){
                 bool bOK = true;
-                QWidgetListIt it(*list);
+                QListIterator<QWidget *> it(list);
                 QWidget * w;
-                while ((w = it.current()) != NULL){
+                while ( it.hasNext()){
+		w = it.next();
                     if (w == this){
-                        ++it;
                         continue;
                     }
                     if (w->inherits("Container")){
@@ -180,12 +182,10 @@ Container::Container(unsigned id, const char *cfg)
                             }
                         }
                     }
-                    ++it;
                 }
                 if (bOK)
                     break;
             }
-            delete list;
         }
         setStatusSize(CorePlugin::m_plugin->getContainerStatusSize());
     }
@@ -210,7 +210,7 @@ void Container::init()
     if (m_bInit)
         return;
 
-    Q3Frame *frm = new Q3Frame(this, "container");
+    QFrame *frm = new QFrame(this, "container");
     setCentralWidget(frm);
 
     connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
@@ -270,20 +270,20 @@ void Container::init()
 void Container::setupAccel()
 {
     m_accel->clear();
-    m_accel->insertItem(Key_1 + ALT, 1);
-    m_accel->insertItem(Key_2 + ALT, 2);
-    m_accel->insertItem(Key_3 + ALT, 3);
-    m_accel->insertItem(Key_4 + ALT, 4);
-    m_accel->insertItem(Key_5 + ALT, 5);
-    m_accel->insertItem(Key_6 + ALT, 6);
-    m_accel->insertItem(Key_7 + ALT, 7);
-    m_accel->insertItem(Key_8 + ALT, 8);
-    m_accel->insertItem(Key_9 + ALT, 9);
-    m_accel->insertItem(Key_0 + ALT, 10);
-    m_accel->insertItem(Key_Left + ALT, 11);
-    m_accel->insertItem(Key_Right + ALT, 12);
-    m_accel->insertItem(Key_Home + ALT, 13);
-    m_accel->insertItem(Key_End + ALT, 14);
+    m_accel->insertItem(Qt::Key_1 + Qt::Key_Alt, 1);
+    m_accel->insertItem(Qt::Key_2 + Qt::Key_Alt, 2);
+    m_accel->insertItem(Qt::Key_3 + Qt::Key_Alt, 3);
+    m_accel->insertItem(Qt::Key_4 + Qt::Key_Alt, 4);
+    m_accel->insertItem(Qt::Key_5 + Qt::Key_Alt, 5);
+    m_accel->insertItem(Qt::Key_6 + Qt::Key_Alt, 6);
+    m_accel->insertItem(Qt::Key_7 + Qt::Key_Alt, 7);
+    m_accel->insertItem(Qt::Key_8 + Qt::Key_Alt, 8);
+    m_accel->insertItem(Qt::Key_9 + Qt::Key_Alt, 9);
+    m_accel->insertItem(Qt::Key_0 + Qt::Key_Alt, 10);
+    m_accel->insertItem(Qt::Key_Left + Qt::Key_Alt, 11);
+    m_accel->insertItem(Qt::Key_Right + Qt::Key_Alt, 12);
+    m_accel->insertItem(Qt::Key_Home + Qt::Key_Alt, 13);
+    m_accel->insertItem(Qt::Key_End + Qt::Key_Alt, 14);
 
     Event eMenu(EventGetMenuDef, (void*)MenuMessage);
     CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());
@@ -343,14 +343,14 @@ void Container::addUserWnd(UserWnd *wnd, bool bRaise)
     if (m_wnds == NULL){
         m_childs.push_back(wnd);
         if (m_childs.size() == 1){
-            setIcon(Pict(wnd->getIcon()));
+            setIcon(Pict(wnd->getIcon()).pixmap());
             setCaption(wnd->getLongName());
         }
         return;
     }
     connect(wnd, SIGNAL(closed(UserWnd*)), this, SLOT(removeUserWnd(UserWnd*)));
     connect(wnd, SIGNAL(statusChanged(UserWnd*)), this, SLOT(statusChanged(UserWnd*)));
-    m_wnds->addWidget(wnd, -1);
+    m_wnds->addWidget(wnd);
     bool bBold = false;
     for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
         if ((*it).contact == wnd->id()){
@@ -358,10 +358,10 @@ void Container::addUserWnd(UserWnd *wnd, bool bRaise)
             break;
         }
     }
-    QTab *tab = new UserTab(wnd, bBold);
-    m_tabBar->addTab(tab);
+    QString tab = wnd->getName();
+    int tabindex = m_tabBar->addTab(tab);
     if (bRaise){
-        m_tabBar->setCurrentTab(tab);
+        m_tabBar->setCurrentTab(tabindex);
     }else{
         m_tabBar->repaint();
     }
@@ -450,7 +450,7 @@ void Container::contactSelected(int)
     cmd->id = CmdContainerContact;
     cmd->text_wrk = NULL;
     if (!name.isEmpty())
-        cmd->text_wrk = strdup(name.utf8());
+        cmd->text_wrk = strdup(name.toUtf8());
     cmd->icon  = userWnd->getIcon();
     cmd->param = (void*)(userWnd->id());
     cmd->popup_id = MenuContainerContact;
@@ -458,7 +458,7 @@ void Container::contactSelected(int)
     Event e(EventCommandChange, cmd);
     m_bar->processEvent(&e);
     setMessageType(userWnd->type());
-    setIcon(Pict(cmd->icon));
+    setIcon(Pict(cmd->icon).pixmap());
     setCaption(userWnd->getLongName());
     m_bar->checkState();
     m_status->message(userWnd->status());
@@ -769,7 +769,7 @@ void *Container::processEvent(Event *e)
             for (list<UserWnd*>::iterator it = userWnds.begin(); it != userWnds.end(); ++it){
                 cmds[n].id = (*it)->id();
                 cmds[n].flags = COMMAND_DEFAULT;
-                cmds[n].text_wrk = strdup((*it)->getName().utf8());
+                cmds[n].text_wrk = strdup((*it)->getName().toUtf8());
                 cmds[n].icon  = (*it)->getIcon();
                 cmds[n].text  = "_";
                 cmds[n].menu_id = n + 1;
@@ -816,9 +816,8 @@ bool Container::event(QEvent *e)
     if (e->type() == QEvent::WindowActivate)
         init();
 #endif
-    if ((e->type() == QEvent::WindowActivate) ||
-            (((e->type() == QEvent::ShowNormal) ||
-              (e->type() == QEvent::ShowMaximized)) && isActiveWindow())){
+    if ((e->type() == QEvent::WindowActivate) || 
+       ((e->type() == QEvent::Show) && isActiveWindow())){
         UserWnd *userWnd = m_tabBar->currentWnd();
         if (m_bNoRead){
             m_bNoRead = false;
@@ -855,14 +854,14 @@ void Container::contactChanged(Contact *contact)
         QString name = userWnd->getName();
         Command cmd;
         cmd->id = CmdContainerContact;
-        cmd->text_wrk = strdup(name.utf8());
+        cmd->text_wrk = strdup(name.toUtf8());
         cmd->icon  = userWnd->getIcon();
         cmd->param = (void*)(contact->id());
         cmd->popup_id = MenuContainerContact;
         cmd->flags = BTN_PICT;
         Event e(EventCommandChange, cmd);
         m_bar->processEvent(&e);
-        setIcon(Pict(cmd->icon));
+        setIcon(Pict(cmd->icon).pixmap());
         setCaption(userWnd->getLongName());
     }
 }
@@ -880,6 +879,7 @@ UserTabBar::UserTabBar(QWidget *parent) : QTabBar(parent)
 
 UserWnd *UserTabBar::wnd(unsigned id)
 {
+/* commented until I'll know, what to do with QTab porting
     layoutTabs();
     QList<QTab> *tList = tabList();
     for (QTab *t = tList->first(); t; t = tList->next()){
@@ -887,11 +887,13 @@ UserWnd *UserTabBar::wnd(unsigned id)
         if (tab->wnd()->id() == id)
             return tab->wnd();
     }
+*/
     return NULL;
 }
 
 void UserTabBar::raiseTab(unsigned id)
 {
+/* commented until I'll know, what to do with QTab porting
     QList<QTab> *tList = tabList();
     for (QTab *t = tList->first(); t; t = tList->next()){
         UserTab *tab = static_cast<UserTab*>(t);
@@ -900,11 +902,14 @@ void UserTabBar::raiseTab(unsigned id)
             return;
         }
     }
+*/
 }
 
 list<UserWnd*> UserTabBar::windows()
 {
     list<UserWnd*> res;
+/* commented until I'll know, what to do with QTab porting
+
     unsigned n = count();
     for (unsigned i = 0; n > 0; i++){
         UserTab *t = static_cast<UserTab*>(tab(i));
@@ -913,11 +918,13 @@ list<UserWnd*> UserTabBar::windows()
         res.push_back(t->wnd());
         n--;
     }
+*/
     return res;
 }
 
 void UserTabBar::setCurrent(unsigned n)
 {
+/* commented until I'll know, what to do with QTab porting
     n++;
     unsigned m = 0;
     for (unsigned i = 0; (m < (unsigned)count()) && (n > 0); i++){
@@ -929,16 +936,20 @@ void UserTabBar::setCurrent(unsigned n)
             setCurrentTab(t);
         }
     }
+*/
 }
 
 unsigned UserTabBar::current()
 {
     unsigned n = 0;
+/* commented until I'll know, what to do with QTab porting
+
     for (unsigned i = 0; i < (unsigned)currentTab(); i++){
         if (tab(i) == NULL)
             continue;
         n++;
     }
+*/
     return n;
 }
 
@@ -949,6 +960,7 @@ void UserTabBar::slotRepaint()
 
 void UserTabBar::removeTab(unsigned id)
 {
+/* commented until I'll know, what to do with QTab porting
     layoutTabs();
     QList<QTab> *tList = tabList();
     for (QTab *t = tList->first(); t; t = tList->next()){
@@ -961,10 +973,12 @@ void UserTabBar::removeTab(unsigned id)
             break;
         }
     }
+*/
 }
 
 void UserTabBar::changeTab(unsigned id)
 {
+/* commented until I'll know, what to do with QTab porting
     layoutTabs();
     QList<QTab> *tList = tabList();
     for (QTab *t = tList->first(); t; t = tList->next()){
@@ -975,10 +989,12 @@ void UserTabBar::changeTab(unsigned id)
             break;
         }
     }
+*/
 }
 
-void UserTabBar::paintLabel(QPainter *p, const QRect &rc, QTab *t, bool bFocusRect) const
+void UserTabBar::paintLabel(QPainter *p, const QRect &rc, QTabBar *t, bool bFocusRect) const
 {
+/* commented until I'll know, what to do with QTab porting
     UserTab *tab = static_cast<UserTab*>(t);
     if (tab->m_bBold){
         QFont f = font();
@@ -986,10 +1002,12 @@ void UserTabBar::paintLabel(QPainter *p, const QRect &rc, QTab *t, bool bFocusRe
         p->setFont(f);
     }
     QTabBar::paintLabel(p, rc, t, bFocusRect);
+*/
 }
 
 void UserTabBar::setBold(unsigned id, bool bBold)
 {
+/* commented until I'll know, what to do with QTab porting
     QList<QTab> *tList = tabList();
     for (QTab *t = tList->first(); t; t = tList->next()){
         UserTab *tab = static_cast<UserTab*>(t);
@@ -999,16 +1017,19 @@ void UserTabBar::setBold(unsigned id, bool bBold)
             break;
         }
     }
+*/
 }
 
 bool UserTabBar::isBold(UserWnd *wnd)
 {
+/* commented until I'll know, what to do with QTab porting
     QList<QTab> *tList = tabList();
     for (QTab *t = tList->first(); t; t = tList->next()){
         UserTab *tab = static_cast<UserTab*>(t);
         if (tab->wnd() == wnd)
             return tab->isBold();
     }
+*/
     return false;
 }
 
@@ -1020,6 +1041,7 @@ void UserTabBar::resizeEvent(QResizeEvent *e)
 
 void UserTabBar::mousePressEvent(QMouseEvent *e)
 {
+/* commented until I'll know, what to do with QTab porting
     if (e->button() == RightButton){
         QTab *t = selectTab(e->pos());
         if (t == NULL) return;
@@ -1035,29 +1057,32 @@ void UserTabBar::mousePressEvent(QMouseEvent *e)
         return;
     }
     QTabBar::mousePressEvent(e);
+*/
 }
 
 UserWnd *UserTabBar::currentWnd()
 {
+/* commented until I'll know, what to do with QTab porting
     QTab *t = tab(currentTab());
     if (t == NULL)
         return NULL;
     return static_cast<UserTab*>(t)->m_wnd;
+*/ return NULL;
 }
 
 void UserTabBar::layoutTabs()
 {
+/* commented until I'll know, what to do with QTab porting
     QTabBar::layoutTabs();
-#if COMPAT_QT_VERSION < 0x030000
     QList<QTab> *tList = tabList();
     for (QTab *t = tList->first(); t; t = tList->next()){
         t->r.setHeight(height());
     }
-#endif
+*/
 }
 
 UserTab::UserTab(UserWnd *wnd, bool bBold)
-        : QTab(wnd->getName())
+        : QString(wnd->getName())
 {
     m_wnd = wnd;
     m_bBold = bBold;

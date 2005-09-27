@@ -21,8 +21,8 @@
 #ifndef CS_ZIP_H
 #define CS_ZIP_H
 
-#include<qstring.h>
-#include<q3cstring.h>
+#include<QString>
+#include<QByteArray>
 
 class QStringList;
 

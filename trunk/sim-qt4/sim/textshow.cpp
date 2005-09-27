@@ -30,13 +30,13 @@
 #include <krootpixmap.h>
 #endif
 #else
-#include <q3filedialog.h>
-//Added by qt3to4:
-#include <Q3CString>
+#include <QFileDialog>
+
+#include <QByteArray>
 #include <QGridLayout>
 #include <QKeyEvent>
 #include <QEvent>
-#include <Q3Frame>
+#include <QFrame>
 #include <QLabel>
 #include <QContextMenuEvent>
 #include <QResizeEvent>
@@ -47,29 +47,29 @@
 #include <kcolordialog.h>
 #include <kfontdialog.h>
 #else
-#include <qcolordialog.h>
-#include <qfontdialog.h>
+#include <QColorDialog>
+#include <QFontDialog>
 #endif
 
-#include <qdatetime.h>
+#include <QDateTime>
 #include <q3popupmenu.h>
-#include <qapplication.h>
-#include <qclipboard.h>
-#include <qpainter.h>
-#include <qregexp.h>
-#include <qobject.h>
+#include <QApplication>
+#include <QClipboard>
+#include <QPainter>
+#include <QRegExp>
+#include <QObject>
 #include <q3valuelist.h>
-#include <qtimer.h>
-#include <qstringlist.h>
-#include <qtextcodec.h>
-#include <q3toolbar.h>
-#include <qlineedit.h>
+#include <QTimer>
+#include <QStringList>
+#include <QTextCodec>
+#include <Q3ToolBar>
+#include <QLineEdit>
 #include <q3accel.h>
 #include <q3dragobject.h>
-#include <qtoolbutton.h>
-#include <qstatusbar.h>
-#include <qtooltip.h>
-#include <qlayout.h>
+#include <QToolButton>
+#include <QStatusBar>
+#include <QToolTip>
+#include <QLayout>
 
 #define MAX_HISTORY	100
 
@@ -83,7 +83,7 @@ public:
     virtual QByteArray encodedData(const char *mime) const;
     virtual const char* format(int i) const;
 
-    static bool decode(QMimeSource *e, QString &str, const Q3CString &mimetype, const Q3CString &subtype);
+    static bool decode(QMimeSource *e, QString &str, const QByteArray &mimetype, const QByteArray &subtype);
     static bool canDecode( QMimeSource* e );
 private:
     QString richTxt;
@@ -97,12 +97,12 @@ RichTextDrag::RichTextDrag( QWidget *dragSource, const char *name )
 QByteArray RichTextDrag::encodedData( const char *mime ) const
 {
     if ( qstrcmp( "application/x-qrichtext", mime ) == 0 ) {
-        return richTxt.utf8(); // #### perhaps we should use USC2 instead?
+        return richTxt.toUtf8(); // #### perhaps we should use USC2 instead?
     } else
         return Q3TextDrag::encodedData( mime );
 }
 
-bool RichTextDrag::decode(QMimeSource *e, QString &str, const Q3CString &mimetype, const Q3CString &subtype)
+bool RichTextDrag::decode(QMimeSource *e, QString &str, const QByteArray &mimetype, const QByteArray &subtype)
 {
     if (mimetype == "application/x-qrichtext"){
         const char *mime;
@@ -563,7 +563,7 @@ void TextShow::setSource(const QString &name)
         url += mark;
     }
 
-    Q3CString s = url.local8Bit();
+    QByteArray s = url.toLocal8Bit();
     Event e(EventGoURL, (void*)(const char*)url);
     e.process();
 
@@ -842,9 +842,8 @@ static unsigned colors[16] =
 const int CUSTOM_COLOR	= 100;
 
 ColorPopup::ColorPopup(QWidget *popup, QColor color)
-        : Q3Frame(popup, "colors", Qt::Popup | Qt::Tool )
+        : QFrame(popup, "colors", Qt::Popup | Qt::WStyle_Customize | Qt::Tool)
 {
-	setAttribute( Qt::WA_DeleteOnClose );
     m_color = color;
     setFrameShape(PopupPanel);
     setFrameShadow(Sunken);
@@ -925,3 +924,7 @@ QSize ColorLabel::minimumSizeHint() const
         s.setWidth(s.height());
     return s;
 }
+
+#ifndef _WINDOWS
+#include "textshow.moc"
+#endif

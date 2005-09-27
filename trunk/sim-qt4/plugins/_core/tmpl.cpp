@@ -32,8 +32,8 @@
 #include <arpa/inet.h>
 #endif
 
-#include <qtimer.h>
-#include <qdatetime.h>
+#include <QTimer>
+#include <QDateTime>
 #include <time.h>
 
 Tmpl::Tmpl(QObject *parent)
@@ -103,7 +103,7 @@ bool Tmpl::process(TmplExpand *t)
     prg = process(t, prg);
     t->exec = new Exec;
     connect(t->exec, SIGNAL(ready(Exec*, int, const char*)), this, SLOT(ready(Exec*, int, const char*)));
-    t->exec->execute(prg.local8Bit(), "");
+    t->exec->execute(prg.toLocal8Bit(), "");
     return false;
 }
 
@@ -126,7 +126,7 @@ QString Tmpl::process(TmplExpand *t, const QString &str)
         if (contact == NULL)
             continue;
         string tagName;
-        tagName = tag.latin1();
+        tagName = static_cast<string>(tag.toLatin1());
 
         if (tagName == "TimeStatus"){
             QDateTime t;

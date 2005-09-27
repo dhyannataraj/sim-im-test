@@ -19,20 +19,21 @@
 #include "search.h"
 #include "intedit.h"
 
-#include <qtimer.h>
-//Added by qt3to4:
+#include <QTimer>
+
 #include <QShowEvent>
 
 SearchAll::SearchAll(QWidget *parent)
-        : SearchAllBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
     edtMail->setValidator(new EMailValidator(edtMail));
 }
 
 void SearchAll::showEvent(QShowEvent *e)
 {
-    SearchAllBase::showEvent(e);
+    showEvent(e);
     emit setAdd(false);
 }
 

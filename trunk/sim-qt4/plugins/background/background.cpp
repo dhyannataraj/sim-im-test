@@ -20,9 +20,9 @@
 
 #include "bkgndcfg.h"
 
-#include <qpainter.h>
-#include <qfile.h>
-//Added by qt3to4:
+#include <QPainter>
+#include <QFile>
+
 #include <QPixmap>
 
 Plugin *createBackgroundPlugin(unsigned base, bool, Buffer *config)

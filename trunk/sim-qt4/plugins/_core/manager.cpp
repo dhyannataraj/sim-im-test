@@ -23,16 +23,17 @@
 #include <q3listview.h>
 #include <q3header.h>
 #include <qscrollbar.h>
-#include <qpushbutton.h>
-//Added by qt3to4:
+#include <QPushButton>
+
 #include <QResizeEvent>
 #include <QCloseEvent>
 
 ConnectionManager::ConnectionManager(bool bModal)
-        : ConnectionManagerBase(NULL, "manager", bModal)
+        : QDialog( NULL, Qt::WA_DeleteOnClose)
 {
+    setupUi( this);
     SET_WNDPROC("manager")
-    setIcon(Pict("configure"));
+    setIcon(Pict("configure").pixmap());
     setButtonsPict(this);
     setCaption(caption());
     lstConnection->setHScrollBarMode(Q3ScrollView::AlwaysOff);
@@ -59,7 +60,7 @@ void ConnectionManager::fill(Client *current)
         QString text = CorePlugin::m_plugin->clientName(client);
         Q3ListViewItem *item = new Q3ListViewItem(lstConnection, text);
         if (descr)
-            item->setPixmap(0, Pict(descr->icon, lstConnection->colorGroup().base()));
+            item->setPixmap(0, Pict(descr->icon, lstConnection->colorGroup().base()).pixmap());
         if (current == client)
             curItem = item;
         QString index = QString::number(i);
@@ -96,13 +97,13 @@ void ConnectionManager::selectionChanged()
 
 void ConnectionManager::closeEvent(QCloseEvent *e)
 {
-    ConnectionManagerBase::closeEvent(e);
+    closeEvent(e);
     emit finished();
 }
 
 void ConnectionManager::resizeEvent(QResizeEvent *e)
 {
-    ConnectionManagerBase::resizeEvent(e);
+    resizeEvent(e);
     int w = lstConnection->width() - 4;
     if (lstConnection->verticalScrollBar()->isVisible())
         w -= lstConnection->verticalScrollBar()->width();

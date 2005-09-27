@@ -18,17 +18,18 @@
 #include "encodingdlg.h"
 #include "icqclient.h"
 
-#include <qcombobox.h>
-#include <qpixmap.h>
-#include <qpushbutton.h>
+#include <QComboBox>
+#include <QPixmap>
+#include <QPushButton>
 
 class ICQClient;
 
 EncodingDlg::EncodingDlg(QWidget *parent, ICQClient *client)
-        : EncodingDlgBase(parent, NULL, true)
+        : QDialog( parent, Qt::WA_ShowModal)
 {
+    setupUi( this);
     SET_WNDPROC("encoding")
-    setIcon(Pict("encoding"));
+    setIcon(Pict("encoding").pixmap());
     setButtonsPict(this);
     setCaption(caption());
     m_client = client;

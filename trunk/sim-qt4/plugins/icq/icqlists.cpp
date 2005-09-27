@@ -25,12 +25,12 @@
 #include <stdio.h>
 #include <time.h>
 #include <vector>
-//Added by qt3to4:
-#include <Q3CString>
+
+#include <QByteArray>
 
 using namespace std;
 
-#include <qtimer.h>
+#include <QTimer>
 
 const unsigned short ICQ_SNACxLISTS_ERROR          = 0x0001;
 const unsigned short ICQ_SNACxLISTS_REQxRIGHTS     = 0x0002;
@@ -450,7 +450,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 ICQUserData *data = (ICQUserData*)(grp->clientData.getData(this));
                 string n;
                 if (grp->id())
-                    n = grp->getName().local8Bit();
+                    n = static_cast<string>(grp->getName().toLocal8Bit());
                 log(L_DEBUG, "Check %ld %s %p %u", grp->id(), n.c_str(), data, data ? data->bChecked.bValue : 0);
                 if ((data == NULL) || data->bChecked.bValue)
                     continue;
@@ -943,7 +943,7 @@ unsigned short ICQClient::getListId()
 TlvList *ICQClient::createListTlv(ICQUserData *data, Contact *contact)
 {
     TlvList *tlv = new TlvList;
-    Q3CString name = contact->getName().utf8();
+    QByteArray name = contact->getName().toUtf8();
     *tlv + new Tlv(TLV_ALIAS, (unsigned short)(name.length()), name);
     if (data->WaitAuth.bValue)
         *tlv + new Tlv(TLV_WAIT_AUTH, 0, NULL);
@@ -1005,7 +1005,7 @@ static string userStr(Contact *contact, ICQUserData *data)
     sprintf(buf, "%lu [", data->Uin.value);
     res += buf;
     if (!contact->getName().isEmpty())
-        res += contact->getName().local8Bit();
+        res += static_cast<string>(contact->getName().toLocal8Bit());
     res += "]";
     return res;
 }
@@ -1101,10 +1101,10 @@ unsigned ICQClient::processListRequest()
                     if (data->GrpId.value)
                         seq = sendRoster(ICQ_SNACxLISTS_DELETE, "", (unsigned short)(data->GrpId.value), (unsigned short)(data->IcqID.value));
                     seq = sendRoster(ICQ_SNACxLISTS_CREATE, screen(data).c_str(), grp_id, (unsigned short)(data->IcqID.value), 0, tlv);
-                    sendRosterGrp(group->getName().utf8(), grp_id, (unsigned short)(data->IcqID.value));
+                    sendRosterGrp(group->getName().toUtf8(), grp_id, (unsigned short)(data->IcqID.value));
                     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_SAVE);
                     sendPacket(true);
-                    log(L_DEBUG, "%s move to group %s", userStr(contact, data).c_str(), (const char*)group->getName().local8Bit());
+                    log(L_DEBUG, "%s move to group %s", userStr(contact, data).c_str(), (const char*)group->getName().toLocal8Bit());
                     m_listRequest = new ContactServerRequest(seq, screen(data).c_str(), (unsigned short)(data->IcqID.value), grp_id, tlv);
                     time(&m_listRequestTime);
                 }else{
@@ -1158,7 +1158,7 @@ unsigned ICQClient::processListRequest()
         case LIST_GROUP_CHANGED:
             group = getContacts()->group(atol(lr.screen.c_str()));
             if (group){
-                name = group->getName().utf8();
+                name = static_cast<string>(group->getName().toUtf8());
                 data = (ICQUserData*)(group->clientData.getData(this));
                 if (data){
                     icq_id = (unsigned short)(data->IcqID.value);
@@ -1166,11 +1166,11 @@ unsigned ICQClient::processListRequest()
                     if (data->Alias.ptr)
                         alias = data->Alias.ptr;
                     if (alias != name){
-                        log(L_DEBUG, "rename group %s", (const char*)group->getName().local8Bit());
+                        log(L_DEBUG, "rename group %s", (const char*)group->getName().toLocal8Bit());
                         seq = sendRoster(ICQ_SNACxLISTS_RENAME, name.c_str(), icq_id, 0, ICQ_GROUPS);
                     }
                 }else{
-                    log(L_DEBUG, "create group %s", (const char*)group->getName().local8Bit());
+                    log(L_DEBUG, "create group %s", (const char*)group->getName().toLocal8Bit());
                     icq_id = getListId();
                     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_EDIT);
                     sendPacket(true);
@@ -1221,7 +1221,7 @@ void ICQClient::checkListRequest()
 void ICQClient::addGroupRequest(Group *group)
 {
     string name;
-    name = group->getName().utf8();
+    name = static_cast<string>(group->getName().toUtf8());
     ICQUserData *data = (ICQUserData*)(group->clientData.getData(this));
     if (data == NULL){
         list<ListRequest>::iterator it;
@@ -1326,7 +1326,7 @@ void ICQClient::addContactRequest(Contact *contact)
 bool ICQClient::isContactRenamed(ICQUserData *data, Contact *contact)
 {
     string name;
-    name = contact->getName().utf8();
+    name = static_cast<string>(contact->getName().toUtf8());
     string alias;
     if (data->Alias.ptr){
         alias = data->Alias.ptr;
@@ -1362,7 +1362,7 @@ string ICQClient::getUserCellular(Contact *contact)
         QString value = getToken(phone, ',');
         getToken(phone, ',');
         if (phone.toUInt() == CELLULAR){
-            res = value.utf8();
+            res = static_cast<string>(value.toUtf8());
             return res;
         }
     }
@@ -1380,7 +1380,7 @@ bool ICQClient::sendAuthRequest(Message *msg, void *_data)
     string message;
     string charset;
     if (hasCap(data, CAP_RTF) || hasCap(data, CAP_UTF)){
-        message = msg->getPlainText().utf8();
+        message = static_cast<string>(msg->getPlainText().toUtf8());
         charset = "utf-8";
     }else{
         message = getContacts()->fromUnicode(NULL, msg->getPlainText());
@@ -1445,7 +1445,7 @@ bool ICQClient::sendAuthRefused(Message *msg, void *_data)
     string message;
     string charset;
     if (hasCap(data, CAP_RTF) || hasCap(data, CAP_UTF)){
-        message = msg->getPlainText().utf8();
+        message = static_cast<string>(msg->getPlainText().toUtf8());
         charset = "utf-8";
     }else{
         message = getContacts()->fromUnicode(NULL, msg->getPlainText());

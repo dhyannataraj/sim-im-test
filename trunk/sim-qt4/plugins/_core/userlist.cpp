@@ -18,13 +18,14 @@
 #include "userlist.h"
 #include "core.h"
 
-#include <q3header.h>
-#include <qtimer.h>
-#include <qbitmap.h>
-#include <qstyle.h>
-#include <q3button.h>
-#include <qpainter.h>
-//Added by qt3to4:
+#include <Q3Header>
+#include <QTimer>
+#include <QBitmap>
+#include <QStyle>
+#include <QStyleOption>
+#include <Q3Button>
+#include <QPainter>
+
 #include <QPixmap>
 #include <QMouseEvent>
 
@@ -92,15 +93,15 @@ void UserViewItemBase::paintCell(QPainter *p, const QColorGroup &cg, int, int wi
         }else{
             p->setPen(QColor(CorePlugin::m_plugin->getColorOnline()));
         }
-        p->moveTo(0, 0);
-        p->lineTo(width - 1, 0);
-        p->lineTo(width - 1, height() - 1);
-        p->lineTo(0, height() - 1);
-        p->lineTo(0, 0);
+//        p->moveTo(0, 0);
+        p->drawLine(0, 0, width - 1, 0);
+        p->drawLine(0, 0, width - 1, height() - 1);
+        p->drawLine(0, 0, 0, height() - 1);
+//        p->drawLine(0, 0);
         p->setPen(cg.shadow());
-        p->moveTo(width - 2, 1);
-        p->lineTo(1, 1);
-        p->lineTo(1, height() - 2);
+//        p->moveTo(width - 2, 1);
+        p->drawLine(width - 2, 1, 1, 1);
+        p->drawLine(width - 2, 1, 1, height() - 2);
     }else{
         p->drawPixmap(QPoint(0, 0), bg);
     }
@@ -109,19 +110,15 @@ void UserViewItemBase::paintCell(QPainter *p, const QColorGroup &cg, int, int wi
 int UserViewItemBase::drawText(QPainter *p, int x, int width, const QString &text)
 {
     QRect br;
-    p->drawText(x, 0, width, height(), AlignLeft | AlignVCenter, text, -1, &br);
+    p->drawText(x, 0, width, height(), Qt::AlignLeft | Qt::AlignVCenter, text, -1, &br);
     return br.right() + 5;
 }
 
-void UserViewItemBase::drawSeparator(QPainter *p, int x, int width, const QColorGroup &cg)
+void UserViewItemBase::drawSeparator(QPainter *p, int x, int width)
 {
+    const QStyleOption *option;
     if (x < width - 6){
-#if COMPAT_QT_VERSION > 0x030000
-        QRect rcSep(x, height()/2, width - 6 - x, 1);
-        listView()->style().drawPrimitive(QStyle::PE_Separator, p, rcSep, cg);
-#else
-        listView()->style().drawSeparator(p, x, height() / 2, width - 6, height() / 2, cg);
-#endif
+        listView()->style()->drawPrimitive(QStyle::PE_Q3Separator, option, p, NULL);
     }
 }
 
@@ -656,7 +653,7 @@ void UserListBase::drawItem(UserViewItemBase *base, QPainter *p, const QColorGro
         }
         p->setFont(f);
         int x = base->drawText(p, 24 + margin, width, text);
-        base->drawSeparator(p, x, width, cg);
+        base->drawSeparator(p, x, width);
     }
 }
 
@@ -1053,7 +1050,7 @@ void UserList::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         if (!CorePlugin::m_plugin->getUseSysColors())
             p->setPen(CorePlugin::m_plugin->getColorGroup());
         x = item->drawText(p, x, width, text);
-        item->drawSeparator(p, x, width, cg);
+        item->drawSeparator(p, x, width);
         return;
     }
     if (base->type() == USR_ITEM){
@@ -1139,10 +1136,10 @@ int UserList::drawIndicator(QPainter *p, int x, Q3ListViewItem *item, bool bStat
     p->drawPixmap(x, (item->height() - s.height()) / 2, pixInd);
     x += s.width() + 2;
 #else
-    int w = style().pixelMetric(QStyle::PM_IndicatorWidth);
-    int h = style().pixelMetric(QStyle::PM_IndicatorHeight);
-    QRect rc(x, (item->height() - h) / 2, w, h);
-    style().drawPrimitive(QStyle::PE_Indicator, p, rc, cg, state);
+    int w = style()->pixelMetric(QStyle::PM_IndicatorWidth);
+    int h = style()->pixelMetric(QStyle::PM_IndicatorHeight);
+    const QStyleOption *option;
+    style()->drawPrimitive(QStyle::PE_IndicatorCheckBox, option, p, NULL);
     x += w + 2;
 #endif
     return x;

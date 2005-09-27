@@ -22,9 +22,9 @@
 #include "simapi.h"
 #include "stl.h"
 
-#include <q3mainwindow.h>
+#include <Q3MainWindow>
 #include <q3wizard.h>
-//Added by qt3to4:
+
 #include <QLabel>
 #include <QShowEvent>
 

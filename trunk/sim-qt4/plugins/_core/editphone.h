@@ -24,7 +24,7 @@
 class PhoneDetails;
 class PagerDetails;
 
-class EditPhone : public Ui_EditPhoneBase, public QDialog
+class EditPhone : public QDialog, public Ui::EditPhoneBase
 {
     Q_OBJECT
 public:

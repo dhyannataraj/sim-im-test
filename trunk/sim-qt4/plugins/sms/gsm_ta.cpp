@@ -22,7 +22,7 @@
 #include "serial.h"
 #include "sms.h"
 
-#include <qtimer.h>
+#include <QTimer>
 #include <ctype.h>
 
 const unsigned	PING_TIMEOUT	= 20000;

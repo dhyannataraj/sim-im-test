@@ -24,14 +24,14 @@
 
 #include <time.h>
 
-#include <qapplication.h>
-#include <qwidget.h>
-#include <q3toolbar.h>
-#include <q3mainwindow.h>
-#include <qtimer.h>
-#include <qfile.h>
-#include <qregexp.h>
-#include <qtooltip.h>
+#include <QApplication>
+#include <QWidget>
+#include <Q3ToolBar>
+#include <Q3MainWindow>
+#include <QTimer>
+#include <QFile>
+#include <QRegExp>
+#include <QToolTip>
 
 const unsigned CHECK1_INTERVAL = 30 * 60;
 const unsigned CHECK2_INTERVAL = 120 * 60;
@@ -286,15 +286,14 @@ void WeatherPlugin::showBar()
 {
     if (m_bar || (*getID() == 0))
         return;
-    QWidgetList  *list = QApplication::topLevelWidgets();
-    QWidgetListIt it( *list );
+    QList<QWidget *> list = QApplication::topLevelWidgets();
+    QListIterator<QWidget *> it( list );
     QWidget *w;
-    while ((w=it.current()) != 0) {
-        ++it;
+    while (it.hasNext()) {
+        w = it.next();
         if (w->inherits("MainWindow"))
             break;
     }
-    delete list;
     if (w == NULL)
         return;
     BarShow b;

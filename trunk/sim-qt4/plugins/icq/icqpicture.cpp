@@ -22,10 +22,10 @@
 #include "preview.h"
 #include "ballonmsg.h"
 
-#include <qpushbutton.h>
-#include <qlabel.h>
-#include <qimage.h>
-#include <qpixmap.h>
+#include <QPushButton>
+#include <QLabel>
+#include <QImage>
+#include <QPixmap>
 #include <time.h>
 
 #ifndef USE_KDE
@@ -38,8 +38,9 @@ static FilePreview *createPreview(QWidget *parent)
 #endif
 
 ICQPicture::ICQPicture(QWidget *parent, struct ICQUserData *data, ICQClient *client)
-        : ICQPictureBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_data   = data;
     m_client = client;
     if (m_data){

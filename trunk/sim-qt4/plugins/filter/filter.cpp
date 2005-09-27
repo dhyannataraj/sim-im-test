@@ -24,7 +24,7 @@
 #include "msgview.h"
 #include "userwnd.h"
 
-#include <qregexp.h>
+#include <QRegExp>
 
 Plugin *createFilterPlugin(unsigned base, bool, Buffer *cfg)
 {
@@ -283,7 +283,7 @@ void *FilterPlugin::processEvent(Event *e)
                     s += " ";
                 s += line;
             }
-            set_str(&data->SpamList.ptr, s.utf8());
+            set_str(&data->SpamList.ptr, s.toUtf8());
             return NULL;
         }
         if (cmd->menu_id == MenuContactGroup){

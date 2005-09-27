@@ -21,13 +21,13 @@
 #include "core.h"
 #include "ballonmsg.h"
 
-#include <qlineedit.h>
+#include <QLineEdit>
 #include <q3multilineedit.h>
-#include <qstringlist.h>
-#include <qcombobox.h>
-#include <qpixmap.h>
-#include <qlabel.h>
-#include <qtabwidget.h>
+#include <QStringList>
+#include <QComboBox>
+#include <QPixmap>
+#include <QLabel>
+#include <QTabWidget>
 
 const ext_info chat_groups[] =
     {
@@ -47,8 +47,9 @@ const ext_info chat_groups[] =
 const ext_info *p_chat_groups = chat_groups;
 
 ICQInfo::ICQInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
-        : ICQInfoBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_client	= client;
     m_data		= data;
     m_contact	= contact;
@@ -104,7 +105,7 @@ void ICQInfo::apply()
                 return;
             }
             if (!edtPswd1->text().isEmpty())
-                m_client->changePassword(edtPswd1->text().utf8());
+                m_client->changePassword(edtPswd1->text().toUtf8());
             // clear Textboxes
             edtCurrent->clear();
             edtPswd1->clear();
@@ -202,7 +203,7 @@ void ICQInfo::fill()
     int current = 0;
     const char *text = NULL;
     if (m_data && (status == STATUS_OFFLINE) && m_data->bInvisible.bValue){
-        cmbStatus->insertItem(Pict("ICQ_invisible"), i18n("Possibly invisible"));
+        cmbStatus->insertItem(Pict("ICQ_invisible").pixmap(), i18n("Possibly invisible"));
     }else{
         for (const CommandDef *cmd = ICQPlugin::m_icq->statusList(); cmd->id; cmd++){
             if (cmd->flags & COMMAND_CHECK_STATE)
@@ -211,7 +212,7 @@ void ICQInfo::fill()
                 current = cmbStatus->count();
                 text = cmd->text;
             }
-            cmbStatus->insertItem(Pict(cmd->icon), i18n(cmd->text));
+            cmbStatus->insertItem(Pict(cmd->icon).pixmap(), i18n(cmd->text));
         }
     }
     cmbStatus->setCurrentItem(current);

@@ -18,12 +18,12 @@
 #include "serial.h"
 #include "buffer.h"
 
-#include <qapplication.h>
+#include <QApplication>
 #include <qevent.h>
-#include <qstringlist.h>
-#include <qtimer.h>
-#include <qdir.h>
-#include <qsocketnotifier.h>
+#include <QStringList>
+#include <QTimer>
+#include <QDir>
+#include <QSocketNotifier>
 
 #ifdef WIN32
 

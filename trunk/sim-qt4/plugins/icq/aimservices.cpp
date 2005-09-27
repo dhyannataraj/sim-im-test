@@ -168,9 +168,9 @@ void SearchSocket::addTlv(unsigned short n, const QString &s, bool bLatin)
 {
     string str;
     if (bLatin){
-        str = s.latin1();
+        str = static_cast<string>(s.toLatin1());
     }else{
-        str = s.utf8();
+        str = static_cast<string>(s.toUtf8());
     }
     m_socket->writeBuffer.tlv(n, str.c_str());
 }
@@ -324,37 +324,37 @@ void SearchSocket::snac_search(unsigned short type, unsigned short seq)
                     tlv = tlvs(0x01);
                     if (tlv){
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);
-                        set_str(&res.data.FirstName.ptr, str.utf8());
+                        set_str(&res.data.FirstName.ptr, str.toUtf8());
                     }
                     tlv = tlvs(0x02);
                     if (tlv){
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);
-                        set_str(&res.data.LastName.ptr, str.utf8());
+                        set_str(&res.data.LastName.ptr, str.toUtf8());
                     }
                     tlv = tlvs(0x03);
                     if (tlv){
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);
-                        set_str(&res.data.MiddleName.ptr, str.utf8());
+                        set_str(&res.data.MiddleName.ptr, str.toUtf8());
                     }
                     tlv = tlvs(0x07);
                     if (tlv){
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);
-                        set_str(&res.data.Address.ptr, str.utf8());
+                        set_str(&res.data.Address.ptr, str.toUtf8());
                     }
                     tlv = tlvs(0x08);
                     if (tlv){
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);
-                        set_str(&res.data.City.ptr, str.utf8());
+                        set_str(&res.data.City.ptr, str.toUtf8());
                     }
                     tlv = tlvs(0x0C);
                     if (tlv){
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);
-                        set_str(&res.data.Nick.ptr, str.utf8());
+                        set_str(&res.data.Nick.ptr, str.toUtf8());
                     }
                     tlv = tlvs(0x07);
                     if (tlv){
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);
-                        set_str(&res.data.State.ptr, str.utf8());
+                        set_str(&res.data.State.ptr, str.toUtf8());
                     }
                     tlv = tlvs(0x06);
                     if (tlv){

@@ -26,7 +26,7 @@
 
 class EditFile;
 
-class GpgFind : public GpgFindBase
+class GpgFind : public QDialog, public Ui::GpgFindBase
 {
     Q_OBJECT
 public:

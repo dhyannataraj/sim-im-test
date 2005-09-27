@@ -17,12 +17,13 @@
 
 #include "nonim.h"
 #include "intedit.h"
-//Added by qt3to4:
+
 #include <QShowEvent>
 
 NonIM::NonIM(QWidget *parent)
-        : NonIMBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
     edtMail->setValidator(new EMailValidator(edtMail));
     edtPhone->setValidator(new PhoneValidator(edtPhone));
@@ -30,7 +31,7 @@ NonIM::NonIM(QWidget *parent)
 
 void NonIM::showEvent(QShowEvent *e)
 {
-    NonIMBase::showEvent(e);
+    showEvent(e);
     emit setAdd(true);
 }
 

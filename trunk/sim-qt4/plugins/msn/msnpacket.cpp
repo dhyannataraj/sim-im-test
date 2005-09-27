@@ -30,7 +30,7 @@
 #endif
 
 #include <stdio.h>
-#include <qtimer.h>
+#include <QTimer>
 
 MSNPacket::MSNPacket(MSNClient *client, const char *cmd)
 {
@@ -443,7 +443,7 @@ MSNServerMessage::~MSNServerMessage()
     }
     KEY_MAP::iterator it = values.find("ClientIP");
     if (it != values.end())
-        set_ip(&m_client->data.owner.IP, inet_addr((*it).second.latin1()));
+        set_ip(&m_client->data.owner.IP, inet_addr((*it).second.toLatin1()));
     it = values.find("Content-Type");
     if (it != values.end()){
         QString content_type = (*it).second;
@@ -452,10 +452,10 @@ MSNServerMessage::~MSNServerMessage()
             m_client->m_init_mail = "";
             it = values.find("Post-URL");
             if (it != values.end())
-                m_client->m_init_mail = (*it).second.latin1();
+                m_client->m_init_mail = static_cast<string>((*it).second.toLatin1());
             it = values.find("Inbox-URL");
             if (it != values.end())
-                m_client->m_init_mail += (*it).second.latin1();
+                m_client->m_init_mail += static_cast<string>((*it).second.toLatin1());
             it = values.find("Inbox-Unread");
             if (it == values.end())
                 return;
@@ -465,7 +465,7 @@ MSNServerMessage::~MSNServerMessage()
                 data.client		= m_client;
                 data.err_str	= "%1";
                 data.options	= NULL;
-                data.args		= strdup(i18n("You have %n unread message", "You have %n unread messages", nUnread).utf8());
+                data.args		= strdup(i18n("You have %n unread message", "You have %n unread messages", nUnread).toUtf8());
                 data.code		= 0;
                 data.flags		= ERR_INFO;
                 data.id			= static_cast<MSNPlugin*>(m_client->protocol()->plugin())->MSNInitMail;
@@ -477,10 +477,10 @@ MSNServerMessage::~MSNServerMessage()
             m_client->m_new_mail = "";
             it = values.find("Post-URL");
             if (it != values.end())
-                m_client->m_new_mail = (*it).second.latin1();
+                m_client->m_new_mail = static_cast<string>((*it).second.toLatin1());
             it = values.find("Message-URL");
             if (it != values.end())
-                m_client->m_new_mail += (*it).second.latin1();
+                m_client->m_new_mail += static_cast<string>((*it).second.toLatin1());
             QString from;
             it = values.find("From-Addr");
             if (it != values.end())
@@ -492,7 +492,7 @@ MSNServerMessage::~MSNServerMessage()
             data.client		= m_client;
             data.err_str	= "%1";
             data.options	= NULL;
-            data.args		= strdup(msg.utf8());
+            data.args		= strdup(msg.toUtf8());
             data.code		= 0;
             data.flags		= ERR_INFO;
             data.id			= static_cast<MSNPlugin*>(m_client->protocol()->plugin())->MSNNewMail;

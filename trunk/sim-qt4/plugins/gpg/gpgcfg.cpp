@@ -33,8 +33,9 @@
 #include <qtimer.h>
 
 GpgCfg::GpgCfg(QWidget *parent, GpgPlugin *plugin)
-        : GpgCfgBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_plugin = plugin;
     m_exec   = NULL;
     m_bNew   = false;
@@ -84,7 +85,7 @@ void GpgCfg::apply()
     string key;
     int nKey = cmbKey->currentItem();
     if (nKey && (nKey < cmbKey->count() - 1)){
-        string k = cmbKey->currentText().latin1();
+        string k = static_cast<string>(cmbKey->currentText().toLatin1());
         key = getToken(k, ' ');
     }
     m_plugin->setKey(key.c_str());
@@ -197,7 +198,7 @@ void GpgCfg::refresh()
     gpg += m_plugin->getSecretList();
     m_exec = new Exec;
     connect(m_exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(secretReady(Exec*,int,const char*)));
-    m_exec->execute(gpg.local8Bit(), "");
+    m_exec->execute(gpg.toLocal8Bit(), "");
 }
 
 void GpgCfg::secretReady(Exec *exec, int res, const char*)

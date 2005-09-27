@@ -23,7 +23,7 @@
 
 class WeatherPlugin;
 
-class WIfaceCfg : public WIfaceCfgBase
+class WIfaceCfg : public QWidget, public Ui::WIfaceCfgBase
 {
     Q_OBJECT
 public:

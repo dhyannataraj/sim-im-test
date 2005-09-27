@@ -20,13 +20,13 @@
 
 #include "menucfgbase.h"
 #include "simapi.h"
-//Added by qt3to4:
+
 #include <QResizeEvent>
 #include <QDialog>
 
 class Q3ListViewItem;
 
-class MenuConfig : public QDialog, public Ui::MenuConfigBase
+class MenuConfig : public QWidget, public Ui::MenuConfigBase
 {
     Q_OBJECT
 public:

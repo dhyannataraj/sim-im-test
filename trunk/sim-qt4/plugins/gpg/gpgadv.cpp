@@ -21,8 +21,9 @@
 #include <qlineedit.h>
 
 GpgAdvanced::GpgAdvanced(QWidget *parent, GpgPlugin *plugin)
-        : GpgAdvancedBase(parent)
+        : QWidget(parent) 
 {
+    setupUi( this);
     m_plugin = plugin;
     edtGenKey->setText(m_plugin->getGenKey());
     edtPublic->setText(m_plugin->getPublicList());
@@ -39,13 +40,13 @@ GpgAdvanced::~GpgAdvanced()
 
 void GpgAdvanced::apply()
 {
-    m_plugin->setGenKey(edtGenKey->text().latin1());
-    m_plugin->setPublicList(edtPublic->text().latin1());
-    m_plugin->setSecretList(edtSecret->text().latin1());
-    m_plugin->setExport(edtExport->text().latin1());
-    m_plugin->setImport(edtImport->text().latin1());
-    m_plugin->setEncrypt(edtEncrypt->text().latin1());
-    m_plugin->setDecrypt(edtDecrypt->text().latin1());
+    m_plugin->setGenKey(edtGenKey->text().toLatin1());
+    m_plugin->setPublicList(edtPublic->text().toLatin1());
+    m_plugin->setSecretList(edtSecret->text().toLatin1());
+    m_plugin->setExport(edtExport->text().toLatin1());
+    m_plugin->setImport(edtImport->text().toLatin1());
+    m_plugin->setEncrypt(edtEncrypt->text().toLatin1());
+    m_plugin->setDecrypt(edtDecrypt->text().toLatin1());
 }
 
 #ifndef WIN32

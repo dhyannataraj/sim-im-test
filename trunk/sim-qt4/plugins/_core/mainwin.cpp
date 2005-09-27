@@ -20,13 +20,13 @@
 #include "core.h"
 #include "userview.h"
 
-#include <qapplication.h>
-#include <qpixmap.h>
-#include <qlayout.h>
-#include <qtimer.h>
+#include <QApplication>
+#include <QPixmap>
+#include <QLayout>
+#include <QTimer>
 #include <qsizegrip.h>
-#include <qstatusbar.h>
-//Added by qt3to4:
+#include <QStatusBar>
+
 #include <QFocusEvent>
 #include <QCloseEvent>
 #include <QChildEvent>
@@ -81,7 +81,7 @@ void MainWindowWidget::childEvent(QChildEvent *e)
 
 MainWindow::MainWindow()
         : Q3MainWindow(NULL, "mainwnd",
-                      Qt::Window | 
+                      Qt::WType_TopLevel | Qt::WStyle_Customize |
                       Qt::WStyle_Title | Qt::WStyle_NormalBorder| Qt::WStyle_SysMenu),
         EventReceiver(LowestPriority)
 {

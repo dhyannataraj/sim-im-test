@@ -22,11 +22,11 @@
 #include "core.h"
 #include "textshow.h"
 
-#include <q3mainwindow.h>
-#include <qlabel.h>
-//Added by qt3to4:
+#include <Q3MainWindow>
+#include <QLabel>
+
 #include <QDragMoveEvent>
-#include <Q3Frame>
+#include <QFrame>
 #include <QDropEvent>
 #include <QVBoxLayout>
 #include <QResizeEvent>
@@ -38,7 +38,7 @@ class CorePlugin;
 class UserWnd;
 class CToolBar;
 class QVBoxLayout;
-class Q3Frame;
+class QFrame;
 class TextEdit;
 
 typedef struct ClientStatus
@@ -73,7 +73,7 @@ public:
     UserWnd		*m_userWnd;
     TextEdit	*m_edit;
     QVBoxLayout	*m_layout;
-    Q3Frame		*m_frame;
+    QFrame		*m_frame;
     bool		sendMessage(Message *msg);
     static void setupMessages();
     void		getWays(vector<ClientStatus> &cs, Contact *contact);
@@ -137,7 +137,7 @@ protected:
     string id;
 };
 
-class SmilePopup : public Q3Frame
+class SmilePopup : public QFrame
 {
     Q_OBJECT
 public:

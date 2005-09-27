@@ -20,10 +20,10 @@
 
 #include "simapi.h"
 #include "cfgdlgbase.h"
-//Added by qt3to4:
+
 #include <QCloseEvent>
 
-class ConfigureDialog : public Ui_ConfigureDialogBase, public EventReceiver, public QDialog
+class ConfigureDialog : public QDialog, public Ui::ConfigureDialogBase, public EventReceiver
 {
     Q_OBJECT
 public:

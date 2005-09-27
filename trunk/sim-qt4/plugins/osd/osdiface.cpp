@@ -20,14 +20,15 @@
 #include "qcolorbutton.h"
 #include "fontedit.h"
 
-#include <qcheckbox.h>
-#include <qcombobox.h>
-#include <qspinbox.h>
-#include <qlabel.h>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QSpinBox>
+#include <QLabel>
 
 OSDIface::OSDIface(QWidget *parent, void *d, OSDPlugin *plugin)
-        : OSDIfaceBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_plugin = plugin;
     OSDUserData *data = (OSDUserData*)d;
     cmbPos->insertItem(i18n("Left-bottom"));
@@ -83,11 +84,11 @@ void OSDIface::apply(void *d)
 {
     OSDUserData *data = (OSDUserData*)d;
     data->Position.value = cmbPos->currentItem();
-    data->Offset.value = atol(spnOffs->text().latin1());
-    data->Timeout.value = atol(spnTimeout->text().latin1());
+    data->Offset.value = atol(spnOffs->text().toLatin1());
+    data->Timeout.value = atol(spnTimeout->text().toLatin1());
     data->Color.value = btnColor->color().rgb();
     string f = edtFont->getFont();
-    string base = FontEdit::font2str(font(), false).latin1();
+    string base = static_cast<string>(FontEdit::font2str(font(), false).toLatin1());
     if (f == base)
         f = "";
     set_str(&data->Font.ptr, f.c_str());

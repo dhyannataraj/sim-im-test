@@ -21,7 +21,7 @@
 #include "sax.h"
 #include "fetch.h"
 
-#include <qdatetime.h>
+#include <QDateTime>
 
 class Q3ToolBar;
 

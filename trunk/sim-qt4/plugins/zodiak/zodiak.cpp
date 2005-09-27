@@ -31,14 +31,14 @@
 #include "xpm/11.xpm"
 #include "xpm/12.xpm"
 
-#include <qapplication.h>
-#include <qlayout.h>
-#include <q3frame.h>
-#include <qwidget.h>
-#include <qobject.h>
-#include <qpushbutton.h>
-#include <qpainter.h>
-//Added by qt3to4:
+#include <QApplication>
+#include <QLayout>
+#include <QFrame>
+#include <QWidget>
+#include <QObject>
+#include <QPushButton>
+#include <QPainter>
+
 #include <QPixmap>
 #include <QPaintEvent>
 #include <QGridLayout>
@@ -71,21 +71,19 @@ ZodiakPlugin::ZodiakPlugin(unsigned base)
         : Plugin(base)
 {
     qApp->installEventFilter(this);
-    QWidgetList  *list = QApplication::topLevelWidgets();
-    QWidgetListIt it(*list);
+    QList<QWidget *> list = QApplication::topLevelWidgets();
+    QListIterator<QWidget *> it(list);
     QWidget * w;
-    while ((w = it.current()) != NULL){
-        QObjectList * l = w->queryList("DatePicker");
-        QObjectListIt it1(*l);
+    while ( it.hasNext()){
+	w = it.next();
+        QList<QObject *> l = w->queryList("DatePicker");
+        QListIterator<QObject *> it1(l);
         QObject * obj;
-        while ((obj=it1.current()) != NULL){
-            ++it1;
+        while ( it1.hasNext()){
+            obj = it1.next();
             createLabel(static_cast<DatePicker*>(obj));
         }
-        delete l;
-        ++it;
     }
-    delete list;
 }
 
 ZodiakPlugin::~ZodiakPlugin()
@@ -144,7 +142,7 @@ bool ZodiakPlugin::eventFilter(QObject *o, QEvent *e)
 }
 
 ZodiakWnd::ZodiakWnd(DatePicker *parent)
-        : Q3Frame(parent)
+        : QFrame(parent)
 {
     m_picker = parent;
     setLineWidth(0);
@@ -160,7 +158,7 @@ ZodiakWnd::ZodiakWnd(DatePicker *parent)
     QFont f(font());
     f.setBold(true);
     m_name->setFont(f);
-    m_name->setAlignment(AlignVCenter | AlignHCenter);
+    m_name->setAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
     lay->addWidget(m_name, 0, 1);
     m_button = new QPushButton(this);
     m_button->setText(i18n("View horoscope"));
@@ -179,7 +177,7 @@ void ZodiakWnd::paintEvent(QPaintEvent *e)
         p.drawTiledPixmap(0, 0, width(), height(), *parentWidget()->parentWidget()->backgroundPixmap(), pos.x(), pos.y());
         return;
     }
-    Q3Frame::paintEvent(e);
+    QFrame::paintEvent(e);
 }
 
 static const char *signes[] =
@@ -237,7 +235,7 @@ void ZodiakWnd::view()
     if (day && month && year){
         int n = getSign(day, month);
         string s;
-        s = i18n("http://horoscopes.swirve.com/scope.cgi?Sign=%1").arg(signes[n]).latin1();
+        s = static_cast<string>(i18n("http://horoscopes.swirve.com/scope.cgi?Sign=%1").arg(signes[n]).toLatin1());
         Event e(EventGoURL, (void*)(s.c_str()));
         e.process();
     }

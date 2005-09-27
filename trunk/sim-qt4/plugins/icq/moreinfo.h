@@ -23,7 +23,7 @@
 
 class ICQClient;
 
-class MoreInfo : public MoreInfoBase, public EventReceiver
+class MoreInfo : public QWidget, public Ui::MoreInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:

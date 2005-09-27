@@ -20,14 +20,15 @@
 #include "smscfg.h"
 #include "core.h"
 
-#include <qcheckbox.h>
+#include <QCheckBox>
 #include <q3buttongroup.h>
 #include <q3multilineedit.h>
 #include <qradiobutton.h>
 
 FileConfig::FileConfig(QWidget *parent, void *_data)
-        : FileConfigBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     CoreUserData *data = (CoreUserData*)_data;
     edtPath->setDirMode(true);
     QString incoming = QFile::encodeName(data->IncomingPath.ptr ? user_file(data->IncomingPath.ptr).c_str() : "");
@@ -68,7 +69,7 @@ void FileConfig::apply(void *_data)
     }
     if (btnDecline->isOn()){
         data->AcceptMode.value = 2;
-        set_str(&data->DeclineMessage.ptr, edtDecline->text().utf8());
+        set_str(&data->DeclineMessage.ptr, edtDecline->text().toUtf8());
     }
 }
 

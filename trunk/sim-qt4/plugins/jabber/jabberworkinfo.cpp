@@ -20,12 +20,13 @@
 #include "jabberworkinfo.h"
 #include "jabber.h"
 
-#include <qlineedit.h>
-#include <qstringlist.h>
+#include <QLineEdit>
+#include <QStringList>
 
 JabberWorkInfo::JabberWorkInfo(QWidget *parent, struct JabberUserData *data, JabberClient *client)
-        : JabberWorkInfoBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_client  = client;
     m_data	  = data;
     if (m_data){
@@ -77,10 +78,10 @@ void JabberWorkInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     JabberUserData *data = (JabberUserData*)_data;
-    set_str(&data->OrgName.ptr, edtCompany->text().utf8());
-    set_str(&data->OrgUnit.ptr, edtDepartment->text().utf8());
-    set_str(&data->Title.ptr, edtTitle->text().utf8());
-    set_str(&data->Role.ptr, edtRole->text().utf8());
+    set_str(&data->OrgName.ptr, edtCompany->text().toUtf8());
+    set_str(&data->OrgUnit.ptr, edtDepartment->text().toUtf8());
+    set_str(&data->Title.ptr, edtTitle->text().toUtf8());
+    set_str(&data->Role.ptr, edtRole->text().toUtf8());
 }
 
 #ifndef WIN32

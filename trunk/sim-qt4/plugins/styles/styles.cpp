@@ -20,10 +20,10 @@
 #include "simapi.h"
 #include "fontedit.h"
 
-#include <qapplication.h>
+#include <QApplication>
 #include <q3popupmenu.h>
-#include <qpalette.h>
-#include <qstyle.h>
+#include <QPalette>
+#include <QStyle>
 
 #ifdef WIN32
 #include <windows.h>

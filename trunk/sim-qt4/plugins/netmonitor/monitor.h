@@ -19,8 +19,8 @@
 #define _MONITOR_H
 
 #include "simapi.h"
-#include <q3mainwindow.h>
-//Added by qt3to4:
+#include <Q3MainWindow>
+
 #include <Q3PopupMenu>
 #include <QCloseEvent>
 

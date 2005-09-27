@@ -19,7 +19,7 @@
 #define _REPLACECFG_H
 
 #include "replacecfgbase.h"
-//Added by qt3to4:
+
 #include <Q3Frame>
 #include <QResizeEvent>
 #include <QEvent>
@@ -29,7 +29,7 @@ class IntLineEdit;
 class Q3Frame;
 class Q3ListViewItem;
 
-class ReplaceCfg : public ReplaceCfgBase
+class ReplaceCfg : public QWidget, public Ui::ReplaceCfgBase
 {
     Q_OBJECT
 public:

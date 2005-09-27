@@ -27,18 +27,19 @@
 
 #include "fontedit.h"
 
-#include <qtimer.h>
-#include <qpainter.h>
-#include <qapplication.h>
-#include <qpixmap.h>
-#include <qbitmap.h>
+#include <QTimer>
+#include <QPainter>
+#include <QApplication>
+#include <QPixmap>
+#include <QBitmap>
 #include <qregion.h>
-#include <qstyle.h>
-#include <qregexp.h>
-#include <qpushbutton.h>
-//Added by qt3to4:
+#include <QStyle>
+#include <QRegExp>
+#include <QPushButton>
+
 #include <QPaintEvent>
 #include <QMouseEvent>
+ #include <QDesktopWidget>
 
 #ifdef WIN32
 #include <windows.h>
@@ -200,9 +201,9 @@ static const char * const arrow_h_xpm[] = {
             "..++..+++"};
 
 OSDWidget::OSDWidget()
-        : QWidget(NULL, "osd", Qt::Window |
-                  Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint |
-                  Qt::Tool |Qt::WNoAutoErase | Qt::X11BypassWindowManagerHint)
+        : QWidget(NULL, "osd", Qt::WType_TopLevel |
+                  Qt::WStyle_StaysOnTop |  Qt::WStyle_Customize | Qt::WStyle_NoBorder |
+                  Qt::WStyle_Tool |Qt::WNoAutoErase | Qt::WX11BypassWM)
 {
     baseFont = font();
     m_button = NULL;
@@ -214,7 +215,7 @@ OSDWidget::OSDWidget()
         baseFont.setPixelSize(size * 2);
     }
     baseFont.setBold(true);
-    setFocusPolicy(NoFocus);
+    setFocusPolicy(Qt::NoFocus);
 }
 
 QPixmap& intensity(QPixmap &pict, float percent);
@@ -372,11 +373,6 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
         }
         QBrush bg(data->BgColor.value);
         p.fillRect(rc, bg);
-#if COMPAT_QT_VERSION < 0x030000
-        style().drawPopupPanel(&p, 0, 0, w, h, colorGroup(), 2, &bg);
-#else
-        style().drawPrimitive(QStyle::PE_PanelPopup, &p, rc, colorGroup());
-#endif
         rc = QRect(XOSD_MARGIN, XOSD_MARGIN, w - XOSD_MARGIN * 2, h - XOSD_MARGIN * 2);
     }
     p.setFont(font());

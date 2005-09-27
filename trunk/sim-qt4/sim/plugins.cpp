@@ -43,11 +43,11 @@
 #endif
 
 #include <errno.h>
-#include <qdir.h>
-#include <qstringlist.h>
+#include <QDir>
+#include <QStringList>
 #include <qmessagebox.h>
-#include <qapplication.h>
-#include <qregexp.h>
+#include <QApplication>
+#include <QRegExp>
 
 #include <algorithm>
 using namespace std;
@@ -170,7 +170,7 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
 
     lt_dlinit();
 #ifdef WIN32
-//    qInitJpegIO();
+    qInitJpegIO();
 #endif
 
     QStringList pluginsList;
@@ -533,7 +533,7 @@ void PluginManagerPrivate::saveState()
     string cfgName = user_file(PLUGINS_CONF);
     QFile f(QFile::decodeName((cfgName + BACKUP_SUFFIX).c_str())); // use backup file for this ...
     if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
-        log(L_ERROR, "Can't create %s", (const char*)f.name().local8Bit());
+        log(L_ERROR, "Can't create %s", (const char*)f.name().toLocal8Bit());
         return;
     }
     for (unsigned i = 0; i < plugins.size(); i++){
@@ -563,7 +563,7 @@ void PluginManagerPrivate::saveState()
 #endif
     f.close();
     if (status != IO_Ok) {
-        log(L_ERROR, "I/O error during writing to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
+        log(L_ERROR, "I/O error during writing to file %s : %s", (const char*)f.name().toLocal8Bit(), (const char*)errorMessage.toLocal8Bit());
         return;
     }
 
@@ -575,7 +575,7 @@ void PluginManagerPrivate::saveState()
     fileInfo.dir().remove(desiredFileName);
 #endif
     if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
-        log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
+        log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().toLocal8Bit(), (const char*)desiredFileName.toLocal8Bit());
         return;
     }
 }
@@ -760,13 +760,13 @@ unsigned PluginManagerPrivate::execute(const char *prg, const char *arg)
         p += " ";
         p += QString::fromLocal8Bit(arg);
     }
-    log(L_DEBUG, "Exec: %s", (const char*)p.local8Bit());
-    QStringList s = p.split(" ", QString::SkipEmptyParts);
+    log(L_DEBUG, "Exec: %s", (const char*)p.toLocal8Bit());
+    QStringList s = QStringList::split(" ", p);
     char **arglist = new char*[s.count()+1];
     unsigned i = 0;
     for ( QStringList::Iterator it = s.begin(); it != s.end(); ++it, i++ ) {
         string arg;
-        arg = static_cast<string>((*it).local8Bit());
+        arg = static_cast<string>((*it).toLocal8Bit());
         arglist[i] = strdup(arg.c_str());
     }
     arglist[i] = NULL;

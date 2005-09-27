@@ -22,8 +22,8 @@
 #include "stl.h"
 
 #include <q3dict.h>
-#include <qstringlist.h>
-//Added by qt3to4:
+#include <QStringList>
+
 #include <QEvent>
 
 typedef struct SpellData

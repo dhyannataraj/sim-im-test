@@ -25,7 +25,9 @@
 #include <QStringList>
 #include <QApplication>
 #include <QRegExp>
-#include <QMenu>
+#include <q3popupmenu.h>
+#include <QClipboard>
+
 #include <QByteArray>
 #include <QFrame>
 #include <QHBoxLayout>
@@ -34,13 +36,13 @@
 #include <QMouseEvent>
 #ifdef USE_KDE
 #include <kfiledialog.h>
-#define Q3FileDialog	KFileDialog
+#define QFileDialog	KFileDialog
 #else
 #include <QFileDialog>
 #endif
 
-EditFile::EditFile(QWidget *p)
-        : QFrame(p, NULL)
+EditFile::EditFile(QWidget *p, const char *name)
+        : QFrame(p, name)
 {
     bDirMode = false;
     bMultiplyMode = false;
@@ -101,11 +103,11 @@ class FileDialog : public QFileDialog
 public:
     FileDialog(const QString &dirName, const QString &filter, QWidget *parent, const QString &title);
 };
-
 FileDialog::FileDialog(const QString &dirName, const QString &filter, QWidget *parent, const QString &title)
         : QFileDialog(parent, title, dirName, filter)
 {
     SET_WNDPROC("filedialog")
+    setCaption(title);
 }
 
 void EditFile::setReadOnly(bool state)
@@ -125,10 +127,10 @@ void EditFile::showFiles()
     s.replace(QRegExp("\\\\"), "/");
 #endif
     if (bDirMode){
-        s = QFileDialog::getExistingDirectory(topLevelWidget(), title, s, NULL);
+        s = QFileDialog::getExistingDirectory(s, topLevelWidget(), title);
     }else if (bMultiplyMode){
-        QStringList lst = QFileDialog::getOpenFileNames(topLevelWidget(), "Chose file to open", "/", filter, NULL);
-        if ((lst.count() > 1) || ((lst.count() > 0) && (lst[0].indexOf(' ') >= 0))){
+        QStringList lst = QFileDialog::getOpenFileNames(filter, QString::null, topLevelWidget());
+        if ((lst.count() > 1) || ((lst.count() > 0) && (lst[0].find(' ') >= 0))){
             for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
                 *it = QString("\"") + *it + QString("\"");
             }
@@ -145,65 +147,57 @@ void EditFile::showFiles()
         }
         if (createPreview){
             FileDialog *dlg = new FileDialog( s, filter, topLevelWidget(), title.isEmpty() ? i18n("Open") : title);
-            if ( ! topLevelWidget()->windowIcon().isNull()){
-                dlg->setWindowIcon( topLevelWidget()->windowIcon() );
-            }else if ( !qApp->windowIcon().isNull()){
-                dlg->setWindowIcon( qApp->windowIcon());
-	    }
-// commented until KDE 4
-/*
+            if ( topLevelWidget()->icon() && !topLevelWidget()->icon()->isNull()){
+                dlg->setIcon( *topLevelWidget()->icon() );
+            }else if (qApp->mainWidget() && qApp->mainWidget()->icon() && !qApp->mainWidget()->icon()->isNull()){
+                dlg->setIcon( *qApp->mainWidget()->icon() );
+            }
+            FilePreview *preview = createPreview(dlg);
+/* Commented until this function will be in KDE4/QT4
 #ifdef USE_KDE
             dlg->setOperationMode( KFileDialog::Opening);
             if (preview)
                 dlg->setPreviewWidget(preview);
 #else
-*/
-            dlg->setFileMode( QFileDialog::ExistingFile );
-// commented until this funtions will be in QT4
-/*            if (preview){
+            dlg->setMode( QFileDialog::ExistingFile );
+            if (preview){
                 dlg->setContentsPreview(preview, preview);
                 dlg->setContentsPreviewEnabled(true);
                 dlg->setPreviewMode(QFileDialog::Contents);
-            }
-
-#endif
-*/
+            } 
+#endif */
             dlg->setFilter(filter);
             QString result;
             s = "";
             if (dlg->exec() == QDialog::Accepted){
-		QStringList fileList = dlg->selectedFiles();
-		if ( fileList.count() == 1)
-		{
-            	    s = fileList.first();
-		}
+                s = dlg->selectedFile();
             }
             // under KDE 3.1x / QT 3.1x sim crashes when preview is deleted...
             //            delete preview;
 #ifdef WIN32
-//            delete preview;
+            delete preview;
 #endif
             delete dlg;
         }else{
 #ifdef USE_KDE
             if (bCreate){
                 if (title.isEmpty()){
-                    s = QFileDialog::getSaveFileName(topLevelWidget(), "Choose filename to save under", s, filter);
+                    s = QFileDialog::getSaveFileName(s, filter, topLevelWidget());
                 }else{
-                    s = QFileDialog::getSaveFileName(topLevelWidget(), title, s, filter);
+                    s = QFileDialog::getSaveFileName(s, filter, topLevelWidget(), title);
                 }
             }else{
                 if (title.isEmpty()){
-                    s = QFileDialog::getOpenFileName(topLevelWidget(), "Chose filename to open", s, filter);
+                    s = QFileDialog::getOpenFileName(s, filter, topLevelWidget());
                 }else{
-                    s = QFileDialog::getOpenFileName(topLevelWidget(), title, s, filter);
+                    s = QFileDialog::getOpenFileName(s, filter, topLevelWidget(), title);
                 }
             }
 #else
             if (bCreate){
-                s = QFileDialog::getSaveFileName(topLevelWidget(), title, s, filter);
+                s = QFileDialog::getSaveFileName(s, filter, topLevelWidget(), "filedialog", title);
             }else{
-                s = QFileDialog::getOpenFileName(topLevelWidget(), title, s, filter);
+                s = QFileDialog::getOpenFileName(s, filter, topLevelWidget(), "filedialog", title);
             }
 #endif
         }
@@ -214,8 +208,8 @@ void EditFile::showFiles()
     if (s.length()) edtFile->setText(s);
 }
 
-EditSound::EditSound(QWidget *p)
-        : EditFile(p)
+EditSound::EditSound(QWidget *p, const char *name)
+        : EditFile(p, name)
 {
     QPushButton *btnPlay = new QPushButton(this);
     lay->addSpacing(3);
@@ -242,8 +236,8 @@ void EditSound::play()
     e.process();
 }
 
-FileLineEdit::FileLineEdit(EditFile *p)
-        : QLineEdit(p)
+FileLineEdit::FileLineEdit(EditFile *p, const char *name)
+        : QLineEdit(p, name)
 {
 }
 
@@ -270,11 +264,10 @@ const int IdClear           = 4;
 
 #endif
 
-/*
 const int IdBase            = 0x1000;
 
-LineEdit::LineEdit(QWidget *parent)
-        : QLineEdit(parent)
+LineEdit::LineEdit(QWidget *parent, const char *name)
+        : QLineEdit(parent, name)
 {
     helpList = NULL;
 }
@@ -296,7 +289,7 @@ void LineEdit::mousePressEvent(QMouseEvent *e)
 {
 #if COMPAT_QT_VERSION < 0x030000
     if (e->button() == Qt::RightButton) {
-        QPopupMenu *popup = createPopupMenu();
+        Q3PopupMenu *popup = createStandardContextMenu();
         int r = popup->exec( e->globalPos() );
         delete popup;
 #ifndef QT_NO_CLIPBOARD
@@ -317,12 +310,29 @@ void LineEdit::mousePressEvent(QMouseEvent *e)
     QLineEdit::mousePressEvent(e);
 }
 
-QMenu *LineEdit::createPopupMenu()
+Q3PopupMenu *LineEdit::createPopupMenu()
 {
-
-    QMenu *popup = QLineEdit::createStandardContextMenu();
+#if COMPAT_QT_VERSION < 0x030000
+    Q3PopupMenu *popup = new Q3PopupMenu( this );
+#ifndef QT_NO_CLIPBOARD
+    popup->insertItem(i18n("Cut"), IdCut);
+    popup->insertItem(i18n("Copy"), IdCopy);
+    popup->insertItem(i18n("Paste"), IdPaste);
+#endif
+    popup->insertItem(i18n("Clear"), IdClear);
+#ifndef QT_NO_CLIPBOARD
+    popup->setItemEnabled(IdCut,
+                          !isReadOnly() && hasMarkedText() );
+    popup->setItemEnabled(IdCopy, hasMarkedText() );
+    popup->setItemEnabled(IdPaste,
+                          !isReadOnly() && (bool)QApplication::clipboard()->text().length() );
+#endif
+    popup->setItemEnabled(IdClear,
+                          !isReadOnly() && (bool)text().length() );
+#else
+    Q3PopupMenu *popup = static_cast<Q3PopupMenu *>(QLineEdit::createStandardContextMenu());
     connect(popup, SIGNAL(activated(int)), this, SLOT(menuActivated(int)));
-
+#endif
     if (helpList){
         popup->insertSeparator();
         int id = IdBase;
@@ -339,8 +349,8 @@ QMenu *LineEdit::createPopupMenu()
     return popup;
 }
 
-MultiLineEdit::MultiLineEdit(QWidget *parent)
-        : QTextEdit(parent)
+MultiLineEdit::MultiLineEdit(QWidget *parent, const char *name)
+        : Q3MultiLineEdit(parent, name)
 {
     helpList = NULL;
 }
@@ -362,7 +372,7 @@ void MultiLineEdit::mousePressEvent(QMouseEvent *e)
 {
 #if COMPAT_QT_VERSION < 0x030000
     if (e->button() == Qt::RightButton) {
-        QPopupMenu *popup = createPopupMenu();
+        Q3PopupMenu *popup = createPopupMenu();
         int r = popup->exec( e->globalPos() );
         delete popup;
 #ifndef QT_NO_CLIPBOARD
@@ -380,15 +390,34 @@ void MultiLineEdit::mousePressEvent(QMouseEvent *e)
         return;
     }
 #endif
-    QMultiLineEdit::mousePressEvent(e);
+    Q3MultiLineEdit::mousePressEvent(e);
 }
 
-QMenu *MultiLineEdit::createPopupMenu()
+Q3PopupMenu *MultiLineEdit::createPopupMenu()
 {
-    QMenu *popup = QTextEdit::createStandardContextMenu();
+#if COMPAT_QT_VERSION < 0x030000
+    Q3PopupMenu *popup = new Q3PopupMenu( this );
+#ifndef QT_NO_CLIPBOARD
+    popup->insertItem(i18n("Cut"), IdCut);
+    popup->insertItem(i18n("Copy"), IdCopy);
+    popup->insertItem(i18n("Paste"), IdPaste);
+#endif
+    popup->insertItem(i18n("Clear"), IdClear);
+#ifndef QT_NO_CLIPBOARD
+    popup->setItemEnabled(IdCut,
+                          !isReadOnly() && hasMarkedText() );
+    popup->setItemEnabled(IdCopy, hasMarkedText() );
+    popup->setItemEnabled(IdPaste,
+                          !isReadOnly() && (bool)QApplication::clipboard()->text().length() );
+#endif
+    popup->setItemEnabled(IdClear,
+                          !isReadOnly() && (bool)text().length() );
+#else
+    Q3PopupMenu *popup = Q3MultiLineEdit::createPopupMenu();
     connect(popup, SIGNAL(activated(int)), this, SLOT(menuActivated(int)));
+#endif
     if (helpList){
-        popup->addSeparator();
+        popup->insertSeparator();
         int id = IdBase;
         for (const char **p = helpList; *p;){
             QString s = *p++;
@@ -402,6 +431,8 @@ QMenu *MultiLineEdit::createPopupMenu()
     }
     return popup;
 }
-*/
 
+#ifndef _WINDOWS
+#include "editfile.moc"
+#endif
 

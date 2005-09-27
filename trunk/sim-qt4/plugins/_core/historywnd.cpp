@@ -21,16 +21,16 @@
 #include "toolbtn.h"
 #include "history.h"
 
-#include <qpixmap.h>
-#include <qtimer.h>
-#include <qcombobox.h>
-#include <qlineedit.h>
-#include <qstatusbar.h>
+#include <QPixmap>
+#include <QTimer>
+#include <QComboBox>
+#include <QLineEdit>
+#include <QStatusBar>
 #include <q3progressbar.h>
-#include <qlayout.h>
-#include <qstringlist.h>
+#include <QLayout>
+#include <QStringList>
 #include <qmessagebox.h>
-//Added by qt3to4:
+
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QResizeEvent>
@@ -79,13 +79,11 @@ void HistoryProgressBar::setProgress(unsigned n)
 HistoryWindow::HistoryWindow(unsigned id)
 {
     m_history_page_count=CorePlugin::m_plugin->getHistoryPage();
-
-    setWFlags(WA_DeleteOnClose);
     m_id = id;
     SET_WNDPROC("history")
-    setIcon(Pict("history"));
+    setIcon(Pict("history").pixmap());
     setName();
-    m_view = new MsgViewBase(this, NULL, id);
+    m_view = new MsgViewBase(this);
     setCentralWidget(m_view);
     BarShow b;
     b.bar_id = BarHistory;
@@ -191,7 +189,7 @@ void *HistoryWindow::processEvent(Event *e)
         }
         if (cmd->id == CmdHistorySave){
             QString str = Q3FileDialog::getSaveFileName(QString::null, i18n("Textfile (*.txt)"), this);
-            if (str && !str.isEmpty()){
+            if (!str.isNull() && !str.isEmpty()){
                 bool res = true;
                 if (QFile::exists(str)){
                     QMessageBox mb(i18n("Error"), i18n("File already exists. Overwrite?"), 

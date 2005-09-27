@@ -21,8 +21,7 @@
 #include "simapi.h"
 #include "stl.h"
 
-#include <q3mainwindow.h>
-//Added by qt3to4:
+#include <Q3MainWindow>
 #include <QResizeEvent>
 
 class MsgViewBase;

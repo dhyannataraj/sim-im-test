@@ -19,7 +19,7 @@
 #include "msnclient.h"
 #include "fetch.h"
 
-#include <qtimer.h>
+#include <QTimer>
 
 const unsigned POLL_TIMEOUT	= 10;
 

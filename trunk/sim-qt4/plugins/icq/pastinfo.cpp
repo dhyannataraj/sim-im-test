@@ -19,12 +19,13 @@
 #include "pastinfo.h"
 #include "icqclient.h"
 
-#include <qlineedit.h>
-#include <qcombobox.h>
+#include <QLineEdit>
+#include <QComboBox>
 
 PastInfo::PastInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
-        : PastInfoBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_data   = data;
     m_client = client;
     m_contact = contact;
@@ -123,7 +124,7 @@ void PastInfo::fill()
     while (str.length()){
         QString info = getToken(str, ';', false);
         QString n = getToken(info, ',');
-        unsigned short category = (unsigned short)atol(n.latin1());
+        unsigned short category = (unsigned short)atol(n.toLatin1());
         switch (i){
         case 0:
             edtBg1->setText(info);
@@ -158,7 +159,7 @@ void PastInfo::fill()
     while (str.length()){
         QString info = getToken(str, ';', false);
         QString n = getToken(info, ',');
-        unsigned short category = (unsigned short)atol(n.latin1());
+        unsigned short category = (unsigned short)atol(n.toLatin1());
         switch (i){
         case 0:
             edtAf1->setText(info);

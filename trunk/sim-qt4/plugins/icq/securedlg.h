@@ -23,7 +23,7 @@
 
 class ICQClient;
 
-class SecureDlg : public SecureDlgBase, public EventReceiver
+class SecureDlg : public QDialog, public Ui::SecureDlgBase, public EventReceiver
 {
     Q_OBJECT
 public:

@@ -18,10 +18,10 @@
 #include "listview.h"
 
 #include <q3popupmenu.h>
-#include <qtimer.h>
-#include <qapplication.h>
+#include <QTimer>
+#include <QApplication>
 #include <q3header.h>
-//Added by qt3to4:
+
 #include <QPixmap>
 #include <QKeyEvent>
 #include <QEvent>
@@ -375,3 +375,9 @@ Contact *ContactDragObject::decode( QMimeSource *s )
     memcpy( &id, data.data(), sizeof(id));
     return getContacts()->contact(id);
 }
+
+
+#ifndef WIN32
+#include "listview.moc"
+#endif
+

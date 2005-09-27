@@ -20,7 +20,7 @@
 
 #include "simapi.h"
 #include "stl.h"
-//Added by qt3to4:
+
 #include <QTranslator>
 
 typedef map<string, unsigned>				MAP_TYPES;

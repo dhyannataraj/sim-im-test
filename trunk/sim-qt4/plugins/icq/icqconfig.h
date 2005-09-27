@@ -22,7 +22,7 @@
 #include "icqconfigbase.h"
 #include "icqclient.h"
 
-class ICQConfig : public ICQConfigBase
+class ICQConfig : public QWidget, public Ui::ICQConfigBase
 {
     Q_OBJECT
 public:

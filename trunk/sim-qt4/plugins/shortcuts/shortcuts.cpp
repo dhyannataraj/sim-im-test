@@ -20,13 +20,15 @@
 #include "simapi.h"
 #include "core.h"
 
-#include <qapplication.h>
-#include <qwidget.h>
-#include <q3accel.h>
-#include <q3popupmenu.h>
-//Added by qt3to4:
+#include <QApplication>
+#include <QCoreApplication>
+#include <QWidget>
+#include <Q3Accel>
+#include <Q3PopupMenu>
+
 #include <QMouseEvent>
 #include <QEvent>
+#include <QX11Info>
 
 #ifdef WIN32
 #include <windows.h>
@@ -91,7 +93,7 @@ list<GlobalKey*> *globalKeys = NULL;
 typedef struct vkCode
 {
     int vk;
-    Qt::Key key;
+    Key key;
 } vkCode;
 
 static vkCode vkCodes[] =
@@ -386,38 +388,18 @@ GlobalKey::GlobalKey(CommandDef *cmd)
             break;
         }
     }
-    m_key = XKeysymToKeycode( qt_xdisplay(), m_key);
-    XSync( qt_xdisplay(), 0 );
+    m_key = XKeysymToKeycode( QX11Info::display(), m_key);
+    XSync( QX11Info::display(), 0 );
     XErrorHandler savedErrorHandler = XSetErrorHandler(XGrabErrorHandler);
-    XGrabKey( qt_xdisplay(), m_key, m_state,
-              qt_xrootwin(), True, GrabModeAsync, GrabModeSync);
-    XSync( qt_xdisplay(), 0 );
+    XGrabKey( QX11Info::display(), m_key, m_state,
+              QX11Info::appRootWindow(QX11Info::appScreen()), True, GrabModeAsync, GrabModeSync);
+    XSync( QX11Info::display(), 0 );
     XSetErrorHandler( savedErrorHandler );
 }
 
 GlobalKey::~GlobalKey()
 {
-    XUngrabKey( qt_xdisplay(), m_key, m_state, qt_xrootwin());
-}
-
-typedef int (*QX11EventFilter) (XEvent*);
-QX11EventFilter qt_set_x11_event_filter (QX11EventFilter filter);
-static QX11EventFilter oldFilter;
-
-static int X11EventFilter(XEvent *e)
-{
-    if ((e->type == KeyPress) && globalKeys){
-        for (list<GlobalKey*>::iterator it = globalKeys->begin(); it != globalKeys->end(); ++it){
-            if (((*it)->key() == e->xkey.keycode) &&
-                    ((*it)->state() == e->xkey.state)){
-                (*it)->execute();
-                return true;
-            }
-        }
-    }
-    if (oldFilter)
-        return oldFilter(e);
-    return false;
+    XUngrabKey( QX11Info::display(), m_key, m_state, QX11Info::appRootWindow(QX11Info::appScreen()));
 }
 
 #endif
@@ -432,9 +414,6 @@ ShortcutsPlugin::ShortcutsPlugin(unsigned base, Buffer *config)
     init();
 #else
     applyKeys();
-#ifndef USE_KDE
-    oldFilter = qt_set_x11_event_filter(X11EventFilter);
-#endif
 #endif
 }
 
@@ -449,10 +428,6 @@ ShortcutsPlugin::~ShortcutsPlugin()
             SetWindowLongA(main->winId(), GWL_WNDPROC, (LONG)oldProc);
         }
     }
-#else
-#ifndef USE_KDE
-    qt_set_x11_event_filter(oldFilter);
-#endif
 #endif
     releaseKeys();
     free_data(shortcutsData, &data);
@@ -617,15 +592,15 @@ unsigned ShortcutsPlugin::stringToButton(const char *cfg)
     for (; config.length(); ){
         string t = getToken(config, '+');
         if (!strcmp(t.c_str(), "Alt")){
-            res |= AltButton;
+            res |= Qt::AltButton;
             continue;
         }
         if (!strcmp(t.c_str(), "Ctrl")){
-            res |= ControlButton;
+            res |= Qt::ControlButton;
             continue;
         }
         if (!strcmp(t.c_str(), "Shift")){
-            res |= ShiftButton;
+            res |= Qt::ShiftButton;
             continue;
         }
         unsigned i = 1;
@@ -643,11 +618,11 @@ unsigned ShortcutsPlugin::stringToButton(const char *cfg)
 string ShortcutsPlugin::buttonToString(unsigned n)
 {
     string res;
-    if (n & AltButton)
+    if (n & Qt::AltButton)
         res = "Alt+";
-    if (n & ControlButton)
+    if (n & Qt::ControlButton)
         res = "Ctrl+";
-    if (n & ShiftButton)
+    if (n & Qt::ShiftButton)
         res = "Shift+";
     n = n & 7;
     if (n == 0)
@@ -775,17 +750,15 @@ bool ShortcutsPlugin::eventFilter(QObject *o, QEvent *e)
 
 QWidget *ShortcutsPlugin::getMainWindow()
 {
-    QWidgetList  *list = QApplication::topLevelWidgets();
-    QWidgetListIt it( *list );
+    QList<QWidget *> list = QApplication::topLevelWidgets();
+    QListIterator<QWidget *> it( list );
     QWidget *w;
-    while ( (w=it.current()) != 0 ) {
-        ++it;
+    while ( it.hasNext()) {
+        w = it.next();
         if (w->inherits("MainWindow")){
-            delete list;
             return w;
         }
     }
-    delete list;
     return NULL;
 }
 

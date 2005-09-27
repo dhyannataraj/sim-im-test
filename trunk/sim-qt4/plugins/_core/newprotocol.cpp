@@ -19,10 +19,10 @@
 #include "connectwnd.h"
 #include "core.h"
 
-#include <qpixmap.h>
-#include <qpushbutton.h>
-#include <qcombobox.h>
-#include <qtimer.h>
+#include <QPixmap>
+#include <QPushButton>
+#include <QComboBox>
+#include <QTimer>
 
 static bool cmp_protocol(Protocol *p1, Protocol *p2)
 {
@@ -34,8 +34,9 @@ static bool cmp_protocol(Protocol *p1, Protocol *p2)
 }
 
 NewProtocol::NewProtocol(QWidget *parent)
-        : NewProtocolBase(parent, "new_protocol", true)
+        : Q3Wizard( parent, "newprotocol", true)
 {
+    setupUi( this);
     m_setup  = NULL;
     m_client = NULL;
     m_last   = NULL;
@@ -44,7 +45,7 @@ NewProtocol::NewProtocol(QWidget *parent)
     m_bConnect = false;
     m_bStart   = (parent == NULL);
     SET_WNDPROC("protocol")
-    setIcon(Pict("configure"));
+    setIcon(Pict("configure").pixmap());
     setButtonsPict(this);
     setCaption(caption());
     helpButton()->hide();
@@ -78,7 +79,7 @@ NewProtocol::NewProtocol(QWidget *parent)
     sort(m_protocols.begin(), m_protocols.end(), cmp_protocol);
     for (unsigned i = 0; i < m_protocols.size(); i++){
         const CommandDef *cmd = m_protocols[i]->description();
-        cmbProtocol->insertItem(Pict(cmd->icon, cmbProtocol->colorGroup().base()), i18n(cmd->text));
+        cmbProtocol->insertItem(Pict(cmd->icon, cmbProtocol->colorGroup().base()).pixmap(), i18n(cmd->text));
     }
     connect(cmbProtocol, SIGNAL(activated(int)), this, SLOT(protocolChanged(int)));
     cmbProtocol->setCurrentItem(0);
@@ -161,7 +162,7 @@ void NewProtocol::protocolChanged(int n)
         addPage(m_last, i18n(protocol->description()->text));
     }
     setNextEnabled(currentPage(), true);
-    setIcon(Pict(protocol->description()->icon));
+    setIcon(Pict(protocol->description()->icon).pixmap());
     Event e(EventRaiseWindow, this);
     e.process();
 }

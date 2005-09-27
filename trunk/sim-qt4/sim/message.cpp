@@ -20,11 +20,11 @@
 
 #include <time.h>
 
-#include <qfile.h>
-#include <qfileinfo.h>
-#include <qdir.h>
-#include <qstringlist.h>
-#include <qregexp.h>
+#include <QFile>
+#include <QFileInfo>
+#include <QDir>
+#include <QStringList>
+#include <QRegExp>
 
 namespace SIM
 {
@@ -121,7 +121,7 @@ QString Message::getText() const
 
 void Message::setText(const QString &text)
 {
-    set_str(&data.Text.ptr, text.utf8());
+    set_str(&data.Text.ptr, text.toUtf8());
 }
 
 static DataDef messageSMSData[] =
@@ -481,7 +481,7 @@ QString FileMessage::getDescription()
 
 bool FileMessage::setDescription(const QString &str)
 {
-    return set_str(&data.Description.ptr, str.utf8());
+    return set_str(&data.Description.ptr, str.toUtf8());
 }
 
 string FileMessage::save()
@@ -661,3 +661,4 @@ QString StatusMessage::presentation()
 }
 
 }
+

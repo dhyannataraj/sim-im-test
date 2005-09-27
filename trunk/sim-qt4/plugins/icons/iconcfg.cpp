@@ -19,7 +19,7 @@
 #include "icon.h"
 #include "icons.h"
 
-#include <qpushbutton.h>
+#include <QPushButton>
 #include <q3listbox.h>
 
 #ifdef USE_KDE
@@ -30,8 +30,9 @@
 #endif
 
 IconCfg::IconCfg(QWidget *parent, IconsPlugin *plugin)
-        : IconCfgBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_plugin = plugin;
     connect(btnUp, SIGNAL(clicked()), this, SLOT(up()));
     connect(btnDown, SIGNAL(clicked()), this, SLOT(down()));

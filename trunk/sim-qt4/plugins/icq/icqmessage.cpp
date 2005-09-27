@@ -22,12 +22,12 @@
 #include "core.h"
 #include "xml.h"
 
-#include <qtimer.h>
-#include <qlayout.h>
-#include <qtextcodec.h>
-#include <qfile.h>
-#include <qimage.h>
-#include <qregexp.h>
+#include <QTimer>
+#include <QLayout>
+#include <QTextCodec>
+#include <QFile>
+#include <QImage>
+#include <QRegExp>
 
 static DataDef aimFileMessageData[] =
     {
@@ -965,7 +965,7 @@ QString ICQClient::packContacts(ContactsMessage *msg, ICQUserData *data, CONTACT
         QString url = getToken(contact, ',');
         QString proto = getToken(url, ':');
         if (proto == "sim"){
-            Contact *contact = getContacts()->contact(atol(url.latin1()));
+            Contact *contact = getContacts()->contact(atol(url.toLatin1()));
             if (contact){
                 ClientDataIterator it(contact->clientData);
                 clientData *cdata;
@@ -1022,12 +1022,13 @@ QString ICQClient::packContacts(ContactsMessage *msg, ICQUserData *data, CONTACT
             QString screen = getToken(url, '/');
             if (url.isEmpty())
                 url = screen;
-            CONTACTS_MAP::iterator it = c.find(screen.latin1());
+	    string srchstring = static_cast<string>(screen.toLatin1());
+            CONTACTS_MAP::iterator it = c.find(srchstring.c_str());
             if (it == c.end()){
                 alias_group ci;
                 ci.alias = getContacts()->fromUnicode(getContact(data), url);
                 ci.grp   = 0;
-                c.insert(CONTACTS_MAP::value_type(screen.latin1(), ci));
+                c.insert(CONTACTS_MAP::value_type(srchstring.c_str(), ci));
             }
         }
     }
@@ -1233,7 +1234,7 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                     f.close();
                     img.load(fName);
                 }else{
-                    log(L_ERROR, "Can't create %s", (const char*)fName.local8Bit());
+                    log(L_ERROR, "Can't create %s", (const char*)fName.toLocal8Bit());
                 }
                 data->PictureWidth.value  = img.width();
                 data->PictureHeight.value = img.height();
@@ -1449,7 +1450,7 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &in
                             area    = getToken(number, ')');
                             if (country[0] == '+')
                                 country = country.mid(1);
-                            unsigned code = atol(country.latin1());
+                            unsigned code = atol(country.toLatin1());
                             country = "";
                             for (const ext_info *e = getCountries(); e->nCode; e++){
                                 if (e->nCode == code){
@@ -1465,11 +1466,11 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &in
                         }
                         phone = number;
                     }
-                    answer.packStr32(descr.local8Bit());
-                    answer.packStr32(area.local8Bit());
-                    answer.packStr32(phone.local8Bit());
-                    answer.packStr32(ext.local8Bit());
-                    answer.packStr32(country.local8Bit());
+                    answer.packStr32(descr.toLocal8Bit());
+                    answer.packStr32(area.toLocal8Bit());
+                    answer.packStr32(phone.toLocal8Bit());
+                    answer.packStr32(ext.toLocal8Bit());
+                    answer.packStr32(country.toLocal8Bit());
                     answer.pack(active);
 
                     unsigned long len = gateway.length() + 24;
@@ -1491,7 +1492,7 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &in
                     }
                     answer1.pack(len);
                     answer1.pack(type);
-                    answer1.packStr32(gateway.local8Bit());
+                    answer1.packStr32(gateway.toLocal8Bit());
                     answer1.pack((unsigned long)0);
                     answer1.pack(sms_available);
                     answer1.pack((unsigned long)0);
@@ -1521,7 +1522,7 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &in
                     if (n >= 0)
                         pictFile = pictFile.mid(n + 1);
                     nEntries = pictFile.length();
-                    answer.pack(pictFile.local8Bit(), pictFile.length());
+                    answer.pack(pictFile.toLocal8Bit(), pictFile.length());
                     unsigned long size = f.size();
                     answer.pack(size);
                     while (size > 0){

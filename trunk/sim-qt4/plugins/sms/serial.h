@@ -19,8 +19,8 @@
 #define _SERIAL_H
 
 #include "simapi.h"
-#include <qiodevice.h>
-//Added by qt3to4:
+#include <QIODevice>
+
 #include <QEvent>
 
 class SerialPortPrivate;

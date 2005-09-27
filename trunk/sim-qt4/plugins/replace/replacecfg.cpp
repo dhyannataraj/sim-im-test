@@ -23,14 +23,15 @@
 #include <q3frame.h>
 #include <qlayout.h>
 #include <q3header.h>
-//Added by qt3to4:
+
 #include <QResizeEvent>
 #include <QKeyEvent>
 #include <QEvent>
 
 ReplaceCfg::ReplaceCfg(QWidget *parent, ReplacePlugin *plugin)
-        : ReplaceCfgBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_plugin = plugin;
     lstKeys->addColumn(i18n("You type"));
     lstKeys->addColumn(i18n("You send"));
@@ -79,7 +80,7 @@ void ReplaceCfg::apply()
 
 void ReplaceCfg::resizeEvent(QResizeEvent *e)
 {
-    ReplaceCfgBase::resizeEvent(e);
+    resizeEvent(e);
     lstKeys->adjustColumn();
 }
 
@@ -115,7 +116,7 @@ bool ReplaceCfg::eventFilter(QObject *o, QEvent *e)
             return true;
         }
     }
-    return ReplaceCfgBase::eventFilter(o, e);
+    return eventFilter(o, e);
 }
 
 void ReplaceCfg::flush()

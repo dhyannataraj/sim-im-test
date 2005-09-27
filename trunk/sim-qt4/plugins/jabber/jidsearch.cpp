@@ -21,15 +21,16 @@
 #include "jidadvsearch.h"
 #include "jabber.h"
 
-#include <qpushbutton.h>
+#include <QPushButton>
 #include <q3groupbox.h>
-//Added by qt3to4:
+
 #include <QShowEvent>
 
 JIDSearch::JIDSearch(QWidget *parent, JabberClient *client, const QString &jid,
                      const QString &node, const char *type)
-        : JIDSearchBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_client = client;
     m_jid    = jid;
     m_node	 = node;
@@ -57,13 +58,13 @@ void JIDSearch::browserClicked()
 
 void JIDSearch::showEvent(QShowEvent *e)
 {
-    JIDSearchBase::showEvent(e);
+    showEvent(e);
     if (!m_bInit){
         m_bInit = true;
         connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
         connect(this, SIGNAL(showResult(QWidget*)), topLevelWidget(), SLOT(showResult(QWidget*)));
         connect(this, SIGNAL(addResult(QWidget*)), topLevelWidget(), SLOT(addResult(QWidget*)));
-        if (m_adv->grpSearch->children()){
+        if ( ! m_adv->grpSearch->children().isEmpty()){
             emit addResult(m_adv);
         }else{
             btnAdvanced->hide();
@@ -103,7 +104,7 @@ void JIDSearch::search()
         condition += jidSearch->condition(m_adv);
         advancedClicked();
     }
-    m_search_id = m_client->search(m_jid.utf8(), m_node.utf8(), condition);
+    m_search_id = m_client->search(m_jid.toUtf8(), m_node.toUtf8(), condition);
 }
 
 void JIDSearch::searchStop()
@@ -166,9 +167,9 @@ void *JIDSearch::processEvent(Event *e)
 void JIDSearch::createContact(const QString &name, unsigned tmpFlags, Contact *&contact)
 {
     string resource;
-    if (m_client->findContact(name.utf8(), NULL, false, contact, resource))
+    if (m_client->findContact(name.toUtf8(), NULL, false, contact, resource))
         return;
-    if (m_client->findContact(name.utf8(), NULL, true, contact, resource, false) == NULL)
+    if (m_client->findContact(name.toUtf8(), NULL, true, contact, resource, false) == NULL)
         return;
     contact->setFlags(contact->getFlags() | tmpFlags);
 }

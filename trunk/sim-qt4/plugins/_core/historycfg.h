@@ -22,7 +22,7 @@
 #include "stl.h"
 
 #include "qcolorbutton.h"
-//Added by qt3to4:
+
 #include <QEvent>
 #include "historycfgbase.h"
 
@@ -37,7 +37,7 @@ typedef struct StyleDef
     bool	operator < (const StyleDef &s) const { return name < s.name; }
 } StyleDef;
 
-class HistoryConfig : public Ui_HistoryConfigBase, public QDialog
+class HistoryConfig : public QWidget, public Ui::HistoryConfigBase
 {
     Q_OBJECT
 public:

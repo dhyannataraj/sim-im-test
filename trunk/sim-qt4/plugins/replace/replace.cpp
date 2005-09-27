@@ -21,7 +21,7 @@
 #include "html.h"
 
 #include <qapplication.h>
-//Added by qt3to4:
+
 #include <QKeyEvent>
 #include <QEvent>
 
@@ -112,7 +112,7 @@ bool ReplacePlugin::eventFilter(QObject *o, QEvent *e)
 {
     if ((e->type() == QEvent::KeyPress) && o->inherits("MsgTextEdit")){
         QKeyEvent *ke = (QKeyEvent*)e;
-        if ((ke->key() == Key_Enter) || (ke->key() == Key_Return) || (ke->key() == Key_Space)){
+        if ((ke->key() == Qt::Key_Enter) || (ke->key() == Qt::Key_Return) || (ke->key() == Qt::Key_Space)){
             TextEdit *edit = (TextEdit*)o;
             int paraFrom, paraTo, indexFrom, indexTo;
             edit->getSelection(&paraFrom, &indexFrom, &paraTo, &indexTo);

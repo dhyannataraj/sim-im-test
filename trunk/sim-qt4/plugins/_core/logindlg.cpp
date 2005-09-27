@@ -21,24 +21,23 @@
 #include "ballonmsg.h"
 #include "linklabel.h"
 
-#include <qpixmap.h>
-#include <qcheckbox.h>
-#include <qlineedit.h>
-#include <qcombobox.h>
-#include <qpushbutton.h>
-#include <qlabel.h>
-#include <qdir.h>
-#include <qlayout.h>
-#include <qapplication.h>
-#include <qtimer.h>
-//Added by qt3to4:
+#include <QPixmap>
+#include <QCheckBox>
+#include <QLineEdit>
+#include <QComboBox>
+#include <QPushButton>
+#include <QLabel>
+#include <QDir>
+#include <QLayout>
+#include <QApplication>
+#include <QTimer>
 #include <QCloseEvent>
+#include <QDesktopWidget>
 
 LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const char *loginProfile)
-        : LoginDialogBase(NULL, "logindlg",
-                          client ? false : true,
-                          client ? Qt::WA_DeleteOnClose : 0)
+        : QDialog( NULL, Qt::WA_DeleteOnClose)
 {
+    setupUi( this);
     m_bInit  = bInit;
     m_bProfileChanged = false;
     m_profile = CorePlugin::m_plugin->getProfile();
@@ -54,10 +53,10 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const 
     lblMessage->setText(text);
     if (m_client){
         setCaption(caption() + " " + QString::fromLocal8Bit(client->name().c_str()));
-        setIcon(Pict(m_client->protocol()->description()->icon));
+        setIcon(Pict(m_client->protocol()->description()->icon).pixmap());
     }else{
         setCaption(i18n("Select profile"));
-        setIcon(Pict("ICQ"));
+        setIcon(Pict("ICQ").pixmap());
     }
     if (m_client){
         chkSave->hide();
@@ -94,7 +93,7 @@ void LoginDialog::closeEvent(QCloseEvent *e)
         stopLogin();
         return;
     }
-    LoginDialogBase::closeEvent(e);
+    closeEvent(e);
 }
 
 void LoginDialog::accept()
@@ -114,7 +113,7 @@ void LoginDialog::accept()
         if (status == STATUS_OFFLINE)
             status = STATUS_ONLINE;
         m_client->setStatus(status, m_client->getCommonStatus());
-        LoginDialogBase::accept();
+        accept();
         return;
     }
 
@@ -125,7 +124,7 @@ void LoginDialog::accept()
         CorePlugin::m_plugin->setNoShow(chkNoShow->isChecked());
         CorePlugin::m_plugin->setProfile(NULL);
         CorePlugin::m_plugin->changeProfile();
-        LoginDialogBase::accept();
+        accept();
         return;
     }
 
@@ -182,7 +181,7 @@ void LoginDialog::accept()
         }
         return;
     }
-    LoginDialogBase::accept();
+    accept();
 }
 
 void LoginDialog::reject()
@@ -191,7 +190,7 @@ void LoginDialog::reject()
         stopLogin();
         return;
     }
-    LoginDialogBase::reject();
+    reject();
 }
 
 void LoginDialog::profileChanged(int)
@@ -288,30 +287,30 @@ void LoginDialog::makeInputs(unsigned &row, Client *client, bool bQuick)
 {
     if (!bQuick){
         QLabel *pict = new QLabel(this);
-        pict->setPixmap(Pict(client->protocol()->description()->icon));
+        pict->setPixmap(Pict(client->protocol()->description()->icon).pixmap());
         picts.push_back(pict);
-        PLayout->addWidget(pict, row, 0);
+        gridLayout->addWidget(pict, row, 0);
         pict->show();
     }
     QLabel *txt = new QLabel(this);
     txt->setText(bQuick ? i18n("Password:") : QString::fromLocal8Bit(client->name().c_str()));
-    txt->setAlignment(AlignRight);
+    txt->setAlignment(Qt::AlignRight);
     QLineEdit *edt = new QLineEdit(this);
     edt->setText(client->getPassword());
     edt->setEchoMode(QLineEdit::Password);
     connect(edt, SIGNAL(textChanged(const QString&)), this, SLOT(pswdChanged(const QString&)));
     passwords.push_back(edt);
     texts.push_back(txt);
-    PLayout->addWidget(txt, row, 1);
-    PLayout->addWidget(edt, row, 2);
+    gridLayout->addWidget(txt, row, 1);
+    gridLayout->addWidget(edt, row, 2);
     txt->show();
     edt->show();
     const char *helpUrl = client->protocol()->description()->accel;
     if (helpUrl && *helpUrl){
         LinkLabel *lnkHelp = new LinkLabel(this);
-        PLayout->addWidget(lnkHelp, ++row, 2);
+        gridLayout->addWidget(lnkHelp, ++row, 2);
         lnkHelp->setText(i18n("Forgot password?"));
-        lnkHelp->setUrl(i18n(helpUrl).latin1());
+        lnkHelp->setUrl(i18n(helpUrl).toLatin1());
         lnkHelp->show();
         links.push_back(lnkHelp);
     }
@@ -341,7 +340,7 @@ void LoginDialog::fill()
         if (clients.size()){
             Client *client = clients[0];
             cmbProfile->insertItem(
-                Pict(client->protocol()->description()->icon),
+                Pict(client->protocol()->description()->icon).pixmap(),
                 QString::fromLocal8Bit(client->name().c_str()));
         }
     }

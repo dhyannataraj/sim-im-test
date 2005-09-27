@@ -19,18 +19,19 @@
 #include "workinfo.h"
 #include "icqclient.h"
 
-#include <qpushbutton.h>
-#include <qlineedit.h>
+#include <QPushButton>
+#include <QLineEdit>
 #include <q3multilineedit.h>
-#include <qcombobox.h>
+#include <QComboBox>
 
 WorkInfo::WorkInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
-        : WorkInfoBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_data    = data;
     m_client  = client;
     m_contact = contact;
-    btnSite->setPixmap(Pict("home"));
+    btnSite->setPixmap(Pict("home").pixmap());
     connect(btnSite, SIGNAL(clicked()), this, SLOT(goUrl()));
     if (m_data){
         edtAddress->setReadOnly(true);
@@ -127,7 +128,7 @@ void WorkInfo::goUrl()
     if (url.isEmpty())
         return;
     string url_str;
-    url_str = url.local8Bit();
+    url_str = static_cast<string>(url.toLocal8Bit());
     Event e(EventGoURL, (void*)url_str.c_str());
     e.process();
 }

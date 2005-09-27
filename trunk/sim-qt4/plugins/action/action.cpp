@@ -20,7 +20,7 @@
 #include "core.h"
 #include "exec.h"
 
-#include <qtimer.h>
+#include <QTimer>
 
 Plugin *createActionPlugin(unsigned base, bool, Buffer*)
 {
@@ -163,7 +163,7 @@ void *ActionPlugin::processEvent(Event *e)
                 }
                 cmds[n].id = CmdAction + i;
                 cmds[n].text = "_";
-                cmds[n].text_wrk = strdup(item.utf8());
+                cmds[n].text_wrk = strdup(item.toUtf8());
                 n++;
             }
             if (n == 0){
@@ -256,12 +256,12 @@ void *ActionPlugin::processEvent(Event *e)
             m_exec.push_back(exec);
             connect(exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(msg_ready(Exec*,int,const char*)));
             QString text = msg->presentation();
-            exec->execute(t->tmpl.local8Bit(), unquoteText(text).local8Bit());
+            exec->execute(t->tmpl.toLocal8Bit(), unquoteText(text).toLocal8Bit());
         }else{
             Exec *exec = new Exec;
             m_exec.push_back(exec);
             connect(exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(ready(Exec*,int,const char*)));
-            exec->execute(t->tmpl.local8Bit(), NULL);
+            exec->execute(t->tmpl.toLocal8Bit(), NULL);
         }
     }
     return NULL;

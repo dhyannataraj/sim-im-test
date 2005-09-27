@@ -21,21 +21,22 @@
 #include "editfile.h"
 #include "core.h"
 
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <qlineedit.h>
-#include <qlayout.h>
-#include <qregexp.h>
-#include <qpainter.h>
-//Added by qt3to4:
+#include <QCheckBox>
+#include <QLabel>
+#include <QLineEdit>
+#include <QLayout>
+#include <QRegExp>
+#include <QPainter>
+
 #include <QPixmap>
 #include <QResizeEvent>
 
 unsigned ONLINE_ALERT = 0x10000;
 
 SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugin)
-        : SoundUserConfigBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_plugin = plugin;
     lstSound->addColumn(i18n("Sound"));
     lstSound->addColumn(i18n("File"));
@@ -83,7 +84,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
 
 QPixmap SoundUserConfig::makePixmap(const char *src)
 {
-    const QPixmap &source = Pict(src);
+    const QPixmap &source = Pict(src).pixmap();
     int w = source.width();
     int h = QMAX(source.height(), 22);
     QPixmap pict(w, h);
@@ -116,7 +117,7 @@ void SoundUserConfig::apply(void *data)
 
 void SoundUserConfig::resizeEvent(QResizeEvent *e)
 {
-    SoundUserConfigBase::resizeEvent(e);
+    resizeEvent(e);
     lstSound->adjustColumn();
 }
 

@@ -23,11 +23,11 @@
 
 #include "core.h"
 
-#include <qpixmap.h>
-#include <qpainter.h>
-#include <qtimer.h>
-#include <qapplication.h>
-//Added by qt3to4:
+#include <QPixmap>
+#include <QPainter>
+#include <QTimer>
+#include <QApplication>
+
 #include <QPaintEvent>
 #include <QEvent>
 #include <QDropEvent>
@@ -41,8 +41,8 @@
 
 FloatyWnd::FloatyWnd(FloatyPlugin *plugin, unsigned id)
         : QWidget(NULL, "floaty",
-                  Qt::Window | Qt::FramelessWindowHint | Qt::Tool |
-                  Qt::WindowStaysOnTopHint | Qt::WNoAutoErase)
+                  Qt::WType_TopLevel | Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_Tool |
+                  Qt::WStyle_StaysOnTop | Qt::WNoAutoErase)
 {
     m_plugin = plugin;
     m_id = id;

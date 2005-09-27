@@ -17,20 +17,21 @@
 
 #include "connectionsettings.h"
 
-#include <qlayout.h>
-#include <qpixmap.h>
-//Added by qt3to4:
+#include <QLayout>
+#include <QPixmap>
+
 #include <QVBoxLayout>
 
 ConnectionSettings::ConnectionSettings(Client *client)
-        : ConnectionSettingsBase(NULL, NULL, true)
+        : QDialog( NULL, Qt::WA_DeleteOnClose)
 {
+    setupUi( this);
     SET_WNDPROC("client")
     setButtonsPict(this);
     m_client = client;
     Protocol *protocol = client->protocol();
     const CommandDef *cmd = protocol->description();
-    setIcon(Pict(cmd->icon));
+    setIcon(Pict(cmd->icon).pixmap());
     setCaption(i18n("Configure %1 client") .arg(i18n(cmd->text)));
     QVBoxLayout *lay = new QVBoxLayout(addWnd);
     QWidget *setupWnd = client->setupWnd();

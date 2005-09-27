@@ -41,14 +41,14 @@
 #include "buffer.h"
 #include "socket.h"
 
-#include <qtimer.h>
-#include <qtextcodec.h>
-#include <qregexp.h>
-#include <qimage.h>
-#include <qpixmap.h>
-#include <qapplication.h>
-#include <qwidget.h>
-#include <qfile.h>
+#include <QTimer>
+#include <QTextCodec>
+#include <QRegExp>
+#include <QImage>
+#include <QPixmap>
+#include <QApplication>
+#include <QWidget>
+#include <QFile>
 
 #ifdef TM_IN_SYS_TIME
 #include <sys/time.h>
@@ -322,7 +322,7 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
         ClientDataIterator itd(contact->clientData, this);
         ICQUserData *data;
         while ((data = (ICQUserData*)(++itd)) != NULL)
-            set_str(&data->Alias.ptr, contact->getName().utf8());
+            set_str(&data->Alias.ptr, contact->getName().toUtf8());
     }
 }
 
@@ -358,7 +358,7 @@ void ICQClient::contactsLoaded()
             EncodingDlg dlg(NULL, this);
             dlg.exec();
         }else{
-            getContacts()->owner()->setEncoding(def_enc.latin1());
+            getContacts()->owner()->setEncoding(def_enc.toLatin1());
         }
     }
 }
@@ -471,7 +471,7 @@ bool ICQClient::isMyData(clientData *&_data, Contact *&contact)
     if (my_data){
         data = my_data;
         string s;
-        s = contact->getName().local8Bit();
+        s = static_cast<string>(contact->getName().toLocal8Bit());
     }else{
         contact = NULL;
     }
@@ -2229,7 +2229,7 @@ CommandDef *ICQClient::infoWindows(Contact*, void *_data)
     }else{
         name += data->Screen.ptr;
     }
-    def->text_wrk = strdup(name.utf8());
+    def->text_wrk = strdup(name.toUtf8());
     return def;
 }
 
@@ -2244,7 +2244,7 @@ CommandDef *ICQClient::configWindows()
     }else{
         name += QString::number(data.owner.Uin.value);
     }
-    def->text_wrk = strdup(name.utf8());
+    def->text_wrk = strdup(name.toUtf8());
     return def;
 }
 
@@ -2436,9 +2436,9 @@ void *ICQClient::processEvent(Event *e)
         if (m_bAIM){
             if ((getState() == Connected) && (m_status == STATUS_AWAY)){
                 if ((*it).bDirect){
-                    setAwayMessage(t->tmpl.utf8());
+                    setAwayMessage(t->tmpl.toUtf8());
                 }else{
-                    sendCapability(t->tmpl.utf8());
+                    sendCapability(t->tmpl.toUtf8());
                     sendICMB(1, 11);
                     sendICMB(0, 11);
                     processSendQueue();
@@ -2454,7 +2454,7 @@ void *ICQClient::processEvent(Event *e)
             if (data && data->Direct.ptr){
                 QString answer;
                 if (data->Version.value >= 10){
-                    answer = t->tmpl.utf8();
+                    answer = t->tmpl.toUtf8();
                 }else{
                     answer = getContacts()->fromUnicode(contact, t->tmpl).c_str();
                 }
@@ -2463,7 +2463,7 @@ void *ICQClient::processEvent(Event *e)
         }else{
             Buffer copy;
             string response;
-            response = t->tmpl.utf8();
+            response = static_cast<string>(t->tmpl.toUtf8());
             sendAutoReply(ar.screen.c_str(), ar.id, plugins[PLUGIN_NULL],
                           ar.id1, ar.id2, ar.type, (char)(ar.ack), 0, response.c_str(), 0, copy);
         }
@@ -2479,12 +2479,12 @@ void *ICQClient::processEvent(Event *e)
                 time_t now;
                 time(&now);
                 if (getContacts()->owner()->getPhones() != QString::fromUtf8(data.owner.PhoneBook.ptr)){
-                    set_str(&data.owner.PhoneBook.ptr, getContacts()->owner()->getPhones().utf8());
+                    set_str(&data.owner.PhoneBook.ptr, getContacts()->owner()->getPhones().toUtf8());
                     data.owner.PluginInfoTime.value = now;
                     sendPluginInfoUpdate(PLUGIN_PHONEBOOK);
                 }
                 if (getPicture() != QString::fromUtf8(data.owner.Picture.ptr)){
-                    set_str(&data.owner.Picture.ptr, getPicture().utf8());
+                    set_str(&data.owner.Picture.ptr, getPicture().toUtf8());
                     data.owner.PluginInfoTime.value = now;
                     sendPluginInfoUpdate(PLUGIN_PICTURE);
                 }
@@ -2796,7 +2796,7 @@ void *ICQClient::processEvent(Event *e)
         QString screen = getToken(s, ',');
         if (!screen.isEmpty()){
             Contact *contact;
-            findContact(screen.latin1(), s.utf8(), true, contact);
+            findContact(screen.toLatin1(), s.toUtf8(), true, contact);
             Command cmd;
             cmd->id		 = MessageGeneric;
             cmd->menu_id = MenuMessage;
@@ -2846,11 +2846,11 @@ void *ICQClient::processEvent(Event *e)
         }
         if ((*msg)->type() == MessageOpenSecure){
             SecureDlg *dlg = NULL;
-            QWidgetList  *list = QApplication::topLevelWidgets();
-            QWidgetListIt it(*list);
+            QList<QWidget *>  list = QApplication::topLevelWidgets();
+            QListIterator<QWidget *> it(list);
             QWidget * w;
-            while ((w=it.current()) != NULL) {
-                ++it;
+            while ( it.hasNext()) {
+                w = it.next();
                 if (!w->inherits("SecureDlg"))
                     continue;
                 dlg = static_cast<SecureDlg*>(w);
@@ -2860,7 +2860,6 @@ void *ICQClient::processEvent(Event *e)
                     break;
                 dlg = NULL;
             }
-            delete list;
             if (dlg == NULL)
                 dlg = new SecureDlg(this, contact->id(), data);
             raiseWindow(dlg);

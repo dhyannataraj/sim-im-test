@@ -22,11 +22,11 @@
 #include "preview.h"
 #include "ballonmsg.h"
 
-#include <qtabwidget.h>
-#include <qpushbutton.h>
-#include <qlabel.h>
-#include <qimage.h>
-#include <qpixmap.h>
+#include <QTabWidget>
+#include <QPushButton>
+#include <QLabel>
+#include <QImage>
+#include <QPixmap>
 #include <time.h>
 
 #ifndef USE_KDE
@@ -39,8 +39,9 @@ static FilePreview *createPreview(QWidget *parent)
 #endif
 
 JabberPicture::JabberPicture(QWidget *parent, struct JabberUserData *data, JabberClient *client, bool bPhoto)
-        : JabberPictureBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_data   = data;
     m_client = client;
     m_bPhoto = bPhoto;

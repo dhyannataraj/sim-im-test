@@ -22,13 +22,13 @@
 
 #ifndef USE_KDE
 
-#include <qpainter.h>
+#include <QPainter>
 #include <qdrawutil.h>
-#include <qtimer.h>
+#include <QTimer>
 #include <qfont.h>
 #include <qfontmetrics.h>
-#include <qregexp.h>
-//Added by qt3to4:
+#include <QRegExp>
+
 #include <QPixmap>
 #include <QKeyEvent>
 #include <Q3PopupMenu>

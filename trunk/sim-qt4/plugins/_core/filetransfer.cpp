@@ -19,19 +19,19 @@
 #include "core.h"
 #include "ballonmsg.h"
 
-#include <qpixmap.h>
-#include <qlineedit.h>
+#include <QPixmap>
+#include <QLineEdit>
 #include <qslider.h>
-#include <qlabel.h>
-#include <qtimer.h>
+#include <QLabel>
+#include <QTimer>
 #include <q3progressbar.h>
-#include <qpushbutton.h>
-#include <qcheckbox.h>
-#include <qfile.h>
-#include <qdir.h>
-#include <qregexp.h>
-//Added by qt3to4:
-#include <Q3CString>
+#include <QPushButton>
+#include <QCheckBox>
+#include <QFile>
+#include <QDir>
+#include <QRegExp>
+
+#include <QByteArray>
 
 #include <time.h>
 
@@ -91,7 +91,7 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
             QString pp = getToken(p, '/');
             if (pp == ".."){
                 QString errMsg = i18n("Bad path: %1") .arg(m_name);
-                m_dlg->m_msg->setError(errMsg.utf8());
+                m_dlg->m_msg->setError(errMsg.toUtf8());
                 ft->setError();
                 return;
             }
@@ -101,7 +101,7 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
                 QDir d(ft->dir());
                 if (!d.mkdir(path)){
                     QString errMsg = i18n("Can't create: %1") .arg(path);
-                    m_dlg->m_msg->setError(errMsg.utf8());
+                    m_dlg->m_msg->setError(errMsg.toUtf8());
                     ft->setError();
                     return;
                 }
@@ -161,7 +161,7 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
         }
     }
     QString errMsg = i18n("Can't create: %1") .arg(m_name);
-    m_dlg->m_msg->setError(errMsg.utf8());
+    m_dlg->m_msg->setError(errMsg.toUtf8());
     ft->setError();
 }
 
@@ -196,11 +196,12 @@ void FileTransferDlgNotify::resume()
 }
 
 FileTransferDlg::FileTransferDlg(FileMessage *msg)
-        : FileTransferBase(NULL, "filetransfer", false, Qt::WA_DeleteOnClose)
+        : QDialog( NULL, Qt::WA_DeleteOnClose)
 {
+    setupUi( this);
     m_msg = msg;
     SET_WNDPROC("filetransfer")
-    setIcon(Pict("file"));
+    setIcon(Pict("file").pixmap());
     setButtonsPict(this);
     QString name;
     Contact *contact = getContacts()->contact(m_msg->contact());
@@ -508,7 +509,7 @@ void FileTransferDlg::action(int nAct, void*)
 
 void FileTransferDlg::goDir()
 {
-    Q3CString tmp;
+    QByteArray tmp;
 
 
     if (m_dir.isEmpty())

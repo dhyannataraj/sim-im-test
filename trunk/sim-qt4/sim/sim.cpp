@@ -27,13 +27,13 @@
 #endif
 
 #ifdef USE_KDE
-#include <qwidget.h>
+#include <QWidget>
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <kuniqueapplication.h>
 #else
 #include <aboutdata.h>
-#include <qapplication.h>
+#include <QApplication>
 #endif
 
 #ifdef USE_KDE
@@ -303,3 +303,6 @@ int main(int argc, char *argv[])
 #endif
 	return 0;
 }
+
+
+

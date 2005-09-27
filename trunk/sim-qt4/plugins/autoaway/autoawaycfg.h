@@ -24,7 +24,7 @@
 
 class AutoAwayPlugin;
 
-class AutoAwayConfig : public QDialog, public Ui::AutoAwayConfigBase
+class AutoAwayConfig : public QWidget, public Ui::AutoAwayConfigBase
 {
     Q_OBJECT
 public:

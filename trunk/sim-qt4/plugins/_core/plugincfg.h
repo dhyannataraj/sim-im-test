@@ -21,7 +21,7 @@
 #include "simapi.h"
 #include "plugincfgbase.h"
 
-class PluginCfg : public Ui_PluginCfgBase, public QDialog
+class PluginCfg : public QWidget, public Ui::PluginCfgBase
 {
     Q_OBJECT
 public:

@@ -424,7 +424,7 @@ void *NavigatePlugin::processEvent(Event *e)
                 cmds[n] = *cmd;
                 cmds[n].id = CmdMailList + n;
                 cmds[n].flags = COMMAND_DEFAULT;
-                cmds[n].text_wrk = strdup(mail.utf8());
+                cmds[n].text_wrk = strdup(mail.toUtf8());
                 n++;
             }
             memset(&cmds[n], 0, sizeof(CommandDef));
@@ -444,7 +444,7 @@ void *NavigatePlugin::processEvent(Event *e)
             mail = getToken(mail, '/');
             if (mail.length()){
                 string addr = "mailto:";
-                addr += mail.local8Bit();
+                addr += static_cast<string>(mail.toLocal8Bit());
                 Event eMail(EventGoURL, (void*)addr.c_str());
                 eMail.process();
             }
@@ -462,7 +462,7 @@ void *NavigatePlugin::processEvent(Event *e)
                     mail = getToken(mail, '/');
                     if (mail.length()){
                         string addr = "mailto:";
-                        addr += mail.local8Bit();
+                        addr += static_cast<string>(mail.toLocal8Bit());
                         Event eMail(EventGoURL, (void*)addr.c_str());
                         eMail.process();
                     }

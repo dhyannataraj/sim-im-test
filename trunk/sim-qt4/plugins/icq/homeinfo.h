@@ -23,7 +23,7 @@
 
 class ICQClient;
 
-class HomeInfo : public HomeInfoBase, public EventReceiver
+class HomeInfo : public QWidget, public Ui::HomeInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:

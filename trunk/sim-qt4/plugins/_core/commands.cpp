@@ -22,11 +22,11 @@
 #include "core.h"
 #include "cmenu.h"
 
-#include <qapplication.h>
+#include <QApplication>
 #include <q3popupmenu.h>
-#include <qwidget.h>
+#include <QWidget>
 #include <q3accel.h>
-//Added by qt3to4:
+
 #include <QEvent>
 
 Commands::Commands()
@@ -266,7 +266,6 @@ void Commands::customize(CommandsDef *def)
     }
     if (wnd == NULL) wnd= new ToolBarSetup(this, def);
     raiseWindow(wnd);
-    delete &list;
 }
 
 void Commands::customizeMenu(unsigned id)

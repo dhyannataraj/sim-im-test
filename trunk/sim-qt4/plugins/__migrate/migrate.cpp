@@ -18,7 +18,7 @@
 #include "migrate.h"
 #include "migratedlg.h"
 
-#include <qdir.h>
+#include <QDir>
 
 Plugin *createMigratePlugin(unsigned base, bool, Buffer*)
 {

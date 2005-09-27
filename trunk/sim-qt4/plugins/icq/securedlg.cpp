@@ -19,17 +19,18 @@
 #include "icqclient.h"
 #include "icqmessage.h"
 
-#include <qpixmap.h>
-#include <qtimer.h>
-#include <qpushbutton.h>
-#include <qtimer.h>
-#include <qlabel.h>
+#include <QPixmap>
+#include <QTimer>
+#include <QPushButton>
+#include <QTimer>
+#include <QLabel>
 
 SecureDlg::SecureDlg(ICQClient *client, unsigned contact, struct ICQUserData *data)
-        : SecureDlgBase(NULL, "securedlg", false, Qt::WA_DeleteOnClose)
+        : QDialog( NULL, Qt::WA_DeleteOnClose)
 {
+    setupUi( this);
     SET_WNDPROC("secure")
-    setIcon(Pict("encrypted"));
+    setIcon(Pict("encrypted").pixmap());
     setButtonsPict(this);
     setCaption(caption());
     m_client  = client;

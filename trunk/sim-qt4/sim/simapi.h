@@ -27,6 +27,7 @@
 #include <QContextMenuEvent>
 #include <QByteArray>
 #include <Q3MimeSourceFactory>
+#include <QDialog>
 
 #if COMPAT_QT_VERSION >= 0x030000
 #include <QTextEdit>
@@ -103,7 +104,7 @@ typedef unsigned char _Bool;
 #include <string>
 using namespace std;
 
-#include <qwidget.h>
+#include <QWidget>
 #if COMPAT_QT_VERSION >= 0x030000
 #include <q3dockwindow.h>
 #endif
@@ -141,7 +142,7 @@ EXPORT int strcasecmp(const char *a, const char *b);
 EXPORT QString i18n(const char *singular, const char *plural, unsigned long n);
 #endif
 #else
-#include <qobject.h>
+#include <QObject>
 EXPORT QString i18n(const char *text);
 EXPORT QString i18n(const char *text, const char *comment);
 EXPORT QString i18n(const char *singular, const char *plural, unsigned long n);

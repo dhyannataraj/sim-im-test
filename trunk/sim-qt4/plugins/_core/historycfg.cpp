@@ -21,7 +21,7 @@
 #include "qt3/q3syntaxhighlighter.h"
 #else
 #include <q3syntaxhighlighter.h>
-//Added by qt3to4:
+
 #include <QEvent>
 #include <QKeyEvent>
 #endif
@@ -35,21 +35,21 @@
 
 #include <time.h>
 
-#include <qcheckbox.h>
-#include <qpushbutton.h>
-#include <qcombobox.h>
-#include <qlineedit.h>
+#include <QCheckBox>
+#include <QPushButton>
+#include <QComboBox>
+#include <QLineEdit>
 #include <qvalidator.h>
-#include <qlabel.h>
-#include <qfile.h>
-#include <qdir.h>
-#include <qregexp.h>
-#include <qtimer.h>
-#include <qtabwidget.h>
+#include <QLabel>
+#include <QFile>
+#include <QDir>
+#include <QRegExp>
+#include <QTimer>
+#include <QTabWidget>
 #include <qspinbox.h>
 
 #ifdef USE_KDE
-#include <qapplication.h>
+#include <QApplication>
 #include <kglobal.h>
 #include <kstddirs.h>
 #endif
@@ -185,8 +185,9 @@ int XmlHighlighter::highlightParagraph(const QString &s, int state)
 
 
 HistoryConfig::HistoryConfig(QWidget *parent)
-        : HistoryConfigBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     chkOwn->setChecked(CorePlugin::m_plugin->getOwnColors());
     chkSmile->setChecked(CorePlugin::m_plugin->getUseSmiles());
     m_cur = -1;
@@ -205,7 +206,7 @@ HistoryConfig::HistoryConfig(QWidget *parent)
     lblPage1->setText(str1);
     lblPage2->setText(str2);
     edtStyle->setWordWrap(Q3TextEdit::NoWrap);
-    edtStyle->setTextFormat(Q3TextEdit::RichText);
+    edtStyle->setTextFormat(Qt::RichText);
     new XmlHighlighter(edtStyle);
     QStringList styles;
     addStyles(user_file(STYLES).c_str(), true);
@@ -260,13 +261,13 @@ void HistoryConfig::apply()
         if ((int)i == cmbStyle->currentItem())
             bChanged = true;
         string name = STYLES;
-        name += QFile::encodeName(m_styles[i].name);
+        name += static_cast<string>(QFile::encodeName(m_styles[i].name));
         name += EXT;
         name = user_file(name.c_str());
         QFile f(QFile::decodeName((name + BACKUP_SUFFIX).c_str())); // use backup file for this ...
         if (f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
             string s;
-            s = m_styles[i].text.utf8();
+            s = static_cast<string>(m_styles[i].text.toUtf8());
             f.writeBlock(s.c_str(), s.length());
 
             const int status = f.status();
@@ -277,7 +278,7 @@ void HistoryConfig::apply()
 #endif
             f.close();
             if (status != IO_Ok) {
-                log(L_ERROR, "IO error during writting to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
+                log(L_ERROR, "IO error during writting to file %s : %s", (const char*)f.name().toLocal8Bit(), (const char*)errorMessage.toLocal8Bit());
             } else {
                 // rename to normal file
                 QFileInfo fileInfo(f.name());
@@ -287,7 +288,7 @@ void HistoryConfig::apply()
                 fileInfo.dir().remove(desiredFileName);
 #endif
                 if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
-                    log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
+                    log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().toLocal8Bit(), (const char*)desiredFileName.toLocal8Bit());
                 }
             }
         }else{
@@ -312,7 +313,7 @@ void HistoryConfig::apply()
         bChanged = true;
         CorePlugin::m_plugin->setUseSmiles(chkSmile->isChecked());
     }
-    CorePlugin::m_plugin->setHistoryPage(atol(cmbPage->lineEdit()->text().latin1()));
+    CorePlugin::m_plugin->setHistoryPage(atol(cmbPage->lineEdit()->text().toLatin1()));
     if (bChanged){
         Event e(EventHistoryConfig);
         e.process();
@@ -398,7 +399,7 @@ void HistoryConfig::copy()
     newName += QString::number(next + 1);
     string n;
     n = STYLES;
-    n += QFile::encodeName(name);
+    n += static_cast<string>(QFile::encodeName(name));
     n += EXT;
     if (m_styles[cur].bCustom){
         n = user_file(n.c_str());
@@ -411,7 +412,7 @@ void HistoryConfig::copy()
         return;
     }
     n = STYLES;
-    n += QFile::encodeName(newName);
+    n += static_cast<string>(QFile::encodeName(newName));
     n += EXT;
     n = user_file(n.c_str());
     QFile to(QFile::decodeName((n + BACKUP_SUFFIX).c_str()));
@@ -433,7 +434,7 @@ const QString errorMessage = "write file fail";
 #endif
     to.close();
     if (status != IO_Ok) {
-        log(L_ERROR, "IO error during writting to file %s : %s", (const char*)to.name().local8Bit(), (const char*)errorMessage.local8Bit());
+        log(L_ERROR, "IO error during writting to file %s : %s", (const char*)to.name().toLocal8Bit(), (const char*)errorMessage.toLocal8Bit());
         return;
     }
 
@@ -445,7 +446,7 @@ const QString errorMessage = "write file fail";
     fileInfo.dir().remove(desiredFileName);
 #endif
     if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
-        log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
+        log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().toLocal8Bit(), (const char*)desiredFileName.toLocal8Bit());
         return;
     }
 
@@ -498,7 +499,7 @@ void HistoryConfig::realDelete()
     m_styles.erase(it);
     string n;
     n = STYLES;
-    n += QFile::encodeName(name);
+    n += static_cast<string>(QFile::encodeName(name));
     n += EXT;
     n = user_file(n.c_str());
     QFile::remove(QFile::decodeName(n.c_str()));
@@ -543,7 +544,7 @@ void HistoryConfig::realRename()
         }
         string nn;
         nn = STYLES;
-        nn += QFile::encodeName(m_styles[m_edit].name);
+        nn += static_cast<string>(QFile::encodeName(m_styles[m_edit].name));
         nn += EXT;
         nn = user_file(nn.c_str());
         if (m_styles[m_edit].text.isEmpty()){
@@ -578,7 +579,7 @@ bool HistoryConfig::eventFilter(QObject *o, QEvent *e)
             return true;
         }
     }
-    return HistoryConfigBase::eventFilter(o, e);
+    return eventFilter(o, e);
 }
 
 void HistoryConfig::viewChanged(QWidget *w)
@@ -597,7 +598,7 @@ void HistoryConfig::viewChanged(QWidget *w)
         QString xsl;
         if (m_styles[cur].text.isEmpty()){
             string name = STYLES;
-            name += QFile::encodeName(m_styles[cur].name);
+            name += static_cast<string>(QFile::encodeName(m_styles[cur].name));
             name += EXT;
             name = m_styles[cur].bCustom ? user_file(name.c_str()) : app_file(name.c_str());
             QFile f(QFile::decodeName(name.c_str()));

@@ -23,11 +23,11 @@
 #include <q3filedialog.h>
 #endif
 
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qimage.h>
-#include <qfile.h>
-//Added by qt3to4:
+#include <QLabel>
+#include <QLayout>
+#include <QImage>
+#include <QFile>
+
 #include <QPixmap>
 #include <QVBoxLayout>
 

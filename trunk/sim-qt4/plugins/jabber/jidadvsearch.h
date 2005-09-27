@@ -20,10 +20,10 @@
 
 #include "simapi.h"
 #include "jidadvsearchbase.h"
-//Added by qt3to4:
+
 #include <QShowEvent>
 
-class JIDAdvSearch : public JIDAdvSearchBase
+class JIDAdvSearch : public QWidget, public Ui::JIDAdvSearchBase
 {
     Q_OBJECT
 public:

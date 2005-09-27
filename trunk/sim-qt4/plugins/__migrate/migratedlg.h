@@ -23,12 +23,13 @@
 
 #include "migratedlgbase.h"
 
-#include <qcheckbox.h>
-#include <qfile.h>
-//Added by qt3to4:
-#include <QCloseEvent>
+#include <QCheckBox>
+#include <QFile>
 
-class MigrateDialog : public MigrateDialogBase
+#include <QCloseEvent>
+#include <Q3Wizard>
+
+class MigrateDialog : public Q3Wizard, public Ui::MigrateDialogBase, public EventReceiver
 {
     Q_OBJECT
 public:

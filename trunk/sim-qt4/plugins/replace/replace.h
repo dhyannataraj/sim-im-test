@@ -19,13 +19,13 @@
 #define _REPLACE_H
 
 #include "simapi.h"
-//Added by qt3to4:
+
 #include <QEvent>
 
 typedef struct ReplaceData
 {
     Data	Keys;
-    Data	Qt::Key;
+    Data	Key;
     Data	Value;
 } ReplaceData;
 
@@ -36,7 +36,7 @@ public:
     ReplacePlugin(unsigned, Buffer *cfg);
     virtual ~ReplacePlugin();
     PROP_ULONG(Keys)
-    PROP_UTFLIST(Qt::Key)
+    PROP_UTFLIST(Key)
     PROP_UTFLIST(Value)
 protected:
     virtual string getConfig();

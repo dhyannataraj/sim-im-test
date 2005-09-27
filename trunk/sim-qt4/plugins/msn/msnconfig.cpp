@@ -19,15 +19,16 @@
 #include "msnclient.h"
 #include "linklabel.h"
 
-#include <qtimer.h>
-#include <qlineedit.h>
+#include <QTimer>
+#include <QLineEdit>
 #include <qspinbox.h>
-#include <qtabwidget.h>
-#include <qcheckbox.h>
+#include <QTabWidget>
+#include <QCheckBox>
 
 MSNConfig::MSNConfig(QWidget *parent, MSNClient *client, bool bConfig)
-        : MSNConfigBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_client = client;
     m_bConfig = bConfig;
     if (m_bConfig)
@@ -59,10 +60,10 @@ void MSNConfig::apply(Client*, void*)
 void MSNConfig::apply()
 {
     if (!m_bConfig){
-        m_client->setLogin(edtLogin->text().local8Bit());
+        m_client->setLogin(edtLogin->text().toLocal8Bit());
         m_client->setPassword(edtPassword->text());
     }
-    m_client->setServer(edtServer->text().local8Bit());
+    m_client->setServer(edtServer->text().toLocal8Bit());
     m_client->setPort((unsigned short)atol(edtPort->text()));
     m_client->setMinPort((unsigned short)atol(edtMinPort->text()));
     m_client->setMaxPort((unsigned short)atol(edtMaxPort->text()));

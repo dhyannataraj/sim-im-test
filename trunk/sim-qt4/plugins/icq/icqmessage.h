@@ -20,8 +20,8 @@
 
 #include "simapi.h"
 
-#include <qlineedit.h>
-#include <qtoolbutton.h>
+#include <QLineEdit>
+#include <QToolButton>
 
 const unsigned MessageICQ				= 0x100;
 const unsigned MessageICQUrl			= 0x101;

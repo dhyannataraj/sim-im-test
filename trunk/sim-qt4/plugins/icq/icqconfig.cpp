@@ -18,18 +18,19 @@
 #include "icqconfig.h"
 #include "icq.h"
 
-#include <qtimer.h>
-#include <qlineedit.h>
-#include <qcheckbox.h>
-#include <qlabel.h>
+#include <QTimer>
+#include <QLineEdit>
+#include <QCheckBox>
+#include <QLabel>
 #include <qspinbox.h>
 #include <qvalidator.h>
-#include <qtabwidget.h>
-#include <qcombobox.h>
+#include <QTabWidget>
+#include <QComboBox>
 
 ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
-        : ICQConfigBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_client = client;
     m_bConfig = bConfig;
     if (m_bConfig){
@@ -94,10 +95,10 @@ void ICQConfig::apply(Client*, void*)
 void ICQConfig::apply()
 {
     if (m_bConfig){
-        m_client->setUin(atol(edtUin->text().latin1()));
+        m_client->setUin(atol(edtUin->text().toLatin1()));
         m_client->setPassword(edtPasswd->text());
     }
-    m_client->setServer(edtServer->text().local8Bit());
+    m_client->setServer(edtServer->text().toLocal8Bit());
     m_client->setPort((unsigned short)atol(edtPort->text()));
     m_client->setMinPort((unsigned short)atol(edtMinPort->text()));
     m_client->setMaxPort((unsigned short)atol(edtMaxPort->text()));
@@ -107,7 +108,7 @@ void ICQConfig::apply()
     m_client->setDisableAutoReplyUpdate(chkAutoReply->isChecked());
     m_client->setDisableTypingNotification(chkTyping->isChecked());
     m_client->setAutoCheckInvisible(chkInvisible->isChecked());
-    m_client->setCheckInvisibleInterval(atol(edtInvisible->text().latin1()));
+    m_client->setCheckInvisibleInterval(atol(edtInvisible->text().toLatin1()));
     m_client->setAcceptInDND(chkDND->isChecked());
     m_client->setAcceptInOccupied(chkOccupied->isChecked());
     m_client->setUseHTTP(chkHTTP->isChecked());
@@ -133,7 +134,7 @@ void ICQConfig::changed()
 {
     bool bOK = true;
     if (!chkNew->isChecked())
-        bOK = atol(edtUin->text().latin1()) > 1000;
+        bOK = atol(edtUin->text().toLatin1()) > 1000;
     bOK =  bOK && !edtPasswd->text().isEmpty() &&
            !edtServer->text().isEmpty() &&
            atol(edtPort->text());

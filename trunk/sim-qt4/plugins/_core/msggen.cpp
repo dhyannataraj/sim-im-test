@@ -23,19 +23,19 @@
 #include "userlist.h"
 #include "core.h"
 
-#include <qtimer.h>
-#include <qtoolbutton.h>
+#include <QTimer>
+#include <QToolButton>
 #include <q3accel.h>
-#include <qtooltip.h>
-#include <qlayout.h>
-#include <qregexp.h>
+#include <QToolTip>
+#include <QLayout>
+#include <QRegExp>
 
 #ifdef USE_KDE
 #include <kcolordialog.h>
 #include <kfontdialog.h>
 #else
-#include <qcolordialog.h>
-#include <qfontdialog.h>
+#include <QColorDialog>
+#include <QFontDialog>
 #endif
 
 MsgGen::MsgGen(MsgEdit *parent, Message *msg)
@@ -47,7 +47,7 @@ MsgGen::MsgGen(MsgEdit *parent, Message *msg)
         m_edit->m_edit->setText("");
         m_edit->m_edit->setReadOnly(false);
     }
-    m_edit->m_edit->setTextFormat(RichText);
+    m_edit->m_edit->setTextFormat(Qt::RichText);
     if (msg->getFlags() & MESSAGE_INSERT){
         QString text = msg->getPlainText();
         m_edit->m_edit->insert(text, false, true, true);
@@ -114,7 +114,7 @@ void *MsgGen::processEvent(Event *e)
             QString msgText = m_edit->m_edit->text();
             if (!msgText.isEmpty()){
                 string s;
-                s = msgText.local8Bit();
+                s = static_cast<string>(msgText.toLocal8Bit());
                 log(L_DEBUG, "Send: %s", s.c_str());
                 Message *msg = new Message;
                 msg->setText(msgText);

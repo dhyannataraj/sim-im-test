@@ -19,14 +19,15 @@
 #include "filter.h"
 #include "ignorelist.h"
 
-#include <qcheckbox.h>
-#include <qtabwidget.h>
-#include <qlabel.h>
+#include <QCheckBox>
+#include <QTabWidget>
+#include <QLabel>
 #include <q3multilineedit.h>
 
 FilterConfig::FilterConfig(QWidget *parent, FilterUserData *data, FilterPlugin *plugin, bool bMain)
-        : Ui::FilterConfigBase()
+        : QWidget( parent)
 {
+    setupUi( this);
     m_plugin = plugin;
     m_data   = data;
     m_ignore = NULL;
@@ -63,7 +64,7 @@ void FilterConfig::apply()
 void FilterConfig::apply(void *_data)
 {
     FilterUserData *data = (FilterUserData*)_data;
-    set_str(&data->SpamList.ptr, edtFilter->text().utf8());
+    set_str(&data->SpamList.ptr, edtFilter->text().toUtf8());
 }
 
 #ifndef WIN32

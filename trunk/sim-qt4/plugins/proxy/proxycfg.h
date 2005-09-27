@@ -23,14 +23,14 @@
 #include "proxycfgbase.h"
 
 #include <vector>
-//Added by qt3to4:
+
 #include <QPaintEvent>
 using namespace std;
 
 class ProxyPlugin;
 class QTabWidget;
 
-class ProxyConfig : public ProxyConfigBase, public EventReceiver
+class ProxyConfig : public QWidget, public Ui::ProxyConfigBase, public EventReceiver
 {
     Q_OBJECT
 public:

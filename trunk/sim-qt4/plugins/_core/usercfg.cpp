@@ -22,17 +22,17 @@
 #include "core.h"
 #include "arcfg.h"
 
-#include <qpixmap.h>
+#include <QPixmap>
 #include <q3listview.h>
-#include <qtabwidget.h>
-#include <qlabel.h>
-#include <qcheckbox.h>
-#include <qpushbutton.h>
+#include <QTabWidget>
+#include <QLabel>
+#include <QCheckBox>
+#include <QPushButton>
 #include <q3widgetstack.h>
 #include <q3header.h>
-#include <qregexp.h>
-#include <qicon.h>
-//Added by qt3to4:
+#include <QRegExp>
+#include <QIcon>
+
 #include <QResizeEvent>
 
 class ConfigItem : public Q3ListViewItem
@@ -122,7 +122,7 @@ PrefItem::PrefItem(Q3ListViewItem *parent, CommandDef *cmd)
     QString title = i18n(cmd->text);
     title = title.replace(QRegExp("&"), "");
     setText(0, title);
-    setPixmap(0, Pict(cmd->icon, listView()->colorGroup().base()));
+    setPixmap(0, Pict(cmd->icon, listView()->colorGroup().base()).pixmap());
 }
 
 QWidget *PrefItem::getWidget(UserConfig *dlg)
@@ -171,7 +171,7 @@ void ClientItem::init(CommandDef *cmd)
         setText(0, i18n(cmd->text));
     }
     if (cmd->icon)
-        setPixmap(0, Pict(cmd->icon, listView()->colorGroup().base()));
+        setPixmap(0, Pict(cmd->icon, listView()->colorGroup().base()).pixmap());
 }
 
 QWidget *ClientItem::getWidget(UserConfig *dlg)
@@ -195,7 +195,7 @@ MainInfoItem::MainInfoItem(Q3ListView *view, unsigned id)
         : ConfigItem(view, id)
 {
     setText(0, i18n("User info"));
-    setPixmap(0, Pict("info", listView()->colorGroup().base()));
+    setPixmap(0, Pict("info", listView()->colorGroup().base()).pixmap());
 }
 
 QWidget *MainInfoItem::getWidget(UserConfig *dlg)
@@ -217,7 +217,7 @@ ARItem::ARItem(Q3ListViewItem *item, const CommandDef *def)
 {
     m_status = def->id;
     setText(0, i18n(def->text));
-    setPixmap(0, Pict(def->icon, listView()->colorGroup().base()));
+    setPixmap(0, Pict(def->icon, listView()->colorGroup().base()).pixmap());
 }
 
 QWidget *ARItem::getWidget(UserConfig *dlg)
@@ -235,14 +235,15 @@ static unsigned itemWidth(Q3ListViewItem *item, QFontMetrics &fm)
 }
 
 UserConfig::UserConfig(Contact *contact, Group *group)
-        : ConfigureDialogBase(NULL, "userconfig", false, Qt::WA_DeleteOnClose)
+        : QDialog( NULL, Qt::WA_DeleteOnClose)
 {
+    setupUi( this);
     m_contact  = contact;
     m_group    = group;
     m_nUpdates = 0;
 
     SET_WNDPROC("configure")
-    setIcon(Pict(contact ? "info" : "configure"));
+    setIcon(Pict(contact ? "info" : "configure").pixmap());
     setButtonsPict(this);
     setTitle();
     QIcon iconSet = Icon("webpress");
@@ -359,7 +360,7 @@ void UserConfig::fill()
 
     parentItem = new ConfigItem(lstBox, 0);
     parentItem->setText(0, i18n("Settings"));
-    parentItem->setPixmap(0, Pict("configure", lstBox->colorGroup().base()));
+    parentItem->setPixmap(0, Pict("configure", lstBox->colorGroup().base()).pixmap());
     parentItem->setOpen(true);
     CommandDef *cmd;
     CommandsMapIterator itc(CorePlugin::m_plugin->preferences);
@@ -525,12 +526,12 @@ void UserConfig::showUpdate(bool bShow)
 void UserConfig::accept()
 {
     apply();
-    ConfigureDialogBase::accept();
+    accept();
 }
 
 void UserConfig::resizeEvent(QResizeEvent *e)
 {
-    ConfigureDialogBase::resizeEvent(e);
+    resizeEvent(e);
     if (isVisible()){
         CorePlugin::m_plugin->data.cfgGeo[WIDTH].value = width();
         CorePlugin::m_plugin->data.cfgGeo[HEIGHT].value = height();

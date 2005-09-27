@@ -25,7 +25,7 @@ class JabberClient;
 
 class QImage;
 
-class JabberPicture : public JabberPictureBase, public EventReceiver
+class JabberPicture : public QWidget, public Ui::JabberPictureBase, public EventReceiver
 {
     Q_OBJECT
 public:

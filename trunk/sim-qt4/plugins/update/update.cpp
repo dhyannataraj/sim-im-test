@@ -22,10 +22,10 @@
 
 #include <time.h>
 #include <stdio.h>
-#include <qtimer.h>
-#include <qapplication.h>
-#include <qwidget.h>
-#include <qregexp.h>
+#include <QTimer>
+#include <QApplication>
+#include <QWidget>
+#include <QRegExp>
 
 const unsigned CHECK_INTERVAL = 60 * 60 * 24;
 

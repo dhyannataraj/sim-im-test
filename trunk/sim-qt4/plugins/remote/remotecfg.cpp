@@ -20,16 +20,17 @@
 
 #include <q3buttongroup.h>
 #include <qradiobutton.h>
-#include <qcheckbox.h>
-#include <qlineedit.h>
+#include <QCheckBox>
+#include <QLineEdit>
 #include <qspinbox.h> 
-#include <qfile.h>
+#include <QFile>
 
 static char TCP[] = "tcp:";
 
 RemoteConfig::RemoteConfig(QWidget *parent, RemotePlugin *plugin)
-        : RemoteConfigBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_plugin = plugin;
     const char *path = m_plugin->getPath();
     edtPort->setValue(3000);
@@ -73,7 +74,7 @@ void RemoteConfig::apply()
 #ifdef WIN32
     if (chkTCP->isChecked()){
         path  = TCP;
-        path += edtPort->text().latin1();
+        path += edtPort->text().toLatin1();
     }else{
         path  = "auto:";
     }
@@ -81,9 +82,9 @@ void RemoteConfig::apply()
 #else
     if (grpRemote->id(grpRemote->selected()) == 2){
         path  = TCP;
-        path += edtPort->text().latin1();
+        path += static_cast<string>(edtPort->text().toLatin1());
     }else{
-        path  = QFile::encodeName(edtPath->text());
+        path  = static_cast<string>(QFile::encodeName(edtPath->text()));
     }
 #endif
     if (path != m_plugin->getPath()){

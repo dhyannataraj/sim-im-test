@@ -21,9 +21,9 @@
 #include "core.h"
 #include "exec.h"
 
-#include <qfile.h>
+#include <QFile>
 #include <qsound.h>
-#include <qtimer.h>
+#include <QTimer>
 
 #ifdef USE_KDE
 #include <kaudioplayer.h>

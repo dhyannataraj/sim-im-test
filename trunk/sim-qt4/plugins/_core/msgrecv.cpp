@@ -24,10 +24,10 @@
 #include "textshow.h"
 
 #include <q3accel.h>
-#include <qtooltip.h>
-#include <qpainter.h>
-#include <qtimer.h>
-#include <qlayout.h>
+#include <QToolTip>
+#include <QPainter>
+#include <QTimer>
+#include <QLayout>
 #include <q3popupmenu.h>
 
 MsgReceived::MsgReceived(MsgEdit *parent, Message *msg, bool bOpen)
@@ -43,7 +43,7 @@ MsgReceived::MsgReceived(MsgEdit *parent, Message *msg, bool bOpen)
 
     if (m_bOpen){
         m_edit->m_edit->setReadOnly(true);
-        m_edit->m_edit->setTextFormat(Q3TextEdit::RichText);
+        m_edit->m_edit->setTextFormat(Qt::RichText);
         QString p = msg->presentation();
         if (p.isEmpty())
             p = msg->getRichText();

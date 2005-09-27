@@ -20,7 +20,7 @@
 
 #include "simapi.h"
 #include "spellcfgbase.h"
-//Added by qt3to4:
+
 #include <QResizeEvent>
 
 class SpellPlugin;
@@ -30,7 +30,7 @@ class Q3ListViewItem;
 class SpellFind;
 #endif
 
-class SpellConfig : public SpellConfigBase
+class SpellConfig : public QWidget, public Ui::SpellConfigBase
 {
     Q_OBJECT
 public:

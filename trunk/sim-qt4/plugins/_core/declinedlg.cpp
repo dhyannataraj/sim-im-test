@@ -17,15 +17,16 @@
 
 #include "declinedlg.h"
 
-#include <qpixmap.h>
-#include <qlineedit.h>
+#include <QPixmap>
+#include <QLineEdit>
 
 DeclineDlg::DeclineDlg(Message *msg)
-        : DeclineDlgBase(NULL, NULL, false, Qt::WA_DeleteOnClose)
+        : QDialog( NULL, Qt::WA_DeleteOnClose)
 {
+    setupUi( this);
     m_msg = msg;
     SET_WNDPROC("decline")
-    setIcon(Pict("file"));
+    setIcon(Pict("file").pixmap());
     setButtonsPict(this);
     setCaption(caption());
 }
@@ -37,13 +38,13 @@ DeclineDlg::~DeclineDlg()
 void DeclineDlg::accept()
 {
     string reason;
-    reason = edtReason->text().utf8();
+    reason = static_cast<string>(edtReason->text().toUtf8());
     messageDecline md;
     md.msg    = m_msg;
     md.reason = reason.c_str();
     Event e(EventMessageDecline, &md);
     e.process();
-    DeclineDlgBase::accept();
+    accept();
 }
 
 void *DeclineDlg::processEvent(Event *e)

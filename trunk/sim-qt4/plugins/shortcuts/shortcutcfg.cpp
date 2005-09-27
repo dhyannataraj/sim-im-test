@@ -18,22 +18,23 @@
 #include "shortcutcfg.h"
 #include "shortcuts.h"
 #include "qkeybutton.h"
-//Added by qt3to4:
+
 #include <QResizeEvent>
 #include "mousecfg.h"
 #include "core.h"
 
-#include <q3listview.h>
-#include <qlabel.h>
-#include <qregexp.h>
-#include <q3accel.h>
-#include <qpushbutton.h>
-#include <qcheckbox.h>
-#include <qtabwidget.h>
+#include <Q3ListView>
+#include <QLabel>
+#include <QRegExp>
+#include <Q3Accel>
+#include <QPushButton>
+#include <QCheckBox>
+#include <QTabWidget>
 
 ShortcutsConfig::ShortcutsConfig(QWidget *parent, ShortcutsPlugin *plugin)
-        : ShortcutsConfigBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_plugin = plugin;
     lstKeys->setSorting(0);
     loadMenu(MenuMain, true);
@@ -154,7 +155,7 @@ void ShortcutsConfig::saveMenu(unsigned id)
 
 void ShortcutsConfig::resizeEvent(QResizeEvent *e)
 {
-    ShortcutsConfigBase::resizeEvent(e);
+    resizeEvent(e);
     adjustColumns();
 }
 

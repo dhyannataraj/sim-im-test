@@ -19,17 +19,16 @@
 #include "icons.h"
 #include "qzip.h"
 
-#include <qicon.h>
-#include <qmime.h>
-#include <qimage.h>
-#include <qpainter.h>
-#include <qbitmap.h>
+#include <QIcon>
+#include <QMimeSource>
+#include <QImage>
+#include <QPainter>
+#include <QBitmap>
 #include <q3dragobject.h>
-#include <qfile.h>
-#include <qmime.h>
-#include <qapplication.h>
+#include <QFile>
+#include <QApplication>
 #include <QImageReader>
-//Added by qt3to4:
+
 #include <QPixmap>
 
 #ifdef USE_KDE
@@ -428,7 +427,7 @@ const QMimeSource *MyMimeSourceFactory::data(const QString &abs_name) const
     QString name = abs_name;
     if (name.left(5) == "icon:"){
         name = name.mid(5);
-        PictDef *p = getPict(name.latin1());
+        PictDef *p = getPict(name.toLatin1());
         if (p)
             ((Q3MimeSourceFactory*)this)->setImage(abs_name, *(p->image));
     }
@@ -458,8 +457,7 @@ void IconSet::parseSmiles(const QString &text, unsigned &start, unsigned &size, 
         int n = text.find(pat);
         if (n < 0)
             continue;
-        // FIXME: ugly casts between signed <-> unsigned
-        if (((unsigned)n < start) || (((unsigned)n == start) && ((unsigned)pat.length() > size))){
+        if (((unsigned)n < start) || (((unsigned)n == start) && (pat.length() > size))){
             start = n;
             size  = pat.length();
             name  = it->name.c_str();
@@ -915,7 +913,7 @@ void FileIconSet::element_start(const char *el, const char **args)
             return;
         mime = mime.substr(n + 1);
         QList<QByteArray> l = QImageReader::supportedImageFormats();
-        for (int i = 0; i < l.count(); i++){
+        for (unsigned i = 0; i < l.count(); i++){
             if (l[i].lower() != mime.c_str())
                 continue;
             m_data = &m_file;
@@ -977,3 +975,9 @@ void FileIconSet::char_data(const char *data, int size)
 }
 
 };
+
+#ifndef WIN32
+#include "icons.moc"
+#endif
+
+

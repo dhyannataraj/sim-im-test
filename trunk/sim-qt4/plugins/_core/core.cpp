@@ -50,16 +50,16 @@
 #include "icons.h"
 #include "kdeisversion.h"
 
-#include <qtimer.h>
-#include <qapplication.h>
+#include <QTimer>
+#include <QApplication>
 #include <QWidget>
-#include <qfile.h>
-#include <qdir.h>
+#include <QFile>
+#include <QDir>
 #include <q3popupmenu.h>
-#include <qthread.h>
-#include <qtextcodec.h>
-//Added by qt3to4:
-#include <Q3CString>
+#include <QThread>
+#include <QTextCodec>
+
+#include <QByteArray>
 #include <QTranslator>
 #include <QDesktopWidget>
 
@@ -1390,7 +1390,7 @@ void CorePlugin::setAutoReplies()
     for (autoReply *a = autoReplies; a->text; a++){
         const char *t = get_str(data->AutoReply, a->status);
         if ((t == NULL) || (*t == 0))
-            set_str(&data->AutoReply, a->status, i18n(a->text).utf8());
+            set_str(&data->AutoReply, a->status, i18n(a->text).toUtf8());
     }
 }
 
@@ -1714,7 +1714,7 @@ void *CorePlugin::processEvent(Event *e)
             ARUserData *ar = (ARUserData*)getContacts()->getUserData(ar_data_id);
             for (autoReply *a = autoReplies; a->text; a++){
                 const char *t = get_str(ar->AutoReply, a->status);
-                if (t && !strcmp(t, i18n(a->text).utf8()))
+                if (t && !strcmp(t, i18n(a->text).toUtf8()))
                     set_str(&ar->AutoReply, a->status, NULL);
             }
             e->process(this);
@@ -2084,7 +2084,6 @@ if (fname[0] != '/')
                     container = NULL;
                 }
             }
-            delete &list;
             if (userWnd == NULL){
                 if (contact->getFlags() & CONTACT_TEMP){
                     contact->setFlags(contact->getFlags() & ~CONTACT_TEMP);
@@ -2103,7 +2102,6 @@ if (fname[0] != '/')
                             break;
                         }
                     }
-                    delete &list;
                     if (container == NULL){
                         container = new Container(1);
                         bNew = true;
@@ -2122,7 +2120,6 @@ if (fname[0] != '/')
                             container = NULL;
                         }
                     }
-                    delete &list;
                     if (container == NULL){
                         container = new Container(id);
                         bNew = true;
@@ -2142,7 +2139,6 @@ if (fname[0] != '/')
                             }
                         }
                     }
-                    delete &list;
                     container = new Container(max_id + 1);
                     bNew = true;
                     if (getContainerMode() == 0)
@@ -2236,7 +2232,7 @@ if (fname[0] != '/')
                             cmds[nEncoding].flags = COMMAND_CHECKED;
                         cmds[nEncoding].id = nEncoding + 1;
                         cmds[nEncoding].text = "_";
-                        cmds[nEncoding].text_wrk = strdup((*it).utf8());
+                        cmds[nEncoding].text_wrk = strdup((*it).toUtf8());
                         nEncoding++;
                     }
                     if (!getShowAllEncodings())
@@ -2253,7 +2249,7 @@ if (fname[0] != '/')
                             cmds[nEncoding].flags = COMMAND_CHECKED;
                         cmds[nEncoding].id = nEncoding;
                         cmds[nEncoding].text = "_";
-                        cmds[nEncoding].text_wrk = strdup((*it).utf8());
+                        cmds[nEncoding].text_wrk = strdup((*it).toUtf8());
                         nEncoding++;
                     }
                     return e->param();
@@ -2330,7 +2326,7 @@ if (fname[0] != '/')
                             QString t = ways[0].client->contactName(ways[0].data);
                             t += "/";
                             t += QString::fromUtf8(res.c_str());
-                            cmds[n].text_wrk = strdup(t.utf8());
+                            cmds[n].text_wrk = strdup(t.toUtf8());
                             n++;
                         }
                         cmd->param = cmds;
@@ -2398,7 +2394,7 @@ if (fname[0] != '/')
                             t += " ";
                             t += i18n("from %1") .arg((*itw).client->name().c_str());
                         }
-                        cmds[n].text_wrk = strdup(t.utf8());
+                        cmds[n].text_wrk = strdup(t.toUtf8());
                     }
                     cmd->param = cmds;
                     cmd->flags |= COMMAND_RECURSIVE;
@@ -2548,7 +2544,7 @@ if (fname[0] != '/')
                         QString t = cc.client->contactName(ways[0].data);
                         t += "/";
                         t += QString::fromUtf8(res.c_str());
-                        cmds[nCmds++].text_wrk = strdup(t.utf8());
+                        cmds[nCmds++].text_wrk = strdup(t.toUtf8());
                         nRes++;
                     }
                 }
@@ -2581,7 +2577,7 @@ if (fname[0] != '/')
                             cmds[n].icon = NULL;
                             cmds[n].id = c->getId();
                             cmds[n].flags = COMMAND_DEFAULT;
-                            cmds[n].text_wrk = strdup(c->name().utf8());
+                            cmds[n].text_wrk = strdup(c->name().toUtf8());
                             if (c->wnd(contact->id()))
                                 cmds[n].flags |= COMMAND_CHECKED;
                             n++;
@@ -2591,7 +2587,6 @@ if (fname[0] != '/')
                     cmds[n].id = NEW_CONTAINER;
                     cmds[n].flags = COMMAND_DEFAULT;
                     cmds[n].text = I18N_NOOP("&New");
-                    delete &list;
                     cmd->param = cmds;
                     cmd->flags |= COMMAND_RECURSIVE;
                     return e->param();
@@ -2674,11 +2669,11 @@ if (fname[0] != '/')
                     item = getToken(item, '/', false);
                     QString number = getToken(item, ',');
                     getToken(item, ',');
-                    unsigned icon = atol(getToken(item, ',').latin1());
+                    unsigned icon = atol(getToken(item, ',').toLatin1());
                     cmds[n].id   = CmdLocation + n;
                     cmds[n].text = "_";
                     cmds[n].menu_id  = MenuLocation;
-                    cmds[n].text_wrk = strdup(number.utf8());
+                    cmds[n].text_wrk = strdup(number.toUtf8());
                     if (!item.isEmpty()){
                         cmds[n].flags = COMMAND_CHECKED;
                         bActive = true;
@@ -2767,7 +2762,7 @@ if (fname[0] != '/')
                               .arg(msg)
                               .arg(contact->getName());
                     }
-                    cmds[n].text_wrk = strdup(msg.utf8());
+                    cmds[n].text_wrk = strdup(msg.toUtf8());
                     cmds[n].text = "_";
                 }
                 cmd->param = cmds;
@@ -2859,7 +2854,7 @@ if (fname[0] != '/')
                 Contact *contact = getContacts()->contact((unsigned)(cmd->param));
                 if (contact == NULL)
                     return NULL;
-                Q3CString codecStr;
+                QByteArray codecStr;
                 const char *codec = NULL;
                 if (cmd->id == 1){
                     codec = "-";
@@ -2899,7 +2894,7 @@ if (fname[0] != '/')
                         int n = str.find('(');
                         str = str.mid(n + 1);
                         n = str.find(')');
-                        codecStr = str.left(n).latin1();
+                        codecStr = str.left(n).toLatin1();
                         codec = codecStr;
                     }
                 }
@@ -2955,8 +2950,7 @@ if (fname[0] != '/')
                     if (p.isEmpty())
                         return NULL;
                     p = unquoteText(p);
-                    QStringList l = p.split("\n", QString::SkipEmptyParts);
-
+                    QStringList l = QStringList::split("\n", p);
                     QStringList::Iterator it;
                     if (l.count() && l.last().isEmpty()){
                         it = l.end();
@@ -3088,7 +3082,6 @@ if (fname[0] != '/')
                         wnd = NULL;
                     }
                 }
-                delete &list;
                 if (wnd == NULL){
                     wnd = new HistoryWindow(id);
                     if (data.historySize[0].value && data.historySize[1].value)
@@ -3322,7 +3315,6 @@ if (fname[0] != '/')
                         dlg = NULL;
                     }
                 }
-                delete &list;
                 if (dlg == NULL)
                     dlg = new DeclineDlg(msg);
                 raiseWindow(dlg);
@@ -3496,7 +3488,6 @@ void CorePlugin::showInfo(CommandDef *cmd)
             cfg = NULL;
         }
     }
-    delete &list;
     if (cfg == NULL){
         cfg = new UserConfig(contact, group);
         if ((data.cfgGeo[WIDTH].value == 0) || (data.cfgGeo[HEIGHT].value == 0)){
@@ -3541,7 +3532,6 @@ void CorePlugin::hideWindows()
 	w = it.next();
         w->hide();
     }
-    delete &list;
 }
 
 void CorePlugin::changeProfile()
@@ -3702,7 +3692,6 @@ void CorePlugin::destroy()
                 w->inherits("UserConfig"))
             forRemove.push_back(w);
     }
-    delete &l;
     for (list<QWidget*>::iterator itr = forRemove.begin(); itr != forRemove.end(); ++itr)
         delete *itr;
 
@@ -3802,9 +3791,9 @@ string CorePlugin::getConfig()
     }
 
     string ef;
-    ef = FontEdit::font2str(editFont, false).latin1();
+    ef = static_cast<string>(FontEdit::font2str(editFont, false).toLatin1());
     string def_ef;
-    def_ef = FontEdit::font2str(QApplication::font(), false).latin1();
+    def_ef = static_cast<string>(FontEdit::font2str(QApplication::font(), false).toLatin1());
     setEditFont(ef.c_str());
     if ((ef == def_ef) || !getEditSaveFont())
         setEditFont(NULL);
@@ -3828,7 +3817,6 @@ string CorePlugin::getConfig()
             setContainer(c->getId(), c->getState().c_str());
         }
     }
-    delete &list;
     setContainers(containers.c_str());
     if (m_main){
         saveGeometry(m_main, data.geometry);
@@ -3857,7 +3845,7 @@ string CorePlugin::getConfig()
 #endif
         fCFG.close();
         if (status != IO_Ok) {
-            log(L_ERROR, "IO error during writting to file %s : %s", (const char*)fCFG.name().local8Bit(), (const char*)errorMessage.local8Bit());
+            log(L_ERROR, "IO error during writting to file %s : %s", (const char*)fCFG.name().toLocal8Bit(), (const char*)errorMessage.toLocal8Bit());
         } else {
             // rename to normal file
             QFileInfo fileInfo(fCFG.name());
@@ -3867,7 +3855,7 @@ string CorePlugin::getConfig()
             fileInfo.dir().remove(desiredFileName);
 #endif
             if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
-                log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
+                log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().toLocal8Bit(), (const char*)desiredFileName.toLocal8Bit());
             }
         }
     }
@@ -3915,7 +3903,7 @@ const QString errorMessage = "write file fail";
 #endif
         f.close();
         if (status != IO_Ok) {
-            log(L_ERROR, "IO error during writting to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
+            log(L_ERROR, "IO error during writting to file %s : %s", (const char*)f.name().toLocal8Bit(), (const char*)errorMessage.toLocal8Bit());
         } else {
             // rename to normal file
             QFileInfo fileInfo(f.name());
@@ -3925,7 +3913,7 @@ const QString errorMessage = "write file fail";
             fileInfo.dir().remove(desiredFileName);
 #endif
             if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
-                log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
+                log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().toLocal8Bit(), (const char*)desiredFileName.toLocal8Bit());
             }
         }
     }
@@ -4068,7 +4056,7 @@ bool CorePlugin::adjustClientItem(unsigned id, CommandDef *cmd)
     const CommandDef *descr = protocol->description();
     cmd->icon		= descr->icon;
     QString text	= clientName(client);
-    cmd->text_wrk = strdup(text.utf8());
+    cmd->text_wrk = strdup(text.toUtf8());
     return true;
 }
 
@@ -4419,7 +4407,7 @@ bool FileLock::lock(bool bSend)
 {
     string event = "SIM.";
     string s;
-    s = name().local8Bit();
+    s = name().toLocal8Bit();
     event += number(adler32(s.c_str(), s.length()));
     Qt::HANDLE hEvent = OpenEventA(EVENT_MODIFY_STATE, FALSE, event.c_str());
     if (hEvent){

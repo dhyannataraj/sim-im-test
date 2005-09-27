@@ -17,8 +17,8 @@
 
 #include "speller.h"
 
-#include <qfile.h>
-#include <qstringlist.h>
+#include <QFile>
+#include <QStringList>
 
 #ifdef WIN32
 
@@ -30,7 +30,7 @@ SpellerBase::SpellerBase(const char *path)
     if (n >= 0)
         p = p.left(n);
     p += "\\aspell-15.dll";
-    hLib = LoadLibraryA(p.local8Bit());
+    hLib = LoadLibraryA(p.toLocal8Bit());
     if (hLib){
         (DWORD&)_new_aspell_config = (DWORD)GetProcAddress(hLib, "new_aspell_config");
         (DWORD&)_delete_aspell_config = (DWORD)GetProcAddress(hLib, "new_aspell_config");

@@ -20,15 +20,15 @@
 #include "editfile.h"
 #include "listview.h"
 
-#include <qstyle.h>
-#include <qlayout.h>
+#include <QStyle>
+#include <QLayout>
 #include <q3header.h>
-#include <qpixmap.h>
-#include <qbitmap.h>
-#include <qpainter.h>
-#include <q3button.h>
-#include <qfileinfo.h>
-//Added by qt3to4:
+#include <QPixmap>
+#include <QBitmap>
+#include <QPainter>
+#include <QPushButton>
+#include <QFileInfo>
+
 #include <QResizeEvent>
 
 const unsigned COL_NAME		= 0;
@@ -38,8 +38,9 @@ const unsigned COL_LEVEL	= 3;
 const unsigned COL_PACKET	= 4;
 
 LogConfig::LogConfig(QWidget *parent, LoggerPlugin *plugin)
-        : LogConfigBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_plugin = plugin;
     edtFile->setText(m_plugin->getFile());
     edtFile->setCreate(true);
@@ -53,7 +54,7 @@ LogConfig::LogConfig(QWidget *parent, LoggerPlugin *plugin)
 
 void LogConfig::resizeEvent(QResizeEvent *e)
 {
-    LogConfigBase::resizeEvent(e);
+    resizeEvent(e);
     lstLevel->adjustColumn();
 }
 
@@ -63,12 +64,12 @@ void LogConfig::apply()
     /* test if file exist */
     QFile file(edtFile->text());
     if (!file.open(QIODevice::Append | QIODevice::ReadWrite)) {
-        log(L_DEBUG,"Logfile %s isn't a valid file - discarded!",edtFile->text().latin1());
+        log(L_DEBUG,"Logfile %s isn't a valid file - discarded!",static_cast<string>(edtFile->text().toLatin1()));
         edtFile->setText("");
     } else {
         file.close();
     }
-    m_plugin->setFile(edtFile->text().latin1());
+    m_plugin->setFile(edtFile->text().toLatin1());
 
     /* check selected protocols */
     for (Q3ListViewItem *item = lstLevel->firstChild(); item; item = item->nextSibling()){
@@ -145,14 +146,14 @@ void LogConfig::setCheck(Q3ListViewItem *item)
     pInd.end();
     pixInd.setMask(mInd);
 #else
-int w = style().pixelMetric(QStyle::PM_IndicatorWidth);
-    int h = style().pixelMetric(QStyle::PM_IndicatorHeight);
+    int w = style()->pixelMetric(QStyle::PM_IndicatorWidth);
+    int h = style()->pixelMetric(QStyle::PM_IndicatorHeight);
     QPixmap pixInd(w, h);
     QPainter pInd(&pixInd);
     QRect rc(0, 0, w, h);
     pInd.setBrush(cg.background());
     pInd.eraseRect(rc);
-    style().drawPrimitive(QStyle::PE_Indicator, &pInd, rc, cg, state);
+    style()->drawPrimitive(QStyle::PE_IndicatorCheckBox, NULL, &pInd, NULL);
     pInd.end();
 #endif
     item->setPixmap(COL_CHECK, pixInd);

@@ -23,10 +23,10 @@
 #include "listview.h"
 #include "intedit.h"
 
-#include <qlineedit.h>
-#include <qpushbutton.h>
-#include <qlabel.h>
-//Added by qt3to4:
+#include <QLineEdit>
+#include <QPushButton>
+#include <QLabel>
+
 #include <QShowEvent>
 
 const unsigned FILL_FIRST	= 0x0001;
@@ -36,8 +36,9 @@ const unsigned FILL_MAIL	= 0x0008;
 const unsigned FILL_ALL		= (FILL_FIRST + FILL_LAST + FILL_NICK + FILL_MAIL);
 
 JabberAdd::JabberAdd(JabberClient *client, QWidget *parent)
-        : JabberAddBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_client   = client;
     m_browser  = NULL;
     m_bBrowser = false;
@@ -73,7 +74,7 @@ void JabberAdd::radioToggled(bool)
 
 void JabberAdd::showEvent(QShowEvent *e)
 {
-    JabberAddBase::showEvent(e);
+    showEvent(e);
     emit setAdd(grpJID->isChecked());
     if (m_browser && m_bBrowser)
         emit showResult(m_browser);
@@ -121,13 +122,13 @@ void JabberAdd::createContact(unsigned tmpFlags, Contact *&contact)
     if (!grpJID->isChecked() || edtJID->text().isEmpty())
         return;
     string resource;
-    if (m_client->findContact(edtJID->text().utf8(), NULL, false, contact, resource))
+    if (m_client->findContact(edtJID->text().toUtf8(), NULL, false, contact, resource))
         return;
     QString name = edtJID->text();
     int n = name.find('@');
     if (n > 0)
         name = name.left(n);
-    m_client->findContact(edtJID->text().utf8(), name.utf8(), true, contact, resource, false);
+    m_client->findContact(edtJID->text().toUtf8(), name.toUtf8(), true, contact, resource, false);
     contact->setFlags(contact->getFlags() | tmpFlags);
 }
 
@@ -172,7 +173,7 @@ void JabberAdd::startSearch()
         url = QString::fromUtf8(m_client->getVHost());
     if (url.isEmpty())
         url = QString::fromUtf8(m_client->getServer());
-    m_id_browse = m_client->browse(url.utf8());
+    m_id_browse = m_client->browse(url.toUtf8());
 }
 
 void JabberAdd::addAttr(const char *name, const QString &label)
@@ -220,7 +221,7 @@ void *JabberAdd::processEvent(Event *e)
                         url = QString::fromUtf8(m_client->getVHost());
                     if (url.isEmpty())
                         url = QString::fromUtf8(m_client->getServer());
-                    m_id_disco  = m_client->discoItems(url.utf8(), "");
+                    m_id_disco  = m_client->discoItems(url.toUtf8(), "");
                 }
                 m_id_browse = "";
                 checkDone();
@@ -275,7 +276,7 @@ void *JabberAdd::processEvent(Event *e)
                 checkDone();
                 return e->param();;
             }
-            (*it).id_search = m_client->search((*it).jid.c_str(), (*it).node.c_str(), (*it).condition.utf8());
+            (*it).id_search = m_client->search((*it).jid.c_str(), (*it).node.c_str(), (*it).condition.toUtf8());
             if ((*it).condition.left(6) != "x:data"){
                 addAttr("", i18n("JID"));
                 addAttr("first", i18n("First Name"));
@@ -452,9 +453,9 @@ void JabberAdd::checkDone()
 void JabberAdd::createContact(const QString &name, unsigned tmpFlags, Contact *&contact)
 {
     string resource;
-    if (m_client->findContact(name.utf8(), NULL, false, contact, resource))
+    if (m_client->findContact(name.toUtf8(), NULL, false, contact, resource))
         return;
-    if (m_client->findContact(name.utf8(), NULL, true, contact, resource, false) == NULL)
+    if (m_client->findContact(name.toUtf8(), NULL, true, contact, resource, false) == NULL)
         return;
     contact->setFlags(contact->getFlags() | tmpFlags);
 }

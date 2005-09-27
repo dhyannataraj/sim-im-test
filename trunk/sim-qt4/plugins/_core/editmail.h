@@ -21,7 +21,7 @@
 #include "simapi.h"
 #include "editmailbase.h"
 
-class EditMail : public Ui_EditMailBase, public QDialog
+class EditMail : public QDialog, public Ui::EditMailBase
 {
     Q_OBJECT
 public:

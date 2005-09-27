@@ -21,16 +21,16 @@
 #include "listview.h"
 #include "core.h"
 
-#include <qlineedit.h>
-#include <qcombobox.h>
+#include <QLineEdit>
+#include <QComboBox>
 #include <q3multilineedit.h>
-#include <qpixmap.h>
-#include <qpushbutton.h>
-#include <qtimer.h>
-#include <qlabel.h>
-#include <qtabwidget.h>
-//Added by qt3to4:
-#include <Q3CString>
+#include <QPixmap>
+#include <QPushButton>
+#include <QTimer>
+#include <QLabel>
+#include <QTabWidget>
+
+#include <QByteArray>
 
 const unsigned PHONE_TYPE		= 0;
 const unsigned PHONE_NUMBER		= 1;
@@ -65,8 +65,9 @@ ext_info phoneIcons[] =
     };
 
 MainInfo::MainInfo(QWidget *parent, Contact *contact)
-        : MainInfoBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_contact = contact;
     m_bInit   = false;
     cmbDisplay->setEditable(true);
@@ -80,8 +81,8 @@ MainInfo::MainInfo(QWidget *parent, Contact *contact)
         lstPhones->addColumn(i18n("Publish"));
         lblCurrent->setText(i18n("I'm currently available at:"));
         cmbStatus->insertItem(i18n("Don't show"));
-        cmbStatus->insertItem(Pict("phone"), i18n("Available"));
-        cmbStatus->insertItem(Pict("nophone"), i18n("Busy"));
+        cmbStatus->insertItem(Pict("phone").pixmap(), i18n("Available"));
+        cmbStatus->insertItem(Pict("nophone").pixmap(), i18n("Busy"));
         cmbStatus->setCurrentItem(getContacts()->owner()->getPhoneStatus());
     }else{
         lblCurrent->setText(i18n("User is crrently available at:"));
@@ -223,7 +224,7 @@ void MainInfo::fill()
         Q3ListViewItem *item = new Q3ListViewItem(lstMails);
         item->setText(MAIL_ADDRESS, mail);
         item->setText(MAIL_PROTO, mailItem);
-        item->setPixmap(MAIL_ADDRESS, Pict("mail_generic"));
+        item->setPixmap(MAIL_ADDRESS, Pict("mail_generic").pixmap());
         if ((m_contact == NULL) && mailItem.isEmpty())
             item->setText(MAIL_PUBLISH, i18n("Yes"));
     }
@@ -244,7 +245,7 @@ void MainInfo::fill()
         number = getToken(phoneItem, ',');
         type = getToken(phoneItem, ',');
         if (!phoneItem.isEmpty())
-            icon = atol(getToken(phoneItem, ',').latin1());
+            icon = atol(getToken(phoneItem, ',').toLatin1());
         Q3ListViewItem *item = new Q3ListViewItem(lstPhones);
         fillPhoneItem(item, number, type, icon, proto);
         cmbCurrent->insertItem(number);
@@ -349,7 +350,7 @@ void MainInfo::addMail()
         }
         item->setText(MAIL_ADDRESS, dlg.res);
         item->setText(MAIL_PROTO, proto);
-        item->setPixmap(MAIL_ADDRESS, Pict("mail_generic"));
+        item->setPixmap(MAIL_ADDRESS, Pict("mail_generic").pixmap());
         lstMails->setCurrentItem(item);
     }
 }
@@ -373,7 +374,7 @@ void MainInfo::editMail(Q3ListViewItem *item)
         }
         item->setText(MAIL_ADDRESS, dlg.res);
         item->setText(MAIL_PROTO, proto);
-        item->setPixmap(MAIL_ADDRESS, Pict("mail_generic"));
+        item->setPixmap(MAIL_ADDRESS, Pict("mail_generic").pixmap());
         lstMails->setCurrentItem(item);
     }
 }
@@ -415,7 +416,7 @@ void MainInfo::editPhone(Q3ListViewItem *item)
     QString proto = item->text(PHONE_PROTO);
     if (!proto.isEmpty() && (proto != "-"))
         return;
-    EditPhone dlg(this, item->text(PHONE_NUMBER), item->text(PHONE_TYPE_ASIS), atol(item->text(PHONE_ICON).latin1()), item->text(PHONE_PROTO).isEmpty(), m_contact == NULL);
+    EditPhone dlg(this, item->text(PHONE_NUMBER), item->text(PHONE_TYPE_ASIS), atol(item->text(PHONE_ICON).toLatin1()), item->text(PHONE_PROTO).isEmpty(), m_contact == NULL);
     if (dlg.exec() && !dlg.number.isEmpty() && !dlg.type.isEmpty()){
         QString proto = "-";
         if ((m_contact == NULL) && dlg.publish)
@@ -447,7 +448,7 @@ void MainInfo::fillPhoneItem(Q3ListViewItem *item, const QString &number, const 
     item->setText(PHONE_NUMBER, number);
     item->setText(PHONE_TYPE_ASIS, type);
     if (!type.isEmpty()){
-        Q3CString t = type.latin1();
+        QByteArray t = type.toLatin1();
         const char **p;
         for	(p = phoneTypeNames; *p; p++){
             if (!strcmp(*p, t))
@@ -462,7 +463,7 @@ void MainInfo::fillPhoneItem(Q3ListViewItem *item, const QString &number, const 
     item->setText(PHONE_ICON, QString::number(icon));
     for (const ext_info *info = phoneIcons; info->szName; info++){
         if (info->nCode == icon){
-            item->setPixmap(PHONE_TYPE, Pict(info->szName));
+            item->setPixmap(PHONE_TYPE, Pict(info->szName).pixmap());
             break;
         }
     }
@@ -532,7 +533,7 @@ void MainInfo::fillEncoding()
         str = str.mid(n + 1);
         n = str.find(')');
         str = str.left(n);
-        if (str.latin1() == contact->getEncoding())
+        if (str.toLatin1() == contact->getEncoding())
             current = n_item;
         cmbEncoding->insertItem(*it);
     }
@@ -579,7 +580,7 @@ void MainInfo::getEncoding(bool SendContactChangedEvent)
                 str = str.mid(n + 1);
                 n = str.find(')');
                 str = str.left(n);
-                encoding = str.latin1();
+                encoding = static_cast<string>(str.toLatin1());
                 break;
             }
         }

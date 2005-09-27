@@ -33,8 +33,8 @@
 #include <arpa/inet.h>
 #endif
 
-#include <qimage.h>
-#include <qfile.h>
+#include <QImage>
+#include <QFile>
 
 class RostersRequest : public JabberClient::ServerRequest
 {
@@ -184,7 +184,7 @@ void RostersRequest::element_end(const char *el)
                 Group *group = NULL;
                 ContactList::GroupIterator it;
                 while ((group = ++it) != NULL){
-                    if (m_grp == (const char*)(group->getName().utf8())){
+                    if (m_grp == (const char*)(group->getName().toUtf8())){
                         grp = group->id();
                         break;
                     }
@@ -209,7 +209,7 @@ void RostersRequest::element_end(const char *el)
                         grp = contact->getGroup();
                         Group *group = getContacts()->group(grp);
                         if (group)
-                            m_client->listRequest(data, contact->getName().utf8(), group->getName().utf8(), false);
+                            m_client->listRequest(data, contact->getName().toUtf8(), group->getName().toUtf8(), false);
                     }
                 }
                 contact->setGroup(grp);
@@ -356,7 +356,7 @@ InfoRequest::~InfoRequest()
                 f.close();
                 photo.load(fName);
             }else{
-                log(L_ERROR, "Can't create %s", (const char*)fName.local8Bit());
+                log(L_ERROR, "Can't create %s", (const char*)fName.toLocal8Bit());
             }
         }
         if (photo.width() && photo.height()){
@@ -385,7 +385,7 @@ InfoRequest::~InfoRequest()
                 f.close();
                 logo.load(fName);
             }else{
-                log(L_ERROR, "Can't create %s", (const char*)fName.local8Bit());
+                log(L_ERROR, "Can't create %s", (const char*)fName.toLocal8Bit());
             }
         }
         if (logo.width() && logo.height()){
@@ -631,7 +631,7 @@ void JabberClient::setClientInfo(void *_data)
         QString mail = getToken(mailItem, '/');
         if (mailItem.length())
             continue;
-        req->text_tag("EMAIL", mail.utf8());
+        req->text_tag("EMAIL", mail.toUtf8());
         break;
     }
     req->text_tag("BDAY", data->Bday.ptr);
@@ -757,7 +757,7 @@ bool JabberClient::add_contact(const char *jid, unsigned grp)
     if (grp)
         g = getContacts()->group(grp);
     if (g)
-        req->text_tag("group", g->getName().utf8());
+        req->text_tag("group", g->getName().toUtf8());
     req->send();
     m_requests.push_back(req);
     return true;
@@ -2228,7 +2228,7 @@ void JabberClient::sendFileRequest(FileMessage *msg, unsigned short, JabberUserD
         }
     }else{
         jid += "/";
-        jid += msg->getResource().utf8();
+        jid += static_cast<string>(msg->getResource().toUtf8());
     }
     SendFileRequest *req = new SendFileRequest(this, jid.c_str(), msg);
     req->start_element("si");
@@ -2264,7 +2264,7 @@ void JabberClient::sendFileRequest(FileMessage *msg, unsigned short, JabberUserD
     url += "/";
     url += fname;
     string desc;
-    desc = msg->getText().utf8();
+    desc = msg->getText().toUtf8();
     req->text_tag("url", url.c_str());
     req->text_tag("desc", desc.c_str());
 #endif
@@ -2284,7 +2284,7 @@ void JabberClient::sendFileAccept(FileMessage *msg, JabberUserData *data)
         }
     }else{
         jid += "/";
-        jid += msg->getResource().utf8();
+        jid += static_cast<string>(msg->getResource().toUtf8());
     }
     ServerRequest req(this, ServerRequest::_RESULT, NULL, jid.c_str(), m->getID());
     req.start_element("si");
@@ -2883,7 +2883,7 @@ void JabberClient::addLang(ServerRequest *req)
     QString s = i18n(XmlLang);
     if (s == XmlLang)
         return;
-    req->add_attribute("xml:lang", s.utf8());
+    req->add_attribute("xml:lang", s.toUtf8());
 }
 
 class ChangePasswordRequest : public JabberClient::ServerRequest

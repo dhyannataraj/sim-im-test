@@ -22,11 +22,11 @@
 #include "stl.h"
 #include "spellfindbase.h"
 
-#include <qdir.h>
+#include <QDir>
 
 class EditFile;
 
-class SpellFind : public SpellFindBase
+class SpellFind : public QDialog, public Ui::SpellFindBase
 {
     Q_OBJECT
 public:

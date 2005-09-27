@@ -23,7 +23,7 @@
 
 class StylesPlugin;
 
-class FontConfig : public FontConfigBase
+class FontConfig : public QWidget, public Ui::FontConfigBase
 {
     Q_OBJECT
 public:

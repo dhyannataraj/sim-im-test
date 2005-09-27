@@ -19,7 +19,7 @@
 #define _COMPATQTVERSION_H
 
 #ifndef QT_VERSION
-#include <qglobal.h>
+#include <QGlobalStatic>
 #endif
 
 // important: make the old format of QT_VERSION comparable

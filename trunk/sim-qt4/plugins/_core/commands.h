@@ -20,8 +20,8 @@
 
 #include "simapi.h"
 #include "stl.h"
-//Added by qt3to4:
 #include <QEvent>
+#include <Q3MainWindow>
 
 class CorePlugin;
 class CMenu;

@@ -214,7 +214,7 @@ void GpgPlugin::decryptReady(Exec *exec, int res, const char*)
                     msg->setFlags(msg->getFlags() | MESSAGE_SECURE);
                 }else{
                     string s;
-                    s = (*it).outfile.local8Bit();
+                    s = static_cast<string>((*it).outfile.toLocal8Bit());
                     log(L_WARN, "Can't open output decrypt file %s", s.c_str());
                     res = -1;
                 }
@@ -234,7 +234,7 @@ void GpgPlugin::decryptReady(Exec *exec, int res, const char*)
                         bool bDecode = false;
                         for (itw = m_wait.begin(); itw != m_wait.end(); ++itw){
                             if ((*itw).key == (*it).key){
-                                decode((*itw).msg, (*it).passphrase.utf8(), (*it).key.c_str());
+                                decode((*itw).msg, (*it).passphrase.toUtf8(), (*it).key.c_str());
                                 m_wait.erase(itw);
                                 bDecode = true;
                                 break;
@@ -276,7 +276,7 @@ void GpgPlugin::decryptReady(Exec *exec, int res, const char*)
                         }
                     }
                     if ((*it).passphrase.isEmpty() && !pass.isEmpty()){
-                        if (decode(msg, pass.utf8(), key.c_str()))
+                        if (decode(msg, pass.toUtf8(), key.c_str()))
                             return;
                     }else{
                         DecryptMsg m;
@@ -317,13 +317,15 @@ void GpgPlugin::importReady(Exec *exec, int res, const char*)
                 QRegExp r1("[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]:");
                 QRegExp r2("\".*\"");
                 int len;
-                int pos = r1.match(err, 0, &len);
+                int pos = r1.indexIn(err, 0);
+		len = r1.matchedLength();
                 if (pos >= 0){
                     QString key_name;
                     key_name  = err.mid(pos + 1, len - 2);
                     QString text = key_name;
                     text += " ";
-                    pos = r2.match(err, 0, &len);
+                    pos = r2.indexIn(err, 0);
+		    len = r2.matchedLength();
                     text += err.mid(pos + 1, len - 2);
                     msg->setText(text);
                     msg->setContact((*it).msg->contact());
@@ -348,7 +350,7 @@ void GpgPlugin::importReady(Exec *exec, int res, const char*)
                     dm.outfile = key_name;
                     m_public.push_back(dm);
                     connect(dm.exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(publicReady(Exec*,int,const char*)));
-                    dm.exec->execute(gpg.local8Bit(), "\n");
+                    dm.exec->execute(gpg.toLocal8Bit(), "\n");
                 }
             }
             Event e(EventMessageReceived, (*it).msg);
@@ -377,7 +379,7 @@ string GpgPlugin::getConfig()
     }
     string res = save_data(gpgData, &data);
     for (i = 0; i < getnPassphrases(); i++){
-        setKeys(i + 1, keys[i].latin1());
+        setKeys(i + 1, keys[i].toLatin1());
         setPassphrases(i + 1, pass[i]);
     }
     return res;
@@ -480,7 +482,7 @@ void *GpgPlugin::processEvent(Event *e)
                         QFile in(input);
                         if (!in.open(QIODevice::WriteOnly | QIODevice::Truncate)){
                             string s;
-                            s = input.local8Bit();
+                            s = static_cast<string>(input.toLocal8Bit());
                             log(L_WARN, "Can't create %s", s.c_str());
                             return NULL;
                         }
@@ -500,7 +502,7 @@ void *GpgPlugin::processEvent(Event *e)
                         gpg = gpg.replace(QRegExp("\\%cipherfile\\%"), output);
                         gpg = gpg.replace(QRegExp("\\%userid\\%"), data->Key.ptr);
                         Exec exec;
-                        exec.execute(gpg.local8Bit(), "\n", true);
+                        exec.execute(gpg.toLocal8Bit(), "\n", true);
                         if (exec.result){
                             ms->msg->setError(I18N_NOOP("Encrypt failed"));
                             QFile::remove(input);
@@ -545,12 +547,12 @@ void *GpgPlugin::processEvent(Event *e)
                     QFile in(input);
                     if (!in.open(QIODevice::WriteOnly | QIODevice::Truncate)){
                         string s;
-                        s = input.local8Bit();
+                        s = static_cast<string>(input.toLocal8Bit());
                         log(L_WARN, "Can't create %s", s.c_str());
                         return NULL;
                     }
                     string t;
-                    t = text.latin1();
+                    t = static_cast<string>(text.toLatin1());
                     in.writeBlock(t.c_str(), t.length());
                     in.close();
                     QString home = QFile::decodeName(user_file(GpgPlugin::plugin->getHome()).c_str());
@@ -570,7 +572,7 @@ void *GpgPlugin::processEvent(Event *e)
                     dm.infile  = input;
                     m_import.push_back(dm);
                     connect(dm.exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(importReady(Exec*,int,const char*)));
-                    dm.exec->execute(gpg.local8Bit(), "\n");
+                    dm.exec->execute(gpg.toLocal8Bit(), "\n");
                     return msg;
                 }
             }
@@ -590,11 +592,11 @@ bool GpgPlugin::decode(Message *msg, const char *passphrase, const char *key)
     QFile in(input);
     if (!in.open(QIODevice::WriteOnly | QIODevice::Truncate)){
         string s;
-        s = input.local8Bit();
+        s = static_cast<string>(input.toLocal8Bit());
         log(L_WARN, "Can't create %s", s.c_str());
         return false;
     }
-    string t = msg->getPlainText().latin1();
+    string t = static_cast<string>(msg->getPlainText().toLatin1());
     in.writeBlock(t.c_str(), t.length());
     in.close();
     QString home = QFile::decodeName(user_file(GpgPlugin::plugin->getHome()).c_str());
@@ -620,7 +622,7 @@ bool GpgPlugin::decode(Message *msg, const char *passphrase, const char *key)
     string pass = passphrase;
     pass += "\n";
     connect(dm.exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(decryptReady(Exec*,int,const char*)));
-    dm.exec->execute(gpg.local8Bit(), pass.c_str());
+    dm.exec->execute(gpg.toLocal8Bit(), pass.c_str());
     return true;
 }
 
@@ -645,11 +647,11 @@ void GpgPlugin::publicReady(Exec *exec, int res, const char*)
                         int pos = sign.length() - name.length();
                         if (pos < 0)
                             pos = 0;
-                        if (sign.substr(pos) == name.latin1()){
+                        if (sign.substr(pos) == static_cast<string>(name.toLatin1())){
                             Contact *contact = getContacts()->contact((*it).contact);
                             if (contact){
                                 GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, true));
-                                set_str(&data->Qt::Key.ptr, sign.c_str());
+                                set_str(&data->Key.ptr, sign.c_str());
                             }
                             break;
                         }
@@ -670,7 +672,7 @@ void GpgPlugin::passphraseApply(const QString &passphrase)
         if ((*it).key == m_pass->m_key){
             Message *msg = (*it).msg;
             m_wait.erase(it);
-            decode(msg, passphrase.utf8(), m_pass->m_key.c_str());
+            decode(msg, passphrase.toUtf8(), m_pass->m_key.c_str());
             return;
         }
     }
@@ -817,7 +819,7 @@ MsgGPGKey::MsgGPGKey(MsgEdit *parent, Message *msg)
     m_edit   = parent;
     m_edit->m_edit->setText("");
     m_edit->m_edit->setReadOnly(true);
-    m_edit->m_edit->setTextFormat(PlainText);
+    m_edit->m_edit->setTextFormat(Qt::PlainText);
     m_edit->m_edit->setParam(m_edit);
 
     Command cmd;
@@ -842,7 +844,7 @@ MsgGPGKey::MsgGPGKey(MsgEdit *parent, Message *msg)
 
     m_exec = new Exec;
     connect(m_exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(exportReady(Exec*,int,const char*)));
-    m_exec->execute(gpg.local8Bit(), "");
+    m_exec->execute(gpg.toLocal8Bit(), "");
 
 }
 

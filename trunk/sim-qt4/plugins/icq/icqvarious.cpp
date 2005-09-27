@@ -26,7 +26,7 @@
 #include <arpa/inet.h>
 #endif
 
-#include <qtimer.h>
+#include <QTimer>
 #include "xml.h"
 
 const unsigned short ICQ_SNACxVAR_ERROR             = 0x0001;
@@ -1652,13 +1652,13 @@ unsigned ICQClient::processSMSQueue()
         string	nmb = "+";
         QString	phone = sms->getPhone();
         for (int i = 0; i < (int)(phone.length()); i++){
-            char c = phone[i].latin1();
+            char c = phone[i].toLatin1();
             if ((c >= '0') && (c <= '9'))
                 nmb += c;
         }
         XmlBranch xmltree("icq_sms_message");
         xmltree.pushnode(new XmlLeaf("destination",nmb));
-        xmltree.pushnode(new XmlLeaf("text",(const char*)(part.utf8())));
+        xmltree.pushnode(new XmlLeaf("text",(const char*)(part.toUtf8())));
         xmltree.pushnode(new XmlLeaf("codepage","1252"));
         xmltree.pushnode(new XmlLeaf("encoding","utf8"));
         xmltree.pushnode(new XmlLeaf("senders_UIN",number(data.owner.Uin.value).c_str()));

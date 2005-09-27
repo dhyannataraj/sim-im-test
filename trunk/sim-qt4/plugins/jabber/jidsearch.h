@@ -20,13 +20,13 @@
 
 #include "simapi.h"
 #include "jidsearchbase.h"
-//Added by qt3to4:
+
 #include <QShowEvent>
 
 class JabberClient;
 class JIDAdvSearch;
 
-class JIDSearch : public JIDSearchBase, public EventReceiver
+class JIDSearch : public QWidget, public Ui::JIDSearchBase, public EventReceiver
 {
     Q_OBJECT
 public:

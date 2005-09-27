@@ -28,13 +28,13 @@ QColorButton::QColorButton( QWidget *parent, const char *name)
 
 #else
 
-#include <qpainter.h>
+#include <QPainter>
 #include <qdrawutil.h>
 #include <QApplication>
 #include <QStyle>
 #include <QStyleOptionButton>
 #include <QWindowsStyle>
-#include <qcolordialog.h>
+#include <QColorDialog>
 
 QColorButton::QColorButton( QWidget *parent, const char *name )
         : QPushButton( parent, name )
@@ -83,4 +83,10 @@ void QColorButton::chooseColor()
     if (!c.isValid()) return;
     setColor( c );
 }
+
+#ifndef WIN32
+#include "qcolorbutton.moc"
 #endif
+
+#endif
+

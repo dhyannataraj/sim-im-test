@@ -20,13 +20,14 @@
 
 #include "editfile.h"
 
-#include <qregexp.h>
-#include <qcheckbox.h>
-#include <qdir.h>
+#include <QRegExp>
+#include <QCheckBox>
+#include <QDir>
 
 HomeDirConfig::HomeDirConfig(QWidget *parent, HomeDirPlugin *plugin)
-        : HomeDirConfigBase(parent)
+        : QWidget(parent)
 {
+    setupUi( this);
     m_plugin = plugin;
     chkDefault->setChecked(plugin->m_bDefault);
     connect(chkDefault, SIGNAL(toggled(bool)), this, SLOT(defaultToggled(bool)));

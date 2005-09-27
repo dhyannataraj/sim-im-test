@@ -20,12 +20,13 @@
 #include "ballonmsg.h"
 #include "editfile.h"
 
-#include <qtabwidget.h>
-#include <qcheckbox.h>
+#include <QTabWidget>
+#include <QCheckBox>
 
 ARConfig::ARConfig(QWidget *p, unsigned status, const QString &name, Contact *contact)
-        : ARConfigBase(p)
+        : QWidget(p)
 {
+    setupUi( this);
     m_status  = status;
     m_contact = contact;
     setButtonsPict(this);
@@ -73,7 +74,7 @@ void ARConfig::apply()
     if (m_contact){
         if (chkOverride->isChecked()){
             ARUserData *ar = (ARUserData*)(m_contact->userData.getUserData(CorePlugin::m_plugin->ar_data_id, true));
-            set_str(&ar->AutoReply, m_status, edtAutoReply->text().utf8());
+            set_str(&ar->AutoReply, m_status, edtAutoReply->text().toUtf8());
         }else{
             ARUserData *ar = (ARUserData*)(m_contact->userData.getUserData(CorePlugin::m_plugin->ar_data_id, false));
             if (ar)
@@ -81,7 +82,7 @@ void ARConfig::apply()
         }
     }else{
         ARUserData *ar = (ARUserData*)(getContacts()->getUserData(CorePlugin::m_plugin->ar_data_id));
-        set_str(&ar->AutoReply, m_status, edtAutoReply->text().utf8());
+        set_str(&ar->AutoReply, m_status, edtAutoReply->text().toUtf8());
         CorePlugin::m_plugin->setNoShowAutoReply(m_status, chkNoShow->isChecked() ? "1" : "");
     }
 }

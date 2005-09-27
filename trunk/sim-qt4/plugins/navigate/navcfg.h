@@ -23,7 +23,7 @@
 
 class NavigatePlugin;
 
-class NavCfg : public NavCfgBase
+class NavCfg : public QWidget, public Ui::NavCfgBase
 {
     Q_OBJECT
 public:

@@ -20,15 +20,16 @@
 #include "smscfg.h"
 #include "core.h"
 
-#include <qcheckbox.h>
+#include <QCheckBox>
 #include <q3buttongroup.h>
 #include <q3multilineedit.h>
 #include <qradiobutton.h>
-#include <qtabwidget.h>
+#include <QTabWidget>
 
 MessageConfig::MessageConfig(QWidget *parent, void *_data)
-        : MessageConfigBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_file = NULL;
     for (QObject *p = parent; p != NULL; p = p->parent()){
         if (!p->inherits("QTabWidget"))
@@ -75,7 +76,7 @@ void MessageConfig::setEnabled(bool state)
 {
     if (m_file)
         m_file->setEnabled(state);
-    MessageConfigBase::setEnabled(state);
+    setEnabled(state);
 }
 
 #ifndef WIN32

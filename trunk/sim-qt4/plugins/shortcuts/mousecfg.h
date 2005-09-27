@@ -20,12 +20,12 @@
 
 #include "simapi.h"
 #include "mousecfgbase.h"
-//Added by qt3to4:
+
 #include <QResizeEvent>
 
 class ShortcutsPlugin;
 
-class MouseConfig : public MouseConfigBase
+class MouseConfig : public QWidget, public Ui::MouseConfigBase
 {
     Q_OBJECT
 public:

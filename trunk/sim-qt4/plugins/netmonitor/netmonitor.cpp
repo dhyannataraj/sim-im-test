@@ -19,8 +19,8 @@
 #include "simapi.h"
 #include "monitor.h"
 
-#include <qtimer.h>
-#include <qwidget.h>
+#include <QTimer>
+#include <QWidget>
 
 Plugin *createNetmonitorPlugin(unsigned base, bool, Buffer *config)
 {

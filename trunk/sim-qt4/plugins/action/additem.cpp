@@ -20,13 +20,14 @@
 #include "core.h"
 #include "editfile.h"
 
-#include <qpixmap.h>
-#include <qtimer.h>
-#include <qpushbutton.h>
+#include <QPixmap>
+#include <QTimer>
+#include <QPushButton>
 
 AddItem::AddItem(QWidget *parent)
-        : Ui::AddItemBase()
+        : QDialog( parent, Qt::WA_ShowModal)
 {
+    setupUi( this);
     SET_WNDPROC("additem")
     setIcon(Pict("run").pixmap());
     setButtonsPict(this);

@@ -25,20 +25,20 @@
 #include "ballonmsg.h"
 #include "searchbase.h"
 
-#include <qpixmap.h>
-#include <qpushbutton.h>
-#include <qcombobox.h>
-#include <q3widgetstack.h>
-#include <qlineedit.h>
+#include <QPixmap>
+#include <QPushButton>
+#include <QComboBox>
+#include <Q3WidgetStack>
+#include <QLineEdit>
 #include <qvalidator.h>
-#include <qobject.h>
+#include <QObject>
 #include <q3popupmenu.h>
-#include <qstatusbar.h>
-#include <qtimer.h>
-//Added by qt3to4:
+#include <QStatusBar>
+#include <QTimer>
+
 #include <QCloseEvent>
 #include <QMoveEvent>
-#include <Q3Frame>
+#include <QFrame>
 #include <QResizeEvent>
 
 const unsigned COL_KEY			= 0x100;
@@ -46,8 +46,9 @@ const unsigned COL_SEARCH_WND	= 0x101;
 
 SearchDialog::SearchDialog()
 {
+    m_search->setupUi( this);
     SET_WNDPROC("search")
-    setIcon(Pict("find"));
+    setIcon(Pict("find").pixmap());
     setButtonsPict(this);
     setCaption(i18n("Search"));
     m_current = NULL;
@@ -56,10 +57,9 @@ SearchDialog::SearchDialog()
     m_id		= 0;
     m_result_id = 0;
     m_active	= NULL;
-    m_search	= new SearchBase(this);
+    m_search	= new Ui::SearchBase();
     m_update = new QTimer(this);
     connect(m_update, SIGNAL(timeout()), this, SLOT(update()));
-    setCentralWidget(m_search);
     m_status = statusBar();
     m_result = NULL;
     setAdd(false);
@@ -74,7 +74,7 @@ SearchDialog::SearchDialog()
     m_result->addColumn(i18n("Results"));
     m_result->setShowSortIndicator(true);
     m_result->setExpandingColumn(0);
-    m_result->setFrameShadow(Q3Frame::Sunken);
+    m_result->setFrameShadow(QFrame::Sunken);
     m_result->setLineWidth(1);
     addResult(m_result);
     showResult(NULL);
@@ -170,7 +170,7 @@ void SearchDialog::fillClients()
         }
         if (n >= widgets.size())
             m_search->wndCondition->addWidget(search, ++m_id);
-        m_search->cmbClients->insertItem(Pict(client->protocol()->description()->icon, m_search->cmbClients->colorGroup().base()),
+        m_search->cmbClients->insertItem(Pict(client->protocol()->description()->icon, m_search->cmbClients->colorGroup().base()).pixmap(),
                                          CorePlugin::m_plugin->clientName(client));
         ClientWidget cw;
         cw.client = client;
@@ -197,7 +197,7 @@ void SearchDialog::fillClients()
             search = new SearchAll(m_search->wndCondition);
             m_search->wndCondition->addWidget(new SearchAll(m_search->wndCondition), ++m_id);
         }
-        m_search->cmbClients->insertItem(Pict("find", m_search->cmbClients->colorGroup().base()),
+        m_search->cmbClients->insertItem(Pict("find", m_search->cmbClients->colorGroup().base()).pixmap(),
                                          i18n("All networks"));
         ClientWidget cw;
         cw.client = (Client*)(-1);
@@ -219,7 +219,7 @@ void SearchDialog::fillClients()
         search = new NonIM(m_search->wndCondition);
         m_search->wndCondition->addWidget(search, ++m_id);
     }
-    m_search->cmbClients->insertItem(Pict("nonim", m_search->cmbClients->colorGroup().base()),
+    m_search->cmbClients->insertItem(Pict("nonim", m_search->cmbClients->colorGroup().base()).pixmap(),
                                      i18n("Non-IM contact"));
     ClientWidget cw;
     cw.client = NULL;
@@ -243,7 +243,7 @@ void SearchDialog::fillClients()
         if (i >= m_widgets.size())
             continue;
         m_search->cmbClients->insertItem(Pict(widgets[n].client->protocol()->description()->icon,
-                                              m_search->cmbClients->colorGroup().base()), widgets[n].name);
+                                              m_search->cmbClients->colorGroup().base()).pixmap(), widgets[n].name);
         m_widgets.push_back(widgets[n]);
         widgets[n].widget = NULL;
     }
@@ -297,10 +297,10 @@ void SearchDialog::setTitle()
     CorePlugin::m_plugin->setSearchClient(name.c_str());
     if (m_bAdd){
         setCaption(i18n("Add") + ": " + m_search->cmbClients->currentText());
-        setIcon(Pict("add"));
+        setIcon(Pict("add").pixmap());
     }else{
         setCaption(i18n("Search") + ": " + m_search->cmbClients->currentText());
-        setIcon(Pict("find"));
+        setIcon(Pict("find").pixmap());
     }
 }
 
@@ -428,7 +428,7 @@ void *SearchDialog::processEvent(Event *e)
                     cmds[nGrp].id      = CmdContactGroup + grp->id();
                     cmds[nGrp].menu_id = MenuSearchGroups;
                     cmds[nGrp].text    = "_";
-                    cmds[nGrp].text_wrk = strdup(grp->getName().utf8());
+                    cmds[nGrp].text_wrk = strdup(grp->getName().toUtf8());
                     nGrp++;
                 }
                 cmds[nGrp].id      = CmdContactGroup;
@@ -460,16 +460,15 @@ bool SearchDialog::checkSearch(QWidget *w, bool &bEnable)
 {
     if (w == NULL)
         return true;
-    QObjectList *l = w->queryList();
-    QObjectListIt it(*l);
+    QList<QObject *> l = w->queryList();
+    QListIterator<QObject *> it(l);
     QObject *obj;
-    while ((obj=it.current()) != NULL){
+    while ( it.hasNext()){
+	obj = it.next();
         if (!obj->inherits("QWidget")){
-            ++it;
             continue;
         }
-        if ((obj->parent() == NULL) || obj->parent()->inherits("QToolBar") || obj->parent()->inherits("QComboBox")){
-            ++it;
+        if ((obj->parent() == NULL) || obj->parent()->inherits("Q3ToolBar") || obj->parent()->inherits("QComboBox")){
             continue;
         }
         if (obj->inherits("QLineEdit")){
@@ -484,7 +483,6 @@ bool SearchDialog::checkSearch(QWidget *w, bool &bEnable)
                             bEnable = true;
                         }else{
                             bEnable = false;
-                            delete l;
                             return false;
                         }
                     }else{
@@ -497,46 +495,42 @@ bool SearchDialog::checkSearch(QWidget *w, bool &bEnable)
             if (cmb->isEnabled() && !cmb->currentText().isEmpty())
                 bEnable = true;
         }
-        ++it;
     }
-    delete l;
     return true;
 }
 
 void SearchDialog::detach(QWidget *w)
 {
-    QObjectList *l = w->queryList();
-    QObjectListIt it(*l);
+    QList <QObject *> l = w->queryList();
+    QListIterator<QObject *> it(l);
     QObject *obj;
-    while ((obj=it.current()) != NULL){
+    while ( it.hasNext()){
+	obj = it.next();
         if (obj->inherits("QLineEdit"))
             disconnect(obj, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
         if (obj->inherits("QComboBox"))
             disconnect(obj, SIGNAL(activated(const QString&)), this, SLOT(textChanged(const QString&)));
         if (obj->inherits("QRadioButton"))
             disconnect(obj, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
-        ++it;
     }
-    delete l;
 }
 
 void SearchDialog::attach(QWidget *w)
 {
     if (w == NULL)
         return;
-    QObjectList *l = w->queryList();
-    QObjectListIt it(*l);
+    QList <QObject *> l = w->queryList();
+    QListIterator<QObject *> it(l);
     QObject *obj;
-    while ((obj=it.current()) != NULL){
+    while ( it.hasNext()){
+	obj = it.next();
         if (obj->inherits("QLineEdit"))
             connect(obj, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
         if (obj->inherits("QComboBox"))
             connect(obj, SIGNAL(activated(const QString&)), this, SLOT(textChanged(const QString&)));
         if (obj->inherits("QRadioButton"))
             connect(obj, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
-        ++it;
     }
-    delete l;
 }
 
 void SearchDialog::aboutToShow(QWidget *w)
@@ -708,7 +702,7 @@ void SearchDialog::addItem(const QStringList &values, QWidget *wnd)
         m_result->viewport()->setUpdatesEnabled(false);
     }
     item = new SearchViewItem(m_result);
-    item->setPixmap(0, Pict(values[0].latin1(), m_result->colorGroup().base()));
+    item->setPixmap(0, Pict(values[0].toLatin1(), m_result->colorGroup().base()).pixmap());
     item->setText(COL_KEY, values[1]);
     for (int i = 2; (unsigned)i < values.count(); i++)
         item->setText(i - 2, values[i]);
@@ -796,12 +790,12 @@ void SearchDialog::optionsClick()
 void SearchDialog::newSearch()
 {
     searchStop();
-    QObjectList *l = queryList();
-    QObjectListIt it(*l);
+    QList <QObject *> l = queryList();
+    QListIterator<QObject *> it(l);
     QObject *obj;
-    while ((obj=it.current()) != NULL){
+    while ( it.hasNext()){
+	obj = it.next();
         if (!obj->inherits("QWidget")){
-            ++it;
             continue;
         }
         QWidget *parent = static_cast<QWidget*>(obj)->parentWidget();
@@ -809,9 +803,7 @@ void SearchDialog::newSearch()
             static_cast<QLineEdit*>(obj)->setText("");
         if (obj->inherits("QComboBox") && parent && parent->inherits("QFrame"))
             static_cast<QComboBox*>(obj)->setCurrentItem(0);
-        ++it;
     }
-    delete l;
     m_result->clear();
     for (int i = m_result->columns() - 1; i >= 0; i--)
         m_result->removeColumn(i);
@@ -836,7 +828,7 @@ void SearchDialog::addSearch(QWidget *w, Client *client, const QString &name)
     cw.client = client;
     cw.name   = name;
     m_widgets.push_back(cw);
-    m_search->cmbClients->insertItem(Pict(client->protocol()->description()->icon), name);
+    m_search->cmbClients->insertItem(Pict(client->protocol()->description()->icon).pixmap(), name);
     m_search->cmbClients->setCurrentItem(m_widgets.size() - 1);
     clientActivated(m_widgets.size() - 1);
 }

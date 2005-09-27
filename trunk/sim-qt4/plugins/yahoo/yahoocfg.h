@@ -23,7 +23,7 @@
 
 class YahooClient;
 
-class YahooConfig : public YahooConfigBase
+class YahooConfig : public QWidget, public Ui::YahooConfigBase
 {
     Q_OBJECT
 public:

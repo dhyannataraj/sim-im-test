@@ -20,16 +20,17 @@
 
 #include "simapi.h"
 #include "stl.h"
+#include "searchbase.h"
 
-#include <q3mainwindow.h>
-//Added by qt3to4:
+#include <Q3MainWindow>
+
 #include <QMoveEvent>
 #include <QResizeEvent>
 #include <QCloseEvent>
 
 class CorePlugin;
 class ListView;
-class SearchBase;
+class Ui::SearchBase;
 class QStatusBar;
 class QTimer;
 
@@ -98,7 +99,7 @@ protected:
     bool		m_bColumns;
     unsigned	m_id;
     unsigned	m_result_id;
-    SearchBase	*m_search;
+    Ui::SearchBase	*m_search;
     QStatusBar	*m_status;
     QTimer		*m_update;
     friend class SearchAll;

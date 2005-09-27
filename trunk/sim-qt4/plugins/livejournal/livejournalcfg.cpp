@@ -19,14 +19,15 @@
 #include "livejournal.h"
 #include "linklabel.h"
 
-#include <qcheckbox.h>
-#include <qlineedit.h>
+#include <QCheckBox>
+#include <QLineEdit>
 #include <qspinbox.h>
-#include <qtimer.h>
+#include <QTimer>
 
 LiveJournalCfg::LiveJournalCfg(QWidget *parent, LiveJournalClient *client, bool bConfig)
-        : LiveJournalCfgBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_client = client;
     m_bConfig = bConfig;
     if (client->data.owner.User.ptr)
@@ -64,11 +65,11 @@ void LiveJournalCfg::changed()
 void LiveJournalCfg::apply()
 {
     if (m_bConfig){
-        set_str(&m_client->data.owner.User.ptr, edtName->text().utf8());
-        m_client->setPassword(edtPassword->text().utf8());
+        set_str(&m_client->data.owner.User.ptr, edtName->text().toUtf8());
+        m_client->setPassword(edtPassword->text().toUtf8());
     }
-    m_client->setServer(edtServer->text().latin1());
-    m_client->setURL(edtPath->text().latin1());
+    m_client->setServer(edtServer->text().toLatin1());
+    m_client->setURL(edtPath->text().toLatin1());
     m_client->setPort(atol(edtPort->text()));
     m_client->setInterval(atol(edtInterval->text()));
     m_client->setFastServer(chkFastServer->isChecked());

@@ -18,18 +18,19 @@
 #include "spellfind.h"
 #include "editfile.h"
 
-#include <qpixmap.h>
-#include <qpushbutton.h>
-#include <qdir.h>
-#include <qlabel.h>
-#include <qtimer.h>
-#include <qregexp.h>
+#include <QPixmap>
+#include <QPushButton>
+#include <QDir>
+#include <QLabel>
+#include <QTimer>
+#include <QRegExp>
 
 #include <windows.h>
 
 SpellFind::SpellFind(EditFile *edt)
-        : SpellFindBase(NULL, NULL, false, Qt::WA_DeleteOnClose)
+        : QDialog( NULL, Qt::WA_DeleteOnClose)
 {
+    setupUi( this);
     SET_WNDPROC("find")
     setIcon(Pict("find"));
     setButtonsPict(this);
@@ -77,7 +78,7 @@ void SpellFind::next()
     }
     m_path = m_drive->absFilePath();
     m_path = m_path.replace(QRegExp("/"), "\\");
-    if ((GetDriveTypeA(m_path.latin1()) == DRIVE_FIXED) && checkPath())
+    if ((GetDriveTypeA(m_path.toLatin1()) == DRIVE_FIXED) && checkPath())
         return;
     m_drive = m_drives.next();
     QTimer::singleShot(0, this, SLOT(next()));

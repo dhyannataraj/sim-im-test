@@ -20,7 +20,7 @@
 
 #include "simapi.h"
 #include "sounduserbase.h"
-//Added by qt3to4:
+
 #include <QPixmap>
 #include <QResizeEvent>
 
@@ -28,7 +28,7 @@ class SoundPlugin;
 class EditSound;
 class Q3ListViewItem;
 
-class SoundUserConfig : public SoundUserConfigBase
+class SoundUserConfig : public QWidget, public Ui::SoundUserConfigBase
 {
     Q_OBJECT
 public:

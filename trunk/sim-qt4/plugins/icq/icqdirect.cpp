@@ -34,9 +34,9 @@
 
 #include <time.h>
 
-#include <qfile.h>
-#include <qtimer.h>
-#include <qregexp.h>
+#include <QFile>
+#include <QTimer>
+#include <QRegExp>
 
 const unsigned short TCP_START  = 0x07EE;
 const unsigned short TCP_ACK    = 0x07DA;
@@ -841,7 +841,7 @@ void DirectClient::processPacket()
                         msg->setError(I18N_NOOP("Send message fail"));
                     }else{
                         QString err = getContacts()->toUnicode(m_client->getContact(m_data), msg_str.c_str());
-                        msg->setError(err.utf8());
+                        msg->setError(err.toUtf8());
                     }
                     Event e(EventMessageSent, msg);
                     e.process();
@@ -1299,12 +1299,12 @@ void DirectClient::processMsgQueue()
                         (m_client->hasCap(m_data, CAP_RTF))){
                     QString text = sm.msg->getRichText();
                     QString part;
-                    message = m_client->createRTF(text, part, sm.msg->getForeground(), m_client->getContact(m_data), 0xFFFFFFFF);
+                    message = static_cast<string>(m_client->createRTF(text, part, sm.msg->getForeground(), m_client->getContact(m_data), 0xFFFFFFFF));
                     sm.type = CAP_RTF;
                 }else if (m_client->hasCap(m_data, CAP_UTF) &&
                           (m_client->getSendFormat() <= 1) &&
                           ((sm.msg->getFlags() & MESSAGE_SECURE) == 0)){
-                    message = ICQClient::addCRLF(sm.msg->getPlainText()).utf8();
+                    message = static_cast<string>(ICQClient::addCRLF(sm.msg->getPlainText()).toUtf8());
                     sm.type = CAP_UTF;
                 }else{
                     message = getContacts()->fromUnicode(m_client->getContact(m_data), sm.msg->getPlainText());

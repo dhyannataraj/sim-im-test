@@ -23,16 +23,17 @@
 #include "ballonmsg.h"
 #include "buffer.h"
 
-#include <qtimer.h>
-#include <q3toolbar.h>
-#include <qpushbutton.h>
-#include <qcombobox.h>
+#include <QTimer>
+#include <Q3ToolBar>
+#include <QPushButton>
+#include <QComboBox>
 #include <qspinbox.h>
-#include <qtabwidget.h>
+#include <QTabWidget>
 
 WeatherCfg::WeatherCfg(QWidget *parent, WeatherPlugin *plugin)
-        : WeatherCfgBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_plugin = plugin;
     lblLnk->setUrl("http://www.weather.com/?prod=xoap&par=1004517364");
     lblLnk->setText(QString("Weather data provided by weather.com") + QChar((unsigned short)174));
@@ -75,7 +76,7 @@ void WeatherCfg::search()
         return;
     btnSearch->setText(i18n("&Cancel"));
     string url = "http://xoap.weather.com/search/search?where=";
-    url += toTranslit(cmbLocation->lineEdit()->text()).utf8();
+    url += static_cast<string>(toTranslit(cmbLocation->lineEdit()->text()).toUtf8());
     fetch(url.c_str());
 }
 
@@ -129,7 +130,7 @@ void WeatherCfg::activated(int n)
 void WeatherCfg::apply()
 {
     m_plugin->setUnits(cmbUnits->currentItem() != 0);
-    m_plugin->setForecast(atol(edtDays->text().latin1()));
+    m_plugin->setForecast(atol(edtDays->text().toLatin1()));
     m_plugin->setID(edtID->text());
     m_plugin->setLocation(cmbLocation->lineEdit()->text());
     m_iface->apply();

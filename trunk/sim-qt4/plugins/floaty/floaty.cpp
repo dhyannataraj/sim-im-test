@@ -22,9 +22,9 @@
 #include "core.h"
 
 #include <q3popupmenu.h>
-#include <qapplication.h>
-#include <qwidget.h>
-#include <qtimer.h>
+#include <QApplication>
+#include <QWidget>
+#include <QTimer>
 
 const unsigned BLINK_TIMEOUT	= 500;
 const unsigned BLINK_COUNT		= 8;
@@ -102,7 +102,6 @@ FloatyPlugin::~FloatyPlugin()
         if (w->inherits("FloatyWnd"))
             delete w;
     }
-    delete &list;
     Event e(EventCommandRemove, (void*)CmdFloaty);
     e.process();
     getContacts()->unregisterUserData(user_data_id);
@@ -121,7 +120,6 @@ FloatyWnd *FloatyPlugin::findFloaty(unsigned id)
                 break;
         }
     }
-    delete &list;
     if (w)
         return static_cast<FloatyWnd*>(w);
     return NULL;
@@ -231,7 +229,6 @@ void *FloatyPlugin::processEvent(Event *e)
                     wnd->repaint();
                 }
             }
-            delete &list;
             break;
         }
     }
@@ -270,7 +267,6 @@ void FloatyPlugin::unreadBlink()
             wnd->repaint();
         }
     }
-    delete &list;
 }
 
 void FloatyWnd::startBlink()

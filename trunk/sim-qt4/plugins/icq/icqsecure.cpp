@@ -19,14 +19,15 @@
 #include "icqclient.h"
 #include "ballonmsg.h"
 
-#include <qcheckbox.h>
+#include <QCheckBox>
 #include <q3buttongroup.h>
-#include <qtabwidget.h>
-#include <qlineedit.h>
+#include <QTabWidget>
+#include <QLineEdit>
 
 ICQSecure::ICQSecure(QWidget *parent, ICQClient *client)
-        : ICQSecureBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_client = client;
     connect(chkHideIP, SIGNAL(toggled(bool)), this, SLOT(hideIpToggled(bool)));
     setListView(lstVisible);
@@ -124,7 +125,7 @@ void ICQSecure::setListView(ListView *lst)
     lst->addColumn(i18n("Nick"));
     lst->addColumn(i18n("Name"));
     lst->addColumn(i18n("EMail"));
-    lst->setColumnAlignment(0, AlignRight);
+    lst->setColumnAlignment(0, Qt::AlignRight);
     lst->setExpandingColumn(3);
 }
 
@@ -189,7 +190,7 @@ void ICQSecure::fillListView(ListView *lst, unsigned offs)
                 unsigned style  = 0;
                 const char *statusIcon;
                 ((Client*)m_client)->contactInfo(data, status, style, statusIcon);
-                item->setPixmap(0, Pict(statusIcon));
+                item->setPixmap(0, Pict(statusIcon).pixmap());
             }
         }
     }

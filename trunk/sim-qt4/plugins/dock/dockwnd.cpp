@@ -21,19 +21,21 @@
 #include "core.h"
 
 #include <stdio.h>
-#include <qpainter.h>
-#include <qbitmap.h>
-#include <qimage.h>
-#include <qtooltip.h>
-#include <qtimer.h>
-#include <qapplication.h>
+#include <QPainter>
+#include <QBitmap>
+#include <QImage>
+#include <QToolTip>
+#include <QTimer>
+#include <QApplication>
 #include <q3valuelist.h>
-#include <qregexp.h>
-//Added by qt3to4:
+#include <QRegExp>
+
 #include <QMouseEvent>
 #include <QPixmap>
 #include <QEvent>
 #include <QPaintEvent>
+#include <QPaintDevice>
+#include <QX11Info>
 
 #ifdef WIN32
 #include <windows.h>
@@ -45,7 +47,7 @@
 #include <kpopupmenu.h>
 #else
 #include <q3popupmenu.h>
-#include <qbitmap.h>
+#include <QBitmap>
 #endif
 
 #ifndef WIN32
@@ -55,6 +57,65 @@
 #include <X11/Xatom.h>
 #endif
 #endif
+
+static GC*	app_gc_ro	= 0;		// read-only GC
+static GC*	app_gc_tmp	= 0;		// temporary GC
+static GC*	app_gc_ro_m	= 0;		// read-only GC (monochrome)
+static GC*	app_gc_tmp_m	= 0;		// temporary GC (monochrome)
+
+static GC create_gc( int scrn, bool monochrome )
+{
+    GC gc;
+    if ( monochrome ) {
+	Pixmap pm = XCreatePixmap( QX11Info::display(), RootWindow( QX11Info::display(), scrn ), 8, 8, 1 );
+	gc = XCreateGC( QX11Info::display(), pm, 0, 0 );
+	XFreePixmap( QX11Info::display(), pm );
+    } else {
+	if ( QX11Info::appDefaultVisual( scrn ) ) {
+	    gc = XCreateGC( QX11Info::display(), RootWindow( QX11Info::display(), scrn ), 0, 0 );
+	} else {
+	    Window w;
+	    XSetWindowAttributes a;
+	    a.background_pixel = QColor(Qt::black).pixel( scrn );
+	    a.border_pixel = QColor(Qt::black).pixel( scrn );
+	    a.colormap = QX11Info::appColormap( scrn );
+	    w = XCreateWindow( QX11Info::display(), RootWindow( QX11Info::display(), scrn ), 0, 0, 100, 100,
+			       0, QX11Info::appDepth( scrn ), InputOutput,
+			       (Visual*)QX11Info::appVisual( scrn ),
+			       CWBackPixel|CWBorderPixel|CWColormap, &a );
+	    gc = XCreateGC( QX11Info::display(), w, 0, 0 );
+	    XDestroyWindow( QX11Info::display(), w );
+	}
+    }
+    XSetGraphicsExposures( QX11Info::display(), gc, False );
+    return gc;
+}
+
+GC qt_xget_temp_gc( int scrn, bool monochrome )		// get temporary GC
+{
+    // #####
+    int screenCount = ScreenCount(QX11Info::display());
+    if ( scrn < 0 || scrn >= screenCount ) {
+	qDebug("invalid screen (tmp) %d %d", scrn, screenCount );
+	QWidget* bla = 0;
+	bla->setName("hello");
+    }
+    GC gc;
+    if ( monochrome ) {
+	if ( !app_gc_tmp_m )			// create GC for bitmap
+	    memset( (app_gc_tmp_m = new GC[screenCount]), 0, screenCount * sizeof( GC ) );
+	if ( !app_gc_tmp_m[scrn] )
+	    app_gc_tmp_m[scrn] = create_gc( scrn, TRUE );
+	gc = app_gc_tmp_m[scrn];
+    } else {					// create standard GC
+	if ( !app_gc_tmp )
+	    memset( (app_gc_tmp = new GC[screenCount]), 0, screenCount * sizeof( GC ) );
+	if ( !app_gc_tmp[scrn] )
+	    app_gc_tmp[scrn] = create_gc( scrn, FALSE );
+	gc = app_gc_tmp[scrn];
+    }
+    return gc;
+}
 
 #ifdef WIN32
 
@@ -208,7 +269,7 @@ void DockWnd::showPopup()
 
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
 
-extern Time qt_x_time;
+Time qt_x_time = QX11Info::appTime();
 
 class WharfIcon : public QWidget
 {
@@ -245,7 +306,7 @@ WharfIcon::WharfIcon(DockWnd *parent)
     setIcon(pict);
     resize(pict.width(), pict.height());
     parentWin = 0;
-    setBackgroundMode(X11ParentRelative);
+    setBackgroundMode(Qt::X11ParentRelative);
     vis = NULL;
     bActivated = false;
 }
@@ -259,7 +320,7 @@ bool WharfIcon::x11Event(XEvent *e)
 {
     if ((e->type == ReparentNotify) && !bActivated){
         XWindowAttributes a;
-        XGetWindowAttributes(qt_xdisplay(), e->xreparent.parent, &a);
+        XGetWindowAttributes(QPaintDevice::x11Display(), e->xreparent.parent, &a);
         p_width  = a.width;
         p_height = a.height;
         bActivated = true;
@@ -280,7 +341,7 @@ void WharfIcon::enterEvent( QEvent* )
     if ( !qApp->focusWidget() ) {
         XEvent ev;
         memset(&ev, 0, sizeof(ev));
-        ev.xfocus.display = qt_xdisplay();
+        ev.xfocus.display = QPaintDevice::x11Display();
         ev.xfocus.type = FocusIn;
         ev.xfocus.window = winId();
         ev.xfocus.mode = NotifyNormal;
@@ -303,13 +364,13 @@ void WharfIcon::set(const char *icon, const char *msg)
         move((p_width - nvis->width()) / 2, (p_height - nvis->height()) / 2);
     }
     if (msg){
-        QPixmap msgPict = Pict(msg);
+        QPixmap msgPict = Pict(msg).pixmap();
         QRegion *rgn = NULL;
-        if (nvis->mask() && msgPict.mask()){
-            rgn = new QRegion(*msgPict.mask());
+        if (nvis->selfMask() && msgPict.selfMask()){
+            rgn = new QRegion(msgPict.mask());
             rgn->translate(nvis->width() - msgPict.width() - SMALL_PICT_OFFS,
                            nvis->height() - msgPict.height() - SMALL_PICT_OFFS);
-            *rgn += *nvis->mask();
+            *rgn += nvis->mask();
         }
         QPainter p;
         p.begin(nvis);
@@ -321,8 +382,8 @@ void WharfIcon::set(const char *icon, const char *msg)
             delete rgn;
         }
     }else{
-        const QBitmap *mask = nvis->mask();
-        if (mask) setMask(*mask);
+        const QBitmap mask = nvis->mask();
+        if (mask.selfMask()) setMask(mask);
     }
     if (vis) delete vis;
     vis = nvis;
@@ -605,15 +666,10 @@ public:
 MyPixmap::MyPixmap(Pixmap pp, int w, int h)
         : QPixmap(w, h)
 {
-    data->uninit = false;
-#if COMPAT_QT_VERSION >= 0x030000
     Screen *screen =  XDefaultScreenOfDisplay(dd);
     int scr = XScreenNumberOfScreen(screen);
     x11SetScreen(scr);
     GC gc = qt_xget_temp_gc( scr, FALSE );
-#else
-GC gc = qt_xget_temp_gc( FALSE);
-#endif
     XSetSubwindowMode( dd, gc, IncludeInferiors );
     XCopyArea( dd, pp, handle(), gc, 0, 0, w, h, 0, 0 );
     XSetSubwindowMode( dd, gc, ClipByChildren );
@@ -661,8 +717,8 @@ set_background_properties(QWidget *w)
             p.drawPixmap(border, border, img);
         }
         w->setBackgroundPixmap(bg);
-        if (bg.mask()){
-            w->setMask(*bg.mask());
+        if (bg.selfMask()){
+            w->setMask(bg.mask());
         }else{
             w->clearMask();
         }
@@ -673,7 +729,7 @@ set_background_properties(QWidget *w)
 #endif
 
 DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
-        : QWidget(NULL, "dock",  Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint),
+        : QWidget(NULL, "dock", Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint),
         EventReceiver(LowPriority)
 {
 #ifndef WIN32
@@ -772,7 +828,7 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
     if (bEnlightenment){
         bInit = true;
         resize(64, 64);
-        setFocusPolicy(NoFocus);
+        setFocusPolicy(Qt::NoFocus);
         move(m_plugin->getDockX(), m_plugin->getDockY());
         MWMHints mwm;
         mwm.flags = MWM_HINTS_DECORATIONS;
@@ -828,7 +884,7 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
 
     wharfIcon = new WharfIcon(this);
 #endif
-    setBackgroundMode(X11ParentRelative);
+    setBackgroundMode(Qt::X11ParentRelative);
     setIcon(icon);
 
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
@@ -1048,7 +1104,7 @@ bool DockWnd::x11Event(XEvent *e)
 {
     if (e->type == ClientMessage){
         if (!inTray){
-            Atom xembed_atom = XInternAtom( qt_xdisplay(), "_XEMBED", FALSE );
+            Atom xembed_atom = XInternAtom( QPaintDevice::x11Display(), "_XEMBED", FALSE );
             if (e->xclient.message_type == xembed_atom){
                 inTray = true;
                 bInit = true;
@@ -1061,7 +1117,7 @@ bool DockWnd::x11Event(XEvent *e)
         }
     }
     if ((e->type == ReparentNotify) && !bInit && inNetTray){
-        Display *dsp = qt_xdisplay();
+        Display *dsp = QPaintDevice::x11Display();
         if (e->xreparent.parent == XRootWindow(dsp,
                                                XScreenNumberOfScreen(XDefaultScreenOfDisplay(dsp)))){
             inNetTray = false;
@@ -1085,7 +1141,7 @@ bool DockWnd::x11Event(XEvent *e)
 
         if (!inTray){
             bInit = true;
-            setFocusPolicy(NoFocus);
+            setFocusPolicy(Qt::NoFocus);
             move(m_plugin->getDockX(), m_plugin->getDockY());
         }
     }
@@ -1117,7 +1173,7 @@ void DockWnd::setIcon(const char *icon)
     }
 #endif
 #endif
-    drawIcon = Pict(icon);
+    drawIcon = Pict(icon).pixmap();
 #ifndef WIN32
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
     if (!inTray){
@@ -1181,7 +1237,7 @@ void DockWnd::setTip(const char *text)
         notifyIconData.cbSize = sizeof(notifyIconData);
         notifyIconData.hIcon = topData()->winIcon;
         notifyIconData.hWnd = winId();
-        strncpy(notifyIconData.szTip, tip.local8Bit(), sizeof(notifyIconData.szTip));
+        strncpy(notifyIconData.szTip, tip.toLocal8Bit(), sizeof(notifyIconData.szTip));
         notifyIconData.uFlags = NIF_TIP;
         Shell_NotifyIconA(NIM_MODIFY, (NOTIFYICONDATAA*)&notifyIconData);
     }
@@ -1220,10 +1276,10 @@ void DockWnd::mouseEvent( QMouseEvent *e)
         if (!bNoToggle)
             QTimer::singleShot(700, this, SLOT(toggle()));
         break;
-    case QWidget::RightButton:
+    case Qt::RightButton:
         emit showPopup(e->globalPos());
         break;
-    case QWidget::MidButton:
+    case Qt::MidButton:
         emit doubleClicked();
         break;
     default:
@@ -1293,7 +1349,7 @@ void DockWnd::enterEvent( QEvent* )
     if ( !qApp->focusWidget() ) {
         XEvent ev;
         memset(&ev, 0, sizeof(ev));
-        ev.xfocus.display = qt_xdisplay();
+        ev.xfocus.display = QPaintDevice::x11Display();
         ev.xfocus.type = FocusIn;
         ev.xfocus.window = winId();
         ev.xfocus.mode = NotifyNormal;

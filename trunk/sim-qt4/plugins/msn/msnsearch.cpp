@@ -19,17 +19,18 @@
 #include "msnclient.h"
 #include "intedit.h"
 
-#include <qcombobox.h>
-#include <qlineedit.h>
-#include <qpushbutton.h>
-//Added by qt3to4:
+#include <QComboBox>
+#include <QLineEdit>
+#include <QPushButton>
+
 #include <QShowEvent>
 
 class MSNClient;
 
 MSNSearch::MSNSearch(MSNClient *client, QWidget *parent)
-        : MSNSearchBase(parent)
+        : QWidget(parent)
 {
+    setupUi( this);
     m_client = client;
     connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
     edtMail->setValidator(new EMailValidator(edtMail));
@@ -37,7 +38,7 @@ MSNSearch::MSNSearch(MSNClient *client, QWidget *parent)
 
 void MSNSearch::showEvent(QShowEvent *e)
 {
-    MSNSearchBase::showEvent(e);
+    showEvent(e);
     emit setAdd(true);
 }
 
@@ -47,13 +48,13 @@ void MSNSearch::createContact(unsigned tmpFlags, Contact *&contact)
     int pos = 0;
     if ((edtMail->validator()->validate(mail, pos) != QValidator::Acceptable))
         return;
-    if (m_client->findContact(mail.utf8(), contact))
+    if (m_client->findContact(mail.toUtf8(), contact))
         return;
     QString name = mail;
     int n = name.find('@');
     if (n > 0)
         name = name.left(n);
-    m_client->findContact(mail.utf8(), name.utf8(), contact, false);
+    m_client->findContact(mail.toUtf8(), name.toUtf8(), contact, false);
     contact->setFlags(contact->getFlags() | tmpFlags);
 }
 

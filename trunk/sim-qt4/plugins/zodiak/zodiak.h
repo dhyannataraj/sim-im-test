@@ -21,8 +21,8 @@
 #include "simapi.h"
 #include "stl.h"
 
-#include <q3frame.h>
-//Added by qt3to4:
+#include <QFrame>
+
 #include <QLabel>
 #include <QEvent>
 #include <QPaintEvent>
@@ -31,7 +31,7 @@ class DatePicker;
 class QLabel;
 class QPushButton;
 
-class ZodiakWnd : public Q3Frame
+class ZodiakWnd : public QFrame
 {
     Q_OBJECT
 public:

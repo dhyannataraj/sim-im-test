@@ -25,7 +25,7 @@
 class ICQClient;
 class ListView;
 
-class ICQSecure : public ICQSecureBase, public EventReceiver
+class ICQSecure : public QWidget, public Ui::ICQSecureBase, public EventReceiver
 {
     Q_OBJECT
 public:

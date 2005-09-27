@@ -21,10 +21,10 @@
 #include "simapi.h"
 #include "stl.h"
 
-#include <qwidget.h>
-#include <qtooltip.h>
-#include <qpixmap.h>
-//Added by qt3to4:
+#include <QWidget>
+#include <QToolTip>
+#include <QPixmap>
+
 #include <QMouseEvent>
 #include <QEvent>
 #include <QPaintEvent>

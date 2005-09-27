@@ -19,15 +19,16 @@
 #include "yahooclient.h"
 #include "linklabel.h"
 
-#include <qtimer.h>
-#include <qtabwidget.h>
-#include <qlineedit.h>
+#include <QTimer>
+#include <QTabWidget>
+#include <QLineEdit>
 #include <qspinbox.h>
-#include <qcheckbox.h>
+#include <QCheckBox>
 
 YahooConfig::YahooConfig(QWidget *parent, YahooClient *client, bool bConfig)
-        : YahooConfigBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_client = client;
     m_bConfig = bConfig;
     if (m_bConfig)
@@ -61,7 +62,7 @@ void YahooConfig::apply()
         m_client->setLogin(edtLogin->text());
         m_client->setPassword(edtPassword->text());
     }
-    m_client->setServer(edtServer->text().local8Bit());
+    m_client->setServer(edtServer->text().toLocal8Bit());
     m_client->setPort((unsigned short)atol(edtPort->text()));
     m_client->setMinPort((unsigned short)atol(edtMinPort->text()));
     m_client->setMaxPort((unsigned short)atol(edtMaxPort->text()));

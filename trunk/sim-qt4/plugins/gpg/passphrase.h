@@ -23,7 +23,7 @@
 
 class GpgPlugin;
 
-class PassphraseDlg : public PassphraseDlgBase
+class PassphraseDlg : public QDialog, public Ui::PassphraseDlgBase
 {
     Q_OBJECT
 public:

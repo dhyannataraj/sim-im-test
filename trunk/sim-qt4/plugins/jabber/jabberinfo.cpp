@@ -22,20 +22,21 @@
 #include "ballonmsg.h"
 
 #include <q3multilineedit.h>
-#include <qlineedit.h>
-#include <qstringlist.h>
-#include <qcombobox.h>
-#include <qpushbutton.h>
-#include <qpixmap.h>
-#include <qlabel.h>
-#include <qtabwidget.h>
+#include <QLineEdit>
+#include <QStringList>
+#include <QComboBox>
+#include <QPushButton>
+#include <QPixmap>
+#include <QLabel>
+#include <QTabWidget>
 
 JabberInfo::JabberInfo(QWidget *parent, struct JabberUserData *data, JabberClient *client)
-        : JabberInfoBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_client  = client;
     m_data    = data;
-    btnUrl->setPixmap(Pict("home"));
+    btnUrl->setPixmap(Pict("home").pixmap());
     connect(btnUrl, SIGNAL(clicked()), this, SLOT(goUrl()));
     edtOnline->setReadOnly(true);
     edtNA->setReadOnly(true);
@@ -85,7 +86,7 @@ void JabberInfo::apply()
             return;
         }
         if (!edtPswd1->text().isEmpty())
-            m_client->changePassword(edtPswd1->text().utf8());
+            m_client->changePassword(edtPswd1->text().toUtf8());
         // clear Textboxes
         edtCurrent->clear();
         edtPswd1->clear();
@@ -121,7 +122,7 @@ void JabberInfo::resourceActivated(int i)
             current = cmbStatus->count();
             text = cmd->text;
         }
-        cmbStatus->insertItem(Pict(cmd->icon), i18n(cmd->text));
+        cmbStatus->insertItem(Pict(cmd->icon).pixmap(), i18n(cmd->text));
     }
     cmbStatus->setCurrentItem(current);
     disableWidget(cmbStatus);
@@ -209,10 +210,10 @@ void JabberInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     JabberUserData *data = (JabberUserData*)_data;
-    set_str(&data->FirstName.ptr, edtFirstName->text().utf8());
-    set_str(&data->Nick.ptr, edtNick->text().utf8());
-    set_str(&data->Bday.ptr, edtDate->text().utf8());
-    set_str(&data->Url.ptr, edtUrl->text().utf8());
+    set_str(&data->FirstName.ptr, edtFirstName->text().toUtf8());
+    set_str(&data->Nick.ptr, edtNick->text().toUtf8());
+    set_str(&data->Bday.ptr, edtDate->text().toUtf8());
+    set_str(&data->Url.ptr, edtUrl->text().toUtf8());
 }
 
 void JabberInfo::goUrl()
@@ -220,7 +221,7 @@ void JabberInfo::goUrl()
     QString url = edtUrl->text();
     if (url.isEmpty())
         return;
-    Event e(EventGoURL, (void*)(const char*)(url.local8Bit()));
+    Event e(EventGoURL, (void*)(const char*)(url.toLocal8Bit()));
     e.process();
 }
 

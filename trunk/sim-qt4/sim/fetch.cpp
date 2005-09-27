@@ -27,10 +27,9 @@
 #include "socket.h"
 #include "stl.h"
 
-#include <qthread.h>
-#include <qtimer.h>
-#include <QCoreApplication>
-//Added by qt3to4:
+#include <QThread>
+#include <QTimer>
+
 #include <QCustomEvent>
 #include <QEvent>
 
@@ -380,7 +379,7 @@ void FetchThread::run()
     close();
     QCustomEvent* ce = new QCustomEvent(Q_EVENT_SIM_FETCH_DONE);
     ce->setData(m_client->m_client);
-    QCoreApplication::postEvent(m_client, ce);
+    postEvent(m_client, ce);
     log(L_DEBUG,"EventPosted!");
 }
 
@@ -1094,3 +1093,9 @@ string get_user_agent()
 {
     return FetchManager::manager->user_agent;
 }
+
+#ifndef WIN32
+#include "fetch.moc"
+#endif
+
+

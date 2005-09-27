@@ -25,7 +25,7 @@
 #include <arpa/inet.h>
 #endif
 
-#include <qtimer.h>
+#include <QTimer>
 
 const unsigned short ICQ_SNACxSRV_ERROR         = 0x0001;
 const unsigned short ICQ_SNACxSRV_READYxCLIENT  = 0x0002;
@@ -299,7 +299,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             d.client  = this;
             d.code    = 0;
             d.err_str = I18N_NOOP("You've been warned by %1");
-            d.args    = strdup(f.utf8());
+            d.args    = strdup(f.toUtf8());
             d.flags   = ERR_INFO;
             d.options = NULL;
             d.id	  = CmdShowWarning;
@@ -380,11 +380,11 @@ void ICQClient::sendLogonStatus()
         data.owner.InfoUpdateTime.value = now;
     data.owner.OnlineTime.value = now;
     if (getContacts()->owner()->getPhones() != QString::fromUtf8(data.owner.PhoneBook.ptr)){
-        set_str(&data.owner.PhoneBook.ptr, getContacts()->owner()->getPhones().utf8());
+        set_str(&data.owner.PhoneBook.ptr, getContacts()->owner()->getPhones().toUtf8());
         data.owner.PluginInfoTime.value = now;
     }
     if (getPicture() != QString::fromUtf8(data.owner.Picture.ptr)){
-        set_str(&data.owner.Picture.ptr, getPicture().utf8());
+        set_str(&data.owner.Picture.ptr, getPicture().toUtf8());
         data.owner.PluginInfoTime.value = now;
     }
     if (getContacts()->owner()->getPhoneStatus() != data.owner.FollowMe.value){

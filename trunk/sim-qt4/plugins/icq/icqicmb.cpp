@@ -33,11 +33,11 @@
 #include <ctype.h>
 #endif
 
-#include <qtextcodec.h>
-#include <qfile.h>
-#include <qtimer.h>
-#include <qimage.h>
-#include <qregexp.h>
+#include <QTextCodec>
+#include <QFile>
+#include <QTimer>
+#include <QImage>
+#include <QRegExp>
 
 const unsigned MAX_TYPE2_SIZE	= 0x1800;
 const unsigned SEND_TIMEOUT		= 50000;
@@ -402,7 +402,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         }
                         string s;
                         if (!text.isEmpty())
-                            s = text.local8Bit();
+                            s = static_cast<string>(text.toLocal8Bit());
                         log(L_DEBUG, "Message %s", s.c_str());
                         messageReceived(msg, screen.c_str());
                         break;
@@ -1602,7 +1602,7 @@ void ICQClient::processSendQueue()
 
 static QString getUtf8Part(QString &str, unsigned size)
 {
-    if (str.utf8().length() < size){
+    if (str.toUtf8().length() < size){
         QString res = str;
         str = "";
         return res;
@@ -1615,12 +1615,12 @@ static QString getUtf8Part(QString &str, unsigned size)
         QChar c = str[n];
         if (c.isSpace()){
             if (bWord){
-                unsigned word_size = str.mid(wordStart, n - wordStart).utf8().length();
+                unsigned word_size = str.mid(wordStart, n - wordStart).toUtf8().length();
                 if (s + word_size > 0){
                     if (wordStart == 0){
                         s = 0;
                         for (n = 0; (unsigned)n < str.length(); n++){
-                            unsigned char_size = str.mid(n, 1).utf8().length();
+                            unsigned char_size = str.mid(n, 1).toUtf8().length();
                             if (s + char_size > 0)
                                 break;
                         }
@@ -1630,7 +1630,7 @@ static QString getUtf8Part(QString &str, unsigned size)
                 s += word_size;
                 bWord = false;
             }
-            unsigned char_size = str.mid(n, 1).utf8().length();
+            unsigned char_size = str.mid(n, 1).toUtf8().length();
             if (s + char_size > 0)
                 break;
             s += char_size;
@@ -1705,7 +1705,7 @@ bool ICQClient::processMsg()
                             if (grp){
                                 Group *group = getContacts()->group(grp);
                                 if (group)
-                                    s = group->getName().utf8();
+                                    s = static_cast<string>(group->getName().toUtf8());
                             }
                             msgBuf.pack(s);
                             msgBuf << size;
@@ -1722,7 +1722,7 @@ bool ICQClient::processMsg()
                 if (grp){
                     Group *group = getContacts()->group(grp);
                     if (group)
-                        s = group->getName().utf8();
+                        s = static_cast<string>(group->getName().toUtf8());
                 }
                 msgBuf.pack(s);
                 msgBuf << size;
@@ -1783,7 +1783,7 @@ bool ICQClient::processMsg()
             break;
         case SEND_UTF:
             m_send.part = getUtf8Part(m_send.text, MAX_TYPE2_MESSAGE_SIZE);
-            text = m_send.part.utf8();
+            text = static_cast<string>(m_send.part.toUtf8());
             break;
         case SEND_TYPE2:{
                 m_send.part = getPart(m_send.text, MAX_TYPE2_MESSAGE_SIZE);
@@ -1817,7 +1817,7 @@ bool ICQClient::processMsg()
                     t += p.parse(m_send.part);
                 }else{
                     string s;
-                    s = m_send.part.utf8();
+                    s = static_cast<string>(m_send.part.toUtf8());
                     messageSend ms;
                     ms.msg  = m_send.msg;
                     ms.text = &s;
@@ -1915,7 +1915,7 @@ bool ICQClient::processMsg()
                     st += (char)(s & 0xFF);
                 }
             }else{
-                st = text.utf8();
+                st = static_cast<string>(text.toUtf8());
             }
             tlvs + new Tlv(0x0C, st.length(), st.c_str());
             FileMessage *msg = static_cast<FileMessage*>(m_send.msg);
@@ -1944,7 +1944,7 @@ bool ICQClient::processMsg()
             }
             charset = bWide ? "utf8" : "us-ascii";
             tlvs + new Tlv(0x2712, charset.length(), charset.c_str());
-            msgBuf << (const char*)(fname.utf8()) << (char)0;
+            msgBuf << (const char*)(fname.toUtf8()) << (char)0;
             sendType2(m_send.screen.c_str(), msgBuf, m_send.id, CAP_AIM_SENDFILE, false, m_send.socket->localPort(), &tlvs);
             return true;
         }

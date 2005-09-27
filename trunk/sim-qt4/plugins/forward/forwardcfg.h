@@ -20,11 +20,10 @@
 
 #include "simapi.h"
 #include "forwardcfgbase.h"
-#include <QDialog>
 
 class ForwardPlugin;
 
-class ForwardConfig : public QDialog, public Ui::ForwardConfigBase
+class ForwardConfig : public QWidget, public Ui::ForwardConfigBase
 {
     Q_OBJECT
 public:

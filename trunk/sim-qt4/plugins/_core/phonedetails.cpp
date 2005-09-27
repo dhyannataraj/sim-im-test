@@ -17,23 +17,24 @@
 
 #include "phonedetails.h"
 
-#include <qcombobox.h>
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <qlineedit.h>
+#include <QComboBox>
+#include <QCheckBox>
+#include <QLabel>
+#include <QLineEdit>
 #include <qvalidator.h>
-//Added by qt3to4:
-#include <Q3CString>
+
+#include <QByteArray>
 
 PhoneDetails::PhoneDetails(QWidget *p, const QString &oldNumber)
-        : PhoneDetailsBase(p)
+        : QWidget(p)
 {
+    setupUi( this);
     QString number = oldNumber;
     QString areaCode;
     QString extension;
     int countryCode = 0;
     if (number.find('(') >= 0){
-        Q3CString country = trim(getToken(number, '(')).latin1();
+        QByteArray country = trim(getToken(number, '(')).toLatin1();
         const char *p;
         for (p = country; *p; p++){
             if ((*p >= '0') && (*p <= '9'))

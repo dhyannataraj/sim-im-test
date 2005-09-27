@@ -30,7 +30,7 @@ class Exec;
 class GpgFind;
 #endif
 
-class GpgCfg : public GpgCfgBase
+class GpgCfg : public QWidget, public Ui::GpgCfgBase
 {
     Q_OBJECT
 public:

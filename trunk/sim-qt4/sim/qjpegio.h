@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qjpegio.h,v 1.2 2004-06-26 08:17:00 shutoff Exp $
+** $Id: qjpegio.h,v 1.2 2004/06/26 08:17:00 shutoff Exp $
 **
 ** Definition of JPEG QImage IOHandler
 **
@@ -38,7 +38,7 @@
 #ifndef QJPEGIO_H
 #define QJPEGIO_H
 
-#include <qglobal.h>
+#include <QGlobalStatic>
 
 void qInitJpegIO();
 

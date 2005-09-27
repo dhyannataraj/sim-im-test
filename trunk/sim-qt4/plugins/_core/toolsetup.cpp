@@ -19,16 +19,17 @@
 #include "commands.h"
 
 #include <q3listbox.h>
-#include <qregexp.h>
-#include <qpushbutton.h>
-//Added by qt3to4:
+#include <QRegExp>
+#include <QPushButton>
+
 #include <QPixmap>
 
 ToolBarSetup::ToolBarSetup(Commands *bars, CommandsDef *def)
-        : ToolBarSetupBase(NULL, "toolbar_setup", false, Qt::WA_DeleteOnClose)
+        : QDialog( NULL, Qt::WA_DeleteOnClose)
 {
+    setupUi( this);
     SET_WNDPROC("configure")
-    setIcon(Pict("configure"));
+    setIcon(Pict("configure").pixmap());
     setCaption(def->isMenu() ?
                i18n("Customize menu") :
                i18n("Customize toolbar"));
@@ -45,7 +46,7 @@ ToolBarSetup::ToolBarSetup(Commands *bars, CommandsDef *def)
         active.push_back(s->id);
     }
 
-    setIcon(Pict("setup"));
+    setIcon(Pict("setup").pixmap());
     connect(btnClose, SIGNAL(clicked()), this, SLOT(close()));
     connect(lstButtons, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
     connect(lstActive, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
@@ -114,7 +115,7 @@ void ToolBarSetup::applyClick()
 void ToolBarSetup::addButton(Q3ListBox *lst, unsigned id)
 {
     if (id == 0){
-        lst->insertItem(Pict("separator"), i18n("Separator"));
+        lst->insertItem(Pict("separator").pixmap(), i18n("Separator"));
         return;
     }
     CommandsList list(*m_def, true);
@@ -124,7 +125,7 @@ void ToolBarSetup::addButton(Q3ListBox *lst, unsigned id)
             QString name = i18n(s->text);
             name = name.replace(QRegExp("&"), "");
             if (s->icon){
-                lst->insertItem(Pict(s->icon), name);
+                lst->insertItem(Pict(s->icon).pixmap(), name);
             }else{
                 lst->insertItem(name);
             }

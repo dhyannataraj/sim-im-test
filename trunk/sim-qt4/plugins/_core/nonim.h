@@ -20,10 +20,10 @@
 
 #include "simapi.h"
 #include "nonimbase.h"
-//Added by qt3to4:
+
 #include <QShowEvent>
 
-class NonIM : public Ui_NonIMBase, public QDialog
+class NonIM : public QWidget, public Ui::NonIMBase
 {
     Q_OBJECT
 public:

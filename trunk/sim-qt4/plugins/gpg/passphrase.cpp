@@ -26,11 +26,12 @@
 #include <qcheckbox.h>
 
 PassphraseDlg::PassphraseDlg(GpgPlugin *plugin, const char *key)
-        : PassphraseDlgBase(NULL, "passphrase", false, Qt::WA_DeleteOnClose)
+        : QDialog( NULL, Qt::WA_DeleteOnClose)
 {
+    setupUi( this);
     m_plugin = plugin;
     SET_WNDPROC("passphrase")
-    setIcon(Pict("encrypted"));
+    setIcon(Pict("encrypted").pixmap());
     setButtonsPict(this);
     setCaption(caption());
     m_key = key;

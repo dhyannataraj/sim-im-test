@@ -32,8 +32,9 @@
 
 
 KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *parent, const char *name, bool modal)
-        : Ui::AboutDlgBase()
+        : QDialog( parent)
 {
+    setupUi( this);
     SET_WNDPROC("about")
     setButtonsPict(this);
     setCaption(caption());
@@ -106,7 +107,7 @@ KAboutApplication::~KAboutApplication()
 
 void KAboutApplication::closeEvent(QCloseEvent *e)
 {
-    QDialog::closeEvent(e);
+    closeEvent(e);
     emit finished();
 }
 

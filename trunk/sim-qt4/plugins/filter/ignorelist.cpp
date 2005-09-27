@@ -18,11 +18,12 @@
 #include "ignorelist.h"
 #include "listview.h"
 
-#include <qpixmap.h>
+#include <QPixmap>
 
 IgnoreList::IgnoreList(QWidget *parent)
-        : Ui::IgnoreListBase()
+        : QWidget( parent)
 {
+    setupUi( this);
     lstIgnore->addColumn(i18n("Contact"));
     lstIgnore->addColumn(i18n("Name"));
     lstIgnore->addColumn(i18n("EMail"));

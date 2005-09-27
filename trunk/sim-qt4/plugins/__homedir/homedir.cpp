@@ -22,7 +22,7 @@
 #include <windows.h>
 #include <shlobj.h>
 
-#include <qregexp.h>
+#include <QRegExp>
 #include "homedircfg.h"
 
 static BOOL (WINAPI *_SHGetSpecialFolderPathA)(HWND hwndOwner, LPSTR lpszPath, int nFolder, BOOL fCreate) = NULL;
@@ -34,7 +34,7 @@ static BOOL (WINAPI *_SHGetSpecialFolderPathW)(HWND hwndOwner, LPSTR lpszPath, i
 #include <pwd.h>
 #endif
 
-#include <qdir.h>
+#include <QDir>
 
 Plugin *createHomeDirPlugin(unsigned base, bool, Buffer*)
 {

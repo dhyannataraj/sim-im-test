@@ -35,20 +35,20 @@
 #include "buffer.h"
 
 #include <qfontmetrics.h>
-#include <q3toolbar.h>
-#include <qcombobox.h>
-#include <qlineedit.h>
-#include <qtimer.h>
-#include <qlayout.h>
-#include <qapplication.h>
-#include <qclipboard.h>
-#include <qregexp.h>
-#include <qtooltip.h>
-//Added by qt3to4:
+#include <Q3ToolBar>
+#include <QComboBox>
+#include <QLineEdit>
+#include <QTimer>
+#include <QLayout>
+#include <QApplication>
+#include <QClipboard>
+#include <QRegExp>
+#include <QToolTip>
+
 #include <QPixmap>
 #include <QGridLayout>
 #include <QDragMoveEvent>
-#include <Q3Frame>
+#include <QFrame>
 #include <QDropEvent>
 #include <QLabel>
 #include <QVBoxLayout>
@@ -169,7 +169,7 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd)
 
     connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
 
-    m_frame = new Q3Frame(this, "msgedit");
+    m_frame = new QFrame(this, "msgedit");
     setCentralWidget(m_frame);
     m_layout = new QVBoxLayout(m_frame);
 
@@ -211,8 +211,8 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd)
     if (CorePlugin::m_plugin->getContainerMode() == 0)
         showCloseSend(false);
 
-    setDockEnabled(m_bar, Left, false);
-    setDockEnabled(m_bar, Right, false);
+    setDockEnabled(m_bar, Qt::Left, false);
+    setDockEnabled(m_bar, Qt::Right, false);
 }
 
 MsgEdit::~MsgEdit()
@@ -1284,7 +1284,7 @@ void *MsgEdit::processEvent(Event *e)
             if (err_str && *err_str)
                 err = i18n(err_str);
             Contact *contact = getContacts()->contact(msg->contact());
-            if (err){
+            if (!err.isNull()){
                 stopSend();
                 Command cmd;
                 cmd->id		= CmdSend;
@@ -1475,7 +1475,7 @@ void MsgEdit::colorsChanged()
 
 void MsgEdit::insertSmile(const char *id)
 {
-    if (m_edit->textFormat() == Q3TextEdit::PlainText){
+    if (m_edit->textFormat() == Qt::PlainText){
         list<string> smiles = getIcons()->getSmile(id);
         if (!smiles.empty())
             m_edit->insert(QString::fromUtf8(smiles.front().c_str()), false, true, true);
@@ -1545,7 +1545,7 @@ void MsgEdit::setupNext()
     def = CorePlugin::m_plugin->messageTypes.find(type);
 
     CommandDef c = *btnNext->def();
-    c.text_wrk = strdup(str.utf8());
+    c.text_wrk = strdup(str.toUtf8());
     if (def)
         c.icon     = def->icon;
     if (count){
@@ -1572,11 +1572,7 @@ SmileLabel::SmileLabel(const char *_id, QWidget *parent)
     QIcon icon = Icon(_id);
     QPixmap pict;
     if (!icon.pixmap(QIcon::Small, QIcon::Normal).isNull()){
-        if (!icon.isGenerated(QIcon::Large, QIcon::Normal)){
-            pict = icon.pixmap(QIcon::Large, QIcon::Normal);
-        }else{
-            pict = icon.pixmap(QIcon::Small, QIcon::Normal);
-        }
+        pict = icon.pixmap(QIcon::Small, QIcon::Normal);
     }
     setPixmap(pict);
     list<string> smiles = getIcons()->getSmile(_id);
@@ -1596,7 +1592,7 @@ void SmileLabel::mouseReleaseEvent(QMouseEvent*)
 }
 
 SmilePopup::SmilePopup(QWidget *popup)
-        : Q3Frame(popup, "smile", Qt::Popup | Qt::Tool | Qt::WA_DeleteOnClose)
+        : QFrame(popup, "smile", Qt::WType_Popup | Qt::WStyle_Customize | Qt::WStyle_Tool | Qt::WA_DeleteOnClose)
 {
     setFrameShape(PopupPanel);
     setFrameShadow(Sunken);
@@ -1612,11 +1608,7 @@ SmilePopup::SmilePopup(QWidget *popup)
         if (is.pixmap(QIcon::Small, QIcon::Normal).isNull())
             continue;
         QPixmap pict;
-        if (!is.isGenerated(QIcon::Large, QIcon::Normal)){
-            pict = is.pixmap(QIcon::Large, QIcon::Normal);
-        }else{
-            pict = is.pixmap(QIcon::Small, QIcon::Normal);
-        }
+        pict = is.pixmap(QIcon::Small, QIcon::Normal);
         s = QSize(QMAX(s.width(), pict.width()), QMAX(s.height(), pict.height()));
         nSmiles++;
     }

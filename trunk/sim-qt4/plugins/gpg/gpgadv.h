@@ -19,12 +19,11 @@
 #define _GPGADV_H
 
 #include "simapi.h"
-
 #include "gpgadvbase.h"
 
 class GpgPlugin;
 
-class GpgAdvanced : public GpgAdvancedBase
+class GpgAdvanced : public QWidget, public Ui::GpgAdvancedBase
 {
     Q_OBJECT
 public:

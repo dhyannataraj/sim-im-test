@@ -68,7 +68,7 @@ class EXPORT RadioGroup : public QGroupBox
 {
     Q_OBJECT
 public:
-    RadioGroup(QWidget *parent, const char *name);
+    RadioGroup(QWidget *parent);
     ~RadioGroup();
     bool isChecked();
     virtual void setTitle(const QString &);

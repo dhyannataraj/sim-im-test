@@ -25,7 +25,7 @@
 
 class Commands;
 
-class ToolBarSetup : public Ui_ToolBarSetupBase, public QDialog
+class ToolBarSetup : public QDialog, public Ui::ToolBarSetupBase
 {
     Q_OBJECT
 public:

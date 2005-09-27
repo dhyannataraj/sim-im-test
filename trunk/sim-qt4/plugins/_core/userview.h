@@ -20,7 +20,7 @@
 
 #include "simapi.h"
 #include "userlist.h"
-//Added by qt3to4:
+
 #include <QMouseEvent>
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
@@ -41,9 +41,9 @@ typedef struct BlinkCount
     unsigned		count;
 } BlinkCount;
 
-class UserView : public UserListBase, public QDialog
+class UserView : public UserListBase
 {
-    Q_OBJECT
+Q_OBJECT
 public:
     UserView();
     ~UserView();

@@ -23,9 +23,9 @@
 #include "spellhighlight.h"
 #include "core.h"
 
-#include <qapplication.h>
-#include <qwidget.h>
-//Added by qt3to4:
+#include <QApplication>
+#include <QWidget>
+
 #include <QEvent>
 #include <QChildEvent>
 
@@ -152,15 +152,14 @@ void SpellPlugin::activate()
         return;
     m_bActive = true;
     qApp->installEventFilter(this);
-    QWidgetList  *list = QApplication::allWidgets();
-    QWidgetListIt it( *list );
+    QList<QWidget *> list = QApplication::allWidgets();
+    QListIterator<QWidget *> it( list );
     QWidget * w;
-    while ( (w=it.current()) != 0 ){
-        ++it;
+    while ( it.hasNext() ){
+        w = it.next();
         if (w->inherits("TextEdit"))
             new PSpellHighlighter(static_cast<TextEdit*>(w), this);
     }
-    delete list;
 }
 
 void SpellPlugin::deactivate()
@@ -213,7 +212,7 @@ void SpellPlugin::textEditFinished(TextEdit *edit)
 void SpellPlugin::check(const QString &word)
 {
     for (list<Speller*>::iterator it = m_spellers.begin(); it != m_spellers.end(); ++it){
-        if ((*it)->check(word.utf8()) == 1)
+        if ((*it)->check(word.toUtf8()) == 1)
             return;
     }
     emit misspelling(word);
@@ -222,7 +221,7 @@ void SpellPlugin::check(const QString &word)
 void SpellPlugin::add(const QString &word)
 {
     for (list<Speller*>::iterator it = m_spellers.begin(); it != m_spellers.end(); ++it){
-        if ((*it)->add(word.utf8()))
+        if ((*it)->add(word.toUtf8()))
             return;
     }
 }
@@ -255,7 +254,7 @@ QStringList SpellPlugin::suggestions(const QString &word)
 {
     QStringList res;
     for (list<Speller*>::iterator it = m_spellers.begin(); it != m_spellers.end(); ++it){
-        QStringList wl = (*it)->suggestions(word.utf8());
+        QStringList wl = (*it)->suggestions(word.toUtf8());
         for (QStringList::Iterator it = wl.begin(); it != wl.end(); ++it){
             QString wrd = (*it);
             QStringList::Iterator itr;

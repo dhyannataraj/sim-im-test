@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "advsearch.h"
-//Added by qt3to4:
+
 #include <QShowEvent>
 
 extern const ext_info *p_genders;
@@ -41,6 +41,7 @@ const ext_info *p_ages = ages;
 
 AdvSearch::AdvSearch()
 {
+    setupUi( this);
     initCombo(cmbGender, 0, p_genders);
     initCombo(cmbAge, 0, ages);
     initCombo(cmbCountry, 0, getCountries(), true, getCountryCodes());
@@ -53,7 +54,7 @@ AdvSearch::AdvSearch()
 
 void AdvSearch::showEvent(QShowEvent *e)
 {
-    AdvSearchBase::showEvent(e);
+    showEvent(e);
     emit enableOptions(false);
 }
 

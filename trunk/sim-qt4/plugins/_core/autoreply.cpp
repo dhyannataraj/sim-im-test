@@ -20,14 +20,15 @@
 #include "ballonmsg.h"
 #include "editfile.h"
 
-#include <qpixmap.h>
-#include <qcheckbox.h>
-#include <qtimer.h>
-#include <qlabel.h>
+#include <QPixmap>
+#include <QCheckBox>
+#include <QTimer>
+#include <QLabel>
 
 AutoReplyDialog::AutoReplyDialog(unsigned status)
-        : AutoReplyBase(NULL, NULL, true)
+        : QDialog( NULL, Qt::WA_DeleteOnClose)
 {
+    setupUi( this);
     m_status = status;
     SET_WNDPROC("mainwnd");
     const char *text = NULL;
@@ -46,7 +47,7 @@ AutoReplyDialog::AutoReplyDialog(unsigned status)
     if (text == NULL)
         return;
     setCaption(i18n("Autoreply message") + " " + i18n(text));
-    setIcon(Pict(icon));
+    setIcon(Pict(icon).pixmap());
     m_time = 15;
     lblTime->setText(i18n("Close after %n second", "Close after %n seconds", m_time));
     m_timer = new QTimer(this);
@@ -101,8 +102,8 @@ void AutoReplyDialog::accept()
 {
     CorePlugin::m_plugin->setNoShowAutoReply(m_status, chkNoShow->isChecked() ? "1" : "");
     ARUserData *ar = (ARUserData*)(getContacts()->getUserData(CorePlugin::m_plugin->ar_data_id));
-    set_str(&ar->AutoReply, m_status, edtAutoResponse->text().utf8());
-    AutoReplyBase::accept();
+    set_str(&ar->AutoReply, m_status, edtAutoResponse->text().toUtf8());
+    accept();
 }
 
 void AutoReplyDialog::help()

@@ -20,8 +20,8 @@
 
 #include "simapi.h"
 
-#include <qimage.h>
-#include <qpixmap.h>
+#include <QImage>
+#include <QPixmap>
 
 typedef struct BackgroundData
 {

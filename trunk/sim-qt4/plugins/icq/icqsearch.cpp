@@ -21,16 +21,17 @@
 #include "aimsearch.h"
 #include "intedit.h"
 
-#include <qpushbutton.h>
-#include <qlabel.h>
+#include <QPushButton>
+#include <QLabel>
 #include <q3groupbox.h>
-#include <qcheckbox.h>
-//Added by qt3to4:
+#include <QCheckBox>
+
 #include <QShowEvent>
 
 ICQSearch::ICQSearch(ICQClient *client, QWidget *parent)
-        : ICQSearchBase(parent)
+        : QWidget( parent)
 {
+    setupUi( this);
     m_client = client;
     m_bAdv	 = false;
     m_id_icq = 0;
@@ -80,7 +81,7 @@ void ICQSearch::advDestroyed()
 
 void ICQSearch::showEvent(QShowEvent *e)
 {
-    ICQSearchBase::showEvent(e);
+    showEvent(e);
     emit setAdd(grpAOL->isChecked() || grpScreen->isChecked());
     if (m_adv && m_bAdv)
         emit showResult(m_adv);
@@ -164,9 +165,9 @@ void ICQSearch::createContact(unsigned tmpFlags, Contact *&contact)
 
 void ICQSearch::add(const QString &screen, unsigned tmpFlags, Contact *&contact)
 {
-    if (m_client->findContact(screen.utf8(), NULL, false, contact))
+    if (m_client->findContact(screen.toUtf8(), NULL, false, contact))
         return;
-    m_client->findContact(screen.utf8(), screen.utf8(), true, contact, NULL, false);
+    m_client->findContact(screen.toUtf8(), screen.toUtf8(), true, contact, NULL, false);
     contact->setFlags(contact->getFlags() | tmpFlags);
 }
 
@@ -254,19 +255,19 @@ void ICQSearch::search()
             }
         }
         m_id_aim = m_client->aimInfoSearch(
-                       adv->edtFirst->text().utf8(),
-                       adv->edtLast->text().utf8(),
-                       adv->edtMiddle->text().utf8(),
-                       adv->edtMaiden->text().utf8(),
+                       adv->edtFirst->text().toUtf8(),
+                       adv->edtLast->text().toUtf8(),
+                       adv->edtMiddle->text().toUtf8(),
+                       adv->edtMaiden->text().toUtf8(),
                        country,
-                       adv->edtStreet->text().utf8(),
-                       adv->edtCity->text().utf8(),
-                       adv->edtNick->text().utf8(),
-                       adv->edtZip->text().utf8(),
-                       adv->edtState->text().utf8());
+                       adv->edtStreet->text().toUtf8(),
+                       adv->edtCity->text().toUtf8(),
+                       adv->edtNick->text().toUtf8(),
+                       adv->edtZip->text().toUtf8(),
+                       adv->edtState->text().toUtf8());
     }else if (!m_client->m_bAIM && grpUin->isChecked() && !edtUIN->text().isEmpty()){
         m_type = UIN;
-        m_uin  = atol(edtUIN->text().latin1());
+        m_uin  = atol(edtUIN->text().toLatin1());
         icq_search();
     }else if (grpMail->isChecked() && !edtMail->text().isEmpty()){
         if (!m_client->m_bAIM){
@@ -274,7 +275,7 @@ void ICQSearch::search()
             m_mail = getContacts()->fromUnicode(0, edtMail->text());
             icq_search();
         }
-        m_id_aim = m_client->aimEMailSearch(edtMail->text().utf8());
+        m_id_aim = m_client->aimEMailSearch(edtMail->text().toUtf8());
     }else if (!m_client->m_bAIM && grpName->isChecked() &&
               (!edtFirst->text().isEmpty() || !edtLast->text().isEmpty() || !edtNick->text().isEmpty())){
         m_type = Name;
@@ -282,8 +283,8 @@ void ICQSearch::search()
         m_last		= getContacts()->fromUnicode(0, edtLast->text());
         m_nick		= getContacts()->fromUnicode(0, edtNick->text());
         icq_search();
-        m_id_aim = m_client->aimInfoSearch(edtFirst->text().utf8(), edtLast->text().utf8(), NULL,
-                                           NULL, NULL, NULL, NULL, edtNick->text().utf8(), NULL, NULL);
+        m_id_aim = m_client->aimInfoSearch(edtFirst->text().toUtf8(), edtLast->text().toUtf8(), NULL,
+                                           NULL, NULL, NULL, NULL, edtNick->text().toUtf8(), NULL, NULL);
     }
     if ((m_id_icq == 0) && (m_id_aim == 0))
         return;
@@ -325,10 +326,10 @@ void ICQSearch::searchMail(const QString &mail)
         m_type = Mail;
         m_mail = "";
         if (!mail.isEmpty())
-            m_mail = mail.utf8();
+            m_mail = static_cast<string>(mail.toUtf8());
         icq_search();
     }
-    m_id_aim = m_client->aimEMailSearch(mail.utf8());
+    m_id_aim = m_client->aimEMailSearch(mail.toUtf8());
     addColumns();
 }
 
@@ -340,14 +341,14 @@ void ICQSearch::searchName(const QString &first, const QString &last, const QStr
         m_last		= "";
         m_nick		= "";
         if (!first.isEmpty())
-            m_first		= first.utf8();
+            m_first		= static_cast<string>(first.toUtf8());
         if (!last.isEmpty())
-            m_last		= last.utf8();
+            m_last		= static_cast<string>(last.toUtf8());
         if (!nick.isEmpty())
-            m_nick		= nick.utf8();
+            m_nick		= static_cast<string>(nick.toUtf8());
         icq_search();
     }
-    m_id_aim = m_client->aimInfoSearch(first.utf8(), last.utf8(), NULL, NULL, NULL, NULL, NULL, nick.utf8(), NULL, NULL);
+    m_id_aim = m_client->aimInfoSearch(first.toUtf8(), last.toUtf8(), NULL, NULL, NULL, NULL, NULL, nick.toUtf8(), NULL, NULL);
     addColumns();
 }
 
@@ -466,9 +467,9 @@ void *ICQSearch::processEvent(Event *e)
 
 void ICQSearch::createContact(const QString &name, unsigned tmpFlags, Contact *&contact)
 {
-    if (m_client->findContact(name.utf8(), NULL, false, contact))
+    if (m_client->findContact(name.toUtf8(), NULL, false, contact))
         return;
-    if (m_client->findContact(name.utf8(), name.utf8(), true, contact, NULL, false) == NULL)
+    if (m_client->findContact(name.toUtf8(), name.toUtf8(), true, contact, NULL, false) == NULL)
         return;
     contact->setFlags(contact->getFlags() | tmpFlags);
 }

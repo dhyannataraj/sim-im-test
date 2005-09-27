@@ -17,11 +17,11 @@
 
 #include "exec.h"
 
-#include <qtimer.h>
-#include <qsocketnotifier.h>
+#include <QTimer>
+#include <QSocketNotifier>
 
 #ifdef WIN32
-#include <qthread.h>
+#include <QThread>
 #include <windows.h>
 #include <process.h>
 
@@ -523,3 +523,8 @@ void ExecManager::checkChilds()
     }
 #endif
 }
+
+#ifndef WIN32
+#include "exec.moc"
+#endif
+

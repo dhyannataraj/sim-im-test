@@ -24,7 +24,7 @@
 
 class WarningMessage;
 
-class WarnDlg : public WarnDlgBase, public EventReceiver
+class WarnDlg : public QDialog, public Ui::WarnDlgBase, public EventReceiver
 {
     Q_OBJECT
 public:
