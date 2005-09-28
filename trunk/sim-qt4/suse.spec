@@ -19,8 +19,8 @@ Summary:        SIM - Multiprotocol Instant Messenger
 Summary(de):    SIM - Multiprotokoll Instant Messenger
 License:        GPL
 Group:          X11/KDE/Network
-URL:            http://sim-icq.sourceforge.net/
-Source0:        http://osdn.dl.sourceforge.net/sim-icq/%{name}-%{version}-%{build_release}.tar.gz
+URL:            http://sim-im.berlios.de/
+Source0:        %{name}-%{version}-%{build_release}.tar.gz
 BuildRoot:      %{_tmppath}/sim-buildroot
 Distribution:   SuSE Linux %{suse_release}
 
@@ -37,7 +37,7 @@ QT-Bibliothek und X11 (mit optionaler KDE-Unterstuetzung)
 verwendet.
 
 SIM hat sehr viele Features, viele von diesen sind
-aufgelistet unter: http://sim-icq.sourceforge.net/de/
+aufgelistet unter: http://sim-im.berlios.de/
 
 %description
 SIM - Multiprotocol Instant Messenger
@@ -48,7 +48,7 @@ source instant messenger that supports various protocols
 works on X11 (with optional KDE-support).
 
 SIM has a lot of features, many of them are listed
-at: http://sim-icq.sourceforge.net/
+at: http://sim-im.berlios.de/
 
 %prep
 %setup -q

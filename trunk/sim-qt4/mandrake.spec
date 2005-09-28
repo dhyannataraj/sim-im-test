@@ -13,7 +13,7 @@ Release:	%release
 Source:		%{name}-%{version}.tar.bz2
 License:	GPL
 Group:		Networking/Instant messaging
-Url:		http://sim-icq.sourceforge.net/
+Url:		http://sim-im.berlios.de/
 BuildRoot:	%{_tmppath}/%{name}-buildroot
 Requires:	libqt3 > 3.0.4, kdelibs > 3.0, sablotron
 BuildRequires:	kdelibs-devel > 3.0
@@ -30,7 +30,7 @@ source instant messenger that supports various protocols
 on X11 (with optional KDE-support).
 
 SIM has a lot of features, many of them are listed
-at: http://sim-icq.sourceforge.net/
+at: http://sim-im.berlios.de/
 
 %package -n %libname
 Summary:	SIM library

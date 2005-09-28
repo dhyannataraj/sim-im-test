@@ -13,7 +13,7 @@ Release:   1asp
 Release:   1.%{date}.1asp
 %endif
 License:   GPL
-Url:       http://sim-icq.sourceforge.net/
+Url:       http://sim-im.berlios.de/
 Group:     Applications/Communications
 %if %{is_release}
 Source:    sim-%{version}.tar.bz2
