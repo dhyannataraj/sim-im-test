@@ -82,19 +82,15 @@ void GrpRadioButton::keyPressEvent(QKeyEvent *e)
 {
     switch (e->key()){
     case Qt::Key_Down:{
-            QRadioButton *first = NULL;
             QRadioButton *next  = NULL;
+            // queryList was deprecated!
             QObjectList l = parentWidget()->queryList("QRadioButton");
-            QObject *obj;
-            for (int i = 0; i < l.size(); ++i){
-                if (first == NULL)
-                    first = static_cast<QRadioButton*>(obj);
-                if (obj == this){
-                    if ((obj = l[i]) == NULL){
-                        next = first;
-                    }else{
-                        next = static_cast<QRadioButton*>(obj);
-                    }
+            for( QObjectList::iterator it = l.begin(); it != l.end(); it++ ) {
+                if ( *it == this ) {
+                    if ( it == l.end() )
+                        next = static_cast<QRadioButton*>(*l.begin());
+                    else
+                        next = static_cast<QRadioButton*>(*(++it));
                     break;
                 }
             }
@@ -105,13 +101,16 @@ void GrpRadioButton::keyPressEvent(QKeyEvent *e)
             return;
         }
     case Qt::Key_Up:{
-            QRadioButton *prev  = NULL;
+            QRadioButton *prev = NULL;
             QObjectList l = parentWidget()->queryList("QRadioButton");
-            QObject *obj;
-            for ( int i = 0; i < l.size(); ++i){
-                if ((obj == this) && prev)
+            for( QObjectList::iterator it = l.begin(); it != l.end(); it++ ) {
+                if ( *it == this ) {
+                    if ( it == l.begin() )
+                        prev = static_cast<QRadioButton*>(*l.end());
+                    else
+                        prev = static_cast<QRadioButton*>(*(--it));
                     break;
-                prev = static_cast<QRadioButton*>(obj);
+				}
             }
             if (prev){
                 prev->setFocus();
@@ -140,14 +139,12 @@ RadioGroup::RadioGroup(QWidget *parent) : QGroupBox(parent)
         }
     }
     connect(m_button, SIGNAL(toggled(bool)), this, SLOT(slotToggled(bool)));
+    // I realy don't know what this should be, but look yourself into original source
+    // and you'll see that this should be correct...
     QObjectList l = parentWidget()->queryList("QRadioButton");
-    QObject *obj;
-    for ( int i = 0; i < l.size(); ++i){
-        if (obj != this)
-            break;
-    }
-    if (obj == NULL)
+ 	if ( *l.begin() != this)
         m_button->setChecked(true);
+
     QTimer::singleShot(0, this, SLOT(slotToggled()));
 }
 
@@ -167,19 +164,18 @@ void RadioGroup::slotToggled()
     if (!m_bInit){
         QPushButton *btnDefault = NULL;
         QObjectList l = topLevelWidget()->queryList("QPushButton");
-        QObject *obj;
-        for ( int i = 0; i < l.size(); ++i){
-            btnDefault = static_cast<QPushButton*>(obj);
-            if (btnDefault->isDefault())
+        for( QObjectList::iterator it = l.begin(); it != l.end(); it++ ) {
+            QPushButton *btn = static_cast<QPushButton*>(*it);
+            if (btn->isDefault()) {
+                btnDefault = btn;
                 break;
-            btnDefault = NULL;
+			}
         }
         if (btnDefault){
             m_bInit = true;
             QObjectList l = parentWidget()->queryList("QLineEdit");
-            QObject *obj;
-            for (int i = 0; i < l.size(); ++i){
-                connect(obj, SIGNAL(returnPressed()), btnDefault, SLOT(animateClick()));
+            for( QObjectList::iterator it2 = l.begin(); it2 != l.end(); it2++ ) {
+                connect(*it2, SIGNAL(returnPressed()), btnDefault, SLOT(animateClick()));
             }
         }
     }
@@ -190,17 +186,17 @@ void RadioGroup::slotToggled(bool bState)
 {
     if (bState){
         QObjectList l = parentWidget()->queryList("QRadioButton");
-        QObject *obj;
-        for (int i = 0; i < l.size(); ++i){
-            if (obj != m_button)
-                static_cast<QRadioButton*>(obj)->setChecked(false);
+                for( QObjectList::iterator it = l.begin(); it != l.end(); it++ ) {
+		            QRadioButton *rb = static_cast<QRadioButton*>(*it);
+		            if ( rb != m_button )
+                rb->setChecked(false);
         }
     }else{
         bState = true;
         QObjectList l = parentWidget()->queryList("QRadioButton");
-        QObject *obj;
-        for (int i = 0; i < l.size(); ++i){
-            if (static_cast<QRadioButton*>(obj)->isChecked()){
+        for( QObjectList::iterator it = l.begin(); it != l.end(); it++ ) {
+            QRadioButton *rb = static_cast<QRadioButton*>(*it);
+            if ( rb->isChecked() ) {
                 bState = false;
                 break;
             }
@@ -209,8 +205,8 @@ void RadioGroup::slotToggled(bool bState)
             m_button->setChecked(true);
     }
     QObjectList l = queryList();
-    QObject *obj;
-    for ( int i = 0; i < l.size(); ++i){
+    for( QObjectList::iterator it = l.begin(); it != l.end(); it++ ) {
+        QObject *obj = *it;
         if (obj->inherits("QLabel") || obj->inherits("QLineEdit") || obj->inherits("QComboBox")){
             static_cast<QWidget*>(obj)->setEnabled(bState);
         }
@@ -254,7 +250,3 @@ void RadioGroup::mousePressEvent(QMouseEvent *e)
     if (e->button() == Qt::LeftButton)
         m_button->setChecked(true);
 }
-
-#ifndef _WINDOWS
-#include "intedit.moc"
-#endif
