@@ -96,6 +96,9 @@ KDE_CHECK_HEADER(qsyntaxhighlighter.h,[AC_DEFINE(HAVE_QSYNTAXHIGHLIGHTER_H,1,[Ha
 AC_DEFINE_UNQUOTED(PREFIX, "$prefix", [Install prefix])
 AC_DEFINE(USE_QT,1,[Use QT - need for libicq])
 AC_SUBST(EXTRA_LIBS)
+if test "${exec_prefix}" = "NONE" ; then
+exec_prefix=$prefix
+fi
 sim_plugindir="\${exec_prefix}/lib/sim"
 sim_stylesdir="\${exec_prefix}/lib/sim/styles"
 AC_SUBST(sim_plugindir)
