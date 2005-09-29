@@ -1,0 +1,414 @@
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>AIMInfoBase</class>
+  <widget class="QWidget" name="AIMInfoBase" >
+    <property name="geometry" stdset="0" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>477</width>
+        <height>344</height>
+      </rect>
+    </property>
+    <property name="windowTitle" stdset="0" >
+      <string>Form1</string>
+    </property>
+    <layout class="QVBoxLayout" >
+      <property name="margin" stdset="0" >
+        <number>11</number>
+      </property>
+      <property name="spacing" stdset="0" >
+        <number>6</number>
+      </property>
+      <item>
+        <widget class="QTabWidget" name="TabWidget3" >
+          <widget class="QWidget" name="tab" >
+            <attribute name="title" >
+              <string>&amp;Profile</string>
+            </attribute>
+            <layout class="QGridLayout" >
+              <property name="margin" stdset="0" >
+                <number>11</number>
+              </property>
+              <property name="spacing" stdset="0" >
+                <number>6</number>
+              </property>
+              <item row="1" column="0" >
+                <widget class="QLabel" name="TextLabel1" >
+                  <property name="text" stdset="0" >
+                    <string>First Name:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item row="2" column="0" >
+                <widget class="QLabel" name="TextLabel2" >
+                  <property name="text" stdset="0" >
+                    <string>Last Name:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item row="1" column="1" >
+                <widget class="QLineEdit" name="edtFirst" />
+              </item>
+              <item row="2" column="1" >
+                <widget class="QLineEdit" name="edtLast" />
+              </item>
+              <item row="1" column="2" >
+                <widget class="QLabel" name="TextLabel3" >
+                  <property name="text" stdset="0" >
+                    <string>Middle:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item rowspan="1" row="1" column="3" colspan="2" >
+                <widget class="QLineEdit" name="edtMiddle" />
+              </item>
+              <item row="2" column="2" >
+                <widget class="QLabel" name="TextLabel4" >
+                  <property name="text" stdset="0" >
+                    <string>Maiden:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item rowspan="1" row="2" column="3" colspan="2" >
+                <widget class="QLineEdit" name="edtMaiden" />
+              </item>
+              <item row="3" column="0" >
+                <widget class="QLabel" name="TextLabel5" >
+                  <property name="text" stdset="0" >
+                    <string>Nick:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item rowspan="1" row="3" column="1" colspan="4" >
+                <widget class="QLineEdit" name="edtNick" />
+              </item>
+              <item row="4" column="0" >
+                <widget class="QLabel" name="TextLabel6" >
+                  <property name="text" stdset="0" >
+                    <string>Street:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item rowspan="1" row="4" column="1" colspan="4" >
+                <widget class="QLineEdit" name="edtStreet" />
+              </item>
+              <item row="5" column="0" >
+                <widget class="QLabel" name="TextLabel7" >
+                  <property name="text" stdset="0" >
+                    <string>City:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item row="5" column="1" >
+                <widget class="QLineEdit" name="edtCity" />
+              </item>
+              <item row="5" column="2" >
+                <widget class="QLabel" name="TextLabel8" >
+                  <property name="text" stdset="0" >
+                    <string>State:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item row="5" column="3" >
+                <widget class="QLineEdit" name="edtState" />
+              </item>
+              <item row="5" column="4" >
+                <spacer name="Spacer4" >
+                  <property name="sizeHint" >
+                    <size>
+                      <width>20</width>
+                      <height>20</height>
+                    </size>
+                  </property>
+                  <property name="sizeType" >
+                    <enum>Expanding</enum>
+                  </property>
+                  <property name="orientation" >
+                    <enum>Horizontal</enum>
+                  </property>
+                </spacer>
+              </item>
+              <item row="6" column="0" >
+                <widget class="QLabel" name="TextLabel9" >
+                  <property name="text" stdset="0" >
+                    <string>Zip:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item row="6" column="1" >
+                <widget class="QLineEdit" name="edtZip" />
+              </item>
+              <item row="7" column="0" >
+                <widget class="QLabel" name="TextLabel10" >
+                  <property name="text" stdset="0" >
+                    <string>Country:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item rowspan="1" row="7" column="1" colspan="4" >
+                <layout class="QHBoxLayout" >
+                  <property name="margin" stdset="0" >
+                    <number>0</number>
+                  </property>
+                  <property name="spacing" stdset="0" >
+                    <number>6</number>
+                  </property>
+                  <item>
+                    <widget class="QComboBox" name="cmbCountry" />
+                  </item>
+                  <item>
+                    <spacer name="Spacer5" >
+                      <property name="sizeHint" >
+                        <size>
+                          <width>20</width>
+                          <height>20</height>
+                        </size>
+                      </property>
+                      <property name="sizeType" >
+                        <enum>Expanding</enum>
+                      </property>
+                      <property name="orientation" >
+                        <enum>Horizontal</enum>
+                      </property>
+                    </spacer>
+                  </item>
+                </layout>
+              </item>
+              <item row="0" column="0" >
+                <widget class="QLabel" name="TextLabel1_2" >
+                  <property name="text" stdset="0" >
+                    <string>ScreenName:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item rowspan="1" row="0" column="1" colspan="4" >
+                <widget class="QLineEdit" name="edtScreen" />
+              </item>
+              <item row="10" column="0" >
+                <spacer name="Spacer6" >
+                  <property name="sizeHint" >
+                    <size>
+                      <width>20</width>
+                      <height>20</height>
+                    </size>
+                  </property>
+                  <property name="sizeType" >
+                    <enum>Expanding</enum>
+                  </property>
+                  <property name="orientation" >
+                    <enum>Vertical</enum>
+                  </property>
+                </spacer>
+              </item>
+            </layout>
+          </widget>
+          <widget class="QWidget" name="tab" >
+            <attribute name="title" >
+              <string>&amp;Status</string>
+            </attribute>
+            <layout class="QGridLayout" >
+              <property name="margin" stdset="0" >
+                <number>11</number>
+              </property>
+              <property name="spacing" stdset="0" >
+                <number>6</number>
+              </property>
+              <item row="5" column="1" >
+                <widget class="QLineEdit" name="edtClient" />
+              </item>
+              <item row="4" column="1" >
+                <widget class="QLineEdit" name="edtIntIP" />
+              </item>
+              <item row="1" column="0" >
+                <widget class="QLabel" name="lblOnline" >
+                  <property name="text" stdset="0" >
+                    <string>Online:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item row="1" column="1" >
+                <widget class="QLineEdit" name="edtOnline" />
+              </item>
+              <item row="3" column="1" >
+                <widget class="QLineEdit" name="edtExtIP" />
+              </item>
+              <item row="3" column="0" >
+                <widget class="QLabel" name="lblExtIP" >
+                  <property name="text" stdset="0" >
+                    <string>External IP:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item row="2" column="1" >
+                <widget class="QLineEdit" name="edtNA" >
+                  <property name="font" stdset="0" >
+                    <font>
+                      <family></family>
+                      <pointsize>0</pointsize>
+                      <weight>0</weight>
+                      <italic>false</italic>
+                      <bold>false</bold>
+                      <underline>false</underline>
+                      <strikeout>false</strikeout>
+                    </font>
+                  </property>
+                </widget>
+              </item>
+              <item row="5" column="0" >
+                <widget class="QLabel" name="lblClient" >
+                  <property name="text" stdset="0" >
+                    <string>Client:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item row="0" column="0" >
+                <widget class="QLabel" name="TextLabel1_3" >
+                  <property name="text" stdset="0" >
+                    <string>Status:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item row="0" column="1" >
+                <widget class="QComboBox" name="cmbStatus" />
+              </item>
+              <item row="2" column="0" >
+                <widget class="QLabel" name="lblNA" >
+                  <property name="text" stdset="0" >
+                    <string/>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item row="4" column="0" >
+                <widget class="QLabel" name="lblIntIP" >
+                  <property name="text" stdset="0" >
+                    <string>Internal IP:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item rowspan="1" row="6" column="0" colspan="2" >
+                <widget class="Q3MultiLineEdit" name="edtAutoReply" />
+              </item>
+              <item row="7" column="1" >
+                <spacer name="Spacer4_2" >
+                  <property name="sizeHint" >
+                    <size>
+                      <width>20</width>
+                      <height>20</height>
+                    </size>
+                  </property>
+                  <property name="sizeType" >
+                    <enum>Expanding</enum>
+                  </property>
+                  <property name="orientation" >
+                    <enum>Vertical</enum>
+                  </property>
+                </spacer>
+              </item>
+            </layout>
+          </widget>
+        </widget>
+      </item>
+    </layout>
+  </widget>
+  <pixmapfunction></pixmapfunction>
+  <customwidgets>
+    <customwidget>
+      <class>QWidget</class>
+      <extends></extends>
+      <header location="global" >qwidget.h</header>
+      <sizehint>
+        <width>-1</width>
+        <height>-1</height>
+      </sizehint>
+      <container>0</container>
+      <sizepolicy>
+        <hordata>5</hordata>
+        <verdata>5</verdata>
+      </sizepolicy>
+      <pixmap>image0</pixmap>
+      <properties>
+        <property type="String" >text</property>
+      </properties>
+    </customwidget>
+  </customwidgets>
+  <tabstops>
+    <tabstop>TabWidget3</tabstop>
+    <tabstop>edtScreen</tabstop>
+    <tabstop>edtFirst</tabstop>
+    <tabstop>edtLast</tabstop>
+    <tabstop>edtMiddle</tabstop>
+    <tabstop>edtMaiden</tabstop>
+    <tabstop>edtNick</tabstop>
+    <tabstop>edtStreet</tabstop>
+    <tabstop>edtCity</tabstop>
+    <tabstop>edtState</tabstop>
+    <tabstop>edtZip</tabstop>
+    <tabstop>cmbCountry</tabstop>
+    <tabstop>edtClient</tabstop>
+    <tabstop>edtIntIP</tabstop>
+    <tabstop>edtOnline</tabstop>
+    <tabstop>edtExtIP</tabstop>
+    <tabstop>edtNA</tabstop>
+    <tabstop>cmbStatus</tabstop>
+    <tabstop>edtAutoReply</tabstop>
+  </tabstops>
+  <images>
+    <image name="image0" >
+      <data format="XPM.GZ" length="646" >789c6dd2c10ac2300c00d07bbf2234b7229d1be245fc04c5a3201e4615f430059d0711ff5ddb2e6bb236ec90eed134cb5a19d8ef36602af5ecdbfeeac05dda0798d3abebde87e3faa374d3807fa0d633a52d38d8de6f679fe33fc776e196f53cd010188256a3600a292882096246517815ca99884606e18044a3a40d91824820924265a7923a2e8bcd05f33db1173e002913175f2a6be6d3294871a2d95fa00e8a94ee017b69d339d90df1e77c57ea072ede6758</data>
+    </image>
+  </images>
+</ui>

@@ -1,0 +1,165 @@
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>EditPhoneBase</class>
+  <widget class="QDialog" name="EditPhoneBase" >
+    <property name="geometry" stdset="0" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>402</width>
+        <height>242</height>
+      </rect>
+    </property>
+    <property name="windowTitle" stdset="0" >
+      <string>EditPhone</string>
+    </property>
+    <property name="sizeGripEnabled" stdset="0" >
+      <bool>true</bool>
+    </property>
+    <layout class="QVBoxLayout" >
+      <property name="margin" stdset="0" >
+        <number>11</number>
+      </property>
+      <property name="spacing" stdset="0" >
+        <number>6</number>
+      </property>
+      <item>
+        <widget class="QLabel" name="TextLabel2" >
+          <property name="text" stdset="0" >
+            <string>Number details:</string>
+          </property>
+        </widget>
+      </item>
+      <item>
+        <widget class="QLineEdit" name="edtDetails" />
+      </item>
+      <item>
+        <layout class="QHBoxLayout" >
+          <property name="margin" stdset="0" >
+            <number>0</number>
+          </property>
+          <property name="spacing" stdset="0" >
+            <number>6</number>
+          </property>
+          <item>
+            <widget class="QLabel" name="TextLabel3" >
+              <property name="text" stdset="0" >
+                <string>Type:</string>
+              </property>
+              <property name="alignment" stdset="0" >
+                <set>Qt::AlignVCenter|Qt::AlignRight</set>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QComboBox" name="cmbType" />
+          </item>
+          <item>
+            <widget class="QComboBox" name="cmbName" >
+              <property name="sizePolicy" stdset="0" >
+                <sizepolicy>
+                  <hsizetype>7</hsizetype>
+                  <vsizetype>0</vsizetype>
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                </sizepolicy>
+              </property>
+            </widget>
+          </item>
+        </layout>
+      </item>
+      <item>
+        <widget class="Q3WidgetStack" name="wndDetails" />
+      </item>
+      <item>
+        <widget class="QCheckBox" name="chkPublish" >
+          <property name="text" stdset="0" >
+            <string>&amp;Publish</string>
+          </property>
+        </widget>
+      </item>
+      <item>
+        <layout class="QHBoxLayout" >
+          <property name="margin" stdset="0" >
+            <number>0</number>
+          </property>
+          <property name="spacing" stdset="0" >
+            <number>6</number>
+          </property>
+          <item>
+            <spacer name="Horizontal Spacing2" >
+              <property name="sizeHint" >
+                <size>
+                  <width>20</width>
+                  <height>20</height>
+                </size>
+              </property>
+              <property name="sizeType" >
+                <enum>Expanding</enum>
+              </property>
+              <property name="orientation" >
+                <enum>Horizontal</enum>
+              </property>
+            </spacer>
+          </item>
+          <item>
+            <widget class="QPushButton" name="buttonOk" >
+              <property name="text" stdset="0" >
+                <string>&amp;OK</string>
+              </property>
+              <property name="autoDefault" stdset="0" >
+                <bool>true</bool>
+              </property>
+              <property name="default" stdset="0" >
+                <bool>true</bool>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QPushButton" name="buttonCancel" >
+              <property name="text" stdset="0" >
+                <string>&amp;Cancel</string>
+              </property>
+              <property name="autoDefault" stdset="0" >
+                <bool>true</bool>
+              </property>
+            </widget>
+          </item>
+        </layout>
+      </item>
+    </layout>
+  </widget>
+  <pixmapfunction></pixmapfunction>
+  <customwidgets>
+    <customwidget>
+      <class>QWidgetStack</class>
+      <extends></extends>
+      <header location="local" >qwidgetstack.h</header>
+      <sizehint>
+        <width>-1</width>
+        <height>-1</height>
+      </sizehint>
+      <container>1</container>
+      <sizepolicy>
+        <hordata>7</hordata>
+        <verdata>7</verdata>
+      </sizepolicy>
+      <pixmap>image0</pixmap>
+    </customwidget>
+  </customwidgets>
+  <tabstops>
+    <tabstop>edtDetails</tabstop>
+    <tabstop>cmbType</tabstop>
+    <tabstop>cmbName</tabstop>
+    <tabstop>chkPublish</tabstop>
+    <tabstop>buttonOk</tabstop>
+    <tabstop>buttonCancel</tabstop>
+  </tabstops>
+  <images>
+    <image name="image0" >
+      <data format="XPM.GZ" length="646" >789c6dd2c10ac2300c00d07bbf2234b7229d1ddec44f503c0ae2a154410f53d0ed20e2bf6bdb656dd6861dd23d9a66591b0587fd1654235ebded6f0edcd53e419d87ae7b1f4f9b8f906d0bfe012317426a70b07bdc2f3ec77f8ed6b89559061a0343d06a124cc105596482585094bc0ae599b04646c9018926491b2205e140c485cace25755c175d0a967b622ff900b8cc9c7d29af594ea722d589167f813aa852ba07d94b9dce296e883fe7bb163f23896753</data>
+    </image>
+  </images>
+</ui>
