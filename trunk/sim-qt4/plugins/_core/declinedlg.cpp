@@ -21,8 +21,9 @@
 #include <QLineEdit>
 
 DeclineDlg::DeclineDlg(Message *msg)
-        : QDialog( NULL, Qt::WA_DeleteOnClose)
+        : QDialog( NULL)
 {
+    setAttribute( Qt::WA_DeleteOnClose);
     setupUi( this);
     m_msg = msg;
     SET_WNDPROC("decline")

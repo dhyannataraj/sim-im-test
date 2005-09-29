@@ -1592,8 +1592,9 @@ void SmileLabel::mouseReleaseEvent(QMouseEvent*)
 }
 
 SmilePopup::SmilePopup(QWidget *popup)
-        : QFrame(popup, "smile", Qt::WType_Popup | Qt::WStyle_Customize | Qt::WStyle_Tool | Qt::WA_DeleteOnClose)
+        : QFrame(popup, "smile", Qt::Popup | Qt::Tool )
 {
+    setAttribute(Qt::WA_DeleteOnClose);
     setFrameShape(PopupPanel);
     setFrameShadow(Sunken);
     QSize s;

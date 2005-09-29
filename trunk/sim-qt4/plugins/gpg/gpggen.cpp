@@ -29,8 +29,9 @@
 #include <qlabel.h>
 
 GpgGen::GpgGen(GpgCfg *cfg)
-        : QDialog( NULL, Qt::WA_ShowModal)
+        : QDialog( NULL)
 {
+    this->setAttribute( Qt::WA_ShowModal);
     setupUi( this);
     SET_WNDPROC("genkey")
     setIcon(Pict("encrypted").pixmap());

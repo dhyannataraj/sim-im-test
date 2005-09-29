@@ -35,8 +35,9 @@
 #include <QDesktopWidget>
 
 LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const char *loginProfile)
-        : QDialog( NULL, Qt::WA_DeleteOnClose)
+        : QDialog( NULL)
 {
+    this->setAttribute( Qt::WA_DeleteOnClose);
     setupUi( this);
     m_bInit  = bInit;
     m_bProfileChanged = false;

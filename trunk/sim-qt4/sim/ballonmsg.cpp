@@ -117,13 +117,11 @@ EXPORT QPixmap& intensity(QPixmap &pict, float percent)
 
 BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWidget *parent, const QRect *rcParent,
                        bool bModal, bool bAutoHide, unsigned bwidth, const QString &box_msg, bool *bChecked)
-        : QDialog(parent,
-		(bAutoHide ? Qt::Popup : Qt::Window | Qt::WindowStaysOnTopHint)
-                  | Qt::FramelessWindowHint | Qt::Tool | Qt::X11BypassWindowManagerHint)
- {
-	setAttribute( Qt::WA_DeleteOnClose );
+        : QDialog(parent, (bAutoHide ? Qt::Popup : Qt::Window | Qt::WindowStaysOnTopHint) | Qt::FramelessWindowHint | Qt::Tool | Qt::X11BypassWindowManagerHint)
+{
+    this->setAttribute(Qt::WA_DeleteOnClose);
     this->setModal(bModal);
-	m_param = param;
+    m_param = param;
     m_parent = parent;
     m_width = bwidth;
     m_bAutoHide = bAutoHide;

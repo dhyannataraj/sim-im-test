@@ -34,8 +34,9 @@ extern DataDef jabberUserData[];
 
 DiscoInfo::DiscoInfo(JabberBrowser *browser, const QString &features,
                      const QString &name, const QString &type, const QString &category)
-        : QDialog( NULL, Qt::WA_DeleteOnClose)
+        : QDialog( NULL)
 {
+    setAttribute( Qt::WA_DeleteOnClose);
     setupUi( this);
     m_browser = browser;
     SET_WNDPROC("jbrowser")

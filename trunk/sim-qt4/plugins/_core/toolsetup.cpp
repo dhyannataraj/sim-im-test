@@ -25,8 +25,9 @@
 #include <QPixmap>
 
 ToolBarSetup::ToolBarSetup(Commands *bars, CommandsDef *def)
-        : QDialog( NULL, Qt::WA_DeleteOnClose)
+        : QDialog( NULL)
 {
+    this->setAttribute( Qt::WA_DeleteOnClose);
     setupUi( this);
     SET_WNDPROC("configure")
     setIcon(Pict("configure").pixmap());

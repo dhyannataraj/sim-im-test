@@ -38,8 +38,9 @@
 const unsigned BROWSE_INFO	= 8;
 
 JabberWizard::JabberWizard(QWidget *parent, const QString &title, const char *icon, JabberClient *client, const char *jid, const char *node, const char *type)
-        : Q3Wizard(parent, NULL, FALSE, Qt::WType_TopLevel | Qt::WA_DeleteOnClose)
+        : Q3Wizard(parent, NULL, FALSE, Qt::Window)
 {
+    this->setAttribute(Qt::WA_DeleteOnClose);
     m_type = type;
     m_search = new JabberSearch;
     m_search->init(this, client, jid, node, title, m_type == "register");

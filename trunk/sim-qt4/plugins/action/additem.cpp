@@ -25,8 +25,9 @@
 #include <QPushButton>
 
 AddItem::AddItem(QWidget *parent)
-        : QDialog( parent, Qt::WA_ShowModal)
+        : QDialog( parent)
 {
+    setAttribute(Qt::WA_ShowModal);
     setupUi( this);
     SET_WNDPROC("additem")
     setIcon(Pict("run").pixmap());

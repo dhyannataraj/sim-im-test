@@ -196,8 +196,9 @@ void FileTransferDlgNotify::resume()
 }
 
 FileTransferDlg::FileTransferDlg(FileMessage *msg)
-        : QDialog( NULL, Qt::WA_DeleteOnClose)
+        : QDialog( NULL)
 {
+    setAttribute( Qt::WA_DeleteOnClose);
     setupUi( this);
     m_msg = msg;
     SET_WNDPROC("filetransfer")

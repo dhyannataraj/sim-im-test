@@ -25,8 +25,9 @@
 class ICQClient;
 
 EncodingDlg::EncodingDlg(QWidget *parent, ICQClient *client)
-        : QDialog( parent, Qt::WA_ShowModal)
+        : QDialog( parent)
 {
+    setAttribute( Qt::WA_ShowModal);
     setupUi( this);
     SET_WNDPROC("encoding")
     setIcon(Pict("encoding").pixmap());

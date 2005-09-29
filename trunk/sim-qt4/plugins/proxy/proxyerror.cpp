@@ -26,8 +26,9 @@
 #include <QBoxLayout>
 
 ProxyError::ProxyError(ProxyPlugin *plugin, TCPClient *client, const char *msg)
-        : QDialog( NULL, Qt::WA_DeleteOnClose)
+        : QDialog( NULL)
 {
+    setAttribute( Qt::WA_DeleteOnClose);
     setupUi( this);
     SET_WNDPROC("proxy")
     setIcon(Pict("error").pixmap());

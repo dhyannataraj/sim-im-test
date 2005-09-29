@@ -28,8 +28,9 @@
 #include <QTimer>
 
 WarnDlg::WarnDlg(QWidget *parent, ICQUserData *data, ICQClient *client)
-        : QDialog( parent, Qt::WA_DeleteOnClose)
+        : QDialog( parent)
 {
+    setAttribute( Qt::WA_DeleteOnClose);
     setupUi( this);
     SET_WNDPROC("warn")
     setIcon(Pict("error").pixmap());

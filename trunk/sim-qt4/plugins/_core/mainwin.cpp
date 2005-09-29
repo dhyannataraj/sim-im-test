@@ -80,10 +80,7 @@ void MainWindowWidget::childEvent(QChildEvent *e)
 }
 
 MainWindow::MainWindow()
-        : Q3MainWindow(NULL, "mainwnd",
-                      Qt::WType_TopLevel | Qt::WStyle_Customize |
-                      Qt::WStyle_Title | Qt::WStyle_NormalBorder| Qt::WStyle_SysMenu),
-        EventReceiver(LowestPriority)
+        : Q3MainWindow(NULL, "mainwnd", Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint), EventReceiver(LowestPriority)
 {
     m_grip	 = NULL;
     h_lay	 = NULL;

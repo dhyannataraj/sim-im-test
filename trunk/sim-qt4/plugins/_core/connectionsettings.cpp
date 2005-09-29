@@ -23,8 +23,9 @@
 #include <QVBoxLayout>
 
 ConnectionSettings::ConnectionSettings(Client *client)
-        : QDialog( NULL, Qt::WA_DeleteOnClose)
+        : QDialog( NULL)
 {
+    this->setAttribute( Qt::WA_DeleteOnClose);
     setupUi( this);
     SET_WNDPROC("client")
     setButtonsPict(this);

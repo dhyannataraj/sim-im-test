@@ -135,7 +135,7 @@ QString FontEdit::font2str(const QFont &f, bool use_tr)
 QFont FontEdit::str2font(const char *str, const QFont &def)
 {
     QFont f(def);
-    QStringList l = QStringList::split(QRegExp(" *, *"), QString::fromLocal8Bit(str));
+    QStringList l = QString::fromLocal8Bit(str).split(QRegExp(" *, *"), QString::SkipEmptyParts);
     if (l.count() == 0) return f;
     int weight = QFont::Normal;
     bool italic    = false;

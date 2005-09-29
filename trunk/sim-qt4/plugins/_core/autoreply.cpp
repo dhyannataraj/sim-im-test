@@ -26,8 +26,9 @@
 #include <QLabel>
 
 AutoReplyDialog::AutoReplyDialog(unsigned status)
-        : QDialog( NULL, Qt::WA_DeleteOnClose)
+        : QDialog( NULL)
 {
+    setAttribute( Qt::WA_DeleteOnClose);
     setupUi( this);
     m_status = status;
     SET_WNDPROC("mainwnd");

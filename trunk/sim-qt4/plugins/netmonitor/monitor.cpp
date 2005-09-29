@@ -47,7 +47,7 @@ const int mnuPause = 9;
 MonitorWindow *monitor = NULL;
 
 MonitorWindow::MonitorWindow(NetmonitorPlugin *plugin)
-        : Q3MainWindow(NULL, "monitor", Qt::WType_TopLevel)
+        : Q3MainWindow(NULL, "monitor", Qt::Window)
 {
     bPause = true;  // no debug output during creation
     m_plugin = plugin;

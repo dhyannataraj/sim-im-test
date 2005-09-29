@@ -162,7 +162,7 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
         prevH = s.height();
         if (totalH == 0){
             totalH = prevH;
-            l = QStringList::split(DIV, m_text);
+            l = m_text.split(DIV, QString::SkipEmptyParts);
             unsigned i = 0;
             for (QStringList::Iterator it = l.begin(); it != l.end(); ++it, i++){
                 Q3SimpleRichText richText(*it, font(), "", Q3StyleSheet::defaultSheet(), Q3MimeSourceFactory::defaultFactory(), -1, Qt::blue, false);

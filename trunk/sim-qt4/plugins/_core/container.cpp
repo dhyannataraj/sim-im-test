@@ -125,7 +125,7 @@ Container::Container(unsigned id, const char *cfg)
     m_tabBar	= NULL;
 
     SET_WNDPROC("container")
-    setWindowFlags(Qt::WA_DeleteOnClose);
+    setAttribute(Qt::WA_DeleteOnClose);
 
     if (cfg && *cfg){
         Buffer config;
@@ -879,30 +879,12 @@ UserTabBar::UserTabBar(QWidget *parent) : QTabBar(parent)
 
 UserWnd *UserTabBar::wnd(unsigned id)
 {
-/* commented until I'll know, what to do with QTab porting
-    layoutTabs();
-    QList<QTab> *tList = tabList();
-    for (QTab *t = tList->first(); t; t = tList->next()){
-        UserTab *tab = static_cast<UserTab*>(t);
-        if (tab->wnd()->id() == id)
-            return tab->wnd();
-    }
-*/
     return NULL;
 }
 
 void UserTabBar::raiseTab(unsigned id)
 {
-/* commented until I'll know, what to do with QTab porting
-    QList<QTab> *tList = tabList();
-    for (QTab *t = tList->first(); t; t = tList->next()){
-        UserTab *tab = static_cast<UserTab*>(t);
-        if (tab->wnd()->id() == id){
-            setCurrentTab(tab);
-            return;
-        }
-    }
-*/
+    this->setCurrentIndex(id);
 }
 
 list<UserWnd*> UserTabBar::windows()
@@ -924,33 +906,12 @@ list<UserWnd*> UserTabBar::windows()
 
 void UserTabBar::setCurrent(unsigned n)
 {
-/* commented until I'll know, what to do with QTab porting
-    n++;
-    unsigned m = 0;
-    for (unsigned i = 0; (m < (unsigned)count()) && (n > 0); i++){
-        QTab *t = tab(i);
-        if (t == NULL)
-            continue;
-        m++;
-        if (--n == 0){
-            setCurrentTab(t);
-        }
-    }
-*/
+    this->setCurrentIndex(n);
 }
 
 unsigned UserTabBar::current()
 {
-    unsigned n = 0;
-/* commented until I'll know, what to do with QTab porting
-
-    for (unsigned i = 0; i < (unsigned)currentTab(); i++){
-        if (tab(i) == NULL)
-            continue;
-        n++;
-    }
-*/
-    return n;
+    return this->currentIndex();
 }
 
 void UserTabBar::slotRepaint()
@@ -992,7 +953,7 @@ void UserTabBar::changeTab(unsigned id)
 */
 }
 
-void UserTabBar::paintLabel(QPainter *p, const QRect &rc, QTabBar *t, bool bFocusRect) const
+void UserTabBar::paintLabel(QPainter *p, const QRect &rc, QString *t, bool bFocusRect) const
 {
 /* commented until I'll know, what to do with QTab porting
     UserTab *tab = static_cast<UserTab*>(t);

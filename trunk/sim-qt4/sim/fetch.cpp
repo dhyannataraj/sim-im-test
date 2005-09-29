@@ -30,7 +30,6 @@
 #include <QThread>
 #include <QTimer>
 #include <QCoreApplication>
-//Added by qt3to4:
 #include <QCustomEvent>
 #include <QEvent>
 

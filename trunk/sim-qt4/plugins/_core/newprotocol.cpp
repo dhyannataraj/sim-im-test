@@ -83,7 +83,6 @@ NewProtocol::NewProtocol(QWidget *parent)
     }
     connect(cmbProtocol, SIGNAL(activated(int)), this, SLOT(protocolChanged(int)));
     cmbProtocol->setCurrentItem(0);
-    protocolChanged(0);
     connect(this, SIGNAL(selected(const QString&)), this, SLOT(pageChanged(const QString&)));
 }
 

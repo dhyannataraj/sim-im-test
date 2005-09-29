@@ -23,8 +23,9 @@
 #include <QCheckBox>
 
 EditMail::EditMail(QWidget *parent, const QString &mail, bool bPublish, bool bShowPublish)
-        : QDialog( parent, Qt::WA_DeleteOnClose)
+        : QDialog( parent)
 {
+    this->setAttribute( Qt::WA_DeleteOnClose);
     setupUi( this);
     SET_WNDPROC("editmail")
     setIcon(Pict("mail_generic").pixmap());

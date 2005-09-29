@@ -26,8 +26,9 @@
 #include <QLabel>
 
 SecureDlg::SecureDlg(ICQClient *client, unsigned contact, struct ICQUserData *data)
-        : QDialog( NULL, Qt::WA_DeleteOnClose)
+        : QDialog( NULL)
 {
+    setAttribute( Qt::WA_DeleteOnClose);
     setupUi( this);
     SET_WNDPROC("secure")
     setIcon(Pict("encrypted").pixmap());

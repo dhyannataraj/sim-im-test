@@ -248,8 +248,7 @@ KAboutData::translators() const
     QString names = i18n(d->translatorName);
     if(names != QString::fromUtf8(d->translatorName))
     {
-        nameList = names.split(",", QString::SkipEmptyParts);
-
+        nameList = names.split(',', QString::SkipEmptyParts);
     }
 
 
@@ -259,7 +258,7 @@ KAboutData::translators() const
 
         if(emails != QString::fromUtf8(d->translatorEmail))
         {
-            emailList = emails.split(',');
+            emailList = emails.split(',', QString::SkipEmptyParts);
         }
     }
 
