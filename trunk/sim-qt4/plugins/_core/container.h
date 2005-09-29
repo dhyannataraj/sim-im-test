@@ -84,7 +84,7 @@ protected:
     virtual void layoutTabs();
     virtual void mousePressEvent(QMouseEvent *e);
     virtual void resizeEvent(QResizeEvent *e);
-    virtual void paintLabel(QPainter *p, const QRect &rc, QTab *t, bool bFocus) const;
+    virtual void paintLabel(QPainter *p, const QRect &rc, QString *t, bool bFocus) const;
 };
 
 class Container : public Q3MainWindow, public EventReceiver
