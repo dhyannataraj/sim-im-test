@@ -30,6 +30,7 @@
 #include <QThread>
 #include <QTimer>
 #include <QCoreApplication>
+//Added by qt3to4:
 #include <QCustomEvent>
 #include <QEvent>
 
@@ -1093,3 +1094,7 @@ string get_user_agent()
 {
     return FetchManager::manager->user_agent;
 }
+
+#ifndef WIN32
+#include "fetch.moc"
+#endif

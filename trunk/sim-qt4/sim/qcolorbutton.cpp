@@ -85,3 +85,6 @@ void QColorButton::chooseColor()
 }
 #endif
 
+#ifndef WIN32
+#include "qcolorbutton.moc"
+#endif

@@ -250,3 +250,7 @@ void RadioGroup::mousePressEvent(QMouseEvent *e)
     if (e->button() == Qt::LeftButton)
         m_button->setChecked(true);
 }
+
+#ifndef WIN32
+#include "intedit.moc"
+#endif
