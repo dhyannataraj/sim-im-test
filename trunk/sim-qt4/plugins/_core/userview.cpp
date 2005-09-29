@@ -1019,8 +1019,23 @@ void UserView::doClick()
 void UserView::keyPressEvent(QKeyEvent *e)
 {
     if (CorePlugin::m_plugin->getUseDblClick() || m_searchItem){
-        if (m_searchItem)
+        if (m_searchItem) {
+            int store = 0;
+            list<Q3ListViewItem*> items;
+  	    list<Q3ListViewItem*>::iterator it;
+  	    search(items);
+  	    if (!items.empty()) {
+  	        for (it = items.begin(); it != items.end(); ++it)
+  	             if (*it == m_searchItem) {
+  	                    store = 1;
+  	             }
+  	             if (!store) m_searchItem = items.front();
+  	    } else {
+  	           m_search = "";
+  	           m_searchItem = NULL;
+  	    }
             setCurrentItem(m_searchItem);
+  	}
         switch (e->key()){
         case Qt::Key_Return:
         case Qt::Key_Enter:
