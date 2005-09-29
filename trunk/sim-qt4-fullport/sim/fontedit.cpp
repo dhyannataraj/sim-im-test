@@ -31,7 +31,7 @@
 #include <QFontDialog>
 #endif
 
-FontEdit::FontEdit(QWidget *parent, const char *name) : QFrame(parent, name)
+FontEdit::FontEdit(QWidget *parent, const char *name) : QFrame(parent)
 {
     QHBoxLayout *lay = new QHBoxLayout(this);
     lblFont = new QLabel("...", this);
@@ -172,7 +172,7 @@ QFont FontEdit::str2font(const char *str, const QFont &def)
             weight = QFont::Black;
             continue;
         }
-        int p = s.find(QRegExp("[0-9]+ *pt"));
+        int p = s.indexOf(QRegExp("[0-9]+ *pt"));
         if (p >= 0){
             s = s.mid(p);
             int size = atol(s.toLatin1());
@@ -180,7 +180,7 @@ QFont FontEdit::str2font(const char *str, const QFont &def)
                 f.setPointSize(size);
             continue;
         }
-        p = s.find(QRegExp("[0-9]+ *pix"));
+        p = s.indexOf(QRegExp("[0-9]+ *pix"));
         if (p >= 0){
             s = s.mid(p);
             int size = atol(s.toLatin1());

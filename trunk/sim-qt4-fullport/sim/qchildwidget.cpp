@@ -23,9 +23,11 @@
 #include <QEvent>
 #include <QPaintEvent>
 #include <QChildEvent>
+#include <QPalette>
+#include <QBrush>
 
 QChildWidget::QChildWidget(QWidget *parent, const char *name)
-        : QWidget(parent, name, Qt::WNoAutoErase)
+        : QWidget(parent)
 {
     m_bInit = false;
 }
@@ -45,12 +47,12 @@ void QChildWidget::childEvent(QChildEvent *e)
 void QChildWidget::paintEvent(QPaintEvent*)
 {
     for (QWidget *p = parentWidget(); p; p = p->parentWidget()){
-        const QPixmap *bg = p->backgroundPixmap();
-        if (bg){
+        QPixmap bg = p->palette().background().texture();
+        if (! bg.isNull()){
             QPoint pos = mapToGlobal(QPoint(0, 0));
             pos = p->mapFromGlobal(pos);
             QPainter pp(this);
-            pp.drawTiledPixmap(0, 0, width(), height(), *bg, pos.x(), pos.y());
+            pp.drawTiledPixmap(0, 0, width(), height(), bg, pos.x(), pos.y());
             return;
         }
         if (p == topLevelWidget())
@@ -65,8 +67,8 @@ bool QChildWidget::eventFilter(QObject *o, QEvent *e)
     if (e->type() == QEvent::Paint){
         QWidget *w = static_cast<QWidget*>(o);
         for (QWidget *p = parentWidget(); p; p = p->parentWidget()){
-            const QPixmap *bg = p->backgroundPixmap();
-            if (bg){
+            QPixmap bg = p->palette().background().texture();
+            if (! bg.isNull()){
                 QPoint pos = w->mapToGlobal(QPoint(0, 0));
                 pos = p->mapFromGlobal(pos);
                 QRect rc(pos.x(), pos.y(), w->width(), w->height());
@@ -74,13 +76,15 @@ bool QChildWidget::eventFilter(QObject *o, QEvent *e)
                     rcChild = rc;
                     QPixmap new_bg(w->width(), w->height());
                     QPainter pp(&new_bg);
-                    pp.drawTiledPixmap(0, 0, w->width(), w->height(), *bg, pos.x(), pos.y());
+                    pp.drawTiledPixmap(0, 0, w->width(), w->height(), bg, pos.x(), pos.y());
                     pp.end();
-                    w->setBackgroundPixmap(new_bg);
+		    QPalette palette;
+		    palette.setBrush(w->backgroundRole(), QBrush( new_bg));
+                    w->setPalette(palette);
                 }
-                if (w->backgroundPixmap()){
+                if (! w->palette().background().texture().isNull()){
                     QPainter pp(w);
-                    pp.drawPixmap(0, 0, *w->backgroundPixmap());
+                    pp.drawPixmap(0, 0, w->palette().background().texture());
                 }
                 return true;
             }

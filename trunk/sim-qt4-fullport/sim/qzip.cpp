@@ -131,7 +131,7 @@ bool UnZip::readFile(const QString &fname, QByteArray *buf, int max)
         return false;
 
     QByteArray a(0);
-    QByteArray chunk(16384);
+    QByteArray chunk(16384, NULL);
     for(;;){
         err = unzReadCurrentFile(d->uf, chunk.data(), chunk.size());
         if(err < 0) {

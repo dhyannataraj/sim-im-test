@@ -33,8 +33,6 @@
 
 using namespace std;
 
-class Q3MimeSourceFactory;
-
 namespace SIM
 {
 

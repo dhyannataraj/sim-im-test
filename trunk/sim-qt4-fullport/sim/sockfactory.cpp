@@ -36,11 +36,6 @@
 
 #include <QFile>
 #include <QRegExp>
-#include <q3socket.h>
-#include <q3socketdevice.h>
-#include <QSocketNotifier>
-#include <QTimer>
-#include <q3dns.h>
 
 #ifndef INADDR_NONE
 #define INADDR_NONE     0xFFFFFFFF
@@ -88,13 +83,11 @@ SIMResolver::SIMResolver(QObject *parent, const char *host)
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(resolveTimeout()));
     timer->start(20000);
-    dns = new Q3Dns(host, Q3Dns::A);
-    connect(dns, SIGNAL(resultsReady()), this, SLOT(resolveReady()));
+    QHostInfo::lookupHost( host, this, SLOT(resolveReady(QHostInfo)));
 }
 
 SIMResolver::~SIMResolver()
 {
-    delete dns;
     delete timer;
 }
 
@@ -106,22 +99,23 @@ void SIMResolver::resolveTimeout()
     QTimer::singleShot(0, parent(), SLOT(resultsReady()));
 }
 
-void SIMResolver::resolveReady()
+void SIMResolver::resolveReady(const QHostInfo &result)
 {
     bDone = true;
+    dns = result;
     QTimer::singleShot(0, parent(), SLOT(resultsReady()));
 }
 
 unsigned long SIMResolver::addr()
 {
-    if (dns->addresses().isEmpty())
+    if (dns.addresses().isEmpty())
         return INADDR_NONE;
-    return htonl(dns->addresses().first().ip4Addr());
+    return htonl(dns.addresses().first().toIPv4Address());
 }
 
 string SIMResolver::host()
 {
-    return static_cast<string>(dns->label().toLatin1());
+    return static_cast<string>(dns.hostName().toLatin1());
 }
 
 void SIMSockets::resolve(const char *host)
@@ -170,11 +164,11 @@ ServerSocket *SIMSockets::createServerSocket()
     return new SIMServerSocket();
 }
 
-SIMClientSocket::SIMClientSocket(Q3Socket *s)
+SIMClientSocket::SIMClientSocket(QTcpSocket *s)
 {
     sock = s;
     if (sock == NULL)
-        sock = new Q3Socket(this);
+        sock = new QTcpSocket(this);
     QObject::connect(sock, SIGNAL(connected()), this, SLOT(slotConnected()));
     QObject::connect(sock, SIGNAL(connectionClosed()), this, SLOT(slotConnectionClosed()));
     QObject::connect(sock, SIGNAL(error(int)), this, SLOT(slotError(int)));
@@ -221,7 +215,7 @@ int SIMClientSocket::read(char *buf, unsigned int size)
         size = available;
     if (size == 0)
         return size;
-    int res = sock->readBlock(buf, size);
+    int res = sock->read(buf, size);
     if (res < 0){
         log(L_DEBUG, "QClientSocket::read error %u", errno);
         if (notify) notify->error_state("Read socket error");
@@ -233,7 +227,7 @@ int SIMClientSocket::read(char *buf, unsigned int size)
 void SIMClientSocket::write(const char *buf, unsigned int size)
 {
     bInWrite = true;
-    int res = sock->writeBlock(buf, size);
+    int res = sock->write(buf, size);
     bInWrite = false;
     if (res != (int)size){
         if (notify) notify->error_state("Write socket error");
@@ -338,7 +332,7 @@ void SIMClientSocket::slotBytesWritten()
 unsigned long SIMClientSocket::localHost()
 {
     unsigned long res = 0;
-    int s = sock->socket();
+    int s = sock->socketDescriptor();
     struct sockaddr_in addr;
     memset(&addr, sizeof(addr), 0);
     socklen_t size = sizeof(addr);
@@ -372,7 +366,7 @@ void SIMClientSocket::pause(unsigned t)
 SIMServerSocket::SIMServerSocket()
 {
     sn = NULL;
-    sock = new Q3SocketDevice;
+    sock = new QTcpServer;
 }
 
 SIMServerSocket::~SIMServerSocket()
@@ -407,7 +401,7 @@ void SIMServerSocket::bind(unsigned short minPort, unsigned short maxPort, TCPCl
     unsigned short startPort = (unsigned short)(minPort + get_random() % (maxPort - minPort + 1));
     bool bOK = false;
     for (m_nPort = startPort;;){
-        if (sock->bind(QHostAddress(), m_nPort)){
+        if (sock->listen(QHostAddress(), m_nPort)){
             bOK = true;
             break;
         }
@@ -416,7 +410,7 @@ void SIMServerSocket::bind(unsigned short minPort, unsigned short maxPort, TCPCl
         if (m_nPort == startPort)
             break;
     }
-    if (!bOK || !sock->listen(50)){
+    if (!bOK ){
         error(I18N_NOOP("Can't allocate port"));
         return;
     }
@@ -444,7 +438,7 @@ void SIMServerSocket::bind(const char *path)
         error("Can't create listener");
         return;
     }
-    sock->setSocket(s, Q3SocketDevice::Stream);
+    sock->setSocketDescriptor(s);
 
     struct sockaddr_un nsun;
     nsun.sun_family = AF_UNIX;
@@ -475,8 +469,8 @@ void SIMServerSocket::error(const char *err)
 
 void SIMServerSocket::listen(TCPClient*)
 {
-    sn = new QSocketNotifier(sock->socket(), QSocketNotifier::Read, this);
-    connect(sn, SIGNAL(activated(int)), this, SLOT(activated(int)));
+    sn = new QSocketNotifier(sock->socketDescriptor(), QSocketNotifier::Read, this);
+    connect(sn, SIGNAL(newConnection()), this, SLOT(activated(int)));
     if (notify)
         notify->bind_ready(m_nPort);
 }
@@ -484,23 +478,19 @@ void SIMServerSocket::listen(TCPClient*)
 void SIMServerSocket::activated(int)
 {
     if (sock == NULL) return;
-    int fd = sock->accept();
+    QTcpSocket *fd = sock->nextPendingConnection();
     if (fd >= 0){
         log(L_DEBUG, "accept ready");
         if (notify){
-            Q3Socket *s = new Q3Socket;
-            s->setSocket(fd);
-            if (notify->accept(new SIMClientSocket(s), htonl(s->address().ip4Addr()))){
+            QTcpSocket *s = new QTcpSocket;
+            s->setSocketDescriptor(fd->socketDescriptor());
+            if (notify->accept(new SIMClientSocket(s), htonl(s->localAddress().toIPv4Address()))){
                 if (notify)
                     notify->m_listener = NULL;
                 getSocketFactory()->remove(this);
             }
         }else{
-#ifdef WIN32
-            ::closesocket(fd);
-#else
-            ::close(fd);
-#endif
+            fd->close();
         }
     }
 }
@@ -585,15 +575,11 @@ void IP::resolve()
 
 IPResolver::IPResolver()
 {
-    resolver = new Q3Dns;
-    resolver->setRecordType(Q3Dns::Ptr);
-    QObject::connect(resolver, SIGNAL(resultsReady()), this, SLOT(resolve_ready()));
+    this->resolve_ready( resolver);
 }
 
 IPResolver::~IPResolver()
 {
-    if (resolver)
-        delete resolver;
 }
 
 #define iptoul(a,b,c,d) (unsigned long)(((a) << 24) | ((b) << 16) | ((c) << 8) | (d))
@@ -608,19 +594,17 @@ static inline bool isPrivate(unsigned long ip)
     return false;
 }
 
-void IPResolver::resolve_ready()
+void IPResolver::resolve_ready(const QHostInfo &result)
 {
     if (queue.empty()) return;
+    resolver = result;
     string m_host;
-    if (resolver->hostNames().count())
-        m_host = static_cast<string>(resolver->hostNames().first().toLatin1());
+    if (! resolver.hostName().isNull())
+        m_host = static_cast<string>(resolver.hostName().toLatin1());
     struct in_addr inaddr;
     inaddr.s_addr = m_addr;
     log(L_DEBUG, "Resolver ready %s %s", inet_ntoa(inaddr), m_host.c_str());
-#if COMPAT_QT_VERSION >= 0x030000
-    delete resolver;
     resolver = NULL;
-#endif
     for (list<IP*>::iterator it = queue.begin(); it != queue.end(); ){
         if ((*it)->ip() != m_addr){
             ++it;
@@ -635,7 +619,6 @@ void IPResolver::resolve_ready()
 
 void IPResolver::start_resolve()
 {
-    if (resolver && resolver->isWorking()) return;
     struct in_addr inaddr;
     for(;;) {
         if (queue.empty())
@@ -649,14 +632,9 @@ void IPResolver::start_resolve()
         queue.erase(queue.begin());
     }
     log(L_DEBUG, "start resolve %s", inet_ntoa(inaddr));
-#if COMPAT_QT_VERSION >= 0x030000
-    if (resolver)
-        delete resolver;
-    resolver = new Q3Dns(QHostAddress(htonl(m_addr)), Q3Dns::Ptr);
-    connect(resolver, SIGNAL(resultsReady()), this, SLOT(resolve_ready()));
-#else
-    resolver->setLabel(QHostAddress(htonl(m_addr)));
-#endif
+    if (! resolver.hostName().isNull())
+        resolver = NULL;
+    QHostInfo::lookupHost( QHostAddress(htonl(m_addr)).toString(), this, SLOT(resolve_ready(QHostInfo)));
 }
 
 }

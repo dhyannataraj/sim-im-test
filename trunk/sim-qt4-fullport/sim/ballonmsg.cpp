@@ -21,16 +21,12 @@
 #include <QPainter>
 #include <QToolTip>
 #include <QBitmap>
-#include <q3pointarray.h>
 #include <QApplication>
 #include <QPushButton>
 #include <QLayout>
 #include <QImage>
 #include <QFrame>
 #include <QCheckBox>
-#include <QColorGroup>
-#include <QPalette>
-#include <q3simplerichtext.h>
 #include <QPixmap>
 #include <QPaintEvent>
 #include <QEvent>
@@ -38,9 +34,9 @@
 #include <QVBoxLayout>
 #include <QMouseEvent>
 #include <QDesktopWidget>
-#include <Q3StyleSheet>
-
-
+#include <QPalette>
+#include <QPolygon>
+#include <QTextDocument>
 
 #ifdef WIN32
 #include <windows.h>
@@ -130,7 +126,7 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     bool bTailDown = true;
     setPalette(QToolTip::palette());
     text = _text;
-    Q3Frame *frm = new Q3Frame(this);
+    QFrame *frm = new QFrame(this);
     frm->setPalette(palette());
     QVBoxLayout *vlay = new QVBoxLayout(frm);
     vlay->setMargin(0);
@@ -141,7 +137,7 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
         if (m_bChecked)
             m_check->setChecked(*m_bChecked);
     }
-    QHBoxLayout *lay = new QHBoxLayout(vlay);
+    QHBoxLayout *lay = new QHBoxLayout(frm);
     lay->setSpacing(5);
     lay->addStretch();
     unsigned id = 0;
@@ -170,10 +166,11 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     }
     if (rc.width() > txtWidth) txtWidth = rc.width();
 
-    Q3SimpleRichText richText(_text, font(), "", Q3StyleSheet::defaultSheet(), Q3MimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
-    richText.setWidth(wndWidth);
-    richText.adjustSize();
-    QSize s(richText.widthUsed(), richText.height());
+    QTextDocument richText( parent);
+    richText.setDefaultFont( font());
+    richText.setHtml(_text);
+    richText.setPageSize(QSizeF(wndWidth, parent->height()));
+    QSize s = QSize( richText.pageSize().width(), richText.pageSize().height());
     QSize sMin = frm->minimumSizeHint();
     if (s.width() < sMin.width())
         s.setWidth(sMin.width());
@@ -234,7 +231,7 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     p.drawEllipse(w - BALLOON_R * 2 + BALLOON_SHADOW, pos + BALLOON_SHADOW, BALLOON_R * 2, BALLOON_R * 2);
     p.drawEllipse(w - BALLOON_R * 2 + BALLOON_SHADOW, pos + h - BALLOON_R * 2 + BALLOON_SHADOW, BALLOON_R * 2, BALLOON_R * 2);
     p.drawEllipse(BALLOON_SHADOW, pos + h - BALLOON_R * 2 + BALLOON_SHADOW, BALLOON_R * 2, BALLOON_R * 2);
-    Q3PointArray arr(3);
+    QPolygon arr(3);
     arr.setPoint(0, tailX, bTailDown ? h : pos);
     arr.setPoint(1, tailX + BALLOON_TAIL_WIDTH, bTailDown ? h : pos);
     arr.setPoint(2, tailX - BALLOON_TAIL_WIDTH, bTailDown ? height() - BALLOON_SHADOW : 0);
@@ -249,7 +246,7 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     QPixmap pict = QPixmap::grabWindow(QApplication::desktop()->winId(), x(), y(), width(), height());
     intensity(pict, -0.50f);
     p.begin(&pict);
-    p.setBrush(this->palette().background());
+    p.setBrush(palette().brush(QPalette::Background));
     p.drawEllipse(0, pos, BALLOON_R * 2, BALLOON_R * 2);
     p.drawEllipse(w - BALLOON_R * 2, pos, BALLOON_R * 2, BALLOON_R * 2);
     p.drawEllipse(w - BALLOON_R * 2, pos + h - BALLOON_R * 2, BALLOON_R * 2, BALLOON_R * 2);
@@ -258,8 +255,8 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     arr.setPoint(1, tailX + BALLOON_TAIL_WIDTH, bTailDown ? h - 1 : pos + 1);
     arr.setPoint(2, tailX - BALLOON_TAIL_WIDTH, bTailDown ? height() - BALLOON_SHADOW : 0);
     p.drawPolygon(arr);
-    p.fillRect(0, pos + BALLOON_R, w, h - BALLOON_R * 2, this->palette().background());
-    p.fillRect(BALLOON_R, pos, w - BALLOON_R * 2, h, this->palette().background());
+    p.fillRect(0, pos + BALLOON_R, w, h - BALLOON_R * 2, palette().brush(QPalette::Background));
+    p.fillRect(BALLOON_R, pos, w - BALLOON_R * 2, h, palette().brush(QPalette::Background));
     p.drawLine(0, pos + BALLOON_R, 0, pos + h - BALLOON_R);
     p.drawLine(w - 1, pos + BALLOON_R, w - 1, pos + h - BALLOON_R);
     if (bTailDown){
@@ -272,7 +269,9 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
         p.drawLine(tailX + BALLOON_TAIL_WIDTH, pos, w - BALLOON_R, pos);
     }
     p.end();
-    this->setBackgroundPixmap(pict);
+    QPalette s_pixmap;
+    s_pixmap.setBrush(frm->backgroundRole(), QBrush(pict));
+    frm->setPalette(s_pixmap);
     if (!bAutoHide)
         setFocusPolicy(Qt::NoFocus);
 
@@ -309,14 +308,10 @@ bool BalloonMsg::eventFilter(QObject *o, QEvent *e)
 void BalloonMsg::paintEvent(QPaintEvent*)
 {
     QPainter p(this);
-    Q3SimpleRichText richText(text, font(), "", Q3StyleSheet::defaultSheet(), Q3MimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
-    richText.setWidth(m_width);
-    richText.adjustSize();
-    richText.draw(&p,
-		          (width() - textRect.width()) / 2,
-	              textRect.y(),
-	              QRect(0, 0, width(), height()),
-                  QToolTip::palette().active() );
+    QTextDocument richText( this);
+    richText.setDefaultFont( font());
+    richText.setHtml(text);
+    richText.setPageSize(QSizeF(m_width, this->height()));
     p.end();
 }
 
@@ -387,4 +382,9 @@ void BalloonButton::click()
     emit action(id);
     topLevelWidget()->close();
 }
+
+
+#ifndef _WINDOWS
+#include "ballonmsg.moc"
+#endif
 

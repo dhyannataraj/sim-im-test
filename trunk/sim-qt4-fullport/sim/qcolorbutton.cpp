@@ -28,6 +28,7 @@ QColorButton::QColorButton( QWidget *parent, const char *name)
 
 #else
 
+#include <QPalette>
 #include <QPainter>
 #include <qdrawutil.h>
 #include <QApplication>
@@ -37,7 +38,7 @@ QColorButton::QColorButton( QWidget *parent, const char *name)
 #include <QColorDialog>
 
 QColorButton::QColorButton( QWidget *parent, const char *name )
-        : QPushButton( parent, name )
+        : QPushButton( parent )
 {
     connect (this, SIGNAL(clicked()), this, SLOT(chooseColor()));
 }
@@ -46,7 +47,7 @@ void QColorButton::setColor( const QColor &c )
 {
     if ( col != c ) {
         col = c;
-        repaint( false );
+        repaint();
         emit changed( col );
     }
 }
@@ -61,8 +62,8 @@ void QColorButton::drawButtonLabel( QPainter *painter )
     int h = r.height();
     int b = 5;
 
-    QColor lnCol = colorGroup().text();
-    QColor fillCol = isEnabled() ? col : backgroundColor();
+    QColor lnCol = this->palette().color(QPalette::Text);
+    QColor fillCol = isEnabled() ? col : this->palette().background().color();
 
     if ( isDown() ) {
         qDrawPlainRect( painter, l+b+1, t+b+1, w-b*2, h-b*2, lnCol, 1, 0 );
@@ -83,5 +84,10 @@ void QColorButton::chooseColor()
     if (!c.isValid()) return;
     setColor( c );
 }
+
+#ifndef WIN32
+#include "qcolorbutton.moc"
+#endif
+
 #endif
 

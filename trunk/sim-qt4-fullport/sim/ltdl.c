@@ -588,7 +588,7 @@ size_t size;
 #  define DLERROR(arg)	LT_DLSTRERROR (arg)
 #endif
 
-int lt_dlopen_flag = LT_LAZY_OR_NOW;
+int lt_dlopen_flag = RTLD_GLOBAL;
 
 #ifdef _AIX
 /*------------------------------------------------------------------*/

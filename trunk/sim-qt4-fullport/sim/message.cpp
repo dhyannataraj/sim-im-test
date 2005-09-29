@@ -453,7 +453,7 @@ QString FileMessage::getDescription()
             return NULL;
         QString shortName = *name;
         shortName = shortName.replace(QRegExp("\\\\"), "/");
-        int n = shortName.findRev("/");
+        int n = shortName.lastIndexOf("/");
         if (n >= 0)
             shortName = shortName.mid(n + 1);
         return shortName;
@@ -582,7 +582,7 @@ bool FileTransfer::openFile()
         m_bDir     = true;
         fn = fn.left(fn.length() - 1);
         if (m_base.isEmpty() || (fn.left(m_base.length()) != m_base)){
-            int n = fn.findRev("/");
+            int n = fn.lastIndexOf("/");
             if (n >= 0)
                 m_base = fn.left(n + 1);
         }
@@ -590,7 +590,7 @@ bool FileTransfer::openFile()
         return true;
     }
     if (m_base.isEmpty()){
-        int n = fn.findRev("/");
+        int n = fn.lastIndexOf("/");
         if (n >= 0)
             m_base = fn.left(n + 1);
     }
@@ -598,7 +598,7 @@ bool FileTransfer::openFile()
     m_name = fn.mid(m_base.length());
     m_file = new QFile(fn);
     if (!m_file->open(QIODevice::ReadOnly)){
-        m_msg->setError(i18n("Can't open %1") .arg(fn));
+        m_msg->setError(static_cast<const char *>((i18n("Can't open %1") .arg(fn)).toLocal8Bit()));
         setError();
         return false;
     }

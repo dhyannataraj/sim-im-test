@@ -21,7 +21,7 @@
 #include "simapi.h"
 
 #include <QGlobalStatic>
-#include <Q3MainWindow>
+#include <QMainWindow>
 #include <QToolButton>
 #include <QLabel>
 
@@ -29,23 +29,20 @@
 #include <QEvent>
 #include <QFrame>
 #include <QResizeEvent>
-#include <Q3PopupMenu>
+#include <QMenu>
 #include <QMouseEvent>
+#include <QTextEdit>
+#include <QMimeData>
 
-#if COMPAT_QT_VERSION < 0x030000
-#include "qt3/q3textedit.h"
-#else
-#include <q3textedit.h>
 #ifdef USE_KDE
 #ifdef HAVE_KTEXTEDIT_H
 #include <ktextedit.h>
-#define Q3TextEdit KTextEdit
-#endif
+#define QTextEdit KTextEdit
 #endif
 #endif
 
 class CToolBar;
-class Q3TextDrag;
+class QMimeData;
 
 const unsigned TextCmdBase	= 0x00030000;
 const unsigned CmdBgColor	= TextCmdBase;
@@ -55,7 +52,7 @@ const unsigned CmdItalic	= TextCmdBase + 3;
 const unsigned CmdUnderline	= TextCmdBase + 4;
 const unsigned CmdFont		= TextCmdBase + 5;
 
-class EXPORT TextShow : public Q3TextEdit
+class EXPORT TextShow : public QTextEdit
 {
     Q_OBJECT
 public:
@@ -76,7 +73,7 @@ protected slots:
     void slotSelectionChanged();
     void slotResizeTimer();
 protected:
-    Q3TextDrag *dragObject(QWidget *parent) const;
+    QMimeData *dragObject(QWidget *parent) const;
     QTimer	  *m_timer;
     void startDrag();
     void keyPressEvent(QKeyEvent *e);
@@ -119,7 +116,7 @@ protected:
     void *processEvent(Event*);
     bool eventFilter(QObject *o, QEvent *e);
     void keyPressEvent(QKeyEvent *e);
-    Q3PopupMenu *createPopupMenu(const QPoint& pos);
+    QMenu *createPopupMenu(const QPoint& pos);
     void *m_param;
     bool m_bBold;
     bool m_bItalic;
@@ -134,7 +131,7 @@ protected:
     bool m_bInClick;
 };
 
-class Q3ToolBar;
+class QToolBar;
 
 class EXPORT ColorLabel : public QLabel
 {
@@ -163,7 +160,7 @@ protected:
     QColor m_color;
 };
 
-class EXPORT RichTextEdit : public Q3MainWindow
+class EXPORT RichTextEdit : public QMainWindow
 {
     Q_OBJECT
 public:

@@ -38,8 +38,7 @@
 #include <QApplication>
 #include <QToolTip>
 #include <QStringList>
-
-#include <Q3ValueList>
+#include <QList>
 
 #ifdef WIN32
 #if _MSC_VER > 1020
@@ -102,8 +101,8 @@ public:
     {};
     const char *translatorName;
     const char *translatorEmail;
-    Q3ValueList<KAboutPerson> mAuthorList;
-    Q3ValueList<KAboutPerson> mCreditList;
+    QList<KAboutPerson> mAuthorList;
+    QList<KAboutPerson> mCreditList;
 };
 
 

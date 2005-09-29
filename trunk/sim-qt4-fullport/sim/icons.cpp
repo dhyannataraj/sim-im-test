@@ -20,15 +20,14 @@
 #include "qzip.h"
 
 #include <QIcon>
-#include <QMimeSource>
 #include <QImage>
 #include <QPainter>
 #include <QBitmap>
-#include <q3dragobject.h>
+#include <QDropEvent>
+#include <QDragEnterEvent>
 #include <QFile>
 #include <QApplication>
 #include <QImageReader>
-
 #include <QPixmap>
 
 #ifdef USE_KDE
@@ -81,30 +80,10 @@ protected:
     UnZip		*m_zip;
 };
 
-class MyMimeSourceFactory : public Q3MimeSourceFactory
-{
-public:
-    MyMimeSourceFactory();
-    ~MyMimeSourceFactory();
-    virtual const QMimeSource* data(const QString &abs_name) const;
-};
-
 unsigned Icons::nSmile = 0;
 
 Icons::Icons()
 {
-    /* This idea came from kapplication.cpp
-       I had a similar idea with setting the old defaultFactory in
-       the destructor but this won't work :(
-       Christian */
-#if COMPAT_QT_VERSION >= 0x030000
-    Q3MimeSourceFactory* oldDefaultFactory = Q3MimeSourceFactory::takeDefaultFactory();
-#endif
-    Q3MimeSourceFactory::setDefaultFactory(new MyMimeSourceFactory());
-#if COMPAT_QT_VERSION >= 0x030000
-    if (oldDefaultFactory)
-        Q3MimeSourceFactory::addFactory( oldDefaultFactory );
-#endif
     addIconSet("icons/sim.jisp", true);
     m_defSets.push_back(new WrkIconSet);
     addIconSet("icons/smiles.jisp", false);
@@ -112,9 +91,6 @@ Icons::Icons()
 
 Icons::~Icons()
 {
-#if COMPAT_QT_VERSION < 0x030000
-    Q3MimeSourceFactory::setDefaultFactory(new Q3MimeSourceFactory());
-#endif
     list<IconSet*>::iterator it;
     for (it = m_customSets.begin(); it != m_customSets.end(); ++it)
         delete *it;
@@ -354,13 +330,13 @@ QIcon Icon(const char *name)
     bigName += name;
     pict = getPict(bigName.c_str());
     if (pict)
-        res.setPixmap(getPixmap(pict, bigName.c_str()), QIcon::Large);
+        res = getPixmap(pict, bigName.c_str());
 #if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
     string disName = "disabled.";
     disName += name;
     pict = getPict(disName.c_str());
     if (pict)
-        res.setPixmap(getPixmap(pict, bigName.c_str()), QIcon::Small, QIcon::Disabled);
+        res = getPixmap(pict, bigName.c_str());
 #endif
     return res;
 }
@@ -413,27 +389,6 @@ QIcon Pict(const char *name, const QColor&)
 
 #endif
 
-MyMimeSourceFactory::MyMimeSourceFactory()
-        : Q3MimeSourceFactory()
-{
-}
-
-MyMimeSourceFactory::~MyMimeSourceFactory()
-{
-}
-
-const QMimeSource *MyMimeSourceFactory::data(const QString &abs_name) const
-{
-    QString name = abs_name;
-    if (name.left(5) == "icon:"){
-        name = name.mid(5);
-        PictDef *p = getPict(name.toLatin1());
-        if (p)
-            ((Q3MimeSourceFactory*)this)->setImage(abs_name, *(p->image));
-    }
-    return Q3MimeSourceFactory::data(abs_name);
-}
-
 IconSet::IconSet()
 {
 }
@@ -454,7 +409,7 @@ void IconSet::parseSmiles(const QString &text, unsigned &start, unsigned &size, 
 {
     for (list<smileDef>::iterator it = m_smiles.begin(); it != m_smiles.end(); ++it){
         QString pat = QString::fromUtf8(it->smile.c_str());
-        int n = text.find(pat);
+        int n = text.indexOf(pat);
         if (n < 0)
             continue;
         if (((unsigned)n < start) || (((unsigned)n == start) && (pat.length() > size))){
@@ -534,7 +489,7 @@ static QImage makeOffline(unsigned flags, const QImage &p)
         QColor c(qRed(data[i]), qGreen(data[i]), qBlue(data[i]));
         int a = qAlpha(data[i]);
         int h, s, v;
-        c.hsv(&h, &s, &v);
+        c.getHsv(&h, &s, &v);
         if (swapColor){
             h = (swapColor * 2 - h) & 0xFF;
             c.setHsv(h, s, v);
@@ -558,7 +513,7 @@ static QImage makeInactive(const QImage &p)
         QColor c(qRed(data[i]), qGreen(data[i]), qBlue(data[i]));
         int a = qAlpha(data[i]);
         int h, s, v;
-        c.hsv(&h, &s, &v);
+        c.getHsv(&h, &s, &v);
         c.setHsv(h, s / 8, v);
         data[i] = qRgba(c.red(), c.green(), c.blue(), a);
     }
@@ -570,8 +525,7 @@ static QImage makeInvisible(unsigned flags, const QImage &p)
     QImage image = p.copy();
     unsigned swapColor = flags & ICON_COLOR_MASK;
     char shift = (flags >> 8) & 0xFF;
-    if (image.depth() != 32)
-        image = image.convertDepth(32);
+    image = image.convertToFormat(QImage::Format_ARGB32, Qt::ColorOnly);
     unsigned int *data = (unsigned int*)image.bits();
     for (int y = 0; y < image.width(); y++){
         int x = image.width() / 2 - (y - image.height() / 2) * 2 / 3 + shift;
@@ -584,7 +538,7 @@ static QImage makeInvisible(unsigned flags, const QImage &p)
             QColor c(qRed(*line), qGreen(*line), qBlue(*line));
             int a = qAlpha(*line);
             int h, s, v;
-            c.hsv(&h, &s, &v);
+            c.getHsv(&h, &s, &v);
             if (swapColor){
                 h = (swapColor * 2 - h) & 0xFF;
                 c.setHsv(h, s / 2, v * 3 / 4);
@@ -654,11 +608,9 @@ static QImage makeDisabled(const QImage &p)
 static QImage merge(const QImage &p1, const QImage &p2)
 {
     QImage img1 = p1.copy();
-    if (img1.depth() != 32)
-        img1 = img1.convertDepth(32);
+    img1 = img1.convertToFormat(QImage::Format_ARGB32, Qt::ColorOnly);
     QImage img2(p2);
-    if (img2.depth() != 32)
-        img2 = img2.convertDepth(32);
+    img2 = img2.convertToFormat(QImage::Format_ARGB32, Qt::ColorOnly);
     unsigned int *data1 = (unsigned int*)img1.bits();
     unsigned int *data2 = (unsigned int*)img2.bits();
     for (int y1 = 0; y1 < img1.height(); y1++){
@@ -842,8 +794,8 @@ PictDef *FileIconSet::getPict(const char *name)
         QByteArray arr;
         if (!m_zip->readFile(QString::fromUtf8(it->second.file.c_str()), &arr))
             return NULL;
-        (*it).second.image = new QImage(arr);
-        (*it).second.image->convertDepth(32);
+        (*it).second.image = new QImage(static_cast<const char *>(arr));
+        (*it).second.image->convertToFormat(QImage::Format_ARGB32, Qt::ColorOnly);
     }
     return &((*it).second);
 }
@@ -914,7 +866,7 @@ void FileIconSet::element_start(const char *el, const char **args)
         mime = mime.substr(n + 1);
         QList<QByteArray> l = QImageReader::supportedImageFormats();
         for (unsigned i = 0; i < l.count(); i++){
-            if (l[i].lower() != mime.c_str())
+            if (l[i].toLower() != mime.c_str())
                 continue;
             m_data = &m_file;
             return;

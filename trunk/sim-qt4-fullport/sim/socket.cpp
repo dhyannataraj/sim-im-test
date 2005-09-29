@@ -365,7 +365,7 @@ void TCPClient::connect_ready()
     m_timer->stop();
     m_bWaitReconnect = false;
     m_loginTimer->stop();
-    m_loginTimer->start(LOGIN_TIMEOUT * 1000, true);
+    m_loginTimer->start(LOGIN_TIMEOUT * 1000);
 }
 
 void TCPClient::loginTimeout()
@@ -465,3 +465,9 @@ void ServerSocketNotify::bind(const char *path)
 #endif
 
 }
+
+#ifndef WIN32
+#include "socket.moc"
+#endif
+
+

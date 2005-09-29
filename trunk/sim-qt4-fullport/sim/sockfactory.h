@@ -22,11 +22,11 @@
 #include "stl.h"
 #include "socket.h"
 
-class Q3Dns;
-class QTimer;
-class Q3Socket;
-class Q3SocketDevice;
-class QSocketNotifier;
+#include <QTcpSocket>
+#include <QTcpServer>
+#include <QSocketNotifier>
+#include <QTimer>
+#include <QHostInfo>
 
 namespace SIM
 {
@@ -35,7 +35,7 @@ class SIMClientSocket : public QObject, public Socket
 {
     Q_OBJECT
 public:
-    SIMClientSocket(Q3Socket *s=NULL);
+    SIMClientSocket(QTcpSocket *s=NULL);
     virtual ~SIMClientSocket();
     virtual int read(char *buf, unsigned int size);
     virtual void write(const char *buf, unsigned int size);
@@ -57,7 +57,7 @@ protected:
     void timerStop();
     unsigned short port;
     string host;
-    Q3Socket *sock;
+    QTcpSocket *sock;
     QTimer  *timer;
     bool bInWrite;
 };
@@ -81,7 +81,7 @@ protected slots:
 protected:
     void listen(TCPClient*);
     void error(const char *err);
-    Q3SocketDevice   *sock;
+    QTcpServer   *sock;
     QSocketNotifier *sn;
     QString			m_name;
     unsigned short  m_nPort;
@@ -94,14 +94,14 @@ public:
     SIMResolver(QObject *parent, const char *host);
     ~SIMResolver();
     QTimer *timer;
-    Q3Dns   *dns;
+    QHostInfo dns;
     bool   bDone;
     bool   bTimeout;
     unsigned long addr();
     string host();
 protected slots:
     void   resolveTimeout();
-    void   resolveReady();
+    void   resolveReady(const QHostInfo &result);
 };
 
 class SIMSockets : public SocketFactory
@@ -146,10 +146,10 @@ public:
     list<IP*> queue;
     void start_resolve();
 protected slots:
-    void resolve_ready();
+    void resolve_ready(const QHostInfo &result);
 protected:
     unsigned long m_addr;
-    Q3Dns *resolver;
+    QHostInfo resolver;
 };
 
 }

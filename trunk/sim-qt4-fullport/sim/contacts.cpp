@@ -23,7 +23,6 @@ email                : vovan@shutoff.ru
 #include <QDir>
 #include <QTextCodec>
 #include <QRegExp>
-
 #include <QByteArray>
 
 namespace SIM
@@ -245,7 +244,7 @@ static QString addStrings (const QString & old_value, const QString & values,
             while (proto.length ()) {
                 QString     proto2 = getToken (proto, ',');
                 /* and add */
-                add_str (str_list, str, proto2.latin1 ());
+                add_str (str_list, str, proto2.toLatin1());
             }
         }
     }
@@ -259,7 +258,7 @@ static QString addStrings (const QString & old_value, const QString & values,
             QString     proto = getToken (str_item, '/');
             while (proto.length ()) {
                 QString     proto2 = getToken (proto, ',');
-                add_str (str_list, str, proto2.latin1 ());
+                add_str (str_list, str, proto2.toLatin1());
             }
         }
     }
@@ -1083,7 +1082,7 @@ Client::Client(Protocol *protocol, Buffer *cfg)
         do {
             QString sub_str = getToken(pswd, '$');
             temp ^= sub_str.toUShort(0,16);
-            new_pswd += tmp.setUnicodeCodes(&temp,1);
+            new_pswd += tmp.setUtf16(&temp,1);
             temp = sub_str.toUShort(0,16);
         } while (pswd.length());
         setPassword(new_pswd);
@@ -1681,22 +1680,22 @@ void ContactList::save()
     string cfgName = user_file(CONTACTS_CONF);
     QFile f(QFile::decodeName((cfgName + BACKUP_SUFFIX).c_str())); // use backup file for this ...
     if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
-        log(L_ERROR, "Can't create %s", (const char*)f.name().toLocal8Bit());
+        log(L_ERROR, "Can't create %s", (const char*)f.fileName().toLocal8Bit());
         return;
     }
     string line = p->userData.save();
     if (line.length()){
-        f.writeBlock(line.c_str(), line.length());
-        f.writeBlock("\n", 1);
+        f.write(line.c_str(), line.length());
+        f.write("\n", 1);
     }
     line = save_data(contactData, &owner()->data);
     if (line.length()){
         string cfg  = "[";
         cfg += OWNER;
         cfg += "]\n";
-        f.writeBlock(cfg.c_str(), cfg.length());
-        f.writeBlock(line.c_str(), line.length());
-        f.writeBlock("\n", 1);
+        f.write(cfg.c_str(), cfg.length());
+        f.write(line.c_str(), line.length());
+        f.write("\n", 1);
     }
     for (vector<Group*>::iterator it_g = p->groups.begin(); it_g != p->groups.end(); ++it_g){
         Group *grp = *it_g;
@@ -1704,26 +1703,26 @@ void ContactList::save()
         line += GROUP;
         line += number(grp->id());
         line += "]\n";
-        f.writeBlock(line.c_str(), line.length());
+        f.write(line.c_str(), line.length());
         line = save_data(groupData, &grp->data);
         if (line.length()){
-            f.writeBlock(line.c_str(), line.length());
-            f.writeBlock("\n", 1);
+            f.write(line.c_str(), line.length());
+            f.write("\n", 1);
         } else {
             /* Group has no name --> Not In List
                since the load_data seems to have problems with totally empty
                entries, this must be ...*/
-            f.writeBlock("Name=\"NIL\"\n", 11);
+            f.write("Name=\"NIL\"\n", 11);
         }
         line = grp->userData.save();
         if (line.length()){
-            f.writeBlock(line.c_str(), line.length());
-            f.writeBlock("\n", 1);
+            f.write(line.c_str(), line.length());
+            f.write("\n", 1);
         }
         line = grp->clientData.save();
         if (line.length()){
-            f.writeBlock(line.c_str(), line.length());
-            f.writeBlock("\n", 1);
+            f.write(line.c_str(), line.length());
+            f.write("\n", 1);
         }
     }
     for (list<Contact*>::iterator it_c = p->contacts.begin(); it_c != p->contacts.end(); ++it_c){
@@ -1734,38 +1733,38 @@ void ContactList::save()
         line += CONTACT;
         line += number(contact->id());
         line += "]\n";
-        f.writeBlock(line.c_str(), line.length());
+        f.write(line.c_str(), line.length());
         line = save_data(contactData, &contact->data);
         if (line.length()){
-            f.writeBlock(line.c_str(), line.length());
-            f.writeBlock("\n", 1);
+            f.write(line.c_str(), line.length());
+            f.write("\n", 1);
         }
         line = contact->userData.save();
         if (line.length()){
-            f.writeBlock(line.c_str(), line.length());
-            f.writeBlock("\n", 1);
+            f.write(line.c_str(), line.length());
+            f.write("\n", 1);
         }
         line = contact->clientData.save();
         if (line.length()){
-            f.writeBlock(line.c_str(), line.length());
-            f.writeBlock("\n", 1);
+            f.write(line.c_str(), line.length());
+            f.write("\n", 1);
         }
     }
 
-    const int status = f.status();
+    const int status = f.openMode();
 #if COMPAT_QT_VERSION >= 0x030200
     const QString errorMessage = f.errorString();
 #else
     const QString errorMessage = "Write file fail";
 #endif
     f.close();
-    if (status != IO_Ok) {
-        log(L_ERROR, "IO error during writting to file %s : %s", (const char*)f.name().toLocal8Bit(), (const char*)errorMessage.toLocal8Bit());
+    if (status != QIODevice::WriteOnly) {
+        log(L_ERROR, "IO error during writting to file %s : %s", (const char*)f.fileName().toLocal8Bit(), (const char*)errorMessage.toLocal8Bit());
         return;
     }
 
     // rename to normal file
-    QFileInfo fileInfo(f.name());
+    QFileInfo fileInfo(f.fileName());
     QString desiredFileName = fileInfo.fileName();
     desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
 #ifdef WIN32
@@ -1793,7 +1792,7 @@ void ContactList::load()
     }
     Buffer cfg;
     cfg.init(f.size());
-    int n = f.readBlock(cfg.data(), f.size());
+    int n = f.read(cfg.data(), f.size());
     if (n < 0){
         log(L_ERROR, "Can't read %s", cfgName.c_str());
         return;
@@ -1965,7 +1964,7 @@ Contact *ContactList::contactByMail(const QString &_mail, const QString &_name)
     ContactIterator it;
     if (_mail.isEmpty()){
         while ((c = ++it) != NULL){
-            if (c->getName().lower() == name.lower())
+            if (c->getName().toLower() == name.toLower())
                 return c;
         }
         c = contact(0, true);
@@ -1982,7 +1981,7 @@ Contact *ContactList::contactByMail(const QString &_mail, const QString &_name)
         while (mails.length()){
             QString mail = getToken(mails, ';', false);
             mail = getToken(mail, '/');
-            if (mail.lower() == _mail.lower())
+            if (mail.toLower() == _mail.toLower())
                 return c;
         }
     }

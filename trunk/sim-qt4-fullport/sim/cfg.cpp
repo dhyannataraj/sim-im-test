@@ -20,16 +20,14 @@
 #include "socket.h"
 
 #include <errno.h>
+#include <stdio.h>
 
 #include <QFile>
 #include <QStringList>
 #include <QApplication>
-
 #include <QByteArray>
-#include <Q3MainWindow>
-#include <Q3ToolBar>
-
-#include <stdio.h>
+#include <QMainWindow>
+#include <QToolBar>
 
 #ifdef WIN32
 #include <windows.h>
@@ -1035,15 +1033,15 @@ EXPORT void restoreGeometry(QWidget *w, Data geo[5], bool bPos, bool bSize)
 
 const unsigned SAVE_STATE = (unsigned)(-1);
 
-EXPORT void saveToolbar(Q3ToolBar *bar, Data state[7])
+EXPORT void saveToolbar(QToolBar *bar, Data state[7])
 {
     memset(state, 0, sizeof(state));
     if (bar == NULL)
         return;
-    Q3MainWindow *main = NULL;
+    QMainWindow *main = NULL;
     for (QWidget *w = bar->parentWidget(); w; w = w->parentWidget()){
-        if (w->inherits("Q3MainWindow")){
-            main = static_cast<Q3MainWindow*>(w);
+        if (w->inherits("QMainWindow")){
+            main = static_cast<QMainWindow*>(w);
             break;
         }
     }
@@ -1066,7 +1064,7 @@ EXPORT void saveToolbar(Q3ToolBar *bar, Data state[7])
 //    }
 }
 
-EXPORT void restoreToolbar(Q3ToolBar *bar, Data state[7])
+EXPORT void restoreToolbar(QToolBar *bar, Data state[7])
 {
     if (bar == NULL)
         return;
@@ -1079,10 +1077,10 @@ EXPORT void restoreToolbar(Q3ToolBar *bar, Data state[7])
         state[5].value = 0;
         state[6].value = 0;
     }
-    Q3MainWindow *main = NULL;
+    QMainWindow *main = NULL;
     for (QWidget *w = bar->parentWidget(); w; w = w->parentWidget()){
-        if (w->inherits("Q3MainWindow")){
-            main = static_cast<Q3MainWindow*>(w);
+        if (w->inherits("QMainWindow")){
+            main = static_cast<QMainWindow*>(w);
             break;
         }
     }

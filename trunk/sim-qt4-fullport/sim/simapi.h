@@ -26,7 +26,6 @@
 #include <QPixmap>
 #include <QContextMenuEvent>
 #include <QByteArray>
-#include <Q3MimeSourceFactory>
 #include <QDialog>
 
 #if COMPAT_QT_VERSION >= 0x030000
@@ -91,7 +90,6 @@ typedef unsigned char _Bool;
 #endif
 
 #if defined(_MSC_VER) && defined(_DEBUG) && !defined(NO_CHECK_NEW)
-#include <q3networkprotocol.h>
 #ifndef _CRTDBG_MAP_ALLOC
 #define _CRTDBG_MAP_ALLOC
 #endif
@@ -106,7 +104,7 @@ using namespace std;
 
 #include <QWidget>
 #if COMPAT_QT_VERSION >= 0x030000
-#include <q3dockwindow.h>
+#include <QDockWidget>
 #endif
 
 #ifdef WIN32
@@ -177,8 +175,8 @@ class QFile;
 class QWidget;
 class QIcon;
 class QPixmap;
-class Q3ToolBar;
-class Q3MainWindow;
+class QToolBar;
+class QMainWindow;
 class QComboBox;
 class QLineEdit;
 
@@ -497,7 +495,7 @@ const unsigned EventShowBar = 0x0508;
 
 typedef struct BarShow
 {
-    Q3MainWindow	*parent;
+    QMainWindow	*parent;
     unsigned	bar_id;
 } ToolBarShow;
 
@@ -965,8 +963,8 @@ const int DESKTOP	= 4;
 
 EXPORT void saveGeometry(QWidget*, Data[5]);
 EXPORT void restoreGeometry(QWidget*, Data[5], bool bPos, bool bSize);
-EXPORT void saveToolbar(Q3ToolBar*, Data[7]);
-EXPORT void restoreToolbar(Q3ToolBar*, Data[7]);
+EXPORT void saveToolbar(QToolBar*, Data[7]);
+EXPORT void restoreToolbar(QToolBar*, Data[7]);
 EXPORT bool cmp(char *s1, char *s2);
 
 // _____________________________________________________________________________________

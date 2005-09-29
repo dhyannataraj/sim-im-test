@@ -181,20 +181,20 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
 #endif
     /* do some test so we can blame when sim can't access / find
        the plugins */
-    pluginsList = pluginDir.entryList("*" LTDL_SHLIB_EXT);
+    pluginsList = pluginDir.entryList(QDir::Files);
     if (pluginsList.isEmpty()) {
         log(L_ERROR,
             "Can't access %s or directory contains no plugins!",
-            pluginDir.path().ascii());
+            pluginDir.path().toAscii());
         m_bAbort = true;
         return;
     }
     m_bAbort = false;
 
-    log(L_DEBUG,"Loading plugins from %s",pluginDir.path().ascii());
+    log(L_DEBUG,"Loading plugins from %s",pluginDir.path().toAscii());
     for (QStringList::Iterator it = pluginsList.begin(); it != pluginsList.end(); ++it){
         QString f = *it;
-        int p = f.findRev('.');
+        int p = f.lastIndexOf('.');
         if (p > 0) f = f.left(p);
         pluginInfo info;
         info.plugin		 = NULL;
@@ -533,7 +533,7 @@ void PluginManagerPrivate::saveState()
     string cfgName = user_file(PLUGINS_CONF);
     QFile f(QFile::decodeName((cfgName + BACKUP_SUFFIX).c_str())); // use backup file for this ...
     if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
-        log(L_ERROR, "Can't create %s", (const char*)f.name().toLocal8Bit());
+        log(L_ERROR, "Can't create %s", (const char*)f.fileName().toLocal8Bit());
         return;
     }
     for (unsigned i = 0; i < plugins.size(); i++){
@@ -545,30 +545,26 @@ void PluginManagerPrivate::saveState()
         line += ",";
         line += number(info.base);
         line += "\n";
-        f.writeBlock(line.c_str(), line.length());
+        f.write(line.c_str(), line.length());
         if (info.plugin){
             string cfg = info.plugin->getConfig();
             if (cfg.length()){
-                f.writeBlock(cfg.c_str(), cfg.length());
-                f.writeBlock("\n", 1);
+                f.write(cfg.c_str(), cfg.length());
+                f.write("\n", 1);
             }
         }
     }
 
-    const int status = f.status();
-#if COMPAT_QT_VERSION >= 0x030200
+    const int status = f.openMode();
     const QString errorMessage = f.errorString();
-#else
-    const QString errorMessage = "write file fail";
-#endif
     f.close();
-    if (status != IO_Ok) {
-        log(L_ERROR, "I/O error during writing to file %s : %s", (const char*)f.name().toLocal8Bit(), (const char*)errorMessage.toLocal8Bit());
+    if (status != QIODevice::WriteOnly) {
+        log(L_ERROR, "I/O error during writing to file %s : %s", (const char*)f.fileName().toLocal8Bit(), (const char*)errorMessage.toLocal8Bit());
         return;
     }
 
     // rename to normal file
-    QFileInfo fileInfo(f.name());
+    QFileInfo fileInfo(f.fileName());
     QString desiredFileName = fileInfo.fileName();
     desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
 #ifdef WIN32
@@ -606,31 +602,31 @@ void PluginManagerPrivate::loadState()
         /* Maybe first start ? */
         QDir dir(user_file(NULL).c_str());
         if (!dir.exists()) {
-            log(L_WARN, "Creating directory %s",dir.absPath().ascii());
-            if (!dir.mkdir(dir.absPath())) {
-                log(L_ERROR, "Can't create directory %s",dir.absPath().ascii());
+            log(L_WARN, "Creating directory %s",dir.absolutePath().toAscii());
+            if (!dir.mkdir(dir.absolutePath())) {
+                log(L_ERROR, "Can't create directory %s",dir.absolutePath().toAscii());
                 return;
             }
         }
         if (f.open(QIODevice::WriteOnly))
             f.close();
         else {
-            log(L_ERROR, "Can't create %s",f.name().ascii());
+            log(L_ERROR, "Can't create %s",f.fileName().toAscii());
             return;
         }
     }
 
     if (!f.open(QIODevice::ReadOnly)){
-        log(L_ERROR, "Can't open %s", f.name().ascii());
+        log(L_ERROR, "Can't open %s", f.fileName().toAscii());
         return;
     }
 
     Buffer cfg;
     cfg.init(f.size());
-    int n = f.readBlock(cfg.data(), f.size());
+    int n = f.read(cfg.data(), f.size());
 
     if (n < 0){
-        log(L_ERROR, "Can't read %s", f.name().ascii());
+        log(L_ERROR, "Can't read %s", f.fileName().toAscii());
         return;
     }
 
@@ -754,7 +750,7 @@ unsigned PluginManagerPrivate::execute(const char *prg, const char *arg)
     if (*prg == 0)
         return 0;
     QString p = QString::fromLocal8Bit(prg);
-    if (p.find("%s") >= 0){
+    if (p.indexOf("%s") >= 0){
         p.replace(QRegExp("%s"), arg);
     }else{
         p += " ";

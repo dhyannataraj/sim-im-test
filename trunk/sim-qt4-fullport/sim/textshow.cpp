@@ -25,13 +25,12 @@
 #include <kstdaccel.h>
 #include <kglobal.h>
 #include <kfiledialog.h>
-#define Q3FileDialog	KFileDialog
+#define QFileDialog	KFileDialog
 #ifdef HAVE_KROOTPIXMAP_H
 #include <krootpixmap.h>
 #endif
 #else
 #include <QFileDialog>
-
 #include <QByteArray>
 #include <QGridLayout>
 #include <QKeyEvent>
@@ -52,20 +51,17 @@
 #endif
 
 #include <QDateTime>
-#include <q3popupmenu.h>
 #include <QApplication>
 #include <QClipboard>
 #include <QPainter>
 #include <QRegExp>
 #include <QObject>
-#include <q3valuelist.h>
+#include <QList>
 #include <QTimer>
 #include <QStringList>
 #include <QTextCodec>
-#include <Q3ToolBar>
+#include <QToolBar>
 #include <QLineEdit>
-#include <q3accel.h>
-#include <q3dragobject.h>
 #include <QToolButton>
 #include <QStatusBar>
 #include <QToolTip>
@@ -73,24 +69,24 @@
 
 #define MAX_HISTORY	100
 
-class RichTextDrag : public Q3TextDrag
+class RichTextDrag : public QMimeData
 {
 public:
-    RichTextDrag(QWidget *dragSource = 0, const char *name = 0);
+    RichTextDrag(QWidget *dragSource = 0);
 
     void setRichText(const QString &txt);
 
     virtual QByteArray encodedData(const char *mime) const;
     virtual const char* format(int i) const;
 
-    static bool decode(QMimeSource *e, QString &str, const QByteArray &mimetype, const QByteArray &subtype);
-    static bool canDecode( QMimeSource* e );
+    static bool decode(QMimeData *e, QString &str, const QByteArray &mimetype, const QByteArray &subtype);
+    static bool canDecode( QMimeData* e );
 private:
     QString richTxt;
 };
 
-RichTextDrag::RichTextDrag( QWidget *dragSource, const char *name )
-        : Q3TextDrag( dragSource, name )
+RichTextDrag::RichTextDrag( QWidget *dragSource)
+        : QMimeData()
 {
 }
 
@@ -99,40 +95,37 @@ QByteArray RichTextDrag::encodedData( const char *mime ) const
     if ( qstrcmp( "application/x-qrichtext", mime ) == 0 ) {
         return richTxt.toUtf8(); // #### perhaps we should use USC2 instead?
     } else
-        return Q3TextDrag::encodedData( mime );
+        return QMimeData::data( mime );
 }
 
-bool RichTextDrag::decode(QMimeSource *e, QString &str, const QByteArray &mimetype, const QByteArray &subtype)
+bool RichTextDrag::decode(QMimeData *e, QString &str, const QByteArray &mimetype, const QByteArray &subtype)
 {
     if (mimetype == "application/x-qrichtext"){
-        const char *mime;
-        int i;
-        for ( i = 0; (mime = e->format(i)) != NULL; ++i ) {
-            if (qstrcmp("application/x-qrichtext", mime) != 0)
+        QString mime;
+        QStringList formats = e->formats();
+	int i;
+        for ( i = 0; (mime = formats.value(i)) != formats.last(); ++i ) {
+            if (qstrcmp("application/x-qrichtext", static_cast<string>(mime.toLatin1())) != 0)
                 continue;
-            str = QString::fromUtf8(e->encodedData(mime));
+            str = QString::fromUtf8(e->data(mime));
             return TRUE;
         }
         return FALSE;
     }
     QString subt = subtype;
-    return Q3TextDrag::decode( e, str, subt );
+    return FALSE;
 }
 
-bool RichTextDrag::canDecode(QMimeSource* e)
+bool RichTextDrag::canDecode(QMimeData* e)
 {
-    if ( e->provides("application/x-qrichtext"))
+    if ( e->hasFormat("application/x-qrichtext"))
         return TRUE;
-    return Q3TextDrag::canDecode(e);
+    return e->hasText();
 }
 
 const char* RichTextDrag::format(int i) const
 {
-    if ( Q3TextDrag::format(i))
-        return Q3TextDrag::format(i);
-    if ( Q3TextDrag::format(i-1))
-        return "application/x-qrichtext";
-    return 0;
+    return "application/x-qrichtext";
 }
 
 void RichTextDrag::setRichText(const QString &txt)
@@ -154,18 +147,14 @@ TextEdit::TextEdit(QWidget *p, const char *name)
     m_bInClick = false;
     m_bChanged = false;
     setReadOnly(false);
-    curFG = colorGroup().color(QColorGroup::Text);
+    curFG = palette().color(QPalette::Text);
     m_bCtrlMode = true;
-    setWordWrap(WidgetWidth);
-#if COMPAT_QT_VERSION >= 0x030100
+    setWordWrapMode(QTextOption::WordWrap);
     setAutoFormatting(0);
-#endif
     connect(this, SIGNAL(currentFontChanged(const QFont&)), this, SLOT(fontChanged(const QFont&)));
     connect(this, SIGNAL(currentColorChanged(const QColor&)), this, SLOT(slotColorChanged(const QColor&)));
     connect(this, SIGNAL(textChanged()), this, SLOT(slotTextChanged()));
-#if COMPAT_QT_VERSION >= 0x030000
     connect(this, SIGNAL(clicked(int,int)), this, SLOT(slotClicked(int,int)));
-#endif
     viewport()->installEventFilter(this);
     fontChanged(font());
 }
@@ -195,35 +184,27 @@ void TextEdit::slotTextChanged()
 
 void TextEdit::slotClicked(int,int)
 {
-#if COMPAT_QT_VERSION >= 0x030000
     int paraFrom, paraTo, indexFrom, indexTo;
-    getSelection(&paraFrom, &indexFrom, &paraTo, &indexTo);
-    if ((paraFrom != paraTo) || (indexFrom != indexTo))
-        return;
     m_bInClick = true;
-    QContextMenuEvent e(QContextMenuEvent::Other, QPoint(0, 0), QPoint(0, 0), 0);
-    contentsContextMenuEvent(&e);
+    QContextMenuEvent e(QContextMenuEvent::Other, QPoint(0, 0), QPoint(0, 0));
+    contextMenuEvent(&e);
     m_bInClick = false;
-#endif
 }
 
-Q3PopupMenu *TextEdit::createPopupMenu(const QPoint& pos)
+QMenu *TextEdit::createPopupMenu(const QPoint& pos)
 {
     if (m_bInClick)
         return NULL;
     m_popupPos = pos;
-    return TextShow::createPopupMenu(pos);
+    return TextShow::createStandardContextMenu();
 }
 
 bool TextEdit::isEmpty()
 {
-    if (paragraphs() < 2){
-        QString t = text(0);
-        if (textFormat() == Qt::RichText)
-            t = unquoteText(t);
-        return t.isEmpty() || (t == " ");
-    }
-    return false;
+    QString t = text(0);
+    if (textFormat() == Qt::RichText)
+        t = unquoteText(t);
+    return t.isEmpty() || (t == " ");
 }
 
 void TextEdit::setParam(void *param)
@@ -235,10 +216,8 @@ void TextEdit::slotColorChanged(const QColor &c)
 {
     if (c == curFG)
         return;
-    int parag;
-    int index;
-    getCursorPosition(&parag, &index);
-    if (Q3TextEdit::text(parag).isEmpty()){
+    int parag = this->textCursor().position();
+    if (QTextEdit::text(parag).isEmpty()){
         setColor(curFG);
         return;
     }
@@ -264,7 +243,7 @@ bool TextEdit::eventFilter(QObject *o, QEvent *e)
     if (e->type() == QEvent::FocusOut){
         emit lostFocus();
     }
-    return Q3TextEdit::eventFilter(o, e);
+    return QTextEdit::eventFilter(o, e);
 }
 
 void TextEdit::changeText()
@@ -508,16 +487,16 @@ void TextEdit::setTextFormat(Qt::TextFormat format)
     if (format == textFormat())
         return;
     if (format == Qt::RichText){
-        Q3TextEdit::setTextFormat(format);
+        QTextEdit::setTextFormat(format);
         return;
     }
     QString t = unquoteText(text());
-    Q3TextEdit::setTextFormat(format);
+    QTextEdit::setTextFormat(format);
     setText(t);
 }
 
 TextShow::TextShow(QWidget *p, const char *name)
-        : Q3TextEdit(p, name)
+        : QTextEdit(p, name)
 {
     setTextFormat(Qt::RichText);
     setReadOnly(true);
@@ -610,7 +589,7 @@ void TextShow::resizeEvent(QResizeEvent *e)
     }else{
         getCursorPosition(&para, &pos);
     }
-    Q3TextEdit::resizeEvent(e);
+    QTextEdit::resizeEvent(e);
     if (pos == -1){
         scrollToBottom();
     }else{
@@ -629,19 +608,15 @@ void TextShow::keyPressEvent(QKeyEvent *e)
         copy();
         return;
     }
-    Q3TextEdit::keyPressEvent(e);
+    QTextEdit::keyPressEvent(e);
 }
 
 void TextShow::copy()
 {
-    Q3TextDrag *drag = dragObject(NULL);
+    QMimeData *drag = dragObject(NULL);
     if ( !drag )
         return;
-#if COMPAT_QT_VERSION <= 0x030100
-    QApplication::clipboard()->setData(drag);
-#else
     QApplication::clipboard()->setData(drag, QClipboard::Clipboard);
-#endif
 }
 
 void TextShow::cut()
@@ -654,29 +629,27 @@ void TextShow::cut()
     }
 }
 
-Q3TextDrag *TextShow::dragObject(QWidget *parent) const
+QMimeData *TextShow::dragObject(QWidget *parent) const
 {
     if (!hasSelectedText())
         return NULL;
-#if (COMPAT_QT_VERSION < 0x030000) || (COMPAT_QT_VERSION >= 0x030100)
     if (textFormat() == Qt::RichText){
         RichTextDrag *drag = new RichTextDrag(parent);
         drag->setRichText(selectedText());
         return drag;
     }
-#endif
-    return new Q3TextDrag(selectedText(), parent );
+    return new QMimeData(selectedText(), parent );
 }
 
 void TextShow::startDrag()
 {
-    Q3DragObject *drag = dragObject(viewport());
+    QMimeData *drag = dragObject(viewport());
     if (drag == NULL)
         return;
     if (isReadOnly()) {
         drag->dragCopy();
     } else {
-        if (drag->drag() && Q3DragObject::target() != this && Q3DragObject::target() != viewport() )
+        if (drag->drag() && QMimeData::target() != this && QMimeData::target() != viewport() )
             removeSelectedText();
     }
 }
@@ -699,7 +672,7 @@ QString TextShow::quoteText(const char *t, const char *charset)
 
 void TextShow::setText(const QString &text)
 {
-    Q3TextEdit::setText(text, "");
+    QTextEdit::setText(text, "");
 }
 
 void TextShow::slotSelectionChanged()
@@ -707,7 +680,7 @@ void TextShow::slotSelectionChanged()
 #if COMPAT_QT_VERSION >= 0x030100
     disconnect(QApplication::clipboard(), SIGNAL(selectionChanged()), this, 0);
     if (QApplication::clipboard()->supportsSelection()){
-        Q3TextDrag *drag = dragObject(NULL);
+        QMimeData *drag = dragObject(NULL);
         if ( !drag )
             return;
         QApplication::clipboard()->setData(drag, QClipboard::Selection);
@@ -760,7 +733,7 @@ void BgColorParser::tag_end(const QString&)
 }
 
 RichTextEdit::RichTextEdit(QWidget *parent, const char *name)
-        : Q3MainWindow(parent, name, 0)
+        : QMainWindow(parent, name, 0)
 {
     m_edit = new TextEdit(this);
     m_bar  = NULL;

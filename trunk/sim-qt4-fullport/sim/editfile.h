@@ -22,19 +22,17 @@
 
 #include <QFrame>
 #include <QLineEdit>
-#include <q3multilineedit.h>
+#include <QTextEdit>
 #include <QFileDialog>
-
 #include <QDragEnterEvent>
 #include <QMouseEvent>
 #include <QHBoxLayout>
-#include <Q3PopupMenu>
 #include <QDropEvent>
 
 class QHBoxLayout;
 class EditFile;
 class FilePreview;
-class Q3PopupMenu;
+class QMenu;
 
 class EXPORT FileLineEdit : public QLineEdit
 {
@@ -103,10 +101,10 @@ protected slots:
     void menuActivated(int);
 protected:
     void mousePressEvent(QMouseEvent *e);
-    Q3PopupMenu *createPopupMenu();
+    QMenu *createPopupMenu();
 };
 
-class EXPORT MultiLineEdit : public Q3MultiLineEdit
+class EXPORT MultiLineEdit : public QTextEdit
 {
     Q_OBJECT
 public:
@@ -116,7 +114,7 @@ protected slots:
     void menuActivated(int);
 protected:
     void mousePressEvent(QMouseEvent *e);
-    Q3PopupMenu *createPopupMenu();
+    QMenu *createPopupMenu();
 };
 
 #endif

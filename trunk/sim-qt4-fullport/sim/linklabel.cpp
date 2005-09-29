@@ -18,18 +18,11 @@
 #include "linklabel.h"
 #include "stl.h"
 
-#if COMPAT_QT_VERSION < 0x030000
-#include "qt3/q3simplerichtext.h"
-#include "qt3/q3stylesheet.h"
-#else
-#include <q3simplerichtext.h>
-#endif
-
 #include <QCursor>
 #include <QApplication>
 #include <QToolTip>
-#include <q3stylesheet.h>
 #include <QPainter>
+#include <QTextDocument>
 
 #include <QMouseEvent>
 #include <QLabel>
@@ -39,13 +32,8 @@
 #include <windows.h>
 #endif
 
-#if COMPAT_QT_VERSION < 0x030000
-#define Q3SimpleRichText Qt3::Q3SimpleRichText
-#define Q3StyleSheet		Qt3::Q3StyleSheet
-#endif
-
 LinkLabel::LinkLabel(QWidget *parent, const char *name)
-        : QLabel(parent, name)
+        : QLabel(parent)
 {
     setCursor(QCursor(Qt::PointingHandCursor));
     QFont f = font();
@@ -69,12 +57,12 @@ void LinkLabel::mouseReleaseEvent(QMouseEvent * e)
 }
 
 TipLabel::TipLabel(const QString &text)
-        : QLabel(NULL, "toolTipTip", Qt::WStyle_StaysOnTop | Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_Tool | Qt::WX11BypassWM)
+        : QLabel(NULL, Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint | Qt::Tool | Qt::X11BypassWindowManagerHint)
 {
     setMargin(3);
     setFrameStyle(QFrame::Plain | QFrame::Box);
     setLineWidth(1);
-    polish();
+    ensurePolished();
     m_text = text;
     setPalette(QToolTip::palette());
 }
@@ -134,9 +122,10 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
             text += part;
             text += "</td></tr></table>";
         }
-        Q3SimpleRichText richText(text, font(), "", Q3StyleSheet::defaultSheet(), Q3MimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
-        richText.adjustSize();
-        QSize s(richText.widthUsed() + 8, richText.height() + 8);
+        QTextDocument richText( this);
+        richText.setDefaultFont( font());
+        richText.setHtml( text);
+        QSize s = QSize( richText.pageSize().width(), richText.pageSize().height());
         resize(s.width(), s.height());
         x = tipRect.left() + tipRect.width() / 2 - width();
         if (x < 0)
@@ -165,9 +154,10 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
             l = m_text.split(DIV, QString::SkipEmptyParts);
             unsigned i = 0;
             for (QStringList::Iterator it = l.begin(); it != l.end(); ++it, i++){
-                Q3SimpleRichText richText(*it, font(), "", Q3StyleSheet::defaultSheet(), Q3MimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
-                richText.adjustSize();
-                heights.push_back(richText.height() + 8);
+                QTextDocument richText( this);
+                richText.setDefaultFont( font());
+                richText.setHtml( *it);
+                heights.push_back(richText.pageSize().height() + 8);
             }
         }
     }
@@ -177,9 +167,9 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
 
 void TipLabel::drawContents(QPainter *p)
 {
-    Q3SimpleRichText richText(m_text, font(), "", Q3StyleSheet::defaultSheet(), Q3MimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
-    richText.adjustSize();
-    richText.draw(p, 4, 4, QRect(0, 0, width(), height()), QToolTip::palette().active());
+    QTextDocument richText( this);
+    richText.setDefaultFont( font());
+    richText.setHtml( m_text);
 }
 
 #ifndef WIN32

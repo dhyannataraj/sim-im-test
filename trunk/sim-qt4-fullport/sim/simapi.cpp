@@ -29,9 +29,9 @@
 #include <QStringList>
 #include <QDateTime>
 #include <QLineEdit>
-#include <Q3MultiLineEdit>
+#include <QTextEdit>
 #include <QRegExp>
-
+ #include <QX11Info>
 #include <QDesktopWidget>
 
 #ifdef WIN32
@@ -139,7 +139,7 @@ void resetPlural()
 QString put_n_in(const QString &orig, unsigned long n)
 {
     QString ret = orig;
-    int index = ret.find("%n");
+    int index = ret.indexOf("%n");
     if (index == -1)
         return ret;
     ret.replace(index, 2, QString::number(n));
@@ -397,7 +397,7 @@ void mySetCaption(QWidget *w, const QString &caption)
 
 void setWndClass(QWidget *w, const char *name)
 {
-    Display *dsp = w->x11Display();
+    Display *dsp = QX11Info::display();
     WId win = w->winId();
 
     XClassHint classhint;
@@ -462,13 +462,13 @@ bool raiseWindow(QWidget *w, unsigned)
 
 void setButtonsPict(QWidget *w)
 {
-    QList<QObject *> l = w->queryList( "QPushButton" );
+    QList<QObject *> l = w->findChildren<QObject *>("QPushButton");
     QListIterator<QObject *> it( l );
     QObject *obj;
     while ( it.hasNext()) {
         obj = it.next();
         QPushButton *btn = static_cast<QPushButton*>(obj);
-        if (btn->pixmap()) continue;
+        if (! btn->icon().isNull()) continue;
         const QString &text = btn->text();
         const char *icon = NULL;
         if ((text == i18n("&OK")) || (text == i18n("&Yes")) ||
@@ -481,7 +481,7 @@ void setButtonsPict(QWidget *w)
             icon = "help";
         }
         if (icon == NULL) continue;
-        btn->setIconSet(Icon(icon));
+        btn->setIcon(Icon(icon));
     }
 }
 
@@ -534,7 +534,7 @@ void initCombo(QComboBox *cmb, unsigned short code, const ext_info *tbl, bool bA
     if (cmb->isEnabled()){
         cmb->clear();
         if (bAddEmpty)
-            cmb->insertItem("");
+            cmb->addItem("");
         QStringList items;
         QString current;
         for (const ext_info *i = tbl; i->nCode; i++){
@@ -551,12 +551,12 @@ void initCombo(QComboBox *cmb, unsigned short code, const ext_info *tbl, bool bA
                 current = i18n(i->szName);
         }
         items.sort();
-        cmb->insertStringList(items);
+        cmb->addItems(items);
         unsigned n = bAddEmpty ? 1 : 0;
         if (!current.isEmpty()){
             for (QStringList::Iterator it = items.begin(); it != items.end(); ++it, n++){
                 if ((*it) == current){
-                    cmb->setCurrentItem(n);
+                    cmb->setCurrentIndex(n);
                     break;
                 }
             }
@@ -564,7 +564,7 @@ void initCombo(QComboBox *cmb, unsigned short code, const ext_info *tbl, bool bA
     }else{
         for (const ext_info *i = tbl; i->nCode; i++){
             if (i->nCode == code){
-                cmb->insertItem(i18n(i->szName));
+                cmb->addItem(i18n(i->szName));
                 return;
             }
         }
@@ -573,7 +573,7 @@ void initCombo(QComboBox *cmb, unsigned short code, const ext_info *tbl, bool bA
 
 unsigned short getComboValue(QComboBox *cmb, const ext_info *tbl, const ext_info *tbl1)
 {
-    int res = cmb->currentItem();
+    int res = cmb->currentIndex();
     if (res <= 0) return 0;
     QStringList items;
     const ext_info *i;
@@ -589,7 +589,7 @@ unsigned short getComboValue(QComboBox *cmb, const ext_info *tbl, const ext_info
         items.append(i18n(i->szName));
     }
     items.sort();
-    if (cmb->text(0).isEmpty()) res--;
+    if (cmb->itemText(0).isEmpty()) res--;
     QString current = items[res];
     for (i = tbl; i->nCode; i++)
         if (i18n(i->szName) == current) return i->nCode;
@@ -608,12 +608,12 @@ EXPORT void set_value(QLineEdit *edit, char *&value)
 EXPORT void disableWidget(QWidget *w)
 {
     QPalette pal = w->palette();
-    pal.setDisabled(pal.active());
+    pal.setCurrentColorGroup(QPalette::Disabled);
     w->setPalette(pal);
     if (w->inherits("QLineEdit")){
         static_cast<QLineEdit*>(w)->setReadOnly(true);
     }else if (w->inherits("QMulitLineEdit")){
-        static_cast<Q3MultiLineEdit*>(w)->setReadOnly(true);
+        static_cast<QTextEdit*>(w)->setReadOnly(true);
     }else{
         w->setEnabled(false);
     }
