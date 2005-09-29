@@ -46,7 +46,7 @@
 *
 */
 
-#include <q3valuelist.h>
+#include <QList>
 #include <QString>
 
 class KAboutPersonPrivate;
@@ -363,17 +363,17 @@ public:
     /**
     * @return author information (list of persons).
     */
-    const Q3ValueList<KAboutPerson> authors() const;
+    const QList<KAboutPerson> authors() const;
 
     /**
     * @return credit information (list of persons).
     */
-    const Q3ValueList<KAboutPerson> credits() const;
+    const QList<KAboutPerson> credits() const;
 
     /**
     * @return translators information (list of persons)
     */
-    const Q3ValueList<KAboutTranslator> translators() const;
+    const QList<KAboutTranslator> translators() const;
 
     /**
     * @return a message about the translation team
