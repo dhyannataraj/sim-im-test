@@ -23,7 +23,7 @@ Summary(de):	SIM - Multiprotokoll Instant Messenger
 License: 	GPL
 Group: 		Applications/Internet
 URL: 		http://sim-im.berlios.de/
-Source0: 	sim-icq/%{name}-%{version}.tar.gz
+Source0: 	%{name}-%{version}.tar.gz
 BuildRequires:	autoconf >= 2.52, automake >= 1.5
 BuildRequires:  gcc, gcc-c++, XFree86-devel, zlib-devel, libjpeg-devel, expat-devel, flex, libart_lgpl-devel, libpng-devel, gettext
 %if %{with_kde}
