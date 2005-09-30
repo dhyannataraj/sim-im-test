@@ -201,8 +201,8 @@ int main(int argc, char *argv[])
                          KAboutData::License_GPL,
                          "Copyright (C) 2002-2004, Vladimir Shutoff",
                          0,
-                         "http://sim-icq.sourceforge.net/",
-                         "sim-icq-main@lists.sourceforge.net");
+                         "http://sim-im.berlios.de/",
+                         "https://lists.berlios.de/mailman/listinfo/sim-im-main");
     aboutData.addAuthor("Vladimir Shutoff",I18N_NOOP("Maintainer"),"vovan@shutoff.ru");
     aboutData.addAuthor("Christian Ehrlicher",I18N_NOOP("Developer"),"Ch.Ehrlicher@gmx.de");
     setAboutData(&aboutData);
