@@ -196,7 +196,7 @@ void JabberConfig::changed()
     emit okEnabled(bOK);
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "jabberconfig.moc"
 #endif
 

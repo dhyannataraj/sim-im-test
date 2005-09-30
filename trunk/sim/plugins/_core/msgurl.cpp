@@ -150,7 +150,7 @@ void *MsgUrl::processEvent(Event *e)
     return NULL;
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "msgurl.moc"
 #endif
 

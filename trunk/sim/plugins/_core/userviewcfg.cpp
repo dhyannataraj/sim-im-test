@@ -237,7 +237,7 @@ unsigned UserViewConfig::getSortMode()
     return (m3 << 16) + (m2 << 8) + m1;
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "userviewcfg.moc"
 #endif
 

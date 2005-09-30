@@ -83,7 +83,7 @@ void ConnectWnd::setErr(const QString &text, const char *url)
     }
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "connectwnd.moc"
 #endif
 

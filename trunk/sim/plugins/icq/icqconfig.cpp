@@ -140,7 +140,7 @@ void ICQConfig::changed()
     emit okEnabled(bOK);
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "icqconfig.moc"
 #endif
 

@@ -49,7 +49,7 @@ void NavCfg::apply()
 #endif
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "navcfg.moc"
 #endif
 

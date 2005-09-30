@@ -62,7 +62,7 @@ void PassphraseDlg::error()
     BalloonMsg::message(i18n("Bad passphrase"), btnOk);
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "passphrase.moc"
 #endif
 

@@ -1716,7 +1716,7 @@ void UserView::dragScroll()
         ensureItemVisible(item);
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "userview.moc"
 #endif
 

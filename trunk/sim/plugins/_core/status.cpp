@@ -501,7 +501,7 @@ void CommonStatus::finished()
     QTimer::singleShot(1000, this, SLOT(showBalloon()));
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "status.moc"
 #endif
 

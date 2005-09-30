@@ -69,7 +69,10 @@ protected:
 
 DDEstring::DDEstring(const char *name) : hSz(NULL)
 {
-    hSz = DdeCreateStringHandleA(*DDEbase::base, name, CP_WINANSI);
+    /*
+	Was aeeror with invalid converting to (CHAR*)
+    */	
+    hSz = DdeCreateStringHandleA(*DDEbase::base, (CHAR*)name, CP_WINANSI);
 }
 
 DDEstring::~DDEstring()

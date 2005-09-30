@@ -847,7 +847,7 @@ void SearchDialog::showClient(Client *client)
     }
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "search.moc"
 #endif
 

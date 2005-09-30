@@ -107,7 +107,7 @@ void MenuConfig::apply(void *_data)
     }
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "menucfg.moc"
 #endif
 

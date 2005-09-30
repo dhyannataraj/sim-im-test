@@ -1744,7 +1744,7 @@ void MsgEdit::setupMessages()
     eMsg.process();
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "msgedit.moc"
 #endif
 

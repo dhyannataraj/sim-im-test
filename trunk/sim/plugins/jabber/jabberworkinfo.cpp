@@ -83,7 +83,7 @@ void JabberWorkInfo::apply(Client *client, void *_data)
     set_str(&data->Role.ptr, edtRole->text().utf8());
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "jabberworkinfo.moc"
 #endif
 

@@ -300,6 +300,6 @@ void RadioGroup::mousePressEvent(QMouseEvent *e)
         m_button->setChecked(true);
 }
 
-#ifndef _WINDOWS
+#ifndef _MSC_VER
 #include "intedit.moc"
 #endif

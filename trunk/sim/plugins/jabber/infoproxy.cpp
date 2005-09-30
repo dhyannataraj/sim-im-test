@@ -38,7 +38,7 @@ void InfoProxy::apply(Client *client, void *data)
     emit sig_apply(client, data);
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "infoproxy.moc"
 #endif
 

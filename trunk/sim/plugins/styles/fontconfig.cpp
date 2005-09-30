@@ -109,7 +109,7 @@ void FontConfig::colorsToggled(bool bState)
     }
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "fontconfig.moc"
 #endif
 

@@ -203,7 +203,7 @@ MsgJournalWnd::~MsgJournalWnd()
     finished();
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "msgjournal.moc"
 #endif
 

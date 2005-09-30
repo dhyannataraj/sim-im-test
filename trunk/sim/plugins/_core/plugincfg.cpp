@@ -74,7 +74,7 @@ void PluginCfg::apply()
 {
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "plugincfg.moc"
 #endif
 

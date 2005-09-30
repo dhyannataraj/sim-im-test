@@ -137,7 +137,7 @@ QString KAboutApplication::quote(const QString &s)
     return res;
 }
 
-#ifndef _WINDOWS
+#ifndef _MSC_VER
 #include "aboutdlg.moc"
 #endif
 #endif

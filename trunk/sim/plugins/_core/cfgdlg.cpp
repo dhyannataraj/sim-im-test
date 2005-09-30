@@ -659,7 +659,7 @@ QListViewItem *ConfigureDialog::findItem(QWidget *w, QListViewItem *parent)
     return NULL;
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "cfgdlg.moc"
 #endif
 

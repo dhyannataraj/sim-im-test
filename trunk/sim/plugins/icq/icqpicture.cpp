@@ -142,7 +142,7 @@ void ICQPicture::setPict(QImage &img)
     lblPict->setMinimumSize(pict.size());
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "icqpicture.moc"
 #endif
 

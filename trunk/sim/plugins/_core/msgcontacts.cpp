@@ -139,7 +139,7 @@ void *MsgContacts::processEvent(Event *e)
 }
 
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "msgcontacts.moc"
 #endif
 

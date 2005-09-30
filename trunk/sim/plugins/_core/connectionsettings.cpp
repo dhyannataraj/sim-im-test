@@ -41,7 +41,7 @@ void ConnectionSettings::apply()
 {
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "connectionsettings.moc"
 #endif
 

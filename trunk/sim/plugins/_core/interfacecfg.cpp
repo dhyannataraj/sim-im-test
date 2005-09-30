@@ -266,7 +266,7 @@ void InterfaceConfig::apply()
 #endif
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "interfacecfg.moc"
 #endif
 

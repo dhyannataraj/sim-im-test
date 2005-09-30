@@ -3120,6 +3120,6 @@ bool SBSocket::declineMessage(Message *msg, const char *reason)
     return false;
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "msnclient.moc"
 #endif

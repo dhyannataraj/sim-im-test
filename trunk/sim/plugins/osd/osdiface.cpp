@@ -106,7 +106,7 @@ void OSDIface::apply(void *d)
     }
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "osdiface.moc"
 #endif
 

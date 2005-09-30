@@ -117,7 +117,7 @@ void MSNInfo::apply(Client *client, void *_data)
     set_str(&data->ScreenName.ptr, nick.utf8());
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "msninfo.moc"
 #endif
 

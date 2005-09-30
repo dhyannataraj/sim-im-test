@@ -66,7 +66,7 @@ void FilterConfig::apply(void *_data)
     set_str(&data->SpamList.ptr, edtFilter->text().utf8());
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "filtercfg.moc"
 #endif
 

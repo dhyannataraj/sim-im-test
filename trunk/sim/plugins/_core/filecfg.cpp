@@ -80,7 +80,7 @@ void FileConfig::acceptClicked(int id)
     edtDecline->setEnabled(id == 2);
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "filecfg.moc"
 #endif
 

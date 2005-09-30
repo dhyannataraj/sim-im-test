@@ -3016,7 +3016,7 @@ QString JabberClient::logoFile(JabberUserData *data)
     return QFile::decodeName(f.c_str());
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "jabberclient.moc"
 #endif
 

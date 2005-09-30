@@ -306,7 +306,7 @@ QString PastInfo::getInfo(QComboBox *cmb, QLineEdit *edt, const ext_info *info)
     return res;
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "pastinfo.moc"
 #endif
 

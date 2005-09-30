@@ -55,7 +55,7 @@ void AdvSearch::showEvent(QShowEvent *e)
     emit enableOptions(false);
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "advsearch.moc"
 #endif
 

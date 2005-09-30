@@ -58,7 +58,7 @@ void NonIM::add(unsigned grp_id)
     e.process();
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "nonim.moc"
 #endif
 

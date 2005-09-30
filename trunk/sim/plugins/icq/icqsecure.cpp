@@ -206,7 +206,7 @@ void ICQSecure::hideIpToggled(bool bOn)
     }
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "icqsecure.moc"
 #endif
 

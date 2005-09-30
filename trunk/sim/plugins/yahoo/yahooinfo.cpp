@@ -143,7 +143,7 @@ void YahooInfo::apply(Client *client, void *_data)
     set_str(&data->Last.ptr, edtLast->text().utf8());
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "yahooinfo.moc"
 #endif
 

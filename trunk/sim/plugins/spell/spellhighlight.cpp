@@ -323,7 +323,7 @@ void SpellHighlighter::restore()
     rehighlight();
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "spellhighlight.moc"
 #endif
 

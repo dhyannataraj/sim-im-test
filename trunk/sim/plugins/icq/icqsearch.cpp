@@ -471,7 +471,7 @@ void ICQSearch::createContact(const QString &name, unsigned tmpFlags, Contact *&
     contact->setFlags(contact->getFlags() | tmpFlags);
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "icqsearch.moc"
 #endif
 

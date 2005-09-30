@@ -157,7 +157,7 @@ void MouseConfig::changed(bool)
     adjustColumns();
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "mousecfg.moc"
 #endif
 

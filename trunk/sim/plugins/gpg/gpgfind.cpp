@@ -110,6 +110,6 @@ bool GpgFind::checkPath()
     return false;
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "gpgfind.moc"
 #endif

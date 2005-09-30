@@ -48,7 +48,7 @@ void GpgAdvanced::apply()
     m_plugin->setDecrypt(edtDecrypt->text().latin1());
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "gpgadv.moc"
 #endif
 

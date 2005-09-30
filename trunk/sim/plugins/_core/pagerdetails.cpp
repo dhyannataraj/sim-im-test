@@ -82,7 +82,7 @@ void PagerDetails::textChanged(const QString&)
     getNumber();
 }
 
-#ifndef _WINDOWS
+#ifndef _MSC_VER
 #include "pagerdetails.moc"
 #endif
 

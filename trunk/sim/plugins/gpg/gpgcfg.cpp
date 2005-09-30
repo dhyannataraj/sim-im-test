@@ -226,7 +226,7 @@ void GpgCfg::selectKey(int n)
     }
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "gpgcfg.moc"
 #endif
 

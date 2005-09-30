@@ -58,7 +58,7 @@ void AddItem::help()
     BalloonMsg::message(helpString, buttonHelp, false, 400);
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "additem.moc"
 #endif
 

@@ -2601,7 +2601,7 @@ void YahooFileTransfer::connect()
         m_notify->createFile(m_msg->getDescription(), 0xFFFFFFFF, false);
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "yahooclient.moc"
 #endif
 

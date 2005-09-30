@@ -17,7 +17,7 @@
 
 #include "simapi.h"
 
-#ifdef WIN32
+#if QT_VERSION < 0x030000
 #include "qt3/qsyntaxhighlighter.h"
 #else
 #include <qsyntaxhighlighter.h>
@@ -704,7 +704,7 @@ void HistoryConfig::toggledSize(bool bState)
     edtSize->setEnabled(bState);
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "historycfg.moc"
 #endif
 

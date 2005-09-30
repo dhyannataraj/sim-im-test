@@ -130,7 +130,7 @@ void PhoneDetails::textChanged(const QString&)
     getNumber();
 }
 
-#ifndef _WINDOWS
+#ifndef _MSC_VER
 #include "phonedetails.moc"
 #endif
 

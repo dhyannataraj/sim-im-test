@@ -264,7 +264,7 @@ void ProxyConfig::get(ProxyData *data)
     data->NoShow.bValue = chkNoShow->isChecked();
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "proxycfg.moc"
 #endif
 

@@ -362,7 +362,7 @@ void MainWindow::focusInEvent(QFocusEvent *e)
         CorePlugin::m_plugin->m_view->setFocus();
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "mainwin.moc"
 #endif
 

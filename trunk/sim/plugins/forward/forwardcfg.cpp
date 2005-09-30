@@ -55,7 +55,7 @@ void ForwardConfig::apply()
     apply(getContacts()->getUserData(m_plugin->user_data_id));
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "forwardcfg.moc"
 #endif
 

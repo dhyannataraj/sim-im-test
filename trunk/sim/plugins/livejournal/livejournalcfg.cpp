@@ -78,7 +78,7 @@ void LiveJournalCfg::apply(Client*, void*)
 {
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "livejournalcfg.moc"
 #endif
 

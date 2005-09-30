@@ -108,7 +108,7 @@ void OSDConfig::contentToggled(bool bState)
     lblLines->setEnabled(bState && chkMessage->isChecked());
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "osdconfig.moc"
 #endif
 

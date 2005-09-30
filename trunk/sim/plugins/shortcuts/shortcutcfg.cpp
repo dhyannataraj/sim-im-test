@@ -223,7 +223,7 @@ void ShortcutsConfig::globalChanged(bool)
     item->setText(2, chkGlobal->isChecked() ? i18n("Global") : QString(""));
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "shortcutcfg.moc"
 #endif
 

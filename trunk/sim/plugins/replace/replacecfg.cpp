@@ -180,7 +180,7 @@ void ReplaceCfg::mouseButtonPressed(int, QListViewItem *item, const QPoint&, int
     }
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "replacecfg.moc"
 #endif
 

@@ -43,7 +43,7 @@ void JournalSearch::createContact(unsigned tmpFlags, Contact *&contact)
     contact->setFlags(contact->getFlags() | tmpFlags);
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "journalsearch.moc"
 #endif
 

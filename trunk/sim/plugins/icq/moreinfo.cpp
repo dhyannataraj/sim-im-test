@@ -240,7 +240,7 @@ void MoreInfo::urlChanged(const QString &text)
     btnHomePage->setEnabled(!text.isEmpty());
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "moreinfo.moc"
 #endif
 

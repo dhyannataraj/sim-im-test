@@ -142,7 +142,7 @@ void SoundUserConfig::selectionChanged(QListViewItem *item)
     m_edit->setFocus();
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "sounduser.moc"
 #endif
 

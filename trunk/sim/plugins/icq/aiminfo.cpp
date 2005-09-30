@@ -224,7 +224,7 @@ void AIMInfo::fill()
     }
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "aiminfo.moc"
 #endif
 

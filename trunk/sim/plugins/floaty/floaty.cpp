@@ -302,7 +302,7 @@ extern "C" BOOL __stdcall _DllMainCRTStartup( HINSTANCE hinstDLL, DWORD fdwReaso
 
 #endif
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "floaty.moc"
 #endif
 

@@ -53,7 +53,7 @@ void EditMail::accept()
     EditMailBase::accept();
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "editmail.moc"
 #endif
 

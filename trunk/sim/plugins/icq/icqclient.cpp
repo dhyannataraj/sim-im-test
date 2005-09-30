@@ -3314,7 +3314,7 @@ Contact *ICQClient::getContact(ICQUserData *data)
     return contact;
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "icqclient.moc"
 #endif
 

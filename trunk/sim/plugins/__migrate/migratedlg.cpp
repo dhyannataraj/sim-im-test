@@ -395,7 +395,7 @@ void MigrateDialog::flush()
     m_charset	= "";
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "migratedlg.moc"
 #endif
 

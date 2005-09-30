@@ -182,7 +182,7 @@ void IgnoreList::removeItem(QListViewItem *item)
         lstIgnore->setCurrentItem(nextItem);
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "ignorelist.moc"
 #endif
 

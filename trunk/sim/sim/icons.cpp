@@ -974,7 +974,7 @@ void FileIconSet::char_data(const char *data, int size)
 
 };
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "icons.moc"
 #endif
 

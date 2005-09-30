@@ -288,7 +288,7 @@ void Commands::set(CommandsDef *def, const char *str)
     }
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "commands.moc"
 #endif
 

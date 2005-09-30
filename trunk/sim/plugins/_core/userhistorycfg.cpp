@@ -63,7 +63,7 @@ void UserHistoryCfg::toggledSize(bool bState)
     edtSize->setEnabled(bState);
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "userhistorycfg.moc"
 #endif
 

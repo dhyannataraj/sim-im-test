@@ -988,7 +988,7 @@ I18N_NOOP("Choose a user and password to register with the server");
 
 #endif
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "jabberbrowser.moc"
 #endif
 

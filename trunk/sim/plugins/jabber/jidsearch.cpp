@@ -182,7 +182,7 @@ i18n("Organization Name")
 i18n("Organization Unit")
 #endif
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "jidsearch.moc"
 #endif
 

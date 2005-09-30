@@ -1390,7 +1390,7 @@ void DockWnd::reset()
         setTip(m_tip);
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "dockwnd.moc"
 #endif
 

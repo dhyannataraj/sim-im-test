@@ -242,7 +242,7 @@ bool Tmpl::getTag(const string &name, void *_data, const DataDef *def, QString &
     return true;
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "tmpl.moc"
 #endif
 

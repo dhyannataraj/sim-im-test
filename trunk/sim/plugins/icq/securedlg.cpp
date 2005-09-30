@@ -92,7 +92,7 @@ void SecureDlg::error(const char *err)
     btnCancel->setText(i18n("&Close"));
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "securedlg.moc"
 #endif
 

@@ -660,7 +660,7 @@ void JIDJabberSearch::createLayout()
     m_instruction = "";
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "jabbersearch.moc"
 #endif
 

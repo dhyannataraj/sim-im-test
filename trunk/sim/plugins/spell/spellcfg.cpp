@@ -212,7 +212,7 @@ void SpellConfig::setCheck(QListViewItem *item)
     item->setPixmap(COL_CHECK, pixInd);
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "spellcfg.moc"
 #endif
 

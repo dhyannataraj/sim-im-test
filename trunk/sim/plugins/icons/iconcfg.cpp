@@ -120,7 +120,7 @@ void IconCfg::selectionChanged()
     btnDown->setEnabled(n < (int)(lstIcon->count() - 1));
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "iconcfg.moc"
 #endif
 

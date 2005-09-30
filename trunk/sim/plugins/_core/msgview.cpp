@@ -1480,7 +1480,7 @@ QString MsgViewBase::parseText(const QString &text, bool bIgnoreColors, bool bUs
     return parser.parse(text);
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "msgview.moc"
 #endif
 

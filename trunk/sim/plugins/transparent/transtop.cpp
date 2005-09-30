@@ -90,7 +90,7 @@ void TransparentTop::backgroundUpdated( const QPixmap &pm )
 }
 #endif
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "transtop.moc"
 #endif
 

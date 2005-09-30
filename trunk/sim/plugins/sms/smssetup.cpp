@@ -85,7 +85,7 @@ void SMSSetup::init()
     emit okEnabled(true);
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "smssetup.moc"
 #endif
 

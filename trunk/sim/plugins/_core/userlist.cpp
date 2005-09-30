@@ -1212,7 +1212,7 @@ void UserList::contentsMouseReleaseEvent(QMouseEvent *e)
     m_pressedItem = NULL;
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "userlist.moc"
 #endif
 

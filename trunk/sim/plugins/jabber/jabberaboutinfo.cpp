@@ -72,7 +72,7 @@ void JabberAboutInfo::apply(Client *client, void *_data)
     set_str(&data->Desc.ptr, edtAbout->text().utf8());
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "jabberaboutinfo.moc"
 #endif
 

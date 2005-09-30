@@ -110,7 +110,7 @@ void StylesConfig::apply()
         m_plugin->setStyles();
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "stylescfg.moc"
 #endif
 

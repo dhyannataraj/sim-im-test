@@ -92,7 +92,7 @@ void *WarnDlg::processEvent(Event *e)
     return NULL;
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "warndlg.moc"
 #endif
 

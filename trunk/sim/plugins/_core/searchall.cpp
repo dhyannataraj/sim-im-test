@@ -168,7 +168,7 @@ void SearchAll::slotAddItem(const QStringList &attrs, QWidget *w)
     emit addItem(la, w);
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "searchall.moc"
 #endif
 

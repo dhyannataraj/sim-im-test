@@ -201,7 +201,7 @@ void MsgReceived::init()
     m_msg = NULL;
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "msgrecv.moc"
 #endif
 

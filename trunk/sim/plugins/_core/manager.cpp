@@ -177,7 +177,7 @@ void ConnectionManager::updateClient()
     e.process();
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "manager.moc"
 #endif
 

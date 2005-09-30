@@ -55,7 +55,7 @@ void MSNSearch::createContact(unsigned tmpFlags, Contact *&contact)
     contact->setFlags(contact->getFlags() | tmpFlags);
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "msnsearch.moc"
 #endif
 

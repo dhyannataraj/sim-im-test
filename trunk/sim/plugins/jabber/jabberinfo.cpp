@@ -229,7 +229,7 @@ void JabberInfo::urlChanged(const QString &text)
     btnUrl->setEnabled(!text.isEmpty());
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "jabberinfo.moc"
 #endif
 

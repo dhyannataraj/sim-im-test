@@ -235,7 +235,7 @@ void ToolBarSetup::downClick()
     bDirty = true;
 }
 
-#ifndef _WINDOWS
+#ifndef _MSC_VER
 #include "toolsetup.moc"
 #endif
 

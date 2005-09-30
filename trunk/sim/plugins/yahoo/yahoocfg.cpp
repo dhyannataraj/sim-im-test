@@ -87,7 +87,7 @@ void YahooConfig::changed()
                    atol(edtPort->text()));
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "yahoocfg.moc"
 #endif
 

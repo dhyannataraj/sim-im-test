@@ -193,6 +193,6 @@ QFont FontEdit::str2font(const char *str, const QFont &def)
     return f;
 }
 
-#ifndef _WINDOWS
+#ifndef _MSC_VER
 #include "fontedit.moc"
 #endif

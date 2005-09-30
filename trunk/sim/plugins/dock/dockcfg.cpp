@@ -65,7 +65,7 @@ void DockCfg::customize()
     e.process();
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "dockcfg.moc"
 #endif
 

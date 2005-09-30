@@ -154,7 +154,7 @@ void WorkInfo::apply(Client *client, void *_data)
     set_str(&data->WorkHomepage.ptr, getContacts()->fromUnicode(NULL, edtSite->text()).c_str());
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "workinfo.moc"
 #endif
 

@@ -93,7 +93,7 @@ void *MsgAuth::processEvent(Event *e)
     return NULL;
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "msgauth.moc"
 #endif
 

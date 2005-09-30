@@ -35,7 +35,7 @@ void OnTopCfg::apply()
     m_plugin->setState();
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "ontopcfg.moc"
 #endif
 

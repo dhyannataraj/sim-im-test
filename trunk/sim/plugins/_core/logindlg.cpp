@@ -487,7 +487,7 @@ void *LoginDialog::processEvent(Event *e)
     return NULL;
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "logindlg.moc"
 #endif
 

@@ -72,7 +72,7 @@ void ProxyError::accept()
     ProxyErrorBase::accept();
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "proxyerror.moc"
 #endif
 

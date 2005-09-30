@@ -36,10 +36,16 @@ Copyright (C) 2003  Tarkvara Design Inc.
 #ifdef WIN32
 #include <windows.h>
 
+#ifndef __MINGW32__
+/*
+  already defined in winuser.h, which is included in windows.h 
+  (at least in MingW) headers
+*/
 typedef struct tagLASTINPUTINFO {
     UINT cbSize;
     DWORD dwTime;
 } LASTINPUTINFO, * PLASTINPUTINFO;
+#endif
 
 static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
 static DWORD (__stdcall *_IdleUIGetLastInputTime)(void);
@@ -406,7 +412,7 @@ extern "C" BOOL __stdcall _DllMainCRTStartup( HINSTANCE hinstDLL, DWORD fdwReaso
 
 #endif
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "autoaway.moc"
 #endif
 

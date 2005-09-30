@@ -524,7 +524,7 @@ void ExecManager::checkChilds()
 #endif
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "exec.moc"
 #endif
 
