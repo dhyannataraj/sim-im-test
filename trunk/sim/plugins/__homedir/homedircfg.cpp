@@ -77,4 +77,7 @@ void HomeDirConfig::defaultToggled(bool bState)
         edtPath->setText(QFile::decodeName(m_plugin->defaultPath().c_str()));
 }
 
+#ifndef _MSC_VER
+#include "homedircfg.moc"
+#endif
 
