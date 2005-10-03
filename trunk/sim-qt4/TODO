@@ -5,3 +5,21 @@ TODO list for sim-im 1.0.0:
 1) profiles (icesik@)
 2) port to Qt4 (darkstar@)
 3) fix all bugs ;-)
+
+darkstar@: port to qt4 todo:
+get read of:
+    Q3MimeSourceFactory (port to QMimeData)
+    Q3SimpleRichText (port to QTextEdit)
+    Q3ListView[Item] (not yet choosed, what to do with it)
+    Q3Accell (port to QAction)
+    Q3Wizard (create new dialogs with QDialog class)
+rewrite:
+    api library and core plugin to use Unicode (utf-8) encoding for all internal text exchange
+    history view module (recreate interface and change behavior)
+    userlist and profiles module (fix userlist handling and profile management)
+    message windows containers (port from old QTabbar API)
+    all drag and drop handling (port to QMimeData and QGrag API)
+add:
+    jabber conferencing support
+    customize few dialogs (add pictures, styles and other stuff just for beauty ;)
+        

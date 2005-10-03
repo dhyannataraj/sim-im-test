@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: metal.h,v 1.4 2004-06-04 16:55:46 shutoff Exp $
+** $Id: metal.h,v 1.4 2004/06/04 16:55:46 shutoff Exp $
 **
 ** Definition of something or other
 **
@@ -16,7 +16,7 @@
 #define METAL_H
 
 #include <qwindowsstyle.h>
-#include <qpalette.h>
+#include <QPalette>
 
 class MetalStyle : public QWindowsStyle
 {

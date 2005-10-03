@@ -512,7 +512,7 @@ void JabberSearch::createLayout()
 HelpButton::HelpButton(const QString &help, QWidget *parent)
         : QPushButton(parent)
 {
-    const QPixmap p = Pict("help").pixmap();
+    const QPixmap p = getIcon("help").pixmap(22, QIcon::Normal, QIcon::Off);
     setPixmap(p);
     m_help = help;
     connect(this, SIGNAL(clicked()), this, SLOT(click()));

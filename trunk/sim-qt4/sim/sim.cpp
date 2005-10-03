@@ -193,6 +193,7 @@ int main(int argc, char *argv[])
     Qt::HANDLE hMutex = CreateMutexA(NULL, FALSE, "SIM_Mutex");
 #endif
     QApplication::setColorSpec( QApplication::ManyColor );
+    Q_INIT_RESOURCE(sim);
     qInstallMsgHandler(simMessageOutput);
     KAboutData aboutData(PACKAGE,
                          I18N_NOOP("SIM"),
@@ -205,6 +206,7 @@ int main(int argc, char *argv[])
                          "https://lists.berlios.de/mailman/listinfo/sim-im-main");
     aboutData.addAuthor("Vladimir Shutoff",I18N_NOOP("Maintainer"),"vovan@shutoff.ru");
     aboutData.addAuthor("Christian Ehrlicher",I18N_NOOP("Developer"),"Ch.Ehrlicher@gmx.de");
+    aboutData.addAuthor("Albert Valiev",I18N_NOOP("Current maintainer"),"darkstar@altlinux.org");
     setAboutData(&aboutData);
 #ifndef WIN32
     int _argc = 0;

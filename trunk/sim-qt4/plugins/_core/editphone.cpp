@@ -35,9 +35,9 @@ EditPhone::EditPhone(QWidget *parent, const QString &number, const QString &type
     this->setAttribute( Qt::WA_DeleteOnClose);
     setupUi( this);
     SET_WNDPROC("editphone")
-    setIcon(Pict("phone").pixmap());
+    setWindowIcon(getIcon("phone"));
     setButtonsPict(this);
-    setCaption(number.isEmpty() ? i18n("Add phone number") : i18n("Edit phone number"));
+    setWindowTitle(number.isEmpty() ? i18n("Add phone number") : i18n("Edit phone number"));
     m_ok = false;
     m_phone = new PhoneDetails(wndDetails, (icon == PAGER) ? QString() : number);
     m_pager = new PagerDetails(wndDetails, (icon == PAGER) ? number : QString());
@@ -47,7 +47,7 @@ EditPhone::EditPhone(QWidget *parent, const QString &number, const QString &type
     connect(m_pager, SIGNAL(numberChanged(const QString&, bool)), this, SLOT(numberChanged(const QString&, bool)));
     edtDetails->setReadOnly(true);
     for (const ext_info *icons = phoneIcons; icons->szName; icons++){
-        cmbType->insertItem(Pict(icons->szName).pixmap());
+        cmbType->addItem(getIcon(icons->szName), "");
     }
     for (const char **names = phoneTypeNames; *names; names++){
         cmbName->insertItem(i18n(*names));
@@ -141,7 +141,7 @@ void EditPhone::accept()
     }
     icon = cmbType->currentItem();
     publish = chkPublish->isChecked();
-    accept();
+    QDialog::accept();
 }
 
 #ifndef WIN32

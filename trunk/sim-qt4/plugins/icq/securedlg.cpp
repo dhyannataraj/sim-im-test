@@ -31,9 +31,9 @@ SecureDlg::SecureDlg(ICQClient *client, unsigned contact, struct ICQUserData *da
     setAttribute( Qt::WA_DeleteOnClose);
     setupUi( this);
     SET_WNDPROC("secure")
-    setIcon(Pict("encrypted").pixmap());
+    setWindowIcon(getIcon("encrypted"));
     setButtonsPict(this);
-    setCaption(caption());
+    setWindowTitle(caption());
     m_client  = client;
     m_contact = contact;
     m_data    = data;

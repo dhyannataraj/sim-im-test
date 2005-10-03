@@ -40,7 +40,7 @@ DiscoInfo::DiscoInfo(JabberBrowser *browser, const QString &features,
     setupUi( this);
     m_browser = browser;
     SET_WNDPROC("jbrowser")
-    setIcon(Pict("Jabber_online").pixmap());
+    setWindowIcon(getIcon("Jabber_online"));
     setTitle();
     setButtonsPict(this);
     connect(buttonApply, SIGNAL(clicked()), this, SLOT(apply()));
@@ -68,7 +68,7 @@ DiscoInfo::DiscoInfo(JabberBrowser *browser, const QString &features,
     lstStat->addColumn(i18n("Units"));
     lstStat->addColumn(i18n("Value"));
     lstStat->setExpandingColumn(2);
-    btnUrl->setPixmap(Pict("home").pixmap());
+    btnUrl->setIcon(getIcon("home"));
     connect(btnUrl, SIGNAL(clicked()), this, SLOT(goUrl()));
     connect(edtUrl, SIGNAL(textChanged(const QString&)), this, SLOT(urlChanged(const QString&)));
 }
@@ -81,7 +81,7 @@ DiscoInfo::~DiscoInfo()
 
 void DiscoInfo::setTitle()
 {
-    setCaption(m_url);
+    setWindowTitle(m_url);
 }
 
 void DiscoInfo::reset()
@@ -267,14 +267,14 @@ void *DiscoInfo::processEvent(Event *e)
 
 void DiscoInfo::resizeEvent(QResizeEvent *e)
 {
-    resizeEvent(e);
+    QDialog::resizeEvent(e);
     lstStat->adjustColumn();
 }
 
 void DiscoInfo::accept()
 {
     apply();
-    accept();
+    QDialog::accept();
 }
 
 void DiscoInfo::apply()

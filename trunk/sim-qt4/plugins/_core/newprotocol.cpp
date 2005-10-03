@@ -45,9 +45,9 @@ NewProtocol::NewProtocol(QWidget *parent)
     m_bConnect = false;
     m_bStart   = (parent == NULL);
     SET_WNDPROC("protocol")
-    setIcon(Pict("configure").pixmap());
+    setWindowIcon(getIcon("configure"));
     setButtonsPict(this);
-    setCaption(caption());
+    setWindowTitle(title(parent));
     helpButton()->hide();
     for (unsigned n = 0;; n++){
         Event e(EventPluginGetInfo, (void*)n);
@@ -79,7 +79,7 @@ NewProtocol::NewProtocol(QWidget *parent)
     sort(m_protocols.begin(), m_protocols.end(), cmp_protocol);
     for (unsigned i = 0; i < m_protocols.size(); i++){
         const CommandDef *cmd = m_protocols[i]->description();
-        cmbProtocol->insertItem(Pict(cmd->icon, cmbProtocol->colorGroup().base()).pixmap(), i18n(cmd->text));
+        cmbProtocol->addItem(getIcon(cmd->icon, cmbProtocol->colorGroup().base()), i18n(cmd->text));
     }
     connect(cmbProtocol, SIGNAL(activated(int)), this, SLOT(protocolChanged(int)));
     cmbProtocol->setCurrentItem(0);
@@ -161,7 +161,7 @@ void NewProtocol::protocolChanged(int n)
         addPage(m_last, i18n(protocol->description()->text));
     }
     setNextEnabled(currentPage(), true);
-    setIcon(Pict(protocol->description()->icon).pixmap());
+    setWindowIcon(getIcon(protocol->description()->icon));
     Event e(EventRaiseWindow, this);
     e.process();
 }

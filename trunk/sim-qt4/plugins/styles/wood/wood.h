@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: wood.h,v 1.3 2004-06-04 16:55:46 shutoff Exp $
+** $Id: wood.h,v 1.3 2004/06/04 16:55:46 shutoff Exp $
 **
 ** Definition of something or other
 **
@@ -16,7 +16,7 @@
 #define WOOD_H
 
 #include <qwindowsstyle.h>
-#include <qpalette.h>
+#include <QPalette>
 
 class NorwegianWoodStyle : public QWindowsStyle
 {

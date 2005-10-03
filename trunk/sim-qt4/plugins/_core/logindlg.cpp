@@ -37,7 +37,7 @@
 LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const char *loginProfile)
         : QDialog( NULL)
 {
-    this->setAttribute( Qt::WA_DeleteOnClose);
+//    this->setAttribute( Qt::WA_DeleteOnClose);
     setupUi( this);
     m_bInit  = bInit;
     m_bProfileChanged = false;
@@ -53,11 +53,11 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const 
     setButtonsPict(this);
     lblMessage->setText(text);
     if (m_client){
-        setCaption(caption() + " " + QString::fromLocal8Bit(client->name().c_str()));
-        setIcon(Pict(m_client->protocol()->description()->icon).pixmap());
+        setWindowTitle(caption() + " " + QString::fromLocal8Bit(client->name().c_str()));
+        setWindowIcon(getIcon(m_client->protocol()->description()->icon));
     }else{
-        setCaption(i18n("Select profile"));
-        setIcon(Pict("ICQ").pixmap());
+        setWindowTitle(i18n("Select profile"));
+        setWindowIcon(getIcon("ICQ"));
     }
     if (m_client){
         chkSave->hide();
@@ -73,6 +73,8 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const 
     fill();
     connect(cmbProfile, SIGNAL(activated(int)), this, SLOT(profileChanged(int)));
     connect(btnDelete, SIGNAL(clicked()), this, SLOT(profileDelete()));
+    connect(buttonOk, SIGNAL(clicked()), this, SLOT(accept()));
+    connect(buttonCancel, SIGNAL(clicked()), this, SLOT(reject()));
     profileChanged(cmbProfile->currentItem());
 }
 
@@ -94,7 +96,7 @@ void LoginDialog::closeEvent(QCloseEvent *e)
         stopLogin();
         return;
     }
-    closeEvent(e);
+    QDialog::closeEvent(e);
 }
 
 void LoginDialog::accept()
@@ -114,7 +116,7 @@ void LoginDialog::accept()
         if (status == STATUS_OFFLINE)
             status = STATUS_ONLINE;
         m_client->setStatus(status, m_client->getCommonStatus());
-        accept();
+        QDialog::accept();
         return;
     }
 
@@ -125,7 +127,7 @@ void LoginDialog::accept()
         CorePlugin::m_plugin->setNoShow(chkNoShow->isChecked());
         CorePlugin::m_plugin->setProfile(NULL);
         CorePlugin::m_plugin->changeProfile();
-        accept();
+        QDialog::accept();
         return;
     }
 
@@ -182,7 +184,7 @@ void LoginDialog::accept()
         }
         return;
     }
-    accept();
+    QDialog::accept();
 }
 
 void LoginDialog::reject()
@@ -191,7 +193,7 @@ void LoginDialog::reject()
         stopLogin();
         return;
     }
-    reject();
+    QDialog::reject();
 }
 
 void LoginDialog::profileChanged(int)
@@ -288,7 +290,7 @@ void LoginDialog::makeInputs(unsigned &row, Client *client, bool bQuick)
 {
     if (!bQuick){
         QLabel *pict = new QLabel(this);
-        pict->setPixmap(Pict(client->protocol()->description()->icon).pixmap());
+        pict->setPixmap(getIcon(client->protocol()->description()->icon).pixmap(22, QIcon::Normal, QIcon::Off));
         picts.push_back(pict);
         gridLayout->addWidget(pict, row, 0);
         pict->show();
@@ -340,9 +342,7 @@ void LoginDialog::fill()
         CorePlugin::m_plugin->loadClients(clients);
         if (clients.size()){
             Client *client = clients[0];
-            cmbProfile->insertItem(
-                Pict(client->protocol()->description()->icon).pixmap(),
-                QString::fromLocal8Bit(client->name().c_str()));
+            cmbProfile->addItem(getIcon(client->protocol()->description()->icon), QString::fromLocal8Bit(client->name().c_str()));
         }
     }
     cmbProfile->insertItem(i18n("New profile"));

@@ -9,16 +9,16 @@
 *****************************************************************************/
 
 #include "metal.h"
-#include "qapplication.h"
-#include "qpainter.h"
+#include "QApplication"
+#include "QPainter"
 #include "qdrawutil.h" // for now
-#include "qpixmap.h" // for now
-#include "qpalette.h" // for now
-#include "qwidget.h"
-#include "qlabel.h"
-#include "qimage.h"
-#include "qpushbutton.h"
-#include "qwidget.h"
+#include "QPixmap" // for now
+#include "QPalette" // for now
+#include "QWidget"
+#include "QLabel"
+#include "QImage"
+#include "QPushButton"
+#include "QWidget"
 #include "q3rangecontrol.h"
 #include "qscrollbar.h"
 //Added by qt3to4:
@@ -66,7 +66,7 @@ void MetalStyle::polish( QApplication *app)
         img.setColor(i,rgb);
     }
     QPixmap mid;
-    mid.fromImage(img);
+    mid.convertFromImage(img);
 
     img = orig;
     for (i=0; i<img.numColors(); i++) {
@@ -76,7 +76,7 @@ void MetalStyle::polish( QApplication *app)
         img.setColor(i,rgb);
     }
     QPixmap light;
-    light.fromImage(img);
+    light.convertFromImage(img);
 
     img = orig;
     for (i=0; i<img.numColors(); i++) {
@@ -86,7 +86,7 @@ void MetalStyle::polish( QApplication *app)
         img.setColor(i,rgb);
     }
     QPixmap dark;
-    dark.fromImage(img);
+    dark.convertFromImage(img);
 #else
     QPixmap dark( 1, 1 ); dark.fill( Qt::red.dark() );
     QPixmap mid( stone1_xpm );

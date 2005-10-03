@@ -48,9 +48,9 @@ SearchDialog::SearchDialog()
 {
     m_search->setupUi( this);
     SET_WNDPROC("search")
-    setIcon(Pict("find").pixmap());
+    setWindowIcon(getIcon("find"));
     setButtonsPict(this);
-    setCaption(i18n("Search"));
+    setWindowTitle(i18n("Search"));
     m_current = NULL;
     m_currentResult = NULL;
     m_bAdd = true;
@@ -170,7 +170,7 @@ void SearchDialog::fillClients()
         }
         if (n >= widgets.size())
             m_search->wndCondition->addWidget(search, ++m_id);
-        m_search->cmbClients->insertItem(Pict(client->protocol()->description()->icon, m_search->cmbClients->colorGroup().base()).pixmap(),
+        m_search->cmbClients->addItem(getIcon(client->protocol()->description()->icon, m_search->cmbClients->colorGroup().base()),
                                          CorePlugin::m_plugin->clientName(client));
         ClientWidget cw;
         cw.client = client;
@@ -197,7 +197,7 @@ void SearchDialog::fillClients()
             search = new SearchAll(m_search->wndCondition);
             m_search->wndCondition->addWidget(new SearchAll(m_search->wndCondition), ++m_id);
         }
-        m_search->cmbClients->insertItem(Pict("find", m_search->cmbClients->colorGroup().base()).pixmap(),
+        m_search->cmbClients->addItem(getIcon("find", m_search->cmbClients->colorGroup().base()),
                                          i18n("All networks"));
         ClientWidget cw;
         cw.client = (Client*)(-1);
@@ -219,7 +219,7 @@ void SearchDialog::fillClients()
         search = new NonIM(m_search->wndCondition);
         m_search->wndCondition->addWidget(search, ++m_id);
     }
-    m_search->cmbClients->insertItem(Pict("nonim", m_search->cmbClients->colorGroup().base()).pixmap(),
+    m_search->cmbClients->addItem(getIcon("nonim", m_search->cmbClients->colorGroup().base()),
                                      i18n("Non-IM contact"));
     ClientWidget cw;
     cw.client = NULL;
@@ -242,8 +242,8 @@ void SearchDialog::fillClients()
                 break;
         if (i >= m_widgets.size())
             continue;
-        m_search->cmbClients->insertItem(Pict(widgets[n].client->protocol()->description()->icon,
-                                              m_search->cmbClients->colorGroup().base()).pixmap(), widgets[n].name);
+        m_search->cmbClients->addItem(getIcon(widgets[n].client->protocol()->description()->icon,
+                                              m_search->cmbClients->colorGroup().base()), widgets[n].name);
         m_widgets.push_back(widgets[n]);
         widgets[n].widget = NULL;
     }
@@ -296,11 +296,11 @@ void SearchDialog::setTitle()
         name = client->name().c_str();
     CorePlugin::m_plugin->setSearchClient(name.c_str());
     if (m_bAdd){
-        setCaption(i18n("Add") + ": " + m_search->cmbClients->currentText());
-        setIcon(Pict("add").pixmap());
+        setWindowTitle(i18n("Add") + ": " + m_search->cmbClients->currentText());
+        setWindowIcon(getIcon("add"));
     }else{
-        setCaption(i18n("Search") + ": " + m_search->cmbClients->currentText());
-        setIcon(Pict("find").pixmap());
+        setWindowTitle(i18n("Search") + ": " + m_search->cmbClients->currentText());
+        setWindowIcon(getIcon("find"));
     }
 }
 
@@ -702,7 +702,7 @@ void SearchDialog::addItem(const QStringList &values, QWidget *wnd)
         m_result->viewport()->setUpdatesEnabled(false);
     }
     item = new SearchViewItem(m_result);
-    item->setPixmap(0, Pict(values[0].toLatin1(), m_result->colorGroup().base()).pixmap());
+    item->setPixmap(0, getIcon(values[0].toLatin1(), m_result->colorGroup().base()).pixmap(22, QIcon::Normal, QIcon::Off));
     item->setText(COL_KEY, values[1]);
     for (int i = 2; (unsigned)i < values.count(); i++)
         item->setText(i - 2, values[i]);
@@ -828,7 +828,7 @@ void SearchDialog::addSearch(QWidget *w, Client *client, const QString &name)
     cw.client = client;
     cw.name   = name;
     m_widgets.push_back(cw);
-    m_search->cmbClients->insertItem(Pict(client->protocol()->description()->icon).pixmap(), name);
+    m_search->cmbClients->addItem(getIcon(client->protocol()->description()->icon), name);
     m_search->cmbClients->setCurrentItem(m_widgets.size() - 1);
     clientActivated(m_widgets.size() - 1);
 }

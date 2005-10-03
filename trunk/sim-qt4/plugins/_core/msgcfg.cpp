@@ -76,7 +76,7 @@ void MessageConfig::setEnabled(bool state)
 {
     if (m_file)
         m_file->setEnabled(state);
-    setEnabled(state);
+    QWidget::setEnabled(state);
 }
 
 #ifndef WIN32

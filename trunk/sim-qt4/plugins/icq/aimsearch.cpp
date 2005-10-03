@@ -27,7 +27,7 @@ AIMSearch::AIMSearch()
 
 void AIMSearch::showEvent(QShowEvent *e)
 {
-    showEvent(e);
+    QWidget::showEvent(e);
     emit enableOptions(false);
 }
 

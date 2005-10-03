@@ -33,7 +33,7 @@ MoreInfo::MoreInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, 
     m_data    = data;
     m_client  = client;
     m_contact = contact;
-    btnHomePage->setPixmap(Pict("home").pixmap());
+    btnHomePage->setIcon(getIcon("home"));
     connect(btnHomePage, SIGNAL(clicked()), this, SLOT(goUrl()));
     spnAge->setSpecialValueText(" ");
     spnAge->setRange(0, 100);

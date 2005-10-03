@@ -37,10 +37,9 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
     setupUi( this);
     SET_WNDPROC("about")
     setButtonsPict(this);
-    setCaption(caption());
-
+    setWindowTitle(caption());
     connect(btnOK, SIGNAL(clicked()), this, SLOT(close()));
-    setIcon(Pict("ICQ").pixmap());
+    setWindowIcon(getIcon("ICQ"));
     QIconSet icon = Icon("ICQ");
     if (!icon.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
         lblIcon->setPixmap(icon.pixmap(QIconSet::Large, QIconSet::Normal));
@@ -107,7 +106,7 @@ KAboutApplication::~KAboutApplication()
 
 void KAboutApplication::closeEvent(QCloseEvent *e)
 {
-    closeEvent(e);
+    QDialog::closeEvent(e);
     emit finished();
 }
 

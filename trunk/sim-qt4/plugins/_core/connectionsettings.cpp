@@ -32,8 +32,8 @@ ConnectionSettings::ConnectionSettings(Client *client)
     m_client = client;
     Protocol *protocol = client->protocol();
     const CommandDef *cmd = protocol->description();
-    setIcon(Pict(cmd->icon).pixmap());
-    setCaption(i18n("Configure %1 client") .arg(i18n(cmd->text)));
+    setWindowIcon(getIcon(cmd->icon));
+    setWindowTitle(i18n("Configure %1 client") .arg(i18n(cmd->text)));
     QVBoxLayout *lay = new QVBoxLayout(addWnd);
     QWidget *setupWnd = client->setupWnd();
     setupWnd->reparent(addWnd, QPoint());

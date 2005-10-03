@@ -38,7 +38,7 @@ MSNSearch::MSNSearch(MSNClient *client, QWidget *parent)
 
 void MSNSearch::showEvent(QShowEvent *e)
 {
-    showEvent(e);
+    QWidget::showEvent(e);
     emit setAdd(true);
 }
 

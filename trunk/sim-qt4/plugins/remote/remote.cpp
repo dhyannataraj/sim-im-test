@@ -551,7 +551,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
     switch (nCmd){
 #ifdef WIN32
     case CMD_ICON:{
-            IconWidget w(Pict(args[0].toUtf8()));
+            IconWidget w(getIcon(args[0].toUtf8()));
             HICON icon = w.icon();
             ICONINFO info;
             if (!GetIconInfo(icon, &info))

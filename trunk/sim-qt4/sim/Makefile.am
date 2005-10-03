@@ -3,7 +3,7 @@ lib_LTLIBRARIES = libsim.la
 
 SUBDIRS=png
 
-sim_SOURCES = sim.cpp
+sim_SOURCES = sim.cpp sim-resource.cpp
 
 libsim_la_SOURCES = \
  aboutdata.cpp \
@@ -52,6 +52,9 @@ EXTRA_DIST = \
  sim.cpp \
  sim.h
 
+sim-resource.cpp: $(RCC) sim.qrc
+	$(RCC) -o sim-resource.cpp -name sim $(srcdir)/sim.qrc
+
 install-data-local:
 	$(mkinstalldirs) $(libdir)/menu
 	$(INSTALL_DATA) $(srcdir)/sim-kde.menu $(libdir)/menu
@@ -69,5 +72,4 @@ METASOURCES = AUTO
 # the library search path. 
 sim_LDFLAGS = $(QT_LDFLAGS) $(KDE_RPATH) $(SSL_LDFLAGS) $(all_libraries)
 libsim_la_LDFLAGS = $(QT_LDFLAGS) $(KDE_RPATH) $(SSL_LDFLAGS) $(all_libraries)
-
 

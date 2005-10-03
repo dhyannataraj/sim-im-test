@@ -296,7 +296,7 @@ protected:
 WharfIcon::WharfIcon(DockWnd *parent)
         : QWidget(parent, "WharfIcon")
 {
-    setCaption("SIM Wharf");
+    setWindowTitle("SIM Wharf");
     dock = parent;
     p_width  = 64;
     p_height = 64;
@@ -364,7 +364,7 @@ void WharfIcon::set(const char *icon, const char *msg)
         move((p_width - nvis->width()) / 2, (p_height - nvis->height()) / 2);
     }
     if (msg){
-        QPixmap msgPict = Pict(msg).pixmap();
+        QPixmap msgPict = getIcon(msg).pixmap(22, QIcon::Normal, QIcon::Off);
         QRegion *rgn = NULL;
         if (nvis->selfMask() && msgPict.selfMask()){
             rgn = new QRegion(msgPict.mask());
@@ -1173,7 +1173,7 @@ void DockWnd::setIcon(const char *icon)
     }
 #endif
 #endif
-    drawIcon = Pict(icon).pixmap();
+    drawIcon = getIcon(icon).pixmap(22, QIcon::Normal, QIcon::Off);
 #ifndef WIN32
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
     if (!inTray){

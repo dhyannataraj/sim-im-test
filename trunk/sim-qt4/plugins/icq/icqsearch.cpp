@@ -81,7 +81,7 @@ void ICQSearch::advDestroyed()
 
 void ICQSearch::showEvent(QShowEvent *e)
 {
-    showEvent(e);
+    QWidget::showEvent(e);
     emit setAdd(grpAOL->isChecked() || grpScreen->isChecked());
     if (m_adv && m_bAdv)
         emit showResult(m_adv);

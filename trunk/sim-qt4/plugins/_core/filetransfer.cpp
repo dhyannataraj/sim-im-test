@@ -202,7 +202,7 @@ FileTransferDlg::FileTransferDlg(FileMessage *msg)
     setupUi( this);
     m_msg = msg;
     SET_WNDPROC("filetransfer")
-    setIcon(Pict("file").pixmap());
+    setWindowIcon(getIcon("file"));
     setButtonsPict(this);
     QString name;
     Contact *contact = getContacts()->contact(m_msg->contact());
@@ -210,7 +210,7 @@ FileTransferDlg::FileTransferDlg(FileMessage *msg)
         name = contact->getName();
         name = getToken(name, '/');
     }
-    setCaption((msg->getFlags() & MESSAGE_RECEIVED) ?
+    setWindowTitle((msg->getFlags() & MESSAGE_RECEIVED) ?
                i18n("Receive file from %1") .arg(name) :
                i18n("Send file to %1") .arg(name));
     if (msg->getFlags() & MESSAGE_RECEIVED)

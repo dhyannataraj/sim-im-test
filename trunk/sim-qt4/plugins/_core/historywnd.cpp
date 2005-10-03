@@ -81,7 +81,7 @@ HistoryWindow::HistoryWindow(unsigned id)
     m_history_page_count=CorePlugin::m_plugin->getHistoryPage();
     m_id = id;
     SET_WNDPROC("history")
-    setIcon(Pict("history").pixmap());
+    setWindowIcon(getIcon("history"));
     setName();
     m_view = new MsgViewBase(this);
     setCentralWidget(m_view);
@@ -128,7 +128,7 @@ void HistoryWindow::setName()
     Contact *contact = getContacts()->contact(m_id);
     if (contact)
         name = contact->getName();
-    setCaption(i18n("History") + " " + name);
+    setWindowTitle(i18n("History") + " " + name);
 }
 
 void *HistoryWindow::processEvent(Event *e)

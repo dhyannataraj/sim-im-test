@@ -114,7 +114,7 @@ void StatusLabel::setPict()
             }
         }
     }
-    QPixmap p = Pict(icon.c_str()).pixmap();
+    QPixmap p = getIcon(icon.c_str()).pixmap(22, QIcon::Normal, QIcon::Off);
     setPixmap(p);
     QString tip = CorePlugin::m_plugin->clientName(m_client);
     tip += "\n";

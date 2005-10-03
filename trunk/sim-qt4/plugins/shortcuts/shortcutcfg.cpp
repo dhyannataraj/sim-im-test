@@ -155,7 +155,7 @@ void ShortcutsConfig::saveMenu(unsigned id)
 
 void ShortcutsConfig::resizeEvent(QResizeEvent *e)
 {
-    resizeEvent(e);
+    QWidget::resizeEvent(e);
     adjustColumns();
 }
 

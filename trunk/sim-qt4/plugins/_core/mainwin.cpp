@@ -88,7 +88,7 @@ MainWindow::MainWindow()
 
     SET_WNDPROC("mainwnd");
     m_icon = "ICQ";
-    setIcon(Pict(m_icon.c_str()).pixmap(32, QIcon::Normal, QIcon::Off));
+    setWindowIcon(getIcon(m_icon.c_str()));
     setTitle();
 
 #ifdef WIN32
@@ -198,7 +198,7 @@ void *MainWindow::processEvent(Event *e)
     switch(e->type()){
     case EventSetMainIcon:
         m_icon = (const char*)(e->param());
-	setIcon(Pict(m_icon.c_str()).pixmap(32, QIcon::Normal, QIcon::Off));
+	setWindowIcon(getIcon(m_icon.c_str()));
         break;
     case EventInit:{
             setTitle();
@@ -225,7 +225,7 @@ void *MainWindow::processEvent(Event *e)
         addStatus(wnd->widget, wnd->bDown);
         return e->param();
     case EventIconChanged:
-	setIcon(Pict(m_icon.c_str()).pixmap(32, QIcon::Normal, QIcon::Off));
+	setWindowIcon(getIcon(m_icon.c_str()));
         break;
     case EventContactChanged:{
             Contact *contact = (Contact*)(e->param());
@@ -359,7 +359,7 @@ void MainWindow::setTitle()
         title = owner->getName();
     if (title.isEmpty())
         title = "SIM";
-    setCaption(title);
+    setWindowTitle(title);
 }
 
 void MainWindow::focusInEvent(QFocusEvent *e)

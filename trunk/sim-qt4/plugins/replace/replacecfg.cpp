@@ -80,7 +80,7 @@ void ReplaceCfg::apply()
 
 void ReplaceCfg::resizeEvent(QResizeEvent *e)
 {
-    resizeEvent(e);
+    QWidget::resizeEvent(e);
     lstKeys->adjustColumn();
 }
 
@@ -116,7 +116,7 @@ bool ReplaceCfg::eventFilter(QObject *o, QEvent *e)
             return true;
         }
     }
-    return eventFilter(o, e);
+    return QWidget::eventFilter(o, e);
 }
 
 void ReplaceCfg::flush()

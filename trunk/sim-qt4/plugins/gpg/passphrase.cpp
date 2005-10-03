@@ -32,9 +32,9 @@ PassphraseDlg::PassphraseDlg(GpgPlugin *plugin, const char *key)
     setupUi( this);
     m_plugin = plugin;
     SET_WNDPROC("passphrase")
-    setIcon(Pict("encrypted").pixmap());
+    setWindowIcon(getIcon("encrypted"));
     setButtonsPict(this);
-    setCaption(caption());
+    setWindowTitle(caption());
     m_key = key;
     lblTitle->setText(i18n("Input passphrase for key %1") .arg(key));
     connect(edtPass, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));

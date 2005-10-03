@@ -36,7 +36,7 @@ JabberInfo::JabberInfo(QWidget *parent, struct JabberUserData *data, JabberClien
     setupUi( this);
     m_client  = client;
     m_data    = data;
-    btnUrl->setPixmap(Pict("home").pixmap());
+    btnUrl->setIcon(getIcon("home"));
     connect(btnUrl, SIGNAL(clicked()), this, SLOT(goUrl()));
     edtOnline->setReadOnly(true);
     edtNA->setReadOnly(true);
@@ -122,7 +122,7 @@ void JabberInfo::resourceActivated(int i)
             current = cmbStatus->count();
             text = cmd->text;
         }
-        cmbStatus->insertItem(Pict(cmd->icon).pixmap(), i18n(cmd->text));
+        cmbStatus->addItem(getIcon(cmd->icon), i18n(cmd->text));
     }
     cmbStatus->setCurrentItem(current);
     disableWidget(cmbStatus);

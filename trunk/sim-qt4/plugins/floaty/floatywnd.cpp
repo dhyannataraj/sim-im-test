@@ -86,14 +86,14 @@ void FloatyWnd::init()
     p.end();
     unsigned h = br.height();
     unsigned w = br.width() + 5;
-    const QPixmap &pict = Pict(m_statusIcon).pixmap();
+    const QPixmap &pict = getIcon(m_statusIcon).pixmap(22, QIcon::Normal, QIcon::Off);
     w += pict.width() + 2;
     if ((unsigned)(pict.height()) > h)
         h = pict.height();
     string icons = m_icons;
     while (icons.length()){
         string icon = getToken(icons, ',');
-        const QPixmap &pict = Pict(icon.c_str()).pixmap();
+        const QPixmap &pict = getIcon(icon.c_str()).pixmap(22, QIcon::Normal, QIcon::Off);
         w += pict.width() + 2;
         if ((unsigned)(pict.height()) > h)
             h = pict.height();
@@ -165,7 +165,7 @@ void FloatyWnd::paintEvent(QPaintEvent*)
     }
 
     if (statusIcon){
-        const QPixmap &pict = Pict(statusIcon).pixmap();
+        const QPixmap &pict = getIcon(statusIcon).pixmap(22, QIcon::Normal, QIcon::Off);
         x += 2;
         p.drawPixmap(x, (h - pict.height()) / 2, pict);
         x += pict.width() + 2;
@@ -177,7 +177,7 @@ void FloatyWnd::paintEvent(QPaintEvent*)
     string icons = m_icons;
     while (icons.length()){
         string icon = getToken(icons, ',');
-        const QPixmap &pict = Pict(icon.c_str()).pixmap();
+        const QPixmap &pict = getIcon(icon.c_str()).pixmap(22, QIcon::Normal, QIcon::Off);
         x += 2;
         p.drawPixmap(x, (h - pict.height()) / 2, pict);
         x += pict.width();

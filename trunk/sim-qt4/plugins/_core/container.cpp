@@ -343,8 +343,8 @@ void Container::addUserWnd(UserWnd *wnd, bool bRaise)
     if (m_wnds == NULL){
         m_childs.push_back(wnd);
         if (m_childs.size() == 1){
-            setIcon(Pict(wnd->getIcon()).pixmap());
-            setCaption(wnd->getLongName());
+            setWindowIcon(getIcon(wnd->getIcon()));
+            setWindowTitle(wnd->getLongName());
         }
         return;
     }
@@ -458,8 +458,8 @@ void Container::contactSelected(int)
     Event e(EventCommandChange, cmd);
     m_bar->processEvent(&e);
     setMessageType(userWnd->type());
-    setIcon(Pict(cmd->icon).pixmap());
-    setCaption(userWnd->getLongName());
+    setWindowIcon(getIcon(cmd->icon));
+    setWindowTitle(userWnd->getLongName());
     m_bar->checkState();
     m_status->message(userWnd->status());
     if (isActiveWindow())
@@ -861,8 +861,8 @@ void Container::contactChanged(Contact *contact)
         cmd->flags = BTN_PICT;
         Event e(EventCommandChange, cmd);
         m_bar->processEvent(&e);
-        setIcon(Pict(cmd->icon).pixmap());
-        setCaption(userWnd->getLongName());
+        setWindowIcon(getIcon(cmd->icon));
+        setWindowTitle(userWnd->getLongName());
     }
 }
 

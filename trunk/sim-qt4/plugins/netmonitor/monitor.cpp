@@ -52,8 +52,8 @@ MonitorWindow::MonitorWindow(NetmonitorPlugin *plugin)
     bPause = true;  // no debug output during creation
     m_plugin = plugin;
     SET_WNDPROC("monitor")
-    setCaption(i18n("Network monitor"));
-    setIcon(Pict("network").pixmap());
+    setWindowTitle(i18n("Network monitor"));
+    setWindowIcon(getIcon("network"));
 
     edit = new TextShow(this);
     edit->setWordWrap(Q3TextEdit::NoWrap);
@@ -61,10 +61,10 @@ MonitorWindow::MonitorWindow(NetmonitorPlugin *plugin)
     QMenuBar *menu = menuBar();
     menuFile = new Q3PopupMenu(this);
     connect(menuFile, SIGNAL(aboutToShow()), this, SLOT(adjustFile()));
-    menuFile->insertItem(Pict("filesave"), i18n("&Save"), this, SLOT(save()), 0, mnuSave);
+    menuFile->insertItem(getIcon("filesave"), i18n("&Save"), this, SLOT(save()), 0, mnuSave);
     menuFile->insertItem(i18n("&Pause"), this, SLOT(pause()), 0, mnuPause);
     menuFile->insertSeparator();
-    menuFile->insertItem(Pict("exit"), i18n("E&xit"), this, SLOT(exit()), 0, mnuExit);
+    menuFile->insertItem(getIcon("exit"), i18n("E&xit"), this, SLOT(exit()), 0, mnuExit);
     menu->insertItem(i18n("&File"), menuFile);
     menuEdit = new Q3PopupMenu(this);
     connect(menuEdit, SIGNAL(aboutToShow()), this, SLOT(adjustEdit()));

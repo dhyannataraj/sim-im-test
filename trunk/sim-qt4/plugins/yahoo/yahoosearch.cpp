@@ -60,7 +60,7 @@ YahooSearch::YahooSearch(YahooClient *client, QWidget *parent)
 
 void YahooSearch::showEvent(QShowEvent *e)
 {
-    showEvent(e);
+    QWidget::showEvent(e);
     emit setAdd(false);
 }
 

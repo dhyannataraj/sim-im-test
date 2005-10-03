@@ -190,7 +190,7 @@ void ICQSecure::fillListView(ListView *lst, unsigned offs)
                 unsigned style  = 0;
                 const char *statusIcon;
                 ((Client*)m_client)->contactInfo(data, status, style, statusIcon);
-                item->setPixmap(0, Pict(statusIcon).pixmap());
+                item->setPixmap(0, getIcon(statusIcon).pixmap(22, QIcon::Normal, QIcon::Off));
             }
         }
     }

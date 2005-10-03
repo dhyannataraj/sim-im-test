@@ -92,7 +92,7 @@ void IgnoreList::updateItem(Q3ListViewItem *item, Contact *contact)
     item->setText(1, firstName);
     item->setText(2, mail);
     item->setText(3, QString::number(contact->id()));
-    item->setPixmap(0, Pict(statusIcon).pixmap());
+    item->setPixmap(0, getIcon(statusIcon).pixmap(22, QIcon::Normal, QIcon::Off));
 }
 
 Q3ListViewItem *IgnoreList::findItem(Contact *contact)

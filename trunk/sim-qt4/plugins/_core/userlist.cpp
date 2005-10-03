@@ -117,9 +117,9 @@ int UserViewItemBase::drawText(QPainter *p, int x, int width, const QString &tex
 void UserViewItemBase::drawSeparator(QPainter *p, int x, int width)
 {
     const QStyleOption *option;
-    if (x < width - 6){
-        listView()->style()->drawPrimitive(QStyle::PE_Q3Separator, option, p, NULL);
-    }
+//    if (x < width - 6){
+//        listView()->style()->drawPrimitive(QStyle::PE_Q3Separator, option, p, NULL);
+//    }
 }
 
 DivItem::DivItem(UserListBase *view, unsigned type)

@@ -38,7 +38,7 @@ MigrateDialog::MigrateDialog(const QString &dir, const QStringList &cnvDirs)
 {
     setupUi( this);
     SET_WNDPROC("migrate")
-    setCaption(caption());
+    setWindowTitle(caption());
     m_dir      = dir;
     m_cnvDirs  = cnvDirs;
     m_bProcess = false;
@@ -58,7 +58,7 @@ MigrateDialog::MigrateDialog(const QString &dir, const QStringList &cnvDirs)
 void MigrateDialog::closeEvent(QCloseEvent *e)
 {
     if (!m_bProcess){
-        closeEvent(e);
+        Q3Wizard::closeEvent(e);
         return;
     }
     e->ignore();
@@ -68,7 +68,7 @@ void MigrateDialog::closeEvent(QCloseEvent *e)
 void MigrateDialog::reject()
 {
     if (!m_bProcess){
-        reject();
+        Q3Wizard::reject();
         return;
     }
     ask();

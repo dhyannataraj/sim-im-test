@@ -134,7 +134,7 @@
     <customwidget>
       <class>QWidgetStack</class>
       <extends></extends>
-      <header location="local" >QStackedWidget</header>
+      <header location="local" >Q3WidgetStack</header>
       <sizehint>
         <width>-1</width>
         <height>-1</height>

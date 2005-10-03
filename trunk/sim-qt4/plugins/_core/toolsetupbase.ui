@@ -46,7 +46,7 @@
                 </widget>
               </item>
               <item>
-                <widget class="Q3ListBox" name="lstButtons" >
+                <widget class="QListWidget" name="lstButtons" >
                   <item>
                     <property name="text" >
                       <string>New Item</string>
@@ -128,7 +128,7 @@
                 </widget>
               </item>
               <item>
-                <widget class="Q3ListBox" name="lstActive" >
+                <widget class="QListWidget" name="lstActive" >
                   <item>
                     <property name="text" >
                       <string>New Item</string>

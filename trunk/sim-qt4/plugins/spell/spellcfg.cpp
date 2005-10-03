@@ -93,7 +93,7 @@ void SpellConfig::apply()
 
 void SpellConfig::resizeEvent(QResizeEvent *e)
 {
-    resizeEvent(e);
+    QWidget::resizeEvent(e);
     lstLang->adjustColumn();
 }
 

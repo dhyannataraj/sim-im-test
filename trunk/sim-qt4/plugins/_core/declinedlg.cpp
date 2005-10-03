@@ -27,9 +27,9 @@ DeclineDlg::DeclineDlg(Message *msg)
     setupUi( this);
     m_msg = msg;
     SET_WNDPROC("decline")
-    setIcon(Pict("file").pixmap());
+    setWindowIcon(getIcon("file"));
     setButtonsPict(this);
-    setCaption(caption());
+    setWindowTitle(caption());
 }
 
 DeclineDlg::~DeclineDlg()
@@ -45,7 +45,7 @@ void DeclineDlg::accept()
     md.reason = reason.c_str();
     Event e(EventMessageDecline, &md);
     e.process();
-    accept();
+    QDialog::accept();
 }
 
 void *DeclineDlg::processEvent(Event *e)

@@ -34,9 +34,9 @@ GpgGen::GpgGen(GpgCfg *cfg)
     this->setAttribute( Qt::WA_ShowModal);
     setupUi( this);
     SET_WNDPROC("genkey")
-    setIcon(Pict("encrypted").pixmap());
+    setWindowIcon(getIcon("encrypted"));
     setButtonsPict(this);
-    setCaption(caption());
+    setWindowTitle(caption());
     cmbMail->setEditable(true);
     m_exec = NULL;
     m_cfg  = cfg;
@@ -110,7 +110,7 @@ void GpgGen::accept()
 #ifdef WIN32
     QString gpg  = m_cfg->edtGPG->text();
 #else
-QString gpg  = QFile::decodeName(GpgPlugin::plugin->GPG());
+    QString gpg  = QFile::decodeName(GpgPlugin::plugin->GPG());
 #endif
     QString home = m_cfg->edtHome->text();
     if (gpg.isEmpty() || home.isEmpty())
@@ -168,7 +168,7 @@ void GpgGen::genKeyReady(Exec*,int res,const char*)
     QFile::remove(QFile::decodeName(user_file("keys/genkey.txt").c_str()));
 #endif
     if (res == 0){
-        accept();
+        QDialog::accept();
         return;
     }
     edtName->setEnabled(true);

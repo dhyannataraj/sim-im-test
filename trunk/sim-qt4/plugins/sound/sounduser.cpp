@@ -84,7 +84,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
 
 QPixmap SoundUserConfig::makePixmap(const char *src)
 {
-    const QPixmap &source = Pict(src).pixmap();
+    const QPixmap &source = getIcon(src).pixmap(22, QIcon::Normal, QIcon::Off);
     int w = source.width();
     int h = QMAX(source.height(), 22);
     QPixmap pict(w, h);
@@ -117,7 +117,7 @@ void SoundUserConfig::apply(void *data)
 
 void SoundUserConfig::resizeEvent(QResizeEvent *e)
 {
-    resizeEvent(e);
+    QWidget::resizeEvent(e);
     lstSound->adjustColumn();
 }
 

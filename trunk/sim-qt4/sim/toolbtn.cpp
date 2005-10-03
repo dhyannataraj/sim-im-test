@@ -203,7 +203,7 @@ void CToolButton::setState()
 #else
         if (!offIcon.pixmap(QIcon::Small, QIcon::Normal).isNull()){
             QIcon icons = offIcon;
-            QIcon off = Pict(m_def.icon_on);
+            QIcon off = getIcon(m_def.icon_on);
             if (!off.isNull())
                 icons.setPixmap(off.pixmap(QIcon::Small, QIcon::Normal, QIcon::On), QIcon::Small, QIcon::Normal, QIcon::On);
             setIconSet(icons);

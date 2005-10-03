@@ -228,7 +228,7 @@ void ClientItem::init()
         setText(0, i18n(m_cmd->text));
     }
     if (m_cmd->icon)
-        setPixmap(0, Pict(m_cmd->icon, listView()->colorGroup().base()).pixmap());
+        setPixmap(0, getIcon(m_cmd->icon).pixmap(22, QIcon::Normal, QIcon::Off));
 }
 
 QWidget *ClientItem::getWidget(ConfigureDialog *dlg)
@@ -254,7 +254,7 @@ ARItem::ARItem(Q3ListViewItem *item, const CommandDef *d)
 {
     m_status = d->id;
     setText(0, i18n(d->text));
-    setPixmap(0, Pict(d->icon, listView()->colorGroup().base()).pixmap());
+    setPixmap(0, getIcon(d->icon).pixmap(22, QIcon::Normal, QIcon::Off));
 }
 
 QWidget *ARItem::getWidget(ConfigureDialog *dlg)
@@ -275,7 +275,7 @@ MainInfoItem::MainInfoItem(Q3ListView *view, unsigned id)
         : ConfigItem(view, id)
 {
     setText(0, i18n("User info"));
-    setPixmap(0, Pict("info", listView()->colorGroup().base()).pixmap());
+    setPixmap(0, getIcon("info").pixmap(22, QIcon::Normal, QIcon::Off));
 }
 
 QWidget *MainInfoItem::getWidget(ConfigureDialog *dlg)
@@ -292,9 +292,9 @@ ConfigureDialog::ConfigureDialog()
     setupUi( this);
     m_nUpdates = 0;
     SET_WNDPROC("configure")
-    setIcon(Pict("configure").pixmap());
+    setWindowIcon(getIcon("configure"));
     setButtonsPict(this);
-    setTitle();
+    setWindowTitle(windowTitle());
     lstBox->header()->hide();
     QIcon iconSet = Icon("webpress");
     if (!iconSet.pixmap(QIcon::Small, QIcon::Normal).isNull())
@@ -385,7 +385,7 @@ void ConfigureDialog::fill(unsigned id)
 
     parentItem = new ConfigItem(lstBox, 0);
     parentItem->setText(0, i18n("Plugins"));
-    parentItem->setPixmap(0, Pict("run", lstBox->colorGroup().base()).pixmap());
+    parentItem->setPixmap(0, getIcon("run").pixmap(22, QIcon::Normal, QIcon::Off));
     parentItem->setOpen(true);
 
     for ( n = 0;; n++){
@@ -433,7 +433,7 @@ bool ConfigureDialog::setCurrentItem(Q3ListViewItem *parent, unsigned id)
 
 void ConfigureDialog::closeEvent(QCloseEvent *e)
 {
-    closeEvent(e);
+    QDialog::closeEvent(e);
     emit finished();
 }
 
@@ -454,7 +454,7 @@ void ConfigureDialog::apply(Q3ListViewItem *item)
 
 void ConfigureDialog::reject()
 {
-    reject();
+    QDialog::reject();
     emit finished();
 }
 
@@ -504,7 +504,7 @@ void ConfigureDialog::apply()
         buttonApply->setText(i18n("&Apply"));
         buttonOk->setText(i18n("&OK"));
         buttonCancel->setText(i18n("&Cancel"));
-        setCaption(i18n("Setup"));
+        setWindowTitle(i18n("Setup"));
     }
     if (lstBox->currentItem())
         static_cast<ConfigItem*>(lstBox->currentItem())->show();
@@ -555,14 +555,14 @@ void ConfigureDialog::setTitle()
         title += i18n("Update info");
         title += "]";
     }
-    setCaption(title);
+    setWindowTitle(title);
 }
 
 void ConfigureDialog::accept()
 {
     apply();
     if (m_bAccept){
-        accept();
+        QDialog::accept();
         emit finished();
     }
 }

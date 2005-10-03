@@ -32,9 +32,9 @@ GpgFind::GpgFind(EditFile *edt)
 {
     setupUi( this);
     SET_WNDPROC("find")
-    setIcon(Pict("find"));
+    setIcon(getIcon("find"));
     setButtonsPict(this);
-    setCaption(caption());
+    setWindowTitle(caption());
     m_edit = edt;
     connect(btnCancel, SIGNAL(clicked()), this, SLOT(close()));
     m_drives = *QDir::drives();

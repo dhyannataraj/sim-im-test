@@ -39,7 +39,7 @@ FontEdit::FontEdit(QWidget *parent, const char *name) : QFrame(parent, name)
     lay->addWidget(lblFont);
     lay->addSpacing(2);
     QPushButton *btnFont = new QPushButton(this);
-    btnFont->setIcon(Pict("text"));
+    btnFont->setIcon(getIcon("text"));
     lay->addWidget(btnFont);
     lblFont->setFrameShape(QFrame::Box);
     lblFont->setLineWidth(1);

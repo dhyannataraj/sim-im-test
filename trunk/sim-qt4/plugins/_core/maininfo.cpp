@@ -80,9 +80,9 @@ MainInfo::MainInfo(QWidget *parent, Contact *contact)
         lstMails->addColumn(i18n("Publish"));
         lstPhones->addColumn(i18n("Publish"));
         lblCurrent->setText(i18n("I'm currently available at:"));
-        cmbStatus->insertItem(i18n("Don't show"));
-        cmbStatus->insertItem(Pict("phone").pixmap(), i18n("Available"));
-        cmbStatus->insertItem(Pict("nophone").pixmap(), i18n("Busy"));
+        cmbStatus->addItem(i18n("Don't show"));
+        cmbStatus->addItem(getIcon("phone"), i18n("Available"));
+        cmbStatus->addItem(getIcon("nophone"), i18n("Busy"));
         cmbStatus->setCurrentItem(getContacts()->owner()->getPhoneStatus());
     }else{
         lblCurrent->setText(i18n("User is crrently available at:"));
@@ -224,7 +224,7 @@ void MainInfo::fill()
         Q3ListViewItem *item = new Q3ListViewItem(lstMails);
         item->setText(MAIL_ADDRESS, mail);
         item->setText(MAIL_PROTO, mailItem);
-        item->setPixmap(MAIL_ADDRESS, Pict("mail_generic").pixmap());
+        item->setPixmap(MAIL_ADDRESS, getIcon("mail_generic").pixmap(22, QIcon::Normal, QIcon::Off));
         if ((m_contact == NULL) && mailItem.isEmpty())
             item->setText(MAIL_PUBLISH, i18n("Yes"));
     }
@@ -350,7 +350,7 @@ void MainInfo::addMail()
         }
         item->setText(MAIL_ADDRESS, dlg.res);
         item->setText(MAIL_PROTO, proto);
-        item->setPixmap(MAIL_ADDRESS, Pict("mail_generic").pixmap());
+        item->setPixmap(MAIL_ADDRESS, getIcon("mail_generic").pixmap(22, QIcon::Normal, QIcon::Off));
         lstMails->setCurrentItem(item);
     }
 }
@@ -374,7 +374,7 @@ void MainInfo::editMail(Q3ListViewItem *item)
         }
         item->setText(MAIL_ADDRESS, dlg.res);
         item->setText(MAIL_PROTO, proto);
-        item->setPixmap(MAIL_ADDRESS, Pict("mail_generic").pixmap());
+        item->setPixmap(MAIL_ADDRESS, getIcon("mail_generic").pixmap(22, QIcon::Normal, QIcon::Off));
         lstMails->setCurrentItem(item);
     }
 }
@@ -463,7 +463,7 @@ void MainInfo::fillPhoneItem(Q3ListViewItem *item, const QString &number, const 
     item->setText(PHONE_ICON, QString::number(icon));
     for (const ext_info *info = phoneIcons; info->szName; info++){
         if (info->nCode == icon){
-            item->setPixmap(PHONE_TYPE, Pict(info->szName).pixmap());
+            item->setPixmap(PHONE_TYPE, getIcon(info->szName).pixmap(22, QIcon::Normal, QIcon::Off));
             break;
         }
     }

@@ -54,7 +54,7 @@ AdvSearch::AdvSearch()
 
 void AdvSearch::showEvent(QShowEvent *e)
 {
-    showEvent(e);
+    QWidget::showEvent(e);
     emit enableOptions(false);
 }
 

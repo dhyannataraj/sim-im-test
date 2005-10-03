@@ -28,9 +28,9 @@ EditMail::EditMail(QWidget *parent, const QString &mail, bool bPublish, bool bSh
     this->setAttribute( Qt::WA_DeleteOnClose);
     setupUi( this);
     SET_WNDPROC("editmail")
-    setIcon(Pict("mail_generic").pixmap());
+    setWindowIcon(getIcon("mail_generic"));
     setButtonsPict(this);
-    setCaption(mail.isEmpty() ? i18n("Add mail address") : i18n("Edit mail address"));
+    setWindowTitle(mail.isEmpty() ? i18n("Add mail address") : i18n("Edit mail address"));
     edtMail->setText(mail);
     connect(edtMail, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     textChanged(mail);
@@ -52,7 +52,7 @@ void EditMail::accept()
 {
     res = edtMail->text();
     publish = chkPublish->isChecked();
-    accept();
+    QDialog::accept();
 }
 
 #ifndef WIN32

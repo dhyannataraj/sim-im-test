@@ -74,7 +74,7 @@ void JabberAdd::radioToggled(bool)
 
 void JabberAdd::showEvent(QShowEvent *e)
 {
-    showEvent(e);
+    QWidget::showEvent(e);
     emit setAdd(grpJID->isChecked());
     if (m_browser && m_bBrowser)
         emit showResult(m_browser);

@@ -34,9 +34,9 @@ ConnectionManager::ConnectionManager(bool bModal)
     this->setAttribute( Qt::WA_DeleteOnClose);
     setupUi( this);
     SET_WNDPROC("manager")
-    setIcon(Pict("configure").pixmap());
+    setWindowIcon(getIcon("configure"));
     setButtonsPict(this);
-    setCaption(caption());
+    setWindowTitle(caption());
     lstConnection->setHScrollBarMode(Q3ScrollView::AlwaysOff);
     lstConnection->header()->hide();
     lstConnection->setSorting(1);
@@ -61,7 +61,7 @@ void ConnectionManager::fill(Client *current)
         QString text = CorePlugin::m_plugin->clientName(client);
         Q3ListViewItem *item = new Q3ListViewItem(lstConnection, text);
         if (descr)
-            item->setPixmap(0, Pict(descr->icon, lstConnection->colorGroup().base()).pixmap());
+            item->setPixmap(0, getIcon(descr->icon, lstConnection->colorGroup().base()).pixmap(22, QIcon::Normal, QIcon::Off));
         if (current == client)
             curItem = item;
         QString index = QString::number(i);
@@ -98,13 +98,13 @@ void ConnectionManager::selectionChanged()
 
 void ConnectionManager::closeEvent(QCloseEvent *e)
 {
-    closeEvent(e);
+    QDialog::closeEvent(e);
     emit finished();
 }
 
 void ConnectionManager::resizeEvent(QResizeEvent *e)
 {
-    resizeEvent(e);
+    QDialog::resizeEvent(e);
     int w = lstConnection->width() - 4;
     if (lstConnection->verticalScrollBar()->isVisible())
         w -= lstConnection->verticalScrollBar()->width();

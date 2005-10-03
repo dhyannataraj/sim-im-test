@@ -30,9 +30,9 @@ AddItem::AddItem(QWidget *parent)
     setAttribute(Qt::WA_ShowModal);
     setupUi( this);
     SET_WNDPROC("additem")
-    setIcon(Pict("run").pixmap());
+    setWindowIcon(getIcon("run"));
     setButtonsPict(this);
-    setCaption(caption());
+    setWindowTitle(caption());
     QTimer::singleShot(0, this, SLOT(changed()));
     connect(edtItem, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(edtPrg, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));

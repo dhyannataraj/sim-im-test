@@ -579,7 +579,7 @@ bool HistoryConfig::eventFilter(QObject *o, QEvent *e)
             return true;
         }
     }
-    return eventFilter(o, e);
+    return QWidget::eventFilter(o, e);
 }
 
 void HistoryConfig::viewChanged(QWidget *w)

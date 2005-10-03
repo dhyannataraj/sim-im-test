@@ -33,9 +33,9 @@ WarnDlg::WarnDlg(QWidget *parent, ICQUserData *data, ICQClient *client)
     setAttribute( Qt::WA_DeleteOnClose);
     setupUi( this);
     SET_WNDPROC("warn")
-    setIcon(Pict("error").pixmap());
+    setWindowIcon(getIcon("error"));
     setButtonsPict(this);
-    setCaption(caption());
+    setWindowTitle(caption());
     m_client  = client;
     m_data    = data;
     m_msg     = NULL;

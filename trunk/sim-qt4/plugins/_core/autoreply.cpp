@@ -47,8 +47,8 @@ AutoReplyDialog::AutoReplyDialog(unsigned status)
     }
     if (text == NULL)
         return;
-    setCaption(i18n("Autoreply message") + " " + i18n(text));
-    setIcon(Pict(icon).pixmap());
+    setWindowTitle(i18n("Autoreply message") + " " + i18n(text));
+    setWindowIcon(getIcon(icon));
     m_time = 15;
     lblTime->setText(i18n("Close after %n second", "Close after %n seconds", m_time));
     m_timer = new QTimer(this);
@@ -104,7 +104,7 @@ void AutoReplyDialog::accept()
     CorePlugin::m_plugin->setNoShowAutoReply(m_status, chkNoShow->isChecked() ? "1" : "");
     ARUserData *ar = (ARUserData*)(getContacts()->getUserData(CorePlugin::m_plugin->ar_data_id));
     set_str(&ar->AutoReply, m_status, edtAutoResponse->text().toUtf8());
-    accept();
+    QDialog::accept();
 }
 
 void AutoReplyDialog::help()

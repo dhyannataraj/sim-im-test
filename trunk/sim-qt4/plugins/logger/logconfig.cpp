@@ -54,7 +54,7 @@ LogConfig::LogConfig(QWidget *parent, LoggerPlugin *plugin)
 
 void LogConfig::resizeEvent(QResizeEvent *e)
 {
-    resizeEvent(e);
+    QWidget::resizeEvent(e);
     lstLevel->adjustColumn();
 }
 

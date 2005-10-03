@@ -27,7 +27,7 @@ JIDAdvSearch::JIDAdvSearch(QWidget *parent)
 
 void JIDAdvSearch::showEvent(QShowEvent *e)
 {
-    showEvent(e);
+    QWidget::showEvent(e);
     emit enableOptions(false);
 }
 

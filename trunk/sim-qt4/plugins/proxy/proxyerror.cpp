@@ -31,9 +31,9 @@ ProxyError::ProxyError(ProxyPlugin *plugin, TCPClient *client, const char *msg)
     setAttribute( Qt::WA_DeleteOnClose);
     setupUi( this);
     SET_WNDPROC("proxy")
-    setIcon(Pict("error").pixmap());
+    setWindowIcon(getIcon("error"));
     setButtonsPict(this);
-    setCaption(caption());
+    setWindowTitle(caption());
     m_plugin = plugin;
     m_client = client;
     if (msg && *msg)
@@ -73,7 +73,7 @@ void ProxyError::accept()
         emit apply();
         m_client->setStatus(m_client->getManualStatus(), m_client->getCommonStatus());
     }
-    accept();
+    QDialog::accept();
 }
 
 #ifndef WIN32

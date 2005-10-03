@@ -108,13 +108,13 @@ ActionConfig::~ActionConfig()
 
 void ActionConfig::resizeEvent(QResizeEvent *e)
 {
-    resizeEvent(e);
+    QWidget::resizeEvent(e);
     lstEvent->adjustColumn();
 }
 
 QPixmap ActionConfig::makePixmap(const char *src)
 {
-    const QPixmap &source = Pict(src).pixmap();
+    const QPixmap &source = getIcon(src).pixmap(22, QIcon::Normal, QIcon::Off);
     int w = source.width();
     int h = QMAX(source.height(), 22);
     QPixmap pict(w, h);
@@ -175,7 +175,7 @@ void ActionConfig::setEnabled(bool state)
 {
     if (m_menu)
         m_menu->setEnabled(state);
-    setEnabled(state);
+    QWidget::setEnabled(state);
 }
 
 void ActionConfig::help()

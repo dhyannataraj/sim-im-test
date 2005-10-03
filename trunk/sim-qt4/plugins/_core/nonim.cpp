@@ -31,7 +31,7 @@ NonIM::NonIM(QWidget *parent)
 
 void NonIM::showEvent(QShowEvent *e)
 {
-    showEvent(e);
+    QWidget::showEvent(e);
     emit setAdd(true);
 }
 

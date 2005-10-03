@@ -97,14 +97,10 @@ Icons::Icons()
        I had a similar idea with setting the old defaultFactory in
        the destructor but this won't work :(
        Christian */
-#if COMPAT_QT_VERSION >= 0x030000
     Q3MimeSourceFactory* oldDefaultFactory = Q3MimeSourceFactory::takeDefaultFactory();
-#endif
     Q3MimeSourceFactory::setDefaultFactory(new MyMimeSourceFactory());
-#if COMPAT_QT_VERSION >= 0x030000
     if (oldDefaultFactory)
         Q3MimeSourceFactory::addFactory( oldDefaultFactory );
-#endif
     addIconSet("icons/sim.jisp", true);
     m_defSets.push_back(new WrkIconSet);
     addIconSet("icons/smiles.jisp", false);
@@ -373,45 +369,22 @@ const QImage *Image(const char *name)
     return p->image;
 }
 
-QIcon Pict(const char *name)
+QIcon getIcon(const char *name)
 {
-    PictDef *p = getPict(name);
-    if (p == NULL)
-        return QPixmap();
-    return getPixmap(p, name);
+    QString iconPath = name;
+    iconPath = iconPath.left(iconPath.indexOf("_"));
+    iconPath = iconPath.left(iconPath.indexOf("!"));
+    iconPath = iconPath.toLower();
+    QIcon returnIcon = QIcon(":/icons/" + iconPath + ".png");
+    if ( ! returnIcon.isNull())
+	return returnIcon;
+    return QIcon();
 }
 
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-
-QIcon Pict(const char *name, const QColor &c)
+QIcon getIcon(const char *name, const QColor&)
 {
-	const QImage *img = Image(name);
-	if (img == NULL)
-		return QPixmap();
-	QImage res = img->copy();
-	unsigned char cr = c.Qt::red();
-	unsigned char cg = c.Qt::green();
-	unsigned char cb = c.Qt::blue();
-    unsigned int *data = (unsigned int*)res.bits();
-    for (int i = 0; i < res.height() * res.width(); i++){
-		unsigned char a = qAlpha(data[i]);
-		data[i] = qRgba((qRed(data[i]) * a + cr * (0xFF - a)) >> 8,
-			(qGreen(data[i]) * a + cg * (0xFF - a)) >> 8,
-			(qBlue(data[i]) * a + cb * (0xFF - a)) >> 8, 0xFF);
-	}
-	QPixmap r;
-	r.fromImage(res);
-	return r;
+    return getIcon(name);
 }
-
-#else
-
-QIcon Pict(const char *name, const QColor&)
-{
-	return Pict(name);
-}
-
-#endif
 
 MyMimeSourceFactory::MyMimeSourceFactory()
         : Q3MimeSourceFactory()

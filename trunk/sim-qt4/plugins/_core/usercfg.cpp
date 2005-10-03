@@ -122,7 +122,7 @@ PrefItem::PrefItem(Q3ListViewItem *parent, CommandDef *cmd)
     QString title = i18n(cmd->text);
     title = title.replace(QRegExp("&"), "");
     setText(0, title);
-    setPixmap(0, Pict(cmd->icon, listView()->colorGroup().base()).pixmap());
+    setPixmap(0, getIcon(cmd->icon).pixmap(22, QIcon::Normal, QIcon::Off));
 }
 
 QWidget *PrefItem::getWidget(UserConfig *dlg)
@@ -171,7 +171,7 @@ void ClientItem::init(CommandDef *cmd)
         setText(0, i18n(cmd->text));
     }
     if (cmd->icon)
-        setPixmap(0, Pict(cmd->icon, listView()->colorGroup().base()).pixmap());
+        setPixmap(0, getIcon(cmd->icon).pixmap(22, QIcon::Normal, QIcon::Off));
 }
 
 QWidget *ClientItem::getWidget(UserConfig *dlg)
@@ -195,7 +195,7 @@ MainInfoItem::MainInfoItem(Q3ListView *view, unsigned id)
         : ConfigItem(view, id)
 {
     setText(0, i18n("User info"));
-    setPixmap(0, Pict("info", listView()->colorGroup().base()).pixmap());
+    setPixmap(0, getIcon("info").pixmap(22, QIcon::Normal, QIcon::Off));
 }
 
 QWidget *MainInfoItem::getWidget(UserConfig *dlg)
@@ -217,7 +217,7 @@ ARItem::ARItem(Q3ListViewItem *item, const CommandDef *def)
 {
     m_status = def->id;
     setText(0, i18n(def->text));
-    setPixmap(0, Pict(def->icon, listView()->colorGroup().base()).pixmap());
+    setPixmap(0, getIcon(def->icon).pixmap(22, QIcon::Normal, QIcon::Off));
 }
 
 QWidget *ARItem::getWidget(UserConfig *dlg)
@@ -244,9 +244,9 @@ UserConfig::UserConfig(Contact *contact, Group *group)
     m_nUpdates = 0;
 
     SET_WNDPROC("configure")
-    setIcon(Pict(contact ? "info" : "configure").pixmap());
+    setWindowIcon(getIcon(contact ? "info" : "configure"));
     setButtonsPict(this);
-    setTitle();
+    setWindowTitle(windowTitle());
     QIcon iconSet = Icon("webpress");
     if (!iconSet.pixmap(QIcon::Small, QIcon::Normal).isNull())
         btnUpdate->setIconSet(iconSet);
@@ -297,7 +297,7 @@ void UserConfig::setTitle()
         title += " ";
         title += i18n("[Update info]");
     }
-    setCaption(title);
+    setWindowTitle(title);
 }
 
 void UserConfig::fill()
@@ -361,7 +361,7 @@ void UserConfig::fill()
 
     parentItem = new ConfigItem(lstBox, 0);
     parentItem->setText(0, i18n("Settings"));
-    parentItem->setPixmap(0, Pict("configure", lstBox->colorGroup().base()).pixmap());
+    parentItem->setPixmap(0, getIcon("configure").pixmap(22, QIcon::Normal, QIcon::Off));
     parentItem->setOpen(true);
     CommandDef *cmd;
     CommandsMapIterator itc(CorePlugin::m_plugin->preferences);
@@ -527,12 +527,12 @@ void UserConfig::showUpdate(bool bShow)
 void UserConfig::accept()
 {
     apply();
-    accept();
+    QDialog::accept();
 }
 
 void UserConfig::resizeEvent(QResizeEvent *e)
 {
-    resizeEvent(e);
+    QDialog::resizeEvent(e);
     if (isVisible()){
         CorePlugin::m_plugin->data.cfgGeo[WIDTH].value = width();
         CorePlugin::m_plugin->data.cfgGeo[HEIGHT].value = height();

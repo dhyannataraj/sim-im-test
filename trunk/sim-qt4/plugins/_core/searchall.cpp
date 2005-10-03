@@ -33,7 +33,7 @@ SearchAll::SearchAll(QWidget *parent)
 
 void SearchAll::showEvent(QShowEvent *e)
 {
-    showEvent(e);
+    QWidget::showEvent(e);
     emit setAdd(false);
 }
 

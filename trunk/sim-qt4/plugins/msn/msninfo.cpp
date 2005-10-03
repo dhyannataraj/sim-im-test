@@ -81,7 +81,7 @@ void MSNInfo::fill()
             current = cmbStatus->count();
             text = cmd->text;
         }
-        cmbStatus->insertItem(Pict(cmd->icon).pixmap(), i18n(cmd->text));
+        cmbStatus->addItem(getIcon(cmd->icon), i18n(cmd->text));
     }
     cmbStatus->setCurrentItem(current);
     disableWidget(cmbStatus);

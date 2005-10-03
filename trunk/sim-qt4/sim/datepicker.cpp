@@ -134,7 +134,7 @@ DatePicker::DatePicker(QWidget *parent)
     m_edit->setFixedWidth(fm.width("00/00/0000") + 14);
     lay->addWidget(m_edit);
     m_button = new QPushButton(this);
-    m_button->setIcon(Pict("more"));
+    m_button->setIcon(getIcon("more"));
     lay->addWidget(m_button);
     lay->addStretch();
     connect(m_button, SIGNAL(clicked()), this, SLOT(showPopup()));

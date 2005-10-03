@@ -30,9 +30,9 @@ EncodingDlg::EncodingDlg(QWidget *parent, ICQClient *client)
     setAttribute( Qt::WA_ShowModal);
     setupUi( this);
     SET_WNDPROC("encoding")
-    setIcon(Pict("encoding").pixmap());
+    setWindowIcon(getIcon("encoding"));
     setButtonsPict(this);
-    setCaption(caption());
+    setWindowTitle(caption());
     m_client = client;
     connect(buttonOk, SIGNAL(clicked()), this, SLOT(apply()));
     connect(cmbEncoding, SIGNAL(activated(int)), this, SLOT(changed(int)));

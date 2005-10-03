@@ -203,7 +203,7 @@ void ICQInfo::fill()
     int current = 0;
     const char *text = NULL;
     if (m_data && (status == STATUS_OFFLINE) && m_data->bInvisible.bValue){
-        cmbStatus->insertItem(Pict("ICQ_invisible").pixmap(), i18n("Possibly invisible"));
+        cmbStatus->addItem(getIcon("ICQ_invisible"), i18n("Possibly invisible"));
     }else{
         for (const CommandDef *cmd = ICQPlugin::m_icq->statusList(); cmd->id; cmd++){
             if (cmd->flags & COMMAND_CHECK_STATE)
@@ -212,7 +212,7 @@ void ICQInfo::fill()
                 current = cmbStatus->count();
                 text = cmd->text;
             }
-            cmbStatus->insertItem(Pict(cmd->icon).pixmap(), i18n(cmd->text));
+            cmbStatus->addItem(getIcon(cmd->icon), i18n(cmd->text));
         }
     }
     cmbStatus->setCurrentItem(current);

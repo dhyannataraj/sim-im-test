@@ -66,7 +66,7 @@ void MouseConfig::apply()
 
 void MouseConfig::resizeEvent(QResizeEvent *e)
 {
-    resizeEvent(e);
+    QWidget::resizeEvent(e);
     adjustColumns();
 }
 

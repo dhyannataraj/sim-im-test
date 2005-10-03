@@ -50,8 +50,8 @@ JabberWizard::JabberWizard(QWidget *parent, const QString &title, const char *ic
     m_result->setText(i18n("Process"));
     helpButton()->hide();
     SET_WNDPROC("jbrowser")
-    setIcon(Pict(icon).pixmap());
-    setCaption(title);
+    setWindowIcon(getIcon(icon));
+    setWindowTitle(title);
     connect(this, SIGNAL(selected(const QString&)), this, SLOT(slotSelected(const QString&)));
 }
 
@@ -237,7 +237,7 @@ void JabberBrowser::go(const QString &url, const QString &node)
         }
     }
     item->setText(COL_MODE, QString::number(mode));
-    item->setPixmap(COL_NAME, Pict("empty").pixmap());
+    item->setPixmap(COL_NAME, getIcon("empty").pixmap(22, QIcon::Normal, QIcon::Off));
     cmd->id		= CmdUrl;
     cmd->param	= this;
     Event eWidget(EventCommandWidget, cmd);
@@ -966,7 +966,7 @@ void JabberBrowser::setItemPict(Q3ListViewItem *item)
     }else if ((type == "rss") || (type == "weather")){
         name = "info";
     }
-    item->setPixmap(COL_NAME, Pict(name, item->listView()->colorGroup().base()).pixmap());
+    item->setPixmap(COL_NAME, getIcon(name, item->listView()->colorGroup().base()).pixmap(22, QIcon::Normal, QIcon::Off));
 }
 
 void JabberBrowser::adjustColumn(Q3ListViewItem *item)

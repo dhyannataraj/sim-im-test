@@ -58,7 +58,7 @@ void JIDSearch::browserClicked()
 
 void JIDSearch::showEvent(QShowEvent *e)
 {
-    showEvent(e);
+    QWidget::showEvent(e);
     if (!m_bInit){
         m_bInit = true;
         connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));

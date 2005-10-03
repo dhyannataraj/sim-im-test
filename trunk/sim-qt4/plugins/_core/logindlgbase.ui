@@ -30,7 +30,7 @@
           <property name="font" stdset="0" >
             <font>
               <family></family>
-              <pointsize>0</pointsize>
+              <pointsize>9</pointsize>
               <weight>0</weight>
               <italic>false</italic>
               <bold>false</bold>

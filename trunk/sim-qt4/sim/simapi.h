@@ -28,10 +28,7 @@
 #include <QByteArray>
 #include <Q3MimeSourceFactory>
 #include <QDialog>
-
-#if COMPAT_QT_VERSION >= 0x030000
 #include <QTextEdit>
-#endif
 
 #ifdef STDC_HEADERS
 #include <stdlib.h>
@@ -105,9 +102,7 @@ typedef unsigned char _Bool;
 using namespace std;
 
 #include <QWidget>
-#if COMPAT_QT_VERSION >= 0x030000
 #include <q3dockwindow.h>
-#endif
 
 #ifdef WIN32
 #if _MSC_VER > 1020
@@ -138,9 +133,6 @@ EXPORT int strcasecmp(const char *a, const char *b);
 #ifdef USE_KDE
 
 #include <klocale.h>
-#if COMPAT_QT_VERSION < 0x030000
-EXPORT QString i18n(const char *singular, const char *plural, unsigned long n);
-#endif
 #else
 #include <QObject>
 EXPORT QString i18n(const char *text);
@@ -155,22 +147,6 @@ EXPORT inline QString tr2i18n(const char* message, const char* =0) {
 #endif
 #if !defined(USE_KDE) || (COMPAT_QT_VERSION < 0x030000)
 EXPORT void resetPlural();
-#endif
-
-#if COMPAT_QT_VERSION < 0x030000
-
-#include <qpoint.h>
-
-class QContextMenuEvent
-{
-public:
-QContextMenuEvent(const QPoint &pos) : p(pos) {}
-    const QPoint &globalPos() { return p; }
-    void accept() {}
-protected:
-    QPoint p;
-};
-
 #endif
 
 class QFile;
@@ -1774,8 +1750,10 @@ EXPORT bool raiseWindow(QWidget *w, unsigned desk = 0);
 EXPORT void setButtonsPict(QWidget *w);
 
 EXPORT QIcon Icon(const char *name);
-EXPORT QIcon Pict(const char *name);
-EXPORT QIcon Pict(const char *name, const QColor &bgColor);
+EXPORT QPixmap Pict(const char *name);
+EXPORT QPixmap Pict(const char *name, const QColor &bgColor);
+EXPORT QIcon getIcon(const char *name);
+EXPORT QIcon getIcon(const char *name, const QColor &bgColor);
 EXPORT const QImage *Image(const char *name);
 
 EXPORT void setAboutData(KAboutData*);
