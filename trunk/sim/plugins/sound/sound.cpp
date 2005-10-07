@@ -356,7 +356,7 @@ void SoundPlugin::processQueue()
         return; // arts
     }
     bool bSound = false;
-#elif WIN32
+#elif defined WIN32
     bool bSound = true;
 #else
     /* If there is an external player selected, don't use Qt
