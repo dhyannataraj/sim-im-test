@@ -941,12 +941,12 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
     SHA_CTX				ctx1;
     SHA_CTX				ctx2;
 
-    char				*alphabet1			= "FBZDWAGHrJTLMNOPpRSKUVEXYChImkwQ";
-    char				*alphabet2			= "F0E1D2C3B4A59687abcdefghijklmnop";
+    const char				*alphabet1			= "FBZDWAGHrJTLMNOPpRSKUVEXYChImkwQ";
+    const char				*alphabet2			= "F0E1D2C3B4A59687abcdefghijklmnop";
 
-    char				*challenge_lookup	= "qzec2tb3um1olpar8whx4dfgijknsvy5";
-    char				*operand_lookup		= "+|&%/*^-";
-    char				*delimit_lookup		= ",;";
+    const char				*challenge_lookup	= "qzec2tb3um1olpar8whx4dfgijknsvy5";
+    const char				*operand_lookup		= "+|&%/*^-";
+    const char				*delimit_lookup		= ",;";
 
     char				*password_hash		= (char *)malloc(25);
     char				*crypt_hash		    = (char *)malloc(25);
@@ -996,7 +996,7 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
 
     magic_ptr = (unsigned char*)seed;
 
-    while (*magic_ptr != (int)NULL) {
+    while (*magic_ptr != 0) {
         char   *loc;
 
         /* Ignore parentheses.
