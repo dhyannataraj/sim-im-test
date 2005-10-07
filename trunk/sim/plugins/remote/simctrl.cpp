@@ -43,10 +43,7 @@
 
 #ifdef WIN32
 #include <windows.h>
-/*
-	If using winsock2(ws2_32), this is already defined in ws2tcpip.h
-*/
-/*#define socklen_t	int*/
+#define socklen_t	int
 #define in_addr_t int
 #endif
 
