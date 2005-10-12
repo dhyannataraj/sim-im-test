@@ -17,6 +17,7 @@ isEmpty(TARGET):error(You must set SIM_TARGET before include()'ing $${_FILE_})
 CONFIG      -= debug_and_release_target
 CONFIG      += debug                        # change dthis to release when you need it...
 DEFINES     += VERSION=\"0.9.4\" PACKAGE=\"SIM\"
+DEFINES	    += HAVE_STRCASECMP
 INCLUDEPATH *= $$TARGET
 QT          += qt3support network
 QMAKE_LIBS  *= user32.lib ws2_32.lib
