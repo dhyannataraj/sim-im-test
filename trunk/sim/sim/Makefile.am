@@ -1,7 +1,7 @@
 bin_PROGRAMS = sim 
 lib_LTLIBRARIES = libsim.la
 
-SUBDIRS=png qt3
+SUBDIRS=png qt3 libltdl
 
 sim_SOURCES = sim.cpp
 
@@ -40,12 +40,11 @@ libsim_la_SOURCES = \
  translit.cpp \
  unquot.cpp \
  xsl.cpp \
- ltdl.c \
  unzip.c \
  html.ll
 
 sim_LDADD = libsim.la
-libsim_la_LIBADD   = $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(EXTRA_LIBS) $(LIB_XML2) $(LIB_XSLT) $(LIBSSL)
+libsim_la_LIBADD   = $(LIBLTDL) $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(EXTRA_LIBS) $(LIB_XML2) $(LIB_XSLT) $(LIBSSL)
 
 EXTRA_DIST = \
  sim.desktop \
@@ -62,7 +61,7 @@ uninstall-local:
 	-rm -f $(kde_appsdir)/Internet/sim.desktop
 
 # set the include path for X, qt and KDE
-INCLUDES=-Iapi $(all_includes) 
+INCLUDES=-Iapi $(LTDLINCL) $(all_includes) 
 
 METASOURCES = AUTO
 

@@ -22,7 +22,6 @@
 #include "simapi.h"
 #include "sockfactory.h"
 #include "fetch.h"
-#include "ltdl.h"
 #include "exec.h"
 #include "sax.h"
 #include "xsl.h"
@@ -42,6 +41,7 @@
 #endif
 #endif
 
+#include <ltdl.h>
 #include <errno.h>
 #include <qdir.h>
 #include <qstringlist.h>

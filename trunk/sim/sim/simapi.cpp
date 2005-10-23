@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include "simapi.h"
-#include "ltdl.h"
 
 #ifdef WIN32
 #include <windows.h>
