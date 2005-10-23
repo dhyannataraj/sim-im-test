@@ -22,13 +22,15 @@
 
 #include <stdio.h>
 
-const unsigned short ICQ_SNACxLOGIN_ERROR				= 0x0001;
+const unsigned short ICQ_SNACxLOGIN_ERROR			= 0x0001;
 const unsigned short ICQ_SNACxLOGIN_MD5xLOGIN			= 0x0002;
 const unsigned short ICQ_SNACxLOGIN_LOGINxREPLY			= 0x0003;
 const unsigned short ICQ_SNACxLOGIN_REGISTERxREQ		= 0x0004;
 const unsigned short ICQ_SNACxLOGIN_REGISTER			= 0x0005;
 const unsigned short ICQ_SNACxLOGIN_AUTHxREQUEST		= 0x0006;
-const unsigned short ICQ_SNACxLOGIN_AUTHxKEYxRESPONSE	= 0x0007;
+const unsigned short ICQ_SNACxLOGIN_AUTHxKEYxRESPONSE		= 0x0007;
+const unsigned short ICQ_SNACxLOGIN_REGISTERxREQ_IMG		= 0x000c;
+const unsigned short ICQ_SNACxLOGIN_REGISTERxSEND_IMG		= 0x000d;
 
 const unsigned ICQ_LOGIN_ERRxBAD_PASSWD1			= 0x0001;
 const unsigned ICQ_LOGIN_ERRxBAD_PASSWD2			= 0x0004;
