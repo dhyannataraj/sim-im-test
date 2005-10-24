@@ -33,6 +33,7 @@ FilterConfig::FilterConfig(QWidget *parent, FilterUserData *data, FilterPlugin *
     m_ignore = NULL;
     if (bMain){
         chkFromList->setChecked(m_plugin->getFromList());
+        chkAuthFromList->setChecked(m_plugin->getAuthFromList());
         for (QObject *p = parent; p != NULL; p = p->parent()){
             if (!p->inherits("QTabWidget"))
                 continue;
@@ -43,6 +44,7 @@ FilterConfig::FilterConfig(QWidget *parent, FilterUserData *data, FilterPlugin *
         }
     }else{
         chkFromList->hide();
+        chkAuthFromList->hide();
         lblFilter->hide();
     }
     if (data->SpamList.ptr)
@@ -58,6 +60,7 @@ FilterConfig::~FilterConfig()
 void FilterConfig::apply()
 {
     m_plugin->setFromList(chkFromList->isChecked());
+    m_plugin->setAuthFromList(chkAuthFromList->isChecked());
     apply(m_data);
 }
 

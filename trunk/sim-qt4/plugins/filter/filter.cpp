@@ -55,6 +55,7 @@ typedef struct FilterData
 static DataDef filterData[] =
     {
         { "FromList", DATA_BOOL, 1, 0 },
+        { "AuthFromList", DATA_BOOL, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
@@ -165,7 +166,13 @@ void *FilterPlugin::processEvent(Event *e)
         Contact *contact = getContacts()->contact(msg->contact());
         FilterUserData *data = NULL;
         // check if we accept only from users on the list
-        if (getFromList() && ((contact == NULL) || (contact->getFlags() & CONTACT_TEMPORARY))){
+        if (
+            ((contact == NULL) || contact->getTemporary()) &&
+	    ( 
+	        getFromList() || 
+		( getAuthFromList() && msg->type() <= MessageContacts)
+            )
+	) {
             delete msg;
             delete contact;
             return msg;
@@ -177,6 +184,7 @@ void *FilterPlugin::processEvent(Event *e)
             delete msg;
             return msg;
         }
+
         // get filter-data
         data = (FilterUserData*)(contact->getUserData(user_data_id));
         if (data && data->SpamList.ptr && *data->SpamList.ptr){

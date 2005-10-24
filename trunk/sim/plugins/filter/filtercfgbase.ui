@@ -40,6 +40,17 @@
             </property>
         </widget>
         <widget>
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkAuthFromList</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>&amp;Receive authorization and system messages only from contacts from list</string>
+            </property>
+        </widget>
+        <widget>
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>

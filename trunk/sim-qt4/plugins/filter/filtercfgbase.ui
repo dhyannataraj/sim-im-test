@@ -30,6 +30,13 @@
         </widget>
       </item>
       <item>
+        <widget class="QCheckBox" name="chkAuthFromList" >
+          <property name="text" stdset="0" >
+            <string>&amp;Receive authorization and system messages only from contacts from list</string>
+          </property>
+        </widget>
+      </item>
+      <item>
         <widget class="QLabel" name="lblFilter" >
           <property name="text" stdset="0" >
             <string>Reject messages from unknown users contains this words or phrases:</string>

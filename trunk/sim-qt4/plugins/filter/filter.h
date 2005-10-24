@@ -23,6 +23,7 @@
 typedef struct FilterData
 {
     Data	FromList;
+    Data	AuthFromList;
 } FilterData;
 
 typedef struct FilterUserData
@@ -39,6 +40,7 @@ public:
     FilterPlugin(unsigned, Buffer *cfg);
     virtual ~FilterPlugin();
     PROP_BOOL(FromList);
+    PROP_BOOL(AuthFromList);
 protected slots:
     void addToIgnore(void*);
 protected:
