@@ -186,8 +186,11 @@ extern	int	lt_dlmutex_register	LT_PARAMS((lt_dlmutex_lock *lock,
 
 
 /* Pointers to memory management functions to be used by libltdl. */
+/* When compiling with MingW there was errors about these functions was already defined, so I add this condition*/
+#ifndef __MINGW32__
 LT_SCOPE  lt_ptr   (*lt_dlmalloc)	LT_PARAMS((size_t size));
 LT_SCOPE  void	   (*lt_dlfree)		LT_PARAMS((lt_ptr ptr));
+#endif
 
 
 

@@ -1095,6 +1095,6 @@ string get_user_agent()
     return FetchManager::manager->user_agent;
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "fetch.moc"
 #endif

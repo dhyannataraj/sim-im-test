@@ -661,6 +661,6 @@ void IPResolver::start_resolve()
 
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "sockfactory.moc"
 #endif

@@ -466,6 +466,6 @@ void ServerSocketNotify::bind(const char *path)
 
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "socket.moc"
 #endif

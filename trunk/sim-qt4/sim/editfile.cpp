@@ -432,7 +432,7 @@ Q3PopupMenu *MultiLineEdit::createPopupMenu()
     return popup;
 }
 
-#ifndef _WINDOWS
+#ifndef _MSC_VER
 #include "editfile.moc"
 #endif
 

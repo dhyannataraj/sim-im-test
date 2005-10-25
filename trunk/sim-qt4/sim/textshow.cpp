@@ -926,6 +926,6 @@ QSize ColorLabel::minimumSizeHint() const
     return s;
 }
 
-#ifndef _WINDOWS
+#ifndef _MSC_VER
 #include "textshow.moc"
 #endif

@@ -429,7 +429,7 @@ void PickerLabel::mouseReleaseEvent(QMouseEvent*)
     emit clicked(this);
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include "datepicker.moc"
 #endif
 
