@@ -7,11 +7,11 @@ shortcuts_la_SOURCES = \
  mousecfg.cpp \
  mousecfgbase.ui
 
-INCLUDES=-I../../sim -I../_core $(all_includes)
+INCLUDES=-I../../lib -I../_core $(all_includes)
 
 shortcuts_la_METASOURCES = AUTO
-shortcuts_la_LIBADD = ../../sim/libsim.la  $(LIBUI) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(LIB_QT) $(EXTRA_LIBS)
-shortcuts_la_LDFLAGS = -module -no-undefined -avoid-version -L../../sim/.libs $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
+shortcuts_la_LIBADD = ../../lib/libsim.la  $(LIBUI) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(LIB_QT) $(EXTRA_LIBS)
+shortcuts_la_LDFLAGS = -module -no-undefined -avoid-version -L../../lib/.libs $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 install-data-hook:
 	rm -rf $(DESTDIR)$(sim_plugindir)/shortcuts.la

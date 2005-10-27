@@ -16,12 +16,12 @@ yahoo_la_SOURCES = \
  md5.c \
  sha.c
 
-INCLUDES=-I../../sim -I../_core $(all_includes)
+INCLUDES=-I../../lib -I../_core $(all_includes)
 
 yahoo_la_METASOURCES = AUTO
-yahoo_la_LIBADD = ../../sim/libsim.la  $(LIBUI) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(LIB_QT) $(EXTRA_LIBS)
+yahoo_la_LIBADD = ../../lib/libsim.la  $(LIBUI) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(LIB_QT) $(EXTRA_LIBS)
 
-yahoo_la_LDFLAGS = -module -no-undefined -avoid-version -L../../sim/.libs $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
+yahoo_la_LDFLAGS = -module -no-undefined -avoid-version -L../../lib/.libs $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 install-data-hook:
 	rm -rf $(DESTDIR)$(sim_plugindir)/yahoo.la

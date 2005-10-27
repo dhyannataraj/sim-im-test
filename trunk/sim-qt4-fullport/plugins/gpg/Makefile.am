@@ -13,11 +13,11 @@ gpg_la_SOURCES = \
  passphrase.cpp \
  passphrasebase.ui
 
-INCLUDES=-I../../sim -I../_core $(all_includes)
+INCLUDES=-I../../lib -I../_core $(all_includes)
 
 gpg_la_METASOURCES = AUTO
-gpg_la_LIBADD = ../../sim/libsim.la  $(LIBUI) $(LIB_QT) $(LIB_KDECORE) $(EXTRA_LIBS)
-gpg_la_LDFLAGS = -module -no-undefined -avoid-version -L../../sim/.libs $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
+gpg_la_LIBADD = ../../lib/libsim.la  $(LIBUI) $(LIB_QT) $(LIB_KDECORE) $(EXTRA_LIBS)
+gpg_la_LDFLAGS = -module -no-undefined -avoid-version -L../../lib/.libs $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 install-data-hook:
 	rm -rf $(DESTDIR)$(sim_plugindir)/gpg.la
