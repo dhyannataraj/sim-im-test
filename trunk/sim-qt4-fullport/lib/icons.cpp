@@ -20,14 +20,15 @@
 #include "qzip.h"
 
 #include <QIcon>
+#include <QMimeSource>
 #include <QImage>
 #include <QPainter>
 #include <QBitmap>
-#include <QDropEvent>
-#include <QDragEnterEvent>
+#include <QMimeData>
 #include <QFile>
 #include <QApplication>
 #include <QImageReader>
+
 #include <QPixmap>
 
 #ifdef USE_KDE
@@ -41,6 +42,7 @@
 #endif
 
 #include <map>
+#include <iostream>
 using namespace std;
 
 const unsigned ICON_COLOR_MASK	= 0x000000FF;
@@ -84,6 +86,10 @@ unsigned Icons::nSmile = 0;
 
 Icons::Icons()
 {
+    /* This idea came from kapplication.cpp
+       I had a similar idea with setting the old defaultFactory in
+       the destructor but this won't work :(
+       Christian */
     addIconSet("icons/sim.jisp", true);
     m_defSets.push_back(new WrkIconSet);
     addIconSet("icons/smiles.jisp", false);
@@ -106,9 +112,6 @@ void *Icons::processEvent(Event *e)
             (*it)->clear();
         for (it = m_defSets.begin(); it != m_defSets.end(); ++it)
             (*it)->clear();
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-        m_icons.clear();
-#endif
     }
     return NULL;
 }
@@ -233,249 +236,6 @@ void Icons::removeIconSet(IconSet *is)
     }
 }
 
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-
-PictDef *Icons::getPict(const QPixmap &p)
-{
-    unsigned serial = p.serialNumber();
-    ICONS_MAP::iterator it = m_icons.find(serial);
-    if (it == m_icons.end())
-        return NULL;
-    return getPict(it->second.c_str());
-}
-
-#endif
-
-static Icons *icons = NULL;
-
-Icons *getIcons()
-{
-    return icons;
-}
-
-void createIcons()
-{
-    icons = new Icons;
-}
-
-void deleteIcons()
-{
-    delete icons;
-}
-
-PictDef *getPict(const char *name)
-{
-    return icons->getPict(name);
-}
-
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-static QPixmap getPixmap(PictDef *d, const char *name)
-#else
-static QPixmap getPixmap(PictDef *d, const char*)
-#endif
-{
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-    if (d->pixmap == NULL){
-        QColor c = QApplication::palette().active().button();
-        unsigned char cr = c.Qt::red();
-        unsigned char cg = c.Qt::green();
-        unsigned char cb = c.Qt::blue();
-        QImage image(d->image->width(), d->image->height(), 32);
-        QBitmap mask(d->image->width(), d->image->height());
-        QPainter pmask(&mask);
-        pmask.fillRect(0, 0, d->image->width(), d->image->height(), QColor(255, 255, 255));
-        pmask.setPen(QColor(0, 0, 0));
-        unsigned int *from = (unsigned int*)d->image->bits();
-        unsigned int *to   = (unsigned int*)image.bits();
-        for (int i = 0; i < d->image->height(); i++){
-            for (int j = 0; j < d->image->width(); j++){
-                unsigned int c = *(from++);
-                unsigned char a = (c >> 24) & 0xFF;
-                unsigned char r = (c >> 16) & 0xFF;
-                unsigned char g = (c >> 8) & 0xFF;
-                unsigned char b = c & 0xFF;
-                r = (((r * a) + (cr * (0xFF - a))) >> 8) & 0xFF;
-                g = (((g * a) + (cg * (0xFF - a))) >> 8) & 0xFF;
-                b = (((b * a) + (cb * (0xFF - a))) >> 8) & 0xFF;
-                *(to++) = 0xFF000000 + (r << 16) + (g << 8) + b;
-                if (a)
-                    pmask.drawPoint(j, i);
-            }
-        }
-        pmask.end();
-        QPixmap *res = new QPixmap;
-        res->fromImage(image);
-        res->setMask(mask);
-        d->pixmap = res;
-    }
-    ICONS_MAP &icons = getIcons()->m_icons;
-    ICONS_MAP::iterator it = icons.find(d->pixmap->serialNumber());
-    if (it == icons.end())
-        icons.insert(ICONS_MAP::value_type(d->pixmap->serialNumber(), name));
-    return *(d->pixmap);
-#else
-    QPixmap res;
-    res.fromImage(*(d->image));
-    return res;
-#endif
-}
-
-QIcon Icon(const char *name)
-{
-    PictDef *pict = getPict(name);
-    if (pict == NULL)
-        return QIcon();
-    QIcon res(getPixmap(pict, name));
-    string bigName = "big.";
-    bigName += name;
-    pict = getPict(bigName.c_str());
-    if (pict)
-        res = getPixmap(pict, bigName.c_str());
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-    string disName = "disabled.";
-    disName += name;
-    pict = getPict(disName.c_str());
-    if (pict)
-        res = getPixmap(pict, bigName.c_str());
-#endif
-    return res;
-}
-
-const QImage *Image(const char *name)
-{
-    PictDef *p = getPict(name);
-    if (p == NULL)
-        return NULL;
-    return p->image;
-}
-
-QIcon Pict(const char *name)
-{
-    PictDef *p = getPict(name);
-    if (p == NULL)
-        return QPixmap();
-    return getPixmap(p, name);
-}
-
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-
-QIcon Pict(const char *name, const QColor &c)
-{
-	const QImage *img = Image(name);
-	if (img == NULL)
-		return QPixmap();
-	QImage res = img->copy();
-	unsigned char cr = c.Qt::red();
-	unsigned char cg = c.Qt::green();
-	unsigned char cb = c.Qt::blue();
-    unsigned int *data = (unsigned int*)res.bits();
-    for (int i = 0; i < res.height() * res.width(); i++){
-		unsigned char a = qAlpha(data[i]);
-		data[i] = qRgba((qRed(data[i]) * a + cr * (0xFF - a)) >> 8,
-			(qGreen(data[i]) * a + cg * (0xFF - a)) >> 8,
-			(qBlue(data[i]) * a + cb * (0xFF - a)) >> 8, 0xFF);
-	}
-	QPixmap r;
-	r.fromImage(res);
-	return r;
-}
-
-#else
-
-QIcon Pict(const char *name, const QColor&)
-{
-	return Pict(name);
-}
-
-#endif
-
-IconSet::IconSet()
-{
-}
-
-IconSet::~IconSet()
-{
-    for (PIXMAP_MAP::iterator it = m_icons.begin(); it != m_icons.end(); ++it){
-        if ((*it).second.image)
-            delete (*it).second.image;
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-        if ((*it).second.pixmap)
-            delete (*it).second.pixmap;
-#endif
-    }
-}
-
-void IconSet::parseSmiles(const QString &text, unsigned &start, unsigned &size, string &name)
-{
-    for (list<smileDef>::iterator it = m_smiles.begin(); it != m_smiles.end(); ++it){
-        QString pat = QString::fromUtf8(it->smile.c_str());
-        int n = text.indexOf(pat);
-        if (n < 0)
-            continue;
-        if (((unsigned)n < start) || (((unsigned)n == start) && (pat.length() > size))){
-            start = n;
-            size  = pat.length();
-            name  = it->name.c_str();
-        }
-    }
-}
-
-void IconSet::getSmiles(list<string> &smiles, list<string> &used)
-{
-    string name;
-    bool bOK = false;
-    for (list<smileDef>::iterator it = m_smiles.begin(); it != m_smiles.end(); ++it){
-        if (name != it->name){
-            if (bOK && !name.empty())
-                smiles.push_back(name);
-            name = it->name;
-            bOK = true;
-        }
-        list<string>::iterator itu;
-        for (itu = used.begin(); itu != used.end(); ++itu){
-            if ((*itu) == it->smile)
-                break;
-        }
-        if (itu == used.end()){
-            used.push_back(it->smile);
-        }else{
-            bOK = false;
-        }
-    }
-    if (bOK && !name.empty())
-        smiles.push_back(name);
-}
-
-list<string> IconSet::getSmile(const char *name)
-{
-    list<string> res;
-    PIXMAP_MAP::iterator it = m_icons.find(name);
-    if (it == m_icons.end())
-        return res;
-    for (list<smileDef>::iterator its = m_smiles.begin(); its != m_smiles.end(); ++its){
-        if (its->name != name)
-            continue;
-        res.push_back(its->smile);
-    }
-    return res;
-}
-
-string IconSet::getSmileName(const char *name)
-{
-    PIXMAP_MAP::iterator it = m_icons.find(name);
-    if (it == m_icons.end())
-        return "";
-    string res = it->second.file;
-    int n = res.find('.');
-    if (n > 0)
-        res = res.substr(0, n);
-    return res;
-}
-
-WrkIconSet::WrkIconSet()
-{
-}
-
 static QImage makeOffline(unsigned flags, const QImage &p)
 {
     QImage image = p.copy();
@@ -551,103 +311,324 @@ static QImage makeInvisible(unsigned flags, const QImage &p)
     return image;
 }
 
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-
-static QImage makeDisabled(const QImage &p)
+static QPixmap merge(const QString &cmdicon, const QString &cmd)
 {
-    QImage image(p.width() + 1, p.height() + 1, 32);
-	unsigned int *data = (unsigned int*)image.bits();
-	unsigned int *d = (unsigned int*)p.bits();
-	QColorGroup g = QApplication::palette().disabled();
-	QColor c1 = g.base();
-    unsigned char cr1 = c1.Qt::red();
-    unsigned char cg1 = c1.Qt::green();
-    unsigned char cb1 = c1.Qt::blue();
-	QColor c2 = g.button();
-    unsigned char cr2 = c2.Qt::red();
-    unsigned char cg2 = c2.Qt::green();
-    unsigned char cb2 = c2.Qt::blue();
-	unsigned int *f = d;
-	unsigned int *t = data;
-	int i;
-	for (i = 0; i < p.width() + 1; i++)
-		*(t++) = qRgba(cr2, cg2, cb2, 0);
-	for (i = 0; i < p.height(); i++){
-		*(t++) = qRgba(cr2, cg2, cb2, 0);
-		for (int j = 0; j < p.width(); j++){
-			unsigned char v = (qRed(*f) + qGreen(*f) + qBlue(*f)) / 3;
-			*(t++) = qRgba((cr2 * v + cr1 * (0xFF - v)) >> 8,
-				(cg2 * v + cg1 * (0xFF - v)) >> 8,
-				(cb2 * v + cb1 * (0xFF - v)) >> 8, qAlpha(*f));
-			f++;
-		}
-	}
-	c1 = g.foreground();
-	cr1 = c1.Qt::red();
-	cg1 = c1.Qt::green();
-	cb1 = c1.Qt::blue();
-	f = d;
-	t = data;
-	for (i = 0; i < p.height(); i++){
-		for (int j = 0; j < p.width(); j++){
-			unsigned char a = qAlpha(*f);
-			unsigned char v = (qRed(*f) + qGreen(*f) + qBlue(*f)) / 3;
-			*t = qRgba((((cr2 * v + cr1 * (0xFF - v)) >> 8) * a + qRed(*t) * (0xFF - a)) >> 8,
-				(((cg2 * v + cg1 * (0xFF - v)) >> 8) * a + qGreen(*t) * (0xFF - a)) >> 8,
-				(((cb2 * v + cb1 * (0xFF - v)) >> 8) * a + qBlue(*t) * (0xFF - a)) >> 8, QMAX(qAlpha(*f), qAlpha(*t)));
-			f++;
-			t++;
-		}
-		t++;
-	}
-    return image;
+    QPixmap statusicon(":/icons/" + cmd + ".png");
+    QPixmap protoicon(":/icons/" + cmdicon + ".png");
+    QPainter painter;
+    painter.begin( &protoicon);
+    painter.drawPixmap(0, 0, statusicon);
+    painter.end();
+    return protoicon;
 }
 
-#endif
+static Icons *icons = NULL;
 
-static QImage merge(const QImage &p1, const QImage &p2)
+Icons *getIcons()
 {
-    QImage img1 = p1.copy();
-    img1 = img1.convertToFormat(QImage::Format_ARGB32, Qt::ColorOnly);
-    QImage img2(p2);
-    img2 = img2.convertToFormat(QImage::Format_ARGB32, Qt::ColorOnly);
-    unsigned int *data1 = (unsigned int*)img1.bits();
-    unsigned int *data2 = (unsigned int*)img2.bits();
-    for (int y1 = 0; y1 < img1.height(); y1++){
-        int y2 = y1 - (img1.height() - img2.height()) / 2;
-        if ((y2 < 0) || (y2 >= img2.height()))
+    return icons;
+}
+
+void createIcons()
+{
+    icons = new Icons;
+}
+
+void deleteIcons()
+{
+    delete icons;
+}
+
+PictDef *getPict(const char *name)
+{
+    return icons->getPict(name);
+}
+
+static QPixmap getPixmap(PictDef *d, const char*)
+{
+    QPixmap res;
+    res.fromImage(*(d->image));
+    return res;
+}
+
+QIcon Icon(const char *name)
+{
+    QString iconPath = name;
+    iconPath = iconPath.toLower();
+    if (iconPath.indexOf("!") != -1)
+	iconPath.replace(QString("!"), QString(""));
+    if (iconPath.indexOf("_") != -1)
+    {
+        QString cmd = iconPath.right( iconPath.size() - iconPath.indexOf("_") - 1);
+	QString cmdicon = iconPath.left( iconPath.indexOf("_"));
+	
+//	std::cout << "found icon request for command " << static_cast<string>(cmd.toLocal8Bit()) << " and icon " << static_cast<string>(cmdicon.toLocal8Bit()) << std::endl;
+	
+	if (cmd == "online")
+	{
+	    return QIcon(":/icons/" + cmdicon + ".png");
+	}
+
+	if (cmd == "offline")
+	{
+	    QImage *officon = new QImage(":/icons/" + cmdicon + ".png");
+	    QPixmap returnIcon;
+	    return QIcon( returnIcon.fromImage(makeOffline(330, *officon), Qt::ColorOnly));
+	}
+
+	if (cmd == "invisible")
+	{
+	    QImage *officon = new QImage(":/icons/" + cmdicon + ".png");
+	    QPixmap returnIcon;
+	    return QIcon( returnIcon.fromImage(makeInvisible(330, *officon), Qt::ColorOnly));
+	}
+	
+	if (cmd == "inactive")
+	{
+    	    QImage *officon = new QImage(":/icons/" + cmdicon + ".png");
+    	    QPixmap returnIcon;
+	    return QIcon( returnIcon.fromImage(makeInactive(*officon), Qt::ColorOnly));
+	}
+	
+	if (cmd == "away")
+	{
+		QPixmap returnIcon = merge(cmdicon, cmd);
+		return QIcon( returnIcon);
+	}
+
+	if (cmd == "na")
+	{
+		QPixmap returnIcon = merge(cmdicon, cmd);
+		return QIcon( returnIcon);
+	}
+
+	if (cmd == "dnd")
+	{
+		QPixmap returnIcon = merge(cmdicon, cmd);
+		return QIcon( returnIcon);
+	}
+
+	if (cmd == "ffc")
+	{
+		QPixmap returnIcon = merge(cmdicon, cmd);
+		return QIcon( returnIcon);
+	}
+
+	if (cmd == "occupied")
+	{
+		QPixmap returnIcon = merge(cmdicon, cmd);
+		return QIcon( returnIcon);
+	}
+    }
+    
+    if (iconPath == "inactive")
+    {
+        QImage *officon = new QImage(":/icons/icq.png");
+        QPixmap returnIcon;
+	return QIcon( returnIcon.fromImage(makeInactive(*officon), Qt::ColorOnly));
+    }
+
+    if (iconPath == "offline")
+    {
+        QImage *officon = new QImage(":/icons/icq.png");
+        QPixmap returnIcon;
+	return QIcon( returnIcon.fromImage(makeOffline(330, *officon), Qt::ColorOnly));
+    }
+    
+    QIcon returnIcon = QIcon(":/icons/" + iconPath + ".png");
+    if ( ! returnIcon.isNull())
+	return returnIcon;
+    return QIcon();
+}
+
+const QImage *Image(const char *name)
+{
+    PictDef *p = getPict(name);
+    if (p == NULL)
+        return NULL;
+    return p->image;
+}
+
+QIcon getIcon(const char *name)
+{
+    QString iconPath = name;
+    iconPath = iconPath.toLower();
+    if (iconPath.indexOf("!") != -1)
+	iconPath.replace(QString("!"), QString(""));
+    if (iconPath.indexOf("_") != -1)
+    {
+        QString cmd = iconPath.right( iconPath.size() - iconPath.indexOf("_") - 1);
+	QString cmdicon = iconPath.left( iconPath.indexOf("_"));
+	
+//	std::cout << "found standard command " << static_cast<string>(cmd.toLocal8Bit()) << " and icon " << static_cast<string>(cmdicon.toLocal8Bit()) << std::endl;
+	
+	if (cmd == "online")
+	{
+	    return QIcon(":/icons/" + cmdicon + ".png");
+	}
+
+	if (cmd == "offline")
+	{
+	    QImage *officon = new QImage(":/icons/" + cmdicon + ".png");
+	    QPixmap returnIcon;
+	    return QIcon( returnIcon.fromImage(makeOffline(330, *officon), Qt::ColorOnly));
+	}
+
+	if (cmd == "invisible")
+	{
+	    QImage *officon = new QImage(":/icons/" + cmdicon + ".png");
+	    QPixmap returnIcon;
+	    return QIcon( returnIcon.fromImage(makeInvisible(330, *officon), Qt::ColorOnly));
+	}
+	
+	if (cmd == "inactive")
+	{
+    	    QImage *officon = new QImage(":/icons/" + cmdicon +  ".png");
+    	    QPixmap returnIcon;
+	    return QIcon( returnIcon.fromImage(makeInactive(*officon), Qt::ColorOnly));
+	}
+	
+	if (cmd == "away")
+	{
+		QPixmap returnIcon = merge(cmdicon, cmd);
+		return QIcon( returnIcon);
+	}
+
+	if (cmd == "na")
+	{
+		QPixmap returnIcon = merge(cmdicon, cmd);
+		return QIcon( returnIcon);
+	}
+
+	if (cmd == "dnd")
+	{
+		QPixmap returnIcon = merge(cmdicon, cmd);
+		return QIcon( returnIcon);
+	}
+
+	if (cmd == "ffc")
+	{
+		QPixmap returnIcon = merge(cmdicon, cmd);
+		return QIcon( returnIcon);
+	}
+
+	if (cmd == "occupied")
+	{
+		QPixmap returnIcon = merge(cmdicon, cmd);
+		return QIcon( returnIcon);
+	}
+    }
+    
+    if (iconPath == "inactive")
+    {
+        QImage *officon = new QImage(":/icons/icq.png");
+        QPixmap returnIcon;
+	return QIcon( returnIcon.fromImage(makeInactive(*officon), Qt::ColorOnly));
+    }
+
+    if (iconPath == "offline")
+    {
+        QImage *officon = new QImage(":/icons/icq.png");
+        QPixmap returnIcon;
+	return QIcon( returnIcon.fromImage(makeOffline(330, *officon), Qt::ColorOnly));
+    }
+    
+    QIcon returnIcon = QIcon(":/icons/" + iconPath + ".png");
+    if ( ! returnIcon.isNull())
+	return returnIcon;
+    return QIcon();
+}
+
+QIcon getIcon(const char *name, const QColor&)
+{
+    return getIcon(name);
+}
+
+IconSet::IconSet()
+{
+}
+
+IconSet::~IconSet()
+{
+    for (PIXMAP_MAP::iterator it = m_icons.begin(); it != m_icons.end(); ++it){
+        if ((*it).second.image)
+            delete (*it).second.image;
+    }
+}
+
+void IconSet::parseSmiles(const QString &text, unsigned &start, unsigned &size, string &name)
+{
+    for (list<smileDef>::iterator it = m_smiles.begin(); it != m_smiles.end(); ++it){
+        QString pat = QString::fromUtf8(it->smile.c_str());
+        int n = text.indexOf(pat);
+        if (n < 0)
             continue;
-        unsigned int *line1 = data1 + y1 * img1.width();
-        unsigned int *line2 = data2 + y2 * img2.width();
-        int w = img1.width();
-        if (w < img2.width()){
-            line2 += (img2.width() - w) / 2;
-        }else if (w > img2.width()){
-            w = img2.width();
-            line1 += (img1.width() - w) / 2;
-        }
-        for (int i = 0; i < w; i++, line1++, line2++){
-            int r1 = qRed(*line1);
-            int g1 = qGreen(*line1);
-            int b1 = qBlue(*line1);
-            int a1 = qAlpha(*line1);
-            int r2 = qRed(*line2);
-            int g2 = qGreen(*line2);
-            int b2 = qBlue(*line2);
-            int a2 = qAlpha(*line2);
-            r1 = (r2 * a2 + r1 * (255 - a2)) / 255;
-            g1 = (g2 * a2 + g1 * (255 - a2)) / 255;
-            b1 = (b2 * a2 + b1 * (255 - a2)) / 255;
-            if (a2 > a1)
-                a1 = a2;
-            *line1 = qRgba(r1, g1, b1, a1);
+        if (((unsigned)n < start) || (((unsigned)n == start) && (pat.length() > size))){
+            start = n;
+            size  = pat.length();
+            name  = it->name.c_str();
         }
     }
-    return img1;
+}
+
+void IconSet::getSmiles(list<string> &smiles, list<string> &used)
+{
+    string name;
+    bool bOK = false;
+    for (list<smileDef>::iterator it = m_smiles.begin(); it != m_smiles.end(); ++it){
+        if (name != it->name){
+            if (bOK && !name.empty())
+                smiles.push_back(name);
+            name = it->name;
+            bOK = true;
+        }
+        list<string>::iterator itu;
+        for (itu = used.begin(); itu != used.end(); ++itu){
+            if ((*itu) == it->smile)
+                break;
+        }
+        if (itu == used.end()){
+            used.push_back(it->smile);
+        }else{
+            bOK = false;
+        }
+    }
+    if (bOK && !name.empty())
+        smiles.push_back(name);
+}
+
+list<string> IconSet::getSmile(const char *name)
+{
+    list<string> res;
+    PIXMAP_MAP::iterator it = m_icons.find(name);
+    if (it == m_icons.end())
+        return res;
+    for (list<smileDef>::iterator its = m_smiles.begin(); its != m_smiles.end(); ++its){
+        if (its->name != name)
+            continue;
+        res.push_back(its->smile);
+    }
+    return res;
+}
+
+string IconSet::getSmileName(const char *name)
+{
+    PIXMAP_MAP::iterator it = m_icons.find(name);
+    if (it == m_icons.end())
+        return "";
+    string res = it->second.file;
+    int n = res.find('.');
+    if (n > 0)
+        res = res.substr(0, n);
+    return res;
+}
+
+WrkIconSet::WrkIconSet()
+{
 }
 
 PictDef *WrkIconSet::getPict(const char *name)
-{
+{ /*
     if (name == NULL)
         return NULL;
     PIXMAP_MAP::iterator it = m_icons.find(name);
@@ -714,17 +695,9 @@ PictDef *WrkIconSet::getPict(const char *name)
             return add(name, res, p->flags);
         }
     }
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-    char _disabled[] = "disabled.";
-    if ((strlen(name) > strlen(_disabled)) && !memcmp(name, _disabled, strlen(_disabled))){
-        PictDef *p = SIM::getPict(n.substr(strlen(_disabled)).c_str());
-        if (p == NULL)
-            return NULL;
-        return add(name, makeDisabled(*(p->image)), p->flags);
-    }
-#endif
     if ((strlen(name) <= 4) || memcmp(name, "big.", 4))
         log(L_DEBUG, "Icon %s not found", name);
+	*/
     return NULL;
 }
 
@@ -733,10 +706,6 @@ void WrkIconSet::clear()
     for (PIXMAP_MAP::iterator it = m_icons.begin(); it != m_icons.end(); ++it){
         if ((*it).second.image)
             delete (*it).second.image;
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-        if ((*it).second.pixmap)
-            delete (*it).second.pixmap;
-#endif
     }
     m_icons.clear();
 }
@@ -746,9 +715,6 @@ PictDef *WrkIconSet::add(const char *name, const QImage &pict, unsigned flags)
     PictDef p;
     p.image = new QImage(pict);
     p.flags = flags;
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-    p.pixmap = NULL;
-#endif
     m_icons.insert(PIXMAP_MAP::value_type(name, p));
     return &m_icons.find(name)->second;
 }
@@ -794,8 +760,7 @@ PictDef *FileIconSet::getPict(const char *name)
         QByteArray arr;
         if (!m_zip->readFile(QString::fromUtf8(it->second.file.c_str()), &arr))
             return NULL;
-        (*it).second.image = new QImage(static_cast<const char *>(arr));
-        (*it).second.image->convertToFormat(QImage::Format_ARGB32, Qt::ColorOnly);
+        (*it).second.image = new QImage(static_cast<QString>(arr));
     }
     return &((*it).second);
 }
@@ -807,12 +772,6 @@ void FileIconSet::clear()
             delete (*it).second.image;
             (*it).second.image = NULL;
         }
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-        if ((*it).second.pixmap){
-            delete (*it).second.pixmap;
-            (*it).second.pixmap = NULL;
-        }
-#endif
     }
 }
 
@@ -884,9 +843,6 @@ void FileIconSet::element_end(const char *el)
     if (!strcmp(el, "icon")){
         PictDef p;
         p.image  = NULL;
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-        p.pixmap = NULL;
-#endif
         p.file   = m_file;
         p.flags  = m_flags;
 #ifdef USE_KDE
@@ -927,9 +883,3 @@ void FileIconSet::char_data(const char *data, int size)
 }
 
 };
-
-#ifndef WIN32
-#include "icons.moc"
-#endif
-
-

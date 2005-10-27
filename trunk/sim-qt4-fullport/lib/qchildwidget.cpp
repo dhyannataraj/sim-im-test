@@ -93,7 +93,3 @@ bool QChildWidget::eventFilter(QObject *o, QEvent *e)
     return false;
 }
 
-#ifndef WIN32
-#include "qchildwidget.moc"
-#endif
-

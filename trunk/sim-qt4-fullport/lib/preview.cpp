@@ -20,7 +20,8 @@
 #include <kpreviewwidgetbase.h>
 #include <kurl.h>
 #else
-#include <q3filedialog.h>
+#include <QFileDialog>
+#include <QUrl>
 #endif
 
 #include <QLabel>
@@ -48,7 +49,7 @@ FilePreview::~FilePreview()
 
 void FilePreview::showPreview(const KURL &url)
 {
-    if (!url.isLocalFile()){
+    if ( url.scheme() != "file"){
         showPreview(NULL);
         return;
     }
@@ -66,13 +67,13 @@ void FilePreview::clearPreview()
 
 #else
 
-void FilePreview::previewUrl(const Q3Url &url)
+void FilePreview::previewUrl(const QUrl &url)
 {
-    if (!url.isLocalFile()){
+    if ( url.scheme() != "file"){
         showPreview(NULL);
         return;
     }
-    QString fileName = url.toString(false, false);
+    QString fileName = url.toString(QUrl::RemoveScheme);
     showPreview(QFile::encodeName(fileName));
 }
 

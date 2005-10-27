@@ -67,15 +67,16 @@ public:
     const QColor &foreground() const;
     void setForeground(const QColor&);
     void setBackground(const QColor&);
+    bool hasSelectedText;
 signals:
     void finished();
 protected slots:
     void slotSelectionChanged();
     void slotResizeTimer();
+    void slotCopyAvailable(const bool &yes);
 protected:
     QMimeData *dragObject(QWidget *parent) const;
     QTimer	  *m_timer;
-    void startDrag();
     void keyPressEvent(QKeyEvent *e);
     void resizeEvent(QResizeEvent *e);
     void emitLinkClicked(const QString&);
@@ -158,22 +159,6 @@ protected slots:
     void colorSelected(int);
 protected:
     QColor m_color;
-};
-
-class EXPORT RichTextEdit : public QMainWindow
-{
-    Q_OBJECT
-public:
-    RichTextEdit(QWidget *parent, const char *name = NULL);
-    void setText(const QString&);
-    QString text();
-    void setTextFormat(Qt::TextFormat);
-    Qt::TextFormat textFormat();
-    void setReadOnly(bool bState);
-    void showBar();
-protected:
-    TextEdit	*m_edit;
-    CToolBar	*m_bar;
 };
 
 #endif

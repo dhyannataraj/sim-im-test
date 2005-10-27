@@ -17,7 +17,7 @@
 
 #include "qkeybutton.h"
 
-#include <q3accel.h>
+#include <QAction>
 #include <QCursor>
 #include <QStringList>
 
@@ -108,13 +108,13 @@ void QKeyButton::setKey(QKeyEvent *e, bool bPress)
     case Qt::Key_Alt:
         key_state = Qt::AltModifier;
         break;
-#if COMPAT_QT_VERSION >= 0x030000
     case Qt::Key_Meta:
         key_state = Qt::MetaModifier;
         break;
-#endif
     default:
-        name = Q3Accel::keyToString(e->key());
+	QAction *action = new QAction( this);
+	action->setShortcut( e->key());
+        name = action->shortcut().toString(QKeySequence::NativeText);
         if ((name[0] == '<') && (name[(int)(name.length()-1)] == '>'))
             return;
     }
@@ -135,8 +135,4 @@ void QKeyButton::setKey(QKeyEvent *e, bool bPress)
         emit changed();
     }
 }
-
-#ifndef _WINDOWS
-#include "qkeybutton.moc"
-#endif
 

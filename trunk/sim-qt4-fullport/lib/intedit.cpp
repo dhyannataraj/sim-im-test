@@ -254,6 +254,3 @@ void RadioGroup::mousePressEvent(QMouseEvent *e)
         m_button->setChecked(true);
 }
 
-#ifndef _WINDOWS
-#include "intedit.moc"
-#endif

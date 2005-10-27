@@ -19,15 +19,14 @@
 
 #include <QPainter>
 #include <QTimer>
-#include <Q3ToolBar>
+#include <QToolBar>
 #include <QToolTip>
 #include <QLayout>
-#include <q3popupmenu.h>
+#include <QMenu>
 #include <QStyle>
-#include <Q3MainWindow>
+#include <QMainWindow>
 #include <QIcon>
 #include <QPalette>
-#include <q3accel.h>
 #include <QRegExp>
 #include <QApplication>
 #include <QComboBox>
@@ -42,6 +41,8 @@
 #include <QMouseEvent>
 #include <QDesktopWidget>
 #include <QPushButton>
+#include <QDockWidget>
+#include <QColorGroup>
 
 class ButtonsMap : public map<unsigned, CToolItem*>
 {
@@ -147,8 +148,8 @@ CToolButton::CToolButton (QWidget * parent, CommandDef *def)
     connect(this, SIGNAL(toggled(bool)), this, SLOT(btnToggled(bool)));
     accel = NULL;
     if (def->accel){
-        accel = new Q3Accel(this);
-        accel->insertItem(Q3Accel::stringToKey(def->accel));
+        accel = new QAction(this);
+        accel->setShortcut(QKeySequence(def->accel));
         connect(accel, SIGNAL(activated(int)), this, SLOT(accelActivated(int)));
     }
     setState();
@@ -171,48 +172,41 @@ void CToolButton::setTextLabel()
         if (m_def.text && *m_def.text)
             text = i18n(m_def.text);
     }
-    int key = Q3Accel::shortcutKey(text);
-    setAccel(key);
+    QKeySequence key(text);
+    QAction *action = new QAction(this);
+    action->setShortcut( key);
+    setDefaultAction(action);
     QString t = text;
-    int pos = t.find("<br>");
+    int pos = t.indexOf("<br>");
     if (pos >= 0) t = t.left(pos);
-    QToolButton::setTextLabel(t);
+    QToolButton::setText(t);
+    QToolButton::setToolTip(t);
     t = text;
-    while ((pos = t.find('&')) >= 0){
+    while ((pos = t.indexOf('&')) >= 0){
         t = t.left(pos) + "<u>" + t.mid(pos+1, 1) + "</u>" + t.mid(pos+2);
     }
-    QToolTip::add(this, t);
+    this->setToolTip( t);
 }
 
 void CToolButton::setState()
 {
     setTextLabel();
     if (m_def.icon_on){
-        setToggleButton(true);
-        setOn((m_def.flags & COMMAND_CHECKED) != 0);
+        setCheckable(true);
     }
     if (m_def.icon_on && strcmp(m_def.icon, m_def.icon_on)){
         QIcon offIcon = Icon(m_def.icon);
-#if COMPAT_QT_VERSION < 0x030000
-        if (!offIcon.pixmap(QIcon::Small, QIcon::Normal).isNull()){
-            setIconSet(offIcon);
-            QIcon onIcon = Icon(m_def.icon_on);
-            if (!onIcon.pixmap(QIcon::Small, QIcon::Normal).isNull())
-                setOnIconSet(onIcon);
-        }
-#else
-        if (!offIcon.pixmap(QIcon::Small, QIcon::Normal).isNull()){
+        if (!offIcon.pixmap(QSize(16,16), QIcon::Normal, QIcon::Off).isNull()){
             QIcon icons = offIcon;
-            QIcon off = Pict(m_def.icon_on);
+            QIcon off = getIcon(m_def.icon_on);
             if (!off.isNull())
-                icons.setPixmap(off.pixmap(QIcon::Small, QIcon::Normal, QIcon::On), QIcon::Small, QIcon::Normal, QIcon::On);
-            setIconSet(icons);
+                icons.addPixmap(off.pixmap(16, QIcon::Normal, QIcon::Off));
+            setIcon(icons);
         }
-#endif
     }else{
         QIcon icon = Icon(m_def.icon);
-        if (!icon.pixmap(QIcon::Small, QIcon::Normal).isNull())
-            setIconSet(icon);
+        if (!icon.pixmap(16, QIcon::Normal, QIcon::Off).isNull())
+            setIcon(icon);
     }
     CToolItem::setState();
 }
@@ -227,14 +221,14 @@ void CToolButton::btnClicked()
     m_def.param = static_cast<CToolBar*>(parent())->param();
     if (m_def.popup_id){
         Event e(EventGetMenu, &m_def);
-        Q3PopupMenu *popup = (Q3PopupMenu*)(e.process());
+        QMenu *popup = (QMenu*)(e.process());
         if (popup){
             QPoint pos = popupPos(popup);
             popup->popup(pos);
         }
         return;
     }
-    if (isToggleButton())
+    if (isCheckable())
         return;
     Event e(EventCommandExec, &m_def);
     e.process();
@@ -243,7 +237,7 @@ void CToolButton::btnClicked()
 void CToolButton::btnToggled(bool state)
 {
     m_def.param = static_cast<CToolBar*>(parent())->param();
-    if (!isToggleButton())
+    if (!isCheckable())
         return;
     if (state){
         m_def.flags |= COMMAND_CHECKED;
@@ -262,10 +256,10 @@ QPoint CToolButton::popupPos(QWidget *p)
 QPoint CToolButton::popupPos(QWidget *btn, QWidget *p)
 {
     QPoint pos;
-    Q3ToolBar *bar = NULL;
+    QToolBar *bar = NULL;
     for (QWidget *pw = btn->parentWidget(); pw; pw = pw->parentWidget()){
-        if (pw->inherits("Q3ToolBar")){
-            bar = static_cast<Q3ToolBar*>(pw);
+        if (pw->inherits("QToolBar")){
+            bar = static_cast<QToolBar*>(pw);
             break;
         }
     }
@@ -297,12 +291,6 @@ QPoint CToolButton::popupPos(QWidget *btn, QWidget *p)
 
 void CToolButton::mousePressEvent(QMouseEvent *e)
 {
-#if COMPAT_QT_VERSION < 0x030000
-    if (e->button() == Qt::RightButton){
-        emit showPopup(e->globalPos());
-        return;
-    }
-#endif
     QToolButton::mousePressEvent(e);
 }
 
@@ -316,7 +304,7 @@ void CToolButton::setAccel(int key)
 {
     accelKey = key;
     if (isVisible())
-        QToolButton::setAccel(key);
+        QToolButton::setShortcut(key);
 }
 
 void CToolButton::showEvent(QShowEvent *e)
@@ -334,7 +322,7 @@ void CToolButton::hideEvent(QHideEvent *e)
 void CToolButton::enableAccel(bool bState)
 {
     if (accelKey == 0) return;
-    QToolButton::setAccel(bState ? accelKey : 0);
+    QToolButton::setShortcut(bState ? accelKey : 0);
     if (accel)
         accel->setEnabled(bState);
 }
@@ -342,7 +330,7 @@ void CToolButton::enableAccel(bool bState)
 // ______________________________________________________________________________________
 
 
-PictButton::PictButton(Q3ToolBar *parent, CommandDef *def)
+PictButton::PictButton(QToolBar *parent, CommandDef *def)
         : CToolButton(parent, def)
 {
     setState();
@@ -355,11 +343,11 @@ PictButton::~PictButton()
 QSizePolicy PictButton::sizePolicy() const
 {
     QSizePolicy p = QToolButton::sizePolicy();
-    Q3ToolBar *bar = static_cast<Q3ToolBar*>(parent());
+    QToolBar *bar = static_cast<QToolBar*>(parent());
     if (bar->orientation() == Qt::Vertical){
-        p.setVerData(QSizePolicy::Expanding);
+        p.setVerticalPolicy(QSizePolicy::Expanding);
     }else{
-        p.setHorData(QSizePolicy::Expanding);
+        p.setHorizontalPolicy(QSizePolicy::Expanding);
     }
     return p;
 }
@@ -368,13 +356,12 @@ QSize PictButton::minimumSizeHint() const
 {
     int wChar = QFontMetrics(font()).width('0');
     QSize p = QToolButton:: minimumSizeHint();
-    Q3ToolBar *bar = static_cast<Q3ToolBar*>(parent());
-    Qt::Dock tDock;
+    QToolBar *bar = static_cast<QToolBar*>(parent());
+    QDockWidget tDock(bar);
     int index;
     bool nl;
     int extraOffset;
-    bar->mainWindow()->getLocation(bar, tDock, index, nl, extraOffset);
-    if (tDock == Qt::TornOff){
+    if (tDock.isFloating()){
         if (bar->orientation() == Qt::Vertical){
             p.setHeight(p.height() + 2 * wChar + 16);
         }else{
@@ -390,13 +377,12 @@ QSize PictButton::sizeHint() const
 {
     int wChar = QFontMetrics(font()).width('0');
     QSize p = QToolButton:: sizeHint();
-    Q3ToolBar *bar = static_cast<Q3ToolBar*>(parent());
-    Qt::Dock tDock;
+    QToolBar *bar = static_cast<QToolBar*>(parent());
+    QDockWidget tDock(bar);
     int index;
     bool nl;
     int extraOffset;
-    bar->mainWindow()->getLocation(bar, tDock, index, nl, extraOffset);
-    if (tDock == Qt::TornOff){
+    if (tDock.isFloating()){
         if (bar->orientation() == Qt::Vertical){
             p.setHeight(p.height() + 2 * wChar + 16);
         }else{
@@ -410,7 +396,7 @@ QSize PictButton::sizeHint() const
 
 void PictButton::setState()
 {
-    setIconSet(QIcon());
+    setIcon(QIcon());
     setTextLabel();
     CToolItem::setState();
     repaint();
@@ -421,27 +407,26 @@ void PictButton::paintEvent(QPaintEvent*)
     QPixmap pict(width(), height());
     QPainter p(&pict);
     QWidget *pw = static_cast<QWidget*>(parent());
+    QPixmap pimage;
     if (pw){
-        if (pw->backgroundPixmap()){
-            p.drawTiledPixmap(0, 0, width(), height(), *pw->backgroundPixmap(), x(), y());
+        if (pw->backgroundRole()){
+            p.drawTiledPixmap(0, 0, width(), height(), pimage.grabWidget( pw, 0, 0, height(), width()), x(), y());
         }else{
-            p.fillRect(0, 0, width(), height(), colorGroup().button());
+            p.fillRect(0, 0, width(), height(), palette().button());
         }
     }
-//    style()->drawToolButton(this, &p);
-//    drawButton(&p);
     int w = 4;
     QRect rc(4, 4, width() - 4, height() - 4);
     if (m_def.icon && strcmp(m_def.icon, "empty")){
         QIcon icons = Icon(m_def.icon);
-        if (!icons.pixmap(QIcon::Small, QIcon::Normal).isNull()){
-            const QPixmap &pict = icons.pixmap(QIcon::Small, isEnabled() ? QIcon::Active : QIcon::Disabled);
-            Q3ToolBar *bar = static_cast<Q3ToolBar*>(parent());
+        if (!icons.pixmap(16, QIcon::Normal).isNull()){
+            const QPixmap &pict = icons.pixmap(16, isEnabled() ? QIcon::Active : QIcon::Disabled, QIcon::Off);
+            QToolBar *bar = static_cast<QToolBar*>(parent());
             if (bar->orientation() == Qt::Vertical){
                 p.drawPixmap((width() - pict.width()) / 2, 4, pict);
                 QMatrix m;
                 m.rotate(90);
-                p.setWorldMatrix(m);
+                p.setMatrix(m);
                 rc = QRect(8 + pict.height(), -4, height() - 4, 4 - width());
                 w = pict.height() + 4;
             }else{
@@ -451,22 +436,22 @@ void PictButton::paintEvent(QPaintEvent*)
             }
         }
     }else{
-        Q3ToolBar *bar = static_cast<Q3ToolBar*>(parent());
+        QToolBar *bar = static_cast<QToolBar*>(parent());
         if (bar->orientation() == Qt::Vertical){
             QMatrix m;
             m.rotate(90);
-            p.setWorldMatrix(m);
+            p.setMatrix(m);
             rc = QRect(4, -4, height() - 4, 4 - width());
         }else{
             rc = QRect(4, 4, width() - 4, height() - 4);
         }
     }
-    const QColorGroup &cg = isEnabled() ? palette().active() : palette().disabled();
-    p.setPen(cg.text());
+    const QColor &cg = palette().color(QPalette::Text);
+    p.setPen(cg);
     QString text = m_text;
     if (text.isEmpty())
         text = i18n(m_def.text);
-    if ((m_def.flags & BTN_DIV) && (text.find(" | ") >= 0)){
+    if ((m_def.flags & BTN_DIV) && (text.indexOf(" | ") >= 0)){
         QStringList parts = text.split(" | ", QString::SkipEmptyParts);
         unsigned n;
         for (n = parts.count(); n > 0; n--){
@@ -477,19 +462,19 @@ void PictButton::paintEvent(QPaintEvent*)
                 text += parts[i];
             }
             QRect rcb(0, 0, qApp->desktop()->width(), qApp->desktop()->height());
-            rcb = p.boundingRect(rcb, Qt::AlignLeft | Qt::ShowPrefix | Qt::SingleLine, text);
+            rcb = p.boundingRect(rcb, Qt::AlignLeft | Qt::TextShowMnemonic | Qt::TextSingleLine, text);
             if (rcb.width() + w < rc.width())
                 break;
         }
     }
-    p.drawText(rc, Qt::AlignLeft | Qt::AlignVCenter | Qt::ShowPrefix | Qt::SingleLine, text);
+    p.drawText(rc, Qt::AlignLeft | Qt::AlignVCenter | Qt::TextShowMnemonic | Qt::TextSingleLine, text);
     p.end();
     p.begin(this);
     p.drawPixmap(0, 0, pict);
     p.end();
 }
 
-CToolCombo::CToolCombo(Q3ToolBar* parent, CommandDef *def, bool bCheck)
+CToolCombo::CToolCombo(QToolBar* parent, CommandDef *def, bool bCheck)
         : QComboBox(parent), CToolItem(def)
 {
     m_bCheck = bCheck;
@@ -534,10 +519,10 @@ void CToolCombo::setState()
     if (m_def.text && *m_def.text){
         QString t = i18n(m_def.text);
         int pos;
-        while ((pos = t.find('&')) >= 0)
+        while ((pos = t.indexOf('&')) >= 0)
             t = t.left(pos) + "<u>" + t.mid(pos+1, 1) + "</u>" + t.mid(pos+2);
-        QToolTip::remove(this);
-        QToolTip::add(this, t);
+        this->setToolTip("");
+        this->setToolTip(t);
     }
     if (m_btn){
         *m_btn->def() = m_def;
@@ -550,7 +535,7 @@ void CToolCombo::setState()
 QSizePolicy CToolCombo::sizePolicy() const
 {
     QSizePolicy p = QComboBox::sizePolicy();
-    p.setHorData(QSizePolicy::Expanding);
+    p.setHorizontalPolicy(QSizePolicy::Expanding);
     return p;
 }
 
@@ -571,7 +556,7 @@ QSize CToolCombo::sizeHint() const
 }
 
 
-CToolEdit::CToolEdit(Q3ToolBar* parent, CommandDef *def)
+CToolEdit::CToolEdit(QToolBar* parent, CommandDef *def)
         : QLineEdit(parent), CToolItem(def)
 {
     m_btn = NULL;
@@ -603,12 +588,10 @@ void CToolEdit::setState()
     }
 }
 
-CToolBar::CToolBar(CommandsDef *def, Q3MainWindow *parent)
-        : Q3ToolBar(parent), EventReceiver(LowPriority)
+CToolBar::CToolBar(CommandsDef *def, QMainWindow *parent)
+        : QToolBar(parent), EventReceiver(LowPriority)
 {
     m_def = def;
-    setHorizontalStretchable(true);
-    setVerticalStretchable(true);
     buttons = new ButtonsMap;
     bChanged = false;
     m_param = this;
@@ -629,13 +612,7 @@ void CToolBar::checkState()
 
 void CToolBar::mousePressEvent(QMouseEvent *e)
 {
-#if COMPAT_QT_VERSION < 0x030000
-    if (e->button() == Qt::RightButton){
-        showPopup(e->globalPos());
-        return;
-    }
-#endif
-    Q3ToolBar::mousePressEvent(e);
+    QToolBar::mousePressEvent(e);
 }
 
 void CToolBar::contextMenuEvent(QContextMenuEvent *e)
@@ -765,10 +742,6 @@ void CToolBar::toolBarChanged()
 
 void CToolBar::showPopup(QPoint p)
 {
-    Q3PopupMenu *popup = new Q3PopupMenu(this);
+    QMenu *popup = new QMenu(this);
     popup->popup(p);
 }
-
-#ifndef _WINDOWS
-#include "toolbtn.moc"
-#endif

@@ -39,7 +39,7 @@ FontEdit::FontEdit(QWidget *parent, const char *name) : QFrame(parent)
     lay->addWidget(lblFont);
     lay->addSpacing(2);
     QPushButton *btnFont = new QPushButton(this);
-    btnFont->setIcon(Pict("text"));
+    btnFont->setIcon(getIcon("text"));
     lay->addWidget(btnFont);
     lblFont->setFrameShape(QFrame::Box);
     lblFont->setLineWidth(1);
@@ -195,7 +195,3 @@ QFont FontEdit::str2font(const char *str, const QFont &def)
     f.setWeight(weight);
     return f;
 }
-
-#ifndef _WINDOWS
-#include "fontedit.moc"
-#endif

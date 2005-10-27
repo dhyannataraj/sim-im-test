@@ -320,8 +320,3 @@ Contact *ContactDragObject::decode( QMimeSource *s )
     return getContacts()->contact(id);
 }
 
-
-#ifndef WIN32
-#include "listview.moc"
-#endif
-

@@ -1772,8 +1772,8 @@ EXPORT bool raiseWindow(QWidget *w, unsigned desk = 0);
 EXPORT void setButtonsPict(QWidget *w);
 
 EXPORT QIcon Icon(const char *name);
-EXPORT QIcon Pict(const char *name);
-EXPORT QIcon Pict(const char *name, const QColor &bgColor);
+EXPORT QIcon getIcon(const char *name);
+EXPORT QIcon getIcon(const char *name, const QColor &bgColor);
 EXPORT const QImage *Image(const char *name);
 
 EXPORT void setAboutData(KAboutData*);

@@ -53,7 +53,7 @@ EditFile::EditFile(QWidget *p, const char *name)
     lay->addSpacing(3);
     QPushButton *btnOpen = new QPushButton(this);
     lay->addWidget(btnOpen);
-    btnOpen->setIcon(Pict("fileopen"));
+    btnOpen->setIcon(getIcon("fileopen"));
     connect(btnOpen, SIGNAL(clicked()), this, SLOT(showFiles()));
     connect(edtFile, SIGNAL(textChanged(const QString&)), this, SLOT(editTextChanged(const QString&)));
 }
@@ -237,7 +237,7 @@ EditSound::EditSound(QWidget *p, const char *name)
     QPushButton *btnPlay = new QPushButton(this);
     lay->addSpacing(3);
     lay->addWidget(btnPlay);
-    btnPlay->setIcon(Pict("1rightarrow"));
+    btnPlay->setIcon(getIcon("1rightarrow"));
     connect(btnPlay, SIGNAL(clicked()), this, SLOT(play()));
 #ifdef USE_KDE
     filter = i18n("*.wav|Sounds");
@@ -397,6 +397,3 @@ QMenu *MultiLineEdit::createPopupMenu()
     return popup;
 }
 
-#ifndef _WINDOWS
-#include "editfile.moc"
-#endif

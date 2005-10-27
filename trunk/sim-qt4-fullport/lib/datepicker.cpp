@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include "datepicker.h"
-#include "toolbtn.h"
 
 #include <QLineEdit>
 #include <QPushButton>
@@ -118,9 +117,7 @@ DateEdit::DateEdit(QWidget *parent)
         : QLineEdit(parent)
 {
     setValidator(new DateValidator(this));
-#if COMPAT_QT_VERSION >= 0x030200
     setInputMask("00/00/0000;_");
-#endif
 }
 
 DatePicker::DatePicker(QWidget *parent)
@@ -134,7 +131,7 @@ DatePicker::DatePicker(QWidget *parent)
     m_edit->setFixedWidth(fm.width("00/00/0000") + 14);
     lay->addWidget(m_edit);
     m_button = new QPushButton(this);
-    m_button->setIcon(Pict("more"));
+    m_button->setIcon(getIcon("more"));
     lay->addWidget(m_button);
     lay->addStretch();
     connect(m_button, SIGNAL(clicked()), this, SLOT(showPopup()));
@@ -224,7 +221,7 @@ void DatePicker::showPopup()
     PickerPopup *popup = new PickerPopup(this);
     QSize s = popup->minimumSizeHint();
     popup->resize(s);
-    QPoint p = CToolButton::popupPos(m_button, popup);
+    QPoint p = m_button->pos();
     popup->move(p);
     popup->show();
 }
@@ -428,8 +425,4 @@ void PickerLabel::mouseReleaseEvent(QMouseEvent*)
 {
     emit clicked(this);
 }
-
-#ifndef WIN32
-#include "datepicker.moc"
-#endif
 

@@ -383,8 +383,3 @@ void BalloonButton::click()
     topLevelWidget()->close();
 }
 
-
-#ifndef _WINDOWS
-#include "ballonmsg.moc"
-#endif
-

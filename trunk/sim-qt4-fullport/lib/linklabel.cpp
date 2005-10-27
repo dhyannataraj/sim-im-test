@@ -172,7 +172,3 @@ void TipLabel::drawContents(QPainter *p)
     richText.setHtml( m_text);
 }
 
-#ifndef WIN32
-#include "linklabel.moc"
-#endif
-

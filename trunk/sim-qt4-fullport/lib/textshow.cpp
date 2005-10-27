@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include "textshow.h"
-#include "toolbtn.h"
 #include "html.h"
 #include "simapi.h"
 
@@ -61,11 +60,13 @@
 #include <QStringList>
 #include <QTextCodec>
 #include <QToolBar>
+#include <QToolButton>
 #include <QLineEdit>
 #include <QToolButton>
 #include <QStatusBar>
 #include <QToolTip>
 #include <QLayout>
+#include <QTextCursor>
 
 #define MAX_HISTORY	100
 
@@ -105,7 +106,7 @@ bool RichTextDrag::decode(QMimeData *e, QString &str, const QByteArray &mimetype
         QStringList formats = e->formats();
 	int i;
         for ( i = 0; (mime = formats.value(i)) != formats.last(); ++i ) {
-            if (qstrcmp("application/x-qrichtext", static_cast<string>(mime.toLatin1())) != 0)
+            if (qstrcmp("application/x-qrichtext", mime.toLatin1()) != 0)
                 continue;
             str = QString::fromUtf8(e->data(mime));
             return TRUE;
@@ -201,9 +202,7 @@ QMenu *TextEdit::createPopupMenu(const QPoint& pos)
 
 bool TextEdit::isEmpty()
 {
-    QString t = text(0);
-    if (textFormat() == Qt::RichText)
-        t = unquoteText(t);
+    QString t = toPlainText();
     return t.isEmpty() || (t == " ");
 }
 
@@ -216,9 +215,10 @@ void TextEdit::slotColorChanged(const QColor &c)
 {
     if (c == curFG)
         return;
-    int parag = this->textCursor().position();
-    if (QTextEdit::text(parag).isEmpty()){
-        setColor(curFG);
+    this->textCursor().select(QTextCursor::WordUnderCursor);
+    QString txt = this->textCursor().selectedText();
+    if (txt.isEmpty()){
+        setTextColor(curFG);
         return;
     }
     if (c != curFG)
@@ -305,32 +305,21 @@ void TextEdit::keyPressEvent(QKeyEvent *e)
         //   in !m_bCtrlMode:   enter      --> sendMsg
         //                      ctrl+enter --> newLine
         // the (bool) is required due to the bitmap
-        if (m_bCtrlMode == (bool)(e->state() & Qt::ControlButton)){
+        if (m_bCtrlMode == (bool)(e->modifiers() & Qt::ControlModifier)){
             emit ctrlEnterPressed();
             return;
         }
     }
     if (!isReadOnly()){
-        if ((e->state() == Qt::ShiftButton) && (e->key() == Qt::Key_Insert)){
+        if ((e->modifiers() == Qt::ShiftModifier) && (e->key() == Qt::Key_Insert)){
             paste();
             return;
         }
-        if ((e->state() == Qt::ControlButton) && (e->key() == Qt::Key_Delete)){
+        if ((e->modifiers() == Qt::ControlModifier) && (e->key() == Qt::Key_Delete)){
             cut();
             return;
         }
     }
-#if (COMPAT_QT_VERSION >= 0x030000) && (COMPAT_QT_VERSION < 0x030100)
-    // Workaround about autoformat feature in qt 3.0.x
-    if ((e->text()[0] == '-') || (e->text()[0] == '*')){
-        if (isOverwriteMode() && !hasSelectedText())
-            moveCursor(MoveForward, true);
-        insert( e->text(), TRUE, FALSE );
-        return;
-    }
-#endif
-    // Note: We no longer translate Enter to Ctrl-Enter since we need
-    // to know about paragraph breaks now.
     TextShow::keyPressEvent(e);
 }
 
@@ -349,7 +338,7 @@ void *TextEdit::processEvent(Event *e)
         case CmdItalic:
         case CmdUnderline:
         case CmdFont:
-            if ((textFormat() == Qt::RichText) && !isReadOnly()){
+            if (!isReadOnly()){
                 cmd->flags &= ~BTN_HIDE;
             }else{
                 cmd->flags |= BTN_HIDE;
@@ -366,10 +355,10 @@ void *TextEdit::processEvent(Event *e)
         switch (cmd->id){
         case CmdBgColor:{
                 Event eWidget(EventCommandWidget, cmd);
-                CToolButton *btnBg = (CToolButton*)(eWidget.process());
+                QToolButton *btnBg = (QToolButton*)(eWidget.process());
                 if (btnBg){
                     ColorPopup *popup = new ColorPopup(this, background());
-                    popup->move(CToolButton::popupPos(btnBg, popup));
+                    popup->move(btnBg->pos());
                     connect(popup, SIGNAL(colorChanged(QColor)), this, SLOT(bgColorChanged(QColor)));
                     popup->show();
                 }
@@ -377,10 +366,10 @@ void *TextEdit::processEvent(Event *e)
             }
         case CmdFgColor:{
                 Event eWidget(EventCommandWidget, cmd);
-                CToolButton *btnFg = (CToolButton*)(eWidget.process());
+                QToolButton *btnFg = (QToolButton*)(eWidget.process());
                 if (btnFg){
                     ColorPopup *popup = new ColorPopup(this, foreground());
-                    popup->move(CToolButton::popupPos(btnFg, popup));
+                    popup->move(btnFg->pos());
                     connect(popup, SIGNAL(colorChanged(QColor)), this, SLOT(fgColorChanged(QColor)));
                     popup->show();
                 }
@@ -389,19 +378,26 @@ void *TextEdit::processEvent(Event *e)
         case CmdBold:
             if (!m_bChanged){
                 m_bSelected = true;
-                setBold((cmd->flags & COMMAND_CHECKED) != 0);
+		if ((cmd->flags & COMMAND_CHECKED) != 0)
+		{
+		    setFontWeight(75);
+		}
+		else
+		{
+		    setFontWeight(50);
+		}
             }
             return e->param();
         case CmdItalic:
             if (!m_bChanged){
                 m_bSelected = true;
-                setItalic((cmd->flags & COMMAND_CHECKED) != 0);
+                setFontItalic((cmd->flags & COMMAND_CHECKED) != 0);
             }
             return e->param();
         case CmdUnderline:
             if (!m_bChanged){
                 m_bSelected = true;
-                setUnderline((cmd->flags & COMMAND_CHECKED) != 0);
+                setFontUnderline((cmd->flags & COMMAND_CHECKED) != 0);
             }
             return e->param();
         case CmdFont:{
@@ -429,16 +425,16 @@ void *TextEdit::processEvent(Event *e)
 void TextShow::setBackground(const QColor& c)
 {
     QPalette pal = palette();
-    pal.setColor(QPalette::Active, QColorGroup::Base, c);
-    pal.setColor(QPalette::Inactive, QColorGroup::Base, c);
-    pal.setColor(QPalette::Disabled, QColorGroup::Base, c);
+    pal.setColor(QPalette::Active, QPalette::Base, c);
+    pal.setColor(QPalette::Inactive, QPalette::Base, c);
+    pal.setColor(QPalette::Disabled, QPalette::Base, c);
     setPalette(pal);
 }
 
 void TextShow::setForeground(const QColor& c)
 {
     QPalette pal = palette();
-    pal.setColor(QPalette::Active, QColorGroup::Text, c);
+    pal.setColor(QPalette::Active, QPalette::Text, c);
     setPalette(pal);
 }
 
@@ -447,29 +443,27 @@ void TextEdit::setForeground(const QColor& c, bool bDef)
     curFG = c;
     if (bDef)
         defFG = c;
-    if (!hasSelectedText())
-        setColor(c);
+    if (!hasSelectedText)
+        setTextColor(c);
     int r = Qt::red;
-#if COMPAT_QT_VERSION >= 0x030000
     if (r){
         r--;
     }else{
         r++;
     }
-#endif
     QPalette pal = palette();
-    pal.setColor(QPalette::Active, QColorGroup::Text, QColor(r, Qt::green, Qt::blue));
+    pal.setColor(QPalette::Active, QPalette::Text, QColor(r, Qt::green, Qt::blue));
     setPalette(pal);
 }
 
 const QColor &TextShow::background() const
 {
-    return palette().color(QPalette::Active, QColorGroup::Base);
+    return palette().color(QPalette::Active, QPalette::Base);
 }
 
 const QColor &TextShow::foreground() const
 {
-    return palette().color(QPalette::Active, QColorGroup::Text);
+    return palette().color(QPalette::Active, QPalette::Text);
 }
 
 const QColor &TextEdit::foreground() const
@@ -484,28 +478,18 @@ const QColor &TextEdit::defForeground() const
 
 void TextEdit::setTextFormat(Qt::TextFormat format)
 {
-    if (format == textFormat())
-        return;
-    if (format == Qt::RichText){
-        QTextEdit::setTextFormat(format);
-        return;
-    }
-    QString t = unquoteText(text());
-    QTextEdit::setTextFormat(format);
-    setText(t);
 }
 
 TextShow::TextShow(QWidget *p, const char *name)
-        : QTextEdit(p, name)
+        : QTextEdit(p)
 {
-    setTextFormat(Qt::RichText);
     setReadOnly(true);
-#if COMPAT_QT_VERSION >= 0x030100
     if (QApplication::clipboard()->supportsSelection())
         connect(this, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()));
-#endif
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(slotResizeTimer()));
+    connect(this, SIGNAL(copyAvailable(bool yes)), this, SLOT(slotCopyAvailable(bool)));
+    hasSelectedText = false;
 }
 
 TextShow::~TextShow()
@@ -520,13 +504,11 @@ void TextShow::emitLinkClicked(const QString &name)
 
 void TextShow::setSource(const QString &name)
 {
-#ifndef QT_NO_CURSOR
     if ( isVisible() )
-        qApp->setOverrideCursor( Qt::waitCursor );
-#endif
+        qApp->setOverrideCursor( Qt::WaitCursor );
     QString source = name;
     QString mark;
-    int hash = name.find('#');
+    int hash = name.indexOf('#');
     if ( hash != -1) {
         source = name.left( hash );
         mark = name.mid( hash+1 );
@@ -534,7 +516,7 @@ void TextShow::setSource(const QString &name)
     if ( source.left(5) == "file:" )
         source = source.mid(6);
 
-    QString url = mimeSourceFactory()->makeAbsolute( source, context() );
+    QString url = source;
     QString txt;
 
     if (!mark.isEmpty()) {
@@ -543,7 +525,7 @@ void TextShow::setSource(const QString &name)
     }
 
     QByteArray s = url.toLocal8Bit();
-    Event e(EventGoURL, (void*)(const char*)url);
+    Event e(EventGoURL, (void *)static_cast<const char *>(url.toLocal8Bit()));
     e.process();
 
 #ifndef QT_NO_CURSOR
@@ -565,6 +547,11 @@ void TextShow::slotResizeTimer()
 #endif
 }
 
+void TextShow::slotCopyAvailable(const bool &yes)
+{
+    hasSelectedText = yes;
+}
+
 void TextShow::resizeEvent(QResizeEvent *e)
 {
 #ifdef WIN32
@@ -580,31 +567,13 @@ void TextShow::resizeEvent(QResizeEvent *e)
     QPoint p = QPoint(0, height());
     p = mapToGlobal(p);
     p = viewport()->mapFromGlobal(p);
-    int x, y;
-    viewportToContents(p.x(), p.y(), x, y);
-    int para;
-    int pos;
-    if (isReadOnly()){
-        pos = charAt(QPoint(x, y), &para);
-    }else{
-        getCursorPosition(&para, &pos);
-    }
-    QTextEdit::resizeEvent(e);
-    if (pos == -1){
-        scrollToBottom();
-    }else{
-        setCursorPosition(para, pos);
-        ensureCursorVisible();
-    }
-    sync();
     viewport()->repaint();
 }
 
-
 void TextShow::keyPressEvent(QKeyEvent *e)
 {
-    if (((e->state() == Qt::ControlButton) && (e->key() == Qt::Key_C)) ||
-            ((e->state() == Qt::ControlButton) && (e->key() == Qt::Key_Insert))){
+    if (((e->modifiers() == Qt::ControlModifier) && (e->key() == Qt::Key_C)) ||
+            ((e->modifiers() == Qt::ControlModifier) && (e->key() == Qt::Key_Insert))){
         copy();
         return;
     }
@@ -613,45 +582,24 @@ void TextShow::keyPressEvent(QKeyEvent *e)
 
 void TextShow::copy()
 {
-    QMimeData *drag = dragObject(NULL);
-    if ( !drag )
-        return;
-    QApplication::clipboard()->setData(drag, QClipboard::Clipboard);
+    QTextEdit::copy();
 }
 
 void TextShow::cut()
 {
-    if (isReadOnly())
-        return;
-    if (hasSelectedText()) {
-        copy();
-        removeSelectedText();
+    if (hasSelectedText) {
+        QTextEdit::cut();
     }
 }
 
 QMimeData *TextShow::dragObject(QWidget *parent) const
 {
-    if (!hasSelectedText())
+    if (!hasSelectedText)
         return NULL;
-    if (textFormat() == Qt::RichText){
-        RichTextDrag *drag = new RichTextDrag(parent);
-        drag->setRichText(selectedText());
-        return drag;
-    }
-    return new QMimeData(selectedText(), parent );
-}
 
-void TextShow::startDrag()
-{
-    QMimeData *drag = dragObject(viewport());
-    if (drag == NULL)
-        return;
-    if (isReadOnly()) {
-        drag->dragCopy();
-    } else {
-        if (drag->drag() && QMimeData::target() != this && QMimeData::target() != viewport() )
-            removeSelectedText();
-    }
+    RichTextDrag *drag = new RichTextDrag(parent);
+    drag->setHtml(QApplication::clipboard()->text(QClipboard::Selection));
+    return drag;
 }
 
 QString TextShow::quoteText(const char *t, const char *charset)
@@ -672,21 +620,19 @@ QString TextShow::quoteText(const char *t, const char *charset)
 
 void TextShow::setText(const QString &text)
 {
-    QTextEdit::setText(text, "");
+    QTextEdit::setPlainText(text);
 }
 
 void TextShow::slotSelectionChanged()
 {
-#if COMPAT_QT_VERSION >= 0x030100
     disconnect(QApplication::clipboard(), SIGNAL(selectionChanged()), this, 0);
     if (QApplication::clipboard()->supportsSelection()){
         QMimeData *drag = dragObject(NULL);
         if ( !drag )
             return;
-        QApplication::clipboard()->setData(drag, QClipboard::Selection);
+        QApplication::clipboard()->setMimeData(drag, QClipboard::Selection);
         connect( QApplication::clipboard(), SIGNAL(selectionChanged()), this, SLOT(clipboardChanged()));
     }
-#endif
 }
 
 class BgColorParser : public HTMLParser
@@ -732,66 +678,6 @@ void BgColorParser::tag_end(const QString&)
 {
 }
 
-RichTextEdit::RichTextEdit(QWidget *parent, const char *name)
-        : QMainWindow(parent, name, 0)
-{
-    m_edit = new TextEdit(this);
-    m_bar  = NULL;
-    setCentralWidget(m_edit);
-}
-
-void RichTextEdit::setText(const QString &str)
-{
-    if (m_edit->textFormat() != Qt::RichText)
-        m_edit->setText(str);
-    BgColorParser p(m_edit);
-    p.parse(str);
-    m_edit->setText(str);
-}
-
-QString RichTextEdit::text()
-{
-    if (m_edit->textFormat() != Qt::RichText)
-        return m_edit->text();
-    char bg[20];
-    sprintf(bg, "%06X", m_edit->background().rgb());
-    QString res;
-    res = "<BODY BGCOLOR=\"#";
-    res += bg;
-    res += "\">";
-    res += m_edit->text();
-    res += "</BODY>";
-    return res;
-}
-
-void RichTextEdit::setTextFormat(Qt::TextFormat format)
-{
-    m_edit->setTextFormat(format);
-}
-
-Qt::TextFormat RichTextEdit::textFormat()
-{
-    return m_edit->textFormat();
-}
-
-void RichTextEdit::setReadOnly(bool bState)
-{
-    m_edit->setReadOnly(bState);
-}
-
-void RichTextEdit::showBar()
-{
-    if (m_bar)
-        return;
-    BarShow b;
-    b.bar_id = ToolBarTextEdit;
-    b.parent = this;
-    Event e(EventShowBar, &b);
-    m_bar = (CToolBar*)(e.process());
-    m_bar->setParam(this);
-    m_edit->setParam(this);
-}
-
 static unsigned colors[16] =
     {
         0x000000,
@@ -819,9 +705,9 @@ ColorPopup::ColorPopup(QWidget *popup, QColor color)
 {
     this->setAttribute(Qt::WA_DeleteOnClose);
     m_color = color;
-    setFrameShape(PopupPanel);
-    setFrameShadow(Sunken);
-    QGridLayout *lay = new QGridLayout(this, 5, 4);
+    setFrameShape(QFrame::StyledPanel);
+    setFrameShadow(QFrame::Sunken);
+    QGridLayout *lay = new QGridLayout(this);
     lay->setMargin(4);
     lay->setSpacing(2);
     for (unsigned i = 0; i < 4; i++){
@@ -833,7 +719,7 @@ ColorPopup::ColorPopup(QWidget *popup, QColor color)
         }
     }
     QWidget *w = new ColorLabel(this, color, CUSTOM_COLOR, i18n("Custom"));
-    lay->addMultiCellWidget(w, 5, 5, 0, 3);
+    lay->addWidget(w, 5, 0, 5, 3);
     connect(w, SIGNAL(selected(int)), this, SLOT(colorSelected(int)));
     resize(minimumSizeHint());
 }
@@ -870,8 +756,12 @@ ColorLabel::ColorLabel(QWidget *parent, QColor c, int id, const QString &text)
         : QLabel(parent)
 {
     m_id = id;
+    QPalette pal = palette();
+    pal.setColor(QPalette::Active, QPalette::Base, c);
+    pal.setColor(QPalette::Inactive, QPalette::Base, c);
+    pal.setColor(QPalette::Disabled, QPalette::Base, c);
+    setPalette(pal);
     setText(text);
-    setBackgroundColor(c);
     setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     setFrameShape(StyledPanel);
     setFrameShadow(Sunken);
@@ -899,6 +789,3 @@ QSize ColorLabel::minimumSizeHint() const
     return s;
 }
 
-#ifndef _WINDOWS
-#include "textshow.moc"
-#endif

@@ -69,7 +69,7 @@ XSL::XSL(const QString &name)
     QFile f(QFile::decodeName(user_file(fname.c_str()).c_str()));
     bool bOK = true;
     if (!f.open(QIODevice::ReadOnly)){
-        f.setName(QFile::decodeName(app_file(fname.c_str()).c_str()));
+        f.setFileName(QFile::decodeName(app_file(fname.c_str()).c_str()));
         if (!f.open(QIODevice::ReadOnly)){
             log(L_WARN, "Can't open %s", fname.c_str());
             bOK = false;
@@ -78,7 +78,7 @@ XSL::XSL(const QString &name)
     string xsl;
     if (bOK){
         xsl.append(f.size(), '\x00');
-        f.readBlock((char*)(xsl.c_str()), f.size());
+        f.read((char*)(xsl.c_str()), f.size());
         f.close();
     }
     d = new XSLPrivate(xsl.c_str());
@@ -92,7 +92,7 @@ XSL::~XSL()
 void XSL::setXSL(const QString &my_xsl)
 {
     delete d;
-    d = new XSLPrivate(my_xsl);
+    d = new XSLPrivate(static_cast<const char *>(my_xsl.toLocal8Bit()));
 }
 
 QString XSL::process(const QString &my_xml)

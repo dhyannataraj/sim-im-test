@@ -109,7 +109,7 @@ void UnquoteParser::tag_start(const QString &tag, const list<QString> &options)
             return;
         }
         if (src.left(5) == "icon:"){
-            list<string> smiles = getIcons()->getSmile(src.mid(5).latin1());
+            list<string> smiles = getIcons()->getSmile(src.mid(5).toLatin1());
             if (!smiles.empty()){
                 res += QString::fromUtf8(smiles.front().c_str());
                 return;
@@ -186,12 +186,8 @@ EXPORT QString SIM::quoteString(const QString &_str, quoteMode mode)
     /*  match() is obsolete since 3.0 so there is a big chance
         that this will be replaced and we get
         bug-reports from the users ... */
-#if COMPAT_QT_VERSION < 0x030000
-    while ((pos = re.match(str, pos, &len)) != -1) {
-#else
-    while ((pos = re.search(str, pos)) != -1) {
+    while ((pos = re.indexIn(str, pos)) != -1) {
         len = re.matchedLength();
-#endif
         if (len == 1)
             continue;
         QString s = " ";

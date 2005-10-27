@@ -318,6 +318,3 @@ EXPORT KAboutData *SIM::getAboutData()
     return appAbout;
 }
 
-
-
-

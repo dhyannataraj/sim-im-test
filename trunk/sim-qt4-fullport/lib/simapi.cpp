@@ -31,7 +31,7 @@
 #include <QLineEdit>
 #include <QTextEdit>
 #include <QRegExp>
- #include <QX11Info>
+#include <QX11Info>
 #include <QDesktopWidget>
 
 #ifdef WIN32
