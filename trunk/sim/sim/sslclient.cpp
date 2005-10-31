@@ -29,10 +29,7 @@
 #include <openssl/err.h>
 #include <openssl/bio.h>
 #include <openssl/rand.h>
-
-#ifdef __MINGW32__
 #include <openssl/md5.h>
-#endif
 
 #include "socket.h"
 
