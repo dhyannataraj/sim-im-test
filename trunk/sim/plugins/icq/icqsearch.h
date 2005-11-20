@@ -59,6 +59,7 @@ protected:
         Name,
         Full
     };
+    static inline const QString extractUIN(const QString& str);
     void *processEvent(Event*);
     void showEvent(QShowEvent*);
     void setAdv(bool);

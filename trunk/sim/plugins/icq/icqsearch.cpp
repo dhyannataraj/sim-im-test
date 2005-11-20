@@ -39,7 +39,8 @@ ICQSearch::ICQSearch(ICQClient *client, QWidget *parent)
     if (client->m_bAIM){
         m_adv    = new AIMSearch;
         emit addResult(m_adv);
-        edtAOL_UIN->setValidator(new RegExpValidator("[0-9]{4,13}", this));
+        //edtAOL_UIN->setValidator(new RegExpValidator("[0-9]{4,13}", this));
+        edtAOL_UIN->setValidator(new RegExpValidator("([ -]*[0-9]){4,13}[ -]*", this));
         edtScreen->setValidator(new RegExpValidator("[0-9A-Za-z]+", this));
         connect(grpScreen,	SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
         connect(grpAOL_UIN,	SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
@@ -49,7 +50,8 @@ ICQSearch::ICQSearch(ICQClient *client, QWidget *parent)
     }else{
         m_adv    = new AdvSearch;
         emit addResult(m_adv);
-        edtUIN->setValidator(new RegExpValidator("[0-9]{4,13}", this));
+        //edtUIN->setValidator(new RegExpValidator("[0-9]{4,13}", this));
+        edtUIN->setValidator(new RegExpValidator("([ -]*[0-9]){4,13}[ -]*", this));
         edtAOL->setValidator(new RegExpValidator("[0-9A-Za-z]+", this));
         connect(grpUin,	SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
         connect(grpAOL,	SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
@@ -150,7 +152,7 @@ void ICQSearch::createContact(unsigned tmpFlags, Contact *&contact)
 
         if (grpAOL_UIN->isChecked() && !edtAOL_UIN->text().isEmpty())
 
-            add(edtAOL_UIN->text(), tmpFlags, contact);
+            add(extractUIN(edtAOL_UIN->text()), tmpFlags, contact);
 
     }else{
 
@@ -205,6 +207,14 @@ void ICQSearch::icq_search()
         m_id_icq = 0;
         break;
     }
+}
+
+const QString ICQSearch::extractUIN(const QString& str)
+{
+    if (!str || str.isEmpty())
+        return QString::null; 
+    QString s = str;
+    return s.remove(' ').remove('-');
 }
 
 void ICQSearch::search()
@@ -264,7 +274,7 @@ void ICQSearch::search()
                        adv->edtState->text().utf8());
     }else if (!m_client->m_bAIM && grpUin->isChecked() && !edtUIN->text().isEmpty()){
         m_type = UIN;
-        m_uin  = atol(edtUIN->text().latin1());
+        m_uin  = extractUIN(edtUIN->text()).toULong();
         icq_search();
     }else if (grpMail->isChecked() && !edtMail->text().isEmpty()){
         if (!m_client->m_bAIM){
