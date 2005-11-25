@@ -359,9 +359,14 @@ Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet, Mes
         string cap_str;
         b.unpackStr32(cap_str);
         Contact *contact;
-        ICQUserData *data = findContact(screen, NULL, true, contact);
-        if (data == NULL)
-            return NULL;
+        ICQUserData *data = findContact(screen, NULL, false, contact);
+        if (data == NULL) {
+            data = findContact(screen, NULL, true, contact);
+            if (data == NULL) {
+               return NULL;
+	    }
+            contact-> setFlags(contact->getFlags() | CONTACT_TEMP);
+        }
         Message *msg = parseTextMessage(p.c_str(), cap_str.c_str(), contact);
         if (msg){
             if (forecolor != backcolor){
@@ -472,9 +477,14 @@ Message *ICQClient::parseMessage(unsigned short type, const char *screen, string
             string cap_str;
             packet.unpackStr32(cap_str);
             Contact *contact;
-            ICQUserData *data = findContact(screen, NULL, true, contact);
-            if (data == NULL)
-                return NULL;
+            ICQUserData *data = findContact(screen, NULL, false, contact);
+            if (data == NULL) {
+                data = findContact(screen, NULL, true, contact);
+                if (data == NULL) {
+                   return NULL;
+		}
+                contact-> setFlags(contact->getFlags() | CONTACT_TEMP);
+            }
             msg = parseTextMessage(p.c_str(), cap_str.c_str(), contact);
             if (msg == NULL)
                 break;
