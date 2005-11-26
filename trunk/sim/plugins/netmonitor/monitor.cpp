@@ -40,6 +40,7 @@ const int mnuDebug = 6;
 const int mnuWarning = 7;
 const int mnuError = 8;
 const int mnuPause = 9;
+const int mnuAutoscroll = 10;
 
 MonitorWindow *monitor = NULL;
 
@@ -57,8 +58,11 @@ MonitorWindow::MonitorWindow(NetmonitorPlugin *plugin)
     setCentralWidget(edit);
     QMenuBar *menu = menuBar();
     menuFile = new QPopupMenu(this);
+    menuFile->setCheckable(true);
     connect(menuFile, SIGNAL(aboutToShow()), this, SLOT(adjustFile()));
     menuFile->insertItem(Pict("filesave"), i18n("&Save"), this, SLOT(save()), 0, mnuSave);
+    menuFile->insertSeparator();
+    menuFile->insertItem(i18n("&Autoscroll"), this, SLOT(toggleAutoscroll()), 0, mnuAutoscroll);
     menuFile->insertItem(i18n("&Pause"), this, SLOT(pause()), 0, mnuPause);
     menuFile->insertSeparator();
     menuFile->insertItem(Pict("exit"), i18n("E&xit"), this, SLOT(exit()), 0, mnuExit);
@@ -74,6 +78,7 @@ MonitorWindow::MonitorWindow(NetmonitorPlugin *plugin)
     connect(menuLog, SIGNAL(activated(int)), this, SLOT(toggleType(int)));
     menu->insertItem(i18n("&Log"), menuLog);
     bPause = false;
+    bAutoscroll = true;
 }
 
 void MonitorWindow::closeEvent(QCloseEvent *e)
@@ -112,6 +117,7 @@ void MonitorWindow::adjustFile()
 {
     menuFile->setItemEnabled(mnuSave, !edit->hasSelectedText());
     menuFile->changeItem(mnuPause, bPause ? i18n("&Resume") : i18n("&Pause"));
+    menuFile->setItemChecked(mnuAutoscroll, bAutoscroll);
 }
 
 void MonitorWindow::copy()
@@ -141,6 +147,11 @@ void MonitorWindow::toggleType(int id)
         return;
     }
     m_plugin->setLogType(id, !m_plugin->isLogType(id));
+}
+
+void MonitorWindow::toggleAutoscroll()
+{
+    bAutoscroll = !bAutoscroll;
 }
 
 void MonitorWindow::pause()
@@ -218,7 +229,8 @@ void *MonitorWindow::processEvent(Event *e)
             logString += "</pre></p>";
             setLogEnable(false);
             edit->append(logString);
-            edit->scrollToBottom();
+            if (bAutoscroll)
+                edit->scrollToBottom();
             setLogEnable(true);
         }
     }

@@ -41,6 +41,7 @@ protected slots:
     void erase();
     void pause();
     void toggleType(int);
+    void toggleAutoscroll();
     void adjustFile();
     void adjustEdit();
     void adjustLog();
@@ -48,6 +49,7 @@ protected:
     void *processEvent(Event*);
     void closeEvent(QCloseEvent*);
     bool bPause;
+    bool bAutoscroll;
     TextShow  *edit;
     QPopupMenu *menuFile;
     QPopupMenu *menuEdit;
