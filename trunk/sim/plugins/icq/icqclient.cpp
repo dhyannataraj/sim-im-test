@@ -722,7 +722,7 @@ const char *icq_error_codes[] = {I18N_NOOP("Unknown error"),
 
 const char* ICQClient::error_message(unsigned short error)
 {
-    if ((error < 1) || (error > 18)) {
+    if ((error < 1) || (error > 0x18)) {
         error = 0;
     }
     return icq_error_codes[error];
