@@ -636,6 +636,7 @@ protected:
     virtual void connect_ready();
     virtual void packet_ready();
     const char* error_message(unsigned short error);
+    bool m_bVerifying;
     ICQListener			*m_listener;
     list<ServiceSocket*> m_services;
     QTimer *m_processTimer;

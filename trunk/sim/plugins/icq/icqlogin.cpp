@@ -19,8 +19,11 @@
 #include "buffer.h"
 #include "socket.h"
 #include "icqclient.h"
+#include "verifydlg.h"
 
 #include <stdio.h>
+#include <qpixmap.h>
+#include <qapplication.h>
 
 const unsigned short ICQ_SNACxLOGIN_ERROR			= 0x0001;
 const unsigned short ICQ_SNACxLOGIN_MD5xLOGIN			= 0x0002;
@@ -62,8 +65,18 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
     unsigned long newUin;
     switch (type){
     case ICQ_SNACxLOGIN_ERROR:
-        m_reconnect = NO_RECONNECT;
-        m_socket->error_state(I18N_NOOP("Login error"), AuthError);
+        if (data.owner.Uin.value){
+            m_reconnect = NO_RECONNECT;
+            m_socket->error_state(I18N_NOOP("Login error"), AuthError);
+            break;
+        }
+        // in the process of registering;
+        // it seems that we need to request bot protection picture;
+        // reconnecting to send the request.
+        log(L_DEBUG, "Verification required, reconnecting");
+        m_bVerifying = true;
+        m_socket->close();
+        m_socket->connect(getServer(), getPort(), this);
         break;
     case ICQ_SNACxLOGIN_REGISTER:
         if (data.owner.Uin.value){
@@ -104,6 +117,45 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
     case ICQ_SNACxLOGIN_LOGINxREPLY:
         chn_close();
         break;
+    case ICQ_SNACxLOGIN_REGISTERxSEND_IMG: {
+        m_bVerifying = false;
+        TlvList tlv(m_socket->readBuffer);
+        // currently there are 2 TLVs in SNAC(17,0D):
+        // type = 1: the value contains the mime type of the image (image/jpeg); ignored
+        // type = 2: the value contains the image itself in the binary form
+        Tlv* tlvImage = tlv(2);
+        if (!tlvImage)
+            break;
+        log(L_DEBUG, "Image length: %d bytes", tlvImage->Size());
+        uchar buf[tlvImage->Size()];
+        memcpy(buf, *tlvImage, tlvImage->Size());
+        QPixmap pict;
+        if (!pict.loadFromData(buf, tlvImage->Size()))
+            break;
+        log(L_DEBUG, "Received verification image");
+        VerifyDlg verdlg(qApp->activeWindow(), pict);
+        if (verdlg.exec() == QDialog::Accepted) // what to do if the user has cancelled the dialog?
+        {
+            QString verifyStr = verdlg.getVerifyString();
+            log(L_DEBUG, "User input: %s", verifyStr.latin1());
+            snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_REGISTERxREQ);
+            Buffer msg;
+            msg
+            << 0x00000000L << 0x28000300L << 0x00000000L
+            << 0x00000000L << 0x94680000L << 0x94680000L
+            << 0x00000000L << 0x00000000L << 0x00000000L
+            << 0x00000000L;
+            string pswd = getContacts()->fromUnicode(NULL, getPassword());
+            unsigned short len = (unsigned short)(pswd.length() + 1);
+            msg.pack(len);
+            msg.pack(pswd.c_str(), len);
+            msg << 0x94680000L << 0x00000602L;
+            m_socket->writeBuffer.tlv(0x0001, msg);
+            m_socket->writeBuffer.tlv(0x0009, verifyStr.latin1(), verifyStr.length());
+            sendPacket(true);            
+        }
+        break;
+        }
     default:
         log(L_WARN, "Unknown login family type %04X", type);
     }
@@ -152,10 +204,19 @@ void ICQClient::chn_login()
         sendPacket(true);
         return;
     }
-
+    if (m_bVerifying){
+        log(L_DEBUG, "Requesting verification picture");
+        flap(ICQ_CHNxNEW);
+        m_socket->writeBuffer << 0x00000001L;
+        sendPacket(true);
+        snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_REGISTERxREQ_IMG);
+        sendPacket(true);
+        return;
+    }
     flap(ICQ_CHNxNEW);
     m_socket->writeBuffer << 0x00000001L;
     sendPacket(true);
+    // first try the old registration scheme
     snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_REGISTERxREQ);
     Buffer msg;
     msg

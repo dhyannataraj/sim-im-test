@@ -292,6 +292,7 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
     if (data.owner.Screen.ptr && *data.owner.Screen.ptr)
         m_bAIM = true;
 
+    m_bVerifying = false;
     m_bNoSend  = true;
     m_bReady   = false;
     m_bRosters = false;
