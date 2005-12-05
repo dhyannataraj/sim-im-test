@@ -2677,7 +2677,7 @@ msgstr "Сообщения об ошибках"
 
 #: plugins/about/aboutdlg.cpp:52
 msgid "Note: This is english mailing list"
-msgstr "Внимание: Это англоязычный список рассылки, просьба писать только по-английски<br> По-русски об ошибках сообщайте сюда:<br> <a href=\"mailto:sim-icq-russian@lists.sourceforge.net\">sim-icq-russian@lists.sourceforge.net</a>"
+msgstr "Внимание: Это англоязычный список рассылки, просьба писать только по-английски<br> По-русски об ошибках сообщайте сюда:<br> <a href=\"mailto:sim-im-russian@lists.berlios.de\">sim-im-russian@lists.berlios.de</a>"
 
 # ui/aboutdlgbase.cpp:67
 #: plugins/about/aboutdlgbase.cpp:117

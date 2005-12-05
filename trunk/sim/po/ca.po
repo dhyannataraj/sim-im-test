@@ -7686,7 +7686,7 @@ msgstr ""
 #: sim/aboutdata.cpp:287
 #, fuzzy
 msgid "replace this with information about your translation team"
-msgstr "Currently there is no translator for catalan - if you like to translate to catalan, write an email to sim-icq-main@lists.sourceforge.net"
+msgstr "Currently there is no translator for catalan - if you like to translate to catalan, write an email to sim-im-main@lists.berlios.de"
 
 #: sim/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."

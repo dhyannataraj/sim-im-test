@@ -5,9 +5,9 @@
 AppName=Simple Instant Messenger
 AppVerName=SIM 0.9.4
 AppPublisher=vovan@shutoff.ru
-AppPublisherURL=http://sim-icq.sourceforge.net/
-AppSupportURL=http://sim-icq.sourceforge.net/
-AppUpdatesURL=http://sim-icq.sourceforge.net/
+AppPublisherURL=http://sim-im.berlios.de/
+AppSupportURL=http://sim-im.berlios.de/
+AppUpdatesURL=http://sim-im.berlios.de/
 DefaultDirName={pf}\SIM
 DisableProgramGroupPage=yes
 DisableReadyPage=yes

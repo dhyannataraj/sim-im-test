@@ -1,4 +1,4 @@
-# ITALIAN TRANSLATION OF SIM-ICQ
+# ITALIAN TRANSLATION OF SIM-IM
 # Copyright (C) 2002-2004 Free Software Foundation, Inc.
 # Salvatore Caligiore <caligiore@bigfoot.com>, 2002.
 # Lapo Luchini <lapo@lapo.it>, 2003-2004
