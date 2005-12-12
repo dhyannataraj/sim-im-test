@@ -1,5 +1,4 @@
 # translation of de.po to Deutsch
-# translation of de.po to deutsch
 # Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
 # Christoph Thielecke <crissi99@gmx.de>, 2002, 2003, 2004.
 # Crissi <crissi99@gmx.de>, 2004.
@@ -1356,8 +1355,8 @@ msgid ""
 "_n: Authorization granted\n"
 "%n authorization granted"
 msgstr ""
-"Authorisierung genehmigt\n"
-"%n Authorisierungen genehmigt"
+"Autorisierung genehmigt\n"
+"%n Autorisierungen genehmigt"
 
 #: plugins/_core/msgedit.cpp:749
 #, c-format
@@ -1426,15 +1425,15 @@ msgstr "&Kontaktliste"
 
 #: plugins/_core/msgedit.cpp:1696
 msgid "&Authorization request"
-msgstr "Authorisierungsanfrage"
+msgstr "Autorisierungsanfrage"
 
 #: plugins/_core/msgedit.cpp:1705
 msgid "&Grant autorization"
-msgstr "Authorisierung &gewähren"
+msgstr "Autorisierung &gewähren"
 
 #: plugins/_core/msgedit.cpp:1714
 msgid "&Refuse autorization"
-msgstr "Benutzerauthorisierung &ablehnen"
+msgstr "Autorisierung &ablehnen"
 
 #: plugins/_core/msgedit.cpp:1723
 msgid "Added"
@@ -1840,7 +1839,7 @@ msgstr "Sichtbar"
 
 #: plugins/_core/userviewcfgbase.cpp:279
 msgid "Awaiting authorization"
-msgstr "Authorisierung ausstehend"
+msgstr "Autorisierung ausstehend"
 
 #: plugins/_core/userviewcfgbase.cpp:280
 msgid "No show scroller"
@@ -3379,7 +3378,7 @@ msgid ""
 "_n: Close secure channel\n"
 "%n times close secure channel"
 msgstr ""
-"sichereren Kanal schließen\n"
+"Sichereren Kanal schließen\n"
 "%n mal sichereren Kanal schließen"
 
 #: plugins/icq/icqmessage.cpp:636
@@ -4490,11 +4489,11 @@ msgstr "&Hintergrund"
 
 #: plugins/icq/icqsecurebase.cc:107
 msgid "My &authorization is required before users add me to Contact List"
-msgstr "&Meine Authorisierung ist zum Hinzufügen erforderlich"
+msgstr "&Meine Autorisierung ist zum Hinzufügen erforderlich"
 
 #: plugins/icq/icqsecurebase.cc:108
 msgid "Don't show my &IP-address"
-msgstr "&IP-Adresse nicht anzeigen"
+msgstr "Meine &IP-Adresse anderen nicht anzeigen"
 
 #: plugins/icq/icqsecurebase.cc:110
 msgid "Allow other to view my &status from the Web"
@@ -4518,7 +4517,7 @@ msgstr "Direkte Verbindung von Benutzer aus &Kontaktliste erlauben"
 
 #: plugins/icq/icqsecurebase.cc:115
 msgid "Allow direct connection from user &upon authorization"
-msgstr "Direkte Verbindung von Benutzer nach &Authorisierung erlauben"
+msgstr "Direkte Verbindung von Benutzer nach &Autorisierung erlauben"
 
 #: plugins/icq/icqsecurebase.cc:116
 msgid "&Security"
@@ -5043,7 +5042,7 @@ msgstr "URL:"
 #: plugins/jabber/jabberconfigbase.cpp:311
 #: plugins/jabber/jabberinfobase.cpp:249
 msgid "Resource:"
-msgstr "Resource:"
+msgstr "Ressource:"
 
 #: plugins/jabber/jabberconfigbase.cpp:312
 msgid "Priority:"
