@@ -41,7 +41,7 @@
 #endif
 #endif
 
-#include <ltdl.h>
+#include "libltdl/ltdl.h"
 #include <errno.h>
 #include <qdir.h>
 #include <qstringlist.h>
