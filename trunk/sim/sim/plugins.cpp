@@ -41,7 +41,9 @@
 #endif
 #endif
 
-#include <ltdl.h>
+
+#include <libltdl/ltdl.h>
+
 #include <errno.h>
 #include <qdir.h>
 #include <qstringlist.h>
@@ -168,7 +170,7 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
     m_bLoaded = false;
     m_bInInit = true;
 
-    lt_dlinit();
+    //lt_dlinit();
 #ifdef WIN32
     qInitJpegIO();
 #endif

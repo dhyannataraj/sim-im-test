@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: wood.h,v 1.3 2004-06-04 16:55:46 shutoff Exp $
+** $Id: wood.h,v 1.3 2004/06/04 16:55:46 shutoff Exp $
 **
 ** Definition of something or other
 **
@@ -15,6 +15,7 @@
 #ifndef WOOD_H
 #define WOOD_H
 
+#include <qpushbutton.h>
 #include <qwindowsstyle.h>
 #include <qpalette.h>
 

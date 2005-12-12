@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 ..\..\Release\sim.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\qt-mt3.lib /nologo /dll /pdb:none /machine:I386 /out:"../../Release/plugins/icq.dll"
+# ADD LINK32 ..\..\Release\sim.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\$(QTLIB) /nologo /dll /pdb:none /machine:I386 /out:"../../Release/plugins/icq.dll"
 
 !ELSEIF  "$(CFG)" == "icq - Win32 Debug"
 
@@ -79,7 +79,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 ..\..\Debug\sim.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\qt-mt230nc.lib /nologo /dll /debug /machine:I386 /out:"../../Debug/plugins/icq.dll" /pdbtype:sept
+# ADD LINK32 ..\..\Debug\sim.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\$(QTLIB) /nologo /dll /debug /machine:I386 /out:"../../Debug/plugins/icq.dll" /pdbtype:sept
 
 !ENDIF 
 
@@ -428,6 +428,14 @@ SOURCE=.\moc_securedlgbase.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\moc_verifydlg.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\moc_verifydlgbase.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\moc_warndlg.cpp
 # ADD CPP /W3
 # End Source File
@@ -516,6 +524,14 @@ SOURCE=.\securedlg.cpp
 
 SOURCE=.\securedlgbase.cpp
 # ADD CPP /W3
+# End Source File
+# Begin Source File
+
+SOURCE=.\verifydlg.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\verifydlgbase.cpp
 # End Source File
 # Begin Source File
 
@@ -1509,6 +1525,48 @@ InputName=securedlgbase
 # End Source File
 # Begin Source File
 
+SOURCE=.\verifydlg.h
+
+!IF  "$(CFG)" == "icq - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\verifydlg.h
+InputName=verifydlg
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "icq - Win32 Debug"
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\verifydlgbase.h
+
+!IF  "$(CFG)" == "icq - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\verifydlgbase.h
+InputName=verifydlgbase
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "icq - Win32 Debug"
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE=.\warndlg.h
 
 !IF  "$(CFG)" == "icq - Win32 Release"
@@ -2408,6 +2466,34 @@ BuildCmds= \
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\verifydlgbase.ui
+
+!IF  "$(CFG)" == "icq - Win32 Release"
+
+# Begin Custom Build
+InputDir=.
+InputPath=.\verifydlgbase.ui
+InputName=verifydlgbase
+
+BuildCmds= \
+	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
+	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "icq - Win32 Debug"
 
 !ENDIF 
 

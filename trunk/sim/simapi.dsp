@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 $(QTDIR)\lib\qtmain.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib $(QTDIR)\lib\qt-mt230nc.lib  $(OPENSSL_DIR)\lib\ssleay32.lib sim\win32\libz.a sim\api\win32\libxml.lib sim\api\win32\libjpeg.lib sim\api\win32\libxslt.lib /nologo /dll /machine:I386
+# ADD LINK32 $(QTDIR)\lib\qtmain.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib $(QTDIR)\lib\$(QTLIB)  $(OPENSSL_DIR)\lib\ssleay32.lib sim\win32\libz.a sim\api\win32\libxml.lib sim\api\win32\libjpeg.lib sim\api\win32\libxslt.lib /nologo /dll /machine:I386
 
 !ELSEIF  "$(CFG)" == "simapi - Win32 Debug"
 
@@ -79,7 +79,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib $(QTDIR)\lib\qt-mt230nc.lib  $(OPENSSL_DIR)\lib\ssleay32.lib sim\win32\libz.a sim\api\win32\libjpeg.lib sim\api\win32\libxml.lib sim\api\win32\libxslt.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib $(QTDIR)\lib\$(QTLIB)  $(OPENSSL_DIR)\lib\ssleay32.lib sim\win32\libz.a sim\api\win32\libjpeg.lib sim\api\win32\libxml.lib sim\api\win32\libxslt.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
 
 !ENDIF 
 

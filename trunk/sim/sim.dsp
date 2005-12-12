@@ -54,7 +54,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /machine:I386
-# ADD LINK32 sim\win32\libxml.lib sim\win32\libxslt.lib sim\win32\libz.a sim\win32\libjpeg.lib sim\win32\libeay32.lib sim\win32\ssleay32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib $(QTDIR)\lib\qt-mt3.lib $(QTDIR)\lib\qtmain.lib /nologo /subsystem:windows /machine:I386
+# ADD LINK32 sim\win32\libxml.lib sim\win32\libxslt.lib sim\win32\libz.a sim\win32\libjpeg.lib sim\win32\libeay32.lib sim\win32\ssleay32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib $(QTDIR)\lib\qt-mtnc321.lib $(QTDIR)\lib\qtmain.lib /nologo /subsystem:windows /machine:I386
 # SUBTRACT LINK32 /pdb:none
 
 !ELSEIF  "$(CFG)" == "sim - Win32 Debug"
@@ -81,7 +81,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 sim\win32\libxml.lib sim\win32\libxslt.lib sim\win32\libz.a sim\win32\libjpeg.lib sim\win32\libeay32.lib sim\win32\ssleay32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib $(QTDIR)\lib\qt-mt230nc.lib $(QTDIR)\lib\qtmain.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 sim\win32\libxml.lib sim\win32\libxslt.lib sim\win32\libz.a sim\win32\libjpeg.lib sim\win32\libeay32.lib sim\win32\ssleay32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib $(QTDIR)\lib\$(QTLIB) $(QTDIR)\lib\qtmain.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
 # SUBTRACT LINK32 /nodefaultlib
 
 !ENDIF 
@@ -199,18 +199,7 @@ SOURCE=.\sim\log.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\ltdl.c
-
-!IF  "$(CFG)" == "sim - Win32 Release"
-
-# ADD CPP /W1
-
-!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
-
-# ADD CPP /W2
-
-!ENDIF 
-
+SOURCE=.\sim\libltdl\ltdl.c
 # End Source File
 # Begin Source File
 
@@ -799,7 +788,7 @@ InputName=listview
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim\ltdl.h
+SOURCE=.\sim\libltdl\ltdl.h
 # End Source File
 # Begin Source File
 

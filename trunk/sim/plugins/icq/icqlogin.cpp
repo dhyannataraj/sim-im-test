@@ -127,7 +127,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
         if (!tlvImage)
             break;
         log(L_DEBUG, "Image length: %d bytes", tlvImage->Size());
-        uchar buf[tlvImage->Size()];
+        uchar* buf=new uchar[tlvImage->Size()];
         memcpy(buf, *tlvImage, tlvImage->Size());
         QPixmap pict;
         if (!pict.loadFromData(buf, tlvImage->Size()))
