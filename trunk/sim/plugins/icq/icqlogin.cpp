@@ -127,11 +127,15 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
         if (!tlvImage)
             break;
         log(L_DEBUG, "Image length: %d bytes", tlvImage->Size());
-        uchar* buf=new uchar[tlvImage->Size()];
+        uchar* buf = new uchar[tlvImage->Size()];
         memcpy(buf, *tlvImage, tlvImage->Size());
         QPixmap pict;
         if (!pict.loadFromData(buf, tlvImage->Size()))
+        {
+            delete[] buf;
             break;
+        }
+        delete[] buf;
         log(L_DEBUG, "Received verification image");
         VerifyDlg verdlg(qApp->activeWindow(), pict);
         if (verdlg.exec() == QDialog::Accepted) // what to do if the user has cancelled the dialog?
