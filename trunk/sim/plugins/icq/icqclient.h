@@ -81,8 +81,8 @@ const unsigned long ICQ_STATUS_FxPFM               = 0x00040000;  // not impleme
 const unsigned long ICQ_STATUS_FxBIRTHDAY          = 0x00080000;
 const unsigned long ICQ_STATUS_FxDIRECTxDISABLED   = 0x00100000;
 const unsigned long ICQ_STATUS_FxICQxHOMEPAGE      = 0x00200000;  // not implemented
-const unsigned long ICQ_STATUS_FxDIRECTxLISTED     = 0x20000000;  // will accept connectio only when listed
-const unsigned long ICQ_STATUS_FxDIRECTxAUTH       = 0x10000000;  // will accept connectio only when authorized
+const unsigned long ICQ_STATUS_FxDIRECTxAUTH       = 0x10000000;  // will accept connections only when authorized
+const unsigned long ICQ_STATUS_FxDIRECTxLISTED     = 0x20000000;  // will accept connections only when listed
 
 const unsigned CLASS_UNCONFIRMED	= 0x0001;	// AOL unconfirmed user flsg
 const unsigned CLASS_ADMINISTRATOR	= 0x0002;   // AOL administrator flag
