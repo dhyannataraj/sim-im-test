@@ -292,14 +292,9 @@ void HistoryWindow::fill()
 
 void HistoryWindow::next()
 {
-    if ( (m_it == NULL) || (m_nMessages) )
+    if ( (m_it == NULL) )
         return;
-    time_t start;
-    bool bAdd = false;
-    unsigned n = m_view->paragraphs();
-    if (n > 0)
-        n--;
-    time(&start);
+
     for (;;){
         string state = m_it->state();
         Message *msg = NULL;
@@ -325,19 +320,11 @@ void HistoryWindow::next()
 
         if (msg == NULL)
             break;
-        bAdd = true;
+
         m_view->addMessage(msg, false, false);
-        time_t now;
-        time(&now);
-        if (now > start + 1)
-            break;
-    }
-    if (bAdd){
-        m_view->sync(n);
         m_progress->setProgress(m_nMessages);
-        QTimer::singleShot(0, this, SLOT(next()));
-        return;
     }
+
     delete m_progress;
     delete m_it;
     m_it = NULL;
