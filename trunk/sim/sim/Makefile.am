@@ -61,7 +61,7 @@ uninstall-local:
 	-rm -f $(kde_appsdir)/Internet/sim.desktop
 
 # set the include path for X, qt and KDE
-INCLUDES=-Iapi $(LTDLINCL) $(all_includes) 
+INCLUDES = $(LTDLINCL) $(all_includes) 
 
 METASOURCES = AUTO
 
