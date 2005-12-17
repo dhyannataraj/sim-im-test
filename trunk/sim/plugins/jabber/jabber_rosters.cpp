@@ -445,7 +445,7 @@ void InfoRequest::element_start(const char *el, const char**)
         m_bStarted = true;
         return;
     }
-    if (!strcmp(el, "nick")){
+    if (!strcmp(el, "nickname")){
         m_data = &m_nick;
         return;
     }
