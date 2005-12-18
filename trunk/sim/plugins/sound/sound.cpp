@@ -256,7 +256,7 @@ void *SoundPlugin::processEvent(Event *e)
         bool bEnable = !data->Disable.bValue;
         if (bEnable && data->NoSoundIfActive.bValue){
             Event e(EventActiveContact);
-            if ((unsigned)(e.process()) == contact->id())
+            if ((unsigned long)(e.process()) == contact->id())
                 bEnable = false;
         }
         if (bEnable){

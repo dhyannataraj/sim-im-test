@@ -199,7 +199,7 @@ void *FilterPlugin::processEvent(Event *e)
         CommandDef *cmd = (CommandDef*)(e->param());
         if (cmd->id == CmdIgnore){
             cmd->flags &= ~BTN_HIDE;
-            Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+            Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
             if (contact && contact->getGroup())
                 cmd->flags |= BTN_HIDE;
             return e->param();
@@ -219,7 +219,7 @@ void *FilterPlugin::processEvent(Event *e)
         }
         if (cmd->menu_id == MenuContactGroup){
             if (cmd->id == CmdIgnoreList){
-                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL)
                     return NULL;
                 cmd->flags &= COMMAND_CHECKED;
@@ -232,7 +232,7 @@ void *FilterPlugin::processEvent(Event *e)
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
         if (cmd->id == CmdIgnore){
-            Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+            Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
             if (contact){
                 QString text = i18n("Add %1 to ignore list?") .arg(contact->getName());
                 Command cmd;
@@ -299,7 +299,7 @@ void *FilterPlugin::processEvent(Event *e)
         }
         if (cmd->menu_id == MenuContactGroup){
             if (cmd->id == CmdIgnoreList){
-                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL)
                     return NULL;
                 contact->setIgnore((cmd->flags & COMMAND_CHECKED) == 0);
@@ -408,7 +408,7 @@ void FilterPlugin::getWords(const QString &text, QStringList &words, bool bPatte
 
 void FilterPlugin::addToIgnore(void *p)
 {
-    Contact *contact = getContacts()->contact((unsigned)p);
+    Contact *contact = getContacts()->contact((unsigned long)p);
     if (contact && !contact->getIgnore()){
         contact->setIgnore(true);
         Event e(EventContactChanged, contact);

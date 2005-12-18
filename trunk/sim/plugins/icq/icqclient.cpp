@@ -2652,7 +2652,7 @@ void *ICQClient::processEvent(Event *e)
         }
         if ((cmd->bar_id == ToolBarContainer) || (cmd->bar_id == BarHistory)){
             if (cmd->id == CmdChangeEncoding){
-                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL){
                     cmd->flags |= BTN_HIDE;
                     return e->param();
@@ -2676,7 +2676,7 @@ void *ICQClient::processEvent(Event *e)
         }
         if (cmd->menu_id == MenuContactGroup){
             if (cmd->id == CmdVisibleList){
-                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL)
                     return NULL;
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
@@ -2699,7 +2699,7 @@ void *ICQClient::processEvent(Event *e)
                 return bOK ? e->param() : NULL;
             }
             if (cmd->id == CmdInvisibleList){
-                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL)
                     return NULL;
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
@@ -2754,7 +2754,7 @@ void *ICQClient::processEvent(Event *e)
         }
         if (cmd->menu_id == MenuContactGroup){
             if (cmd->id == CmdVisibleList){
-                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL)
                     return NULL;
                 ICQUserData *data;
@@ -2767,7 +2767,7 @@ void *ICQClient::processEvent(Event *e)
                 return e->param();
             }
             if (cmd->id == CmdInvisibleList){
-                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL)
                     return NULL;
                 ICQUserData *data;

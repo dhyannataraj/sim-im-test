@@ -464,7 +464,7 @@ void *UserView::processEvent(Event *e)
     case EventCommandExec:{
             CommandDef *cmd = (CommandDef*)(e->param());
             if (cmd->menu_id == MenuContact){
-                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact){
                     if (cmd->id == CmdContactDelete){
                         QListViewItem *item = findContactItem(contact->id());
@@ -511,7 +511,7 @@ void *UserView::processEvent(Event *e)
                         while ((w = it.current()) != NULL){
                             if (w->inherits("Container")){
                                 Container *c =  static_cast<Container*>(w);
-                                wnd = c->wnd((unsigned)(cmd->param));
+                                wnd = c->wnd((unsigned long)(cmd->param));
                                 if (wnd)
                                     break;
                             }
@@ -535,7 +535,7 @@ void *UserView::processEvent(Event *e)
                 }
             }
             if (cmd->menu_id == MenuContactGroup){
-                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact){
                     Group *grp = getContacts()->group(cmd->id - CmdContactGroup);
                     if (grp && (grp->id() != contact->getGroup())){
@@ -547,7 +547,7 @@ void *UserView::processEvent(Event *e)
                 }
             }
             if (cmd->menu_id == MenuContainer){
-                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact){
                     Container *from = NULL;
                     Container *to = NULL;
@@ -628,7 +628,7 @@ void *UserView::processEvent(Event *e)
                 return e->param();
             }
             if (cmd->id == CmdGrpRename){
-                QListViewItem *item = findGroupItem((unsigned)(cmd->param));
+                QListViewItem *item = findGroupItem((unsigned long)(cmd->param));
                 if (item){
                     setCurrentItem(item);
                     renameGroup();
@@ -636,7 +636,7 @@ void *UserView::processEvent(Event *e)
                 return e->param();
             }
             if (cmd->id == CmdGrpUp){
-                unsigned grp_id = (unsigned)(cmd->param);
+                unsigned long grp_id = (unsigned long)(cmd->param);
                 getContacts()->moveGroup(grp_id, true);
                 QListViewItem *item = findGroupItem(grp_id);
                 if (item){
@@ -646,7 +646,7 @@ void *UserView::processEvent(Event *e)
                 return e->param();
             }
             if (cmd->id == CmdGrpDown){
-                unsigned grp_id = (unsigned)(cmd->param);
+                unsigned long grp_id = (unsigned long)(cmd->param);
                 getContacts()->moveGroup(grp_id, false);
                 QListViewItem *item = findGroupItem(grp_id);
                 if (item){
@@ -656,7 +656,7 @@ void *UserView::processEvent(Event *e)
                 return e->param();
             }
             if (cmd->id == CmdGrpDelete){
-                unsigned grp_id = (unsigned)(cmd->param);
+                unsigned long grp_id = (unsigned long)(cmd->param);
                 QListViewItem *item = findGroupItem(grp_id);
                 Group *g = getContacts()->group(grp_id);
                 if (item && g){
@@ -690,14 +690,14 @@ void *UserView::processEvent(Event *e)
             }
             if (cmd->menu_id == MenuContact){
                 if (cmd->id == CmdContactTitle){
-                    Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                    Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                     if (contact){
                         cmd->text_wrk = strdup(contact->getName().utf8());
                         return e->param();
                     }
                 }
                 if (cmd->id == CmdShowAlways){
-                    Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                    Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                     if (contact){
                         ListUserData *data = (ListUserData*)(contact->getUserData(CorePlugin::m_plugin->list_data_id, true));
                         cmd->flags &= ~COMMAND_CHECKED;
@@ -713,7 +713,7 @@ void *UserView::processEvent(Event *e)
                     QWidget * w;
                     while ((w = it.current()) != NULL){
                         if (w->inherits("Container")){
-                            wnd = static_cast<Container*>(w)->wnd((unsigned)(cmd->param));
+                            wnd = static_cast<Container*>(w)->wnd((unsigned long)(cmd->param));
                             if (wnd)
                                 break;
                         }
@@ -766,7 +766,7 @@ void *UserView::processEvent(Event *e)
             if (cmd->menu_id == MenuContactGroup){
                 if (cmd->id == CmdContactGroup){
                     unsigned grpId = 0;
-                    Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                    Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                     if (contact)
                         grpId = contact->getGroup();
                     unsigned nGroups = 0;
@@ -801,7 +801,7 @@ void *UserView::processEvent(Event *e)
                 }
             }
             if (cmd->menu_id == MenuGroup){
-                unsigned grp_id = (unsigned)(cmd->param);
+                unsigned long grp_id = (unsigned long)(cmd->param);
                 if (grp_id){
                     if (cmd->id == CmdGrpTitle){
                         Group *g = getContacts()->group(grp_id);
@@ -853,14 +853,14 @@ void *UserView::processEvent(Event *e)
 
 void UserView::deleteGroup(void *p)
 {
-    Group *grp = getContacts()->group((unsigned)p);
+    Group *grp = getContacts()->group((unsigned long)p);
     if (grp)
         delete grp;
 }
 
 void UserView::deleteContact(void *p)
 {
-    Contact *contact = getContacts()->contact((unsigned)p);
+    Contact *contact = getContacts()->contact((unsigned long)p);
     if (contact == NULL)
         return;
     ContactItem *item = findContactItem(contact->id());

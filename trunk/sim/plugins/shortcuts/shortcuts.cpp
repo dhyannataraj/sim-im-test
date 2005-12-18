@@ -503,7 +503,7 @@ void *ShortcutsPlugin::processEvent(Event *e)
         }
     }
     if (e->type() == EventCommandRemove){
-        unsigned id = (unsigned)(e->param());
+        unsigned long id = (unsigned long)(e->param());
         MAP_STR::iterator it_key = oldKeys.find(id);
         if (it_key != oldKeys.end())
             oldKeys.erase(it_key);

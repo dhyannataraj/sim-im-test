@@ -143,7 +143,7 @@ void *HistoryWindow::processEvent(Event *e)
     }
     if (e->type() == EventCheckState){
         CommandDef *cmd = (CommandDef*)(e->param());
-        if ((cmd->id == CmdHistoryDirection) && ((unsigned)(cmd->param) == m_id)){
+        if ((cmd->id == CmdHistoryDirection) && ((unsigned long)(cmd->param) == m_id)){
             cmd->flags &= ~COMMAND_CHECKED;
             if (m_bDirection)
                 cmd->flags |= COMMAND_CHECKED;
@@ -158,7 +158,7 @@ void *HistoryWindow::processEvent(Event *e)
     }
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
-        if ((unsigned)(cmd->param) != m_id)
+        if ((unsigned long)(cmd->param) != m_id)
             return NULL;
         if (cmd->id == CmdHistoryDirection){
             bool bDirection = ((cmd->flags & COMMAND_CHECKED) != 0);

@@ -409,7 +409,7 @@ void *JabberClient::processEvent(Event *e)
     }
     if (e->type() == EventTemplateExpanded){
         TemplateExpand *t = (TemplateExpand*)(e->param());
-        setStatus((unsigned)(t->param), quoteString(t->tmpl, quoteNOBR).utf8());
+        setStatus((unsigned long)(t->param), quoteString(t->tmpl, quoteNOBR).utf8());
     }
     if (e->type() == EventContactChanged){
         Contact *contact = (Contact*)(e->param());
@@ -1716,7 +1716,7 @@ string JabberClient::resources(void *_data)
             if (!resource.empty())
                 resource += ";";
             const char *dicon = get_icon(data, atol(get_str(data->ResourceStatus, i)), false);
-            resource += number((unsigned)dicon);
+            resource += number((unsigned long)dicon);
             resource += ",";
             resource += quoteChars(get_str(data->Resources, i), ";");
         }

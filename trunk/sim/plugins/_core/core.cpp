@@ -1870,7 +1870,7 @@ if (fname[0] != '/')
             return e->param();
         }
     case EventRemovePreferences:{
-            unsigned id = (unsigned)(e->param());
+            unsigned long id = (unsigned long)(e->param());
             Event eCmd(EventCommandRemove, (void*)id);
             eCmd.process();
             preferences.erase(id);
@@ -1946,7 +1946,7 @@ if (fname[0] != '/')
             return e->param();
         }
     case EventRemoveMessageType:{
-            unsigned id = (unsigned)(e->param());
+            unsigned long id = (unsigned long)(e->param());
             CommandDef *def;
             def = CorePlugin::m_plugin->messageTypes.find(id);
             if (def){
@@ -2103,7 +2103,7 @@ if (fname[0] != '/')
             return NULL;
         }
     case EventDefaultAction:{
-            unsigned contact_id = (unsigned)(e->param());
+            unsigned long contact_id = (unsigned long)(e->param());
             unsigned index = 0;
             for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it, index++){
                 if ((*it).contact != contact_id)
@@ -2261,7 +2261,7 @@ if (fname[0] != '/')
             return e->param();
         }
     case EventContactOnline:{
-            Contact *contact = getContacts()->contact((unsigned)(e->param()));
+            Contact *contact = getContacts()->contact((unsigned long)(e->param()));
             if (contact){
                 CoreUserData *data = (CoreUserData*)(contact->getUserData(user_data_id));
                 if (data->OpenOnOnline.bValue){
@@ -2366,7 +2366,7 @@ if (fname[0] != '/')
                 return NULL;
             }
             if (cmd->id == CmdContactClients){
-                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL)
                     return NULL;
                 vector<clientContact> ways;
@@ -2640,7 +2640,7 @@ if (fname[0] != '/')
                 return e->param();
             }
             if (cmd->menu_id == MenuContainer){
-                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact){
                     unsigned nContainers = 1;
                     QWidgetList  *list = QApplication::topLevelWidgets();
@@ -2681,7 +2681,7 @@ if (fname[0] != '/')
             }
             if (cmd->menu_id == MenuMessage){
                 cmd->flags &= ~COMMAND_CHECKED;
-                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact){
                     vector<clientContact> ways;
                     getWays(ways, contact);
@@ -3008,9 +3008,9 @@ if (fname[0] != '/')
                 if (mdef->create == NULL)
                     return NULL;
                 msg = mdef->create(NULL);
-                msg->setContact((unsigned)(cmd->param));
+                msg->setContact((unsigned long)(cmd->param));
                 if (mdef->flags & MESSAGE_SILENT){
-                    Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                    Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                     if (contact){
                         ClientDataIterator it(contact->clientData);
                         void *data;
@@ -3106,7 +3106,7 @@ if (fname[0] != '/')
             }
 
             if (cmd->id == CmdSeparate){
-                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL)
                     return NULL;
                 unsigned n = cmd->menu_id - CmdContactClients - 1;
@@ -3155,7 +3155,7 @@ if (fname[0] != '/')
                 return e->param();
             }
             if (cmd->id == CmdHistory){
-                unsigned id = (unsigned)(cmd->param);
+                unsigned long id = (unsigned long)(cmd->param);
                 HistoryWindow *wnd = NULL;
                 QWidgetList  *list = QApplication::topLevelWidgets();
                 QWidgetListIt it(*list);
@@ -3425,7 +3425,7 @@ if (fname[0] != '/')
                 return e->param();
             }
             if ((cmd->menu_id > CmdContactResource) && (cmd->menu_id <= CmdContactResource + 0x100)){
-                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 CommandDef *def = messageTypes.find(cmd->id);
                 if (def && contact){
                     unsigned nRes = cmd->menu_id - CmdContactResource - 1;
@@ -3452,7 +3452,7 @@ if (fname[0] != '/')
                                 getToken(res, ',');
                                 MessageDef *mdef = (MessageDef*)(def->param);
                                 Message *msg = mdef->create(NULL);
-                                msg->setContact((unsigned)(cmd->param));
+                                msg->setContact((unsigned long)(cmd->param));
                                 msg->setClient(cc.client->dataName(data).c_str());
                                 msg->setResource(QString::fromUtf8(res.c_str()));
                                 Event eOpen(EventOpenMessage, &msg);
@@ -3466,7 +3466,7 @@ if (fname[0] != '/')
                 return NULL;
             }
             if ((cmd->menu_id > CmdContactClients) && (cmd->menu_id <= CmdContactClients + 0x100)){
-                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 CommandDef *def = messageTypes.find(cmd->id);
                 if (def && contact){
                     unsigned n = cmd->menu_id - CmdContactClients - 1;
@@ -3490,7 +3490,7 @@ if (fname[0] != '/')
 
                         MessageDef *mdef = (MessageDef*)(def->param);
                         Message *msg = mdef->create(NULL);
-                        msg->setContact((unsigned)(cmd->param));
+                        msg->setContact((unsigned long)(cmd->param));
                         msg->setClient(cc.client->dataName(data).c_str());
                         Event eOpen(EventOpenMessage, &msg);
                         eOpen.process();
@@ -3554,7 +3554,7 @@ void CorePlugin::showInfo(CommandDef *cmd)
     QWidget *w;
     Contact *contact = NULL;
     Group   *group   = NULL;
-    unsigned id = (unsigned)(cmd->param);
+    unsigned long id = (unsigned long)(cmd->param);
     if (cmd->menu_id == MenuContact){
         contact = getContacts()->contact(id);
         if (contact == NULL)

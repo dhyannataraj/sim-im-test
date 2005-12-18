@@ -398,7 +398,7 @@ void *GpgPlugin::processEvent(Event *e)
                 }
                 if (cmd->id == MessageGPGUse){
                     cmd->flags &= ~COMMAND_CHECKED;
-                    Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                    Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                     if (contact == NULL)
                         return NULL;
                     GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
@@ -414,7 +414,7 @@ void *GpgPlugin::processEvent(Event *e)
     case EventCommandExec:{
             CommandDef *cmd = (CommandDef*)(e->param());
             if ((cmd->menu_id == MenuMessage) && (cmd->id == MessageGPGUse)){
-                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL)
                     return NULL;
                 GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
@@ -475,7 +475,7 @@ void *GpgPlugin::processEvent(Event *e)
                     GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
                     if (data && data->Key.ptr && data->Use.bValue){
                         QString output = QFile::decodeName(user_file("m.").c_str());
-                        output += QString::number((unsigned)ms->msg);
+                        output += QString::number((unsigned long)ms->msg);
                         QString input = output + ".in";
                         QFile in(input);
                         if (!in.open(IO_WriteOnly | IO_Truncate)){
@@ -540,7 +540,7 @@ void *GpgPlugin::processEvent(Event *e)
                 }
                 if (text.left(strlen(SIGN_KEY)) == SIGN_KEY){
                     QString input = QFile::decodeName(user_file("m.").c_str());
-                    input  += QString::number((unsigned)msg);
+                    input  += QString::number((unsigned long)msg);
                     input += ".in";
                     QFile in(input);
                     if (!in.open(IO_WriteOnly | IO_Truncate)){

@@ -220,7 +220,7 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
             return;
     }
     Event eStart(EventInit);
-    if ((int)eStart.process() == -1) {
+    if ((long)eStart.process() == -1) {
         log(L_ERROR,"EventInit failed - aborting!");
         m_bAbort = true;
         return;
@@ -255,7 +255,7 @@ void *PluginManagerPrivate::processEvent(Event *e)
         p = (CmdParam*)(e->param());
         return (void*)findParam(p->arg, p->descr, p->value);
     case EventPluginGetInfo:
-        return getInfo((unsigned)(e->param()));
+        return getInfo((unsigned long)(e->param()));
     case EventApplyPlugin:
         return (void*)setInfo((const char*)(e->param()));
     case EventPluginsUnload:
@@ -428,7 +428,7 @@ bool PluginManagerPrivate::createPlugin(pluginInfo &info)
         info.base = m_base;
     }
     info.plugin = info.info->create(info.base, m_bInInit, info.cfg);
-    if ((unsigned)(info.plugin) == ABORT_LOADING){
+    if ((unsigned long)(info.plugin) == ABORT_LOADING){
         m_bAbort = true;
         info.plugin = NULL;
     }

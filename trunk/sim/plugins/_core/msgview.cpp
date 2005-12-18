@@ -925,7 +925,7 @@ void *MsgViewBase::processEvent(Event *e)
         return NULL;
     }
     if (e->type() == EventHistoryConfig){
-        unsigned id = (unsigned)(e->param());
+        unsigned long id = (unsigned long)(e->param());
         if (id && (id != m_id))
             return NULL;
         reload();

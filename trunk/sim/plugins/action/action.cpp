@@ -133,7 +133,7 @@ void *ActionPlugin::processEvent(Event *e)
     if (e->type() == EventCheckState){
         CommandDef *cmd = (CommandDef*)(e->param());
         if ((cmd->id == CmdAction) && (cmd->menu_id == MenuContact)){
-            Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+            Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
             if (contact == NULL)
                 return NULL;
             ActionUserData *data = (ActionUserData*)(contact->getUserData(action_data_id));
@@ -180,7 +180,7 @@ void *ActionPlugin::processEvent(Event *e)
         CommandDef *cmd = (CommandDef*)(e->param());
         if ((cmd->menu_id == MenuContact) && (cmd->id >= CmdAction)){
             unsigned n = cmd->id - CmdAction;
-            Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+            Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
             if (contact == NULL)
                 return NULL;
             ActionUserData *data = (ActionUserData*)(contact->getUserData(action_data_id));

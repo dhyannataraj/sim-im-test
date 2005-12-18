@@ -567,7 +567,7 @@ void init_data(const DataDef *d, Data *data)
                 break;
             case DATA_ULONG:
             case DATA_LONG:
-                data->value = (unsigned)(def->def_value);
+                data->value = (unsigned long)(def->def_value);
                 break;
             case DATA_BOOL:
                 data->bValue = (def->def_value != NULL);

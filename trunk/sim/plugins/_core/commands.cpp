@@ -188,27 +188,27 @@ void *Commands::processEvent(Event *e)
         clear();
         break;
     case EventToolbarCreate:
-        return (void*)createBar((unsigned)(e->param()));
+        return (void*)createBar((unsigned long)(e->param()));
     case EventToolbarRemove:
-        removeBar((unsigned)(e->param()));
+        removeBar((unsigned long)(e->param()));
         break;
     case EventShowBar:
         b = (BarShow*)(e->param());
         return show(b->bar_id, b->parent);
     case EventMenuCreate:
-        return (void*)createMenu((unsigned)(e->param()));
+        return (void*)createMenu((unsigned long)(e->param()));
     case EventMenuRemove:
-        removeMenu((unsigned)(e->param()));
+        removeMenu((unsigned long)(e->param()));
         break;
     case EventGetMenu:
         return (void*)get((CommandDef*)(e->param()));
     case EventGetMenuDef:
-        return (void*)getDef((unsigned)(e->param()));
+        return (void*)getDef((unsigned long)(e->param()));
     case EventProcessMenu:
         mp = (ProcessMenuParam*)(e->param());
         return (void*)processMenu(mp->id, mp->param, mp->key);
     case EventMenuCustomize:
-        customizeMenu((unsigned)(e->param()));
+        customizeMenu((unsigned long)(e->param()));
         break;
     default:
         break;

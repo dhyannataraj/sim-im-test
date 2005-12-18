@@ -272,7 +272,7 @@ void DirectSocket::packet_ready()
     }
     if (m_state != Logged){
         ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-        log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, number((unsigned)this).c_str());
+        log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, number((unsigned long)this).c_str());
     }
     switch (m_state){
     case Logged:{
@@ -397,7 +397,7 @@ void DirectSocket::sendInit()
     if (m_version >= 7)
         m_socket->writeBuffer.pack(0x00000000L);
     ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, number((unsigned)this).c_str());
+    log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, number((unsigned long)this).c_str());
     m_socket->write();
 }
 
@@ -408,7 +408,7 @@ void DirectSocket::sendInitAck()
     m_socket->writeBuffer.pack((unsigned short)0x0001);
     m_socket->writeBuffer.pack((unsigned short)0x0000);
     ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, number((unsigned)this).c_str());
+    log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, number((unsigned long)this).c_str());
     m_socket->write();
 }
 
@@ -501,7 +501,7 @@ void DirectClient::processPacket()
     case WaitInit2:
         if (m_bIncoming){
             ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-            log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, number((unsigned)this).c_str());
+            log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, number((unsigned long)this).c_str());
             if (m_version < 8){
                 if (m_data->Direct.ptr){
                     m_socket->error_state("Direct connection already established");
@@ -512,7 +512,7 @@ void DirectClient::processPacket()
                 break;
             }
             plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-            log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, number((unsigned)this).c_str());
+            log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, number((unsigned long)this).c_str());
             m_socket->readBuffer.incReadPos(13);
             char p[16];
             m_socket->readBuffer.unpack(p, 16);
@@ -1514,7 +1514,7 @@ const char *DirectClient::name()
     }
     m_name += number(m_data->Uin.value);
     m_name += ".";
-    m_name += number((unsigned)this);
+    m_name += number((unsigned long)this);
     return m_name.c_str();
 }
 

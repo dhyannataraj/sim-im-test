@@ -650,7 +650,7 @@ void* CToolBar::processEvent(Event *e)
             toolBarChanged();
         break;
     case EventCommandRemove:
-        button = buttons->remove((unsigned)(e->param()));
+        button = buttons->remove((unsigned long)(e->param()));
         if (button)
             delete button;
         break;

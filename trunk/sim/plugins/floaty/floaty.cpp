@@ -146,7 +146,7 @@ void *FloatyPlugin::processEvent(Event *e)
     case EventCheckState:{
             CommandDef *cmd = (CommandDef*)(e->param());
             if (cmd->id == CmdFloaty){
-                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact){
                     FloatyUserData *data = (FloatyUserData*)(contact->userData.getUserData(user_data_id, false));
                     if (data){
@@ -164,7 +164,7 @@ void *FloatyPlugin::processEvent(Event *e)
     case EventCommandExec:{
             CommandDef *cmd = (CommandDef*)(e->param());
             if (cmd->id == CmdFloaty){
-                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact){
                     FloatyUserData *data = (FloatyUserData*)(contact->userData.getUserData(user_data_id, false));
                     if (data){
@@ -174,7 +174,7 @@ void *FloatyPlugin::processEvent(Event *e)
                         contact->userData.freeUserData(user_data_id);
                     }else{
                         data = (FloatyUserData*)(contact->userData.getUserData(user_data_id, true));
-                        FloatyWnd *wnd = new FloatyWnd(this, (unsigned)(cmd->param));
+                        FloatyWnd *wnd = new FloatyWnd(this, (unsigned long)(cmd->param));
                         wnd->move(0, 0);
                         wnd->show();
                     }

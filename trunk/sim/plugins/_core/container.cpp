@@ -730,7 +730,7 @@ void *Container::processEvent(Event *e)
     case EventCommandExec:
         cmd = (CommandDef*)(e->param());
         userWnd = m_tabBar->currentWnd();
-        if (userWnd && ((unsigned)(cmd->param) == userWnd->id())){
+        if (userWnd && ((unsigned long)(cmd->param) == userWnd->id())){
             if (cmd->menu_id == MenuContainerContact){
                 m_tabBar->raiseTab(cmd->id);
                 return e->param();
@@ -752,7 +752,7 @@ void *Container::processEvent(Event *e)
     case EventCheckState:
         cmd = (CommandDef*)(e->param());
         userWnd = m_tabBar->currentWnd();
-        if (userWnd && ((unsigned)(cmd->param) == userWnd->id()) &&
+        if (userWnd && ((unsigned long)(cmd->param) == userWnd->id()) &&
                 (cmd->menu_id == MenuContainerContact) &&
                 (cmd->id == CmdContainerContacts)){
             list<UserWnd*> userWnds = m_tabBar->windows();

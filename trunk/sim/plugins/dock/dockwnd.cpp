@@ -870,7 +870,7 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
     XFree( hints );
 
     Event eArgc(EventArgc);
-    int argc = (int)eArgc.process();
+    long argc = (long)eArgc.process();
     Event eArgv(EventArgv);
     char **argv = (char**)eArgv.process();
     XSetCommand(dsp, win, argv, argc);
