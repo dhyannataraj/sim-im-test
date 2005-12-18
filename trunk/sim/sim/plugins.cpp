@@ -580,7 +580,7 @@ void PluginManagerPrivate::saveState()
     }
 }
 
-const unsigned NO_PLUGIN = (unsigned)(-1);
+const unsigned long NO_PLUGIN = (unsigned long)(-1);
 
 void PluginManagerPrivate::reloadState()
 {
