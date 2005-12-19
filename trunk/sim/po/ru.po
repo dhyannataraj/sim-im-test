@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "POT-Creation-Date: 2005-12-19 12:38+0500\n"
-"PO-Revision-Date: 2005-05-10 00:28+0600\n"
+"PO-Revision-Date: 2005-12-19 13:19+0500\n"
 "Last-Translator: Andrey Rahmatullin <wrar@altlinux.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -119,7 +119,6 @@ msgstr "Ошибка"
 
 # monitor.cpp:79
 #: plugins/icq/icqmessage.cpp:871 plugins/logger/logconfig.cpp:93
-#, fuzzy
 msgid "Warning"
 msgstr "&Предупреждения"
 
@@ -2336,18 +2335,15 @@ msgid "Email pager"
 msgstr "EMail Пейджер"
 
 #: plugins/icq/icqmessage.cpp:850
-#, fuzzy
 msgid "Request secure channel"
-msgstr "Ошибка установки защищенного соединения"
+msgstr "Запрос защищенного соединения"
 
 #: plugins/icq/icqmessage.cpp:857
-#, fuzzy
 msgid "Close secure channel"
-msgstr "Ошибка установки защищенного соединения"
+msgstr "Закрытие защищенного соединения"
 
 # client.cpp:994 mainwin.cpp:2345
 #: plugins/icq/icqmessage.cpp:864
-#, fuzzy
 msgid "Check invisible"
 msgstr "Проверка &невидимости"
 
@@ -5720,7 +5716,6 @@ msgid "LiveJournal &WWW"
 msgstr "Живой журнал на &WWW"
 
 #: plugins/livejournal/livejournal.cpp:232
-#, fuzzy
 msgid "Friends updated"
 msgstr "Список друзей"
 
@@ -6451,9 +6446,8 @@ msgstr "&Сохранить"
 
 # ui/setupdlg.cpp:159
 #: plugins/netmonitor/monitor.cpp:65
-#, fuzzy
 msgid "&Autoscroll"
-msgstr "Авто-ответ"
+msgstr "Автопрокрутка"
 
 # libicq/country.cpp:362
 #: plugins/netmonitor/monitor.cpp:66 plugins/netmonitor/monitor.cpp:119
@@ -6699,11 +6693,10 @@ msgid "Sunday"
 msgstr "Воскресенье"
 
 #: plugins/weather/weather.cpp:379
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Squalls"
-msgstr "Южный"
+msgstr "Шквал"
 
 #: plugins/weather/weather.cpp:380
 msgid ""
@@ -6718,11 +6711,10 @@ msgid ""
 msgstr "Туман"
 
 #: plugins/weather/weather.cpp:382
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Mist"
-msgstr "Восточный"
+msgstr "Легкий туман"
 
 #: plugins/weather/weather.cpp:383
 msgid ""
@@ -6997,60 +6989,52 @@ msgid "km/h"
 msgstr "км/ч"
 
 #: plugins/weather/weather.cpp:429
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Low"
-msgstr "Снег"
+msgstr ""
 
 #: plugins/weather/weather.cpp:430
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Moderate"
-msgstr "Пасмурно"
+msgstr ""
 
 #: plugins/weather/weather.cpp:431
-#, fuzzy
 msgid ""
 "_: weather\n"
 "High"
-msgstr "Туман"
+msgstr ""
 
 #: plugins/weather/weather.cpp:432
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Showers in the Vicinity"
-msgstr "Дождь"
+msgstr ""
 
 #: plugins/weather/weather.cpp:433
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Waning Crescent"
-msgstr "Дождь"
+msgstr ""
 
 #: plugins/weather/weather.cpp:434
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Waxing Crescent"
-msgstr "Дождь"
+msgstr ""
 
 #: plugins/weather/weather.cpp:435
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Waxing Gibbous"
-msgstr "Ветер"
+msgstr ""
 
 #: plugins/weather/weather.cpp:436
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Waning Gibbous"
-msgstr "Ветер"
+msgstr ""
 
 # libicq/country.cpp:109
 #: plugins/weather/weather.cpp:448
@@ -7058,18 +7042,16 @@ msgid "and"
 msgstr "и"
 
 #: plugins/weather/weather.cpp:451
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Early"
-msgstr "Восточный"
+msgstr ""
 
 #: plugins/weather/weather.cpp:454
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Late"
-msgstr "Туман"
+msgstr ""
 
 #: plugins/weather/weather.cpp:499 plugins/weather/weather.cpp:501
 msgid "m/s"
@@ -7085,7 +7067,6 @@ msgid "%t | %c"
 msgstr "%t | %c"
 
 #: plugins/weather/weather.cpp:559
-#, fuzzy
 msgid ""
 "%l<br><br>\n"
 "<img src=\"icon:weather%i\"> %c<br>\n"
