@@ -465,7 +465,7 @@ MSNServerMessage::~MSNServerMessage()
                 data.client		= m_client;
                 data.err_str	= "%1";
                 data.options	= NULL;
-                data.args		= strdup(i18n("You have %n unread message", "You have %n unread messages", nUnread).utf8());
+                data.args		= strdup(i18n("You have one unread message.", "You have %n unread messages.", nUnread).utf8());
                 data.code		= 0;
                 data.flags		= ERR_INFO;
                 data.id			= static_cast<MSNPlugin*>(m_client->protocol()->plugin())->MSNInitMail;
