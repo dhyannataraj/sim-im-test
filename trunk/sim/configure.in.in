@@ -86,6 +86,9 @@ AC_CHECK_LIB(xnet,inet_addr)
 AC_CHECK_LIB(socket, socket)
 AC_CHECK_LIB(art_lgpl_2,libart_version)
 
+AC_MSG_CHECKING([for The Ultimate Answer])
+AC_MSG_RESULT([42])
+
 EXTRA_LIBS=""
 if test "$use_kde" = "yes" ; then
 KDE_CHECK_HEADER(ktextedit.h,[AC_DEFINE(HAVE_KTEXTEDIT_H,1,[Have ktextedit.h])])
@@ -96,14 +99,11 @@ KDE_CHECK_HEADER(qsyntaxhighlighter.h,[AC_DEFINE(HAVE_QSYNTAXHIGHLIGHTER_H,1,[Ha
 AC_DEFINE_UNQUOTED(PREFIX, "$prefix", [Install prefix])
 AC_DEFINE(USE_QT,1,[Use QT - need for libicq])
 AC_SUBST(EXTRA_LIBS)
-if test "${exec_prefix}" = "NONE" ; then
-exec_prefix=$prefix
-fi
-sim_plugindir="\${exec_prefix}/lib/sim"
-sim_stylesdir="\${exec_prefix}/lib/sim/styles"
+sim_plugindir="\${libdir}/sim"
+sim_stylesdir="\${libdir}/sim/styles"
 AC_SUBST(sim_plugindir)
 AC_SUBST(sim_stylesdir)
-AC_DEFINE_UNQUOTED(PLUGIN_PATH,"${exec_prefix}/lib/sim",[Plugins path])
+AC_DEFINE_UNQUOTED(PLUGIN_PATH,"${libdir}/sim",[Plugins path])
 
 LIB_XML2=""
 AC_PATH_PROG(XML2_CONFIG, xml2-config, no)
