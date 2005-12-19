@@ -100,7 +100,7 @@ void *AboutPlugin::processEvent(Event *e)
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
         if (cmd->id == CmdBugReport){
-            Event eURL(EventGoURL, (void*)"http://sourceforge.net/tracker/?group_id=56866");
+            Event eURL(EventGoURL, (void*)"http://developer.berlios.de/bugs/?group_id=4482");
             eURL.process();
         }
         if (cmd->id == CmdAbout){
