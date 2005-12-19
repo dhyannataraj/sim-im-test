@@ -255,7 +255,7 @@ void Icons::removeIconSet(IconSet *is)
     }
 }
 
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
+//#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
 
 PictDef *Icons::getPict(const QPixmap &p)
 {
@@ -266,7 +266,7 @@ PictDef *Icons::getPict(const QPixmap &p)
     return getPict(it->second.c_str());
 }
 
-#endif
+//#endif
 
 static Icons *icons = NULL;
 

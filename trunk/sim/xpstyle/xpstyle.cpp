@@ -15,8 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+
 #include "simapi.h"
-#include "xpstyle.h"
+
 #include "kpopup.h"
 #include "icons.h"
 
@@ -24,25 +25,11 @@
 #include <stdio.h>
 #include "uxtheme.h"
 #include "tmschema.h"
+#include "xpstyle.h"
 
-#include <qmap.h>
-#include <qwidget.h>
-#include <qpixmap.h>
-#include <qapplication.h>
-#include <qpainter.h>
-#include <qtabbar.h>
-#include <qheader.h>
-#include <qslider.h>
-#include <qpushbutton.h>
-#include <qradiobutton.h>
-#include <qscrollbar.h>
-#include <qbitmap.h>
-#include <qimage.h>
-#include <qbutton.h>
-#include <qtoolbutton.h>
-#include <qprogressbar.h>
-
+#ifndef Q_ASSERT
 #define Q_ASSERT ASSERT
+#endif
 
 #ifdef WIN32
 
@@ -940,7 +927,8 @@ void QWindowsXPStyle::drawButton( QPainter *p, int x, int y, int w, int h,
     XPThemeData theme( 0, p, "BUTTON", BP_PUSHBUTTON,
                        stateId, QRect(x, y, w, h));
     if ( !theme.isValid() ) {
-        QWindowsStyle::drawButton(p, x, y, w, h, g, sunken, fill);
+        //QWindowsStyle::drawButton(p, x, y, w, h, g, sunken, fill); //old QT2.3
+		
         return;
     }
     theme.drawBackground();
@@ -960,7 +948,7 @@ void QWindowsXPStyle::drawButtonMask( QPainter *p, int x, int y, int w, int h)
     HRGN rgn = theme.mask();
 
     if ( !rgn ) {
-        QWindowsStyle::drawButtonMask( p, x, y, w, h);
+        //QWindowsStyle::drawButtonMask( p, x, y, w, h); old QT2.3
         return;
     }
 
@@ -989,7 +977,7 @@ void QWindowsXPStyle::drawToolButton( QPainter *p, int x, int y, int w, int h,
     XPThemeData theme( 0, p, "TOOLBAR", TP_BUTTON,
                        stateId, QRect(x, y, w, h));
     if ( !theme.isValid() ) {
-        QWindowsStyle::drawToolButton(p, x, y, w, h, g, sunken, fill);
+        //QWindowsStyle::drawToolButton(p, x, y, w, h, g, sunken, fill); old QT2.3
         return;
     }
     theme.drawBackground();
@@ -1011,7 +999,7 @@ void QWindowsXPStyle::drawPushButton( QPushButton* btn, QPainter *p)
     XPThemeData theme( 0, p, "BUTTON", BP_PUSHBUTTON,
                        stateId, QRect(btn->rect()));
     if ( !theme.isValid() ) {
-        QWindowsStyle::drawPushButton(btn, p);
+        //QWindowsStyle::drawPushButton(btn, p); QT2.3
         return;
     }
     theme.drawBackground();
@@ -1061,12 +1049,12 @@ void QWindowsXPStyle::drawScrollBarControls( QPainter *p,  const QScrollBar *sba
     XPThemeData theme( bar, p, "SCROLLBAR" );
 
     if ( !theme.isValid() ){
-        QWindowsStyle::drawScrollBarControls(p, sbar, sliderStart, controls, activeControl);
+        //QWindowsStyle::drawScrollBarControls(p, sbar, sliderStart, controls, activeControl); //old QT2.3
         return;
     }
 
     bool maxedOut = ( bar->maxValue() == bar->minValue() );
-    if ( controls & AddLine ) {
+    if ( controls & QStyle::SC_ScrollBarAddLine ) { //changed from AddLine to QStyle::SC_ScrollBarAddLine
         QRect rc;
         if (bar->orientation() == Qt::Horizontal)
             rc = QRect(bar->width() - sbextent, 0, sbextent, sbextent);
@@ -1076,7 +1064,7 @@ void QWindowsXPStyle::drawScrollBarControls( QPainter *p,  const QScrollBar *sba
         partId = SBP_ARROWBTN;
         if ( maxedOut )
             stateId = ABS_DOWNDISABLED;
-        else if ( activeControl == AddLine )
+        else if ( activeControl == QStyle::SC_ScrollBarAddLine ) //changed from AddLine to QStyle::SC_ScrollBarAddLine
             stateId = ABS_DOWNPRESSED;
         else if ( theme.rec.contains( d->hotSpot ) )
             stateId = ABS_DOWNHOT;
@@ -1086,13 +1074,13 @@ void QWindowsXPStyle::drawScrollBarControls( QPainter *p,  const QScrollBar *sba
             stateId += 8;
         theme.drawBackground( partId, stateId );
     }
-    if ( controls & SubLine ) {
+    if ( controls & QStyle::SC_ScrollBarSubLine ) { // changed from SubLine to QStyle::SC_ScrollBarSubLine
         QRect rc(0, 0, sbextent, sbextent);
         theme.rec = rc;
         partId = SBP_ARROWBTN;
         if ( maxedOut )
             stateId = ABS_UPDISABLED;
-        else if ( activeControl == SubLine )
+        else if ( activeControl == QStyle::SC_ScrollBarSubLine ) // changed from SubLine to QStyle::SC_ScrollBarSubLine
             stateId = ABS_UPPRESSED;
         else if ( theme.rec.contains( d->hotSpot ) )
             stateId = ABS_UPHOT;
@@ -1117,7 +1105,7 @@ void QWindowsXPStyle::drawScrollBarControls( QPainter *p,  const QScrollBar *sba
         stateId = SCRBS_DISABLED;
         theme.drawBackground( partId, stateId );
     } else {
-        if ( controls & AddPage ) {
+        if ( controls & QStyle::SC_ScrollBarAddPage ) { // changed from AddPage to QStyle::QStyle::SC_ScrollBarAddPage
             if (bar->orientation() == Qt::Horizontal){
                 theme.rec = QRect(sliderstart + sliderlen, 0,
                                   maxlen - sliderstart - sliderlen + sbextent, sbextent);
@@ -1129,7 +1117,7 @@ void QWindowsXPStyle::drawScrollBarControls( QPainter *p,  const QScrollBar *sba
             }
             if ( !bar->isEnabled() )
                 stateId = SCRBS_DISABLED;
-            else if ( activeControl == AddPage )
+            else if ( activeControl == QStyle::SC_ScrollBarAddPage ) // changed from AddPage to QStyle::QStyle::SC_ScrollBarAddPage
                 stateId = SCRBS_PRESSED;
             else if ( theme.rec.contains( d->hotSpot ) )
                 stateId = SCRBS_HOT;
@@ -1137,7 +1125,7 @@ void QWindowsXPStyle::drawScrollBarControls( QPainter *p,  const QScrollBar *sba
                 stateId = SCRBS_NORMAL;
             theme.drawBackground( partId, stateId );
         }
-        if ( controls & SubPage ) {
+        if ( controls & QStyle::SC_ScrollBarSubPage ) { // changed from SubPage to QStyle::QStyle::SC_ScrollBarSubPage
             if (bar->orientation() == Qt::Horizontal){
                 theme.rec = QRect(sbextent, 0, sliderstart - sbextent, sbextent);
                 partId = SBP_UPPERTRACKHORZ;
@@ -1147,7 +1135,7 @@ void QWindowsXPStyle::drawScrollBarControls( QPainter *p,  const QScrollBar *sba
             }
             if ( !bar->isEnabled() )
                 stateId = SCRBS_DISABLED;
-            else if ( activeControl == AddPage )
+            else if ( activeControl == QStyle::SC_ScrollBarAddPage ) // changed from AddPage to QStyle::QStyle::SC_ScrollBarAddPage
                 stateId = SCRBS_PRESSED;
             else if ( theme.rec.contains( d->hotSpot ) )
                 stateId = SCRBS_HOT;
@@ -1155,14 +1143,14 @@ void QWindowsXPStyle::drawScrollBarControls( QPainter *p,  const QScrollBar *sba
                 stateId = SCRBS_NORMAL;
             theme.drawBackground( partId, stateId );
         }
-        if ( controls & Slider ) {
+        if ( controls & QStyle::SC_ScrollBarSlider ) { // changed from Slider to QStyle::QStyle::SC_ScrollBarSlider
             if (bar->orientation() == Qt::Horizontal)
                 theme.rec = QRect(sliderstart, 0, sliderlen, sbextent);
             else
                 theme.rec = QRect(0, sliderstart, sbextent, sliderlen);
             if ( !bar->isEnabled() )
                 stateId = SCRBS_DISABLED;
-            else if ( activeControl == Slider )
+            else if ( activeControl == QStyle::SC_ScrollBarSlider ) // changed from Slider to QStyle::QStyle::SC_ScrollBarSlider
                 stateId = SCRBS_PRESSED;
             else if ( theme.rec.contains( d->hotSpot ) )
                 stateId = SCRBS_HOT;
@@ -1197,7 +1185,8 @@ QSize QWindowsXPStyle::exclusiveIndicatorSize() const
         GetThemePartSize( theme.handle(), NULL, theme.partId, theme.stateId, 0, TS_TRUE, &size );
         return QSize(size.cx+2, size.cy+2);
     }
-    return QWindowsStyle::indicatorSize();
+    //return QWindowsStyle::indicatorSize(); //old QT2.3
+	return QSize(0,0);
 }
 
 void QWindowsXPStyle::drawExclusiveIndicator( QPainter* p, int x, int y, int w, int h,
@@ -1237,7 +1226,7 @@ void QWindowsXPStyle::drawExclusiveIndicator( QPainter* p, int x, int y, int w, 
     }
     XPThemeData theme( 0, &pp, "BUTTON", BP_RADIOBUTTON, stateId, QRect(0, 0, w, h));
     if ( !theme.isValid() ) {
-        QWindowsStyle::drawExclusiveIndicator( p, x, y, w, h, g, on, down, enabled);
+        //QWindowsStyle::drawExclusiveIndicator( p, x, y, w, h, g, on, down, enabled);
         return;
     }
     theme.drawBackground();
@@ -1273,7 +1262,8 @@ QSize QWindowsXPStyle::indicatorSize() const
         GetThemePartSize( theme.handle(), NULL, theme.partId, theme.stateId, 0, TS_TRUE, &size );
         return QSize(size.cx+2, size.cy+2);
     }
-    return QWindowsStyle::indicatorSize();
+    //return QWindowsStyle::indicatorSize(); //old QT2.3
+	return QSize(0,0);
 }
 
 void QWindowsXPStyle::drawIndicator( QPainter* p, int x, int y, int w, int h, const QColorGroup &g,
@@ -1295,7 +1285,7 @@ void QWindowsXPStyle::drawIndicator( QPainter* p, int x, int y, int w, int h, co
 
     XPThemeData theme( 0, p, "BUTTON", BP_CHECKBOX, stateId, QRect(x, y, w, h));
     if ( !theme.isValid() ) {
-        QWindowsStyle::drawIndicator( p, x, y, w, h, g, state, down, enabled);
+        //QWindowsStyle::drawIndicator( p, x, y, w, h, g, state, down, enabled); //old QT2.3
         return;
     }
     theme.drawBackground();
@@ -1308,7 +1298,7 @@ void QWindowsXPStyle::drawIndicatorMask( QPainter *p, int x, int y, int w, int h
     HRGN rgn = theme.mask();
 
     if ( !rgn ) {
-        QWindowsStyle::drawButtonMask( p, x + 1, y + 1, w - 2, h - 2);
+        //QWindowsStyle::drawButtonMask( p, x + 1, y + 1, w - 2, h - 2); //old QT2.3
         return;
     }
     p->save();
@@ -1330,7 +1320,7 @@ void QWindowsXPStyle::drawComboButton( QPainter *p, int x, int y, int w, int h,
         stateId = ETS_NORMAL;
     XPThemeData theme1( 0, p, "EDIT", partId, stateId, QRect(x, y, w, h) );
     if (!theme1.isValid()){
-        QWindowsStyle::drawComboButton(p, x, y, w, h, g, sunken, editable, enabled, fill);
+        //QWindowsStyle::drawComboButton(p, x, y, w, h, g, sunken, editable, enabled, fill); //old QT2.3
         return;
     }
 
@@ -1370,7 +1360,7 @@ void QWindowsXPStyle::drawPopupPanel(QPainter *p, int x, int y, int w, int h,
             return;
         }
     }
-    QWindowsStyle::drawPopupPanel(p, x, y, w, h, cg, lineWidth, fill);
+    //QWindowsStyle::drawPopupPanel(p, x, y, w, h, cg, lineWidth, fill); //old QT2.3
 }
 
 void QWindowsXPStyle::drawPanel( QPainter *p, int x, int y, int w, int h,
@@ -1389,12 +1379,12 @@ void QWindowsXPStyle::drawPanel( QPainter *p, int x, int y, int w, int h,
             return;
         }
     }
-    QWindowsStyle::drawPanel(p, x, y, w, h, cg, sunken, lineWidth, fill);
+    //QWindowsStyle::drawPanel(p, x, y, w, h, cg, sunken, lineWidth, fill); //old QT2.3
 }
 
 void QWindowsXPStyle::drawTab( QPainter *p, const QTabBar *tbar, QTab *t, bool selected )
 {
-    QRect rect( t->r );
+    QRect rect( t->rect() );
     QMyTabBar *bar = (QMyTabBar*)tbar;
     int partId = 0;
     int stateId = 0;
@@ -1409,7 +1399,7 @@ void QWindowsXPStyle::drawTab( QPainter *p, const QTabBar *tbar, QTab *t, bool s
     else
         partId = TABP_TABITEM;
 
-    bool inFocus = (t->id == tbar->keyboardFocusTab());
+    bool inFocus = (t->identifier() == tbar->keyboardFocusTab());
 
     if ( !bar->isEnabled())
         stateId = TIS_DISABLED;
@@ -1432,7 +1422,7 @@ void QWindowsXPStyle::drawTab( QPainter *p, const QTabBar *tbar, QTab *t, bool s
     }
     XPThemeData theme( bar, p, "TAB", partId, stateId, rect );
     if ( !theme.isValid() ) {
-        QWindowsStyle::drawTab( p, bar, t, selected );
+        //QWindowsStyle::drawTab( p, bar, t, selected ); old QT2.3
         return;
     }
     p->save();
@@ -1482,7 +1472,7 @@ void QWindowsXPStyle::drawSlider ( QPainter * p, int x, int y, int w, int h, con
     }
     XPThemeData theme( NULL, p, "TRACKBAR", partId, stateId,  rc);
     if (!theme.isValid()){
-        QWindowsStyle::drawSlider(p, x, y, w, h, g, o, tickAbove, tickBelow);
+        //QWindowsStyle::drawSlider(p, x, y, w, h, g, o, tickAbove, tickBelow); //QT2.3
         return;
     }
     theme.drawBackground();
@@ -1502,7 +1492,7 @@ void QWindowsXPStyle::drawSliderGroove ( QPainter * p, int x, int y, int w, int 
     }
     XPThemeData theme( NULL, p, "TRACKBAR", partId, stateId,  rc);
     if (!theme.isValid()){
-        QWindowsStyle::drawSliderGroove(p, x, y, w, h, g, c, o);
+        //QWindowsStyle::drawSliderGroove(p, x, y, w, h, g, c, o); // old QT2.3
         return;
     }
     theme.drawBackground();
@@ -1634,7 +1624,7 @@ void QWindowsXPStyle::drawPopupMenuItem( QPainter* p, bool checkable,
 
     }else if (checkable && mi->isChecked()){
         p->setPen(cg.buttonText());
-        drawCheckMark(p, xpos, y, bitmapWidth, h, cg, act, !enabled);
+        //drawCheckMark(p, xpos, y, bitmapWidth, h, cg, act, !enabled); old QT2.3
     }
 
     xpos += xm;
@@ -1677,7 +1667,7 @@ void QWindowsXPStyle::drawPopupMenuItem( QPainter* p, bool checkable,
         }else{
             p->setPen(pal.disabled().text());
         }
-        drawArrow(p, RightArrow, false, xpos, y + h / 4, dim, dim, cg, enabled);
+        //drawArrow(p, RightArrow, false, xpos, y + h / 4, dim, dim, cg, enabled); // old QT2.3
     }
 }
 

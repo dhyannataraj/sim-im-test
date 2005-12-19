@@ -27,7 +27,25 @@
 #define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
 #endif
 
+#include <qmap.h>
+#include <qwidget.h>
+#include <qpixmap.h>
+#include <qapplication.h>
+#include <qpainter.h>
+#include <qtabbar.h>
+#include <qheader.h>
+#include <qslider.h>
+#include <qpushbutton.h>
+#include <qradiobutton.h>
+#include <qscrollbar.h>
+#include <qbitmap.h>
+#include <qimage.h>
+#include <qbutton.h>
+#include <qtoolbutton.h>
+#include <qprogressbar.h>
+#include <qstyle.h>
 #include <qwindowsstyle.h>
+
 
 class QWindowsXPStylePrivate;
 
