@@ -1,16 +1,16 @@
-# translation of cs.po to
+# translation of cs.po to Czech
 # Pavel Rousar <rousarp@fel.cvut.cz>, 2002.
 # Pavel Rousar <p.rousar@sh.cvut.cz>, 2003, 2004.
-# Jiri Sedlak < jiri_sedlak@users.sourceforge.net>, 2004.
-# Jiri Jurecek < jjure@users.sourceforge.net>,2004, 2005.
+# Jiri Sedlak <jiri_sedlak@users.sourceforge.net>, 2004.
+# Jiri Jurecek <jjure@users.sourceforge.net>, 2004, 2005.
 # Vojtěch Gondžala <vogo@seznam.cz>, 2005.
-#
+# Jan Šembera <fissie@users.berlios.de>, 2005.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2005-12-19 10:42+0000\n"
-"PO-Revision-Date: 2005-12-19 11:13+0100\n"
-"Last-Translator: Vojtěch Gondžala <vogo@seznam.cz>\n"
+"PO-Revision-Date: 2005-12-24 00:17+0100\n"
+"Last-Translator: Jan Šembera <fissie@users.berlios.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2476,7 +2476,7 @@ msgstr "Zájm&y"
 
 #: plugins/icq/icqsecurebase.cc:107
 msgid "My &authorization is required before users add me to Contact List"
-msgstr "Má &autorizace je vyžadována před přidáním uživatele do kontaktlistu"
+msgstr "Má &autorizace je vyžadována před přidáním uživatele do seznamu kontaktů"
 
 #: plugins/icq/icqsecurebase.cc:108
 msgid "Don't show my &IP-address"
@@ -2492,7 +2492,7 @@ msgstr "I&gnorovat uživatelovu autorizaci"
 
 #: plugins/icq/icqsecurebase.cc:112
 msgid "Direct connections"
-msgstr "Přímá konexe"
+msgstr "Přímá spojení"
 
 #: plugins/icq/icqsecurebase.cc:113
 msgid "Allow &direct connection from any user"
@@ -2500,7 +2500,7 @@ msgstr "Povolit &přímé připojení pro všechny uživatele"
 
 #: plugins/icq/icqsecurebase.cc:114
 msgid "Allow direct connection from user listed in &contact list"
-msgstr "Povolit přímé připojení pro uživatele z mého &kontaktlistu"
+msgstr "Povolit přímé připojení pro uživatele z mého seznamu &kontaktů"
 
 #: plugins/icq/icqsecurebase.cc:115
 msgid "Allow direct connection from user &upon authorization"
@@ -3289,11 +3289,11 @@ msgstr "Přidat %1 mezi ignorované?"
 
 #: plugins/filter/filtercfgbase.cpp:66
 msgid "&Receive message only from contacts from list"
-msgstr "Příjmat zp&rávy pouze od uživatelů uvedených v kontaktlistu"
+msgstr "Příjmat zp&rávy pouze od uživatelů uvedených v seznamu kontaktů"
 
 #: plugins/filter/filtercfgbase.cpp:70
 msgid "&Receive authorization and system messages only from contacts from list"
-msgstr "Přijímat a&utorizace a systémové zprávy pouze od uživatelů uvedených v kontaktlistu"
+msgstr "Přijímat a&utorizace a systémové zprávy pouze od uživatelů uvedených v seznamu kontaktů"
 
 #: plugins/filter/filtercfgbase.cpp:67
 msgid "Reject messages from unknown users contains this words or phrases:"
@@ -3383,11 +3383,11 @@ msgstr "Přidat"
 
 #: plugins/_core/search.cpp:333
 msgid "%1 already in contact list"
-msgstr "%1 již v kontaktlistu je"
+msgstr "%1 již v seznamu kontaktů je"
 
 #: plugins/_core/search.cpp:431 plugins/_core/usercfg.cpp:288 plugins/_core/userlist.cpp:1047 plugins/_core/userview.cpp:259 plugins/_core/userview.cpp:792 plugins/_core/userview.cpp:830 plugins/remote/remote.cpp:579
 msgid "Not in list"
-msgstr "Neuložené v kontaktlistu"
+msgstr "Neuložené v seznamu kontaktů"
 
 #: plugins/_core/search.cpp:632
 #, c-format
@@ -3491,7 +3491,7 @@ msgstr "Zpráva bude rozdělena"
 
 #: plugins/_core/msgsms.cpp:301
 msgid "Save phone in contact list"
-msgstr "Uložit telefonní číslo v kontaktlistu"
+msgstr "Uložit telefonní číslo v seznamu kontaktů"
 
 #: plugins/_core/logindlg.cpp:57
 msgid "Select profile"
@@ -4234,9 +4234,9 @@ msgid ""
 "_n: Add to contacts\n"
 "%n add to contacts"
 msgstr ""
-"Přidán do kontaktlistu\n"
-"%n přidány do kontaktlistu\n"
-"%n přidáno do kontaktlistu"
+"Přidán do seznamu kontaktů\n"
+"%n přidány do seznamu kontaktů\n"
+"%n přidáno do seznamu kontaktů"
 
 #: plugins/_core/msgedit.cpp:791
 #, c-format
@@ -4244,9 +4244,9 @@ msgid ""
 "_n: Removed from contacts\n"
 "%n removed from contacts"
 msgstr ""
-"Odstraněn z kontaktlistu%n odstraněno z kontaklistu\n"
-"%n odstraněny z kontaktlistu\n"
-"%n odstraněno z kontaklistu"
+"Odstraněn ze seznamu kontaktů\n"
+"%n odstraněny ze seznamu kontaktů\n"
+"%n odstraněno ze seznamu kontaktů"
 
 #: plugins/_core/msgedit.cpp:812
 #, c-format
@@ -4273,7 +4273,7 @@ msgstr "S&oubor"
 
 #: plugins/_core/msgedit.cpp:1688
 msgid "&Contact list"
-msgstr "&Kontakt list"
+msgstr "Seznam &kontaktů"
 
 #: plugins/_core/msgedit.cpp:1696
 msgid "&Authorization request"
@@ -4358,7 +4358,7 @@ msgstr "Svazijsky"
 
 #: plugins/_core/interfacecfg.cpp:86
 msgid "Contact list"
-msgstr "Kontakt list"
+msgstr "Seznam kontaktů"
 
 #: plugins/_core/interfacecfg.cpp:91
 msgid "Messages"
@@ -6456,7 +6456,7 @@ msgstr "Vojtěch Gondžala (vogo), Pavel Roušar (toTem), Jiří Jureček, Jiř�
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
-msgstr "vogo@seznam.cz, rousarp@fel.cvut.cz, jjure@users.sourceforge.net, jiri_sedlak@users.sourceforge.net"
+msgstr "fissie@users.berlios.de,vogo@seznam.cz,rousarp@fel.cvut.cz,jjure@users.sourceforge.net,jiri_sedlak@users.sourceforge.net"
 
 #: plugins/about/aboutdlgbase.cpp:117
 msgid "About SIM"
@@ -8305,7 +8305,7 @@ msgstr "Připojeno k hostu"
 
 #: sim/qt3/i18n.cpp:235
 msgid "Connection to %1 closed"
-msgstr "Konexe s %1 uzavřena"
+msgstr "Spojení s %1 uzavřeno"
 
 #: sim/qt3/i18n.cpp:237 sim/sockfactory.cpp:303
 msgid "Connection closed"
