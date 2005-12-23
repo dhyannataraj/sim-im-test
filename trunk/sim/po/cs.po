@@ -1,14 +1,16 @@
+# translation of cs.po to
 # Pavel Rousar <rousarp@fel.cvut.cz>, 2002.
 # Pavel Rousar <p.rousar@sh.cvut.cz>, 2003, 2004.
 # Jiri Sedlak < jiri_sedlak@users.sourceforge.net>, 2004.
-# Jiri Jurecek < jjure@users.sourceforge.net>,2004, 2005. 
-# 
+# Jiri Jurecek < jjure@users.sourceforge.net>,2004, 2005.
+# Vojtěch Gondžala <vogo@seznam.cz>, 2005.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2005-12-19 12:38+0500\n"
-"PO-Revision-Date: 2005-05-19 13:18+0100\n"
-"Last-Translator: Jiri Jurecek <jjure@user.sourceforge.net>\n"
+"POT-Creation-Date: 2005-12-19 10:42+0000\n"
+"PO-Revision-Date: 2005-12-19 11:13+0100\n"
+"Last-Translator: Vojtěch Gondžala <vogo@seznam.cz>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -112,7 +114,6 @@ msgid "Error"
 msgstr "Chyba"
 
 #: plugins/icq/icqmessage.cpp:871 plugins/logger/logconfig.cpp:93
-#, fuzzy
 msgid "Warning"
 msgstr "&Varování"
 
@@ -402,7 +403,7 @@ msgstr "Přezdívka"
 
 #: plugins/_core/maininfo.cpp:71 plugins/filter/ignorelist.cpp:28 plugins/icq/icqsecure.cpp:126 plugins/jabber/jabbersearch.cpp:103 plugins/msn/msninfobase.cpp:130
 msgid "EMail"
-msgstr "Email"
+msgstr "E-mail"
 
 #: plugins/icq/icqsearch.cpp:309 plugins/jabber/jabberadd.cpp:279 plugins/jabber/jabbersearch.cpp:104 plugins/jabber/jabbersearch.cpp:304
 msgid "First Name"
@@ -414,11 +415,11 @@ msgstr "Příjmení"
 
 #: plugins/jabber/jabbersearch.cpp:106
 msgid "Age min"
-msgstr "Věk nejméně"
+msgstr "Minimální věk"
 
 #: plugins/jabber/jabbersearch.cpp:107
 msgid "Age max"
-msgstr "Věk nejvíce"
+msgstr "Maximální věk"
 
 #: plugins/icq/icqsearch.cpp:314 plugins/jabber/jabbersearch.cpp:108
 msgid "City"
@@ -454,11 +455,11 @@ msgstr "Nick (alias)"
 
 #: plugins/jabber/jabbersearch.cpp:298
 msgid "Email"
-msgstr "Email"
+msgstr "E-mail"
 
 #: plugins/jabber/jabbersearch.cpp:299
 msgid "Select the speed of the search.  \"Fast\" matches your string to the beginning of the field only (ie. \"b\" would yield Bob,Bill,etc...)  \"Slower\" matches your string anywhere in the field (ie. \"b\" would yield Bob, Bill, Caleb, Robbie, etc...)"
-msgstr "Vybraat rychlost hledání.  \"Rychlá\" porovná zadaný řetězec se začátkem položky (např. \"b\" najde Blanka, Bohumil, ...)  \"Pomalejší\" porovnává řetězec s každým podřetězcem (např. \"b\" najde Blanka,  Bohumil, ale i Robert, Robbie, ...)"
+msgstr "Vybrat rychlost hledání.  \"Rychlá\" porovná zadaný řetězec se začátkem položky (např. \"b\" najde Blanka, Bohumil, ...)  \"Pomalejší\" porovnává řetězec s každým podřetězcem (např. \"b\" najde Blanka,  Bohumil, ale i Robert, Robbie, ...)"
 
 #: plugins/jabber/jabbersearch.cpp:300
 msgid "Search Speed"
@@ -554,7 +555,7 @@ msgstr "&Čas"
 
 #: plugins/jabber/discoinfo.cpp:168
 msgid "&Stat"
-msgstr "&Stat"
+msgstr "&Stát"
 
 #: plugins/_core/core.cpp:1426 plugins/_core/maininfobase.cpp:191 plugins/jabber/discoinfo.cpp:179 plugins/jabber/discoinfobase.cpp:270 plugins/jabber/discoinfobase.cpp:287
 msgid "&Info"
@@ -566,8 +567,10 @@ msgid ""
 "_n: %n day\n"
 "%n days"
 msgstr ""
-"_n: %n den\n"
+"%n den\n"
+"%n dny\n"
 "%n dnů"
+
 
 #: plugins/jabber/jabberpicture.cpp:47 plugins/jabber/jabberpicturebase.cpp:77
 msgid "&Photo"
@@ -703,7 +706,7 @@ msgstr "&Volby"
 
 #: plugins/icq/icqsearch.cpp:325 plugins/jabber/jabberadd.cpp:282 plugins/msn/msnsearchbase.cpp:72
 msgid "E-Mail"
-msgstr "E-Mail"
+msgstr "E-mail"
 
 #: plugins/jabber/jabberinfobase.cpp:239
 msgid "ID:"
@@ -779,7 +782,7 @@ msgstr "JID"
 
 #: plugins/_core/searchallbase.cpp:84 plugins/icq/icqsearchbase.cc:128 plugins/jabber/jabberaddbase.cpp:95
 msgid "&E-Mail"
-msgstr "E-Mail"
+msgstr "&E-mail"
 
 #: plugins/_core/searchallbase.cpp:85 plugins/icq/icqsearchbase.cc:129 plugins/jabber/jabberaddbase.cpp:96 plugins/yahoo/yahoosearchbase.cpp:99
 msgid "&Name"
@@ -847,7 +850,7 @@ msgstr "UTC čas klienta:"
 
 #: plugins/jabber/discoinfobase.cpp:276
 msgid "Last activity, idle response:"
-msgstr "Posledně aktivní, poslední odezva:"
+msgstr "Poslední aktivita, poslední odezva:"
 
 #: plugins/jabber/discoinfobase.cpp:279
 msgid "&Statistic"
@@ -855,7 +858,7 @@ msgstr "&Statistika"
 
 #: plugins/gpg/gpggenbase.cpp:136 plugins/jabber/discoinfobase.cpp:285
 msgid "EMail:"
-msgstr "Email:"
+msgstr "E-mail:"
 
 #: plugins/_core/nonimbase.cpp:99 plugins/jabber/discoinfobase.cpp:286
 msgid "Phone:"
@@ -993,7 +996,8 @@ msgid ""
 "%n errors"
 msgstr ""
 "Chyba\n"
-"%n chyb(y)"
+"%n chyby\n"
+"%n chyb"
 
 #: plugins/jabber/jabbermessage.cpp:158 plugins/jabber/jabbermessage.cpp:214
 msgid "Log On"
@@ -1293,7 +1297,7 @@ msgstr "Špatné bezpečnostní ID"
 
 #: plugins/icq/icqlogin.cpp:297
 msgid "Too young!"
-msgstr "Příliš mlady!"
+msgstr "Příliš mladý!"
 
 #: plugins/icq/icqlogin.cpp:301
 msgid "UIN was suspended"
@@ -1341,7 +1345,7 @@ msgstr "Po práci"
 
 #: plugins/icq/pastinfo.cpp:82
 msgid "Past Organization"
-msgstr "Minulá společnost"
+msgstr "Minulá organizace"
 
 #: plugins/icq/pastinfo.cpp:83 plugins/icq/pastinfo.cpp:110
 msgid "Other"
@@ -1878,6 +1882,7 @@ msgid ""
 "%n files"
 msgstr ""
 "%n soubor\n"
+"%n soubory\n"
 "%n souborů"
 
 #: plugins/icq/icqicmb.cpp:1506
@@ -1894,7 +1899,8 @@ msgid ""
 "_n: File\n"
 "%n files"
 msgstr ""
-"Soubo\n"
+"%n soubor\n"
+"%n soubory\n"
 "%n souborů"
 
 #: plugins/icq/icqmessage.cpp:552
@@ -1904,6 +1910,7 @@ msgid ""
 "%n WWW-panel messages"
 msgstr ""
 "WWW-zpráva\n"
+"%n WWW-zprávy\n"
 "%n WWW-zpráv"
 
 #: plugins/icq/icqmessage.cpp:573
@@ -1912,8 +1919,9 @@ msgid ""
 "_n: Email pager message\n"
 "%n Email pager messages"
 msgstr ""
-"Email-Pager-zpráva\n"
-"%n email-Pager zpráv"
+"E-mail-pager-zpráva\n"
+"%n e-mail-pager zprávy\n"
+"%n e-mail-pager zpráv"
 
 #: plugins/icq/icqmessage.cpp:594
 #, c-format
@@ -1922,6 +1930,7 @@ msgid ""
 "%n requests secure channel"
 msgstr ""
 "Požadavek na zabezpečený kanál\n"
+"%n požadavky na zabezpečený kanál\n"
 "%n požadavků na zabezpečený kanál"
 
 #: plugins/icq/icqmessage.cpp:615
@@ -1931,6 +1940,7 @@ msgid ""
 "%n times close secure channel"
 msgstr ""
 "Uzavřen zabezpečený kanál\n"
+"%n -krát uzavřen zabezpečený kanál\n"
 "%n -krát uzavřen zabezpečený kanál"
 
 #: plugins/icq/icqmessage.cpp:636
@@ -1940,6 +1950,7 @@ msgid ""
 "%n times check invisible"
 msgstr ""
 "Kontrola neviditelnosti\n"
+"%n -krát kontrolována neviditelnost\n"
 "%n -krát kontrolována neviditelnost"
 
 #: plugins/icq/icqmessage.cpp:657
@@ -1949,6 +1960,7 @@ msgid ""
 "%n warnings"
 msgstr ""
 "Varování\n"
+"%n varování\n"
 "%n varování"
 
 #: plugins/icq/icqmessage.cpp:763
@@ -1958,7 +1970,8 @@ msgid ""
 "%n contact requests"
 msgstr ""
 "Požadavek na kontakt\n"
-"Požadavek na kontakty (%n)"
+"%n požadavky na kontakty\n"
+"%n požadavků na kontakty"
 
 #: plugins/icq/icqmessage.cpp:813
 msgid "Contact Request"
@@ -1970,22 +1983,19 @@ msgstr "Web panel"
 
 #: plugins/icq/icqmessage.cpp:844
 msgid "Email pager"
-msgstr "Email Pager"
+msgstr "E-mail Pager"
 
 #: plugins/icq/icqmessage.cpp:850
-#, fuzzy
 msgid "Request secure channel"
-msgstr "Chyba v požadavku na zabezpečený kanál"
+msgstr "Vyžádat zabezpečený kanál"
 
 #: plugins/icq/icqmessage.cpp:857
-#, fuzzy
 msgid "Close secure channel"
-msgstr "Chyba v požadavku na zabezpečený kanál"
+msgstr "Ukončit zabezpečený kanál"
 
 #: plugins/icq/icqmessage.cpp:864
-#, fuzzy
 msgid "Check invisible"
-msgstr "Kontrolovat &neviditelné"
+msgstr "Kontrola neviditelnosti"
 
 #: plugins/_core/msgedit.cpp:1670 plugins/icq/icqmessage.cpp:878
 msgid "&URL"
@@ -2820,11 +2830,11 @@ msgstr "Můžete si vybrat kódování, které chcete obyčejně používat."
 
 #: plugins/icq/verifydlgbase.cc:110
 msgid "VerifyDlg"
-msgstr ""
+msgstr "Ověřit DLG"
 
 #: plugins/icq/verifydlgbase.cc:111
 msgid "Please retype the letters from the picture above:"
-msgstr ""
+msgstr "Opište písmena z obrázku výše:"
 
 #: plugins/yahoo/yahoocfg.cpp:46
 msgid "Get a Yahoo! ID"
@@ -3022,6 +3032,7 @@ msgid ""
 "%n messages"
 msgstr ""
 "Zpráva\n"
+"%n zprávy\n"
 "%n zpráv"
 
 #: plugins/update/update.cpp:127
@@ -3280,6 +3291,10 @@ msgstr "Přidat %1 mezi ignorované?"
 msgid "&Receive message only from contacts from list"
 msgstr "Příjmat zp&rávy pouze od uživatelů uvedených v kontaktlistu"
 
+#: plugins/filter/filtercfgbase.cpp:70
+msgid "&Receive authorization and system messages only from contacts from list"
+msgstr "Přijímat a&utorizace a systémové zprávy pouze od uživatelů uvedených v kontaktlistu"
+
 #: plugins/filter/filtercfgbase.cpp:67
 msgid "Reject messages from unknown users contains this words or phrases:"
 msgstr "Odmítnout zprávy od neznámých uživatelů obsahující tato slova nebo výrazy:"
@@ -3381,6 +3396,7 @@ msgid ""
 "%n contacts found"
 msgstr ""
 "%n kontakt nalezen\n"
+"%n kontakty nalezeny\n"
 "%n kontaktů nalezeno"
 
 #: plugins/_core/cmenu.cpp:78
@@ -3458,6 +3474,7 @@ msgid ""
 "Close after %n seconds"
 msgstr ""
 "Zavřít po %n sekundě\n"
+"Zavřít po %n sekundách\n"
 "Zavřít po %n sekundách"
 
 #: plugins/_core/arcfg.cpp:96 plugins/_core/autoreply.cpp:111 plugins/weather/wifacecfg.cpp:107
@@ -4141,6 +4158,7 @@ msgid ""
 "%n SMSs"
 msgstr ""
 "SMS\n"
+"%n SMS\n"
 "%n SMS"
 
 #: plugins/_core/msgedit.cpp:473
@@ -4150,7 +4168,9 @@ msgid ""
 "%n URLs"
 msgstr ""
 "URL\n"
+"%n URL\n"
 "%n URL"
+
 
 #: plugins/_core/msgedit.cpp:536
 #, c-format
@@ -4159,6 +4179,7 @@ msgid ""
 "%n contact lists"
 msgstr ""
 "Kontaktlist\n"
+"%n Kontaktlisty\n"
 "%n kontaktlistů"
 
 #: plugins/_core/msgedit.cpp:590
@@ -4176,7 +4197,8 @@ msgid ""
 "%n authorize requests"
 msgstr ""
 "Požadavek na autorizaci\n"
-"%n požadavků na utorizaci"
+"%n požadavky na autorizaci\n"
+"%n požadavků na autorizaci"
 
 #: plugins/_core/msgedit.cpp:665
 msgid "&Grant"
@@ -4192,7 +4214,8 @@ msgid ""
 "_n: Authorization granted\n"
 "%n authorization granted"
 msgstr ""
-"Autorizace uspěšná\n"
+"Autorizace úspěšná\n"
+"%n autorizace úspěšné\n"
 "%n úspěšných autorizací"
 
 #: plugins/_core/msgedit.cpp:749
@@ -4202,6 +4225,7 @@ msgid ""
 "%n authorization refused"
 msgstr ""
 "Autorizace zamítnuta\n"
+"%n autorizace zamítnuty\n"
 "%n zamítnutých autorizací"
 
 #: plugins/_core/msgedit.cpp:770
@@ -4211,6 +4235,7 @@ msgid ""
 "%n add to contacts"
 msgstr ""
 "Přidán do kontaktlistu\n"
+"%n přidány do kontaktlistu\n"
 "%n přidáno do kontaktlistu"
 
 #: plugins/_core/msgedit.cpp:791
@@ -4218,7 +4243,10 @@ msgstr ""
 msgid ""
 "_n: Removed from contacts\n"
 "%n removed from contacts"
-msgstr "Odstraněn z kontaktlistu%n odstraněno z kontaklistu"
+msgstr ""
+"Odstraněn z kontaktlistu%n odstraněno z kontaklistu\n"
+"%n odstraněny z kontaktlistu\n"
+"%n odstraněno z kontaklistu"
 
 #: plugins/_core/msgedit.cpp:812
 #, c-format
@@ -4227,7 +4255,9 @@ msgid ""
 "%n times status changed"
 msgstr ""
 "Změna stavu\n"
+"%n krát změněn stav\n"
 "%n krát změněn stav"
+
 
 #: plugins/_core/msgedit.cpp:927 sim/qt3/i18n.cpp:23
 msgid "Cancel"
@@ -4360,11 +4390,11 @@ msgstr "Poskytovatel:"
 
 #: plugins/_core/pagerbase.cpp:89
 msgid "Email gateway:"
-msgstr "Email brána:"
+msgstr "E-mail brána:"
 
 #: plugins/_core/nonimbase.cpp:98
 msgid "E-Mail address:"
-msgstr "Emailová adresa:"
+msgstr "E-mailová adresa:"
 
 #: plugins/_core/arcfgbase.cpp:79 plugins/_core/prefcfgbase.cpp:66
 msgid "&Override global settings"
@@ -4564,7 +4594,7 @@ msgstr "Kódování:"
 
 #: plugins/_core/maininfobase.cpp:192
 msgid "Email addresses:"
-msgstr "Emailové adresy:"
+msgstr "E-mailové adresy:"
 
 #: plugins/_core/maininfobase.cpp:196
 msgid ""
@@ -4578,7 +4608,7 @@ msgstr ""
 
 #: plugins/_core/maininfobase.cpp:199
 msgid "&Mails"
-msgstr "&Emaily"
+msgstr "&E-maily"
 
 #: plugins/_core/maininfobase.cpp:200
 msgid "Phones:"
@@ -4608,11 +4638,11 @@ msgstr "Poz&námky"
 
 #: plugins/_core/editmailbase.cpp:94
 msgid "EditMail"
-msgstr "Upravit Email"
+msgstr "Upravit E-mail"
 
 #: plugins/_core/editmailbase.cpp:95
 msgid "Enter Email address:"
-msgstr "Vložit Emailovou adresu"
+msgstr "Vložit E-mailovou adresu"
 
 #: plugins/_core/editmailbase.cpp:96 plugins/_core/editphonebase.cpp:111
 msgid "&Publish"
@@ -4640,7 +4670,7 @@ msgstr "&Nové hledání"
 
 #: plugins/_core/autoreplybase.cpp:87 plugins/_core/connectionsettingsbase.cpp:74
 msgid "MyDialog"
-msgstr "MůjDialog"
+msgstr "Můj Dialog"
 
 #: plugins/_core/connectwndbase.cpp:101
 msgid "Complete"
@@ -4736,7 +4766,7 @@ msgstr "Důvod odmítnutí"
 
 #: plugins/_core/declinedlgbase.cpp:81
 msgid "Enter decline reason:"
-msgstr "Vložte důvod odmítnutí:"
+msgstr "Napište důvod odmítnutí:"
 
 #: plugins/_core/managerbase.cpp:46 plugins/_core/managerbase.cpp:106
 msgid "Connection"
@@ -4955,7 +4985,7 @@ msgstr "okouzlený"
 
 #: plugins/livejournal/livejournal.cpp:1367
 msgid "exhausted"
-msgstr "yčerpaný"
+msgstr "vyčerpaný"
 
 #: plugins/livejournal/livejournal.cpp:1368
 msgid "happy"
@@ -5496,7 +5526,9 @@ msgid ""
 "You have %n unread messages."
 msgstr ""
 "Máte %n nepřečtenou zprávu\n"
+"Máte %n nepřečtené zprávy\n"
 "Máte %n nepřečtených zpráv"
+
 
 #: plugins/msn/msnpacket.cpp:488
 msgid "You have new mail"
@@ -5559,9 +5591,8 @@ msgid "&Save"
 msgstr "U&ložit"
 
 #: plugins/netmonitor/monitor.cpp:65
-#, fuzzy
 msgid "&Autoscroll"
-msgstr "Automatická odpověď"
+msgstr "&Automaticky rolovat"
 
 #: plugins/netmonitor/monitor.cpp:66 plugins/netmonitor/monitor.cpp:119
 msgid "&Pause"
@@ -6419,13 +6450,13 @@ msgstr "Informace o prostředí &KDE"
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
-msgstr "Pavel Roušar (toTem), Jiří Jureček, Jiří Sedlák "
+msgstr "Vojtěch Gondžala (vogo), Pavel Roušar (toTem), Jiří Jureček, Jiří Sedlák "
 
 #: plugins/about/about.cpp:112
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
-msgstr "rousarp@fel.cvut.cz, jjure@users.sourceforge.net, jiri_sedlak@users.sourceforge.net"
+msgstr "vogo@seznam.cz, rousarp@fel.cvut.cz, jjure@users.sourceforge.net, jiri_sedlak@users.sourceforge.net"
 
 #: plugins/about/aboutdlgbase.cpp:117
 msgid "About SIM"
@@ -8511,10 +8542,6 @@ msgstr "Nemohu alokovat port"
 #, fuzzy
 #~ msgid "Contact request"
 #~ msgstr "Požadavek na kontakty"
-
-#, fuzzy
-#~ msgid "&Receive authorization and system messages only from contacts from list"
-#~ msgstr "Příjmat zp&rávy pouze od uživatelů uvedených v kontaktlistu"
 
 #, fuzzy
 #~ msgid "%n contact found"
