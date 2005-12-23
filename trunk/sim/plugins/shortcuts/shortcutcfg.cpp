@@ -58,7 +58,7 @@ ShortcutsConfig::~ShortcutsConfig()
 {
 }
 
-void ShortcutsConfig::loadMenu(unsigned id, bool bCanGlobal)
+void ShortcutsConfig::loadMenu(unsigned long id, bool bCanGlobal)
 {
     Event eDef(EventGetMenuDef, (void*)id);
     CommandsDef *def = (CommandsDef*)(eDef.process());
@@ -112,7 +112,7 @@ void ShortcutsConfig::apply()
     m_plugin->applyKeys();
 }
 
-void ShortcutsConfig::saveMenu(unsigned id)
+void ShortcutsConfig::saveMenu(unsigned long id)
 {
     Event eDef(EventGetMenuDef, (void*)id);
     CommandsDef *def = (CommandsDef*)(eDef.process());

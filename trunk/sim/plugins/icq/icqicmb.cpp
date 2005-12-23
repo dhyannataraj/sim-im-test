@@ -1201,7 +1201,7 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
     if (*msg.c_str() || (msgType == ICQ_MSGxEXT)){
         if (adv.readPos() < adv.writePos())
             copy.pack(adv.data(adv.readPos()), adv.writePos() - adv.readPos());
-        log(L_DEBUG, "Msg size=%u type=%u", msg.size(), msgType);
+        log(L_DEBUG, "Msg size=%lu type=%u", (unsigned long) msg.size(), msgType);
         if (msg.size() || (msgType == ICQ_MSGxEXT)){
             Message *m = parseMessage(msgType, screen, msg, adv, id, cookie1 | (cookie2 << 16));
             if (m){

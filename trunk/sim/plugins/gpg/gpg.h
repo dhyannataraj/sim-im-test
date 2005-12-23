@@ -21,8 +21,8 @@
 #include "simapi.h"
 #include "stl.h"
 
-const unsigned MessageGPGKey	= 0x5000;
-const unsigned MessageGPGUse	= 0x5001;
+const unsigned long MessageGPGKey	= 0x5000;
+const unsigned long MessageGPGUse	= 0x5001;
 
 typedef struct GpgData
 {
@@ -93,7 +93,7 @@ public:
     void reset();
     static GpgPlugin *plugin;
     list<KeyMsg>	 m_sendKeys;
-    unsigned user_data_id;
+    unsigned long user_data_id;
 protected slots:
     void decryptReady(Exec*,int,const char*);
     void importReady(Exec*,int,const char*);

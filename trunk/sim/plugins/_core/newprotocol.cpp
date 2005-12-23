@@ -48,7 +48,7 @@ NewProtocol::NewProtocol(QWidget *parent)
     setButtonsPict(this);
     setCaption(caption());
     helpButton()->hide();
-    for (unsigned n = 0;; n++){
+    for (unsigned long n = 0;; n++){
         Event e(EventPluginGetInfo, (void*)n);
         pluginInfo *info = (pluginInfo*)e.process();
         if (info == NULL)
@@ -94,7 +94,7 @@ NewProtocol::~NewProtocol()
         delete m_setup;
     if (m_client)
         delete m_client;
-    for (unsigned n = 0;; n++){
+    for (unsigned long n = 0;; n++){
         Event e(EventPluginGetInfo, (void*)n);
         pluginInfo *info = (pluginInfo*)e.process();
         if (info == NULL)

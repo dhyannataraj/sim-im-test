@@ -20,10 +20,10 @@
 
 #include "simapi.h"
 
-const unsigned MessageJabber		= 0x201;
-const unsigned MessageJabberOnline	= 0x202;
-const unsigned MessageJabberOffline	= 0x203;
-const unsigned MessageJabberError	= 0x204;
+const unsigned long MessageJabber		= 0x201;
+const unsigned long MessageJabberOnline	= 0x202;
+const unsigned long MessageJabberOffline	= 0x203;
+const unsigned long MessageJabberError	= 0x204;
 
 typedef struct JabberMessageData
 {

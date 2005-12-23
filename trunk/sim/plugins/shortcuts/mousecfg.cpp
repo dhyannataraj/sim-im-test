@@ -77,7 +77,7 @@ void MouseConfig::adjustColumns()
                            lstCmd->columnWidth(1) - 4 - wScroll);
 }
 
-void MouseConfig::loadMenu(unsigned id)
+void MouseConfig::loadMenu(unsigned long id)
 {
     Event eDef(EventGetMenuDef, (void*)id);
     CommandsDef *def = (CommandsDef*)(eDef.process());

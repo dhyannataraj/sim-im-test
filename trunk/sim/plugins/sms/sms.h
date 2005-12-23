@@ -25,8 +25,8 @@ class SMSProtocol;
 class GsmTA;
 class MainInfo;
 
-const unsigned SMSCmdBase			= 0x00080000;
-const unsigned MessagePhoneCall		= SMSCmdBase;
+const unsigned long SMSCmdBase			= 0x00080000;
+const unsigned long MessagePhoneCall		= SMSCmdBase;
 
 class SMSPlugin : public QObject, public Plugin
 {

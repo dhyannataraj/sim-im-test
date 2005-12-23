@@ -331,7 +331,7 @@ void *AutoAwayPlugin::processEvent(Event *e)
             return e->param();
     }
     if (e->type() == EventContactOnline){
-        unsigned commonStatus = STATUS_UNKNOWN;
+        unsigned long commonStatus = STATUS_UNKNOWN;
         for (unsigned i = 0; i < getContacts()->nClients(); i++){
             Client *client = getContacts()->getClient(i);
             if (!client->getCommonStatus())

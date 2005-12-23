@@ -34,7 +34,7 @@ class ForwardPlugin : public Plugin, public EventReceiver
 public:
     ForwardPlugin(unsigned);
     virtual ~ForwardPlugin();
-    unsigned user_data_id;
+    unsigned long user_data_id;
 protected:
     CorePlugin	*core;
     virtual QWidget *createConfigWindow(QWidget *parent);

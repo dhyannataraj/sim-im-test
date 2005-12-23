@@ -67,7 +67,7 @@ public:
     GroupItem(UserListBase *view, Group *grp, bool bOffline);
     GroupItem(UserViewItemBase *view, Group *grp, bool bOffline);
     unsigned type() { return GRP_ITEM; }
-    unsigned id() { return m_id; }
+    unsigned long id() { return m_id; }
     void update(Group *grp, bool bInit=false);
     unsigned m_nContacts;
     unsigned m_nContactsOnline;
@@ -75,7 +75,7 @@ public:
 protected:
     virtual void setOpen(bool bOpen);
     void init(Group *grp);
-    unsigned m_id;
+    unsigned long m_id;
     bool m_bOffline;
 };
 
@@ -84,7 +84,7 @@ class ContactItem : public UserViewItemBase
 public:
     ContactItem(UserViewItemBase *view, Contact *contact, unsigned status, unsigned style, const char *icons, unsigned unread);
     unsigned type() { return USR_ITEM; }
-    unsigned id() { return m_id; }
+    unsigned long id() { return m_id; }
     unsigned style() { return m_style; }
     unsigned status() { return m_status; }
     bool update(Contact *grp, unsigned status, unsigned style, const char *icons, unsigned unread);
@@ -94,7 +94,7 @@ public:
 protected:
     virtual QString key(int column, bool ascending) const;
     void init(Contact *contact, unsigned status, unsigned style, const char *icons, unsigned unread);
-    unsigned m_id;
+    unsigned long m_id;
     unsigned m_style;
     unsigned m_status;
 };

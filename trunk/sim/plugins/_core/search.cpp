@@ -250,7 +250,7 @@ void SearchDialog::fillClients()
                 m_current = NULL;
             for (QListViewItem *item = m_result->firstChild(); item; ){
                 QListViewItem *next = item->nextSibling();
-                if ((QWidget*)(item->text(COL_SEARCH_WND).toUInt()) == widgets[n].widget)
+                if ((QWidget*)(item->text(COL_SEARCH_WND).toULong()) == widgets[n].widget)
                     delete item;
                 if (next == NULL)
                     break;
@@ -686,10 +686,10 @@ void SearchDialog::addItem(const QStringList &values, QWidget *wnd)
             break;
     }
     if (item){
-        QWidget *oldSearch = (QWidget*)(item->text(COL_SEARCH_WND).toUInt());
+        QWidget *oldSearch = (QWidget*)(item->text(COL_SEARCH_WND).toULong());
         for (unsigned i = 0; i < m_widgets.size(); i++){
             if (m_widgets[i].widget == wnd){
-                item->setText(COL_SEARCH_WND, QString::number((unsigned)wnd));
+                item->setText(COL_SEARCH_WND, QString::number((unsigned long)wnd));
                 return;
             }
             if (m_widgets[i].widget == oldSearch)
@@ -707,7 +707,7 @@ void SearchDialog::addItem(const QStringList &values, QWidget *wnd)
     item->setText(COL_KEY, values[1]);
     for (int i = 2; (unsigned)i < values.count(); i++)
         item->setText(i - 2, values[i]);
-    item->setText(COL_SEARCH_WND, QString::number((unsigned)wnd));
+    item->setText(COL_SEARCH_WND, QString::number((unsigned long)wnd));
     setStatus();
     m_update->start(500);
 }
@@ -760,7 +760,7 @@ Contact *SearchDialog::createContact(unsigned flags)
     Contact *contact = NULL;
     if (m_result->currentItem() == NULL)
         return NULL;
-    QWidget *w = (QWidget*)(m_result->currentItem()->text(COL_SEARCH_WND).toUInt());
+    QWidget *w = (QWidget*)(m_result->currentItem()->text(COL_SEARCH_WND).toULong());
     connect(this, SIGNAL(createContact(const QString&, unsigned, Contact*&)), w, SLOT(createContact(const QString&, unsigned, Contact*&)));
     QString name = m_result->currentItem()->text(0);
     emit createContact(name, flags, contact);

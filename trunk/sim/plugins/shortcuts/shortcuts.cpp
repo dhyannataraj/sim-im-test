@@ -580,7 +580,7 @@ void ShortcutsPlugin::releaseKeys()
     qApp->removeEventFilter(this);
 }
 
-void ShortcutsPlugin::applyKeys(unsigned id)
+void ShortcutsPlugin::applyKeys(unsigned long id)
 {
     Event eDef(EventGetMenuDef, (void*)id);
     CommandsDef *def = (CommandsDef*)(eDef.process());
@@ -695,7 +695,7 @@ void ShortcutsPlugin::applyKey(CommandDef *s)
     }
 }
 
-void ShortcutsPlugin::releaseKeys(unsigned id)
+void ShortcutsPlugin::releaseKeys(unsigned long id)
 {
     Event eDef(EventGetMenuDef, (void*)id);
     CommandsDef *def = (CommandsDef*)(eDef.process());

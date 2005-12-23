@@ -31,8 +31,8 @@ protected slots:
     void realDestroy();
 protected:
     void *processEvent(Event*);
-    unsigned CmdBugReport;
-    unsigned CmdAbout;
+    unsigned long CmdBugReport;
+    unsigned long CmdAbout;
     QWidget *about;
 #ifdef USE_KDE
     unsigned CmdAboutKDE;

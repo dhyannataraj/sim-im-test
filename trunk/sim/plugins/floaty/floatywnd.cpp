@@ -32,7 +32,7 @@
 #include <kwin.h>
 #endif
 
-FloatyWnd::FloatyWnd(FloatyPlugin *plugin, unsigned id)
+FloatyWnd::FloatyWnd(FloatyPlugin *plugin, unsigned long id)
         : QWidget(NULL, "floaty",
                   WType_TopLevel | WStyle_Customize | WStyle_NoBorder | WStyle_Tool |
                   WStyle_StaysOnTop | WRepaintNoErase)

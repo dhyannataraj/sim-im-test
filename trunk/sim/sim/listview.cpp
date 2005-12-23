@@ -75,7 +75,7 @@ ProcessMenuParam *ListView::getMenu(QListViewItem *item)
     return &m_mp;
 }
 
-void ListView::setMenu(unsigned menuId)
+void ListView::setMenu(unsigned long menuId)
 {
     m_menuId = menuId;
 }

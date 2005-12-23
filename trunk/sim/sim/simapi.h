@@ -238,7 +238,7 @@ const unsigned PLUGIN_PROTOCOL		 = 0x0008 | PLUGIN_NOLOAD_DEFAULT;
 const unsigned PLUGIN_NODISABLE		 = 0x0010;
 const unsigned PLUGIN_RELOAD		 = 0x0020;
 
-const unsigned ABORT_LOADING		 = (unsigned)(-1);
+const unsigned long ABORT_LOADING		 = (unsigned long)(-1);
 
 typedef struct PluginInfo			// Information in plugin
 {
@@ -402,10 +402,10 @@ const unsigned EventToolbarCreate = 0x0501;
 const unsigned EventToolbarRemove = 0x0502;
 
 /* Base bar for mainwindow */
-const unsigned ToolBarMain      = 1;
-const unsigned ToolBarContainer = 2;
-const unsigned ToolBarTextEdit  = 3;
-const unsigned ToolBarMsgEdit	= 4;
+const unsigned long ToolBarMain      = 1;
+const unsigned long ToolBarContainer = 2;
+const unsigned long ToolBarTextEdit  = 3;
+const unsigned long ToolBarMsgEdit	= 4;
 
 /* Menu (create and remove)
    param is toolbar id */
@@ -413,12 +413,12 @@ const unsigned EventMenuCreate = 0x0503;
 const unsigned EventMenuRemove = 0x0504;
 
 /* Base menu for mainwindow */
-const unsigned MenuMain = 1;
-const unsigned MenuGroup = 2;
-const unsigned MenuContact = 3;
-const unsigned MenuContactGroup = 4;
-const unsigned MenuContainer = 5;
-const unsigned MenuMessage = 6;
+const unsigned long MenuMain = 1;
+const unsigned long MenuGroup = 2;
+const unsigned long MenuContact = 3;
+const unsigned long MenuContactGroup = 4;
+const unsigned long MenuContainer = 5;
+const unsigned long MenuMessage = 6;
 
 /* Commands - process command
    param is CommandDef* */
@@ -433,7 +433,7 @@ const unsigned EventCommandCreate = 0x0506;
 
 typedef struct CommandDef
 {
-    unsigned	id;				// Command ID
+    unsigned long	id;				// Command ID
     const char	*text;			// Command name
     const char	*icon;			// Icon
     const char	*icon_on;		// Icon for checked state

@@ -58,13 +58,13 @@ public:
     PROP_STR(StartUp);
     PROP_STR(FileDone);
     PROP_STR(MessageSent);
-    unsigned CmdSoundDisable;
+    unsigned long CmdSoundDisable;
     unsigned EventSoundChanged;
 protected slots:
     void checkSound();
     void childExited(int, int);
 protected:
-    unsigned user_data_id;
+    unsigned long user_data_id;
     virtual void *processEvent(Event*);
     virtual string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
@@ -77,7 +77,7 @@ protected:
     QSound			*m_sound;
     QTimer			*m_checkTimer;
 #ifndef WIN32
-    int             m_player;
+    long             m_player;
 #endif
     SoundData	data;
     CorePlugin	*core;

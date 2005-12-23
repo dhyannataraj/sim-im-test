@@ -34,9 +34,9 @@ class HistoryWindow : public QMainWindow, public EventReceiver
 {
     Q_OBJECT
 public:
-    HistoryWindow(unsigned id);
+    HistoryWindow(unsigned long id);
     ~HistoryWindow();
-    unsigned id() { return m_id; }
+    unsigned long id() { return m_id; }
 protected slots:
     void toolbarChanged(QToolBar*);
     void fill();
@@ -54,7 +54,7 @@ protected:
     HistoryIterator		*m_it;
     bool	 m_bDirection;
     unsigned m_nMessages;
-    unsigned m_id;
+    unsigned long m_id;
     unsigned m_page;
     vector<string> m_states;
     unsigned m_history_page_count;

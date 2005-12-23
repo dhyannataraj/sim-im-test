@@ -39,7 +39,7 @@ protected:
     ShortcutsPlugin *m_plugin;
     void resizeEvent(QResizeEvent *e);
     void adjustColumns();
-    void loadMenu(unsigned id);
+    void loadMenu(unsigned long id);
 };
 
 #endif

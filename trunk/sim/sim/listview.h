@@ -23,8 +23,8 @@
 #include <qlistview.h>
 #include <qdragobject.h>
 
-const unsigned MenuListView		= 0x100;
-const unsigned CmdListDelete	= 0x100;
+const unsigned long MenuListView		= 0x100;
+const unsigned long CmdListDelete	= 0x100;
 
 class QTimer;
 
@@ -40,7 +40,7 @@ public:
     QListViewItem *m_pressedItem;
     void  startDrag(QDragObject*);
     void acceptDrop(bool bAccept);
-    void setMenu(unsigned menuId);
+    void setMenu(unsigned long menuId);
 signals:
     void clickItem(QListViewItem*);
     void deleteItem(QListViewItem*);
@@ -68,7 +68,7 @@ protected:
     void keyPressEvent(QKeyEvent *e);
     void showPopup(QListViewItem *item, QPoint p);
     int m_expandingColumn;
-    unsigned m_menuId;
+    unsigned long m_menuId;
     ProcessMenuParam m_mp;
     QTimer	 *m_resizeTimer;
 #if COMPAT_QT_VERSION < 0x030000

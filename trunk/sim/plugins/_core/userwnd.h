@@ -39,10 +39,10 @@ class UserWnd : public QSplitter
 {
     Q_OBJECT
 public:
-    UserWnd(unsigned id, Buffer *cfg, bool bReceived, bool bAdjust);
+    UserWnd(unsigned long id, Buffer *cfg, bool bReceived, bool bAdjust);
     ~UserWnd();
     string getConfig();
-    unsigned id() { return m_id; }
+    unsigned long id() { return m_id; }
     QString getName();
     QString getLongName();
     const char *getIcon();
@@ -76,7 +76,7 @@ protected:
     bool		m_bResize;
     bool		m_bClosed;
     bool		m_bBarChanged;
-    unsigned	m_id;
+    unsigned long	m_id;
     UserWndData	data;
     friend class MsgEdit;
 };

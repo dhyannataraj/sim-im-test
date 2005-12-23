@@ -1146,7 +1146,7 @@ void *LiveJournalClient::processEvent(Event *e)
                     if (url && (*url == '@')){
                         unsigned nSub = atol(url + 1);
                         while (nSub > LiveJournalPlugin::MenuCount){
-                            unsigned menu_id = MenuWeb + (++LiveJournalPlugin::MenuCount);
+                            unsigned long menu_id = MenuWeb + (++LiveJournalPlugin::MenuCount);
                             Event eMenu(EventMenuCreate, (void*)menu_id);
                             eMenu.process();
                             Command cmd;

@@ -40,8 +40,8 @@ protected slots:
 protected:
     virtual void resizeEvent(QResizeEvent*);
     void adjustColumns();
-    void loadMenu(unsigned id, bool bCanGlobal);
-    void saveMenu(unsigned id);
+    void loadMenu(unsigned long id, bool bCanGlobal);
+    void saveMenu(unsigned long id);
     ShortcutsPlugin	*m_plugin;
     MouseConfig		*mouse_cfg;
 };

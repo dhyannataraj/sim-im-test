@@ -40,7 +40,7 @@ public:
     ActionPlugin(unsigned);
     virtual ~ActionPlugin();
     CorePlugin	*core;
-    unsigned action_data_id;
+    unsigned long action_data_id;
 protected slots:
     void ready(Exec*,int,const char*);
     void msg_ready(Exec*,int,const char*);
@@ -48,7 +48,7 @@ protected slots:
 protected:
     list<Exec*> m_exec;
     list<Exec*> m_delete;
-    unsigned CmdAction;
+    unsigned long CmdAction;
     void *processEvent(Event*);
     QWidget *createConfigWindow(QWidget *parent);
 };

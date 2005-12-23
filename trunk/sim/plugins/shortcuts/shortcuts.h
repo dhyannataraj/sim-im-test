@@ -86,9 +86,9 @@ protected:
     virtual void *processEvent(Event*);
     virtual string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
-    void applyKeys(unsigned);
+    void applyKeys(unsigned long);
     void applyKey(CommandDef*);
-    void releaseKeys(unsigned);
+    void releaseKeys(unsigned long);
 #ifdef WIN32
     void init();
     bool m_bInit;

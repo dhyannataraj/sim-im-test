@@ -134,8 +134,8 @@ protected slots:
 protected:
     QString replace(const QString&);
     QString forecastReplace(const QString&);
-    unsigned BarWeather;
-    unsigned CmdWeather;
+    unsigned long BarWeather;
+    unsigned long CmdWeather;
     string m_data;
     bool   m_bData;
     bool   m_bBar;

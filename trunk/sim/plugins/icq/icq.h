@@ -33,18 +33,18 @@ const unsigned EventRandomChat		= IcqCmdBase + 3;
 const unsigned EventRandomChatInfo	= IcqCmdBase + 4;
 const unsigned EventServiceReady	= IcqCmdBase + 5;
 
-const unsigned CmdVisibleList		= IcqCmdBase;
-const unsigned CmdInvisibleList		= IcqCmdBase + 1;
-const unsigned CmdGroups			= IcqCmdBase + 2;
-const unsigned CmdCheckInvisibleAll	= IcqCmdBase + 3;
-const unsigned CmdCheckInvisible	= IcqCmdBase + 4;
-const unsigned CmdIcqSendMessage	= IcqCmdBase + 5;
-const unsigned CmdShowWarning		= IcqCmdBase + 6;
-const unsigned CmdPasswordFail		= IcqCmdBase + 7;
+const unsigned long CmdVisibleList		= IcqCmdBase;
+const unsigned long CmdInvisibleList		= IcqCmdBase + 1;
+const unsigned long CmdGroups			= IcqCmdBase + 2;
+const unsigned long CmdCheckInvisibleAll	= IcqCmdBase + 3;
+const unsigned long CmdCheckInvisible	= IcqCmdBase + 4;
+const unsigned long CmdIcqSendMessage	= IcqCmdBase + 5;
+const unsigned long CmdShowWarning		= IcqCmdBase + 6;
+const unsigned long CmdPasswordFail		= IcqCmdBase + 7;
 
-const unsigned MenuSearchResult		= IcqCmdBase;
-const unsigned MenuCheckInvisible	= IcqCmdBase + 1;
-const unsigned MenuIcqGroups		= IcqCmdBase + 2;
+const unsigned long MenuSearchResult		= IcqCmdBase;
+const unsigned long MenuCheckInvisible	= IcqCmdBase + 1;
+const unsigned long MenuIcqGroups		= IcqCmdBase + 2;
 
 class ICQProtocol : public Protocol
 {

@@ -44,10 +44,10 @@ public:
 protected slots:
     void addToIgnore(void*);
 protected:
-    unsigned user_data_id;
-    unsigned CmdIgnoreList;
-    unsigned CmdIgnore;
-    unsigned CmdIgnoreText;
+    unsigned long user_data_id;
+    unsigned long CmdIgnoreList;
+    unsigned long CmdIgnore;
+    unsigned long CmdIgnoreText;
     virtual void *processEvent(Event*);
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual string getConfig();

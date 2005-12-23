@@ -98,7 +98,7 @@ class OSDPlugin : public QObject, public Plugin, public EventReceiver
 public:
     OSDPlugin(unsigned);
     virtual ~OSDPlugin();
-    unsigned user_data_id;
+    unsigned long user_data_id;
 protected slots:
     void timeout();
     void dblClick();

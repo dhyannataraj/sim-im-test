@@ -24,12 +24,12 @@
 #include "socket.h"
 #include "fetch.h"
 
-const unsigned JournalCmdBase			= 0x00070000;
-const unsigned MessageJournal			= JournalCmdBase;
-const unsigned MessageUpdated			= JournalCmdBase + 1;
-const unsigned CmdDeleteJournalMessage	= JournalCmdBase + 2;
-const unsigned CmdMenuWeb				= JournalCmdBase + 3;
-const unsigned MenuWeb					= JournalCmdBase + 0x10;
+const unsigned long JournalCmdBase			= 0x00070000;
+const unsigned long MessageJournal			= JournalCmdBase;
+const unsigned long MessageUpdated			= JournalCmdBase + 1;
+const unsigned long CmdDeleteJournalMessage	= JournalCmdBase + 2;
+const unsigned long CmdMenuWeb				= JournalCmdBase + 3;
+const unsigned long MenuWeb					= JournalCmdBase + 0x10;
 
 const unsigned LIVEJOURNAL_SIGN	= 5;
 

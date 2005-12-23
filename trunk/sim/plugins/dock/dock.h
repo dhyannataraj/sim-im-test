@@ -55,10 +55,10 @@ protected:
     DockWnd *dock;
     QWidget *getMainWindow();
     bool isMainShow();
-    unsigned DockMenu;
-    unsigned CmdTitle;
-    unsigned CmdToggle;
-    unsigned CmdCustomize;
+    unsigned long DockMenu;
+    unsigned long CmdTitle;
+    unsigned long CmdToggle;
+    unsigned long CmdCustomize;
     QPopupMenu *m_popup;
     bool bQuit;
     PROP_BOOL(AutoHide);

@@ -63,7 +63,7 @@
 #include <qregexp.h>
 #include <qfile.h>
 
-const unsigned MessageYahooFile	= 0x700;
+const unsigned long MessageYahooFile	= 0x700;
 
 static char YAHOO_PACKET_SIGN[] = "YMSG";
 
@@ -970,7 +970,7 @@ void YahooClient::setStatus(unsigned status)
         }
         return;
     }
-    unsigned yahoo_status = YAHOO_STATUS_OFFLINE;
+    unsigned long yahoo_status = YAHOO_STATUS_OFFLINE;
     switch (status){
     case STATUS_ONLINE:
         yahoo_status = YAHOO_STATUS_AVAILABLE;
@@ -988,7 +988,7 @@ void YahooClient::setStatus(unsigned status)
     ar.contact  = NULL;
     ar.status   = status;
     ar.receiver = this;
-    ar.param	= (void*)status;
+    ar.param	= (void*)(unsigned long)status;
     Event eAR(EventARRequest, &ar);
     eAR.process();
 }

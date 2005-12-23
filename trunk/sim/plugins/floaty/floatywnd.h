@@ -31,9 +31,9 @@ class FloatyWnd : public QWidget
 {
     Q_OBJECT
 public:
-    FloatyWnd(FloatyPlugin*, unsigned id);
+    FloatyWnd(FloatyPlugin*, unsigned long id);
     ~FloatyWnd();
-    unsigned id() { return m_id; }
+    unsigned long id() { return m_id; }
     void init();
     void startBlink();
 protected slots:
@@ -59,7 +59,7 @@ protected:
     QString  m_text;
     string   m_icons;
     const char *m_statusIcon;
-    unsigned m_id;
+    unsigned long m_id;
     unsigned m_style;
     unsigned m_unread;
     unsigned m_blink;

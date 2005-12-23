@@ -2277,7 +2277,7 @@ if (fname[0] != '/')
             CommandDef *cmd = (CommandDef*)(e->param());
             if (cmd->menu_id == MenuEncoding){
                 if (cmd->id == CmdChangeEncoding){
-                    Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                    Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                     if (contact == NULL)
                         return NULL;
                     QTextCodec *codec = getContacts()->getCodec(contact);
@@ -2390,7 +2390,7 @@ if (fname[0] != '/')
                         cmds[0].text = "_";
                         n = 1;
                         while (!resources.empty()){
-                            unsigned id = CmdContactResource + n;
+                            unsigned long id = CmdContactResource + n;
                             if (n > m_nResourceMenu){
                                 m_nResourceMenu = n;
                                 Event eMenu(EventMenuCreate, (void*)id);
@@ -2424,7 +2424,7 @@ if (fname[0] != '/')
                     cmds[0].text = "_";
                     n = 1;
                     for (vector<clientContact>::iterator itw = ways.begin(); itw != ways.end(); ++itw, n++){
-                        unsigned id  = CmdContactClients + n;
+                        unsigned long id  = CmdContactClients + n;
                         if (n > m_nClientsMenu){
                             m_nClientsMenu = n;
                             Event eMenu(EventMenuCreate, (void*)id);
@@ -2589,7 +2589,7 @@ if (fname[0] != '/')
                         string resources = ways[i].client->resources(ways[i].data);
                         while (!resources.empty()){
                             getToken(resources, ';');
-                            unsigned id = CmdContactResource + nRes;
+                            unsigned long id = CmdContactResource + nRes;
                             if (nRes > m_nResourceMenu){
                                 m_nResourceMenu = nRes;
                                 Event eMenu(EventMenuCreate, (void*)id);
@@ -2608,7 +2608,7 @@ if (fname[0] != '/')
                     }
                     string resources = cc.client->resources(cc.data);
                     while (!resources.empty()){
-                        unsigned id = CmdContactResource + nRes;
+                        unsigned long id = CmdContactResource + nRes;
                         if (nRes > m_nResourceMenu){
                             m_nResourceMenu = nRes;
                             Event eMenu(EventMenuCreate, (void*)id);
@@ -2828,7 +2828,7 @@ if (fname[0] != '/')
                     cmds[n].icon = def->icon;
                     QString msg = i18n(mdef->singular, mdef->plural, (*itc).second.count);
                     if (!msg) {
-                        log(L_ERROR, "Message is missing some definitions! Text: %s, ID: %u",
+                        log(L_ERROR, "Message is missing some definitions! Text: %s, ID: %lu",
                             def->text, def->id);
                         int cnt = (*itc).second.count;
                         msg = QString("%1").arg(cnt);
@@ -2938,7 +2938,7 @@ if (fname[0] != '/')
                     setShowAllEncodings(!getShowAllEncodings());
                     return e->param();
                 }
-                Contact *contact = getContacts()->contact((unsigned)(cmd->param));
+                Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL)
                     return NULL;
                 QCString codecStr;
@@ -3530,7 +3530,7 @@ if (fname[0] != '/')
             if (proto != "sim")
                 return NULL;
             url = url.substr(proto.length() + 1);
-            unsigned contact_id = atol(url.c_str());
+            unsigned long contact_id = atol(url.c_str());
             Contact *contact = getContacts()->contact(contact_id);
             if (contact){
                 Command cmd;
@@ -3964,7 +3964,7 @@ string CorePlugin::getConfig()
             Client *client = getContacts()->getClient(i);
             Protocol *protocol = client->protocol();
             pluginInfo *info = NULL;
-            for (unsigned n = 0;; n++){
+            for (unsigned long n = 0;; n++){
                 Event e(EventPluginGetInfo, (void*)n);
                 info = (pluginInfo*)e.process();
                 if (info == NULL)
@@ -4233,7 +4233,7 @@ void CorePlugin::loadMenu()
         e.process();
     }
     for (m_nClients = 0; m_nClients < getContacts()->nClients(); m_nClients++){
-        unsigned menu_id = CmdClient + m_nClients;
+        unsigned long menu_id = CmdClient + m_nClients;
         Event e(EventMenuCreate, (void*)menu_id);
         e.process();
         Client *client = getContacts()->getClient(m_nClients);

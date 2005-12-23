@@ -309,7 +309,7 @@ ConfigureDialog::ConfigureDialog()
 ConfigureDialog::~ConfigureDialog()
 {
     lstBox->clear();
-    for (unsigned n = 0;; n++){
+    for (unsigned long n = 0;; n++){
         Event e(EventPluginGetInfo, (void*)n);
         pluginInfo *info = (pluginInfo*)e.process();
         if (info == NULL) break;
@@ -353,7 +353,7 @@ void ConfigureDialog::fill(unsigned id)
         }
     }
 
-    unsigned n;
+    unsigned long n;
     parentItem = NULL;
     list<unsigned> st;
     for (n = 0; n < getContacts()->nClients(); n++){

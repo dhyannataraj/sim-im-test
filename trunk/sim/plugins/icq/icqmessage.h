@@ -23,20 +23,20 @@
 #include <qlineedit.h>
 #include <qtoolbutton.h>
 
-const unsigned MessageICQ				= 0x100;
-const unsigned MessageICQUrl			= 0x101;
-const unsigned MessageICQContacts		= 0x102;
-const unsigned MessageContactRequest	= 0x103;
-const unsigned MessageICQAuthRequest	= 0x104;
-const unsigned MessageICQAuthGranted	= 0x105;
-const unsigned MessageICQAuthRefused	= 0x106;
-const unsigned MessageWebPanel			= 0x107;
-const unsigned MessageEmailPager		= 0x108;
-const unsigned MessageOpenSecure		= 0x109;
-const unsigned MessageCloseSecure		= 0x110;
-const unsigned MessageCheckInvisible	= 0x111;
-const unsigned MessageICQFile			= 0x112;
-const unsigned MessageWarning			= 0x113;
+const unsigned long MessageICQ				= 0x100;
+const unsigned long MessageICQUrl			= 0x101;
+const unsigned long MessageICQContacts		= 0x102;
+const unsigned long MessageContactRequest	= 0x103;
+const unsigned long MessageICQAuthRequest	= 0x104;
+const unsigned long MessageICQAuthGranted	= 0x105;
+const unsigned long MessageICQAuthRefused	= 0x106;
+const unsigned long MessageWebPanel			= 0x107;
+const unsigned long MessageEmailPager		= 0x108;
+const unsigned long MessageOpenSecure		= 0x109;
+const unsigned long MessageCloseSecure		= 0x110;
+const unsigned long MessageCheckInvisible	= 0x111;
+const unsigned long MessageICQFile			= 0x112;
+const unsigned long MessageWarning			= 0x113;
 
 class ListView;
 

@@ -50,7 +50,7 @@ protected:
     virtual string getConfig();
     void showMonitor();
     void saveState();
-    unsigned CmdNetMonitor;
+    unsigned long CmdNetMonitor;
     list<unsigned> m_packets;
     NetMonitorData data;
     MonitorWindow *monitor;

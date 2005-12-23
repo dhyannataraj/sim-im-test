@@ -45,11 +45,11 @@ protected slots:
 protected:
     FloatyWnd *findFloaty(unsigned id);
     virtual void *processEvent(Event*);
-    unsigned CmdFloaty;
-    unsigned user_data_id;
+    unsigned long CmdFloaty;
+    unsigned long user_data_id;
     QPoint	 popupPos;
     QTimer	 *unreadTimer;
-    unsigned popupId;
+    unsigned long popupId;
     friend class FloatyWnd;
 };
 

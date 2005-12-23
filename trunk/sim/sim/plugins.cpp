@@ -118,7 +118,7 @@ protected:
     bool setInfo(const char *name);
 
 #ifndef WIN32
-    unsigned execute(const char *prg, const char *arg);
+    unsigned long execute(const char *prg, const char *arg);
 #endif
 
     int m_argc;
@@ -276,9 +276,9 @@ void *PluginManagerPrivate::processEvent(Event *e)
     case EventGetPluginInfo:
         return getInfo((const char*)(e->param()));
     case EventArgc:
-        return (void*)(m_argc);
+        return (void*)(long)m_argc;
     case EventArgv:
-        return (void*)(m_argv);
+        return (void*)(long)m_argv;
 #ifndef WIN32
     case EventExec:
         exec = (ExecParam*)(e->param());
@@ -641,7 +641,7 @@ void PluginManagerPrivate::loadState()
 
         if (section.empty())
             return;
-        unsigned i = NO_PLUGIN;
+        unsigned long i = NO_PLUGIN;
         for (unsigned n = 0; n < plugins.size(); n++)
             if (section == plugins[n].name){
                 i = n;
@@ -749,7 +749,7 @@ void PluginManagerPrivate::usage(const char *err)
 }
 
 #ifndef WIN32
-unsigned PluginManagerPrivate::execute(const char *prg, const char *arg)
+unsigned long PluginManagerPrivate::execute(const char *prg, const char *arg)
 {
     if (*prg == 0)
         return 0;

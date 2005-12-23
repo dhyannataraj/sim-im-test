@@ -72,7 +72,7 @@ void HistoryProgressBar::setProgress(unsigned n)
     m_bar->setProgress(n);
 }
 
-HistoryWindow::HistoryWindow(unsigned id)
+HistoryWindow::HistoryWindow(unsigned long id)
 {
     m_history_page_count=CorePlugin::m_plugin->getHistoryPage();
 

@@ -392,7 +392,7 @@ void SoundPlugin::processQueue()
     }
     p.arg = sound.c_str();
     Event e(EventExec, &p);
-    m_player = (int)e.process();
+    m_player = (long)e.process();
     if (m_player == 0){
         log(L_WARN, "Can't execute player");
         m_queue.clear();

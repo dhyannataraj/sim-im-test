@@ -38,10 +38,10 @@ public:
 protected:
     virtual void *processEvent(Event*);
     QString parseUrl(const QString &text);
-    unsigned CmdMail;
-    unsigned CmdMailList;
-    unsigned CmdCopyLocation;
-    unsigned MenuMail;
+    unsigned long CmdMail;
+    unsigned long CmdMailList;
+    unsigned long CmdCopyLocation;
+    unsigned long MenuMail;
 #ifdef WIN32
     PROP_BOOL(NewWindow);
 #else

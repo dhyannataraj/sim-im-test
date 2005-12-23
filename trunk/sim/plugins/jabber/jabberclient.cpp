@@ -540,7 +540,7 @@ void JabberClient::setStatus(unsigned status)
     ar.contact  = NULL;
     ar.status   = status;
     ar.receiver = this;
-    ar.param	= (void*)status;
+    ar.param	= (void*)(long)status;
     Event e(EventARRequest, &ar);
     e.process();
 }
