@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: wood.cpp,v 1.3 2004-06-04 16:55:46 shutoff Exp $
+** $Id: wood.cpp,v 1.3 2004/06/04 16:55:46 shutoff Exp $
 **
 ** Copyright (C) 1992-2000 Trolltech AS.  All rights reserved.
 **
@@ -9,19 +9,7 @@
 *****************************************************************************/
 
 #include "wood.h"
-#include "qapplication.h"
-#include "qpainter.h"
-#include "qdrawutil.h" // for now
-#include "qpixmap.h" // for now
-#include "qpalette.h" // for now
-#include "qwidget.h"
-#include "qlabel.h"
-#include "qimage.h"
-#include "qpushbutton.h"
-#include "qwidget.h"
-#include "qrangecontrol.h"
-#include "qscrollbar.h"
-#include <limits.h>
+
 
 /* XPM */
 static const char *polish_xpm[] = {
