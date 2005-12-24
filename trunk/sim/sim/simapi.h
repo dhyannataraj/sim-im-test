@@ -96,6 +96,8 @@ typedef unsigned char _Bool;
 #define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
 #endif
 
+#define atoul(x) (strtoul((x), NULL, 10))
+
 #include <string>
 using namespace std;
 

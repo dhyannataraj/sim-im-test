@@ -2408,7 +2408,7 @@ if (fname[0] != '/')
                             cmds[n].text	 = "_";
                             cmds[n].popup_id = id;
                             string res = getToken(resources, ';');
-                            cmds[n].icon     = (const char*)(atol(getToken(res, ',').c_str()));
+                            cmds[n].icon     = (const char*)(atoul(getToken(res, ',').c_str()));
                             QString t = ways[0].client->contactName(ways[0].data);
                             t += "/";
                             t += QString::fromUtf8(res.c_str());
@@ -2626,7 +2626,7 @@ if (fname[0] != '/')
                         cmds[nCmds].text	 = "_";
                         cmds[nCmds].popup_id = id;
                         string res = getToken(resources, ';');
-                        cmds[nCmds].icon     = (const char*)(atol(getToken(res, ',').c_str()));
+                        cmds[nCmds].icon     = (const char*)(atoul(getToken(res, ',').c_str()));
                         QString t = cc.client->contactName(ways[0].data);
                         t += "/";
                         t += QString::fromUtf8(res.c_str());
@@ -2756,7 +2756,7 @@ if (fname[0] != '/')
                     item = getToken(item, '/', false);
                     QString number = getToken(item, ',');
                     getToken(item, ',');
-                    unsigned icon = atol(getToken(item, ',').latin1());
+                    unsigned long icon = atoul(getToken(item, ',').latin1());
                     cmds[n].id   = CmdLocation + n;
                     cmds[n].text = "_";
                     cmds[n].menu_id  = MenuLocation;
@@ -3530,7 +3530,7 @@ if (fname[0] != '/')
             if (proto != "sim")
                 return NULL;
             url = url.substr(proto.length() + 1);
-            unsigned long contact_id = atol(url.c_str());
+            unsigned long contact_id = atoul(url.c_str());
             Contact *contact = getContacts()->contact(contact_id);
             if (contact){
                 Command cmd;
@@ -4028,8 +4028,8 @@ void CorePlugin::loadUnread()
     string unread_str = getUnread();
     while (!unread_str.empty()){
         string item = getToken(unread_str, ';');
-        unsigned contact = atol(getToken(item, ',').c_str());
-        unsigned id = atol(getToken(item, ',').c_str());
+        unsigned long contact = atoul(getToken(item, ',').c_str());
+        unsigned long id = atoul(getToken(item, ',').c_str());
         Message *msg = History::load(id, item.c_str(), contact);
         if (msg == NULL)
             continue;
