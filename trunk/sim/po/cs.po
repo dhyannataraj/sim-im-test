@@ -5673,11 +5673,11 @@ msgstr "Plugin poskytuje plovoucí okna pro kontakty"
 
 #: plugins/floaty/floaty.cpp:82 plugins/floaty/floaty.cpp:156
 msgid "Floating on"
-msgstr "Plovoucí kontakt zapnout"
+msgstr "Zapnout plovoucí kontakt"
 
 #: plugins/floaty/floaty.cpp:153
 msgid "Floating off"
-msgstr "Plovoucí kontakt vypnout"
+msgstr "Vypnout plovoucí kontakt"
 
 #: plugins/windock/windock.cpp:44
 msgid "Plugin provides dock main window to left or right side of screen"
@@ -6450,7 +6450,7 @@ msgstr "Informace o prostředí &KDE"
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
-msgstr "Vojtěch Gondžala (vogo), Pavel Roušar (toTem), Jiří Jureček, Jiří Sedlák "
+msgstr "Jan Sembera (fissie), Vojtěch Gondžala (vogo), Pavel Roušar (toTem), Jiří Jureček, Jiří Sedlák "
 
 #: plugins/about/about.cpp:112
 msgid ""
@@ -8429,7 +8429,7 @@ msgstr "&Ok"
 msgid ""
 "_: Dear translator, please do not translate this string in any form, but pick the _right_ value out of NoPlural/TwoForms/French... If not sure what to do mail thd@kde.org and coolo@kde.org, they will tell you. Better leave that out if unsure, the programs will crash!!\n"
 "Definition of PluralForm - to be set by the translator of kdelibs.po"
-msgstr "NoPlural"
+msgstr "Czech"
 
 #: sim/simapi.cpp:691
 msgid "Smile"
