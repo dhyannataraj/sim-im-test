@@ -1288,6 +1288,7 @@ LiveJournalRequest::LiveJournalRequest(LiveJournalClient *client, const char *mo
     m_client = client;
     m_buffer = new Buffer;
     addParam("mode", mode);
+    addParam("ver", "1");
     if (client->data.owner.User.ptr)
         addParam("user", client->data.owner.User.ptr);
     string pass = md5(client->getPassword().utf8());
