@@ -1,24 +1,24 @@
 # Microsoft Developer Studio Project File - Name="simext" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
-# ** DO NOT EDIT **
+# ** NICHT BEARBEITEN **
 
 # TARGTYPE "Win32 (x86) Dynamic-Link Library" 0x0102
 
 CFG=simext - Win32 Debug
-!MESSAGE This is not a valid makefile. To build this project using NMAKE,
-!MESSAGE use the Export Makefile command and run
+!MESSAGE Dies ist kein gültiges Makefile. Zum Erstellen dieses Projekts mit NMAKE
+!MESSAGE verwenden Sie den Befehl "Makefile exportieren" und führen Sie den Befehl
 !MESSAGE 
 !MESSAGE NMAKE /f "simext.mak".
 !MESSAGE 
-!MESSAGE You can specify a configuration when running NMAKE
-!MESSAGE by defining the macro CFG on the command line. For example:
+!MESSAGE Sie können beim Ausführen von NMAKE eine Konfiguration angeben
+!MESSAGE durch Definieren des Makros CFG in der Befehlszeile. Zum Beispiel:
 !MESSAGE 
 !MESSAGE NMAKE /f "simext.mak" CFG="simext - Win32 Debug"
 !MESSAGE 
-!MESSAGE Possible choices for configuration are:
+!MESSAGE Für die Konfiguration stehen zur Auswahl:
 !MESSAGE 
-!MESSAGE "simext - Win32 Debug" (based on "Win32 (x86) Dynamic-Link Library")
-!MESSAGE "simext - Win32 Release" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "simext - Win32 Debug" (basierend auf  "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "simext - Win32 Release" (basierend auf  "Win32 (x86) Dynamic-Link Library")
 !MESSAGE 
 
 # Begin Project
@@ -78,8 +78,8 @@ LINK32=link.exe
 # ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /machine:I386
 # Begin Custom Build - Performing registration
 OutDir=.\..\..\Release
-TargetPath=\sim.new\sim\Release\simext.dll
-InputPath=\sim.new\sim\Release\simext.dll
+TargetPath=\sim-icq\simsim\sim-im\sim\Release\simext.dll
+InputPath=\sim-icq\simsim\sim-im\sim\Release\simext.dll
 SOURCE="$(InputPath)"
 
 "$(OutDir)\regsvr32.trg" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -129,10 +129,6 @@ SOURCE=.\IContextMenuImpl.h
 # Begin Source File
 
 SOURCE=.\IShellExtInitImpl.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\Resource.h
 # End Source File
 # Begin Source File
 
