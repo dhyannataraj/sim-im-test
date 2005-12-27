@@ -3701,7 +3701,7 @@ bool CorePlugin::init(bool bInit)
         Client *client = getContacts()->getClient(0);
         string profile = client->name();
         setProfile(NULL);
-        QString profileDir = QFile::decodeName(app_file("").c_str());
+        QString profileDir = QFile::decodeName(user_file("").c_str());
         profileDir += profile.c_str();
         for (unsigned i = 1;;i++){
             QDir d(profileDir + "." + QString::number(i));
