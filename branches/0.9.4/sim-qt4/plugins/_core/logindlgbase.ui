@@ -1,0 +1,221 @@
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>LoginDialogBase</class>
+  <widget class="QDialog" name="LoginDialogBase" >
+    <property name="geometry" stdset="0" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>365</width>
+        <height>194</height>
+      </rect>
+    </property>
+    <property name="windowTitle" stdset="0" >
+      <string>Login</string>
+    </property>
+    <property name="sizeGripEnabled" stdset="0" >
+      <bool>true</bool>
+    </property>
+    <layout class="QVBoxLayout" >
+      <property name="margin" stdset="0" >
+        <number>11</number>
+      </property>
+      <property name="spacing" stdset="0" >
+        <number>6</number>
+      </property>
+      <item>
+        <widget class="QLabel" name="lblMessage" >
+          <property name="font" stdset="0" >
+            <font>
+              <family></family>
+              <pointsize>9</pointsize>
+              <weight>0</weight>
+              <italic>false</italic>
+              <bold>false</bold>
+              <underline>false</underline>
+              <strikeout>false</strikeout>
+            </font>
+          </property>
+          <property name="text" stdset="0" >
+            <string/>
+          </property>
+          <property name="alignment" stdset="0" >
+            <set>Qt::AlignCenter</set>
+          </property>
+        </widget>
+      </item>
+      <item>
+        <layout class="QGridLayout" >
+          <property name="margin" stdset="0" >
+            <number>0</number>
+          </property>
+          <property name="spacing" stdset="0" >
+            <number>6</number>
+          </property>
+          <item row="1" column="2" >
+            <spacer name="Spacer3" >
+              <property name="sizeHint" >
+                <size>
+                  <width>20</width>
+                  <height>20</height>
+                </size>
+              </property>
+              <property name="sizeType" >
+                <enum>Expanding</enum>
+              </property>
+              <property name="orientation" >
+                <enum>Horizontal</enum>
+              </property>
+            </spacer>
+          </item>
+          <item row="1" column="1" >
+            <widget class="QLabel" name="lblPasswd" >
+              <property name="text" stdset="0" >
+                <string>Passwords:</string>
+              </property>
+              <property name="alignment" stdset="0" >
+                <set>Qt::AlignVCenter|Qt::AlignLeft</set>
+              </property>
+            </widget>
+          </item>
+          <item row="0" column="0" >
+            <widget class="QLabel" name="TextLabel1" >
+              <property name="text" stdset="0" >
+                <string/>
+              </property>
+            </widget>
+          </item>
+          <item rowspan="1" row="0" column="1" colspan="2" >
+            <layout class="QHBoxLayout" >
+              <property name="margin" stdset="0" >
+                <number>0</number>
+              </property>
+              <property name="spacing" stdset="0" >
+                <number>6</number>
+              </property>
+              <item>
+                <widget class="QLabel" name="lblProfile" >
+                  <property name="text" stdset="0" >
+                    <string>Profile:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item>
+                <widget class="QComboBox" name="cmbProfile" >
+                  <property name="sizePolicy" stdset="0" >
+                    <sizepolicy>
+                      <hsizetype>7</hsizetype>
+                      <vsizetype>0</vsizetype>
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                    </sizepolicy>
+                  </property>
+                </widget>
+              </item>
+              <item>
+                <widget class="QPushButton" name="btnDelete" >
+                  <property name="text" stdset="0" >
+                    <string>&amp;Delete</string>
+                  </property>
+                </widget>
+              </item>
+            </layout>
+          </item>
+        </layout>
+      </item>
+      <item>
+        <widget class="QCheckBox" name="chkSave" >
+          <property name="text" stdset="0" >
+            <string>&amp;Save password</string>
+          </property>
+        </widget>
+      </item>
+      <item>
+        <widget class="QCheckBox" name="chkNoShow" >
+          <property name="text" stdset="0" >
+            <string>&amp;Do not show this window on startup</string>
+          </property>
+        </widget>
+      </item>
+      <item>
+        <spacer name="Spacer2" >
+          <property name="sizeHint" >
+            <size>
+              <width>20</width>
+              <height>20</height>
+            </size>
+          </property>
+          <property name="sizeType" >
+            <enum>Expanding</enum>
+          </property>
+          <property name="orientation" >
+            <enum>Vertical</enum>
+          </property>
+        </spacer>
+      </item>
+      <item>
+        <layout class="QHBoxLayout" >
+          <property name="margin" stdset="0" >
+            <number>0</number>
+          </property>
+          <property name="spacing" stdset="0" >
+            <number>6</number>
+          </property>
+          <item>
+            <spacer name="Horizontal Spacing2" >
+              <property name="sizeHint" >
+                <size>
+                  <width>20</width>
+                  <height>20</height>
+                </size>
+              </property>
+              <property name="sizeType" >
+                <enum>Expanding</enum>
+              </property>
+              <property name="orientation" >
+                <enum>Horizontal</enum>
+              </property>
+            </spacer>
+          </item>
+          <item>
+            <widget class="QPushButton" name="buttonOk" >
+              <property name="text" stdset="0" >
+                <string>&amp;OK</string>
+              </property>
+              <property name="autoDefault" stdset="0" >
+                <bool>true</bool>
+              </property>
+              <property name="default" stdset="0" >
+                <bool>true</bool>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QPushButton" name="buttonCancel" >
+              <property name="text" stdset="0" >
+                <string>&amp;Cancel</string>
+              </property>
+              <property name="autoDefault" stdset="0" >
+                <bool>true</bool>
+              </property>
+            </widget>
+          </item>
+        </layout>
+      </item>
+    </layout>
+  </widget>
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <tabstops>
+    <tabstop>cmbProfile</tabstop>
+    <tabstop>btnDelete</tabstop>
+    <tabstop>chkSave</tabstop>
+    <tabstop>chkNoShow</tabstop>
+    <tabstop>buttonOk</tabstop>
+    <tabstop>buttonCancel</tabstop>
+  </tabstops>
+</ui>

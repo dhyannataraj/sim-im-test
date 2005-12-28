@@ -1,0 +1,461 @@
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>DiscoInfoBase</class>
+  <widget class="QDialog" name="DiscoInfoBase" >
+    <property name="geometry" stdset="0" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>451</width>
+        <height>308</height>
+      </rect>
+    </property>
+    <property name="windowTitle" stdset="0" >
+      <string>DiscoInfo</string>
+    </property>
+    <property name="sizeGripEnabled" stdset="0" >
+      <bool>true</bool>
+    </property>
+    <layout class="QVBoxLayout" >
+      <property name="margin" stdset="0" >
+        <number>11</number>
+      </property>
+      <property name="spacing" stdset="0" >
+        <number>6</number>
+      </property>
+      <item>
+        <widget class="QTabWidget" name="tabInfo" >
+          <widget class="QWidget" name="tabInfo" >
+            <attribute name="title" >
+              <string>&amp;Info</string>
+            </attribute>
+            <layout class="QGridLayout" >
+              <property name="margin" stdset="0" >
+                <number>11</number>
+              </property>
+              <property name="spacing" stdset="0" >
+                <number>6</number>
+              </property>
+              <item row="3" column="1" >
+                <widget class="Q3MultiLineEdit" name="edtNameSpace" />
+              </item>
+              <item row="3" column="0" >
+                <widget class="QLabel" name="TextLabel3" >
+                  <property name="text" stdset="0" >
+                    <string>Namespaces:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item row="2" column="0" >
+                <widget class="QLabel" name="TextLabel2" >
+                  <property name="text" stdset="0" >
+                    <string>Category:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item row="2" column="1" >
+                <widget class="QLineEdit" name="edtCategory" />
+              </item>
+              <item row="1" column="0" >
+                <widget class="QLabel" name="TextLabel1" >
+                  <property name="text" stdset="0" >
+                    <string>Type:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item row="1" column="1" >
+                <widget class="QLineEdit" name="edtType" />
+              </item>
+              <item row="0" column="1" >
+                <widget class="QLineEdit" name="edtJName" />
+              </item>
+              <item row="0" column="0" >
+                <widget class="QLabel" name="TextLabel10" >
+                  <property name="text" stdset="0" >
+                    <string>Name:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+            </layout>
+          </widget>
+          <widget class="QWidget" name="tabVersion" >
+            <attribute name="title" >
+              <string>&amp;Version</string>
+            </attribute>
+            <layout class="QGridLayout" >
+              <property name="margin" stdset="0" >
+                <number>11</number>
+              </property>
+              <property name="spacing" stdset="0" >
+                <number>6</number>
+              </property>
+              <item row="0" column="0" >
+                <widget class="QLabel" name="TextLabel4" >
+                  <property name="text" stdset="0" >
+                    <string>Name:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item row="0" column="1" >
+                <widget class="QLineEdit" name="edtName" />
+              </item>
+              <item row="1" column="0" >
+                <widget class="QLabel" name="TextLabel5" >
+                  <property name="text" stdset="0" >
+                    <string>Version:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item row="1" column="1" >
+                <widget class="QLineEdit" name="edtVersion" />
+              </item>
+              <item row="2" column="0" >
+                <widget class="QLabel" name="TextLabel6" >
+                  <property name="text" stdset="0" >
+                    <string>System:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item row="2" column="1" >
+                <widget class="QLineEdit" name="edtSystem" />
+              </item>
+              <item row="3" column="0" >
+                <spacer name="Spacer2" >
+                  <property name="sizeHint" >
+                    <size>
+                      <width>20</width>
+                      <height>20</height>
+                    </size>
+                  </property>
+                  <property name="sizeType" >
+                    <enum>Expanding</enum>
+                  </property>
+                  <property name="orientation" >
+                    <enum>Vertical</enum>
+                  </property>
+                </spacer>
+              </item>
+            </layout>
+          </widget>
+          <widget class="QWidget" name="tabTime" >
+            <attribute name="title" >
+              <string>&amp;Time</string>
+            </attribute>
+            <layout class="QGridLayout" >
+              <property name="margin" stdset="0" >
+                <number>11</number>
+              </property>
+              <property name="spacing" stdset="0" >
+                <number>6</number>
+              </property>
+              <item row="0" column="0" >
+                <widget class="QLabel" name="lblTime" >
+                  <property name="text" stdset="0" >
+                    <string>UTC client time:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item row="0" column="1" >
+                <widget class="QLineEdit" name="edtTime" />
+              </item>
+              <item row="1" column="1" >
+                <widget class="QLineEdit" name="edtLast" />
+              </item>
+              <item row="1" column="0" >
+                <widget class="QLabel" name="lblLast" >
+                  <property name="text" stdset="0" >
+                    <string>Last activity, idle response:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item row="2" column="0" >
+                <spacer name="Spacer3" >
+                  <property name="sizeHint" >
+                    <size>
+                      <width>20</width>
+                      <height>20</height>
+                    </size>
+                  </property>
+                  <property name="sizeType" >
+                    <enum>Expanding</enum>
+                  </property>
+                  <property name="orientation" >
+                    <enum>Vertical</enum>
+                  </property>
+                </spacer>
+              </item>
+            </layout>
+          </widget>
+          <widget class="QWidget" name="tabStat" >
+            <attribute name="title" >
+              <string>&amp;Statistic</string>
+            </attribute>
+            <layout class="QVBoxLayout" >
+              <property name="margin" stdset="0" >
+                <number>11</number>
+              </property>
+              <property name="spacing" stdset="0" >
+                <number>6</number>
+              </property>
+              <item>
+                <widget class="ListView" name="lstStat" >
+                  <property name="caption" stdset="0" >
+                    <string/>
+                  </property>
+                </widget>
+              </item>
+            </layout>
+          </widget>
+          <widget class="QWidget" name="tabVCard" >
+            <attribute name="title" >
+              <string>&amp;Info</string>
+            </attribute>
+            <layout class="QGridLayout" >
+              <property name="margin" stdset="0" >
+                <number>11</number>
+              </property>
+              <property name="spacing" stdset="0" >
+                <number>6</number>
+              </property>
+              <item row="1" column="0" >
+                <widget class="QLabel" name="TextLabel4_2" >
+                  <property name="text" stdset="0" >
+                    <string>Nick:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item row="3" column="0" >
+                <widget class="QLabel" name="TextLabel10_2" >
+                  <property name="text" stdset="0" >
+                    <string>Homepage:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item row="1" column="1" >
+                <widget class="QLineEdit" name="edtNick" />
+              </item>
+              <item row="2" column="0" >
+                <widget class="QLabel" name="TextLabel9" >
+                  <property name="text" stdset="0" >
+                    <string>Birth date:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item row="2" column="1" >
+                <widget class="QLineEdit" name="edtBirthday" />
+              </item>
+              <item row="0" column="1" >
+                <widget class="QLineEdit" name="edtFirstName" />
+              </item>
+              <item row="0" column="0" >
+                <widget class="QLabel" name="TextLabel3_2" >
+                  <property name="text" stdset="0" >
+                    <string>First Name:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item row="3" column="1" >
+                <layout class="QHBoxLayout" >
+                  <property name="margin" stdset="0" >
+                    <number>0</number>
+                  </property>
+                  <property name="spacing" stdset="0" >
+                    <number>6</number>
+                  </property>
+                  <item>
+                    <widget class="QLineEdit" name="edtUrl" />
+                  </item>
+                  <item>
+                    <widget class="QPushButton" name="btnUrl" >
+                      <property name="text" stdset="0" >
+                        <string/>
+                      </property>
+                    </widget>
+                  </item>
+                </layout>
+              </item>
+              <item row="6" column="1" >
+                <spacer name="Spacer10" >
+                  <property name="sizeHint" >
+                    <size>
+                      <width>20</width>
+                      <height>20</height>
+                    </size>
+                  </property>
+                  <property name="sizeType" >
+                    <enum>Expanding</enum>
+                  </property>
+                  <property name="orientation" >
+                    <enum>Vertical</enum>
+                  </property>
+                </spacer>
+              </item>
+              <item row="4" column="0" >
+                <widget class="QLabel" name="TextLabel1_2" >
+                  <property name="text" stdset="0" >
+                    <string>EMail:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item row="4" column="1" >
+                <widget class="QLineEdit" name="edtEMail" />
+              </item>
+              <item row="5" column="0" >
+                <widget class="QLabel" name="TextLabel2_2" >
+                  <property name="text" stdset="0" >
+                    <string>Phone:</string>
+                  </property>
+                  <property name="alignment" stdset="0" >
+                    <set>Qt::AlignVCenter|Qt::AlignRight</set>
+                  </property>
+                </widget>
+              </item>
+              <item row="5" column="1" >
+                <widget class="QLineEdit" name="edtPhone" />
+              </item>
+            </layout>
+          </widget>
+        </widget>
+      </item>
+      <item>
+        <layout class="QHBoxLayout" >
+          <property name="margin" stdset="0" >
+            <number>0</number>
+          </property>
+          <property name="spacing" stdset="0" >
+            <number>6</number>
+          </property>
+          <item>
+            <spacer name="Horizontal Spacing2" >
+              <property name="sizeHint" >
+                <size>
+                  <width>20</width>
+                  <height>20</height>
+                </size>
+              </property>
+              <property name="sizeType" >
+                <enum>Expanding</enum>
+              </property>
+              <property name="orientation" >
+                <enum>Horizontal</enum>
+              </property>
+            </spacer>
+          </item>
+          <item>
+            <widget class="QPushButton" name="buttonApply" >
+              <property name="text" stdset="0" >
+                <string>&amp;Apply</string>
+              </property>
+              <property name="autoDefault" stdset="0" >
+                <bool>true</bool>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QPushButton" name="buttonOk" >
+              <property name="text" stdset="0" >
+                <string>&amp;OK</string>
+              </property>
+              <property name="autoDefault" stdset="0" >
+                <bool>true</bool>
+              </property>
+              <property name="default" stdset="0" >
+                <bool>true</bool>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QPushButton" name="buttonCancel" >
+              <property name="text" stdset="0" >
+                <string>&amp;Close</string>
+              </property>
+              <property name="autoDefault" stdset="0" >
+                <bool>true</bool>
+              </property>
+            </widget>
+          </item>
+        </layout>
+      </item>
+    </layout>
+  </widget>
+  <pixmapfunction></pixmapfunction>
+  <customwidgets>
+    <customwidget>
+      <class>ListView</class>
+      <extends></extends>
+      <header location="local" >listview.h</header>
+      <sizehint>
+        <width>-1</width>
+        <height>-1</height>
+      </sizehint>
+      <container>0</container>
+      <sizepolicy>
+        <hordata>7</hordata>
+        <verdata>7</verdata>
+      </sizepolicy>
+      <pixmap>image0</pixmap>
+    </customwidget>
+  </customwidgets>
+  <tabstops>
+    <tabstop>tabInfo</tabstop>
+    <tabstop>edtJName</tabstop>
+    <tabstop>edtType</tabstop>
+    <tabstop>edtCategory</tabstop>
+    <tabstop>edtNameSpace</tabstop>
+    <tabstop>edtName</tabstop>
+    <tabstop>edtVersion</tabstop>
+    <tabstop>edtSystem</tabstop>
+    <tabstop>edtTime</tabstop>
+    <tabstop>edtLast</tabstop>
+    <tabstop>buttonCancel</tabstop>
+  </tabstops>
+  <images>
+    <image name="image0" >
+      <data format="XPM.GZ" length="646" >789c6dd2c10ac2300c00d07bbf2234b7229d1ddec44f503c0ae2a154410f53d0ed20e2bf6bdb656dd6861dd23d9a66591b0587fd1654235ebded6f0edcd53e419d87ae7b1f4f9b8f906d0bfe012317426a70b07bdc2f3ec77f8ed6b89559061a0343d06a124cc105596482585094bc0ae599b04646c9018926491b2205e140c485cace25755c175d0a967b622ff900b8cc9c7d29af594ea722d589167f813aa852ba07d94b9dce296e883fe7bb163f23896753</data>
+    </image>
+  </images>
+</ui>

@@ -1,0 +1,207 @@
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>FileTransferBase</class>
+  <widget class="QDialog" name="FileTransferBase" >
+    <property name="geometry" stdset="0" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>348</width>
+        <height>263</height>
+      </rect>
+    </property>
+    <property name="windowTitle" stdset="0" >
+      <string>File transfer</string>
+    </property>
+    <layout class="QGridLayout" >
+      <property name="margin" stdset="0" >
+        <number>11</number>
+      </property>
+      <property name="spacing" stdset="0" >
+        <number>6</number>
+      </property>
+      <item rowspan="1" row="0" column="0" colspan="3" >
+        <widget class="Q3ProgressBar" name="barFile" />
+      </item>
+      <item rowspan="1" row="1" column="0" colspan="3" >
+        <widget class="Q3ProgressBar" name="barTotal" />
+      </item>
+      <item row="7" column="1" >
+        <spacer name="Spacer5" >
+          <property name="sizeHint" >
+            <size>
+              <width>20</width>
+              <height>20</height>
+            </size>
+          </property>
+          <property name="sizeType" >
+            <enum>Expanding</enum>
+          </property>
+          <property name="orientation" >
+            <enum>Vertical</enum>
+          </property>
+        </spacer>
+      </item>
+      <item rowspan="1" row="2" column="0" colspan="3" >
+        <widget class="QLabel" name="lblState" >
+          <property name="text" stdset="0" >
+            <string/>
+          </property>
+        </widget>
+      </item>
+      <item row="3" column="1" >
+        <widget class="QLineEdit" name="edtTime" >
+          <property name="sizePolicy" stdset="0" >
+            <sizepolicy>
+              <hsizetype>0</hsizetype>
+              <vsizetype>0</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+            </sizepolicy>
+          </property>
+        </widget>
+      </item>
+      <item row="3" column="2" >
+        <spacer name="Spacer3" >
+          <property name="sizeHint" >
+            <size>
+              <width>20</width>
+              <height>20</height>
+            </size>
+          </property>
+          <property name="sizeType" >
+            <enum>Expanding</enum>
+          </property>
+          <property name="orientation" >
+            <enum>Horizontal</enum>
+          </property>
+        </spacer>
+      </item>
+      <item row="3" column="0" >
+        <widget class="QLabel" name="lblTime" >
+          <property name="text" stdset="0" >
+            <string>Time:</string>
+          </property>
+          <property name="alignment" stdset="0" >
+            <set>Qt::AlignVCenter|Qt::AlignRight</set>
+          </property>
+        </widget>
+      </item>
+      <item row="4" column="0" >
+        <widget class="QLabel" name="lblEstimated" >
+          <property name="text" stdset="0" >
+            <string>Estimated time:</string>
+          </property>
+          <property name="alignment" stdset="0" >
+            <set>Qt::AlignVCenter|Qt::AlignRight</set>
+          </property>
+        </widget>
+      </item>
+      <item row="4" column="1" >
+        <widget class="QLineEdit" name="edtEstimated" >
+          <property name="sizePolicy" stdset="0" >
+            <sizepolicy>
+              <hsizetype>0</hsizetype>
+              <vsizetype>0</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+            </sizepolicy>
+          </property>
+        </widget>
+      </item>
+      <item rowspan="1" row="6" column="0" colspan="3" >
+        <widget class="QSlider" name="sldSpeed" >
+          <property name="minimum" stdset="0" >
+            <number>1</number>
+          </property>
+          <property name="maximum" stdset="0" >
+            <number>100</number>
+          </property>
+          <property name="orientation" stdset="0" >
+            <enum>Qt::Horizontal</enum>
+          </property>
+        </widget>
+      </item>
+      <item row="5" column="0" >
+        <widget class="QLabel" name="TextLabel1" >
+          <property name="text" stdset="0" >
+            <string>Speed:</string>
+          </property>
+          <property name="alignment" stdset="0" >
+            <set>Qt::AlignVCenter|Qt::AlignRight</set>
+          </property>
+        </widget>
+      </item>
+      <item row="5" column="1" >
+        <widget class="QLineEdit" name="edtSpeed" >
+          <property name="sizePolicy" stdset="0" >
+            <sizepolicy>
+              <hsizetype>0</hsizetype>
+              <vsizetype>0</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+            </sizepolicy>
+          </property>
+        </widget>
+      </item>
+      <item rowspan="1" row="8" column="0" colspan="3" >
+        <layout class="QHBoxLayout" >
+          <property name="margin" stdset="0" >
+            <number>0</number>
+          </property>
+          <property name="spacing" stdset="0" >
+            <number>6</number>
+          </property>
+          <item>
+            <widget class="QPushButton" name="btnGo" >
+              <property name="text" stdset="0" >
+                <string>&amp;Go to dir</string>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QCheckBox" name="chkClose" >
+              <property name="text" stdset="0" >
+                <string>Close after &amp;transfer</string>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <spacer name="Spacer4" >
+              <property name="sizeHint" >
+                <size>
+                  <width>20</width>
+                  <height>20</height>
+                </size>
+              </property>
+              <property name="sizeType" >
+                <enum>Expanding</enum>
+              </property>
+              <property name="orientation" >
+                <enum>Horizontal</enum>
+              </property>
+            </spacer>
+          </item>
+          <item>
+            <widget class="QPushButton" name="btnCancel" >
+              <property name="text" stdset="0" >
+                <string>&amp;Cancel</string>
+              </property>
+            </widget>
+          </item>
+        </layout>
+      </item>
+    </layout>
+  </widget>
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <tabstops>
+    <tabstop>btnCancel</tabstop>
+    <tabstop>sldSpeed</tabstop>
+    <tabstop>edtTime</tabstop>
+    <tabstop>edtEstimated</tabstop>
+    <tabstop>edtSpeed</tabstop>
+    <tabstop>chkClose</tabstop>
+  </tabstops>
+</ui>
