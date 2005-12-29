@@ -4530,7 +4530,7 @@ bool FileLock::lock(bool)
     fl.l_start  = 0;
     fl.l_len    = 1;
     if (fcntl(handle(), F_SETLK, &fl) == -1){
-        QFile::remove(name());
+        //QFile::remove(name());
         return false;
     }
     m_bLock = true;

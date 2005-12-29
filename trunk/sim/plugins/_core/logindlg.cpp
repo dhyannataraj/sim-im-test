@@ -128,7 +128,7 @@ void LoginDialog::accept()
     }
 
     CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n].c_str());
-    if (m_profile != CorePlugin::m_plugin->getProfile()){
+    //if (m_profile != CorePlugin::m_plugin->getProfile()){
         if (!CorePlugin::m_plugin->lockProfile(CorePlugin::m_plugin->m_profiles[n].c_str())){
             CorePlugin::m_plugin->setProfile(m_profile.c_str());
             BalloonMsg::message(i18n("Other instance of SIM use this profile"), buttonOk);
@@ -136,7 +136,7 @@ void LoginDialog::accept()
         }
         CorePlugin::m_plugin->changeProfile();
         m_bProfileChanged = true;
-    }
+    //}
 
     CorePlugin::m_plugin->setSavePasswd(chkSave->isChecked());
     CorePlugin::m_plugin->setNoShow(chkNoShow->isChecked());
