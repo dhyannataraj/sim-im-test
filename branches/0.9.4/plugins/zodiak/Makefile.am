@@ -3,6 +3,8 @@ sim_plugin_LTLIBRARIES = zodiak.la
 zodiak_la_SOURCES = \
  zodiak.cpp 
 
+EXTRA_DIST = xpm/*.xpm
+
 INCLUDES=-I../../sim -I../_core $(all_includes)
 
 zodiak_la_METASOURCES = AUTO

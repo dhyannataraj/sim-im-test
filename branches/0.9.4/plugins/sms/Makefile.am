@@ -8,6 +8,7 @@ sms_la_SOURCES = \
  serial.cpp 
 
 SUBDIRS=sounds
+EXTRA_DIST = xpm/simcard.xpm
 
 INCLUDES=-I../../sim -I../_core $(all_includes)
 
