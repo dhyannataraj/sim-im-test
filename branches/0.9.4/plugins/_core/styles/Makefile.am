@@ -17,5 +17,5 @@ EXTRA_DIST = \
 
 install-data-local:
 	$(mkinstalldirs) $(kde_datadir)/sim/styles
-	$(INSTALL_DATA) $(EXTRA_DIST) $(kde_datadir)/sim/styles
+	$(INSTALL_DATA) $(foreach dist, $(EXTRA_DIST), '$(dist)') $(kde_datadir)/sim/styles
 
