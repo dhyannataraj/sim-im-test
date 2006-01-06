@@ -9,7 +9,7 @@ LEX=""
 AC_PATH_PROG(LEX, flex, no)
 if test "x$LEX" = "xno" ; then
    AC_PATH_PROG(LEX, lex, no)
-   if text "x$LEX" = "xno" ; then
+   if test "x$LEX" = "xno" ; then
       AC_MSG_ERROR([lex or flex not found!])
    fi
 fi
