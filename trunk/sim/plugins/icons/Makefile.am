@@ -5,7 +5,7 @@ icons_la_SOURCES = \
  iconcfgbase.ui \
  icon.cpp 
 
-INCLUDES=-I../../sim -I../_core $(all_includes)
+INCLUDES=-I$(srcdir)/../../sim -I../_core -I$(srcdir)/../_core $(all_includes)
 
 icons_la_METASOURCES = AUTO
 icons_la_LIBADD = ../../sim/libsim.la  $(LIBUI) $(LIB_QT) $(LIB_KDECORE) $(LIB_KFILE) $(EXTRA_LIBS)

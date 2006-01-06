@@ -3,7 +3,7 @@ sim_plugin_LTLIBRARIES = update.la
 update_la_SOURCES = \
  update.cpp 
 
-INCLUDES=-I../../sim -I../_core $(all_includes)
+INCLUDES=-I$(srcdir)/../../sim -I../_core -I$(srcdir)/../_core $(all_includes)
 
 update_la_METASOURCES = AUTO
 update_la_LIBADD = ../../sim/libsim.la  $(LIBUI) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(LIB_QT) $(EXTRA_LIBS)

@@ -12,7 +12,7 @@ msn_la_SOURCES = \
  msnsearchbase.ui \
  msnhttp.cpp
 
-INCLUDES=-I../../sim -I../_core $(all_includes)
+INCLUDES=-I$(srcdir)/../../sim -I../_core -I$(srcdir)/../_core $(all_includes)
 
 msn_la_METASOURCES = AUTO
 msn_la_LIBADD = ../../sim/libsim.la  $(LIBUI) $(LIB_QT) $(LIB_KDECORE) $(LIB_XML2) $(LIBSSL) $(EXTRA_LIBS)

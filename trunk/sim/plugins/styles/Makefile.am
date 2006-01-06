@@ -7,7 +7,7 @@ styles_la_SOURCES = \
  fontconfig.cpp \
  styles.cpp
 
-INCLUDES=-I../../sim $(all_includes)
+INCLUDES=-I$(srcdir)/../../sim $(all_includes)
 
 styles_la_METASOURCES = AUTO
 styles_la_LIBADD = ../../sim/libsim.la   $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(EXTRA_LIBS) 

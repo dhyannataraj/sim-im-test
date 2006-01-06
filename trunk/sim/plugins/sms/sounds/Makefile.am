@@ -1,7 +1,4 @@
-EXTRA_DIST = \
+dist_sounds_DATA = \
  phone.wav 
 
-install-data-local:
-	$(mkinstalldirs) $(kde_datadir)/sim/sounds/
-	$(INSTALL_DATA) $(EXTRA_DIST) $(kde_datadir)/sim/sounds/
-
+soundsdir = $(kde_datadir)/sim/sounds/

@@ -7,7 +7,7 @@ weather_la_SOURCES = \
  wifacecfg.cpp \
  wifacecfgbase.ui
 
-INCLUDES=-I../../sim -I../_core $(all_includes)
+INCLUDES=-I$(srcdir)/../../sim -I../_core -I$(srcdir)/../_core $(all_includes)
 
 SUBDIRS=jisp
 

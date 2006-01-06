@@ -5,7 +5,7 @@ about_la_SOURCES = \
  aboutdlg.cpp \
  aboutdlgbase.ui
 
-INCLUDES=-I../../sim $(all_includes)
+INCLUDES=-I$(srcdir)/../../sim $(all_includes)
 
 about_la_METASOURCES = AUTO
 about_la_LIBADD = ../../sim/libsim.la  $(LIBUI) $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(EXTRA_LIBS)

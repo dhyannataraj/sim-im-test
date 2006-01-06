@@ -5,7 +5,7 @@ replace_la_SOURCES = \
  replacecfg.cpp \
  replacecfgbase.ui
 
-INCLUDES=-I../../sim -I../_core $(all_includes)
+INCLUDES=-I$(srcdir)/../../sim -I../_core -I$(srcdir)/../_core $(all_includes)
 
 replace_la_METASOURCES = AUTO
 replace_la_LIBADD = ../../sim/libsim.la  $(LIBUI) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(LIB_QT) $(EXTRA_LIBS)

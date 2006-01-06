@@ -8,7 +8,7 @@ transparent_la_SOURCES = \
 EXTRA_transparent_la_SOURCES =\
  transtop.cpp
 
-INCLUDES=-I../../sim $(all_includes)
+INCLUDES=-I$(srcdir)/../../sim $(all_includes)
 
 transparent_la_METASOURCES = AUTO
 transparent_la_LIBADD = $(TRANSPARENT_OBJ) ../../sim/libsim.la  $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KDEFX) $(EXTRA_LIBS)

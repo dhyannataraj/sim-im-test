@@ -7,7 +7,7 @@ filter_la_SOURCES = \
  ignorelist.cpp \
  ignorelistbase.ui
 
-INCLUDES=-I../../sim -I../_core $(all_includes)
+INCLUDES=-I$(srcdir)/../../sim -I../_core -I$(srcdir)/../_core $(all_includes)
 
 filter_la_METASOURCES = AUTO
 filter_la_LIBADD = ../../sim/libsim.la  $(LIBUI) $(LIB_QT) $(LIB_KDECORE) $(EXTRA_LIBS)

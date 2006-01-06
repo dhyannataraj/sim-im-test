@@ -3,7 +3,7 @@ sim_plugin_LTLIBRARIES = zodiak.la
 zodiak_la_SOURCES = \
  zodiak.cpp 
 
-INCLUDES=-I../../sim -I../_core $(all_includes)
+INCLUDES=-I$(srcdir)/../../sim -I../_core -I$(srcdir)/../_core $(all_includes)
 
 zodiak_la_METASOURCES = AUTO
 zodiak_la_LIBADD = ../../sim/libsim.la  $(LIBUI) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(LIB_QT) $(EXTRA_LIBS)

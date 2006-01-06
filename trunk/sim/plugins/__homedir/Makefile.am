@@ -7,7 +7,7 @@ __homedir_la_SOURCES = \
 EXTRA___homedir_la_SOURCES = \
  homedircfg.cpp
 
-INCLUDES=-I../../sim $(all_includes)
+INCLUDES=-I$(srcdir)/../../sim $(all_includes)
 
 __homedir_la_METASOURCES = homedircfg.moc
 __homedir_la_LIBADD = $(__HOMEDIR_OBJ) ../../sim/libsim.la  $(LIBUI) $(LIB_QT) $(LIB_KDECORE) $(EXTRA_LIBS)

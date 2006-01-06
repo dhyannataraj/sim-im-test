@@ -3,7 +3,7 @@ sim_plugin_LTLIBRARIES = windock.la
 windock_la_SOURCES = \
  windock.cpp
 
-INCLUDES=-I../../sim -I../ontop -I../_core $(all_includes)
+INCLUDES=-I$(srcdir)/../../sim -I../ontop -I../_core -I$(srcdir)/../_core $(all_includes)
 
 windock_la_METASOURCES = AUTO
 windock_la_LIBADD = ../../sim/libsim.la  $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KDEFX) $(EXTRA_LIBS)

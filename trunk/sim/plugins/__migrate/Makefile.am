@@ -5,7 +5,7 @@ __migrate_la_SOURCES = \
  migratedlg.cpp \
  migratedlgbase.ui 
 
-INCLUDES=-I../../sim -I../_core $(all_includes)
+INCLUDES=-I$(srcdir)/../../sim -I../_core -I$(srcdir)/../_core $(all_includes)
 
 __migrate_la_METASOURCES = AUTO
 __migrate_la_LIBADD = ../../sim/libsim.la  $(LIBUI) $(LIB_QT) $(LIB_KDECORE) $(EXTRA_LIBS)

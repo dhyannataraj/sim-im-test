@@ -1,7 +1,7 @@
 all: weather.jisp
 
-weather.jisp: icondef.xml *.png
-	$(ZIP) $(ZIP_FLAGS) weather.jisp icondef.xml *.png
+weather.jisp: $(srcdir)/icondef.xml $(srcdir)/*.png
+	$(ZIP) $(ZIP_FLAGS) $@ $^
 
 install-data-local:
 	$(mkinstalldirs) $(kde_datadir)/sim/icons

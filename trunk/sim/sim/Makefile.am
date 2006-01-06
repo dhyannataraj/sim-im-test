@@ -51,14 +51,13 @@ EXTRA_DIST = \
  sim.cpp \
  sim.h
 
-install-data-local:
-	$(mkinstalldirs) $(libdir)/menu
-	$(INSTALL_DATA) $(srcdir)/sim-kde.menu $(libdir)/menu
-	$(mkinstalldirs) $(kde_appsdir)/Internet/
-	$(INSTALL_DATA) $(srcdir)/sim.desktop $(kde_appsdir)/Internet/sim.desktop
+dist_menu_DATA = sim-kde.menu
 
-uninstall-local:
-	-rm -f $(kde_appsdir)/Internet/sim.desktop
+menudir = $(prefix)/lib/menu/
+
+dist_desktop_DATA = sim.desktop
+
+desktopdir=$(kde_appsdir)/Internet/
 
 # set the include path for X, qt and KDE
 INCLUDES = $(LTDLINCL) $(all_includes) 

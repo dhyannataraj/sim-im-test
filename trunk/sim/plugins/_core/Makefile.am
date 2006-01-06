@@ -85,7 +85,7 @@ _core_la_SOURCES = \
 
 SUBDIRS=pict styles jisp smiles icqlite
 
-INCLUDES=-I../../sim $(all_includes)
+INCLUDES=-I$(srcdir)/../../sim $(all_includes)
 
 _core_la_METASOURCES = AUTO
 _core_la_LIBADD = ../../sim/libsim.la  $(LIBUI) $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(EXTRA_LIBS)  

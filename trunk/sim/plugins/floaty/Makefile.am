@@ -4,7 +4,7 @@ floaty_la_SOURCES = \
  floaty.cpp \
  floatywnd.cpp
 
-INCLUDES=-I../../sim -I../_core $(all_includes)
+INCLUDES=-I$(srcdir)/../../sim -I../_core -I$(srcdir)/../_core $(all_includes)
 
 floaty_la_METASOURCES = AUTO
 floaty_la_LIBADD = ../../sim/libsim.la  $(LIBUI) $(LIB_QT) $(LIB_KDECORE) $(EXTRA_LIBS)

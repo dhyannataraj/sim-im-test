@@ -7,7 +7,7 @@ spell_la_SOURCES = \
   speller.cpp \
   spellhighlight.cpp
 
-INCLUDES=-I../../sim -I../_core $(all_includes)
+INCLUDES=-I$(srcdir)/../../sim -I../_core -I$(srcdir)/../_core $(all_includes)
 
 spell_la_METASOURCES = AUTO
 spell_la_LIBADD = ../../sim/libsim.la   $(LIB_QT) $(LIB_KDECORE) $(EXTRA_LIBS) $(LIB_ASPELL)

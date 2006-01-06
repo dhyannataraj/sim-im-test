@@ -5,7 +5,7 @@ ontop_la_SOURCES = \
  ontopcfg.cpp \
  ontopcfgbase.ui
 
-INCLUDES=-I../../sim $(all_includes)
+INCLUDES=-I$(srcdir)/../../sim $(all_includes)
 
 ontop_la_METASOURCES = AUTO
 ontop_la_LIBADD = ../../sim/libsim.la  $(LIB_QT) $(LIB_KDECORE) $(EXTRA_LIBS)

@@ -6,7 +6,7 @@ navigate_la_SOURCES = \
  navcfgbase.ui \
  parseurl.ll
 
-INCLUDES=-I../../sim -I../_core $(all_includes)
+INCLUDES=-I$(srcdir)/../../sim -I../_core -I$(srcdir)/../_core $(all_includes)
 
 navigate_la_METASOURCES = AUTO
 navigate_la_LIBADD = ../../sim/libsim.la  $(LIB_QT) $(LIB_KDECORE) $(EXTRA_LIBS)

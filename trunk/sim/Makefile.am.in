@@ -33,7 +33,3 @@ package-messages:
 dist-hook:
 	cd $(top_distdir) && perl admin/am_edit -padmin
 
-install-data-local:
-	$(mkinstalldirs) $(kde_datadir)/sim/
-	$(INSTALL_DATA) COPYING $(kde_datadir)/sim/
-

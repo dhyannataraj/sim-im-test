@@ -9,7 +9,7 @@ remote_la_SOURCES = \
 simctrl_SOURCES = \
  simctrl.cpp
 
-INCLUDES=-I../../sim -I../_core $(all_includes)
+INCLUDES=-I$(srcdir)/../../sim -I../_core -I$(srcdir)/../_core $(all_includes)
 
 mime_DATA = x-icq.desktop
 mimedir = $(kde_mimedir)/application

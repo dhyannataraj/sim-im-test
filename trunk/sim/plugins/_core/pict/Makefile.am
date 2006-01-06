@@ -1,6 +1,3 @@
-EXTRA_DIST = connect.mng connect.gif
+dist_pict_DATA = connect.mng connect.gif
 
-install-data-local:
-	$(mkinstalldirs) $(kde_datadir)/sim/pict
-	$(INSTALL_DATA) $(EXTRA_DIST) $(kde_datadir)/sim/pict
-
+pictdir = $(kde_datadir)/sim/pict/

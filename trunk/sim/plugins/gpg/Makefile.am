@@ -17,7 +17,7 @@ EXTRA_gpg_la_SOURCES =\
  gpgfind.cpp \
  gpgfindbase.ui
 
-INCLUDES=-I../../sim -I../_core $(all_includes)
+INCLUDES=-I$(srcdir)/../../sim -I../_core -I$(srcdir)/../_core $(all_includes)
 
 gpg_la_METASOURCES = AUTO
 gpg_la_LIBADD =  $(GPG_OBJ) ../../sim/libsim.la  $(LIBUI) $(LIB_QT) $(LIB_KDECORE) $(EXTRA_LIBS)

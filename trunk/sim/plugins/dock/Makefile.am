@@ -6,7 +6,7 @@ dock_la_SOURCES = \
  dockwnd.cpp \
  dock.cpp
 
-INCLUDES=-I../../sim -I../_core $(all_includes)
+INCLUDES=-I$(srcdir)/../../sim -I../_core -I$(srcdir)/../_core $(all_includes)
 
 dock_la_METASOURCES = AUTO
 dock_la_LIBADD = ../../sim/libsim.la  $(LIB_QT) $(LIB_KDECORE) $(EXTRA_LIBS)

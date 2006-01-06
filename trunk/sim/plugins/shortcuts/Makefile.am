@@ -7,7 +7,7 @@ shortcuts_la_SOURCES = \
  mousecfg.cpp \
  mousecfgbase.ui
 
-INCLUDES=-I../../sim -I../_core $(all_includes)
+INCLUDES=-I$(srcdir)/../../sim -I../_core -I$(srcdir)/../_core $(all_includes)
 
 shortcuts_la_METASOURCES = AUTO
 shortcuts_la_LIBADD = ../../sim/libsim.la  $(LIBUI) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(LIB_QT) $(EXTRA_LIBS)

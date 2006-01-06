@@ -1,7 +1,7 @@
 all: smiles.jisp
 
-smiles.jisp: icondef.xml *.png
-	$(ZIP) $(ZIP_FLAGS) smiles.jisp icondef.xml *.png
+smiles.jisp: $(srcdir)/icondef.xml $(srcdir)/*.png
+	$(ZIP) $(ZIP_FLAGS) $@ $^
 
 install-data-local:
 	$(mkinstalldirs) $(kde_datadir)/sim/icons

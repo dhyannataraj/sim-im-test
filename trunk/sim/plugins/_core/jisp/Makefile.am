@@ -1,7 +1,7 @@
 all: sim.jisp
 
-sim.jisp: icondef.xml *.png
-	$(ZIP) $(ZIP_FLAGS) sim.jisp icondef.xml *.png
+sim.jisp: $(srcdir)/icondef.xml $(srcdir)/*.png
+	$(ZIP) $(ZIP_FLAGS) $@ $^
 
 install-data-local:
 	$(mkinstalldirs) $(kde_datadir)/sim/icons

@@ -7,7 +7,7 @@ sound_la_SOURCES = \
  sounduser.cpp \
  sounduserbase.ui
 
-INCLUDES=-I../../sim -I../_core $(all_includes)
+INCLUDES=-I$(srcdir)/../../sim -I../_core -I$(srcdir)/../_core $(all_includes)
 SUBDIRS=sounds
 
 sound_la_METASOURCES = AUTO
