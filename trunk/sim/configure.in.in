@@ -84,7 +84,6 @@ AC_EGREP_HEADER(socklen_t, sys/socket.h,, AC_DEFINE(socklen_t,int,[defaults sock
 
 AC_CHECK_LIB(xnet,inet_addr)
 AC_CHECK_LIB(socket, socket)
-AC_CHECK_LIB(art_lgpl_2,libart_version)
 
 AC_MSG_CHECKING([for The Ultimate Answer])
 AC_MSG_RESULT([42])
@@ -103,11 +102,12 @@ if test "${exec_prefix}" = "NONE" ; then
   exec_prefix=$prefix
 fi
 libdir=`eval echo $libdir`
-sim_plugindir="\${libdir}/sim"
-sim_stylesdir="\${libdir}/sim/styles"
+
+sim_plugindir="${libdir}/sim"
+sim_stylesdir="\${sim_plugindir}/styles"
 AC_SUBST(sim_plugindir)
 AC_SUBST(sim_stylesdir)
-AC_DEFINE_UNQUOTED(PLUGIN_PATH,"${libdir}/sim",[Plugins path])
+AC_DEFINE_UNQUOTED(PLUGIN_PATH,"${sim_plugindir}",[Plugins path])
 
 LIB_XML2=""
 AC_PATH_PROG(XML2_CONFIG, xml2-config, no)
