@@ -2,12 +2,22 @@
 
 COMPILE_FIRST = sim plugins/_core
 
-EXTRA_DIST = admin AUTHORS COPYING ChangeLog INSTALL README TODO icq.ico resource.h configure.in.in 
+EXTRA_DIST = admin AUTHORS COPYING ChangeLog INSTALL README TODO icq.ico resource.h configure.in.in \
+	     AUTHORS.sim README.SVN TODO.MingW install_win32 sim/win32 xpstyle
+
+SUBDIRS = $(TOPSUBDIRS)
+DIST_SUBDIRS = $(SUBDIRS) \
+	plugins/ontop \
+	plugins/spell \
+	plugins/styles/metal \
+	plugins/styles/wood \
+	plugins/transparent \
+	plugins/windock
 
 ####### kdevelop will overwrite this part!!! (end)############
 # not a GNU package. You can remove this line, if 
 # have all needed files, that a GNU package needs
-AUTOMAKE_OPTIONS = foreign 1.5
+AUTOMAKE_OPTIONS = foreign 1.5 dist-bzip2
 
 $(top_srcdir)/configure.in: configure.in.in $(top_srcdir)/subdirs
 	cd $(top_srcdir) && $(MAKE) -f admin/Makefile.common configure.in ;
@@ -32,4 +42,5 @@ package-messages:
 
 dist-hook:
 	cd $(top_distdir) && perl admin/am_edit -padmin
+	cd $(top_distdir) && $(MAKE) -f admin/Makefile.common subdirs
 

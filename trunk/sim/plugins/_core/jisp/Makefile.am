@@ -1,3 +1,4 @@
+EXTRA_DIST=icondef.xml *.png
 all: sim.jisp
 
 sim.jisp: $(srcdir)/icondef.xml $(srcdir)/*.png

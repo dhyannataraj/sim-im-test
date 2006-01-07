@@ -47,9 +47,9 @@ sim_LDADD = libsim.la
 libsim_la_LIBADD   = $(LIBLTDL) $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(EXTRA_LIBS) $(LIB_XML2) $(LIB_XSLT) $(LIBSSL)
 
 EXTRA_DIST = \
- sim.desktop \
- sim.cpp \
- sim.h
+	sim.desktop \
+	sim.cpp \
+	*.h
 
 dist_menu_DATA = sim-kde.menu
 
