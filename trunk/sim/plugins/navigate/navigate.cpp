@@ -19,6 +19,10 @@
 #include "navcfg.h"
 #include "core.h"
 
+#ifdef USE_KDE
+#include <kapplication.h>
+#endif
+
 #ifdef WIN32
 #include <windows.h>
 #include <ddeml.h>
@@ -370,6 +374,11 @@ void *NavigatePlugin::processEvent(Event *e)
                 url = url.substr(5);
             ShellExecuteA(NULL, NULL, url.c_str(), NULL, NULL, SW_SHOWNORMAL);
         }
+#elif USE_KDE
+        if (proto == "mailto")
+            kapp->invokeMailer(url.substr(proto.length() + 1), QString::null);
+        else
+            kapp->invokeBrowser(url);
 #else
         ExecParam execParam;
         if (proto == "mailto"){
