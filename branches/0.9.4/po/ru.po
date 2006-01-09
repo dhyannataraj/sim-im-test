@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "POT-Creation-Date: 2005-12-19 12:38+0500\n"
-"PO-Revision-Date: 2005-12-19 13:19+0500\n"
+"PO-Revision-Date: 2006-01-07 12:29+0500\n"
 "Last-Translator: Andrey Rahmatullin <wrar@altlinux.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -300,7 +300,7 @@ msgstr "Клиент:"
 # ui/autoreplybase.cpp:45
 #: plugins/proxy/proxycfgbase.cpp:138
 msgid "Do not show error dialog (automatically reconnect)"
-msgstr "&Не показывать диалог ошибки (автоматически соедниниться еще раз)"
+msgstr "&Не показывать диалог ошибки (автоматически соединиться еще раз)"
 
 # ui/networkbase.cpp:151 ui/proxydlgbase.cpp:82
 #: plugins/proxy/proxyerrorbase.cpp:78

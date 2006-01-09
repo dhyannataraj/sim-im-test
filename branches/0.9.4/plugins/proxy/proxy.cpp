@@ -296,7 +296,8 @@ void Proxy::error_state(const char *err, unsigned code)
             if (getNoShow()){
                 code = 0;
             }else{
-                m_client->m_reconnect = NO_RECONNECT;
+                if (m_client != (TCPClient*)(-1))
+                    m_client->m_reconnect = NO_RECONNECT;
             }
         }
         notify->error_state(err, code);
