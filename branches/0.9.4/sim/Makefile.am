@@ -47,14 +47,13 @@ sim_LDADD = libsim.la
 libsim_la_LIBADD   = $(LIBLTDL) $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(EXTRA_LIBS) $(LIB_XML2) $(LIB_XSLT) $(LIBSSL)
 
 EXTRA_DIST = \
+	sim-kde.menu \
 	sim.desktop \
 	sim.cpp \
 	*.h
 
 
 install-data-local:
-	$(mkinstalldirs) $(prefix)/lib/menu
-	$(INSTALL_DATA) $(srcdir)/sim-kde.menu $(prefix)/lib/menu
 	$(mkinstalldirs) $(kde_appsdir)/Internet/
 	$(INSTALL_DATA) $(srcdir)/sim.desktop $(kde_appsdir)/Internet/sim.desktop
 
