@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2005-12-19 12:38+0500\n"
-"PO-Revision-Date: 2006-01-05 21:55+0200\n"
+"PO-Revision-Date: 2006-01-09 15:19+0200\n"
 "Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -5526,7 +5526,7 @@ msgid "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 msgstr "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 
 #: plugins/msn/msnpacket.cpp:468
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: You have one unread message.\n"
 "You have %n unread messages."
@@ -6112,19 +6112,19 @@ msgstr "км/год"
 msgid ""
 "_: weather\n"
 "Low"
-msgstr "Слабкий"
+msgstr "cлабкою"
 
 #: plugins/weather/weather.cpp:430
 msgid ""
 "_: weather\n"
 "Moderate"
-msgstr "Помірний"
+msgstr "помірною"
 
 #: plugins/weather/weather.cpp:431
 msgid ""
 "_: weather\n"
 "High"
-msgstr "Сильний"
+msgstr "сильною"
 
 #: plugins/weather/weather.cpp:432
 msgid ""
@@ -6215,7 +6215,7 @@ msgstr ""
 "Схід: %r<br>\n"
 "Захід: %s<br>\n"
 "<img src=\"icon:moon%mi\"> %mp<br>\n"
-"UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)<br>\n"
+"UV-інтенсивність є <b>%ut</b> із значенням <b>%ui</b> (of 11)<br>\n"
 "<br>\n"
 "Поновлено: %u<br>\n"
 
