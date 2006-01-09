@@ -47,16 +47,12 @@ sim_LDADD = libsim.la
 libsim_la_LIBADD   = $(LIBLTDL) $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(EXTRA_LIBS) $(LIB_XML2) $(LIB_XSLT) $(LIBSSL)
 
 EXTRA_DIST = \
+	sim-kde.menu \
 	sim.desktop \
 	sim.cpp \
 	*.h
 
-dist_menu_DATA = sim-kde.menu
-
-menudir = $(prefix)/lib/menu/
-
 dist_desktop_DATA = sim.desktop
-
 desktopdir=$(kde_appsdir)/Internet/
 
 # set the include path for X, qt and KDE
