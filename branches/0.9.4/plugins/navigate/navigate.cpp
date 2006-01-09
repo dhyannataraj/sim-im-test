@@ -19,6 +19,10 @@
 #include "navcfg.h"
 #include "core.h"
 
+#ifndef WIN32
+#include <qurl.h>
+#endif
+
 #ifdef WIN32
 #include <windows.h>
 #include <ddeml.h>
@@ -377,6 +381,9 @@ void *NavigatePlugin::processEvent(Event *e)
             url = url.substr(proto.length() + 1);
         }else{
             execParam.cmd = getBrowser();
+	    QUrl qurl(url);
+	    QString encodedUrl = qurl.toString(true, false);
+	    url = encodedUrl.latin1();
         }
         execParam.arg = url.c_str();
         Event eExec(EventExec, &execParam);
