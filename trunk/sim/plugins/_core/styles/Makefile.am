@@ -3,6 +3,8 @@ dist_styles_DATA = \
  SIM.2.xsl \
  SIM.3.xsl \
  SIM.4.(2+3).xsl \
+ SIM.5.xsl \
+ SIM.5.2.xsl \
  XChat.xsl \
  XChat2seconds.xsl \
  XChat3fullDate.xsl \
