@@ -1,26 +1,27 @@
-# translation of uk.po to 
+# translation of uk.po to
 # translation of uk.po to
 # translation of uk.po to
 # translation of uk.po to
 # translation of uk.po to
 # translation of uk.po to Ukrainian
 # translation of uk.po to Український
-# Copyright (C) 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
 # Ivan Krutyholova <ivan@city.gov.te.ua>, 2002, 2003, 2004.
 #  <ivan@cit-white>, 2005.
+# Ivan O.Krutyholova <ivan@city.gov.te.ua>, 2006.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2005-12-19 12:38+0500\n"
-"PO-Revision-Date: 2005-04-27 13:03+0300\n"
-"Last-Translator:  <ivan@cit-white>\n"
-"Language-Team:  <ru@li.org>\n"
+"PO-Revision-Date: 2006-01-09 15:19+0200\n"
+"Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
+"Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Report-Msgid-Bugs-To: \n"
-"X-Generator: KBabel 1.9.1\n"
+"X-Generator: KBabel 1.10.2\n"
 
 #: xpstyle/xpstyle.cpp:63
 msgid "Windows XP style"
@@ -118,9 +119,8 @@ msgid "Error"
 msgstr "Помилка"
 
 #: plugins/icq/icqmessage.cpp:871 plugins/logger/logconfig.cpp:93
-#, fuzzy
 msgid "Warning"
-msgstr "&Попередження"
+msgstr "Попередження"
 
 #: plugins/logger/logconfig.cpp:94
 msgid "Debug"
@@ -1990,19 +1990,16 @@ msgid "Email pager"
 msgstr "Email пейджер"
 
 #: plugins/icq/icqmessage.cpp:850
-#, fuzzy
 msgid "Request secure channel"
-msgstr "Помилка встановлення захищеного з'єднання"
+msgstr "Запит захищеного з'єднання"
 
 #: plugins/icq/icqmessage.cpp:857
-#, fuzzy
 msgid "Close secure channel"
-msgstr "Помилка встановлення захищеного з'єднання"
+msgstr "Закрити захищене з'єднання"
 
 #: plugins/icq/icqmessage.cpp:864
-#, fuzzy
 msgid "Check invisible"
-msgstr "Перевірка &невидимості"
+msgstr "Перевірка невидимості"
 
 #: plugins/_core/msgedit.cpp:1670 plugins/icq/icqmessage.cpp:878
 msgid "&URL"
@@ -2837,11 +2834,11 @@ msgstr "Виберіть кодову сторінку за замовчуван
 
 #: plugins/icq/verifydlgbase.cc:110
 msgid "VerifyDlg"
-msgstr ""
+msgstr "Графічна перевірка"
 
 #: plugins/icq/verifydlgbase.cc:111
 msgid "Please retype the letters from the picture above:"
-msgstr ""
+msgstr "Будь-ласка перенаберіть символи з даного малюнку:"
 
 #: plugins/yahoo/yahoocfg.cpp:46
 msgid "Get a Yahoo! ID"
@@ -4925,9 +4922,8 @@ msgid "LiveJournal &WWW"
 msgstr "LiveJournal на &WWW"
 
 #: plugins/livejournal/livejournal.cpp:232
-#, fuzzy
 msgid "Friends updated"
-msgstr "Список друзів"
+msgstr "Поновлення списку друзів"
 
 #: plugins/livejournal/livejournal.cpp:276
 msgid "LiveJournal"
@@ -5530,7 +5526,7 @@ msgid "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 msgstr "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 
 #: plugins/msn/msnpacket.cpp:468
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: You have one unread message.\n"
 "You have %n unread messages."
@@ -5600,9 +5596,8 @@ msgid "&Save"
 msgstr "&Зберегти"
 
 #: plugins/netmonitor/monitor.cpp:65
-#, fuzzy
 msgid "&Autoscroll"
-msgstr "Автовідповідь"
+msgstr "&Автопрогортання"
 
 #: plugins/netmonitor/monitor.cpp:66 plugins/netmonitor/monitor.cpp:119
 msgid "&Pause"
@@ -5818,11 +5813,10 @@ msgid "Sunday"
 msgstr "Неділя"
 
 #: plugins/weather/weather.cpp:379
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Squalls"
-msgstr "Південний"
+msgstr "Шквал"
 
 #: plugins/weather/weather.cpp:380
 msgid ""
@@ -5837,11 +5831,10 @@ msgid ""
 msgstr "Туман"
 
 #: plugins/weather/weather.cpp:382
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Mist"
-msgstr "Східний"
+msgstr "Туман"
 
 #: plugins/weather/weather.cpp:383
 msgid ""
@@ -6116,78 +6109,68 @@ msgid "km/h"
 msgstr "км/год"
 
 #: plugins/weather/weather.cpp:429
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Low"
-msgstr "Сніг"
+msgstr "cлабкою"
 
 #: plugins/weather/weather.cpp:430
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Moderate"
-msgstr "Хмарно"
+msgstr "помірною"
 
 #: plugins/weather/weather.cpp:431
-#, fuzzy
 msgid ""
 "_: weather\n"
 "High"
-msgstr "Туман"
+msgstr "сильною"
 
 #: plugins/weather/weather.cpp:432
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Showers in the Vicinity"
-msgstr "Злива"
+msgstr "Зливи в околицях"
 
 #: plugins/weather/weather.cpp:433
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Waning Crescent"
-msgstr "Дощ"
+msgstr "Зменшення півмісяця"
 
 #: plugins/weather/weather.cpp:434
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Waxing Crescent"
-msgstr "Дощ"
+msgstr "Збільшення півмісяця"
 
 #: plugins/weather/weather.cpp:435
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Waxing Gibbous"
-msgstr "Вітер"
+msgstr "Збільшення опуклості"
 
 #: plugins/weather/weather.cpp:436
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Waning Gibbous"
-msgstr "Вітер"
+msgstr "Зменшення опуклості"
 
 #: plugins/weather/weather.cpp:448
 msgid "and"
 msgstr "і"
 
 #: plugins/weather/weather.cpp:451
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Early"
-msgstr "Східний"
+msgstr "Ранній"
 
 #: plugins/weather/weather.cpp:454
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Late"
-msgstr "Імла"
+msgstr "Пізній"
 
 #: plugins/weather/weather.cpp:499 plugins/weather/weather.cpp:501
 msgid "m/s"
@@ -6232,7 +6215,7 @@ msgstr ""
 "Схід: %r<br>\n"
 "Захід: %s<br>\n"
 "<img src=\"icon:moon%mi\"> %mp<br>\n"
-"UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)<br>\n"
+"UV-інтенсивність є <b>%ut</b> із значенням <b>%ui</b> (of 11)<br>\n"
 "<br>\n"
 "Поновлено: %u<br>\n"
 
@@ -8603,3 +8586,4 @@ msgstr "Не можу зарезервувати порт"
 #, fuzzy
 #~ msgid "%n GPG key"
 #~ msgstr "GPG ключ"
+
