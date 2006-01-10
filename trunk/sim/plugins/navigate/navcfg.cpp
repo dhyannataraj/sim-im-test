@@ -58,15 +58,15 @@ void NavCfg::apply()
 #endif
 }
 
-#ifdef USE_KDE
 void NavCfg::useKDEtoggled(bool on)
 {
+#ifdef USE_KDE
     edtBrowser->setEnabled(!on);
     edtMailer->setEnabled(!on);
     lblBrowser->setEnabled(!on);
     lblMailer->setEnabled(!on);
-}
 #endif
+}
 
 #ifndef _MSC_VER
 #include "navcfg.moc"
