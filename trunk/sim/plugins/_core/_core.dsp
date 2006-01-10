@@ -5195,6 +5195,46 @@ InputPath=".\styles\SIM.4.(2+3).xsl"
 # End Source File
 # Begin Source File
 
+SOURCE=.\styles\SIM.5.2.xsl
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+OutDir=.\..\..\Release
+InputPath=.\styles\SIM.5.2.xsl
+
+"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /Y $(InputPath) $(OutDir)\$(InputPath)
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\styles\SIM.5.xsl
+
+!IF  "$(CFG)" == "_core - Win32 Release"
+
+# Begin Custom Build
+OutDir=.\..\..\Release
+InputPath=.\styles\SIM.5.xsl
+
+"$(OutDir)\$(InputPath)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /Y $(InputPath) $(OutDir)\$(InputPath)
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "_core - Win32 Debug"
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE=.\styles\SIM.xsl
 
 !IF  "$(CFG)" == "_core - Win32 Release"
