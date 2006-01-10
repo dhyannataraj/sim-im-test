@@ -33,9 +33,15 @@ NavCfg::NavCfg(QWidget *parent, NavigatePlugin *plugin)
     lblBrowser->hide();
     lblMailer->hide();
 #else
-edtBrowser->setText(QString::fromLocal8Bit(plugin->getBrowser()));
+    edtBrowser->setText(QString::fromLocal8Bit(plugin->getBrowser()));
     edtMailer->setText(QString::fromLocal8Bit(plugin->getMailer()));
     chkNew->hide();
+#endif
+#ifdef USE_KDE
+    connect(chkKDE, SIGNAL(toggled(bool)), SLOT(useKDEtoggled(bool)));
+    chkKDE->setChecked(plugin->getUseKDE());
+#else
+    chkKDE->hide();
 #endif
 }
 
@@ -47,7 +53,20 @@ void NavCfg::apply()
     m_plugin->setBrowser(edtBrowser->text().local8Bit());
     m_plugin->setMailer(edtMailer->text().local8Bit());
 #endif
+#ifdef USE_KDE
+    m_plugin->setUseKDE(chkKDE->isChecked());
+#endif
 }
+
+#ifdef USE_KDE
+void NavCfg::useKDEtoggled(bool on)
+{
+    edtBrowser->setEnabled(!on);
+    edtMailer->setEnabled(!on);
+    lblBrowser->setEnabled(!on);
+    lblMailer->setEnabled(!on);
+}
+#endif
 
 #ifndef _MSC_VER
 #include "navcfg.moc"

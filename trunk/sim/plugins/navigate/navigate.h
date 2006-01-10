@@ -25,8 +25,11 @@ typedef struct NavigateData
 #ifdef WIN32
     Data NewWindow;
 #else
-Data Browser;
+    Data Browser;
     Data Mailer;
+#endif
+#ifdef USE_KDE
+    Data UseKDE;
 #endif
 } NavigateData;
 
@@ -47,6 +50,9 @@ protected:
 #else
     PROP_STR(Browser);
     PROP_STR(Mailer);
+#endif
+#ifdef USE_KDE
+    PROP_BOOL(UseKDE);
 #endif
     virtual string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
