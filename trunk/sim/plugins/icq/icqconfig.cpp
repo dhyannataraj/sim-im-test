@@ -62,8 +62,12 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
     chkUpdate->setChecked(client->getDisableAutoUpdate());
     chkAutoReply->setChecked(client->getDisableAutoReplyUpdate());
     chkTyping->setChecked(client->getDisableTypingNotification());
-    chkInvisible->setChecked(client->getAutoCheckInvisible());
-    edtInvisible->setValue(client->getCheckInvisibleInterval());
+//    chkInvisible->setChecked(client->getAutoCheckInvisible());
+//    edtInvisible->setValue(client->getCheckInvisibleInterval());
+    chkInvisible->hide();
+    edtInvisible->hide();
+    lblInvisible->hide();
+    lblInvisible2->hide();
     chkDND->setChecked(client->getAcceptInDND());
     chkOccupied->setChecked(client->getAcceptInOccupied());
     chkHTTP->setChecked(client->getUseHTTP());
@@ -72,7 +76,7 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
     chkAuto->setChecked(client->getAutoHTTP());
     chkKeepAlive->setChecked(client->getKeepAlive());
     cmbAck->setCurrentItem(client->getAckMode());
-    invisibleToggled(client->getAutoCheckInvisible());
+//    invisibleToggled(client->getAutoCheckInvisible());
 }
 
 void ICQConfig::autoToggled(bool bState)
@@ -106,8 +110,8 @@ void ICQConfig::apply()
     m_client->setDisableAutoUpdate(chkUpdate->isChecked());
     m_client->setDisableAutoReplyUpdate(chkAutoReply->isChecked());
     m_client->setDisableTypingNotification(chkTyping->isChecked());
-    m_client->setAutoCheckInvisible(chkInvisible->isChecked());
-    m_client->setCheckInvisibleInterval(atol(edtInvisible->text().latin1()));
+//    m_client->setAutoCheckInvisible(chkInvisible->isChecked());
+//    m_client->setCheckInvisibleInterval(atol(edtInvisible->text().latin1()));
     m_client->setAcceptInDND(chkDND->isChecked());
     m_client->setAcceptInOccupied(chkOccupied->isChecked());
     m_client->setUseHTTP(chkHTTP->isChecked());
