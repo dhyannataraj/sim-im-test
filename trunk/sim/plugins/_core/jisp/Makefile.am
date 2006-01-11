@@ -1,9 +1,11 @@
-EXTRA_DIST=icondef.xml *.png
+EXTRA_DIST=icondef.xml 
+
+nodist_icons_DATA = sim.jisp
+iconsdir= $(kde_datadir)/sim/icons
+
 all: sim.jisp
 
 sim.jisp: $(srcdir)/icondef.xml $(srcdir)/*.png
 	$(ZIP) $(ZIP_FLAGS) $@ $^
-
-install-data-local:
-	$(mkinstalldirs) $(kde_datadir)/sim/icons
-	$(INSTALL_DATA) sim.jisp $(kde_datadir)/sim/icons
+dist-hook: 	
+	cp $(srcdir)/*.png $(distdir)

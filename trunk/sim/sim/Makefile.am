@@ -49,8 +49,10 @@ libsim_la_LIBADD   = $(LIBLTDL) $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFIL
 EXTRA_DIST = \
 	sim-kde.menu \
 	sim.desktop \
-	sim.cpp \
-	*.h
+	sim.cpp
+
+dist-hook:
+	cp $(srcdir)/*.h $(distdir)/
 
 dist_desktop_DATA = sim.desktop
 desktopdir=$(kde_appsdir)/Internet/
