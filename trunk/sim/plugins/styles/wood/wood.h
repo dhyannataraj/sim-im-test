@@ -31,6 +31,8 @@
 #include "qwidget.h"
 #include "qrangecontrol.h"
 #include "qscrollbar.h"
+#include <qstyle.h>
+#include <qwindowsstyle.h>
 #include <limits.h>
 
 class NorwegianWoodStyle : public QWindowsStyle

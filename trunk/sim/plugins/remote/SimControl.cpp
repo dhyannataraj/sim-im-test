@@ -136,7 +136,7 @@ bool IPC::process(const BSTR &in_str, BSTR *out_str)
         if (s[i] == SLOT_IN)
             continue;
         if (s[i] == SLOT_OUT){
-            CComBSTR res(mem);
+            CComBSTR res((int)mem);
             *out_str = res.Copy();
         }
         UnmapViewOfFile(mem);

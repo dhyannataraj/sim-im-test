@@ -729,8 +729,8 @@ static const char *button_xpm[] = {
 
 NorwegianWoodStyle::NorwegianWoodStyle( int sbext ) : QWindowsStyle()
 {
-    if ( sbext >= 0 )
-        setScrollBarExtent( sbext );
+    //if ( sbext >= 0 )
+     //   setScrollBarExtent( sbext );
 }
 
 /*!
@@ -981,7 +981,8 @@ void NorwegianWoodStyle::drawComboButton( QPainter *p, int x, int y, int w, int 
     p->drawLine( ax+awh-1, sy+1, ax+awh-1, sy+sh-1 );
 
     if ( 0 && editable ) {
-        QRect r( comboButtonRect(x-1,y-1,w+2,h+2) );
+        //QRect r( comboButtonRect(x-1,y-1,w+2,h+2) );
+		QRect r = comboButtonRect ( x-1,y-1,w+2,h+2 );
         qDrawShadePanel( p, r, g, TRUE, 1, &fill );
     }
 }

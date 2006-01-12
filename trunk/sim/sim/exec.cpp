@@ -197,7 +197,7 @@ void ExecThread::run()
         }
     }
     if (prg.length()){
-        char *ext = strrchr(prg.c_str(), '.');
+        char *ext = (char *)strrchr(prg.c_str(), '.');
         if (ext && (!strcmp(ext, ".exe") || !strcmp(ext, ".com")))
             bScript = false;
     }
