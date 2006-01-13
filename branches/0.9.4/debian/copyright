@@ -1,0 +1,18 @@
+This package was debianized by Alexander Petrov <zowers@gmail.com> on
+Fri, 13 Jan 2006 02:56:21 +0300
+
+This package was debianized by Murat Demirten <murat@debian.org> on
+Sun,  3 Aug 2003 16:49:41 +0000.
+
+It was downloaded from svn://svn.berlios.de/sim-im/branches/0.9.4
+Hompage: http://sim-im.berlios.de/
+
+Old package was developed by Vladimir Shutoff <vovan@shutoff.ru>
+Old homepage: http://sim-im.sourceforge.net/
+
+Copyright:
+Sim is licensed under the terms of the GNU GPL.
+
+The GPL licence can be found in /usr/share/common-licenses on modern
+Debian systems.
+
