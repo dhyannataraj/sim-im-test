@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="metal"
 	ProjectGUID="{B731028E-4BE4-46A3-BBAA-5F47D637829E}"
+	RootNamespace="metal"
 	>
 	<Platforms>
 		<Platform
@@ -22,6 +23,7 @@
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
+			BuildLogFile="$(IntDir)\$(ParentName)_BuildLog.htm"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -120,6 +122,7 @@
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
+			BuildLogFile="$(IntDir)\$(ParentName)_BuildLog.htm"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"

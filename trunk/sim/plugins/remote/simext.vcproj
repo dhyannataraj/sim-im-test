@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="simext"
 	ProjectGUID="{44A722A5-7740-4D34-B2AE-47ACCDBDE1CF}"
+	RootNamespace="simext"
 	Keyword="AtlProj"
 	>
 	<Platforms>
@@ -24,6 +25,7 @@
 			UseOfATL="1"
 			ATLMinimizesCRunTimeLibraryUsage="true"
 			CharacterSet="2"
+			BuildLogFile="$(IntDir)\$(ParentName)_BuildLog.htm"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -121,6 +123,7 @@
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
+			BuildLogFile="$(IntDir)\$(ParentName)_BuildLog.htm"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"

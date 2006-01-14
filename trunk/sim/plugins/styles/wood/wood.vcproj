@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="wood"
 	ProjectGUID="{B5336A5B-C4AF-485A-9A31-BCB89A6EE613}"
+	RootNamespace="wood"
 	>
 	<Platforms>
 		<Platform
@@ -22,6 +23,7 @@
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
+			BuildLogFile="$(IntDir)\$(ParentName)_BuildLog.htm"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -118,6 +120,7 @@
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
+			BuildLogFile="$(IntDir)\$(ParentName)_BuildLog.htm"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
