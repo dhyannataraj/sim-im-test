@@ -1,21 +1,21 @@
 # translation of bg.po to Bulgarian
-# Copyright (C) 2003, 2004, 2005 Free Software Foundation, Inc.
+# Copyright (C) 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
 # Атанас Мавров <bugar@mail.bg>, 2003.
 # Атанас Мавров <bugar@developer.bg>, 2004.
-# Atanas Mavrov <bugar@developer.bg>, 2005.
+# Atanas Mavrov <bugar@developer.bg>, 2005, 2006.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: bg\n"
 "POT-Creation-Date: 2005-12-19 12:38+0500\n"
-"PO-Revision-Date: 2005-04-26 01:16+0300\n"
+"PO-Revision-Date: 2006-01-14 16:06+0200\n"
 "Last-Translator: Atanas Mavrov <bugar@developer.bg>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Report-Msgid-Bugs-To: \n"
-"X-Generator: KBabel 1.10\n"
+"X-Generator: KBabel 1.10.2\n"
 
 #: xpstyle/xpstyle.cpp:63
 msgid "Windows XP style"
@@ -114,9 +114,8 @@ msgid "Error"
 msgstr "Грешка"
 
 #: plugins/icq/icqmessage.cpp:871 plugins/logger/logconfig.cpp:93
-#, fuzzy
 msgid "Warning"
-msgstr "&Предупреждения"
+msgstr "Внимание"
 
 #: plugins/logger/logconfig.cpp:94
 msgid "Debug"
@@ -1979,19 +1978,16 @@ msgid "Email pager"
 msgstr "Уведомител за електронна поща"
 
 #: plugins/icq/icqmessage.cpp:850
-#, fuzzy
 msgid "Request secure channel"
-msgstr "Искането за шифрован канал пропадна"
+msgstr "Искане за шифрован канал"
 
 #: plugins/icq/icqmessage.cpp:857
-#, fuzzy
 msgid "Close secure channel"
-msgstr "Искането за шифрован канал пропадна"
+msgstr "Затваряне на шифрован канал"
 
 #: plugins/icq/icqmessage.cpp:864
-#, fuzzy
 msgid "Check invisible"
-msgstr "Проверка за &невидими"
+msgstr "Проверка за невидими"
 
 #: plugins/_core/msgedit.cpp:1670 plugins/icq/icqmessage.cpp:878
 msgid "&URL"
@@ -2829,7 +2825,7 @@ msgstr ""
 
 #: plugins/icq/verifydlgbase.cc:111
 msgid "Please retype the letters from the picture above:"
-msgstr ""
+msgstr "Моля въведете символите от картинката отдолу:"
 
 #: plugins/yahoo/yahoocfg.cpp:46
 msgid "Get a Yahoo! ID"
@@ -4883,9 +4879,8 @@ msgid "LiveJournal &WWW"
 msgstr "Журнал на &WWW"
 
 #: plugins/livejournal/livejournal.cpp:232
-#, fuzzy
 msgid "Friends updated"
-msgstr "Преглед на приятелите"
+msgstr "Списък с приятели"
 
 #: plugins/livejournal/livejournal.cpp:276
 msgid "LiveJournal"
@@ -5488,13 +5483,13 @@ msgid "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 msgstr "https://register.passport.net/reg.srf?lc=1049&langid=1049&sl=1"
 
 #: plugins/msn/msnpacket.cpp:468
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: You have one unread message.\n"
 "You have %n unread messages."
 msgstr ""
-"Имате %n непрочетени съобщение\n"
-"Имате %n непрочетени съобщения"
+"Имате едно непрочетено съобщение.\n"
+"Имате %n непрочетени съобщения."
 
 #: plugins/msn/msnpacket.cpp:488
 msgid "You have new mail"
@@ -5557,9 +5552,8 @@ msgid "&Save"
 msgstr "&Запазване"
 
 #: plugins/netmonitor/monitor.cpp:65
-#, fuzzy
 msgid "&Autoscroll"
-msgstr "Автоматичен отговор"
+msgstr "Автоматично превъртане"
 
 #: plugins/netmonitor/monitor.cpp:66 plugins/netmonitor/monitor.cpp:119
 msgid "&Pause"
@@ -5775,11 +5769,10 @@ msgid "Sunday"
 msgstr "Неделя"
 
 #: plugins/weather/weather.cpp:379
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Squalls"
-msgstr "Юг"
+msgstr "Шквал"
 
 #: plugins/weather/weather.cpp:380
 msgid ""
@@ -5794,11 +5787,10 @@ msgid ""
 msgstr "Мъгла"
 
 #: plugins/weather/weather.cpp:382
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Mist"
-msgstr "изток"
+msgstr "Лека мъгла"
 
 #: plugins/weather/weather.cpp:383
 msgid ""
@@ -6059,11 +6051,10 @@ msgid ""
 msgstr "Север североизток"
 
 #: plugins/weather/weather.cpp:426
-#, fuzzy
 msgid ""
 "_: weather\n"
 "VAR"
-msgstr "изток"
+msgstr "Променливо"
 
 #: plugins/weather/weather.cpp:427
 msgid "km"
@@ -6074,78 +6065,68 @@ msgid "km/h"
 msgstr "км/ч"
 
 #: plugins/weather/weather.cpp:429
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Low"
-msgstr "Сняг"
+msgstr "Слаб"
 
 #: plugins/weather/weather.cpp:430
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Moderate"
-msgstr "Облачно"
+msgstr "Умерен"
 
 #: plugins/weather/weather.cpp:431
-#, fuzzy
 msgid ""
 "_: weather\n"
 "High"
-msgstr "Мъгла"
+msgstr "Силен"
 
 #: plugins/weather/weather.cpp:432
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Showers in the Vicinity"
-msgstr "Преваляване"
+msgstr "Пороен валеж"
 
 #: plugins/weather/weather.cpp:433
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Waning Crescent"
-msgstr "Дъжд"
+msgstr "Намаляващия полумесец"
 
 #: plugins/weather/weather.cpp:434
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Waxing Crescent"
-msgstr "Дъжд"
+msgstr "Растящо новолуние"
 
 #: plugins/weather/weather.cpp:435
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Waxing Gibbous"
-msgstr "Буря"
+msgstr ""
 
 #: plugins/weather/weather.cpp:436
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Waning Gibbous"
-msgstr "Буря"
+msgstr ""
 
 #: plugins/weather/weather.cpp:448
 msgid "and"
 msgstr "и"
 
 #: plugins/weather/weather.cpp:451
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Early"
-msgstr "изток"
+msgstr "Ранен"
 
 #: plugins/weather/weather.cpp:454
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Late"
-msgstr "Мараня"
+msgstr "Късен"
 
 #: plugins/weather/weather.cpp:499 plugins/weather/weather.cpp:501
 msgid "m/s"
@@ -8485,74 +8466,3 @@ msgstr "Мрежова грешка"
 msgid "Can't allocate port"
 msgstr "Не може да определи порт"
 
-#, fuzzy
-#~ msgid "%n day"
-#~ msgstr "Неделя"
-
-#, fuzzy
-#~ msgid "%n file"
-#~ msgstr "Изпращане на файл"
-
-#, fuzzy
-#~ msgid "WWW-panel message"
-#~ msgstr "&Отваряне на съобщение"
-
-#, fuzzy
-#~ msgid "Email pager message"
-#~ msgstr "Уведомител за електронна поща"
-
-#, fuzzy
-#~ msgid "Contact request"
-#~ msgstr "Искане на списък с потребители"
-
-#, fuzzy
-#~ msgid "&Receive authorization and system messages only from contacts from list"
-#~ msgstr "&Приема съобщения само от потребители в списъка"
-
-#, fuzzy
-#~ msgid "%n contact found"
-#~ msgstr "Няма потребител за изпращане"
-
-#, fuzzy
-#~ msgid "Close after %n second"
-#~ msgstr "Затваряне след изпра&щане"
-
-#, fuzzy
-#~ msgid "URL"
-#~ msgstr "УРЛ:"
-
-#, fuzzy
-#~ msgid "Authorize request"
-#~ msgstr "&Искане за удостоверяване"
-
-#, fuzzy
-#~ msgid "Authorization granted"
-#~ msgstr "&Искане за удостоверяване"
-
-#, fuzzy
-#~ msgid "Authorization refused"
-#~ msgstr "&Искане за удостоверяване"
-
-#, fuzzy
-#~ msgid "Add to contacts"
-#~ msgstr "Няма потребител"
-
-#, fuzzy
-#~ msgid "Removed from contacts"
-#~ msgstr "&Премахване от журнала"
-
-#, fuzzy
-#~ msgid "LiveJournal post"
-#~ msgstr "Запис в &журнала"
-
-#, fuzzy
-#~ msgid "You have %n unread message"
-#~ msgstr "Имате нова поща"
-
-#, fuzzy
-#~ msgid "weather"
-#~ msgstr "Време"
-
-#, fuzzy
-#~ msgid "%n GPG key"
-#~ msgstr "GPG ключ"
