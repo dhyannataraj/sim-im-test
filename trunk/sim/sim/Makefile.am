@@ -55,7 +55,7 @@ dist-hook:
 	cp $(srcdir)/*.h $(distdir)/
 
 dist_desktop_DATA = sim.desktop
-desktopdir=$(kde_appsdir)/Internet/
+desktopdir=$(xdg_appsdir)/
 
 # set the include path for X, qt and KDE
 INCLUDES = $(LTDLINCL) $(all_includes) 
