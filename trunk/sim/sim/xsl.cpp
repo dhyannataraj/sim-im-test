@@ -114,7 +114,7 @@ QString XSL::process(const QString &my_xml)
     params[0] = NULL;
     xmlDocPtr res = xsltApplyStylesheet(d->styleSheet, doc, params);
     if (res == NULL){
-        log(L_WARN, "Apply stylesheet errror");
+        log(L_WARN, "Apply stylesheet error");
         xmlFreeDoc(doc);
         return QString::null;
     }
