@@ -135,6 +135,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                 err_str = error_message(error);
             }
             if (m_send.msg){
+                /*
                 if ((m_send.msg->type() == MessageCheckInvisible) && (error == 14)) {
                     Contact *contact;
                     ICQUserData *data = findContact(m_send.screen.c_str(), NULL, false, contact);
@@ -144,10 +145,11 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         e.process();
                     }
                 }else{
+                */
                     m_send.msg->setError(err_str);
                     Event e(EventMessageSent, m_send.msg);
                     e.process();
-                }
+                // }
                 delete m_send.msg;
             }
             m_send.msg    = NULL;
@@ -231,6 +233,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             if (bAck){
                 log(L_DEBUG, "Ack: %lu %lu (%s)", m_send.id.id_h, m_send.id.id_l, m_send.screen.c_str());
                 if (m_send.msg){
+                    /*
                     if (m_send.msg->type() == MessageCheckInvisible){
                         Contact *contact;
                         ICQUserData *data = findContact(m_send.screen.c_str(), NULL, false, contact);
@@ -241,6 +244,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         }
                         delete m_send.msg;
                     }else{
+                    */
                         Contact *contact;
                         ICQUserData *data = findContact(screen.c_str(), NULL, false, contact);
                         if (((data == NULL) || (data->Status.value == ICQ_STATUS_OFFLINE) || (getAckMode() == 1)) &&
@@ -251,7 +255,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         }else{
                             replyQueue.push_back(m_send);
                         }
-                    }
+                    // }
                 }else{
                     replyQueue.push_back(m_send);
                 }
@@ -610,16 +614,18 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
         }
     case MessageContacts:
     case MessageFile:
-    case MessageCheckInvisible:
+    // case MessageCheckInvisible:
     case MessageWarning:
         s.flags  = SEND_RAW;
         s.msg    = msg;
         s.screen = screen(data);
+        /*
         if (msg->type() == MessageCheckInvisible){
             sendBgQueue.push_back(s);
         }else{
+        */
             sendFgQueue.push_back(s);
-        }
+        //}
         processSendQueue();
         return true;
     }
@@ -1494,6 +1500,7 @@ void ICQClient::sendTimeout()
     if (m_send.screen.length()){
         log(L_WARN, "Send timeout");
         if (m_send.msg){
+            /*
             if (m_send.msg->type() == MessageCheckInvisible){
                 Contact *contact;
                 ICQUserData *data = findContact(m_send.screen.c_str(), NULL, false, contact);
@@ -1503,6 +1510,7 @@ void ICQClient::sendTimeout()
                     e.process();
                 }
             }
+            */
             m_send.msg->setError(I18N_NOOP("Send timeout"));
             Event e(EventMessageSent, m_send.msg);
             e.process();
@@ -1757,12 +1765,14 @@ bool ICQClient::processMsg()
             packMessage(b, m_send.msg, data, type, false);
             sendAdvMessage(screen(data).c_str(), b, PLUGIN_NULL, m_send.id, false, true);
             return true;
+        /*
         case MessageCheckInvisible:{
                 Buffer b;
                 sendThroughServer(m_send.screen.c_str(), 2, b, m_send.id, true, false);
                 sendThroughServer(m_send.screen.c_str(), 2, b, m_send.id, true, false);
                 return true;
             }
+        */
         case MessageWarning:{
                 WarningMessage *msg = static_cast<WarningMessage*>(m_send.msg);
                 snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_BLAMExUSER, true);

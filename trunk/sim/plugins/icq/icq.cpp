@@ -344,8 +344,10 @@ ICQPlugin::ICQPlugin(unsigned base)
     eMenuSearch.process();
     Event eMenuGroups(EventMenuCreate, (void*)MenuIcqGroups);
     eMenuGroups.process();
+    /*
     Event eMenuCheckInvisible(EventMenuCreate, (void*)MenuCheckInvisible);
     eMenuCheckInvisible.process();
+    */
 
     Command cmd;
     cmd->id          = CmdVisibleList;
@@ -390,7 +392,7 @@ ICQPlugin::ICQPlugin(unsigned base)
     cmd->menu_id	 = MenuIcqGroups;
     cmd->flags		 = COMMAND_CHECK_STATE;
     eCmd.process();
-
+/*
     cmd->id			 = CmdCheckInvisibleAll;
     cmd->text		 = I18N_NOOP("Check &invisible");
     cmd->icon		 = "ICQ_invisible";
@@ -417,7 +419,7 @@ ICQPlugin::ICQPlugin(unsigned base)
     cmd->popup_id	 = 0;
     cmd->flags		 = COMMAND_DEFAULT;
     eCmd.process();
-
+*/
     registerMessages();
 
     RetrySendDND = registerType();
@@ -440,21 +442,22 @@ ICQPlugin::~ICQPlugin()
 
     Event eInvisible(EventCommandRemove, (void*)CmdInvisibleList);
     eInvisible.process();
-
+    /*
     Event eCheckInvisible(EventCommandRemove, (void*)CmdCheckInvisible);
     eCheckInvisible.process();
 
     Event eCheckInvisibleAll(EventCommandRemove, (void*)CmdCheckInvisibleAll);
     eCheckInvisibleAll.process();
-
+    */
     Event eMenuSearch(EventMenuRemove, (void*)MenuSearchResult);
     eMenuSearch.process();
 
     Event eMenuGroups(EventMenuRemove, (void*)MenuIcqGroups);
     eMenuGroups.process();
-
+    /*
     Event eMenuCheckInvisible(EventMenuRemove, (void*)MenuCheckInvisible);
     eMenuCheckInvisible.process();
+    */
 }
 
 #ifdef WIN32

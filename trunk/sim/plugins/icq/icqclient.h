@@ -266,8 +266,8 @@ typedef struct ICQClientData
     Data		DisableAutoUpdate;
     Data		DisableAutoReplyUpdate;
     Data		DisableTypingNotification;
-    Data		AutoCheckInvisible;
-    Data		CheckInvisibleInterval;
+//    Data		AutoCheckInvisible;
+//    Data		CheckInvisibleInterval;
     Data		AcceptInDND;
     Data		AcceptInOccupied;
     Data		MinPort;
@@ -504,8 +504,8 @@ public:
     PROP_BOOL(DisableAutoUpdate);
     PROP_BOOL(DisableAutoReplyUpdate);
     PROP_BOOL(DisableTypingNotification);
-    PROP_BOOL(AutoCheckInvisible);
-    PROP_ULONG(CheckInvisibleInterval);
+//    PROP_BOOL(AutoCheckInvisible);
+//    PROP_ULONG(CheckInvisibleInterval);
     PROP_BOOL(AcceptInDND);
     PROP_BOOL(AcceptInOccupied);
     PROP_USHORT(MinPort);

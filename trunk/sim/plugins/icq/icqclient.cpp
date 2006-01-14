@@ -265,8 +265,8 @@ static DataDef icqClientData[] =
         { "DisableAutoUpdate", DATA_BOOL, 1, 0 },
         { "DisableAutoReplyUpdate", DATA_BOOL, 1, 0 },
         { "DisableTypingNotification", DATA_BOOL, 1, 0 },
-        { "AutoCheckInvisible", DATA_BOOL, 1, 0 },
-        { "CheckInvisibleInterval", DATA_ULONG, 1, DATA(15) },
+//        { "AutoCheckInvisible", DATA_BOOL, 1, 0 },
+//        { "CheckInvisibleInterval", DATA_ULONG, 1, DATA(15) },
         { "AcceptInDND", DATA_BOOL, 1, 0 },
         { "AcceptInOccupied", DATA_BOOL, 1, 0 },
         { "MinPort", DATA_ULONG, 1, DATA(1024) },
@@ -2623,6 +2623,7 @@ void *ICQClient::processEvent(Event *e)
                 return e->param();
             return NULL;
         }
+        /*
         if (cmd->id == CmdCheckInvisibleAll){
             cmd->flags &= ~COMMAND_CHECKED;
             if ((getState() != Connected) || m_bAIM)
@@ -2650,6 +2651,7 @@ void *ICQClient::processEvent(Event *e)
                 return e->param();
             }
         }
+        */
         if ((cmd->bar_id == ToolBarContainer) || (cmd->bar_id == BarHistory)){
             if (cmd->id == CmdChangeEncoding){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
@@ -2725,6 +2727,7 @@ void *ICQClient::processEvent(Event *e)
     }
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
+        /*
         if ((cmd->id == CmdCheckInvisible) ||
                 (cmd->id == CmdCheckInvisibleAll)){
             if (getState() == Connected){
@@ -2752,6 +2755,7 @@ void *ICQClient::processEvent(Event *e)
                 }
             }
         }
+        */
         if (cmd->menu_id == MenuContactGroup){
             if (cmd->id == CmdVisibleList){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
@@ -2813,7 +2817,7 @@ void *ICQClient::processEvent(Event *e)
         Message **msg = (Message**)(e->param());
         if (((*msg)->type() != MessageOpenSecure) &&
                 ((*msg)->type() != MessageCloseSecure) &&
-                ((*msg)->type() != MessageCheckInvisible) &&
+                // ((*msg)->type() != MessageCheckInvisible) &&
                 ((*msg)->type() != MessageWarning))
             return NULL;
         const char *client = (*msg)->client();
@@ -2835,6 +2839,7 @@ void *ICQClient::processEvent(Event *e)
         }
         if (data == NULL)
             return NULL;
+        /*
         if ((*msg)->type() == MessageCheckInvisible){
             Message *m = new Message(MessageCheckInvisible);
             m->setContact((*msg)->contact());
@@ -2845,6 +2850,7 @@ void *ICQClient::processEvent(Event *e)
             }
             return e->param();
         }
+        */
         if ((*msg)->type() == MessageOpenSecure){
             SecureDlg *dlg = NULL;
             QWidgetList  *list = QApplication::topLevelWidgets();
@@ -2916,10 +2922,12 @@ bool ICQClient::send(Message *msg, void *_data)
         if (data && data->WantAuth.bValue)
             return sendAuthRefused(msg, data);
         return false;
+    /*
     case MessageCheckInvisible:
         return data &&
                ((data->Status.value & 0xFFFF) == ICQ_STATUS_OFFLINE) &&
                sendThruServer(msg, data);
+    */
     case MessageFile:
         if (data && ((data->Status.value & 0xFFFF) != ICQ_STATUS_OFFLINE)){
             if (data->Uin.value){
@@ -3029,8 +3037,10 @@ bool ICQClient::canSend(unsigned type, void *_data)
         return data && (data->WaitAuth.bValue);
     case MessageAuthGranted:
         return data && (data->WantAuth.bValue);
+    /*
     case MessageCheckInvisible:
         return data && data->Uin.value && !m_bAIM && ((data->Status.value & 0xFFFF) == ICQ_STATUS_OFFLINE);
+    */
     case MessageFile:
         return data &&
                ((data->Status.value & 0xFFFF) != ICQ_STATUS_OFFLINE) &&
