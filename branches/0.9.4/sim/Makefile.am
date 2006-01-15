@@ -54,8 +54,8 @@ EXTRA_DIST = \
 
 
 install-data-local:
-	$(mkinstalldirs) $(kde_appsdir)/Internet/
-	$(INSTALL_DATA) $(srcdir)/sim.desktop $(kde_appsdir)/Internet/sim.desktop
+	$(mkinstalldirs) $(xdg_appsdir)/
+	$(INSTALL_DATA) $(srcdir)/sim.desktop $(xdg_appsdir)/sim.desktop
 
 uninstall-local:
 	-rm -f $(kde_appsdir)/Internet/sim.desktop

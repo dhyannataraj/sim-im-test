@@ -34,7 +34,7 @@ const unsigned long MessageWebPanel			= 0x107;
 const unsigned long MessageEmailPager		= 0x108;
 const unsigned long MessageOpenSecure		= 0x109;
 const unsigned long MessageCloseSecure		= 0x110;
-const unsigned long MessageCheckInvisible	= 0x111;
+//const unsigned long MessageCheckInvisible	= 0x111;
 const unsigned long MessageICQFile			= 0x112;
 const unsigned long MessageWarning			= 0x113;
 

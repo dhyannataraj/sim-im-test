@@ -36,14 +36,14 @@ const unsigned EventServiceReady	= IcqCmdBase + 5;
 const unsigned long CmdVisibleList		= IcqCmdBase;
 const unsigned long CmdInvisibleList		= IcqCmdBase + 1;
 const unsigned long CmdGroups			= IcqCmdBase + 2;
-const unsigned long CmdCheckInvisibleAll	= IcqCmdBase + 3;
-const unsigned long CmdCheckInvisible	= IcqCmdBase + 4;
+//const unsigned long CmdCheckInvisibleAll	= IcqCmdBase + 3;
+//const unsigned long CmdCheckInvisible	= IcqCmdBase + 4;
 const unsigned long CmdIcqSendMessage	= IcqCmdBase + 5;
 const unsigned long CmdShowWarning		= IcqCmdBase + 6;
 const unsigned long CmdPasswordFail		= IcqCmdBase + 7;
 
 const unsigned long MenuSearchResult		= IcqCmdBase;
-const unsigned long MenuCheckInvisible	= IcqCmdBase + 1;
+//const unsigned long MenuCheckInvisible	= IcqCmdBase + 1;
 const unsigned long MenuIcqGroups		= IcqCmdBase + 2;
 
 class ICQProtocol : public Protocol
