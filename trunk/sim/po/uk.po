@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2006-01-15 22:23+0500\n"
-"PO-Revision-Date: 2006-01-09 15:19+0200\n"
+"PO-Revision-Date: 2006-01-15 22:15+0200\n"
 "Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2352,9 +2352,9 @@ msgid "&Receive message only from contacts from list"
 msgstr "&Приймати повідомлення тільки від контактів в списку"
 
 #: plugins/filter/filtercfgbase.cpp:70 rc.cpp:613
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "&Receive authorization and system messages only from contacts from list"
-msgstr "&Приймати повідомлення тільки від контактів в списку"
+msgstr "&Приймати авторизації і системні повідомлення тільки від контактів в списку"
 
 #: plugins/filter/filtercfgbase.cpp:71 rc.cpp:616
 #, no-c-format
@@ -5632,7 +5632,7 @@ msgid "&Automatically add contacts in accept list"
 msgstr "&Автоматично додавати контакти в дозволений список"
 
 #: plugins/msn/msnpacket.cpp:468
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: You have %n unread message.\n"
 "You have %n unread messages."
@@ -5648,7 +5648,7 @@ msgstr "Вам прийшла нова пошта"
 #: plugins/navigate/navcfgbase.cc:72 rc.cpp:1443
 #, no-c-format
 msgid "Use KDE settings"
-msgstr ""
+msgstr "Використовувати налаштування з KDE"
 
 #: plugins/navigate/navcfgbase.cc:73 rc.cpp:1446
 #, no-c-format
@@ -6258,12 +6258,12 @@ msgstr "Qt підтримує звук, тому Вам потрібно вка�
 #: plugins/sound/soundconfigbase.cpp:97 rc.cpp:403
 #, no-c-format
 msgid "&Use KDE sound settings"
-msgstr ""
+msgstr "&Використовувати звукові налаштування з KDE"
 
 #: plugins/sound/soundconfigbase.cpp:98 rc.cpp:406
 #, no-c-format
 msgid "Use player defined in system notify settings in kcontrol"
-msgstr ""
+msgstr "Використовувати програвач вказаний в налаштуваннях \"Системниі повідомлення\" kcontrol"
 
 #: plugins/sound/soundconfigbase.cpp:99 rc.cpp:409
 #, no-c-format
@@ -6592,11 +6592,10 @@ msgid ""
 msgstr "Мряка"
 
 #: plugins/weather/weather.cpp:402
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Freezing Drizzle"
-msgstr "Дрібний дощ"
+msgstr "Морозна мряка"
 
 #: plugins/weather/weather.cpp:403
 msgid ""
@@ -6611,11 +6610,10 @@ msgid ""
 msgstr "Сніг"
 
 #: plugins/weather/weather.cpp:405
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Snow Grains"
-msgstr "Сніг"
+msgstr "Град"
 
 #: plugins/weather/weather.cpp:406
 msgid ""
@@ -7165,14 +7163,14 @@ msgid "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
 msgstr "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
 
 #: rc.cpp:504
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Find ASpell"
-msgstr "Скачати ASpell"
+msgstr "Пошук ASpell"
 
 #: rc.cpp:1693
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Find GPG"
-msgstr "&Пошук"
+msgstr "Пошук GPG"
 
 #: sim/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
@@ -8857,12 +8855,11 @@ msgstr "Багатопротокольний клієнт обміну пові�
 
 #: sim/sim.cpp:207
 msgid "Current development"
-msgstr ""
+msgstr "Поточна розробка"
 
 #: sim/sim.cpp:208
-#, fuzzy
 msgid "Author"
-msgstr "Автори"
+msgstr "Автор"
 
 #: sim/sim.cpp:209
 msgid "Developer"
@@ -9083,3 +9080,4 @@ msgstr "Стиль Windows XP"
 #, fuzzy
 #~ msgid "%n GPG key"
 #~ msgstr "GPG ключ"
+
