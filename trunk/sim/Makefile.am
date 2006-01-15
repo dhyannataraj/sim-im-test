@@ -31,9 +31,10 @@ $(top_srcdir)/acinclude.m4: $(top_srcdir)/admin/acinclude.m4.in $(top_srcdir)/ad
 MAINTAINERCLEANFILES = subdirs configure.in acinclude.m4 configure.files 
 
 messages:
+	$(EXTRACTRC) `find . -name "*.rc" -o -name "*.ui"` > rc.cpp
 	LIST=`find . -name \*.h -o -name \*.hh -o -name \*.H -o -name \*.hxx -o -name \*.hpp -o -name \*.cpp -o -name \*.cc -o -name \*.cxx -o -name \*.ecpp -o -name \*C`; \
 	if test -n "$$LIST"; then \
-		$(XGETTEXT) $$LIST -o $(podir)/sim.pot; \
+		$(XGETTEXT) $$LIST -F -o $(podir)/sim.pot; \
 	fi
 
 package-messages:
