@@ -5,15 +5,7 @@ AM_INIT_AUTOMAKE(sim,0.9.4)
 AC_PROG_LIBTOOL
 AC_STDC_HEADERS
 AC_C_BIGENDIAN
-LEX=""
-AC_PATH_PROG(LEX, flex, no)
-if test "x$LEX" = "xno" ; then
-   AC_PATH_PROG(LEX, lex, no)
-   if test "x$LEX" = "xno" ; then
-      AC_MSG_ERROR([lex or flex not found!])
-   fi
-fi
-AM_PROG_LEX
+KDE_NEED_FLEX
 AM_CONDITIONAL(QT2, test "$kde_qtver" = "2")
 if test "$kde_qtver" = "2" ; then
  LIBUIQT="../../sim/qt3/libsimuiqt.la"
@@ -74,10 +66,7 @@ AC_CHECK_FUNCS([memset mkdir munmap rmdir socket])
 AC_CHECK_FUNCS([strcspn strdup strerror strstr strtol strtoul])
 
 AC_CHECK_FUNC(strcasecmp,[AC_DEFINE(HAVE_STRCASECMP,1,[Have strcasecmp])])
-AC_CHECK_FUNC(umask,[AC_DEFINE(HAVE_UMASK,1,[Have umask])])
 AC_CHECK_FUNC(chmod,[AC_DEFINE(HAVE_CHMOD,1,[Have chmod])])
-AC_CHECK_FUNC(gethostbyname_r,[AC_DEFINE(HAVE_GETHOSTBYNAME_R,1,[Have gethostbyname_r])]) 
-AC_CHECK_FUNC(gethostbyaddr_r,[AC_DEFINE(HAVE_GETHOSTBYADDR_R,1,[Have gethostbyaddr_r])])
 
 AC_EGREP_HEADER(in_addr_t, netinet/in.h,, AC_DEFINE(in_addr_t,int,[defaults in_addr_t to int]))
 AC_EGREP_HEADER(socklen_t, sys/socket.h,, AC_DEFINE(socklen_t,int,[defaults socklen_t to int]))
@@ -91,12 +80,9 @@ AC_MSG_RESULT([42])
 EXTRA_LIBS=""
 if test "$use_kde" = "yes" ; then
 KDE_CHECK_HEADER(ktextedit.h,[AC_DEFINE(HAVE_KTEXTEDIT_H,1,[Have ktextedit.h])])
-KDE_CHECK_HEADER(kwallet.h,[AC_DEFINE(HAVE_KWALLET_H,1,[Have kwallet.h])])
-KDE_CHECK_HEADER(kprotocolmanager.h,[AC_DEFINE(HAVE_KPROTOCOLMANAGER_H,1,[Have kprotocolmanager.h])])
 fi
 KDE_CHECK_HEADER(qsyntaxhighlighter.h,[AC_DEFINE(HAVE_QSYNTAXHIGHLIGHTER_H,1,[Have qsyntaxhighlighter.h])])
 AC_DEFINE_UNQUOTED(PREFIX, "$prefix", [Install prefix])
-AC_DEFINE(USE_QT,1,[Use QT - need for libicq])
 AC_SUBST(EXTRA_LIBS)
 if test "${exec_prefix}" = "NONE" ; then
   exec_prefix=$prefix
@@ -142,7 +128,7 @@ if test "x$ZIP" = "xno" ; then
    AC_PATH_PROG(ZIP, jar, no)
    ZIP_FLAGS=" -cMf "
    if test "x$ZIP" = "xno" ; then
-     AC_MSG_ERROR([Executanle zip or jar not found!
+     AC_MSG_ERROR([Executable zip or jar not found!
 ])
    fi
 fi
@@ -163,3 +149,4 @@ if test "$have_ssl" != yes; then
   echo "or as RPM from your local distribution site."
 fi
 
+DO_NOT_COMPILE="$DO_NOT_COMPILE plugins/update"
