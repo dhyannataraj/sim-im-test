@@ -108,19 +108,9 @@ void JabberConfig::apply()
     }
     QString jid = edtID->text();
     int n = jid.find('@');
-    if (n < 0){
-        QString host;
-        if (chkVHost->isChecked() && !edtVHost->text().isEmpty()){
-            host = edtVHost->text();
-        }else{
-            host = edtServer->text();
-        }
-        if (!host.isEmpty()){
-            jid += "@";
-            jid += host;
-        }
-    }else{
+    if (n >= 0){
         QString host = jid.mid(n + 1);
+        jid = jid.left(n);
         set_str(&m_client->data.VHost.ptr, host.utf8());
         m_client->setUseVHost(true);
     }
