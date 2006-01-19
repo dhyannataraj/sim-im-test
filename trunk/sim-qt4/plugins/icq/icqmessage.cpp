@@ -363,6 +363,7 @@ Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet, Mes
         if (data == NULL) {
             data = findContact(screen, NULL, true, contact);
             if (data == NULL)
+	    {
                return NULL;
             }
             contact-> setFlags(contact->getFlags() | CONTACT_TEMP);
@@ -481,6 +482,7 @@ Message *ICQClient::parseMessage(unsigned short type, const char *screen, string
             if (data == NULL) {
                 data = findContact(screen, NULL, true, contact);
                 if (data == NULL)
+		{
                    return NULL;
                 }
                 contact-> setFlags(contact->getFlags() | CONTACT_TEMP);
