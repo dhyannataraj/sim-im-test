@@ -3,63 +3,63 @@
 <xsl:output method="html"/>
 <xsl:template match="/message">
 
-<!--linka mezi zpravami -->
+<!--line between messages -->
 <hr/>
 
-<!-- hlavicka :: BEGIN -->
+<!-- message header :: BEGIN -->
 <table cellspacing="0" cellpadding="3" border="0" width="100%" align="top">
 
-<!-- pozadi hlavicky prichozi/odchozi zpravy-->
+<!-- background color of incoming/outgoing message -->
 <xsl:if test="@direction='0'">
-<xsl:attribute name="bgcolor">#e5e5e5</xsl:attribute>
+<xsl:attribute name="bgcolor">#e5e5e5</xsl:attribute> <!-- outgoing -->
 </xsl:if>
 <xsl:if test="@direction='1'">
-<xsl:attribute name="bgcolor">#b0b0b0</xsl:attribute>
+<xsl:attribute name="bgcolor">#b0b0b0</xsl:attribute> <!-- incoming -->
 </xsl:if>
 
 <tr>
 <xsl:choose>
 
-<!-- hlavicka se zmenou stavu :: BEGIN -->
+<!-- header with changed user state :: BEGIN -->
 <xsl:when test="@direction='2'">
-<!--dummy :) -->
+<!--dummy :); change of user state are single messages, becose of ??parser?? bug -->
 </xsl:when>
-<!-- hlavicka se zmenou stavu :: END -->
+<!-- header with changed user state :: END -->
 
 <xsl:otherwise>
 
-<!-- Ikonky :: BEGIN -->
+<!-- Icons :: BEGIN -->
 <td nowrap="yes" width="60">
 
-<!-- odkaz&ikonka zpravy :: BEGIN -->
+<!-- message link & message icon :: BEGIN -->
 <a>
 <xsl:attribute name="href">msg://<xsl:value-of select="id"/></xsl:attribute>
 <img><xsl:attribute name="src">icon:<xsl:value-of select="icon"/></xsl:attribute></img>
 </a>
 <xsl:text>&#xA0;</xsl:text>
-<!-- odkaz&ikonka zpravy :: END 
+<!-- message link & message icon :: END 
 _____________________________________________________________________________-->
-<!-- ikonka sifrovani :: BEGIN -->
+<!-- encrypting icon :: BEGIN -->
 <xsl:if test="@encrypted='1'">
 <img src="icon:encrypted"/>
 <xsl:text>&#xA0;</xsl:text>
 </xsl:if>
-<!-- ikonka sifrovani :: END
+<!-- encrypting icon :: END
 _____________________________________________________________________________-->
-<!--ikona urgent message (DND etc) :: BEGIN -->
+<!--urgent message icon (DND etc) :: BEGIN -->
 <xsl:if test="@urgent='1'">
 <img src="icon:urgentmsg"/>
 <xsl:text>&#xA0;</xsl:text>
 </xsl:if>
-<!--ikona urgent message (DND etc) :: END 
+<!--urgent message icon (DND etc) :: END 
 _____________________________________________________________________________-->
-<!--ikona listu (???) :: BEGIN -->
+<!--listmessage (???) icon :: BEGIN -->
 <xsl:if test="@list='1'">
 <img src="icon:listmsg"/>
 <xsl:text>&#xA0;</xsl:text>
 </xsl:if>
-<!--ikona listu (???) :: END -->
-<!-- Ikonky :: END 
+<!--listmessage (???) icon :: END -->
+<!-- Icons :: END 
 _____________________________________________________________________________-->
 
 <!-- Sender name :: BEGIN -->
@@ -109,20 +109,20 @@ _____________________________________________________________________________-->
 </xsl:choose>
 </tr>
 </table>
-<!-- hlavicka :: END
+<!-- message header :: END
 _____________________________________________________________________________-->
 
 
 
 <xsl:choose>
-<!-- hlavicka se zmenou stavu :: BEGIN -->
+<!-- message with changed user state :: BEGIN -->
 
 <xsl:when test="@direction='2'">
 <p>
-<!-- odkaz&ikonka zpravy :: BEGIN -->
+<!-- message link & message icon :: BEGIN -->
 <img><xsl:attribute name="src">icon:<xsl:value-of select="icon"/></xsl:attribute></img>
 <xsl:text>&#xA0;</xsl:text>
-<!-- odkaz&ikonka zpravy :: END
+<!-- message link & message icon :: END
 _____________________________________________________________________________-->
 <font>
 <!--xsl:attribute name="color">#ffffff</xsl:attribute-->
@@ -136,21 +136,21 @@ _____________________________________________________________________________-->
 </font>
 </p>
 </xsl:when>
-<!-- hlavicka se zmenou stavu :: END
+<!-- message with changed user state :: END
 _____________________________________________________________________________-->
 
-<!-- tradicni zprava :: BEGIN -->
+<!-- message body :: BEGIN -->
 <xsl:otherwise>
 <p>
 <xsl:value-of disable-output-escaping="yes" select="body"/>
 </p>
 </xsl:otherwise>
 </xsl:choose>
-<!-- tradicni zprava :: END
+<!-- message body :: END
 _____________________________________________________________________________-->
 
 
-<!-- FORMATOVACI ENTER -->
+<!-- CRLF for formating -->
 <p>
 <xsl:text>&#xA0;</xsl:text>
 </p>

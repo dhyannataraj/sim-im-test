@@ -6553,6 +6553,28 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\styles\SIM.5.2.2.xsl"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;"
+						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;"
+						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="styles\SIM.5.2.xsl"
 				>
 				<FileConfiguration
