@@ -297,7 +297,7 @@ EXPORT string getToken(char const *&p, char c, bool bUnEscape)
                 break;
             case 'x':
                 if (p[1] && p[2]){
-                    c = fromHex(p[1]) << fromHex(p[2]);
+                    c = (char)((fromHex(p[1]) << 4) + fromHex(p[2]));
                     d = 2;
                 }
                 break;
