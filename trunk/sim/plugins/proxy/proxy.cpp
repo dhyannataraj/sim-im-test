@@ -74,6 +74,7 @@ static DataDef _proxyData[] =
 ProxyData::ProxyData()
 {
     bInit = false;
+    load_data(_proxyData, this, NULL);
 }
 
 ProxyData::ProxyData(const ProxyData &d)
@@ -84,6 +85,7 @@ ProxyData::ProxyData(const ProxyData &d)
 
 ProxyData::ProxyData(const char *cfg)
 {
+    bInit = false;
     if (cfg) {
         Buffer config;
         config << "[Title]\n" << cfg;
@@ -142,7 +144,10 @@ ProxyData& ProxyData::operator = (const ProxyData &d)
         load_data(_proxyData, this, &cfg);
         bInit = true;
         Default = d.Default;
+    }else{
+        load_data(_proxyData, this, NULL);
     }
+
     return *this;
 }
 
