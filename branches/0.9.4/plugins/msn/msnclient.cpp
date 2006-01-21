@@ -410,7 +410,7 @@ void MSNClient::processLST(const char *mail, const char *name, unsigned state, u
     }
     if (lr == NULL){
         bool bChanged = ((data->Flags.value & MSN_FLAGS) != (data->sFlags.value & MSN_FLAGS));
-        if (getAutoAuth() && (data->Flags.value & MSN_FORWARD) && (data->Flags.value & MSN_ACCEPT == 0) && (data->Flags.value & MSN_BLOCKED == 0))
+        if (getAutoAuth() && (data->Flags.value & MSN_FORWARD) && ((data->Flags.value & MSN_ACCEPT) == 0) && ((data->Flags.value & MSN_BLOCKED) == 0))
             bChanged = true;
         unsigned grp = 0;
         if (group)
